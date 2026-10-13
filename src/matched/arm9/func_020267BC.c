@@ -13,6 +13,7 @@
  * symbols:
  *   GAME_BEACON_Work     0x02146940  data
  *   GAME_BEACON_BuildMyInfo  0x02026D88  thumb
+ *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  */
 
 typedef unsigned char  u8;
@@ -24,7 +25,7 @@ extern u32 *GAME_BEACON_Work;
 
 struct Rec;
 extern void GAME_BEACON_BuildMyInfo(struct Rec *o, void *sys);
-extern int func_02012FCC(int p0);
+extern int GAME_DATA_GetPlayTime(int p0);
 struct PlayTime;
 extern u16 func_0200864C(const struct PlayTime *p);
 
@@ -35,5 +36,5 @@ void GAME_BEACON_Setup(u32 a0)
     *p++ = a0;
     GAME_BEACON_BuildMyInfo((struct Rec *)p, (void *)a0);
     *(u16 *)((char *)GAME_BEACON_Work + 0xbb0) =
-        func_0200864C((const struct PlayTime *)func_02012FCC((int)((void *)a0)));
+        func_0200864C((const struct PlayTime *)GAME_DATA_GetPlayTime((int)((void *)a0)));
 }

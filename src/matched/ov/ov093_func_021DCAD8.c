@@ -1,5 +1,5 @@
 /*
- * function: func_021DCAD8
+ * function: BTL_ABILITY_MagicBounceReflectMove
  * address: 0x021DCAD8
  * packet: pkt_ov093_021DCAD8
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCA98.c and filed here.
  *
  * symbols:
- *   func_021E8744 0x021E8744 thumb ov093
+ *   BTLV_CORE_EventRedirectMove 0x021E8744 thumb ov093
  */
 
-void func_021E8744(int u, void *a, int b, int d);
-void func_021DCAD8(int u, void *a, int b, int d);
+void BTLV_CORE_EventRedirectMove(int u, void *a, int b, int d);
+void BTL_ABILITY_MagicBounceReflectMove(int u, void *a, int b, int d);
 
-void func_021DCAD8(int u, void *a, int b, int d)
+void BTL_ABILITY_MagicBounceReflectMove(int u, void *a, int b, int d)
 {
-    func_021E8744(u, a, b, d);
+    BTLV_CORE_EventRedirectMove(u, a, b, d);
 }

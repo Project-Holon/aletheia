@@ -1,5 +1,5 @@
 /*
- * function: func_0216D87C
+ * function: FLDMMDL_AddGridNowZ
  * address:  0x0216D87C
  * packet:   pkt_0216D87C
  * region:   ov010
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj19131.h"
 
-void func_0216D87C(char *p, short v)
+void FLDMMDL_AddGridNowZ(char *p, short v)
 {
     ((struct Obj19131 *)p)->f40 += v;
 }

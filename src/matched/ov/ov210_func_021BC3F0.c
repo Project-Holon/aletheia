@@ -14,7 +14,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_02041B6C 0x02041B6C arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   g_0784 0x021C0784 data
  *   g_0814 0x021C0814 data
  *   g_07F4 0x021C07F4 data
@@ -44,7 +44,7 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32);
 extern void func_02041B6C(u32);
 extern void func_020434DC(u32, u32);
-extern void func_02043598(u32, u32);
+extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
 void func_021BC3F0(void)
 {
@@ -94,5 +94,5 @@ void func_021BC3F0(void)
         func_02041B6C(7);
     }
     func_020434DC(0xF, 1);
-    func_02043598(0xF, 1);
+    BG_SYS_SetSubPlaneVisible(0xF, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD250
+ * function: PLACE_NAME_LETTER_CreateBmp
  * address:  0x021BD250
  * packet:   pkt_ov021_021BD250
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BMP_Create  0x02043678  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -20,9 +23,9 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-void func_021BD250(Obj *p)
+void PLACE_NAME_LETTER_CreateBmp(Obj *p)
 {
-    p->f8 = func_02043678(2, 2, 0x20, p->h0);
+    p->f8 = BMP_Create(2, 2, 0x20, p->h0);
 }

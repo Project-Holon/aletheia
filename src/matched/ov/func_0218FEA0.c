@@ -1,5 +1,5 @@
 /*
- * function: func_0218FEA0
+ * function: FIELD_CAMERA_ANIME_SetData
  * address:  0x0218FEA0
  * packet:   pkt_0218FEA0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0218FEA0(u8 *p, u32 v)
+void FIELD_CAMERA_ANIME_SetData(u8 *p, u32 v)
 {
     ((struct Obj17917 *)p)->f8 = v;
 }

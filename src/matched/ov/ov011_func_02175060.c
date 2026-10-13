@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   func_02013D5C  0x02013D5C  thumb
  *   func_02013D9C  0x02013D9C  thumb
  *   ZONEDATA_IsSameMatrixGroup  0x02013E90  thumb
- *   func_021677E4  0x021677E4  thumb  ov010
+ *   COMM_PLAYER_CheckOccupy  0x021677E4  thumb  ov010
  *   func_02026478  0x02026478  thumb
- *   func_021583EC  0x021583EC  thumb  ov010
- *   func_02175598  0x02175598  thumb  ov011
- *   func_02167810  0x02167810  thumb  ov010
- *   func_02167658  0x02167658  thumb  ov010
- *   func_021675D0  0x021675D0  thumb  ov010
+ *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb  ov010
+ *   INTRUDE_COMM_GetPlayerObjCode  0x02175598  thumb  ov011
+ *   COMM_PLAYER_GetObjCode  0x02167810  thumb  ov010
+ *   COMM_PLAYER_Del  0x02167658  thumb  ov010
+ *   COMM_PLAYER_Add  0x021675D0  thumb  ov010
  *
  * Addresses are Black-image addresses.
  */
@@ -44,19 +44,19 @@ typedef struct Entry {
     u8 hi : 1;
 } Entry;
 
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32 func_02013D5C(u32 id);
 extern u32 func_02013D9C(u32 id);
 extern u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b);
 struct Work;
-extern int func_021677E4(void *p, int i);
+extern int COMM_PLAYER_CheckOccupy(void *p, int i);
 extern u32 func_02026478(void *obj);
-extern int func_021583EC(void *a0, int a1);
-extern u16 func_02175598(u8 *o, u32 id);
-extern u16 func_02167810(struct Work *w, int i);
-extern void func_02167658(int, int);
+extern int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
+extern u16 INTRUDE_COMM_GetPlayerObjCode(u8 *o, u32 id);
+extern u16 COMM_PLAYER_GetObjCode(struct Work *w, int i);
+extern void COMM_PLAYER_Del(int, int);
 struct Src;
-extern void func_021675D0(struct Work *w, int idx, int a2, struct Src *src);
+extern void COMM_PLAYER_Add(struct Work *w, int idx, int a2, struct Src *src);
 
 static inline int func_02175060_check(Entry *e, Entry *me)
 {
@@ -90,16 +90,16 @@ void INTRUDE_COMM_UpdatePlayerObject(u8 *p, int idx)
     int r;
 
     e = (Entry *)(p + 0x8c) + idx;
-    if (idx != func_02039338()) {
+    if (idx != GFL_NET_SYSTEM_GetCurrentAid()) {
         Entry *me = (Entry *)(p + 0x70);
         e->f0 = func_02175060_check(e, me);
     }
-    if (func_021677E4((void *)(((struct Obj05913 *)p)->f8), idx) == 1) {
-        r = func_02175598((u8 *)e, func_021583EC((void *)func_02026478((void *)(((struct Obj05913 *)p)->f4)), idx));
-        if (r != func_02167810((struct Work *)(((struct Obj05913 *)p)->f8), idx)) {
-            func_02167658(((struct Obj05913 *)p)->f8, idx);
+    if (COMM_PLAYER_CheckOccupy((void *)(((struct Obj05913 *)p)->f8), idx) == 1) {
+        r = INTRUDE_COMM_GetPlayerObjCode((u8 *)e, GAME_DATA_GetMyStatusByNetId((void *)func_02026478((void *)(((struct Obj05913 *)p)->f4)), idx));
+        if (r != COMM_PLAYER_GetObjCode((struct Work *)(((struct Obj05913 *)p)->f8), idx)) {
+            COMM_PLAYER_Del(((struct Obj05913 *)p)->f8, idx);
             if (e->f18 != 0) {
-                func_021675D0((struct Work *)(((struct Obj05913 *)p)->f8), idx, r, (struct Src *)e);
+                COMM_PLAYER_Add((struct Work *)(((struct Obj05913 *)p)->f8), idx, r, (struct Src *)e);
             }
         }
     }

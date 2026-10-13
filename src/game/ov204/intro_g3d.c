@@ -32,43 +32,44 @@
  *   MCSS_GetPosition 0x02015C30 thumb
  *   MCSS_SetPosition 0x02015C48 thumb
  *   func_02030734 0x02030734 arm
- *   func_02047CFC 0x02047CFC arm
- *   func_02048A24 0x02048A24 arm
- *   func_02047E88 0x02047E88 arm
+ *   G3D_UTIL_Create 0x02047CFC arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
+ *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   func_02048A18 0x02048A18 arm
- *   func_020477A4 0x020477A4 arm
- *   func_020477D4 0x020477D4 arm
+ *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
+ *   G3D_SYSTEM_DisableObjectAnime 0x020477D4 arm
  *   site_021C0B00 0x021C0B00 data a1
  *   va 0x021C0914 data a4
  *   vb 0x021C0920 data a4
  *   vc 0x021C0908 data a4
  *   setup 0x021C093C data a4
- *   func_02048AC4 0x02048AC4 arm
- *   func_020480E4 0x020480E4 arm
- *   func_02047E54 0x02047E54 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_UTIL_RemoveUnit 0x020480E4 arm
+ *   G3D_UTIL_Delete 0x02047E54 arm
  *   func_02048AD0 0x02048AD0 arm
  *   func_0207ADC4 0x0207ADC4 arm
- *   func_02047A60 0x02047A60 arm
- *   func_020478B8 0x020478B8 arm
- *   func_0204784C 0x0204784C arm
+ *   G3D_SYSTEM_DrawObject 0x02047A60 arm
+ *   G3D_SYSTEM_IncObjectAnimeFrame 0x020478B8 arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  *   _ffltu 0x0209BE04 arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_02050B80 0x02050B80 arm
- *   func_02050C04 0x02050C04 arm
+ *   PARTICLE_InitManager 0x02050B80 arm
+ *   PARTICLE_CreateSystemDefault 0x02050C04 arm
  *   PARTICLE_ReleaseCamera 0x02051758 arm
  *   PARTICLE_InitCamera 0x02051648 arm
- *   func_0205121C 0x0205121C arm
- *   func_02051230 0x02051230 arm
+ *   PARTICLE_LoadArchiveMember 0x0205121C arm
+ *   PARTICLE_SetupSystem 0x02051230 arm
  *   d_021C0B30 0x021C0B30 data a1
  *   d_021C0B18 0x021C0B18 data a4
  *   d_021C0B0C 0x021C0B0C data a4
  *   d_021C0B24 0x021C0B24 data a4
- *   func_02050ED4 0x02050ED4 arm
- *   func_02050BE8 0x02050BE8 arm
+ *   PARTICLE_ExitManager 0x02050ED4 arm
+ *   PARTICLE_Main 0x02050BE8 arm
  *   MCSS_Add  0x020159C8  thumb  arm9
  *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb  arm9
+ *   POKE_TOOL_Create  0x020173F0  thumb  arm9
  */
 #include "../../matched/include/Obj10881.h"
 #include "../../matched/include/Obj10882.h"
@@ -110,7 +111,7 @@ typedef signed int     s32;
 
 typedef struct { int a,b,c,d,e,f,g,h; } Config;
 
-extern void *func_020173F0(unsigned short, unsigned short, unsigned long long, unsigned short);
+extern void *POKE_TOOL_Create(unsigned short, unsigned short, unsigned long long, unsigned short);
 extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
 extern u32 func_020307B0(void *p);
 extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
@@ -130,29 +131,29 @@ extern void MCSS_RestartAnime(void *);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(void *p, u32 *src);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void *func_02047CFC(u16,u16,u32);
-extern void *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u32);
-extern u16 func_02047E88(void *,const void *);
+extern void *G3D_UTIL_Create(u16,u16,u32);
+extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u32);
+extern u16 G3D_UTIL_AddUnit(void *,const void *);
 extern u32 func_02048A18(u8 *a0, int i);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
-extern int func_020477D4(struct Owner *owner, u32 index);
-extern void func_02048AC4(void *);
-extern void func_020480E4(struct Ctx *,u32);
-extern void func_02047E54(struct Rec *);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
+extern void G3D_CAMERA_Delete(void *);
+extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
+extern void G3D_UTIL_Delete(struct Rec *);
 extern void func_02048AD0(struct Light *l);
 extern void func_0207ADC4(void *);
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void func_020061E4(u32 a);
-extern int func_020478B8(void *, int, int);
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
-extern void func_02050B80(unsigned);
-extern int func_02050C04(int a, int b, int c, int d);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(void *, int, int);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
+extern void PARTICLE_InitManager(unsigned);
+extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 extern int PARTICLE_ReleaseCamera(int a0);
 extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
-extern int func_0205121C(unsigned,unsigned,unsigned);
-extern void func_02051230(void *,unsigned,unsigned,unsigned);
-extern void func_02050ED4(void);
-extern void func_02050BE8(void);
+extern int PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
+extern void PARTICLE_SetupSystem(void *,unsigned,unsigned,unsigned);
+extern void PARTICLE_ExitManager(void);
+extern void PARTICLE_Main(void);
 void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
 void func_021BF720(u8 *p, int flag, u8 index);
 void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v);
@@ -189,7 +190,7 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
 {
     char data[36];
     struct Vec pos = defaultPos_021C08FC;
-    void *tmp = func_020173F0((unsigned short)species, 0, 0, ((struct Obj10881 *)p)->f0);
+    void *tmp = POKE_TOOL_Create((unsigned short)species, 0, 0, ((struct Obj10881 *)p)->f0);
     char *base = p + 8;
     unsigned int off = i * 12;
     MCSS_TOOL_MakeAddWorkFromPP(tmp, (struct Stats *)data, 0);
@@ -312,20 +313,20 @@ char *func_021BF8DC(void *owner,int kind,u32 heap)
     p=func_02030734(heap,48,1,site_021C0B00,162);
     ((struct Obj02921 *)p)->f4=heap;
     ((struct Obj02921 *)p)->f0=owner;
-    ((struct Obj02921 *)p)->f8=func_02047CFC(10,16,heap);
+    ((struct Obj02921 *)p)->f8=G3D_UTIL_Create(10,16,heap);
     a=va;b=vb;c=vc;
-    ((struct Obj02921 *)p)->fC=func_02048A24(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
+    ((struct Obj02921 *)p)->fC=G3D_CAMERA_Create(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
     if(kind!=7){
-        ((struct Obj02921 *)p)->f10=func_02047E88(((struct Obj02921 *)p)->f8,setup);
+        ((struct Obj02921 *)p)->f10=G3D_UTIL_AddUnit(((struct Obj02921 *)p)->f8,setup);
         obj=(void *)func_02048A18(((struct Obj02921 *)p)->f8,((struct Obj02921 *)p)->f10);
-        func_020477A4(obj,3);func_020477A4(obj,4);
-        func_020477D4(obj,0);func_020477D4(obj,1);func_020477D4(obj,2);
+        G3D_SYSTEM_EnableObjectAnime(obj,3);G3D_SYSTEM_EnableObjectAnime(obj,4);
+        G3D_SYSTEM_DisableObjectAnime(obj,0);G3D_SYSTEM_DisableObjectAnime(obj,1);G3D_SYSTEM_DisableObjectAnime(obj,2);
     }else ((struct Obj02921 *)p)->f10=0xffff;
     ((struct Obj02921 *)p)->f18=1;
     return p;
 }
 
-void func_021BF9D0(char *p) { u16 id; func_02048AC4(((struct Obj08385 *)p)->fC); id=((struct Obj08385 *)p)->f10; if(id!=65535) func_020480E4(*(struct Ctx * *)&((struct Obj08385 *)p)->f8,id);func_02047E54(*(struct Rec * *)&((struct Obj08385 *)p)->f8);func_020307B0(p); }
+void func_021BF9D0(char *p) { u16 id; G3D_CAMERA_Delete(((struct Obj08385 *)p)->fC); id=((struct Obj08385 *)p)->f10; if(id!=65535) G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj08385 *)p)->f8,id);G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj08385 *)p)->f8);func_020307B0(p); }
 
 
 void func_021BF9FC(char *p)
@@ -341,7 +342,7 @@ void func_021BF9FC(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         func_0207ADC4(t.matrix);
-        func_02047A60((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), (struct Arg *)(&t));
+        G3D_SYSTEM_DrawObject((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), (struct Arg *)(&t));
     }
 }
 
@@ -357,15 +358,15 @@ int func_021BFA40(char *p)
     case 1:
     {
         void *obj = (void *)func_02048A18(((struct Obj06676 *)p)->f8, ((struct Obj06676 *)p)->f10);
-        int a = func_020478B8(obj, 3, 4096);
-        int b = func_020478B8(obj, 4, 4096);
+        int a = G3D_SYSTEM_IncObjectAnimeFrame(obj, 3, 4096);
+        int b = G3D_SYSTEM_IncObjectAnimeFrame(obj, 4, 4096);
         if (a == 0 && b == 0)
         {
-            func_020477D4(obj, 3);
-            func_020477D4(obj, 4);
-            func_020477A4(obj, 0);
-            func_020477A4(obj, 1);
-            func_020477A4(obj, 2);
+            G3D_SYSTEM_DisableObjectAnime(obj, 3);
+            G3D_SYSTEM_DisableObjectAnime(obj, 4);
+            G3D_SYSTEM_EnableObjectAnime(obj, 0);
+            G3D_SYSTEM_EnableObjectAnime(obj, 1);
+            G3D_SYSTEM_EnableObjectAnime(obj, 2);
             func_021BFBC8(p, 60);
             ++((struct Obj06676 *)p)->f24;
         }
@@ -455,18 +456,18 @@ void func_021BFBC8(char *p,unsigned value)
     if(value!=0) f=0.5f+(float)(value<<12);
     else f=(float)(value<<12)-0.5f;
     frame=(int)f;
-    func_0204784C(ctl,0,&frame);
-    func_0204784C(ctl,1,&frame);
-    func_0204784C(ctl,2,&frame);
+    G3D_SYSTEM_SetObjectAnimeFrame(ctl,0,&frame);
+    G3D_SYSTEM_SetObjectAnimeFrame(ctl,1,&frame);
+    G3D_SYSTEM_SetObjectAnimeFrame(ctl,2,&frame);
 }
 
 char *func_021BFC24(void *owner,unsigned heap)
 {
     Config config;
     char *p;
-    func_02050B80(heap);
+    PARTICLE_InitManager(heap);
     p=func_02030734(heap,18444,1,d_021C0B30,86);
-    ((struct Obj03923 *)p)->f8=(void *)func_02050C04((int)(p+12),18432,1,heap);
+    ((struct Obj03923 *)p)->f8=(void *)PARTICLE_CreateSystemDefault((int)(p+12),18432,1,heap);
     ((struct Obj03923 *)p)->f4=owner;
     ((struct Obj03923 *)p)->f0=heap;
     config.a=2;
@@ -479,15 +480,15 @@ char *func_021BFC24(void *owner,unsigned heap)
     config.h=4096;
     PARTICLE_ReleaseCamera((int)(((struct Obj03923 *)p)->f8));
     PARTICLE_InitCamera(((struct Obj03923 *)p)->f8,(struct Src648 *)(&config),8192,d_021C0B18,d_021C0B0C,d_021C0B24,((struct Obj03923 *)p)->f0);
-    func_02051230(((struct Obj03923 *)p)->f8,func_0205121C(6,6,((struct Obj03923 *)p)->f0),1,0);
+    PARTICLE_SetupSystem(((struct Obj03923 *)p)->f8,PARTICLE_LoadArchiveMember(6,6,((struct Obj03923 *)p)->f0),1,0);
     return p;
 }
 
 
 void func_021BFCD0(char *a)
 {
-    func_02050ED4();
+    PARTICLE_ExitManager();
     func_020307B0(a);
 }
 
-void func_021BFCE0(int a0) { func_02050BE8(); }
+void func_021BFCE0(int a0) { PARTICLE_Main(); }

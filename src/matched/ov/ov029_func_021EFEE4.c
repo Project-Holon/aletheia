@@ -1,5 +1,5 @@
 /*
- * function: func_021EFEE4
+ * function: C_GEAR_SetStepFunc
  * address: 0x021EFEE4
  * packet: pkt_ov029_021EFEE4
  * region: ov029
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 #include "../include/Obj09784.h"
-void func_021EFEE4(unsigned char *p, unsigned int v)
+void C_GEAR_SetStepFunc(unsigned char *p, unsigned int v)
 {
     ((struct Obj09784 *)p)->f0 = v;
     p[0x456] = 0;

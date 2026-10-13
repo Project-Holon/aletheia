@@ -22,9 +22,9 @@
  *   func_02009860 0x02009860 thumb
  *   func_02012944 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_02034714 0x02034714 arm
- *   func_0203A574 0x0203A574 arm
+ *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
@@ -50,9 +50,9 @@ extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009860(void);
 extern u8 *func_02012944(void *p);
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0203A574(u32, u32, u32, u32);
+extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_NET_SetWaitMode(int);
 extern void DWC_RAP_SetErrorCallback(int, int);
 extern void DWC_RAP_SetErrorHookCallback(int, int);
@@ -73,8 +73,8 @@ char *func_021D9DC8(u32 a, void *save, u32 b, u16 heap) {
     *(int *)(p + 0x19c) = 0x573;
     *(char **)(p + 0x190) = func_02030734(heap, 0x260, 0, d_021E2EE0, 0x2c0);
     func_02082BCC(*(void **)(p + 0x190), 0, 0x260);
-    if (!func_0203CD98()) func_02034714(d_021E2EF8, 0, d_021E2EF8);
-    func_0203A574(0x2400, (u32)d_021E2C90, 6, (u32)p);
+    if (!GFL_NET_GetRunState()) func_02034714(d_021E2EF8, 0, d_021E2EF8);
+    GFL_NET_COMMAND_AddCommandTable(0x2400, (u32)d_021E2C90, 6, (u32)p);
     GFL_NET_SetWaitMode(0);
     DWC_RAP_SetErrorCallback((int)func_021DC5C8, (int)p);
     DWC_RAP_SetErrorHookCallback((int)func_021DC5F8, (int)p);

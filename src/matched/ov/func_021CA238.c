@@ -1,5 +1,5 @@
 /*
- * function: func_021CA238
+ * function: BSUBWAY_SCR_SetWinCount
  * address:  0x021CA238
  * packet:   pkt_021CA238
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021CA238(u8 *p, u16 v)
+void BSUBWAY_SCR_SetWinCount(u8 *p, u16 v)
 {
     ((struct Obj18346 *)p)->fE = v;
 }

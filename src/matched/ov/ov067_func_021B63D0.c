@@ -1,5 +1,5 @@
 /*
- * function: func_021B63D0
+ * function: TOUCHBAR_Update
  * address:  0x021B63D0
  * packet:   pkt_ov067_021B63D0
  * region:   ov067
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B6934  0x021B6934  thumb  ov067
- *   func_021B69A4  0x021B69A4  thumb  ov067
+ *   TOUCHBAR_CheckButtonPressed  0x021B6934  thumb  ov067
+ *   TOUCHBAR_IsButtonActorIdle  0x021B69A4  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -29,10 +29,10 @@ typedef struct S {
     Ent ent[1];
 } S;
 
-extern int func_021B6934(struct S *p);
-extern int func_021B69A4(void **p);
+extern int TOUCHBAR_CheckButtonPressed(struct S *p);
+extern int TOUCHBAR_IsButtonActorIdle(void **p);
 
-void func_021B63D0(S *p)
+void TOUCHBAR_Update(S *p)
 {
     u32 i;
 
@@ -40,7 +40,7 @@ void func_021B63D0(S *p)
     case 0:
         p->f00 = -1;
         for (i = 0; i < p->f04; i++) {
-            if (func_021B6934((struct S *)(&p->ent[i]))) {
+            if (TOUCHBAR_CheckButtonPressed((struct S *)(&p->ent[i]))) {
                 p->f00 = i;
                 p->f08 = 1;
                 return;
@@ -50,7 +50,7 @@ void func_021B63D0(S *p)
     case 1:
         p->f08 = 2;
     case 2:
-        if (func_021B69A4((void **)(&p->ent[p->f00]))) {
+        if (TOUCHBAR_IsButtonActorIdle((void **)(&p->ent[p->f00]))) {
             p->f08 = 3;
         }
         break;

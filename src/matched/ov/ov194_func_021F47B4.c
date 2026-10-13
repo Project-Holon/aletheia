@@ -37,7 +37,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_020061E4 0x020061E4 thumb
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj01287.h"
 #include "../include/Obj01577.h"
@@ -69,7 +69,7 @@ extern void func_021F4524(char *),func_021F3EF0(char *,char *,int *,u32),func_02
 extern void func_021F46F4(unsigned char *a, int *state, char *p);
 extern void func_021F46B4(unsigned char *p, int *state);
 extern void func_020061E4(u32 a);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void func_021F31F4(char *,char *);
 extern int func_021F1FB4(u8 *p);
@@ -116,7 +116,7 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     case 0: if(func_021F4390((unsigned char *)(p+0x264))) {
         int text=func_021F4480((u8 *)p,**(int * *)&((struct Obj01287 *)p)->f2C4,30);
         func_021F2394((unsigned char *)(p+0x68));
-        if(text) {func_021F23B8(p+0x68,STRBUF_GetChars((struct U16Vec *)text));func_02045808((struct U16Vec *)text);}
+        if(text) {func_021F23B8(p+0x68,STRBUF_GetChars((struct U16Vec *)text));STRBUF_Delete((struct U16Vec *)text);}
         func_020061E4(0x54c);
     } break;
     case 9: func_021F235C(p+0x68);if(func_021F2190(p+0x68,selected)) func_020061E4(0x54c); else func_020061E4(0x557);break;

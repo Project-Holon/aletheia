@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 struct Point { s16 x,y; u16 z; u8 id,mode; };
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3DC(struct Obj *,unsigned int);
@@ -31,7 +31,7 @@ void func_021B974C(int a,int b,int c,int d,int e)
  struct Point p;
  if(*(int *)(a+0x2c8+d*4)==0) {
   p.x=b; p.y=c; p.z=e; p.id=d; p.mode=2;
-  *(int *)(a+0x2c8+d*4)=(int)func_0204B294((void *)((struct Obj06361 *)a)->f2B4,((struct Obj06361 *)a)->f2BC,((struct Obj06361 *)a)->f2B8,((struct Obj06361 *)a)->f2C0,&p,0,((struct Obj06361 *)a)->f278);
+  *(int *)(a+0x2c8+d*4)=(int)CLACT_CreateActor((void *)((struct Obj06361 *)a)->f2B4,((struct Obj06361 *)a)->f2BC,((struct Obj06361 *)a)->f2B8,((struct Obj06361 *)a)->f2C0,&p,0,((struct Obj06361 *)a)->f278);
   func_0204B92C((struct Obj *)*(int *)(a+0x2c8+d*4),1);
   func_0204B3DC((struct Obj *)*(int *)(a+0x2c8+d*4),1);
   CLACT_SetActorAffineMode((struct Actor *)(*(int *)(a+0x2c8+d*4)),2);

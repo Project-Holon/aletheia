@@ -1,5 +1,5 @@
 /*
- * function: func_0218C9C4
+ * function: FIELD_BUILDMODEL_MakeSearchRect
  * address:  0x0218C9C4
  * packet:   pkt_ov021_0218C9C4
  * region:   ov021
@@ -21,7 +21,7 @@ typedef struct {
     int d;
 } Rect;
 
-void func_0218C9C4(Rect *out, int *__restrict pos)
+void FIELD_BUILDMODEL_MakeSearchRect(Rect *out, int *__restrict pos)
 {
     out->a = pos[2] - 0x30000;
     out->b = pos[2] + 0x30000;

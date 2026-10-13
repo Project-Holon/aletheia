@@ -51,14 +51,14 @@
  *   x/rx did not move it, 2 compiles); index and ry slots swapped (original index sp+0x18, ry
  *   sp+0x1c); obj and the p+0xb88 base temp slots swapped (original obj sp+0x48, temp sp+0x44);
  *   `dx = 0` (movs r6) sits before the call to func_021DBF9C in mine, just before the blx of
- *   func_0204A6C8 in the original.
+ *   CLACT_RegisterCharacter in the original.
  *   Idioms checked: of-two-equal-temps-the-later-born-one-gets-the-lower-register (no source
  *   order found that flips x/rx), a-separate-index-local-per-loop-reorders-spill-slots (y per
  *   loop: moved y2/y3 next to y), function-scope-versus-block-scope-decides-spill-slot-order,
  *   div-and-mod-are-two-calls, a-reloaded-loop-invariant-means-the-loop-was-not-rotated
  *   (goto loops still hoist). Twin: ov121 021DB938 (same top condition and loops).
  * note 2026-10-05 final push G10L1 round 2: DIFF, 28 of 1004 bytes off. `dx = 0;` moved to just
- *   after the func_0204A6C8 statement (53 -> 28; this also fixed the obj/temp slot swap).
+ *   after the CLACT_RegisterCharacter statement (53 -> 28; this also fixed the obj/temp slot swap).
  *   Remaining: x in r5 and rx in r4 (original x r4, rx r5), and the index/ry spill slots swapped
  *   (original index sp+0x18, ry sp+0x1c). Tried without effect: dx = 0 as a call argument (251),
  *   u8 rx/ry, a y=x=0 head, separate x2/x3 per loop, decl order of x/rx/tile; opt_propagation off
@@ -89,16 +89,16 @@
  *   func_02041300 0x02041300 arm
  *   func_020413B0 0x020413B0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02043814 0x02043814 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_CopyPixels 0x02043814 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
@@ -117,19 +117,19 @@ struct CharBuf;
 extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
 extern void func_020413B0(u32,u32,u32,u8,u8,u8);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Bmp;
 struct Obj;
 struct Vec2;
-extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
+extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern int func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern int func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern void func_02049238(void *);
+extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02082BCC(void *, int, int);
-extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -198,8 +198,8 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
             } while (x < 12);
             y2++;
         } while (y2 < 7);
-        func_02043B5C(func_02045770(*(void **)(p + 0xb08 + idx * 4)), 0);
-        func_02045334(*(void **)(p + 0xb08 + idx * 4));
+        BMP_Clear(func_02045770(*(void **)(p + 0xb08 + idx * 4)), 0);
+        BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
         return;
     }
     y3 = 0;
@@ -215,15 +215,15 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
     } while (y3 < 7);
     func_020413B0(3, r.b[0], ry, 12, 7, (u8)func_021DC03C(tab + off));
     dsc = func_021DBF08(tab + off);
-    func_02043814(dsc, func_02045770(*(void **)(p + 0xb08 + idx * 4)));
-    func_02045334(*(void **)(p + 0xb08 + idx * 4));
+    BMP_CopyPixels(dsc, func_02045770(*(void **)(p + 0xb08 + idx * 4)));
+    BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
     obj = func_021DBF10(tab + off, heap);
     if (func_021DC024(tab + off) != 1)
-        *(int *)(p + 0xb88 + idx * 4) = func_0204AC18(obj, func_021DBF40(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
-    *(int *)(p + 0xb68 + idx * 4) = func_0204AF28(obj, func_021DBFE4(tab + off), func_021DC004(tab + off), heap);
-    *(int *)(p + 0xb48 + idx * 4) = func_0204A6C8(obj, func_021DBF9C(tab + off), 0, 0, heap);
+        *(int *)(p + 0xb88 + idx * 4) = CLACT_RegisterPaletteEx(obj, func_021DBF40(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
+    *(int *)(p + 0xb68 + idx * 4) = CLACT_RegisterCellAnim(obj, func_021DBFE4(tab + off), func_021DC004(tab + off), heap);
+    *(int *)(p + 0xb48 + idx * 4) = CLACT_RegisterCharacter(obj, func_021DBF9C(tab + off), 0, 0, heap);
     dx = 0;
-    func_02049238(obj);
+    ARC_TOOL_DeleteHandle(obj);
     dy = 0;
     func_02082BCC(&pos, 0, 8);
     pos.y = r.h[3];
@@ -242,7 +242,7 @@ void func_021DB54C(char *p, int a, int b, int c, u16 index, u16 heap)
         pos.x = r.h[2];
     pos.x += dx;
     pos.y += dy;
-    *(void **)(p + 0xb28 + idx * 4) = func_0204B294(*(void **)(p + 8), *(u32 *)(p + 0xb48 + idx * 4),
+    *(void **)(p + 0xb28 + idx * 4) = CLACT_CreateActor(*(void **)(p + 8), *(u32 *)(p + 0xb48 + idx * 4),
         func_021DC024(tab + off) == 1 ? *(u32 *)(p + 0xba8) : *(u32 *)(p + 0xb88 + idx * 4),
         *(u32 *)(p + 0xb68 + idx * 4), &pos, 0, *(u16 *)(p + 0x24));
     func_0204B6F4(*(void **)(p + 0xb28 + idx * 4), (u8)func_021DBF70(tab + off), 0);

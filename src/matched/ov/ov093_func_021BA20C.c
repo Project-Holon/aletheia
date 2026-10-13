@@ -10,19 +10,19 @@
  * status: EXACT
  * lever: switch preserves two equality tests; logical OR folds to a range check.
  * symbols:
- *   func_021B6818 0x021B6818 thumb ov093
+ *   BTL_MAIN_IsCommCompetitor 0x021B6818 thumb ov093
  *   func_021BA1EC 0x021BA1EC thumb ov093
- *   func_021B86B8 0x021B86B8 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  */
-extern unsigned int func_021B6818(unsigned int *p);
+extern unsigned int BTL_MAIN_IsCommCompetitor(unsigned int *p);
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
 extern BOOL func_021BA1EC(char **);
-extern void *func_021B86B8(void ***);
+extern void *BTL_MAIN_GetCompetitor(void ***);
 int func_021BA20C(char **p)
 {
     int v;
-    if (func_021B6818((unsigned int *)((int *)*p)) == 1) return func_021BA1EC(p);
-    v = (int)func_021B86B8((void ***)p);
+    if (BTL_MAIN_IsCommCompetitor((unsigned int *)((int *)*p)) == 1) return func_021BA1EC(p);
+    v = (int)BTL_MAIN_GetCompetitor((void ***)p);
     switch (v) {
     case 0:
     case 1: return 1;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   TOUCHPANEL_HitPoint  0x02035D40  arm
  *   d_021C852C     0x021C852C  data  a1
  *   d_021C853C     0x021C853C  data  a1
@@ -55,7 +55,7 @@ typedef struct {
 } Work;
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
-extern int func_02035C08(const void *rect);
+extern int TOUCHPANEL_HitTrg(const void *rect);
 struct Ctx;
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 extern const u8 d_021C852C[];
@@ -70,7 +70,7 @@ void func_021C5BCC(Work *p, int side)
     }
     if (TOUCHPANEL_GetPointCont(&x, &y)) {
         if (side == 0) {
-            if (!func_02035C08(d_021C852C)) {
+            if (!TOUCHPANEL_HitTrg(d_021C852C)) {
                 p->b330F = 1;
             }
             if (p->b330F != 0 && !TOUCHPANEL_HitPoint((struct Ctx *)d_021C852C, x, y)) {
@@ -87,7 +87,7 @@ void func_021C5BCC(Work *p, int side)
                 p->raw.active = 0;
             }
         } else {
-            if (!func_02035C08(d_021C853C)) {
+            if (!TOUCHPANEL_HitTrg(d_021C853C)) {
                 p->b330F = 1;
             }
             if (p->b330F != 0 && !TOUCHPANEL_HitPoint((struct Ctx *)d_021C853C, x, y)) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021EB820
+ * function: BTLV_SCU_GetEntryMessageId
  * address:  0x021EB820
  * packet:   pkt_ov093_021EB820
  * region:   ov093
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern int func_021BA1A8(char **p, int m);
 
-int func_021EB820(u8 *a)
+int BTLV_SCU_GetEntryMessageId(u8 *a)
 {
     if (func_021BA1A8(((struct Obj07851 *)a)->f134, 4) != 0) {
         return 6;

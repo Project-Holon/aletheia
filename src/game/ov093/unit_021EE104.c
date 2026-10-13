@@ -1,7 +1,7 @@
 /*
  * file:     unit_021EE104.c
  * unit:     yes
- * function: func_021EE104, func_021EE200, func_021EE21C, func_021EE224, func_021EE228, func_021EE23C, func_021EE25C, func_021EE264, func_021EE2A0, func_021EE2F8, func_021EE318, func_021EE370, func_021EE390, func_021EE3E8, func_021EE4B4, func_021EE544
+ * function: BTLV_SCU_GetBallStates, BTLV_SCU_PrintWaitMessage, BTLV_SCU_UpdateWaitMessage, BTLV_SCU_NoOp, BTLV_SCU_StartFadeIn, func_021EE23C, BTLV_SCU_GetWaitState, func_021EE264, func_021EE2A0, func_021EE2F8, func_021EE318, func_021EE370, BTLV_SCU_UpdateBallWindowClose, BTLV_SCU_StepBallWindowOpen, BTLV_SCU_StepBallWindowRefresh, BTLV_SCU_StepBallWindowClose
  * address:  0x021EE104
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -18,65 +18,65 @@
  *   func_021B9AF8 0x021B9AF8 thumb ov093
  *   func_021B9B94 0x021B9B94 thumb ov093
  *   func_021B9C00 0x021B9C00 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D62A8 0x021D62A8 thumb ov093
- *   func_021D5B7C 0x021D5B7C thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
+ *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   func_021ECEB8  0x021ECEB8  thumb  ov093
  *   func_021ECF68   0x021ECF68  thumb  ov093
- *   func_0204E720  0x0204E720  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   FADE_Start  0x0204E720  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_021EB318  0x021EB318  thumb  ov093
- *   func_0201DD78 0x0201DD78 thumb
- *   func_02045374 0x02045374 arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_0201C7A4 0x0201C7A4 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_02040618 0x02040618 arm
  *   func_020061E4 0x020061E4 thumb
- *   func_021D590C  0x021D590C  thumb  ov093
+ *   BTL_POKEPARAM_ReadStatsFromMon  0x021D590C  thumb  ov093
  *   func_02045758  0x02045758  arm
  *   func_02045760  0x02045760  arm
  *   func_02045738  0x02045738  arm
  *   func_02045740  0x02045740  arm
  *   func_02041300  0x02041300  arm
  *   func_02030734  0x02030734  arm
- *   d_021F3ADC  0x021F3ADC  data  a4
+ *   gBtlRecFileName  0x021F3ADC  data  a4
  *   func_020307B0   0x020307B0  arm arm9
  *   func_02082D44  0x02082D44  arm
- *   func_021D8470  0x021D8470  thumb
- *   func_021D845C  0x021D845C  thumb
- *   d_021F6388  0x021F6388  data  a4
- *   d_021F6384  0x021F6384  data  a4
+ *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
+ *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
+ *   gBtlAdapterSlots  0x021F6388  data  a4
+ *   gBtlAdapterMode  0x021F6384  data  a4
  *   sub_02030734   0x02030734  arm
- *   d_021F3AE8     0x021F3AE8  data  ov093  a4
- *   func_021D4C58   0x021D4C58  thumb
- *   func_021D4B58  0x021D4B58  thumb  ov093
- *   func_021D4B98  0x021D4B98  thumb  ov093
- *   func_021D4BD4  0x021D4BD4  thumb  ov093
- *   func_021D4C60  0x021D4C60  thumb  ov093
- *   func_021D4C6C  0x021D4C6C  thumb  ov093
- *   func_021D4C84  0x021D4C84  thumb  ov093
+ *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
+ *   BTL_NET_ExpectReplies   0x021D4C58  thumb
+ *   BTL_NET_SendServerCmd  0x021D4B58  thumb  ov093
+ *   BTL_NET_AreAllRepliesReceived  0x021D4B98  thumb  ov093
+ *   BTL_NET_GetClientReply  0x021D4BD4  thumb  ov093
+ *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
+ *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
+ *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  *   func_021BA1A8  0x021BA1A8  thumb  ov093
  *   func_0201EC64  0x0201EC64  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
- *   d_021F6398     0x021F6398  data  ov093  a4
+ *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   d_021F63D8     0x021F63D8  data  ov093  a4
- *   d_021F3990     0x021F3990  data  ov093  a2
+ *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_021B9940  0x021B9940  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_0201EEF4  0x0201EEF4  thumb
- *   func_021D5844  0x021D5844  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201EE84  0x0201EE84  thumb
  *   func_021BA020  0x021BA020  thumb  ov093
  *   func_0201F0F8  0x0201F0F8  thumb
  *   func_021B9F70  0x021B9F70  thumb  ov093
- *   func_021B86B8  0x021B86B8  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   func_021BA004  0x021BA004  thumb  ov093
  *   func_021B9FAC  0x021B9FAC  thumb  ov093
  *   func_021BA064  0x021BA064  thumb  ov093
@@ -86,13 +86,13 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F134  0x0201F134  thumb
  *   d_021F63C8     0x021F63C8  data  a4
- *   func_021B8BD0  0x021B8BD0  thumb  ov093
+ *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   d_021F39A0     0x021F39A0  data  a2
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   d_021F39D8  0x021F39D8  data  a4
+ *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_0201D5C4  0x0201D5C4  thumb
  *   func_0201D5CC  0x0201D5CC  thumb
  *   func_0201D670  0x0201D670  thumb
@@ -108,19 +108,19 @@
  *   func_021B8DDC  0x021B8DDC  thumb  ov093
  *   func_021B8CE8  0x021B8CE8  thumb  ov093
  *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021E8918  0x021E8918  thumb  ov093
- *   d_021F63F4  0x021F63F4  data  a4
+ *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
+ *   gBtlFieldCountdown  0x021F63F4  data  a4
  *   func_021EFA94  0x021EFA94  thumb  ov093
  *   func_021EFAD8  0x021EFAD8  thumb  ov093
  *   func_021EFB34  0x021EFB34  thumb  ov093
  *   func_021EFC1C  0x021EFC1C  thumb  ov093
  *   func_021EFC78  0x021EFC78  thumb  ov093
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
- *   d_021F3AF8  0x021F3AF8  data  a4
- *   func_021E8A98  0x021E8A98  thumb  ov093
- *   func_021EF694  0x021EF694  thumb
- *   func_021EF71C  0x021EF71C  thumb
- *   func_021EF7AC  0x021EF7AC  thumb
+ *   gBtlFieldFileName  0x021F3AF8  data  a4
+ *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
+ *   BTL_MSG_GetUiString  0x021EF694  thumb
+ *   BTL_MSG_BuildBallStatusOpen  0x021EF71C  thumb
+ *   BTL_MSG_BuildBallStatusRefresh  0x021EF7AC  thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -181,41 +181,41 @@ extern void func_02082BCC(void *dst, u8 value, u32 size);
 extern void *func_021B9AF8(void *partyLists, int clientIndex);
 extern u8 func_021B9B94(void *party);
 extern void *func_021B9C00(void *party, u32 index);
-extern int func_021D5B68(void *mon);
-extern int func_021D62A8(void *mon);
-extern int func_021D5B7C(void *mon);
+extern int BTL_POKEPARAM_IsFainted(void *mon);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(void *mon);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *mon);
 extern void func_021ECEB8(BtlvScuWork *work, u32 textBuf, u16 arg2, u32 arg3);
 extern int func_021ECF68(void *work);
-extern void func_0204E720(u32 mode, s32 start, s32 end, s32 wait);
-extern void func_02043B5C(TextCanvas *canvas, u8 color);
-extern void func_02045334(BmpWin *window);
+extern void FADE_Start(u32 mode, s32 start, s32 end, s32 wait);
+extern void BMP_Clear(TextCanvas *canvas, u8 color);
+extern void BMP_WIN_TransferChars(BmpWin *window);
 extern u32 func_021EB318(void);
-extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_02045374(BmpWin *window);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+extern void BMP_WIN_MakeScreen(BmpWin *window);
 extern void BMP_WIN_DrawFrame(BmpWin *window, u16 base, u32 pal);
 extern u8 func_02045730(BmpWin *window);
 extern void func_020409B4(u32 index);
-extern void func_0201C7A4(void *canvas, s16 x, s16 y, void *textBuf, void *drawParam);
+extern void PRINTSYS_Print(void *canvas, s16 x, s16 y, void *textBuf, void *drawParam);
 extern void func_02040618(u32 layer, u32 arg1, u32 arg2);
 extern void func_020061E4(u32 soundId);
-extern void func_021D590C(void **source, u16 *out);
+extern void BTL_POKEPARAM_ReadStatsFromMon(void **source, u16 *out);
 extern u8 func_02045738(BmpWin *window);
 extern u8 func_02045740(BmpWin *window);
 extern u8 func_02045758(BmpWin *window);
 extern u8 func_02045760(BmpWin *window);
 extern void func_02041300(u32 index, u32 arg1, u32 left, u32 top, u8 width, u8 height, u8 fill);
-void func_021EF694(u32 textBuf, u32 msgId);
-void func_021EF71C(u32 textBuf, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-void func_021EF7AC(u32 textBuf, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-int func_021EE3E8(int *state, BtlvBallWindow *window);
-int func_021EE4B4(int *state, BtlvBallWindow *window);
-int func_021EE544(int *state, BtlvBallWindow *window);
+void BTL_MSG_GetUiString(u32 textBuf, u32 msgId);
+void BTL_MSG_BuildBallStatusOpen(u32 textBuf, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+void BTL_MSG_BuildBallStatusRefresh(u32 textBuf, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+int BTLV_SCU_StepBallWindowOpen(int *state, BtlvBallWindow *window);
+int BTLV_SCU_StepBallWindowRefresh(int *state, BtlvBallWindow *window);
+int BTLV_SCU_StepBallWindowClose(int *state, BtlvBallWindow *window);
 
 
 /*
  * tail: 021EE1FE..021EE200 is zero alignment padding.
  */
-void func_021EE104(BtlvScuWork *work, u32 *outStates, u32 clientA, u32 clientB, u32 sideFlag)
+void BTLV_SCU_GetBallStates(BtlvScuWork *work, u32 *outStates, u32 clientA, u32 clientB, u32 sideFlag)
 {
     void *partyLists[2] = {0, 0};
     int partyCounts[2] = {0, 0};
@@ -238,18 +238,18 @@ void func_021EE104(BtlvScuWork *work, u32 *outStates, u32 clientA, u32 clientB, 
             if (i < partyCounts[0]) { side = 0; slot = i; }
             else { side = 1; slot = i - partyCounts[0]; }
             mon = func_021B9C00(partyLists[side], (u8)slot);
-            if (func_021D5B68(mon)) outStates[side * 3 + slot + 1] = 2;
-            else if (func_021D62A8(mon)) outStates[side * 3 + slot + 1] = 3;
-            else if (!func_021D5B7C(mon)) outStates[side * 3 + slot + 1] = 0;
+            if (BTL_POKEPARAM_IsFainted(mon)) outStates[side * 3 + slot + 1] = 2;
+            else if (BTL_POKEPARAM_GetMajorStatusIndex(mon)) outStates[side * 3 + slot + 1] = 3;
+            else if (!BTL_POKEPARAM_IsAbleToBattle(mon)) outStates[side * 3 + slot + 1] = 0;
             else outStates[side * 3 + slot + 1] = 1;
         }
     }
 }
 
 
-void func_021EE200(BtlvScuWork *work)
+void BTLV_SCU_PrintWaitMessage(BtlvScuWork *work)
 {
-    func_021EF694(work->textBuf, 0xf);
+    BTL_MSG_GetUiString(work->textBuf, 0xf);
     func_021ECEB8(work, work->textBuf, 0, 0);
 }
 
@@ -257,30 +257,30 @@ void func_021EE200(BtlvScuWork *work)
 /*
  * Untraced mid-stream entry point: a plain tail thunk, `ldr r3,=T; bx r3`, whose pool word names func_021ECF68.
  */
-int func_021EE21C(BtlvScuWork *work) { return func_021ECF68(work); }
+int BTLV_SCU_UpdateWaitMessage(BtlvScuWork *work) { return func_021ECF68(work); }
 
 
-void func_021EE224(char *unused)
+void BTLV_SCU_NoOp(char *unused)
 {
 }
 
 
-void func_021EE228(void)
+void BTLV_SCU_StartFadeIn(void)
 {
     int x = 0x10;
-    func_0204E720(1, 0, x, x - 0x13);
+    FADE_Start(1, 0, x, x - 0x13);
 }
 
 
 void func_021EE23C(BtlvWaitWindow *waitWindow)
 {
-    func_02043B5C(waitWindow->canvas, 12);
-    func_02045334(waitWindow->window);
-    func_0204E720(1, 16, 0, -3);
+    BMP_Clear(waitWindow->canvas, 12);
+    BMP_WIN_TransferChars(waitWindow->window);
+    FADE_Start(1, 16, 0, -3);
 }
 
 
-int func_021EE25C(void)
+int BTLV_SCU_GetWaitState(void)
 {
     return func_021EB318();
 }
@@ -291,7 +291,7 @@ void func_021EE264(BtlvBallWindow *window, int partySource, BtlvBallStates *stat
     window->partySource = (void **)partySource;
     window->states = *states;
     window->pendingStep = 0;
-    window->currentStep = func_021EE3E8;
+    window->currentStep = BTLV_SCU_StepBallWindowOpen;
     window->stepArg = window;
     window->stepState = 0;
 }
@@ -320,7 +320,7 @@ int func_021EE2A0(BtlvBallWindow *window)
 void func_021EE2F8(BtlvBallWindow *window)
 {
     window->pendingStep = 0;
-    window->currentStep = func_021EE4B4;
+    window->currentStep = BTLV_SCU_StepBallWindowRefresh;
     window->stepArg = window;
     window->stepState = 0;
 }
@@ -349,13 +349,13 @@ int func_021EE318(BtlvBallWindow *window)
 void func_021EE370(BtlvBallWindow *window)
 {
     window->pendingStep = 0;
-    window->currentStep = func_021EE544;
+    window->currentStep = BTLV_SCU_StepBallWindowClose;
     window->stepArg = window;
     window->stepState = 0;
 }
 
 
-int func_021EE390(BtlvBallWindow *window)
+int BTLV_SCU_UpdateBallWindowClose(BtlvBallWindow *window)
 {
     if (window->pendingStep != 0) {
         if (window->pendingStep(&window->stepState, window->stepArg) != 0) {
@@ -375,24 +375,24 @@ int func_021EE390(BtlvBallWindow *window)
 }
 
 
-int func_021EE3E8(int *state, BtlvBallWindow *window)
+int BTLV_SCU_StepBallWindowOpen(int *state, BtlvBallWindow *window)
 {
     switch (*state) {
     case 0:
-        func_0201DD78(1, 9, 12);
-        func_02045374(window->window);
+        GF_FONT_SetTextColor(1, 9, 12);
+        BMP_WIN_MakeScreen(window->window);
         BMP_WIN_DrawFrame(window->window, window->frameBase, 3);
-        func_02043B5C(window->canvas, 12);
+        BMP_Clear(window->canvas, 12);
         func_020409B4(func_02045730(window->window));
         (*state)++;
         break;
     case 1:
-        func_021EF71C(window->textBuf, window->states.ball[0], window->states.ball[1], window->states.ball[2], window->states.ball[3], window->states.ball[4], window->states.ball[5]);
-        func_0201C7A4(window->canvas, 0, 0, (void *)window->textBuf, window->drawParam);
+        BTL_MSG_BuildBallStatusOpen(window->textBuf, window->states.ball[0], window->states.ball[1], window->states.ball[2], window->states.ball[3], window->states.ball[4], window->states.ball[5]);
+        PRINTSYS_Print(window->canvas, 0, 0, (void *)window->textBuf, window->drawParam);
         (*state)++;
         break;
     case 2:
-        func_02045334(window->window);
+        BMP_WIN_TransferChars(window->window);
         (*state)++;
         break;
     case 3:
@@ -408,18 +408,18 @@ int func_021EE3E8(int *state, BtlvBallWindow *window)
 }
 
 
-int func_021EE4B4(int *state, BtlvBallWindow *window)
+int BTLV_SCU_StepBallWindowRefresh(int *state, BtlvBallWindow *window)
 {
     switch (*state) {
     case 0:
-        func_021D590C(window->partySource, &window->states.sideFlag);
-        func_021EF7AC(window->textBuf, window->states.ball[0], window->states.ball[1], window->states.ball[2], window->states.ball[3], window->states.ball[4], window->states.ball[5]);
-        func_02043B5C(window->canvas, 12);
-        func_0201C7A4(window->canvas, 0, 0, (void *)window->textBuf, window->drawParam);
+        BTL_POKEPARAM_ReadStatsFromMon(window->partySource, &window->states.sideFlag);
+        BTL_MSG_BuildBallStatusRefresh(window->textBuf, window->states.ball[0], window->states.ball[1], window->states.ball[2], window->states.ball[3], window->states.ball[4], window->states.ball[5]);
+        BMP_Clear(window->canvas, 12);
+        PRINTSYS_Print(window->canvas, 0, 0, (void *)window->textBuf, window->drawParam);
         (*state)++;
         break;
     case 1:
-        func_02045334(window->window);
+        BMP_WIN_TransferChars(window->window);
         func_020061E4(0x547);
         (*state)++;
         break;
@@ -430,7 +430,7 @@ int func_021EE4B4(int *state, BtlvBallWindow *window)
 }
 
 
-int func_021EE544(int *state, BtlvBallWindow *window)
+int BTLV_SCU_StepBallWindowClose(int *state, BtlvBallWindow *window)
 {
     int left;
     int top;

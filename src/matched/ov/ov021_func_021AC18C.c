@@ -1,5 +1,5 @@
 /*
- * function: func_021AC18C
+ * function: FIELD_EFFECT_DrawObject
  * address:  0x021AC18C
  * packet:   pkt_ov021_021AC18C
  * region:   ov021
@@ -33,7 +33,7 @@ struct Obj {
     void *fd0;
 };
 
-void func_021AC18C(Obj *o)
+void FIELD_EFFECT_DrawObject(Obj *o)
 {
     if (o != 0)
         o->f_c8(o, o->work);

@@ -1,5 +1,5 @@
 /*
- * function: func_021EE390
+ * function: BTLV_SCU_UpdateBallWindowClose
  * address:  0x021EE390
  * packet:   pkt_ov093_021EE390
  * region:   ov093
@@ -22,7 +22,7 @@ struct O {
     int fec;
 };
 
-int func_021EE390(struct O *o)
+int BTLV_SCU_UpdateBallWindowClose(struct O *o)
 {
     if (o->fe0 != 0) {
         if (o->fe0(&o->fec, o->fe8) != 0) {

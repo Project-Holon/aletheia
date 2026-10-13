@@ -1,7 +1,7 @@
 /*
  * file:     talkmsgwin.c
  * unit:     yes
- * function: func_02194670, func_02194704, func_0219470C, func_02194760, func_02194764, func_02194798, func_021947E8, func_02194848, func_02194888, func_021948CC, func_0219492C, func_02194940, func_02194950, func_02194960, func_02194974, func_02194984, func_02194990, func_0219499C, func_02194A00, func_02194A24, func_02194A34, func_02194A48, func_02194A58, func_02194A74, func_02194A84, func_02194A94, func_02194AC8, func_02194B3C, func_02194B70, func_02194B78, func_02194B84, func_02194C60, func_02194CE8, func_02194D1C, func_02194E74, func_02194E90, func_02194F5C, func_02194F84, func_02195128, func_0219518C, func_02195338, func_021953D4, func_0219545C, func_02195490, func_021954CC, func_02195530, func_02195588, func_021955EC, func_02195938, func_02195E54, func_02195E70, func_02195E80, func_02195E90
+ * function: TALKMSGWIN_Create, TALKMSGWIN_LoadTexture, TALKMSGWIN_Update, TALKMSGWIN_EndUpdate, TALKMSGWIN_Draw, TALKMSGWIN_Delete, TALKMSGWIN_SetupPlainWindow, TALKMSGWIN_SetupUpperBalloon, TALKMSGWIN_SetupLowerBalloon, TALKMSGWIN_SetupAutoBalloon, TALKMSGWIN_Release, TALKMSGWIN_Open, TALKMSGWIN_Close, TALKMSGWIN_IsFree, TALKMSGWIN_IsShown, TALKMSGWIN_GetPrintStream, TALKMSGWIN_GetBmpWin, TALKMSGWIN_Reprint, TALKMSGWIN_AddFrameWindow, TALKMSGWIN_DrawWindowFrame, TALKMSGWIN_ClearWindowFrame, TALKMSGWIN_DeleteFrameWindow, TALKMSGWIN_InitEntry, TALKMSGWIN_IsEntryFree, TALKMSGWIN_IsEntryShown, TALKMSGWIN_AddBmpWin, TALKMSGWIN_SetupEntry, TALKMSGWIN_ReleaseEntry, TALKMSGWIN_RequestOpen, TALKMSGWIN_RequestClose, TALKMSGWIN_UpdateBalloon, TALKMSGWIN_UpdatePlainWindow, TALKMSGWIN_DrawEntry, TALKMSGWIN_DrawBalloonShape, TALKMSGWIN_ProjectToWorld, TALKMSGWIN_GetAnchorWindowPoint, TALKMSGWIN_GetTailBaseX, TALKMSGWIN_CalcTail, TALKMSGWIN_GetWindowCornerPoints, TALKMSGWIN_BuildShape, TALKMSGWIN_UpdateShape, TALKMSGWIN_SetupCamera, TALKMSGWIN_SaveCamera, TALKMSGWIN_RestoreCamera, TALKMSGWIN_LoadFrameGraphics, TALKMSGWIN_UploadTexture, TALKMSGWIN_ReloadFrameGraphics, TALKMSGWIN_DrawSimpleFrame, TALKMSGWIN_DrawCorneredFrame, TALKMSGWIN_DrawFrameByType, TALKMSGWIN_DrawEntryFrame, TALKMSGWIN_RedrawEntryFrame, TALKMSGWIN_ClearFrame
  * address:  0x02194670
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -17,24 +17,24 @@
  *   func_0207C768  0x0207C768  arm
  *   func_02030734  0x02030734  arm  arm9
  *   func_020307B0  0x020307B0  arm
- *   func_0203101C  0x0203101C  arm
- *   d_021DDAC4     0x021DDAC4  data  a4
+ *   TCBL_Create  0x0203101C  arm
+ *   sTalkMsgWinFileName     0x021DDAC4  data  a4
  *   d_020A8140     0x020A8140  data  a4
  *   d_020A8148     0x020A8148  data  a4
- *   func_020310C4  0x020310C4  arm
+ *   TCBL_Main  0x020310C4  arm
  *   func_0206DB80  0x0206DB80  arm
  *   d_020A814C     0x020A814C  data  a4
  *   d_020A8144     0x020A8144  data  a4
- *   func_02031140  0x02031140  arm
+ *   TCBL_Destroy  0x02031140  arm
  *   func_0206DF3C  0x0206DF3C  arm
  *   func_0201CE48  0x0201CE48  thumb
- *   func_0201CCE4  0x0201CCE4  thumb
+ *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_020409B4  0x020409B4  arm
  *   func_020452E8  0x020452E8  arm
- *   func_020450F0  0x020450F0  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_0206E0C4  0x0206E0C4  arm
  *   func_02045758  0x02045758  arm
  *   func_02045760  0x02045760  arm
@@ -64,11 +64,11 @@
  *   func_0207FA0C  0x0207FA0C  arm
  *   func_0207FA40  0x0207FA40  arm
  *   func_0207FADC  0x0207FADC  arm
- *   d_021DDA84     0x021DDA84  data  a4
- *   d_021DDAA4     0x021DDAA4  data  a4
+ *   sTalkMsgWinTexture     0x021DDA84  data  a4
+ *   sTalkMsgWinPalette     0x021DDAA4  data  a4
  *   func_02041300  0x02041300  arm
- *   func_02045374  0x02045374  arm
- *   func_020456F8  0x020456F8  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  */
 #include "talkmsgwin_types.h"
 
@@ -90,20 +90,20 @@
 extern s32 func_0207C768(s32 numerator, s32 denominator);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void func_020310C4(struct Tcbl *tcbl);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern void TCBL_Main(struct Tcbl *tcbl);
 extern void func_0206DB80(void);
-extern void func_02031140(struct Tcbl *tcbl);
+extern void TCBL_Destroy(struct Tcbl *tcbl);
 extern void func_0206DF3C(const VecFx32 *worldPos, int *screenX, int *screenY);
 extern void func_0201CE48(struct PrintStream *stream);
-extern struct PrintStream *func_0201CCE4(struct BmpWin *bmpWin, u32 x, u32 y, struct Strbuf *str, struct GfFont *font,
+extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *bmpWin, u32 x, u32 y, struct Strbuf *str, struct GfFont *font,
                                          u32 wait, struct Tcbl *tcbl, u32 tcblPri, u32 heapId, u32 clearColor);
 extern void func_020409B4(u32 bgLayer);
 extern void func_020452E8(struct BmpWin *bmpWin);
-extern struct BmpWin *func_020450F0(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
+extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
 extern struct Bmp *func_02045770(struct BmpWin *bmpWin);
-extern void func_02043B5C(struct Bmp *bmp, u8 color);
-extern void func_02045334(struct BmpWin *bmpWin);
+extern void BMP_Clear(struct Bmp *bmp, u8 color);
+extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
 extern int func_0206E0C4(int screenX, int screenY, VecFx32 *out, int mode);
 extern u8 func_02045758(struct BmpWin *bmpWin);
 extern u8 func_02045760(struct BmpWin *bmpWin);
@@ -133,147 +133,147 @@ extern void func_0207F9B4(void);
 extern void func_0207FA0C(void);
 extern void func_0207FA40(void *src, u32 offset, u32 size);
 extern void func_0207FADC(void);
-extern void func_02045374(struct BmpWin *bmpWin);
+extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
 extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
-extern void func_020456F8(struct BmpWin *bmpWin);
+extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
 
-TalkMsgWinSys *func_02194670(const TalkMsgWinParam *param);
-void func_02194704(TalkMsgWinSys *sys);
-void func_0219470C(TalkMsgWinSys *sys);
-void func_02194760(TalkMsgWinSys *sys);
-void func_02194764(TalkMsgWinSys *sys);
-void func_02194798(TalkMsgWinSys *sys);
-void func_021947E8(TalkMsgWinSys *sys, int index, struct Strbuf *str, u8 x, u8 y, u8 width, u8 height, u32 unusedColor,
+TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param);
+void TALKMSGWIN_LoadTexture(TalkMsgWinSys *sys);
+void TALKMSGWIN_Update(TalkMsgWinSys *sys);
+void TALKMSGWIN_EndUpdate(TalkMsgWinSys *sys);
+void TALKMSGWIN_Draw(TalkMsgWinSys *sys);
+void TALKMSGWIN_Delete(TalkMsgWinSys *sys);
+void TALKMSGWIN_SetupPlainWindow(TalkMsgWinSys *sys, int index, struct Strbuf *str, u8 x, u8 y, u8 width, u8 height, u32 unusedColor,
                    u32 frameType, u32 wait, u8 textX, u8 textY);
-void func_02194848(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u32 unusedColor, u32 frameType,
+void TALKMSGWIN_SetupUpperBalloon(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u32 unusedColor, u32 frameType,
                    u32 tailSide, u32 wait);
-void func_02194888(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u32 unusedColor, u32 frameType,
+void TALKMSGWIN_SetupLowerBalloon(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u32 unusedColor, u32 frameType,
                    u32 tailSide, u32 wait);
-void func_021948CC(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u8 unusedColor, u32 frameType,
+void TALKMSGWIN_SetupAutoBalloon(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u8 unusedColor, u32 frameType,
                    u32 wait);
-void func_0219492C(TalkMsgWinSys *sys, int index);
-void func_02194940(TalkMsgWinSys *sys, int index);
-void func_02194950(TalkMsgWinSys *sys, int index);
-u32 func_02194960(TalkMsgWinSys *sys, u32 index, u32 unused1, u32 unused2);
-int func_02194974(TalkMsgWinSys *sys, int index);
-struct PrintStream *func_02194984(TalkMsgWinSys *sys, u32 index);
-struct BmpWin *func_02194990(TalkMsgWinSys *sys, u32 index);
-void func_0219499C(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 wait);
-struct BmpWin *func_02194A00(TalkMsgWinSys *sys, u8 x, u8 y, u8 width, u8 height, u32 frameType);
-void func_02194A24(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 frameType, u32 unused);
-void func_02194A34(TalkMsgWinSys *sys, struct BmpWin *bmpWin);
-void func_02194A48(TalkMsgWinSys *sys, struct BmpWin *bmpWin);
-TalkMsgWin *func_02194A58(TalkMsgWin *win);
-int func_02194A74(TalkMsgWin *win);
-int func_02194A84(TalkMsgWin *win);
-struct BmpWin *func_02194A94(TalkMsgWinSys *sys, u8 x, u8 y, int width, u8 height);
-void func_02194AC8(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *pos, struct Strbuf *str, const TalkMsgWinConfig *config);
-void func_02194B3C(TalkMsgWinSys *sys, TalkMsgWin *win);
-void func_02194B70(TalkMsgWin *win);
-void func_02194B78(TalkMsgWin *win);
-void func_02194B84(TalkMsgWinSys *sys, TalkMsgWin *win);
-void func_02194C60(TalkMsgWinSys *sys, TalkMsgWin *win);
-void func_02194CE8(TalkMsgWinSys *sys, TalkMsgWin *win);
-void func_02194D1C(TalkMsgWinSys *sys, TalkMsgWin *win, int tailOnly);
-int func_02194E74(const VecFx32 *relPos, int *screenX, int *screenY, VecFx32 *outWorld);
-void func_02194E90(TalkMsgWin *win, TalkMsgWin *anchor, int *screenX, int *screenY, VecFx32 *outWorld);
-void func_02194F5C(int x, int w, int side, u16 *left, u16 *right);
-int func_02194F84(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outBaseA, VecFx32 *outBaseB);
-void func_02195128(TalkMsgWin *win, VecFx32 *outTopLeft, VecFx32 *outTopRight, VecFx32 *outBottomLeft, VecFx32 *outBottomRight);
-void func_0219518C(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *tip, VecFx32 *tailBaseA, VecFx32 *tailBaseB,
+void TALKMSGWIN_Release(TalkMsgWinSys *sys, int index);
+void TALKMSGWIN_Open(TalkMsgWinSys *sys, int index);
+void TALKMSGWIN_Close(TalkMsgWinSys *sys, int index);
+u32 TALKMSGWIN_IsFree(TalkMsgWinSys *sys, u32 index, u32 unused1, u32 unused2);
+int TALKMSGWIN_IsShown(TalkMsgWinSys *sys, int index);
+struct PrintStream *TALKMSGWIN_GetPrintStream(TalkMsgWinSys *sys, u32 index);
+struct BmpWin *TALKMSGWIN_GetBmpWin(TalkMsgWinSys *sys, u32 index);
+void TALKMSGWIN_Reprint(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 wait);
+struct BmpWin *TALKMSGWIN_AddFrameWindow(TalkMsgWinSys *sys, u8 x, u8 y, u8 width, u8 height, u32 frameType);
+void TALKMSGWIN_DrawWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 frameType, u32 unused);
+void TALKMSGWIN_ClearWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin);
+void TALKMSGWIN_DeleteFrameWindow(TalkMsgWinSys *sys, struct BmpWin *bmpWin);
+TalkMsgWin *TALKMSGWIN_InitEntry(TalkMsgWin *win);
+int TALKMSGWIN_IsEntryFree(TalkMsgWin *win);
+int TALKMSGWIN_IsEntryShown(TalkMsgWin *win);
+struct BmpWin *TALKMSGWIN_AddBmpWin(TalkMsgWinSys *sys, u8 x, u8 y, int width, u8 height);
+void TALKMSGWIN_SetupEntry(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *pos, struct Strbuf *str, const TalkMsgWinConfig *config);
+void TALKMSGWIN_ReleaseEntry(TalkMsgWinSys *sys, TalkMsgWin *win);
+void TALKMSGWIN_RequestOpen(TalkMsgWin *win);
+void TALKMSGWIN_RequestClose(TalkMsgWin *win);
+void TALKMSGWIN_UpdateBalloon(TalkMsgWinSys *sys, TalkMsgWin *win);
+void TALKMSGWIN_UpdatePlainWindow(TalkMsgWinSys *sys, TalkMsgWin *win);
+void TALKMSGWIN_DrawEntry(TalkMsgWinSys *sys, TalkMsgWin *win);
+void TALKMSGWIN_DrawBalloonShape(TalkMsgWinSys *sys, TalkMsgWin *win, int tailOnly);
+int TALKMSGWIN_ProjectToWorld(const VecFx32 *relPos, int *screenX, int *screenY, VecFx32 *outWorld);
+void TALKMSGWIN_GetAnchorWindowPoint(TalkMsgWin *win, TalkMsgWin *anchor, int *screenX, int *screenY, VecFx32 *outWorld);
+void TALKMSGWIN_GetTailBaseX(int x, int w, int side, u16 *left, u16 *right);
+int TALKMSGWIN_CalcTail(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outBaseA, VecFx32 *outBaseB);
+void TALKMSGWIN_GetWindowCornerPoints(TalkMsgWin *win, VecFx32 *outTopLeft, VecFx32 *outTopRight, VecFx32 *outBottomLeft, VecFx32 *outBottomRight);
+void TALKMSGWIN_BuildShape(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *tip, VecFx32 *tailBaseA, VecFx32 *tailBaseB,
                    VecFx32 *topLeft, VecFx32 *topRight, VecFx32 *bottomLeft, VecFx32 *bottomRight);
-u32 func_02195338(TalkMsgWinSys *sys, TalkMsgWin *win);
-void func_021953D4(TalkMsgWinSys *sys, int useCameraObject);
-void func_0219545C(TalkMsgWinSys *sys);
-void func_02195490(TalkMsgWinSys *sys);
-u32 func_021954CC(TalkMsgWinSys *sys, TalkMsgWinParam *param);
-void func_02195530(TalkMsgWinSys *sys);
-void func_02195588(TalkMsgWinSys *sys);
-void func_021955EC(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tailSide);
-void func_02195938(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tailSide);
-void func_02195E54(const TalkMsgWinParam *style, struct BmpWin *bmpWin, u8 frameType, u32 tailSide);
-void func_02195E70(TalkMsgWinSys *sys, TalkMsgWin *win);
-void func_02195E80(TalkMsgWinSys *sys, TalkMsgWin *win);
-void func_02195E90(const TalkMsgWinParam *style, struct BmpWin *bmpWin);
+u32 TALKMSGWIN_UpdateShape(TalkMsgWinSys *sys, TalkMsgWin *win);
+void TALKMSGWIN_SetupCamera(TalkMsgWinSys *sys, int useCameraObject);
+void TALKMSGWIN_SaveCamera(TalkMsgWinSys *sys);
+void TALKMSGWIN_RestoreCamera(TalkMsgWinSys *sys);
+u32 TALKMSGWIN_LoadFrameGraphics(TalkMsgWinSys *sys, TalkMsgWinParam *param);
+void TALKMSGWIN_UploadTexture(TalkMsgWinSys *sys);
+void TALKMSGWIN_ReloadFrameGraphics(TalkMsgWinSys *sys);
+void TALKMSGWIN_DrawSimpleFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tailSide);
+void TALKMSGWIN_DrawCorneredFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tailSide);
+void TALKMSGWIN_DrawFrameByType(const TalkMsgWinParam *style, struct BmpWin *bmpWin, u8 frameType, u32 tailSide);
+void TALKMSGWIN_DrawEntryFrame(TalkMsgWinSys *sys, TalkMsgWin *win);
+void TALKMSGWIN_RedrawEntryFrame(TalkMsgWinSys *sys, TalkMsgWin *win);
+void TALKMSGWIN_ClearFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin);
 
-extern const char d_021DDAC4[];   /* source file name string passed to the heap allocator */
-extern u32 d_021DDA84[];      /* balloon texture, one 4bpp tile (0x20 bytes) */
-extern u32 d_021DDAA4[];      /* balloon palette, 16 colors */
+extern const char sTalkMsgWinFileName[];   /* source file name string passed to the heap allocator */
+extern u32 sTalkMsgWinTexture[];      /* balloon texture, one 4bpp tile (0x20 bytes) */
+extern u32 sTalkMsgWinPalette[];      /* balloon palette, 16 colors */
 extern u32 (*d_020A8140)(int, int, int);   /* texture VRAM allocator */
 extern u32 (*d_020A8148)(int, int, int);   /* palette VRAM allocator */
 extern void (*d_020A814C)(u32 key);        /* palette VRAM free */
 extern void (*d_020A8144)(u32 key);        /* texture VRAM free */
 
-TalkMsgWinSys *func_02194670(const TalkMsgWinParam *param)
+TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param)
 {
     TalkMsgWinSys *sys;
     int i;
 
-    sys = func_02030734(param->heapId, sizeof(TalkMsgWinSys), 1, d_021DDAC4, 0xec);
+    sys = func_02030734(param->heapId, sizeof(TalkMsgWinSys), 1, sTalkMsgWinFileName, 0xec);
     sys->param = *param;
-    sys->tcbl = func_0203101C(param->heapId, param->heapId, TALKMSGWIN_MAX, 0x20);
+    sys->tcbl = TCBL_Create(param->heapId, param->heapId, TALKMSGWIN_MAX, 0x20);
     for (i = 0; i < TALKMSGWIN_MAX; i++)
-        func_02194A58(&sys->windows[i]);
+        TALKMSGWIN_InitEntry(&sys->windows[i]);
     sys->texKey = d_020A8140(0x20, 0, 0);
     sys->plttKey = d_020A8148(0x20, 0, 0);
-    sys->frameTileCount = func_021954CC(sys, &sys->param) >> 5;
+    sys->frameTileCount = TALKMSGWIN_LoadFrameGraphics(sys, &sys->param) >> 5;
     return sys;
 }
 
 /* Tail call to the balloon texture upload. */
-void func_02194704(TalkMsgWinSys *sys)
+void TALKMSGWIN_LoadTexture(TalkMsgWinSys *sys)
 {
-    func_02195530(sys);
+    TALKMSGWIN_UploadTexture(sys);
 }
 
-void func_0219470C(TalkMsgWinSys *sys)
+void TALKMSGWIN_Update(TalkMsgWinSys *sys)
 {
     int i;
 
-    func_020310C4(sys->tcbl);
-    func_0219545C(sys);
-    func_021953D4(sys, 0);
+    TCBL_Main(sys->tcbl);
+    TALKMSGWIN_SaveCamera(sys);
+    TALKMSGWIN_SetupCamera(sys, 0);
     for (i = 0; i < TALKMSGWIN_MAX; i++) {
         if (sys->windows[i].isPlain == 0)
-            func_02194B84(sys, &sys->windows[i]);
+            TALKMSGWIN_UpdateBalloon(sys, &sys->windows[i]);
         else
-            func_02194C60(sys, &sys->windows[i]);
+            TALKMSGWIN_UpdatePlainWindow(sys, &sys->windows[i]);
     }
-    func_02195490(sys);
+    TALKMSGWIN_RestoreCamera(sys);
 }
 
 /* Empty; field_msgbg.c calls it after every update. */
-void func_02194760(TalkMsgWinSys *sys)
+void TALKMSGWIN_EndUpdate(TalkMsgWinSys *sys)
 {
 }
 
-void func_02194764(TalkMsgWinSys *sys)
+void TALKMSGWIN_Draw(TalkMsgWinSys *sys)
 {
     int i;
 
     func_0206DB80();
-    func_021953D4(sys, 1);
+    TALKMSGWIN_SetupCamera(sys, 1);
     for (i = 0; i < TALKMSGWIN_MAX; i++) {
         if (sys->windows[i].isPlain == 0) {
-            func_02194CE8(sys, &sys->windows[i]);
+            TALKMSGWIN_DrawEntry(sys, &sys->windows[i]);
         }
     }
 }
 
-void func_02194798(TalkMsgWinSys *sys)
+void TALKMSGWIN_Delete(TalkMsgWinSys *sys)
 {
     int i;
 
     for (i = 0; i < TALKMSGWIN_MAX; i++)
-        func_02194B3C(sys, &sys->windows[i]);
+        TALKMSGWIN_ReleaseEntry(sys, &sys->windows[i]);
     d_020A814C(sys->plttKey);
     d_020A8144(sys->texKey);
-    func_02031140(sys->tcbl);
+    TCBL_Destroy(sys->tcbl);
     func_020307B0(sys);
 }
 
 /* Plain text window: no balloon polygon, frame only. */
-void func_021947E8(TalkMsgWinSys *sys, int index, struct Strbuf *str, u8 x, u8 y, u8 width, u8 height, u32 unusedColor,
+void TALKMSGWIN_SetupPlainWindow(TalkMsgWinSys *sys, int index, struct Strbuf *str, u8 x, u8 y, u8 width, u8 height, u32 unusedColor,
                    u32 frameType, u32 wait, u8 textX, u8 textY)
 {
     TalkMsgWinConfig config;
@@ -289,14 +289,14 @@ void func_021947E8(TalkMsgWinSys *sys, int index, struct Strbuf *str, u8 x, u8 y
     config.frameType = frameType;
     config.printWait = wait;
     win = &sys->windows[index];
-    func_02194AC8(sys, win, 0, str, &config);
+    TALKMSGWIN_SetupEntry(sys, win, 0, str, &config);
     win->textX = textX;
     win->textY = textY;
     win->isPlain = 1;
 }
 
 /* Balloon in the upper rows; the tail leaves its lower edge. */
-void func_02194848(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u32 unusedColor, u32 frameType,
+void TALKMSGWIN_SetupUpperBalloon(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u32 unusedColor, u32 frameType,
                    u32 tailSide, u32 wait)
 {
     TalkMsgWinConfig config;
@@ -310,11 +310,11 @@ void func_02194848(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Str
     config.color = 0x7FFF;
     config.frameType = frameType;
     config.printWait = wait;
-    func_02194AC8(sys, &sys->windows[index], pos, str, &config);
+    TALKMSGWIN_SetupEntry(sys, &sys->windows[index], pos, str, &config);
 }
 
 /* Balloon in the lower rows; the tail leaves its upper edge. */
-void func_02194888(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u32 unusedColor, u32 frameType,
+void TALKMSGWIN_SetupLowerBalloon(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u32 unusedColor, u32 frameType,
                    u32 tailSide, u32 wait)
 {
     TalkMsgWinConfig config;
@@ -328,11 +328,11 @@ void func_02194888(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Str
     config.color = 0x7FFF;
     config.frameType = frameType;
     config.printWait = wait;
-    func_02194AC8(sys, &sys->windows[index], pos, str, &config);
+    TALKMSGWIN_SetupEntry(sys, &sys->windows[index], pos, str, &config);
 }
 
 /* Puts the balloon on the screen half away from the target position. */
-void func_021948CC(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u8 unusedColor, u32 frameType,
+void TALKMSGWIN_SetupAutoBalloon(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Strbuf *str, u8 unusedColor, u32 frameType,
                    u32 wait)
 {
     int screenX;
@@ -340,27 +340,27 @@ void func_021948CC(TalkMsgWinSys *sys, int index, const VecFx32 *pos, struct Str
 
     func_0206DF3C(pos, &screenX, &screenY);
     if (screenY < 0x60)
-        func_02194888(sys, index, pos, str, unusedColor, frameType, 0, wait);
+        TALKMSGWIN_SetupLowerBalloon(sys, index, pos, str, unusedColor, frameType, 0, wait);
     else
-        func_02194848(sys, index, pos, str, unusedColor, frameType, 0, wait);
+        TALKMSGWIN_SetupUpperBalloon(sys, index, pos, str, unusedColor, frameType, 0, wait);
 }
 
-void func_0219492C(TalkMsgWinSys *sys, int index)
+void TALKMSGWIN_Release(TalkMsgWinSys *sys, int index)
 {
-    func_02194B3C(sys, &sys->windows[index]);
+    TALKMSGWIN_ReleaseEntry(sys, &sys->windows[index]);
 }
 
-void func_02194940(TalkMsgWinSys *sys, int index)
+void TALKMSGWIN_Open(TalkMsgWinSys *sys, int index)
 {
-    func_02194B70(&sys->windows[index]);
+    TALKMSGWIN_RequestOpen(&sys->windows[index]);
 }
 
-void func_02194950(TalkMsgWinSys *sys, int index)
+void TALKMSGWIN_Close(TalkMsgWinSys *sys, int index)
 {
-    func_02194B78(&sys->windows[index]);
+    TALKMSGWIN_RequestClose(&sys->windows[index]);
 }
 
-u32 func_02194960(TalkMsgWinSys *sys, u32 index, u32 unused1, u32 unused2)
+u32 TALKMSGWIN_IsFree(TalkMsgWinSys *sys, u32 index, u32 unused1, u32 unused2)
 {
     if (sys->windows[index].state == TALKMSGWIN_STATE_FREE) {
         return 1;
@@ -368,23 +368,23 @@ u32 func_02194960(TalkMsgWinSys *sys, u32 index, u32 unused1, u32 unused2)
     return 0;
 }
 
-int func_02194974(TalkMsgWinSys *sys, int index)
+int TALKMSGWIN_IsShown(TalkMsgWinSys *sys, int index)
 {
-    return func_02194A84(&sys->windows[index]);
+    return TALKMSGWIN_IsEntryShown(&sys->windows[index]);
 }
 
-struct PrintStream *func_02194984(TalkMsgWinSys *sys, u32 index)
+struct PrintStream *TALKMSGWIN_GetPrintStream(TalkMsgWinSys *sys, u32 index)
 {
     return sys->windows[index].printStream;
 }
 
-struct BmpWin *func_02194990(TalkMsgWinSys *sys, u32 index)
+struct BmpWin *TALKMSGWIN_GetBmpWin(TalkMsgWinSys *sys, u32 index)
 {
     return sys->windows[index].bmpWin;
 }
 
 /* Replaces the text of a window and starts printing it. */
-void func_0219499C(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 wait)
+void TALKMSGWIN_Reprint(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 wait)
 {
     TalkMsgWin *win;
 
@@ -396,40 +396,40 @@ void func_0219499C(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 wait)
     if (str != 0) {
         win->printWait = wait;
         win->str = str;
-        win->printStream = func_0201CCE4(win->bmpWin, win->textX, win->textY, win->str, sys->param.font, wait,
+        win->printStream = PRINTSYS_PrintStream(win->bmpWin, win->textX, win->textY, win->str, sys->param.font, wait,
                                          sys->tcbl, 0, sys->param.heapId, 15);
         win->state = TALKMSGWIN_STATE_SHOWN;
     }
 }
 
 /* Adds a text window that carries only a frame, no balloon. */
-struct BmpWin *func_02194A00(TalkMsgWinSys *sys, u8 x, u8 y, u8 width, u8 height, u32 frameType)
+struct BmpWin *TALKMSGWIN_AddFrameWindow(TalkMsgWinSys *sys, u8 x, u8 y, u8 width, u8 height, u32 frameType)
 {
     struct BmpWin *bmpWin;
 
-    bmpWin = func_02194A94(sys, x, y, width, height);
-    func_02195E54(&sys->param, bmpWin, frameType, 0);
+    bmpWin = TALKMSGWIN_AddBmpWin(sys, x, y, width, height);
+    TALKMSGWIN_DrawFrameByType(&sys->param, bmpWin, frameType, 0);
     return bmpWin;
 }
 
-void func_02194A24(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 frameType, u32 unused)
+void TALKMSGWIN_DrawWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 frameType, u32 unused)
 {
-    func_02195E54(&sys->param, bmpWin, frameType, 0);
+    TALKMSGWIN_DrawFrameByType(&sys->param, bmpWin, frameType, 0);
 }
 
-void func_02194A34(TalkMsgWinSys *sys, struct BmpWin *bmpWin)
+void TALKMSGWIN_ClearWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin)
 {
-    func_02195E90(&sys->param, bmpWin);
+    TALKMSGWIN_ClearFrame(&sys->param, bmpWin);
     func_020409B4((u8)sys->param.bgLayer);
 }
 
-void func_02194A48(TalkMsgWinSys *sys, struct BmpWin *bmpWin)
+void TALKMSGWIN_DeleteFrameWindow(TalkMsgWinSys *sys, struct BmpWin *bmpWin)
 {
-    func_02195E90(&sys->param, bmpWin);
+    TALKMSGWIN_ClearFrame(&sys->param, bmpWin);
     func_020452E8(bmpWin);
 }
 
-TalkMsgWin *func_02194A58(TalkMsgWin *win)
+TalkMsgWin *TALKMSGWIN_InitEntry(TalkMsgWin *win)
 {
     win->state = TALKMSGWIN_STATE_FREE;
     win->printStream = 0;
@@ -445,7 +445,7 @@ TalkMsgWin *func_02194A58(TalkMsgWin *win)
     return win;
 }
 
-int func_02194A74(TalkMsgWin *win)
+int TALKMSGWIN_IsEntryFree(TalkMsgWin *win)
 {
     if (win->state == TALKMSGWIN_STATE_FREE) {
         return 1;
@@ -453,30 +453,30 @@ int func_02194A74(TalkMsgWin *win)
     return 0;
 }
 
-int func_02194A84(TalkMsgWin *win)
+int TALKMSGWIN_IsEntryShown(TalkMsgWin *win)
 {
     return win->state == TALKMSGWIN_STATE_SHOWN;
 }
 
 /* Creates the BG window of a balloon, cleared to color 15. */
-struct BmpWin *func_02194A94(TalkMsgWinSys *sys, u8 x, u8 y, int width, u8 height)
+struct BmpWin *TALKMSGWIN_AddBmpWin(TalkMsgWinSys *sys, u8 x, u8 y, int width, u8 height)
 {
     struct BmpWin *bmpWin;
 
-    bmpWin = func_020450F0((u8)sys->param.bgLayer, x, y, width, height, sys->param.bmpWinPalette, 1);
-    func_02043B5C(func_02045770(bmpWin), 15);
-    func_02045334(bmpWin);
+    bmpWin = BMP_WIN_Create((u8)sys->param.bgLayer, x, y, width, height, sys->param.bmpWinPalette, 1);
+    BMP_Clear(func_02045770(bmpWin), 15);
+    BMP_WIN_TransferChars(bmpWin);
     return bmpWin;
 }
 
-void func_02194AC8(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *pos, struct Strbuf *str, const TalkMsgWinConfig *config)
+void TALKMSGWIN_SetupEntry(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *pos, struct Strbuf *str, const TalkMsgWinConfig *config)
 {
     int width;
     u8 height;
     int y;
     u8 x;
 
-    func_02194B3C(sys, win);
+    TALKMSGWIN_ReleaseEntry(sys, win);
     win->targetPos = pos;
     win->str = str;
     win->color = config->color;
@@ -491,7 +491,7 @@ void func_02194AC8(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *pos, stru
     y = config->y;
     if (y + height > 0x18)
         y = 0x18 - height;
-    win->bmpWin = func_02194A94(sys, x, y, width, height);
+    win->bmpWin = TALKMSGWIN_AddBmpWin(sys, x, y, width, height);
     win->shape.tailSide = config->tailSide;
     win->textX = 8;
     win->textY = 0;
@@ -499,33 +499,33 @@ void func_02194AC8(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *pos, stru
 }
 
 /* Releases the text stream, the frame and the BG window of a used window. */
-void func_02194B3C(TalkMsgWinSys *sys, TalkMsgWin *win)
+void TALKMSGWIN_ReleaseEntry(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
-    if (func_02194A74(win) == 0) {
+    if (TALKMSGWIN_IsEntryFree(win) == 0) {
         if (win->printStream != 0) {
             func_0201CE48(win->printStream);
             win->printStream = 0;
         }
-        func_02195E90(&sys->param, win->bmpWin);
+        TALKMSGWIN_ClearFrame(&sys->param, win->bmpWin);
         func_020452E8(win->bmpWin);
         win->isPlain = 0;
         win->state = TALKMSGWIN_STATE_FREE;
     }
 }
 
-void func_02194B70(TalkMsgWin *win)
+void TALKMSGWIN_RequestOpen(TalkMsgWin *win)
 {
     win->state = TALKMSGWIN_STATE_OPEN_REQUEST;
 }
 
-void func_02194B78(TalkMsgWin *win)
+void TALKMSGWIN_RequestClose(TalkMsgWin *win)
 {
     win->state = TALKMSGWIN_STATE_CLOSE_REQUEST;
     win->scaleEighths = 4;
 }
 
 /* Per-frame update of a balloon window: grow, print, shrink, release. */
-void func_02194B84(TalkMsgWinSys *sys, TalkMsgWin *win)
+void TALKMSGWIN_UpdateBalloon(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
     u32 wait;
 
@@ -534,25 +534,25 @@ void func_02194B84(TalkMsgWinSys *sys, TalkMsgWin *win)
     case TALKMSGWIN_STATE_READY:
         break;
     case TALKMSGWIN_STATE_OPEN_REQUEST:
-        func_02195338(sys, win);
+        TALKMSGWIN_UpdateShape(sys, win);
         win->scaleEighths = 0;
         win->state = TALKMSGWIN_STATE_OPENING;
         return;
     case TALKMSGWIN_STATE_OPENING:
-        func_02195338(sys, win);
+        TALKMSGWIN_UpdateShape(sys, win);
         if (win->scaleEighths < 8) {
             win->scaleEighths += 1;
             return;
         }
         win->state = TALKMSGWIN_STATE_SHOWN;
         wait = win->printWait;
-        func_02195E80(sys, win);
-        win->printStream = func_0201CCE4(win->bmpWin, win->textX, win->textY, win->str, sys->param.font, wait,
+        TALKMSGWIN_RedrawEntryFrame(sys, win);
+        win->printStream = PRINTSYS_PrintStream(win->bmpWin, win->textX, win->textY, win->str, sys->param.font, wait,
                                          sys->tcbl, 0, sys->param.heapId, 15);
         return;
     case TALKMSGWIN_STATE_SHOWN:
-        if (func_02195338(sys, win) == 1) {
-            func_02195E80(sys, win);
+        if (TALKMSGWIN_UpdateShape(sys, win) == 1) {
+            TALKMSGWIN_RedrawEntryFrame(sys, win);
         }
         return;
     case TALKMSGWIN_STATE_CLOSE_REQUEST:
@@ -563,13 +563,13 @@ void func_02194B84(TalkMsgWinSys *sys, TalkMsgWin *win)
         win->state = TALKMSGWIN_STATE_CLOSED;
         return;
     case TALKMSGWIN_STATE_CLOSED:
-        func_02194B3C(sys, win);
+        TALKMSGWIN_ReleaseEntry(sys, win);
         return;
     }
 }
 
 /* Per-frame update of a plain window: it opens at once, without the grow steps. */
-void func_02194C60(TalkMsgWinSys *sys, TalkMsgWin *win)
+void TALKMSGWIN_UpdatePlainWindow(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
     u32 wait;
 
@@ -580,21 +580,21 @@ void func_02194C60(TalkMsgWinSys *sys, TalkMsgWin *win)
     case TALKMSGWIN_STATE_OPENING:
         win->state = TALKMSGWIN_STATE_SHOWN;
         wait = win->printWait;
-        func_02195E70(sys, win);
-        win->printStream = func_0201CCE4(win->bmpWin, win->textX, win->textY, win->str, sys->param.font, wait,
+        TALKMSGWIN_DrawEntryFrame(sys, win);
+        win->printStream = PRINTSYS_PrintStream(win->bmpWin, win->textX, win->textY, win->str, sys->param.font, wait,
                                          sys->tcbl, 0, sys->param.heapId, 15);
         return;
     case TALKMSGWIN_STATE_CLOSE_REQUEST:
         win->state = TALKMSGWIN_STATE_CLOSED;
         return;
     case TALKMSGWIN_STATE_CLOSED:
-        func_02194B3C(sys, win);
+        TALKMSGWIN_ReleaseEntry(sys, win);
         return;
     }
 }
 
 /* Draws the balloon polygon of a window that is growing or shown. */
-void func_02194CE8(TalkMsgWinSys *sys, TalkMsgWin *win)
+void TALKMSGWIN_DrawEntry(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
     switch (win->state) {
     case TALKMSGWIN_STATE_FREE:
@@ -604,10 +604,10 @@ void func_02194CE8(TalkMsgWinSys *sys, TalkMsgWin *win)
     case TALKMSGWIN_STATE_CLOSED:
         break;
     case TALKMSGWIN_STATE_OPENING:
-        func_02194D1C(sys, win, 0);
+        TALKMSGWIN_DrawBalloonShape(sys, win, 0);
         break;
     case TALKMSGWIN_STATE_SHOWN:
-        func_02194D1C(sys, win, 1);
+        TALKMSGWIN_DrawBalloonShape(sys, win, 1);
         break;
     }
 }
@@ -649,7 +649,7 @@ static inline void G3_Vtx(s16 x, s16 y, s16 z)
  * z, y, x into locals, and non-const parameters (with const the loads float
  * across the volatile stores).
  */
-void func_02194D1C(TalkMsgWinSys *sys, TalkMsgWin *win, int tailOnly)
+void TALKMSGWIN_DrawBalloonShape(TalkMsgWinSys *sys, TalkMsgWin *win, int tailOnly)
 {
     TalkMsgWinShape *shape = &win->shape;
     s32 x, y, z;
@@ -695,7 +695,7 @@ void func_02194D1C(TalkMsgWinSys *sys, TalkMsgWin *win, int tailOnly)
 }
 
 /* Projects a position (relative to the camera target) to the screen and back onto the draw plane. */
-int func_02194E74(const VecFx32 *relPos, int *screenX, int *screenY, VecFx32 *outWorld)
+int TALKMSGWIN_ProjectToWorld(const VecFx32 *relPos, int *screenX, int *screenY, VecFx32 *outWorld)
 {
     func_0206DF3C(relPos, screenX, screenY);
     return func_0206E0C4(*screenX, *screenY, outWorld, 0);
@@ -706,7 +706,7 @@ int func_02194E74(const VecFx32 *relPos, int *screenX, int *screenY, VecFx32 *ou
  * of the anchor window that is nearest to this window (its center line when
  * the two overlap on an axis).
  */
-void func_02194E90(TalkMsgWin *win, TalkMsgWin *anchor, int *screenX, int *screenY, VecFx32 *outWorld)
+void TALKMSGWIN_GetAnchorWindowPoint(TalkMsgWin *win, TalkMsgWin *anchor, int *screenX, int *screenY, VecFx32 *outWorld)
 {
     int winX;
     int winY;
@@ -743,7 +743,7 @@ void func_02194E90(TalkMsgWin *win, TalkMsgWin *anchor, int *screenX, int *scree
 }
 
 /* Horizontal span of the tail base: 16 pixels, 64 pixels in from the left or right window edge. */
-void func_02194F5C(int x, int w, int side, u16 *left, u16 *right)
+void TALKMSGWIN_GetTailBaseX(int x, int w, int side, u16 *left, u16 *right)
 {
     if (side == 0) {
         *left = x + 0x40;
@@ -758,7 +758,7 @@ void func_02194F5C(int x, int w, int side, u16 *left, u16 *right)
  * Chooses the tail side and places the two tail base points on the window
  * border, from the screen position of the target. Returns the tail side.
  */
-int func_02194F84(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outBaseA, VecFx32 *outBaseB)
+int TALKMSGWIN_CalcTail(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outBaseA, VecFx32 *outBaseB)
 {
     int x;
     int y;
@@ -833,7 +833,7 @@ int func_02194F84(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outBaseA, 
             side = 1;
             tailSide = TALKMSGWIN_TAIL_SIDE_BOTTOM_RIGHT;
         }
-        func_02194F5C(x, w, side, &baseX[1], &baseX[0]);
+        TALKMSGWIN_GetTailBaseX(x, w, side, &baseX[1], &baseX[0]);
         break;
     case TALKMSGWIN_TAIL_MODE_UPPER_EDGE:
         yB = yA = y + 4;
@@ -852,7 +852,7 @@ int func_02194F84(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outBaseA, 
             side = 1;
             tailSide = TALKMSGWIN_TAIL_SIDE_TOP_RIGHT;
         }
-        func_02194F5C(x, w, side, &baseX[1], &baseX[0]);
+        TALKMSGWIN_GetTailBaseX(x, w, side, &baseX[1], &baseX[0]);
         break;
     }
     func_0206E0C4(baseX[1], yA, outBaseA, 0);
@@ -861,7 +861,7 @@ int func_02194F84(TalkMsgWin *win, int targetX, int targetY, VecFx32 *outBaseA, 
 }
 
 /* World positions of the four window corners (top left, top right, bottom left, bottom right). */
-void func_02195128(TalkMsgWin *win, VecFx32 *outTopLeft, VecFx32 *outTopRight, VecFx32 *outBottomLeft, VecFx32 *outBottomRight)
+void TALKMSGWIN_GetWindowCornerPoints(TalkMsgWin *win, VecFx32 *outTopLeft, VecFx32 *outTopRight, VecFx32 *outBottomLeft, VecFx32 *outBottomRight)
 {
     int x;
     int y;
@@ -897,7 +897,7 @@ static inline void setVec16(VecFx16 *out, s16 x, s16 y, s16 z)
  * the offset from the tip divided by the largest distance (so it fits 16 bits),
  * and the largest distance becomes the draw scale.
  */
-void func_0219518C(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *tip, VecFx32 *tailBaseA, VecFx32 *tailBaseB,
+void TALKMSGWIN_BuildShape(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *tip, VecFx32 *tailBaseA, VecFx32 *tailBaseB,
                    VecFx32 *topLeft, VecFx32 *topRight, VecFx32 *bottomLeft, VecFx32 *bottomRight)
 {
     VecFx32 offsetA;
@@ -958,7 +958,7 @@ void func_0219518C(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *tip, VecF
 }
 
 /* Recomputes the balloon polygon of a window. Returns 1 when the tail side changed. */
-u32 func_02195338(TalkMsgWinSys *sys, TalkMsgWin *win)
+u32 TALKMSGWIN_UpdateShape(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
     VecFx32 tipPos;
     VecFx32 tailBaseA;
@@ -974,13 +974,13 @@ u32 func_02195338(TalkMsgWinSys *sys, TalkMsgWin *win)
 
     if (win->targetPos != 0) {
         func_0207CA00(win->targetPos, &sys->savedTarget, &relPos);
-        func_02194E74(&relPos, &screenX, &screenY, &tipPos);
+        TALKMSGWIN_ProjectToWorld(&relPos, &screenX, &screenY, &tipPos);
     } else {
-        func_02194E90(win, &sys->windows[win->anchorIndex], &screenX, &screenY, &tipPos);
+        TALKMSGWIN_GetAnchorWindowPoint(win, &sys->windows[win->anchorIndex], &screenX, &screenY, &tipPos);
     }
-    tailSide = func_02194F84(win, screenX, screenY, &tailBaseA, &tailBaseB);
-    func_02195128(win, &topLeft, &topRight, &bottomLeft, &bottomRight);
-    func_0219518C(sys, win, &tipPos, &tailBaseA, &tailBaseB, &topLeft, &topRight, &bottomLeft, &bottomRight);
+    tailSide = TALKMSGWIN_CalcTail(win, screenX, screenY, &tailBaseA, &tailBaseB);
+    TALKMSGWIN_GetWindowCornerPoints(win, &topLeft, &topRight, &bottomLeft, &bottomRight);
+    TALKMSGWIN_BuildShape(sys, win, &tipPos, &tailBaseA, &tailBaseB, &topLeft, &topRight, &bottomLeft, &bottomRight);
     if (win->shape.tailSide != tailSide) {
         win->shape.tailSide = tailSide;
         return 1;
@@ -993,7 +993,7 @@ u32 func_02195338(TalkMsgWinSys *sys, TalkMsgWin *win)
  * to the saved target, looking at the origin. useCameraObject 0 writes it to
  * the field camera object, otherwise it is applied directly.
  */
-void func_021953D4(TalkMsgWinSys *sys, int useCameraObject)
+void TALKMSGWIN_SetupCamera(TalkMsgWinSys *sys, int useCameraObject)
 {
     VecFx32 eyeOffset;
     VecFx32 eye;
@@ -1026,7 +1026,7 @@ void func_021953D4(TalkMsgWinSys *sys, int useCameraObject)
 }
 
 /* Saves the field camera state. */
-void func_0219545C(TalkMsgWinSys *sys)
+void TALKMSGWIN_SaveCamera(TalkMsgWinSys *sys)
 {
     func_02048AE8(sys->param.camera, &sys->savedEye);
     func_02048B0C(sys->param.camera, &sys->savedUp);
@@ -1034,8 +1034,8 @@ void func_0219545C(TalkMsgWinSys *sys)
     func_02048B54(sys->param.camera, &sys->savedScale);
 }
 
-/* Restores the field camera state saved by func_0219545C. */
-void func_02195490(TalkMsgWinSys *sys)
+/* Restores the field camera state saved by TALKMSGWIN_SaveCamera. */
+void TALKMSGWIN_RestoreCamera(TalkMsgWinSys *sys)
 {
     func_02048AFC(sys->param.camera, &sys->savedEye);
     func_02048B20(sys->param.camera, &sys->savedUp);
@@ -1045,7 +1045,7 @@ void func_02195490(TalkMsgWinSys *sys)
 }
 
 /* Loads the frame palette and tiles (archive 5, files 0 and 5). Returns the tile data size. */
-u32 func_021954CC(TalkMsgWinSys *sys, TalkMsgWinParam *param)
+u32 TALKMSGWIN_LoadFrameGraphics(TalkMsgWinSys *sys, TalkMsgWinParam *param)
 {
     u32 screenSelect;
 
@@ -1069,20 +1069,20 @@ u32 func_021954CC(TalkMsgWinSys *sys, TalkMsgWinParam *param)
 }
 
 /* Uploads the balloon texture and palette into the VRAM blocks of the system's keys. */
-void func_02195530(TalkMsgWinSys *sys)
+void TALKMSGWIN_UploadTexture(TalkMsgWinSys *sys)
 {
     func_0207F7A0();
-    DC_FlushRange(d_021DDA84, 0x20);
-    func_0207F7FC(d_021DDA84, (u16)sys->texKey << 3, 0x20);
+    DC_FlushRange(sTalkMsgWinTexture, 0x20);
+    func_0207F7FC(sTalkMsgWinTexture, (u16)sys->texKey << 3, 0x20);
     func_0207F9B4();
     func_0207FA0C();
-    DC_FlushRange(d_021DDAA4, 0x20);
-    func_0207FA40(d_021DDAA4, (u16)sys->plttKey << 3, 0x20);
+    DC_FlushRange(sTalkMsgWinPalette, 0x20);
+    func_0207FA40(sTalkMsgWinPalette, (u16)sys->plttKey << 3, 0x20);
     func_0207FADC();
 }
 
-/* Reloads the frame palette and tiles; same as func_021954CC without the result. */
-void func_02195588(TalkMsgWinSys *sys)
+/* Reloads the frame palette and tiles; same as TALKMSGWIN_LoadFrameGraphics without the result. */
+void TALKMSGWIN_ReloadFrameGraphics(TalkMsgWinSys *sys)
 {
     u32 screenSelect;
     u32 bgLayer;
@@ -1110,11 +1110,11 @@ void func_02195588(TalkMsgWinSys *sys)
 /*
  * Draws a simple frame (corners and edges, one tile each) around a window on
  * its BG layer, plus an optional notch tile pair on the side chosen by
- * tailSide. Sibling of func_02195938, which draws the double-corner frame.
+ * tailSide. Sibling of TALKMSGWIN_DrawCorneredFrame, which draws the double-corner frame.
  * Edges that touch the screen border (x == 0, x + w == 32, y == 0, y + h == 24)
  * are skipped.
  */
-void func_021955EC(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tailSide)
+void TALKMSGWIN_DrawSimpleFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tailSide)
 {
     u16 x;
     u16 y;
@@ -1155,7 +1155,7 @@ void func_021955EC(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tail
     if (bottom == 0x18)
         bottomClip = 1;
 
-    func_02045374(bmpWin);
+    BMP_WIN_MakeScreen(bmpWin);
 
     if (!topClip) {
         if (!leftClip)
@@ -1227,7 +1227,7 @@ void func_021955EC(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tail
  * nibble is masked and shifted into an int; both are what the truncations and
  * the lsl #28 / lsr #16 fold in the image require.
  */
-void func_02195938(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tailSide)
+void TALKMSGWIN_DrawCorneredFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tailSide)
 {
     u16 x;
     u16 y;
@@ -1267,7 +1267,7 @@ void func_02195938(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tail
     if (bottom == 0x18)
         bottomClip = 1;
 
-    func_02045374(bmpWin);
+    BMP_WIN_MakeScreen(bmpWin);
 
     if (!topClip) {
         if (!leftClip) {
@@ -1351,36 +1351,36 @@ void func_02195938(const TalkMsgWinParam *style, struct BmpWin *bmpWin, int tail
 }
 
 /* Draws the frame of the given type around a window. */
-void func_02195E54(const TalkMsgWinParam *style, struct BmpWin *bmpWin, u8 frameType, u32 tailSide)
+void TALKMSGWIN_DrawFrameByType(const TalkMsgWinParam *style, struct BmpWin *bmpWin, u8 frameType, u32 tailSide)
 {
     switch (frameType) {
     case TALKMSGWIN_FRAME_SIMPLE:
-        func_021955EC(style, bmpWin, tailSide);
+        TALKMSGWIN_DrawSimpleFrame(style, bmpWin, tailSide);
         break;
     case TALKMSGWIN_FRAME_CORNERED:
-        func_02195938(style, bmpWin, tailSide);
+        TALKMSGWIN_DrawCorneredFrame(style, bmpWin, tailSide);
         break;
     }
 }
 
 /* Draws the frame of a window without a tail notch. */
-void func_02195E70(TalkMsgWinSys *sys, TalkMsgWin *win)
+void TALKMSGWIN_DrawEntryFrame(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
-    func_02195E54(&sys->param, win->bmpWin, win->frameType, 0);
+    TALKMSGWIN_DrawFrameByType(&sys->param, win->bmpWin, win->frameType, 0);
 }
 
 /* Draws the frame of a window with the notch of its current tail side. */
-void func_02195E80(TalkMsgWinSys *sys, TalkMsgWin *win)
+void TALKMSGWIN_RedrawEntryFrame(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
-    func_02195E54(&sys->param, win->bmpWin, win->frameType, win->shape.tailSide);
+    TALKMSGWIN_DrawFrameByType(&sys->param, win->bmpWin, win->frameType, win->shape.tailSide);
 }
 
 /*
  * Clears the one-tile frame around a window (tile 0 on all eight edges),
  * skipping any edge that touches the 32x24 screen border. The erase
- * counterpart of func_02195938.
+ * counterpart of TALKMSGWIN_DrawCorneredFrame.
  */
-void func_02195E90(const TalkMsgWinParam *style, struct BmpWin *bmpWin)
+void TALKMSGWIN_ClearFrame(const TalkMsgWinParam *style, struct BmpWin *bmpWin)
 {
     u16 x;
     u16 y;
@@ -1405,7 +1405,7 @@ void func_02195E90(const TalkMsgWinParam *style, struct BmpWin *bmpWin)
     rightClip = 0;
     bgLayer = style->bgLayer;
 
-    func_020456F8(bmpWin);
+    BMP_WIN_ClearScreen(bmpWin);
 
     if (x == 0)
         leftClip = 1;

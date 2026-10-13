@@ -1,5 +1,5 @@
 /*
- * function: func_021B8EA0
+ * function: FRAME_LIST_StartFlick
  * address:  0x021B8EA0
  * packet:   pkt_ov067_021B8EA0
  * region:   ov067
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * pass 2 2026-10-06 P2L28: EXACT (was DIFF 14/256 in X8 and G4L7). The fix is the callee
- *   declaration that the matched ov067 callers 021B8B74 and 021B806C use: func_021B8434 takes
+ *   declaration that the matched ov067 callers 021B8B74 and 021B806C use: FRAME_LIST_StartScroll takes
  *   `s8 a`, and v is an s8 local. With `int a` the 1 for the stack argument was placed after
  *   the u8 narrowing of d; with s8 it is stored first, as in the image. EXACT in c99 and c.
  *
  * symbols:
- *   func_021B841C  0x021B841C  thumb  ov067
- *   func_021B8434  0x021B8434  thumb  ov067
- *   d_021B94F8     0x021B94F8  data   ov067  a1
- *   d_021B94FE     0x021B94FE  data   ov067  a1
+ *   FRAME_LIST_GetScrollRoom  0x021B841C  thumb  ov067
+ *   FRAME_LIST_StartScroll  0x021B8434  thumb  ov067
+ *   gFrameListFlickSteps     0x021B94F8  data   ov067  a1
+ *   gFrameListFlickThresholds     0x021B94FE  data   ov067  a1
  */
 
 typedef unsigned char u8;
@@ -41,13 +41,13 @@ struct S {
     u32 f90;
 };
 
-extern const u8 d_021B94F8[6];
-extern const u8 d_021B94FE[][6];
+extern const u8 gFrameListFlickSteps[6];
+extern const u8 gFrameListFlickThresholds[][6];
 
-extern int func_021B841C(u8 *p, int n);
-extern void func_021B8434(struct S *s, s8 a, u8 b, u16 c, u32 d);
+extern int FRAME_LIST_GetScrollRoom(u8 *p, int n);
+extern void FRAME_LIST_StartScroll(struct S *s, s8 a, u8 b, u16 c, u32 d);
 
-int func_021B8EA0(struct S *s)
+int FRAME_LIST_StartFlick(struct S *s)
 {
     u32 d;
     s8 v;
@@ -61,9 +61,9 @@ int func_021B8EA0(struct S *s)
     if (d == 0)
         return 0;
     for (s->f89 = 0; s->f89 < 6; s->f89++) {
-        if (d >= d_021B94FE[s->f86][s->f89]) {
+        if (d >= gFrameListFlickThresholds[s->f86][s->f89]) {
             v = s->fb[s->f89];
-            d = d_021B94F8[s->f89];
+            d = gFrameListFlickSteps[s->f89];
             break;
         }
     }
@@ -71,11 +71,11 @@ int func_021B8EA0(struct S *s)
         return 0;
     if (s->f8c > s->f90)
         v *= -1;
-    lim = func_021B841C((u8 *)s, v);
+    lim = FRAME_LIST_GetScrollRoom((u8 *)s, v);
     if (lim != 0) {
         if (lim < d)
             d = lim;
-        func_021B8434(s, v, d, 3, 1);
+        FRAME_LIST_StartScroll(s, v, d, 3, 1);
         s->f70 = 1;
         return 1;
     }

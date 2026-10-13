@@ -1,5 +1,5 @@
 /*
- * function: func_021A3C3C
+ * function: FIELD_PLAYER_CORE_GetHorzDirFromKeys
  * address:  0x021A3C3C
  * packet:   pkt_ov021_021A3C3C
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr save): maps a key mask to a direction, 9 for none.
- * Filed as a blocker of ov021 func_021A3BB4.
+ * Filed as a blocker of ov021 FIELD_PLAYER_CORE_SelectMoveDir.
  */
 
 typedef unsigned int u32;
 
-int func_021A3C3C(u32 keys)
+int FIELD_PLAYER_CORE_GetHorzDirFromKeys(u32 keys)
 {
     if (keys & 0x20) {
         return 2;

@@ -1,5 +1,5 @@
 /*
- * function: func_021CA05C
+ * function: BSUBWAY_SCR_CreateRoundTrainers
  * address:  0x021CA05C
  * packet:   pkt_ov021_021CA05C
  * region:   ov021
@@ -14,7 +14,7 @@
  * symbols:
  *   func_0200DA54  0x0200DA54  thumb
  *   func_0200DEA8  0x0200DEA8  thumb
- *   func_021CBED8  0x021CBED8  thumb
+ *   BSUBWAY_SCR_CreateTrainer  0x021CBED8  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01671.h"
@@ -33,9 +33,9 @@ typedef struct {
 struct Blk3C;
 extern u16 func_0200DA54(struct Blk3C *p);
 extern void func_0200DEA8(u32 h, u8 *list, u8 n, u16 id);
-extern u8 func_021CBED8(u32 unused, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern u8 BSUBWAY_SCR_CreateTrainer(u32 unused, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-void func_021CA05C(u8 *p)
+void BSUBWAY_SCR_CreateRoundTrainers(u8 *p)
 {
     u32 n = func_0200DA54((struct Blk3C *)(((struct Obj01671 *)p)->f70));
     int i;
@@ -53,13 +53,13 @@ void func_021CA05C(u8 *p)
     case 8:
         i = 0;
         j = n * 2;
-        func_021CBED8((u32)p, (u32)(p + 0x88), ((u16 *)(p + 0x32))[j], p[8], 0, 0, 0, ((struct Obj01671 *)p)->f4);
+        BSUBWAY_SCR_CreateTrainer((u32)p, (u32)(p + 0x88), ((u16 *)(p + 0x32))[j], p[8], 0, 0, 0, ((struct Obj01671 *)p)->f4);
         for (; i < p[8]; i++) {
             tags[i] = ((Slot *)(p + 0xb8))[i].tag;
             vals[i] = ((Slot *)(p + 0xb8))[i].val;
         }
-        func_021CBED8((u32)p, (u32)(p + 0x1a8), ((u16 *)(p + 0x32))[j + 1], p[8], (u32)tags, (u32)vals, 0, ((struct Obj01671 *)p)->f4);
+        BSUBWAY_SCR_CreateTrainer((u32)p, (u32)(p + 0x1a8), ((u16 *)(p + 0x32))[j + 1], p[8], (u32)tags, (u32)vals, 0, ((struct Obj01671 *)p)->f4);
         return;
     }
-    func_021CBED8((u32)p, (u32)(p + 0x88), ((u16 *)(p + 0x32))[n], p[8], 0, 0, 0, ((struct Obj01671 *)p)->f4);
+    BSUBWAY_SCR_CreateTrainer((u32)p, (u32)(p + 0x88), ((u16 *)(p + 0x32))[n], p[8], 0, 0, 0, ((struct Obj01671 *)p)->f4);
 }

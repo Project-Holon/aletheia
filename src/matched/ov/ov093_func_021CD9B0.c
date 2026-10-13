@@ -1,5 +1,5 @@
 /*
- * function: func_021CD9B0
+ * function: BTL_CLIENT_StartMainStep
  * address: 0x021CD9B0
  * packet: pkt_ov093_021CD9B0
  * region: ov093
@@ -12,8 +12,8 @@
  * passes a callback address. Pointer replaces legacy u32 for that payload.
  * symbols:
  *   func_021D3F88 0x021D3F88 thumb ov093
- *   func_021CDA0C 0x021CDA0C thumb ov093
- *   func_021CDA18 0x021CDA18 thumb ov093
+ *   BTL_CLIENT_SetStepFn 0x021CDA0C thumb ov093
+ *   BTL_CLIENT_StepMain 0x021CDA18 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,6 +21,6 @@ typedef unsigned int u32;
 struct S;
 extern void func_021D3F88(struct S *p);
 struct QE;
-extern void func_021CDA0C(struct QE *p, u32 v);
-extern int func_021CDA18(u8 *);
-void func_021CD9B0(u8 *p) { func_021D3F88((struct S *)(p+0x18)); func_021CDA0C((struct QE *)p,(u32)func_021CDA18); }
+extern void BTL_CLIENT_SetStepFn(struct QE *p, u32 v);
+extern int BTL_CLIENT_StepMain(u8 *);
+void BTL_CLIENT_StartMainStep(u8 *p) { func_021D3F88((struct S *)(p+0x18)); BTL_CLIENT_SetStepFn((struct QE *)p,(u32)BTL_CLIENT_StepMain); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB56C
+ * function: BTL_SERVER_NoOp
  * address: 0x021BB56C
  * packet: pkt_ov093_021BB56C
  * region: ov093
@@ -9,6 +9,6 @@
  * status: EXACT*
  * Sole overlay blocker of pkt_ov093_021BACAC; empty return with padding.
  */
-void func_021BB56C(void *p)
+void BTL_SERVER_NoOp(void *p)
 {
 }

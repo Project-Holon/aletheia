@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   GF_FONT_Delete  0x0201D83C  thumb  arm9
+ *   MSGDATA_Delete  0x02045C04  arm  arm9
  *
 
  *
@@ -26,16 +28,16 @@ struct PrintSys;
 struct Rec;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern u32 func_020307B0(void *p);
 
 void func_022029D4(u8 *p)
 {
     func_0201ED04((struct WordSet *)(((struct Obj07259 *)p)->f8));
-    func_02045C04((struct Rec *)(((struct Obj07259 *)p)->fC));
+    MSGDATA_Delete((struct Rec *)(((struct Obj07259 *)p)->fC));
     func_0201C4C0((struct PrintSys *)(((struct Obj07259 *)p)->f4));
-    func_0201D83C((void *)(((struct Obj07259 *)p)->f0));
+    GF_FONT_Delete((void *)(((struct Obj07259 *)p)->f0));
     func_020307B0((void *)((u32)p));
 }

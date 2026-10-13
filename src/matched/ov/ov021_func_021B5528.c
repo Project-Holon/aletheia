@@ -1,5 +1,5 @@
 /*
- * function: func_021B5528
+ * function: SCRCMD_PROC_FLD_CallCustomEvent
  * address:  0x021B5528
  * packet:   pkt_ov021_021B5528
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_021D2D50  0x021D2D50  thumb  ov021
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   FIELD_CAMERA_CreateShakeTask  0x021D2D50  thumb  ov021
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -35,29 +35,29 @@ typedef struct {
     u32 w14;
 } Rec;
 
-extern unsigned int func_02159B10(void *, void *);
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Blk021D2D50;
-extern void *func_021D2D50(void *a, struct Blk021D2D50 *src);
-extern void func_0215897C(void *vm, void *task);
+extern void *FIELD_CAMERA_CreateShakeTask(void *a, struct Blk021D2D50 *src);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B5528(int a0, int a1)
+int SCRCMD_PROC_FLD_CallCustomEvent(int a0, int a1)
 {
-    int v0 = func_02159B10((void *)a0, (void *)a1);
-    int v1 = func_02159B10((void *)a0, (void *)a1);
-    int v2 = func_02159B10((void *)a0, (void *)a1);
-    int v3 = func_02159B10((void *)a0, (void *)a1);
-    int v4 = func_02159B10((void *)a0, (void *)a1);
-    int v5 = func_02159B10((void *)a0, (void *)a1);
-    int v6 = func_02159B10((void *)a0, (void *)a1);
-    int v7 = func_02159B10((void *)a0, (void *)a1);
+    int v0 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    int v1 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    int v2 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    int v3 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    int v4 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    int v5 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    int v6 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    int v7 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
     void *r;
     void *o;
     Rec s;
 
-    r = func_0215A5F4((void *)a1);
-    o = func_0215A5DC((void *)a1);
+    r = SCRCMD_WORK_GetScriptWork((void *)a1);
+    o = SCRCMD_WORK_GetGameSystem((void *)a1);
     s.h0 = v0;
     s.h2 = v1;
     s.w10 = v2;
@@ -69,6 +69,6 @@ int func_021B5528(int a0, int a1)
     s.h8 = v6;
     s.ha = 0;
     s.hc = v7;
-    func_0215897C(r, func_021D2D50((void *)o, (struct Blk021D2D50 *)(&s)));
+    SCRIPT_SYS_CallEvent(r, FIELD_CAMERA_CreateShakeTask((void *)o, (struct Blk021D2D50 *)(&s)));
     return 1;
 }

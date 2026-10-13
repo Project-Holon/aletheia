@@ -1,5 +1,5 @@
 /*
- * function: func_021AEDAC
+ * function: SCRCMD_IncrementTrainerRecord
  * address:  0x021AEDAC
  * packet:   pkt_ov021_021AEDAC
  * region:   ov021
@@ -11,10 +11,11 @@
  *
  * symbols:
  *   func_02014024  0x02014024  thumb
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -25,20 +26,20 @@ typedef signed char    s8;
 
 typedef struct R { u32 f0; u32 f4; } R;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Sub02008C20Obj;
-extern int func_02158F58(int a0);
-extern void *func_02012F2C(int *p);
-extern u16 func_02188C9C(u8 *p);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern int func_02014024(u32 a);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
-void func_021AEDAC(u32 a)
+void SCRCMD_IncrementTrainerRecord(u32 a)
 {
-    R *p = (R *)func_02158F58((int)func_0215A5F4((void *)a));
-    u32 q = (u32)func_02012F2C(func_0215A5E4((void *)a));
+    R *p = (R *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)a));
+    u32 q = (u32)GAME_DATA_GetTrainerRecord(SCRCMD_WORK_GetGameData((void *)a));
 
-    if (func_02014024(func_02188C9C((u8 *)p->f4)) != 0)
+    if (func_02014024(FIELDMAP_GetZoneId((u8 *)p->f4)) != 0)
         func_02008DF0((struct Sub02008C20Obj *)q, 0x20);
 }

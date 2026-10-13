@@ -17,7 +17,7 @@
  *   func_021BB42C 0x021BB42C thumb ov099
  *   func_021BB4D0 0x021BB4D0 thumb ov099
  *   func_021BB4EC 0x021BB4EC thumb ov099
- *   func_02051C88 0x02051C88 arm
+ *   BUTTON_MAN_UpdateSlots 0x02051C88 arm
  *   func_021C1CD4 0x021C1CD4 thumb ov099
  *   func_021C2090 0x021C2090 thumb ov099
  *   func_021C1C10 0x021C1C10 thumb ov099
@@ -35,7 +35,7 @@ extern void func_021BB4D0(char *);
 extern void func_021BB4EC(void *);
 typedef signed int     s32;
 struct Ctx;
-extern s32 func_02051C88(struct Ctx *c);
+extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 extern void func_021C1CD4(void *);
 extern void func_021C2090(char *);
 extern int func_021C1C10(void *);
@@ -60,7 +60,7 @@ u8 func_021C1B04(char *p, int heap)
         func_021BB42C(p);
         func_021BB4D0(p);
         func_021BB4EC(p);
-        func_02051C88(((struct Obj00008 *)p)->f8C8);
+        BUTTON_MAN_UpdateSlots(((struct Obj00008 *)p)->f8C8);
         func_021C1CD4(p);
         if (((struct Obj00008 *)p)->f8F1 == 1) {
             func_021C2090(p);

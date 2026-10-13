@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021594B0",
+   "name": "SCRIPT_WORK_CmdPushEventFlag",
    "address": "0x021594B0",
    "kind": "game",
    "region": "ov010",

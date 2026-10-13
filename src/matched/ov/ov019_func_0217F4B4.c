@@ -1,5 +1,5 @@
 /*
- * function: func_0217F4B4
+ * function: UNION_MSG_SelectSubMenu
  * address:  0x0217F4B4
  * packet:   pkt_ov019_0217F4B4
  * region:   ov019
@@ -13,7 +13,7 @@
  *   for the pair-pointer load (indexed) and the count byte (+4). Struct-index forms and the
  *   un-pragma'd forms propagate the address into each use (two pool words) or hoist the pool load.
  * symbols:
- *   func_0217F310  0x0217F310  thumb  ov019
+ *   UNION_MSG_SelectMenu  0x0217F310  thumb  ov019
  *   func_02034714  0x02034714  arm
  *   d_021805A4     0x021805A4  data  ov019  a4
  *   d_021803A0     0x021803A0  data  ov019  a1
@@ -37,7 +37,7 @@ typedef struct Ent {
     u8    pad5[3];
 } Ent;
 
-extern int  func_0217F310(char *p, u32 a1);
+extern int  UNION_MSG_SelectMenu(char *p, u32 a1);
 extern void func_02034714(const char *a, u32 b, const char *c);
 
 extern const Ent d_021805A4[];
@@ -47,7 +47,7 @@ extern const u32 d_021804B4[];
 extern u32 d_021807F8[];
 
 #pragma opt_propagation off
-int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
+int UNION_MSG_SelectSubMenu(char *p, int *hit, u8 *st, int *flag, u32 a4)
 {
     u32 key;
     u32 i;
@@ -55,7 +55,7 @@ int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
 
     *hit = 0;
     *flag = 0;
-    key = func_0217F310(p, a4);
+    key = UNION_MSG_SelectMenu(p, a4);
     switch (key) {
     case (u32)-1:
         return key;

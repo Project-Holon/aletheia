@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B2830",
+   "name": "SCRCMD_SCREENEFFECTS_StartBrightnessChange",
    "address": "0x021B2830",
    "kind": "game",
    "region": "ov021",

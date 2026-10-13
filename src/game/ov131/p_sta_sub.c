@@ -18,17 +18,17 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_02048AD0 0x02048AD0 arm
  *   func_020498F4 0x020498F4 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   _ffix 0x0209C494 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_02045770 0x02045770 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02017E88 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
  *   P_STA_SUB_FileName 0x021DC818 data a1
@@ -47,15 +47,15 @@
  *   d_021DC168 0x021DC168 data a4
  *   d_021DC158 0x021DC158 data a1
  *   d_021DC160 0x021DC160 data a1
- *   func_020450F0 0x020450F0 arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02049F34 0x02049F34 arm
  *   func_02049DB4 0x02049DB4 arm
- *   func_0204ADEC 0x0204ADEC arm
- *   func_0204A9D0 0x0204A9D0 arm
+ *   CLACT_TransferPalette 0x0204ADEC arm
+ *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   d_021DC204 0x021DC204 data a4
  *   d_021DC21C 0x021DC21C data a4
  *   d_021DC1B0 0x021DC1B0 data a4
@@ -68,8 +68,8 @@
  *   d_021DC1D4 0x021DC1D4 data a4
  *   MCSS_SetPosition 0x02015C48 thumb
  *   MCSS_SetAnmStopFlag 0x02015E04 thumb
- *   func_02035C60 0x02035C60 arm
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   d_021DC1E0 0x021DC1E0 data a1
  *   d_021DC1F8 0x021DC1F8 data ov131 a4
@@ -87,7 +87,7 @@
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201ED04 0x0201ED04 thumb
- *   func_0201C724 0x0201C724 thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
@@ -224,21 +224,21 @@ struct TouchHitTable { StaTouchRect rect[3]; };
 
 extern u32 func_020307B0(void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
-extern void func_0204B878(struct Actor *actor, u16 anim);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
 extern void func_02048AD0(void *camera);
 extern void func_020498F4(void *arc, u32 fileId, u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern u32 func_020275E4(void);
 extern int func_02027720(int ballId);
 extern int func_0202772C(int ballId);
-extern struct Actor *func_0204B294(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
+extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
 extern void func_0204B3DC(struct Actor *actor, u32 enable);
-extern void func_0204B3B4(struct Actor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 func_02017E88(void *mon, int paramId, void *out);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 index);
-extern void func_02045808(struct Strbuf *str);
-extern void func_0201C724(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
+extern void STRBUF_Delete(struct Strbuf *str);
+extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
 extern struct Bmp *func_02045770(struct BmpWin *win);
-extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MCSS_ResetVanishFlag(void *mcss);
@@ -250,15 +250,15 @@ extern int POKEPARTY_GetSlotFlag(void *party, u32 pos);
 extern struct PokePersonal *func_0201ADE4(u32 species, int form, u32 heapId);
 extern u32 func_0201AE1C(const struct PokePersonal *personal, u32 field);
 extern void func_0201AE14(struct PokePersonal *personal);
-extern struct BmpWin *func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045334(struct BmpWin *win);
-extern void func_02045374(struct BmpWin *win);
+extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 func_02045730(struct BmpWin *win);
 extern void func_02041B6C(u32 flag);
 extern void *func_02049F34(u32 arcId, u32 fileId, u32 out, u32 heapId);
 extern void *func_02049DB4(u32 arcId, u32 fileId, u32 a, u32 out, u16 heapId);
-extern void func_0204ADEC(u32 plttRes, void *pltt, u32 a);
-extern void func_0204A9D0(int chrRes, void *chr);
+extern void CLACT_TransferPalette(u32 plttRes, void *pltt, u32 a);
+extern void CLACT_TransferCharacter(int chrRes, void *chr);
 extern u32 POKERUS_IsBoxCured(struct BoxPokemon *mon);
 extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *mon);
 extern u32 POKE_TOOL_GetStatusCondition(struct PokemonParam *pp);
@@ -276,8 +276,8 @@ extern void MCSS_ResetAnmStopFlag(void *mcss);
 extern void MCSS_SetPosition(void *mcss, const VecFx32 *src);
 extern int _ffix(float);
 extern void MCSS_SetAnmStopFlag(void *mcss);
-extern int func_02035C60(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_HitCont(const struct TouchHitTable *table);
 extern void *MCSS_TOOL_AddPokeMcss(void *mcssSys, void *mon, u32 face, u32 a, u32 b, u32 c);
 extern void MCSS_SetShadowAlpha(void *mcss, int value);
@@ -441,7 +441,7 @@ void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *work) {
     pos[3].drawPriority = 10;
     pos[3].bgPriority = 1;
     pos[3].animSeq = 0;
-    work->ballObj = func_0204B294(wk->clunit, wk->objRes[14], wk->objRes[1], wk->objRes[27], &pos[3], 0, wk->heapId);
+    work->ballObj = CLACT_CreateActor(wk->clunit, wk->objRes[14], wk->objRes[1], wk->objRes[27], &pos[3], 0, wk->heapId);
     func_0204B3DC(work->ballObj, 0);
     pos[2].y = 128;
     pos[2].drawPriority = 10;
@@ -449,7 +449,7 @@ void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *work) {
     for (i = 0; i < 8; i++) {
         pos[2].x = d_021DC158[i];
         pos[2].animSeq = d_021DC160[i];
-        work->iconObj[i] = func_0204B294(wk->clunit, wk->objRes[15], wk->objRes[2], wk->objRes[28], &pos[2], 0, wk->heapId);
+        work->iconObj[i] = CLACT_CreateActor(wk->clunit, wk->objRes[15], wk->objRes[2], wk->objRes[28], &pos[2], 0, wk->heapId);
         func_0204B3DC(work->iconObj[i], 1);
     }
     pos[1].x = 236;
@@ -457,23 +457,23 @@ void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *work) {
     pos[1].drawPriority = 10;
     pos[1].bgPriority = 1;
     pos[1].animSeq = 0;
-    work->pokerusObj = func_0204B294(wk->clunit, wk->objRes[22], wk->objRes[9], wk->objRes[34], &pos[1], 0, wk->heapId);
+    work->pokerusObj = CLACT_CreateActor(wk->clunit, wk->objRes[22], wk->objRes[9], wk->objRes[34], &pos[1], 0, wk->heapId);
     func_0204B3DC(work->pokerusObj, 0);
     pos[0].x = 241;
     pos[0].y = 31;
     pos[0].drawPriority = 10;
     pos[0].bgPriority = 1;
     pos[0].animSeq = 0;
-    work->conditionObj = func_0204B294(wk->clunit, wk->objRes[23], wk->objRes[10], wk->objRes[35], &pos[0], 0, wk->heapId);
+    work->conditionObj = CLACT_CreateActor(wk->clunit, wk->objRes[23], wk->objRes[10], wk->objRes[35], &pos[0], 0, wk->heapId);
     func_0204B3DC(work->conditionObj, 0);
 }
 
 void P_STA_SUB_DeleteObjects(PStatusWork *wk, PStaSubWork *work) {
     u8 i;
-    func_0204B3B4(work->conditionObj);
-    func_0204B3B4(work->pokerusObj);
-    for (i = 0; i < 8; i++) func_0204B3B4(work->iconObj[i]);
-    func_0204B3B4(work->ballObj);
+    CLACT_DeleteActor(work->conditionObj);
+    CLACT_DeleteActor(work->pokerusObj);
+    for (i = 0; i < 8; i++) CLACT_DeleteActor(work->iconObj[i]);
+    CLACT_DeleteActor(work->ballObj);
 }
 
 void P_STA_SUB_InitWindows(PStatusWork *wk, PStaSubWork *work) {
@@ -492,8 +492,8 @@ void P_STA_SUB_InitWindows(PStatusWork *wk, PStaSubWork *work) {
         work->isStaticSprite = 0;
         work->personalAttr38 = 0;
     }
-    work->nameWin = func_020450F0(1, 19, 0, 13, 4, 14, 1);
-    work->itemWin = func_020450F0(1, 19, 17, 13, 4, 14, 1);
+    work->nameWin = BMP_WIN_Create(1, 19, 0, 13, 4, 14, 1);
+    work->itemWin = BMP_WIN_Create(1, 19, 17, 13, 4, 14, 1);
     P_STA_SUB_PrintWindows(wk, work, mon);
 }
 
@@ -523,27 +523,27 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     pp = (void *)P_STATUS_GetPokeParaSource(wk);
     P_STA_SUB_CreateMcss(wk, work, mon);
     win = work->nameWin;
-    func_02045334(win);
-    func_02045374(win);
+    BMP_WIN_TransferChars(win);
+    BMP_WIN_MakeScreen(win);
     func_02041B6C(func_02045730(win));
     win = work->itemWin;
-    func_02045334(win);
-    func_02045374(win);
+    BMP_WIN_TransferChars(win);
+    BMP_WIN_MakeScreen(win);
     func_02041B6C(func_02045730(win));
     ballId = func_02017E88(mon, 0x98, 0);
     ballArc = func_020275E4();
     ballBuf = func_02049F34(ballArc, func_02027720(ballId), (u32)&ballPltt, wk->heapId);
-    func_0204ADEC(wk->objRes[1], ballPltt, 1);
+    CLACT_TransferPalette(wk->objRes[1], ballPltt, 1);
     func_020307B0(ballBuf);
     ballArc = func_020275E4();
     ballBuf = func_02049DB4(ballArc, func_0202772C(ballId), 0, (u32)&ballChr, wk->heapId);
-    func_0204A9D0((int)wk->objRes[14], ballChr);
+    CLACT_TransferCharacter((int)wk->objRes[14], ballChr);
     func_020307B0(ballBuf);
     func_0204B3DC(work->ballObj, 1);
     marks = func_02017E88(mon, 11, 0);
     for (i = 0, markBit = 1; i < STA_SUB_ICON_MARK_COUNT; markBit = (u8)(markBit << 1), i++) {
-        if (marks & markBit) func_0204B878(work->iconObj[i], i * 2 + 1);
-        else func_0204B878(work->iconObj[i], i * 2);
+        if (marks & markBit) CLACT_SetActorAnimSeq(work->iconObj[i], i * 2 + 1);
+        else CLACT_SetActorAnimSeq(work->iconObj[i], i * 2);
     }
     if (POKERUS_IsBoxCured(mon) == 1) func_0204B3DC(work->iconObj[STA_SUB_ICON_POKERUS_CURED], 1);
     else func_0204B3DC(work->iconObj[STA_SUB_ICON_POKERUS_CURED], 0);
@@ -574,7 +574,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         work->flipState = STA_SUB_FLIP_BACK;
     }
     if ((u8)POKE_TOOL_GetStatusCondition(pp) != 0) {
-        func_0204B878(work->conditionObj, func_020276C4(pp));
+        CLACT_SetActorAnimSeq(work->conditionObj, func_020276C4(pp));
         func_0204B3DC(work->conditionObj, 1);
         func_0204B3DC(work->pokerusObj, 0);
     } else {
@@ -615,46 +615,46 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     struct WordSet *wordSet;
     struct Strbuf *buf, *name, *text;
     wordSet = func_0201EC64(wk->heapId);
-    buf = func_020457B0(32, wk->heapId);
-    name = func_020457B0(32, wk->heapId);
+    buf = STRBUF_Create(32, wk->heapId);
+    name = STRBUF_Create(32, wk->heapId);
     func_02017E88(mon, 115, name);
     func_0201EE0C(wordSet, 0, name, 0, 1, 2);
     text = func_02045EC0(wk->msgData, 0);
     func_0201F250(wordSet, buf, text);
-    func_0201C724(wk->printQue, func_02045770(work->nameWin), 25, 1, buf, wk->font, 1088);
-    func_02045808(name); func_02045808(text); func_02045808(buf); func_0201ED04(wordSet);
+    PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->nameWin), 25, 1, buf, wk->font, 1088);
+    STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); func_0201ED04(wordSet);
     if (wk->isEgg == 0 && func_02017E88(mon, 173, 0) == 1) {
         u32 gender = func_02017E88(mon, 110, 0);
         if (gender == 0) {
             buf = func_02045EC0(wk->msgData, 1);
-            func_0201C724(wk->printQue, func_02045770(work->nameWin), 89, 1, buf, wk->font, 5312);
-            func_02045808(buf);
+            PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->nameWin), 89, 1, buf, wk->font, 5312);
+            STRBUF_Delete(buf);
         } else if (gender == 1) {
             buf = func_02045EC0(wk->msgData, 2);
-            func_0201C724(wk->printQue, func_02045770(work->nameWin), 89, 1, buf, wk->font, 3200);
-            func_02045808(buf);
+            PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->nameWin), 89, 1, buf, wk->font, 3200);
+            STRBUF_Delete(buf);
         }
     }
     if (wk->isEgg == 0) {
         struct Strbuf *levelText;
-        wordSet = func_0201EC64(wk->heapId); buf = func_020457B0(16, wk->heapId);
+        wordSet = func_0201EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
         func_0201EFA4(wordSet, 0, POKE_TOOL_CalcBoxLevel(mon), 3, 0, 1);
         levelText = func_02045EC0(wk->msgData, 3);
         func_0201F250(wordSet, buf, levelText);
-        func_0201C724(wk->printQue, func_02045770(work->nameWin), 9, 17, buf, wk->font, 1088);
-        func_02045808(levelText); func_02045808(buf); func_0201ED04(wordSet);
+        PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->nameWin), 9, 17, buf, wk->font, 1088);
+        STRBUF_Delete(levelText); STRBUF_Delete(buf); func_0201ED04(wordSet);
     }
     buf = func_02045EC0(wk->msgData, 4);
-    func_0201C724(wk->printQue, func_02045770(work->itemWin), 10, 1, buf, wk->font, 1088);
-    func_02045808(buf);
+    PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->itemWin), 10, 1, buf, wk->font, 1088);
+    STRBUF_Delete(buf);
     {
         struct Strbuf *itemText;
-        wordSet = func_0201EC64(wk->heapId); buf = func_020457B0(16, wk->heapId);
+        wordSet = func_0201EC64(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
         func_0201EF40(wordSet, 0, func_02017E88(mon, 6, 0));
         itemText = func_02045EC0(wk->msgData, 5);
         func_0201F250(wordSet, buf, itemText);
-        func_0201C724(wk->printQue, func_02045770(work->itemWin), 6, 17, buf, wk->font, 1088);
-        func_02045808(itemText); func_02045808(buf); func_0201ED04(wordSet);
+        PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->itemWin), 6, 17, buf, wk->font, 1088);
+        STRBUF_Delete(itemText); STRBUF_Delete(buf); func_0201ED04(wordSet);
     }
 }
 
@@ -854,8 +854,8 @@ void P_STA_SUB_UpdateTouch(PStatusWork *wk, PStaSubWork *work) {
     u8 i;
     TOUCHPANEL_GetPointCont(&x, &y);
     if (wk->isEgg != 0) return;
-    isTouch = func_02035C60();
-    isHeld = func_02035C38();
+    isTouch = TOUCHPANEL_GetTrg();
+    isHeld = TOUCHPANEL_GetCont();
     hitArea = TOUCHPANEL_HitCont(&hitTable);
     if (work->flipState == STA_SUB_FLIP_IDLE) {
         if (hitArea == 0 || (hitArea == 1 && isTouch == 0)) {

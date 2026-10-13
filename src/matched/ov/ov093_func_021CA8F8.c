@@ -12,7 +12,7 @@
  * no outside code witness resolves their call relocations. The 220-byte
  * function is followed by these five 16-byte linker veneers.
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
  *   func_021CB174 0x021CB174 thumb ov093
  *   func_021B9934 0x021B9934 thumb ov093
@@ -24,7 +24,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 func_021D5440(u8 *);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern int func_021B8D8C(void *, void *, u32);
 extern void *func_021CB174(u8 *p, unsigned int n, int k);
 extern u8 *func_021B9934(char *p, int i);
@@ -35,7 +35,7 @@ extern void func_021CAA04(void *, void *);
 extern void func_021CAA14(void *, void *);
 int func_021CA8F8(u8 *p, u8 *a, int unused, u8 *q, int id, void *out)
 {
-    int n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a));
+    int n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), BTL_POKEPARAM_GetPokeId(a));
     u8 *b;
     switch (*(u32 *)(q + 12)) {
     case 0: case 3: case 4: case 5: case 9:

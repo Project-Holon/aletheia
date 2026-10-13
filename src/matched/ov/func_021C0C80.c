@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C80
+ * function: EVENT_RECOVERY_IsMachineAnimeDone
  * address:  0x021C0C80
  * packet:   pkt_021C0C80
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0218C8D8  0x0218C8D8  thumb  ov021
+ *   FIELD_BUILDMODEL_TryOpenNodeCurrentSlot  0x0218C8D8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00959.h"
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0218C8D8(void *p);
+extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(void *p);
 
-int func_021C0C80(u32 a)
+int EVENT_RECOVERY_IsMachineAnimeDone(u32 a)
 {
 if (*(u32 *)&((struct Obj00959 *)((u8 *)(a)))->f34 != 0) {
-    return func_0218C8D8((void *)(*(u32 *)&((struct Obj00959 *)((u8 *)(a)))->f38));
+    return FIELD_BUILDMODEL_TryOpenNodeCurrentSlot((void *)(*(u32 *)&((struct Obj00959 *)((u8 *)(a)))->f38));
 }
 return 1;
 }

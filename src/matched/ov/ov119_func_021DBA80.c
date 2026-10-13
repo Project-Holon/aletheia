@@ -11,7 +11,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021D8C84 0x021D8C84 thumb ov119
  *   func_021DF7AC 0x021DF7AC thumb ov119
- *   func_02027858 0x02027858 thumb
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   func_021D94A0 0x021D94A0 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DBA38 0x021DBA38 thumb ov119
@@ -21,7 +21,7 @@ extern void func_02082BCC(void *,int,int);
 extern void func_021D8C84(void *);
 extern void func_021DF7AC(void *,int);
 struct TaskMenu;
-extern void func_02027858(struct TaskMenu *m);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void func_021D94A0(void *,int);
 extern void func_021D8E84(void *,int);
 extern void func_021DBA38(void *);
@@ -36,7 +36,7 @@ void func_021DBA80(char *p)
     func_021D8C84(p);
     func_021DF7AC(p,1);
     if(*(int *)&((struct Obj00001 *)p)->f64C) {
-        func_02027858((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C));
+        APP_TASKMENU_CloseMenu((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C));
         *(int *)&((struct Obj00001 *)p)->f64C=0;
     }
     func_021D94A0(p,0);

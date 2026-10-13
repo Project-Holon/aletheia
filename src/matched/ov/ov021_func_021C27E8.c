@@ -1,5 +1,5 @@
 /*
- * function: func_021C27E8
+ * function: FLD3D_CI_RestoreVisiblePlanes
  * address:  0x021C27E8
  * packet:   pkt_ov021_021C27E8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf: tail call on the word at +0x68.  (Not the ov099
- * function at the same address in src/matched/ov/func_021C27E8.c.)
+ * function at the same address in src/matched/ov/FLD3D_CI_RestoreVisiblePlanes.c.)
  *
  * symbols:
  *   func_02043534  0x02043534  arm
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02043534(u32 a);
 
-void func_021C27E8(u8 *p)
+void FLD3D_CI_RestoreVisiblePlanes(u8 *p)
 {
     func_02043534(((struct Obj20174 *)p)->f68);
 }

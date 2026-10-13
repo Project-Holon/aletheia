@@ -1,5 +1,5 @@
 /*
- * function: func_0216BEC0
+ * function: FIELD_G3D_MAP_CmdClearEventMonFlag
  * address:  0x0216BEC0
  * packet:   pkt_ov010_0216BEC0
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012934  0x02012934  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0202F488  0x0202F488  thumb
  *   func_0202F630  0x0202F630  thumb
@@ -22,15 +22,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
-extern unsigned int func_02159B10(void *a0, void *a1);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *func_0201AB28(void *p, u32 idx);
 extern int func_0202F488(int a0, int a1);
 extern void func_0202F630(u32 a, u32 b);
 
-int func_0216BEC0(int c, int vm)
+int FIELD_G3D_MAP_CmdClearEventMonFlag(int c, int vm)
 {
     void *r7;
     int k;
@@ -38,9 +38,9 @@ int func_0216BEC0(int c, int vm)
     int t;
     void *obj;
 
-    r7 = func_02012934(func_0215A5E4((void *)vm));
-    k = func_02159B10((void *)c, (void *)vm);
-    m = func_02159B10((void *)c, (void *)vm);
+    r7 = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData((void *)vm));
+    k = SCRIPT_WORK_ReadWorkValue((void *)c, (void *)vm);
+    m = SCRIPT_WORK_ReadWorkValue((void *)c, (void *)vm);
     switch (k) {
     case 0xFB:
         t = 0;

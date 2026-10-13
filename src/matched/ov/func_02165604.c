@@ -1,5 +1,5 @@
 /*
- * function: func_02165604
+ * function: GAME_BEACON_SEARCH_SetFacilityExit
  * address:  0x02165604
  * packet:   pkt_02165604
  * region:   ov010
@@ -16,7 +16,7 @@
  *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
  *   GAME_BEACON_RequestSend   0x02026FB8  thumb
  *   GAME_BEACON_Work      0x02146940  data
- *   func_02165628   0x02165628  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetInfoFacilityExit   0x02165628  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern u32 GAME_BEACON_CheckActionPriority(u32 a);
 extern void GAME_BEACON_RequestSend(void *);
 extern char *GAME_BEACON_Work;
-extern void func_02165628(void *);
+extern void GAME_BEACON_SEARCH_SetInfoFacilityExit(void *);
 
-void func_02165604(void)
+void GAME_BEACON_SEARCH_SetFacilityExit(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x28)) {
-        func_02165628(GAME_BEACON_Work + 4);
+        GAME_BEACON_SEARCH_SetInfoFacilityExit(GAME_BEACON_Work + 4);
         GAME_BEACON_RequestSend(GAME_BEACON_Work + 4);
     }
 }

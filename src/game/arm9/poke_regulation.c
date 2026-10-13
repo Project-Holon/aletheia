@@ -1,7 +1,7 @@
 /*
  * file:     poke_regulation.c
  * unit:     yes
- * function: func_02019A50, func_02019A7C, func_02019A9C, func_02019ABC, func_02019B04, func_02019B44, func_02019B58, func_02019B64, func_02019B94, func_02019BA4, func_02019C38, func_02019C54, func_02019C7C, func_02019C90, func_02019CA0, func_02019CE0, func_02019CF8, func_02019D00, func_02019D30, func_02019D58, POKE_REGULATION_IsInSpeciesTable, POKE_REGULATION_CheckPokemon, POKE_REGULATION_CheckSelection, func_02019ED4, POKE_REGULATION_CheckPokemonFlags, func_0201A090, POKE_REGULATION_AdjustLevel, func_0201A2A8, POKE_REGULATION_ResetPartyNicknames, func_0201A354, func_0201A364, POKE_REGULATION_BuildPartySizeLine, POKE_REGULATION_BuildLevelLine, POKE_REGULATION_GetBannedSpeciesLine, POKE_REGULATION_GetSpeciesClauseLine, POKE_REGULATION_GetItemClauseLine, POKE_REGULATION_GetBattleModeLine, func_0201A4D4, func_0201A570, POKE_REGULATION_FindValidOrder, POKE_REGULATION_CheckOrder, POKE_REGULATION_NextOrder, POKE_REGULATION_GetDataSize
+ * function: func_02019A50, func_02019A7C, func_02019A9C, func_02019ABC, func_02019B04, func_02019B44, func_02019B58, func_02019B64, func_02019B94, func_02019BA4, func_02019C38, func_02019C54, func_02019C7C, func_02019C90, func_02019CA0, func_02019CE0, func_02019CF8, func_02019D00, func_02019D30, func_02019D58, POKE_REGULATION_IsInSpeciesTable, POKE_REGULATION_CheckPokemon, POKE_REGULATION_CheckSelection, func_02019ED4, POKE_REGULATION_CheckPokemonFlags, POKE_REGULATION_CheckParty, POKE_REGULATION_AdjustLevel, POKE_REGULATION_AdjustPartyLevels, POKE_REGULATION_ResetPartyNicknames, POKE_REGULATION_Load, POKE_REGULATION_LoadInto, POKE_REGULATION_BuildPartySizeLine, POKE_REGULATION_BuildLevelLine, POKE_REGULATION_GetBannedSpeciesLine, POKE_REGULATION_GetSpeciesClauseLine, POKE_REGULATION_GetItemClauseLine, POKE_REGULATION_GetBattleModeLine, POKE_REGULATION_CreateText, POKE_REGULATION_DeleteText, POKE_REGULATION_FindValidOrder, POKE_REGULATION_CheckOrder, POKE_REGULATION_NextOrder, POKE_REGULATION_GetDataSize
  * address:  0x02019A50
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,17 +15,17 @@
  *
  * symbols:
  *   poke_regulation_File 0x020A72F0 data
- *   gMsgBank   0x020A7370  data
+ *   gSpeciesNameBank   0x020A7370  data
  *   gNameBuf   0x021462F0  data
  *   func_02019B04_Table  0x0209E324  data
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   gExpTableBuf       0x02146398  data
  *   gBlockOrder  0x0209E3A4  data
  *   gPersonalCache   0x02146270  data
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   func_02018584  0x02018584  thumb
- *   func_020185C4  0x020185C4  thumb
+ *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *   sub_0209E280_Map  0x0209E280  data
  *   d_0209E42C 0x0209E42C data a2
@@ -35,17 +35,17 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0201AA50   0x0201AA50  thumb
- *   func_02048F60  0x02048F60  arm
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_0201EFA4   0x0201EFA4  thumb
- *   func_020457B0   0x020457B0  arm
+ *   STRBUF_Create   0x020457B0  arm
  *   func_02045CAC   0x02045CAC  arm
  *   func_0201F250   0x0201F250  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   func_02030734 0x02030734  arm
- *   func_02045808 0x02045808  arm
+ *   STRBUF_Delete 0x02045808  arm
  *   func_02045B38 0x02045B38  arm
  *   POKE_REGULATION_LineFns  0x0209E444  data
- *   func_02045C04   0x02045C04  arm
+ *   MSGDATA_Delete   0x02045C04  arm
  *   func_020307B0   0x020307B0  arm
  *   POKE_REGULATION_InitialOrder      0x0209E424  data
  *   POKE_PERSONAL_LoadData 0x0201ADA4 thumb
@@ -129,11 +129,11 @@ extern u32 func_0201F448(const u16 *a, const u16 *b);
 extern struct Pokemon *func_020185F0();
 extern u32   func_02017E88(struct Pokemon *mon, u32 paramId, u32 value);
 extern void  POKE_TOOL_SetBoxValue(struct Pokemon *mon, u32 paramId, const void *value);
-extern void  func_02048F4C(void *dst, u32 archiveId, u32 memberId);
+extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 memberId);
 extern u32  func_02017E1C(struct Pokemon *mon, u32 paramId, u32 value);
-extern void func_02017E40(struct Pokemon *mon, u32 paramId, u32 value);
+extern void POKE_TOOL_SetPartyValue(struct Pokemon *mon, u32 paramId, u32 value);
 extern u32  func_02018584(u16 species, u16 form, u16 level);
-extern void func_020185C4(struct Pokemon *mon);
+extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
 extern u32 func_0201AE1C(const struct PersonalData *data, u32 field);
 extern u32 func_0200AE54(const struct Regulation *reg, u32 ruleId);
 extern u32 func_0200AFD4(const struct Regulation *reg, u32 ruleId, s32 value);
@@ -141,16 +141,16 @@ extern u32 func_0201AA18(struct Party *party);
 extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 extern struct Pokemon *func_0201AB28(struct Party *party, u32 index);
 extern u32 func_0201AA50(struct Party *party);
-extern void *func_02048F60(unsigned int archiveId, unsigned int memberId, unsigned int heapId);
+extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, unsigned int heapId);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 slot, u32 number, u32 digits, u32 padMode, u32 flags);
-extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *format);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02045808(struct Strbuf *str);
+extern void STRBUF_Delete(struct Strbuf *str);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct MsgBank *bank);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 func_020307B0(void *p);
 void func_02019A50(u16 *data, u32 size, u32 seed);
 u16 func_02019A7C(u32 *state);
@@ -178,27 +178,27 @@ int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *m
 int POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order);
 int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party *party);
 int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokemon *mon, u32 *flags);
-int func_0201A090(const struct Regulation *reg, struct Party *party, u32 *flags);
+int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party, u32 *flags);
 u32 POKE_REGULATION_AdjustLevel(const struct Regulation *reg, u32 level);
-void func_0201A2A8(const struct Regulation *reg, struct Party *party);
+void POKE_REGULATION_AdjustPartyLevels(const struct Regulation *reg, struct Party *party);
 void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Party *party, u32 unused);
-void *func_0201A354(int memberId, int heapId);
-void func_0201A364(int memberId, void *dst);
+void *POKE_REGULATION_Load(int memberId, int heapId);
+void POKE_REGULATION_LoadInto(int memberId, void *dst);
 struct Strbuf *POKE_REGULATION_BuildPartySizeLine(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
 struct Strbuf *POKE_REGULATION_BuildLevelLine(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
 struct Strbuf *POKE_REGULATION_GetBannedSpeciesLine(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
 struct Strbuf *POKE_REGULATION_GetSpeciesClauseLine(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
 struct Strbuf *POKE_REGULATION_GetItemClauseLine(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
 struct Strbuf *POKE_REGULATION_GetBattleModeLine(const struct Regulation *reg, struct WordSet *wordSet, struct RegulationText *text, struct Strbuf *scratch, u16 heapId);
-struct RegulationText *func_0201A4D4(const struct Regulation *reg, struct WordSet *wordSet, u16 heapId, u32 battleMode);
-void func_0201A570(struct RegulationText *text);
+struct RegulationText *POKE_REGULATION_CreateText(const struct Regulation *reg, struct WordSet *wordSet, u16 heapId, u32 battleMode);
+void POKE_REGULATION_DeleteText(struct RegulationText *text);
 int POKE_REGULATION_FindValidOrder(const struct Regulation *reg, struct Party *party, char *picked);
 int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party, u8 *order, char *picked, u32 *flags);
 int POKE_REGULATION_NextOrder(u8 *order);
 int POKE_REGULATION_GetDataSize(void);
 void POKE_PERSONAL_LoadData(u32 species, int form, void *dst);
 extern const char poke_regulation_File[];
-extern struct MsgBank *gMsgBank;
+extern struct MsgBank *gSpeciesNameBank;
 extern u16   gNameBuf[];
 extern const s8 func_02019B04_Table[][5];
 extern u32   gExpTableBuf[];
@@ -321,7 +321,7 @@ u32 func_02019ABC(struct BoxPokemon *box)
     struct BoxPokemonBlockA *blockA = (struct BoxPokemonBlockA *)func_02019C38(box, box->personality, 0);
     void *blockC = func_02019C38(box, box->personality, 2);
 
-    MSGDATA_ReadUnits(gMsgBank, blockA->species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gSpeciesNameBank, blockA->species, gNameBuf, 0x20);
     if (func_0201F448(gNameBuf, blockC) == 0) {
         isDefault = 1;
     }
@@ -462,7 +462,7 @@ void func_02019B64(struct Pokemon *mon)
 {
     u32 species = func_02017E88(mon, 5, 0);
 
-    MSGDATA_ReadUnits(gMsgBank, species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(mon, 0x74, gNameBuf);
 }
 
@@ -476,7 +476,7 @@ void func_02019B64(struct Pokemon *mon)
 
 void func_02019B94(u32 species, void *dst)
 {
-    func_02048F4C(dst, 0x11, species);
+    ARC_TOOL_ReadMember(dst, 0x11, species);
 }
 
 
@@ -681,8 +681,8 @@ void func_02019CA0(struct Pokemon *mon, u32 level)
     u32 species = func_02017E1C(mon, 5, 0);
     u32 form = func_02017E1C(mon, 0x6F, 0);
 
-    func_02017E40(mon, 8, func_02018584((u16)species, (u16)form, (u16)level));
-    func_020185C4(mon);
+    POKE_TOOL_SetPartyValue(mon, 8, func_02018584((u16)species, (u16)form, (u16)level));
+    POKE_TOOL_RecalcParam(mon);
 }
 
 
@@ -1119,7 +1119,7 @@ int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokem
  * error codes 4/2/3/7, a failing member check gives 5, and when nothing
  * failed POKE_REGULATION_FindValidOrder decides between 0 and 1.
  *
- * WHAT CLOSED IT (docs/notes/func_0201A090.c.txt: 478 against 476, err
+ * WHAT CLOSED IT (docs/notes/POKE_REGULATION_CheckParty.c.txt: 478 against 476, err
  * spilled to sp+8 with a six-register push): the arrays are indexed plainly,
  * `species[i]` -- the note's invented `j = i * 2; species[j >> 1]` was the
  * source of the `lsls/bics` fixups; the compiler itself CSEs `i * 2` into
@@ -1131,7 +1131,7 @@ int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokem
  * EXACT* only because of the two-byte alignment pad at 0x0201A26A; the
  * follower 0x0201A26C is its own labelled EXACT entry.
  */
-int func_0201A090(const struct Regulation *reg, struct Party *party, u32 *flags)
+int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party, u32 *flags)
 {
     u16 species[6];
     u16 item[6];
@@ -1267,10 +1267,10 @@ u32 POKE_REGULATION_AdjustLevel(const struct Regulation *reg, u32 level)
  * local, so it is re-read from the frame at the one place it is used.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A2A8.c \
- *       --func func_0201A2A8 --addr 0x0201A2A8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_AdjustPartyLevels.c \
+ *       --func POKE_REGULATION_AdjustPartyLevels --addr 0x0201A2A8 --cc 1.1p1 --thumb
  */
-void func_0201A2A8(const struct Regulation *reg, struct Party *party)
+void POKE_REGULATION_AdjustPartyLevels(const struct Regulation *reg, struct Party *party)
 {
     u32 levelValue = func_0200AE54(reg, 4);
     int i;
@@ -1336,11 +1336,11 @@ void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Pa
 
 
 /*
- * Witness leaf for ov021 func_021B574C and func_021B57CC.
+ * Witness leaf for ov021 SCRCMD_FLD_BATTLE_CheckPartyRegulation and SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames.
  */
-void *func_0201A354(int memberId, int heapId)
+void *POKE_REGULATION_Load(int memberId, int heapId)
 {
-    return func_02048F60(0x69, memberId, heapId);
+    return ARC_TOOL_LoadMember(0x69, memberId, heapId);
 }
 
 
@@ -1354,11 +1354,11 @@ void *func_0201A354(int memberId, int heapId)
 
 
 /*
- * Unlabelled Thumb argument-shuffling tail-call thunk: func_02048F4C(b, 0x69, a).
+ * Unlabelled Thumb argument-shuffling tail-call thunk: ARC_TOOL_ReadMember(b, 0x69, a).
  */
-void func_0201A364(int memberId, void *dst)
+void POKE_REGULATION_LoadInto(int memberId, void *dst)
 {
-    func_02048F4C(dst, 0x69, memberId);
+    ARC_TOOL_ReadMember(dst, 0x69, memberId);
 }
 
 
@@ -1398,7 +1398,7 @@ struct Strbuf *POKE_REGULATION_BuildPartySizeLine(const struct Regulation *reg, 
     }
     func_0201EFA4(wordSet, 0, reg->minPartySize, 1, 0, 1);
     func_0201EFA4(wordSet, 1, reg->maxPartySize, 1, 0, 1);
-    line = func_020457B0(0x40, heapId);
+    line = STRBUF_Create(0x40, heapId);
     func_02045CAC(text->bank, messageId, scratch);
     func_0201F250(wordSet, line, scratch);
     return line;
@@ -1451,7 +1451,7 @@ struct Strbuf *POKE_REGULATION_BuildLevelLine(const struct Regulation *reg, stru
         messageId = 6;
     }
     func_0201EFA4(wordSet, 0, reg->levelValue, 3, 0, 1);
-    line = func_020457B0(0x40, heapId);
+    line = STRBUF_Create(0x40, heapId);
     func_02045CAC(text->bank, messageId, scratch);
     func_0201F250(wordSet, line, scratch);
     return line;
@@ -1540,7 +1540,7 @@ struct Strbuf *POKE_REGULATION_GetBattleModeLine(const struct Regulation *reg, s
  * every use (the allocator's first argument included); declared u32 it stays
  * in r2 and is copied, which was the whole parameter-homing residue.
  */
-struct RegulationText *func_0201A4D4(const struct Regulation *reg, struct WordSet *wordSet, u16 heapId, u32 battleMode)
+struct RegulationText *POKE_REGULATION_CreateText(const struct Regulation *reg, struct WordSet *wordSet, u16 heapId, u32 battleMode)
 {
     struct RegulationText *text;
     struct Strbuf *scratch;
@@ -1549,7 +1549,7 @@ struct RegulationText *func_0201A4D4(const struct Regulation *reg, struct WordSe
 
     text = (struct RegulationText *)func_02030734(heapId, 0x38, 1, poke_regulation_File, 0x312);
     text->bank = func_02045B38(0, 2, 0xa5, heapId);
-    scratch = func_020457B0(0x40, heapId);
+    scratch = STRBUF_Create(0x40, heapId);
     regulationMode = reg->battleMode;
     if (regulationMode == 2)
         text->battleMode = battleMode;
@@ -1559,7 +1559,7 @@ struct RegulationText *func_0201A4D4(const struct Regulation *reg, struct WordSe
         text->labels[i] = func_02045EC0(text->bank, i);
         text->lines[i] = POKE_REGULATION_LineFns[i](reg, wordSet, text, scratch, heapId);
     }
-    func_02045808(scratch);
+    STRBUF_Delete(scratch);
     return text;
 }
 
@@ -1582,18 +1582,18 @@ struct RegulationText *func_0201A4D4(const struct Regulation *reg, struct WordSe
  * test is `blt` and no truncation appears.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201A570.c \
- *       --func func_0201A570 --addr 0x0201A570 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_REGULATION_DeleteText.c \
+ *       --func POKE_REGULATION_DeleteText --addr 0x0201A570 --cc 1.1p1 --thumb
  */
-void func_0201A570(struct RegulationText *text)
+void POKE_REGULATION_DeleteText(struct RegulationText *text)
 {
     int i;
 
     for (i = 0; i < 6; i++) {
-        func_02045808(text->labels[i]);
-        func_02045808(text->lines[i]);
+        STRBUF_Delete(text->labels[i]);
+        STRBUF_Delete(text->lines[i]);
     }
-    func_02045C04(text->bank);
+    MSGDATA_Delete(text->bank);
     func_020307B0(text);
 }
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C068C",
+   "name": "HEIGHT_EX_IsPointInAreaAt",
    "address": "0x021C068C",
    "kind": "game",
    "region": "ov021",

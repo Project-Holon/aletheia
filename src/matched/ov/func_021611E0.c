@@ -1,5 +1,5 @@
 /*
- * function: func_021611E0
+ * function: EVENT_FIELD_PROCLINK_ReturnTrainerCardView
  * address:  0x021611E0
  * packet:   pkt_021611E0
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02012134  0x02012134  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   FIELD_SOUND_SYSTEM_RestoreVolume  0x02029DD8  thumb
  */
 #include "../include/Obj00020.h"
@@ -23,13 +23,13 @@ typedef unsigned int u32;
 
 struct Ctx;
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
-extern int func_02012134();
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern int GAMESYSTEM_GetIssSystem();
 extern int FIELD_SOUND_SYSTEM_RestoreVolume(int a0, int a1);
 
-int func_021611E0(int a0, int a1)
+int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(int a0, int a1)
 {
     int t4;
     int t5;
@@ -40,14 +40,14 @@ t5 = a0 + 0;
 a0 = ((struct Obj00020 *)t5)->f18;
 t4 = a1 + 0;
 a0 = ((struct Obj00020 *)((char *)a0))->f0;
-    ctx = func_020120F4((const struct Ctx *)a0);
+    ctx = GAMESYSTEM_GetGameData((const struct Ctx *)a0);
 loc_021611EE:
-    a0 = func_02012A30(ctx);
+    a0 = GAME_DATA_GetBgmInfo(ctx);
 loc_021611F2:
 t6 = a0 + 0;
 a0 = ((struct Obj00020 *)t5)->f18;
 a0 = ((struct Obj00020 *)((char *)a0))->f0;
-    a0 = func_02012134(a0);
+    a0 = GAMESYSTEM_GetIssSystem(a0);
 loc_021611FC:
 a1 = a0 + 0;
 a0 = t6 + 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02199DB4
+ * function: FLDMMDL_ACMD_FlyUpMove
  * address:  0x02199DB4
  * packet:   pkt_ov021_02199DB4
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_0219FC68  0x0219FC68  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_DRAW_GetBlactAnimeTypeA  0x0219FC68  thumb  ov021
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
  *   func_020061E4  0x020061E4  thumb
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -30,25 +30,25 @@ typedef struct {
     u16 timer;
     u8  last;
 } State;
-extern void *func_0216D6D4(void *p);
-extern int func_0219FC68(u32, u16 *, u16 *);
-extern u16 func_0216D598(void *p);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern int FLDMMDL_DRAW_GetBlactAnimeTypeA(u32, u16 *, u16 *);
+extern u16 FLDMMDL_GetObjCode(void *p);
 extern void func_020061E4(u32);
-extern void func_0216D8C0(u32, Vec *);
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216D7CC(u32);
+extern void FLDMMDL_SetDrawOffset(u32, Vec *);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_IncAcmdSeq(u32);
 
-int func_02199DB4(u32 a)
+int FLDMMDL_ACMD_FlyUpMove(u32 a)
 {
     State *p;
     u16 v[2];
 
-    p = func_0216D6D4((void *)a);
-    if (func_0219FC68(a, &v[1], &v[0]) != 1)
+    p = FLDMMDL_GetMoveCmdWork((void *)a);
+    if (FLDMMDL_DRAW_GetBlactAnimeTypeA(a, &v[1], &v[0]) != 1)
         return 0;
     p->timer = p->timer + 1;
     v[0] = v[0] - 1;
-    if (func_0216D598((void *)a) == 0xD3) {
+    if (FLDMMDL_GetObjCode((void *)a) == 0xD3) {
         if (v[1] == 2 && p->last != v[0]) {
             p->last = v[0];
             switch (v[0]) {
@@ -73,11 +73,11 @@ int func_02199DB4(u32 a)
     {
         Vec w = { 0, 0, 0 };
         w.y = p->pos;
-        func_0216D8C0(a, &w);
+        FLDMMDL_SetDrawOffset(a, &w);
     }
     if (p->pos / 0x8000 < 16)
         return 0;
-    func_0216D674((void *)a, 0);
-    func_0216D7CC(a);
+    FLDMMDL_SetDrawStatus((void *)a, 0);
+    FLDMMDL_IncAcmdSeq(a);
     return 1;
 }

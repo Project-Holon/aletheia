@@ -17,15 +17,15 @@
  * assignment is superseded.
  *
  * symbols:
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
  *   func_02045738 0x02045738 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201EEF4 0x0201EEF4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0201C724 0x0201C724 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   func_0201D304 0x0201D304 thumb
  */
@@ -41,21 +41,21 @@ struct MsgBank;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 extern u8 func_02045738(struct Descriptor *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
-extern u32 func_02017E1C(void *, u32, u32);
+extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u8 POKE_TOOL_GetGender(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 static inline void print_text(int p, u32 windows, u32 dirty, int i, void *s, int x, int y, u16 color)
 {
     void *owner = ((struct Obj13675 *)p)->f1C;
-    func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, y, (u32)s, ((struct Obj13675 *)p)->fC, color);
+    PRINTSYS_PrintQueColor(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, y, (u32)s, ((struct Obj13675 *)p)->fC, color);
     *(u8 *)(dirty + i * 8) = 1;
 }
 static inline void print_right(int p, u32 windows, u32 dirty, int i, void *window, u32 id, u16 color)
@@ -65,9 +65,9 @@ static inline void print_right(int p, u32 windows, u32 dirty, int i, void *windo
     u32 w = func_02045738(window);
     s16 x = (s16)(w * 8 - func_0201D304(s, ((struct Obj07929 *)p)->fC, 0));
     void *owner = ((struct Obj07929 *)p)->f1C;
-    func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, 7, (u32)s, font, color);
+    PRINTSYS_PrintQueColor(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, 7, (u32)s, font, color);
     *(u8 *)(dirty + i * 8) = 1;
-    func_02045808(s);
+    STRBUF_Delete(s);
 }
 void func_021F6B7C(int p, int i)
 {
@@ -76,7 +76,7 @@ void func_021F6B7C(int p, int i)
     void *window, *t, *s;
     windows = p + 0x20;
     window = *(void **)(windows + i * 8);
-    t = func_020457B0(0xc, 0x8071);
+    t = STRBUF_Create(0xc, 0x8071);
     s = func_02045EC0(((struct Obj05257 *)p)->f14, 0);
     mons = p + 0xf8;
     mi = i * 4;
@@ -84,10 +84,10 @@ void func_021F6B7C(int p, int i)
     func_0201F250(((struct Obj05257 *)p)->f18, t, s);
     dirty = p + 0x24;
     print_text(p, windows, dirty, i, t, 0x20, 7, 0x3dc0);
-    func_02045808(s);
-    func_02045808(t);
-    if (func_02017E1C(*(void **)(mons + mi), 0xad, 0) == 1 &&
-        func_02017E1C(*(void **)(mons + mi), 0x4c, 0) == 0) {
+    STRBUF_Delete(s);
+    STRBUF_Delete(t);
+    if (POKE_TOOL_GetPartyValue(*(void **)(mons + mi), 0xad, 0) == 1 &&
+        POKE_TOOL_GetPartyValue(*(void **)(mons + mi), 0x4c, 0) == 0) {
         gender = POKE_TOOL_GetGender(*(void **)(mons + mi));
         if (gender == 0) print_right(p, windows, dirty, i, window, 0x16, 0x2960);
         else if (gender == 1) print_right(p, windows, dirty, i, window, 0x17, 0x31a0);

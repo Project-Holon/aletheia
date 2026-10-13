@@ -46,19 +46,19 @@
  *   func_02049658 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
  *   sub_02041B6C 0x02041B6C arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   d_021BBFA8 0x021BBFA8 data a1
  *   func_0201C6EC 0x0201C6EC thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -171,18 +171,18 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void sub_02041B6C(u32);
-extern u32 func_020450F0(u32 layer,u32 a,u32 b,u32 tiles,u8 c,u8 d,u8 slot);
+extern u32 BMP_WIN_Create(u32 layer,u32 a,u32 b,u32 tiles,u8 c,u8 d,u8 slot);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *p,u8 value);
-extern void func_02045334(struct Descriptor *p);
+extern void BMP_Clear(struct CharBuf *p,u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *p);
 extern void *func_02045EC0(struct MsgBank *p,u32 index);
-extern void func_0201C724(void *p,u32 a,u32 b,u32 c,u32 d,u32 e,u16 f);
-extern void func_02045808(struct U16Vec *p);
+extern void PRINTSYS_PrintQueColor(void *p,u32 a,u32 b,u32 c,u32 d,u32 e,u16 f);
+extern void STRBUF_Delete(struct U16Vec *p);
 extern void func_0201C6EC(struct PrintSys *);
 extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_0201C6C4(struct PrintSys *p,void *value);
-extern void func_02045374(struct Cfg *p);
+extern void BMP_WIN_MakeScreen(struct Cfg *p);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 channel);
 char *func_021BB6E0(char *p,char *data);
@@ -481,9 +481,9 @@ void func_021BBC54(u8 *p)
     for(index=0;index<3;index++) {
         record=&d_021BBFA8[index];
         slot=p+index*4;
-        *(u32 *)&((struct Obj08471 *)slot)->f10=func_020450F0(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
-        func_02043B5C((struct CharBuf *)func_02045770(*(struct Descriptor * *)&((struct Obj08471 *)slot)->f10),0);
-        func_02045334(*(struct Descriptor * *)&((struct Obj08471 *)slot)->f10);
+        *(u32 *)&((struct Obj08471 *)slot)->f10=BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
+        BMP_Clear((struct CharBuf *)func_02045770(*(struct Descriptor * *)&((struct Obj08471 *)slot)->f10),0);
+        BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj08471 *)slot)->f10);
         ((struct Obj08471 *)slot)->f28=0;
     }
     owner=*(u8 * *)&((struct Obj03382 *)p)->f4;
@@ -491,8 +491,8 @@ void func_021BBC54(u8 *p)
     *(u32 *)&((struct Obj03382 *)p)->f20=((struct Obj08472 *)owner)->f10;
     ((struct Obj03382 *)p)->f24=((struct Obj08472 *)owner)->f14;
     string=(struct U16Vec *)func_02045EC0(*(struct MsgBank * *)&((struct Obj08472 *)owner)->f20,((struct Obj26322 *)(*(u8 * *)&((struct Obj03382 *)p)->f0))->f2);
-    func_0201C724(((struct Obj03382 *)p)->f20,(u32)func_02045770(*(struct Descriptor * *)&((struct Obj03382 *)p)->f14),0,1,(u32)string,((struct Obj26323 *)(*(u8 * *)&((struct Obj03382 *)p)->f4))->fC,0x3C40);
-    func_02045808(string);
+    PRINTSYS_PrintQueColor(((struct Obj03382 *)p)->f20,(u32)func_02045770(*(struct Descriptor * *)&((struct Obj03382 *)p)->f14),0,1,(u32)string,((struct Obj26323 *)(*(u8 * *)&((struct Obj03382 *)p)->f4))->fC,0x3C40);
+    STRBUF_Delete(string);
     ((struct Obj03382 *)p)->f2C=1;
     func_021BBD28(p);
 }
@@ -509,8 +509,8 @@ void func_021BBD28(u8 *p)
         if(((struct Obj06736 *)slot)->f28!=0) {
             if(func_0201C6C4(*(struct PrintSys * *)&((struct Obj06736 *)slot)->f1C,func_02045770(*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10))==0) {
                 descriptor=*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10;
-                func_02045334(descriptor);
-                func_02045374((struct Cfg *)descriptor);
+                BMP_WIN_TransferChars(descriptor);
+                BMP_WIN_MakeScreen((struct Cfg *)descriptor);
                 func_02041B6C(func_02045730(descriptor));
                 ((struct Obj06736 *)slot)->f28=0;
             }

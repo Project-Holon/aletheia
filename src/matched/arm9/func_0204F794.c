@@ -1,5 +1,5 @@
 /*
- * function: func_0204F794
+ * function: BILLBOARD_SetElemFlipT
  * address:  0x0204F794
  * packet:   pkt_0204F684
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Same as func_0204F764 one bit up: the caller's word goes into bit 11.
+ * Same as BILLBOARD_SetElemFlipS one bit up: the caller's word goes into bit 11.
  *
  * symbols:
  *   none (no external calls, no data references)
@@ -26,7 +26,7 @@ struct Rec {
     u16 hi  : 4;
 };
 
-void func_0204F794(void *p, u32 idx, u32 *val)
+void BILLBOARD_SetElemFlipT(void *p, u32 idx, u32 *val)
 {
     struct Rec *r = (struct Rec *)(*(u8 * *)&((struct Obj08866 *)p)->f8 + idx * 0x1c + 0x18);
 

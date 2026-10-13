@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C5DAC  0x021C5DAC  thumb  ov093
- *   func_021C5EFC  0x021C5EFC  thumb  ov093
- *   func_021C5E48  0x021C5E48  thumb  ov093
- *   func_021C5F98  0x021C5F98  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMsgStd  0x021C5DAC  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMsgSet  0x021C5EFC  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMsgStdSe  0x021C5E48  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMsgSetSe  0x021C5F98  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -27,30 +27,30 @@ struct Msg {
     u32 w20;
 };
 
-extern void func_021C5DAC(u8 *p, u32 a, int n, const int *v);
-extern void func_021C5EFC(u8 *p, u32 a, int n, const int *v);
-extern void func_021C5E48(u8 *p, u32 a, u32 b, int n, int *v);
-extern void func_021C5F98(u8 *p, u32 a, u32 b, int n, int *v);
+extern void BTL_SERVER_FLOW_PushMsgStd(u8 *p, u32 a, int n, const int *v);
+extern void BTL_SERVER_FLOW_PushMsgSet(u8 *p, u32 a, int n, const int *v);
+extern void BTL_SERVER_FLOW_PushMsgStdSe(u8 *p, u32 a, u32 b, int n, int *v);
+extern void BTL_SERVER_FLOW_PushMsgSetSe(u8 *p, u32 a, u32 b, int n, int *v);
 
 int func_021C99A0(void *w, const struct Msg *m)
 {
     if (!m->flag) {
         switch (m->kind) {
         case 1:
-            func_021C5DAC(w, m->a, m->n, (const int *)m->data);
+            BTL_SERVER_FLOW_PushMsgStd(w, m->a, m->n, (const int *)m->data);
             return 1;
         case 2:
-            func_021C5EFC(w, m->a, m->n, (const int *)m->data);
+            BTL_SERVER_FLOW_PushMsgSet(w, m->a, m->n, (const int *)m->data);
             return 1;
         }
     } else {
         u16 x = m->w20;
         switch (m->kind) {
         case 1:
-            func_021C5E48(w, m->a, x, m->n, (int *)m->data);
+            BTL_SERVER_FLOW_PushMsgStdSe(w, m->a, x, m->n, (int *)m->data);
             return 1;
         case 2:
-            func_021C5F98(w, m->a, x, m->n, (int *)m->data);
+            BTL_SERVER_FLOW_PushMsgSetSe(w, m->a, x, m->n, (int *)m->data);
             return 1;
         }
     }

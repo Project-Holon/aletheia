@@ -1,5 +1,5 @@
 /*
- * function: func_0201232C
+ * function: GAME_EVENT_Change
  * address:  0x0201232C
  * packet:   pkt_0201232C
  * region:   arm9
@@ -18,7 +18,7 @@ extern unsigned int func_020307B0(void *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-void func_0201232C(char *p, int a1, int a2)
+void GAME_EVENT_Change(char *p, int a1, int a2)
 {
     void *q;
     *(int *)&((struct Obj01023 *)p)->f8 = 0;

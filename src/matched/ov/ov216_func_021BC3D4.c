@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B639C 0x021B639C thumb ov067
+ *   TOUCHBAR_Delete 0x021B639C thumb ov067
  */
-extern void func_021B639C(unsigned char *);
-void func_021BC3D4(unsigned char *p){func_021B639C(p);}
+extern void TOUCHBAR_Delete(unsigned char *);
+void func_021BC3D4(unsigned char *p){TOUCHBAR_Delete(p);}

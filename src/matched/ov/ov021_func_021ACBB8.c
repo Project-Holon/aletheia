@@ -1,5 +1,5 @@
 /*
- * function: func_021ACBB8
+ * function: FLDEFF_NAMIPOKE_SetFollowMode
  * address:  0x021ACBB8
  * packet:   pkt_ov021_021ACBB8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC1E0  0x021AC1E0  thumb  ov021
+ *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -19,10 +19,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern int func_021AC1E0(u32 a);
+extern int FIELD_EFFECT_GetObjectWork(u32 a);
 
-void func_021ACBB8(u32 a, u8 v)
+void FLDEFF_NAMIPOKE_SetFollowMode(u32 a, u8 v)
 {
     if (a != 0)
-        ((u8 *)func_021AC1E0(a))[9] = v;
+        ((u8 *)FIELD_EFFECT_GetObjectWork(a))[9] = v;
 }

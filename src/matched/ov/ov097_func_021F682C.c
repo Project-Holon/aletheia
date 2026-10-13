@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   d_021F761C 0x021F761C data a4
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 d_021F761C;
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
-void func_021F682C(void) { func_020433E0((const struct DispVram *)(&d_021F761C)); }
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
+void func_021F682C(void) { BG_SYS_SetVramBanks((const struct DispVram *)(&d_021F761C)); }

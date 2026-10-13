@@ -1,5 +1,5 @@
 /*
- * function: func_021D1A74
+ * function: SCRCMD_StartMmdlIcaAnime
  * address:  0x021D1A74
  * packet:   pkt_ov021_021D1A74
  * region:   ov021
@@ -12,26 +12,26 @@
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  *
  * symbols:
- *   func_0215910C  0x0215910C  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021D1894  0x021D1894  thumb  ov021
+ *   SCRIPT_WORK_GetReturnParam  0x0215910C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_MMDL_ICA_Start  0x021D1894  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern u32 func_0215910C(void *a);
-extern unsigned int func_02159B10(void *a, void *b);
-extern void func_021D1894(u8 *p, u32 n);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern u32 SCRIPT_WORK_GetReturnParam(void *a);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void SCRCMD_MMDL_ICA_Start(u8 *p, u32 n);
 
-int func_021D1A74(u32 a, u32 b)
+int SCRCMD_StartMmdlIcaAnime(u32 a, u32 b)
 {
-    void *x = func_0215A5F4((void *)b);
-    u32 k = func_02159B10((void *)a, (void *)b);
+    void *x = SCRCMD_WORK_GetScriptWork((void *)b);
+    u32 k = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
 
-    func_021D1894((u8 *)func_0215910C(x), k);
+    SCRCMD_MMDL_ICA_Start((u8 *)SCRIPT_WORK_GetReturnParam(x), k);
     return 0;
 }

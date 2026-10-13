@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012934 0x02012934 thumb
- *   func_0201A090 0x0201A090 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
+ *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  */
 typedef unsigned int u32;
 struct BigObj;
-extern void *func_02012934(const struct BigObj *);
-extern int func_0201A090(void *, void *, u32 *);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *);
+extern int POKE_REGULATION_CheckParty(void *, void *, u32 *);
 int func_021BCB70(void *rules, const struct BigObj *obj, u32 *mask)
 {
     *mask = 0;
-    return func_0201A090(rules, func_02012934(obj), mask);
+    return POKE_REGULATION_CheckParty(rules, GAME_DATA_GetMyParty(obj), mask);
 }

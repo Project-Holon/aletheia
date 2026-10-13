@@ -11,9 +11,9 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
- *   func_02045808 0x02045808 arm
- *   func_02028148 0x02028148 thumb
- *   func_02028178 0x02028178 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
+ *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  * The lead's EXACT* ends at BB404; two complete 16-byte load/tail-call
  * followers cover the remaining extent. Parent cleared both starts.
  */
@@ -25,9 +25,9 @@ struct U16Vec;
 struct Item { void *text; u16 color; unsigned value; };
 extern void *func_02045EC0(struct MsgBank *, unsigned);
 extern unsigned APP_TASKMENU_WIN_Create(unsigned, unsigned, unsigned, unsigned, u8, u16);
-extern void func_02045808(struct U16Vec *);
-extern void func_02028148(u8 *);
-extern void func_02028178(u8 *);
+extern void STRBUF_Delete(struct U16Vec *);
+extern void APP_TASKMENU_WIN_Delete(u8 *);
+extern void APP_TASKMENU_WIN_Update(u8 *);
 void func_021BB3BC(char *p)
 {
     struct Item item;
@@ -35,13 +35,13 @@ void func_021BB3BC(char *p)
     item.color = 0x39E3;
     item.value = 0;
     *(unsigned *)&((struct Obj00084 *)p)->f260 = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct Obj00084 *)p)->f25C, (unsigned)&item, 9, 21, 14, ((struct Obj00084 *)p)->f0);
-    func_02045808(item.text);
+    STRBUF_Delete(item.text);
 }
 void func_021BB404(char *p)
 {
-    func_02028148(*(u8 * *)&((struct Obj00084 *)p)->f260);
+    APP_TASKMENU_WIN_Delete(*(u8 * *)&((struct Obj00084 *)p)->f260);
 }
 void func_021BB414(char *p)
 {
-    func_02028178(*(u8 * *)&((struct Obj00084 *)p)->f260);
+    APP_TASKMENU_WIN_Update(*(u8 * *)&((struct Obj00084 *)p)->f260);
 }

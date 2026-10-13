@@ -1,5 +1,5 @@
 /*
- * function: func_021DF4D4
+ * function: BTL_HANDLER_ITEM_DampRockExtendRain
  * address:  0x021DF4D4
  * packet:   pkt_ov093_021DF4D4
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  *
  * symbols:
- *   func_021DF4E0  0x021DF4E0  thumb  ov093
+ *   BTL_HANDLER_ITEM_ExtendWeatherTurns  0x021DF4E0  thumb  ov093
  */
 
-void func_021DF4E0(void *a, int b, int c, int d);
+void BTL_HANDLER_ITEM_ExtendWeatherTurns(void *a, int b, int c, int d);
 
-void func_021DF4D4(int a, int b, int c)
+void BTL_HANDLER_ITEM_DampRockExtendRain(int a, int b, int c)
 {
-    func_021DF4E0((void *)a, b, c, 2);
+    BTL_HANDLER_ITEM_ExtendWeatherTurns((void *)a, b, c, 2);
 }

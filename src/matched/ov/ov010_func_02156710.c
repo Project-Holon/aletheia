@@ -1,5 +1,5 @@
 /*
- * function: func_02156710
+ * function: MUSICAL_EVENT_RunLeaveSequence
  * address:  0x02156710
  * packet:   pkt_ov010_02156710
  * region:   ov010
@@ -10,12 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012A30  0x02012A30  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_StartPopTask  0x02029690  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -35,31 +36,31 @@ typedef struct Seq {
 struct BigObj;
 struct Ctx;
 struct Evt;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012A30(const struct BigObj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void *FIELD_SOUND_SYSTEM_StartPopTask(void *a, u32 b, u32 c);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a);
 extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
 
-int func_02156710(void *evt, Seq *s)
+int MUSICAL_EVENT_RunLeaveSequence(void *evt, Seq *s)
 {
-    func_02012A30(func_020120F4(s->f00));
+    GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(s->f00));
     switch (s->state) {
     case 0:
-        func_02012374(evt, FIELD_SOUND_SYSTEM_StartPopTask(s->f00, 0, 0x3C));
+        GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartPopTask(s->f00, 0, 0x3C));
         s->state++;
         break;
     case 1:
-        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent(s->f00));
+        GAME_EVENT_CallEvent(evt, FIELD_STATUS_CreateFieldOpenEvent(s->f00));
         s->state++;
         break;
     case 2:
         s->state++;
         break;
     case 3:
-        func_02012374(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(s->f00));
+        GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(s->f00));
         s->state++;
         break;
     case 4:

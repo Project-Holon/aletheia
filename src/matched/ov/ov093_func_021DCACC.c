@@ -1,5 +1,5 @@
 /*
- * function: func_021DCACC
+ * function: BTL_ABILITY_GetPranksterHandlers
  * address: 0x021DCACC
  * packet: pkt_ov093_021DCACC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCA98.c and filed here.
  *
  * symbols:
- *   d_021F0630 0x021F0630 data ov093 a4
+ *   gPranksterHandlers 0x021F0630 data ov093 a4
  */
 
-extern int d_021F0630[];
-int *func_021DCACC(int *p);
+extern int gPranksterHandlers[];
+int *BTL_ABILITY_GetPranksterHandlers(int *p);
 
-int *func_021DCACC(int *p)
+int *BTL_ABILITY_GetPranksterHandlers(int *p)
 {
     *p = 1;
-    return d_021F0630;
+    return gPranksterHandlers;
 }

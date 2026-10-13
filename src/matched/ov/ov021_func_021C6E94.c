@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C6CBC  0x021C6CBC  thumb  ov021
+ *   FIELD_TASK_Update  0x021C6CBC  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -18,9 +18,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Q Q;
 typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R;
-extern void func_021C6CBC(void);
+extern void FIELD_TASK_Update(void);
 void func_021C6E94(R *r, int i)
 {
     if (r->f4[i] != 0)
-        func_021C6CBC();
+        FIELD_TASK_Update();
 }

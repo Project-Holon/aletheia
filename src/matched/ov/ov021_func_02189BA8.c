@@ -1,5 +1,5 @@
 /*
- * function: func_02189BA8
+ * function: FIELDMAP_GetCtrlFuncs
  * address:  0x02189BA8
  * packet:   pkt_ov021_02189BA8
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02189B28  0x02189B28  thumb  ov021
- *   d_021D373C     0x021D373C  data  a4
+ *   FIELDMAP_GetMapType  0x02189B28  thumb  ov021
+ *   gMapTypeCtrlTable     0x021D373C  data  a4
  */
 
 #include "../include/G__anon_Ent.h"
 
-extern struct _anon_Ent d_021D373C[];
-unsigned int func_02189B28(unsigned int x);
+extern struct _anon_Ent gMapTypeCtrlTable[];
+unsigned int FIELDMAP_GetMapType(unsigned int x);
 
-int func_02189BA8(int x)
+int FIELDMAP_GetCtrlFuncs(int x)
 {
-    return d_021D373C[(int)func_02189B28((unsigned int)x)].f0;
+    return gMapTypeCtrlTable[(int)FIELDMAP_GetMapType((unsigned int)x)].f0;
 }

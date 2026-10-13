@@ -1,5 +1,5 @@
 /*
- * function: func_021C557C
+ * function: BTL_SERVER_FLOW_CureMajorStatusWithMessage
  * address:  0x021C557C
  * packet:   pkt_ov093_021C557C
  * region:   ov093
@@ -10,37 +10,37 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D61F0  0x021D61F0  thumb  ov093
- *   func_021CD4B0  0x021CD4B0  thumb  ov093
- *   func_021CD64C  0x021CD64C  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_ClearMajorStatus  0x021D61F0  thumb  ov093
+ *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
+ *   BTL_SERVER_CMD_PushVariable  0x021CD64C  thumb  ov093
  */
 #include "../include/Obj06227.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct UtilSlots;
-extern void func_021D61F0(struct UtilSlots *p);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern void func_021CD64C(void *w, u8 id, ...);
+extern void BTL_POKEPARAM_ClearMajorStatus(struct UtilSlots *p);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
+extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 
-void func_021C557C(u8 *p, u8 *a, int k, int flag)
+void BTL_SERVER_FLOW_CureMajorStatusWithMessage(u8 *p, u8 *a, int k, int flag)
 {
-    u8 n = func_021D5440(a);
-    func_021D61F0((struct UtilSlots *)a);
-    func_021CD4B0(((struct Obj06227 *)p)->fC, 0x10, n);
-    func_021CD4B0(((struct Obj06227 *)p)->fC, 0x35, n, 0);
+    u8 n = BTL_POKEPARAM_GetPokeId(a);
+    BTL_POKEPARAM_ClearMajorStatus((struct UtilSlots *)a);
+    BTL_SERVER_CMD_Push(((struct Obj06227 *)p)->fC, 0x10, n);
+    BTL_SERVER_CMD_Push(((struct Obj06227 *)p)->fC, 0x35, n, 0);
     if (flag != 0) {
         switch (k) {
         case 2:
-            func_021CD64C(((struct Obj06227 *)p)->fC, 0x5b, 0x138, n, 0xffff0000);
+            BTL_SERVER_CMD_PushVariable(((struct Obj06227 *)p)->fC, 0x5b, 0x138, n, 0xffff0000);
             break;
         case 3:
-            func_021CD64C(((struct Obj06227 *)p)->fC, 0x5b, 0x126, n, 0xffff0000);
+            BTL_SERVER_CMD_PushVariable(((struct Obj06227 *)p)->fC, 0x5b, 0x126, n, 0xffff0000);
             break;
         default:
-            func_021CD64C(((struct Obj06227 *)p)->fC, 0x5b, 0x156, n, 0xffff0000);
+            BTL_SERVER_CMD_PushVariable(((struct Obj06227 *)p)->fC, 0x5b, 0x156, n, 0xffff0000);
             break;
         }
     }

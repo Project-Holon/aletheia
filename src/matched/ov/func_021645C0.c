@@ -1,5 +1,5 @@
 /*
- * function: func_021645C0
+ * function: EVENTDATA_SYSTEM_CheckNormalFieldZoneNotZone34
  * address:  0x021645C0
  * packet:   pkt_021645C0
  * region:   ov010
@@ -13,7 +13,7 @@
  * status is set, otherwise copy it out.
  *
  * symbols:
- *   func_02012AC8   0x02012AC8  thumb
+ *   GAME_DATA_GetPlayerZoneId   0x02012AC8  thumb
  *   func_02013D20   0x02013D20  thumb
  *   func_02013E04   0x02013E04  thumb
  */
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Rec44;
-extern u16 func_02012AC8(const struct Rec44 *p);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 func_02013D20(u32 id);
 extern u32 func_02013E04(u32 id);
 
-int func_021645C0(void *a0, void *a1, void *a2)
+int EVENTDATA_SYSTEM_CheckNormalFieldZoneNotZone34(void *a0, void *a1, void *a2)
 {
-    int r = func_02012AC8(a2);
+    int r = GAME_DATA_GetPlayerZoneId(a2);
 
     if (func_02013D20(r) != 0)
         return 0;

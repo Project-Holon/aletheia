@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021E9100  0x021E9100  thumb  ov093
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021EA230  0x021EA230  thumb  ov093
  */
 #include "../include/Obj07843.h"
@@ -30,14 +30,14 @@ struct S {
 };
 
 extern u8 *func_021E9100(u8 *p, int n);
-extern u32 func_021CD9E0(u8 *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern int func_021EA230(int *st, char *ctx);
 
 void func_021EA1B8(struct S *s, u32 a, int b, int c)
 {
     u8 *t;
 
-    if (func_021CD9E0(s->f04) == 0) {
+    if (BTL_CLIENT_IsMainStepActive(s->f04) == 0) {
         t = func_021E9100((u8 *)s, 0xc);
         ((struct Obj07843 *)t)->f4 = c;
         t[0xa] = b;

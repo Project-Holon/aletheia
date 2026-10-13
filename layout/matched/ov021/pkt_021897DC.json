@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021897DC",
+   "name": "FIELDMAP_ReflectFog",
    "address": "0x021897DC",
    "kind": "game",
    "region": "ov021",

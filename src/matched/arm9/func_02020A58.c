@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020437D4  0x020437D4  arm
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
+ *   BMP_GetPixels  0x020437D4  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,9 +21,9 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Bmp;
-extern void *func_020437D4(const struct Bmp *bmp);
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
 void BMP_MENULIST_ShiftChars4bpp(void *bmp, u32 dir, u32 start, u32 color, u16 size)
 {
@@ -37,12 +37,12 @@ void BMP_MENULIST_ShiftChars4bpp(void *bmp, u32 dir, u32 start, u32 color, u16 s
     s32  x;
     u8  *buf;
 
-    buf = func_020437D4(bmp);
+    buf = BMP_GetPixels(bmp);
     fill = (color << 24) | (color << 16) | (color << 8) | color;
-    wt = (u32)func_020437DC(bmp) >> 3;
+    wt = (u32)BMP_GetWidth(bmp) >> 3;
     len = size;
     if (len == 0)
-        len = (wt * ((u32)func_020437E4(bmp) >> 3)) << 5;
+        len = (wt * ((u32)BMP_GetHeight(bmp) >> 3)) << 5;
 
     switch (dir) {
     case 0:

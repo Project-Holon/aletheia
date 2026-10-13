@@ -13,15 +13,15 @@
  * parameters; the prototype here carries the fourth.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021E0944  0x021E0944  thumb  ov093
  */
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void func_021E0944(int a, void *q, int id, int d);
 
 void func_021E0920(int a, void *b, int c, int d)
 {
-    if (c == func_021D775C(2))
+    if (c == BTL_EVENT_GetVar(2))
         func_021E0944(a, b, c, d);
 }

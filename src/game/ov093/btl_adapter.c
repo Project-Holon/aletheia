@@ -1,7 +1,7 @@
 /*
  * file:     btl_adapter.c
  * unit:     yes
- * function: func_021EEA30, func_021EEA54, func_021EEA58, func_021EEAD0, func_021EEAE0, func_021EEAE8, func_021EEAFC, func_021EEB00, func_021EEB2C, func_021EEB64, func_021EEB70, func_021EEB84, func_021EEBA4, func_021EEBDC, func_021EEBE8, func_021EEC20, func_021EEC4C, func_021EEC78, func_021EECD8, func_021EED00, func_021EED24, func_021EED48, func_021EED6C, func_021EED90, func_021EEE24, func_021EEE80, func_021EEEC8, func_021EEEF4, func_021EEF20, func_021EEF98, func_021EEFE0, func_021EF1CC, func_021EF204, func_021EF280, func_021EF3A4, func_021EF460, func_021EF508, func_021EF594, func_021EF5E8, func_021EF664, func_021EF694, func_021EF6A8, func_021EF6B0, func_021EF6E8, func_021EF6F0, func_021EF71C, func_021EF7AC
+ * function: BTL_ADAPTER_ClearSlots, BTL_ADAPTER_NoOp, BTL_ADAPTER_Create, BTL_ADAPTER_ResetCommand, BTL_ADAPTER_Delete, BTL_ADAPTER_NotifyNet, BTL_ADAPTER_Idle, BTL_ADAPTER_SetSendData, BTL_ADAPTER_Update, BTL_ADAPTER_GetSendBuffer, BTL_ADAPTER_Cancel, BTL_ADAPTER_StartSend, BTL_ADAPTER_PollSend, BTL_ADAPTER_ClearRecvHeader, BTL_ADAPTER_GetRecvCommand, BTL_ADAPTER_GetRecvData, BTL_ADAPTER_SetRecvTarget, BTL_MSG_Init, BTL_MSG_Exit, BTL_MSG_SetPokeName, BTL_MSG_SetPokeSpecies, BTL_MSG_SetPokeNickname, BTL_MSG_SetClientValue, BTL_MSG_SetClientName, BTL_MSG_FormatArgs, BTL_MSG_FormatWithSide, BTL_MSG_BuildString, BTL_MSG_DispatchTagged, BTL_MSG_FindWordTag, BTL_MSG_CountWordTags, BTL_MSG_ExpandTags, BTL_MSG_BuildStandard, BTL_MSG_BuildStandardSingle, BTL_MSG_BuildStandardPair, BTL_MSG_BuildMoveEffectA, BTL_MSG_BuildMoveEffectB, BTL_MSG_BuildMoveEffectC, BTL_MSG_BuildClientAction, BTL_MSG_BuildItemUse, BTL_MSG_BuildPlainEntry, BTL_MSG_GetUiString, BTL_MSG_BuildUiString, BTL_MSG_BuildUiStringFlagged, BTL_MSG_BuildTrainerString, BTL_MSG_BuildTrainerStringBody, BTL_MSG_BuildBallStatusOpen, BTL_MSG_BuildBallStatusRefresh
  * address:  0x021EEA30
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -16,34 +16,34 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0   0x020307B0  arm arm9
  *   func_02082D44  0x02082D44  arm
- *   d_021F6388  0x021F6388  data  a4
- *   d_021F6384  0x021F6384  data  a4
- *   d_021F3AE8     0x021F3AE8  data  ov093  a4
- *   func_021D4C58   0x021D4C58  thumb
- *   func_021D4B58  0x021D4B58  thumb  ov093
- *   func_021D4B98  0x021D4B98  thumb  ov093
- *   func_021D4BD4  0x021D4BD4  thumb  ov093
- *   func_021D4C60  0x021D4C60  thumb  ov093
- *   func_021D4C6C  0x021D4C6C  thumb  ov093
- *   func_021D4C84  0x021D4C84  thumb  ov093
+ *   gBtlAdapterSlots  0x021F6388  data  a4
+ *   gBtlAdapterMode  0x021F6384  data  a4
+ *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
+ *   BTL_NET_ExpectReplies   0x021D4C58  thumb
+ *   BTL_NET_SendServerCmd  0x021D4B58  thumb  ov093
+ *   BTL_NET_AreAllRepliesReceived  0x021D4B98  thumb  ov093
+ *   BTL_NET_GetClientReply  0x021D4BD4  thumb  ov093
+ *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
+ *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
+ *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  *   func_021BA1A8  0x021BA1A8  thumb  ov093
  *   func_0201EC64  0x0201EC64  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
- *   d_021F6398     0x021F6398  data  ov093  a4
- *   d_021F3990     0x021F3990  data  ov093  a2
+ *   gBtlMsgState     0x021F6398  data  ov093  a4
+ *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_021B9940  0x021B9940  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_0201EEF4  0x0201EEF4  thumb
- *   func_021D5844  0x021D5844  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201EE84  0x0201EE84  thumb
  *   func_021BA020  0x021BA020  thumb  ov093
  *   func_0201F0F8  0x0201F0F8  thumb
  *   func_021B9F70  0x021B9F70  thumb  ov093
- *   func_021B86B8  0x021B86B8  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   func_021BA004  0x021BA004  thumb  ov093
  *   func_021B9FAC  0x021B9FAC  thumb  ov093
  *   func_021BA064  0x021BA064  thumb  ov093
@@ -52,12 +52,12 @@
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F134  0x0201F134  thumb
- *   func_021B8BD0  0x021B8BD0  thumb  ov093
+ *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   d_021F39A0     0x021F39A0  data  a2
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   d_021F39D8  0x021F39D8  data  a4
- *   func_02045A98  0x02045A98  arm
+ *   sBtlMsgBuilders  0x021F39D8  data  a4
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_0201D5C4  0x0201D5C4  thumb
  *   func_0201D5CC  0x0201D5CC  thumb
  *   func_0201D670  0x0201D670  thumb
@@ -116,7 +116,7 @@ typedef struct BtlAdapter {
     struct BtlAdapterPacket packet; /* 0x10 packet sent to the net layer */
 } BtlAdapter;
 
-/* Message formatter state (d_021F6398). */
+/* Message formatter state (gBtlMsgState). */
 struct BtlMsgState {
     struct BtlSystem *battle;       /* 0x00 */
     struct BtlPokeList *pokeList;   /* 0x04 */
@@ -131,7 +131,7 @@ struct BtlMsgState {
     u16 useSpeciesName;             /* 0x5a nonzero: pokemon tags print the species */
 };
 
-/* Table of tags with their own builder (d_021F39D8). */
+/* Table of tags with their own builder (sBtlMsgBuilders). */
 struct BtlMsgBuilder {
     u16 tag;
     u16 pad;
@@ -156,29 +156,29 @@ typedef struct {
 extern u32 func_020307B0(void *block);
 extern void func_02082D44(const void *src, void *dest, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021D4C58(u32 netId);
-extern u32 func_021D4B58(u32 channel, struct BtlAdapterPacket *packet, u32 size);
-extern int func_021D4B98(void);
-extern u16 func_021D4BD4(int channel, const u8 **outData);
-extern u8 func_021D4C60(void);
-extern u16 func_021D4C6C(struct BtlAdapterPacket **outPacket);
-extern u32 func_021D4C84(const u8 *data, u32 size);
+extern void BTL_NET_ExpectReplies(u32 netId);
+extern u32 BTL_NET_SendServerCmd(u32 channel, struct BtlAdapterPacket *packet, u32 size);
+extern int BTL_NET_AreAllRepliesReceived(void);
+extern u16 BTL_NET_GetClientReply(int channel, const u8 **outData);
+extern u8 BTL_NET_HasServerCmd(void);
+extern u16 BTL_NET_GetServerCmd(struct BtlAdapterPacket **outPacket);
+extern u32 BTL_NET_SendClientReply(const u8 *data, u32 size);
 extern int func_021BA1A8(struct BtlSystem *battle, int flag);
 extern struct WordSet *func_0201EC64(u32 heapId);
-extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_0201ED04(struct WordSet *wordSet);
-extern void func_02045808(struct Strbuf *buf);
-extern u32 func_02045C04(struct MsgBank *bank);
+extern void STRBUF_Delete(struct Strbuf *buf);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern struct BtlPoke *func_021B9940(struct BtlPokeList *list, u8 pokeId);
-extern void *func_021D5864(struct BtlPoke *poke);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPoke *poke);
 extern void func_0201EEF4(struct WordSet *wordSet, u32 slot, void *mon);
-extern void *func_021D5844(struct BtlPoke *poke);
+extern void *BTL_POKEPARAM_GetMon(struct BtlPoke *poke);
 extern void func_0201EE84(struct WordSet *wordSet, u32 slot, void *mon);
 extern unsigned short func_021BA020(struct BtlSystem *battle, int clientId);
 extern void func_0201F0F8(struct WordSet *wordSet, u32 slot, u32 value);
 extern int func_021B9F70(struct BtlSystem *battle, int clientId);
-extern int func_021B86B8(struct BtlSystem *battle);
+extern int BTL_MAIN_GetCompetitor(struct BtlSystem *battle);
 extern u16 func_021BA004(struct BtlSystem *battle, int clientId);
 extern const void *func_021B9FAC(struct BtlSystem *battle, int clientId, u32 *outClass);
 extern struct Strbuf *func_021BA064(struct BtlSystem *battle, int clientId);
@@ -187,10 +187,10 @@ extern u8 func_0202A3CC(u32 trainerClass);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 slot, const void *src, u32 classType, u32 nameMode, u32 nameFlags);
 extern void func_0201F02C(struct WordSet *wordSet, u32 slot, struct Strbuf *src);
 extern void func_0201F134(struct WordSet *wordSet, u32 slot, u32 value);
-extern int func_021B8BD0(struct BtlSystem *battle, unsigned char clientId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern int BTL_MAIN_IsLocalSide(struct BtlSystem *battle, unsigned char clientId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dest, struct Strbuf *src);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern u32 func_0201D5C4(void);
 extern u32 func_0201D5CC(const u16 *tag);
 extern u32 func_0201D670(const u16 *tag, u32 index);
@@ -207,82 +207,82 @@ extern u8 func_021B8DDC(u32 clientId);
 extern int func_021B8CE8(struct BtlSystem *battle, int clientId, int side);
 extern u8 func_021B8FF4(struct BtlSystem *battle);
 
-extern BtlAdapter *d_021F6388[];
-extern int d_021F6384;
-extern const char d_021F3AE8[];
-extern struct BtlMsgState d_021F6398;
-extern const u16 d_021F3990[];
+extern BtlAdapter *gBtlAdapterSlots[];
+extern int gBtlAdapterMode;
+extern const char gBtlAdapterFileName[];
+extern struct BtlMsgState gBtlMsgState;
+extern const u16 sBtlMsgBankFileIds[];
 extern const u16 d_021F39A0[];
-extern struct BtlMsgBuilder d_021F39D8[];
+extern struct BtlMsgBuilder sBtlMsgBuilders[];
 
-void func_021EEA30(int mode);
-void func_021EEA54(void);
-BtlAdapter *func_021EEA58(u32 owner, int channel, u32 netId, u32 heapId);
-void func_021EEAD0(BtlAdapter *adapter);
-void func_021EEAE0(BtlAdapter *adapter);
-void func_021EEAE8(void);
-void func_021EEAFC(void);
-void func_021EEB00(BtlAdapter *adapter, u16 command, const void *src, u16 size);
-int func_021EEB2C(BtlAdapter *adapter);
-const u8 *func_021EEB64(BtlAdapter *adapter, u32 *outSize);
-void func_021EEB70(BtlAdapter *adapter);
-u32 func_021EEB84(BtlAdapter *adapter);
-u32 func_021EEBA4(BtlAdapter *adapter);
-void func_021EEBDC(BtlAdapter *adapter);
-u8 func_021EEBE8(BtlAdapter *adapter);
-u16 func_021EEC20(BtlAdapter *adapter, u8 **outData);
-u32 func_021EEC4C(BtlAdapter *adapter, const u8 *data, u32 size);
-void func_021EEC78(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *pokeList, u32 heapId);
-void func_021EECD8(void);
-void func_021EED00(u8 pokeId, u32 slot);
-void func_021EED24(u8 pokeId, u32 slot);
-void func_021EED48(u8 pokeId, u8 slot);
-void func_021EED6C(struct WordSet *wordSet, u8 slot, u8 clientId);
-void func_021EED90(struct WordSet *wordSet, u8 slot, u8 clientId);
-void func_021EEE24(struct Strbuf *dest, u16 msgId, u32 argCount, ...);
-void func_021EEE80(struct Strbuf *dest, u16 msgId, u32 *args);
-void func_021EEEC8(struct Strbuf *dest, u32 msgId, u32 *args);
-void func_021EEEF4(struct Strbuf *dest, u16 msgId, u32 *args);
-u16 *func_021EEF20(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot);
-u8 func_021EEF98(struct Strbuf *text);
-void func_021EEFE0(struct Strbuf *text, const u32 *values, struct WordSet *wordSet);
-void func_021EF1CC(struct Strbuf *dest, u16 msgId, u32 *args);
-void func_021EF204(struct Strbuf *dest, u32 msgId, u32 *args);
-void func_021EF280(struct Strbuf *dest, u16 msgId, u32 *args);
-void func_021EF3A4(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsA *args);
-void func_021EF460(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsB *args);
-void func_021EF508(struct Strbuf *dest, int msgId, u32 *args);
-void func_021EF594(struct Strbuf *dest, u32 msgId, u32 *args);
-void func_021EF5E8(struct Strbuf *dest, u8 clientId, u16 entry);
-void func_021EF664(struct Strbuf *dest, u16 entry, int alternate);
-void func_021EF694(struct Strbuf *dest, u32 msgId);
-void func_021EF6A8(struct Strbuf *dest, u32 msgId, u32 *args);
-void func_021EF6B0(struct Strbuf *dest, u32 msgId, u32 *args);
-void func_021EF6E8(struct Strbuf *dest, u32 msgId, u32 *args);
-void func_021EF6F0(struct Strbuf *dest, u32 msgId, u32 *args);
-void func_021EF71C(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
-void func_021EF7AC(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
+void BTL_ADAPTER_ClearSlots(int mode);
+void BTL_ADAPTER_NoOp(void);
+BtlAdapter *BTL_ADAPTER_Create(u32 owner, int channel, u32 netId, u32 heapId);
+void BTL_ADAPTER_ResetCommand(BtlAdapter *adapter);
+void BTL_ADAPTER_Delete(BtlAdapter *adapter);
+void BTL_ADAPTER_NotifyNet(void);
+void BTL_ADAPTER_Idle(void);
+void BTL_ADAPTER_SetSendData(BtlAdapter *adapter, u16 command, const void *src, u16 size);
+int BTL_ADAPTER_Update(BtlAdapter *adapter);
+const u8 *BTL_ADAPTER_GetSendBuffer(BtlAdapter *adapter, u32 *outSize);
+void BTL_ADAPTER_Cancel(BtlAdapter *adapter);
+u32 BTL_ADAPTER_StartSend(BtlAdapter *adapter);
+u32 BTL_ADAPTER_PollSend(BtlAdapter *adapter);
+void BTL_ADAPTER_ClearRecvHeader(BtlAdapter *adapter);
+u8 BTL_ADAPTER_GetRecvCommand(BtlAdapter *adapter);
+u16 BTL_ADAPTER_GetRecvData(BtlAdapter *adapter, u8 **outData);
+u32 BTL_ADAPTER_SetRecvTarget(BtlAdapter *adapter, const u8 *data, u32 size);
+void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *pokeList, u32 heapId);
+void BTL_MSG_Exit(void);
+void BTL_MSG_SetPokeName(u8 pokeId, u32 slot);
+void BTL_MSG_SetPokeSpecies(u8 pokeId, u32 slot);
+void BTL_MSG_SetPokeNickname(u8 pokeId, u8 slot);
+void BTL_MSG_SetClientValue(struct WordSet *wordSet, u8 slot, u8 clientId);
+void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId);
+void BTL_MSG_FormatArgs(struct Strbuf *dest, u16 msgId, u32 argCount, ...);
+void BTL_MSG_FormatWithSide(struct Strbuf *dest, u16 msgId, u32 *args);
+void BTL_MSG_BuildString(struct Strbuf *dest, u32 msgId, u32 *args);
+void BTL_MSG_DispatchTagged(struct Strbuf *dest, u16 msgId, u32 *args);
+u16 *BTL_MSG_FindWordTag(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot);
+u8 BTL_MSG_CountWordTags(struct Strbuf *text);
+void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *wordSet);
+void BTL_MSG_BuildStandard(struct Strbuf *dest, u16 msgId, u32 *args);
+void BTL_MSG_BuildStandardSingle(struct Strbuf *dest, u32 msgId, u32 *args);
+void BTL_MSG_BuildStandardPair(struct Strbuf *dest, u16 msgId, u32 *args);
+void BTL_MSG_BuildMoveEffectA(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsA *args);
+void BTL_MSG_BuildMoveEffectB(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsB *args);
+void BTL_MSG_BuildMoveEffectC(struct Strbuf *dest, int msgId, u32 *args);
+void BTL_MSG_BuildClientAction(struct Strbuf *dest, u32 msgId, u32 *args);
+void BTL_MSG_BuildItemUse(struct Strbuf *dest, u8 clientId, u16 entry);
+void BTL_MSG_BuildPlainEntry(struct Strbuf *dest, u16 entry, int alternate);
+void BTL_MSG_GetUiString(struct Strbuf *dest, u32 msgId);
+void BTL_MSG_BuildUiString(struct Strbuf *dest, u32 msgId, u32 *args);
+void BTL_MSG_BuildUiStringFlagged(struct Strbuf *dest, u32 msgId, u32 *args);
+void BTL_MSG_BuildTrainerString(struct Strbuf *dest, u32 msgId, u32 *args);
+void BTL_MSG_BuildTrainerStringBody(struct Strbuf *dest, u32 msgId, u32 *args);
+void BTL_MSG_BuildBallStatusOpen(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
+void BTL_MSG_BuildBallStatusRefresh(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
 
-void func_021EEA30(int mode)
+void BTL_ADAPTER_ClearSlots(int mode)
 {
     int i;
 
     for (i = 0; i < 4; i++)
-        d_021F6388[i] = 0;
-    d_021F6384 = mode;
+        gBtlAdapterSlots[i] = 0;
+    gBtlAdapterMode = mode;
 }
 
 
-void func_021EEA54(void) { }
+void BTL_ADAPTER_NoOp(void) { }
 
 
-BtlAdapter *func_021EEA58(u32 owner, int channel, u32 netId, u32 heapId)
+BtlAdapter *BTL_ADAPTER_Create(u32 owner, int channel, u32 netId, u32 heapId)
 {
     BtlAdapter *adapter;
 
     adapter = 0;
-    if (d_021F6388[channel] == 0) {
-        adapter = func_02030734(heapId, sizeof(BtlAdapter), 1, d_021F3AE8, 0x7e);
+    if (gBtlAdapterSlots[channel] == 0) {
+        adapter = func_02030734(heapId, sizeof(BtlAdapter), 1, gBtlAdapterFileName, 0x7e);
         adapter->owner = owner;
         adapter->channel = channel;
         adapter->netId = (u8)netId;
@@ -290,18 +290,18 @@ BtlAdapter *func_021EEA58(u32 owner, int channel, u32 netId, u32 heapId)
         adapter->commandByte = 0;
         adapter->peerReady = 0;
     }
-    if (d_021F6384 == 0) {
-        if (d_021F6388[channel] == 0)
-            d_021F6388[channel] = adapter;
-        return d_021F6388[channel];
+    if (gBtlAdapterMode == 0) {
+        if (gBtlAdapterSlots[channel] == 0)
+            gBtlAdapterSlots[channel] = adapter;
+        return gBtlAdapterSlots[channel];
     }
-    d_021F6388[channel] = adapter;
+    gBtlAdapterSlots[channel] = adapter;
     return adapter;
 }
 
 
 /* 021EEAD0  clear the peer-ready nibble and the phase and command bytes */
-void func_021EEAD0(BtlAdapter *adapter)
+void BTL_ADAPTER_ResetCommand(BtlAdapter *adapter)
 {
     adapter->phase = 0;
     adapter->commandByte = 0;
@@ -309,27 +309,27 @@ void func_021EEAD0(BtlAdapter *adapter)
 }
 
 
-void func_021EEAE0(BtlAdapter *adapter)
+void BTL_ADAPTER_Delete(BtlAdapter *adapter)
 {
     func_020307B0(adapter);
 }
 
 
 /* 021EEAE8  call through a global pointer when it is set */
-void func_021EEAE8(void)
+void BTL_ADAPTER_NotifyNet(void)
 {
-    u32 mode = d_021F6384;
+    u32 mode = gBtlAdapterMode;
     if (mode != 0)
-        func_021D4C58(mode);
+        BTL_NET_ExpectReplies(mode);
 }
 
 
-void func_021EEAFC(void)
+void BTL_ADAPTER_Idle(void)
 {
 }
 
 
-void func_021EEB00(BtlAdapter *adapter, u16 command, const void *src, u16 size)
+void BTL_ADAPTER_SetSendData(BtlAdapter *adapter, u16 command, const void *src, u16 size)
 {
     adapter->phase = 1;
     adapter->commandByte = command;
@@ -342,15 +342,15 @@ void func_021EEB00(BtlAdapter *adapter, u16 command, const void *src, u16 size)
 }
 
 
-int func_021EEB2C(BtlAdapter *adapter)
+int BTL_ADAPTER_Update(BtlAdapter *adapter)
 {
     switch (adapter->phase) {
     case 1:
-        if (func_021EEB84(adapter) == 0)
+        if (BTL_ADAPTER_StartSend(adapter) == 0)
             break;
         adapter->phase = 3;
     case 3:
-        if (func_021EEBA4(adapter) == 0)
+        if (BTL_ADAPTER_PollSend(adapter) == 0)
             break;
         adapter->phase = 4;
     case 4:
@@ -360,7 +360,7 @@ int func_021EEB2C(BtlAdapter *adapter)
 }
 
 
-const u8 *func_021EEB64(BtlAdapter *adapter, u32 *outSize)
+const u8 *BTL_ADAPTER_GetSendBuffer(BtlAdapter *adapter, u32 *outSize)
 {
     if (outSize != 0)
         *outSize = adapter->peerSize;
@@ -368,31 +368,31 @@ const u8 *func_021EEB64(BtlAdapter *adapter, u32 *outSize)
 }
 
 
-void func_021EEB70(BtlAdapter *adapter)
+void BTL_ADAPTER_Cancel(BtlAdapter *adapter)
 {
     adapter->phase = 0;
     if (adapter->netId != 0)
-        func_021D4C58(adapter->netId);
+        BTL_NET_ExpectReplies(adapter->netId);
 }
 
 
-u32 func_021EEB84(BtlAdapter *adapter)
+u32 BTL_ADAPTER_StartSend(BtlAdapter *adapter)
 {
     struct BtlAdapterPacket *packet;
 
     if (adapter->netId != 0) {
         packet = &adapter->packet;
-        return func_021D4B58(adapter->channel, packet, packet->size + 4);
+        return BTL_NET_SendServerCmd(adapter->channel, packet, packet->size + 4);
     }
     return 1;
 }
 
 
-u32 func_021EEBA4(BtlAdapter *adapter)
+u32 BTL_ADAPTER_PollSend(BtlAdapter *adapter)
 {
     if (adapter->netId != 0) {
-        if (func_021D4B98() != 0) {
-            adapter->peerSize = func_021D4BD4(adapter->channel, &adapter->peerData);
+        if (BTL_NET_AreAllRepliesReceived() != 0) {
+            adapter->peerSize = BTL_NET_GetClientReply(adapter->channel, &adapter->peerData);
             adapter->peerReady = 1;
             return 1;
         }
@@ -402,20 +402,20 @@ u32 func_021EEBA4(BtlAdapter *adapter)
 }
 
 
-void func_021EEBDC(BtlAdapter *adapter)
+void BTL_ADAPTER_ClearRecvHeader(BtlAdapter *adapter)
 {
     adapter->packet.command = 0;
     adapter->packet.size = 4;
 }
 
 
-u8 func_021EEBE8(BtlAdapter *adapter)
+u8 BTL_ADAPTER_GetRecvCommand(BtlAdapter *adapter)
 {
     struct BtlAdapterPacket *packet;
 
     if (adapter->netId != 0) {
-        if (func_021D4C60() != 0) {
-            func_021D4C6C(&packet);
+        if (BTL_NET_HasServerCmd() != 0) {
+            BTL_NET_GetServerCmd(&packet);
             return packet->command;
         }
         return 0;
@@ -426,13 +426,13 @@ u8 func_021EEBE8(BtlAdapter *adapter)
 }
 
 
-u16 func_021EEC20(BtlAdapter *adapter, u8 **outData)
+u16 BTL_ADAPTER_GetRecvData(BtlAdapter *adapter, u8 **outData)
 {
     struct BtlAdapterPacket *packet;
     struct BtlAdapterPacket *received; /* second local keeps the register allocation */
 
     if (adapter->netId != 0) {
-        func_021D4C6C(&packet);
+        BTL_NET_GetServerCmd(&packet);
         received = packet;
         *outData = received->data;
         return received->size;
@@ -442,10 +442,10 @@ u16 func_021EEC20(BtlAdapter *adapter, u8 **outData)
 }
 
 
-u32 func_021EEC4C(BtlAdapter *adapter, const u8 *data, u32 size)
+u32 BTL_ADAPTER_SetRecvTarget(BtlAdapter *adapter, const u8 *data, u32 size)
 {
     if (adapter->netId != 0)
-        return func_021D4C84(data, size);
+        return BTL_NET_SendClientReply(data, size);
     if (adapter->peerReady == 0) {
         adapter->peerData = data;
         adapter->peerSize = size;
@@ -455,80 +455,80 @@ u32 func_021EEC4C(BtlAdapter *adapter, const u8 *data, u32 size)
 }
 
 
-void func_021EEC78(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *pokeList, u32 heapId)
+void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *pokeList, u32 heapId)
 {
     int i;
 
-    d_021F6398.battle = battle;
-    d_021F6398.pokeList = pokeList;
-    d_021F6398.heapId = heapId;
-    d_021F6398.clientId = clientId;
-    d_021F6398.plainWording = func_021BA1A8(battle, 0x200);
-    d_021F6398.useSpeciesName = 0;
-    d_021F6398.wordSet = func_0201EC64(heapId);
-    d_021F6398.msgBuf = func_020457B0(0x200 >> 1, heapId);
+    gBtlMsgState.battle = battle;
+    gBtlMsgState.pokeList = pokeList;
+    gBtlMsgState.heapId = heapId;
+    gBtlMsgState.clientId = clientId;
+    gBtlMsgState.plainWording = func_021BA1A8(battle, 0x200);
+    gBtlMsgState.useSpeciesName = 0;
+    gBtlMsgState.wordSet = func_0201EC64(heapId);
+    gBtlMsgState.msgBuf = STRBUF_Create(0x200 >> 1, heapId);
     for (i = 0; i < 8; i++) {
-        d_021F6398.banks[i] = func_02045B38(0, 2, d_021F3990[i], heapId);
+        gBtlMsgState.banks[i] = func_02045B38(0, 2, sBtlMsgBankFileIds[i], heapId);
     }
 }
 
 
-void func_021EECD8(void)
+void BTL_MSG_Exit(void)
 {
     int i;
 
-    func_0201ED04(d_021F6398.wordSet);
-    func_02045808(d_021F6398.msgBuf);
+    func_0201ED04(gBtlMsgState.wordSet);
+    STRBUF_Delete(gBtlMsgState.msgBuf);
     for (i = 0; i < 8; i++)
-        func_02045C04(d_021F6398.banks[i]);
+        MSGDATA_Delete(gBtlMsgState.banks[i]);
 }
 
 
-void func_021EED00(u8 pokeId, u32 slot)
+void BTL_MSG_SetPokeName(u8 pokeId, u32 slot)
 {
-    func_0201EEF4(d_021F6398.wordSet, slot, func_021D5864(func_021B9940(d_021F6398.pokeList, pokeId)));
+    func_0201EEF4(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(func_021B9940(gBtlMsgState.pokeList, pokeId)));
 }
 
 
-void func_021EED24(u8 pokeId, u32 slot)
+void BTL_MSG_SetPokeSpecies(u8 pokeId, u32 slot)
 {
-    func_0201EEF4(d_021F6398.wordSet, slot, func_021D5844(func_021B9940(d_021F6398.pokeList, pokeId)));
+    func_0201EEF4(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetMon(func_021B9940(gBtlMsgState.pokeList, pokeId)));
 }
 
 
-void func_021EED48(u8 pokeId, u8 slot)
+void BTL_MSG_SetPokeNickname(u8 pokeId, u8 slot)
 {
-    func_0201EE84(d_021F6398.wordSet, slot, func_021D5864(func_021B9940(d_021F6398.pokeList, pokeId)));
+    func_0201EE84(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(func_021B9940(gBtlMsgState.pokeList, pokeId)));
 }
 
 
-void func_021EED6C(struct WordSet *wordSet, u8 slot, u8 clientId)
+void BTL_MSG_SetClientValue(struct WordSet *wordSet, u8 slot, u8 clientId)
 {
-    func_0201F0F8(wordSet, slot, (u8)func_021BA020(d_021F6398.battle, clientId));
+    func_0201F0F8(wordSet, slot, (u8)func_021BA020(gBtlMsgState.battle, clientId));
 }
 
 
-void func_021EED90(struct WordSet *wordSet, u8 slot, u8 clientId)
+void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId)
 {
     u32 trainerClass;
     int trainerId;
     const void *trainerData;
 
     if (clientId != 4) {
-        if (func_021B9F70(d_021F6398.battle, clientId) != 0) {
-            if (func_021B86B8(d_021F6398.battle) == 1) {
-                trainerId = func_021BA004(d_021F6398.battle, clientId);
+        if (func_021B9F70(gBtlMsgState.battle, clientId) != 0) {
+            if (BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 1) {
+                trainerId = func_021BA004(gBtlMsgState.battle, clientId);
                 if (trainerId != 0)
                     func_0201F134(wordSet, slot, trainerId);
             } else {
-                trainerData = func_021B9FAC(d_021F6398.battle, clientId, &trainerClass);
+                trainerData = func_021B9FAC(gBtlMsgState.battle, clientId, &trainerClass);
                 func_0201EE0C(wordSet, slot, trainerData, func_0202A3CC(trainerClass), 1, 2);
             }
         } else {
-            func_0201F02C(wordSet, slot, func_021BA064(d_021F6398.battle, clientId));
+            func_0201F02C(wordSet, slot, func_021BA064(gBtlMsgState.battle, clientId));
         }
     } else {
-        func_0201F02C(wordSet, slot, func_021BA080(d_021F6398.battle));
+        func_0201F02C(wordSet, slot, func_021BA080(gBtlMsgState.battle));
     }
 }
 
@@ -536,58 +536,58 @@ void func_021EED90(struct WordSet *wordSet, u8 slot, u8 clientId)
 /*
  * Variadic: copies argCount words into the eight-word table
  * BtlMsgState.args (zero-filling the rest), then hands the table
- * to func_021EEE80.
+ * to BTL_MSG_FormatWithSide.
  */
-void func_021EEE24(struct Strbuf *dest, u16 msgId, u32 argCount, ...)
+void BTL_MSG_FormatArgs(struct Strbuf *dest, u16 msgId, u32 argCount, ...)
 {
     va_list ap;
     u32 i;
 
     va_start(ap, argCount);
     for (i = 0; i < argCount; i++) {
-        d_021F6398.args[i] = va_arg(ap, s32);
+        gBtlMsgState.args[i] = va_arg(ap, s32);
     }
     for (; i < 8; i++) {
-        d_021F6398.args[i] = 0;
+        gBtlMsgState.args[i] = 0;
     }
-    func_021EEE80(dest, msgId, d_021F6398.args);
+    BTL_MSG_FormatWithSide(dest, msgId, gBtlMsgState.args);
 }
 
 
-void func_021EEE80(struct Strbuf *dest, u16 msgId, u32 *args)
+void BTL_MSG_FormatWithSide(struct Strbuf *dest, u16 msgId, u32 *args)
 {
     u32 i;
 
     for (i = 0; i < 27; i++) {
         if (msgId == d_021F39A0[i]) {
-            if (func_021B8BD0(d_021F6398.battle, (u8)*args) == 0)
+            if (BTL_MAIN_IsLocalSide(gBtlMsgState.battle, (u8)*args) == 0)
                 msgId = msgId + 1;
             break;
         }
     }
-    func_021EEEC8(dest, msgId, args);
+    BTL_MSG_BuildString(dest, msgId, args);
 }
 
 
-void func_021EEEC8(struct Strbuf *dest, u32 msgId, u32 *args)
+void BTL_MSG_BuildString(struct Strbuf *dest, u32 msgId, u32 *args)
 {
-    func_02045CAC(d_021F6398.banks[0], msgId, d_021F6398.msgBuf);
-    func_021EEFE0(d_021F6398.msgBuf, args, d_021F6398.wordSet);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[0], msgId, gBtlMsgState.msgBuf);
+    BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
-void func_021EEEF4(struct Strbuf *dest, u16 msgId, u32 *args)
+void BTL_MSG_DispatchTagged(struct Strbuf *dest, u16 msgId, u32 *args)
 {
     u32 i;
 
     for (i = 0; i < 14; i++) {
-        if (msgId == d_021F39D8[i].tag) {
-            d_021F39D8[i].build(dest, msgId, args);
+        if (msgId == sBtlMsgBuilders[i].tag) {
+            sBtlMsgBuilders[i].build(dest, msgId, args);
             return;
         }
     }
-    func_021EF1CC(dest, msgId, args);
+    BTL_MSG_BuildStandard(dest, msgId, args);
 }
 
 
@@ -595,13 +595,13 @@ void func_021EEEF4(struct Strbuf *dest, u16 msgId, u32 *args)
  * Walks a message string for the first 0xF000 tag that func_0201D5CC calls a
  * word reference; the guard on text wraps the whole walk (two `return 0` tails).
  */
-u16 *func_021EEF20(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot)
+u16 *BTL_MSG_FindWordTag(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot)
 {
     u16 endMark;
     u32 tagMark;
 
     if (text != 0) {
-        endMark = func_02045A98();
+        endMark = STRBUF_GetEosChar();
         tagMark = func_0201D5C4();
         while (*text != endMark) {
             if (*text == tagMark) {
@@ -622,7 +622,7 @@ u16 *func_021EEF20(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot)
 }
 
 
-u8 func_021EEF98(struct Strbuf *text)
+u8 BTL_MSG_CountWordTags(struct Strbuf *text)
 {
     u32 group;
     u16 kind;
@@ -634,7 +634,7 @@ u8 func_021EEF98(struct Strbuf *text)
     count = 0;
     if (cursor != 0) {
         do {
-            cursor = func_021EEF20(cursor, &group, &kind, &slot);
+            cursor = BTL_MSG_FindWordTag(cursor, &group, &kind, &slot);
             if (cursor != 0 && group == 1) {
                 if (kind == 1 || kind == 2 || kind == 12)
                     count = count + 1;
@@ -650,7 +650,7 @@ u8 func_021EEF98(struct Strbuf *text)
  * A u8 kind local narrows before argument setup; const values schedules
  * the index shift ahead of the last outgoing argument store.
  */
-void func_021EEFE0(struct Strbuf *text, const u32 *values, struct WordSet *wordSet)
+void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *wordSet)
 {
     u16 endMark;
     u32 tagMark;
@@ -661,7 +661,7 @@ void func_021EEFE0(struct Strbuf *text, const u32 *values, struct WordSet *wordS
     u32 valueIndex;
     u8 group;
     u8 kind;
-    endMark = func_02045A98();
+    endMark = STRBUF_GetEosChar();
     tagMark = func_0201D5C4();
     for (i = 0; i < 8; i++)
         removedBefore[i] = 0;
@@ -694,22 +694,22 @@ void func_021EEFE0(struct Strbuf *text, const u32 *values, struct WordSet *wordS
                 } else {
                     switch (func_0201D658(cursor)) {
                     case 14:
-                        func_021EED6C(wordSet, slot, values[valueIndex]);
+                        BTL_MSG_SetClientValue(wordSet, slot, values[valueIndex]);
                         break;
                     case 0:
-                        func_021EED90(wordSet, slot, values[valueIndex]);
+                        BTL_MSG_SetClientName(wordSet, slot, values[valueIndex]);
                         break;
                     case 2:
-                        if (d_021F6398.useSpeciesName == 0)
-                            func_021EED00(values[valueIndex], slot);
+                        if (gBtlMsgState.useSpeciesName == 0)
+                            BTL_MSG_SetPokeName(values[valueIndex], slot);
                         else
-                            func_021EED24(values[valueIndex], slot);
+                            BTL_MSG_SetPokeSpecies(values[valueIndex], slot);
                         break;
                     case 12:
-                        func_021EED24(values[valueIndex], slot);
+                        BTL_MSG_SetPokeSpecies(values[valueIndex], slot);
                         break;
                     case 1:
-                        func_021EED48(values[valueIndex], slot);
+                        BTL_MSG_SetPokeNickname(values[valueIndex], slot);
                         break;
                     case 3:
                         func_0201F020(wordSet, slot, values[valueIndex]);
@@ -736,13 +736,13 @@ void func_021EEFE0(struct Strbuf *text, const u32 *values, struct WordSet *wordS
 }
 
 
-void func_021EF1CC(struct Strbuf *dest, u16 msgId, u32 *args)
+void BTL_MSG_BuildStandard(struct Strbuf *dest, u16 msgId, u32 *args)
 {
-    func_02045CAC(d_021F6398.banks[1], msgId, d_021F6398.msgBuf);
-    if (func_021EEF98(d_021F6398.msgBuf) == 2)
-        func_021EF280(dest, msgId, args);
+    MSGDATA_ReadString(gBtlMsgState.banks[1], msgId, gBtlMsgState.msgBuf);
+    if (BTL_MSG_CountWordTags(gBtlMsgState.msgBuf) == 2)
+        BTL_MSG_BuildStandardPair(dest, msgId, args);
     else
-        func_021EF204(dest, msgId, args);
+        BTL_MSG_BuildStandardSingle(dest, msgId, args);
 }
 
 
@@ -750,30 +750,30 @@ void func_021EF1CC(struct Strbuf *dest, u16 msgId, u32 *args)
 static inline int BTL_MSG_GetSideVariant(u8 clientId)
 {
     int sideVariant;
-    if (d_021F6398.plainWording == 0 && func_021B8CE8(d_021F6398.battle, (u8)d_021F6398.clientId, func_021B8DDC(clientId))) {
-        if (func_021B86B8(d_021F6398.battle) == 0 || func_021B86B8(d_021F6398.battle) == 4) sideVariant = 1;
+    if (gBtlMsgState.plainWording == 0 && func_021B8CE8(gBtlMsgState.battle, (u8)gBtlMsgState.clientId, func_021B8DDC(clientId))) {
+        if (BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 0 || BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 4) sideVariant = 1;
         else sideVariant = 2;
     } else sideVariant = 0;
     return sideVariant;
 }
 
 
-void func_021EF204(struct Strbuf *dest, u32 msgId, u32 *args)
+void BTL_MSG_BuildStandardSingle(struct Strbuf *dest, u32 msgId, u32 *args)
 {
     int sideVariant;
     u8 clientId = *args;
 
     sideVariant = BTL_MSG_GetSideVariant(clientId);
-    func_02045CAC(d_021F6398.banks[1], (u16)(msgId + sideVariant), d_021F6398.msgBuf);
-    func_021EEFE0(d_021F6398.msgBuf, args, d_021F6398.wordSet);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(msgId + sideVariant), gBtlMsgState.msgBuf);
+    BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
 /*
  * lever: explicit msgId = msgId + variant avoids compound-assignment RHS narrowing.
  */
-void func_021EF280(struct Strbuf *dest, u16 msgId, u32 *args)
+void BTL_MSG_BuildStandardPair(struct Strbuf *dest, u16 msgId, u32 *args)
 {
     u8 secondClient = args[1];
     int firstVariant = BTL_MSG_GetSideVariant(args[0]);
@@ -791,16 +791,16 @@ second:
         if (firstVariant == BTL_MSG_GetSideVariant(secondClient)) msgId++;
         break;
     }
-    func_02045CAC(d_021F6398.banks[1], msgId, d_021F6398.msgBuf);
-    func_021EEFE0(d_021F6398.msgBuf, args, d_021F6398.wordSet);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[1], msgId, gBtlMsgState.msgBuf);
+    BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
 /*
- * Twin of func_021EF460 (partial sum in a named local, sideVariant added last).
+ * Twin of BTL_MSG_BuildMoveEffectB (partial sum in a named local, sideVariant added last).
  */
-void func_021EF3A4(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsA *args)
+void BTL_MSG_BuildMoveEffectA(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsA *args)
 {
     u8 entryIndex;
     int tierSelect;
@@ -817,11 +817,11 @@ void func_021EF3A4(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsA *args)
     msgId = (u16)(msgId + (u16)(tierSelect * 0x15));
     clientId = args->clientId;
     sideVariant = BTL_MSG_GetSideVariant(clientId);
-    func_021EED00(args->clientId, 0);
-    func_0201EF40(d_021F6398.wordSet, 1, args->value);
+    BTL_MSG_SetPokeName(args->clientId, 0);
+    func_0201EF40(gBtlMsgState.wordSet, 1, args->value);
     position = msgId + entryIndex * 3;
-    func_02045CAC(d_021F6398.banks[1], (u16)(position + sideVariant), d_021F6398.msgBuf);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(position + sideVariant), gBtlMsgState.msgBuf);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
@@ -831,7 +831,7 @@ void func_021EF3A4(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsA *args)
  * `msgId + entryIndex * 3 + sideVariant` the final add comes out with its
  * operands swapped (one byte).
  */
-void func_021EF460(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsB *args)
+void BTL_MSG_BuildMoveEffectB(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsB *args)
 {
     u8 entryIndex;
     int tierSelect;
@@ -846,64 +846,64 @@ void func_021EF460(struct Strbuf *dest, u32 msgId, BtlMsgEffectArgsB *args)
     if (args->tier == 2)
         tierSelect = 1;
     msgId = (u16)(msgId + (u16)(tierSelect * 0x15));
-    func_021EED00(args->clientId, 0);
+    BTL_MSG_SetPokeName(args->clientId, 0);
     clientId = args->clientId;
     sideVariant = BTL_MSG_GetSideVariant(clientId);
     position = msgId + entryIndex * 3;
-    func_02045CAC(d_021F6398.banks[1], (u16)(position + sideVariant), d_021F6398.msgBuf);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(position + sideVariant), gBtlMsgState.msgBuf);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
-void func_021EF508(struct Strbuf *dest, int msgId, u32 *args)
+void BTL_MSG_BuildMoveEffectC(struct Strbuf *dest, int msgId, u32 *args)
 {
     u8 entryIndex = args[1] - 1;
     int sideVariant;
     int position;
     u8 clientId;
 
-    func_021EED00(args[0], 0);
+    BTL_MSG_SetPokeName(args[0], 0);
     clientId = args[0];
     sideVariant = BTL_MSG_GetSideVariant(clientId);
     position = msgId + entryIndex * 3;
-    func_02045CAC(d_021F6398.banks[1], (u16)(position + sideVariant), d_021F6398.msgBuf);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[1], (u16)(position + sideVariant), gBtlMsgState.msgBuf);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
-void func_021EF594(struct Strbuf *dest, u32 msgId, u32 *args)
+void BTL_MSG_BuildClientAction(struct Strbuf *dest, u32 msgId, u32 *args)
 {
     u8 clientId = args[0];
     int msgIndex;
 
-    if (clientId != func_021B8FF4(d_021F6398.battle)) {
-        if (func_021B9F70(d_021F6398.battle, clientId))
+    if (clientId != func_021B8FF4(gBtlMsgState.battle)) {
+        if (func_021B9F70(gBtlMsgState.battle, clientId))
             msgIndex = 0x23;
         else
             msgIndex = 0x22;
     } else {
         msgIndex = 0x21;
     }
-    func_02045CAC(d_021F6398.banks[0], msgIndex, d_021F6398.msgBuf);
-    func_021EEFE0(d_021F6398.msgBuf, args, d_021F6398.wordSet);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[0], msgIndex, gBtlMsgState.msgBuf);
+    BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
-void func_021EF5E8(struct Strbuf *dest, u8 clientId, u16 entry)
+void BTL_MSG_BuildItemUse(struct Strbuf *dest, u8 clientId, u16 entry)
 {
     int sideVariant;
     u16 base;
 
     sideVariant = BTL_MSG_GetSideVariant(clientId);
-    func_021EED00(clientId, 0);
+    BTL_MSG_SetPokeName(clientId, 0);
     base = entry * 3;
-    func_02045CAC(d_021F6398.banks[2], (u16)(base + sideVariant), d_021F6398.msgBuf);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[2], (u16)(base + sideVariant), gBtlMsgState.msgBuf);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
-void func_021EF664(struct Strbuf *dest, u16 entry, int alternate)
+void BTL_MSG_BuildPlainEntry(struct Strbuf *dest, u16 entry, int alternate)
 {
     u16 msgIndex;
 
@@ -913,75 +913,75 @@ void func_021EF664(struct Strbuf *dest, u16 entry, int alternate)
             msgIndex = msgIndex + 1;
         else
             msgIndex = msgIndex + 2;
-        func_02045CAC(d_021F6398.banks[7], msgIndex, dest);
+        MSGDATA_ReadString(gBtlMsgState.banks[7], msgIndex, dest);
     }
 }
 
 
-void func_021EF694(struct Strbuf *dest, u32 msgId)
+void BTL_MSG_GetUiString(struct Strbuf *dest, u32 msgId)
 {
-    func_02045CAC(d_021F6398.banks[3], msgId, dest);
+    MSGDATA_ReadString(gBtlMsgState.banks[3], msgId, dest);
 }
 
 
-void func_021EF6A8(struct Strbuf *dest, u32 msgId, u32 *args)
+void BTL_MSG_BuildUiString(struct Strbuf *dest, u32 msgId, u32 *args)
 {
-    func_021EF6B0(dest, msgId, args);
+    BTL_MSG_BuildUiStringFlagged(dest, msgId, args);
 }
 
 
-void func_021EF6B0(struct Strbuf *dest, u32 msgId, u32 *args)
+void BTL_MSG_BuildUiStringFlagged(struct Strbuf *dest, u32 msgId, u32 *args)
 {
-    func_02045CAC(d_021F6398.banks[5], msgId, d_021F6398.msgBuf);
-    d_021F6398.useSpeciesName = 1;
-    func_021EEFE0(d_021F6398.msgBuf, args, d_021F6398.wordSet);
-    d_021F6398.useSpeciesName = 0;
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[5], msgId, gBtlMsgState.msgBuf);
+    gBtlMsgState.useSpeciesName = 1;
+    BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
+    gBtlMsgState.useSpeciesName = 0;
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
 /*
- * Tail-call stub (ldr r3,[pc]; bx r3) to func_021EF6F0; callee of func_021EA55C case 6.
+ * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildTrainerStringBody; callee of func_021EA55C case 6.
  */
-void func_021EF6E8(struct Strbuf *dest, u32 msgId, u32 *args)
+void BTL_MSG_BuildTrainerString(struct Strbuf *dest, u32 msgId, u32 *args)
 {
-    func_021EF6F0(dest, msgId, args);
+    BTL_MSG_BuildTrainerStringBody(dest, msgId, args);
 }
 
 
 /*
  * Unlabelled leaf, callee of the tail stub 0x021EF6E8 that func_021EA55C calls.
- * Twin of func_021EF6B0 without the useSpeciesName stores, using the +0x28 slot.
+ * Twin of BTL_MSG_BuildUiStringFlagged without the useSpeciesName stores, using the +0x28 slot.
  */
-void func_021EF6F0(struct Strbuf *dest, u32 msgId, u32 *args)
+void BTL_MSG_BuildTrainerStringBody(struct Strbuf *dest, u32 msgId, u32 *args)
 {
-    func_02045CAC(d_021F6398.banks[6], msgId, d_021F6398.msgBuf);
-    func_021EEFE0(d_021F6398.msgBuf, args, d_021F6398.wordSet);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[6], msgId, gBtlMsgState.msgBuf);
+    BTL_MSG_ExpandTags(gBtlMsgState.msgBuf, args, gBtlMsgState.wordSet);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
-void func_021EF71C(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5)
+void BTL_MSG_BuildBallStatusOpen(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5)
 {
-    func_02045CAC(d_021F6398.banks[3], 0x10, d_021F6398.msgBuf);
-    func_0201EFA4(d_021F6398.wordSet, 0, ball0, 2, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 1, ball1, 2, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 2, ball2, 2, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 3, ball3, 2, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 4, ball4, 2, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 5, ball5, 2, 0, 1);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[3], 0x10, gBtlMsgState.msgBuf);
+    func_0201EFA4(gBtlMsgState.wordSet, 0, ball0, 2, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 1, ball1, 2, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 2, ball2, 2, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 3, ball3, 2, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 4, ball4, 2, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 5, ball5, 2, 0, 1);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }
 
 
-void func_021EF7AC(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5)
+void BTL_MSG_BuildBallStatusRefresh(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5)
 {
-    func_02045CAC(d_021F6398.banks[3], 0x11, d_021F6398.msgBuf);
-    func_0201EFA4(d_021F6398.wordSet, 0, ball0, 3, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 1, ball1, 3, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 2, ball2, 3, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 3, ball3, 3, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 4, ball4, 3, 0, 1);
-    func_0201EFA4(d_021F6398.wordSet, 5, ball5, 3, 0, 1);
-    func_0201F250(d_021F6398.wordSet, dest, d_021F6398.msgBuf);
+    MSGDATA_ReadString(gBtlMsgState.banks[3], 0x11, gBtlMsgState.msgBuf);
+    func_0201EFA4(gBtlMsgState.wordSet, 0, ball0, 3, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 1, ball1, 3, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 2, ball2, 3, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 3, ball3, 3, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 4, ball4, 3, 0, 1);
+    func_0201EFA4(gBtlMsgState.wordSet, 5, ball5, 3, 0, 1);
+    func_0201F250(gBtlMsgState.wordSet, dest, gBtlMsgState.msgBuf);
 }

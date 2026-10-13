@@ -1,5 +1,5 @@
 /*
- * function: func_0215B488
+ * function: SCRCMD_PROC_LookupTableValue
  * address: 0x0215B488
  * packet: pkt_ov010_0215B488
  * region: ov010
@@ -9,18 +9,18 @@
  * status: EXACT
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  * symbols:
- *   func_02159B10 0x02159B10 thumb ov010
- *   func_02159AE8 0x02159AE8 thumb ov010
- *   d_02171170 0x02171170 data a2
+ *   SCRIPT_WORK_ReadWorkValue 0x02159B10 thumb ov010
+ *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
+ *   sScrcmdLookupTable 0x02171170 data a2
  */
 typedef unsigned short u16;
-extern unsigned int func_02159B10(void *,void *);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern const u16 d_02171170[];
-int func_0215B488(int a,int b)
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *,void *);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern const u16 sScrcmdLookupTable[];
+int SCRCMD_PROC_LookupTableValue(int a,int b)
 {
-    int k = func_02159B10((void *)a,(void *)b);
-    u16 *out = func_02159AE8((void *)a,(void *)b);
-    *out = d_02171170[k];
+    int k = SCRIPT_WORK_ReadWorkValue((void *)a,(void *)b);
+    u16 *out = SCRIPT_WORK_ReadWorkPointer((void *)a,(void *)b);
+    *out = sScrcmdLookupTable[k];
     return 0;
 }

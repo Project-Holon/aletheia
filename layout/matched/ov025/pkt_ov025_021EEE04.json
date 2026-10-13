@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEE04",
+   "name": "WEATHER_BLIZZARD_SpawnParticles",
    "address": "0x021EEE04",
    "kind": "game",
    "region": "ov025",

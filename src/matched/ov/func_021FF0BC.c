@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_02202840  0x02202840  thumb  ov135
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
 
  * When the build query answers 0 and either probe is set, roll the state word over.
  */
@@ -22,12 +23,12 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern u32 func_02202840(u8 *p);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 
 int func_021FF0BC(u8 *p)
 {
     if (func_02202840(p + 0xfa0) == 0) {
-        if (func_020362DC() != 0 || func_02035C60() != 0) {
+        if (func_020362DC() != 0 || TOUCHPANEL_GetTrg() != 0) {
             ((struct Obj12217 *)p)->f28 = ((struct Obj12217 *)p)->f2C;
         }
     }

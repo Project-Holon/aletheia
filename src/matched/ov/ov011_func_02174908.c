@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   func_02013D9C  0x02013D9C  thumb
  */
 #include "../include/Obj09346.h"
@@ -25,11 +25,11 @@ u32 func_02026478(void *obj);
 typedef unsigned short u16;
 struct Entry;
 struct Rec44;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-u32 func_0203D1A4(struct Link *p);
-void *func_020127A4(struct SaveBlock *p);
-u16 func_02012AC8(const struct Rec44 *p);
+u32 GFL_NET_GetHandleNetID(struct Link *p);
+void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 unsigned int func_02013D9C(unsigned int id);
 
 void INTRUDE_COMM_RecvAreaNotice(int a, int b, int c, unsigned char *d)
@@ -37,8 +37,8 @@ void INTRUDE_COMM_RecvAreaNotice(int a, int b, int c, unsigned char *d)
     int h;
 
     h = func_02026478((void *)(((struct Obj09346 *)d)->f4));
-    if (a != func_0203D1A4((struct Link *)func_020399A8()) && ((unsigned)(((struct Obj09346 *)d)->f86 << 29) >> 29) == a) {
-        if (func_02013D9C(func_02012AC8(func_020127A4((struct SaveBlock *)h))) != 0) {
+    if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle()) && ((unsigned)(((struct Obj09346 *)d)->f86 << 29) >> 29) == a) {
+        if (func_02013D9C(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)h))) != 0) {
             d[0x8F8] |= 4;
         }
     }

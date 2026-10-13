@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02017E40
+ * function: POKE_TOOL_SetPartyValue
  *
  * 0x02017E40..0x02017E64, 36 bytes, one function.
  *
@@ -42,7 +42,7 @@ extern u32 POKE_TOOL_DecodeCalcBlock(struct Sav *p);
 extern void POKE_TOOL_EncodeCalcBlock(struct Sav *p);
 extern void POKE_TOOL_SetPartyValueRaw(struct Mon *p, u32 id, u32 v);
 
-void func_02017E40(void *p, u32 id, u32 v)
+void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v)
 {
     if (POKE_TOOL_DecodeCalcBlock(p) == 1) {
         POKE_TOOL_SetPartyValueRaw(p, id, v);

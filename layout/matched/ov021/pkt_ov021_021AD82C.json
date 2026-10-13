@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AD82C",
+   "name": "FLDEFF_ENCOUNT_BuildDrawSet",
    "address": "0x021AD82C",
    "kind": "game",
    "region": "ov021",

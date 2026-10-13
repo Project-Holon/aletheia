@@ -1,5 +1,5 @@
 /*
- * function: func_021A1780
+ * function: FIELD_3DBG_IsTextureLoaded
  * address:  0x021A1780
  * packet:   pkt_021A1780
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A1780(u8 *p)
+u32 FIELD_3DBG_IsTextureLoaded(u8 *p)
 {
     return ((struct Obj17997 *)p)->f6;
 }

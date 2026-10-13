@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217BC94",
+   "name": "INTRUDE_FIELD_AddAreaMapCount",
    "address": "0x0217BC94",
    "kind": "game",
    "region": "ov018",

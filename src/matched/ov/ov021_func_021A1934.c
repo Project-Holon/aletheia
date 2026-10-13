@@ -1,5 +1,5 @@
 /*
- * function: func_021A1934
+ * function: FIELD_3DBG_SetPolygonAttr
  * address:  0x021A1934
  * packet:   pkt_ov021_021A1934
  * region:   ov021
@@ -23,7 +23,7 @@ static inline void G3_PolygonAttr(int light, int polyMode, int cullMode, int pol
                                         (polygonID << 24) | (alpha << 16));
 }
 
-void func_021A1934(u8 *p)
+void FIELD_3DBG_SetPolygonAttr(u8 *p)
 {
     *(volatile u32 *)0x040004C0 = 0x7FFFFFFF;
     G3_PolygonAttr(0, 0, 2, p[0x1E], p[0x1F], 0x8000);

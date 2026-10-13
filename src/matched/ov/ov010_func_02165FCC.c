@@ -1,5 +1,5 @@
 /*
- * function: func_02165FCC
+ * function: GAME_BEACON_ACCESSOR_RegisterRecordWords
  * address:  0x02165FCC
  * packet:   pkt_ov010_02165FCC
  * region:   ov010
@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_0201F31C  0x0201F31C  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0201EF34  0x0201EF34  thumb
@@ -26,23 +26,23 @@
  *   func_0201F134  0x0201F134  thumb
  *   func_0201F184  0x0201F184  thumb
  *   func_0201F1E0  0x0201F1E0  thumb
- *   func_02165C34  0x02165C34  thumb  ov010
- *   func_02165D08  0x02165D08  thumb  ov010
- *   func_02165D8C  0x02165D8C  thumb  ov010
- *   func_02165E24  0x02165E24  thumb  ov010
- *   func_02165E34  0x02165E34  thumb  ov010
- *   func_02165E78  0x02165E78  thumb  ov010
- *   func_02165E8C  0x02165E8C  thumb  ov010
- *   func_02165E9C  0x02165E9C  thumb  ov010
- *   func_02165EAC  0x02165EAC  thumb  ov010
- *   func_02165ECC  0x02165ECC  thumb  ov010
- *   func_02165F30  0x02165F30  thumb  ov010
- *   func_02165F64  0x02165F64  thumb  ov010
- *   func_02165F74  0x02165F74  thumb  ov010
- *   func_02165F84  0x02165F84  thumb  ov010
- *   func_02165F94  0x02165F94  thumb  ov010
- *   func_02165FA4  0x02165FA4  thumb  ov010
- *   func_02165FB4  0x02165FB4  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetSex  0x02165D08  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetFreeText  0x02165D8C  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionNo  0x02165E24  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionMonsNo  0x02165E34  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionItemNo  0x02165E78  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionCountValue  0x02165E8C  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetDistributionMonsNo  0x02165E9C  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetDistributionItemNo  0x02165EAC  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetNickname  0x02165ECC  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionTrainerNo  0x02165F30  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetPresetEventValue  0x02165F64  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionSpecialValue  0x02165F74  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionWordValue  0x02165F84  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionByteValue  0x02165F94  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionHalfwordValue  0x02165FA4  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionCheckIndex  0x02165FB4  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -57,8 +57,8 @@ typedef signed int     s32;
 struct U16Vec;
 struct WordSet;
 extern void func_0201F31C(struct WordSet *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 struct WordSet;
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
@@ -70,85 +70,85 @@ extern void func_0201F104(struct WordSet *p, u32 i, u32 a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 extern void func_0201F1E0(struct WordSet *p, u32 i, u32 v);
-extern void func_02165C34(struct Rec *r, void *buf);
-extern u8 func_02165D08(struct Rec *r);
-extern int func_02165D8C(int a0, int a1);
-extern u16 func_02165E24(Rec *r);
-extern u16 func_02165E34(struct Rec *r);
-extern u16 func_02165E78(struct Rec *r);
-extern u16 func_02165E8C(struct Rec *r);
-extern u16 func_02165E9C(struct Rec *r);
-extern u16 func_02165EAC(struct Rec *r);
-extern void func_02165ECC(struct Rec *r, void *buf);
-extern u16 func_02165F30(struct Rec *r);
-extern u32 func_02165F64(struct Rec *r);
-extern u16 func_02165F74(struct Rec *r);
-extern u32 func_02165F84(struct Rec *r);
-extern u8 func_02165F94(struct Rec *r);
-extern u16 func_02165FA4(struct Rec *r);
-extern u8 func_02165FB4(u16 type);
+extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *r, void *buf);
+extern u8 GAME_BEACON_ACCESSOR_GetSex(struct Rec *r);
+extern int GAME_BEACON_ACCESSOR_GetFreeText(int a0, int a1);
+extern u16 GAME_BEACON_ACCESSOR_GetActionNo(Rec *r);
+extern u16 GAME_BEACON_ACCESSOR_GetActionMonsNo(struct Rec *r);
+extern u16 GAME_BEACON_ACCESSOR_GetActionItemNo(struct Rec *r);
+extern u16 GAME_BEACON_ACCESSOR_GetActionCountValue(struct Rec *r);
+extern u16 GAME_BEACON_ACCESSOR_GetDistributionMonsNo(struct Rec *r);
+extern u16 GAME_BEACON_ACCESSOR_GetDistributionItemNo(struct Rec *r);
+extern void GAME_BEACON_ACCESSOR_GetNickname(struct Rec *r, void *buf);
+extern u16 GAME_BEACON_ACCESSOR_GetActionTrainerNo(struct Rec *r);
+extern u32 GAME_BEACON_ACCESSOR_GetPresetEventValue(struct Rec *r);
+extern u16 GAME_BEACON_ACCESSOR_GetActionSpecialValue(struct Rec *r);
+extern u32 GAME_BEACON_ACCESSOR_GetActionWordValue(struct Rec *r);
+extern u8 GAME_BEACON_ACCESSOR_GetActionByteValue(struct Rec *r);
+extern u16 GAME_BEACON_ACCESSOR_GetActionHalfwordValue(struct Rec *r);
+extern u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 type);
 
-void func_02165FCC(Rec *r, void *win, u32 heap)
+void GAME_BEACON_ACCESSOR_RegisterRecordWords(Rec *r, void *win, u32 heap)
 {
     void *str;
     u8 kind;
     u32 v;
 
     func_0201F31C(win);
-    str = func_020457B0(0x21, heap);
+    str = STRBUF_Create(0x21, heap);
     if (str == 0)
         return;
-    func_02165C34(r, str);
+    GAME_BEACON_ACCESSOR_GetPlayerName(r, str);
     func_0201EE0C(win, 0, str, 0, 1, 2);
-    kind = func_02165FB4(func_02165E24(r));
+    kind = GAME_BEACON_ACCESSOR_GetActionCheckIndex(GAME_BEACON_ACCESSOR_GetActionNo(r));
     switch (kind) {
     case 1:
-        v = func_02165F30(r);
+        v = GAME_BEACON_ACCESSOR_GetActionTrainerNo(r);
         func_0201F104(win, 1, v);
         func_0201F134(win, 2, v);
         break;
     case 2:
     case 4:
-        func_0201EE60(win, 1, func_02165E34(r));
+        func_0201EE60(win, 1, GAME_BEACON_ACCESSOR_GetActionMonsNo(r));
         if (kind == 2)
             break;
     case 3:
-        func_02165ECC(r, str);
+        GAME_BEACON_ACCESSOR_GetNickname(r, str);
         func_0201EE0C(win, 2, str, 0, 1, 2);
         break;
     case 5:
-        func_0201EF4C(win, 1, func_02165E78(r));
+        func_0201EF4C(win, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(r));
         break;
     case 6:
-        func_0201EFA4(win, 1, func_02165F74(r), 3, 0, 1);
+        func_0201EFA4(win, 1, GAME_BEACON_ACCESSOR_GetActionSpecialValue(r), 3, 0, 1);
         break;
     case 7:
-        func_0201EFA4(win, 1, func_02165F64(r), 3, 0, 1);
+        func_0201EFA4(win, 1, GAME_BEACON_ACCESSOR_GetPresetEventValue(r), 3, 0, 1);
         break;
     case 8:
-        func_0201EE60(win, 1, func_02165E9C(r));
+        func_0201EE60(win, 1, GAME_BEACON_ACCESSOR_GetDistributionMonsNo(r));
         break;
     case 9:
-        func_0201EF40(win, 1, func_02165EAC(r));
+        func_0201EF40(win, 1, GAME_BEACON_ACCESSOR_GetDistributionItemNo(r));
         break;
     case 10:
-        func_0201EF34(win, 1, func_02165E8C(r));
+        func_0201EF34(win, 1, GAME_BEACON_ACCESSOR_GetActionCountValue(r));
         break;
     case 11:
-        func_0201EFA4(win, 1, func_02165F84(r), 1, 0, 1);
+        func_0201EFA4(win, 1, GAME_BEACON_ACCESSOR_GetActionWordValue(r), 1, 0, 1);
         break;
     case 12:
-        func_0201F1E0(win, 1, func_02165F94(r));
+        func_0201F1E0(win, 1, GAME_BEACON_ACCESSOR_GetActionByteValue(r));
         break;
     case 13:
-        func_0201F184(win, 1, func_02165FA4(r));
+        func_0201F184(win, 1, GAME_BEACON_ACCESSOR_GetActionHalfwordValue(r));
         break;
     case 14:
-        func_02165D8C((int)r, (int)str);
-        func_0201EE0C(win, 1, str, func_02165D08(r), 1, 2);
+        GAME_BEACON_ACCESSOR_GetFreeText((int)r, (int)str);
+        func_0201EE0C(win, 1, str, GAME_BEACON_ACCESSOR_GetSex(r), 1, 2);
         break;
     case 15:
         break;
     }
-    func_02045808(str);
+    STRBUF_Delete(str);
 }

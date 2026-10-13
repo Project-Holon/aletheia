@@ -1,5 +1,5 @@
 /*
- * function: func_0218C9E8
+ * function: FIELD_G3D_MAPPER_Create
  * address:  0x0218C9E8
  * packet:   pkt_ov021_0218C9E8
  * region:   ov021
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   d_021DD9EC     0x021DD9EC  data  ov021  a4
- *   func_0218B754  0x0218B754  thumb
- *   func_021938AC  0x021938AC  thumb ov021
- *   func_021C05D4  0x021C05D4  thumb ov021
+ *   gFieldG3dMapperSrcName     0x021DD9EC  data  ov021  a4
+ *   FIELD_BUILDMODEL_Create  0x0218B754  thumb
+ *   FIELD_WFBC_Create  0x021938AC  thumb ov021
+ *   HEIGHT_EX_CreateTable  0x021C05D4  thumb ov021
  */
 #include "../include/Obj01115.h"
 
@@ -22,15 +22,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
-extern int d_021DD9EC;
-extern int func_0218B754(int a, void *p, int b);
+extern int gFieldG3dMapperSrcName;
+extern int FIELD_BUILDMODEL_Create(int a, void *p, int b);
 typedef unsigned int   u32;
-extern void *func_021938AC(u32 heap);
-extern int func_021C05D4(int a, int b);
+extern void *FIELD_WFBC_Create(u32 heap);
+extern int HEIGHT_EX_CreateTable(int a, int b);
 
-char *func_0218C9E8(int heap, int b)
+char *FIELD_G3D_MAPPER_Create(int heap, int b)
 {
-    char *p = func_02030734(heap, 0x74, 1, (const char *)&d_021DD9EC, 0xf9);
+    char *p = func_02030734(heap, 0x74, 1, (const char *)&gFieldG3dMapperSrcName, 0xf9);
     int z = 0;
     ((struct Obj01115 *)p)->f0 = heap;
     ((struct Obj01115 *)p)->f34 = z;
@@ -46,8 +46,8 @@ char *func_0218C9E8(int heap, int b)
     ((struct Obj01115 *)p)->f10 = -1;
     ((struct Obj01115 *)p)->f40 = z;
     ((struct Obj01115 *)p)->f68 = z;
-    ((struct Obj01115 *)p)->f64 = func_0218B754(((struct Obj01115 *)p)->f0, p, b);
-    ((struct Obj01115 *)p)->f6C = (int)func_021938AC(heap);
-    ((struct Obj01115 *)p)->f70 = func_021C05D4(0x10, (u8)heap);
+    ((struct Obj01115 *)p)->f64 = FIELD_BUILDMODEL_Create(((struct Obj01115 *)p)->f0, p, b);
+    ((struct Obj01115 *)p)->f6C = (int)FIELD_WFBC_Create(heap);
+    ((struct Obj01115 *)p)->f70 = HEIGHT_EX_CreateTable(0x10, (u8)heap);
     return p;
 }

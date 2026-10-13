@@ -1,5 +1,5 @@
 /*
- * function: func_021ACCAC
+ * function: FLDEFF_NAMIPOKE_Exit
  * address: 0x021ACCAC
  * packet: pkt_ov021_021ACCAC
  * region: ov021
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov021/fldeff_namipoke.c and filed here.
  */
 
-void func_021ACCAC(void);
+void FLDEFF_NAMIPOKE_Exit(void);
 
-void func_021ACCAC(void) {}
+void FLDEFF_NAMIPOKE_Exit(void) {}

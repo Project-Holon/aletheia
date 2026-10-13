@@ -10,7 +10,7 @@
  * status: EXACT
  * Lever: declare i before y, initialise j after loading y, and keep the equality arm separate.
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
 #include "../include/Obj02187.h"
@@ -21,7 +21,7 @@ typedef struct { s16 x,y,z,w; } Position;
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -42,7 +42,7 @@ void func_021DA1A8(char *p,int animate)
             else y+=8;
         }
         q=(unsigned)p+(unsigned)i*28;
-        func_0204B454((struct Actor *)((struct Obj02187 *)q)->fC,(struct PtS *)&s.z,0);
+        CLACT_GetActorSurfacePos((struct Actor *)((struct Obj02187 *)q)->fC,(struct PtS *)&s.z,0);
         if(animate==0) {
             s.z=y;
             func_0204B404((struct Obj *)(((struct Obj02187 *)q)->fC),(const struct Vec2 *)(&s.z),0);
@@ -54,7 +54,7 @@ void func_021DA1A8(char *p,int animate)
         }
         q=(unsigned)p+(unsigned)j*28;
         if(i==((struct Obj02187 *)q)->f150 && j!=2) {
-            func_0204B454((struct Actor *)((struct Obj02187 *)q)->f15C,(struct PtS *)&s,0);
+            CLACT_GetActorSurfacePos((struct Actor *)((struct Obj02187 *)q)->f15C,(struct PtS *)&s,0);
             if(((struct Obj03283 *)p)->f248==((struct Obj03283 *)p)->f24C) y+=8;
             else {
                 if(i>((struct Obj03283 *)p)->f248 && i<((struct Obj03283 *)p)->f24C) y+=20;

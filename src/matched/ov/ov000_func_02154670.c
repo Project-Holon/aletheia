@@ -14,9 +14,9 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_021542C0  0x021542C0  thumb  ov000
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   EVENT_GSYNC_Main  0x021542C0  thumb  ov000
  */
 #include "../include/Obj04140.h"
 
@@ -30,9 +30,9 @@ struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 struct Big;
 struct Ctx;
-void *func_020120F4(const struct Ctx *p);
-void *func_02012EBC(struct Big *p);
-u32 func_021542C0(void *obj, u32 *mode, char *args);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void *GAME_DATA_GetSaveControl(struct Big *p);
+u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args);
 
 void *EVENT_GSYNC_Create(void *p)
 {
@@ -40,13 +40,13 @@ void *EVENT_GSYNC_Create(void *p)
     char *r4;
     int q;
 
-    r7 = (void *)func_020122C0(p, 0, func_021542C0, 0x2CC);
+    r7 = (void *)func_020122C0(p, 0, EVENT_GSYNC_Main, 0x2CC);
     r4 = func_020124E8(r7);
-    q = (int)func_020120F4(p);
+    q = (int)GAMESYSTEM_GetGameData(p);
     ((struct Obj04140 *)r4)->f4 = q;
-    ((struct Obj04140 *)r4)->f8 = (int)func_02012EBC((struct Big *)q);
+    ((struct Obj04140 *)r4)->f8 = (int)GAME_DATA_GetSaveControl((struct Big *)q);
     ((struct Obj04140 *)r4)->f0 = p;
-    ((struct Obj04140 *)r4)->f258 = (int)func_020120F4(p);
+    ((struct Obj04140 *)r4)->f258 = (int)GAMESYSTEM_GetGameData(p);
     ((struct Obj04140 *)r4)->f25C = 1;
     ((struct Obj04140 *)r4)->f260 = 0;
     ((struct Obj04140 *)r4)->f264 = 0x31;

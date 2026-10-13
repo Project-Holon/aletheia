@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
- *   func_02028148 0x02028148 thumb
+ *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   func_02041B6C 0x02041B6C arm
  *   func_021D79F4 0x021D79F4 thumb ov120
  *   func_021D7550 0x021D7550 thumb ov120
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-extern void func_02028148(u8 *p);
+extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void func_02041B6C(u32 bit);
 extern void func_021D79F4(u8 *p, u16 n);
 extern void func_021D7550(u8 *p);
@@ -37,7 +37,7 @@ extern void func_021D4B48(u8 *p);
 void func_021D4CC4(u8 *p)
 {
     if (APP_TASKMENU_WIN_IsFinish(((struct Obj03258 *)p)->f34)) {
-        func_02028148(((struct Obj03258 *)p)->f34);
+        APP_TASKMENU_WIN_Delete(((struct Obj03258 *)p)->f34);
         *(int *)&((struct Obj03258 *)p)->f34 = 0;
         func_02041B6C(5);
         func_021D79F4(((struct Obj03258 *)p)->f40, 14);

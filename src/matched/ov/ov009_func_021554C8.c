@@ -16,7 +16,7 @@
  *   _pRapWork     0x021A8264  data  ov009  a4
  *   d_021A8264_obj 0x021A8264  data  ov009  a4
  *   d_021A1C6C     0x021A1C6C  data  ov009  a1
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0205C6AC  0x0205C6AC  arm
  *   func_0205C758  0x0205C758  arm
  *   func_0205C88C  0x0205C88C  arm
@@ -70,7 +70,7 @@ typedef struct {
 extern G *_pRapWork;
 extern char d_021A8264_obj[];
 extern char d_021A1C6C[];
-void *func_0203D798(void);
+void *GFL_NET_GetInitParam(void);
 void func_0205C6AC(void *p, u16 a, u16 b, u16 c);
 void func_0205C758(void);
 int func_0205C88C(void);
@@ -102,7 +102,7 @@ int DWC_RAP_StepLogin(void)
 
     switch (_pRapWork->state) {
     case 0:
-        func_0203D798();
+        GFL_NET_GetInitParam();
         func_0205C6AC(_pRapWork->x10C, 2, 1, 0x14);
         func_0205C758();
         DWC_RAP_SetState(1);

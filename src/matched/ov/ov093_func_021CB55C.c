@@ -19,7 +19,7 @@
  *   _ffix          0x0209C494  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   func_0207C7B4  0x0207C7B4  arm
- *   func_021D6B6C  0x021D6B6C  thumb  ov093
+ *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,7 +28,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 extern int func_0207C7B4(int x);
-extern u32 func_021D6B6C(u8 *p);
+extern u32 BTL_POKEPARAM_GetMaxLevelExp(u8 *p);
 u32 func_021CB55C(void *p, u32 a, u16 b, u16 c)
 {
   int tmp;
@@ -41,7 +41,7 @@ u32 func_021CB55C(void *p, u32 a, u16 b, u16 c)
   tmp1 = func_0207C7B4(tmp);
   y *= y;
   r = ((a * t1) / ((y * tmp1) >> 12)) + 1;
-  lim = func_021D6B6C(p);
+  lim = BTL_POKEPARAM_GetMaxLevelExp(p);
   if (r > lim)
     r = lim;
   return r;

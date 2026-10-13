@@ -12,6 +12,7 @@
  * symbols:
  *   sub_0200F6B8_Obj  0x0214617C  data
  *   MI_CpuFill8       0x02082BCC  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_ERR_CreateHeap.c \
@@ -21,7 +22,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 struct Sub0200F6B8Obj {
@@ -32,6 +33,6 @@ extern struct Sub0200F6B8Obj sub_0200F6B8_Obj;
 
 void GFL_NET_ERR_CreateHeap(void)
 {
-    func_0203064C(1, 8, 0x4920);
+    GFL_HEAP_CreateChildHeap(1, 8, 0x4920);
     MI_CpuFill8(&sub_0200F6B8_Obj, 0, 0x64);
 }

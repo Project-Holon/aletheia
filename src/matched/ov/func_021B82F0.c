@@ -1,5 +1,5 @@
 /*
- * function: func_021B82F0
+ * function: FIELD_RAIL_WORK_GetMode
  * address:  0x021B82F0
  * packet:   pkt_021B82F0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_021B82F0(u8 *p)
+u16 FIELD_RAIL_WORK_GetMode(u8 *p)
 {
     return ((struct Obj18111 *)p)->f0;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02049B90",
+   "name": "ARC_UTIL_UploadPaletteFromArchive",
    "address": "0x02049B90",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02049BDC",
+   "name": "ARC_UTIL_UploadPaletteFromHandle",
    "address": "0x02049BDC",
    "kind": "game",
    "region": "arm9",
@@ -42,14 +42,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02049DB4",
-    "func_02049DF4",
-    "func_02049E34",
-    "func_02049E74",
+    "ARC_UTIL_LoadBgCharDataFromArchive",
+    "ARC_UTIL_LoadBgCharDataFromHandle",
+    "ARC_UTIL_LoadScreenDataFromArchive",
+    "ARC_UTIL_LoadScreenDataFromHandle",
     "ARC_UTIL_LoadPaletteDataFromArchive",
-    "func_02049EF4",
-    "func_02049F34",
-    "func_02049F78",
+    "ARC_UTIL_LoadPaletteDataFromHandle",
+    "ARC_UTIL_LoadPaletteBlockFromArchive",
+    "ARC_UTIL_LoadPaletteBlockFromHandle",
     "ARC_UTIL_LoadCellBankFromArchive",
     "ARC_UTIL_LoadCellBankFromHandle"
    ],

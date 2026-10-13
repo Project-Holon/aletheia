@@ -1,5 +1,5 @@
 /*
- * function: func_02158CD0
+ * function: SCRIPT_SYS_GetScriptFileId
  * address:  0x02158CD0
  * packet:   pkt_ov010_02158CD0
  * region:   ov010
@@ -33,7 +33,7 @@ extern u16 ZONEDATA_GetMsgArcId(u16);
 extern const struct E d_021701A8[];
 extern char d_02172898[];
 
-u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3)
+u16 SCRIPT_SYS_GetScriptFileId(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3)
 {
     unsigned i;
     const struct E *t = d_021701A8;

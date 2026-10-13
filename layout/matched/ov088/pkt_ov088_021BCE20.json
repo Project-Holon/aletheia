@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCE20",
+   "name": "STARTMENU_SaveEraseStepOpenSecondYesNo",
    "address": "0x021BCE20",
    "kind": "game",
    "region": "ov088",

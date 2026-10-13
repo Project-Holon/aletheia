@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D69A0",
-    "func_021D69AC"
+    "BTL_POKEPARAM_SetCounter",
+    "BTL_POKEPARAM_GetCounter"
+   ],
+   "addresses": [
+    "0x021D69A0",
+    "0x021D69AC"
    ]
   }
  ]

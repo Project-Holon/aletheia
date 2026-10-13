@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F5ABC",
+   "name": "ENCEFF_StartBlockFlip",
    "address": "0x021F5ABC",
    "kind": "game",
    "region": "ov079",

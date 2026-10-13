@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
  */
 #include "../include/Obj00005.h"
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 
@@ -31,8 +31,8 @@ int func_02188B64(struct Cursor *a, int b)
     int i;
     int v;
 
-    p = (u16 *)(*(int *)&((struct Obj00005 *)a)->f14 + func_0201134C(a));
-    m = func_0201134C(a);
+    p = (u16 *)(*(int *)&((struct Obj00005 *)a)->f14 + VM_GetU32(a));
+    m = VM_GetU32(a);
     i = 0;
     do {
         v = p[i] | (p[i + 1] << 16);

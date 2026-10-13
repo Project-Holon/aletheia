@@ -1,5 +1,5 @@
 /*
- * function: func_0204B09C
+ * function: CLACT_SetSurfacePos
  * address:  0x0204B09C
  * packet:   pkt_0204B09C
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled arm9 leaf (the label at 0x0204B09C also spans the next leaf at
- * 0x0204B0C8); witness for ov021 func_021A87A8. Writes a 16-bit x/y pair,
+ * 0x0204B0C8); witness for ov021 FIELD_MENU_UpdateActorsForScroll. Writes a 16-bit x/y pair,
  * scaled to fx32, into entry idx (0x48 bytes each) of the table at +0x98.
  */
 
@@ -32,7 +32,7 @@ typedef struct {
     s16 y;
 } Vec16;
 
-void func_0204B09C(Owner *o, int idx, Vec16 *v)
+void CLACT_SetSurfacePos(Owner *o, int idx, Vec16 *v)
 {
     int x = v->x;
     int y = v->y;

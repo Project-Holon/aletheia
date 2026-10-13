@@ -1,5 +1,5 @@
 /*
- * function: func_02193920
+ * function: FIELD_WFBC_IsBackPeople
  * address:  0x02193920
  * packet:   pkt_02193920
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_02193920(u8 *p)
+u8 FIELD_WFBC_IsBackPeople(u8 *p)
 {
     return ((struct Obj17939 *)p)->f1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8434
+ * function: BTL_MAIN_StepParent
  * address:  0x021B8434
  * packet:   pkt_ov093_021B8434
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4270  0x021D4270  thumb  ov093
- *   func_021B8548  0x021B8548  thumb  ov093
- *   func_021BAB9C  0x021BAB9C  thumb  ov093
- *   func_021BABDC  0x021BABDC  thumb  ov093
- *   func_021CD97C  0x021CD97C  thumb  ov093
- *   func_021B8564  0x021B8564  thumb  ov093
+ *   BTL_NET_HasCommError  0x021D4270  thumb  ov093
+ *   BTL_MAIN_MarkClientsDisconnected  0x021B8548  thumb  ov093
+ *   BTL_SERVER_Update  0x021BAB9C  thumb  ov093
+ *   BTL_SERVER_GetFinalData  0x021BABDC  thumb  ov093
+ *   BTL_CLIENT_RunTick  0x021CD97C  thumb  ov093
+ *   BTL_MAIN_CheckAllClientsReady  0x021B8564  thumb  ov093
  *   func_021CDD94  0x021CDD94  thumb  ov093
  *   func_021E908C  0x021E908C  thumb  ov093
  */
@@ -31,36 +31,36 @@ typedef struct {
     u8 b : 1;
 } B;
 
-extern int func_021D4270(void);
-extern void func_021B8548(u8 *);
-extern int func_021BAB9C(int);
-extern void func_021BABDC(int, u8 *);
-extern u8 func_021CD97C(int);
-extern int func_021B8564(u8 *);
+extern int BTL_NET_HasCommError(void);
+extern void BTL_MAIN_MarkClientsDisconnected(u8 *);
+extern int BTL_SERVER_Update(int);
+extern void BTL_SERVER_GetFinalData(int, u8 *);
+extern u8 BTL_CLIENT_RunTick(int);
+extern int BTL_MAIN_CheckAllClientsReady(u8 *);
 extern void func_021CDD94(char *p, int *o);
 extern void func_021E908C(char *p);
 
-int func_021B8434(u8 *p)
+int BTL_MAIN_StepParent(u8 *p)
 {
     int r, i;
     if (((B *)p)->a == 0) {
-        if (func_021D4270()) {
+        if (BTL_NET_HasCommError()) {
             ((B *)p)->a = 1;
-            func_021B8548(p);
+            BTL_MAIN_MarkClientsDisconnected(p);
         }
     } else if (((B *)p)->b != 0) {
         return 1;
     }
-    r = func_021BAB9C(((struct Obj05185 *)p)->f8);
+    r = BTL_SERVER_Update(((struct Obj05185 *)p)->f8);
     if (r) {
-        func_021BABDC(((struct Obj05185 *)p)->f8, p + 0x448);
+        BTL_SERVER_GetFinalData(((struct Obj05185 *)p)->f8, p + 0x448);
     }
     for (i = 0; i < 4; i++) {
         if (*(int *)(p + i * 4 + 0x10) != 0 && p[i + 0xc4] == 0) {
-            p[i + 0xc4] = func_021CD97C(*(int *)(p + i * 4 + 0x10));
+            p[i + 0xc4] = BTL_CLIENT_RunTick(*(int *)(p + i * 4 + 0x10));
         }
     }
-    if (func_021B8564(p)) {
+    if (BTL_MAIN_CheckAllClientsReady(p)) {
         func_021CDD94((char *)(*(int *)(p + p[0x46c] * 4 + 0x10)), (int *)(p + 0x448));
         r = 1;
     }

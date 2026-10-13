@@ -18,10 +18,10 @@
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   func_021BC3E4 0x021BC3E4 thumb ov216
  *   func_020490F4 0x020490F4 arm
- *   func_02049250 0x02049250 arm
+ *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   func_02062A98 0x02062A98 arm
  *   func_02062A00 0x02062A00 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
  *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
  *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
@@ -37,10 +37,10 @@ extern const Config configA,configB;
 extern int POKEGRA_OpenTrainerHandle(int a0);
 extern void func_021BC3E4(u16 *,int *,const Config *,u32);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_02049250(struct ArcFile *,u32,u32);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *,u32,u32);
 extern int func_02062A98(struct NitroFileHeader *,void **);
 extern int func_02062A00(struct NitroFileHeader *,void **);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 typedef signed int     s32;
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -56,14 +56,14 @@ void func_021BC454(char *p,u32 handle)
     b=configB;
     arc=func_020490F4(32,((struct Obj01783 *)p)->f2);
     func_021BC3E4((u16 *)p,(int *)(p+128),&b,(u32)arc);
-    ((struct Obj01783 *)p)->f114=func_02049250(arc,0,((struct Obj01783 *)p)->f0);
+    ((struct Obj01783 *)p)->f114=ARC_TOOL_LoadHandleMember(arc,0,((struct Obj01783 *)p)->f0);
     func_02062A98(*(struct NitroFileHeader * *)&((struct Obj01783 *)p)->f114,(void **)(p+268));
     ((struct Obj01783 *)p)->f110=((struct Obj25771 *)(*(char * *)&((struct Obj01783 *)p)->f10C))->fC;
     for(i=0;i<16;i++){
-        *(void **)(p+i*8+144)=func_02049250(arc,i+49,((struct Obj01783 *)p)->f0);
+        *(void **)(p+i*8+144)=ARC_TOOL_LoadHandleMember(arc,i+49,((struct Obj01783 *)p)->f0);
         func_02062A00(*(struct NitroFileHeader **)(p+i*8+144),(void **)(p+140+i*8));
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     for(i=0;i<2;i++){
         char *q=p+i*12;
         ((struct Obj10946 *)q)->f6C=POKEGRA_RegisterTrainerCgr(((struct Obj01783 *)p)->f58,i+2,1,((struct Obj01783 *)p)->f0);

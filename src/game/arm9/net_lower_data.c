@@ -22,13 +22,15 @@
  *   sAssertSendDataIsNull      0x020A7DB8  data
  *   sAssertPostWorkNotNull      0x020A7E00  data
  *   sMsgPostBufferTooSmall      0x020A7E28  data
- *   func_0203CD98   0x0203CD98  arm
- *   func_0203D798   0x0203D798  arm
+ *   GFL_NET_GetRunState   0x0203CD98  arm
+ *   GFL_NET_GetInitParam   0x0203D798  arm
  *   GFL_NET_SYSTEM_GetParentRingDataSize   0x02038D4C  arm
  *   GFL_NET_SYSTEM_GetChildRingDataSize   0x02038D30  arm
- *   func_020399A8   0x020399A8  arm
- *   func_0203D1A4   0x0203D1A4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle   0x020399A8  arm
+ *   GFL_NET_GetHandleNetID   0x0203D1A4  arm
  *   func_02034734   0x02034734  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
+ *   GFL_NET_SendDataMask  0x0203D4D0  arm
  */
 struct GFLNetHandle;
 typedef unsigned char  u8;
@@ -88,14 +90,14 @@ extern void func_02034714(const char *file, u32 line, const char *expr);
 extern void func_02034734(const char *file, u32 line, const char *fmt, ...);
 extern void *func_02030734(u32 heapId, u32 size, int clearFlag, const char *file, u16 line);
 extern u32 func_020307B0(void *block);
-extern int  func_0203CD98(void);
-extern GFLNetInitializeStruct *func_0203D798(void);
+extern int  GFL_NET_GetRunState(void);
+extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
 extern int  GFL_NET_SYSTEM_GetParentRingDataSize(void);
 extern int  GFL_NET_SYSTEM_GetChildRingDataSize(void);
-extern struct GFLNetHandle *func_0203996C(s32 netId);
-extern struct GFLNetHandle *func_020399A8(void);
-extern u32 func_0203D1A4(struct GFLNetHandle *pNet);
-extern u32 func_0203D4D0(struct GFLNetHandle *pNet, u32 sendTarget, u32 code, u32 size, u32 data, u32 bFast, u32 bRepeat, u32 bSendBuff);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 netId);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *pNet);
+extern u32 GFL_NET_SendDataMask(struct GFLNetHandle *pNet, u32 sendTarget, u32 code, u32 size, u32 data, u32 bFast, u32 bRepeat, u32 bSendBuff);
 extern char sSrcFileName[];
 extern char sAssertWorkIsNull[];
 extern char sAssertWorkNotNull[];
@@ -261,7 +263,7 @@ void GFL_NET_LOWER_DATA_MainSend(void)
     if (_pNetLdataWork == 0 || _pNetLdataWork->sendData == 0) {
         return;
     }
-    if (func_0203CD98() != 1) {
+    if (GFL_NET_GetRunState() != 1) {
         return;
     }
     if (_pNetLdataWork->startPending == 1) {
@@ -270,7 +272,7 @@ void GFL_NET_LOWER_DATA_MainSend(void)
         }
     } else if (_pNetLdataWork->sentSize < _pNetLdataWork->sendSize) {
         if (_pNetLdataWork->sendArmed == 1) {
-            netInit = func_0203D798();
+            netInit = GFL_NET_GetInitParam();
             if (_pNetLdataWork->isParent == 1) {
                 chunkSize = netInit->parentSendSize - GFL_NET_SYSTEM_GetParentRingDataSize();
             } else {
@@ -311,16 +313,16 @@ u32 GFL_NET_LOWER_DATA_SendChunk(int size)
     int dataAddr = sendData + sentSize;
     struct GFLNetHandle *handle;
     if (isParent == 1)
-        handle = func_0203996C(NET_LDATA_NETID_SERVER);
+        handle = GFL_NET_HANDLE_GetNetHandle(NET_LDATA_NETID_SERVER);
     else
-        handle = func_020399A8();
-    return func_0203D4D0(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_DATA, size, dataAddr, 0, 1, 1);
+        handle = GFL_NET_HANDLE_GetCurrentHandle();
+    return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_DATA, size, dataAddr, 0, 1, 1);
 }
 
 
 /*
  * End address (buffer plus received size) of sender netId's post work (0xff
- * means 0), re-checked after func_0203D798; 0 when the work block or the post
+ * means 0), re-checked after GFL_NET_GetInitParam; 0 when the work block or the post
  * work is missing. The first guard is a wrapping positive test whose failure
  * falls through to the single trailing return 0.
  */
@@ -331,7 +333,7 @@ u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId)
         netId = 0;
     }
     if (_pNetLdataWork != 0 && _pNetLdataWork->postWork[netId] != 0) {
-        func_0203D798();
+        GFL_NET_GetInitParam();
         if (_pNetLdataWork == 0 || _pNetLdataWork->postWork[netId] == 0) {
             return 0;
         }
@@ -359,13 +361,13 @@ void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32
         return;
     }
 
-    netInit = func_0203D798();
+    netInit = GFL_NET_GetInitParam();
 
     if (_pNetLdataWork == 0 || _pNetLdataWork->postWork[netId] == 0) {
         return;
     }
 
-    if ((u32)func_020399A8() != pNetHandle && netInit->bMPMode == 0) {
+    if ((u32)GFL_NET_HANDLE_GetCurrentHandle() != pNetHandle && netInit->bMPMode == 0) {
         return;
     }
 
@@ -376,7 +378,7 @@ void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32
         return;
     }
 
-    if (netId != func_0203D1A4(func_020399A8())) {
+    if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
         _pNetLdataWork->ackPending = 1;
     }
 }
@@ -387,12 +389,12 @@ int GFL_NET_LOWER_DATA_SendControl(int kind)
     struct NetLdataCommand header;
     struct GFLNetHandle *handle;
     if (_pNetLdataWork->isParent == 1)
-        handle = func_0203996C(NET_LDATA_NETID_SERVER);
+        handle = GFL_NET_HANDLE_GetNetHandle(NET_LDATA_NETID_SERVER);
     else
-        handle = func_020399A8();
+        handle = GFL_NET_HANDLE_GetCurrentHandle();
     header.kind = kind;
     header.size = _pNetLdataWork->sendSize;
-    return func_0203D4D0(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_CONTROL, 4, (u32)(&header), 0, 1, 0);
+    return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_CONTROL, 4, (u32)(&header), 0, 1, 0);
 }
 
 
@@ -412,12 +414,12 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand 
         return;
     }
 
-    netInit = func_0203D798();
+    netInit = GFL_NET_GetInitParam();
     if (_pNetLdataWork == 0 || _pNetLdataWork->postWork[netId] == 0) {
         return;
     }
 
-    if (pNetHandle != (u32)func_020399A8()) {
+    if (pNetHandle != (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
         if (netInit->bMPMode == 0) {
             return;
         }
@@ -440,7 +442,7 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand 
         break;
 
     case NET_LDATA_CTRL_ACK:
-        if (netId != func_0203D1A4(func_020399A8())) {
+        if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
             _pNetLdataWork->sendArmed = 1;
         }
         break;

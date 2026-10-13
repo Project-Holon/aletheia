@@ -28,8 +28,8 @@
  *   func_0220C4EC 0x0220C4EC thumb ov197
  *   func_0220AFDC 0x0220AFDC thumb ov196
  *   func_0220D8C4 0x0220D8C4 thumb ov197
- *   func_0203D34C 0x0203D34C arm
- *   func_020216D4 0x020216D4 thumb
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   PALANM_RequestFade 0x0202173C thumb
  *   func_0220D7F0 0x0220D7F0 thumb ov197
@@ -59,8 +59,8 @@ extern void func_0220B1B0(char *,int);
 extern unsigned func_0220B990(u8 *);
 extern void func_0220BBE4(char *),func_0220BD24(char *,int),func_0220C034(char *),func_0220C4EC(char *,int);
 extern void func_0220AFDC(char *,void *);
-extern void func_0220D8C4(u8 *,unsigned,unsigned),func_0203D34C(unsigned,unsigned);
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void func_0220D8C4(u8 *,unsigned,unsigned),GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_021F86D4(void);
 extern int PALANM_RequestFade(void *,u16,u16,short,u8,u8,u16,void *);
 extern void func_0220D7F0(void *,int);
@@ -87,8 +87,8 @@ int func_0220C980(char *p)
     func_0220AFDC(*(char * *)&((struct Obj00736 *)p)->f148,((struct Obj00736 *)p)->f598);
     if(((struct Obj00736 *)p)->f532==0) func_0220D8C4((u8 *)p,((struct Obj00736 *)p)->f532,((struct Obj00736 *)p)->f542);
     else func_0220D8C4((u8 *)p,((struct Obj00736 *)p)->f532,0);
-    func_0203D34C(0,((struct Obj25057 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
-    func_020216D4(((struct Obj00736 *)p)->f8,3,224,32);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj25057 *)(*(char * *)&((struct Obj00736 *)p)->f0))->fC);
+    PALANM_CopyHwPaletteToSlot(((struct Obj00736 *)p)->f8,3,224,32);
     PALANM_RequestFade(((struct Obj00736 *)p)->f8,10,65535,0,16,0,0,func_021F86D4());
     if(((struct Obj25058 *)(*(char * *)&((struct Obj00736 *)p)->f0))->f8==3) func_0220D7F0(p,((struct Obj00736 *)p)->f532);
     ((struct Obj00736 *)p)->f5A0=1;

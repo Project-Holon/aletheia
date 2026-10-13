@@ -1,5 +1,5 @@
 /*
- * function: func_021D0A74
+ * function: TRIAL_HOUSE_SetBattleMode
  * address:  0x021D0A74
  * packet:   pkt_ov021_021D0A74
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Party;
 void func_0201A954(struct Party *p, s32 capacity);
 
-void func_021D0A74(int *p, u32 mode)
+void TRIAL_HOUSE_SetBattleMode(int *p, u32 mode)
 {
     if (p == 0) {
         return;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216FAB4
+ * function: WAZA_OSHIE_LoadTexPlttByName
  * address:  0x0216FAB4
  * packet:   pkt_ov010_0216FAB4
  * region:   ov010
@@ -11,17 +11,17 @@
  *
  * Look up a texture and a palette by name in a G3D texture resource,
  * derive their formats from the 7-entry d_021726A0 table, and load them
- * through func_0216FD54 (optionally func_0216FE04). One lever: the four
+ * through WAZA_OSHIE_UploadTextTexture (optionally WAZA_OSHIE_UploadPalette). One lever: the four
  * stack aggregates declared in reverse of their frame order.
  *
  * symbols:
- *   func_02047250        0x02047250  arm
+ *   G3D_SYSTEM_GetResourceTex        0x02047250  arm
  *   STD_GetStringLength  0x0208CC78  arm
  *   func_0206E62C        0x0206E62C  arm
- *   func_0201D7EC        0x0201D7EC  thumb
- *   func_0201D83C        0x0201D83C  thumb
- *   func_0216FD54        0x0216FD54  thumb  ov010
- *   func_0216FE04        0x0216FE04  thumb  ov010
+ *   GF_FONT_Create        0x0201D7EC  thumb
+ *   GF_FONT_Delete        0x0201D83C  thumb
+ *   WAZA_OSHIE_UploadTextTexture        0x0216FD54  thumb  ov010
+ *   WAZA_OSHIE_UploadPalette        0x0216FE04  thumb  ov010
  *   d_021726A0           0x021726A0  data
  */
 #include "../include/Obj09341.h"
@@ -66,17 +66,17 @@ typedef struct TexReq {
     void *font;         /* 0x14 */
 } TexReq;
 
-extern Res *func_02047250(void *p);
+extern Res *G3D_SYSTEM_GetResourceTex(void *p);
 extern int STD_GetStringLength(const char *s);
 extern void *func_0206E62C(const void *dict, const char *name);
 struct GfFont;
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201D83C(void *ptr);
-extern void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f);
-extern void func_0216FE04(char *p, void *q);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern u32 GF_FONT_Delete(void *ptr);
+extern void WAZA_OSHIE_UploadTextTexture(char *a, u32 b, u16 c, u16 d, u16 e, u16 f);
+extern void WAZA_OSHIE_UploadPalette(char *p, void *q);
 extern const Fmt d_021726A0[];
 
-int func_0216FAB4(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, TexKey *out)
+int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, TexKey *out)
 {
     TexKey key;
     char tn[16];
@@ -96,7 +96,7 @@ int func_0216FAB4(void *file, const char *texName, void *extra, const char *pltt
     key.plttFmt = 6;
     key.texOfs = 0;
     key.plttOfs = 0;
-    res = func_02047250(file);
+    res = G3D_SYSTEM_GetResourceTex(file);
     key.f04 = res->f08;
     key.f08 = res->f2c;
     ofs = res->texDict;
@@ -134,7 +134,7 @@ int func_0216FAB4(void *file, const char *texName, void *extra, const char *pltt
     if (e[1] == 1)
         return 0;
     key.plttOfs = (e[0] & 0xFFFF) << 3;
-    font = func_0201D7EC(0x17, 0, 0, 0, heap);
+    font = GF_FONT_Create(0x17, 0, 0, 0, heap);
     req.texFmt = key.texFmt;
     req.plttFmt = key.plttFmt;
     req.f04 = key.f04;
@@ -142,10 +142,10 @@ int func_0216FAB4(void *file, const char *texName, void *extra, const char *pltt
     req.texOfs = key.texOfs;
     req.f08 = key.f08;
     req.plttOfs = key.plttOfs;
-    func_0216FD54((char *)(&req), a4, a5, a6, a7, heap);
+    WAZA_OSHIE_UploadTextTexture((char *)(&req), a4, a5, a6, a7, heap);
     if (extra != 0)
-        func_0216FE04((char *)(&req), extra);
-    func_0201D83C(font);
+        WAZA_OSHIE_UploadPalette((char *)(&req), extra);
+    GF_FONT_Delete(font);
     if (out != 0)
         *out = key;
     return 1;

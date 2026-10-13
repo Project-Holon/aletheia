@@ -1,5 +1,5 @@
 /*
- * function: func_0215F088
+ * function: MOVE_POKEMON_GetSkillCheckFunc
  * address: 0x0215F088
  * packet: pkt_ov010_0215F088
  * region: ov010
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 extern u32 func_02013FFC(u32 id);
 extern int d_02171258[];
 extern int d_02171200[];
-int func_0215F088(u16 *p, int i)
+int MOVE_POKEMON_GetSkillCheckFunc(u16 *p, int i)
 {
     if (i >= 11) return 0;
     if (func_02013FFC(*p)) return *(int *)((u32)d_02171258 + ((u32)i << 3));

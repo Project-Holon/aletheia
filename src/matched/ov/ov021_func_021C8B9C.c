@@ -1,5 +1,5 @@
 /*
- * function: func_021C8B9C
+ * function: FIELD_TILE_MOVE_FindSlideEntry
  * address:  0x021C8B9C
  * packet:   pkt_ov021_021C8B9C
  * region:   ov021
@@ -14,7 +14,7 @@
  * table base into r3).
  *
  * symbols:
- *   d_021DAB54  0x021DAB54  data  a4
+ *   sFieldTileMoveSlideTable  0x021DAB54  data  a4
  */
 
 typedef unsigned short u16;
@@ -26,15 +26,15 @@ typedef struct {
     u16 b;
 } E;
 
-extern const E d_021DAB54[4];
+extern const E sFieldTileMoveSlideTable[4];
 
-const E *func_021C8B9C(u16 id)
+const E *FIELD_TILE_MOVE_FindSlideEntry(u16 id)
 {
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        if (d_021DAB54[i].id == id)
-            return &d_021DAB54[i];
+        if (sFieldTileMoveSlideTable[i].id == id)
+            return &sFieldTileMoveSlideTable[i];
     }
     return 0;
 }

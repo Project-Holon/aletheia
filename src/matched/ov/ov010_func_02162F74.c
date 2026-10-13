@@ -1,5 +1,5 @@
 /*
- * function: func_02162F74
+ * function: EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight
  * address:  0x02162F74
  * packet:   pkt_ov010_02162F74
  * region:   ov010
@@ -13,7 +13,7 @@
 
 typedef unsigned short u16;
 
-int func_02162F74(char *p, int *v)
+int EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(char *p, int *v)
 {
     u16 *q;
     int x, z;

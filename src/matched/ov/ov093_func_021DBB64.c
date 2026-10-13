@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
- *   func_021D5B40 0x021D5B40 thumb ov093
+ *   BTL_POKEPARAM_GetItem 0x021D5B40 thumb ov093
  */
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 typedef unsigned short u16;
 struct QI;
 extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5B40(struct QI *p);
-void func_021DBB64(int a,void *b,int c,int *d) { if(c==func_021D775C(2) && func_021D775C(0x2d)==0 && func_021D5B40(func_021C7CF4(b,c))) *d=1; }
+extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
+void func_021DBB64(int a,void *b,int c,int *d) { if(c==BTL_EVENT_GetVar(2) && BTL_EVENT_GetVar(0x2d)==0 && BTL_POKEPARAM_GetItem(func_021C7CF4(b,c))) *d=1; }

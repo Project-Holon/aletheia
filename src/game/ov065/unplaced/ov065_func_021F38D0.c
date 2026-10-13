@@ -1,5 +1,5 @@
 /*
- * function: func_021F38D0
+ * function: GIMMICK65_WaitEffectEventMain
  * address:  0x021F38D0
  * packet:   pkt_021F38D0
  * region:   ov065
@@ -14,23 +14,23 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_021897BC  0x021897BC  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb
  */
 
 #include "../unit_021F36C0_types.h"
 
 extern void *func_020124E4(void *event);
-extern void *func_0201210C(void *gameSystem);
-extern Gimmick65Work *func_021897BC(void *fieldMap, int id);
+extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
+extern Gimmick65Work *FIELDMAP_GetCommonWork(void *fieldMap, int id);
 
-int func_021F38D0(void *event)
+int GIMMICK65_WaitEffectEventMain(void *event)
 {
     void *fieldMap;
     int isDone;
-    fieldMap = func_0201210C(func_020124E4(event));
+    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4(event));
     isDone = 1;
-    if (func_021897BC(fieldMap, 1)->isPlaying != 0)
+    if (FIELDMAP_GetCommonWork(fieldMap, 1)->isPlaying != 0)
         isDone = 0;
     return isDone;
 }

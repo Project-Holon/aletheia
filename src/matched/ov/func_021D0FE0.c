@@ -14,7 +14,7 @@
  *
  * Unlabelled ov021 leaf hidden in a word run: returns the word at +0x150 of
  * its pointer argument (the second argument register).  Matched to supply the
- * `matched` witness for the pending ov010 caller func_0216A6B4.
+ * `matched` witness for the pending ov010 caller SCRCMD_TRIALHOUSE_GetSaveState.
  */
 #include "../include/Obj18371.h"
 

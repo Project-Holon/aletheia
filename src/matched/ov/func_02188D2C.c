@@ -1,5 +1,5 @@
 /*
- * function: func_02188D2C
+ * function: FIELDMAP_GetExpObj
  * address:  0x02188D2C
  * packet:   pkt_02188D2C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188D2C   0x02188D2C  thumb ov021
+ *   FIELDMAP_GetExpObj   0x02188D2C  thumb ov021
  *
  * Unlabelled ov021 leaf accessor: returns the word at +0x34 of its argument.
  * Matched to supply the `matched` witness for the ten pending callers that
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj17877.h"
 
-int func_02188D2C(int *p)
+int FIELDMAP_GetExpObj(int *p)
 {
     return ((struct Obj17877 *)p)->f34;
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   func_020362DC  0x020362DC  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021FE9B0  0x021FE9B0  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
  *   tbl_02203D46   0x02203D46  data  a2
@@ -54,7 +54,7 @@ extern const CurPos tbl_02203D46[];
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 se);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021FE9B0(Work *p);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 
@@ -68,13 +68,13 @@ void func_021FE9DC(Work *p)
             if (p->st->row0 > 0) {
                 p->st->row0--;
                 func_020061E4(0x548);
-                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
             }
         } else {
             if (p->st->row1 > 0) {
                 func_020061E4(0x548);
                 p->st->row1--;
-                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
             }
         }
     } else if (func_020362DC() & 0x80) {
@@ -82,20 +82,20 @@ void func_021FE9DC(Work *p)
             if (p->st->row0 < 3) {
                 p->st->row0++;
                 func_020061E4(0x548);
-                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
             }
         } else {
             if (p->st->row1 < 2) {
                 func_020061E4(0x548);
                 p->st->row1++;
-                func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+                CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
             }
         }
     } else if (func_020362DC() & 0x10) {
         if (p->st->page != 1) {
             p->st->page = 1;
             func_020061E4(0x548);
-            func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
         } else {
             p->st->page = 1;
         }
@@ -103,7 +103,7 @@ void func_021FE9DC(Work *p)
         if (p->st->page != 0) {
             p->st->page = 0;
             func_020061E4(0x548);
-            func_0204B878((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[func_021FE9B0(p)].anim);
         } else {
             p->st->page = 0;
         }

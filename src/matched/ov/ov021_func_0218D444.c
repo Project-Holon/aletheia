@@ -1,5 +1,5 @@
 /*
- * function: func_0218D444
+ * function: FIELD_G3D_MAPPER_LayoutWindowWrapped
  * address:  0x0218D444
  * packet:   pkt_ov021_0218D444
  * region:   ov021
@@ -13,9 +13,9 @@
  *   func_0207C768  0x0207C768  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   _ll_mul        0x0209C054  arm
- *   func_0218D980  0x0218D980  thumb  ov021
- *   func_0218DD80  0x0218DD80  thumb  ov021
- *   func_0218DD9C  0x0218DD9C  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetWindowStartWrapped  0x0218D980  thumb  ov021
+ *   FIELD_G3D_MAPPER_SetCellGridIndex  0x0218DD80  thumb  ov021
+ *   FIELD_G3D_MAPPER_SetCellPos  0x0218DD9C  thumb  ov021
  * Addresses are Black-image addresses.
  *
  * The fx32 multiplies use a long long copy of the scale (ls) assigned in the
@@ -34,11 +34,11 @@ typedef signed int     s32;
 typedef struct Elem { int idx; int x; int y; int z; } Elem;
 
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0218D980(u32 a, int b, int c);
-extern void func_0218DD80(u8 *p, u32 v);
-extern int func_0218DD9C(u32 a, u32 b, u32 c, u32 d);
+extern int FIELD_G3D_MAPPER_GetWindowStartWrapped(u32 a, int b, int c);
+extern void FIELD_G3D_MAPPER_SetCellGridIndex(u8 *p, u32 v);
+extern int FIELD_G3D_MAPPER_SetCellPos(u32 a, u32 b, u32 c, u32 d);
 
-void func_0218D444(char *p, int *a, Elem *e)
+void FIELD_G3D_MAPPER_LayoutWindowWrapped(char *p, int *a, Elem *e)
 {
     int k;
     Elem *el;
@@ -60,8 +60,8 @@ void func_0218D444(char *p, int *a, Elem *e)
     h = ((struct Obj02688 *)p)->f16;
     s = ((struct Obj02688 *)p)->f4;
     base = func_0207C768(((struct Obj02688 *)p)->f4, 0x2000);
-    c0 = func_0218D980(((struct Obj02688 *)p)->f2C, s, a[0]);
-    r0 = func_0218D980(((struct Obj02688 *)p)->f2D, s, a[2]);
+    c0 = FIELD_G3D_MAPPER_GetWindowStartWrapped(((struct Obj02688 *)p)->f2C, s, a[0]);
+    r0 = FIELD_G3D_MAPPER_GetWindowStartWrapped(((struct Obj02688 *)p)->f2D, s, a[2]);
     row = 0;
     if (row < ((struct Obj02688 *)p)->f2D) {
         do {
@@ -77,8 +77,8 @@ void func_0218D444(char *p, int *a, Elem *e)
                 if (k < 0)
                     k += w;
                 el = &e[col + row * ((struct Obj02688 *)p)->f2C];
-                func_0218DD80((u8 *)el, k + m * w);
-                func_0218DD9C((u32)el, base + (int)(((long long)(cc << 12) * ls + 0x800LL) >> 12), 0, base + y);
+                FIELD_G3D_MAPPER_SetCellGridIndex((u8 *)el, k + m * w);
+                FIELD_G3D_MAPPER_SetCellPos((u32)el, base + (int)(((long long)(cc << 12) * ls + 0x800LL) >> 12), 0, base + y);
             }
             row++;
         } while (row < ((struct Obj02688 *)p)->f2D);

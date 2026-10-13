@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DCB38",
+   "name": "BTL_HANDLER_TOKUSEI_HarvestRestoreBerry",
    "address": "0x021DCB38",
    "kind": "game",
    "region": "ov093",

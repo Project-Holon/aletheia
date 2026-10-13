@@ -1,5 +1,5 @@
 /*
- * function: func_021B91BC
+ * function: FRAME_LIST_WrapIndex
  * address: 0x021B91BC
  * packet: pkt_ov067_021B91BC
  * region: ov067
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
-signed char func_021B91BC(signed char a, signed char limit, int step)
+signed char FRAME_LIST_WrapIndex(signed char a, signed char limit, int step)
 {
     a = (signed char)((unsigned int)a + (unsigned int)step);
     if (a < 0) return limit;

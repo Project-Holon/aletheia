@@ -1,5 +1,5 @@
 /*
- * function: func_02186BB8
+ * function: FIELD_WFBC_DATA_LOCAL_AddMood
  * address: 0x02186BB8
  * packet: pkt_ov020_02186BB8
  * region: ov020
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-int func_02186BB8(u8 *p, int delta)
+int FIELD_WFBC_DATA_LOCAL_AddMood(u8 *p, int delta)
 {
     int ret;
     int sum;

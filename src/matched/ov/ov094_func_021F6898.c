@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204762C  0x0204762C  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02047738  0x02047738  arm
- *   func_02047504  0x02047504  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  */
 typedef struct {
     void *f0;           /* 0x00 */
@@ -31,12 +31,12 @@ typedef struct {
 
 struct Rec;
 struct Tagged;
-extern void func_0204762C(struct Rec *p);
-extern void func_02046EFC(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteAnime(struct Rec *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_02047738(struct Rec *p);
-extern void func_02047504(struct Rec *p);
+extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
+extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
 
 void func_021F6898(Obj *o)
 {
@@ -46,8 +46,8 @@ void func_021F6898(Obj *o)
     if (o->n != 0) {
         for (i = 0; i < o->n; i++) {
             for (j = 0; j < 2; j++)
-                func_0204762C(o->f14[j][i]);
-            func_02046EFC(o->f10[i]);
+                G3D_SYSTEM_DeleteAnime(o->f14[j][i]);
+            G3D_SYSTEM_DeleteResource(o->f10[i]);
         }
         for (j = 0; j < 2; j++) {
             func_020307B0(o->f14[j]);
@@ -56,10 +56,10 @@ void func_021F6898(Obj *o)
         func_020307B0(o->f10);
     }
     for (j = 0; j < 2; j++) {
-        func_02047738(o->f24[j]);
-        func_02047504(o->f1c[j]);
+        G3D_SYSTEM_DeleteObject(o->f24[j]);
+        G3D_SYSTEM_DeleteRender(o->f1c[j]);
     }
-    func_02046EFC(o->f0);
+    G3D_SYSTEM_DeleteResource(o->f0);
     func_020307B0(*o->fa8);
     func_020307B0(o->fa8);
     func_020307B0(o->fa4);

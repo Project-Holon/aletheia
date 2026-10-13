@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6EC
+ * function: BTL_SERVER_FLOW_ProcPledgeCombo
  * address: 0x021BE6EC
  * packet: pkt_ov093_021BE6EC
  * region: ov093
@@ -11,15 +11,15 @@
  * best declaration order fixes the spilled local slots.
  * symbols:
  *   d_021EFDB8 0x021EFDB8 data a2
- *   func_021D5BB0 0x021D5BB0 thumb ov093
- *   func_021D6E74 0x021D6E74 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021BCB14 0x021BCB14 thumb ov093
- *   func_021BCB68 0x021BCB68 thumb ov093
- *   func_021D5FC0 0x021D5FC0 thumb ov093
- *   func_021D6E40 0x021D6E40 thumb ov093
- *   func_021CD64C 0x021CD64C thumb ov093
- *   func_021BD148 0x021BD148 thumb ov093
+ *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
+ *   BTL_EVENT_HasClientReservedChoice 0x021D6E74 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_SERVER_FLOW_FindPendingMoveActionForPoke 0x021BCB14 thumb ov093
+ *   BTL_SERVER_FLOW_GetActionIndex 0x021BCB68 thumb ov093
+ *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
+ *   BTL_EVENT_SetClientReservedChoice 0x021D6E40 thumb ov093
+ *   BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
+ *   BTL_SERVER_FLOW_PromoteActionOfPoke 0x021BD148 thumb ov093
  */
 #include "../include/Obj21052.h"
 typedef unsigned char u8;
@@ -28,16 +28,16 @@ typedef unsigned int u32;
 typedef struct { u8 *a; u32 b, c; u8 d0, flag; u16 pad; } E;
 extern const u16 d_021EFDB8[3];
 struct UtilWork;
-extern int func_021D5BB0(struct UtilWork *p, u32 n);
-extern u32 func_021D6E74(u8 *p);
-extern u8 func_021D5440(u8 *p);
-extern E *func_021BCB14(u8 *, u16, u8, u32);
-extern u32 func_021BCB68(u8 *, E *);
-extern void func_021D5FC0(struct UtilWork *p, u32 n);
-extern void func_021D6E40(u8 *, u8, u16);
-extern void func_021CD64C(void *, u8, ...);
-extern int func_021BD148(void *p, u8 x);
-int func_021BE6EC(u8 *p, u8 *a, u16 key, u32 x)
+extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
+extern u32 BTL_EVENT_HasClientReservedChoice(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern E *BTL_SERVER_FLOW_FindPendingMoveActionForPoke(u8 *, u16, u8, u32);
+extern u32 BTL_SERVER_FLOW_GetActionIndex(u8 *, E *);
+extern void BTL_POKEPARAM_SetTurnFlag(struct UtilWork *p, u32 n);
+extern void BTL_EVENT_SetClientReservedChoice(u8 *, u8, u16);
+extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
+extern int BTL_SERVER_FLOW_PromoteActionOfPoke(void *p, u8 x);
+int BTL_SERVER_FLOW_ProcPledgeCombo(u8 *p, u8 *a, u16 key, u32 x)
 {
     u32 i;
     u32 n;
@@ -52,13 +52,13 @@ int func_021BE6EC(u8 *p, u8 *a, u16 key, u32 x)
         if (key == d_021EFDB8[i]) break;
     }
     if (i == 3) goto fail;
-    if (func_021D5BB0((struct UtilWork *)a, 10) != 0) goto fail;
-    if (func_021D6E74(a) != 0) goto fail;
+    if (BTL_POKEPARAM_TestTurnFlag((struct UtilWork *)a, 10) != 0) goto fail;
+    if (BTL_EVENT_HasClientReservedChoice(a) != 0) goto fail;
     n = 0;
-    id = func_021D5440(a);
+    id = BTL_POKEPARAM_GetPokeId(a);
     for (i = 0; i < 3; i++) {
         if (key != d_021EFDB8[i]) {
-            found[n] = func_021BCB14(p, d_021EFDB8[i], id, x);
+            found[n] = BTL_SERVER_FLOW_FindPendingMoveActionForPoke(p, d_021EFDB8[i], id, x);
             if (found[n] != 0) {
                 n++;
                 if (n >= 2) break;
@@ -70,17 +70,17 @@ int func_021BE6EC(u8 *p, u8 *a, u16 key, u32 x)
     chosen = found[0]->a;
     for (i = 0; i < n; i++) {
         cur = found[i];
-        v = func_021BCB68(p, cur);
+        v = BTL_SERVER_FLOW_GetActionIndex(p, cur);
         if (v < best) {
             best = v;
             chosen = cur->a;
         }
     }
-    chosen_id = func_021D5440(chosen);
-    func_021D5FC0((struct UtilWork *)a, 10);
-    func_021D6E40(chosen, id, key);
-    func_021CD64C(((struct Obj21052 *)p)->fC, 91, 0x47a, id, chosen_id, 0xffff0000);
-    func_021BD148(p, chosen_id);
+    chosen_id = BTL_POKEPARAM_GetPokeId(chosen);
+    BTL_POKEPARAM_SetTurnFlag((struct UtilWork *)a, 10);
+    BTL_EVENT_SetClientReservedChoice(chosen, id, key);
+    BTL_SERVER_CMD_PushVariable(((struct Obj21052 *)p)->fC, 91, 0x47a, id, chosen_id, 0xffff0000);
+    BTL_SERVER_FLOW_PromoteActionOfPoke(p, chosen_id);
     return 1;
 fail:
     return 0;

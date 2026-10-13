@@ -1,5 +1,5 @@
 /*
- * function: func_02189A08
+ * function: FIELDMAP_GetEncEff
  * address:  0x02189A08
  * packet:   pkt_ov021_02189A08
  * region:   ov021
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj19503.h"
 
-int func_02189A08(unsigned char *p)
+int FIELDMAP_GetEncEff(unsigned char *p)
 {
     return ((struct Obj19503 *)p)->f13C;
 }

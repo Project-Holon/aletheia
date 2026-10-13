@@ -1,5 +1,5 @@
 /*
- * function: func_021EB234
+ * function: BTLV_SCU_Delete
  * address:  0x021EB234
  * packet:   pkt_ov093_021EB234
  * region:   ov093
@@ -15,7 +15,7 @@
  *   func_020452E8  0x020452E8  arm
  *   func_020403F4  0x020403F4  arm
  *   func_0201C4C0  0x0201C4C0  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -42,10 +42,10 @@ struct U16Vec;
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_020403F4(u32 i);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 
-void func_021EB234(Obj *p)
+void BTLV_SCU_Delete(Obj *p)
 {
     func_021EDBE8((char *)p);
     func_021ED988((u8 *)p);
@@ -65,13 +65,13 @@ void func_021EB234(Obj *p)
         p->f18 = 0;
     }
     if (p->f3c != 0) {
-        func_02045808((struct U16Vec *)p->f3c);
+        STRBUF_Delete((struct U16Vec *)p->f3c);
         p->f3c = 0;
     }
     if (p->f38 != 0) {
-        func_02045808((struct U16Vec *)p->f38);
+        STRBUF_Delete((struct U16Vec *)p->f38);
         p->f38 = 0;
     }
-    func_02045808((struct U16Vec *)p->f34);
+    STRBUF_Delete((struct U16Vec *)p->f34);
     func_020307B0(p);
 }

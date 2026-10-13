@@ -1,5 +1,5 @@
 /*
- * function: func_021A4544
+ * function: FIELD_PLAYER_GRID_GetStandResultOnFoot
  * address:  0x021A4544
  * packet:   pkt_ov021_021A4544
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_021A4598  0x021A4598  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FIELD_PLAYER_GRID_GetWalkResultOnFoot  0x021A4598  thumb  ov021
  */
 #include "../include/Obj01657.h"
 
@@ -20,15 +20,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216D3CC(int a0);
-extern u16 func_0216D5F8(void *p);
-extern int func_021A4598(u8 *a, void *b, u8 *c);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FIELD_PLAYER_GRID_GetWalkResultOnFoot(u8 *a, void *b, u8 *c);
 
-int func_021A4544(u8 *p, u32 r, u8 *q)
+int FIELD_PLAYER_GRID_GetStandResultOnFoot(u8 *p, u32 r, u8 *q)
 {
-    if (func_0216D3CC(r) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(r) == 1) {
         if (((struct Obj01657 *)q)->f8 != 9) {
-            if (((struct Obj01657 *)q)->f8 != func_0216D5F8((void *)r) && ((struct Obj01657 *)q)->f10 == 0) {
+            if (((struct Obj01657 *)q)->f8 != FLDMMDL_GetDirDisp((void *)r) && ((struct Obj01657 *)q)->f10 == 0) {
                 if ((((struct Obj01657 *)q)->fC & 1) == 0) {
                     return 3;
                 }
@@ -36,7 +36,7 @@ int func_021A4544(u8 *p, u32 r, u8 *q)
                     return 3;
                 }
             }
-            return func_021A4598(p, (void *)r, q);
+            return FIELD_PLAYER_GRID_GetWalkResultOnFoot(p, (void *)r, q);
         }
         return 1;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D5D8
+ * function: FLDMMDL_SetDirDisp
  * address:  0x0216D5D8
  * packet:   pkt_0216D5D8
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D5D8(int a0, int a1)
+int FLDMMDL_SetDirDisp(int a0, int a1)
 {
     int a2;
 

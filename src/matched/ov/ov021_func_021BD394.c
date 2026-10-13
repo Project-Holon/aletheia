@@ -1,5 +1,5 @@
 /*
- * function: func_021BD394
+ * function: PLACE_NAME_LETTER_IsYDone
  * address:  0x021BD394
  * packet:   pkt_ov021_021BD394
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD304  0x021BD304  thumb  ov021
- *   func_021BD2D8  0x021BD2D8  thumb  ov021
+ *   PLACE_NAME_LETTER_GetMotion  0x021BD304  thumb  ov021
+ *   PLACE_NAME_LETTER_GetActive  0x021BD2D8  thumb  ov021
  */
 
 typedef struct {
@@ -19,16 +19,16 @@ typedef struct {
     int f;
 } Inner;
 
-extern unsigned char *func_021BD304(unsigned char *p);
+extern unsigned char *PLACE_NAME_LETTER_GetMotion(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_021BD2D8(u8 *p);
+extern u32 PLACE_NAME_LETTER_GetActive(u8 *p);
 
-int func_021BD394(void *p)
+int PLACE_NAME_LETTER_IsYDone(void *p)
 {
-    Inner *q = (Inner *)func_021BD304(p);
+    Inner *q = (Inner *)PLACE_NAME_LETTER_GetMotion(p);
 
-    if (func_021BD2D8(p) == 0) {
+    if (PLACE_NAME_LETTER_GetActive(p) == 0) {
         return 1;
     }
     if (q->f <= 0) {

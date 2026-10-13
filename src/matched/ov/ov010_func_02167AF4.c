@@ -1,5 +1,5 @@
 /*
- * function: func_02167AF4
+ * function: BSUBWAY_COMM_CheckConnectService
  * address:  0x02167AF4
  * packet:   pkt_02167AF4
  * region:   ov010
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_02167AF4(int a, int b)
+int BSUBWAY_COMM_CheckConnectService(int a, int b)
 {
     if (a == b) return 1;
     return 0;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   d_021C398C     0x021C398C  data   ov099
  */
 typedef struct {
@@ -19,14 +19,14 @@ typedef struct {
 
 extern const Tbl d_021C398C;
 typedef unsigned int   u32;
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
 int func_021BB918(void *w, unsigned int idx, int *unused)
 {
     Tbl t;
 
-    func_0201DD78(1, 2, 0);
-    func_0201DD78(1, 2, 0);
+    GF_FONT_SetTextColor(1, 2, 0);
+    GF_FONT_SetTextColor(1, 2, 0);
     t = d_021C398C;
     if (idx > 15)
         idx = 15;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DA96C
+ * function: BTL_ABILITY_AbsorbRaiseStat
  * address:  0x021DA96C
  * packet:   pkt_ov093_021DA96C
  * region:   ov093
@@ -32,7 +32,7 @@ extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
 
-void func_021DA96C(void *a, int id, u32 e, int d)
+void BTL_ABILITY_AbsorbRaiseStat(void *a, int id, u32 e, int d)
 {
     u8 *r;
 

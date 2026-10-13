@@ -1,5 +1,5 @@
 /*
- * function: func_021BDE48
+ * function: BTL_SERVER_FLOW_GetEncoredMove
  * address:  0x021BDE48
  * packet:   pkt_ov093_021BDE48
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D6314  0x021D6314  thumb  ov093
- *   func_021E8B80  0x021E8B80  thumb  ov093
- *   func_021D55A0  0x021D55A0  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
+ *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -26,17 +26,17 @@ union Unk021E8B80 {
 };
 struct Unk021D62A8;
 struct UtilWork;
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern union Unk021E8B80 func_021D6314(void *p, int i);
-extern u16 func_021E8B80(union Unk021E8B80 v);
-extern int func_021D55A0(struct UtilWork *p, int id);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern union Unk021E8B80 BTL_POKEPARAM_GetSickContRaw(void *p, int i);
+extern u16 BTLV_CORE_GetSlotValue(union Unk021E8B80 v);
+extern int BTL_POKEPARAM_GetMovePPById(struct UtilWork *p, int id);
 
-u16 func_021BDE48(void *p, struct Unk021BDE48 *m)
+u16 BTL_SERVER_FLOW_GetEncoredMove(void *p, struct Unk021BDE48 *m)
 {
     u16 r = 0x17;
-    if (func_021D62C4(p, 0x17) && m->species != 0xA5) {
-        r = func_021E8B80(func_021D6314(p, r));
-        if (r != m->species && func_021D55A0(p, r)) return r;
+    if (BTL_POKEPARAM_HasSick(p, 0x17) && m->species != 0xA5) {
+        r = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw(p, r));
+        if (r != m->species && BTL_POKEPARAM_GetMovePPById(p, r)) return r;
     }
     return 0;
 }

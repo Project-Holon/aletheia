@@ -1,5 +1,5 @@
 /*
- * function: func_021907C0
+ * function: FIELD_MSGBG_GetMsgWinBmpWin
  * address:  0x021907C0
  * packet:   pkt_021907C0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021907C0(u8 *p)
+u32 FIELD_MSGBG_GetMsgWinBmpWin(u8 *p)
 {
     return ((struct Obj17930 *)p)->f0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02162B68
+ * function: EVENTDATA_SYSTEM_CalcConnectGridExitOffset
  * address:  0x02162B68
  * packet:   pkt_ov010_02162B68
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02162C54  0x02162C54  thumb  ov010
+ *   EVENTDATA_SYSTEM_ConnectExitDirToDir  0x02162C54  thumb  ov010
  */
 
 typedef unsigned short u16;
@@ -30,12 +30,12 @@ struct Box {
 };
 
 typedef unsigned char  u8;
-extern int func_02162C54(u8 *p);
+extern int EVENTDATA_SYSTEM_ConnectExitDirToDir(u8 *p);
 
-u16 func_02162B68(struct Box *b, int *pos)
+u16 EVENTDATA_SYSTEM_CalcConnectGridExitOffset(struct Box *b, int *pos)
 {
     struct Sub *s;
-    int m = func_02162C54((u8 *)b);
+    int m = EVENTDATA_SYSTEM_ConnectExitDirToDir((u8 *)b);
     s = &b->s;
     if (s->f6 > 1)
         return (s->f6 << 4) | (((pos[0] >> 12) - s->f0) / 16) | (m << 8);

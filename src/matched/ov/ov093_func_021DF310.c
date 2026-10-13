@@ -1,5 +1,5 @@
 /*
- * function: func_021DF310
+ * function: BTL_HANDLER_ITEM_GetMindPlateHandlers
  * address: 0x021DF310
  * packet: pkt_ov093_021DF310
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F13F4[];
-int *func_021DF310(int *p);
+int *BTL_HANDLER_ITEM_GetMindPlateHandlers(int *p);
 
-int *func_021DF310(int *p)
+int *BTL_HANDLER_ITEM_GetMindPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F13F4;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D7CC
+ * function: FLDMMDL_IncAcmdSeq
  * address:  0x0216D7CC
  * packet:   pkt_0216D7CC
  * region:   ov010
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0216D7CC(u8 *p)
+void FLDMMDL_IncAcmdSeq(u8 *p)
 {
     ((struct Obj00113 *)p)->f28 = ((struct Obj00113 *)p)->f28 + 1;
 }

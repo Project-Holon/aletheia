@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021648A8",
+   "name": "CALENDER_FindZoneOffset",
    "address": "0x021648A8",
    "kind": "game",
    "region": "ov010",

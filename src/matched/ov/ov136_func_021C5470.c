@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_021C5470 0x021C5470 thumb
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  */
 #include "../include/Obj23500.h"
 typedef unsigned char u8;
 struct Bank;
 typedef unsigned int   u32;
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 void func_021C5470(u8 *p)
 {
-    func_0204B1CC(((struct Obj23500 *)p)->fA0);
-    func_0204A5AC();
+    CLACT_DeleteUnit(((struct Obj23500 *)p)->fA0);
+    CLACT_ExitSystem();
 }

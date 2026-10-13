@@ -1,5 +1,5 @@
 /*
- * function: func_0217C820
+ * function: INTRUDE_FIELD_MainMmdlCopyAnime
  * address:  0x0217C820
  * packet:   pkt_ov018_0217C820
  * region:   ov018
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Per-frame step of the 0x18-byte record (same layout as func_0217C688's).
+ * Per-frame step of the 0x18-byte record (same layout as INTRUDE_FIELD_StepPlayerSpin's).
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_021A3038  0x021A3038  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   func_021F37B8  0x021F37B8  thumb  ov060
  *   func_020061E4  0x020061E4  thumb
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
- *   func_021F37D8  0x021F37D8  thumb  ov060
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216D480  0x0216D480  thumb  ov010
- *   func_0216CF2C  0x0216CF2C  thumb  ov010
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   GIMMICK60_IsEffectActive  0x021F37D8  thumb  ov060
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -52,35 +52,35 @@ typedef struct {
 } Vec;
 
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern void func_0216D410(void *, u16);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern void FLDMMDL_SetAcmd(void *, u16);
 struct VecFx32;
-extern void func_021A3038(unsigned char *, struct VecFx32 *);
+extern void FIELD_PLAYER_GetPos(unsigned char *, struct VecFx32 *);
 extern void func_021F37B8(int, Vec *);
 extern void func_020061E4(u32 a);
-extern void func_0216DAC8(unsigned int *, unsigned int);
-extern int func_021F37D8(void *);
-extern int func_0216D454(int);
-extern int func_0216D480(char *p);
-extern void func_0216CF2C(int);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *, unsigned int);
+extern int GIMMICK60_IsEffectActive(void *);
+extern int FLDMMDL_CheckEndAcmd(int);
+extern int FLDMMDL_EndAcmd(char *p);
+extern void FLDMMDL_DeleteMmdl(int);
 
-int func_0217C820(Rec *r)
+int INTRUDE_FIELD_MainMmdlCopyAnime(Rec *r)
 {
     void *fld;
     void *obj;
     u16 anim;
     Vec v;
 
-    fld = func_02188CB4(r->f4);
-    obj = func_021A3074((void *)fld);
+    fld = FIELDMAP_GetFieldPlayer(r->f4);
+    obj = FIELD_PLAYER_GetMmdl((void *)fld);
     switch (r->f10) {
     case 0:
         anim = r->f13 == 3 ? 7 : 6;
-        func_0216D410(obj, anim);
+        FLDMMDL_SetAcmd(obj, anim);
         if (r->f14 != 0)
-            func_0216D410(r->f14, anim);
-        func_021A3038(fld, (struct VecFx32 *)&v);
+            FLDMMDL_SetAcmd(r->f14, anim);
+        FIELD_PLAYER_GetPos(fld, (struct VecFx32 *)&v);
         if (r->f13 == 3)
             v.x += 0x8000;
         else
@@ -93,23 +93,23 @@ int func_0217C820(Rec *r)
         r->fA--;
         if (r->fA <= 0) {
             if (r->f14 != 0) {
-                func_0216DAC8(obj, 0);
-                func_0216DAC8(r->f14, 1);
+                FLDMMDL_SetStatusBitVanish(obj, 0);
+                FLDMMDL_SetStatusBitVanish(r->f14, 1);
             }
             r->f10++;
         }
         break;
     case 2:
-        if (func_021F37D8(r->f4) == 0 && func_0216D454((int)obj) == 1) {
-            func_0216D480(obj);
+        if (GIMMICK60_IsEffectActive(r->f4) == 0 && FLDMMDL_CheckEndAcmd((int)obj) == 1) {
+            FLDMMDL_EndAcmd(obj);
             if (r->f14 != 0)
-                func_0216D480(r->f14);
+                FLDMMDL_EndAcmd(r->f14);
             r->f10++;
         }
         break;
     case 3:
         if (r->f14 != 0) {
-            func_0216CF2C((int)r->f14);
+            FLDMMDL_DeleteMmdl((int)r->f14);
             r->f14 = 0;
         }
         return 1;

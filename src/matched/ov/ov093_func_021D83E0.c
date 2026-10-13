@@ -1,5 +1,5 @@
 /*
- * function: func_021D83E0
+ * function: BTL_ACTION_IsChangeDepleted
  * address: 0x021D83E0
  * packet: pkt_ov093_021D83E0
  * region: ov093
@@ -13,4 +13,4 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-struct B { u32 kind:4; u32 pad:6; u32 flag:1; u32 rest:21; }; int func_021D83E0(struct B *p) { if(p->kind==3 && p->flag==1) return 1; return 0; }
+struct B { u32 kind:4; u32 pad:6; u32 flag:1; u32 rest:21; }; int BTL_ACTION_IsChangeDepleted(struct B *p) { if(p->kind==3 && p->flag==1) return 1; return 0; }

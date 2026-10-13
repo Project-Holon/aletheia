@@ -1,5 +1,5 @@
 /*
- * function: func_021B7494
+ * function: PDW_POSTMAN_DeleteListWin
  * address:  0x021B7494
  * packet:   pkt_021B7494
  * region:   ov021
@@ -12,12 +12,12 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02190788  0x02190788  thumb  ov021
- *   func_02190728  0x02190728  thumb  ov021
+ *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   func_020409B4  0x020409B4  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -34,20 +34,20 @@ struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 index);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
-extern int func_02190728(void *a);
-extern void func_02190788(u8 *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern int FIELD_MSGBG_DeleteMsgWin(void *a);
+extern void FIELD_MSGBG_ClearMsgWin(u8 *p);
 
-int func_021B7494(void *a)
+int PDW_POSTMAN_DeleteListWin(void *a)
 {
-func_02190788((u8 *)(((struct Obj04890 *)((u8 *)(a)))->fC));
-func_02190728((void *)(((struct Obj04890 *)((u8 *)(a)))->fC));
+FIELD_MSGBG_ClearMsgWin((u8 *)(((struct Obj04890 *)((u8 *)(a)))->fC));
+FIELD_MSGBG_DeleteMsgWin((void *)(((struct Obj04890 *)((u8 *)(a)))->fC));
 func_020409B4(1);
-func_02045808((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f18));
-func_02045808((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f1C));
+STRBUF_Delete((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f18));
+STRBUF_Delete((struct U16Vec *)(((struct Obj04890 *)((u8 *)(a)))->f1C));
 func_0201ED04((struct WordSet *)(((struct Obj04890 *)((u8 *)(a)))->f14));
-func_02045C04((struct Rec *)(((struct Obj04890 *)((u8 *)(a)))->f8));
+MSGDATA_Delete((struct Rec *)(((struct Obj04890 *)((u8 *)(a)))->f8));
 return func_020307B0(a);
 }
 

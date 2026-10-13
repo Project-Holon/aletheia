@@ -1,5 +1,5 @@
 /*
- * function: func_021C3248
+ * function: SODATEYA_PrepareDeposit
  * address:  0x021C3248
  * packet:   pkt_021C31FC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_0201B9F0(void *mon);
 
-void func_021C3248(void *a0)
+void SODATEYA_PrepareDeposit(void *a0)
 {
     func_0201B9F0(a0);
 }

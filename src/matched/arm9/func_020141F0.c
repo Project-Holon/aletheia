@@ -1,5 +1,5 @@
 /*
- * function: func_020141F0
+ * function: ZONEDATA_SetLocationVec
  * address:  0x020141F0
  * packet:   pkt_020141F0
  * region:   arm9
@@ -25,7 +25,7 @@ typedef struct Rec020141F0 {
     Vec020141F0 v;
 } Rec020141F0;
 
-void func_020141F0(Rec020141F0 *p, const Vec020141F0 *v)
+void ZONEDATA_SetLocationVec(Rec020141F0 *p, const Vec020141F0 *v)
 {
     p->fC = 0;
     p->v = *v;

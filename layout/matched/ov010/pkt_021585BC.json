@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021585BC",
+   "name": "INTRUDE_COMM_IsWarnedWithoutRequest",
    "address": "0x021585BC",
    "kind": "game",
    "region": "ov010",

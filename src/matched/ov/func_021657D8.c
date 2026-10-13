@@ -1,5 +1,5 @@
 /*
- * function: func_021657D8
+ * function: GAME_BEACON_SEARCH_SetInfoHalfwordValue
  * address:  0x021657D8
  * packet:   pkt_0216555C
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021657D8.c \
- *       --func func_021657D8 --addr 0x021657D8 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_BEACON_SEARCH_SetInfoHalfwordValue.c \
+ *       --func GAME_BEACON_SEARCH_SetInfoHalfwordValue --addr 0x021657D8 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj00121.h"
 
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_ResetDetails(void *);
 
-void func_021657D8(void *a0, u16 a1)
+void GAME_BEACON_SEARCH_SetInfoHalfwordValue(void *a0, u16 a1)
 {
     ((struct Obj00121 *)a0)->f30 = 48;
     ((struct Obj00121 *)a0)->f34 = a1;

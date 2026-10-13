@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020113D8     0x020113D8  thumb
+ *   TIMEZONE_GetNowTimeZone     0x020113D8  thumb
  *
  * ica_anime.c: is the animation in one of the two "finished" states.  Both
  * arms return the same 1, which is why the original reaches one epilogue
@@ -27,11 +27,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020113D8(u32 row);
+extern u32 TIMEZONE_GetNowTimeZone(u32 row);
 
 u32 TIMEZONE_IsNight(u32 tz)
 {
-    switch (func_020113D8(tz)) {
+    switch (TIMEZONE_GetNowTimeZone(tz)) {
     case 3:
     case 4:
         return 1;

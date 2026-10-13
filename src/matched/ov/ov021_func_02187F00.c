@@ -1,5 +1,5 @@
 /*
- * function: func_02187F00
+ * function: FIELDMAP_ProcInit
  * address:  0x02187F00
  * packet:   pkt_ov021_02187F00
  * region:   ov021
@@ -10,71 +10,71 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F8  0x020120F8  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_02189BBC  0x02189BBC  thumb
- *   func_0203064C  0x0203064C  arm
- *   func_02030678  0x02030678  arm
- *   func_0203159C  0x0203159C  arm
- *   func_02188030  0x02188030  thumb
- *   func_02012110  0x02012110  thumb
- *   func_0201214C  0x0201214C  thumb
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   FIELDMAP_GetHeapSizeForMapType  0x02189BBC  thumb
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
+ *   FIELDMAP_Create  0x02188030  thumb
+ *   GAMESYSTEM_SetFieldMap  0x02012110  thumb
+ *   GAMESYSTEM_GetAlwaysNetFlag  0x0201214C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02026400  0x02026400  thumb
- *   d_021DE700     0x021DE700  data
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
+ *   sFieldMapHeapBuffer     0x021DE700  data
  */
 
-extern char d_021DE700[];
+extern char sFieldMapHeapBuffer[];
 
 struct Ctx;
-unsigned char *func_020120F8(const struct Ctx *x);
+unsigned char *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *x);
 struct Rec44;
-unsigned short func_02012AC8(const struct Rec44 *x);
-int func_02189BBC(int x);
-void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
+unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *x);
+int FIELDMAP_GetHeapSizeForMapType(int x);
+void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 typedef unsigned int   u32;
 struct Ctx;
-void func_02030678(void *a, u32 b, u32 c);
+void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
 struct Obj0203159C;
-void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-void *func_02188030(int a, int b);
-void func_02012110(struct Ctx *p, void *v);
-unsigned int func_0201214C(const struct Ctx *x);
-unsigned int func_02012138(const struct Ctx *x);
+void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+void *FIELDMAP_Create(int a, int b);
+void GAMESYSTEM_SetFieldMap(struct Ctx *p, void *v);
+unsigned int GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *x);
+unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *x);
 struct Comm;
 u32 func_02026454(void *obj);
-void func_02026400(struct Comm *p);
+void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 
-int func_02187F00(struct Obj0203159C *a, int *state, int b)
+int FIELDMAP_ProcInit(struct Obj0203159C *a, int *state, int b)
 {
     switch (*state) {
     case 0:
         {
-            int sz = func_02189BBC(func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)b))) - 0xD000;
-            func_0203064C(1, 0x15, sz);
+            int sz = FIELDMAP_GetHeapSizeForMapType(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork((const struct Ctx *)b))) - 0xD000;
+            GFL_HEAP_CreateChildHeap(1, 0x15, sz);
         }
-        func_0203064C(1, 0x70, 0xD000);
-        func_0203064C(0x15, 0x50, 0xC000);
-        func_02030678(d_021DE700, 0x10000, 0x89);
-        func_0203064C(0x89, 0x92, 0x6400);
-        func_0203064C(0x89, 0x93, 0x7400);
-        func_0203064C(0x89, 0x96, 0x500);
+        GFL_HEAP_CreateChildHeap(1, 0x70, 0xD000);
+        GFL_HEAP_CreateChildHeap(0x15, 0x50, 0xC000);
+        GFL_HEAP_RegisterBlockHeap(sFieldMapHeapBuffer, 0x10000, 0x89);
+        GFL_HEAP_CreateChildHeap(0x89, 0x92, 0x6400);
+        GFL_HEAP_CreateChildHeap(0x89, 0x93, 0x7400);
+        GFL_HEAP_CreateChildHeap(0x89, 0x96, 0x500);
         {
-            void **w = (void **)func_0203159C(a, 4, 0x15);
-            void *p = func_02188030(b, 0x15);
+            void **w = (void **)PROCSYS_AllocProcWork(a, 4, 0x15);
+            void *p = FIELDMAP_Create(b, 0x15);
             *w = p;
-            func_02012110((void *)b, p);
+            GAMESYSTEM_SetFieldMap((void *)b, p);
         }
         (*state)++;
         break;
     case 1:
-        if (func_0201214C((const struct Ctx *)b) == 0) {
-            int t = func_02012138((const struct Ctx *)b);
+        if (GAMESYSTEM_GetAlwaysNetFlag((const struct Ctx *)b) == 0) {
+            int t = GAMESYSTEM_GetGameComm((const struct Ctx *)b);
             switch (func_02026454((void *)t)) {
             case 1:
             case 2:
-                func_02026400((struct Comm *)t);
+                GAME_COMM_RequestExitNoCallback((struct Comm *)t);
                 break;
             }
         }

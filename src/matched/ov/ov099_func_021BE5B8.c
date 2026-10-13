@@ -14,9 +14,9 @@
  * count constant by itself.
  *
  * symbols:
- *   func_0204A48C  0x0204A48C  arm
- *   func_0204B100  0x0204B100  arm
- *   func_0204B034  0x0204B034  arm
+ *   CLACT_InitSystem  0x0204A48C  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   CLACT_CreateRenderer  0x0204B034  arm
  *   func_0204B258  0x0204B258  arm
  *   d_021C3740  0x021C3740  data  a4
  *   d_021C375C  0x021C375C  data  a4
@@ -30,15 +30,15 @@ extern u8 d_021C3AA0[];
 struct Bank;
 struct Cfg;
 struct Obj;
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
 
 void func_021BE5B8(char *p, void *a1)
 {
-    func_0204A48C((const struct Cfg *)d_021C3740, (u32)d_021C3AA0, 0x21);
-    *(void **)(p + 0x110) = func_0204B100(0x64, 0, 0x21);
-    *(void **)(p + 0x114) = func_0204B034(d_021C375C, 2, 0x21);
+    CLACT_InitSystem((const struct Cfg *)d_021C3740, (u32)d_021C3AA0, 0x21);
+    *(void **)(p + 0x110) = CLACT_CreateUnit(0x64, 0, 0x21);
+    *(void **)(p + 0x114) = CLACT_CreateRenderer(d_021C375C, 2, 0x21);
     func_0204B258(*(void **)(p + 0x110), *(void **)(p + 0x114));
 }

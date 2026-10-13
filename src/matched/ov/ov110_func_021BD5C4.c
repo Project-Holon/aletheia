@@ -41,7 +41,7 @@
  *   matched singleton byte getter355C4; caller consumes returned r0.
  *   Original explicitly sets the otherwise ignored 2421C input.
  * symbols:
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   PMSI_PARAM_GetInputMode 0x02024144 thumb
  *   PMSI_PARAM_GetUiInputMode 0x0202421C thumb
  *   PMSI_PARAM_GetResult 0x02024168 thumb
@@ -51,7 +51,7 @@
  *   func_02030CBC 0x02030CBC arm
  *   func_021B95A0 0x021B95A0 thumb ov110
  *   func_021B9A50 0x021B9A50 thumb ov110
- *   func_02051B84 0x02051B84 arm
+ *   BUTTON_MAN_Create 0x02051B84 arm
  *   func_021BD578 0x021BD578 thumb ov110
  *   func_021BAEDC 0x021BAEDC thumb ov110
  *   func_021BF4F8 0x021BF4F8 thumb ov110
@@ -64,7 +64,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj0203159C;
 struct Ctx;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern u32 PMSI_PARAM_GetInputMode(const u8 *);
 extern u32 PMSI_PARAM_GetUiInputMode(void *);
 struct Input;
@@ -75,7 +75,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Ctx *func_02030CBC(u32,struct Ctx *);
 extern void *func_021B95A0(u32,void *);
 extern void *func_021B9A50(u8 *,void *);
-extern void *func_02051B84(u8 *,int,int,int);
+extern void *BUTTON_MAN_Create(u8 *,int,int,int);
 extern void func_021BD578(int,u32,u8 *);
 extern u8 *func_021BAEDC(void *,void *,u16);
 extern void func_021BF4F8(u8 *,u32);
@@ -86,7 +86,7 @@ u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
 {
     u8 *p;
     struct Ctx *q;
-    p=func_0203159C(owner,128,41);
+    p=PROCSYS_AllocProcWork(owner,128,41);
     *(u8 **)p=input;
     *(u32 *)(p+4)=PMSI_PARAM_GetInputMode(input);
     *(u32 *)(p+0x70)=PMSI_PARAM_GetUiInputMode(*(u8 **)p);
@@ -97,7 +97,7 @@ u8 *func_021BD5C4(struct Obj0203159C *owner,u8 *input)
     *(struct Ctx **)(p+0x7c)=func_02030CBC(5,q);
     *(void **)(p+0x18)=func_021B95A0(41,*(void **)p);
     *(void **)(p+0x14)=func_021B9A50(p,*(void **)(p+0x18));
-    *(void **)(p+0x44)=func_02051B84((u8 *)d_021C3908,(int)func_021BD578,(int)p,41);
+    *(void **)(p+0x44)=BUTTON_MAN_Create((u8 *)d_021C3908,(int)func_021BD578,(int)p,41);
     p[0x69]=0;
     *(u32 *)(p+0x30)=0;
     *(u32 *)(p+0x2c)=0;

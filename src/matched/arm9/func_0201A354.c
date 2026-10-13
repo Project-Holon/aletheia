@@ -1,5 +1,5 @@
 /*
- * function: func_0201A354
+ * function: POKE_REGULATION_Load
  * address:  0x0201A354
  * packet:   pkt_0201A354
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Witness leaf for ov021 func_021B574C and func_021B57CC.
+ * Witness leaf for ov021 SCRCMD_FLD_BATTLE_CheckPartyRegulation and SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames.
  *
  * symbols:
- *   func_02048F60  0x02048F60  arm
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
  */
 
-extern void *func_02048F60(unsigned int archive_id, unsigned int member, unsigned int heap);
+extern void *ARC_TOOL_LoadMember(unsigned int archive_id, unsigned int member, unsigned int heap);
 
-void *func_0201A354(int a, int b)
+void *POKE_REGULATION_Load(int a, int b)
 {
-    return func_02048F60(0x69, a, b);
+    return ARC_TOOL_LoadMember(0x69, a, b);
 }

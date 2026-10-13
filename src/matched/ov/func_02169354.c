@@ -1,5 +1,5 @@
 /*
- * function: func_02169354
+ * function: FIELD_G3D_MAP_DrawWithModels
  * address:  0x02169354
  * packet:   pkt_02169354
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216968C  0x0216968C  thumb  ov010
- *   func_02169710  0x02169710  thumb  ov010
+ *   FIELD_G3D_MAP_Draw  0x0216968C  thumb  ov010
+ *   FIELD_G3D_MAP_DrawPlacedModels  0x02169710  thumb  ov010
  */
 #include "../include/Obj03541.h"
 
@@ -19,10 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216968C(u8 *p);
-extern int func_02169710();
+extern int FIELD_G3D_MAP_Draw(u8 *p);
+extern int FIELD_G3D_MAP_DrawPlacedModels();
 
-int func_02169354(int a0, int a1)
+int FIELD_G3D_MAP_DrawWithModels(int a0, int a1)
 {
     int t4;
     int t5;
@@ -31,7 +31,7 @@ int func_02169354(int a0, int a1)
 t5 = a0 + 0;
 t6 = a1 + 0;
 t4 = 0;
-    a0 = func_0216968C((u8 *)a0);
+    a0 = FIELD_G3D_MAP_Draw((u8 *)a0);
 loc_02169360:
     if (a0 != 1) goto loc_02169378;
 loc_02169364:
@@ -42,7 +42,7 @@ a0 = ((struct Obj03541 *)((char *)a0))->f0;
 loc_0216936E:
 a0 = t5 + 0;
 a1 = t6 + 0;
-    a0 = func_02169710(a0, a1);
+    a0 = FIELD_G3D_MAP_DrawPlacedModels(a0, a1);
 loc_02169376:
 t4 = 1;
 loc_02169378:

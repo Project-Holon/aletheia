@@ -1,5 +1,5 @@
 /*
- * function: func_021F5B44
+ * function: ENCEFF_UpdateGridColumnFlipCell
  * address:  0x021F5B44
  * packet:   pkt_ov080_021F5B44
  * region:   ov080
@@ -16,7 +16,7 @@
 #include "../../ov077/enceff_base_types.h"
 #include "../../ov077/enceff_grid_types.h"
 
-int func_021F5B44(EncEffGridCell *cell)
+int ENCEFF_UpdateGridColumnFlipCell(EncEffGridCell *cell)
 {
     if (cell->phase < 0x40) {
         cell->angleY += 0x200;

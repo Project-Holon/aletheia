@@ -1,5 +1,5 @@
 /*
- * function: func_021904AC
+ * function: FIELD_MSGBG_GetFont
  * address:  0x021904AC
  * packet:   pkt_0218FE70
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021904AC(u8 *p)
+u32 FIELD_MSGBG_GetFont(u8 *p)
 {
     return ((struct Obj17923 *)p)->f8;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C06CC
+ * function: EVENT_COMM_ERROR_Create
  * address:  0x021C06CC
  * packet:   pkt_ov021_021C06CC
  * region:   ov021
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Spawns the func_021C06E0 task with no work area.
+ * Spawns the EVENT_COMM_ERROR_Run task with no work area.
  *
  * symbols:
  *   func_020122C0  0x020122C0  thumb
- *   func_021C06E0  0x021C06E0  thumb  ov021
+ *   EVENT_COMM_ERROR_Run  0x021C06E0  thumb  ov021
  */
 
 typedef unsigned int   u32;
 struct Desc;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-int func_021C06E0(u32 a, int *st);
+int EVENT_COMM_ERROR_Run(u32 a, int *st);
 
-void func_021C06CC(void *p)
+void EVENT_COMM_ERROR_Create(void *p)
 {
-    func_020122C0(p, 0, func_021C06E0, 0);
+    func_020122C0(p, 0, EVENT_COMM_ERROR_Run, 0);
 }

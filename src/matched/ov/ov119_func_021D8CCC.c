@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_021E4AB8  0x021E4AB8  thumb  ov119
  *   func_021E64DC  0x021E64DC  thumb  ov119
@@ -22,7 +22,7 @@ typedef signed short s16;
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_021E4AB8(int a0, int a1, int a2);
@@ -33,7 +33,7 @@ void func_021D8CCC(void *p, int x, int y, int z, int a4)
     int o1, o2;
 
     ((struct Obj00001 *)p)->fF60 = x;
-    func_0204B454((struct Actor *)x, (struct PtS *)((char *)p + 0xf64), 1);
+    CLACT_GetActorSurfacePos((struct Actor *)x, (struct PtS *)((char *)p + 0xf64), 1);
     func_021E4AB8((int)p, ((struct Obj00001 *)p)->fF60, 1);
     if (TOUCHPANEL_GetPointCont((u32 *)(&o1), (u32 *)(&o2)) == 0)
         return;

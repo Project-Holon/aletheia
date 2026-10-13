@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   d_0220A3B4     0x0220A3B4  data   ov094  a4
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  *   func_0220687C  0x0220687C  thumb  ov094
  */
@@ -31,7 +31,7 @@ extern const int d_0220A3B4[][2];
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -57,7 +57,7 @@ void func_022048A4(int a0, Ctx *c)
             p = (char *)c->main + 0x53 * 4;
         }
         for (j = 0; j < 6; j++) {
-            func_0204B454(*(void **)(p + j * 8), (struct PtS *)v, 1);
+            CLACT_GetActorSurfacePos(*(void **)(p + j * 8), (struct PtS *)v, 1);
             if (v[1] > target) {
                 v[1] = v[1] - 4;
                 changed = 1;

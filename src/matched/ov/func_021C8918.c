@@ -75,7 +75,7 @@
  *   func_021CC96C   0x021CC96C  thumb ov093
  *   func_021CC974   0x021CC974  thumb ov093
  *   func_021CC99C   0x021CC99C  thumb ov093
- *   func_021D5B68   0x021D5B68  thumb ov093
+ *   BTL_POKEPARAM_IsFainted   0x021D5B68  thumb ov093
  */
 
 typedef unsigned char u8;
@@ -107,7 +107,7 @@ extern int func_021CC96C(struct Q9 *p);
 extern int func_021CC99C(struct Q10 *p);
 extern void func_021CC974(void *q, int r);
 extern u8 *func_021B9940(char *p, u8 i);
-extern int func_021D5B68(void *mon);
+extern int BTL_POKEPARAM_IsFainted(void *mon);
 extern u8 func_021C9DE8(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C8C6C(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C8CBC(BattleCtx *s, BtlCmd *cmd);
@@ -180,7 +180,7 @@ void func_021C8918(BattleCtx *s, BtlCmd *cmd)
 
     if (cmd->ignoreIfBusy && r == 0)
         return;
-    if (cmd->checkFainted && func_021D5B68(func_021B9940(s->party, cmd->client)))
+    if (cmd->checkFainted && BTL_POKEPARAM_IsFainted(func_021B9940(s->party, cmd->client)))
         return;
 
     switch (cmd->id) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5718",
+   "name": "BTL_SERVER_FLOW_PushMsgStdFailed",
    "address": "0x021C5718",
    "kind": "game",
    "region": "ov093",

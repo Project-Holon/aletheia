@@ -1,5 +1,5 @@
 /*
- * function: func_02197058
+ * function: IRCBATTLEMENU_DeleteMenuActors
  * address:  0x02197058
  * packet:   pkt_ov021_02197058
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  * Addresses are Black-image addresses.
  */
 
@@ -22,15 +22,15 @@ typedef signed char    s8;
 
 typedef struct { u8 pad[0x294]; void *arr[5]; } Obj;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_02197058(Obj *a)
+void IRCBATTLEMENU_DeleteMenuActors(Obj *a)
 {
     int i;
 
     for (i = 0; i < 5; i++) {
         if (a->arr[i] != 0) {
-            func_0204B3B4(a->arr[i]);
+            CLACT_DeleteActor(a->arr[i]);
             a->arr[i] = 0;
         }
     }

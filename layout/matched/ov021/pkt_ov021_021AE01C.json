@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AE01C",
+   "name": "FLDEFF_FISHING_SetAnimeSpeed",
    "address": "0x021AE01C",
    "kind": "game",
    "region": "ov021",

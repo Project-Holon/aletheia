@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02166C4C",
+   "name": "SYMBOL_MAP_CreatePokeEventTask",
    "address": "0x02166C4C",
    "kind": "game",
    "region": "ov010",

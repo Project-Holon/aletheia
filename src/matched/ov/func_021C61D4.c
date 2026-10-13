@@ -1,5 +1,5 @@
 /*
- * function: func_021C61D4
+ * function: SWEET_SCENT_CheckWeatherClear
  * address:  0x021C61D4
  * packet:   pkt_021C61D4
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188C6C  0x02188C6C  thumb  ov021
- *   func_021A1BF4  0x021A1BF4  thumb  ov021
+ *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
+ *   WEATHER_GetWeatherId  0x021A1BF4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18307.h"
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02188C6C(u8 *p);
-extern u16 func_021A1BF4(u8 *p);
+extern u32 FIELDMAP_GetWeather(u8 *p);
+extern u16 WEATHER_GetWeatherId(u8 *p);
 
-int func_021C61D4(u32 a)
+int SWEET_SCENT_CheckWeatherClear(u32 a)
 {
-if (func_021A1BF4((u8 *)func_02188C6C((u8 *)(((struct Obj18307 *)((u8 *)(a)))->fC))) == 0) {
+if (WEATHER_GetWeatherId((u8 *)FIELDMAP_GetWeather((u8 *)(((struct Obj18307 *)((u8 *)(a)))->fC))) == 0) {
     return 1;
 }
 return 0;

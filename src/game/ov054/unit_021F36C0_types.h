@@ -55,35 +55,35 @@ typedef struct Gimmick54WaitMembers {
 } Gimmick54WaitMembers;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern FldExpObjCnt *func_02188D2C(struct FieldMap *fieldMap);
-extern void func_021BE310(FldExpObjCnt *expObj, G3dUtilSetup *setup, u16 unitIndex);
-extern void *func_02189764(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void *func_021897BC(struct FieldMap *fieldMap, int id);
-extern void func_021897A0(struct FieldMap *fieldMap, int id);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
+extern void FLD_EXP_OBJ_AddUnit(FldExpObjCnt *expObj, G3dUtilSetup *setup, u16 unitIndex);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
+extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
 extern void ISS_3DS_SYS_SetVolume(struct Iss3dsSys *iss3ds, u32 volume);
 extern int func_021C4DA8(struct SoundObj *obj);
-extern struct FieldCamera *func_02188C58(struct FieldMap *fieldMap);
-extern struct G3dCamera *func_0218EC2C(struct FieldCamera *camera);
-extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *eye);
-extern void func_02048B30(struct G3dCamera *camera, VecFx32 *target);
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
+extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *eye);
+extern void G3D_CAMERA_GetUp(struct G3dCamera *camera, VecFx32 *target);
 extern void ISS_3DS_SYS_SetCamera(struct Iss3dsSys *iss3ds, VecFx32 *eye, VecFx32 *target);
 extern u32 func_021C4DE4(struct SoundObj *obj, s32 deltaFrame);
-extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
-extern struct IssSystem *func_02012134(struct GameSystem *gameSystem);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct IssSystem *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
 extern struct Iss3dsSys *func_0202B57C(struct IssSystem *issSystem);
-extern int *func_02048F60(u32 archiveId, u32 member, u32 heapId);
-extern G3dObjectStatus *func_021BE480(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
+extern int *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
+extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
 extern struct SoundObj *func_021C4D14(struct FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 radius, u32 amplitude);
-extern void func_021C4DC0(struct SoundObj *obj, u32 arcId, u32 dataId, u32 bufferFrames);
+extern void SOUND_OBJ_SetAnime(struct SoundObj *obj, u32 arcId, u32 dataId, u32 bufferFrames);
 extern u32 func_020307B0(void *p);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
-extern Gimmick54Save *func_0200B3A4(struct GimmickWork *gimmickWork, u32 slotId);
-extern u32 func_021C4E20(struct SoundObj *obj);
-extern void func_021C4E08(struct SoundObj *obj, s32 frame);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern Gimmick54Save *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
+extern u32 SOUND_OBJ_GetAnimeFrame(struct SoundObj *obj);
+extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, s32 frame);
 extern unsigned func_02005728(unsigned limit);
 
-void func_021F393C(Gimmick54Work *work, int index);
+void GIMMICK54_RestartAnime(Gimmick54Work *work, int index);
 
 #endif

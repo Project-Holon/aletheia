@@ -14,12 +14,12 @@
  *
  * symbols:
  *   func_02007A18  0x02007A18  thumb
- *   func_02017DBC  0x02017DBC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   func_0201ADE4  0x0201ADE4  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *   func_0201AE14  0x0201AE14  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   func_02082A48  0x02082A48  arm
  */
 
@@ -31,12 +31,12 @@ struct Personal;
 struct Sav;
 struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_0201ADE4(u32 a, int b, u32 c);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void func_02082A48(u32 value, void *dest, u32 size);
 
 void func_021EDC0C(int **a, int box, u8 *dest)
@@ -51,7 +51,7 @@ void func_021EDC0C(int **a, int box, u8 *dest)
         tx = 10;
         for (x = 0; x < 6; tx += 2, x++) {
             e = func_02007A18((void *)(*a)[1], box, x + y * 6);
-            sv = func_02017DBC(e);
+            sv = POKE_TOOL_DecodeBoxParam(e);
             sp = func_02017E88(e, 5, 0);
             if (func_02017E88(e, 0xa9, 0)) {
                 if (func_02017E88(e, 0x4c, 0) == 0) {
@@ -68,7 +68,7 @@ void func_021EDC0C(int **a, int box, u8 *dest)
                 for (i = ty; i < ty + 2; i++)
                     func_02082A48(t, dest + ((((i & 7) << 3) + ((((i >> 3) << 2) + (tx >> 3)) << 6)) + (tx & 7)), 2);
             }
-            func_02017DE4(e, sv);
+            POKE_TOOL_EncodeBoxParam(e, sv);
         }
     }
 }

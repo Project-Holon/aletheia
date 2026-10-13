@@ -1,5 +1,5 @@
 /*
- * function: func_021D7F38
+ * function: BTL_CALC_IsGymLeaderTrainer
  * address: 0x021D7F38
  * packet: pkt_ov093_021D7F38
  * region: ov093
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_0202A3FC(u32);
-int func_021D7F38(u32 n) { if(func_0202A3FC(n)==2) return 1; return 0; }
+int BTL_CALC_IsGymLeaderTrainer(u32 n) { if(func_0202A3FC(n)==2) return 1; return 0; }

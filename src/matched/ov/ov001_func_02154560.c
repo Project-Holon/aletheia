@@ -16,10 +16,10 @@
  *   func_02012138   0x02012138  thumb
  *   func_020124E8   0x020124E8  thumb
  *   func_02026454   0x02026454  thumb
- *   func_02026400   0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback   0x02026400  thumb
  *   func_0201A920   0x0201A920  thumb
  *   func_02082BCC   0x02082BCC  arm
- *   func_02008468   0x02008468  thumb
+ *   MYSTATUS_GetSize   0x02008468  thumb
  *   func_02030734   0x02030734  arm
  *   func_02012944   0x02012944  thumb
  *   func_02082D44   0x02082D44  arm
@@ -40,10 +40,10 @@ struct Obj;
 u32 func_02012138(const struct Ctx *p);
 void *func_020124E8(struct Obj *p);
 u32 func_02026454(void *obj);
-void func_02026400(struct Comm *p);
+void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 struct Party *func_0201A920(u32 heap);
 void func_02082BCC(void *p, int c, int n);
-int func_02008468(void);
+int MYSTATUS_GetSize(void);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u8 *func_02012944(void *p);
 void func_02082D44(u32 a, void *p, u32 b);
@@ -55,7 +55,7 @@ void *EVENT_GTSNEGO_InitWork(void *obj_in, void *p, int a, int b)
     void *obj;
 
     if (func_02026454((void *)func_02012138(p)))
-        func_02026400((struct Comm *)func_02012138(p));
+        GAME_COMM_RequestExitNoCallback((struct Comm *)func_02012138(p));
     obj = func_020124E8(obj_in);
     ((struct Obj01477 *)obj)->f17C = (int)p;
     ((struct Obj01477 *)obj)->f3B0 = b;
@@ -63,9 +63,9 @@ void *EVENT_GTSNEGO_InitWork(void *obj_in, void *p, int a, int b)
     ((struct Obj01477 *)obj)->f354 = ((struct Obj01477 *)obj)->f3AC;
     func_02082BCC((char *)obj + 0x184, 0, 0x1b4);
     ((struct Obj01477 *)obj)->f184 = (int)func_020120F4(p);
-    ((struct Obj01477 *)obj)->f198 = (int)func_02030734(4, func_02008468(), 1, d_021546A0, 0x123);
-    ((struct Obj01477 *)obj)->f19C = (int)func_02030734(4, func_02008468(), 1, d_021546A0, 0x124);
-    func_02082D44((u32)func_02012944(func_020120F4(p)), (void *)((struct Obj01477 *)obj)->f198, func_02008468());
+    ((struct Obj01477 *)obj)->f198 = (int)func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x123);
+    ((struct Obj01477 *)obj)->f19C = (int)func_02030734(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x124);
+    func_02082D44((u32)func_02012944(func_020120F4(p)), (void *)((struct Obj01477 *)obj)->f198, MYSTATUS_GetSize());
     func_02082BCC((char *)obj + 0x368, 0, 0x28);
     ((struct Obj01477 *)obj)->f368 = (int)func_020120F4(p);
     ((struct Obj01477 *)obj)->f36C = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D63B8
+ * function: BTL_POKEPARAM_ClearSickConts
  * address: 0x021D63B8
  * packet: pkt_ov093_021D63B8
  * region: ov093
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef enum { SLOT_FIRST, SLOT_LIMIT=36, SLOT_UNSIGNED=0xFFFFFFFF } SlotIndex;
 struct Slot { u32 a:3; u32 rest:29; };
 extern void func_02082BCC(void *, int, u32);
-void func_021D63B8(u8 *p, int all)
+void BTL_POKEPARAM_ClearSickConts(u8 *p, int all)
 {
     SlotIndex i;
     i = 0;

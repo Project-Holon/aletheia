@@ -1,5 +1,5 @@
 /*
- * function: func_0217FC08
+ * function: EVENT_COMM_COMMON_CreateTalkEvent
  * address:  0x0217FC08
  * packet:   pkt_ov018_0217FC08
  * region:   ov018
@@ -12,11 +12,11 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_0217FDA0  0x0217FDA0  thumb ov018
- *   func_0217538C  0x0217538C  thumb  ov011
- *   func_02175368  0x02175368  thumb  ov011
- *   func_021803F0  0x021803F0  thumb  ov018
- *   func_0217FE6C  0x0217FE6C  thumb  ov018
+ *   EVENT_COMM_COMMON_InitCommonWork  0x0217FDA0  thumb ov018
+ *   INTRUDE_COMM_InitRequest  0x0217538C  thumb  ov011
+ *   INTRUDE_COMM_ClearNotice  0x02175368  thumb  ov011
+ *   EVENT_COMM_COMMON_GetTalkType  0x021803F0  thumb  ov018
+ *   EVENT_COMM_COMMON_TalkEventMain  0x0217FE6C  thumb  ov018
  */
 
 typedef unsigned char u8;
@@ -28,21 +28,21 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
-void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g);
-void func_0217538C(u8 *w, int a);
-void func_02175368(char *p);
-int func_021803F0(u8 *a, u8 *b);
-int func_0217FE6C(void);
+void EVENT_COMM_COMMON_InitCommonWork(int a, u8 *b, u8 *c, int d, int e, int f, u16 g);
+void INTRUDE_COMM_InitRequest(u8 *w, int a);
+void INTRUDE_COMM_ClearNotice(char *p);
+int EVENT_COMM_COMMON_GetTalkType(u8 *a, u8 *b);
+int EVENT_COMM_COMMON_TalkEventMain(void);
 
-void *func_0217FC08(int a, int b, u8 *c, int d, int e, u16 f)
+void *EVENT_COMM_COMMON_CreateTalkEvent(int a, int b, u8 *c, int d, int e, u16 f)
 {
-    void *r = func_020122C0((void *)a, 0, func_0217FE6C, 0x9c);
+    void *r = func_020122C0((void *)a, 0, EVENT_COMM_COMMON_TalkEventMain, 0x9c);
     u8 *q = func_020124E8(r);
 
     func_02082BCC(q, 0, 0x9c);
-    func_0217FDA0(a, (u8 *)((int *)c), q, b, d, e, f);
-    func_0217538C(c, e);
-    func_02175368((char *)c);
-    q[0x41] = func_021803F0(q, c);
+    EVENT_COMM_COMMON_InitCommonWork(a, (u8 *)((int *)c), q, b, d, e, f);
+    INTRUDE_COMM_InitRequest(c, e);
+    INTRUDE_COMM_ClearNotice((char *)c);
+    q[0x41] = EVENT_COMM_COMMON_GetTalkType(q, c);
     return r;
 }

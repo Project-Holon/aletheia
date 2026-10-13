@@ -15,7 +15,7 @@
  *   func_021BCF7C 0x021BCF7C thumb ov110
  *   func_021BB224 0x021BB224 thumb ov110
  *   func_0204B404 0x0204B404 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
 #include "../include/Obj04445.h"
@@ -33,7 +33,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void func_021BB6A0(u8 *p, unsigned index)
 {
     Vec2 pos;
@@ -66,5 +66,5 @@ void func_021BB6A0(u8 *p, unsigned index)
         }
     }
     func_0204B404(((struct Obj04445 *)p)->f54, (const struct Vec2 *)(&pos), 0);
-    func_0204B878(((struct Obj04445 *)p)->f54, state);
+    CLACT_SetActorAnimSeq(((struct Obj04445 *)p)->f54, state);
 }

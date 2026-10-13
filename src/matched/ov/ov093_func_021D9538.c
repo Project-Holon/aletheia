@@ -1,5 +1,5 @@
 /*
- * function: func_021D9538
+ * function: BTL_TOKUSEI_GetBurnGuardHandlers
  * address: 0x021D9538
  * packet: pkt_ov093_021D9538
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D93D8.c and filed here.
  *
  * symbols:
- *   d_021F0C9C 0x021F0C9C data ov093 a4
+ *   gBurnGuardHandlers 0x021F0C9C data ov093 a4
  */
 
-int *func_021D9538(int *p);
+int *BTL_TOKUSEI_GetBurnGuardHandlers(int *p);
 
-/* 021D9544  shape F5: out-param store of func_021D9648(..., 6) */
-extern int d_021F0C9C[];
+/* 021D9544  shape F5: out-param store of BTL_TOKUSEI_BlockSickIfTargeted(..., 6) */
+extern int gBurnGuardHandlers[];
 
-int *func_021D9538(int *p)
+int *BTL_TOKUSEI_GetBurnGuardHandlers(int *p)
 {
     *p = 5;
-    return d_021F0C9C;
+    return gBurnGuardHandlers;
 }

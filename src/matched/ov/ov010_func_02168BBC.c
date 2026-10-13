@@ -1,5 +1,5 @@
 /*
- * function: func_02168BBC
+ * function: FLD_BTL_INST_TOOL_CreateCommResetEvent
  * address: 0x02168BBC
  * packet: pkt_ov010_02168BBC
  * region: ov010
@@ -12,7 +12,7 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_02082BCC 0x02082BCC arm
- *   func_02168B20 0x02168B20 thumb ov010
+ *   FLD_BTL_INST_TOOL_CommResetEventMain 0x02168B20 thumb ov010
  */
 typedef unsigned int   u32;
 struct Ctx;
@@ -22,13 +22,13 @@ extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *, int, unsigned int);
-extern int func_02168B20(int a, int *b, int *c);
-void *func_02168BBC(void *a, void *b)
+extern int FLD_BTL_INST_TOOL_CommResetEventMain(int a, int *b, int *c);
+void *FLD_BTL_INST_TOOL_CreateCommResetEvent(void *a, void *b)
 {
     void *h;
     void **p;
     func_020120F4(a);
-    h = func_020122C0(a, 0, func_02168B20, 0xc);
+    h = func_020122C0(a, 0, FLD_BTL_INST_TOOL_CommResetEventMain, 0xc);
     p = func_020124E8(h);
     func_02082BCC(p, 0, 0xc);
     p[2] = a;

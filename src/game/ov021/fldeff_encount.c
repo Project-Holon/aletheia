@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_encount.c
  * unit:     yes
- * function: func_021AD758, func_021AD764, func_021AD770, func_021AD77C, func_021AD788, func_021AD794, func_021AD7A0, func_021AD7B4, func_021AD7E4, func_021AD82C, func_021AD8A4, func_021AD8DC, func_021AD96C, func_021ADA1C, func_021ADAAC, func_021ADB4C, func_021ADB5C, func_021ADB6C, func_021ADBAC, func_021ADBB0, func_021ADC04, func_021ADC6C
+ * function: FLDEFF_ENCOUNT_CreateKind0, FLDEFF_ENCOUNT_CreateKind1, FLDEFF_ENCOUNT_CreateKind2, FLDEFF_ENCOUNT_CreateKind3, FLDEFF_ENCOUNT_CreateKind4, FLDEFF_ENCOUNT_CreateKind5, FLDEFF_ENCOUNT_Delete, FLDEFF_ENCOUNT_Create, FLDEFF_ENCOUNT_LoadKind, FLDEFF_ENCOUNT_BuildDrawSet, FLDEFF_ENCOUNT_DeleteDrawSet, FLDEFF_ENCOUNT_LoadKind0Models, FLDEFF_ENCOUNT_LoadModels, FLDEFF_ENCOUNT_FreeResources, FLDEFF_ENCOUNT_Start, FLDEFF_ENCOUNT_SetPaused, FLDEFF_ENCOUNT_SetDrawHidden, FLDEFF_ENCOUNT_Init, FLDEFF_ENCOUNT_Exit, FLDEFF_ENCOUNT_Update, FLDEFF_ENCOUNT_PlaySound, FLDEFF_ENCOUNT_DrawSlotObject
  * address:  0x021AD758
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,42 +14,47 @@
  * Split from fldeff_namipoke.c at 0x021AD758 (lane FXC, CL127: __FILE__ fldeff_encount.c on 0x021AD7B4; 021AD758..021AD7A0 are its resource wrappers). Includes the slot object draw 021ADC6C (CL126).
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_021AC1A0  0x021AC1A0  thumb  ov021
- *   func_021AC178  0x021AC178  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   FIELD_EFFECT_GetObjectMode  0x021AC1A0  thumb  ov021
+ *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
  *   func_020307B0  0x020307B0  arm
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   func_021AC1E0  0x021AC1E0  thumb  ov021
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   d_021DE0E8  0x021DE0E8  data
- *   d_021DE094     0x021DE094  data  a2
- *   func_02047400  0x02047400  arm
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
- *   func_020477A4  0x020477A4  arm
- *   func_021ABE28  0x021ABE28  thumb  ov021
- *   func_02046E24  0x02046E24  arm
- *   func_02046FF8  0x02046FF8  arm
- *   func_021ABE2C  0x021ABE2C  thumb  ov021
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   sFldeffEncountFileName  0x021DE0E8  data
+ *   sEncountModelDescs     0x021DE094  data  a2
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
+ *   FIELD_EFFECT_GetModelBaseOffset  0x021ABE28  thumb  ov021
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
+ *   FIELD_EFFECT_GetModelBaseOffsetAlt  0x021ABE2C  thumb  ov021
  *   func_02046EFC  0x02046EFC  arm
- *   func_020470D0  0x020470D0  arm
- *   func_021ABE14  0x021ABE14  thumb  ov021
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
+ *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
- *   d_021D9238     0x021D9238  data  a1
- *   d_021D9240     0x021D9240  data  a4
- *   func_02188BE8  0x02188BE8  thumb  ov021
- *   func_02047910  0x02047910  arm
+ *   sEncountResourceIndex     0x021D9238  data  a1
+ *   sEncountFuncs     0x021D9240  data  a4
+ *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
+ *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   func_02047828  0x02047828  arm
- *   func_021AAA4C  0x021AAA4C  thumb  ov021
+ *   EFFECT_ENCOUNT_GetSpotDistance  0x021AAA4C  thumb  ov021
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_02012A30  0x02012A30  thumb
- *   func_02028ACC  0x02028ACC  thumb
- *   d_021D9234     0x021D9234  data   a1
+ *   FIELD_SOUND_SYSTEM_ClaimSlotWithOwner  0x02028ACC  thumb
+ *   sEncountVolumes     0x021D9234  data   a1
+ *   sEncounterDrawSlotStatus  0x021D9254  data
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm  arm9
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm  arm9
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm  arm9
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm  arm9
  */
 #include "../arm9/billboard_act_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -138,98 +143,98 @@ typedef struct EncountWork {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
-extern FieldMap *func_021ABE14(FieldEffectSys *fieldEffect);
-extern ArcHandle *func_021ABE24(FieldEffectSys *fieldEffect);
-extern u8 func_021ABE28(FieldEffectSys *fieldEffect);
-extern u8 func_021ABE2C(FieldEffectSys *fieldEffect);
-extern void *func_021ABEA0(FieldEffectSys *fieldEffect, u32 effectId);
-extern FieldEffectObj *func_021ABFA8(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void func_021AC178(FieldEffectObj *effect);
-extern int func_021AC1A0(FieldEffectObj *effect);
-extern void *func_021AC1AC(FieldEffectObj *effect);
-extern void func_021AC1B8(FieldEffectObj *effect, VecFx32 *out);
-extern void func_021AC1CC(FieldEffectObj *effect, const VecFx32 *pos);
-extern void *func_021AC1E0(FieldEffectObj *effect);
-extern G3dRender *func_02047400(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *func_02047564(G3dRender *render, const G3dResource *anmRes, int anmIdx);
-extern G3dObject *func_0204767C(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 func_020477A4(G3dObject *obj, u32 anmIdx);
-extern void func_0204762C(G3dAnime *anime);
-extern void func_02047738(G3dObject *obj);
-extern void func_02047504(G3dRender *render);
-extern G3dResource *func_02046E24(ArcHandle *arc, u32 fileId);
-extern int func_02046FF8(G3dResource *res);
+extern FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
+extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+extern u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *fieldEffect);
+extern u8 FIELD_EFFECT_GetModelBaseOffsetAlt(FieldEffectSys *fieldEffect);
+extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
+extern void FIELD_EFFECT_UpdateObject(FieldEffectObj *effect);
+extern int FIELD_EFFECT_GetObjectMode(FieldEffectObj *effect);
+extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
+extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
+extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
+extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
+extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
+extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
+extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
+extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
+extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
+extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 extern void func_02046EFC(G3dResource *res);
-extern int func_020470D0(G3dResource *res);
-extern int func_02188CFC(FieldMap *fieldMap);
-extern void *func_02188C7C(FieldMap *fieldMap);
-extern int func_02188BE8(FieldMap *fieldMap);
+extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
+extern int FIELDMAP_GetMoveKind(FieldMap *fieldMap);
+extern void *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+extern int FIELDMAP_IsReady(FieldMap *fieldMap);
 extern void *func_02082BCC(void *dst, u8 value, unsigned size);
-extern int func_02047910(G3dObject *obj, int anmIdx, int step);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, int step);
 extern u32 func_02047828(G3dObject *obj, u32 anmIdx, s32 *frame);
-extern int func_021AAA4C(EncountSys *encount, short *out);
+extern int EFFECT_ENCOUNT_GetSpotDistance(EncountSys *encount, short *out);
 extern u16 func_0209C0A4(int a, int b);
 extern SoundSys *func_02012A30(const void *gameData);
-extern void func_02028ACC(SoundSys *soundSys, u32 id, u32 volume);
+extern void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(SoundSys *soundSys, u32 id, u32 volume);
 
-EncountModelSet *func_021AD758(FieldEffectSys *fieldEffect, int heapId);
-EncountModelSet *func_021AD764(FieldEffectSys *fieldEffect, int heapId);
-EncountModelSet *func_021AD770(FieldEffectSys *fieldEffect, int heapId);
-EncountModelSet *func_021AD77C(FieldEffectSys *fieldEffect, int heapId);
-EncountModelSet *func_021AD788(FieldEffectSys *fieldEffect, int heapId);
-EncountModelSet *func_021AD794(FieldEffectSys *fieldEffect, int heapId);
-void func_021AD7A0(FieldEffectSys *fieldEffect, EncountModelSet *set);
-EncountModelSet *func_021AD7B4(FieldEffectSys *fieldEffect, int heapId, u32 kind);
-void func_021AD7E4(EncountModelSet *set, u32 kind);
-void func_021AD82C(EncountDrawSet *draw, EncountModelSet *set, int modelIndex);
-void func_021AD8A4(EncountDrawSet *draw, EncountModelSet *set);
-void func_021AD8DC(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc);
-void func_021AD96C(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc);
-void func_021ADA1C(EncountModelSet *set);
-FieldEffectObj *func_021ADAAC(EncountSys *encount, FieldEffectSys *fieldEffect, int gridX, int gridZ, int y, int setIndex);
-void func_021ADB4C(FieldEffectObj *effect, int paused);
-void func_021ADB5C(FieldEffectObj *effect, int hidden);
-void func_021ADB6C(FieldEffectObj *effect, EncountWork *work);
-void func_021ADBAC(void);
-void func_021ADBB0(FieldEffectObj *effect, EncountWork *work);
-void func_021ADC04(EncountWork *work, EncountModelSet *set);
-extern char d_021DE0E8[];                           /* source file name for the heap allocator */
-extern EncountModelDesc d_021DE094[];               /* models and animations of each kind */
-extern u8 d_021D9238[];                             /* effect resource index of each start selector */
-extern const FieldEffectObjFuncs d_021D9240;        /* rustling-spot effect callbacks */
-extern u8 d_021D9234[];                             /* sound volume of each strength step */
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind0(FieldEffectSys *fieldEffect, int heapId);
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind1(FieldEffectSys *fieldEffect, int heapId);
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind2(FieldEffectSys *fieldEffect, int heapId);
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind3(FieldEffectSys *fieldEffect, int heapId);
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind4(FieldEffectSys *fieldEffect, int heapId);
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind5(FieldEffectSys *fieldEffect, int heapId);
+void FLDEFF_ENCOUNT_Delete(FieldEffectSys *fieldEffect, EncountModelSet *set);
+EncountModelSet *FLDEFF_ENCOUNT_Create(FieldEffectSys *fieldEffect, int heapId, u32 kind);
+void FLDEFF_ENCOUNT_LoadKind(EncountModelSet *set, u32 kind);
+void FLDEFF_ENCOUNT_BuildDrawSet(EncountDrawSet *draw, EncountModelSet *set, int modelIndex);
+void FLDEFF_ENCOUNT_DeleteDrawSet(EncountDrawSet *draw, EncountModelSet *set);
+void FLDEFF_ENCOUNT_LoadKind0Models(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc);
+void FLDEFF_ENCOUNT_LoadModels(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc);
+void FLDEFF_ENCOUNT_FreeResources(EncountModelSet *set);
+FieldEffectObj *FLDEFF_ENCOUNT_Start(EncountSys *encount, FieldEffectSys *fieldEffect, int gridX, int gridZ, int y, int setIndex);
+void FLDEFF_ENCOUNT_SetPaused(FieldEffectObj *effect, int paused);
+void FLDEFF_ENCOUNT_SetDrawHidden(FieldEffectObj *effect, int hidden);
+void FLDEFF_ENCOUNT_Init(FieldEffectObj *effect, EncountWork *work);
+void FLDEFF_ENCOUNT_Exit(void);
+void FLDEFF_ENCOUNT_Update(FieldEffectObj *effect, EncountWork *work);
+void FLDEFF_ENCOUNT_PlaySound(EncountWork *work, EncountModelSet *set);
+extern char sFldeffEncountFileName[];                           /* source file name for the heap allocator */
+extern EncountModelDesc sEncountModelDescs[];               /* models and animations of each kind */
+extern u8 sEncountResourceIndex[];                             /* effect resource index of each start selector */
+extern const FieldEffectObjFuncs sEncountFuncs;        /* rustling-spot effect callbacks */
+extern u8 sEncountVolumes[];                             /* sound volume of each strength step */
 extern void func_0207ADC4(MtxFx33 *mtx);
-extern int func_02047AC8(G3dObject *obj, G3dObjectStatus *status);
-extern G3dObjectStatus d_021D9254;                     /* draw status template of the slot object */
+extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
+extern G3dObjectStatus sEncounterDrawSlotStatus;                     /* draw status template of the slot object */
 
-EncountModelSet *func_021AD758(FieldEffectSys *fieldEffect, int heapId)
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind0(FieldEffectSys *fieldEffect, int heapId)
 {
-    return func_021AD7B4(fieldEffect, heapId, 0);
+    return FLDEFF_ENCOUNT_Create(fieldEffect, heapId, 0);
 }
 
-EncountModelSet *func_021AD764(FieldEffectSys *fieldEffect, int heapId)
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind1(FieldEffectSys *fieldEffect, int heapId)
 {
-    return func_021AD7B4(fieldEffect, heapId, 1);
+    return FLDEFF_ENCOUNT_Create(fieldEffect, heapId, 1);
 }
 
-EncountModelSet *func_021AD770(FieldEffectSys *fieldEffect, int heapId)
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind2(FieldEffectSys *fieldEffect, int heapId)
 {
-    return func_021AD7B4(fieldEffect, heapId, 2);
+    return FLDEFF_ENCOUNT_Create(fieldEffect, heapId, 2);
 }
 
-EncountModelSet *func_021AD77C(FieldEffectSys *fieldEffect, int heapId)
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind3(FieldEffectSys *fieldEffect, int heapId)
 {
-    return func_021AD7B4(fieldEffect, heapId, 3);
+    return FLDEFF_ENCOUNT_Create(fieldEffect, heapId, 3);
 }
 
-EncountModelSet *func_021AD788(FieldEffectSys *fieldEffect, int heapId)
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind4(FieldEffectSys *fieldEffect, int heapId)
 {
-    return func_021AD7B4(fieldEffect, heapId, 4);
+    return FLDEFF_ENCOUNT_Create(fieldEffect, heapId, 4);
 }
 
-EncountModelSet *func_021AD794(FieldEffectSys *fieldEffect, int heapId)
+EncountModelSet *FLDEFF_ENCOUNT_CreateKind5(FieldEffectSys *fieldEffect, int heapId)
 {
-    return func_021AD7B4(fieldEffect, heapId, 5);
+    return FLDEFF_ENCOUNT_Create(fieldEffect, heapId, 5);
 }
 
 /*
@@ -237,86 +242,86 @@ EncountModelSet *func_021AD794(FieldEffectSys *fieldEffect, int heapId)
  *
  * Addresses are Black-image addresses.
  */
-void func_021AD7A0(FieldEffectSys *fieldEffect, EncountModelSet *set)
+void FLDEFF_ENCOUNT_Delete(FieldEffectSys *fieldEffect, EncountModelSet *set)
 {
-    func_021ADA1C(set);
+    FLDEFF_ENCOUNT_FreeResources(set);
     func_020307B0(set);
 }
 
 /* Creates the resources of one kind of the rustling-spot effect. */
-EncountModelSet *func_021AD7B4(FieldEffectSys *fieldEffect, int heapId, u32 kind)
+EncountModelSet *FLDEFF_ENCOUNT_Create(FieldEffectSys *fieldEffect, int heapId, u32 kind)
 {
     EncountModelSet *set;
 
-    set = func_02030734(heapId, 0x98, 1, d_021DE0E8, 0x11e);
+    set = func_02030734(heapId, 0x98, 1, sFldeffEncountFileName, 0x11e);
     set->fieldEffect = fieldEffect;
-    func_021AD7E4(set, kind);
+    FLDEFF_ENCOUNT_LoadKind(set, kind);
     return set;
 }
 
-void func_021AD7E4(EncountModelSet *set, u32 kind)
+void FLDEFF_ENCOUNT_LoadKind(EncountModelSet *set, u32 kind)
 {
     ArcHandle *arc;
 
-    set->desc = d_021DE094[kind];
-    arc = func_021ABE24(set->fieldEffect);
+    set->desc = sEncountModelDescs[kind];
+    arc = FIELD_EFFECT_GetArcHandle(set->fieldEffect);
     if (kind == 0) {
-        func_021AD8DC(set, &set->desc, arc);
+        FLDEFF_ENCOUNT_LoadKind0Models(set, &set->desc, arc);
     } else {
-        func_021AD96C(set, &set->desc, arc);
+        FLDEFF_ENCOUNT_LoadModels(set, &set->desc, arc);
     }
 }
 
 /*
- * Lever: func_0204767C takes three arguments (see ov019_func_0217FA10); the
+ * Lever: G3D_SYSTEM_CreateObject takes three arguments (see ov019_func_0217FA10); the
  * third is set->desc.animeCount, which is what keeps the loop bound in r2.
  */
 /* Builds the render, animations and object of one model. */
-void func_021AD82C(EncountDrawSet *draw, EncountModelSet *set, int modelIndex)
+void FLDEFF_ENCOUNT_BuildDrawSet(EncountDrawSet *draw, EncountModelSet *set, int modelIndex)
 {
     int i = 0;
 
-    draw->render = func_02047400(set->model[modelIndex], 0, set->model[modelIndex]);
+    draw->render = G3D_SYSTEM_CreateRender(set->model[modelIndex], 0, set->model[modelIndex]);
     for (; i < set->desc.animeCount; i++)
-        draw->anime[i] = func_02047564(draw->render, set->anime[modelIndex * set->desc.animeCount + i], 0);
-    draw->object = func_0204767C(draw->render, draw->anime, set->desc.animeCount);
+        draw->anime[i] = G3D_SYSTEM_CreateAnime(draw->render, set->anime[modelIndex * set->desc.animeCount + i], 0);
+    draw->object = G3D_SYSTEM_CreateObject(draw->render, draw->anime, set->desc.animeCount);
     for (i = 0; i < set->desc.animeCount; i++)
-        func_020477A4(draw->object, (u16)i);
+        G3D_SYSTEM_EnableObjectAnime(draw->object, (u16)i);
 }
 
-void func_021AD8A4(EncountDrawSet *draw, EncountModelSet *set)
+void FLDEFF_ENCOUNT_DeleteDrawSet(EncountDrawSet *draw, EncountModelSet *set)
 {
     int i;
 
     for (i = 0; i < set->desc.animeCount; i++)
-        func_0204762C(draw->anime[i]);
-    func_02047738(draw->object);
-    func_02047504(draw->render);
+        G3D_SYSTEM_DeleteAnime(draw->anime[i]);
+    G3D_SYSTEM_DeleteObject(draw->object);
+    G3D_SYSTEM_DeleteRender(draw->render);
 }
 
 /* Loads the models of kind 0: the first with the base offset, the second one stride on, the last without. */
-void func_021AD8DC(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc)
+void FLDEFF_ENCOUNT_LoadKind0Models(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc)
 {
     int offset;
 
-    offset = func_021ABE28(set->fieldEffect);
-    set->model[0] = func_02046E24(arc, desc->modelFile + offset);
-    func_02046FF8(set->model[0]);
-    set->anime[0] = func_02046E24(arc, desc->animeFile[0] + offset);
-    func_021AD82C(&set->draw[0], set, 0);
+    offset = FIELD_EFFECT_GetModelBaseOffset(set->fieldEffect);
+    set->model[0] = G3D_SYSTEM_CreateResourceArcHandle(arc, desc->modelFile + offset);
+    G3D_SYSTEM_TransVramTexture(set->model[0]);
+    set->anime[0] = G3D_SYSTEM_CreateResourceArcHandle(arc, desc->animeFile[0] + offset);
+    FLDEFF_ENCOUNT_BuildDrawSet(&set->draw[0], set, 0);
     offset += desc->modelStride;
-    set->model[1] = func_02046E24(arc, desc->modelFile + offset);
-    func_02046FF8(set->model[1]);
-    set->anime[1] = func_02046E24(arc, desc->animeFile[0] + offset);
-    func_021AD82C(&set->draw[1], set, 1);
-    set->model[2] = func_02046E24(arc, desc->modelFile);
-    func_02046FF8(set->model[2]);
-    set->anime[2] = func_02046E24(arc, desc->animeFile[0]);
-    func_021AD82C(&set->draw[2], set, 2);
+    set->model[1] = G3D_SYSTEM_CreateResourceArcHandle(arc, desc->modelFile + offset);
+    G3D_SYSTEM_TransVramTexture(set->model[1]);
+    set->anime[1] = G3D_SYSTEM_CreateResourceArcHandle(arc, desc->animeFile[0] + offset);
+    FLDEFF_ENCOUNT_BuildDrawSet(&set->draw[1], set, 1);
+    set->model[2] = G3D_SYSTEM_CreateResourceArcHandle(arc, desc->modelFile);
+    G3D_SYSTEM_TransVramTexture(set->model[2]);
+    set->anime[2] = G3D_SYSTEM_CreateResourceArcHandle(arc, desc->animeFile[0]);
+    FLDEFF_ENCOUNT_BuildDrawSet(&set->draw[2], set, 2);
 }
 
 /* Loads the models and animations of any other kind. */
-void func_021AD96C(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc)
+void FLDEFF_ENCOUNT_LoadModels(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc)
 {
     int base;
     int i;
@@ -325,58 +330,58 @@ void func_021AD96C(EncountModelSet *set, EncountModelDesc *desc, ArcHandle *arc)
 
     base = 0;
     if (desc->useBaseOffset) {
-        base = func_021ABE28(set->fieldEffect);
+        base = FIELD_EFFECT_GetModelBaseOffset(set->fieldEffect);
     } else if (desc->useBaseOffsetAlt) {
-        base = func_021ABE2C(set->fieldEffect);
+        base = FIELD_EFFECT_GetModelBaseOffsetAlt(set->fieldEffect);
     }
     for (i = 0; i < desc->modelCount; i++) {
         fileOffset = base + i * desc->modelStride;
-        set->model[i] = func_02046E24(arc, desc->modelFile + fileOffset);
-        func_02046FF8(set->model[i]);
+        set->model[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, desc->modelFile + fileOffset);
+        G3D_SYSTEM_TransVramTexture(set->model[i]);
         for (j = 0; j < desc->animeCount; j++) {
-            set->anime[i * desc->animeCount + j] = func_02046E24(arc, fileOffset + desc->animeFile[j]);
+            set->anime[i * desc->animeCount + j] = G3D_SYSTEM_CreateResourceArcHandle(arc, fileOffset + desc->animeFile[j]);
         }
-        func_021AD82C(&set->draw[i], set, (u8)i);
+        FLDEFF_ENCOUNT_BuildDrawSet(&set->draw[i], set, (u8)i);
     }
 }
 
-void func_021ADA1C(EncountModelSet *set)
+void FLDEFF_ENCOUNT_FreeResources(EncountModelSet *set)
 {
     int i;
 
     for (i = 0; i < set->desc.modelCount; i++) {
-        func_021AD8A4(&set->draw[i], set);
+        FLDEFF_ENCOUNT_DeleteDrawSet(&set->draw[i], set);
     }
     for (i = 0; i < set->desc.animeCount * set->desc.modelCount; i++) {
         func_02046EFC(set->anime[i]);
     }
     for (i = 0; i < set->desc.modelCount; i++) {
-        func_020470D0(set->model[i]);
+        G3D_SYSTEM_FreeVramTexture(set->model[i]);
         func_02046EFC(set->model[i]);
     }
 }
 
 /* Starts a rustling-spot effect on a tile; returns 0 when the map type or the resource does not allow it. */
-FieldEffectObj *func_021ADAAC(EncountSys *encount, FieldEffectSys *fieldEffect, int gridX, int gridZ, int y, int setIndex)
+FieldEffectObj *FLDEFF_ENCOUNT_Start(EncountSys *encount, FieldEffectSys *fieldEffect, int gridX, int gridZ, int y, int setIndex)
 {
     FieldMap *fieldMap;
     int kind;
     EncountModelSet *res;
     EncountStartParam param;
 
-    fieldMap = func_021ABE14(fieldEffect);
-    if (func_02188CFC(fieldMap) != 0) {
+    fieldMap = FIELD_EFFECT_GetFieldMap(fieldEffect);
+    if (FIELDMAP_GetMoveKind(fieldMap) != 0) {
         return 0;
     }
-    kind = d_021D9238[setIndex];
-    res = func_021ABEA0(fieldEffect, kind + FLDEFF_ID_ENCOUNT_FIRST);
+    kind = sEncountResourceIndex[setIndex];
+    res = FIELD_EFFECT_GetResource(fieldEffect, kind + FLDEFF_ID_ENCOUNT_FIRST);
     if (res == 0) {
         return 0;
     }
     func_02082BCC(&param, 0, 0x28);
     param.encount = encount;
     param.res = res;
-    param.mmdlSys = func_02188C7C(fieldMap);
+    param.mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
     param.gridX = gridX;
     param.gridZ = gridZ;
     param.kind = kind;
@@ -388,47 +393,47 @@ FieldEffectObj *func_021ADAAC(EncountSys *encount, FieldEffectSys *fieldEffect, 
     param.pos.x = (gridX << 16) + 0x8000;
     param.pos.z = (gridZ << 16) + 0x8000;
     param.pos.y = y;
-    return func_021ABFA8(fieldEffect, &d_021D9240, 0, 1, &param, 0);
+    return FIELD_EFFECT_AddObject(fieldEffect, &sEncountFuncs, 0, 1, &param, 0);
 }
 
-void func_021ADB4C(FieldEffectObj *effect, int paused)
+void FLDEFF_ENCOUNT_SetPaused(FieldEffectObj *effect, int paused)
 {
     if (effect != 0)
-        ((EncountWork *)func_021AC1E0(effect))->paused = paused;
+        ((EncountWork *)FIELD_EFFECT_GetObjectWork(effect))->paused = paused;
 }
 
-void func_021ADB5C(FieldEffectObj *effect, int hidden)
+void FLDEFF_ENCOUNT_SetDrawHidden(FieldEffectObj *effect, int hidden)
 {
     if (effect != 0)
-        ((EncountWork *)func_021AC1E0(effect))->drawHidden = hidden;
+        ((EncountWork *)FIELD_EFFECT_GetObjectWork(effect))->drawHidden = hidden;
 }
 
 /* Rustling-spot effect init. */
-void func_021ADB6C(FieldEffectObj *effect, EncountWork *work)
+void FLDEFF_ENCOUNT_Init(FieldEffectObj *effect, EncountWork *work)
 {
-    EncountStartParam *param = func_021AC1AC(effect);
+    EncountStartParam *param = FIELD_EFFECT_GetObjectParam(effect);
 
     work->encount = param->encount;
     work->param = *param;
-    func_021AC1CC(effect, &param->pos);
-    if (func_021AC1A0(effect) == 0) {
+    FIELD_EFFECT_SetObjectPos(effect, &param->pos);
+    if (FIELD_EFFECT_GetObjectMode(effect) == 0) {
         work->modeIsZero = 1;
     }
-    func_021AC178(effect);
+    FIELD_EFFECT_UpdateObject(effect);
 }
 
-void func_021ADBAC(void) {}
+void FLDEFF_ENCOUNT_Exit(void) {}
 
 /* Rustling-spot effect update: while the map is ready and not paused, plays the sound and advances the animations. */
-void func_021ADBB0(FieldEffectObj *effect, EncountWork *work)
+void FLDEFF_ENCOUNT_Update(FieldEffectObj *effect, EncountWork *work)
 {
     int i;
     EncountModelSet *set = work->param.res;
 
-    if (func_02188BE8(func_021ABE14(set->fieldEffect)) != 0 && work->paused == 0) {
-        func_021ADC04(work, set);
+    if (FIELDMAP_IsReady(FIELD_EFFECT_GetFieldMap(set->fieldEffect)) != 0 && work->paused == 0) {
+        FLDEFF_ENCOUNT_PlaySound(work, set);
         for (i = 0; i < set->desc.animeCount; i++) {
-            func_02047910(set->draw[work->param.setIndex].object, (u16)i, 0x1000);
+            G3D_SYSTEM_LoopObjectAnimeFrame(set->draw[work->param.setIndex].object, (u16)i, 0x1000);
         }
     }
 }
@@ -440,7 +445,7 @@ void func_021ADBB0(FieldEffectObj *effect, EncountWork *work)
  * loads above the call in callee-saved registers.
  */
 /* Plays the sound of the spot, louder for a higher strength, when the animation is at its start. */
-void func_021ADC04(EncountWork *work, EncountModelSet *set)
+void FLDEFF_ENCOUNT_PlaySound(EncountWork *work, EncountModelSet *set)
 {
     u16 strength;
     int frame;
@@ -450,27 +455,27 @@ void func_021ADC04(EncountWork *work, EncountModelSet *set)
 
     strength = 0;
     func_02047828(set->draw[work->param.setIndex].object, 0, &frame);
-    if (frame == 0 && func_021AAA4C(work->encount, (short *)&strength) != 0) {
+    if (frame == 0 && EFFECT_ENCOUNT_GetSpotDistance(work->encount, (short *)&strength) != 0) {
         strength = func_0209C0A4(strength, 5);
         if (strength > 3)
             strength = 3;
-        volume = d_021D9234[strength];
+        volume = sEncountVolumes[strength];
         seId = set->desc.seId;
         soundSys = func_02012A30(work->encount->gameData);
-        func_02028ACC(soundSys, seId, volume);
+        FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(soundSys, seId, volume);
     }
 }
 
 
 /* Draw of the effect object that shows one object of the slot table. */
-void func_021ADC6C(FieldEffectObj *effect, EncountWork *work)
+void FLDEFF_ENCOUNT_DrawSlotObject(FieldEffectObj *effect, EncountWork *work)
 {
-    G3dObjectStatus status = d_021D9254;
+    G3dObjectStatus status = sEncounterDrawSlotStatus;
     EncountModelSet *set = work->param.res;
 
     if (work->drawHidden == 0) {
         func_0207ADC4(&status.rotate);
-        func_021AC1B8(effect, &status.trans);
-        func_02047AC8(set->draw[work->param.setIndex].object, &status);
+        FIELD_EFFECT_GetObjectPos(effect, &status.trans);
+        G3D_SYSTEM_DrawObjectCulling(set->draw[work->param.setIndex].object, &status);
     }
 }

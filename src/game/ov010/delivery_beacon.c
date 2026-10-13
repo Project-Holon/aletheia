@@ -1,7 +1,7 @@
 /*
  * file:     delivery_beacon.c
  * unit:     yes
- * function: func_0215766C, func_021576A8, func_021576AC, func_021576B8, func_021576C4, func_021576CC, func_021576D0, func_02157700, func_02157724, func_02157760, func_02157818, func_02157870, func_0215788C, func_021578A0, func_021578F0, func_02157910, func_02157928, func_02157938, func_02157948
+ * function: DELIVERY_BEACON_GetCursorSlot, DELIVERY_BEACON_GetSlotSize, DELIVERY_BEACON_IsEqual, DELIVERY_BEACON_SetStep, DELIVERY_BEACON_SetStepAtLine, DELIVERY_BEACON_StepIdle, DELIVERY_BEACON_Create, DELIVERY_BEACON_CheckDestSize, DELIVERY_BEACON_HasAllPieces, DELIVERY_BEACON_StepCollectPieces, DELIVERY_BEACON_DecodePieces, DELIVERY_BEACON_StepStartScan, DELIVERY_BEACON_OnSessionStarted, DELIVERY_BEACON_Start, DELIVERY_BEACON_HasAnyPiece, DELIVERY_BEACON_TryComplete, DELIVERY_BEACON_RunStep, DELIVERY_BEACON_Delete, DELIVERY_IRC_SetAckFlag
  * address:  0x0215766C
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -25,12 +25,12 @@
  *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
  *   func_02177BCC  0x02177BCC  thumb  ov014
  *   func_0203F328  0x0203F328  arm
- *   func_0203D010 0x0203D010 arm
- *   func_0203CD98  0x0203CD98  arm
- *   func_0203CBAC  0x0203CBAC  arm
+ *   GFL_NET_BeaconScanStart 0x0203D010 arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_StartSession  0x0203CBAC  arm
  *   gDeliveryBeaconNetInit  0x02172780  data  ov010
  *   func_020307B0  0x020307B0  arm
- *   func_0203CEAC  0x0203CEAC  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -92,33 +92,33 @@ extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 index);
 extern void func_02177BCC(void);
 extern void func_0203F328(u16 *data, u32 size, u32 seed);
-extern void func_0203D010(void);
-extern int func_0203CD98(void);
-extern void func_0203CBAC(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
+extern void GFL_NET_BeaconScanStart(void);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
 extern u32 func_020307B0(void *ptr);
-extern int func_0203CEAC(int arg);
-DeliveryBeaconSlot *func_0215766C(DeliveryBeacon *work);
-void func_021576B8(DeliveryBeacon *work, DeliveryBeaconStepFunc step);
-void func_021576C4(DeliveryBeacon *work, DeliveryBeaconStepFunc step, int line);
-void func_021576CC(DeliveryBeacon *work);
-DeliveryBeacon *func_021576D0(DeliveryBeaconParam *param);
-void func_02157700(DeliveryBeacon *work);
-int func_02157724(DeliveryBeacon *work);
-void func_02157760(DeliveryBeacon *work);
-void func_02157818(DeliveryBeacon *work);
-void func_02157870(DeliveryBeacon *work);
-void func_0215788C(DeliveryBeacon *work);
-int func_021578A0(DeliveryBeacon *work);
-int func_021578F0(DeliveryBeacon *work);
-int func_02157910(DeliveryBeacon *work);
-void func_02157928(DeliveryBeacon *work);
-int func_02157938(DeliveryBeacon *work);
+extern int GFL_NET_Exit(int arg);
+DeliveryBeaconSlot *DELIVERY_BEACON_GetCursorSlot(DeliveryBeacon *work);
+void DELIVERY_BEACON_SetStep(DeliveryBeacon *work, DeliveryBeaconStepFunc step);
+void DELIVERY_BEACON_SetStepAtLine(DeliveryBeacon *work, DeliveryBeaconStepFunc step, int line);
+void DELIVERY_BEACON_StepIdle(DeliveryBeacon *work);
+DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param);
+void DELIVERY_BEACON_CheckDestSize(DeliveryBeacon *work);
+int DELIVERY_BEACON_HasAllPieces(DeliveryBeacon *work);
+void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work);
+void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work);
+void DELIVERY_BEACON_StepStartScan(DeliveryBeacon *work);
+void DELIVERY_BEACON_OnSessionStarted(DeliveryBeacon *work);
+int DELIVERY_BEACON_Start(DeliveryBeacon *work);
+int DELIVERY_BEACON_HasAnyPiece(DeliveryBeacon *work);
+int DELIVERY_BEACON_TryComplete(DeliveryBeacon *work);
+void DELIVERY_BEACON_RunStep(DeliveryBeacon *work);
+int DELIVERY_BEACON_Delete(DeliveryBeacon *work);
 extern const char gDeliveryBeaconAllocSite[];
 extern char gDeliveryBeaconAssertText[];
 extern GFLNetInitializeStruct gDeliveryBeaconNetInit;
 
 
-DeliveryBeaconSlot *func_0215766C(DeliveryBeacon *work)
+DeliveryBeaconSlot *DELIVERY_BEACON_GetCursorSlot(DeliveryBeacon *work)
 {
     int v = work->cursor;
     int rem = v % DELIVERY_BEACON_SLOTS_PER_PAGE;
@@ -132,45 +132,45 @@ DeliveryBeaconSlot *func_0215766C(DeliveryBeacon *work)
 }
 
 
-int func_021576A8(void) { return 100; }
+int DELIVERY_BEACON_GetSlotSize(void) { return 100; }
 
-int func_021576AC(int lhs, int rhs) { return lhs == rhs; }
+int DELIVERY_BEACON_IsEqual(int lhs, int rhs) { return lhs == rhs; }
 
 
 /*
  * Recursive MATCH unblocker: matched so the ABS32 site in
  * ov010_func_021576C4 attests as `matched`.
  */
-void func_021576B8(DeliveryBeacon *work, DeliveryBeaconStepFunc step)
+void DELIVERY_BEACON_SetStep(DeliveryBeacon *work, DeliveryBeaconStepFunc step)
 {
     work->step = step;
 }
 
 
 /*
- * Unblocked by matching func_021576B8 (ov010, EXACT). The ABS32 site +0004 now
+ * Unblocked by matching DELIVERY_BEACON_SetStep (ov010, EXACT). The ABS32 site +0004 now
  * attests as `matched`.
  * The listing extent is now 8 bytes, so the verdict is plain EXACT.
  *
  * `line`: every caller loads r2 with a constant, but the callee never
  * reads it, so the thunk takes it and drops it.
  */
-void func_021576C4(DeliveryBeacon *work, DeliveryBeaconStepFunc step, int line)
+void DELIVERY_BEACON_SetStepAtLine(DeliveryBeacon *work, DeliveryBeaconStepFunc step, int line)
 {
-    func_021576B8(work, step);
+    DELIVERY_BEACON_SetStep(work, step);
 }
 
 
 /*
  * Unlabelled empty callback (bx lr) hidden in a .word run; witness for the
- * function pointer taken in func_021578A0.
+ * function pointer taken in DELIVERY_BEACON_Start.
  */
-void func_021576CC(DeliveryBeacon *work)
+void DELIVERY_BEACON_StepIdle(DeliveryBeacon *work)
 {
 }
 
 
-DeliveryBeacon *func_021576D0(DeliveryBeaconParam *param)
+DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
 {
     DeliveryBeacon *work;
 
@@ -180,7 +180,7 @@ DeliveryBeacon *func_021576D0(DeliveryBeaconParam *param)
 }
 
 
-void func_02157700(DeliveryBeacon *work)
+void DELIVERY_BEACON_CheckDestSize(DeliveryBeacon *work)
 {
     if (work->param.destSize != 0 && work->param.destSize >= DELIVERY_BEACON_SLOTS_PER_PAGE * DELIVERY_BEACON_PIECE_SIZE)
         func_02034714(gDeliveryBeaconAssertText, 0, gDeliveryBeaconAssertText);
@@ -191,7 +191,7 @@ void func_02157700(DeliveryBeacon *work)
  * extent: 58-byte body followed by 2-byte alignment padding.
  * lever: enum bound preserves the entry guard; declare index before bound.
  */
-int func_02157724(DeliveryBeacon *work)
+int DELIVERY_BEACON_HasAllPieces(DeliveryBeacon *work)
 {
     int i;
     DeliveryBeaconCount count;
@@ -221,7 +221,7 @@ int func_02157724(DeliveryBeacon *work)
  * c99 and --lang c: the output bytes do not change. Older text in this
  * header that asks for the double assignment is superseded.
  */
-void func_02157760(DeliveryBeacon *work)
+void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work)
 {
     int i;
     DeliveryBeaconSlot *entry;
@@ -259,7 +259,7 @@ void func_02157760(DeliveryBeacon *work)
 }
 
 
-void func_02157818(DeliveryBeacon *work)
+void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work)
 {
     int i;
     DeliveryBeaconSlot *slot;
@@ -282,28 +282,28 @@ void func_02157818(DeliveryBeacon *work)
 /*
  * extent: 28-byte lead followed by existing matched ov010_func_0215788C.c.
  */
-void func_02157870(DeliveryBeacon *work) { func_0203D010(); func_021576C4(work, func_02157760, 0x1d7); }
+void DELIVERY_BEACON_StepStartScan(DeliveryBeacon *work) { GFL_NET_BeaconScanStart(); DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepCollectPieces, 0x1d7); }
 
 
 /*
  * Unlabelled tail-call thunk hidden in a .word run; witness for the
- * function pointer taken in func_021578A0.
+ * function pointer taken in DELIVERY_BEACON_Start.
  */
-void func_0215788C(DeliveryBeacon *work)
+void DELIVERY_BEACON_OnSessionStarted(DeliveryBeacon *work)
 {
-    func_021576C4(work, func_02157870, 0x1DD);
+    DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepStartScan, 0x1DD);
 }
 
 
-int func_021578A0(DeliveryBeacon *work)
+int DELIVERY_BEACON_Start(DeliveryBeacon *work)
 {
-    if (func_0203CD98() != 0)
+    if (GFL_NET_GetRunState() != 0)
         return 0;
     gDeliveryBeaconNetInit.gameKind = work->param.gameKind;
     work->lockedSender = DELIVERY_BEACON_NO_SENDER;
-    func_02157700(work);
-    func_0203CBAC(&gDeliveryBeaconNetInit, (u32)func_0215788C, (u32)work);
-    func_021576C4(work, func_021576CC, 0x1F2);
+    DELIVERY_BEACON_CheckDestSize(work);
+    GFL_NET_StartSession(&gDeliveryBeaconNetInit, (u32)DELIVERY_BEACON_OnSessionStarted, (u32)work);
+    DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepIdle, 0x1F2);
     return 1;
 }
 
@@ -316,7 +316,7 @@ int func_021578A0(DeliveryBeacon *work)
  *
  * Addresses are Black-image addresses.
  */
-int func_021578F0(DeliveryBeacon *work)
+int DELIVERY_BEACON_HasAnyPiece(DeliveryBeacon *work)
 {
     int i;
 
@@ -332,18 +332,18 @@ int func_021578F0(DeliveryBeacon *work)
 /*
  * extent: 22 bytes of code followed by 2-byte alignment padding.
  */
-int func_02157910(DeliveryBeacon *work) { int r; r = func_02157724(work); if (r) func_02157818(work); return r; }
+int DELIVERY_BEACON_TryComplete(DeliveryBeacon *work) { int r; r = DELIVERY_BEACON_HasAllPieces(work); if (r) DELIVERY_BEACON_DecodePieces(work); return r; }
 
 
-void func_02157928(DeliveryBeacon *work) { work->step(work); }
+void DELIVERY_BEACON_RunStep(DeliveryBeacon *work) { work->step(work); }
 
 
-int func_02157938(DeliveryBeacon *work)
+int DELIVERY_BEACON_Delete(DeliveryBeacon *work)
 {
     int result;
 
     func_020307B0(work);
-    result = func_0203CEAC(0);
+    result = GFL_NET_Exit(0);
     return result;
 }
 
@@ -354,7 +354,7 @@ typedef struct DeliveryIrcAckView {
     u16 ackFlag;                          /* 670 */
 } DeliveryIrcAckView;
 
-void func_02157948(DeliveryIrcAckView *work)
+void DELIVERY_IRC_SetAckFlag(DeliveryIrcAckView *work)
 {
     work->ackFlag = 1;
 }

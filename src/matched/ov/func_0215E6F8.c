@@ -1,5 +1,5 @@
 /*
- * function: func_0215E6F8
+ * function: MOVE_POKEMON_IsAnyEntryActive
  * address:  0x0215E6F8
  * packet:   pkt_0215E6F8
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200D418  0x0200D418  thumb
  *   func_0200D488  0x0200D488  thumb
  */
@@ -20,19 +20,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200D418(void *sys);
 struct Blk38;
 extern u8 func_0200D488(struct Blk38 *p, u32 i);
 
-int func_0215E6F8(int a0)
+int MOVE_POKEMON_IsAnyEntryActive(int a0)
 {
     int a1;
     int t4;
     void *p;
     void *t5;
 
-    p = func_02012EBC((struct Big *)a0);
+    p = GAME_DATA_GetSaveControl((struct Big *)a0);
 loc_0215E6FE:
     t5 = func_0200D418(p);
 loc_0215E702:

@@ -11,9 +11,9 @@
  *
  * symbols:
  *   g_021469F4     0x021469F4  data
- *   func_0203D798  0x0203D798  arm
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *
  * Credit `delta` to the score record of player `idx` (0xff meaning "me",
  * folded to slot 0 on entry).  The record table hangs off the one global the
@@ -54,11 +54,11 @@ struct Ctx {
 
 extern struct Tbl *g_021469F4;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
 void GFL_NET_LOWER_DATA_RecvChunk(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
 {
@@ -72,13 +72,13 @@ void GFL_NET_LOWER_DATA_RecvChunk(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
         return;
     }
 
-    ctx = func_0203D798();
+    ctx = GFL_NET_GetInitParam();
 
     if (g_021469F4 == 0 || g_021469F4->ent[idx] == 0) {
         return;
     }
 
-    if ((u32)func_020399A8() != who && ctx->unk_64 == 0) {
+    if ((u32)GFL_NET_HANDLE_GetCurrentHandle() != who && ctx->unk_64 == 0) {
         return;
     }
 
@@ -89,7 +89,7 @@ void GFL_NET_LOWER_DATA_RecvChunk(u32 idx, u32 delta, u32 a2, u32 a3, u32 who)
         return;
     }
 
-    if (idx != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
+    if (idx != GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()))) {
         g_021469F4->unk_40 = 1;
     }
 }

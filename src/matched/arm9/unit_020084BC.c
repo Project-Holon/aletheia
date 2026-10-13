@@ -48,7 +48,7 @@
  * All six relocations resolve: the four pool words are ABS32 against
  * functions the listings label and other code calls directly, the blx is a
  * THM_CALL the compiler emitted as a plain bl (it cannot see that
- * func_020457B0 is ARM) and match.py rewrites to BLX exactly as the linker
+ * STRBUF_Create is ARM) and match.py rewrites to BLX exactly as the linker
  * would, and the bl to MYSTATUS_NameToStrbuf is internal to this unit and follows
  * from where the unit is placed.  So the verdict is EXACT.
  *

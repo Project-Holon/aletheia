@@ -1,5 +1,5 @@
 /*
- * function: func_021D3244
+ * function: FLD_VREQ_SetBgVisible
  * address:  0x021D3244
  * packet:   pkt_ov021_021D3244
  * region:   ov021
@@ -19,7 +19,7 @@ typedef struct St021D3244 {
     u8 v[8];
 } St021D3244;
 
-void func_021D3244(St021D3244 *p, int i, u8 v)
+void FLD_VREQ_SetBgVisible(St021D3244 *p, int i, u8 v)
 {
     p->v[i] = v;
 }

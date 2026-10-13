@@ -1,5 +1,5 @@
 /*
- * function: func_021BA11C
+ * function: MONOLITH_TOOL_UpdateBgScroll
  * address: 0x021BA11C
  * packet: pkt_ov071_021BA11C
  * region: ov071
@@ -14,4 +14,4 @@
 #include "../include/Obj20758.h"
 
 extern void func_02041EE4(unsigned, unsigned, unsigned);
-void func_021BA11C(char *p) { func_02041EE4(6, 3, (((struct Obj20758 *)p)->f2D8 >> 8) % 64); }
+void MONOLITH_TOOL_UpdateBgScroll(char *p) { func_02041EE4(6, 3, (((struct Obj20758 *)p)->f2D8 >> 8) % 64); }

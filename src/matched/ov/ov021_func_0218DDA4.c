@@ -1,5 +1,5 @@
 /*
- * function: func_0218DDA4
+ * function: FIELD_G3D_MAPPER_GetCellPos
  * address:  0x0218DDA4
  * packet:   pkt_ov021_0218DDA4
  * region:   ov021
@@ -19,7 +19,7 @@ typedef signed int     s32;
 
 typedef struct { u32 a, b, c; } Vec3;
 
-void func_0218DDA4(u8 *a, Vec3 *b)
+void FIELD_G3D_MAPPER_GetCellPos(u8 *a, Vec3 *b)
 {
     *b = *(Vec3 *)(a + 4);
 }

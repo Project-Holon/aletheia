@@ -1,5 +1,5 @@
 /*
- * function: func_021A1FEC
+ * function: WEATHER_TASK_Start
  * address:  0x021A1FEC
  * packet:   pkt_ov021_021A1FEC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A2C2C  0x021A2C2C  thumb  ov021
+ *   WEATHER_TASK_SetSoundUseSoundSys  0x021A2C2C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -29,9 +29,9 @@ typedef struct O {
     u8  f40;
 } O;
 
-extern void func_021A2C2C(u8 *p, u32 v);
+extern void WEATHER_TASK_SetSoundUseSoundSys(u8 *p, u32 v);
 
-void func_021A1FEC(O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g)
+void WEATHER_TASK_Start(O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g)
 {
     p->f20 = v;
     p->lo = (u8)d;
@@ -42,5 +42,5 @@ void func_021A1FEC(O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g)
     } else if (p->f25 == 1) {
         p->f26 = 2;
     }
-    func_021A2C2C(&p->f40, e);
+    WEATHER_TASK_SetSoundUseSoundSys(&p->f40, e);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF894
+ * function: BTL_HANDLER_ITEM_GetDragonFangHandlers
  * address: 0x021DF894
  * packet: pkt_ov093_021DF894
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF870.c and filed here.
  *
  * symbols:
- *   d_021F15DC 0x021F15DC data ov093 a4
+ *   gDragonFangHandlers 0x021F15DC data ov093 a4
  */
 
-int *func_021DF894(int *p);
-extern int d_021F15DC[];
+int *BTL_HANDLER_ITEM_GetDragonFangHandlers(int *p);
+extern int gDragonFangHandlers[];
 
-int *func_021DF894(int *p)
+int *BTL_HANDLER_ITEM_GetDragonFangHandlers(int *p)
 {
     *p = 1;
-    return d_021F15DC;
+    return gDragonFangHandlers;
 }

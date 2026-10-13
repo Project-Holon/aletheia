@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0E4
+ * function: STARTMENU_ChangeToIntroProc
  * address:  0x021BC0E4
  * packet:   pkt_ov088_021BC0E4
  * region:   ov088
@@ -20,7 +20,7 @@ extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern char d_021BD818[];
 extern char ov088_id[];
 
-void func_021BC0E4(void)
+void STARTMENU_ChangeToIntroProc(void)
 {
     PROCSYS_ReplaceGlobal((u32)ov088_id, (u32)d_021BD818, 0);
 }

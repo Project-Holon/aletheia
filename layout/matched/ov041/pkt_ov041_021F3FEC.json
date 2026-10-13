@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3FEC",
+   "name": "GIMMICK41_ResetBounce",
    "address": "0x021F3FEC",
    "kind": "game",
    "region": "ov041",

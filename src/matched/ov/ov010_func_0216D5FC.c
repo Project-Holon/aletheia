@@ -1,5 +1,5 @@
 /*
- * function: func_0216D5FC
+ * function: FLDMMDL_GetDirDispOld
  * address:  0x0216D5FC
  * packet:   pkt_ov010_0216D5FC
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Unlabelled leaf (halfword getter at +0x1c), filed as the only blocker of
- * func_021BBDD4 (ov021).
+ * FLDEFF_FOOTMARK_SetMMdl (ov021).
  */
 #include "../include/Obj19126.h"
 
 typedef unsigned short u16;
 
-u16 func_0216D5FC(void *p) { return ((struct Obj19126 *)p)->f1C; }
+u16 FLDMMDL_GetDirDispOld(void *p) { return ((struct Obj19126 *)p)->f1C; }

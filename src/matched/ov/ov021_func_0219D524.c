@@ -1,5 +1,5 @@
 /*
- * function: func_0219D524
+ * function: FLDMMDL_G3DOBJ_AddResEntry
  * address:  0x0219D524
  * packet:   pkt_ov021_0219D524
  * region:   ov021
@@ -18,7 +18,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u16 a; u16 b; } E4;
 
-u16 func_0219D524(u32 *s, u32 b, u32 a)
+u16 FLDMMDL_G3DOBJ_AddResEntry(u32 *s, u32 b, u32 a)
 {
     int i;
     E4 *e = *(E4 * *)&((struct Obj09515 *)s)->fC;

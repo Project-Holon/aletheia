@@ -1,5 +1,5 @@
 /*
- * function: func_021B6FEC
+ * function: SCRCMD_POKEMON_FLD_CheckGiftItemCanReceive
  * address: 0x021B6FEC
  * packet: pkt_ov021_021B6FEC
  * region: ov021
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov021/unit_021B6DC0.c and filed here.
  */
 
-int func_021B6FEC(void);
+int SCRCMD_POKEMON_FLD_CheckGiftItemCanReceive(void);
 
 /*
  * `ldr ip,[pc,#4]; ldr r0,[pc,#4]; bx ip; .word 0x02061B5C; .word 0x02146B80`,
@@ -22,4 +22,4 @@ int func_021B6FEC(void);
  *   void func_02061C30(void) { func_02061B5C(d_02146B80); }
  *   (`return func_02061B5C((int)d_02146B80)` with int types: same DIFF)
  */
-int func_021B6FEC(void) { return 1; }
+int SCRCMD_POKEMON_FLD_CheckGiftItemCanReceive(void) { return 1; }

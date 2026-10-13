@@ -1,5 +1,5 @@
 /*
- * function: func_021B9958
+ * function: TOWNMAP_ProcIsFinished
  * address:  0x021B9958
  * packet:   pkt_021B9958
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021B9958(int *p)
+int TOWNMAP_ProcIsFinished(int *p)
 {
     return p[1];
 }

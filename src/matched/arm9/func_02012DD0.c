@@ -1,5 +1,5 @@
 /*
- * function: func_02012DD0
+ * function: GAME_DATA_SaveMain
  * address:  0x02012DD0
  * packet:   pkt_02012DD0
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012DD0.c \
- *       --func func_02012DD0 --addr 0x02012DD0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_SaveMain.c \
+ *       --func GAME_DATA_SaveMain --addr 0x02012DD0 --cc 1.1p1 --thumb
  *
  * symbols:
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
@@ -31,7 +31,7 @@ extern u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p);
 extern int func_020351A0(u32 v);
 extern void WIH_DWC_ResumeTimers(void);
 
-int func_02012DD0(u8 *p)
+int GAME_DATA_SaveMain(u8 *p)
 {
     int r;
 

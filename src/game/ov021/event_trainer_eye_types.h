@@ -55,7 +55,7 @@ typedef struct TrainerEyeWork {
 #define TRAINER_EYE_STATE_RELEASE           16
 #define TRAINER_EYE_STATE_DONE              17
 
-/* Animation command base codes of a field model (func_02197E7C adds the direction). */
+/* Animation command base codes of a field model (FLDMMDL_ACMD_ConvertCodeByDir adds the direction). */
 #define TRAINER_EYE_ACMD_TURN 0
 #define TRAINER_EYE_ACMD_WALK 12
 

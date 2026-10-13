@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AB768",
+   "name": "FLD_SCENEAREA_HasCheck",
    "address": "0x021AB768",
    "kind": "game",
    "region": "ov021",

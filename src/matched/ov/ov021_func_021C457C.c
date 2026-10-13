@@ -1,5 +1,5 @@
 /*
- * function: func_021C457C
+ * function: SCRCMD_PLAYER_GRID_EVENT_WaitA
  * address:  0x021C457C
  * packet:   pkt_ov021_021C457C
  * region:   ov021
@@ -12,22 +12,22 @@
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  *
  * symbols:
- *   func_021C1094  0x021C1094  thumb  ov021
- *   func_021C10A0  0x021C10A0  thumb  ov021
- *   func_0215A64C  0x0215A64C  thumb  ov010
+ *   FIELD_PLAYER_GRID_EVENT_IsHopDone  0x021C1094  thumb  ov021
+ *   FIELD_PLAYER_GRID_EVENT_DeleteHopTask  0x021C10A0  thumb  ov021
+ *   SCRCMD_WORK_GetTargetObject  0x0215A64C  thumb  ov010
  */
 
-extern void *func_0215A64C(void *a);
-extern int func_021C1094(void *x);
+extern void *SCRCMD_WORK_GetTargetObject(void *a);
+extern int FIELD_PLAYER_GRID_EVENT_IsHopDone(void *x);
 typedef unsigned int   u32;
-extern int func_021C10A0(u32 a);
+extern int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(u32 a);
 
-int func_021C457C(void *a, void *b)
+int SCRCMD_PLAYER_GRID_EVENT_WaitA(void *a, void *b)
 {
-    void *x = func_0215A64C(b);
+    void *x = SCRCMD_WORK_GetTargetObject(b);
 
-    if (func_021C1094(x) == 1) {
-        func_021C10A0((u32)x);
+    if (FIELD_PLAYER_GRID_EVENT_IsHopDone(x) == 1) {
+        FIELD_PLAYER_GRID_EVENT_DeleteHopTask((u32)x);
         return 1;
     }
     return 0;

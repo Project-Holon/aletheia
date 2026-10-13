@@ -1,5 +1,5 @@
 /*
- * function: func_0217F3A4
+ * function: EVENT_COMM_COMMON_PrintText
  * address:  0x0217F3A4
  * packet:   pkt_ov018_0217F3A4
  * region:   ov018
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0217F36C  0x0217F36C  thumb
- *   func_02190EB8  0x02190EB8  thumb  ov021
+ *   EVENT_COMM_COMMON_SetupPrintWin  0x0217F36C  thumb
+ *   FIELD_MSGBG_SysWinPrintStr  0x02190EB8  thumb  ov021
  */
 
 typedef struct {
@@ -29,15 +29,15 @@ typedef struct {
     void *f2C;
 } Ov018Obj;
 
-void func_0217F36C(Ov018Obj *p);
+void EVENT_COMM_COMMON_SetupPrintWin(Ov018Obj *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct P;
-void func_02190EB8(struct P *p, u32 b, u16 c, u32 d);
+void FIELD_MSGBG_SysWinPrintStr(struct P *p, u32 b, u16 c, u32 d);
 
-void func_0217F3A4(Ov018Obj *p, void *a)
+void EVENT_COMM_COMMON_PrintText(Ov018Obj *p, void *a)
 {
-    func_0217F36C(p);
-    func_02190EB8(p->f18, 0, 0, (u32)a);
+    EVENT_COMM_COMMON_SetupPrintWin(p);
+    FIELD_MSGBG_SysWinPrintStr(p->f18, 0, 0, (u32)a);
     p->f28 = 1;
 }

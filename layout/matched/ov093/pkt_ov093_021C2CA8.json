@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C2CA8",
+   "name": "BTL_SERVER_FLOW_RunSickEndEvent",
    "address": "0x021C2CA8",
    "kind": "game",
    "region": "ov093",

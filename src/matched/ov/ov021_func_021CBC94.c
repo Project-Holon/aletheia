@@ -1,5 +1,5 @@
 /*
- * function: func_021CBC94
+ * function: BSUBWAY_SCR_GetRegulationNo
  * address:  0x021CBC94
  * packet:   pkt_ov021_021CBC94
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021CBC94(u32 kind)
+int BSUBWAY_SCR_GetRegulationNo(u32 kind)
 {
     int id = 20;
 

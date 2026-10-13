@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A36E0",
+   "name": "FIELD_PLAYER_GetGrid",
    "address": "0x021A36E0",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A395C",
+   "name": "FIELD_PLAYER_CORE_GetFieldMap",
    "address": "0x021A395C",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3960",
+   "name": "FIELD_PLAYER_CORE_GetMmdl",
    "address": "0x021A3960",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A398C",
+   "name": "FIELD_PLAYER_CORE_GetSex",
    "address": "0x021A398C",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3990",
+   "name": "FIELD_PLAYER_CORE_GetGameSystem",
    "address": "0x021A3990",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3994",
+   "name": "FIELD_PLAYER_CORE_GetPlayerWork",
    "address": "0x021A3994",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3AD4",
+   "name": "FIELD_PLAYER_CORE_GetRideEffect",
    "address": "0x021A3AD4",
    "kind": "game",
    "region": "ov021",

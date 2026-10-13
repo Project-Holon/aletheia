@@ -1,5 +1,5 @@
 /*
- * function: func_021AC1E0
+ * function: FIELD_EFFECT_GetObjectWork
  * address:  0x021AC1E0
  * packet:   pkt_021AC1E0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021AC1E0(u32 a)
+int FIELD_EFFECT_GetObjectWork(u32 a)
 {
 if (a != 0) {
     return (a + 24);

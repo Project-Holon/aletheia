@@ -1,5 +1,5 @@
 /*
- * function: func_021BDDC0
+ * function: ENTRANCE_CAMERA_SetupLeaveByDir
  * address:  0x021BDDC0
  * packet:   pkt_ov021_021BDDC0
  * region:   ov021
@@ -11,18 +11,18 @@
  *
  * The unused `zero` vector is a dead initialised local: an initialiser keeps
  * its three stores (plain assignments are eliminated), and declaring it in an
- * inner block schedules them between the two func_0218FE78 calls.  The
+ * inner block schedules them between the two FIELD_CAMERA_ANIME_GetCurrentParam calls.  The
  * rotation halfword is u16 (pool word 0x0000F5F7, not 0xFFFFF5F7).
  *
  * symbols:
- *   func_021BE17C  0x021BE17C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021BE1B0  0x021BE1B0  thumb  ov021
+ *   ENTRANCE_CAMERA_GetCamera  0x021BE17C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   ENTRANCE_CAMERA_AimsAtEntrance  0x021BE1B0  thumb  ov021
  *   func_021A7B08  0x021A7B08  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0218FEA4  0x0218FEA4  thumb  ov021
- *   func_0218FE78  0x0218FE78  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
+ *   FIELD_CAMERA_ANIME_GetCurrentParam  0x0218FE78  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -62,19 +62,19 @@ typedef struct {
     int f6C;
 } Obj;
 
-extern u32 func_021BE17C(u8 *p);
+extern u32 ENTRANCE_CAMERA_GetCamera(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_021A3050(u8 *p);
-extern int func_021BE1B0(u32 a);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
+extern int ENTRANCE_CAMERA_AimsAtEntrance(u32 a);
 struct V3;
 extern void func_021A7B08(int a, struct V3 *b);
 struct VecFx32;
-extern void func_021A3038(unsigned char *a, struct VecFx32 *out);
-extern void func_0218FEA4(u32 a);
-extern void func_0218FE78(u32 a, void *dst);
+extern void FIELD_PLAYER_GetPos(unsigned char *a, struct VecFx32 *out);
+extern void FIELD_CAMERA_ANIME_Setup(u32 a);
+extern void FIELD_CAMERA_ANIME_GetCurrentParam(u32 a, void *dst);
 
-void func_021BDDC0(Obj *p)
+void ENTRANCE_CAMERA_SetupLeaveByDir(Obj *p)
 {
     Sub *s = &p->s;
     Rot *t = &s->t;
@@ -82,9 +82,9 @@ void func_021BDDC0(Obj *p)
     void *h;
     int mode;
 
-    func_021BE17C((u8 *)p);
-    h = func_02188CB4((struct Obj00020 *)p->f0);
-    mode = func_021A3050(h);
+    ENTRANCE_CAMERA_GetCamera((u8 *)p);
+    h = FIELDMAP_GetFieldPlayer((struct Obj00020 *)p->f0);
+    mode = FIELD_PLAYER_GetDirDisp(h);
     switch (mode) {
     case 2:
     case 3:
@@ -102,16 +102,16 @@ void func_021BDDC0(Obj *p)
     }
     s->f48 = 0;
     s->f44 = 0;
-    if (func_021BE1B0((u32)p)) {
+    if (ENTRANCE_CAMERA_AimsAtEntrance((u32)p)) {
         func_021A7B08(p->f0, (struct V3 *)(&out));
     } else {
-        func_021A3038(h, (struct VecFx32 *)&out);
+        FIELD_PLAYER_GetPos(h, (struct VecFx32 *)&out);
     }
-    func_0218FEA4(p->f54);
-    func_0218FE78(p->f4, &s->f4);
+    FIELD_CAMERA_ANIME_Setup(p->f54);
+    FIELD_CAMERA_ANIME_GetCurrentParam(p->f4, &s->f4);
     {
         Vec zero = {0, 0, 0};
-        func_0218FE78(p->f4, t);
+        FIELD_CAMERA_ANIME_GetCurrentParam(p->f4, t);
     }
     switch (mode) {
     case 0:

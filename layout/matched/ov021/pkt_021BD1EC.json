@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD1EC",
+   "name": "PLACE_NAME_LETTER_GetWidth",
    "address": "0x021BD1EC",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD1F4",
+   "name": "PLACE_NAME_LETTER_GetHeight",
    "address": "0x021BD1F4",
    "kind": "game",
    "region": "ov021",

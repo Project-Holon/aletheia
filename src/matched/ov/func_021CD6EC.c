@@ -1,5 +1,5 @@
 /*
- * function: func_021CD6EC
+ * function: BTL_SERVER_CMD_Dummy
  * address:  0x021CD6EC
  * packet:   pkt_021CD6EC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021CD6EC   0x021CD6EC  thumb ov093
+ *   BTL_SERVER_CMD_Dummy   0x021CD6EC  thumb ov093
  *
  * empty function: bx lr
  */
@@ -22,6 +22,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021CD6EC(void)
+void BTL_SERVER_CMD_Dummy(void)
 {
 }

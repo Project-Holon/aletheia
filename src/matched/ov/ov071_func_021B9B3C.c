@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B3C
+ * function: MONOLITH_TOOL_DeleteRowGrids
  * address: 0x021B9B3C
  * packet: pkt_ov071_021B9B3C
  * region: ov071
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202570C 0x0202570C thumb
- *   func_020437AC 0x020437AC arm
+ *   BMP_OAM_Delete 0x0202570C thumb
+ *   BMP_Delete 0x020437AC arm
  */
 
 struct Grid;
 struct Obj020437AC;
-extern void func_0202570C(struct Grid *g);
-extern void func_020437AC(struct Obj020437AC *p);
-void func_021B9B3C(char *p) { int i; for (i = 0; i < 7; i++) { func_0202570C(*(void **)(p + i * 4 + 0x2a0)); func_020437AC(*(void **)(p + i * 4 + 0x2bc)); } }
+extern void BMP_OAM_Delete(struct Grid *g);
+extern void BMP_Delete(struct Obj020437AC *p);
+void MONOLITH_TOOL_DeleteRowGrids(char *p) { int i; for (i = 0; i < 7; i++) { BMP_OAM_Delete(*(void **)(p + i * 4 + 0x2a0)); BMP_Delete(*(void **)(p + i * 4 + 0x2bc)); } }

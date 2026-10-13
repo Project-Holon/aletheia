@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F474C",
+   "name": "GIMMICK_OBJ_ELBOARD_Delete",
    "address": "0x021F474C",
    "kind": "game",
    "region": "ov048",

@@ -1,7 +1,7 @@
 /*
  * file:     event_field_proclink.c
  * unit:     yes
- * function: func_02160A94, func_02160C88, func_02160D6C, func_02160DDC, func_02160E08, func_02160F88, func_02160FB4, func_02160FE0, func_02161070, func_0216117C, func_021611E0, func_02161214, func_02161280, func_02161308, func_02161340, func_02161350, func_02161378, func_021613A4, func_021613CC, func_02161484, func_02161534, func_02161554, func_02161610, func_0216163C, func_02161668, func_021616A4, func_021616F0, func_0216171C, func_02161724, func_02161824, func_02161850, func_021618A0, func_021618E0, func_02161938, func_02161950, func_02161964, func_02161984, func_021619B8, func_02161AC0, func_02161B1C, func_02161B74, func_02161B90, func_02161BF8, func_02161C84, func_02161CDC, func_02161D18, func_02161D64, func_02161D98, func_02161DC4
+ * function: EVENT_FIELD_PROCLINK_CreatePokeListParam, EVENT_FIELD_PROCLINK_ReturnPokeList, EVENT_FIELD_PROCLINK_CreateZukanParam, EVENT_FIELD_PROCLINK_ReturnZukan, EVENT_FIELD_PROCLINK_CreatePokeStatusParam, EVENT_FIELD_PROCLINK_ReturnPokeStatus, EVENT_FIELD_PROCLINK_IsSpecialZone, EVENT_FIELD_PROCLINK_CreateBagParam, EVENT_FIELD_PROCLINK_ReturnBag, EVENT_FIELD_PROCLINK_CreateTrainerCardView, EVENT_FIELD_PROCLINK_ReturnTrainerCardView, EVENT_FIELD_PROCLINK_CreateTownMapParam, EVENT_FIELD_PROCLINK_ReturnTownMapSelect, EVENT_FIELD_PROCLINK_CreateConfigParam, EVENT_FIELD_PROCLINK_ReturnConfig, EVENT_FIELD_PROCLINK_StartConfigEvent, EVENT_FIELD_PROCLINK_CreateTrainerCardParam, EVENT_FIELD_PROCLINK_ReturnTrainerCard, EVENT_FIELD_PROCLINK_CreateMailParam, EVENT_FIELD_PROCLINK_ReturnMail, EVENT_FIELD_PROCLINK_UnloadMailOverlay, EVENT_FIELD_PROCLINK_CreateEvolutionParam, EVENT_FIELD_PROCLINK_ReturnEvolution, EVENT_FIELD_PROCLINK_CreateReportParam, EVENT_FIELD_PROCLINK_ReturnReport, EVENT_FIELD_PROCLINK_CreateFreeEvent, EVENT_FIELD_PROCLINK_FreeEventMain, EVENT_FIELD_PROCLINK_FreeAnimWork, EVENT_FIELD_PROCLINK_AnimEventMain, EVENT_FIELD_PROCLINK_CreateAnimEvent, EVENT_FIELD_PROCLINK_ObjAnimEventMain, EVENT_FIELD_PROCLINK_CreateObjAnimEvent, EVENT_FIELD_PROCLINK_StartObjAnim, EVENT_FIELD_PROCLINK_InitAnimNode, EVENT_FIELD_PROCLINK_ClearAnimNode, EVENT_FIELD_PROCLINK_IsAnimNodeDone, EVENT_FIELD_PROCLINK_UpdateAnimNode, EVENT_FIELD_PROCLINK_HopEventMain, EVENT_FIELD_PROCLINK_CreateHopEvent, EVENT_FIELD_PROCLINK_IsHopDone, EVENT_FIELD_PROCLINK_IsAnimFlagSet, EVENT_FIELD_PROCLINK_CreateCommExitEvent, EVENT_FIELD_PROCLINK_CommExitEventMain, EVENT_FIELD_PROCLINK_SetCommProcParam, EVENT_FIELD_PROCLINK_StartCommProc, EVENT_FIELD_PROCLINK_StartSeasonCommProc, EVENT_FIELD_PROCLINK_CheckZoneFlag, EVENT_FIELD_PROCLINK_InitEventdataSystem, EVENT_FIELD_PROCLINK_GetEventdataEntry
  * address:  0x02160A94
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -21,11 +21,11 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
  *   func_02026454  0x02026454  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_02012944  0x02012944  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_02012934   0x02012934  thumb
@@ -33,10 +33,10 @@
  *   func_02034AC4 0x02034AC4 arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02013CE0 0x02013CE0 thumb
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   func_020127A4  0x020127A4  thumb
- *   func_02188C54  0x02188C54  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
@@ -50,7 +50,7 @@
  *   ov136_id       0x00000088  data
  *   d_02172978     0x02172978  data  a1
  *   func_02012A30  0x02012A30  thumb
- *   func_02012134  0x02012134  thumb
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
  *   FIELD_SOUND_SYSTEM_RestoreVolume 0x02029DD8 thumb
  *   sub_02030734   0x02030734  arm
@@ -61,7 +61,7 @@
  *   BAG_PARAM_Create  0x0202E474  thumb
  *   func_02008298  0x02008298  thumb
  *   func_0202136C  0x0202136C  thumb
- *   func_0216F7BC  0x0216F7BC  thumb  ov010
+ *   TRCARD_SYS_CreateViewWork  0x0216F7BC  thumb  ov010
  *   func_020128B8  0x020128B8  thumb
  *   func_0202138C  0x0202138C  thumb
  *   func_021C3CC0  0x021C3CC0  thumb  ov136
@@ -69,47 +69,47 @@
  *   func_021C3DA4  0x021C3DA4  thumb  ov136
  *   func_021C3E04 0x021C3E04 thumb ov136
  *   func_021C3E24 0x021C3E24 thumb ov136
- *   func_0201B2B0  0x0201B2B0  thumb
- *   func_02169AB8  0x02169AB8  thumb  ov010
- *   func_0216DEE0  0x0216DEE0  thumb  ov010
- *   func_0216DE54  0x0216DE54  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216DB04  0x0216DB04  thumb  ov010
- *   func_0216DA5C  0x0216DA5C  thumb  ov010
- *   func_0216DAF8  0x0216DAF8  thumb  ov010
- *   func_02197D3C  0x02197D3C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
+ *   REPORT_EVENT_Main  0x02169AB8  thumb  ov010
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
+ *   FLDMMDL_SysSearchMoveCode  0x0216DE54  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_OffMoveBitMovePause  0x0216DB04  thumb  ov010
+ *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
+ *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
+ *   FLDMMDL_ACMD_ListCreate  0x02197D3C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   d_02171404     0x02171404  data  a1
  *   d_021713FC     0x021713FC  data  a1
  *   d_021713F4     0x021713F4  data  a1
  *   d_021713EC     0x021713EC  data  a1
- *   func_0216DE94 0x0216DE94 thumb ov010
- *   func_02197DA0  0x02197DA0  thumb
- *   func_02197DAC  0x02197DAC  thumb
+ *   FLDMMDL_SysSearchObjId 0x0216DE94 thumb ov010
+ *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb
+ *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb
  *   d_0217140C     0x0217140C  data
  *   FX_Div         0x0207C768  arm
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216E014  0x0216E014  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
  *   func_020061E4  0x020061E4  thumb
- *   func_021AC528  0x021AC528  thumb  ov021
- *   func_02188CD0  0x02188CD0  thumb  ov021
+ *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   func_0207CA00  0x0207CA00  arm
- *   func_0216D4B4  0x0216D4B4  thumb  ov010
- *   func_0216570C  0x0216570C  thumb  ov010
+ *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetSimpleEventB  0x0216570C  thumb  ov010
  *   GAMESYSTEM_IsCommBlocked  0x02012144  thumb
  *   d_021BFB3C     0x021BFB3C  data  ov203
  *   ov203_id       0x000000CB  data
  *   func_02008550  0x02008550  thumb
  *   func_0203F4CC 0x0203F4CC arm
  *   func_0202E888 0x0202E888 thumb
- *   func_02169100 0x02169100 thumb ov010
- *   func_02169110 0x02169110 thumb ov010
+ *   FIELD_CLOCK_GetHour 0x02169100 thumb ov010
+ *   FIELD_CLOCK_GetMinute 0x02169110 thumb ov010
  *   func_02013A80  0x02013A80  thumb
- *   func_02161E78 0x02161E78 thumb ov010
- *   func_02161ECC  0x02161ECC  thumb
+ *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb
  */
 
 
@@ -319,15 +319,15 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 
 
 extern u32 func_02026454(GameComm *gameComm);
-extern void func_02026400(GameComm *gameComm);
+extern void GAME_COMM_RequestExitNoCallback(GameComm *gameComm);
 extern void GAMESYSTEM_SetCommBlocked(GameSystem *gameSystem, u32 v);
 
 
-extern void func_02012374(GameEvent *parent, GameEvent *child);
+extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 u8 *func_02012944(const GameData *gameData);
 
 
-extern void *func_02012EBC(const GameData *gameData);
+extern void *GAME_DATA_GetSaveControl(const GameData *gameData);
 extern void GAMESYSTEM_CallProc(GameSystem *gameSystem, u32 overlayId, const void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const GameSystem *gameSystem);
 
@@ -344,16 +344,16 @@ extern void func_02082BCC();
 
 
 extern u32 func_02013CE0(u32);
-extern void *func_02188C7C(void *fieldMap);
+extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
 
 
-extern void func_0216D9A0(void *fieldObjects);
+extern void FLDMMDL_SysPauseMove(void *fieldObjects);
 
 
 extern u16 *func_020127A4(GameData *gameData);
 
 
-extern void *func_02188C54(void *);
+extern void *FIELDMAP_GetMsgBg(void *);
 
 
 extern u32 func_0201AA18(void *party);
@@ -369,7 +369,7 @@ extern u8 func_02012984(const GameData *gameData);
 extern void func_02034A5C(int handle);
 extern u32 func_021C3E00(void *mailParam);
 extern u32 func_02012A30(const GameData *gameData);
-extern u32 func_02012134(const GameSystem *gameSystem);
+extern u32 GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 extern int FIELD_SOUND_SYSTEM_RestoreVolume(int,int);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -380,7 +380,7 @@ extern u32 func_02013CC8(u32);
 extern BagParam *BAG_PARAM_Create(const GameData *gameData, u8 *itemCheck, int mode, int heapId);
 extern void func_02008298(void *myItem, u16 pocket);
 extern u32 func_0202136C(u16 v);
-extern TrainerCardViewWork *func_0216F7BC(GameData *gameData, int mode, int canFly);
+extern TrainerCardViewWork *TRCARD_SYS_CreateViewWork(GameData *gameData, int mode, int canFly);
 extern struct EscapeLocation *func_020128B8(const GameData *gameData);
 extern u8 func_0202138C(u16 v);
 extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
@@ -388,91 +388,91 @@ extern void *func_021C3D44(void *a, void *b, unsigned heap);
 extern void *func_021C3DA4(void *a, void *b, unsigned heap);
 extern int func_021C3E04(void *mailParam, void *mon);
 extern void func_021C3E24(void *mailParam);
-extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
-extern int func_02169AB8(ReportEventWork *work, int *state);
-extern void *func_0216DEE0(void *fieldObjects);
-extern void *func_0216DE54(void *fieldObjects, u32 kind);
-extern int func_0216D454(void *obj);
-extern char *func_0216DB04(void *object);
-extern int func_0216DA5C(void *obj);
-extern void func_0216DAF8(void *obj);
-extern int func_02197D3C(void *object, const char *animName);
-extern void *func_02188CB4(void *fieldObject);
-extern void *func_021A3074(void *object);
-extern u16 func_0216D5F8(void *object);
-extern void *func_0216DE94(void *fieldObjects, unsigned int objectId);
-extern int func_02197DA0();
-extern int func_02197DAC();
+extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern int REPORT_EVENT_Main(ReportEventWork *work, int *state);
+extern void *FLDMMDL_SysSearchPlayer(void *fieldObjects);
+extern void *FLDMMDL_SysSearchMoveCode(void *fieldObjects, u32 kind);
+extern int FLDMMDL_CheckEndAcmd(void *obj);
+extern char *FLDMMDL_OffMoveBitMovePause(void *object);
+extern int FLDMMDL_CheckMoveBitMove(void *obj);
+extern void FLDMMDL_OnMoveBitMovePause(void *obj);
+extern int FLDMMDL_ACMD_ListCreate(void *object, const char *animName);
+extern void *FIELDMAP_GetFieldPlayer(void *fieldObject);
+extern void *FIELD_PLAYER_GetMmdl(void *object);
+extern u16 FLDMMDL_GetDirDisp(void *object);
+extern void *FLDMMDL_SysSearchObjId(void *fieldObjects, unsigned int objectId);
+extern int FLDMMDL_ACMD_ListCheckEnd();
+extern int FLDMMDL_ACMD_ListDelete();
 extern fx32 FX_Div(fx32 numer, fx32 denom);
-extern void func_0216D89C(void *obj, const VecFx32 *pos);
-extern void func_0216D88C(void *object, VecFx32 *out);
-extern void func_0216E014(void *object, int *position, int direction);
+extern void FLDMMDL_SetPos(void *obj, const VecFx32 *pos);
+extern void FLDMMDL_GetPos(void *object, VecFx32 *out);
+extern void FLDMMDL_InitPosition(void *object, int *position, int direction);
 extern void func_020061E4(u32 se);
-extern void func_021AC528(u32 object, u32 owner);
-extern u32 func_02188CD0(void *fieldWork);
+extern void FLDEFF_KEMURI_Start(u32 object, u32 owner);
+extern u32 FIELDMAP_GetEffect(void *fieldWork);
 extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void *func_0216D4B4(void *object);
-extern void func_0216570C(void);
+extern void *FLDMMDL_FreeAcmd(void *object);
+extern void GAME_BEACON_SEARCH_SetSimpleEventB(void);
 extern u8 GAMESYSTEM_IsCommBlocked(const GameSystem *gameSystem);
 extern u8 func_02008550(const u8 *myStatus);
 extern void func_0203F4CC(RtcTime *time);
 extern u8 func_0202E888(void);
-extern int func_02169100(GameData *gameData);
-extern int func_02169110(GameData *gameData);
+extern int FIELD_CLOCK_GetHour(GameData *gameData);
+extern int FIELD_CLOCK_GetMinute(GameData *gameData);
 extern int func_02013A80();
-extern void func_02161E78(ProcLinkEntry *entry);
-extern int func_02161ECC(ProcLinkEntry *entry);
+extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(ProcLinkEntry *entry);
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(ProcLinkEntry *entry);
 
 
-PokeListParam *func_02160A94(ProcLinkWork *work, int kind, int mode, void *source);
-int func_02160C88(ProcLinkWork *work, PokeListParam *listResult);
-ZukanParam *func_02160D6C(ProcLinkWork *work, int startSpecies);
-Bool func_02160DDC(ProcLinkWork *work, ZukanParam *param);
-PStatusParam *func_02160E08(ProcLinkWork *work, int page, int mode, PokeListParam *listResult);
-int func_02160F88(ProcLinkWork *work, PStatusParam *param);
-int func_02160FB4(GameSystem *gameSystem);
-BagParam *func_02160FE0(ProcLinkWork *work, int lastFieldPocket, int bagMode, const PokeListParam *listResult);
-int func_02161070(ProcLinkWork *work, PokeListParam *listResult);
-void func_0216117C(ProcLinkWork *work, int startPage);
-int func_021611E0(ProcLinkWork *work, TrainerCardViewWork *param);
-TownMapParam *func_02161214(ProcLinkWork *work);
-int func_02161280(ProcLinkWork *work, TownMapParam *param);
-ConfigParam *func_02161308(ProcLinkWork *work);
-int func_02161340(int unused, ConfigParam *param);
-void func_02161350(ProcLinkWork *work);
-TrainerCardParam *func_02161378(ProcLinkWork *work);
-int func_021613A4(ProcLinkWork *work, TrainerCardParam *param);
-int func_021613CC(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult);
-int func_02161484(ProcLinkWork *work, void *mailParam);
-void func_02161534(void *mailParam);
-EvolutionRequest *func_02161554(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult);
-int func_02161610(ProcLinkWork *work);
-ReportParam *func_0216163C(ProcLinkWork *work);
-int func_02161668(ProcLinkWork *work, ReportParam *param);
-GameEvent *func_021616A4(GameSystem *gameSystem, void *fieldObject, u32 heapId, void *objectModel, u32 *resultOut);
-int func_021616F0(void *event, int *state, ReportEventWork *work);
-void func_0216171C(void);
-int func_02161724(GameEvent *event, u32 *seq, MapAnimWork *work);
-GameEvent *func_02161824(GameSystem *gameSystem, void *fieldMap);
-int func_02161850(void *task, int *state, ObjAnimWork *work);
-GameEvent *func_021618A0(GameSystem *gameSystem, void *source, int fieldObjectId, const char *animName);
-GameEvent *func_021618E0(GameSystem *gameSystem, void *source);
-void *func_02161938(void *fieldObjects, unsigned int objectId);
-void func_02161950(ObjAnimWork *work);
-ObjAnimWork *func_02161964(ObjAnimWork *work, int handle);
-int func_02161984(ObjAnimWork *work);
-int func_021619B8(GameEvent *event, u32 *seq, HopWork *work);
-GameEvent *func_02161AC0(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target);
-int func_02161B1C(void *fieldObject);
-int func_02161B74(int handle);
-GameEvent *func_02161B90(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime);
-int func_02161BF8(GameEvent *event, int *state, CommProcWork *work);
-void func_02161C84(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season);
-void func_02161CDC(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub);
-void func_02161D18(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub);
-int func_02161D64(ZoneFlagSetting *setting);
-void func_02161D98(ProcLinkReturnList *list);
-ProcLinkEntry *func_02161DC4(ProcLinkReturnList *list, int id, unsigned mode);
+PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int kind, int mode, void *source);
+int EVENT_FIELD_PROCLINK_ReturnPokeList(ProcLinkWork *work, PokeListParam *listResult);
+ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startSpecies);
+Bool EVENT_FIELD_PROCLINK_ReturnZukan(ProcLinkWork *work, ZukanParam *param);
+PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int page, int mode, PokeListParam *listResult);
+int EVENT_FIELD_PROCLINK_ReturnPokeStatus(ProcLinkWork *work, PStatusParam *param);
+int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem);
+BagParam *EVENT_FIELD_PROCLINK_CreateBagParam(ProcLinkWork *work, int lastFieldPocket, int bagMode, const PokeListParam *listResult);
+int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult);
+void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPage);
+int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardViewWork *param);
+TownMapParam *EVENT_FIELD_PROCLINK_CreateTownMapParam(ProcLinkWork *work);
+int EVENT_FIELD_PROCLINK_ReturnTownMapSelect(ProcLinkWork *work, TownMapParam *param);
+ConfigParam *EVENT_FIELD_PROCLINK_CreateConfigParam(ProcLinkWork *work);
+int EVENT_FIELD_PROCLINK_ReturnConfig(int unused, ConfigParam *param);
+void EVENT_FIELD_PROCLINK_StartConfigEvent(ProcLinkWork *work);
+TrainerCardParam *EVENT_FIELD_PROCLINK_CreateTrainerCardParam(ProcLinkWork *work);
+int EVENT_FIELD_PROCLINK_ReturnTrainerCard(ProcLinkWork *work, TrainerCardParam *param);
+int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult);
+int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam);
+void EVENT_FIELD_PROCLINK_UnloadMailOverlay(void *mailParam);
+EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult);
+int EVENT_FIELD_PROCLINK_ReturnEvolution(ProcLinkWork *work);
+ReportParam *EVENT_FIELD_PROCLINK_CreateReportParam(ProcLinkWork *work);
+int EVENT_FIELD_PROCLINK_ReturnReport(ProcLinkWork *work, ReportParam *param);
+GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fieldObject, u32 heapId, void *objectModel, u32 *resultOut);
+int EVENT_FIELD_PROCLINK_FreeEventMain(void *event, int *state, ReportEventWork *work);
+void EVENT_FIELD_PROCLINK_FreeAnimWork(void);
+int EVENT_FIELD_PROCLINK_AnimEventMain(GameEvent *event, u32 *seq, MapAnimWork *work);
+GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fieldMap);
+int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *work);
+GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void *source, int fieldObjectId, const char *animName);
+GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, void *source);
+void *EVENT_FIELD_PROCLINK_InitAnimNode(void *fieldObjects, unsigned int objectId);
+void EVENT_FIELD_PROCLINK_ClearAnimNode(ObjAnimWork *work);
+ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, int handle);
+int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work);
+int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work);
+GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target);
+int EVENT_FIELD_PROCLINK_IsHopDone(void *fieldObject);
+int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int handle);
+GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime);
+int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommProcWork *work);
+void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season);
+void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub);
+void EVENT_FIELD_PROCLINK_StartSeasonCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub);
+int EVENT_FIELD_PROCLINK_CheckZoneFlag(ZoneFlagSetting *setting);
+void EVENT_FIELD_PROCLINK_InitEventdataSystem(ProcLinkReturnList *list);
+ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(ProcLinkReturnList *list, int id, unsigned mode);
 
 
 extern u8 ov136_id[];
@@ -491,7 +491,7 @@ extern u8 ov203_id[];
  * handles from the save, the 20-byte header copied out of the context, and
  * the next state (+0x34) chosen from the step kind and the peer's reply.
  */
-PokeListParam *func_02160A94(ProcLinkWork *work, int kind, int mode, void *source)
+PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int kind, int mode, void *source)
 {
     GameData *gameData;
     PokeListParam *list;
@@ -605,10 +605,10 @@ PokeListParam *func_02160A94(ProcLinkWork *work, int kind, int mode, void *sourc
 
 
 /*
- * Unlabelled (the listing folds it into func_02160A94's extent). Consume a
+ * Unlabelled (the listing folds it into EVENT_FIELD_PROCLINK_CreatePokeListParam's extent). Consume a
  * reply record: copy its result into the context and pick the next state.
  */
-int func_02160C88(ProcLinkWork *work, PokeListParam *listResult)
+int EVENT_FIELD_PROCLINK_ReturnPokeList(ProcLinkWork *work, PokeListParam *listResult)
 {
     work->context->partySlot = listResult->selectedSlot;
     work->resultSlot = listResult->selectedSlot;
@@ -670,7 +670,7 @@ int func_02160C88(ProcLinkWork *work, PokeListParam *listResult)
 }
 
 
-ZukanParam *func_02160D6C(ProcLinkWork *work, int startSpecies)
+ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startSpecies)
 {
     ZukanParam *param;
     GameData *gameData;
@@ -683,7 +683,7 @@ ZukanParam *func_02160D6C(ProcLinkWork *work, int startSpecies)
     param->zukanSave = func_0200CA1C(gameData);
     param->myStatus = func_02012944(param->gameData);
     bgmInfo = func_02012A30(param->gameData);
-    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, func_02012134(work->context->gameSystem));
+    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (startSpecies != -1) {
         param->startSpecies = startSpecies;
     } else {
@@ -693,11 +693,11 @@ ZukanParam *func_02160D6C(ProcLinkWork *work, int startSpecies)
 }
 
 
-Bool func_02160DDC(ProcLinkWork *work, ZukanParam *param)
+Bool EVENT_FIELD_PROCLINK_ReturnZukan(ProcLinkWork *work, ZukanParam *param)
 {
     u32 bgmInfo = func_02012A30(param->gameData);
 
-    FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, func_02012134(work->context->gameSystem));
+    FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (param->result == 0)
         return FALSE;
     else
@@ -712,7 +712,7 @@ Bool func_02160DDC(ProcLinkWork *work, ZukanParam *param)
  * into locals before the two stores, the kind == -1 arm written as the
  * else so it lands at the tail, func_0201AA18 returning int.
  */
-PStatusParam *func_02160E08(ProcLinkWork *work, int page, int mode, PokeListParam *listResult)
+PStatusParam *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(ProcLinkWork *work, int page, int mode, PokeListParam *listResult)
 {
     PStatusParam *param;
     GameData *gameData;
@@ -725,7 +725,7 @@ PStatusParam *func_02160E08(ProcLinkWork *work, int page, int mode, PokeListPara
 
     param = sub_02030734(4, sizeof(PStatusParam), 1, d_02172978, 0x4DE);
     gameData = func_020120F4(work->context->gameSystem);
-    saveControl = func_02012EBC(gameData);
+    saveControl = GAME_DATA_GetSaveControl(gameData);
     zukanSave = func_0200CA1C(gameData);
     param->ppt = 1;
     param->config = gameData;
@@ -796,10 +796,10 @@ PStatusParam *func_02160E08(ProcLinkWork *work, int page, int mode, PokeListPara
 
 
 /*
- * Leaf after func_02160E08's pool (0x02160F88, no func_ label in the
+ * Leaf after EVENT_FIELD_PROCLINK_CreatePokeStatusParam's pool (0x02160F88, no func_ label in the
  * listing; reached through a pointer, not a bl).
  */
-int func_02160F88(ProcLinkWork *work, PStatusParam *param)
+int EVENT_FIELD_PROCLINK_ReturnPokeStatus(ProcLinkWork *work, PStatusParam *param)
 {
     switch (param->retSel) {
     case 0:
@@ -815,7 +815,7 @@ int func_02160F88(ProcLinkWork *work, PStatusParam *param)
 }
 
 
-int func_02160FB4(GameSystem *gameSystem)
+int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem)
 {
     unsigned short zoneId = func_02012AC8(func_020120F8(gameSystem));
 
@@ -834,14 +834,14 @@ int func_02160FB4(GameSystem *gameSystem)
  * (4, -1) match; the n local was not needed. Sets the dispatch table via explicit cases
  * 1 and 3..8 beside default.
  */
-BagParam *func_02160FE0(ProcLinkWork *work, int lastFieldPocket, int bagMode, const PokeListParam *listResult)
+BagParam *EVENT_FIELD_PROCLINK_CreateBagParam(ProcLinkWork *work, int lastFieldPocket, int bagMode, const PokeListParam *listResult)
 {
     GameData *gameData = func_020120F4(work->context->gameSystem);
     BagParam *bag;
 
     switch (bagMode) {
     case 2:
-        bag = BAG_PARAM_Create(gameData, work->bagItemCheck, func_02160FB4(work->context->gameSystem), 4);
+        bag = BAG_PARAM_Create(gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
         if (lastFieldPocket != -1) {
             func_02008298(bag->saveWork, (u16)lastFieldPocket);
         }
@@ -850,7 +850,7 @@ BagParam *func_02160FE0(ProcLinkWork *work, int lastFieldPocket, int bagMode, co
         if (listResult->command == 3) {
             bag = BAG_PARAM_Create(gameData, work->bagItemCheck, 2, 4);
         } else {
-            bag = BAG_PARAM_Create(gameData, work->bagItemCheck, func_02160FB4(work->context->gameSystem), 4);
+            bag = BAG_PARAM_Create(gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
         }
         break;
     case 1:
@@ -861,7 +861,7 @@ BagParam *func_02160FE0(ProcLinkWork *work, int lastFieldPocket, int bagMode, co
     case 7:
     case 8:
     default:
-        bag = BAG_PARAM_Create(gameData, work->bagItemCheck, func_02160FB4(work->context->gameSystem), 4);
+        bag = BAG_PARAM_Create(gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
         break;
     }
     return bag;
@@ -877,7 +877,7 @@ BagParam *func_02160FE0(ProcLinkWork *work, int lastFieldPocket, int bagMode, co
  * (not case order), and the party fetch in case 18 as its own statement
  * so w->ctx is reloaded after the calls.
  */
-int func_02161070(ProcLinkWork *work, PokeListParam *listResult)
+int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult)
 {
     void *party;
 
@@ -943,7 +943,7 @@ int func_02161070(ProcLinkWork *work, PokeListParam *listResult)
 }
 
 
-void func_0216117C(ProcLinkWork *work, int startPage)
+void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPage)
 {
     GameData *gameData = func_020120F4(work->context->gameSystem);
     u32 zoneId = *func_020127A4(gameData);
@@ -952,25 +952,25 @@ void func_0216117C(ProcLinkWork *work, int startPage)
     TrainerCardViewWork *viewWork;
 
     bgmInfo = func_02012A30(gameData);
-    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, func_02012134(work->context->gameSystem));
+    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (func_02013CC8(zoneId) != 0 || (int)func_02013CE0((u16)zoneId) != 0) {
         canFly = 0;
     }
-    viewWork = func_0216F7BC(gameData, 4, canFly);
+    viewWork = TRCARD_SYS_CreateViewWork(gameData, 4, canFly);
     if (startPage != -1) {
         viewWork->startPage = startPage;
     }
 }
 
 
-int func_021611E0(ProcLinkWork *work, TrainerCardViewWork *param)
+int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardViewWork *param)
 {
     GameData *gameData;
     int bgmInfo;
 
     gameData = func_020120F4(work->context->gameSystem);
     bgmInfo = func_02012A30(gameData);
-    FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, func_02012134(work->context->gameSystem));
+    FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (param->result != 1)
         return 0;
     return 1;
@@ -981,7 +981,7 @@ int func_021611E0(ProcLinkWork *work, TrainerCardViewWork *param)
  * Allocates a 0x18-byte record (heap 4, clear, site string, tag 0x68A) and fills
  * it from the work's request record.
  */
-TownMapParam *func_02161214(ProcLinkWork *work)
+TownMapParam *EVENT_FIELD_PROCLINK_CreateTownMapParam(ProcLinkWork *work)
 {
     TownMapParam *param = func_02030734(4, 0x18, 1, d_02172978, 0x68A);
     void *playerWork;
@@ -1001,7 +1001,7 @@ TownMapParam *func_02161214(ProcLinkWork *work)
 }
 
 
-int func_02161280(ProcLinkWork *work, TownMapParam *param)
+int EVENT_FIELD_PROCLINK_ReturnTownMapSelect(ProcLinkWork *work, TownMapParam *param)
 {
     int originKind = work->context->originKind;
     if (originKind == 7) {
@@ -1049,18 +1049,18 @@ int func_02161280(ProcLinkWork *work, TownMapParam *param)
  * Allocate an 8-byte record and store the save handle at +4. The extent
  * also holds the unlabelled leaf at 0x02161340 (nonzero test of *r1).
  */
-ConfigParam *func_02161308(ProcLinkWork *work)
+ConfigParam *EVENT_FIELD_PROCLINK_CreateConfigParam(ProcLinkWork *work)
 {
     ConfigParam *param;
 
-    func_0200873C(func_02012EBC(func_020120F4(work->context->gameSystem)));
+    func_0200873C(GAME_DATA_GetSaveControl(func_020120F4(work->context->gameSystem)));
     param = func_02030734(4, 8, 1, d_02172978, 0x705);
     param->gameSystem = work->context->gameSystem;
     return param;
 }
 
 
-int func_02161340(int unused, ConfigParam *param)
+int EVENT_FIELD_PROCLINK_ReturnConfig(int unused, ConfigParam *param)
 {
     if (param->result != 0)
         return 1;
@@ -1074,13 +1074,13 @@ int func_02161340(int unused, ConfigParam *param)
  * the object's tail; the result goes to the arm9 call with the
  * object's word at +0x14.
  */
-void func_02161350(ProcLinkWork *work)
+void EVENT_FIELD_PROCLINK_StartConfigEvent(ProcLinkWork *work)
 {
     ProcLinkContext *context = work->context;
-    void *objectModel = func_02188C54(context->fieldObject);
+    void *objectModel = FIELDMAP_GetMsgBg(context->fieldObject);
 
-    func_02012374(work->event,
-                  func_021616A4(context->gameSystem, context->fieldObject,
+    GAME_EVENT_CallEvent(work->event,
+                  EVENT_FIELD_PROCLINK_CreateFreeEvent(context->gameSystem, context->fieldObject,
                                 work->eventKind, objectModel, &work->resultFlag));
 }
 
@@ -1089,7 +1089,7 @@ void func_02161350(ProcLinkWork *work)
  * Allocate an 8-byte record and store the save handle at +0.
  * The extent also holds the unlabelled leaf at 0x021613A4.
  */
-TrainerCardParam *func_02161378(ProcLinkWork *work)
+TrainerCardParam *EVENT_FIELD_PROCLINK_CreateTrainerCardParam(ProcLinkWork *work)
 {
     TrainerCardParam *param;
 
@@ -1099,7 +1099,7 @@ TrainerCardParam *func_02161378(ProcLinkWork *work)
 }
 
 
-int func_021613A4(ProcLinkWork *work, TrainerCardParam *param)
+int EVENT_FIELD_PROCLINK_ReturnTrainerCard(ProcLinkWork *work, TrainerCardParam *param)
 {
     if (work->context->originKind == 8) {
         switch (param->result) {
@@ -1119,7 +1119,7 @@ int func_021613A4(ProcLinkWork *work, TrainerCardParam *param)
 }
 
 
-int func_021613CC(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
+int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
 {
     GameData *gameData;
     void *party;
@@ -1154,7 +1154,7 @@ int func_021613CC(ProcLinkWork *work, int kind, int mode, const PokeListParam *l
  * Lever: second state writes nextState separately in each arm; cross-jumping
  * retains the dead branch after func_021C3E04 rather than after movs #0.
  */
-int func_02161484(ProcLinkWork *work, void *mailParam)
+int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
 {
     GameData *gameData;
     u32 nextState;
@@ -1197,7 +1197,7 @@ int func_02161484(ProcLinkWork *work, void *mailParam)
 }
 
 
-void func_02161534(void *mailParam)
+void EVENT_FIELD_PROCLINK_UnloadMailOverlay(void *mailParam)
 {
     func_02034AC4((u32)ov136_id);
     func_021C3E24(mailParam);
@@ -1205,7 +1205,7 @@ void func_02161534(void *mailParam)
 }
 
 
-EvolutionRequest *func_02161554(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
+EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
 {
     EvolutionRequest *request;
     GameData *gameData;
@@ -1223,11 +1223,11 @@ EvolutionRequest *func_02161554(ProcLinkWork *work, int kind, int mode, const Po
             work->purpose = 3;
             mon = func_0201AB28(party, listResult->selectedSlot);
             season = func_02012984(gameData);
-            targetSpecies = func_0201B2B0(party, mon, 3, listResult->argValue, season, &method, 4);
+            targetSpecies = SHINKA_CHECK_CheckEvolution(party, mon, 3, listResult->argValue, season, &method, 4);
         } else {
             work->purpose = 4;
             mon = func_0201AB28(party, listResult->selectedSlot);
-            targetSpecies = func_0201B2B0(party, mon, 0, *func_020127A4(gameData), func_02012984(gameData), &method, 4);
+            targetSpecies = SHINKA_CHECK_CheckEvolution(party, mon, 0, *func_020127A4(gameData), func_02012984(gameData), &method, 4);
         }
         request = func_02030734(4, 0x14, 0, d_02172978, 0x868);
         request->gameData = gameData;
@@ -1242,7 +1242,7 @@ EvolutionRequest *func_02161554(ProcLinkWork *work, int kind, int mode, const Po
 }
 
 
-int func_02161610(ProcLinkWork *work)
+int EVENT_FIELD_PROCLINK_ReturnEvolution(ProcLinkWork *work)
 {
     func_020120F4(work->context->gameSystem);
     if (work->purpose == 3) {
@@ -1261,7 +1261,7 @@ int func_02161610(ProcLinkWork *work)
  * Allocate an 0x10-byte record and store the save handle at +4.
  * The extent also holds the unlabelled leaf at 0x02161668.
  */
-ReportParam *func_0216163C(ProcLinkWork *work)
+ReportParam *EVENT_FIELD_PROCLINK_CreateReportParam(ProcLinkWork *work)
 {
     ReportParam *param;
 
@@ -1271,7 +1271,7 @@ ReportParam *func_0216163C(ProcLinkWork *work)
 }
 
 
-int func_02161668(ProcLinkWork *work, ReportParam *param)
+int EVENT_FIELD_PROCLINK_ReturnReport(ProcLinkWork *work, ReportParam *param)
 {
     if (work->context->originKind == 0xb) {
         switch (param->result) {
@@ -1298,9 +1298,9 @@ int func_02161668(ProcLinkWork *work, ReportParam *param)
 /*
  * Allocator with callback, zero-fills the node, then fills link fields.
  */
-GameEvent *func_021616A4(GameSystem *gameSystem, void *fieldObject, u32 heapId, void *objectModel, u32 *resultOut)
+GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fieldObject, u32 heapId, void *objectModel, u32 *resultOut)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021616F0, 0x1C);
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_FreeEventMain, 0x1C);
     ReportEventWork *work = func_020124E8(event);
 
     func_02082BCC(work, 0, 0x1C);
@@ -1308,15 +1308,15 @@ GameEvent *func_021616A4(GameSystem *gameSystem, void *fieldObject, u32 heapId, 
     work->heapId = heapId;
     work->gameSystem = gameSystem;
     work->fieldMap = fieldObject;
-    work->saveControl = func_02012EBC(func_020120F4(gameSystem));
+    work->saveControl = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
     work->resultOut = resultOut;
     return event;
 }
 
 
-int func_021616F0(void *event, int *state, ReportEventWork *work)
+int EVENT_FIELD_PROCLINK_FreeEventMain(void *event, int *state, ReportEventWork *work)
 {
-    switch (func_02169AB8(work, state)) {
+    switch (REPORT_EVENT_Main(work, state)) {
     case 0:
         *work->resultOut = 1;
         return 1;
@@ -1329,7 +1329,7 @@ int func_021616F0(void *event, int *state, ReportEventWork *work)
 
 
 /* Thumb tail call into the ARM function func_020307B0: ldr r3,[pc]; bx r3. */
-void func_0216171C(void)
+void EVENT_FIELD_PROCLINK_FreeAnimWork(void)
 {
     func_020307B0();
 }
@@ -1342,10 +1342,10 @@ void func_0216171C(void)
  *
  * The image keeps a second object that is always NULL (`movs r6, #0;
  * beq` reuses the movs flags, and the NULL is still passed to
- * func_0216DA5C in step 1): written as a pointer local set to 0 and
+ * FLDMMDL_CheckMoveBitMove in step 1): written as a pointer local set to 0 and
  * tested. work->fieldMap is read into a local before the switch.
  */
-int func_02161724(GameEvent *event, u32 *seq, MapAnimWork *work)
+int EVENT_FIELD_PROCLINK_AnimEventMain(GameEvent *event, u32 *seq, MapAnimWork *work)
 {
     void *fieldObjects;
     void *mainObject;
@@ -1356,41 +1356,41 @@ int func_02161724(GameEvent *event, u32 *seq, MapAnimWork *work)
     fieldMap = work->fieldMap;
     switch (*seq) {
     case 0:
-        fieldObjects = func_02188C7C(fieldMap);
-        mainObject = func_0216DEE0(fieldObjects);
-        func_0216DE54(fieldObjects, 0x30);
+        fieldObjects = FIELDMAP_GetMmdlSys(fieldMap);
+        mainObject = FLDMMDL_SysSearchPlayer(fieldObjects);
+        FLDMMDL_SysSearchMoveCode(fieldObjects, 0x30);
         work->busyMask = 0;
-        func_0216D9A0(fieldObjects);
-        if (func_0216D454(mainObject) == 0) {
+        FLDMMDL_SysPauseMove(fieldObjects);
+        if (FLDMMDL_CheckEndAcmd(mainObject) == 0) {
             work->busyMask |= 1;
-            func_0216DB04(mainObject);
+            FLDMMDL_OffMoveBitMovePause(mainObject);
         }
         unusedObject = 0;
-        if (unusedObject != 0 && func_0216DA5C(unusedObject) == 1) {
+        if (unusedObject != 0 && FLDMMDL_CheckMoveBitMove(unusedObject) == 1) {
             work->busyMask |= 4;
-            func_0216DB04(unusedObject);
+            FLDMMDL_OffMoveBitMovePause(unusedObject);
         }
         (*seq)++;
         break;
     case 1:
-        fieldObjects = func_02188C7C(fieldMap);
-        mainObject = func_0216DEE0(fieldObjects);
-        func_0216DE54(fieldObjects, 0x30);
-        if ((work->busyMask & 1) && func_0216D454(mainObject) == 1) {
-            func_0216DAF8(mainObject);
+        fieldObjects = FIELDMAP_GetMmdlSys(fieldMap);
+        mainObject = FLDMMDL_SysSearchPlayer(fieldObjects);
+        FLDMMDL_SysSearchMoveCode(fieldObjects, 0x30);
+        if ((work->busyMask & 1) && FLDMMDL_CheckEndAcmd(mainObject) == 1) {
+            FLDMMDL_OnMoveBitMovePause(mainObject);
             work->busyMask &= ~1;
         }
         if (work->busyMask & 4) {
             unusedObject = 0;
-            if (func_0216DA5C(unusedObject) == 0) {
-                func_0216DAF8(unusedObject);
+            if (FLDMMDL_CheckMoveBitMove(unusedObject) == 0) {
+                FLDMMDL_OnMoveBitMovePause(unusedObject);
                 work->busyMask &= ~4;
             }
         }
         if (work->busyMask & 2) {
-            thirdObject = func_0216DE54(fieldObjects, 0x30);
-            if (func_0216DA5C(thirdObject) == 0) {
-                func_0216DAF8(thirdObject);
+            thirdObject = FLDMMDL_SysSearchMoveCode(fieldObjects, 0x30);
+            if (FLDMMDL_CheckMoveBitMove(thirdObject) == 0) {
+                FLDMMDL_OnMoveBitMovePause(thirdObject);
                 work->busyMask &= ~2;
             }
         }
@@ -1404,12 +1404,12 @@ int func_02161724(GameEvent *event, u32 *seq, MapAnimWork *work)
 }
 
 
-GameEvent *func_02161824(GameSystem *gameSystem, void *fieldMap)
+GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, void *fieldMap)
 {
     GameEvent *event;
     MapAnimWork *work;
 
-    event = func_020122C0(gameSystem, 0, func_02161724, 0x10);
+    event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_AnimEventMain, 0x10);
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -1418,21 +1418,21 @@ GameEvent *func_02161824(GameSystem *gameSystem, void *fieldMap)
 }
 
 
-int func_02161850(void *task, int *state, ObjAnimWork *work)
+int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *work)
 {
     void *fieldObjects;
 
-    fieldObjects = func_02188C7C(work->source);
+    fieldObjects = FIELDMAP_GetMmdlSys(work->source);
     switch (*state) {
     case 0:
-        fieldObjects = func_02161938(fieldObjects, work->fieldObjectId);
+        fieldObjects = EVENT_FIELD_PROCLINK_InitAnimNode(fieldObjects, work->fieldObjectId);
         if (fieldObjects == 0)
             return 1;
-        func_02161964(work, func_02197D3C(fieldObjects, work->animName));
+        EVENT_FIELD_PROCLINK_IsAnimNodeDone(work, FLDMMDL_ACMD_ListCreate(fieldObjects, work->animName));
         *state = *state + 1;
         break;
     case 1:
-        if (func_02161984(work) == 0)
+        if (EVENT_FIELD_PROCLINK_UpdateAnimNode(work) == 0)
             return 1;
         break;
     }
@@ -1443,12 +1443,12 @@ int func_02161850(void *task, int *state, ObjAnimWork *work)
 /*
  * Allocator with callback, then a sub-init call and link fields.
  */
-GameEvent *func_021618A0(GameSystem *gameSystem, void *source, int fieldObjectId, const char *animName)
+GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, void *source, int fieldObjectId, const char *animName)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_02161850, 0x34);
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_ObjAnimEventMain, 0x34);
     ObjAnimWork *work = func_020124E8(event);
 
-    func_02161950(work);
+    EVENT_FIELD_PROCLINK_ClearAnimNode(work);
     work->gameSystem = gameSystem;
     work->source = source;
     work->gameData = func_020120F4(gameSystem);
@@ -1458,11 +1458,11 @@ GameEvent *func_021618A0(GameSystem *gameSystem, void *source, int fieldObjectId
 }
 
 
-GameEvent *func_021618E0(GameSystem *gameSystem, void *source)
+GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, void *source)
 {
     const char *animName;
 
-    switch (func_0216D5F8(func_021A3074(func_02188CB4(source)))) {
+    switch (FLDMMDL_GetDirDisp(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(source)))) {
     case 0:
         animName = d_02171404;
         break;
@@ -1476,21 +1476,21 @@ GameEvent *func_021618E0(GameSystem *gameSystem, void *source)
         animName = d_021713EC;
         break;
     }
-    return func_021618A0(gameSystem, source, 0xFF, animName);
+    return EVENT_FIELD_PROCLINK_CreateObjAnimEvent(gameSystem, source, 0xFF, animName);
 }
 
 
-void *func_02161938(void *fieldObjects, unsigned int objectId)
+void *EVENT_FIELD_PROCLINK_InitAnimNode(void *fieldObjects, unsigned int objectId)
 {
     if (objectId == 0xf2)
-        return func_0216DE54(fieldObjects, 0x30);
+        return FLDMMDL_SysSearchMoveCode(fieldObjects, 0x30);
     else if (objectId != 0xf1)
-        return func_0216DE94(fieldObjects, objectId);
+        return FLDMMDL_SysSearchObjId(fieldObjects, objectId);
     return fieldObjects;
 }
 
 
-void func_02161950(ObjAnimWork *work)
+void EVENT_FIELD_PROCLINK_ClearAnimNode(ObjAnimWork *work)
 {
     int i = 0;
     int zero = i;
@@ -1500,7 +1500,7 @@ void func_02161950(ObjAnimWork *work)
 }
 
 
-ObjAnimWork *func_02161964(ObjAnimWork *work, int handle)
+ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, int handle)
 {
     int i;
 
@@ -1514,7 +1514,7 @@ ObjAnimWork *func_02161964(ObjAnimWork *work, int handle)
 }
 
 
-int func_02161984(ObjAnimWork *work)
+int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work)
 {
     int stillRunning = 0;
     int i;
@@ -1522,8 +1522,8 @@ int func_02161984(ObjAnimWork *work)
     for (i = 0; i < 8; i++) {
         if (work->handles[i] == 0)
             continue;
-        if (func_02197DA0(work->handles[i]) == 1) {
-            func_02197DAC(work->handles[i]);
+        if (FLDMMDL_ACMD_ListCheckEnd(work->handles[i]) == 1) {
+            FLDMMDL_ACMD_ListDelete(work->handles[i]);
             work->handles[i] = 0;
         } else {
             stillRunning = 1;
@@ -1549,7 +1549,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
  * bls on the ldrsh), and the landing height read into a local before the
  * drop is computed.
  */
-int func_021619B8(GameEvent *event, u32 *seq, HopWork *work)
+int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work)
 {
     VecFx32 pos;
     fx32 dropY;
@@ -1564,25 +1564,25 @@ int func_021619B8(GameEvent *event, u32 *seq, HopWork *work)
         work->frame += 2;
         pos.x += FX_Div(FX_Mul(work->delta.x, work->frame << 12), 15 << 12);
         pos.z += FX_Div(FX_Mul(work->delta.z, work->frame << 12), 15 << 12);
-        func_0216D89C(work->object, &pos);
+        FLDMMDL_SetPos(work->object, &pos);
         if (work->frame > 15u)
             (*seq)++;
         break;
     case 1:
-        func_0216D88C(work->object, &pos);
+        FLDMMDL_GetPos(work->object, &pos);
         landingY = work->start.y + work->delta.y;
         dropY = pos.y - 0x8000;
         if (dropY > landingY) {
             pos.y = dropY;
-            func_0216D89C(work->object, &pos);
+            FLDMMDL_SetPos(work->object, &pos);
         } else {
             pos.y = landingY;
             done = 1;
             pos.x = work->start.x + work->delta.x;
             pos.z = work->start.z + work->delta.z;
-            func_0216E014(work->object, (int *)(&pos), func_0216D5F8(work->object));
+            FLDMMDL_InitPosition(work->object, (int *)(&pos), FLDMMDL_GetDirDisp(work->object));
             func_020061E4(0x67B);
-            func_021AC528((u32)work->object, (u32)work->owner);
+            FLDEFF_KEMURI_Start((u32)work->object, (u32)work->owner);
         }
         break;
     }
@@ -1590,15 +1590,15 @@ int func_021619B8(GameEvent *event, u32 *seq, HopWork *work)
 }
 
 
-GameEvent *func_02161AC0(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target)
+GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target)
 {
     GameEvent *event;
     HopWork *work;
 
-    event = func_020122C0(gameSystem, 0, func_021619B8, 0x24);
+    event = func_020122C0(gameSystem, 0, EVENT_FIELD_PROCLINK_HopEventMain, 0x24);
     work = func_020124E8(event);
     work->object = object;
-    work->owner = (void *)func_02188CD0(func_0201210C(gameSystem));
+    work->owner = (void *)FIELDMAP_GetEffect(func_0201210C(gameSystem));
     work->start = *start;
     func_0207CA00(target, start, &work->delta);
     func_020061E4(0x55E);
@@ -1606,13 +1606,13 @@ GameEvent *func_02161AC0(GameSystem *gameSystem, void *object, VecFx32 *start, V
 }
 
 
-int func_02161B1C(void *fieldObject)
+int EVENT_FIELD_PROCLINK_IsHopDone(void *fieldObject)
 {
     const char *animName;
     void *object;
 
-    object = func_021A3074(func_02188CB4(fieldObject));
-    switch (func_0216D5F8(object)) {
+    object = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldObject));
+    switch (FLDMMDL_GetDirDisp(object)) {
     case 0:
         animName = d_02171404;
         break;
@@ -1626,42 +1626,42 @@ int func_02161B1C(void *fieldObject)
         animName = d_021713EC;
         break;
     }
-    func_0216D4B4(object);
-    return func_02197D3C(object, animName);
+    FLDMMDL_FreeAcmd(object);
+    return FLDMMDL_ACMD_ListCreate(object, animName);
 }
 
 
-int func_02161B74(int handle)
+int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int handle)
 {
-    if (func_02197DA0(handle) == 1) {
-        func_02197DAC(handle);
+    if (FLDMMDL_ACMD_ListCheckEnd(handle) == 1) {
+        FLDMMDL_ACMD_ListDelete(handle);
         return 1;
     }
     return 0;
 }
 
 
-GameEvent *func_02161B90(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime)
+GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime)
 {
     GameEvent *event;
     CommProcWork *work;
 
-    event = func_020122C0(gameSystem, parent, func_02161BF8, 0x24);
+    event = func_020122C0(gameSystem, parent, EVENT_FIELD_PROCLINK_CommExitEventMain, 0x24);
     work = func_020124E8(event);
     func_02082BCC(work, 0, 0x24);
     work->gameSystem = gameSystem;
     work->gameComm = func_02012138(gameSystem);
     if (useRealTime != 0)
-        func_02161CDC(&work->procParam, gameSystem, kind, sub);
+        EVENT_FIELD_PROCLINK_StartCommProc(&work->procParam, gameSystem, kind, sub);
     else
-        func_02161D18(&work->procParam, gameSystem, kind, sub);
+        EVENT_FIELD_PROCLINK_StartSeasonCommProc(&work->procParam, gameSystem, kind, sub);
     if (kind == 3)
-        func_0216570C();
+        GAME_BEACON_SEARCH_SetSimpleEventB();
     return event;
 }
 
 
-int func_02161BF8(GameEvent *event, int *state, CommProcWork *work)
+int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommProcWork *work)
 {
     switch (*state) {
     case 0:
@@ -1670,7 +1670,7 @@ int func_02161BF8(GameEvent *event, int *state, CommProcWork *work)
         if (func_02026454(work->gameComm) == 0) {
             *state = *state + 2;
         } else {
-            func_02026400(work->gameComm);
+            GAME_COMM_RequestExitNoCallback(work->gameComm);
             *state = *state + 1;
         }
         break;
@@ -1693,7 +1693,7 @@ int func_02161BF8(GameEvent *event, int *state, CommProcWork *work)
 }
 
 
-void func_02161C84(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season)
+void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season)
 {
     func_02082BCC(param, 0, 0x18);
     param->gameSystem = gameSystem;
@@ -1707,14 +1707,14 @@ void func_02161C84(CommProcParam *param, GameSystem *gameSystem, int kind, u8 su
 }
 
 
-void func_02161CDC(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub)
+void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub)
 {
     RtcTime time;
     u8 season;
 
     func_0203F4CC(&time);
     season = func_0202E888();
-    func_02161C84(param, gameSystem, kind, sub, 0, time.hour, time.minute, season);
+    EVENT_FIELD_PROCLINK_SetCommProcParam(param, gameSystem, kind, sub, 0, time.hour, time.minute, season);
 }
 
 
@@ -1723,18 +1723,18 @@ void func_02161CDC(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub
  * Lever: kind and sub are u8, as in matched caller ov010_func_02161B90.c;
  * this puts the kind home store before r0 is assigned gameSystem for the first call.
  */
-void func_02161D18(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub)
+void EVENT_FIELD_PROCLINK_StartSeasonCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub)
 {
     GameData *gameData = func_020120F4(gameSystem);
-    int hour = func_02169100(gameData);
-    int minute = func_02169110(gameData);
+    int hour = FIELD_CLOCK_GetHour(gameData);
+    int minute = FIELD_CLOCK_GetMinute(gameData);
     u8 season = func_02012984(gameData);
 
-    func_02161C84(param, gameSystem, kind, sub, 0, (u8)hour, (u8)minute, season);
+    EVENT_FIELD_PROCLINK_SetCommProcParam(param, gameSystem, kind, sub, 0, (u8)hour, (u8)minute, season);
 }
 
 
-int func_02161D64(ZoneFlagSetting *setting)
+int EVENT_FIELD_PROCLINK_CheckZoneFlag(ZoneFlagSetting *setting)
 {
     int result;
 
@@ -1752,20 +1752,20 @@ int func_02161D64(ZoneFlagSetting *setting)
 }
 
 
-void func_02161D98(ProcLinkReturnList *list)
+void EVENT_FIELD_PROCLINK_InitEventdataSystem(ProcLinkReturnList *list)
 {
     int i;
 
     list->flags = 0;
     list->kind = 2;
     for (i = 0; i < 10; i++) {
-        func_02161E78(&list->current[i]);
-        func_02161E78(&list->pending[i]);
+        EVENT_FIELD_PROCLINK_ClearReturnEntry(&list->current[i]);
+        EVENT_FIELD_PROCLINK_ClearReturnEntry(&list->pending[i]);
     }
 }
 
 
-ProcLinkEntry *func_02161DC4(ProcLinkReturnList *list, int id, unsigned mode)
+ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(ProcLinkReturnList *list, int id, unsigned mode)
 {
     int i;
     ProcLinkEntry *pending;
@@ -1779,11 +1779,11 @@ ProcLinkEntry *func_02161DC4(ProcLinkReturnList *list, int id, unsigned mode)
 
     for (; i < 10; i++) {
         if (mode == 0 || mode == 2) {
-            if (func_02161ECC(&current[i]) != 0 && list->current[i].age == id)
+            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&current[i]) != 0 && list->current[i].age == id)
                 return &list->current[i];
         }
         if (modeMinus1 <= 1) {
-            if (func_02161ECC(&pending[i]) != 0 && list->pending[i].age == id)
+            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&pending[i]) != 0 && list->pending[i].age == id)
                 return &list->pending[i];
         }
     }

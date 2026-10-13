@@ -1,5 +1,5 @@
 /*
- * function: func_021B7AB0
+ * function: FRAME_LIST_Update
  * address:  0x021B7AB0
  * packet:   pkt_ov067_021B7AB0
  * region:   ov067
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_021B806C  0x021B806C  thumb  ov067
- *   func_021B8460  0x021B8460  thumb  ov067
- *   func_021B8B74  0x021B8B74  thumb  ov067
- *   func_021B8C4C  0x021B8C4C  thumb  ov067
+ *   FRAME_LIST_HandleInput  0x021B806C  thumb  ov067
+ *   FRAME_LIST_StepScroll  0x021B8460  thumb  ov067
+ *   FRAME_LIST_StepScrollBarDrag  0x021B8B74  thumb  ov067
+ *   FRAME_LIST_StepRowDrag  0x021B8C4C  thumb  ov067
  *   func_020355C4  0x020355C4  arm
  *   func_020362DC  0x020362DC  arm
  *   BLINK_PALANM_Update  0x0202EA40  thumb
- *   func_021B9344  0x021B9344  thumb  ov067
+ *   FRAME_LIST_UpdateWindows  0x021B9344  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -44,18 +44,18 @@ typedef struct S {
 } S;
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern int func_021B806C(S *p);
-extern int func_021B8460(S *p);
-extern int func_021B8B74(S *p);
-extern int func_021B8C4C(S *p);
+extern int FRAME_LIST_HandleInput(S *p);
+extern int FRAME_LIST_StepScroll(S *p);
+extern int FRAME_LIST_StepScrollBarDrag(S *p);
+extern int FRAME_LIST_StepRowDrag(S *p);
 struct Row;
 extern u8 func_020355C4(void);
 extern u32 func_020362DC(void);
 typedef signed int     s32;
 extern s32 BLINK_PALANM_Update(struct Row *p);
-extern void func_021B9344(S *p);
+extern void FRAME_LIST_UpdateWindows(S *p);
 
-int func_021B7AB0(S *p)
+int FRAME_LIST_Update(S *p)
 {
     int buf;
     int ret = -1;
@@ -66,18 +66,18 @@ int func_021B7AB0(S *p)
     }
     switch (p->f4e) {
     case 0:
-        ret = func_021B806C(p);
+        ret = FRAME_LIST_HandleInput(p);
         break;
     case 1:
-        if (func_021B8460(p) == 1)
+        if (FRAME_LIST_StepScroll(p) == 1)
             ret = -10;
         break;
     case 2:
-        if (func_021B8B74(p) == 1)
+        if (FRAME_LIST_StepScrollBarDrag(p) == 1)
             ret = -9;
         break;
     case 3:
-        if (func_021B8C4C(p) == 1)
+        if (FRAME_LIST_StepRowDrag(p) == 1)
             ret = -8;
         break;
     case 4:
@@ -91,6 +91,6 @@ int func_021B7AB0(S *p)
     }
     p->f58 = p->f54;
     BLINK_PALANM_Update(p->f30);
-    func_021B9344(p);
+    FRAME_LIST_UpdateWindows(p);
     return ret;
 }

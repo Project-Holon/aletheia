@@ -1,5 +1,5 @@
 /*
- * function: func_021B810C
+ * function: FIELD_RAIL_WORK_UpdateStep
  * address:  0x021B810C
  * packet:   pkt_ov021_021B810C
  * region:   ov021
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The table byte is also func_021B88DC's third argument: the callee's
+ * The table byte is also FIELD_RAIL_WORK_Advance's third argument: the callee's
  * matched prototype is (p, dir, d), and the image leaves the ldrb value in
  * r2 untouched up to the call. That extra use keeps the byte live across
  * the f2D update, so its sign extension lands in a fresh register (r3).
  * See docs/idioms/a-byte-kept-live-into-a-call-argument-register-pushes-its-sign-extension-to-a-fresh-register.md.
  *
  * symbols:
- *   func_021B91AC  0x021B91AC  thumb  ov021
- *   func_021B88DC  0x021B88DC  thumb  ov021
- *   func_021B977C  0x021B977C  thumb  ov021
- *   func_021B91F8  0x021B91F8  thumb  ov021
+ *   FIELD_RAIL_WORK_IsActive  0x021B91AC  thumb  ov021
+ *   FIELD_RAIL_WORK_Advance  0x021B88DC  thumb  ov021
+ *   FIELD_RAIL_WORK_DebugCheck  0x021B977C  thumb  ov021
+ *   FIELD_RAIL_WORK_GetSpotPos  0x021B91F8  thumb  ov021
  *   func_021B9238  0x021B9238  thumb  ov021
- *   d_021DE298     0x021DE298  data
+ *   gRailStepSizes     0x021DE298  data
  */
 
 typedef unsigned char  u8;
@@ -62,15 +62,15 @@ typedef struct Sub {
     Owner *f78;
 } Sub;
 
-extern const u8 d_021DE298[];
+extern const u8 gRailStepSizes[];
 
-extern int func_021B91AC(u32 a);
-extern int func_021B88DC(Sub *p, int dir, int d);
-extern void func_021B977C(u8 *p);
-extern void func_021B91F8(Sub *p, V3 *out);
+extern int FIELD_RAIL_WORK_IsActive(u32 a);
+extern int FIELD_RAIL_WORK_Advance(Sub *p, int dir, int d);
+extern void FIELD_RAIL_WORK_DebugCheck(u8 *p);
+extern void FIELD_RAIL_WORK_GetSpotPos(Sub *p, V3 *out);
 extern void func_021B9238(Sub *p, Out *out);
 
-void func_021B810C(Sub *o)
+void FIELD_RAIL_WORK_UpdateStep(Sub *o)
 {
     int res;
     u16 prev;
@@ -82,7 +82,7 @@ void func_021B810C(Sub *o)
         return;
     if (o->f8 == 0)
         return;
-    if (func_021B91AC((u32)o) == 0)
+    if (FIELD_RAIL_WORK_IsActive((u32)o) == 0)
         return;
     res = 0;
     o->f34 = 0;
@@ -90,18 +90,18 @@ void func_021B810C(Sub *o)
         return;
     prev = o->f0;
     k = o->f2E;
-    d = d_021DE298[o->f30];
+    d = gRailStepSizes[o->f30];
     o->f2D += (s8)d;
     if (prev == 1)
-        res = func_021B88DC(o, k, d);
+        res = FIELD_RAIL_WORK_Advance(o, k, d);
     if (res != 0) {
         o->f32 = res;
         o->f33 = o->f30;
         o->f34 = 1;
-        func_021B91F8(o, &o->f38);
+        FIELD_RAIL_WORK_GetSpotPos(o, &o->f38);
     }
     if (prev != o->f0)
-        func_021B977C((u8 *)o);
+        FIELD_RAIL_WORK_DebugCheck((u8 *)o);
     if (o->f2D < 0x10 && res != 0)
         return;
     o->f2C = 0;

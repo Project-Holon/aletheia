@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215B328",
+   "name": "SCRCMD_WORK_CmdSetEventFlagOffset",
    "address": "0x0215B328",
    "kind": "game",
    "region": "ov010",

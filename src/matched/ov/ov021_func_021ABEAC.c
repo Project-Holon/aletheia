@@ -1,5 +1,5 @@
 /*
- * function: func_021ABEAC
+ * function: FIELD_EFFECT_InitResourceTable
  * address:  0x021ABEAC
  * packet:   pkt_ov021_021ABEAC
  * region:   ov021
@@ -41,7 +41,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021DE018[];
 
-void func_021ABEAC(T *t)
+void FIELD_EFFECT_InitResourceTable(T *t)
 {
     E *e;
     int i;

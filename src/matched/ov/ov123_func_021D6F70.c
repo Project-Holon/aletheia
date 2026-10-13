@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   func_021D8F58  0x021D8F58  thumb  ov123
  *   func_021D5D58  0x021D5D58  thumb  ov123
@@ -23,7 +23,7 @@
 typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void func_021D8F58(char *p);
 extern int func_021D5D58(char *p);
@@ -35,7 +35,7 @@ void func_021D6F70(unsigned char *a)
 {
     if (((struct Obj05363 *)a)->fAB != 0)
         return;
-    if (func_020362DC() == 0 && func_02035C60() == 0)
+    if (func_020362DC() == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
     if (((struct Obj05363 *)a)->fAD != 0) {
         GAME_DATA_SaveCancel((char *)(((struct Obj05363 *)a)->f2C));

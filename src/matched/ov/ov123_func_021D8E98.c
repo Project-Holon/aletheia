@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020185F0 0x020185F0 thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   func_021D6458 0x021D6458 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8E68 0x021D8E68 thumb ov123
  */
 #include "../include/Obj10452.h"
-extern int func_020185F0(void *);
+extern int POKE_TOOL_Dummy(void *);
 struct Obj02181;
 extern void func_021D6458(struct Obj02181 *p, void *n, int i);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8E68(char *p);
-void func_021D8E98(char *p) { func_021D6458(((struct Obj10452 *)p)->f14,(void *)func_020185F0(((struct Obj10452 *)p)->fC),1); ((struct Obj10452 *)p)->f60=10; func_021D6EE0((u8 *)p,(int)func_021D8E68,0x9f6); }
+void func_021D8E98(char *p) { func_021D6458(((struct Obj10452 *)p)->f14,(void *)POKE_TOOL_Dummy(((struct Obj10452 *)p)->fC),1); ((struct Obj10452 *)p)->f60=10; func_021D6EE0((u8 *)p,(int)func_021D8E68,0x9f6); }

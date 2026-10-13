@@ -1,5 +1,5 @@
 /*
- * function: func_021BCCBC
+ * function: STARTMENU_LogoScreenEnd
  * address:  0x021BCCBC
  * packet:   pkt_ov088_021BCCBC
  * region:   ov088
@@ -18,7 +18,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *a);
 extern void func_020306F0(unsigned int heap);
 
-int func_021BCCBC(int a0)
+int STARTMENU_LogoScreenEnd(int a0)
 {
     func_020315D4((struct S020315D4 *)a0);
     func_020306F0(0x16);

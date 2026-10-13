@@ -10,14 +10,14 @@
  * lever: Four pooled overlay IDs are absolute data symbols; literal integers
  * gave eight concrete differences and a 228-byte compile, symbols give EXACT (244 bytes).
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_021E5EF8 0x021E5EF8 thumb ov119
  *   func_021E5D84 0x021E5D84 thumb ov119
  *   func_021DC720 0x021DC720 thumb ov119
  *   BEACON_STATUS_DoNothing 0x020275E0 thumb
  *   func_021D8A24 0x021D8A24 thumb ov119
- *   func_0203A5E4 0x0203A5E4 arm
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   func_021E31BC 0x021E31BC thumb ov119
  *   func_02030EAC 0x02030EAC arm
  *   func_021DC5D0 0x021DC5D0 thumb ov119
@@ -32,7 +32,7 @@
  *   d_00000076 0x00000076 data a1
  */
 #include "../include/Obj00001.h"
-extern unsigned func_020221A4(void);
+extern unsigned WIPE_SYS_EndCheck(void);
 extern char d_00000072[],d_00000043[],d_00000075[],d_00000076[];
 extern unsigned int func_020307B0(void *p);
 extern void func_021E5EF8(void *);
@@ -43,7 +43,7 @@ extern int func_021D8A24(void *);
 struct S020315D4;
 typedef unsigned int   u32;
 struct Node;
-extern void func_0203A5E4(u32 key);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern void func_021E31BC(char *);
 extern void func_02030EAC(struct Node *n);
 extern void func_021DC5D0(char *p, int a1);
@@ -55,12 +55,12 @@ extern void func_02034A5C(int);
 int func_021DCF24(void *owner,int unused,int keep,char *p)
 {
     int state=((struct Obj00001 *)p)->f118C;
-    if(func_020221A4()==0)return 0;
+    if(WIPE_SYS_EndCheck()==0)return 0;
     func_020307B0(((struct Obj00001 *)p)->f10A4);
     func_020307B0(((struct Obj00001 *)p)->f10A8);
     func_021E5EF8(p+0x950);func_021E5EF8(p+0x964);func_021E5EF8(p+0x978);
     func_021E5D84(p);func_021DC720(p);BEACON_STATUS_DoNothing();
-    if(func_021D8A24(p))func_0203A5E4(0xc00);
+    if(func_021D8A24(p))GFL_NET_COMMAND_DeleteCommandTable(0xc00);
     func_021E31BC(p);
     func_020307B0(((struct Obj00001 *)p)->f5DC);func_020307B0(((struct Obj00001 *)p)->f5E0);
     func_02030EAC(((struct Obj00001 *)p)->f9C8);

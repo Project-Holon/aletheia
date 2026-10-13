@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -18,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_020362DC(void);
 
 u32 func_021BE430(void)
 {
-    if (func_02035C60() != 0 || func_020362DC() != 0) {
+    if (TOUCHPANEL_GetTrg() != 0 || func_020362DC() != 0) {
         return 1;
     }
     return 0;

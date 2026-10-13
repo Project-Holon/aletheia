@@ -1,5 +1,5 @@
 /*
- * function: func_021F3FE8
+ * function: GIMMICK43_UpdateBigLift
  * address:  0x021F3FE8
  * packet:   pkt_ov043_021F3FE8
  * region:   ov043
@@ -9,31 +9,31 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_02188C64's result is bound to t before the A01FC call: passed inline,
+ * FIELDMAP_GetFog's result is bound to t before the A01FC call: passed inline,
  * the ternary fourth argument is evaluated before the call.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
- *   func_021BE6BC  0x021BE6BC  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_02006148  0x02006148  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   func_020061F8  0x020061F8  thumb
- *   func_021F41B8  0x021F41B8  thumb  ov043
- *   func_021F4210  0x021F4210  thumb  ov043
- *   func_02188C68  0x02188C68  thumb  ov021
- *   func_021A03A4  0x021A03A4  thumb  ov021
- *   func_021A03B8  0x021A03B8  thumb  ov021
- *   func_02188C64  0x02188C64  thumb  ov021
- *   func_021A01FC  0x021A01FC  thumb  ov021
+ *   GIMMICK43_StartCameraShake  0x021F41B8  thumb  ov043
+ *   GIMMICK43_UpdateCameraShake  0x021F4210  thumb  ov043
+ *   FIELDMAP_GetZoneFog  0x02188C68  thumb  ov021
+ *   FIELD_ZONEFOG_GetFogOffset  0x021A03A4  thumb  ov021
+ *   FIELD_ZONEFOG_GetFogSlope  0x021A03B8  thumb  ov021
+ *   FIELDMAP_GetFog  0x02188C64  thumb  ov021
+ *   FIELD_FOG_FADE_Init  0x021A01FC  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -41,32 +41,32 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Big;
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern void *func_02188C58(void *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void *FIELDMAP_GetCamera(void *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern int func_021BE6BC(int *p);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
+extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 extern void func_020061E4(u32 a);
-extern int func_02006148(u32 a0);
+extern int GFL_USE_GetSeSlot(u32 a0);
 extern void func_020061F8(int i);
-extern void func_021F41B8(int a0, int a1, int a2, int a3, u8 *s);
-extern int func_021F4210(u8 *s);
-extern u32 func_02188C68(u8 *p);
-extern int func_021A03A4(int *p);
-extern int func_021A03B8(int *p);
-extern u32 func_02188C64(u8 *p);
-extern void func_021A01FC(u8 *p, u32 a, u32 b, u32 c);
+extern void GIMMICK43_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s);
+extern int GIMMICK43_UpdateCameraShake(u8 *s);
+extern u32 FIELDMAP_GetZoneFog(u8 *p);
+extern int FIELD_ZONEFOG_GetFogOffset(int *p);
+extern int FIELD_ZONEFOG_GetFogSlope(int *p);
+extern u32 FIELDMAP_GetFog(u8 *p);
+extern void FIELD_FOG_FADE_Init(u8 *p, u32 a, u32 b, u32 c);
 
-void func_021F3FE8(void *a)
+void GIMMICK43_UpdateBigLift(void *a)
 {
     void *s;
     void *r;
@@ -78,17 +78,17 @@ void func_021F3FE8(void *a)
     int x;
     int y;
 
-    s = func_0201210C((void *)a);
-    r = (void *)func_02188D2C(s);
-    w = func_021897BC(s, 1);
-    h = (u32)func_02188C58(s);
-    q = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(s))), 7);
+    s = GAMESYSTEM_GetFieldMap((void *)a);
+    r = (void *)FIELDMAP_GetExpObj(s);
+    w = FIELDMAP_GetCommonWork(s, 1);
+    h = (u32)FIELDMAP_GetCamera(s);
+    q = GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(s))), 7);
     if (w[0] != 5) {
         return;
     }
     if (q[6] == 0 && w[1] <= -0x230000) {
         q[6] = 1;
-        func_021BE6B0(func_021BE674(r, 0, 6, 0), 0);
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(r, 0, 6, 0), 0);
         func_020061E4(0x6cd);
         w[1] = -0x230000;
         w[6] = 1;
@@ -99,12 +99,12 @@ void func_021F3FE8(void *a)
     if (w[6] != 0) {
         switch (((u16 *)w)[15]) {
         case 0:
-            func_021F41B8((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
+            GIMMICK43_StartCameraShake((u8)w[0], w[3], 0, (u32)h, (u8 *)(w + 8));
             func_020061E4(0x6cb);
             ((u16 *)w)[15]++;
             break;
         case 1:
-            if (func_021F4210((u8 *)(w + 8))) {
+            if (GIMMICK43_UpdateCameraShake((u8 *)(w + 8))) {
                 ((u16 *)w)[14]++;
                 if (((u16 *)w)[14] >= 100) {
                     w[3] = -0x2000;
@@ -119,10 +119,10 @@ void func_021F3FE8(void *a)
         flag = 0;
         if (w[3] >= 0) {
             if (w[1] >= -0x2a0000) {
-                t = func_02188C68(s);
+                t = FIELDMAP_GetZoneFog(s);
                 flag = 1;
-                x = func_021A03A4((int *)t);
-                y = func_021A03B8((int *)t);
+                x = FIELD_ZONEFOG_GetFogOffset((int *)t);
+                y = FIELD_ZONEFOG_GetFogSlope((int *)t);
             }
         } else {
             if (w[1] <= -0x310000) {
@@ -132,8 +132,8 @@ void func_021F3FE8(void *a)
             }
         }
         if (flag) {
-            t = func_02188C64(s);
-            func_021A01FC((u8 *)t, x, y, w[3] == -0x2000 ? 0x20 : 0x10);
+            t = FIELDMAP_GetFog(s);
+            FIELD_FOG_FADE_Init((u8 *)t, x, y, w[3] == -0x2000 ? 0x20 : 0x10);
             w[15] = 0;
         }
     }
@@ -142,8 +142,8 @@ void func_021F3FE8(void *a)
             w[16] = 2;
             return;
         }
-        if (func_021BE6BC(func_021BE674(r, 0, 6, 0))) {
-            func_020061F8(func_02006148(0x6cd));
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(r, 0, 6, 0))) {
+            func_020061F8(GFL_USE_GetSeSlot(0x6cd));
             w[16] = 0;
         }
     }

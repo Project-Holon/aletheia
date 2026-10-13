@@ -12,7 +12,7 @@
  * symbols:
  *   func_020490F4  0x020490F4  arm
  *   func_020498F4  0x020498F4  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  * Addresses are Black-image addresses.
  */
 
@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 
 void func_021BCB88(u8 *a0)
 {
     void *h = func_020490F4(159, 0x807b);
     func_020498F4(h, 87, 3, 0, 0, 0, 123);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   P_STA_OAM_SetBitmapActorsEnabled 0x021DBCA4 thumb ov131
  *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void P_STA_OAM_SetBitmapActorsEnabled(u8 *p, int v);
 extern void P_STA_OAM_TransferBitmap(u8 *p);
@@ -28,7 +28,7 @@ extern void P_STA_SKILL_SetSlotAnim(u8 *,int);
 void P_STA_SKILL_SetNewMoveHeld(void *a,u8 *b,int c) {
     u8 *p=b+272;
     if(c==1) {
-        func_0204B878(((struct Obj06486 *)p)->f8,16);
+        CLACT_SetActorAnimSeq(((struct Obj06486 *)p)->f8,16);
         P_STA_OAM_SetBitmapActorsEnabled(((struct Obj06486 *)p)->f14,0);
         func_0204B3DC(((struct Obj06486 *)p)->fC,0);
         P_STA_OAM_TransferBitmap(((struct Obj00026 *)b)->fAC);

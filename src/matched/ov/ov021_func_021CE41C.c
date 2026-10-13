@@ -1,5 +1,5 @@
 /*
- * function: func_021CE41C
+ * function: COMM_ENTRY_MENU_ProcessRequest
  * address:  0x021CE41C
  * packet:   pkt_ov021_021CE41C
  * region:   ov021
@@ -14,15 +14,15 @@
  * the test indexes p directly.
  *
  * symbols:
- *   func_02190EF0  0x02190EF0  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
  *   func_0201F02C  0x0201F02C  thumb
- *   func_021CE9E4  0x021CE9E4  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02190BE4  0x02190BE4  thumb  ov021
- *   func_02190C78  0x02190C78  thumb  ov021
- *   func_021909BC  0x021909BC  thumb  ov021
- *   func_021CE36C  0x021CE36C  thumb  ov021
- *   func_021CE73C  0x021CE73C  thumb  ov021
+ *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
+ *   COMM_ENTRY_MENU_AdvanceMemberStates  0x021CE36C  thumb  ov021
+ *   COMM_ENTRY_MENU_CountAcceptedMembers  0x021CE73C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00011.h"
@@ -39,17 +39,17 @@ typedef struct {
 
 struct Handle;
 struct WordSet;
-extern u32 func_02190EF0(u32 *p);
+extern u32 FIELD_MSGBG_SysWinMain(u32 *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_021CE9E4(u32 *p, int n);
-extern u32 func_02188C54(u8 *p);
-extern u32 *func_02190BE4(u16 *a, u32 b);
-extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(void *a);
-extern void func_021CE36C(u8 *p);
-extern int func_021CE73C(u32 *p);
+extern void COMM_ENTRY_MENU_PrintMessage(u32 *p, int n);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
+extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
+extern void COMM_ENTRY_MENU_AdvanceMemberStates(u8 *p);
+extern int COMM_ENTRY_MENU_CountAcceptedMembers(u32 *p);
 
-void func_021CE41C(u32 *p)
+void COMM_ENTRY_MENU_ProcessRequest(u32 *p)
 {
     Sub *q;
     u8 *w;
@@ -62,21 +62,21 @@ void func_021CE41C(u32 *p)
     if (p[0x40] == 0) {
         return;
     }
-    if (!func_02190EF0((u32 *)p[5])) {
+    if (!FIELD_MSGBG_SysWinMain((u32 *)p[5])) {
         return;
     }
     switch (q->state) {
     case 0:
         func_0201F02C((struct WordSet *)p[1], 0, (void *)((int)w));
-        func_021CE9E4(p, 10);
+        COMM_ENTRY_MENU_PrintMessage(p, 10);
         q->state++;
         break;
     case 1:
-        q->h = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)p[0]), 0);
+        q->h = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg((u8 *)p[0]), 0);
         q->state++;
         break;
     case 2:
-        r = func_02190C78((struct Handle *)q->h);
+        r = FIELD_MSGBG_YesNoMenuMain((struct Handle *)q->h);
         if (r == 2) {
             break;
         }
@@ -95,16 +95,16 @@ void func_021CE41C(u32 *p)
                 break;
             }
         }
-        func_021909BC((void *)q->h);
+        FIELD_MSGBG_DeleteMenuFunc((void *)q->h);
         q->h = 0;
         q->state++;
         break;
     case 3:
         p[0x40] = 0;
         q->state = 0;
-        func_021CE36C((u8 *)p);
+        COMM_ENTRY_MENU_AdvanceMemberStates((u8 *)p);
         if (p[0x40] == 0) {
-            if (func_021CE73C(p) > 1 && ((u8 *)p)[0x520] == 1) {
+            if (COMM_ENTRY_MENU_CountAcceptedMembers(p) > 1 && ((u8 *)p)[0x520] == 1) {
                 ((struct Obj00011 *)p)->f574 = 9;
             } else {
                 ((struct Obj00011 *)p)->f574 = 8;

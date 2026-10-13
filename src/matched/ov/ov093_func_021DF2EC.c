@@ -1,5 +1,5 @@
 /*
- * function: func_021DF2EC
+ * function: BTL_HANDLER_ITEM_GetToxicPlateHandlers
  * address: 0x021DF2EC
  * packet: pkt_ov093_021DF2EC
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F149C[];
-int *func_021DF2EC(int *p);
+int *BTL_HANDLER_ITEM_GetToxicPlateHandlers(int *p);
 
-int *func_021DF2EC(int *p)
+int *BTL_HANDLER_ITEM_GetToxicPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F149C;

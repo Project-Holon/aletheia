@@ -1,5 +1,5 @@
 /*
- * function: func_0216DBCC
+ * function: FLDMMDL_SetMoveBitSplash
  * address:  0x0216DBCC
  * packet:   pkt_0216DBCC
  * region:   ov010
@@ -13,22 +13,22 @@
  * takes the shifted mask and the value.
  *
  * symbols:
- *   func_0216D568   0x0216D568  thumb  ov010
- *   func_0216D570   0x0216D570  thumb  ov010
+ *   FLDMMDL_SetMoveBit   0x0216D568  thumb  ov010
+ *   FLDMMDL_ClearMoveBit   0x0216D570  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0216D568(void *p, u32 v);
-extern char *func_0216D570(char *p, u32 v);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
 
-int func_0216DBCC(void *a0, u32 a1, int a2)
+int FLDMMDL_SetMoveBitSplash(void *a0, u32 a1, int a2)
 {
     if (a1 == 1)
-        return (int)func_0216D568(a0, 0x40000);
+        return (int)FLDMMDL_SetMoveBit(a0, 0x40000);
 
-    return (int)func_0216D570(a0, 0x40000);
+    return (int)FLDMMDL_ClearMoveBit(a0, 0x40000);
 }
 

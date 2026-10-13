@@ -1,5 +1,5 @@
 /*
- * function: func_021B8714
+ * function: BTL_MAIN_GetFieldSituation
  * address:  0x021B8714
  * packet:   pkt_021B8714
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent 8, compiled 6, trailing padding)
  */
 
-char *func_021B8714(char **p)
+char *BTL_MAIN_GetFieldSituation(char **p)
 {
     return *p + 8;
 }

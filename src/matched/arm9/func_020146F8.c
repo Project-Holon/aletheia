@@ -1,5 +1,5 @@
 /*
- * function: func_020146F8
+ * function: FIELD_STATUS_CreateSubProcEvent
  * address:  0x020146F8
  * packet:   pkt_02014628
  * region:   arm9
@@ -23,7 +23,7 @@ struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern u32 FIELD_STATUS_SubProcEvent(void *obj, u32 *mode, u32 *p);
 
-void *func_020146F8(char *a0, int a1, int a2, int a3, int a4)
+void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4)
 {
     void *r = func_020122C0(a0, 0, (void *)((int)FIELD_STATUS_SubProcEvent), 0x14);
     u32 *p = func_020124E8(r);

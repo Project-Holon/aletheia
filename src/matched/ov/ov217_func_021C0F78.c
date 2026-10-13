@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_021C1090  0x021C1090  thumb  ov217
- *   func_0201C7D0  0x0201C7D0  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -31,11 +31,11 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int func_021C1090(u8 *p, void *text);
-extern void func_0201C7D0(void *w, s16 x, s16 y, void *text, void *font, u16 color);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void PRINTSYS_PrintColor(void *w, s16 x, s16 y, void *text, void *font, u16 color);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned int bit);
 
@@ -51,7 +51,7 @@ void func_021C0F78(u8 *p, struct U16Vec *text)
     void *obj;
     color = ((p[8] & 31) << 10) | ((p[9] & 31) << 5) | (p[10] & 31);
     w = func_02045770(*(void **)(p + 0x18));
-    func_02043B5C(w, p[10]);
+    BMP_Clear(w, p[10]);
     if (*(int *)(p + 0xC) != 0) {
         x = p[5] + func_021C1090(p, text);
         y = p[6];
@@ -60,11 +60,11 @@ void func_021C0F78(u8 *p, struct U16Vec *text)
         y = p[6];
     }
     font = *(void **)(p + 0x10);
-    func_0201C7D0(w, x, y, text, font, color);
+    PRINTSYS_PrintColor(w, x, y, text, font, color);
     if (*(int *)(p + 0x1C) != 0) {
         obj = *(void **)(p + 0x18);
-        func_02045334(obj);
-        func_02045374(obj);
+        BMP_WIN_TransferChars(obj);
+        BMP_WIN_MakeScreen(obj);
         func_02041B6C(func_02045730(obj));
     }
 }

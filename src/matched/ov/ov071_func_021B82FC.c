@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021B70C4((char *)p + 0x34).  Address also resident in
+ * Tail call to MONOLITH_TOOL_UpdateBlink((char *)p + 0x34).  Address also resident in
  * ov021; region-qualified packet id.
  *
  * symbols:
- *   func_021B70C4  0x021B70C4  thumb  ov071
+ *   MONOLITH_TOOL_UpdateBlink  0x021B70C4  thumb  ov071
  */
 
 void func_021B82FC(void *p)
 {
-    void func_021B70C4(void *);
-    func_021B70C4((char *)p + 0x34);
+    void MONOLITH_TOOL_UpdateBlink(void *);
+    MONOLITH_TOOL_UpdateBlink((char *)p + 0x34);
 }

@@ -12,6 +12,7 @@
  *   func_021B80A0 0x021B80A0 thumb ov106
  *   func_021B93E4 0x021B93E4 thumb ov106
  *   func_021B78CC 0x021B78CC thumb ov106
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  */
 #include "../include/Obj22255.h"
 typedef unsigned char u8;
@@ -19,7 +20,7 @@ typedef unsigned int u32;
 extern void func_021B78B8(u8 *);
 extern void func_021B80A0(u8 *);
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern int func_021B93E4(u8 *p);
 extern u32 func_021B78CC(u8 *);
 int func_021B7848(int a, int b, int c, u8 *p)
@@ -27,7 +28,7 @@ int func_021B7848(int a, int b, int c, u8 *p)
     int i;
     func_021B78B8(p + 0x28);
     func_021B80A0(p);
-    func_0201C4E4((struct PrintSys *)(((struct Obj22255 *)p)->f61C));
+    PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22255 *)p)->f61C));
     for (i = 0; i < 4; i++) func_021B93E4((u8 *)(*(u32 *)(p + 0x62C + i * 4)));
     if (func_021B78CC(p + 0x28)) return 1;
     return 0;

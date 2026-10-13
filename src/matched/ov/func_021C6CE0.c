@@ -1,5 +1,5 @@
 /*
- * function: func_021C6CE0
+ * function: FIELD_TASK_GetState
  * address:  0x021C6CE0
  * packet:   pkt_021C6CE0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021C6CE0(u8 *p)
+u32 FIELD_TASK_GetState(u8 *p)
 {
     return ((struct Obj18316 *)p)->f0;
 }

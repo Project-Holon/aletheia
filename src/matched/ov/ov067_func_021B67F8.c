@@ -1,5 +1,5 @@
 /*
- * function: func_021B67F8
+ * function: TOUCHBAR_InitButton
  * address:  0x021B67F8
  * packet:   pkt_ov067_021B67F8
  * region:   ov067
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_021B6730  0x021B6730  thumb  ov067
- *   d_021B942C     0x021B942C  data  ov067  a4
- *   func_0204B294  0x0204B294  arm
+ *   TOUCHBAR_GetGfxWord  0x021B6730  thumb  ov067
+ *   gTouchBarButtonLooks     0x021B942C  data  ov067  a4
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_021B6A28  0x021B6A28  thumb  ov067
- *   func_021B6A68  0x021B6A68  thumb  ov067
+ *   TOUCHBAR_OnPressPlain  0x021B6A28  thumb  ov067
+ *   TOUCHBAR_SetEnabledPlain  0x021B6A68  thumb  ov067
  *   func_021B6A44  0x021B6A44  thumb  ov067
- *   func_021B6A98  0x021B6A98  thumb  ov067
+ *   TOUCHBAR_SetEnabledToggle  0x021B6A98  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -70,20 +70,20 @@ typedef struct {
     u16 pad;
 } Pos;
 
-extern Ent d_021B942C[];
+extern Ent gTouchBarButtonLooks[];
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern int func_021B6730(void *p, int i);
+extern int TOUCHBAR_GetGfxWord(void *p, int i);
 struct Obj;
-extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pos, u16 f, u16 g);
+extern struct Obj *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pos, u16 f, u16 g);
 extern void func_0204B92C(struct Obj *obj, u32 v);
 struct S;
-extern void func_021B6A28(u8 *p);
-extern void func_021B6A68(struct S *p, u32 flag);
+extern void TOUCHBAR_OnPressPlain(u8 *p);
+extern void TOUCHBAR_SetEnabledPlain(struct S *p, u32 flag);
 extern void func_021B6A44(u8 *p);
-extern void func_021B6A98(struct S *p, u32 flag);
+extern void TOUCHBAR_SetEnabledToggle(struct S *p, u32 flag);
 
-void func_021B67F8(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5)
+void TOUCHBAR_InitButton(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5)
 {
     Pos pos;
     u32 v0;
@@ -103,30 +103,30 @@ void func_021B67F8(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5)
         v2 = src->hC;
         p->f14 = 0;
     } else {
-        v0 = func_021B6730(a2, 1);
-        v1 = func_021B6730(a2, 0);
-        v2 = func_021B6730(a2, 2);
+        v0 = TOUCHBAR_GetGfxWord(a2, 1);
+        v1 = TOUCHBAR_GetGfxWord(a2, 0);
+        v2 = TOUCHBAR_GetGfxWord(a2, 2);
         i = src->kind;
-        p->src.hE = d_021B942C[i].a;
-        p->src.h10 = d_021B942C[i].b;
-        p->src.h12 = d_021B942C[i].c;
-        p->src.h14 = d_021B942C[i].d;
-        p->src.w18 = d_021B942C[i].f;
-        p->src.w1C = d_021B942C[i].e;
-        p->f14 = d_021B942C[i].g;
+        p->src.hE = gTouchBarButtonLooks[i].a;
+        p->src.h10 = gTouchBarButtonLooks[i].b;
+        p->src.h12 = gTouchBarButtonLooks[i].c;
+        p->src.h14 = gTouchBarButtonLooks[i].d;
+        p->src.w18 = gTouchBarButtonLooks[i].f;
+        p->src.w1C = gTouchBarButtonLooks[i].e;
+        p->f14 = gTouchBarButtonLooks[i].g;
     }
     p->f8 = p->src.hE;
     pos.z = p->f8;
-    p->f0 = (u32)func_0204B294((void *)a1, v0, v1, v2, &pos, a4, a5);
+    p->f0 = (u32)CLACT_CreateActor((void *)a1, v0, v1, v2, &pos, a4, a5);
     func_0204B92C((struct Obj *)p->f0, 1);
     switch (p->f14) {
     case 0:
-        p->fC = func_021B6A28;
-        p->f10 = func_021B6A68;
+        p->fC = TOUCHBAR_OnPressPlain;
+        p->f10 = TOUCHBAR_SetEnabledPlain;
         break;
     case 1:
         p->fC = func_021B6A44;
-        p->f10 = func_021B6A98;
+        p->f10 = TOUCHBAR_SetEnabledToggle;
         break;
     }
 }

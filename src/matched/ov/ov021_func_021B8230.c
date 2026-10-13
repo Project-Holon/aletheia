@@ -1,5 +1,5 @@
 /*
- * function: func_021B8230
+ * function: FIELD_RAIL_GetLine
  * address:  0x021B8230
  * packet:   pkt_021B8224
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk on the object 0x20 bytes in.
  *
  * symbols:
- *   func_021B87FC  0x021B87FC  thumb
+ *   FIELD_RAIL_SETTING_GetLine  0x021B87FC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_021B87FC(u8 *p, u32 idx);
+extern u8 *FIELD_RAIL_SETTING_GetLine(u8 *p, u32 idx);
 
-void func_021B8230(u8 *p, u32 a1)
+void FIELD_RAIL_GetLine(u8 *p, u32 a1)
 {
-    func_021B87FC(p + 0x20, a1);
+    FIELD_RAIL_SETTING_GetLine(p + 0x20, a1);
 }

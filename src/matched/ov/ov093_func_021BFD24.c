@@ -1,5 +1,5 @@
 /*
- * function: func_021BFD24
+ * function: BTL_SERVER_FLOW_ProcMoveUseDecide
  * address: 0x021BFD24
  * packet: pkt_ov093_021BFD24
  * region: ov093
@@ -11,15 +11,15 @@
  * symbols:
  *   func_021CC8D8 0x021CC8D8 thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
- *   func_021C676C 0x021C676C thumb ov093
+ *   BTL_SERVER_FLOW_QueryMoveRedirectEvent 0x021C676C thumb ov093
  *   func_021BFE30 0x021BFE30 thumb ov093
  *   func_021BFE40 0x021BFE40 thumb ov093
  *   func_021BFE50 0x021BFE50 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
- *   func_021C6848 0x021C6848 thumb ov093
- *   func_021D5C30 0x021D5C30 thumb ov093
- *   func_021C5718 0x021C5718 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
+ *   BTL_SERVER_FLOW_NotifyMoveBeginEvent 0x021C6848 thumb ov093
+ *   BTL_POKEPARAM_IsSemiInvulnerable 0x021D5C30 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgStdFailed 0x021C5718 thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
@@ -27,17 +27,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(u32 *p, u32 v, int line);
-extern int func_021C676C(u8 *, u8 *, u8 *, u16, u8 *, u32 *);
+extern int BTL_SERVER_FLOW_QueryMoveRedirectEvent(u8 *, u8 *, u8 *, u16, u8 *, u32 *);
 extern int func_021BFE30(u8 *);
 extern u8 *func_021BFE40(u8 *, int);
 extern u8 func_021BFE50(void *, u8);
-extern u8 func_021D5440(u8 *p);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern void func_021C6848(u8 *, u8 *);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
+extern void BTL_SERVER_FLOW_NotifyMoveBeginEvent(u8 *, u8 *);
 struct UtilWork;
-extern int func_021D5C30(struct UtilWork *p);
-extern void func_021C5718(u8 *, u8 *, u32);
-int func_021BFD24(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
+extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
+extern void BTL_SERVER_FLOW_PushMsgStdFailed(u8 *, u8 *, u32);
+int BTL_SERVER_FLOW_ProcMoveUseDecide(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
 {
     u32 out;
     u8 id;
@@ -47,24 +47,24 @@ int func_021BFD24(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
     out = 0;
     id = 31;
     lock = func_021CC8D8(p + 0x1d74, 5160);
-    r = func_021C676C(p, q, d, e, &id, &out);
+    r = BTL_SERVER_FLOW_QueryMoveRedirectEvent(p, q, d, e, &id, &out);
     if (r) {
         n = p[0x77f];
         if (func_021BFE30(d))
-            n = func_021BFE50(p + 0x1ab8, func_021D5440(func_021BFE40(d, 0)));
-        func_021CD4B0(((struct Obj00003 *)p)->fC, 48, c, n, e, 0);
+            n = func_021BFE50(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(func_021BFE40(d, 0)));
+        BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 48, c, n, e, 0);
     }
     func_021CC95C((u32 *)(p + 0x1d74), lock, 5173);
     if (r) {
         lock = func_021CC8D8(p + 0x1d74, 5177);
-        func_021C6848(p, q);
+        BTL_SERVER_FLOW_NotifyMoveBeginEvent(p, q);
         func_021CC95C((u32 *)(p + 0x1d74), lock, 5179);
-        if (func_021D5C30((struct UtilWork *)q))
-            func_021CD4B0(((struct Obj00003 *)p)->fC, 49, func_021D5440(q), 1);
+        if (BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)q))
+            BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 49, BTL_POKEPARAM_GetPokeId(q), 1);
         if (id != 31)
-            func_021CD4B0(((struct Obj00003 *)p)->fC, 49, id, 1);
+            BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 49, id, 1);
     } else if (out == 0) {
-        func_021C5718(p, q, e);
+        BTL_SERVER_FLOW_PushMsgStdFailed(p, q, e);
     }
     return r;
 }

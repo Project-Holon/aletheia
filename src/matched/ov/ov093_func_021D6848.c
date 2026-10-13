@@ -1,5 +1,5 @@
 /*
- * function: func_021D6848
+ * function: BTL_POKEPARAM_AddHitRecord
  * address: 0x021D6848
  * packet: pkt_ov093_021D6848
  * region: ov093
@@ -11,7 +11,7 @@
 #include "../include/Obj02137.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct Rec {u16 a,b,c,d;};
-void func_021D6848(u8 *p, struct Rec *r)
+void BTL_POKEPARAM_AddHitRecord(u8 *p, struct Rec *r)
 {
     u8 n;
     u8 k = p[0x1ef];

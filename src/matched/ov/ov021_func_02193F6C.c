@@ -1,5 +1,5 @@
 /*
- * function: func_02193F6C
+ * function: FIELD_WFBC_PEOPLE_Clear
  * address:  0x02193F6C
  * packet:   pkt_ov021_02193F6C
  * region:   ov021
@@ -26,7 +26,7 @@ typedef struct E50 {
 
 extern void func_02082BCC(void *p, int v, int n);
 
-void func_02193F6C(E50 *e)
+void FIELD_WFBC_PEOPLE_Clear(E50 *e)
 {
     func_02082BCC(e, 0, 0x50);
     e->f00 = 0;

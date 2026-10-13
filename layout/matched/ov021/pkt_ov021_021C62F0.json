@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C62F0",
+   "name": "SWEET_SCENT_FadeSetup",
    "address": "0x021C62F0",
    "kind": "game",
    "region": "ov021",

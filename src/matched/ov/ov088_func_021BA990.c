@@ -1,5 +1,5 @@
 /*
- * function: func_021BA990
+ * function: STARTMENU_VblankTask
  * address:  0x021BA990
  * packet:   pkt_ov088_021BA990
  * region:   ov088
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020419E4  0x020419E4  arm
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
  *   SDK_AUTOLOAD_DTCM_START 0x02FE0000 data
  */
 
@@ -23,11 +23,11 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 #define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
 
 extern void func_020419E4(void);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
-void func_021BA990(void)
+void STARTMENU_VblankTask(void)
 {
     func_020419E4();
-    func_0204A648();
+    CLACT_VBlankSystem();
     OSi_IRQ_CHECK_FLAG |= 1;
 }

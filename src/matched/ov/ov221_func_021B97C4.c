@@ -10,14 +10,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021B9B64 0x021B9B64 thumb ov221
  *   func_021B9DAC 0x021B9DAC thumb ov221
  *   func_021B9B18 0x021B9B18 thumb ov221
  *   func_021B9D38 0x021B9D38 thumb ov221
  *   func_021B9F7C 0x021B9F7C thumb ov221
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_020362DC 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   func_02035D20 0x02035D20 arm
@@ -45,12 +45,12 @@ extern void GFL_USE_CancelChangeAndPlayBgm(u32,unsigned short);
 extern int func_02005F38(void);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32);
-extern void func_0204E720(u32,int,int,int);
-extern int func_0204E804(void);
+extern void FADE_Start(u32,int,int,int);
+extern int FADE_IsActive(void);
 extern u32 func_020362DC(void);
 extern void func_020355D8(unsigned char);
 extern u32 func_02035D20(u32*,u32*);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
 {
  int ready;
@@ -63,10 +63,10 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
    if(GFL_USE_IsBgmFading()) ready=0;
    else {GFL_USE_SetBgmPlayerParam((void*)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(0x524,0xffff);}
   }
-  if(ready) {func_0204E720(3,16,0,0);*state=1;}
+  if(ready) {FADE_Start(3,16,0,0);*state=1;}
   break;
  case 1:
-  if(!func_0204E804()) {if(((struct Obj26066 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4!=0) *state=4;else *state=2;}
+  if(!FADE_IsActive()) {if(((struct Obj26066 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4!=0) *state=4;else *state=2;}
   break;
  case 2: if(func_021B9DAC((char *)p)) *state=3; break;
  case 3:
@@ -76,12 +76,12 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
   ready=0;
   if(func_020362DC()&3) {func_020355D8(0);ready=1;}
   else if(func_02035D20(&x,&y)) {func_020355D8(1);ready=1;}
-  if(ready) {*state=5;func_0204E720(3,0,16,0);}
+  if(ready) {*state=5;FADE_Start(3,0,16,0);}
   break;
- case 5: if(!func_0204E804()) *state=6; break;
+ case 5: if(!FADE_IsActive()) *state=6; break;
  case 6: return 1;
  }
- func_0201C4E4(*(void* *)&((struct Obj02558 *)p)->f10);
+ PRINTSYS_QUE_Main(*(void* *)&((struct Obj02558 *)p)->f10);
  func_021B9B18(p);
  if(*state>=1 && *state<=5) func_021B9D38(p);
  func_021B9F7C(*(void* *)&((struct Obj02558 *)p)->f8);

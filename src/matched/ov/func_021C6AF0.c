@@ -1,5 +1,5 @@
 /*
- * function: func_021C6AF0
+ * function: FIELD_G3DOBJ_SetResDescModel
  * address:  0x021C6AF0
  * packet:   pkt_021C6AF0
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C6AF0(u32 a, u32 b, u32 c)
+int FIELD_G3DOBJ_SetResDescModel(u32 a, u32 b, u32 c)
 {
 ((struct Obj06084 *)((u8 *)(a)))->f0 = b;
 ((struct Obj06084 *)((u8 *)(a)))->fC = c;

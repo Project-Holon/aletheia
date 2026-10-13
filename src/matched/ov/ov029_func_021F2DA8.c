@@ -1,5 +1,5 @@
 /*
- * function: func_021F2DA8
+ * function: C_GEAR_IsAnyIndicatorShown
  * address: 0x021F2DA8
  * packet: pkt_ov029_021F2DA8
  * region: ov029
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-int func_021F2DA8(u8 *p)
+int C_GEAR_IsAnyIndicatorShown(u8 *p)
 {
     if (p[0x45c] != 0)
         return 1;

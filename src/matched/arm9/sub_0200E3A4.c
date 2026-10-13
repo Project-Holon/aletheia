@@ -9,24 +9,24 @@
  * isa:      thumb
  * status:   EXACT*
  * note:     wave 16: promoted.  0x02167380 and 0x02167358 are unlabelled ov010
- *           leaves matched in src/matched/func_02167380.c and func_02167358.c
+ *           leaves matched in src/matched/func_02167380.c and QUESTIONNAIRE_GetAnswerBitWidth.c
  *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  *
  * symbols:
  *   func_02167380  0x02167380  thumb  ov010
- *   func_02167358  0x02167358  thumb  ov010
+ *   QUESTIONNAIRE_GetAnswerBitWidth  0x02167358  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8 func_02167380(u32 id);
-extern u8 func_02167358(u32 id);
+extern u8 QUESTIONNAIRE_GetAnswerBitWidth(u32 id);
 
 u32 sub_0200E3A4(const u8 *bits, int id)
 {
     u32 bit  = func_02167380(id);
-    u32 n    = func_02167358(id);
+    u32 n    = QUESTIONNAIRE_GetAnswerBitWidth(id);
     u32 byte = bit >> 3;
     u32 b    = bit & 7;
     u32 out  = 0;

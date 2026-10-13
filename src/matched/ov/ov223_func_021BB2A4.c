@@ -14,10 +14,10 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_0201D42C 0x0201D42C thumb
  *   func_02045770 0x02045770 arm
- *   func_020437DC 0x020437DC arm
- *   func_020437E4 0x020437E4 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   BMP_GetWidth 0x020437DC arm
+ *   BMP_GetHeight 0x020437E4 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021BAF48 0x021BAF48 thumb ov223
  * The bitmap accessors' own sources return u16. This caller uses each
  * result at full width without truncation, so its declarations widen them.
@@ -34,11 +34,11 @@ extern void *func_02045EC0(struct MsgBank *, unsigned);
 extern unsigned func_0201D304(struct StrObj *, unsigned, unsigned);
 extern unsigned func_0201D42C(struct StrObj *, void *);
 extern void *func_02045770(struct Descriptor *);
-extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
 typedef unsigned int   u32;
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern void func_0201C724(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
-extern void func_02045808(struct U16Vec *);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
+extern void STRBUF_Delete(struct U16Vec *);
 extern int func_021BAF48(char *);
 void func_021BB2A4(char *p)
 {
@@ -46,16 +46,16 @@ void func_021BB2A4(char *p)
     u16 width = func_0201D304(text, *(unsigned *)&((struct Obj03381 *)p)->f18, 0);
     u16 x = 0;
     u16 height = func_0201D42C(text, ((struct Obj03381 *)p)->f18);
-    unsigned w = func_020437DC(func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238));
-    unsigned h = func_020437E4(func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238));
+    unsigned w = BMP_GetWidth(func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238));
+    unsigned h = BMP_GetHeight(func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238));
     u16 y = 0;
     if (w > width)
         x = ((int)w - width) / 2;
     if (h > height)
         y = ((int)h - height) / 2;
-    func_0201C724(((struct Obj03381 *)p)->f1C, (unsigned)func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238),
+    PRINTSYS_PrintQueColor(((struct Obj03381 *)p)->f1C, (unsigned)func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238),
                  (s16)x, (s16)y, (unsigned)text, *(unsigned *)&((struct Obj03381 *)p)->f18, 0x3C40);
-    func_02045808((struct U16Vec *)text);
+    STRBUF_Delete((struct U16Vec *)text);
     ((struct Obj03381 *)p)->f244 = 0;
     func_021BAF48(p);
 }

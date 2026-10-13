@@ -1,5 +1,5 @@
 /*
- * function: func_021CD1F0
+ * function: FIELD_BBD_COLOR_Delete
  * address:  0x021CD1F0
  * packet:   pkt_021CD1F0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern void func_02049238(u32 arc);
+extern void ARC_TOOL_DeleteHandle(u32 arc);
 
-int func_021CD1F0(void *a)
+int FIELD_BBD_COLOR_Delete(void *a)
 {
-func_02049238(((struct Obj18362 *)((u8 *)(a)))->f0);
+ARC_TOOL_DeleteHandle(((struct Obj18362 *)((u8 *)(a)))->f0);
 return func_020307B0(a);
 }
 

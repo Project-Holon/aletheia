@@ -1,5 +1,5 @@
 /*
- * function: func_021CCCC4
+ * function: PARTY_SELECT_LIST_FreeStatusIconResources
  * address:  0x021CCCC4
  * packet:   pkt_021CCCC4
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  * Addresses are Black-image addresses.
  */
 
@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0204A8D4(u32 i);
-extern u32 func_0204ADA4(u32);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern u32 CLACT_ReleasePalette(u32);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
-int func_021CCCC4(u32 a)
+int PARTY_SELECT_LIST_FreeStatusIconResources(u32 a)
 {
-func_0204A8D4(*(u16 *)((u8 *)((a + 156))));
-func_0204AFD8(*(u16 *)((u8 *)((a + 154))));
-return func_0204ADA4(*(u16 *)((u8 *)((a + 152))));
+CLACT_ReleaseCharacter(*(u16 *)((u8 *)((a + 156))));
+CLACT_ReleaseCellAnim(*(u16 *)((u8 *)((a + 154))));
+return CLACT_ReleasePalette(*(u16 *)((u8 *)((a + 152))));
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021A6B88
+ * function: FIELD_PLAYER_NOGRID_InitInputHold
  * address:  0x021A6B88
  * packet:   pkt_021A6B88
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void func_02082BCC(void *p, u32 v, u32 n);
 
-int func_021A6B88(void *a)
+int FIELD_PLAYER_NOGRID_InitInputHold(void *a)
 {
     func_02082BCC(a, 0, 8);
     ((struct Obj18062 *)a)->f4 = 9;

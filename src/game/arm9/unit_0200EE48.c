@@ -15,7 +15,7 @@
  * symbols:
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8     0x02082BCC  arm
- *   func_0216E2E8   0x0216E2E8  thumb  ov010
+ *   FLDMMDL_LoadObjCodeParam   0x0216E2E8  thumb  ov010
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
  *   GFL_NET_DEVWIFI_GetDeviceTable  0x0215536C  thumb  ov009
@@ -142,7 +142,7 @@ struct Sub0200F16CHdr {
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_0216E2E8(const char *ctx, u32 id, struct Record *out);
+extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out);
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
 extern void *GFL_NET_DEVWIFI_GetDeviceTable(void);
@@ -342,7 +342,7 @@ void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2) {
     }
 
     dst->flags &= ~1;
-    func_0216E2E8(arg2, dst->fc, (struct Record *)&dst->fe4);
+    FLDMMDL_LoadObjCodeParam(arg2, dst->fc, (struct Record *)&dst->fe4);
     dst->flags |= 1;
 
     {

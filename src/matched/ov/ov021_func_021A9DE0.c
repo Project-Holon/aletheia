@@ -1,5 +1,5 @@
 /*
- * function: func_021A9DE0
+ * function: FIELD_ENCOUNT_PickGroundSlot
  * address:  0x021A9DE0
  * packet:   pkt_ov021_021A9DE0
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   func_021A9DC8  0x021A9DC8  thumb
+ *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -19,11 +19,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A9DC8(void);
+extern u32 FIELD_ENCOUNT_RandPercent(void);
 
-u32 func_021A9DE0(void)
+u32 FIELD_ENCOUNT_PickGroundSlot(void)
 {
-    u32 v = func_021A9DC8();
+    u32 v = FIELD_ENCOUNT_RandPercent();
 
     if (v < 0x14) return 0;
     if (v >= 0x14 && v < 0x28) return 1;

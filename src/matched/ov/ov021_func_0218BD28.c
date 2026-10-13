@@ -1,5 +1,5 @@
 /*
- * function: func_0218BD28
+ * function: FIELD_BUILDMODEL_CreateModels
  * address:  0x0218BD28
  * packet:   pkt_ov021_0218BD28
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0218BEE8  0x0218BEE8  thumb  ov021
- *   d_021DD9CC     0x021DD9CC  data  a4
+ *   FIELD_BUILDMODEL_LoadModel  0x0218BEE8  thumb  ov021
+ *   gBuildModelFileName     0x021DD9CC  data  a4
  */
 
 typedef struct {
@@ -24,18 +24,18 @@ typedef struct {
     unsigned char *ents;
 } S;
 
-extern unsigned char d_021DD9CC[];
+extern unsigned char gBuildModelFileName[];
 void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, unsigned short tag);
-void func_0218BEE8(S *p, unsigned char *e, int i, int arg);
+void FIELD_BUILDMODEL_LoadModel(S *p, unsigned char *e, int i, int arg);
 
-void func_0218BD28(S *p, int arg)
+void FIELD_BUILDMODEL_CreateModels(S *p, int arg)
 {
     unsigned short n = p->n;
     unsigned char i;
     if (n != 0) {
         p->count = n;
-        p->ents = func_02030734(p->heap, n * 0x18, 1, (const char *)d_021DD9CC, 0x45F);
+        p->ents = func_02030734(p->heap, n * 0x18, 1, (const char *)gBuildModelFileName, 0x45F);
         for (i = 0; i < p->count; i++)
-            func_0218BEE8(p, p->ents + i * 0x18, i, arg);
+            FIELD_BUILDMODEL_LoadModel(p, p->ents + i * 0x18, i, arg);
     }
 }

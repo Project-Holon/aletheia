@@ -1,7 +1,7 @@
 /*
  * file:     unit_0204F720.c
  * unit:     yes
- * function: func_0204F720, func_0204F748, func_0204F764, func_0204F794, BILLBOARD_SetElemRotZ, BILLBOARD_Draw
+ * function: BILLBOARD_SetElemVisible, BILLBOARD_GetElemFlipS, BILLBOARD_SetElemFlipS, BILLBOARD_SetElemFlipT, BILLBOARD_SetElemRotZ, BILLBOARD_Draw
  * address:  0x0204F720
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -64,10 +64,10 @@ extern void func_02048B0C(struct Camera *cam, VecFx32 *out);
 extern void func_02048B30(struct Camera *cam, VecFx32 *out);
 extern void G3D_LIGHT_GetSlotColor(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
 extern void G3D_LIGHT_GetSlotFlags(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
-void func_0204F720(struct BbBoard *board, u32 elemIndex, u32 *visible);
-u32 func_0204F748(struct BbBoard *board, int elemIndex);
-void func_0204F764(struct BbBoard *board, u32 elemIndex, u32 *flipS);
-void func_0204F794(struct BbBoard *board, u32 elemIndex, u32 *flipT);
+void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible);
+u32 BILLBOARD_GetElemFlipS(struct BbBoard *board, int elemIndex);
+void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemIndex, u32 *flipS);
+void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemIndex, u32 *flipT);
 void BILLBOARD_SetElemRotZ(struct BbBoard *board, int elemIndex, u16 *rotZ);
 extern const fx16 FX_SinCosTable_[];
 extern const struct Quad gBillboardQuad[];
@@ -80,7 +80,7 @@ extern const struct Quad gBillboardQuad[];
  * than a read-modify-write of the whole halfword, and the address is written
  * inside each arm so the condition is evaluated first.
  */
-void func_0204F720(struct BbBoard *board, u32 elemIndex, u32 *visible)
+void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible)
 {
     if (*visible == 1) {
         struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
@@ -98,7 +98,7 @@ void func_0204F720(struct BbBoard *board, u32 elemIndex, u32 *visible)
  * 10 exactly, and no other read-modify-write.
  *
  * Unlabelled in the generated listing because the prologue saves nothing, and
- * it is the follower that makes func_0204F720 EXACT*.  Seeding 0x0204F748 in
+ * it is the follower that makes BILLBOARD_SetElemVisible EXACT*.  Seeding 0x0204F748 in
  * layout/function_starts.txt turns that EXACT* into EXACT; that file is the
  * integrator's, not this packet's.
  *
@@ -107,7 +107,7 @@ void func_0204F720(struct BbBoard *board, u32 elemIndex, u32 *visible)
  * bit 10.  The entry type is declared with its sizeof at 0x1c, so the encoder
  * emits the image's `mov r0, #0x1c` plus `mla`.
  */
-u32 func_0204F748(struct BbBoard *board, int elemIndex)
+u32 BILLBOARD_GetElemFlipS(struct BbBoard *board, int elemIndex)
 {
     struct BbElem *elem = &board->elems[elemIndex];
 
@@ -121,7 +121,7 @@ u32 func_0204F748(struct BbBoard *board, int elemIndex)
  * lsl #31 / lsr #21 pair from the bit write, which is why the C has to keep
  * the narrowing visible: the bit is a 1-bit bitfield assigned a u16 value.
  */
-void func_0204F764(struct BbBoard *board, u32 elemIndex, u32 *flipS)
+void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemIndex, u32 *flipS)
 {
     struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
 
@@ -130,9 +130,9 @@ void func_0204F764(struct BbBoard *board, u32 elemIndex, u32 *flipS)
 
 
 /*
- * Same as func_0204F764 one bit up: the caller's word goes into bit 11.
+ * Same as BILLBOARD_SetElemFlipS one bit up: the caller's word goes into bit 11.
  */
-void func_0204F794(struct BbBoard *board, u32 elemIndex, u32 *flipT)
+void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemIndex, u32 *flipT)
 {
     struct BbElem *elem = (struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
 
@@ -143,8 +143,8 @@ void func_0204F794(struct BbBoard *board, u32 elemIndex, u32 *flipT)
 /*
  * Halfword store at +0x16 of one 0x1c-byte entry of the descriptor's +8
  * array.  Note +0x16 rather than +0x12/+0x14 - it is the third of the three
- * halfword fields that func_0204F684 and func_0204F6B4's family work on, and
- * it is the follower that makes func_0204F794 EXACT*.
+ * halfword fields that BILLBOARD_SetElemScale and func_0204F6B4's family work on, and
+ * it is the follower that makes BILLBOARD_SetElemFlipT EXACT*.
  *
  * Unlabelled in the generated listing: the prologue saves nothing.  Seeding
  * 0x0204F7C4 in layout/function_starts.txt turns that EXACT* into EXACT; that

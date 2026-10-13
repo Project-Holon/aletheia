@@ -1,5 +1,5 @@
 /*
- * function: func_021DF144
+ * function: BTL_HANDLER_ITEM_GetStickyBarbHandlers
  * address: 0x021DF144
  * packet: pkt_ov093_021DF144
  * region: ov093
@@ -12,7 +12,7 @@
  */
 extern unsigned char d_021F16FC[];
 
-void *func_021DF144(int *p)
+void *BTL_HANDLER_ITEM_GetStickyBarbHandlers(int *p)
 {
     *p = 2;
     return d_021F16FC;

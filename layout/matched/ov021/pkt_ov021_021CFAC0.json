@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CFAC0",
+   "name": "INTRUDE_FindOfferSlotAt",
    "address": "0x021CFAC0",
    "kind": "game",
    "region": "ov021",

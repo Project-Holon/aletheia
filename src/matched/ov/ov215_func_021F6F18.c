@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02047E54 0x02047E54 arm
+ *   G3D_UTIL_Delete 0x02047E54 arm
  */
 #include "../include/Obj04636.h"
 struct Rec;
-extern void func_02047E54(struct Rec *);
-void func_021F6F18(char *p){func_02047E54(*(struct Rec * *)&((struct Obj04636 *)p)->f48);}
+extern void G3D_UTIL_Delete(struct Rec *);
+void func_021F6F18(char *p){G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj04636 *)p)->f48);}

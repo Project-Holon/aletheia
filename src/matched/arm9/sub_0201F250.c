@@ -57,6 +57,7 @@
  *   STRBUF_Clear  0x0204581C  arm
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_AppendChar  0x02045AFC  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  */
 
 typedef unsigned char  u8;
@@ -78,7 +79,7 @@ struct WordSet {
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void STRBUF_Clear(struct U16Vec *vec);
-extern u16  func_02045A98(void);
+extern u16  STRBUF_GetEosChar(void);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
 extern u32   func_0201D5C4(void);
@@ -100,7 +101,7 @@ void func_0201F250(struct WordSet *ws, void *dst, void *src)
 
     p = STRBUF_GetChars(src);
     STRBUF_Clear(dst);
-    term = func_02045A98();
+    term = STRBUF_GetEosChar();
     marker = func_0201D5C4();
     while (p[0] != term) {
         if (p[0] == marker) {

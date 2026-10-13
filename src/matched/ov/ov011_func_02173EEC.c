@@ -11,28 +11,28 @@
  *
  * symbols:
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_IsSendQueueEntryOfHandle  0x0203D578  arm
  *   func_02082D44  0x02082D44  arm
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  */
 
 int INTRUDE_COMM_IsLinked(void);
 struct Entry;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 int GFL_NET_IsSendQueueEntryOfHandle(int a, int b);
 void func_02082D44(char *d, char *s, int n);
 typedef unsigned int   u32;
-u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 int INTRUDE_CMD_SendGroupRecord(char *a, char *b)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
     }
-    if (GFL_NET_IsSendQueueEntryOfHandle((int)func_020399A8(), 0x212) == 1) {
+    if (GFL_NET_IsSendQueueEntryOfHandle((int)GFL_NET_HANDLE_GetCurrentHandle(), 0x212) == 1) {
         return 0;
     }
     func_02082D44(b + 0x78, a + 0x3F0, 0x34);
-    return func_0203D3F8((int)func_020399A8(), 0xFF, 0x212, 0x34, (u32)(a + 0x3F0), 0, 0, 1);
+    return GFL_NET_SendData((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, 0x212, 0x34, (u32)(a + 0x3F0), 0, 0, 1);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02198804",
+   "name": "FLDMMDL_ACMD_JumpLeft2G16F",
    "address": "0x02198804",
    "kind": "game",
    "region": "ov021",

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0215EC2C",
-    "func_0215EC40"
+    "MOVE_POKEMON_CheckDive",
+    "MOVE_POKEMON_CreateDiveEvent"
+   ],
+   "addresses": [
+    "0x0215EC2C",
+    "0x0215EC40"
    ]
   }
  ]

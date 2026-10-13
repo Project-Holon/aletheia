@@ -1,5 +1,5 @@
 /*
- * function: func_021BBBD8
+ * function: UNION_CHAT_LOG_TakeSlot
  * address:  0x021BBBD8
  * packet:   pkt_ov021_021BBBD8
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct Ring {
     int count;
 } Ring;
 
-Entry *func_021BBBD8(Ring *r)
+Entry *UNION_CHAT_LOG_TakeSlot(Ring *r)
 {
     int t;
     Entry *ret;

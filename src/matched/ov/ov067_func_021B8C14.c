@@ -1,5 +1,5 @@
 /*
- * function: func_021B8C14
+ * function: FRAME_LIST_BeginRowDrag
  * address:  0x021B8C14
  * packet:   pkt_ov067_021B8C14
  * region:   ov067
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf following func_021B8B74 (inside its handed extent), called
- * by func_021B806C. The f54 value is a local read before the f70 store:
+ * Unlabelled leaf following FRAME_LIST_StepScrollBarDrag (inside its handed extent), called
+ * by FRAME_LIST_HandleInput. The f54 value is a local read before the f70 store:
  * reading s->f54 inline at each store puts it in r2 instead of r3.
  */
 
@@ -36,7 +36,7 @@ struct S {
     u32 f90;
 };
 
-void func_021B8C14(struct S *s, int a)
+void FRAME_LIST_BeginRowDrag(struct S *s, int a)
 {
     u32 v;
 

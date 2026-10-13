@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B91A8",
+   "name": "FIELD_RAIL_WORK_IsInUse",
    "address": "0x021B91A8",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B9768",
+   "name": "FIELD_RAIL_DebugPrintPos",
    "address": "0x021B9768",
    "kind": "game",
    "region": "ov021",

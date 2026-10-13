@@ -1,5 +1,5 @@
 /*
- * function: func_02169540
+ * function: FIELD_G3D_MAP_SetModelRes
  * address:  0x02169540
  * packet:   pkt_ov010_02169540
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Rec;
 extern void G3D_SYSTEM_InitResourceByKind(struct Rec *rec, u32 mode, u32 value);
 
-void func_02169540(unsigned char *a, unsigned int v)
+void FIELD_G3D_MAP_SetModelRes(unsigned char *a, unsigned int v)
 {
     G3D_SYSTEM_InitResourceByKind(((struct Obj00281 *)a)->f84, 1, v);
 }

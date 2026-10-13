@@ -1,5 +1,5 @@
 /*
- * function: func_02157928
+ * function: DELIVERY_BEACON_RunStep
  * address: 0x02157928
  * packet: pkt_ov010_02157928
  * region: ov010
@@ -9,4 +9,4 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_02157928(u8 *p) { (*(void (**)(u8 *))(p + 0x31bc))(p); }
+void DELIVERY_BEACON_RunStep(u8 *p) { (*(void (**)(u8 *))(p + 0x31bc))(p); }

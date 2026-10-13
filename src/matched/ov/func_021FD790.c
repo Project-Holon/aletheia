@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_021F91DC  0x021F91DC  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
@@ -34,10 +34,10 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_021F91DC(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 
@@ -48,8 +48,8 @@ void func_021FD790(void *bank, Pane *pane, u32 index, void *g)
 
     func_021F91DC(pane->win, (u32)str, 0, 0, 1, 0x3C40, (u32)g);
     win = pane->win;
-    func_02045334(win);
-    func_02045374(win);
+    BMP_WIN_TransferChars(win);
+    BMP_WIN_MakeScreen(win);
     func_020409B4(func_02045730(win));
-    func_02045808(str);
+    STRBUF_Delete(str);
 }

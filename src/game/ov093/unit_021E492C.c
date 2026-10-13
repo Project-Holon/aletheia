@@ -14,7 +14,7 @@
  *
  * symbols:
  *   d_021F2BA0     0x021F2BA0  data   ov093  a4
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7FCC  0x021C7FCC  thumb  ov093
  *   func_021C7FE0  0x021C7FE0  thumb  ov093
  *   func_021C8120  0x021C8120  thumb  ov093
@@ -23,14 +23,14 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021B9B94  0x021B9B94  thumb  ov093
  *   func_021B9C00  0x021B9C00  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021C83CC  0x021C83CC  thumb  ov093
  *   d_021F2744     0x021F2744  data   ov093  a4
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D67B8  0x021D67B8  thumb  ov093
- *   func_021D5778  0x021D5778  thumb  ov093
- *   func_021D5584  0x021D5584  thumb  ov093
+ *   BTL_POKEPARAM_GetLastSelectedMoveId  0x021D67B8  thumb  ov093
+ *   BTL_POKEPARAM_FindMoveSlot  0x021D5778  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePPChecked  0x021D5584  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   d_021F273C     0x021F273C  data   ov093  a4
  *   d_021F25BC     0x021F25BC  data   ov093  a4
@@ -55,7 +55,7 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern u8 *func_021C7FCC(u8 *s, int k);
 extern char *func_021C7FE0(u8 *p, int v);
 extern u8 *func_021C8120(u8 *s, int k);
@@ -64,13 +64,13 @@ extern void func_021C8838(void *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D62A8(struct Unk021D62A8 *p);
-extern u8 func_021D5440(u8 *p);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern u32 func_021C83CC(u8 *p);
 extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D67B8(u8 *q);
-extern int func_021D5778(u8 *q, int w);
-extern u8 func_021D5584(struct UtilWork *p, u32 i);
+extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *q);
+extern int BTL_POKEPARAM_FindMoveSlot(u8 *q, int w);
+extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
 extern void func_021C8860(struct S *p, u32 val);
 void func_021E492C(int a, u8 *b, int c, int d);
 int *func_021E493C(int *p);
@@ -131,7 +131,7 @@ void func_021E4958(int a0, u8 *s, int k, int a3, u16 x)
     u8 n;
     u8 i;
 
-    if (k == func_021D775C(3)) {
+    if (k == BTL_EVENT_GetVar(3)) {
         a = func_021C7FCC(s, k);
         b = (int)func_021C7FE0(s, k);
         p = func_021C8120(s, 12);
@@ -170,8 +170,8 @@ u8 func_021E4A08(u8 *x, u8 idx, u8 lim, u8 *buf)
         if (idx >= lim)
             break;
         h = func_021B9C00((struct S2 *)x, i);
-        if (func_021D62A8((struct Unk021D62A8 *)h) != 0) {
-            buf[idx] = func_021D5440(h);
+        if (BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)h) != 0) {
+            buf[idx] = BTL_POKEPARAM_GetPokeId(h);
             idx = idx + 1;
             j = j + 1;
         }
@@ -205,8 +205,8 @@ void func_021E4A70(int u, int a, int b)
     int t;
     u8 *s;
 
-    if (b == func_021D775C(3)) {
-        k = func_021D775C(6);
+    if (b == BTL_EVENT_GetVar(3)) {
+        k = BTL_EVENT_GetVar(6);
         w = func_021C83CC((u8 *)a);
         e = E_ONE;
         s = func_021C88A4((char *)a, 0xe, b);
@@ -251,13 +251,13 @@ void func_021E4B00(int a0, u8 *s, int k)
     u8 n;
     u8 *e;
 
-    if (k == func_021D775C(3)) {
-        v = func_021D775C(6);
+    if (k == BTL_EVENT_GetVar(3)) {
+        v = BTL_EVENT_GetVar(6);
         q = func_021C7CF4((int *)s, v);
-        w = func_021D67B8(q);
-        t = func_021D5778(q, w);
+        w = BTL_POKEPARAM_GetLastSelectedMoveId(q);
+        t = BTL_POKEPARAM_FindMoveSlot(q, w);
         if (t != 4) {
-            n = (int)func_021D5584((struct UtilWork *)q, (int)t);
+            n = (int)BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)q, (int)t);
             if (n > 4)
                 n = 4;
             if (n != 0) {

@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B639C 0x021B639C thumb ov067
+ *   TOUCHBAR_Delete 0x021B639C thumb ov067
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021B639C(u8 *);
+extern void TOUCHBAR_Delete(u8 *);
 void func_021B9888(u8 *p)
 {
-    func_021B639C(p);
+    TOUCHBAR_Delete(p);
 }

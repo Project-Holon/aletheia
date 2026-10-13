@@ -1,5 +1,5 @@
 /*
- * function: func_02010F18
+ * function: GPOWER_GetExpiringPowerId
  * address:  0x02010F18
  * packet:   pkt_02010F18
  * region:   arm9
@@ -27,7 +27,7 @@ typedef enum { SLOT_0 = 0, SLOT_MAX = 13 } Slot;
 extern u32 g_021461E8[];
 extern u8 g_0214621C[];
 
-u8 func_02010F18(void)
+u8 GPOWER_GetExpiringPowerId(void)
 {
     Slot i;
 

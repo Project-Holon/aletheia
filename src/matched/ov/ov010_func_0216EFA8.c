@@ -1,5 +1,5 @@
 /*
- * function: func_0216EFA8
+ * function: EVENT_BATTLE_IsResultSilent
  * address:  0x0216EFA8
  * packet:   pkt_ov010_0216EFA8
  * region:   ov010
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern u8 d_021725D8[][5];
 
-int func_0216EFA8(int a, int b)
+int EVENT_BATTLE_IsResultSilent(int a, int b)
 {
     if (b == 4)
         return 0;

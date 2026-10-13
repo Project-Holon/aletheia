@@ -1,5 +1,5 @@
 /*
- * function: func_021EF664
+ * function: BTL_MSG_BuildPlainEntry
  * address:  0x021EF664
  * packet:   pkt_ov093_021EF664
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F6398  0x021F6398  data  a4
- *   func_02045CAC  0x02045CAC  arm
+ *   gBtlMsgState  0x021F6398  data  a4
+ *   MSGDATA_ReadString  0x02045CAC  arm
  */
 
 typedef unsigned char u8;
@@ -26,11 +26,11 @@ typedef struct {
     u32 t[8];
 } D;
 
-extern D d_021F6398;
+extern D gBtlMsgState;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
-void func_021EF664(int a, u16 b, int c)
+void BTL_MSG_BuildPlainEntry(int a, u16 b, int c)
 {
     u16 k;
 
@@ -40,6 +40,6 @@ void func_021EF664(int a, u16 b, int c)
             k = k + 1;
         else
             k = k + 2;
-        func_02045CAC((struct MsgBank *)d_021F6398.t[7], k, (void *)a);
+        MSGDATA_ReadString((struct MsgBank *)gBtlMsgState.t[7], k, (void *)a);
     }
 }

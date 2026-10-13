@@ -1,5 +1,5 @@
 /*
- * function: func_021BB778
+ * function: FLDEFF_GYOE_PlaySe
  * address:  0x021BB778
  * packet:   pkt_ov021_021BB778
  * region:   ov021
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 void func_020061E4(u32 a);
 
-void func_021BB778(int n)
+void FLDEFF_GYOE_PlaySe(int n)
 {
     int id = 0;
 

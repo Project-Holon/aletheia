@@ -24,8 +24,8 @@
  *   MCSS_SetPosition  0x02015C48  thumb
  *   MCSS_GetScale  0x02015C94  thumb
  *   MCSS_SetScale  0x02015CAC  thumb
- *   func_020515CC  0x020515CC  arm
- *   func_0202208C  0x0202208C  thumb
+ *   PARTICLE_StartEffectWithCallback  0x020515CC  arm
+ *   WIPE_SYS_Start  0x0202208C  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_021E71F0  0x021E71F0  thumb  ov119
  *   func_021E7208  0x021E7208  thumb  ov119
@@ -69,8 +69,8 @@ extern void MCSS_GetPosition(void *p, u32 *out);
 extern void MCSS_SetPosition(u32, Vec *);
 extern void MCSS_GetScale(u32, Vec *);
 extern void MCSS_SetScale(u32, void *);
-extern int func_020515CC(u32, int, void *, void *);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern int PARTICLE_StartEffectWithCallback(u32, int, void *, void *);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_020307B0(u32);
 extern void func_021E71F0(void *, int);
 extern void func_021E7208(void *, int);
@@ -114,37 +114,37 @@ void func_021D4C40(u8 *p)
         MCSS_SetVanishFlag(OBJ(0));
     }
     if (FRAME == func_021D4480(0x356)) {
-        func_020515CC(WORK[0], 10, 0, p);
+        PARTICLE_StartEffectWithCallback(WORK[0], 10, 0, p);
     }
     if (FRAME == func_021D4480(0x65)) {
-        func_020515CC(WORK[1], 1, 0, p);
+        PARTICLE_StartEffectWithCallback(WORK[1], 1, 0, p);
     }
     if (FRAME == func_021D4480(0x9A)) {
-        func_020515CC(WORK[2], 2, 0, p);
+        PARTICLE_StartEffectWithCallback(WORK[2], 2, 0, p);
     }
     if (FRAME == func_021D4480(0x356)) {
-        func_020515CC(WORK[8], 2, 0, p);
+        PARTICLE_StartEffectWithCallback(WORK[8], 2, 0, p);
     }
     if (FRAME == func_021D4480(0xE)) {
-        func_020515CC(WORK[3], 3, 0, p);
+        PARTICLE_StartEffectWithCallback(WORK[3], 3, 0, p);
     }
     if (FRAME == func_021D4480(0x483)) {
-        func_020515CC(WORK[7], 3, 0, p);
+        PARTICLE_StartEffectWithCallback(WORK[7], 3, 0, p);
     }
     if (FRAME == func_021D4480(0x9A)) {
-        func_020515CC(WORK[4], 4, func_021D4A34, p);
+        PARTICLE_StartEffectWithCallback(WORK[4], 4, func_021D4A34, p);
     }
     if (FRAME == func_021D4480(0x152)) {
-        func_020515CC(WORK[5], 5, 0, p);
+        PARTICLE_StartEffectWithCallback(WORK[5], 5, 0, p);
     }
     if (FRAME == func_021D4480(0x2BC)) {
-        func_020515CC(WORK[6], 6, func_021D4A94, p);
+        PARTICLE_StartEffectWithCallback(WORK[6], 6, func_021D4A94, p);
     }
     if (FRAME == func_021D4480(0x47F)) {
         func_021D434C(p);
     }
     if (FRAME == func_021D4480(0x10A)) {
-        func_0202208C(0, 0, 0, 0x7FFF, func_021D4480(0x14), 1, HEAP);
+        WIPE_SYS_Start(0, 0, 0, 0x7FFF, func_021D4480(0x14), 1, HEAP);
     }
     if (FRAME == func_021D4480(0x12D) - 2) {
         if (SLOT0 != 0) {
@@ -294,16 +294,16 @@ void func_021D4C40(u8 *p)
         MCSS_SetPaletteFade(OBJ(3), 0, 0, 0, 0x7FFF);
     }
     if (FRAME == func_021D4480(0x28B)) {
-        func_0202208C(0, 0, 0, 0x7FFF, func_021D4480(0xA), 1, HEAP);
+        WIPE_SYS_Start(0, 0, 0, 0x7FFF, func_021D4480(0xA), 1, HEAP);
     }
     if (FRAME == func_021D4480(0x2B5)) {
-        func_0202208C(0, 1, 1, 0x7FFF, func_021D4480(0x19), 1, HEAP);
+        WIPE_SYS_Start(0, 1, 1, 0x7FFF, func_021D4480(0x19), 1, HEAP);
     }
     if (FRAME == func_021D4480(0x380)) {
-        func_0202208C(0, 0, 0, 0x7FFF, func_021D4480(0x1E), 1, HEAP);
+        WIPE_SYS_Start(0, 0, 0, 0x7FFF, func_021D4480(0x1E), 1, HEAP);
     }
     if (FRAME == func_021D4480(0x3CA)) {
-        func_0202208C(0, 1, 1, 0x7FFF, func_021D4480(0x1E), 1, HEAP);
+        WIPE_SYS_Start(0, 1, 1, 0x7FFF, func_021D4480(0x1E), 1, HEAP);
     }
     if (FRAME == func_021D4480(0x4C1)) {
         func_020307B0(SLOT0);

@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C830C  0x021C830C  thumb  ov093
- *   func_021E8860  0x021E8860  thumb  ov093
+ *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern unsigned int func_021C830C(u8 *p);
-extern void func_021E8860(int a);
+extern void BTLV_CORE_EventScaleDamage(int a);
 
 void func_021E1D9C(int u, void *a, int b)
 {
-    if (b == func_021D775C(3)) {
+    if (b == BTL_EVENT_GetVar(3)) {
         if (func_021C830C(a) != 0)
-            func_021E8860(2);
+            BTLV_CORE_EventScaleDamage(2);
     }
 }

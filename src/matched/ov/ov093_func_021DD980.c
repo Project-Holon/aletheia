@@ -1,5 +1,5 @@
 /*
- * function: func_021DD980
+ * function: BTL_ITEM_GetRaiseRandomStatHandlers
  * address: 0x021DD980
  * packet: pkt_ov093_021DD980
  * region: ov093
@@ -12,17 +12,17 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DD87C.c and filed here.
  *
  * symbols:
- *   d_021F1DBC 0x021F1DBC data ov093 a4
+ *   gBtlItemRaiseRandomStatHandlers 0x021F1DBC data ov093 a4
  */
 
-int *func_021DD980(int *p);
-extern int d_021F1DBC[];
+int *BTL_ITEM_GetRaiseRandomStatHandlers(int *p);
+extern int gBtlItemRaiseRandomStatHandlers[];
 
 /*
  * extent: two bytes of zero alignment padding after the return.
  */
-int *func_021DD980(int *p)
+int *BTL_ITEM_GetRaiseRandomStatHandlers(int *p)
 {
     *p = 5;
-    return d_021F1DBC;
+    return gBtlItemRaiseRandomStatHandlers;
 }

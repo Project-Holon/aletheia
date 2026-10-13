@@ -1,5 +1,5 @@
 /*
- * function: func_021D88E8
+ * function: BTL_CALC_SlowStartHalveSpeed
  * address: 0x021D88E8
  * packet: pkt_ov093_021D88E8
  * region: ov093
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D7704 0x021D7704 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
  */
-extern int func_021D775C(int);
-extern void func_021D7704(int,int);
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_EVENT_MultiplyVar(int,int);
 
-void func_021D88E8(int a, int b, int c, int *d)
+void BTL_CALC_SlowStartHalveSpeed(int a, int b, int c, int *d)
 {
-    int k=2; if(c==func_021D775C(k) && d[3]!=0) func_021D7704(0x35,k<<10);
+    int k=2; if(c==BTL_EVENT_GetVar(k) && d[3]!=0) BTL_EVENT_MultiplyVar(0x35,k<<10);
 }

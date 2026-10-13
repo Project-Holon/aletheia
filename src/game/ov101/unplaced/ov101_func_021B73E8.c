@@ -12,14 +12,14 @@
  * Frees the seven pointers in the array at offset 8 of the argument.
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Obj;
-void func_0204B3B4(struct Obj *p);
+void CLACT_DeleteActor(struct Obj *p);
 
 void func_021B73E8(void *p)
 {
@@ -27,6 +27,6 @@ void func_021B73E8(void *p)
 
     for (i = 0; i < 7; i++) {
         if (*(void **)((char *)p + i * 4 + 8))
-            func_0204B3B4(*(void **)((char *)p + i * 4 + 8));
+            CLACT_DeleteActor(*(void **)((char *)p + i * 4 + 8));
     }
 }

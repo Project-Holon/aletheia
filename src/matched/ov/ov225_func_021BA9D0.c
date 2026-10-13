@@ -11,7 +11,7 @@
  * argument: 02061CA4 third input is p+4c, represented as void * rather than own u32 payload; integer cast CSE adds r5.
  * symbols:
  *   func_020414AC 0x020414AC arm
- *   func_02027F60 0x02027F60 thumb
+ *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02061CA4 0x02061CA4 arm
  *   func_021BB088 0x021BB088 thumb ov225
  *   func_020355C4 0x020355C4 arm
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 struct R;
 struct Obj;
 extern void func_020414AC(unsigned);
-extern struct R *func_02027F60(u16, u16, unsigned, unsigned, u16);
+extern struct R *APP_TASKMENU_RES_Create(u16, u16, unsigned, unsigned, u16);
 extern int func_02061CA4(void *, unsigned, void *, int);
 extern void func_021BB088(char *);
 extern u8 func_020355C4(void);
@@ -36,7 +36,7 @@ extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
 void func_021BA9D0(char *p)
 {
     func_020414AC(5);
-    *(struct R * *)&((struct Obj00074 *)p)->f8 = func_02027F60(5, 4, ((struct Obj26197 *)(*(char * *)&((struct Obj00074 *)p)->f4))->fC, ((struct Obj26198 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f14, ((struct Obj26199 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    *(struct R * *)&((struct Obj00074 *)p)->f8 = APP_TASKMENU_RES_Create(5, 4, ((struct Obj26197 *)(*(char * *)&((struct Obj00074 *)p)->f4))->fC, ((struct Obj26198 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f14, ((struct Obj26199 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     ((struct Obj00074 *)p)->f4C = 0x1ce7;
     func_02061CA4((void *)31, 154, p + 0x4c, 2);
     func_02061CA4((void *)31, 186, p + 0x4c, 2);

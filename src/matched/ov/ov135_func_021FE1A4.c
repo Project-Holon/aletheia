@@ -13,6 +13,7 @@
  *   func_021FF318 0x021FF318 thumb ov135
  *   func_0207D55C 0x0207D55C arm
  *   func_021F4E98 0x021F4E98 thumb ov135
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  */
 #include "../include/Obj00018.h"
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_021FF318(u8 *p, u32 k, int b, int c, int d);
 extern int func_0207D55C(volatile u16 *reg);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
 int func_021FE1A4(unsigned char *p)
 {
@@ -37,7 +38,7 @@ int func_021FE1A4(unsigned char *p)
         else
             func_021FF318(p, 8, 1, 0, 0xf0f);
         if (func_0207D55C((u16 *)0x0400006c) == -16) {
-            func_0202208C(0, 1, 1, 0, 16, 1, 0x48);
+            WIPE_SYS_Start(0, 1, 1, 0, 16, 1, 0x48);
             *(int *)&((struct Obj00018 *)p)->f28 = 33;
         } else {
             *(int *)&((struct Obj00018 *)p)->f28 = 1;

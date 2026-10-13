@@ -1,5 +1,5 @@
 /*
- * function: func_021F1000
+ * function: C_GEAR_GetFadeRequestBits
  * address:  0x021F1000
  * packet:   pkt_ov029_021F1000
  * region:   ov029
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-int func_021F1000(char *p)
+int C_GEAR_GetFadeRequestBits(char *p)
 {
     return PALANM_GetFadeRequestBits((const char *)(((struct Obj20391 *)p)->f210));
 }

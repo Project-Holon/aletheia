@@ -11,7 +11,7 @@
  *
  * bmp.c fill worker, 4bpp tiled plotted through a HALFWORD read-modify-
  * write (the pixel's byte is halfword-aligned downward, merged, and the
- * pair stored back with strh).  Reached from func_02043AF4.
+ * pair stored back with strh).  Reached from BMP_FillRect.
  *
  * Levers (2026-09-22, wave 10), each measured:
  *   - the address is the family's single integer sum over (u32)s->pixels

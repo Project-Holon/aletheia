@@ -1,5 +1,5 @@
 /*
- * function: func_021E8AC8
+ * function: BTLV_CORE_SetSlotPosition
  * address:  0x021E8AC8
  * packet:   pkt_ov093_021E8AC8
  * region:   ov093
@@ -21,7 +21,7 @@ union Slot {
     struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 rest : 17; } s;
 };
 
-void func_021E8AC8(union Slot *p, u8 v)
+void BTLV_CORE_SetSlotPosition(union Slot *p, u8 v)
 {
     if (p->s.kind == 3)
         p->s.lo = v;

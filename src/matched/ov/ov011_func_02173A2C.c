@@ -1,5 +1,5 @@
 /*
- * function: func_02173A2C
+ * function: INTRUDE_COMM_SendRequest
  * address:  0x02173A2C
  * packet:   pkt_ov011_02173A2C
  * region:   ov011
@@ -12,16 +12,16 @@
  * symbols:
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
  *   func_02082BCC  0x02082BCC  arm
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  */
 
 int INTRUDE_COMM_IsLinked(void);
 void func_02082BCC(void *p, int v, int n);
 struct Entry;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 typedef struct T {
     int w[13];
@@ -34,7 +34,7 @@ typedef struct B {
     T t;
 } B;
 
-int func_02173A2C(unsigned char *p, int b, T *c, int d)
+int INTRUDE_COMM_SendRequest(unsigned char *p, int b, T *c, int d)
 {
     B buf;
     int r;
@@ -49,7 +49,7 @@ int func_02173A2C(unsigned char *p, int b, T *c, int d)
     buf.a = d;
     buf.t = *c;
     buf.b = p[0x944];
-    r = func_0203D3F8((int)func_020399A8(), (unsigned char)b, 0x207, 0x38, (u32)(&buf), 0, 0, 0);
+    r = GFL_NET_SendData((int)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)b, 0x207, 0x38, (u32)(&buf), 0, 0, 0);
     if (r == 1) {
         p[0x158] = p[0x944];
         p[0x159] = p[0x944];

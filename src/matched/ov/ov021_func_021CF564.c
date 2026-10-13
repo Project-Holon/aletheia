@@ -1,5 +1,5 @@
 /*
- * function: func_021CF564
+ * function: ENCEFF_LoadOverlay
  * address:  0x021CF564
  * packet:   pkt_ov021_021CF564
  * region:   ov021
@@ -26,7 +26,7 @@ typedef struct Res021CF {
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 
-void func_021CF564(Res021CF *r, u32 id)
+void ENCEFF_LoadOverlay(Res021CF *r, u32 id)
 {
     func_02034AC4(id);
     r->ids[r->n++] = id;

@@ -1,5 +1,5 @@
 /*
- * function: func_021AD3FC
+ * function: FLDEFF_NAMIPOKE_SPLASH_Delete
  * address:  0x021AD3FC
  * packet:   pkt_021AD3FC
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021AD530  0x021AD530  thumb  ov021
+ *   FLDEFF_NAMIPOKE_SPLASH_FreeResources  0x021AD530  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 struct X;
-extern void func_021AD530(struct X *x);
+extern void FLDEFF_NAMIPOKE_SPLASH_FreeResources(struct X *x);
 extern u32 func_020307B0(void *p);
 
-void func_021AD3FC(u32 a, u8 *p)
+void FLDEFF_NAMIPOKE_SPLASH_Delete(u32 a, u8 *p)
 {
-    func_021AD530((struct X *)p);
+    FLDEFF_NAMIPOKE_SPLASH_FreeResources((struct X *)p);
     func_020307B0(p);
 }

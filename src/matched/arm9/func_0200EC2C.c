@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045994  0x02045994  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  *
  * One record of a 0x3c-byte table copied into a destination object.
  *
@@ -74,7 +74,7 @@ struct Dst0200EC2C {
 };
 
 struct Strbuf;
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
 void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst)
 {
@@ -88,8 +88,8 @@ void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *
     dst->f13a = s->f03a;
     dst->f13b = s->f03b;
 
-    func_02045994(dst->p00, (const u16 *)s->f0C, 0xb);
-    func_02045994(dst->p04, (const u16 *)s->f22, 8);
+    STRBUF_SetStringN(dst->p00, (const u16 *)s->f0C, 0xb);
+    STRBUF_SetStringN(dst->p04, (const u16 *)s->f22, 8);
 
     for (i = 0; i < 4; i++)
         dst->f14[i] = s->f32[i];

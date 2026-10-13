@@ -11,20 +11,20 @@
  * extent: two bytes of trailing alignment padding.
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D6440 0x021D6440 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D5B68(void *);
-extern void func_021D6440(u8 *p, u32 n);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern void BTL_POKEPARAM_ClearTurnFlag(u8 *p, u32 n);
 int func_021C9750(u8 *p, u8 *q)
 {
     u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[8]);
-    if (!func_021D5B68(a)) {
-        func_021D6440(a, *(u32 *)(q + 4));
+    if (!BTL_POKEPARAM_IsFainted(a)) {
+        BTL_POKEPARAM_ClearTurnFlag(a, *(u32 *)(q + 4));
         return 1;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217F268
+ * function: UNION_MSG_SelectYesNo
  * address:  0x0217F268
  * packet:   pkt_ov019_0217F268
  * region:   ov019
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02034714  0x02034714  arm
- *   func_02190C78  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
  *   d_021807F8     0x021807F8  data   ov019 a4
  * Addresses are Black-image addresses.
  */
@@ -23,17 +23,17 @@ typedef unsigned int   u32;
 
 extern void func_02034714(const char *a, u32 b, const char *c);
 struct Handle;
-extern int func_02190C78(struct Handle *h);
+extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
 extern u32 d_021807F8[];
 
-int func_0217F268(char *p, u32 *out)
+int UNION_MSG_SelectYesNo(char *p, u32 *out)
 {
     int r;
 
     if (*(u32 *)&((struct Obj00033 *)p)->f2814 == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    r = func_02190C78((struct Handle *)(*(u32 *)(p + 0x2814)));
+    r = FIELD_MSGBG_YesNoMenuMain((struct Handle *)(*(u32 *)(p + 0x2814)));
     if (r == 2) {
         return 0;
     }

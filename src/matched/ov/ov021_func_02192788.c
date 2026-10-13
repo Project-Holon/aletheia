@@ -1,5 +1,5 @@
 /*
- * function: func_02192788
+ * function: FIELD_MSGBG_CreateCursor
  * address:  0x02192788
  * packet:   pkt_ov021_02192788
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm  arm9
- *   func_021927C0  0x021927C0  thumb  ov021
+ *   FIELD_MSGBG_InitCursor  0x021927C0  thumb  ov021
  *   d_021DDA50     0x021DDA50  data   ov021  a1
  * Addresses are Black-image addresses.
  */
@@ -37,11 +37,11 @@ typedef struct G {
 extern char d_021DDA50[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021927C0(G *g, Fx *a);
+extern void FIELD_MSGBG_InitCursor(G *g, Fx *a);
 
-G *func_02192788(Fx *a)
+G *FIELD_MSGBG_CreateCursor(Fx *a)
 {
     G *g = func_02030734(a->f00, 8, 1, d_021DDA50, 0x1202);
-    func_021927C0(g, a);
+    FIELD_MSGBG_InitCursor(g, a);
     return g;
 }

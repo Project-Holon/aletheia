@@ -1,5 +1,5 @@
 /*
- * function: func_0217BD80
+ * function: UNION_ONESELF_FieldExitMain
  * address: 0x0217BD80
  * packet: pkt_ov019_0217BD80
  * region: ov019
@@ -14,7 +14,7 @@
 
 typedef unsigned char u8;
 
-int func_0217BD80(u8 *p, int b, int c, u8 *q)
+int UNION_ONESELF_FieldExitMain(u8 *p, int b, int c, u8 *q)
 {
     if (*q == 0) {
         *(int *)(p + 0x3568) = 1;

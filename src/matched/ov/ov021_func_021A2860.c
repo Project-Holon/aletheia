@@ -1,5 +1,5 @@
 /*
- * function: func_021A2860
+ * function: WEATHER_TASK_InitBillboards
  * address:  0x021A2860
  * packet:   pkt_ov021_021A2860
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A2A18  0x021A2A18  thumb  ov021
+ *   WEATHER_TASK_InitBillboard  0x021A2A18  thumb  ov021
  */
 
 typedef struct {
@@ -27,13 +27,13 @@ typedef struct {
     char sub[4];
 } Obj;
 
-void func_021A2A18(void *a, int i, int v, void *p, int x);
+void WEATHER_TASK_InitBillboard(void *a, int i, int v, void *p, int x);
 
-void func_021A2860(Obj *o, int x)
+void WEATHER_TASK_InitBillboards(Obj *o, int x)
 {
     int i;
 
     for (i = 0; i < o->hdr->count; i++) {
-        func_021A2A18(o->sub, i, o->arr[i], (char *)o->hdr + 0xe + i * 12, x);
+        WEATHER_TASK_InitBillboard(o->sub, i, o->arr[i], (char *)o->hdr + 0xe + i * 12, x);
     }
 }

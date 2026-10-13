@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A28CC",
+   "name": "WEATHER_TASK_AllocParticles",
    "address": "0x021A28CC",
    "kind": "game",
    "region": "ov021",

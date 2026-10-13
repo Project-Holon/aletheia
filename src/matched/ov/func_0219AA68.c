@@ -1,5 +1,5 @@
 /*
- * function: func_0219AA68
+ * function: FLDMMDL_MOVECODE_InitRoutePatrolRoute0E
  * address:  0x0219AA68
  * packet:   pkt_0219AA68
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Calls func_0219AA38(its own argument 1, 0x2, 0x0, 0xe) and returns nothing.
+ * Calls FLDMMDL_MOVECODE_InitRoutePatrol(its own argument 1, 0x2, 0x0, 0xe) and returns nothing.
  *
  * symbols:
- *   func_0219AA38  0x0219AA38  thumb
+ *   FLDMMDL_MOVECODE_InitRoutePatrol  0x0219AA38  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_0219AA38(u32 a1, u32 a2, u32 a3, u32 a4);
+extern void FLDMMDL_MOVECODE_InitRoutePatrol(u32 a1, u32 a2, u32 a3, u32 a4);
 
-void func_0219AA68(u32 a1)
+void FLDMMDL_MOVECODE_InitRoutePatrolRoute0E(u32 a1)
 {
-    func_0219AA38(a1, 0x2, 0x0, 0xe);
+    FLDMMDL_MOVECODE_InitRoutePatrol(a1, 0x2, 0x0, 0xe);
 }
 

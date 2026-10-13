@@ -1,5 +1,5 @@
 /*
- * function: func_021D4D84
+ * function: BTL_POKEPARAM_Create
  * address:  0x021D4D84
  * packet:   pkt_ov093_021D4D84
  * region:   ov093
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * 2026-10-03 (wave B3 lane 03): EXACT. func_021D7D18 returns a one-word
+ * 2026-10-03 (wave B3 lane 03): EXACT. BTL_CALC_MakeDefaultSickCont returns a one-word
  * union by value (as in its own matched definition). That return reserves
  * the frame word (push r4-r6 + sub sp,#8) and also stops mwcc from deriving
  * 0x272 from the hoisted 0x1f8 and 0x143 from the argument 0x9e, which was
@@ -21,12 +21,12 @@
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02019C90  0x02019C90  thumb
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
- *   func_021D4EFC  0x021D4EFC  thumb  ov093
- *   func_021D4F84  0x021D4F84  thumb  ov093
- *   func_021D53C0  0x021D53C0  thumb  ov093
- *   func_021D63B8  0x021D63B8  thumb  ov093
- *   func_021D7D18  0x021D7D18  thumb  ov093
- *   func_021D67F4  0x021D67F4  thumb  ov093
+ *   BTL_POKEPARAM_ReloadFromMon  0x021D4EFC  thumb  ov093
+ *   BTL_POKEPARAM_LoadMoves  0x021D4F84  thumb  ov093
+ *   BTL_POKEPARAM_InitStatStages  0x021D53C0  thumb  ov093
+ *   BTL_POKEPARAM_ClearSickConts  0x021D63B8  thumb  ov093
+ *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
+ *   BTL_POKEPARAM_ClearHitHistory  0x021D67F4  thumb  ov093
  *   func_021D6DC4  0x021D6DC4  thumb  ov093
  *   d_021F3AA4     0x021F3AA4  data  a1
  */
@@ -84,15 +84,15 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02019C90(u16, u16, u32);
 extern u32 POKE_TOOL_GetStatusCondition(void *);
-extern void func_021D4EFC(S *, void *, u32, u32);
-extern int func_021D4F84(u8 *p, void *h, int reset);
-extern void func_021D53C0(u8 *);
-extern void func_021D63B8(u8 *p, int all);
-extern union Slot func_021D7D18(int);
-extern void func_021D67F4(u8 *p);
+extern void BTL_POKEPARAM_ReloadFromMon(S *, void *, u32, u32);
+extern int BTL_POKEPARAM_LoadMoves(u8 *p, void *h, int reset);
+extern void BTL_POKEPARAM_InitStatStages(u8 *);
+extern void BTL_POKEPARAM_ClearSickConts(u8 *p, int all);
+extern union Slot BTL_CALC_MakeDefaultSickCont(int);
+extern void BTL_POKEPARAM_ClearHitHistory(u8 *p);
 extern void func_021D6DC4(u8 *p);
 extern const char d_021F3AA4[];
-S *func_021D4D84(void *a, u8 b, u32 c)
+S *BTL_POKEPARAM_Create(void *a, u8 b, u32 c)
 {
     S *p;
     u32 n;
@@ -114,14 +114,14 @@ S *func_021D4D84(void *a, u8 b, u32 c)
     p->f16 = func_02017E1C(a, 0xa, 0);
     p->f18 = func_02017E1C(a, 0x9e, 0);
     p->f1a = func_02019C90(p->f0c, p->lo, 1);
-    func_021D4EFC(p, a, 1, 1);
-    p->f140 = func_021D4F84((u8 *)p, a, 1);
+    BTL_POKEPARAM_ReloadFromMon(p, a, 1, 1);
+    p->f140 = BTL_POKEPARAM_LoadMoves((u8 *)p, a, 1);
     p->f143 = 0;
-    func_021D53C0(p->f0fc);
-    func_021D63B8((u8 *)p, 1);
+    BTL_POKEPARAM_InitStatStages(p->f0fc);
+    BTL_POKEPARAM_ClearSickConts((u8 *)p, 1);
     n = POKE_TOOL_GetStatusCondition(a);
     if (n != 0) {
-        p->w1c[n] = func_021D7D18(n);
+        p->w1c[n] = BTL_CALC_MakeDefaultSickCont(n);
         *((u8 *)p + 0xac + n) = 0;
     }
     p->f148 = 10000;
@@ -136,7 +136,7 @@ S *func_021D4D84(void *a, u8 b, u32 c)
     p->f142 = 0;
     MI_CpuFill8(p->f153, 0, sizeof(p->f153));
     MI_CpuFill8(p->f155, 0, sizeof(p->f155));
-    func_021D67F4((u8 *)p);
+    BTL_POKEPARAM_ClearHitHistory((u8 *)p);
     func_021D6DC4((u8 *)p);
     return p;
 }

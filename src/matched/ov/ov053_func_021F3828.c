@@ -1,5 +1,5 @@
 /*
- * function: func_021F3828
+ * function: GIMMICK53_CreateSoundObjs
  * address:  0x021F3828
  * packet:   pkt_ov053_021F3828
  * region:   ov053
@@ -11,20 +11,20 @@
  * note:     the five-word loop stores 0 (copied once from the zero in r4), not i.
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_02012134  0x02012134  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   func_0202B57C  0x0202B57C  thumb
- *   func_02048F60  0x02048F60  arm
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021C4D14  0x021C4D14  thumb  ov021
- *   func_021C4D7C  0x021C4D7C  thumb  ov021
- *   func_021C4DC0  0x021C4DC0  thumb  ov021
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   SOUND_OBJ_Create  0x021C4D14  thumb  ov021
+ *   SOUND_OBJ_CreateNoSource  0x021C4D7C  thumb  ov021
+ *   SOUND_OBJ_SetAnime  0x021C4DC0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
- *   func_021F3978  0x021F3978  thumb  ov053
- *   func_021F39BC  0x021F39BC  thumb  ov053
- *   func_021F3B30  0x021F3B30  thumb  ov053
+ *   GIMMICK53_LoadWaitLimits  0x021F3978  thumb  ov053
+ *   GIMMICK53_LoadBgmFade  0x021F39BC  thumb  ov053
+ *   GIMMICK53_ClearSlideSe  0x021F3B30  thumb  ov053
  */
 
 typedef unsigned short u16;
@@ -45,23 +45,23 @@ typedef struct O {
 } O;
 
 typedef unsigned char  u8;
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern unsigned int func_02012134(unsigned int *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern unsigned int GAMESYSTEM_GetIssSystem(unsigned int *p);
 extern unsigned int func_0202B57C(void *obj);
 typedef unsigned int   u32;
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void *func_021C4D14(int a, int b, int c, int d, int e);
-extern int func_021C4D7C(int, int);
-extern void func_021C4DC0(int, int, int, int);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
+extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
+extern void *SOUND_OBJ_Create(int a, int b, int c, int d, int e);
+extern int SOUND_OBJ_CreateNoSource(int, int);
+extern void SOUND_OBJ_SetAnime(int, int, int, int);
 extern u32 func_020307B0(void *p);
-extern void func_021F3978(char *a);
-extern void func_021F39BC(char *a);
-extern void func_021F3B30(void *);
+extern void GIMMICK53_LoadWaitLimits(char *a);
+extern void GIMMICK53_LoadBgmFade(char *a);
+extern void GIMMICK53_ClearSlideSe(void *);
 
-void func_021F3828(O *o, u32 q)
+void GIMMICK53_CreateSoundObjs(O *o, u32 q)
 {
     int i;
     int a;
@@ -71,36 +71,36 @@ void func_021F3828(O *o, u32 q)
     int *p;
     int r;
 
-    a = func_02188C84((u8 *)q);
-    t8 = func_02188D2C((int *)q);
+    a = FIELDMAP_GetHeapId((u8 *)q);
+    t8 = FIELDMAP_GetExpObj((int *)q);
     i = 0;
     o->h0 = a;
     o->f64 = 0;
-    o->f4 = func_0202B57C((void *)func_02012134((unsigned int *)func_02188C80((void *)q)));
-    p = func_02048F60(0x94, 1, a);
-    s0 = (int)func_021C4D14(q, func_021BE480((char *)t8, 0, 0), 8, p[0] << 12, p[1]);
-    func_021C4DC0(s0, 0x94, 3, 10);
+    o->f4 = func_0202B57C((void *)GAMESYSTEM_GetIssSystem((unsigned int *)FIELDMAP_GetGameSystem((void *)q)));
+    p = ARC_TOOL_LoadMember(0x94, 1, a);
+    s0 = (int)SOUND_OBJ_Create(q, FLD_EXP_OBJ_GetModelStatus((char *)t8, 0, 0), 8, p[0] << 12, p[1]);
+    SOUND_OBJ_SetAnime(s0, 0x94, 3, 10);
     o->f8 = s0;
     func_020307B0(p);
-    r = func_021C4D7C(q, func_021BE480((char *)t8, 0, 1));
-    func_021C4DC0(r, 0x94, 5, 10);
+    r = SOUND_OBJ_CreateNoSource(q, FLD_EXP_OBJ_GetModelStatus((char *)t8, 0, 1));
+    SOUND_OBJ_SetAnime(r, 0x94, 5, 10);
     o->fc = r;
-    p = func_02048F60(0x94, 6, a);
-    s1 = (int)func_021C4D14(q, func_021BE480((char *)t8, 0, 2), 9, p[0] << 12, p[1]);
-    func_021C4DC0(s1, 0x94, 8, 10);
+    p = ARC_TOOL_LoadMember(0x94, 6, a);
+    s1 = (int)SOUND_OBJ_Create(q, FLD_EXP_OBJ_GetModelStatus((char *)t8, 0, 2), 9, p[0] << 12, p[1]);
+    SOUND_OBJ_SetAnime(s1, 0x94, 8, 10);
     o->f10 = s1;
     func_020307B0(p);
-    r = func_021C4D7C(q, func_021BE480((char *)t8, 0, 3));
-    func_021C4DC0(r, 0x94, 10, 10);
+    r = SOUND_OBJ_CreateNoSource(q, FLD_EXP_OBJ_GetModelStatus((char *)t8, 0, 3));
+    SOUND_OBJ_SetAnime(r, 0x94, 10, 10);
     o->f14 = r;
-    p = func_02048F60(0x94, 12, a);
-    r = (int)func_021C4D14(q, func_021BE480((char *)t8, 0, 4), 7, p[0] << 12, p[1]);
-    func_021C4DC0(r, 0x94, 11, 10);
+    p = ARC_TOOL_LoadMember(0x94, 12, a);
+    r = (int)SOUND_OBJ_Create(q, FLD_EXP_OBJ_GetModelStatus((char *)t8, 0, 4), 7, p[0] << 12, p[1]);
+    SOUND_OBJ_SetAnime(r, 0x94, 11, 10);
     o->f18 = r;
     func_020307B0(p);
     for (i = 0; i < 5; i++)
         o->w[i] = 0;
-    func_021F3978((char *)o);
-    func_021F39BC((char *)o);
-    func_021F3B30(o->f68);
+    GIMMICK53_LoadWaitLimits((char *)o);
+    GIMMICK53_LoadBgmFade((char *)o);
+    GIMMICK53_ClearSlideSe(o->f68);
 }

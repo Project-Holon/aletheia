@@ -1,5 +1,5 @@
 /*
- * function: func_021BB890
+ * function: FIELD_SUBPROC_MGR_Create
  * address:  0x021BB890
  * packet:   pkt_ov021_021BB890
  * region:   ov021
@@ -24,7 +24,7 @@ u32 func_02030CB0(u32 idx);
 struct Ctx;
 struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 
-int *func_021BB890(int a, int b, int n)
+int *FIELD_SUBPROC_MGR_Create(int a, int b, int n)
 {
     int *p = func_02030734(b, 0x18, 1, (const char *)&d_021DE2F8, 0x46);
     int sz;

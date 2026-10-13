@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021E1030 0x021E1030 thumb ov119
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_021D9468 0x021D9468 thumb ov119
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_021D8FA4 0x021D8FA4 thumb ov119
  *   func_02082D44 0x02082D44 arm
  *   func_021D8E84 0x021D8E84 thumb ov119
@@ -22,13 +22,13 @@
  */
 #include "../include/Obj05329.h"
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, unsigned int index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, void *dest);
 extern void func_021E1024(void *);
 typedef unsigned int   u32;
 extern void func_021E1030(char *p);
 extern int func_021D8A24(void *);
 extern void func_021D9468(void *,int,void *);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_021D8FA4(void *,int);
 extern void func_02082D44(void *,const void *,int);
 extern void func_021D8E84(void *,int);
@@ -38,7 +38,7 @@ void func_021DE12C(char *p)
 {
     void *obj;
     int n;
-    func_02045CAC((struct MsgBank *)(((struct Obj05329 *)p)->f720),0x88,(void *)(((struct Obj05329 *)p)->f738));
+    MSGDATA_ReadString((struct MsgBank *)(((struct Obj05329 *)p)->f720),0x88,(void *)(((struct Obj05329 *)p)->f738));
     func_021E1024(p);
     func_021E1030(p);
     p[0x11f1]=120;
@@ -47,7 +47,7 @@ void func_021DE12C(char *p)
         p[0x11e1]=11;
         obj=((struct Obj05329 *)p)->fFD8;
         func_021D9468(p,1,obj);
-        n=func_020173EC();
+        n=POKE_TOOL_GetPartyParamSize();
         func_02082D44(obj,func_021D8FA4(p,1),n);
         func_021D8E84(p,(int)func_021DDF74);
         return;

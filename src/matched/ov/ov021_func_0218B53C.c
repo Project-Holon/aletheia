@@ -1,5 +1,5 @@
 /*
- * function: func_0218B53C
+ * function: FIELD_EVENT_CHECK_SearchRailFrontMmdl
  * address:  0x0218B53C
  * packet:   pkt_ov021_0218B53C
  * region:   ov021
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0219E634  0x0219E634  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0219E570  0x0219E570  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_RAIL_GetFrontLocation  0x0219E634  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_RAIL_SearchMmdlByLocation  0x0219E570  thumb  ov021
  */
 #include "../include/Obj19511.h"
 
-void *func_021A3074(unsigned char *p);
-int func_0219E634(void *a, int *buf);
-void *func_02188C7C(unsigned char *p);
+void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+int FLDMMDL_RAIL_GetFrontLocation(void *a, int *buf);
+void *FIELDMAP_GetMmdlSys(unsigned char *p);
 typedef unsigned int   u32;
-u32 func_0219E570(u32 o, u32 k, u32 flag);
+u32 FLDMMDL_RAIL_SearchMmdlByLocation(u32 o, u32 k, u32 flag);
 
-int func_0218B53C(unsigned char *p, void *b)
+int FIELD_EVENT_CHECK_SearchRailFrontMmdl(unsigned char *p, void *b)
 {
     int buf[2];
-    if (func_0219E634(func_021A3074(((struct Obj19511 *)p)->f18), buf) != 0)
-        return func_0219E570((u32)func_02188C7C(b), (u32)buf, 0);
+    if (FLDMMDL_RAIL_GetFrontLocation(FIELD_PLAYER_GetMmdl(((struct Obj19511 *)p)->f18), buf) != 0)
+        return FLDMMDL_RAIL_SearchMmdlByLocation((u32)FIELDMAP_GetMmdlSys(b), (u32)buf, 0);
     return 0;
 }

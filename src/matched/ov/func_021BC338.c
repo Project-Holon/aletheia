@@ -1,5 +1,5 @@
 /*
- * function: func_021BC338
+ * function: FLDEFF_REFLECT_GetZoneRotateOffset
  * address:  0x021BC338
  * packet:   pkt_021BC338
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021BC338(u32 a)
+int FLDEFF_REFLECT_GetZoneRotateOffset(u32 a)
 {
 return (~255);
 }

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_021BF734  0x021BF734  thumb  ov217
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *
  * Addresses are Black-image addresses.
@@ -24,10 +24,10 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_021BF734(u8 *a0);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
 extern void GAME_COMM_SetNotifyFlag(void *obj, u32 flag);
 
 void func_021C0968(unsigned char *a0)
 {
-    GAME_COMM_SetNotifyFlag((void *)func_02012138((const struct Ctx *)func_021BF734(a0)), 0);
+    GAME_COMM_SetNotifyFlag((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)func_021BF734(a0)), 0);
 }

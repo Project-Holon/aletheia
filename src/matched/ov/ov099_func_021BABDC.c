@@ -13,7 +13,7 @@
  * compares and keeps obj in r5.
  *
  * symbols:
- *   func_02020D0C  0x02020D0C  thumb
+ *   BMP_MENULIST_GetUserData  0x02020D0C  thumb
  *   func_021C27E0  0x021C27E0  thumb  ov099
  *   BMP_MENULIST_SetColors  0x02020268  thumb
  */
@@ -22,14 +22,14 @@
 typedef unsigned char  u8;
 typedef unsigned long  u32;
 
-extern u32 func_02020D0C(u8 *p);
+extern u32 BMP_MENULIST_GetUserData(u8 *p);
 extern int func_021C27E0(void *a);
 struct Obj;
 extern void BMP_MENULIST_SetColors(struct Obj *obj, u8 a, u8 b, u8 c);
 
 void func_021BABDC(void *obj, int k)
 {
-    u8 *w = (u8 *)func_02020D0C(obj);
+    u8 *w = (u8 *)BMP_MENULIST_GetUserData(obj);
 
     if (func_021C27E0(((struct Obj22019 *)w)->f8) == 0) {
         switch (k) {

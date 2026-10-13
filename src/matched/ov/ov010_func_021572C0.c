@@ -1,5 +1,5 @@
 /*
- * function: func_021572C0
+ * function: MUSICAL_PROGRAM_GetBestCategory
  * address:  0x021572C0
  * packet:   pkt_ov010_021572C0
  * region:   ov010
@@ -20,7 +20,7 @@ typedef struct Deal {
     u8 f00[4];          /* 0x00 */
 } Deal;
 
-u8 func_021572C0(Deal *d)
+u8 MUSICAL_PROGRAM_GetBestCategory(Deal *d)
 {
     u8 i;
     u8 max;

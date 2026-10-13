@@ -1,5 +1,5 @@
 /*
- * function: func_0200A300
+ * function: MYSTERY_DATA_Create
  * address:  0x0200A300
  * packet:   pkt_0200A2B8
  * region:   arm9
@@ -22,7 +22,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void  func_02082BCC(void *p, int c, u32 n);
 extern void  MYSTERY_DATA_Load(unsigned char *p, void *ctrl, int mode, int heap);
 
-void *func_0200A300(void *a0, void *a1, void *a2)
+void *MYSTERY_DATA_Create(void *a0, void *a1, void *a2)
 {
     void *p = func_02030734((u32)a2, 0xc, 0, sMysteryDataFile, 0x260);
 

@@ -31,7 +31,7 @@
  *   func_021F1B14  0x021F1B14  thumb  ov107
  *   func_021F19E4  0x021F19E4  thumb  ov107
  *   func_021F1A2C  0x021F1A2C  thumb  ov107
- *   func_0201293C  0x0201293C  thumb
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   func_02007774  0x02007774  thumb
  *   func_021F1A24  0x021F1A24  thumb  ov107
  *   func_021F11F0  0x021F11F0  thumb  ov107
@@ -39,11 +39,11 @@
  *   func_021F1B38  0x021F1B38  thumb  ov107
  *   func_021EFD98  0x021EFD98  thumb  ov107
  *   func_021F1184  0x021F1184  thumb  ov107
- *   func_0201292C  0x0201292C  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02012F08  0x02012F08  thumb
- *   func_0216BF9C  0x0216BF9C  thumb  ov010
- *   func_0216BF74  0x0216BF74  thumb  ov010
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
+ *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
+ *   FIELD_G3D_MAP_StoreBeaconTrainerKey  0x0216BF74  thumb  ov010
  *   func_02007E50  0x02007E50  thumb
  */
 
@@ -97,7 +97,7 @@ void func_021F18EC(void *);
 int func_021F1B14(void *);
 void func_021F19E4(void *, int);
 int func_021F1A2C(void *);
-u32 func_0201293C(const struct BigObj *p);
+u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 int func_02007774(void *);
 void func_021F1A24(u8 *p);
 int func_021F11F0(void *p, unsigned char kind, unsigned int val);
@@ -105,11 +105,11 @@ void func_021F17E0(void *, int);
 void func_021F1B38(u8 *p, u32 v);
 void func_021EFD98(Ov107Main *);
 void func_021F1184(void *);
-void *func_0201292C(const struct BigObj *p);
-u8 *func_02012944(void *p);
-void *func_02012F08(int *p);
-int func_0216BF9C(void *, int, void *);
-void func_0216BF74(void *, int, void *);
+void *GAME_DATA_GetMyItem(const struct BigObj *p);
+u8 *GAME_DATA_GetMyStatus(void *p);
+void *GAME_DATA_GetMiscSave(int *p);
+int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *, int, void *);
+void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *, int, void *);
 u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 
 void func_021EFFB0(Ov107Main *p)
@@ -161,7 +161,7 @@ void func_021EFFB0(Ov107Main *p)
         p->f34 = func_021F1A2C(p->f68);
         if (p->f34 == 1) {
             b = func_021F1118(p->f0C);
-            a = (unsigned short)func_02007774((void *)func_0201293C(p->f08->f04));
+            a = (unsigned short)func_02007774((void *)GAME_DATA_GetBoxManager(p->f08->f04));
             func_021F1A24(p->f68);
             if ((unsigned int)a < (unsigned int)b) {
                 p->f40 = 1;
@@ -341,10 +341,10 @@ void func_021EFFB0(Ov107Main *p)
     case 21:
         a = func_021F1A2C(p->f68);
         if (a == 1 || a == 2) {
-            c = func_0201292C(p->f08->f04);
-            d = func_02012944(p->f08->f04);
-            e = func_02012F08(p->f08->f04);
-            if (a == 1 && func_0216BF9C(e, 0, d) == 1) {
+            c = GAME_DATA_GetMyItem(p->f08->f04);
+            d = GAME_DATA_GetMyStatus(p->f08->f04);
+            e = GAME_DATA_GetMiscSave(p->f08->f04);
+            if (a == 1 && FIELD_G3D_MAP_CheckBeaconTrainerKey(e, 0, d) == 1) {
                 p->f34 = 2;
                 p->state = 0x16;
                 func_021F1898(p->f68);
@@ -369,14 +369,14 @@ void func_021EFFB0(Ov107Main *p)
         }
         if (func_021F11F0(p->f0C, 0x10, a) == 1) {
             if (a == 1) {
-                c = func_0201292C(p->f08->f04);
-                d = func_02012944(p->f08->f04);
-                e = func_02012F08(p->f08->f04);
+                c = GAME_DATA_GetMyItem(p->f08->f04);
+                d = GAME_DATA_GetMyStatus(p->f08->f04);
+                e = GAME_DATA_GetMiscSave(p->f08->f04);
                 func_021F1898(p->f68);
                 func_021F1628(p->f68, 1);
                 func_021F1704(p->f68, 0x21, func_02012FFC());
                 func_021F1B24(p->f68, 1);
-                func_0216BF74(e, 0, d);
+                FIELD_G3D_MAP_StoreBeaconTrainerKey(e, 0, d);
                 func_02007E50(c, 0x215, 1, p->f00);
                 p->f48 = 1;
                 p->state = 0x18;

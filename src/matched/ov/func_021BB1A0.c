@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1A0
+ * function: RAIL_ATTR_IsJumpStart
  * address:  0x021BB1A0
  * packet:   pkt_021BB1A0
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BB1A0(int x)
+int RAIL_ATTR_IsJumpStart(int x)
 {
     if (x == 163)
         return 1;

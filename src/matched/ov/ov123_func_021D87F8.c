@@ -14,9 +14,9 @@
  *   func_021D8790 0x021D8790 thumb ov123
  *   func_021B95D4 0x021B95D4 thumb ov114
  *   func_021B9748 0x021B9748 thumb ov114
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  */
 #include "../include/Obj08113.h"
 
@@ -28,20 +28,20 @@ typedef unsigned char  u8;
 extern void func_021D8790(char *p);
 extern int func_021B95D4(int index, u8 *p);
 extern int func_021B9748(u8 *p);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 void func_021D87F8(char *p)
 {
     func_021D57B8(*(char * *)&((struct Obj08113 *)p)->f18,13);
     func_021D5A7C(*(char * *)&((struct Obj08113 *)p)->f18);
-    if (func_0203CD98()) {
+    if (GFL_NET_GetRunState()) {
         if (func_021B95D4(0,((struct Obj08113 *)p)->f10)) {
             if (!func_021B9748(((struct Obj08113 *)p)->f10))
                 func_021D6EE0((unsigned char *)p,(int)func_021D8790,0x7ea);
         }
     } else {
-        if (func_020362DC() || func_02035C60())
+        if (func_020362DC() || TOUCHPANEL_GetTrg())
             func_021D6EE0((unsigned char *)p,(int)func_021D8790,0x7f1);
     }
 }

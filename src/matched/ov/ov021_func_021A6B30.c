@@ -1,5 +1,5 @@
 /*
- * function: func_021A6B30
+ * function: FIELD_PLAYER_NOGRID_StopSpin
  * address:  0x021A6B30
  * packet:   pkt_ov021_021A6B30
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02006148  0x02006148  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   func_020061F8  0x020061F8  thumb
  */
 
@@ -24,15 +24,15 @@ typedef struct {
 } P;
 
 typedef unsigned int   u32;
-extern int func_02006148(u32 a0);
+extern int GFL_USE_GetSeSlot(u32 a0);
 extern void func_020061F8(void);
 
-void func_021A6B30(P *p)
+void FIELD_PLAYER_NOGRID_StopSpin(P *p)
 {
     if (p->b0) {
         p->b0 = 0;
         p->h2 = 0;
-        func_02006148(0x6d1);
+        GFL_USE_GetSeSlot(0x6d1);
         func_020061F8();
     }
 }

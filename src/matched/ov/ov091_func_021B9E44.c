@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B9E44, func_021B9EB0
+ * function: POKELIST_CheckItemUsable, POKELIST_OpenLearnMoveMenu
  * address:  0x021B9E44
  * packet:   pkt_ov091_021B9E44
  * region:   ov091
@@ -11,16 +11,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA65C  0x021BA65C  thumb ov091
- *   func_021BB7A4  0x021BB7A4  thumb ov091
- *   func_021B7B98  0x021B7B98  thumb ov091
- *   func_021BB97C  0x021BB97C  thumb ov091
- *   func_021BB9AC  0x021BB9AC  thumb ov091
- *   func_021B9788  0x021B9788  thumb ov091
- *   func_021BB98C  0x021BB98C  thumb ov091
- *   func_021B9E3C  0x021B9E3C  thumb ov091
- *   func_021B9804  0x021B9804  thumb ov091
- *   func_021B9EC0  0x021B9EC0  thumb ov091
+ *   POKELIST_CheckBagItem  0x021BA65C  thumb ov091
+ *   PLIST_MESSAGE_CloseWindow  0x021BB7A4  thumb ov091
+ *   POKELIST_SetupModeScreen  0x021B7B98  thumb ov091
+ *   PLIST_MESSAGE_CreateWordSet  0x021BB97C  thumb ov091
+ *   PLIST_MESSAGE_SetWordSetItem  0x021BB9AC  thumb ov091
+ *   POKELIST_ShowMessage  0x021B9788  thumb ov091
+ *   PLIST_MESSAGE_DestroyWordSet  0x021BB98C  thumb ov091
+ *   POKELIST_EndMessageToExit  0x021B9E3C  thumb ov091
+ *   POKELIST_OpenChoiceMenu  0x021B9804  thumb ov091
+ *   POKELIST_OnLearnMoveChoice  0x021B9EC0  thumb ov091
  */
 
 typedef unsigned char  u8;
@@ -29,33 +29,33 @@ typedef unsigned int   u32;
 
 #define W(o) (*(u32 *)(p + (o)))
 
-extern u32 func_021BA65C(u8 *p, u16 id);
-extern void func_021BB7A4(void *p, u32 *s);
-extern void func_021B7B98(u8 *p);
-extern void func_021BB97C(u16 *p, u32 s);
-extern void func_021BB9AC(int a, int b, int c, int d);
-extern void func_021B9788(u8 *p, int a1, int a2, int a3);
-extern void func_021BB98C(void *p, u32 s);
-extern void func_021B9E3C(char *p);
-extern void func_021B9804(u8 *p, int a1);
-extern void func_021B9EC0(u8 *p, u32 state);
+extern u32 POKELIST_CheckBagItem(u8 *p, u16 id);
+extern void PLIST_MESSAGE_CloseWindow(void *p, u32 *s);
+extern void POKELIST_SetupModeScreen(u8 *p);
+extern void PLIST_MESSAGE_CreateWordSet(u16 *p, u32 s);
+extern void PLIST_MESSAGE_SetWordSetItem(int a, int b, int c, int d);
+extern void POKELIST_ShowMessage(u8 *p, int a1, int a2, int a3);
+extern void PLIST_MESSAGE_DestroyWordSet(void *p, u32 s);
+extern void POKELIST_EndMessageToExit(char *p);
+extern void POKELIST_OpenChoiceMenu(u8 *p, int a1);
+extern void POKELIST_OnLearnMoveChoice(u8 *p, u32 state);
 
-void func_021B9E44(u8 *p)
+void POKELIST_CheckItemUsable(u8 *p)
 {
-    if (func_021BA65C(p, *(u16 *)(W(0x280) + 0x44))) {
-        func_021BB7A4(p, (u32 *)W(0x150));
+    if (POKELIST_CheckBagItem(p, *(u16 *)(W(0x280) + 0x44))) {
+        PLIST_MESSAGE_CloseWindow(p, (u32 *)W(0x150));
         p[0xc] = 2;
-        func_021B7B98(p);
+        POKELIST_SetupModeScreen(p);
         return;
     }
-    func_021BB7A4(p, (u32 *)W(0x150));
-    func_021BB97C((u16 *)p, W(0x150));
-    func_021BB9AC((int)p, W(0x150), 0, *(u16 *)(W(0x280) + 0x44));
-    func_021B9788(p, 0xb3, 1, (int)func_021B9E3C);
-    func_021BB98C(p, W(0x150));
+    PLIST_MESSAGE_CloseWindow(p, (u32 *)W(0x150));
+    PLIST_MESSAGE_CreateWordSet((u16 *)p, W(0x150));
+    PLIST_MESSAGE_SetWordSetItem((int)p, W(0x150), 0, *(u16 *)(W(0x280) + 0x44));
+    POKELIST_ShowMessage(p, 0xb3, 1, (int)POKELIST_EndMessageToExit);
+    PLIST_MESSAGE_DestroyWordSet(p, W(0x150));
 }
 
-void func_021B9EB0(u8 *p)
+void POKELIST_OpenLearnMoveMenu(u8 *p)
 {
-    func_021B9804(p, (int)func_021B9EC0);
+    POKELIST_OpenChoiceMenu(p, (int)POKELIST_OnLearnMoveChoice);
 }

@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8588  0x021B8588  thumb  ov093
- *   func_021B86C0  0x021B86C0  thumb  ov093
- *   func_021CDEE8  0x021CDEE8  thumb  ov093
+ *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
+ *   BTL_MAIN_GetCommPos  0x021B86C0  thumb  ov093
+ *   BTL_CLIENT_HasMonParamDropped  0x021CDEE8  thumb  ov093
  *   func_021B9F70  0x021B9F70  thumb  ov093
  */
 
@@ -28,9 +28,9 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern u32 func_021B8588(void **p);
-extern u8 func_021B86C0(u8 **p);
-extern u32 func_021CDEE8(u8 *p);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern u8 BTL_MAIN_GetCommPos(u8 **p);
+extern u32 BTL_CLIENT_HasMonParamDropped(u8 *p);
 extern int func_021B9F70(u8 *p, int i);
 
 int func_021D1C40(BattleSeq *s, u32 x, int *out)
@@ -39,8 +39,8 @@ int func_021D1C40(BattleSeq *s, u32 x, int *out)
 
     if (x == s->unk1A6) {
         *out = 0;
-        if (func_021B8588(s->battle) == 0 && func_021B86C0(s->battle) == 0) {
-            v = func_021CDEE8((u8 *)s);
+        if (BTL_MAIN_GetRule(s->battle) == 0 && BTL_MAIN_GetCommPos(s->battle) == 0) {
+            v = BTL_CLIENT_HasMonParamDropped((u8 *)s);
             if (v >= 0x4b)
                 return 0x1d;
             if (v > 0x32)

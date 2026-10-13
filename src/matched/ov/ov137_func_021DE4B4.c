@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_0201F73C 0x0201F73C thumb
  *   func_0201CE48 0x0201CE48 thumb
- *   func_0201CCE4 0x0201CCE4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   PRINTSYS_PrintStream 0x0201CCE4 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
@@ -33,33 +33,33 @@ struct MsgBank;
 struct Rec3;
 struct U16Vec;
 struct WordSet;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *, int, int, int);
 extern void func_0201CE48(struct Rec3 *p);
-extern void *func_0201CCE4(void *, int, int, void *, void *, int, void *, int, u16, u16);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int, void *, int, u16, u16);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 void func_021DE4B4(char *p, int message, int unused) {
     void *text;
     void *window;
-    text = func_020457B0(0xb4, 0x72);
-    func_02045CAC(((struct Obj01414 *)p)->f40, message, text);
+    text = STRBUF_Create(0xb4, 0x72);
+    MSGDATA_ReadString(((struct Obj01414 *)p)->f40, message, text);
     func_0201F250(((struct Obj01414 *)p)->f3C, ((struct Obj01414 *)p)->f5C, text);
-    func_02045808(text);
-    func_02043B5C(func_02045770(((struct Obj01414 *)p)->fD4), 0xf);
+    STRBUF_Delete(text);
+    BMP_Clear(func_02045770(((struct Obj01414 *)p)->fD4), 0xf);
     func_0201F73C(((struct Obj01414 *)p)->fD4, 0, 1, 0xa);
     if (((struct Obj01414 *)p)->fF0 != 0)
         func_0201CE48(((struct Obj01414 *)p)->fF0);
-    ((struct Obj01414 *)p)->fF0 = func_0201CCE4(((struct Obj01414 *)p)->fD4, 0, 0, ((struct Obj01414 *)p)->f5C, ((struct Obj01414 *)p)->f38, 0, ((struct Obj01414 *)p)->fF4, 0, 0x72, 0xf);
+    ((struct Obj01414 *)p)->fF0 = PRINTSYS_PrintStream(((struct Obj01414 *)p)->fD4, 0, 0, ((struct Obj01414 *)p)->f5C, ((struct Obj01414 *)p)->f38, 0, ((struct Obj01414 *)p)->fF4, 0, 0x72, 0xf);
     window = ((struct Obj01414 *)p)->fD4;
-    func_02045334(window);
-    func_02045374(window);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     func_020409B4(func_02045730(window));
 }

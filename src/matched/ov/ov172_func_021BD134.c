@@ -14,10 +14,10 @@
  *   func_021BE03C  0x021BE03C  thumb  ov172
  *   func_021BE044  0x021BE044  thumb  ov172
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201C724  0x0201C724  thumb
- *   func_02045808  0x02045808  arm
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   func_021BE34C  0x021BE34C  thumb  ov172
  *
@@ -36,11 +36,11 @@ typedef unsigned char  u8;
 struct CharBuf;
 struct MsgBank;
 struct U16Vec;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 typedef unsigned short u16;
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_021BE34C(void *p);
 
@@ -51,10 +51,10 @@ void func_021BD134(void *ctx, char *st, u32 msgId)
     u32 sys = func_021BE044(ctx);
     u32 str;
 
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30)), 0xf);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30)), 0xf);
     str = (u32)func_02045EC0((struct MsgBank *)msgs, msgId);
-    func_0201C724((void *)sys, (u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30), 0, 0, str, font, 0x440);
-    func_02045808((struct U16Vec *)str);
+    PRINTSYS_PrintQueColor((void *)sys, (u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30), 0, 0, str, font, 0x440);
+    STRBUF_Delete((struct U16Vec *)str);
     func_0201F73C((void *)(((struct Obj01266 *)st)->f30), 2, 0x140, 9);
     ((struct Obj01266 *)st)->f24 = 1;
     ((struct Obj01266 *)st)->f38 = 0;

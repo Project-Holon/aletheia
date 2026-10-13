@@ -12,15 +12,15 @@
  * Function with no listing label, matched inside src/game/ov011/unit_021743B4.c and filed here.
  *
  * symbols:
- *   func_02162008 0x02162008 thumb ov010
+ *   EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline 0x02162008 thumb ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-void func_02162008(u8 *p, u16 v);
+void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(u8 *p, u16 v);
 void INTRUDE_COMM_RecvReturnPending(int a, int b, int c, u8 *p);
 
 void INTRUDE_COMM_RecvReturnPending(int a, int b, int c, u8 *p)
 {
-    func_02162008(p + 0x35c, (u16)a);
+    EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(p + 0x35c, (u16)a);
 }

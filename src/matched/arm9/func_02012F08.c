@@ -1,5 +1,5 @@
 /*
- * function: func_02012F08
+ * function: GAME_DATA_GetMiscSave
  * address:  0x02012F08
  * packet:   pkt_02012F08
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 
 extern void *func_0200C0F0(void *sys);
-void *func_02012F08(int *p)
+void *GAME_DATA_GetMiscSave(int *p)
 {
     return func_0200C0F0((void *)(*p));
 }

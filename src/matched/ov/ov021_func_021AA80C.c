@@ -1,5 +1,5 @@
 /*
- * function: func_021AA80C
+ * function: EFFECT_ENCOUNT_OnPlayerStep
  * address:  0x021AA80C
  * packet:   pkt_ov021_021AA80C
  * region:   ov021
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
- *   func_02012974  0x02012974  thumb
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02159C48  0x02159C48  thumb  ov010
- *   func_02159BD4  0x02159BD4  thumb  ov010
- *   func_02012F08  0x02012F08  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
+ *   GAME_DATA_GetFieldWork  0x02012974  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   MAP_MATRIX_IsInRangeByPos  0x02159C48  thumb  ov010
+ *   MAP_MATRIX_GetZoneIdByPos  0x02159BD4  thumb  ov010
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C234  0x0200C234  thumb
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021AABC4  0x021AABC4  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   EFFECT_ENCOUNT_CountStep  0x021AABC4  thumb  ov021
  *   func_02005728  0x02005728  thumb
- *   func_021AABEC  0x021AABEC  thumb  ov021
- *   func_021AACD4  0x021AACD4  thumb  ov021
- *   func_021AAE34  0x021AAE34  thumb  ov021
+ *   EFFECT_ENCOUNT_ResetStepCount  0x021AABEC  thumb  ov021
+ *   EFFECT_ENCOUNT_CollectCandidates  0x021AACD4  thumb  ov021
+ *   EFFECT_ENCOUNT_PickSpot  0x021AAE34  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -63,31 +63,31 @@ struct Ctx {
 };
 
 struct BigObj;
-extern u32 func_02012A38(const struct BigObj *p);
-extern u32 func_02012974(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldWork(const struct BigObj *p);
 struct Blk34;
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern int func_02159C48(int a0, int a1, int a2);
-extern int func_02159BD4(int a0, int a1, int a2);
-extern void *func_02012F08(int *p);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
+extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
+extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C234(struct Blk34 *p, u32 bit);
-extern u32 func_02188CFC(u8 *p);
-extern int func_021AABC4(struct Entry *p, struct Enc *e);
+extern u32 FIELDMAP_GetMoveKind(u8 *p);
+extern int EFFECT_ENCOUNT_CountStep(struct Entry *p, struct Enc *e);
 extern u32 func_02005728(u32 v);
-extern void func_021AABEC(u8 *p);
-extern void func_021AACD4(void **ctx, struct Enc *e);
-extern void func_021AAE34(struct Ctx *ctx, struct Enc *e);
+extern void EFFECT_ENCOUNT_ResetStepCount(u8 *p);
+extern void EFFECT_ENCOUNT_CollectCandidates(void **ctx, struct Enc *e);
+extern void EFFECT_ENCOUNT_PickSpot(struct Ctx *ctx, struct Enc *e);
 
-void func_021AA80C(struct Ctx *ctx)
+void EFFECT_ENCOUNT_OnPlayerStep(struct Ctx *ctx)
 {
     struct Enc *e = ctx->f10;
-    struct Entry *p = (struct Entry *)func_02012A38(ctx->f08);
+    struct Entry *p = (struct Entry *)GAME_DATA_GetFieldGimmick(ctx->f08);
     void *m;
     u16 id;
     s32 pos[3];
@@ -95,29 +95,29 @@ void func_021AA80C(struct Ctx *ctx)
 
     if (ctx == 0 || ctx->f0C == 0 || !ctx->f0C->b7)
         return;
-    m = (void *)func_02012974(ctx->f08);
+    m = (void *)GAME_DATA_GetFieldWork(ctx->f08);
     if (ctx->f00 == 0 || m == 0)
         return;
-    id = func_02188C9C(ctx->f00);
-    func_0216D88C(func_021A3074(func_02188CB4(ctx->f00)), (struct VecFx32 *)pos);
-    if (func_02159C48((int)m, pos[0], pos[2]) == 0)
+    id = FIELDMAP_GetZoneId(ctx->f00);
+    FLDMMDL_GetPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(ctx->f00)), (struct VecFx32 *)pos);
+    if (MAP_MATRIX_IsInRangeByPos((int)m, pos[0], pos[2]) == 0)
         return;
-    r = func_02159BD4((int)m, pos[0], pos[2]);
+    r = MAP_MATRIX_GetZoneIdByPos((int)m, pos[0], pos[2]);
     if (id == 0xFFFF || r == 0xFFFF || id != r)
         return;
-    if (func_0200C234(func_02012F08(ctx->f08), 0) == 0)
+    if (func_0200C234(GAME_DATA_GetMiscSave(ctx->f08), 0) == 0)
         return;
-    if (func_02188CFC(ctx->f00) != 0)
+    if (FIELDMAP_GetMoveKind(ctx->f00) != 0)
         return;
     if (p->flags != 0)
         return;
-    if (func_021AABC4(p, e) == 0)
+    if (EFFECT_ENCOUNT_CountStep(p, e) == 0)
         return;
     if (func_02005728(1000) >= e->f5BA * 10) {
-        func_021AABEC((u8 *)p);
+        EFFECT_ENCOUNT_ResetStepCount((u8 *)p);
         return;
     }
-    func_021AACD4((void **)ctx, e);
+    EFFECT_ENCOUNT_CollectCandidates((void **)ctx, e);
     if (e->f04 != 0)
-        func_021AAE34(ctx, e);
+        EFFECT_ENCOUNT_PickSpot(ctx, e);
 }

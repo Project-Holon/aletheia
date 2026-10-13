@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DAC6C, func_021DAC84
+ * function: BTL_ABILITY_LevitateClearFlag, BTL_ABILITY_GetLevitateHandlers
  * address: 0x021DAC6C
  * packet: pkt_ov093_021DAC6C
  * region: ov093
@@ -10,10 +10,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0A10 0x021F0A10 data a4
- *   func_021D775C 0x021D775C thumb ov093
+ *   gLevitateHandlerTable 0x021F0A10 data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  */
-extern const unsigned int d_021F0A10[];
-extern int func_021D775C(int);
-void func_021DAC6C(int a, int b, int c, int *d) { if (c == func_021D775C(2)) *d = 0; }
-const unsigned int *func_021DAC84(int *n) { *n = 3; return d_021F0A10; }
+extern const unsigned int gLevitateHandlerTable[];
+extern int BTL_EVENT_GetVar(int);
+void BTL_ABILITY_LevitateClearFlag(int a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(2)) *d = 0; }
+const unsigned int *BTL_ABILITY_GetLevitateHandlers(int *n) { *n = 3; return gLevitateHandlerTable; }

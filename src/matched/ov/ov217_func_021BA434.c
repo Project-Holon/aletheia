@@ -10,27 +10,27 @@
  * trailing: 021BA4C6..021BA4C8 zero alignment padding.
  * symbols:
  *   func_021C09B4 0x021C09B4 thumb ov217
- *   func_0201296C 0x0201296C thumb
- *   func_020142E8 0x020142E8 thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
+ *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  */
 #include "../include/Obj25823.h"
 extern unsigned func_021C09B4(void *);
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_0201296C(const struct BigObj *p);
-extern unsigned func_020142E8(void *,int);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 unsigned char func_021BA434(char *p)
 {
-    void *bitmap=(void *)func_0201296C((const struct BigObj *)func_021C09B4(((struct Obj25823 *)p)->f0));
+    void *bitmap=(void *)GAME_DATA_GetEventWork((const struct BigObj *)func_021C09B4(((struct Obj25823 *)p)->f0));
     int count=1;
-    if(func_020142E8(bitmap,240)==1)count++;
-    if(func_020142E8(bitmap,241)==1)count++;
-    if(func_020142E8(bitmap,242)==1)count++;
-    if(func_020142E8(bitmap,243)==1)count++;
-    if(func_020142E8(bitmap,244)==1)count++;
-    if(func_020142E8(bitmap,245)==1)count++;
-    if(func_020142E8(bitmap,246)==1)count++;
-    if(func_020142E8(bitmap,247)==1)count++;
-    if(func_020142E8(bitmap,248)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,240)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,241)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,242)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,243)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,244)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,245)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,246)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,247)==1)count++;
+    if(ZONEDATA_CheckEventFlag(bitmap,248)==1)count++;
     return count;
 }

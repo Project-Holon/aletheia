@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB914",
+   "name": "BTL_SERVER_FinishMainCounter",
    "address": "0x021BB914",
    "kind": "game",
    "region": "ov093",

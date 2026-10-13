@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B79CC",
+   "name": "FIELD_RAIL_ClearFocusWork",
    "address": "0x021B79CC",
    "kind": "game",
    "region": "ov021",

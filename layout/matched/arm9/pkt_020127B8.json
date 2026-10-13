@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020127B8",
+   "name": "GAME_DATA_GetLastBattleRecSlot",
    "address": "0x020127B8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020127C4",
+   "name": "GAME_DATA_GetSecondUnionInfo",
    "address": "0x020127C4",
    "kind": "game",
    "region": "arm9",

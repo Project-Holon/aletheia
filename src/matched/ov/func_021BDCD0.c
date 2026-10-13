@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009860  0x02009860  thumb
  *
  * Hands the handle at +0xC4 to one arm9 accessor and its result to another.
@@ -26,11 +26,11 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct BigObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 
 void func_021BDCD0(char *p)
 {
-    func_02009860((struct Sub020097BCObj *)func_0201283C(((struct Obj18249 *)p)->fC4));
+    func_02009860((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj18249 *)p)->fC4));
 }

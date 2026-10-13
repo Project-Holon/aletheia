@@ -9,8 +9,8 @@
  * status: EXACT
  * lever: const coordinate table fixes 19 scheduling bytes; heap widened at both callees, original untruncated.
  * symbols:
- *   func_02046440 0x02046440 arm
- *   func_02048A24 0x02048A24 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_021B9DD4 0x021B9DD4 thumb ov221
  *   d_021BA1B0 0x021BA1B0 data a4
  *   d_020A1EB8 0x020A1EB8 data a4
@@ -23,10 +23,10 @@ typedef struct {u32 x,y,z;} Vec3;
 extern Vec3 d_021BA1B0[3];
 extern const s16 d_020A1EB8[];
 extern void func_021B9DD4(void);
-extern void func_02046440(u32,u32,u32,u32,u16,u32,void(*)(void));
-extern u32* func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec3*,Vec3*,Vec3*,u32);
+extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void(*)(void));
+extern u32* G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3*,Vec3*,Vec3*,u32);
 void func_021BA0C4(u32**p,u32 heap)
 {
- func_02046440(0,1,0,1,0,heap,func_021B9DD4);
- *p=func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021BA1B0[1],&d_021BA1B0[0],&d_021BA1B0[2],heap);
+ G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021B9DD4);
+ *p=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021BA1B0[1],&d_021BA1B0[0],&d_021BA1B0[2],heap);
 }

@@ -12,16 +12,16 @@
  * symbols:
  *   d_02208F68 0x02208F68 data
  *   func_02030734 0x02030734 arm
- *   func_02043678 0x02043678 arm
- *   func_0202D060 0x0202D060 thumb
- *   func_0202D064 0x0202D064 thumb
- *   func_0202D0D4 0x0202D0D4 thumb
- *   func_02049E34 0x02049E34 arm
- *   func_02049F34 0x02049F34 arm
- *   func_020437D4 0x020437D4 arm
+ *   BMP_Create 0x02043678 arm
+ *   POKEGRA_GetArcID 0x0202D060 thumb
+ *   POKEGRA_GetCgrArcIndex 0x0202D064 thumb
+ *   POKEGRA_GetPalArcIndex 0x0202D0D4 thumb
+ *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
+ *   BMP_GetPixels 0x020437D4 arm
  *   func_02082A7C 0x02082A7C arm
  *   func_02082A90 0x02082A90 arm
- *   func_02044F64 0x02044F64 arm
+ *   BMP_ConvertToLinear 0x02044F64 arm
  *   func_02061CA4 0x02061CA4 arm
  */
 
@@ -54,16 +54,16 @@ extern char d_02208F68[];
 typedef signed int     s32;
 struct Bmp;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern int func_0202D060(void);
-extern s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern int POKEGRA_GetArcID(void);
+extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
-extern struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap);
+extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32 pltt, u16 heap)
@@ -76,17 +76,17 @@ Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32
     int i, j;
     int k;
 
-    g->canvas = func_02043678(16, 16, 32, heap);
+    g->canvas = BMP_Create(16, 16, 32, heap);
     g->tex = tex;
     g->plttAddr = pltt;
-    chrFile = func_0202D064(func_0202D060(), a0, a1, a2, a3, a4, a5);
-    plttFile = func_0202D0D4(func_0202D060(), a0, a1, a2, a3, a4, a5);
+    chrFile = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), a0, a1, a2, a3, a4, a5);
+    plttFile = POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), a0, a1, a2, a3, a4, a5);
     g->chr = 0;
     g->pltt = 0;
-    g->chrRes = func_02049E34(func_0202D060(), chrFile, 1, (u32)(&g->chr), heap);
-    g->plttRes = func_02049F34(func_0202D060(), plttFile, (u32)(&g->pltt), heap);
+    g->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (u32)(&g->chr), heap);
+    g->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (u32)(&g->pltt), heap);
     src = g->chr->raw;
-    buf = func_020437D4(g->canvas);
+    buf = BMP_GetPixels(g->canvas);
     func_02082A7C(0, buf, 0x2000);
     k = 0;
     for (j = 0; j < 8; j++) {
@@ -113,8 +113,8 @@ Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 tex, u32
             k++;
         }
     }
-    func_02044F64(g->canvas, 0, heap);
-    func_02061CA4(0, tex, (u32)func_020437D4(g->canvas), 0x2000);
+    BMP_ConvertToLinear(g->canvas, 0, heap);
+    func_02061CA4(0, tex, (u32)BMP_GetPixels(g->canvas), 0x2000);
     func_02061CA4((void *)1, pltt, (u32)g->pltt->raw, 0x20);
     return g;
 }

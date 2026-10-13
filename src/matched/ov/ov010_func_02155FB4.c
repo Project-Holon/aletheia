@@ -1,5 +1,5 @@
 /*
- * function: func_02155FB4
+ * function: MUSICAL_EVENT_SendLocalPerformer
  * address:  0x02155FB4
  * packet:   pkt_ov010_02155FB4
  * region:   ov010
@@ -32,7 +32,7 @@ typedef struct Work {
 
 extern void func_021FD948(char *p, u32 value);
 
-void func_02155FB4(Work *w)
+void MUSICAL_EVENT_SendLocalPerformer(Work *w)
 {
     if (w->f14 == 1)
         func_021FD948(w->f28, (u32)w->f3C);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02154C20",
+   "name": "EVENT_WIFICLUB_Entry",
    "address": "0x02154C20",
    "kind": "game",
    "region": "ov006",

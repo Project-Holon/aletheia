@@ -1,5 +1,5 @@
 /*
- * function: func_021DA8DC
+ * function: BTL_ABILITY_AbsorbRecoverHp
  * address:  0x021DA8DC
  * packet:   pkt_ov093_021DA8DC
  * region:   ov093
@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_021C7CF4   0x021C7CF4  thumb ov093
- *   func_021D5B48   0x021D5B48  thumb ov093
+ *   BTL_POKEPARAM_IsHpFull   0x021D5B48  thumb ov093
  *   func_021C88A4   0x021C88A4  thumb ov093
- *   func_021D7B74   0x021D7B74  thumb ov093
+ *   BTL_CALC_DivideMaxHpMin1   0x021D7B74  thumb ov093
  *   func_021C8838   0x021C8838  thumb ov093
  *   func_021C8860   0x021C8860  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
- *   func_021D76BC   0x021D76BC  thumb ov093
+ *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb ov093
  */
 #include "../include/Obj10060.h"
 #include "../include/Obj21303.h"
@@ -30,26 +30,26 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5B48(u8 *p);
+extern int BTL_POKEPARAM_IsHpFull(u8 *p);
 extern void *func_021C88A4(char *p, int a, int b);
-extern int func_021D7B74(u8 *p, u32 k);
+extern int BTL_CALC_DivideMaxHpMin1(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 a);
 extern void func_021C88C8(void *a, void *b);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021DA8DC(int a, int b, int c)
+void BTL_ABILITY_AbsorbRecoverHp(int a, int b, int c)
 {
     void *m;
     u8 *p;
     u8 *q;
 
     m = func_021C7CF4((int *)a, b);
-    if (func_021D5B48(m) == 0) {
+    if (BTL_POKEPARAM_IsHpFull(m) == 0) {
         p = func_021C88A4((char *)a, 5, b);
         p[6] = b;
-        ((struct Obj10060 *)p)->f4 = func_021D7B74(m, c);
+        ((struct Obj10060 *)p)->f4 = BTL_CALC_DivideMaxHpMin1(m, c);
         ((struct Obj10060 *)p)->f0 |= 2 << 22;
         func_021C8838(p + 8, 2, 0x183);
         func_021C8860((struct S *)(p + 8), b);
@@ -61,5 +61,5 @@ void func_021DA8DC(int a, int b, int c)
         ((struct Obj21303 *)q)->f0 |= 2 << 22;
         func_021C88C8((void *)a, q);
     }
-    func_021D76BC(0x51, 1);
+    BTL_EVENT_OverwriteVar(0x51, 1);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Byte-for-byte the twin of FIELD_STATUS_SubProcCallbackEvent (same 86-byte shape, same three
- * states) with func_020146F8 replaced by func_02014728.  The only other
+ * states) with FIELD_STATUS_CreateSubProcEvent replaced by FIELD_STATUS_CreateSubProcNoFadeEvent.  The only other
  * difference is the literal pool holding 0x020307B0: 0x02014758's pool is
  * reachable with `blx 0x20307b0`'s 26-bit reach, this one needs no change.
  *
@@ -20,6 +20,10 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/FIELD_STATUS_SubProcNoFadeCallbackEvent.c \
  *       --func FIELD_STATUS_SubProcNoFadeCallbackEvent --addr 0x020147B0 --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   FIELD_STATUS_CreateSubProcNoFadeEvent  0x02014728  thumb
  */
 
 typedef struct {
@@ -33,8 +37,8 @@ typedef struct {
 } S;
 
 struct Evt;
-extern void *func_02014728(char *a0, int a1, int a2, int a3, int a4);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *FIELD_STATUS_CreateSubProcNoFadeEvent(char *a0, int a1, int a2, int a3, int a4);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
@@ -42,7 +46,7 @@ int FIELD_STATUS_SubProcNoFadeCallbackEvent(int a0, int *a1, S *a2)
 {
     switch (*a1) {
     case 0:
-        func_02012374((struct Evt *)a0, func_02014728((char *)a2->f00, a2->f04, a2->f08, a2->f0c,
+        GAME_EVENT_CallEvent((struct Evt *)a0, FIELD_STATUS_CreateSubProcNoFadeEvent((char *)a2->f00, a2->f04, a2->f08, a2->f0c,
                                         a2->f10));
         *a1 = *a1 + 1;
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216937C
+ * function: FIELD_G3D_MAP_OpenArchive
  * address: 0x0216937C
  * packet: pkt_ov010_0216937C
  * region: ov010
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0216990C 0x0216990C thumb ov010
- *   func_021693A0 0x021693A0 thumb ov010
+ *   FIELD_G3D_MAP_Reset 0x0216990C thumb ov010
+ *   FIELD_G3D_MAP_CloseArchive 0x021693A0 thumb ov010
  *   func_020490F4 0x020490F4 arm
  */
 #include "../include/Obj00306.h"
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0216990C(u8 *);
-extern void func_021693A0(int a0);
+extern void FIELD_G3D_MAP_Reset(u8 *);
+extern void FIELD_G3D_MAP_CloseArchive(int a0);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-void func_0216937C(u8 *p,int a,int b) { func_0216990C(p); func_021693A0((int)p); ((struct Obj19036 *)(*(u8 * *)&((struct Obj00306 *)p)->f2C))->f4=0; ((struct Obj00306 *)p)->f10=func_020490F4(a,b); }
+void FIELD_G3D_MAP_OpenArchive(u8 *p,int a,int b) { FIELD_G3D_MAP_Reset(p); FIELD_G3D_MAP_CloseArchive((int)p); ((struct Obj19036 *)(*(u8 * *)&((struct Obj00306 *)p)->f2C))->f4=0; ((struct Obj00306 *)p)->f10=func_020490F4(a,b); }

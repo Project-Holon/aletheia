@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020450C8(void); extern void func_0203F9B4(void);
-void func_021B99D8(void) { func_020450C8();func_0203F9B4(); }
+extern void BMP_WIN_Exit(void); extern void func_0203F9B4(void);
+void func_021B99D8(void) { BMP_WIN_Exit();func_0203F9B4(); }

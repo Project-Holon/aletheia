@@ -14,8 +14,9 @@
  *   func_021BE4DC  0x021BE4DC  thumb  ov217
  *   func_021BE4E0  0x021BE4E0  thumb  ov217
  *   func_021BE90C  0x021BE90C  thumb  ov217
+ *   FADE_IsActive  0x0204E804  arm  arm9
  *
- * Same two-case entry with func_021BE90C() and the ARM9 query func_0204E804().
+ * Same two-case entry with func_021BE90C() and the ARM9 query FADE_IsActive().
  *
  * Addresses are Black-image addresses.
  */
@@ -30,7 +31,7 @@ typedef signed int     s32;
 extern void func_021BE448(void *p);
 extern u32 func_021BE4DC(void *p);
 extern void func_021BE4E0(void *p);
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 extern void func_021BE90C(void);
 void func_021BE33C(u32 a0)
 {
@@ -40,7 +41,7 @@ void func_021BE33C(u32 a0)
     func_021BE4E0((void *)a0);
     break;
     case 1:
-    if (func_0204E804() == 0) {
+    if (FADE_IsActive() == 0) {
     func_021BE448((void *)a0);
     }
     break;

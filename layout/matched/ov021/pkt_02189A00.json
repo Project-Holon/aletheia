@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02189A00",
+   "name": "FIELDMAP_GetFld3dCi",
    "address": "0x02189A00",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02189A18",
+   "name": "FIELDMAP_GetSceneArea",
    "address": "0x02189A18",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02189A1C",
+   "name": "FIELDMAP_SetScriptEffectBusy",
    "address": "0x02189A1C",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02189A24",
+   "name": "FIELDMAP_GetScriptEffectBusy",
    "address": "0x02189A24",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02189A70",
+   "name": "FIELDMAP_GetZoneEffectWork",
    "address": "0x02189A70",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02189A78",
+   "name": "FIELDMAP_GetCameraPitchScale",
    "address": "0x02189A78",
    "kind": "game",
    "region": "ov021",

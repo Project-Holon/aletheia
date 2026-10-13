@@ -43,29 +43,29 @@ typedef struct BridgeSwaySave {
 } BridgeSwaySave;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern struct GameSystem *func_02188C80(FieldMap *fieldMap);
-extern u16 func_02188C84(FieldMap *fieldMap);
-extern FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern void *func_02189764(FieldMap *fieldMap, int id, int heapId, int size);
-extern void func_021897A0(FieldMap *fieldMap, int id);
-extern void *func_021897BC(FieldMap *fieldMap, int id);
+extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
+extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(FieldMap *fieldMap, int id, int heapId, int size);
+extern void FIELDMAP_FreeCommonWork(FieldMap *fieldMap, int id);
+extern void *FIELDMAP_GetCommonWork(FieldMap *fieldMap, int id);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
+extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern void *func_0200B3A4(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern Mmdl *func_021A3074(FieldPlayer *player);
-extern u32 func_021A30C8(FieldPlayer *player);
-extern int func_021AB100(u32 attr);
-extern u16 func_021AB0F0(u32 attr);
+extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
+extern u32 FIELD_PLAYER_GetNowAttribute(FieldPlayer *player);
+extern int MAP_ATTR_IsPresent(u32 attr);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern int func_021AB44C(u16 terrainId);
-extern void func_0216D8E0(Mmdl *mmdl, const MmdlVec *offset);
+extern void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const MmdlVec *offset);
 extern u32 func_02005728(u32 range);
 extern short func_0203F684(unsigned short degrees);
 extern void func_02082BCC(void *dst, int value, int size);
 
 void func_021F36C0(FieldMap *fieldMap);
-void func_021F370C(FieldMap *fieldMap);
-void func_021F3740(FieldMap *fieldMap);
-void func_021F3800(struct GameSystem *gameSystem);
-int func_021F381C(BridgeSwayWork *work);
+void FIELD_GIMMICK_BRIDGE_Exit(FieldMap *fieldMap);
+void FIELD_GIMMICK_BRIDGE_Update(FieldMap *fieldMap);
+void FIELD_GIMMICK_BRIDGE_ResetSave(struct GameSystem *gameSystem);
+int FIELD_GIMMICK_BRIDGE_IsOnSwayTile(BridgeSwayWork *work);
 
 #endif

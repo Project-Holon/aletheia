@@ -1,5 +1,5 @@
 /*
- * function: func_021A99E4
+ * function: FIELD_ENCOUNT_TrySwarmSlot
  * address:  0x021A99E4
  * packet:   pkt_ov021_021A99E4
  * region:   ov021
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_02005728  0x02005728  thumb
- *   func_021A99A8  0x021A99A8  thumb
+ *   FIELD_ENCOUNT_GetSwarmEntry  0x021A99A8  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -34,12 +34,12 @@ struct Unit {
     u8 f14;
 };
 
-extern const struct Entry8 *func_021A99A8(void *p);
+extern const struct Entry8 *FIELD_ENCOUNT_GetSwarmEntry(void *p);
 extern u32 func_02005728(u32 v);
 
-int func_021A99E4(void *a0, struct Unit *u, u16 id, struct Spec *spec)
+int FIELD_ENCOUNT_TrySwarmSlot(void *a0, struct Unit *u, u16 id, struct Spec *spec)
 {
-    const struct Entry8 *e = func_021A99A8(u->f00);
+    const struct Entry8 *e = FIELD_ENCOUNT_GetSwarmEntry(u->f00);
 
     if (e == 0 || e->f00 != id)
         return 0;

@@ -10,14 +10,14 @@
  * status: EXACT
  * abi: ABF0 and B294 results remain live and are stored by this caller; their extern return types reflect that use.
  * symbols:
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   func_020490F4 0x020490F4 arm
  *   func_020275E4 0x020275E4 thumb
- *   func_0204ABF0 0x0204ABF0 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
@@ -37,15 +37,15 @@ extern const Config d_021848AC[];
 struct Actor;
 struct Bank;
 struct Obj;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_020275E4(void);
 typedef signed int     s32;
-extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern int func_0204AF28(void *,u32,u32,u32);
-extern void func_02049238(void *);
-extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
+extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
+extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
@@ -57,27 +57,27 @@ void func_02183FC4(char *p,u16 heap)
     const Row *r;
     char *q;
     i=0;
-    ((struct Obj01262 *)p)->f1C=func_0204B100(32,0,heap);
+    ((struct Obj01262 *)p)->f1C=CLACT_CreateUnit(32,0,heap);
     first=func_020490F4(106,heap);
     second=func_020490F4(func_020275E4(),heap);
-    ((struct Obj01262 *)p)->f24=func_0204ABF0(first,6,0,0,heap);
-    ((struct Obj01262 *)p)->f20=func_0204A6C8(first,7,0,0,heap);
-    ((struct Obj01262 *)p)->f28=func_0204AF28(first,8,9,heap);
-    ((struct Obj01262 *)p)->f30=func_0204ABF0(first,10,0,32,heap);
-    ((struct Obj01262 *)p)->f2C=func_0204A6C8(first,11,0,0,heap);
-    ((struct Obj01262 *)p)->f34=func_0204AF28(first,12,13,heap);
-    ((struct Obj01262 *)p)->f3C=func_0204ABF0(first,14,0,64,heap);
-    ((struct Obj01262 *)p)->f38=func_0204A6C8(first,15,0,0,heap);
-    ((struct Obj01262 *)p)->f40=func_0204AF28(first,16,17,heap);
-    ((struct Obj01262 *)p)->f48=func_0204ABF0(second,31,1,0,heap);
-    ((struct Obj01262 *)p)->f44=func_0204A6C8(second,32,0,1,heap);
-    ((struct Obj01262 *)p)->f4C=func_0204AF28(first,18,19,heap);
-    func_02049238(second);
-    func_02049238(first);
+    ((struct Obj01262 *)p)->f24=CLACT_RegisterPalette(first,6,0,0,heap);
+    ((struct Obj01262 *)p)->f20=CLACT_RegisterCharacter(first,7,0,0,heap);
+    ((struct Obj01262 *)p)->f28=CLACT_RegisterCellAnim(first,8,9,heap);
+    ((struct Obj01262 *)p)->f30=CLACT_RegisterPalette(first,10,0,32,heap);
+    ((struct Obj01262 *)p)->f2C=CLACT_RegisterCharacter(first,11,0,0,heap);
+    ((struct Obj01262 *)p)->f34=CLACT_RegisterCellAnim(first,12,13,heap);
+    ((struct Obj01262 *)p)->f3C=CLACT_RegisterPalette(first,14,0,64,heap);
+    ((struct Obj01262 *)p)->f38=CLACT_RegisterCharacter(first,15,0,0,heap);
+    ((struct Obj01262 *)p)->f40=CLACT_RegisterCellAnim(first,16,17,heap);
+    ((struct Obj01262 *)p)->f48=CLACT_RegisterPalette(second,31,1,0,heap);
+    ((struct Obj01262 *)p)->f44=CLACT_RegisterCharacter(second,32,0,1,heap);
+    ((struct Obj01262 *)p)->f4C=CLACT_RegisterCellAnim(first,18,19,heap);
+    ARC_TOOL_DeleteHandle(second);
+    ARC_TOOL_DeleteHandle(first);
     do{
         r=&d_02184910[i];
         q=p+r->group*4;
-        *(void **)(p+i*4)=func_0204B294((void *)*(u32 *)&((struct Obj01262 *)p)->f1C,((struct Obj10642 *)q)->f20,((struct Obj10642 *)q)->f24,((struct Obj10642 *)q)->f28,&d_021848AC[r->config],r->id,heap);
+        *(void **)(p+i*4)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj01262 *)p)->f1C,((struct Obj10642 *)q)->f20,((struct Obj10642 *)q)->f24,((struct Obj10642 *)q)->f28,&d_021848AC[r->config],r->id,heap);
         func_0204B92C(*(void **)(p+i*4),1);
         ++i;
     }while(i<7);

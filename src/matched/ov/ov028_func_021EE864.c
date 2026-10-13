@@ -1,5 +1,5 @@
 /*
- * function: func_021EE864
+ * function: WEATHER_FOG_UpdateParticleFixed
  * address:  0x021EE864
  * packet:   pkt_021EE864
  * region:   ov028
@@ -15,6 +15,6 @@
  *   (none)
  */
 
-void func_021EE864(void)
+void WEATHER_FOG_UpdateParticleFixed(void)
 {
 }

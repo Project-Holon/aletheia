@@ -35,6 +35,8 @@
  *
  * symbols:
  *   POKE_TOOL_SetBoxMoveSlot  0x020181FC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  */
 
 typedef unsigned char  u8;
@@ -43,8 +45,8 @@ typedef unsigned int   u32;
 typedef int            s32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxMoveSlot(void *p, u32 move, u8 slot);
 
@@ -58,7 +60,7 @@ u32 sub_0201808C(void *p, u32 move)
 u32 sub_02018094(void *p, u32 move)
 {
     u32 r = 0xFFFF;
-    u32 lock = func_02017DBC(p);
+    u32 lock = POKE_TOOL_DecodeBoxParam(p);
     s32 i;
 
     for (i = 0; i < 4; i++) {
@@ -74,6 +76,6 @@ u32 sub_02018094(void *p, u32 move)
             break;
         }
     }
-    func_02017DE4(p, lock);
+    POKE_TOOL_EncodeBoxParam(p, lock);
     return r;
 }

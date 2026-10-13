@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02027CD8",
+   "name": "APP_TASKMENU_SetDisableKey",
    "address": "0x02027CD8",
    "kind": "game",
    "region": "arm9",

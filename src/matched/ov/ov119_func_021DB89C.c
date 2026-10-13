@@ -11,14 +11,14 @@
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_021DB7AC 0x021DB7AC thumb ov119
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  */
 typedef short s16;
 typedef unsigned int   u32;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 struct Obj;
 extern void func_0204B92C(struct Obj *,unsigned int),func_021DB7AC(char *,int,int);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 #define H(o) (*(s16 *)(p+(o)))
 #define I(o) (*(int *)(p+(o)))
 void func_021DB89C(char *p)
@@ -40,7 +40,7 @@ void func_021DB89C(char *p)
         }
         H(0x1078)=x;
     } else H(0x1078)=0;
-    if(func_02035C38()==0 && H(0x107a)!=0) {
+    if(TOUCHPANEL_GetCont()==0 && H(0x107a)!=0) {
         for(i=2;i!=0 && H(0x107a)!=0;i--) {
             if(H(0x107a)<0) H(0x107a)++;
             if(H(0x107a)>0) H(0x107a)--;

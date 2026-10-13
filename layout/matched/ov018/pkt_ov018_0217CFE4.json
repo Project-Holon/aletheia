@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217CFE4",
+   "name": "INTRUDE_SUBDISP_Init",
    "address": "0x0217CFE4",
    "kind": "game",
    "region": "ov018",

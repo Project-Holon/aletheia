@@ -11,7 +11,7 @@
  * function: func_0201F31C, func_0201F344
  *
  * symbols:
- *   unk_020A7370   0x020A7370  data
+ *   gSpeciesNameBank   0x020A7370  data
  *   STRBUF_Clear  0x0204581C  arm
  *
  * The wordset.c "clear every slot" walk and the one-line initialiser that
@@ -38,7 +38,7 @@ struct MsgBank;
 struct U16Vec;
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *unk_020A7370;
+extern void *gSpeciesNameBank;
 
 struct Entry { u8 tag[5]; void *str; };
 struct WordSet { u32 count; u32 heap; struct Entry *entries; void *buf; };
@@ -54,5 +54,5 @@ void func_0201F31C(struct WordSet *p)
 
 void func_0201F344(u16 heap)
 {
-    unk_020A7370 = func_02045B38(0, 2, 0x46, heap);
+    gSpeciesNameBank = func_02045B38(0, 2, 0x46, heap);
 }

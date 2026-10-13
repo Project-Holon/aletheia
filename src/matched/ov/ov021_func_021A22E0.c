@@ -1,5 +1,5 @@
 /*
- * function: func_021A22E0
+ * function: WEATHER_TASK_InitFog
  * address:  0x021A22E0
  * packet:   pkt_ov021_021A22E0
  * region:   ov021
@@ -10,32 +10,32 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A01AC  0x021A01AC  thumb  ov021
- *   func_021A01CC  0x021A01CC  thumb  ov021
- *   func_021A01B4  0x021A01B4  thumb  ov021
- *   func_021A01BC  0x021A01BC  thumb  ov021
- *   func_021A01D8  0x021A01D8  thumb  ov021
- *   func_021A01A4  0x021A01A4  thumb  ov021
+ *   FIELD_FOG_SetBlendMode  0x021A01AC  thumb  ov021
+ *   FIELD_FOG_SetColorA  0x021A01CC  thumb  ov021
+ *   FIELD_FOG_SetSlope  0x021A01B4  thumb  ov021
+ *   FIELD_FOG_SetOffset  0x021A01BC  thumb  ov021
+ *   FIELD_FOG_InitFogTable  0x021A01D8  thumb  ov021
+ *   FIELD_FOG_SetFlag  0x021A01A4  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-int func_021A01AC(u32 a, u32 b);
-int func_021A01CC(u32 a, u32 b);
-int func_021A01B4(u32 a, u32 b);
-int func_021A01BC(u32 a, u32 b);
+int FIELD_FOG_SetBlendMode(u32 a, u32 b);
+int FIELD_FOG_SetColorA(u32 a, u32 b);
+int FIELD_FOG_SetSlope(u32 a, u32 b);
+int FIELD_FOG_SetOffset(u32 a, u32 b);
 typedef unsigned char  u8;
-void func_021A01D8(u8 *p);
-int func_021A01A4(u32 a, u32 b);
+void FIELD_FOG_InitFogTable(u8 *p);
+int FIELD_FOG_SetFlag(u32 a, u32 b);
 
-void func_021A22E0(u32 *p, int a, int b, int c)
+void WEATHER_TASK_InitFog(u32 *p, int a, int b, int c)
 {
     if (c == 1) {
-        func_021A01AC(p[1], 0);
-        func_021A01CC(p[1], 0x1F);
-        func_021A01B4(p[1], a);
-        func_021A01BC(p[1], b);
-        func_021A01D8((u8 *)p[1]);
-        func_021A01A4(p[1], 1);
+        FIELD_FOG_SetBlendMode(p[1], 0);
+        FIELD_FOG_SetColorA(p[1], 0x1F);
+        FIELD_FOG_SetSlope(p[1], a);
+        FIELD_FOG_SetOffset(p[1], b);
+        FIELD_FOG_InitFogTable((u8 *)p[1]);
+        FIELD_FOG_SetFlag(p[1], 1);
     }
 }

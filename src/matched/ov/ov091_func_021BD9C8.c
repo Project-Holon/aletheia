@@ -1,5 +1,5 @@
 /*
- * function: func_021BD9C8
+ * function: PLIST_BATTLE_UpdateEffect
  * address: 0x021BD9C8
  * packet: pkt_ov091_021BD9C8
  * region: ov091
@@ -9,35 +9,37 @@
  * status: EXACT
  * blocker: ARM9 0x02051614, unmatched accessor; +0x70 THM_CALL has no outside witness.
  * blocker: verified EXACT (one --arm, fixed compiler, 12 B) in scratch:
- *   unsigned int func_02051614(unsigned int **p) { return (*p)[2]; }
+ *   unsigned int PARTICLE_GetEffectCount(unsigned int **p) { return (*p)[2]; }
  * symbols:
  *   func_02040588 0x02040588 arm
- *   func_021BB200 0x021BB200 thumb ov091
- *   func_02051614 0x02051614 arm
+ *   PLIST_PLATE_SetMon 0x021BB200 thumb ov091
+ *   PARTICLE_GetEffectCount 0x02051614 arm
  *   PARTICLE_UpdateAllSystems 0x02051574 arm
- *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   PARTICLE_DrawAllSystems 0x02051534 arm
- *   func_02047970 0x02047970 arm
- *   func_02006BD0 0x02006BD0 thumb
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
+ *   PM_VOICE_IsActive 0x02006BD0 thumb
+ *   PM_VOICE_Play  0x02006984  thumb  arm9
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020061E4(u32);
-extern void func_021BB200(u8 *,u8 *,int,int);
-extern int func_02051614(int **p);
+extern void PLIST_PLATE_SetMon(u8 *,u8 *,int,int);
+extern int PARTICLE_GetEffectCount(int **p);
 extern int func_02006238(void);
-extern u32 func_02017E1C(void *,u32,u32);
-extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
-extern u32 func_02006BD0(u32 i);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 PM_VOICE_IsActive(u32 i);
 extern int PARTICLE_UpdateAllSystems(void);
-extern void func_02047964(void);
-extern void func_020479D8(void);
+extern void G3D_SYSTEM_DrawStart(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 extern int PARTICLE_DrawAllSystems(void);
-extern void func_02047970(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 #define W(o) (*(u32 *)(p+(o)))
-void func_021BD9C8(u8 *p)
+void PLIST_BATTLE_UpdateEffect(u8 *p)
 {
     u32 species,form;
     if (W(0x26c) == 0) {
@@ -48,23 +50,23 @@ void func_021BD9C8(u8 *p)
             else if (W(0x264) == 3) func_020061E4(0x644);
         }
         if (p[0x268] > p[0x269]) {
-            func_021BB200(p,*(u8 **)(p+W(0x2c)*4+0x160),W(0x38),0);
+            PLIST_PLATE_SetMon(p,*(u8 **)(p+W(0x2c)*4+0x160),W(0x38),0);
             W(0x26c) = 1;
         }
     }
-    if (func_02051614((int **)W(0x260)) <= 0 && func_02006238() == 0) {
+    if (PARTICLE_GetEffectCount((int **)W(0x260)) <= 0 && func_02006238() == 0) {
         if (W(0x270) == 0) {
-            species = func_02017E1C((void *)W(0x38),5,0);
-            form = func_02017E1C((void *)W(0x38),0x6f,0);
-            W(0x274) = func_02006984(species,form,0x40,0,0,0,0,0);
+            species = POKE_TOOL_GetPartyValue((void *)W(0x38),5,0);
+            form = POKE_TOOL_GetPartyValue((void *)W(0x38),0x6f,0);
+            W(0x274) = PM_VOICE_Play(species,form,0x40,0,0,0,0,0);
             W(0x270) = 1;
         } else {
-            if (func_02006BD0(W(0x274)) == 0) p[0xc] = 0x10;
+            if (PM_VOICE_IsActive(W(0x274)) == 0) p[0xc] = 0x10;
         }
     }
     PARTICLE_UpdateAllSystems();
-    func_02047964();
-    func_020479D8();
+    G3D_SYSTEM_DrawStart();
+    G3D_SYSTEM_ApplyLookAt();
     PARTICLE_DrawAllSystems();
-    func_02047970();
+    G3D_SYSTEM_DrawEnd();
 }

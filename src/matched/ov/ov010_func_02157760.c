@@ -1,5 +1,5 @@
 /*
- * function: func_02157760
+ * function: DELIVERY_BEACON_StepCollectPieces
  * address:  0x02157760
  * packet:   pkt_ov010_02157760
  * region:   ov010
@@ -49,7 +49,7 @@ typedef struct P {
     u8 sel;
 } P;
 
-void func_02157760(u8 *q)
+void DELIVERY_BEACON_StepCollectPieces(u8 *q)
 {
     P *p = (P *)q;
     u8 *base;

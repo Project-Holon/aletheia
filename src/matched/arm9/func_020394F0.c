@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   _pNetSys     0x021469D0  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  */
 
 #include "../include/G_LinkState.h"
@@ -23,12 +23,12 @@ typedef struct {
     u8 f065;
 } T_0203D798;
 
-extern T_0203D798 *func_0203D798(void);
+extern T_0203D798 *GFL_NET_GetInitParam(void);
 extern struct LinkState *_pNetSys;
 
 void GFL_NET_SYSTEM_SetWaitMode(u32 a)
 {
-    u8 v = func_0203D798()->f065;
+    u8 v = GFL_NET_GetInitParam()->f065;
 
     if ((u8)(v + 0xff) > 1) {
         return;

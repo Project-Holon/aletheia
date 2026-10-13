@@ -1,5 +1,5 @@
 /*
- * function: func_02162370
+ * function: EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange
  * address:  0x02162370
  * packet:   pkt_02162370
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-int func_02162370(int a)
+int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int a)
 {
 return a >= 7;
 }

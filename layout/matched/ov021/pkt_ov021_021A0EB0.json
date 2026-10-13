@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A0EB0",
+   "name": "FIELD_SUBSCREEN_CheckModeRequest",
    "address": "0x021A0EB0",
    "kind": "game",
    "region": "ov021",

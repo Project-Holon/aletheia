@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2A4
+ * function: PLACE_NAME_LETTER_DeleteBmpOam
  * address:  0x021BD2A4
  * packet:   pkt_ov021_021BD2A4
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BMP_OAM_Delete  0x0202570C  thumb  arm9
  */
 
 typedef struct {
@@ -16,12 +19,12 @@ typedef struct {
 } Obj;
 
 struct Grid;
-extern void func_0202570C(struct Grid *g);
+extern void BMP_OAM_Delete(struct Grid *g);
 
-void func_021BD2A4(Obj *p)
+void PLACE_NAME_LETTER_DeleteBmpOam(Obj *p)
 {
     if (p->fC != 0) {
-        func_0202570C(p->fC);
+        BMP_OAM_Delete(p->fC);
         p->fC = 0;
     }
 }

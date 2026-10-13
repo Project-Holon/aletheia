@@ -1,5 +1,5 @@
 /*
- * function: func_0219270C
+ * function: FIELD_MSGBG_GetStrWidthChars
  * address:  0x0219270C
  * packet:   pkt_ov021_0219270C
  * region:   ov021
@@ -31,7 +31,7 @@ typedef struct Q {
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-u32 func_0219270C(Q *q, int a, int n)
+u32 FIELD_MSGBG_GetStrWidthChars(Q *q, int a, int n)
 {
     u32 x;
     u32 r;

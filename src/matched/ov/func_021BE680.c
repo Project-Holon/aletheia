@@ -11,6 +11,9 @@
  *
  * symbols:
  *   func_021BD208 0x021BD208  thumb  ov208
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
+ *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
 
  * Frees the three allocations at +0x5C..+0x64 and clears +0x30.
  */
@@ -20,17 +23,17 @@
 struct Ov208Mgr;
 extern void func_021BD208(struct Ov208Mgr *m);
 typedef unsigned int   u32;
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
 void func_021BE680(char *p)
 {
     if (*(int *)&((struct Obj01081 *)p)->f30 != 0) {
         func_021BD208((struct Ov208Mgr *)(*(int *)&((struct Obj01081 *)p)->f30));
-        func_0204ADA4(((struct Obj01081 *)p)->f5C);
-        func_0204A8D4(((struct Obj01081 *)p)->f60);
-        func_0204AFD8(((struct Obj01081 *)p)->f64);
+        CLACT_ReleasePalette(((struct Obj01081 *)p)->f5C);
+        CLACT_ReleaseCharacter(((struct Obj01081 *)p)->f60);
+        CLACT_ReleaseCellAnim(((struct Obj01081 *)p)->f64);
     }
     *(int *)&((struct Obj01081 *)p)->f30 = 0;
 }

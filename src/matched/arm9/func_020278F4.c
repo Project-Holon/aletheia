@@ -24,8 +24,8 @@
  * symbols:
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02045770  0x02045770  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -40,8 +40,8 @@ struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(struct Descriptor *p);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *p);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
@@ -65,8 +65,8 @@ void APP_TASKMENU_TransWinAfterPrint(u8 *p)
     }
     for (i = 0; i < ((struct Obj00104 *)p)->f24; i++) {
         u32 v = (*(u32 **)(p + 0x18))[i];
-        func_02045334((struct Descriptor *)v);
-        func_02045374((struct Cfg *)v);
+        BMP_WIN_TransferChars((struct Descriptor *)v);
+        BMP_WIN_MakeScreen((struct Cfg *)v);
         func_02041B6C(func_02045730((struct Descriptor *)v));
     }
     ((struct Obj00104 *)p)->f8 = 0;

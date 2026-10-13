@@ -15,7 +15,7 @@
  *   func_021D8FA4 0x021D8FA4 thumb ov119
  *   func_0201EEF4 0x0201EEF4 thumb
  *   func_0201F02C 0x0201F02C thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
  *   func_021E0FF4 0x021E0FF4 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
@@ -29,7 +29,7 @@ struct MsgBank;
 struct WordSet;
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021E0FF4(void *, int, int);
 extern void func_021D8E84(void *, int);
@@ -49,11 +49,11 @@ void func_021DFF40(char *p)
     func_0201F02C(((struct Obj01252 *)p)->f724, 0, (void *)(((struct Obj01252 *)p)->f834));
     if (((struct Obj01252 *)p)->f118C != 7 && ((struct Obj01252 *)p)->f118C != 8) {
         if (((struct Obj01252 *)p)->f11EE) {
-            func_02045CAC(((struct Obj01252 *)p)->f720, 0x84, ((struct Obj01252 *)p)->f73C);
+            MSGDATA_ReadString(((struct Obj01252 *)p)->f720, 0x84, ((struct Obj01252 *)p)->f73C);
             func_0201F250(((struct Obj01252 *)p)->f724, ((struct Obj01252 *)p)->f738, ((struct Obj01252 *)p)->f73C);
             func_021E0FF4(p, 1, 0);
         } else {
-            func_02045CAC(((struct Obj01252 *)p)->f720, 0x31, ((struct Obj01252 *)p)->f73C);
+            MSGDATA_ReadString(((struct Obj01252 *)p)->f720, 0x31, ((struct Obj01252 *)p)->f73C);
             func_0201F250(((struct Obj01252 *)p)->f724, ((struct Obj01252 *)p)->f738, ((struct Obj01252 *)p)->f73C);
             func_021E0FF4(p, 1, 0);
         }

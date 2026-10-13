@@ -13,7 +13,7 @@
  * symbols:
  *   func_021BC6E4 0x021BC6E4 thumb ov217
  *   func_021BC628 0x021BC628 thumb ov217
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200E394 0x0200E394 thumb
  *   func_0200E440 0x0200E440 thumb
  *   d_021C30A8 0x021C30A8 data a1
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct Big;
 extern u32 func_021BC6E4(void *p);
 extern u32 func_021BC628(u8 *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E394(void *a0);
 extern void func_0200E440(u8 *p, int value, int index);
 extern const u8 d_021C30A8[],d_021C3080[],d_021C308A[];
@@ -34,7 +34,7 @@ void func_021BBCB0(u8 *p)
     u32 index;
     int data;
     index=func_021BC6E4(p);
-    data=(int)func_0200E394((void *)((int)func_02012EBC((struct Big *)func_021BC628(p))));
+    data=(int)func_0200E394((void *)((int)GAME_DATA_GetSaveControl((struct Big *)func_021BC628(p))));
     func_0200E440((u8 *)data,d_021C30A8[index],0);
     func_0200E440((u8 *)data,d_021C3080[index],1);
     func_0200E440((u8 *)data,d_021C308A[index],2);

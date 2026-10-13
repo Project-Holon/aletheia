@@ -1,5 +1,5 @@
 /*
- * function: func_021A3E14
+ * function: FIELD_PLAYER_CORE_FormStepCycle
  * address:  0x021A3E14
  * packet:   pkt_ov021_021A3E14
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A398C  0x021A398C  thumb  ov021
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A3980  0x021A3980  thumb  ov021
- *   func_021A4114  0x021A4114  thumb  ov021
- *   func_021A3D50  0x021A3D50  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetSex  0x021A398C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetFormCode  0x021A3980  thumb  ov021
+ *   FIELD_PLAYER_CORE_PostZoneBgmChange  0x021A4114  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChangeToFormSlot  0x021A3D50  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -31,19 +31,19 @@ typedef struct {
     u16 done;
 } Obj021A3E14;
 
-u32 func_021A398C(u8 *p);
-void *func_021A3960(u8 *p);
-void func_021A3980(u8 *p, u32 a1);
-void func_021A4114(u32 *p);
-int func_021A3D50(u32 a, u32 b);
+u32 FIELD_PLAYER_CORE_GetSex(u8 *p);
+void *FIELD_PLAYER_CORE_GetMmdl(u8 *p);
+void FIELD_PLAYER_CORE_SetFormCode(u8 *p, u32 a1);
+void FIELD_PLAYER_CORE_PostZoneBgmChange(u32 *p);
+int FIELD_PLAYER_CORE_ChangeToFormSlot(u32 a, u32 b);
 
-int func_021A3E14(Obj021A3E14 *p)
+int FIELD_PLAYER_CORE_FormStepCycle(Obj021A3E14 *p)
 {
-    func_021A398C((u8 *)p);
-    func_021A3960((u8 *)p);
-    func_021A3980((u8 *)p, 1);
-    func_021A4114((u32 *)p);
-    if (func_021A3D50((u32)p, 1) != 1)
+    FIELD_PLAYER_CORE_GetSex((u8 *)p);
+    FIELD_PLAYER_CORE_GetMmdl((u8 *)p);
+    FIELD_PLAYER_CORE_SetFormCode((u8 *)p, 1);
+    FIELD_PLAYER_CORE_PostZoneBgmChange((u32 *)p);
+    if (FIELD_PLAYER_CORE_ChangeToFormSlot((u32)p, 1) != 1)
         p->step++;
     return 0;
 }

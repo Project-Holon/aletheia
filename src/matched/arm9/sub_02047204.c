@@ -1,5 +1,5 @@
 /*
- * function: func_02047204
+ * function: G3D_SYSTEM_TransAllocatedTexture
  * address:  0x02047204
  * packet:   pkt_02046EFC
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206E964  0x0206E964  arm
+ *   NNS_G3dGetTex  0x0206E964  arm
  *   func_0206A00C  0x0206A00C  arm
  *   NNS_G3dPlttLoad  0x0206A12C  arm
  *   DC_FlushRange  0x020862F0  arm
@@ -33,7 +33,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02047204.c \
- *       --func func_02047204 --addr 0x02047204 --cc 1.1p1 --arm
+ *       --func G3D_SYSTEM_TransAllocatedTexture --addr 0x02047204 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -51,16 +51,16 @@ struct BufHdr {
     u32 size;
 };
 
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 struct Up;
 extern void func_0206A00C(struct Up *u, u32 wrap);
 extern void  NNS_G3dPlttLoad(void *rec, u32 flag);
 extern void  DC_FlushRange(void *addr, u32 size);
 
-u32 func_02047204(struct Tagged *p)
+u32 G3D_SYSTEM_TransAllocatedTexture(struct Tagged *p)
 {
     struct BufHdr *buf = p->buf;
-    void          *last = func_0206E964((unsigned char *)buf);
+    void          *last = NNS_G3dGetTex((unsigned char *)buf);
 
     if (last == 0) {
         return 0;

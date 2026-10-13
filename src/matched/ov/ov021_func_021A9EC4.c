@@ -1,5 +1,5 @@
 /*
- * function: func_021A9EC4
+ * function: FIELD_ENCOUNT_PickRandomSlot
  * address:  0x021A9EC4
  * packet:   pkt_ov021_021A9EC4
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A9DC8  0x021A9DC8  thumb
+ *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb
  *   _u32_div_f  0x0209C2B0  arm
  */
 
 typedef unsigned int u32;
 
-extern u32 func_021A9DC8(void);
+extern u32 FIELD_ENCOUNT_RandPercent(void);
 
-u32 func_021A9EC4(u32 a)
+u32 FIELD_ENCOUNT_PickRandomSlot(u32 a)
 {
-    return func_021A9DC8() % a;
+    return FIELD_ENCOUNT_RandPercent() % a;
 }

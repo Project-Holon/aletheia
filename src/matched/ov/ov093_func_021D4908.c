@@ -1,5 +1,5 @@
 /*
- * function: func_021D4908
+ * function: BTL_NET_SendRelayedPlayerInfo
  * address:  0x021D4908
  * packet:   pkt_ov093_021D4908
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F3B88     0x021F3B88  data  ov093
- *   func_021D4A0C  0x021D4A0C  thumb ov093
- *   func_021D4A64  0x021D4A64  thumb ov093
- *   func_0203D3F8  0x0203D3F8  arm
+ *   gBtlNet     0x021F3B88  data  ov093
+ *   BTL_NET_BuildPlayerInfoPacket  0x021D4A0C  thumb ov093
+ *   BTL_NET_FreePlayerInfoPacket  0x021D4A64  thumb ov093
+ *   GFL_NET_SendData  0x0203D3F8  arm
  */
 
 typedef unsigned char u8;
@@ -25,18 +25,18 @@ struct S {
     u16 f04;
 };
 
-extern struct S *d_021F3B88;
-extern void *func_021D4A0C(void *a, u32 heap);
-extern void func_021D4A64(void *p);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern struct S *gBtlNet;
+extern void *BTL_NET_BuildPlayerInfoPacket(void *a, u32 heap);
+extern void BTL_NET_FreePlayerInfoPacket(void *p);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-u32 func_021D4908(void *a)
+u32 BTL_NET_SendRelayedPlayerInfo(void *a)
 {
     void *o;
     u32 r;
 
-    o = func_021D4A0C(a, (u16)((d_021F3B88->f04 & 0x7fff) | 0x8000));
-    r = func_0203D3F8(d_021F3B88->f00, 0xff, 0x106, 0x6c, (u32)o, 0, 1, 0);
-    func_021D4A64(o);
+    o = BTL_NET_BuildPlayerInfoPacket(a, (u16)((gBtlNet->f04 & 0x7fff) | 0x8000));
+    r = GFL_NET_SendData(gBtlNet->f00, 0xff, 0x106, 0x6c, (u32)o, 0, 1, 0);
+    BTL_NET_FreePlayerInfoPacket(o);
     return r;
 }

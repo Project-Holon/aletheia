@@ -17,12 +17,12 @@
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   func_02017E88 0x02017E88 thumb
  *   func_0201BD28 0x0201BD28 thumb
- *   func_02043678 0x02043678 arm
+ *   BMP_Create 0x02043678 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   P_STATUS_PrintMsg 0x021D614C thumb ov131
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -52,12 +52,12 @@ extern void *P_STATUS_GetPokePara(u8 *);
 extern u32 func_02017E88(void *,u32,u32);
 extern u32 func_0201BD28(u16,u32);
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
-extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
-extern void func_02045808(struct U16Vec *);
-extern u32 func_02045C04(struct Rec *rec);
+extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
+extern void STRBUF_Delete(struct U16Vec *);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void P_STATUS_PrintMsg(u8 *,int,int,int,s16,u16);
 extern struct WordSet *func_0201EC64(u32);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
@@ -83,12 +83,12 @@ void P_STA_SKILL_InitSlotText(u8 *p,u8 *q,u8 *entry)
         count=func_0201BD28(id,5);
         value=count;
     }
-    *(Bmp * *)&((struct Obj01409 *)entry)->f10=(Bmp *)func_02043678(11,4,32,((struct Obj02846 *)p)->f0);
+    *(Bmp * *)&((struct Obj01409 *)entry)->f10=(Bmp *)BMP_Create(11,4,32,((struct Obj02846 *)p)->f0);
     bank=func_02045B38(0,2,203,((struct Obj02846 *)p)->f0);
     text=func_02045EC0(bank,id);
-    func_0201C724(((struct Obj02846 *)p)->f84,*(u32 *)&((struct Obj01409 *)entry)->f10,3,2,(u32)text,((struct Obj02846 *)p)->f80,1088);
-    func_02045808(text);
-    func_02045C04((struct Rec *)bank);
+    PRINTSYS_PrintQueColor(((struct Obj02846 *)p)->f84,*(u32 *)&((struct Obj01409 *)entry)->f10,3,2,(u32)text,((struct Obj02846 *)p)->f80,1088);
+    STRBUF_Delete(text);
+    MSGDATA_Delete((struct Rec *)bank);
     if(id!=0) {
         P_STATUS_PrintMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,135,13,17,1088);
         first=func_0201EC64(((struct Obj02846 *)p)->f0);

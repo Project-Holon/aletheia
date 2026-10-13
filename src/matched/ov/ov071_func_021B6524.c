@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_0203F9B4  0x0203F9B4  arm
- *   func_02045088  0x02045088  arm
- *   func_020450C8  0x020450C8  arm
+ *   BMP_WIN_Init  0x02045088  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  */
 
 void func_021B6524(void)
@@ -27,12 +27,12 @@ void func_021B6524(void)
 typedef unsigned short u16;
 void func_021B652C(void)
 {
-    void func_02045088(u16 heapId);
-    func_02045088(0x61);
+    void BMP_WIN_Init(u16 heapId);
+    BMP_WIN_Init(0x61);
 }
 
 void func_021B6538(void)
 {
-    void func_020450C8(void);
-    func_020450C8();
+    void BMP_WIN_Exit(void);
+    BMP_WIN_Exit();
 }

@@ -13,7 +13,7 @@
  *   func_02049658 0x02049658 arm
  *   func_02049B68 0x02049B68 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj00627.h"
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021C5D68(u8 *p)
 {
     void *h;
@@ -36,5 +36,5 @@ void func_021C5D68(u8 *p)
     func_02049658(h,(u32)(q+12),5,0,0,1,102);
     func_02049B68(h,(u32)q,4,0,64,102);
     func_020498F4(h,(u32)(q+24),5,0,0,1,102);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

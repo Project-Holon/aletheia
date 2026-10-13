@@ -1,5 +1,5 @@
 /*
- * function: func_02184148
+ * function: UNION_APP_OpenLimited
  * address: 0x02184148
  * packet: pkt_ov022_02184148
  * region: ov022
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1E8 0x0203D1E8 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_NotifyUserEvent 0x0203D1E8 arm
  */
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-extern void func_0203D1E8(u32 unused, void *arg);
-void func_02184148(unsigned char *p, int a)
+extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+void UNION_APP_OpenLimited(unsigned char *p, int a)
 {
-    if (func_0203CD98()) {
-        func_0203D1E8((int)func_020399A8(), (void *)1);
+    if (GFL_NET_GetRunState()) {
+        GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
         p[9] = 2;
         p[11] = a;
         p[10] = 0;

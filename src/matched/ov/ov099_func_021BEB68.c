@@ -30,7 +30,7 @@
  * symbols:
  *   func_021BA928 0x021BA928 thumb ov099
  *   DWC_RAP_IsUserDataChanged 0x02156C84 thumb ov009
- *   func_02012DAC 0x02012DAC thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   GFL_NET_STATE_IsWifiLoginState 0x0203C600 arm
  *   func_021BE6F0 0x021BE6F0 thumb ov099
  *   func_021BE788 0x021BE788 thumb ov099
@@ -41,7 +41,7 @@
  */
 extern int func_021BA928(char *, int);
 extern unsigned char DWC_RAP_IsUserDataChanged(void);
-extern int func_02012DAC(int a0);
+extern int GAME_DATA_SaveStart(int a0);
 extern int GFL_NET_STATE_IsWifiLoginState(void);
 extern void func_021BE6F0(char *, int, int);
 extern int func_021BE788(char *);
@@ -53,7 +53,7 @@ int func_021BEB68(char *p, int ret)
 {
     if (!func_021BA928(p, ret)) return ret;
     if (DWC_RAP_IsUserDataChanged()) {
-        func_02012DAC((int)(*(void **)(p + 0xc4)));
+        GAME_DATA_SaveStart((int)(*(void **)(p + 0xc4)));
         *(int *)(p + 0x1cc) = 0x3e;
         return ret;
     }

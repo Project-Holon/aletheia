@@ -1,5 +1,5 @@
 /*
- * function: func_02165B5C
+ * function: GAME_BEACON_ACCESSOR_IsInfoInvalid
  * address:  0x02165B5C
  * packet:   pkt_ov010_02165B5C
  * region:   ov010
@@ -11,11 +11,11 @@
  *
  * Range check of a packed record: returns 1 (invalid) on the first field
  * out of range, else the verdict of the per-kind checker picked from
- * the table at 0x02171CA8 by func_02165FB4(kind).
+ * the table at 0x02171CA8 by GAME_BEACON_ACCESSOR_GetActionCheckIndex(kind).
  *
  * symbols:
- *   func_02165FB4  0x02165FB4  thumb  ov010
- *   d_02171CA8     0x02171CA8  data
+ *   GAME_BEACON_ACCESSOR_GetActionCheckIndex  0x02165FB4  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_ActionCheckFuncs     0x02171CA8  data
  */
 
 typedef unsigned char u8;
@@ -46,10 +46,10 @@ typedef struct Rec {
 
 typedef int (*RecCheck)(Rec *r);
 
-extern u8 func_02165FB4(u16 kind);
-extern const RecCheck d_02171CA8[];
+extern u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 kind);
+extern const RecCheck GAME_BEACON_ACCESSOR_ActionCheckFuncs[];
 
-int func_02165B5C(Rec *r)
+int GAME_BEACON_ACCESSOR_IsInfoInvalid(Rec *r)
 {
     if (r->f30 == 0 || r->f30 >= 0x33)
         return 1;
@@ -65,7 +65,7 @@ int func_02165B5C(Rec *r)
         return 1;
     if (r->f04_0 > 99999 || r->f08_0 > 99999)
         return 1;
-    if (d_02171CA8[func_02165FB4(r->f30)](r) != 0)
+    if (GAME_BEACON_ACCESSOR_ActionCheckFuncs[GAME_BEACON_ACCESSOR_GetActionCheckIndex(r->f30)](r) != 0)
         return 1;
     return 0;
 }

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DD0F8",
-    "func_021DD104"
+    "BTL_HANDLER_ITEM_PersimBerryOnEaten",
+    "BTL_HANDLER_ITEM_AddPersimBerry"
+   ],
+   "addresses": [
+    "0x021DD0F8",
+    "0x021DD104"
    ],
    "evidence": {
     "sole-ref": [

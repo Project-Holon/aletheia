@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203996C  0x0203996C  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
@@ -65,9 +65,9 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 struct Entry;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
-extern struct Entry *func_0203996C(s32 idx);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -90,9 +90,9 @@ struct Entry *GFL_NET_HANDLE_CreateHandle(u32 idx)
     u8 *g;
     int i;
 
-    g = func_0203D798();
+    g = GFL_NET_GetInitParam();
     GFL_NET_GetSession();
-    e = (struct Entry *)func_0203996C(idx);
+    e = (struct Entry *)GFL_NET_HANDLE_GetNetHandle(idx);
 
     if (idx == 0xff) {
         for (i = 0; i < 8; i++) {

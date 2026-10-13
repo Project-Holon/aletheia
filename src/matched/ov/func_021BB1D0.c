@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1D0
+ * function: RAIL_ATTR_IsForceMoveRight
  * address:  0x021BB1D0
  * packet:   pkt_021BB1D0
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BB1D0(int x)
+int RAIL_ATTR_IsForceMoveRight(int x)
 {
     if (x == 166)
         return 1;

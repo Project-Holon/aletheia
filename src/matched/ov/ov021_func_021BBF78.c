@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF78
+ * function: FLDEFF_REFLECT_Init
  * address:  0x021BBF78
  * packet:   pkt_ov021_021BBF78
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   d_021DE320     0x021DE320  data  a4
- *   func_021BBFB0  0x021BBFB0  thumb  ov021
+ *   FLDEFF_REFLECT_InitResource  0x021BBFB0  thumb  ov021
  */
 
 typedef struct {
@@ -21,13 +21,13 @@ typedef struct {
 extern int d_021DE320;
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_021BBFB0(void);
+extern void FLDEFF_REFLECT_InitResource(void);
 
-Obj *func_021BBF78(int a, int b)
+Obj *FLDEFF_REFLECT_Init(int a, int b)
 {
     Obj *q = func_02030734(b, 4, 1, (const char *)&d_021DE320, 0x78);
 
     q->f0 = a;
-    func_021BBFB0();
+    FLDEFF_REFLECT_InitResource();
     return q;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDA30",
+   "name": "EVENT_ENTRANCE_OUT_RunPlain",
    "address": "0x021BDA30",
    "kind": "game",
    "region": "ov021",

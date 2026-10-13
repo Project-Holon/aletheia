@@ -22,8 +22,8 @@
  *   func_02045730  0x02045730  arm
  *   func_020416D4  0x020416D4  arm
  *   func_0204B404  0x0204B404  arm
- *   func_0204B84C  0x0204B84C  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 
 typedef unsigned short u16;
@@ -42,8 +42,8 @@ struct Obj;
 extern u8 func_020416D4(u32 layer);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void  func_0204B84C(void *h, u32 a);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void  CLACT_SetActorBgPriority(void *h, u32 a);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void PMS_DRAW_PlaceDecoActor(void *h, struct Descriptor *cell, u32 b, u32 c,
                    u32 n, const struct Pos *base)
@@ -57,6 +57,6 @@ void PMS_DRAW_PlaceDecoActor(void *h, struct Descriptor *cell, u32 b, u32 c,
     pt.y = (u16)pos.y;
     t = func_02045730(cell);
     func_0204B404(h, (const struct Vec2 *)(&pt), (u16)sub_0202E430(t));
-    func_0204B84C(h, func_020416D4(t));
-    func_0204B878(h, (u16)(n - 1));
+    CLACT_SetActorBgPriority(h, func_020416D4(t));
+    CLACT_SetActorAnimSeq(h, (u16)(n - 1));
 }

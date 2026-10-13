@@ -1,5 +1,5 @@
 /*
- * function: func_021F5CA0
+ * function: ENCEFF_StartGridSpreadWave
  * address:  0x021F5CA0
  * packet:   pkt_ov081_021F5CA0
  * region:   ov081
@@ -16,7 +16,7 @@
 #include "../../ov077/enceff_grid_types.h"
 #include "../unit_021F5A80_types.h"
 
-void func_021F5CA0(EncEffGridWork *work)
+void ENCEFF_StartGridSpreadWave(EncEffGridWork *work)
 {
     int i;
     EncEffGridStepState *step = &work->step;

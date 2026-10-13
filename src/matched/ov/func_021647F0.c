@@ -1,5 +1,5 @@
 /*
- * function: func_021647F0
+ * function: CALENDER_ClearResources
  * address:  0x021647F0
  * packet:   pkt_021647F0
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_021647F0(int a0)
+int CALENDER_ClearResources(int a0)
 {
     int a1;
 

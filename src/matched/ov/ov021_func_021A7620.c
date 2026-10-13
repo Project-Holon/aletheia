@@ -1,5 +1,5 @@
 /*
- * function: func_021A7620
+ * function: FIELD_GROUND_ANIME_TexAnmSetFree
  * address:  0x021A7620
  * packet:   pkt_ov021_021A7620
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A78DC  0x021A78DC  thumb
- *   func_021A77E8  0x021A77E8  thumb
+ *   FIELD_GROUND_ANIME_TexAnmIsActive  0x021A78DC  thumb
+ *   FIELD_GROUND_ANIME_TexAnmFree  0x021A77E8  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -27,17 +27,17 @@ typedef struct {
 } S;
 
 typedef unsigned int   u32;
-extern int func_021A78DC(u32 a);
+extern int FIELD_GROUND_ANIME_TexAnmIsActive(u32 a);
 
-extern void func_021A77E8(E *e);
+extern void FIELD_GROUND_ANIME_TexAnmFree(E *e);
 extern u32 func_020307B0(void *p);
 
-void func_021A7620(S *s)
+void FIELD_GROUND_ANIME_TexAnmSetFree(S *s)
 {
     int i;
     for (i = 0; i < 16; i++) {
-        if (func_021A78DC((u32)(&s->e[i]))) {
-            func_021A77E8(&s->e[i]);
+        if (FIELD_GROUND_ANIME_TexAnmIsActive((u32)(&s->e[i]))) {
+            FIELD_GROUND_ANIME_TexAnmFree(&s->e[i]);
         }
     }
     if (s->p != 0) {

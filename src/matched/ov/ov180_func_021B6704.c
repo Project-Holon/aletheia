@@ -17,19 +17,19 @@
  * so the witness resolves; then it is EXACT with no change to the C.
  *
  * symbols:
- *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   func_0204EA38 0x0204EA38 arm
  *   func_021B6844 0x021B6844 thumb ov180
- *   func_02050BE8 0x02050BE8 arm
- *   func_02047970 0x02047970 arm
+ *   PARTICLE_Main 0x02050BE8 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   func_0204EA4C 0x0204EA4C arm
  */
-extern void func_02047964(void); extern void func_020479D8(void); extern unsigned func_0204EA38(void);
-extern void func_021B6844(char *,void *,int); extern void func_02050BE8(void); extern void func_02047970(void); extern void func_0204EA4C(void);
+extern void G3D_SYSTEM_DrawStart(void); extern void G3D_SYSTEM_ApplyLookAt(void); extern unsigned func_0204EA38(void);
+extern void func_021B6844(char *,void *,int); extern void PARTICLE_Main(void); extern void G3D_SYSTEM_DrawEnd(void); extern void func_0204EA4C(void);
 void func_021B6704(char *p) {
- func_02047964(); func_020479D8();
+ G3D_SYSTEM_DrawStart(); G3D_SYSTEM_ApplyLookAt();
  if(func_0204EA38()==1) { func_021B6844(p,*(void **)(p+0x28),1); func_021B6844(p,*(void **)(p+0x2C),1); }
  else { func_021B6844(p,*(void **)(p+0x28),0); func_021B6844(p,*(void **)(p+0x2C),0); }
- func_02050BE8(); func_02047970(); func_0204EA4C();
+ PARTICLE_Main(); G3D_SYSTEM_DrawEnd(); func_0204EA4C();
 }

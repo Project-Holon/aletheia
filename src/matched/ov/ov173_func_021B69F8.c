@@ -9,8 +9,12 @@
  * isa: thumb
  * status: EXACT
  *
- * 2026-10-05: func_02035C60 is declared int here (as in ov173 func_021B68C8): the listing tests r0 after it,
+ * 2026-10-05: TOUCHPANEL_GetTrg is declared int here (as in ov173 func_021B68C8): the listing tests r0 after it,
  * but its matched arm9 definition is void (tail call of TOUCHPANEL_GetTrgSys, which returns a value).
+ *
+ * symbols:
+ *   APP_KEYCURSOR_Update  0x020286C4  thumb  arm9
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
  */
 typedef unsigned int u32;
 extern u32 func_0201CE30(void *p);
@@ -18,10 +22,10 @@ typedef signed int     s32;
 struct Ctx;
 struct Rec;
 struct Rec3;
-extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern u32 func_0203630C(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_0201CE5C(struct Rec *p, s32 v);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201CE38(void *p);
@@ -30,7 +34,7 @@ extern void func_020061E4(unsigned);
 int func_021B69F8(char *p)
 {
     u32 r = func_0201CE30(*(void **)(p + 0x6c));
-    func_020286C4(*(void **)(p + 0x21c), *(void **)(p + 0x6c), *(void **)(p + 0x20));
+    APP_KEYCURSOR_Update(*(void **)(p + 0x21c), *(void **)(p + 0x6c), *(void **)(p + 0x20));
     if (r == 0) {
         if (func_0203630C() & 1)
             func_0201CE5C(*(void **)(p + 0x6c), 0);
@@ -38,7 +42,7 @@ int func_021B69F8(char *p)
         func_0201CE48(*(void **)(p + 0x6c));
         return *(int *)(p + 0x1b0);
     } else if (r == 1) {
-        if ((func_020362DC() & 3) || func_02035C60()) {
+        if ((func_020362DC() & 3) || TOUCHPANEL_GetTrg()) {
             func_0201CE38(*(void **)(p + 0x6c));
             func_020061E4(0x547);
         }

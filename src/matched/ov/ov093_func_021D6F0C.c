@@ -1,5 +1,5 @@
 /*
- * function: func_021D6F0C
+ * function: BTL_EVENT_AddFactor
  * address:  0x021D6F0C
  * packet:   pkt_ov093_021D6F0C
  * region:   ov093
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   data_021F3CB0  0x021F3CB0  data
- *   func_021D7474  0x021D7474  thumb  ov093
- *   func_021D6F08  0x021D6F08  thumb  ov093
+ *   BTL_EVENT_AllocFactor  0x021D7474  thumb  ov093
+ *   BTL_EVENT_DebugPrintFactorList  0x021D6F08  thumb  ov093
  *   MI_CpuFill8    0x02082BCC  arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -41,12 +41,12 @@ struct Node {
 };
 struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x84]; };
 extern struct NodeList data_021F3CB0;
-extern struct Node *func_021D7474(void);
-extern void func_021D6F08(void);
+extern struct Node *BTL_EVENT_AllocFactor(void);
+extern void BTL_EVENT_DebugPrintFactorList(void);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-struct Node *func_021D6F0C(int id, u32 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16)
+struct Node *BTL_EVENT_AddFactor(int id, u32 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16)
 {
-    struct Node *n = func_021D7474();
+    struct Node *n = BTL_EVENT_AllocFactor();
     struct Node *cur;
     struct Node *prev;
     int f;
@@ -97,7 +97,7 @@ struct Node *func_021D6F0C(int id, u32 key, int pri, u32 sub_pri, u8 sub, u32 f8
                 n->prev = prev;
             }
         }
-        func_021D6F08();
+        BTL_EVENT_DebugPrintFactorList();
         return n;
     }
     return 0;

@@ -15,7 +15,7 @@
  * symbols:
  *   TEXTPRINT_AsciiToGlyphCode  0x0204E410  arm
  *   TEXTPRINT_SjisToGlyphCode  0x0204E4C0  arm
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *
  * Byte-identical at 136 bytes with every concrete byte right; only the two
  * PC24 call fields at +0x4C and +0x54 stay wildcarded.  No `--suggest-split`
@@ -23,7 +23,7 @@
  * are inside it.
  *
  * Shape notes worth keeping.  `return` type is void: the epilogue is
- * `bl func_02045A98; strh r0,[r5]; pop` and nothing copies r0 afterwards, but
+ * `bl STRBUF_GetEosChar; strh r0,[r5]; pop` and nothing copies r0 afterwards, but
  * a u16 return forces `c` live across the loop and costs a callee-saved sb.
  * The first byte must be spelled `u8 ch = *p; p++;` -- `u8 ch = *p++;` emits
  * `ldrb r0,[r6],#1` and loses the `and r0,r0,#0xff` that reuses the loop
@@ -37,7 +37,7 @@ typedef unsigned short u16;
 
 extern u16 TEXTPRINT_AsciiToGlyphCode(u8 c);
 extern u16 TEXTPRINT_SjisToGlyphCode(u16 c);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 
 void TEXTPRINT_SjisToGlyphCodes(char *p, u16 *out, int max)
 {
@@ -57,5 +57,5 @@ void TEXTPRINT_SjisToGlyphCodes(char *p, u16 *out, int max)
             n++;
         }
     }
-    *out = func_02045A98();
+    *out = STRBUF_GetEosChar();
 }

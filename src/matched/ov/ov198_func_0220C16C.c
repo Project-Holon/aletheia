@@ -16,7 +16,7 @@
  *   halving shift (`x0 - ((u32)n >> 1)`, keeps lsrs). mwcc keeps the reload of a spilled narrow local below the
  *   outgoing stack stores (docs/idioms/a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md).
  * 2026-10-05 (wD9r lane138): still 22 bytes. Tried the matched ov198 sibling prototype (0220C694, 0220D628:
- *   `func_0201C724(void *, u32, u32, u32, u32, u32, u16)` with an (s16) cast at the call): 54, the ex reload
+ *   `PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16)` with an (s16) cast at the call): 54, the ex reload
  *   then hoists above the stack stores in all three calls. Also (u32, u32, int, int): 327 (frame grows, slot
  *   spilled); (int, s16): 328; (s16, int): 54; (short, short): 22. Finding: with an s16 parameter the ex
  *   reload stays below the outgoing stores, with u32 or int it hoists, so the s16 prototype is right and the
@@ -81,7 +81,7 @@
  * 2026-10-05 (wD9r lane79): still 22 bytes. Tried the sum as a reassignment before the call: `n = x0 + n;`
  *   then pass n (400 bytes, 99, n gets a new register and slot), and `x0 = x0 + n;` then pass x0 (23, adds a u8
  *   truncation). Neither keeps the n reload below the outgoing stack stores.
- * 2026-10-05 (wD9r lane87): still 22 bytes. Tried the house prototype of func_0201C724 with a u16 colour
+ * 2026-10-05 (wD9r lane87): still 22 bytes. Tried the house prototype of PRINTSYS_PrintQueColor with a u16 colour
  *   (ov021 021905C8, arm9 0202E1F0), with and without a const text pointer: same 22. The n reload still
  *   heads the x chain above the outgoing stack stores.
  * 2026-10-05 (wD9r lane98): still 22 bytes. Reading: in both builds the direct-move reloads (y, ex, ctx) sit
@@ -99,8 +99,8 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201D304 0x0201D304 thumb
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  */
@@ -119,8 +119,8 @@ struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32, u32, s16, s16, void *, u32, u32);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(u32, u32, s16, s16, void *, u32, u32);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
@@ -151,9 +151,9 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     slot = slot * 8;
     tab = p + 0x1F70;
     fl = p + 0x1F74;
-    func_0201C724(ctx1, (u32)func_02045770(*(void **)(tab + slot)), x0, ex, text, P->f1E9C, 0x3DC0);
+    PRINTSYS_PrintQueColor(ctx1, (u32)func_02045770(*(void **)(tab + slot)), x0, ex, text, P->f1E9C, 0x3DC0);
     fl[slot] = 1;
-    func_02045808(text);
+    STRBUF_Delete(text);
     text2 = func_02045EC0(P->f1EA0, 13);
     func_0201EFA4(P->f1EA4, 0, *(u16 *)(elem + 0x10), 3, 0, 1);
     func_0201F250(P->f1EA4, P->f1EA8, text2);
@@ -161,14 +161,14 @@ void func_0220C16C(u8 *p, int slot, int index, u8 x0, u8 extra)
     B = P->f1EA8;
     y = x0 - func_0201D304(B, A, 0);
     ctx2 = P->f1EAC;
-    func_0201C724(ctx2, (u32)func_02045770(*(void **)(tab + slot)), y, ex, B, A, 0x3DC0);
+    PRINTSYS_PrintQueColor(ctx2, (u32)func_02045770(*(void **)(tab + slot)), y, ex, B, A, 0x3DC0);
     fl[slot] = 1;
-    func_02045808(text2);
+    STRBUF_Delete(text2);
     text3 = func_02045EC0(P->f1EA0, 13);
     func_0201EFA4(P->f1EA4, 0, *(u16 *)(elem + 0x12), 3, 0, 1);
     func_0201F250(P->f1EA4, P->f1EA8, text3);
     ctx3 = P->f1EAC;
-    func_0201C724(ctx3, (u32)func_02045770(*(void **)(tab + slot)), x0 + n, ex, P->f1EA8, P->f1E9C, 0x3DC0);
+    PRINTSYS_PrintQueColor(ctx3, (u32)func_02045770(*(void **)(tab + slot)), x0 + n, ex, P->f1EA8, P->f1E9C, 0x3DC0);
     fl[slot] = 1;
-    func_02045808(text3);
+    STRBUF_Delete(text3);
 }

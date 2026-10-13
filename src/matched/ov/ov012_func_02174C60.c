@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   COLOSSEUM_StorePackage 0x021751B4 thumb ov012
  */
 #include "../include/Obj19280.h"
@@ -18,14 +18,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void COLOSSEUM_StorePackage(u8 *,u32,void *);
 void COLOSSEUM_RecvPackage(u32 a, u32 b, void *c, u8 *d)
 {
     u8 *w = *(u8 * *)&((struct Obj19280 *)d)->f355C;
-    if (a == func_0203D1A4((struct Link *)((u32)func_020399A8()))) return;
+    if (a == GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()))) return;
     if (w == 0 || ((struct Obj19281 *)w)->f0 == 0) return;
     COLOSSEUM_StorePackage(w,a,c);
 }

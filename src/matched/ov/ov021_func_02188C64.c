@@ -1,5 +1,5 @@
 /*
- * function: func_02188C64
+ * function: FIELDMAP_GetFog
  * address:  0x02188C64
  * packet:   pkt_ov021_02188C64
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-u32 func_02188C64(u8 *p)
+u32 FIELDMAP_GetFog(u8 *p)
 {
     return ((struct Obj19488 *)p)->f18;
 }

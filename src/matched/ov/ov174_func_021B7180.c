@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02049DF4 0x02049DF4 arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  */
 #include "../include/Obj14322.h"
 #include "../include/Obj24208.h"
-extern void *func_02049DF4(void *,unsigned,unsigned,unsigned,unsigned short);
-void func_021B7180(char *p, char *q, int id) {((struct Obj24208 *)q)->f10=func_02049DF4(((struct Obj14322 *)p)->f18,id,0,(unsigned)(q+12),((struct Obj14322 *)p)->f0);}
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *,unsigned,unsigned,unsigned,unsigned short);
+void func_021B7180(char *p, char *q, int id) {((struct Obj24208 *)q)->f10=ARC_UTIL_LoadBgCharDataFromHandle(((struct Obj14322 *)p)->f18,id,0,(unsigned)(q+12),((struct Obj14322 *)p)->f0);}

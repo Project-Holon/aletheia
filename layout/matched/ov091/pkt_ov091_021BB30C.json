@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB30C",
+   "name": "PLIST_PLATE_StartHpAnim",
    "address": "0x021BB30C",
    "kind": "game",
    "region": "ov091",

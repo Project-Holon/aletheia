@@ -10,10 +10,10 @@
  * symbols:
  *   func_021CF8D4 0x021CF8D4 thumb ov093
  *   func_021B9B98 0x021B9B98 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
  *   func_021CFD50 0x021CFD50 thumb ov093
- *   func_021D6C24 0x021D6C24 thumb ov093
+ *   BTL_POKEPARAM_IsIllusionActive 0x021D6C24 thumb ov093
  *   func_021B937C 0x021B937C thumb ov093
  *   func_021CFDCC 0x021CFDCC thumb ov093
  *   func_021CFE08 0x021CFE08 thumb ov093
@@ -24,8 +24,8 @@
  *   func_021D0304 0x021D0304 thumb ov093
  *   func_021D0980 0x021D0980 thumb ov093
  *   func_021D09E0 0x021D09E0 thumb ov093
- *   func_021CFBBC 0x021CFBBC thumb ov093
- *   func_021CFBE0 0x021CFBE0 thumb ov093
+ *   BTL_CLIENT_HasSlotInOrder 0x021CFBBC thumb ov093
+ *   BTL_CLIENT_SetSlotOrder 0x021CFBE0 thumb ov093
  */
 #include "../include/Obj00489.h"
 typedef unsigned char u8;
@@ -36,10 +36,10 @@ typedef signed char    s8;
 struct G;
 struct R4;
 extern u8 func_021B9B98(u8 *p);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern u8 *func_021CFD50(struct G *g, int k);
-extern int func_021D6C24(struct R4 *p);
+extern int BTL_POKEPARAM_IsIllusionActive(struct R4 *p);
 extern u8 *func_021B937C(int, char *, u8 *);
 extern int func_021CFDCC(void *, void *);
 extern int func_021CFE08(struct G *g, void *a, void *b);
@@ -50,8 +50,8 @@ extern int func_021D0248(struct G *g, void *m, u8 *out);
 extern int func_021D0304(struct G *g, void *mon, void *target, u8 *out);
 extern u8 func_021D0980(u8 *, u8 *);
 extern void func_021D09E0(u8 *p, u8 *order, u8 count, void *target);
-extern int func_021CFBBC(s8 *p, int v);
-extern void func_021CFBE0(u8 *p, u32 i, u32 v);
+extern int BTL_CLIENT_HasSlotInOrder(s8 *p, int v);
+extern void BTL_CLIENT_SetSlotOrder(u8 *p, u32 i, u32 v);
 int func_021CFBF0(u8 *g, void *m, u32 slot, u8 *out)
 {
     u8 choice;
@@ -65,9 +65,9 @@ int func_021CFBF0(u8 *g, void *m, u32 slot, u8 *out)
     choice = 6;
     if (func_021CF8D4(g, m, &id, &k) != 4) return 0;
     if (func_021B9B98(((struct Obj00489 *)g)->f118) <= g[0x11c]) return 0;
-    q = func_021CFD50((struct G *)g, func_021B8D8C(((struct Obj00489 *)g)->f0, ((struct Obj00489 *)g)->f4, func_021D5440(m)));
+    q = func_021CFD50((struct G *)g, func_021B8D8C(((struct Obj00489 *)g)->f0, ((struct Obj00489 *)g)->f4, BTL_POKEPARAM_GetPokeId(m)));
     if (!q) return 0;
-    if (func_021D6C24((struct R4 *)q))
+    if (BTL_POKEPARAM_IsIllusionActive((struct R4 *)q))
         q = func_021B937C(*(int *)&((struct Obj00489 *)g)->f0, *(char * *)&((struct Obj00489 *)g)->f4, q);
     if (func_021CFDCC(g, m)) ok = 1;
     else if (func_021CFE08((struct G *)g, m, q)) ok = 1;
@@ -82,14 +82,14 @@ int func_021CFBF0(u8 *g, void *m, u32 slot, u8 *out)
         n = func_021D0980(g, buf);
         func_021D09E0(g, buf, n, q);
         for (i = 0; i < n; i++) {
-            if (!func_021CFBBC((s8 *)g, buf[i])) {
+            if (!BTL_CLIENT_HasSlotInOrder((s8 *)g, buf[i])) {
                 choice = buf[i];
                 break;
             }
         }
     }
     if (choice == 6) return 0;
-    func_021CFBE0(g, slot, choice);
+    BTL_CLIENT_SetSlotOrder(g, slot, choice);
     *out = choice;
     return 1;
 }

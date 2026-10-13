@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DAF1C",
+   "name": "BTL_ABILITY_FlashFireClearFlag",
    "address": "0x021DAF1C",
    "kind": "game",
    "region": "ov093",

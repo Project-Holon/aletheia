@@ -1,5 +1,5 @@
 /*
- * function: func_021C1AF4
+ * function: FLD3D_CI_Create
  * address:  0x021C1AF4
  * packet:   pkt_ov021_021C1AF4
  * region:   ov021
@@ -16,8 +16,8 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02047CFC  0x02047CFC  arm
- *   func_02048A24  0x02048A24  arm
+ *   G3D_UTIL_Create  0x02047CFC  arm
+ *   G3D_CAMERA_Create  0x02048A24  arm
  *   d_021DE3D8     0x021DE3D8  data  a4
  *   d_021DA6E8     0x021DA6E8  data  a4
  *   d_021DA6D0     0x021DA6D0  data  a4
@@ -37,8 +37,8 @@ typedef int fx32;
 typedef struct { fx32 x, y, z; } VecFx32;
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void *func_02047CFC(int a, int b, int heap);
-extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
+extern void *G3D_UTIL_Create(int a, int b, int heap);
+extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
 extern u8 d_021DE3D8;
 extern const VecFx32 d_021DA6E8;
 extern const VecFx32 d_021DA6D0;
@@ -49,7 +49,7 @@ extern const s16 d_020A1EB8[];
 static inline void *mk(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, const VecFx32 *upsrc, VecFx32 *tgt, int heap)
 {
     VecFx32 up = *upsrc;
-    return func_02048A24(a, s, c, d, e, f, g, h, pos, &up, tgt, heap);
+    return G3D_CAMERA_Create(a, s, c, d, e, f, g, h, pos, &up, tgt, heap);
 }
 
 static inline void *mk_persp(VecFx32 *pos, const VecFx32 *upsrc, VecFx32 *tgt, int heap)
@@ -57,12 +57,12 @@ static inline void *mk_persp(VecFx32 *pos, const VecFx32 *upsrc, VecFx32 *tgt, i
     return mk(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, pos, upsrc, tgt, heap);
 }
 
-u32 *func_021C1AF4(u32 a, u32 b)
+u32 *FLD3D_CI_Create(u32 a, u32 b)
 {
     u32 *r;
 
     r = func_02030734(a, 0x138, 1, (const char *)&d_021DE3D8, 0x158);
-    r[5] = (u32)func_02047CFC(8, 2, a);
+    r[5] = (u32)G3D_UTIL_Create(8, 2, a);
     ((struct Obj04272 *)r)->f10 = a;
     r[0] = b;
     r[6] = -1;

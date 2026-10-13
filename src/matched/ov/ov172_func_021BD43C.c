@@ -31,6 +31,10 @@
  *   func_02061CA4  0x02061CA4  arm
  *   g_020A1B38     0x020A1B38  data
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm  arm9
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
+ *   TCBL_Main  0x020310C4  arm  arm9
+ *   CLACT_DrawSystem  0x0204A600  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -52,10 +56,10 @@ extern void func_021B6C48(u32 a);
 extern void func_021B712C(int unused, char *q);
 extern int func_021B7590(int x, char *p);
 extern void func_021BDCB8(u8 *p);
-extern u32  func_020221A4(void);
-extern void func_0204A600(void);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_020310C4(struct Tcbl *p);
+extern u32  WIPE_SYS_EndCheck(void);
+extern void CLACT_DrawSystem(void);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void TCBL_Main(struct Tcbl *p);
 extern u32  func_02005728(u32 v);
 extern void sub_02040618(u32 layer, u32 a, u32 b);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
@@ -88,12 +92,12 @@ int func_021BD43C(char *ctx)
         return 0;
     case 5:
         if (func_021B80CC((int)ctx, (char *)F(0x1e4)) == 1 && func_021B7590((int)ctx, (char *)F(0x1e0)) == 1
-            && func_020221A4() == 1) {
+            && WIPE_SYS_EndCheck() == 1) {
             return 1;
         }
         break;
     }
-    if (F(0x14) == 1 && func_020221A4() == 1) {
+    if (F(0x14) == 1 && WIPE_SYS_EndCheck() == 1) {
         F(0xc) = 5;
     }
     if (F(8) != F(0xc)) {
@@ -101,8 +105,8 @@ int func_021BD43C(char *ctx)
     }
     func_021B712C((int)ctx, (char *)F(0x1e0));
     func_021B6C48(F(0x1f4));
-    func_0204A600();
-    func_0201C4E4((struct PrintSys *)F(0x1d0));
+    CLACT_DrawSystem();
+    PRINTSYS_QUE_Main((struct PrintSys *)F(0x1d0));
     func_021BDD6C((u8 *)ctx);
     H(0x38) += 0x200;
     idx = H(0x38) >> 4;
@@ -115,7 +119,7 @@ int func_021BD43C(char *ctx)
         H(0x3a) = pal;
         NNS_GfdRegisterNewVramTransferTask((void *)0x1f, 0x40, (u32)(ctx + 0x3c + pal * 32), 0x20);
     }
-    func_020310C4((struct Tcbl *)F(0x1d8));
+    TCBL_Main((struct Tcbl *)F(0x1d8));
     sub_02040618(1, 0, func_02005728(0x100));
     sub_02040618(1, 3, func_02005728(0x100));
     return 0;

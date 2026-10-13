@@ -12,8 +12,8 @@
  * symbols:
  *   func_02035D20  0x02035D20  arm
  *   func_021BE0C8  0x021BE0C8  thumb  ov172
- *   func_02035C38  0x02035C38  arm
- *   func_02035C60  0x02035C60  arm
+ *   TOUCHPANEL_GetCont  0x02035C38  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   func_021BB54C  0x021BB54C  thumb  ov172
  *   func_021BB9E4  0x021BB9E4  thumb  ov172
  *   func_021BE054  0x021BE054  thumb  ov172
@@ -38,8 +38,8 @@ typedef unsigned long u32;
 
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern u32 func_021BE0C8(void *p);
-extern int func_02035C38(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetCont(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_021BB54C(void *ctx, u8 *p);
 extern void func_021BB9E4(void *a0, char *a1);
 extern u8 func_021BE054(void *p);
@@ -79,10 +79,10 @@ void func_021BB288(void *ctx, u8 *p)
     if (func_021BE0C8(ctx) == 1) {
         return;
     }
-    if (func_02035C38() == 0) {
+    if (TOUCHPANEL_GetCont() == 0) {
         ((struct Obj00024 *)p)->fC = 0;
     }
-    if (func_02035C60() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f0 == 5 && y >= 0xa8) {
+    if (TOUCHPANEL_GetTrg() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f0 == 5 && y >= 0xa8) {
         if (((struct Obj00024 *)p)->f28 == 1) {
             ((struct Obj00024 *)p)->f28 = (((struct Obj00024 *)p)->f24 == 0) ? 0 : 3;
             func_021BB54C(ctx, p);
@@ -90,7 +90,7 @@ void func_021BB288(void *ctx, u8 *p)
         func_021BB9E4(ctx, (char *)p);
         return;
     }
-    if ((u32)(((struct Obj00024 *)p)->f0 - 4) <= 1 && func_02035C60() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f28 == 3) {
+    if ((u32)(((struct Obj00024 *)p)->f0 - 4) <= 1 && TOUCHPANEL_GetTrg() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f28 == 3) {
         mode = func_021BE054(ctx);
         cur = func_021BDFE4(ctx);
         s1 = func_021BDFFC(ctx);
@@ -109,7 +109,7 @@ void func_021BB288(void *ctx, u8 *p)
             }
         }
     }
-    if (func_02035C60() == 1 && ((struct Obj00024 *)p)->f8 == 0) {
+    if (TOUCHPANEL_GetTrg() == 1 && ((struct Obj00024 *)p)->f8 == 0) {
         if (((struct Obj00024 *)p)->f28 == 1) {
             pb = (u16 *)func_0207E008();
             off = y << 9;

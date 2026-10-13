@@ -1,5 +1,5 @@
 /*
- * function: func_02184D90
+ * function: EVENT_MAPCHANGE_CreateRailWarpEvent
  * address:  0x02184D90
  * packet:   pkt_ov020_02184D90
  * region:   ov020
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Allocator with callback (0x9c-byte work area), then the 0x18-byte record
- * at +0x10 initialised by func_020141A8 from three u16 fields of q.
+ * at +0x10 initialised by ZONEDATA_SetDirectRailLocation from three u16 fields of q.
  * What closed it: `const Q *q`. Without const the q field loads are kept
  * below the outgoing stack-argument stores and `adds r1,r7` is scheduled
  * first; const lets them hoist (docs/notes/pkt_ov020_02184D38.c.txt has
@@ -20,9 +20,9 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_020142A4  0x020142A4  thumb
- *   func_020141A8  0x020141A8  thumb
- *   func_02184CEC  0x02184CEC  thumb  ov020
- *   func_02184388  0x02184388  thumb  ov020
+ *   ZONEDATA_SetDirectRailLocation  0x020141A8  thumb
+ *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
+ *   EVENT_MAPCHANGE_EntranceEvent  0x02184388  thumb  ov020
  */
 #include "../include/Obj00248.h"
 
@@ -37,20 +37,20 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-void func_02184CEC(void **o, void *p);
+void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 u32 func_020142A4(u32 idx);
-int func_02184388(int a, int *state, u8 *p);
+int EVENT_MAPCHANGE_EntranceEvent(int a, int *state, u8 *p);
 struct t;
-void func_020141A8(struct t *p, int b, int d, u16 g, u16 i, s16 h);
+void ZONEDATA_SetDirectRailLocation(struct t *p, int b, int d, u16 g, u16 i, s16 h);
 
-void *func_02184D90(void *p, int unused, int a, const Q *q, u16 s, int t)
+void *EVENT_MAPCHANGE_CreateRailWarpEvent(void *p, int unused, int a, const Q *q, u16 s, int t)
 {
-    void *r0v = func_020122C0(p, 0, func_02184388, 0x9c);
+    void *r0v = func_020122C0(p, 0, EVENT_MAPCHANGE_EntranceEvent, 0x9c);
     char *r4 = func_020124E8(r0v);
 
-    func_02184CEC((void **)r4, p);
+    EVENT_MAPCHANGE_InitWork((void **)r4, p);
     s = func_020142A4(s);
-    func_020141A8((struct t *)(r4 + 0x10), a, (s16)s, q->f0, q->f6, q->f4);
+    ZONEDATA_SetDirectRailLocation((struct t *)(r4 + 0x10), a, (s16)s, q->f0, q->f6, q->f4);
     ((struct Obj00248 *)r4)->f2C = 0;
     ((struct Obj00248 *)r4)->f40 = t;
     return r0v;

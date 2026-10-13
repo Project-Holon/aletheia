@@ -1,5 +1,5 @@
 /*
- * function: func_021CCF60
+ * function: PARTY_SELECT_LIST_MenuMoveCallback
  * address:  0x021CCF60
  * packet:   pkt_ov021_021CCF60
  * region:   ov021
@@ -9,27 +9,27 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Dispatches on a selector below two to func_021CD184, otherwise to func_021CD1AC, on the object from func_02020D0C.
+ * Dispatches on a selector below two to PARTY_SELECT_LIST_ShowParty, otherwise to PARTY_SELECT_LIST_HideParty, on the object from BMP_MENULIST_GetUserData.
  *
  * symbols:
- *   func_02020D0C  0x02020D0C  thumb
- *   func_021CD184  0x021CD184  thumb  ov021
- *   func_021CD1AC  0x021CD1AC  thumb  ov021
+ *   BMP_MENULIST_GetUserData  0x02020D0C  thumb
+ *   PARTY_SELECT_LIST_ShowParty  0x021CD184  thumb  ov021
+ *   PARTY_SELECT_LIST_HideParty  0x021CD1AC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern u32 func_02020D0C(u8 *p);
-extern void func_021CD184(void *p, u32 sel);
-extern void func_021CD1AC(void *p);
+extern u32 BMP_MENULIST_GetUserData(u8 *p);
+extern void PARTY_SELECT_LIST_ShowParty(void *p, u32 sel);
+extern void PARTY_SELECT_LIST_HideParty(void *p);
 
-void func_021CCF60(void *a, u32 sel)
+void PARTY_SELECT_LIST_MenuMoveCallback(void *a, u32 sel)
 {
-    void *p = (void *)func_02020D0C(a);
+    void *p = (void *)BMP_MENULIST_GetUserData(a);
     if (sel < 2)
-        func_021CD184(p, sel);
+        PARTY_SELECT_LIST_ShowParty(p, sel);
     else
-        func_021CD1AC(p);
+        PARTY_SELECT_LIST_HideParty(p);
 }

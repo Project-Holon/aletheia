@@ -1,5 +1,5 @@
 /*
- * function: func_021E89D4
+ * function: BTLV_CORE_MakeSlotKind1Value
  * address:  0x021E89D4
  * packet:   pkt_ov093_021E89D4
  * region:   ov093
@@ -11,7 +11,7 @@
  */
 typedef unsigned int u32;
 struct S { unsigned a:3; unsigned b:6; unsigned c:16; unsigned d:7; };
-int func_021E89D4(u32 a)
+int BTLV_CORE_MakeSlotKind1Value(u32 a)
 {
     struct S s = {0};
     s.a = 1;

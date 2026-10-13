@@ -1,5 +1,5 @@
 /*
- * function: func_021B8460
+ * function: FRAME_LIST_StepScroll
  * address:  0x021B8460
  * packet:   pkt_ov067_021B8460
  * region:   ov067
@@ -69,17 +69,17 @@
  * symbols:
  *   func_0201C6B4 0x0201C6B4 thumb
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
- *   func_021B841C 0x021B841C thumb ov067
- *   func_021B92F0 0x021B92F0 thumb ov067
- *   func_021B8EA0 0x021B8EA0 thumb ov067
- *   func_021B8404 0x021B8404 thumb ov067
- *   func_021B9190 0x021B9190 thumb ov067
- *   func_021B91D0 0x021B91D0 thumb ov067
- *   func_021B91BC 0x021B91BC thumb ov067
- *   func_021B9228 0x021B9228 thumb ov067
+ *   FRAME_LIST_GetScrollRoom 0x021B841C thumb ov067
+ *   FRAME_LIST_SetCursorHighlight 0x021B92F0 thumb ov067
+ *   FRAME_LIST_StartFlick 0x021B8EA0 thumb ov067
+ *   FRAME_LIST_GetStepFrames 0x021B8404 thumb ov067
+ *   FRAME_LIST_GetRowPosition 0x021B9190 thumb ov067
+ *   FRAME_LIST_DrawRowA 0x021B91D0 thumb ov067
+ *   FRAME_LIST_WrapIndex 0x021B91BC thumb ov067
+ *   FRAME_LIST_DrawRowB 0x021B9228 thumb ov067
  *   func_020061E4 0x020061E4 thumb
  *   func_02041EE4 0x02041EE4 arm
- *   d_021B94F8 0x021B94F8 data a1
+ *   gFrameListFlickSteps 0x021B94F8 data a1
  */
 typedef unsigned char u8;
 typedef signed char s8;
@@ -102,19 +102,19 @@ struct S {
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int TOUCHPANEL_HitCont(const void *p);
-extern int func_021B841C(u8 *p, int n);
-extern void func_021B92F0(struct S *,u32,u32);
-extern int func_021B8EA0(struct S *);
-extern u8 func_021B8404(u8 *p, int n);
-extern s8 func_021B9190(const s8 *,int);
-extern void func_021B91D0(struct S *,int,int);
-extern s8 func_021B91BC(s8,s8,int);
-extern void func_021B9228(struct S *p, int i, int a2);
+extern int FRAME_LIST_GetScrollRoom(u8 *p, int n);
+extern void FRAME_LIST_SetCursorHighlight(struct S *,u32,u32);
+extern int FRAME_LIST_StartFlick(struct S *);
+extern u8 FRAME_LIST_GetStepFrames(u8 *p, int n);
+extern s8 FRAME_LIST_GetRowPosition(const s8 *,int);
+extern void FRAME_LIST_DrawRowA(struct S *,int,int);
+extern s8 FRAME_LIST_WrapIndex(s8,s8,int);
+extern void FRAME_LIST_DrawRowB(struct S *p, int i, int a2);
 extern void func_020061E4(u32);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern const u8 d_021B94F8[];
+extern const u8 gFrameListFlickSteps[];
 #pragma opt_propagation off
-int func_021B8460(struct S *s)
+int FRAME_LIST_StepScroll(struct S *s)
 {
  int r,n,v,a; const u8 *q; int o;
  if((int)func_0201C6B4((const struct PrintSys *)s->f34)==0) return 1;
@@ -146,7 +146,7 @@ int func_021B8460(struct S *s)
    if(r!=-1 && (o=r*8, q=(const u8 *)s->f1c+4, *(u32 *)(q+o)==0) && s->ready==1 && *(u32 *)(q+o)==0 &&
      ((s->f85<0 && s->f87<r)||(s->f85>0 && s->f87>r))) {
     s->ready=0;
-    n=func_021B841C((u8 *)s,s->f67);
+    n=FRAME_LIST_GetScrollRoom((u8 *)s,s->f67);
     if(n!=0) {
      v=s->f87-r;
      if(v<0) v=-v;
@@ -157,7 +157,7 @@ int func_021B8460(struct S *s)
      s->f8c=s->f54;
      s->f90=s->f54;
      s->drag=0;
-     func_021B92F0(s,(u16)s->f5c,255);
+     FRAME_LIST_SetCursorHighlight(s,(u16)s->f5c,255);
      s->f4e=s->f50;
      return 0;
     }
@@ -166,19 +166,19 @@ int func_021B8460(struct S *s)
     s->f90=s->f54;
     s->ready=0;
     s->drag=0;
-    func_021B92F0(s,(u16)s->f5c,255);
+    FRAME_LIST_SetCursorHighlight(s,(u16)s->f5c,255);
     s->f4e=s->f50;
     return 0;
    }
   }
-  func_021B92F0(s,255,(u16)s->f5c);
+  FRAME_LIST_SetCursorHighlight(s,255,(u16)s->f5c);
   if(s->f50==3) {
    if(s->f70==0) {
     if(s->f67<0) s->f5c++;
     else s->f5c--;
    } else {
     if(s->trigger==1) {
-     if(func_021B8EA0(s)==1) s->count=0;
+     if(FRAME_LIST_StartFlick(s)==1) s->count=0;
      s->trigger=0;
     }
     if(s->drag==1 && s->count==3) {
@@ -195,35 +195,35 @@ int func_021B8460(struct S *s)
      return 0;
     }
     if(s->f68==1) {
-     n=func_021B841C((u8 *)s,s->f67);
+     n=FRAME_LIST_GetScrollRoom((u8 *)s,s->f67);
      s->f89++;
      if(s->f89!=6) {
       if(s->f67<0) s->f67=-*((u8 *)s+s->f89+11);
       else s->f67=*((u8 *)s+s->f89+11);
-      s->f68=d_021B94F8[s->f89];
+      s->f68=gFrameListFlickSteps[s->f89];
      }
      if(s->f68>(u32)n) s->f68=n;
     }
    }
   }
-  s->f69=func_021B8404((u8 *)s,s->f67);
+  s->f69=FRAME_LIST_GetStepFrames((u8 *)s,s->f67);
   s->f68--;
   if(s->f67<0) {
    s->f62--;
-   v=func_021B9190((s8 *)s,-1);
-   func_021B91D0(s,s->f62,v);
-   s->f46=func_021B91BC(s->f46,s->f48,-1);
-   v=func_021B9190((s8 *)s,-1);
-   func_021B9228(s,s->f62-(u8)s->f49,(s8)(s->f4a+v));
-   s->f47=func_021B91BC(s->f47,s->f49,-1);
+   v=FRAME_LIST_GetRowPosition((s8 *)s,-1);
+   FRAME_LIST_DrawRowA(s,s->f62,v);
+   s->f46=FRAME_LIST_WrapIndex(s->f46,s->f48,-1);
+   v=FRAME_LIST_GetRowPosition((s8 *)s,-1);
+   FRAME_LIST_DrawRowB(s,s->f62-(u8)s->f49,(s8)(s->f4a+v));
+   s->f47=FRAME_LIST_WrapIndex(s->f47,s->f49,-1);
   } else {
    s->f62++;
-   v=func_021B9190((s8 *)s,1);
-   func_021B91D0(s,s->f62+((u8)s->f48-1),v);
-   s->f46=func_021B91BC(s->f46,s->f48,1);
-   v=func_021B9190((s8 *)s,1);
-   func_021B9228(s,s->f62-1,(s8)(s->f4a+v));
-   s->f47=func_021B91BC(s->f47,s->f49,1);
+   v=FRAME_LIST_GetRowPosition((s8 *)s,1);
+   FRAME_LIST_DrawRowA(s,s->f62+((u8)s->f48-1),v);
+   s->f46=FRAME_LIST_WrapIndex(s->f46,s->f48,1);
+   v=FRAME_LIST_GetRowPosition((s8 *)s,1);
+   FRAME_LIST_DrawRowB(s,s->f62-1,(s8)(s->f4a+v));
+   s->f47=FRAME_LIST_WrapIndex(s->f47,s->f49,1);
   }
   s->f20->b(s->f24,s->f5c+s->f62,1);
   if(s->f6c==1) {

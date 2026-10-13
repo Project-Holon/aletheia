@@ -75,6 +75,7 @@
  *   g_021A3FA0            0x021A3FA0 data
  *   atof                  0x02095B2C arm
  *   _d2f                  0x0209B64C arm
+ *   gsLargeIntReverseBytes  0x0217E934  arm
  */
 #include "../../matched/arm9_sdk/libc/strncmp/string.h"
 
@@ -178,7 +179,7 @@ extern int atoi(const char *s);
 extern long long gsiStringToInt64(const char *s);
 extern long func_0217F478(struct tm *tb);
 extern double atof(const char *s);
-extern int func_0217E934(char *p);
+extern int gsLargeIntReverseBytes(char *p);
 int func_02182414(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 int func_02182554(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 int func_0218263C(char *buffer, int *len);
@@ -1589,7 +1590,7 @@ int func_02183E50(void *a, int b, int *c)
     if (n & 3)
         c[0] = k + 1;
 
-    if (func_0217E934((char *)c) == 0)
+    if (gsLargeIntReverseBytes((char *)c) == 0)
         return 0;
     return 1;
 }

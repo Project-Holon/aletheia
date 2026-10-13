@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE3D4",
-    "func_021DE3F0"
+    "BTL_HANDLER_ITEM_MachoBraceHalveSpeed",
+    "BTL_HANDLER_ITEM_GetQuickClawHandlers"
+   ],
+   "addresses": [
+    "0x021DE3D4",
+    "0x021DE3F0"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,5 +1,5 @@
 /*
- * function: func_021C3C04
+ * function: SODATEYA_InheritFormBurmy
  * address:  0x021C3C04
  * packet:   pkt_ov021_021C3C04
  * region:   ov021
@@ -12,19 +12,20 @@
  * Copies the parent's form for species 0x19C..0x19D.
  *
  * symbols:
- *   func_021C3C5C  0x021C3C5C  thumb  ov021
+ *   SODATEYA_GetFormParent  0x021C3C5C  thumb  ov021
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  */
 
 typedef unsigned int u32;
 
-extern int func_021C3C5C(u32 a);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern int SODATEYA_GetFormParent(u32 a);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
-void func_021C3C04(void *a, u32 *out)
+void SODATEYA_InheritFormBurmy(void *a, u32 *out)
 {
-    void *mon = (void *)func_021C3C5C((u32)a);
-    u32 sp = func_02017E1C(mon, 5, 0);
+    void *mon = (void *)SODATEYA_GetFormParent((u32)a);
+    u32 sp = POKE_TOOL_GetPartyValue(mon, 5, 0);
 
     if (sp - 0x19C <= 1)
-        out[1] = func_02017E1C(mon, 0x6F, 0);
+        out[1] = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
 }

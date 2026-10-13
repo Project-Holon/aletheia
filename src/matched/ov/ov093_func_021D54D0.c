@@ -1,5 +1,5 @@
 /*
- * function: func_021D54D0
+ * function: BTL_POKEPARAM_GetRealMoveId
  * address: 0x021D54D0
  * packet: pkt_ov093_021D54D0
  * region: ov093
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021D54D0(u8 *p, u8 i) { return *(u16 *)((u32)p + i * 14 + 0x104); }
+u32 BTL_POKEPARAM_GetRealMoveId(u8 *p, u8 i) { return *(u16 *)((u32)p + i * 14 + 0x104); }

@@ -26,24 +26,24 @@
  * symbols:
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
- *   func_02046440 0x02046440 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
  *   func_0204044C 0x0204044C arm
- *   func_02046BE0 0x02046BE0 arm
- *   func_02048A24 0x02048A24 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   func_0204EBD4 0x0204EBD4 arm
  *   func_0204ED70 0x0204ED70 arm
- *   func_0204A48C 0x0204A48C arm
+ *   CLACT_InitSystem 0x0204A48C arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_0202223C 0x0202223C thumb
+ *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_021F8DA0 0x021F8DA0 thumb ov132
  *   d_021FDBA0 0x021FDBA0 data a4
@@ -56,7 +56,7 @@
  *   d_021FDB00 0x021FDB00 data a4
  *   d_021FDB20 0x021FDB20 data a4
  *   d_021FDAB0 0x021FDAB0 data a4
- *   d_020A1448 0x020A1448 data a4
+ *   gClActorInitParam 0x020A1448 data a4
  *   d_021FDA7C 0x021FDA7C data a4
  *   d_021FDBF8 0x021FDBF8 data a4
  *   d_021FDBD4 0x021FDBD4 data a4
@@ -81,9 +81,9 @@ extern const u32 d_021FDAE0[];
 extern const u32 d_021FDB00[];
 extern const u32 d_021FDB20[];
 extern const u32 d_021FDAB0[];
-extern const u32 d_020A1448[];
+extern const u32 gClActorInitParam[];
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
-extern void func_0202223C(u32,u32);
+extern void WIPE_SetBrightnessFadeOut(u32,u32);
 extern u32 WIPE_ResetWndMask(void *);
 struct BgTemplate;
 struct Blk3;
@@ -91,21 +91,21 @@ struct Cfg;
 struct DispConfig;
 struct DispVram;
 struct Light;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203F8F4(u16);
-extern void func_02045088(u16);
+extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021F8DA0(const struct BgTemplate *p, u32 id, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02046440(u32,u32,u32,u32,u16,u16,void (*)(void));
-extern void func_0204044C(u32),func_02046BE0(u32,u32);
-extern void *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,const Vec3 *,const Vec3 *,const Vec3 *,u16);
-extern void func_02048AD0(struct Light *l);
+extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
+extern void func_0204044C(u32),G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
+extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,const Vec3 *,const Vec3 *,const Vec3 *,u16);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207DCF8(const void *);
 extern void *func_0204EBD4(u8 *src, void *heap);
 extern void func_0204ED70(u8 *dst, struct Blk3 *src);
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern void func_020434DC(u32,u32),func_02043598(u32,u32),func_0207D63C(void *,int,int,int,int);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_0207D63C(void *,int,int,int,int);
 typedef enum { MAIN_SUB=0,SUB_MAIN=1 } GXDispSelect;
 static inline void GX_SetVisiblePlane(int plane) { *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&~0x1F00u)|((u32)plane<<8); }
 static inline void GXS_SetVisiblePlane(int plane) { *(volatile u32 *)0x04001000=(*(volatile u32 *)0x04001000&~0x1F00u)|((u32)plane<<8); }
@@ -123,11 +123,11 @@ void func_021F899C(u8 *p)
     void *light,*board;
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
-    func_0202223C(0,0); func_0202223C(1,0);
+    WIPE_SetBrightnessFadeOut(0,0); WIPE_SetBrightnessFadeOut(1,0);
     WIPE_ResetWndMask(0); WIPE_ResetWndMask((void *)1);
     GX_SetDispSelect(SUB_MAIN);
-    func_020433E0((const struct DispVram *)d_021FDBA0);
-    func_0203F8F4(*(u16 *)p); func_02045088(*(u16 *)p);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021FDBA0);
+    func_0203F8F4(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
     func_0203FC28((struct DispConfig *)d_021FDAA0);
     func_021F8DA0((const struct BgTemplate *)d_021FDB40,1,0);
     func_021F8DA0((const struct BgTemplate *)d_021FDB60,2,0);
@@ -137,22 +137,22 @@ void func_021F899C(u8 *p)
     func_021F8DA0((const struct BgTemplate *)d_021FDB00,4,0);
     func_021F8DA0((const struct BgTemplate *)d_021FDB20,7,0);
     func_02040588(0,1);
-    func_02046440(0,2,0,4,0,*(u16 *)p,0);
+    G3D_SYSTEM_Init(0,2,0,4,0,*(u16 *)p,0);
     func_0204044C(3);
-    func_02046BE0(0,1);
-    light=func_02048A24(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021FDA7C.c,&d_021FDA7C.a,&d_021FDA7C.b,*(u16 *)p);
+    G3D_SYSTEM_SetSwapBuffersMode(0,1);
+    light=G3D_CAMERA_Create(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021FDA7C.c,&d_021FDA7C.a,&d_021FDA7C.b,*(u16 *)p);
     *(void **)(p+0xA8)=light;
-    func_02048AD0(light);
+    G3D_CAMERA_Reset(light);
     func_0207DCF8(d_021FDAB0);
     G3X_EdgeMarking(0); G3X_AntiAlias(1); G3X_AlphaBlend(1);
-    func_02046BE0(0,0);
+    G3D_SYSTEM_SetSwapBuffersMode(0,0);
     big=d_021FDBF8;
     small=d_021FDBD4;
     board=func_0204EBD4((u8 *)(&big),(void *)(u32)*(u16 *)p);
     *(void **)(p+0xAC)=board;
     func_0204ED70(board,(struct Blk3 *)(&small));
-    func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021FDBA0,*(u16 *)p);
-    func_020434DC(16,1); func_02043598(16,1);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021FDBA0,*(u16 *)p);
+    func_020434DC(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     func_0207D63C((void *)0x04000050,8,1,0,10);
     GX_SetVisibleWnd(4);
     G2_SetWndOBJInsidePlane(23,1);

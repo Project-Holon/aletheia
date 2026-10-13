@@ -25,7 +25,7 @@
  * declarations are wrong, and they are the whole difference.
  *
  * The note declares the two accessor externs as returning narrow types --
- * `u8 func_02017DBC(...)` and `u16 func_02017E88(...)` -- and assigns their
+ * `u8 POKE_TOOL_DecodeBoxParam(...)` and `u16 func_02017E88(...)` -- and assigns their
  * results to same-width locals.  With the callee declared narrow the compiler
  * believes the value is already truncated, emits no shift pair, and then has
  * nothing cheap to keep the value in, so it spills BOTH to the frame
@@ -54,7 +54,7 @@
  * here but is a claim the bytes do not support, since id 9 is a byte field.
  *
  * Nothing here is version specific: 5, 9, 0x4C, 0x6F and 0x74 are field
- * selectors and 0x20 is a halfword count.  g_020A7370 and gNameBuf are
+ * selectors and 0x20 is a halfword count.  gSpeciesNameBank and gNameBuf are
  * globals, so their addresses are build properties.
  *
  * Verified with:
@@ -62,13 +62,13 @@
  *       --func POKE_TOOL_HatchBoxEgg --addr 0x02017B4C --cc 1.1p1 --thumb
  *
  * symbols:
- *   func_02017DBC  0x02017DBC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   func_0202F1B4  0x0202F1B4  thumb
- *   func_02017DE4  0x02017DE4  thumb
- *   g_020A7370     0x020A7370  data
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   gSpeciesNameBank     0x020A7370  data
  *   gNameBuf     0x021462F0  data
  */
 
@@ -77,27 +77,27 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
 extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
-extern void *g_020A7370;
+extern void *gSpeciesNameBank;
 extern u8    gNameBuf[];
 
 u32 POKE_TOOL_HatchBoxEgg(void *a0, u32 a1, u32 a2, u32 a3)
 {
-    u8  v = (u8)func_02017DBC(a0);
+    u8  v = (u8)POKE_TOOL_DecodeBoxParam(a0);
     u16 w = (u16)func_02017E88(a0, 5, 0);
 
     func_02017E88(a0, 0x6f, 0);
     POKE_TOOL_SetBoxValue(a0, 0x4c, 0);
     POKE_TOOL_SetBoxValue(a0, 9, 0x78);
-    MSGDATA_ReadUnits(g_020A7370, w, (u16 *)gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gSpeciesNameBank, w, (u16 *)gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(a0, 0x74, (u32)gNameBuf);
     func_0202F1B4((u32)a0, 2, a1, a2, a3);
-    return func_02017DE4(a0, v);
+    return POKE_TOOL_EncodeBoxParam(a0, v);
 }

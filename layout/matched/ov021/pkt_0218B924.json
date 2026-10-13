@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218B924",
+   "name": "FIELD_BUILDMODEL_GetModelDef",
    "address": "0x0218B924",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218B9FC",
+   "name": "FIELD_BUILDMODEL_UnregisterObject",
    "address": "0x0218B9FC",
    "kind": "game",
    "region": "ov021",

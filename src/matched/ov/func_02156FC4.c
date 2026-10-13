@@ -1,5 +1,5 @@
 /*
- * function: func_02156FC4
+ * function: MUSICAL_STAGE_SYS_SetLocalPerformer
  * address:  0x02156FC4
  * packet:   pkt_02156FC4
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02156FC4(int a0, int a1, int a2)
+int MUSICAL_STAGE_SYS_SetLocalPerformer(int a0, int a1, int a2)
 {
     int a3;
 

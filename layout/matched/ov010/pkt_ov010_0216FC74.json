@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216FC74",
+   "name": "WAZA_OSHIE_PrintToClearedBitmap",
    "address": "0x0216FC74",
    "kind": "game",
    "region": "ov010",

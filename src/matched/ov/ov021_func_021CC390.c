@@ -1,5 +1,5 @@
 /*
- * function: func_021CC390
+ * function: FLD_TRADE_EventMain
  * address:  0x021CC390
  * packet:   pkt_ov021_021CC390
  * region:   ov021
@@ -10,39 +10,39 @@
  * status:   EXACT
  *
  * Five-step task callback (*state 0..4) that builds a mon through
- * func_021CC098, starts the ov119 and ov195 tasks and frees its work.
+ * FLD_TRADE_BuildPokemon, starts the ov119 and ov195 tasks and frees its work.
  *
  * Blocked (MATCH, every concrete byte right), three sites:
  *  - the pooled words 0x00000077 and 0x000000C3 are overlay ids (ov119_id,
- *    ov195_id) passed to func_020146F8's third argument; func_020146F8 is
+ *    ov195_id) passed to FIELD_STATUS_CreateSubProcEvent's third argument; FIELD_STATUS_CreateSubProcEvent is
  *    not in match.py's OVERLAY_ID_CONSUMERS and no pool word outside this
  *    range holds either value (same blocker as pending ov021_func_021CD348
  *    and ov021_func_021C5A54).
- *  - func_021CC38C is an unlabelled 4-byte leaf (`bx lr`, then 00 00
- *    padding) in ov021: `void func_021CC38C(void *p) {}`. Not filed here
+ *  - FLD_TRADE_DumpTradeData is an unlabelled 4-byte leaf (`bx lr`, then 00 00
+ *    padding) in ov021: `void FLD_TRADE_DumpTradeData(void *p) {}`. Not filed here
  *    because the overlay ids cap this function at MATCH regardless; file it
  *    as pkt_ov021_021CC38C together with the id fix.
  * d_021E75A8 resolves only without its ov119 token (sole-ref on re-run).
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_021CBFB0  0x021CBFB0  thumb  ov021
- *   func_021CC098  0x021CC098  thumb  ov021
- *   func_021CC23C  0x021CC23C  thumb  ov021
- *   func_021CC38C  0x021CC38C  thumb  ov021
- *   func_02012944  0x02012944  thumb
- *   func_020146F8  0x020146F8  thumb
- *   func_02012374  0x02012374  thumb
+ *   FLD_TRADE_Create  0x021CBFB0  thumb  ov021
+ *   FLD_TRADE_BuildPokemon  0x021CC098  thumb  ov021
+ *   FLD_TRADE_DumpPokemonParams  0x021CC23C  thumb  ov021
+ *   FLD_TRADE_DumpTradeData  0x021CC38C  thumb  ov021
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_0201AB48  0x0201AB48  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
  *   func_0200CDE0  0x0200CDE0  thumb
- *   func_02012984  0x02012984  thumb
- *   func_0201B2B0  0x0201B2B0  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_021CC040  0x021CC040  thumb  ov021
+ *   FLD_TRADE_Delete  0x021CC040  thumb  ov021
  *   ov119_id       0x00000077  data  a1
  *   ov195_id       0x000000C3  data  a1
  *   d_021E75A8     0x021E75A8  data  a4
@@ -97,24 +97,24 @@ struct Ctx;
 struct Evt;
 struct Party;
 struct PartyMon;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern Obj *func_021CBFB0(u32 a, u32 b);
-extern void func_021CC098(void *a, u16 b, void *mon, void *d, u32 e);
-extern void func_021CC23C(int obj);
-extern void func_021CC38C(void *p);
-extern u8 *func_02012944(void *p);
-extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern Obj *FLD_TRADE_Create(u32 a, u32 b);
+extern void FLD_TRADE_BuildPokemon(void *a, u16 b, void *mon, void *d, u32 e);
+extern void FLD_TRADE_DumpPokemonParams(int obj);
+extern void FLD_TRADE_DumpTradeData(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *func_0200CA1C(void *p);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
-extern u8 func_02012984(const struct BigObj *p);
-extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_021CC040(Obj *o);
+extern void FLD_TRADE_Delete(Obj *o);
 
 extern const u8 ov119_id[];
 extern const u8 ov195_id[];
@@ -122,12 +122,12 @@ extern u8 d_021E75A8[];
 extern u8 d_02208C40[];
 extern const char d_021DE59C[];
 
-int func_021CC390(void *a, u32 *state, Work *w)
+int FLD_TRADE_EventMain(void *a, u32 *state, Work *w)
 {
     void *sys = w->sys;
     void *f4 = w->f4;
     void *f8 = w->f8;
-    void *h = func_0201210C(sys);
+    void *h = GAMESYSTEM_GetFieldMap(sys);
     void *m = func_0201AB28(f8, w->fD);
     Obj *o;
     void *t;
@@ -138,21 +138,21 @@ int func_021CC390(void *a, u32 *state, Work *w)
 
     switch (*state) {
     case 0:
-        o = func_021CBFB0(4, w->fC);
+        o = FLD_TRADE_Create(4, w->fC);
         w->obj = o;
-        func_021CC098(f4, 4, o->fC, o->f8, w->fC);
-        func_021CC23C((int)w->obj->fC);
-        func_021CC38C(w->obj->f8);
+        FLD_TRADE_BuildPokemon(f4, 4, o->fC, o->f8, w->fC);
+        FLD_TRADE_DumpPokemonParams((int)w->obj->fC);
+        FLD_TRADE_DumpTradeData(w->obj->f8);
         *state = 1;
         break;
     case 1:
-        t = func_0201210C(sys);
+        t = GAMESYSTEM_GetFieldMap(sys);
         w->f44 = f4;
-        w->f50 = func_02012944(f4);
+        w->f50 = GAME_DATA_GetMyStatus(f4);
         w->f48 = m;
         w->f54 = w->obj->f10;
         w->f4C = w->obj->fC;
-        func_02012374(a, func_020146F8(sys, (int)t, (int)ov119_id, (int)d_021E75A8, (int)w->f14));
+        GAME_EVENT_CallEvent(a, FIELD_STATUS_CreateSubProcEvent(sys, (int)t, (int)ov119_id, (int)d_021E75A8, (int)w->f14));
         *state = 2;
         break;
     case 2:
@@ -163,7 +163,7 @@ int func_021CC390(void *a, u32 *state, Work *w)
         *state = 4;
         break;
     case 3:
-        r = func_0201B2B0(f8, m, 1, 0, func_02012984(f4), &sel, 4);
+        r = SHINKA_CHECK_CheckEvolution(f8, m, 1, 0, GAME_DATA_GetSeason(f4), &sel, 4);
         if (r != 0) {
             q = func_02030734(4, 0x14, 0, d_021DE59C, 0x1F0);
             q->a = f4;
@@ -174,14 +174,14 @@ int func_021CC390(void *a, u32 *state, Work *w)
             q->fC = 1;
             q->f10 = 0;
             w->f58 = q;
-            func_02012374(a, func_020146F8(sys, (int)h, (int)ov195_id, (int)d_02208C40, (int)q));
+            GAME_EVENT_CallEvent(a, FIELD_STATUS_CreateSubProcEvent(sys, (int)h, (int)ov195_id, (int)d_02208C40, (int)q));
         }
         *state = 4;
         break;
     case 4:
         if (w->f58 != 0)
             func_020307B0(w->f58);
-        func_021CC040(w->obj);
+        FLD_TRADE_Delete(w->obj);
         return 1;
     }
     return 0;

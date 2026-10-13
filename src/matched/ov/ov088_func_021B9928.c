@@ -1,5 +1,5 @@
 /*
- * function: func_021B9928
+ * function: STARTMENU_TitleDemoUpdateParts
  * address:  0x021B9928
  * packet:   pkt_ov088_021B9928
  * region:   ov088
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B99E0  0x021B99E0  thumb  ov088
- *   func_021B9BD4  0x021B9BD4  thumb  ov088
- *   func_021B9DD0  0x021B9DD0  thumb  ov088
- *   func_021B9F68  0x021B9F68  thumb  ov088
+ *   STARTMENU_CaptureRunTasks  0x021B99E0  thumb  ov088
+ *   STARTMENU_LogoUpdate  0x021B9BD4  thumb  ov088
+ *   STARTMENU_Demo3dUpdate  0x021B9DD0  thumb  ov088
+ *   STARTMENU_SpritesUpdate  0x021B9F68  thumb  ov088
  */
 #include "../include/Obj07719.h"
 
-extern void func_021B99E0(void *, unsigned short);
-extern void func_021B9BD4(void *, unsigned short);
-extern void func_021B9DD0(void *, unsigned short);
-extern void func_021B9F68(void *, unsigned short);
+extern void STARTMENU_CaptureRunTasks(void *, unsigned short);
+extern void STARTMENU_LogoUpdate(void *, unsigned short);
+extern void STARTMENU_Demo3dUpdate(void *, unsigned short);
+extern void STARTMENU_SpritesUpdate(void *, unsigned short);
 
-void func_021B9928(unsigned char *p)
+void STARTMENU_TitleDemoUpdateParts(unsigned char *p)
 {
-    func_021B99E0(p + 0x08, ((struct Obj07719 *)p)->f2);
-    func_021B9BD4(p + 0x14, ((struct Obj07719 *)p)->f2);
-    func_021B9DD0(p + 0x40, ((struct Obj07719 *)p)->f2);
-    func_021B9F68(p + 0x54, ((struct Obj07719 *)p)->f2);
+    STARTMENU_CaptureRunTasks(p + 0x08, ((struct Obj07719 *)p)->f2);
+    STARTMENU_LogoUpdate(p + 0x14, ((struct Obj07719 *)p)->f2);
+    STARTMENU_Demo3dUpdate(p + 0x40, ((struct Obj07719 *)p)->f2);
+    STARTMENU_SpritesUpdate(p + 0x54, ((struct Obj07719 *)p)->f2);
 }

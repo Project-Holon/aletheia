@@ -1,5 +1,5 @@
 /*
- * function: func_02198DFC
+ * function: FLDMMDL_ACMD_WalkDown12F
  * address:  0x02198DFC
  * packet:   pkt_02198DFC
  * region:   ov021
@@ -22,7 +22,7 @@ typedef int BOOL;
 
 extern void func_02198C08(u32 a1, u32 a2, u32 a3, u32 a4);
 
-u32 func_02198DFC(u32 a1)
+u32 FLDMMDL_ACMD_WalkDown12F(u32 a1)
 {
     func_02198C08(a1, 0x1, 0xc, 0x9);
 

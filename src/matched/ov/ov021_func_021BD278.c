@@ -1,5 +1,5 @@
 /*
- * function: func_021BD278
+ * function: PLACE_NAME_LETTER_CreateBmpOam
  * address:  0x021BD278
  * packet:   pkt_ov021_021BD278
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BMP_OAM_Create  0x020255A0  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -34,9 +37,9 @@ typedef struct {
 struct Grid;
 struct Param;
 struct Sys;
-extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 
-void func_021BD278(Obj *p, int a, u16 b, int c)
+void PLACE_NAME_LETTER_CreateBmpOam(Obj *p, int a, u16 b, int c)
 {
     Desc d;
 
@@ -49,5 +52,5 @@ void func_021BD278(Obj *p, int a, u16 b, int c)
     d.b11 = 0;
     d.h12 = b;
     d.f14 = 0;
-    p->fC = func_020255A0((struct Sys *)a, (const struct Param *)(&d));
+    p->fC = BMP_OAM_Create((struct Sys *)a, (const struct Param *)(&d));
 }

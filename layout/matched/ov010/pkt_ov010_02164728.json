@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02164728",
+   "name": "EVENTDATA_SYSTEM_RespawnHiddenItems",
    "address": "0x02164728",
    "kind": "game",
    "region": "ov010",

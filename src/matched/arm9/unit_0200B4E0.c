@@ -36,7 +36,7 @@
  *
  * This range stops at 0x0200B5CC and src/matched/unit_0200B5CC.c starts
  * there, because BATTLE_REC_IsMagicBroken and BATTLE_REC_IsValid are each called exactly
- * twice in the image, once from BATTLE_REC_LoadToWork and once from func_0200B5CC;
+ * twice in the image, once from BATTLE_REC_LoadToWork and once from BATTLE_REC_CheckSaved;
  * one range holding both pairs has no witness left for either and caps at
  * MATCH with every byte right.  Cut between them, each file is the other's
  * witness.  See
@@ -50,6 +50,7 @@
  *   BATTLE_REC_IsMagicBroken  0x0200B888  thumb
  *   BATTLE_REC_IsValid  0x0200B8AC  thumb
  *   BATTLE_REC_Decode  0x0200B900  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  */
 
 typedef unsigned char  u8;
@@ -68,7 +69,7 @@ struct BattleRec {
     struct RecC4 unkC4;
 };
 
-extern u32  func_020072CC(void *save, u32 id, u32 heap, void *buf, u32 size);
+extern u32  SAVE_CONTROL_LoadExtraSaveWithBuffer(void *save, u32 id, u32 heap, void *buf, u32 size);
 struct Ctrl;
 struct Sub020072A4Ctrl;
 struct Sub020073D8Ctrl;
@@ -88,7 +89,7 @@ u32 BATTLE_REC_LoadToWork(void *a, struct BattleRec *b, u32 heap, u32 *d, u32 id
     struct RecC4 *r;
     u16 v;
 
-    *d = func_020072CC(a, id, heap, b, 0x2000);
+    *d = SAVE_CONTROL_LoadExtraSaveWithBuffer(a, id, heap, b, 0x2000);
     func_020072A4(a, id);
     if (*d == 0) {
         *d = 0;

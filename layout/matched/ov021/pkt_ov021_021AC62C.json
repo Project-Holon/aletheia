@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AC62C",
+   "name": "FLDEFF_KEMURI_Init",
    "address": "0x021AC62C",
    "kind": "game",
    "region": "ov021",

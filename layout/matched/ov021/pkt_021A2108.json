@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A2108",
+   "name": "WEATHER_TASK_FadeLight",
    "address": "0x021A2108",
    "kind": "game",
    "region": "ov021",

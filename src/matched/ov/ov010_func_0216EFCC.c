@@ -1,5 +1,5 @@
 /*
- * function: func_0216EFCC
+ * function: EVENT_BATTLE_GetKindFlag
  * address:  0x0216EFCC
  * packet:   pkt_ov010_0216EFCC
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf, blocker of ov021 func_021B50D0: byte table lookup, 0xFF maps to 1.
+ * Unlabelled leaf, blocker of ov021 SCRCMD_PROC_FLD_StoreByteValue: byte table lookup, 0xFF maps to 1.
  * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here,
  * ov010 holds this Thumb routine, and the ov021 callers already name ov010
  * (ov010 is the overlay resident with ov021).
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 extern u8 d_021725B8[];
 
-u8 func_0216EFCC(int i)
+u8 EVENT_BATTLE_GetKindFlag(int i)
 {
     u8 v = d_021725B8[i];
 

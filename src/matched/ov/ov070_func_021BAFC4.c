@@ -1,5 +1,5 @@
 /*
- * function: func_021BAFC4
+ * function: ITEMMENU_PrintMoney
  * address: 0x021BAFC4
  * packet: pkt_ov070_021BAFC4
  * region: ov070
@@ -10,19 +10,19 @@
  * status: EXACT
  * blocker: 0x02045CAC arm9, two call sites have no outside witness.
  * Existing unit src/matched/arm9/unit_02045C44.c contains its body but
- * lists only MSGDATA_CreateFromMemory in function:, omitting func_02045CAC.
+ * lists only MSGDATA_CreateFromMemory in function:, omitting MSGDATA_ReadString.
  * Lever: unsigned long win and distinct pointer/u32/unsigned-long address
  * expressions reproduce recomputation and colours; enum win leaves 10B.
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02012F08 0x02012F08 thumb
+ *   BMP_Clear 0x02043B5C arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C274 0x0200C274 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_021BB6E0 0x021BB6E0 thumb ov070
- *   func_021BB724 0x021BB724 thumb ov070
+ *   ITEMMENU_PrintToWindow 0x021BB6E0 thumb ov070
+ *   ITEMMENU_FlushWindowAt 0x021BB724 thumb ov070
  * blocker-C: 02045CAC verified EXACT, 344B, scratch arm9-blocker.log;
  * copied unchanged from unit_02045C44.c, using dsi/1.1p1 -O4,p --arm.
  * typedef unsigned char u8;
@@ -51,7 +51,7 @@
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -93,27 +93,27 @@ typedef short s16;
 typedef unsigned int u32;
 struct Descriptor;struct CharBuf;struct MsgBank;struct Blk34;struct WordSet;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(struct CharBuf *,u8);
-extern void func_02045CAC(struct MsgBank *,u32,void *);
-extern void *func_02012F08(int *);
+extern void BMP_Clear(struct CharBuf *,u8);
+extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
+extern void *GAME_DATA_GetMiscSave(int *);
 extern u32 func_0200C274(struct Blk34 *);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
 extern void func_0201F250(struct WordSet *,void *,void *);
-extern void func_021BB6E0(int,u32 *,u32,u16,s16,u16);
-extern void func_021BB724(void **);
+extern void ITEMMENU_PrintToWindow(int,u32 *,u32,u16,s16,u16);
+extern void ITEMMENU_FlushWindowAt(void **);
 #define P(k) (*(void **)((u32)p+(k)))
 #define W(k) (*(u32 *)((u32)p+(k)))
-void func_021BAFC4(u8 *p)
+void ITEMMENU_PrintMoney(u8 *p)
 {
  unsigned long win = 0x764;
- func_02043B5C(func_02045770(P(win)),0);
- func_02043B5C(func_02045770(*(void **)(p+(win-8))),0);
- func_02045CAC(P(0x51C),0x51,P(0x524));
- func_021BB6E0((int)p,(u32 *)((u32)p+(win-8)),W(0x524),0,4,0x3C40);
- func_021BB724((void **)((unsigned long)p+(win-8)));
- func_02045CAC(P(0x51C),0x52,P(0x524));
- func_0201EFA4(P(0x520),0,func_0200C274(func_02012F08(P(0))),7,1,1);
+ BMP_Clear(func_02045770(P(win)),0);
+ BMP_Clear(func_02045770(*(void **)(p+(win-8))),0);
+ MSGDATA_ReadString(P(0x51C),0x51,P(0x524));
+ ITEMMENU_PrintToWindow((int)p,(u32 *)((u32)p+(win-8)),W(0x524),0,4,0x3C40);
+ ITEMMENU_FlushWindowAt((void **)((unsigned long)p+(win-8)));
+ MSGDATA_ReadString(P(0x51C),0x52,P(0x524));
+ func_0201EFA4(P(0x520),0,func_0200C274(GAME_DATA_GetMiscSave(P(0))),7,1,1);
  func_0201F250(P(0x520),P(0x528),P(0x524));
- func_021BB6E0((int)p,(u32 *)((u32)p+win),W(0x528),0,4,0x3C40);
- func_021BB724((void **)((u32)p+win));
+ ITEMMENU_PrintToWindow((int)p,(u32 *)((u32)p+win),W(0x528),0,4,0x3C40);
+ ITEMMENU_FlushWindowAt((void **)((u32)p+win));
 }

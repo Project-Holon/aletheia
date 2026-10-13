@@ -1,5 +1,5 @@
 /*
- * function: func_0218BB0C
+ * function: FIELD_BUILDMODEL_LoadModelArchive
  * address:  0x0218BB0C
  * packet:   pkt_ov021_0218BB0C
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0204961C  0x0204961C  arm
- *   func_02049250  0x02049250  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_GetHandleFileCount  0x0204961C  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 #include "../include/Obj00572.h"
 
@@ -23,22 +23,22 @@ typedef unsigned int   u32;
 
 extern void *func_020490F4(u32 id, u32 heap);
 struct ArcFile;
-extern u16 func_0204961C(void *obj);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void func_02049238(void *h);
+extern u16 ARC_TOOL_GetHandleFileCount(void *obj);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void ARC_TOOL_DeleteHandle(void *h);
 
-void func_0218BB0C(u8 *s, u16 a, u32 n)
+void FIELD_BUILDMODEL_LoadModelArchive(u8 *s, u16 a, u32 n)
 {
     void *h;
     u8 *r;
 
     h = func_020490F4(a, (u16)((((struct Obj00572 *)s)->f0 & 0x7fff) | 0x8000));
-    if (func_0204961C(h) <= n)
+    if (ARC_TOOL_GetHandleFileCount(h) <= n)
         n = 0;
-    r = func_02049250(h, n, ((struct Obj00572 *)s)->f0);
+    r = ARC_TOOL_LoadHandleMember(h, n, ((struct Obj00572 *)s)->f0);
     *(u8 * *)&((struct Obj00572 *)s)->f18 = r;
     ((struct Obj00572 *)s)->f1AC = (u32)r[2] >> 1;
     if (((struct Obj00572 *)s)->f1AC > 0x190)
         ((struct Obj00572 *)s)->f1AC = 0x80;
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B40
+ * function: GIMMICK53_UpdateSlideSe
  * address:  0x021F3B40
  * packet:   pkt_ov053_021F3B40
  * region:   ov053
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Called from func_021F3778 with (p + 0x1a, h, func_02188CB4(a)).
+ * Called from GIMMICK53_Update with (p + 0x1a, h, FIELDMAP_GetFieldPlayer(a)).
  * Two spellings carry it:
  *   - the state range test is `(u16)(o->state + 0xffff) <= 1` (the image
  *     adds a pooled 0xFFFF); `(u16)(o->state - 1)` gives subs #1, and a
@@ -21,13 +21,13 @@
  * plus data that follows it.
  *
  * symbols:
- *   func_02006148  0x02006148  thumb
- *   func_02006224  0x02006224  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
+ *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   func_020061F8  0x020061F8  thumb
  *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_0218ECE4  0x0218ECE4  thumb  ov021
- *   func_021A34EC  0x021A34EC  thumb  ov021
+ *   FIELD_CAMERA_GetEyeRaw  0x0218ECE4  thumb  ov021
+ *   FIELD_PLAYER_GetFormSlot  0x021A34EC  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -44,16 +44,16 @@ typedef struct Obj {
     u16 se;
 } Obj;
 
-extern int func_02006148(u32 a0);
-extern int func_02006224(u32 a0);
+extern int GFL_USE_GetSeSlot(u32 a0);
+extern int GFL_USE_IsSeSlotBusy(u32 a0);
 extern void func_020061F8(int i);
 extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 extern void func_020061E4(u32 id);
-extern void func_0218ECE4(int, int *);
+extern void FIELD_CAMERA_GetEyeRaw(int, int *);
 typedef unsigned char  u8;
-extern int func_021A34EC(u8 *p);
+extern int FIELD_PLAYER_GetFormSlot(u8 *p);
 
-void func_021F3B40(Obj *o, int h, u8 *a2)
+void GIMMICK53_UpdateSlideSe(Obj *o, int h, u8 *a2)
 {
     int v[3];
     int d;
@@ -63,21 +63,21 @@ void func_021F3B40(Obj *o, int h, u8 *a2)
     u32 se;
 
     if ((u16)(o->state + 0xffff) <= 1) {
-        if (func_02006224(func_02006148(0x7eb)) == 0) {
+        if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x7eb)) == 0) {
             o->state = 0;
         }
         if (o->state == 2) {
             o->vol -= 16;
             n = o->vol;
             if (n < 0) {
-                func_020061F8(func_02006148(o->se));
+                func_020061F8(GFL_USE_GetSeSlot(o->se));
                 o->state = 0;
             } else {
-                GFL_USE_SetSeSlotVolume(func_02006148(o->se), n);
+                GFL_USE_SetSeSlotVolume(GFL_USE_GetSeSlot(o->se), n);
             }
         }
     }
-    func_0218ECE4(h, v);
+    FIELD_CAMERA_GetEyeRaw(h, v);
     d = o->prev;
     d = v[2] - d;
     if (d < 0) {
@@ -102,7 +102,7 @@ void func_021F3B40(Obj *o, int h, u8 *a2)
         }
     }
     if (o->count > 0) {
-        if (func_021A34EC(a2) == 0) {
+        if (FIELD_PLAYER_GetFormSlot(a2) == 0) {
             t = 0x75c000;
             se = 0x7ed;
         } else {

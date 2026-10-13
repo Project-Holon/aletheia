@@ -1,7 +1,7 @@
 /*
  * file:     save_control.c
  * unit:     yes
- * function: SAVE_CONTROL_Create, func_02007084, func_020070A4, SAVE_CONTROL_Reload, SAVE_CONTROL_StartSave, SAVE_CONTROL_MainSave, SAVE_CONTROL_CancelSave, SAVE_CONTROL_GetWrittenSize, func_020071CC, SAVE_CONTROL_GetWorkArea, func_020071E4, func_020071E8, func_020071EC, func_020071F0, func_02007210, func_02007214, func_02007218, func_0200721C, func_02007220, func_02007230, func_0200723C, SAVE_CONTROL_ReadRecordFromFlash, SAVE_CONTROL_LoadExtraSave, func_020072A4, func_020072CC, SAVE_CONTROL_CreateExtraSaveWithBuffer, SAVE_CONTROL_DeleteExtraSaveBuffered, SAVE_CONTROL_BeginExtraSaveWrite, SAVE_CONTROL_StepExtraSaveWrite, func_020073D8, SAVE_CONTROL_EraseExtraSave, func_02007428, func_02007464, func_020074CC, func_020074D8, func_0200752C, BOX_SAVEDATA_SetPokemon, BOX_SAVEDATA_SwapPokemon, BOX_SAVEDATA_ClearPokemon, BOX_SAVEDATA_GetCurrentBox, BOX_SAVEDATA_GetUsableBoxCount, BOX_SAVEDATA_UnlockBoxes, func_020076D0, func_02007774, func_020077B8, func_0200780C, func_0200781C, func_02007838, BOX_SAVEDATA_GetBoxName, BOX_SAVEDATA_SetBoxName, BOX_SAVEDATA_CountPokemonInBox, BOX_SAVEDATA_CountNonEggPokemonInBox, BOX_SAVEDATA_CountPokemon, BOX_SAVEDATA_CountNonEggPokemon, BOX_SAVEDATA_GetPokemonValue, BOX_SAVEDATA_GetPokemon, BOX_SAVEDATA_SetFlags, BOX_SAVEDATA_CheckFlags, BOX_SAVEDATA_GetBoxPageSize, BOX_SAVEDATA_CreateWordHolder, BOX_SAVEDATA_Delete, BOX_SAVEDATA_ClearBoxPage, BOX_SAVEDATA_GetBoxDataSize, BOX_SAVEDATA_GetBoxPokemon, PERAPVOICE_GetSize, PERAPVOICE_Init, PERAPVOICE_Create, PERAPVOICE_GetFromSave, PERAPVOICE_IsRecorded, PERAPVOICE_ClearRecorded, PERAPVOICE_SetRecorded, PERAPVOICE_GetSamples, PERAPVOICE_Unpack, PERAPVOICE_Pack, PERAPVOICE_Copy, PERAPVOICE_ClearIfNoChatot, PERAPVOICE_GetVoiceKind, MYITEM_SAVEDATA_GetSize, MYITEM_SAVEDATA_Init, MYITEM_SAVEDATA_CopyPocket, MYITEM_SAVEDATA_GetPocket, MYITEM_SAVEDATA_GetPocketOfItem, MYITEM_SAVEDATA_FindAddSlot, MYITEM_SAVEDATA_FindAddSlotForItem, MYITEM_SAVEDATA_CanAddItem, MYITEM_SAVEDATA_AddItem, MYITEM_SAVEDATA_FindRemoveSlot, MYITEM_SAVEDATA_FindItemSlot, MYITEM_SAVEDATA_RemoveItem, MYITEM_SAVEDATA_HasItem, MYITEM_SAVEDATA_CountUsedSlots, MYITEM_SAVEDATA_CountUsedSlotsInPocket, MYITEM_SAVEDATA_GetItemQuantity, MYITEM_SAVEDATA_SwapSlots, MYITEM_SAVEDATA_MoveLastUsedToFront, MYITEM_SAVEDATA_ClearEmptyQuantities, MYITEM_SAVEDATA_CompactPocket, MYITEM_SAVEDATA_SortPocketById, MYITEM_SAVEDATA_SortPocketByItemOrder, MYITEM_SAVEDATA_CompactAllPockets, MYITEM_SAVEDATA_GetSlot, MYITEM_SAVEDATA_GetMaxStack, MYITEM_SAVEDATA_CreateBagCursor, MYITEM_SAVEDATA_GetFieldPocketCursor, MYITEM_SAVEDATA_GetLastFieldPocket, MYITEM_SAVEDATA_SetFieldPocketCursor, MYITEM_SAVEDATA_SetLastFieldPocket, MYITEM_SAVEDATA_GetBattlePocketCursor, MYITEM_SAVEDATA_GetLastBattleItem, MYITEM_SAVEDATA_GetLastBattleItemPocket, MYITEM_SAVEDATA_SetBattlePocketCursors, MYITEM_SAVEDATA_SetLastBattleItem
+ * function: SAVE_CONTROL_Create, func_02007084, func_020070A4, SAVE_CONTROL_Reload, SAVE_CONTROL_StartSave, SAVE_CONTROL_MainSave, SAVE_CONTROL_CancelSave, SAVE_CONTROL_GetWrittenSize, func_020071CC, SAVE_CONTROL_GetWorkArea, func_020071E4, func_020071E8, func_020071EC, func_020071F0, func_02007210, func_02007214, func_02007218, func_0200721C, func_02007220, func_02007230, func_0200723C, SAVE_CONTROL_ReadRecordFromFlash, SAVE_CONTROL_LoadExtraSave, func_020072A4, SAVE_CONTROL_LoadExtraSaveWithBuffer, SAVE_CONTROL_CreateExtraSaveWithBuffer, SAVE_CONTROL_DeleteExtraSaveBuffered, SAVE_CONTROL_BeginExtraSaveWrite, SAVE_CONTROL_StepExtraSaveWrite, func_020073D8, SAVE_CONTROL_EraseExtraSave, func_02007428, func_02007464, func_020074CC, func_020074D8, func_0200752C, BOX_SAVEDATA_SetPokemon, BOX_SAVEDATA_SwapPokemon, BOX_SAVEDATA_ClearPokemon, BOX_SAVEDATA_GetCurrentBox, BOX_SAVEDATA_GetUsableBoxCount, BOX_SAVEDATA_UnlockBoxes, func_020076D0, func_02007774, func_020077B8, func_0200780C, func_0200781C, func_02007838, BOX_SAVEDATA_GetBoxName, BOX_SAVEDATA_SetBoxName, BOX_SAVEDATA_CountPokemonInBox, BOX_SAVEDATA_CountNonEggPokemonInBox, BOX_SAVEDATA_CountPokemon, BOX_SAVEDATA_CountNonEggPokemon, BOX_SAVEDATA_GetPokemonValue, BOX_SAVEDATA_GetPokemon, BOX_SAVEDATA_SetFlags, BOX_SAVEDATA_CheckFlags, BOX_SAVEDATA_GetBoxPageSize, BOX_SAVEDATA_CreateWordHolder, BOX_SAVEDATA_Delete, BOX_SAVEDATA_ClearBoxPage, BOX_SAVEDATA_GetBoxDataSize, BOX_SAVEDATA_GetBoxPokemon, PERAPVOICE_GetSize, PERAPVOICE_Init, PERAPVOICE_Create, PERAPVOICE_GetFromSave, PERAPVOICE_IsRecorded, PERAPVOICE_ClearRecorded, PERAPVOICE_SetRecorded, PERAPVOICE_GetSamples, PERAPVOICE_Unpack, PERAPVOICE_Pack, PERAPVOICE_Copy, PERAPVOICE_ClearIfNoChatot, PERAPVOICE_GetVoiceKind, MYITEM_SAVEDATA_GetSize, MYITEM_SAVEDATA_Init, MYITEM_SAVEDATA_CopyPocket, MYITEM_SAVEDATA_GetPocket, MYITEM_SAVEDATA_GetPocketOfItem, MYITEM_SAVEDATA_FindAddSlot, MYITEM_SAVEDATA_FindAddSlotForItem, MYITEM_SAVEDATA_CanAddItem, MYITEM_SAVEDATA_AddItem, MYITEM_SAVEDATA_FindRemoveSlot, MYITEM_SAVEDATA_FindItemSlot, MYITEM_SAVEDATA_RemoveItem, MYITEM_SAVEDATA_HasItem, MYITEM_SAVEDATA_CountUsedSlots, MYITEM_SAVEDATA_CountUsedSlotsInPocket, MYITEM_SAVEDATA_GetItemQuantity, MYITEM_SAVEDATA_SwapSlots, MYITEM_SAVEDATA_MoveLastUsedToFront, MYITEM_SAVEDATA_ClearEmptyQuantities, MYITEM_SAVEDATA_CompactPocket, MYITEM_SAVEDATA_SortPocketById, MYITEM_SAVEDATA_SortPocketByItemOrder, MYITEM_SAVEDATA_CompactAllPockets, MYITEM_SAVEDATA_GetSlot, MYITEM_SAVEDATA_GetMaxStack, MYITEM_SAVEDATA_CreateBagCursor, MYITEM_SAVEDATA_GetFieldPocketCursor, MYITEM_SAVEDATA_GetLastFieldPocket, MYITEM_SAVEDATA_SetFieldPocketCursor, MYITEM_SAVEDATA_SetLastFieldPocket, MYITEM_SAVEDATA_GetBattlePocketCursor, MYITEM_SAVEDATA_GetLastBattleItem, MYITEM_SAVEDATA_GetLastBattleItemPocket, MYITEM_SAVEDATA_SetBattlePocketCursors, MYITEM_SAVEDATA_SetLastBattleItem
  * address:  0x02006F20
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -66,12 +66,12 @@
  *   POKE_TOOL_GetBoxValue       0x02017E88  thumb
  *   POKE_TOOL_RecoverBoxAllPP       0x020181A0  thumb
  *   func_02045B38      0x02045B38  arm
- *   func_02045C04      0x02045C04  arm
+ *   MSGDATA_Delete      0x02045C04  arm
  *   MSGDATA_ReadUnits      0x02045F5C  arm
  *   BOX_SAVEDATA_GetHeader       0x020074CC  thumb
  *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
- *   func_02045924      0x02045924  arm
- *   func_02045A38      0x02045A38  arm
+ *   STRBUF_SetString      0x02045924  arm
+ *   STRBUF_ToChars      0x02045A38  arm
  *   _BoxSavedataFileName  0x020A706C  data
  *   _PerapVoiceFileName  0x020A707C  data
  *   func_02082A7C      0x02082A7C  arm
@@ -304,10 +304,10 @@ extern u32 func_02017E1C(struct Pokemon *mon, u32 field, u32 arg);
 extern u32 func_0201AA18(struct PokeParty *party);
 extern struct Pokemon *func_0201AB28(struct PokeParty *party, u32 index);
 extern struct MsgData *func_02045B38(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
-extern void func_02045C04(struct MsgData *msg);
+extern void MSGDATA_Delete(struct MsgData *msg);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 index, u16 *dest, u32 maxLen);
-extern void func_02045924(struct Strbuf *dest, const u16 *src);
-extern void func_02045A38(const struct Strbuf *src, u16 *dest, u32 length);
+extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
+extern void STRBUF_ToChars(const struct Strbuf *src, u16 *dest, u32 length);
 extern u32 func_02020FE4(u32 itemId, u32 param, u32 heapId);
 extern u32 func_02021288(u32 itemId);
 extern u32 func_0202130C(u32 itemId);
@@ -604,7 +604,7 @@ int SAVE_CONTROL_CancelSave(struct SaveControl *saveControl)
 
 /*
  * Thumb tail-call stub: loads the main save pointer and tail-calls
- * BACKUP_SYSTEM_GetWrittenSize (written size).  Witness leaf for ov034 func_021F09BC.
+ * BACKUP_SYSTEM_GetWrittenSize (written size).  Witness leaf for ov034 REPORT_UpdateSaveAnim.
  */
 u32 SAVE_CONTROL_GetWrittenSize(struct SaveControl *saveControl)
 {
@@ -732,7 +732,7 @@ int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 record
  * for the slot (BACKUP_SYSTEM_LoadLinked), which only accepts the area when its footer
  * counter equals that value.
  *
- * Two findings closed this function and its sibling func_020072CC:
+ * Two findings closed this function and its sibling SAVE_CONTROL_LoadExtraSaveWithBuffer:
  *
  * 1. BACKUP_SYSTEM_LoadLinked's second and third arguments are (heapId, linkCount), not
  *    (linkCount, heapId).  The image names the order directly: heapId is
@@ -765,7 +765,7 @@ u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 hea
  * again on the same slot array with its own pool word, which is what says
  * these are two entry points and not one.
  *
- * Near misses bracket this range (SAVE_CONTROL_LoadExtraSave and func_020072CC): both
+ * Near misses bracket this range (SAVE_CONTROL_LoadExtraSave and SAVE_CONTROL_LoadExtraSaveWithBuffer): both
  * reproduce every instruction, register and branch and differ only in where
  * the incoming third argument is spilled.  Thirty source shapes were tried
  * against each; they all land on the same two counts, so it is not a source
@@ -782,7 +782,7 @@ void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot)
 
 
 /* Like SAVE_CONTROL_LoadExtraSave, but the area works in the caller's buffer (initMode 1) and is loaded. */
-u32 func_020072CC(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize)
+u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize)
 {
     saveControl->extraSaves[slot] = BACKUP_SYSTEM_CreateWithWork(&_ExtraSaveDescs[slot], heapId, work, workSize, 1);
     if (SYSTEM_DATA_IsMarked(saveControl, slot) == 0) {
@@ -978,7 +978,7 @@ void BOX_SAVEDATA_InitHeader(struct BoxSaveHeader *header)
         for (box = 0; box < MAX_BOXES; box++) {
             MSGDATA_ReadUnits(boxNames, box + 6, header->names[box].chars, 0x14);
         }
-        func_02045C04(boxNames);
+        MSGDATA_Delete(boxNames);
     }
     header->currentBox = 0;
     header->usableBoxCount = 8;
@@ -1325,7 +1325,7 @@ void BOX_SAVEDATA_GetBoxName(struct GameData *gameData, u32 box, struct Strbuf *
         box = header->currentBox;
     }
     if (box < MAX_BOXES) {
-        func_02045924(dest, header->names[box].chars);
+        STRBUF_SetString(dest, header->names[box].chars);
         return;
     }
     func_02034714(_BoxEmptyString, 0, _BoxEmptyString);
@@ -1340,7 +1340,7 @@ void BOX_SAVEDATA_SetBoxName(struct GameData *gameData, u32 box, const struct St
         box = header->currentBox;
     }
     if (box < MAX_BOXES) {
-        func_02045A38(name, header->names[box].chars, 0x14);
+        STRBUF_ToChars(name, header->names[box].chars, 0x14);
     }
 }
 

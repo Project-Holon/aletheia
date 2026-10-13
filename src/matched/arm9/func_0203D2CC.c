@@ -13,7 +13,7 @@
  * symbols:
  *   g_020A7CA0     0x020A7CA0  data
  *   g_020A7CE8     0x020A7CE8  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetSession  0x0203D788  arm
  *   FLASH_ACCESS_GetBusyFlag  0x020338F8  arm
  *   func_02034714  0x02034714  arm
@@ -25,7 +25,7 @@
  * line 0x364 (868) and the message string "0" at 0x020A7CE8.
  *
  * Refresh of the on-screen connection indicator.  Both accessors are
- * called even though they return the same singleton field (func_0203D798
+ * called even though they return the same singleton field (GFL_NET_GetInitParam
  * null-checks it, GFL_NET_GetSession does not); the original keeps both results
  * live in r4 and r5 and uses r4 only for the mode test, so the two calls
  * are in the source, not an artefact.
@@ -52,7 +52,7 @@ struct NetState {
 extern char g_020A7CA0[];
 extern char g_020A7CE8[];
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern u32  FLASH_ACCESS_GetBusyFlag(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
@@ -61,7 +61,7 @@ extern void GFL_NET_WM_ICON_EasyEnd(void);
 
 void GFL_NET_RestartByNetType(void)
 {
-    struct NetState *a = func_0203D798();
+    struct NetState *a = GFL_NET_GetInitParam();
     struct NetState *b = GFL_NET_GetSession();
 
     if (FLASH_ACCESS_GetBusyFlag() == 1) {

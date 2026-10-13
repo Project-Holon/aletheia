@@ -1,5 +1,5 @@
 /*
- * function: func_02048A24
+ * function: G3D_CAMERA_Create
  * address:  0x02048A24
  * packet:   pkt_02048330
  * region:   arm9
@@ -24,8 +24,8 @@
  * unit's allocation-site string, 0x020A7EC4).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048A24.c \
- *       --func func_02048A24 --addr 0x02048A24 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_CAMERA_Create.c \
+ *       --func G3D_CAMERA_Create --addr 0x02048A24 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -41,7 +41,7 @@ typedef struct {
 extern char  g3d_camera_file[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-u32 *func_02048A24(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
+u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                    Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap)
 {
     u32 *p = (u32 *)func_02030734(heap, 0x44, 0, g3d_camera_file, 0x38);

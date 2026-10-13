@@ -97,13 +97,13 @@ typedef struct Gimmick41CameraInfo {
 } Gimmick41CameraInfo;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern struct FieldCamera *func_02188C58(struct FieldMap *fieldMap);
-extern void func_0218ECE4(struct FieldCamera *camera, VecFx32 *out);
-extern void func_0218ECF4(struct FieldCamera *camera, const VecFx32 *eye);
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+extern void FIELD_CAMERA_GetEyeRaw(struct FieldCamera *camera, VecFx32 *out);
+extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, const VecFx32 *eye);
 
 /* The bounce functions (the last two live in the unplaced file). */
-void func_021F3FD8(Gimmick41Work *work);
-void func_021F3FEC(Gimmick41Bounce *bounce);
-void func_021F4000(Gimmick41Bounce *bounce, struct FieldCamera *camera);
+void GIMMICK41_StartBounce(Gimmick41Work *work);
+void GIMMICK41_ResetBounce(Gimmick41Bounce *bounce);
+void GIMMICK41_UpdateBounce(Gimmick41Bounce *bounce, struct FieldCamera *camera);
 
 #endif

@@ -11,23 +11,23 @@
  *
  * symbols:
  *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
- *   func_02017DBC  0x02017DBC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02019C54  0x02019C54  thumb
  *   func_020056EC  0x020056EC  thumb
  *   func_0203F0A8  0x0203F0A8  arm
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
- *   func_02017ED8  0x02017ED8  thumb
+ *   POKE_TOOL_CheckShiny  0x02017ED8  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   func_02018584  0x02018584  thumb
+ *   POKE_TOOL_GetExpForLevel  0x02018584  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *   func_02019C7C  0x02019C7C  thumb
  *   POKE_TOOL_GetBoxGender  0x02017F08  thumb
  *   POKE_TOOL_SetBoxDefaultMoves  0x02017FB0  thumb
- *   func_02017DE4  0x02017DE4  thumb
- *   g0209DF0C      0x0209DF0C  data  a1
- *   gMsgBank       0x020A7370  data
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   GAME_LANGUAGE_Code      0x0209DF0C  data  a1
+ *   gSpeciesNameBank       0x020A7370  data
  *   gNameBuf       0x021462F0  data
- *   g0209DF08      0x0209DF08  data  a1
+ *   GAME_VERSION_Code      0x0209DF08  data  a1
  *
  * Initialise a record's block area: species, level, a 64-bit trainer id and
  * a 64-bit personality with two sentinel values each, and packed IVs (or
@@ -36,7 +36,7 @@
  *   - the 4th parameter is a u64 `id` straddling r3 and the first stack
  *     word; the 7th is a u64 `rnd`.  Sentinels: id == ~0 (draw a fresh one),
  *     id == 0xFFFFFFFF00000000 (search for a non-shiny id: the
- *     func_02017ED8 retry loop, `id = (u32)(rnd + 1)` then
+ *     POKE_TOOL_CheckShiny retry loop, `id = (u32)(rnd + 1)` then
  *     `id = (id + 1) & 0xFFFFFFFF`); rnd == 0xFFFFFFFF00000000 (draw),
  *     rnd == 0xFFFFFFFF00000001 (take id).  Callers 0x0201756C/0x02017600
  *     pass pow = -1, rnd = 0xFFFFFFFF00000000.
@@ -46,7 +46,7 @@
  *     last ten prologue bytes (r1 vs r0 as the scratch for the stack-param
  *     home rewrite) came from that alone: r0 must survive to the call.
  *     The permuter (hill 800 + anneal 1000, --types) could not move them.
- *   - 0x020A7370 is gMsgBank (a pointer, dereferenced), 0x021462F0 is
+ *   - 0x020A7370 is gSpeciesNameBank (a pointer, dereferenced), 0x021462F0 is
  *     gNameBuf (passed by address), as docs/families/poke_tool.h says.
  */
 typedef unsigned char  u8;
@@ -58,24 +58,24 @@ struct MsgData;
 struct Personal;
 struct Sav;
 extern void POKE_TOOL_ClearBoxParam(struct Sav *p);
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern void *func_02019C54(u32 a, u32 b);
 extern u32   func_020056EC(u32 a);
 extern u32   func_0203F0A8(void);
 extern void  POKE_TOOL_SetBoxValue(void *obj, u32 id, u32 val);
-extern u32   func_02017ED8(u32 a, u32 b);
+extern u32   POKE_TOOL_CheckShiny(u32 a, u32 b);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32   func_02018584(u16 a, u16 b, u16 c);
+extern u32   POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 c);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern u32   func_02019C7C(void *a);
 extern u8 POKE_TOOL_GetBoxGender(void *p);
 extern u32 POKE_TOOL_SetBoxDefaultMoves(void *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
-extern u8   g0209DF0C;
-extern void *gMsgBank;
+extern u8   GAME_LANGUAGE_Code;
+extern void *gSpeciesNameBank;
 extern u16  gNameBuf[];
-extern u8   g0209DF08;
+extern u8   GAME_VERSION_Code;
 
 void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 pow, u64 rnd)
 {
@@ -84,7 +84,7 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
     u32 v;
 
     POKE_TOOL_ClearBoxParam(obj);
-    flag = func_02017DBC(obj);
+    flag = POKE_TOOL_DecodeBoxParam(obj);
     rec = func_02019C54(species, 0);
 
     if (rnd == 0xFFFFFFFF00000000ULL) {
@@ -99,19 +99,19 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
         id = func_020056EC(0);
     } else if (id == 0xFFFFFFFF00000000ULL) {
         id = (u32)(rnd + 1);
-        while (func_02017ED8((u32)id, (u32)rnd)) {
+        while (POKE_TOOL_CheckShiny((u32)id, (u32)rnd)) {
             id = (id + 1) & 0xFFFFFFFF;
         }
     }
     POKE_TOOL_SetBoxValue(obj, 7, (u32)id);
-    POKE_TOOL_SetBoxValue(obj, 0xc, g0209DF0C);
+    POKE_TOOL_SetBoxValue(obj, 0xc, GAME_LANGUAGE_Code);
     POKE_TOOL_SetBoxValue(obj, 5, species);
-    MSGDATA_ReadUnits(gMsgBank, species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(obj, 0x74, (u32)gNameBuf);
-    POKE_TOOL_SetBoxValue(obj, 8, func_02018584(species, 0, level));
+    POKE_TOOL_SetBoxValue(obj, 8, POKE_TOOL_GetExpForLevel(species, 0, level));
     POKE_TOOL_SetBoxValue(obj, 9, func_0201AE1C(rec, 0x16));
     POKE_TOOL_SetBoxValue(obj, 0x99, level);
-    POKE_TOOL_SetBoxValue(obj, 0x77, g0209DF08);
+    POKE_TOOL_SetBoxValue(obj, 0x77, GAME_VERSION_Code);
     POKE_TOOL_SetBoxValue(obj, 0x98, 4);
 
     if (pow == 0xFFFFFFFF) {
@@ -138,5 +138,5 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
     POKE_TOOL_SetBoxValue(obj, 0x6e, POKE_TOOL_GetBoxGender(obj));
     POKE_TOOL_SetBoxValue(obj, 0x70, func_020056EC(0x19));
     POKE_TOOL_SetBoxDefaultMoves(obj);
-    func_02017DE4(obj, flag);
+    POKE_TOOL_EncodeBoxParam(obj, flag);
 }

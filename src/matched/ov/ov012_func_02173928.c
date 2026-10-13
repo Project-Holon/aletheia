@@ -1,5 +1,5 @@
 /*
- * function: func_02173928
+ * function: UNION_MAIN_IsExitStarted
  * address:  0x02173928
  * packet:   pkt_ov012_02173928
  * region:   ov012
@@ -17,7 +17,7 @@
 
 typedef unsigned char u8;
 
-int func_02173928(u8 *p)
+int UNION_MAIN_IsExitStarted(u8 *p)
 {
     return ((struct Obj19241 *)p)->f356C;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3B8
+ * function: STARTMENU_BattleFlagProcInit
  * address:  0x021BC3B8
  * packet:   pkt_ov088_021BC3B8
  * region:   ov088
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203159C  0x0203159C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_020070A4  0x020070A4  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
@@ -19,16 +19,16 @@
 typedef unsigned int u32;
 
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 struct Sub02007084Ctrl;
 extern struct Sub02007084Ctrl *func_020070A4(void);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *func_0200C0F0(void *sys);
 
-int func_021BC3B8(struct Obj0203159C *a0)
+int STARTMENU_BattleFlagProcInit(struct Obj0203159C *a0)
 {
-    u32 *q = func_0203159C(a0, 0x5c, 1);
+    u32 *q = PROCSYS_AllocProcWork(a0, 0x5c, 1);
 
     q[0] = 1;
     q[1] = (u32)func_0200873C(func_020070A4());

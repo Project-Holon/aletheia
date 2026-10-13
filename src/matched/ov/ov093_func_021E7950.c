@@ -18,7 +18,7 @@
 int *func_021E7950(int *p);
 
 /*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021E7972; movs r0, #0x51; movs r1, #1; bl func_021D76BC; pop {r4, pc}.
+ * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E7972; movs r0, #0x51; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
  */
 extern int d_021F2998[];
 

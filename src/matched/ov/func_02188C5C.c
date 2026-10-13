@@ -1,5 +1,5 @@
 /*
- * function: func_02188C5C
+ * function: FIELDMAP_GetNogridMapper
  * address:  0x02188C5C
  * packet:   pkt_02188C54
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02188C5C(u8 *p)
+u32 FIELDMAP_GetNogridMapper(u8 *p)
 {
     return ((struct Obj17859 *)p)->f3C;
 }

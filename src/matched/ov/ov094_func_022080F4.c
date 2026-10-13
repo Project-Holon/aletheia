@@ -10,19 +10,19 @@
  * lever: an enum VRAM base assigned in both copy arms prevents folding
  *   each base-plus-offset into a separate literal pool word.
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02043678 0x02043678 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02017E1C 0x02017E1C thumb
+ *   STRBUF_Create 0x020457B0 arm
+ *   BMP_Create 0x02043678 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   GF_FONT_GetTextColor 0x0201DE00 thumb
- *   func_0201DD78 0x0201DD78 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_020437D4 0x020437D4 arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_GetPixels 0x020437D4 arm
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_02082A60 0x02082A60 arm
- *   func_02045808 0x02045808 arm
- *   func_020437AC 0x020437AC arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   BMP_Delete 0x020437AC arm
  */
 #include "../include/Obj01911.h"
 typedef unsigned char u8;
@@ -35,23 +35,23 @@ struct Bmp;
 struct StrObj;
 struct Struct36;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct Bmp;
 struct CharBuf;
 struct Obj020437AC;
 struct U16Vec;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern u32 func_02017E1C(void *, u32, u32);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_020437AC(struct Obj020437AC *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_Delete(struct Obj020437AC *p);
 void func_022080F4(char *o, E *e, void *data)
 {
     void *v, *bmp;
@@ -59,18 +59,18 @@ void func_022080F4(char *o, E *e, void *data)
     Struct36 buf;
     u8 c[3];
     enum { VRAM_BASE = 0x06400000 } vram;
-    v = func_020457B0(12, (u16)((((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000));
-    bmp = func_02043678(8, 2, 32, (u16)((((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000));
-    func_02043B5C(bmp, 0);
-    func_02017E1C(data, 0x73, (u32)v);
+    v = STRBUF_Create(12, (u16)((((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000));
+    bmp = BMP_Create(8, 2, 32, (u16)((((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000));
+    BMP_Clear(bmp, 0);
+    POKE_TOOL_GetPartyValue(data, 0x73, (u32)v);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
-    func_0201DD78(1, 4, 0);
+    GF_FONT_SetTextColor(1, 4, 0);
     if ((int)func_0201D304(v, (u32)(((struct Obj01911 *)o)->f8), (int)0) > 48)
-        func_0201C7A4(bmp, 2, 5, v, ((struct Obj01911 *)o)->f8);
+        PRINTSYS_Print(bmp, 2, 5, v, ((struct Obj01911 *)o)->f8);
     else
-        func_0201C7A4(bmp, 8, 5, v, ((struct Obj01911 *)o)->f8);
-    func_0201DD78(c[2], c[1], c[0]);
-    pixels = func_020437D4(bmp);
+        PRINTSYS_Print(bmp, 8, 5, v, ((struct Obj01911 *)o)->f8);
+    GF_FONT_SetTextColor(c[2], c[1], c[0]);
+    pixels = BMP_GetPixels(bmp);
     CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         vram = VRAM_BASE;
@@ -85,6 +85,6 @@ void func_022080F4(char *o, E *e, void *data)
         func_02082A60(pixels + 0xe0, (void *)(vram + 0x400 + buf.w[1]), 0x20);
         func_02082A60(pixels + 0x1e0, (void *)(vram + 0x500 + buf.w[1]), 0x20);
     }
-    func_02045808(v);
-    func_020437AC(bmp);
+    STRBUF_Delete(v);
+    BMP_Delete(bmp);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C017C",
+   "name": "EVENT_DISAPPEAR_StartZoomIn",
    "address": "0x021C017C",
    "kind": "game",
    "region": "ov021",

@@ -1,6 +1,6 @@
 /*
  * file:     unit_0219E8F8.c
- * function: func_0219E8F8
+ * function: SBServerGetPing
  * address:  0x0219E8F8
  * packet:   pkt_02155168
  * region:   ov009
@@ -15,7 +15,7 @@
 
 #include "unit_0219E1EC_types.h"
 
-int func_0219E8F8(const SBServer *server)
+int SBServerGetPing(const SBServer *server)
 {
     return server->updatetime;
 }

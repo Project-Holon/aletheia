@@ -1,5 +1,5 @@
 /*
- * function: func_021BCBC8
+ * function: FIELD_PLACE_NAME_Interrupt
  * address:  0x021BCBC8
  * packet:   pkt_ov021_021BCBC8
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021BCB9C  0x021BCB9C  thumb  ov021
+ *   FIELD_PLACE_NAME_SetState  0x021BCB9C  thumb  ov021
  *   _ffltu         0x0209BE04  arm
  *   _fdiv          0x0209CE10  arm
  *   _fmul          0x0209C77C  arm
@@ -21,9 +21,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021BCB9C(void *p, int keep);
+extern void FIELD_PLACE_NAME_SetState(void *p, int keep);
 
-void func_021BCBC8(char *p)
+void FIELD_PLACE_NAME_Interrupt(char *p)
 {
     int r6;
     int r5;
@@ -47,6 +47,6 @@ void func_021BCBC8(char *p)
         r5 = 0;
         break;
     }
-    func_021BCB9C(p, r6);
+    FIELD_PLACE_NAME_SetState(p, r6);
     ((struct Obj05061 *)p)->f42 = r5;
 }

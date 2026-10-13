@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017DBC  0x02017DBC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   POKE_TOOL_CalcBoxLevel  0x02018438  thumb
  *   func_0201ADD0  0x0201ADD0  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   POKE_TOOL_AddBoxMove  0x02018094  thumb
  *   POKE_TOOL_PushBoxMove  0x020180FC  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   gLevelUpMoveBuf      0x02146330  data
  *
  * Reset a record's moves to its level-up set: clear the four move/PP/PP-up
  * slots, load the species/form learnset into the shared buffer at
  * 0x02146330, then teach every entry at or below the current level
  * (POKE_TOOL_AddBoxMove; 0xFFFF = no free slot, so push it in with POKE_TOOL_PushBoxMove).
- * Block-lock sandwich (func_02017DBC / func_02017DE4).  Wave 11, 2026-09-23.
+ * Block-lock sandwich (POKE_TOOL_DecodeBoxParam / POKE_TOOL_EncodeBoxParam).  Wave 11, 2026-09-23.
  *
  * Load-bearing: ONE loop variable `i` for both phases (the clearing loop
  * and the learnset walk, re-zeroed in between).  With two variables the
@@ -41,14 +41,14 @@ typedef unsigned int   u32;
 struct Learn { u16 move; u16 level; };
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern u32  POKE_TOOL_CalcBoxLevel(void *p);
 extern void func_0201ADD0(u32 species, int form, void *dest);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_AddBoxMove(void *p, u32 move);
 extern void POKE_TOOL_PushBoxMove(void *p, u16 move);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern struct Learn gLevelUpMoveBuf[];
 
 static inline int Learn_IsEnd(const struct Learn *t)
@@ -71,7 +71,7 @@ u32 POKE_TOOL_SetBoxDefaultMoves(void *p)
     struct Learn t;
     struct Learn cur;
 
-    flag = func_02017DBC(p);
+    flag = POKE_TOOL_DecodeBoxParam(p);
     species = func_02017E88(p, 5, 0);
     form = func_02017E88(p, 0x6f, 0);
     level = POKE_TOOL_CalcBoxLevel(p);
@@ -92,5 +92,5 @@ u32 POKE_TOOL_SetBoxDefaultMoves(void *p)
             POKE_TOOL_PushBoxMove(p, d.move);
         i++;
     }
-    return func_02017DE4(p, flag);
+    return POKE_TOOL_EncodeBoxParam(p, flag);
 }

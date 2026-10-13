@@ -2,14 +2,14 @@
 #define PLIST_PLATE_TYPES_H
 
 /* Party list screen: the plate drawn for one party slot (allocated by
-   func_021BA6A0, 0x44 bytes) and the small structs only plist_plate.c uses.
+   PLIST_PLATE_Create, 0x44 bytes) and the small structs only plist_plate.c uses.
    The including file defines u8, u16, u32, s8, s16 and includes pokelist_types.h first. */
 
 struct Obj;
 struct Bank;
 struct Descriptor;
 
-/* Values the plate reads with func_02017E1C; same ids as enum PokeToolParam in poke_tool.c. */
+/* Values the plate reads with POKE_TOOL_GetPartyValue; same ids as enum PokeToolParam in poke_tool.c. */
 enum {
     POKE_TOOL_PARAM_SPECIES = 0x05,
     POKE_TOOL_PARAM_HELD_ITEM = 0x06,
@@ -20,7 +20,7 @@ enum {
     POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN = 0xAD
 };
 
-/* Message ids of the plate bank (g_020A7370). */
+/* Message ids of the plate bank (gSpeciesNameBank). */
 enum {
     PLIST_PLATE_MSG_GENDER_MALE = 7,
     PLIST_PLATE_MSG_GENDER_FEMALE = 8,
@@ -54,7 +54,7 @@ enum {
     PLIST_PLATE_LABEL_NONE = 8
 };
 
-/* Result of func_021BB554 (hp gauge colour class). */
+/* Result of PLIST_PLATE_GetHpBarColor (hp gauge colour class). */
 enum {
     PLIST_PLATE_HPBAR_RED = 0,
     PLIST_PLATE_HPBAR_YELLOW = 1,
@@ -126,7 +126,7 @@ typedef struct PlistPlateSurface {
     int bgPriority;                  /* 0x10 */
 } PlistPlateSurface;
 
-/* Actor creation parameters (func_0204B294). */
+/* Actor creation parameters (CLACT_CreateActor). */
 typedef struct PlistPlateActorSpec {
     u16 x;
     u16 y;

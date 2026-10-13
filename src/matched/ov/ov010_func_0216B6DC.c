@@ -1,5 +1,5 @@
 /*
- * function: func_0216B6DC
+ * function: FIELD_G3D_MAP_CmdClearMission
  * address:  0x0216B6DC
  * packet:   pkt_ov010_0216B6DC
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200E394  0x0200E394  thumb
  *   func_0200C334  0x0200C334  thumb
@@ -25,23 +25,23 @@ typedef unsigned int u32;
 
 struct Big;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02012EBC(struct Big *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *sys);
 extern void *func_0200E394(void *a0);
 struct Blk34;
 extern void func_0200C334(struct Blk34 *p, u8 v);
 extern void func_0200C344(struct Blk34 *p, u8 i, u8 v);
 
-int func_0216B6DC(int a0, int a1)
+int FIELD_G3D_MAP_CmdClearMission(int a0, int a1)
 {
     void *w;
     void *h;
     int i;
 
-    func_0215A5F4((void *)a1);
-    w = func_02012EBC((struct Big *)func_0215A5E4((void *)a1));
+    SCRCMD_WORK_GetScriptWork((void *)a1);
+    w = GAME_DATA_GetSaveControl((struct Big *)SCRCMD_WORK_GetGameData((void *)a1));
     h = func_0200C0F0(w);
     func_0200E394(w);
     func_0200C334(h, 0);

@@ -13,8 +13,8 @@
  *   TCBL_DeleteTask 0x02031194 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
- *   func_0201DD78 0x0201DD78 thumb
- *   func_0201CCE4 0x0201CCE4 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -39,9 +39,9 @@ extern void func_021BF470(char *p);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
 extern void *MSGDATA_AllocString(struct MsgBank *,u32);
-extern void func_0201DD78(u32,u32,u32);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 /* The caller stores the live r0 result, although the matched wrapper was typed void. */
-extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
+extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
@@ -63,8 +63,8 @@ void func_021BF320(struct TcblNode *task, struct Context *ctx)
         struct MsgBank *bank = MSGDATA_CreateFromArchive(0,2,(u16)ctx->file,cfg->a2);
         void *desc;
         ctx->text = MSGDATA_AllocString(bank,ctx->index);
-        func_0201DD78(1,2,15);
-        ctx->printer = func_0201CCE4((u32)ctx->desc,0,0,(u32)ctx->text,cfg->a24,cfg->a18,cfg->a20,0,cfg->a0,15);
+        GF_FONT_SetTextColor(1,2,15);
+        ctx->printer = PRINTSYS_PrintStream((u32)ctx->desc,0,0,(u32)ctx->text,cfg->a24,cfg->a18,cfg->a20,0,cfg->a0,15);
         desc = ctx->desc;
         BMP_WIN_TransferChars(desc);
         BMP_WIN_MakeScreen(desc);

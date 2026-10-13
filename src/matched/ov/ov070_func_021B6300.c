@@ -1,5 +1,5 @@
 /*
- * function: func_021B6300
+ * function: ITEMMENU_MoveCursorDown
  * address:  0x021B6300
  * packet:   pkt_ov070_021B6300
  * region:   ov070
@@ -18,7 +18,7 @@ typedef struct Obj {
     int b;
 } Obj;
 
-int func_021B6300(Obj *o, int n, int k)
+int ITEMMENU_MoveCursorDown(Obj *o, int n, int k)
 {
     int a, b;
 

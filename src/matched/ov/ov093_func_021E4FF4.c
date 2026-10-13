@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021D58A8  0x021D58A8  thumb  ov093
@@ -29,7 +29,7 @@ typedef struct Rec {
     u8 f1 : 1;
 } Rec;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern void *func_021C88A4(char *p, int a, int b);
 extern int func_021D58A8(u8 *p, int k);
@@ -44,7 +44,7 @@ void func_021E4FF4(int a, void *b, int c)
     u8 *w;
     Rec *r;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         q = func_021C7CF4(b, c);
         r = func_021C88A4(b, 0x11, c);
         r->id = c;

@@ -1,5 +1,5 @@
 /*
- * function: func_021EF508
+ * function: BTL_MSG_BuildMoveEffectC
  * address:  0x021EF508
  * packet:   pkt_ov093_021EF508
  * region:   ov093
@@ -14,13 +14,13 @@
  * call into a u8 local hoists the load above the u16 test.
  *
  * symbols:
- *   func_021EED00  0x021EED00  thumb  ov093
+ *   BTL_MSG_SetPokeName  0x021EED00  thumb  ov093
  *   func_021B8DDC  0x021B8DDC  thumb  ov093
  *   func_021B8CE8  0x021B8CE8  thumb  ov093
- *   func_021B86B8  0x021B86B8  thumb  ov093
- *   func_02045CAC  0x02045CAC  arm
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   d_021F6398     0x021F6398  data   a4
+ *   gBtlMsgState     0x021F6398  data   a4
  */
 
 typedef unsigned char u8;
@@ -44,29 +44,29 @@ typedef struct {
     u16 f5a;
 } D;
 
-extern void func_021EED00(u8 a, u32 b);
+extern void BTL_MSG_SetPokeName(u8 a, u32 b);
 extern u8 func_021B8DDC(u32 x);
 extern int func_021B8CE8(int a, int b, int c);
-extern void *func_021B86B8(void ***p);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern D d_021F6398;
+extern D gBtlMsgState;
 
-void func_021EF508(u32 a, int b, u32 *p)
+void BTL_MSG_BuildMoveEffectC(u32 a, int b, u32 *p)
 {
     u8 r5 = p[1] - 1;
     int k;
     int t;
     u8 id;
 
-    func_021EED00(p[0], 0);
+    BTL_MSG_SetPokeName(p[0], 0);
     id = p[0];
-    if (d_021F6398.f58 == 0 &&
-        func_021B8CE8((int)d_021F6398.f0, (u8)d_021F6398.f54,
+    if (gBtlMsgState.f58 == 0 &&
+        func_021B8CE8((int)gBtlMsgState.f0, (u8)gBtlMsgState.f54,
                       func_021B8DDC(id))) {
-        if (func_021B86B8(d_021F6398.f0) == 0 || func_021B86B8(d_021F6398.f0) == (void *)4)
+        if (BTL_MAIN_GetCompetitor(gBtlMsgState.f0) == 0 || BTL_MAIN_GetCompetitor(gBtlMsgState.f0) == (void *)4)
             k = 1;
         else
             k = 2;
@@ -74,6 +74,6 @@ void func_021EF508(u32 a, int b, u32 *p)
         k = 0;
     }
     t = b + r5 * 3;
-    func_02045CAC((struct MsgBank *)d_021F6398.f14, (u16)(t + k), (void *)d_021F6398.fc);
-    func_0201F250((struct WordSet *)d_021F6398.f8, (void *)a, (void *)d_021F6398.fc);
+    MSGDATA_ReadString((struct MsgBank *)gBtlMsgState.f14, (u16)(t + k), (void *)gBtlMsgState.fc);
+    func_0201F250((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
 }

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201347C",
+   "name": "BTL_SETUP_SetupWild",
    "address": "0x0201347C",
    "kind": "game",
    "region": "arm9",

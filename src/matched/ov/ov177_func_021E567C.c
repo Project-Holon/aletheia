@@ -18,12 +18,12 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02049658 0x02049658 arm
- *   func_0204ABF0 0x0204ABF0 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   func_02049F78 0x02049F78 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02040C14 0x02040C14 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   func_02040618 0x02040618 arm
@@ -41,12 +41,12 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern u32 func_0204AF28(void *, u32, u32, u16);
+extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern u32 CLACT_RegisterCellAnim(void *, u32, u32, u16);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -72,19 +72,19 @@ u32 *func_021E567C(int unused, int mode, int heap)
     func_02049658(h, 2, 3, 0, 0, 0, c);
     func_02049658(h, 2, 7, 0, 0, 0, c);
     func_021E58A4((int)w, mode, heap);
-    w[0] = func_0204ABF0(h, 1, 0, 0, c);
-    w[2] = func_0204A6C8(h, 3, 0, 0, c);
-    w[4] = func_0204AF28(h, 4, 0xb, c);
-    w[1] = func_0204ABF0(h, 1, 1, 0, c);
-    w[3] = func_0204A6C8(h, 3, 0, 1, c);
-    w[5] = func_0204AF28(h, 4, 0xb, c);
+    w[0] = CLACT_RegisterPalette(h, 1, 0, 0, c);
+    w[2] = CLACT_RegisterCharacter(h, 3, 0, 0, c);
+    w[4] = CLACT_RegisterCellAnim(h, 4, 0xb, c);
+    w[1] = CLACT_RegisterPalette(h, 1, 1, 0, c);
+    w[3] = CLACT_RegisterCharacter(h, 3, 0, 1, c);
+    w[5] = CLACT_RegisterCellAnim(h, 4, 0xb, c);
     hd = func_02049F78(h, 0, (u32)&out, heap);
     data = (u8 *)out[3];
     func_02082D44(data, (u8 *)w + 0x38, 0x20);
     k += 0x9b;
     func_02082D44(data + k, (u8 *)w + 0x58, 0x20);
     func_020307B0(hd);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     l = 0x17;
     m = 5;
     func_02049B40(l, m, 0, 0x1e0, 0x20, c);

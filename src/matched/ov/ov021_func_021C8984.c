@@ -1,5 +1,5 @@
 /*
- * function: func_021C8984
+ * function: FIELD_TILE_MOVE_FindSpinEntry
  * address:  0x021C8984
  * packet:   pkt_ov021_021C8984
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DAB24  0x021DAB24  data  ov021  a4
+ *   sFieldTileMoveSpinTable  0x021DAB24  data  ov021  a4
  */
 
 typedef unsigned char u8;
@@ -18,13 +18,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 typedef struct { u16 id; u16 pad; u32 v; } E;
-extern E d_021DAB24[4];
-E *func_021C8984(u16 id)
+extern E sFieldTileMoveSpinTable[4];
+E *FIELD_TILE_MOVE_FindSpinEntry(u16 id)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        if (id == d_021DAB24[i].id)
-            return &d_021DAB24[i];
+        if (id == sFieldTileMoveSpinTable[i].id)
+            return &sFieldTileMoveSpinTable[i];
     }
     return 0;
 }

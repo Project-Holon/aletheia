@@ -1,5 +1,5 @@
 /*
- * function: func_0216D8AC
+ * function: FLDMMDL_GetPosY
  * address:  0x0216D8AC
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D8AC.c \
- *       --func func_0216D8AC --addr 0x0216D8AC --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetPosY.c \
+ *       --func FLDMMDL_GetPosY --addr 0x0216D8AC --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17849.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_0216D8AC(void *p) { return ((struct Obj17849 *)p)->f48; }
+u32 FLDMMDL_GetPosY(void *p) { return ((struct Obj17849 *)p)->f48; }

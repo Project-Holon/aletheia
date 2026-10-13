@@ -1,5 +1,5 @@
 /*
- * function: func_02158AD4
+ * function: SCRIPT_SYS_RunFieldRecoverScript
  * address:  0x02158AD4
  * packet:   pkt_02158AD4
  * region:   ov010
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02158A90  0x02158A90  thumb
+ *   SCRIPT_SYS_RunSpecialScript  0x02158A90  thumb
  */
 
-int func_02158A90(void *a, int unused, int key, int d);
+int SCRIPT_SYS_RunSpecialScript(void *a, int unused, int key, int d);
 
-void func_02158AD4(int a, int b)
+void SCRIPT_SYS_RunFieldRecoverScript(int a, int b)
 {
-    func_02158A90((void *)a, b, 3, 1);
+    SCRIPT_SYS_RunSpecialScript((void *)a, b, 3, 1);
 }

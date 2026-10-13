@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02173A2C",
+   "name": "INTRUDE_COMM_SendRequest",
    "address": "0x02173A2C",
    "kind": "game",
    "region": "ov011",

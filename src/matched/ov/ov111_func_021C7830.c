@@ -12,15 +12,15 @@
  *
  * symbols:
  *   func_0207ADC4  0x0207ADC4  arm
- *   func_02048AD0  0x02048AD0  arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_02048A18  0x02048A18  arm
- *   func_0204779C  0x0204779C  arm
- *   func_02047828  0x02047828  arm
- *   func_0204784C  0x0204784C  arm
- *   func_02047964  0x02047964  arm
- *   func_020479D8  0x020479D8  arm
- *   func_02047A60  0x02047A60  arm
- *   func_02047970  0x02047970  arm
+ *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
+ *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
+ *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
+ *   G3D_SYSTEM_DrawObject  0x02047A60  arm
+ *   G3D_SYSTEM_DrawEnd  0x02047970  arm
  *   d_021C8E80  0x021C8E80  data
  *
  * Addresses are Black-image addresses.
@@ -119,16 +119,16 @@ extern void func_0207ADC4(MtxFx33 *m);
 typedef signed int     s32;
 struct AnmCtl;
 struct Light;
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern u32 func_02048A18(u8 *a0, int i);
-extern int func_0204779C(int *p);
-extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
+extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
+extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
 struct Arg;
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
-extern void func_02047964(void);
-extern void func_020479D8(void);
-extern void func_02047A60(void *a0, struct Arg *a1);
-extern void func_02047970(void);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
+extern void G3D_SYSTEM_DrawStart(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawEnd(void);
 extern Counter d_021C8E80;
 
 void func_021C7830(Work *p)
@@ -147,16 +147,16 @@ void func_021C7830(Work *p)
     t.trans.y = 0;
     t.trans.z = 0;
     func_0207ADC4(&t.rot);
-    func_02048AD0(p->f104);
+    G3D_CAMERA_Reset(p->f104);
     mdl = (void *)func_02048A18(p->fF8, p->fFC);
-    n = func_0204779C(mdl);
-    func_02047828(mdl, 0, &out);
+    n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
+    G3D_SYSTEM_GetObjectAnimeFrame(mdl, 0, &out);
     for (; i < n; i++) {
-        func_0204784C(mdl, (u16)i, &p->f13C);
+        G3D_SYSTEM_SetObjectAnimeFrame(mdl, (u16)i, &p->f13C);
     }
-    func_02047964();
-    func_020479D8();
-    func_02047A60((void *)func_02048A18(p->fF8, p->fFC), (struct Arg *)(&t));
-    func_02047970();
+    G3D_SYSTEM_DrawStart();
+    G3D_SYSTEM_ApplyLookAt();
+    G3D_SYSTEM_DrawObject((void *)func_02048A18(p->fF8, p->fFC), (struct Arg *)(&t));
+    G3D_SYSTEM_DrawEnd();
     d_021C8E80.f0 += d_021C8E80.f4;
 }

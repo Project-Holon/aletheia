@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9D68",
+   "name": "BLINK_PALANM_BlendStep",
    "address": "0x021B9D68",
    "kind": "game",
    "region": "ov068",

@@ -10,7 +10,7 @@
  * status: EXACT*
  * symbols:
  *   func_0201BD28 0x0201BD28 thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj24185.h"
 typedef unsigned char u8;
@@ -19,5 +19,5 @@ typedef unsigned int u32;
 struct Obj;
 /* The original forwards the full entry r1 without halfword truncation. */
 extern u32 func_0201BD28(u16 id, u32 field);
-extern void func_0204B878(struct Obj *,u16);
-void func_021B79E0(u8 *p, u16 id) {func_0204B878(*(struct Obj * *)&((struct Obj24185 *)p)->f110,func_0201BD28(id,2));}
+extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
+void func_021B79E0(u8 *p, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj24185 *)p)->f110,func_0201BD28(id,2));}

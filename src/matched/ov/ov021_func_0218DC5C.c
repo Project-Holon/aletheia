@@ -1,5 +1,5 @@
 /*
- * function: func_0218DC5C
+ * function: FIELD_G3D_MAPPER_GetOriginOffset
  * address:  0x0218DC5C
  * packet:   pkt_ov021_0218DC5C
  * region:   ov021
@@ -19,7 +19,7 @@ typedef signed int     s32;
 
 typedef struct { u32 a, b, c; } Vec3;
 
-void func_0218DC5C(u8 *a, Vec3 *b)
+void FIELD_G3D_MAPPER_GetOriginOffset(u8 *a, Vec3 *b)
 {
     *b = *(Vec3 *)(a + 0x54);
 }

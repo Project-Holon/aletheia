@@ -15,10 +15,10 @@
  *   Caller func_021B9C8C stores two separate words (r3 and [sp]), which fits this signature. r is declared
  *   before t (that orders the t spill store after the two constants).
  * symbols:
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_021B6AE4 0x021B6AE4 thumb ov067
+ *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   func_0201D2C8 0x0201D2C8 thumb
   * note 2026-10-05 (integrator): parked in pending although it verifies EXACT. It closes only with
  * the last two parameters as one unsigned long long; the matched caller ov218 021B9C8C passes
@@ -30,21 +30,21 @@ typedef unsigned int u32;
 struct MsgBank;
 struct StrObj;
 struct WordSet;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern u32 func_0201D2C8(struct StrObj *s);
 void func_021B9AE4(u8 *p, u8 *a, void *b, unsigned long long cd)
 {
     u32 c = (u32)cd; u32 d = (u32)(cd >> 32);
     u32 r = 12;
     u32 t = 0x83 - d;
-    func_02045CAC(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
+    MSGDATA_ReadString(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
     func_0201EFA4(*(void **)(p + 0x14), 2, t, 3, 0, 1);
     func_0201F250(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
-    func_021B6AE4(a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
+    TOUCHBAR_PrintAligned(a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
     if (func_0201D2C8((struct StrObj *)(*(u32 *)(p + d * 4))) > 1) r = 4;
-    func_021B6AE4(a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
+    TOUCHBAR_PrintAligned(a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
 }

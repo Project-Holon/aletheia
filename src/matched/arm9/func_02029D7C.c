@@ -1,5 +1,5 @@
 /*
- * function: func_02029D7C
+ * function: FIELD_SOUND_SYSTEM_PostFadeIn
  * address:  0x02029D7C
  * packet:   pkt_02029D44
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Sys;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 
-void func_02029D7C(u32 a)
+void FIELD_SOUND_SYSTEM_PostFadeIn(u32 a)
 {
     FIELD_SOUND_SYSTEM_PostRequest((struct Sys *)a, 1, 0, 0, 0);
 }

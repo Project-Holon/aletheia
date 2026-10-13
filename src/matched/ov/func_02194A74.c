@@ -1,5 +1,5 @@
 /*
- * function: func_02194A74
+ * function: TALKMSGWIN_IsEntryFree
  * address:  0x02194A74
  * packet:   pkt_02194A74
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_02194A74(u32 a)
+int TALKMSGWIN_IsEntryFree(u32 a)
 {
 if (((struct Obj17942 *)((u8 *)(a)))->f0 == 0) {
     return 1;

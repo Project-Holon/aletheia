@@ -1,5 +1,5 @@
 /*
- * function: func_0218D934
+ * function: FIELD_G3D_MAPPER_GetWindowStartEven
  * address:  0x0218D934
  * packet:   pkt_ov021_0218D934
  * region:   ov021
@@ -19,7 +19,7 @@ typedef signed int     s32;
 
 extern u32 func_0207C768(u32 a, u32 b);
 
-int func_0218D934(u32 a, int b, int c)
+int FIELD_G3D_MAPPER_GetWindowStartEven(u32 a, int b, int c)
 {
     int r = -(int)((a >> 1) - 1);
     int q = c / b;

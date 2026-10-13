@@ -1,5 +1,5 @@
 /*
- * function: func_021D5364
+ * function: BTL_POKEPARAM_ResetMoveHistory
  * address:  0x021D5364
  * packet:   pkt_ov093_021D5364
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D51CC  0x021D51CC  thumb  ov093
+ *   BTL_POKEPARAM_ClearMoveUsedFlags  0x021D51CC  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -48,12 +48,12 @@ struct UtilWork {
     u8 f157[5];
 };
 
-extern void func_021D51CC(u8 *p);
+extern void BTL_POKEPARAM_ClearMoveUsedFlags(u8 *p);
 
-void func_021D5364(struct UtilWork *p)
+void BTL_POKEPARAM_ResetMoveHistory(struct UtilWork *p)
 {
     u32 i;
-    for (i = 0; i < 4; i++) func_021D51CC((u8 *)(&p->e[i]));
+    for (i = 0; i < 4; i++) BTL_POKEPARAM_ClearMoveUsedFlags((u8 *)(&p->e[i]));
     p->f14A = 0;
     p->f14C = 0;
     p->f144 = 0x11;

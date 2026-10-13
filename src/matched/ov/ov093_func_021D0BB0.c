@@ -12,8 +12,8 @@
  *   func_021B99C0 0x021B99C0 thumb ov093
  *   func_021B8E28 0x021B8E28 thumb ov093
  *   func_021B9C00 0x021B9C00 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D8394 0x021D8394 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
  */
 #include "../include/Obj03198.h"
 typedef unsigned char u8;
@@ -24,8 +24,8 @@ extern u8 func_021B9B94(struct Q1 *p);
 extern u8 func_021B99C0(void *, int);
 extern void func_021B8E28(u8 *, u8, u8 *, u8 *);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D5B68(void *);
-extern void func_021D8394(void *, u8, u8);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern void BTL_ACTION_SetChange(void *, u8, u8);
 void func_021D0BB0(u8 *p)
 {
     u8 pair[2];
@@ -40,8 +40,8 @@ void func_021D0BB0(u8 *p)
     for (i = 0; i < p[0x1b3]; i++) {
         func_021B8E28(*(u8 * *)&((struct Obj03198 *)p)->f0, p[0x1b5 + i], &pair[1], &pair[0]);
         for (j = start; j < n; j++) {
-            if (!func_021D5B68(func_021B9C00(((struct Obj03198 *)p)->f118, (u8)j))) {
-                func_021D8394(p + 0x124 + count++ * 4, pair[0], j);
+            if (!BTL_POKEPARAM_IsFainted(func_021B9C00(((struct Obj03198 *)p)->f118, (u8)j))) {
+                BTL_ACTION_SetChange(p + 0x124 + count++ * 4, pair[0], j);
                 start = j + 1;
                 break;
             }

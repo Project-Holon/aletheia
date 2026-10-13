@@ -24,7 +24,7 @@
  *   func_021BC578 0x021BC578 thumb ov210
  *   func_0207D534 0x0207D534 arm
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  */
@@ -47,7 +47,7 @@ extern u32 func_021BC99C(u8 *p);
 extern void func_021BC578(u32);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_02043534(u32);
-extern void func_020435F4(u32);
+extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void func_02034A5C(int);
 extern const char ov067_id[];
 int func_021BD064(char *p)
@@ -67,7 +67,7 @@ int func_021BD064(char *p)
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     func_02034A5C((int)ov067_id);
     return 27;
 }

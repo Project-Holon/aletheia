@@ -1,5 +1,5 @@
 /*
- * function: func_0202C0D0
+ * function: ISS_SWITCH_SYS_SwitchOn
  * address:  0x0202C0D0
  * packet:   pkt_0202BE00
  * region:   arm9
@@ -13,8 +13,8 @@
  * argument through ISS_SWITCH_SET_SwitchOn.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C0D0.c \
- *       --func func_0202C0D0 --addr 0x0202C0D0 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_SwitchOn.c \
+ *       --func ISS_SWITCH_SYS_SwitchOn --addr 0x0202C0D0 --thumb --cc 1.1p1
  *
  * symbols:
  *   ISS_SWITCH_SYS_GetActiveSet  0x0202C24C  thumb
@@ -28,7 +28,7 @@ struct Obj0202C244;
 extern u32 ISS_SWITCH_SYS_GetActiveSet(struct Obj0202C244 *p);
 extern u32 ISS_SWITCH_SET_SwitchOn(void *p, u32 idx);
 
-void func_0202C0D0(u8 *p, u32 a)
+void ISS_SWITCH_SYS_SwitchOn(u8 *p, u32 a)
 {
     u32 r = ISS_SWITCH_SYS_GetActiveSet((struct Obj0202C244 *)p);
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0219E764
+ * function: FLDMMDL_RAIL_GetDrawOffset
  * address:  0x0219E764
  * packet:   pkt_0219E764
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0219E784  0x0219E784  thumb  ov021
+ *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u16 func_0216D5F8(void *p);
-extern void *func_0219E348(void *a);
-extern u32 func_0219E784(u32, u32, u32);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void *FLDMMDL_RAIL_GetRailWork(void *a);
+extern u32 FLDMMDL_RAIL_GetDrawOffsetByDir(u32, u32, u32);
 
-int func_0219E764(u32 a, u32 b)
+int FLDMMDL_RAIL_GetDrawOffset(u32 a, u32 b)
 {
-func_0219E348((void *)a);
-return func_0219E784(a, (((u32)func_0216D5F8((void *)a) << 16) >> 16), b);
+FLDMMDL_RAIL_GetRailWork((void *)a);
+return FLDMMDL_RAIL_GetDrawOffsetByDir(a, (((u32)FLDMMDL_GetDirDisp((void *)a) << 16) >> 16), b);
 }
 

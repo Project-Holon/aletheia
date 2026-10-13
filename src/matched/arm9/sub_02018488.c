@@ -25,7 +25,7 @@
  * It closes the day anything else in the image names 0x021462B0.
  *
  * poke_tool.c: "does this record still belong to the trainer that owns this
- * mail", the comparison that unlocks the record with func_02017DBC
+ * mail", the comparison that unlocks the record with POKE_TOOL_DecodeBoxParam
  * (src/matched/unit_02017D30.c), reads the trainer id (field 0x07) and the
  * second name field (0x9A) out of it, reads the same two out of the mail
  * object through func_02008530 and func_02008550, copies both names into the
@@ -41,12 +41,14 @@
  * sp+4, sp+8 and sp+0xC in the order the source declares them last to first
  * (docs/idioms/local-declaration-order-is-stack-order.md).
  *
- * The lock flag is truncated to u8 on the way out of func_02017DBC, which is
+ * The lock flag is truncated to u8 on the way out of POKE_TOOL_DecodeBoxParam, which is
  * the `lsls #0x18` / `lsrs #0x18` pair at 0x02018494.
  *
  * symbols:
  *   gNameBuf  0x021462F0  data
  *   gNameCompareBuf  0x021462B0  data
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *
  * Verified with
  *   python tools/match.py tu --src src/pending/POKE_TOOL_IsBoxOwnedByPlayer.c \
@@ -58,8 +60,8 @@ typedef unsigned int  u32;
 
 struct Sav;
 struct Sub0200852CObj;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -76,7 +78,7 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(void *p, void *mail)
     u32 c;
     u32 b;
     u32 a;
-    u8  lock = (u8)func_02017DBC(p);
+    u8  lock = (u8)POKE_TOOL_DecodeBoxParam(p);
     u32 r = 0;
 
     a = func_02008530(mail);
@@ -88,6 +90,6 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(void *p, void *mail)
     if (a == b && c == d && func_0201F448((const u16 *)gNameBuf, (const u16 *)gNameCompareBuf) != 0) {
         r = 1;
     }
-    func_02017DE4(p, lock);
+    POKE_TOOL_EncodeBoxParam(p, lock);
     return r;
 }

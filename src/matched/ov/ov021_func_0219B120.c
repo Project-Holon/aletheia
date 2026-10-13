@@ -1,5 +1,5 @@
 /*
- * function: func_0219B120
+ * function: FLDMMDL_MOVECODE_GetDirSet
  * address:  0x0219B120
  * packet:   pkt_ov021_0219B120
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D50F8  0x021D50F8  data  a4
+ *   gMmdlDirSets  0x021D50F8  data  a4
  *
  * The first key is the literal 0 held in a local (row 0 of the table has
  * key 0), then the walk reloads it at the loop bottom.
@@ -23,11 +23,11 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 typedef struct { u32 id; u32 *tbl; } Ent;
-extern Ent d_021D50F8[];
+extern Ent gMmdlDirSets[];
 
-u32 *func_0219B120(u32 id)
+u32 *FLDMMDL_MOVECODE_GetDirSet(u32 id)
 {
-    Ent *p = d_021D50F8;
+    Ent *p = gMmdlDirSets;
     u32 k = 0;
     do {
         if (k == id) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDDAC
+ * function: ENTRANCE_CAMERA_DeleteAnime
  * address:  0x021BDDAC
  * packet:   pkt_ov021_021BDDAC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218FE98  0x0218FE98  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Delete  0x0218FE98  thumb  ov021
  */
 
 typedef struct {
@@ -18,12 +18,12 @@ typedef struct {
     void *f54;
 } Obj;
 
-extern void func_0218FE98(void);
+extern void FIELD_CAMERA_ANIME_Delete(void);
 
-void func_021BDDAC(Obj *p)
+void ENTRANCE_CAMERA_DeleteAnime(Obj *p)
 {
     if (p->f54 != 0) {
-        func_0218FE98();
+        FIELD_CAMERA_ANIME_Delete();
         p->f54 = 0;
     }
 }

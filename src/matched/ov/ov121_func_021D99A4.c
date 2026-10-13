@@ -12,12 +12,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_020457B0 0x020457B0 arm
- *   func_020450F0 0x020450F0 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_021DFBA0 0x021DFBA0 data a1
@@ -32,12 +32,12 @@ struct CharBuf;
 struct Descriptor;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
-extern void *func_020457B0(u32, u16);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void *STRBUF_Create(u32, u16);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap)
@@ -50,15 +50,15 @@ void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 hea
     ((struct Obj01929 *)p)->f14 = b;
     ((struct Obj01929 *)p)->f16 = 0x440;
     ((struct Obj01929 *)p)->f24 = a;
-    ((struct Obj01929 *)p)->f10 = func_020457B0(0x200, heap);
-    q = (void *)func_020450F0((u8)b, (u16)c, (u16)d, (u8)e, f, g, 1);
+    ((struct Obj01929 *)p)->f10 = STRBUF_Create(0x200, heap);
+    q = (void *)BMP_WIN_Create((u8)b, (u16)c, (u16)d, (u8)e, f, g, 1);
     ((struct Obj01929 *)p)->fC = q;
     ((struct Obj01929 *)p)->f0 = q;
     p[4] = 0;
-    func_02043B5C(func_02045770(q), ((struct Obj01929 *)p)->f16 & 31);
+    BMP_Clear(func_02045770(q), ((struct Obj01929 *)p)->f16 & 31);
     if (((struct Obj01929 *)p)->f24 == 0) {
-        func_02045334(((struct Obj01929 *)p)->fC);
-        func_02045374(((struct Obj01929 *)p)->fC);
+        BMP_WIN_TransferChars(((struct Obj01929 *)p)->fC);
+        BMP_WIN_MakeScreen(((struct Obj01929 *)p)->fC);
         func_020409B4(func_02045730(((struct Obj01929 *)p)->fC));
     }
     return p;

@@ -1,7 +1,7 @@
 /*
  * file:     effect_encount.c
  * unit:     yes
- * function: func_021AA77C, func_021AA794, func_021AA7AC, func_021AA7CC, func_021AA7DC, func_021AA80C, func_021AA8EC, func_021AA8F8, func_021AA900, func_021AA944, func_021AAA4C, func_021AAABC, func_021AAAF0, func_021AAB1C, func_021AAB48, func_021AAB54, func_021AAB74, func_021AABC4, func_021AABEC, func_021AABF4, func_021AACD4, func_021AAE34, func_021AAEC0, func_021AAF54, func_021AAFA0, func_021AAFC0, func_021AAFFC, func_021AB018, func_021AB070, func_021AB0AC
+ * function: EFFECT_ENCOUNT_Create, EFFECT_ENCOUNT_Delete, EFFECT_ENCOUNT_Init, EFFECT_ENCOUNT_Exit, EFFECT_ENCOUNT_LoadSetting, EFFECT_ENCOUNT_OnPlayerStep, EFFECT_ENCOUNT_Reset, EFFECT_ENCOUNT_UpdateOccupiedSpot, EFFECT_ENCOUNT_IsSpotAt, EFFECT_ENCOUNT_TriggerSpot, EFFECT_ENCOUNT_GetSpotDistance, EFFECT_ENCOUNT_ConsumeSpot, EFFECT_ENCOUNT_SetEffectPaused, EFFECT_ENCOUNT_SetEffectFlag, EFFECT_ENCOUNT_GetItemId, EFFECT_ENCOUNT_MarkSpotForRestore, EFFECT_ENCOUNT_RestoreSpot, EFFECT_ENCOUNT_CountStep, EFFECT_ENCOUNT_ResetStepCount, EFFECT_ENCOUNT_MakeSearchArea, EFFECT_ENCOUNT_CollectCandidates, EFFECT_ENCOUNT_PickSpot, EFFECT_ENCOUNT_IsTileOccupied, EFFECT_ENCOUNT_ClearSpotIfOccupied, EFFECT_ENCOUNT_ClearSpot, EFFECT_ENCOUNT_CreateEffectObj, EFFECT_ENCOUNT_DeleteEffectObj, EFFECT_ENCOUNT_PickItemKind4, EFFECT_ENCOUNT_PickItemKind7, EFFECT_ENCOUNT_StartItemEvent
  * address:  0x021AA77C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -19,47 +19,47 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_02005728  0x02005728  thumb
  *   func_02030734  0x02030734  arm
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_02012A38  0x02012A38  thumb
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02188C98  0x02188C98  thumb
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021A3074  0x021A3074  thumb
- *   d_021DDFB4  0x021DDFB4  data  a4
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   d_021D8E70  0x021D8E70  data  a4
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   sEffectEncountFileName  0x021DDFB4  data  a4
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   sEffectEncountSettings  0x021D8E70  data  a4
  *   func_02012974  0x02012974  thumb
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02159C48  0x02159C48  thumb  ov010
- *   func_02159BD4  0x02159BD4  thumb  ov010
- *   func_02012F08  0x02012F08  thumb
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   MAP_MATRIX_IsInRangeByPos  0x02159C48  thumb  ov010
+ *   MAP_MATRIX_GetZoneIdByPos  0x02159BD4  thumb  ov010
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C234  0x0200C234  thumb
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_0216D828  0x0216D828  thumb  ov010
- *   func_021A3624  0x021A3624  thumb  ov021
- *   func_021A3644  0x021A3644  thumb  ov021
- *   func_021ADB4C  0x021ADB4C  thumb
- *   func_021ADB5C  0x021ADB5C  thumb
- *   d_021D8E76     0x021D8E76  data  a1
- *   func_0218D168  0x0218D168  thumb  ov021
- *   func_0218DBD4  0x0218DBD4  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
+ *   FIELD_PLAYER_CheckGridMoving  0x021A3624  thumb  ov021
+ *   FIELD_PLAYER_FinishGridMove  0x021A3644  thumb  ov021
+ *   FLDEFF_ENCOUNT_SetPaused  0x021ADB4C  thumb
+ *   FLDEFF_ENCOUNT_SetDrawHidden  0x021ADB5C  thumb
+ *   sSearchAreaOffsets     0x021D8E76  data  a1
+ *   FIELD_G3D_MAPPER_GetFocusSlot  0x0218D168  thumb  ov021
+ *   FIELD_G3D_MAPPER_CheckSlotReady  0x0218DBD4  thumb  ov021
  *   func_0209BDBC  0x0209BDBC  arm
  *   func_0209C95C  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
- *   func_0218DBAC  0x0218DBAC  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216E3C4  0x0216E3C4  thumb  ov010
- *   func_021ADAAC  0x021ADAAC  thumb
- *   d_021D8E8A     0x021D8E8A  data  a2
- *   func_02158768  0x02158768  thumb
- *   func_021A9F40  0x021A9F40  thumb  ov021
- *   func_021AB504  0x021AB504  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FIELD_G3D_MAPPER_QuerySlotPlane  0x0218DBAC  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
+ *   FLDEFF_ENCOUNT_Start  0x021ADAAC  thumb
+ *   sRareItemIds     0x021D8E8A  data  a2
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb
+ *   FIELD_ENCOUNT_CheckWildEncount  0x021A9F40  thumb  ov021
+ *   MAP_ATTR_GetEncounterEffectKind  0x021AB504  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  */
 #include "effect_encount_types.h"
 
@@ -119,117 +119,117 @@ typedef struct MmdlObjSize {
 extern u32 func_020307B0(void *memory);
 extern u32 func_02082BCC(void *dest, int value, int size);
 extern u32 func_02005728(u32 range);
-extern u16 func_02188C84(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *func_02030734(u32 heapId, u32 size, int mode, const char *fileName, u16 line);
-extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern EncountGimmickWork *func_02012A38(const struct GameData *gameData);
-extern u16 func_02188C9C(struct FieldMap *fieldMap);
-extern struct FieldG3dMapper *func_02188C98(struct FieldMap *fieldMap);
-extern struct Mmdl *func_021A3074(struct FieldPlayer *player);
-extern int func_0216D83C(struct Mmdl *mmdl);
-extern int func_0216D86C(struct Mmdl *mmdl);
-extern struct FieldEffectSys *func_02188CD0(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
+extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
 extern void *func_02012974(const struct GameData *gameData);
-extern void func_0216D88C(const struct Mmdl *mmdl, VecFx32 *out);
-extern int func_02159C48(int a0, int a1, int a2);
-extern int func_02159BD4(int a0, int a1, int a2);
-extern struct BeaconSave *func_02012F08(struct GameData *gameData);
+extern void FLDMMDL_GetPos(const struct Mmdl *mmdl, VecFx32 *out);
+extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
+extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
+extern struct BeaconSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 func_0200C234(struct BeaconSave *beacon, u32 bit);
-extern u32 func_02188CFC(struct FieldMap *fieldMap);
-extern void func_0216D828(struct Mmdl *mmdl, GridPos *out);
-extern int func_021A3624(struct FieldPlayer *player);
-extern void func_021A3644(struct FieldPlayer *player);
-extern int func_0218D168(struct FieldG3dMapper *mapper);
-extern int func_0218DBD4(struct FieldG3dMapper *mapper, int blockIndex);
+extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
+extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, GridPos *out);
+extern int FIELD_PLAYER_CheckGridMoving(struct FieldPlayer *player);
+extern void FIELD_PLAYER_FinishGridMove(struct FieldPlayer *player);
+extern int FIELD_G3D_MAPPER_GetFocusSlot(struct FieldG3dMapper *mapper);
+extern int FIELD_G3D_MAPPER_CheckSlotReady(struct FieldG3dMapper *mapper, int blockIndex);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
-extern int func_0218DBAC(struct FieldG3dMapper *mapper, int blockIndex, VecFx32 *pos, MapCellInfo *out);
-extern struct MmdlSys *func_02188C7C(struct FieldMap *fieldMap);
-extern int func_0216DD1C(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
-extern int func_0216D454(struct Mmdl *mmdl);
-extern MmdlObjSize *func_0216E3C4(struct Mmdl *mmdl);
-extern FieldEffectObj *func_021ADAAC(FieldEncount *encount, FieldEffectSys *fieldEffectSys, int gridX, int gridZ, int heightFx, int kind);
-extern void func_021ADB4C(FieldEffectObj *effect, int paused);
-extern void func_021ADB5C(FieldEffectObj *effect, int flag);
-extern int func_02158768(struct GameSystem *gameSystem, u32 scriptId, int a2, u16 heapId);
-extern int func_021A9F40(FieldEncount *encount, int triggerMode);
-extern int func_021AB504(u32 attribute);
-extern void func_021AC154(FieldEffectObj *effect);
+extern int FIELD_G3D_MAPPER_QuerySlotPlane(struct FieldG3dMapper *mapper, int blockIndex, VecFx32 *pos, MapCellInfo *out);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
+extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
+extern MmdlObjSize *FLDMMDL_GetObjCodeParam(struct Mmdl *mmdl);
+extern FieldEffectObj *FLDEFF_ENCOUNT_Start(FieldEncount *encount, FieldEffectSys *fieldEffectSys, int gridX, int gridZ, int heightFx, int kind);
+extern void FLDEFF_ENCOUNT_SetPaused(FieldEffectObj *effect, int paused);
+extern void FLDEFF_ENCOUNT_SetDrawHidden(FieldEffectObj *effect, int flag);
+extern int SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, u32 scriptId, int a2, u16 heapId);
+extern int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode);
+extern int MAP_ATTR_GetEncounterEffectKind(u32 attribute);
+extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
 
-EffectEncount *func_021AA77C(int heapId);
-int func_021AA794(EffectEncount *effectEncount);
-void func_021AA7AC(FieldEncount *encount, EffectEncount *effectEncount);
-void func_021AA7CC(FieldEncount *encount, EffectEncount *effectEncount);
-void func_021AA7DC(FieldEncount *encount, EffectEncount *effectEncount);
-void func_021AA80C(FieldEncount *encount);
-void func_021AA8EC(FieldEncount *encount);
-void func_021AA8F8(FieldEncount *encount);
-int func_021AA900(FieldEncount *encount, short *pos);
-int func_021AA944(FieldEncount *encount);
-int func_021AAA4C(FieldEncount *encount, short *out);
-void func_021AAABC(FieldEncount *encount);
-void func_021AAAF0(FieldEncount *encount, int paused);
-void func_021AAB1C(FieldEncount *encount, int flag);
-u16 func_021AAB48(FieldEncount *encount);
-void func_021AAB54(FieldEncount *encount);
-void func_021AAB74(FieldEncount *encount, EffectEncount *effectEncount);
-int func_021AABC4(EncountGimmickWork *gimmick, EffectEncount *effectEncount);
-void func_021AABEC(EncountGimmickWork *gimmick);
-void func_021AABF4(FieldEncount *encount, EffectEncount *effectEncount, EffectEncountArea *area);
-void func_021AACD4(FieldEncount *encount, EffectEncount *effectEncount);
-void func_021AAE34(FieldEncount *encount, EffectEncount *effectEncount);
-int func_021AAEC0(FieldEncount *encount, s16 gridX, s16 gridHeight, s16 gridZ, int ignorePlayer);
-int func_021AAF54(FieldEncount *encount);
-void func_021AAFA0(FieldEncount *encount, EffectEncount *effectEncount);
-void func_021AAFC0(FieldEncount *encount, EffectEncount *effectEncount, EffectEncountSpot *spot);
-void func_021AAFFC(EffectEncount *effectEncount);
-unsigned short func_021AB018(void);
-u16 func_021AB070(void);
-int func_021AB0AC(FieldEncount *encount, u16 itemId);
+EffectEncount *EFFECT_ENCOUNT_Create(int heapId);
+int EFFECT_ENCOUNT_Delete(EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_Init(FieldEncount *encount, EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_Exit(FieldEncount *encount, EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_LoadSetting(FieldEncount *encount, EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount);
+void EFFECT_ENCOUNT_Reset(FieldEncount *encount);
+void EFFECT_ENCOUNT_UpdateOccupiedSpot(FieldEncount *encount);
+int EFFECT_ENCOUNT_IsSpotAt(FieldEncount *encount, short *pos);
+int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount);
+int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out);
+void EFFECT_ENCOUNT_ConsumeSpot(FieldEncount *encount);
+void EFFECT_ENCOUNT_SetEffectPaused(FieldEncount *encount, int paused);
+void EFFECT_ENCOUNT_SetEffectFlag(FieldEncount *encount, int flag);
+u16 EFFECT_ENCOUNT_GetItemId(FieldEncount *encount);
+void EFFECT_ENCOUNT_MarkSpotForRestore(FieldEncount *encount);
+void EFFECT_ENCOUNT_RestoreSpot(FieldEncount *encount, EffectEncount *effectEncount);
+int EFFECT_ENCOUNT_CountStep(EncountGimmickWork *gimmick, EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_ResetStepCount(EncountGimmickWork *gimmick);
+void EFFECT_ENCOUNT_MakeSearchArea(FieldEncount *encount, EffectEncount *effectEncount, EffectEncountArea *area);
+void EFFECT_ENCOUNT_CollectCandidates(FieldEncount *encount, EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_PickSpot(FieldEncount *encount, EffectEncount *effectEncount);
+int EFFECT_ENCOUNT_IsTileOccupied(FieldEncount *encount, s16 gridX, s16 gridHeight, s16 gridZ, int ignorePlayer);
+int EFFECT_ENCOUNT_ClearSpotIfOccupied(FieldEncount *encount);
+void EFFECT_ENCOUNT_ClearSpot(FieldEncount *encount, EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_CreateEffectObj(FieldEncount *encount, EffectEncount *effectEncount, EffectEncountSpot *spot);
+void EFFECT_ENCOUNT_DeleteEffectObj(EffectEncount *effectEncount);
+unsigned short EFFECT_ENCOUNT_PickItemKind4(void);
+u16 EFFECT_ENCOUNT_PickItemKind7(void);
+int EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId);
 
-extern char d_021DDFB4[];
-extern const EffectEncountSetting d_021D8E70[];
-extern const s8 d_021D8E76[][4];
-extern unsigned short d_021D8E8A[];
+extern char sEffectEncountFileName[];
+extern const EffectEncountSetting sEffectEncountSettings[];
+extern const s8 sSearchAreaOffsets[][4];
+extern unsigned short sRareItemIds[];
 
-EffectEncount *func_021AA77C(int heapId)
+EffectEncount *EFFECT_ENCOUNT_Create(int heapId)
 {
-    return func_02030734(heapId, sizeof(EffectEncount), 1, d_021DDFB4, 0x6e);
+    return func_02030734(heapId, sizeof(EffectEncount), 1, sEffectEncountFileName, 0x6e);
 }
 
-int func_021AA794(EffectEncount *effectEncount)
+int EFFECT_ENCOUNT_Delete(EffectEncount *effectEncount)
 {
     func_02082BCC(effectEncount, 0, sizeof(EffectEncount));
     return func_020307B0(effectEncount);
 }
 
-void func_021AA7AC(FieldEncount *encount, EffectEncount *effectEncount)
+void EFFECT_ENCOUNT_Init(FieldEncount *encount, EffectEncount *effectEncount)
 {
-    effectEncount->fieldEffectSys = func_02188CD0(encount->fieldMap);
-    func_021AA7DC(encount, effectEncount);
-    func_021AAB74(encount, effectEncount);
+    effectEncount->fieldEffectSys = FIELDMAP_GetEffect(encount->fieldMap);
+    EFFECT_ENCOUNT_LoadSetting(encount, effectEncount);
+    EFFECT_ENCOUNT_RestoreSpot(encount, effectEncount);
 }
 
-void func_021AA7CC(FieldEncount *encount, EffectEncount *effectEncount)
+void EFFECT_ENCOUNT_Exit(FieldEncount *encount, EffectEncount *effectEncount)
 {
-    func_021AAB54(encount);
-    func_021AAFFC(effectEncount);
+    EFFECT_ENCOUNT_MarkSpotForRestore(encount);
+    EFFECT_ENCOUNT_DeleteEffectObj(effectEncount);
 }
 
-void func_021AA7DC(FieldEncount *encount, EffectEncount *effectEncount)
+void EFFECT_ENCOUNT_LoadSetting(FieldEncount *encount, EffectEncount *effectEncount)
 {
     unsigned int effectKind = encount->encountData->effectKind;
     if (effectKind > 2) {
         effectKind = 0;
     }
-    effectEncount->stepsNeeded = d_021D8E70[effectKind].stepsNeeded;
-    effectEncount->spawnPercent = d_021D8E70[effectKind].spawnPercent;
+    effectEncount->stepsNeeded = sEffectEncountSettings[effectKind].stepsNeeded;
+    effectEncount->spawnPercent = sEffectEncountSettings[effectKind].spawnPercent;
 }
 
 /* Called once per player step: counts the step and, when the roll succeeds, picks a new spot. */
-void func_021AA80C(FieldEncount *encount)
+void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
 {
     EffectEncount *effectEncount = encount->effectEncount;
     EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
@@ -243,44 +243,44 @@ void func_021AA80C(FieldEncount *encount)
     fieldWork = func_02012974(encount->gameData);
     if (encount->fieldMap == 0 || fieldWork == 0)
         return;
-    playerZoneId = func_02188C9C(encount->fieldMap);
-    func_0216D88C(func_021A3074(func_02188CB4(encount->fieldMap)), &pos);
-    if (func_02159C48((int)fieldWork, pos.x, pos.z) == 0)
+    playerZoneId = FIELDMAP_GetZoneId(encount->fieldMap);
+    FLDMMDL_GetPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), &pos);
+    if (MAP_MATRIX_IsInRangeByPos((int)fieldWork, pos.x, pos.z) == 0)
         return;
-    mapZoneId = func_02159BD4((int)fieldWork, pos.x, pos.z);
+    mapZoneId = MAP_MATRIX_GetZoneIdByPos((int)fieldWork, pos.x, pos.z);
     if (playerZoneId == 0xFFFF || mapZoneId == 0xFFFF || playerZoneId != mapZoneId)
         return;
-    if (func_0200C234(func_02012F08(encount->gameData), 0) == 0)
+    if (func_0200C234(GAME_DATA_GetMiscSave(encount->gameData), 0) == 0)
         return;
-    if (func_02188CFC(encount->fieldMap) != 0)
+    if (FIELDMAP_GetMoveKind(encount->fieldMap) != 0)
         return;
     if (gimmick->spot.active != 0)
         return;
-    if (func_021AABC4(gimmick, effectEncount) == 0)
+    if (EFFECT_ENCOUNT_CountStep(gimmick, effectEncount) == 0)
         return;
     if (func_02005728(1000) >= effectEncount->spawnPercent * 10) {
-        func_021AABEC(gimmick);
+        EFFECT_ENCOUNT_ResetStepCount(gimmick);
         return;
     }
-    func_021AACD4(encount, effectEncount);
+    EFFECT_ENCOUNT_CollectCandidates(encount, effectEncount);
     if (effectEncount->candidateCount != 0)
-        func_021AAE34(encount, effectEncount);
+        EFFECT_ENCOUNT_PickSpot(encount, effectEncount);
 }
 
 /* Removes the active spot and its effect object. */
-void func_021AA8EC(FieldEncount *encount)
+void EFFECT_ENCOUNT_Reset(FieldEncount *encount)
 {
-    func_021AAFA0(encount, encount->effectEncount);
+    EFFECT_ENCOUNT_ClearSpot(encount, encount->effectEncount);
 }
 
 /* Tail-call thunk: removes the active spot when a model stands on it. */
-void func_021AA8F8(FieldEncount *encount)
+void EFFECT_ENCOUNT_UpdateOccupiedSpot(FieldEncount *encount)
 {
-    func_021AAF54(encount);
+    EFFECT_ENCOUNT_ClearSpotIfOccupied(encount);
 }
 
 /* True when the active spot lies on the tile pos[0] (x), pos[1] (height), pos[2] (z). */
-int func_021AA900(FieldEncount *encount, short *pos)
+int EFFECT_ENCOUNT_IsSpotAt(FieldEncount *encount, short *pos)
 {
     EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
 
@@ -303,7 +303,7 @@ static inline int isSpotAt(EffectEncountSpot *spot, GridPos *pos)
  * result. Kind 7 gives a wild encounter on 20% of the rolls, kind 4 on 40%;
  * the other rolls start an item event. Returns the result of the start.
  */
-int func_021AA944(FieldEncount *encount)
+int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
 {
     EffectEncount *effectEncount = encount->effectEncount;
     EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
@@ -316,46 +316,46 @@ int func_021AA944(FieldEncount *encount)
 
     if (gimmick->spot.active == 0)
         return isItemEvent;
-    func_0216D828(func_021A3074(func_02188CB4(encount->fieldMap)), &playerPos);
+    FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), &playerPos);
     if (!isSpotAt(spot, &playerPos))
         return 0;
     roll = func_02005728(1000);
     if (spot->kind == 7) {
         if (roll < 200) {
-            started = func_021A9F40(encount, 1);
+            started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
         } else {
-            started = func_021AB0AC(encount, func_021AB070());
+            started = EFFECT_ENCOUNT_StartItemEvent(encount, EFFECT_ENCOUNT_PickItemKind7());
             isItemEvent = 1;
         }
     } else if (spot->kind == 4) {
         if (roll < 400) {
-            started = func_021A9F40(encount, 1);
+            started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
         } else {
-            started = func_021AB0AC(encount, func_021AB018());
+            started = EFFECT_ENCOUNT_StartItemEvent(encount, EFFECT_ENCOUNT_PickItemKind4());
             isItemEvent = 1;
         }
     } else {
-        started = func_021A9F40(encount, 1);
+        started = FIELD_ENCOUNT_CheckWildEncount(encount, 1);
     }
     if (started == 0) {
-        func_021AAFA0(encount, effectEncount);
+        EFFECT_ENCOUNT_ClearSpot(encount, effectEncount);
         return 0;
     }
     if (isItemEvent) {
-        func_021AAFA0(encount, effectEncount);
+        EFFECT_ENCOUNT_ClearSpot(encount, effectEncount);
     } else {
         if (spot->kind == 5 || spot->kind == 6)
-            func_021AAB1C(encount, 1);
+            EFFECT_ENCOUNT_SetEffectFlag(encount, 1);
         spot->consumed = 1;
-        player = func_02188CB4(encount->fieldMap);
-        if (func_021A3624(player))
-            func_021A3644(player);
+        player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
+        if (FIELD_PLAYER_CheckGridMoving(player))
+            FIELD_PLAYER_FinishGridMove(player);
     }
     return started;
 }
 
 /* Writes the larger of the x and z tile distance between the player and the active spot; 0 when there is no spot. */
-int func_021AAA4C(FieldEncount *encount, short *out)
+int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out)
 {
     EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
     GridPos playerPos;
@@ -365,7 +365,7 @@ int func_021AAA4C(FieldEncount *encount, short *out)
         *out = 0;
         return 0;
     }
-    func_0216D828(func_021A3074(func_02188CB4(encount->fieldMap)), &playerPos);
+    FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), &playerPos);
     distX = (short)(spot->gridX - playerPos.x);
     if (distX < 0)
         distX = distX * 0xffffffff; /* stand-in: -distX and 0 - distX change the bytes */
@@ -380,44 +380,44 @@ int func_021AAA4C(FieldEncount *encount, short *out)
 }
 
 /* Marks the active spot as used and tells its effect object. */
-void func_021AAABC(FieldEncount *encount)
+void EFFECT_ENCOUNT_ConsumeSpot(FieldEncount *encount)
 {
     EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
     if (spot->active) {
         spot->consumed = 1;
         if (encount->effectEncount->effectObj != 0) {
-            func_021ADB4C(encount->effectEncount->effectObj, 1);
+            FLDEFF_ENCOUNT_SetPaused(encount->effectEncount->effectObj, 1);
         }
     }
 }
 
 /* Sets the pause state of the effect object of the active spot. */
-void func_021AAAF0(FieldEncount *encount, int paused)
+void EFFECT_ENCOUNT_SetEffectPaused(FieldEncount *encount, int paused)
 {
     EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
     EffectEncount *effectEncount = encount->effectEncount;
     if (gimmick->spot.active && effectEncount->effectObj != 0) {
-        func_021ADB4C(effectEncount->effectObj, paused);
+        FLDEFF_ENCOUNT_SetPaused(effectEncount->effectObj, paused);
     }
 }
 
 /* Sets the trigger flag of the effect object of the active spot. */
-void func_021AAB1C(FieldEncount *encount, int flag)
+void EFFECT_ENCOUNT_SetEffectFlag(FieldEncount *encount, int flag)
 {
     EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
     EffectEncount *effectEncount = encount->effectEncount;
     if (gimmick->spot.active && effectEncount->effectObj != 0) {
-        func_021ADB5C(effectEncount->effectObj, flag);
+        FLDEFF_ENCOUNT_SetDrawHidden(effectEncount->effectObj, flag);
     }
 }
 
-u16 func_021AAB48(FieldEncount *encount)
+u16 EFFECT_ENCOUNT_GetItemId(FieldEncount *encount)
 {
     return encount->effectEncount->itemId;
 }
 
 /* Map exit: flags the active spot so that the next map entry recreates its effect object. */
-void func_021AAB54(FieldEncount *encount)
+void EFFECT_ENCOUNT_MarkSpotForRestore(FieldEncount *encount)
 {
     EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
     if (spot->active) {
@@ -426,7 +426,7 @@ void func_021AAB54(FieldEncount *encount)
 }
 
 /* Map entry: recreates the effect object of a saved spot, or drops the spot when it no longer fits. */
-void func_021AAB74(FieldEncount *encount, EffectEncount *effectEncount)
+void EFFECT_ENCOUNT_RestoreSpot(FieldEncount *encount, EffectEncount *effectEncount)
 {
     EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
     unsigned short zoneId;
@@ -434,15 +434,15 @@ void func_021AAB74(FieldEncount *encount, EffectEncount *effectEncount)
     if (spot->active == 0 || spot->needsRestore == 0)
         return;
     spot->needsRestore = 0;
-    zoneId = func_02188C9C(encount->fieldMap);
+    zoneId = FIELDMAP_GetZoneId(encount->fieldMap);
     if (zoneId != spot->zoneId || spot->consumed != 0)
         func_02082BCC(spot, 0, 0x10);
     else
-        func_021AAFC0(encount, effectEncount, spot);
+        EFFECT_ENCOUNT_CreateEffectObj(encount, effectEncount, spot);
 }
 
 /* Counts one step; true once the count reaches the steps needed for a roll. */
-int func_021AABC4(EncountGimmickWork *gimmick, EffectEncount *effectEncount)
+int EFFECT_ENCOUNT_CountStep(EncountGimmickWork *gimmick, EffectEncount *effectEncount)
 {
     u32 *stepCount = &gimmick->effectStepCount;
     if (*stepCount < 0xffffffff) {
@@ -454,23 +454,23 @@ int func_021AABC4(EncountGimmickWork *gimmick, EffectEncount *effectEncount)
     return 0;
 }
 
-void func_021AABEC(EncountGimmickWork *gimmick)
+void EFFECT_ENCOUNT_ResetStepCount(EncountGimmickWork *gimmick)
 {
     gimmick->effectStepCount = 0;
 }
 
 /* Fills the search window around the player; the window shape depends on the effect kind. */
-void func_021AABF4(FieldEncount *encount, EffectEncount *effectEncount, EffectEncountArea *area)
+void EFFECT_ENCOUNT_MakeSearchArea(FieldEncount *encount, EffectEncount *effectEncount, EffectEncountArea *area)
 {
-    struct Mmdl *player = func_021A3074(func_02188CB4(encount->fieldMap));
+    struct Mmdl *player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap));
     const s8 *offsets;
     s16 minX;
     s16 maxX;
     s16 minZ;
     s16 maxZ;
 
-    area->tileX = func_0216D83C(player);
-    area->tileZ = func_0216D86C(player);
+    area->tileX = FLDMMDL_GetGridNowX(player);
+    area->tileZ = FLDMMDL_GetGridNowZ(player);
     area->blockOffsetX = area->tileX % 32;
     area->blockOffsetZ = area->tileZ % 32;
     area->blockX = area->tileX / 32;
@@ -478,9 +478,9 @@ void func_021AABF4(FieldEncount *encount, EffectEncount *effectEncount, EffectEn
     area->originX = area->tileX - area->blockOffsetX;
     area->originZ = area->tileZ - area->blockOffsetZ;
     if (encount->encountData->effectKind != 2)
-        offsets = d_021D8E76[func_02005728(4) + 1];
+        offsets = sSearchAreaOffsets[func_02005728(4) + 1];
     else
-        offsets = d_021D8E76[0];
+        offsets = sSearchAreaOffsets[0];
     minX = area->blockOffsetX + offsets[0];
     if (minX < 0)
         minX = 0;
@@ -500,7 +500,7 @@ void func_021AABF4(FieldEncount *encount, EffectEncount *effectEncount, EffectEn
 }
 
 /* Scans the search window and lists every tile whose attribute allows a spot. */
-void func_021AACD4(FieldEncount *encount, EffectEncount *effectEncount)
+void EFFECT_ENCOUNT_CollectCandidates(FieldEncount *encount, EffectEncount *effectEncount)
 {
     VecFx32 cellPos;
     EffectEncountArea area;
@@ -513,13 +513,13 @@ void func_021AACD4(FieldEncount *encount, EffectEncount *effectEncount)
     int fixed;
     int kind;
 
-    mapper = func_02188C98(encount->fieldMap);
+    mapper = FIELDMAP_GetG3dMapper(encount->fieldMap);
     func_02082BCC(&effectEncount->candidateCount, 0, 0x5B0);
     cellPos.y = 0;
-    blockIndex = func_0218D168(mapper);
-    if (func_0218DBD4(mapper, blockIndex) == 0)
+    blockIndex = FIELD_G3D_MAPPER_GetFocusSlot(mapper);
+    if (FIELD_G3D_MAPPER_CheckSlotReady(mapper, blockIndex) == 0)
         return;
-    func_021AABF4(encount, effectEncount, &area);
+    EFFECT_ENCOUNT_MakeSearchArea(encount, effectEncount, &area);
     z = area.minZ;
     if ((z << 4) > 0)
         fixed = func_0209C95C(0x3f000000, func_0209BDBC(z << 16));
@@ -534,8 +534,8 @@ void func_021AACD4(FieldEncount *encount, EffectEncount *effectEncount)
     for (; z <= area.maxZ; z++) {
         cellPos.x = startX;
         for (x = area.minX; x <= area.maxX; x++) {
-            func_0218DBAC(mapper, blockIndex, &cellPos, &cell);
-            kind = func_021AB504(cell.attribute);
+            FIELD_G3D_MAPPER_QuerySlotPlane(mapper, blockIndex, &cellPos, &cell);
+            kind = MAP_ATTR_GetEncounterEffectKind(cell.attribute);
             if (kind != 8) {
                 effectEncount->candidates[effectEncount->candidateCount].kind = kind;
                 effectEncount->candidates[effectEncount->candidateCount].gridX = x;
@@ -549,28 +549,28 @@ void func_021AACD4(FieldEncount *encount, EffectEncount *effectEncount)
 }
 
 /* Picks a random candidate; when no model stands on it, it becomes the active spot with a new effect object. */
-void func_021AAE34(FieldEncount *encount, EffectEncount *effectEncount)
+void EFFECT_ENCOUNT_PickSpot(FieldEncount *encount, EffectEncount *effectEncount)
 {
     u16 index = func_02005728(effectEncount->candidateCount);
     EffectEncountCandidate *candidate = &effectEncount->candidates[index];
     EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
     EffectEncountSpot *spot = &gimmick->spot;
     candidate->gridHeight = (candidate->heightFx >> 4) / 0x1000;
-    if (func_021AAEC0(encount, candidate->gridX, candidate->gridHeight, candidate->gridZ, 0) == 0) {
+    if (EFFECT_ENCOUNT_IsTileOccupied(encount, candidate->gridX, candidate->gridHeight, candidate->gridZ, 0) == 0) {
         spot->gridX = candidate->gridX;
         spot->gridHeight = candidate->gridHeight;
         spot->gridZ = candidate->gridZ;
         spot->heightFx = candidate->heightFx;
         spot->kind = candidate->kind;
-        spot->zoneId = func_02188C9C(encount->fieldMap);
+        spot->zoneId = FIELDMAP_GetZoneId(encount->fieldMap);
         spot->active = 1;
-        func_021AABEC(gimmick);
-        func_021AAFC0(encount, effectEncount, spot);
+        EFFECT_ENCOUNT_ResetStepCount(gimmick);
+        EFFECT_ENCOUNT_CreateEffectObj(encount, effectEncount, spot);
     }
 }
 
 /* True when a model stands on the tile (and is not the player, if ignorePlayer is set). */
-int func_021AAEC0(FieldEncount *encount, s16 gridX, s16 gridHeight, s16 gridZ, int ignorePlayer)
+int EFFECT_ENCOUNT_IsTileOccupied(FieldEncount *encount, s16 gridX, s16 gridHeight, s16 gridZ, int ignorePlayer)
 {
     GridPos pos;
     struct Mmdl *mmdl;
@@ -579,17 +579,17 @@ int func_021AAEC0(FieldEncount *encount, s16 gridX, s16 gridHeight, s16 gridZ, i
     struct Mmdl *player;
     MmdlObjSize *size;
 
-    player = func_021A3074(func_02188CB4(encount->fieldMap));
-    mmdlSys = func_02188C7C(encount->fieldMap);
+    player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap));
+    mmdlSys = FIELDMAP_GetMmdlSys(encount->fieldMap);
     for (;;) {
-        if (!func_0216DD1C(mmdlSys, &mmdl, &iter))
+        if (!FLDMMDL_SysSearchUseMmdl(mmdlSys, &mmdl, &iter))
             break;
-        if (!func_0216D454(mmdl))
+        if (!FLDMMDL_CheckEndAcmd(mmdl))
             continue;
         if (mmdl == player && ignorePlayer)
             continue;
-        size = func_0216E3C4(mmdl);
-        func_0216D828(mmdl, &pos);
+        size = FLDMMDL_GetObjCodeParam(mmdl);
+        FLDMMDL_GetGridNowPos(mmdl, &pos);
         if (gridHeight != pos.y)
             continue;
         if (gridX < pos.x || gridX >= pos.x + size->gridWidth)
@@ -602,61 +602,61 @@ int func_021AAEC0(FieldEncount *encount, s16 gridX, s16 gridHeight, s16 gridZ, i
 }
 
 /* Removes the active spot when a model stands on it; returns 1 if it did. */
-int func_021AAF54(FieldEncount *encount)
+int EFFECT_ENCOUNT_ClearSpotIfOccupied(FieldEncount *encount)
 {
     EffectEncountSpot *spot = &func_02012A38(encount->gameData)->spot;
 
     if (spot->active == 0)
         return 0;
-    if (func_021AAEC0(encount, spot->gridX, spot->gridHeight, spot->gridZ, 1)) {
-        func_021AAFA0(encount, encount->effectEncount);
+    if (EFFECT_ENCOUNT_IsTileOccupied(encount, spot->gridX, spot->gridHeight, spot->gridZ, 1)) {
+        EFFECT_ENCOUNT_ClearSpot(encount, encount->effectEncount);
         return 1;
     }
     return 0;
 }
 
 /* Deletes the effect object and clears the active spot. */
-void func_021AAFA0(FieldEncount *encount, EffectEncount *effectEncount)
+void EFFECT_ENCOUNT_ClearSpot(FieldEncount *encount, EffectEncount *effectEncount)
 {
     EncountGimmickWork *gimmick = func_02012A38(encount->gameData);
-    func_021AAFFC(effectEncount);
+    EFFECT_ENCOUNT_DeleteEffectObj(effectEncount);
     func_02082BCC(&gimmick->spot, 0, 0x10);
 }
 
 /* Creates the effect object of the spot; clears the spot when the effect cannot start. */
-void func_021AAFC0(FieldEncount *encount, EffectEncount *effectEncount, EffectEncountSpot *spot)
+void EFFECT_ENCOUNT_CreateEffectObj(FieldEncount *encount, EffectEncount *effectEncount, EffectEncountSpot *spot)
 {
     if (effectEncount->effectObj == 0) {
         /* stand-in: the (u16) casts make the loads ldrh as the original has them; the spot fields are s16 elsewhere */
-        effectEncount->effectObj = func_021ADAAC(encount, effectEncount->fieldEffectSys, (u16)spot->gridX, (u16)spot->gridZ, spot->heightFx, spot->kind);
+        effectEncount->effectObj = FLDEFF_ENCOUNT_Start(encount, effectEncount->fieldEffectSys, (u16)spot->gridX, (u16)spot->gridZ, spot->heightFx, spot->kind);
         if (effectEncount->effectObj == 0) {
             func_02082BCC(spot, 0, 0x10);
         }
     }
 }
 
-void func_021AAFFC(EffectEncount *effectEncount)
+void EFFECT_ENCOUNT_DeleteEffectObj(EffectEncount *effectEncount)
 {
     if (effectEncount->effectObj != 0) {
-        func_021AC154(effectEncount->effectObj);
+        FIELD_EFFECT_DeleteObject(effectEncount->effectObj);
         effectEncount->effectObj = 0;
     }
 }
 
 /* Item for a kind 4 spot: 10% from the rare table, 85% from item ids 548..564, 5% item 229. */
-unsigned short func_021AB018(void)
+unsigned short EFFECT_ENCOUNT_PickItemKind4(void)
 {
     unsigned short roll = func_02005728(1000);
 
     if (roll < 100)
-        return d_021D8E8A[(unsigned short)(func_02005728(1000) / 100)];
+        return sRareItemIds[(unsigned short)(func_02005728(1000) / 100)];
     if (roll < 950)
         return (unsigned short)((unsigned short)(func_02005728(1700) / 100) + 548);
     return 229;
 }
 
 /* Item for a kind 7 spot: 90% item ids 565..570, 10% item 571. */
-u16 func_021AB070(void)
+u16 EFFECT_ENCOUNT_PickItemKind7(void)
 {
     if ((u16)func_02005728(1000) < 900) {
         return (u16)(func_02005728(600) / 100) + 565;
@@ -665,8 +665,8 @@ u16 func_021AB070(void)
 }
 
 /* Remembers the item and starts the item event script. */
-int func_021AB0AC(FieldEncount *encount, u16 itemId)
+int EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId)
 {
     encount->effectEncount->itemId = itemId;
-    return func_02158768(encount->gameSystem, 0x2795, 0, func_02188C84(encount->fieldMap));
+    return SCRIPT_SYS_CreateScriptEventSimple(encount->gameSystem, 0x2795, 0, FIELDMAP_GetHeapId(encount->fieldMap));
 }

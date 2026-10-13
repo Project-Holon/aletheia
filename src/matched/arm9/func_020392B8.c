@@ -1,5 +1,5 @@
 /*
- * function: func_020392B8
+ * function: GFL_NET_SYSTEM_GetConnectNum
  * address:  0x020392B8
  * packet:   pkt_02038D68
  * region:   arm9
@@ -21,8 +21,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020392B8.c \
- *       --func func_020392B8 --addr 0x020392B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_GetConnectNum.c \
+ *       --func GFL_NET_SYSTEM_GetConnectNum --addr 0x020392B8 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 
 extern u32 GFL_NET_SYSTEM_IsConnectMember(u16 slot);
 
-u32 func_020392B8(void)
+u32 GFL_NET_SYSTEM_GetConnectNum(void)
 {
     u32 count;
     s32 i;

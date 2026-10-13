@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204A1BC",
+   "name": "ARC_UTIL_LoadMember",
    "address": "0x0204A1BC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204A298",
+   "name": "ARC_UTIL_LoadMemberWithSize",
    "address": "0x0204A298",
    "kind": "game",
    "region": "arm9",

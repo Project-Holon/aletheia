@@ -1,5 +1,5 @@
 /*
- * function: func_021A63EC
+ * function: FIELD_PLAYER_NOGRID_StartRailNone
  * address:  0x021A63EC
  * packet:   pkt_ov021_021A63EC
  * region:   ov021
@@ -14,6 +14,6 @@
  * symbols:
  */
 
-void func_021A63EC(void *a, void *b, int c, int d, int e, int f)
+void FIELD_PLAYER_NOGRID_StartRailNone(void *a, void *b, int c, int d, int e, int f)
 {
 }

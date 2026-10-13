@@ -1,5 +1,5 @@
 /*
- * function: func_0216D65C
+ * function: FLDMMDL_SetMoveLimitX
  * address:  0x0216D65C
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D65C.c \
- *       --func func_0216D65C --addr 0x0216D65C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SetMoveLimitX.c \
+ *       --func FLDMMDL_SetMoveLimitX --addr 0x0216D65C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17809.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void func_0216D65C(void *p, u16 v) { ((struct Obj17809 *)p)->f2C = v; }
+void FLDMMDL_SetMoveLimitX(void *p, u16 v) { ((struct Obj17809 *)p)->f2C = v; }

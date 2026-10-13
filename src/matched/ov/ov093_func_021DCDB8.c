@@ -1,5 +1,5 @@
 /*
- * function: func_021DCDB8
+ * function: BTL_HANDLER_TOKUSEI_AddImposter
  * address: 0x021DCDB8
  * packet: pkt_ov093_021DCDB8
  * region: ov093
@@ -12,17 +12,17 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCAE8.c and filed here.
  *
  * symbols:
- *   d_021F0750 0x021F0750 data ov093 a4
+ *   gHandlerTableImposter 0x021F0750 data ov093 a4
  */
 
-int *func_021DCDB8(int *p);
-extern int d_021F0750[];
+int *BTL_HANDLER_TOKUSEI_AddImposter(int *p);
+extern int gHandlerTableImposter[];
 
 /*
  * Allocate 76 bytes, keep the handle, then configure it.
  */
-int *func_021DCDB8(int *p)
+int *BTL_HANDLER_TOKUSEI_AddImposter(int *p)
 {
     *p = 1;
-    return d_021F0750;
+    return gHandlerTableImposter;
 }

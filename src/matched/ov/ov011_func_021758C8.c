@@ -1,5 +1,5 @@
 /*
- * function: func_021758C8
+ * function: INTRUDE_COMM_GetSessionRemaining
  * address:  0x021758C8
  * packet:   pkt_ov011_021758C8
  * region:   ov011
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02175B14  0x02175B14  thumb  ov011
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  *   INTRUDE_COMM_GetSessionElapsed  0x02175894  thumb  ov011
  *   INTRUDE_COMM_GetSessionWaitRemaining  0x021758B4  thumb  ov011
  */
@@ -26,16 +26,16 @@ typedef struct Flags {
     u8 hi : 6;
 } Flags;
 
-extern int func_02175B14(u8 *p);
+extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 extern int INTRUDE_COMM_GetSessionElapsed(u8 *p);
 extern int INTRUDE_COMM_GetSessionWaitRemaining(u8 *p);
 
-int func_021758C8(u8 *o)
+int INTRUDE_COMM_GetSessionRemaining(u8 *o)
 {
     int h;
     int v;
 
-    if (func_02175B14(o) == 1 && o[0xd8] == 4) {
+    if (INTRUDE_COMM_IsSessionActive(o) == 1 && o[0xd8] == 4) {
         h = ((struct Obj00567 *)o)->fA8;
         if (h != 0 || ((Flags *)(o + 0x1a5))->f == 0) {
             v = h - INTRUDE_COMM_GetSessionElapsed(o);

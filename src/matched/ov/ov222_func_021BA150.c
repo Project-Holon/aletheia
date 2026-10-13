@@ -11,9 +11,9 @@
  * status: EXACT
  * extent: tail thunk plus unlabelled getter at 021BA158.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 typedef unsigned int u32;
-extern void func_0204A648(void);
-void func_021BA150(void *p) { func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void func_021BA150(void *p) { CLACT_VBlankSystem(); }
 u32 func_021BA158(const u32 *p) { return *p; }

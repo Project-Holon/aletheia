@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02014204  0x02014204  thumb
+ *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
  *
- * A one-line forwarder: func_02014204 with its second argument pinned to
+ * A one-line forwarder: ZONEDATA_SetZoneStartLocation with its second argument pinned to
  * 0x187.  This IS compiled C, not a linker veneer: an ARM long-branch
  * veneer never materialises an argument, and the four-byte-ARM-veneer shape
  * (docs/idioms/a-four-byte-arm-function-in-a-thumb-packet-is-a-long-branch-veneer.md)
@@ -28,9 +28,9 @@
  */
 
 struct t;
-extern void func_02014204(struct t *p, int id);
+extern void ZONEDATA_SetZoneStartLocation(struct t *p, int id);
 
 void ZONEDATA_SetGameStartLocation(void *p)
 {
-    func_02014204(p, 0x187);
+    ZONEDATA_SetZoneStartLocation(p, 0x187);
 }

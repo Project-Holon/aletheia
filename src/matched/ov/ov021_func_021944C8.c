@@ -1,5 +1,5 @@
 /*
- * function: func_021944C8
+ * function: FIELD_COMM_ACTOR_MoveDelete
  * address:  0x021944C8
  * packet:   pkt_ov021_021944C8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19627.h"
@@ -22,9 +22,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void *func_0216D69C(void *p);
+extern void *FLDMMDL_GetMoveProcWork(void *p);
 
-void func_021944C8(u32 a)
+void FIELD_COMM_ACTOR_MoveDelete(u32 a)
 {
-    ((struct Obj19628 *)(*(u8 * *)&((struct Obj19627 *)((u8 *)func_0216D69C((void *)a)))->fC))->f4 = 1;
+    ((struct Obj19628 *)(*(u8 * *)&((struct Obj19627 *)((u8 *)FLDMMDL_GetMoveProcWork((void *)a)))->fC))->f4 = 1;
 }

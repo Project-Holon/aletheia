@@ -21,14 +21,14 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
- *   func_020457B0 0x020457B0 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201EE0C 0x0201EE0C thumb
- *   func_02018584 0x02018584 thumb
- *   func_02043AF4 0x02043AF4 arm
+ *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
+ *   BMP_FillRect 0x02043AF4 arm
  *   _u32_div_f 0x0209C2B0 arm
- *   g_020A7370 0x020A7370 data
+ *   gSpeciesNameBank 0x020A7370 data
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj01256.h"
@@ -50,13 +50,13 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
-extern void func_02045808(struct U16Vec *vec);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern u32 func_02018584(u16,u16,u16);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void *g_020A7370;
+extern u32 POKE_TOOL_GetExpForLevel(u16,u16,u16);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void *gSpeciesNameBank;
 void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
 {
     void *ws;
@@ -89,15 +89,15 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         }
         func_0201ED04(ws);
         P_STATUS_PrintMsgToWin(p,*(u32 *)&((struct Obj01256 *)q)->f10,10,1,1,0x3c40);
-        if(((struct Obj00112 *)p)->f38==0) {species=func_02017E88(mon,5,0); t=func_02045EC0(g_020A7370,species);}
-        else t=func_02045EC0(g_020A7370,0x28a);
+        if(((struct Obj00112 *)p)->f38==0) {species=func_02017E88(mon,5,0); t=func_02045EC0(gSpeciesNameBank,species);}
+        else t=func_02045EC0(gSpeciesNameBank,0x28a);
         tile=(u32)func_02045770(((struct Obj01256 *)q)->f10);
         pal=0x440;
-        func_0201C724(((struct Obj00112 *)p)->f84,tile,0x41,1,(u32)t,*(u32 *)&((struct Obj00112 *)p)->f80,pal);
-        func_02045808(t);
+        PRINTSYS_PrintQueColor(((struct Obj00112 *)p)->f84,tile,0x41,1,(u32)t,*(u32 *)&((struct Obj00112 *)p)->f80,pal);
+        STRBUF_Delete(t);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f14,12,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f18,13,1,1,0x3c40);
-        v2=func_020457B0(0x20,((struct Obj00112 *)p)->f0);
+        v2=STRBUF_Create(0x20,((struct Obj00112 *)p)->f0);
         ws2=func_0201EC64(((struct Obj00112 *)p)->f0);
         r=func_02017E88(mon,0x9a,v2);
         if(r==0) pal=0x14c0;
@@ -106,7 +106,7 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         func_0201EE0C(ws2,0,v2,0,1,2);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f18,ws2,14,0x41,1,pal);
         func_0201ED04(ws2);
-        func_02045808(v2);
+        STRBUF_Delete(v2);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f1C,15,1,1,0x3c40);
         ws3=func_0201EC64(((struct Obj00112 *)p)->f0);
         x=func_02017E88(mon,7,0);
@@ -117,10 +117,10 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         s18=func_02017E88(mon,8,0);
         s30=func_02017E88(mon,5,0);
         tt=func_02017E88(mon,0x6f,0);
-        A=func_02018584((u16)s30,(u16)tt,(u16)(n+1));
+        A=POKE_TOOL_GetExpForLevel((u16)s30,(u16)tt,(u16)(n+1));
         s34=func_02017E88(mon,5,0);
         tt=func_02017E88(mon,0x6f,0);
-        B=func_02018584((u16)s34,(u16)tt,(u16)n);
+        B=POKE_TOOL_GetExpForLevel((u16)s34,(u16)tt,(u16)n);
         C=A-s18;
         if(n==100) C=0;
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f20,17,1,1,0x3c40);
@@ -139,7 +139,7 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
             k=(r<<6)/(A-B);
             if(r!=0 && k==0) k=1;
             if(k==0x40) k=k-1;
-            func_02043AF4(func_02045770(((struct Obj01256 *)q)->f30),0,3,(u16)k,3,5);
+            BMP_FillRect(func_02045770(((struct Obj01256 *)q)->f30),0,3,(u16)k,3,5);
         }
     }
     ((struct Obj01256 *)q)->f0=1;

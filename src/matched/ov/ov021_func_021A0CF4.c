@@ -1,5 +1,5 @@
 /*
- * function: func_021A0CF4
+ * function: FIELD_SUBSCREEN_Create
  * address:  0x021A0CF4
  * packet:   pkt_ov021_021A0CF4
  * region:   ov021
@@ -31,7 +31,7 @@ extern u32 func_021A0EE4(void *p, u32 b);
 extern u8 d_021DDE48[];
 extern const u8 d_021D872C[];
 
-u32 *func_021A0CF4(u32 a, u32 b, u32 c)
+u32 *FIELD_SUBSCREEN_Create(u32 a, u32 b, u32 c)
 {
     u32 *p;
     u32 r;

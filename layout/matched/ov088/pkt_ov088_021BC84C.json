@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC84C",
+   "name": "STARTMENU_ConfigPromptDeleteWindows",
    "address": "0x021BC84C",
    "kind": "game",
    "region": "ov088",

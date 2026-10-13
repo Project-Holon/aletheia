@@ -1,5 +1,5 @@
 /*
- * function: func_021CA23C
+ * function: BSUBWAY_SCR_IncWinCount
  * address:  0x021CA23C
  * packet:   pkt_ov021_021CA23C
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021CA23C(u8 *p)
+void BSUBWAY_SCR_IncWinCount(u8 *p)
 {
     u16 v = ((struct Obj12970 *)p)->fE;
     if (v < 0xffff)

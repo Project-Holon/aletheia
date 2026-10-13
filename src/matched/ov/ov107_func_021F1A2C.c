@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0201FEBC  0x0201FEBC  thumb
+ *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
  */
 
 typedef struct {
@@ -19,11 +19,11 @@ typedef struct {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-u32 func_0201FEBC(u8 *p);
+u32 BMP_MENU_ProcessYesNo(u8 *p);
 
 int func_021F1A2C(Ov107Ctx *p)
 {
-    int r = func_0201FEBC(p->f50);
+    int r = BMP_MENU_ProcessYesNo(p->f50);
     if (r == 0) {
         p->f50 = 0;
         return 1;

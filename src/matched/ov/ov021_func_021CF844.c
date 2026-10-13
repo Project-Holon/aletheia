@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_021CF8E4  0x021CF8E4  thumb  ov021
  *   func_021CF940  0x021CF940  thumb  ov021
  *   func_021CF9AC  0x021CF9AC  thumb  ov021
@@ -34,7 +34,7 @@ typedef struct Work {
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int func_021CF8E4(void *a, void *src, int c);
 extern int func_021CF940(void *a, void *src, void *b, int *c);
 extern int func_021CF9AC(void *a, void *heap, int x, int y);
@@ -46,7 +46,7 @@ int func_021CF844(void *a, int *task, Work *w)
     void *sys;
     int i;
 
-    sys = func_020120F4(func_020124E4(a));
+    sys = GAMESYSTEM_GetGameData(func_020124E4(a));
     switch (*task) {
     case 0:
         func_021CF8E4((void *)w->f00, sys, (int)(&w->f0c));

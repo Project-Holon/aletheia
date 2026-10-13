@@ -1,7 +1,7 @@
 /*
  * file:     event_appear.c
  * unit:     yes
- * function: func_021BF58C, func_021BF5B4, func_021BF5E8, func_021BF61C, func_021BF644, func_021BF66C, func_021BF694, func_021BF76C, func_021BF7F8, func_021BF860, func_021BF874, func_021BF898, func_021BF8DC, func_021BF8EC, func_021BF978, func_021BF9E0, func_021BF9F4, func_021BFA18, func_021BFA5C, func_021BFA6C, func_021BFB90, func_021BFC98
+ * function: EVENT_APPEAR_CreatePlayerDrop, EVENT_APPEAR_CreateSpinZoom, EVENT_APPEAR_CreateSpinZoomAlt, EVENT_APPEAR_CreateSpinZoomSmoke, EVENT_APPEAR_CreateDescendingSpin, EVENT_APPEAR_CreateMoveAnime, EVENT_APPEAR_RunPlayerDrop, EVENT_APPEAR_RunSpinZoom, EVENT_APPEAR_StartZoomOut, EVENT_APPEAR_EndZoomOut, EVENT_APPEAR_StartPlayerSpin, EVENT_APPEAR_CreateFadeIn, EVENT_APPEAR_OnScoreboardEnd, EVENT_APPEAR_RunSpinZoomAlt, EVENT_APPEAR_StartZoomOutAlt, EVENT_APPEAR_EndZoomOutAlt, EVENT_APPEAR_StartPlayerSpinAlt, EVENT_APPEAR_CreateFadeInAlt, EVENT_APPEAR_OnScoreboardEndAlt, EVENT_APPEAR_RunSpinZoomSmoke, EVENT_APPEAR_RunDescendingSpin, EVENT_APPEAR_RunMoveAnime
  * address:  0x021BF58C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,41 +14,41 @@
  * Split from field_player_grid_event.c at 0x021BF58C (lane CL118, name guess, no __FILE__ anchor: six 0x68-byte player appear events (drop, spin ease-out, rise) and their handlers).
  *
  * symbols:
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0218E138  0x0218E138  thumb  ov021
- *   func_0218E13C  0x0218E13C  thumb  ov021
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_021C7684  0x021C7684  thumb  ov021
- *   func_021C6DE0  0x021C6DE0  thumb  ov021
- *   func_021C6E48  0x021C6E48  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   FIELD_TASK_CreatePlayerDrop  0x021C7684  thumb  ov021
+ *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
+ *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
  *   d_021DA080     0x021DA080  data   a4
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_0218FE80 0x0218FE80 thumb ov021
- *   func_0218FEA0 0x0218FEA0 thumb ov021
- *   func_0218FEA4 0x0218FEA4 thumb ov021
- *   func_0218FE78 0x0218FE78 thumb ov021
- *   func_0218FEC0 0x0218FEC0 thumb ov021
- *   func_0218FF00 0x0218FF00 thumb ov021
- *   func_0218FF20  0x0218FF20  thumb  ov021
- *   func_0218FE98  0x0218FE98  thumb  ov021
- *   func_021C72AC  0x021C72AC  thumb  ov021
- *   func_021BE9A0 0x021BE9A0 thumb ov021
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_021AC528  0x021AC528  thumb  ov021
- *   func_021C71D4  0x021C71D4  thumb  ov021
- *   func_021C7858  0x021C7858  thumb  ov021
+ *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Create 0x0218FE80 thumb ov021
+ *   FIELD_CAMERA_ANIME_SetData 0x0218FEA0 thumb ov021
+ *   FIELD_CAMERA_ANIME_Setup 0x0218FEA4 thumb ov021
+ *   FIELD_CAMERA_ANIME_GetCurrentParam 0x0218FE78 thumb ov021
+ *   FIELD_CAMERA_ANIME_ApplyStartParam 0x0218FEC0 thumb ov021
+ *   FIELD_CAMERA_ANIME_Start 0x0218FF00 thumb ov021
+ *   FIELD_CAMERA_ANIME_Restore  0x0218FF20  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Delete  0x0218FE98  thumb  ov021
+ *   FIELD_TASK_CreatePlayerSpinEaseOut  0x021C72AC  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback 0x021BE9A0 thumb ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
+ *   FIELD_TASK_CreatePlayerSpinLinear  0x021C71D4  thumb  ov021
+ *   FIELD_TASK_CreatePlayerDrawOffsetTween  0x021C7858  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_0216D454 0x0216D454 thumb ov010
- *   func_0216D480 0x0216D480 thumb ov010
+ *   FLDMMDL_CheckEndAcmd 0x0216D454 thumb ov010
+ *   FLDMMDL_EndAcmd 0x0216D480 thumb ov010
  */
 /*
  * Player appear events of a map change (EVENT_APPEAR_*). They run on the new
@@ -153,68 +153,68 @@ enum {
 
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EventAppearFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
-extern void func_02012374(GameEvent *parent, GameEvent *child);
-extern struct FieldCamera *func_02188C58(FieldMap *fieldMap);
-extern struct FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern FieldTaskManager *func_02188D38(FieldMap *fieldMap);
-extern struct FieldEffectCtrl *func_02188CD0(FieldMap *fieldMap);
-extern Mmdl *func_021A3074(struct FieldPlayer *player);
-extern unsigned int func_0218E138(struct FieldCamera *camera);
-extern void func_0218E13C(struct FieldCamera *camera, unsigned int mode);
-extern void func_0218F0A8(struct FieldCamera *camera);
-extern unsigned int func_0218F0E8(struct FieldCamera *camera);
-extern void func_0216D8C0(Mmdl *mmdl, VecFx32 *offset);
-extern void func_0216D410(Mmdl *mmdl, u16 acmdCode);
-extern int func_0216D454(Mmdl *mmdl);
-extern int func_0216D480(Mmdl *mmdl);
-extern GameEvent *func_021BE92C(GameSystem *gameSystem, FieldMap *fieldMap, int mode, int wait, int bgInit, u8 season, u8 seasonTarget);
-extern GameEvent *func_021BE9A0(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, EventAppearCallback finishCallback, EventAppearWork *finishCallbackArg);
-extern FieldTask *func_021C7684(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height);
-extern FieldTask *func_021C72AC(FieldMap *fieldMap, u16 frames, int spins, int endDirection);
-extern FieldTask *func_021C71D4(FieldMap *fieldMap, u32 frames, u32 spins);
-extern FieldTask *func_021C7858(FieldMap *fieldMap, int frames, const VecFx32 *offset);
-extern void func_021C6DE0(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
-extern int func_021C6E48(FieldTaskManager *manager);
-extern struct FieldCameraAnime *func_0218FE80(FieldMap *fieldMap);
-extern void func_0218FEA0(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
-extern int func_0218FEA4(struct FieldCameraAnime *anime);
-extern void func_0218FE78(struct FieldCamera *camera, FieldCameraParam *param);
-extern void func_0218FEC0(struct FieldCameraAnime *anime);
-extern int func_0218FF00(struct FieldCameraAnime *anime);
-extern void func_0218FF20(struct FieldCameraAnime *anime);
-extern void func_0218FE98(struct FieldCameraAnime *anime);
-extern void func_021AC528(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
+extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
+extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
+extern struct FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern unsigned int FIELD_CAMERA_GetMode(struct FieldCamera *camera);
+extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, unsigned int mode);
+extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
+extern unsigned int FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
+extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
+extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmdCode);
+extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
+extern int FLDMMDL_EndAcmd(Mmdl *mmdl);
+extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int mode, int wait, int bgInit, u8 season, u8 seasonTarget);
+extern GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, EventAppearCallback finishCallback, EventAppearWork *finishCallbackArg);
+extern FieldTask *FIELD_TASK_CreatePlayerDrop(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height);
+extern FieldTask *FIELD_TASK_CreatePlayerSpinEaseOut(FieldMap *fieldMap, u16 frames, int spins, int endDirection);
+extern FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 frames, u32 spins);
+extern FieldTask *FIELD_TASK_CreatePlayerDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset);
+extern void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
+extern int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager);
+extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
+extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
+extern int FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
+extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
+extern int FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
+extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
 extern void func_020061E4(u32 seId);
 
-GameEvent *func_021BF58C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BF5B4(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget);
-GameEvent *func_021BF5E8(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget);
-GameEvent *func_021BF61C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BF644(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BF66C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-int func_021BF694(GameEvent *event, int *seq, EventAppearWork *work);
-int func_021BF76C(GameEvent *event, int *seq, EventAppearWork *work);
-void func_021BF7F8(EventAppearWork *work);
-void func_021BF860(EventAppearWork *work);
-void func_021BF874(EventAppearWork *work);
-GameEvent *func_021BF898(EventAppearWork *work);
-void func_021BF8DC(EventAppearWork *work);
-int func_021BF8EC(GameEvent *event, int *seq, EventAppearWork *work);
-void func_021BF978(EventAppearWork *work);
-void func_021BF9E0(EventAppearWork *work);
-void func_021BF9F4(EventAppearWork *work);
-GameEvent *func_021BFA18(EventAppearWork *work);
-void func_021BFA5C(EventAppearWork *work);
-int func_021BFA6C(GameEvent *event, int *seq, EventAppearWork *work);
-int func_021BFB90(GameEvent *event, int *seq, EventAppearWork *work);
-int func_021BFC98(GameEvent *event, int *seq, EventAppearWork *work);
+GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget);
+GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget);
+GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
+int EVENT_APPEAR_RunPlayerDrop(GameEvent *event, int *seq, EventAppearWork *work);
+int EVENT_APPEAR_RunSpinZoom(GameEvent *event, int *seq, EventAppearWork *work);
+void EVENT_APPEAR_StartZoomOut(EventAppearWork *work);
+void EVENT_APPEAR_EndZoomOut(EventAppearWork *work);
+void EVENT_APPEAR_StartPlayerSpin(EventAppearWork *work);
+GameEvent *EVENT_APPEAR_CreateFadeIn(EventAppearWork *work);
+void EVENT_APPEAR_OnScoreboardEnd(EventAppearWork *work);
+int EVENT_APPEAR_RunSpinZoomAlt(GameEvent *event, int *seq, EventAppearWork *work);
+void EVENT_APPEAR_StartZoomOutAlt(EventAppearWork *work);
+void EVENT_APPEAR_EndZoomOutAlt(EventAppearWork *work);
+void EVENT_APPEAR_StartPlayerSpinAlt(EventAppearWork *work);
+GameEvent *EVENT_APPEAR_CreateFadeInAlt(EventAppearWork *work);
+void EVENT_APPEAR_OnScoreboardEndAlt(EventAppearWork *work);
+int EVENT_APPEAR_RunSpinZoomSmoke(GameEvent *event, int *seq, EventAppearWork *work);
+int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *work);
+int EVENT_APPEAR_RunMoveAnime(GameEvent *event, int *seq, EventAppearWork *work);
 
 extern const VecFx32 d_021DA080;
 
 /* Creates the player drop event. */
-GameEvent *func_021BF58C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021BF694, 0x68);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunPlayerDrop, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -223,9 +223,9 @@ GameEvent *func_021BF58C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Creates the spin zoom event with an optional season scoreboard. */
-GameEvent *func_021BF5B4(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
+GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021BF76C, 0x68);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunSpinZoom, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -237,9 +237,9 @@ GameEvent *func_021BF5B4(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Second copy of the spin zoom event; the map change events use the two as pairs. */
-GameEvent *func_021BF5E8(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
+GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021BF8EC, 0x68);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunSpinZoomAlt, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -251,9 +251,9 @@ GameEvent *func_021BF5E8(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Creates the spin zoom event that ends with a smoke puff at the player. */
-GameEvent *func_021BF61C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021BFA6C, 0x68);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunSpinZoomSmoke, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -262,9 +262,9 @@ GameEvent *func_021BF61C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Creates the descending spin event. */
-GameEvent *func_021BF644(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021BFB90, 0x68);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunDescendingSpin, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -273,9 +273,9 @@ GameEvent *func_021BF644(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Creates the move animation event. */
-GameEvent *func_021BF66C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021BFC98, 0x68);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_APPEAR_RunMoveAnime, 0x68);
     EventAppearWork *work = func_020124E8(event);
 
     work->fieldMap = fieldMap;
@@ -287,32 +287,32 @@ GameEvent *func_021BF66C(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
  * Player drop: the player starts above the ground (draw offset from
  * d_021DA080), the screen fades in and the player falls to the ground.
  */
-int func_021BF694(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunPlayerDrop(GameEvent *event, int *seq, EventAppearWork *work)
 {
-    struct FieldCamera *camera = func_02188C58(work->fieldMap);
+    struct FieldCamera *camera = FIELDMAP_GetCamera(work->fieldMap);
     VecFx32 drawOffset;
     Mmdl *player;
     FieldTask *dropTask;
 
     switch (*seq) {
     case EVENT_APPEAR_DROP_START:
-        work->savedCameraMode = func_0218E138(camera);
-        func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+        work->savedCameraMode = FIELD_CAMERA_GetMode(camera);
+        FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
         drawOffset = d_021DA080;
-        player = func_021A3074(func_02188CB4(work->fieldMap));
-        func_0216D8C0(player, &drawOffset);
-        func_0216D410(player, EVENT_APPEAR_ACMD_DROP_START);
-        func_02012374(event, func_021BE92C(work->gameSystem, work->fieldMap, 0, 1, 1, 0, 0));
-        dropTask = func_021C7684(work->fieldMap, func_021A3074(func_02188CB4(work->fieldMap)), EVENT_APPEAR_DROP_FRAMES, EVENT_APPEAR_DROP_HEIGHT);
-        func_021C6DE0(func_02188D38(work->fieldMap), dropTask, 0);
+        player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(work->fieldMap));
+        FLDMMDL_SetDrawOffset(player, &drawOffset);
+        FLDMMDL_SetAcmd(player, EVENT_APPEAR_ACMD_DROP_START);
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, work->fieldMap, 0, 1, 1, 0, 0));
+        dropTask = FIELD_TASK_CreatePlayerDrop(work->fieldMap, FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(work->fieldMap)), EVENT_APPEAR_DROP_FRAMES, EVENT_APPEAR_DROP_HEIGHT);
+        FIELD_TASK_MANAGER_AddTask(FIELDMAP_GetTaskManager(work->fieldMap), dropTask, 0);
         (*seq)++;
         break;
     case EVENT_APPEAR_DROP_WAIT:
-        if (func_021C6E48(func_02188D38(work->fieldMap)) != 0)
+        if (FIELD_TASK_MANAGER_IsEmpty(FIELDMAP_GetTaskManager(work->fieldMap)) != 0)
             (*seq)++;
         break;
     case EVENT_APPEAR_DROP_RESTORE:
-        func_0218E13C(camera, work->savedCameraMode);
+        FIELD_CAMERA_SetMode(camera, work->savedCameraMode);
         (*seq)++;
         break;
     case EVENT_APPEAR_DROP_END:
@@ -324,199 +324,199 @@ int func_021BF694(GameEvent *event, int *seq, EventAppearWork *work)
 /*
  * Spin zoom: the camera moves away from the target to its normal pose while
  * the player spins into place. With the season scoreboard the spin and the zoom start when the
- * scoreboard ends (func_021BF8DC), else at once. func_021C6E48 takes the task
+ * scoreboard ends (EVENT_APPEAR_OnScoreboardEnd), else at once. FIELD_TASK_MANAGER_IsEmpty takes the task
  * manager that stays live across the switch, which puts the step number in r1.
  */
-int func_021BF76C(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunSpinZoom(GameEvent *event, int *seq, EventAppearWork *work)
 {
     FieldMap *fieldMap;
     struct FieldCamera *camera;
     FieldTaskManager *taskManager;
 
     fieldMap = work->fieldMap;
-    camera = func_02188C58(fieldMap);
-    taskManager = func_02188D38(fieldMap);
+    camera = FIELDMAP_GetCamera(fieldMap);
+    taskManager = FIELDMAP_GetTaskManager(fieldMap);
     switch (*seq) {
     case EVENT_APPEAR_ZOOM_END_DELAY:
-        func_0218F0A8(camera);
+        FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_WAIT_DELAY:
-        if (func_0218F0E8(camera) == 0)
+        if (FIELD_CAMERA_IsDelayEnabled(camera) == 0)
             (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_START:
         if (work->showSeasonScoreboard == 0) {
-            func_021BF874(work);
-            func_021BF7F8(work);
+            EVENT_APPEAR_StartPlayerSpin(work);
+            EVENT_APPEAR_StartZoomOut(work);
         }
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_FADE_IN:
-        func_02012374(event, func_021BF898(work));
+        GAME_EVENT_CallEvent(event, EVENT_APPEAR_CreateFadeIn(work));
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_WAIT:
-        if (func_021C6E48(taskManager) != 0)
+        if (FIELD_TASK_MANAGER_IsEmpty(taskManager) != 0)
             (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_END:
-        func_021BF860(work);
+        EVENT_APPEAR_EndZoomOut(work);
         return EVENT_APPEAR_FINISHED;
     }
     return EVENT_APPEAR_CONTINUE;
 }
 
 /* Starts the camera zoom-out: from a pose closer to the target to the current pose. */
-void func_021BF7F8(EventAppearWork *work)
+void EVENT_APPEAR_StartZoomOut(EventAppearWork *work)
 {
     struct FieldCamera *camera;
     struct FieldCameraAnime *anime;
 
-    camera = func_02188C58(work->fieldMap);
-    anime = func_0218FE80(work->fieldMap);
+    camera = FIELDMAP_GetCamera(work->fieldMap);
+    anime = FIELD_CAMERA_ANIME_Create(work->fieldMap);
     work->cameraAnime.frames = EVENT_APPEAR_ZOOM_FRAMES;
     work->cameraAnime.detachTarget = 1;
     work->cameraAnime.stopTrace = 1;
     work->cameraAnimeHandle = anime;
-    func_0218FEA0(anime, &work->cameraAnime);
-    func_0218FEA4(work->cameraAnimeHandle);
-    func_0218FE78(camera, &work->cameraAnime.end);
+    FIELD_CAMERA_ANIME_SetData(anime, &work->cameraAnime);
+    FIELD_CAMERA_ANIME_Setup(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_GetCurrentParam(camera, &work->cameraAnime.end);
     work->cameraAnime.start = work->cameraAnime.end;
     work->cameraAnime.start.distance = work->cameraAnime.start.distance - EVENT_APPEAR_ZOOM_DISTANCE;
-    func_0218FEC0(work->cameraAnimeHandle);
-    func_0218FF00(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_ApplyStartParam(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Start(work->cameraAnimeHandle);
 }
 
 /* Ends the camera zoom-out and frees its handle. */
-void func_021BF860(EventAppearWork *work)
+void EVENT_APPEAR_EndZoomOut(EventAppearWork *work)
 {
-    func_0218FF20(work->cameraAnimeHandle);
-    func_0218FE98(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Restore(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Delete(work->cameraAnimeHandle);
 }
 
 /* Starts the player spin that ends facing the map direction. */
-void func_021BF874(EventAppearWork *work)
+void EVENT_APPEAR_StartPlayerSpin(EventAppearWork *work)
 {
-    func_021C6DE0(func_02188D38(work->fieldMap), func_021C72AC(work->fieldMap, EVENT_APPEAR_ZOOM_FRAMES, EVENT_APPEAR_SPIN_COUNT, EVENT_APPEAR_SPIN_END_DIRECTION), 0);
+    FIELD_TASK_MANAGER_AddTask(FIELDMAP_GetTaskManager(work->fieldMap), FIELD_TASK_CreatePlayerSpinEaseOut(work->fieldMap, EVENT_APPEAR_ZOOM_FRAMES, EVENT_APPEAR_SPIN_COUNT, EVENT_APPEAR_SPIN_END_DIRECTION), 0);
 }
 
 /* Fades in; with the scoreboard the spin and the zoom start when it ends. */
-GameEvent *func_021BF898(EventAppearWork *work)
+GameEvent *EVENT_APPEAR_CreateFadeIn(EventAppearWork *work)
 {
     int showSeasonScoreboard = work->showSeasonScoreboard;
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
 
     if (showSeasonScoreboard != 0) {
-        return func_021BE9A0(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, func_021BF8DC, work);
+        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, EVENT_APPEAR_OnScoreboardEnd, work);
     }
-    return func_021BE92C(gameSystem, fieldMap, 1, 1, 1, 0, 0);
+    return EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 1, 1, 1, 0, 0);
 }
 
 /* Scoreboard finished: start the spin and the zoom. */
-void func_021BF8DC(EventAppearWork *work)
+void EVENT_APPEAR_OnScoreboardEnd(EventAppearWork *work)
 {
-    func_021BF874(work);
-    func_021BF7F8(work);
+    EVENT_APPEAR_StartPlayerSpin(work);
+    EVENT_APPEAR_StartZoomOut(work);
 }
 
 /*
- * Second copy of the spin zoom (func_021BF76C). Its fade-in, scoreboard
+ * Second copy of the spin zoom (EVENT_APPEAR_RunSpinZoom). Its fade-in, scoreboard
  * callback and helpers are copies as well.
  */
-int func_021BF8EC(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunSpinZoomAlt(GameEvent *event, int *seq, EventAppearWork *work)
 {
     FieldMap *fieldMap;
     struct FieldCamera *camera;
     FieldTaskManager *taskManager;
 
     fieldMap = work->fieldMap;
-    camera = func_02188C58(fieldMap);
-    taskManager = func_02188D38(fieldMap);
+    camera = FIELDMAP_GetCamera(fieldMap);
+    taskManager = FIELDMAP_GetTaskManager(fieldMap);
     switch (*seq) {
     case EVENT_APPEAR_ZOOM_END_DELAY:
-        func_0218F0A8(camera);
+        FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_WAIT_DELAY:
-        if (func_0218F0E8(camera) == 0)
+        if (FIELD_CAMERA_IsDelayEnabled(camera) == 0)
             (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_START:
         if (work->showSeasonScoreboard == 0) {
-            func_021BF9F4(work);
-            func_021BF978(work);
+            EVENT_APPEAR_StartPlayerSpinAlt(work);
+            EVENT_APPEAR_StartZoomOutAlt(work);
         }
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_FADE_IN:
-        func_02012374(event, func_021BFA18(work));
+        GAME_EVENT_CallEvent(event, EVENT_APPEAR_CreateFadeInAlt(work));
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_WAIT:
-        if (func_021C6E48(taskManager) != 0)
+        if (FIELD_TASK_MANAGER_IsEmpty(taskManager) != 0)
             (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_END:
-        func_021BF9E0(work);
+        EVENT_APPEAR_EndZoomOutAlt(work);
         return EVENT_APPEAR_FINISHED;
     }
     return EVENT_APPEAR_CONTINUE;
 }
 
-/* Copy of func_021BF7F8. */
-void func_021BF978(EventAppearWork *work)
+/* Copy of EVENT_APPEAR_StartZoomOut. */
+void EVENT_APPEAR_StartZoomOutAlt(EventAppearWork *work)
 {
     struct FieldCamera *camera;
     struct FieldCameraAnime *anime;
 
-    camera = func_02188C58(work->fieldMap);
-    anime = func_0218FE80(work->fieldMap);
+    camera = FIELDMAP_GetCamera(work->fieldMap);
+    anime = FIELD_CAMERA_ANIME_Create(work->fieldMap);
     work->cameraAnime.frames = EVENT_APPEAR_ZOOM_FRAMES;
     work->cameraAnime.detachTarget = 1;
     work->cameraAnime.stopTrace = 1;
     work->cameraAnimeHandle = anime;
-    func_0218FEA0(anime, &work->cameraAnime);
-    func_0218FEA4(work->cameraAnimeHandle);
-    func_0218FE78(camera, &work->cameraAnime.end);
+    FIELD_CAMERA_ANIME_SetData(anime, &work->cameraAnime);
+    FIELD_CAMERA_ANIME_Setup(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_GetCurrentParam(camera, &work->cameraAnime.end);
     work->cameraAnime.start = work->cameraAnime.end;
     work->cameraAnime.start.distance = work->cameraAnime.start.distance - EVENT_APPEAR_ZOOM_DISTANCE;
-    func_0218FEC0(work->cameraAnimeHandle);
-    func_0218FF00(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_ApplyStartParam(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Start(work->cameraAnimeHandle);
 }
 
-/* Copy of func_021BF860. */
-void func_021BF9E0(EventAppearWork *work)
+/* Copy of EVENT_APPEAR_EndZoomOut. */
+void EVENT_APPEAR_EndZoomOutAlt(EventAppearWork *work)
 {
-    func_0218FF20(work->cameraAnimeHandle);
-    func_0218FE98(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Restore(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Delete(work->cameraAnimeHandle);
 }
 
-/* Copy of func_021BF874. */
-void func_021BF9F4(EventAppearWork *work)
+/* Copy of EVENT_APPEAR_StartPlayerSpin. */
+void EVENT_APPEAR_StartPlayerSpinAlt(EventAppearWork *work)
 {
-    func_021C6DE0(func_02188D38(work->fieldMap), func_021C72AC(work->fieldMap, EVENT_APPEAR_ZOOM_FRAMES, EVENT_APPEAR_SPIN_COUNT, EVENT_APPEAR_SPIN_END_DIRECTION), 0);
+    FIELD_TASK_MANAGER_AddTask(FIELDMAP_GetTaskManager(work->fieldMap), FIELD_TASK_CreatePlayerSpinEaseOut(work->fieldMap, EVENT_APPEAR_ZOOM_FRAMES, EVENT_APPEAR_SPIN_COUNT, EVENT_APPEAR_SPIN_END_DIRECTION), 0);
 }
 
-/* Copy of func_021BF898. */
-GameEvent *func_021BFA18(EventAppearWork *work)
+/* Copy of EVENT_APPEAR_CreateFadeIn. */
+GameEvent *EVENT_APPEAR_CreateFadeInAlt(EventAppearWork *work)
 {
     int showSeasonScoreboard = work->showSeasonScoreboard;
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
 
     if (showSeasonScoreboard != 0) {
-        return func_021BE9A0(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, func_021BFA5C, work);
+        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, EVENT_APPEAR_OnScoreboardEndAlt, work);
     }
-    return func_021BE92C(gameSystem, fieldMap, 1, 1, 1, 0, 0);
+    return EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 1, 1, 1, 0, 0);
 }
 
-/* Copy of func_021BF8DC. */
-void func_021BFA5C(EventAppearWork *work)
+/* Copy of EVENT_APPEAR_OnScoreboardEnd. */
+void EVENT_APPEAR_OnScoreboardEndAlt(EventAppearWork *work)
 {
-    func_021BF9F4(work);
-    func_021BF978(work);
+    EVENT_APPEAR_StartPlayerSpinAlt(work);
+    EVENT_APPEAR_StartZoomOutAlt(work);
 }
 
 /*
@@ -524,7 +524,7 @@ void func_021BFA5C(EventAppearWork *work)
  * and the fade-in start in sequence, and the smoke starts at the player when
  * the spin is over.
  */
-int func_021BFA6C(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunSpinZoomSmoke(GameEvent *event, int *seq, EventAppearWork *work)
 {
     GameSystem *gameSystem;
     FieldMap *fieldMap;
@@ -535,47 +535,47 @@ int func_021BFA6C(GameEvent *event, int *seq, EventAppearWork *work)
 
     gameSystem = work->gameSystem;
     fieldMap = work->fieldMap;
-    camera = func_02188C58(fieldMap);
-    taskManager = func_02188D38(fieldMap);
+    camera = FIELDMAP_GetCamera(fieldMap);
+    taskManager = FIELDMAP_GetTaskManager(fieldMap);
     switch (*seq) {
     case EVENT_APPEAR_ZOOM_END_DELAY:
-        func_0218F0A8(camera);
+        FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_WAIT_DELAY:
-        if (func_0218F0E8(camera) == 0)
+        if (FIELD_CAMERA_IsDelayEnabled(camera) == 0)
             (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_START:
-        func_021C6DE0(taskManager, func_021C72AC(fieldMap, EVENT_APPEAR_ZOOM_FRAMES, EVENT_APPEAR_SPIN_COUNT, EVENT_APPEAR_SPIN_END_DIRECTION), 0);
-        anime = func_0218FE80(fieldMap);
+        FIELD_TASK_MANAGER_AddTask(taskManager, FIELD_TASK_CreatePlayerSpinEaseOut(fieldMap, EVENT_APPEAR_ZOOM_FRAMES, EVENT_APPEAR_SPIN_COUNT, EVENT_APPEAR_SPIN_END_DIRECTION), 0);
+        anime = FIELD_CAMERA_ANIME_Create(fieldMap);
         work->cameraAnime.frames = EVENT_APPEAR_ZOOM_FRAMES;
         work->cameraAnime.detachTarget = 1;
         work->cameraAnime.stopTrace = 1;
         work->cameraAnimeHandle = anime;
-        func_0218FEA0(anime, &work->cameraAnime);
-        func_0218FEA4(work->cameraAnimeHandle);
-        func_0218FE78(camera, &work->cameraAnime.end);
+        FIELD_CAMERA_ANIME_SetData(anime, &work->cameraAnime);
+        FIELD_CAMERA_ANIME_Setup(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_GetCurrentParam(camera, &work->cameraAnime.end);
         work->cameraAnime.start = work->cameraAnime.end;
         work->cameraAnime.start.distance = work->cameraAnime.start.distance - EVENT_APPEAR_ZOOM_DISTANCE;
-        func_0218FEC0(work->cameraAnimeHandle);
-        func_0218FF00(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_ApplyStartParam(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_Start(work->cameraAnimeHandle);
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_FADE_IN:
-        func_02012374(event, func_021BE92C(gameSystem, fieldMap, 0, 1, 1, 0, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 0, 1, 1, 0, 0));
         (*seq)++;
         break;
     case EVENT_APPEAR_ZOOM_WAIT:
-        if (func_021C6E48(taskManager) != 0) {
-            player = func_021A3074(func_02188CB4(fieldMap));
-            func_021AC528(player, func_02188CD0(fieldMap));
+        if (FIELD_TASK_MANAGER_IsEmpty(taskManager) != 0) {
+            player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
+            FLDEFF_KEMURI_Start(player, FIELDMAP_GetEffect(fieldMap));
             (*seq)++;
         }
         break;
     case EVENT_APPEAR_ZOOM_END:
-        func_0218FF20(work->cameraAnimeHandle);
-        func_0218FE98(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_Restore(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_Delete(work->cameraAnimeHandle);
         return EVENT_APPEAR_FINISHED;
     }
     return EVENT_APPEAR_CONTINUE;
@@ -586,7 +586,7 @@ int func_021BFA6C(GameEvent *event, int *seq, EventAppearWork *work)
  * in and a spin task and a draw offset task bring the player down. It is the
  * mirror of the rising spin of event_disappear.c.
  */
-int func_021BFB90(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *work)
 {
     FieldMap *fieldMap;
     struct FieldCamera *camera;
@@ -596,45 +596,45 @@ int func_021BFB90(GameEvent *event, int *seq, EventAppearWork *work)
     FieldTaskManager *taskManager;
 
     fieldMap = work->fieldMap;
-    camera = func_02188C58(fieldMap);
+    camera = FIELDMAP_GetCamera(fieldMap);
     switch (*seq) {
     case EVENT_APPEAR_DESCENT_START:
-        work->savedCameraMode = func_0218E138(camera);
-        func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
-        player = func_021A3074(func_02188CB4(fieldMap));
+        work->savedCameraMode = FIELD_CAMERA_GetMode(camera);
+        FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+        player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
         {
             VecFx32 startOffset;
             startOffset.y = 0xA000;
             startOffset.x = 0;
             startOffset.z = 0;
-            func_0216D8C0(player, &startOffset);
+            FLDMMDL_SetDrawOffset(player, &startOffset);
         }
-        func_02012374(event, func_021BE92C(work->gameSystem, fieldMap, 0, 1, 1, 0, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, fieldMap, 0, 1, 1, 0, 0));
         {
             VecFx32 riseOffset;
             riseOffset.y = 0x96000;
             riseOffset.x = 0;
             riseOffset.z = 0;
-            spinTask = func_021C71D4(fieldMap, 0x18, 3);
-            offsetTask = func_021C7858(fieldMap, -0x18, &riseOffset);
+            spinTask = FIELD_TASK_CreatePlayerSpinLinear(fieldMap, 0x18, 3);
+            offsetTask = FIELD_TASK_CreatePlayerDrawOffsetTween(fieldMap, -0x18, &riseOffset);
         }
-        taskManager = func_02188D38(fieldMap);
-        func_021C6DE0(taskManager, spinTask, 0);
-        func_021C6DE0(taskManager, offsetTask, 0);
+        taskManager = FIELDMAP_GetTaskManager(fieldMap);
+        FIELD_TASK_MANAGER_AddTask(taskManager, spinTask, 0);
+        FIELD_TASK_MANAGER_AddTask(taskManager, offsetTask, 0);
         (*seq)++;
         break;
     case EVENT_APPEAR_DESCENT_WAIT:
-        if (func_021C6E48(func_02188D38(fieldMap)) != 0)
+        if (FIELD_TASK_MANAGER_IsEmpty(FIELDMAP_GetTaskManager(fieldMap)) != 0)
             (*seq)++;
         break;
     case EVENT_APPEAR_DESCENT_SMOKE:
-        player = func_021A3074(func_02188CB4(fieldMap));
-        func_021AC528(player, func_02188CD0(work->fieldMap));
+        player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
+        FLDEFF_KEMURI_Start(player, FIELDMAP_GetEffect(work->fieldMap));
         func_020061E4(EVENT_APPEAR_SE_DESCENT_END);
         (*seq)++;
         break;
     case EVENT_APPEAR_DESCENT_RESTORE:
-        func_0218E13C(camera, work->savedCameraMode);
+        FIELD_CAMERA_SetMode(camera, work->savedCameraMode);
         (*seq)++;
         break;
     case EVENT_APPEAR_DESCENT_END:
@@ -647,28 +647,28 @@ int func_021BFB90(GameEvent *event, int *seq, EventAppearWork *work)
  * Move animation: the screen fades in while the player plays the move
  * animation EVENT_APPEAR_ACMD_APPEAR.
  */
-int func_021BFC98(GameEvent *event, int *seq, EventAppearWork *work)
+int EVENT_APPEAR_RunMoveAnime(GameEvent *event, int *seq, EventAppearWork *work)
 {
-    struct FieldCamera *camera = func_02188C58(work->fieldMap);
+    struct FieldCamera *camera = FIELDMAP_GetCamera(work->fieldMap);
     Mmdl *player;
 
-    player = func_021A3074(func_02188CB4(work->fieldMap));
+    player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(work->fieldMap));
     switch (*seq) {
     case EVENT_APPEAR_ACMD_START:
-        work->savedCameraMode = func_0218E138(camera);
-        func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
-        func_0216D410(player, EVENT_APPEAR_ACMD_APPEAR);
-        func_02012374(event, func_021BE92C(work->gameSystem, work->fieldMap, 0, 1, 1, 0, 0));
+        work->savedCameraMode = FIELD_CAMERA_GetMode(camera);
+        FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+        FLDMMDL_SetAcmd(player, EVENT_APPEAR_ACMD_APPEAR);
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, work->fieldMap, 0, 1, 1, 0, 0));
         (*seq)++;
         break;
     case EVENT_APPEAR_ACMD_WAIT:
-        if (func_0216D454(player) == 1) {
-            func_0216D480(player);
+        if (FLDMMDL_CheckEndAcmd(player) == 1) {
+            FLDMMDL_EndAcmd(player);
             (*seq)++;
         }
         break;
     case EVENT_APPEAR_ACMD_RESTORE:
-        func_0218E13C(camera, work->savedCameraMode);
+        FIELD_CAMERA_SetMode(camera, work->savedCameraMode);
         (*seq)++;
         break;
     case EVENT_APPEAR_ACMD_END:

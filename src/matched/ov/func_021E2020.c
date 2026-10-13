@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  *
  * Query the current mode; when it is 1 return the 0xA188 word of
  *   the p+0x2c object, else 2.
@@ -18,10 +19,10 @@
 
 
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 int func_021E2020(char *p)
 {
-    if (func_020221A4() == 1)
+    if (WIPE_SYS_EndCheck() == 1)
         return *(int *)(((struct Obj18463 *)p)->f2C + 0xA188);
     return 2;
 }

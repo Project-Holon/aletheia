@@ -1,5 +1,5 @@
 /*
- * function: func_0216D76C
+ * function: FLDMMDL_CallDrawDeleteProc
  * address:  0x0216D76C
  * packet:   pkt_0216D76C
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0216D76C(void *a0)
+void FLDMMDL_CallDrawDeleteProc(void *a0)
 {
     void (*fn)(void *) = *(void (**)(void *))((char *)((struct Obj00113 *)a0)->f90 + 0x8);
 

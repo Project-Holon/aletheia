@@ -14,7 +14,7 @@
  *
  * symbols:
  *   g_02148B50       0x02148B50  data
- *   g_02148B98       0x02148B98  data
+ *   g_renderStateDrawParams       0x02148B98  data
  *   g_02148BC8       0x02148BC8  data
  *   g_renderState       0x02148B4C  data
  *   func_0206DDA4    0x0206DDA4  arm
@@ -29,7 +29,7 @@ extern void func_0207B0A4(void *a, void *b);
 void func_0206A884(void);
 void func_0206A8FC(void);
 extern int  g_02148B50[];
-extern int  g_02148B98[];
+extern int  g_renderStateDrawParams[];
 extern int  g_02148BC8[];
 extern u32  g_renderState[];
 extern u32  g_renderStateIdentityMtx[];
@@ -49,7 +49,7 @@ extern u32  g_02148C44[];
 void func_0206A884(void)
 {
     func_0206DDA4(0x1610, g_02148B50, 0x11);
-    func_0206DDA4(0x19, g_02148B98, 0xC);
+    func_0206DDA4(0x19, g_renderStateDrawParams, 0xC);
     {
         int v = 2;
         func_0206DDA4(0x10, &v, 1);
@@ -104,7 +104,7 @@ void func_0206A8FC(void)
     u32 w[13];
 
     func_0206DDA4(0x1610, g_02148B50, 0x11);
-    func_0206DDA4(0x19, g_02148B98, 0xC);
+    func_0206DDA4(0x19, g_renderStateDrawParams, 0xC);
     func_0206DDA4(0x1b19, g_renderStateIdentityMtx, 0xF);
     w[0] = 2;
     func_0206DDA4(0x10, &w[0], 1);

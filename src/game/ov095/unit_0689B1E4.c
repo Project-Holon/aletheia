@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
- *   func_021B8588  0x021B8588  thumb
+ *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
  *   func_021B8E70  0x021B8E70  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021D82D0  0x021D82D0  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTL_ACTION_SetFight  0x021D82D0  thumb
  *   func_02202DC4  0x02202DC4  thumb
  *   func_0689ADDC 0x0689ADDC thumb ov095
  *   d_0689E5D8 0x0689E5D8 data a4
@@ -29,24 +29,24 @@ typedef unsigned int u32;
 typedef struct { u32 kind:7, id:16, rest:9; } Q;
 typedef struct { u8 n, pad[2], d[16]; } St;
 extern const char *const d_0689E5D8[][15], *const d_0689E560[][15], *const d_0689E650[][15], *const d_0689E704[][15];
-extern u8 func_021D5440(void *);
+extern u8 BTL_POKEPARAM_GetPokeId(void *);
 extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021B8E70(void *, u32);
-extern u32 func_021B8588(void *);
+extern u32 BTL_MAIN_GetRule(void *);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern int func_02202DC4(char *, const char *, int);
 extern int func_0689ADDC(St *, int, u32, u8 *);
-extern void func_021D82D0(Q *, u16, u8);
+extern void BTL_ACTION_SetFight(Q *, u16, u8);
 int func_0689B1E4(int *state, u8 *s)
 {
     u8 i, row, out;
     int mode, stop, idx;
     const char *q, *r;
     if (*state == 0) {
-    mode = func_021B8E70(((struct Obj01913 *)s)->fA0, func_021B8D8C(((struct Obj01913 *)s)->fA0, ((struct Obj01913 *)s)->fA4, func_021D5440(((struct Obj01913 *)s)->f6C)));
+    mode = func_021B8E70(((struct Obj01913 *)s)->fA0, func_021B8D8C(((struct Obj01913 *)s)->fA0, ((struct Obj01913 *)s)->fA4, BTL_POKEPARAM_GetPokeId(((struct Obj01913 *)s)->f6C)));
     i = s[0x8a];
     row = (mode - 2) / 2;
-    if (func_021B8588(((struct Obj01913 *)s)->fA0) != 2) {
+    if (BTL_MAIN_GetRule(((struct Obj01913 *)s)->fA0) != 2) {
         q = d_0689E5D8[row][i];
         r = d_0689E560[row][i];
         stop = 4;
@@ -60,7 +60,7 @@ int func_0689B1E4(int *state, u8 *s)
     if (idx != -1) {
         if (idx != stop) {
             if (func_0689ADDC((St *)(s + 0x80), idx, *(u32 *)&((struct Obj01913 *)s)->fA0, &out)) {
-                func_021D82D0(*(Q * *)&((struct Obj01913 *)s)->f70, (*(Q * *)&((struct Obj01913 *)s)->f70)->id, out);
+                BTL_ACTION_SetFight(*(Q * *)&((struct Obj01913 *)s)->f70, (*(Q * *)&((struct Obj01913 *)s)->f70)->id, out);
                 s[0x89] = 1;
                 return 1;
             }

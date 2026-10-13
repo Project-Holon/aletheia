@@ -14,16 +14,16 @@
  *   ov131_id 0x00000083 data a1
  *   gPartyListProcData 0x021BED00 data a4 ov091
  *   gPokeStatusProcData 0x021DC800 data a4 ov131
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203D798 0x0203D798 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_GetInitParam 0x0203D798 arm
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0200FB38 0x0200FB38 thumb
+ *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
- *   func_021B6114 0x021B6114 thumb ov090
+ *   PLIST_COMM_Update 0x021B6114 thumb ov090
  * callee: 02031348 tail-forwards to 020314F4 whose own matched body reads all four arguments; retain caller register payloads.
  */
 #include "../include/Obj00349.h"
@@ -33,16 +33,16 @@ typedef unsigned short u16;
 typedef unsigned u32;
 extern u32 d_02FFFC3C;
 extern u8 ov091_id[],ov131_id[],gPartyListProcData[],gPokeStatusProcData[];
-extern int func_0203CD98(void);
-extern void *func_0203D798(void);
+extern int GFL_NET_GetRunState(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32 func_0200FB24(void);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern int DWC_RAPCOMMON_HandleNetError(void *,void *);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern void PROCSYS_Push(void *,u32,void *,void *);
 extern u32 PROCSYS_Main(void *);
-extern void func_021B6114(u8 *);
+extern void PLIST_COMM_Update(u8 *);
 int func_021E5524(void *unused,int unused2,char *q,char *p)
 {
     if(((struct Obj00349 *)p)->f98==1 && ((struct Obj00349 *)p)->f68!=0) {
@@ -55,10 +55,10 @@ int func_021E5524(void *unused,int unused2,char *q,char *p)
             ((struct Obj00349 *)p)->fC8-=60;
         }
     }
-    if(func_0203CD98()) {
-        if(*((u8 *)func_0203D798()+0x65)==3) {
+    if(GFL_NET_GetRunState()) {
+        if(*((u8 *)GFL_NET_GetInitParam()+0x65)==3) {
             if(func_0200FB24()) {
-                func_0200FB38();
+                GFL_NET_ERR_RequestScreen();
                 ((struct Obj10715 *)q)->f20=2;
                 ((struct Obj00349 *)p)->f6B=1;((struct Obj00349 *)p)->fC4=1;
             }
@@ -92,7 +92,7 @@ int func_021E5524(void *unused,int unused2,char *q,char *p)
     }
     if(((struct Obj00349 *)p)->f6B==0) {
         p+=8;
-        func_021B6114((u8 *)p);
+        PLIST_COMM_Update((u8 *)p);
     }
     return 0;
 }

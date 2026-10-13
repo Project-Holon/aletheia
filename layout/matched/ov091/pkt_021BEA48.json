@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEA48",
+   "name": "PLIST_DEMO_ApplyFriendshipItem",
    "address": "0x021BEA48",
    "kind": "game",
    "region": "ov091",

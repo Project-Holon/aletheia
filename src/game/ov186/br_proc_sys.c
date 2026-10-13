@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021FC3BC 0x021FC3BC thumb ov186
- *   func_02012F08 0x02012F08 thumb
+ *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C3E0 0x0200C3E0 thumb
  *   func_021FB884 0x021FB884 thumb ov186
  *   func_021FB964 0x021FB964 thumb ov186
@@ -30,8 +30,8 @@
  *   func_021FED50 0x021FED50 thumb ov186
  *   func_021FF408 0x021FF408 thumb ov186
  *   func_02034AC4 0x02034AC4 arm
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02012A30 0x02012A30 thumb
  *   func_02028A58 0x02028A58 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -52,22 +52,22 @@
  *   func_021FC474 0x021FC474 thumb ov186
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021FE768 0x021FE768 thumb ov186
  *   func_021FEE00 0x021FEE00 thumb ov186
  *   func_021FC4C8 0x021FC4C8 thumb ov186
  *   func_021FF52C 0x021FF52C thumb ov186
  *   func_02034714 0x02034714 arm
  *   d_02200D00 0x02200D00 data
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
  *   func_020071CC   0x020071CC  thumb
  *   func_0200E9F4   0x0200E9F4  thumb
  *   func_0200EA04   0x0200EA04  thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
@@ -235,10 +235,10 @@ typedef struct {
     int  unk_64;
 } S_021F9C6C;
 
-extern void func_0203064C(u32,u32,u32),func_02082BCC(void *,int,unsigned);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),func_02082BCC(void *,int,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_021FC3BC(unsigned mode, int setting, unsigned heap);
-extern void *func_02012F08(int *);
+extern void *GAME_DATA_GetMiscSave(int *);
 extern void *func_021FB884(unsigned,unsigned,unsigned);
 extern u8 func_0200C3E0(struct Blk34 *p);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
@@ -248,8 +248,8 @@ extern int func_021FC224(char *);
 extern u32 func_021FC4DC(u8 *p);
 extern char *func_021FED50(int,int,char *,unsigned);
 extern char *func_021FF408(void *owner, void *arg, u32 heap);
-extern int func_02034AC4(int),func_0203CD98(void);
-extern void func_0203D34C(u32,u32);
+extern int func_02034AC4(int),GFL_NET_GetRunState(void);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
@@ -268,14 +268,14 @@ extern void func_021FB92C(char *p);
 extern void func_021FC474(char *);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
 extern void func_021FE768(S *);
 extern void func_021FEE00(char *p);
 extern void func_021FC4C8(char *);
 extern void func_021FF52C(char *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
@@ -284,7 +284,7 @@ extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
 extern u8 *BATTLE_REC_GetHeader(void);
 extern void *func_0200A5F8(void *);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern u32 func_0200A630(struct Bits *p);
@@ -361,8 +361,8 @@ int func_021F90C0(void *obj,int unused,char *q)
     unsigned mode;
     int enabled;
     int zero;
-    func_0203064C(1,0x5a,0x90000);
-    p=func_0203159C(obj,0x1c,0x5a);
+    GFL_HEAP_CreateChildHeap(1,0x5a,0x90000);
+    p=PROCSYS_AllocProcWork(obj,0x1c,0x5a);
     zero=0;
     func_02082BCC(p,0,0x1c);
     *(char * *)&((struct Obj00387 *)p)->f18=q;
@@ -370,7 +370,7 @@ int func_021F90C0(void *obj,int unused,char *q)
     if(**(int * *)&((struct Obj24766 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC!=2) flag=zero;
     enabled=1;
     ((struct Obj00387 *)p)->f0=func_021FC3BC(flag,1,0x5a);
-    mode=func_0200C3E0(func_02012F08(*(int * *)&((struct Obj24769 *)(*(char * *)&((struct Obj24768 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4));
+    mode=func_0200C3E0(GAME_DATA_GetMiscSave(*(int * *)&((struct Obj24769 *)(*(char * *)&((struct Obj24768 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4));
     if(**(int * *)&((struct Obj24770 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) enabled=0;
     ((struct Obj00387 *)p)->f4=func_021FB884(mode,enabled,0x5a);
     func_021FB964((void *)(*(int *)&((struct Obj00387 *)p)->f4),0,0x5a);
@@ -385,7 +385,7 @@ int func_021F90C0(void *obj,int unused,char *q)
     if(**(int * *)&((struct Obj24777 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
         ((struct Obj00387 *)p)->f14=func_021FF408(((struct Obj24780 *)(*(char * *)&((struct Obj24779 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4,(void *)(((struct Obj24782 *)(*(char * *)&((struct Obj24781 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f8),0x5a);
     } else func_02034AC4((int)ov125_id);
-    if(func_0203CD98()) func_0203D34C(0,0x5a);
+    if(GFL_NET_GetRunState()) GFL_NET_RestartWithDefaultTimeout(0,0x5a);
     if(!**(int * *)&((struct Obj24783 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC) {
         if(((struct Obj24785 *)(*(char * *)&((struct Obj00387 *)p)->f18))->f4!=1) func_02028A58((void *)func_02012A30(((struct Obj24787 *)(*(char * *)&((struct Obj24786 *)(*(char * *)&((struct Obj00387 *)p)->f18))->fC))->f4),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
@@ -416,7 +416,7 @@ int func_021F9244(int sys,int unused,int unused2,int *p)
     func_021F9A6C((int *)p[2]);
     nested=(int *)((int *)p[6])[3];
     if(nested[0]==0) {
-        int a=(int)func_02012F08((int *)nested[1]);
+        int a=(int)GAME_DATA_GetMiscSave((int *)nested[1]);
         int b=func_021FC238((char *)p[1]);
         func_0200C3EC((struct Blk34 *)a,(unsigned char)b);
     }
@@ -440,8 +440,8 @@ int func_021F92F4(int sys,int *state,int unused,int *p)
 {
     switch(*state) {
     case 0: *state=1; break;
-    case 1: func_0204E720(3,16,0,0); *state=2; break;
-    case 2: if(!func_0204E804()) *state=3; break;
+    case 1: FADE_Start(3,16,0,0); *state=2; break;
+    case 2: if(!FADE_IsActive()) *state=3; break;
     case 3:
         func_021FE768((S *)p[3]);
         func_021FEE00((char *)p[4]);
@@ -450,8 +450,8 @@ int func_021F92F4(int sys,int *state,int unused,int *p)
         if(p[5]) func_021FF52C((char *)p[5]);
         if(func_021F9B98((int *)p[2])) *state=4;
         break;
-    case 4: func_0204E720(3,0,16,0); *state=5; break;
-    case 5: if(!func_0204E804()) *state=6; break;
+    case 4: FADE_Start(3,0,16,0); *state=5; break;
+    case 5: if(!FADE_IsActive()) *state=6; break;
     case 6: return 1;
     }
     return 0;
@@ -586,7 +586,7 @@ void func_021F94E4(int *out,int *source,const char *ctx,int type)
         out[2]=*(int *)(ctx+8);out[12]=0;
         *(int *)(*(char **)((char *)source[6]+8)+0x1744)=out[2];
         sys=*(void **)(*(char **)((char *)source[6]+12)+4);
-        BATTLE_REC_Load(func_02012EBC(sys),0x59,&result,out[2]);
+        BATTLE_REC_Load(GAME_DATA_GetSaveControl(sys),0x59,&result,out[2]);
         if(result==1) {if(!out[2]) GDS_PROFILE_Init((struct GdsProfile *)BATTLE_REC_GetWork(),sys);}
         else func_02034714(d_02200D00,0,d_02200D00);
         return;
@@ -632,7 +632,7 @@ void func_021F961C(u32 *a, u32 *b) { if (*a == 1) *(u32 *)b[6] = 1; }
 void func_021F962C(char *r5, int *r4)
 {
     int x;
-    x = (int)func_02012EBC((struct Big *)(*(int *)(*(int *)(((struct Obj05493 *)r4)->f18 + 0xC) + 4)));
+    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct Obj05493 *)r4)->f18 + 0xC) + 4)));
     ((struct Obj05492 *)r5)->f8 = r4[1];
     ((struct Obj05492 *)r5)->f0 = r4[3];
     ((struct Obj05492 *)r5)->fC = r4[2];
@@ -661,7 +661,7 @@ void func_021F9668(void) {}
 void func_021F966C(char *r5, int *r4)
 {
     int x;
-    x = (int)func_02012EBC((struct Big *)(*(int *)(*(int *)(((struct Obj05495 *)r4)->f18 + 0xC) + 4)));
+    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct Obj05495 *)r4)->f18 + 0xC) + 4)));
     ((struct Obj05494 *)r5)->f8 = r4[1];
     ((struct Obj05494 *)r5)->f4 = r4[3];
     ((struct Obj05494 *)r5)->fC = r4[2];
@@ -831,7 +831,7 @@ void func_021F9868(Top *p, Top *q)
     if (p->f28 == 0)
         return;
     func_021F98F8((char *)q->f18->f8 + 0x1748, 0, (void *)q->f18->p0c->f4, 0x5a);
-    BATTLE_REC_Load((void *)((int)func_02012EBC((struct Big *)q->f18->p0c->f4)), 0x805a, (u32 *)buf, p->f2c);
+    BATTLE_REC_Load((void *)((int)GAME_DATA_GetSaveControl((struct Big *)q->f18->p0c->f4)), 0x805a, (u32 *)buf, p->f2c);
 }
 
 
@@ -870,11 +870,11 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
     if(skip && *(int *)(p+0x54)) enabled=0;
     if(enabled) {
         u32 tag;
-        save=(u32)func_02012EBC(sys);
+        save=(u32)GAME_DATA_GetSaveControl(sys);
         if(*(int *)(p+0x54)) {
             for(i=0;i<4;i++) {
                 if(((Fields *)p)->handles[i]) {
-                    func_02045808(((Fields *)p)->handles[i]);
+                    STRBUF_Delete(((Fields *)p)->handles[i]);
                     ((Fields *)p)->handles[i]=0;
                 }
             }
@@ -892,7 +892,7 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
                 *(u64 *)((u32)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
             }
         }
-        *(u32 *)(p+0x50)=func_0200A630(func_0200A5F8(func_02012EBC(sys)));
+        *(u32 *)(p+0x50)=func_0200A630(func_0200A5F8(GAME_DATA_GetSaveControl(sys)));
         *(int *)(p+0x54)=1;
     }
 }

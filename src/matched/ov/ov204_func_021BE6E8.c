@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD374 0x021BD374 thumb ov088
+ *   SAVE_CONTROL_INTR_Resume 0x021BD374 thumb ov088
  *
  * UNBLOCKED: 0x021BD374 is now an EXACT entry in layout/matched/ov088 (the
  * only overlay in the window that does not overlap the caller's ov204), so
@@ -18,10 +18,10 @@
  */
 #include "../include/Obj25361.h"
 
-extern void func_021BD374(unsigned char *p);
+extern void SAVE_CONTROL_INTR_Resume(unsigned char *p);
 
 int func_021BE6E8(char *a)
 {
-    func_021BD374((unsigned char *)(((struct Obj25361 *)a)->fA4));
+    SAVE_CONTROL_INTR_Resume((unsigned char *)(((struct Obj25361 *)a)->fA4));
     return 1;
 }

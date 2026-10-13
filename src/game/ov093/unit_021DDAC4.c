@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DDAC4.c
- * function: func_021DDAC4, func_021DDAD8
+ * function: BTL_ITEM_WeakenDamageFire, BTL_ITEM_GetWeakenDamageWaterHandlers
  * address:  0x021DDAC4
  * packet:   pkt_021D8684
  * region:   ov093
@@ -11,27 +11,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   d_021F177C     0x021F177C  data   ov093  a4
- *   func_021DDAC4   0x021DDAC4  thumb
- *   func_021DDCD8   0x021DDCD8  thumb
- * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #9; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl func_021DDCD8; add sp, #8; pop {r4, pc}.
+ *   gBtlItemWeakenDamageWaterHandlers     0x021F177C  data   ov093  a4
+ *   BTL_ITEM_WeakenDamageFire   0x021DDAC4  thumb
+ *   BTL_HANDLER_ITEM_WeakenHitOfType   0x021DDCD8  thumb
+ * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #9; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl BTL_HANDLER_ITEM_WeakenHitOfType; add sp, #8; pop {r4, pc}.
  */
 #include "unit_021DD588_types.h"
 
-extern int func_021DDCD8(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int moveType, int ignoreAffinity);
+extern int BTL_HANDLER_ITEM_WeakenHitOfType(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int moveType, int ignoreAffinity);
 
-extern int d_021F177C[];
+extern int gBtlItemWeakenDamageWaterHandlers[];
 
-void func_021DDAC4(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
-int *func_021DDAD8(int *handlerCount);
+void BTL_ITEM_WeakenDamageFire(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+int *BTL_ITEM_GetWeakenDamageWaterHandlers(int *handlerCount);
 
-void func_021DDAC4(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void BTL_ITEM_WeakenDamageFire(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    func_021DDCD8(factor, server, pokeId, work, POKETYPE_FIRE, 0);
+    BTL_HANDLER_ITEM_WeakenHitOfType(factor, server, pokeId, work, POKETYPE_FIRE, 0);
 }
 
-int *func_021DDAD8(int *handlerCount)
+int *BTL_ITEM_GetWeakenDamageWaterHandlers(int *handlerCount)
 {
     *handlerCount = 2;
-    return d_021F177C;
+    return gBtlItemWeakenDamageWaterHandlers;
 }

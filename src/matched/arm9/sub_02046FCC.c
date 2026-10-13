@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206E964  0x0206E964  arm
+ *   NNS_G3dGetTex  0x0206E964  arm
  *   func_020307E0  0x020307E0  arm
  *
  * Shrink the 0x48BF-tagged object's buffer to exactly what it holds:
@@ -45,13 +45,13 @@ struct Record {
     u32 size;
 };
 
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void func_020307E0(void *p, u32 size);
 
 void G3D_SYSTEM_CutTexture(struct Tagged *p)
 {
     void          *buf = p->buf;
-    struct Record *last = (struct Record *)func_0206E964(buf);
+    struct Record *last = (struct Record *)NNS_G3dGetTex(buf);
 
     func_020307E0(buf, (u32)((u8 *)last + last->size - (u8 *)buf));
 }

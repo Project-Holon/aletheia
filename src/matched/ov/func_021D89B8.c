@@ -1,5 +1,5 @@
 /*
- * function: func_021D89B8
+ * function: BTL_CALC_SlowStartCountTurn
  * address:  0x021D89B8
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D89B8   0x021D89B8  thumb ov093
- *   func_021D775C   0x021D775C  thumb ov093
+ *   BTL_CALC_SlowStartCountTurn   0x021D89B8  thumb ov093
+ *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   func_021C804C   0x021C804C  thumb ov093
  *   func_021C88A4   0x021C88A4  thumb ov093
  *   func_021C8838   0x021C8838  thumb ov093
  *   func_021C8860   0x021C8860  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
  *
- * Gate on func_021D775C(2); the counter at +4 of d must reach 5 -- the
+ * Gate on BTL_EVENT_GetVar(2); the counter at +4 of d must reach 5 -- the
  * func_021C804C(b,c,&v) block bumps it once (rejecting a low nibble of 3) --
  * then record #4 is published as a two-string record and d's flag pair is set
  * to (0, 1).
@@ -32,7 +32,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021D775C(int a);
+int BTL_EVENT_GetVar(int a);
 int func_021C804C(int a, int b, void *v);
 void *func_021C88A4(char *p, int a, int b);
 void func_021C8838(void *p, int a, int b);
@@ -40,12 +40,12 @@ struct S;
 void func_021C8860(struct S *p, unsigned int a);
 void func_021C88C8(void *a, void *b);
 
-void func_021D89B8(void *a, int b, int c, void *d)
+void BTL_CALC_SlowStartCountTurn(void *a, int b, int c, void *d)
 {
     struct { unsigned int kind : 4; } v;
     u8 *p;
 
-    if (c != func_021D775C(2))
+    if (c != BTL_EVENT_GetVar(2))
         return;
     if (((struct Obj04900 *)d)->f8 != 0)
         return;

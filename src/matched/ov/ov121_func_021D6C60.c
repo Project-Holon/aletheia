@@ -9,22 +9,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02049F34 0x02049F34 arm
- *   func_0204ADEC 0x0204ADEC arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
+ *   CLACT_TransferPalette 0x0204ADEC arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj22852.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_0204ADEC(void *,void *,int);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void CLACT_TransferPalette(void *,void *,int);
 extern u32 func_020307B0(void *p);
 void func_021D6C60(u8 *p,int heap)
 {
     void *out;
     void *raw;
-    raw=func_02049F34(34,8,(u32)(&out),heap);
-    func_0204ADEC(((struct Obj22852 *)p)->f0,out,7);
+    raw=ARC_UTIL_LoadPaletteBlockFromArchive(34,8,(u32)(&out),heap);
+    CLACT_TransferPalette(((struct Obj22852 *)p)->f0,out,7);
     func_020307B0(raw);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD80
+ * function: BTL_SERVER_FLOW_ResetInitStateAfterChange
  * address:  0x021BBD80
  * packet:   pkt_ov093_021BBD80
  * region:   ov093
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-void func_021BBD80(u8 *p)
+void BTL_SERVER_FLOW_ResetInitStateAfterChange(u8 *p)
 {
     p[0x77c] = 0;
 }

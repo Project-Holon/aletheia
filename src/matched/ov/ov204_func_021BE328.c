@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  */
-extern void func_0204E720(unsigned,int,int,int);
-extern int func_0204E804(void);
-int func_021BE328(char *p,int *state,int *q){switch(*state){case 0:func_0204E720(q[0],q[1],q[2],q[3]);(*state)++;break;case 1:if(func_0204E804()==0)return 1;break;}return 0;}
+extern void FADE_Start(unsigned,int,int,int);
+extern int FADE_IsActive(void);
+int func_021BE328(char *p,int *state,int *q){switch(*state){case 0:FADE_Start(q[0],q[1],q[2],q[3]);(*state)++;break;case 1:if(FADE_IsActive()==0)return 1;break;}return 0;}

@@ -1,5 +1,5 @@
 /*
- * function: func_021EE688
+ * function: BTL_REC_ReadSkipFlag
  * address:  0x021EE688
  * packet:   pkt_ov093_021EE688
  * region:   ov093
@@ -26,7 +26,7 @@ typedef struct {
     u32 pos[4];
 } Q;
 
-int func_021EE688(Q *q, int i)
+int BTL_REC_ReadSkipFlag(Q *q, int i)
 {
     int v;
     int kind;

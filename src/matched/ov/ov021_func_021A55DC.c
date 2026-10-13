@@ -1,5 +1,5 @@
 /*
- * function: func_021A55DC
+ * function: FIELD_PLAYER_GRID_IsHopTileKind
  * address:  0x021A55DC
  * packet:   pkt_ov021_021A55DC
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB404  0x021AB404  thumb  ov021
- *   func_021AB410  0x021AB410  thumb  ov021
+ *   MAP_ATTR_IsDeepSand  0x021AB404  thumb  ov021
+ *   MAP_ATTR_IsDeepSandB  0x021AB410  thumb  ov021
  */
 
-int func_021AB404(int a);
-int func_021AB410(int a);
+int MAP_ATTR_IsDeepSand(int a);
+int MAP_ATTR_IsDeepSandB(int a);
 
-int func_021A55DC(int a)
+int FIELD_PLAYER_GRID_IsHopTileKind(int a)
 {
-    if (func_021AB404(a) == 1 || func_021AB410(a) == 1)
+    if (MAP_ATTR_IsDeepSand(a) == 1 || MAP_ATTR_IsDeepSandB(a) == 1)
         return 1;
     return 0;
 }

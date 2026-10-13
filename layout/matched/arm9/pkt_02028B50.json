@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02028B50",
+   "name": "FIELD_SOUND_SYSTEM_ReleaseSlot",
    "address": "0x02028B50",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028BA0",
+   "name": "FIELD_SOUND_SYSTEM_PauseSlots",
    "address": "0x02028BA0",
    "kind": "game",
    "region": "arm9",

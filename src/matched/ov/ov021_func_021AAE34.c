@@ -1,5 +1,5 @@
 /*
- * function: func_021AAE34
+ * function: EFFECT_ENCOUNT_PickSpot
  * address:  0x021AAE34
  * packet:   pkt_ov021_021AAE34
  * region:   ov021
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_02005728  0x02005728  thumb
- *   func_02012A38  0x02012A38  thumb
- *   func_021AAEC0  0x021AAEC0  thumb
- *   func_02188C9C  0x02188C9C  thumb
- *   func_021AABEC  0x021AABEC  thumb
- *   func_021AAFC0  0x021AAFC0  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
+ *   EFFECT_ENCOUNT_IsTileOccupied  0x021AAEC0  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb
+ *   EFFECT_ENCOUNT_ResetStepCount  0x021AABEC  thumb
+ *   EFFECT_ENCOUNT_CreateEffectObj  0x021AAFC0  thumb
  */
 
 typedef unsigned char u8;
@@ -65,28 +65,28 @@ typedef struct {
 
 extern u32 func_02005728(u32 n);
 struct BigObj;
-extern u32 func_02012A38(const struct BigObj *p);
-extern int func_021AAEC0(S *s, s16 x, s16 y, s16 z, int w);
-extern u16 func_02188C9C(u8 *p);
-extern void func_021AABEC(u8 *p);
-extern void func_021AAFC0(S *s, R *r, Sub *b);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
+extern int EFFECT_ENCOUNT_IsTileOccupied(S *s, s16 x, s16 y, s16 z, int w);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern void EFFECT_ENCOUNT_ResetStepCount(u8 *p);
+extern void EFFECT_ENCOUNT_CreateEffectObj(S *s, R *r, Sub *b);
 
-void func_021AAE34(S *s, R *r)
+void EFFECT_ENCOUNT_PickSpot(S *s, R *r)
 {
     u16 k = func_02005728(r->h4);
     E *e = &r->e[k];
-    T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
+    T *t = (T *)GAME_DATA_GetFieldGimmick((const struct BigObj *)s->f8);
     Sub *b = &t->sub;
     e->h4 = (e->f8 >> 4) / 0x1000;
-    if (func_021AAEC0(s, e->h2, e->h4, e->h6, 0) == 0) {
+    if (EFFECT_ENCOUNT_IsTileOccupied(s, e->h2, e->h4, e->h6, 0) == 0) {
         b->h2 = e->h2;
         b->h4 = e->h4;
         b->h6 = e->h6;
         b->f8 = e->f8;
         b->bc = e->b0;
-        b->h0 = func_02188C9C((u8 *)s->f0);
+        b->h0 = FIELDMAP_GetZoneId((u8 *)s->f0);
         b->lo = 1;
-        func_021AABEC((u8 *)t);
-        func_021AAFC0(s, r, b);
+        EFFECT_ENCOUNT_ResetStepCount((u8 *)t);
+        EFFECT_ENCOUNT_CreateEffectObj(s, r, b);
     }
 }

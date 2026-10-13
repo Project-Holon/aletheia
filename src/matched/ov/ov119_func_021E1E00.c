@@ -14,10 +14,10 @@
  *   d_021E7944 0x021E7944 data a4
  *   d_021E793C 0x021E793C data a4
  *   func_020452E8 0x020452E8 arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02045CAC 0x02045CAC arm
  *   func_021E6294 0x021E6294 thumb ov119
@@ -38,6 +38,8 @@
  *   func_021E1A44 0x021E1A44 thumb ov119
  *   func_021E1AA8 0x021E1AA8 thumb ov119
  *   func_021E40EC 0x021E40EC thumb ov119
+ *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
  */
 #include "../include/Obj00001.h"
 typedef unsigned char u8;
@@ -50,15 +52,15 @@ struct Descriptor;
 struct Cfg;
 struct MsgBank;
 extern u32 func_020452E8(struct Descriptor *d);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void func_02041B6C(u32);
 extern void func_02045CAC(struct MsgBank *,u32,void *);
-extern void func_0201DD78(u32,u32,u32);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern u32 func_02017E1C(void *,u32,u32);
-extern void func_0201C7A4(void *,s16,s16,void *,void *);
+extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void func_021E6294(char *,int,u32);
 extern void func_021E1430(void *,void *,int,int,int,int,char *);
 extern void func_021E15F8(void *,void *,int,int,char *);
@@ -88,8 +90,8 @@ void func_021E1E00(char *p,int mode,void *mon)
     if(I(0xf54)<128) side=1;
     func_021E6294(p,11,4);
     if(P(0x6b4)) func_020452E8(P(0x6b4));
-    I(0x6b4)=func_020450F0(6,(u8)a.v[side],0,16,18,11,0);
-    func_0201DD78(14,15,0);
+    I(0x6b4)=BMP_WIN_Create(6,(u8)a.v[side],0,16,18,11,0);
+    GF_FONT_SetTextColor(14,15,0);
     flag=func_02017E1C(mon,76,0);
     if(mode==0) {
         func_021E1430(mon,func_02045770(P(0x6b4)),32,0,flag,0,p);
@@ -115,15 +117,15 @@ void func_021E1E00(char *p,int mode,void *mon)
             func_021E194C((int)mon,I(0x6b4),8,0,p);
             func_021E198C((int)mon,I(0x6b4),16,16,p);
             func_02045CAC(P(0x720),36,P(0x730));
-            func_0201C7A4(func_02045770(P(0x6b4)),8,80,P(0x730),P(0x728));
+            PRINTSYS_Print(func_02045770(P(0x6b4)),8,80,P(0x730),P(0x728));
             func_021E1A44((int)mon,I(0x6b4),16,96,p);
             func_02045CAC(P(0x720),37,P(0x730));
-            func_0201C7A4(func_02045770(P(0x6b4)),8,112,P(0x730),P(0x728));
+            PRINTSYS_Print(func_02045770(P(0x6b4)),8,112,P(0x730),P(0x728));
             func_021E1AA8((int)mon,I(0x6b4),16,128,p);
         }
     }
     func_021E40EC(p,side,mode);
-    func_02045374(P(0x6b4));
-    func_02045334(P(0x6b4));
+    BMP_WIN_MakeScreen(P(0x6b4));
+    BMP_WIN_TransferChars(P(0x6b4));
     func_02041B6C(6);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DA8DC",
+   "name": "BTL_ABILITY_AbsorbRecoverHp",
    "address": "0x021DA8DC",
    "kind": "game",
    "region": "ov093",

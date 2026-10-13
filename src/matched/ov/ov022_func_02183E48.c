@@ -1,5 +1,5 @@
 /*
- * function: func_02183E48
+ * function: UNION_APP_UpdateLeaves
  * address:  0x02183E48
  * packet:   pkt_ov022_02183E48
  * region:   ov022
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D1C0  0x0203D1C0  arm
- *   func_0203D378  0x0203D378  arm
- *   func_02173614  0x02173614  thumb  ov012
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   UNION_COMM_RemoveMember  0x02173614  thumb  ov012
  * Addresses are Black-image addresses.
  */
 
@@ -41,16 +41,16 @@ typedef struct T14 {
     u8 f[1];
 } T14;
 
-extern u32 func_0203D1C0(u32 index);
-extern u32 func_0203D378(void);
-extern void func_02173614(u8 *self, const u8 *mac);
+extern u32 GFL_NET_IsConnectMember(u32 index);
+extern u32 GFL_NET_IsParentAid(void);
+extern void UNION_COMM_RemoveMember(u8 *self, const u8 *mac);
 
 typedef struct C {
     u8 pad[0x2830];
     T14 t;
 } C;
 
-void func_02183E48(S *s, C *c)
+void UNION_APP_UpdateLeaves(S *s, C *c)
 {
     int i;
     u32 m;
@@ -60,8 +60,8 @@ void func_02183E48(S *s, C *c)
     for (i = 0; i < 5; i++) {
         m = 1 << i;
         if (s->b0e & m) {
-            if (func_0203D1C0((u8)i) == 0) {
-                if (func_0203D378() == 1 || (s->b01 & m)) {
+            if (GFL_NET_IsConnectMember((u8)i) == 0) {
+                if (GFL_NET_IsParentAid() == 1 || (s->b01 & m)) {
                     cb = s->cbf8;
                     if (cb != 0) {
                         cb(i & 0xff, (u8 *)&s->ents[i], s->argfc);
@@ -69,7 +69,7 @@ void func_02183E48(S *s, C *c)
                     s->b01 &= (u8)(m ^ 0xff);
                     s->b0e &= (u8)(m ^ 0xff);
                 }
-                func_02173614(c->t.f, s->ents[i].f20);
+                UNION_COMM_RemoveMember(c->t.f, s->ents[i].f20);
             }
         }
     }

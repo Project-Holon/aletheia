@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _pNetSys      0x021469D0  data
- *   func_02039338   0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_SYSTEM_GetChildBitmap   0x020393A8  arm
  *   GFL_NET_SYSTEM_FreeWork   0x02037B08  arm
  *
@@ -32,7 +32,7 @@ typedef unsigned char u8;
 
 extern struct LinkState *_pNetSys;
 typedef unsigned short u16;
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 extern void  GFL_NET_SYSTEM_FreeWork(void);
 
@@ -40,7 +40,7 @@ void GFL_NET_SYSTEM_CheckAutoFree(void)
 {
     if (*(u8 *)(((char *)_pNetSys) + 0x1EC) == 0)
         return;
-    if (func_02039338() == 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
         if (GFL_NET_SYSTEM_GetChildBitmap() == 0)
             GFL_NET_SYSTEM_FreeWork();
         return;

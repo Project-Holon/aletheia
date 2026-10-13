@@ -1,5 +1,5 @@
 /*
- * function: func_021B7250
+ * function: ITEMMENU_TaskBagMain
  * address:  0x021B7250
  * packet:   pkt_ov070_021B7250
  * region:   ov070
@@ -11,36 +11,36 @@
  *
  * symbols:
  *   func_0201C6B4  0x0201C6B4  thumb
- *   func_02035C38  0x02035C38  arm
- *   func_02051C88  0x02051C88  arm
+ *   TOUCHPANEL_GetCont  0x02035C38  arm
+ *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   BLINK_PALANM_Update  0x0202EA40  thumb
- *   func_021B63F8  0x021B63F8  thumb  ov070
- *   func_021B6138  0x021B6138  thumb  ov070
+ *   ITEMMENU_HandleScrollbarTouch  0x021B63F8  thumb  ov070
+ *   ITEMMENU_RedrawList  0x021B6138  thumb  ov070
  *   func_020355C4  0x020355C4  arm
  *   func_020362DC  0x020362DC  arm
- *   func_021B61C8  0x021B61C8  thumb  ov070
+ *   ITEMMENU_GetItemCount  0x021B61C8  thumb  ov070
  *   func_020061E4  0x020061E4  thumb
- *   func_021B9850  0x021B9850  thumb  ov070
- *   func_021B80C4  0x021B80C4  thumb  ov070
+ *   ITEMMENU_DrawMoveInfo  0x021B9850  thumb  ov070
+ *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
  *   func_020355D8  0x020355D8  arm
- *   func_021B8C1C  0x021B8C1C  thumb  ov070
- *   func_021B811C  0x021B811C  thumb  ov070
- *   func_021B8134  0x021B8134  thumb  ov070
- *   func_021B81B8  0x021B81B8  thumb  ov070
- *   func_021B8080  0x021B8080  thumb  ov070
+ *   ITEMMENU_StartSideButtonPress  0x021B8C1C  thumb  ov070
+ *   ITEMMENU_IsBrowseMode  0x021B811C  thumb  ov070
+ *   ITEMMENU_ToggleRegisteredItem  0x021B8134  thumb  ov070
+ *   ITEMMENU_TogglePocketSortFlag  0x021B81B8  thumb  ov070
+ *   ITEMMENU_ShowInputGuardError  0x021B8080  thumb  ov070
  *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B8EA8  0x021B8EA8  thumb  ov070
- *   func_021B8B7C  0x021B8B7C  thumb  ov070
+ *   ITEMMENU_TaskInputGuardMessage  0x021B8EA8  thumb  ov070
+ *   ITEMMENU_TaskSelectItemFlash  0x021B8B7C  thumb  ov070
  *   func_02082BCC  0x02082BCC  arm
  *   func_02007CC8  0x02007CC8  thumb
- *   func_0204B878  0x0204B878  arm
- *   func_021BB5DC  0x021BB5DC  thumb  ov070
- *   func_021B8B0C  0x021B8B0C  thumb  ov070
- *   func_021B6554  0x021B6554  thumb  ov070
- *   func_021BA6A4  0x021BA6A4  thumb  ov070
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   ITEMMENU_UpdateSideButtonsForMode  0x021BB5DC  thumb  ov070
+ *   ITEMMENU_ReturnToListInput  0x021B8B0C  thumb  ov070
+ *   ITEMMENU_HandleListKeys  0x021B6554  thumb  ov070
+ *   ITEMMENU_MoveCursorToRow  0x021BA6A4  thumb  ov070
  *   func_0203633C  0x0203633C  arm
- *   func_021B8CE4  0x021B8CE4  thumb  ov070
- *   func_021B8F90  0x021B8F90  thumb  ov070
+ *   ITEMMENU_StartPocketTabPress  0x021B8CE4  thumb  ov070
+ *   ITEMMENU_ReturnToBagMainAlias  0x021B8F90  thumb  ov070
  */
 
 typedef unsigned int u32;
@@ -78,58 +78,58 @@ struct Obj {
 
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 typedef signed int     s32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Ctx;
-extern s32 func_02051C88(struct Ctx *c);
+extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 struct Row;
 extern s32 BLINK_PALANM_Update(struct Row *p);
-extern u32 func_021B63F8(u8 *p);
-extern void func_021B6138(char *p);
+extern u32 ITEMMENU_HandleScrollbarTouch(u8 *p);
+extern void ITEMMENU_RedrawList(char *p);
 extern u8 func_020355C4(void);
 extern u32 func_020362DC(void);
-extern int func_021B61C8(u8 *p);
+extern int ITEMMENU_GetItemCount(u8 *p);
 extern void func_020061E4(unsigned int se);
-extern void func_021B9850(char *p);
-extern void func_021B80C4(struct Obj *o, int flag);
+extern void ITEMMENU_DrawMoveInfo(char *p);
+extern void ITEMMENU_SetCursorActive(struct Obj *o, int flag);
 extern void func_020355D8(u8 v);
-extern void func_021B8C1C(int p, int a, int b);
-extern int func_021B811C(u8 *p);
-extern int func_021B8134(struct Obj *o, int k);
-extern void func_021B81B8(u8 *p);
-extern void func_021B8080(u8 *p);
+extern void ITEMMENU_StartSideButtonPress(int p, int a, int b);
+extern int ITEMMENU_IsBrowseMode(u8 *p);
+extern int ITEMMENU_ToggleRegisteredItem(struct Obj *o, int k);
+extern void ITEMMENU_TogglePocketSortFlag(u8 *p);
+extern void ITEMMENU_ShowInputGuardError(u8 *p);
 extern void func_021B6100(char *p, int k);
-extern void func_021B8EA8(int p);
-extern void func_021B8B7C(int p);
+extern void ITEMMENU_TaskInputGuardMessage(int p);
+extern void ITEMMENU_TaskSelectItemFlash(int p);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02007CC8(u8 *base, void *buf, u32 id, int save);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021BB5DC(int p, int mode);
-extern int func_021B8B0C(void *p);
-extern int func_021B6554(void *o);
-extern void func_021BA6A4(char *p);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void ITEMMENU_UpdateSideButtonsForMode(int p, int mode);
+extern int ITEMMENU_ReturnToListInput(void *p);
+extern int ITEMMENU_HandleListKeys(void *o);
+extern void ITEMMENU_MoveCursorToRow(char *p);
 extern unsigned int func_0203633C(void);
-extern void func_021B8CE4(int p, int u, int a, int b);
-extern void func_021B8F90(void *o);
+extern void ITEMMENU_StartPocketTabPress(int p, int u, int a, int b);
+extern void ITEMMENU_ReturnToBagMainAlias(void *o);
 
-void func_021B7250(Obj *o)
+void ITEMMENU_TaskBagMain(Obj *o)
 {
     unsigned int k;
     int v;
 
     if (func_0201C6B4(o->f50C) == 0)
         return;
-    if (func_02035C38() == 0)
+    if (TOUCHPANEL_GetCont() == 0)
         o->f85C = 0;
-    func_02051C88(o->f694);
+    BUTTON_MAN_UpdateSlots(o->f694);
     BLINK_PALANM_Update(o->f850);
-    if (o->f4F8 != func_021B7250)
+    if (o->f4F8 != ITEMMENU_TaskBagMain)
         return;
-    if (func_021B63F8((u8 *)o) != 0) {
+    if (ITEMMENU_HandleScrollbarTouch((u8 *)o) != 0) {
         o->f818 = 0xFFFF;
-        func_021B6138((char *)o);
+        ITEMMENU_RedrawList((char *)o);
         return;
     }
     if (o->f85C == 1)
@@ -138,15 +138,15 @@ void func_021B7250(Obj *o)
         k = func_020362DC();
         if (k == 0)
             return;
-        if (func_021B61C8((u8 *)o) != 0) {
+        if (ITEMMENU_GetItemCount((u8 *)o) != 0) {
             if ((k & 0xC0A) == 0) {
                 func_020061E4(0x548);
-                func_021B9850((char *)o);
-                func_021B80C4(o, 1);
+                ITEMMENU_DrawMoveInfo((char *)o);
+                ITEMMENU_SetCursorActive(o, 1);
                 return;
             }
         } else {
-            func_021B80C4(o, 1);
+            ITEMMENU_SetCursorActive(o, 1);
             if (k & 0xCD)
                 return;
         }
@@ -155,7 +155,7 @@ void func_021B7250(Obj *o)
         o->f844 = 1;
         o->f84C = 0;
         func_020355D8(0);
-        func_021B8C1C((int)o, 4, 0);
+        ITEMMENU_StartSideButtonPress((int)o, 4, 0);
         return;
     }
     if (func_020362DC() & 0x400) {
@@ -164,51 +164,51 @@ void func_021B7250(Obj *o)
         o->f844 = 0;
         o->f84C = 0;
         func_020355D8(0);
-        func_021B8C1C((int)o, 3, 0);
+        ITEMMENU_StartSideButtonPress((int)o, 3, 0);
         return;
     }
     if (func_020362DC() & 0x800) {
-        if (func_021B811C((u8 *)o) != 1)
+        if (ITEMMENU_IsBrowseMode((u8 *)o) != 1)
             return;
         if (o->f80C == 4) {
-            func_021B8134(o, o->f810);
-            func_021B6138((char *)o);
+            ITEMMENU_ToggleRegisteredItem(o, o->f810);
+            ITEMMENU_RedrawList((char *)o);
         } else {
-            func_021B81B8((u8 *)o);
+            ITEMMENU_TogglePocketSortFlag((u8 *)o);
         }
         if (func_020355C4() != 1)
             return;
-        func_021B9850((char *)o);
-        func_021B80C4(o, 1);
+        ITEMMENU_DrawMoveInfo((char *)o);
+        ITEMMENU_SetCursorActive(o, 1);
         return;
     }
-    if ((func_020362DC() & 8) && o->f80C != 2 && o->f80C != 3 && func_021B61C8((u8 *)o) > 1) {
-        func_021B8080((u8 *)o);
-        func_021B80C4(o, 1);
+    if ((func_020362DC() & 8) && o->f80C != 2 && o->f80C != 3 && ITEMMENU_GetItemCount((u8 *)o) > 1) {
+        ITEMMENU_ShowInputGuardError((u8 *)o);
+        ITEMMENU_SetCursorActive(o, 1);
         o->f818 = 0xFFFF;
-        func_021B6138((char *)o);
-        func_021B6100((char *)o, (int)((void *)func_021B8EA8));
+        ITEMMENU_RedrawList((char *)o);
+        func_021B6100((char *)o, (int)((void *)ITEMMENU_TaskInputGuardMessage));
         return;
     }
     if (func_020362DC() & 1) {
-        if (func_021B61C8((u8 *)o) > 0) {
-            func_021B6100((char *)o, (int)((void *)func_021B8B7C));
+        if (ITEMMENU_GetItemCount((u8 *)o) > 0) {
+            func_021B6100((char *)o, (int)((void *)ITEMMENU_TaskSelectItemFlash));
             return;
         }
     } else if (func_020362DC() & 4) {
-        if (o->f80C != 2 && o->f80C != 3 && func_021B61C8((u8 *)o) > 1) {
+        if (o->f80C != 2 && o->f80C != 3 && ITEMMENU_GetItemCount((u8 *)o) > 1) {
             func_02082BCC(o->f020, 0, 0x4D8);
             func_02007CC8(o->f018, o->f020, o->f80C, 1);
-            func_0204B878(o->f6A4, 2);
-            func_021BB5DC((int)o, 0);
+            CLACT_SetActorAnimSeq(o->f6A4, 2);
+            ITEMMENU_UpdateSideButtonsForMode((int)o, 0);
             o->f81C = 1;
-            func_021B8B0C(o);
+            ITEMMENU_ReturnToListInput(o);
         }
         return;
-    } else if (func_021B6554(o) != 0) {
-        func_021BA6A4((char *)o);
+    } else if (ITEMMENU_HandleListKeys(o) != 0) {
+        ITEMMENU_MoveCursorToRow((char *)o);
         func_020061E4(0x548);
-        func_021B6138((char *)o);
+        ITEMMENU_RedrawList((char *)o);
         return;
     }
     if (func_0203633C() & 0x10) {
@@ -217,7 +217,7 @@ void func_021B7250(Obj *o)
         if (o->f80C >= 5)
             o->f80C = 0;
         func_020355D8(0);
-        func_021B8CE4((int)o, v, 1, (int)((void *)func_021B8F90));
+        ITEMMENU_StartPocketTabPress((int)o, v, 1, (int)((void *)ITEMMENU_ReturnToBagMainAlias));
         return;
     }
     if (func_0203633C() & 0x20) {
@@ -226,6 +226,6 @@ void func_021B7250(Obj *o)
         if (o->f80C < 0)
             o->f80C = 4;
         func_020355D8(0);
-        func_021B8CE4((int)o, v, 0, (int)((void *)func_021B8F90));
+        ITEMMENU_StartPocketTabPress((int)o, v, 0, (int)((void *)ITEMMENU_ReturnToBagMainAlias));
     }
 }

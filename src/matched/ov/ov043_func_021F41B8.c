@@ -1,5 +1,5 @@
 /*
- * function: func_021F41B8
+ * function: GIMMICK43_StartCameraShake
  * address:  0x021F41B8
  * packet:   pkt_ov043_021F41B8
  * region:   ov043
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218ECC4  0x0218ECC4  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_GetTargetShift  0x0218ECC4  thumb  ov021
  */
 #include "../include/Obj02756.h"
 
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218ECC4(int p, void *v);
+extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
+extern void FIELD_CAMERA_GetTargetShift(int p, void *v);
 
-void func_021F41B8(int a0, int a1, int a2, int a3, u8 *s)
+void GIMMICK43_StartCameraShake(int a0, int a1, int a2, int a3, u8 *s)
 {
     s[0] = 0;
     s[1] = 0;
     ((struct Obj02756 *)s)->f8 = a3;
-    ((struct Obj02756 *)s)->fC = func_0218EC5C((u8 *)a3);
-    func_0218ECC4(a3, s + 0x10);
+    ((struct Obj02756 *)s)->fC = FIELD_CAMERA_GetTraceTarget((u8 *)a3);
+    FIELD_CAMERA_GetTargetShift(a3, s + 0x10);
     if (a2) {
         ((struct Obj02756 *)s)->f4 = 0x1000;
         s[2] = 2;

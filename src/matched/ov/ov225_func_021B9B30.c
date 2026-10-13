@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204A648(void);
-void func_021B9B30(void *a0) {func_0204A648();}
+extern void CLACT_VBlankSystem(void);
+void func_021B9B30(void *a0) {CLACT_VBlankSystem();}
 u32 func_021B9B38(const u32 *p) {return *p;}

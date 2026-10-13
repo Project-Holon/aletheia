@@ -17,7 +17,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_0203633C  0x0203633C  arm
  *   func_021F4FF4  0x021F4FF4  thumb
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021F9A1C  0x021F9A1C  thumb
  *   func_021F9CB0  0x021F9CB0  thumb
  *   tbl_02203260   0x02203260  data  a1
@@ -71,7 +71,7 @@ extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021F9A1C(void *p, int mode);
 extern int func_021F9CB0(Obj *p, int v);
 
@@ -105,21 +105,21 @@ int func_021F9CDC(Obj *p, int base)
         func_020061E4(0x548);
         if (p->pos == 3) {
             func_021F4FF4(p->cursor, 0xC0, 0x88);
-            func_0204B878((struct Obj *)p->cursor, 5);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         } else {
             func_021F4FF4(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
-            func_0204B878((struct Obj *)p->cursor, 4);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 4);
         }
     }
     r = func_021F9A1C(p, 5);
     if (r != -1) {
         if (r == 3) {
             func_021F4FF4(p->cursor, 0xC0, 0x88);
-            func_0204B878((struct Obj *)p->cursor, 5);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         } else {
             p->pos = r;
             func_021F4FF4(p->cursor, (tbl_022032C6[r].x + 0x10) * 8, tbl_022032C6[r].y * 8);
-            func_0204B878((struct Obj *)p->cursor, 4);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 4);
         }
         r = func_021F9CB0(p, r);
         if (r == -2) {
@@ -150,7 +150,7 @@ int func_021F9CDC(Obj *p, int base)
         }
     } else if (func_020362DC() & 2) {
         func_020061E4(0x551);
-        func_0204B878((struct Obj *)p->cursor, 5);
+        CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
         return -2;
     }

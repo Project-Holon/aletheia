@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8A78  0x021E8A78  thumb  ov093
+ *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
  *   func_0217AF9C  0x0217AF9C  thumb  ov176
  *   func_0217AF44  0x0217AF44  thumb  ov176
  *   func_0217AF04  0x0217AF04  thumb  ov176
@@ -22,7 +22,7 @@
  */
 #include "../include/Obj03869.h"
 
-extern void func_021E8A78(int);
+extern void BTLV_CORE_IsSlotKind1Index15(int);
 extern void func_0217AF9C(int *);
 extern void func_0217AF44(int *);
 extern void func_0217AF04(int *);
@@ -35,7 +35,7 @@ extern char ov67_id[];
 
 int func_0217AE88(int a, int b, int c, int *p)
 {
-    func_021E8A78(((struct Obj03869 *)p)->f4);
+    BTLV_CORE_IsSlotKind1Index15(((struct Obj03869 *)p)->f4);
     func_0217AF9C(p);
     func_0217AF44(p);
     func_0217AF04(p);

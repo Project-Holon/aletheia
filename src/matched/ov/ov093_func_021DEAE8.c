@@ -1,5 +1,5 @@
 /*
- * function: func_021DEAE8
+ * function: BTL_HANDLER_ITEM_GetFocusBandHandlers
  * address: 0x021DEAE8
  * packet: pkt_ov093_021DEAE8
  * region: ov093
@@ -15,14 +15,14 @@
  *   d_021F191C 0x021F191C data a4
  */
 
-int *func_021DEAE8(int *p);
+int *BTL_HANDLER_ITEM_GetFocusBandHandlers(int *p);
 extern int d_021F191C;
 
 /*
- * lever: int n = (unsigned char)func_021DCFF8(a,2) schedules the
+ * lever: int n = (unsigned char)BTL_HANDLER_ITEM_GetParam(a,2) schedules the
  * narrowing in r0 then r1. An inline call cast costs an extra copy (62 B).
  */
-int *func_021DEAE8(int *p)
+int *BTL_HANDLER_ITEM_GetFocusBandHandlers(int *p)
 {
     *p = 3;
     return &d_021F191C;

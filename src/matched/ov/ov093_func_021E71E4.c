@@ -13,33 +13,33 @@
  * before the result test; a `for (...; i--)` step lands it after the branch.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C812C  0x021C812C  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   func_021C8138  0x021C8138  thumb  ov093
  *   func_021E7260  0x021E7260  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 struct Q7;
 extern u8 *func_021C812C(u8 *p);
 struct QQ;
-extern u16 func_021D70A8(struct QQ *p);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern u16 func_021C8138(struct Q7 *p);
 extern int func_021E7260(int a, int b, int c);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E71E4(int a, int b, int c)
 {
     int x, y, i, v;
     u32 n;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         x = (int)func_021C812C((u8 *)b);
-        y = func_021D70A8((void *)a);
+        y = BTL_EVENT_GetFactorKey((void *)a);
         i = func_021C8138((struct Q7 *)b) - 1;
         n = 0;
         for (; i >= 0;) {
@@ -54,6 +54,6 @@ void func_021E71E4(int a, int b, int c)
         case 3: v = 0xa0; break;
         default: v = 0xc8; break;
         }
-        func_021D76BC(0x30, v);
+        BTL_EVENT_OverwriteVar(0x30, v);
     }
 }

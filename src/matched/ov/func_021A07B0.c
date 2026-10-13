@@ -1,5 +1,5 @@
 /*
- * function: func_021A07B0
+ * function: FIELD_LIGHT_Dummy
  * address:  0x021A07B0
  * packet:   pkt_021A01D4
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021A07B0(void)
+void FIELD_LIGHT_Dummy(void)
 {
 }
 

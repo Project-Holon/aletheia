@@ -1,5 +1,5 @@
 /*
- * function: func_02190D48
+ * function: FIELD_MSGBG_DeleteMsgStream
  * address:  0x02190D48
  * packet:   pkt_02190D48
  * region:   ov021
@@ -27,7 +27,7 @@ struct Rec3;
 extern void func_0201CE48(struct Rec3 *p);
 extern u32 func_020307B0(void *p);
 
-int func_02190D48(void *a)
+int FIELD_MSGBG_DeleteMsgStream(void *a)
 {
 func_0201CE48((struct Rec3 *)(((struct Obj17932 *)((u8 *)(a)))->f4));
 return func_020307B0(a);

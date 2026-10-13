@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202570C 0x0202570C thumb
- *   func_02025588 0x02025588 thumb
+ *   BMP_OAM_Delete 0x0202570C thumb
+ *   BMP_OAM_DeleteSys 0x02025588 thumb
  */
 #include "../include/Obj08317.h"
 struct Grid;
-extern void func_0202570C(struct Grid *);
-extern void func_02025588(void *);
-void func_021E10BC(char *p){ func_0202570C(*(struct Grid * *)&((struct Obj08317 *)p)->f304); func_0202570C(*(struct Grid * *)&((struct Obj08317 *)p)->f308); func_02025588(((struct Obj08317 *)p)->f300); }
+extern void BMP_OAM_Delete(struct Grid *);
+extern void BMP_OAM_DeleteSys(void *);
+void func_021E10BC(char *p){ BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08317 *)p)->f304); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08317 *)p)->f308); BMP_OAM_DeleteSys(((struct Obj08317 *)p)->f300); }

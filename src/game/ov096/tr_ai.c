@@ -16,8 +16,8 @@
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02020F14 0x02020F14 thumb
- *   func_021B8588 0x021B8588 thumb ov093
- *   func_021B86B8 0x021B86B8 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   VM_Create 0x0201121C thumb
  *   VM_Init 0x0201126C thumb
  *   WAZA_TOOL_IsCacheCreated 0x0201C408 thumb
@@ -25,65 +25,65 @@
  *   D_0218A7A0 0x0218A7A0 data
  *   D_0218A574 0x0218A574 data
  *   func_02011324 0x02011324 thumb
- *   func_021D5B68 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  *   VM_Delete 0x02011264 thumb
  *   WAZA_TOOL_DeleteCache 0x0201C3C0 thumb
- *   func_021D5448 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   func_020870D0 0x020870D0 arm
- *   func_021D54C0 0x021D54C0 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   func_021B9A6C 0x021B9A6C thumb ov093
  *   func_021B8DE4 0x021B8DE4 thumb ov093
  *   func_021B8CE8 0x021B8CE8 thumb ov093
- *   func_021D5584 0x021D5584 thumb ov093
+ *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   func_0218A528 0x0218A528 thumb ov096
  *   VM_Start 0x0201127C thumb
  *   func_02011290 0x02011290 thumb
  *   VM_Control 0x02011298 thumb
- *   func_0201134C  0x0201134C  thumb
- *   func_021D5C44  0x021D5C44  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D6314  0x021D6314  thumb  ov093
- *   func_021E8A78  0x021E8A78  thumb  ov093
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
+ *   VM_GetU32  0x0201134C  thumb
+ *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
+ *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  *   func_021C82D0  0x021C82D0  thumb  ov093
  *   VM_Jump  0x020113B0  thumb
  *   func_021C8138 0x021C8138 thumb ov093
- *   func_021D57FC  0x021D57FC  thumb  ov093
- *   func_021E8CFC  0x021E8CFC  thumb  ov093
- *   func_021E8D04  0x021E8D04  thumb  ov093
+ *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
+ *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
+ *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
  *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021C7E14 0x021C7E14 thumb ov093
- *   func_021D67A8  0x021D67A8  thumb  ov093
+ *   BTL_POKEPARAM_GetLastUsedMoveId  0x021D67A8  thumb  ov093
  *   func_021C81C8  0x021C81C8  thumb  ov093
  *   func_021B9AF8  0x021B9AF8  thumb  ov093
  *   func_021B99B8  0x021B99B8  thumb  ov093
  *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021D5B7C  0x021D5B7C  thumb  ov093
+ *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb  ov093
  *   func_021C7DAC  0x021C7DAC  thumb  ov093
- *   func_021EF884 0x021EF884 thumb ov093
+ *   BTL_FIELD_GetCountdownValue 0x021EF884 thumb ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D5B40  0x021D5B40  thumb  ov093
+ *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   func_021D69AC  0x021D69AC  thumb  ov093
- *   func_021D6740  0x021D6740  thumb  ov093
- *   func_021D679C 0x021D679C thumb ov093
+ *   BTL_POKEPARAM_GetConsumedItem  0x021D6740  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveStreak 0x021D679C thumb ov093
  *   d_0218A580     0x0218A580  data   ov096  a4
- *   func_021EF948  0x021EF948  thumb  ov093
- *   func_021D554C 0x021D554C thumb ov093
+ *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePPLost 0x021D554C thumb ov093
  *   func_021D5478  0x021D5478  thumb  ov093
  *   func_021C81D0  0x021C81D0  thumb  ov093
- *   func_021D5BA4  0x021D5BA4  thumb  ov093
+ *   BTL_POKEPARAM_GetTurnCount  0x021D5BA4  thumb  ov093
  *   d_0218A58C     0x0218A58C  data   ov096  a4
  *   func_021B9C98 0x021B9C98 thumb ov093
- *   func_021D6D7C 0x021D6D7C thumb ov093
- *   func_021D5444 0x021D5444 thumb ov093
+ *   BTL_POKEPARAM_HasSubstitute 0x021D6D7C thumb ov093
+ *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   func_021C82F4  0x021C82F4  thumb  ov093
- *   func_021B8C38  0x021B8C38  thumb  ov093
+ *   BTL_MAIN_GetOwnLanePos  0x021B8C38  thumb  ov093
  *   func_021F8AFC 0x021F8AFC thumb ov094
  *   func_02019C90 0x02019C90 thumb
  *   func_021B98AC  0x021B98AC  thumb  ov093
@@ -91,7 +91,7 @@
  *   func_02020F20  0x02020F20  thumb
  *   func_02021014  0x02021014  thumb
  *   D_0218A7C0 0x0218A7C0 data a4
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb  arm9
  */
 #include "../../matched/include/Obj00067.h"
@@ -345,69 +345,69 @@ typedef struct { u8 id[4]; u8 ref[4]; void *obj[4]; } Slot_02188E90;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02020F14(u16 heap);
-extern u32 func_021B8588(void **p);
-extern void *func_021B86B8(void ***p);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 extern void VM_Init(struct ScriptVm *vm, void *user);
 extern u32 WAZA_TOOL_IsCacheCreated(void);
 extern void WAZA_TOOL_CreateCache(s32_02187F00 n, u32 heap);
 extern void *func_02011324(struct ScriptVm *vm);
-extern int func_021D5B68(void *m);
+extern int BTL_POKEPARAM_IsFainted(void *m);
 extern u32 func_0203F0A8(void);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020307B0(void *p);
 extern void VM_Delete(void *);
 extern void WAZA_TOOL_DeleteCache(void);
-extern u8 func_021D5448(struct QG *p);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u64 func_020870D0(void);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern int func_021B9A6C(int, u32);
 extern u8 func_021B8DE4(char *p, int i);
 extern int func_021B8CE8(int, int, int);
-extern u8 func_021D5584(struct UtilWork *p, u32 i);
+extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
 extern void func_0218A528(u8 *);
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern int VM_Control(struct ScriptVm *vm);
-extern u32 func_0201134C(struct Cursor *p);
-extern int func_021D5C44(struct Rat *p);
-extern int func_021D62A8(struct Unk021D62A8 *p);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern Slot_02187F00 func_021D6314(void *, int);
-extern int func_021E8A78(Slot_02187F00);
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
+extern u32 VM_GetU32(struct Cursor *p);
+extern int BTL_POKEPARAM_GetHpRatioFixed(struct Rat *p);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern Slot_02187F00 BTL_POKEPARAM_GetSickContRaw(void *, int);
+extern int BTLV_CORE_IsSlotKind1Index15(Slot_02187F00);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern int func_021C82D0(int unused, unsigned int v, int k);
 extern void VM_Jump(struct Cur *c, u32 v);
 extern unsigned short func_021C8138(struct Q7 *);
-extern u16 func_021D57FC(void *p);
-extern u8 func_021E8CFC(s32_02188CA0 v);
-extern int func_021E8D04(int x);
+extern u16 BTL_POKEPARAM_GetTypePair(void *p);
+extern u8 BTLV_CORE_GetHighByte(s32_02188CA0 v);
+extern int BTLV_CORE_GetLowByte(int x);
 extern u16 WAZA_TOOL_GetPower(void *p);
-extern u8 func_021D5440(u8 *);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern u16 func_021C7E14(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
-extern u16 func_021D67A8(struct QL *p);
+extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u16 func_021C81C8(u8 *, u8 *, int);
 extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(void *pp, unsigned int b);
 extern u8 func_021B9B94(struct Q1 *p);
-extern int func_021D5B7C(void *);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *);
 extern int func_021C7DAC(u8 *p, int a, int b, int c);
-extern int func_021EF884(void);
+extern int BTL_FIELD_GetCountdownValue(void);
 extern int func_021D59B4(u8 *p, int k);
-extern u16 func_021D5B40(struct QI *p);
+extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern unsigned char func_021D69AC(unsigned char *base, int idx);
-extern u16 func_021D6740(struct QK *p);
-extern u16 func_021D679C(u8 *p);
-extern int func_021EF948(int);
-extern u8 func_021D554C(u8 *p, u8 i);
+extern u16 BTL_POKEPARAM_GetConsumedItem(struct QK *p);
+extern u16 BTL_POKEPARAM_GetMoveStreak(u8 *p);
+extern int BTL_FIELD_GetStaticSlotObject(int);
+extern u8 BTL_POKEPARAM_GetMovePPLost(u8 *p, u8 i);
 extern u8 func_021D5478(struct Work *p);
 extern u16 func_021C81D0(u8 *p, u8 *a, u32 y);
-extern unsigned short func_021D5BA4(int *p);
+extern unsigned short BTL_POKEPARAM_GetTurnCount(int *p);
 extern int func_021B9C98(u8 *p, u32 v);
-extern u32 func_021D6D7C(u8 *p);
-extern u16 func_021D5444(struct QF *p);
+extern u32 BTL_POKEPARAM_HasSubstitute(u8 *p);
+extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern int func_021C82F4(int, int, int);
-extern u8 func_021B8C38(u32 flags, u32 v);
+extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
 extern int func_021F8AFC(int);
 extern u32 func_02019C90(u16, u16, u32);
 extern u8 *func_021B98AC(char *const *q, u8 b);
@@ -416,7 +416,7 @@ extern int func_0201BD28(int, int);
 extern int WAZA_TOOL_GetFlag(int, int);
 extern int func_02020F20(int, int, u16);
 extern u32 func_02021014(struct Rec *p, u32 sel);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 void *func_02187F00(void **a, u32 b, u32 c, u32 d, u16 heap);
 int func_02187FB0(u8 *a);
 void func_02188080(void *a);
@@ -599,8 +599,8 @@ void *func_02187F00(void **a, u32 b, u32 c, u32 d, u16 heap)
     *(void ***)(p + 0xB0) = a;
     *(u32 *)(p + 0xB4) = b;
     *(u32 *)(p + 0xB8) = c;
-    *(u32 *)(p + 0x98) = func_021B8588(a);
-    *(void **)(p + 0x9C) = func_021B86B8((void ***)a);
+    *(u32 *)(p + 0x98) = BTL_MAIN_GetRule(a);
+    *(void **)(p + 0x9C) = BTL_MAIN_GetCompetitor((void ***)a);
     v = VM_Create(heap, (const struct ScriptVmParams *)D_0218A574);
     VM_Init(v, p);
     if (WAZA_TOOL_IsCacheCreated() == 0)
@@ -634,7 +634,7 @@ int func_02187FB0(u8 *a)
     n = 0;
     for (p[0x95] = 0; p[0x95] < 6; p[0x95]++) {
         if (p[0x95] != p[0x94] && (p[0x95] & 1) != (p[0x94] & 1)) {
-            if (func_021D5B68(func_0218A2FC(p, p[0x95])) != 1)
+            if (BTL_POKEPARAM_IsFainted(func_0218A2FC(p, p[0x95])) != 1)
                 candidates[n++] = p[0x95];
         }
     }
@@ -658,8 +658,8 @@ void func_02188080(void *a)
 {
     u8 *p;
     p = func_02011324(a);
-    func_02049238(((struct Obj13649 *)p)->fA4);
-    func_02049238(((struct Obj13649 *)p)->fA8);
+    ARC_TOOL_DeleteHandle(((struct Obj13649 *)p)->fA4);
+    ARC_TOOL_DeleteHandle(((struct Obj13649 *)p)->fA8);
     func_020307B0(p);
     VM_Delete(a);
     if (WAZA_TOOL_IsCacheCreated() == 1) WAZA_TOOL_DeleteCache();
@@ -774,7 +774,7 @@ int func_0218814C(int a, Obj *b)
         scores[0] = b->scores[0];
         ids[0] = 0;
         for (i = 1; i < 4; i++) {
-            if (i < func_021D5448((struct QG *)b->fbc)) {
+            if (i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc)) {
                 v = b->scores[i];
                 if (scores[0] == v) {
                     scores[n] = v;
@@ -842,7 +842,7 @@ int func_02188284(int a, Obj_02188284 *b)
                 b->h24[b->opp] = -1;
                 goto next;
             }
-            if (b->opp == b->side || func_021D5B68(b->fc0) == 1) {
+            if (b->opp == b->side || BTL_POKEPARAM_IsFainted(b->fc0) == 1) {
                 b->s30[b->opp] = -1;
                 b->h24[b->opp] = -1;
                 goto next;
@@ -881,7 +881,7 @@ int func_02188284(int a, Obj_02188284 *b)
         scores[0] = b->scores[0];
         ids[0] = 0;
         for (i = 1; i < 4; i++) {
-            if (i < func_021D5448((struct QG *)b->fbc)) {
+            if (i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc)) {
                 v = b->scores[i];
                 if (scores[0] == v) {
                     scores[n] = v;
@@ -921,9 +921,9 @@ int func_02188284(int a, Obj_02188284 *b)
     }
     b->target = ids2[draw_below(n)];
     b->slot = b->s30[b->target];
-    if (func_0218A378((Obj_02188284 *)b, func_021D54C0(b->fbc, b->slot), 27) == 1 && !(b->target & 1))
+    if (func_0218A378((Obj_02188284 *)b, BTL_POKEPARAM_GetMoveId(b->fbc, b->slot), 27) == 1 && !(b->target & 1))
         b->target = b->side;
-    v = func_021D54C0(b->fbc, b->slot);
+    v = BTL_POKEPARAM_GetMoveId(b->fbc, b->slot);
     if (b->mode == 2 && func_021B9A6C(b->side, b->target) == 0 && func_0218A384((Obj_02188284 *)b, v, 11) == 0)
         b->target = (b->target & 1) + 2;
     return 0;
@@ -945,10 +945,10 @@ void func_021885BC(int a, Obj_021885BC *b)
     while (b->state != 2 && !(b->flags & 16)) {
         switch (b->state) {
         case 0:
-            if (func_021D5584((struct UtilWork *)b->fbc, b->index) == 0) {
+            if (BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)b->fbc, b->index) == 0) {
                 b->move = 0;
             } else {
-                b->move = func_021D54C0(b->fbc, b->index);
+                b->move = BTL_POKEPARAM_GetMoveId(b->fbc, b->index);
                 b->script = func_0218A494((u8 *)b);
                 VM_Start((struct ScriptVm *)a, b->script);
             }
@@ -976,7 +976,7 @@ void func_021885BC(int a, Obj_021885BC *b)
             }
             if (b->flags & 1) {
                 b->index++;
-                if (b->index < func_021D5448((struct QG *)b->fbc) && !(b->flags & 8))
+                if (b->index < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc) && !(b->flags & 8))
                     b->state = 0;
                 else
                     b->state++;
@@ -1064,8 +1064,8 @@ int func_0218875C(struct Cursor *a, int unused, int c) {
     u32 v;
     int r;
     E z;
-    p = (u8 *)func_0201134C(a);
-    r = (int)func_0201134C(a);
+    p = (u8 *)VM_GetU32(a);
+    r = (int)VM_GetU32(a);
     v = func_0203F0A8();
     z = Z0;
     return func_0218A0F4((u8 *)a, c, ((v >> 24) | (z << 8)), (int)p, r);
@@ -1081,7 +1081,7 @@ int func_0218875C(struct Cursor *a, int unused, int c) {
 int func_0218878C(struct Cursor *a, u8 *b)
 {
     u32 value;
-    value = func_0201134C(a);
+    value = VM_GetU32(a);
     *(u32 *)((u32)b + 4 + b[1] * 4) += value;
     if (*(int *)((u32)b + 4 + b[1] * 4) < 0)
         *(int *)((u32)b + 4 + b[1] * 4) = 0;
@@ -1154,11 +1154,11 @@ int func_021887F4(struct Cursor *a, int b, int c)
     int r;
     u8 s;
 
-    t1 = func_0201134C(a);
-    t2 = func_0201134C(a);
-    t3 = func_0201134C(a);
+    t1 = VM_GetU32(a);
+    t2 = VM_GetU32(a);
+    t3 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t1);
-    r = func_021D5C44((struct Rat *)func_0218A2FC((u8 *)b, s));
+    r = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)func_0218A2FC((u8 *)b, s));
     return func_0218A0F4((u8 *)a, c, r >> 12, t2, t3);
 }
 
@@ -1200,10 +1200,10 @@ int func_0218885C(struct Cursor *a, int b, int c)
     int r;
     u8 s;
 
-    t1 = func_0201134C(a);
-    t3 = func_0201134C(a);
+    t1 = VM_GetU32(a);
+    t3 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t1);
-    r = func_021D62A8((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, s));
+    r = BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, s));
     return func_0218A0F4((u8 *)a, c, r, 0, t3);
 }
 
@@ -1246,11 +1246,11 @@ int func_021888BC(struct Cursor *a, int b, int c)
     int r;
     u8 s;
 
-    t1 = func_0201134C(a);
-    t2 = func_0201134C(a);
-    t3 = func_0201134C(a);
+    t1 = VM_GetU32(a);
+    t2 = VM_GetU32(a);
+    t3 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t1);
-    r = func_021D62C4((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, s), t2);
+    r = BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, s), t2);
     return func_0218A0F4((u8 *)a, c, r, 1, t3);
 }
 
@@ -1294,14 +1294,14 @@ int func_02188924(struct Cursor *a, int b, int c)
     int x;
     Slot_02187F00 s;
 
-    t1 = func_0201134C(a);
-    t3 = func_0201134C(a);
+    t1 = VM_GetU32(a);
+    t3 = VM_GetU32(a);
     k = func_0218A160((u8 *)b, t1);
     r = func_0218A2FC((u8 *)b, k);
     x = 0;
-    if (func_021D62C4((struct Unk021D62A8 *)r, 5) != 0) {
-        s = func_021D6314(r, 5);
-        if (func_021E8A78(s) != 0)
+    if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)r, 5) != 0) {
+        s = BTL_POKEPARAM_GetSickContRaw(r, 5);
+        if (BTLV_CORE_IsSlotKind1Index15(s) != 0)
             x = 1;
     }
     return func_0218A0F4((u8 *)a, c, x, 1, t3);
@@ -1346,11 +1346,11 @@ int func_021889A0(struct Cursor *a, int b, int c)
     int r;
     u8 s;
 
-    t1 = func_0201134C(a);
-    t2 = func_0201134C(a);
-    t3 = func_0201134C(a);
+    t1 = VM_GetU32(a);
+    t2 = VM_GetU32(a);
+    t3 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t1);
-    r = func_021D5BDC((struct UtilWork *)func_0218A2FC((u8 *)b, s), t2);
+    r = BTL_POKEPARAM_TestContFlag((struct UtilWork *)func_0218A2FC((u8 *)b, s), t2);
     return func_0218A0F4((u8 *)a, c, r, 1, t3);
 }
 
@@ -1392,9 +1392,9 @@ int func_02188A08(struct Cursor *a, int b, int c)
     int t2;
     int r;
 
-    t0 = func_0201134C(a);
-    t1 = func_0201134C(a);
-    t2 = func_0201134C(a);
+    t0 = VM_GetU32(a);
+    t1 = VM_GetU32(a);
+    t2 = VM_GetU32(a);
     r = func_0218A160((u8 *)b, t0);
     r = func_021C82D0(((struct Obj21934 *)b)->fB4, r, t1);
     return func_0218A0F4((u8 *)a, c, r != 0, 1, t2);
@@ -1473,7 +1473,7 @@ int func_02188AA4(int a, int b)
 
 
 
-int func_02188AB4(struct Cursor *a, unsigned char *b, int c) { int x,y; x=func_0201134C(a); y=func_0201134C(a); return func_0218A0F4((unsigned char *)a,c,((struct Obj21941 *)b)->f38,x,y); }
+int func_02188AB4(struct Cursor *a, unsigned char *b, int c) { int x,y; x=VM_GetU32(a); y=VM_GetU32(a); return func_0218A0F4((unsigned char *)a,c,((struct Obj21941 *)b)->f38,x,y); }
 
 
 
@@ -1494,7 +1494,7 @@ int func_02188AE8(void *a, unsigned char *b) { func_02188AF8(a,b,3); return ((st
 
 
 
-int func_02188AF8(struct Cursor *a, unsigned char *b, int c) { int x,y; x=func_0201134C(a); y=func_0201134C(a); return func_0218A0F4((unsigned char *)a,c,((struct Obj21944 *)b)->f2,x,y); }
+int func_02188AF8(struct Cursor *a, unsigned char *b, int c) { int x,y; x=VM_GetU32(a); y=VM_GetU32(a); return func_0218A0F4((unsigned char *)a,c,((struct Obj21944 *)b)->f2,x,y); }
 
 
 
@@ -1509,8 +1509,8 @@ int func_02188B1C(struct Cursor *a, int b)
     int i;
     int v;
 
-    p = (u16 *)(*(int *)&((struct Obj00005 *)a)->f14 + func_0201134C(a));
-    m = func_0201134C(a);
+    p = (u16 *)(*(int *)&((struct Obj00005 *)a)->f14 + VM_GetU32(a));
+    m = VM_GetU32(a);
     i = 0;
     do {
         v = p[i] | (p[i + 1] << 16);
@@ -1535,8 +1535,8 @@ int func_02188B64(struct Cursor *a, int b)
     int i;
     int v;
 
-    p = (u16 *)(*(int *)&((struct Obj00005 *)a)->f14 + func_0201134C(a));
-    m = func_0201134C(a);
+    p = (u16 *)(*(int *)&((struct Obj00005 *)a)->f14 + VM_GetU32(a));
+    m = VM_GetU32(a);
     i = 0;
     do {
         v = p[i] | (p[i + 1] << 16);
@@ -1568,12 +1568,12 @@ int func_02188BB0(struct Cursor *a, Conn_02188284 *b)
     int m;
     int i;
 
-    m = func_0201134C(a);
-    for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-        if (func_0218A378((Obj_02188284 *)b, func_021D54C0(b->fbc, (u8)i), 3) != 0)
+    m = VM_GetU32(a);
+    for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+        if (func_0218A378((Obj_02188284 *)b, BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i), 3) != 0)
             break;
     }
-    if (i < func_021D5448((struct QG *)b->fbc))
+    if (i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc))
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return b->fc4;
 }
@@ -1594,12 +1594,12 @@ int func_02188C1C(struct Cursor *a, Conn_02188284 *b)
     int m;
     int i;
 
-    m = func_0201134C(a);
-    for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-        if (func_0218A378((Obj_02188284 *)b, func_021D54C0(b->fbc, (u8)i), 3) != 0)
+    m = VM_GetU32(a);
+    for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+        if (func_0218A378((Obj_02188284 *)b, BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i), 3) != 0)
             break;
     }
-    if (i == func_021D5448((struct QG *)b->fbc))
+    if (i == BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc))
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return b->fc4;
 }
@@ -1625,36 +1625,36 @@ int func_02188CA0(struct Cursor *a, Conn_02188CA0 *b)
     int p;
     int q;
 
-    k = func_0201134C(a);
-    p = func_021D57FC(b->fbc);
-    q = func_021D57FC(b->fc0);
+    k = VM_GetU32(a);
+    p = BTL_POKEPARAM_GetTypePair(b->fbc);
+    q = BTL_POKEPARAM_GetTypePair(b->fc0);
     switch (k) {
     case 1:
-        b->f38 = func_021E8CFC(p);
+        b->f38 = BTLV_CORE_GetHighByte(p);
         break;
     case 0:
-        b->f38 = func_021E8CFC(q);
+        b->f38 = BTLV_CORE_GetHighByte(q);
         break;
     case 3:
-        b->f38 = func_021E8D04(p);
+        b->f38 = BTLV_CORE_GetLowByte(p);
         break;
     case 2:
-        b->f38 = func_021E8D04(q);
+        b->f38 = BTLV_CORE_GetLowByte(q);
         break;
     case 4:
         b->f38 = func_0218A378((Obj_02188284 *)b, b->f2, 0);
         break;
     case 6:
-        b->f38 = func_021E8CFC(func_021D57FC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3))));
+        b->f38 = BTLV_CORE_GetHighByte(BTL_POKEPARAM_GetTypePair(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3))));
         break;
     case 5:
-        b->f38 = func_021E8CFC(func_021D57FC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 2))));
+        b->f38 = BTLV_CORE_GetHighByte(BTL_POKEPARAM_GetTypePair(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 2))));
         break;
     case 8:
-        b->f38 = func_021E8D04(func_021D57FC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3))));
+        b->f38 = BTLV_CORE_GetLowByte(BTL_POKEPARAM_GetTypePair(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3))));
         break;
     case 7:
-        b->f38 = func_021E8D04(func_021D57FC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 2))));
+        b->f38 = BTLV_CORE_GetLowByte(BTL_POKEPARAM_GetTypePair(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 2))));
         break;
     }
     return b->fc4;
@@ -1670,17 +1670,17 @@ int func_02188D48(int a, unsigned char *b) { ((struct Obj10177 *)b)->f38=WAZA_TO
 
 u32 func_02188D5C(struct Cursor *a, u8 *p)
 {
-    int t = func_0201134C(a);
-    u8 x = func_021D5440(*(u8 **)(p + 0xBC));
-    u8 y = func_021D5440(*(u8 **)(p + 0xC0));
+    int t = VM_GetU32(a);
+    u8 x = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xBC));
+    u8 y = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xC0));
     u32 best = func_021C7E14(*(u8 **)(p + 0xB4), x, y, *(u16 *)(p + 2), 1, t);
     int i;
     if (best == 0) {
         *(u32 *)(p + 0x38) = 0;
     } else {
         *(u32 *)(p + 0x38) = 2;
-        for (i = 0; i < func_021D5448((struct QG *)(*(u8 **)(p + 0xBC))); i++) {
-            u16 c = func_021D54C0(*(u8 **)(p + 0xBC), (u8)i);
+        for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)(*(u8 **)(p + 0xBC))); i++) {
+            u16 c = BTL_POKEPARAM_GetMoveId(*(u8 **)(p + 0xBC), (u8)i);
             if (i != p[1]) {
                 u32 r = func_021C7E14(*(u8 **)(p + 0xB4), x, y, c, 1, t);
                 if (r > best) {
@@ -1700,9 +1700,9 @@ u32 func_02188D5C(struct Cursor *a, u8 *p)
 int func_02188E00(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021D67A8((struct QL *)func_0218A2FC((u8 *)b, s));
+    t = BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)func_0218A2FC((u8 *)b, s));
     ((struct Obj13654 *)b)->f38 = t;
     return ((struct Obj13654 *)b)->fC4;
 }
@@ -1723,8 +1723,8 @@ int func_02188E24(struct Cursor *a, u8 *b)
     u16 x;
     int y;
 
-    k = func_0201134C(a);
-    m = func_0201134C(a);
+    k = VM_GetU32(a);
+    m = VM_GetU32(a);
     x = func_021C81C8(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fBC, 1);
     y = func_021C81C8(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fC0, 1);
     switch (k) {
@@ -1758,12 +1758,12 @@ int func_02188E90(struct Cursor *a, Conn_02188E90 *b)
     char *p;
     int n;
 
-    x = func_021B8DE4((char *)b->fb0, func_0218A160((u8 *)b, func_0201134C(a)));
+    x = func_021B8DE4((char *)b->fb0, func_0218A160((u8 *)b, VM_GetU32(a)));
     p = func_021B9AF8(b->fb8, x);
     n = func_021B99B8((void *)b->fb0, x);
     b->f38 = 0;
     for (; n < func_021B9B94((struct Q1 *)p); n++) {
-        if (func_021D5B7C(func_0218A308(p, (u8)n)) != 0)
+        if (BTL_POKEPARAM_IsAbleToBattle(func_0218A308(p, (u8)n)) != 0)
             b->f38++;
     }
     return b->fc4;
@@ -1793,7 +1793,7 @@ int func_02188F14(int a, unsigned char *b) { ((struct Obj10179 *)b)->f38=func_02
 
 
 
-int func_02188F2C(struct Cursor *a,unsigned char *b) { int k; k=func_0201134C(a); ((struct Obj13655 *)b)->f38=func_0218A220(b,k,func_0218A160(b,k)); return ((struct Obj13655 *)b)->fC4; }
+int func_02188F2C(struct Cursor *a,unsigned char *b) { int k; k=VM_GetU32(a); ((struct Obj13655 *)b)->f38=func_0218A220(b,k,func_0218A160(b,k)); return ((struct Obj13655 *)b)->fC4; }
 
 
 
@@ -1816,10 +1816,10 @@ int func_02188F58(struct Cursor *a, int b)
     int z;
     int r;
 
-    t0 = func_0201134C(a);
-    t1 = func_0201134C(a);
-    y = func_021D5440(*(u8 * *)&((struct Obj06342 *)b)->fBC);
-    z = func_021D5440(*(u8 * *)&((struct Obj06342 *)b)->fC0);
+    t0 = VM_GetU32(a);
+    t1 = VM_GetU32(a);
+    y = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06342 *)b)->fBC);
+    z = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06342 *)b)->fC0);
     r = func_021C7DAC((u8 *)(((struct Obj06342 *)b)->fB4), y, z, ((struct Obj06342 *)b)->f2);
     func_0218A0F4((u8 *)a, 2, r, t0, t1);
     return ((struct Obj06342 *)b)->fC4;
@@ -1853,16 +1853,16 @@ void func_02188FCC(struct Cursor *a, int b, int c)
     char *handle;
     int i;
 
-    t0 = func_0201134C(a);
-    t1 = func_0201134C(a);
+    t0 = VM_GetU32(a);
+    t1 = VM_GetU32(a);
     n = func_021B8DE4((char *)(((struct Obj10180 *)b)->fB0), func_0218A160((u8 *)b, t0));
     handle = func_021B9AF8(*(char * *)&((struct Obj10180 *)b)->fB8, n);
     for (i = func_021B99B8((void *)(((struct Obj10180 *)b)->fB0), n);
          i < func_021B9B94((struct Q1 *)handle); i++) {
         u8 *t = func_0218A308(handle, (unsigned char)i);
 
-        if (func_021D5B68(t) == 0) {
-            if (func_0218A0F4((u8 *)a, c, func_021D62A8((struct Unk021D62A8 *)t), 0, t1) != 0)
+        if (BTL_POKEPARAM_IsFainted(t) == 0) {
+            if (func_0218A0F4((u8 *)a, c, BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)t), 0, t1) != 0)
                 break;
         }
     }
@@ -1873,7 +1873,7 @@ void func_02188FCC(struct Cursor *a, int b, int c)
 
 
 
-int func_0218905C(int a, unsigned char *b) { ((struct Obj13656 *)b)->f38=func_021EF884(); return ((struct Obj13656 *)b)->fC4; }
+int func_0218905C(int a, unsigned char *b) { ((struct Obj13656 *)b)->f38=BTL_FIELD_GetCountdownValue(); return ((struct Obj13656 *)b)->fC4; }
 
 
 
@@ -1904,8 +1904,8 @@ int func_0218907C(u8 * a, int b)
 void func_0218908C(u8 *a, int b, int c)
 {
     int t0, t1;
-    t0 = func_0201134C((struct Cursor *)a);
-    t1 = func_0201134C((struct Cursor *)a);
+    t0 = VM_GetU32((struct Cursor *)a);
+    t1 = VM_GetU32((struct Cursor *)a);
     func_0218A0F4(a, c, func_0218A378((void *)b, ((struct Obj21950 *)b)->f2, 28), t0, t1);
 }
 
@@ -1967,10 +1967,10 @@ int func_02189100(struct Cursor *a, int b, int c)
     int t3;
     int r;
 
-    t0 = func_0201134C(a);
-    t1 = func_0201134C(a);
-    t2 = func_0201134C(a);
-    t3 = func_0201134C(a);
+    t0 = VM_GetU32(a);
+    t1 = VM_GetU32(a);
+    t2 = VM_GetU32(a);
+    t3 = VM_GetU32(a);
     r = func_021D59B4(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, t0)), t1);
     return func_0218A0F4((u8 *)a, c, r, t2, t3);
 }
@@ -2011,11 +2011,11 @@ int func_02189170(struct Cursor *a, int b, int c)
     u8 z;
     int r;
 
-    func_0201134C(a);
-    t = func_0201134C(a);
+    VM_GetU32(a);
+    t = VM_GetU32(a);
     w = func_021D59B4(*(u8 * *)&((struct Obj06343 *)b)->fC0, 0xd);
-    y = func_021D5440(*(u8 * *)&((struct Obj06343 *)b)->fBC);
-    z = func_021D5440(*(u8 * *)&((struct Obj06343 *)b)->fC0);
+    y = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06343 *)b)->fBC);
+    z = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06343 *)b)->fC0);
     r = func_021C7E14((u8 *)(((struct Obj06343 *)b)->fB4), y, z, ((struct Obj06343 *)b)->f2, 1, 0);
     return func_0218A0F4((u8 *)a, c, w, r, t);
 }
@@ -2056,15 +2056,15 @@ int func_021891F4(struct Cursor *a, Obj_021891F4 *b, int c)
     int k, z, r, i;
     u8 *s;
     int y;
-    k = func_0201134C(a);
-    value = func_0201134C(a);
-    z = func_0201134C(a);
+    k = VM_GetU32(a);
+    value = VM_GetU32(a);
+    z = VM_GetU32(a);
     y = func_0218A160((u8 *)b, k);
     r = 0;
     switch (k) {
     case 1:
-        for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-            t = func_021D54C0(b->fbc, (u8)i);
+        for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+            t = BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i);
             if (t == value) {
                 r = 1;
                 break;
@@ -2073,9 +2073,9 @@ int func_021891F4(struct Cursor *a, Obj_021891F4 *b, int c)
         break;
     case 3:
         s = func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3));
-        if (func_021D5B68(s) == 0) {
-            for (i = 0; i < func_021D5448((struct QG *)s); i++) {
-                t = func_021D54C0(s, (u8)i);
+        if (BTL_POKEPARAM_IsFainted(s) == 0) {
+            for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)s); i++) {
+                t = BTL_POKEPARAM_GetMoveId(s, (u8)i);
                 if (t == value) {
                     r = 1;
                     break;
@@ -2128,15 +2128,15 @@ int func_021892F8(struct Cursor *a, Obj_021892F8 *b, int c)
 {
     int k, z, y, r, i, t;
     unsigned int value;
-    k = func_0201134C(a);
-    value = func_0201134C(a);
-    z = func_0201134C(a);
+    k = VM_GetU32(a);
+    value = VM_GetU32(a);
+    z = VM_GetU32(a);
     y = func_0218A160((u8 *)b, k);
     r = 0;
     switch (k) {
     case 1:
-        for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-            t = func_0218A378(b, (int)func_021D54C0(b->fbc, (u8)i), 28);
+        for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+            t = func_0218A378(b, (int)BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i), 28);
             if (t == value) {
                 r = 1;
                 break;
@@ -2199,9 +2199,9 @@ int func_021893D4(int a, Obj_021892F8 *b) { return b->fc4; }
 int func_021893DC(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021D5B40((struct QI *)func_0218A2FC((u8 *)b, s));
+    t = BTL_POKEPARAM_GetItem((struct QI *)func_0218A2FC((u8 *)b, s));
     ((struct Obj13658 *)b)->f38 = t;
     return ((struct Obj13658 *)b)->fC4;
 }
@@ -2216,9 +2216,9 @@ int func_021893DC(struct Cursor *a, int b) {
 int func_02189400(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021D5B40((struct QI *)func_0218A2FC((u8 *)b, s));
+    t = BTL_POKEPARAM_GetItem((struct QI *)func_0218A2FC((u8 *)b, s));
     t = func_0218A3F4(b, (u16)t, 1);
     ((struct Obj13659 *)b)->f38 = t;
     return ((struct Obj13659 *)b)->fC4;
@@ -2234,7 +2234,7 @@ int func_02189400(struct Cursor *a, int b) {
 int func_02189434(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
     t = func_021D59B4(func_0218A2FC((u8 *)b, s), 0x12);
     ((struct Obj13660 *)b)->f38 = t;
@@ -2251,11 +2251,11 @@ int func_0218945C(struct Cursor *a, int b) {
     int t;
     u8 s;
     int r;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
     t = (int)func_0218A2FC((u8 *)b, s);
     r = 0;
-    if (func_021D5BDC((struct UtilWork *)t, 0) == 0) {
+    if (BTL_POKEPARAM_TestContFlag((struct UtilWork *)t, 0) == 0) {
         r = 1;
     }
     ((struct Obj13661 *)b)->f38 = r;
@@ -2274,7 +2274,7 @@ int func_0218945C(struct Cursor *a, int b) {
  */
 int func_0218948C(struct Cursor *a, Conn_021892F8 *b)
 {
-    b->f38 = func_021D69AC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, func_0201134C(a))), 0);
+    b->f38 = func_021D69AC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, VM_GetU32(a))), 0);
     return b->fc4;
 }
 
@@ -2309,9 +2309,9 @@ int func_021894C4(int a, Conn_021892F8 *b)
 int func_021894D4(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021D6740((struct QK *)func_0218A2FC((u8 *)b, s));
+    t = BTL_POKEPARAM_GetConsumedItem((struct QK *)func_0218A2FC((u8 *)b, s));
     ((struct Obj13663 *)b)->f38 = t;
     return ((struct Obj13663 *)b)->fC4;
 }
@@ -2372,11 +2372,11 @@ int func_02189524(int a, int b) {
 u32 func_02189548(struct Cursor *x, u8 *p)
 {
     u8 *q;
-    q = func_0218A2FC(p, func_0218A160(p, func_0201134C(x)));
-    if (func_021D67A8((struct QL *)q) != 0xB6 && func_021D67A8((struct QL *)q) != 0xC5 && func_021D67A8((struct QL *)q) != 0xCB)
+    q = func_0218A2FC(p, func_0218A160(p, VM_GetU32(x)));
+    if (BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)q) != 0xB6 && BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)q) != 0xC5 && BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)q) != 0xCB)
         *(u32 *)(p + 0x38) = 0;
     else
-        *(u32 *)(p + 0x38) = func_021D679C(q);
+        *(u32 *)(p + 0x38) = BTL_POKEPARAM_GetMoveStreak(q);
     return *(u32 *)(p + 0xC4);
 }
 
@@ -2387,7 +2387,7 @@ u32 func_02189548(struct Cursor *x, u8 *p)
 
 int func_02189590(struct Cursor *a, u8 *b)
 {
-    u32 t; t = func_0201134C(a); VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + t); return ((struct Obj21964 *)b)->fC4;
+    u32 t; t = VM_GetU32(a); VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + t); return ((struct Obj21964 *)b)->fC4;
 }
 
 
@@ -2412,8 +2412,8 @@ int func_021895C4(struct Cursor *a, int b) {
     int x;
     int y;
     Tri t;
-    r6 = func_0201134C(a);
-    r7 = func_0201134C(a);
+    r6 = VM_GetU32(a);
+    r7 = VM_GetU32(a);
     t = d_0218A580;
     x = func_021D59B4(*(u8 * *)&((struct Obj10184 *)b)->fBC, 15);
     y = func_021D59B4(*(u8 * *)&((struct Obj10184 *)b)->fC0, 15);
@@ -2453,8 +2453,8 @@ int func_02189630(u8 *a, u8 *b)
 int func_02189640(struct Cursor *a, int b, int c) {
     int r;
     int t;
-    r = func_0201134C(a);
-    t = func_021D62C4((struct Unk021D62A8 *)(*(u8 * *)&((struct Obj21968 *)b)->fC0), 0xb);
+    r = VM_GetU32(a);
+    t = BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)(*(u8 * *)&((struct Obj21968 *)b)->fC0), 0xb);
     return func_0218A0F4((u8 *)a, c, t, 1, r);
 }
 
@@ -2467,7 +2467,7 @@ int func_02189640(struct Cursor *a, int b, int c) {
 
 int func_02189668(struct Cursor *a, int b) {
     int r;
-    r = func_0201134C(a);
+    r = VM_GetU32(a);
     func_0218A0F4((u8 *)a, 2, ((u8 *)b)[0x94] & 1, ((u8 *)b)[0x95] & 1, r);
     return ((struct Obj10185 *)b)->fC4;
 }
@@ -2485,11 +2485,11 @@ int func_02189694(struct Cursor *a, int b) {
     int t;
     int p;
     u8 s;
-    r = func_0201134C(a);
-    k = func_0201134C(a);
+    r = VM_GetU32(a);
+    k = VM_GetU32(a);
     s = func_0218A160((u8 *)b, r);
-    p = func_021D57FC(func_0218A2FC((u8 *)b, s));
-    if (k == func_021E8CFC(p) || k == func_021E8D04(p)) {
+    p = BTL_POKEPARAM_GetTypePair(func_0218A2FC((u8 *)b, s));
+    if (k == BTLV_CORE_GetHighByte(p) || k == BTLV_CORE_GetLowByte(p)) {
         t = 1;
     } else {
         t = 0;
@@ -2510,8 +2510,8 @@ int func_021896E0(struct Cursor *a, int b) {
     int r2;
     int t;
     u8 s;
-    r = func_0201134C(a);
-    r2 = func_0201134C(a);
+    r = VM_GetU32(a);
+    r2 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, r);
     t = func_0218A220((u8 *)b, r, s);
     if (t == r2) {
@@ -2535,11 +2535,11 @@ int func_02189718(struct Cursor *a, int b) {
     int r6;
     u8 *t;
     u8 s;
-    r7 = func_0201134C(a);
-    r6 = func_0201134C(a);
+    r7 = VM_GetU32(a);
+    r6 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, r7);
     t = func_0218A2FC((u8 *)b, s);
-    if (func_021D5BDC((struct UtilWork *)t, 13)) {
+    if (BTL_POKEPARAM_TestContFlag((struct UtilWork *)t, 13)) {
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r6);
     }
     return ((struct Obj21969 *)b)->fC4;
@@ -2558,12 +2558,12 @@ int func_02189758(struct Cursor *a, int b) {
     int r7;
     u8 *t;
     u8 s;
-    r0 = func_0201134C(a);
-    r6 = func_0201134C(a);
-    r7 = func_0201134C(a);
+    r0 = VM_GetU32(a);
+    r6 = VM_GetU32(a);
+    r7 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, r0);
     t = func_0218A2FC((u8 *)b, s);
-    if (r6 == func_021D5B40((struct QI *)t)) {
+    if (r6 == BTL_POKEPARAM_GetItem((struct QI *)t)) {
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r7);
     }
     return ((struct Obj21970 *)b)->fC4;
@@ -2580,9 +2580,9 @@ int func_0218979C(struct Cursor *a, int b) {
     int r;
     int r2;
     int t;
-    r = func_0201134C(a);
-    r2 = func_0201134C(a);
-    t = func_021EF948(r);
+    r = VM_GetU32(a);
+    r2 = VM_GetU32(a);
+    t = BTL_FIELD_GetStaticSlotObject(r);
     func_0218A0F4((u8 *)a, 2, t, 1, r2);
     return ((struct Obj21971 *)b)->fC4;
 }
@@ -2598,8 +2598,8 @@ int func_021897CC(struct Cursor *a, int b) {
     int r6;
     int r4;
     int t;
-    r6 = func_0201134C(a);
-    r4 = func_0201134C(a);
+    r6 = VM_GetU32(a);
+    r4 = VM_GetU32(a);
     t = func_0218A160((u8 *)b, r6);
     t = func_021C82D0(((struct Obj10186 *)b)->fB4, t, r4);
     ((struct Obj10186 *)b)->f38 = t;
@@ -2619,15 +2619,15 @@ int func_02189800(struct Cursor *a, int b) {
     u8 y;
     int r5;
     int t;
-    r4 = func_0201134C(a);
-    x = func_0201134C(a);
+    r4 = VM_GetU32(a);
+    x = VM_GetU32(a);
     y = func_0218A160((u8 *)b, r4);
     r5 = func_021B8DE4((char *)(((struct Obj07925 *)b)->fB0), y);
     r4 = (int)func_021B9AF8(*(char * *)&((struct Obj07925 *)b)->fB8, r5);
     r5 = func_021B99B8((void *)(((struct Obj07925 *)b)->fB0), r5);
     for (; r5 < func_021B9B94((struct Q1 *)r4); r5++) {
-        if (func_021D5B68(func_0218A308((void *)r4, (u8)r5)) == 0) {
-            t = func_021D5C44((struct Rat *)func_0218A2FC((u8 *)b, y));
+        if (BTL_POKEPARAM_IsFainted(func_0218A308((void *)r4, (u8)r5)) == 0) {
+            t = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)func_0218A2FC((u8 *)b, y));
             if (func_0218A0F4((u8 *)a, 0, t, 100, x) != 0) {
                 break;
             }
@@ -2651,19 +2651,19 @@ int func_0218989C(struct Cursor *a, int b)
     char *p;
     int i, j;
     u8 y;
-    x = func_0201134C(a);
-    z = func_0201134C(a);
+    x = VM_GetU32(a);
+    z = VM_GetU32(a);
     y = func_0218A160((u8 *)b, x);
     n = func_021B8DE4((char *)(((struct Obj07926 *)b)->fB0), y);
     p = func_021B9AF8(*(char * *)&((struct Obj07926 *)b)->fB8, n);
     i = func_021B99B8((void *)(((struct Obj07926 *)b)->fB0), n);
     for (; i < func_021B9B94((struct Q1 *)p); i++) {
-        if (func_021D5B68(func_0218A308(p, (u8)i)) == 0) {
-            for (j = 0; j < func_021D5448((struct QG *)func_0218A2FC((u8 *)b, y)); j++) {
-                if (func_0218A0F4((u8 *)a, 3, func_021D554C(func_0218A2FC((u8 *)b, y), j), 0, z) != 0)
+        if (BTL_POKEPARAM_IsFainted(func_0218A308(p, (u8)i)) == 0) {
+            for (j = 0; j < BTL_POKEPARAM_GetMoveCount((struct QG *)func_0218A2FC((u8 *)b, y)); j++) {
+                if (func_0218A0F4((u8 *)a, 3, BTL_POKEPARAM_GetMovePPLost(func_0218A2FC((u8 *)b, y), j), 0, z) != 0)
                     break;
             }
-            if (j != func_021D5448((struct QG *)func_0218A2FC((u8 *)b, y)))
+            if (j != BTL_POKEPARAM_GetMoveCount((struct QG *)func_0218A2FC((u8 *)b, y)))
                 break;
         }
     }
@@ -2681,11 +2681,11 @@ int func_02189978(struct Cursor *a, int b) {
     int r;
     u8 t;
     int s;
-    r = func_0201134C(a);
+    r = VM_GetU32(a);
     t = func_0218A160((u8 *)b, r);
     ((struct Obj10187 *)b)->f38 = 0;
-    if (func_021D62C4((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, t), 0x13) == 0) {
-        s = func_021D5B40((struct QI *)func_0218A2FC((u8 *)b, t));
+    if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, t), 0x13) == 0) {
+        s = BTL_POKEPARAM_GetItem((struct QI *)func_0218A2FC((u8 *)b, t));
         ((struct Obj10187 *)b)->f38 = func_0218A3F4(b, (u16)s, 10);
     }
     return ((struct Obj10187 *)b)->fC4;
@@ -2699,7 +2699,7 @@ int func_02189978(struct Cursor *a, int b) {
 
 int func_021899C4(u8 *a, u8 *b)
 {
-    ((struct Obj07927 *)b)->f38 = func_021D5584(((struct Obj07927 *)b)->fBC, b[1]); return ((struct Obj07927 *)b)->fC4;
+    ((struct Obj07927 *)b)->f38 = BTL_POKEPARAM_GetMovePPChecked(((struct Obj07927 *)b)->fBC, b[1]); return ((struct Obj07927 *)b)->fC4;
 }
 
 
@@ -2714,11 +2714,11 @@ int func_021899DC(struct Cursor *a, int b) {
     int r7;
     u8 t;
     u8 *s;
-    r4 = func_0201134C(a);
-    r7 = func_0201134C(a);
+    r4 = VM_GetU32(a);
+    r7 = VM_GetU32(a);
     t = func_0218A160((u8 *)b, r4);
     s = func_0218A2FC((u8 *)b, t);
-    if (func_021D5478((struct Work *)s) >= func_021D5448((struct QG *)s) && func_021D5448((struct QG *)s) > 1) {
+    if (func_021D5478((struct Work *)s) >= BTL_POKEPARAM_GetMoveCount((struct QG *)s) && BTL_POKEPARAM_GetMoveCount((struct QG *)s) > 1) {
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r7);
     }
     return ((struct Obj21972 *)b)->fC4;
@@ -2744,7 +2744,7 @@ int func_02189A2C(u8 *a, u8 *b)
 
 int func_02189A44(int a, int b) {
     int t;
-    t = func_021D67A8((struct QL *)(*(u8 * *)&((struct Obj10189 *)b)->fC0));
+    t = BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)(*(u8 * *)&((struct Obj10189 *)b)->fC0));
     if (t != 0) {
         t = func_0218A378((void *)b, t, 2);
     } else {
@@ -2764,7 +2764,7 @@ int func_02189A44(int a, int b) {
 int func_02189A6C(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
     t = func_021C81D0((u8 *)(((struct Obj10190 *)b)->fB4), func_0218A2FC((u8 *)b, s), 1);
     ((struct Obj10190 *)b)->f38 = t;
@@ -2786,9 +2786,9 @@ int func_02189A6C(struct Cursor *a, int b) {
 int func_02189A9C(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021D5BA4((int *)func_0218A2FC((u8 *)b, s));
+    t = BTL_POKEPARAM_GetTurnCount((int *)func_0218A2FC((u8 *)b, s));
     ((struct Obj13666 *)b)->f38 = t;
     return ((struct Obj13666 *)b)->fC4;
 }
@@ -2810,16 +2810,16 @@ int func_02189AC0(struct Cursor *a, Obj_02189AC0 *b) {
     char *r7;
     u8 *r6;
     u32 base;
-    c = func_0201134C(a);
-    x = func_0201134C(a);
+    c = VM_GetU32(a);
+    x = VM_GetU32(a);
     r4 = func_021B8DE4((char *)b->fb0, b->f94);
     r7 = func_021B9AF8(b->fb8, r4);
     r4 = func_021B99B8((void *)b->fb0, r4);
     base = func_0218A390((u8 *)((int)b), b->fbc, b->fc0, c);
     for (; r4 < func_021B9B94((struct Q1 *)r7); r4++) {
         r6 = func_0218A308(r7, (u8)r4);
-        func_021D5440(r6);
-        if (func_021D5B68(r6) == 0) {
+        BTL_POKEPARAM_GetPokeId(r6);
+        if (BTL_POKEPARAM_IsFainted(r6) == 0) {
             if (func_0218A390((u8 *)((int)b), r6, b->fc0, c) > base) {
                 VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + x);
                 break;
@@ -2846,11 +2846,11 @@ int func_02189B78(struct Cursor *a, Obj_02189B78 *b) {
     int c6;
     int c7;
     int c2;
-    r = func_0201134C(a);
-    for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-        c6 = func_021D54C0(b->fbc, (u8)i);
-        c7 = func_021D5440(b->fbc);
-        c2 = func_021D5440(b->fc0);
+    r = VM_GetU32(a);
+    for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+        c6 = BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i);
+        c7 = BTL_POKEPARAM_GetPokeId(b->fbc);
+        c2 = BTL_POKEPARAM_GetPokeId(b->fc0);
         if ((u32)(func_021C7DAC((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
             VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r);
             break;
@@ -2878,14 +2878,14 @@ int func_02189BFC(struct Cursor *a, int b)
     u8 z;
     unsigned int r;
 
-    t0 = func_0201134C(a);
-    t1 = func_0201134C(a);
-    t2 = func_0201134C(a);
+    t0 = VM_GetU32(a);
+    t1 = VM_GetU32(a);
+    t2 = VM_GetU32(a);
     v = func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, t0));
     w = func_0218A390((u8 *)b, *(u8 * *)&((struct Obj06344 *)b)->fBC, *(u8 * *)&((struct Obj06344 *)b)->fC0, t1);
-    x = func_021D67A8((struct QL *)v);
-    y = func_021D5440(v);
-    z = func_021D5440(*(u8 * *)&((struct Obj06344 *)b)->fC0);
+    x = BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)v);
+    y = BTL_POKEPARAM_GetPokeId(v);
+    z = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06344 *)b)->fC0);
     r = func_021C7E14((u8 *)(((struct Obj06344 *)b)->fB4), y, z, x, 1, t1);
     if (w < r)
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + t2);
@@ -2909,7 +2909,7 @@ int func_02189C8C(struct Cursor *a, Obj_02189C8C *b) {
     int v;
     u32 i;
     Seven t;
-    s = func_0218A160((u8 *)b, func_0201134C(a));
+    s = func_0218A160((u8 *)b, VM_GetU32(a));
     t = d_0218A58C;
     i = 0;
     b->f38 = 0;
@@ -2944,8 +2944,8 @@ int func_02189CEC(struct Cursor *a, int b) {
     u8 s;
     u8 *t;
     int x;
-    r6 = func_0201134C(a);
-    r4 = func_0201134C(a);
+    r6 = VM_GetU32(a);
+    r4 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, r6);
     t = func_0218A2FC((u8 *)b, s);
     x = func_021D59B4(t, r4);
@@ -3010,7 +3010,7 @@ int func_02189D40(int a, int b) {
 
 /*
  * 2026-10-05 (wD5 lane16): EXACT*. func_021C7E14 takes u8 position arguments (a, b), and x, y, z are
- *   u8 locals (func_021D5440 returns u8). That moves the `adds r1,rX` before the y reload at both calls.
+ *   u8 locals (BTL_POKEPARAM_GetPokeId returns u8). That moves the `adds r1,rX` before the y reload at both calls.
  *   The ov093 callee also compiles EXACT with `u8 a, u8 b` (scratch test only, file not changed).
  */
 u32 func_02189D48(struct Cursor *a, u8 *p)
@@ -3022,13 +3022,13 @@ u32 func_02189D48(struct Cursor *a, u8 *p)
     u8 y;
     u32 best;
     int n;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     k = func_021B8DE4((char *)(*(u8 **)(p + 0xB0)), p[0x94]);
     g = (u8 *)func_021B9AF8(*(char **)(p + 0xB8), k);
     n = func_021B99B8(*(u8 **)(p + 0xB0), k);
     sel = func_021B9C98(g, (u32)(*(u8 **)(p + 0xBC)));
-    x = func_021D5440(*(u8 **)(p + 0xBC));
-    y = func_021D5440(*(u8 **)(p + 0xC0));
+    x = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xBC));
+    y = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xC0));
     best = func_021C7E14(*(u8 **)(p + 0xB4), x, y, *(u16 *)(p + 2), 1, t);
     if (sel < 0 || best == 0) {
         *(u32 *)(p + 0x38) = 0;
@@ -3036,12 +3036,12 @@ u32 func_02189D48(struct Cursor *a, u8 *p)
     }
     for (j = 0; j < n; j++) {
         u8 *m = func_0218A308(g, (u8)j);
-        z = func_021D5440(m);
-        if (func_021D5B7C(m) != 0 && j != sel) {
+        z = BTL_POKEPARAM_GetPokeId(m);
+        if (BTL_POKEPARAM_IsAbleToBattle(m) != 0 && j != sel) {
             int i;
             *(u32 *)(p + 0x38) = 2;
-            for (i = 0; i < (int)func_021D5448((struct QG *)m); i++) {
-                u16 c = func_021D54C0(m, (u8)i);
+            for (i = 0; i < (int)BTL_POKEPARAM_GetMoveCount((struct QG *)m); i++) {
+                u16 c = BTL_POKEPARAM_GetMoveId(m, (u8)i);
                 if (i != p[1]) {
                     u32 r = func_021C7E14(*(u8 **)(p + 0xB4), z, y, c, 1, t);
                     if (r > best) {
@@ -3100,9 +3100,9 @@ int func_02189E90(struct Cursor *a, u8 *b, int c)
 {
     int t;
     int n;
-    t = func_0201134C(a);
-    n = func_0201134C(a);
-    return func_0218A0F4((u8 *)a, c, func_021D5B68(func_0218A2FC(b, func_0218A160(b, t))), 1, n);
+    t = VM_GetU32(a);
+    n = VM_GetU32(a);
+    return func_0218A0F4((u8 *)a, c, BTL_POKEPARAM_IsFainted(func_0218A2FC(b, func_0218A160(b, t))), 1, n);
 }
 
 
@@ -3117,7 +3117,7 @@ int func_02189E90(struct Cursor *a, u8 *b, int c)
 
 int func_02189ED0(struct Cursor *a, u8 *b)
 {
-    int t; u8 s; t = func_0201134C(a); s = func_0218A160(b,t); ((struct Obj13667 *)b)->f38 = func_021D59B4(func_0218A2FC(b,s),17); return ((struct Obj13667 *)b)->fC4;
+    int t; u8 s; t = VM_GetU32(a); s = func_0218A160(b,t); ((struct Obj13667 *)b)->f38 = func_021D59B4(func_0218A2FC(b,s),17); return ((struct Obj13667 *)b)->fC4;
 }
 
 
@@ -3132,7 +3132,7 @@ int func_02189ED0(struct Cursor *a, u8 *b)
 
 int func_02189EF8(struct Cursor *a, u8 *b)
 {
-    int t; u32 n; u8 s; t = func_0201134C(a); n = func_0201134C(a); s = func_0218A160(b,t); if (func_021D6D7C(func_0218A2FC(b,s))) VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + n); return ((struct Obj21978 *)b)->fC4;
+    int t; u32 n; u8 s; t = VM_GetU32(a); n = VM_GetU32(a); s = func_0218A160(b,t); if (BTL_POKEPARAM_HasSubstitute(func_0218A2FC(b,s))) VM_Jump((struct Cur *)a, *(u32 *)&((struct Obj00005 *)a)->f14 + n); return ((struct Obj21978 *)b)->fC4;
 }
 
 
@@ -3147,7 +3147,7 @@ int func_02189EF8(struct Cursor *a, u8 *b)
 
 int func_02189F34(struct Cursor *a, u8 *b)
 {
-    int t; u8 s; t = func_0201134C(a); s = func_0218A160(b,t); ((struct Obj13668 *)b)->f38 = func_021D5444((struct QF *)func_0218A2FC(b,s)); return ((struct Obj13668 *)b)->fC4;
+    int t; u8 s; t = VM_GetU32(a); s = func_0218A160(b,t); ((struct Obj13668 *)b)->f38 = BTL_POKEPARAM_GetSpecies((struct QF *)func_0218A2FC(b,s)); return ((struct Obj13668 *)b)->fC4;
 }
 
 
@@ -3214,7 +3214,7 @@ int func_02189F88(unsigned char *a, unsigned char *b) { func_02189F98(a,b,3); re
 /*
  * Two-byte zero alignment padding follows the compiled function.
  */
-int func_02189F98(unsigned char *a, unsigned char *b, int c) { int x,y; x=func_0201134C((struct Cursor *)a); y=func_0201134C((struct Cursor *)a); return func_0218A0F4(a,c,((struct Obj21983 *)b)->fCC,x,y); }
+int func_02189F98(unsigned char *a, unsigned char *b, int c) { int x,y; x=VM_GetU32((struct Cursor *)a); y=VM_GetU32((struct Cursor *)a); return func_0218A0F4(a,c,((struct Obj21983 *)b)->fCC,x,y); }
 
 
 
@@ -3235,9 +3235,9 @@ int func_02189FC0(struct Cursor *a, u8 *b)
     u16 *base;
     int m;
     int flag;
-    t = func_0201134C(a);
-    u = func_0201134C(a);
-    w = func_0201134C(a);
+    t = VM_GetU32(a);
+    u = VM_GetU32(a);
+    w = VM_GetU32(a);
     base = (u16 *)(*(u8 * *)&((struct Obj00005 *)a)->f14 + w);
     flag = 0;
     if (t == 0) {
@@ -3267,8 +3267,8 @@ int func_0218A034(struct Cursor *a, u8 *b)
 {
     int t;
     int n;
-    t = func_0201134C(a);
-    n = func_0201134C(a);
+    t = VM_GetU32(a);
+    n = VM_GetU32(a);
     if (func_021C82F4(((struct Obj13671 *)b)->fB4, func_0218A160(b, t), 3) != 0)
         VM_Jump((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + n));
     return ((struct Obj13671 *)b)->fC4;
@@ -3321,8 +3321,8 @@ int func_0218A0A4(struct Cursor *a, u8 *b, int c)
     int t;
     int n;
     u8 s;
-    t = func_0201134C(a);
-    n = func_0201134C(a);
+    t = VM_GetU32(a);
+    n = VM_GetU32(a);
     s = func_0218A160(b, t);
     func_021D59B4(func_0218A2FC(b, s), 8);
     return func_0218A0F4((u8 *)a, c, s, func_021D59B4(func_0218A2FC(b, s), 10), n);
@@ -3408,7 +3408,7 @@ u8 func_0218A160(u8 *p, int k)
                 v = v + 1;
             else
                 v = 1;
-            return func_021B8C38(p[0x94], (u8)v);
+            return BTL_MAIN_GetOwnLanePos(p[0x94], (u8)v);
         }
         break;
     case 2:
@@ -3424,7 +3424,7 @@ u8 func_0218A160(u8 *p, int k)
                 v = v + 1;
             else
                 v = 1;
-            return func_021B8C38(p[0x95], (u8)v);
+            return BTL_MAIN_GetOwnLanePos(p[0x95], (u8)v);
         }
         break;
     }
@@ -3457,7 +3457,7 @@ int func_0218A220(u8 *p, int k, u8 slot)
     u32 x, y, z, n;
     u32 values[3];
     mon = (void *)func_0218A2FC(p, slot);
-    if (func_021D62C4(mon, 0x10) != 0)
+    if (BTL_POKEPARAM_HasSick(mon, 0x10) != 0)
         return 0;
     if (k == 0 || k == 2) {
         p += 0x7c;
@@ -3467,7 +3467,7 @@ int func_0218A220(u8 *p, int k, u8 slot)
         a = func_021D59B4(mon, 0x10);
         if (a == 0x17 || a == 0x2a || a == 0x47)
             return a;
-        a = func_021D5444(mon);
+        a = BTL_POKEPARAM_GetSpecies(mon);
         b = func_021D59B4(mon, 0x13);
         n = 0;
         x = func_02019C90(a, b, 0x1a);
@@ -3533,10 +3533,10 @@ void func_0218A324(u8 *p)
     s = func_0218A2FC(p, p[0x95]);
     for (i = 0; i < 4; i++) {
         h = *(u16 *)(p + p[0x95] * 8 + i * 2 + 0x4c);
-        if (h == func_021D67A8((struct QL *)s))
+        if (h == BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)s))
             return;
         if (h == 0) {
-            *(u16 *)(p + p[0x95] * 8 + 0x4c + i * 2) =func_021D67A8((struct QL *)s);
+            *(u16 *)(p + p[0x95] * 8 + 0x4c + i * 2) =BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)s);
             return;
         }
     }
@@ -3581,11 +3581,11 @@ int func_0218A384(void *a, int b, int c) { return WAZA_TOOL_GetFlag(b, c); }
 u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d)
 {
     u32 best = 0;
-    u8 x = func_021D5440(b);
-    u8 y = func_021D5440(c);
+    u8 x = BTL_POKEPARAM_GetPokeId(b);
+    u8 y = BTL_POKEPARAM_GetPokeId(c);
     int i;
-    for (i = 0; i < (int)func_021D5448((struct QG *)b); i++) {
-        u32 r = func_021C7E14(*(u8 **)(a + 0xB4), x, y, (u32)func_021D54C0(b, (u8)i), 1, d);
+    for (i = 0; i < (int)BTL_POKEPARAM_GetMoveCount((struct QG *)b); i++) {
+        u32 r = func_021C7E14(*(u8 **)(a + 0xB4), x, y, (u32)BTL_POKEPARAM_GetMoveId(b, (u8)i), 1, d);
         if (r > best)
             best = r;
     }
@@ -3670,6 +3670,6 @@ void *func_0218A494(u8 *a)
         x = ((struct Obj04408 *)a)->fA0;
     D_0218A7C0->id[i] = a[0x45];
     D_0218A7C0->ref[i]++;
-    D_0218A7C0->obj[i] = func_02049250(((struct Obj04408 *)a)->fA4, a[0x45], (u16)x);
+    D_0218A7C0->obj[i] = ARC_TOOL_LoadHandleMember(((struct Obj04408 *)a)->fA4, a[0x45], (u16)x);
     return D_0218A7C0->obj[i];
 }

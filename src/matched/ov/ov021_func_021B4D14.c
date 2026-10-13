@@ -1,5 +1,5 @@
 /*
- * function: func_021B4D14
+ * function: SCRCMD_PROC_FLD_FinishOv170Event
  * address:  0x021B4D14
  * packet:   pkt_ov021_021B4D14
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BAC8  0x0200BAC8  thumb
  *   func_0200BB58  0x0200BB58  thumb
  *   func_020307B0  0x020307B0  arm
@@ -36,19 +36,19 @@ typedef struct {
 } Work;
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *p);
 extern void func_0200BB58(u8 *a0, u8 *a1);
 extern u32 func_020307B0(void *p);
 
-void func_021B4D14(volatile Work *w)
+void SCRCMD_PROC_FLD_FinishOv170Event(volatile Work *w)
 {
     u32 r1;
     u32 v;
     Sub *s;
 
     if (w->s->f24 == 4) {
-        func_0200BB58(func_0200BAC8(func_02012EBC((struct Big *)w->a)), (u8 *)w->s->f8);
+        func_0200BB58(func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)w->a)), (u8 *)w->s->f8);
     }
     s = w->s;
     if (s->f24 == 4) {

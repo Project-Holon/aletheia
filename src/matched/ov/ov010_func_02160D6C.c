@@ -1,5 +1,5 @@
 /*
- * function: func_02160D6C
+ * function: EVENT_FIELD_PROCLINK_CreateZukanParam
  * address:  0x02160D6C
  * packet:   pkt_ov010_02160D6C
  * region:   ov010
@@ -17,7 +17,7 @@
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02012A30  0x02012A30  thumb
- *   func_02012134  0x02012134  thumb
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
  */
 
@@ -37,10 +37,10 @@ extern void *func_0200CA1C(void *a);
 extern u8 *func_02012944(void *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
-extern u32 func_02012134(u32 *p);
+extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 
-T *func_02160D6C(int *a0, int a1)
+T *EVENT_FIELD_PROCLINK_CreateZukanParam(int *a0, int a1)
 {
     T *p;
     void *sys;
@@ -53,7 +53,7 @@ T *func_02160D6C(int *a0, int a1)
     p->b = func_0200CA1C(sys);
     p->c = func_02012944(p->a);
     s = func_02012A30(p->a);
-    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, func_02012134((u32 *)(*(int *)a0[6])));
+    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, GAMESYSTEM_GetIssSystem((u32 *)(*(int *)a0[6])));
     if (a1 != -1) {
         p->h = a1;
     } else {

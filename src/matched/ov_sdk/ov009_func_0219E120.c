@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_020948E0  0x020948E0  arm
- *   func_0219E8F8  0x0219E8F8  arm  ov009
+ *   SBServerGetPing  0x0219E8F8  arm  ov009
  *   func_0219E0C0  0x0219E0C0  arm  ov009
  *   func_020964E0  0x020964E0  arm
  *   g_021A8158  0x021A8158  data
@@ -24,7 +24,7 @@ struct SBServer;
 
 extern int func_020948E0(const char *a, const char *b);
 struct _SBServer;
-extern int func_0219E8F8(const int *p);
+extern int SBServerGetPing(const int *p);
 extern char *func_0219E0C0(struct _SBServer *server, char *keyname, char *def);
 typedef unsigned int   u32;
 extern int func_020964E0(u32 a0);
@@ -40,7 +40,7 @@ int func_0219E120(struct SBServer *server, char *key, int idefault)
     if (server == 0)
         return idefault;
     if (func_020948E0(key, g_021A8158) == 0)
-        return func_0219E8F8((const int *)server);
+        return SBServerGetPing((const int *)server);
     s = func_0219E0C0((struct _SBServer *)server, key, 0);
     if (s == 0)
         return idefault;

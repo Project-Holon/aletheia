@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217F388",
+   "name": "UNION_MSG_SetupSubMenu",
    "address": "0x0217F388",
    "kind": "game",
    "region": "ov019",

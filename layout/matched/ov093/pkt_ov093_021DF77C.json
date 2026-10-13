@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF77C",
+   "name": "BTL_HANDLER_ITEM_GetMagnetHandlers",
    "address": "0x021DF77C",
    "kind": "game",
    "region": "ov093",

@@ -1,5 +1,5 @@
 /*
- * function: func_020508D8
+ * function: BILLBOARD_ACT_GetEntrySlotIndex
  * address:  0x020508D8
  * packet:   pkt_020508D8
  * region:   arm9
@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_020508D8(u8 *o, u32 i)
+u32 BILLBOARD_ACT_GetEntrySlotIndex(u8 *o, u32 i)
 {
     return *(u16 *)(*(u8 * *)&((struct Obj16160 *)o)->f18 + i * 0x28 + 4);
 }

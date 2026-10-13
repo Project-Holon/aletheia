@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DC6EC.c
  * unit:     yes
- * function: func_021DC6EC, func_021DC6F8, func_021DC738, func_021DC7BC, func_021DC814, func_021DC820, func_021DC844, func_021DC864, func_021DC87C, func_021DC888, func_021DC894, func_021DC8FC, func_021DC908, func_021DC954
+ * function: BTL_ABILITY_GetSandForceHandlers, BTL_ABILITY_SandForceBoostPower, BTL_ABILITY_ZenModeUpdateForm, BTL_ABILITY_ZenModeRevertForm, BTL_ABILITY_GetZenModeHandlers, BTL_ABILITY_InfiltratorSkipSideCondition, BTL_ABILITY_InfiltratorEnableSkip, BTL_ABILITY_InfiltratorDisableSkip, BTL_ABILITY_GetInfiltratorHandlers, BTL_ABILITY_GetMoxieHandlers, BTL_ABILITY_MoxieRaiseAttackOnKnockOut, BTL_ABILITY_GetJustifiedHandlers, BTL_ABILITY_JustifiedRaiseAttackOnDarkHit, BTL_ABILITY_GetRattledHandlers
  * address:  0x021DC6EC
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,77 +13,77 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021F0990 0x021F0990 data a4
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   gSandForceHandlers 0x021F0990 data a4
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C8288  0x021C8288  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5444  0x021D5444  thumb  ov093
+ *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D7B60  0x021D7B60  thumb  ov093
+ *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
- *   func_021D70AC 0x021D70AC thumb ov093
+ *   BTL_EVENT_GetFactorPokeId 0x021D70AC thumb ov093
  *   func_021B9A40 0x021B9A40 thumb ov093
- *   func_021D7320 0x021D7320 thumb ov093
- *   func_021D7324   0x021D7324  thumb
- *   d_021F0B48     0x021F0B48  data   ov093  a4
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   d_021F0A00     0x021F0A00  data   ov093  a4
- *   d_021F0770     0x021F0770  data   ov093  a4
- *   d_021F05D0     0x021F05D0  data   ov093  a4
- *   d_021F05B0     0x021F05B0  data   ov093  a4
+ *   BTL_EVENT_SetFactorSkipCheck 0x021D7320 thumb ov093
+ *   BTL_EVENT_ClearFactorSkipCheck   0x021D7324  thumb
+ *   gZenModeHandlers     0x021F0B48  data   ov093  a4
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   gInfiltratorHandlers     0x021F0A00  data   ov093  a4
+ *   gMoxieHandlers     0x021F0770  data   ov093  a4
+ *   gJustifiedHandlers     0x021F05D0  data   ov093  a4
+ *   gRattledHandlers     0x021F05B0  data   ov093  a4
  */
 #include "unit_021DC6EC_types.h"
 
-extern BtlEventHandler d_021F0990[];
-extern BtlEventHandler d_021F0B48[];
-extern BtlEventHandler d_021F0A00[];
-extern BtlEventHandler d_021F0770[];
-extern BtlEventHandler d_021F05D0[];
-extern BtlEventHandler d_021F05B0[];
+extern BtlEventHandler gSandForceHandlers[];
+extern BtlEventHandler gZenModeHandlers[];
+extern BtlEventHandler gInfiltratorHandlers[];
+extern BtlEventHandler gMoxieHandlers[];
+extern BtlEventHandler gJustifiedHandlers[];
+extern BtlEventHandler gRattledHandlers[];
 
-BtlEventHandler *func_021DC6EC(u32 *handlerCount);
-void func_021DC6F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-void func_021DC738(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-void func_021DC7BC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-BtlEventHandler *func_021DC814(u32 *handlerCount);
-int func_021DC820(struct BtlEventFactor *factor, void *context, int targetFactorType, int eventId, u16 targetKey, u8 targetOwnerId);
-void func_021DC844(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-void func_021DC864(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-BtlEventHandler *func_021DC87C(u32 *handlerCount);
-BtlEventHandler *func_021DC888(u32 *handlerCount);
-void func_021DC894(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-BtlEventHandler *func_021DC8FC(u32 *handlerCount);
-void func_021DC908(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-BtlEventHandler *func_021DC954(u32 *handlerCount);
+BtlEventHandler *BTL_ABILITY_GetSandForceHandlers(u32 *handlerCount);
+void BTL_ABILITY_SandForceBoostPower(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+void BTL_ABILITY_ZenModeUpdateForm(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+void BTL_ABILITY_ZenModeRevertForm(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *BTL_ABILITY_GetZenModeHandlers(u32 *handlerCount);
+int BTL_ABILITY_InfiltratorSkipSideCondition(struct BtlEventFactor *factor, void *context, int targetFactorType, int eventId, u16 targetKey, u8 targetOwnerId);
+void BTL_ABILITY_InfiltratorEnableSkip(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+void BTL_ABILITY_InfiltratorDisableSkip(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *BTL_ABILITY_GetInfiltratorHandlers(u32 *handlerCount);
+BtlEventHandler *BTL_ABILITY_GetMoxieHandlers(u32 *handlerCount);
+void BTL_ABILITY_MoxieRaiseAttackOnKnockOut(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *BTL_ABILITY_GetJustifiedHandlers(u32 *handlerCount);
+void BTL_ABILITY_JustifiedRaiseAttackOnDarkHit(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *BTL_ABILITY_GetRattledHandlers(u32 *handlerCount);
 
-BtlEventHandler *func_021DC6EC(u32 *handlerCount) { *handlerCount = 2; return d_021F0990; }
+BtlEventHandler *BTL_ABILITY_GetSandForceHandlers(u32 *handlerCount) { *handlerCount = 2; return gSandForceHandlers; }
 
 /* Sand Force: while the owner attacks in a sandstorm, Ground, Rock and Steel moves get 1.3 times power. */
-void func_021DC6F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_SandForceBoostPower(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
     u8 moveType;
 
-    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID) && func_021C8288(flow) == BTL_WEATHER_SAND) {
-        moveType = func_021D775C(BTL_EVAR_MOVE_TYPE);
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID) && func_021C8288(flow) == BTL_WEATHER_SAND) {
+        moveType = BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE);
         if (moveType == POKETYPE_GROUND || moveType == POKETYPE_ROCK || moveType == POKETYPE_STEEL)
-            func_021D7704(BTL_EVAR_POWER_RATIO, BTL_RATIO_1_3);
+            BTL_EVENT_MultiplyVar(BTL_EVAR_POWER_RATIO, BTL_RATIO_1_3);
     }
 }
 
 /* Zen Mode: a Darmanitan at half HP or less takes the Zen form; above half it takes the base form. */
-void func_021DC738(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_ZenModeUpdateForm(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
     struct BtlPokeParam *bpp;
     u8 wantZenForm;
     BtlFormChangeCmd *cmd;
 
     bpp = func_021C7CF4(flow, ownerId);
-    if (func_021D5444(bpp) == SPECIES_DARMANITAN) {
-        wantZenForm = (func_021D59B4(bpp, BTL_BPP_VALUE_HP) <= func_021D7B60(bpp, 2));
+    if (BTL_POKEPARAM_GetSpecies(bpp) == SPECIES_DARMANITAN) {
+        wantZenForm = (func_021D59B4(bpp, BTL_BPP_VALUE_HP) <= BTL_CALC_DivideMaxHp(bpp, 2));
         if (wantZenForm != func_021D59B4(bpp, BTL_BPP_VALUE_FORM)) {
             cmd = func_021C88A4(flow, BTL_CMD_KIND_FORM_CHANGE, ownerId);
             cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
@@ -96,12 +96,12 @@ void func_021DC738(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 own
 }
 
 /* Zen Mode: when the Darmanitan leaves or loses the ability, it returns to the base form. */
-void func_021DC7BC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_ZenModeRevertForm(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
     BtlFormChangeCmd *cmd;
 
-    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID)) {
-        if (func_021D5444(func_021C7CF4(flow, ownerId)) == SPECIES_DARMANITAN) {
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)) {
+        if (BTL_POKEPARAM_GetSpecies(func_021C7CF4(flow, ownerId)) == SPECIES_DARMANITAN) {
             cmd = func_021C88A4(flow, BTL_CMD_KIND_FORM_CHANGE, ownerId);
             cmd->pokeId = ownerId;
             cmd->form = 0;
@@ -112,22 +112,22 @@ void func_021DC7BC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 own
     }
 }
 
-BtlEventHandler *func_021DC814(u32 *handlerCount)
+BtlEventHandler *BTL_ABILITY_GetZenModeHandlers(u32 *handlerCount)
 {
     *handlerCount = 3;
-    return d_021F0B48;
+    return gZenModeHandlers;
 }
 
 /*
  * Infiltrator skip check: skips the screen-type side conditions that belong to
  * the other side than the Infiltrator's owner.
  */
-int func_021DC820(struct BtlEventFactor *factor, void *context, int targetFactorType, int eventId, u16 targetKey, u8 targetOwnerId)
+int BTL_ABILITY_InfiltratorSkipSideCondition(struct BtlEventFactor *factor, void *context, int targetFactorType, int eventId, u16 targetKey, u8 targetOwnerId)
 {
     u8 ownSide;
 
     if (targetFactorType == BTL_EVENT_TYPE_SIDE_CONDITION) {
-        ownSide = func_021B9A40(func_021D70AC(factor));
+        ownSide = func_021B9A40(BTL_EVENT_GetFactorPokeId(factor));
         if (ownSide != targetOwnerId && targetKey <= BTL_SIDE_CONDITION_SCREEN_KEY_MAX)
             return 1;
     }
@@ -135,42 +135,42 @@ int func_021DC820(struct BtlEventFactor *factor, void *context, int targetFactor
 }
 
 /* Infiltrator: while the owner attacks, install the skip check on its factor. */
-void func_021DC844(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_InfiltratorEnableSkip(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID))
-        func_021D7320(factor, func_021DC820);
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))
+        BTL_EVENT_SetFactorSkipCheck(factor, BTL_ABILITY_InfiltratorSkipSideCondition);
 }
 
 /* Infiltrator: when the owner's attack ends, remove the skip check again. */
-void func_021DC864(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_InfiltratorDisableSkip(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    if (ownerId == func_021D775C(BTL_EVAR_POKE_ID))
-        func_021D7324(factor);
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID))
+        BTL_EVENT_ClearFactorSkipCheck(factor);
 }
 
-BtlEventHandler *func_021DC87C(u32 *handlerCount)
+BtlEventHandler *BTL_ABILITY_GetInfiltratorHandlers(u32 *handlerCount)
 {
     *handlerCount = 2;
-    return d_021F0A00;
+    return gInfiltratorHandlers;
 }
 
-BtlEventHandler *func_021DC888(u32 *handlerCount)
+BtlEventHandler *BTL_ABILITY_GetMoxieHandlers(u32 *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F0770;
+    return gMoxieHandlers;
 }
 
 /* Moxie: the owner raises its Attack by one rank for each defender it knocked out. */
-void func_021DC894(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_MoxieRaiseAttackOnKnockOut(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
     u32 defenderCount;
     u32 i;
     BtlRankCmd *cmd;
 
-    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID)) {
-        defenderCount = func_021D775C(BTL_EVAR_DEFENDER_COUNT);
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
+        defenderCount = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_COUNT);
         for (i = 0; i < defenderCount; i++) {
-            if (func_021D5B68(func_021C7CF4(flow, (u8)func_021D775C(i + BTL_EVAR_DEFENDER_FIRST))) != 0) {
+            if (BTL_POKEPARAM_IsFainted(func_021C7CF4(flow, (u8)BTL_EVENT_GetVar(i + BTL_EVAR_DEFENDER_FIRST))) != 0) {
                 cmd = func_021C88A4(flow, BTL_CMD_KIND_RANK_CHANGE, ownerId);
                 cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
                 cmd->targetCount = 1;
@@ -183,18 +183,18 @@ void func_021DC894(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 own
     }
 }
 
-BtlEventHandler *func_021DC8FC(u32 *handlerCount)
+BtlEventHandler *BTL_ABILITY_GetJustifiedHandlers(u32 *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F05D0;
+    return gJustifiedHandlers;
 }
 
 /* Justified: when a Dark move hits the owner, it raises its Attack by one rank. */
-void func_021DC908(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_JustifiedRaiseAttackOnDarkHit(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
     BtlRankCmd *cmd;
 
-    if (ownerId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_HIT_SUBSTITUTE) == 0 && func_021D775C(BTL_EVAR_MOVE_TYPE) == POKETYPE_DARK) {
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE) == 0 && BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE) == POKETYPE_DARK) {
         cmd = func_021C88A4(flow, BTL_CMD_KIND_RANK_CHANGE, ownerId);
         cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
         cmd->targetCount = 1;
@@ -205,8 +205,8 @@ void func_021DC908(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 own
     }
 }
 
-BtlEventHandler *func_021DC954(u32 *handlerCount)
+BtlEventHandler *BTL_ABILITY_GetRattledHandlers(u32 *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F05B0;
+    return gRattledHandlers;
 }

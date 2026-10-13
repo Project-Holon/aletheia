@@ -1,5 +1,5 @@
 /*
- * function: func_021BB040
+ * function: BTL_SERVER_CheckShiftPromptNeeded
  * address:  0x021BB040
  * packet:   pkt_ov093_021BB040
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B85A8  0x021B85A8  thumb  ov093
+ *   BTL_MAIN_CheckShiftModePrompt  0x021B85A8  thumb  ov093
  *   func_021B8DE4  0x021B8DE4  thumb  ov093
  *   func_021B8FF4  0x021B8FF4  thumb  ov093
  *   func_021B9AEC  0x021B9AEC  thumb  ov093
@@ -20,17 +20,17 @@
 
 typedef unsigned char u8;
 
-extern int func_021B85A8(u8 *);
+extern int BTL_MAIN_CheckShiftModePrompt(u8 *);
 extern u8 func_021B8DE4(char *p, int i);
 extern u8 func_021B8FF4(u8 *);
 extern char *func_021B9AEC(char *, int);
 extern u8 func_021B9B98(u8 *p);
 
-int func_021BB040(u8 *p)
+int BTL_SERVER_CheckShiftPromptNeeded(u8 *p)
 {
     unsigned i;
 
-    if (func_021B85A8(*(u8 * *)&((struct Obj01235 *)p)->fC) != 0 && p[0xcba] != 0) {
+    if (BTL_MAIN_CheckShiftModePrompt(*(u8 * *)&((struct Obj01235 *)p)->fC) != 0 && p[0xcba] != 0) {
         for (i = 0; i < p[0xcba]; i++) {
             if (func_021B8DE4((char *)(*(u8 * *)&((struct Obj01235 *)p)->fC), p[0xcb4 + i]) == 0)
                 return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02166198
+ * function: GAME_BEACON_ACCESSOR_IsNoValueInvalid
  * address:  0x02166198
  * packet:   pkt_ov010_02166198
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_02166198(Rec *r)
+int GAME_BEACON_ACCESSOR_IsNoValueInvalid(Rec *r)
 {
     return 0;
 }

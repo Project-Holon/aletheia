@@ -8,8 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     time_icon.c seven-way mode switch around a func_02017DBC /
- *           func_02017DE4 bracket.  Closed in wave 16: the 129-byte residue
+ * note:     time_icon.c seven-way mode switch around a POKE_TOOL_DecodeBoxParam /
+ *           POKE_TOOL_EncodeBoxParam bracket.  Closed in wave 16: the 129-byte residue
  *           of docs/notes/func_0202F1B4.c.txt was NOT an allocator tie but
  *           the source's gotos.  Every case is written out in full (no
  *           shared labels) and case 2's guard carries the call run in BOTH
@@ -20,8 +20,8 @@
  *           attested by src/matched/func_0202F47C.c (same shard).
  *           0x7532 is a plain constant.
  * symbols:
- *   func_02017DBC  0x02017DBC  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb
  *   func_0202F2F4  0x0202F2F4  thumb
  *   func_0202F30C  0x0202F30C  thumb
@@ -32,8 +32,8 @@
  */
 typedef unsigned int u32;
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *p, void *mail);
 extern void func_0202F2F4(void *a0, u32 a1);
 extern void func_0202F30C(void *a0, u32 a1, u32 a2);
@@ -43,7 +43,7 @@ extern int func_0202F464(int a0);
 extern void func_0202F47C(void *p);
 void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    u32 h = func_02017DBC((struct Sav *)a);
+    u32 h = POKE_TOOL_DecodeBoxParam((struct Sav *)a);
 
     switch (b) {
     case 0:
@@ -81,5 +81,5 @@ void func_0202F1B4(u32 a, u32 b, u32 c, u32 d, u32 e)
         func_0202F30C((void *)a, d, 1);
         break;
     }
-    func_02017DE4((struct Sav *)a, h);
+    POKE_TOOL_EncodeBoxParam((struct Sav *)a, h);
 }

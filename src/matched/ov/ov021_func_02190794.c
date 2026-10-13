@@ -1,5 +1,5 @@
 /*
- * function: func_02190794
+ * function: FIELD_MSGBG_FillMsgWin
  * address:  0x02190794
  * packet:   pkt_ov021_02190794
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0219063C  0x0219063C  thumb  ov021
+ *   FIELD_MSGBG_FillMsgPrint  0x0219063C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -31,9 +31,9 @@ typedef struct Slot {
     u8  f20;
 } Slot;
 
-extern void func_0219063C(Slot *s, int x, int y, int w, int h);
+extern void FIELD_MSGBG_FillMsgPrint(Slot *s, int x, int y, int w, int h);
 
-void func_02190794(Slot **p, int x, int y, int w, int h)
+void FIELD_MSGBG_FillMsgWin(Slot **p, int x, int y, int w, int h)
 {
-    func_0219063C(p[1], x, y, w, h);
+    FIELD_MSGBG_FillMsgPrint(p[1], x, y, w, h);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED40
+ * function: FIELD_CAMERA_GetYaw
  * address:  0x0218ED40
  * packet:   pkt_0218EC2C
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_0218ED40(u8 *p)
+u16 FIELD_CAMERA_GetYaw(u8 *p)
 {
     return ((struct Obj17911 *)p)->f7A;
 }

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   d_021F2454     0x021F2454  data   ov093  a4
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7F24  0x021C7F24  thumb  ov093
  *   func_021C7F4C  0x021C7F4C  thumb  ov093
  *   func_021C8010  0x021C8010  thumb  ov093
@@ -23,37 +23,37 @@
  *   d_021F2CD8     0x021F2CD8  data   ov093  a4
  *   func_021C8168  0x021C8168  thumb  ov093
  *   func_021C815C  0x021C815C  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D70C8  0x021D70C8  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_EVENT_KeepFactorRunning  0x021D70C8  thumb  ov093
  *   func_021C88B4  0x021C88B4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
- *   func_021D5B40  0x021D5B40  thumb  ov093
- *   func_021D805C  0x021D805C  thumb  ov093
+ *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
+ *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
  *   func_021C824C  0x021C824C  thumb  ov093
- *   func_021E869C  0x021E869C  thumb  ov093
+ *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
  *   d_021F2EC8     0x021F2EC8  data   ov093  a4
- *   func_021E8940  0x021E8940  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
  *   d_021F2A38     0x021F2A38  data   ov093  a4
  *   func_021C8180   0x021C8180  thumb ov093
- *   func_021D5B68   0x021D5B68  thumb ov093
- *   func_021D5BB0   0x021D5BB0  thumb ov093
- *   func_021D7090   0x021D7090  thumb ov093
- *   func_021D7704  0x021D7704  thumb  ov093
- *   func_021D7040   0x021D7040  thumb
+ *   BTL_POKEPARAM_IsFainted   0x021D5B68  thumb ov093
+ *   BTL_POKEPARAM_TestTurnFlag   0x021D5BB0  thumb ov093
+ *   BTL_EVENT_MarkFactorDead   0x021D7090  thumb ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
+ *   BTL_EVENT_RemoveFactor   0x021D7040  thumb
  *   d_021F2EF0     0x021F2EF0  data   ov093  a4
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   _u32_div_f     0x0209C2B0  arm
  *   func_021C7FCC  0x021C7FCC  thumb  ov093
  *   func_021B9B94  0x021B9B94  thumb  ov093
  *   func_021B9C00  0x021B9C00  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D5B7C  0x021D5B7C  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   d_021F2A68     0x021F2A68  data   ov093  a4
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  *   d_021F242C     0x021F242C  data   ov093  a4
  *   d_021F240C     0x021F240C  data   ov093  a4
  */
@@ -83,7 +83,7 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern int func_021C7F24(u8 *p, int i);
 extern int func_021C7F4C(struct Flag *p);
 extern int func_021C8010(u8 *p, unsigned int v);
@@ -91,32 +91,32 @@ extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern int func_021C8168(void *p);
 extern int func_021C815C(int *p);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern void func_021D70C8(void *a);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern void BTL_EVENT_KeepFactorRunning(void *a);
 extern void func_021C88B4(void *a, int k, int b);
 extern void func_021C8838(void *l, int a, int b);
 extern void func_021C8860(struct S *, unsigned int);
-extern u16 func_021D5B40(struct QI *p);
-extern u32 func_021D805C(void *p, u32 n);
+extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
+extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern int func_021C824C(u8 *p, int v);
-extern int func_021E869C(void *p, int id);
-extern Word func_021E8940(u8 v);
+extern int BTLV_CORE_CheckPartySlotPair(void *p, int id);
+extern Word BTLV_CORE_MakeSlotKind2Index(u8 v);
 int func_021C8180(int *p);
-int func_021D5B68(void *p);
-int func_021D5BB0(struct UtilWork *p, u32 n);
-void func_021D7090(u8 *p);
-extern void func_021D7704(int a, int b);
+int BTL_POKEPARAM_IsFainted(void *p);
+int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
+void BTL_EVENT_MarkFactorDead(u8 *p);
+extern void BTL_EVENT_MultiplyVar(int a, int b);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 _u32_div_f(u32, u32);
 extern char *func_021C7FCC(u8 *p, int i);
 extern u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern u8 func_021D5440(u8 *p);
-extern int func_021D5B7C(void *m);
-extern int func_021D62A8(struct Unk021D62A8 *p);
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *m);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern int d_021F2454[];
 int *func_021E5B6C(int *p);
 
@@ -157,7 +157,7 @@ int *func_021E6158(int *p);
 extern int d_021F2CD8[];
 extern int d_021F2EC8[];
 extern int d_021F2A38[];
-/* 021E5F18  shape F1: gate on func_021D775C(3) */
+/* 021E5F18  shape F1: gate on BTL_EVENT_GetVar(3) */
 extern int d_021F2EF0[];
 extern int d_021F2A68[];
 extern int d_021F242C[];
@@ -175,7 +175,7 @@ void func_021E5B78(int a, void *b, int c)
 {
     u8 *m;
 
-    if (c == func_021D775C(3) && func_021C7F24(b, c) != 0 && func_021C7F4C(b) != 0) {
+    if (c == BTL_EVENT_GetVar(3) && func_021C7F24(b, c) != 0 && func_021C7F4C(b) != 0) {
         m = (u8 *)func_021C88A4(b, 0x1e, c);
         ((struct Obj02791 *)m)->f4 = 4;
         m[8] = func_021C8010(b, c);
@@ -221,10 +221,10 @@ void func_021E5C18(u8 *p, void *a, int b)
 {
     void *r;
     if (func_021C8168(a) != 0 || func_021C815C(a) != 0)
-        func_021D76BC(0x22, 0x1a);
+        BTL_EVENT_OverwriteVar(0x22, 0x1a);
     r = func_021C7CF4(a, b);
-    if (func_021D62C4(r, 8) != 0 && func_021D62C4(r, 0x16) != 0)
-        func_021D76BC(0x22, 0x1a);
+    if (BTL_POKEPARAM_HasSick(r, 8) != 0 && BTL_POKEPARAM_HasSick(r, 0x16) != 0)
+        BTL_EVENT_OverwriteVar(0x22, 0x1a);
 }
 
 
@@ -236,8 +236,8 @@ void func_021E5C18(u8 *p, void *a, int b)
 
 void func_021E5C64(void *a, void *b, int c)
 {
-    if (c == func_021D775C(3)) {
-        func_021D70C8(a);
+    if (c == BTL_EVENT_GetVar(3)) {
+        BTL_EVENT_KeepFactorRunning(a);
         func_021C88B4(b, 0x28, c);
     }
 }
@@ -251,7 +251,7 @@ void func_021E5C64(void *a, void *b, int c)
 void func_021E5C88(u8 *p, void *a, int b)
 {
     u8 *r;
-    if (func_021D76BC(0x51, 1) != 0) {
+    if (BTL_EVENT_OverwriteVar(0x51, 1) != 0) {
         r = func_021C88A4(a, 4, b);
         func_021C8838(r + 4, 2, 0x2ff);
         func_021C8860((struct S *)(r + 4), b);
@@ -277,14 +277,14 @@ int *func_021E5CC8(int *p)
 
 void func_021E5CD4(u8 *p, void *a, int b)
 {
-    if (b != func_021D775C(2))
+    if (b != BTL_EVENT_GetVar(2))
         return;
     {
         void *r = func_021C7CF4(a, b);
-        u16 v = (u32)func_021D5B40(r);
-        if (v == 0 || func_021D805C((void *)v, 10) == 0 || func_021C824C(a, b) == 0
-            || func_021E869C(a, b) != 0)
-            func_021D76BC(0x22, 0x1a);
+        u16 v = (u32)BTL_POKEPARAM_GetItem(r);
+        if (v == 0 || BTL_CALC_GetMonParamWithHeap((void *)v, 10) == 0 || func_021C824C(a, b) == 0
+            || BTLV_CORE_CheckPartySlotPair(a, b) != 0)
+            BTL_EVENT_OverwriteVar(0x22, 0x1a);
     }
 }
 
@@ -299,9 +299,9 @@ void func_021E5CD4(u8 *p, void *a, int b)
 
 void func_021E5D24(int a, void *b, int c)
 {
-    if (c == func_021D775C(3)) {
-        u16 n = (int)func_021D5B40(func_021C7CF4(b, c));
-        func_021D76BC(0x30, func_021D805C((void *)n, 10));
+    if (c == BTL_EVENT_GetVar(3)) {
+        u16 n = (int)BTL_POKEPARAM_GetItem(func_021C7CF4(b, c));
+        BTL_EVENT_OverwriteVar(0x30, BTL_CALC_GetMonParamWithHeap((void *)n, 10));
     }
 }
 
@@ -319,10 +319,10 @@ void func_021E5D54(u8 *p, void *a, int b)
     void *r;
     u16 v;
     u8 *q;
-    if (b != func_021D775C(3))
+    if (b != BTL_EVENT_GetVar(3))
         return;
     r = func_021C7CF4(a, b);
-    v = (u32)func_021D5B40(r);
+    v = (u32)BTL_POKEPARAM_GetItem(r);
     if (v == 0)
         return;
     q = func_021C88A4(a, 4, b);
@@ -344,19 +344,19 @@ void func_021E5DAC(u8 *p, void *a, int b, int *c)
     void *r;
     u16 v;
     u8 *q;
-    if (b != func_021D775C(3))
+    if (b != BTL_EVENT_GetVar(3))
         return;
     r = func_021C7CF4(a, b);
-    v = (u32)func_021D5B40(r);
+    v = (u32)BTL_POKEPARAM_GetItem(r);
     if (v == 0)
         return;
     q = func_021C88A4(a, 0x23, b);
     ((struct Obj10097 *)q)->f4 = 1;
     func_021C88C8(a, q);
     *c = 1;
-    if (func_021D775C(0x46) == 0 && func_021D775C(0x47) == 0 && func_021D805C((void *)v, 9) != 0) {
+    if (BTL_EVENT_GetVar(0x46) == 0 && BTL_EVENT_GetVar(0x47) == 0 && BTL_CALC_GetMonParamWithHeap((void *)v, 9) != 0) {
         q = func_021C88A4(a, 0x22, b);
-        q[4] = func_021D775C(4);
+        q[4] = BTL_EVENT_GetVar(4);
         *(u16 *)(q + 6) = v;
         func_021C88C8(a, q);
     }
@@ -372,12 +372,12 @@ void func_021E5E2C(u8 *p, void *a, int b, int *c)
 {
     void *r;
     u8 *q;
-    if (b != func_021D775C(2))
+    if (b != BTL_EVENT_GetVar(2))
         return;
     if (*c != 0)
         return;
     r = func_021C7CF4(a, b);
-    if ((u16)(u32)func_021D5B40(r) != 0) {
+    if ((u16)(u32)BTL_POKEPARAM_GetItem(r) != 0) {
         q = func_021C88A4(a, 0x23, b);
         ((struct Obj21516 *)q)->f4 = 1;
         func_021C88C8(a, q);
@@ -402,10 +402,10 @@ void func_021E5E7C(int a, void *b, int c)
 {
     void *r;
 
-    if (c == func_021D775C(2)) {
+    if (c == BTL_EVENT_GetVar(2)) {
         r = func_021C7CF4(b, c);
-        if (func_021D62C4(r, 0x15) != 0 || func_021D62C4(r, 0x1f) != 0)
-            func_021D76BC(0x22, 0x1a);
+        if (BTL_POKEPARAM_HasSick(r, 0x15) != 0 || BTL_POKEPARAM_HasSick(r, 0x1f) != 0)
+            BTL_EVENT_OverwriteVar(0x22, 0x1a);
     }
 }
 
@@ -417,12 +417,12 @@ void func_021E5E7C(int a, void *b, int c)
 void func_021E5EB8(u8 *p, void *a, int b)
 {
     u8 *q;
-    if (b != func_021D775C(3))
+    if (b != BTL_EVENT_GetVar(3))
         return;
     q = func_021C88A4(a, 0xc, b);
     q[0xf] = b;
     ((struct Obj13529 *)q)->f4 = 0x1e;
-    *(Word *)(q + 8) = func_021E8940(5);
+    *(Word *)(q + 8) = BTLV_CORE_MakeSlotKind2Index(5);
     func_021C8838(q + 0x14, 2, 0x292);
     func_021C8860((struct S *)(q + 0x14), b);
     func_021C88C8(a, q);
@@ -441,12 +441,12 @@ int *func_021E5F0C(int *p)
 
 
 /*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021E5F2E; movs r0, #0x51; movs r1, #1; bl func_021D76BC; pop {r4, pc}.
+ * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E5F2E; movs r0, #0x51; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
  */
 void func_021E5F18(int a, int b, int c)
 {
-    if (c == func_021D775C(3))
-        func_021D76BC(0x51, 1);
+    if (c == BTL_EVENT_GetVar(3))
+        BTL_EVENT_OverwriteVar(0x51, 1);
 }
 
 
@@ -455,14 +455,14 @@ void func_021E5F18(int a, int b, int c)
 
 
 
-/* 021E5F30  shape F1: gate on func_021D775C(3) */
+/* 021E5F30  shape F1: gate on BTL_EVENT_GetVar(3) */
 /*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021E5F46; movs r0, #0x42; movs r1, #0; bl func_021D76BC; pop {r4, pc}.
+ * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E5F46; movs r0, #0x42; movs r1, #0; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
  */
 void func_021E5F30(int a, int b, int c)
 {
-    if (c == func_021D775C(3))
-        func_021D76BC(0x42, 0);
+    if (c == BTL_EVENT_GetVar(3))
+        BTL_EVENT_OverwriteVar(0x42, 0);
 }
 
 
@@ -472,8 +472,8 @@ void func_021E5F30(int a, int b, int c)
 
 
 /*
- * func_021C8180(b) must exceed 1, the gate is func_021D775C(3), and the
- * (u8) of func_021D775C(6) keys func_021C7CF4 for two rejection tests.  Record
+ * func_021C8180(b) must exceed 1, the gate is BTL_EVENT_GetVar(3), and the
+ * (u8) of BTL_EVENT_GetVar(6) keys func_021C7CF4 for two rejection tests.  Record
  * #4 is published as a two-string record, its key goes back through the d
  * pointer, and the first argument is left for the very last call.  a and d
  * both live on the stack because all four saved registers are taken.
@@ -486,13 +486,13 @@ void func_021E5F48(void *a, int b, int c, int *d)
 
     if ((u32)func_021C8180((int *)b) <= 1)
         return;
-    if (c != func_021D775C(3))
+    if (c != BTL_EVENT_GetVar(3))
         return;
-    k = (u8)func_021D775C(6);
+    k = (u8)BTL_EVENT_GetVar(6);
     r = func_021C7CF4((int *)b, k);
-    if (func_021D5B68(r) != 0)
+    if (BTL_POKEPARAM_IsFainted(r) != 0)
         return;
-    if (func_021D5BB0(r, 1) != 0)
+    if (BTL_POKEPARAM_TestTurnFlag(r, 1) != 0)
         return;
     p = func_021C88A4((char *)b, 4, c);
     func_021C8838(p + 4, 2, 0x414);
@@ -500,7 +500,7 @@ void func_021E5F48(void *a, int b, int c, int *d)
     func_021C8860((struct S *)(p + 4), k);
     func_021C88C8((void *)b, p);
     *d = k;
-    func_021D7090(a);
+    BTL_EVENT_MarkFactorDead(a);
 }
 
 
@@ -511,22 +511,22 @@ void func_021E5F48(void *a, int b, int c, int *d)
 
 void func_021E5FD0(int a, int b, int c, int *d)
 {
-    if (*d == func_021D775C(3))
-        func_021D7704(0x31, 3 << 11);
+    if (*d == BTL_EVENT_GetVar(3))
+        BTL_EVENT_MultiplyVar(0x31, 3 << 11);
 }
 
 
 
 
 
-/* 021E5FEC  shape F3: gate on func_021D775C(2) then func_021D7040 */
+/* 021E5FEC  shape F3: gate on BTL_EVENT_GetVar(2) then BTL_EVENT_RemoveFactor */
 /*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #2; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021E6002; adds r0, r5, #0; bl func_021D7040; pop {r3, r4, r5, pc}.
+ * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #2; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E6002; adds r0, r5, #0; bl BTL_EVENT_RemoveFactor; pop {r3, r4, r5, pc}.
  */
 void func_021E5FEC(int a, int b, int c)
 {
-    if (c == func_021D775C(2))
-        func_021D7040(a);
+    if (c == BTL_EVENT_GetVar(2))
+        BTL_EVENT_RemoveFactor(a);
 }
 
 
@@ -543,7 +543,7 @@ void func_021E6010(u8 *p, void *a, int b, int *c)
 {
     int n;
     u32 i;
-    if (b != func_021D775C(3))
+    if (b != BTL_EVENT_GetVar(3))
         return;
     n = 0;
     for (i = 0; i < 6; i++) {
@@ -552,7 +552,7 @@ void func_021E6010(u8 *p, void *a, int b, int *c)
     }
     if (n == 0)
         n = 1;
-    func_021D76BC(0x2a, n);
+    BTL_EVENT_OverwriteVar(0x2a, n);
     *c = 0;
 }
 
@@ -563,7 +563,7 @@ void func_021E6010(u8 *p, void *a, int b, int *c)
 void func_021E6054(u8 *p, void *a, int b, int *c)
 {
     void *r;
-    if (b != func_021D775C(3))
+    if (b != BTL_EVENT_GetVar(3))
         return;
     r = func_021E60A8(a, b, *c);
     if (r == 0)
@@ -571,7 +571,7 @@ void func_021E6054(u8 *p, void *a, int b, int *c)
     *c = *c + 1;
     if (*c >= 6)
         *c = 0;
-    func_021D76BC(0x30, _u32_div_f(func_021D59B4(r, 0x15), 10) + 5);
+    BTL_EVENT_OverwriteVar(0x30, _u32_div_f(func_021D59B4(r, 0x15), 10) + 5);
 }
 
 
@@ -591,9 +591,9 @@ u8 *func_021E60A8(void *a, u32 b, u8 c)
     for (i = 0; i < n; i++) {
         r = 0;
         t = func_021B9C00(s, (u8)i);
-        if (b == func_021D5440(t))
+        if (b == BTL_POKEPARAM_GetPokeId(t))
             r = 1;
-        else if (func_021D5B7C(t) != 0 && func_021D62A8((struct Unk021D62A8 *)t) == 0)
+        else if (BTL_POKEPARAM_IsAbleToBattle(t) != 0 && BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)t) == 0)
             r = 1;
         if (r != 0) {
             if (c == 0)
@@ -614,9 +614,9 @@ int *func_021E6120(int *p)
 
 void func_021E612C(int a, void *b, int c)
 {
-    if (c == func_021D775C(2)) {
-        if (func_021D5BDC(func_021C7CF4(b, c), 0) != 0)
-            func_021D76BC(0x22, 0x1a);
+    if (c == BTL_EVENT_GetVar(2)) {
+        if (BTL_POKEPARAM_TestContFlag(func_021C7CF4(b, c), 0) != 0)
+            BTL_EVENT_OverwriteVar(0x22, 0x1a);
     }
 }
 

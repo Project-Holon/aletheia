@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C7730",
+   "name": "FIELD_TASK_UpdatePlayerDrop",
    "address": "0x021C7730",
    "kind": "game",
    "region": "ov021",

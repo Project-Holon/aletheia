@@ -1,5 +1,5 @@
 /*
- * function: func_0216208C
+ * function: EVENT_FIELD_PROCLINK_HasReturnDefaultSlot
  * address:  0x0216208C
  * packet:   pkt_ov010_0216208C
  * region:   ov010
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
- * called from ov020 func_021871F8.
+ * called from ov020 FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain.
  */
 #include "../include/Obj18951.h"
 
 typedef unsigned short u16;
 
-int func_0216208C(char *p, int unused)
+int EVENT_FIELD_PROCLINK_HasReturnDefaultSlot(char *p, int unused)
 {
     if (((struct Obj18951 *)p)->f2 & 8)
         return 1;

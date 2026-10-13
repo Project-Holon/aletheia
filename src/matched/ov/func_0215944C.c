@@ -1,5 +1,5 @@
 /*
- * function: func_0215944C
+ * function: SCRIPT_WORK_CmdSub
  * address:  0x0215944C
  * packet:   pkt_0215944C
  * region:   ov010
@@ -25,7 +25,7 @@ struct Ring;
 extern u32 VM_PopStack(struct Ring *r);
 extern void VM_PushStack(struct Ring *r, u32 v);
 
-int func_0215944C(void *a0)
+int SCRIPT_WORK_CmdSub(void *a0)
 {
     int v = VM_PopStack(a0);
 

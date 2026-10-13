@@ -1,5 +1,5 @@
 /*
- * function: func_021C0F24
+ * function: BTL_SERVER_FLOW_ProcMultiHitDamage
  * address: 0x021C0F24
  * packet: pkt_ov093_021C0F24
  * region: ov093
@@ -15,16 +15,16 @@
  *   func_021C1154 0x021C1154 thumb ov093
  *   func_021C1164 0x021C1164 thumb ov093
  *   func_021C1174 0x021C1174 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021B8590 0x021B8590 thumb ov093
- *   func_021D62A8 0x021D62A8 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
- *   func_021CD64C 0x021CD64C thumb ov093
- *   func_021C0A4C 0x021C0A4C thumb ov093
- *   func_021C11A4 0x021C11A4 thumb ov093
- *   func_021C195C 0x021C195C thumb ov093
- *   func_021BFA60 0x021BFA60 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_MAIN_CheckSceneOff 0x021B8590 thumb ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
+ *   BTL_SERVER_CMD_PushVariable 0x021CD64C thumb ov093
+ *   BTL_SERVER_FLOW_BuildDamageList 0x021C0A4C thumb ov093
+ *   BTL_SERVER_FLOW_ProcDamageRecordIfAny 0x021C11A4 thumb ov093
+ *   BTL_SERVER_FLOW_ProcDamagedItemReaction 0x021C195C thumb ov093
+ *   BTL_SERVER_FLOW_RollMoveAccuracy 0x021BFA60 thumb ov093
  *   func_021C15AC 0x021C15AC thumb ov093
  *
  * Single dynamic executor loop: 0FD4..10B8. Sum/counters retain full-word
@@ -57,19 +57,19 @@ extern u32 func_021C1144(void *, u32);
 extern u8 func_021C1154(u8 *, u8);
 extern u8 func_021C1164(u8 *, u8);
 extern u8 func_021C1174(u8 *, u8);
-extern u8 func_021D5440(u8 *p);
-extern unsigned int func_021B8590(unsigned char *p);
-extern int func_021D62A8(struct Unk021D62A8 *);
-extern int func_021D5B68(void *);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern void func_021CD64C(void *, u8, ...);
-extern void func_021C0A4C(u8 *, u8 *, u8 *, const u8 *, const u32 *, u16, struct List *);
-extern u32 func_021C11A4(u8 *, u32, u32, u32, u8 *, u32, u32, struct Flags);
-extern void func_021C195C(u8 *p, u8 *q, u32 n);
-extern int func_021BFA60(u8 *, u8 *, u8 *, struct Q *);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern unsigned int BTL_MAIN_CheckSceneOff(unsigned char *p);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
+extern void BTL_SERVER_CMD_PushVariable(void *, u8, ...);
+extern void BTL_SERVER_FLOW_BuildDamageList(u8 *, u8 *, u8 *, const u8 *, const u32 *, u16, struct List *);
+extern u32 BTL_SERVER_FLOW_ProcDamageRecordIfAny(u8 *, u32, u32, u32, u8 *, u32, u32, struct Flags);
+extern void BTL_SERVER_FLOW_ProcDamagedItemReaction(u8 *p, u8 *q, u32 n);
+extern int BTL_SERVER_FLOW_RollMoveAccuracy(u8 *, u8 *, u8 *, struct Q *);
 extern void func_021C15AC(u8 *, int);
 
-u32 func_021C0F24(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
+u32 BTL_SERVER_FLOW_ProcMultiHitDamage(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
 {
     u32 i;
     u32 completed;
@@ -79,47 +79,47 @@ u32 func_021C0F24(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
     u8 *b = (u8 *)func_021C1144(d, 0);
     struct State *s;
     struct Flags f;
-    p[0x789] = func_021D5440(b);
-    if (func_021B8590(((struct Obj02134 *)p)->f4)) {
-        tag = func_021C1154(p + 0x1ab8, func_021D5440(b));
+    p[0x789] = BTL_POKEPARAM_GetPokeId(b);
+    if (BTL_MAIN_CheckSceneOff(((struct Obj02134 *)p)->f4)) {
+        tag = func_021C1154(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(b));
         if (tag != 6) {
-            func_021CD4B0(((struct Obj02134 *)p)->fC, 0x4e,
-                func_021C1164(p + 0x1ab8, func_021D5440(a)), tag, 0x27e);
+            BTL_SERVER_CMD_Push(((struct Obj02134 *)p)->fC, 0x4e,
+                func_021C1164(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a)), tag, 0x27e);
         }
     }
     i = 0;
     completed = 0;
     f.word = 0;
     for (; i < (*(u8 **)(p + 0x4b4))[0]; i++) {
-        old = func_021D62A8((struct Unk021D62A8 *)a);
+        old = BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)a);
         s = *(struct State * *)&((struct Obj02134 *)p)->f4A8;
         if (s->a == 0) {
             s->a = 1;
             s->b = 1;
         }
-        func_021CD4B0(((struct Obj02134 *)p)->fC, 0x30,
+        BTL_SERVER_CMD_Push(((struct Obj02134 *)p)->fC, 0x30,
             (*(u8 **)(p + 0x4a8))[2], (*(u8 **)(p + 0x4a8))[3], ((struct Obj21074 *)q)->f0, 0);
-        func_021C0A4C(p, a, d, q, (const u32 *)c, 0x1000, *(struct List * *)&((struct Obj02134 *)p)->f870);
-        sum += func_021C11A4(p, (u32)q, (u32)a, (u32)d,
+        BTL_SERVER_FLOW_BuildDamageList(p, a, d, q, (const u32 *)c, 0x1000, *(struct List * *)&((struct Obj02134 *)p)->f870);
+        sum += BTL_SERVER_FLOW_ProcDamageRecordIfAny(p, (u32)q, (u32)a, (u32)d,
             *(u8 * *)&((struct Obj02134 *)p)->f870, ((struct Obj02134 *)p)->f4B4, 0x1000, f);
         completed++;
-        if (func_021D5B68(b)) break;
-        if (func_021D5B68(a)) break;
-        func_021C195C(p, b, 1);
-        if (func_021D62A8((struct Unk021D62A8 *)a) == 2 && old != 2) break;
+        if (BTL_POKEPARAM_IsFainted(b)) break;
+        if (BTL_POKEPARAM_IsFainted(a)) break;
+        BTL_SERVER_FLOW_ProcDamagedItemReaction(p, b, 1);
+        if (BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)a) == 2 && old != 2) break;
         if ((*(u8 **)(p + 0x4b4))[2] != 0 &&
-            !func_021BFA60(p, a, b, (struct Q *)q)) break;
+            !BTL_SERVER_FLOW_RollMoveAccuracy(p, a, b, (struct Q *)q)) break;
     }
     if (completed != 0) {
         func_021C15AC(p, (*(u8 **)(p + 0x4b4))[5]);
-        func_021CD64C(((struct Obj02134 *)p)->fC, 0x5a, 0x20, completed, 0xffff0000);
+        BTL_SERVER_CMD_PushVariable(((struct Obj02134 *)p)->fC, 0x5a, 0x20, completed, 0xffff0000);
     }
-    if (func_021D5B68(b)) {
-        func_021CD64C(((struct Obj02134 *)p)->fC, 0x5b, 0, func_021D5440(b), 0xffff0000);
+    if (BTL_POKEPARAM_IsFainted(b)) {
+        BTL_SERVER_CMD_PushVariable(((struct Obj02134 *)p)->fC, 0x5b, 0, BTL_POKEPARAM_GetPokeId(b), 0xffff0000);
     }
     if (tag != 6) {
-        func_021CD4B0(((struct Obj02134 *)p)->fC, 0x4d,
-            func_021C1174(p + 0x1ab8, func_021D5440(a)), 0x291);
+        BTL_SERVER_CMD_Push(((struct Obj02134 *)p)->fC, 0x4d,
+            func_021C1174(p + 0x1ab8, BTL_POKEPARAM_GetPokeId(a)), 0x291);
     }
     p[0x789] = 0x1f;
     return sum;

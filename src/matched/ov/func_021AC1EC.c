@@ -1,5 +1,5 @@
 /*
- * function: func_021AC1EC
+ * function: FIELD_EFFECT_SetPaletteTable
  * address:  0x021AC1EC
  * packet:   pkt_021AC1EC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Setter: stores the second argument at +0x24.  Unlabelled in the listing;
- * called from func_021881D8.
+ * called from FIELDMAP_SeqCreateSubsystems.
  *
  * Addresses are Black-image addresses.
  */
@@ -18,7 +18,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021AC1EC(u32 *p, u32 v)
+void FIELD_EFFECT_SetPaletteTable(u32 *p, u32 v)
 {
     p[9] = v;
 }

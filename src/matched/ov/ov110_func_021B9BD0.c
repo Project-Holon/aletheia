@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   func_020419E4 0x020419E4 arm
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 #include "../include/Obj13768.h"
 extern void func_020419E4(void);
-extern void func_0204A648(void);
-void func_021B9BD0(int a,unsigned char *b) { if(((struct Obj13768 *)b)->f84) ((struct Obj13768 *)b)->f84=0; func_020419E4(); func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void func_021B9BD0(int a,unsigned char *b) { if(((struct Obj13768 *)b)->f84) ((struct Obj13768 *)b)->f84=0; func_020419E4(); CLACT_VBlankSystem(); }

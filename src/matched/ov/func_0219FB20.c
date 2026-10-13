@@ -1,5 +1,5 @@
 /*
- * function: func_0219FB20
+ * function: FLDMMDL_DRAW_GetBlactIdFixedState
  * address:  0x0219FB20
  * packet:   pkt_0219FB20
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17982.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D6F0(void *p);
+extern void *FLDMMDL_GetDrawProcWork(void *p);
 
-int func_0219FB20(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_DRAW_GetBlactIdFixedState(u32 a, u32 b, u32 c, u32 d)
 {
-return ((struct Obj17982 *)((u8 *)(func_0216D6F0((void *)a))))->f0;
+return ((struct Obj17982 *)((u8 *)(FLDMMDL_GetDrawProcWork((void *)a))))->f0;
 }
 

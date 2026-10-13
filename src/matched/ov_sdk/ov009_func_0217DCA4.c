@@ -18,7 +18,7 @@
  * block (C99) after the division.
  *
  * symbols:
- *   func_0217D3AC                  0x0217D3AC  arm  ov009
+ *   gsiLargeIntTimerEnter                  0x0217D3AC  arm  ov009
  *   gsiLargeIntTimerExit                  0x0217D3F8  arm  ov009
  *   _ll_udiv                       0x0209C00C  arm
  *   gsiLargeIntMult                  0x0217D750  arm  ov009
@@ -31,7 +31,7 @@ struct gsLargeInt_s {
     unsigned int mData[64];
 };
 
-extern void func_0217D3AC(int id);
+extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
 extern int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
                          unsigned int *data2, unsigned int length2,
@@ -50,7 +50,7 @@ static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length,
     struct gsLargeInt_s temp;
     unsigned long long aboveBits;
 
-    func_0217D3AC(6);
+    gsiLargeIntTimerEnter(6);
 
     if (length <= dlen)
         aboveBits = src[length - 1];

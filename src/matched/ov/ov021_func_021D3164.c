@@ -1,5 +1,5 @@
 /*
- * function: func_021D3164
+ * function: EVENT_GAME_MANUAL_SetResult
  * address:  0x021D3164
  * packet:   pkt_ov021_021D3164
  * region:   ov021
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021D3164(u32 *p)
+void EVENT_GAME_MANUAL_SetResult(u32 *p)
 {
     if (((u32 *)p[2])[1] == 0) {
         *(u16 *)p[3] = 0;

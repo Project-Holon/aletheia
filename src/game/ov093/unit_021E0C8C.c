@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D7D9C  0x021D7D9C  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_CALC_MakeSickContPoke  0x021D7D9C  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   d_021F2644     0x021F2644  data   ov093  a4
@@ -36,15 +36,15 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D62A8(struct Unk021D62A8 *p);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, u32 v);
-extern u32 func_021D7D9C(int x);
+extern u32 BTL_CALC_MakeSickContPoke(int x);
 void func_021E0C8C(int unused, void *q, int id);
 int *func_021E0CD4(int *p);
 void func_021E0CE0(int unused, void *q, int id);
@@ -58,8 +58,8 @@ void func_021E0C8C(int unused, void *q, int id)
     u8 *r;
     int t;
 
-    if (id == func_021D775C(3)) {
-        t = func_021D62A8(func_021C7CF4(q, id));
+    if (id == BTL_EVENT_GetVar(3)) {
+        t = BTL_POKEPARAM_GetMajorStatusIndex(func_021C7CF4(q, id));
         if (t == 5 || t == 1 || t == 4) {
             r = (u8 *)func_021C88A4(q, 0xb, id);
             ((struct Obj10071 *)r)->f4 = t;
@@ -83,13 +83,13 @@ void func_021E0CE0(int unused, void *q, int id)
     u8 *r;
     u8 k;
 
-    if (id == func_021D775C(3)) {
-        k = func_021D775C(6);
-        if (func_021D62C4(func_021C7CF4(q, k), 0x16) == 0) {
+    if (id == BTL_EVENT_GetVar(3)) {
+        k = BTL_EVENT_GetVar(6);
+        if (BTL_POKEPARAM_HasSick(func_021C7CF4(q, k), 0x16) == 0) {
             r = (u8 *)func_021C88A4(q, 0xc, id);
             r[0xf] = k;
             ((struct Obj10072 *)r)->f4 = 0x16;
-            ((struct Obj10072 *)r)->f8 = func_021D7D9C(id);
+            ((struct Obj10072 *)r)->f8 = BTL_CALC_MakeSickContPoke(id);
             func_021C8838(r + 0x14, 2, 0x368);
             func_021C8860((struct S *)(r + 0x14), k);
             func_021C88C8(q, r);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02049238",
+   "name": "ARC_TOOL_DeleteHandle",
    "address": "0x02049238",
    "kind": "sdk",
    "region": "arm9",

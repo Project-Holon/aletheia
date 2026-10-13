@@ -1,7 +1,7 @@
 /*
  * file:     poke_tool.c
  * unit:     yes
- * function: POKE_TOOL_InitSystem, POKE_TOOL_GetBoxParamSize, func_020173EC, func_020173F0, POKE_TOOL_CreateEx, func_0201747C, POKE_TOOL_ClearPartyParam, POKE_TOOL_ClearBoxParam, POKE_TOOL_SetupPartyParam, func_02017588, POKE_TOOL_SetupBoxParam, POKE_TOOL_SetupBoxParamEx, POKE_TOOL_ChangeSpecies, POKE_TOOL_ChangeBoxSpecies, func_02017988, POKE_TOOL_ChangeBoxForm, POKE_TOOL_SetRotomFormMove, POKE_TOOL_HatchEgg, POKE_TOOL_HatchBoxEgg, POKE_TOOL_DeleteMoveSlot, POKE_TOOL_UpdateAbilityForSpecies, POKE_TOOL_UpdateGenderForSpecies, POKE_TOOL_DecodePartyParam, POKE_TOOL_EncodePartyParam, func_02017DBC, func_02017DE4, func_02017E1C, func_02017E40, POKE_TOOL_SetBoxValue, func_02017E88, func_02017EAC, POKE_TOOL_IsBoxShiny, func_02017ED8, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender, POKE_TOOL_GetStatusCondition, POKE_TOOL_SetStatusCondition, POKE_TOOL_SetBoxDefaultMoves, func_0201808C, POKE_TOOL_AddBoxMove, func_020180F4, POKE_TOOL_PushBoxMove, func_02018198, POKE_TOOL_RecoverBoxAllPP, func_020181F4, POKE_TOOL_SetBoxMoveSlot, POKE_TOOL_FindMoveSlot, POKE_TOOL_FindBoxMoveSlot, POKE_TOOL_ReplaceMoveSlot, POKE_TOOL_ReplaceBoxMoveSlot, POKE_TOOL_GetLevelUpMove, POKE_TOOL_CalcLevel, POKE_TOOL_CalcBoxLevel, POKE_TOOL_IsOwnedByPlayer, POKE_TOOL_IsBoxOwnedByPlayer, func_0201850C, POKE_TOOL_GetLevelMinExp, POKE_TOOL_GetBoxLevelMinExp, func_02018584, func_02018598, POKE_TOOL_GetBoxNature, POKE_TOOL_SetNature, func_020185C4, func_020185F0, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderRatioClass, func_0201862C, func_020186C8, func_02018790, POKE_TOOL_GetHiddenPowerPower, func_020188AC, POKE_TOOL_CheckBoxTmCompat, POKE_TOOL_CheckSpeciesTmCompat, func_0201891C, POKE_TOOL_CheckSpeciesTutorCompat, POKE_TOOL_GetNatureStatMod, POKE_TOOL_GetBoxNatureStatMod, POKE_TOOL_GetNatureStatModByNature, func_02018A00, POKE_TOOL_SetBoxAbility, POKE_TOOL_CalcParam, POKE_TOOL_DecodeCalcBlock, POKE_TOOL_DecodeBoxBlock, POKE_TOOL_EncodeCalcBlock, POKE_TOOL_EncodeBoxBlock, POKE_TOOL_GetPartyValueRaw, POKE_TOOL_GetBoxValueRaw, POKE_TOOL_SetPartyValueRaw, POKE_TOOL_SetBoxValueRaw
+ * function: POKE_TOOL_InitSystem, POKE_TOOL_GetBoxParamSize, func_020173EC, POKE_TOOL_Create, POKE_TOOL_CreateEx, POKE_TOOL_CreateFromBoxParam, POKE_TOOL_ClearPartyParam, POKE_TOOL_ClearBoxParam, POKE_TOOL_SetupPartyParam, POKE_TOOL_SetupPartyParamEx, POKE_TOOL_SetupBoxParam, POKE_TOOL_SetupBoxParamEx, POKE_TOOL_ChangeSpecies, POKE_TOOL_ChangeBoxSpecies, POKE_TOOL_ChangeForm, POKE_TOOL_ChangeBoxForm, POKE_TOOL_SetRotomFormMove, POKE_TOOL_HatchEgg, POKE_TOOL_HatchBoxEgg, POKE_TOOL_DeleteMoveSlot, POKE_TOOL_UpdateAbilityForSpecies, POKE_TOOL_UpdateGenderForSpecies, POKE_TOOL_DecodePartyParam, POKE_TOOL_EncodePartyParam, func_02017DBC, func_02017DE4, func_02017E1C, POKE_TOOL_SetPartyValue, POKE_TOOL_SetBoxValue, func_02017E88, func_02017EAC, POKE_TOOL_IsBoxShiny, func_02017ED8, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender, POKE_TOOL_GetStatusCondition, POKE_TOOL_SetStatusCondition, POKE_TOOL_SetBoxDefaultMoves, POKE_TOOL_AddMove, POKE_TOOL_AddBoxMove, POKE_TOOL_PushMove, POKE_TOOL_PushBoxMove, POKE_TOOL_RecoverAllPP, POKE_TOOL_RecoverBoxAllPP, func_020181F4, POKE_TOOL_SetBoxMoveSlot, POKE_TOOL_FindMoveSlot, POKE_TOOL_FindBoxMoveSlot, POKE_TOOL_ReplaceMoveSlot, POKE_TOOL_ReplaceBoxMoveSlot, POKE_TOOL_GetLevelUpMove, POKE_TOOL_CalcLevel, POKE_TOOL_CalcBoxLevel, POKE_TOOL_IsOwnedByPlayer, POKE_TOOL_IsBoxOwnedByPlayer, POKE_TOOL_CalcLevelFromExp, POKE_TOOL_GetLevelMinExp, POKE_TOOL_GetBoxLevelMinExp, func_02018584, func_02018598, POKE_TOOL_GetBoxNature, POKE_TOOL_SetNature, POKE_TOOL_RecalcParam, func_020185F0, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderRatioClass, POKE_TOOL_AdjustPersonalRnd, POKE_TOOL_CreatePersonalRnd, POKE_TOOL_GetHiddenPowerType, POKE_TOOL_GetHiddenPowerPower, POKE_TOOL_CheckTmCompat, POKE_TOOL_CheckBoxTmCompat, POKE_TOOL_CheckSpeciesTmCompat, func_0201891C, POKE_TOOL_CheckSpeciesTutorCompat, POKE_TOOL_GetNatureStatMod, POKE_TOOL_GetBoxNatureStatMod, POKE_TOOL_GetNatureStatModByNature, func_02018A00, POKE_TOOL_SetBoxAbility, POKE_TOOL_CalcParam, POKE_TOOL_DecodeCalcBlock, POKE_TOOL_DecodeBoxBlock, POKE_TOOL_EncodeCalcBlock, POKE_TOOL_EncodeBoxBlock, POKE_TOOL_GetPartyValueRaw, POKE_TOOL_GetBoxValueRaw, POKE_TOOL_SetPartyValueRaw, POKE_TOOL_SetBoxValueRaw
  * address:  0x020173D0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   func_020307B0   0x020307B0  arm
  *   gPersonalCache      0x02146270  data
  *   sPokeToolFile  0x020A72E4  data
- *   func_02008F08  0x02008F08  thumb
+ *   MAIL_Create  0x02008F08  thumb
  *   func_02019A50  0x02019A50  thumb
  *   func_02019C54  0x02019C54  thumb
  *   func_020056EC  0x020056EC  thumb
@@ -26,7 +26,7 @@
  *   func_0201AE1C  0x0201AE1C  thumb
  *   func_02019C7C  0x02019C7C  thumb
  *   gDefaultLanguage      0x0209DF0C  data  a1
- *   gMsgBank       0x020A7370  data
+ *   gSpeciesNameBank       0x020A7370  data
  *   gNameBuf       0x021462F0  data
  *   gGameVersion      0x0209DF08  data  a1
  *   sRotomFormMoves       0x0209E298  data  a2
@@ -46,8 +46,9 @@
  *   sNatureStatMods   0x0209E2A4  data  a1
  *   MAIL_Copy   0x02008F3C  thumb
  *   func_02019BBC  0x02019BBC  thumb
- *   func_02045A38  0x02045A38  arm
+ *   STRBUF_ToChars  0x02045A38  arm
  *   POKE_PERSONAL_OpenHandle  0x0201AD88  thumb
+ *   STRBUF_SetString  0x02045924  arm
  */
 typedef unsigned char  u8;
 
@@ -394,7 +395,7 @@ struct PokemonParam {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *ptr);
 extern void POKE_PERSONAL_OpenHandle(u32 heapId);
-extern struct Mail *func_02008F08(int heapId);
+extern struct Mail *MAIL_Create(int heapId);
 extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
 extern void func_02019A50(u16 *data, u32 size, u32 seed);
 extern struct PersonalData *func_02019C54(u32 species, u16 form);
@@ -421,16 +422,16 @@ extern u32  func_02019B04(u32 nature, u32 stat, u32 statIndex);
 extern void MAIL_Copy(const struct Mail *src, struct Mail *dest);
 extern u32 func_02019BBC(u32 item);
 extern void func_0201F41C(const u16 *src, u16 *dest, u32 count);
-extern void func_02045924(struct Strbuf *dest, const u16 *src);
+extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
 extern void func_02045CAC(struct MsgData *bank, u32 index, struct Strbuf *dest);
 extern u32  func_02019ABC(struct BoxPokemon *box);
-extern void func_02045A38(struct Strbuf *src, u16 *dest, u32 count);
+extern void STRBUF_ToChars(struct Strbuf *src, u16 *dest, u32 count);
 
 extern const char sPokeToolFile[];
 extern struct PersonalCache gPersonalCache;
 extern u8 gDefaultLanguage;
 extern u8 gGameVersion;
-extern struct MsgData *gMsgBank;
+extern struct MsgData *gSpeciesNameBank;
 extern u16 gNameBuf[];
 extern u16 gNameCompareBuf[];
 extern struct LevelUpMove gLevelUpMoveBuf[];
@@ -442,18 +443,18 @@ extern const s8 sNatureStatMods[][5];
 void POKE_TOOL_InitSystem(u32 heapId);
 u32 POKE_TOOL_GetBoxParamSize(void);
 u32 func_020173EC(void);
-struct PokemonParam *func_020173F0(u16 species, u16 level, u64 otId, u16 heapId);
+struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, u64 otId, u16 heapId);
 struct PokemonParam *POKE_TOOL_CreateEx(u16 species, u16 level, u64 otId, u32 ivs, u64 personality, u16 heapId);
-struct PokemonParam *func_0201747C(struct PokemonParam *src, u16 heapId);
+struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, u16 heapId);
 void POKE_TOOL_ClearPartyParam(struct PokemonParam *pp);
 void POKE_TOOL_ClearBoxParam(struct BoxPokemon *box);
 void POKE_TOOL_SetupPartyParam(struct PokemonParam *pp, u16 species, u16 level, u64 otId);
-void func_02017588(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
+void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
 void POKE_TOOL_SetupBoxParam(struct BoxPokemon *box, u16 species, u16 level, u64 otId);
 void POKE_TOOL_SetupBoxParamEx(struct BoxPokemon *box, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
 void POKE_TOOL_ChangeSpecies(struct PokemonParam *pp, u32 species);
 u32 POKE_TOOL_ChangeBoxSpecies(struct BoxPokemon *box, u32 newSpecies);
-u32 func_02017988(struct PokemonParam *pp, u32 form);
+u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 int POKE_TOOL_ChangeBoxForm(struct BoxPokemon *box, int newForm);
 u32 POKE_TOOL_SetRotomFormMove(struct PokemonParam *pp, u32 formIndex, u32 fallbackSlot);
 void POKE_TOOL_HatchEgg(struct PokemonParam *pp, u32 trainer, u32 location, u32 arg);
@@ -466,7 +467,7 @@ u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, u32 didDecode);
 u32 func_02017DBC(struct BoxPokemon *box);
 u32 func_02017DE4(struct BoxPokemon *box, u32 didDecode);
 u32 func_02017E1C(struct PokemonParam *pp, u32 paramId, u32 arg);
-void func_02017E40(struct PokemonParam *pp, u32 paramId, u32 value);
+void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, u32 value);
 u32 func_02017E88(struct BoxPokemon *box, u32 paramId, u32 arg);
 u32 func_02017EAC(struct PokemonParam *pp);
@@ -479,11 +480,11 @@ u32 POKE_TOOL_GetStatusCondition(struct PokemonParam *pp);
 void POKE_TOOL_SetStatusCondition(struct PokemonParam *pp, u32 statusCondition);
 u32 POKE_TOOL_SetDefaultMoves(struct PokemonParam *pp);
 u32 POKE_TOOL_SetBoxDefaultMoves(struct BoxPokemon *box);
-u16 func_0201808C(struct PokemonParam *pp, u16 move);
+u16 POKE_TOOL_AddMove(struct PokemonParam *pp, u16 move);
 u16 POKE_TOOL_AddBoxMove(struct BoxPokemon *box, u16 move);
-void func_020180F4(struct PokemonParam *pp, u16 move);
+void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
 void POKE_TOOL_PushBoxMove(struct BoxPokemon *box, u16 move);
-void func_02018198(struct PokemonParam *pp);
+void POKE_TOOL_RecoverAllPP(struct PokemonParam *pp);
 void POKE_TOOL_RecoverBoxAllPP(struct BoxPokemon *box);
 void func_020181F4(struct PokemonParam *pp, u16 move, u32 slot);
 void POKE_TOOL_SetBoxMoveSlot(struct BoxPokemon *box, u16 move, u32 slot);
@@ -496,22 +497,22 @@ u32 POKE_TOOL_CalcLevel(struct PokemonParam *pp);
 u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *box);
 int POKE_TOOL_IsOwnedByPlayer(struct PokemonParam *pp, struct MyStatus *myStatus);
 u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStatus);
-u32 func_0201850C(u16 species, u16 form, u32 exp);
+u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp);
 u32 POKE_TOOL_GetLevelMinExp(struct PokemonParam *pp);
 u32 POKE_TOOL_GetBoxLevelMinExp(struct BoxPokemon *box);
 u32 func_02018584(u16 species, u16 form, u16 level);
 u8 func_02018598(struct PokemonParam *pp);
 u8 POKE_TOOL_GetBoxNature(struct BoxPokemon *box);
 void POKE_TOOL_SetNature(struct PokemonParam *pp, u32 nature);
-void func_020185C4(struct PokemonParam *pp);
+void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 void func_020185F0(void);
 struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 u32 POKE_TOOL_GetGenderRatioClass(int species, u16 form, int ratioMode);
-u32 func_0201862C(u32 otId, u16 species, u16 form, u8 ratioMode, u8 shinyWanted, int genderMode);
-u32 func_020186C8(u32 otId, int species, u16 form, int ratioMode, int shinyWanted, int mode);
-u32 func_02018790(struct PokemonParam *pp);
+u32 POKE_TOOL_AdjustPersonalRnd(u32 otId, u16 species, u16 form, u8 ratioMode, u8 shinyWanted, int genderMode);
+u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, u16 form, int ratioMode, int shinyWanted, int mode);
+u32 POKE_TOOL_GetHiddenPowerType(struct PokemonParam *pp);
 u32 POKE_TOOL_GetHiddenPowerPower(struct PokemonParam *pp);
-u32 func_020188AC(struct PokemonParam *pp, int tmIndex);
+u32 POKE_TOOL_CheckTmCompat(struct PokemonParam *pp, int tmIndex);
 u32 POKE_TOOL_CheckBoxTmCompat(struct BoxPokemon *box, s32 tmIndex);
 u32 POKE_TOOL_CheckSpeciesTmCompat(u16 species, u16 form, s32 tmIndex);
 u32 func_0201891C(struct PokemonParam *pp, s32 tutorIndex);
@@ -553,7 +554,7 @@ void POKE_TOOL_InitSystem(u32 heapId)
  * src/pending/unit_020173B4.c.
  *
  * The original file name of the two constructors after them is recoverable
- * even though neither is matched yet: func_020173F0 and POKE_TOOL_CreateEx both
+ * even though neither is matched yet: POKE_TOOL_Create and POKE_TOOL_CreateEx both
  * pass 0x020A72E4 to the debug allocator at 0x02030734, and the bytes there
  * spell "poke_tool.c".  Its left neighbours in the packed string area are
  * "d_status.c" at 0x020A72C0 and "mcss.c" at 0x020A72CC, and between "mcss.c"
@@ -584,7 +585,7 @@ u32 func_020173EC(void)
  * entry and is reloaded at the call, which is exactly the str/ldr pair the
  * earlier passes could not force.
  */
-struct PokemonParam *func_020173F0(u16 species, u16 level, u64 otId, u16 heapId)
+struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, u64 otId, u16 heapId)
 {
     struct PokemonParam *pp = func_02030734(heapId, func_020173EC(), 1, sPokeToolFile, 0xa0);
     if (pp != 0) {
@@ -595,17 +596,17 @@ struct PokemonParam *func_020173F0(u16 species, u16 level, u64 otId, u16 heapId)
 
 
 /*
- * Allocate a record (line 0xBA) and initialise it through func_02017588,
+ * Allocate a record (line 0xBA) and initialise it through POKE_TOOL_SetupPartyParamEx,
  * forwarding the u64 id, the packed IVs `pow` and the u64 personality
  * `rnd`; the heap id (u16, `ldrh`) is the LAST parameter, after rnd.
  * Wave 11, 2026-09-23: closed by the u64 id/rnd declarations (see
- * func_020173F0.c).
+ * POKE_TOOL_Create.c).
  */
 struct PokemonParam *POKE_TOOL_CreateEx(u16 species, u16 level, u64 otId, u32 ivs, u64 personality, u16 heapId)
 {
     struct PokemonParam *pp = func_02030734(heapId, func_020173EC(), 1, sPokeToolFile, 0xba);
     if (pp != 0) {
-        func_02017588(pp, species, level, otId, ivs, personality);
+        POKE_TOOL_SetupPartyParamEx(pp, species, level, otId, ivs, personality);
     }
     return pp;
 }
@@ -618,7 +619,7 @@ struct PokemonParam *POKE_TOOL_CreateEx(u16 species, u16 level, u64 otId, u32 iv
  * (id 0x9E) and OT id (id 0x07) -- all three through the block-lock getter
  * func_02017E88, and species and level truncated to u16 at the assignment,
  * which is what the two `lsls #0x10 / lsrs #0x10` pairs at +0x18 and +0x26
- * are -- builds a fresh record with func_020173F0(species, level, otId, 0,
+ * are -- builds a fresh record with POKE_TOOL_Create(species, level, otId, 0,
  * heap), releases the lock, copies the WHOLE 0x88-word record over the fresh
  * one, then zeroes the three party-area ids the clone must not inherit
  * (0x9D, 0xA0 current HP, 0xA1 max HP), attaches a fresh mail block and
@@ -653,7 +654,7 @@ struct PokemonParam *POKE_TOOL_CreateEx(u16 species, u16 level, u64 otId, u32 iv
  * the full PokemonParam -- the copied size IS the
  * evidence, since it is what sets the loop's trip count to 0x11.
  *
- * The heap tag handed to func_02008F08 is `(heap & 0x7fff) | 0x8000`: the pool
+ * The heap tag handed to MAIL_Create is `(heap & 0x7fff) | 0x8000`: the pool
  * word at 0x02017524 is 0x00007FFF and the original derives the OR mask from
  * it with `adds r0, r0, #1` rather than pooling 0x8000 separately
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
@@ -662,29 +663,29 @@ struct PokemonParam *POKE_TOOL_CreateEx(u16 species, u16 level, u64 otId, u32 iv
  * 0xA7 are all field selectors.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/func_0201747C.c \
- *       --func func_0201747C --addr 0x0201747C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_CreateFromBoxParam.c \
+ *       --func POKE_TOOL_CreateFromBoxParam --addr 0x0201747C --cc 1.1p1 --thumb
  */
-struct PokemonParam *func_0201747C(struct PokemonParam *src, u16 heapId)
+struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, u16 heapId)
 {
     u32 didDecode = func_02017DBC(&src->box);
     u16 species = (u16)func_02017E88(&src->box, POKE_TOOL_PARAM_SPECIES, 0);
     u16 level = (u16)func_02017E88(&src->box, POKE_TOOL_PARAM_LEVEL, 0);
     u32 otId = func_02017E88(&src->box, POKE_TOOL_PARAM_OT_ID, 0);
-    struct PokemonParam *copy = func_020173F0(species, level, otId, heapId);
+    struct PokemonParam *copy = POKE_TOOL_Create(species, level, otId, heapId);
     struct Mail *mail;
 
     func_02017DE4(&src->box, didDecode);
 
     copy->box = src->box;
 
-    func_02017E40(copy, POKE_TOOL_PARAM_STATUS_CONDITION, 0);
-    func_02017E40(copy, POKE_TOOL_PARAM_HP, 0);
-    func_02017E40(copy, POKE_TOOL_PARAM_MAX_HP, 0);
-    mail = func_02008F08((u16)((heapId & 0x7fff) | 0x8000));
-    func_02017E40(copy, POKE_TOOL_PARAM_MAIL, (u32)mail);
+    POKE_TOOL_SetPartyValue(copy, POKE_TOOL_PARAM_STATUS_CONDITION, 0);
+    POKE_TOOL_SetPartyValue(copy, POKE_TOOL_PARAM_HP, 0);
+    POKE_TOOL_SetPartyValue(copy, POKE_TOOL_PARAM_MAX_HP, 0);
+    mail = MAIL_Create((u16)((heapId & 0x7fff) | 0x8000));
+    POKE_TOOL_SetPartyValue(copy, POKE_TOOL_PARAM_MAIL, (u32)mail);
     func_020307B0(mail);
-    func_020185C4(copy);
+    POKE_TOOL_RecalcParam(copy);
     return copy;
 }
 
@@ -724,7 +725,7 @@ void POKE_TOOL_ClearBoxParam(struct BoxPokemon *box)
 
 
 /*
- * Forwarder: func_02017588(obj, species, level, id, 0xFFFFFFFF,
+ * Forwarder: POKE_TOOL_SetupPartyParamEx(obj, species, level, id, 0xFFFFFFFF,
  * 0xFFFFFFFF00000000) -- random IVs, random personality.  Wave 11,
  * 2026-09-23: the u64 `id` straddles r3 and the first stack word; declaring
  * it u64 is the whole fix for the 18-byte prologue residue (push {r4,r5,r6}
@@ -732,7 +733,7 @@ void POKE_TOOL_ClearBoxParam(struct BoxPokemon *box)
  */
 void POKE_TOOL_SetupPartyParam(struct PokemonParam *pp, u16 species, u16 level, u64 otId)
 {
-    func_02017588(pp, species, level, otId, 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
+    POKE_TOOL_SetupPartyParamEx(pp, species, level, otId, 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
 }
 
 
@@ -741,10 +742,10 @@ void POKE_TOOL_SetupPartyParam(struct PokemonParam *pp, u16 species, u16 level, 
  * area (POKE_TOOL_SetupBoxParamEx), mask the party area with seed 0 then with the PID,
  * write the level (id 0x9E) through the party-lock setter, attach a fresh
  * mail block (tag 0x8000, id 0xA7, then freed), and refresh the stats
- * (func_020185C4).  Wave 11, 2026-09-23.  EXACT* only because the listing
+ * (POKE_TOOL_RecalcParam).  Wave 11, 2026-09-23.  EXACT* only because the listing
  * extent includes the two alignment bytes at 0x020175FE.
  */
-void func_02017588(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality)
+void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality)
 {
     struct Mail *mail;
 
@@ -752,11 +753,11 @@ void func_02017588(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u3
     POKE_TOOL_SetupBoxParamEx(&pp->box, species, level, otId, ivs, personality);
     func_02019A50((u16 *)&pp->statusCondition, 0x54, 0);
     func_02019A50((u16 *)&pp->statusCondition, 0x54, pp->box.personality);
-    func_02017E40(pp, POKE_TOOL_PARAM_LEVEL, level);
-    mail = func_02008F08(0x8000);
-    func_02017E40(pp, POKE_TOOL_PARAM_MAIL, (u32)mail);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_LEVEL, level);
+    mail = MAIL_Create(0x8000);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_MAIL, (u32)mail);
     func_020307B0(mail);
-    func_020185C4(pp);
+    POKE_TOOL_RecalcParam(pp);
 }
 
 
@@ -820,7 +821,7 @@ void POKE_TOOL_SetupBoxParamEx(struct BoxPokemon *box, u16 species, u16 level, u
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_OT_ID, (u32)otId);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_LANGUAGE, gDefaultLanguage);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_SPECIES, species);
-    MSGDATA_ReadUnits(gMsgBank, species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_EXP, func_02018584(species, 0, level));
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_FRIENDSHIP, func_0201AE1C(personal, 0x16));
@@ -866,7 +867,7 @@ void POKE_TOOL_ChangeSpecies(struct PokemonParam *pp, u32 species)
     u8 didDecode = (u8)POKE_TOOL_DecodePartyParam(pp);
 
     POKE_TOOL_ChangeBoxSpecies(&pp->box, species);
-    func_020185C4(pp);
+    POKE_TOOL_RecalcParam(pp);
     POKE_TOOL_EncodePartyParam(pp, didDecode);
 }
 
@@ -915,7 +916,7 @@ void POKE_TOOL_ChangeSpecies(struct PokemonParam *pp, u32 species)
  * the parameter as a pointer is a claim the bytes do not make.
  *
  * Nothing here is version specific: 5, 0x6F, 0x74 and 0x75 are field
- * selectors and 0x20 is a halfword count.  gMsgBank and gNameBuf are
+ * selectors and 0x20 is a halfword count.  gSpeciesNameBank and gNameBuf are
  * globals, so their addresses are build properties and must be re-derived
  * for a White build rather than copied.
  *
@@ -937,7 +938,7 @@ u32 POKE_TOOL_ChangeBoxSpecies(struct BoxPokemon *box, u32 newSpecies)
         POKE_TOOL_UpdateAbilityForSpecies(box, newSpecies, oldSpecies);
         POKE_TOOL_UpdateGenderForSpecies(box, newSpecies, oldSpecies);
         if (hasNickname == 0) {
-            MSGDATA_ReadUnits(gMsgBank, newSpecies, gNameBuf, 0x20);
+            MSGDATA_ReadUnits(gSpeciesNameBank, newSpecies, gNameBuf, 0x20);
             POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
         }
     }
@@ -947,16 +948,16 @@ u32 POKE_TOOL_ChangeBoxSpecies(struct BoxPokemon *box, u32 newSpecies)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02017988.c \
- *       --func func_02017988 --addr 0x02017988 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_ChangeForm.c \
+ *       --func POKE_TOOL_ChangeForm --addr 0x02017988 --cc 1.1p1 --thumb
  */
-u32 func_02017988(struct PokemonParam *pp, u32 form)
+u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form)
 {
     u8 didDecode = (u8)POKE_TOOL_DecodePartyParam(pp);
     u32 changed = POKE_TOOL_ChangeBoxForm(&pp->box, form);
 
     if (changed == 1) {
-        func_020185C4(pp);
+        POKE_TOOL_RecalcParam(pp);
     }
     POKE_TOOL_EncodePartyParam(pp, didDecode);
     return changed;
@@ -1008,7 +1009,7 @@ int POKE_TOOL_ChangeBoxForm(struct BoxPokemon *box, int newForm)
  * any slot already holding one of tbl[1..5] is overwritten (first hit) or
  * deleted (POKE_TOOL_DeleteMoveSlot, then the slot is re-examined), else the first
  * empty slot, else slot `val`; slot 0 empty gets move 0x54; finally
- * func_02017988(p, idx).  Wave 11, 2026-09-23.
+ * POKE_TOOL_ChangeForm(p, idx).  Wave 11, 2026-09-23.
  *
  * The straight-line six ldrh/strh copy with TWO `add rN, sp, #8` is a
  * 12-byte, 2-aligned aggregate copy scoped AFTER the guard: in the original
@@ -1060,7 +1061,7 @@ u32 POKE_TOOL_SetRotomFormMove(struct PokemonParam *pp, u32 formIndex, u32 fallb
     }
     if (func_02017E1C(pp, POKE_TOOL_PARAM_MOVE1, 0) == 0)
         func_020181F4(pp, 0x54, (u8)0);
-    func_02017988(pp, (u16)formIndex);
+    POKE_TOOL_ChangeForm(pp, (u16)formIndex);
     return 1;
 }
 
@@ -1125,7 +1126,7 @@ void POKE_TOOL_HatchEgg(struct PokemonParam *pp, u32 trainer, u32 location, u32 
  * here but is a claim the bytes do not support, since id 9 is a byte field.
  *
  * Nothing here is version specific: 5, 9, 0x4C, 0x6F and 0x74 are field
- * selectors and 0x20 is a halfword count.  gMsgBank and gNameBuf are
+ * selectors and 0x20 is a halfword count.  gSpeciesNameBank and gNameBuf are
  * globals, so their addresses are build properties.
  *
  * Verified with:
@@ -1140,7 +1141,7 @@ u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, u32 trainer, u32 location, u32
     func_02017E88(box, POKE_TOOL_PARAM_FORM, 0);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_IS_EGG, 0);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_FRIENDSHIP, 0x78);
-    MSGDATA_ReadUnits(gMsgBank, species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
     func_0202F1B4((u32)box, 2, trainer, location, arg);
     return func_02017DE4(box, didDecode);
@@ -1179,13 +1180,13 @@ void POKE_TOOL_DeleteMoveSlot(struct PokemonParam *pp, u32 slot)
         u8  curPp = func_02017E1C(pp, slot + POKE_TOOL_PARAM_PP2, 0);
         u8  ppUps = func_02017E1C(pp, slot + POKE_TOOL_PARAM_PP_UP2, 0);
 
-        func_02017E40(pp, slot + POKE_TOOL_PARAM_MOVE1, move);
-        func_02017E40(pp, slot + POKE_TOOL_PARAM_PP1, curPp);
-        func_02017E40(pp, slot + POKE_TOOL_PARAM_PP_UP1, ppUps);
+        POKE_TOOL_SetPartyValue(pp, slot + POKE_TOOL_PARAM_MOVE1, move);
+        POKE_TOOL_SetPartyValue(pp, slot + POKE_TOOL_PARAM_PP1, curPp);
+        POKE_TOOL_SetPartyValue(pp, slot + POKE_TOOL_PARAM_PP_UP1, ppUps);
     }
-    func_02017E40(pp, POKE_TOOL_PARAM_MOVE4, 0);
-    func_02017E40(pp, POKE_TOOL_PARAM_PP4, 0);
-    func_02017E40(pp, POKE_TOOL_PARAM_PP_UP4, 0);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_MOVE4, 0);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_PP4, 0);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_PP_UP4, 0);
 }
 
 
@@ -1359,7 +1360,7 @@ u32 func_02017E1C(struct PokemonParam *pp, u32 paramId, u32 arg)
  *   python tools/match.py tu --src src/matched/unit_02017E40.c \
  *       --addr 0x02017E40 --thumb
  */
-void func_02017E40(struct PokemonParam *pp, u32 paramId, u32 value)
+void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value)
 {
     if (POKE_TOOL_DecodeCalcBlock(pp) == 1) {
         POKE_TOOL_SetPartyValueRaw(pp, paramId, value);
@@ -1486,7 +1487,7 @@ u32 POKE_TOOL_GetStatusCondition(struct PokemonParam *pp)
 
 void POKE_TOOL_SetStatusCondition(struct PokemonParam *pp, u32 statusCondition)
 {
-    func_02017E40(pp, POKE_TOOL_PARAM_STATUS_CONDITION, statusCondition);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_STATUS_CONDITION, statusCondition);
 }
 
 
@@ -1563,7 +1564,7 @@ u32 POKE_TOOL_SetBoxDefaultMoves(struct BoxPokemon *box)
  * func_02017E88), and writes the move into the first empty one through
  * POKE_TOOL_SetBoxMoveSlot (src/matched/unit_020181A0.c), locking again on the way out.
  * It answers with the move it wrote, 0xFFFE if the record already knows it,
- * and 0xFFFF if all four slots are full; func_0201808C is a bare tail call to
+ * and 0xFFFF if all four slots are full; POKE_TOOL_AddMove is a bare tail call to
  * it under a second name (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  *
  * 0xFFFE and 0xFFFF are ordinary integer constants and not relocations: both
@@ -1581,7 +1582,7 @@ u32 POKE_TOOL_SetBoxDefaultMoves(struct BoxPokemon *box)
  *   python tools/match.py tu --src src/matched/unit_0201808C.c \
  *       --addr 0x0201808C --thumb
  */
-u16 func_0201808C(struct PokemonParam *pp, u16 move)
+u16 POKE_TOOL_AddMove(struct PokemonParam *pp, u16 move)
 {
     return POKE_TOOL_AddBoxMove(&pp->box, move);
 }
@@ -1621,10 +1622,10 @@ u16 POKE_TOOL_AddBoxMove(struct BoxPokemon *box, u16 move)
  * stub has no other witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020180F4.c \
- *       --func func_020180F4 --addr 0x020180F4 --cc 1.1p1 --thumb --region arm9
+ *   python tools/match.py one --src src/matched/POKE_TOOL_PushMove.c \
+ *       --func POKE_TOOL_PushMove --addr 0x020180F4 --cc 1.1p1 --thumb --region arm9
  */
-void func_020180F4(struct PokemonParam *pp, u16 move)
+void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move)
 {
     POKE_TOOL_PushBoxMove(&pp->box, move);
 }
@@ -1677,9 +1678,9 @@ void POKE_TOOL_PushBoxMove(struct BoxPokemon *box, u16 move)
 
 /*
  * Unlabelled Thumb tail-call stub after POKE_TOOL_PushBoxMove (ldr r3, =POKE_TOOL_RecoverBoxAllPP;
- * bx r3). Filed as the witness for ov021 func_021C4340.
+ * bx r3). Filed as the witness for ov021 SODATEYA_SetupEggMon.
  */
-void func_02018198(struct PokemonParam *pp)
+void POKE_TOOL_RecoverAllPP(struct PokemonParam *pp)
 {
     POKE_TOOL_RecoverBoxAllPP(&pp->box);
 }
@@ -1885,7 +1886,7 @@ void POKE_TOOL_ReplaceBoxMoveSlot(struct BoxPokemon *box, u16 move, u8 slot)
  * Level-up learnset scan: load the species/form learnset (func_0201ADD0) into
  * a 0x68-byte heap block (poke_tool.c line 0x644), then walk it from *idx
  * until the {0xFFFF, 0xFFFF} terminator.  For an entry at the record's
- * level, try to teach it (func_0201808C): 0xFFFF (no free slot) answers the
+ * level, try to teach it (POKE_TOOL_AddMove): 0xFFFF (no free slot) answers the
  * move with bit 15 set, 0xFFFE (already known) keeps scanning, anything else
  * is returned; *idx is left one past the entry.  Wave 11, 2026-09-23.
  *
@@ -1927,7 +1928,7 @@ u16 POKE_TOOL_GetLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapI
         levelEntry = cur;
         if (level == levelEntry.level) {
             moveEntry = cur;
-            result = func_0201808C(pp, moveEntry.move);
+            result = POKE_TOOL_AddMove(pp, moveEntry.move);
             if (result == 0xFFFF) {
                 replacementEntry = table[*tableIndex];
                 result = replacementEntry.move | 0x8000;
@@ -1949,7 +1950,7 @@ u16 POKE_TOOL_GetLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapI
 /*
  * The record's level accessor: it unlocks the block area, reads ids 5, 0x6F
  * and 8 out of it (species, form and experience), locks it again and hands the
- * three to func_0201850C (src/matched/unit_0201850C.c), which is the same
+ * three to POKE_TOOL_CalcLevelFromExp (src/matched/unit_0201850C.c), which is the same
  * computation id 0x9E of POKE_TOOL_GetBoxValueRaw performs directly on the substructs.
  * POKE_TOOL_CalcLevel in front of it is an eight byte
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk with no prologue, and
@@ -1958,7 +1959,7 @@ u16 POKE_TOOL_GetLevelUpMove(struct PokemonParam *pp, u32 *tableIndex, u32 heapI
  *
  * The three values are held in word locals and truncated at the call, not at
  * the assignment: the two `lsls #0x10` / `lsrs #0x10` pairs sit immediately in
- * front of the `bl`, after the lock call, which is what fixes func_0201850C's
+ * front of the `bl`, after the lock call, which is what fixes POKE_TOOL_CalcLevelFromExp's
  * first two parameters as u16 and func_02017E88's return as a word.  The same
  * shape appears in src/matched/unit_02017E64.c and src/matched/unit_0201854C.c.
  *
@@ -1987,13 +1988,13 @@ u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *box)
     u32 exp = func_02017E88(box, POKE_TOOL_PARAM_EXP, 0);
 
     func_02017DE4(box, didDecode);
-    return func_0201850C((u16)species, (u16)form, exp);
+    return POKE_TOOL_CalcLevelFromExp((u16)species, (u16)form, exp);
 }
 
 
 /*
  * Eight byte thunk (pool word and bx) that forwards both arguments to
- * POKE_TOOL_IsBoxOwnedByPlayer. Witness for the ov093 caller func_021BCFAC.
+ * POKE_TOOL_IsBoxOwnedByPlayer. Witness for the ov093 caller BTL_SERVER_FLOW_CheckDisobedience.
  */
 int POKE_TOOL_IsOwnedByPlayer(struct PokemonParam *pp, struct MyStatus *myStatus)
 {
@@ -2097,7 +2098,7 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStat
  *   python tools/match.py tu --src src/matched/unit_0201850C.c \
  *       --addr 0x0201850C --thumb
  */
-u32 func_0201850C(u16 species, u16 form, u32 exp)
+u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp)
 {
     u16 level;
 
@@ -2158,7 +2159,7 @@ u32 func_02018584(u16 species, u16 form, u16 level)
 /*
  * The middle piece of the run 0x0201854C..0x0201862C.  Its two neighbours are
  * parked in src/pending/: func_02018584 is the only caller of func_02019BA4
- * in the image and func_020185C4 the only caller of POKE_TOOL_CalcParam, so neither
+ * in the image and POKE_TOOL_RecalcParam the only caller of POKE_TOOL_CalcParam, so neither
  * has a witness outside itself and no cut reaches them.
  *
  * func_02018598 carries no label: it is the eight byte pool-word tail call of
@@ -2179,8 +2180,8 @@ u8 POKE_TOOL_GetBoxNature(struct BoxPokemon *box)
 
 void POKE_TOOL_SetNature(struct PokemonParam *pp, u32 nature)
 {
-    func_02017E40(pp, POKE_TOOL_PARAM_NATURE, nature);
-    func_020185C4(pp);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_NATURE, nature);
+    POKE_TOOL_RecalcParam(pp);
 }
 
 
@@ -2205,11 +2206,11 @@ void POKE_TOOL_SetNature(struct PokemonParam *pp, u32 nature)
  *   python tools/match.py tu --src src/matched/unit_020185C4.c \
  *       --addr 0x020185C4 --thumb
  */
-void func_020185C4(struct PokemonParam *pp)
+void POKE_TOOL_RecalcParam(struct PokemonParam *pp)
 {
     u32 didDecode = POKE_TOOL_DecodePartyParam(pp);
 
-    func_02017E40(pp, POKE_TOOL_PARAM_LEVEL, POKE_TOOL_CalcLevel(pp));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_LEVEL, POKE_TOOL_CalcLevel(pp));
     POKE_TOOL_CalcParam(pp);
     POKE_TOOL_EncodePartyParam(pp, didDecode);
 }
@@ -2263,7 +2264,7 @@ u32 POKE_TOOL_GetGenderRatioClass(int species, u16 form, int ratioMode)
  * stays in r1/r2, as the image has it.  No inline form of the same xor
  * reached it (docs/notes/pkt_0201862C.c.txt).
  */
-u32 func_0201862C(u32 otId, u16 species, u16 form, u8 ratioMode, u8 shinyWanted, int genderMode)
+u32 POKE_TOOL_AdjustPersonalRnd(u32 otId, u16 species, u16 form, u8 ratioMode, u8 shinyWanted, int genderMode)
 {
     if (genderMode != 0) {
         u32 genderByte = POKE_TOOL_GetGenderRatioClass(species, form, ratioMode);
@@ -2310,7 +2311,7 @@ done:
  * `v ^= 0x10000` statements and nothing else.  Case bodies in the order
  * 1, 0, 2; the case-1 key written `hi(a0) ^ (u16)a0` first.
  */
-u32 func_020186C8(u32 otId, int species, u16 form, int ratioMode, int shinyWanted, int mode)
+u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, u16 form, int ratioMode, int shinyWanted, int mode)
 {
     u32 personality;
 
@@ -2393,7 +2394,7 @@ u32 func_020186C8(u32 otId, int species, u16 form, int ratioMode, int shinyWante
  * it reproduced, never a data object one of its instructions loads, and
  * 0x0209E288 is a table.
  */
-u32 func_02018790(struct PokemonParam *pp)
+u32 POKE_TOOL_GetHiddenPowerType(struct PokemonParam *pp)
 {
     u32 typeIndex = 0;
 
@@ -2426,14 +2427,14 @@ u32 func_02018790(struct PokemonParam *pp)
 /*
  * Folds the six ids 0x46 to 0x4B, the six 5 bit fields of substruct B +0x10
  * that POKE_TOOL_GetBoxValueRaw reads, into a 0 to 63 index on bit 1 of each and scales
- * it to 30..70.  Its neighbour func_02018790 is the same fold on bit 0 with a
+ * it to 30..70.  Its neighbour POKE_TOOL_GetHiddenPowerType is the same fold on bit 0 with a
  * table lookup at the end, and the two are the pair a Hidden Power power and
  * type are computed with.
  *
- * The range is one function on purpose.  func_02018790, immediately before,
+ * The range is one function on purpose.  POKE_TOOL_GetHiddenPowerType, immediately before,
  * reads a byte table at 0x0209E288 whose only reference anywhere in the image
  * is the pool word under test, so it caps at MATCH however it is written; and
- * func_020188AC, immediately after, is an eight byte
+ * POKE_TOOL_CheckTmCompat, immediately after, is an eight byte
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk whose pool word is the
  * only reference to POKE_TOOL_CheckBoxTmCompat in the image, so it caps too.  Both are
  * byte-correct and neither can be cut free; this middle function is what is
@@ -2483,7 +2484,7 @@ u32 POKE_TOOL_GetHiddenPowerPower(struct PokemonParam *pp)
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Filed as the relocation
  * witness for ov021 func_021B62C8 (wave A1).
  */
-u32 func_020188AC(struct PokemonParam *pp, int tmIndex)
+u32 POKE_TOOL_CheckTmCompat(struct PokemonParam *pp, int tmIndex)
 {
     return POKE_TOOL_CheckBoxTmCompat(&pp->box, tmIndex);
 }
@@ -2642,11 +2643,11 @@ void POKE_TOOL_SetBoxAbility(struct BoxPokemon *box, u32 species, u32 form)
  * that reads and writes the record through both halves of the dispatcher
  * quartet at once.  It takes no arguments but the record pointer: everything
  * it needs is read back through func_02017E1C (src/matched/unit_02017E1C.c)
- * and everything it produces is written through func_02017E40
+ * and everything it produces is written through POKE_TOOL_SetPartyValue
  * (src/matched/unit_02017E40.c), so the whole function is seventeen reads, a
  * base-stat table lookup, six formulas and six writes.
  *
- * Its single caller is func_020185C4 (src/pending/unit_020185C4.c), which was
+ * Its single caller is POKE_TOOL_RecalcParam (src/pending/unit_020185C4.c), which was
  * MATCH-capped on exactly this address; with this entry EXACT the `matched`
  * class carries that site and the parked file graduates.
  *
@@ -2789,27 +2790,27 @@ void POKE_TOOL_CalcParam(struct PokemonParam *pp)
         maxHp = (base->baseHp * 2 + ivHp + evHp / 4) * level / 100 + level;
         maxHp = maxHp + 10;
     }
-    func_02017E40(pp, POKE_TOOL_PARAM_MAX_HP, maxHp);
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_MAX_HP, maxHp);
 
     stat = (base->baseAttack * 2 + ivAttack + evAttack / 4) * level / 100 + 5;
     nature = func_02018598(pp);
-    func_02017E40(pp, POKE_TOOL_PARAM_ATTACK, func_02019B04(nature, (u16)stat, 1));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_ATTACK, func_02019B04(nature, (u16)stat, 1));
 
     stat = (base->baseDefense * 2 + ivDefense + evDefense / 4) * level / 100 + 5;
     nature = func_02018598(pp);
-    func_02017E40(pp, POKE_TOOL_PARAM_DEFENSE, func_02019B04(nature, (u16)stat, 2));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_DEFENSE, func_02019B04(nature, (u16)stat, 2));
 
     stat = (base->baseSpeed * 2 + ivSpeed + evSpeed / 4) * level / 100 + 5;
     nature = func_02018598(pp);
-    func_02017E40(pp, POKE_TOOL_PARAM_SPEED, func_02019B04(nature, (u16)stat, 5));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_SPEED, func_02019B04(nature, (u16)stat, 5));
 
     stat = (base->baseSpAttack * 2 + ivSpAttack + evSpAttack / 4) * level / 100 + 5;
     nature = func_02018598(pp);
-    func_02017E40(pp, POKE_TOOL_PARAM_SP_ATTACK, func_02019B04(nature, (u16)stat, 3));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_SP_ATTACK, func_02019B04(nature, (u16)stat, 3));
 
     stat = (base->baseSpDefense * 2 + ivSpDefense + evSpDefense / 4) * level / 100 + 5;
     nature = func_02018598(pp);
-    func_02017E40(pp, POKE_TOOL_PARAM_SP_DEFENSE, func_02019B04(nature, (u16)stat, 4));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_SP_DEFENSE, func_02019B04(nature, (u16)stat, 4));
 
     if (hp != 0 || oldMaxHp == 0) {
         if (species == 292) {
@@ -2828,7 +2829,7 @@ void POKE_TOOL_CalcParam(struct PokemonParam *pp)
         }
     }
     if (hp != 0) {
-        func_02017E40(pp, POKE_TOOL_PARAM_HP, hp);
+        POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HP, hp);
     }
 }
 
@@ -3021,7 +3022,7 @@ u32 POKE_TOOL_GetPartyValueRaw(struct PokemonParam *pp, u32 paramId, u32 arg)
  *   0x9A       D +0x1C bit 7
  *   0x9B       D +0x1D u8
  *   0x9C       D +0x1E u16
- *   0x9E       derived                     func_0201850C(species, form, exp)
+ *   0x9E       derived                     POKE_TOOL_CalcLevelFromExp(species, form, exp)
  *   0x9D, 0x9F..0xA8                       gaps here; the party area, owned by
  *                                          POKE_TOOL_GetPartyValueRaw
  *   0xA9       derived                     species != 0
@@ -3130,7 +3131,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg)
         }
         break;
     case POKE_TOOL_PARAM_LEVEL:
-        result = func_0201850C(blockA->species, blockB->form, blockA->exp);
+        result = POKE_TOOL_CalcLevelFromExp(blockA->species, blockB->form, blockA->exp);
         break;
     case POKE_TOOL_PARAM_SPECIES:
         if (box->checksumFailed != 0) {
@@ -3249,14 +3250,14 @@ u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg)
     case POKE_TOOL_PARAM_SPARE_WORD: result = blockB->spareWord; break;
     case POKE_TOOL_PARAM_NICKNAME_STRBUF:
         if (box->checksumFailed != 0) {
-            func_02045CAC(gMsgBank, 651, (struct Strbuf *)arg);
+            func_02045CAC(gSpeciesNameBank, 651, (struct Strbuf *)arg);
         } else {
-            func_02045924((struct Strbuf *)arg, blockC->nickname);
+            STRBUF_SetString((struct Strbuf *)arg, blockC->nickname);
         }
         break;
     case POKE_TOOL_PARAM_NICKNAME:
         if (box->checksumFailed != 0) {
-            MSGDATA_ReadUnits(gMsgBank, 651, (u16 *)arg, 11);
+            MSGDATA_ReadUnits(gSpeciesNameBank, 651, (u16 *)arg, 11);
         } else {
             func_0201F41C(blockC->nickname, (u16 *)arg, 11);
         }
@@ -3281,7 +3282,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg)
         result = flag;
         break;
     case POKE_TOOL_PARAM_OT_NAME_STRBUF:
-        func_02045924((struct Strbuf *)arg, blockD->otName);
+        STRBUF_SetString((struct Strbuf *)arg, blockD->otName);
         break;
     case POKE_TOOL_PARAM_OT_NAME:
         func_0201F41C(blockD->otName, (u16 *)arg, 8);
@@ -3644,7 +3645,7 @@ void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 value)
     case POKE_TOOL_PARAM_HIDDEN_ABILITY: blockB->hasHiddenAbility = (u16)value; break;
     case POKE_TOOL_PARAM_SPARE_WORD: blockB->spareWord = value; break;
     case POKE_TOOL_PARAM_NICKNAME_STRBUF:
-        func_02045A38((struct Strbuf *)value, blockC->nickname, 11);
+        STRBUF_ToChars((struct Strbuf *)value, blockC->nickname, 11);
         blockB->hasNickname = func_02019ABC(box);
         break;
     case POKE_TOOL_PARAM_NICKNAME:
@@ -3652,7 +3653,7 @@ void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 value)
         blockB->hasNickname = func_02019ABC(box);
         break;
     case POKE_TOOL_PARAM_NICKNAME_STRBUF_KEEP_FLAG:
-        func_02045A38((struct Strbuf *)value, blockC->nickname, 11);
+        STRBUF_ToChars((struct Strbuf *)value, blockC->nickname, 11);
         break;
     case POKE_TOOL_PARAM_NICKNAME_KEEP_FLAG:
         func_0201F41C((const u16 *)value, blockC->nickname, 11);
@@ -3679,7 +3680,7 @@ void POKE_TOOL_SetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 value)
         }
         break;
     case POKE_TOOL_PARAM_OT_NAME_STRBUF:
-        func_02045A38((struct Strbuf *)value, blockD->otName, 8);
+        STRBUF_ToChars((struct Strbuf *)value, blockD->otName, 8);
         break;
     case POKE_TOOL_PARAM_OT_NAME:
         func_0201F41C((const u16 *)value, blockD->otName, 8);

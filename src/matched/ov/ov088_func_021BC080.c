@@ -1,5 +1,5 @@
 /*
- * function: func_021BC080
+ * function: STARTMENU_BeginFadeIn
  * address:  0x021BC080
  * packet:   pkt_ov088_021BC080
  * region:   ov088
@@ -13,15 +13,15 @@
  * (function_starts seed).
  *
  * symbols:
- *   func_0202208C  0x0202208C  thumb
+ *   WIPE_SYS_Start  0x0202208C  thumb
  */
 #include "../include/Obj20825.h"
 
-extern void func_0202208C(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
+extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 
-int func_021BC080(char *p, int v)
+int STARTMENU_BeginFadeIn(char *p, int v)
 {
-    func_0202208C(0, 0, 0, 0, 6, 1, 0xb);
+    WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0xb);
     ((struct Obj20825 *)p)->f144 = v;
     return 2;
 }

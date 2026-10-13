@@ -1,5 +1,5 @@
 /*
- * function: func_02185F74
+ * function: OEKAKI_RefreshNamePlates
  * address:  0x02185F74
  * packet:   pkt_ov023_02185F74
  * region:   ov023
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02039338  0x02039338  arm
- *   func_02186170  0x02186170  thumb  ov023
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   OEKAKI_UpdateMemberSlots  0x02186170  thumb  ov023
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043AF4  0x02043AF4  arm
+ *   BMP_FillRect  0x02043AF4  arm
  *   func_02008500  0x02008500  thumb
- *   func_0201C724  0x0201C724  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
@@ -52,8 +52,8 @@ typedef struct {
     Ent e1c8[5];
 } W;
 
-extern u16 func_02039338(void);
-extern int func_02186170(char *p);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern int OEKAKI_UpdateMemberSlots(char *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Bmp;
@@ -63,23 +63,23 @@ struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_02008500(void *a, void *b);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(struct Cfg *cfg);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 
-void func_02185F74(u32 *win, u16 color, W *p)
+void OEKAKI_RefreshNamePlates(u32 *win, u16 color, W *p)
 {
     int sel;
     int i;
     u32 w;
     u32 t;
 
-    sel = func_02039338();
-    if (!func_02186170((char *)p))
+    sel = GFL_NET_SYSTEM_GetCurrentAid();
+    if (!OEKAKI_UpdateMemberSlots((char *)p))
         return;
     for (i = 0; i < 5; i++) {
         if (p->e1c8[i].w == 0)
@@ -89,23 +89,23 @@ void func_02185F74(u32 *win, u16 color, W *p)
     }
     func_0201C6EC((struct PrintSys *)p->f164);
     for (i = 0; i < 5; i++)
-        func_02043AF4((struct Bmp *)((u32)func_02045770((struct Descriptor *)win[i])), 0, 0, 0x50, 0x10, 0);
+        BMP_FillRect((struct Bmp *)((u32)func_02045770((struct Descriptor *)win[i])), 0, 0, 0x50, 0x10, 0);
     for (i = 0; i < 5; i++) {
         if (p->e1c8[i].w != 0) {
             func_02008500((void *)p->e1c8[i].w, (void *)p->arr18[i]);
             if (sel == i) {
                 t = p->f164;
-                func_0201C724((void *)t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, 0xc80);
+                PRINTSYS_PrintQueColor((void *)t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, 0xc80);
                 p->ent[i].f = 1;
             } else {
                 t = p->f164;
-                func_0201C724((void *)t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, color);
+                PRINTSYS_PrintQueColor((void *)t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, color);
                 p->ent[i].f = 1;
             }
         }
         w = win[i];
-        func_02045334((struct Descriptor *)w);
-        func_02045374((struct Cfg *)w);
+        BMP_WIN_TransferChars((struct Descriptor *)w);
+        BMP_WIN_MakeScreen((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
     }
 }

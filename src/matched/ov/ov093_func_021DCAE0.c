@@ -1,5 +1,5 @@
 /*
- * function: func_021DCAE0
+ * function: BTL_ABILITY_MagicBounceCounterMove
  * address: 0x021DCAE0
  * packet: pkt_ov093_021DCAE0
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCA98.c and filed here.
  *
  * symbols:
- *   func_021E8798 0x021E8798 thumb ov093
+ *   BTLV_CORE_EventCounterMove 0x021E8798 thumb ov093
  */
 
-void func_021E8798(int u, void *a, int b, int d);
-void func_021DCAE0(int u, void *a, int b, int d);
+void BTLV_CORE_EventCounterMove(int u, void *a, int b, int d);
+void BTL_ABILITY_MagicBounceCounterMove(int u, void *a, int b, int d);
 
-void func_021DCAE0(int u, void *a, int b, int d)
+void BTL_ABILITY_MagicBounceCounterMove(int u, void *a, int b, int d)
 {
-    func_021E8798(u, a, b, d);
+    BTLV_CORE_EventCounterMove(u, a, b, d);
 }

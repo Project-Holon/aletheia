@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_021C5280  0x021C5280  thumb  ov111
  *   func_021C5484  0x021C5484  thumb  ov111
  *   func_021C55A4  0x021C55A4  thumb  ov111
@@ -46,7 +46,7 @@ typedef struct {
     u16 h305E;
 } Work;
 
-extern int func_02035C08(const void *rect);
+extern int TOUCHPANEL_HitTrg(const void *rect);
 extern int func_021C5280(Work *p, int hit);
 extern int func_021C5484(Work *p, int hit);
 extern void func_021C55A4(Work *p);
@@ -60,9 +60,9 @@ int func_021C567C(Work *p)
     int r;
 
     if (p->info->f4_7 == 0) {
-        hit = func_02035C08(d_021C8594);
+        hit = TOUCHPANEL_HitTrg(d_021C8594);
     } else {
-        hit = func_02035C08(d_021C8554);
+        hit = TOUCHPANEL_HitTrg(d_021C8554);
     }
     if (p->h305E == 0) {
         r = func_021C5280(p, hit);

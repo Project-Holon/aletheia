@@ -1,5 +1,5 @@
 /*
- * function: func_02190F64
+ * function: FIELD_MSGBG_CreateBottomSysWin
  * address:  0x02190F64
  * packet:   pkt_ov021_02190F64
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02190DCC  0x02190DCC  thumb  ov021
+ *   FIELD_MSGBG_CreateSysWin  0x02190DCC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -27,9 +27,9 @@ typedef struct Fx {
 } Fx;
 
 struct Obj2;
-extern struct Obj2 *func_02190DCC(struct Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f);
+extern struct Obj2 *FIELD_MSGBG_CreateSysWin(struct Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f);
 
-struct Obj2 *func_02190F64(Fx *a, u32 b)
+struct Obj2 *FIELD_MSGBG_CreateBottomSysWin(Fx *a, u32 b)
 {
-    return func_02190DCC(a, b, 1, 0x13, 0x1E, 4);
+    return FIELD_MSGBG_CreateSysWin(a, b, 1, 0x13, 0x1E, 4);
 }

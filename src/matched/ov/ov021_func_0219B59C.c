@@ -1,5 +1,5 @@
 /*
- * function: func_0219B59C
+ * function: FLDMMDL_MOVE_TurnLookAround
  * address:  0x0219B59C
  * packet:   pkt_ov021_0219B59C
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D5238     0x021D5238  data   ov021  a4
- *   d_021D5248     0x021D5248  data   ov021  a4
- *   func_0216D6B8  0x0216D6B8  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D438  0x0216D438  thumb  ov010
- *   func_02197EDC  0x02197EDC  thumb  ov021
- *   func_0216D5A8  0x0216D5A8  thumb  ov010
- *   func_0219B8A8  0x0219B8A8  thumb  ov021
- *   func_02164168  0x02164168  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   gLookAroundDirGroup     0x021D5238  data   ov021  a4
+ *   gLookAroundDirTable     0x021D5248  data   ov021  a4
+ *   FLDMMDL_GetMoveSubProcWork  0x0216D6B8  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetLocalAcmd  0x0216D438  thumb  ov010
+ *   FLDMMDL_ACMD_Update  0x02197EDC  thumb  ov021
+ *   FLDMMDL_GetEventType  0x0216D5A8  thumb  ov010
+ *   FLDMMDL_MOVE_IsButtonBHeld  0x0219B8A8  thumb  ov021
+ *   FLDMMDL_MOVE_IsNearPlayer  0x02164168  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -43,46 +43,46 @@ typedef struct St {
     s8 f8;
 } St;
 
-extern Tbl4 d_021D5238;
-extern Tbl22 d_021D5248;
+extern Tbl4 gLookAroundDirGroup;
+extern Tbl22 gLookAroundDirTable;
 
-extern void *func_0216D6B8(void *p);
-extern u16 func_0216D5F8(void *p);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D438(char *a0, int a1);
-extern u32 func_02197EDC(u8 *p);
-extern u16 func_0216D5A8(u8 *p);
-extern int func_0219B8A8(void);
-extern int func_02164168(int a);
-extern void func_0216D5E0(int a0, int a1);
+extern void *FLDMMDL_GetMoveSubProcWork(void *p);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetLocalAcmd(char *a0, int a1);
+extern u32 FLDMMDL_ACMD_Update(u8 *p);
+extern u16 FLDMMDL_GetEventType(u8 *p);
+extern int FLDMMDL_MOVE_IsButtonBHeld(void);
+extern int FLDMMDL_MOVE_IsNearPlayer(int a);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 
-int func_0219B59C(char *a)
+int FLDMMDL_MOVE_TurnLookAround(char *a)
 {
     St *p;
     int lim;
 
-    p = func_0216D6B8((void *)a);
+    p = FLDMMDL_GetMoveSubProcWork((void *)a);
     switch (p->state) {
     case 0: {
-        Tbl4 t = d_021D5238;
-        u16 v = func_0216D5F8((void *)a);
+        Tbl4 t = gLookAroundDirGroup;
+        u16 v = FLDMMDL_GetDirDisp((void *)a);
         p->f4 = v;
         p->f5 = t.w[v];
         p->state++;
     }
     case 1: {
-        Tbl22 t = d_021D5248;
-        func_0216D438(a, (u16)((u32)func_02197E7C((u16)t.w[p->f5][p->f6], (u16)0)));
+        Tbl22 t = gLookAroundDirTable;
+        FLDMMDL_SetLocalAcmd(a, (u16)((u32)FLDMMDL_ACMD_ConvertCodeByDir((u16)t.w[p->f5][p->f6], (u16)0)));
         p->state++;
     }
     case 2:
-        if (func_02197EDC((u8 *)a) == 0) {
+        if (FLDMMDL_ACMD_Update((u8 *)a) == 0) {
             return 1;
         }
         p->state++;
     case 3:
         lim = 8;
-        if (func_0216D5A8((u8 *)a) == 14 && func_0219B8A8() == 1 && func_02164168((int)a) == 1) {
+        if (FLDMMDL_GetEventType((u8 *)a) == 14 && FLDMMDL_MOVE_IsButtonBHeld() == 1 && FLDMMDL_MOVE_IsNearPlayer((int)a) == 1) {
             lim = 4;
         }
         if (++p->f8 < lim) {
@@ -94,7 +94,7 @@ int func_0219B59C(char *a)
             p->state = 1;
             return 1;
         }
-        func_0216D5E0((int)a, p->f4);
+        FLDMMDL_SetDirDispCheckPause((int)a, p->f4);
         p->state++;
         p->f7 = 0;
         p->f0 = 0;

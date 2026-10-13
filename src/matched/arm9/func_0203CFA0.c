@@ -13,6 +13,7 @@
  *   _pNetState     0x021469DC  data
  *   GFL_NET_STATE_Main  0x0203B1D8  arm
  *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -28,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int  u32;
 
 extern void *GFL_NET_GetSession(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_STATE_Main(void);
 
 void GFL_NET_RequestDisconnect(void)
@@ -41,7 +42,7 @@ void GFL_NET_RequestDisconnect(void)
     if (s == 0 || ((struct Obj15976 *)s)->f340 == 0)
         return;
 
-    p = func_0203D798();
+    p = GFL_NET_GetInitParam();
     switch (p[0x65]) {
     case 1:
     case 2:

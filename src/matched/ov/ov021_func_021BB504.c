@@ -1,5 +1,5 @@
 /*
- * function: func_021BB504
+ * function: FLDEFF_GYOE_DeleteResource
  * address:  0x021BB504
  * packet:   pkt_ov021_021BB504
  * region:   ov021
@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm  arm9
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm  arm9
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm  arm9
  */
 
 typedef struct {
@@ -19,17 +24,17 @@ typedef struct {
 
 struct Rec;
 struct Tagged;
-extern void func_02047738(struct Rec *p);
-extern void func_02047504(struct Rec *p);
-extern void func_02046EFC(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
+extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
-void func_021BB504(Obj *p)
+void FLDEFF_GYOE_DeleteResource(Obj *p)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        func_02047738(p->a24[i]);
-        func_02047504(p->a14[i]);
-        func_02046EFC(p->a4[i]);
+        G3D_SYSTEM_DeleteObject(p->a24[i]);
+        G3D_SYSTEM_DeleteRender(p->a14[i]);
+        G3D_SYSTEM_DeleteResource(p->a4[i]);
     }
 }

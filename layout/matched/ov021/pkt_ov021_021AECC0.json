@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AECC0",
+   "name": "SCRCMD_ClassifyTrainer",
    "address": "0x021AECC0",
    "kind": "game",
    "region": "ov021",

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DD11C, func_021DD128
+ * function: BTL_HANDLER_ITEM_PechaBerryOnEaten, BTL_HANDLER_ITEM_AddPechaBerry
  * address: 0x021DD11C
  * packet: pkt_ov093_021DD11C
  * region: ov093
@@ -10,17 +10,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DD19C 0x021DD19C thumb ov093
- *   d_021F1B64 0x021F1B64 data a4
+ *   BTL_HANDLER_ITEM_CureSickOnEaten 0x021DD19C thumb ov093
+ *   gHandlerTablePechaBerry 0x021F1B64 data a4
  */
-extern void func_021DD19C(void *, unsigned char *, int, int);
-extern const unsigned char d_021F1B64[];
-void func_021DD11C(void *a, void *b, int c)
+extern void BTL_HANDLER_ITEM_CureSickOnEaten(void *, unsigned char *, int, int);
+extern const unsigned char gHandlerTablePechaBerry[];
+void BTL_HANDLER_ITEM_PechaBerryOnEaten(void *a, void *b, int c)
 {
-    func_021DD19C(a, b, c, 5);
+    BTL_HANDLER_ITEM_CureSickOnEaten(a, b, c, 5);
 }
-const void *func_021DD128(int *p)
+const void *BTL_HANDLER_ITEM_AddPechaBerry(int *p)
 {
     *p = 5;
-    return d_021F1B64;
+    return gHandlerTablePechaBerry;
 }

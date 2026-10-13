@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF328",
+   "name": "BTL_HANDLER_ITEM_GetStonePlateHandlers",
    "address": "0x021DF328",
    "kind": "game",
    "region": "ov093",

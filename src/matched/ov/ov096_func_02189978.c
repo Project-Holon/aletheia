@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
  *   func_0218A3F4  0x0218A3F4  thumb  ov096
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D5B40  0x021D5B40  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  */
 #include "../include/Obj10187.h"
 
@@ -26,24 +26,24 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 struct Unk021D62A8;
 extern int func_0218A3F4(int a, int b, int c);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 struct QI;
-extern u16 func_021D5B40(struct QI *p);
+extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 
 int func_02189978(struct Cursor *a, int b) {
     int r;
     u8 t;
     int s;
-    r = func_0201134C(a);
+    r = VM_GetU32(a);
     t = func_0218A160((u8 *)b, r);
     ((struct Obj10187 *)b)->f38 = 0;
-    if (func_021D62C4((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, t), 0x13) == 0) {
-        s = func_021D5B40((struct QI *)func_0218A2FC((u8 *)b, t));
+    if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, t), 0x13) == 0) {
+        s = BTL_POKEPARAM_GetItem((struct QI *)func_0218A2FC((u8 *)b, t));
         ((struct Obj10187 *)b)->f38 = func_0218A3F4(b, (u16)s, 10);
     }
     return ((struct Obj10187 *)b)->fC4;

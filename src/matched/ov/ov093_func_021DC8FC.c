@@ -1,5 +1,5 @@
 /*
- * function: func_021DC8FC
+ * function: BTL_ABILITY_GetJustifiedHandlers
  * address: 0x021DC8FC
  * packet: pkt_ov093_021DC8FC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DC6EC.c and filed here.
  *
  * symbols:
- *   d_021F05D0 0x021F05D0 data ov093 a4
+ *   gJustifiedHandlers 0x021F05D0 data ov093 a4
  */
 
-int *func_021DC8FC(int *p);
-extern int d_021F05D0[];
+int *BTL_ABILITY_GetJustifiedHandlers(int *p);
+extern int gJustifiedHandlers[];
 
-int *func_021DC8FC(int *p)
+int *BTL_ABILITY_GetJustifiedHandlers(int *p)
 {
     *p = 1;
-    return d_021F05D0;
+    return gJustifiedHandlers;
 }

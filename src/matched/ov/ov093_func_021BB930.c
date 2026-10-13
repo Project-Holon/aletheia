@@ -1,5 +1,5 @@
 /*
- * function: func_021BB930
+ * function: BTL_SERVER_AddPokeChangeRequest
  * address: 0x021BB930
  * packet: pkt_ov093_021BB930
  * region: ov093
@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021BB930(u8 *p, u32 value)
+void BTL_SERVER_AddPokeChangeRequest(u8 *p, u32 value)
 {
     u32 i;
     u32 count = p[0xcba];

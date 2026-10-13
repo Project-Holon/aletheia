@@ -1,5 +1,5 @@
 /*
- * function: func_021A6DC0
+ * function: FIELDMAP_CTRL_HYBRID_GetMode
  * address:  0x021A6DC0
  * packet:   pkt_021A6DC0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A6DC0(u8 *p)
+u32 FIELDMAP_CTRL_HYBRID_GetMode(u8 *p)
 {
     return ((struct Obj18063 *)p)->f0;
 }

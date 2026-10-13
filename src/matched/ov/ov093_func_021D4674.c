@@ -1,5 +1,5 @@
 /*
- * function: func_021D4674
+ * function: BTL_NET_ResetAfterPerapVoice
  * address:  0x021D4674
  * packet:   pkt_ov093_021D4674
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4CEC  0x021D4CEC  thumb  ov093
- *   func_021D4A6C  0x021D4A6C  thumb  ov093
+ *   BTL_NET_ResetReplySlots  0x021D4CEC  thumb  ov093
+ *   BTL_NET_FreeRecvBuffers  0x021D4A6C  thumb  ov093
  */
 
-void func_021D4CEC(void);
-void func_021D4A6C(void);
+void BTL_NET_ResetReplySlots(void);
+void BTL_NET_FreeRecvBuffers(void);
 
-void func_021D4674(void)
+void BTL_NET_ResetAfterPerapVoice(void)
 {
-    func_021D4CEC();
-    func_021D4A6C();
+    BTL_NET_ResetReplySlots();
+    BTL_NET_FreeRecvBuffers();
 }

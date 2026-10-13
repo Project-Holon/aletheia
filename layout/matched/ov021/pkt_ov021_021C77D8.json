@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021C77D8",
-    "func_021C77FC"
+    "FIELD_TASK_CreateWait",
+    "FIELD_TASK_UpdateWait"
+   ],
+   "addresses": [
+    "0x021C77D8",
+    "0x021C77FC"
    ]
   }
  ]

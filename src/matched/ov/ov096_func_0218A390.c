@@ -15,27 +15,27 @@
  * 2026-10-05 (wD6 lane15): EXACT*. func_021C7E14 takes u8 a, u8 b (as in matched func_02189D48)
  *   and x, y are u8 locals; that fixes the stack-argument store order in the loop call.
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   func_021C7E14 0x021C7E14 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_021D5440(u8 *);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 struct QG;
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern u16 func_021C7E14(u8 *, u8, u8, u32, int, int);
 u32 func_0218A390(u8 *a, u8 *b, u8 *c, int d)
 {
     u32 best = 0;
-    u8 x = func_021D5440(b);
-    u8 y = func_021D5440(c);
+    u8 x = BTL_POKEPARAM_GetPokeId(b);
+    u8 y = BTL_POKEPARAM_GetPokeId(c);
     int i;
-    for (i = 0; i < (int)func_021D5448((struct QG *)b); i++) {
-        u32 r = func_021C7E14(*(u8 **)(a + 0xB4), x, y, (u32)func_021D54C0(b, (u8)i), 1, d);
+    for (i = 0; i < (int)BTL_POKEPARAM_GetMoveCount((struct QG *)b); i++) {
+        u32 r = func_021C7E14(*(u8 **)(a + 0xB4), x, y, (u32)BTL_POKEPARAM_GetMoveId(b, (u8)i), 1, d);
         if (r > best)
             best = r;
     }

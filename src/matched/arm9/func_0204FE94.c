@@ -1,5 +1,5 @@
 /*
- * function: func_0204FE94
+ * function: BILLBOARD_ACT_Create
  * address:  0x0204FE94
  * packet:   pkt_0204FE94
  * region:   arm9
@@ -54,8 +54,8 @@
  * attested `string`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204FE94.c \
- *       --func func_0204FE94 --addr 0x0204FE94 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_Create.c \
+ *       --func BILLBOARD_ACT_Create --addr 0x0204FE94 --cc 1.1p1 --arm
  *   EXACT, 360 bytes, 10 relocation sites, all resolved.
  */
 
@@ -89,7 +89,7 @@ extern void BILLBOARD_ACT_InitEntry(u32 *p);
 extern const char sBillboardAct[];
 extern const struct Blob28 gBillboardActTpl;
 
-void *func_0204FE94(u16 a0, u16 a1, u32 a2, int heap)
+void *BILLBOARD_ACT_Create(u16 a0, u16 a1, u32 a2, int heap)
 {
     const char *file = sBillboardAct;
     struct Sys *h;

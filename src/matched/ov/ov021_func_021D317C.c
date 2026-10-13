@@ -1,5 +1,5 @@
 /*
- * function: func_021D317C
+ * function: FLD_VREQ_Create
  * address:  0x021D317C
  * packet:   pkt_ov021_021D317C
  * region:   ov021
@@ -23,7 +23,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern char d_021DE6C8[];
 
-void *func_021D317C(u32 heap)
+void *FLD_VREQ_Create(u32 heap)
 {
     u8 *p = func_02030734(heap, 0x38, 1, d_021DE6C8, 0x80);
 

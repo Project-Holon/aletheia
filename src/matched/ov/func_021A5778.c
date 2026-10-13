@@ -1,5 +1,5 @@
 /*
- * function: func_021A5778
+ * function: FIELD_PLAYER_GRID_IsBlocked
  * address:  0x021A5778
  * packet:   pkt_021A5778
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A5778(u32 a)
+int FIELD_PLAYER_GRID_IsBlocked(u32 a)
 {
 if (((struct Obj18052 *)((u8 *)(a)))->f0 == 3) {
     return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA190
+ * function: OPTION_MENU_GetInputCommand
  * address: 0x021BA190
  * packet: pkt_ov068_021BA190
  * region: ov068
@@ -10,4 +10,4 @@
  * status: EXACT*
  * Follower 0x021BA194 already filed separately.
  */
-int func_021BA190(const int *p) { return *p; }
+int OPTION_MENU_GetInputCommand(const int *p) { return *p; }

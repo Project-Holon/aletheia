@@ -1,5 +1,5 @@
 /*
- * function: func_021CE3E8
+ * function: COMM_ENTRY_MENU_LatchRequest
  * address:  0x021CE3E8
  * packet:   pkt_ov021_021CE3E8
  * region:   ov021
@@ -28,7 +28,7 @@ typedef struct {
     Req req;
 } Mgr;
 
-int func_021CE3E8(Mgr *m, Req *r)
+int COMM_ENTRY_MENU_LatchRequest(Mgr *m, Req *r)
 {
     if (m->busy == 0) {
         m->req = *r;

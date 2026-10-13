@@ -1,5 +1,5 @@
 /*
- * function: func_021D5EFC
+ * function: BTL_POKEPARAM_RaiseLoweredStatStages
  * address:  0x021D5EFC
  * packet:   pkt_021D5EFC
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D53DC  0x021D53DC  thumb  ov093
+ *   BTL_POKEPARAM_RaiseLowStatStagesInArray  0x021D53DC  thumb  ov093
  *
- * note: unblocked when src/matched/func_021D53DC.c was filed EXACT; the
+ * note: unblocked when src/matched/BTL_POKEPARAM_RaiseLowStatStagesInArray.c was filed EXACT; the
  * relocation now attests as `matched` (ov093) with no C change.
  */
 
-int func_021D53DC(signed char *p);
+int BTL_POKEPARAM_RaiseLowStatStagesInArray(signed char *p);
 
-int func_021D5EFC(char *p)
+int BTL_POKEPARAM_RaiseLoweredStatStages(char *p)
 {
-    return func_021D53DC((signed char *)(p + 0xfc));
+    return BTL_POKEPARAM_RaiseLowStatStagesInArray((signed char *)(p + 0xfc));
 }

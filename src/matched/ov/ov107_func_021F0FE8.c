@@ -10,11 +10,11 @@
  * status: EXACT*
  * note: 2026-10-05 P26L5: source order is flag clear first, then the word at +4 (the compiler schedules the str before ands/strh). Plain literal zeros, no zero local. 021F1008 and 021F1010 are separate stubs.
  * symbols:
- *   func_0203CEAC 0x0203CEAC arm
+ *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_LOWER_DATA_Exit 0x0203E6C0 arm
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 typedef struct {u32 a; u32 f4; u8 pad[16];unsigned short low:11,flag:1,rest:4;} State;
-extern int func_0203CEAC(int);
+extern int GFL_NET_Exit(int);
 extern void GFL_NET_LOWER_DATA_Exit(void);
-void func_021F0FE8(State *p) { func_0203CEAC(0); GFL_NET_LOWER_DATA_Exit(); p->flag=0; p->f4=0; }
+void func_021F0FE8(State *p) { GFL_NET_Exit(0); GFL_NET_LOWER_DATA_Exit(); p->flag=0; p->f4=0; }

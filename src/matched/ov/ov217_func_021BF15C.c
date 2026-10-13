@@ -19,8 +19,8 @@
  *   func_021C11C8 0x021C11C8 thumb ov217
  *   func_021C11DC 0x021C11DC thumb ov217
  *   func_02045EC0 0x02045EC0 arm
- *   func_020457B0 0x020457B0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
@@ -44,8 +44,8 @@ extern void func_021C0F78(u8 *p, struct U16Vec *text);
 extern u8 func_021C11C8(u8 *p, u8 key);
 extern u8 func_021C11DC(u8 *p, u8 key);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -71,7 +71,7 @@ void func_021BF15C(char *p)
     c = func_021C11DC(o, (u8)k);
     x = func_02045EC0(((struct Obj00021 *)p)->fC, 0xd);
     y = func_02045EC0(((struct Obj00021 *)p)->f14, k);
-    z = func_020457B0(0x80, ((struct Obj00021 *)p)->f4);
+    z = STRBUF_Create(0x80, ((struct Obj00021 *)p)->f4);
     func_0201EFA4(((struct Obj00021 *)p)->f18, 0, a + 1, 2, 1, 1);
     func_0201EE0C(((struct Obj00021 *)p)->f18, 1, y, 0, 1, 2);
     func_0201EFA4(((struct Obj00021 *)p)->f18, 2, b, 5, 1, 1);
@@ -79,7 +79,7 @@ void func_021BF15C(char *p)
     func_0201F250(((struct Obj00021 *)p)->f18, z, x);
     func_021C0F78((u8 *)t, z);
     func_021C0FF8((u8 *)t, 1);
-    func_02045808(x);
-    func_02045808(z);
-    func_02045808(y);
+    STRBUF_Delete(x);
+    STRBUF_Delete(z);
+    STRBUF_Delete(y);
 }

@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_021C9888  0x021C9888  thumb  ov093
- *   func_021C4BAC  0x021C4BAC  thumb  ov093
+ *   BTL_SERVER_FLOW_PushSideEffectExpireMessage  0x021C4BAC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021C9888(u32 a, u32 i);
-extern void func_021C4BAC(u8 *p, int k, int v);
+extern void BTL_SERVER_FLOW_PushSideEffectExpireMessage(u8 *p, int k, int v);
 
 static inline int test(u8 *s, u32 i)
 {
@@ -36,7 +36,7 @@ int func_021C9828(void *w, u8 *s)
     u32 i;
     for (i = 0; i < 14; i++) {
         if (test(s, i) && func_021C9888(s[7], i)) {
-            func_021C4BAC(w, i, s[7]);
+            BTL_SERVER_FLOW_PushSideEffectExpireMessage(w, i, s[7]);
             r = 1;
         }
     }

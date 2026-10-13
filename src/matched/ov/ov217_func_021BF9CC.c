@@ -15,6 +15,7 @@
  *   func_021BF740  0x021BF740  thumb  ov217
  *   func_021BF7CC  0x021BF7CC  thumb  ov217
  *   func_0200E458  0x0200E458  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *
 
  * BLOCKED at MATCH: the relocation site(s) below have no independent witness.
@@ -34,11 +35,11 @@ typedef signed int     s32;
 struct Big;
 extern void *func_0200E394(void *a0);
 extern u16 func_0200E458(const u16 *, int);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern u32 func_021BF740(u8 *);
 extern u32 func_021BF7CC(void *);
 u16 func_021BF9CC(u32 a0)
 {
-    return func_0200E458((const u16 *)func_0200E394(func_02012EBC((struct Big *)func_021BF740((u8 *)a0))), func_021BF7CC((void *)a0));
+    return func_0200E458((const u16 *)func_0200E394(GAME_DATA_GetSaveControl((struct Big *)func_021BF740((u8 *)a0))), func_021BF7CC((void *)a0));
 }
 

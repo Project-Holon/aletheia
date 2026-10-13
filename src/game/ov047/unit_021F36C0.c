@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F36C0.c
  * unit:     yes
- * function: func_021F36C0, func_021F370C, func_021F3740, func_021F3800, func_021F381C
+ * function: func_021F36C0, FIELD_GIMMICK_BRIDGE_Exit, FIELD_GIMMICK_BRIDGE_Update, FIELD_GIMMICK_BRIDGE_ResetSave, FIELD_GIMMICK_BRIDGE_IsOnSwayTile
  * address:  0x021F36C0
  * region:   ov047
  * compiler: dsi/1.1p1
@@ -13,18 +13,18 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   func_0200B3A4  0x0200B3A4  thumb
- *   func_0216D8E0 0x0216D8E0 thumb ov010
- *   func_021897A0 0x021897A0 thumb ov021
- *   func_021F381C  0x021F381C  thumb  ov047
+ *   FLDMMDL_SetDrawOffsetOutside 0x0216D8E0 thumb ov010
+ *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
+ *   FIELD_GIMMICK_BRIDGE_IsOnSwayTile  0x021F381C  thumb  ov047
  *   func_02005728  0x02005728  thumb
  *   func_0203F684  0x0203F684  arm
  *   _fflt          0x0209BDBC  arm
@@ -35,9 +35,9 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   d_021F3840     0x021F3840  data  ov047  a1
  *   func_02082BCC 0x02082BCC arm
- *   func_021A30C8  0x021A30C8  thumb  ov021
- *   func_021AB100  0x021AB100  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
+ *   MAP_ATTR_IsPresent  0x021AB100  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
  *   func_021AB44C  0x021AB44C  thumb  ov021
  */
 #include "unit_021F36C0_types.h"
@@ -56,29 +56,29 @@ void func_021F36C0(FieldMap *fieldMap)
 {
     BridgeSwayWork *work;
 
-    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
-    func_02189764(fieldMap, BRIDGE_SWAY_WORK_ID, func_02188C84(fieldMap), sizeof(BridgeSwayWork));
-    work = func_021897BC(fieldMap, BRIDGE_SWAY_WORK_ID);
-    work->player = func_02188CB4(fieldMap);
-    work->playerMmdl = func_021A3074(work->player);
+    func_0200B3A4(GAME_DATA_GetFieldSave(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    FIELDMAP_AllocCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID, FIELDMAP_GetHeapId(fieldMap), sizeof(BridgeSwayWork));
+    work = FIELDMAP_GetCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID);
+    work->player = FIELDMAP_GetFieldPlayer(fieldMap);
+    work->playerMmdl = FIELD_PLAYER_GetMmdl(work->player);
     work->drawOffset.x = 0;
     work->drawOffset.y = 0;
     work->drawOffset.z = 0;
 }
 
 /* Gimmick end: applies the last draw offset to the player model and frees the sway work. */
-void func_021F370C(FieldMap *fieldMap)
+void FIELD_GIMMICK_BRIDGE_Exit(FieldMap *fieldMap)
 {
     BridgeSwayWork *work;
 
-    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
-    work = func_021897BC(fieldMap, BRIDGE_SWAY_WORK_ID);
-    func_0216D8E0(work->playerMmdl, &work->drawOffset);
-    func_021897A0(fieldMap, BRIDGE_SWAY_WORK_ID);
+    func_0200B3A4(GAME_DATA_GetFieldSave(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    work = FIELDMAP_GetCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID);
+    FLDMMDL_SetDrawOffsetOutside(work->playerMmdl, &work->drawOffset);
+    FIELDMAP_FreeCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID);
 }
 
 /* Per frame: while the player stands on a no-dash tile, bob the player model on a sine of the sway phase. */
-void func_021F3740(FieldMap *fieldMap)
+void FIELD_GIMMICK_BRIDGE_Update(FieldMap *fieldMap)
 {
     BridgeSwaySave *save;
     BridgeSwayWork *work;
@@ -86,12 +86,12 @@ void func_021F3740(FieldMap *fieldMap)
     int amplitude;
     fx32 sine;
 
-    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
-    work = func_021897BC(fieldMap, BRIDGE_SWAY_WORK_ID);
-    if (func_021F381C(work) == 0) {
+    save = func_0200B3A4(GAME_DATA_GetFieldSave(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ID_BRIDGE_SWAY);
+    work = FIELDMAP_GetCommonWork(fieldMap, BRIDGE_SWAY_WORK_ID);
+    if (FIELD_GIMMICK_BRIDGE_IsOnSwayTile(work) == 0) {
         work->drawOffset.y = 0;
         save->angle = 0;
-        func_0216D8E0(work->playerMmdl, &work->drawOffset);
+        FLDMMDL_SetDrawOffsetOutside(work->playerMmdl, &work->drawOffset);
         return;
     }
     if (save->angle == 0) {
@@ -101,23 +101,23 @@ void func_021F3740(FieldMap *fieldMap)
     height = FX32_FROM_INT(amplitude);
     sine = func_0203F684((u16)save->angle);
     work->drawOffset.y = (fx32)(((s64)sine * height + 0x800) >> 12);
-    func_0216D8E0(work->playerMmdl, &work->drawOffset);
+    FLDMMDL_SetDrawOffsetOutside(work->playerMmdl, &work->drawOffset);
     save->angle = (save->angle + BRIDGE_SWAY_ANGLE_STEP) % 360;
 }
 
 /* Gimmick save reset: clears the sway state. */
-void func_021F3800(struct GameSystem *gameSystem)
+void FIELD_GIMMICK_BRIDGE_ResetSave(struct GameSystem *gameSystem)
 {
-    func_02082BCC(func_0200B3A4(func_02012EC4(func_020120F4(gameSystem)), FIELD_GIMMICK_ID_BRIDGE_SWAY), 0, sizeof(BridgeSwaySave));
+    func_02082BCC(func_0200B3A4(GAME_DATA_GetFieldSave(func_020120F4(gameSystem)), FIELD_GIMMICK_ID_BRIDGE_SWAY), 0, sizeof(BridgeSwaySave));
 }
 
 /* The player stands on a tile whose terrain is the no-dash terrain (checked through the attribute predicates). */
-int func_021F381C(BridgeSwayWork *work)
+int FIELD_GIMMICK_BRIDGE_IsOnSwayTile(BridgeSwayWork *work)
 {
-    u32 attr = func_021A30C8(work->player);
+    u32 attr = FIELD_PLAYER_GetNowAttribute(work->player);
 
-    if (func_021AB100(attr) == 0) {
+    if (MAP_ATTR_IsPresent(attr) == 0) {
         return 0;
     }
-    return func_021AB44C(func_021AB0F0(attr));
+    return func_021AB44C(MAP_ATTR_GetTerrainId(attr));
 }

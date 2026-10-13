@@ -1,5 +1,5 @@
 /*
- * function: func_021A2C24
+ * function: WEATHER_TASK_GetParticleWorkPtr
  * address:  0x021A2C24
  * packet:   pkt_ov021_021A2C24
  * region:   ov021
@@ -12,10 +12,10 @@
  * Unlabelled leaf (adds r0,#8; bx lr), filed for the ov026 lane.
  *
  * symbols:
- *   func_021A2C24 0x021A2C24 thumb ov021
+ *   WEATHER_TASK_GetParticleWorkPtr 0x021A2C24 thumb ov021
  */
 
-unsigned char *func_021A2C24(unsigned char *o)
+unsigned char *WEATHER_TASK_GetParticleWorkPtr(unsigned char *o)
 {
     return o + 8;
 }

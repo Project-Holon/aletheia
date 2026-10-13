@@ -1,5 +1,5 @@
 /*
- * function: func_02024988
+ * function: PMS_WORD_GetSaveData
  * address:  0x02024988
  * packet:   pkt_02024768
  * region:   arm9
@@ -12,7 +12,7 @@
 
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, unsigned int id);
-void *func_02024988(int a0)
+void *PMS_WORD_GetSaveData(int a0)
 {
     return func_020071CC((struct Sub020071CCCtrl *)a0, 0x27);
 }

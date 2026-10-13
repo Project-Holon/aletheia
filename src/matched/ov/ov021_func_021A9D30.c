@@ -1,5 +1,5 @@
 /*
- * function: func_021A9D30
+ * function: FIELD_ENCOUNT_CreatePersonality
  * address:  0x021A9D30
  * packet:   pkt_ov021_021A9D30
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   func_020186C8  0x020186C8  thumb
+ *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *   func_0201AF6C  0x0201AF6C  thumb
  * Addresses are Black-image addresses.
@@ -38,9 +38,9 @@ struct Slot14 { u16 f00; u8 pad02[3]; u8 f05; u8 f06; u8 pad07[9]; u8 f10; };
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern u32 func_0201AF6C(u32 v);
-extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
 
-u32 func_021A9D30(struct Unit *u, void *src, struct Slot14 *s)
+u32 FIELD_ENCOUNT_CreatePersonality(struct Unit *u, void *src, struct Slot14 *s)
 {
     u32 gender = 2;
     u32 r;
@@ -58,7 +58,7 @@ u32 func_021A9D30(struct Unit *u, void *src, struct Slot14 *s)
         else if (s->f10 == 2)
             gender = 1;
     }
-    r = func_020186C8(u->f20, s->f00, s->f05, gender, 2, s->f06 == 2 ? 0 : 2);
+    r = POKE_TOOL_CreatePersonalRnd(u->f20, s->f00, s->f05, gender, 2, s->f06 == 2 ? 0 : 2);
     if (s->f06 != 2) {
         x = (u16)r ^ ((u->f20 >> 16) ^ (u16)u->f20);
         if (x & 1)

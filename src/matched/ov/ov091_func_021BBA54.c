@@ -1,5 +1,5 @@
 /*
- * function: func_021BBA54
+ * function: PLIST_MESSAGE_LoadWindowFrame
  * address: 0x021BBA54
  * packet: pkt_ov091_021BBA54
  * region: ov091
@@ -14,4 +14,4 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
-void func_021BBA54(unsigned short *a, u32 b) {func_0201F5BC(0,1,12,0,*a);}
+void PLIST_MESSAGE_LoadWindowFrame(unsigned short *a, u32 b) {func_0201F5BC(0,1,12,0,*a);}

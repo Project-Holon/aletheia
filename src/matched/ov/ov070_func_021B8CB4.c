@@ -1,5 +1,5 @@
 /*
- * function: func_021B8CB4
+ * function: ITEMMENU_TaskWaitSideButtonPress
  * address: 0x021B8CB4
  * packet: pkt_ov070_021B8CB4
  * region: ov070
@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B98C 0x0204B98C arm
- *   func_021B6100 0x021B6100 thumb ov070
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
+ *   ITEMMENU_SetTask 0x021B6100 thumb ov070
  */
 #include "../include/Obj00002.h"
 typedef unsigned short u16;
 typedef void (*Callback)(void *);
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_021B6100(char *p, int k);
-void func_021B8CB4(char *p)
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+extern void ITEMMENU_SetTask(char *p, int k);
+void ITEMMENU_TaskWaitSideButtonPress(char *p)
 {
-    if (func_0204B98C((struct Actor *)(*(int *)(p + 0x710 + ((struct Obj00002 *)p)->f864 * 4))) == 0) {
+    if (CLACT_IsActorAnimActive((struct Actor *)(*(int *)(p + 0x710 + ((struct Obj00002 *)p)->f864 * 4))) == 0) {
         ((struct Obj00002 *)p)->f864 = 0;
-        func_021B6100(p, (int)(*(Callback *)&((struct Obj00002 *)p)->f868));
+        ITEMMENU_SetTask(p, (int)(*(Callback *)&((struct Obj00002 *)p)->f868));
     }
 }

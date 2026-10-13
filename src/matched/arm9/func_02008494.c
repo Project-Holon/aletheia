@@ -1,5 +1,5 @@
 /*
- * function: func_02008494
+ * function: MYSTATUS_Copy
  * address:  0x02008494
  * packet:   pkt_02008494
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern void func_02082D44(void *src, void *dst, unsigned int size);
 
-void func_02008494(void *src, void *dst)
+void MYSTATUS_Copy(void *src, void *dst)
 {
     func_02082D44(src, dst, 0x20);
 }

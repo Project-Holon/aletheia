@@ -1,5 +1,5 @@
 /*
- * function: func_02163A08
+ * function: FLDMMDL_MOVE_GetGridRect
  * address:  0x02163A08
  * packet:   pkt_ov010_02163A08
  * region:   ov010
@@ -19,23 +19,23 @@
  * the sum temp, so x and y simplify in one pass and take r6 / r5 in
  * parameter order. With x1 stored first, x and y swapped registers (6 B).
  * symbols:
- *   func_0216D91C 0x0216D91C thumb ov010
- *   func_0216D924 0x0216D924 thumb ov010
+ *   FLDMMDL_GetSizeWidth 0x0216D91C thumb ov010
+ *   FLDMMDL_GetSizeDepth 0x0216D924 thumb ov010
  */
 typedef short s16;
 typedef unsigned char  u8;
-extern u8 func_0216D91C(int a0);
-extern u8 func_0216D924(int a0);
+extern u8 FLDMMDL_GetSizeWidth(int a0);
+extern u8 FLDMMDL_GetSizeDepth(int a0);
 typedef struct { s16 x0, y0, x1, y1; } Rect;
-void func_02163A08(int p, int x, int y, Rect *out)
+void FLDMMDL_MOVE_GetGridRect(int p, int x, int y, Rect *out)
 {
     s16 w;
     s16 h;
-    w = func_0216D91C(p) - 1;
+    w = FLDMMDL_GetSizeWidth(p) - 1;
     if (w < 0) w = 0;
     out->x0 = x;
     out->x1 = x + w;
-    h = func_0216D924(p) - 1;
+    h = FLDMMDL_GetSizeDepth(p) - 1;
     if (h < 0) h = 0;
     out->y0 = y - h;
     out->y1 = y;

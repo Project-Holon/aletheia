@@ -1,5 +1,5 @@
 /*
- * function: func_021F0C60
+ * function: UNION_SUBDISP_SetScrollFromKnob
  * address:  0x021F0C60
  * packet:   pkt_ov031_021F0C60
  * region:   ov031
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_021F0D58 is filed as a 12-byte tail stub (r0 = 0x8000, r1 kept); the
+ * UNION_SUBDISP_GetKnobStep is filed as a 12-byte tail stub (r0 = 0x8000, r1 kept); the
  * call sites pass (b, n), so it is declared with two arguments here.
  *
  * symbols:
- *   func_021F0C60  0x021F0C60  thumb
- *   func_021F0D40  0x021F0D40  thumb  ov031
- *   func_021F0D58  0x021F0D58  thumb  ov031
- *   func_0204B454  0x0204B454  arm
+ *   UNION_SUBDISP_SetScrollFromKnob  0x021F0C60  thumb
+ *   UNION_SUBDISP_GetScrollRange  0x021F0D40  thumb  ov031
+ *   UNION_SUBDISP_GetKnobStep  0x021F0D58  thumb  ov031
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  */
 
 typedef unsigned char  u8;
@@ -32,13 +32,13 @@ typedef struct {
     int n;
 } B;
 
-extern int func_021F0D40(B *);
-extern u32 func_021F0D58(void *unused, u32 d);
+extern int UNION_SUBDISP_GetScrollRange(B *);
+extern u32 UNION_SUBDISP_GetKnobStep(void *unused, u32 d);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-void func_021F0C60(B *o, B *b)
+void UNION_SUBDISP_SetScrollFromKnob(B *o, B *b)
 {
     s16 buf[2];
     int k;
@@ -47,10 +47,10 @@ void func_021F0C60(B *o, B *b)
     int i;
     int j;
 
-    func_0204B454((struct Actor *)o->h, (struct PtS *)buf, 1);
+    CLACT_GetActorSurfacePos((struct Actor *)o->h, (struct PtS *)buf, 1);
     t = (buf[1] - 0x1C) << 8;
-    k = func_021F0D40(b);
-    c = func_021F0D58(b, k);
+    k = UNION_SUBDISP_GetScrollRange(b);
+    c = UNION_SUBDISP_GetKnobStep(b, k);
     i = 0;
     t = t + (c >> 1);
     for (j = 0; j < k; j++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021848D0
+ * function: OEKAKI_SetVramBanks
  * address:  0x021848D0
  * packet:   pkt_ov023_021848D0
  * region:   ov023
@@ -12,14 +12,14 @@
  * Tail call: apply the VRAM bank descriptor at 0x02186ACC.
  *
  * symbols:
- *   func_020433E0  0x020433E0  arm
- *   d_02186ACC     0x02186ACC  data  ov023  a4
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
+ *   gOekakiVramBanks     0x02186ACC  data  ov023  a4
  */
 struct DispVram;
-extern const struct DispVram d_02186ACC;
-extern void func_020433E0(const struct DispVram *);
+extern const struct DispVram gOekakiVramBanks;
+extern void BG_SYS_SetVramBanks(const struct DispVram *);
 
-void func_021848D0(void)
+void OEKAKI_SetVramBanks(void)
 {
-    func_020433E0(&d_02186ACC);
+    BG_SYS_SetVramBanks(&gOekakiVramBanks);
 }

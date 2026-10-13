@@ -15,25 +15,25 @@
  * symbols:
  *   d_021C3C54  0x021C3C54  data  a4
  *   d_021C37D0  0x021C37D0  data  a4
- *   func_0204384C  0x0204384C  arm
- *   func_020439A0  0x020439A0  arm
- *   func_020437AC  0x020437AC  arm
+ *   BMP_CreateFromArchive  0x0204384C  arm
+ *   BMP_Blit  0x020439A0  arm
+ *   BMP_Delete  0x020437AC  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201C7D0  0x0201C7D0  thumb
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   func_020307B0  0x020307B0  arm
  *   _u32_div_f  0x0209C0A4  arm
- *   func_02025538  0x02025538  thumb  ov217
- *   func_02025588  0x02025588  thumb
+ *   BMP_OAM_CreateSys  0x02025538  thumb  ov217
+ *   BMP_OAM_DeleteSys  0x02025588  thumb
  *   d_021C377C 0x021C377C data a4
  *   func_021BF9F0 0x021BF9F0 thumb ov217
- *   func_020255A0 0x020255A0 thumb
- *   func_02025774 0x02025774 thumb
- *   func_020257D0 0x020257D0 thumb
- *   func_0202570C  0x0202570C  thumb
- *   func_02021518 0x02021518 thumb
- *   func_0202155C 0x0202155C thumb
- *   func_020216D4 0x020216D4 thumb
- *   func_02021540  0x02021540  thumb
+ *   BMP_OAM_Create 0x020255A0 thumb
+ *   BMP_OAM_SetEnabled 0x02025774 thumb
+ *   BMP_OAM_UploadChars 0x020257D0 thumb
+ *   BMP_OAM_Delete  0x0202570C  thumb
+ *   PALANM_Create 0x02021518 thumb
+ *   PALANM_AllocSlotBuffers 0x0202155C thumb
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
+ *   PALANM_Delete  0x02021540  thumb
  *   func_021C29C8  0x021C29C8  thumb  ov217
  *   func_021C29D8  0x021C29D8  thumb  ov217
  *   d_021C3A28  0x021C3A28  data  a4
@@ -43,26 +43,26 @@
  *   func_021BF6BC  0x021BF6BC  thumb  ov217
  *   func_02030EAC  0x02030EAC  arm
  *   func_02012138  0x02012138  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02026454  0x02026454  thumb
  *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *   func_021BF734  0x021BF734  thumb  ov217
- *   func_020121CC  0x020121CC  thumb
+ *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_020120F4 0x020120F4 thumb
  *   d_021C3F64  0x021C3F64  data
  *   d_021C3F9C  0x021C3F9C  data
  *   func_020490F4 0x020490F4 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
- *   func_0204B1CC  0x0204B1CC  arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   d_021C3F80 0x021C3F80 data a4
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_020215A0  0x020215A0  thumb
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   func_021C29F8  0x021C29F8  thumb  ov217
  *   d_021C3F5C     0x021C3F5C  data   a4
  *   d_021C3F60     0x021C3F60  data   a1
@@ -72,6 +72,13 @@
  *   d_021C4050  0x021C4050  data  a4
  *   func_02030734  0x02030734  arm
  *   _s32_div_f  0x0209C0A4  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   CLACT_InitSystem  0x0204A48C  arm  arm9
+ *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
+ *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
+ *   CLACT_CreateUnit  0x0204B100  arm  arm9
  */
 #include "../../matched/include/Obj10961.h"
 #include "../../matched/include/Obj25966.h"
@@ -183,56 +190,56 @@ struct Ring {
     u32 pos;
 };
 
-extern struct Bmp *func_0204384C(u32, u32, u32, u32);
-extern void func_020439A0(struct Bmp *, struct Bmp *, u32, u32, int, int, u32, u32, u32);
+extern struct Bmp *BMP_CreateFromArchive(u32, u32, u32, u32);
+extern void BMP_Blit(struct Bmp *, struct Bmp *, u32, u32, int, int, u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *, u32);
-extern void func_0201C7D0(void *, s16, s16, void *, void *, u16);
+extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern u32 func_020307B0(void *p);
-extern void func_020437AC(struct Obj020437AC *);
-extern int func_02025538(u16 heap, int a);
-extern void func_02025588(void *p);
+extern void BMP_Delete(struct Obj020437AC *);
+extern int BMP_OAM_CreateSys(u16 heap, int a);
+extern void BMP_OAM_DeleteSys(void *p);
 extern u32 func_021BF9F0(void *,u32);
-extern struct Grid *func_020255A0(struct Sys *,const struct Param *);
-extern void func_02025774(u8 *,u32);
-extern void func_020257D0(struct Obj *);
-extern void func_0202570C(struct Grid *g);
-extern void *func_02021518(u32);
-extern void func_0202155C(struct PalAnmSlot *, u32, u32, u32);
-extern void func_020216D4(struct PalAnmSlot *, u32, u32, u32);
-extern u32 func_02021540(void *a0);
-extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
+extern struct Grid *BMP_OAM_Create(struct Sys *,const struct Param *);
+extern void BMP_OAM_SetEnabled(u8 *,u32);
+extern void BMP_OAM_UploadChars(struct Obj *);
+extern void BMP_OAM_Delete(struct Grid *g);
+extern void *PALANM_Create(u32);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *, u32, u32, u32);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, u32, u32, u32);
+extern u32 PALANM_Delete(void *a0);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 func_021C29C8(u32 a0);
 extern u32 func_021C29D8(void *a0);
 extern void func_021C29E8(void *p, u32 b, u32 c, u32 d);
 extern int func_021C2A08(char *p);
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern int func_020056A0(void (*)(void), void *, int);
 extern u32 func_021BF6BC(u32 a0, u32 a1);
 extern void func_02030EAC(struct Node *n);
 extern u32 func_02012138(const struct Ctx *);
-extern void func_02026400(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern u32 func_02026454(void *obj);
 extern void GAME_COMM_SetNotifyFlag(void *obj, u32 flag);
 extern u32 func_021BF734(u8 *);
-extern u32 func_020121CC(struct IcaAnime *p);
+extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern void func_02082BCC(void *dst, int val, u32 n);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020120F4(const struct Ctx *);
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern u32 func_0204A5AC(u32 a);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern u32 CLACT_ExitSystem(u32 a);
 extern void *func_020490F4(u32 id, u32 heap);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern u32 func_0204AFD8();
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern u32 CLACT_ReleaseCellAnim();
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, u32);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_021C29F8(u8 *p, u32 b, u16 c);
 extern void func_021C2A00(u32);
 extern void func_021C29F0(u32);
@@ -355,17 +362,17 @@ void func_021C05B0(u8 *p)
     void *text;
     u16 color;
     u32 gb = (u32)&d_021C37D0;
-    bmp = func_0204384C(E->arc, E->member, 0, *(u16 *)(p + 4));
+    bmp = BMP_CreateFromArchive(E->arc, E->member, 0, *(u16 *)(p + 4));
     for (i = 0; i < 3; i++) {
         int y = i * 8;
         for (j = 0; j < 20; j++) {
-            func_020439A0(bmp, *(struct Bmp **)(p + 0x3B4), (tab.r[i].w[j] % 3) * 8, (tab.r[i].w[j] / 3) * 8, j * 8, y, 8, 8, 0);
+            BMP_Blit(bmp, *(struct Bmp **)(p + 0x3B4), (tab.r[i].w[j] % 3) * 8, (tab.r[i].w[j] / 3) * 8, j * 8, y, 8, 8, 0);
         }
     }
-    func_020437AC((struct Obj020437AC *)bmp);
+    BMP_Delete((struct Obj020437AC *)bmp);
     color = ((E->r & 31) << 10) | ((E->g & 31) << 5) | (E->b & 31);
     text = func_02045EC0(*(struct MsgBank **)(p + 12 + E->bank * 4), E->index);
-    func_0201C7D0(*(void **)(p + 0x3B4), E->px, E->py, text, *(void **)(p + 8), color);
+    PRINTSYS_PrintColor(*(void **)(p + 0x3B4), E->px, E->py, text, *(void **)(p + 8), color);
     func_020307B0(text);
 }
 
@@ -379,7 +386,7 @@ void func_021C06AC(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        func_020437AC((struct Obj020437AC *)p[i + 0xEC]);
+        BMP_Delete((struct Obj020437AC *)p[i + 0xEC]);
 }
 
 
@@ -390,7 +397,7 @@ void func_021C06AC(int *p)
 
 void func_021C06C8(u8 *p)
 {
-    ((struct Obj10961 *)p)->f3A4 = func_02025538(((struct Obj10961 *)p)->f4, ((struct Obj10961 *)p)->f38C);
+    ((struct Obj10961 *)p)->f3A4 = BMP_OAM_CreateSys(((struct Obj10961 *)p)->f4, ((struct Obj10961 *)p)->f38C);
 }
 
 
@@ -401,7 +408,7 @@ void func_021C06C8(u8 *p)
 
 void func_021C06E0(u8 *a0)
 {
-    func_02025588((void *)((u32)(((struct Obj25966 *)a0)->f3A4)));
+    BMP_OAM_DeleteSys((void *)((u32)(((struct Obj25966 *)a0)->f3A4)));
 }
 
 
@@ -437,9 +444,9 @@ void func_021C06F0(u8 *p)
         param.fc=q->fc;
         param.f10=q->f10; param.f11=q->f11;
         param.f12=q->f12; param.f14=q->f14;
-        *(struct Grid **)(dest+outOff)=func_020255A0(*(struct Sys **)(p+sysOff),&param);
-        func_02025774(*(u8 **)(dest+callOff),0);
-        func_020257D0(*(struct Obj **)(dest+uploadOff));
+        *(struct Grid **)(dest+outOff)=BMP_OAM_Create(*(struct Sys **)(p+sysOff),&param);
+        BMP_OAM_SetEnabled(*(u8 **)(dest+callOff),0);
+        BMP_OAM_UploadChars(*(struct Obj **)(dest+uploadOff));
     }
 }
 
@@ -456,7 +463,7 @@ void func_021C0794(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        func_0202570C((struct Grid *)p[i + 0xEA]);
+        BMP_OAM_Delete((struct Grid *)p[i + 0xEA]);
 }
 
 
@@ -482,11 +489,11 @@ void func_021C07B0(void *p)
 
 void func_021C07BC(u8 *p)
 {
-    ((struct Obj03953 *)p)->f3B8 = func_02021518(((struct Obj03953 *)p)->f4);
-    func_0202155C(((struct Obj03953 *)p)->f3B8, 0, 512, ((struct Obj03953 *)p)->f4);
-    func_0202155C(((struct Obj03953 *)p)->f3B8, 2, 512, ((struct Obj03953 *)p)->f4);
-    func_020216D4(((struct Obj03953 *)p)->f3B8, 0, 0, 512);
-    func_020216D4(((struct Obj03953 *)p)->f3B8, 2, 0, 512);
+    ((struct Obj03953 *)p)->f3B8 = PALANM_Create(((struct Obj03953 *)p)->f4);
+    PALANM_AllocSlotBuffers(((struct Obj03953 *)p)->f3B8, 0, 512, ((struct Obj03953 *)p)->f4);
+    PALANM_AllocSlotBuffers(((struct Obj03953 *)p)->f3B8, 2, 512, ((struct Obj03953 *)p)->f4);
+    PALANM_CopyHwPaletteToSlot(((struct Obj03953 *)p)->f3B8, 0, 0, 512);
+    PALANM_CopyHwPaletteToSlot(((struct Obj03953 *)p)->f3B8, 2, 0, 512);
 }
 
 
@@ -498,16 +505,16 @@ void func_021C07BC(u8 *p)
  * Reconstructed from the listing (.inst decoded).
  *
  * BLOCKED at MATCH: the relocation site(s) below have no independent witness.
- *   +001A THM_CALL func_02021540       -> unresolved: 02021540 (arm, from name) has no witness outside 021C0800..021C0820
+ *   +001A THM_CALL PALANM_Delete       -> unresolved: 02021540 (arm, from name) has no witness outside 021C0800..021C0820
  * Promote automatically when the target is matched.
  *
  * Addresses are Black-image addresses.
  */
 u32 func_021C0800(u32 a0)
 {
-    func_020215A0((struct PalAnmSlot *)(((struct Obj10962 *)(((u8*)a0)))->f3B8), 0);
-    func_020215A0((struct PalAnmSlot *)(((struct Obj10962 *)(((u8*)a0)))->f3B8), 2);
-    return func_02021540((void *)(((struct Obj10962 *)(((u8*)a0)))->f3B8));
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct Obj10962 *)(((u8*)a0)))->f3B8), 0);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct Obj10962 *)(((u8*)a0)))->f3B8), 2);
+    return PALANM_Delete((void *)(((struct Obj10962 *)(((u8*)a0)))->f3B8));
 }
 
 
@@ -587,7 +594,7 @@ void func_021C08A8(int *p)
  */
 void func_021C08C4(u32 a0)
 {
-    func_0203D34C(1, ((struct Obj25973 *)(((u8*)a0 + 0)))->f4);
+    GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj25973 *)(((u8*)a0 + 0)))->f4);
 }
 
 
@@ -649,7 +656,7 @@ void func_021C0918(u8 *a0)
     u32 v1 = func_02012138((const struct Ctx *)func_021BF734(a0));
     GAME_COMM_SetNotifyFlag((void *)v1, 1);
     if (func_02026454((void *)v1) == 2) {
-    func_02026400((struct Comm *)v1);
+    GAME_COMM_RequestExitNoCallback((struct Comm *)v1);
     }
 }
 
@@ -665,7 +672,7 @@ int func_021C093C(u8 *a0)
     r = func_021BF734(a0);
     switch (func_02026454((void *)func_02012138((const struct Ctx *)r))) {
     case 0:
-        func_020121CC((struct IcaAnime *)r);
+        GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)r);
         return 1;
     default:
         return 1;
@@ -1012,7 +1019,7 @@ u32 func_021C0AA4(u32 a0)
  */
 void func_021C0AD8(u32 a0)
 {
-    func_0204A48C((const struct Cfg *)d_021C3F64, (u32)d_021C3F9C, ((struct Obj25984 *)((u8*)a0))->f0);
+    CLACT_InitSystem((const struct Cfg *)d_021C3F64, (u32)d_021C3F9C, ((struct Obj25984 *)((u8*)a0))->f0);
 }
 
 
@@ -1022,13 +1029,13 @@ void func_021C0AD8(u32 a0)
 
 
 /*
- * Tail-call veneer: branch to func_0204A5AC.
+ * Tail-call veneer: branch to CLACT_ExitSystem.
  *
  * Addresses are Black-image addresses.
  */
 u32 func_021C0AF0(u32 a)
 {
-    return func_0204A5AC(a);
+    return CLACT_ExitSystem(a);
 }
 
 
@@ -1058,13 +1065,13 @@ void func_021C0B0C(u8 *p)
 {
     u16 heap = ((struct Obj00791 *)p)->f0;
     void *h = func_020490F4(83, (u16)((heap & 0x7FFF) | 0x8000));
-    int a = func_0204A6C8((void *)((u32)h), 20, 0, 0, heap);
-    int b = func_0204AC18((void *)((u32)h), 19, 0, 0, 0, 4, heap);
-    int c = func_0204AF28((void *)((u32)h), 21, 24, heap);
+    int a = CLACT_RegisterCharacter((void *)((u32)h), 20, 0, 0, heap);
+    int b = CLACT_RegisterPaletteEx((void *)((u32)h), 19, 0, 0, 0, 4, heap);
+    int c = CLACT_RegisterCellAnim((void *)((u32)h), 21, 24, heap);
     ((struct Obj00791 *)p)->f14 = a;
     ((struct Obj00791 *)p)->f18 = b;
     ((struct Obj00791 *)p)->f1C = c;
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }
 
 
@@ -1074,9 +1081,9 @@ void func_021C0B0C(u8 *p)
 
 u32 func_021C0B74(u32 a0)
 {
-    func_0204A8D4(((struct Obj10964 *)(((u8*)a0)))->f14);
-    func_0204ADA4(((struct Obj10964 *)(((u8*)a0)))->f18);
-    return func_0204AFD8(((struct Obj10964 *)(((u8*)a0)))->f1C);
+    CLACT_ReleaseCharacter(((struct Obj10964 *)(((u8*)a0)))->f14);
+    CLACT_ReleasePalette(((struct Obj10964 *)(((u8*)a0)))->f18);
+    return CLACT_ReleaseCellAnim(((struct Obj10964 *)(((u8*)a0)))->f1C);
 }
 
 
@@ -1102,7 +1109,7 @@ void func_021C0B8C(void *p)
 
 void func_021C0B94(u32 a0)
 {
-    ((struct Obj00791 *)(((u8*)a0 + 0)))->f20 = (u32)func_0204B100(1, 2, ((struct Obj00791 *)((u8*)a0))->f0);
+    ((struct Obj00791 *)(((u8*)a0 + 0)))->f20 = (u32)CLACT_CreateUnit(1, 2, ((struct Obj00791 *)((u8*)a0))->f0);
 }
 
 
@@ -1112,13 +1119,13 @@ void func_021C0B94(u32 a0)
 
 
 /*
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 32)) to func_0204B1CC.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 32)) to CLACT_DeleteUnit.
  *
  * Addresses are Black-image addresses.
  */
 void func_021C0BA8(u8 *a0)
 {
-    func_0204B1CC((struct Bank *)((u32)(((struct Obj25986 *)a0)->f20)));
+    CLACT_DeleteUnit((struct Bank *)((u32)(((struct Obj25986 *)a0)->f20)));
 }
 
 
@@ -1150,7 +1157,7 @@ void func_021C0BBC(u8 *p)
     b=func_021C0DB4(p,d_021C3F80.d);
     c=func_021C0DB4(p,d_021C3F80.e);
     d=func_021C0DB4(p,d_021C3F80.f);
-    *(u32 *)&((struct Obj00791 *)p)->f24=(u32)func_0204B294((void *)a,b,c,d,&arg,d_021C3F80.g,((struct Obj00791 *)p)->f0);
+    *(u32 *)&((struct Obj00791 *)p)->f24=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,d_021C3F80.g,((struct Obj00791 *)p)->f0);
     func_0204B3DC(*(struct Obj * *)&((struct Obj00791 *)p)->f24,1);
 }
 
@@ -1161,13 +1168,13 @@ void func_021C0BBC(u8 *p)
 
 
 /*
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 36)) to func_0204B3B4.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 36)) to CLACT_DeleteActor.
  *
  * Addresses are Black-image addresses.
  */
 void func_021C0C2C(u8 *a0)
 {
-    func_0204B3B4((struct Obj *)((u32)(((struct Obj25988 *)a0)->f24)));
+    CLACT_DeleteActor((struct Obj *)((u32)(((struct Obj25988 *)a0)->f24)));
 }
 
 
@@ -1188,7 +1195,7 @@ void func_021C0C38(void *p)
 
 void func_021C0C40(u32 a0)
 {
-    *(u32 *)&((struct Obj00791 *)(((u8*)a0 + 0)))->f28 = (u32)func_02021518(((struct Obj00791 *)((u8*)a0))->f0);
+    *(u32 *)&((struct Obj00791 *)(((u8*)a0 + 0)))->f28 = (u32)PALANM_Create(((struct Obj00791 *)((u8*)a0))->f0);
 }
 
 
@@ -1198,7 +1205,7 @@ void func_021C0C40(u32 a0)
 
 void func_021C0C50(u8 *a0)
 {
-    func_02021540((void *)(((struct Obj25990 *)(((u8*)a0)))->f28));
+    PALANM_Delete((void *)(((struct Obj25990 *)(((u8*)a0)))->f28));
 }
 
 
@@ -1209,14 +1216,14 @@ void func_021C0C50(u8 *a0)
 void func_021C0C5C(u8 *p)
 {
     struct PalAnmSlot *slots = *(struct PalAnmSlot * *)&((struct Obj00791 *)p)->f28;
-    func_0202155C(slots, 0, 512, ((struct Obj00791 *)p)->f0);
-    func_0202155C(slots, 2, 512, ((struct Obj00791 *)p)->f0);
-    func_0202155C(slots, 1, 512, ((struct Obj00791 *)p)->f0);
-    func_0202155C(slots, 3, 512, ((struct Obj00791 *)p)->f0);
-    func_020216D4(slots, 0, 0, 512);
-    func_020216D4(slots, 2, 0, 512);
-    func_020216D4(slots, 1, 0, 512);
-    func_020216D4(slots, 3, 0, 512);
+    PALANM_AllocSlotBuffers(slots, 0, 512, ((struct Obj00791 *)p)->f0);
+    PALANM_AllocSlotBuffers(slots, 2, 512, ((struct Obj00791 *)p)->f0);
+    PALANM_AllocSlotBuffers(slots, 1, 512, ((struct Obj00791 *)p)->f0);
+    PALANM_AllocSlotBuffers(slots, 3, 512, ((struct Obj00791 *)p)->f0);
+    PALANM_CopyHwPaletteToSlot(slots, 0, 0, 512);
+    PALANM_CopyHwPaletteToSlot(slots, 2, 0, 512);
+    PALANM_CopyHwPaletteToSlot(slots, 1, 0, 512);
+    PALANM_CopyHwPaletteToSlot(slots, 3, 0, 512);
 }
 
 
@@ -1229,10 +1236,10 @@ void func_021C0CC8(int *p)
 {
     int obj;
     obj = p[10];
-    func_020215A0((struct PalAnmSlot *)obj, 0);
-    func_020215A0((struct PalAnmSlot *)obj, 2);
-    func_020215A0((struct PalAnmSlot *)obj, 1);
-    func_020215A0((struct PalAnmSlot *)obj, 3);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)obj, 0);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)obj, 2);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)obj, 1);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)obj, 3);
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8CF4
+ * function: BTL_CALC_GutsBoostAttack
  * address:  0x021D8CF4
  * packet:   pkt_ov093_021D8CF4
  * region:   ov093
@@ -10,28 +10,28 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
- *   func_021D7704  0x021D7704  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
-extern int func_021D62A8(struct Unk021D62A8 *p);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern int WAZA_TOOL_GetDamageType(int a);
-extern void func_021D7704(int a, int b);
+extern void BTL_EVENT_MultiplyVar(int a, int b);
 
-void func_021D8CF4(int u, int a, int b)
+void BTL_CALC_GutsBoostAttack(int u, int a, int b)
 {
-    if (b == func_021D775C(3)) {
-        if (func_021D62A8(func_021C7CF4((int *)a, b)) != 0) {
-            if (WAZA_TOOL_GetDamageType((u16)func_021D775C(0x12)) == 1)
-                func_021D7704(0x35, 3 << 11);
+    if (b == BTL_EVENT_GetVar(3)) {
+        if (BTL_POKEPARAM_GetMajorStatusIndex(func_021C7CF4((int *)a, b)) != 0) {
+            if (WAZA_TOOL_GetDamageType((u16)BTL_EVENT_GetVar(0x12)) == 1)
+                BTL_EVENT_MultiplyVar(0x35, 3 << 11);
         }
     }
 }

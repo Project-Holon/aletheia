@@ -1,5 +1,5 @@
 /*
- * function: func_021AD5E0
+ * function: FLDEFF_NAMIPOKE_SPLASH_Init
  * address:  0x021AD5E0
  * packet:   pkt_ov021_021AD5E0
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C6590  0x021C6590  thumb  ov021
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   d_021D91F8     0x021D91F8  data  a4
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_AddObject  0x021C6590  thumb  ov021
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   sNamipokeSplashOffsets     0x021D91F8  data  a4
  */
 typedef unsigned short u16;
 
@@ -44,17 +44,17 @@ typedef struct Obj {
     S16 s14;
 } Obj;
 
-extern T5 d_021D91F8;
+extern T5 sNamipokeSplashOffsets;
 
 typedef unsigned int   u32;
-extern int func_021AC1AC(u32 a);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
 typedef unsigned char  u8;
-extern u32 func_021ABE18(u8 *p);
-extern u16 func_021C6590(int a, int b, int c, int d);
-extern void func_021AC1B8(int a, Vec *v);
-extern void func_021AC1CC(int a, Vec *v);
+extern u32 FIELD_EFFECT_GetFieldMapData(u8 *p);
+extern u16 FIELD_G3DOBJ_AddObject(int a, int b, int c, int d);
+extern void FIELD_EFFECT_GetObjectPos(int a, Vec *v);
+extern void FIELD_EFFECT_SetObjectPos(int a, Vec *v);
 
-void func_021AD5E0(int a, int *bp)
+void FLDEFF_NAMIPOKE_SPLASH_Init(int a, int *bp)
 {
     Obj *b = (Obj *)bp;
     Vec out;
@@ -63,9 +63,9 @@ void func_021AD5E0(int a, int *bp)
     int m;
     Tab *t;
 
-    b->s14 = *((S16 *)func_021AC1AC(a));
+    b->s14 = *((S16 *)FIELD_EFFECT_GetObjectParam(a));
     t = (Tab *)b->s14.b;
-    r = func_021ABE18((u8 *)t->f0);
+    r = FIELD_EFFECT_GetFieldMapData((u8 *)t->f0);
     switch (b->s14.c) {
     case 0:
         m = ((Tab *)b->s14.b)->h4;
@@ -85,15 +85,15 @@ void func_021AD5E0(int a, int *bp)
     default:
         goto skip;
     }
-    b->h10 = func_021C6590(r, m, 0, 0);
+    b->h10 = FIELD_G3DOBJ_AddObject(r, m, 0, 0);
 skip:
     if (b->s14.d != 0) {
-        tab = d_021D91F8;
+        tab = sNamipokeSplashOffsets;
         b->v = tab.v[b->s14.c];
-        func_021AC1B8(b->s14.d, &out);
+        FIELD_EFFECT_GetObjectPos(b->s14.d, &out);
         out.x += b->v.x;
         out.y += b->v.y;
         out.z += b->v.z;
-        func_021AC1CC(a, &out);
+        FIELD_EFFECT_SetObjectPos(a, &out);
     }
 }

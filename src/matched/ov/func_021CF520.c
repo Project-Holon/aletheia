@@ -1,5 +1,5 @@
 /*
- * function: func_021CF520
+ * function: ENCEFF_RunUpdate
  * address:  0x021CF520
  * packet:   pkt_021CF520
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_021CF520(u32 a, u32 b, u32 c, u32 d)
+void ENCEFF_RunUpdate(u32 a, u32 b, u32 c, u32 d)
 {
 if (((struct Obj12140 *)((u8 *)(a)))->f4 != 0) {
     ((void (*)(u32, u32, u32, u32))*(u32 *)((u8 *)(a) + 4))(a, ((struct Obj12140 *)((u8 *)(a)))->f4, c, d);

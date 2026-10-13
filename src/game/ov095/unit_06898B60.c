@@ -16,19 +16,19 @@
  *   func_021C8020  0x021C8020  thumb
  *   func_021C88A4  0x021C88A4  thumb
  *   func_021C88C8  0x021C88C8  thumb
- *   func_021D7040  0x021D7040  thumb
- *   func_021D775C  0x021D775C  thumb
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   d_0689D690 0x0689D690 data a4
  */
 typedef unsigned int u32;
 
 typedef unsigned char u8;
 
-extern int func_021D775C(int k);
+extern int BTL_EVENT_GetVar(int k);
 extern int func_021C8020(int b, int c);
 extern u8 *func_021C88A4(int b, int k, int n);
 extern void func_021C88C8(int b, void *p);
-extern void func_021D7040(int a);
+extern void BTL_EVENT_RemoveFactor(int a);
 const u32 *func_06898B60(u32 *p);
 void func_06898B6C(int a, int b, int c, u32 *d);
 extern const u32 d_0689D690;
@@ -49,13 +49,13 @@ const u32 *func_06898B60(u32 *p)
  */
 void func_06898B6C(int a, int b, int c, u32 *d)
 {
-    u8 t = func_021D775C(2);
+    u8 t = BTL_EVENT_GetVar(2);
     u8 *p;
     if (t == func_021C8020(b, c)) {
         p = func_021C88A4(b, 0x2a, 0x1f);
         p[4] = *d;
         p[5] = t;
         func_021C88C8(b, p);
-        func_021D7040(a);
+        BTL_EVENT_RemoveFactor(a);
     }
 }

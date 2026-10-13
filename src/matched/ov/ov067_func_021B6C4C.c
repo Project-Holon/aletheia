@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C4C
+ * function: TOUCHBAR_GetStringAlignOffset
  * address: 0x021B6C4C
  * packet: pkt_ov067_021B6C4C
  * region: ov067
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *, u32, u32);
-u16 func_021B6C4C(struct StrObj *s, u32 a, u32 mode)
+u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *s, u32 a, u32 mode)
 {
     if (mode == 1) return func_0201D304(s, a, 0);
     if (mode == 2) return func_0201D304(s, a, 0) >> 1;

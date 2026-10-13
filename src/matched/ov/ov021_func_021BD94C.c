@@ -1,5 +1,5 @@
 /*
- * function: func_021BD94C
+ * function: EVENT_ENTRANCE_IN_ReplaceBgm
  * address:  0x021BD94C
  * packet:   pkt_ov021_021BD94C
  * region:   ov021
@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb  arm9
+ *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -31,14 +35,14 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02029D44(u32 a, u32 b, u16 c, u8 d);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(u32 a, u32 b, u16 c, u8 d);
 
-void func_021BD94C(Obj *p)
+void EVENT_ENTRANCE_IN_ReplaceBgm(Obj *p)
 {
     Inner *q = p->f8;
     void *r = q->f8;
 
-    func_02029D44(func_02012A30(r), (u32)r, q->h20, q->b45);
+    FIELD_SOUND_SYSTEM_PostZoneBgmReplace(GAME_DATA_GetBgmInfo(r), (u32)r, q->h20, q->b45);
     q->f48 = 1;
 }

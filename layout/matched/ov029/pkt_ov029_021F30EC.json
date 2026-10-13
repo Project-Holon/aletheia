@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F30EC",
+   "name": "C_GEAR_AreActorSlotsIdle",
    "address": "0x021F30EC",
    "kind": "game",
    "region": "ov029",

@@ -1,5 +1,5 @@
 /*
- * function: func_021953D4
+ * function: TALKMSGWIN_SetupCamera
  * address:  0x021953D4
  * packet:   pkt_ov021_021953D4
  * region:   ov021
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_0207CA00  0x0207CA00  arm
- *   func_02048AFC  0x02048AFC  arm
- *   func_02048B20  0x02048B20  arm
- *   func_02048B44  0x02048B44  arm
- *   func_02048B60  0x02048B60  arm
- *   func_02048AD0  0x02048AD0  arm
+ *   G3D_CAMERA_SetEye  0x02048AFC  arm
+ *   G3D_CAMERA_SetTarget  0x02048B20  arm
+ *   G3D_CAMERA_SetUp  0x02048B44  arm
+ *   G3D_CAMERA_SetScale  0x02048B60  arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_0207D7C4  0x0207D7C4  arm
  * Addresses are Black-image addresses.
  */
@@ -28,16 +28,16 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } V;
 
 extern void func_0207CA00(u8 *a, u8 *b, V *c);
-extern void func_02048AFC(u32 o, V *a);
-extern void func_02048B20(u32 o, V *a);
-extern void func_02048B44(u32 o, V *a);
+extern void G3D_CAMERA_SetEye(u32 o, V *a);
+extern void G3D_CAMERA_SetTarget(u32 o, V *a);
+extern void G3D_CAMERA_SetUp(u32 o, V *a);
 struct Light;
-extern void func_02048B60(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
 struct Light;
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207D7C4(V *a, V *b, V *c, int d, int e);
 
-void func_021953D4(u8 *p, int m)
+void TALKMSGWIN_SetupCamera(u8 *p, int m)
 {
     V t;
     V a;
@@ -59,11 +59,11 @@ void func_021953D4(u8 *p, int m)
         f = 0x40000;
         if (((struct Obj01351 *)p)->fCC4 >= f)
             f = ((struct Obj01351 *)p)->fCC4 + 0x1000;
-        func_02048AFC(((struct Obj01351 *)p)->f4, &a);
-        func_02048B20(((struct Obj01351 *)p)->f4, &b);
-        func_02048B44(((struct Obj01351 *)p)->f4, &c);
-        func_02048B60((struct Light *)(((struct Obj01351 *)p)->f4), (const u32 *)(&f));
-        func_02048AD0((struct Light *)(((struct Obj01351 *)p)->f4));
+        G3D_CAMERA_SetEye(((struct Obj01351 *)p)->f4, &a);
+        G3D_CAMERA_SetTarget(((struct Obj01351 *)p)->f4, &b);
+        G3D_CAMERA_SetUp(((struct Obj01351 *)p)->f4, &c);
+        G3D_CAMERA_SetScale((struct Light *)(((struct Obj01351 *)p)->f4), (const u32 *)(&f));
+        G3D_CAMERA_Reset((struct Light *)(((struct Obj01351 *)p)->f4));
         return;
     }
     func_0207D7C4(&a, &b, &c, 1, 0);

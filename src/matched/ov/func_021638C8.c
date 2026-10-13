@@ -1,5 +1,5 @@
 /*
- * function: func_021638C8
+ * function: FLDMMDL_MOVE_AttrEffectNone
  * address:  0x021638C8
  * packet:   pkt_021638C8
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_021638C8(int a0)
+int FLDMMDL_MOVE_AttrEffectNone(int a0)
 {
 
     return a0;}

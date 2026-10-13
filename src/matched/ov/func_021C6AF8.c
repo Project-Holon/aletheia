@@ -1,5 +1,5 @@
 /*
- * function: func_021C6AF8
+ * function: FIELD_G3DOBJ_SetResDescAnimeArc
  * address:  0x021C6AF8
  * packet:   pkt_021C6AF8
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021C6AF8(u32 *p, u32 v)
+void FIELD_G3DOBJ_SetResDescAnimeArc(u32 *p, u32 v)
 {
     ((struct Obj18313 *)p)->f8 = v;
 }

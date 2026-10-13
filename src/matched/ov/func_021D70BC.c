@@ -1,5 +1,5 @@
 /*
- * function: func_021D70BC
+ * function: BTL_EVENT_EnableFactorSpecialEvent
  * address:  0x021D70BC
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D70BC   0x021D70BC  thumb
+ *   BTL_EVENT_EnableFactorSpecialEvent   0x021D70BC  thumb
  *
  * Leaf with no calls and no pool; 6 instructions, 12 bytes: movs r1, #1; ldr r2, [r0, #0x18]; lsls r1, r1, #0x1a; orrs r1, r2; str r1, [r0, #0x18]; bx lr.
  */
@@ -25,5 +25,5 @@ typedef signed int s32;
 /* 021D70BC  movs r1,#1; ldr r2,[r0,#0x18]; lsls r1,#0x1a; orrs r1,r2;
  *           str r1,[r0,#0x18] */
 struct QR { u8 pad[0x18]; u32 v; };
-void func_021D70BC(struct QR *p) { p->v |= 1 << 26; }
+void BTL_EVENT_EnableFactorSpecialEvent(struct QR *p) { p->v |= 1 << 26; }
 

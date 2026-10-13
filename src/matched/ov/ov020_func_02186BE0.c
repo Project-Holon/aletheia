@@ -1,5 +1,5 @@
 /*
- * function: func_02186BE0
+ * function: FIELD_WFBC_DATA_LOCAL_SetMood
  * address:  0x02186BE0
  * packet:   pkt_02186BE0
  * region:   ov020
@@ -13,7 +13,7 @@
 
 typedef unsigned char u8;
 
-void func_02186BE0(char *p, int v)
+void FIELD_WFBC_DATA_LOCAL_SetMood(char *p, int v)
 {
     ((struct Obj19474 *)p)->f2 = v;
 }

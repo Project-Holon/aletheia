@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D78AC  0x021D78AC  thumb  ov093
- *   func_021D7D18  0x021D7D18  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
+ *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F286C     0x021F286C  data   ov093  a4
  *   func_021C8174  0x021C8174  thumb  ov093
  *   func_021C83DC  0x021C83DC  thumb  ov093
@@ -24,7 +24,7 @@
  *   func_021C7CF4 0x021C7CF4 thumb ov093
  *   func_021C88A4 0x021C88A4 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
- *   func_021D7DC0 0x021D7DC0 thumb ov093
+ *   BTL_CALC_MakeSickContFromKind 0x021D7DC0 thumb ov093
  *   d_021F2908     0x021F2908  data   ov093  a4
  */
 #include "../../matched/include/Obj03703.h"
@@ -41,16 +41,16 @@ typedef signed char s8;
 
 typedef struct { u32 v; } Word_021E1120;
 
-extern int func_021D775C(int key);
-extern u32 func_021D78AC(u32 range);
-extern Word_021E10D8 func_021D7D18(int x);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_GetVar(int key);
+extern u32 BTL_CALC_Random(u32 range);
+extern Word_021E10D8 BTL_CALC_MakeDefaultSickCont(int x);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int func_021C8174(int *p);
 extern void func_021C83DC(char *p, int x);
 extern void *func_021C7CF4(int *p, int i);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *, void *);
-extern void func_021D7DC0(int, int, Word_021E1120 *);
+extern void BTL_CALC_MakeSickContFromKind(int, int, Word_021E1120 *);
 void func_021E10D8(int unused, void *q, int id);
 int *func_021E1120(int *p);
 u8 func_021E112C(int *a, u8 *p1, u8 *p2);
@@ -69,12 +69,12 @@ void func_021E10D8(int unused, void *q, int id)
     int k;
 
     k = 3;
-    if (id == func_021D775C(3)) {
-        v = d_021F286C[(u8)func_021D78AC(k)];
-        w = func_021D7D18(v);
-        func_021D76BC(0x1d, v);
-        func_021D76BC(0x1e, w.v);
-        func_021D76BC(0x26, 0x14);
+    if (id == BTL_EVENT_GetVar(3)) {
+        v = d_021F286C[(u8)BTL_CALC_Random(k)];
+        w = BTL_CALC_MakeDefaultSickCont(v);
+        BTL_EVENT_OverwriteVar(0x1d, v);
+        BTL_EVENT_OverwriteVar(0x1e, w.v);
+        BTL_EVENT_OverwriteVar(0x26, 0x14);
     }
 }
 
@@ -153,7 +153,7 @@ u8 func_021E112C(int *a, u8 *p1, u8 *p2)
 
 void func_021E11B8(int a, void *b, int c)
 {
-    if (c == func_021D775C(2))
+    if (c == BTL_EVENT_GetVar(2))
         func_021C83DC(b, func_021E112C(b, 0, 0));
 }
 
@@ -169,16 +169,16 @@ void func_021E11DC(int unused, void *q, int id)
     u8 kind;
     u8 value;
     u8 *r;
-    if (id == func_021D775C(3) && func_021D775C(0x47) == 0 && func_021D78AC(100) < 30) {
+    if (id == BTL_EVENT_GetVar(3) && BTL_EVENT_GetVar(0x47) == 0 && BTL_CALC_Random(100) < 30) {
         m = func_021C7CF4(q, id);
-        target = func_021D775C(6);
+        target = BTL_EVENT_GetVar(6);
         func_021E112C(q, &kind, &value);
         switch (kind) {
         case 0:
             r = func_021C88A4(q, 12, id);
             r[15] = target;
             ((struct Obj03703 *)r)->f4 = value;
-            func_021D7DC0(value, (int)m, (Word_021E1120 *)(r + 8));
+            BTL_CALC_MakeSickContFromKind(value, (int)m, (Word_021E1120 *)(r + 8));
             func_021C88C8(q, r);
             break;
         case 1:

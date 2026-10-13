@@ -1,5 +1,5 @@
 /*
- * function: func_021592A8
+ * function: SCRIPT_WORK_CmdDebugWork
  * address:  0x021592A8
  * packet:   pkt_021592A8
  * region:   ov010
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
-extern unsigned int func_02159B10(void *, void *);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 
-int func_021592A8(int a0, int a1)
+int SCRIPT_WORK_CmdDebugWork(int a0, int a1)
 {
     int t4;
     int t5;
@@ -30,11 +30,11 @@ int func_021592A8(int a0, int a1)
 t4 = a1 + 0;
 t5 = a0 + 0;
 a0 = t4 + 0;
-    v0 = func_0215A5E4((void *)a0);
+    v0 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_021592B4:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_02159B10((void *)a0, (void *)a1);
+    a0 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
 loc_021592BC:
 a0 = 0;
     return a0;}

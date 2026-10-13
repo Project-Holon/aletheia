@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetSession  0x0203D788  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   GFL_NET_QUEUE_IsEmpty  0x020366A8  arm
@@ -62,7 +62,7 @@ struct Sys
     struct Vt *f340;
 };
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern void MI_CpuFill8(void *, u8, u32);
 extern s32 GFL_NET_QUEUE_IsEmpty(struct Conn *);
@@ -83,7 +83,7 @@ s32 GFL_NET_SYSTEM_BuildSendPacket(struct Hdr *h, struct Conn *c, s32 len, u8 a3
     s32 n;
     u16 v;
 
-    g = func_0203D798();
+    g = GFL_NET_GetInitParam();
     sys = GFL_NET_GetSession();
 
     MI_CpuFill8(h, 0, (u32)len);

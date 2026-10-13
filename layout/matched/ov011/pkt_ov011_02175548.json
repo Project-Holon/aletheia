@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02175548",
+   "name": "INTRUDE_COMM_PickDefaultObjCode",
    "address": "0x02175548",
    "kind": "game",
    "region": "ov011",

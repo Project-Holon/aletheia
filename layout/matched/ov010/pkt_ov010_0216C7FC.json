@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216C7FC",
+   "name": "NAMEIN_SETUP_RunHistoryScreenEvent",
    "address": "0x0216C7FC",
    "kind": "game",
    "region": "ov010",

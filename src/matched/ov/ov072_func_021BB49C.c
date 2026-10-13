@@ -1,5 +1,5 @@
 /*
- * function: func_021BB49C
+ * function: TOWNMAP_GRH_ClearTextBox
  * address: 0x021BB49C
  * packet: pkt_ov072_021BB49C
  * region: ov072
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
 struct Descriptor;
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned int v);
-void func_021BB49C(void **p) { void *q = *p; func_020456F8(q); func_02041B6C(func_02045730(q)); }
+void TOWNMAP_GRH_ClearTextBox(void **p) { void *q = *p; BMP_WIN_ClearScreen(q); func_02041B6C(func_02045730(q)); }

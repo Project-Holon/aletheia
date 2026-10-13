@@ -1,5 +1,5 @@
 /*
- * function: func_021BD904
+ * function: EVENT_ENTRANCE_IN_IsDungeonTransition
  * address:  0x021BD904
  * packet:   pkt_ov021_021BD904
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012134  0x02012134  thumb
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   func_0202B580  0x0202B580  thumb
- *   func_0202B434  0x0202B434  thumb
- *   func_0202B438  0x0202B438  thumb
+ *   ISS_DUNGEON_SYS_IsActive  0x0202B434  thumb
+ *   ISS_DUNGEON_SYS_HasRecord  0x0202B438  thumb
  */
 
 typedef unsigned char  u8;
@@ -35,17 +35,17 @@ typedef struct {
     Ent *e;
 } Obj;
 
-extern u32 func_02012134(u32 *p);
+extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
 extern u32 func_0202B580(void *obj);
-extern u32 func_0202B434(u8 *p);
-extern u32 func_0202B438(u8 *p, u32 id);
+extern u32 ISS_DUNGEON_SYS_IsActive(u8 *p);
+extern u32 ISS_DUNGEON_SYS_HasRecord(u8 *p, u32 id);
 
-int func_021BD904(Obj *o)
+int EVENT_ENTRANCE_IN_IsDungeonTransition(Obj *o)
 {
     Ent *e = o->e;
-    void *s = (void *)func_0202B580((void *)func_02012134((u32 *)e->x4));
+    void *s = (void *)func_0202B580((void *)GAMESYSTEM_GetIssSystem((u32 *)e->x4));
 
-    if (func_0202B434(s) && func_0202B438(s, e->h18) && func_0202B438(s, e->h20)) {
+    if (ISS_DUNGEON_SYS_IsActive(s) && ISS_DUNGEON_SYS_HasRecord(s, e->h18) && ISS_DUNGEON_SYS_HasRecord(s, e->h20)) {
         return 1;
     }
     return 0;

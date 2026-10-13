@@ -1,5 +1,5 @@
 /*
- * function: func_02026608
+ * function: GAME_COMM_PopInfoMessage
  * address:  0x02026608
  * packet:   pkt_02026504
  * region:   arm9
@@ -44,7 +44,7 @@ typedef struct {
     u32 w8;      /* +0x08 */
 } Rec;
 
-int func_02026608(u8 *p, u8 *out)
+int GAME_COMM_PopInfoMessage(u8 *p, u8 *out)
 {
     u8 *base = p + 0x3c;
     Rec *r = (Rec *)(base + base[0x48] * 12);

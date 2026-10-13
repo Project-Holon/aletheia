@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7BC
+ * function: FIELD_PLACE_NAME_SetClactUnitRenderer
  * address:  0x021BC7BC
  * packet:   pkt_ov021_021BC7BC
  * region:   ov021
@@ -19,7 +19,7 @@ typedef struct {
 struct Bank;
 extern void func_0204B258(struct Bank *bank, void *p);
 
-void func_021BC7BC(Obj *p, int i)
+void FIELD_PLACE_NAME_SetClactUnitRenderer(Obj *p, int i)
 {
     if (p->f38 != 0) {
         func_0204B258(p->f34[i], p->f38);

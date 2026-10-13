@@ -17,18 +17,18 @@
  *   MIi_CpuClear16    0x02082A48  arm
  *   BMP_CreateFromVram     0x02043754  arm
  *   func_0201EC64     0x0201EC64  thumb
- *   func_0201D7EC     0x0201D7EC  thumb
+ *   GF_FONT_Create     0x0201D7EC  thumb
  *   func_02045B38     0x02045B38  arm
  *   func_0201EFA4     0x0201EFA4  thumb
  *   func_02045EC0     0x02045EC0  arm
- *   func_020457B0     0x020457B0  arm
+ *   STRBUF_Create     0x020457B0  arm
  *   func_0201F250     0x0201F250  thumb
- *   func_0201C7D0     0x0201C7D0  thumb
- *   func_02045808     0x02045808  arm
- *   func_02045C04     0x02045C04  arm
- *   func_0201D83C     0x0201D83C  thumb
+ *   PRINTSYS_PrintColor     0x0201C7D0  thumb
+ *   STRBUF_Delete     0x02045808  arm
+ *   MSGDATA_Delete     0x02045C04  arm
+ *   GF_FONT_Delete     0x0201D83C  thumb
  *   func_0201ED04     0x0201ED04  thumb
- *   func_020437AC     0x020437AC  arm
+ *   BMP_Delete     0x020437AC  arm
  *
  * Draws net_err.c's error window: tiles BG1's screen with a running
  * character index, clears the character block to 0x7777, builds a surface,
@@ -65,18 +65,18 @@ struct U16Vec;
 struct WordSet;
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
-extern u32 func_0201D83C(void *ptr);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 GF_FONT_Delete(void *ptr);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 sub_02010158(u8 *obj, u32 a);
 
 void func_020101D4(u32 a0, u32 a1)
@@ -107,7 +107,7 @@ void func_020101D4(u32 a0, u32 a1)
     MIi_CpuClear16(0x7777, G2_GetBG1CharPtr() + 0x400, 0x3c00);
     surf = BMP_CreateFromVram(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
     obj = func_0201EC64(1);
-    pal = func_0201D7EC(0x17, 0, 0, 0, 1);
+    pal = GF_FONT_Create(0x17, 0, 0, 0, 1);
 
     if (a1 == 1) {
         arc = func_02045B38(0, 2, 0xe8, 1);
@@ -135,13 +135,13 @@ void func_020101D4(u32 a0, u32 a1)
     }
 
     k = func_02045EC0(arc, idx);
-    buf = func_020457B0(0x189, 1);
+    buf = STRBUF_Create(0x189, 1);
     func_0201F250(obj, buf, k);
-    func_0201C7D0(surf, 0, 0, buf, pal, 0x1167);
-    func_02045808(buf);
-    func_02045808(k);
-    func_02045C04(arc);
-    func_0201D83C(pal);
+    PRINTSYS_PrintColor(surf, 0, 0, buf, pal, 0x1167);
+    STRBUF_Delete(buf);
+    STRBUF_Delete(k);
+    MSGDATA_Delete(arc);
+    GF_FONT_Delete(pal);
     func_0201ED04(obj);
-    func_020437AC(surf);
+    BMP_Delete(surf);
 }

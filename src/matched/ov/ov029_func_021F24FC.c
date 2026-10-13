@@ -1,5 +1,5 @@
 /*
- * function: func_021F24FC
+ * function: C_GEAR_OnCommEvent
  * address:  0x021F24FC
  * packet:   pkt_ov029_021F24FC
  * region:   ov029
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
-void func_021F24FC(unsigned char *p)
+void C_GEAR_OnCommEvent(unsigned char *p)
 {
     p[0x451] = 2;
 }

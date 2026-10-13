@@ -7,15 +7,18 @@
  * flags:    -O4,p
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
  */
 #include "../include/Obj21736.h"
 typedef unsigned int u32;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 void func_0220203C(void *h)
 {
-    int *q = (int *)func_02030EE8(h);
+    int *q = (int *)TCBL_IsDeletePending(h);
     char *p = (char *)q[0];
     ((struct Obj21736 *)p)->f7C &= (1 << q[4]) ^ -1;
 }

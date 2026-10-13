@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB0AC",
+   "name": "OPTION_MENU_IsChoiceSelected",
    "address": "0x021BB0AC",
    "kind": "game",
    "region": "ov068",

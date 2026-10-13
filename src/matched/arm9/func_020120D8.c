@@ -1,5 +1,5 @@
 /*
- * function: func_020120D8
+ * function: GAMESYSTEM_IsEventActive
  * address:  0x020120D8
  * packet:   pkt_02011F28
  * region:   arm9
@@ -15,7 +15,7 @@
 #include "../include/Obj15623.h"
 
 extern int GAME_EVENT_IsRunning(void *p);
-int func_020120D8(char *p)
+int GAMESYSTEM_IsEventActive(char *p)
 {
     if (GAME_EVENT_IsRunning(p))
         return 1;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A1BF8",
+   "name": "WEATHER_LoadOverlay",
    "address": "0x021A1BF8",
    "kind": "game",
    "region": "ov021",

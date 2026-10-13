@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02185BFC",
+   "name": "EVENT_MAPCHANGE_CreateIntrudeSessionEvent",
    "address": "0x02185BFC",
    "kind": "game",
    "region": "ov020",

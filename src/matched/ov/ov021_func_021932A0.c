@@ -1,5 +1,5 @@
 /*
- * function: func_021932A0
+ * function: FIELD_MSGBG_StreamSetSpeed
  * address:  0x021932A0
  * packet:   pkt_ov021_021932A0
  * region:   ov021
@@ -27,7 +27,7 @@ struct Rec;
 extern void func_0201CE8C(struct Rec *p, s32 v);
 extern void func_0201CEB8(struct Rec *p);
 
-void func_021932A0(u32 a, int f)
+void FIELD_MSGBG_StreamSetSpeed(u32 a, int f)
 {
     if (f == 1)
         func_0201CE8C((struct Rec *)a, func_02013080(2));

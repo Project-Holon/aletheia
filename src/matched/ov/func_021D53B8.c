@@ -1,5 +1,5 @@
 /*
- * function: func_021D53B8
+ * function: BTL_POKEPARAM_Delete
  * address:  0x021D53B8
  * packet:   pkt_021D53B8
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0   0x020307B0  arm arm9
- *   func_021D53B8   0x021D53B8  thumb ov093
+ *   BTL_POKEPARAM_Delete   0x021D53B8  thumb ov093
  *
  * tail-call thunk to func_020307B0
  */
@@ -25,7 +25,7 @@ typedef signed int s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021D53B8(void *p)
+void BTL_POKEPARAM_Delete(void *p)
 {
     func_020307B0(p);
 }

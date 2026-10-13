@@ -1,5 +1,5 @@
 /*
- * function: func_021BD21C
+ * function: STARTMENU_SaveEraseStartFadeIn
  * address:  0x021BD21C
  * packet:   pkt_ov088_021BD21C
  * region:   ov088
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0202208C  0x0202208C  thumb
+ *   WIPE_SYS_Start  0x0202208C  thumb
  */
 
 typedef unsigned int   u32;
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
-void func_021BD21C(void)
+void STARTMENU_SaveEraseStartFadeIn(void)
 {
-    func_0202208C(0, 1, 1, 0, 6, 1, 0x81);
+    WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x81);
 }

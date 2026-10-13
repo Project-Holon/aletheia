@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   func_021C7E14  0x021C7E14  thumb  ov093
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021D59B4(u8 *p, int k);
 extern u16 func_021C7E14(u8 *p, int a, int b, u32 c, int e0, int e1);
 
@@ -36,11 +36,11 @@ int func_02189170(struct Cursor *a, int b, int c)
     int z;
     int r;
 
-    func_0201134C(a);
-    t = func_0201134C(a);
+    VM_GetU32(a);
+    t = VM_GetU32(a);
     w = func_021D59B4(*(u8 * *)&((struct Obj06343 *)b)->fC0, 0xd);
-    y = func_021D5440(*(u8 * *)&((struct Obj06343 *)b)->fBC);
-    z = func_021D5440(*(u8 * *)&((struct Obj06343 *)b)->fC0);
+    y = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06343 *)b)->fBC);
+    z = BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj06343 *)b)->fC0);
     r = func_021C7E14((u8 *)(((struct Obj06343 *)b)->fB4), y, z, ((struct Obj06343 *)b)->f2, 1, 0);
     return func_0218A0F4((u8 *)a, c, w, r, t);
 }

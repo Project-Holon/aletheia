@@ -1,5 +1,5 @@
 /*
- * function: func_0218FE80
+ * function: FIELD_CAMERA_ANIME_Create
  * address:  0x0218FE80
  * packet:   pkt_ov021_0218FE80
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb
- *   func_0218FF30  0x0218FF30  thumb
- *   func_0218FF50  0x0218FF50  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb
+ *   FIELD_CAMERA_ANIME_Alloc  0x0218FF30  thumb
+ *   FIELD_CAMERA_ANIME_Init  0x0218FF50  thumb
  */
 
 typedef unsigned char  u8;
@@ -22,13 +22,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u16 func_02188C84(u8 *p);
-extern void *func_0218FF30(u32 heap);
-extern void func_0218FF50(u32 *o, void *a);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void *FIELD_CAMERA_ANIME_Alloc(u32 heap);
+extern void FIELD_CAMERA_ANIME_Init(u32 *o, void *a);
 
-void *func_0218FE80(void *a)
+void *FIELD_CAMERA_ANIME_Create(void *a)
 {
-    void *o = func_0218FF30(func_02188C84(a));
-    func_0218FF50(o, a);
+    void *o = FIELD_CAMERA_ANIME_Alloc(FIELDMAP_GetHeapId(a));
+    FIELD_CAMERA_ANIME_Init(o, a);
     return o;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AE7A8
+ * function: EVENT_TRAINER_EYE_IsPathBlocked
  * address:  0x021AE7A8
  * packet:   pkt_ov021_021AE7A8
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D828  0x0216D828  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_02163994  0x02163994  thumb  ov010
- *   func_021AA900  0x021AA900  thumb  ov021
+ *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb  ov010
+ *   EFFECT_ENCOUNT_IsSpotAt  0x021AA900  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -27,14 +27,14 @@ typedef struct Vec3s {
     s16 z;
 } Vec3s;
 
-extern void func_0216D828(u32 a, Vec3s *out);
-extern s16 func_021641E8(u32 dir);
-extern s16 func_021641F8(u32 dir);
-extern int func_02163994(u32 a, int x, int y, int z, u32 dir);
+extern void FLDMMDL_GetGridNowPos(u32 a, Vec3s *out);
+extern s16 FLDMMDL_MOVE_GetDirAddGridX(u32 dir);
+extern s16 FLDMMDL_MOVE_GetDirAddGridZ(u32 dir);
+extern int FLDMMDL_MOVE_HitCheckMoveCurrent(u32 a, int x, int y, int z, u32 dir);
 struct Self;
-extern int func_021AA900(struct Self *self, short *pos);
+extern int EFFECT_ENCOUNT_IsSpotAt(struct Self *self, short *pos);
 
-int func_021AE7A8(u32 a, u32 dir, int n, void *p)
+int EVENT_TRAINER_EYE_IsPathBlocked(u32 a, u32 dir, int n, void *p)
 {
     Vec3s pos;
     s16 dx;
@@ -43,22 +43,22 @@ int func_021AE7A8(u32 a, u32 dir, int n, void *p)
 
     if (n != 0) {
         i = 0;
-        func_0216D828(a, &pos);
-        dx = func_021641E8(dir);
-        dz = func_021641F8(dir);
+        FLDMMDL_GetGridNowPos(a, &pos);
+        dx = FLDMMDL_MOVE_GetDirAddGridX(dir);
+        dz = FLDMMDL_MOVE_GetDirAddGridZ(dir);
         pos.x += dx;
         pos.z += dz;
         for (; i < n - 1; i++) {
-            if ((func_02163994(a, pos.x, pos.y, pos.z, dir) & ~1) != 0)
+            if ((FLDMMDL_MOVE_HitCheckMoveCurrent(a, pos.x, pos.y, pos.z, dir) & ~1) != 0)
                 return 1;
-            if (p != 0 && func_021AA900(p, (short int *)(&pos)) != 0)
+            if (p != 0 && EFFECT_ENCOUNT_IsSpotAt(p, (short int *)(&pos)) != 0)
                 return 1;
             pos.x += dx;
             pos.z += dz;
         }
-        if ((func_02163994(a, pos.x, pos.y, pos.z, dir) & ~1) != 4)
+        if ((FLDMMDL_MOVE_HitCheckMoveCurrent(a, pos.x, pos.y, pos.z, dir) & ~1) != 4)
             return 1;
-        if (p != 0 && func_021AA900(p, (short int *)(&pos)) != 0)
+        if (p != 0 && EFFECT_ENCOUNT_IsSpotAt(p, (short int *)(&pos)) != 0)
             return 1;
     }
     return 0;

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021D8904 0x021D8904 data a2
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021D8430 0x021D8430 thumb ov120
  *   func_021D8484 0x021D8484 thumb ov120
  *   func_021D4244 0x021D4244 thumb ov120
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef struct { u16 v[4]; } Halfwords;
 extern const Halfwords d_021D8904;
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned char  u8;
 extern void func_021D8430(u8 *p, void *q);
 struct Obj05353;
@@ -30,7 +30,7 @@ void func_021D44EC(int a)
 {
     Halfwords table = d_021D8904;
     const Halfwords *p = &table;
-    if (func_0203CD98() != 0)
+    if (GFL_NET_GetRunState() != 0)
         p = (const Halfwords *)(a + 0x174);
     ((struct Obj08075 *)a)->f14 = 0xb4;
     func_021D8430((u8 *)(((struct Obj08075 *)a)->f40), (void *)(((struct Obj08075 *)a)->f3C));

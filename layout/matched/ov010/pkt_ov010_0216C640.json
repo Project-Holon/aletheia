@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216C640",
+   "name": "NAMEIN_SETUP_StartEncounterScene",
    "address": "0x0216C640",
    "kind": "game",
    "region": "ov010",

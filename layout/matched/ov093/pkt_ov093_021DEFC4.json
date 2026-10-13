@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DEFC4",
-    "func_021DF0B8"
+    "BTL_HANDLER_ITEM_BlackSludge_HealOrDamage",
+    "BTL_HANDLER_ITEM_GetDestinyKnotHandlers"
+   ],
+   "addresses": [
+    "0x021DEFC4",
+    "0x021DF0B8"
    ],
    "evidence": {
     "sole-ref": [

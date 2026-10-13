@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D587C  0x021D587C  thumb  ov093
+ *   BTL_POKEPARAM_RemapStatId  0x021D587C  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  */
 #include "../include/Obj00041.h"
@@ -18,12 +18,12 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D587C(void *p, int k);
+extern int BTL_POKEPARAM_RemapStatId(void *p, int k);
 extern int func_021D59B4(u8 *p, int k);
 
 int func_021D58A8(u8 *p, int k)
 {
-    int v = func_021D587C(p, k);
+    int v = BTL_POKEPARAM_RemapStatId(p, k);
     switch (v) {
     case 8:
         return ((struct Obj00041 *)p)->fEE;

@@ -12,7 +12,7 @@
  * symbols:
  *   func_021B8E70  0x021B8E70  thumb  ov093
  *   func_021B98AC  0x021B98AC  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_021F7EE8  0x021F7EE8  thumb  ov094
  *   func_021EDA04  0x021EDA04  thumb  ov093
  */
@@ -23,12 +23,12 @@ extern u8 func_021B8E70(u8 *p, u32 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 struct E;
 struct Work;
-extern void *func_021D5864(struct Work *p);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern void func_021F7EE8(void *, int);
 extern void func_021EDA04(struct E *e);
 void func_021ED2D0(u8 *p, u8 k)
 {
     u8 r = func_021B8E70(*(u8 * *)&((struct Obj13566 *)p)->f134, k);
-    func_021F7EE8(func_021D5864((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj13566 *)p)->f138, k)), r);
+    func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj13566 *)p)->f138, k)), r);
     func_021EDA04((struct E *)(p + 0x48 + k * 12));
 }

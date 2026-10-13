@@ -1,5 +1,5 @@
 /*
- * function: func_021EE608
+ * function: BTL_REC_AppendPacket
  * address:  0x021EE608
  * packet:   pkt_ov093_021EE608
  * region:   ov093
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern void func_02082D44(const void *, void *, u32);
 
-void func_021EE608(u8 *p, const u8 *src, int n)
+void BTL_REC_AppendPacket(u8 *p, const u8 *src, int n)
 {
     u32 pos;
     u32 end;

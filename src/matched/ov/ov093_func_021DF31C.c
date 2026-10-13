@@ -1,5 +1,5 @@
 /*
- * function: func_021DF31C
+ * function: BTL_HANDLER_ITEM_GetInsectPlateHandlers
  * address: 0x021DF31C
  * packet: pkt_ov093_021DF31C
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F14A4[];
-int *func_021DF31C(int *p);
+int *BTL_HANDLER_ITEM_GetInsectPlateHandlers(int *p);
 
-int *func_021DF31C(int *p)
+int *BTL_HANDLER_ITEM_GetInsectPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F14A4;

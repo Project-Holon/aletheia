@@ -1,5 +1,5 @@
 /*
- * function: func_021AB140
+ * function: MAP_ATTR_IsTallGrass
  * address:  0x021AB140
  * packet:   pkt_ov021_021AB140
  * region:   ov021
@@ -22,7 +22,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-int func_021AB140(int x)
+int MAP_ATTR_IsTallGrass(int x)
 {
     if ((u16)(x + 0xFFF8) <= 1)
         return 1;

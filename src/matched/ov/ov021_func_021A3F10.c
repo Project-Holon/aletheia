@@ -1,5 +1,5 @@
 /*
- * function: func_021A3F10
+ * function: FIELD_PLAYER_CORE_FormStepRestoreModelDone
  * address:  0x021A3F10
  * packet:   pkt_ov021_021A3F10
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3B94  0x021A3B94  thumb  ov021
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A398C  0x021A398C  thumb  ov021
- *   func_021A31A4  0x021A31A4  thumb  ov021
- *   func_021A3AD8  0x021A3AD8  thumb  ov021
+ *   FIELD_PLAYER_CORE_CheckDrawProcReady  0x021A3B94  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetSex  0x021A398C  thumb  ov021
+ *   FIELD_PLAYER_GetObjCodeOfFormCode  0x021A31A4  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChangeModel  0x021A3AD8  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -31,20 +31,20 @@ typedef struct {
     u16 done;
 } Obj021A3F10;
 
-int func_021A3B94(u32 *p);
-u32 func_021A3974(u8 *p);
-u32 func_021A398C(u8 *p);
-int func_021A31A4(int i, int v);
-void func_021A3AD8(u8 *p, int a);
+int FIELD_PLAYER_CORE_CheckDrawProcReady(u32 *p);
+u32 FIELD_PLAYER_CORE_GetFormCode(u8 *p);
+u32 FIELD_PLAYER_CORE_GetSex(u8 *p);
+int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
+void FIELD_PLAYER_CORE_ChangeModel(u8 *p, int a);
 
-int func_021A3F10(Obj021A3F10 *p)
+int FIELD_PLAYER_CORE_FormStepRestoreModelDone(Obj021A3F10 *p)
 {
     int a;
 
-    if (func_021A3B94((u32 *)p) == 1) {
+    if (FIELD_PLAYER_CORE_CheckDrawProcReady((u32 *)p) == 1) {
         p->count++;
-        a = func_021A3974((u8 *)p);
-        func_021A3AD8((u8 *)p, func_021A31A4(func_021A398C((u8 *)p), a));
+        a = FIELD_PLAYER_CORE_GetFormCode((u8 *)p);
+        FIELD_PLAYER_CORE_ChangeModel((u8 *)p, FIELD_PLAYER_GetObjCodeOfFormCode(FIELD_PLAYER_CORE_GetSex((u8 *)p), a));
         p->done = 1;
     }
     return 0;

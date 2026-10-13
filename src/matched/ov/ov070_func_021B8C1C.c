@@ -1,5 +1,5 @@
 /*
- * function: func_021B8C1C
+ * function: ITEMMENU_StartSideButtonPress
  * address:  0x021B8C1C
  * packet:   pkt_ov070_021B8C1C
  * region:   ov070
@@ -12,10 +12,10 @@
  * symbols:
  *   func_020061E4  0x020061E4  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B8CB4  0x021B8CB4  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
+ *   ITEMMENU_TaskWaitSideButtonPress  0x021B8CB4  thumb  ov070
  */
 #include "../include/Obj00002.h"
 
@@ -24,13 +24,13 @@ extern void func_020061E4(u32 a);
 typedef unsigned short u16;
 struct Obj;
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, unsigned int v);
-extern void func_021B6100(char *p, int k);
-extern void func_021B8CB4(char *p);
+extern void ITEMMENU_SetTask(char *p, int k);
+extern void ITEMMENU_TaskWaitSideButtonPress(char *p);
 
-void func_021B8C1C(int p, int a, int b)
+void ITEMMENU_StartSideButtonPress(int p, int a, int b)
 {
     int x;
     if (a == 4) {
@@ -48,8 +48,8 @@ void func_021B8C1C(int p, int a, int b)
     }
     ((struct Obj00002 *)p)->f864 = a;
     CLACT_SetActorAnimFrame((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), 0);
-    func_0204B878((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), (unsigned short)x);
+    CLACT_SetActorAnimSeq((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), (unsigned short)x);
     func_0204B92C((struct Obj *)*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710), 1);
     *(int *)&((struct Obj00002 *)p)->f868 = b;
-    func_021B6100((char *)p, (int)func_021B8CB4);
+    ITEMMENU_SetTask((char *)p, (int)ITEMMENU_TaskWaitSideButtonPress);
 }

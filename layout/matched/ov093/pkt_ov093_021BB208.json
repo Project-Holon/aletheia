@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB208",
+   "name": "BTL_SERVER_StepSendRecording",
    "address": "0x021BB208",
    "kind": "game",
    "region": "ov093",

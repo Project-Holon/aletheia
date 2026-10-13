@@ -1,5 +1,5 @@
 /*
- * function: func_021AC68C
+ * function: FLDEFF_GRASS_Create
  * address:  0x021AC68C
  * packet:   pkt_ov021_021AC68C
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   d_021DE070  0x021DE070  data
- *   func_021AC6D4  0x021AC6D4  thumb  ov021
- *   func_02188C90  0x02188C90  thumb  ov021
- *   func_021ABE14  0x021ABE14  thumb  ov021
+ *   FLDEFF_GRASS_CreateSlots  0x021AC6D4  thumb  ov021
+ *   FIELDMAP_GetGroundBbdAct  0x02188C90  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -25,18 +25,18 @@ typedef signed char    s8;
 typedef struct P { u32 f0; u32 f4; u32 w[4]; } P;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_021ABE14(u8 *p);
-extern u32 func_02188C90(u8 *p);
-extern void func_021AC6D4(u32 *p);
+extern u32 FIELD_EFFECT_GetFieldMap(u8 *p);
+extern u32 FIELDMAP_GetGroundBbdAct(u8 *p);
+extern void FLDEFF_GRASS_CreateSlots(u32 *p);
 extern char d_021DE070[];
 
-P *func_021AC68C(int a, int heap)
+P *FLDEFF_GRASS_Create(int a, int heap)
 {
     P *p;
 
     p = (P *)func_02030734(heap, 0x18, 1, d_021DE070, 0x6c);
     p->f0 = a;
-    p->f4 = func_02188C90((u8 *)func_021ABE14((u8 *)a));
-    func_021AC6D4((u32 *)p);
+    p->f4 = FIELDMAP_GetGroundBbdAct((u8 *)FIELD_EFFECT_GetFieldMap((u8 *)a));
+    FLDEFF_GRASS_CreateSlots((u32 *)p);
     return p;
 }

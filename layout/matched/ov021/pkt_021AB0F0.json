@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AB0F0",
+   "name": "MAP_ATTR_GetTerrainId",
    "address": "0x021AB0F0",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021AB0F8",
+   "name": "MAP_ATTR_GetFlags",
    "address": "0x021AB0F8",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB100",
+   "name": "MAP_ATTR_IsPresent",
    "address": "0x021AB100",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB11C",
+   "name": "MAP_ATTR_IsBlocked",
    "address": "0x021AB11C",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021AB158",
+   "name": "MAP_ATTR_IsLedgeNorth",
    "address": "0x021AB158",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB164",
+   "name": "MAP_ATTR_IsLedgeSouth",
    "address": "0x021AB164",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB170",
+   "name": "MAP_ATTR_IsLedgeWest",
    "address": "0x021AB170",
    "kind": "game",
    "region": "ov021",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB17C",
+   "name": "MAP_ATTR_IsLedgeEast",
    "address": "0x021AB17C",
    "kind": "game",
    "region": "ov021",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB188",
+   "name": "MAP_ATTR_IsNoInteract",
    "address": "0x021AB188",
    "kind": "game",
    "region": "ov021",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB194",
+   "name": "MAP_ATTR_IsCameraStep",
    "address": "0x021AB194",
    "kind": "game",
    "region": "ov021",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB1AC",
+   "name": "MAP_ATTR_IsGimmickD7",
    "address": "0x021AB1AC",
    "kind": "game",
    "region": "ov021",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB1B8",
+   "name": "MAP_ATTR_IsGimmickD8",
    "address": "0x021AB1B8",
    "kind": "game",
    "region": "ov021",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB1C4",
+   "name": "MAP_ATTR_IsGimmickE2",
    "address": "0x021AB1C4",
    "kind": "game",
    "region": "ov021",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB1D0",
+   "name": "MAP_ATTR_IsGimmickD9",
    "address": "0x021AB1D0",
    "kind": "game",
    "region": "ov021",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB1DC",
+   "name": "MAP_ATTR_IsGimmickDA",
    "address": "0x021AB1DC",
    "kind": "game",
    "region": "ov021",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB1E8",
+   "name": "MAP_ATTR_IsGimmickDB",
    "address": "0x021AB1E8",
    "kind": "game",
    "region": "ov021",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB1F4",
+   "name": "MAP_ATTR_IsGimmickDC",
    "address": "0x021AB1F4",
    "kind": "game",
    "region": "ov021",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB200",
+   "name": "MAP_ATTR_IsGimmickDD",
    "address": "0x021AB200",
    "kind": "game",
    "region": "ov021",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB20C",
+   "name": "MAP_ATTR_IsGimmickDE",
    "address": "0x021AB20C",
    "kind": "game",
    "region": "ov021",
@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB218",
+   "name": "MAP_ATTR_IsGimmickDF",
    "address": "0x021AB218",
    "kind": "game",
    "region": "ov021",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB224",
+   "name": "MAP_ATTR_IsGimmickE0",
    "address": "0x021AB224",
    "kind": "game",
    "region": "ov021",
@@ -259,7 +259,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB230",
+   "name": "MAP_ATTR_IsGimmickE1",
    "address": "0x021AB230",
    "kind": "game",
    "region": "ov021",
@@ -271,7 +271,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB23C",
+   "name": "MAP_ATTR_IsGrassSingle",
    "address": "0x021AB23C",
    "kind": "game",
    "region": "ov021",
@@ -283,7 +283,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB250",
+   "name": "MAP_ATTR_IsGrassDouble",
    "address": "0x021AB250",
    "kind": "game",
    "region": "ov021",
@@ -295,7 +295,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB264",
+   "name": "MAP_ATTR_IsTallGrassSingle",
    "address": "0x021AB264",
    "kind": "game",
    "region": "ov021",
@@ -307,7 +307,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB270",
+   "name": "MAP_ATTR_IsTallGrassDouble",
    "address": "0x021AB270",
    "kind": "game",
    "region": "ov021",
@@ -319,7 +319,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB27C",
+   "name": "MAP_ATTR_IsAnySingleGrass",
    "address": "0x021AB27C",
    "kind": "game",
    "region": "ov021",
@@ -331,7 +331,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021AB29C",
+   "name": "MAP_ATTR_IsAnyDoubleGrass",
    "address": "0x021AB29C",
    "kind": "game",
    "region": "ov021",
@@ -343,7 +343,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021AB2BC",
+   "name": "MAP_ATTR_IsAnyGrass",
    "address": "0x021AB2BC",
    "kind": "game",
    "region": "ov021",
@@ -355,7 +355,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021AB2DC",
+   "name": "MAP_ATTR_IsHole",
    "address": "0x021AB2DC",
    "kind": "game",
    "region": "ov021",
@@ -367,7 +367,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB2E8",
+   "name": "MAP_ATTR_IsLongHopEdge",
    "address": "0x021AB2E8",
    "kind": "game",
    "region": "ov021",
@@ -379,7 +379,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB304",
+   "name": "MAP_ATTR_IsSplashWater",
    "address": "0x021AB304",
    "kind": "game",
    "region": "ov021",
@@ -391,7 +391,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB310",
+   "name": "MAP_ATTR_IsWaterfall",
    "address": "0x021AB310",
    "kind": "game",
    "region": "ov021",
@@ -403,7 +403,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB31C",
+   "name": "MAP_ATTR_IsSnow",
    "address": "0x021AB31C",
    "kind": "game",
    "region": "ov021",
@@ -415,7 +415,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB328",
+   "name": "MAP_ATTR_IsDeepSnow",
    "address": "0x021AB328",
    "kind": "game",
    "region": "ov021",
@@ -427,7 +427,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB334",
+   "name": "MAP_ATTR_IsSnowTile",
    "address": "0x021AB334",
    "kind": "sdk",
    "region": "ov021",
@@ -439,7 +439,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021AB348",
+   "name": "MAP_ATTR_IsForcedSlide",
    "address": "0x021AB348",
    "kind": "game",
    "region": "ov021",
@@ -451,7 +451,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB364",
+   "name": "MAP_ATTR_IsSplashWaterB",
    "address": "0x021AB364",
    "kind": "game",
    "region": "ov021",
@@ -463,7 +463,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB370",
+   "name": "MAP_ATTR_IsSandD",
    "address": "0x021AB370",
    "kind": "game",
    "region": "ov021",
@@ -475,7 +475,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB37C",
+   "name": "MAP_ATTR_IsSandVariant",
    "address": "0x021AB37C",
    "kind": "game",
    "region": "ov021",
@@ -487,7 +487,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB390",
+   "name": "MAP_ATTR_IsAnySand",
    "address": "0x021AB390",
    "kind": "game",
    "region": "ov021",
@@ -499,7 +499,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021AB3B0",
+   "name": "MAP_ATTR_IsFishableWater",
    "address": "0x021AB3B0",
    "kind": "game",
    "region": "ov021",
@@ -511,7 +511,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB3E0",
+   "name": "MAP_ATTR_IsMud",
    "address": "0x021AB3E0",
    "kind": "game",
    "region": "ov021",
@@ -523,7 +523,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB3EC",
+   "name": "MAP_ATTR_IsElectricFloor",
    "address": "0x021AB3EC",
    "kind": "game",
    "region": "ov021",
@@ -535,7 +535,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB3F8",
+   "name": "MAP_ATTR_IsElectricPanel",
    "address": "0x021AB3F8",
    "kind": "game",
    "region": "ov021",
@@ -559,7 +559,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB41C",
+   "name": "MAP_ATTR_IsSand",
    "address": "0x021AB41C",
    "kind": "game",
    "region": "ov021",
@@ -571,7 +571,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB428",
+   "name": "MAP_ATTR_IsGrassSingleB",
    "address": "0x021AB428",
    "kind": "game",
    "region": "ov021",
@@ -583,7 +583,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB434",
+   "name": "MAP_ATTR_IsGrassDoubleB",
    "address": "0x021AB434",
    "kind": "game",
    "region": "ov021",
@@ -595,7 +595,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB440",
+   "name": "MAP_ATTR_IsMirrorFloor",
    "address": "0x021AB440",
    "kind": "game",
    "region": "ov021",
@@ -607,7 +607,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB44C",
+   "name": "MAP_ATTR_IsNoDash",
    "address": "0x021AB44C",
    "kind": "game",
    "region": "ov021",
@@ -619,7 +619,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB4EC",
+   "name": "MAP_ATTR_IsGrassSingleC",
    "address": "0x021AB4EC",
    "kind": "game",
    "region": "ov021",
@@ -631,7 +631,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB4F8",
+   "name": "MAP_ATTR_IsGrassDoubleC",
    "address": "0x021AB4F8",
    "kind": "game",
    "region": "ov021",
@@ -643,7 +643,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB504",
+   "name": "MAP_ATTR_GetEncounterEffectKind",
    "address": "0x021AB504",
    "kind": "game",
    "region": "ov021",

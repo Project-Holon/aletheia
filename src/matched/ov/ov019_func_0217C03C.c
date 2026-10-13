@@ -1,5 +1,5 @@
 /*
- * function: func_0217C03C
+ * function: UNION_ONESELF_ConnectParentEnd
  * address: 0x0217C03C
  * packet: pkt_ov019_0217C03C
  * region: ov019
@@ -10,13 +10,13 @@
  * status: EXACT*
  * Remaining two bytes are alignment padding.
  * symbols:
- *   func_021734A8 0x021734A8 thumb ov012
+ *   UNION_COMM_SetSituationParam 0x021734A8 thumb ov012
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021734A8(u8 *self, u32 id, u32 v);
-int func_0217C03C(u8 *self)
+extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
+int UNION_ONESELF_ConnectParentEnd(u8 *self)
 {
-    func_021734A8(self, 1, 0);
+    UNION_COMM_SetSituationParam(self, 1, 0);
     return 1;
 }

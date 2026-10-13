@@ -1,5 +1,5 @@
 /*
- * function: func_0217B158
+ * function: UNION_CHARA_CheckMemberUnique
  * address:  0x0217B158
  * packet:   pkt_ov019_0217B158
  * region:   ov019
@@ -37,7 +37,7 @@ struct ent {
 
 extern int memcmp(const void *a, const void *b, int n);
 
-int func_0217B158(char *base, struct ent *excl, u8 *mac)
+int UNION_CHARA_CheckMemberUnique(char *base, struct ent *excl, u8 *mac)
 {
     struct ent *q = (struct ent *)(base + 0x2910);
     int i;

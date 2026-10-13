@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02188EE4",
+   "name": "FIELDMAP_CreateG3dResources",
    "address": "0x02188EE4",
    "kind": "game",
    "region": "ov021",

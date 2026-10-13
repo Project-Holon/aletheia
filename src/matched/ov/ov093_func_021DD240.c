@@ -1,5 +1,5 @@
 /*
- * function: func_021DD240
+ * function: BTL_HANDLER_ITEM_LeppaBerryOnLastMoveEmpty
  * address: 0x021DD240
  * packet: pkt_ov093_021DD240
  * region: ov093
@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021DD338 0x021DD338 thumb ov093
- *   func_021DD044 0x021DD044 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_HANDLER_ITEM_FindLastMoveEmptySlot 0x021DD338 thumb ov093
+ *   BTL_HANDLER_ITEM_PushUseItem 0x021DD044 thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021D775C(int);
-extern u8 func_021DD338(void *, int);
-extern void func_021DD044(void *, void *, int);
-void func_021DD240(void *a, void *b, int c)
+extern int BTL_EVENT_GetVar(int);
+extern u8 BTL_HANDLER_ITEM_FindLastMoveEmptySlot(void *, int);
+extern void BTL_HANDLER_ITEM_PushUseItem(void *, void *, int);
+void BTL_HANDLER_ITEM_LeppaBerryOnLastMoveEmpty(void *a, void *b, int c)
 {
-    if (c == func_021D775C(2)) {
-        if (func_021DD338(b, c) != 4)
-            func_021DD044(a, b, c);
+    if (c == BTL_EVENT_GetVar(2)) {
+        if (BTL_HANDLER_ITEM_FindLastMoveEmptySlot(b, c) != 4)
+            BTL_HANDLER_ITEM_PushUseItem(a, b, c);
     }
 }

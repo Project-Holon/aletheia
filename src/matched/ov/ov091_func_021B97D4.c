@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B97D4, func_021B9804
+ * function: POKELIST_UpdateChoiceMenu, POKELIST_OpenChoiceMenu
  * address:  0x021B97D4
  * packet:   pkt_ov091_021B97D4
  * region:   ov091
@@ -10,39 +10,39 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_021B9804 is an unlabelled tail-call stub inside the extent.
+ * POKELIST_OpenChoiceMenu is an unlabelled tail-call stub inside the extent.
  *
  * symbols:
- *   func_021BBBD8  0x021BBBD8  thumb  ov091
- *   func_021BBBE4  0x021BBBE4  thumb  ov091
- *   func_021BBBA0  0x021BBBA0  thumb  ov091
- *   func_021BBB40  0x021BBB40  thumb  ov091
+ *   PLIST_MENU_Update  0x021BBBD8  thumb  ov091
+ *   PLIST_MENU_GetSelectedCommand  0x021BBBE4  thumb  ov091
+ *   PLIST_MENU_Close  0x021BBBA0  thumb  ov091
+ *   PLIST_MENU_OpenFixed  0x021BBB40  thumb  ov091
  */
 
 typedef unsigned char u8;
 
-extern void func_021BBBD8(int unused, int *q);
-extern unsigned int func_021BBBE4(int a, unsigned char *b);
-extern void func_021BBBA0(unsigned char *a, unsigned char *b);
-extern void func_021BBB40(u8 *a, u8 *b);
+extern void PLIST_MENU_Update(int unused, int *q);
+extern unsigned int PLIST_MENU_GetSelectedCommand(int a, unsigned char *b);
+extern void PLIST_MENU_Close(unsigned char *a, unsigned char *b);
+extern void PLIST_MENU_OpenFixed(u8 *a, u8 *b);
 
 #define W(o) (*(int *)(p + (o)))
 
-void func_021B97D4(u8 *p)
+void POKELIST_UpdateChoiceMenu(u8 *p)
 {
     int r;
 
-    func_021BBBD8((int)p, (int *)W(0x154));
-    r = func_021BBBE4((int)p, (unsigned char *)((int *)W(0x154)));
+    PLIST_MENU_Update((int)p, (int *)W(0x154));
+    r = PLIST_MENU_GetSelectedCommand((int)p, (unsigned char *)((int *)W(0x154)));
     if (r != 0x17) {
         ((void (*)(u8 *, int))W(0x14c))(p, r);
-        func_021BBBA0((unsigned char *)((int)p), (unsigned char *)((int *)W(0x154)));
+        PLIST_MENU_Close((unsigned char *)((int)p), (unsigned char *)((int *)W(0x154)));
     }
 }
 
-void func_021B9804(u8 *p, int a1)
+void POKELIST_OpenChoiceMenu(u8 *p, int a1)
 {
     p[0xc] = 9;
     W(0x14c) = a1;
-    func_021BBB40(p, (u8 *)W(0x154));
+    PLIST_MENU_OpenFixed(p, (u8 *)W(0x154));
 }

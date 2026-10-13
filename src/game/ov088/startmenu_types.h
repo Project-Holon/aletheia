@@ -3,7 +3,7 @@
 
 /* Title screen and start menu. The including file defines u8, u16 and u32 first. */
 
-/* ---- Title demo (work area allocated in func_021B95A0, 0x98 bytes) ---- */
+/* ---- Title demo (work area allocated in STARTMENU_TitleDemoInit, 0x98 bytes) ---- */
 
 /* Display capture blend setup and the vblank task that writes REG_DISP_CAPCNT. */
 typedef struct TitleDemoCapture {
@@ -67,7 +67,7 @@ typedef struct TitleDemoWork {
 } TitleDemoWork;
 typedef char TitleDemoWork_SizeCheck[(sizeof(TitleDemoWork) == 0x98) ? 1 : -1];
 
-/* ---- Start menu (work area allocated in func_021B9F94, 0x150 bytes) ---- */
+/* ---- Start menu (work area allocated in STARTMENU_MenuInit, 0x150 bytes) ---- */
 
 /* A bitmap window and whether text was drawn into it and is still printing. */
 typedef struct StartMenuWindow {
@@ -137,7 +137,7 @@ typedef struct StartMenuWork {
 } StartMenuWork;
 typedef char StartMenuWork_SizeCheck[(sizeof(StartMenuWork) == 0x150) ? 1 : -1];
 
-/* ---- New game intro (work area allocated in func_021BC12C, 0x5C bytes) ---- */
+/* ---- New game intro (work area allocated in STARTMENU_NewGameIntroInit, 0x5C bytes) ---- */
 
 struct SaveControlIntr;
 struct Proc;
@@ -193,7 +193,7 @@ typedef struct NewGameIntroWork {
     struct Config *config;              /* 0x58 */
 } NewGameIntroWork;
 
-/* ---- Config prompt (work area allocated in func_021BC4EC, 0x1C bytes) ---- */
+/* ---- Config prompt (work area allocated in STARTMENU_ConfigPromptInit, 0x1C bytes) ---- */
 
 typedef struct ConfigPromptWork {
     u8 selectedChoice; /* 0x00 */
@@ -207,7 +207,7 @@ typedef struct ConfigPromptWork {
 } ConfigPromptWork;
 typedef char ConfigPromptWork_SizeCheck[(sizeof(ConfigPromptWork) == 0x1C) ? 1 : -1];
 
-/* ---- Logo screen (work area allocated in func_021BC9C0, 8 bytes) ---- */
+/* ---- Logo screen (work area allocated in STARTMENU_LogoScreenInit, 8 bytes) ---- */
 
 typedef struct LogoScreenWork {
     u16 state; /* 0x00 */
@@ -216,7 +216,7 @@ typedef struct LogoScreenWork {
 } LogoScreenWork;
 typedef char LogoScreenWork_SizeCheck[(sizeof(LogoScreenWork) == 8) ? 1 : -1];
 
-/* ---- Save data erase screen (work area allocated in func_021BCCCC, 0x2C bytes) ---- */
+/* ---- Save data erase screen (work area allocated in STARTMENU_SaveEraseInit, 0x2C bytes) ---- */
 
 typedef struct SaveEraseWork {
     void *vblankTask; /* 0x00 */

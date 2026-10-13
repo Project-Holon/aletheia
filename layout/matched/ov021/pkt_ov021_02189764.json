@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02189764",
+   "name": "FIELDMAP_AllocCommonWork",
    "address": "0x02189764",
    "kind": "game",
    "region": "ov021",

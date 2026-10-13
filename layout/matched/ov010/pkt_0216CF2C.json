@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216CF2C",
+   "name": "FLDMMDL_DeleteMmdl",
    "address": "0x0216CF2C",
    "kind": "game",
    "region": "ov010",

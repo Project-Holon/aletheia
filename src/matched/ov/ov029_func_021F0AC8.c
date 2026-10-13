@@ -1,5 +1,5 @@
 /*
- * function: func_021F0AC8
+ * function: C_GEAR_InitTile
  * address: 0x021F0AC8
  * packet: pkt_ov029_021F0AC8
  * region: ov029
@@ -12,7 +12,7 @@
  *   func_02082BCC 0x02082BCC arm
  */
 extern void func_02082BCC(void *, int, int);
-void func_021F0AC8(unsigned char *p, int a, int b)
+void C_GEAR_InitTile(unsigned char *p, int a, int b)
 {
     func_02082BCC(p, 0, 8);
     p[6] = a;

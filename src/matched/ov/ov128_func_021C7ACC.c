@@ -14,10 +14,10 @@
  *   func_021C3EE0 0x021C3EE0 thumb ov127
  *   func_021C4044 0x021C4044 thumb ov127
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027F60 0x02027F60 thumb
- *   func_020457B0 0x020457B0 arm
- *   func_020457B0 0x020457B0 arm
- *   func_0204B294 0x0204B294 arm
+ *   APP_TASKMENU_RES_Create 0x02027F60 thumb
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   d_021CA564 0x021CA564 data a4
  *   d_021CA688 0x021CA688 data a4
@@ -38,9 +38,9 @@ extern void func_021C88AC(u16 *d, u16 *unused, u16 *s, u32 unused2, u16 heap);
 extern void *func_021C3EE0(void *, void *, u32, u32);
 extern void func_021C4044(u8 *, int, int, int, int);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0204B3DC(struct Obj *, u32);
 typedef struct { s16 x, y, z; } V3;
 typedef struct { u32 a, b; } W2;
@@ -86,12 +86,12 @@ void func_021C7ACC(u8 *p, void *unused, u8 *ctx, u16 heap)
     *(void **)(p + 0x184) = func_02045EC0(*(struct MsgBank **)(ctx + 4), 0x43);
     *(u16 *)(p + 0x188) = 0x39e3;
     *(u32 *)(p + 0x18c) = 0;
-    *(struct R **)(p + 0x190) = func_02027F60(1, 14, *(u32 *)(ctx + 0x17c), *(u32 *)(ctx + 0x34), heap);
+    *(struct R **)(p + 0x190) = APP_TASKMENU_RES_Create(1, 14, *(u32 *)(ctx + 0x17c), *(u32 *)(ctx + 0x34), heap);
     func_021C63AC(ctx, (u32 *)(p + 0x108), 1, 2, 1, 0x1b, 4, 0xa, 0, 0xf);
-    *(struct U16Vec **)(p + 0x110) = func_020457B0(0x80, heap);
+    *(struct U16Vec **)(p + 0x110) = STRBUF_Create(0x80, heap);
     r1 = d_021CA650;
-    *(struct Obj **)(p + 0x1a0) = func_0204B294(*(void **)(ctx + 0x138), *(u32 *)(ctx + 0x144), *(u32 *)(ctx + 0x14c), *(u32 *)(ctx + 0x154), &r1, 0, heap);
+    *(struct Obj **)(p + 0x1a0) = CLACT_CreateActor(*(void **)(ctx + 0x138), *(u32 *)(ctx + 0x144), *(u32 *)(ctx + 0x14c), *(u32 *)(ctx + 0x154), &r1, 0, heap);
     func_0204B3DC(*(struct Obj **)(p + 0x1a0), 0);
     r2 = d_021CA638;
-    *(struct Obj **)(p + 0x1a4) = func_0204B294(*(void **)(ctx + 0x138), *(u32 *)(ctx + 0x144), *(u32 *)(ctx + 0x14c), *(u32 *)(ctx + 0x154), &r2, 0, heap);
+    *(struct Obj **)(p + 0x1a4) = CLACT_CreateActor(*(void **)(ctx + 0x138), *(u32 *)(ctx + 0x144), *(u32 *)(ctx + 0x14c), *(u32 *)(ctx + 0x154), &r2, 0, heap);
 }

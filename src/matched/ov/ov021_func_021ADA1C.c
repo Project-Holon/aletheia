@@ -1,5 +1,5 @@
 /*
- * function: func_021ADA1C
+ * function: FLDEFF_ENCOUNT_FreeResources
  * address:  0x021ADA1C
  * packet:   pkt_ov021_021ADA1C
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AD8A4  0x021AD8A4  thumb  ov021
- *   func_02046EFC  0x02046EFC  arm
- *   func_020470D0  0x020470D0  arm
+ *   FLDEFF_ENCOUNT_DeleteDrawSet  0x021AD8A4  thumb  ov021
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  */
 typedef unsigned char u8;
 
@@ -27,24 +27,24 @@ typedef struct Q {
 
 struct W;
 struct Z;
-extern void func_021AD8A4(struct Z *z, struct W *w);
+extern void FLDEFF_ENCOUNT_DeleteDrawSet(struct Z *z, struct W *w);
 typedef unsigned int   u32;
 struct Tagged;
-extern void func_02046EFC(struct Tagged *p);
-extern int func_020470D0(u32 *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
+extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
 
-void func_021ADA1C(Q *a)
+void FLDEFF_ENCOUNT_FreeResources(Q *a)
 {
     int i;
 
     for (i = 0; i < a->cnt; i++) {
-        func_021AD8A4((struct Z *)((char *)a + 0x28 + i * 0x18), (struct W *)a);
+        FLDEFF_ENCOUNT_DeleteDrawSet((struct Z *)((char *)a + 0x28 + i * 0x18), (struct W *)a);
     }
     for (i = 0; i < a->n * a->cnt; i++) {
-        func_02046EFC((struct Tagged *)a->f18[i]);
+        G3D_SYSTEM_DeleteResource((struct Tagged *)a->f18[i]);
     }
     for (i = 0; i < a->cnt; i++) {
-        func_020470D0((u32 *)a->f8[i]);
-        func_02046EFC((struct Tagged *)a->f8[i]);
+        G3D_SYSTEM_FreeVramTexture((u32 *)a->f8[i]);
+        G3D_SYSTEM_DeleteResource((struct Tagged *)a->f8[i]);
     }
 }

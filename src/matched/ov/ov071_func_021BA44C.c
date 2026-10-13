@@ -1,5 +1,5 @@
 /*
- * function: func_021BA44C
+ * function: MONOLITH_TOOL_CreateInfoWindows
  * address:  0x021BA44C
  * packet:   pkt_ov071_021BA44C
  * region:   ov071
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020450F0  0x020450F0  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
  */
 
@@ -27,26 +27,26 @@ typedef struct {
 } S;
 
 typedef unsigned int   u32;
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(unsigned int index);
 
-void func_021BA44C(int a, S *p)
+void MONOLITH_TOOL_CreateInfoWindows(int a, S *p)
 {
     int i;
 
-    p->h[0] = func_020450F0(0, 2, 0, 0x1c, 3, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[0]);
-    func_02045374((struct Cfg *)p->h[0]);
-    p->h[1] = func_020450F0(0, 2, 4, 0x1c, 8, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[1]);
-    func_02045374((struct Cfg *)p->h[1]);
-    p->h[2] = func_020450F0(0, 2, 0xf, 0x1c, 9, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[2]);
-    func_02045374((struct Cfg *)p->h[2]);
+    p->h[0] = BMP_WIN_Create(0, 2, 0, 0x1c, 3, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[0]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[0]);
+    p->h[1] = BMP_WIN_Create(0, 2, 4, 0x1c, 8, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[1]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[1]);
+    p->h[2] = BMP_WIN_Create(0, 2, 0xf, 0x1c, 9, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[2]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[2]);
     for (i = 0; i < 3; i++) {
         p->e[i].h = p->h[i];
         p->e[i].on = 0;

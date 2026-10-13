@@ -1,5 +1,5 @@
 /*
- * function: func_0218A074
+ * function: FIELD_EVENT_CHECK_RunGrid
  * address:  0x0218A074
  * packet:   pkt_ov021_0218A074
  * region:   ov021
@@ -10,41 +10,41 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CE8  0x02188CE8  thumb  ov021
- *   func_021AA8F8  0x021AA8F8  thumb  ov021
- *   func_02189BD0  0x02189BD0  thumb  ov021
- *   func_021AA8EC  0x021AA8EC  thumb  ov021
- *   func_02188D20  0x02188D20  thumb  ov021
- *   func_021BC5BC  0x021BC5BC  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3550  0x021A3550  thumb  ov021
- *   func_021A356C  0x021A356C  thumb  ov021
- *   func_02189A70  0x02189A70  thumb  ov021
- *   func_021F3B10  0x021F3B10  thumb  ov053
- *   func_0218A6E8  0x0218A6E8  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
+ *   EFFECT_ENCOUNT_UpdateOccupiedSpot  0x021AA8F8  thumb  ov021
+ *   FIELD_EVENT_CHECK_CheckGridEvents  0x02189BD0  thumb  ov021
+ *   EFFECT_ENCOUNT_Reset  0x021AA8EC  thumb  ov021
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
+ *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_SetGridMoveFlag  0x021A3550  thumb  ov021
+ *   FIELD_PLAYER_ResetGridMove  0x021A356C  thumb  ov021
+ *   FIELDMAP_GetZoneEffectWork  0x02189A70  thumb  ov021
+ *   GIMMICK53_RaiseBgmVolume  0x021F3B10  thumb  ov053
+ *   FIELD_EVENT_CHECK_StopSoundAfterEvent  0x0218A6E8  thumb  ov021
  */
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188CE8(u8 *p);
-extern void func_021AA8F8(void);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetEncount(u8 *p);
+extern void EFFECT_ENCOUNT_UpdateOccupiedSpot(void);
 struct Obj00020;
-extern int func_02189BD0(void *sys, struct Obj00020 *pos, int *outA, int *outB);
-extern void func_021AA8EC(u8 *p);
-extern u32 func_02188D20(u8 *p);
-extern int func_021BC5BC(u8 *a);
+extern int FIELD_EVENT_CHECK_CheckGridEvents(void *sys, struct Obj00020 *pos, int *outA, int *outB);
+extern void EFFECT_ENCOUNT_Reset(u8 *p);
+extern u32 FIELDMAP_GetPlaceName(u8 *p);
+extern int FIELD_PLACE_NAME_Cancel(u8 *a);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3550(u32 *p, int a);
-extern void func_021A356C(void **p);
-extern u32 func_02189A70(u8 *p);
-extern void func_021F3B10(void);
-extern void func_0218A6E8(void *a, void *b);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void FIELD_PLAYER_SetGridMoveFlag(u32 *p, int a);
+extern void FIELD_PLAYER_ResetGridMove(void **p);
+extern u32 FIELDMAP_GetZoneEffectWork(u8 *p);
+extern void GIMMICK53_RaiseBgmVolume(void);
+extern void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *a, void *b);
 
-int func_0218A074(void *a, int b)
+int FIELD_EVENT_CHECK_RunGrid(void *a, int b)
 {
     int u;
     int v;
@@ -52,19 +52,19 @@ int func_0218A074(void *a, int b)
     void *p;
     void *q;
 
-    p = func_0201210C(a);
-    q = (void *)func_02188CE8(p);
-    func_021AA8F8();
-    r = func_02189BD0(a, (struct Obj00020 *)b, &u, &v);
+    p = GAMESYSTEM_GetFieldMap(a);
+    q = (void *)FIELDMAP_GetEncount(p);
+    EFFECT_ENCOUNT_UpdateOccupiedSpot();
+    r = FIELD_EVENT_CHECK_CheckGridEvents(a, (struct Obj00020 *)b, &u, &v);
     if (r != 0) {
         if (u != 0)
-            func_021AA8EC(q);
-        func_021BC5BC((u8 *)((void *)func_02188D20(p)));
-        func_021A3550(func_02188CB4(p), v);
-        func_021A356C(func_02188CB4(p));
-        if (func_02189A70(p) != 0)
-            func_021F3B10();
-        func_0218A6E8(a, p);
+            EFFECT_ENCOUNT_Reset(q);
+        FIELD_PLACE_NAME_Cancel((u8 *)((void *)FIELDMAP_GetPlaceName(p)));
+        FIELD_PLAYER_SetGridMoveFlag(FIELDMAP_GetFieldPlayer(p), v);
+        FIELD_PLAYER_ResetGridMove(FIELDMAP_GetFieldPlayer(p));
+        if (FIELDMAP_GetZoneEffectWork(p) != 0)
+            GIMMICK53_RaiseBgmVolume();
+        FIELD_EVENT_CHECK_StopSoundAfterEvent(a, p);
     }
     return r;
 }

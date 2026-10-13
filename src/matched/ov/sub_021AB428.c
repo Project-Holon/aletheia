@@ -1,5 +1,5 @@
 /*
- * function: sub_021AB428
+ * function: MAP_ATTR_IsGrassSingleB
  * address:  0x021AB428
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef int BOOL;
 
-BOOL sub_021AB428(u16 id)
+BOOL MAP_ATTR_IsGrassSingleB(u16 id)
 {
     if (id == 0x5) {
         return 1;

@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_screeneffects.c
  * unit:     yes
- * function: func_021B2830, func_021B2860, func_021B2874, func_021B2890, func_021B28E0, func_021B2910, func_021B2940, func_021B2970, func_021B29A0, func_021B29D0, func_021B2A00, func_021B2A30, func_021B2A60, func_021B2A90, func_021B2AA0, func_021B2AB0, func_021B2ADC, func_021B2B24, func_021B2B5C, func_021B2B94, func_021B2BD8, func_021B2BEC, func_021B2C08, func_021B2C5C, func_021B2CA0, func_021B2CE8, func_021B2D34, func_021B2D98, func_021B2DBC, func_021B2E08, func_021B2E3C, func_021B2E60, func_021B2E80, func_021B2EBC, func_021B2F18, func_021B2FB0
+ * function: SCRCMD_SCREENEFFECTS_StartBrightnessChange, SCRCMD_SCREENEFFECTS_CheckBrightnessDone, SCRCMD_SCREENEFFECTS_CheckScriptEffectDone, SCRCMD_SCREENEFFECTS_StartFieldFadeIn, SCRCMD_SCREENEFFECTS_FadeInSlow, SCRCMD_SCREENEFFECTS_FadeInSlowAgain, SCRCMD_SCREENEFFECTS_FadeOutSlow, SCRCMD_SCREENEFFECTS_FadeInSlowAltScreens, SCRCMD_SCREENEFFECTS_FadeOutSlowAltScreens, SCRCMD_SCREENEFFECTS_FadeInFast, SCRCMD_SCREENEFFECTS_FadeOutFast, SCRCMD_SCREENEFFECTS_FadeInFastAltScreens, SCRCMD_SCREENEFFECTS_FadeOutFastAltScreens, SCRCMD_SCREENEFFECTS_WaitBrightness, SCRCMD_SCREENEFFECTS_WaitScriptEffect, SCRCMD_SCREENEFFECTS_StartMapEffectEvent, SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam, SCRCMD_SCREENEFFECTS_StartDoorOpen, SCRCMD_SCREENEFFECTS_StartDoorSetOpen, SCRCMD_SCREENEFFECTS_StartDoorClose, SCRCMD_SCREENEFFECTS_GetBuildModelMgr, SCRCMD_SCREENEFFECTS_FindBuildModelEntry, SCRCMD_SCREENEFFECTS_PlayBuildModelAnimPair, SCRCMD_SCREENEFFECTS_PlayBuildModelAnimTwo, SCRCMD_SCREENEFFECTS_SwapBuildModelId, SCRCMD_SCREENEFFECTS_SetBuildModelIndex, SCRCMD_SCREENEFFECTS_CreateBuildModelNode, SCRCMD_SCREENEFFECTS_DeleteBuildModelNode, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotMode2, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3, SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim, SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone, SCRCMD_SCREENEFFECTS_CreateFadeTask, SCRCMD_SCREENEFFECTS_StepFadeTask, SCRCMD_SCREENEFFECTS_ShowPlaceName
  * address:  0x021B2830
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,58 +15,58 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02011330  0x02011330  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012984  0x02012984  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_020113D0  0x020113D0  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   VM_GetU16  0x02011330  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   VM_SetWait  0x020113D0  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_0204E720  0x0204E720  arm
- *   func_0204E804  0x0204E804  arm
- *   func_02189A24  0x02189A24  thumb  ov021
+ *   FADE_Start  0x0204E720  arm
+ *   FADE_IsActive  0x0204E804  arm
+ *   FIELDMAP_GetScriptEffectBusy  0x02189A24  thumb  ov021
  *   sub_020113D0   0x020113D0  thumb
- *   func_02158F50  0x02158F50  thumb  ov010
- *   func_021C0AA0  0x021C0AA0  thumb  ov021
- *   func_021C0820  0x021C0820  thumb  ov021
- *   func_021C978C  0x021C978C  thumb  ov021
- *   func_021C9828  0x021C9828  thumb  ov021
- *   func_021C98F4  0x021C98F4  thumb  ov021
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_0218DC6C  0x0218DC6C  thumb  ov021
- *   func_0218C654  0x0218C654  thumb  ov021
- *   func_0218C69C  0x0218C69C  thumb  ov021
- *   func_0218C54C  0x0218C54C  thumb  ov021
- *   func_0218C574  0x0218C574  thumb  ov021
- *   func_0218C7D8  0x0218C7D8  thumb  ov021
- *   func_0218BACC  0x0218BACC  thumb  ov021
- *   func_0218BA98  0x0218BA98  thumb  ov021
- *   func_0218C860  0x0218C860  thumb
- *   func_0218C88C  0x0218C88C  thumb  ov021
- *   func_0218C990  0x0218C990  thumb  ov021
- *   func_0218C89C  0x0218C89C  thumb  ov021
- *   d_021EE720     0x021EE720  data  a2
- *   func_0218C8D8  0x0218C8D8  thumb  ov021
- *   func_0218C9A4  0x0218C9A4  thumb  ov021
- *   func_02188D30  0x02188D30  thumb  ov021
+ *   SCRIPT_WORK_GetEvent  0x02158F50  thumb  ov010
+ *   EVENT_RECOVERY_CreatePartyEvent  0x021C0AA0  thumb  ov021
+ *   EVENT_RECOVERY_CreateBallsEvent  0x021C0820  thumb  ov021
+ *   FIELD_DOOR_ANIME_StartOpen  0x021C978C  thumb  ov021
+ *   FIELD_DOOR_ANIME_StartSetOpen  0x021C9828  thumb  ov021
+ *   FIELD_DOOR_ANIME_StartClose  0x021C98F4  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
+ *   FIELD_BUILDMODEL_GetFirstEntryNearPos  0x0218C654  thumb  ov021
+ *   FIELD_BUILDMODEL_PlayEntryAnim  0x0218C69C  thumb  ov021
+ *   FIELD_BUILDMODEL_SwapEntryModelId  0x0218C54C  thumb  ov021
+ *   FIELD_BUILDMODEL_GetModelIndexOut  0x0218C574  thumb  ov021
+ *   FIELD_BUILDMODEL_CreateNodeNearPos  0x0218C7D8  thumb  ov021
+ *   FIELD_BUILDMODEL_GetNodeHandle  0x0218BACC  thumb  ov021
+ *   FIELD_BUILDMODEL_GetNodeByHandle  0x0218BA98  thumb  ov021
+ *   FIELD_BUILDMODEL_DeleteNode  0x0218C860  thumb
+ *   FIELD_BUILDMODEL_PlayNodeSlot  0x0218C88C  thumb  ov021
+ *   FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry  0x0218C990  thumb  ov021
+ *   FIELD_BUILDMODEL_PlayNodeCurrentSlot  0x0218C89C  thumb  ov021
+ *   gScrcmdScreeneffectsNodeHandle     0x021EE720  data  a2
+ *   FIELD_BUILDMODEL_TryOpenNodeCurrentSlot  0x0218C8D8  thumb  ov021
+ *   FIELD_BUILDMODEL_CheckNodeKindFlag  0x0218C9A4  thumb  ov021
+ *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   func_02189A1C  0x02189A1C  thumb  ov021
+ *   FIELDMAP_SetScriptEffectBusy  0x02189A1C  thumb  ov021
  *   d_021DE14C     0x021DE14C  data  a4
- *   func_02043658 0x02043658 arm
- *   func_02188DA0 0x02188DA0 thumb ov021
+ *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
+ *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   func_02043534 0x02043534 arm
- *   func_02188DB0 0x02188DB0 thumb ov021
+ *   FIELDMAP_ResetBgAffineShowMsg 0x02188DB0 thumb ov021
  *   func_02030EAC 0x02030EAC arm
- *   func_02188D20  0x02188D20  thumb  ov021
- *   func_021BC5A0  0x021BC5A0  thumb  ov021
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
+ *   FIELD_PLACE_NAME_ForceShowForZone  0x021BC5A0  thumb  ov021
  */
 
 #include "fieldmap_types.h"
@@ -99,119 +99,119 @@ typedef struct FadeEffectTask {
 } FadeEffectTask;
 
 extern u32 func_020307B0(void *work);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
-extern struct ScriptWork *func_0215A5F4(struct ScrcmdWork *cmdWork);
-extern u16 func_02159B10(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern struct GameSystem *func_0215A5DC(struct ScrcmdWork *cmdWork);
-extern void func_0215897C(struct ScriptWork *scriptWork, void *event);
-extern u16 *func_02159AE8(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
-extern void *func_021BE92C(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int arg3, int arg4, u8 season, u8 seasonAgain);
-extern u16 func_02188C9C(struct FieldMap *fieldMap);
-extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
-extern u16 func_02011330(struct ScriptVm *vm);
-extern void func_020113D0(struct ScriptVm *vm, int (*waitFunc)(struct ScriptVm *vm, struct ScrcmdWork *cmdWork));
-extern u8 func_02012984(struct GameData *gameData);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
+extern u16 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
+extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, void *event);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int arg3, int arg4, u8 season, u8 seasonAgain);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+extern u16 VM_GetU16(struct ScriptVm *vm);
+extern void VM_SetWait(struct ScriptVm *vm, int (*waitFunc)(struct ScriptVm *vm, struct ScrcmdWork *cmdWork));
+extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern void func_020061E4(u32 seNo);
-extern void func_0204E720(u32 screenMask, s32 startLevel, s32 endLevel, s32 speed);
-extern int func_0204E804(void);
-extern u32 func_02189A24(struct FieldMap *fieldMap);
-extern void *func_02158F50(struct ScriptWork *scriptWork);
-extern void *func_021C0AA0(struct GameSystem *gameSystem, void *event);
-extern void *func_021C0820(struct GameSystem *gameSystem, void *event, u32 param);
-extern void *func_021C978C(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void *func_021C9828(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void *func_021C98F4(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, int doorId);
-extern void *func_02188C98(struct FieldMap *fieldMap);
-extern struct BuildModelMgr *func_0218DC6C(void *g3dMapper);
-extern struct BuildModelEntry *func_0218C654(struct BuildModelMgr *mgr, int modelId, VecFx32 *pos);
-extern void func_0218C69C(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int arg3, int animId);
-extern void func_0218C54C(struct BuildModelEntry *entry, int modelId);
-extern void func_0218C574(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int modelIndex);
-extern struct BuildModelNode *func_0218C7D8(struct BuildModelMgr *mgr, int modelId, VecFx32 *pos);
-extern int func_0218BACC(struct BuildModelMgr *mgr, struct BuildModelNode *node);
-extern struct BuildModelNode *func_0218BA98(struct BuildModelMgr *mgr, int handle);
-extern void func_0218C860(struct BuildModelNode *node);
-extern void func_0218C88C(struct BuildModelNode *node, int slot, int mode);
-extern int func_0218C990(struct BuildModelNode *node, u16 *seOut);
-extern void func_0218C89C(struct BuildModelNode *node, int mode);
-extern int func_0218C8D8(struct BuildModelNode *node);
-extern int func_0218C9A4(struct BuildModelNode *node);
-extern u32 func_02188D30(struct FieldMap *fieldMap);
+extern void FADE_Start(u32 screenMask, s32 startLevel, s32 endLevel, s32 speed);
+extern int FADE_IsActive(void);
+extern u32 FIELDMAP_GetScriptEffectBusy(struct FieldMap *fieldMap);
+extern void *SCRIPT_WORK_GetEvent(struct ScriptWork *scriptWork);
+extern void *EVENT_RECOVERY_CreatePartyEvent(struct GameSystem *gameSystem, void *event);
+extern void *EVENT_RECOVERY_CreateBallsEvent(struct GameSystem *gameSystem, void *event, u32 param);
+extern void *FIELD_DOOR_ANIME_StartOpen(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void *FIELD_DOOR_ANIME_StartSetOpen(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void *FIELD_DOOR_ANIME_StartClose(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, int doorId);
+extern void *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+extern struct BuildModelMgr *FIELD_G3D_MAPPER_GetBuildModel(void *g3dMapper);
+extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(struct BuildModelMgr *mgr, int modelId, VecFx32 *pos);
+extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int arg3, int animId);
+extern void FIELD_BUILDMODEL_SwapEntryModelId(struct BuildModelEntry *entry, int modelId);
+extern void FIELD_BUILDMODEL_GetModelIndexOut(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int modelIndex);
+extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMgr *mgr, int modelId, VecFx32 *pos);
+extern int FIELD_BUILDMODEL_GetNodeHandle(struct BuildModelMgr *mgr, struct BuildModelNode *node);
+extern struct BuildModelNode *FIELD_BUILDMODEL_GetNodeByHandle(struct BuildModelMgr *mgr, int handle);
+extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
+extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
+extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(struct BuildModelNode *node, u16 *seOut);
+extern void FIELD_BUILDMODEL_PlayNodeCurrentSlot(struct BuildModelNode *node, int mode);
+extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
+extern int FIELD_BUILDMODEL_CheckNodeKindFlag(struct BuildModelNode *node);
+extern u32 FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern void func_02030DA8(u32 tcbSys, void (*func)(), void *work, u32 priority);
-extern void func_02189A1C(struct FieldMap *fieldMap, u32 busy);
-extern unsigned int func_02043658(void);
-extern void func_02188DA0(void);
+extern void FIELDMAP_SetScriptEffectBusy(struct FieldMap *fieldMap, u32 busy);
+extern unsigned int BG_SYS_GetMainVisiblePlanes(void);
+extern void FIELDMAP_SetBgMode(void);
 extern void func_02043534(unsigned int planes);
-extern void func_02188DB0(struct FieldMap *fieldMap);
+extern void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
 extern void func_02030EAC(struct Tcb *tcb);
-extern void *func_02188D20(struct FieldMap *fieldMap);
-extern void func_021BC5A0(void *placeName, u16 zoneId);
-extern u16 d_021EE720;
+extern void *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
+extern void FIELD_PLACE_NAME_ForceShowForZone(void *placeName, u16 zoneId);
+extern u16 gScrcmdScreeneffectsNodeHandle;
 extern u8 d_021DE14C;
-int func_021B2830(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2860(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2874(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2890(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B28E0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2910(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2940(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2970(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B29A0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B29D0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2A00(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2A30(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2A60(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2A90(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2AA0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2AB0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2ADC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2B24(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2B5C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2B94(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-struct BuildModelMgr *func_021B2BD8(struct ScrcmdWork *cmdWork);
-struct BuildModelEntry *func_021B2BEC(struct BuildModelMgr *mgr, int modelId, int x, int z);
-int func_021B2C08(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2C5C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2CA0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2CE8(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2D34(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2D98(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2DBC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2E08(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2E3C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2E60(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021B2E80(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-void func_021B2EBC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait);
-void func_021B2F18(struct Tcb *tcb, FadeEffectTask *task);
-int func_021B2FB0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartBrightnessChange(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_CheckBrightnessDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_CheckScriptEffectDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartFieldFadeIn(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeInSlow(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeInSlowAgain(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeOutSlow(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeInSlowAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeOutSlowAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeInFast(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeOutFast(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeInFastAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_FadeOutFastAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_WaitBrightness(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_WaitScriptEffect(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartMapEffectEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartDoorOpen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartDoorSetOpen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartDoorClose(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+struct BuildModelMgr *SCRCMD_SCREENEFFECTS_GetBuildModelMgr(struct ScrcmdWork *cmdWork);
+struct BuildModelEntry *SCRCMD_SCREENEFFECTS_FindBuildModelEntry(struct BuildModelMgr *mgr, int modelId, int x, int z);
+int SCRCMD_SCREENEFFECTS_PlayBuildModelAnimPair(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_PlayBuildModelAnimTwo(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_SwapBuildModelId(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_SetBuildModelIndex(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_CreateBuildModelNode(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_DeleteBuildModelNode(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotMode2(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait);
+void SCRCMD_SCREENEFFECTS_StepFadeTask(struct Tcb *tcb, FadeEffectTask *task);
+int SCRCMD_SCREENEFFECTS_ShowPlaceName(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 /* Script command: change the screen brightness (mask, start level, end level, speed). */
-int func_021B2830(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartBrightnessChange(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 screenMask = func_02011330(vm);
-    u32 startLevel = func_02011330(vm);
-    u32 endLevel = func_02011330(vm);
-    u32 speed = func_02011330(vm);
+    u32 screenMask = VM_GetU16(vm);
+    u32 startLevel = VM_GetU16(vm);
+    u32 endLevel = VM_GetU16(vm);
+    u32 speed = VM_GetU16(vm);
 
-    func_0204E720(screenMask, startLevel, endLevel, speed);
+    FADE_Start(screenMask, startLevel, endLevel, speed);
     return 0;
 }
 
 /* Wait function: finished once the brightness change is no longer active. */
-int func_021B2860(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_CheckBrightnessDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    if (func_0204E804() != 1) {
+    if (FADE_IsActive() != 1) {
         return 1;
     }
     return 0;
 }
 
 /* Wait function: finished once the field map no longer reports a running script effect. */
-int func_021B2874(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_CheckScriptEffectDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    if (func_02189A24(func_0201210C(func_0215A5DC(cmdWork))) != 1) {
+    if (FIELDMAP_GetScriptEffectBusy(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))) != 1) {
         return 1;
     }
     return 0;
@@ -220,13 +220,13 @@ int func_021B2874(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 /*
  * Script command: start the field fade-in event for the current season.
  *
- * func_021BE92C reads its last two stack arguments with ldrb, so they are
+ * EVENT_FIELDMAP_CONTROL_StartFadeIn reads its last two stack arguments with ldrb, so they are
  * u8 parameters: the narrowing then happens once at the call, scheduled
  * the way the original has it. A (u8) cast at the call site or a u8 local
  * feeding int parameters schedules the zero store after the shift pair.
  * Addresses are Black-image addresses.
  */
-int func_021B2890(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartFieldFadeIn(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct ScriptWork *scriptWork;
     struct GameSystem *gameSystem;
@@ -234,188 +234,188 @@ int func_021B2890(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     struct FieldMap *fieldMap;
     u32 season;
 
-    scriptWork = func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    gameData = func_020120F4(gameSystem);
-    fieldMap = func_0201210C(gameSystem);
-    season = func_02012984(gameData);
-    func_0215897C(scriptWork, func_021BE92C(gameSystem, fieldMap, 3, 0, 0, season, season));
+    scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    season = GAME_DATA_GetSeason(gameData);
+    SCRIPT_SYS_CallEvent(scriptWork, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 3, 0, 0, season, season));
     return 0;
 }
 
 /* Script command: slow fade in. */
-int func_021B28E0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeInSlow(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 0, 0, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 0, 0, 0);
     return 0;
 }
 
 /* Script command: slow fade in (a second opcode with the same arguments as the one above). */
-int func_021B2910(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeInSlowAgain(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 0, 0, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 0, 0, 0);
     return 0;
 }
 
 /* Script command: slow fade out. */
-int func_021B2940(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeOutSlow(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 1, 0, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 1, 0, 0);
     return 0;
 }
 
 /* Script command: slow fade in on the second screen mask. */
-int func_021B2970(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeInSlowAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 0, 1, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 0, 1, 0);
     return 0;
 }
 
 /* Script command: slow fade out on the second screen mask. */
-int func_021B29A0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeOutSlowAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 1, 1, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 1, 1, 0);
     return 0;
 }
 
 /* Script command: fast fade in. */
-int func_021B29D0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeInFast(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 2, 0, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 2, 0, 0);
     return 0;
 }
 
 /* Script command: fast fade out. */
-int func_021B2A00(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeOutFast(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 3, 0, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 3, 0, 0);
     return 0;
 }
 
 /* Script command: fast fade in on the second screen mask. */
-int func_021B2A30(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeInFastAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 2, 1, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 2, 1, 0);
     return 0;
 }
 
 /* Script command: fast fade out on the second screen mask. */
-int func_021B2A60(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_FadeOutFastAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem;
 
-    func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
-    func_021B2EBC(gameSystem, func_0201210C(gameSystem), 3, 1, 0);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 3, 1, 0);
     return 0;
 }
 
 /* Script command: wait until the brightness change has ended. */
-int func_021B2A90(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_WaitBrightness(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    func_020113D0(vm, func_021B2860);
+    VM_SetWait(vm, SCRCMD_SCREENEFFECTS_CheckBrightnessDone);
     return 1;
 }
 
 /* Script command: wait until the running script effect has ended. */
-int func_021B2AA0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_WaitScriptEffect(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    func_020113D0(vm, func_021B2874);
+    VM_SetWait(vm, SCRCMD_SCREENEFFECTS_CheckScriptEffectDone);
     return 1;
 }
 
 /* Script command: start a map effect event on the script's event. */
-int func_021B2AB0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartMapEffectEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    struct GameSystem *gameSystem = func_0215A5DC(cmdWork);
-    struct ScriptWork *scriptWork = func_0215A5F4(cmdWork);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
 
-    func_0215897C(scriptWork, func_021C0AA0(gameSystem, func_02158F50(scriptWork)));
+    SCRIPT_SYS_CallEvent(scriptWork, EVENT_RECOVERY_CreatePartyEvent(gameSystem, SCRIPT_WORK_GetEvent(scriptWork)));
     return 1;
 }
 
 /* Script command: start a map effect event that takes one script argument. */
-int func_021B2ADC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    struct GameSystem *gameSystem = func_0215A5DC(cmdWork);
-    struct ScriptWork *scriptWork = func_0215A5F4(cmdWork);
-    int param = (int)func_02159B10(vm, cmdWork);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    int param = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    func_02188CB4(func_0201210C(gameSystem));
-    func_0215897C(scriptWork, func_021C0820(gameSystem, func_02158F50(scriptWork), (unsigned char)param));
+    FIELDMAP_GetFieldPlayer(GAMESYSTEM_GetFieldMap(gameSystem));
+    SCRIPT_SYS_CallEvent(scriptWork, EVENT_RECOVERY_CreateBallsEvent(gameSystem, SCRIPT_WORK_GetEvent(scriptWork), (unsigned char)param));
     return 1;
 }
 
 /* Script command: start the door open animation. */
-int func_021B2B24(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartDoorOpen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    struct GameSystem *gameSystem = func_0215A5DC(cmdWork);
-    struct ScriptWork *scriptWork = func_0215A5F4(cmdWork);
-    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
-    func_0215897C(scriptWork, func_021C978C(func_02158F50(scriptWork), gameSystem, fieldMap));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_DOOR_ANIME_StartOpen(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap));
     return 1;
 }
 
 /* Script command: start the door "set open" animation (door shown open without playing it). */
-int func_021B2B5C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartDoorSetOpen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    struct GameSystem *gameSystem = func_0215A5DC(cmdWork);
-    struct ScriptWork *scriptWork = func_0215A5F4(cmdWork);
-    struct FieldMap *fieldMap = func_0201210C(gameSystem);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
-    func_0215897C(scriptWork, func_021C9828(func_02158F50(scriptWork), gameSystem, fieldMap));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_DOOR_ANIME_StartSetOpen(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap));
     return 1;
 }
 
 /* Script command: start the door close animation (door id from the script). */
-int func_021B2B94(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartDoorClose(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    struct GameSystem *gameSystem = func_0215A5DC(cmdWork);
-    struct ScriptWork *scriptWork = func_0215A5F4(cmdWork);
-    struct FieldMap *fieldMap = func_0201210C(gameSystem);
-    int doorId = (int)func_02159B10(vm, cmdWork);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    int doorId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    func_0215897C(scriptWork, func_021C98F4(func_02158F50(scriptWork), gameSystem, fieldMap, doorId));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_DOOR_ANIME_StartClose(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap, doorId));
     return 1;
 }
 
 /* Returns the build model manager of the current field map. */
-struct BuildModelMgr *func_021B2BD8(struct ScrcmdWork *cmdWork)
+struct BuildModelMgr *SCRCMD_SCREENEFFECTS_GetBuildModelMgr(struct ScrcmdWork *cmdWork)
 {
-    return func_0218DC6C(func_02188C98(func_0201210C(func_0215A5DC(cmdWork))));
+    return FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
 }
 
 /*
@@ -425,119 +425,119 @@ struct BuildModelMgr *func_021B2BD8(struct ScrcmdWork *cmdWork)
  *
  * Addresses are Black-image addresses.
  */
-struct BuildModelEntry *func_021B2BEC(struct BuildModelMgr *mgr, int modelId, int x, int z)
+struct BuildModelEntry *SCRCMD_SCREENEFFECTS_FindBuildModelEntry(struct BuildModelMgr *mgr, int modelId, int x, int z)
 {
     VecFx32 pos;
 
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
-    return func_0218C654(mgr, modelId, &pos);
+    return FIELD_BUILDMODEL_GetFirstEntryNearPos(mgr, modelId, &pos);
 }
 
 /* Script command: play the two animations (1 and 3) of the build model at a position. */
-int func_021B2C08(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_PlayBuildModelAnimPair(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int modelId = (int)func_02159B10(vm, cmdWork);
-    int x = (int)func_02159B10(vm, cmdWork);
-    int z = (int)func_02159B10(vm, cmdWork);
-    struct BuildModelMgr *mgr = func_021B2BD8(cmdWork);
-    struct BuildModelEntry *entry = func_021B2BEC(mgr, modelId, x, z);
+    int modelId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int x = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int z = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct BuildModelMgr *mgr = SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork);
+    struct BuildModelEntry *entry = SCRCMD_SCREENEFFECTS_FindBuildModelEntry(mgr, modelId, x, z);
 
     if (entry) {
-        func_0218C69C(mgr, entry, 0, 1);
-        func_0218C69C(mgr, entry, 0, 3);
+        FIELD_BUILDMODEL_PlayEntryAnim(mgr, entry, 0, 1);
+        FIELD_BUILDMODEL_PlayEntryAnim(mgr, entry, 0, 3);
     }
     return 0;
 }
 
 /* Script command: play animation 2 of the build model at a position. */
-int func_021B2C5C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_PlayBuildModelAnimTwo(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int modelId = (int)func_02159B10(vm, cmdWork);
-    int x = (int)func_02159B10(vm, cmdWork);
-    int z = (int)func_02159B10(vm, cmdWork);
-    struct BuildModelMgr *mgr = func_021B2BD8(cmdWork);
-    struct BuildModelEntry *entry = func_021B2BEC(mgr, modelId, x, z);
+    int modelId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int x = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int z = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct BuildModelMgr *mgr = SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork);
+    struct BuildModelEntry *entry = SCRCMD_SCREENEFFECTS_FindBuildModelEntry(mgr, modelId, x, z);
 
     if (entry) {
-        func_0218C69C(mgr, entry, 0, 2);
+        FIELD_BUILDMODEL_PlayEntryAnim(mgr, entry, 0, 2);
     }
     return 0;
 }
 
 /* Script command: swap the model id of the build model at a position. */
-int func_021B2CA0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_SwapBuildModelId(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int modelId = (int)func_02159B10(vm, cmdWork);
-    int x = (int)func_02159B10(vm, cmdWork);
-    int z = (int)func_02159B10(vm, cmdWork);
-    int newModelId = (int)func_02159B10(vm, cmdWork);
-    struct BuildModelEntry *entry = func_021B2BEC(func_021B2BD8(cmdWork), modelId, x, z);
+    int modelId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int x = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int z = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int newModelId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct BuildModelEntry *entry = SCRCMD_SCREENEFFECTS_FindBuildModelEntry(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), modelId, x, z);
 
     if (entry) {
-        func_0218C54C(entry, newModelId);
+        FIELD_BUILDMODEL_SwapEntryModelId(entry, newModelId);
     }
     return 0;
 }
 
 /* Script command: set the model index of the build model at a position. */
-int func_021B2CE8(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_SetBuildModelIndex(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int modelId = (int)func_02159B10(vm, cmdWork);
-    int x = (int)func_02159B10(vm, cmdWork);
-    int z = (int)func_02159B10(vm, cmdWork);
-    int modelIndex = (int)func_02159B10(vm, cmdWork);
-    struct BuildModelMgr *mgr = func_021B2BD8(cmdWork);
-    struct BuildModelEntry *entry = func_021B2BEC(mgr, modelId, x, z);
+    int modelId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int x = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int z = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int modelIndex = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct BuildModelMgr *mgr = SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork);
+    struct BuildModelEntry *entry = SCRCMD_SCREENEFFECTS_FindBuildModelEntry(mgr, modelId, x, z);
 
     if (entry) {
-        func_0218C574(mgr, entry, modelIndex);
+        FIELD_BUILDMODEL_GetModelIndexOut(mgr, entry, modelIndex);
     }
     return 0;
 }
 
 /* Script command: create a build model node at a position; its handle goes to a script variable. */
-int func_021B2D34(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_CreateBuildModelNode(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    unsigned short *handleOut = func_02159AE8(vm, cmdWork);
-    int modelId = func_02159B10(vm, cmdWork);
-    int x = func_02159B10(vm, cmdWork);
-    int z = func_02159B10(vm, cmdWork);
+    unsigned short *handleOut = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    int modelId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int x = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int z = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     struct BuildModelMgr *mgr;
     VecFx32 pos;
 
-    mgr = func_0218DC6C(func_02188C98(func_0201210C(func_0215A5DC(cmdWork))));
+    mgr = FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
-    *handleOut = func_0218BACC(mgr, func_0218C7D8(mgr, modelId, &pos));
+    *handleOut = FIELD_BUILDMODEL_GetNodeHandle(mgr, FIELD_BUILDMODEL_CreateNodeNearPos(mgr, modelId, &pos));
     return 0;
 }
 
 /* Script command: delete the build model node of a handle. */
-int func_021B2D98(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_DeleteBuildModelNode(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 handle = func_02159B10(vm, cmdWork);
-    struct BuildModelNode *node = func_0218BA98(func_021B2BD8(cmdWork), handle);
+    u32 handle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), handle);
 
     if (node != 0) {
-        func_0218C860(node);
+        FIELD_BUILDMODEL_DeleteNode(node);
     }
     return 0;
 }
 
 /* Script command: play a slot of a build model node and the sound effect its kind entry names. */
-int func_021B2DBC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     unsigned short seNo;
-    int handle = func_02159B10(vm, cmdWork);
-    int slot = func_02159B10(vm, cmdWork);
-    struct BuildModelNode *node = func_0218BA98(func_021B2BD8(cmdWork), handle);
+    int handle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    int slot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), handle);
 
     if (node) {
-        func_0218C88C(node, slot, 0);
-        if (func_0218C990(node, &seNo)) {
+        FIELD_BUILDMODEL_PlayNodeSlot(node, slot, 0);
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, &seNo)) {
             func_020061E4(seNo);
         }
     }
@@ -545,63 +545,63 @@ int func_021B2DBC(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 }
 
 /* Script command: play a slot of a build model node (mode 2). */
-int func_021B2E08(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotMode2(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 handle = func_02159B10(vm, cmdWork);
-    u32 slot = func_02159B10(vm, cmdWork);
-    struct BuildModelNode *node = func_0218BA98(func_021B2BD8(cmdWork), handle);
+    u32 handle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    u32 slot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), handle);
 
     if (node != 0) {
-        func_0218C88C(node, slot, 2);
+        FIELD_BUILDMODEL_PlayNodeSlot(node, slot, 2);
     }
     return 0;
 }
 
 /* Script command: play the current slot of a build model node (mode 3). */
-int func_021B2E3C(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 handle = func_02159B10(vm, cmdWork);
-    struct BuildModelNode *node = func_0218BA98(func_021B2BD8(cmdWork), handle);
+    u32 handle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), handle);
 
     if (node != 0) {
-        func_0218C89C(node, 3);
+        FIELD_BUILDMODEL_PlayNodeCurrentSlot(node, 3);
     }
     return 0;
 }
 
 /* Script command: remember a node handle and wait until that node's animation has ended. */
-int func_021B2E60(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    d_021EE720 = func_02159B10(vm, cmdWork);
-    func_020113D0(vm, func_021B2E80);
+    gScrcmdScreeneffectsNodeHandle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    VM_SetWait(vm, SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone);
     return 1;
 }
 
 /* Wait function of the command above. */
-int func_021B2E80(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    struct BuildModelNode *node = func_0218BA98(func_021B2BD8(cmdWork), d_021EE720);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), gScrcmdScreeneffectsNodeHandle);
 
     if (node == 0) {
         return 1;
     }
-    if (func_0218C8D8(node) == 0) {
+    if (FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(node) == 0) {
         return 0;
     }
-    if (func_0218C9A4(node) == 0) {
+    if (FIELD_BUILDMODEL_CheckNodeKindFlag(node) == 0) {
         return 1;
     }
     return 0;
 }
 
 /* Creates the fade task: kind 0 slow in, 1 slow out, 2 fast in, 3 fast out. */
-void func_021B2EBC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait)
+void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait)
 {
-    int tcbSys = func_02188D30(fieldMap);
+    int tcbSys = FIELDMAP_GetTcblSys(fieldMap);
     FadeEffectTask *task = func_02030734(4, 0x18, 1, (const char *)&d_021DE14C, 0x369);
 
-    func_02030DA8(tcbSys, func_021B2F18, task, 0);
-    func_02189A1C(fieldMap, 1);
+    func_02030DA8(tcbSys, SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
+    FIELDMAP_SetScriptEffectBusy(fieldMap, 1);
     task->step = 0;
     task->gameSystem = gameSystem;
     task->fieldMap = fieldMap;
@@ -611,7 +611,7 @@ void func_021B2EBC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32
 }
 
 /* Fade task step: step 0 starts the brightness change, step 1 waits for it and frees the task. */
-void func_021B2F18(struct Tcb *tcb, FadeEffectTask *task)
+void SCRCMD_SCREENEFFECTS_StepFadeTask(struct Tcb *tcb, FadeEffectTask *task)
 {
     int speed;
     int startLevel;
@@ -630,10 +630,10 @@ void func_021B2F18(struct Tcb *tcb, FadeEffectTask *task)
         if (task->kind == 0 || task->kind == 2) {
             startLevel = 16;
             endLevel = 0;
-            visiblePlanes = func_02043658();
-            func_02188DA0();
+            visiblePlanes = BG_SYS_GetMainVisiblePlanes();
+            FIELDMAP_SetBgMode();
             func_02043534(visiblePlanes);
-            func_02188DB0(task->fieldMap);
+            FIELDMAP_ResetBgAffineShowMsg(task->fieldMap);
         } else {
             startLevel = 0;
             endLevel = 16;
@@ -643,7 +643,7 @@ void func_021B2F18(struct Tcb *tcb, FadeEffectTask *task)
         } else {
             screenMask = 12;
         }
-        func_0204E720(screenMask, startLevel, endLevel, speed);
+        FADE_Start(screenMask, startLevel, endLevel, speed);
         task->step = task->step + 1;
         break;
     case 1:
@@ -651,11 +651,11 @@ void func_021B2F18(struct Tcb *tcb, FadeEffectTask *task)
         if (task->skipWait == 1) {
             done = 1;
         }
-        if (func_0204E804() == 0) {
+        if (FADE_IsActive() == 0) {
             done = 1;
         }
         if (done) {
-            func_02189A1C(task->fieldMap, 0);
+            FIELDMAP_SetScriptEffectBusy(task->fieldMap, 0);
             func_02030EAC(tcb);
             func_020307B0(task);
         }
@@ -664,11 +664,11 @@ void func_021B2F18(struct Tcb *tcb, FadeEffectTask *task)
 }
 
 /* Script command: force the place name banner of the current zone to show. */
-int func_021B2FB0(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_ShowPlaceName(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    struct FieldMap *fieldMap = func_0201210C(func_0215A5DC(cmdWork));
-    void *placeName = func_02188D20(fieldMap);
+    struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
+    void *placeName = FIELDMAP_GetPlaceName(fieldMap);
 
-    func_021BC5A0(placeName, func_02188C9C(fieldMap));
+    FIELD_PLACE_NAME_ForceShowForZone(placeName, FIELDMAP_GetZoneId(fieldMap));
     return 0;
 }

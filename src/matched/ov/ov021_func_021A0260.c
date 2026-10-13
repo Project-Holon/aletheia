@@ -1,5 +1,5 @@
 /*
- * function: func_021A0260
+ * function: FIELD_FOG_FadeStart
  * address:  0x021A0260
  * packet:   pkt_ov021_021A0260
  * region:   ov021
@@ -26,7 +26,7 @@ typedef struct {
     int f10;
 } Lerp;
 
-void func_021A0260(Lerp *s, u32 a, u32 b, u16 c, u16 d, u16 e)
+void FIELD_FOG_FadeStart(Lerp *s, u32 a, u32 b, u16 c, u16 d, u16 e)
 {
     s->f0 = 0;
     s->f2 = e;

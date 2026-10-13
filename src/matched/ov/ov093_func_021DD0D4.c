@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DD0D4, func_021DD0E0
+ * function: BTL_HANDLER_ITEM_AspearBerryOnEaten, BTL_HANDLER_ITEM_AddAspearBerry
  * address: 0x021DD0D4
  * packet: pkt_ov093_021DD0D4
  * region: ov093
@@ -10,17 +10,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DD19C 0x021DD19C thumb ov093
- *   d_021F1B14 0x021F1B14 data a4
+ *   BTL_HANDLER_ITEM_CureSickOnEaten 0x021DD19C thumb ov093
+ *   gHandlerTableAspearBerry 0x021F1B14 data a4
  */
-extern void func_021DD19C(void *, unsigned char *, int, int);
-extern const unsigned char d_021F1B14[];
-void func_021DD0D4(void *a, void *b, int c)
+extern void BTL_HANDLER_ITEM_CureSickOnEaten(void *, unsigned char *, int, int);
+extern const unsigned char gHandlerTableAspearBerry[];
+void BTL_HANDLER_ITEM_AspearBerryOnEaten(void *a, void *b, int c)
 {
-    func_021DD19C(a, b, c, 3);
+    BTL_HANDLER_ITEM_CureSickOnEaten(a, b, c, 3);
 }
-const void *func_021DD0E0(int *p)
+const void *BTL_HANDLER_ITEM_AddAspearBerry(int *p)
 {
     *p = 5;
-    return d_021F1B14;
+    return gHandlerTableAspearBerry;
 }

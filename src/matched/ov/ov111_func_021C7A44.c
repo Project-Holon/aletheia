@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0202208C  0x0202208C  thumb
+ *   WIPE_SYS_Start  0x0202208C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -39,11 +39,11 @@ typedef struct {
     int state;
 } Work;
 
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int func_021C7A44(Work *p)
 {
-    func_0202208C(0, 0, 0, 0, 6, 1, 0x27);
+    WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x27);
     p->state = 4;
     return 1;
 }

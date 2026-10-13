@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EEC20  0x021EEC20  thumb  ov093
+ *   BTL_ADAPTER_GetRecvData  0x021EEC20  thumb  ov093
  *   func_021B902C  0x021B902C  thumb  ov093
  */
 #include "../include/Obj00066.h"
@@ -27,14 +27,14 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern int func_021EEC20(int, u16 **);
+extern int BTL_ADAPTER_GetRecvData(int, u16 **);
 extern int func_021B902C(int a, int b);
 
 int func_021D13A4(BattleSeq *s)
 {
     u16 *q;
 
-    func_021EEC20(((struct Obj00066 *)s)->f50, &q);
+    BTL_ADAPTER_GetRecvData(((struct Obj00066 *)s)->f50, &q);
     switch (q[1]) {
     case 0:
         if (func_021B902C((u8)q[0], (u8)s->unk1A6) == 0)

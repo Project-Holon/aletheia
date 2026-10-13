@@ -1,5 +1,5 @@
 /*
- * function: func_0219D4AC
+ * function: FLDMMDL_G3DOBJ_InitResTable
  * address:  0x0219D4AC
  * packet:   pkt_ov021_0219D4AC
  * region:   ov021
@@ -21,7 +21,7 @@
 extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, unsigned short tag);
 extern unsigned char d_021DDD80[];
 
-void func_0219D4AC(int *obj, int a)
+void FLDMMDL_G3DOBJ_InitResTable(int *obj, int a)
 {
     int i;
     *(int *)&((struct Obj04226 *)obj)->fC =

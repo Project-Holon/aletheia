@@ -9,18 +9,18 @@
  * status: EXACT
  * control: the pool-hole call func_021E35A0 is written in both arms (x==0, then flag != 0); the compiler cross-jumps the first copy into a b.
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02049B40 0x02049B40 arm
  *   MCSS_SetPosition 0x02015C48 thumb
  *   MCSS_ResetVanishFlag 0x02015EB0 thumb
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
- *   func_0201DD78 0x0201DD78 thumb
- *   func_020450F0 0x020450F0 arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02045374 0x02045374 arm
- *   func_02045334 0x02045334 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021E2054 0x021E2054 thumb ov119
@@ -51,22 +51,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void MCSS_SetPosition(void *,u32 *);
 extern void MCSS_ResetVanishFlag(void *);
 extern void MCSS_SetVanishFlag(void *);
-extern void func_0201DD78(u32,u32,u32);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Cfg;
 struct Descriptor;
 struct MsgBank;
 struct Obj;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *d);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021E2054(char *,void *,int,int);
@@ -99,7 +99,7 @@ void func_021E219C(char *p,void *mon,int side,int flag)
     u32 flag76;
     u32 v[3];
     int i;
-    flag76=func_02017E1C(mon,76,0);
+    flag76=POKE_TOOL_GetPartyValue(mon,76,0);
     func_021E2054(p,mon,side,flag);
     func_02049B40(23,5,0,448,32,((struct Obj00001 *)p)->f5F4);
     if(Q[side]==0)
@@ -113,9 +113,9 @@ void func_021E219C(char *p,void *mon,int side,int flag)
     MCSS_ResetVanishFlag(Q[side]);
     if(*(void **)(p+(1-side)*4+0x844))
         MCSS_SetVanishFlag(*(void **)(p+(1-side)*4+0x844));
-    func_0201DD78(15,2,0);
+    GF_FONT_SetTextColor(15,2,0);
     i=0;
-    P(0x6b4)=(void *)func_020450F0(3,1,0,31,24,14,0);
+    P(0x6b4)=(void *)BMP_WIN_Create(3,1,0,31,24,14,0);
     func_021E1430(mon,func_02045770(P(0x6b4)),16,0,flag76,0,p);
     if(flag76==0) {
         func_021E14DC(mon,func_02045770(P(0x6b4)),0,16,flag76,p);
@@ -124,8 +124,8 @@ void func_021E219C(char *p,void *mon,int side,int flag)
         func_021E1670(mon,func_02045770(P(0x6b4)),80,i,p,i,i);
         func_021E1718((int)mon,(int)P(0x6b4),0,32,p);
         for(i=0;i<2;i++) {
-            func_02045CAC(P(0x720),i+36,P(0x730));
-            func_0201C7A4(func_02045770(P(0x6b4)),0,i*16+0x88,P(0x730),P(0x728));
+            MSGDATA_ReadString(P(0x720),i+36,P(0x730));
+            PRINTSYS_Print(func_02045770(P(0x6b4)),0,i*16+0x88,P(0x730),P(0x728));
         }
         func_021E17E8((int)mon,(int)P(0x6b4),56,32,p);
         func_021E1880((int)mon,(int)P(0x6b4),72,48,p);
@@ -144,7 +144,7 @@ void func_021E219C(char *p,void *mon,int side,int flag)
     }
     func_021E60BC(p,mon,flag76);
     func_021E5F14(p,0,1,mon);
-    func_02045374(P(0x6b4));
-    func_02045334(P(0x6b4));
+    BMP_WIN_MakeScreen(P(0x6b4));
+    BMP_WIN_TransferChars(P(0x6b4));
     func_02041B6C(3);
 }

@@ -12,7 +12,7 @@
  * Tail call into ov010 with a fixed second argument of 1 (unlabelled start).
  *
  * symbols:
- *   func_0216D63C  0x0216D63C  thumb  ov010
+ *   FLDMMDL_GetParam  0x0216D63C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -20,9 +20,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216D63C(char *a0, int a1);
+extern int FLDMMDL_GetParam(char *a0, int a1);
 
 u32 func_021CBBA0(u32 a)
 {
-    return func_0216D63C((char *)a, 1);
+    return FLDMMDL_GetParam((char *)a, 1);
 }

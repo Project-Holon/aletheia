@@ -21,15 +21,15 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
- *   d_020A7370 0x020A7370 data
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   gSpeciesNameBank 0x020A7370 data
  */
 #include "../include/Obj00031.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *d_020A7370;
+extern void *gSpeciesNameBank;
 struct MsgBank;
 extern void func_021BAA08(int heap, int window, struct MsgBank *bank, void *printer, int font, int message, unsigned short x, unsigned short y, unsigned short color, int alignment, int expansion);
 extern void func_021BA960(int heap, int window, void *printer, int font, int input, unsigned short right, unsigned short y, unsigned short color, int alignment, int expansion);
@@ -45,8 +45,8 @@ extern u32 func_0201ED04(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021BAA4C(char *p)
 {
     int l2c = ((struct Obj00031 *)p)->f1E0;
@@ -88,9 +88,9 @@ void func_021BAA4C(char *p)
     } else {
         func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f274, 8, 5, 0x3e7 + 0x59, 0, 0);
     }
-    name = func_02045EC0(d_020A7370, ((struct Obj00031 *)p)->fC);
-    func_0201C724((void *)(((struct Obj00031 *)p)->f2C), (u32)func_02045770(((struct Obj00031 *)p)->f70), 0x30, 5, (u32)name, ((struct Obj00031 *)p)->f28, 0x440);
-    func_02045808(name);
+    name = func_02045EC0(gSpeciesNameBank, ((struct Obj00031 *)p)->fC);
+    PRINTSYS_PrintQueColor((void *)(((struct Obj00031 *)p)->f2C), (u32)func_02045770(((struct Obj00031 *)p)->f70), 0x30, 5, (u32)name, ((struct Obj00031 *)p)->f28, 0x440);
+    STRBUF_Delete(name);
     m = 0;
     if (((struct Obj00031 *)p)->f8 != 0) m = ((struct Obj00031 *)p)->fC;
     func_021BAA08(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (struct MsgBank *)l28, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, m, 0, 0x16, 0x440, 2, 0);

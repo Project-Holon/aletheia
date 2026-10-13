@@ -1,5 +1,5 @@
 /*
- * function: func_021D4CE0
+ * function: BTL_NET_GetServerCmdSlot
  * address: 0x021D4CE0
  * packet: pkt_ov093_021D4CE0
  * region: ov093
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov093/btl_net.c and filed here.
  *
  * symbols:
- *   d_021F3B88 0x021F3B88 data ov093 a4
+ *   gBtlNet 0x021F3B88 data ov093 a4
  */
 
 struct BtlNet;
@@ -64,10 +64,10 @@ struct BtlNet {
     struct BtlNetSync sync;     /* 0x3b20 */
 };
 
-struct BtlNetRec *func_021D4CE0(void);
-extern struct BtlNet *d_021F3B88;
+struct BtlNetRec *BTL_NET_GetServerCmdSlot(void);
+extern struct BtlNet *gBtlNet;
 
-struct BtlNetRec *func_021D4CE0(void)
+struct BtlNetRec *BTL_NET_GetServerCmdSlot(void)
 {
-    return &d_021F3B88->rec0;
+    return &gBtlNet->rec0;
 }

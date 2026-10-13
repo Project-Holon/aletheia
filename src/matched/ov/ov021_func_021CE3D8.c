@@ -1,5 +1,5 @@
 /*
- * function: func_021CE3D8
+ * function: COMM_ENTRY_MENU_ClearMember
  * address:  0x021CE3D8
  * packet:   pkt_ov021_021CE3D8
  * region:   ov021
@@ -28,7 +28,7 @@ typedef struct {
     Entry ent[4];
 } Mgr;
 
-void func_021CE3D8(Mgr *m, int i)
+void COMM_ENTRY_MENU_ClearMember(Mgr *m, int i)
 {
     m->ent[i].state = 0;
 }

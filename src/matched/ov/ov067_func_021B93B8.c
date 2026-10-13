@@ -1,5 +1,5 @@
 /*
- * function: func_021B93B8
+ * function: FRAME_LIST_GetScrollPos
  * address:  0x021B93B8
  * packet:   pkt_021B93B8
  * region:   ov067
@@ -17,7 +17,7 @@
  */
 #include "../include/Obj20630.h"
 
-int func_021B93B8(char *p)
+int FRAME_LIST_GetScrollPos(char *p)
 {
     return ((struct Obj20630 *)p)->f62;
 }

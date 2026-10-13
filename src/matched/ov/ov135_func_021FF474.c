@@ -13,7 +13,7 @@
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_021F91DC  0x021F91DC  thumb
  */
 
@@ -28,7 +28,7 @@ struct U16Vec;
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_021F91DC(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 
 void func_021FF474(void *win, void *bank, int flag, void *g)
@@ -48,5 +48,5 @@ void func_021FF474(void *win, void *bank, int flag, void *g)
     func_020409B4(1);
     str = func_02045EC0(bank, 0x4B);
     func_021F91DC(win, (u32)str, 0, 0, 0, color, (u32)g);
-    func_02045808(str);
+    STRBUF_Delete(str);
 }

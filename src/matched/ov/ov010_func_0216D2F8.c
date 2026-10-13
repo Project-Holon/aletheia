@@ -1,5 +1,5 @@
 /*
- * function: func_0216D2F8
+ * function: FLDMMDL_SysPopAll
  * address:  0x0216D2F8
  * packet:   pkt_ov010_0216D2F8
  * region:   ov010
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0216D244  0x0216D244  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
- *   func_0216D268  0x0216D268  thumb  ov010
- *   func_0216D57C  0x0216D57C  thumb  ov010
- *   func_0216D730  0x0216D730  thumb  ov010
- *   func_0216D570  0x0216D570  thumb  ov010
- *   func_0216DAA0  0x0216DAA0  thumb  ov010
- *   func_0216E114  0x0216E114  thumb  ov010
- *   func_0216D794  0x0216D794  thumb  ov010
- *   func_0216E174  0x0216E174  thumb  ov010
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_RestartMoveTcb  0x0216D244  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
+ *   FLDMMDL_InitMove  0x0216D268  thumb  ov010
+ *   FLDMMDL_CheckMoveBit  0x0216D57C  thumb  ov010
+ *   FLDMMDL_CallMoveRecoverProc  0x0216D730  thumb  ov010
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
+ *   FLDMMDL_CheckMoveBitDrawInitComp  0x0216DAA0  thumb  ov010
+ *   FLDMMDL_InitDraw  0x0216E114  thumb  ov010
+ *   FLDMMDL_CallDrawPopProc  0x0216D794  thumb  ov010
+ *   FLDMMDL_ResetDrawStatusBits  0x0216E174  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -29,19 +29,19 @@ typedef unsigned int u32;
 
 struct Ctx;
 struct Rec;
-extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
-extern void func_0216D244(u32 x, u8 *o);
-extern int func_0216D55C(int a0, int a1);
-extern int func_0216D268(int a0, int a1);
-extern u32 func_0216D57C(void *p, u32 v);
-extern void func_0216D730(void *a0);
-extern char *func_0216D570(char *p, u32 v);
-extern int func_0216DAA0(void *a0);
-extern int func_0216E114(int a0);
-extern void func_0216D794(void *a0);
-extern void func_0216E174(void *a0);
+extern int FLDMMDL_SysSearchUseMmdl(struct Ctx *c, struct Rec **out, u32 *iter);
+extern void FLDMMDL_RestartMoveTcb(u32 x, u8 *o);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
+extern int FLDMMDL_InitMove(int a0, int a1);
+extern u32 FLDMMDL_CheckMoveBit(void *p, u32 v);
+extern void FLDMMDL_CallMoveRecoverProc(void *a0);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
+extern int FLDMMDL_CheckMoveBitDrawInitComp(void *a0);
+extern int FLDMMDL_InitDraw(int a0);
+extern void FLDMMDL_CallDrawPopProc(void *a0);
+extern void FLDMMDL_ResetDrawStatusBits(void *a0);
 
-void func_0216D2F8(u32 x)
+void FLDMMDL_SysPopAll(u32 x)
 {
     int n;
     u8 *o;
@@ -50,22 +50,22 @@ void func_0216D2F8(u32 x)
     u32 c = 2;
 
     n = 0;
-    if (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1) {
+    if (FLDMMDL_SysSearchUseMmdl((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1) {
         do {
-            func_0216D244(x, o);
-            if (func_0216D55C((int)o, c) == 0)
-                func_0216D268(x, (int)o);
-            if (func_0216D57C(o, a)) {
-                func_0216D730(o);
-                func_0216D570((char *)o, a);
+            FLDMMDL_RestartMoveTcb(x, o);
+            if (FLDMMDL_CheckStatusBit((int)o, c) == 0)
+                FLDMMDL_InitMove(x, (int)o);
+            if (FLDMMDL_CheckMoveBit(o, a)) {
+                FLDMMDL_CallMoveRecoverProc(o);
+                FLDMMDL_ClearMoveBit((char *)o, a);
             }
-            if (func_0216DAA0(o) == 0)
-                func_0216E114((int)o);
-            if (func_0216D57C(o, b)) {
-                func_0216D794(o);
-                func_0216D570((char *)o, b);
+            if (FLDMMDL_CheckMoveBitDrawInitComp(o) == 0)
+                FLDMMDL_InitDraw((int)o);
+            if (FLDMMDL_CheckMoveBit(o, b)) {
+                FLDMMDL_CallDrawPopProc(o);
+                FLDMMDL_ClearMoveBit((char *)o, b);
             }
-            func_0216E174(o);
-        } while (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1);
+            FLDMMDL_ResetDrawStatusBits(o);
+        } while (FLDMMDL_SysSearchUseMmdl((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n)) == 1);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F43D8
+ * function: CROWD_InitChatter
  * address:  0x021F43D8
  * packet:   pkt_ov055_021F43D8
  * region:   ov055
@@ -13,7 +13,7 @@
  *   func_020056EC  0x020056EC  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *   func_02045B38  0x02045B38  arm
- *   func_021F4510  0x021F4510  thumb  ov055
+ *   CROWD_InitChatterSlot  0x021F4510  thumb  ov055
  */
 
 typedef unsigned char  u8;
@@ -25,9 +25,9 @@ extern u32 func_020056EC(u32 v);
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 struct S;
-extern void func_021F4510(struct S *p, int i);
+extern void CROWD_InitChatterSlot(struct S *p, int i);
 
-void func_021F43D8(u32 *a, u32 b, s16 *c, u32 d, u16 e)
+void CROWD_InitChatter(u32 *a, u32 b, s16 *c, u32 d, u16 e)
 {
     int i;
     u32 t;
@@ -45,6 +45,6 @@ void func_021F43D8(u32 *a, u32 b, s16 *c, u32 d, u16 e)
     a[1] = t & 0xf;
     q = (u8 *)a + 0x10;
     for (i = 0; i < 16; i++) {
-        func_021F4510((struct S *)(q + i * 8), (u16)i);
+        CROWD_InitChatterSlot((struct S *)(q + i * 8), (u16)i);
     }
 }

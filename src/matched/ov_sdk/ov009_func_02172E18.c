@@ -13,13 +13,13 @@
  *
  * symbols:
  *   func_02175F3C  0x02175F3C  arm  ov009
- *   func_0216BBDC  0x0216BBDC  arm  ov009
+ *   DWCi_GetGT2ConnectionByProfileID  0x0216BBDC  arm  ov009
  *   func_02195DC4  0x02195DC4  arm  ov009
  *   func_02176254  0x02176254  arm  ov009
  */
 
 extern int func_02175F3C(void);
-extern int *func_0216BBDC(int pid, int flag);
+extern int *DWCi_GetGT2ConnectionByProfileID(int pid, int flag);
 extern void func_02195DC4(int a);
 extern int func_02176254(int profileID);
 
@@ -29,7 +29,7 @@ int func_02172E18(int profileID)
     int ret;
 
     *(int *)(func_02175F3C() + 0x680) = profileID;
-    connection = (int **)func_0216BBDC(profileID, 0);
+    connection = (int **)DWCi_GetGT2ConnectionByProfileID(profileID, 0);
     if (connection) {
         *(char *)(func_02175F3C() + 0x629) = 1;
         func_02195DC4((int)(*connection));

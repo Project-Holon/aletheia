@@ -17,7 +17,7 @@
 
 int *func_021E5F0C(int *p);
 
-/* 021E5F18  shape F1: gate on func_021D775C(3) */
+/* 021E5F18  shape F1: gate on BTL_EVENT_GetVar(3) */
 extern int d_021F2EF0[];
 
 int *func_021E5F0C(int *p)

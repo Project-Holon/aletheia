@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DF0
+ * function: FRAME_LIST_StartJump
  * address:  0x021B8DF0
  * packet:   pkt_ov067_021B8DF0
  * region:   ov067
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B841C  0x021B841C  thumb
- *   func_021B8434  0x021B8434  thumb
+ *   FRAME_LIST_GetScrollRoom  0x021B841C  thumb
+ *   FRAME_LIST_StartScroll  0x021B8434  thumb
  *
- * Note: the second parameter of func_021B8434 is declared int here (its own
+ * Note: the second parameter of FRAME_LIST_StartScroll is declared int here (its own
  * file has u8): the original passes the muls result untruncated.
  */
 
@@ -38,10 +38,10 @@ struct S {
     u8 f87;
 };
 
-extern int func_021B841C(u8 *p, int n);
-extern void func_021B8434(u8 *p, int a, u8 b, u16 c, u32 d);
+extern int FRAME_LIST_GetScrollRoom(u8 *p, int n);
+extern void FRAME_LIST_StartScroll(u8 *p, int a, u8 b, u16 c, u32 d);
 
-int func_021B8DF0(struct S *s, int a1)
+int FRAME_LIST_StartJump(struct S *s, int a1)
 {
     int d;
     int v;
@@ -66,11 +66,11 @@ int func_021B8DF0(struct S *s, int a1)
         v = s->fb;
     if (a1 > s->f87)
         v *= -1;
-    lim = func_021B841C((u8 *)s, v);
+    lim = FRAME_LIST_GetScrollRoom((u8 *)s, v);
     if (lim != 0) {
         if (lim < d)
             d = lim;
-        func_021B8434((u8 *)s, v, d, 3, 1);
+        FRAME_LIST_StartScroll((u8 *)s, v, d, 3, 1);
         s->f87 = a1;
         return 1;
     }

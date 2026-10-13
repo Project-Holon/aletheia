@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020185F0, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderRatioClass
+ * function: POKE_TOOL_Dummy, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderRatioClass
  *
- * func_020185F0 and POKE_TOOL_GetBoxParam are a bare `bx lr` padded to four bytes,
+ * POKE_TOOL_Dummy and POKE_TOOL_GetBoxParam are a bare `bx lr` padded to four bytes,
  * which is `void f(void) {}`: a hook that was never filled in.  Neither
- * carries a label in the generated listing.  func_020185F0 is reached from
+ * carries a label in the generated listing.  POKE_TOOL_Dummy is reached from
  * func_02019B58, which is what attests the pair's addresses.
  *
  * symbols:
@@ -30,7 +30,7 @@ extern void *func_02019C54(u32 a, u32 b);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern u32  func_0201AF6C(u32 n);
 
-void func_020185F0(void)
+void POKE_TOOL_Dummy(void)
 {
 }
 

@@ -16,9 +16,9 @@
  *   func_0201EE84 0x0201EE84 thumb
  *   func_0201EEF4 0x0201EEF4 thumb
  *   func_0201EF34 0x0201EF34 thumb
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
  */
 
@@ -40,9 +40,9 @@ struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 
 u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
@@ -76,9 +76,9 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
                 break;
             }
         }
-        r = (u32)func_020457B0(0x100, heap);
+        r = (u32)STRBUF_Create(0x100, heap);
         func_0201F250((struct WordSet *)w, (void *)r, (void *)src);
-        func_02045808((struct U16Vec *)src);
+        STRBUF_Delete((struct U16Vec *)src);
         func_0201ED04((struct WordSet *)w);
     }
     return r;

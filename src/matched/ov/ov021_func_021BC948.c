@@ -1,5 +1,5 @@
 /*
- * function: func_021BC948
+ * function: FIELD_PLACE_NAME_LaunchNextLetter
  * address:  0x021BC948
  * packet:   pkt_ov021_021BC948
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD1D4  0x021BD1D4  thumb  ov021
- *   func_021BD1E4  0x021BD1E4  thumb  ov021
+ *   PLACE_NAME_LETTER_Start  0x021BD1D4  thumb  ov021
+ *   PLACE_NAME_LETTER_SetVisible  0x021BD1E4  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -23,15 +23,15 @@ typedef struct {
     u8 b149;
 } Obj;
 
-extern void func_021BD1D4(void *a);
-extern void func_021BD1E4(void *a, unsigned int b);
+extern void PLACE_NAME_LETTER_Start(void *a);
+extern void PLACE_NAME_LETTER_SetVisible(void *a, unsigned int b);
 
-void func_021BC948(Obj *p)
+void FIELD_PLACE_NAME_LaunchNextLetter(Obj *p)
 {
     u8 i = p->b149++;
 
     if (p->fC8[i] != 0) {
-        func_021BD1D4(p->fC8[i]);
-        func_021BD1E4(p->fC8[i], 1);
+        PLACE_NAME_LETTER_Start(p->fC8[i]);
+        PLACE_NAME_LETTER_SetVisible(p->fC8[i], 1);
     }
 }

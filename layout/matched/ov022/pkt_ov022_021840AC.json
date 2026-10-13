@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021840AC",
+   "name": "UNION_APP_AddSelfToJoined",
    "address": "0x021840AC",
    "kind": "game",
    "region": "ov022",

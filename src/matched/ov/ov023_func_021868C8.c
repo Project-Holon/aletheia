@@ -1,5 +1,5 @@
 /*
- * function: func_021868C8
+ * function: OEKAKI_AdvanceQueueTail
  * address:  0x021868C8
  * packet:   pkt_ov023_021868C8
  * region:   ov023
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02186878  0x02186878  thumb
+ *   OEKAKI_GetPrevQueueIndex  0x02186878  thumb
  *
  * The second loop indexes ((Grp *)p)[idx].r[j] in full and lets the
  * compiler hoist p + idx*30 itself: a named group pointer puts the 30*idx
@@ -32,9 +32,9 @@ typedef struct {
     Rec r[5];
 } Grp;
 
-extern int func_02186878(char *p);
+extern int OEKAKI_GetPrevQueueIndex(char *p);
 
-void func_021868C8(char *p)
+void OEKAKI_AdvanceQueueTail(char *p)
 {
     int i;
     int n;
@@ -52,7 +52,7 @@ void func_021868C8(char *p)
         }
     }
     if (n == 5) {
-        int idx = func_02186878(p);
+        int idx = OEKAKI_GetPrevQueueIndex(p);
         int j;
         for (j = 0; j < 5; j++) {
             if (((Grp *)p)[idx].r[j].mid == 0) {

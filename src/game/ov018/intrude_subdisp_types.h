@@ -30,7 +30,7 @@ enum {
     INTRUDE_SUBDISP_ACTOR_COUNT = 21
 };
 
-/* One entry of the zone table that func_0217BEA8 returns (the position on the map screen). */
+/* One entry of the zone table that INTRUDE_FIELD_FindZonePos returns (the position on the map screen). */
 typedef struct IntrudeZoneInfo {
     u32 zoneId : 10;            /* 0x00 */
     u32 zoneIdAlt : 10;

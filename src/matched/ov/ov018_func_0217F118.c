@@ -1,5 +1,5 @@
 /*
- * function: func_0217F118
+ * function: INTRUDE_SUBDISP_SetTownCursor
  * address:  0x0217F118
  * packet:   pkt_ov018_0217F118
  * region:   ov018
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 struct Obj;
 void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
-void func_0217F118(Ov018Sel *p, int n)
+void INTRUDE_SUBDISP_SetTownCursor(Ov018Sel *p, int n)
 {
     u8 c;
 

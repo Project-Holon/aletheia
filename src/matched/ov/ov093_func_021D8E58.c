@@ -1,5 +1,5 @@
 /*
- * function: func_021D8E58
+ * function: BTL_ABILITY_FlowerGiftUpdateFormIfOwner
  * address: 0x021D8E58
  * packet: pkt_ov093_021D8E58
  * region: ov093
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D8E1C 0x021D8E1C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_ABILITY_FlowerGiftUpdateForm 0x021D8E1C thumb ov093
  */
-extern int func_021D775C(int);
-extern void func_021D8E1C(int, void *, int, int *);
-void func_021D8E58(int a, void *b, int c, int *d)
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_ABILITY_FlowerGiftUpdateForm(int, void *, int, int *);
+void BTL_ABILITY_FlowerGiftUpdateFormIfOwner(int a, void *b, int c, int *d)
 {
-    if (c == func_021D775C(2)) func_021D8E1C(a, b, c, d);
+    if (c == BTL_EVENT_GetVar(2)) BTL_ABILITY_FlowerGiftUpdateForm(a, b, c, d);
 }

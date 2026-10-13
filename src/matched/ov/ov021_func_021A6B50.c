@@ -1,5 +1,5 @@
 /*
- * function: func_021A6B50
+ * function: FIELD_PLAYER_NOGRID_AdvanceSpin
  * address:  0x021A6B50
  * packet:   pkt_ov021_021A6B50
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D5D8  0x0216D5D8  thumb
- *   d_021D8AB0  0x021D8AB0  data  ov021  a4
+ *   FLDMMDL_SetDirDisp  0x0216D5D8  thumb
+ *   gFieldPlayerNogridSpinDirs  0x021D8AB0  data  ov021  a4
  */
 
 typedef unsigned char u8;
@@ -23,13 +23,13 @@ typedef struct {
     short h2;
 } P;
 
-extern void func_0216D5D8(int a, int b);
-extern const u8 d_021D8AB0[][4];
+extern void FLDMMDL_SetDirDisp(int a, int b);
+extern const u8 gFieldPlayerNogridSpinDirs[][4];
 
-void func_021A6B50(P *p, int a)
+void FIELD_PLAYER_NOGRID_AdvanceSpin(P *p, int a)
 {
     if (p->b0) {
         p->h2 = (p->h2 + 1) % 4;
-        func_0216D5D8(a, d_021D8AB0[p->b1][p->h2]);
+        FLDMMDL_SetDirDisp(a, gFieldPlayerNogridSpinDirs[p->b1][p->h2]);
     }
 }

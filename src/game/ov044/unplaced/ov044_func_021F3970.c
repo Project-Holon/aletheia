@@ -1,5 +1,5 @@
 /*
- * function: func_021F3970
+ * function: GIMMICK44_SnapLiftToBottom
  * address:  0x021F3970
  * packet:   pkt_ov044_021F3970
  * region:   ov044
@@ -10,34 +10,34 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021A3044  0x021A3044  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  */
 
 #include "../unit_021F36C0_types.h"
 
-extern void *func_0201210C(void *gameSystem);
-extern void *func_02188D2C(void *fieldMap);
-extern void *func_021897BC(char *fieldMap, int id);
-extern void *func_02188C58(void *fieldMap);
-extern u32 func_0218EC5C(u8 *camera);
-extern void func_0218EC54(u8 *camera);
-extern VecFx32 *func_021BE480(void *expObj, unsigned unit, int model);
-extern void *func_02188CB4(void *fieldMap);
-extern void func_021A3038(unsigned char *player, VecFx32 *out);
-extern void func_021A3044(u8 *player, VecFx32 *pos);
+extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
+extern void *FIELDMAP_GetExpObj(void *fieldMap);
+extern void *FIELDMAP_GetCommonWork(char *fieldMap, int id);
+extern void *FIELDMAP_GetCamera(void *fieldMap);
+extern u32 FIELD_CAMERA_GetTraceTarget(u8 *camera);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *camera);
+extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
+extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
+extern void FIELD_PLAYER_GetPos(unsigned char *player, VecFx32 *out);
+extern void FIELD_PLAYER_SetPos(u8 *player, VecFx32 *pos);
 
 /* Puts the lift at its lower end without the ride: the model and the player
  * are set to the bottom height and the camera is detached. */
-void func_021F3970(void *gameSystem)
+void GIMMICK44_SnapLiftToBottom(void *gameSystem)
 {
     void *fieldMap;
     void *expObj;
@@ -46,15 +46,15 @@ void func_021F3970(void *gameSystem)
     void *player;
     VecFx32 pos;
 
-    fieldMap = func_0201210C(gameSystem);
-    expObj = func_02188D2C(fieldMap);
-    work = func_021897BC(fieldMap, 1);
-    camera = func_02188C58(fieldMap);
-    work->savedCameraTarget = func_0218EC5C(camera);
-    func_0218EC54(camera);
-    func_021BE480(expObj, 0, 0)->y = -0x50000;
-    player = func_02188CB4(fieldMap);
-    func_021A3038(player, &pos);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    expObj = FIELDMAP_GetExpObj(fieldMap);
+    work = FIELDMAP_GetCommonWork(fieldMap, 1);
+    camera = FIELDMAP_GetCamera(fieldMap);
+    work->savedCameraTarget = FIELD_CAMERA_GetTraceTarget(camera);
+    FIELD_CAMERA_StopTargetTrace(camera);
+    FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->y = -0x50000;
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
+    FIELD_PLAYER_GetPos(player, &pos);
     pos.y = -0x50000;
-    func_021A3044(player, &pos);
+    FIELD_PLAYER_SetPos(player, &pos);
 }

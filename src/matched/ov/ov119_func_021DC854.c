@@ -8,24 +8,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02030678 0x02030678 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_RegisterBlockHeap 0x02030678 arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   d_021E8560 0x021E8560 data a4
  */
 typedef unsigned int   u32;
-extern void func_02030678(void *a, u32 b, u32 c);
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
 extern char d_021E8560[];
 void *func_021DC854(void *a,int t) {
  void *p;
- func_02030678(d_021E8560,0xc000,0x91);
- func_0203064C(1,31,t);
- p=func_0203159C(a,0x1d54,0x91);
+ GFL_HEAP_RegisterBlockHeap(d_021E8560,0xc000,0x91);
+ GFL_HEAP_CreateChildHeap(1,31,t);
+ p=PROCSYS_AllocProcWork(a,0x1d54,0x91);
  func_02082BCC(p,0,0x1d54);
  return p;
 }

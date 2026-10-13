@@ -17,14 +17,14 @@
  *   func_020490F4 0x020490F4 arm
  *   d_021C6100 0x021C6100 data a1
  *   func_021C4790 0x021C4790 thumb ov127
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0204B294  0x0204B294  arm
- *   func_0204B84C  0x0204B84C  arm
+ *   CLACT_CreateActor  0x0204B294  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204B528 0x0204B528 arm
+ *   CLACT_SetActorPos 0x0204B528 arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   CLACT_GetActorDrawPriority  0x0204B838  arm
  *   func_0204B3DC  0x0204B3DC  arm
@@ -32,12 +32,12 @@
  *   CLACT_GetActorAnimSeqCount 0x0204B918 arm
  *   tbl_021C5FBC  0x021C5FBC  data  a4
  *   d_021C5FB0 0x021C5FB0 data a4
- *   func_0204AF28 0x0204AF28 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   d_021C5FE4 0x021C5FE4 data a4
  *   CLACT_ChangeActorAnimSeq 0x0204B8A0 arm
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
@@ -128,25 +128,25 @@ typedef signed char s8;
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_021C4790(char *p);
-extern void func_02049238(u32);
+extern void ARC_TOOL_DeleteHandle(u32);
 extern u32 func_020307B0(void *p);
-extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B84C(u32, u32);
+extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void CLACT_SetActorBgPriority(u32, u32);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-extern void func_0204B3B4(struct Obj *);
+extern void CLACT_DeleteActor(struct Obj *);
 extern void func_02082BCC(void *, int, int);
-extern void func_0204B528(struct Actor *, const struct Pt_021C3EE0 *);
+extern void CLACT_SetActorPos(struct Actor *, const struct Pt_021C3EE0 *);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern int CLACT_GetActorDrawPriority(int a0);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u32 func_0204B3F4(struct Obj *p);
 extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_0204AFD8(u32);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern void func_0204A8D4(u32);
-extern void func_0204ADA4(u32);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void CLACT_ReleaseCellAnim(u32);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ChangeActorAnimSeq(struct Obj *p, u16 v);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
 Context *func_021C3EE0(void *a, void *b, u32 count, u32 heap);
@@ -237,8 +237,8 @@ void func_021C3F80(u8 *p)
     }
     func_021C4330((char *)p, 0);
     func_021C4010(p);
-    func_02049238(((struct Obj05371 *)p)->f2F8);
-    func_02049238(((struct Obj05371 *)p)->f2FC);
+    ARC_TOOL_DeleteHandle(((struct Obj05371 *)p)->f2F8);
+    ARC_TOOL_DeleteHandle(((struct Obj05371 *)p)->f2FC);
     func_020307B0(((struct Obj05371 *)p)->f8);
     func_020307B0(p);
 }
@@ -319,9 +319,9 @@ u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
     l.z = 0;
     l.a = ta;
     l.b = pos[3];
-    e[1] = (u32)func_0204B294((void *)owner->h0, owner->rec[idx].f4, owner->rec[idx].f8,
+    e[1] = (u32)CLACT_CreateActor((void *)owner->h0, owner->rec[idx].f4, owner->rec[idx].f8,
                          owner->res[idx].f0, &l, 0, (u16)heap);
-    func_0204B84C(e[1], (u8)pos[3]);
+    CLACT_SetActorBgPriority(e[1], (u8)pos[3]);
     if (owner->rec[idx].f10 == 1)
         CLACT_SetActorAnimIndex(e[1], 6);
     else
@@ -337,9 +337,9 @@ u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
         l.z = 0;
         l.a = *(u32 *)((u8 *)owner + off + 0x10);
         l.b = 0;
-        e[2] = (u32)func_0204B294((void *)owner->h0, *(u32 *)((u8 *)owner + off), *(u32 *)((u8 *)owner + off + 4),
+        e[2] = (u32)CLACT_CreateActor((void *)owner->h0, *(u32 *)((u8 *)owner + off), *(u32 *)((u8 *)owner + off + 4),
                              *(u32 *)((u8 *)owner + off + 8), &l, 0, (u16)heap);
-        func_0204B84C(e[2], (u8)pos[3]);
+        CLACT_SetActorBgPriority(e[2], (u8)pos[3]);
     } else {
         e[2] = 0;
     }
@@ -350,8 +350,8 @@ u32 *func_021C40BC(Own *owner, const s16 *pos, int idx, u32 heap)
 
 void func_021C41BC(u8 *p)
 {
-    if (((struct Obj10462 *)p)->f8 != 0) func_0204B3B4(*(struct Obj * *)&((struct Obj10462 *)p)->f8);
-    func_0204B3B4(*(struct Obj * *)&((struct Obj10462 *)p)->f4);
+    if (((struct Obj10462 *)p)->f8 != 0) CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10462 *)p)->f8);
+    CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10462 *)p)->f4);
     func_02082BCC(p, 0, 24);
 }
 
@@ -361,11 +361,11 @@ void func_021C41DC(u8 *p,int x,int y)
 {
     Pt_021C3EE0 pos;
     pos.x=x; pos.y=y;
-    func_0204B528(*(struct Actor * *)&((struct Obj10463 *)p)->f4, (const struct Pt_021C3EE0 *)&pos);
+    CLACT_SetActorPos(*(struct Actor * *)&((struct Obj10463 *)p)->f4, (const struct Pt_021C3EE0 *)&pos);
     if (((struct Obj10463 *)p)->f8 != 0) {
         pos.x=(s16)pos.x+8;
         pos.y=(s16)pos.y+14;
-        func_0204B528(*(struct Actor * *)&((struct Obj10463 *)p)->f8, (const struct Pt_021C3EE0 *)&pos);
+        CLACT_SetActorPos(*(struct Actor * *)&((struct Obj10463 *)p)->f8, (const struct Pt_021C3EE0 *)&pos);
     }
 }
 
@@ -444,7 +444,7 @@ int func_021C4280(char *p) { return CLACT_GetActorAnimSeqCount(((struct Obj23021
 /*
  * extent: trailing 2-byte alignment padding only.
  */
-void func_021C428C(char *p,int x,int y) { Pt_021C4214 pt; if(((struct Obj14016 *)p)->f8) { pt.x=x+8; pt.y=y+14; func_0204B528(((struct Obj14016 *)p)->f8, (const struct Pt_021C3EE0 *)&pt); } }
+void func_021C428C(char *p,int x,int y) { Pt_021C4214 pt; if(((struct Obj14016 *)p)->f8) { pt.x=x+8; pt.y=y+14; CLACT_SetActorPos(((struct Obj14016 *)p)->f8, (const struct Pt_021C3EE0 *)&pt); } }
 
 
 
@@ -480,14 +480,14 @@ void func_021C42C4(u8 *p) { int flag; int n; flag=0; n=d_021C5FB0[((struct Obj10
 
 
 
-void func_021C42FC(char *p, int unused, u32 heap) { int i; for(i=16;i<18;i++) { *(u32 *)((u32)p+(u32)i*20+0x188)=func_0204AF28(((struct Obj23022 *)p)->f2F8,(i-16)*2,(i-16)*2+1,(u16)heap); } }
+void func_021C42FC(char *p, int unused, u32 heap) { int i; for(i=16;i<18;i++) { *(u32 *)((u32)p+(u32)i*20+0x188)=CLACT_RegisterCellAnim(((struct Obj23022 *)p)->f2F8,(i-16)*2,(i-16)*2+1,(u16)heap); } }
 
 
 
 
 
 
-void func_021C4330(char *p, int a1) { int i; char *q; for(i=16;i<18;i++) { q=(char *)((u32)p+(u32)i*20); func_0204AFD8(((struct Obj14018 *)q)->f188); ((struct Obj14018 *)q)->f188=0; } }
+void func_021C4330(char *p, int a1) { int i; char *q; for(i=16;i<18;i++) { q=(char *)((u32)p+(u32)i*20); CLACT_ReleaseCellAnim(((struct Obj14018 *)q)->f188); ((struct Obj14018 *)q)->f188=0; } }
 
 
 
@@ -519,8 +519,8 @@ void func_021C4380(Context_021C4380 *ctx, int i, u32 a, u32 b, u32 c)
 {
     int n;
     n = (i - 16) * 2;
-    ctx->entries[i].handle = func_0204A6C8((void *)ctx->source, n + 5, 0, a, c);
-    ctx->entries[i].owner = func_0204AC18((void *)ctx->source, n + 4, a, 256, 0, 2, c);
+    ctx->entries[i].handle = CLACT_RegisterCharacter((void *)ctx->source, n + 5, 0, a, c);
+    ctx->entries[i].owner = CLACT_RegisterPaletteEx((void *)ctx->source, n + 4, a, 256, 0, 2, c);
     ctx->entries[i].a = a;
     ctx->entries[i].b = b;
     ctx->entries[i].mode = 0;
@@ -534,7 +534,7 @@ void func_021C43E4(u8 *p, int i, u32 a, u32 b, u32 c)
 {
     Context_021C43E4 *ctx;
     ctx = (Context_021C43E4 *)p;
-    ctx->entries[i].handle = func_0204A6C8((void *)ctx->source, i + 1, 0, a, c);
+    ctx->entries[i].handle = CLACT_RegisterCharacter((void *)ctx->source, i + 1, 0, a, c);
     ctx->entries[i].owner = ctx->owner;
     ctx->entries[i].a = a;
     ctx->entries[i].b = b;
@@ -556,7 +556,7 @@ void func_021C4424(char *p, int i)
 
 
 
-void func_021C4440(char *p,int i) { func_0204A8D4(*(u32 *)(p+20+(u32)i*20)); func_0204ADA4(*(u32 *)(p+24+(u32)i*20)); *(u32 *)(p+20+(u32)i*20)=-1; *(u32 *)(p+24+(u32)i*20)=-1; }
+void func_021C4440(char *p,int i) { CLACT_ReleaseCharacter(*(u32 *)(p+20+(u32)i*20)); CLACT_ReleasePalette(*(u32 *)(p+24+(u32)i*20)); *(u32 *)(p+20+(u32)i*20)=-1; *(u32 *)(p+24+(u32)i*20)=-1; }
 
 
 
@@ -565,7 +565,7 @@ void func_021C4440(char *p,int i) { func_0204A8D4(*(u32 *)(p+20+(u32)i*20)); fun
 void func_021C4464(u8 *p, int i)
 {
     u32 *tbl = (u32 *)(p + 0x14 + i * 20);
-    func_0204A8D4((u32)((void *)*tbl));
+    CLACT_ReleaseCharacter((u32)((void *)*tbl));
     *tbl = (u32)-1;
 }
 
@@ -595,14 +595,14 @@ void func_021C4494(u8 *p, u32 a, u32 heap)
         if (func_021C447C((char *)p, 17) == 1)
         ((struct Obj03277 *)p)->f330 = i;
     }
-    ((struct Obj03277 *)p)->f2E8 = (u32)func_0204AF28((void *)(((struct Obj03277 *)p)->f2F8), 9, 8, (u16)heap);
-    ((struct Obj03277 *)p)->f2E0 = func_0204A6C8((void *)(((struct Obj03277 *)p)->f2F8), 11, 0, a, heap);
-    ((struct Obj03277 *)p)->f2E4 = func_0204AC18((void *)(((struct Obj03277 *)p)->f2F8), 10, a, 320, 0, 1, heap);
+    ((struct Obj03277 *)p)->f2E8 = (u32)CLACT_RegisterCellAnim((void *)(((struct Obj03277 *)p)->f2F8), 9, 8, (u16)heap);
+    ((struct Obj03277 *)p)->f2E0 = CLACT_RegisterCharacter((void *)(((struct Obj03277 *)p)->f2F8), 11, 0, a, heap);
+    ((struct Obj03277 *)p)->f2E4 = CLACT_RegisterPaletteEx((void *)(((struct Obj03277 *)p)->f2F8), 10, a, 320, 0, 1, heap);
 }
 
 
 
-void func_021C4514(char *p) { if(func_021C4550((int *)(p+0x2e0))==1) { func_0204A8D4(((struct Obj05372 *)p)->f2E0); ((struct Obj05372 *)p)->f2E0=-1; func_0204ADA4(((struct Obj05372 *)p)->f2E4); ((struct Obj05372 *)p)->f2E4=-1; func_0204AFD8(((struct Obj05372 *)p)->f2E8); ((struct Obj05372 *)p)->f2E8=-1; } }
+void func_021C4514(char *p) { if(func_021C4550((int *)(p+0x2e0))==1) { CLACT_ReleaseCharacter(((struct Obj05372 *)p)->f2E0); ((struct Obj05372 *)p)->f2E0=-1; CLACT_ReleasePalette(((struct Obj05372 *)p)->f2E4); ((struct Obj05372 *)p)->f2E4=-1; CLACT_ReleaseCellAnim(((struct Obj05372 *)p)->f2E8); ((struct Obj05372 *)p)->f2E8=-1; } }
 
 
 
@@ -614,14 +614,14 @@ int func_021C4550(int *p)
 
 
 
-void func_021C4564(u8 *p,u32 a,u32 b,u32 heap) { ((struct Obj10466 *)p)->f2F4=func_0204AC18(((struct Obj10466 *)p)->f2FC,0,a,(u16)b,0,8,heap); }
+void func_021C4564(u8 *p,u32 a,u32 b,u32 heap) { ((struct Obj10466 *)p)->f2F4=CLACT_RegisterPaletteEx(((struct Obj10466 *)p)->f2FC,0,a,(u16)b,0,8,heap); }
 
 
 
 
 void func_021C4594(u8 *p)
 {
-    func_0204ADA4((u32)(((struct Obj14020 *)p)->f2F4));
+    CLACT_ReleasePalette((u32)(((struct Obj14020 *)p)->f2F4));
     *(u32 *)&((struct Obj14020 *)p)->f2F4 = (u32)-1;
 }
 
@@ -630,11 +630,11 @@ void func_021C4594(u8 *p)
 /*
  * Extent remainder: 2-byte zero alignment padding.
  */
-void func_021C45AC(u8 *p,u32 heap) { int i; for(i=0;i<16;i++) *(u32 *)(p+i*20+392)=func_0204AF28(((struct Obj10466 *)p)->f2FC,i*2+17,i*2+18,(u16)heap); }
+void func_021C45AC(u8 *p,u32 heap) { int i; for(i=0;i<16;i++) *(u32 *)(p+i*20+392)=CLACT_RegisterCellAnim(((struct Obj10466 *)p)->f2FC,i*2+17,i*2+18,(u16)heap); }
 
 
 
-void func_021C45E0(u8 *p) { int i; for(i=0;i<16;i++){func_0204AFD8(*(u32 *)(p+i*20+392));*(u32 *)(p+i*20+392)=-1;} }
+void func_021C45E0(u8 *p) { int i; for(i=0;i<16;i++){CLACT_ReleaseCellAnim(*(u32 *)(p+i*20+392));*(u32 *)(p+i*20+392)=-1;} }
 
 
 

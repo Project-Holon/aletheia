@@ -12,7 +12,7 @@
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021F9B9C 0x021F9B9C thumb ov186
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021FB964 0x021FB964 thumb ov186
  *   func_021FBE54 0x021FBE54 thumb ov186
@@ -33,7 +33,7 @@ extern int func_021FC214(char *);
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, unsigned int);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 extern void func_021FBE54(char *, unsigned int, unsigned int);
@@ -50,7 +50,7 @@ int func_021E050C(void *task, int unused, char *q)
     int entries[3];
     func_021FC20C((char *)(*(int *)&((struct Obj01767 *)q)->f8));
     func_021FC214(*(char * *)&((struct Obj01767 *)q)->f8);
-    p = func_0203159C(task, 24, func_021F9B9C(((struct Obj01767 *)q)->fC));
+    p = PROCSYS_AllocProcWork(task, 24, func_021F9B9C(((struct Obj01767 *)q)->fC));
     func_02082BCC(p, 0, 24);
     p->heap = func_021F9B9C(((struct Obj01767 *)q)->fC);
     func_021FB964((void *)(*(int *)&((struct Obj01767 *)q)->f8), 29, p->heap);

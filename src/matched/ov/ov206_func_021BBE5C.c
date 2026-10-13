@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_020275E4 0x020275E4 thumb
- *   func_0202D7C8 0x0202D7C8 thumb
+ *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   func_021BC0AC 0x021BC0AC thumb ov206
  *   func_021BC0E0 0x021BC0E0 thumb ov206
  *   func_020490F4 0x020490F4 arm
@@ -39,7 +39,7 @@ extern u32 tbl_021BC134[];
 extern u16 tbl_021BC1C4[];
 extern u32 tbl_021BC184[];
 extern u32 func_020275E4(void);
-extern int func_0202D7C8(int a0);
+extern int POKEGRA_OpenHandle(int a0);
 extern u32 func_021BC0AC(void);
 extern u32 func_021BC0E0(void);
 struct MsgBank;
@@ -57,7 +57,7 @@ void func_021BBE5C(S *p)
             p->w[i] = func_020490F4(func_020275E4(), p->id);
             break;
         case 4:
-            p->w[i] = (void *)func_0202D7C8(p->id);
+            p->w[i] = (void *)POKEGRA_OpenHandle(p->id);
             break;
         case 5:
             p->w[i] = func_020490F4(func_021BC0AC(), p->id);

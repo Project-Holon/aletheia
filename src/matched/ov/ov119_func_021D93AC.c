@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DF8A0 0x021DF8A0 thumb ov119
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u16 func_02039338(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021DF8A0(void *, int, int);
 void func_021D93AC(u32 a, u32 b, u8 *src, void *base, void *e)
 {
-    if (e == func_020399A8()) {
-        if (a != func_02039338())
+    if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
+        if (a != GFL_NET_SYSTEM_GetCurrentAid())
             func_021DF8A0(base, *src, 1);
     }
 }

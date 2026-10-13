@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: FIELD_SOUND_SYSTEM_Reset, func_02028A58, FIELD_SOUND_SYSTEM_StartRingtone, func_02028A70
+ * function: FIELD_SOUND_SYSTEM_Reset, FIELD_SOUND_SYSTEM_FadeVolume, FIELD_SOUND_SYSTEM_StartRingtone, FIELD_SOUND_SYSTEM_StopRingtone
  *
  * Four forwarding thunks in field_sound_system.c, each a pool word and a `bx`
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).  The last three first
@@ -29,7 +29,7 @@
  * ARITY: a thunk that moves no argument register says nothing about how many
  * arguments it forwards
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
- * func_02028A58 is written with the three parameters PLAYER_VOLUME_FADER_SetTarget takes,
+ * FIELD_SOUND_SYSTEM_FadeVolume is written with the three parameters PLAYER_VOLUME_FADER_SetTarget takes,
  * because src/matched/unit_0202878C.c fixes that signature; the other three
  * are written with one argument each, which is the conservative reading and
  * compiles to the same bytes as any other arity.
@@ -81,7 +81,7 @@ void FIELD_SOUND_SYSTEM_Reset(void *sys, void *res)
     FIELD_SOUND_SYSTEM_DrainAndInit(sys, res);
 }
 
-void func_02028A58(struct SoundSys *sys, u8 level, u16 frames)
+void FIELD_SOUND_SYSTEM_FadeVolume(struct SoundSys *sys, u8 level, u16 frames)
 {
     PLAYER_VOLUME_FADER_SetTarget(sys->fader, level, frames);
 }
@@ -91,7 +91,7 @@ void FIELD_SOUND_SYSTEM_StartRingtone(struct SoundSys *sys)
     RINGTONE_SYS_Start(sys->ringtone);
 }
 
-void func_02028A70(struct SoundSys *sys)
+void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys)
 {
     RINGTONE_SYS_Stop(sys->ringtone);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D530
+ * function: FLDMMDL_SysGetNogridMapper
  * address:  0x0216D530
  * packet:   pkt_0216D530
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-void *func_0216D530(void *p)
+void *FLDMMDL_SysGetNogridMapper(void *p)
 {
     return ((struct Obj17785 *)p)->f38;
 }

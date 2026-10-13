@@ -1,5 +1,5 @@
 /*
- * function: func_021C4E08
+ * function: SOUND_OBJ_SetAnimeFrame
  * address:  0x021C4E08
  * packet:   pkt_ov021_021C4E08
  * region:   ov021
@@ -12,7 +12,8 @@
  * Stops the record's task and syncs the final position (EXACT*: pad).
  *
  * symbols:
- *   func_021C4E34  0x021C4E34  thumb  ov021
+ *   SOUND_OBJ_ApplyPosition  0x021C4E34  thumb  ov021
+ *   ICA_ANIME_SetFrame  0x020115EC  thumb  arm9
  */
 
 typedef unsigned short u16;
@@ -32,13 +33,13 @@ typedef struct {
 } R;
 
 struct IcaAnime;
-extern void func_020115EC(struct IcaAnime *p, s32 v);
-extern void func_021C4E34(R *r);
+extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
+extern void SOUND_OBJ_ApplyPosition(R *r);
 
-void func_021C4E08(R *r, s32 frame)
+void SOUND_OBJ_SetAnimeFrame(R *r, s32 frame)
 {
     if (r->task != 0) {
-        func_020115EC((struct IcaAnime *)r->task, frame);
-        func_021C4E34(r);
+        ICA_ANIME_SetFrame((struct IcaAnime *)r->task, frame);
+        SOUND_OBJ_ApplyPosition(r);
     }
 }

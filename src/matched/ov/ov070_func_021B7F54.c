@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F54
+ * function: ITEMMENU_SortPocket
  * address:  0x021B7F54
  * packet:   pkt_ov070_021B7F54
  * region:   ov070
@@ -11,7 +11,7 @@
  *
  * Sort the saved (id, count) list by a key read from each id's record:
  * copy the list out, build 8-byte (item, key) entries, MATH_QSort them
- * with func_021B7F38, write the list back.
+ * with ITEMMENU_CompareSortEntries, write the list back.
  *
  * Levers: the copy-back loop is a 4-byte struct assignment of the nested
  * Item (two field stores allocate r2/r3 the other way round); `e = &ents[i]`
@@ -20,14 +20,14 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   MYITEM_SAVEDATA_CopyPocket   0x02007CC8  thumb
- *   func_021B61C8  0x021B61C8  thumb  ov070
+ *   ITEMMENU_GetItemCount  0x021B61C8  thumb  ov070
  *   func_02020F14  0x02020F14  thumb
  *   func_02020F20  0x02020F20  thumb
  *   func_02021014  0x02021014  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MATH_QSort     0x02081BE4  arm
- *   func_021B7F38  0x021B7F38  thumb  ov070
+ *   ITEMMENU_CompareSortEntries  0x021B7F38  thumb  ov070
  *   d_021BBBC0     0x021BBBC0  data  ov070  a1
  */
 
@@ -58,17 +58,17 @@ extern char d_021BBBC0[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save);
-extern int func_021B61C8(u8 *p);
+extern int ITEMMENU_GetItemCount(u8 *p);
 extern void *func_02020F14(u32 a);
 extern int func_02020F20(int h, int id, u16 heap);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(int h);
+extern void ARC_TOOL_DeleteHandle(int h);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(Ent *, Ent *), void *buf);
-extern int func_021B7F38(Ent *a, Ent *b);
+extern int ITEMMENU_CompareSortEntries(Ent *a, Ent *b);
 
-void func_021B7F54(Obj *o)
+void ITEMMENU_SortPocket(Obj *o)
 {
     int i;
     Ent *ents;
@@ -82,7 +82,7 @@ void func_021B7F54(Obj *o)
     ents = func_02030734(o->heap, 0x9B0, 0, d_021BBBC0, 0xB35);
     items = func_02030734(o->heap, 0x4D8, 0, d_021BBBC0, 0xB36);
     MYITEM_SAVEDATA_CopyPocket(o->save, items, o->pocket, 1);
-    n = func_021B61C8((u8 *)o);
+    n = ITEMMENU_GetItemCount((u8 *)o);
     h = (int)func_02020F14(o->heap);
     for (i = 0; i < n; i++) {
         rec = func_02020F20(h, items[i].id, o->heap);
@@ -92,8 +92,8 @@ void func_021B7F54(Obj *o)
         e->item = items[i];
         func_020307B0((void *)rec);
     }
-    func_02049238(h);
-    MATH_QSort(ents, n, 8, func_021B7F38, 0);
+    ARC_TOOL_DeleteHandle(h);
+    MATH_QSort(ents, n, 8, ITEMMENU_CompareSortEntries, 0);
     for (i = 0; i < n; i++) {
         items[i] = ents[i].item;
     }

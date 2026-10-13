@@ -23,7 +23,7 @@
  *   func_021F1A28 0x021F1A28 thumb
  *   func_021F1B94 0x021F1B94 thumb ov032
  *   func_021F1CF0 0x021F1CF0 thumb ov032
- *   func_021F05E8 0x021F05E8 thumb ov032
+ *   BEACON_VIEW_SetArrowAnim 0x021F05E8 thumb ov032
  *   func_020311B8 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   TCBL_SetTaskFunc 0x02031288 arm
@@ -46,7 +46,7 @@ struct S02030FB4;
 struct WordSet;
 extern void func_021F1B94(void *h, u8 *t);
 extern void func_021F1CF0(void *h, u8 *t);
-extern void func_021F05E8(u8 *p, int a, u32 b);
+extern void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void TCBL_SetTaskFunc(int *p, int v);
@@ -93,10 +93,10 @@ void func_021F1A28(char *p, int b, u8 c, int *r)
         }
     }
     if (t[3] != 0)
-        func_021F05E8((u8 *)p, 0, 2);
-    func_021F05E8((u8 *)p, 1, 2);
-    func_021F05E8((u8 *)p, 2, 2);
-    func_021F05E8((u8 *)p, 3, 2);
+        BEACON_VIEW_SetArrowAnim((u8 *)p, 0, 2);
+    BEACON_VIEW_SetArrowAnim((u8 *)p, 1, 2);
+    BEACON_VIEW_SetArrowAnim((u8 *)p, 2, 2);
+    BEACON_VIEW_SetArrowAnim((u8 *)p, 3, 2);
     if (*(u16 *)(t + 0x14) != 0 || *(u16 *)(t + 0x10) < *(u16 *)(t + 0x12))
         TCBL_SetTaskFunc(h, (int)((void *)func_021F1CF0));
     *(int **)(t + 0x20) = r;

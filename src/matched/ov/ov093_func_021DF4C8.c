@@ -1,5 +1,5 @@
 /*
- * function: func_021DF4C8
+ * function: BTL_HANDLER_ITEM_GetDampRockHandlers
  * address: 0x021DF4C8
  * packet: pkt_ov093_021DF4C8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF48C.c and filed here.
  *
  * symbols:
- *   d_021F1514 0x021F1514 data ov093 a4
+ *   gDampRockHandlers 0x021F1514 data ov093 a4
  */
 
-int *func_021DF4C8(int *p);
-extern int d_021F1514[];
+int *BTL_HANDLER_ITEM_GetDampRockHandlers(int *p);
+extern int gDampRockHandlers[];
 
-int *func_021DF4C8(int *p)
+int *BTL_HANDLER_ITEM_GetDampRockHandlers(int *p)
 {
     *p = 1;
-    return d_021F1514;
+    return gDampRockHandlers;
 }

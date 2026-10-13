@@ -1,5 +1,5 @@
 /*
- * function: func_021F23CC
+ * function: C_GEAR_LoadCustomBackground
  * address:  0x021F23CC
  * packet:   pkt_ov029_021F23CC
  * region:   ov029
@@ -16,9 +16,9 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_020072CC  0x020072CC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_02009210  0x02009210  thumb
  *   func_0200910C  0x0200910C  thumb
@@ -44,10 +44,10 @@ extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 l
 struct Big;
 struct Ctx;
 struct Sub02009210Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Ctrl;
-extern u32 func_020072CC(struct Ctrl *sv, u32 id, u8 heap, void *buf, u32 size);
+extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct Ctrl *sv, u32 id, u8 heap, void *buf, u32 size);
 struct Sub020090B0Obj;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern struct Sub02009210Obj *func_02009210(void *sys);
@@ -63,7 +63,7 @@ struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
 extern u32 func_020307B0(void *p);
 
-int func_021F23CC(u8 *p, int a)
+int C_GEAR_LoadCustomBackground(u8 *p, int a)
 {
     int result;
     u32 h;
@@ -76,8 +76,8 @@ int func_021F23CC(u8 *p, int a)
 
     result = 0;
     buf = func_02030734(0x70, 0x3000, 0, (const char *)&d_021F3554, 0x104E);
-    h = (u32)func_02012EBC(func_020120F4((const struct Ctx *)a));
-    if (func_020072CC((struct Ctrl *)h, 4, 0x70, buf, 0x3000) == 1) {
+    h = (u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)a));
+    if (SAVE_CONTROL_LoadExtraSaveWithBuffer((struct Ctrl *)h, 4, 0x70, buf, 0x3000) == 1) {
         crc = func_0203F1FC(buf, 0x2600);
         x = func_0200910C((const struct Sub020090B0Obj *)func_02009210((void *)h));
         base = (u16)((struct Obj20396 *)p)->f14;

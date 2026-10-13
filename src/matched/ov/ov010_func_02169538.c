@@ -1,5 +1,5 @@
 /*
- * function: func_02169538
+ * function: FIELD_G3D_MAP_GetTotalBytes
  * address:  0x02169538
  * packet:   pkt_ov010_02169538
  * region:   ov010
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj19047.h"
 
-void func_02169538(unsigned char *a, int *out)
+void FIELD_G3D_MAP_GetTotalBytes(unsigned char *a, int *out)
 {
     *out = ((struct Obj19047 *)a)->fBC;
 }

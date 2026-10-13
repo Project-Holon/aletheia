@@ -1,5 +1,5 @@
 /*
- * function: func_021F39F4
+ * function: GIMMICK60_UpdateEffect
  * address:  0x021F39F4
  * packet:   pkt_ov060_021F39F4
  * region:   ov060
@@ -13,22 +13,22 @@
  *           function is 52 bytes, the rest of the handed 492 is data.
  *
  * symbols:
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6BC  0x021BE6BC  thumb  ov021
- *   func_021BE4B4  0x021BE4B4  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  */
 
 typedef unsigned char u8;
 
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern int func_021BE6BC(int *p);
-extern void func_021BE4B4(char *p, int i, int j, int v);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
+extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 
-void func_021F39F4(u8 *a, void *p)
+void GIMMICK60_UpdateEffect(u8 *a, void *p)
 {
     if (a[1] != 0) {
-        if (func_021BE6BC(func_021BE674(p, 0, 0x14, 0)) != 0) {
-            func_021BE4B4(p, 0, 0x14, 1);
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(p, 0, 0x14, 0)) != 0) {
+            FLD_EXP_OBJ_SetModelHidden(p, 0, 0x14, 1);
             a[1] = 0;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AB780
+ * function: FLD_SCENEAREA_HasAction
  * address:  0x021AB780
  * packet:   pkt_021AB780
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021AB780(u32 a, u32 b)
+int FLD_SCENEAREA_HasAction(u32 a, u32 b)
 {
 if (((struct Obj12094 *)((u8 *)(a)))->fA > b) {
     if (*(u32 *)((u8 *)(((struct Obj12094 *)((u8 *)(a)))->f4) + ((b << 2))) != 0) {

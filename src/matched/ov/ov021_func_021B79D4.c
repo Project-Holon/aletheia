@@ -1,5 +1,5 @@
 /*
- * function: func_021B79D4
+ * function: FIELD_RAIL_GetFocusPos
  * address:  0x021B79D4
  * packet:   pkt_ov021_021B79D4
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8028  0x021B8028  thumb ov021
+ *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb ov021
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021B8028(void *, void *);
+extern void FIELD_RAIL_WORK_GetPos(void *, void *);
 
-void func_021B79D4(void **o, void *out)
+void FIELD_RAIL_GetFocusPos(void **o, void *out)
 {
     if (o[5] != 0) {
-        func_021B8028(o[5], out);
+        FIELD_RAIL_WORK_GetPos(o[5], out);
     }
 }

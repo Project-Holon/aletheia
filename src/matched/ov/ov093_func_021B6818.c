@@ -1,5 +1,5 @@
 /*
- * function: func_021B6818
+ * function: BTL_MAIN_IsCommCompetitor
  * address: 0x021B6818
  * packet: pkt_ov093_021B6818
  * region: ov093
@@ -9,4 +9,4 @@
  * status: EXACT*
  * extent: final two zero bytes are alignment padding before the next labelled function.
  */
-unsigned int func_021B6818(unsigned int *p) { switch (*p) { case 0: return 0; case 1: return 0; case 2: return 0; case 3: return 1; default: return 0; } }
+unsigned int BTL_MAIN_IsCommCompetitor(unsigned int *p) { switch (*p) { case 0: return 0; case 1: return 0; case 2: return 0; case 3: return 1; default: return 0; } }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218EC2C
+ * function: FIELD_CAMERA_GetG3dCamera
  * address:  0x0218EC2C
  * packet:   pkt_0218EC2C
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0218EC2C(u8 *p)
+u32 FIELD_CAMERA_GetG3dCamera(u8 *p)
 {
     return ((struct Obj17906 *)p)->fC;
 }

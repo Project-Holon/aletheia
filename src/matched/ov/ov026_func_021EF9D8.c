@@ -1,5 +1,5 @@
 /*
- * function: func_021EF9D8
+ * function: WEATHER_LIGHTNING_Update
  * address:  0x021EF9D8
  * packet:   pkt_ov026_021EF9D8
  * region:   ov026
@@ -20,15 +20,15 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   _s32_div_f     0x0209C0A4  arm
- *   func_021A2130  0x021A2130  thumb  ov021
- *   func_021A2154  0x021A2154  thumb  ov021
- *   func_021A25DC  0x021A25DC  thumb  ov021
- *   func_021A213C  0x021A213C  thumb  ov021
- *   func_021EFBA4  0x021EFBA4  thumb  ov026
- *   func_021EFBFC  0x021EFBFC  thumb  ov026
- *   func_021EFC3C  0x021EFC3C  thumb  ov026
- *   func_021EFCD4  0x021EFCD4  thumb  ov026
- *   d_021EFCF9     0x021EFCF9  data  a1
+ *   WEATHER_TASK_FlashLight  0x021A2130  thumb  ov021
+ *   WEATHER_TASK_SetLightColor  0x021A2154  thumb  ov021
+ *   WEATHER_TASK_PlaySeDirect  0x021A25DC  thumb  ov021
+ *   WEATHER_TASK_IsLightFlashing  0x021A213C  thumb  ov021
+ *   WEATHER_LIGHTNING_PickShortFlashes  0x021EFBA4  thumb  ov026
+ *   WEATHER_LIGHTNING_PickSingleFlash  0x021EFBFC  thumb  ov026
+ *   WEATHER_LIGHTNING_PickLongSequence  0x021EFC3C  thumb  ov026
+ *   WEATHER_LIGHTNING_GetFlashColor  0x021EFCD4  thumb  ov026
+ *   gWeatherLightningPatternChance     0x021EFCF9  data  a1
  */
 
 typedef unsigned char u8;
@@ -58,17 +58,17 @@ typedef struct {
 } Obj;
 
 extern u32 func_020056EC(u32 v);
-extern void func_021A2130(u8 *p, u32 b, u32 c, u32 d);
-extern void func_021A2154(u8 *p, u32 b, u32 c);
-extern void func_021A25DC(u8 *p, int a);
-extern int func_021A213C(u8 *p);
-extern void func_021EFBA4(u16 *p);
-extern void func_021EFBFC(u16 *p);
-extern void func_021EFC3C(Obj *p);
-extern u16 func_021EFCD4(Obj *p);
-extern u8 d_021EFCF9[];
+extern void WEATHER_TASK_FlashLight(u8 *p, u32 b, u32 c, u32 d);
+extern void WEATHER_TASK_SetLightColor(u8 *p, u32 b, u32 c);
+extern void WEATHER_TASK_PlaySeDirect(u8 *p, int a);
+extern int WEATHER_TASK_IsLightFlashing(u8 *p);
+extern void WEATHER_LIGHTNING_PickShortFlashes(u16 *p);
+extern void WEATHER_LIGHTNING_PickSingleFlash(u16 *p);
+extern void WEATHER_LIGHTNING_PickLongSequence(Obj *p);
+extern u16 WEATHER_LIGHTNING_GetFlashColor(Obj *p);
+extern u8 gWeatherLightningPatternChance[];
 
-void func_021EF9D8(Obj *p, int b)
+void WEATHER_LIGHTNING_Update(Obj *p, int b)
 {
     u32 r;
     int i;
@@ -82,26 +82,26 @@ void func_021EF9D8(Obj *p, int b)
     case 1:
         r = func_020056EC(100);
         for (i = 0; i < 3; i++) {
-            if (d_021EFCF9[i] >= r) {
+            if (gWeatherLightningPatternChance[i] >= r) {
                 break;
             }
         }
         if (p->mode == 0) {
-            func_021EFBA4((u16 *)p);
+            WEATHER_LIGHTNING_PickShortFlashes((u16 *)p);
         } else {
             switch (i) {
             case 0:
                 if (p->mode == 1) {
-                    func_021EFBA4((u16 *)p);
+                    WEATHER_LIGHTNING_PickShortFlashes((u16 *)p);
                 } else {
-                    func_021EFBFC((u16 *)p);
+                    WEATHER_LIGHTNING_PickSingleFlash((u16 *)p);
                 }
                 break;
             case 1:
-                func_021EFBFC((u16 *)p);
+                WEATHER_LIGHTNING_PickSingleFlash((u16 *)p);
                 break;
             case 2:
-                func_021EFC3C(p);
+                WEATHER_LIGHTNING_PickLongSequence(p);
                 break;
             }
         }
@@ -113,7 +113,7 @@ void func_021EF9D8(Obj *p, int b)
             p->state = 4;
             break;
         }
-        func_021A2154((u8 *)b, 0x3129, 4);
+        WEATHER_TASK_SetLightColor((u8 *)b, 0x3129, 4);
         p->timer = 10;
         p->state = 3;
         break;
@@ -124,7 +124,7 @@ void func_021EF9D8(Obj *p, int b)
         break;
     case 4:
         if (p->mode != 0) {
-            func_021A2130((u8 *)b, func_021EFCD4(p), p->ent[p->cur].a, p->ent[p->cur].b);
+            WEATHER_TASK_FlashLight((u8 *)b, WEATHER_LIGHTNING_GetFlashColor(p), p->ent[p->cur].a, p->ent[p->cur].b);
         }
         if (p->x2 == 2) {
             p->timer = p->ent[p->cur].a / 2 + func_020056EC(p->ent[p->cur].b);
@@ -145,10 +145,10 @@ void func_021EF9D8(Obj *p, int b)
         if (p->t3c > 0) {
             p->t3c--;
             if (p->t3c == 0) {
-                func_021A25DC((u8 *)b, p->t3e);
+                WEATHER_TASK_PlaySeDirect((u8 *)b, p->t3e);
             }
         }
-        if (func_021A213C((u8 *)b) == 0) {
+        if (WEATHER_TASK_IsLightFlashing((u8 *)b) == 0) {
             p->state = 6;
         }
         break;
@@ -156,7 +156,7 @@ void func_021EF9D8(Obj *p, int b)
         if (p->t3c > 0) {
             p->t3c--;
             if (p->t3c == 0) {
-                func_021A25DC((u8 *)b, p->t3e);
+                WEATHER_TASK_PlaySeDirect((u8 *)b, p->t3e);
             }
         }
         p->ent[p->cur].d--;

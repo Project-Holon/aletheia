@@ -1,5 +1,5 @@
 /*
- * function: func_021B6598
+ * function: TOUCHBAR_SetButtonToggled
  * address: 0x021B6598
  * packet: pkt_ov067_021B6598
  * region: ov067
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B65C8 0x021B65C8 thumb ov067
- *   func_021B69D8 0x021B69D8 thumb ov067
+ *   TOUCHBAR_FindButton 0x021B65C8 thumb ov067
+ *   TOUCHBAR_SetButtonToggle 0x021B69D8 thumb ov067
  */
-extern void *func_021B65C8(unsigned char *p, unsigned int v);
+extern void *TOUCHBAR_FindButton(unsigned char *p, unsigned int v);
 typedef unsigned int   u32;
 struct S;
-extern void func_021B69D8(struct S *p, u32 v);
+extern void TOUCHBAR_SetButtonToggle(struct S *p, u32 v);
 
-void func_021B6598(unsigned char *p, unsigned int id, unsigned int v)
+void TOUCHBAR_SetButtonToggled(unsigned char *p, unsigned int id, unsigned int v)
 {
-    func_021B69D8(func_021B65C8(p, id), v);
+    TOUCHBAR_SetButtonToggle(TOUCHBAR_FindButton(p, id), v);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     entrance_camera.c
  * unit:     yes
- * function: func_021BDC94, func_021BDCB8, func_021BDCC8, func_021BDD20, func_021BDD34, func_021BDD40, func_021BDD48, func_021BDD58, func_021BDD74, func_021BDD7C, func_021BDD9C, func_021BDDAC, func_021BDDC0, func_021BDEB4, func_021BDFB0, func_021BE068, func_021BE148, func_021BE158, func_021BE17C, func_021BE180, func_021BE184, func_021BE194, func_021BE1A0, func_021BE1B0, func_021BE1C4
+ * function: ENTRANCE_CAMERA_Create, ENTRANCE_CAMERA_Delete, ENTRANCE_CAMERA_Setup, ENTRANCE_CAMERA_Start, ENTRANCE_CAMERA_Restore, ENTRANCE_CAMERA_IsActive, ENTRANCE_CAMERA_IsInstant, ENTRANCE_CAMERA_AllocWork, ENTRANCE_CAMERA_FreeWork, ENTRANCE_CAMERA_InitWork, ENTRANCE_CAMERA_CreateAnime, ENTRANCE_CAMERA_DeleteAnime, ENTRANCE_CAMERA_SetupLeaveByDir, ENTRANCE_CAMERA_SetupArriveByDir, ENTRANCE_CAMERA_SetupLeaveByRecord, ENTRANCE_CAMERA_SetupArriveByRecord, ENTRANCE_CAMERA_LoadRecord, ENTRANCE_CAMERA_AimAtTarget, ENTRANCE_CAMERA_GetCamera, ENTRANCE_CAMERA_GetRequest, ENTRANCE_CAMERA_SetRequest, ENTRANCE_CAMERA_GetEntranceType, ENTRANCE_CAMERA_HasRecord, ENTRANCE_CAMERA_AimsAtEntrance, ENTRANCE_CAMERA_IsPhaseActive
  * address:  0x021BDC94
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,29 +15,29 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02188C58  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_0218FEA0  0x0218FEA0  thumb  ov021
- *   func_0218FF00  0x0218FF00  thumb  ov021
- *   func_0218FF20  0x0218FF20  thumb
- *   d_021DE37C     0x021DE37C  data  a4
- *   func_0218FE80  0x0218FE80  thumb  ov021
- *   func_0218FE98  0x0218FE98  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELD_CAMERA_ANIME_SetData  0x0218FEA0  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Start  0x0218FF00  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Restore  0x0218FF20  thumb
+ *   gEntranceCameraFileName     0x021DE37C  data  a4
+ *   FIELD_CAMERA_ANIME_Create  0x0218FE80  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Delete  0x0218FE98  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   func_021A7B08  0x021A7B08  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0218FEA4  0x0218FEA4  thumb  ov021
- *   func_0218FE78  0x0218FE78  thumb  ov021
- *   func_0218FEC0  0x0218FEC0  thumb  ov021
- *   func_02048F4C  0x02048F4C  arm
- *   func_0218EC90  0x0218EC90  thumb  ov021
- *   func_0218E104  0x0218E104  thumb  ov021
- *   func_0218EC60  0x0218EC60  thumb  ov021
- *   func_02162370  0x02162370  thumb
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
+ *   FIELD_CAMERA_ANIME_GetCurrentParam  0x0218FE78  thumb  ov021
+ *   FIELD_CAMERA_ANIME_ApplyStartParam  0x0218FEC0  thumb  ov021
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_Main  0x0218E104  thumb  ov021
+ *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
+ *   EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange  0x02162370  thumb
  */
 #include "entrance_camera_types.h"
 
@@ -48,93 +48,93 @@ struct GameData;
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern unsigned int func_020307B0(void *p);
-extern struct FieldCamera *func_02188C58(FieldMap *fieldMap);
+extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern void func_02082BCC(void *, int, int);
-extern void func_0218EC54(struct FieldCamera *camera);
-extern struct FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern unsigned short func_02188C84(FieldMap *fieldMap);
-extern void func_0218FEA0(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
-extern int func_0218FF00(struct FieldCameraAnime *anime);
-extern void func_0218FF20(struct FieldCameraAnime *anime);
-extern struct FieldCameraAnime *func_0218FE80(FieldMap *fieldMap);
-extern void func_0218FE98(void);
-extern unsigned short func_021A3050(struct FieldPlayer *player);
+extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern unsigned short FIELDMAP_GetHeapId(FieldMap *fieldMap);
+extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
+extern int FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
+extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
+extern void FIELD_CAMERA_ANIME_Delete(void);
+extern unsigned short FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
 extern void func_021A7B08(FieldMap *fieldMap, VecFx32 *out);
-extern void func_021A3038(struct FieldPlayer *player, VecFx32 *out);
-extern void func_0218FEA4(struct FieldCameraAnime *anime);
-extern void func_0218FE78(struct FieldCamera *camera, FieldCameraParam *param);
-extern void func_0218FEC0(struct FieldCameraAnime *anime);
-extern void func_02048F4C(void *dst, unsigned int archiveId, unsigned int memberId);
-extern void func_0218E104(struct FieldCamera *camera, unsigned int value);
-extern int func_0218EC60(struct FieldCamera *camera);
-extern unsigned int func_0218EC90(struct FieldCamera *camera, const VecFx32 *target);
-extern unsigned int func_02162370(unsigned int entranceType);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+extern void FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
+extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
+extern void ARC_TOOL_ReadMember(void *dst, unsigned int archiveId, unsigned int memberId);
+extern void FIELD_CAMERA_Main(struct FieldCamera *camera, unsigned int value);
+extern int FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
+extern unsigned int FIELD_CAMERA_SetTarget(struct FieldCamera *camera, const VecFx32 *target);
+extern unsigned int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(unsigned int entranceType);
 
-void *func_021BDC94(FieldMap *fieldMap);
-void func_021BDCB8(EntranceCamera *work);
-void func_021BDCC8(EntranceCamera *work, const EntranceCameraRequest *request);
-void func_021BDD20(EntranceCamera *work);
-void func_021BDD34(EntranceCamera *work);
-int func_021BDD40(EntranceCamera *work);
-int func_021BDD48(EntranceCamera *work);
-void *func_021BDD58(int heapId);
-void func_021BDD74(void *work);
-void func_021BDD7C(EntranceCamera *work, FieldMap *fieldMap);
-void func_021BDD9C(EntranceCamera *work, int heapId);
-void func_021BDDAC(EntranceCamera *work);
-void func_021BDDC0(EntranceCamera *work);
-void func_021BDEB4(EntranceCamera *work);
-void func_021BDFB0(EntranceCamera *work);
-void func_021BE068(EntranceCamera *work);
-void func_021BE148(EntranceCameraRecord *dst, int entranceType);
-int func_021BE158(struct FieldCamera *camera, VecFx32 *target);
-struct FieldCamera *func_021BE17C(EntranceCamera *work);
-EntranceCameraRequest *func_021BE180(EntranceCamera *work);
-void func_021BE184(EntranceCamera *work, const EntranceCameraRequest *request);
-int func_021BE194(EntranceCamera *work);
-int func_021BE1A0(EntranceCamera *work);
-int func_021BE1B0(EntranceCamera *work);
-int func_021BE1C4(EntranceCamera *work);
-extern const char d_021DE37C[];
+void *ENTRANCE_CAMERA_Create(FieldMap *fieldMap);
+void ENTRANCE_CAMERA_Delete(EntranceCamera *work);
+void ENTRANCE_CAMERA_Setup(EntranceCamera *work, const EntranceCameraRequest *request);
+void ENTRANCE_CAMERA_Start(EntranceCamera *work);
+void ENTRANCE_CAMERA_Restore(EntranceCamera *work);
+int ENTRANCE_CAMERA_IsActive(EntranceCamera *work);
+int ENTRANCE_CAMERA_IsInstant(EntranceCamera *work);
+void *ENTRANCE_CAMERA_AllocWork(int heapId);
+void ENTRANCE_CAMERA_FreeWork(void *work);
+void ENTRANCE_CAMERA_InitWork(EntranceCamera *work, FieldMap *fieldMap);
+void ENTRANCE_CAMERA_CreateAnime(EntranceCamera *work, int heapId);
+void ENTRANCE_CAMERA_DeleteAnime(EntranceCamera *work);
+void ENTRANCE_CAMERA_SetupLeaveByDir(EntranceCamera *work);
+void ENTRANCE_CAMERA_SetupArriveByDir(EntranceCamera *work);
+void ENTRANCE_CAMERA_SetupLeaveByRecord(EntranceCamera *work);
+void ENTRANCE_CAMERA_SetupArriveByRecord(EntranceCamera *work);
+void ENTRANCE_CAMERA_LoadRecord(EntranceCameraRecord *dst, int entranceType);
+int ENTRANCE_CAMERA_AimAtTarget(struct FieldCamera *camera, VecFx32 *target);
+struct FieldCamera *ENTRANCE_CAMERA_GetCamera(EntranceCamera *work);
+EntranceCameraRequest *ENTRANCE_CAMERA_GetRequest(EntranceCamera *work);
+void ENTRANCE_CAMERA_SetRequest(EntranceCamera *work, const EntranceCameraRequest *request);
+int ENTRANCE_CAMERA_GetEntranceType(EntranceCamera *work);
+int ENTRANCE_CAMERA_HasRecord(EntranceCamera *work);
+int ENTRANCE_CAMERA_AimsAtEntrance(EntranceCamera *work);
+int ENTRANCE_CAMERA_IsPhaseActive(EntranceCamera *work);
+extern const char gEntranceCameraFileName[];
 
 /* Creates the camera work for the field map and its camera anime. */
-void *func_021BDC94(FieldMap *fieldMap)
+void *ENTRANCE_CAMERA_Create(FieldMap *fieldMap)
 {
-    unsigned short heapId = func_02188C84(fieldMap);
-    EntranceCamera *work = func_021BDD58(heapId);
+    unsigned short heapId = FIELDMAP_GetHeapId(fieldMap);
+    EntranceCamera *work = ENTRANCE_CAMERA_AllocWork(heapId);
 
-    func_021BDD7C(work, fieldMap);
-    func_021BDD9C(work, heapId);
+    ENTRANCE_CAMERA_InitWork(work, fieldMap);
+    ENTRANCE_CAMERA_CreateAnime(work, heapId);
     return work;
 }
 
-void func_021BDCB8(EntranceCamera *work)
+void ENTRANCE_CAMERA_Delete(EntranceCamera *work)
 {
-    func_021BDDAC(work);
-    func_021BDD74(work);
+    ENTRANCE_CAMERA_DeleteAnime(work);
+    ENTRANCE_CAMERA_FreeWork(work);
 }
 
 /* Stores the request and prepares the camera move of the phase it names. */
-void func_021BDCC8(EntranceCamera *work, const EntranceCameraRequest *request)
+void ENTRANCE_CAMERA_Setup(EntranceCamera *work, const EntranceCameraRequest *request)
 {
-    func_021BE184(work, request);
-    func_0218FEA0(work->anime, &work->animData);
-    if (func_021BE1A0(work) != 0) {
+    ENTRANCE_CAMERA_SetRequest(work, request);
+    FIELD_CAMERA_ANIME_SetData(work->anime, &work->animData);
+    if (ENTRANCE_CAMERA_HasRecord(work) != 0) {
         switch (request->phase) {
         case ENTRANCE_CAMERA_PHASE_LEAVE:
-            func_021BDFB0(work);
+            ENTRANCE_CAMERA_SetupLeaveByRecord(work);
             break;
         case ENTRANCE_CAMERA_PHASE_ARRIVE:
-            func_021BE068(work);
+            ENTRANCE_CAMERA_SetupArriveByRecord(work);
             break;
         }
     } else {
         switch (request->phase) {
         case ENTRANCE_CAMERA_PHASE_LEAVE:
-            func_021BDDC0(work);
+            ENTRANCE_CAMERA_SetupLeaveByDir(work);
             break;
         case ENTRANCE_CAMERA_PHASE_ARRIVE:
-            func_021BDEB4(work);
+            ENTRANCE_CAMERA_SetupArriveByDir(work);
             break;
         }
     }
@@ -142,26 +142,26 @@ void func_021BDCC8(EntranceCamera *work, const EntranceCameraRequest *request)
 }
 
 /* Starts the prepared move when the current phase has one. */
-void func_021BDD20(EntranceCamera *work)
+void ENTRANCE_CAMERA_Start(EntranceCamera *work)
 {
-    if (func_021BE1C4(work)) {
-        func_0218FF00(work->anime);
+    if (ENTRANCE_CAMERA_IsPhaseActive(work)) {
+        FIELD_CAMERA_ANIME_Start(work->anime);
     }
 }
 
 /* Tail call: restores the camera through the camera anime. */
-void func_021BDD34(EntranceCamera *work)
+void ENTRANCE_CAMERA_Restore(EntranceCamera *work)
 {
-    func_0218FF20(work->anime);
+    FIELD_CAMERA_ANIME_Restore(work->anime);
 }
 
-int func_021BDD40(EntranceCamera *work)
+int ENTRANCE_CAMERA_IsActive(EntranceCamera *work)
 {
-    return func_021BE1C4(work);
+    return ENTRANCE_CAMERA_IsPhaseActive(work);
 }
 
 /* Returns 1 when the prepared move has no frames (the end setting applies at once). */
-int func_021BDD48(EntranceCamera *work)
+int ENTRANCE_CAMERA_IsInstant(EntranceCamera *work)
 {
     if (work->animData.frames == 0) {
         return 1;
@@ -169,34 +169,34 @@ int func_021BDD48(EntranceCamera *work)
     return 0;
 }
 
-void *func_021BDD58(int heapId)
+void *ENTRANCE_CAMERA_AllocWork(int heapId)
 {
-    return func_02030734(heapId, sizeof(EntranceCamera), 0, d_021DE37C, 0x12A);
+    return func_02030734(heapId, sizeof(EntranceCamera), 0, gEntranceCameraFileName, 0x12A);
 }
 
 /* Tail call: frees the work. */
-void func_021BDD74(void *work)
+void ENTRANCE_CAMERA_FreeWork(void *work)
 {
     func_020307B0(work);
 }
 
-void func_021BDD7C(EntranceCamera *work, FieldMap *fieldMap)
+void ENTRANCE_CAMERA_InitWork(EntranceCamera *work, FieldMap *fieldMap)
 {
     func_02082BCC(work, 0, sizeof(EntranceCamera));
     work->fieldMap = fieldMap;
-    work->camera = func_02188C58(fieldMap);
+    work->camera = FIELDMAP_GetCamera(fieldMap);
     work->isSetUp = 0;
 }
 
-void func_021BDD9C(EntranceCamera *work, int heapId)
+void ENTRANCE_CAMERA_CreateAnime(EntranceCamera *work, int heapId)
 {
-    work->anime = func_0218FE80(work->fieldMap);
+    work->anime = FIELD_CAMERA_ANIME_Create(work->fieldMap);
 }
 
-void func_021BDDAC(EntranceCamera *work)
+void ENTRANCE_CAMERA_DeleteAnime(EntranceCamera *work)
 {
     if (work->anime != 0) {
-        func_0218FE98();
+        FIELD_CAMERA_ANIME_Delete();
         work->anime = 0;
     }
 }
@@ -207,10 +207,10 @@ void func_021BDDAC(EntranceCamera *work)
  *
  * The unused `unusedZero` vector is a dead initialised local: an initialiser
  * keeps its three stores (plain assignments are eliminated), and declaring it
- * in an inner block schedules them between the two func_0218FE78 calls. The
+ * in an inner block schedules them between the two FIELD_CAMERA_ANIME_GetCurrentParam calls. The
  * yaw is u16 (pool word 0x0000F5F7, not 0xFFFFF5F7).
  */
-void func_021BDDC0(EntranceCamera *work)
+void ENTRANCE_CAMERA_SetupLeaveByDir(EntranceCamera *work)
 {
     FieldCameraAnimeData *data = &work->animData;
     FieldCameraParam *end = &data->end;
@@ -218,9 +218,9 @@ void func_021BDDC0(EntranceCamera *work)
     struct FieldPlayer *player;
     int playerDir;
 
-    func_021BE17C(work);
-    player = func_02188CB4(work->fieldMap);
-    playerDir = func_021A3050(player);
+    ENTRANCE_CAMERA_GetCamera(work);
+    player = FIELDMAP_GetFieldPlayer(work->fieldMap);
+    playerDir = FIELD_PLAYER_GetDirDisp(player);
     switch (playerDir) {
     case ENTRANCE_CAMERA_DIR_LEFT:
     case ENTRANCE_CAMERA_DIR_RIGHT:
@@ -238,16 +238,16 @@ void func_021BDDC0(EntranceCamera *work)
     }
     data->stopTrace = 0;
     data->detachTarget = 0;
-    if (func_021BE1B0(work)) {
+    if (ENTRANCE_CAMERA_AimsAtEntrance(work)) {
         func_021A7B08(work->fieldMap, &playerPos);
     } else {
-        func_021A3038(player, &playerPos);
+        FIELD_PLAYER_GetPos(player, &playerPos);
     }
-    func_0218FEA4(work->anime);
-    func_0218FE78(work->camera, &data->start);
+    FIELD_CAMERA_ANIME_Setup(work->anime);
+    FIELD_CAMERA_ANIME_GetCurrentParam(work->camera, &data->start);
     {
         VecFx32 unusedZero = {0, 0, 0};
-        func_0218FE78(work->camera, end);
+        FIELD_CAMERA_ANIME_GetCurrentParam(work->camera, end);
     }
     switch (playerDir) {
     case ENTRANCE_CAMERA_DIR_UP:
@@ -280,12 +280,12 @@ void func_021BDDC0(EntranceCamera *work)
 
 /*
  * Arrive move chosen by the player facing; same object layout as
- * func_021BE068. The first switch's arms are laid out in source order, cases
+ * ENTRANCE_CAMERA_SetupArriveByRecord. The first switch's arms are laid out in source order, cases
  * 1-3 ahead of case 0 (its table entry for 0 is the later block); the
  * identical arms of the second switch are separate blocks cross-jumped into
  * the case-3 store.
  */
-void func_021BDEB4(EntranceCamera *work)
+void ENTRANCE_CAMERA_SetupArriveByDir(EntranceCamera *work)
 {
     VecFx32 pos;
     struct FieldCamera *camera;
@@ -294,9 +294,9 @@ void func_021BDEB4(EntranceCamera *work)
     FieldCameraAnimeData *data = &work->animData;
     FieldCameraParam *end = &data->end;
 
-    camera = func_021BE17C(work);
-    player = func_02188CB4(work->fieldMap);
-    playerDir = func_021A3050(player);
+    camera = ENTRANCE_CAMERA_GetCamera(work);
+    player = FIELDMAP_GetFieldPlayer(work->fieldMap);
+    playerDir = FIELD_PLAYER_GetDirDisp(player);
     switch (playerDir) {
     case ENTRANCE_CAMERA_DIR_DOWN:
     case ENTRANCE_CAMERA_DIR_LEFT:
@@ -313,10 +313,10 @@ void func_021BDEB4(EntranceCamera *work)
         return;
     data->stopTrace = 0;
     data->detachTarget = 0;
-    if (func_021BE1B0(work) != 0)
+    if (ENTRANCE_CAMERA_AimsAtEntrance(work) != 0)
         func_021A7B08(work->fieldMap, &pos);
     else
-        func_021A3038(player, &pos);
+        FIELD_PLAYER_GetPos(player, &pos);
     switch (playerDir) {
     case ENTRANCE_CAMERA_DIR_UP:
         data->frames = 0;
@@ -331,10 +331,10 @@ void func_021BDEB4(EntranceCamera *work)
         data->frames = 10;
         break;
     }
-    if (func_021BE1B0(work) != 0)
-        func_021BE158(camera, &pos);
-    func_0218FEA4(work->anime);
-    func_0218FE78(work->camera, &data->start);
+    if (ENTRANCE_CAMERA_AimsAtEntrance(work) != 0)
+        ENTRANCE_CAMERA_AimAtTarget(camera, &pos);
+    FIELD_CAMERA_ANIME_Setup(work->anime);
+    FIELD_CAMERA_ANIME_GetCurrentParam(work->camera, &data->start);
     switch (playerDir) {
     case ENTRANCE_CAMERA_DIR_UP:
         break;
@@ -348,13 +348,13 @@ void func_021BDEB4(EntranceCamera *work)
         data->start.yaw = 0xA09;
         break;
     }
-    func_0218FE78(work->camera, end);
+    FIELD_CAMERA_ANIME_GetCurrentParam(work->camera, end);
     if (work->arriveActive != 0)
-        func_0218FEC0(work->anime);
+        FIELD_CAMERA_ANIME_ApplyStartParam(work->anime);
 }
 
 /* Leave move read from the archive record of the entrance type. */
-void func_021BDFB0(EntranceCamera *work)
+void ENTRANCE_CAMERA_SetupLeaveByRecord(EntranceCamera *work)
 {
     FieldCameraAnimeData *data = &work->animData;
     FieldCameraParam *end = &data->end;
@@ -366,10 +366,10 @@ void func_021BDFB0(EntranceCamera *work)
     int y;
     int z;
 
-    func_021BE17C(work);
-    player = func_02188CB4(work->fieldMap);
-    func_021A3050(player);
-    func_021BE148(&rec, func_021BE194(work));
+    ENTRANCE_CAMERA_GetCamera(work);
+    player = FIELDMAP_GetFieldPlayer(work->fieldMap);
+    FIELD_PLAYER_GetDirDisp(player);
+    ENTRANCE_CAMERA_LoadRecord(&rec, ENTRANCE_CAMERA_GetEntranceType(work));
     data->stopTrace = rec.stopTrace;
     data->detachTarget = rec.detachTarget;
     active = rec.leaveActive;
@@ -378,13 +378,13 @@ void func_021BDFB0(EntranceCamera *work)
     if (active == 0) {
         return;
     }
-    if (func_021BE1B0(work) != 0) {
+    if (ENTRANCE_CAMERA_AimsAtEntrance(work) != 0) {
         func_021A7B08(work->fieldMap, &pos);
     } else {
-        func_021A3038(player, &pos);
+        FIELD_PLAYER_GetPos(player, &pos);
     }
-    func_0218FEA4(work->anime);
-    func_0218FE78(work->camera, &data->start);
+    FIELD_CAMERA_ANIME_Setup(work->anime);
+    FIELD_CAMERA_ANIME_GetCurrentParam(work->camera, &data->start);
     data->frames = rec.frames;
     end->pitch = rec.pitch;
     end->yaw = rec.yaw;
@@ -415,14 +415,14 @@ static inline void ENTRANCE_CAMERA_SetVec(VecFx32 *dst, int x, int y, int z)
 }
 
 /*
- * Arrive twin of func_021BDFB0 with the changed setting at the start of the
+ * Arrive twin of ENTRANCE_CAMERA_SetupLeaveByRecord with the changed setting at the start of the
  * move (animData.start) instead of the end. A function-scope pointer to the
  * start setting is what keeps the else-arm copy's destination as
  * (animData+4)+8 in a fresh register; &start->target folds to animData+0xC.
  * The two vector writes are VEC_Set-style inline setters (arguments
  * evaluated right to left). The EXACT* is the 2-byte pad after the pop.
  */
-void func_021BE068(EntranceCamera *work)
+void ENTRANCE_CAMERA_SetupArriveByRecord(EntranceCamera *work)
 {
     VecFx32 pos;
     EntranceCameraRecord rec;
@@ -430,25 +430,25 @@ void func_021BE068(EntranceCamera *work)
     FieldCameraAnimeData *data = &work->animData;
     FieldCameraParam *end = &data->end;
     FieldCameraParam *start = &data->start;
-    struct FieldCamera *camera = func_021BE17C(work);
+    struct FieldCamera *camera = ENTRANCE_CAMERA_GetCamera(work);
 
-    player = func_02188CB4(work->fieldMap);
-    func_021A3050(player);
-    func_021BE148(&rec, func_021BE194(work));
+    player = FIELDMAP_GetFieldPlayer(work->fieldMap);
+    FIELD_PLAYER_GetDirDisp(player);
+    ENTRANCE_CAMERA_LoadRecord(&rec, ENTRANCE_CAMERA_GetEntranceType(work));
     data->stopTrace = rec.stopTrace;
     data->detachTarget = rec.detachTarget;
     work->leaveActive = rec.leaveActive;
     work->arriveActive = rec.arriveActive;
     if (work->arriveActive == 0)
         return;
-    if (func_021BE1B0(work) != 0)
+    if (ENTRANCE_CAMERA_AimsAtEntrance(work) != 0)
         func_021A7B08(work->fieldMap, &pos);
     else
-        func_021A3038(player, &pos);
-    if (data->detachTarget != 0 && func_021BE1B0(work) != 0)
-        func_021BE158(camera, &pos);
-    func_0218FEA4(work->anime);
-    func_0218FE78(work->camera, end);
+        FIELD_PLAYER_GetPos(player, &pos);
+    if (data->detachTarget != 0 && ENTRANCE_CAMERA_AimsAtEntrance(work) != 0)
+        ENTRANCE_CAMERA_AimAtTarget(camera, &pos);
+    FIELD_CAMERA_ANIME_Setup(work->anime);
+    FIELD_CAMERA_ANIME_GetCurrentParam(work->camera, end);
     data->frames = rec.frames;
     start->pitch = rec.pitch;
     start->yaw = rec.yaw;
@@ -460,64 +460,64 @@ void func_021BE068(EntranceCamera *work)
         start->target = pos;
     }
     if (work->arriveActive != 0)
-        func_0218FEC0(work->anime);
+        FIELD_CAMERA_ANIME_ApplyStartParam(work->anime);
 }
 
 /* Reads the camera record of the entrance type from the archive. */
-void func_021BE148(EntranceCameraRecord *dst, int entranceType)
+void ENTRANCE_CAMERA_LoadRecord(EntranceCameraRecord *dst, int entranceType)
 {
-    func_02048F4C(dst, ENTRANCE_CAMERA_RECORD_ARCHIVE, entranceType - ENTRANCE_CAMERA_FIRST_RECORD_TYPE);
+    ARC_TOOL_ReadMember(dst, ENTRANCE_CAMERA_RECORD_ARCHIVE, entranceType - ENTRANCE_CAMERA_FIRST_RECORD_TYPE);
 }
 
 /* Aims the camera at the target and returns the camera trace state. */
-int func_021BE158(struct FieldCamera *camera, VecFx32 *target)
+int ENTRANCE_CAMERA_AimAtTarget(struct FieldCamera *camera, VecFx32 *target)
 {
-    func_0218EC54(camera);
-    func_0218EC90(camera, target);
-    func_0218E104(camera, 0);
-    return func_0218EC60(camera);
+    FIELD_CAMERA_StopTargetTrace(camera);
+    FIELD_CAMERA_SetTarget(camera, target);
+    FIELD_CAMERA_Main(camera, 0);
+    return FIELD_CAMERA_ResumeTargetTrace(camera);
 }
 
-struct FieldCamera *func_021BE17C(EntranceCamera *work)
+struct FieldCamera *ENTRANCE_CAMERA_GetCamera(EntranceCamera *work)
 {
     return work->camera;
 }
 
 /* Returns the request inside the work. */
-EntranceCameraRequest *func_021BE180(EntranceCamera *work)
+EntranceCameraRequest *ENTRANCE_CAMERA_GetRequest(EntranceCamera *work)
 {
     return &work->request;
 }
 
-void func_021BE184(EntranceCamera *work, const EntranceCameraRequest *request)
+void ENTRANCE_CAMERA_SetRequest(EntranceCamera *work, const EntranceCameraRequest *request)
 {
     work->request = *request;
 }
 
-int func_021BE194(EntranceCamera *work)
+int ENTRANCE_CAMERA_GetEntranceType(EntranceCamera *work)
 {
-    return func_021BE180(work)->entranceType;
+    return ENTRANCE_CAMERA_GetRequest(work)->entranceType;
 }
 
-/* Nonzero when the entrance type has an archive record (func_02162370 tests the type). */
-int func_021BE1A0(EntranceCamera *work)
+/* Nonzero when the entrance type has an archive record (EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange tests the type). */
+int ENTRANCE_CAMERA_HasRecord(EntranceCamera *work)
 {
-    return func_02162370(func_021BE180(work)->entranceType);
+    return EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(ENTRANCE_CAMERA_GetRequest(work)->entranceType);
 }
 
 /* Returns 1 when the camera aims at the entrance position, 0 when it aims at the player. */
-int func_021BE1B0(EntranceCamera *work)
+int ENTRANCE_CAMERA_AimsAtEntrance(EntranceCamera *work)
 {
-    if (func_021BE180(work)->usePlayerPos == 0) {
+    if (ENTRANCE_CAMERA_GetRequest(work)->usePlayerPos == 0) {
         return 1;
     }
     return 0;
 }
 
 /* Returns whether the move of the current phase runs. */
-int func_021BE1C4(EntranceCamera *work)
+int ENTRANCE_CAMERA_IsPhaseActive(EntranceCamera *work)
 {
-    if (func_021BE180(work)->phase == 0) {
+    if (ENTRANCE_CAMERA_GetRequest(work)->phase == 0) {
         return work->leaveActive;
     }
     return work->arriveActive;

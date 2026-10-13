@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B95CC",
+   "name": "STARTMENU_TitleDemoUpdateTimer",
    "address": "0x021B95CC",
    "kind": "game",
    "region": "ov088",

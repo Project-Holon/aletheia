@@ -1,7 +1,7 @@
 /*
  * file:     intrude_field.c
  * unit:     yes
- * function: func_0217AE20, func_0217AFC4, func_0217B044, func_0217B084, func_0217B1DC, func_0217B214, func_0217B410, func_0217B4D8, func_0217B5DC, func_0217B600, func_0217B810, func_0217B82C, func_0217B930, func_0217B94C, func_0217B968, func_0217BA48, func_0217BA54, func_0217BAB4, func_0217BBCC, func_0217BBD8, func_0217BC94, func_0217BCDC, func_0217BDE0, func_0217BEA8, func_0217BED4, func_0217BF1C, func_0217BF28, func_0217BF2C, func_0217BF84, func_0217BFD8, func_0217C070, func_0217C094, func_0217C0A8, func_0217C11C, func_0217C14C, func_0217C194, func_0217C1D0, func_0217C274, func_0217C294, func_0217C2A0, func_0217C37C, func_0217C458, func_0217C4D0, func_0217C658, func_0217C688
+ * function: INTRUDE_FIELD_Update, INTRUDE_FIELD_FindRemotePlayerAhead, INTRUDE_FIELD_CreateEdgeBlockTask, INTRUDE_FIELD_TaskEdgeBlock, INTRUDE_FIELD_CreateAreaChangeTask, INTRUDE_FIELD_TaskAreaChange, INTRUDE_FIELD_CreateTileEvent, INTRUDE_FIELD_CreateEdgeTask, INTRUDE_FIELD_CreateExitConfirmEvent, INTRUDE_FIELD_EventExitConfirm, INTRUDE_FIELD_CreateNoticeEvent, INTRUDE_FIELD_EventNotice, INTRUDE_FIELD_IsAtAreaEdge, INTRUDE_FIELD_IsInEdgeMargin, INTRUDE_FIELD_UpdateCommState, INTRUDE_FIELD_StartCommAfterExit, INTRUDE_FIELD_StartComm, INTRUDE_FIELD_UpdateAreaIndex, INTRUDE_FIELD_ResetExtraAreaCount, INTRUDE_FIELD_AddAreaMaps, INTRUDE_FIELD_AddAreaMapCount, INTRUDE_FIELD_ChangePlayerLook, INTRUDE_FIELD_TryStartOfferEvent, INTRUDE_FIELD_FindZonePos, INTRUDE_FIELD_GetZoneAnchor, INTRUDE_FIELD_InitStartParam, INTRUDE_FIELD_GetStartKind, INTRUDE_FIELD_AddMmdl, INTRUDE_FIELD_AddAreaMmdls, INTRUDE_FIELD_IsCommAllowed, INTRUDE_FIELD_IsStartRequested, INTRUDE_FIELD_SetSingleAreaMode, INTRUDE_FIELD_GetHostGender, INTRUDE_FIELD_IsListedZone, INTRUDE_FIELD_AddMarkerMmdl, INTRUDE_FIELD_AddMarkerMmdls, INTRUDE_FIELD_AddSymbolMonMmdl, INTRUDE_FIELD_GetMmdlParamPair, INTRUDE_FIELD_GetMmdlParam0, INTRUDE_FIELD_CreateSymbolMon, INTRUDE_FIELD_SpawnSymbolMons, INTRUDE_FIELD_CreateOfferInfoEvent, INTRUDE_FIELD_EventOfferInfo, INTRUDE_FIELD_InitPlayerSpin, INTRUDE_FIELD_StepPlayerSpin
  * address:  0x0217AE20
  * region:   ov018
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   func_02012138  0x02012138  thumb
  *   func_02026474  0x02026474  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_02012E40  0x02012E40  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   func_02026454  0x02026454  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
@@ -25,37 +25,37 @@
  *   func_02012B70  0x02012B70  thumb
  *   func_02012B58  0x02012B58  thumb
  *   func_02012950  0x02012950  thumb
- *   func_02175004  0x02175004  thumb  ov011
- *   func_02175598  0x02175598  thumb  ov011
- *   func_02167590  0x02167590  thumb  ov010
- *   func_021677E4  0x021677E4  thumb  ov010
- *   func_021675D0  0x021675D0  thumb  ov010
- *   func_02167848  0x02167848  thumb  ov010
- *   func_021679C4  0x021679C4  thumb  ov010
- *   func_021A3098  0x021A3098  thumb  ov021
- *   func_021A3460  0x021A3460  thumb  ov021
- *   func_021679A4  0x021679A4  thumb  ov010
+ *   INTRUDE_COMM_UpdatePlayerObjects  0x02175004  thumb  ov011
+ *   INTRUDE_COMM_GetPlayerObjCode  0x02175598  thumb  ov011
+ *   COMM_PLAYER_Update  0x02167590  thumb  ov010
+ *   COMM_PLAYER_CheckOccupy  0x021677E4  thumb  ov010
+ *   COMM_PLAYER_Add  0x021675D0  thumb  ov010
+ *   COMM_PLAYER_SetPackage  0x02167848  thumb  ov010
+ *   COMM_PLAYER_SetEffect  0x021679C4  thumb  ov010
+ *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
+ *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
+ *   COMM_PLAYER_ForwardRequest  0x021679A4  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216D480  0x0216D480  thumb  ov010
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_021904B0  0x021904B0  thumb  ov021
- *   func_021907A8  0x021907A8  thumb  ov021
- *   func_0219077C  0x0219077C  thumb  ov021
- *   func_02190788  0x02190788  thumb  ov021
- *   func_02190740  0x02190740  thumb  ov021
- *   func_02190728  0x02190728  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
+ *   FIELD_MSGBG_CreateBottomMsgWin  0x021907A8  thumb  ov021
+ *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
+ *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
+ *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   func_020362DC  0x020362DC  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_02082BCC 0x02082BCC arm
  *   func_020124E4  0x020124E4  thumb
  *   func_02012944  0x02012944  thumb
@@ -63,128 +63,128 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
  *   func_0201ED04  0x0201ED04  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
- *   func_02158344  0x02158344  thumb  ov010
- *   func_021584A4  0x021584A4  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   INTRUDE_COMM_IsStepToOwnArea  0x021584A4  thumb
  *   func_02175BE4  0x02175BE4  thumb  ov011
- *   func_02175548  0x02175548  thumb
- *   func_0217C758  0x0217C758  thumb
- *   func_0217C820  0x0217C820  thumb
- *   func_02188D20  0x02188D20  thumb
- *   func_02188C9C  0x02188C9C  thumb
- *   func_02190758  0x02190758  thumb
+ *   INTRUDE_COMM_PickDefaultObjCode  0x02175548  thumb
+ *   INTRUDE_FIELD_InitMmdlCopyAnime  0x0217C758  thumb
+ *   INTRUDE_FIELD_MainMmdlCopyAnime  0x0217C820  thumb
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb
+ *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb
  *   func_021BC5A0  0x021BC5A0  thumb
  *   func_020120F8  0x020120F8  thumb
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0216B340  0x0216B340  thumb  ov010
- *   d_02182B90     0x02182B90  data   a4
- *   func_0203D1B4  0x0203D1B4  arm
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_G3D_MAP_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
+ *   INTRUDE_FIELD_gSymbolMarkerPos     0x02182B90  data   a4
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_0201210C  0x0201210C  thumb
- *   func_02012798  0x02012798  thumb
+ *   GAME_DATA_GetPlayerWork  0x02012798  thumb
  *   func_02012A90  0x02012A90  thumb
- *   func_02012374  0x02012374  thumb
- *   func_02026400  0x02026400  thumb
- *   func_02185214  0x02185214  thumb
- *   func_02188BE8  0x02188BE8  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021909BC  0x021909BC  thumb
- *   func_02190BE4  0x02190BE4  thumb
- *   func_02190C78  0x02190C78  thumb
- *   func_02190E40  0x02190E40  thumb
- *   func_02190E74  0x02190E74  thumb
- *   func_02190EF0  0x02190EF0  thumb
- *   func_02190F64  0x02190F64  thumb
- *   func_021A3238  0x021A3238  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
+ *   EVENT_MAPCHANGE_CreateIntrudeReturnEvent  0x02185214  thumb
+ *   FIELDMAP_IsReady  0x02188BE8  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb
+ *   FIELD_MSGBG_SysWinPrintMsg  0x02190E74  thumb
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb
+ *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb
+ *   FIELD_PLAYER_CheckFormModel  0x021A3238  thumb
  *   func_0202648C  0x0202648C  thumb
  *   func_02026460  0x02026460  thumb
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
  *   func_02012204  0x02012204  thumb
- *   func_020120D8  0x020120D8  thumb
- *   func_020392B8  0x020392B8  arm
- *   func_0202640C  0x0202640C  thumb
+ *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
+ *   GAME_COMM_RequestExit  0x0202640C  thumb
  *   func_02030734  0x02030734  arm
- *   func_020263D8  0x020263D8  thumb
- *   d_02183AE0     0x02183AE0  data   a1
+ *   GAME_COMM_Start  0x020263D8  thumb
+ *   INTRUDE_FIELD_gStartParamFile     0x02183AE0  data   a1
  *   func_02012AE4  0x02012AE4  thumb
- *   func_02175E90  0x02175E90  thumb  ov011
- *   func_021A3044  0x021A3044  thumb  ov021
- *   func_02175274  0x02175274  thumb  ov011
- *   func_02039338  0x02039338  arm
+ *   INTRUDE_COMM_HasResultReward  0x02175E90  thumb  ov011
+ *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
+ *   INTRUDE_COMM_AdjustAllRemotePositions  0x02175274  thumb  ov011
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   func_02175710  0x02175710  thumb  ov011
- *   func_02161FEC  0x02161FEC  thumb  ov010
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_02159B48  0x02159B48  thumb  ov010
- *   func_02159B94  0x02159B94  thumb  ov010
- *   func_02159BBC  0x02159BBC  thumb
- *   func_0218CD20  0x0218CD20  thumb  ov021
+ *   EVENT_FIELD_PROCLINK_SetReturnLinkId  0x02161FEC  thumb  ov010
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   MAP_MATRIX_Create  0x02159B48  thumb  ov010
+ *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
+ *   MAP_MATRIX_Delete  0x02159BBC  thumb
+ *   FIELD_G3D_MAPPER_AppendMatrix  0x0218CD20  thumb  ov021
  *   func_02012114  0x02012114  thumb
  *   func_02008550  0x02008550  thumb
- *   func_021A3220  0x021A3220  thumb  ov021
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_021A322C  0x021A322C  thumb  ov021
- *   func_02175B8C  0x02175B8C  thumb  ov011
- *   func_02175BBC  0x02175BBC  thumb  ov011
- *   func_02175B34  0x02175B34  thumb  ov011
- *   func_02175CF4  0x02175CF4  thumb  ov011
- *   func_0216D828  0x0216D828  thumb  ov010
- *   func_02182124  0x02182124  thumb  ov018
+ *   FIELD_PLAYER_SetObjCode  0x021A3220  thumb  ov021
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FIELD_PLAYER_ClearRememberedObjCode  0x021A322C  thumb  ov021
+ *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
+ *   INTRUDE_COMM_IsSessionFinished  0x02175BBC  thumb  ov011
+ *   INTRUDE_COMM_GetActiveSessionRequest  0x02175B34  thumb  ov011
+ *   INTRUDE_COMM_GetJoinStatus  0x02175CF4  thumb  ov011
+ *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
+ *   EVENT_COMM_COMMON_CreateOfferEvent  0x02182124  thumb  ov018
  *   d_021DB810     0x021DB810  data   ov021  a2
  *   d_021DB834     0x021DB834  data   ov021  a2
- *   d_02182B9C 0x02182B9C data ov018 a4
- *   d_02182B60     0x02182B60  data   a4
- *   func_0216CE60  0x0216CE60  thumb  ov010
- *   d_02182B6C     0x02182B6C  data   a4
- *   d_02182B54 0x02182B54 data a4
+ *   INTRUDE_FIELD_gZonePositions 0x02182B9C data ov018 a4
+ *   INTRUDE_FIELD_gHomeAnchorPos     0x02182B60  data   a4
+ *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
+ *   INTRUDE_FIELD_gMmdlHeaderTemplate     0x02182B6C  data   a4
+ *   INTRUDE_FIELD_gAreaMmdlDefs 0x02182B54 data a4
  *   func_02013D9C  0x02013D9C  thumb
  *   func_0202647C  0x0202647C  thumb
- *   func_02176258 0x02176258 thumb ov011
+ *   INTRUDE_COMM_IsRequestFromSelf 0x02176258 thumb ov011
  *   func_02026478  0x02026478  thumb
  *   func_02012B80  0x02012B80  thumb
- *   d_021700A4 0x021700A4 data a4
- *   d_02170128 0x02170128 data a2
- *   d_021835D4     0x021835D4  data   a4
+ *   INTRUDE_FIELD_gListedZoneCount 0x021700A4 data a4
+ *   INTRUDE_FIELD_gListedZones 0x02170128 data a2
+ *   INTRUDE_FIELD_gMarkerMmdlHeader     0x021835D4  data   a4
  *   func_0202A188  0x0202A188  thumb
- *   d_0218360C     0x0218360C  data   a4
- *   d_0218362C     0x0218362C  data   a4
- *   func_0216D63C 0x0216D63C thumb ov010
- *   func_0204A1BC  0x0204A1BC  arm
+ *   INTRUDE_FIELD_gSymbolMonMoveParams     0x0218360C  data   a4
+ *   INTRUDE_FIELD_gSymbolMonMmdlHeader     0x0218362C  data   a4
+ *   FLDMMDL_GetParam 0x0216D63C thumb ov010
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02008530  0x02008530  thumb
- *   func_020186C8  0x020186C8  thumb
- *   func_020173F0  0x020173F0  thumb
- *   func_02017588  0x02017588  thumb
+ *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
+ *   POKE_TOOL_Create  0x020173F0  thumb
+ *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   func_02018A00  0x02018A00  thumb
- *   func_02017988  0x02017988  thumb
- *   func_0201808C  0x0201808C  thumb
- *   func_020180F4  0x020180F4  thumb
- *   func_02166618  0x02166618  thumb  ov010
- *   func_02166640  0x02166640  thumb  ov010
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   POKE_TOOL_ChangeForm  0x02017988  thumb
+ *   POKE_TOOL_AddMove  0x0201808C  thumb
+ *   POKE_TOOL_PushMove  0x020180F4  thumb
+ *   SYMBOL_MAP_IsHomeCell  0x02166618  thumb  ov010
+ *   SYMBOL_MAP_IsPlainCell  0x02166640  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  *   func_0202A128  0x0202A128  thumb
  *   func_0202A170  0x0202A170  thumb
  *   func_02005728  0x02005728  thumb
- *   d_02183678     0x02183678  data  a4
- *   d_021835F8     0x021835F8  data  a4
- *   d_02183650     0x02183650  data  a4
- *   func_0217F2B4  0x0217F2B4  thumb  ov018
- *   func_02174E14  0x02174E14  thumb  ov011
- *   func_0217F528  0x0217F528  thumb  ov018
- *   func_021762D8  0x021762D8  thumb  ov011
- *   func_0217F574  0x0217F574  thumb  ov018
+ *   INTRUDE_FIELD_gSymbolMonOffsetsHome     0x02183678  data  a4
+ *   INTRUDE_FIELD_gSymbolMonOffsetsPlain     0x021835F8  data  a4
+ *   INTRUDE_FIELD_gSymbolMonOffsetsOther     0x02183650  data  a4
+ *   EVENT_COMM_COMMON_InitMsgBox  0x0217F2B4  thumb  ov018
+ *   INTRUDE_COMM_SetState  0x02174E14  thumb  ov011
+ *   EVENT_COMM_COMMON_SetupListWindowB  0x0217F528  thumb  ov018
+ *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
+ *   EVENT_COMM_COMMON_PrintListWindowB  0x0217F574  thumb  ov018
  *   func_02029830  0x02029830  thumb
  *   func_02005F38  0x02005F38  thumb
  *   func_02029620  0x02029620  thumb
- *   func_0217F58C  0x0217F58C  thumb  ov018
+ *   EVENT_COMM_COMMON_DeleteListWindowB  0x0217F58C  thumb  ov018
  *   func_02173FC0  0x02173FC0  thumb  ov011
- *   func_02175A24  0x02175A24  thumb  ov011
- *   func_0217F318  0x0217F318  thumb  ov018
+ *   INTRUDE_COMM_IsSessionTimeLimitSet  0x02175A24  thumb  ov011
+ *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb  ov018
  *   func_020061E4  0x020061E4  thumb
- *   d_021836A0     0x021836A0  data  a1
+ *   INTRUDE_FIELD_gSpinAcmds     0x021836A0  data  a1
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -266,7 +266,7 @@ typedef struct AreaChangeWork {
     u16 edgeDir;                    /* 0x14 */
     u8 sessionBusy;                 /* 0x16 */
     u8 pad17;
-    u8 transitionWork[0x18];        /* 0x18: set up by func_0217C758, stepped by func_0217C820 */
+    u8 transitionWork[0x18];        /* 0x18: set up by INTRUDE_FIELD_InitMmdlCopyAnime, stepped by INTRUDE_FIELD_MainMmdlCopyAnime */
 } AreaChangeWork;
 
 /* Event that asks whether to leave the Entralink (0x2C bytes). */
@@ -377,7 +377,7 @@ typedef struct OfferEventWork {
     u16 senderNetId;                /* 0x00 */
     u16 pad02;
     struct FieldMap *fieldMap;      /* 0x04 */
-    u8 infoWindow[0x30];            /* 0x08: set up by func_0217F2B4 */
+    u8 infoWindow[0x30];            /* 0x08: set up by EVENT_COMM_COMMON_InitMsgBox */
     IntrudeMemberRecord record;     /* 0x38: copy of the active offer */
     PlayerSpinWork spin;            /* 0x6C */
     u8 showInfo;                    /* 0x84 */
@@ -391,7 +391,7 @@ extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 extern struct PlayerWork *func_020120F8(const struct GameSystem *gameSystem);
 extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
 extern u32 func_02012114(const struct GameSystem *gameSystem);
-extern u8 func_02012E40(const struct GameData *gameData);
+extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 extern u32 func_02026454(struct GameComm *gameComm);
 extern struct PlayerWork *func_020127A4(struct GameData *gameData);
 extern u16 func_02012AC8(const struct PlayerWork *playerWork);
@@ -404,32 +404,32 @@ extern u8 func_02012B58(const struct GameData *gameData);
 extern u8 func_02012B80(const struct GameData *gameData);
 extern struct PlayerStatus *func_02012950(struct GameData *gameData, u32 index);
 extern struct PlayerStatus *func_02012944(struct GameData *gameData);
-extern struct PlayerWork *func_02012798(struct GameData *gameData, int index);
+extern struct PlayerWork *GAME_DATA_GetPlayerWork(struct GameData *gameData, int index);
 extern void func_02012A90(struct PlayerWork *playerWork, const VecFx32 *pos);
 extern u32 func_02012204(const struct GameSystem *gameSystem);
-extern int func_020120D8(struct GameSystem *gameSystem);
+extern int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
 extern u32 func_0202648C(struct GameComm *gameComm);
 extern u32 func_02026460(struct GameComm *gameComm);
 extern u32 func_0202647C(struct GameComm *gameComm);
 extern struct GameData *func_02026478(struct GameComm *gameComm);
-extern void func_02026400(struct GameComm *gameComm);
-extern void func_0202640C(struct GameComm *gameComm, u32 callback, u32 callbackArg);
-extern void func_020263D8(struct GameComm *gameComm, u32 kind, u32 param);
+extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
+extern void GAME_COMM_RequestExit(struct GameComm *gameComm, u32 callback, u32 callbackArg);
+extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, u32 param);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const void *file, u16 line);
 extern int func_02035390(void);
 extern int func_020353B0(void);
-extern int func_020392B8(void);
-extern u16 func_02039338(void);
+extern int GFL_NET_SYSTEM_GetConnectNum(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, void *eventFunc, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
 extern struct GameSystem *func_020124E4(struct GameEvent *event);
-extern void func_02012374(struct GameEvent *event, struct GameEvent *next);
+extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *next);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern u32 func_020362DC(void);
 extern u32 func_02005728(u32 range);
 extern void func_020061E4(u32 seNo);
 extern int func_02005F38(void);
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern struct GameEvent *func_02029830(struct GameSystem *gameSystem, u32 bgmId);
 extern struct GameEvent *func_02029620(struct GameSystem *gameSystem, u32 a1, u32 a2);
 /* MyStatus, Pokemon and message helpers */
@@ -439,179 +439,179 @@ extern struct WordSet *func_0201EC64(u32 heapId);
 extern void func_0201F02C(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
 extern void func_0201F250(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
 extern u32 func_0201ED04(struct WordSet *wordSet);
-extern struct STRBUF *func_020457B0(u32 capacity, u32 heapId);
+extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct STRBUF *func_02045EC0(struct MsgData *msgData, u32 index);
-extern void func_02045808(struct STRBUF *strbuf);
-extern u32 func_02045C04(struct MsgData *msgData);
-extern u8 *func_0204A1BC(int arcId, int a1, int a2, int heapId);
+extern void STRBUF_Delete(struct STRBUF *strbuf);
+extern u32 MSGDATA_Delete(struct MsgData *msgData);
+extern u8 *ARC_UTIL_LoadMember(int arcId, int a1, int a2, int heapId);
 extern void func_020307B0(void *ptr);
-extern u32 func_020186C8(u32 trainerId, int species, int form, int sex, int a4, int a5);
-extern void *func_020173F0(u16 species, u16 level, u64 id, int heapId);
-extern void func_02017588(void *mon, u16 species, u16 level, unsigned long long id, u32 power, unsigned long long rnd);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 trainerId, int species, int form, int sex, int a4, int a5);
+extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heapId);
+extern void POKE_TOOL_SetupPartyParamEx(void *mon, u16 species, u16 level, unsigned long long id, u32 power, unsigned long long rnd);
 extern void func_02018A00(void *mon, u32 species, u32 form);
-extern u32 func_02017988(void *mon, u32 form);
-extern u16 func_0201808C(void *mon, u16 move);
-extern void func_020180F4(void *mon, int move);
+extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
+extern u16 POKE_TOOL_AddMove(void *mon, u16 move);
+extern void POKE_TOOL_PushMove(void *mon, int move);
 extern struct TpokeData *func_0202A128(int heapId);
 extern void func_0202A170(struct TpokeData *tpoke);
 extern u32 func_0202A188(struct TpokeData *tpoke, u32 species, u32 sex, u32 form);
 /* COMM_PLAYER, FLDMMDL and symbol map */
-extern void func_02167590(struct GameSystem *gameSystem, struct CommPlayerWork *commPlayer);
-extern int func_021677E4(struct CommPlayerWork *commPlayer, int index);
-extern void func_021675D0(struct CommPlayerWork *commPlayer, int index, int objCode, IntrudePlayerPackage *package);
-extern void func_02167848(struct CommPlayerWork *commPlayer, int index, IntrudePlayerPackage *package);
-extern int func_021679C4(struct CommPlayerWork *commPlayer, int index);
-extern int func_021679A4(struct CommPlayerWork *commPlayer, int gridX, int gridY, int gridZ, int *outIndex, int *outHit);
-extern int func_02166618(int cellKind);
-extern int func_02166640(int cellKind);
-extern void func_02161FEC(u8 *returnSlots, u16 linkId);
-extern struct GameEvent *func_0216B340(struct GameSystem *gameSystem, int a1, VecFx32 *pos, int a3, int a4);
-extern Mmdl *func_0216CE60(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
-extern int func_0216D3CC(Mmdl *mmdl);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-extern void func_0216D410(Mmdl *mmdl, u16 acmd);
-extern int func_0216D454(Mmdl *mmdl, u32 *seq, void *work, u32 extra);
-extern int func_0216D480(Mmdl *mmdl);
-extern int func_0216D63C(Mmdl *mmdl, int paramIndex);
-extern void func_0216D828(Mmdl *mmdl, GridPos *pos);
-extern int func_0216D83C(Mmdl *mmdl);
-extern int func_0216D86C(Mmdl *mmdl);
-extern void func_0216D8C0(Mmdl *mmdl, const VecFx32 *offset);
-extern void func_0216D9A0(MmdlSys *mmdlSys);
-extern u32 *func_0216D9E4(MmdlSys *mmdlSys);
+extern void COMM_PLAYER_Update(struct GameSystem *gameSystem, struct CommPlayerWork *commPlayer);
+extern int COMM_PLAYER_CheckOccupy(struct CommPlayerWork *commPlayer, int index);
+extern void COMM_PLAYER_Add(struct CommPlayerWork *commPlayer, int index, int objCode, IntrudePlayerPackage *package);
+extern void COMM_PLAYER_SetPackage(struct CommPlayerWork *commPlayer, int index, IntrudePlayerPackage *package);
+extern int COMM_PLAYER_SetEffect(struct CommPlayerWork *commPlayer, int index);
+extern int COMM_PLAYER_ForwardRequest(struct CommPlayerWork *commPlayer, int gridX, int gridY, int gridZ, int *outIndex, int *outHit);
+extern int SYMBOL_MAP_IsHomeCell(int cellKind);
+extern int SYMBOL_MAP_IsPlainCell(int cellKind);
+extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *returnSlots, u16 linkId);
+extern struct GameEvent *FIELD_G3D_MAP_CreateSymbolEntryEvent(struct GameSystem *gameSystem, int a1, VecFx32 *pos, int a3, int a4);
+extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
+extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmd);
+extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl, u32 *seq, void *work, u32 extra);
+extern int FLDMMDL_EndAcmd(Mmdl *mmdl);
+extern int FLDMMDL_GetParam(Mmdl *mmdl, int paramIndex);
+extern void FLDMMDL_GetGridNowPos(Mmdl *mmdl, GridPos *pos);
+extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
+extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const VecFx32 *offset);
+extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
+extern u32 *FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
 /* INTRUDE_COMM */
 extern int func_02173FC0(IntrudeCommSys *work, IntrudeSession *session);
-extern void func_02174E14(IntrudeCommSys *work, int state);
-extern void func_02175004(IntrudeCommSys *work);
-extern void func_02175274(IntrudeCommSys *work, int posX);
-extern void func_02175548(struct PlayerStatus *status, u16 *objCode, u8 *kind, u8 *flag);
-extern u16 func_02175598(const IntrudePeer *peer, struct PlayerStatus *status);
+extern void INTRUDE_COMM_SetState(IntrudeCommSys *work, int state);
+extern void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work);
+extern void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int posX);
+extern void INTRUDE_COMM_PickDefaultObjCode(struct PlayerStatus *status, u16 *objCode, u8 *kind, u8 *flag);
+extern u16 INTRUDE_COMM_GetPlayerObjCode(const IntrudePeer *peer, struct PlayerStatus *status);
 extern void func_02175710(IntrudeCommSys *work, u32 intrudeId);
-extern int func_02175A24(IntrudeSession *session);
-extern IntrudeMemberRecord *func_02175B34(IntrudeSession *session);
-extern int func_02175B8C(IntrudeSession *session);
-extern int func_02175BBC(IntrudeSession *session);
+extern int INTRUDE_COMM_IsSessionTimeLimitSet(IntrudeSession *session);
+extern IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(IntrudeSession *session);
+extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
+extern int INTRUDE_COMM_IsSessionFinished(IntrudeSession *session);
 extern int func_02175BE4(IntrudeSession *session);
-extern int func_02175CF4(IntrudeCommSys *work, IntrudeSession *session);
-extern int func_02175E90(IntrudeCommSys *work, IntrudeSession *session);
-extern int func_02176258(IntrudeCommSys *work);
-extern void func_021762D8(IntrudeMemberRecord *record, IntrudeMemberName *name, int wordSet, u16 netId);
-extern IntrudeCommSys *func_02158344(struct GameComm *gameComm);
-extern int func_021584A4(struct GameComm *gameComm, struct GameData *gameData, int a2);
-extern int func_02182124(struct GameSystem *gameSystem, IntrudeCommSys *work, IntrudeMemberRecord *offer);
-extern struct GameEvent *func_02185214(struct GameSystem *gameSystem);
+extern int INTRUDE_COMM_GetJoinStatus(IntrudeCommSys *work, IntrudeSession *session);
+extern int INTRUDE_COMM_HasResultReward(IntrudeCommSys *work, IntrudeSession *session);
+extern int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *work);
+extern void INTRUDE_COMM_SetWordSetRequest(IntrudeMemberRecord *record, IntrudeMemberName *name, int wordSet, u16 netId);
+extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
+extern int INTRUDE_COMM_IsStepToOwnArea(struct GameComm *gameComm, struct GameData *gameData, int a2);
+extern int EVENT_COMM_COMMON_CreateOfferEvent(struct GameSystem *gameSystem, IntrudeCommSys *work, IntrudeMemberRecord *offer);
+extern struct GameEvent *EVENT_MAPCHANGE_CreateIntrudeReturnEvent(struct GameSystem *gameSystem);
 /* map matrix and field map */
-extern struct MapMatrix *func_02159B48(int heapId);
-extern int func_02159B94(struct MapMatrix *matrix, int a1, int a2, int a3);
-extern void func_02159BBC(struct MapMatrix *matrix);
-extern void func_0218CD20(struct FieldMap *fieldMap, int mapper, struct MapMatrix *matrix);
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern int func_02188BE8(struct FieldMap *fieldMap);
-extern MmdlSys *func_02188C7C(struct FieldMap *fieldMap);
-extern struct FieldMsgBg *func_02188C54(struct FieldMap *fieldMap);
-extern unsigned int func_02188C98(struct FieldMap *fieldMap);
-extern u16 func_02188C9C(struct FieldMap *fieldMap);
-extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
-extern int func_02188D20(struct FieldMap *fieldMap);
+extern struct MapMatrix *MAP_MATRIX_Create(int heapId);
+extern int MAP_MATRIX_Load(struct MapMatrix *matrix, int a1, int a2, int a3);
+extern void MAP_MATRIX_Delete(struct MapMatrix *matrix);
+extern void FIELD_G3D_MAPPER_AppendMatrix(struct FieldMap *fieldMap, int mapper, struct MapMatrix *matrix);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
+extern MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+extern unsigned int FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+extern int FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 extern void func_021BC5A0(int a0, int a1);
 /* FIELD_MSGBG */
-extern struct MsgData *func_021904B0(struct FieldMsgBg *msgBg, u32 msgDataId);
-extern struct MsgWin *func_021907A8(struct FieldMsgBg *msgBg, struct MsgData *msgData);
-extern int func_02190740(struct MsgWin *msgWin, u32 a1, u32 a2, u32 msgId);
-extern void func_02190758(struct MsgWin *msgWin, u32 a1, u32 a2, struct STRBUF *strbuf);
-extern int func_0219077C(struct MsgWin *msgWin);
-extern void func_02190788(struct MsgWin *msgWin);
-extern int func_02190728(struct MsgWin *msgWin);
-extern struct PromptWin *func_02190F64(struct FieldMsgBg *msgBg, struct MsgData *msgData);
-extern void func_02190E74(struct PromptWin *promptWin, u32 a1, u32 a2, u32 msgId);
-extern int func_02190EF0(struct PromptWin *promptWin);
-extern void func_02190E40(struct PromptWin *promptWin);
-extern struct YesNoMenu *func_02190BE4(struct FieldMsgBg *msgBg, int a1);
-extern int func_02190C78(struct YesNoMenu *menu);
-extern void func_021909BC(struct YesNoMenu *menu);
+extern struct MsgData *FIELD_MSGBG_CreateMsgData(struct FieldMsgBg *msgBg, u32 msgDataId);
+extern struct MsgWin *FIELD_MSGBG_CreateBottomMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
+extern int FIELD_MSGBG_MsgWinPrintMsg(struct MsgWin *msgWin, u32 a1, u32 a2, u32 msgId);
+extern void FIELD_MSGBG_MsgWinPrintStr(struct MsgWin *msgWin, u32 a1, u32 a2, struct STRBUF *strbuf);
+extern int FIELD_MSGBG_IsMsgWinTransDone(struct MsgWin *msgWin);
+extern void FIELD_MSGBG_ClearMsgWin(struct MsgWin *msgWin);
+extern int FIELD_MSGBG_DeleteMsgWin(struct MsgWin *msgWin);
+extern struct PromptWin *FIELD_MSGBG_CreateBottomSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
+extern void FIELD_MSGBG_SysWinPrintMsg(struct PromptWin *promptWin, u32 a1, u32 a2, u32 msgId);
+extern int FIELD_MSGBG_SysWinMain(struct PromptWin *promptWin);
+extern void FIELD_MSGBG_DeleteSysWin(struct PromptWin *promptWin);
+extern struct YesNoMenu *FIELD_MSGBG_CreateYesNoMenu(struct FieldMsgBg *msgBg, int a1);
+extern int FIELD_MSGBG_YesNoMenuMain(struct YesNoMenu *menu);
+extern void FIELD_MSGBG_DeleteMenuFunc(struct YesNoMenu *menu);
 /* FIELD_PLAYER */
-extern void func_021A3038(struct FieldPlayer *player, VecFx32 *pos);
-extern void func_021A3044(struct FieldPlayer *player, const VecFx32 *pos);
-extern Mmdl *func_021A3074(struct FieldPlayer *player);
-extern unsigned int func_021A3098(struct FieldPlayer *player);
-extern void func_021A3220(struct FieldPlayer *player, u32 form);
-extern void func_021A322C(struct FieldPlayer *player);
-extern int func_021A3238(struct FieldPlayer *player);
-extern int func_021A3460(struct FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *pos);
+extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, const VecFx32 *pos);
+extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern unsigned int FIELD_PLAYER_GetFormCode(struct FieldPlayer *player);
+extern void FIELD_PLAYER_SetObjCode(struct FieldPlayer *player, u32 form);
+extern void FIELD_PLAYER_ClearRememberedObjCode(struct FieldPlayer *player);
+extern int FIELD_PLAYER_CheckFormModel(struct FieldPlayer *player);
+extern int FIELD_PLAYER_GetFrontGridPos(struct FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);
 /* next original file (sub display and transition steps) */
-extern void func_0217F2B4();
-extern void func_0217F318();
-extern void func_0217F528();
-extern void func_0217F574();
-extern void func_0217F58C();
-extern void func_0217C758();
-extern int func_0217C820();
+extern void EVENT_COMM_COMMON_InitMsgBox();
+extern void EVENT_COMM_COMMON_ExitMsgBox();
+extern void EVENT_COMM_COMMON_SetupListWindowB();
+extern void EVENT_COMM_COMMON_PrintListWindowB();
+extern void EVENT_COMM_COMMON_DeleteListWindowB();
+extern void INTRUDE_FIELD_InitMmdlCopyAnime();
+extern int INTRUDE_FIELD_MainMmdlCopyAnime();
 
-void func_0217AE20(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
-int func_0217AFC4(IntrudeCommSys *work, struct FieldPlayer *player, int *outIndex);
-struct GameEvent *func_0217B044(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 moveDir, u16 edgeDir, int sessionBusy);
-int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 eventArg3);
-struct GameEvent *func_0217B1DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 edgeDir);
-int func_0217B214(struct GameEvent *event, u32 *seq, AreaChangeWork *work);
-int func_0217B410(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
-struct GameEvent *func_0217B4D8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, int *posX, u16 moveDir, u16 facingDir);
-struct GameEvent *func_0217B5DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work);
-int func_0217B600(struct GameEvent *event, u32 *seq, ExitConfirmWork *work);
-struct GameEvent *func_0217B810(struct GameSystem *gameSystem, VecFx32 *pos);
-int func_0217B82C(struct GameEvent *event, u32 *seq, NoticeEventWork *work);
-int func_0217B930(const VecFx32 *pos);
-int func_0217B94C(const VecFx32 *pos);
-void func_0217B968(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct GameComm *gameComm, struct FieldPlayer *player);
-void func_0217BA48(struct GameSystem *gameSystem, int result);
-void func_0217BA54(struct GameSystem *gameSystem);
-void func_0217BAB4(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player, IntrudeCommSys *work);
-void func_0217BBCC(int unusedArg0, int unusedArg1, IntrudeCommSys *work);
-void func_0217BBD8(struct FieldMap *fieldMap, struct GameSystem *gameSystem, IntrudeCommSys *work);
-void func_0217BC94(struct FieldMap *fieldMap, int count);
-void func_0217BCDC(IntrudeCommSys *work, struct GameSystem *gameSystem, int objCode, u8 kind, u8 flag);
-int func_0217BDE0(struct GameSystem *gameSystem, IntrudeCommSys *work, struct FieldPlayer *player);
-IntrudeZonePos *func_0217BEA8(u32 zoneId);
-int func_0217BED4(int zoneId, VecFx32 *out);
-void func_0217BF1C(IntrudeStartParam *param);
-u8 func_0217BF28(IntrudeStartParam *param);
-void func_0217BF2C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height, u16 objCode, u16 eventId, u16 objId);
-void func_0217BF84(struct FieldMap *fieldMap);
-int func_0217BFD8(struct GameSystem *gameSystem, int zoneId);
-int func_0217C070(IntrudeCommSys *work);
-void func_0217C094(IntrudeCommSys *work);
-u8 func_0217C0A8(struct GameComm *gameComm);
-int func_0217C11C(u32 zoneId);
-void func_0217C14C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height);
-void func_0217C194(struct FieldMap *fieldMap);
-void func_0217C1D0(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry, u16 objId, u16 gridX, u16 gridZ, int height);
-void func_0217C274(u32 *out, Mmdl *mmdl);
-int func_0217C294(Mmdl *mmdl);
-void *func_0217C2A0(int heapId, struct GameData *gameData, const SymbolMonEntry *entry);
-void func_0217C37C(struct FieldMap *fieldMap, int objIdBase, SymbolMonEntry *entries, int unused, int cellKind);
-struct GameEvent *func_0217C458(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work, u16 senderNetId);
-int func_0217C4D0(struct GameEvent *event, u32 *seq, OfferEventWork *work);
-void func_0217C658(PlayerSpinWork *spin, struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 objCode, u8 kind, u8 flag);
-int func_0217C688(PlayerSpinWork *spin, IntrudeCommSys *work);
+void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
+int INTRUDE_FIELD_FindRemotePlayerAhead(IntrudeCommSys *work, struct FieldPlayer *player, int *outIndex);
+struct GameEvent *INTRUDE_FIELD_CreateEdgeBlockTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 moveDir, u16 edgeDir, int sessionBusy);
+int INTRUDE_FIELD_TaskEdgeBlock(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 eventArg3);
+struct GameEvent *INTRUDE_FIELD_CreateAreaChangeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 edgeDir);
+int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWork *work);
+int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
+struct GameEvent *INTRUDE_FIELD_CreateEdgeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, int *posX, u16 moveDir, u16 facingDir);
+struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work);
+int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfirmWork *work);
+struct GameEvent *INTRUDE_FIELD_CreateNoticeEvent(struct GameSystem *gameSystem, VecFx32 *pos);
+int INTRUDE_FIELD_EventNotice(struct GameEvent *event, u32 *seq, NoticeEventWork *work);
+int INTRUDE_FIELD_IsAtAreaEdge(const VecFx32 *pos);
+int INTRUDE_FIELD_IsInEdgeMargin(const VecFx32 *pos);
+void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct GameComm *gameComm, struct FieldPlayer *player);
+void INTRUDE_FIELD_StartCommAfterExit(struct GameSystem *gameSystem, int result);
+void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem);
+void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player, IntrudeCommSys *work);
+void INTRUDE_FIELD_ResetExtraAreaCount(int unusedArg0, int unusedArg1, IntrudeCommSys *work);
+void INTRUDE_FIELD_AddAreaMaps(struct FieldMap *fieldMap, struct GameSystem *gameSystem, IntrudeCommSys *work);
+void INTRUDE_FIELD_AddAreaMapCount(struct FieldMap *fieldMap, int count);
+void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gameSystem, int objCode, u8 kind, u8 flag);
+int INTRUDE_FIELD_TryStartOfferEvent(struct GameSystem *gameSystem, IntrudeCommSys *work, struct FieldPlayer *player);
+IntrudeZonePos *INTRUDE_FIELD_FindZonePos(u32 zoneId);
+int INTRUDE_FIELD_GetZoneAnchor(int zoneId, VecFx32 *out);
+void INTRUDE_FIELD_InitStartParam(IntrudeStartParam *param);
+u8 INTRUDE_FIELD_GetStartKind(IntrudeStartParam *param);
+void INTRUDE_FIELD_AddMmdl(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height, u16 objCode, u16 eventId, u16 objId);
+void INTRUDE_FIELD_AddAreaMmdls(struct FieldMap *fieldMap);
+int INTRUDE_FIELD_IsCommAllowed(struct GameSystem *gameSystem, int zoneId);
+int INTRUDE_FIELD_IsStartRequested(IntrudeCommSys *work);
+void INTRUDE_FIELD_SetSingleAreaMode(IntrudeCommSys *work);
+u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm);
+int INTRUDE_FIELD_IsListedZone(u32 zoneId);
+void INTRUDE_FIELD_AddMarkerMmdl(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height);
+void INTRUDE_FIELD_AddMarkerMmdls(struct FieldMap *fieldMap);
+void INTRUDE_FIELD_AddSymbolMonMmdl(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry, u16 objId, u16 gridX, u16 gridZ, int height);
+void INTRUDE_FIELD_GetMmdlParamPair(u32 *out, Mmdl *mmdl);
+int INTRUDE_FIELD_GetMmdlParam0(Mmdl *mmdl);
+void *INTRUDE_FIELD_CreateSymbolMon(int heapId, struct GameData *gameData, const SymbolMonEntry *entry);
+void INTRUDE_FIELD_SpawnSymbolMons(struct FieldMap *fieldMap, int objIdBase, SymbolMonEntry *entries, int unused, int cellKind);
+struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work, u16 senderNetId);
+int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWork *work);
+void INTRUDE_FIELD_InitPlayerSpin(PlayerSpinWork *spin, struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 objCode, u8 kind, u8 flag);
+int INTRUDE_FIELD_StepPlayerSpin(PlayerSpinWork *spin, IntrudeCommSys *work);
 
-extern const VecFx32 d_02182B90;
-extern const char d_02183AE0[];
+extern const VecFx32 INTRUDE_FIELD_gSymbolMarkerPos;
+extern const char INTRUDE_FIELD_gStartParamFile[];
 extern u16 d_021DB810[];
 extern IntrudeTilePos d_021DB834[];
-extern IntrudeZonePos d_02182B9C[];
-extern const VecFx32 d_02182B60;
-extern const MmdlHeader d_02182B6C;
-extern const IntrudeAreaMmdlDef d_02182B54[];
-extern const u32 d_021700A4;
-extern const u16 d_02170128[];
-extern const MmdlHeader d_021835D4;
-extern const IntrudeMmdlMoveParam d_0218360C[];
-extern const MmdlHeader d_0218362C;
-extern const u8 d_02183678[20][2];
-extern const u8 d_021835F8[20][2];
-extern const u8 d_02183650[20][2];
-extern const u8 d_021836A0[4];
+extern IntrudeZonePos INTRUDE_FIELD_gZonePositions[];
+extern const VecFx32 INTRUDE_FIELD_gHomeAnchorPos;
+extern const MmdlHeader INTRUDE_FIELD_gMmdlHeaderTemplate;
+extern const IntrudeAreaMmdlDef INTRUDE_FIELD_gAreaMmdlDefs[];
+extern const u32 INTRUDE_FIELD_gListedZoneCount;
+extern const u16 INTRUDE_FIELD_gListedZones[];
+extern const MmdlHeader INTRUDE_FIELD_gMarkerMmdlHeader;
+extern const IntrudeMmdlMoveParam INTRUDE_FIELD_gSymbolMonMoveParams[];
+extern const MmdlHeader INTRUDE_FIELD_gSymbolMonMmdlHeader;
+extern const u8 INTRUDE_FIELD_gSymbolMonOffsetsHome[20][2];
+extern const u8 INTRUDE_FIELD_gSymbolMonOffsetsPlain[20][2];
+extern const u8 INTRUDE_FIELD_gSymbolMonOffsetsOther[20][2];
+extern const u8 INTRUDE_FIELD_gSpinAcmds[4];
 
-void func_0217AE20(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player)
+void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player)
 {
     int zoneId;
     struct GameComm *gameComm;
@@ -624,20 +624,20 @@ void func_0217AE20(struct FieldMap *fieldMap, struct GameSystem *gameSystem, str
     gameComm = func_02012138(gameSystem);
     work = func_02026474(gameComm);
     gameData = func_020120F4(gameSystem);
-    if (func_02012E40(gameData) == 1)
+    if (GAME_DATA_IsSaving(gameData) == 1)
         return;
-    func_0217B968(fieldMap, gameSystem, gameComm, player);
+    INTRUDE_FIELD_UpdateCommState(fieldMap, gameSystem, gameComm, player);
     if (func_02026454(gameComm) != 2 || work == 0)
         return;
     zoneId = func_02012AC8(func_020127A4(gameData));
     if (work->specialZoneEntered == 0 && func_02013D5C(zoneId) == 1)
         work->specialZoneEntered = 1;
-    func_0217BBD8(fieldMap, gameSystem, work);
+    INTRUDE_FIELD_AddAreaMaps(fieldMap, gameSystem, work);
     if (work->step != 7 || func_0200FB24() != 0)
         return;
     if (func_02012B70(gameData) == 0) {
         if (work->zoneCheck == 0) {
-            if (func_0217C11C(work->localPeer.zoneId) == 1)
+            if (INTRUDE_FIELD_IsListedZone(work->localPeer.zoneId) == 1)
                 work->zoneCheck = 1;
             else
                 work->zoneCheck = 2;
@@ -646,28 +646,28 @@ void func_0217AE20(struct FieldMap *fieldMap, struct GameSystem *gameSystem, str
             return;
     }
     ownId = func_02012B58(gameData);
-    func_02175004(work);
-    func_02167590(gameSystem, work->commPlayer);
+    INTRUDE_COMM_UpdatePlayerObjects(work);
+    COMM_PLAYER_Update(gameSystem, work->commPlayer);
     for (i = 0; i < 3; i++) {
         if (i == ownId || !(work->peerMask & (1 << i)))
             continue;
-        if (func_021677E4(work->commPlayer, i) == 0) {
+        if (COMM_PLAYER_CheckOccupy(work->commPlayer, i) == 0) {
             func_02012950(gameData, i);
-            objCode = func_02175598(&work->peers[i], func_02012950(gameData, i));
+            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], func_02012950(gameData, i));
             if (work->peers[i].objCode != 0 || func_02012B70(gameData) != 0)
-                func_021675D0(work->commPlayer, i, objCode, &work->peers[i].package);
+                COMM_PLAYER_Add(work->commPlayer, i, objCode, &work->peers[i].package);
         } else {
-            func_02167848(work->commPlayer, i, &work->peers[i].package);
+            COMM_PLAYER_SetPackage(work->commPlayer, i, &work->peers[i].package);
             if (work->peers[i].package.vanish == 0) {
                 if ((u16)(work->peers[i].state + 0xFFFE) <= 1)
-                    func_021679C4(work->commPlayer, i);
+                    COMM_PLAYER_SetEffect(work->commPlayer, i);
             }
         }
     }
-    func_0217BAB4(fieldMap, gameSystem, player, work);
+    INTRUDE_FIELD_UpdateAreaIndex(fieldMap, gameSystem, player, work);
 }
 
-int func_0217AFC4(IntrudeCommSys *work, struct FieldPlayer *player, int *outIndex)
+int INTRUDE_FIELD_FindRemotePlayerAhead(IntrudeCommSys *work, struct FieldPlayer *player, int *outIndex)
 {
     int moveState;
     int peerIndex;
@@ -679,12 +679,12 @@ int func_0217AFC4(IntrudeCommSys *work, struct FieldPlayer *player, int *outInde
     hit = result;
     if (work == 0 || work->commPlayer == 0)
         return 0;
-    moveState = func_021A3098(player);
+    moveState = FIELD_PLAYER_GetFormCode(player);
     if (moveState != 0 && moveState != 1)
         return result;
-    func_021A3460(player, grid + 2, grid + 1, grid);
+    FIELD_PLAYER_GetFrontGridPos(player, grid + 2, grid + 1, grid);
     for (;;) {
-        moveState = func_021679A4(work->commPlayer, grid[2], grid[1], grid[0], &peerIndex, &hit);
+        moveState = COMM_PLAYER_ForwardRequest(work->commPlayer, grid[2], grid[1], grid[0], &peerIndex, &hit);
         if (moveState != 1)
             break;
         if (work->peers[peerIndex].package.vanish == 0) {
@@ -695,23 +695,23 @@ int func_0217AFC4(IntrudeCommSys *work, struct FieldPlayer *player, int *outInde
     return 0;
 }
 
-struct GameEvent *func_0217B044(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 moveDir, u16 edgeDir, int sessionBusy)
+struct GameEvent *INTRUDE_FIELD_CreateEdgeBlockTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 moveDir, u16 edgeDir, int sessionBusy)
 {
     struct GameEvent *event;
     EdgeBlockWork *work;
 
-    event = func_020122C0(gameSystem, 0, func_0217B084, sizeof(EdgeBlockWork));
+    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_TaskEdgeBlock, sizeof(EdgeBlockWork));
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(EdgeBlockWork));
     work->fieldMap = fieldMap;
-    work->playerMmdl = func_021A3074(player);
+    work->playerMmdl = FIELD_PLAYER_GetMmdl(player);
     work->moveDir = moveDir;
     work->edgeDir = edgeDir;
     work->sessionBusy = sessionBusy;
     return event;
 }
 
-int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 eventArg3)
+int INTRUDE_FIELD_TaskEdgeBlock(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 eventArg3)
 {
     u16 turnAcmd;
     int acmd;
@@ -719,14 +719,14 @@ int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 ev
 
     switch (*seq) {
     case 0:
-        if (func_0216D3CC(work->playerMmdl) == 1) {
+        if (FLDMMDL_CheckPossibleAcmd(work->playerMmdl) == 1) {
             if (work->edgeDir == 3)
                 acmd = 3;
             else
                 acmd = 2;
             turnAcmd = acmd;
-            if (work->edgeDir != func_0216D5F8(work->playerMmdl)) {
-                func_0216D410(work->playerMmdl, turnAcmd);
+            if (work->edgeDir != FLDMMDL_GetDirDisp(work->playerMmdl)) {
+                FLDMMDL_SetAcmd(work->playerMmdl, turnAcmd);
                 *seq += 1;
             } else {
                 *seq = 2;
@@ -734,21 +734,21 @@ int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 ev
         }
         break;
     case 1:
-        if (func_0216D454(work->playerMmdl, seq, work, eventArg3) == 1) {
-            func_0216D480(work->playerMmdl);
+        if (FLDMMDL_CheckEndAcmd(work->playerMmdl, seq, work, eventArg3) == 1) {
+            FLDMMDL_EndAcmd(work->playerMmdl);
             *seq += 1;
         }
         break;
     case 2:
-        func_0216D9A0(func_02188C7C(work->fieldMap));
-        msgBg = func_02188C54(work->fieldMap);
-        work->msgData = func_021904B0(msgBg, 0x2D);
-        work->msgWin = func_021907A8(msgBg, work->msgData);
-        func_02190740(work->msgWin, 0, 0, work->sessionBusy == 0 ? 0x52 : 0x4F);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(work->fieldMap));
+        msgBg = FIELDMAP_GetMsgBg(work->fieldMap);
+        work->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x2D);
+        work->msgWin = FIELD_MSGBG_CreateBottomMsgWin(msgBg, work->msgData);
+        FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, work->sessionBusy == 0 ? 0x52 : 0x4F);
         *seq += 1;
         break;
     case 3:
-        if (func_0219077C(work->msgWin) == 1)
+        if (FIELD_MSGBG_IsMsgWinTransDone(work->msgWin) == 1)
             *seq += 1;
         break;
     case 4:
@@ -761,12 +761,12 @@ int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 ev
         }
         break;
     case 5:
-        func_02190788(work->msgWin);
-        func_02190740(work->msgWin, 0, 0, 0x53);
+        FIELD_MSGBG_ClearMsgWin(work->msgWin);
+        FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, 0x53);
         *seq += 1;
         break;
     case 6:
-        if (func_0219077C(work->msgWin) == 1)
+        if (FIELD_MSGBG_IsMsgWinTransDone(work->msgWin) == 1)
             *seq += 1;
         break;
     case 7:
@@ -774,20 +774,20 @@ int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 ev
             *seq += 1;
         break;
     case 8:
-        func_02190728(work->msgWin);
-        func_02045C04(work->msgData);
+        FIELD_MSGBG_DeleteMsgWin(work->msgWin);
+        MSGDATA_Delete(work->msgData);
         *seq += 1;
         break;
     case 9:
-        if (func_0216D3CC(work->playerMmdl) == 1) {
-            func_0216D410(work->playerMmdl, (u16)(work->edgeDir == 3 ? 10 : 11));
+        if (FLDMMDL_CheckPossibleAcmd(work->playerMmdl) == 1) {
+            FLDMMDL_SetAcmd(work->playerMmdl, (u16)(work->edgeDir == 3 ? 10 : 11));
             *seq += 1;
         }
         break;
     case 10:
-        if (func_0216D454(work->playerMmdl, seq, work, eventArg3) == 1) {
-            func_0216D480(work->playerMmdl);
-            func_0216D9E4(func_02188C7C(work->fieldMap));
+        if (FLDMMDL_CheckEndAcmd(work->playerMmdl, seq, work, eventArg3) == 1) {
+            FLDMMDL_EndAcmd(work->playerMmdl);
+            FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
             return 1;
         }
         break;
@@ -795,21 +795,21 @@ int func_0217B084(struct GameEvent *event, u32 *seq, EdgeBlockWork *work, u32 ev
     return 0;
 }
 
-struct GameEvent *func_0217B1DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 edgeDir)
+struct GameEvent *INTRUDE_FIELD_CreateAreaChangeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, u16 edgeDir)
 {
     struct GameEvent *event;
     AreaChangeWork *work;
 
-    event = func_020122C0(gameSystem, 0, func_0217B214, sizeof(AreaChangeWork));
+    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_TaskAreaChange, sizeof(AreaChangeWork));
     work = func_020124E8(event);
     MI_CpuFill8(work, 0, sizeof(AreaChangeWork));
     work->fieldMap = fieldMap;
-    work->playerMmdl = func_021A3074(player);
+    work->playerMmdl = FIELD_PLAYER_GetMmdl(player);
     work->edgeDir = edgeDir;
     return event;
 }
 
-int func_0217B214(struct GameEvent *event, u32 *seq, AreaChangeWork *work)
+int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWork *work)
 {
     struct GameSystem *gameSystem;
     struct GameComm *gameComm;
@@ -823,14 +823,14 @@ int func_0217B214(struct GameEvent *event, u32 *seq, AreaChangeWork *work)
     gameSystem = func_020124E4(event);
     gameComm = func_02012138(gameSystem);
     gameData = func_020120F4(gameSystem);
-    intrudeWork = func_02158344(gameComm);
+    intrudeWork = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     switch (*seq) {
     case 0:
-        func_0216D9A0(func_02188C7C(work->fieldMap));
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(work->fieldMap));
         *seq += 1;
         break;
     case 1:
-        if (func_0216D3CC(work->playerMmdl) == 0)
+        if (FLDMMDL_CheckPossibleAcmd(work->playerMmdl) == 0)
             break;
         if (intrudeWork == 0) {
             *seq = 6;
@@ -838,17 +838,17 @@ int func_0217B214(struct GameEvent *event, u32 *seq, AreaChangeWork *work)
         }
         if (func_02175BE4(&intrudeWork->session) == 1) {
             work->sessionBusy = 1;
-            func_0217C758(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 0);
-        } else if (func_021584A4(gameComm, gameData, work->edgeDir) == 1) {
-            func_0217C758(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 1);
+            INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 0);
+        } else if (INTRUDE_COMM_IsStepToOwnArea(gameComm, gameData, work->edgeDir) == 1) {
+            INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 1);
         } else {
-            func_02175548(func_02012944(gameData), &look.objCode, &look.kind, &look.flag);
-            func_0217C758(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, look.objCode, look.kind, look.flag, work->edgeDir, 1);
+            INTRUDE_COMM_PickDefaultObjCode(func_02012944(gameData), &look.objCode, &look.kind, &look.flag);
+            INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, look.objCode, look.kind, look.flag, work->edgeDir, 1);
         }
         *seq += 1;
         break;
     case 2:
-        if (func_0217C820(work->transitionWork, intrudeWork) == 1)
+        if (INTRUDE_FIELD_MainMmdlCopyAnime(work->transitionWork, intrudeWork) == 1)
             *seq += 1;
         break;
     case 3:
@@ -856,33 +856,33 @@ int func_0217B214(struct GameEvent *event, u32 *seq, AreaChangeWork *work)
             *seq = 6;
             break;
         }
-        msgBg = func_02188C54(work->fieldMap);
-        work->msgData = func_021904B0(msgBg, 0x2D);
-        work->msgWin = func_021907A8(msgBg, work->msgData);
+        msgBg = FIELDMAP_GetMsgBg(work->fieldMap);
+        work->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x2D);
+        work->msgWin = FIELD_MSGBG_CreateBottomMsgWin(msgBg, work->msgData);
         work->wordSet = func_0201EC64(4);
         if (intrudeWork->localPeer.intrudeId == func_02012B58(gameData)) {
             if (work->sessionBusy == 1)
-                func_02190740(work->msgWin, 0, 0, 0x4F);
+                FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, 0x4F);
             else
-                func_02190740(work->msgWin, 0, 0, 0x4E);
+                FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, 0x4E);
         } else {
-            nameText = func_020457B0(0x100, 0x15);
+            nameText = STRBUF_Create(0x100, 0x15);
             func_0201F02C(work->wordSet, 0, func_02012950(gameData, intrudeWork->localPeer.intrudeId));
             if (work->sessionBusy == 1)
                 template = func_02045EC0(work->msgData, 0x50);
             else
                 template = func_02045EC0(work->msgData, 0x51);
             func_0201F250(work->wordSet, nameText, template);
-            func_02190758(work->msgWin, 0, 0, nameText);
-            func_02045808(template);
-            func_02045808(nameText);
+            FIELD_MSGBG_MsgWinPrintStr(work->msgWin, 0, 0, nameText);
+            STRBUF_Delete(template);
+            STRBUF_Delete(nameText);
         }
         *seq += 1;
         break;
     case 4:
-        if (func_0219077C(work->msgWin) == 1) {
-            msgBg = (struct FieldMsgBg *)func_02188D20(work->fieldMap);
-            func_021BC5A0((int)msgBg, func_02188C9C(work->fieldMap));
+        if (FIELD_MSGBG_IsMsgWinTransDone(work->msgWin) == 1) {
+            msgBg = (struct FieldMsgBg *)FIELDMAP_GetPlaceName(work->fieldMap);
+            func_021BC5A0((int)msgBg, FIELDMAP_GetZoneId(work->fieldMap));
             *seq += 1;
         }
         break;
@@ -892,17 +892,17 @@ int func_0217B214(struct GameEvent *event, u32 *seq, AreaChangeWork *work)
         break;
     case 6:
         if (work->msgWin != 0) {
-            func_02190728(work->msgWin);
-            func_02045C04(work->msgData);
+            FIELD_MSGBG_DeleteMsgWin(work->msgWin);
+            MSGDATA_Delete(work->msgData);
             func_0201ED04(work->wordSet);
         }
-        func_0216D9E4(func_02188C7C(work->fieldMap));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
         return 1;
     }
     return 0;
 }
 
-int func_0217B410(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player)
+int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player)
 {
     int zoneId;
     IntrudeCommSys *work;
@@ -912,27 +912,27 @@ int func_0217B410(struct FieldMap *fieldMap, struct GameSystem *gameSystem, stru
     VecFx32 markerPos;
 
     zoneId = func_02012AC8(func_020120F8(gameSystem));
-    work = func_02158344(func_02012138(gameSystem));
+    work = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     if (func_02013D5C(zoneId) == 0)
         return 0;
-    func_021A3038(player, &playerPos);
+    FIELD_PLAYER_GetPos(player, &playerPos);
     for (i = 0; i < 3; i++) {
         if (playerPos.x >= (i << 22) + 0x1F8000 && playerPos.x <= (i << 22) + 0x1F8000 && playerPos.z >= 0x2C8000 && playerPos.z <= 0x2C8000)
-            return (int)func_0217B5DC(gameSystem, fieldMap, work);
+            return (int)INTRUDE_FIELD_CreateExitConfirmEvent(gameSystem, fieldMap, work);
     }
     areaBaseX = 0x1F8000;
     for (i = 0; i < 3; i++) {
         if (playerPos.x >= areaBaseX && playerPos.x < areaBaseX + 0x20000 && playerPos.z == 0x158000) {
-            markerPos = d_02182B90;
+            markerPos = INTRUDE_FIELD_gSymbolMarkerPos;
             markerPos.x += playerPos.x - areaBaseX;
-            return (int)func_0216B340(gameSystem, 1, &markerPos, 0, 4); /* int-typed on purpose: function returns int */
+            return (int)FIELD_G3D_MAP_CreateSymbolEntryEvent(gameSystem, 1, &markerPos, 0, 4); /* int-typed on purpose: function returns int */
         }
         areaBaseX += 0x400000;
     }
     return 0;
 }
 
-struct GameEvent *func_0217B4D8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, int *posX, u16 moveDir, u16 facingDir)
+struct GameEvent *INTRUDE_FIELD_CreateEdgeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, int *posX, u16 moveDir, u16 facingDir)
 {
     IntrudeCommSys *work;
     u16 edgeDir;
@@ -941,7 +941,7 @@ struct GameEvent *func_0217B4D8(struct GameSystem *gameSystem, struct FieldMap *
     int areaCount;
     int offsetInArea;
 
-    work = func_02158344(func_02012138(gameSystem));
+    work = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     edgeDir = 9;
     x = *posX;
     areaCount = 1;
@@ -962,21 +962,21 @@ struct GameEvent *func_0217B4D8(struct GameSystem *gameSystem, struct FieldMap *
             edgeDir = 3;
     }
     if (edgeDir != 9) {
-        if (work == 0 || func_0203D1B4() <= 1 || work->memberCount < 2)
-            return func_0217B044(gameSystem, fieldMap, player, moveDir, edgeDir, 0);
+        if (work == 0 || GFL_NET_GetNegotiationNum() <= 1 || work->memberCount < 2)
+            return INTRUDE_FIELD_CreateEdgeBlockTask(gameSystem, fieldMap, player, moveDir, edgeDir, 0);
         if (func_02175BE4(&work->session) == 1)
-            return func_0217B044(gameSystem, fieldMap, player, moveDir, edgeDir, 1);
-        return func_0217B1DC(gameSystem, fieldMap, player, edgeDir);
+            return INTRUDE_FIELD_CreateEdgeBlockTask(gameSystem, fieldMap, player, moveDir, edgeDir, 1);
+        return INTRUDE_FIELD_CreateAreaChangeTask(gameSystem, fieldMap, player, edgeDir);
     }
     return 0;
 }
 
-struct GameEvent *func_0217B5DC(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work)
+struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work)
 {
     struct GameEvent *event;
     ExitConfirmWork *eventWork;
 
-    event = func_020122C0(gameSystem, 0, func_0217B600, sizeof(ExitConfirmWork));
+    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_EventExitConfirm, sizeof(ExitConfirmWork));
     eventWork = func_020124E8(event);
     MI_CpuFill8(eventWork, 0, sizeof(ExitConfirmWork));
     return event;
@@ -989,7 +989,7 @@ struct GameEvent *func_0217B5DC(struct GameSystem *gameSystem, struct FieldMap *
  * func_020127A4; no listing labels it and this call is its only witness, so
  * every class refuses it.  Verified EXACT at 0x02012798 (arm9, thumb, 10 B):
  *
- *     u8 *func_02012798(u8 *p, int i) { return p + 4 + i * 0x44; }
+ *     u8 *GAME_DATA_GetPlayerWork(u8 *p, int i) { return p + 4 + i * 0x44; }
  *
  * It is the player work indexer that belongs beside func_02012950 in
  * src/matched/arm9/unit_02012924.c; once it is labelled or matched this file
@@ -997,7 +997,7 @@ struct GameEvent *func_0217B5DC(struct GameSystem *gameSystem, struct FieldMap *
  * (docs/idioms/a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md):
  * the stores go through r7, which a declared struct folds to sp.
  */
-int func_0217B600(struct GameEvent *event, u32 *seq, ExitConfirmWork *work)
+int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfirmWork *work)
 {
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -1015,24 +1015,24 @@ int func_0217B600(struct GameEvent *event, u32 *seq, ExitConfirmWork *work)
     gameComm = func_02012138(gameSystem);
     switch (*seq) {
     case 0:
-        func_0216D9A0(func_02188C7C(fieldMap));
-        msgBg = func_02188C54(fieldMap);
-        work->msgData = func_021904B0(msgBg, 0x2D);
-        work->promptWin = func_02190F64(msgBg, work->msgData);
-        func_02190E74(work->promptWin, 0, 0, 0x54);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
+        msgBg = FIELDMAP_GetMsgBg(fieldMap);
+        work->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x2D);
+        work->promptWin = FIELD_MSGBG_CreateBottomSysWin(msgBg, work->msgData);
+        FIELD_MSGBG_SysWinPrintMsg(work->promptWin, 0, 0, 0x54);
         *seq += 1;
         break;
     case 1:
-        if (func_02190EF0(work->promptWin) == 1) {
-            work->yesNoMenu = func_02190BE4(func_02188C54(fieldMap), 0);
+        if (FIELD_MSGBG_SysWinMain(work->promptWin) == 1) {
+            work->yesNoMenu = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg(fieldMap), 0);
             *seq += 1;
         }
         break;
     case 2:
-        answer = func_02190C78(work->yesNoMenu);
+        answer = FIELD_MSGBG_YesNoMenuMain(work->yesNoMenu);
         if (answer != 2) {
-            func_021909BC(work->yesNoMenu);
-            func_02190E40(work->promptWin);
+            FIELD_MSGBG_DeleteMenuFunc(work->yesNoMenu);
+            FIELD_MSGBG_DeleteSysWin(work->promptWin);
             work->yesNoMenu = 0;
             work->promptWin = 0;
             if (answer == 0)
@@ -1043,14 +1043,14 @@ int func_0217B600(struct GameEvent *event, u32 *seq, ExitConfirmWork *work)
         break;
     case 3:
         if (func_0200FB24() == 0 && func_02026454(gameComm) == 2) {
-            func_02026400(gameComm);
-            work->endMsgWin = func_021907A8(func_02188C54(fieldMap), work->msgData);
-            func_02190740(work->endMsgWin, 0, 0, 0x14);
+            GAME_COMM_RequestExitNoCallback(gameComm);
+            work->endMsgWin = FIELD_MSGBG_CreateBottomMsgWin(FIELDMAP_GetMsgBg(fieldMap), work->msgData);
+            FIELD_MSGBG_MsgWinPrintMsg(work->endMsgWin, 0, 0, 0x14);
         }
         *seq += 1;
         break;
     case 4:
-        if (work->endMsgWin == 0 || func_0219077C(work->endMsgWin) == 1)
+        if (work->endMsgWin == 0 || FIELD_MSGBG_IsMsgWinTransDone(work->endMsgWin) == 1)
             *seq += 1;
         break;
     case 5:
@@ -1065,70 +1065,70 @@ int func_0217B600(struct GameEvent *event, u32 *seq, ExitConfirmWork *work)
         zeroPosView->y = 0;
         zeroPosView->z = 0;
         for (i = 0; i < 3; i++)
-            func_02012A90(func_02012798(gameData, i), zeroPosView);
+            func_02012A90(GAME_DATA_GetPlayerWork(gameData, i), zeroPosView);
         *seq += 1;
         break;
     case 6:
         if (work->endMsgWin != 0)
-            func_02190728(work->endMsgWin);
-        func_02045C04(work->msgData);
+            FIELD_MSGBG_DeleteMsgWin(work->endMsgWin);
+        MSGDATA_Delete(work->msgData);
         *seq += 1;
         break;
     case 7:
         fieldMap = func_0201210C(gameSystem);
-        if (func_02188BE8(fieldMap) != 1)
+        if (FIELDMAP_IsReady(fieldMap) != 1)
             break;
-        if (func_021A3238(func_02188CB4(fieldMap)) == 0) {
-            func_0217C658(&work->spin, gameSystem, fieldMap, 0, 0, 0);
+        if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(fieldMap)) == 0) {
+            INTRUDE_FIELD_InitPlayerSpin(&work->spin, gameSystem, fieldMap, 0, 0, 0);
             *seq += 1;
         } else {
             *seq = 9;
         }
         break;
     case 8:
-        if (func_0217C688(&work->spin, 0) == 1)
+        if (INTRUDE_FIELD_StepPlayerSpin(&work->spin, 0) == 1)
             *seq += 1;
         break;
     case 9:
-        func_02012374(event, func_02185214(gameSystem));
+        GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateIntrudeReturnEvent(gameSystem));
         *seq += 1;
         break;
     case 10:
         *seq = 14;
         break;
     case 11:
-        func_02045C04(work->msgData);
+        MSGDATA_Delete(work->msgData);
         *seq = 12;
         break;
     case 12:
-        playerMmdl = func_021A3074(func_02188CB4(fieldMap));
-        if (func_0216D3CC(playerMmdl) == 1) {
-            func_0216D410(playerMmdl, 8);
+        playerMmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
+        if (FLDMMDL_CheckPossibleAcmd(playerMmdl) == 1) {
+            FLDMMDL_SetAcmd(playerMmdl, 8);
             *seq += 1;
         }
         break;
     case 13:
-        if (func_0216D480(func_021A3074(func_02188CB4(fieldMap))) == 1)
+        if (FLDMMDL_EndAcmd(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap))) == 1)
             *seq = 14;
         break;
     case 14:
-        func_0216D9E4(func_02188C7C(fieldMap));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(fieldMap));
         return 1;
     }
     return 0;
 }
 
-struct GameEvent *func_0217B810(struct GameSystem *gameSystem, VecFx32 *pos)
+struct GameEvent *INTRUDE_FIELD_CreateNoticeEvent(struct GameSystem *gameSystem, VecFx32 *pos)
 {
     struct GameEvent *event;
     NoticeEventWork *work;
 
-    event = func_020122C0(gameSystem, 0, func_0217B82C, sizeof(NoticeEventWork));
+    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_EventNotice, sizeof(NoticeEventWork));
     work = func_020124E8(event);
     return event;
 }
 
-int func_0217B82C(struct GameEvent *event, u32 *seq, NoticeEventWork *work)
+int INTRUDE_FIELD_EventNotice(struct GameEvent *event, u32 *seq, NoticeEventWork *work)
 {
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -1139,25 +1139,25 @@ int func_0217B82C(struct GameEvent *event, u32 *seq, NoticeEventWork *work)
     func_02012138(gameSystem);
     switch (*seq) {
     case 0:
-        func_0216D9A0(func_02188C7C(fieldMap));
-        msgBg = func_02188C54(fieldMap);
-        work->msgData = func_021904B0(msgBg, 0x2D);
-        work->promptWin = func_02190F64(msgBg, work->msgData);
-        func_02190E74(work->promptWin, 0, 0, 0x60);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
+        msgBg = FIELDMAP_GetMsgBg(fieldMap);
+        work->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x2D);
+        work->promptWin = FIELD_MSGBG_CreateBottomSysWin(msgBg, work->msgData);
+        FIELD_MSGBG_SysWinPrintMsg(work->promptWin, 0, 0, 0x60);
         (*seq)++;
         break;
     case 1:
-        if (func_02190EF0(work->promptWin) == 1) {
-            func_02190E40(work->promptWin);
-            func_02045C04(work->msgData);
+        if (FIELD_MSGBG_SysWinMain(work->promptWin) == 1) {
+            FIELD_MSGBG_DeleteSysWin(work->promptWin);
+            MSGDATA_Delete(work->msgData);
             (*seq)++;
         }
         break;
     case 2:
         fieldMap = func_0201210C(gameSystem);
-        if (func_02188BE8(fieldMap) == 1) {
-            if (func_021A3238(func_02188CB4(fieldMap)) == 0) {
-                func_0217C658(&work->spin, gameSystem, fieldMap, 0, 0, 0);
+        if (FIELDMAP_IsReady(fieldMap) == 1) {
+            if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(fieldMap)) == 0) {
+                INTRUDE_FIELD_InitPlayerSpin(&work->spin, gameSystem, fieldMap, 0, 0, 0);
                 (*seq)++;
             } else {
                 *seq = 4;
@@ -1165,16 +1165,16 @@ int func_0217B82C(struct GameEvent *event, u32 *seq, NoticeEventWork *work)
         }
         break;
     case 3:
-        if (func_0217C688(&work->spin, 0) == 1)
+        if (INTRUDE_FIELD_StepPlayerSpin(&work->spin, 0) == 1)
             (*seq)++;
         break;
     case 4:
-        func_02012374(event, func_02185214(gameSystem));
+        GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateIntrudeReturnEvent(gameSystem));
         (*seq)++;
         break;
     case 5:
-        if (fieldMap != 0 && func_02188BE8(fieldMap) == 1) {
-            func_0216D9E4(func_02188C7C(fieldMap));
+        if (fieldMap != 0 && FIELDMAP_IsReady(fieldMap) == 1) {
+            FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(fieldMap));
             return 1;
         }
         break;
@@ -1182,21 +1182,21 @@ int func_0217B82C(struct GameEvent *event, u32 *seq, NoticeEventWork *work)
     return 0;
 }
 
-int func_0217B930(const VecFx32 *pos)
+int INTRUDE_FIELD_IsAtAreaEdge(const VecFx32 *pos)
 {
     if (pos->x >= 0x348000 || pos->x <= 0xb8000)
         return 1;
     return 0;
 }
 
-int func_0217B94C(const VecFx32 *pos)
+int INTRUDE_FIELD_IsInEdgeMargin(const VecFx32 *pos)
 {
     if (pos->x > 0x308000 || pos->x < 0xe8000)
         return 1;
     return 0;
 }
 
-void func_0217B968(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct GameComm *gameComm, struct FieldPlayer *player)
+void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct GameComm *gameComm, struct FieldPlayer *player)
 {
     VecFx32 playerPos;
 
@@ -1210,39 +1210,39 @@ void func_0217B968(struct FieldMap *fieldMap, struct GameSystem *gameSystem, str
         return;
     if (func_02012204(gameSystem) == 1)
         return;
-    if (func_020120D8(gameSystem) == 1)
+    if (GAMESYSTEM_IsEventActive(gameSystem) == 1)
         return;
     if (func_02013D5C(func_02012AC8(func_020127A4(func_020120F4(gameSystem)))) == 0)
         return;
-    func_021A3038(player, &playerPos);
+    FIELD_PLAYER_GetPos(player, &playerPos);
     switch (func_02026454(gameComm)) {
     case 0:
-        if (func_0217B930(&playerPos) == 1)
-            func_0217BA54(gameSystem);
+        if (INTRUDE_FIELD_IsAtAreaEdge(&playerPos) == 1)
+            INTRUDE_FIELD_StartComm(gameSystem);
         break;
     case 2:
-        if (func_0217B930(&playerPos) != 0)
+        if (INTRUDE_FIELD_IsAtAreaEdge(&playerPos) != 0)
             return;
-        if (func_020392B8() > 1)
+        if (GFL_NET_SYSTEM_GetConnectNum() > 1)
             return;
         if (((IntrudeCommSys *)func_02026474(gameComm))->step == 4)
             return;
-        func_02026400(gameComm);
+        GAME_COMM_RequestExitNoCallback(gameComm);
         break;
     case 1:
-        if (func_0217B930(&playerPos) == 1)
-            func_0202640C(gameComm, (u32)func_0217BA48, (u32)gameSystem);
+        if (INTRUDE_FIELD_IsAtAreaEdge(&playerPos) == 1)
+            GAME_COMM_RequestExit(gameComm, (u32)INTRUDE_FIELD_StartCommAfterExit, (u32)gameSystem);
         break;
     }
 }
 
-void func_0217BA48(struct GameSystem *gameSystem, int result)
+void INTRUDE_FIELD_StartCommAfterExit(struct GameSystem *gameSystem, int result)
 {
     if (result == 0)
-        func_0217BA54(gameSystem);
+        INTRUDE_FIELD_StartComm(gameSystem);
 }
 
-void func_0217BA54(struct GameSystem *gameSystem)
+void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem)
 {
     struct GameComm *gameComm;
     IntrudeStartParam *param;
@@ -1254,14 +1254,14 @@ void func_0217BA54(struct GameSystem *gameSystem)
         return;
     if (func_02035390() == 1 && func_020353B0() == 1)
         return;
-    param = func_02030734(0x8005, 0x10, 1, d_02183AE0, 0x528);
+    param = func_02030734(0x8005, 0x10, 1, INTRUDE_FIELD_gStartParamFile, 0x528);
     param->startKind = 1;
     param->gameSystem = gameSystem;
     param->gameComm = gameComm;
-    func_020263D8(gameComm, 2, (u32)param);
+    GAME_COMM_Start(gameComm, 2, (u32)param);
 }
 
-void func_0217BAB4(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player, IntrudeCommSys *work)
+void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player, IntrudeCommSys *work)
 {
     int x;
     int areaIndex;
@@ -1288,9 +1288,9 @@ void func_0217BAB4(struct FieldMap *fieldMap, struct GameSystem *gameSystem, str
         return;
     if (work->memberCount < 2)
         return;
-    if (func_02175E90(work, &work->session) == 1)
+    if (INTRUDE_COMM_HasResultReward(work, &work->session) == 1)
         return;
-    func_021A3038(player, &playerPos);
+    FIELD_PLAYER_GetPos(player, &playerPos);
     wrappedPos = playerPos;
     x = playerPos.x;
     prevAreaId = work->localPeer.intrudeId;
@@ -1304,32 +1304,32 @@ void func_0217BAB4(struct FieldMap *fieldMap, struct GameSystem *gameSystem, str
     }
     if (wrapped == 1) {
         x = wrappedPos.x;
-        if (func_020120D8(gameSystem) == 1) {
+        if (GAMESYSTEM_IsEventActive(gameSystem) == 1) {
             wrappedPos = playerPos;
             wrapped = 0;
         }
     }
     areaIndex = x / 0x400000;
     if (wrapped == 1) {
-        func_021A3044(player, &wrappedPos);
-        func_02175274(work, wrappedPos.x);
+        FIELD_PLAYER_SetPos(player, &wrappedPos);
+        INTRUDE_COMM_AdjustAllRemotePositions(work, wrappedPos.x);
     }
-    areaIndex += func_02039338();
+    areaIndex += GFL_NET_SYSTEM_GetCurrentAid();
     if (areaIndex > work->lastAreaIndex)
         areaIndex -= work->lastAreaIndex + 1;
     if (prevAreaId == areaIndex)
         return;
     func_02175710(work, areaIndex);
     work->peerStatusDirty = 1;
-    func_02161FEC(work->returnSlots, (u8)areaIndex);
+    EVENT_FIELD_PROCLINK_SetReturnLinkId(work->returnSlots, (u8)areaIndex);
 }
 
-void func_0217BBCC(int unusedArg0, int unusedArg1, IntrudeCommSys *work)
+void INTRUDE_FIELD_ResetExtraAreaCount(int unusedArg0, int unusedArg1, IntrudeCommSys *work)
 {
     work->lastAreaIndex = 0;
 }
 
-void func_0217BBD8(struct FieldMap *fieldMap, struct GameSystem *gameSystem, IntrudeCommSys *work)
+void INTRUDE_FIELD_AddAreaMaps(struct FieldMap *fieldMap, struct GameSystem *gameSystem, IntrudeCommSys *work)
 {
     VecFx32 playerPos;
     int areaLimit;
@@ -1338,9 +1338,9 @@ void func_0217BBD8(struct FieldMap *fieldMap, struct GameSystem *gameSystem, Int
 
     if (work == 0 || fieldMap == 0)
         return;
-    if (func_02188C98(fieldMap) == 0)
+    if (FIELDMAP_GetG3dMapper(fieldMap) == 0)
         return;
-    if (func_02013D5C(func_02188C9C(fieldMap)) == 0)
+    if (func_02013D5C(FIELDMAP_GetZoneId(fieldMap)) == 0)
         return;
     areaLimit = work->memberCount - 1;
     if (areaLimit <= 0)
@@ -1349,38 +1349,38 @@ void func_0217BBD8(struct FieldMap *fieldMap, struct GameSystem *gameSystem, Int
         areaLimit = 1;
     if (work->lastAreaIndex >= areaLimit)
         return;
-    player = func_02188CB4(fieldMap);
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
     if (player == 0)
         return;
-    func_021A3038(player, &playerPos);
+    FIELD_PLAYER_GetPos(player, &playerPos);
     playerPos.x = playerPos.x % 0x400000;
-    if (func_0217B94C(&playerPos) == 1)
+    if (INTRUDE_FIELD_IsInEdgeMargin(&playerPos) == 1)
         return;
-    matrix = func_02159B48(0x8015);
-    func_02159B94(matrix, 0x76, 0x76 + 0xa1, 0x8015);
+    matrix = MAP_MATRIX_Create(0x8015);
+    MAP_MATRIX_Load(matrix, 0x76, 0x76 + 0xa1, 0x8015);
     do {
-        func_0218CD20(fieldMap, func_02188C98(fieldMap), matrix);
+        FIELD_G3D_MAPPER_AppendMatrix(fieldMap, FIELDMAP_GetG3dMapper(fieldMap), matrix);
         work->lastAreaIndex++;
     } while (work->lastAreaIndex < areaLimit);
-    func_02159BBC(matrix);
+    MAP_MATRIX_Delete(matrix);
 }
 
-void func_0217BC94(struct FieldMap *fieldMap, int count)
+void INTRUDE_FIELD_AddAreaMapCount(struct FieldMap *fieldMap, int count)
 {
     struct MapMatrix *matrix;
 
     if (count >= 3)
         count = 2;
-    matrix = func_02159B48(0x15);
-    func_02159B94(matrix, 0x76, 0x76 + 0xa1, 0x8015);
+    matrix = MAP_MATRIX_Create(0x15);
+    MAP_MATRIX_Load(matrix, 0x76, 0x76 + 0xa1, 0x8015);
     while (count > 0) {
-        func_0218CD20(fieldMap, func_02188C98(fieldMap), matrix);
+        FIELD_G3D_MAPPER_AppendMatrix(fieldMap, FIELDMAP_GetG3dMapper(fieldMap), matrix);
         count--;
     }
-    func_02159BBC(matrix);
+    MAP_MATRIX_Delete(matrix);
 }
 
-void func_0217BCDC(IntrudeCommSys *work, struct GameSystem *gameSystem, int objCode, u8 kind, u8 flag)
+void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gameSystem, int objCode, u8 kind, u8 flag)
 {
     int playerForm;
     struct FieldPlayer *player;
@@ -1408,42 +1408,42 @@ void func_0217BCDC(IntrudeCommSys *work, struct GameSystem *gameSystem, int objC
         work->localPeer.lookKind = kind;
         work->localPeer.lookFlag = flag;
         work->peerStatusDirty = 1;
-        playerForm = func_02175598(&work->localPeer, myStatus);
+        playerForm = INTRUDE_COMM_GetPlayerObjCode(&work->localPeer, myStatus);
     } else {
         objCode = 0;
         playerForm = 1;
         if (gender)
             playerForm = 4;
     }
-    player = func_02188CB4(func_0201210C(gameSystem));
-    func_021A3220(player, (u16)playerForm);
-    func_0216D8C0(func_021A3074(player), &drawOffset);
+    player = FIELDMAP_GetFieldPlayer(func_0201210C(gameSystem));
+    FIELD_PLAYER_SetObjCode(player, (u16)playerForm);
+    FLDMMDL_SetDrawOffset(FIELD_PLAYER_GetMmdl(player), &drawOffset);
     if (objCode == 0)
-        func_021A322C(player);
+        FIELD_PLAYER_ClearRememberedObjCode(player);
 }
 
-int func_0217BDE0(struct GameSystem *gameSystem, IntrudeCommSys *work, struct FieldPlayer *player)
+int INTRUDE_FIELD_TryStartOfferEvent(struct GameSystem *gameSystem, IntrudeCommSys *work, struct FieldPlayer *player)
 {
     IntrudeMemberRecord *offer;
     int zoneId;
     int offerIndex;
     GridPos playerGrid;
 
-    if (func_02175B8C(&work->session) != 1)
+    if (INTRUDE_COMM_IsSessionAccepted(&work->session) != 1)
         goto fail;
-    if (func_02175BBC(&work->session) != 0)
+    if (INTRUDE_COMM_IsSessionFinished(&work->session) != 0)
         goto fail;
-    offer = func_02175B34(&work->session);
+    offer = INTRUDE_COMM_GetActiveSessionRequest(&work->session);
     if (offer == 0)
         goto fail;
     if (offer->head.kind != 4)
         goto fail;
     if (work->localPeer.intrudeId != offer->name.netId)
         goto fail;
-    if (func_02175CF4(work, &work->session) != 0)
+    if (INTRUDE_COMM_GetJoinStatus(work, &work->session) != 0)
         goto fail;
     zoneId = func_02012AC8(func_020120F8(gameSystem));
-    func_0216D828(func_021A3074(player), &playerGrid);
+    FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(player), &playerGrid);
     offerIndex = offer->head.param.x;
     if (zoneId != d_021DB810[offerIndex])
         goto fail;
@@ -1453,29 +1453,29 @@ int func_0217BDE0(struct GameSystem *gameSystem, IntrudeCommSys *work, struct Fi
         goto fail;
     if (playerGrid.z != d_021DB834[offerIndex].z)
         goto fail;
-    return func_02182124(gameSystem, work, offer);
+    return EVENT_COMM_COMMON_CreateOfferEvent(gameSystem, work, offer);
 fail:
     return 0;
 }
 
-IntrudeZonePos *func_0217BEA8(u32 zoneId)
+IntrudeZonePos *INTRUDE_FIELD_FindZonePos(u32 zoneId)
 {
     u32 i;
 
     for (i = 0; i < 218; i++) {
-        if (d_02182B9C[i].zoneId == zoneId)
-            return &d_02182B9C[i];
+        if (INTRUDE_FIELD_gZonePositions[i].zoneId == zoneId)
+            return &INTRUDE_FIELD_gZonePositions[i];
     }
     return 0;
 }
 
-int func_0217BED4(int zoneId, VecFx32 *out)
+int INTRUDE_FIELD_GetZoneAnchor(int zoneId, VecFx32 *out)
 {
     IntrudeZonePos *entry;
     int x, y, z;
 
     if (func_02013D5C(zoneId) != 1) {
-        entry = func_0217BEA8(zoneId);
+        entry = INTRUDE_FIELD_FindZonePos(zoneId);
         if (entry == 0)
             return 0;
         z = entry->tileZ << 16;
@@ -1485,31 +1485,31 @@ int func_0217BED4(int zoneId, VecFx32 *out)
         out->y = y;
         out->z = z;
     } else {
-        *out = d_02182B60;
+        *out = INTRUDE_FIELD_gHomeAnchorPos;
     }
     return 1;
 }
 
-void func_0217BF1C(IntrudeStartParam *param)
+void INTRUDE_FIELD_InitStartParam(IntrudeStartParam *param)
 {
     MI_CpuFill8(param, 0, 0x10);
 }
 
-u8 func_0217BF28(IntrudeStartParam *param)
+u8 INTRUDE_FIELD_GetStartKind(IntrudeStartParam *param)
 {
     return param->startKind;
 }
 
-void func_0217BF2C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height, u16 objCode, u16 eventId, u16 objId)
+void INTRUDE_FIELD_AddMmdl(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height, u16 objCode, u16 eventId, u16 objId)
 {
     MmdlHeader header;
     MmdlGridPos *gridPos;
     MmdlSys *mmdlSys;
     int zoneId;
 
-    mmdlSys = func_02188C7C(fieldMap);
-    zoneId = func_02188C9C(fieldMap);
-    header = d_02182B6C;
+    mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
+    zoneId = FIELDMAP_GetZoneId(fieldMap);
+    header = INTRUDE_FIELD_gMmdlHeaderTemplate;
     header.objId = objId;
     header.objCode = objCode;
     header.eventId = eventId;
@@ -1517,14 +1517,14 @@ void func_0217BF2C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height, 
     gridPos->x = gridX;
     gridPos->z = gridZ;
     gridPos->y = height;
-    func_0216CE60(mmdlSys, &header, zoneId);
+    FLDMMDL_AddMmdl(mmdlSys, &header, zoneId);
 }
 
 /*
  * lever: enum inner counter preserves the one-iteration loop; unsigned comparison;
  *   named column load fixes the Thumb add operands.
  */
-void func_0217BF84(struct FieldMap *fieldMap)
+void INTRUDE_FIELD_AddAreaMmdls(struct FieldMap *fieldMap)
 {
     AreaMmdlIndex defIndex;
     int areaIndex;
@@ -1534,15 +1534,15 @@ void func_0217BF84(struct FieldMap *fieldMap)
     do {
         defIndex = AREA_MMDL_FIRST;
         do {
-            gridX = d_02182B54[defIndex].gridX;
-            func_0217BF2C(fieldMap, gridX + (areaIndex << 6), d_02182B54[defIndex].gridZ, 0x2001F, d_02182B54[defIndex].objCode, d_02182B54[defIndex].eventId, areaIndex + d_02182B54[defIndex].objIdBase - 1);
+            gridX = INTRUDE_FIELD_gAreaMmdlDefs[defIndex].gridX;
+            INTRUDE_FIELD_AddMmdl(fieldMap, gridX + (areaIndex << 6), INTRUDE_FIELD_gAreaMmdlDefs[defIndex].gridZ, 0x2001F, INTRUDE_FIELD_gAreaMmdlDefs[defIndex].objCode, INTRUDE_FIELD_gAreaMmdlDefs[defIndex].eventId, areaIndex + INTRUDE_FIELD_gAreaMmdlDefs[defIndex].objIdBase - 1);
             defIndex++;
         } while ((unsigned int)defIndex < 1);
         areaIndex++;
     } while (areaIndex < 3);
 }
 
-int func_0217BFD8(struct GameSystem *gameSystem, int zoneId)
+int INTRUDE_FIELD_IsCommAllowed(struct GameSystem *gameSystem, int zoneId)
 {
     struct GameData *gameData;
     struct GameComm *gameComm;
@@ -1550,7 +1550,7 @@ int func_0217BFD8(struct GameSystem *gameSystem, int zoneId)
 
     gameData = func_020120F4(gameSystem);
     gameComm = func_02012138(gameSystem);
-    work = func_02158344(gameComm);
+    work = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     if (func_02012B70(gameData) == 0)
         return 0;
     if (work != 0)
@@ -1570,21 +1570,21 @@ int func_0217BFD8(struct GameSystem *gameSystem, int zoneId)
     return 1;
 }
 
-int func_0217C070(IntrudeCommSys *work)
+int INTRUDE_FIELD_IsStartRequested(IntrudeCommSys *work)
 {
-    if (work->startFlag == 1 || func_02176258(work) == 1)
+    if (work->startFlag == 1 || INTRUDE_COMM_IsRequestFromSelf(work) == 1)
         return 1;
     return 0;
 }
 
-void func_0217C094(IntrudeCommSys *work)
+void INTRUDE_FIELD_SetSingleAreaMode(IntrudeCommSys *work)
 {
     if (work != 0) {
         work->flagBit5 = 1;
     }
 }
 
-u8 func_0217C0A8(struct GameComm *gameComm)
+u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm)
 {
     struct GameData *gameData;
     IntrudeCommSys *hostWork;
@@ -1613,46 +1613,46 @@ u8 func_0217C0A8(struct GameComm *gameComm)
 /*
  * lever: index declared before count preserves r3/r4 allocation.
  */
-int func_0217C11C(u32 zoneId)
+int INTRUDE_FIELD_IsListedZone(u32 zoneId)
 {
     u32 i;
     u32 count;
 
-    count = d_021700A4;
+    count = INTRUDE_FIELD_gListedZoneCount;
     for (i = 0; i < count; ++i) {
-        if (zoneId == d_02170128[i])
+        if (zoneId == INTRUDE_FIELD_gListedZones[i])
             return 1;
     }
     return 0;
 }
 
-void func_0217C14C(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height)
+void INTRUDE_FIELD_AddMarkerMmdl(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height)
 {
     MmdlSys *mmdlSys;
     int zoneId;
     MmdlHeader header;
     MmdlGridPos *gridPos;
 
-    mmdlSys = func_02188C7C(fieldMap);
-    zoneId = func_02188C9C(fieldMap);
-    header = d_021835D4;
+    mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
+    zoneId = FIELDMAP_GetZoneId(fieldMap);
+    header = INTRUDE_FIELD_gMarkerMmdlHeader;
     gridPos = (MmdlGridPos *)header.pos;
     gridPos->x = gridX;
     gridPos->z = gridZ;
     gridPos->y = height;
-    func_0216CE60(mmdlSys, &header, zoneId);
+    FLDMMDL_AddMmdl(mmdlSys, &header, zoneId);
 }
 
 /*
  * extent: two alignment bytes at 0x0217C1CE.
  */
-void func_0217C194(struct FieldMap *fieldMap)
+void INTRUDE_FIELD_AddMarkerMmdls(struct FieldMap *fieldMap)
 {
     int i;
 
-    if (func_02013D5C(func_02188C9C(fieldMap)) != 0) {
+    if (func_02013D5C(FIELDMAP_GetZoneId(fieldMap)) != 0) {
         for (i = 0; i < 3; ++i)
-            func_0217C14C(fieldMap, (((i << 22) + 0x1f8000) >> 12) / 16, 29, 32);
+            INTRUDE_FIELD_AddMarkerMmdl(fieldMap, (((i << 22) + 0x1f8000) >> 12) / 16, 29, 32);
     }
 }
 
@@ -1660,7 +1660,7 @@ void func_0217C194(struct FieldMap *fieldMap)
  * lever: const pointer parameters, u16 argument homes and u16 c/result
  * preserve the original spill and field-load scheduling together.
  */
-void func_0217C1D0(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry, u16 objId, u16 gridX, u16 gridZ, int height)
+void INTRUDE_FIELD_AddSymbolMonMmdl(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry, u16 objId, u16 gridX, u16 gridZ, int height)
 {
     const IntrudeMmdlMoveParam *moveParam;
     int mmdlSys;
@@ -1668,10 +1668,10 @@ void func_0217C1D0(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry,
     MmdlHeader header;
     MmdlGridPos *gridPos;
 
-    moveParam = &d_0218360C[entry->appearance];
-    mmdlSys = (int)func_02188C7C(spawn->fieldMap);
-    zoneId = func_02188C9C(spawn->fieldMap);
-    header = d_0218362C;
+    moveParam = &INTRUDE_FIELD_gSymbolMonMoveParams[entry->appearance];
+    mmdlSys = (int)FIELDMAP_GetMmdlSys(spawn->fieldMap);
+    zoneId = FIELDMAP_GetZoneId(spawn->fieldMap);
+    header = INTRUDE_FIELD_gSymbolMonMmdlHeader;
     header.objId = objId;
     header.objCode = func_0202A188(spawn->tpoke, (u16)entry->species, (u16)entry->sex, (u16)entry->form);
     header.moveCode = moveParam->moveCode;
@@ -1684,33 +1684,33 @@ void func_0217C1D0(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry,
     gridPos->x = gridX;
     gridPos->z = gridZ;
     gridPos->y = height;
-    func_0216CE60((MmdlSys *)mmdlSys, &header, zoneId);
+    FLDMMDL_AddMmdl((MmdlSys *)mmdlSys, &header, zoneId);
 }
 
-void func_0217C274(u32 *out, Mmdl *mmdl)
+void INTRUDE_FIELD_GetMmdlParamPair(u32 *out, Mmdl *mmdl)
 {
     int low;
 
-    low = func_0216D63C(mmdl, 1);
-    *out = low | (func_0216D63C(mmdl, 2) << 16);
+    low = FLDMMDL_GetParam(mmdl, 1);
+    *out = low | (FLDMMDL_GetParam(mmdl, 2) << 16);
 }
 
 /*
- * Recursive MATCH unblocker: callee of func_0216AC90 (ov010) +0026 and
- * func_0216ACCC (ov010) +0032. Thumb tail-call thunk to 0x0216D63C; the
+ * Recursive MATCH unblocker: callee of SCRCMD_SYMBOL_SelectObjectEntry (ov010) +0026 and
+ * SCRCMD_SYMBOL_MoveObjectEntryToPairedBand (ov010) +0032. Thumb tail-call thunk to 0x0216D63C; the
  * address is coherent Thumb only in ov018 (mid-instruction in ov019/ov176,
  * ARM in ov009), so the ov018 shard makes both sites attest as `matched`.
  */
-int func_0217C294(Mmdl *mmdl)
+int INTRUDE_FIELD_GetMmdlParam0(Mmdl *mmdl)
 {
-    return func_0216D63C(mmdl, 0);
+    return FLDMMDL_GetParam(mmdl, 0);
 }
 
 /*
  * The const on the entry pointer is what lets the bitfield loads be
  * scheduled above the outgoing stack-argument stores (48 bytes otherwise).
  */
-void *func_0217C2A0(int heapId, struct GameData *gameData, const SymbolMonEntry *entry)
+void *INTRUDE_FIELD_CreateSymbolMon(int heapId, struct GameData *gameData, const SymbolMonEntry *entry)
 {
     u8 *levelTable;
     u8 level;
@@ -1718,23 +1718,23 @@ void *func_0217C2A0(int heapId, struct GameData *gameData, const SymbolMonEntry 
     u32 personality;
     void *mon;
 
-    levelTable = func_0204A1BC(0xE3, 0, 0, heapId);
+    levelTable = ARC_UTIL_LoadMember(0xE3, 0, 0, heapId);
     level = levelTable[entry->species];
     func_020307B0(levelTable);
     trainerId = func_02008530(func_02012944(gameData));
-    personality = func_020186C8(trainerId, (u16)entry->species, (u16)entry->form, entry->sex, 0, 0);
-    mon = func_020173F0(entry->species, level, -1, heapId);
-    func_02017588(mon, entry->species, level, trainerId, -1, personality);
+    personality = POKE_TOOL_CreatePersonalRnd(trainerId, (u16)entry->species, (u16)entry->form, entry->sex, 0, 0);
+    mon = POKE_TOOL_Create(entry->species, level, -1, heapId);
+    POKE_TOOL_SetupPartyParamEx(mon, entry->species, level, trainerId, -1, personality);
     func_02018A00(mon, entry->species, entry->form);
-    func_02017988(mon, (u16)entry->form);
+    POKE_TOOL_ChangeForm(mon, (u16)entry->form);
     if (entry->move != 0) {
-        if (func_0201808C(mon, entry->move) == 0xFFFF)
-            func_020180F4(mon, (u16)entry->move);
+        if (POKE_TOOL_AddMove(mon, entry->move) == 0xFFFF)
+            POKE_TOOL_PushMove(mon, (u16)entry->move);
     }
     return mon;
 }
 
-void func_0217C37C(struct FieldMap *fieldMap, int objIdBase, SymbolMonEntry *entries, int unused, int cellKind)
+void INTRUDE_FIELD_SpawnSymbolMons(struct FieldMap *fieldMap, int objIdBase, SymbolMonEntry *entries, int unused, int cellKind)
 {
     const u8 (*offsets)[2];
     SymbolSpawnContext spawn;
@@ -1747,19 +1747,19 @@ void func_0217C37C(struct FieldMap *fieldMap, int objIdBase, SymbolMonEntry *ent
     int x;
     int z;
 
-    if (func_02166618(cellKind))
-        offsets = d_02183678;
-    else if (func_02166640(cellKind))
-        offsets = d_021835F8;
+    if (SYMBOL_MAP_IsHomeCell(cellKind))
+        offsets = INTRUDE_FIELD_gSymbolMonOffsetsHome;
+    else if (SYMBOL_MAP_IsPlainCell(cellKind))
+        offsets = INTRUDE_FIELD_gSymbolMonOffsetsPlain;
     else
-        offsets = d_02183650;
+        offsets = INTRUDE_FIELD_gSymbolMonOffsetsOther;
 
-    spawn.tpoke = func_0202A128(func_02188C84(fieldMap));
+    spawn.tpoke = func_0202A128(FIELDMAP_GetHeapId(fieldMap));
     spawn.fieldMap = fieldMap;
     spawn.objIdBase = objIdBase;
-    playerMmdl = func_021A3074(func_02188CB4(fieldMap));
-    playerGridX = func_0216D83C(playerMmdl);
-    playerGridZ = func_0216D86C(playerMmdl);
+    playerMmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
+    playerGridX = FLDMMDL_GetGridNowX(playerMmdl);
+    playerGridZ = FLDMMDL_GetGridNowZ(playerMmdl);
 
     for (i = 0; i < 20; i++) {
         if (entries[i].species != 0) {
@@ -1775,37 +1775,37 @@ void func_0217C37C(struct FieldMap *fieldMap, int objIdBase, SymbolMonEntry *ent
                 else
                     x++;
             }
-            func_0217C1D0(&spawn, &entries[i], i, x, z, 0);
+            INTRUDE_FIELD_AddSymbolMonMmdl(&spawn, &entries[i], i, x, z, 0);
         }
     }
     func_0202A170(spawn.tpoke);
 }
 
-struct GameEvent *func_0217C458(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work, u16 senderNetId)
+struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work, u16 senderNetId)
 {
     IntrudeMemberRecord *offer;
     OfferEventWork *eventWork;
     struct GameEvent *event;
 
-    offer = func_02175B34(&work->session);
+    offer = INTRUDE_COMM_GetActiveSessionRequest(&work->session);
     func_020120F4(gameSystem);
-    event = func_020122C0(gameSystem, 0, func_0217C4D0, sizeof(OfferEventWork));
+    event = func_020122C0(gameSystem, 0, INTRUDE_FIELD_EventOfferInfo, sizeof(OfferEventWork));
     eventWork = func_020124E8(event);
     MI_CpuFill8(eventWork, 0, sizeof(OfferEventWork));
     eventWork->senderNetId = senderNetId;
     eventWork->fieldMap = fieldMap;
     eventWork->record = *offer;
     eventWork->showInfo = 1;
-    func_0217F2B4(eventWork->infoWindow, gameSystem);
-    func_02174E14(work, 5);
+    EVENT_COMM_COMMON_InitMsgBox(eventWork->infoWindow, gameSystem);
+    INTRUDE_COMM_SetState(work, 5);
     return event;
 }
 
 /*
- * Task callback registered by func_0217C458 (0x88-byte work, state word
+ * Task callback registered by INTRUDE_FIELD_CreateOfferInfoEvent (0x88-byte work, state word
  * in the second argument).
  */
-int func_0217C4D0(struct GameEvent *event, u32 *seq, OfferEventWork *work)
+int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWork *work)
 {
     struct GameSystem *gameSystem;
     IntrudeCommSys *intrudeWork;
@@ -1813,7 +1813,7 @@ int func_0217C4D0(struct GameEvent *event, u32 *seq, OfferEventWork *work)
     u8 ownId;
 
     gameSystem = func_020124E4(event);
-    intrudeWork = func_02158344(func_02012138(gameSystem));
+    intrudeWork = INTRUDE_COMM_GetWorkIfRunning(func_02012138(gameSystem));
     if (intrudeWork == 0 && *seq == 0)
         *seq = 8;
 
@@ -1823,34 +1823,34 @@ int func_0217C4D0(struct GameEvent *event, u32 *seq, OfferEventWork *work)
             *seq = 4;
             break;
         }
-        func_0217F528(work->infoWindow, gameSystem, 1, 1, 0x1E, 0x10);
-        func_021762D8(&work->record, &work->record.name, *(int *)work->infoWindow, work->senderNetId);
+        EVENT_COMM_COMMON_SetupListWindowB(work->infoWindow, gameSystem, 1, 1, 0x1E, 0x10);
+        INTRUDE_COMM_SetWordSetRequest(&work->record, &work->record.name, *(int *)work->infoWindow, work->senderNetId);
         pointIndex = work->record.head.pointIndex;
-        func_0217F574(work->infoWindow, (u16)work->record.head.kind, 8, 0);
-        func_0217F574(work->infoWindow, (u16)pointIndex, 8, 0x10);
+        EVENT_COMM_COMMON_PrintListWindowB(work->infoWindow, (u16)work->record.head.kind, 8, 0);
+        EVENT_COMM_COMMON_PrintListWindowB(work->infoWindow, (u16)pointIndex, 8, 0x10);
         (*seq)++;
         break;
     case 1:
-        func_02012374(event, func_02029830(gameSystem, 0x52B));
+        GAME_EVENT_CallEvent(event, func_02029830(gameSystem, 0x52B));
         (*seq)++;
         break;
     case 2:
         if (func_02005F38() == 0) {
-            func_02012374(event, func_02029620(gameSystem, 0, 6));
+            GAME_EVENT_CallEvent(event, func_02029620(gameSystem, 0, 6));
             (*seq)++;
         }
         break;
     case 3:
-        func_0217F58C(work->infoWindow);
+        EVENT_COMM_COMMON_DeleteListWindowB(work->infoWindow);
         (*seq)++;
         break;
     case 4:
         ownId = (int)func_02012B58(func_020120F4(gameSystem));
-        func_0217C658(&work->spin, gameSystem, work->fieldMap, work->record.head.ids[ownId], work->record.head.grades[ownId], ((IntrudeNetIdMask *)&work->record.head.reserved08)->netIds & (1 << ownId));
+        INTRUDE_FIELD_InitPlayerSpin(&work->spin, gameSystem, work->fieldMap, work->record.head.ids[ownId], work->record.head.grades[ownId], ((IntrudeNetIdMask *)&work->record.head.reserved08)->netIds & (1 << ownId));
         (*seq)++;
         break;
     case 5:
-        if (func_0217C688(&work->spin, intrudeWork) == 1)
+        if (INTRUDE_FIELD_StepPlayerSpin(&work->spin, intrudeWork) == 1)
             (*seq)++;
         break;
     case 6:
@@ -1863,16 +1863,16 @@ int func_0217C4D0(struct GameEvent *event, u32 *seq, OfferEventWork *work)
         break;
     case 7:
         if (intrudeWork != 0) {
-            if (func_02175A24(&intrudeWork->session) == 1)
+            if (INTRUDE_COMM_IsSessionTimeLimitSet(&intrudeWork->session) == 1)
                 (*seq)++;
         } else {
             (*seq)++;
         }
         break;
     case 8:
-        func_0217F318(work->infoWindow);
+        EVENT_COMM_COMMON_ExitMsgBox(work->infoWindow);
         if (intrudeWork != 0)
-            func_02174E14(intrudeWork, 0);
+            INTRUDE_COMM_SetState(intrudeWork, 0);
         return 1;
     }
     return 0;
@@ -1881,7 +1881,7 @@ int func_0217C4D0(struct GameEvent *event, u32 *seq, OfferEventWork *work)
 /*
  * extent: two alignment bytes at 0x0217C686.
  */
-void func_0217C658(PlayerSpinWork *spin, struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 objCode, u8 kind, u8 flag)
+void INTRUDE_FIELD_InitPlayerSpin(PlayerSpinWork *spin, struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 objCode, u8 kind, u8 flag)
 {
     MI_CpuFill8(spin, 0, sizeof(PlayerSpinWork));
     spin->gameSystem = gameSystem;
@@ -1894,9 +1894,9 @@ void func_0217C658(PlayerSpinWork *spin, struct GameSystem *gameSystem, struct F
 }
 
 /*
- * Per-frame step of the 0x18-byte record func_0217C658 initialises.
+ * Per-frame step of the 0x18-byte record INTRUDE_FIELD_InitPlayerSpin initialises.
  */
-int func_0217C688(PlayerSpinWork *spin, IntrudeCommSys *work)
+int INTRUDE_FIELD_StepPlayerSpin(PlayerSpinWork *spin, IntrudeCommSys *work)
 {
     Mmdl *playerMmdl;
     s16 frames;
@@ -1909,10 +1909,10 @@ int func_0217C688(PlayerSpinWork *spin, IntrudeCommSys *work)
         spin->state++;
         break;
     case 1:
-        if (func_02188BE8(spin->fieldMap) == 1) {
-            playerMmdl = func_021A3074(func_02188CB4(spin->fieldMap));
-            if (func_0216D3CC(playerMmdl) == 1) {
-                if (spin->stepFrames >= 15 && spin->switched != 0 && d_021836A0[spin->dirIndex] == 1) {
+        if (FIELDMAP_IsReady(spin->fieldMap) == 1) {
+            playerMmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(spin->fieldMap));
+            if (FLDMMDL_CheckPossibleAcmd(playerMmdl) == 1) {
+                if (spin->stepFrames >= 15 && spin->switched != 0 && INTRUDE_FIELD_gSpinAcmds[spin->dirIndex] == 1) {
                     spin->state++;
                     break;
                 }
@@ -1923,13 +1923,13 @@ int func_0217C688(PlayerSpinWork *spin, IntrudeCommSys *work)
                     spin->stepFrames--;
                     if (spin->stepFrames <= 1) {
                         func_020120F4(spin->gameSystem);
-                        func_0217BCDC(work, spin->gameSystem, spin->objCode, spin->kind, spin->flag);
+                        INTRUDE_FIELD_ChangePlayerLook(work, spin->gameSystem, spin->objCode, spin->kind, spin->flag);
                         spin->switched++;
                     }
                 } else if (frames < 15) {
                     spin->stepFrames++;
                 }
-                func_0216D410(playerMmdl, d_021836A0[spin->dirIndex]);
+                FLDMMDL_SetAcmd(playerMmdl, INTRUDE_FIELD_gSpinAcmds[spin->dirIndex]);
             }
         }
         break;

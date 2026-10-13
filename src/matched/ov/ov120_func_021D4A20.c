@@ -12,7 +12,7 @@
  *   func_0216CB30 0x0216CB30 arm ov009
  *   func_02009EC8 0x02009EC8 thumb
  *   func_02009E74 0x02009E74 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
  */
 #include "../include/Obj10386.h"
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct Sub02009D9CObj;
 extern u32 func_02009E74(struct Sub02009D9CObj *obj, u32 id);
 struct Sub0200852CObj;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 #define I(k) (*(int *)(p + (k)))
 int func_021D4A20(int a, u8 *p)
@@ -51,7 +51,7 @@ int func_021D4A20(int a, u8 *p)
                 if (I(0x18) == id) score = 100;
             }
         } else {
-            if (group == func_02008530((const struct Sub0200852CObj *)func_02012944((void *)(((struct Obj22828 *)q)->f0)))) {
+            if (group == func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)(((struct Obj22828 *)q)->f0)))) {
                 if (I(0x148) == -1) {
                     if (func_02009E74(func_02009EC8(((struct Obj10386 *)p)->f30), id) != 0)
                         score = 100;

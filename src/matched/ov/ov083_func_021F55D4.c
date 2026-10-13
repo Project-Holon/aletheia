@@ -1,5 +1,5 @@
 /*
- * function: func_021F55D4
+ * function: GPOWER_EVENT_PrintPowerList
  * address:  0x021F55D4
  * packet:   pkt_ov083_021F55D4
  * region:   ov083
@@ -13,12 +13,12 @@
  * constant zero live in r4 across the calls and seeds `i` from it.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   func_0200BF10  0x0200BF10  thumb
- *   func_02045CAC  0x02045CAC  arm
- *   func_02190844  0x02190844  thumb  ov021
- *   func_021F556C  0x021F556C  thumb  ov083
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   FIELD_MSGBG_InfoMsgWinPrintStr  0x02190844  thumb  ov021
+ *   GPOWER_EVENT_PrintPowerRow  0x021F556C  thumb  ov083
  *   func_02010EB4  0x02010EB4  thumb
  *   GPOWER_GetMinutesLeftByType  0x02010EC0  thumb
  */
@@ -29,19 +29,19 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 struct Rec1B0;
 extern u8 func_0200BF10(struct Rec1B0 *p);
 struct MsgBank;
 struct Slot;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02190844(struct Slot **p, int x, int y, u32 z);
-extern void  func_021F556C(char *p, u32 a1, u32 a2, int a3, u8 a4);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void FIELD_MSGBG_InfoMsgWinPrintStr(struct Slot **p, int x, int y, u32 z);
+extern void  GPOWER_EVENT_PrintPowerRow(char *p, u32 a1, u32 a2, int a3, u8 a4);
 extern u8 func_02010EB4(int k);
 extern u32 GPOWER_GetMinutesLeftByType(u32 i);
 
-void func_021F55D4(char *p)
+void GPOWER_EVENT_PrintPowerList(char *p)
 {
     u8 vals[13];
     u8 order[13];
@@ -53,17 +53,17 @@ void func_021F55D4(char *p)
     u8 n;
     u8 t;
 
-    x = func_0200BE48(func_02012EBC(((struct Obj00815 *)p)->fC));
-    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 4, (void *)(((struct Obj00815 *)p)->f34));
-    func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0, ((struct Obj00815 *)p)->f34);
-    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 6, (void *)(((struct Obj00815 *)p)->f34));
+    x = func_0200BE48(GAME_DATA_GetSaveControl(((struct Obj00815 *)p)->fC));
+    MSGDATA_ReadString((struct MsgBank *)(((struct Obj00815 *)p)->f28), 4, (void *)(((struct Obj00815 *)p)->f34));
+    FIELD_MSGBG_InfoMsgWinPrintStr((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0, ((struct Obj00815 *)p)->f34);
+    MSGDATA_ReadString((struct MsgBank *)(((struct Obj00815 *)p)->f28), 6, (void *)(((struct Obj00815 *)p)->f34));
     c = (int)func_0200BF10(x);
     if (c != 0x30) {
-        func_021F556C(p, ((struct Obj00815 *)p)->f34, c, 0, 1);
+        GPOWER_EVENT_PrintPowerRow(p, ((struct Obj00815 *)p)->f34, c, 0, 1);
     }
-    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 5, (void *)(((struct Obj00815 *)p)->f34));
-    func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0x30, ((struct Obj00815 *)p)->f34);
-    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 7, (void *)(((struct Obj00815 *)p)->f34));
+    MSGDATA_ReadString((struct MsgBank *)(((struct Obj00815 *)p)->f28), 5, (void *)(((struct Obj00815 *)p)->f34));
+    FIELD_MSGBG_InfoMsgWinPrintStr((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0x30, ((struct Obj00815 *)p)->f34);
+    MSGDATA_ReadString((struct MsgBank *)(((struct Obj00815 *)p)->f28), 7, (void *)(((struct Obj00815 *)p)->f34));
 
     for (i = 0, n = 0; i < 13; i++) {
         order[i] = i;
@@ -86,6 +86,6 @@ void func_021F55D4(char *p)
     }
 
     for (i = 0; i < n; i++) {
-        func_021F556C(p, ((struct Obj00815 *)p)->f34, vals[order[i]], keys[order[i]], i + 4);
+        GPOWER_EVENT_PrintPowerRow(p, ((struct Obj00815 *)p)->f34, vals[order[i]], keys[order[i]], i + 4);
     }
 }

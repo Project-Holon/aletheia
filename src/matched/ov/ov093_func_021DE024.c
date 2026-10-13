@@ -1,5 +1,5 @@
 /*
- * function: func_021DE024
+ * function: BTL_HANDLER_ITEM_MicleBerryCheckHp
  * address: 0x021DE024
  * packet: pkt_ov093_021DE024
  * region: ov093
@@ -10,21 +10,21 @@
  * status: EXACT
  * symbols:
  *   func_021C7CF4 0x021C7CF4 thumb ov093
- *   func_021DDEA4 0x021DDEA4 thumb ov093
- *   func_021DD044 0x021DD044 thumb ov093
- *   func_021DCFF8 0x021DCFF8 thumb ov093
+ *   BTL_HANDLER_ITEM_IsHpAtOrBelowFraction 0x021DDEA4 thumb ov093
+ *   BTL_HANDLER_ITEM_PushUseItem 0x021DD044 thumb ov093
+ *   BTL_HANDLER_ITEM_GetParam 0x021DCFF8 thumb ov093
  * Interface: C7CF4 returns the live r0 payload and receives observed r1.
  * Lever: named byte local shifts r0 into r2 directly; inline cast adds a copy.
  */
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021DDEA4(void *, int, unsigned int);
-extern void func_021DD044(void *, void *, int);
-extern int func_021DCFF8(int, int);
+extern int BTL_HANDLER_ITEM_IsHpAtOrBelowFraction(void *, int, unsigned int);
+extern void BTL_HANDLER_ITEM_PushUseItem(void *, void *, int);
+extern int BTL_HANDLER_ITEM_GetParam(int, int);
 
-void func_021DE024(int a, void *b, int c, int d)
+void BTL_HANDLER_ITEM_MicleBerryCheckHp(int a, void *b, int c, int d)
 {
     unsigned char n;
     func_021C7CF4(b, c);
-    n = func_021DCFF8(a, 2);
-    if (func_021DDEA4(b, c, n) != 0) func_021DD044((void *)a, b, c);
+    n = BTL_HANDLER_ITEM_GetParam(a, 2);
+    if (BTL_HANDLER_ITEM_IsHpAtOrBelowFraction(b, c, n) != 0) BTL_HANDLER_ITEM_PushUseItem((void *)a, b, c);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02192244",
+   "name": "FIELD_MSGBG_LoadSpWinPalette",
    "address": "0x02192244",
    "kind": "game",
    "region": "ov021",

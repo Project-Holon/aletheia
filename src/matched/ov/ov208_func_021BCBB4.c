@@ -16,7 +16,7 @@
  *   func_021BC2F0 0x021BC2F0 thumb
  *   func_021BD974 0x021BD974 thumb
  *   func_021BE7A4 0x021BE7A4 thumb
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021BCF18 0x021BCF18 thumb
  *   func_021BCF2C 0x021BCF2C thumb
  *   func_021BC310 0x021BC310 thumb
@@ -46,7 +46,7 @@ extern unsigned func_021BDB54(const struct State *p);
 extern void func_021BC2F0(char *p, int a, int b);
 extern void func_021BD974(struct Ov208Fade *m);
 extern void func_021BE7A4(struct Ov208Icon *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021BCF18(char *p);
 extern void func_021BCF2C(char *p);
 extern void func_021BC310(char *p, int v);
@@ -83,7 +83,7 @@ int func_021BCBB4(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main 
     }
     func_021BD974(m->f14);
     func_021BE7A4(m->f18);
-    func_0201C4E4(m->gfx);
+    PRINTSYS_QUE_Main(m->gfx);
     func_021BCF18(m->disp);
     func_021BCF2C(m->disp);
     if (done == 0)

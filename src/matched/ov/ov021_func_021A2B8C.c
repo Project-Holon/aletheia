@@ -1,5 +1,5 @@
 /*
- * function: func_021A2B8C
+ * function: WEATHER_TASK_TickSpawnTimer
  * address:  0x021A2B8C
  * packet:   pkt_ov021_021A2B8C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct {
     void (*cb)(u32 arg, int x, int a);
 } Obj021A2B8C;
 
-int func_021A2B8C(Obj021A2B8C *p, int a)
+int WEATHER_TASK_TickSpawnTimer(Obj021A2B8C *p, int a)
 {
     p->timer--;
     if (p->timer <= 0) {

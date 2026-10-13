@@ -1,5 +1,5 @@
 /*
- * function: func_02175DE4
+ * function: INTRUDE_COMM_GetResultCount
  * address:  0x02175DE4
  * packet:   pkt_ov011_02175DE4
  * region:   ov011
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02012B58  0x02012B58  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
  */
 
 typedef unsigned char u8;
@@ -26,9 +26,9 @@ typedef struct {
 
 extern u32 func_02026478(void *obj);
 struct BigObj;
-extern u8 func_02012B58(const struct BigObj *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 
-int func_02175DE4(void *p, u8 *a1)
+int INTRUDE_COMM_GetResultCount(void *p, u8 *a1)
 {
     Blk *b;
     int sv;
@@ -40,7 +40,7 @@ int func_02175DE4(void *p, u8 *a1)
         return 0;
     }
     for (i = 0; i < 3; i++) {
-        if (b->f34[i] == func_02012B58((const struct BigObj *)sv)) {
+        if (b->f34[i] == GAME_DATA_GetExitMode((const struct BigObj *)sv)) {
             u32 v = (b->w0 << 10) >> 25;
             if (v > 0x14) {
                 return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F0680
+ * function: UNION_SUBDISP_UpdateChatLines
  * address:  0x021F0680
  * packet:   pkt_ov031_021F0680
  * region:   ov031
@@ -13,14 +13,14 @@
  *   PMS_DRAW_IsPrintEnd  0x0202DC98  thumb
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
- *   func_021BBC2C  0x021BBC2C  thumb  ov021
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
  *   func_02034714  0x02034714  arm
- *   func_021F07AC  0x021F07AC  thumb  ov031
- *   func_021F09A0  0x021F09A0  thumb  ov031
- *   func_021F0AA0  0x021F0AA0  thumb  ov031
+ *   UNION_SUBDISP_DrawChatLine  0x021F07AC  thumb  ov031
+ *   UNION_SUBDISP_DrawVisibleChatLines  0x021F09A0  thumb  ov031
+ *   UNION_SUBDISP_ScrollChatLines  0x021F0AA0  thumb  ov031
  *   func_020061E4  0x020061E4  thumb
- *   d_021F10D0     0x021F10D0  data  a4
+ *   sUnionSubdispEmptyStr     0x021F10D0  data  a4
  */
 
 typedef unsigned char  u8;
@@ -56,14 +56,14 @@ extern u32 PMS_DRAW_IsPrintEnd(struct Obj0202DC98 *o);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *a);
-extern void *func_021BBC2C(void *r, int i);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
+extern void *UNION_CHAT_LOG_GetLine(void *r, int i);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_021F07AC(struct Obj *p, const u8 *e, u8 k);
-extern void func_021F09A0(void *a, char *b);
-extern void func_021F0AA0(void *a, char *b, int n);
+extern void UNION_SUBDISP_DrawChatLine(struct Obj *p, const u8 *e, u8 k);
+extern void UNION_SUBDISP_DrawVisibleChatLines(void *a, char *b);
+extern void UNION_SUBDISP_ScrollChatLines(void *a, char *b, int n);
 extern void func_020061E4(u32 se);
-extern const char d_021F10D0[];
+extern const char sUnionSubdispEmptyStr[];
 
 /*
  * The 0/1 flag the loop tests (movs r0,#1 / movs r0,#0 / cmp r0,#0) is a
@@ -76,14 +76,14 @@ static inline int slot_free(struct Obj *p, int i)
     u32 q = p->w40;
     if (p->s[i].f != 0) {
         if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)p->s[i].h))) == 0) {
-            func_02045334((struct Descriptor *)p->s[i].h);
+            BMP_WIN_TransferChars((struct Descriptor *)p->s[i].h);
             p->s[i].f = 0;
         }
     }
     return !p->s[i].f;
 }
 
-void func_021F0680(struct Obj *p, B *b)
+void UNION_SUBDISP_UpdateChatLines(struct Obj *p, B *b)
 {
     int flag;
     int i;
@@ -104,18 +104,18 @@ void func_021F0680(struct Obj *p, B *b)
     if (b->a < 3) {
         for (i = b->m; i <= b->n; i++) {
             if (i > -1) {
-                e = func_021BBC2C(b, i);
+                e = UNION_CHAT_LOG_GetLine(b, i);
                 if (e == 0)
-                    func_02034714(d_021F10D0, 0, d_021F10D0);
-                func_021F07AC(p, e, i);
+                    func_02034714(sUnionSubdispEmptyStr, 0, sUnionSubdispEmptyStr);
+                UNION_SUBDISP_DrawChatLine(p, e, i);
             }
         }
     } else {
         d = b->n - b->m;
         if (((d < 0) ? -d : d) >= 3 || b->m < 2)
-            func_021F09A0(p, (char *)b);
+            UNION_SUBDISP_DrawVisibleChatLines(p, (char *)b);
         else
-            func_021F0AA0(p, (char *)b, d);
+            UNION_SUBDISP_ScrollChatLines(p, (char *)b, d);
         flag = 1;
     }
     if (flag == 1)

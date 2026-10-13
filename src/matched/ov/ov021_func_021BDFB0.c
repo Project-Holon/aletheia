@@ -1,5 +1,5 @@
 /*
- * function: func_021BDFB0
+ * function: ENTRANCE_CAMERA_SetupLeaveByRecord
  * address:  0x021BDFB0
  * packet:   pkt_ov021_021BDFB0
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BDFB0  0x021BDFB0  thumb
- *   func_021BE17C  0x021BE17C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021BE194  0x021BE194  thumb  ov021
- *   func_021BE148  0x021BE148  thumb  ov021
- *   func_021BE1B0  0x021BE1B0  thumb  ov021
+ *   ENTRANCE_CAMERA_SetupLeaveByRecord  0x021BDFB0  thumb
+ *   ENTRANCE_CAMERA_GetCamera  0x021BE17C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   ENTRANCE_CAMERA_GetEntranceType  0x021BE194  thumb  ov021
+ *   ENTRANCE_CAMERA_LoadRecord  0x021BE148  thumb  ov021
+ *   ENTRANCE_CAMERA_AimsAtEntrance  0x021BE1B0  thumb  ov021
  *   func_021A7B08  0x021A7B08  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0218FEA4  0x0218FEA4  thumb  ov021
- *   func_0218FE78  0x0218FE78  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
+ *   FIELD_CAMERA_ANIME_GetCurrentParam  0x0218FE78  thumb  ov021
  */
 #include "../include/Obj00282.h"
 #include "../include/Obj03139.h"
@@ -54,22 +54,22 @@ struct Q {
     struct V3 f40;
 };
 
-extern unsigned int func_021BE17C(unsigned char *p);
+extern unsigned int ENTRANCE_CAMERA_GetCamera(unsigned char *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 typedef unsigned char  u8;
-extern u16 func_021A3050(u8 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 typedef unsigned int   u32;
-extern int func_021BE194(u32 a);
-extern struct Q func_021BE148(int a);
-extern int func_021BE1B0(u32 a);
+extern int ENTRANCE_CAMERA_GetEntranceType(u32 a);
+extern struct Q ENTRANCE_CAMERA_LoadRecord(int a);
+extern int ENTRANCE_CAMERA_AimsAtEntrance(u32 a);
 extern void func_021A7B08(int a, struct V3 *b);
 struct VecFx32;
-extern void func_021A3038(u8 *p, struct VecFx32 *out);
-extern void func_0218FEA4(int a);
-extern void func_0218FE78(int a, void *b);
+extern void FIELD_PLAYER_GetPos(u8 *p, struct VecFx32 *out);
+extern void FIELD_CAMERA_ANIME_Setup(int a);
+extern void FIELD_CAMERA_ANIME_GetCurrentParam(int a, void *b);
 
-void func_021BDFB0(char *a)
+void ENTRANCE_CAMERA_SetupLeaveByRecord(char *a)
 {
     char *r6 = a + 8;
     char *r4 = r6 + 0x24;
@@ -80,10 +80,10 @@ void func_021BDFB0(char *a)
     int y;
     int z;
 
-    func_021BE17C((unsigned char *)a);
-    r7 = func_02188CB4((struct Obj00020 *)(*(unsigned char * *)&((struct Obj00282 *)a)->f0));
-    func_021A3050(r7);
-    q = func_021BE148(func_021BE194((u32)a));
+    ENTRANCE_CAMERA_GetCamera((unsigned char *)a);
+    r7 = FIELDMAP_GetFieldPlayer((struct Obj00020 *)(*(unsigned char * *)&((struct Obj00282 *)a)->f0));
+    FIELD_PLAYER_GetDirDisp(r7);
+    q = ENTRANCE_CAMERA_LoadRecord(ENTRANCE_CAMERA_GetEntranceType((u32)a));
     ((struct Obj09656 *)r6)->f48 = q.f3c;
     ((struct Obj09656 *)r6)->f44 = q.f38;
     t30 = q.f30;
@@ -92,13 +92,13 @@ void func_021BDFB0(char *a)
     if (t30 == 0) {
         return;
     }
-    if (func_021BE1B0((u32)a) != 0) {
+    if (ENTRANCE_CAMERA_AimsAtEntrance((u32)a) != 0) {
         func_021A7B08(*(int *)&((struct Obj00282 *)a)->f0, &q.f40);
     } else {
-        func_021A3038(r7, (struct VecFx32 *)(&q.f40));
+        FIELD_PLAYER_GetPos(r7, (struct VecFx32 *)(&q.f40));
     }
-    func_0218FEA4(*(int *)&((struct Obj00282 *)a)->f54);
-    func_0218FE78(*(int *)&((struct Obj00282 *)a)->f4, r6 + 4);
+    FIELD_CAMERA_ANIME_Setup(*(int *)&((struct Obj00282 *)a)->f54);
+    FIELD_CAMERA_ANIME_GetCurrentParam(*(int *)&((struct Obj00282 *)a)->f4, r6 + 4);
     ((struct Obj09656 *)r6)->f0 = q.f2c;
     ((struct Obj03139 *)r4)->f0 = q.f4;
     ((struct Obj03139 *)r4)->f2 = q.f8;

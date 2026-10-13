@@ -14,8 +14,8 @@
  *   func_021E67C4 0x021E67C4 thumb ov119
  *   func_021DF8A0 0x021DF8A0 thumb ov119
  *   func_021D8A24 0x021D8A24 thumb ov119
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  */
 typedef unsigned short u16;
 
@@ -26,8 +26,8 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_021E67C4(void *,int);
 extern void func_021DF8A0(void *,int,int);
 extern int func_021D8A24(void *);
-extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 void func_021DF7F0(void *p)
 {
     unsigned x,y;
@@ -39,5 +39,5 @@ void func_021DF7F0(void *p)
     if(slot>=4) slot=3;
     func_021E67C4(p,slot);
     func_021DF8A0(p,slot,0);
-    if(func_021D8A24(p)) func_0203D3A8(func_020399A8(),0xc0d,1,(u32)(&slot));
+    if(func_021D8A24(p)) GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc0d,1,(u32)(&slot));
 }

@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov021/field_3dbg.c and filed here.
  *
  * symbols:
- *   func_021F0174 0x021F0174 thumb ov033
+ *   DOWSING_Update 0x021F0174 thumb ov033
  */
 
 typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A14B4;
-extern int func_021F0174(void *p);
+extern int DOWSING_Update(void *p);
 int func_021A14B4(Obj_021A14B4 *p);
 
-int func_021A14B4(Obj_021A14B4 *p) { return func_021F0174(p->f20); }
+int func_021A14B4(Obj_021A14B4 *p) { return DOWSING_Update(p->f20); }

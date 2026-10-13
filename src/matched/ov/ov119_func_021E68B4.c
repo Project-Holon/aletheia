@@ -9,13 +9,13 @@
  * status: EXACT
  * lever: unsigned cast on the store index prevents address CSE with the signed read index; without it 56 bytes, 37 byte DIFF.
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 static inline void clear(int p, int i) {
     if (*(int *)(p+i*4+0x10ac)) {
-        func_0204B3B4((struct Obj *)(*(int *)(p+i*4+0x10ac)));
+        CLACT_DeleteActor((struct Obj *)(*(int *)(p+i*4+0x10ac)));
         *(int *)(p+(unsigned int)i*4+0x10ac)=0;
     }
 }

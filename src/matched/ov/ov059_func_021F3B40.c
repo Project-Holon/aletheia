@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B40
+ * function: SP_POKE_GIMMICK_StartWaitAnimeProgress
  * address:  0x021F3B40
  * packet:   pkt_ov059_021F3B40
  * region:   ov059
@@ -9,24 +9,24 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_021897BC  0x021897BC  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   func_021F3C6C  0x021F3C6C  thumb  ov059
+ *   SP_POKE_GIMMICK_WaitAnimeProgressEventMain  0x021F3C6C  thumb  ov059
  */
 
 typedef unsigned int   u32;
 struct Ctx;
 struct Desc;
-extern void *func_0201210C(const struct Ctx *p);
-extern int *func_021897BC(char *p, int idx);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F3C6C(void *p);
+extern int SP_POKE_GIMMICK_WaitAnimeProgressEventMain(void *p);
 
-void func_021F3B40(void *p, int v)
+void SP_POKE_GIMMICK_StartWaitAnimeProgress(void *p, int v)
 {
     int *o;
-    o = func_021897BC(func_0201210C(p), 1);
-    func_020122C0(p, 0, func_021F3C6C, 0);
+    o = FIELDMAP_GetCommonWork(GAMESYSTEM_GetFieldMap(p), 1);
+    func_020122C0(p, 0, SP_POKE_GIMMICK_WaitAnimeProgressEventMain, 0);
     *o = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB908
+ * function: BTL_SERVER_AddMainCounter
  * address:  0x021BB908
  * packet:   pkt_021BB908
  * region:   ov093
@@ -23,7 +23,7 @@
 
 void func_021B91E4(void *p, int add);
 
-void func_021BB908(int *p, int add)
+void BTL_SERVER_AddMainCounter(int *p, int add)
 {
     func_021B91E4((void *)p[3], add);
 }

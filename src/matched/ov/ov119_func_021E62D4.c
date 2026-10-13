@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204A8D4 0x0204A8D4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  */
 typedef struct {
     char pad[0x1008];
@@ -18,15 +18,15 @@ typedef struct {
 } Work;
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
-extern void func_0204A8D4(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
 
 void func_021E62D4(Work *p, int a, int b)
 {
     if (p->h[a][b]) {
-        func_0204B3B4((struct Obj *)p->h[a][b]);
+        CLACT_DeleteActor((struct Obj *)p->h[a][b]);
         p->h[a][b] = 0;
-        func_0204A8D4(p->w[a][b]);
+        CLACT_ReleaseCharacter(p->w[a][b]);
     }
 }

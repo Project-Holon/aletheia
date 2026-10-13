@@ -1,5 +1,5 @@
 /*
- * function: func_021F391C
+ * function: GIMMICK58_PlaceLaneTrains
  * address:  0x021F391C
  * packet:   pkt_ov058_021F391C
  * region:   ov058
@@ -18,10 +18,10 @@
  *           of the handed 612 is data.
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE4A4  0x021BE4A4  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
  *   func_0207AF1C  0x0207AF1C  thumb
  *   d_020A1B38     0x020A1B38  data  a2
  */
@@ -38,13 +38,13 @@ typedef struct {
 extern s16 d_020A1B38[];
 
 typedef unsigned char  u8;
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
+extern void  FLD_EXP_OBJ_SetModelCullDraw(void *p, int i, u16 j, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
 
-void func_021F391C(void *unused, void *a, int i, int j)
+void GIMMICK58_PlaceLaneTrains(void *unused, void *a, int i, int j)
 {
     void *s;
     V *e;
@@ -52,38 +52,38 @@ void func_021F391C(void *unused, void *a, int i, int j)
     int x;
     int y2;
 
-    func_02188C84(a);
-    s = (void *)func_02188D2C(a);
+    FIELDMAP_GetHeapId(a);
+    s = (void *)FIELDMAP_GetExpObj(a);
 
-    e = (V *)func_021BE480(s, (int)0, (u16)i);
+    e = (V *)FLD_EXP_OBJ_GetModelStatus(s, (int)0, (u16)i);
     e->a = 0x1770000;
     e->b = 0x50000;
     e->c = 0x2100000;
     x = d_020A1B38[0x800];
     y = d_020A1B38[0x801];
     func_0207AF1C((char *)e + 0x18, x, y);
-    func_021BE4A4(s, 0, i, 1);
+    FLD_EXP_OBJ_SetModelCullDraw(s, 0, i, 1);
 
-    e = (V *)func_021BE480(s, (int)0, (u16)j);
+    e = (V *)FLD_EXP_OBJ_GetModelStatus(s, (int)0, (u16)j);
     e->a = 0x1710000;
     e->b = 0x50000;
     e->c = 0x2100000;
     func_0207AF1C((char *)e + 0x18, x, y);
-    func_021BE4A4(s, 0, j, 1);
+    FLD_EXP_OBJ_SetModelCullDraw(s, 0, j, 1);
 
-    e = (V *)func_021BE480(s, (int)0, (u16)(i + 2));
+    e = (V *)FLD_EXP_OBJ_GetModelStatus(s, (int)0, (u16)(i + 2));
     e->a = 0x1C60000;
     e->b = 0x50000;
     e->c = 0x20B0000;
     x = d_020A1B38[0x1800];
     y2 = d_020A1B38[0x1801];
     func_0207AF1C((char *)e + 0x18, x, y2);
-    func_021BE4A4(s, 0, i + 2, 1);
+    FLD_EXP_OBJ_SetModelCullDraw(s, 0, i + 2, 1);
 
-    e = (V *)func_021BE480(s, (int)0, (u16)(j + 2));
+    e = (V *)FLD_EXP_OBJ_GetModelStatus(s, (int)0, (u16)(j + 2));
     e->a = 0x1CC0000;
     e->b = 0x50000;
     e->c = 0x20B0000;
     func_0207AF1C((char *)e + 0x18, x, y2);
-    func_021BE4A4(s, 0, j + 2, 1);
+    FLD_EXP_OBJ_SetModelCullDraw(s, 0, j + 2, 1);
 }

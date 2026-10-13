@@ -1,5 +1,5 @@
 /*
- * function: func_021DED28
+ * function: BTL_HANDLER_ITEM_GripClaw_ExtendBind
  * address:  0x021DED28
  * packet:   pkt_ov093_021DED28
  * region:   ov093
@@ -10,24 +10,24 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
- *   func_021E8C9C  0x021E8C9C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
+ *   BTLV_CORE_SetSlotIndex  0x021E8C9C  thumb  ov093
  */
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 typedef unsigned int   u32;
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 union U;
-extern void func_021E8C9C(union U *p, int v);
+extern void BTLV_CORE_SetSlotIndex(union U *p, int v);
 
-void func_021DED28(int a, int b, int c)
+void BTL_HANDLER_ITEM_GripClaw_ExtendBind(int a, int b, int c)
 {
     int t;
 
-    if (c == func_021D775C(3) && func_021D775C(0x1d) == 8) {
-        t = func_021D775C(0x1e);
-        func_021E8C9C((union U *)(&t), 8);
-        func_021D76BC(0x1e, t);
+    if (c == BTL_EVENT_GetVar(3) && BTL_EVENT_GetVar(0x1d) == 8) {
+        t = BTL_EVENT_GetVar(0x1e);
+        BTLV_CORE_SetSlotIndex((union U *)(&t), 8);
+        BTL_EVENT_OverwriteVar(0x1e, t);
     }
 }

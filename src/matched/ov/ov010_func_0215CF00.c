@@ -1,5 +1,5 @@
 /*
- * function: func_0215CF00
+ * function: SCRCMD_PROC_CallDaycarePartyMenu
  * address:  0x0215CF00
  * packet:   pkt_ov010_0215CF00
  * region:   ov010
@@ -10,43 +10,43 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02012934  0x02012934  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BDB0  0x0200BDB0  thumb
- *   func_0215D2A4  0x0215D2A4  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRCMD_SODATEYA_Create  0x0215D2A4  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern unsigned short *func_02159AE8(void *a0, void *a1);
-extern void *func_0215A5E4(void *a0);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Big;
 struct BigObj;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BDB0(void *);
-extern void *func_0215D2A4(void *a, u32 b, u32 c);
-extern void func_0215897C(void *, void *);
+extern void *SCRCMD_SODATEYA_Create(void *a, u32 b, u32 c);
+extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int func_0215CF00(void *a, void *b)
+int SCRCMD_PROC_CallDaycarePartyMenu(void *a, void *b)
 {
-    void *t = func_0215A5F4(b);
-    unsigned short *v = func_02159AE8(a, b);
-    void *p = func_0215A5E4(b);
-    void *h = func_0215A5DC(b);
-    void *s = func_0201210C(h);
-    func_02012934(p);
-    func_0200BDB0(func_02012EBC(p));
-    func_0215897C(t, func_0215D2A4(h, (u32)s, (u32)v));
+    void *t = SCRCMD_WORK_GetScriptWork(b);
+    unsigned short *v = SCRIPT_WORK_ReadWorkPointer(a, b);
+    void *p = SCRCMD_WORK_GetGameData(b);
+    void *h = SCRCMD_WORK_GetGameSystem(b);
+    void *s = GAMESYSTEM_GetFieldMap(h);
+    GAME_DATA_GetMyParty(p);
+    func_0200BDB0(GAME_DATA_GetSaveControl(p));
+    SCRIPT_SYS_CallEvent(t, SCRCMD_SODATEYA_Create(h, (u32)s, (u32)v));
     return 1;
 }

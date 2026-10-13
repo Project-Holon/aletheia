@@ -1,7 +1,7 @@
 /*
  * file:     unit_0206AA78.c
  * unit:     yes
- * function: NNS_G3dGlbLightColor, func_0206AA8C, func_0206AAB0
+ * function: NNS_G3dGlbLightColor, NNS_G3dGlbMaterialColorDiffAmb, NNS_G3dGlbMaterialColorSpecEmi
  * address:  0x0206AA78
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -19,8 +19,8 @@
 #include "unit_0206A110_types.h"
 
 void NNS_G3dGlbLightColor(int lightId, u32 lightColor);
-void func_0206AA8C(u32 diffuse, u32 ambient, u32 isSetVtxColor);
-void func_0206AAB0(u32 specular, u32 emission, u32 isShininess);
+void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 isSetVtxColor);
+void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 isShininess);
 
 
 
@@ -52,17 +52,17 @@ void NNS_G3dGlbLightColor(int lightId, u32 lightColor)
  * layout/function_starts.txt rather than edited in.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206AA8C.c \
- *       --func func_0206AA8C --addr 0x0206AA8C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGlbMaterialColorDiffAmb.c \
+ *       --func NNS_G3dGlbMaterialColorDiffAmb --addr 0x0206AA8C --cc 1.1p1 --arm
  */
-void func_0206AA8C(u32 diffuse, u32 ambient, u32 isSetVtxColor)
+void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 isSetVtxColor)
 {
     NNS_G3dGlb.prmMatColor0 = diffuse | (ambient << 16) | ((u32)(isSetVtxColor != 0) << 15);
 }
 
 
 /*
- * NNS_G3dGlbMaterialColorSpecEmi: the +0x98 twin of func_0206AA8C, packing
+ * NNS_G3dGlbMaterialColorSpecEmi: the +0x98 twin of NNS_G3dGlbMaterialColorDiffAmb, packing
  * the specular color, the shininess-table bit at bit 15 and the emission
  * color into prmMatColor1.
  *
@@ -71,10 +71,10 @@ void func_0206AA8C(u32 diffuse, u32 ambient, u32 isSetVtxColor)
  * 0x0206AA8C in the unlabelled-follower report.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206AAB0.c \
- *       --func func_0206AAB0 --addr 0x0206AAB0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGlbMaterialColorSpecEmi.c \
+ *       --func NNS_G3dGlbMaterialColorSpecEmi --addr 0x0206AAB0 --cc 1.1p1 --arm
  */
-void func_0206AAB0(u32 specular, u32 emission, u32 isShininess)
+void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 isShininess)
 {
     NNS_G3dGlb.prmMatColor1 = specular | (emission << 16) | ((u32)(isShininess != 0) << 15);
 }

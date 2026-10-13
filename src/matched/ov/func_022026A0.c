@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_0220262C  0x0220262C  thumb  ov135
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
 
  * Create the 0x48 sub-object, register the handle and hand it to the callback.
  */
@@ -20,13 +21,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 struct Mon;
-extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void func_0220262C(u32 h, u32 k);
 extern u32 func_020307B0(void *p);
 
 void func_022026A0(u8 *p, u32 k)
 {
-    u32 h = (u32)func_0201747C((struct Mon *)p, 0x48);
+    u32 h = (u32)POKE_TOOL_CreateFromBoxParam((struct Mon *)p, 0x48);
 
     func_0220262C(h, k);
     func_020307B0((void *)h);

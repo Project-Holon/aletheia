@@ -1,5 +1,5 @@
 /*
- * function: func_021B7E24
+ * function: MONOLITH_TOOL_TITLE_FreeSlotIcons
  * address: 0x021B7E24
  * packet: pkt_ov071_021B7E24
  * region: ov071
@@ -13,4 +13,4 @@
  */
 
 extern void func_021B6FD8(void *);
-void func_021B7E24(void **p) { int i; for(i=0;i<6;i++) func_021B6FD8(p[i+3]); }
+void MONOLITH_TOOL_TITLE_FreeSlotIcons(void **p) { int i; for(i=0;i<6;i++) func_021B6FD8(p[i+3]); }

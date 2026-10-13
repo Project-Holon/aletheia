@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021915B4",
+   "name": "FIELD_MSGBG_DeletePlainWin",
    "address": "0x021915B4",
    "kind": "game",
    "region": "ov021",

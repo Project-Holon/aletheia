@@ -1,5 +1,5 @@
 /*
- * function: func_021A0B14
+ * function: FIELD_LIGHT_StepBlend
  * address:  0x021A0B14
  * packet:   pkt_ov021_021A0B14
  * region:   ov021
@@ -23,7 +23,7 @@ typedef struct {
     u16 max;
 } Counter;
 
-void func_021A0B14(Counter *p)
+void FIELD_LIGHT_StepBlend(Counter *p)
 {
     if (p->cur < p->max)
         p->cur++;

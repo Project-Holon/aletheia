@@ -1,5 +1,5 @@
 /*
- * function: func_021D7D6C
+ * function: BTL_CALC_HasDefaultSickCont
  * address:  0x021D7D6C
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D7D6C   0x021D7D6C  thumb
+ *   BTL_CALC_HasDefaultSickCont   0x021D7D6C  thumb
  *
  * Leaf with no calls and no pool; 6 instructions, 12 bytes: cmp r0, #6; bge loc_021D7D74; movs r0, #1; bx lr; movs r0, #0; bx lr.
  */
@@ -23,7 +23,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D7D6C  cmp r0,#6; bge; movs r0,#1; bx lr; movs r0,#0; bx lr */
-int func_021D7D6C(int x)
+int BTL_CALC_HasDefaultSickCont(int x)
 {
     if (x < 6)
         return 1;

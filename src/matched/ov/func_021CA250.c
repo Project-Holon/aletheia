@@ -1,5 +1,5 @@
 /*
- * function: func_021CA250
+ * function: BSUBWAY_SCR_ClearWinCount
  * address:  0x021CA250
  * packet:   pkt_021CA250
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021CA250(u32 a)
+int BSUBWAY_SCR_ClearWinCount(u32 a)
 {
 ((struct Obj18347 *)((u8 *)(a)))->fE = 0;
 return a;

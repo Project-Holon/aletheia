@@ -13,9 +13,9 @@
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0203633C 0x0203633C arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020362DC 0x020362DC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B404 0x0204B404 arm
  *   MYSTERY_ALBUM_StartIntro 0x021DDF5C thumb ov121
  *   func_021DBDB8 0x021DBDB8 thumb ov121
@@ -42,7 +42,7 @@ extern const Coord data_021DF86E[];
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u32 func_0203633C(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_020362DC(void);
 extern void MYSTERY_ALBUM_StartIntro(u8 *p);
 extern void func_020061E4(u32 a);
@@ -58,7 +58,7 @@ extern void func_021DBA78(u8 *p, int a);
 extern void func_021DB528(char *,int);
 extern void func_021DB478(char *,int,int,int,u16);
 extern int func_021DBA94(char *);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 static inline int wrap(int value,int low,int high)
 {
@@ -78,7 +78,7 @@ void func_021DC08C(void *task,u32 *state,char *p)
         func_0204B3DC(((struct Obj00061 *)p)->fAEC,1);
         repeat=func_0203633C();
         changed=0;delta=0;
-        if(func_02035C60()) {
+        if(TOUCHPANEL_GetTrg()) {
             ((struct Obj00061 *)p)->fAAC=*(void **)((u32)p+0xa7c+(u16)(((struct Obj00061 *)p)->fACC+*(u32 *)&((struct Obj00061 *)p)->fAC8*4)*4);
             if(((struct Obj00061 *)p)->fAAC) MYSTERY_ALBUM_StartIntro(((struct Obj00061 *)p)->fAAC);
         }
@@ -204,10 +204,10 @@ void func_021DC08C(void *task,u32 *state,char *p)
             if((int)((struct Obj00061 *)p)->fACC<4) {
                 pos.x=data_021DF86E[*(u32 *)(p+0xacc)].x*8-24;
                 pos.y=data_021DF86E[*(u32 *)(p+0xacc)].y*8-8;
-                func_0204B878(((struct Obj00061 *)p)->fAEC,0);
+                CLACT_SetActorAnimSeq(((struct Obj00061 *)p)->fAEC,0);
             } else {
                 pos.x=176;pos.y=152;
-                func_0204B878(((struct Obj00061 *)p)->fAEC,11);
+                CLACT_SetActorAnimSeq(((struct Obj00061 *)p)->fAEC,11);
             }
             func_0204B404(((struct Obj00061 *)p)->fAEC,(const struct Vec2 *)(&pos),0);
             ((struct Obj00061 *)p)->fBAC=0;

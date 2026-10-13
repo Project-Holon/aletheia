@@ -19,7 +19,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   g_7910 0x021C7910 data
  *   g_79E0 0x021C79E0 data
  *   g_79A0 0x021C79A0 data
@@ -35,10 +35,10 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
- *   func_02049DF4 0x02049DF4 arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   func_02082B0C 0x02082B0C arm
  *   func_020307B0 0x020307B0 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0201F5BC 0x0201F5BC thumb
  *   func_02049B40 0x02049B40 arm
  *   BGWINFRM_Create 0x0202C9B4 thumb
@@ -50,17 +50,17 @@
  *   BGWINFRM_Delete 0x0202CA0C thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
- *   func_020457B0 0x020457B0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_02045C04 0x02045C04 arm
- *   func_02027778 0x02027778 thumb
- *   func_02027F60 0x02027F60 thumb
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   g_78C0 0x021C78C0 data
  *   g_78B0 0x021C78B0 data
- *   func_02027FD8 0x02027FD8 thumb
- *   func_02027858 0x02027858 thumb
+ *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  */
 #include "ov136_types.h"
 struct MbUnitACtx;
@@ -103,17 +103,17 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020434DC(u32, u32);
-extern void func_02043598(u32, u32);
+extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void func_020403F4(u32 bgId);
 extern void func_0203F9B4(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02082B0C(void *, const void *, u32);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
@@ -125,15 +125,15 @@ extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02045C04(struct Rec *rec);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern struct R *func_02027F60(u16, u16, u32, u32, u16);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct R *APP_TASKMENU_RES_Create(u16, u16, u32, u32, u16);
 extern void *func_02045EC0(struct MsgBank *, u32);
-extern u32 func_02027FD8(struct TaskMenuState *s);
-extern void func_02027858(struct TaskMenu *m);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 void func_021C5518(u8 *a0);
 void func_021C5714(struct MbSeqCtx *a0);
 void func_021C574C(struct MbSeqCtx *p);
@@ -215,11 +215,11 @@ void func_021C5518(u8 *a0)
     func_020434DC(4, 1);
     func_020434DC(8, 1);
     func_020434DC(0x10, 1);
-    func_02043598(1, 1);
-    func_02043598(2, 1);
-    func_02043598(4, 1);
-    func_02043598(8, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(1, 1);
+    BG_SYS_SetSubPlaneVisible(2, 1);
+    BG_SYS_SetSubPlaneVisible(4, 1);
+    BG_SYS_SetSubPlaneVisible(8, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 
@@ -251,12 +251,12 @@ void func_021C574C(struct MbSeqCtx *p)
     func_02049658(h, 0x26, 1, 0, 0, 1, 0x66);
     func_020498F4(h, 0x25, 3, 0, 0, 1, 0x66);
     func_02049B68(h, 0x27, 0, 0, 0, 0x66);
-    buf = func_02049DF4(h, 0x26, 1, (u32)(&out), 0x66);
+    buf = ARC_UTIL_LoadBgCharDataFromHandle(h, 0x26, 1, (u32)(&out), 0x66);
     dst = *(u8 * *)&((struct MbUnitACtx *)out)->f14;
     func_02082B0C(dst + 0x100, *(u8 * *)&p->f8 + 4, 0x20);
     func_02082B0C(dst + 0x100, *(u8 * *)&p->f8 + 0x24, 0x20);
     func_020307B0(buf);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }
 
 void func_021C5828(struct MbSeqCtx *a0)
@@ -289,14 +289,14 @@ void func_021C5924(struct MbUnitBCtx *p)
 {
     p->f1D0 = func_02045B38(0, 2, 0x3b, 0x66);
     p->f1D4 = func_0201EC64(0x66);
-    p->f1D8 = func_020457B0(0x400, 0x66);
+    p->f1D8 = STRBUF_Create(0x400, 0x66);
 }
 
 void func_021C5954(struct MbUnitBCtx *p)
 {
-    func_02045808(p->f1D8);
+    STRBUF_Delete(p->f1D8);
     func_0201ED04(p->f1D4);
-    func_02045C04(p->f1D0);
+    MSGDATA_Delete(p->f1D0);
 }
 
 void func_021C5974(struct MbSeqCtx *p)
@@ -310,7 +310,7 @@ void func_021C5974(struct MbSeqCtx *p)
     t.y = 8;
     t.w = 10;
     t.h = 3;
-    ((struct MbUnitBCtx *)p->f8)->f310 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct MbUnitBCtx *)p->f8)->f30C);
+    ((struct MbUnitBCtx *)p->f8)->f310 = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct MbUnitBCtx *)p->f8)->f30C);
 }
 
 
@@ -323,7 +323,7 @@ void func_021C59B8(struct MbSeqCtx *p)
 {
     u16 i;
     const struct Pair *t;
-    ((struct MbUnitBCtx *)p->f8)->f30C = func_02027F60(0, 5, p->f18, *(unsigned int *)&((struct MbUnitBCtx *)p->f8)->f1C4, 0x66);
+    ((struct MbUnitBCtx *)p->f8)->f30C = APP_TASKMENU_RES_Create(0, 5, p->f18, *(unsigned int *)&((struct MbUnitBCtx *)p->f8)->f1C4, 0x66);
     for (i = 0; i < 4; i++) {
         t = &g_78C0[i];
         *(u32 *)(*(u8 * *)&p->f8 + i * 12 + 0x314) = (u32)func_02045EC0(((struct MbUnitBCtx *)p->f8)->f1D0, t->a);
@@ -342,10 +342,10 @@ void func_021C5AA8(u8 *p)
 {
     int i;
     for (i = 0; i < 4; i++)
-        func_02045808(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + 0x314 + i * 12));
-    func_02045808(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f344);
-    func_02045808(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f350);
-    func_02027FD8(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f30C);
+        STRBUF_Delete(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + 0x314 + i * 12));
+    STRBUF_Delete(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f344);
+    STRBUF_Delete(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f350);
+    APP_TASKMENU_RES_Delete(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f30C);
 }
 
 void func_021C5AEC(struct MbUnitACtx *p)
@@ -359,10 +359,10 @@ void func_021C5AEC(struct MbUnitACtx *p)
     t.y = 12;
     t.w = 12;
     t.h = 3;
-    ((struct MbUnitBCtx *)p->f8)->f310 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct MbUnitBCtx *)p->f8)->f30C);
+    ((struct MbUnitBCtx *)p->f8)->f310 = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct MbUnitBCtx *)p->f8)->f30C);
 }
 
 void func_021C5B30(struct MbSeqCtx *p)
 {
-    func_02027858(((struct MbUnitBCtx *)p->f8)->f310);
+    APP_TASKMENU_CloseMenu(((struct MbUnitBCtx *)p->f8)->f310);
 }

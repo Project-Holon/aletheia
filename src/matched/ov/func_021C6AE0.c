@@ -1,5 +1,5 @@
 /*
- * function: func_021C6AE0
+ * function: FIELD_G3DOBJ_InitResDesc
  * address:  0x021C6AE0
  * packet:   pkt_021C6AE0
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02082A7C(u32 a, u32 b, u32 c);
 
-void func_021C6AE0(u32 a)
+void FIELD_G3DOBJ_InitResDesc(u32 a)
 {
     func_02082A7C(0, a, 0x24);
 }

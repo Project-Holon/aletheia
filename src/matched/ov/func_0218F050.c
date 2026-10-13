@@ -1,5 +1,5 @@
 /*
- * function: func_0218F050
+ * function: FIELD_CAMERA_StopDelayLog
  * address:  0x0218F050
  * packet:   pkt_0218F050
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0218F050(u32 a)
+int FIELD_CAMERA_StopDelayLog(u32 a)
 {
 ((struct Obj00612 *)((u8 *)(a)))->f2C = 0;
 ((struct Obj00612 *)((u8 *)(a)))->f28 = 0;

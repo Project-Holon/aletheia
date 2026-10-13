@@ -1,5 +1,5 @@
 /*
- * function: func_021DD57C
+ * function: BTL_HANDLER_ITEM_AddSitrusBerry
  * address: 0x021DD57C
  * packet: pkt_ov093_021DD57C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCAE8.c and filed here.
  *
  * symbols:
- *   d_021F1BDC 0x021F1BDC data ov093 a4
+ *   gHandlerTableSitrusBerry 0x021F1BDC data ov093 a4
  */
 
-int *func_021DD57C(int *p);
-extern int d_021F1BDC[];
+int *BTL_HANDLER_ITEM_AddSitrusBerry(int *p);
+extern int gHandlerTableSitrusBerry[];
 
-int *func_021DD57C(int *p)
+int *BTL_HANDLER_ITEM_AddSitrusBerry(int *p)
 {
     *p = 5;
-    return d_021F1BDC;
+    return gHandlerTableSitrusBerry;
 }

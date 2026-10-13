@@ -1,5 +1,5 @@
 /*
- * function: func_0218C9A4
+ * function: FIELD_BUILDMODEL_CheckNodeKindFlag
  * address:  0x0218C9A4
  * packet:   pkt_ov021_0218C9A4
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218C990  0x0218C990  thumb  ov021
- *   func_02006148  0x02006148  thumb
- *   func_02006224  0x02006224  thumb
+ *   FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry  0x0218C990  thumb  ov021
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
+ *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  */
 
-int func_0218C990(unsigned char *p, int v);
+int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(unsigned char *p, int v);
 typedef unsigned int   u32;
-int func_02006148(u32 a0);
-int func_02006224(u32 a0);
+int GFL_USE_GetSeSlot(u32 a0);
+int GFL_USE_IsSeSlotBusy(u32 a0);
 
-int func_0218C9A4(void *p)
+int FIELD_BUILDMODEL_CheckNodeKindFlag(void *p)
 {
     unsigned short v;
-    if (func_0218C990(p, (int)(&v)) == 0)
+    if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(p, (int)(&v)) == 0)
         return 0;
-    return func_02006224(func_02006148(v));
+    return GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(v));
 }

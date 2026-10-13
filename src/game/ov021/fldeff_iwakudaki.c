@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_iwakudaki.c
  * unit:     yes
- * function: func_021ADCB8, func_021ADCDC, func_021ADCF0, func_021ADD38, func_021ADD64, func_021ADD7C, func_021ADDE8, func_021ADE4C, func_021ADE70, func_021ADEA0
+ * function: FLDEFF_IWAKUDAKI_Create, FLDEFF_IWAKUDAKI_Delete, FLDEFF_IWAKUDAKI_LoadResources, FLDEFF_IWAKUDAKI_FreeResources, FLDEFF_IWAKUDAKI_UploadTexturesTask, FLDEFF_IWAKUDAKI_Start, FLDEFF_IWAKUDAKI_Init, FLDEFF_IWAKUDAKI_Exit, FLDEFF_IWAKUDAKI_Update, FLDEFF_IWAKUDAKI_Draw
  * address:  0x021ADCB8
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,35 +14,37 @@
  *
  * symbols:
  *   func_0207ADC4  0x0207ADC4  arm
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   func_02047AC8  0x02047AC8  arm
- *   d_021DE10C  0x021DE10C  data
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
+ *   sFldeffIwakudakiFileName  0x021DE10C  data
  *   func_020307B0  0x020307B0  arm
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_02046E24  0x02046E24  arm
- *   func_02047180  0x02047180  arm
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
  *   func_020056A0  0x020056A0  thumb
- *   d_021DE0FC     0x021DE0FC  data  a4
- *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   sIwakudakiAnimeFiles     0x021DE0FC  data  a4
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   func_021ABE8C  0x021ABE8C  thumb  ov021
- *   func_021ABE30  0x021ABE30  thumb  ov021
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   d_021D9290     0x021D9290  data  a4
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
- *   d_021D92A4  0x021D92A4  data
- *   func_02047400  0x02047400  arm
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
- *   func_020477A4  0x020477A4  arm
- *   func_02047738  0x02047738  arm
- *   func_0204762C  0x0204762C  arm
- *   func_02047504  0x02047504  arm
- *   func_02046EFC  0x02046EFC  arm
- *   func_020470D0  0x020470D0  arm
+ *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   sIwakudakiFuncs     0x021D9290  data  a4
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   sIwakudakiDrawStatus  0x021D92A4  data
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   func_02030734  0x02030734  arm
+ *   G3D_SYSTEM_TransAllocatedTexture  0x02047204  arm  arm9
+ *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm  arm9
  */
 #include "../ov010/fldmmdl_types.h"
 #include "field_effect_types.h"
@@ -77,7 +79,7 @@ typedef struct G3dObjectStatus {
 /* Fixed-point step added to the animation frame each update (one frame). */
 #define IWAKUDAKI_ANIME_STEP 0x1000
 
-/* Resources of the Rock Smash effect (allocated 0x20 bytes by func_021ADCB8). */
+/* Resources of the Rock Smash effect (allocated 0x20 bytes by FLDEFF_IWAKUDAKI_Create). */
 typedef struct IwakudakiRes {
     FieldEffectSys *fieldEffect;                   /* 0x00 */
     G3dResource *model;                            /* 0x04 */
@@ -111,170 +113,170 @@ typedef struct GridPos {
 typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const GridPos *targetPos);
 
 extern void func_0207ADC4(MtxFx33 *mtx);
-extern void func_021AC1B8(FieldEffectObj *effect, VecFx32 *out);
-extern int func_02047AC8(G3dObject *obj, G3dObjectStatus *status);
+extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
+extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
-extern ArcHandle *func_021ABE24(FieldEffectSys *fieldEffect);
-extern G3dResource *func_02046E24(ArcHandle *arc, u32 fileId);
-extern int func_02047180(G3dResource *res);
+extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
+extern int G3D_SYSTEM_AllocVramTexture(G3dResource *res);
 extern void *func_020056A0(void (*func)(void *task, void *work), void *work, int priority);
-extern void func_02046EFC(G3dResource *res);
-extern int func_020470D0(G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
+extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern void func_02030EAC(void *task);
-extern int func_02047204(G3dResource *res);
-extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *out);
+extern int G3D_SYSTEM_TransAllocatedTexture(G3dResource *res);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern int func_021ABE8C(FieldEffectSys *fieldEffect, int effectId);
-extern void func_021ABE30(FieldEffectSys *fieldEffect, int *effectIds, int count);
-extern void *func_021ABEA0(FieldEffectSys *fieldEffect, u32 effectId);
-extern void func_021ABFA8(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
-extern void *func_021AC1AC(FieldEffectObj *effect);
-extern void func_021AC1CC(FieldEffectObj *effect, const VecFx32 *pos);
-extern void func_021AC154(FieldEffectObj *effect);
-extern G3dRender *func_02047400(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *func_02047564(G3dRender *render, const G3dResource *anmRes, int anmIdx);
-extern G3dObject *func_0204767C(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 func_020477A4(G3dObject *obj, u32 anmIdx);
-extern void func_0204762C(G3dAnime *anime);
-extern void func_02047738(G3dObject *obj);
-extern void func_02047504(G3dRender *render);
-extern int func_020478B8(G3dObject *obj, int anmIdx, fx32 step);
+extern void FIELD_EFFECT_LoadResources(FieldEffectSys *fieldEffect, int *effectIds, int count);
+extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
+extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
+extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
+extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
+extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
+extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
+extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
+extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
 
-IwakudakiRes *func_021ADCB8(FieldEffectSys *fieldEffect, u32 heapId);
-void func_021ADCDC(FieldEffectSys *fieldEffect, IwakudakiRes *res);
-void func_021ADCF0(IwakudakiRes *res);
-void func_021ADD38(IwakudakiRes *res);
-void func_021ADD64(void *task, void *work);
-void func_021ADD7C(const Mmdl *mmdl, FieldEffectSys *fieldEffect);
-void func_021ADDE8(FieldEffectObj *effect, IwakudakiWork *work);
-void func_021ADE4C(void *task, IwakudakiWork *work);
-void func_021ADE70(FieldEffectObj *effect, IwakudakiWork *work);
-void func_021ADEA0(FieldEffectObj *effect, IwakudakiWork *work);
+IwakudakiRes *FLDEFF_IWAKUDAKI_Create(FieldEffectSys *fieldEffect, u32 heapId);
+void FLDEFF_IWAKUDAKI_Delete(FieldEffectSys *fieldEffect, IwakudakiRes *res);
+void FLDEFF_IWAKUDAKI_LoadResources(IwakudakiRes *res);
+void FLDEFF_IWAKUDAKI_FreeResources(IwakudakiRes *res);
+void FLDEFF_IWAKUDAKI_UploadTexturesTask(void *task, void *work);
+void FLDEFF_IWAKUDAKI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect);
+void FLDEFF_IWAKUDAKI_Init(FieldEffectObj *effect, IwakudakiWork *work);
+void FLDEFF_IWAKUDAKI_Exit(void *task, IwakudakiWork *work);
+void FLDEFF_IWAKUDAKI_Update(FieldEffectObj *effect, IwakudakiWork *work);
+void FLDEFF_IWAKUDAKI_Draw(FieldEffectObj *effect, IwakudakiWork *work);
 
-extern char d_021DE10C[];                              /* source file name for the heap allocator */
-extern int d_021DE0FC[IWAKUDAKI_ANIME_COUNT];          /* animation file ids */
-extern const FieldEffectObjFuncs d_021D9290;           /* Rock Smash effect callbacks */
-extern G3dObjectStatus d_021D92A4;                     /* draw status template */
+extern char sFldeffIwakudakiFileName[];                              /* source file name for the heap allocator */
+extern int sIwakudakiAnimeFiles[IWAKUDAKI_ANIME_COUNT];          /* animation file ids */
+extern const FieldEffectObjFuncs sIwakudakiFuncs;           /* Rock Smash effect callbacks */
+extern G3dObjectStatus sIwakudakiDrawStatus;                     /* draw status template */
 
 /* ------------------------------------------------------------------ */
 /* fldeff_iwakudaki.c                                                  */
 /* ------------------------------------------------------------------ */
 
 /* Loads the resources of the Rock Smash effect. */
-IwakudakiRes *func_021ADCB8(FieldEffectSys *fieldEffect, u32 heapId)
+IwakudakiRes *FLDEFF_IWAKUDAKI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    IwakudakiRes *res = func_02030734(heapId, 0x20, 1, d_021DE10C, 0x67);
+    IwakudakiRes *res = func_02030734(heapId, 0x20, 1, sFldeffIwakudakiFileName, 0x67);
     res->fieldEffect = fieldEffect;
-    func_021ADCF0(res);
+    FLDEFF_IWAKUDAKI_LoadResources(res);
     return res;
 }
 
-void func_021ADCDC(FieldEffectSys *fieldEffect, IwakudakiRes *res)
+void FLDEFF_IWAKUDAKI_Delete(FieldEffectSys *fieldEffect, IwakudakiRes *res)
 {
-    func_021ADD38(res);
+    FLDEFF_IWAKUDAKI_FreeResources(res);
     func_020307B0(res);
 }
 
-void func_021ADCF0(IwakudakiRes *res)
+void FLDEFF_IWAKUDAKI_LoadResources(IwakudakiRes *res)
 {
-    ArcHandle *arc = func_021ABE24(res->fieldEffect);
+    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     int i;
 
-    res->model = func_02046E24(arc, IWAKUDAKI_MODEL_FILE);
-    func_02047180(res->model);
-    res->uploadTask = func_020056A0(func_021ADD64, res, 0);
+    res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, IWAKUDAKI_MODEL_FILE);
+    G3D_SYSTEM_AllocVramTexture(res->model);
+    res->uploadTask = func_020056A0(FLDEFF_IWAKUDAKI_UploadTexturesTask, res, 0);
     for (i = 0; i < IWAKUDAKI_ANIME_COUNT; i++)
-        res->anime[i] = func_02046E24(arc, d_021DE0FC[i]);
+        res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, sIwakudakiAnimeFiles[i]);
 }
 
-void func_021ADD38(IwakudakiRes *res)
+void FLDEFF_IWAKUDAKI_FreeResources(IwakudakiRes *res)
 {
     int i;
 
     for (i = 0; i < IWAKUDAKI_ANIME_COUNT; i++)
-        func_02046EFC(res->anime[i]);
-    func_020470D0(res->model);
-    func_02046EFC(res->model);
+        G3D_SYSTEM_DeleteResource(res->anime[i]);
+    G3D_SYSTEM_FreeVramTexture(res->model);
+    G3D_SYSTEM_DeleteResource(res->model);
     func_02030EAC(res->uploadTask);
 }
 
 /* Task: uploads the model textures to VRAM once. */
-void func_021ADD64(void *task, void *work)
+void FLDEFF_IWAKUDAKI_UploadTexturesTask(void *task, void *work)
 {
     IwakudakiRes *res = work;
 
     if (res->texturesUploaded == 0) {
-        func_02047204(res->model);
+        G3D_SYSTEM_TransAllocatedTexture(res->model);
         res->texturesUploaded = 1;
     }
 }
 
 /* Starts the effect at the model position. */
-void func_021ADD7C(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
+void FLDEFF_IWAKUDAKI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
 {
     VecFx32 pos;
     IwakudakiStartParam param;
     int effectId;
 
-    func_0216D88C(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, &pos);
     pos.y += IWAKUDAKI_OFFSET_Y;
     pos.z += IWAKUDAKI_OFFSET_Z;
     if (func_021ABE8C(fieldEffect, FLDEFF_ID_IWAKUDAKI) == 0) {
         effectId = FLDEFF_ID_IWAKUDAKI;
-        func_021ABE30(fieldEffect, &effectId, 1);
+        FIELD_EFFECT_LoadResources(fieldEffect, &effectId, 1);
     }
-    param.res = func_021ABEA0(fieldEffect, FLDEFF_ID_IWAKUDAKI);
+    param.res = FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_IWAKUDAKI);
     param.pos = pos;
-    func_021ABFA8(fieldEffect, &d_021D9290, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(fieldEffect, &sIwakudakiFuncs, 0, 0, &param, 0);
 }
 
 /* Effect init. */
-void func_021ADDE8(FieldEffectObj *effect, IwakudakiWork *work)
+void FLDEFF_IWAKUDAKI_Init(FieldEffectObj *effect, IwakudakiWork *work)
 {
-    IwakudakiStartParam *param = func_021AC1AC(effect);
+    IwakudakiStartParam *param = FIELD_EFFECT_GetObjectParam(effect);
     int i;
 
     work->res = param->res;
-    func_021AC1CC(effect, &param->pos);
-    work->render = func_02047400(work->res->model, 0, work->res->model);
+    FIELD_EFFECT_SetObjectPos(effect, &param->pos);
+    work->render = G3D_SYSTEM_CreateRender(work->res->model, 0, work->res->model);
     for (i = 0; i < IWAKUDAKI_ANIME_COUNT; i++)
-        work->anime[i] = func_02047564(work->render, work->res->anime[i], 0);
-    work->object = func_0204767C(work->render, work->anime, IWAKUDAKI_ANIME_COUNT);
+        work->anime[i] = G3D_SYSTEM_CreateAnime(work->render, work->res->anime[i], 0);
+    work->object = G3D_SYSTEM_CreateObject(work->render, work->anime, IWAKUDAKI_ANIME_COUNT);
     for (i = 0; i < IWAKUDAKI_ANIME_COUNT; i++)
-        func_020477A4(work->object, (u16)i);
+        G3D_SYSTEM_EnableObjectAnime(work->object, (u16)i);
 }
 
 /* Effect exit. */
-void func_021ADE4C(void *task, IwakudakiWork *work)
+void FLDEFF_IWAKUDAKI_Exit(void *task, IwakudakiWork *work)
 {
     int i;
 
     for (i = 0; i < IWAKUDAKI_ANIME_COUNT; i++)
-        func_0204762C(work->anime[i]);
-    func_02047738(work->object);
-    func_02047504(work->render);
+        G3D_SYSTEM_DeleteAnime(work->anime[i]);
+    G3D_SYSTEM_DeleteObject(work->object);
+    G3D_SYSTEM_DeleteRender(work->render);
 }
 
 /* Effect update: advances the animations and ends the effect when all are done. */
-void func_021ADE70(FieldEffectObj *effect, IwakudakiWork *work)
+void FLDEFF_IWAKUDAKI_Update(FieldEffectObj *effect, IwakudakiWork *work)
 {
     int done = 1;
     int i;
 
     for (i = 0; i < IWAKUDAKI_ANIME_COUNT; i++) {
-        if (func_020478B8(work->object, (u16)i, IWAKUDAKI_ANIME_STEP) == 1)
+        if (G3D_SYSTEM_IncObjectAnimeFrame(work->object, (u16)i, IWAKUDAKI_ANIME_STEP) == 1)
             done = 0;
     }
     if (done)
-        func_021AC154(effect);
+        FIELD_EFFECT_DeleteObject(effect);
 }
 
 /* Effect draw. */
-void func_021ADEA0(FieldEffectObj *effect, IwakudakiWork *work)
+void FLDEFF_IWAKUDAKI_Draw(FieldEffectObj *effect, IwakudakiWork *work)
 {
-    G3dObjectStatus status = d_021D92A4;
+    G3dObjectStatus status = sIwakudakiDrawStatus;
 
     func_0207ADC4(&status.rotate);
-    func_021AC1B8(effect, &status.trans);
-    func_02047AC8(work->object, &status);
+    FIELD_EFFECT_GetObjectPos(effect, &status.trans);
+    G3D_SYSTEM_DrawObjectCulling(work->object, &status);
 }

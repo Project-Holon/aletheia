@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202D060",
+   "name": "POKEGRA_GetArcID",
    "address": "0x0202D060",
    "kind": "game",
    "region": "arm9",

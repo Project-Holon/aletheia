@@ -1,5 +1,5 @@
 /*
- * function: func_0216D7A8
+ * function: FLDMMDL_CallDrawGetProc
  * address: 0x0216D7A8
  * packet: pkt_ov010_0216D7A8
  * region: ov010
@@ -13,7 +13,7 @@
 #include "../include/Obj19128.h"
 
 typedef int (*Callback)(void *, unsigned int);
-int func_0216D7A8(void *p, unsigned int v)
+int FLDMMDL_CallDrawGetProc(void *p, unsigned int v)
 {
     Callback f;
     f = *(Callback *)&((struct Obj19128 *)((char *)((struct Obj00113 *)p)->f90))->f14;

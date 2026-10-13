@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C0A70",
+   "name": "EVENT_RECOVERY_AreBallsIdle",
    "address": "0x021C0A70",
    "kind": "game",
    "region": "ov021",

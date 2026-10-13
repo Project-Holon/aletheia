@@ -10,22 +10,22 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Frame: 0x1c bytes of locals needs the two func_021D62A8 calls and
- * func_021E8A58 declared as returning a one-word struct (Word); see
+ * Frame: 0x1c bytes of locals needs the two BTL_POKEPARAM_GetMajorStatusIndex calls and
+ * BTLV_CORE_MakeSlotKind1Index15 declared as returning a one-word struct (Word); see
  * docs/idioms/an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md.
- * Word on func_021D6314 or func_021D7D18 as well gives a larger frame.
+ * Word on BTL_POKEPARAM_GetSickContRaw or BTL_CALC_MakeDefaultSickCont as well gives a larger frame.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
- *   func_021D6314  0x021D6314  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021E8A78  0x021E8A78  thumb  ov093
- *   func_021E8A58  0x021E8A58  thumb  ov093
- *   func_021D7D18  0x021D7D18  thumb  ov093
+ *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind1Index15  0x021E8A58  thumb  ov093
+ *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F27BC     0x021F27BC  data   a4
  */
 #include "../include/Obj03704.h"
@@ -34,16 +34,16 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Word { unsigned int v; } Word;
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern void *func_021C7CF4(int *p, int i);
-extern Word func_021D62A8(void *q);
-extern u32 func_021D6314(u8 *p, int i);
+extern Word BTL_POKEPARAM_GetMajorStatusIndex(void *q);
+extern u32 BTL_POKEPARAM_GetSickContRaw(u8 *p, int i);
 extern void *func_021C88A4(char *p, int a, int b);
-extern int func_021E8A78(int s);
-extern Word func_021E8A58(void);
-extern int func_021D7D18(int k);
+extern int BTLV_CORE_IsSlotKind1Index15(int s);
+extern Word BTLV_CORE_MakeSlotKind1Index15(void);
+extern int BTL_CALC_MakeDefaultSickCont(int k);
 extern void func_021C88C8(void *a, void *p);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int d_021F27BC[];
 
 void func_021E3FC0(int u, void *a, int c)
@@ -54,19 +54,19 @@ void func_021E3FC0(int u, void *a, int c)
     int s;
     u8 *p;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         q = func_021C7CF4(a, c);
-        r = func_021D62A8(q).v;
+        r = BTL_POKEPARAM_GetMajorStatusIndex(q).v;
         if (r != 0) {
-            k = func_021D775C(6);
-            if (func_021D62A8(func_021C7CF4(a, k)).v == 0) {
-                s = func_021D6314(q, r);
+            k = BTL_EVENT_GetVar(6);
+            if (BTL_POKEPARAM_GetMajorStatusIndex(func_021C7CF4(a, k)).v == 0) {
+                s = BTL_POKEPARAM_GetSickContRaw(q, r);
                 p = func_021C88A4(a, 0xc, c);
                 ((struct Obj03704 *)p)->f4 = r;
-                if (r == 5 && func_021E8A78(s) != 0)
-                    *(Word *)(p + 8) = func_021E8A58();
+                if (r == 5 && BTLV_CORE_IsSlotKind1Index15(s) != 0)
+                    *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind1Index15();
                 else
-                    ((struct Obj03704 *)p)->f8 = func_021D7D18(r);
+                    ((struct Obj03704 *)p)->f8 = BTL_CALC_MakeDefaultSickCont(r);
                 p[0xf] = k;
                 p[0xc] = 1;
                 func_021C88C8(a, p);
@@ -76,7 +76,7 @@ void func_021E3FC0(int u, void *a, int c)
                 p[8] = c;
                 ((struct Obj03704 *)p)->f0 |= 0x1000000;
                 func_021C88C8(a, p);
-                func_021D76BC(0x51, 0);
+                BTL_EVENT_OverwriteVar(0x51, 0);
             }
         }
     }

@@ -14,10 +14,11 @@
  *   func_021BA190  0x021BA190  thumb  ov217
  *   func_021BA194  0x021BA194  thumb  ov217
  *   func_021BA364  0x021BA364  thumb  ov217
+ *   FADE_IsActive  0x0204E804  arm  arm9
  *
  * Two-case entry picked by func_021BA190(): mode 0 runs the
  * func_021BA364()/func_021BA194() pair, mode 1 runs func_021BA150() when the
- * ARM9 query func_0204E804() is clear.
+ * ARM9 query FADE_IsActive() is clear.
  *
  * Addresses are Black-image addresses.
  */
@@ -29,7 +30,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 extern void func_021BA150(void *p);
 extern u32 func_021BA190(void *p);
 extern void func_021BA194(void *p);
@@ -42,7 +43,7 @@ void func_021BA094(u32 a0)
     func_021BA194((void *)a0);
     break;
     case 1:
-    if (func_0204E804() == 0) {
+    if (FADE_IsActive() == 0) {
     func_021BA150((void *)a0);
     }
     break;

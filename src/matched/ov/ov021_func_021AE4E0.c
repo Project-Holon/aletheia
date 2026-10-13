@@ -1,5 +1,5 @@
 /*
- * function: func_021AE4E0
+ * function: EVENT_TRAINER_EYE_StepWaitPlayer
  * address:  0x021AE4E0
  * packet:   pkt_ov021_021AE4E0
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216D5A0  0x0216D5A0  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
  */
 
 typedef struct Task {
@@ -27,17 +27,17 @@ typedef struct Task {
     unsigned char *f34;     /* 0x34 */
 } Task;
 
-extern void *func_021A3074(unsigned char *p);
-extern int func_0216D454(void *a0);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern int FLDMMDL_CheckEndAcmd(void *a0);
 typedef unsigned short u16;
-extern u16 func_0216D5A0(void *p);
+extern u16 FLDMMDL_GetMoveCode(void *p);
 
-int func_021AE4E0(Task *p)
+int EVENT_TRAINER_EYE_StepWaitPlayer(Task *p)
 {
-    if (func_0216D454(func_021A3074(p->f34)) == 0)
+    if (FLDMMDL_CheckEndAcmd(FIELD_PLAYER_GetMmdl(p->f34)) == 0)
         return 0;
     p->state = 3;
-    switch (func_0216D5A0(p->f08)) {
+    switch (FLDMMDL_GetMoveCode(p->f08)) {
     case 0x33:
     case 0x34:
     case 0x35:

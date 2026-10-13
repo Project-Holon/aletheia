@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj05536.h"
 
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void func_021BD848(char *p, int which)
 {
@@ -28,5 +28,5 @@ void func_021BD848(char *p, int which)
     {
         ((struct Obj05536 *)p)->f8 = ((struct Obj05536 *)p)->f24;
     }
-    func_0204B878(((struct Obj05536 *)p)->f0, (unsigned short)((struct Obj05536 *)p)->f8);
+    CLACT_SetActorAnimSeq(((struct Obj05536 *)p)->f0, (unsigned short)((struct Obj05536 *)p)->f8);
 }

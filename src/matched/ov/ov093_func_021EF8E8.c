@@ -1,5 +1,5 @@
 /*
- * function: func_021EF8E8
+ * function: BTL_FIELD_QueryStaticSlotA
  * address:  0x021EF8E8
  * packet:   pkt_ov093_021EF8E8
  * region:   ov093
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_021EFA94  0x021EFA94  thumb  ov093
- *   d_021F63F4  0x021F63F4  data  a4
+ *   gBtlFieldCountdown  0x021F63F4  data  a4
  */
 
 #include "../include/G_Countdown.h"
 
-extern struct Countdown d_021F63F4;
+extern struct Countdown gBtlFieldCountdown;
 extern int func_021EFA94(void *mem, int a);
 
-int func_021EF8E8(int a)
+int BTL_FIELD_QueryStaticSlotA(int a)
 {
-    return func_021EFA94(&(*(char *)&d_021F63F4), a);
+    return func_021EFA94(&(*(char *)&gBtlFieldCountdown), a);
 }

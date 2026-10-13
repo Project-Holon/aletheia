@@ -1,5 +1,5 @@
 /*
- * function: func_021C5FA8
+ * function: FISHING_StepCounter
  * address:  0x021C5FA8
  * packet:   pkt_ov021_021C5FA8
  * region:   ov021
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (saves no lr) after func_021C5DF4's pool; its only caller
- * is func_021C5DF4.  Frame counter at +0x60: true once it passes n, then
+ * Unlabelled leaf (saves no lr) after FISHING_EventMain's pool; its only caller
+ * is FISHING_EventMain.  Frame counter at +0x60: true once it passes n, then
  * rewinds.
  */
 
@@ -22,7 +22,7 @@ typedef struct {
     u32 f60;
 } Work;
 
-int func_021C5FA8(Work *w, u32 n)
+int FISHING_StepCounter(Work *w, u32 n)
 {
     if (w->f60++ < n)
         return 0;

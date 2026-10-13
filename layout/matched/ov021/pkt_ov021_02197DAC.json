@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02197DAC",
+   "name": "FLDMMDL_ACMD_ListDelete",
    "address": "0x02197DAC",
    "kind": "game",
    "region": "ov021",

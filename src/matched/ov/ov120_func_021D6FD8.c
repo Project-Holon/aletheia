@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   func_0204B92C 0x0204B92C arm
  */
 #include "../include/Obj10395.h"
@@ -17,12 +17,12 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Actor;
 struct Obj;
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021D6FD8(u8 *p, u32 flag)
 {
     if (((struct Obj10395 *)p)->f140 != 0) {
-        func_0204B9A0(((struct Obj10395 *)p)->f140);
+        CLACT_RestartActorAnim(((struct Obj10395 *)p)->f140);
         func_0204B92C(((struct Obj10395 *)p)->f140, flag);
     }
 }

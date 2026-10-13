@@ -1,5 +1,5 @@
 /*
- * function: func_020507D0
+ * function: BILLBOARD_ACT_GetEntryFlags
  * address:  0x020507D0
  * packet:   pkt_020507D0
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 BILLBOARD_GetElemVisible(u8 *a0, int i);
 
-int func_020507D0(Mgr_020507D0 *p, int i)
+int BILLBOARD_ACT_GetEntryFlags(Mgr_020507D0 *p, int i)
 {
     return BILLBOARD_GetElemVisible((u8 *)p->f4, p->f18[i].f0);
 }

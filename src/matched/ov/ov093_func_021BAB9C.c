@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB9C
+ * function: BTL_SERVER_Update
  * address:  0x021BAB9C
  * packet:   pkt_ov093_021BAB9C
  * region:   ov093
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB724  0x021BB724  thumb  ov093
- *   func_021BB798  0x021BB798  thumb  ov093
+ *   BTL_SERVER_SendCommandData  0x021BB724  thumb  ov093
+ *   BTL_SERVER_AreRepliesReady  0x021BB798  thumb  ov093
  */
 #include "../include/Obj07750.h"
 
 typedef unsigned char  u8;
-extern void func_021BB724(u8 *p, int a, int b, int c);
-extern int func_021BB798(unsigned char *p);
+extern void BTL_SERVER_SendCommandData(u8 *p, int a, int b, int c);
+extern int BTL_SERVER_AreRepliesReady(unsigned char *p);
 
-int func_021BAB9C(int a)
+int BTL_SERVER_Update(int a)
 {
     char *p = (char *)a;
     if (((struct Obj07750 *)p)->fED != 2) {
         int (*fp)(int, int) = *(int (**)(int, int))p;
         if (fp(a, a + 4) != 0) {
-            func_021BB724((u8 *)a, 9, ((struct Obj07750 *)p)->fB0, 8);
+            BTL_SERVER_SendCommandData((u8 *)a, 9, ((struct Obj07750 *)p)->fB0, 8);
             ((struct Obj07750 *)p)->fED = 2;
         }
     } else {
-        if (func_021BB798((unsigned char *)p) != 0)
+        if (BTL_SERVER_AreRepliesReady((unsigned char *)p) != 0)
             return 1;
     }
     return 0;

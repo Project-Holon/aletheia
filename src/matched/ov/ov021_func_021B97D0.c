@@ -1,5 +1,5 @@
 /*
- * function: func_021B97D0
+ * function: FIELD_RAIL_SETTING_GetPointIndex
  * address:  0x021B97D0
  * packet:   pkt_ov021_021B97D0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct {
     E70 *f10;
 } Obj;
 
-int func_021B97D0(Obj *p, E70 *e)
+int FIELD_RAIL_SETTING_GetPointIndex(Obj *p, E70 *e)
 {
     int i;
 

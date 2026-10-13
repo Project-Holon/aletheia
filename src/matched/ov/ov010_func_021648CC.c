@@ -1,5 +1,5 @@
 /*
- * function: func_021648CC
+ * function: CALENDER_GetDayOfYear
  * address:  0x021648CC
  * packet:   pkt_ov010_021648CC
  * region:   ov010
@@ -12,7 +12,7 @@
  * Sums the first n entries of a 13-byte days-per-month table, plus k - 1.
  *
  * symbols:
- *   d_02171C20  0x02171C20  data  ov010  a1
+ *   DaysPerMonthTable  0x02171C20  data  ov010  a1
  *
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef struct { u8 b[13]; } Days;
-extern const Days d_02171C20;
+extern const Days DaysPerMonthTable;
 
-u16 func_021648CC(int n, int k)
+u16 CALENDER_GetDayOfYear(int n, int k)
 {
-    Days t = d_02171C20;
+    Days t = DaysPerMonthTable;
     int i;
     u16 s = 0;
     for (i = 0; i < n; i++) {

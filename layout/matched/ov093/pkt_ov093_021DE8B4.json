@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE8B4",
-    "func_021DE8F0"
+    "BTL_HANDLER_ITEM_SoulDew_BoostSpDefense",
+    "BTL_HANDLER_ITEM_GetThickClubHandlers"
+   ],
+   "addresses": [
+    "0x021DE8B4",
+    "0x021DE8F0"
    ],
    "evidence": {
     "sole-ref": [

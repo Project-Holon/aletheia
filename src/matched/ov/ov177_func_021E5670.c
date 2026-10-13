@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
  */
 
 typedef unsigned char u8;
@@ -20,9 +20,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
 void func_021E5670(int *a0)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

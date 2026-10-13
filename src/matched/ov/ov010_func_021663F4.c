@@ -1,5 +1,5 @@
 /*
- * function: func_021663F4
+ * function: SYMBOL_MAP_GetNeighborCellId
  * address:  0x021663F4
  * packet:   pkt_ov010_021663F4
  * region:   ov010
@@ -9,21 +9,21 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Finds the position of a value in a byte list (func_0216630C) and returns
+ * Finds the position of a value in a byte list (SYMBOL_MAP_FindGridIndex) and returns
  * the entry a step away from it: 0 = three back, 1 = three on, 2 = one
  * back, 3 = one on; any other direction returns the default.
  *
  * symbols:
- *   func_0216630C  0x0216630C  thumb  ov010
+ *   SYMBOL_MAP_FindGridIndex  0x0216630C  thumb  ov010
  */
 
 typedef unsigned char u8;
 
-extern int func_0216630C(int a0, int a1, int a2, int a3);
+extern int SYMBOL_MAP_FindGridIndex(int a0, int a1, int a2, int a3);
 
-int func_021663F4(u8 *list, int def, unsigned dir, int a3)
+int SYMBOL_MAP_GetNeighborCellId(u8 *list, int def, unsigned dir, int a3)
 {
-    int i = func_0216630C((int)list, def, dir, a3);
+    int i = SYMBOL_MAP_FindGridIndex((int)list, def, dir, a3);
 
     switch (dir) {
     case 0:

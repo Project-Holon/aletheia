@@ -14,9 +14,9 @@
  *
  * symbols:
  *   func_02043534  0x02043534  arm
- *   func_020435F4  0x020435F4  arm
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   PROCSYS_Create  0x02031324  arm
  *   ov115_id       0x00000073  data  a1
@@ -46,9 +46,9 @@ typedef unsigned int   u32;
 extern void GAME_DATA_Delete(unsigned char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void  func_02043534(u32 a);
-extern void  func_020435F4(u32 a);
-extern void  func_0203064C(u32 a, u32 heap, u32 size);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void  BG_SYS_SetSubVisiblePlanes(u32 a);
+extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
 extern void *PROCSYS_Create(int a0);
 extern unsigned int PROCSYS_Main(void *p);
@@ -94,15 +94,15 @@ int func_02010BB8(void *ctx, int a1, int a2)
     u8 *p;
 
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     *(u32 *)0x04000000 &= 0xFFFFE0FF;
     *(u32 *)0x04001000 &= 0xFFFFE0FF;
     *(u32 *)0x04000000 &= 0xFFFF1FFF;
     *(u32 *)0x04001000 &= 0xFFFF1FFF;
     *(u16 *)0x04000050 = 0;
     *(u16 *)0x04001050 = 0;
-    func_0203064C(1, 0x5b, 0x800);
-    p = func_0203159C(ctx, 0x1a8, 0x5b);
+    GFL_HEAP_CreateChildHeap(1, 0x5b, 0x800);
+    p = PROCSYS_AllocProcWork(ctx, 0x1a8, 0x5b);
     func_02082BCC(p, 0, 0x1a8);
     ((struct Obj11242 *)p)->f0 = (u32)a2;
     ((struct Obj11242 *)p)->f8 = (unsigned int)PROCSYS_Create(0x5b);

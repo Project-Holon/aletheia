@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEA9C",
+   "name": "EVENT_FIELDMAP_CONTROL_LookupExitEffect",
    "address": "0x021BEA9C",
    "kind": "game",
    "region": "ov021",

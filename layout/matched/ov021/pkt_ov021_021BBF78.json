@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBF78",
+   "name": "FLDEFF_REFLECT_Init",
    "address": "0x021BBF78",
    "kind": "game",
    "region": "ov021",

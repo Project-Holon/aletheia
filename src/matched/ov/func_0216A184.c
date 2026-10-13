@@ -1,5 +1,5 @@
 /*
- * function: func_0216A184
+ * function: REPORT_EVENT_UpdateYesNoMenu
  * address:  0x0216A184
  * packet:   pkt_0216A184
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02027974  0x02027974  thumb
- *   func_020279E8  0x020279E8  thumb
- *   func_02027A04  0x02027A04  thumb
- *   func_02027858  0x02027858  thumb
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  */
 #include "../include/Obj00029.h"
 
@@ -21,13 +21,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02027974();
+extern int APP_TASKMENU_UpdateMenu();
 struct TaskMenu;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
-extern int func_02027858();
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
+extern int APP_TASKMENU_CloseMenu();
 
-int func_0216A184(int a0)
+int REPORT_EVENT_UpdateYesNoMenu(int a0)
 {
     int t4;
     int t5;
@@ -35,22 +35,22 @@ int func_0216A184(int a0)
 t5 = a0 + 0;
 a0 = *(int *)&((struct Obj00029 *)t5)->f18;
 a0 = ((struct Obj00029 *)a0)->f40;
-    a0 = func_02027974(a0);
+    a0 = APP_TASKMENU_UpdateMenu(a0);
 loc_0216A190:
 a0 = *(int *)&((struct Obj00029 *)t5)->f18;
 a0 = ((struct Obj00029 *)a0)->f40;
-    a0 = func_020279E8((struct TaskMenu *)a0);
+    a0 = APP_TASKMENU_IsFinish((struct TaskMenu *)a0);
 loc_0216A198:
     if (a0 != 1) goto loc_0216A1B8;
 loc_0216A19C:
 a0 = *(int *)&((struct Obj00029 *)t5)->f18;
 a0 = ((struct Obj00029 *)a0)->f40;
-    a0 = func_02027A04((const u8 *)a0);
+    a0 = APP_TASKMENU_GetCursorPos((const u8 *)a0);
 loc_0216A1A4:
 t4 = a0 + 0;
 a0 = *(int *)&((struct Obj00029 *)t5)->f18;
 a0 = ((struct Obj00029 *)a0)->f40;
-    a0 = func_02027858(a0);
+    a0 = APP_TASKMENU_CloseMenu(a0);
 loc_0216A1AE:
 a0 = 1;
     if (t4 != 0) goto loc_0216A1BC;

@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_021C2438 0x021C2438 thumb ov099
- *   func_020221A4 0x020221A4 thumb
- *   func_0203CD98 0x0203CD98 arm
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021BA7F8 0x021BA7F8 thumb ov099
  *   func_0200AE08 0x0200AE08 thumb
  *   func_020307B0 0x020307B0 arm
@@ -30,8 +30,8 @@ extern int func_021C2438(char *);
 typedef unsigned int   u32;
 struct Reg;
 struct S020315D4;
-extern u32 func_020221A4(void);
-extern int func_0203CD98(void);
+extern u32 WIPE_SYS_EndCheck(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_021BA7F8(char *);
 extern void func_0200AE08(const struct Reg *src, struct Reg *dest);
 extern u32 func_020307B0(void *p);
@@ -45,8 +45,8 @@ extern void func_020306F0(u32 heap);
 int func_021C2724(void *task, int unused, char *output, char *p)
 {
     if (!func_021C2438(p)) return 0;
-    if (!func_020221A4()) return 0;
-    if (func_0203CD98()) func_021BA7F8(p);
+    if (!WIPE_SYS_EndCheck()) return 0;
+    if (GFL_NET_GetRunState()) func_021BA7F8(p);
     ((struct Obj06360 *)output)->f49 = ((struct Obj03736 *)p)->f135C;
     if (((struct Obj03736 *)p)->f1348) {
         func_0200AE08(((struct Obj03736 *)p)->f1348, ((struct Obj06360 *)output)->f1C);
@@ -57,7 +57,7 @@ int func_021C2724(void *task, int unused, char *output, char *p)
     func_021BDF7C(p);
     ((struct Obj06360 *)output)->f47 = ((struct Obj03736 *)p)->f242;
     ((struct Obj06360 *)output)->fC = ((struct Obj03736 *)p)->f1D0;
-    if (func_0203CD98()) ((struct Obj06360 *)output)->f10 = DWC_RAP_GetTargetFriendIndex();
+    if (GFL_NET_GetRunState()) ((struct Obj06360 *)output)->f10 = DWC_RAP_GetTargetFriendIndex();
     func_021BCBB0(((struct Obj03736 *)p)->fCC);
     func_021BB224(p);
     func_020315D4(task);

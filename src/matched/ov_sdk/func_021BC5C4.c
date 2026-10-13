@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BC5C4   0x021BC5C4  thumb
- *   func_021DCFD0   0x021DCFD0  data
+ *   BTL_HANDLER_ITEM_RollChance   0x021DCFD0  data
  *
  * FILED EXACT with NO region token on the data symbol.  The `ov016` hint is
  * contested at this address (another overlay mapped over the same window
@@ -33,9 +33,9 @@
  *       --func func_021BC5C4 --addr 0x021BC5C4 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern void (*func_021DCFD0[])(int);
+extern void (*BTL_HANDLER_ITEM_RollChance[])(int);
 
 void func_021BC5C4(int a)
 {
-    func_021DCFD0[3](a);
+    BTL_HANDLER_ITEM_RollChance[3](a);
 }

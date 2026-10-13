@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021B9940  0x021B9940  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_021B8714  0x021B8714  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
+ *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  */
 #include "../include/Obj13284.h"
@@ -23,10 +23,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern u8 *func_021B9940(char *, u8);
-extern void *func_021D5844(void *);
-extern char *func_021B8714(char **);
+extern void *BTL_POKEPARAM_GetMon(void *);
+extern char *BTL_MAIN_GetFieldSituation(char **);
 extern void NATSUKI_CalcUseItem(void *, int, u16, u16);
 
 void func_021BA250(char *p, u8 *a, int b)
@@ -38,12 +38,12 @@ void func_021BA250(char *p, u8 *a, int b)
     void *yv;
     char *q;
 
-    i = func_021D5440(a);
+    i = BTL_POKEPARAM_GetPokeId(a);
     x = func_021B9940(p + 0x1b0, i);
     y = func_021B9940(p + 0xc8, i);
-    xv = func_021D5844(x);
-    yv = func_021D5844(y);
-    q = func_021B8714((char **)p);
+    xv = BTL_POKEPARAM_GetMon(x);
+    yv = BTL_POKEPARAM_GetMon(y);
+    q = BTL_MAIN_GetFieldSituation((char **)p);
     NATSUKI_CalcUseItem(xv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
     NATSUKI_CalcUseItem(yv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
 }

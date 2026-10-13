@@ -15,8 +15,8 @@
  *   func_0201CE5C 0x0201CE5C thumb
  *   func_020362DC 0x020362DC arm
  *   func_0203630C 0x0203630C arm
- *   func_02035C60 0x02035C60 arm
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_020061E4 0x020061E4 thumb
  * Original consumes r0 from the legacy void 35C38/35C60 wrappers;
  * their final forwarding targets 357A0/357C0 return a halfword load.
@@ -32,8 +32,8 @@ extern void func_0201CE38(void *);
 extern void func_0201CE5C(struct Rec *, int);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern int func_02035C60(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_GetCont(void);
 extern void func_020061E4(unsigned int);
 int func_021B9C00(char *p)
 {
@@ -44,13 +44,13 @@ int func_021B9C00(char *p)
             ((struct Obj05563 *)p)->f20 = 0;
             return 1;
         case 1:
-            if (func_020362DC() == 1 || func_020362DC() == 2 || func_02035C60() != 0) {
+            if (func_020362DC() == 1 || func_020362DC() == 2 || TOUCHPANEL_GetTrg() != 0) {
                 func_0201CE38(((struct Obj05563 *)p)->f20);
                 func_020061E4(1356);
             }
             break;
         case 0:
-            if (((unsigned int)func_0203630C() & 3) != 0 || func_02035C38() != 0)
+            if (((unsigned int)func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0)
                 func_0201CE5C(*(struct Rec * *)&((struct Obj05563 *)p)->f20, 0);
             break;
         }

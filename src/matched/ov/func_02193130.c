@@ -1,5 +1,5 @@
 /*
- * function: func_02193130
+ * function: FIELD_MSGBG_DeleteWindow
  * address:  0x02193130
  * packet:   pkt_02193130
  * region:   ov021
@@ -26,7 +26,7 @@ extern void func_0201F7A8(void *desc, u32 kind);
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
 
-int func_02193130(struct Descriptor *a)
+int FIELD_MSGBG_DeleteWindow(struct Descriptor *a)
 {
 func_0201F7A8((void *)a, 0);
 return func_020452E8(a);

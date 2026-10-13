@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C46A4",
+   "name": "SCRCMD_SAVEANIME_Start",
    "address": "0x021C46A4",
    "kind": "game",
    "region": "ov021",

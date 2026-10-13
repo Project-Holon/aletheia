@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020146F8",
+   "name": "FIELD_STATUS_CreateSubProcEvent",
    "address": "0x020146F8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014728",
+   "name": "FIELD_STATUS_CreateSubProcNoFadeEvent",
    "address": "0x02014728",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02014808",
+   "name": "FIELD_STATUS_CreateSubProcCallbackEvent",
    "address": "0x02014808",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014840",
+   "name": "FIELD_STATUS_CreateSubProcNoFadeCallbackEvent",
    "address": "0x02014840",
    "kind": "game",
    "region": "arm9",

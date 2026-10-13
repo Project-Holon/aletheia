@@ -1,5 +1,5 @@
 /*
- * function: func_021B7834
+ * function: PDW_POSTMAN_FindMysteryCard
  * address:  0x021B7834
  * packet:   pkt_ov021_021B7834
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B77E4  0x021B77E4  thumb ov021
+ *   PDW_POSTMAN_GetMysteryCard  0x021B77E4  thumb ov021
  */
 
 typedef unsigned char  u8;
@@ -18,14 +18,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Ent;
-extern struct Ent *func_021B77E4(void *a, void *b, struct Ent *c);
+extern struct Ent *PDW_POSTMAN_GetMysteryCard(void *a, void *b, struct Ent *c);
 
-void *func_021B7834(void *a, int *out, void *buf)
+void *PDW_POSTMAN_FindMysteryCard(void *a, int *out, void *buf)
 {
     int i;
 
     for (i = 0; i < 12; i++) {
-        if (func_021B77E4(a, (void *)i, buf)) {
+        if (PDW_POSTMAN_GetMysteryCard(a, (void *)i, buf)) {
             *out = i;
             return buf;
         }

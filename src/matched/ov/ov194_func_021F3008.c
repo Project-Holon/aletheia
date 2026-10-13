@@ -18,9 +18,9 @@
  *   func_021F19A0 0x021F19A0 thumb ov194
  *   func_021F3358 0x021F3358 thumb ov194
  *   func_021F256C 0x021F256C thumb ov194
- *   func_020450F0 0x020450F0 arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_021F26F0 0x021F26F0 thumb ov194
  *   func_020355C4 0x020355C4 arm
@@ -42,11 +42,11 @@ extern void func_021F19A0(u8 *,void *,void *,u32);
 struct Descriptor;
 extern u32 func_021F3358(u32 a, u32 b, u32 c);
 extern void func_021F256C(char *,unsigned,int,void *,u32);
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Cfg;
 struct Rect;
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_021F26F0(char *,char *,void *,void *,u32);
 extern u8 func_020355C4(void);
@@ -69,9 +69,9 @@ void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palet
  func_021F19A0(p+0x24,(void *)mode,palette,heap);
  index=func_021F3358(((struct Obj00733 *)p)->f100,((struct Obj00733 *)p)->f104,p[0x108]);
  func_021F256C((char *)p,mode,index,((struct Obj00733 *)p)->f12C,heap);
- bg=(void *)func_020450F0(3,3,5,26,15,15,1);
+ bg=(void *)BMP_WIN_Create(3,3,5,26,15,15,1);
  ((struct Obj00733 *)p)->fE0=bg;
- func_02045334(bg);func_02045374(bg);func_020409B4(func_02045730(bg));
+ BMP_WIN_TransferChars(bg);BMP_WIN_MakeScreen(bg);func_020409B4(func_02045730(bg));
  ((struct Obj00733 *)p)->fEC=((struct Obj00733 *)p)->fE0;p[0xf0]=0;
  func_021F26F0((char *)p,(char *)p+0xec,window,font,heap);
  if(func_020355C4()==0){

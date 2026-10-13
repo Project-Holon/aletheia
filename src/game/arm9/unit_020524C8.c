@@ -84,8 +84,8 @@
  *   VEC_Fx16CrossProduct             0x0207CB68  arm
  *   _u32_div_f                       0x0209C2B0  arm
  *   func_0207CB68   0x0207CB68  arm
- *   func_0207CDB8   0x0207CDB8  arm
- *   func_0207CAA4  0x0207CAA4  arm
+ *   VEC_Fx16Normalize   0x0207CDB8  arm
+ *   VEC_Fx16DotProduct  0x0207CAA4  arm
  *   g_020A7FEC     0x020A7FEC  data
  *   g_020A1B38     0x020A1B38  data
  *   func_0207AF00  0x0207AF00  thumb
@@ -1377,8 +1377,8 @@ extern void func_0207AF1C(u8 *buf, int a, int b);
 extern void func_0207AF38(u8 *buf, int a, int b);
 extern void func_0207B51C(u8 *a, u8 *b, u8 *c);
 extern int _s32_div_f(int num, int den);
-extern void func_0207CDB8(struct Vec16 *v, struct Vec16 *w);
-extern fx32 func_0207CAA4(const struct Vec16 *a, const struct Vec16 *b);
+extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
+extern fx32 VEC_Fx16DotProduct(const struct Vec16 *a, const struct Vec16 *b);
 extern void func_0207CB68(const struct Vec16 *a, const struct Vec16 *b, struct Vec16 *out);
 extern void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
 extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
@@ -2141,11 +2141,11 @@ void func_02057830(struct Rig *m)
         v.z = 0x1000;
         break;
     default:
-        func_0207CDB8(&m->f50, &v);
+        VEC_Fx16Normalize(&m->f50, &v);
         break;
     }
 
-    d = func_0207CAA4(&a, &v);
+    d = VEC_Fx16DotProduct(&a, &v);
     if (d == 0x1000 || d == -0x1000) {
         a.x = 0x1000;
         a.y = 0;
@@ -2159,8 +2159,8 @@ void func_02057830(struct Rig *m)
     m->r1[1] = FX_Mul(v.z, m->r0[0]) - FX_Mul(v.x, m->r0[2]);
     m->r1[2] = FX_Mul(v.x, m->r0[1]) - FX_Mul(v.y, m->r0[0]);
 
-    func_0207CDB8((struct Vec16 *)(m->pad_00 + 0x84), (struct Vec16 *)(m->pad_00 + 0x84));
-    func_0207CDB8((struct Vec16 *)(m->pad_00 + 0x8a), (struct Vec16 *)(m->pad_00 + 0x8a));
+    VEC_Fx16Normalize((struct Vec16 *)(m->pad_00 + 0x84), (struct Vec16 *)(m->pad_00 + 0x84));
+    VEC_Fx16Normalize((struct Vec16 *)(m->pad_00 + 0x8a), (struct Vec16 *)(m->pad_00 + 0x8a));
 }
 
 
@@ -2212,7 +2212,7 @@ void func_020576D0(fx32 *out, const VecFx32 *src, const struct Mtx3 *m)
 
     func_0207CB68((const struct Vec16 *)(m->pad + 0x84),
                   (const struct Vec16 *)(m->pad + 0x8a), &v);
-    func_0207CDB8(&v, &v);
+    VEC_Fx16Normalize(&v, &v);
 
     out[0] = FX_Mul(src->x, m->r0[0]) + FX_Mul(src->y, m->r1[0]) + FX_Mul(src->z, v.x);
     out[1] = FX_Mul(src->x, m->r0[1]) + FX_Mul(src->y, m->r1[1]) + FX_Mul(src->z, v.y);
@@ -5471,7 +5471,7 @@ int func_02052634(char *p, int b, int c)
 
 
 /*
- * Promote-first callee of src/pending/func_020515CC.c (parks lane 2).
+ * Promote-first callee of src/pending/PARTICLE_StartEffectWithCallback.c (parks lane 2).
  * Same shape as its neighbour func_02052634 with two extra steps: the
  * loader takes the address of a twelve-byte zeroed scratch block as its
  * third argument, and a non-null third parameter is called back with the

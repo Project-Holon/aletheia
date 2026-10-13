@@ -1,5 +1,5 @@
 /*
- * function: func_021F5488
+ * function: GPOWER_EVENT_RestoreParty
  * address:  0x021F5488
  * packet:   pkt_ov083_021F5488
  * region:   ov083
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AB08  0x0201AB08  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
@@ -25,17 +25,17 @@ typedef unsigned int  u32;
 struct BigObj;
 struct Ctx;
 struct WordSet;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32   func_0201AB08(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern u32   GPOWER_UseHpRestore(void *p);
 extern u32   GPOWER_UsePpRestore(void *p);
 
-void func_021F5488(void *a0, void *a1, int a2)
+void GPOWER_EVENT_RestoreParty(void *a0, void *a1, int a2)
 {
-    void *h = func_02012934(func_020120F4(a0));
+    void *h = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(a0));
     u8 i;
 
     i = func_0201AB08(h);

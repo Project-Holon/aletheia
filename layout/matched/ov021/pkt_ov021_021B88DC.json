@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B88DC",
+   "name": "FIELD_RAIL_WORK_Advance",
    "address": "0x021B88DC",
    "kind": "game",
    "region": "ov021",

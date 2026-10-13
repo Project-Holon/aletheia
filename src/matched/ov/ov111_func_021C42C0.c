@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
- *   func_0201D83C  0x0201D83C  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   GF_FONT_Delete  0x0201D83C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -42,9 +42,9 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
-extern u32 func_0201D83C(void *ptr);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 GF_FONT_Delete(void *ptr);
 
 void func_021C42C0(Work *p)
 {
@@ -52,20 +52,20 @@ void func_021C42C0(Work *p)
 
     func_0201ED04(p->f3204);
     for (i = 0; i < 5; i++) {
-        func_02045808(p->f3294[i]);
+        STRBUF_Delete(p->f3294[i]);
     }
     for (i = 0; i < 26; i++) {
-        func_02045808(p->f322C[i]);
+        STRBUF_Delete(p->f322C[i]);
     }
-    func_02045808(p->f3224[1]);
-    func_02045808(p->f3224[0]);
-    func_02045808(p->f3218[2]);
-    func_02045808(p->f3218[1]);
-    func_02045808(p->f3218[0]);
-    func_02045808(p->f320C);
-    func_02045808(p->f3214);
-    func_02045808(p->f3210);
-    func_02045808(p->f3208);
-    func_02045C04(p->f3200);
-    func_0201D83C(p->f31FC);
+    STRBUF_Delete(p->f3224[1]);
+    STRBUF_Delete(p->f3224[0]);
+    STRBUF_Delete(p->f3218[2]);
+    STRBUF_Delete(p->f3218[1]);
+    STRBUF_Delete(p->f3218[0]);
+    STRBUF_Delete(p->f320C);
+    STRBUF_Delete(p->f3214);
+    STRBUF_Delete(p->f3210);
+    STRBUF_Delete(p->f3208);
+    MSGDATA_Delete(p->f3200);
+    GF_FONT_Delete(p->f31FC);
 }

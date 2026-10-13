@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F414C",
+   "name": "CROWD_InitPlayerAwarePerson",
    "address": "0x021F414C",
    "kind": "game",
    "region": "ov055",

@@ -1,5 +1,5 @@
 /*
- * function: func_021A07F8
+ * function: FIELD_LIGHT_GetKeyframeSeconds
  * address:  0x021A07F8
  * packet:   pkt_ov021_021A07F8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011400  0x02011400  thumb
+ *   TIMEZONE_GetZoneLightLevel  0x02011400  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -19,15 +19,15 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern u8 func_02011400(int row, int col);
+extern u8 TIMEZONE_GetZoneLightLevel(int row, int col);
 
 typedef struct {
     u16 h;
     s16 m;
 } Time;
 
-int func_021A07F8(u32 a, Time *t)
+int FIELD_LIGHT_GetKeyframeSeconds(u32 a, Time *t)
 {
-    int h = func_02011400(a, t->h);
+    int h = TIMEZONE_GetZoneLightLevel(a, t->h);
     return h * 3600 + t->m * 60;
 }

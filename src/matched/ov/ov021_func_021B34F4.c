@@ -1,5 +1,5 @@
 /*
- * function: func_021B34F4
+ * function: SCRCMD_PROC_FLD_PollMessageEnd
  * address:  0x021B34F4
  * packet:   pkt_ov021_021B34F4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B34F4 0x021B34F4 thumb
+ *   SCRCMD_PROC_FLD_PollMessageEnd 0x021B34F4 thumb
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0201CE48 0x0201CE48 thumb
  *   func_0201CE5C 0x0201CE5C thumb
@@ -35,7 +35,7 @@ extern u32 func_020362DC(void);
 extern void func_0201CE38(void *);
 extern void func_020061E4(u32 a);
 
-u8 func_021B34F4(u8 *p)
+u8 SCRCMD_PROC_FLD_PollMessageEnd(u8 *p)
 {
     int r = func_0201CE30(((struct Obj05048 *)p)->f1B8);
 

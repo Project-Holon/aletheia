@@ -1,5 +1,5 @@
 /*
- * function: func_0218D0D8
+ * function: FIELD_G3D_MAPPER_TintTexture
  * address:  0x0218D0D8
  * packet:   pkt_ov021_0218D0D8
  * region:   ov021
@@ -10,9 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02022040  0x02022040  thumb
+ *   PALANM_ConvertGrayTable  0x02022040  thumb
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm  arm9
+ *   NNS_G3dGetTex  0x0206E964  arm  arm9
  *
- * 2026-10-01: MATCH, capped only by the call to func_02022040 (arm9, Thumb,
+ * 2026-10-01: MATCH, capped only by the call to PALANM_ConvertGrayTable (arm9, Thumb,
  * unlabelled, no witness outside this function). It is a ~64+ byte RGB555
  * pixel converter (luma weights 76/151/29 over a lookup table); filing it
  * as an arm9 witness would lift this to EXACT.
@@ -27,18 +29,18 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Tagged;
-extern void *func_02046F48(struct Tagged *p);
-extern unsigned char *func_0206E964(unsigned char *p);
-extern void func_02022040(u16 *pal, int n, const u8 *table);
+extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+extern void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
 
-int func_0218D0D8(void *a, void *b)
+int FIELD_G3D_MAPPER_TintTexture(void *a, void *b)
 {
-    u8 *p = func_0206E964(func_02046F48(a));
+    u8 *p = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(a));
     if (p != 0) {
         u32 size = ((struct Obj12581 *)p)->f30 << 3;
         u32 off = ((struct Obj12581 *)p)->f38;
         if (b != 0)
-            func_02022040((u16 *)(p + off), size >> 1, b);
+            PALANM_ConvertGrayTable((u16 *)(p + off), size >> 1, b);
         return 1;
     }
     return 0;

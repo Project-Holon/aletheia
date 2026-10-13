@@ -15,24 +15,24 @@
  * symbols:
  *   func_021D0C78 0x021D0C78 thumb ov093
  *   func_021D0980 0x021D0980 thumb ov093
- *   func_021D102C 0x021D102C thumb ov093
+ *   BTL_CLIENT_IsDoubleBattleLeadAlive 0x021D102C thumb ov093
  *   func_021B9C00 0x021B9C00 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D8394 0x021D8394 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
  *   func_021B8E28 0x021B8E28 thumb ov093
- *   func_021D0B10 0x021D0B10 thumb ov093
+ *   BTL_CLIENT_BuildSlotChoices 0x021D0B10 thumb ov093
  *   func_021E9A78 0x021E9A78 thumb ov093
- *   func_021CE068 0x021CE068 thumb ov093
+ *   BTL_CLIENT_StartTimeLimit 0x021CE068 thumb ov093
  *   func_021D1058 0x021D1058 thumb ov093
- *   func_021D83C4 0x021D83C4 thumb ov093
- *   func_021D8434 0x021D8434 thumb ov093
- *   func_021CE08C 0x021CE08C thumb ov093
+ *   BTL_ACTION_SetChangeDepleted 0x021D83C4 thumb ov093
+ *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_CLIENT_PollTimeLimitReady 0x021CE08C thumb ov093
  *   func_021E9B14 0x021E9B14 thumb ov093
  *   func_021E9B20 0x021E9B20 thumb ov093
  *   func_021D0B6C 0x021D0B6C thumb ov093
  *   func_021D0BB0 0x021D0BB0 thumb ov093
- *   func_021CE0E0 0x021CE0E0 thumb ov093
- *   func_021B86C0 0x021B86C0 thumb ov093
+ *   BTL_CLIENT_StopTimeLimit 0x021CE0E0 thumb ov093
+ *   BTL_MAIN_GetCommPos 0x021B86C0 thumb ov093
  *   func_021EA7FC 0x021EA7FC thumb ov093
  *   func_021EA814 0x021EA814 thumb ov093
  */
@@ -42,25 +42,25 @@ typedef unsigned int u32;
 typedef struct { u8 pad[0x1B3]; volatile u8 count; } CountField;
 extern u8 func_021D0C78(void *, u8 *);
 extern u8 func_021D0980(u8 *, u8 *);
-extern int func_021D102C(char *p);
+extern int BTL_CLIENT_IsDoubleBattleLeadAlive(char *p);
 struct S2;
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D5B68(void *);
-extern void func_021D8394(void *, u8, u8);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern void BTL_ACTION_SetChange(void *, u8, u8);
 extern void func_021B8E28(u8 *, u8, u8 *, u8 *);
-extern void func_021D0B10(u8 *p, u32 a, u32 b, void *q, void *out);
+extern void BTL_CLIENT_BuildSlotChoices(u8 *p, u32 a, u32 b, void *q, void *out);
 extern void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r);
-extern void func_021CE068(u8 *);
+extern void BTL_CLIENT_StartTimeLimit(u8 *);
 extern int func_021D1058(u8 *, void *);
-extern void func_021D83C4(u32 *p);
-extern void func_021D8434(u32 *p);
-extern int func_021CE08C(u8 *);
+extern void BTL_ACTION_SetChangeDepleted(u32 *p);
+extern void BTL_CALC_ActionSetNone(u32 *p);
+extern int BTL_CLIENT_PollTimeLimitReady(u8 *);
 extern void func_021E9B14(unsigned int *p);
 extern int func_021E9B20(u8 *p);
 extern void func_021D0B6C(u8 *g, u8 *s);
 extern void func_021D0BB0(u8 *p);
-extern void func_021CE0E0(u8 *p);
-extern u8 func_021B86C0(u8 **p);
+extern void BTL_CLIENT_StopTimeLimit(u8 *p);
+extern u8 BTL_MAIN_GetCommPos(u8 **p);
 extern void func_021EA7FC(char *p);
 extern int func_021EA814(u32 *p);
 int func_021D0E7C(u8 *p, int *state, u8 param)
@@ -79,10 +79,10 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
             if (n != 0) {
                 count = ((CountField *)p)->count;
                 if (count > n) count = n;
-                if (func_021D102C((char *)p) != 0) {
+                if (BTL_CLIENT_IsDoubleBattleLeadAlive((char *)p) != 0) {
                     mon = func_021B9C00(((struct Obj00819 *)p)->f118, 0);
-                    if (n == 1 && func_021D5B68(mon) != 0) {
-                        func_021D8394(p + 0x124, 0, order[0]);
+                    if (n == 1 && BTL_POKEPARAM_IsFainted(mon) != 0) {
+                        BTL_ACTION_SetChange(p + 0x124, 0, order[0]);
                         *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
                         ((struct Obj00819 *)p)->fDC = 4;
                         *state = 4;
@@ -90,31 +90,31 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
                     }
                 }
                 func_021B8E28(*(u8 * *)&((struct Obj00819 *)p)->f0, p[0x1B5], &pair[1], &pair[0]);
-                func_021D0B10(p, param, count, p + 0x184, p + 0x190);
+                BTL_CLIENT_BuildSlotChoices(p, param, count, p + 0x184, p + 0x190);
                 func_021E9A78(((struct Obj00819 *)p)->f54, p + 0x184, pair[0], 0, p + 0x190);
-                func_021CE068(p);
+                BTL_CLIENT_StartTimeLimit(p);
                 *state = 1;
             } else {
-                if (func_021D102C((char *)p) != 0 && (mode = func_021D1058(p, p + 0x124)) != 0) {
+                if (BTL_CLIENT_IsDoubleBattleLeadAlive((char *)p) != 0 && (mode = func_021D1058(p, p + 0x124)) != 0) {
                     ((struct Obj00819 *)p)->fDC = mode;
                     *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
                     *state = 4;
                 } else {
-                    func_021D83C4((u32 *)(p + 0x124));
+                    BTL_ACTION_SetChangeDepleted((u32 *)(p + 0x124));
                     *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
                     ((struct Obj00819 *)p)->fDC = 4;
                     *state = 4;
                 }
             }
         } else {
-            func_021D8434((u32 *)(p + 0x124));
+            BTL_CALC_ActionSetNone((u32 *)(p + 0x124));
             *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
             ((struct Obj00819 *)p)->fDC = 4;
             *state = 4;
         }
         break;
     case 1:
-        if (func_021CE08C(p) != 0) {
+        if (BTL_CLIENT_PollTimeLimitReady(p) != 0) {
             func_021E9B14(((struct Obj00819 *)p)->f54);
             *state = 2;
         } else if (func_021E9B20(((struct Obj00819 *)p)->f54) != 0) {
@@ -129,11 +129,11 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
         }
         break;
     case 3:
-        func_021CE0E0(p);
+        BTL_CLIENT_StopTimeLimit(p);
         *state = 4;
         break;
     case 4:
-        if (func_021B86C0(((struct Obj00819 *)p)->f0) != 0) {
+        if (BTL_MAIN_GetCommPos(((struct Obj00819 *)p)->f0) != 0) {
             p[0x1A9] = 1;
             func_021EA7FC(((struct Obj00819 *)p)->f54);
             *state = 5;

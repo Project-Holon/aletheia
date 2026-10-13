@@ -1,5 +1,5 @@
 /*
- * function: func_021F4948
+ * function: GIMMICK_OBJ_ELBOARD_CreateLine
  * address:  0x021F4948
  * packet:   pkt_ov048_021F4948
  * region:   ov048
@@ -16,19 +16,19 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02045B38  0x02045B38  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201F250  0x0201F250  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_0201D304  0x0201D304  thumb
- *   func_02047788  0x02047788  arm
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
  *   func_021875F4  0x021875F4  thumb  ov020
- *   func_02045C04  0x02045C04  arm
- *   func_02047790  0x02047790  arm
- *   func_02047674  0x02047674  arm
- *   func_020477D4  0x020477D4  arm
- *   func_02047804  0x02047804  arm
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
+ *   G3D_SYSTEM_GetAnimeObj  0x02047674  arm
+ *   G3D_SYSTEM_DisableObjectAnime  0x020477D4  arm
+ *   G3D_SYSTEM_ResetObjectAnimeFrame  0x02047804  arm
  *   _fflt          0x0209BDBC  arm
  *   _fdiv          0x0209CE10  arm
  *   _fgr           0x0209BBB0  arm
@@ -37,7 +37,7 @@
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
  *   _ll_mul        0x0209C054  arm
- *   d_021F523C     0x021F523C  data  ov048  a4
+ *   gElboardFileName     0x021F523C  data  ov048  a4
  */
 
 typedef unsigned char  u8;
@@ -95,22 +95,22 @@ struct Rec;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_020307B0(void *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern int func_02047788(int *p);
+extern int G3D_SYSTEM_GetObjectRender(int *p);
 extern int G3D_SYSTEM_GetRenderTexRes(int *p);
 extern int func_021875F4(int a0, int a1, int a2, u32 a3, u16 e0, u16 e1, u16 e2);
-extern u32 func_02045C04(struct Rec *rec);
-extern int func_02047790(int *p, int i);
-extern Img *func_02047674(u32 a);
-extern int func_020477D4(struct Owner *owner, u32 index);
-extern u32 func_02047804(struct AnmCtl *c, u16 idx);
-extern char d_021F523C[];
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
+extern Img *G3D_SYSTEM_GetAnimeObj(u32 a);
+extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
+extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(struct AnmCtl *c, u16 idx);
+extern char gElboardFileName[];
 
-R *func_021F4948(P *p, const Q *q, int c)
+R *GIMMICK_OBJ_ELBOARD_CreateLine(P *p, const Q *q, int c)
 {
     R *r;
     u32 arc;
@@ -123,10 +123,10 @@ R *func_021F4948(P *p, const Q *q, int c)
     int x;
     fx32 w;
 
-    r = func_02030734(p->h0, 0x24, 0, d_021F523C, 0x180);
+    r = func_02030734(p->h0, 0x24, 0, gElboardFileName, 0x180);
     arc = (u32)func_02045B38(0, (u16)q->fC, (u16)q->f10, p->h0);
     if (q->f18 != 0) {
-        str = (u32)func_020457B0(0xC0, p->h0);
+        str = (u32)STRBUF_Create(0xC0, p->h0);
         tmp = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);
         func_0201F250((struct WordSet *)q->f18, (void *)str, (void *)tmp);
         func_020307B0((void *)tmp);
@@ -134,10 +134,10 @@ R *func_021F4948(P *p, const Q *q, int c)
         str = (u32)func_02045EC0((struct MsgBank *)arc, q->f14);
     }
     width = func_0201D304((struct StrObj *)str, p->f14, 1);
-    r->fC = func_021875F4(G3D_SYSTEM_GetRenderTexRes((int *)func_02047788((int *)p->f10)), q->f4, q->f8, str, p->b4 * 14, 1, p->h0);
+    r->fC = func_021875F4(G3D_SYSTEM_GetRenderTexRes((int *)G3D_SYSTEM_GetObjectRender((int *)p->f10)), q->f4, q->f8, str, p->b4 * 14, 1, p->h0);
     func_020307B0((void *)str);
-    func_02045C04((struct Rec *)arc);
-    w = func_02047674(func_02047790((int *)p->f10, q->h0))->f8->h4 << 12;
+    MSGDATA_Delete((struct Rec *)arc);
+    w = G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime((int *)p->f10, q->h0))->f8->h4 << 12;
     m = p->b4 * 13;
     tot = m + width;
     a = tot - m;
@@ -152,7 +152,7 @@ R *func_021F4948(P *p, const Q *q, int c)
     r->f8 = 0;
     r->f10 = p->f10;
     r->h14 = q->h0;
-    func_020477D4((struct Owner *)r->f10, r->h14);
-    func_02047804((struct AnmCtl *)r->f10, r->h14);
+    G3D_SYSTEM_DisableObjectAnime((struct Owner *)r->f10, r->h14);
+    G3D_SYSTEM_ResetObjectAnimeFrame((struct AnmCtl *)r->f10, r->h14);
     return r;
 }

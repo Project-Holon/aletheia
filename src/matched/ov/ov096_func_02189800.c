@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
  *   func_0218A308  0x0218A308  thumb  ov096
@@ -18,8 +18,8 @@
  *   func_021B9AF8  0x021B9AF8  thumb  ov093
  *   func_021B99B8  0x021B99B8  thumb  ov093
  *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D5C44  0x021D5C44  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
  */
 #include "../include/Obj07925.h"
 
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern u8 *func_0218A308(void *, u32);
@@ -41,9 +41,9 @@ extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(void *pp, unsigned int b);
 struct Q1;
 extern u8 func_021B9B94(struct Q1 *p);
-extern int func_021D5B68(void *);
+extern int BTL_POKEPARAM_IsFainted(void *);
 struct Rat;
-extern int func_021D5C44(struct Rat *p);
+extern int BTL_POKEPARAM_GetHpRatioFixed(struct Rat *p);
 
 int func_02189800(struct Cursor *a, int b) {
     int r4;
@@ -51,15 +51,15 @@ int func_02189800(struct Cursor *a, int b) {
     u8 y;
     int r5;
     int t;
-    r4 = func_0201134C(a);
-    x = func_0201134C(a);
+    r4 = VM_GetU32(a);
+    x = VM_GetU32(a);
     y = func_0218A160((u8 *)b, r4);
     r5 = func_021B8DE4((char *)(((struct Obj07925 *)b)->fB0), y);
     r4 = (int)func_021B9AF8(*(char * *)&((struct Obj07925 *)b)->fB8, r5);
     r5 = func_021B99B8((void *)(((struct Obj07925 *)b)->fB0), r5);
     for (; r5 < func_021B9B94((struct Q1 *)r4); r5++) {
-        if (func_021D5B68(func_0218A308((void *)r4, (u8)r5)) == 0) {
-            t = func_021D5C44((struct Rat *)func_0218A2FC((u8 *)b, y));
+        if (BTL_POKEPARAM_IsFainted(func_0218A308((void *)r4, (u8)r5)) == 0) {
+            t = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)func_0218A2FC((u8 *)b, y));
             if (func_0218A0F4((u8 *)a, 0, t, 100, x) != 0) {
                 break;
             }

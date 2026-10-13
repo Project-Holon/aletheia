@@ -1,5 +1,5 @@
 /*
- * function: func_021B7BFC
+ * function: MONOLITH_TOOL_SLOT_SELECT_SetMode
  * address:  0x021B7BFC
  * packet:   pkt_ov071_021B7BFC
  * region:   ov071
@@ -14,7 +14,7 @@
  */
 #include "../include/Obj20705.h"
 
-void func_021B7BFC(int *a, char *p, unsigned char m)
+void MONOLITH_TOOL_SLOT_SELECT_SetMode(int *a, char *p, unsigned char m)
 {
     void func_021B6B58(void **p, int v);
 

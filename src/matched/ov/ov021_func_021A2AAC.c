@@ -1,5 +1,5 @@
 /*
- * function: func_021A2AAC
+ * function: WEATHER_TASK_SetSpawnerTarget
  * address:  0x021A2AAC
  * packet:   pkt_021A2AAC
  * region:   ov021
@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021A2AAC(char *p, int a, int b, int c, int d)
+void WEATHER_TASK_SetSpawnerTarget(char *p, int a, int b, int c, int d)
 {
     ((struct Obj07494 *)p)->fC = a;
     ((struct Obj07494 *)p)->fE = b;

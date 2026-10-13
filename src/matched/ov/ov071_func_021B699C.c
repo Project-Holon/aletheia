@@ -1,5 +1,5 @@
 /*
- * function: func_021B699C
+ * function: MONOLITH_TOOL_VBlankTask
  * address: 0x021B699C
  * packet: pkt_ov071_021B699C
  * region: ov071
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  */
 struct S02021D50;
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct S02021D50 *);
-void func_021B699C(void *unused, struct S02021D50 **p)
+void MONOLITH_TOOL_VBlankTask(void *unused, struct S02021D50 **p)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
     PALANM_TransferPalettes(*p);
 }

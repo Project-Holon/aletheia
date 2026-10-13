@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B98C  0x0204B98C  arm
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -89,21 +89,21 @@ typedef struct {
 } Work;
 
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 int func_021C79F4(Work *p)
 {
     switch (p->f110) {
     case 0x12:
-        if (func_0204B98C(p->f54) == 0) {
+        if (CLACT_IsActorAnimActive(p->f54) == 0) {
             p->state = 3;
         }
     case 0x13:
-        if (func_0204B98C(p->f50) == 0) {
+        if (CLACT_IsActorAnimActive(p->f50) == 0) {
             p->state = 3;
         }
     case 0x10:
-        if (func_0204B98C(p->f4C) == 0) {
+        if (CLACT_IsActorAnimActive(p->f4C) == 0) {
             p->state = 3;
         }
     }

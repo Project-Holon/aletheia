@@ -1,5 +1,5 @@
 /*
- * function: func_021B6520
+ * function: TOUCHBAR_SetAllButtonsPriority
  * address:  0x021B6520
  * packet:   pkt_021B6520
  * region:   ov067
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6A10  0x021B6A10  thumb
+ *   TOUCHBAR_SetButtonActorPriority  0x021B6A10  thumb
  */
 #include "../include/Obj20604.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_021B6A10(void *e, u32 v);
+extern void TOUCHBAR_SetButtonActorPriority(void *e, u32 v);
 
-void func_021B6520(u8 *p, u32 v)
+void TOUCHBAR_SetAllButtonsPriority(u8 *p, u32 v)
 {
     u32 i;
 
     for (i = 0; i < ((struct Obj20604 *)p)->f4; i++) {
-        func_021B6A10(p + 0x20 + i * 0x38, v);
+        TOUCHBAR_SetButtonActorPriority(p + 0x20 + i * 0x38, v);
     }
 }

@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_021E9034  0x021E9034  thumb  ov093
- *   func_021CD8E0  0x021CD8E0  thumb  ov093
+ *   BTL_CLIENT_Delete  0x021CD8E0  thumb  ov093
  *   func_021B9674  0x021B9674  thumb  ov093
- *   func_021BAB5C  0x021BAB5C  thumb  ov093
+ *   BTL_SERVER_Delete  0x021BAB5C  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -31,9 +31,9 @@ struct S {
 };
 
 extern void func_021E9034(char *p);
-extern void func_021CD8E0(u8 *p);
+extern void BTL_CLIENT_Delete(u8 *p);
 extern void func_021B9674(char *p);
-extern void func_021BAB5C(int a);
+extern void BTL_SERVER_Delete(int a);
 
 int func_021B6C08(int a0, struct S *s)
 {
@@ -45,16 +45,16 @@ int func_021B6C08(int a0, struct S *s)
     }
     for (i = 0; i < 4; i++) {
         if (s->f10[i] != 0) {
-            func_021CD8E0((u8 *)s->f10[i]);
+            BTL_CLIENT_Delete((u8 *)s->f10[i]);
         }
     }
     func_021B9674((char *)((u8 *)s + 0xc8));
     func_021B9674((char *)((u8 *)s + 0x1b0));
     if (s->f08 != 0) {
-        func_021BAB5C(s->f08);
+        BTL_SERVER_Delete(s->f08);
     }
     if (s->f0c != 0) {
-        func_021BAB5C(s->f0c);
+        BTL_SERVER_Delete(s->f0c);
     }
     return 1;
 }

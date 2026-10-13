@@ -9,14 +9,14 @@
  * status: EXACT
  * volatile: hardware register read at 021DBEB4
  * symbols:
- *   func_0204AF28 0x0204AF28 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
  */
 #include "../include/Obj23174.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int     s32;
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 int P_STA_OAM_GetCellResMode(u8 *p, int screen, u32 owner)
 {
     int mode;
@@ -29,6 +29,6 @@ int P_STA_OAM_GetCellResMode(u8 *p, int screen, u32 owner)
     default: mode = 0; break;
     }
     if (*(int *)(p + 8 + mode * 4) != -1) return mode;
-    *(int *)(p + 8 + mode * 4) = func_0204AF28((void *)owner, 0x4d, 0x80, ((struct Obj23174 *)p)->f4);
+    *(int *)(p + 8 + mode * 4) = CLACT_RegisterCellAnim((void *)owner, 0x4d, 0x80, ((struct Obj23174 *)p)->f4);
     return mode;
 }

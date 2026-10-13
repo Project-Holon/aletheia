@@ -1,5 +1,5 @@
 /*
- * function: func_021CD4FC
+ * function: BTL_SERVER_CMD_Reserve
  * address:  0x021CD4FC
  * packet:   pkt_ov093_021CD4FC
  * region:   ov093
@@ -12,9 +12,9 @@
  * symbols:
  *   data_021EFF14  0x021EFF14  data
  *   data_021F3B44  0x021F3B44  data
- *   func_021CCC0C  0x021CCC0C  thumb  ov093
- *   func_021CCAE0  0x021CCAE0  thumb  ov093
- *   func_021CCAA8  0x021CCAA8  thumb  ov093
+ *   BTL_SERVER_CMD_WriteCommand  0x021CCC0C  thumb  ov093
+ *   BTL_SERVER_CMD_WriteU16  0x021CCAE0  thumb  ov093
+ *   BTL_SERVER_CMD_WriteU8  0x021CCAA8  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -26,11 +26,11 @@ typedef struct {
 
 extern u8 data_021EFF14[];
 extern int data_021F3B44[];
-extern void func_021CCC0C(void *w, u32 id, int cmd, s32 *a);
-extern void func_021CCAE0(void *w, u16 v);
-extern void func_021CCAA8(void *w, u8 v);
+extern void BTL_SERVER_CMD_WriteCommand(void *w, u32 id, int cmd, s32 *a);
+extern void BTL_SERVER_CMD_WriteU16(void *w, u16 v);
+extern void BTL_SERVER_CMD_WriteU8(void *w, u8 v);
 
-u32 func_021CD4FC(Buf *w, u32 id)
+u32 BTL_SERVER_CMD_Reserve(Buf *w, u32 id)
 {
     u8 cmd;
     u8 n;
@@ -48,11 +48,11 @@ u32 func_021CD4FC(Buf *w, u32 id)
         } while (i < n);
     }
     pos = w->wpos;
-    func_021CCC0C(w, id, cmd, data_021F3B44);
+    BTL_SERVER_CMD_WriteCommand(w, id, cmd, data_021F3B44);
     len = w->wpos - pos;
     w->wpos = pos;
-    func_021CCAE0(w, 0x5f);
-    func_021CCAA8(w, len - 3);
+    BTL_SERVER_CMD_WriteU16(w, 0x5f);
+    BTL_SERVER_CMD_WriteU8(w, len - 3);
     w->wpos = pos + len;
     return pos;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0202B544
+ * function: ISS_SYS_ChangeZone
  * address:  0x0202B544
  * packet:   pkt_0202B500
  * region:   arm9
@@ -38,7 +38,7 @@ extern void ISS_SYS_OnZoneChangeZone(u8 *p, u32 key);
 extern void ISS_SYS_OnZoneChangeSwitch(u8 *p, u32 b);
 extern void ISS_SYS_OnZoneChange3ds(u8 *p, u32 b);
 
-void func_0202B544(u32 a, u16 b)
+void ISS_SYS_ChangeZone(u32 a, u16 b)
 {
     func_0202B7B8();
     ISS_SYS_OnZoneChangeCity((struct Obj *)a, b);

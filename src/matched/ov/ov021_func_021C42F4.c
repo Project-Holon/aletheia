@@ -1,5 +1,5 @@
 /*
- * function: func_021C42F4
+ * function: SODATEYA_AddMove
  * address:  0x021C42F4
  * packet:   pkt_ov021_021C42F4
  * region:   ov021
@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-void func_021C42F4(u32 *p, u32 v)
+void SODATEYA_AddMove(u32 *p, u32 v)
 {
     int i;
     u32 n;

@@ -1,7 +1,7 @@
 /*
  * file:     script_work.c
  * unit:     yes
- * function: func_02158E54, func_02158E7C, func_02158F18, func_02158F50, func_02158F54, func_02158F58, func_02158F6C, func_02158F74, func_02158F78, func_02158F7C, func_02158F80, func_02158F84, func_02158F88, func_02158F8C, func_02158F90, func_02158F94, func_02158FB4, func_02158FB8, func_02158FBC, func_02158FD0, func_02158FE0, func_0215901C, func_02159030, func_02159058, func_0215909C, func_021590D4, func_021590F4, func_021590FC, func_02159104, func_0215910C, func_02159114, func_0215911C, func_02159124, func_02159130, func_02159144, func_02159168, func_02159190, func_02159198, func_021591B4, func_02159204, func_02159240, func_02159244, func_02159248, func_02159254, func_02159260, func_02159284, func_0215929C, func_021592A8, func_021592C0, func_021592D8
+ * function: SCRIPT_WORK_InitFieldParam, SCRIPT_WORK_Create, SCRIPT_WORK_Delete, SCRIPT_WORK_GetEvent, SCRIPT_WORK_GetGameSystem, SCRIPT_WORK_ResetFieldParam, SCRIPT_WORK_GetCmdWork, SCRIPT_WORK_GetWordSet, SCRIPT_WORK_GetMsgBuffer, SCRIPT_WORK_GetTempBuffer, SCRIPT_WORK_SetMsgData, SCRIPT_WORK_GetMsgData, SCRIPT_WORK_GetTrainerParam, SCRIPT_WORK_GetScriptId, SCRIPT_WORK_GetTargetObj, SCRIPT_WORK_SetTargetObj, SCRIPT_WORK_GetUserWorkPtr, SCRIPT_WORK_GetUserWork, SCRIPT_WORK_FreeUserWork, SCRIPT_WORK_GetLocalWork, SCRIPT_WORK_GetWorkPtr, SCRIPT_WORK_GetWorkValue, SCRIPT_WORK_SetWorkValue, SCRIPT_WORK_SetParams, SCRIPT_WORK_BackupLocalWork, SCRIPT_WORK_RestoreLocalWork, SCRIPT_WORK_SetReturnScriptId, SCRIPT_WORK_GetReturnScriptId, SCRIPT_WORK_SetReturnParam, SCRIPT_WORK_GetReturnParam, SCRIPT_WORK_SetReturnFlag, SCRIPT_WORK_GetReturnFlag, SCRIPT_WORK_GetTrainerEntry, SCRIPT_WORK_ClearCheckFlags, SCRIPT_WORK_SetCheckFlag, SCRIPT_WORK_ResetCheckFlag, SCRIPT_WORK_CheckFlag, SCRIPT_WORK_IsCheckFlagSet, SCRIPT_WORK_RunCheckTask, SCRIPT_WORK_CreateCheckTask, SCRIPT_WORK_CmdNop, SCRIPT_WORK_CmdDummy, SCRIPT_WORK_CmdHalt, SCRIPT_WORK_WaitTime, SCRIPT_WORK_CmdTimeWait, SCRIPT_WORK_CmdCall, SCRIPT_WORK_CmdReturn, SCRIPT_WORK_CmdDebugWork, SCRIPT_WORK_CmdDebugStack, SCRIPT_WORK_CmdLoadRegValue
  * address:  0x02158E54
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -23,41 +23,41 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0  0x020307B0  arm
- *   func_02045808  0x02045808  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C 0x0201296C thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020143CC  0x020143CC  thumb
- *   func_0201134C  0x0201134C  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_0215A5DC 0x0215A5DC thumb ov010
+ *   VM_GetU32  0x0201134C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   func_02082A7C  0x02082A7C  arm
- *   func_02188C54  0x02188C54  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  *   func_0201EC74  0x0201EC74  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_0215A514  0x0215A514  thumb  ov010
+ *   STRBUF_Create  0x020457B0  arm
+ *   SCRCMD_WORK_CreateCommon  0x0215A514  thumb  ov010
  *   sScriptWorkFileName     0x0217289C  data  ov010  a1
  *   func_0201ED04  0x0201ED04  thumb
- *   func_0215A554  0x0215A554  thumb  ov010
- *   func_0216D588 0x0216D588 thumb ov010
+ *   SCRCMD_WORK_DeleteCommon  0x0215A554  thumb  ov010
+ *   FLDMMDL_GetObjId 0x0216D588 thumb ov010
  *   func_02082A60 0x02082A60 arm
  *   gScriptCheckFlags 0x02172BA0 data a4
  *   gScriptCheckHandlers     0x021705F0  data  ov010
- *   func_0215A5F4 0x0215A5F4 thumb ov010
+ *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
  *   func_02011290  0x02011290  thumb
- *   func_0215A690  0x0215A690  thumb  ov010
- *   func_0215A684   0x0215A684  thumb  ov010
- *   func_02011330   0x02011330  thumb
- *   func_020113D0   0x020113D0  thumb
+ *   SCRCMD_WORK_CountDownWait  0x0215A690  thumb  ov010
+ *   SCRCMD_WORK_SetWaitCount   0x0215A684  thumb  ov010
+ *   VM_GetU16   0x02011330  thumb
+ *   VM_SetWait   0x020113D0  thumb
  *   VM_Call  0x020113B4  thumb
  *   VM_Return  0x020113C4  thumb
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   VM_PopStack  0x02011398  thumb
- *   func_02158768  0x02158768  thumb  ov010
- *   func_02158920  0x02158920  thumb  ov010
- *   func_02158DB0  0x02158DB0  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEvent  0x02158920  thumb  ov010
+ *   SCRIPT_SYS_IsChildScript  0x02158DB0  thumb  ov010
  */
 #include "script_work_types.h"
 
@@ -79,104 +79,104 @@ typedef enum { SCRIPT_CHECK_BIT = 1 } ScriptCheckBit;
 
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *fileName, u16 line);
 extern int func_020307B0(void *block);
-extern int func_02045808(void *buffer);
-extern void *func_020120F4(void *gameSystem);
-extern u32 func_0201296C(void *gameData);
+extern int STRBUF_Delete(void *buffer);
+extern void *GAMESYSTEM_GetGameData(void *gameSystem);
+extern u32 GAME_DATA_GetEventWork(void *gameData);
 extern void *func_020124E8(void *task);
 extern void *func_020122C0(void *gameSystem, void *arg, ScriptCheckTaskFn callback, unsigned int size);
 extern u16 *func_020143CC(u32 eventWork, u32 id);
-extern u32 func_0201134C(ScriptVm *vm);
-extern void *func_0201210C(void *gameSystem);
-extern void *func_0215A5DC(ScriptVm *vm);
+extern u32 VM_GetU32(ScriptVm *vm);
+extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
+extern void *SCRCMD_WORK_GetGameSystem(ScriptVm *vm);
 extern int func_02082A7C();
-extern int func_02188C54();
+extern int FIELDMAP_GetMsgBg();
 extern void *func_0201EC74(u32 count, u32 size, u16 heapId);
-extern void *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_0215A514(ScriptWork *work, int heapId);
+extern void *STRBUF_Create(u32 capacity, u32 heapId);
+extern void *SCRCMD_WORK_CreateCommon(ScriptWork *work, int heapId);
 extern int func_0201ED04();
-extern int func_0215A554();
-extern u16 func_0216D588(void *obj);
+extern int SCRCMD_WORK_DeleteCommon();
+extern u16 FLDMMDL_GetObjId(void *obj);
 extern void func_02082A60(const void *src, void *dst, unsigned int size);
-extern void *func_0215A5F4(ScriptVm *vm);
+extern void *SCRCMD_WORK_GetScriptWork(ScriptVm *vm);
 extern void func_02011290(ScriptVm *vm);
-extern int func_0215A690(void *cmdWork);
-extern u16 func_02011330(ScriptVm *vm);
-extern void func_0215A684(void *cmdWork, unsigned short count);
-extern void func_020113D0(ScriptVm *vm, ScriptWaitFn waitFn);
+extern int SCRCMD_WORK_CountDownWait(void *cmdWork);
+extern u16 VM_GetU16(ScriptVm *vm);
+extern void SCRCMD_WORK_SetWaitCount(void *cmdWork, unsigned short count);
+extern void VM_SetWait(ScriptVm *vm, ScriptWaitFn waitFn);
 extern void VM_Call(ScriptVm *vm, u8 *target);
 extern u32 VM_Return(ScriptVm *vm);
-extern void *func_0215A5E4(void *work);
-extern unsigned int func_02159B10(ScriptVm *vm, ScriptWork *work);
+extern void *SCRCMD_WORK_GetGameData(void *work);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScriptWork *work);
 extern u32 VM_PopStack(ScriptVm *vm);
-extern int func_02158DB0(ScriptWork *parentWork);
+extern int SCRIPT_SYS_IsChildScript(ScriptWork *parentWork);
 extern const char sScriptWorkFileName[];
 extern int gScriptCheckFlags;
 extern ScriptCheckHandler gScriptCheckHandlers[];
 
-int func_02158E54(ScriptFieldParam *fieldParam, void *gameSystem);
-ScriptWork *func_02158E7C(u16 heapId, void *gameSystem, void *event, u16 scriptId, int targetObjParam, ScriptWork *parentWork);
-int func_02158F18(ScriptWork *work);
-void *func_02158F50(ScriptWork *work);
-void *func_02158F54(ScriptWork *work);
-ScriptFieldParam *func_02158F58(ScriptWork *work);
-void *func_02158F6C(ScriptWork *work);
-void *func_02158F74(ScriptWork *work);
-void *func_02158F78(ScriptWork *work);
-void *func_02158F7C(ScriptWork *work);
-void func_02158F80(ScriptWork *work, void *msgData);
-void *func_02158F84(ScriptWork *work);
-u32 *func_02158F88(ScriptWork *work);
-u16 func_02158F8C(ScriptWork *work);
-void *func_02158F90(ScriptWork *work);
-void func_02158F94(ScriptWork *work, void *targetObj);
-void *func_02158FB4(ScriptWork *work);
-void *func_02158FB8(ScriptWork *work);
-void func_02158FBC(ScriptWork *work);
-u16 *func_02158FD0(ScriptWork *work, u32 id);
-u16 *func_02158FE0(ScriptWork *work, void *gameData, unsigned int id);
-unsigned int func_0215901C(ScriptWork *work, void *gameData, unsigned int id);
-int func_02159030(ScriptWork *work, u32 id, int value);
-int func_02159058(ScriptWork *work, int param0, int param1, int param2, u16 param3);
-void *func_0215909C(ScriptWork *work);
-void func_021590D4(ScriptWork *work, void *backup);
-void func_021590F4(ScriptWork *work, u32 scriptId);
-u32 func_021590FC(ScriptWork *work);
-void func_02159104(ScriptWork *work, u32 param);
-u32 func_0215910C(ScriptWork *work);
-ScriptWork *func_02159114(ScriptWork *work, u32 flag);
-u32 func_0215911C(ScriptWork *work);
-ScriptTrainerEntry *func_02159124(ScriptWork *work, int index);
-void func_02159130(void);
-void func_02159144(int flagId);
-void func_02159168(int flagId);
-int func_02159190(int flagId);
-int func_02159198(int flagId);
-int func_021591B4(int taskHandle, int taskArg, ScriptCheckTask *task);
-void *func_02159204(ScriptVm *vm);
-int func_02159240(void);
-int func_02159244(void);
-int func_02159248(ScriptVm *vm);
-int func_02159254(ScriptVm *vm, void *cmdWork);
-int func_02159260(ScriptVm *vm, void *cmdWork);
-int func_02159284(ScriptVm *vm, void *work);
-int func_0215929C(ScriptVm *vm, void *work);
-int func_021592A8(ScriptVm *vm, ScriptWork *work);
-int func_021592C0(ScriptVm *vm, ScriptWork *work);
-int func_021592D8(ScriptVm *vm);
+int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem);
+ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, int targetObjParam, ScriptWork *parentWork);
+int SCRIPT_WORK_Delete(ScriptWork *work);
+void *SCRIPT_WORK_GetEvent(ScriptWork *work);
+void *SCRIPT_WORK_GetGameSystem(ScriptWork *work);
+ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *work);
+void *SCRIPT_WORK_GetCmdWork(ScriptWork *work);
+void *SCRIPT_WORK_GetWordSet(ScriptWork *work);
+void *SCRIPT_WORK_GetMsgBuffer(ScriptWork *work);
+void *SCRIPT_WORK_GetTempBuffer(ScriptWork *work);
+void SCRIPT_WORK_SetMsgData(ScriptWork *work, void *msgData);
+void *SCRIPT_WORK_GetMsgData(ScriptWork *work);
+u32 *SCRIPT_WORK_GetTrainerParam(ScriptWork *work);
+u16 SCRIPT_WORK_GetScriptId(ScriptWork *work);
+void *SCRIPT_WORK_GetTargetObj(ScriptWork *work);
+void SCRIPT_WORK_SetTargetObj(ScriptWork *work, void *targetObj);
+void *SCRIPT_WORK_GetUserWorkPtr(ScriptWork *work);
+void *SCRIPT_WORK_GetUserWork(ScriptWork *work);
+void SCRIPT_WORK_FreeUserWork(ScriptWork *work);
+u16 *SCRIPT_WORK_GetLocalWork(ScriptWork *work, u32 id);
+u16 *SCRIPT_WORK_GetWorkPtr(ScriptWork *work, void *gameData, unsigned int id);
+unsigned int SCRIPT_WORK_GetWorkValue(ScriptWork *work, void *gameData, unsigned int id);
+int SCRIPT_WORK_SetWorkValue(ScriptWork *work, u32 id, int value);
+int SCRIPT_WORK_SetParams(ScriptWork *work, int param0, int param1, int param2, u16 param3);
+void *SCRIPT_WORK_BackupLocalWork(ScriptWork *work);
+void SCRIPT_WORK_RestoreLocalWork(ScriptWork *work, void *backup);
+void SCRIPT_WORK_SetReturnScriptId(ScriptWork *work, u32 scriptId);
+u32 SCRIPT_WORK_GetReturnScriptId(ScriptWork *work);
+void SCRIPT_WORK_SetReturnParam(ScriptWork *work, u32 param);
+u32 SCRIPT_WORK_GetReturnParam(ScriptWork *work);
+ScriptWork *SCRIPT_WORK_SetReturnFlag(ScriptWork *work, u32 flag);
+u32 SCRIPT_WORK_GetReturnFlag(ScriptWork *work);
+ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(ScriptWork *work, int index);
+void SCRIPT_WORK_ClearCheckFlags(void);
+void SCRIPT_WORK_SetCheckFlag(int flagId);
+void SCRIPT_WORK_ResetCheckFlag(int flagId);
+int SCRIPT_WORK_CheckFlag(int flagId);
+int SCRIPT_WORK_IsCheckFlagSet(int flagId);
+int SCRIPT_WORK_RunCheckTask(int taskHandle, int taskArg, ScriptCheckTask *task);
+void *SCRIPT_WORK_CreateCheckTask(ScriptVm *vm);
+int SCRIPT_WORK_CmdNop(void);
+int SCRIPT_WORK_CmdDummy(void);
+int SCRIPT_WORK_CmdHalt(ScriptVm *vm);
+int SCRIPT_WORK_WaitTime(ScriptVm *vm, void *cmdWork);
+int SCRIPT_WORK_CmdTimeWait(ScriptVm *vm, void *cmdWork);
+int SCRIPT_WORK_CmdCall(ScriptVm *vm, void *work);
+int SCRIPT_WORK_CmdReturn(ScriptVm *vm, void *work);
+int SCRIPT_WORK_CmdDebugWork(ScriptVm *vm, ScriptWork *work);
+int SCRIPT_WORK_CmdDebugStack(ScriptVm *vm, ScriptWork *work);
+int SCRIPT_WORK_CmdLoadRegValue(ScriptVm *vm);
 
-int func_02158E54(ScriptFieldParam *fieldParam, void *gameSystem)
+int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
 {
-    void *fieldSystem = func_0201210C(gameSystem);
+    void *fieldSystem = GAMESYSTEM_GetFieldMap(gameSystem);
     int result = func_02082A7C(0, fieldParam, 8);
     fieldParam->fieldSystem = fieldSystem;
     if (fieldSystem != 0) {
-        result = func_02188C54(fieldSystem);
+        result = FIELDMAP_GetMsgBg(fieldSystem);
         fieldParam->mapSystem = (void *)result;
     }
     return result;
 }
 
-ScriptWork *func_02158E7C(u16 heapId, void *gameSystem, void *event, u16 scriptId, int targetObjParam, ScriptWork *parentWork)
+ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 scriptId, int targetObjParam, ScriptWork *parentWork)
 {
     ScriptWork *work = func_02030734(heapId, 0x14C, 1, sScriptWorkFileName, 0xAF);
     work->magic = SCRIPT_WORK_MAGIC;
@@ -187,94 +187,94 @@ ScriptWork *func_02158E7C(u16 heapId, void *gameSystem, void *event, u16 scriptI
     work->targetObj = 0;
     work->targetObjParam = targetObjParam;
     work->parentWork = parentWork;
-    work->isChild = func_02158DB0(parentWork);
+    work->isChild = SCRIPT_SYS_IsChildScript(parentWork);
     if (work->isChild == 0) {
         work->wordSet = func_0201EC74(0x1C, 0x40, heapId);
-        work->msgBuffer = func_020457B0(0x500, heapId);
-        work->tempBuffer = func_020457B0(0x500, heapId);
+        work->msgBuffer = STRBUF_Create(0x500, heapId);
+        work->tempBuffer = STRBUF_Create(0x500, heapId);
     } else {
         work->wordSet = 0;
         work->msgBuffer = 0;
         work->tempBuffer = 0;
     }
-    work->cmdWork = func_0215A514(work, heapId);
-    func_02158E54(&work->fieldParam, gameSystem);
+    work->cmdWork = SCRCMD_WORK_CreateCommon(work, heapId);
+    SCRIPT_WORK_InitFieldParam(&work->fieldParam, gameSystem);
     if (work->isChild == 0)
-        func_02159130();
+        SCRIPT_WORK_ClearCheckFlags();
     return work;
 }
 
-int func_02158F18(ScriptWork *work)
+int SCRIPT_WORK_Delete(ScriptWork *work)
 {
     work->magic = 0;
     if (work->wordSet != 0)
         func_0201ED04(work->wordSet);
     if (work->msgBuffer != 0)
-        func_02045808(work->msgBuffer);
+        STRBUF_Delete(work->msgBuffer);
     if (work->tempBuffer != 0)
-        func_02045808(work->tempBuffer);
-    func_0215A554(work->cmdWork);
+        STRBUF_Delete(work->tempBuffer);
+    SCRCMD_WORK_DeleteCommon(work->cmdWork);
     return func_020307B0(work);
 }
 
-void *func_02158F50(ScriptWork *work) { return work->event; }
+void *SCRIPT_WORK_GetEvent(ScriptWork *work) { return work->event; }
 
-void *func_02158F54(ScriptWork *work) { return work->gameSystem; }
+void *SCRIPT_WORK_GetGameSystem(ScriptWork *work) { return work->gameSystem; }
 
-ScriptFieldParam *func_02158F58(ScriptWork *work)
+ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *work)
 {
-    func_02158E54(&work->fieldParam, work->gameSystem);
+    SCRIPT_WORK_InitFieldParam(&work->fieldParam, work->gameSystem);
     return &work->fieldParam;
 }
 
-void *func_02158F6C(ScriptWork *work) { return work->cmdWork; }
+void *SCRIPT_WORK_GetCmdWork(ScriptWork *work) { return work->cmdWork; }
 
-void *func_02158F74(ScriptWork *work) { return work->wordSet; }
+void *SCRIPT_WORK_GetWordSet(ScriptWork *work) { return work->wordSet; }
 
-void *func_02158F78(ScriptWork *work) { return work->msgBuffer; }
+void *SCRIPT_WORK_GetMsgBuffer(ScriptWork *work) { return work->msgBuffer; }
 
-void *func_02158F7C(ScriptWork *work) { return work->tempBuffer; }
+void *SCRIPT_WORK_GetTempBuffer(ScriptWork *work) { return work->tempBuffer; }
 
-void func_02158F80(ScriptWork *work, void *msgData)
+void SCRIPT_WORK_SetMsgData(ScriptWork *work, void *msgData)
 {
     work->msgData = msgData;
 }
 
-void *func_02158F84(ScriptWork *work)
+void *SCRIPT_WORK_GetMsgData(ScriptWork *work)
 {
     return work->msgData;
 }
 
 /* Callers in ov021 read the area parameter through this address. */
-u32 *func_02158F88(ScriptWork *work)
+u32 *SCRIPT_WORK_GetTrainerParam(ScriptWork *work)
 {
     return &work->trainerParam;
 }
 
-u16 func_02158F8C(ScriptWork *work)
+u16 SCRIPT_WORK_GetScriptId(ScriptWork *work)
 {
     return work->scriptId;
 }
 
-void *func_02158F90(ScriptWork *work)
+void *SCRIPT_WORK_GetTargetObj(ScriptWork *work)
 {
     return work->targetObj;
 }
 
-void func_02158F94(ScriptWork *work, void *targetObj)
+void SCRIPT_WORK_SetTargetObj(ScriptWork *work, void *targetObj)
 {
     work->targetObj = targetObj;
     if (targetObj != 0) {
-        u16 *slot = func_02158FD0(work, 0x8011);
-        *slot = func_0216D588(targetObj);
+        u16 *slot = SCRIPT_WORK_GetLocalWork(work, 0x8011);
+        *slot = FLDMMDL_GetObjId(targetObj);
     }
 }
 
-void *func_02158FB4(ScriptWork *work) { return &work->userWork; }
+void *SCRIPT_WORK_GetUserWorkPtr(ScriptWork *work) { return &work->userWork; }
 
-void *func_02158FB8(ScriptWork *work) { return work->userWork; }
+void *SCRIPT_WORK_GetUserWork(ScriptWork *work) { return work->userWork; }
 
-void func_02158FBC(ScriptWork *work)
+void SCRIPT_WORK_FreeUserWork(ScriptWork *work)
 {
     if (work->userWork != 0) {
         func_020307B0(work->userWork);
@@ -282,17 +282,17 @@ void func_02158FBC(ScriptWork *work)
     }
 }
 
-u16 *func_02158FD0(ScriptWork *work, u32 id)
+u16 *SCRIPT_WORK_GetLocalWork(ScriptWork *work, u32 id)
 {
     return &work->localWorks[id - SCRIPT_LOCAL_WORK_BASE];
 }
 
-u16 *func_02158FE0(ScriptWork *work, void *gameData, unsigned int id)
+u16 *SCRIPT_WORK_GetWorkPtr(ScriptWork *work, void *gameData, unsigned int id)
 {
-    u32 eventWork = func_0201296C(gameData);
+    u32 eventWork = GAME_DATA_GetEventWork(gameData);
     if (id < 0x4000) return 0;
     if (id < 0x8000) return func_020143CC(eventWork, id);
-    if (id < 0xc000) return func_02158FD0(work, id);
+    if (id < 0xc000) return SCRIPT_WORK_GetLocalWork(work, id);
     return 0;
 }
 
@@ -300,69 +300,69 @@ u16 *func_02158FE0(ScriptWork *work, void *gameData, unsigned int id)
  * extent: two-byte zero alignment padding follows the 18-byte function.
  * Return stays full-width: the fallback id has no halfword truncation.
  */
-unsigned int func_0215901C(ScriptWork *work, void *gameData, unsigned int id)
+unsigned int SCRIPT_WORK_GetWorkValue(ScriptWork *work, void *gameData, unsigned int id)
 {
-    u16 *value = func_02158FE0(work, gameData, id);
+    u16 *value = SCRIPT_WORK_GetWorkPtr(work, gameData, id);
     if (value) id = *value;
     return id;
 }
 
-int func_02159030(ScriptWork *work, u32 id, int value)
+int SCRIPT_WORK_SetWorkValue(ScriptWork *work, u32 id, int value)
 {
-    void *gameData = func_020120F4(work->gameSystem);
-    u16 *slot = func_02158FE0(work, gameData, id);
+    void *gameData = GAMESYSTEM_GetGameData(work->gameSystem);
+    u16 *slot = SCRIPT_WORK_GetWorkPtr(work, gameData, id);
     if (slot == 0)
         return 0;
     *slot = value;
     return 1;
 }
 
-int func_02159058(ScriptWork *work, int param0, int param1, int param2, u16 param3)
+int SCRIPT_WORK_SetParams(ScriptWork *work, int param0, int param1, int param2, u16 param3)
 {
-    func_02159030(work, 0x8000, param0);
-    func_02159030(work, 0x8001, param1);
-    func_02159030(work, 0x8002, param2);
-    return func_02159030(work, 0x8003, param3);
+    SCRIPT_WORK_SetWorkValue(work, 0x8000, param0);
+    SCRIPT_WORK_SetWorkValue(work, 0x8001, param1);
+    SCRIPT_WORK_SetWorkValue(work, 0x8002, param2);
+    return SCRIPT_WORK_SetWorkValue(work, 0x8003, param3);
 }
 
-void *func_0215909C(ScriptWork *work)
+void *SCRIPT_WORK_BackupLocalWork(ScriptWork *work)
 {
     void *backup = func_02030734(work->heapId, 0x7e, 1, sScriptWorkFileName, 0x21b);
-    func_02082A60(func_02158FD0(work, 0x8020), backup, 0x7e);
+    func_02082A60(SCRIPT_WORK_GetLocalWork(work, 0x8020), backup, 0x7e);
     return backup;
 }
 
-void func_021590D4(ScriptWork *work, void *backup)
+void SCRIPT_WORK_RestoreLocalWork(ScriptWork *work, void *backup)
 {
-    u16 *localWorks = func_02158FD0(work, 0x8020);
+    u16 *localWorks = SCRIPT_WORK_GetLocalWork(work, 0x8020);
     func_02082A60(backup, localWorks, 0x7e);
     func_020307B0(backup);
 }
 
-void func_021590F4(ScriptWork *work, u32 scriptId) { work->returnScriptId = scriptId; }
+void SCRIPT_WORK_SetReturnScriptId(ScriptWork *work, u32 scriptId) { work->returnScriptId = scriptId; }
 
-u32 func_021590FC(ScriptWork *work) { return work->returnScriptId; }
+u32 SCRIPT_WORK_GetReturnScriptId(ScriptWork *work) { return work->returnScriptId; }
 
-void func_02159104(ScriptWork *work, u32 param)
+void SCRIPT_WORK_SetReturnParam(ScriptWork *work, u32 param)
 {
     work->returnParam = param;
 }
 
-u32 func_0215910C(ScriptWork *work)
+u32 SCRIPT_WORK_GetReturnParam(ScriptWork *work)
 {
     return work->returnParam;
 }
 
-ScriptWork *func_02159114(ScriptWork *work, u32 flag) { work->returnFlag = flag; return work; }
+ScriptWork *SCRIPT_WORK_SetReturnFlag(ScriptWork *work, u32 flag) { work->returnFlag = flag; return work; }
 
-u32 func_0215911C(ScriptWork *work) { return work->returnFlag; }
+u32 SCRIPT_WORK_GetReturnFlag(ScriptWork *work) { return work->returnFlag; }
 
-ScriptTrainerEntry *func_02159124(ScriptWork *work, int index)
+ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(ScriptWork *work, int index)
 {
     return &work->trainers[index];
 }
 
-void func_02159130(void)
+void SCRIPT_WORK_ClearCheckFlags(void)
 {
     func_02082A7C(0, &gScriptCheckFlags, 4);
 }
@@ -373,9 +373,9 @@ void func_02159130(void)
  * 021AEE1E passes 13). No traced setter call supplies a negative ID.
  * These primary paths make 1 << flagId defined; no new bound is assumed.
  */
-void func_02159144(int flagId)
+void SCRIPT_WORK_SetCheckFlag(int flagId)
 {
-    if (flagId < 14 && !func_02159198(flagId)) gScriptCheckFlags |= 1 << flagId;
+    if (flagId < 14 && !SCRIPT_WORK_IsCheckFlagSet(flagId)) gScriptCheckFlags |= 1 << flagId;
 }
 
 /*
@@ -386,18 +386,18 @@ void func_02159144(int flagId)
  * 021AF03A passes 13; 021B10C8 forwards its saved literal 3).
  * On these traced paths flagId is nonnegative and below 14 before the shift.
  */
-void func_02159168(int flagId)
+void SCRIPT_WORK_ResetCheckFlag(int flagId)
 {
-    if (flagId < 14 && func_02159198(flagId)) {
+    if (flagId < 14 && SCRIPT_WORK_IsCheckFlagSet(flagId)) {
         ScriptCheckBit bit = SCRIPT_CHECK_BIT;
         gScriptCheckFlags &= (bit << flagId) ^ -1;
     }
 }
 
 /* Tail call through a pool word and bx r3 (docs/idioms/tail-call-is-a-pool-word-and-bx.md). */
-int func_02159190(int flagId)
+int SCRIPT_WORK_CheckFlag(int flagId)
 {
-    return func_02159198(flagId);
+    return SCRIPT_WORK_IsCheckFlagSet(flagId);
 }
 
 /*
@@ -410,20 +410,20 @@ int func_02159190(int flagId)
  * state updates use only task+0x0c. Thus shifted IDs are 0..13 on the
  * traced primary paths; no invented guard or domain was added.
  */
-int func_02159198(int flagId)
+int SCRIPT_WORK_IsCheckFlagSet(int flagId)
 {
     if (flagId >= 14) return 0;
     if ((gScriptCheckFlags >> flagId) & 1) return 1;
     return 0;
 }
 
-int func_021591B4(int taskHandle, int taskArg, ScriptCheckTask *task)
+int SCRIPT_WORK_RunCheckTask(int taskHandle, int taskArg, ScriptCheckTask *task)
 {
     do {
         ScriptCheckHandler handler = gScriptCheckHandlers[task->index];
         if (handler == 0)
             return 1;
-        if (func_02159198(task->index)) {
+        if (SCRIPT_WORK_IsCheckFlagSet(task->index)) {
             if (handler(task, &task->state)) {
                 task->index++;
                 task->state = 0;
@@ -438,11 +438,11 @@ int func_021591B4(int taskHandle, int taskArg, ScriptCheckTask *task)
     return 1;
 }
 
-void *func_02159204(ScriptVm *vm)
+void *SCRIPT_WORK_CreateCheckTask(ScriptVm *vm)
 {
-    void *scriptCtl = func_0215A5F4(vm);
-    void *gameSystem = func_0215A5DC(vm);
-    void *taskHandle = func_020122C0(gameSystem, 0, func_021591B4, sizeof(ScriptCheckTask));
+    void *scriptCtl = SCRCMD_WORK_GetScriptWork(vm);
+    void *gameSystem = SCRCMD_WORK_GetGameSystem(vm);
+    void *taskHandle = func_020122C0(gameSystem, 0, SCRIPT_WORK_RunCheckTask, sizeof(ScriptCheckTask));
     ScriptCheckTask *task = func_020124E8(taskHandle);
     task->gameSystem = gameSystem;
     task->vm = vm;
@@ -453,11 +453,11 @@ void *func_02159204(ScriptVm *vm)
     return taskHandle;
 }
 
-int func_02159240(void) { return 0; }
+int SCRIPT_WORK_CmdNop(void) { return 0; }
 
-int func_02159244(void) { return 0; }
+int SCRIPT_WORK_CmdDummy(void) { return 0; }
 
-int func_02159248(ScriptVm *vm)
+int SCRIPT_WORK_CmdHalt(ScriptVm *vm)
 {
     func_02011290(vm);
     return 1;
@@ -465,49 +465,49 @@ int func_02159248(ScriptVm *vm)
 
 /*
  * Recursive MATCH unblocker: tail-call thunk at the pool word 0x0215A691
- * (func_0215A690). Matched so the ABS32 site in func_02159260 attests as
+ * (SCRCMD_WORK_CountDownWait). Matched so the ABS32 site in SCRIPT_WORK_CmdTimeWait attests as
  * `matched`.
  */
-int func_02159254(ScriptVm *vm, void *cmdWork)
+int SCRIPT_WORK_WaitTime(ScriptVm *vm, void *cmdWork)
 {
-    return func_0215A690(cmdWork);
+    return SCRCMD_WORK_CountDownWait(cmdWork);
 }
 
 /*
  * Registers the wait count under the key the VM yields and installs the
  * in-overlay wait callback the pool names.
  */
-int func_02159260(ScriptVm *vm, void *cmdWork)
+int SCRIPT_WORK_CmdTimeWait(ScriptVm *vm, void *cmdWork)
 {
-    func_0215A684(cmdWork, func_02011330(vm));
-    func_020113D0(vm, func_02159254);
+    SCRCMD_WORK_SetWaitCount(cmdWork, VM_GetU16(vm));
+    VM_SetWait(vm, SCRIPT_WORK_WaitTime);
     return 1;
 }
 
-int func_02159284(ScriptVm *vm, void *work)
+int SCRIPT_WORK_CmdCall(ScriptVm *vm, void *work)
 {
-    u32 offset = func_0201134C(vm);
+    u32 offset = VM_GetU32(vm);
     VM_Call(vm, vm->pc + offset);
     return 0;
 }
 
-int func_0215929C(ScriptVm *vm, void *work)
+int SCRIPT_WORK_CmdReturn(ScriptVm *vm, void *work)
 {
     VM_Return(vm);
     return 0;
 }
 
-int func_021592A8(ScriptVm *vm, ScriptWork *work)
+int SCRIPT_WORK_CmdDebugWork(ScriptVm *vm, ScriptWork *work)
 {
-    func_0215A5E4(work);
-    func_02159B10(vm, work);
+    SCRCMD_WORK_GetGameData(work);
+    SCRIPT_WORK_ReadWorkValue(vm, work);
     return 0;
 }
 
-int func_021592C0(ScriptVm *vm, ScriptWork *work)
+int SCRIPT_WORK_CmdDebugStack(ScriptVm *vm, ScriptWork *work)
 {
     VM_PopStack(vm);
-    func_02159B10(vm, work);
+    SCRIPT_WORK_ReadWorkValue(vm, work);
     return 0;
 }
 
@@ -518,7 +518,7 @@ static inline u8 ReadScriptByte(ScriptVm *vm)
     return value;
 }
 
-int func_021592D8(ScriptVm *vm)
+int SCRIPT_WORK_CmdLoadRegValue(ScriptVm *vm)
 {
     u8 index = ReadScriptByte(vm);
     u8 value = ReadScriptByte(vm);

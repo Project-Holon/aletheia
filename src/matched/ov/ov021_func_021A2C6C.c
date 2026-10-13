@@ -1,5 +1,5 @@
 /*
- * function: func_021A2C6C
+ * function: WEATHER_TASK_StopSound
  * address:  0x021A2C6C
  * packet:   pkt_ov021_021A2C6C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02028B50  0x02028B50  thumb
- *   func_02006148  0x02006148  thumb
+ *   FIELD_SOUND_SYSTEM_ReleaseSlot  0x02028B50  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   func_020061F8  0x020061F8  thumb
  */
 
@@ -26,17 +26,17 @@ typedef struct {
 } Snd021A2C6C;
 
 typedef unsigned char  u8;
-void func_02028B50(u8 *p, int a0);
-int func_02006148(u32 a0);
+void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0);
+int GFL_USE_GetSeSlot(u32 a0);
 void func_020061F8(int h);
 
-void func_021A2C6C(Snd021A2C6C *p, int a)
+void WEATHER_TASK_StopSound(Snd021A2C6C *p, int a)
 {
     if (p->state == 1) {
         p->state = 0;
         if (p->flag != 0)
-            func_02028B50((u8 *)a, p->id);
+            FIELD_SOUND_SYSTEM_ReleaseSlot((u8 *)a, p->id);
         else
-            func_020061F8(func_02006148(p->id));
+            func_020061F8(GFL_USE_GetSeSlot(p->id));
     }
 }

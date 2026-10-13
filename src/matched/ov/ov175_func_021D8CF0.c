@@ -27,6 +27,7 @@
  *   func_021D9A08 0x021D9A08 thumb ov175
  *   func_021D99F4 0x021D99F4 thumb ov175
  *   func_02040588 0x02040588 arm
+ *   GAME_DATA_SaveStart  0x02012DAC  thumb  arm9
  */
 #include "../include/Obj00013.h"
 typedef unsigned long u32;
@@ -37,7 +38,7 @@ extern void func_021E8AB4(u32,u32);
 extern void func_021E8AA0(int *p, int v);
 extern void func_021E8AB8(u32);
 extern int func_021E8844(const int *p);
-extern int func_02012DAC(int a0);
+extern int GAME_DATA_SaveStart(int a0);
 extern int func_021D9D50(char *,u32 *);
 extern int func_021D9F04(char *,void *,void *);
 extern void func_021D9A1C(char *,void *);

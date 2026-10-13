@@ -1,5 +1,5 @@
 /*
- * function: func_0216D208
+ * function: FLDMMDL_InitDir
  * address: 0x0216D208
  * packet: pkt_ov010_0216D208
  * region: ov010
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0216D5D4 0x0216D5D4 thumb ov010
- *   func_0216D5D8 0x0216D5D8 thumb ov010
- *   func_0216D600 0x0216D600 thumb ov010
+ *   FLDMMDL_GetDirHeader 0x0216D5D4 thumb ov010
+ *   FLDMMDL_SetDirDisp 0x0216D5D8 thumb ov010
+ *   FLDMMDL_SetDirMove 0x0216D600 thumb ov010
  */
 
 typedef unsigned short u16;
-extern int func_0216D5D4(void *p);
-extern int func_0216D5D8(int a0, int a1);
-extern int func_0216D600(int a0, u16 a1);
-void func_0216D208(void *p)
+extern int FLDMMDL_GetDirHeader(void *p);
+extern int FLDMMDL_SetDirDisp(int a0, int a1);
+extern int FLDMMDL_SetDirMove(int a0, u16 a1);
+void FLDMMDL_InitDir(void *p)
 {
-    func_0216D5D8((int)p, (u16)func_0216D5D4(p));
-    func_0216D600((int)p, (u16)func_0216D5D4(p));
+    FLDMMDL_SetDirDisp((int)p, (u16)FLDMMDL_GetDirHeader(p));
+    FLDMMDL_SetDirMove((int)p, (u16)FLDMMDL_GetDirHeader(p));
 }

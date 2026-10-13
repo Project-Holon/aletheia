@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045874  0x02045874  arm
+ *   STRBUF_Clone  0x02045874  arm
  *   func_02082D44  0x02082D44  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
@@ -45,7 +45,7 @@ struct B {
 
 typedef unsigned int   u32;
 struct U16Vec;
-extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
+extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void func_02082D44(void *, void *, int);
 struct Rec8;
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
@@ -59,7 +59,7 @@ void func_021B9E7C(struct A *p, struct B *src)
     if (src) {
         p->ha = src->f0;
         p->h8 = src->f4;
-        p->q = (int)func_02045874((struct U16Vec *)src->f14, 0x12);
+        p->q = (int)STRBUF_Clone((struct U16Vec *)src->f14, 0x12);
         p->c = src->f8;
         func_02082D44(src->b, p->h, 8);
         PMSI_PARAM_Copy((struct Rec8 *)(&p->s18), (const struct Rec8 *)(&src->s18));

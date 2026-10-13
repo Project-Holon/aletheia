@@ -14,7 +14,7 @@
  *   g_021468E4     0x021468E4  data
  *   WIPE_SetBrightness  0x020222CC  thumb
  *
- * Same sentinel-mapping shape as func_0202223C.c, but read-modify-write:
+ * Same sentinel-mapping shape as WIPE_SetBrightnessFadeOut.c, but read-modify-write:
  * it substitutes the sentinel readback the same way, maps the result to
  * one of the same two hardware constants, forwards it to both of
  * WIPE_SetBrightness's hardware selections (0 and 1), and then stores the

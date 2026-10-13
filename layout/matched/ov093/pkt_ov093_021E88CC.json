@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E88CC",
+   "name": "BTLV_CORE_LoadDsiOverlay",
    "address": "0x021E88CC",
    "kind": "game",
    "region": "ov093",

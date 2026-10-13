@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * 2026-10-05 (wave D9): witness leaf for ov010 func_02156530. Searches the
+ * 2026-10-05 (wave D9): witness leaf for ov010 MUSICAL_EVENT_RollProgramRewards. Searches the
  * four 48-byte records at +0x60 for one whose id byte (+0x12) equals the key
  * and whose state word (+4) is 1; returns its word at +0x1C, else 0.
  *

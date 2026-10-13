@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A0250",
+   "name": "FIELD_FOG_FadeIsRunning",
    "address": "0x021A0250",
    "kind": "game",
    "region": "ov021",

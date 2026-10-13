@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1B0
+ * function: MONOLITH_TOOL_TaskUploadRows
  * address: 0x021BA1B0
  * packet: pkt_ov071_021BA1B0
  * region: ov071
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020257D0 0x020257D0 thumb
+ *   BMP_OAM_UploadChars 0x020257D0 thumb
  */
 #include "../include/Obj13186.h"
 
 struct Obj;
-extern void func_020257D0(struct Obj *o);
-void func_021BA1B0(void *unused, char *p) { int i; if (((struct Obj13186 *)p)->f2F0 == 1) { for (i = 0; i < 7; i++) func_020257D0(*(void **)(p + i * 4 + 0x2a0)); ((struct Obj13186 *)p)->f2F0 = 0; } }
+extern void BMP_OAM_UploadChars(struct Obj *o);
+void MONOLITH_TOOL_TaskUploadRows(void *unused, char *p) { int i; if (((struct Obj13186 *)p)->f2F0 == 1) { for (i = 0; i < 7; i++) BMP_OAM_UploadChars(*(void **)(p + i * 4 + 0x2a0)); ((struct Obj13186 *)p)->f2F0 = 0; } }

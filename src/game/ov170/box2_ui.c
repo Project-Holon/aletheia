@@ -20,31 +20,31 @@
  *   func_021EC08C 0x021EC08C thumb ov170
  *   func_021EC0B0 0x021EC0B0 thumb ov170
  *   BMP_OAM_GetPos 0x020258E8 thumb
- *   func_0202590C 0x0202590C thumb
+ *   BMP_OAM_SetPos 0x0202590C thumb
  *   func_021DEB14 0x021DEB14 thumb ov170
  *   func_021EB874 0x021EB874 thumb ov170
- *   func_02049E34 0x02049E34 arm
+ *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021DEDCC 0x021DEDCC thumb ov170
  *   g_021EFCEC  0x021EFCEC  data  ov170
  *   func_02007A18  0x02007A18  thumb
- *   func_02017DBC  0x02017DBC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   func_0201ADE4  0x0201ADE4  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *   func_0201AE14  0x0201AE14  thumb
- *   func_02017DE4  0x02017DE4  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *   func_02082A48  0x02082A48  arm
  *   func_021EC01C 0x021EC01C thumb
  *   d_021EFCD8 0x021EFCD8 data a2
- *   func_02025774 0x02025774 thumb
+ *   BMP_OAM_SetEnabled 0x02025774 thumb
  *   func_021EB85C  0x021EB85C  thumb  ov170
  *   func_021EBFCC 0x021EBFCC thumb
- *   func_02025538 0x02025538 thumb
- *   func_02043678 0x02043678 arm
- *   func_020255A0 0x020255A0 thumb
- *   func_020257C4  0x020257C4  thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
+ *   BMP_Create 0x02043678 arm
+ *   BMP_OAM_Create 0x020255A0 thumb
+ *   BMP_OAM_GetEnabled  0x020257C4  thumb
  *   func_020355C4 0x020355C4 arm
  *   func_02025CD0 0x02025CD0 thumb
  *   func_02025D1C 0x02025D1C thumb
@@ -71,7 +71,7 @@
  *   d_021F1418 0x021F1418 data a1
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021F0020 0x021F0020 data a4
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   TOUCHPANEL_HitPoint 0x02035D40 arm
  *   g_021F0DCC  0x021F0DCC  data  ov170
@@ -98,6 +98,9 @@
  *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb  arm9
  *   CLACT_TransferCharacterPart  0x0204AA94  arm  arm9
  *   CLACT_GetActorCharacterIndex  0x0204B7F0  arm  arm9
+ *   BMP_OAM_DeleteSys  0x02025588  thumb  arm9
+ *   BMP_OAM_Delete  0x0202570C  thumb  arm9
+ *   BMP_Delete  0x020437AC  arm  arm9
  */
 #include "box2_types.h"
 #include "../../matched/include/Obj24023.h"
@@ -188,34 +191,34 @@ extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
 extern void BMP_OAM_GetPos(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
-extern void func_0202590C(struct Grid *g, s16 x, s16 y);
+extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
 extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EB874(char **, unsigned, int);
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02082D44(const void *, void *, unsigned);
 extern u32 func_020307B0(void *p);
 extern int func_021DEDCC(char *p, int box);
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_0201ADE4(u32 a, int b, u32 c);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void func_02082A48(u32 value, void *dest, u32 size);
 extern u32 func_021EC01C(char *p, int i);
-extern void func_02025774(u8 *g, u32 a);
+extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 extern void func_021EB85C(unsigned char *p, int i);
 extern void func_021EBFCC(char *p, int i, int v);
-extern void *func_02025538(u32,void *);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
-extern void func_0202570C(struct Grid *g);
-extern void func_020437AC(struct Obj020437AC *p);
-extern void func_02025588(void *p);
-extern int func_020257C4(const int *p);
+extern void *BMP_OAM_CreateSys(u32,void *);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
+extern void BMP_OAM_Delete(struct Grid *g);
+extern void BMP_Delete(struct Obj020437AC *p);
+extern void BMP_OAM_DeleteSys(void *p);
+extern int BMP_OAM_GetEnabled(const int *p);
 extern u8 func_020355C4(void);
 extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern void func_02025D1C(struct Struct_02025D1C *obj);
@@ -235,7 +238,7 @@ extern unsigned int func_0203633C(void);
 extern void func_021DD238(char *p);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern int TOUCHPANEL_HitCont(const void *);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
@@ -480,7 +483,7 @@ void func_021ED918(char *p, int d)
         func_021EC0B0(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, &t[1], &t[0], 0);
         func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, (short)(t[1] - d), (short)t[0], (short)0);
         BMP_OAM_GetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), &t[1], &t[0]);
-        func_0202590C(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), t[1] - d, t[0]);
+        BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), t[1] - d, t[0]);
     }
 }
 
@@ -515,7 +518,7 @@ void func_021ED9C8(char *p)
         t.y += (short)y;
         func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2d, t.x, t.y, 0);
         func_021EDB64(p, a, i + 0x2d);
-        func_0202590C(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), 0x13c, y + 2);
+        BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xc), 0x13c, y + 2);
         func_021EB874((char **)p, a, i + 1);
     }
 }
@@ -555,7 +558,7 @@ void func_021EDA70(int a0, int a1, short *a2, short *a3)
 void func_021EDAB0(char *p, int i)
 {
     void *t;
-    void *q = func_02049E34(0x74, 0x47, 1, (u32)(&t), 0x4c);
+    void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (u32)(&t), 0x4c);
     func_02082D44(((struct Obj24024 *)t)->f14, *(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400, 0x400);
     func_020307B0(q);
     func_021EDBE8((int)p, (unsigned char *)(*(char * *)&((BoxTask *)p)->f2C + 0x3e70 + i * 0x400), func_021DEDCC((char *)p, i), 8, 0x400);
@@ -673,7 +676,7 @@ void func_021EDC0C(int **a, int box, u8 *dest)
         tx = 10;
         for (x = 0; x < 6; tx += 2, x++) {
             e = func_02007A18((void *)(*a)[1], box, x + y * 6);
-            sv = func_02017DBC(e);
+            sv = POKE_TOOL_DecodeBoxParam(e);
             sp = func_02017E88(e, 5, 0);
             if (func_02017E88(e, 0xa9, 0)) {
                 if (func_02017E88(e, 0x4c, 0) == 0) {
@@ -690,7 +693,7 @@ void func_021EDC0C(int **a, int box, u8 *dest)
                 for (i = ty; i < ty + 2; i++)
                     func_02082A48(t, dest + ((((i & 7) << 3) + ((((i >> 3) << 2) + (tx >> 3)) << 6)) + (tx & 7)), 2);
             }
-            func_02017DE4(e, sv);
+            POKE_TOOL_EncodeBoxParam(e, sv);
         }
     }
 }
@@ -717,19 +720,19 @@ void func_021EDD38(char *p, int d)
         func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, (short)t[3], (short)x, (short)0);
         BMP_OAM_GetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), &t[1], &t[0]);
         y = t[0] + step;
-        func_0202590C(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y);
+        BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y);
         if (x < -0x10) {
             k = func_021DEB14((unsigned char *)p, 4);
             func_021EDB64(p, k, i + 0x2D);
             func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, (short)t[3], (short)(x + 0xCC), (short)0);
             func_021EB874((char **)p, k, i + 1);
-            func_0202590C(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y + 0xCC);
+            BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y + 0xCC);
         } else if (x >= 0xBA) {
             k = func_021DEB14((unsigned char *)p, -1);
             func_021EDB64(p, k, i + 0x2D);
             func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, i + 0x2D, (short)t[3], (short)(x - 0xCC), (short)0);
             func_021EB874((char **)p, k, i + 1);
-            func_0202590C(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y - 0xCC);
+            BMP_OAM_SetPos(*(void **)(*(char * *)&((BoxTask *)p)->f2C + i * 8 + 0xC), t[1], y - 0xCC);
         }
     }
     if (func_021EC01C(*(char * *)&((BoxTask *)p)->f2C, 2) == 1) {
@@ -790,8 +793,8 @@ void func_021EDFC4(char *p, int i)
     short y = d_021EFCD8[i];
     func_021EC08C(*(char * *)&((BoxTask *)p)->f2C, 3, 0xce, y, 0);
     func_021EC000(*(char * *)&((BoxTask *)p)->f2C, 3, 1);
-    func_0202590C(((struct Obj24025 *)(*(char * *)&((BoxTask *)p)->f2C))->f4, 0x9e, y - 8);
-    func_02025774(((struct Obj24026 *)(*(char * *)&((BoxTask *)p)->f2C))->f4, 1);
+    BMP_OAM_SetPos(((struct Obj24025 *)(*(char * *)&((BoxTask *)p)->f2C))->f4, 0x9e, y - 8);
+    BMP_OAM_SetEnabled(((struct Obj24026 *)(*(char * *)&((BoxTask *)p)->f2C))->f4, 1);
 }
 
 
@@ -811,7 +814,7 @@ void func_021EE008(char *p, int a, int b)
         return;
     }
     func_021EC000((char *)(*(int *)&((BoxTask *)p)->f2C), 3, 0);
-    func_02025774((u8 *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 4)), 0);
+    BMP_OAM_SetEnabled((u8 *)(*(int *)(*(int *)&((BoxTask *)p)->f2C + 4)), 0);
 }
 
 
@@ -878,22 +881,22 @@ void func_021EE120(char *p)
 {
     struct Param s;
     u32 i;
-    ((BoxWork *)p)->f0=func_02025538(76,((struct Obj01419 *)p)->f9E70);
-    ((BoxWork *)p)->f8=func_02043678(12,2,32,76);
+    ((BoxWork *)p)->f0=BMP_OAM_CreateSys(76,((struct Obj01419 *)p)->f9E70);
+    ((BoxWork *)p)->f8=BMP_Create(12,2,32,76);
     s.bmp=((BoxWork *)p)->f8;s.x=0;s.y=0;
     s.f8=((BoxWork *)p)->fA120;s.fc=0;
     s.f10=4;s.f11=1;s.f12=65535;s.f14=0;
-    ((BoxWork *)p)->f4=func_020255A0(((BoxWork *)p)->f0,&s);
-    func_02025774(((BoxWork *)p)->f4,0);
+    ((BoxWork *)p)->f4=BMP_OAM_Create(((BoxWork *)p)->f0,&s);
+    BMP_OAM_SetEnabled(((BoxWork *)p)->f4,0);
     for (i=7;i<=8;i++) {
-        ((void **)(p+4))[i*2+1]=func_02043678(12,2,32,76);
+        ((void **)(p+4))[i*2+1]=BMP_Create(12,2,32,76);
         s.bmp=((void **)(p+4))[i*2+1];s.x=36;s.y=20;s.f11=3;
-        ((void **)(p+4))[i*2]=func_020255A0(((BoxWork *)p)->f0,&s);
+        ((void **)(p+4))[i*2]=BMP_OAM_Create(((BoxWork *)p)->f0,&s);
     }
     for (i=0;i<6;i++) {
-        ((void **)(p+4))[(i+1)*2+1]=func_02043678(2,1,32,76);
+        ((void **)(p+4))[(i+1)*2+1]=BMP_Create(2,1,32,76);
         s.bmp=((void **)(p+4))[(i+1)*2+1];s.x=316;s.y=i*34+2;s.f11=1;
-        ((void **)(p+4))[(i+1)*2]=func_020255A0(((BoxWork *)p)->f0,&s);
+        ((void **)(p+4))[(i+1)*2]=BMP_OAM_Create(((BoxWork *)p)->f0,&s);
     }
 }
 
@@ -905,10 +908,10 @@ void func_021EE200(char *p)
 {
     unsigned i;
     for (i = 0; i < 9; i++) {
-        func_0202570C((struct Grid *)(*(int *)(p + i * 8 + 4)));
-        func_020437AC((struct Obj020437AC *)(*(int *)(p + i * 8 + 8)));
+        BMP_OAM_Delete((struct Grid *)(*(int *)(p + i * 8 + 4)));
+        BMP_Delete((struct Obj020437AC *)(*(int *)(p + i * 8 + 8)));
     }
-    func_02025588((void *)(((struct Obj18525 *)p)->f0));
+    BMP_OAM_DeleteSys((void *)(((struct Obj18525 *)p)->f0));
 }
 
 
@@ -918,7 +921,7 @@ void func_021EE200(char *p)
 
 void func_021EE224(char *p, int i, int v)
 {
-    func_02025774((u8 *)(*(int *)(p + i * 8 + 4)), v);
+    BMP_OAM_SetEnabled((u8 *)(*(int *)(p + i * 8 + 4)), v);
 }
 
 
@@ -927,7 +930,7 @@ void func_021EE224(char *p, int i, int v)
 
 
 /*
- *   func_020257C4 (0x020257C4) stays wildcarded because the target is an
+ *   BMP_OAM_GetEnabled (0x020257C4) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
@@ -935,7 +938,7 @@ void func_021EE224(char *p, int i, int v)
  */
 int func_021EE234(int *a, int i)
 {
-    return func_020257C4((const int *)(*(int *)((char *)a + i * 8 + 4)));
+    return BMP_OAM_GetEnabled((const int *)(*(int *)((char *)a + i * 8 + 4)));
 }
 
 
@@ -946,9 +949,9 @@ int func_021EE234(int *a, int i)
 void func_021EE244(char *p, int i, int flag)
 {
     if (flag == 0)
-        func_0202590C(*(void **)(p + i * 8 + 4), -0x94, 0x14);
+        BMP_OAM_SetPos(*(void **)(p + i * 8 + 4), -0x94, 0x14);
     else
-        func_0202590C(*(void **)(p + i * 8 + 4), 0xDC, 0x14);
+        BMP_OAM_SetPos(*(void **)(p + i * 8 + 4), 0xDC, 0x14);
 }
 
 
@@ -964,7 +967,7 @@ void func_021EE26C(char *p, int d)
     for (i = 7; i <= 8; i++) {
         char *e = p + i * 8;
         BMP_OAM_GetPos(((struct Obj14282 *)e)->f4, &x, &y);
-        func_0202590C(((struct Obj14282 *)e)->f4, x + d, y);
+        BMP_OAM_SetPos(((struct Obj14282 *)e)->f4, x + d, y);
         if (x + d == -0x94 || x + d == 0xDC)
             func_021EE224(p, i, 0);
     }
@@ -2123,7 +2126,7 @@ int func_021EF048(const char *p, unsigned n)
     obj.second=d_021F0020;
     for(i=0;i<n;i++) {
         obj.first=*(Bytes *)(p+i*12+8);
-        if(func_02035C08(&obj)!=-1) return i;
+        if(TOUCHPANEL_HitTrg(&obj)!=-1) return i;
     }
     return -1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DED60
+ * function: BTL_HANDLER_ITEM_GetShellBellHandlers
  * address: 0x021DED60
  * packet: pkt_ov093_021DED60
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F152C 0x021F152C data ov093 a4
  */
 
-int *func_021DED60(int *p);
+int *BTL_HANDLER_ITEM_GetShellBellHandlers(int *p);
 extern int d_021F152C[];
 
-int *func_021DED60(int *p)
+int *BTL_HANDLER_ITEM_GetShellBellHandlers(int *p)
 {
     *p = 1;
     return d_021F152C;

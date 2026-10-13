@@ -13,10 +13,10 @@
  * symbols:
  *   func_021B8D8C  0x021B8D8C  thumb
  *   func_021B8E70  0x021B8E70  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021D5448  0x021D5448  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
  *   func_021D5528  0x021D5528  thumb
- *   func_021D6D54  0x021D6D54  thumb
+ *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb
  *   func_0220270C  0x0220270C  thumb
  */
 #include "../../matched/include/Obj03724.h"
@@ -33,10 +33,10 @@ typedef struct {
     u32 w;
 } R;
 
-extern u32 func_021D5448(u32 h);
-extern u32 func_021D6D54(u32 h);
+extern u32 BTL_POKEPARAM_GetMoveCount(u32 h);
+extern u32 BTL_POKEPARAM_IsTransformed(u32 h);
 extern u16 func_021D5528(u32 h, u8 i, u8 *p, u8 *q);
-extern u32 func_021D5440(u32 h);
+extern u32 BTL_POKEPARAM_GetPokeId(u32 h);
 extern u32 func_021B8D8C(u32 a, u32 b, u32 c);
 extern u32 func_021B8E70(u32 a, u32 b);
 extern void func_0220270C(u32 h, int k, R *r);
@@ -48,8 +48,8 @@ int func_0689A878(int unused, u8 *s)
     u16 i;
     u32 n;
 
-    n = func_021D5448(((struct Obj03724 *)s)->f6C);
-    r.w = func_021D6D54(((struct Obj03724 *)s)->f6C);
+    n = BTL_POKEPARAM_GetMoveCount(((struct Obj03724 *)s)->f6C);
+    r.w = BTL_POKEPARAM_IsTransformed(((struct Obj03724 *)s)->f6C);
     for (i = 0; i < n; i++) {
         r.a[i] = func_021D5528(((struct Obj03724 *)s)->f6C, i, &t[1], &t[0]);
         r.b[i] = t[1];
@@ -62,7 +62,7 @@ int func_0689A878(int unused, u8 *s)
     }
     r.x = func_021B8E70(((struct Obj03724 *)s)->fA0,
                         func_021B8D8C(((struct Obj03724 *)s)->fA0, ((struct Obj03724 *)s)->fA4,
-                                      func_021D5440(((struct Obj03724 *)s)->f6C)));
+                                      BTL_POKEPARAM_GetPokeId(((struct Obj03724 *)s)->f6C)));
     func_0220270C(((struct Obj03724 *)s)->fB0, 2, &r);
     return 1;
 }

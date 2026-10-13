@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3CC
+ * function: TOWNMAP_CursorSetPos
  * address: 0x021BA3CC
  * packet: pkt_ov072_021BA3CC
  * region: ov072
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021BA3CC(char *p, int *q) {
+void TOWNMAP_CursorSetPos(char *p, int *q) {
     ((struct Obj09905 *)p)->f8 = q[0];
     ((struct Obj09905 *)p)->fA = q[1];
     func_0204B404(((struct Obj09905 *)p)->f0, (const struct Vec2 *)(p + 8), 0);

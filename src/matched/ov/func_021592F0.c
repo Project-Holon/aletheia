@@ -1,5 +1,5 @@
 /*
- * function: func_021592F0
+ * function: SCRIPT_WORK_CmdSetLocalU32
  * address:  0x021592F0
  * packet:   pkt_021592F0
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  */
 #include "../include/Obj09154.h"
 #include "../include/Obj17643.h"
@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201134C();
+extern int VM_GetU32();
 
-int func_021592F0(int a0, int a1, int a2)
+int SCRIPT_WORK_CmdSetLocalU32(int a0, int a1, int a2)
 {
     int t4;
     int t5;
@@ -31,7 +31,7 @@ a1 = ((struct Obj09154 *)t5)->f14;
 t4 = ((struct Obj17643 *)((char *)a1))->f0;
 a1 = a1 + 1;
 ((struct Obj09154 *)t5)->f14 = a1;
-    a0 = func_0201134C(a0, a1);
+    a0 = VM_GetU32(a0, a1);
 loc_02159300:
 a2 = ((struct Obj09154 *)t5)->f1C;
 a1 = t4 << 2;

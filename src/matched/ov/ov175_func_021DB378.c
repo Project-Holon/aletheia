@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *
  * Same guard as func_021DB300 but it moves the word the third argument
  *     points at into the +0x150 slot of the fourth argument and sets +0x14c.
@@ -21,17 +21,17 @@
 typedef unsigned long u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
 void func_021DB378(u32 a, u32 b, u32 *c, char *d, u32 e)
 {
     u32 v = *c;
 
-    if (e != (u32)func_020399A8())
+    if (e != (u32)GFL_NET_HANDLE_GetCurrentHandle())
         return;
-    if (a == func_0203D1A4((struct Link *)((u32)func_020399A8())))
+    if (a == GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
     ((struct Obj14340 *)d)->f150 = v;
     ((struct Obj14340 *)d)->f14C = 1;

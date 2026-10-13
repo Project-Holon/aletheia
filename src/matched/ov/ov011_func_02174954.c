@@ -11,19 +11,19 @@
  * lever: caller consumes the live r0 result of legacy void forwarders.
  * symbols:
  *   INTRUDE_COMM_IsLinked 0x021736D8 thumb ov011
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  */
 typedef unsigned int u32;
 int INTRUDE_COMM_IsLinked(void);
 struct Entry;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned short u16;
-int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 u32 INTRUDE_COMM_SendAreaNotice(u32 p)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3A8((struct Entry *)((u32)func_020399A8()), 0x22a, 4, p);
+    return GFL_NET_SendToHandle((struct Entry *)((u32)GFL_NET_HANDLE_GetCurrentHandle()), 0x22a, 4, p);
 }

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C335C
+ * Unlabelled arm9 leaf, filed as the relocation witness for ov021 SODATEYA_DeclineEgg
  * (wave A1, lane 13).
  */
 #include "../include/Obj11233.h"

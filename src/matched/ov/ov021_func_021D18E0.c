@@ -1,5 +1,5 @@
 /*
- * function: func_021D18E0
+ * function: SCRCMD_MMDL_ICA_IsDone
  * address:  0x021D18E0
  * packet:   pkt_ov021_021D18E0
  * region:   ov021
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u32 func_021D18E0(u8 *p, u32 a1, u32 a2, u32 a3)
+u32 SCRCMD_MMDL_ICA_IsDone(u8 *p, u32 a1, u32 a2, u32 a3)
 {
     if (p[0x19a] == 0) {
         return 1;

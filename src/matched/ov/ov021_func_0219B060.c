@@ -1,5 +1,5 @@
 /*
- * function: func_0219B060
+ * function: FLDMMDL_MOVECODE_IsBButtonHeld
  * address:  0x0219B060
  * packet:   pkt_ov021_0219B060
  * region:   ov021
@@ -20,7 +20,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern unsigned int func_0203630C(void);
 
-int func_0219B060(void)
+int FLDMMDL_MOVECODE_IsBButtonHeld(void)
 {
     if (func_0203630C() & 2) {
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_020113D8
+ * function: TIMEZONE_GetNowTimeZone
  * address:  0x020113D8
  * packet:   pkt_02010BB8
  * region:   arm9
@@ -22,7 +22,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020113D8.c \
- *       --func func_020113D8 --addr 0x020113D8 --cc 1.1p1 --lang c99 --thumb
+ *       --func TIMEZONE_GetNowTimeZone --addr 0x020113D8 --cc 1.1p1 --lang c99 --thumb
  */
 
 typedef unsigned char u8;
@@ -32,7 +32,7 @@ struct RtcTime;
 extern void func_0203F4CC(struct RtcTime *time);
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 
-u32 func_020113D8(u32 row)
+u32 TIMEZONE_GetNowTimeZone(u32 row)
 {
     u32 buf[3];
 

@@ -12,9 +12,9 @@
  * Renders idx*0x7b/v steps of a waveform bar by bar with func_021B9AB8, advancing the counters at +0x30/+0x31.
  *
  * symbols:
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02045770  0x02045770  arm
- *   func_020437D4  0x020437D4  arm
+ *   BMP_GetPixels  0x020437D4  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_021B9AB8  0x021B9AB8  thumb  ov172
  *   d_021C6F6E     0x021C6F6E  data
@@ -32,8 +32,8 @@ extern int func_0209C0A4(int a, u16 b);
 struct Bmp;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_02045334(struct Descriptor *);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void func_021B9AB8(int a0, char *obj, void *dev, int a3, u8 s0, u8 s1, u8 s2, u8 s3);
 extern u8 d_021C6F6E[];
 
@@ -50,7 +50,7 @@ void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
     if (idx < 0)
         return;
     n = func_0209C0A4(idx * 0x7B, v);
-    dev = func_020437D4(func_02045770(((struct Obj04553 *)obj)->f2C));
+    dev = BMP_GetPixels(func_02045770(((struct Obj04553 *)obj)->f2C));
     flag = 0;
     c = ((struct Obj04553 *)obj)->f30;
     if (c < n) {
@@ -76,5 +76,5 @@ void func_021B9E5C(int a0, char *obj, s16 *tbl, u8 a3, int idx, u16 v)
         }
     }
     if (flag == 1)
-        func_02045334((struct Descriptor *)*(int *)&((struct Obj04553 *)obj)->f2C);
+        BMP_WIN_TransferChars((struct Descriptor *)*(int *)&((struct Obj04553 *)obj)->f2C);
 }

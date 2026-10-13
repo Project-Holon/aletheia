@@ -1,5 +1,5 @@
 /*
- * function: func_021A3AD4
+ * function: FIELD_PLAYER_CORE_GetRideEffect
  * address:  0x021A3AD4
  * packet:   pkt_021A36E0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A3AD4(u8 *p)
+u32 FIELD_PLAYER_CORE_GetRideEffect(u8 *p)
 {
     return ((struct Obj18047 *)p)->f28;
 }

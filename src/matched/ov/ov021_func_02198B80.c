@@ -1,5 +1,5 @@
 /*
- * function: func_02198B80
+ * function: FLDMMDL_ACMD_MarkWait
  * address:  0x02198B80
  * packet:   pkt_ov021_02198B80
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_021BB5C8  0x021BB5C8  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -23,19 +23,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void *func_0216D6D4(void *p);
-extern int func_021BB5C8(u32);
-extern void func_021AC154(u32);
-extern void func_0216D7CC(u8 *p);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern int FLDEFF_GYOE_IsFinished(u32);
+extern void FIELD_EFFECT_DeleteObject(u32);
+extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
-int func_02198B80(u32 a)
+int FLDMMDL_ACMD_MarkWait(u32 a)
 {
     u32 *p;
 
-    p = func_0216D6D4((void *)a);
-    if (func_021BB5C8(p[1]) == 1) {
-        func_021AC154(p[1]);
-        func_0216D7CC((u8 *)a);
+    p = FLDMMDL_GetMoveCmdWork((void *)a);
+    if (FLDEFF_GYOE_IsFinished(p[1]) == 1) {
+        FIELD_EFFECT_DeleteObject(p[1]);
+        FLDMMDL_IncAcmdSeq((u8 *)a);
         return 1;
     }
     return 0;

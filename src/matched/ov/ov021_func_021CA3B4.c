@@ -1,5 +1,5 @@
 /*
- * function: func_021CA3B4
+ * function: BSUBWAY_SCR_PackBattleMon
  * address:  0x021CA3B4
  * packet:   pkt_ov021_021CA3B4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Packs one party member into a 0x3c-byte slot: species/form, item, four moves with their PP-up bits, ids, stats and nickname.
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -36,26 +36,26 @@ typedef struct {
     u16 name[13];
 } Slot;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-void func_021CA3B4(Slot *s, u32 m)
+void BSUBWAY_SCR_PackBattleMon(Slot *s, u32 m)
 {
     int i;
 
-    s->species = func_02017E1C((void *)m, 5, 0);
-    s->form = func_02017E1C((void *)m, 0x6f, 0);
-    s->item = func_02017E1C((void *)m, 6, 0);
+    s->species = POKE_TOOL_GetPartyValue((void *)m, 5, 0);
+    s->form = POKE_TOOL_GetPartyValue((void *)m, 0x6f, 0);
+    s->item = POKE_TOOL_GetPartyValue((void *)m, 6, 0);
     for (i = 0; i < 4; i++) {
-        s->moves[i] = func_02017E1C((void *)m, 0x36 + i, 0);
-        s->ppups |= func_02017E1C((void *)m, 0x3e + i, 0) << (i * 2);
+        s->moves[i] = POKE_TOOL_GetPartyValue((void *)m, 0x36 + i, 0);
+        s->ppups |= POKE_TOOL_GetPartyValue((void *)m, 0x3e + i, 0) << (i * 2);
     }
-    s->f1f = func_02017E1C((void *)m, 0xc, 0);
-    s->f0c = func_02017E1C((void *)m, 7, 0);
-    s->f10 = func_02017E1C((void *)m, 0, 0);
-    s->f14 = func_02017E1C((void *)m, 0xac, 0);
+    s->f1f = POKE_TOOL_GetPartyValue((void *)m, 0xc, 0);
+    s->f0c = POKE_TOOL_GetPartyValue((void *)m, 7, 0);
+    s->f10 = POKE_TOOL_GetPartyValue((void *)m, 0, 0);
+    s->f14 = POKE_TOOL_GetPartyValue((void *)m, 0xac, 0);
     for (i = 0; i < 6; i++)
-        s->f18[i] = func_02017E1C((void *)m, 0xd + i, 0);
-    s->f20 = func_02017E1C((void *)m, 0xa, 0);
-    s->f21 = func_02017E1C((void *)m, 9, 0);
-    func_02017E1C((void *)m, 0x74, (u32)s->name);
+        s->f18[i] = POKE_TOOL_GetPartyValue((void *)m, 0xd + i, 0);
+    s->f20 = POKE_TOOL_GetPartyValue((void *)m, 0xa, 0);
+    s->f21 = POKE_TOOL_GetPartyValue((void *)m, 9, 0);
+    POKE_TOOL_GetPartyValue((void *)m, 0x74, (u32)s->name);
 }

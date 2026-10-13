@@ -1,5 +1,5 @@
 /*
- * function: func_021C8AD0
+ * function: FIELD_TILE_MOVE_SpinTick
  * address:  0x021C8AD0
  * packet:   pkt_ov021_021C8AD0
  * region:   ov021
@@ -10,29 +10,29 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C8A9C  0x021C8A9C  thumb  ov021
- *   func_0216D550  0x0216D550  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D548  0x0216D548  thumb  ov010
+ *   FIELD_TILE_MOVE_GetSpinInterval  0x021C8A9C  thumb  ov021
+ *   FLDMMDL_ClearStatusBit  0x0216D550  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
  *   _u32_div_f     0x0209C2B0  arm
  */
 #include "../include/Obj00876.h"
 
 typedef unsigned int   u32;
-extern int func_021C8A9C(u32 a);
-extern u32 *func_0216D550(u32 *p, u32 v);
-extern void func_0216D5E0(int a, int b);
-extern u32 *func_0216D548(u32 *p, u32 v);
+extern int FIELD_TILE_MOVE_GetSpinInterval(u32 a);
+extern u32 *FLDMMDL_ClearStatusBit(u32 *p, u32 v);
+extern void FLDMMDL_SetDirDispCheckPause(int a, int b);
+extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
 
-void func_021C8AD0(int *p)
+void FIELD_TILE_MOVE_SpinTick(int *p)
 {
-    int d = func_021C8A9C((u32)p);
+    int d = FIELD_TILE_MOVE_GetSpinInterval((u32)p);
 
     ((struct Obj00876 *)p)->f18 = ((struct Obj00876 *)p)->f18 + 1;
     if (((struct Obj00876 *)p)->f18 % d == 0) {
         ((struct Obj00876 *)p)->f14 = (((struct Obj00876 *)p)->f14 + 1) % 4;
-        func_0216D550((u32 *)(*(int *)&((struct Obj00876 *)p)->fC), 8);
-        func_0216D5E0(*(int *)&((struct Obj00876 *)p)->fC, ((struct Obj00876 *)p)->f14);
-        func_0216D548((u32 *)(*(int *)&((struct Obj00876 *)p)->fC), 8);
+        FLDMMDL_ClearStatusBit((u32 *)(*(int *)&((struct Obj00876 *)p)->fC), 8);
+        FLDMMDL_SetDirDispCheckPause(*(int *)&((struct Obj00876 *)p)->fC, ((struct Obj00876 *)p)->f14);
+        FLDMMDL_SetStatusBit((u32 *)(*(int *)&((struct Obj00876 *)p)->fC), 8);
     }
 }

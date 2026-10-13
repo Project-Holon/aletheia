@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F9DAC 0x021F9DAC thumb ov132
  *   func_021FAE4C 0x021FAE4C thumb ov132
  *   func_021F6B9C 0x021F6B9C thumb ov112
@@ -17,7 +17,7 @@
  */
 #include "../include/Obj08168.h"
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *);
+extern unsigned int VM_GetU32(struct Cursor *);
 extern void *func_021F9DAC(void *);
 extern int func_021FAE4C(char *,int *);
 extern void func_021F6B9C(void *,unsigned int *,unsigned int *);

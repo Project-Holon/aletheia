@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
- *   func_021D5B68  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -25,17 +25,17 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_0218A0F4(u8 *, int, int, int, int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_021D5B68(void *m);
+extern int BTL_POKEPARAM_IsFainted(void *m);
 
 int func_02189E90(struct Cursor *a, u8 *b, int c)
 {
     int t;
     int n;
-    t = func_0201134C(a);
-    n = func_0201134C(a);
-    return func_0218A0F4((u8 *)a, c, func_021D5B68(func_0218A2FC(b, func_0218A160(b, t))), 1, n);
+    t = VM_GetU32(a);
+    n = VM_GetU32(a);
+    return func_0218A0F4((u8 *)a, c, BTL_POKEPARAM_IsFainted(func_0218A2FC(b, func_0218A160(b, t))), 1, n);
 }

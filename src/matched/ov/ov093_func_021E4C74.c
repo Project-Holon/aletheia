@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
  *   func_021C8120 0x021C8120 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
@@ -21,7 +21,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern void *func_021C7CF4(int *p, int i);
 extern u8 *func_021C8120(u8 *p, int b);
 extern int func_021D59B4(u8 *p, int k);
@@ -40,8 +40,8 @@ void func_021E4C74(int unused, void *s, int k)
     u32 *t;
     int i;
     u8 *p;
-    if (k == func_021D775C(3)) {
-        v = func_021D775C(6);
+    if (k == BTL_EVENT_GetVar(3)) {
+        v = BTL_EVENT_GetVar(6);
         a = func_021C7CF4(s, v);
         b = func_021C7CF4(s, k);
         t = (u32 *)func_021C8120(s, 28);

@@ -1,5 +1,5 @@
 /*
- * function: func_0218F0E8
+ * function: FIELD_CAMERA_IsDelayEnabled
  * address:  0x0218F0E8
  * packet:   pkt_ov021_0218F0E8
  * region:   ov021
@@ -19,7 +19,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-u32 func_0218F0E8(u8 *a)
+u32 FIELD_CAMERA_IsDelayEnabled(u8 *a)
 {
     u8 *p = *(u8 * *)&((struct Obj01653 *)a)->fEC;
     if (p == 0)

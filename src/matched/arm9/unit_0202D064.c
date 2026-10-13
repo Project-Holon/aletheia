@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0202D064
+ * function: POKEGRA_GetCgrArcIndex
  * address:  0x0202D064
  * packet:   pkt_0202D064
  * region:   arm9
@@ -29,7 +29,7 @@ typedef int s32;
 
 extern void POKEGRA_CalcArcIndex(void *narc, u32 species, s32 form, s32 mode, u32 base, u32 shiny, u32 egg, u32 *out_index, u32 *out_pal, u32 *out_mode, u32 *out_base, u32 **out_ptr, u32 female);
 
-s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
+s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7)
 {
     s32 b;
     s32 a;

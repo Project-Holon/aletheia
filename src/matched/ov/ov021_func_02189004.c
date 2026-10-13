@@ -1,5 +1,5 @@
 /*
- * function: func_02189004
+ * function: FIELDMAP_UpdateG3d
  * address:  0x02189004
  * packet:   pkt_ov021_02189004
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020504D8  0x020504D8  arm
- *   func_021BB36C  0x021BB36C  thumb
- *   func_021AB660  0x021AB660  thumb
- *   func_021A030C  0x021A030C  thumb
- *   func_021A1AF4  0x021A1AF4  thumb
- *   func_021A0140  0x021A0140  thumb
+ *   BILLBOARD_ACT_UpdateEntries  0x020504D8  arm
+ *   FIELD_NOGRID_MAPPER_Main  0x021BB36C  thumb
+ *   FLD_SCENEAREA_Update  0x021AB660  thumb
+ *   FIELD_ZONEFOG_Main  0x021A030C  thumb
+ *   WEATHER_Update  0x021A1AF4  thumb
+ *   FIELD_FOG_Main  0x021A0140  thumb
  *   func_0203F4FC  0x0203F4FC  arm
- *   func_021A0458  0x021A0458  thumb
- *   func_0218CB34  0x0218CB34  thumb
- *   func_0203D12C  0x0203D12C  arm
+ *   FIELD_LIGHT_Main  0x021A0458  thumb
+ *   FIELD_G3D_MAPPER_UpdateStep  0x0218CB34  thumb
+ *   GFL_NET_SetDeviceModeIfRunning  0x0203D12C  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02367.h"
@@ -33,33 +33,33 @@ typedef signed int     s32;
 
 struct Obj;
 struct Owner;
-extern void func_020504D8(struct Owner *o);
-extern void func_021BB36C(u32 a);
-extern int func_021AB660(struct Obj *o, void *arg);
-extern void func_021A030C(u8 *p, u32 a);
-extern void func_021A1AF4(u8 *p, int x);
-extern void func_021A0140(u8 *p);
+extern void BILLBOARD_ACT_UpdateEntries(struct Owner *o);
+extern void FIELD_NOGRID_MAPPER_Main(u32 a);
+extern int FLD_SCENEAREA_Update(struct Obj *o, void *arg);
+extern void FIELD_ZONEFOG_Main(u8 *p, u32 a);
+extern void WEATHER_Update(u8 *p, int x);
+extern void FIELD_FOG_Main(u8 *p);
 extern u32 func_0203F4FC(void);
-extern void func_021A0458(u8 *a, s32 b);
-extern int func_0218CB34(char *p);
-extern void func_0203D12C(int a);
+extern void FIELD_LIGHT_Main(u8 *a, s32 b);
+extern int FIELD_G3D_MAPPER_UpdateStep(char *p);
+extern void GFL_NET_SetDeviceModeIfRunning(int a);
 
-void func_02189004(u8 *a)
+void FIELDMAP_UpdateG3d(u8 *a)
 {
     u32 t;
 
-    func_020504D8((struct Owner *)(((struct Obj02367 *)a)->fB0));
-    func_020504D8((struct Owner *)(((struct Obj02367 *)a)->fB4));
-    func_020504D8((struct Owner *)(((struct Obj02367 *)a)->fB8));
-    func_021BB36C(((struct Obj02367 *)a)->f3C);
-    func_021AB660((struct Obj *)(((struct Obj02367 *)a)->f40), a + 0xF4);
-    func_021A030C((u8 *)(((struct Obj02367 *)a)->f1C), ((struct Obj02367 *)a)->f0);
-    func_021A1AF4((u8 *)(((struct Obj02367 *)a)->f20), 0x92);
-    func_021A0140((u8 *)(((struct Obj02367 *)a)->f18));
-    func_021A0458((u8 *)(((struct Obj02367 *)a)->f14), func_0203F4FC());
+    BILLBOARD_ACT_UpdateEntries((struct Owner *)(((struct Obj02367 *)a)->fB0));
+    BILLBOARD_ACT_UpdateEntries((struct Owner *)(((struct Obj02367 *)a)->fB4));
+    BILLBOARD_ACT_UpdateEntries((struct Owner *)(((struct Obj02367 *)a)->fB8));
+    FIELD_NOGRID_MAPPER_Main(((struct Obj02367 *)a)->f3C);
+    FLD_SCENEAREA_Update((struct Obj *)(((struct Obj02367 *)a)->f40), a + 0xF4);
+    FIELD_ZONEFOG_Main((u8 *)(((struct Obj02367 *)a)->f1C), ((struct Obj02367 *)a)->f0);
+    WEATHER_Update((u8 *)(((struct Obj02367 *)a)->f20), 0x92);
+    FIELD_FOG_Main((u8 *)(((struct Obj02367 *)a)->f18));
+    FIELD_LIGHT_Main((u8 *)(((struct Obj02367 *)a)->f14), func_0203F4FC());
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    t = func_0218CB34((char *)(((struct Obj02367 *)a)->f48));
+    t = FIELD_G3D_MAPPER_UpdateStep((char *)(((struct Obj02367 *)a)->f48));
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     if (t != 0)
-        func_0203D12C(2);
+        GFL_NET_SetDeviceModeIfRunning(2);
 }

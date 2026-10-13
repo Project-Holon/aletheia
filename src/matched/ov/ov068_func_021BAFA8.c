@@ -1,5 +1,5 @@
 /*
- * function: func_021BAFA8
+ * function: OPTION_MENU_WriteSettings
  * address: 0x021BAFA8
  * packet: pkt_ov068_021BAFA8
  * region: ov068
@@ -31,7 +31,7 @@ extern void CONFIG_SetBattleScene(u16 *, unsigned int);
 extern void CONFIG_SetBattleStyle(u16 *, unsigned int);
 extern void CONFIG_SetSoundMode(u16 *, unsigned int);
 extern void CONFIG_SetButtonMode(u16 *, unsigned int);
-void func_021BAFA8(u8 *p)
+void OPTION_MENU_WriteSettings(u8 *p)
 {
     CONFIG_SetTextSpeed(*(u16 **)(p + 8), p[0]);
     CONFIG_SetBattleScene(*(u16 **)(p + 8), p[1]);

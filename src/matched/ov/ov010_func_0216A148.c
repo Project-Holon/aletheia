@@ -1,5 +1,5 @@
 /*
- * function: func_0216A148
+ * function: REPORT_EVENT_OpenYesNoMenu
  * address:  0x0216A148
  * packet:   pkt_ov010_0216A148
  * region:   ov010
@@ -60,7 +60,7 @@ typedef struct Desc {
 
 extern int APP_TASKMENU_OpenMenuFastDecide(int a0, int a1);
 
-void func_0216A148(Work *w)
+void REPORT_EVENT_OpenYesNoMenu(Work *w)
 {
     Desc d;
 

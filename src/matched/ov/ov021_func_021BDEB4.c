@@ -1,5 +1,5 @@
 /*
- * function: func_021BDEB4
+ * function: ENTRANCE_CAMERA_SetupArriveByDir
  * address:  0x021BDEB4
  * packet:   pkt_ov021_021BDEB4
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE17C  0x021BE17C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021BE1B0  0x021BE1B0  thumb  ov021
+ *   ENTRANCE_CAMERA_GetCamera  0x021BE17C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   ENTRANCE_CAMERA_AimsAtEntrance  0x021BE1B0  thumb  ov021
  *   func_021A7B08  0x021A7B08  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021BE158  0x021BE158  thumb  ov021
- *   func_0218FEA4  0x0218FEA4  thumb  ov021
- *   func_0218FE78  0x0218FE78  thumb  ov021
- *   func_0218FEC0  0x0218FEC0  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   ENTRANCE_CAMERA_AimAtTarget  0x021BE158  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Setup  0x0218FEA4  thumb  ov021
+ *   FIELD_CAMERA_ANIME_GetCurrentParam  0x0218FE78  thumb  ov021
+ *   FIELD_CAMERA_ANIME_ApplyStartParam  0x0218FEC0  thumb  ov021
  *
- * Same object layout as func_021BE068. The first switch's arms are laid
+ * Same object layout as ENTRANCE_CAMERA_SetupArriveByRecord. The first switch's arms are laid
  * out in source order, cases 1-3 ahead of case 0 (its table entry for 0 is
  * the later block); the identical arms of the second switch are separate
  * blocks cross-jumped into the case-3 store.
@@ -59,21 +59,21 @@ typedef struct {
     u32 f6C;
 } A;
 
-extern u32 func_021BE17C(u8 *p);
+extern u32 ENTRANCE_CAMERA_GetCamera(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_021A3050(u8 *p);
-extern int func_021BE1B0(u32 a);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
+extern int ENTRANCE_CAMERA_AimsAtEntrance(u32 a);
 struct V3;
 extern void func_021A7B08(int a, struct V3 *b);
 struct VecFx32;
-extern void func_021A3038(unsigned char *t, struct VecFx32 *v);
-extern int func_021BE158(u32 a, u32 b);
-extern void func_0218FEA4(u32 p);
-extern void func_0218FE78(u32 p, void *sub);
-extern void func_0218FEC0(u8 *o);
+extern void FIELD_PLAYER_GetPos(unsigned char *t, struct VecFx32 *v);
+extern int ENTRANCE_CAMERA_AimAtTarget(u32 a, u32 b);
+extern void FIELD_CAMERA_ANIME_Setup(u32 p);
+extern void FIELD_CAMERA_ANIME_GetCurrentParam(u32 p, void *sub);
+extern void FIELD_CAMERA_ANIME_ApplyStartParam(u8 *o);
 
-void func_021BDEB4(A *a)
+void ENTRANCE_CAMERA_SetupArriveByDir(A *a)
 {
     Vec v;
     u32 h;
@@ -82,9 +82,9 @@ void func_021BDEB4(A *a)
     S *s = &a->s;
     u8 *sub = s->sub;
 
-    h = func_021BE17C((u8 *)a);
-    t = func_02188CB4((struct Obj00020 *)a->obj);
-    m = func_021A3050(t);
+    h = ENTRANCE_CAMERA_GetCamera((u8 *)a);
+    t = FIELDMAP_GetFieldPlayer((struct Obj00020 *)a->obj);
+    m = FIELD_PLAYER_GetDirDisp(t);
     switch (m) {
     case 1:
     case 2:
@@ -101,10 +101,10 @@ void func_021BDEB4(A *a)
         return;
     s->f48 = 0;
     s->f44 = 0;
-    if (func_021BE1B0((u32)a) != 0)
+    if (ENTRANCE_CAMERA_AimsAtEntrance((u32)a) != 0)
         func_021A7B08(a->obj, (struct V3 *)(&v));
     else
-        func_021A3038(t, (struct VecFx32 *)&v);
+        FIELD_PLAYER_GetPos(t, (struct VecFx32 *)&v);
     switch (m) {
     case 0:
         s->f00 = 0;
@@ -119,10 +119,10 @@ void func_021BDEB4(A *a)
         s->f00 = 10;
         break;
     }
-    if (func_021BE1B0((u32)a) != 0)
-        func_021BE158(h, (u32)(&v));
-    func_0218FEA4(a->f54);
-    func_0218FE78(a->f04, &s->in);
+    if (ENTRANCE_CAMERA_AimsAtEntrance((u32)a) != 0)
+        ENTRANCE_CAMERA_AimAtTarget(h, (u32)(&v));
+    FIELD_CAMERA_ANIME_Setup(a->f54);
+    FIELD_CAMERA_ANIME_GetCurrentParam(a->f04, &s->in);
     switch (m) {
     case 0:
         break;
@@ -136,7 +136,7 @@ void func_021BDEB4(A *a)
         s->in.f06 = 0xA09;
         break;
     }
-    func_0218FE78(a->f04, sub);
+    FIELD_CAMERA_ANIME_GetCurrentParam(a->f04, sub);
     if (a->f6C != 0)
-        func_0218FEC0((u8 *)a->f54);
+        FIELD_CAMERA_ANIME_ApplyStartParam((u8 *)a->f54);
 }

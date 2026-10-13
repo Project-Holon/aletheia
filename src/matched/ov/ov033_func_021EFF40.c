@@ -1,5 +1,5 @@
 /*
- * function: func_021EFF40
+ * function: DOWSING_ResetSearch
  * address:  0x021EFF40
  * packet:   pkt_021EFF40
  * region:   ov033
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EFF40 0x021EFF40 thumb
+ *   DOWSING_ResetSearch 0x021EFF40 thumb
  */
 #include "../include/Obj13071.h"
 
-void func_021EFF40(char *p)
+void DOWSING_ResetSearch(char *p)
 {
     ((struct Obj13071 *)p)->f4 = 0;
     ((struct Obj13071 *)p)->fC = 0;

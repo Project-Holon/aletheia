@@ -9,17 +9,18 @@
  * status: EXACT
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  */
 #include "../include/Obj06517.h"
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 int func_021FD31C(unsigned char *p)
 {
     func_0204B3DC((struct Obj *)((struct Obj06517 *)p)->fD38, 0);
     if (((struct Obj06517 *)p)->f20 == 16) {
-        func_0202208C(0, 1, 1, 0, 16, 1, 0x48);
+        WIPE_SYS_Start(0, 1, 1, 0, 16, 1, 0x48);
         ((struct Obj06517 *)p)->f28 = 7;
     } else {
         ((struct Obj06517 *)p)->f28 = 1;

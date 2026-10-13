@@ -1,5 +1,5 @@
 /*
- * function: func_021A5F98
+ * function: FIELD_PLAYER_NOGRID_StartActionSlow
  * address:  0x021A5F98
  * packet:   pkt_ov021_021A5F98
  * region:   ov021
@@ -12,34 +12,34 @@
  * 
  *
  * symbols:
- *   func_021A6278  0x021A6278  thumb  ov021
- *   func_021A627C  0x021A627C  thumb  ov021
- *   func_021A62B4  0x021A62B4  thumb  ov021
- *   func_021A62D8  0x021A62D8  thumb  ov021
- *   func_021A62FC  0x021A62FC  thumb  ov021
- *   func_021A6338  0x021A6338  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartSlowNone  0x021A6278  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartSlowStand  0x021A627C  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartSlowStep  0x021A62B4  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartSlowTurn  0x021A62D8  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartSlowBlocked  0x021A62FC  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartSlowLedgeJump  0x021A6338  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021A6278(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A627C(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A62B4(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A62D8(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A62FC(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A6338(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartSlowNone(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartSlowStand(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartSlowStep(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartSlowTurn(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartSlowBlocked(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartSlowLedgeJump(void *a, void *b, int c, int d, int e, int f);
 
-void func_021A5F98(int *a, u32 sel, u32 c, u32 d, u32 e, u32 f)
+void FIELD_PLAYER_NOGRID_StartActionSlow(int *a, u32 sel, u32 c, u32 d, u32 e, u32 f)
 {
     void *p = ((void **)a)[7];
     switch (sel) {
-    case 0: func_021A6278(a, p, c, d, e, f); break;
-    case 1: func_021A627C(a, p, c, d, e, f); break;
-    case 2: func_021A62B4(a, p, c, d, e, f); break;
-    case 3: func_021A62D8(a, p, c, d, e, f); break;
-    case 4: func_021A62FC(a, p, c, d, e, f); break;
-    case 5: func_021A6338(a, p, c, d, e, f); break;
+    case 0: FIELD_PLAYER_NOGRID_StartSlowNone(a, p, c, d, e, f); break;
+    case 1: FIELD_PLAYER_NOGRID_StartSlowStand(a, p, c, d, e, f); break;
+    case 2: FIELD_PLAYER_NOGRID_StartSlowStep(a, p, c, d, e, f); break;
+    case 3: FIELD_PLAYER_NOGRID_StartSlowTurn(a, p, c, d, e, f); break;
+    case 4: FIELD_PLAYER_NOGRID_StartSlowBlocked(a, p, c, d, e, f); break;
+    case 5: FIELD_PLAYER_NOGRID_StartSlowLedgeJump(a, p, c, d, e, f); break;
     }
 }

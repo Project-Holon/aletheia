@@ -1,5 +1,5 @@
 /*
- * function: func_021B7718
+ * function: YESNO_MENU_CopyPalette
  * address:  0x021B7718
  * packet:   pkt_ov067_021B7718
  * region:   ov067
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_021B7718(int which, int idx, void *data)
+void YESNO_MENU_CopyPalette(int which, int idx, void *data)
 {
     int type;
 

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 0x02045CAC at +0x58/+0x7C has no outside witness;
- * unit_02045C44.c omits func_02045CAC from function:. the integrator owns it.
+ * unit_02045C44.c omits MSGDATA_ReadString from function:. the integrator owns it.
  * blocker: Verified C copied from ov122_func_021D5004.c header;
  * prior fixed-flag EXACT, 344 bytes, originally ov070 arm9-blocker.log.
  * typedef unsigned char u8;
@@ -38,7 +38,7 @@
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -74,11 +74,11 @@
  *     func_02045E04(dest,index);
  * }
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0207D658 0x0207D658 arm
- *   func_02027778 0x02027778 thumb
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -88,10 +88,10 @@ struct MsgBank;
 struct TaskMenu;
 struct TaskMenuTmpl;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02045808(struct U16Vec *vec);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 int func_021D9670(char *p,int mode) {
     Config c;
@@ -105,15 +105,15 @@ int func_021D9670(char *p,int mode) {
     }
     c.z=13;
     c.w=3;
-    *(void **)(p+0x94)=func_020457B0(100,*(u16 *)(p+0xb0));
-    func_02045CAC(*(void **)(p+0x20),4,*(void **)(p+0x94));
+    *(void **)(p+0x94)=STRBUF_Create(100,*(u16 *)(p+0xb0));
+    MSGDATA_ReadString(*(void **)(p+0x20),4,*(void **)(p+0x94));
     *(u16 *)(p+0x98)=0x39e0;
-    *(void **)(p+0xa0)=func_020457B0(100,*(u16 *)(p+0xb0));
-    func_02045CAC(*(void **)(p+0x20),5,*(void **)(p+0xa0));
+    *(void **)(p+0xa0)=STRBUF_Create(100,*(u16 *)(p+0xb0));
+    MSGDATA_ReadString(*(void **)(p+0x20),5,*(void **)(p+0xa0));
     *(u16 *)(p+0xa4)=0x39e0;
-    result=(int)func_02027778((struct TaskMenuTmpl *)(&c),*(void **)(p+0xac));
-    func_02045808(*(void **)(p+0x94));
-    func_02045808(*(void **)(p+0xa0));
+    result=(int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&c),*(void **)(p+0xac));
+    STRBUF_Delete(*(void **)(p+0x94));
+    STRBUF_Delete(*(void **)(p+0xa0));
     func_0207D658(0x04001050,17,-8);
     return result;
 }

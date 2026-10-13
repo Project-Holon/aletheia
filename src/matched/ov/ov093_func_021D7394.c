@@ -1,5 +1,5 @@
 /*
- * function: func_021D7394
+ * function: BTL_EVENT_SuspendPokeFactors
  * address:  0x021D7394
  * packet:   pkt_ov093_021D7394
  * region:   ov093
@@ -41,7 +41,7 @@ struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x8
 extern struct NodeList data_021F3CB0;
 extern int func_021E03E8(void *n, u32 *q);
 
-void func_021D7394(int kind)
+void BTL_EVENT_SuspendPokeFactors(int kind)
 {
     struct Node *n;
     for (n = data_021F3CB0.head; n != 0; n = n->next) {

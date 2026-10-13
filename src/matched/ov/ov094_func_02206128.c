@@ -8,16 +8,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  */
 #include "../include/Obj10158.h"
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_02206128(char *p)
 {
     if (((struct Obj10158 *)p)->f21C != 0) {
-        func_0204B3B4(((struct Obj10158 *)p)->f21C);
+        CLACT_DeleteActor(((struct Obj10158 *)p)->f21C);
         ((struct Obj10158 *)p)->f21C = 0;
     }
 }

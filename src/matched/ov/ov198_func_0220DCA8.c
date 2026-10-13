@@ -10,7 +10,7 @@
  *   func_0220BEB8 0x0220BEB8 thumb ov198
  *   func_0220CDF0 0x0220CDF0 thumb ov198
  *   func_0220C2F8 0x0220C2F8 thumb ov198
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_0220C714 0x0220C714 thumb ov198
  *   func_0220C8F0 0x0220C8F0 thumb ov198
  *   func_0220C9F0 0x0220C9F0 thumb ov198
@@ -33,7 +33,7 @@ extern void func_0220C714(u8 *p, int index);
 extern void func_0220C8F0(char *,int);
 extern void func_0220C2F8(u8 *p, int slot, int index, u16 value, u8 extra);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_0220C9F0(char *,int),func_0220CAF0(char *,int),func_0220CBF0(char *,int),func_0220CCF0(char *,int);
 extern void func_0220C398(u8 *p, int slot, int index);
 extern void func_0220C42C(char *,int,int);
@@ -45,7 +45,7 @@ void func_0220DCA8(char *p) {
     func_0220BEB8((u8 *)p,0,(*(u8 **)p)[32],0,0);
     func_0220CDF0((u8 *)p,(*(u8 **)p)[32]);
     func_0220C2F8((u8 *)p,10,(*(u8 **)p)[32],0,0);
-    func_02045334(((struct Obj00507 *)p)->f1FC0);
+    BMP_WIN_TransferChars(((struct Obj00507 *)p)->f1FC0);
     func_0220C714((u8 *)p,(*(u8 **)p)[32]);
     func_0220C8F0(p,(*(u8 **)p)[32]);
     func_0220C9F0(p,(*(u8 **)p)[32]);

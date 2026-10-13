@@ -1,5 +1,5 @@
 /*
- * function: func_021AF1B0
+ * function: SCRCMD_ResumeBgmSlots
  * address:  0x021AF1B0
  * packet:   pkt_021AF1B0
  * region:   ov021
@@ -12,11 +12,11 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02028BDC  0x02028BDC  thumb
- *   func_02159168  0x02159168  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_ResumeSlots  0x02028BDC  thumb
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -27,17 +27,17 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
 struct S;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028BDC(struct S *s, u32 mask);
-extern void func_02159168(int n);
-extern void *func_0215A5DC(void *a0);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern void FIELD_SOUND_SYSTEM_ResumeSlots(struct S *s, u32 mask);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 
-int func_021AF1B0(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_ResumeBgmSlots(u32 a, u32 b, u32 c, u32 d)
 {
-func_02028BDC((struct S *)func_02012A30((const struct BigObj *)func_020120F4(func_0215A5DC((void *)b))), 2);
-func_02159168(13);
+FIELD_SOUND_SYSTEM_ResumeSlots((struct S *)GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem((void *)b))), 2);
+SCRIPT_WORK_ResetCheckFlag(13);
 return 0;
 }
 

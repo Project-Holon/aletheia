@@ -1,5 +1,5 @@
 /*
- * function: func_0216670C
+ * function: SYMBOL_MAP_GetLastResult
  * address:  0x0216670C
  * packet:   pkt_0216670C
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216670C.c \
- *       --func func_0216670C --addr 0x0216670C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SYMBOL_MAP_GetLastResult.c \
+ *       --func SYMBOL_MAP_GetLastResult --addr 0x0216670C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17727.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-int func_0216670C(void *p) { return ((struct Obj17727 *)p)->f4; }
+int SYMBOL_MAP_GetLastResult(void *p) { return ((struct Obj17727 *)p)->f4; }

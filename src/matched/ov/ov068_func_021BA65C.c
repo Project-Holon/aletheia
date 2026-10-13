@@ -1,5 +1,5 @@
 /*
- * function: func_021BA65C
+ * function: OPTION_MENU_GetButtonChoice
  * address:  0x021BA65C
  * packet:   pkt_ov068_021BA65C
  * region:   ov068
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf before func_021BA668; func_021BB1C4 calls it with NULL
+ * Unlabelled leaf before OPTION_MENU_IsButtonFinished; OPTION_MENU_StateMain calls it with NULL
  * and with a stack int.
  */
 #include "../include/Obj13139.h"
 
 typedef unsigned char u8;
 
-int func_021BA65C(u8 *p, int *out)
+int OPTION_MENU_GetButtonChoice(u8 *p, int *out)
 {
     if (out != 0)
         *out = ((struct Obj13139 *)p)->fC;

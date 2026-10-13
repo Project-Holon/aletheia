@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204B1CC  0x0204B1CC  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
  */
 typedef struct Main {
     unsigned char pad00[0x68];
@@ -30,20 +30,20 @@ typedef struct Ctx {
 typedef unsigned int   u32;
 struct Bank;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern u32 func_0204B1CC(struct Bank *bank);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 void func_022047F8(void *h)
 {
-    Ctx *c = (Ctx *)func_02030EE8(h);
+    Ctx *c = (Ctx *)TCBL_IsDeletePending(h);
     int i;
 
     for (i = 0; i < 6; i++) {
         if (c->ent[i] != 0)
-            func_0204B3B4(c->ent[i]);
+            CLACT_DeleteActor(c->ent[i]);
     }
-    func_0204B1CC((struct Bank *)c->h4);
+    CLACT_DeleteUnit((struct Bank *)c->h4);
     c->main->st = c->main->st - 1;
 }

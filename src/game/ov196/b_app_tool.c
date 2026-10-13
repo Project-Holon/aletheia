@@ -16,7 +16,7 @@
  *   sub_02030734 0x02030734 arm
  *   d_0220B100 0x0220B100 data a4
  *   func_020307B0 0x020307B0 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
@@ -24,6 +24,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   sub_02041B6C 0x02041B6C arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  */
 #include "../../matched/include/Obj14539.h"
 #include "../../matched/include/Obj24987.h"
@@ -53,10 +54,10 @@ typedef short s16_0220B07C;
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern int func_0204B294(int, int, int, int, void *, int, u16);
+extern int CLACT_CreateActor(int, int, int, int, void *, int, u16);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
@@ -89,7 +90,7 @@ void func_0220AF6C(char *p, int a, int b, int c, int d)
     pos.x=0;pos.y=0;pos.a=0;pos.b=1;
     for(i=0;i<4;i++) {
         pos.z=i;
-        *(int *)(p+i*4)=func_0204B294(a,b,c,d,&pos,1,((struct Obj24987 *)p)->f10);
+        *(int *)(p+i*4)=CLACT_CreateActor(a,b,c,d,&pos,1,((struct Obj24987 *)p)->f10);
         func_0204B6F4((struct Obj *)(*(int *)(p+i*4)),0,1);
         func_0204B92C((struct Obj *)*(int *)(p+i*4),1);
     }
@@ -104,7 +105,7 @@ void func_0220AFC4(u8 *p)
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        func_0204B3B4((struct Obj *)(*(u32 *)(p + i * 4)));
+        CLACT_DeleteActor((struct Obj *)(*(u32 *)(p + i * 4)));
     }
 }
 

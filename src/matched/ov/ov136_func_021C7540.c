@@ -12,6 +12,8 @@
  *   func_021C3E00 0x021C3E00 thumb ov136
  *   func_021C3E04 0x021C3E04 thumb ov136
  *   func_021C3E24 0x021C3E24 thumb ov136
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb  arm9
+ *   GAME_DATA_GetMyParty  0x02012934  thumb  arm9
  */
 #include "../include/Obj03838.h"
 typedef unsigned char u8;
@@ -22,16 +24,16 @@ extern u32 func_021C3E00(u32 *p);
 extern int func_021C3E04(u32 *p, void *q);
 extern void func_021C3E24(u8 *);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *func_0201AB28(void *, u32);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 int func_021C7540(u8 *p)
 {
     ((struct Obj03838 *)p)->f24 = func_021C3E00((u32 *)(*(u8 * *)&((struct Obj03838 *)p)->f10));
     if (((struct Obj03838 *)p)->f24 == 1) {
-        func_021C3E04((u32 *)(*(u8 * *)&((struct Obj03838 *)p)->f10), func_0201AB28(func_02012934(**(void ** *)&((struct Obj03838 *)p)->f4), ((struct Flags *)(p + 0x21))->index));
-        func_02007F1C(func_0201292C(**(void ** *)&((struct Obj03838 *)p)->f4), ((struct Obj03838 *)p)->f22, 1, 0x65);
+        func_021C3E04((u32 *)(*(u8 * *)&((struct Obj03838 *)p)->f10), func_0201AB28(GAME_DATA_GetMyParty(**(void ** *)&((struct Obj03838 *)p)->f4), ((struct Flags *)(p + 0x21))->index));
+        func_02007F1C(GAME_DATA_GetMyItem(**(void ** *)&((struct Obj03838 *)p)->f4), ((struct Obj03838 *)p)->f22, 1, 0x65);
     }
     func_021C3E24(*(u8 * *)&((struct Obj03838 *)p)->f10);
     return 0;

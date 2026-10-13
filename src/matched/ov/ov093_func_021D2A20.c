@@ -16,11 +16,11 @@
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021B8DC0 0x021B8DC0 thumb ov093
  *   func_021F8204 0x021F8204 thumb ov094
- *   func_021D69B8 0x021D69B8 thumb ov093
+ *   BTL_POKEPARAM_AddExp 0x021D69B8 thumb ov093
  *   func_021F8134 0x021F8134 thumb ov094
  *   func_021F8180 0x021F8180 thumb ov094
- *   func_021D6EA0 0x021D6EA0 thumb ov093
- *   func_021D6BFC 0x021D6BFC thumb ov093
+ *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
+ *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   func_021F8150 0x021F8150 thumb ov094
  *   func_02006238 0x02006238 thumb
  *   func_021EA3B8 0x021EA3B8 thumb ov093
@@ -36,7 +36,7 @@
  *   func_02005F38 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021BA238 0x021BA238 thumb ov093
  *   func_021EADA4 0x021EADA4 thumb ov093
  *   func_021EADB4 0x021EADB4 thumb ov093
@@ -71,11 +71,11 @@ struct H;
 struct L;
 struct Obj;
 struct Result;
-extern int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r);
+extern int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r);
 extern void func_021F8134(int, u32);
 extern int func_021F8180(void);
-extern void func_021D6EA0(void *);
-extern void func_021D6BFC(u8 *p);
+extern void BTL_EVENT_ReleaseClientHandle(void *);
+extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
 extern void func_021F8150(int, void *);
 extern int func_02006238(void);
 extern void func_021EA3B8(char *ctx, int a, int b);
@@ -92,7 +92,7 @@ extern int func_021EA710(u32 *p);
 extern int func_02005F38(void);
 extern int GFL_USE_PopBgm(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_021BA238(char *p, void *m);
 struct T;
 extern void func_021EADA4(u8 *, int, struct T *);
@@ -125,7 +125,7 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
     case 1:
         if (d_021F3B64.remaining) {
             remaining = d_021F3B64.remaining;
-            if (func_021D69B8(obj, &remaining, (struct Result *)d_021F3B64.result)) {
+            if (BTL_POKEPARAM_AddExp(obj, &remaining, (struct Result *)d_021F3B64.result)) {
                 *state = 3;
             } else {
                 if (enabled) {
@@ -141,8 +141,8 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         if (!func_021F8180()) *state = 13;
         break;
     case 3:
-        func_021D6EA0(obj);
-        func_021D6BFC(obj);
+        BTL_EVENT_ReleaseClientHandle(obj);
+        BTL_POKEPARAM_ReloadFromParam(obj);
         if (enabled) {
             func_021F8150(index, obj);
             *state = 4;
@@ -179,7 +179,7 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         break;
     case 8:
         d_021F3B64.counter++;
-        if ((func_020362DC() & 3) || func_02035C60() || d_021F3B64.counter > 80) {
+        if ((func_020362DC() & 3) || TOUCHPANEL_GetTrg() || d_021F3B64.counter > 80) {
             d_021F3B64.counter = 0;
             func_021BA238(((struct Obj00268 *)p)->f0, obj);
             func_021EADA4(*(u8 * *)&((struct Obj00268 *)p)->f54, (int)obj, (struct T *)d_021F3B64.result);
@@ -187,13 +187,13 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         }
         break;
     case 9:
-        if (func_021EADB4(((struct Obj00268 *)p)->f54) && ((func_020362DC() & 3) || func_02035C60())) {
+        if (func_021EADB4(((struct Obj00268 *)p)->f54) && ((func_020362DC() & 3) || TOUCHPANEL_GetTrg())) {
             func_021EADC4(((struct Obj00268 *)p)->f54);
             *state = 10;
         }
         break;
     case 10:
-        if (func_021EADD4(((struct Obj00268 *)p)->f54) && ((func_020362DC() & 3) || func_02035C60())) {
+        if (func_021EADD4(((struct Obj00268 *)p)->f54) && ((func_020362DC() & 3) || TOUCHPANEL_GetTrg())) {
             func_021EADE4(((struct Obj00268 *)p)->f54);
             *state = 11;
         }

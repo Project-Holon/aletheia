@@ -1,5 +1,5 @@
 /*
- * function: func_021B8BC4
+ * function: BTL_MAIN_GetClientSide
  * address:  0x021B8BC4
  * packet:   pkt_021B8BC4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent 12, compiled 10, trailing padding)
  */
 
-unsigned char func_021B8BC4(int unused, unsigned int b)
+unsigned char BTL_MAIN_GetClientSide(int unused, unsigned int b)
 {
     (void)unused;
     return b & 1;

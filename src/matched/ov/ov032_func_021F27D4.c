@@ -14,9 +14,9 @@
  *           EXACT with `one --thumb` and no --region:
  *             0x020275A8  u32 BEACON_STATUS_GetLog(u32 a) { return a; }
  *             0x020275AC  u8 BEACON_STATUS_GetViewTop(u8 *p) { return p[0xb0e]; }
- *             0x02010F7C  u32 func_02010F7C(u32 heap)
- *                         { return func_02048F60(0x26, 0, heap); }
- *                         (func_02048F60 0x02048F60 arm, a tail call)
+ *             0x02010F7C  u32 GPOWER_LoadPowerTable(u32 heap)
+ *                         { return ARC_TOOL_LoadMember(0x26, 0, heap); }
+ *                         (ARC_TOOL_LoadMember 0x02048F60 arm, a tail call)
  *           Once those three are matched in arm9, this file is EXACT as it stands.
  *           The min of p[0x7b] and 4 must be an if/else of two stores: the
  *           ternary inverts the branch (blo for bhs; b).
@@ -27,27 +27,27 @@
  *
  * symbols:
  *   func_021F27D4  0x021F27D4  thumb
- *   func_02012A54  0x02012A54  thumb
+ *   GAME_DATA_GetItemUseWork  0x02012A54  thumb
  *   BEACON_STATUS_GetLog  0x020275A8  thumb
- *   func_02165B04  0x02165B04  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_TableGetCount  0x02165B04  thumb  ov010
  *   BEACON_STATUS_GetViewTop  0x020275AC  thumb
  *   func_02012FFC  0x02012FFC  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   func_0200BF10  0x0200BF10  thumb
- *   func_02012138  0x02012138  thumb
- *   func_0201283C  0x0201283C  thumb
- *   func_0201292C  0x0201292C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_0200C0E8  0x0200C0E8  thumb
  *   func_0200C1DC  0x0200C1DC  thumb
  *   func_02008730  0x02008730  thumb
  *   func_02008530  0x02008530  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008554  0x02008554  thumb
- *   func_02165B2C  0x02165B2C  thumb  ov010
- *   func_02165B10  0x02165B10  thumb  ov010
- *   func_02010F7C  0x02010F7C  thumb
- *   func_021F0684  0x021F0684  thumb  ov032
+ *   GAME_BEACON_ACCESSOR_AllocTable  0x02165B2C  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_AllocInfo  0x02165B10  thumb  ov010
+ *   GPOWER_LoadPowerTable  0x02010F7C  thumb
+ *   BEACON_VIEW_CountDifferingRecords  0x021F0684  thumb  ov032
  */
 
 typedef unsigned char u8;
@@ -60,36 +60,36 @@ struct Blk34;
 struct Ctx;
 struct Rec1B0;
 struct Sub0200852CObj;
-extern u32 func_02012A54(const struct BigObj *p);
+extern u32 GAME_DATA_GetItemUseWork(const struct BigObj *p);
 extern u32 BEACON_STATUS_GetLog(u32 a);
-extern u8 func_02165B04(u8 *q);
+extern u8 GAME_BEACON_ACCESSOR_TableGetCount(u8 *q);
 extern u8 BEACON_STATUS_GetViewTop(u8 *p);
 extern signed char func_02012FFC(void);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 extern u8 func_0200BF10(struct Rec1B0 *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern u32 func_0201283C(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *func_0200C0E8(void *sys);
 extern u32 func_0200C1DC(struct Blk34 *p);
 extern struct Sub0200852CObj *func_02008730(void *sys);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u8 *func_02165B2C(u32 heap);
-extern u8 *func_02165B10(u32 heap);
-extern void *func_02010F7C(u32 heap);
-extern void func_021F0684(u8 *p, u8 *a, u8 *b);
+extern u8 *GAME_BEACON_ACCESSOR_AllocTable(u32 heap);
+extern u8 *GAME_BEACON_ACCESSOR_AllocInfo(u32 heap);
+extern void *GPOWER_LoadPowerTable(u32 heap);
+extern void BEACON_VIEW_CountDifferingRecords(u8 *p, u8 *a, u8 *b);
 
 void func_021F27D4(u8 *p)
 {
     u32 sv;
     u32 s2;
 
-    *(u32 *)(p + 0x34) = func_02012A54((const struct BigObj *)(*(u32 *)(p + 4)));
+    *(u32 *)(p + 0x34) = GAME_DATA_GetItemUseWork((const struct BigObj *)(*(u32 *)(p + 4)));
     *(u32 *)(p + 0x3c) = BEACON_STATUS_GetLog(*(u32 *)(p + 0x34));
-    p[0x7b] = func_02165B04((u8 *)(*(u32 *)(p + 0x3c)));
+    p[0x7b] = GAME_BEACON_ACCESSOR_TableGetCount((u8 *)(*(u32 *)(p + 0x3c)));
     p[0x7c] = BEACON_STATUS_GetViewTop((u8 *)(*(u32 *)(p + 0x34)));
     if (p[0x7b] < 4)
         p[0x7d] = p[0x7b];
@@ -97,11 +97,11 @@ void func_021F27D4(u8 *p)
         p[0x7d] = 4;
     p[0x7f] = 0x30;
     p[0x78] = func_02012FFC();
-    sv = (u32)func_02012EBC((struct Big *)(*(u32 *)(p + 4)));
+    sv = (u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)(p + 4)));
     *(u32 *)(p + 0x28) = func_0200BF10((struct Rec1B0 *)func_0200BE48((void *)sv));
-    *(u32 *)(p + 0x1c) = func_02012138((const struct Ctx *)(*(u32 *)p));
-    *(u32 *)(p + 0x20) = func_0201283C((const struct BigObj *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x18) = (u32)func_0201292C((const struct BigObj *)(*(u32 *)(p + 4)));
+    *(u32 *)(p + 0x1c) = GAMESYSTEM_GetGameComm((const struct Ctx *)(*(u32 *)p));
+    *(u32 *)(p + 0x20) = GAME_DATA_GetWifiList((const struct BigObj *)(*(u32 *)(p + 4)));
+    *(u32 *)(p + 0x18) = (u32)GAME_DATA_GetMyItem((const struct BigObj *)(*(u32 *)(p + 4)));
     *(u32 *)(p + 0x14) = (u32)func_0200C0E8((void *)sv);
     *(u32 *)(p + 0x2d4) = func_0200C1DC((struct Blk34 *)(*(u32 *)(p + 0x14)));
     s2 = (u32)func_02008730((void *)sv);
@@ -109,10 +109,10 @@ void func_021F27D4(u8 *p)
     p[0x30] = func_02008550((const struct Sub0200852CObj *)s2);
     p[0x31] = func_02008554((const struct Sub0200852CObj *)s2);
     p[0x32] = 0x15;
-    *(u32 *)(p + 0x38) = (u32)func_02165B2C(*(u16 *)(p + 0x98));
-    *(u32 *)(p + 0x40) = (u32)func_02165B10(*(u16 *)(p + 0x98));
-    *(u32 *)(p + 0x44) = (u32)func_02165B10(*(u16 *)(p + 0x98));
-    *(u32 *)(p + 0x4c) = (u32)func_02165B10(*(u16 *)(p + 0x98));
-    *(u32 *)(p + 0x24) = (u32)func_02010F7C(*(u16 *)(p + 0x98));
-    func_021F0684(p, p + 0x58, p + 0x59);
+    *(u32 *)(p + 0x38) = (u32)GAME_BEACON_ACCESSOR_AllocTable(*(u16 *)(p + 0x98));
+    *(u32 *)(p + 0x40) = (u32)GAME_BEACON_ACCESSOR_AllocInfo(*(u16 *)(p + 0x98));
+    *(u32 *)(p + 0x44) = (u32)GAME_BEACON_ACCESSOR_AllocInfo(*(u16 *)(p + 0x98));
+    *(u32 *)(p + 0x4c) = (u32)GAME_BEACON_ACCESSOR_AllocInfo(*(u16 *)(p + 0x98));
+    *(u32 *)(p + 0x24) = (u32)GPOWER_LoadPowerTable(*(u16 *)(p + 0x98));
+    BEACON_VIEW_CountDifferingRecords(p, p + 0x58, p + 0x59);
 }

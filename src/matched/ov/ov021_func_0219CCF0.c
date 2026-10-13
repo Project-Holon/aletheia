@@ -1,5 +1,5 @@
 /*
- * function: func_0219CCF0
+ * function: FLDMMDL_BLACT_CheckReserveLeft
  * address:  0x0219CCF0
  * packet:   pkt_ov021_0219CCF0
  * region:   ov021
@@ -24,7 +24,7 @@ typedef struct { u8 pad[16]; u32 f10; } B;
 typedef struct { u32 f0; u8 pad[12]; u32 f10; u8 pad2[20]; } C;
 typedef struct { u8 pad[4]; u16 n0; u16 n1; u16 n2; u16 pad2; A *a; B *b; C *c; } R;
 
-int func_0219CCF0(u8 *s)
+int FLDMMDL_BLACT_CheckReserveLeft(u8 *s)
 {
     const R *r = *(const R * *)&((struct Obj19662 *)s)->f1C;
     u32 i;

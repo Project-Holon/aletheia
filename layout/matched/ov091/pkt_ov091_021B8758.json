@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8758",
+   "name": "POKELIST_UpdateHealShareCommand",
    "address": "0x021B8758",
    "kind": "game",
    "region": "ov091",

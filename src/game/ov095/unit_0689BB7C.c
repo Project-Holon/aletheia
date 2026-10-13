@@ -15,8 +15,8 @@
  *   func_021C8860  0x021C8860  thumb
  *   func_021C88A4  0x021C88A4  thumb
  *   func_021C88C8  0x021C88C8  thumb
- *   func_021D5B48  0x021D5B48  thumb
- *   func_021D7B74  0x021D7B74  thumb
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
  */
 
 typedef unsigned char u8;
@@ -30,9 +30,9 @@ typedef struct Rec {
     u8 f08[1];
 } Rec;
 
-extern int func_021D5B48(void *);
+extern int BTL_POKEPARAM_IsHpFull(void *);
 extern Rec *func_021C88A4(void *, int, int);
-extern int func_021D7B74(void *, int);
+extern int BTL_CALC_DivideMaxHpMin1(void *, int);
 extern void func_021C8838(void *, int, int);
 extern void func_021C8860(void *, int);
 extern void func_021C88C8(void *, void *);
@@ -41,11 +41,11 @@ void func_0689BB7C(void *a, void *b, int c)
 {
     Rec *r;
 
-    if (func_021D5B48(b) == 0) {
+    if (BTL_POKEPARAM_IsHpFull(b) == 0) {
         r = func_021C88A4(a, 6, c);
         r->f06 = c;
         r->f07 = 0x1f;
-        r->f04 = func_021D7B74(b, 0x10);
+        r->f04 = BTL_CALC_DivideMaxHpMin1(b, 0x10);
         func_021C8838(r->f08, 2, 0x2e3);
         func_021C8860(r->f08, c);
         func_021C88C8(a, r);

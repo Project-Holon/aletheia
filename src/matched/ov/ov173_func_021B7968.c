@@ -16,7 +16,7 @@
  * symbols:
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0201BD28 0x0201BD28 thumb
  */
 #include "../include/Obj03857.h"
@@ -31,7 +31,7 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 func_0201BD28(u16, u32);
 void func_021B7968(char *p)
 {
@@ -49,7 +49,7 @@ void func_021B7968(char *p)
         } else {
             value = func_0201BD28(*(u16 *)(*(char * *)&((struct Obj24183 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f10 + (((struct Obj24184 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i) * 2), 0);
             func_0204B3DC(*(void **)(p + i * 4 + 0x114), 1);
-            func_0204B878(*(void **)(p + i * 4 + 0x114), value);
+            CLACT_SetActorAnimSeq(*(void **)(p + i * 4 + 0x114), value);
         }
     }
 }

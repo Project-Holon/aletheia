@@ -12,7 +12,7 @@
  * retry: wave77 R24 recovered in 3 scratch runs; own callee prototypes copied before matching.
  * symbols:
  *   func_021C59B8 0x021C59B8 thumb
- *   func_02027F60 0x02027F60 thumb
+ *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   g_78C0 0x021C78C0 data
  *   g_78B0 0x021C78B0 data
@@ -29,7 +29,7 @@ struct Pair { u32 a; u32 b; };
 extern const struct Pair g_78C0[];
 extern const struct Pair g_78B0[];
 struct R;
-extern struct R *func_02027F60(u16, u16, u32, u32, u16);
+extern struct R *APP_TASKMENU_RES_Create(u16, u16, u32, u32, u16);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *, u32);
 
@@ -37,7 +37,7 @@ void func_021C59B8(u8 *p)
 {
     u16 i;
     const struct Pair *t;
-    ((struct Obj23516 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f30C = func_02027F60(0, 5, ((struct Obj02494 *)p)->f18, ((struct Obj23515 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1C4, 0x66);
+    ((struct Obj23516 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f30C = APP_TASKMENU_RES_Create(0, 5, ((struct Obj02494 *)p)->f18, ((struct Obj23515 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1C4, 0x66);
     for (i = 0; i < 4; i++) {
         t = &g_78C0[i];
         *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x314) = (u32)func_02045EC0(((struct Obj23517 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1D0, t->a);

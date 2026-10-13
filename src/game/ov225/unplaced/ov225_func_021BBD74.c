@@ -16,10 +16,10 @@
  * symbols:
  *   func_0201C6EC    0x0201C6EC  thumb
  *   func_02045770    0x02045770  arm
- *   func_02043B5C    0x02043B5C  arm
+ *   BMP_Clear    0x02043B5C  arm
  *   func_02045EC0    0x02045EC0  arm
- *   func_0201C724    0x0201C724  thumb
- *   func_02045808    0x02045808  arm
+ *   PRINTSYS_PrintQueColor    0x0201C724  thumb
+ *   STRBUF_Delete    0x02045808  arm
  *   func_021BBD28    0x021BBD28  thumb  ov225
  *   func_021B9E80    0x021B9E80  thumb  ov225
  */
@@ -38,10 +38,10 @@ struct PrintSys;
 struct U16Vec;
 extern void func_0201C6EC(struct PrintSys *p);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021BBD28(u8 *p);
 extern void func_021B9E80(char *p, unsigned id);
 
@@ -50,12 +50,12 @@ void func_021BBD74(char *p)
     void *r;
 
     func_0201C6EC(((struct Obj02267 *)p)->f24);
-    func_02043B5C(func_02045770(((struct Obj02267 *)p)->f18), 0);
+    BMP_Clear(func_02045770(((struct Obj02267 *)p)->f18), 0);
     r = func_02045EC0(((struct Obj26324 *)(*(char * *)&((struct Obj02267 *)p)->f4))->f20,
                       *(u16 *)(*(char * *)&((struct Obj02267 *)p)->f0 + (((struct Obj02267 *)p)->f8 << 2) + 6));
-    func_0201C724(((struct Obj02267 *)p)->f24, (u32)func_02045770(((struct Obj02267 *)p)->f18),
+    PRINTSYS_PrintQueColor(((struct Obj02267 *)p)->f24, (u32)func_02045770(((struct Obj02267 *)p)->f18),
                   4, 6, (u32)r, ((struct Obj26325 *)(*(char * *)&((struct Obj02267 *)p)->f4))->fC, 0x440);
-    func_02045808(r);
+    STRBUF_Delete(r);
     ((struct Obj02267 *)p)->f30 = 1;
     func_021BBD28((u8 *)p);
     func_021B9E80(((struct Obj02267 *)p)->f4,

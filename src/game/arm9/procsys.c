@@ -1,7 +1,7 @@
 /*
  * file:     procsys.c
  * unit:     yes
- * function: PROCSYS_CreateGlobal, PROCSYS_MainGlobal, PROCSYS_PushGlobal, PROCSYS_ReplaceGlobal, PROCSYS_Create, PROCSYS_Main, func_0203133C, PROCSYS_Push, PROCSYS_CreateInternal, PROCSYS_PushQueued, PROCSYS_MainInternal, func_020314B8, func_020314DC, PROCSYS_PushInternal, PROCSYS_NewProc, PROCSYS_FreeProc, func_0203159C, func_020315D4, PROCSYS_StepProc
+ * function: PROCSYS_CreateGlobal, PROCSYS_MainGlobal, PROCSYS_PushGlobal, PROCSYS_ReplaceGlobal, PROCSYS_Create, PROCSYS_Main, func_0203133C, PROCSYS_Push, PROCSYS_CreateInternal, PROCSYS_PushQueued, PROCSYS_MainInternal, func_020314B8, func_020314DC, PROCSYS_PushInternal, PROCSYS_NewProc, PROCSYS_FreeProc, PROCSYS_AllocProcWork, func_020315D4, PROCSYS_StepProc
  * address:  0x0203129C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -50,7 +50,7 @@ typedef struct Proc {
     u32 seq;            /* 0 load overlay, 1 init, 2 main, 3 end */
     u32 subSeq;
     void *procWork;     /* argument given by the caller */
-    void *work;         /* buffer owned by the process (func_0203159C) */
+    void *work;         /* buffer owned by the process (PROCSYS_AllocProcWork) */
     struct Proc *prev;  /* parent */
     struct Proc *next;  /* child */
 } Proc;
@@ -90,7 +90,7 @@ void PROCSYS_QueueReplace(ProcSys *sys, u32 overlayId, const ProcData *data, voi
 void PROCSYS_PushInternal(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
 Proc *PROCSYS_NewProc(u32 overlayId, const ProcData *data, void *procWork, u32 heapId);
 void PROCSYS_FreeProc(Proc *proc);
-void *func_0203159C(Proc *proc, u32 size, u32 heapId);
+void *PROCSYS_AllocProcWork(Proc *proc, u32 size, u32 heapId);
 void PROCSYS_FreeProcWork(Proc *proc);
 u32 PROCSYS_StepProc(Proc *proc);
 extern ProcSys *g_ProcSys;
@@ -334,7 +334,7 @@ void PROCSYS_PushInternal(ProcSys *sys, u32 overlayId, const ProcData *data, voi
 
 /*
  * Build a 0x20-byte Proc from the allocator and fill it.  The allocator is
- * three-parameter with the size second (see func_0203159C), plus
+ * three-parameter with the size second (see PROCSYS_AllocProcWork), plus
  * __FILE__/__LINE__; 0x162 does not fit an ARM immediate so it costs its own
  * pool word loaded early into ip.
  */
@@ -375,7 +375,7 @@ void PROCSYS_FreeProc(Proc *proc)
  * __LINE__ is 390 and does not fit an ARM immediate, so it costs its own
  * pool word next to the __FILE__ pointer.
  */
-void *func_0203159C(Proc *proc, u32 size, u32 heapId)
+void *PROCSYS_AllocProcWork(Proc *proc, u32 size, u32 heapId)
 {
     proc->work = func_02030734(heapId, size, 0, ProcAllocWork_AllocSiteName, 390);
     return proc->work;

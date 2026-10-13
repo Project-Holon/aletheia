@@ -1,5 +1,5 @@
 /*
- * function: func_021BE2E0
+ * function: FLD_EXP_OBJ_Delete
  * address:  0x021BE2E0
  * packet:   pkt_ov021_021BE2E0
  * region:   ov021
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021BE418  0x021BE418  thumb  ov021
- *   func_02047E54  0x02047E54  arm
+ *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
+ *   G3D_UTIL_Delete  0x02047E54  arm
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -32,20 +32,20 @@ typedef struct {
 } Obj;
 
 typedef unsigned char  u8;
-extern void func_021BE418(u8 *p, u16 i);
+extern void FLD_EXP_OBJ_RemoveUnit(u8 *p, u16 i);
 struct Rec;
-extern void func_02047E54(struct Rec *p);
+extern void G3D_UTIL_Delete(struct Rec *p);
 extern u32 func_020307B0(void *p);
 
-void func_021BE2E0(Obj *o)
+void FLD_EXP_OBJ_Delete(Obj *o)
 {
     u16 i;
 
     for (i = 0; i < 4; i++) {
         if (o->slots[i].f00 != 0) {
-            func_021BE418((u8 *)o, i);
+            FLD_EXP_OBJ_RemoveUnit((u8 *)o, i);
         }
     }
-    func_02047E54((struct Rec *)o->f04);
+    G3D_UTIL_Delete((struct Rec *)o->f04);
     func_020307B0(o);
 }

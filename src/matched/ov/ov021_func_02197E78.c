@@ -1,5 +1,5 @@
 /*
- * function: func_02197E78
+ * function: FLDMMDL_ACMD_ListStateFinished
  * address: 0x02197E78
  * packet: pkt_ov021_02197E78
  * region: ov021
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov021/ircbattlemenu.c and filed here.
  */
 
-int func_02197E78(void);
+int FLDMMDL_ACMD_ListStateFinished(void);
 
-int func_02197E78(void)
+int FLDMMDL_ACMD_ListStateFinished(void)
 {
     return 0;
 }

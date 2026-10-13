@@ -1,5 +1,5 @@
 /*
- * function: func_02185670
+ * function: OEKAKI_StepCancelQuit
  * address:  0x02185670
  * packet:   pkt_02185670
  * region:   ov023
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02185354  0x02185354  thumb  ov023
- *   func_02186444  0x02186444  thumb  ov023
- *   func_021852F4  0x021852F4  thumb  ov023
+ *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
+ *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
+ *   OEKAKI_SetQuitButtonPressed  0x021852F4  thumb  ov023
  */
 #include "../include/Obj13025.h"
 
-extern void func_02185354(char *p);
+extern void OEKAKI_ApplyRemoteStrokes(char *p);
 typedef unsigned int   u32;
-extern void func_02186444(char *p, u32 v);
-extern void func_021852F4(void *p, int v);
+extern void OEKAKI_SetNextScene(char *p, u32 v);
+extern void OEKAKI_SetQuitButtonPressed(void *p, int v);
 
 struct bf4210 {
     unsigned char a : 3;
@@ -27,12 +27,12 @@ struct bf4210 {
     unsigned char c : 2;
 };
 
-int func_02185670(unsigned char *p, int a1)
+int OEKAKI_StepCancelQuit(unsigned char *p, int a1)
 {
     ((struct bf4210 *)(p + 0x4210))->b = 0;
     ((struct Obj13025 *)p)->f9288 = 0;
-    func_02186444((char *)p, 4);
-    func_021852F4(((struct Obj13025 *)p)->f100, 0);
-    func_02185354((char *)p);
+    OEKAKI_SetNextScene((char *)p, 4);
+    OEKAKI_SetQuitButtonPressed(((struct Obj13025 *)p)->f100, 0);
+    OEKAKI_ApplyRemoteStrokes((char *)p);
     return a1;
 }

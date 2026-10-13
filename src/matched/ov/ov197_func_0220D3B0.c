@@ -11,7 +11,7 @@
  * symbols:
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_0201C6EC 0x0201C6EC thumb
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   WIPE_SYS_ExeEnd 0x020221B8 thumb
  *   func_0201CE48 0x0201CE48 thumb
  *   func_0220BD14 0x0220BD14 thumb ov197
@@ -19,7 +19,7 @@
  *   func_0220B1A0 0x0220B1A0 thumb ov197
  *   func_0220D7D0 0x0220D7D0 thumb ov197
  *   func_0220D6B8 0x0220D6B8 thumb ov197
- *   func_02031140 0x02031140 arm
+ *   TCBL_Destroy 0x02031140 arm
  *   func_0220D914 0x0220D914 thumb ov197
  *   func_0220AF64 0x0220AF64 thumb ov196
  *   func_02030EAC 0x02030EAC arm
@@ -38,7 +38,7 @@ struct S02031140;
 struct Node;
 extern unsigned func_0201C6B4(const struct PrintSys *);
 extern void func_0201C6EC(struct PrintSys *);
-extern unsigned func_020221A4(void);
+extern unsigned WIPE_SYS_EndCheck(void);
 extern void WIPE_SYS_ExeEnd(void);
 extern void func_0201CE48(struct Rec3 *);
 extern void func_0220BD14(char *);
@@ -46,7 +46,7 @@ extern void func_0220C448(char *);
 extern void func_0220B1A0(char *);
 extern void func_0220D7D0(char *);
 extern void func_0220D6B8(void);
-extern void func_02031140(struct S02031140 *);
+extern void TCBL_Destroy(struct S02031140 *);
 extern unsigned func_0220D914(u8 *);
 extern void func_0220AF64(void *);
 extern void func_02030EAC(struct Node *);
@@ -59,7 +59,7 @@ int func_0220D3B0(struct Node *task, char *p)
             if (((struct Obj25091 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) func_0201C6EC(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18);
             else return 0;
         }
-        if (func_020221A4() == 0) {
+        if (WIPE_SYS_EndCheck() == 0) {
             if (((struct Obj25092 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) WIPE_SYS_ExeEnd();
             else return 0;
         }
@@ -69,7 +69,7 @@ int func_0220D3B0(struct Node *task, char *p)
         func_0220B1A0(p);
         func_0220D7D0(p);
         func_0220D6B8();
-        func_02031140(*(struct S02031140 * *)&((struct Obj00846 *)p)->f4);
+        TCBL_Destroy(*(struct S02031140 * *)&((struct Obj00846 *)p)->f4);
         func_0220D914((u8 *)p);
         func_0220AF64(((struct Obj00846 *)p)->f148);
         if (((struct Obj00846 *)p)->f598 == 1) {

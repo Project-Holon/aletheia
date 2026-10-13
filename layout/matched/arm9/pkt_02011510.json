@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02011510",
+   "name": "ICA_ANIME_CreateStream",
    "address": "0x02011510",
    "kind": "game",
    "region": "arm9",

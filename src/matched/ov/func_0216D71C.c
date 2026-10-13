@@ -1,5 +1,5 @@
 /*
- * function: func_0216D71C
+ * function: FLDMMDL_CallMoveDeleteProc
  * address:  0x0216D71C
  * packet:   pkt_0216D71C
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0216D71C(void *a0)
+void FLDMMDL_CallMoveDeleteProc(void *a0)
 {
     void (*fn)(void *) = *(void (**)(void *))((char *)((struct Obj00113 *)a0)->f8C + 0xC);
 

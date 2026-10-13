@@ -1,5 +1,5 @@
 /*
- * function: func_021AAABC
+ * function: EFFECT_ENCOUNT_ConsumeSpot
  * address:  0x021AAABC
  * packet:   pkt_ov021_021AAABC
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
- *   func_021ADB4C  0x021ADB4C  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
+ *   FLDEFF_ENCOUNT_SetPaused  0x021ADB4C  thumb
  */
 
 typedef unsigned char u8;
@@ -41,18 +41,18 @@ typedef struct {
     D *f10;
 } S;
 
-extern T *func_02012A38(int a);
+extern T *GAME_DATA_GetFieldGimmick(int a);
 
 typedef unsigned int   u32;
-extern void func_021ADB4C(u32 a, int v);
+extern void FLDEFF_ENCOUNT_SetPaused(u32 a, int v);
 
-void func_021AAABC(S *s)
+void EFFECT_ENCOUNT_ConsumeSpot(S *s)
 {
-    Sub *b = &func_02012A38(s->f8)->sub;
+    Sub *b = &GAME_DATA_GetFieldGimmick(s->f8)->sub;
     if (b->lo) {
         b->hi = 1;
         if (s->f10->f5b4 != 0) {
-            func_021ADB4C(s->f10->f5b4, 1);
+            FLDEFF_ENCOUNT_SetPaused(s->f10->f5b4, 1);
         }
     }
 }

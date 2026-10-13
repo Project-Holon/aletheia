@@ -1,5 +1,5 @@
 /*
- * function: func_0216D6D8
+ * function: FLDMMDL_InitDrawProcWork
  * address:  0x0216D6D8
  * packet:   pkt_0216D6D8
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
  *   func_02082BCC  0x02082BCC  arm
  */
 
@@ -18,17 +18,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0216D6F0(void *p);
+extern void *FLDMMDL_GetDrawProcWork(void *p);
 extern int func_02082BCC();
 
-void *func_0216D6D8(int a0, int a1)
+void *FLDMMDL_InitDrawProcWork(int a0, int a1)
 {
     int a2;
     void *t4;
     int t5;
 
 t5 = a1 + 0;
-    t4 = func_0216D6F0((void *)a0);
+    t4 = FLDMMDL_GetDrawProcWork((void *)a0);
 loc_0216D6E0:
 a1 = 0;
 a2 = t5 + 0;

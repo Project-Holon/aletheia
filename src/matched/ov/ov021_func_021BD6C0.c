@@ -1,5 +1,5 @@
 /*
- * function: func_021BD6C0
+ * function: EVENT_ENTRANCE_IN_RunPlain
  * address:  0x021BD6C0
  * packet:   pkt_ov021_021BD6C0
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD94C  0x021BD94C  thumb  ov021
- *   func_021BD988  0x021BD988  thumb  ov021
+ *   EVENT_ENTRANCE_IN_ReplaceBgm  0x021BD94C  thumb  ov021
+ *   EVENT_ENTRANCE_IN_CallFadeOut  0x021BD988  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
@@ -21,20 +21,20 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021BD94C(u32 *);
-extern void func_021BD988(u32 *, u32);
+extern void EVENT_ENTRANCE_IN_ReplaceBgm(u32 *);
+extern void EVENT_ENTRANCE_IN_CallFadeOut(u32 *, u32);
 extern void func_020061E4(u32);
 
-u32 func_021BD6C0(u32 a, int *st, u32 *ctx)
+u32 EVENT_ENTRANCE_IN_RunPlain(u32 a, int *st, u32 *ctx)
 {
     u8 *p = (u8 *)ctx[2];
 
     switch (*st) {
     case 0:
-        func_021BD94C(ctx);
+        EVENT_ENTRANCE_IN_ReplaceBgm(ctx);
         if (((struct Obj20132 *)p)->f38 != 2)
             func_020061E4(0x559);
-        func_021BD988(ctx, a);
+        EVENT_ENTRANCE_IN_CallFadeOut(ctx, a);
         (*st)++;
         break;
     case 1:

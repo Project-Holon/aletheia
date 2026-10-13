@@ -11,7 +11,7 @@
  * lever: The final random choice is a ternary; an if/else shares the earlier action-seven assignment and leaves 36 bytes different.
  * ABI: The matched 0203D378 body returns u32(void); the preceding guard loads r0 without an argument to that call.
  * symbols:
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   func_021F9774 0x021F9774 thumb ov132
  *   _ll_mul 0x0209C054 arm
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef enum { ACTION7 = 7, ACTION8 = 8 } Action;
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern u32 func_0203F0A8(void);
 extern int func_021F9774(char *, unsigned);
 static inline u32 random_below(u32 n)
@@ -37,7 +37,7 @@ static inline u32 random_below(u32 n)
 void func_021F9AD8(char *p, int mode, u8 slot)
 {
     u8 i;
-    if (**(void ** *)&((struct Obj08155 *)p)->f30 && func_0203D378() != 1) return;
+    if (**(void ** *)&((struct Obj08155 *)p)->f30 && GFL_NET_IsParentAid() != 1) return;
     for (i = 0; i < 4; i++) {
         int eligible[2] = {0, 0};
         char *record = *(char **)(*(char * *)&((struct Obj08155 *)p)->f30 + i * 4 + 4);

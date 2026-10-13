@@ -1,5 +1,5 @@
 /*
- * function: func_021F39A8
+ * function: GIMMICK45_IsSwitchOn
  * address:  0x021F39A8
  * packet:   pkt_ov045_021F39A8
  * region:   ov045
@@ -12,10 +12,10 @@
  * Unlabelled leaf: whether slot i of the word table is non-zero.
  *
  * symbols:
- *   func_021F39A8  0x021F39A8  thumb
+ *   GIMMICK45_IsSwitchOn  0x021F39A8  thumb
  */
 
-int func_021F39A8(int *p, int i)
+int GIMMICK45_IsSwitchOn(int *p, int i)
 {
     return p[i] != 0;
 }

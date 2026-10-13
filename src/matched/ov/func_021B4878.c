@@ -1,5 +1,5 @@
 /*
- * function: func_021B4878
+ * function: SCRCMD_PROC_FLD_PrepareMessageWindow
  * address:  0x021B4878
  * packet:   pkt_021B4878
  * region:   ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  * Addresses are Black-image addresses.
  */
@@ -25,13 +25,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0201F73C(u32, u32, u32, u32);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 
-int func_021B4878(u32 a)
+int SCRCMD_PROC_FLD_PrepareMessageWindow(u32 a)
 {
-func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)a)), 15);
+BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)a)), 15);
 return func_0201F73C(a, 0, 228, 9);
 }
 

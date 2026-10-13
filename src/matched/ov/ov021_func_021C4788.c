@@ -1,5 +1,5 @@
 /*
- * function: func_021C4788
+ * function: FIELD_OV063_TaskUpdate
  * address:  0x021C4788
  * packet:   pkt_ov021_021C4788
  * region:   ov021
@@ -30,7 +30,7 @@ extern int func_021F376C(int *p);
 extern void func_021F3758(u8 *p);
 extern char ov063_id[];
 
-int func_021C4788(void *t)
+int FIELD_OV063_TaskUpdate(void *t)
 {
     void **w = func_020124E8(t);
 

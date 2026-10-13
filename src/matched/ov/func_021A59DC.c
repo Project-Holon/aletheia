@@ -1,5 +1,5 @@
 /*
- * function: func_021A59DC
+ * function: FIELD_PLAYER_NOGRID_IsBlocked
  * address:  0x021A59DC
  * packet:   pkt_021A59DC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A59DC(u32 a)
+int FIELD_PLAYER_NOGRID_IsBlocked(u32 a)
 {
 if (((struct Obj18054 *)((u8 *)(a)))->f0 == 3) {
     return 1;

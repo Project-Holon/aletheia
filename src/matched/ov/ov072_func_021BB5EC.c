@@ -1,5 +1,5 @@
 /*
- * function: func_021BB5EC
+ * function: TOWNMAP_GRH_UpdateTouch
  * address:  0x021BB5EC
  * packet:   pkt_ov072_021BB5EC
  * region:   ov072
@@ -32,7 +32,7 @@ extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_0207CA00(struct V *a, struct V *b, struct V *c);
 extern int func_0207CBD0(struct V *a);
 
-void func_021BB5EC(struct Obj *p)
+void TOWNMAP_GRH_UpdateTouch(struct Obj *p)
 {
     u32 y;
     u32 x;

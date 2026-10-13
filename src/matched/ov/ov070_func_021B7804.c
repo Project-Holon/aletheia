@@ -1,5 +1,5 @@
 /*
- * function: func_021B7804
+ * function: ITEMMENU_TaskTossAskQuantity
  * address:  0x021B7804
  * packet:   pkt_ov070_021B7804
  * region:   ov070
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7D9C  0x021B7D9C  thumb  ov070
- *   func_02045CAC  0x02045CAC  arm
- *   func_021B6204  0x021B6204  thumb  ov070
+ *   ITEMMENU_ShowQuantityWindows  0x021B7D9C  thumb  ov070
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   ITEMMENU_RegisterItemNameCounted  0x021B6204  thumb  ov070
  *   func_0201F250  0x0201F250  thumb
- *   func_021BADAC  0x021BADAC  thumb  ov070
- *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B7868  0x021B7868  thumb  ov070
+ *   ITEMMENU_ShowMessageDefault  0x021BADAC  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
+ *   ITEMMENU_TaskTossQuantityInput  0x021B7868  thumb  ov070
  */
 
 typedef struct Obj {
@@ -32,24 +32,24 @@ typedef struct Obj {
 } Obj;
 
 typedef unsigned char  u8;
-extern void func_021B7D9C(u8 *p, int v);
+extern void ITEMMENU_ShowQuantityWindows(u8 *p, int v);
 typedef unsigned int   u32;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021B6204(u8 *p, int a, unsigned int b, int c, int d);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void ITEMMENU_RegisterItemNameCounted(u8 *p, int a, unsigned int b, int c, int d);
 struct WordSet;
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021BADAC(void *p);
-extern void func_021B6100(char *p, int k);
-extern void func_021B7868(struct Obj *o);
+extern void ITEMMENU_ShowMessageDefault(void *p);
+extern void ITEMMENU_SetTask(char *p, int k);
+extern void ITEMMENU_TaskTossQuantityInput(struct Obj *o);
 
-void func_021B7804(Obj *o)
+void ITEMMENU_TaskTossAskQuantity(Obj *o)
 {
     o->f7F4 = 1;
-    func_021B7D9C((u8 *)o, 1);
-    func_02045CAC(o->f51C, 0x35, (void *)o->f524);
-    func_021B6204((u8 *)o, 0, o->f84C, 1, 0);
+    ITEMMENU_ShowQuantityWindows((u8 *)o, 1);
+    MSGDATA_ReadString(o->f51C, 0x35, (void *)o->f524);
+    ITEMMENU_RegisterItemNameCounted((u8 *)o, 0, o->f84C, 1, 0);
     func_0201F250(o->f520, o->f528, (void *)o->f524);
-    func_021BADAC(o);
-    func_021B6100((char *)o, (int)((void *)func_021B7868));
+    ITEMMENU_ShowMessageDefault(o);
+    ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskTossQuantityInput));
 }

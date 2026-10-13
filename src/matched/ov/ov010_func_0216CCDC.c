@@ -1,5 +1,5 @@
 /*
- * function: func_0216CCDC
+ * function: FLDMMDL_SetupSysProc
  * address:  0x0216CCDC
  * packet:   pkt_ov010_0216CCDC
  * region:   ov010
@@ -18,7 +18,7 @@
  *   func_02030734  0x02030734  arm
  *   func_02030CBC  0x02030CBC  arm
  *   func_020490F4  0x020490F4  arm
- *   func_0216D4DC  0x0216D4DC  thumb  ov010
+ *   FLDMMDL_SysSetStatusBit  0x0216D4DC  thumb  ov010
  *   d_02172B48     0x02172B48  data  ov010  a1
  */
 #include "../include/Obj02669.h"
@@ -30,10 +30,10 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 struct Ctx;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0216D4DC(void *, int);
+extern void FLDMMDL_SysSetStatusBit(void *, int);
 extern char d_02172B48[];
 
-void func_0216CCDC(char *a, int b, int c, int d, int e, int f)
+void FLDMMDL_SetupSysProc(char *a, int b, int c, int d, int e, int f)
 {
     int t;
     unsigned short h;
@@ -47,5 +47,5 @@ void func_0216CCDC(char *a, int b, int c, int d, int e, int f)
     ((struct Obj02669 *)a)->f20 = (int)func_02030CBC(h, (struct Ctx *)t);
     ((struct Obj02669 *)a)->f10 = (int)func_020490F4(0x31, b);
     ((struct Obj02669 *)a)->f38 = f;
-    func_0216D4DC(a, 0x10);
+    FLDMMDL_SysSetStatusBit(a, 0x10);
 }

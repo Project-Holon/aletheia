@@ -1,5 +1,5 @@
 /*
- * function: func_0216F1E0
+ * function: TRCARD_SYS_Exit
  * address:  0x0216F1E0
  * packet:   pkt_0216F1E0
  * region:   ov010
@@ -11,7 +11,7 @@
  * blocked:  listing 72 compiled 70
  *
  * symbols:
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008554  0x02008554  thumb
  *   GAME_BEACON_SetTrainerView  0x02027174  thumb
  *   func_020307B0  0x020307B0  arm
@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern int GAME_BEACON_SetTrainerView();
@@ -35,7 +35,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 
-int func_0216F1E0(int a0, int a1, int a2, int a3)
+int TRCARD_SYS_Exit(int a0, int a1, int a2, int a3)
 {
     int t4;
     int t5;
@@ -49,7 +49,7 @@ t4 = a3 + 0;
     if (a0 == 0) goto loc_0216F202;
 loc_0216F1EE:
 a0 = ((struct Obj09171 *)t5)->f4;
-    p = func_02012944((void *)a0);
+    p = GAME_DATA_GetMyStatus((void *)a0);
 loc_0216F1F4:
     a0 = func_02008554((const struct Sub0200852CObj *)p);
 loc_0216F1F8:

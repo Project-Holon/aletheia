@@ -10,25 +10,25 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  */
 #include "../include/Obj03896.h"
 
-extern unsigned short func_02045A98(void);
+extern unsigned short STRBUF_GetEosChar(void);
 
 int func_021F2150(unsigned char *p)
 {
     if (((struct Obj03896 *)p)->f20 != 0) {
         ((struct Obj03896 *)p)->f20 -= 1;
         *(unsigned short *)(p + 0x16 + ((struct Obj03896 *)p)->f20 * 2) =
-            func_02045A98();
+            STRBUF_GetEosChar();
         ((struct Obj03896 *)p)->f28 = 1;
         return 1;
     }
     if (((struct Obj03896 *)p)->f1E != 0) {
         ((struct Obj03896 *)p)->f1E -= 1;
         *(unsigned short *)(p + ((struct Obj03896 *)p)->f1E * 2) =
-            func_02045A98();
+            STRBUF_GetEosChar();
         ((struct Obj03896 *)p)->f28 = 1;
         return 1;
     }

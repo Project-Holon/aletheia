@@ -1,5 +1,5 @@
 /*
- * function: func_021BC054
+ * function: STARTMENU_BeginFadeOut
  * address:  0x021BC054
  * packet:   pkt_ov088_021BC054
  * region:   ov088
@@ -12,15 +12,15 @@
  *           trailing alignment padding, no byte difference.
  *
  * symbols:
- *   func_0202208C  0x0202208C  thumb
+ *   WIPE_SYS_Start  0x0202208C  thumb
  */
 #include "../include/Obj20824.h"
 
-extern void func_0202208C(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
+extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 
-int func_021BC054(char *p, int v)
+int STARTMENU_BeginFadeOut(char *p, int v)
 {
-    func_0202208C(0, 1, 1, 0, 6, 1, 0xb);
+    WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0xb);
     ((struct Obj20824 *)p)->f144 = v;
     return 2;
 }

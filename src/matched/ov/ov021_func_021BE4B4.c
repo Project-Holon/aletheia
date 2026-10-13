@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4B4
+ * function: FLD_EXP_OBJ_SetModelHidden
  * address:  0x021BE4B4
  * packet:   pkt_ov021_021BE4B4
  * region:   ov021
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf, sibling of func_021BE4A4: store v at +4 of slot j
+ * Unlabelled leaf, sibling of FLD_EXP_OBJ_SetModelCullDraw: store v at +4 of slot j
  * (stride 0x44) of the array whose pointer sits at +0xC of element i
  * (stride 0x10).  Leaf of ov062 func_021F36C0.
  *
  * symbols:
- *   func_021BE4B4  0x021BE4B4  thumb
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb
  */
 #include "../include/Obj20143.h"
 
-void func_021BE4B4(char *p, int i, int j, int v)
+void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v)
 {
     char *e = p + i * 0x10;
 

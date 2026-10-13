@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_021BE00C  0x021BE00C  thumb  ov172
- *   func_0203CBAC  0x0203CBAC  arm
- *   func_0203D7BC  0x0203D7BC  arm
+ *   GFL_NET_StartSession  0x0203CBAC  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -26,8 +26,8 @@ typedef signed int     s32;
 
 extern u16 func_021BE00C(u16 *p);
 struct Req;
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_0203D7BC(u8 a0);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_SetLoginOption(u8 a0);
 
 typedef struct {
     u32 w[0x1c];
@@ -38,6 +38,6 @@ void func_021B8050(void *a, void *b)
     Blob s = *(Blob *)0x021C6EF4;
 
     func_021BE00C(a);
-    func_0203CBAC((struct Req *)(&s), 0, (u32)b);
-    func_0203D7BC(0);
+    GFL_NET_StartSession((struct Req *)(&s), 0, (u32)b);
+    GFL_NET_SetLoginOption(0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02184180
+ * function: UNION_APP_GetMemberEntry
  * address:  0x02184180
  * packet:   pkt_ov022_02184180
  * region:   ov022
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf; callers in ov023 (func_02186170, func_02185EA0).
+ * Unlabelled leaf; callers in ov023 (OEKAKI_UpdateMemberSlots, OEKAKI_UpdateRemoteCursors).
  */
 
-char *func_02184180(unsigned char *p, int i)
+char *UNION_APP_GetMemberEntry(unsigned char *p, int i)
 {
     int m;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0218DC04
+ * function: FIELD_G3D_MAPPER_IsOutsideGrid
  * address:  0x0218DC04
  * packet:   pkt_ov021_0218DC04
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled ov021 leaf (a `.word` run in the listing, no lr save), the
- * sole blocker of ov010 func_021638CC. Returns 1 (outside) unless the
+ * sole blocker of ov010 FLDMMDL_MOVE_HitCheckMove. Returns 1 (outside) unless the
  * grid is present, not in state 2, and pos.x/pos.z fall inside the
  * w*cell by d*cell rectangle.
  */
@@ -39,7 +39,7 @@ typedef struct Grid {
     void *f1C;          /* 0x1C */
 } Grid;
 
-int func_0218DC04(Grid *g, VecFx32 *pos)
+int FIELD_G3D_MAPPER_IsOutsideGrid(Grid *g, VecFx32 *pos)
 {
     s32 w;
     s32 d;

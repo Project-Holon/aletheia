@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CCFF8",
+   "name": "PARTY_SELECT_LIST_IsTextDone",
    "address": "0x021CCFF8",
    "kind": "game",
    "region": "ov021",

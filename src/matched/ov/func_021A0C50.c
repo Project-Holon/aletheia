@@ -1,5 +1,5 @@
 /*
- * function: func_021A0C50
+ * function: FIELD_LIGHT_FADE_Init
  * address:  0x021A0C50
  * packet:   pkt_021A0C50
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A0C50(u32 a, u16 b, u32 c, u32 d)
+int FIELD_LIGHT_FADE_Init(u32 a, u16 b, u32 c, u32 d)
 {
 ((struct Obj07214 *)((u8 *)(a)))->f0 = 1;
 ((struct Obj07214 *)((u8 *)(a)))->f2 = b;

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _pNetSys     0x021469D0  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   GFL_NET_SYSTEM_BuildSendPacket  0x02038AE0  arm
@@ -38,7 +38,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern struct LinkState *_pNetSys;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern u32 GFL_NET_GetChildSendSize(void);
 typedef signed int     s32;
@@ -51,7 +51,7 @@ void GFL_NET_SYSTEM_SendIrc(void)
     u8 *p;
     u32 v;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     p = GFL_NET_GetSession();
     v = GFL_NET_GetChildSendSize();
 

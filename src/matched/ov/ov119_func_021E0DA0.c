@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_021B6284 0x021B6284 thumb ov067
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  */
 #include "../include/Obj10373.h"
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_021B6284(unsigned int *p);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 void func_021E0DA0(char *p)
 {
     if (((struct Obj10373 *)p)->f10) {
-        func_0204B3B4(((struct Obj10373 *)p)->f10);
+        CLACT_DeleteActor(((struct Obj10373 *)p)->f10);
         *(int *)&((struct Obj10373 *)p)->f10 = 0;
-        func_021B6284((unsigned int *)p);
+        UI_SCENE_FreeActorGfx((unsigned int *)p);
     }
 }

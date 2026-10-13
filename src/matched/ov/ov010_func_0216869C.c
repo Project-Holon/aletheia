@@ -1,5 +1,5 @@
 /*
- * function: func_0216869C
+ * function: FLD_BTL_INST_TOOL_BattleMonToPokemon
  * address:  0x0216869C
  * packet:   pkt_ov010_0216869C
  * region:   ov010
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * Builds a level-50 party mon from a 0x3C-byte record. Two levers: the
- * PP-up count read back through func_02017E1C goes through a u8 local, and
+ * PP-up count read back through POKE_TOOL_GetPartyValue goes through a u8 local, and
  * the nickname copy reads through a `const u16 *` local (indexing
  * src->nick directly keeps the strbuf in a register and swaps r5/r6).
  *
  * symbols:
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetNature  0x020185B0  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02045A98  0x02045A98  arm
- *   func_02045924  0x02045924  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
+ *   STRBUF_SetString  0x02045924  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  */
 
@@ -54,17 +54,17 @@ struct Sav;
 struct Strbuf;
 struct U16Vec;
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetNature(void *p, u32 v);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u16 func_02045A98(void);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern u16 STRBUF_GetEosChar(void);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 POKE_TOOL_CalcLevel(void *p);
 
-void func_0216869C(const BattleMon *src, void *mon)
+void FLD_BTL_INST_TOOL_BattleMonToPokemon(const BattleMon *src, void *mon)
 {
     u16 name[11];
     void *buf;
@@ -74,34 +74,34 @@ void func_0216869C(const BattleMon *src, void *mon)
     const u16 *n;
 
     POKE_TOOL_ClearPartyParam(mon);
-    func_02017588(mon, src->species, 50, (u64)-1, src->ivs & 0x3FFFFFFF, src->pid);
-    func_02017E40(mon, 0x6F, (u8)src->form);
-    func_02017E40(mon, 6, src->item);
+    POKE_TOOL_SetupPartyParamEx(mon, src->species, 50, (u64)-1, src->ivs & 0x3FFFFFFF, src->pid);
+    POKE_TOOL_SetPartyValue(mon, 0x6F, (u8)src->form);
+    POKE_TOOL_SetPartyValue(mon, 6, src->item);
     for (i = 0; i < 4; i++) {
-        func_02017E40(mon, 0x36 + i, src->moves[i]);
-        func_02017E40(mon, 0x3E + i, (u8)((src->ppUps >> (i * 2)) & 3));
-        pp = func_02017E1C(mon, 0x42 + i, 0);
-        func_02017E40(mon, 0x3A + i, pp);
+        POKE_TOOL_SetPartyValue(mon, 0x36 + i, src->moves[i]);
+        POKE_TOOL_SetPartyValue(mon, 0x3E + i, (u8)((src->ppUps >> (i * 2)) & 3));
+        pp = POKE_TOOL_GetPartyValue(mon, 0x42 + i, 0);
+        POKE_TOOL_SetPartyValue(mon, 0x3A + i, pp);
     }
-    func_02017E40(mon, 7, src->otId);
-    func_02017E40(mon, 0xD, src->ev[0]);
-    func_02017E40(mon, 0xE, src->ev[1]);
-    func_02017E40(mon, 0xF, src->ev[2]);
-    func_02017E40(mon, 0x10, src->ev[3]);
-    func_02017E40(mon, 0x11, src->ev[4]);
-    func_02017E40(mon, 0x12, src->ev[5]);
-    func_02017E40(mon, 0xA, src->f20);
-    func_02017E40(mon, 9, src->f21);
+    POKE_TOOL_SetPartyValue(mon, 7, src->otId);
+    POKE_TOOL_SetPartyValue(mon, 0xD, src->ev[0]);
+    POKE_TOOL_SetPartyValue(mon, 0xE, src->ev[1]);
+    POKE_TOOL_SetPartyValue(mon, 0xF, src->ev[2]);
+    POKE_TOOL_SetPartyValue(mon, 0x10, src->ev[3]);
+    POKE_TOOL_SetPartyValue(mon, 0x11, src->ev[4]);
+    POKE_TOOL_SetPartyValue(mon, 0x12, src->ev[5]);
+    POKE_TOOL_SetPartyValue(mon, 0xA, src->f20);
+    POKE_TOOL_SetPartyValue(mon, 9, src->f21);
     POKE_TOOL_SetNature(mon, src->f38);
-    buf = func_020457B0(11, 4);
-    eos = func_02045A98();
+    buf = STRBUF_Create(11, 4);
+    eos = STRBUF_GetEosChar();
     n = src->nick;
     for (i = 0; i < 11; i++)
         name[i] = n[i];
     name[i - 1] = eos;
-    func_02045924(buf, name);
-    func_02017E40(mon, 0x73, (u32)buf);
-    func_02045808(buf);
-    func_02017E40(mon, 0xC, src->lang);
-    func_02017E40(mon, 0x9E, POKE_TOOL_CalcLevel(mon));
+    STRBUF_SetString(buf, name);
+    POKE_TOOL_SetPartyValue(mon, 0x73, (u32)buf);
+    STRBUF_Delete(buf);
+    POKE_TOOL_SetPartyValue(mon, 0xC, src->lang);
+    POKE_TOOL_SetPartyValue(mon, 0x9E, POKE_TOOL_CalcLevel(mon));
 }

@@ -15,7 +15,7 @@
  *   func_021C4B5C 0x021C4B5C thumb ov136
  *   func_021C4D14 0x021C4D14 thumb ov136
  *   data_021C7774 0x021C7774 data
- *   func_0202223C 0x0202223C thumb
+ *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_020434DC 0x020434DC arm
@@ -25,12 +25,12 @@
  *   PALANM_RequestFade 0x0202173C thumb
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   PMS_DRAW_Main 0x0202DBC4 thumb
- *   func_02028178 0x02028178 thumb
+ *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   func_02030EAC 0x02030EAC arm
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   func_02030D28 0x02030D28 arm
- *   func_020310C4 0x020310C4 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   TCBL_Main 0x020310C4 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 #include "../include/Obj00539.h"
 typedef unsigned char u8;
@@ -42,7 +42,7 @@ extern int func_021C4BFC(u8 *p);
 extern void func_021C4B5C(void *a, u32 *p);
 extern int func_021C4D14(u8 *p);
 extern Step021C42C8 data_021C7774[];
-extern void func_0202223C(u32 a, u32 b);
+extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 extern u32 WIPE_ResetWndMask(void *win);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_020434DC(u32 mask, u32 enable);
@@ -56,12 +56,12 @@ struct PrintSys;
 struct Tcbl;
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern void PMS_DRAW_Main(u8 *p);
-extern void func_02028178(u8 *p);
+extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void func_02030EAC(struct Node *n);
-extern void func_0204A600(void *p);
+extern void CLACT_DrawSystem(void *p);
 extern void func_02030D28(struct Ctx *c);
-extern void func_020310C4(struct Tcbl *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void TCBL_Main(struct Tcbl *p);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
 int func_021C42C8(u8 *p)
 {
@@ -71,8 +71,8 @@ int func_021C42C8(u8 *p)
     switch (((struct Obj00539 *)p)->f4) {
     case 0:
         func_021C4AF8();
-        func_0202223C(0, 0);
-        func_0202223C(1, 0);
+        WIPE_SetBrightnessFadeOut(0, 0);
+        WIPE_SetBrightnessFadeOut(1, 0);
         WIPE_ResetWndMask(0);
         WIPE_ResetWndMask((void *)1);
         (((struct Obj00539 *)p)->f4)++;
@@ -101,14 +101,14 @@ int func_021C42C8(u8 *p)
         }
         PMS_DRAW_Main(((struct Obj00539 *)p)->f148);
         if (((struct Obj00539 *)p)->f128) {
-            func_02028178(((struct Obj00539 *)p)->f128);
-            func_02028178(((struct Obj00539 *)p)->f12C);
+            APP_TASKMENU_WIN_Update(((struct Obj00539 *)p)->f128);
+            APP_TASKMENU_WIN_Update(((struct Obj00539 *)p)->f12C);
         }
         break;
     case 4:
         if (!PALANM_GetFadeRequestBits(((struct Obj00539 *)p)->f38)) {
-            func_0202223C(0, 0);
-            func_0202223C(1, 0);
+            WIPE_SetBrightnessFadeOut(0, 0);
+            WIPE_SetBrightnessFadeOut(1, 0);
             func_02030EAC(((struct Obj00539 *)p)->f104);
             func_021C4AF8();
             (((struct Obj00539 *)p)->f4)++;
@@ -121,14 +121,14 @@ int func_021C42C8(u8 *p)
         break;
     }
     if (((struct Obj00539 *)p)->fA0)
-        func_0204A600(((struct Obj00539 *)p)->fA0);
+        CLACT_DrawSystem(((struct Obj00539 *)p)->fA0);
     if (((struct Obj00539 *)p)->fF8)
         func_02030D28(((struct Obj00539 *)p)->fF8);
     if (((struct Obj00539 *)p)->f100)
-        func_020310C4(((struct Obj00539 *)p)->f100);
+        TCBL_Main(((struct Obj00539 *)p)->f100);
     if (((struct Obj00539 *)p)->f98)
-        func_0201C4E4(((struct Obj00539 *)p)->f98);
+        PRINTSYS_QUE_Main(((struct Obj00539 *)p)->f98);
     if (((struct Obj00539 *)p)->f158)
-        func_0201C4E4(((struct Obj00539 *)p)->f158);
+        PRINTSYS_QUE_Main(((struct Obj00539 *)p)->f158);
     return r;
 }

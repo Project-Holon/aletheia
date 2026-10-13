@@ -1,5 +1,5 @@
 /*
- * function: func_0216D7C4
+ * function: FLDMMDL_GetAcmdCode
  * address:  0x0216D7C4
  * packet:   pkt_0216D7C4
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u16 func_0216D7C4(u8 *p)
+u16 FLDMMDL_GetAcmdCode(u8 *p)
 {
     return ((struct Obj17825 *)p)->f26;
 }

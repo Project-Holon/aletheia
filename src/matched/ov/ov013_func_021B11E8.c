@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B3C84  0x021B3C84  data  ov013  a4
+ *   gVctSendState  0x021B3C84  data  ov013  a4
  *   d_021B42C0  0x021B42C0  data  ov013  a4
  *   gVctSession  0x021B60D8  data  ov013  a4
  *   gVctSendSchedule  0x021B3ADA  data  ov013  a1
@@ -47,7 +47,7 @@ typedef struct {
     int f10;
 } Ctx60D8;
 
-extern Ctx3C84 d_021B3C84;
+extern Ctx3C84 gVctSendState;
 extern struct Ctx42C0 d_021B42C0;
 extern Ctx60D8 gVctSession;
 extern u8 gVctSendSchedule[][3];
@@ -68,12 +68,12 @@ int VCT_AUDIO_SendFrameStep(void)
     u32 mask;
     u32 z;
 
-    if (d_021B3C84.f20 == 0)
+    if (gVctSendState.f20 == 0)
         return 1;
 
     if (d_021B42C0.f8C8 == 0) {
         d_021B42C0.f8C8 = VCT_AUDIO_EncodeSendFrame();
-        if (d_021B42C0.f8C8 != 0 && d_021B3C84.f18 != 0)
+        if (d_021B42C0.f8C8 != 0 && gVctSendState.f18 != 0)
             return 0;
         return 1;
     }
@@ -88,7 +88,7 @@ int VCT_AUDIO_SendFrameStep(void)
         if (z == 32)
             break;
         d_021B42C0.f8CC = mask & ~(0x80000000 >> z);
-        func_02177044((u8)(31 - z), d_021B42C0.f8C8, d_021B3C84.fC);
+        func_02177044((u8)(31 - z), d_021B42C0.f8C8, gVctSendState.fC);
         if (d_021B42C0.f8CC == 0) {
             d_021B42C0.f8C0++;
             d_021B42C0.f8C8 = 0;

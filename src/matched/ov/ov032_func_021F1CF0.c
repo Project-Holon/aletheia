@@ -18,11 +18,11 @@
  *   func_021F0B64 0x021F0B64 thumb ov032
  *   func_021F0E04 0x021F0E04 thumb ov032
  *   func_021F0C70 0x021F0C70 thumb ov032
- *   func_021F253C 0x021F253C thumb ov032
+ *   BEACON_VIEW_RequestTransition 0x021F253C thumb ov032
  *   func_021F0D9C 0x021F0D9C thumb ov032
  *   func_021F0D5C 0x021F0D5C thumb ov032
  *   func_021F0B10 0x021F0B10 thumb ov032
- *   func_021F05E8 0x021F05E8 thumb ov032
+ *   BEACON_VIEW_SetArrowAnim 0x021F05E8 thumb ov032
  *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj00007.h"
@@ -40,11 +40,11 @@ extern void func_021F0B64(char *p);
 struct TcblNode;
 extern void func_021F0E04(char *p, unsigned a);
 extern int func_021F0C70(char *p, int flag);
-extern void func_021F253C(char *p, int v);
+extern void BEACON_VIEW_RequestTransition(char *p, int v);
 extern void func_021F0D9C(char *p);
 extern int func_021F0D5C(char *p, int i);
 extern void func_021F0B10(char *p, int a, int b);
-extern void func_021F05E8(u8 *p, int a, u32 b);
+extern void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b);
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021F1CF0(void *h, u8 *t)
@@ -83,7 +83,7 @@ void func_021F1CF0(void *h, u8 *t)
             break;
         t[5] = r;
         if (t[5] == 0) {
-            func_021F253C(p, 7);
+            BEACON_VIEW_RequestTransition(p, 7);
             p[0x79] = 1;
             t[0] = 5;
         } else {
@@ -110,7 +110,7 @@ void func_021F1CF0(void *h, u8 *t)
         t[0]++;
         break;
     default:
-        func_021F05E8((u8 *)p, 4, (int)0);
+        BEACON_VIEW_SetArrowAnim((u8 *)p, 4, (int)0);
         (**(int * *)&((struct Obj00879 *)t)->f20)--;
         TCBL_DeleteTask(h);
         break;

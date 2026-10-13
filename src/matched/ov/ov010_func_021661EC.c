@@ -1,5 +1,5 @@
 /*
- * function: func_021661EC
+ * function: GAME_BEACON_ACCESSOR_IsActionCountValueInvalid
  * address:  0x021661EC
  * packet:   pkt_ov010_021661EC
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_021661EC(RecW *r)
+int GAME_BEACON_ACCESSOR_IsActionCountValueInvalid(RecW *r)
 {
     if (r->f34 > 99999)
         return 1;

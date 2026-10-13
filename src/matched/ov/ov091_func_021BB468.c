@@ -1,5 +1,5 @@
 /*
- * function: func_021BB468
+ * function: PLIST_PLATE_IsEgg
  * address:  0x021BB468
  * packet:   pkt_021BB468
  * region:   ov091
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BB468(int unused, int *p)
+int PLIST_PLATE_IsEgg(int unused, int *p)
 {
     (void)unused;
     return p[3];

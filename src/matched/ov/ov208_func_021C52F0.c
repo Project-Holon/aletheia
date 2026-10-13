@@ -16,10 +16,10 @@
  * symbols:
  *   func_020490F4  0x020490F4  arm
  *   func_0201BC3C  0x0201BC3C  thumb
- *   func_0204ACEC  0x0204ACEC  arm
+ *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
  *   func_0201BC78  0x0201BC78  thumb
  *   func_0201BCEC  0x0201BCEC  thumb
- *   func_0204AF28  0x0204AF28  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
  */
 
 typedef unsigned char  u8;
@@ -37,14 +37,14 @@ struct Ov208Menu {
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
 extern int func_0201BC3C(void);
-extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_0201BC78(void);
 extern int func_0201BCEC(void);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 void ov208_func_021C52F0(u16 *heap, struct Ov208Menu *p)
 {
     p->arc = func_020490F4(7, *heap);
-    p->j = func_0204ACEC(p->arc, func_0201BC3C(), 1, 0, *heap);
-    p->k = func_0204AF28(p->arc, func_0201BC78(), func_0201BCEC(), *heap);
+    p->j = CLACT_RegisterPaletteCompressed(p->arc, func_0201BC3C(), 1, 0, *heap);
+    p->k = CLACT_RegisterCellAnim(p->arc, func_0201BC78(), func_0201BCEC(), *heap);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02198DD4
+ * function: FLDMMDL_ACMD_Walk7FMove
  * address:  0x02198DD4
  * packet:   pkt_02198DD4
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern int func_02198C4C(u32 a, u32 *b);
 extern char DWCca_ghttp_caList[];
 
-BOOL func_02198DD4(char *url)
+BOOL FLDMMDL_ACMD_Walk7FMove(char *url)
 {
     if (func_02198C4C((u32)url, (u32 *)DWCca_ghttp_caList) == 1)
     {

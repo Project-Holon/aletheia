@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB9DC",
+   "name": "STARTMENU_ShowRowActors",
    "address": "0x021BB9DC",
    "kind": "game",
    "region": "ov088",

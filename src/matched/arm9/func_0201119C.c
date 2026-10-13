@@ -14,7 +14,7 @@
  *   g_02146228      0x02146228  data
  *   _u32_div_f      0x0209C2B0  arm
  *
- * Same shape as func_02010FF4, mode byte +0x1d, scale +0x14.
+ * Same shape as GPOWER_ApplyHatchRate, mode byte +0x1d, scale +0x14.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GPOWER_ApplyPrizeMoney.c \

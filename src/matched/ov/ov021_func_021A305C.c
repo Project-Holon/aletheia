@@ -1,5 +1,5 @@
 /*
- * function: func_021A305C
+ * function: FIELD_PLAYER_SetDirDisp
  * address:  0x021A305C
  * packet:   pkt_021A305C
  * region:   ov021
@@ -9,22 +9,22 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021A392C  0x021A392C  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetDirDisp  0x021A392C  thumb  ov021
  *
  * blocker: target 0x021A392C has no witness outside the compared range
  *          (ov009/ov021 overlap; the ov021 hint does not locate a func_ label).
  
  *
- * UNBLOCKED: func_021A392C is now an EXACT entry in layout/matched/ov021;
+ * UNBLOCKED: FIELD_PLAYER_CORE_SetDirDisp is now an EXACT entry in layout/matched/ov021;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 #include "../include/Obj19764.h"
 
 typedef unsigned int u32;
 
-void func_021A392C(void *p, int b);
+void FIELD_PLAYER_CORE_SetDirDisp(void *p, int b);
 
-void func_021A305C(char *p, u32 b)
+void FIELD_PLAYER_SetDirDisp(char *p, u32 b)
 {
-    func_021A392C((void *)(((struct Obj19764 *)p)->f4), b);
+    FIELD_PLAYER_CORE_SetDirDisp((void *)(((struct Obj19764 *)p)->f4), b);
 }

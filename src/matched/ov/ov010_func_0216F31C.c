@@ -1,5 +1,5 @@
 /*
- * function: func_0216F31C
+ * function: TRCARD_SYS_StateWaitEditProc
  * address:  0x0216F31C
  * packet:   pkt_ov010_0216F31C
  * region:   ov010
@@ -15,8 +15,8 @@
  * (register naming r3/r4 swapped).
  *
  * symbols:
- *   func_0216F088  0x0216F088  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   TRCARD_SYS_RunChildProc  0x0216F088  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
  *   func_0200E714  0x0200E714  thumb
  *   GAME_BEACON_SetPms  0x0202715C  thumb
@@ -27,22 +27,22 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Big;
 struct Rec0200E714;
-extern int func_0216F088(int a0);
-extern void *func_02012EBC(struct Big *p);
+extern int TRCARD_SYS_RunChildProc(int a0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int func_0200E6F0(void);
 extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
 extern void GAME_BEACON_SetPms(u32 a0);
 
-int func_0216F31C(char *a)
+int TRCARD_SYS_StateWaitEditProc(char *a)
 {
     char *w;
     u16 *src;
     int t;
 
-    if (func_0216F088((int)(a + 8)) == 0)
+    if (TRCARD_SYS_RunChildProc((int)(a + 8)) == 0)
         return 4;
     if (*(u16 **)(a + 0x14) != 0) {
-        func_02012EBC((struct Big *)(*(int *)(*(char **)(a + 0x18) + 4)));
+        GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(char **)(a + 0x18) + 4)));
         t = func_0200E6F0();
         w = **(char ***)(a + 0x18);
         src = *(u16 **)(a + 0x14);

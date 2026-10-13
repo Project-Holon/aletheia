@@ -21,7 +21,7 @@
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_021D8AF4 0x021D8AF4 thumb ov119
  *   func_021D8B0C 0x021D8B0C thumb ov119
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_02061CA4 0x02061CA4 arm
  *   func_02082D44 0x02082D44 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
@@ -51,7 +51,7 @@ extern int func_021D8AF4(int, char *);
 extern int func_021D8B0C(int, int);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void func_02082D44(int src, int dst, int n);
@@ -102,7 +102,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
             n = func_021D8AF4(a, p);
             idx = func_021D8B0C(a, j);
             idx += n * 30;
-            func_0204B454((struct Actor *)*(void **)(p + row * 20 + j * 4 + 0xac0), (struct PtS *)&pt, 1);
+            CLACT_GetActorSurfacePos((struct Actor *)*(void **)(p + row * 20 + j * 4 + 0xac0), (struct PtS *)&pt, 1);
             if (flag == 1 && pt.x >= -16 && pt.x <= 0x110) {
                 if (func_02061CA4((void *)0x23, info.c, *(int *)(p + 0x1184) + idx * 0x200, 0x200) == 0) {
                     vram = VRAM_BASE;

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DC960.c
  * unit:     yes
- * function: func_021DC960, func_021DC9BC, func_021DC9C8, func_021DCA68, func_021DCA8C
+ * function: BTL_ABILITY_RattledRaiseSpeedOnHit, BTL_ABILITY_GetMummyHandlers, BTL_ABILITY_MummySpreadAbility, BTL_ABILITY_SapSipperAbsorbGrass, BTL_ABILITY_GetSapSipperHandlers
  * address:  0x021DC960
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C83D4  0x021C83D4  thumb  ov093
@@ -23,30 +23,30 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
- *   d_021F05C8 0x021F05C8 data a4
- *   func_021DA8A8 0x021DA8A8 thumb ov093
- *   func_021DA96C 0x021DA96C thumb ov093
- *   d_021F0678     0x021F0678  data   ov093  a4
+ *   gSapSipperHandlers 0x021F05C8 data a4
+ *   BTL_ABILITY_AbsorbCheckMoveType 0x021DA8A8 thumb ov093
+ *   BTL_ABILITY_AbsorbRaiseStat 0x021DA96C thumb ov093
+ *   gMummyHandlers     0x021F0678  data   ov093  a4
  */
 #include "unit_021DC6EC_types.h"
 
-extern BtlEventHandler d_021F05C8[];
-extern BtlEventHandler d_021F0678[];
+extern BtlEventHandler gSapSipperHandlers[];
+extern BtlEventHandler gMummyHandlers[];
 
-void func_021DC960(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-BtlEventHandler *func_021DC9BC(u32 *handlerCount);
-void func_021DC9C8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-void func_021DCA68(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-BtlEventHandler *func_021DCA8C(u32 *handlerCount);
+void BTL_ABILITY_RattledRaiseSpeedOnHit(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *BTL_ABILITY_GetMummyHandlers(u32 *handlerCount);
+void BTL_ABILITY_MummySpreadAbility(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+void BTL_ABILITY_SapSipperAbsorbGrass(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *BTL_ABILITY_GetSapSipperHandlers(u32 *handlerCount);
 
 /* Rattled: when a Bug, Ghost or Dark move hits the owner, it raises its Speed by one rank. */
-void func_021DC960(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_RattledRaiseSpeedOnHit(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
     BtlRankCmd *cmd;
     u8 moveType;
 
-    if (ownerId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_HIT_SUBSTITUTE) == 0) {
-        moveType = func_021D775C(BTL_EVAR_MOVE_TYPE);
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE) == 0) {
+        moveType = BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE);
         if (moveType == POKETYPE_DARK || moveType == POKETYPE_BUG || moveType == POKETYPE_GHOST) {
             cmd = func_021C88A4(flow, BTL_CMD_KIND_RANK_CHANGE, ownerId);
             cmd->header |= BTL_CMD_FLAG_FROM_ABILITY;
@@ -59,24 +59,24 @@ void func_021DC960(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 own
     }
 }
 
-BtlEventHandler *func_021DC9BC(u32 *handlerCount)
+BtlEventHandler *BTL_ABILITY_GetMummyHandlers(u32 *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F0678;
+    return gMummyHandlers;
 }
 
 /*
  * Mummy: when a contact move hits the owner, the attacker's ability becomes
  * Mummy, unless it already is Mummy or one side has no Pokemon left.
  */
-void func_021DC9C8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_MummySpreadAbility(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
     BtlAbilityChangeCmd *cmd;
     u8 attackerId;
 
-    if (ownerId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_HIT_SUBSTITUTE) == 0 && func_021C83D4(flow) == 0
-        && WAZA_TOOL_GetFlag(func_021D775C(BTL_EVAR_MOVE_ID), WAZA_FLAG_CONTACT) != 0) {
-        attackerId = func_021D775C(BTL_EVAR_ATTACKER_ID);
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE) == 0 && func_021C83D4(flow) == 0
+        && WAZA_TOOL_GetFlag(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID), WAZA_FLAG_CONTACT) != 0) {
+        attackerId = BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID);
         if (func_021D59B4(func_021C7CF4(flow, attackerId), BTL_BPP_VALUE_ABILITY) != ABILITY_MUMMY) {
             cmd = func_021C88A4(flow, BTL_CMD_KIND_ABILITY_CHANGE, ownerId);
             cmd->abilityId = ABILITY_MUMMY;
@@ -91,10 +91,10 @@ void func_021DC9C8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 own
 }
 
 /* Sap Sipper: a Grass move aimed at the owner is absorbed and raises its Attack by one rank. */
-void func_021DCA68(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_SapSipperAbsorbGrass(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    if (func_021DA8A8(flow, ownerId, POKETYPE_GRASS))
-        func_021DA96C(flow, ownerId, BTL_RANK_STAT_ATTACK, 1);
+    if (BTL_ABILITY_AbsorbCheckMoveType(flow, ownerId, POKETYPE_GRASS))
+        BTL_ABILITY_AbsorbRaiseStat(flow, ownerId, BTL_RANK_STAT_ATTACK, 1);
 }
 
-BtlEventHandler *func_021DCA8C(u32 *handlerCount) { *handlerCount = 1; return d_021F05C8; }
+BtlEventHandler *BTL_ABILITY_GetSapSipperHandlers(u32 *handlerCount) { *handlerCount = 1; return gSapSipperHandlers; }

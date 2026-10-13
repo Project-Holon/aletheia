@@ -1,5 +1,5 @@
 /*
- * function: func_021E88CC
+ * function: BTLV_CORE_LoadDsiOverlay
  * address:  0x021E88CC
  * packet:   pkt_ov093_021E88CC
  * region:   ov093
@@ -12,7 +12,7 @@
  * symbols:
  *   OS_GetConsoleType  0x02085CBC  arm
  *   GF_OVERLAY_Load  0x02034AC4  arm
- *   d_021F6380  0x021F6380  data
+ *   gBtlvCoreDsiOverlayLoaded  0x021F6380  data
  *   ov140_id  0x0000008C  data  a1
  */
 
@@ -23,14 +23,14 @@ typedef unsigned int u32;
 extern u32 OS_GetConsoleType(void);
 extern int GF_OVERLAY_Load(signed int handle);
 extern u8 ov140_id[];
-extern int d_021F6380;
+extern int gBtlvCoreDsiOverlayLoaded;
 
-void func_021E88CC(void)
+void BTLV_CORE_LoadDsiOverlay(void)
 {
     if (OS_GetConsoleType() & 0x02000000) {
         GF_OVERLAY_Load((int)ov140_id);
-        d_021F6380 = 1;
+        gBtlvCoreDsiOverlayLoaded = 1;
     } else {
-        d_021F6380 = 0;
+        gBtlvCoreDsiOverlayLoaded = 0;
     }
 }

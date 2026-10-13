@@ -1,5 +1,5 @@
 /*
- * function: func_021CC040
+ * function: FLD_TRADE_Delete
  * address:  0x021CC040
  * packet:   pkt_ov021_021CC040
  * region:   ov021
@@ -26,7 +26,7 @@ typedef struct Obj {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021CC040(Obj *o)
+void FLD_TRADE_Delete(Obj *o)
 {
     func_020307B0(o->f8);
     func_020307B0(o->fC);

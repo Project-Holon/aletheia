@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C54BC",
+   "name": "BTL_SERVER_FLOW_PushActionBlockedMessage",
    "address": "0x021C54BC",
    "kind": "game",
    "region": "ov093",

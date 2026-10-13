@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
- *   func_020072CC  0x020072CC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
  *   g_MusicalDistSaveFileName     0x020A71D4  data  a1
  *
@@ -53,9 +53,9 @@ struct MusicalDist {
 extern const char g_MusicalDistSaveFileName[];
 struct Big;
 struct Sub020073D8Ctrl;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32   func_020072CC(void *sv, u32 id, u32 heap, void *buf, u32 size);
+extern u32   SAVE_CONTROL_LoadExtraSaveWithBuffer(void *sv, u32 id, u32 heap, void *buf, u32 size);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 
 struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap)
@@ -65,10 +65,10 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap)
     u32 r;
     u8 *z;
 
-    sv = func_02012EBC(sys);
+    sv = GAME_DATA_GetSaveControl(sys);
     p = func_02030734(heap, 0x2C, 1, g_MusicalDistSaveFileName, 0x4A);
     p->unk1C = func_02030734(heap, 0x20000, 1, g_MusicalDistSaveFileName, 0x4C);
-    r = func_020072CC(sv, 6, heap, p->unk1C, 0x20000);
+    r = SAVE_CONTROL_LoadExtraSaveWithBuffer(sv, 6, heap, p->unk1C, 0x20000);
     p->unk00 = heap;
     p->unk28 = sys;
     p->unk08 = 0;

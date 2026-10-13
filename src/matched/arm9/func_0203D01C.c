@@ -1,5 +1,5 @@
 /*
- * function: func_0203D01C
+ * function: GFL_NET_StartByNetType
  * address:  0x0203D01C
  * packet:   pkt_0203CF5C
  * region:   arm9
@@ -24,7 +24,7 @@ extern void *GFL_NET_GetSession(void);
 extern void GFL_NET_STATE_WifiEnterLoginDefault(void);
 extern void GFL_NET_STATE_InitParent(u32 a);
 
-void func_0203D01C(void)
+void GFL_NET_StartByNetType(void)
 {
     u8 *s = GFL_NET_GetSession();
 

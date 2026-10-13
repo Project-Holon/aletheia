@@ -1,5 +1,5 @@
 /*
- * function: func_0216B004
+ * function: SCRCMD_SYMBOL_ViewEventMain
  * address:  0x0216B004
  * packet:   pkt_ov010_0216B004
  * region:   ov010
@@ -25,28 +25,28 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
- *   func_02012374  0x02012374  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E2BC  0x0200E2BC  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_0201292C  0x0201292C  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02007E50  0x02007E50  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_0200CA10  0x0200CA10  thumb
- *   func_02012444  0x02012444  thumb
+ *   GAME_EVENT_CallProc  0x02012444  thumb
  *   func_02007F1C  0x02007F1C  thumb
  *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02189A08  0x02189A08  thumb  ov021
- *   func_021CF498  0x021CF498  thumb  ov021
+ *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
+ *   ENCEFF_Start  0x021CF498  thumb  ov021
  *   func_021B6100  0x021B6100  thumb  ov098
  *   func_021B6158  0x021B6158  thumb  ov098
  *   func_021B95A0  0x021B95A0  thumb  ov227
@@ -94,42 +94,42 @@ struct Obj;
 struct P;
 struct Sub02008700Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_02012EBC(struct Big *p);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *func_0200CA10(void *sv);
-extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *h);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *h);
 extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *h);
 extern u32 func_020307B0(void *p);
-extern int func_02189A08(unsigned char *p);
-extern void func_021CF498(struct Ctx *c, u32 x, int idx);
+extern int FIELDMAP_GetEncEff(unsigned char *p);
+extern void ENCEFF_Start(struct Ctx *c, u32 x, int idx);
 extern struct P *func_021B6100(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 heap);
 extern int func_021B6158(void *p);
 extern void *func_021B95A0(u32 a, int b, u32 c, u32 heap);
 extern void func_021B95C8(void *p);
 
-int func_0216B004(void *evt, u32 *state, Work *w)
+int SCRCMD_SYMBOL_ViewEventMain(void *evt, u32 *state, Work *w)
 {
     void *h = func_020124E4(evt);
-    void *sys = func_020120F4(h);
+    void *sys = GAMESYSTEM_GetGameData(h);
     int ok;
 
     switch (*state) {
     case 0:
-        func_02012374(evt, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(h, 0x468));
+        GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(h, 0x468));
         (*state)++;
         break;
     case 1: {
@@ -140,11 +140,11 @@ int func_0216B004(void *evt, u32 *state, Work *w)
         mon = w->f0c;
         heap = w->f24;
 
-        key.species = func_02017E1C(mon, 5, 0);
-        key.form = func_02017E1C(mon, 0x6F, 0);
-        if (func_0200E2BC(func_02012EBC(sys), (u32 *)(&key), (void *)heap, 1) == 0)
+        key.species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        key.form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+        if (func_0200E2BC(GAME_DATA_GetSaveControl(sys), (u32 *)(&key), (void *)heap, 1) == 0)
             w->f20.form = 12;
-        func_021CF498((struct Ctx *)func_02189A08(w->f00), (u32)evt, 0);
+        ENCEFF_Start((struct Ctx *)FIELDMAP_GetEncEff(w->f00), (u32)evt, 0);
         (*state)++;
         break;
     }
@@ -152,17 +152,17 @@ int func_0216B004(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 3:
-        func_02012374(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)h, (int)w->f00));
+        GAME_EVENT_CallEvent(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)h, (int)w->f00));
         (*state)++;
         break;
     case 4: {
-        void *sv = func_02012EBC(sys);
+        void *sv = GAME_DATA_GetSaveControl(sys);
 
-        func_02007E50(func_0201292C(sys), 0x240, 1, w->f24);
+        func_02007E50(GAME_DATA_GetMyItem(sys), 0x240, 1, w->f24);
         func_02034AC4((u32)ov098_id);
-        w->f04 = func_021B6100((u32)sys, (u32)w->f0c, (u32)w->f10, (u32)func_02012944(sys), (u32)func_0201292C(sys),
+        w->f04 = func_021B6100((u32)sys, (u32)w->f0c, (u32)w->f10, (u32)GAME_DATA_GetMyStatus(sys), (u32)GAME_DATA_GetMyItem(sys),
                                (u32)func_0200873C(sv), (u32)func_0200CA10(sv), w->f24);
-        func_02012444(evt, -1, (u32)d_021B6D74, (u32)w->f04);
+        GAME_EVENT_CallProc(evt, -1, (u32)d_021B6D74, (u32)w->f04);
         (*state)++;
         break;
     }
@@ -175,10 +175,10 @@ int func_0216B004(void *evt, u32 *state, Work *w)
         mon = w->f0c;
         heap = w->f24;
 
-        key.species = func_02017E1C(mon, 5, 0);
-        key.form = func_02017E1C(mon, 0x6F, 0);
-        if (func_0200E2BC(func_02012EBC(sys), (u32 *)(&key), (void *)heap, 1) == 0
-            || func_0200E2BC(func_02012EBC(sys), (u32 *)(&w->f20), (void *)w->f24, 0) == 0)
+        key.species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        key.form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+        if (func_0200E2BC(GAME_DATA_GetSaveControl(sys), (u32 *)(&key), (void *)heap, 1) == 0
+            || func_0200E2BC(GAME_DATA_GetSaveControl(sys), (u32 *)(&w->f20), (void *)w->f24, 0) == 0)
             ok = 0;
         if (ok == 1)
             *w->f28 = 1;
@@ -187,23 +187,23 @@ int func_0216B004(void *evt, u32 *state, Work *w)
         func_02034A5C((u32)ov098_id);
         func_02034AC4((u32)ov227_id);
         w->f08 = func_021B95A0((u32)sys, ok, (u32)w->f0c, w->f24);
-        func_02012444(evt, -1, (u32)d_021B98A4, (u32)w->f08);
-        func_02007F1C(func_0201292C(sys), 0x240, 1, w->f24);
+        GAME_EVENT_CallProc(evt, -1, (u32)d_021B98A4, (u32)w->f08);
+        func_02007F1C(GAME_DATA_GetMyItem(sys), 0x240, 1, w->f24);
         (*state)++;
         break;
     }
     case 6:
         func_021B95C8(w->f08);
         func_02034A5C((u32)ov227_id);
-        func_02012374(evt, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(h));
+        GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(h));
         (*state)++;
         break;
     case 7:
-        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent(h));
+        GAME_EVENT_CallEvent(evt, FIELD_STATUS_CreateFieldOpenEvent(h));
         (*state)++;
         break;
     case 8:
-        func_02012374(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(h));
+        GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(h));
         (*state)++;
         break;
     default:

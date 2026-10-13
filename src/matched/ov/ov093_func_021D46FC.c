@@ -1,5 +1,5 @@
 /*
- * function: func_021D46FC
+ * function: BTL_NET_RecvRelayedParty
  * address:  0x021D46FC
  * packet:   pkt_ov093_021D46FC
  * region:   ov093
@@ -21,8 +21,8 @@
  *   sub_02030734   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
- *   d_021F3B88     0x021F3B88  data  ov093
- *   d_021F3A98     0x021F3A98  data  ov093  a1
+ *   gBtlNet     0x021F3B88  data  ov093
+ *   gBtlNetSourceName     0x021F3A98  data  ov093  a1
  */
 
 typedef unsigned char u8;
@@ -37,8 +37,8 @@ struct S {
     void *f3b14;
 };
 
-extern struct S *d_021F3B88;
-extern const char d_021F3A98[];
+extern struct S *gBtlNet;
+extern const char gBtlNetSourceName[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
@@ -51,12 +51,12 @@ typedef union {
     } h;
 } Hdr;
 
-void func_021D46FC(u32 a, u32 b, const Hdr *c)
+void BTL_NET_RecvRelayedParty(u32 a, u32 b, const Hdr *c)
 {
-    if (d_021F3B88->tblC[c->h.type] == 0) {
-        d_021F3B88->tblC[c->h.type] = sub_02030734((u16)((d_021F3B88->f04 & 0x7fff) | 0x8000), c->h.size, 1, d_021F3A98, 0x282);
+    if (gBtlNet->tblC[c->h.type] == 0) {
+        gBtlNet->tblC[c->h.type] = sub_02030734((u16)((gBtlNet->f04 & 0x7fff) | 0x8000), c->h.size, 1, gBtlNetSourceName, 0x282);
     }
-    MI_CpuCopy8(c + 1, d_021F3B88->tblC[c->h.type], c->h.size);
-    func_020307B0(d_021F3B88->f3b14);
-    d_021F3B88->f3b14 = 0;
+    MI_CpuCopy8(c + 1, gBtlNet->tblC[c->h.type], c->h.size);
+    func_020307B0(gBtlNet->f3b14);
+    gBtlNet->f3b14 = 0;
 }

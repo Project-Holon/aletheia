@@ -1,5 +1,5 @@
 /*
- * function: func_021B8314
+ * function: FIELD_RAIL_WORK_GetCentrePos
  * address:  0x021B8314
  * packet:   pkt_ov021_021B8314
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B91F8  0x021B91F8  thumb ov021
+ *   FIELD_RAIL_WORK_GetSpotPos  0x021B91F8  thumb ov021
  */
 
 typedef unsigned char  u8;
@@ -22,13 +22,13 @@ typedef struct {
     void *x14;
 } Obj;
 
-extern void func_021B91F8(Obj *, void *);
+extern void FIELD_RAIL_WORK_GetSpotPos(Obj *, void *);
 
-void func_021B8314(Obj *o, void *x)
+void FIELD_RAIL_WORK_GetCentrePos(Obj *o, void *x)
 {
     void *save = o->x14;
 
     o->x14 = 0;
-    func_021B91F8(o, x);
+    FIELD_RAIL_WORK_GetSpotPos(o, x);
     o->x14 = save;
 }

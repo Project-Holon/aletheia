@@ -1,5 +1,5 @@
 /*
- * function: func_021D7EF0
+ * function: BTL_CALC_IsMultiFighterRule
  * address: 0x021D7EF0
  * packet: pkt_ov093_021D7EF0
  * region: ov093
@@ -13,7 +13,7 @@
  * domain bounds, narrowed input, uninitialized values or side effects.
  */
 typedef unsigned int u32;
-u32 func_021D7EF0(u32 mode)
+u32 BTL_CALC_IsMultiFighterRule(u32 mode)
 {
     if (mode != 0 && mode != 3) return 1;
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217F5F0
+ * function: EVENT_COMM_COMMON_GetPeerTalkStatus
  * address: 0x0217F5F0
  * packet: pkt_ov018_0217F5F0
  * region: ov018
@@ -12,8 +12,8 @@
  * comparison before the shared bitfield return.
  * symbols:
  *   func_02026478 0x02026478 thumb
- *   func_02012B58 0x02012B58 thumb
- *   func_02012950 0x02012950 thumb
+ *   GAME_DATA_GetExitMode 0x02012B58 thumb
+ *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
  *   func_02008550 0x02008550 thumb
  */
 typedef unsigned char u8;
@@ -38,12 +38,12 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Rec44;
 struct Sub24;
-u8 func_02012B58(const struct BigObj *p);
-struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 struct Sub0200852CObj;
 u8 func_02008550(const struct Sub0200852CObj *obj);
 
-int func_0217F5F0(Ov018Obj *p, int idx)
+int EVENT_COMM_COMMON_GetPeerTalkStatus(Ov018Obj *p, int idx)
 {
     Ent *e;
     enum Guard { ZERO, INVALID = 0xFFFF } h;
@@ -51,7 +51,7 @@ int func_0217F5F0(Ov018Obj *p, int idx)
     void *sub;
 
     sub = (void *)func_02026478(p->f04);
-    if (idx == func_02012B58(sub)) {
+    if (idx == GAME_DATA_GetExitMode(sub)) {
         e = &p->cur;
     } else {
         e = &p->arr[idx];
@@ -59,7 +59,7 @@ int func_0217F5F0(Ov018Obj *p, int idx)
     h = e->f18;
     switch (h) {
     case 0:
-        if (func_02008550((const struct Sub0200852CObj *)func_02012950((struct Sub24 *)func_02026478(p->f04), idx)) == 0) {
+        if (func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetPlayerStatus((struct Sub24 *)func_02026478(p->f04), idx)) == 0) {
             return 3;
         }
         return 4;

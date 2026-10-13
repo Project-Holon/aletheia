@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A006C",
+   "name": "FLDMMDL_DRAW_InitBlactId",
    "address": "0x021A006C",
    "kind": "game",
    "region": "ov021",

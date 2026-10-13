@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A284C",
+   "name": "WEATHER_TASK_UnloadResources",
    "address": "0x021A284C",
    "kind": "game",
    "region": "ov021",

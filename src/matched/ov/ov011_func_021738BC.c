@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02167658 0x02167658 thumb ov010
+ *   COMM_PLAYER_Del 0x02167658 thumb ov010
  * The index loaded from c remains live in r1 into 02167658.
  */
 #include "../include/Obj09343.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { void *sys; void *obj; } Work;
-extern void func_02167658(Work *, int);
+extern void COMM_PLAYER_Del(Work *, int);
 void INTRUDE_COMM_RecvPeerLeft(int a, int b, int *c, u8 *d, void *e)
 {
     int i;
@@ -27,6 +27,6 @@ void INTRUDE_COMM_RecvPeerLeft(int a, int b, int *c, u8 *d, void *e)
     mask = d[0x8fb];
     if (mask & bit) {
         d[0x8fb] = mask ^ (u8)bit;
-        func_02167658(*(Work * *)&((struct Obj09343 *)d)->f8, i);
+        COMM_PLAYER_Del(*(Work * *)&((struct Obj09343 *)d)->f8, i);
     }
 }

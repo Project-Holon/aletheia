@@ -1,5 +1,5 @@
 /*
- * function: func_021EED10
+ * function: WEATHER_THUNDERSTORM_EndParticles
  * address: 0x021EED10
  * packet: pkt_ov026_021EED10
  * region: ov026
@@ -9,26 +9,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021A21B8 0x021A21B8 thumb ov021
- *   func_021A2228 0x021A2228 thumb ov021
- *   func_021A25CC 0x021A25CC thumb ov021
- *   func_021A2160 0x021A2160 thumb ov021
+ *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
+ *   WEATHER_TASK_RetargetSpawner 0x021A2228 thumb ov021
+ *   WEATHER_TASK_StopSe 0x021A25CC thumb ov021
+ *   WEATHER_TASK_SetBillboardVisible 0x021A2160 thumb ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int *func_021A21B8(int *);
-extern void func_021A2228(u8 *, int, int, int, int);
-extern void func_021A25CC(u8 *);
-extern void func_021A2160(u8 *, u32, int);
+extern int *WEATHER_TASK_GetWorkBuffer(int *);
+extern void WEATHER_TASK_RetargetSpawner(u8 *, int, int, int, int);
+extern void WEATHER_TASK_StopSe(u8 *);
+extern void WEATHER_TASK_SetBillboardVisible(u8 *, u32, int);
 
-int func_021EED10(u8 *a)
+int WEATHER_THUNDERSTORM_EndParticles(u8 *a)
 {
     int *p;
-    p = func_021A21B8((int *)a);
-    func_021A2228(a, 0, 15, 3, -1);
+    p = WEATHER_TASK_GetWorkBuffer((int *)a);
+    WEATHER_TASK_RetargetSpawner(a, 0, 15, 3, -1);
     ((unsigned short *)p)[1] = 1;
-    func_021A25CC(a);
-    func_021A2160(a, 0, 0);
+    WEATHER_TASK_StopSe(a);
+    WEATHER_TASK_SetBillboardVisible(a, 0, 0);
     return 1;
 }

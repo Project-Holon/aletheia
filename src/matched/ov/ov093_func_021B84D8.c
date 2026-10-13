@@ -1,5 +1,5 @@
 /*
- * function: func_021B84D8
+ * function: BTL_MAIN_StepChild
  * address:  0x021B84D8
  * packet:   pkt_ov093_021B84D8
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4270  0x021D4270  thumb  ov093
- *   func_021B8548  0x021B8548  thumb  ov093
- *   func_021CD97C  0x021CD97C  thumb  ov093
+ *   BTL_NET_HasCommError  0x021D4270  thumb  ov093
+ *   BTL_MAIN_MarkClientsDisconnected  0x021B8548  thumb  ov093
+ *   BTL_CLIENT_RunTick  0x021CD97C  thumb  ov093
  *   func_021CDD94  0x021CDD94  thumb  ov093
  *   func_021E908C  0x021E908C  thumb  ov093
  */
@@ -28,19 +28,19 @@ typedef struct {
     u8 b : 1;
 } B;
 
-extern int func_021D4270(void);
-extern void func_021B8548(u8 *);
-extern int func_021CD97C(int);
+extern int BTL_NET_HasCommError(void);
+extern void BTL_MAIN_MarkClientsDisconnected(u8 *);
+extern int BTL_CLIENT_RunTick(int);
 extern void func_021CDD94(char *p, int *o);
 extern void func_021E908C(char *p);
 
-int func_021B84D8(u8 *p)
+int BTL_MAIN_StepChild(u8 *p)
 {
     int r, i;
     if (((B *)p)->a == 0) {
-        if (func_021D4270()) {
+        if (BTL_NET_HasCommError()) {
             ((B *)p)->a = 1;
-            func_021B8548(p);
+            BTL_MAIN_MarkClientsDisconnected(p);
         }
     } else if (((B *)p)->b != 0) {
         return 1;
@@ -48,7 +48,7 @@ int func_021B84D8(u8 *p)
     r = 0;
     for (i = 0; i < 4; i++) {
         if (*(int *)(p + i * 4 + 0x10) != 0 &&
-            func_021CD97C(*(int *)(p + i * 4 + 0x10)) != 0) {
+            BTL_CLIENT_RunTick(*(int *)(p + i * 4 + 0x10)) != 0) {
             func_021CDD94((char *)(*(int *)(p + i * 4 + 0x10)), (int *)(p + 0x448));
             r = 1;
         }

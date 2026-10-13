@@ -1,5 +1,5 @@
 /*
- * function: func_02164304
+ * function: FLDMMDL_MOVE_RequestRailMove
  * address:  0x02164304
  * packet:   pkt_ov010_02164304
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201441C  0x0201441C  thumb
- *   func_0216D67C  0x0216D67C  thumb
- *   func_0216D4D4  0x0216D4D4  thumb
- *   func_0219E2C0  0x0219E2C0  thumb
- *   func_0216D684  0x0216D684  thumb
- *   func_0216435C  0x0216435C  thumb
+ *   ZONEDATA_DirToRailKey  0x0201441C  thumb
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb
+ *   FLDMMDL_SysCheckStatusBit  0x0216D4D4  thumb
+ *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb
+ *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb
+ *   FLDMMDL_MOVE_SetRailMoveRequest  0x0216435C  thumb
  */
 #include "../include/Obj09310.h"
 
@@ -31,14 +31,14 @@ typedef struct {
     u16 e;
 } Msg;
 
-extern u8 func_0201441C(int i);
-extern void *func_0216D67C(void *a0);
-extern int func_0216D4D4(int a, int b);
-extern void func_0219E2C0(int a, Msg *m);
-extern void func_0216D684(int a, int b);
-extern void func_0216435C(void *a, const u16 *b);
+extern u8 ZONEDATA_DirToRailKey(int i);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern int FLDMMDL_SysCheckStatusBit(int a, int b);
+extern void FLDMMDL_RAIL_SetLocation(int a, Msg *m);
+extern void FLDMMDL_InitMoveProcWork(int a, int b);
+extern void FLDMMDL_MOVE_SetRailMoveRequest(void *a, const u16 *b);
 
-void func_02164304(int a, u8 *p)
+void FLDMMDL_MOVE_RequestRailMove(int a, u8 *p)
 {
     Msg m;
     u16 *q;
@@ -46,13 +46,13 @@ void func_02164304(int a, u8 *p)
     m.a = ((struct Obj09310 *)p)->f1C;
     m.b = 1;
     q = (u16 *)(p + 0x1c);
-    m.c = func_0201441C(((struct Obj09310 *)p)->fC);
+    m.c = ZONEDATA_DirToRailKey(((struct Obj09310 *)p)->fC);
     m.e = q[1];
     m.d = ((s16 *)q)[2];
-    if (func_0216D4D4((int)func_0216D67C((void *)a), 0x10) != 0) {
-        func_0219E2C0(a, &m);
+    if (FLDMMDL_SysCheckStatusBit((int)FLDMMDL_GetMmdlSys((void *)a), 0x10) != 0) {
+        FLDMMDL_RAIL_SetLocation(a, &m);
         return;
     }
-    func_0216D684(a, 0xc);
-    func_0216435C((void *)a, (const u16 *)(&m));
+    FLDMMDL_InitMoveProcWork(a, 0xc);
+    FLDMMDL_MOVE_SetRailMoveRequest((void *)a, (const u16 *)(&m));
 }

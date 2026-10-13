@@ -1,5 +1,5 @@
 /*
- * function: func_021D7B74
+ * function: BTL_CALC_DivideMaxHpMin1
  * address:  0x021D7B74
  * packet:   pkt_ov093_021D7B74
  * region:   ov093
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Recursive MATCH unblocker: named callee of the parked ov093 func_021DFABC
- * (the `func_021D7B74(func_021C7CF4(b, k), (u8)func_021DCFF8(a,2))` halfword).
+ * Recursive MATCH unblocker: named callee of the parked ov093 BTL_HANDLER_ITEM_RockyHelmetDamageReaction
+ * (the `BTL_CALC_DivideMaxHpMin1(func_021C7CF4(b, k), (u8)BTL_HANDLER_ITEM_GetParam(a,2))` halfword).
  * Runs func_021D59B4(a, 0xe) through the unsigned divide entry 0x0209C2B0
  * (`_u32_div_f`, see docs/notes/unsigned-divide-entry-is-0209c2b0.c.txt) and
  * floors a zero quotient at 1.
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern int func_021D59B4(u8 *p, int k);
 extern u32 _u32_div_f(u32, u32);
 
-int func_021D7B74(u8 *p, u32 k)
+int BTL_CALC_DivideMaxHpMin1(u8 *p, u32 k)
 {
     u32 r = func_021D59B4(p, 0xe);
 

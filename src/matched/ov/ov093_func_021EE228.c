@@ -1,5 +1,5 @@
 /*
- * function: func_021EE228
+ * function: BTLV_SCU_StartFadeIn
  * address:  0x021EE228
  * packet:   pkt_ov093_021EE228
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204E720  0x0204E720  arm
+ *   FADE_Start  0x0204E720  arm
  */
 
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
-void func_021EE228(void)
+void BTLV_SCU_StartFadeIn(void)
 {
     int x = 0x10;
-    func_0204E720(1, 0, x, x - 0x13);
+    FADE_Start(1, 0, x, x - 0x13);
 }

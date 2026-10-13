@@ -1,5 +1,5 @@
 /*
- * function: func_0219194C
+ * function: FIELD_MSGBG_FreeSubMsgWin
  * address:  0x0219194C
  * packet:   pkt_0219194C
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02045808  0x02045808  arm
- *   func_0219492C  0x0219492C  thumb  ov021
+ *   STRBUF_Delete  0x02045808  arm
+ *   TALKMSGWIN_Release  0x0219492C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -26,15 +26,15 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
-extern void func_0219492C(u8 *p, int i);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void TALKMSGWIN_Release(u8 *p, int i);
 
-int func_0219194C(void *a)
+int FIELD_MSGBG_FreeSubMsgWin(void *a)
 {
 if (((struct Obj07210 *)((u8 *)(a)))->f0 != 0) {
-    func_02045808((struct U16Vec *)(((struct Obj07210 *)((u8 *)(a)))->f0));
+    STRBUF_Delete((struct U16Vec *)(((struct Obj07210 *)((u8 *)(a)))->f0));
 }
-func_0219492C((u8 *)(((struct Obj07210 *)((u8 *)(a)))->fC), ((struct Obj07210 *)((u8 *)(a)))->f8);
+TALKMSGWIN_Release((u8 *)(((struct Obj07210 *)((u8 *)(a)))->fC), ((struct Obj07210 *)((u8 *)(a)))->f8);
 return func_020307B0(a);
 }
 

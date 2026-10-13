@@ -17,13 +17,13 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_021F9D08 0x021F9D08 thumb ov132
  *   func_021FAB58 0x021FAB58 thumb ov132
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_020452E8 0x020452E8 arm
- *   func_0201D83C 0x0201D83C thumb
- *   func_02031140 0x02031140 arm
+ *   GF_FONT_Delete 0x0201D83C thumb
+ *   TCBL_Destroy 0x02031140 arm
  *   func_021FA64C 0x021FA64C thumb ov132
  *   func_021FA04C 0x021FA04C thumb ov132
  *   func_021F6F4C 0x021F6F4C thumb ov112
@@ -33,15 +33,15 @@
  *   func_021F7120 0x021F7120 thumb ov112
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_0204ED24 0x0204ED24 arm
- *   func_02048AC4 0x02048AC4 arm
- *   func_02046788 0x02046788 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_02030EAC 0x02030EAC arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj00675.h"
@@ -61,13 +61,13 @@ struct PrintSys;
 struct Rec;
 struct S02031140;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020452E8(struct Descriptor *d);
-extern u32 func_0201D83C(void *ptr);
-extern void func_02031140(struct S02031140 *p);
+extern u32 GF_FONT_Delete(void *ptr);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_021FA64C(char *);
 extern void func_021FA04C(u8 *p);
 extern void func_021F6F4C(u8 *p);
@@ -77,15 +77,15 @@ extern void func_021F6A24(char *p);
 extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *p);
-extern void func_0204A5AC(void);
+extern void CLACT_ExitSystem(void);
 extern void func_0204ED24(void *);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02046788(void);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(void);
 extern void func_020403F4(u32);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_02030EAC(struct Node *n);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020307B0(void *p);
 void func_021F8640(char *p)
 {
@@ -98,13 +98,13 @@ void func_021F8640(char *p)
     *(volatile u32 *)0x04000000 &= 0xffff1fff;
     func_021F9D08(p);
     func_021FAB58(((struct Obj00675 *)p)->fB0);
-    if(((struct Obj00675 *)p)->fE0!=0)func_02045808(((struct Obj00675 *)p)->fE0);
+    if(((struct Obj00675 *)p)->fE0!=0)STRBUF_Delete(((struct Obj00675 *)p)->fE0);
     func_0201C6EC(((struct Obj00675 *)p)->fE8);
     func_0201C4C0(((struct Obj00675 *)p)->fE8);
-    func_02045C04(((struct Obj00675 *)p)->fDC);
+    MSGDATA_Delete(((struct Obj00675 *)p)->fDC);
     func_020452E8(((struct Obj00675 *)p)->fD0);
-    func_0201D83C(((struct Obj00675 *)p)->fD4);
-    func_02031140(((struct Obj00675 *)p)->fCC);
+    GF_FONT_Delete(((struct Obj00675 *)p)->fD4);
+    TCBL_Destroy(((struct Obj00675 *)p)->fCC);
     func_021FA64C(*(char * *)&((struct Obj00675 *)p)->fA4);
     func_021FA04C(((struct Obj00675 *)p)->fB8);
     func_021F6F4C(((struct Obj00675 *)p)->f3C);
@@ -114,19 +114,19 @@ void func_021F8640(char *p)
     func_021F7120(((struct Obj00675 *)p)->f40);
     func_021F51B0((int)(((struct Obj00675 *)p)->f34));
     func_021F4948(((struct Obj00675 *)p)->f38);
-    func_0204A5AC();
+    CLACT_ExitSystem();
     func_0204ED24(((struct Obj00675 *)p)->fAC);
-    func_02048AC4(((struct Obj00675 *)p)->fA8);
-    func_02046788();
+    G3D_CAMERA_Delete(((struct Obj00675 *)p)->fA8);
+    G3D_SYSTEM_Exit();
     func_020403F4(0);
     func_020403F4(1);
     func_020403F4(2);
     func_020403F4(3);
     func_020403F4(5);
     func_020403F4(7);
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     func_02030EAC(((struct Obj00675 *)p)->f20);
-    func_02049238(((struct Obj00675 *)p)->f18);
+    ARC_TOOL_DeleteHandle(((struct Obj00675 *)p)->f18);
     func_020307B0(p);
 }

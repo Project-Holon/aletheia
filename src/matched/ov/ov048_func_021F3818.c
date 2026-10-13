@@ -1,5 +1,5 @@
 /*
- * function: func_021F3818
+ * function: FIELD_GIMMICK_GATE_StoreMiscSaveValue
  * address: 0x021F3818
  * packet: pkt_ov048_021F3818
  * region: ov048
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0200C3B8 0x0200C3B8 thumb
  */
@@ -17,7 +17,7 @@
 typedef unsigned short u16;
 struct Big;
 struct Blk34;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *p);
 extern void func_0200C3B8(struct Blk34 *p, u16 v);
-void func_021F3818(int *p) { func_0200C3B8(func_0200C0F0(func_02012EBC(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }
+void FIELD_GIMMICK_GATE_StoreMiscSaveValue(int *p) { func_0200C3B8(func_0200C0F0(GAME_DATA_GetSaveControl(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }

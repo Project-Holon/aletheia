@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -18,10 +19,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 
 int func_021F4D20(u32 a, u32 b)
 {
-    return func_0204A1BC(0x77, a, 0, b);
+    return ARC_UTIL_LoadMember(0x77, a, 0, b);
 }
 

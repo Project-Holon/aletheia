@@ -14,7 +14,7 @@
  *   MCSS_ReloadResource 0x02014CF8 thumb
  *   func_02015F2C 0x02015F2C thumb
  *   func_02201718 0x02201718 thumb ov094
- *   func_0202D060 0x0202D060 thumb
+ *   POKEGRA_GetArcID 0x0202D060 thumb
  *   func_021FFE24 0x021FFE24 thumb ov094
  */
 #include "../include/Obj01047.h"
@@ -27,7 +27,7 @@ struct Sub02014CF8Rec;
 extern void MCSS_ReloadResource(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c);
 extern void func_02015F2C(void *, int, void (*)(int), int);
 extern void func_02201718(int);
-extern int func_0202D060(void);
+extern int POKEGRA_GetArcID(void);
 extern void func_021FFE24(char *, int);
 
 void func_021FFFD8(char *w, int key, int flag, int clear)
@@ -53,7 +53,7 @@ void func_021FFFD8(char *w, int key, int flag, int clear)
             *(u32 *)(w + 0x48 + off) &= ~1u;
         *(u32 *)(w + 0x48 + off) &= ~4u;
     } else {
-        r.v[0] = func_0202D060();
+        r.v[0] = POKEGRA_GetArcID();
         odd = key & 1;
         r.v[1] = odd ? 0x37a0 : 0x37a6;
         r.v[2] = 0x37ac;

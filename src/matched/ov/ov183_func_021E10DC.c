@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 #include "../include/Obj24626.h"
 
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02049238(void *arc);
+extern void ARC_TOOL_DeleteHandle(void *arc);
 
 void func_021E10DC(char *p)
 {
-    func_02049238(func_020490F4(0x17, ((struct Obj24626 *)p)->f34C));
+    ARC_TOOL_DeleteHandle(func_020490F4(0x17, ((struct Obj24626 *)p)->f34C));
 }

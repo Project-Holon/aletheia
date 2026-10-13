@@ -1,5 +1,5 @@
 /*
- * function: func_021D310C
+ * function: EVENT_GAME_MANUAL_Main
  * address:  0x021D310C
  * packet:   pkt_ov021_021D310C
  * region:   ov021
@@ -17,9 +17,9 @@
  * 0x021BBDE4 as a function; ov114 has ARM code there.
  *
  * symbols:
- *   func_020146F8  0x020146F8  thumb
- *   func_02012374  0x02012374  thumb
- *   func_021D3164  0x021D3164  thumb  ov021
+ *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   EVENT_GAME_MANUAL_SetResult  0x021D3164  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  *   abs_id_e1      0x000000E1  data
  *   d_021BBDE4    0x021BBDE4  data  ov225  a4
@@ -29,22 +29,22 @@
 typedef unsigned int u32;
 
 struct Evt;
-extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
+extern void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4);
 extern unsigned char abs_id_e1[];
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void func_021D3164(u32 *p);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern void EVENT_GAME_MANUAL_SetResult(u32 *p);
 extern u32 func_020307B0(void *p);
 extern char d_021BBDE4[];
 
-u32 func_021D310C(u32 a, u32 *st, u32 *p)
+u32 EVENT_GAME_MANUAL_Main(u32 a, u32 *st, u32 *p)
 {
     switch (st[0]) {
     case 0:
-        func_02012374((struct Evt *)a, func_020146F8((char *)p[0], p[1], (int)abs_id_e1, (int)d_021BBDE4, p[2]));
+        GAME_EVENT_CallEvent((struct Evt *)a, FIELD_STATUS_CreateSubProcEvent((char *)p[0], p[1], (int)abs_id_e1, (int)d_021BBDE4, p[2]));
         st[0]++;
         break;
     case 1:
-        func_021D3164(p);
+        EVENT_GAME_MANUAL_SetResult(p);
         func_020307B0((void *)p[2]);
         return 1;
     }

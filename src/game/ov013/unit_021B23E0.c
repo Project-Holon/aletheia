@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B23E0.c
  * unit:     yes
- * function: func_021B23E0, VCT_SESSION_HandlePacket, VCT_SESSION_AllocPeer, VCT_SESSION_SendCommand, VCT_SESSION_SendReply, VCT_SESSION_FillAnnounceFields, VCT_SESSION_BroadcastPacket, VCT_SESSION_BroadcastState, VCT_SESSION_InitPeer, VCT_SESSION_SendPacket, VCT_SESSION_GetEventCode, VCT_SESSION_InitPacketHeader, VCT_SESSION_AdvancePhase, VCT_SESSION_HasNoOtherTalker, VCT_SESSION_CheckCommandAllowed, VCT_SESSION_FindPeer, func_021B2AA0, VCT_SESSION_HandleSharedPacket, VCT_SESSION_HandleUnknownProtocolPacket, VCT_SESSION_HandleAnnounce, VCT_POOL_InitFrames
+ * function: VCT_SESSION_CheckAnnounceTimeout, VCT_SESSION_HandlePacket, VCT_SESSION_AllocPeer, VCT_SESSION_SendCommand, VCT_SESSION_SendReply, VCT_SESSION_FillAnnounceFields, VCT_SESSION_BroadcastPacket, VCT_SESSION_BroadcastState, VCT_SESSION_InitPeer, VCT_SESSION_SendPacket, VCT_SESSION_GetEventCode, VCT_SESSION_InitPacketHeader, VCT_SESSION_AdvancePhase, VCT_SESSION_HasNoOtherTalker, VCT_SESSION_CheckCommandAllowed, VCT_SESSION_FindPeer, VCT_SESSION_HandlePairedPacket, VCT_SESSION_HandleSharedPacket, VCT_SESSION_HandleUnknownProtocolPacket, VCT_SESSION_HandleAnnounce, VCT_POOL_InitFrames
  * address:  0x021B23E0
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   gVctHostAllowTable 0x021B3B40 data ov013 a1
  *   gVctClientAllowTable 0x021B3B84 data ov013 a1
  *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
- *   d_021B4C24 0x021B4C24 data a4
+ *   gVoiceFramePool 0x021B4C24 data a4
  *   func_02082AC0 0x02082AC0 arm
  */
 #include "vct_types.h"
@@ -41,7 +41,7 @@ extern void func_02082AC0(int, void *, u32);
 extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
 extern int VCT_SESSION_BuildGroupCommand(void *a, unsigned int b, unsigned char *buf, unsigned int c);
 extern int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int command, unsigned char *buf, unsigned int length);
-void func_021B23E0(void);
+void VCT_SESSION_CheckAnnounceTimeout(void);
 int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
 VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId);
 int VCT_SESSION_SendCommand(int peer, int command);
@@ -57,7 +57,7 @@ int VCT_SESSION_AdvancePhase(VctPeer *peer, VctPacket *packet);
 int VCT_SESSION_HasNoOtherTalker(VctPeer *peer);
 int VCT_SESSION_CheckCommandAllowed(VctPeer *peer, const VctPacket *packet);
 VctPeer *VCT_SESSION_FindPeer(int peerId);
-int func_021B2AA0(VctPacket *packet, VctEvent *event);
+int VCT_SESSION_HandlePairedPacket(VctPacket *packet, VctEvent *event);
 int VCT_SESSION_HandleSharedPacket(VctPacket *packet, VctEvent *event);
 int VCT_SESSION_HandleUnknownProtocolPacket(VctPacket *packet, VctEvent *event);
 int VCT_SESSION_HandleAnnounce(VctPacket *packet, VctEvent *event);
@@ -72,7 +72,7 @@ extern s8 gVctHostAllowTable[], gVctClientAllowTable[];
 
 
 /* Client mode: if the host announced a session and stays silent past the timeout, close it and tell the game. */
-void func_021B23E0(void)
+void VCT_SESSION_CheckAnnounceTimeout(void)
 {
     u64 now;
 
@@ -102,7 +102,7 @@ int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEve
     if (packet->protocol != 0x10)
         return VCT_SESSION_HandleUnknownProtocolPacket(packet, event);
     if (gVctSession.sharedSession == 0)
-        return func_021B2AA0(packet, event);
+        return VCT_SESSION_HandlePairedPacket(packet, event);
     return VCT_SESSION_HandleSharedPacket(packet, event);
 }
 
@@ -358,7 +358,7 @@ VctPeer *VCT_SESSION_FindPeer(int peerId)
 }
 
 /* Packet handler when each pair of peers has its own link (sharedSession 0). */
-int func_021B2AA0(VctPacket *packet, VctEvent *event)
+int VCT_SESSION_HandlePairedPacket(VctPacket *packet, VctEvent *event)
 {
     VctPeer *peer;
     int next;
@@ -541,18 +541,18 @@ int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size)
     VctRxPacket *area;
     count = size / 0x478;
     area = buffer;
-    d_021B4C24.base = area;
+    gVoiceFramePool.base = area;
     if (count < 4 || count > 0x48) return 0;
     if (area == 0) return 0;
     if ((u32)area & 0x1f) {
-        d_021B4C24.base = 0;
+        gVoiceFramePool.base = 0;
         return 0;
     }
     i = 0;
     func_02082AC0(i, area, size);
     for (i = 0; i < count - 1; i++)
-        d_021B4C24.base[i].freeLink = &d_021B4C24.base[i + 1];
-    (d_021B4C24.base + count)[-1].freeLink = 0;
-    d_021B4C24.freeHead = d_021B4C24.base;
+        gVoiceFramePool.base[i].freeLink = &gVoiceFramePool.base[i + 1];
+    (gVoiceFramePool.base + count)[-1].freeLink = 0;
+    gVoiceFramePool.freeHead = gVoiceFramePool.base;
     return 1;
 }

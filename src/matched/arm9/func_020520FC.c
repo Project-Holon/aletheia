@@ -1,5 +1,5 @@
 /*
- * function: func_020520FC
+ * function: BUTTON_MAN_MakeRotMtxXYZ
  * address:  0x020520FC
  * packet:   pkt_020520A4
  * region:   arm9
@@ -36,8 +36,8 @@
  * `mov` bytes at +00A4/+00A8, the only residue the whole function had.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020520FC.c \
- *       --func func_020520FC --addr 0x020520FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_MakeRotMtxXYZ.c \
+ *       --func BUTTON_MAN_MakeRotMtxXYZ --addr 0x020520FC --cc 1.1p1 --arm
  *
  * Addresses are Black-image addresses.
  */
@@ -57,7 +57,7 @@ extern void MTX_RotZ33_(struct Mtx33 *m, s16 sinv, s16 cosv);
 extern void MTX_Concat33(const struct Mtx33 *a, const struct Mtx33 *b,
                          struct Mtx33 *dst);
 
-void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst)
+void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, struct Mtx33 *dst)
 {
     struct Mtx33 tmp;
     int i;

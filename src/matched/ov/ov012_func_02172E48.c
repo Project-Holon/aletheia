@@ -10,15 +10,15 @@
  * status:   EXACT
  * symbols:
  *   UNION_COMM_UpdateReset  0x02172D7C  thumb  ov012
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_0217778C  0x0217778C  thumb  ov014
  *   UNION_COMM_UpdateBeaconScan  0x021730C8  thumb  ov012
  *   UNION_COMM_UpdateColosseum  0x0217303C  thumb  ov012
  *   UNION_COMM_SendEntryReplies  0x02172FF0  thumb  ov012
  *   UNION_COMM_UpdateConnectSync  0x02172EEC  thumb  ov012
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0203D378  0x0203D378  arm
- *   func_02172D38  0x02172D38  thumb  ov012
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ typedef struct {
 } Work;
 
 extern int UNION_COMM_UpdateReset(u8 *p);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_0217778C(void);
 extern void UNION_COMM_UpdateBeaconScan(u8 *self);
 extern void UNION_COMM_UpdateColosseum(Work *w);
@@ -47,15 +47,15 @@ extern void UNION_COMM_SendEntryReplies(u8 *w);
 extern void UNION_COMM_UpdateConnectSync(Work *w);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
-extern u32 func_0203D378(void);
-extern void func_02172D38(u8 *p);
+extern u32 GFL_NET_IsParentAid(void);
+extern void UNION_COMM_RequestShutdown(u8 *p);
 
 void UNION_COMM_Update(int a, int b, Work *w)
 {
     if (UNION_COMM_UpdateReset((u8 *)w) == 1) {
         return;
     }
-    if (func_0203CD98() == 0) {
+    if (GFL_NET_GetRunState() == 0) {
         return;
     }
     if (w->f2829 == 1) {
@@ -66,9 +66,9 @@ void UNION_COMM_Update(int a, int b, Work *w)
     UNION_COMM_UpdateColosseum(w);
     UNION_COMM_SendEntryReplies((u8 *)w);
     UNION_COMM_UpdateConnectSync(w);
-    if (func_0200FB24() != 0 && func_0203D378() == 1 && w->obj != 0
+    if (func_0200FB24() != 0 && GFL_NET_IsParentAid() == 1 && w->obj != 0
         && w->obj->f0 == 1 && w->f2831 == 0x2a && w->obj->f1 == 0) {
-        func_02172D38((u8 *)w);
+        UNION_COMM_RequestShutdown((u8 *)w);
         w->obj->f1 = 1;
     }
 }

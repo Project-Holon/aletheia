@@ -1,5 +1,5 @@
 /*
- * function: func_021BC84C
+ * function: STARTMENU_ConfigPromptDeleteWindows
  * address: 0x021BC84C
  * packet: pkt_ov088_021BC84C
  * region: ov088
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
-void func_021BC84C(u8 *p) { u8 i; func_020452E8(((struct Obj02128 *)p)->fC); for(i=0;i<2;i++) func_020452E8(*(void **)((u32)p+((u32)i*4)+16)); }
+void STARTMENU_ConfigPromptDeleteWindows(u8 *p) { u8 i; func_020452E8(((struct Obj02128 *)p)->fC); for(i=0;i<2;i++) func_020452E8(*(void **)((u32)p+((u32)i*4)+16)); }

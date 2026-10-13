@@ -10,8 +10,8 @@
  * volatile: 021C8808, 021C8814 read WINOUT; 021C8828 reads DISPCNT.
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B878 0x0204B878 arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B404 0x0204B404 arm
  *   d_021CA6C8 0x021CA6C8 data a2
@@ -27,8 +27,8 @@ extern const Entry d_021CA6C8[];
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_0204B92C(struct Obj *p, u32 v);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -43,8 +43,8 @@ void func_021C87B0(u8 *p, u8 *a1)
 {
     Point pos;
     func_0204B3DC(((struct Obj00179 *)p)->f1A0,1);
-    func_0204B878(((struct Obj00179 *)p)->f1A0,1);
-    func_0204B9A0(((struct Obj00179 *)p)->f1A0);
+    CLACT_SetActorAnimSeq(((struct Obj00179 *)p)->f1A0,1);
+    CLACT_RestartActorAnim(((struct Obj00179 *)p)->f1A0);
     *(int *)&((struct Obj00179 *)p)->f1A8=0;
     func_0204B92C(((struct Obj00179 *)p)->f1A0,1);
     pos.x=d_021CA6C8[*(s16 *)(p + 4)].x * 8;

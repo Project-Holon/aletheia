@@ -1,5 +1,5 @@
 /*
- * function: func_021AC074
+ * function: FIELD_EFFECT_DrawObjectMgr
  * address:  0x021AC074
  * packet:   pkt_ov021_021AC074
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC18C  0x021AC18C  thumb  ov021
+ *   FIELD_EFFECT_DrawObject  0x021AC18C  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -38,14 +38,14 @@ struct Obj {
 
 typedef struct Mgr { u32 count; u32 f4; Obj *objs; } Mgr;
 
-extern void func_021AC18C(Obj *o);
+extern void FIELD_EFFECT_DrawObject(Obj *o);
 
-void func_021AC074(Mgr *m)
+void FIELD_EFFECT_DrawObjectMgr(Mgr *m)
 {
     u32 i;
 
     for (i = 0; i < m->count; i++) {
         if (m->objs[i].active != 0)
-            func_021AC18C(&m->objs[i]);
+            FIELD_EFFECT_DrawObject(&m->objs[i]);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02189154
+ * function: FIELDMAP_SetupEdgeMarking
  * address:  0x02189154
  * packet:   pkt_ov021_02189154
  * region:   ov021
@@ -12,7 +12,7 @@
  * symbols:
  *   func_020140E0  0x020140E0  thumb
  *   func_02013DB8  0x02013DB8  thumb
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   func_0207DCF8  0x0207DCF8  arm
  *   data_021EE700  0x021EE700  data  a4
  *   data_021EE700b  0x021EE700  data
@@ -31,10 +31,10 @@ extern u16 data_021EE700b[];
 struct Sub020140BCObj;
 extern u8 func_020140E0(struct Sub020140BCObj *p);
 extern u32 func_02013DB8(u32 a);
-extern void func_02048F4C(void *a, u32 b, u32 c);
+extern void ARC_TOOL_ReadMember(void *a, u32 b, u32 c);
 extern void func_0207DCF8(void *a);
 
-void func_02189154(void *a, u32 b)
+void FIELDMAP_SetupEdgeMarking(void *a, u32 b)
 {
     u32 r = func_020140E0(a);
 
@@ -46,7 +46,7 @@ void func_02189154(void *a, u32 b)
         *(volatile u16 *)0x04000060 = *(volatile u16 *)0x04000060 & 0xCFDF;
     else
         *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & 0xFFFFCFFF) | 0x20;
-    func_02048F4C(data_021EE700, 0xF, r);
+    ARC_TOOL_ReadMember(data_021EE700, 0xF, r);
     data_021EE700b[7] = 0x4210;
     func_0207DCF8(data_021EE700);
 }

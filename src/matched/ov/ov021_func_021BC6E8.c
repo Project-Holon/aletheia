@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6E8
+ * function: FIELD_PLACE_NAME_AllocBgChars
  * address:  0x021BC6E8
  * packet:   pkt_ov021_021BC6E8
  * region:   ov021
@@ -18,7 +18,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
 
-void func_021BC6E8(Obj *p)
+void FIELD_PLACE_NAME_AllocBgChars(Obj *p)
 {
     if (p->f28 == -1) {
         p->f28 = func_0203FA08(3, 0x20, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021964B0
+ * function: IRCBATTLEMENU_BrightenPalette
  * address:  0x021964B0
  * packet:   pkt_ov021_021964B0
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_021964B0(u16 (*dst)[16], u16 *add, int n)
+void IRCBATTLEMENU_BrightenPalette(u16 (*dst)[16], u16 *add, int n)
 {
     int i;
     int j;

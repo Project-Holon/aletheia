@@ -1,5 +1,5 @@
 /*
- * function: func_0215A63C
+ * function: SCRCMD_WORK_GetWordSetWork
  * address:  0x0215A63C
  * packet:   pkt_ov010_0215A63C
  * region:   ov010
@@ -18,7 +18,7 @@
 
 typedef unsigned char u8;
 
-u8 *func_0215A63C(u8 *p)
+u8 *SCRCMD_WORK_GetWordSetWork(u8 *p)
 {
     return *(u8 * *)&((struct Obj00005 *)p)->f20 + 0xd4;
 }

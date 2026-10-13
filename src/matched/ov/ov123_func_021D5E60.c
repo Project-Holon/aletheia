@@ -10,7 +10,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   func_021D6678 0x021D6678 thumb ov123
  *   func_021D6934 0x021D6934 thumb ov123
  */
@@ -18,8 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 extern void func_021D6678(u8 *);
 struct Obj;
 extern void func_021D6934(struct Obj *);
-void func_021D5E60(u8 *p){(((struct Obj03267 *)p)->f43C6)++;if(((struct Obj03267 *)p)->f43C6>=192)((struct Obj03267 *)p)->f43C6=0;func_0204A600();func_021D6678(p);func_021D6934((struct Obj *)p);}
+void func_021D5E60(u8 *p){(((struct Obj03267 *)p)->f43C6)++;if(((struct Obj03267 *)p)->f43C6>=192)((struct Obj03267 *)p)->f43C6=0;CLACT_DrawSystem();func_021D6678(p);func_021D6934((struct Obj *)p);}

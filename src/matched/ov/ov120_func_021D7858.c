@@ -9,27 +9,27 @@
  * status: EXACT*
  * extent: two bytes of zero alignment padding after the return.
  * symbols:
- *   func_0201DD78 0x0201DD78 thumb
- *   func_020310C4 0x020310C4 arm
- *   func_0201C4E4 0x0201C4E4 thumb
- *   func_02028178 0x02028178 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   TCBL_Main 0x020310C4 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
+ *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   PMS_DRAW_Main 0x0202DBC4 thumb
  */
 #include "../include/Obj05351.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0201DD78(u32, u32, u32);
+extern void GF_FONT_SetTextColor(u32, u32, u32);
 struct PrintSys;
 struct Tcbl;
-extern void func_020310C4(struct Tcbl *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_02028178(u8 *p);
+extern void TCBL_Main(struct Tcbl *p);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void PMS_DRAW_Main(u8 *p);
 void func_021D7858(u8 *p)
 {
-    func_0201DD78(1, 2, 15);
-    func_020310C4(((struct Obj05351 *)p)->fA0);
-    func_0201C4E4(((struct Obj05351 *)p)->fA4);
-    if (((struct Obj05351 *)p)->fC4) func_02028178(((struct Obj05351 *)p)->fC4);
+    GF_FONT_SetTextColor(1, 2, 15);
+    TCBL_Main(((struct Obj05351 *)p)->fA0);
+    PRINTSYS_QUE_Main(((struct Obj05351 *)p)->fA4);
+    if (((struct Obj05351 *)p)->fC4) APP_TASKMENU_WIN_Update(((struct Obj05351 *)p)->fC4);
     if (((struct Obj05351 *)p)->fCC) PMS_DRAW_Main(((struct Obj05351 *)p)->fCC);
 }

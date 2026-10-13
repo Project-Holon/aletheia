@@ -1,5 +1,5 @@
 /*
- * function: func_021EF83C
+ * function: BTL_FIELD_ResetSlot
  * address:  0x021EF83C
  * packet:   pkt_ov093_021EF83C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8918  0x021E8918  thumb  ov093
+ *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -27,14 +27,14 @@ typedef struct {
     u32 used[8];        /* 0x148 */
 } S;
 
-extern Slot func_021E8918(void);
+extern Slot BTLV_CORE_GetZeroMasked(void);
 
-void func_021EF83C(S *a, u32 i)
+void BTL_FIELD_ResetSlot(S *a, u32 i)
 {
     u32 j;
 
     a->t[i] = 0;
-    a->c[i] = func_021E8918();
+    a->c[i] = BTLV_CORE_GetZeroMasked();
     a->z48[i] = 0;
     a->z128[i] = 0;
     a->used[i] = 0;

@@ -15,7 +15,7 @@
  * Vtable dispatch with the *vtable pointer* null-checked (the state object
  * itself is not): the entry at +0xC4 takes the argument, and the hook's value
  * is dropped.  Two loads separate the two tests, which is what makes this
- * shape distinct from src/matched/func_0203CF10.c and
+ * shape distinct from src/matched/GFL_NET_GetScanResult.c and
  * src/matched/GFL_NET_GetScanResultMac.c.
  *
  * Addresses are Black-image addresses.

@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BA7CC  0x021BA7CC  thumb  ov099
  *   func_021BA7D4  0x021BA7D4  thumb  ov099
- *   func_0203A574  0x0203A574  arm
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *
  * Plays the 0x0A00 sound with the two constants and the block.
  */
@@ -27,9 +27,9 @@ typedef int BOOL;
 
 extern u8 *func_021BA7CC(void);
 extern int func_021BA7D4(void);
-extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 
 void func_021BA7D8(void *p)
 {
-    func_0203A574(0x0A00, (u32)func_021BA7CC(), func_021BA7D4(), (u32)p);
+    GFL_NET_COMMAND_AddCommandTable(0x0A00, (u32)func_021BA7CC(), func_021BA7D4(), (u32)p);
 }

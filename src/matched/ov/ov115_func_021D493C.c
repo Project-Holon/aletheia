@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_021D4240 0x021D4240 thumb ov115
  *   func_021D5D3C 0x021D5D3C thumb ov115
  *   func_021D5ED8 0x021D5ED8 thumb ov115
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern int func_021D4240(u8 *);
 extern void func_021D5D3C(u8 *p);
 extern void func_021D5ED8(u8 *p, u32 n);
@@ -29,5 +29,5 @@ extern void func_021D4910(u8 *);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))
 void func_021D493C(u8 *p) {
- if (func_020221A4() && func_021D4240(p)) { func_021D5D3C((u8 *)W(0x38)); if (func_0202EB0C()) func_021D5ED8((u8 *)W(0x38), 0x2e); else func_021D5ED8((u8 *)W(0x38), 0x15); func_021D426C(p, (u32)func_021D4910); }
+ if (WIPE_SYS_EndCheck() && func_021D4240(p)) { func_021D5D3C((u8 *)W(0x38)); if (func_0202EB0C()) func_021D5ED8((u8 *)W(0x38), 0x2e); else func_021D5ED8((u8 *)W(0x38), 0x15); func_021D426C(p, (u32)func_021D4910); }
 }

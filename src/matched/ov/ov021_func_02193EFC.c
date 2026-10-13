@@ -1,5 +1,5 @@
 /*
- * function: func_02193EFC
+ * function: FIELD_WFBC_FindPeople
  * address:  0x02193EFC
  * packet:   pkt_ov021_02193EFC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021867B0  0x021867B0  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetNpcId  0x021867B0  thumb  ov020
  * Addresses are Black-image addresses.
  */
 
@@ -42,15 +42,15 @@ typedef struct V {
     Tbl *f08;
 } V;
 
-extern int func_021867B0(u8 *p);
+extern int FIELD_WFBC_DATA_LOCAL_GetNpcId(u8 *p);
 
-E50 *func_02193EFC(V *v, u32 key)
+E50 *FIELD_WFBC_FindPeople(V *v, u32 key)
 {
     int i;
 
     if (v->f04 != 0) {
         for (i = 0; i < 10; i++) {
-            if (v->f04[i].f00 != 0 && key == func_021867B0(v->f04[i].f34))
+            if (v->f04[i].f00 != 0 && key == FIELD_WFBC_DATA_LOCAL_GetNpcId(v->f04[i].f34))
                 return &v->f04[i];
         }
     }

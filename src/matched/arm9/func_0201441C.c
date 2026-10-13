@@ -1,5 +1,5 @@
 /*
- * function: func_0201441C
+ * function: ZONEDATA_DirToRailKey
  * address:  0x0201441C
  * packet:   pkt_0201441C
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 
 extern u8 _DirToRailKeyTable[];
 
-u8 func_0201441C(int i)
+u8 ZONEDATA_DirToRailKey(int i)
 {
     return _DirToRailKeyTable[i];
 }

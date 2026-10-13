@@ -10,17 +10,17 @@
  * status: EXACT
  * symbols:
  *   func_021BCBD8 0x021BCBD8 thumb ov099
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  */
 #include "../include/Obj05264.h"
 #include "../include/Obj13695.h"
 extern unsigned int func_021BCBD8(char *p, int m);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 int func_021BD924(char *p, int v)
 {
     int t;
@@ -33,7 +33,7 @@ int func_021BD924(char *p, int v)
         } else {
             t = func_021BCBD8(p, 0);
         }
-        if (func_0203D3A8(func_020399A8(), 0xa06, 4, (u32)(&t)) != 0) {
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xa06, 4, (u32)(&t)) != 0) {
             ((struct Obj05264 *)p)->f1CC = 0x82;
         }
     }

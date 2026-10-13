@@ -1,5 +1,5 @@
 /*
- * function: func_021D4BD4
+ * function: BTL_NET_GetClientReply
  * address:  0x021D4BD4
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D4BD4   0x021D4BD4  thumb ov093
- *   func_021D4394   0x021D4394  thumb ov093
- *   func_021F3B88   0x021F3B88  data
+ *   BTL_NET_GetClientReply   0x021D4BD4  thumb ov093
+ *   BTL_NET_FindNetIdByClient   0x021D4394  thumb ov093
+ *   FIELD_GIMMICK_D06_AttachStone   0x021F3B88  data
  *
  * Index a 0xBBC-stride table hanging off the pointer global at 0x021F3B88
  * plus 0xBF4, return the element's +0xBB8 halfword through *q.  The image
@@ -29,13 +29,13 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern u8 *func_021F3B88;
+extern u8 *FIELD_GIMMICK_D06_AttachStone;
 
-u8 func_021D4394(u32 a);
+u8 BTL_NET_FindNetIdByClient(u32 a);
 
-u16 func_021D4BD4(int a, u8 **q)
+u16 BTL_NET_GetClientReply(int a, u8 **q)
 {
-    u8 *p = func_021F3B88 + 0xbf4 + func_021D4394(a) * 0xbbc;
+    u8 *p = FIELD_GIMMICK_D06_AttachStone + 0xbf4 + BTL_NET_FindNetIdByClient(a) * 0xbbc;
     *q = p;
     return ((struct Obj18402 *)p)->fBB8;
 }

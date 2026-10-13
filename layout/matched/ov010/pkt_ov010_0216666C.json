@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216666C",
+   "name": "SYMBOL_MAP_CreateRecordTask",
    "address": "0x0216666C",
    "kind": "game",
    "region": "ov010",

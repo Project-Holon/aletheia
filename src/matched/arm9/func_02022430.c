@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * The eleven-argument screen descriptor builder func_0202208C runs twice, once
+ * The eleven-argument screen descriptor builder WIPE_SYS_Start runs twice, once
  * per screen: a pure field-by-field copy of the argument list into the 0x26
  * byte sub-object, with no validation at all.  The four register arguments
  * land at +0x00..+0x0C and the seven stacked ones at +0x10..+0x24.

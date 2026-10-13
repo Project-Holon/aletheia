@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0D0
+ * function: FIELD_PLACE_NAME_IncrementStep
  * address:  0x021BD0D0
  * packet:   pkt_ov021_021BD0D0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef struct {
     u8 b40;
 } Obj;
 
-void func_021BD0D0(Obj *p)
+void FIELD_PLACE_NAME_IncrementStep(Obj *p)
 {
     p->b40++;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C812C",
+   "name": "SCRCMD_StartFld3dCi",
    "address": "0x021C812C",
    "kind": "game",
    "region": "ov021",

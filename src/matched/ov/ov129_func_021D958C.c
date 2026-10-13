@@ -18,7 +18,7 @@
  * `if (touch == 0)` shape.
  * symbols:
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021D9E98 0x021D9E98 thumb ov129
  *   func_021D93D4 0x021D93D4 thumb ov129
  *   func_021D9320 0x021D9320 thumb ov129
@@ -37,7 +37,7 @@ struct Obj;
 typedef struct { int state, value, flag; struct Obj *handle; char tail[12]; } Record;
 typedef unsigned char  u8;
 extern void func_020061E4(u32 a);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021D9E98(char *p, int i);
 extern void func_021D93D4(char *p);
 extern int func_021D9320(u8 *p);
@@ -85,14 +85,14 @@ void func_021D958C(u32 n, int touch, char *p)
                 func_020061E4(1356);
                 idx = *(int *)(p + 0x188);
                 r[idx].state = n - 11;
-                func_0204B878(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
+                CLACT_SetActorAnimSeq(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
                 func_021D9E48(p, 1, 1);
                 m = n - 12;
                 func_021D9E98(p, m);
                 func_021D9E48(p, 1, 0);
                 func_021D9E48(p, 2, 1);
                 func_021D9EE8(p, m, 2);
-                func_0204B878(*(struct Obj **)(p + 0x1CC), 3);
+                CLACT_SetActorAnimSeq(*(struct Obj **)(p + 0x1CC), 3);
                 v = r[idx].value;
                 if (idx + 1 == *(int *)(p + 0x23C)) {
                     *(int *)(p + 0x31C) = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0215766C
+ * function: DELIVERY_BEACON_GetCursorSlot
  * address:  0x0215766C
  * packet:   pkt_ov010_0215766C
  * region:   ov010
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 *func_0215766C(u8 *p)
+u8 *DELIVERY_BEACON_GetCursorSlot(u8 *p)
 {
     int v = ((struct Obj09266 *)p)->f31B4;
     int rem = v % 0x12;

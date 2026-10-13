@@ -1,5 +1,5 @@
 /*
- * function: func_02010F8C
+ * function: GPOWER_FreePowerTable
  * address:  0x02010F8C
  * packet:   pkt_02010F18
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Frees a buffer from func_02010F7C.
+ * Frees a buffer from GPOWER_LoadPowerTable.
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02010F8C(void *p)
+void GPOWER_FreePowerTable(void *p)
 {
     func_020307B0(p);
 }

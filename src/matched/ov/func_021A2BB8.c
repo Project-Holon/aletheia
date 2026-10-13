@@ -1,5 +1,5 @@
 /*
- * function: func_021A2BB8
+ * function: WEATHER_TASK_ClearParticle
  * address:  0x021A2BB8
  * packet:   pkt_021A2BB8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02082BCC();
 
-void func_021A2BB8(u32 a)
+void WEATHER_TASK_ClearParticle(u32 a)
 {
     func_02082BCC(a, 0, 56);
 }

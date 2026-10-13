@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_021C81C8  0x021C81C8  thumb
- *   func_021D78AC  0x021D78AC  thumb
+ *   BTL_CALC_Random  0x021D78AC  thumb
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ typedef struct {
 } S;
 
 u16 func_021C81C8(int ctx, u32 id, int k);
-int func_021D78AC(int k);
+int BTL_CALC_Random(int k);
 
 void func_0689CF24(S *p, int ctx)
 {
@@ -53,7 +53,7 @@ void func_0689CF24(S *p, int ctx)
         for (i = 0; i < p->n; i++) {
             for (j = i + 1; j < p->n; j++) {
                 pj = (u16 *)p + j;
-                if (pj[27] > p->d[i] || (pj[27] == p->d[i] && func_021D78AC(2))) {
+                if (pj[27] > p->d[i] || (pj[27] == p->d[i] && BTL_CALC_Random(2))) {
                     tid = p->id[i];
                     ta = p->a[i];
                     td = p->d[i];

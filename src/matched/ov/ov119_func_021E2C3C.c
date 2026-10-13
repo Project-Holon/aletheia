@@ -12,11 +12,11 @@
  *   func_0207ADC4 0x0207ADC4 arm
  *   ICA_ANIME_SetCameraPos 0x02011CF0 thumb
  *   ICA_ANIME_SetCameraTarget 0x02011D0C thumb
- *   func_02048AD0 0x02048AD0 arm
- *   func_0207DC44 0x0207DC44 arm
- *   func_0207DD24 0x0207DD24 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
+ *   G3X_SetFog 0x0207DC44 arm
+ *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
- *   func_02011610 0x02011610 thumb
+ *   ICA_ANIME_GetTranslate 0x02011610 thumb
  *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
  *   d_021E79C8 0x021E79C8 data a4
  */
@@ -49,13 +49,13 @@ extern void func_0207ADC4(MtxFx33 *m);
 extern void ICA_ANIME_SetCameraPos(void *a0, void *a1);
 extern void ICA_ANIME_SetCameraTarget(void *a0, void *a1);
 struct Light;
-extern void func_02048AD0(struct Light *l);
-extern void func_0207DC44(int, int, int, int);
-extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
+extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3X_SetFog(int, int, int, int);
+extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 struct IcaAnime;
 struct Rec12;
-extern u32 func_02011610(struct IcaAnime *t, struct Rec12 *out);
+extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *t, struct Rec12 *out);
 extern void BUTTON_MAN_SetEmitterPos(void *obj, VecFx32 *v);
 extern char d_021E79C8[];
 static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
@@ -79,19 +79,19 @@ void func_021E2C3C(Work *w, Transform *t)
         if (w->sub->objA8 == 0) ICA_ANIME_SetCameraPos(w->x83c, (void *)w->sub->anim90);
         if (w->sub->objAC == 0) ICA_ANIME_SetCameraTarget(w->x83c, (void *)w->sub->anim94);
     }
-    func_02048AD0(w->x83c);
+    G3D_CAMERA_Reset(w->x83c);
     shading(SHADING_HIGHLIGHT); antialias(1); alphatest(0); blend(0); edge(0);
-    func_0207DC44(1, 0, 0, 0);
-    func_0207DD24(0, 0, 0x7fff, 0x3f, 0);
+    G3X_SetFog(1, 0, 0, 0);
+    G3X_SetClearColor(0, 0, 0x7fff, 0x3f, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
     for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((u8)i, (const u16 *)(d_021E79C8 + i * 8));
     if (w->sub != 0) {
         if (w->sub->objA0 != 0) {
-            func_02011610((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&v1);
+            ICA_ANIME_GetTranslate((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&v1);
             BUTTON_MAN_SetEmitterPos(w->sub->objA0, &v1);
         }
         if (w->sub->objA4 != 0) {
-            func_02011610((struct IcaAnime *)w->sub->anim9c, (struct Rec12 *)&v2);
+            ICA_ANIME_GetTranslate((struct IcaAnime *)w->sub->anim9c, (struct Rec12 *)&v2);
             BUTTON_MAN_SetEmitterPos(w->sub->objA4, &v2);
         }
     }

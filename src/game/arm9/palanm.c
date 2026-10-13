@@ -1,7 +1,7 @@
 /*
  * file:     palanm.c
  * unit:     yes
- * function: PALANM_IsColorCodeKnown, PALANM_IsOutsideReservedIdRange, PALANM_LookupPairedCode, PALANM_GetPairedCodeForFirst, PALANM_StopTimer, func_02021444, PALANM_UpdateTimer, func_02021518, func_02021540, PALANM_SetSlotBuffers, func_0202155C, func_020215A0, PALANM_CopyToSlot, PALANM_LoadArcPaletteToSlotAt, PALANM_LoadArcPaletteToSlot, PALANM_LoadHandlePaletteToSlotAt, PALANM_LoadHandlePaletteToSlot, func_020216D4, PALANM_GetDefaultWork, func_02021730, PALANM_RequestFade, PALANM_RequestFadeOverwrite, PALANM_CheckBit, PALANM_SetTransBit, PALANM_MaskColorBits, PALANM_SetFadeParam, PALANM_FadeTask, PALANM_ForceStopFade, PALANM_StepBgFades, PALANM_StepObjFades, PALANM_StepFadeWait, PALANM_ApplyFade, PALANM_CalcFadeColors, PALANM_StepFadeValue, PALANM_TransferPalettes, PALANM_GetFadeRequestBits, PALANM_SetAutoTransfer, PALANM_RequestFullTransfer, PALANM_GetColor, func_02021F64, func_02021FD8, PALANM_BlendChannelMask, func_02022040
+ * function: PALANM_IsColorCodeKnown, PALANM_IsOutsideReservedIdRange, PALANM_LookupPairedCode, PALANM_GetPairedCodeForFirst, PALANM_StopTimer, PALANM_StartTimer, PALANM_UpdateTimer, PALANM_Create, PALANM_Delete, PALANM_SetSlotBuffers, PALANM_AllocSlotBuffers, PALANM_FreeSlotBuffers, PALANM_CopyToSlot, PALANM_LoadArcPaletteToSlotAt, PALANM_LoadArcPaletteToSlot, PALANM_LoadHandlePaletteToSlotAt, PALANM_LoadHandlePaletteToSlot, PALANM_CopyHwPaletteToSlot, PALANM_GetDefaultWork, PALANM_GetTransWork, PALANM_RequestFade, PALANM_RequestFadeOverwrite, PALANM_CheckBit, PALANM_SetTransBit, PALANM_MaskColorBits, PALANM_SetFadeParam, PALANM_FadeTask, PALANM_ForceStopFade, PALANM_StepBgFades, PALANM_StepObjFades, PALANM_StepFadeWait, PALANM_ApplyFade, PALANM_CalcFadeColors, PALANM_StepFadeValue, PALANM_TransferPalettes, PALANM_GetFadeRequestBits, PALANM_SetAutoTransfer, PALANM_RequestFullTransfer, PALANM_GetColor, PALANM_BlendColors, PALANM_BlendChannel, PALANM_BlendChannelMask, PALANM_ConvertGrayTable
  * address:  0x020213C0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -94,19 +94,19 @@ u32 PALANM_IsOutsideReservedIdRange(u16 id);
 u16 PALANM_LookupPairedCode(int value, int column);
 unsigned short PALANM_GetPairedCodeForFirst(int value);
 void PALANM_StopTimer(void);
-void func_02021444(void);
+void PALANM_StartTimer(void);
 void PALANM_UpdateTimer(u8 *target);
-void *func_02021518(u32 heapId);
-u32 func_02021540(void *ctx);
+void *PALANM_Create(u32 heapId);
+u32 PALANM_Delete(void *ctx);
 void PALANM_SetSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, void *rawBuf, void *workBuf, u32 size);
-void func_0202155C(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size, u32 heapId);
-void func_020215A0(struct PalAnmSlot *palSlots, u32 slotIdx);
+void PALANM_AllocSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size, u32 heapId);
+void PALANM_FreeSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx);
 void PALANM_CopyToSlot(struct PalAnmSlot *palSlots, const void *src, u32 slotIdx, u32 dstOffset, u16 size);
 void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *palSlots, u32 arcId, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
 void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *palSlots, u32 arcId, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset);
 void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
 void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *palSlots, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset);
-void func_020216D4(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size);
+void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size);
 extern u16 sPalAnmColorCodeTable[];
 extern u16 sPalAnmCodePairTable[][2];
 extern struct PalAnmTimer g_palAnmTimer;
@@ -193,7 +193,7 @@ extern void func_0207F754(void);
 
 int PALANM_GetDefaultWork(char *p, int i);
 
-int func_02021730(char *p, int i);
+int PALANM_GetTransWork(char *p, int i);
 
 int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
@@ -233,13 +233,13 @@ void PALANM_RequestFullTransfer(PaletteFade *o, int v);
 
 u16 PALANM_GetColor(PaletteFadeWork *s, int idx, int which, u16 pos);
 
-void func_02021F64(u16 *src, u16 *dst, u32 count, int weight, u16 color);
+void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 
-void func_02021FD8(PaletteFadeWork *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+void PALANM_BlendChannel(PaletteFadeWork *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 
 void PALANM_BlendChannelMask(PaletteFadeWork *a0, u32 a1, u16 m, u8 a3, u16 a4);
 
-void func_02022040(u16 *pal, int n, const u8 *table);
+void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
 
 int PALANM_IsColorCodeKnown(u32 colorCode)
 {
@@ -303,10 +303,10 @@ void PALANM_StopTimer(void)
  * split helper.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02021444.c \
- *       --func func_02021444 --addr 0x02021444 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_StartTimer.c \
+ *       --func PALANM_StartTimer --addr 0x02021444 --cc 1.1p1 --thumb
  */
-void func_02021444(void)
+void PALANM_StartTimer(void)
 {
     g_palAnmTimer.active = 1;
     g_palAnmTimer.lastTick = 0;
@@ -316,7 +316,7 @@ void func_02021444(void)
 
 /*
  * Palette-animation tick pump.  g_palAnmTimer is the same state block
- * func_02021444 resets; unk_04, unk_0c and tick are 4-aligned u64 fields
+ * PALANM_StartTimer resets; unk_04, unk_0c and tick are 4-aligned u64 fields
  * (docs/idioms/long-long-aligns-to-four.md).  The divisor 0x01FF6210 is the
  * OS tick-to-unit scale applied after a <<6, through _ll_udiv
  * (docs/idioms/runtime-helper-reloc.md).
@@ -380,10 +380,10 @@ void PALANM_UpdateTimer(u8 *target)
  * palanm.c anchor in layout/file_anchors.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02021518.c \
- *       --func func_02021518 --addr 0x02021518 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_Create.c \
+ *       --func PALANM_Create --addr 0x02021518 --cc 1.1p1 --thumb
  */
-void *func_02021518(u32 heapId)
+void *PALANM_Create(u32 heapId)
 {
     void *ctx = func_02030734((u16)heapId, 0x120, 0, sPalAnmFileName, 88);
     MI_CpuFill8(ctx, 0, 0x120);
@@ -395,7 +395,7 @@ void *func_02021518(u32 heapId)
  * (`ldr r3,[pc,#0]; bx r3`; the pool word names 0x020307B0).  Disasm.py gave
  * it no func_ label because it has no prologue.
  */
-u32 func_02021540(void *ctx)
+u32 PALANM_Delete(void *ctx)
 {
     return func_020307B0(ctx);
 }
@@ -429,10 +429,10 @@ void PALANM_SetSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, void *rawBu
  * field of the slot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202155C.c \
- *       --func func_0202155C --addr 0x0202155C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_AllocSlotBuffers.c \
+ *       --func PALANM_AllocSlotBuffers --addr 0x0202155C --cc 1.1p1 --thumb
  */
-void func_0202155C(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size, u32 heapId)
+void PALANM_AllocSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size, u32 heapId)
 {
     void *rawBuf = func_02030734(heapId, size, 0, sPalAnmFileName, 142);
     void *workBuf = func_02030734(heapId, size, 0, sPalAnmFileName, 143);
@@ -441,17 +441,17 @@ void func_0202155C(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size, u32 heapI
 
 /*
  * Release the double buffer of one palette-animation slot, the inverse of
- * func_0202155C.  The two slot pointers are read back from the array rather
+ * PALANM_AllocSlotBuffers.  The two slot pointers are read back from the array rather
  * than passed in, which is what makes the 0x14 stride multiply live.
  *
  * EXACT*: the extent runs long because the next function at 0x020215BC has
  * no label.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020215A0.c \
- *       --func func_020215A0 --addr 0x020215A0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_FreeSlotBuffers.c \
+ *       --func PALANM_FreeSlotBuffers --addr 0x020215A0 --cc 1.1p1 --thumb
  */
-void func_020215A0(struct PalAnmSlot *palSlots, u32 slotIdx)
+void PALANM_FreeSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx)
 {
     func_020307B0(palSlots[slotIdx].rawBuf);
     func_020307B0(palSlots[slotIdx].workBuf);
@@ -604,10 +604,10 @@ void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *palSlots, void *arcHandle
  * EXACT*: the extent runs to 106 bytes because the switch pools and the next function at 0x0202173E are pulled in.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020216D4.c \
- *       --func func_020216D4 --addr 0x020216D4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_CopyHwPaletteToSlot.c \
+ *       --func PALANM_CopyHwPaletteToSlot --addr 0x020216D4 --cc 1.1p1 --thumb
  */
-void func_020216D4(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size)
+void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size)
 {
     u16 *palBase;
 
@@ -642,7 +642,7 @@ int PALANM_GetDefaultWork(char *p, int i)
  *
  * Addresses are Black-image addresses.
  */
-int func_02021730(char *p, int i)
+int PALANM_GetTransWork(char *p, int i)
 {
     return *(int *)(p + i * 0x14 + 4);
 }
@@ -1234,7 +1234,7 @@ void PALANM_SetAutoTransfer(PaletteFade *o, int v)
  *
  * EXACT*: 52 bytes compiled (44 of code plus the two pool words at
  * 0x02021F34/0x02021F38), against a 92-byte inferred extent that runs on
- * into the unlabelled `.word` run before func_02021F64.
+ * into the unlabelled `.word` run before PALANM_BlendColors.
  *
  * The `(v & 1)` is narrowed to u16 before the field store (`lsls #0x10 /
  * lsrs #0x10` at +0x10), which is what an `int` argument masked into a
@@ -1277,7 +1277,7 @@ u16 PALANM_GetColor(PaletteFadeWork *s, int idx, int which, u16 pos)
  * runs two bytes long (116 vs the 114 compiled, the difference being the
  * alignment halfword at 0x02021FD6).
  *
- * Two levers, both recorded in docs/notes/func_02021F64.c.txt:
+ * Two levers, both recorded in docs/notes/PALANM_BlendColors.c.txt:
  *   - the per-pixel channels must be read through a bitfield pointer into
  *     src[i] itself, ((struct Rgb555 *)&src[i])->r, not through a value-copy
  *     union: the copy spills the pixel to a stack slot the image never uses.
@@ -1285,7 +1285,7 @@ u16 PALANM_GetColor(PaletteFadeWork *s, int idx, int which, u16 pos)
  *     unsigned and the three `>> 4` compile to `lsrs`; the image has `asrs`
  *     at +0x3E, +0x4A and +0x54.  That signedness was the whole residue.
  */
-void func_02021F64(u16 *src, u16 *dst, u32 count, int weight,
+void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight,
                    u16 color)
 {
     u16 i;
@@ -1308,7 +1308,7 @@ void func_02021F64(u16 *src, u16 *dst, u32 count, int weight,
 /*
  * Thin forwarding wrapper: picks channel `idx` out of the 0x14-byte record
  * array, advances both of its pointers by `c` halfwords, and hands them to
- * the RGB555 blend loop at 0x02021F64 (see docs/notes/func_02021F64.c.txt --
+ * the RGB555 blend loop at 0x02021F64 (see docs/notes/PALANM_BlendColors.c.txt --
  * that function is still a documented DIFF, so this wrapper's own
  * relocation is attested by the `label` class, not by a matched entry).
  * Arguments 5 and 6 arrive on the caller's stack and must be u8 / u16, which
@@ -1317,10 +1317,10 @@ void func_02021F64(u16 *src, u16 *dst, u32 count, int weight,
  * EXACT* only: 42 bytes compiled, the listing extent is 44 -- the two extra
  * bytes are the `00 00` alignment halfword at 0x02022002, not a follower.
  */
-void func_02021FD8(PaletteFadeWork *p, u32 idx, u32 c, u32 count,
+void PALANM_BlendChannel(PaletteFadeWork *p, u32 idx, u32 c, u32 count,
                    u8 weight, u16 color)
 {
-    func_02021F64(p[idx].defaultWork + c, p[idx].transWork + c, count, weight, color);
+    PALANM_BlendColors(p[idx].defaultWork + c, p[idx].transWork + c, count, weight, color);
 }
 
 void PALANM_BlendChannelMask(PaletteFadeWork *a0, u32 a1, u16 m, u8 a3, u16 a4)
@@ -1332,14 +1332,14 @@ void PALANM_BlendChannelMask(PaletteFadeWork *a0, u32 a1, u16 m, u8 a3, u16 a4)
     }
     do {
         if (m & 1) {
-            func_02021FD8(a0, a1, (u16)i, 0x10, a3, a4);
+            PALANM_BlendChannel(a0, a1, (u16)i, 0x10, a3, a4);
         }
         m = (u16)(m >> 1);
         i += 0x10;
     } while (m != 0);
 }
 
-void func_02022040(u16 *pal, int n, const u8 *table)
+void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table)
 {
     int i;
     int r, g, b;

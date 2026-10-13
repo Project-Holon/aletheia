@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_021F4EC0 0x021F4EC0 thumb ov135
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj05418.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 typedef unsigned char  u8;
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 struct Obj;
@@ -24,7 +24,7 @@ extern void func_0204B3DC(struct Obj *, unsigned int);
 int func_021FF118(char *p)
 {
     ++((struct Obj05418 *)p)->fD3C;
-    if (func_020221A4()) {
+    if (WIPE_SYS_EndCheck()) {
         *(volatile u16 *)0x04000304 |= 0x8000;
         ((struct Obj05418 *)p)->fD3C = -16;
         if (((struct Obj05418 *)p)->fE1A) {

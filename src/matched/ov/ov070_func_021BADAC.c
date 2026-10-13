@@ -1,5 +1,5 @@
 /*
- * function: func_021BADAC
+ * function: ITEMMENU_ShowMessageDefault
  * address:  0x021BADAC
  * packet:   pkt_ov070_021BADAC
  * region:   ov070
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021BACF0(p, 0).
+ * Tail call to ITEMMENU_ShowMessage(p, 0).
  *
  * symbols:
- *   func_021BACF0  0x021BACF0  thumb  ov070
+ *   ITEMMENU_ShowMessage  0x021BACF0  thumb  ov070
  */
 
-void func_021BADAC(void *p)
+void ITEMMENU_ShowMessageDefault(void *p)
 {
-    void func_021BACF0(int p, int mode);
-    func_021BACF0((int)p, 0);
+    void ITEMMENU_ShowMessage(int p, int mode);
+    ITEMMENU_ShowMessage((int)p, 0);
 }

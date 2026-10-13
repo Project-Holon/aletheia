@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C4E4            0x0201C4E4  thumb
+ *   PRINTSYS_QUE_Main            0x0201C4E4  thumb
  *   func_0201C6C4            0x0201C6C4  thumb
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   PMS_DRAW_Main  0x0202DBC4  thumb
- *   func_020310C4            0x020310C4  arm
- *   func_02045334            0x02045334  arm
+ *   TCBL_Main            0x020310C4  arm
+ *   BMP_WIN_TransferChars            0x02045334  arm
  *   func_02045770            0x02045770  arm
  *   func_021C6594 0x021C6594 thumb
  *   d_021C7DA8 0x021C7DA8 data a4
@@ -42,11 +42,11 @@ extern void func_021C6594(u8 *);
 struct Descriptor;
 struct PrintSys;
 struct Tcbl;
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_02045334(struct Descriptor *d);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_020310C4(struct Tcbl *p);
+extern void TCBL_Main(struct Tcbl *p);
 extern void PMS_DRAW_Main(u8 *p);
 int func_021C68A0(u8 *p, int *st)
 {
@@ -60,30 +60,30 @@ int func_021C68A0(u8 *p, int *st)
         BGWINFRM_UpdateMoves(**(struct WinMgr ** *)&((struct Obj01752 *)p)->f8);
         func_021C6594(*(u8 * *)&((struct Obj01752 *)p)->f8);
         if (((struct Obj23598 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4 != 0) {
-            func_0201C4E4(((struct Obj23599 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4);
+            PRINTSYS_QUE_Main(((struct Obj23599 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4);
             for (i = 0; i < 0x1B; i++) {
                 void *h = ((struct Obj23600 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4;
                 u8 *e = *(u8 * *)&((struct Obj01752 *)p)->f8 + 0xC4 + i * 8;
                 if (e[4] != 0) {
                     if (func_0201C6C4(h, func_02045770(((struct Obj08204 *)e)->f0)) == 0) {
-                        func_02045334(((struct Obj08204 *)e)->f0);
+                        BMP_WIN_TransferChars(((struct Obj08204 *)e)->f0);
                         e[4] = 0;
                     }
                 }
             }
         }
         if (((struct Obj23601 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1CC != 0) {
-            func_020310C4(((struct Obj23602 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1CC);
+            TCBL_Main(((struct Obj23602 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1CC);
         }
         if (((struct Obj23603 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f36C != 0) {
             PMS_DRAW_Main(((struct Obj23604 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f35C);
-            func_0201C4E4(((struct Obj23605 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f36C);
+            PRINTSYS_QUE_Main(((struct Obj23605 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f36C);
             for (j = 0x1B; j < 0x20; j++) {
                 void *g = ((struct Obj23606 *)(*(u8 * *)&((struct Obj01752 *)p)->f8))->f1C4;
                 u8 *f = *(u8 * *)&((struct Obj01752 *)p)->f8 + 0xC4 + j * 8;
                 if (f[4] != 0) {
                     if (func_0201C6C4(g, func_02045770(((struct Obj08205 *)f)->f0)) == 0) {
-                        func_02045334(((struct Obj08205 *)f)->f0);
+                        BMP_WIN_TransferChars(((struct Obj08205 *)f)->f0);
                         f[4] = 0;
                     }
                 }

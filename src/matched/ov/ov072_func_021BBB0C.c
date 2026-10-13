@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB0C
+ * function: TOWNMAP_GRH_GetSpriteActor
  * address:  0x021BBB0C
  * packet:   pkt_ov072_021BBB0C
  * region:   ov072
@@ -14,7 +14,7 @@
  * Word at p + n*4 + 4.
  */
 
-unsigned int func_021BBB0C(void *p, int n)
+unsigned int TOWNMAP_GRH_GetSpriteActor(void *p, int n)
 {
     return *(unsigned int *)((char *)p + n * 4 + 4);
 }

@@ -9,10 +9,10 @@
  * isa: arm
  * status: EXACT
  * symbols:
- *   d_021B3C84 0x021B3C84 data a4
+ *   gVctSendState 0x021B3C84 data a4
  */
 
 #include "../include/G_021B3C84.h"
 
-extern struct G_021B3C84 d_021B3C84;
-void VCT_SESSION_ClearMemberCount(void) { ((int *)&d_021B3C84)[8] = 0; }
+extern struct G_021B3C84 gVctSendState;
+void VCT_SESSION_ClearMemberCount(void) { ((int *)&gVctSendState)[8] = 0; }

@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012984   0x02012984  thumb
+ *   GAME_DATA_GetSeason   0x02012984  thumb
  *   BTL_SETUP_CreateTrainerData   0x02013234  thumb
  *   func_0201A920   0x0201A920  thumb
  *   func_0202A3FC   0x0202A3FC  thumb
  *   func_0202A440   0x0202A440  thumb
  *   func_0202A4B4   0x0202A4B4  thumb
- *   func_0216AAE4   0x0216AAE4  thumb
+ *   FORMCHANGE_UpdateSeasonForms   0x0216AAE4  thumb
  *
  * btl_setup.c.  The sub-block filler, and the most-called function of the
- * family: every builder in the range (func_02013610, func_02013644,
- * func_02013678, func_020136AC, func_020136E0, func_02013734, BTL_SETUP_SetupCommAiMulti,
+ * family: every builder in the range (BTL_SETUP_SetupTrainerSingle, BTL_SETUP_SetupTrainerDouble,
+ * BTL_SETUP_SetupTrainerTriple, BTL_SETUP_SetupTrainerRotation, BTL_SETUP_SetupTrainerTag, BTL_SETUP_SetupTrainerMulti, BTL_SETUP_SetupCommAiMulti,
  * all EXACT) calls it once or three times.  It lazily fills two slots - the
  * caller's own out-pointer and the object's +0x48 array entry - then, only if
  * the value argument is non-zero, binds them together and picks the object's
@@ -81,8 +81,8 @@ extern struct Party *func_0201A920(u32 heap);
 extern void *BTL_SETUP_CreateTrainerData(u32 heap);
 extern void func_0202A440(u32 id, struct Out *out, u32 heap);
 extern void func_0202A4B4(u32 a, u32 b, u32 c);
-extern u8 func_02012984(const struct BigObj *p);
-extern void func_0216AAE4(u32 a, u32 b, u32 c);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern void FORMCHANGE_UpdateSeasonForms(u32 a, u32 b, u32 c);
 extern u8 func_0202A3FC(u32 key);
 
 void BTL_SETUP_SetTrainer(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
@@ -103,7 +103,7 @@ void BTL_SETUP_SetTrainer(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
     }
     func_0202A440(v, (struct Out *)(*(u32 *)(base + off)), h);
     func_0202A4B4(v, *dst, h);
-    func_0216AAE4((u32)a1, *dst, func_02012984((const struct BigObj *)((u32)a1)));
+    FORMCHANGE_UpdateSeasonForms((u32)a1, *dst, GAME_DATA_GetSeason((const struct BigObj *)((u32)a1)));
     switch (func_0202A3FC(*(u32 *)(*(u32 *)(base + off) + 4))) {
     case 2:
     case 3:

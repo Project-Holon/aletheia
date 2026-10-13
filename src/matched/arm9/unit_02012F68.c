@@ -14,8 +14,8 @@
  *
  * Two leaves before GAME_DATA_GetExternalWork (the +0x6a8 getter): save-block getter
  * for block 0x42 through the handle's first word, and the +0x6a8 setter.
- * Seeded from ov048/ov171/ov205 (0x02012F68) and ov010 func_0215DDC8 and
- * func_0215DE0C (0x02012F74).
+ * Seeded from ov048/ov171/ov205 (0x02012F68) and ov010 SCRCMD_MUSICAL_CreateLinkWork and
+ * SCRCMD_MUSICAL_DeleteLinkWork (0x02012F74).
  */
 #include "../include/Obj17167.h"
 

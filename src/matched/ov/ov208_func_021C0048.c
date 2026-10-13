@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BBB3C 0x021BBB3C thumb ov072
+ *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
  *   d_021C8670 0x021C8670 data a2
  */
 #include "../include/Obj25495.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u16 func_021BBB3C(char *, int, int);
+extern u16 TOWNMAP_GRH_GetTownInfoValue(char *, int, int);
 extern const u16 d_021C8670[];
 void func_021C0048(u16 *unused, char *p, int a2)
 {
     u8 i;
     for (i = 0; i < 61; i++) {
-        u16 value = func_021BBB3C(*(char * *)&((struct Obj25495 *)p)->f3C8, i, 0);
+        u16 value = TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct Obj25495 *)p)->f3C8, i, 0);
         u8 j;
         for (j = 0; j < 61; j++) {
             if (value == d_021C8670[j]) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021626E8
+ * function: EVENTDATA_SYSTEM_GetConnectExitType
  * address:  0x021626E8
  * packet:   pkt_021626E8
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u8 func_021626E8(u8 *p)
+u8 EVENTDATA_SYSTEM_GetConnectExitType(u8 *p)
 {
     return ((struct Obj17715 *)p)->f5;
 }

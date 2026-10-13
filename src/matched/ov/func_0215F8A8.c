@@ -1,5 +1,5 @@
 /*
- * function: func_0215F8A8
+ * function: SCRCMD_NETWORK_CreateCommBattleEvent
  * address:  0x0215F8A8
  * packet:   pkt_0215F8A8
  * region:   ov010
@@ -12,15 +12,15 @@
  * Allocator with callback, three sub-init calls over the new node.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02012944  0x02012944  thumb
- *   func_0215E580  0x0215E580  thumb  ov010
- *   func_0215F734  0x0215F734  thumb  ov010
- *   func_0215F900  0x0215F900  thumb  ov010
- *   func_0215F920  0x0215F920  thumb  ov010
- *   func_0215F948  0x0215F948  thumb  ov010
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   MOVE_POKEMON_SpawnPendingEntries  0x0215E580  thumb  ov010
+ *   SCRCMD_NETWORK_CommBattleEventMain  0x0215F734  thumb  ov010
+ *   SCRCMD_NETWORK_InitCommBattleOv180Param  0x0215F900  thumb  ov010
+ *   SCRCMD_NETWORK_InitCommBattleOv181Param  0x0215F920  thumb  ov010
+ *   SCRCMD_NETWORK_InitCommBattleStepSequence  0x0215F948  thumb  ov010
  */
 #include "../include/Obj04132.h"
 
@@ -33,31 +33,31 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 struct Ctx;
-void *func_020120F4(const struct Ctx *p);
-u8 *func_02012944(void *p);
-void func_0215E580(void *a);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+u8 *GAME_DATA_GetMyStatus(void *p);
+void MOVE_POKEMON_SpawnPendingEntries(void *a);
 struct Work;
-int func_0215F734(void *evt, u32 *i, struct Work *w);
-void func_0215F900(void *obj);
-int func_0215F920(int a0);
-void func_0215F948(u8 *p);
+int SCRCMD_NETWORK_CommBattleEventMain(void *evt, u32 *i, struct Work *w);
+void SCRCMD_NETWORK_InitCommBattleOv180Param(void *obj);
+int SCRCMD_NETWORK_InitCommBattleOv181Param(int a0);
+void SCRCMD_NETWORK_InitCommBattleStepSequence(u8 *p);
 
-void *func_0215F8A8(void *p, int a1)
+void *SCRCMD_NETWORK_CreateCommBattleEvent(void *p, int a1)
 {
-    int r7 = (int)func_020120F4(p);
-    void *r0v = func_020122C0(p, 0, func_0215F734, 0x7C);
+    int r7 = (int)GAMESYSTEM_GetGameData(p);
+    void *r0v = func_020122C0(p, 0, SCRCMD_NETWORK_CommBattleEventMain, 0x7C);
     char *r4 = func_020124E8(r0v);
 
     ((struct Obj04132 *)r4)->f0 = (int)p;
     ((struct Obj04132 *)r4)->f4 = r7;
     ((struct Obj04132 *)r4)->f8 = a1;
-    ((struct Obj04132 *)r4)->f10 = (int)func_02012944((void *)r7);
+    ((struct Obj04132 *)r4)->f10 = (int)GAME_DATA_GetMyStatus((void *)r7);
     ((struct Obj04132 *)r4)->f78 = 0;
     ((struct Obj04132 *)r4)->f14 = (int)p;
     ((struct Obj04132 *)r4)->f18 = a1;
-    func_0215E580((void *)r7);
-    func_0215F900(r4);
-    func_0215F920((int)r4);
-    func_0215F948((u8 *)r4);
+    MOVE_POKEMON_SpawnPendingEntries((void *)r7);
+    SCRCMD_NETWORK_InitCommBattleOv180Param(r4);
+    SCRCMD_NETWORK_InitCommBattleOv181Param((int)r4);
+    SCRCMD_NETWORK_InitCommBattleStepSequence((u8 *)r4);
     return r0v;
 }

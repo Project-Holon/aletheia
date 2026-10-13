@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6DD8",
+   "name": "ITEMMENU_TryStartPlant",
    "address": "0x021B6DD8",
    "kind": "game",
    "region": "ov070",

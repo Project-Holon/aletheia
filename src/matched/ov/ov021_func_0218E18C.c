@@ -1,5 +1,5 @@
 /*
- * function: func_0218E18C
+ * function: FIELD_CAMERA_LoadSetting
  * address:  0x0218E18C
  * packet:   pkt_ov021_0218E18C
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218E260  0x0218E260  thumb ov021
- *   func_0218EC7C  0x0218EC7C  thumb ov021
- *   func_0218EC68  0x0218EC68  thumb ov021
- *   func_02046BE0  0x02046BE0  arm
- *   func_02048B78  0x02048B78  arm
- *   func_02048B80  0x02048B80  arm
- *   func_02048B94  0x02048B94  arm
+ *   FIELD_CAMERA_ReadSetting  0x0218E260  thumb ov021
+ *   FIELD_CAMERA_SetG3dRoll  0x0218EC7C  thumb ov021
+ *   FIELD_CAMERA_SetG3dScale  0x0218EC68  thumb ov021
+ *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
+ *   G3D_CAMERA_GetMode  0x02048B78  arm
+ *   G3D_CAMERA_SetNearClip  0x02048B80  arm
+ *   G3D_CAMERA_SetFarClip  0x02048B94  arm
  *   tbl_020A1B38   0x020A1B38  data
  */
 #include "../include/Obj01347.h"
@@ -45,39 +45,39 @@ typedef struct {
     Vec v;
 } Info;
 
-extern void func_0218E260(void *p, void *dst);
-extern void func_0218EC7C(u8 *a, unsigned int first, ...);
-extern void func_0218EC68(u8 *a, unsigned int first, ...);
+extern void FIELD_CAMERA_ReadSetting(void *p, void *dst);
+extern void FIELD_CAMERA_SetG3dRoll(u8 *a, unsigned int first, ...);
+extern void FIELD_CAMERA_SetG3dScale(u8 *a, unsigned int first, ...);
 typedef unsigned int   u32;
-extern void func_02046BE0(u32 a, u32 b);
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 struct Light;
-extern int func_02048B78(struct Light *l);
-extern void func_02048B80(struct Light *l, u32 v);
-extern void func_02048B94(struct Light *l, u32 v);
+extern int G3D_CAMERA_GetMode(struct Light *l);
+extern void G3D_CAMERA_SetNearClip(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetFarClip(struct Light *l, u32 v);
 extern s16 tbl_020A1B38[];
 
-void func_0218E18C(char *p, Vec *src)
+void FIELD_CAMERA_LoadSetting(char *p, Vec *src)
 {
     Info info;
 
-    func_0218E260(p, &info);
+    FIELD_CAMERA_ReadSetting(p, &info);
     ((struct Obj01347 *)p)->f7C = info.a << 12;
     ((struct Obj01347 *)p)->f78 = info.b;
     ((struct Obj01347 *)p)->f7A = info.c;
     ((struct Obj01347 *)p)->f80 = info.ang;
-    func_0218EC7C((u8 *)p, info.g);
-    func_0218EC68((u8 *)p, info.f);
+    FIELD_CAMERA_SetG3dRoll((u8 *)p, info.g);
+    FIELD_CAMERA_SetG3dScale((u8 *)p, info.f);
     switch (info.mode) {
     case 0:
-        func_02046BE0(0, 0);
+        G3D_SYSTEM_SetSwapBuffersMode(0, 0);
         break;
     case 1:
-        func_02046BE0(0, 1);
+        G3D_SYSTEM_SetSwapBuffersMode(0, 1);
         break;
     }
-    if (func_02048B78((struct Light *)(((struct Obj01347 *)p)->fC)) == 0) {
-        func_02048B80((struct Light *)(((struct Obj01347 *)p)->fC), tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2]);
-        func_02048B94((struct Light *)(((struct Obj01347 *)p)->fC), tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2 + 1]);
+    if (G3D_CAMERA_GetMode((struct Light *)(((struct Obj01347 *)p)->fC)) == 0) {
+        G3D_CAMERA_SetNearClip((struct Light *)(((struct Obj01347 *)p)->fC), tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2]);
+        G3D_CAMERA_SetFarClip((struct Light *)(((struct Obj01347 *)p)->fC), tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2 + 1]);
     }
     if (info.has != 0) {
         *(Vec * *)&((struct Obj01347 *)p)->f18 = src;

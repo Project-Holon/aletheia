@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB84
+ * function: STARTMENU_ClearFrameBox
  * address:  0x021BBB84
  * packet:   pkt_ov088_021BBB84
  * region:   ov088
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02041300(u8, u32, u8, u8, u8, u8, u32);
 extern void func_02041B6C(u32 bit);
-void func_021BBB84(u8 x, u8 y, u8 w, u8 h, u8 bg)
+void STARTMENU_ClearFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg)
 {
     func_02041300(bg, 0, x, y, w, h, 0);
     func_02041B6C(bg);

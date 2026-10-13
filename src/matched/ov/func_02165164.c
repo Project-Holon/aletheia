@@ -1,5 +1,5 @@
 /*
- * function: func_02165164
+ * function: GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin
  * address:  0x02165164
  * packet:   pkt_021650F4
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02165164.c \
- *       --func func_02165164 --addr 0x02165164 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin.c \
+ *       --func GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin --addr 0x02165164 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj00121.h"
 
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_ResetDetails(void *);
 
-void func_02165164(void *a0, unsigned a1)
+void GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin(void *a0, unsigned a1)
 {
     ((struct Obj00121 *)a0)->f30 = 5;
     ((struct Obj00121 *)a0)->f32 = a1;

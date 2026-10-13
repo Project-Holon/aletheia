@@ -1,5 +1,5 @@
 /*
- * function: func_0216E400
+ * function: FLDMMDL_GetMoveProcList
  * address:  0x0216E400
  * packet:   pkt_0216E400
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern u32 d_021D5E04[];
 
-u32 func_0216E400(int i)
+u32 FLDMMDL_GetMoveProcList(int i)
 {
     return d_021D5E04[i];
 }

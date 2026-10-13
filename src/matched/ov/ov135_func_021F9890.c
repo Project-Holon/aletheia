@@ -14,7 +14,7 @@
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_02202974  0x02202974  thumb
@@ -85,7 +85,7 @@ extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -122,7 +122,7 @@ Menu *func_021F9890(Init *init, u32 a, u32 b)
     m->frm = BGWINFRM_Create(2, 1, 0x48);
     BGWINFRM_AddFrame(m->frm, 0, 2, 0x20, 0x14);
     func_021F4FF4(m->obj, 0x90, 0x28);
-    func_0204B878((struct Obj *)m->obj, 4);
+    CLACT_SetActorAnimSeq((struct Obj *)m->obj, 4);
     func_0204B92C((struct Obj *)m->obj, 1);
     func_0204B3DC((struct Obj *)m->obj, 0);
     m->ctx = func_02202974(0xf, 0xe, 2, 0x48);

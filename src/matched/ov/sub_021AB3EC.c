@@ -1,5 +1,5 @@
 /*
- * function: sub_021AB3EC
+ * function: MAP_ATTR_IsElectricFloor
  * address:  0x021AB3EC
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef int BOOL;
 
-BOOL sub_021AB3EC(u16 id)
+BOOL MAP_ATTR_IsElectricFloor(u16 id)
 {
     if (id == 0x30) {
         return 1;

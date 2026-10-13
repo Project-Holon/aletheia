@@ -1,5 +1,5 @@
 /*
- * function: func_021B93B0
+ * function: FRAME_LIST_GetCursor
  * address:  0x021B93B0
  * packet:   pkt_021B93B0
  * region:   ov067
@@ -17,7 +17,7 @@
  */
 #include "../include/Obj20629.h"
 
-int func_021B93B0(char *p)
+int FRAME_LIST_GetCursor(char *p)
 {
     return ((struct Obj20629 *)p)->f5C;
 }

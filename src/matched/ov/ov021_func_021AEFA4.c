@@ -1,5 +1,5 @@
 /*
- * function: func_021AEFA4
+ * function: SCRCMD_RestoreBgmVolumeEvent
  * address:  0x021AEFA4
  * packet:   pkt_ov021_021AEFA4
  * region:   ov021
@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb  arm9
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb  arm9
+ *   FIELD_SOUND_SYSTEM_FadeVolume  0x02028A58  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -18,18 +23,18 @@ typedef signed char    s8;
 
 struct Ctx;
 struct SoundSys;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028A58(struct SoundSys *sys, u8 level, u16 frames);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern void FIELD_SOUND_SYSTEM_FadeVolume(struct SoundSys *sys, u8 level, u16 frames);
 
-int func_021AEFA4(u32 *a, u32 *st)
+int SCRCMD_RestoreBgmVolumeEvent(u32 *a, u32 *st)
 {
-    u32 r = func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)(*a)));
+    u32 r = GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData((const struct Ctx *)(*a)));
 
     switch (*st) {
     case 0:
-        func_02028A58((struct SoundSys *)r, 0x7f, 0);
+        FIELD_SOUND_SYSTEM_FadeVolume((struct SoundSys *)r, 0x7f, 0);
         (*st)++;
         break;
     case 1:

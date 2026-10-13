@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_021BFF60 0x021BFF60 thumb ov110
  *   func_021BFF7C 0x021BFF7C thumb ov110
  *   func_021BF734 0x021BF734 thumb ov110
@@ -20,14 +20,14 @@ typedef unsigned char u8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void func_021BFF60(u8 *);
 extern void func_021BFF7C(u8 *,unsigned,unsigned);
 extern unsigned func_021BF734(u8 *);
 void func_021BF9F0(u8 *p) {
     unsigned y,i,n;
-    func_02043B5C(func_02045770((struct Descriptor *)((struct Obj02166 *)p)->fC),0);
+    BMP_Clear(func_02045770((struct Descriptor *)((struct Obj02166 *)p)->fC),0);
     func_021BFF60(p);
     n=func_021BF734(*(u8 * *)&((struct Obj02166 *)p)->f4);
     if(n>16) n=16;
@@ -37,5 +37,5 @@ void func_021BF9F0(u8 *p) {
         func_021BFF7C(p,i,y);
         if(i&1) y+=24;
     }
-    func_02045334((struct Descriptor *)((struct Obj02166 *)p)->fC);
+    BMP_WIN_TransferChars((struct Descriptor *)((struct Obj02166 *)p)->fC);
 }

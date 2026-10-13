@@ -1,5 +1,5 @@
 /*
- * function: func_0219B6B0
+ * function: FLDMMDL_MOVE_InitWalkRepeatSpin
  * address:  0x0219B6B0
  * packet:   pkt_ov021_0219B6B0
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6A0  0x0216D6A0  thumb  ov010
- *   func_0216D63C  0x0216D63C  thumb  ov010
- *   func_0216D5A8  0x0216D5A8  thumb  ov010
+ *   FLDMMDL_InitMoveSubProcWork  0x0216D6A0  thumb  ov010
+ *   FLDMMDL_GetParam  0x0216D63C  thumb  ov010
+ *   FLDMMDL_GetEventType  0x0216D5A8  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -20,17 +20,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D6A0(int a0, int a1);
-extern int func_0216D63C(char *a0, int a1);
-extern u16 func_0216D5A8(u8 *p);
+extern void *FLDMMDL_InitMoveSubProcWork(int a0, int a1);
+extern int FLDMMDL_GetParam(char *a0, int a1);
+extern u16 FLDMMDL_GetEventType(u8 *p);
 
-void func_0219B6B0(u32 a)
+void FLDMMDL_MOVE_InitWalkRepeatSpin(u32 a)
 {
-    u8 *p = func_0216D6A0(a, 9);
+    u8 *p = FLDMMDL_InitMoveSubProcWork(a, 9);
     u32 s;
     u8 v = 1;
-    p[3] = func_0216D63C((char *)a, 1);
-    s = func_0216D5A8((u8 *)a);
+    p[3] = FLDMMDL_GetParam((char *)a, 1);
+    s = FLDMMDL_GetEventType((u8 *)a);
     if (s == 5 || s == 20 || s == 15) {
         v = 0;
     }

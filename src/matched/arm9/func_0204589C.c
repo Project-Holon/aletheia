@@ -30,7 +30,7 @@
  *
  * The 0x020A7E7C ABS32 sits in this function's own pool (0x020458F4, inside
  * the compared range) and resolves off the `literal` class: the same word is
- * in the pools of the already-matched func_02045924, func_02045994 and
+ * in the pools of the already-matched STRBUF_SetString, STRBUF_SetStringN and
  * STRBUF_SetEosChar.
  *
  * Verified with:

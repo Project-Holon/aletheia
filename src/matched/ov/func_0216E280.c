@@ -1,5 +1,5 @@
 /*
- * function: func_0216E280
+ * function: FLDMMDL_OpenObjCodeArc
  * address:  0x0216E280
  * packet:   pkt_0216E280
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 
-void *func_0216E280(int a0, int a1)
+void *FLDMMDL_OpenObjCodeArc(int a0, int a1)
 {
     int t4;
     void *p;

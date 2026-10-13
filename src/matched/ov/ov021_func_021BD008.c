@@ -1,5 +1,5 @@
 /*
- * function: func_021BD008
+ * function: FIELD_PLACE_NAME_CreateMessage
  * address:  0x021BD008
  * packet:   pkt_ov021_021BD008
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD090  0x021BD090  thumb  ov021
+ *   FIELD_PLACE_NAME_GetHeapId  0x021BD090  thumb  ov021
+ *   STRBUF_Create  0x020457B0  arm  arm9
  */
 
 typedef struct {
@@ -20,12 +21,12 @@ typedef struct {
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u16 func_021BD090(u8 *p);
+extern u16 FIELD_PLACE_NAME_GetHeapId(u8 *p);
 typedef unsigned int   u32;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-void func_021BD008(Obj *p)
+void FIELD_PLACE_NAME_CreateMessage(Obj *p)
 {
-    p->f1C = func_020457B0(0x21, func_021BD090((u8 *)p));
+    p->f1C = STRBUF_Create(0x21, FIELD_PLACE_NAME_GetHeapId((u8 *)p));
 }

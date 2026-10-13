@@ -1,5 +1,5 @@
 /*
- * function: func_0216A420
+ * function: SCRCMD_TRIALHOUSE_FreeWork
  * address:  0x0216A420
  * packet:   pkt_0216A420
  * region:   ov010
@@ -14,27 +14,27 @@
  * overlay's own pair call.
  *
  * symbols:
- *   func_0215A5DC   0x0215A5DC  thumb  ov010
- *   func_020120F4   0x020120F4  thumb
+ *   SCRCMD_WORK_GetGameSystem   0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData   0x020120F4  thumb
  *   GAME_DATA_GetListCursor   0x02012F50  thumb
- *   func_021D0A48   0x021D0A48  thumb
+ *   TRIAL_HOUSE_DeleteWork   0x021D0A48  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetListCursor(void *base);
-extern void func_021D0A48(void *, void *);
+extern void TRIAL_HOUSE_DeleteWork(void *, void *);
 
-int func_0216A420(void *a0, void *a1)
+int SCRCMD_TRIALHOUSE_FreeWork(void *a0, void *a1)
 {
-    void *p = func_0215A5DC(a1);
+    void *p = SCRCMD_WORK_GetGameSystem(a1);
 
-    func_021D0A48(p, GAME_DATA_GetListCursor(func_020120F4(p)));
+    TRIAL_HOUSE_DeleteWork(p, GAME_DATA_GetListCursor(GAMESYSTEM_GetGameData(p)));
 
     return 0;
 }

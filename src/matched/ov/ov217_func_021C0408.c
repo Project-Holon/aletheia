@@ -12,7 +12,7 @@
  *   d_021C37FC 0x021C37FC data a4
  *   func_021BF9FC 0x021BF9FC thumb ov217
  *   func_021BF9F0 0x021BF9F0 thumb ov217
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj14752.h"
@@ -27,7 +27,7 @@ struct Obj;
 extern const struct Entry d_021C37FC[];
 extern u32 func_021BF9FC(void *,u32);
 extern u32 func_021BF9F0(void *,u32);
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *,u32);
 void func_021C0408(u8 *p)
 {
@@ -44,7 +44,7 @@ void func_021C0408(u8 *p)
         c=func_021BF9F0(p,q->e);
         d=func_021BF9F0(p,q->f);
         dest=p+i*4;
-        *(u32 *)&((struct Obj14752 *)dest)->f394=(u32)func_0204B294((void *)a,b,c,d,&arg,q->g,((struct Obj25962 *)p)->f4);
+        *(u32 *)&((struct Obj14752 *)dest)->f394=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct Obj25962 *)p)->f4);
         func_0204B3DC(*(struct Obj * *)&((struct Obj14752 *)dest)->f394,0);
     }
 }

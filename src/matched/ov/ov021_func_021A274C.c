@@ -1,5 +1,5 @@
 /*
- * function: func_021A274C
+ * function: WEATHER_TASK_FindFreeParticle
  * address:  0x021A274C
  * packet:   pkt_ov021_021A274C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A2BC4  0x021A2BC4  thumb  ov021
+ *   WEATHER_TASK_IsParticleLinked  0x021A2BC4  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -24,11 +24,11 @@ typedef struct {
     Slot021A274C slots[0x20];
 } Obj021A274C;
 
-Slot021A274C *func_021A274C(Obj021A274C *p)
+Slot021A274C *WEATHER_TASK_FindFreeParticle(Obj021A274C *p)
 {
     int i;
     for (i = 0; i < 0x20; i++) {
-        if (func_021A2BC4((Slot021A274C *)((u8 *)p + 0x74) + i) == 0) {
+        if (WEATHER_TASK_IsParticleLinked((Slot021A274C *)((u8 *)p + 0x74) + i) == 0) {
             p = (Obj021A274C *)((u8 *)p + 0x74);
             return (Slot021A274C *)p + i;
         }

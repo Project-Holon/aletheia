@@ -12,14 +12,14 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021D6C58 0x021D6C58 thumb ov121
  *   func_021D83CC 0x021D83CC thumb ov121
- *   func_020457B0 0x020457B0 arm
- *   func_02045994 0x02045994 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_SetStringN 0x02045994 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_0204989C 0x0204989C arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
@@ -37,15 +37,15 @@ extern void func_02082BCC(void *,int,int);
 struct U16Vec;
 extern void *func_021D6C58(u8 *p, int i);
 extern void func_021D83CC(char *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Strbuf;
-extern void func_02045994(struct Strbuf *,const u16 *,u32);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,int,int,int,int,int);
 extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_0204989C(int,int,int,int,int,int,int);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -83,8 +83,8 @@ void func_021D81B0(u8 *p,u32 which,int heap)
         break;
     case 2:
         d.w[0]=0;
-        d.w[4]=(u32)func_020457B0(37,heap);
-        func_02045994((struct Strbuf *)d.w[4],(const u16 *)(p+1068),37);
+        d.w[4]=(u32)STRBUF_Create(37,heap);
+        STRBUF_SetStringN((struct Strbuf *)d.w[4],(const u16 *)(p+1068),37);
         d.w[8]=1;
         d.h[4]=-1;
         d.h[5]=-2;
@@ -100,14 +100,14 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     func_02049658(archive,15,2,0,0,0,heap);
     if(which==2) func_0204989C(34,30,2,0,0,0,heap);
     else func_0204989C(34,29,2,0,0,0,heap);
-    func_02049238(archive);
+    ARC_TOOL_DeleteHandle(archive);
     func_020413B0(2,0,0,32,24,4);
     func_020409B4(2);
     func_02040588(2,1);
     ((struct Obj00326 *)p)->f270=func_021DA4DC(&d,heap);
     if(!d.w[0]) {
         for(i=0;i<4;i++) {
-            if(d.w[4+i]) func_02045808((void *)d.w[4+i]);
+            if(d.w[4+i]) STRBUF_Delete((void *)d.w[4+i]);
         }
     }
     func_0207D63C((void *)0x04000050,4,24,15,3);

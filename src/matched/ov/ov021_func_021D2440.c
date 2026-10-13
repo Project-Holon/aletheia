@@ -1,5 +1,5 @@
 /*
- * function: func_021D2440
+ * function: FLDEFF_RIPPLE_CreateSpecialLocationWarpTask
  * address:  0x021D2440
  * packet:   pkt_ov021_021D2440
  * region:   ov021
@@ -12,7 +12,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021D2358  0x021D2358  thumb  ov021
+ *   FLDEFF_RIPPLE_WarpToSpecialLocationTask  0x021D2358  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -23,11 +23,11 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021D2358(u32 a, int *seq, int *w);
+extern int FLDEFF_RIPPLE_WarpToSpecialLocationTask(u32 a, int *seq, int *w);
 
-void *func_021D2440(void *a, u32 b, u32 c)
+void *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(void *a, u32 b, u32 c)
 {
-    void *task = func_020122C0(a, 0, func_021D2358, 0x10);
+    void *task = func_020122C0(a, 0, FLDEFF_RIPPLE_WarpToSpecialLocationTask, 0x10);
     u32 *w = func_020124E8(task);
 
     w[0] = (u32)a;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020130C4   0x020130C4  thumb
+ *   BTL_SETUP_Clear   0x020130C4  thumb
  *   BTL_SETUP_SetPlayerParty   0x0201333C  thumb
  *   BTL_SETUP_InitCommon   0x02013360  thumb
  *   func_0201A920   0x0201A920  thumb
@@ -58,7 +58,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020130C4(u8 *p);
+extern void BTL_SETUP_Clear(u8 *p);
 struct Party;
 struct Rec534;
 extern void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2);
@@ -70,7 +70,7 @@ void BTL_SETUP_SetupDemo(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
 {
     u32 r;
 
-    func_020130C4(a0);
+    BTL_SETUP_Clear(a0);
     BTL_SETUP_InitCommon(a0, a1, (const void *)a4);
     BTL_SETUP_SetPlayerParty((int)a0, (int)a1, a5);
     if (a2 != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02162708
+ * function: EVENTDATA_SYSTEM_SetConnectGridPos
  * address:  0x02162708
  * packet:   pkt_ov010_02162708
  * region:   ov010
@@ -31,7 +31,7 @@ struct Ctx {
     struct Ent *f24;
 };
 
-void func_02162708(struct Ctx *c, u32 idx, u16 a, u32 b, u16 e)
+void EVENTDATA_SYSTEM_SetConnectGridPos(struct Ctx *c, u32 idx, u16 a, u32 b, u16 e)
 {
     struct Ent *p;
     if (c->f16 >= idx && c->f24 != 0) {

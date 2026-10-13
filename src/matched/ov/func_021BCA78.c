@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA78
+ * function: FIELD_PLACE_NAME_SetZoneChangeRequest
  * address:  0x021BCA78
  * packet:   pkt_021BCA78
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BCA78(u8 *p)
+void FIELD_PLACE_NAME_SetZoneChangeRequest(u8 *p)
 {
     ((struct Obj18198 *)p)->f48 = 1;
 }

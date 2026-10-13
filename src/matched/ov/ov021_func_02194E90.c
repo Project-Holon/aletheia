@@ -1,5 +1,5 @@
 /*
- * function: func_02194E90
+ * function: TALKMSGWIN_GetAnchorWindowPoint
  * address:  0x02194E90
  * packet:   pkt_ov021_02194E90
  * region:   ov021
@@ -31,7 +31,7 @@ extern u8 func_02045748(struct Descriptor *p);
 extern u8 func_02045750(struct Descriptor *p);
 extern void func_0206E0C4(int x, int y, void *c, int z);
 
-void func_02194E90(u8 *e, u8 *ent, int *b, int *c, void *d)
+void TALKMSGWIN_GetAnchorWindowPoint(u8 *e, u8 *ent, int *b, int *c, void *d)
 {
     int x1;
     int y1;

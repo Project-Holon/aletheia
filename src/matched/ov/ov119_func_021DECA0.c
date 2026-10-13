@@ -20,10 +20,10 @@
  *   func_02041570 0x02041570 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021B6558 0x021B6558 thumb ov067
- *   func_021B6548 0x021B6548 thumb ov067
+ *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  *   func_021E24E8 0x021E24E8 thumb ov119
  *   func_021E6B90 0x021E6B90 thumb ov119
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DEC4C 0x021DEC4C thumb ov119
  */
@@ -43,16 +43,16 @@ extern void func_02041570(int channel, u16 val);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
-extern int func_021B6548(unsigned char *p, unsigned int id, int v);
+extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 extern void func_021E24E8(char *p, int a1);
 extern void func_021E6B90(char *p);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D8E84(void *,int);
 extern void func_021DEC4C(void *);
 void func_021DECA0(char *p) {
  func_021E4000(p);func_021DF7D0(p);func_021DF8E0(p);func_021E64B8(p);func_021DD588(p);func_021E4570(p);func_021DD9DC((unsigned char *)p);func_021E4888(p);
  func_021DD528(p,1);func_02041570(6,0);func_0204B3DC((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04,0);
- func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,1);func_021B6548((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,0);func_021E24E8(p,6);
+ func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,1);TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,0);func_021E24E8(p,6);
  ((struct Obj00001 *)p)->f108C=0;((struct Obj00001 *)p)->f1084=1;func_021E6B90(p);
- func_0202208C(0,1,1,0,6,1,((struct Obj00001 *)p)->f5F4);func_021D8E84(p,(int)func_021DEC4C);
+ WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj00001 *)p)->f5F4);func_021D8E84(p,(int)func_021DEC4C);
 }

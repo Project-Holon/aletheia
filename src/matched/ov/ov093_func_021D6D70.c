@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D70
+ * function: BTL_POKEPARAM_ClearSubstitute
  * address:  0x021D6D70
  * packet:   pkt_ov093_021D6D70
  * region:   ov093
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj21240.h"
 
-void func_021D6D70(unsigned char *p)
+void BTL_POKEPARAM_ClearSubstitute(unsigned char *p)
 {
     ((struct Obj21240 *)p)->f1F2 = 0;
 }

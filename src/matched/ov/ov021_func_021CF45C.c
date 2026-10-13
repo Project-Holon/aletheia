@@ -1,5 +1,5 @@
 /*
- * function: func_021CF45C
+ * function: ENCEFF_Create
  * address:  0x021CF45C
  * packet:   pkt_ov021_021CF45C
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021DE5FC[];
 
-void *func_021CF45C(u32 heap, u32 v)
+void *ENCEFF_Create(u32 heap, u32 v)
 {
     u32 *p = func_02030734(heap, 0x20, 1, d_021DE5FC, 0x6c);
 

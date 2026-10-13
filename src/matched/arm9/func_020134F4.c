@@ -16,6 +16,7 @@
  * symbols:
  *   BTL_SETUP_SetPlayerParty  0x0201333C  thumb
  *   BTL_SETUP_InitCommon  0x02013360  thumb
+ *   BTL_SETUP_Clear  0x020130C4  thumb
  */
 #include "../include/Obj00155.h"
 
@@ -25,13 +26,13 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern void func_020130C4(u8 *p);
+extern void BTL_SETUP_Clear(u8 *p);
 extern void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2);
 extern int BTL_SETUP_SetPlayerParty(int a0, int a1, int a2);
 
 void BTL_SETUP_SetupTrainerBase(u8 *p, u32 a1, u32 a2, u32 a3, u16 h)
 {
-    func_020130C4(p);
+    BTL_SETUP_Clear(p);
     BTL_SETUP_InitCommon(p, (void *)a1, (const void *)a3);
     BTL_SETUP_SetPlayerParty((int)p, a1, h);
     ((struct Obj00155 *)p)->f0 = 1;

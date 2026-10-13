@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_SYSTEM_StartParent  0x02037894  arm
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  *   unk_0203B228   0x0203B228  data
@@ -36,7 +36,7 @@
 
 typedef unsigned int u32;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32   GFL_NET_SYSTEM_StartParent(int a0, int a1, int a2, int a3);
 typedef unsigned short u16;
 struct NetState;
@@ -46,7 +46,7 @@ extern char  unk_0203B22C[];
 
 void GFL_NET_STATE_StartParent(void)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (GFL_NET_SYSTEM_StartParent(1, 0x200, 1, (int)unk_0203B22C) != 0)
         GFL_NET_STATE_ChangeStateDebug((struct NetState *)((int)*(int *)((char *)(0x21469DC))), (void *)unk_0203B228, 0, 0x205);
 }

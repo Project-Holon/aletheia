@@ -1,5 +1,5 @@
 /*
- * function: func_0218CD20
+ * function: FIELD_G3D_MAPPER_AppendMatrix
  * address:  0x0218CD20
  * packet:   pkt_ov021_0218CD20
  * region:   ov021
@@ -16,19 +16,19 @@
  * and colours. The block's own cells are plain words (.v store).
  *
  * symbols:
- *   func_02159BF4  0x02159BF4  thumb
- *   func_02159BF8  0x02159BF8  thumb
- *   func_02159BFC  0x02159BFC  thumb
- *   func_02159C20  0x02159C20  thumb
+ *   MAP_MATRIX_GetWidth  0x02159BF4  thumb
+ *   MAP_MATRIX_GetHeight  0x02159BF8  thumb
+ *   MAP_MATRIX_GetCount  0x02159BFC  thumb
+ *   MAP_MATRIX_GetMapGrid  0x02159C20  thumb
  *   func_02159C00  0x02159C00  thumb
  *   func_02030734  0x02030734  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012974  0x02012974  thumb
- *   func_0218DD84  0x0218DD84  thumb  ov021
- *   d_021DD9EC     0x021DD9EC  data   a4
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldWork  0x02012974  thumb
+ *   FIELD_G3D_MAPPER_IsCellUsed  0x0218DD84  thumb  ov021
+ *   gFieldG3dMapperSrcName     0x021DD9EC  data   a4
  * Addresses are Black-image addresses.
  */
 
@@ -60,22 +60,22 @@ typedef struct {
     u32 pos;
 } Map;
 
-extern u16 func_02159BF4(void *p);
-extern u16 func_02159BF8(void *p);
-extern int func_02159BFC(void *p);
-extern u32 *func_02159C20(void *p);
+extern u16 MAP_MATRIX_GetWidth(void *p);
+extern u16 MAP_MATRIX_GetHeight(void *p);
+extern int MAP_MATRIX_GetCount(void *p);
+extern u32 *MAP_MATRIX_GetMapGrid(void *p);
 extern void func_02159C00(void *p, u8 w, u8 h);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 struct BigObj;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012974(const struct BigObj *p);
-extern int func_0218DD84(u32 a);
-extern char d_021DD9EC[];
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetFieldWork(const struct BigObj *p);
+extern int FIELD_G3D_MAPPER_IsCellUsed(u32 a);
+extern char gFieldG3dMapperSrcName[];
 
-int func_0218CD20(u32 a, Map *m, void *blk)
+int FIELD_G3D_MAPPER_AppendMatrix(u32 a, Map *m, void *blk)
 {
     u32 *src;
     u32 nn;
@@ -93,10 +93,10 @@ int func_0218CD20(u32 a, Map *m, void *blk)
     int i;
     int j;
 
-    bw = func_02159BF4(blk);
-    bh = func_02159BF8(blk);
-    bn = func_02159BFC(blk);
-    src = func_02159C20(blk);
+    bw = MAP_MATRIX_GetWidth(blk);
+    bh = MAP_MATRIX_GetHeight(blk);
+    bn = MAP_MATRIX_GetCount(blk);
+    src = MAP_MATRIX_GetMapGrid(blk);
     nw = m->w + bw;
     nh = m->h;
     nn = m->n + bn;
@@ -105,7 +105,7 @@ int func_0218CD20(u32 a, Map *m, void *blk)
     if (nn > 900 || nw > 30 || nh > 30)
         return 0;
 
-    buf = func_02030734((u16)((m->heap & 0x7FFF) | 0x8000), nn * 4, 0, d_021DD9EC, 0x25F);
+    buf = func_02030734((u16)((m->heap & 0x7FFF) | 0x8000), nn * 4, 0, gFieldG3dMapperSrcName, 0x25F);
     for (i = 0; i < m->h; i++) {
         for (j = 0; j < m->w; j++)
             buf[i * nw + j] = m->tiles[i * m->w + j];
@@ -121,7 +121,7 @@ int func_0218CD20(u32 a, Map *m, void *blk)
     p = m->pos;
     m->pos = p % w + p / w * nw;
     for (i = 0; i < m->nEnts; i++) {
-        if (func_0218DD84((u32)(&m->ents[i].pos))) {
+        if (FIELD_G3D_MAPPER_IsCellUsed((u32)(&m->ents[i].pos))) {
             w = m->w;
             e = &m->ents[i];
             q = e->pos;
@@ -131,7 +131,7 @@ int func_0218CD20(u32 a, Map *m, void *blk)
     m->w = nw;
     m->h = nh;
     m->n = nn;
-    func_02159C00((void *)func_02012974(func_020120F4(func_02188C80((void *)a))), nw, nh);
+    func_02159C00((void *)GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))), nw, nh);
     func_020307B0(buf);
     return 1;
 }

@@ -66,8 +66,9 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0204932C  0x0204932C  arm
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201B70C.c \
@@ -92,9 +93,9 @@ struct EvoTable {
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
-extern void func_02048F4C(void *dest, u32 kind, u32 id);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
+extern void ARC_TOOL_ReadMember(void *dest, u32 kind, u32 id);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 void *SHINKA_CHECK_OpenHandle(u32 heap)
 {
@@ -105,7 +106,7 @@ u32 SHINKA_CHECK_GetRowParam(void *a, u32 id, u32 row, u32 field)
 {
     struct EvoTable t;
 
-    func_0204932C(a, id, &t);
+    ARC_TOOL_ReadHandleMember(a, id, &t);
     switch (field) {
     case 0:
         return t.rows[row].method;
@@ -119,7 +120,7 @@ u32 SHINKA_CHECK_GetRowParam(void *a, u32 id, u32 row, u32 field)
 
 void SHINKA_CHECK_LoadData(u32 id, void *dest)
 {
-    func_02048F4C(dest, 0x13, id);
+    ARC_TOOL_ReadMember(dest, 0x13, id);
 }
 
 u32 SHINKA_CHECK_KnowsMove(void *mon, u32 move)
@@ -129,7 +130,7 @@ u32 SHINKA_CHECK_KnowsMove(void *mon, u32 move)
 
     found = 0;
     for (i = 0x36; i < 0x3A; i++) {
-        if (move == func_02017E1C(mon, i, 0)) {
+        if (move == POKE_TOOL_GetPartyValue(mon, i, 0)) {
             found = 1;
             break;
         }

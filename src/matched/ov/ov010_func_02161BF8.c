@@ -1,5 +1,5 @@
 /*
- * function: func_02161BF8
+ * function: EVENT_FIELD_PROCLINK_CommExitEventMain
  * address:  0x02161BF8
  * packet:   pkt_ov010_02161BF8
  * region:   ov010
@@ -13,7 +13,7 @@
  *   GAMESYSTEM_IsCommBlocked  0x02012144  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   d_021BFB3C     0x021BFB3C  data  ov203
@@ -39,12 +39,12 @@ struct Ctx;
 extern u8 GAMESYSTEM_IsCommBlocked(const struct Ctx *p);
 extern void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v);
 extern u32 func_02026454(void *obj);
-extern void func_02026400(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 struct IcaAnime;
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 
-int func_02161BF8(void *a0, int *state, Obj *o)
+int EVENT_FIELD_PROCLINK_CommExitEventMain(void *a0, int *state, Obj *o)
 {
     switch (*state) {
     case 0:
@@ -53,7 +53,7 @@ int func_02161BF8(void *a0, int *state, Obj *o)
         if (func_02026454(o->f04) == 0) {
             *state = *state + 2;
         } else {
-            func_02026400(o->f04);
+            GAME_COMM_RequestExitNoCallback(o->f04);
             *state = *state + 1;
         }
         break;

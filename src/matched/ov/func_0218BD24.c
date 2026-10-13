@@ -1,5 +1,5 @@
 /*
- * function: func_0218BD24
+ * function: FIELD_BUILDMODEL_GetSeasonAnimSlot
  * address:  0x0218BD24
  * packet:   pkt_0218BB04
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_0218BD24(u8 *p)
+u8 FIELD_BUILDMODEL_GetSeasonAnimSlot(u8 *p)
 {
     return ((struct Obj17895 *)p)->fC;
 }

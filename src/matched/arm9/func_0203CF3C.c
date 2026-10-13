@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
  *
- * The same vtable dispatch as src/matched/func_0203CF10.c, one slot further
+ * The same vtable dispatch as src/matched/GFL_NET_GetScanResult.c, one slot further
  * on (+0x2C) and without the null test: the state object is assumed live and
  * the hook's pointer result is returned to the caller.
  *

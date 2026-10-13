@@ -1,5 +1,5 @@
 /*
- * function: func_02172D38
+ * function: UNION_COMM_RequestShutdown
  * address:  0x02172D38
  * packet:   pkt_ov012_02172D38
  * region:   ov012
@@ -13,7 +13,7 @@
 
 typedef unsigned char u8;
 
-void func_02172D38(u8 *p)
+void UNION_COMM_RequestShutdown(u8 *p)
 {
     if (p[0x3561] == 0) {
         p[0x3561] = 1;

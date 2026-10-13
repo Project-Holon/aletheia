@@ -1,5 +1,5 @@
 /*
- * function: func_021AB29C
+ * function: MAP_ATTR_IsAnyDoubleGrass
  * address:  0x021AB29C
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -12,21 +12,21 @@
  * Terrain-id predicate: the union of the two families below.
  *
  * symbols:
- *   func_021AB250  0x021AB250  thumb
- *   func_021AB270  0x021AB270  thumb
+ *   MAP_ATTR_IsGrassDouble  0x021AB250  thumb
+ *   MAP_ATTR_IsTallGrassDouble  0x021AB270  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-extern BOOL func_021AB250(u16 id);
-extern BOOL func_021AB270(u16 id);
+extern BOOL MAP_ATTR_IsGrassDouble(u16 id);
+extern BOOL MAP_ATTR_IsTallGrassDouble(u16 id);
 
 
-BOOL func_021AB29C(u16 id)
+BOOL MAP_ATTR_IsAnyDoubleGrass(u16 id)
 {
-    if (func_021AB250(id) == 1 || func_021AB270(id) == 1) {
+    if (MAP_ATTR_IsGrassDouble(id) == 1 || MAP_ATTR_IsTallGrassDouble(id) == 1) {
         return 1;
     }
 

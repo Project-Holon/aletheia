@@ -13,8 +13,8 @@
  * symbols:
  *   func_0202F170       0x0202F170  thumb
  *   func_020490F4       0x020490F4  arm
- *   func_02049250       0x02049250  arm
- *   func_02048F60       0x02048F60  arm
+ *   ARC_TOOL_LoadHandleMember       0x02049250  arm
+ *   ARC_TOOL_LoadMember       0x02048F60  arm
  *   item_gfx_member     0x0209EB6C  data
  *   item_gfx_member_x   0x0209E9E8  data
  *
@@ -76,8 +76,8 @@ extern struct ItemGfxMember item_gfx_member_x[];
 extern u32   func_0202F170(u32 item);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 
 u32 func_02020E60(u32 item, u32 which)
 {
@@ -142,7 +142,7 @@ u32 func_02020F20(void *handle, u32 item, u32 arg)
         item = 0;
     }
 
-    return (u32)func_02049250(handle, item, arg);
+    return (u32)ARC_TOOL_LoadHandleMember(handle, item, arg);
 }
 
 void *func_02020F34(u32 item, u32 which, u32 heap)
@@ -153,11 +153,11 @@ void *func_02020F34(u32 item, u32 which, u32 heap)
 
     switch (which) {
     case 0:
-        return func_02048F60(0x18, item, heap);
+        return ARC_TOOL_LoadMember(0x18, item, heap);
     case 1:
-        return func_02048F60(0x19, item_gfx_member[item].lo, heap);
+        return ARC_TOOL_LoadMember(0x19, item_gfx_member[item].lo, heap);
     case 2:
-        return func_02048F60(0x19, item_gfx_member[item].hi, heap);
+        return ARC_TOOL_LoadMember(0x19, item_gfx_member[item].hi, heap);
     }
 
     return 0;

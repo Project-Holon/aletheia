@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB3C
+ * function: TOWNMAP_GRH_GetTownInfoValue
  * address:  0x021BBB3C
  * packet:   pkt_021BBB3C
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-unsigned short func_021BBB3C(char *p, int a, int b)
+unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b)
 {
     return *(unsigned short *)(p + a * 0x36 + b * 2);
 }

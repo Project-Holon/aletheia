@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02021444
+ * function: PALANM_StartTimer
  * address:  0x02021444
  * packet:   pkt_02021444
  * region:   arm9
@@ -26,8 +26,8 @@
  * split helper.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02021444.c \
- *       --func func_02021444 --addr 0x02021444 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_StartTimer.c \
+ *       --func PALANM_StartTimer --addr 0x02021444 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int       u32;
@@ -46,7 +46,7 @@ extern struct PalAnmState g_02146788;
 
 extern u64 OS_GetTick(void);
 
-void func_02021444(void)
+void PALANM_StartTimer(void)
 {
     g_02146788.unk_00 = 1;
     g_02146788.unk_04 = 0;

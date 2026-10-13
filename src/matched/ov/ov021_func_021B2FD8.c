@@ -1,5 +1,5 @@
 /*
- * function: func_021B2FD8
+ * function: SCRCMD_SHOP_StartShop
  * address:  0x021B2FD8
  * packet:   pkt_ov021_021B2FD8
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158FB4  0x02158FB4  thumb  ov010
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_020127C4  0x020127C4  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   func_02030734  0x02030734  arm
- *   func_021904AC  0x021904AC  thumb  ov021
- *   func_02012F08  0x02012F08  thumb
- *   func_0201292C  0x0201292C  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_020071CC  0x020071CC  thumb
- *   func_02012F2C  0x02012F2C  thumb
- *   func_020113D0  0x020113D0  thumb
- *   func_021B3158  0x021B3158  thumb  ov021
- *   func_021655D4  0x021655D4  thumb  ov010
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
+ *   VM_SetWait  0x020113D0  thumb
+ *   SCRCMD_PROC_FLD_StepShopTask  0x021B3158  thumb  ov021
+ *   GAME_BEACON_SEARCH_SetFacilityEnter  0x021655D4  thumb  ov010
  *   d_021DE210     0x021DE210  data   ov021  a1
  * Addresses are Black-image addresses.
  */
@@ -55,33 +55,33 @@ typedef struct Work {
     u32 f24;
 } Work;
 
-extern unsigned int func_02159B10(void *, void *);
-extern unsigned short *func_02159AE8(void *a0, void *a1);
-extern void *func_0215A5DC(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Big;
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0215A5F4(void *p);
-extern void *func_02158FB4(void *p);
-extern u32 func_02188C54(u8 *p);
-extern u8 *func_020127C4(void *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetUserWorkPtr(void *p);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_021904AC(u8 *p);
-extern void *func_02012F08(int *p);
-extern void *func_0201292C(const struct BigObj *p);
-extern void *func_02012EBC(struct Big *p);
+extern u32 FIELD_MSGBG_GetFont(u8 *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_02012F2C(int *p);
-extern void func_020113D0(char *p, int val);
-extern int func_021B3158(u32 a, u32 b);
-extern void func_021655D4(void);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
+extern void VM_SetWait(char *p, int val);
+extern int SCRCMD_PROC_FLD_StepShopTask(u32 a, u32 b);
+extern void GAME_BEACON_SEARCH_SetFacilityEnter(void);
 extern u8 d_021DE210[];
 
-int func_021B2FD8(u32 a, u32 b)
+int SCRCMD_SHOP_StartShop(u32 a, u32 b)
 {
     u32 v;
     void *t;
@@ -92,22 +92,22 @@ int func_021B2FD8(u32 a, u32 b)
     u32 z;
     Work *w;
 
-    v = func_02159B10((void *)a, (void *)b);
-    func_02159AE8((void *)a, (void *)b);
-    t = func_0215A5DC((void *)b);
-    s = (u32)func_020120F4(t);
-    x = func_0201210C((void *)t);
-    slot = func_02158FB4(func_0215A5F4((void *)b));
-    y = func_02188C54(x);
-    z = (u32)func_020127C4((void *)s);
+    v = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    t = SCRCMD_WORK_GetGameSystem((void *)b);
+    s = (u32)GAMESYSTEM_GetGameData(t);
+    x = GAMESYSTEM_GetFieldMap((void *)t);
+    slot = SCRIPT_WORK_GetUserWorkPtr(SCRCMD_WORK_GetScriptWork((void *)b));
+    y = FIELDMAP_GetMsgBg(x);
+    z = (u32)GAME_DATA_GetSecondUnionInfo((void *)s);
     w = func_02030734(4, 0x214, 1, (const char *)d_021DE210, 0xFC);
     *slot = w;
-    w->f10 = func_021904AC((u8 *)y);
-    w->f14 = (u32)func_02012F08((int *)s);
+    w->f10 = FIELD_MSGBG_GetFont((u8 *)y);
+    w->f14 = (u32)GAME_DATA_GetMiscSave((int *)s);
     w->f0C = 0x15;
-    w->f18 = func_0201292C((const struct BigObj *)s);
-    w->f20 = (u32)func_020071CC((struct Sub020071CCCtrl *)func_02012EBC((struct Big *)s), 0x3a);
-    w->f1C = (u32)func_02012F2C((int *)s);
+    w->f18 = GAME_DATA_GetMyItem((const struct BigObj *)s);
+    w->f20 = (u32)func_020071CC((struct Sub020071CCCtrl *)GAME_DATA_GetSaveControl((struct Big *)s), 0x3a);
+    w->f1C = (u32)GAME_DATA_GetTrainerRecord((int *)s);
     w->f24 = z;
     switch (v) {
     case 0xFF:
@@ -131,9 +131,9 @@ int func_021B2FD8(u32 a, u32 b)
         w->b3 = (u8)v;
         break;
     }
-    func_020113D0((char *)a, (int)func_021B3158);
+    VM_SetWait((char *)a, (int)SCRCMD_PROC_FLD_StepShopTask);
     if (v != 0xFE && v != 0xFD) {
-        func_021655D4();
+        GAME_BEACON_SEARCH_SetFacilityEnter();
     }
     return 1;
 }

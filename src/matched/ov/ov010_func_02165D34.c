@@ -1,5 +1,5 @@
 /*
- * function: func_02165D34
+ * function: GAME_BEACON_ACCESSOR_GetTownmapRootZoneId
  * address: 0x02165D34
  * packet: pkt_ov010_02165D34
  * region: ov010
@@ -12,4 +12,4 @@
  * and SDK union checks. Coherent ov010 Thumb accessor; ov009 is interior ARM.
  */
 struct Bits { unsigned a, b; unsigned low:22; unsigned value:10; };
-unsigned short func_02165D34(const struct Bits *p) { return p->value; }
+unsigned short GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(const struct Bits *p) { return p->value; }

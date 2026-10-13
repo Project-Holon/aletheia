@@ -1,5 +1,5 @@
 /*
- * function: func_021BA60C
+ * function: POKELIST_ApplyItemEffect
  * address: 0x021BA60C
  * packet: pkt_ov091_021BA60C
  * region: ov091
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void NATSUKI_Calc(void *, int, int, int);
-void func_021BA60C(u8 *p, void *q) { NATSUKI_Calc(q,7,((struct Obj20869 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f30,((struct Obj00009 *)p)->f0); }
+void POKELIST_ApplyItemEffect(u8 *p, void *q) { NATSUKI_Calc(q,7,((struct Obj20869 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f30,((struct Obj00009 *)p)->f0); }

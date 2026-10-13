@@ -1,5 +1,5 @@
 /*
- * function: func_02190590
+ * function: FIELD_MSGBG_MsgPrintPrintStr
  * address:  0x02190590
  * packet:   pkt_ov021_02190590
  * region:   ov021
@@ -37,7 +37,7 @@ extern void *func_02045770(struct Descriptor *a);
 struct PrintSys;
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 
-void func_02190590(Slot *s, int x, int y, u32 z)
+void FIELD_MSGBG_MsgPrintPrintStr(Slot *s, int x, int y, u32 z)
 {
     u32 t;
 

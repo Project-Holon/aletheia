@@ -1,7 +1,7 @@
 /*
  * file:     clact.c
  * unit:     yes
- * function: CLACT_InitSystem, CLACT_ExitSystem, func_0204A600, func_0204A648, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, func_0204A9D0, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, func_0204ABBC, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, func_0204ACEC, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, func_0204B034, func_0204B084, func_0204B09C, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, func_0204B324, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, func_0204B84C, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, func_0204B954, CLACT_StartActorAnim, CLACT_StopActorAnim, func_0204B98C, func_0204B9A0, CLACT_SetActorAnimLoopCount, func_0204BA00, CLACT_ResetActorAnimCommand, func_0204BA20, CLACT_InitDefaultRenderer, CLACT_SetOamOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_SetOamManagerMainParam, CLACT_SetOamManagerSubParam, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_GetAnimCtrl, CLACT_GetAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_UpdateAnim, CLACT_UpdateVramAnim, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
+ * function: CLACT_InitSystem, CLACT_ExitSystem, CLACT_DrawSystem, CLACT_VBlankSystem, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, CLACT_TransferCharacter, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, CLACT_GetCharacterVramAddress, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, CLACT_RegisterPaletteCompressed, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, CLACT_CreateRenderer, CLACT_DeleteRenderer, CLACT_SetSurfacePos, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, CLACT_CreateAffineActor, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, CLACT_SetActorBgPriority, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, CLACT_SetActorAutoAnimSpeed, CLACT_StartActorAnim, CLACT_StopActorAnim, CLACT_IsActorAnimActive, CLACT_RestartActorAnim, CLACT_SetActorAnimLoopCount, func_0204BA00, CLACT_ResetActorAnimCommand, CLACT_SetActorVisible, CLACT_InitDefaultRenderer, CLACT_SetOamOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_SetOamManagerMainParam, CLACT_SetOamManagerSubParam, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_GetAnimCtrl, CLACT_GetAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_UpdateAnim, CLACT_UpdateVramAnim, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
  * address:  0x0204A48C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -25,7 +25,7 @@
  *   func_020637B4   0x020637B4  arm
  *   func_0207E780   0x0207E780  arm
  *   func_0207E804   0x0207E804  arm
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   func_0206380C  0x0206380C  arm
  *   func_02063800  0x02063800  arm
  *   func_0207E51C  0x0207E51C  arm
@@ -561,7 +561,7 @@ extern int func_020637B4(int *p, int i);
 extern void DC_FlushRange(void *a, u32 b);
 extern void func_0207E780(void *a, void *b, u32 c);
 extern void func_0207E804(void *a, void *b, u32 c);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern int func_0206380C(char *p, int i);
 extern int func_02063800(char *p, int i);
 extern void func_0207E51C(void *dest, void *src, u32 size);
@@ -638,28 +638,28 @@ extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
 extern void  SYSTEMFONT_Load(u32 a);
 void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
 void CLACT_ExitSystem(void);
-void func_0204A600(void);
-void func_0204A648(void);
+void CLACT_DrawSystem(void);
+void CLACT_VBlankSystem(void);
 void CLACT_FlushOamIfPending(void);
 s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
 s32 CLACT_RegisterEmptyCharacter(u32 size, u32 vram_mode, u16 heapId);
 void CLACT_ReleaseCharacter(u32 idx);
-void func_0204A9D0(int idx, struct CharData *char_data);
+void CLACT_TransferCharacter(int idx, struct CharData *char_data);
 void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int target);
 void CLACT_GetCharacterProxy(u32 idx, struct ImageProxy *out);
-int func_0204ABBC(u32 idx, u32 flag);
+int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 s32 CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
-int func_0204ACEC(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
+int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 void CLACT_ReleasePalette(u32 idx);
 void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 size);
 void CLACT_GetPaletteProxy(u32 idx, struct PaletteProxy *dest);
 int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
 void CLACT_ReleaseCellAnim(u32 idx);
-struct Renderer *func_0204B034(const struct SurfaceInit *inits, u32 count, u32 heap_id);
-void func_0204B084(struct Renderer *renderer);
-void func_0204B09C(struct Renderer *renderer, int idx, struct Vec2 *pos);
+struct Renderer *CLACT_CreateRenderer(const struct SurfaceInit *inits, u32 count, u32 heap_id);
+void CLACT_DeleteRenderer(struct Renderer *renderer);
+void CLACT_SetSurfacePos(struct Renderer *renderer, int idx, struct Vec2 *pos);
 void CLACT_GetSurfacePos(struct Renderer *renderer, u32 surface_idx, struct Vec2 *out);
 void CLACT_SetRendererCulling(struct Renderer *renderer, int enable);
 struct Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId);
@@ -669,7 +669,7 @@ u32 CLACT_GetUnitDrawEnable(struct Unit *unit);
 void CLACT_SetUnitRenderer(struct Unit *unit, void *renderer);
 void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
 struct Actor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
-struct Actor *func_0204B324(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
+struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
 void CLACT_DeleteActor(struct Actor *actor);
 void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 u32 CLACT_GetActorDrawEnable(struct Actor *actor);
@@ -704,7 +704,7 @@ u16 CLACT_GetActorCharacterIndex(struct Actor *actor);
 u16 CLACT_GetActorPaletteIndex(struct Actor *actor);
 void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
 int CLACT_GetActorDrawPriority(struct Actor *actor);
-void func_0204B84C(struct Actor *actor, unsigned int priority);
+void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
 u32 CLACT_GetActorBgPriority(struct Actor *actor);
 void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 u16 CLACT_GetActorAnimSeq(struct Actor *actor);
@@ -716,15 +716,15 @@ void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx);
 u16 CLACT_GetActorAnimSeqCount(struct Actor *actor);
 void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 u32 CLACT_GetActorAutoAnim(struct Actor *actor);
-void func_0204B954(struct Actor *actor, u32 speed);
+void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed);
 void CLACT_StartActorAnim(struct Actor *actor);
 void CLACT_StopActorAnim(struct Actor *actor);
-u32 func_0204B98C(struct Actor *actor);
-void func_0204B9A0(struct Actor *actor);
+u32 CLACT_IsActorAnimActive(struct Actor *actor);
+void CLACT_RestartActorAnim(struct Actor *actor);
 void CLACT_SetActorAnimLoopCount(struct Actor *actor, u32 loop_limit);
 void func_0204BA00(struct Actor *actor, const struct Cmd *cmd);
 void CLACT_ResetActorAnimCommand(struct Actor *actor);
-void func_0204BA20(struct Actor *actor, u32 visible);
+void CLACT_SetActorVisible(struct Actor *actor, u32 visible);
 void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id);
 void CLACT_SetOamOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op);
 void CLACT_SetSystemActive(u32 active);
@@ -972,7 +972,7 @@ void CLACT_ExitSystem(void)
 /*
  * note:     re-verified 2026-09-20: MATCH; see verify output
  */
-void func_0204A600(void)
+void CLACT_DrawSystem(void)
 {
     struct Sys *sys = g_ClactSystem;
 
@@ -996,7 +996,7 @@ void func_0204A600(void)
 
 /*
  * The cell-actor manager's teardown pass, and the exact inverse of
- * src/pending/func_0204A600.c: each guard re-reads the context pointer from
+ * src/pending/CLACT_DrawSystem.c: each guard re-reads the context pointer from
  * its slot (the two `popeq` exits are the short-circuit returns, which is why
  * neither guard is predicated), the +0xEC latch decides whether the +0xE0
  * sub-object is released, and the flag goes back to 1.
@@ -1006,10 +1006,10 @@ void func_0204A600(void)
  * this range), so this file is EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204A648.c \
- *       --func func_0204A648 --addr 0x0204A648 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_VBlankSystem.c \
+ *       --func CLACT_VBlankSystem --addr 0x0204A648 --cc 1.1p1 --arm
  */
-void func_0204A648(void)
+void CLACT_VBlankSystem(void)
 {
     if (g_ClactSystem == 0)
         return;
@@ -1028,7 +1028,7 @@ void func_0204A648(void)
 
 /*
  * Cell-actor latch-only tick: latch off, flush the actor unit list, latch
- * back on.  No render update compared with func_0204A600.
+ * back on.  No render update compared with CLACT_DrawSystem.
  */
 void CLACT_FlushOamIfPending(void)
 {
@@ -1220,7 +1220,7 @@ void CLACT_ReleaseCharacter(u32 idx)
 
 
 
-void func_0204A9D0(int idx, struct CharData *char_data)
+void CLACT_TransferCharacter(int idx, struct CharData *char_data)
 {
     if (func_020637BC((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
         void *vram_addr = (void *)func_020637B4((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
@@ -1279,7 +1279,7 @@ void CLACT_GetCharacterProxy(u32 idx, struct ImageProxy *out)
  * Snapshot one actor record into a local 36-byte buffer and hand it to
  * func_020637B4 with mode 1, or mode 2 when the second argument is set.
  */
-int func_0204ABBC(u32 idx, u32 flag)
+int CLACT_GetCharacterVramAddress(u32 idx, u32 flag)
 {
     struct ImageProxy buf;
     u32 mode = 1;
@@ -1341,7 +1341,7 @@ found:
         return i;
     }
 
-    file = (u32)func_02049250(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
+    file = (u32)ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
 
     CLACT_TransferPaletteData((struct Res *)(&g_ClactSystem->res), i, (void *)file, (void *)vram_mode, vram_offset, first_color, color_count);
     sub_020307B0((void *)file);
@@ -1381,10 +1381,10 @@ found:
  * the declarations-not-allocation signature.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0204ACEC.c \
- *       --func func_0204ACEC --addr 0x0204ACEC --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/CLACT_RegisterPaletteCompressed.c \
+ *       --func CLACT_RegisterPaletteCompressed --addr 0x0204ACEC --cc 1.1p1 --arm
  */
-int func_0204ACEC(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id)
+int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id)
 {
     struct Res *res = &g_ClactSystem->res;
     u32 i;
@@ -1400,7 +1400,7 @@ int func_0204ACEC(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u
 found:
     if (i == (u32)-1)
         return (int)i;
-    file = func_02049250(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
+    file = ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
     CLACT_TransferPaletteDataEx((struct Res *)(&g_ClactSystem->res), i, file, (void *)vram_mode, vram_offset);
     sub_020307B0(file);
     return (int)i;
@@ -1523,7 +1523,7 @@ int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate)
 /*
  * Claim the first live slot of the 0x14-byte entry pool that lives at
  * +0x104 of the singleton behind 0x02146A74, build its two handles through
- * func_02049250 (same owner and same mode for both, second argument
+ * ARC_TOOL_LoadHandleMember (same owner and same mode for both, second argument
  * differing), publish the pair with CLACT_LoadCellAnimBanks and hand the slot index
  * back.
  *
@@ -1574,8 +1574,8 @@ s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, 
 found:
     slot = &g_ClactSystem->res.cells[idx];
 
-    slot->cell_file = func_02049250(archive, cell_file_idx, heap_id);
-    slot->anim_file = func_02049250(archive, anim_file_idx, heap_id);
+    slot->cell_file = ARC_TOOL_LoadHandleMember(archive, cell_file_idx, heap_id);
+    slot->anim_file = ARC_TOOL_LoadHandleMember(archive, anim_file_idx, heap_id);
 
     CLACT_LoadCellAnimBanks(&g_ClactSystem->res, idx, slot->cell_file, slot->anim_file);
 
@@ -1630,10 +1630,10 @@ void CLACT_ReleaseCellAnim(u32 idx)
  * as a literal __FILE__.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B034.c \
- *       --func func_0204B034 --addr 0x0204B034 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateRenderer.c \
+ *       --func CLACT_CreateRenderer --addr 0x0204B034 --cc 1.1p1 --arm
  */
-struct Renderer *func_0204B034(const struct SurfaceInit *inits, u32 count, u32 heap_id)
+struct Renderer *CLACT_CreateRenderer(const struct SurfaceInit *inits, u32 count, u32 heap_id)
 {
     struct Renderer *renderer = sub_02030734(heap_id, sizeof(struct Renderer), 0, s_clact_c, 0x633);
 
@@ -1643,7 +1643,7 @@ struct Renderer *func_0204B034(const struct SurfaceInit *inits, u32 count, u32 h
 
 
 
-void func_0204B084(struct Renderer *renderer)
+void CLACT_DeleteRenderer(struct Renderer *renderer)
 {
     CLACT_ExitRenderer(renderer);
     sub_020307B0(renderer);
@@ -1653,10 +1653,10 @@ void func_0204B084(struct Renderer *renderer)
 
 /*
  * Unlabelled arm9 leaf (the label at 0x0204B09C also spans the next leaf at
- * 0x0204B0C8); witness for ov021 func_021A87A8. Writes a 16-bit x/y pair,
+ * 0x0204B0C8); witness for ov021 FIELD_MENU_UpdateActorsForScroll. Writes a 16-bit x/y pair,
  * scaled to fx32, into entry idx (0x48 bytes each) of the table at +0x98.
  */
-void func_0204B09C(struct Renderer *renderer, int idx, struct Vec2 *pos)
+void CLACT_SetSurfacePos(struct Renderer *renderer, int idx, struct Vec2 *pos)
 {
     int x = pos->x;
     int y = pos->y;
@@ -1897,10 +1897,10 @@ struct Actor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u
  * which is what names those two u16; the fifth arrives with a plain `ldr`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B324.c \
- *       --func func_0204B324 --addr 0x0204B324 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateAffineActor.c \
+ *       --func CLACT_CreateAffineActor --addr 0x0204B324 --cc 1.1p1 --arm
  */
-struct Actor *func_0204B324(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id)
+struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id)
 {
     struct ActorReq req;
 
@@ -2601,7 +2601,7 @@ int CLACT_GetActorDrawPriority(struct Actor *actor)
 
 
 
-void func_0204B84C(struct Actor *actor, unsigned int priority)
+void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority)
 {
     actor->bg_priority = priority;
 }
@@ -2820,10 +2820,10 @@ u32 CLACT_GetActorAutoAnim(struct Actor *actor)
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B954.c \
- *       --func func_0204B954 --addr 0x0204B954 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorAutoAnimSpeed.c \
+ *       --func CLACT_SetActorAutoAnimSpeed --addr 0x0204B954 --cc 1.1p1 --arm
  */
-void func_0204B954(struct Actor *actor, u32 speed)
+void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed)
 {
     actor->auto_anim_speed = speed;
 }
@@ -2874,10 +2874,10 @@ void CLACT_StopActorAnim(struct Actor *actor)
  * same field through CLACT_GetAnimCtrl's record instead.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B98C.c \
- *       --func func_0204B98C --addr 0x0204B98C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_IsActorAnimActive.c \
+ *       --func CLACT_IsActorAnimActive --addr 0x0204B98C --cc 1.1p1 --arm
  */
-u32 func_0204B98C(struct Actor *actor)
+u32 CLACT_IsActorAnimActive(struct Actor *actor)
 {
     return CLACT_GetAnimObject(&actor->ctl)->active;
 }
@@ -2896,10 +2896,10 @@ u32 func_0204B98C(struct Actor *actor)
  * and re-materialises `&actor->ctl` for the second call.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204B9A0.c \
- *       --func func_0204B9A0 --addr 0x0204B9A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_RestartActorAnim.c \
+ *       --func CLACT_RestartActorAnim --addr 0x0204B9A0 --cc 1.1p1 --arm
  */
-void func_0204B9A0(struct Actor *actor)
+void CLACT_RestartActorAnim(struct Actor *actor)
 {
     CLACT_GetAnimCtrl(&actor->ctl)->active = 1;
     CLACT_ResetAnim(&actor->ctl);
@@ -2978,10 +2978,10 @@ void CLACT_ResetActorAnimCommand(struct Actor *actor)
  * docs/idioms/a-one-bit-bitfield-wants-two-arms-not-a-boolean.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BA20.c \
- *       --func func_0204BA20 --addr 0x0204BA20 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorVisible.c \
+ *       --func CLACT_SetActorVisible --addr 0x0204BA20 --cc 1.1p1 --arm
  */
-void func_0204BA20(struct Actor *actor, u32 visible)
+void CLACT_SetActorVisible(struct Actor *actor, u32 visible)
 {
     if (visible == 0) {
         actor->hidden = 1;
@@ -4659,7 +4659,7 @@ void CLACT_ClearActor(struct Actor *actor)
  * attempted yet.  This function is itself the sole blocker for
  * src/pending/CLACT_DrawUnit.c, which is the sole blocker named in
  * docs/notes/clact_c_fan_in_1_blockers.c.txt for src/pending/CLACT_DrawAllUnits.c,
- * which is one of the two blockers of src/pending/func_0204A600.c (the other
+ * which is one of the two blockers of src/pending/CLACT_DrawSystem.c (the other
  * is 0x02066998).
  *
  * Per-element teardown.  Guarded by bit 26 of the flag word at +0x60; the
@@ -4877,7 +4877,7 @@ void CLACT_ApplyActorInit(struct Actor *actor, const struct ActorInit *init, u32
     CLACT_SetActorSurfacePosAxis(actor, init->x, space, 0);
     CLACT_SetActorSurfacePosAxis(actor, init->y, space, 1);
     actor->draw_priority = init->draw_priority;
-    func_0204B84C(actor, init->bg_priority);
+    CLACT_SetActorBgPriority(actor, init->bg_priority);
     CLACT_SetActorAnimSeq(actor, init->anim_seq);
     CLACT_StartActorAnim(actor);
 }
@@ -5860,7 +5860,7 @@ void CLACT_UpdateVramAnim(struct AnimCtl *anim_ctl, u32 target)
 
 /*
  * Closes the clact.c fan-in-1 blocker documented in
- * docs/notes/clact_c_fan_in_1_blockers.c.txt: func_0204B9A0 (its only
+ * docs/notes/clact_c_fan_in_1_blockers.c.txt: CLACT_RestartActorAnim (its only
  * caller image wide) forwards its argument unchanged.
  *
  * Dispatch through a function-pointer table indexed by the mode word at
@@ -6325,7 +6325,7 @@ u32 CLACT_IsVramTypeCompatible(u32 mode, u32 bank_idx)
 
 /*
  * Load an archive member, optionally decompressing it.  Both arms read the
- * member with func_02049250 into a scratch block taken from the far end of
+ * member with ARC_TOOL_LoadHandleMember into a scratch block taken from the far end of
  * the caller's heap, (heapId & 0x7fff) | 0x8000, the same "allocate high"
  * form src/matched/unit_02045C44.c uses.  When the third argument is set the
  * block is treated as a compressed image: its first word carries the
@@ -6361,13 +6361,13 @@ void *CLACT_LoadArchiveData(void *archive, u32 file_idx, u32 compressed, u32 hea
     struct CompHeader *packed;
 
     if (compressed != 0) {
-        packed = (struct CompHeader *)func_02049250(archive, file_idx,
+        packed = (struct CompHeader *)ARC_TOOL_LoadHandleMember(archive, file_idx,
                   (u16)((heapId & 0x7fff) | 0x8000));
         out = sub_02030734(heapId, packed->header >> 8, 0, s_clact_c, 0x1ba5);
         func_020834C0(packed, out);
         sub_020307B0(packed);
     } else {
-        out = func_02049250(archive, file_idx,
+        out = ARC_TOOL_LoadHandleMember(archive, file_idx,
                   (u16)((heapId & 0x7fff) | 0x8000));
     }
     return out;

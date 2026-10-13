@@ -1,5 +1,5 @@
 /*
- * function: func_0201D83C
+ * function: GF_FONT_Delete
  * address:  0x0201D83C
  * packet:   pkt_0201D83C
  * region:   arm9
@@ -21,7 +21,7 @@ extern void GF_FONT_FreeBuffers(struct Font *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-u32 func_0201D83C(void *ptr)
+u32 GF_FONT_Delete(void *ptr)
 {
     GF_FONT_ExitFormat(ptr);
     GF_FONT_FreeBuffers(ptr);

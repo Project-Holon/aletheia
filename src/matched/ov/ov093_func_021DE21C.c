@@ -1,5 +1,5 @@
 /*
- * function: func_021DE21C
+ * function: BTL_HANDLER_ITEM_GetWhiteHerbHandlers
  * address: 0x021DE21C
  * packet: pkt_ov093_021DE21C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DE180.c and filed here.
  *
  * symbols:
- *   d_021F1E3C 0x021F1E3C data ov093 a4
+ *   gWhiteHerbHandlerTable 0x021F1E3C data ov093 a4
  */
 
-int *func_021DE21C(int *p);
-extern int d_021F1E3C[];
+int *BTL_HANDLER_ITEM_GetWhiteHerbHandlers(int *p);
+extern int gWhiteHerbHandlerTable[];
 
-int *func_021DE21C(int *p)
+int *BTL_HANDLER_ITEM_GetWhiteHerbHandlers(int *p)
 {
     *p = 6;
-    return d_021F1E3C;
+    return gWhiteHerbHandlerTable;
 }

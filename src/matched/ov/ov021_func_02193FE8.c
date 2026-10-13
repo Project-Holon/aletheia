@@ -1,5 +1,5 @@
 /*
- * function: func_02193FE8
+ * function: FIELD_WFBC_BLOCK_ClearGrid
  * address:  0x02193FE8
  * packet:   pkt_ov021_02193FE8
  * region:   ov021
@@ -22,7 +22,7 @@ typedef signed char    s8;
 
 typedef struct { u8 a; u8 b; u16 c; } Cell;
 
-void func_02193FE8(Cell (*t)[8])
+void FIELD_WFBC_BLOCK_ClearGrid(Cell (*t)[8])
 {
     int i;
     int j;

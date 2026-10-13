@@ -22,10 +22,10 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_02045738 0x02045738 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   d_0220DA0D 0x0220DA0D data a1
  */
 #include "../../matched/include/Obj14542.h"
@@ -74,13 +74,13 @@ extern void *func_02045EC0(struct MsgBank *bank, u32_0220B1D4 index);
 extern u32_0220B1D4 func_0201D304(struct StrObj *s, u32_0220B1D4 a, u32_0220B1D4 b);
 extern u8 func_02045738(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *owner, u32_0220B1D4 a, u32_0220B1D4 b, u32_0220B1D4 c, u32_0220B1D4 d, u32_0220B1D4 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_PrintQueColor(void *owner, u32_0220B1D4 a, u32_0220B1D4 b, u32_0220B1D4 c, u32_0220B1D4 d, u32_0220B1D4 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201EFA4(struct WordSet *p, u32_0220B248 i, u32_0220B248 a, u32_0220B248 b, u32_0220B248 c, u32_0220B248 d);
 extern void func_0201EF40(struct WordSet *p, u32_0220B248 i, u32_0220B248 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 void func_0220B120(char *p);
 void func_0220B150(char *p,u8 unused);
 void func_0220B188(char *a);
@@ -139,9 +139,9 @@ void func_0220B1D4(char *p,int i,int id,int y,u16 colour)
     int x=(func_02045738((struct Descriptor *)handle)*8-width)>>1;
     int font=((struct Obj08353 *)p)->f18;
     int surface=(int)func_02045770((struct Descriptor *)*(int *)(p+0x28+i*8));
-    func_0201C724((void *)font,(int)surface,(s16_0220B1D4)x,(s16_0220B1D4)y,(int)text,(int)(((struct Obj24991 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4),colour);
+    PRINTSYS_PrintQueColor((void *)font,(int)surface,(s16_0220B1D4)x,(s16_0220B1D4)y,(int)text,(int)(((struct Obj24991 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4),colour);
     (p+i*8)[0x2c]=1;
-    func_02045808((struct U16Vec *)text);
+    STRBUF_Delete((struct U16Vec *)text);
 }
 
 /*
@@ -153,7 +153,7 @@ void func_0220B248(char *p)
     void *text;
     void *font;
     void *surface;
-    for(i=0;i<=4;i++)func_02043B5C(func_02045770(*(void **)(p+i*8+0x28)),0);
+    for(i=0;i<=4;i++)BMP_Clear(func_02045770(*(void **)(p+i*8+0x28)),0);
     func_0220B1D4(p,0,0,0,0x3C40);
     func_0220B1D4(p,0,1,16,0x3C40);
     func_0220B1D4(p,1,2,0,0x3C40);
@@ -164,11 +164,11 @@ void func_0220B248(char *p)
         text=func_02045EC0(((struct Obj03905 *)p)->fC,8);
         font=((struct Obj03905 *)p)->f18;
         surface=func_02045770(((struct Obj03905 *)p)->f48);
-        func_0201C724(font,(u32_0220B248)surface,0,0,(u32_0220B248)text,((struct Obj24992 *)(*(char * *)&((struct Obj03905 *)p)->f0))->f4,0x3C40);
+        PRINTSYS_PrintQueColor(font,(u32_0220B248)surface,0,0,(u32_0220B248)text,((struct Obj24992 *)(*(char * *)&((struct Obj03905 *)p)->f0))->f4,0x3C40);
         p[0x4C]=1;
-        func_02045808(text);
+        STRBUF_Delete(text);
     }else{
-        func_02045334(((struct Obj03905 *)p)->f48);
+        BMP_WIN_TransferChars(((struct Obj03905 *)p)->f48);
     }
     *(const char * *)&((struct Obj03905 *)p)->f59C=d_0220DA0D;
 }

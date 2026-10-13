@@ -1,5 +1,5 @@
 /*
- * function: func_021B98F8
+ * function: TOWNMAP_Update
  * address: 0x021B98F8
  * packet: pkt_ov072_021B98F8
  * region: ov072
@@ -10,16 +10,16 @@
  * status: EXACT*
  * note: trailing two-byte alignment padding.
  * symbols:
- *   func_021B9944 0x021B9944 thumb ov072
- *   func_021BB758 0x021BB758 thumb ov072
- *   func_021B9958 0x021B9958 thumb ov072
+ *   TOWNMAP_ProcRun 0x021B9944 thumb ov072
+ *   TOWNMAP_GRH_DrawSprites 0x021BB758 thumb ov072
+ *   TOWNMAP_ProcIsFinished 0x021B9958 thumb ov072
  */
 #include "../include/Obj20772.h"
-extern void func_021B9944(void *);
-extern void func_021BB758(char *);
-extern int func_021B9958(int *);
-int func_021B98F8(int a, int b, int c, char *p) {
-    func_021B9944(p + 4);
-    func_021BB758(*(char * *)&((struct Obj20772 *)p)->f0);
-    return func_021B9958((int *)(p + 4)) != 0;
+extern void TOWNMAP_ProcRun(void *);
+extern void TOWNMAP_GRH_DrawSprites(char *);
+extern int TOWNMAP_ProcIsFinished(int *);
+int TOWNMAP_Update(int a, int b, int c, char *p) {
+    TOWNMAP_ProcRun(p + 4);
+    TOWNMAP_GRH_DrawSprites(*(char * *)&((struct Obj20772 *)p)->f0);
+    return TOWNMAP_ProcIsFinished((int *)(p + 4)) != 0;
 }

@@ -9,24 +9,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203996C 0x0203996C arm
- *   func_0203D1B4 0x0203D1B4 arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  */
 #include "../include/Obj13764.h"
 typedef unsigned short u16;
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
-extern int func_0203D1B4(void);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+extern int GFL_NET_GetNegotiationNum(void);
 typedef unsigned int   u32;
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 int func_021F1370(void *unused,void *p)
 {
     void *obj;
-    obj=func_0203996C(255);
-    if(func_0203D1B4()<2) return 0;
-    return func_0203D3F8((u32)obj,1,0x401,8,(u32)p,1,0,1);
+    obj=GFL_NET_HANDLE_GetNetHandle(255);
+    if(GFL_NET_GetNegotiationNum()<2) return 0;
+    return GFL_NET_SendData((u32)obj,1,0x401,8,(u32)p,1,0,1);
 }
 void func_021F13AC(int a,int b,int c,char *p)
 {

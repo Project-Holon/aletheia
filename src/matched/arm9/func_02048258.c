@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046E24   0x02046E24  arm
+ *   G3D_SYSTEM_CreateResourceArcHandle   0x02046E24  arm
  *
  * Build one row of the array the slot record at `owner + index * 8`
  * describes: the u16 at +0x18 is the element count and the u16 at +0x16 is
- * the row's first index, and each element is the result of func_02046E24
+ * the row's first index, and each element is the result of G3D_SYSTEM_CreateResourceArcHandle
  * on the corresponding 0xc-byte record's +4 halfword, with the caller's
  * fifth argument forwarded as its first.
  *
@@ -53,7 +53,7 @@ struct Holder {
     struct Rec *unk_00;
 };
 
-extern void *func_02046E24(u32 a0, u32 a1);
+extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
 
 void G3D_UTIL_LoadUnitResourcesFromArchive(struct Owner *owner, u16 index, struct Holder *p, u32 a4,
                    u32 a5)
@@ -65,6 +65,6 @@ void G3D_UTIL_LoadUnitResourcesFromArchive(struct Owner *owner, u16 index, struc
 
     for (i = 0; i < count; i++) {
         ((u32 *)owner->unk_00)[base + i] =
-            (u32)func_02046E24(a5, p->unk_00[i].unk_04);
+            (u32)G3D_SYSTEM_CreateResourceArcHandle(a5, p->unk_00[i].unk_04);
     }
 }

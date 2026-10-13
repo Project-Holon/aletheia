@@ -1,5 +1,5 @@
 /*
- * function: func_021D43E0
+ * function: BTL_NET_RecvSetup
  * address:  0x021D43E0
  * packet:   pkt_021D43E0
  * region:   ov093
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr prologue, hidden in the pool run after
- * func_021D43B8).  Copies a 32-byte aggregate into the object at
- * d_021F3B88+0x18 once, gated on byte +0xa.
+ * BTL_NET_SendSetup).  Copies a 32-byte aggregate into the object at
+ * gBtlNet+0x18 once, gated on byte +0xa.
  *
  * symbols:
- *   d_021F3B88  0x021F3B88  data
+ *   gBtlNet  0x021F3B88  data
  */
 #include "../include/Obj12141.h"
 
@@ -22,11 +22,11 @@ typedef struct {
     int w[8];
 } S32;
 
-extern int d_021F3B88;
+extern int gBtlNet;
 
-void func_021D43E0(int unused0, int unused1, S32 *src)
+void BTL_NET_RecvSetup(int unused0, int unused1, S32 *src)
 {
-    char *p = (char *)d_021F3B88;
+    char *p = (char *)gBtlNet;
 
     if (((struct Obj12141 *)p)->fA == 0) {
         *(S32 *)(p + 0x18) = *src;

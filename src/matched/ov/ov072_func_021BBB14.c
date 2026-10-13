@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB14
+ * function: TOWNMAP_GRH_GetSpriteHandle
  * address:  0x021BBB14
  * packet:   pkt_ov072_021BBB14
  * region:   ov072
@@ -14,7 +14,7 @@
  * Word at p + n*4.
  */
 
-unsigned int func_021BBB14(void *p, int n)
+unsigned int TOWNMAP_GRH_GetSpriteHandle(void *p, int n)
 {
     return *(unsigned int *)((char *)p + n * 4);
 }

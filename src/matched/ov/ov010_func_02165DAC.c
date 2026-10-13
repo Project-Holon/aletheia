@@ -1,5 +1,5 @@
 /*
- * function: func_02165DAC
+ * function: GAME_BEACON_ACCESSOR_GetDetailsType
  * address: 0x02165DAC
  * packet: pkt_ov010_02165DAC
  * region: ov010
@@ -11,7 +11,7 @@
  * overlapping ov009 address is interior ARM code, as explicit shows prove.
  */
 #include "../include/Obj19003.h"
-unsigned func_02165DAC(const char *p)
+unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const char *p)
 {
     unsigned a=(unsigned char)*(const unsigned short *)&((struct Obj19003 *)p)->f48;
     if(a>=6) a=5;

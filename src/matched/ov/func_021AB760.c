@@ -1,5 +1,5 @@
 /*
- * function: func_021AB760
+ * function: FLD_SCENEAREA_GetCamera
  * address:  0x021AB760
  * packet:   pkt_021AB760
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021AB760(u8 *p)
+u32 FLD_SCENEAREA_GetCamera(u8 *p)
 {
     return ((struct Obj18075 *)p)->f0;
 }

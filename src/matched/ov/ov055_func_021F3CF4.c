@@ -1,5 +1,5 @@
 /*
- * function: func_021F3CF4
+ * function: CROWD_UpdatePerson
  * address: 0x021F3CF4
  * packet: pkt_ov055_021F3CF4
  * region: ov055
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F45C0 0x021F45C0 data a4
+ *   gCrowdPersonUpdateFuncs 0x021F45C0 data a4
  */
-extern void (*d_021F45C0[])(unsigned char *,unsigned int,unsigned int);
-void func_021F3CF4(unsigned char *p, int a, int b) { if (p[0]) d_021F45C0[p[2]](p,a,b); }
+extern void (*gCrowdPersonUpdateFuncs[])(unsigned char *,unsigned int,unsigned int);
+void CROWD_UpdatePerson(unsigned char *p, int a, int b) { if (p[0]) gCrowdPersonUpdateFuncs[p[2]](p,a,b); }

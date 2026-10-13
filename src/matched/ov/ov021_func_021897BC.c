@@ -1,5 +1,5 @@
 /*
- * function: func_021897BC
+ * function: FIELDMAP_GetCommonWork
  * address:  0x021897BC
  * packet:   pkt_ov021_021897BC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int *func_021897BC(char *p, int idx)
+int *FIELDMAP_GetCommonWork(char *p, int idx)
 {
     int *q = (int *)(p + 0x118);
 

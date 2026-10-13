@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009C24  0x02009C24  thumb
  *
  * Same handle at +0xC4 of the third argument, its accessor result forwarded
@@ -27,11 +27,11 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct BigObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
 
 void func_021BDCF4(int a, int b, char *p)
 {
-    func_02009C24((struct Sub020097BCObj *)func_0201283C(((struct Obj18251 *)p)->fC4), a, b);
+    func_02009C24((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj18251 *)p)->fC4), a, b);
 }

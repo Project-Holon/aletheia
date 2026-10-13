@@ -14,11 +14,11 @@
  *   g_020A7AE8     0x020A7AE8  data
  *   g_020A7AF8     0x020A7AF8  data
  *   func_02030734  0x02030734  arm
- *   func_0203A574  0x0203A574  arm
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *
  * Lazy-init wrapper: the 0x22c-byte context at _pCommandWork is allocated on
  * first use with the debug allocator (heap 0, size 0x22c, flags 1, line
- * 0x96), the delegate func_0203A574 is called, arg3 is published at +8 of
+ * 0x96), the delegate GFL_NET_COMMAND_AddCommandTable is called, arg3 is published at +8 of
  * the state object in g_020A7AE8, and the 8-byte run at +0x220 plus the byte
  * at +0x228 are cleared.
  *
@@ -46,7 +46,7 @@ extern struct BaseTable g_020A7AE8;
 extern char  g_020A7AF8[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  func_0203A574(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void  GFL_NET_COMMAND_AddCommandTable(u32 a0, u32 a1, u32 a2, u32 a3);
 
 void GFL_NET_COMMAND_Init(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
@@ -55,7 +55,7 @@ void GFL_NET_COMMAND_Init(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
     if (((u8 *)_pCommandWork) == 0) {
         _pCommandWork = (struct Entry *)((u8 *)func_02030734(0, 0x22c, 1, g_020A7AF8, 0x96));
     }
-    func_0203A574(a0, a1, a2, a3);
+    GFL_NET_COMMAND_AddCommandTable(a0, a1, a2, a3);
     *(u32 *)(((u8 *)&g_020A7AE8) + 8) = a3;
     for (i = 0; i < 8; i++) {
         ((u8 *)_pCommandWork)[0x220 + i] = 0;

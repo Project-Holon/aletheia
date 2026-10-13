@@ -1,5 +1,5 @@
 /*
- * function: func_021F3734
+ * function: FIELD_FK_DEMO_EventMain
  * address:  0x021F3734
  * packet:   pkt_ov056_021F3734
  * region:   ov056
@@ -12,36 +12,36 @@
  * Five-step init/run/teardown state machine for the ov056 work block.
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_02188D24  0x02188D24  thumb  ov021
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_0218DC6C  0x0218DC6C  thumb  ov021
- *   func_021BB990  0x021BB990  thumb  ov021
- *   func_021BBA6C  0x021BBA6C  thumb  ov021
- *   func_021BBA1C  0x021BBA1C  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
+ *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
+ *   FIELD_SUBPROC_Start  0x021BB990  thumb  ov021
+ *   FIELD_SUBPROC_GetWork  0x021BBA6C  thumb  ov021
+ *   FIELD_SUBPROC_End  0x021BBA1C  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02030EAC  0x02030EAC  arm
- *   func_021F3B10  0x021F3B10  thumb  ov056
- *   func_021F392C  0x021F392C  thumb  ov056
- *   func_021F3D60  0x021F3D60  thumb  ov056
- *   func_021F3890  0x021F3890  thumb  ov056
- *   func_021F3BF0  0x021F3BF0  thumb  ov056
- *   func_021F3CC4  0x021F3CC4  thumb  ov056
- *   func_021F3904  0x021F3904  thumb  ov056
- *   func_021F3A78  0x021F3A78  thumb  ov056
- *   func_021F3C84  0x021F3C84  thumb  ov056
- *   func_021F3DB8  0x021F3DB8  thumb  ov056
- *   func_021F3918  0x021F3918  thumb  ov056
- *   func_021F3C4C  0x021F3C4C  thumb  ov056
- *   func_021F3D9C  0x021F3D9C  thumb  ov056
- *   func_021F3A14  0x021F3A14  thumb  ov056
- *   func_021F38D4  0x021F38D4  thumb  ov056
- *   d_021F42C0     0x021F42C0  data  a4
+ *   FIELD_FK_DEMO_InitModel  0x021F3B10  thumb  ov056
+ *   FIELD_FK_DEMO_InitCamera  0x021F392C  thumb  ov056
+ *   FIELD_FK_DEMO_CreateSoundAnime  0x021F3D60  thumb  ov056
+ *   FIELD_FK_DEMO_InitBuildAnime  0x021F3890  thumb  ov056
+ *   FIELD_FK_DEMO_CreateModelObject  0x021F3BF0  thumb  ov056
+ *   FIELD_FK_DEMO_SetPlayerHidden  0x021F3CC4  thumb  ov056
+ *   FIELD_FK_DEMO_StartBuildAnime  0x021F3904  thumb  ov056
+ *   FIELD_FK_DEMO_StepCamera  0x021F3A78  thumb  ov056
+ *   FIELD_FK_DEMO_StepModel  0x021F3C84  thumb  ov056
+ *   FIELD_FK_DEMO_StepSoundAnime  0x021F3DB8  thumb  ov056
+ *   FIELD_FK_DEMO_IsBuildAnimeDone  0x021F3918  thumb  ov056
+ *   FIELD_FK_DEMO_DeleteModel  0x021F3C4C  thumb  ov056
+ *   FIELD_FK_DEMO_DeleteSoundAnime  0x021F3D9C  thumb  ov056
+ *   FIELD_FK_DEMO_ExitCamera  0x021F3A14  thumb  ov056
+ *   FIELD_FK_DEMO_DeleteBuildAnime  0x021F38D4  thumb  ov056
+ *   gFkDemoDrawTemplate     0x021F42C0  data  a4
  */
 
 typedef unsigned char  u8;
@@ -61,42 +61,42 @@ typedef struct Work {
 
 typedef unsigned short u16;
 struct Ctx;
-extern u16 func_02188C84(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02188C58(void *p);
-extern u32 func_02188C98(u8 *p);
-extern u32 func_02188D24(u8 *p);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern u32 func_0218DC6C(u8 *p);
-extern int *func_021BB990(int a, int *d, const int *c);
-extern u32 func_021BBA6C(const void *p);
-extern void func_021BBA1C(int *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELDMAP_GetCamera(void *p);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern u32 FIELDMAP_GetMapFunc(u8 *p);
+extern void FIELD_CAMERA_EndDelay(u8 *a);
+extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
+extern u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p);
+extern int *FIELD_SUBPROC_Start(int a, int *d, const int *c);
+extern u32 FIELD_SUBPROC_GetWork(const void *p);
+extern void FIELD_SUBPROC_End(int *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 struct Obj;
-extern void func_021F3B10(struct Obj *o, void *a1, int a2, int a3, int idx);
-extern void func_021F392C(struct Obj *o, int a1, int heap, int idx);
-extern void func_021F3D60(void *o, int idx, int heap);
-extern void func_021F3890(u32 *out, int a, int idx);
-extern void func_021F3BF0(u32 *p);
-extern void func_021F3CC4(u8 *p, int flag);
-extern void func_021F3904(unsigned char **p);
-extern int func_021F3A78(u8 *p);
-extern int func_021F3C84(u32 *p);
-extern int func_021F3DB8(int **pp);
-extern int func_021F3918(void **p);
-extern void func_021F3C4C(u8 *p);
-extern void func_021F3D9C(void *o);
-extern void func_021F3A14(u8 *p);
-extern void func_021F38D4(unsigned char *p);
+extern void FIELD_FK_DEMO_InitModel(struct Obj *o, void *a1, int a2, int a3, int idx);
+extern void FIELD_FK_DEMO_InitCamera(struct Obj *o, int a1, int heap, int idx);
+extern void FIELD_FK_DEMO_CreateSoundAnime(void *o, int idx, int heap);
+extern void FIELD_FK_DEMO_InitBuildAnime(u32 *out, int a, int idx);
+extern void FIELD_FK_DEMO_CreateModelObject(u32 *p);
+extern void FIELD_FK_DEMO_SetPlayerHidden(u8 *p, int flag);
+extern void FIELD_FK_DEMO_StartBuildAnime(unsigned char **p);
+extern int FIELD_FK_DEMO_StepCamera(u8 *p);
+extern int FIELD_FK_DEMO_StepModel(u32 *p);
+extern int FIELD_FK_DEMO_StepSoundAnime(int **pp);
+extern int FIELD_FK_DEMO_IsBuildAnimeDone(void **p);
+extern void FIELD_FK_DEMO_DeleteModel(u8 *p);
+extern void FIELD_FK_DEMO_DeleteSoundAnime(void *o);
+extern void FIELD_FK_DEMO_ExitCamera(u8 *p);
+extern void FIELD_FK_DEMO_DeleteBuildAnime(unsigned char *p);
 
-extern const u8 d_021F42C0[];
+extern const u8 gFkDemoDrawTemplate[];
 
-int func_021F3734(void *a0, int *state, Work *p)
+int FIELD_FK_DEMO_EventMain(void *a0, int *state, Work *p)
 {
     int heap;
     int h;
@@ -104,49 +104,49 @@ int func_021F3734(void *a0, int *state, Work *p)
     int b;
     int c;
 
-    heap = func_02188C84((u8 *)p->f0);
+    heap = FIELDMAP_GetHeapId((u8 *)p->f0);
     switch (*state) {
     case 0:
-        h = (int)func_02012944(func_020120F4((const struct Ctx *)p->f4));
-        func_021F3B10((struct Obj *)p->obj, func_02188CB4((void *)p->f0), h, heap, p->idx);
+        h = (int)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData((const struct Ctx *)p->f4));
+        FIELD_FK_DEMO_InitModel((struct Obj *)p->obj, FIELDMAP_GetFieldPlayer((void *)p->f0), h, heap, p->idx);
         (*state)++;
         break;
     case 1:
-        func_0218F0A8(func_02188C58((void *)p->f0));
+        FIELD_CAMERA_EndDelay(FIELDMAP_GetCamera((void *)p->f0));
         (*state)++;
         break;
     case 2:
-        h = (int)func_02188C58((void *)p->f0);
-        if (func_0218F0E8((u8 *)h) != 0) {
+        h = (int)FIELDMAP_GetCamera((void *)p->f0);
+        if (FIELD_CAMERA_IsDelayEnabled((u8 *)h) != 0) {
             break;
         }
-        func_021F392C((struct Obj *)p->cam, h, heap, p->idx);
-        func_021F3D60(p->f_c8, p->idx, heap);
-        func_021F3890((u32 *)p->f_bc, func_0218DC6C((u8 *)func_02188C98((u8 *)p->f0)), p->idx);
-        func_021F3BF0((u32 *)p->obj);
-        p->task = (u32)func_021BB990(-1, (int *)func_02188D24((u8 *)p->f0), (const int *)d_021F42C0);
-        *((void **)func_021BBA6C((const void *)p->task)) = p->obj;
-        func_021F3CC4(p->obj, 1);
-        func_021F3904((unsigned char **)p->f_bc);
+        FIELD_FK_DEMO_InitCamera((struct Obj *)p->cam, h, heap, p->idx);
+        FIELD_FK_DEMO_CreateSoundAnime(p->f_c8, p->idx, heap);
+        FIELD_FK_DEMO_InitBuildAnime((u32 *)p->f_bc, FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((u8 *)p->f0)), p->idx);
+        FIELD_FK_DEMO_CreateModelObject((u32 *)p->obj);
+        p->task = (u32)FIELD_SUBPROC_Start(-1, (int *)FIELDMAP_GetMapFunc((u8 *)p->f0), (const int *)gFkDemoDrawTemplate);
+        *((void **)FIELD_SUBPROC_GetWork((const void *)p->task)) = p->obj;
+        FIELD_FK_DEMO_SetPlayerHidden(p->obj, 1);
+        FIELD_FK_DEMO_StartBuildAnime((unsigned char **)p->f_bc);
         (*state)++;
         break;
     case 3:
-        a = func_021F3A78(p->cam);
-        func_021F3C84((u32 *)p->obj);
-        b = func_021F3DB8((int **)p->f_c8);
-        c = func_021F3918((void **)p->f_bc);
+        a = FIELD_FK_DEMO_StepCamera(p->cam);
+        FIELD_FK_DEMO_StepModel((u32 *)p->obj);
+        b = FIELD_FK_DEMO_StepSoundAnime((int **)p->f_c8);
+        c = FIELD_FK_DEMO_IsBuildAnimeDone((void **)p->f_bc);
         if (a && c && b) {
             (*state)++;
         }
         break;
     case 4:
-        func_021F3CC4(p->obj, 0);
-        func_021BBA1C((int *)p->task);
+        FIELD_FK_DEMO_SetPlayerHidden(p->obj, 0);
+        FIELD_SUBPROC_End((int *)p->task);
         func_02030EAC(p->fd0);
-        func_021F3C4C(p->obj);
-        func_021F3D9C(p->f_c8);
-        func_021F3A14(p->cam);
-        func_021F38D4(p->f_bc);
+        FIELD_FK_DEMO_DeleteModel(p->obj);
+        FIELD_FK_DEMO_DeleteSoundAnime(p->f_c8);
+        FIELD_FK_DEMO_ExitCamera(p->cam);
+        FIELD_FK_DEMO_DeleteBuildAnime(p->f_bc);
         return 1;
     }
     return 0;

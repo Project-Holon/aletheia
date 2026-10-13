@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021B99DC 0x021B99DC thumb ov114
  *   func_021B9790 0x021B9790 thumb ov114
  *   func_021B97F4 0x021B97F4 thumb ov114
@@ -19,7 +19,7 @@
  *   func_021DA1EC 0x021DA1EC thumb ov123
  */
 #include "../include/Obj03804.h"
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned char  u8;
 extern int func_021B99DC(u8 *p);
 extern int func_021B9790(u8 *p);
@@ -32,7 +32,7 @@ extern void func_021DA1EC(char *p);
 void func_021DA328(char *p)
 {
     int *q;
-    if (func_0203CD98() && !func_021D9FD4(p,func_021B99DC(((struct Obj03804 *)p)->f8)) && !func_021B9790(((struct Obj03804 *)p)->f8)) {
+    if (GFL_NET_GetRunState() && !func_021D9FD4(p,func_021B99DC(((struct Obj03804 *)p)->f8)) && !func_021B9790(((struct Obj03804 *)p)->f8)) {
         q = (int *)func_021B97F4(((struct Obj03804 *)p)->f8);
         func_021D9634(((struct Obj03804 *)p)->f10);
         if (*q == 2) { func_021DA034(p,(int)func_021DA1A0,0x1d4); return; }

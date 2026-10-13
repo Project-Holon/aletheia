@@ -1,5 +1,5 @@
 /*
- * function: func_0217B9BC
+ * function: UNION_ONESELF_IsBattleStatus
  * address: 0x0217B9BC
  * packet: pkt_ov019_0217B9BC
  * region: ov019
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
-int func_0217B9BC(unsigned int x)
+int UNION_ONESELF_IsBattleStatus(unsigned int x)
 {
     if (x < 4 || x > 23) return 0;
     return 1;

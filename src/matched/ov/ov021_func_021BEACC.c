@@ -1,5 +1,5 @@
 /*
- * function: func_021BEACC
+ * function: EVENT_FIELDMAP_CONTROL_LookupEntranceEffect
  * address:  0x021BEACC
  * packet:   pkt_ov021_021BEACC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D9FF0     0x021D9FF0  data
+ *   gEntranceEffectTable     0x021D9FF0  data
  */
 
 typedef unsigned int u32;
@@ -19,11 +19,11 @@ typedef struct {
     u32 v[6][6];
 } Table;
 
-extern const Table d_021D9FF0;
+extern const Table gEntranceEffectTable;
 
-u32 func_021BEACC(int a, int b)
+u32 EVENT_FIELDMAP_CONTROL_LookupEntranceEffect(int a, int b)
 {
-    Table t = d_021D9FF0;
+    Table t = gEntranceEffectTable;
 
     return t.v[a][b];
 }

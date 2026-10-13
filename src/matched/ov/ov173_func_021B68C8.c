@@ -11,7 +11,7 @@
  * symbols:
  *   func_020260E0 0x020260E0 thumb
  *   func_02025DE8 0x02025DE8 thumb
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021B817C 0x021B817C thumb ov173
  *   func_021B7F50 0x021B7F50 thumb ov173
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 struct Sound;
 extern u8 func_020260E0(struct Sound *);
 extern int func_02025DE8(struct Sound *);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_020061E4(unsigned);
 extern int func_021B817C(char *p);
 extern int func_021B7F50(char *);
@@ -56,7 +56,7 @@ int func_021B68C8(char *p)
     v=func_02025DE8(*(struct Sound * *)&((struct Obj00362 *)p)->f1C8);
     switch(v) {
     case 0:case 1:case 2:case 3:
-        if(func_02035C60()==0) {
+        if(TOUCHPANEL_GetTrg()==0) {
             if(((struct Obj24153 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16+v < ((struct Obj00362 *)p)->f1B8) {
                 func_020061E4(0x54c);
                 return func_021B817C(p);

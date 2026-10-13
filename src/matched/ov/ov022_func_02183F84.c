@@ -1,5 +1,5 @@
 /*
- * function: func_02183F84
+ * function: UNION_APP_IsQuitAccepted
  * address:  0x02183F84
  * packet:   pkt_ov022_02183F84
  * region:   ov022
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-u8 func_02183F84(u8 *p)
+u8 UNION_APP_IsQuitAccepted(u8 *p)
 {
     return p[0x12];
 }

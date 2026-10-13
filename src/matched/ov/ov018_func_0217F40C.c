@@ -1,5 +1,5 @@
 /*
- * function: func_0217F40C
+ * function: EVENT_COMM_COMMON_IsPrintFinished
  * address:  0x0217F40C
  * packet:   pkt_ov018_0217F40C
  * region:   ov018
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02190EF0  0x02190EF0  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
  */
 
 typedef struct {
@@ -29,12 +29,12 @@ typedef struct {
 } Ov018Obj;
 
 typedef unsigned int   u32;
-u32 func_02190EF0(u32 *p);
+u32 FIELD_MSGBG_SysWinMain(u32 *p);
 
-int func_0217F40C(Ov018Obj *p)
+int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p)
 {
     if (p->f18 == 0) {
         return 1;
     }
-    return func_02190EF0(p->f18);
+    return FIELD_MSGBG_SysWinMain(p->f18);
 }

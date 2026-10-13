@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02035C38   0x02035C38  arm
+ *   TOUCHPANEL_GetCont   0x02035C38  arm
  *   func_020355D8   0x020355D8  arm
  *   func_020362DC   0x020362DC  arm
  *   func_021C93C4   0x021C93C4  thumb ov212
@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  func_02035C38(void);
+extern int  TOUCHPANEL_GetCont(void);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 extern void func_021C93C4(u32 heap);
@@ -33,7 +33,7 @@ int func_021BC720(char *p)
     if (((struct Obj06700 *)p)->f8 == 0x12C)
         return 5;
     ((struct Obj06700 *)p)->f8 = ((struct Obj06700 *)p)->f8 + 1;
-    if (func_02035C38() == 1) {
+    if (TOUCHPANEL_GetCont() == 1) {
         func_020355D8(1);
         return 5;
     }

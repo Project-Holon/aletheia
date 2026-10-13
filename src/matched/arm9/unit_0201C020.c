@@ -25,6 +25,7 @@
  * symbols:
  *   _pWazaTool   0x02146530  data
  *   _WazaTempData  0x02146534  data
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C020.c  *       --addr 0x0201C020 --thumb
@@ -47,7 +48,7 @@ struct Waza {
 extern struct WazaTool *_pWazaTool;
 extern struct Waza _WazaTempData;
 
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
 u8 WAZA_TOOL_GetRankEffectCount(u16 id)
 {
@@ -60,7 +61,7 @@ u8 WAZA_TOOL_GetRankEffectCount(u16 id)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (((u16 *)_pWazaTool->vals)[i] == 0) {
                 ((u16 *)_pWazaTool->vals)[i] = id;
-                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+                ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
             if (id == ((u16 *)_pWazaTool->vals)[i]) {
@@ -70,12 +71,12 @@ u8 WAZA_TOOL_GetRankEffectCount(u16 id)
         if (i == _pWazaTool->count) {
             i--;
             ((u16 *)_pWazaTool->vals)[i] = id;
-            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+            ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
         }
         rec = _pWazaTool->recs[i];
     } else {
         rec = &_WazaTempData;
-        func_02048F4C(rec, 0x15, id);
+        ARC_TOOL_ReadMember(rec, 0x15, id);
     }
     n = 0;
     for (k = 0; k < 3; k++) {
@@ -96,7 +97,7 @@ u8 WAZA_TOOL_GetRankEffect(u16 id, u32 idx, s32 *out)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (((u16 *)_pWazaTool->vals)[i] == 0) {
                 ((u16 *)_pWazaTool->vals)[i] = id;
-                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+                ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
             if (id == ((u16 *)_pWazaTool->vals)[i]) {
@@ -106,12 +107,12 @@ u8 WAZA_TOOL_GetRankEffect(u16 id, u32 idx, s32 *out)
         if (i == _pWazaTool->count) {
             i--;
             ((u16 *)_pWazaTool->vals)[i] = id;
-            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+            ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
         }
         rec = _pWazaTool->recs[i];
     } else {
         rec = &_WazaTempData;
-        func_02048F4C(rec, 0x15, id);
+        ARC_TOOL_ReadMember(rec, 0x15, id);
     }
     v = rec->unk15[idx];
     if (v != 0) {

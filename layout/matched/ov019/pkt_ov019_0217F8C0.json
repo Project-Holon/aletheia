@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217F8C0",
+   "name": "UNION_EFF_Create",
    "address": "0x0217F8C0",
    "kind": "game",
    "region": "ov019",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217F97C",
+   "name": "UNION_EFF_InitAnimGroup",
    "address": "0x0217F97C",
    "kind": "game",
    "region": "ov019",
@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_0217FB70",
+   "name": "UNION_EFF_InitIconGroup",
    "address": "0x0217FB70",
    "kind": "game",
    "region": "ov019",

@@ -1,5 +1,5 @@
 /*
- * function: func_02176230
+ * function: INTRUDE_COMM_GetRequesterNetId
  * address: 0x02176230
  * packet: pkt_ov011_02176230
  * region: ov011
@@ -12,20 +12,20 @@
  * interface: original +0x1A/+0x1C narrows the full-width call result;
  * the callee's filed u8 return removes this pair (r2: DIFF 9 bytes).
  * symbols:
- *   func_02175B14 0x02175B14 thumb ov011
+ *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
  *   func_02026478 0x02026478 thumb
- *   func_02012B58 0x02012B58 thumb
+ *   GAME_DATA_GetExitMode 0x02012B58 thumb
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_02175B14(u8 *p);
+extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 extern u32 func_02026478(void *p);
 struct BigObj;
-extern u8 func_02012B58(const struct BigObj *p);
-u8 func_02176230(u8 *p, u8 *q)
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 INTRUDE_COMM_GetRequesterNetId(u8 *p, u8 *q)
 {
-    if (func_02175B14(q) == 0) {
-        return (int)func_02012B58((const void *)func_02026478(((void **)p)[1]));
+    if (INTRUDE_COMM_IsSessionActive(q) == 0) {
+        return (int)GAME_DATA_GetExitMode((const void *)func_02026478(((void **)p)[1]));
     }
     return q[0xa0];
 }

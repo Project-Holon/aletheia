@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * blocker: ARM9 02045CAC +0010 lacks a code-start witness; the integrator owns src/matched/arm9/unit_02045C44.c, whose function header and shard omit func_02045CAC. Its C verifies EXACT individually (344 bytes).
+ * blocker: ARM9 02045CAC +0010 lacks a code-start witness; the integrator owns src/matched/arm9/unit_02045C44.c, whose function header and shard omit MSGDATA_ReadString. Its C verifies EXACT individually (344 bytes).
  * typedef unsigned char  u8;
  * typedef unsigned short u16;
  * typedef unsigned int   u32;
@@ -51,7 +51,7 @@
  * extern void MSGDATA_LoadBank(struct MsgBank *bank);
  * extern void func_02046180(struct MsgBank *bank);
  * 
- * void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -94,7 +94,7 @@
  *     func_02045E04(dest, index);
  * }
  * symbols:
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
  */
 typedef unsigned char u8;
@@ -102,6 +102,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct WordSet;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank*,u32,void*);
+extern void MSGDATA_ReadString(struct MsgBank*,u32,void*);
 extern void func_0201F250(struct WordSet*,void*,void*);
-void func_021BCEA4(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));func_0201F250(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}
+void func_021BCEA4(u8*p, u8 n){MSGDATA_ReadString(*(struct MsgBank**)(p+0x130),n,*(void**)(p+0x13c));func_0201F250(*(struct WordSet**)(p+0x138),*(void**)(p+0x140),*(void**)(p+0x13c));}

@@ -12,9 +12,9 @@
  *   pad10 preserves the observed allocation without naming unknown fields.
  *   Palette field reads retain the A386/A387 pools as one extern plus addend.
  * symbols:
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D5528 0x021D5528 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMovePP 0x021D5528 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   func_02204CC0 0x02204CC0 thumb ov094
  *   func_02205F88 0x02205F88 thumb ov094
  *   PALANM_RequestFadeOverwrite 0x02021848 thumb
@@ -29,9 +29,9 @@ typedef struct { u16 value[4]; u8 a[4], b[4]; u8 pad10[8]; } Buffer;
 typedef struct { u8 first, second; } Palette;
 typedef struct { char pad[0x68]; u32 lo : 19; u32 index : 2; } Flags;
 struct QG;
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D5528(u8 *, u8, u8 *, u8 *);
-extern int func_021D5B68(void *);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMovePP(u8 *, u8, u8 *, u8 *);
+extern int BTL_POKEPARAM_IsFainted(void *);
 struct Slots;
 struct Work;
 extern void func_02204CC0(struct Work *p, const struct Slots *q);
@@ -49,8 +49,8 @@ void func_022053DC(char *m)
         buf.a[i] = 0;
         buf.b[i] = 0;
     }
-    for (i = 0; i < func_021D5448((struct QG *)OBJECT); i++)
-        buf.value[i] = func_021D5528(OBJECT, i, &buf.a[i], &buf.b[i]);
+    for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)OBJECT); i++)
+        buf.value[i] = BTL_POKEPARAM_GetMovePP(OBJECT, i, &buf.a[i], &buf.b[i]);
     func_02204CC0((struct Work *)m, (const struct Slots *)(&buf));
     ((struct Obj00168 *)m)->f25F = d_0220A386[INDEX].first;
     ((struct Obj00168 *)m)->f260 = d_0220A386[INDEX].second;
@@ -59,7 +59,7 @@ void func_022053DC(char *m)
         if (*(int *)(m + INDEX * 16 + i * 4 + 0x2b0) == 1)
             ((struct Obj00168 *)m)->f220 = 0;
     }
-    if (func_021D5B68(OBJECT)) {
+    if (BTL_POKEPARAM_IsFainted(OBJECT)) {
         for (i = 0; i < 4; i++)
             *(u8 *)(m + i + 0x25a) = 0;
         ((struct Obj00168 *)m)->f220 = 0;

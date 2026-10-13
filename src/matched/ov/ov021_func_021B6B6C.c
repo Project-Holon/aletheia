@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B6C
+ * function: SCRCMD_POKEMON_FLD_WarpToEntry
  * address:  0x021B6B6C
  * packet:   pkt_ov021_021B6B6C
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A6C4  0x0215A6C4  thumb  ov010
- *   func_0215A5D0  0x0215A5D0  thumb  ov010
- *   func_021B6AB0  0x021B6AB0  thumb
- *   func_021B6AA4  0x021B6AA4  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F54  0x02158F54  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_021854B0  0x021854B0  thumb  ov020
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetFadeState  0x0215A6C4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptId  0x0215A5D0  thumb  ov010
+ *   SCRCMD_POKEMON_FLD_CountWarpEntries  0x021B6AB0  thumb
+ *   SCRCMD_POKEMON_FLD_GetWarpEntry  0x021B6AA4  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb  ov020
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -29,29 +29,29 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } Vec3;
 
-extern u32 func_02159B10(void *, void *);
-extern u32 func_0215A6C4(void *p);
-extern u16 func_0215A5D0(void *);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern u32 SCRCMD_WORK_GetFadeState(void *p);
+extern u16 SCRCMD_WORK_GetScriptId(void *);
 struct Ctx;
-extern int func_021B6AB0(void *a);
-extern int func_021B6AA4(u32 a, u32 b);
-extern void *func_0215A5F4(void *p);
-extern void *func_02158F54(void *);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_021854B0(void *, void *, int, Vec3 *, int);
-extern void func_0215897C(void *vm, void *task);
+extern int SCRCMD_POKEMON_FLD_CountWarpEntries(void *a);
+extern int SCRCMD_POKEMON_FLD_GetWarpEntry(u32 a, u32 b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetGameSystem(void *);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(void *, void *, int, Vec3 *, int);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-u32 func_021B6B6C(void *a, void *b)
+u32 SCRCMD_POKEMON_FLD_WarpToEntry(void *a, void *b)
 {
-    u32 idx = func_02159B10(a, b);
-    void *tab = (void *)func_0215A6C4(b);
+    u32 idx = SCRIPT_WORK_ReadWorkValue(a, b);
+    void *tab = (void *)SCRCMD_WORK_GetFadeState(b);
 
-    func_0215A5D0(b);
-    if (idx < func_021B6AB0(tab)) {
-        const u16 *e = (const u16 *)func_021B6AA4((u32)tab, idx);
-        void *r5 = func_0215A5F4(b);
-        void *r6 = func_02158F54(r5);
-        void *cur = func_0201210C(r6);
+    SCRCMD_WORK_GetScriptId(b);
+    if (idx < SCRCMD_POKEMON_FLD_CountWarpEntries(tab)) {
+        const u16 *e = (const u16 *)SCRCMD_POKEMON_FLD_GetWarpEntry((u32)tab, idx);
+        void *r5 = SCRCMD_WORK_GetScriptWork(b);
+        void *r6 = SCRIPT_WORK_GetGameSystem(r5);
+        void *cur = GAMESYSTEM_GetFieldMap(r6);
         Vec3 v;
         u32 f3 = e[3];
         u32 f4 = e[4];
@@ -61,7 +61,7 @@ u32 func_021B6B6C(void *a, void *b)
         v.x = f2 << 16;
         v.y = f3 << 16;
         v.z = f4 << 16;
-        func_0215897C(r5, (void *)func_021854B0(r6, cur, f1, &v, 1));
+        SCRIPT_SYS_CallEvent(r5, (void *)EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(r6, cur, f1, &v, 1));
     }
     return 1;
 }

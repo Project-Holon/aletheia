@@ -12,7 +12,7 @@
  * symbols:
  *   func_0207E24C    0x0207E24C  arm
  *   func_02082A7C    0x02082A7C  arm
- *   func_0204A1BC    0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember    0x0204A1BC  arm
  *   func_02062A4C    0x02062A4C  arm
  *   func_020862F0    0x020862F0  arm
  *   func_02082A60    0x02082A60  arm
@@ -22,7 +22,7 @@
  *   func_02062AD4    0x02062AD4  arm
  *   func_02062A98    0x02062A98  arm
  *
- * Three copies of one block: register a handle with func_0204A1BC(0x16, i, 0, 7),
+ * Three copies of one block: register a handle with ARC_UTIL_LoadMember(0x16, i, 0, 7),
  * probe it (func_02062A4C / 02062B30 / 02062A98 with a stack out-pointer), and
  * on success clear 0x20 bytes of the record's buffer through func_020862F0 and
  * fill it back through func_02082A60 with the current frame-tick from the
@@ -55,7 +55,7 @@ typedef signed int     s32;
 struct NitroFileHeader;
 extern void *func_0207E24C(void);
 extern void func_02082A7C(u32 a, u32 b, u32 c);
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_020862F0(u32 a, u32 b);
 extern void func_02082A60(u32 a, u32 b, u32 c);
@@ -76,19 +76,19 @@ void func_0202F870(void)
     u32 v2;
 
     func_02082A7C(0, (u32)func_0207E24C(), 0x4000);
-    h = func_0204A1BC(0x16, 1, 0, 7);
+    h = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (func_02062A4C((struct NitroFileHeader *)h, (void **)(&p1)) != 0) {
         func_020862F0(p1[5], p1[4]);
         func_02082A60(p1[5], (u32)func_0207E24C(), v1 = p1[4]);
     }
     func_020307B0((void *)h);
-    h = func_0204A1BC(0x16, 2, 0, 7);
+    h = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (func_02062B30((void *)h, (void **)(&p2)) != 0) {
         func_020862F0((u32)p2 + 0xc, p2[2]);
         func_02082A60((u32)p2 + 0xc, (u32)func_0207DFB4(), v2 = p2[2]);
     }
     func_020307B0((void *)h);
-    h = func_0204A1BC(0x16, 0, 0, 7);
+    h = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
     func_02062AD4((struct NitroFileHeader *)h, (void **)(&p4));
     if (func_02062A98((struct NitroFileHeader *)h, (void **)(&p3)) != 0) {
         func_020862F0(p3[3], 0x20);

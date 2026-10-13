@@ -1,5 +1,5 @@
 /*
- * function: func_02035C08
+ * function: TOUCHPANEL_HitTrg
  * address:  0x02035C08
  * packet:   pkt_02035C08
  * region:   arm9
@@ -18,7 +18,7 @@ struct UiCtx;
 extern struct UiCtx *func_02035224(void);
 extern int TOUCHPANEL_HitTrgSys(void *ctx, void *param);
 
-int func_02035C08(const void *p)
+int TOUCHPANEL_HitTrg(const void *p)
 {
     return TOUCHPANEL_HitTrgSys((void *)((int)func_02035224()), (void *)p);
 }

@@ -9,10 +9,10 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *
  * The per-character encoder behind BUTTON_MAN_ConvertUcs2ToSjis: one UCS-2 code unit to
- * Shift-JIS.  The terminator (func_02045A98's value) writes a NUL and raises
+ * Shift-JIS.  The terminator (STRBUF_GetEosChar's value) writes a NUL and raises
  * *stop; printable ASCII is copied; hiragana, both katakana runs and the
  * full-width A-Z, a-z and 0-9 are offset into their Shift-JIS rows and
  * written high byte first; the long-vowel mark, U+8140 (passed through as the
@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 
 int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop)
 {
@@ -37,7 +37,7 @@ int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop)
     u16 c = *src;
     u16 v;
 
-    if (c == func_02045A98()) {
+    if (c == STRBUF_GetEosChar()) {
         *dst = 0;
         if (stop != 0)
             *stop = 1;

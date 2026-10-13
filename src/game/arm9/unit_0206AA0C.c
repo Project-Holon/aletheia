@@ -14,7 +14,7 @@
  *
  * symbols:
  *   g_renderState       0x02148B4C  data
- *   g_02148BCC       0x02148BCC  data
+ *   SCREENTEX_CameraState       0x02148BCC  data
  */
 #include "unit_0206A110_types.h"
 

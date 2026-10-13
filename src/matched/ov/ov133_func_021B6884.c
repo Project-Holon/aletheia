@@ -36,9 +36,9 @@
  *   BILLBOARD_GetImageTexKey 0x0204F2E4 arm
  *   BILLBOARD_SetImageTexAddr 0x0204F2FC arm
  *   func_0204EDD0 0x0204EDD0 arm
- *   func_0204F044 0x0204F044 arm
+ *   BILLBOARD_AddImageFromVramKeys 0x0204F044 arm
  *   BILLBOARD_ReleaseImageVramIfUsed 0x0204F1A0 arm
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -61,9 +61,9 @@ extern void func_0204F32C(int p0, int p1, int p2);
 extern void BILLBOARD_GetImageTexKey(u8 *, int, u32 *);
 extern void BILLBOARD_SetImageTexAddr(u8 *p, int i, u32 value);
 extern void func_0204EDD0(int, u16 *, u16 *);
-extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
+extern int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 extern void BILLBOARD_ReleaseImageVramIfUsed(struct Obj0204F1A0 *a0, u32 a1);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 void func_021B6884(void *unused, u8 *p)
 {
     u32 height, width;
@@ -96,12 +96,12 @@ void func_021B6884(void *unused, u8 *p)
             BILLBOARD_SetImageTexAddr(*(void **)(p + 0x188c), *(int *)(p + 0x54), width);
             flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));
             func_0204EDD0(flags, &sizes[1], &sizes[0]);
-            index = func_0204F044(*(void **)(p + 0x188c), width, height, 0, flags, sizes[1], sizes[0]);
+            index = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), width, height, 0, flags, sizes[1], sizes[0]);
             func_021F4D74(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), *(u16 *)(p + 0x50), index);
             BILLBOARD_ReleaseImageVramIfUsed(*(void **)(p + 0x188c), *(u32 *)(p + 0x54));
             *(u32 *)(p + 0x54) = index;
         }
     }
-    func_0204A648();
+    CLACT_VBlankSystem();
     func_021F4AA4(*(void **)(p + 0x1884));
 }

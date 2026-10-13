@@ -1,5 +1,5 @@
 /*
- * function: func_02047970
+ * function: G3D_SYSTEM_DrawEnd
  * address:  0x02047970
  * packet:   pkt_020477D4
  * region:   arm9
@@ -18,8 +18,8 @@
  * a fresh `ldr` and not a saved one.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047970.c \
- *       --func func_02047970 --addr 0x02047970 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_DrawEnd.c \
+ *       --func G3D_SYSTEM_DrawEnd --addr 0x02047970 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ struct Ctx {
 extern struct Ctx *_G3dSystem;
 extern void func_0206DB80(void);
 
-void func_02047970(void)
+void G3D_SYSTEM_DrawEnd(void)
 {
     func_0206DB80();
     _G3dSystem->unk_94 = 1;

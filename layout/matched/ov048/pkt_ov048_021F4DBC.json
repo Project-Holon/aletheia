@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F4DBC",
+   "name": "GIMMICK_OBJ_ELBOARD_CreateCameraEvent",
    "address": "0x021F4DBC",
    "kind": "game",
    "region": "ov048",

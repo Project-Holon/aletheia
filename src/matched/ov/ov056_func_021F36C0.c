@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_FK_DEMO_StartEvent
  * address: 0x021F36C0
  * packet: pkt_ov056_021F36C0
  * region: ov056
@@ -10,20 +10,20 @@
  * status: EXACT
  *
  * Unlabelled tail-call stub at the start of ov056 (the listing prints it as
- * .word data): ldr r3,[pc]; bx r3 to func_021F36F0.  Referenced as
+ * .word data): ldr r3,[pc]; bx r3 to FIELD_FK_DEMO_CreateEvent.  Referenced as
  * 0x021F36C1 from the ov021 table at 021D9CC0: ov036..ov065 all load at
  * 0x021F36C0, so that word names the head of whichever of them is loaded.
  *
  * symbols:
- *   func_021F36F0  0x021F36F0  thumb  ov056
+ *   FIELD_FK_DEMO_CreateEvent  0x021F36F0  thumb  ov056
  */
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void *func_021F36F0(void *a, u8 *b, u32 c);
+extern void *FIELD_FK_DEMO_CreateEvent(void *a, u8 *b, u32 c);
 
-void *func_021F36C0(void *a, u8 *b, u32 c)
+void *FIELD_FK_DEMO_StartEvent(void *a, u8 *b, u32 c)
 {
-    return func_021F36F0(a, b, c);
+    return FIELD_FK_DEMO_CreateEvent(a, b, c);
 }

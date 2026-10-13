@@ -1,5 +1,5 @@
 /*
- * function: func_021B7A14
+ * function: MONOLITH_TOOL_SLOT_SELECT_HideMessage
  * address:  0x021B7A14
  * packet:   pkt_ov071_021B7A14
  * region:   ov071
@@ -13,11 +13,11 @@
  *   func_02045770  0x02045770  arm
  *   func_02034714  0x02034714  arm
  *   func_0201CE48  0x0201CE48  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_02040588  0x02040588  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
- *   func_0201DD78  0x0201DD78  thumb
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   d_021BABF4     0x021BABF4  data  a1
  */
 
@@ -31,14 +31,14 @@ struct U16Vec;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_0201DD78(u32, u32, u32);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern char d_021BABF4[];
 
-void func_021B7A14(void **p)
+void MONOLITH_TOOL_SLOT_SELECT_HideMessage(void **p)
 {
     void *h;
 
@@ -47,10 +47,10 @@ void func_021B7A14(void **p)
         func_02034714(d_021BABF4, 0, d_021BABF4);
     func_0201CE48(p[2]);
     p[2] = 0;
-    func_02045808(p[1]);
+    STRBUF_Delete(p[1]);
     p[1] = 0;
     func_02040588(5, 0);
-    func_02043B5C(h, 0xff);
-    func_02045334(p[0]);
-    func_0201DD78(15, 2, 0);
+    BMP_Clear(h, 0xff);
+    BMP_WIN_TransferChars(p[0]);
+    GF_FONT_SetTextColor(15, 2, 0);
 }

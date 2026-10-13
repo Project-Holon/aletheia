@@ -1,5 +1,5 @@
 /*
- * function: func_02168B18
+ * function: FLD_BTL_INST_TOOL_SetDoneFlag
  * address:  0x02168B18
  * packet:   pkt_ov010_02168B18
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Unlabelled leaf callback (movs r1,#1; str r1,[r0]; bx lr); filed as the
- * sole blocker of func_02168B20 (its pool word).
+ * sole blocker of FLD_BTL_INST_TOOL_CommResetEventMain (its pool word).
  *
  * symbols:
  */
 
-void func_02168B18(int *p)
+void FLD_BTL_INST_TOOL_SetDoneFlag(int *p)
 {
     *p = 1;
 }

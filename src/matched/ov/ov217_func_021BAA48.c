@@ -10,7 +10,7 @@
  * symbols:
  *   func_021BA3D8 0x021BA3D8 thumb ov217
  *   func_021BA3D0 0x021BA3D0 thumb ov217
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   d_021C2EFC 0x021C2EFC data a4
  * B294's returned r0 is stored and passed to B3DC in the original.
@@ -23,7 +23,7 @@ struct Obj;
 extern const struct Entry d_021C2EFC;
 extern unsigned func_021BA3D8(void *,unsigned);
 extern unsigned func_021BA3D0(void *,unsigned);
-extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B3DC(struct Obj *,unsigned);
 void func_021BAA48(char *p)
 {
@@ -35,6 +35,6 @@ void func_021BAA48(char *p)
     second=func_021BA3D0(p,d_021C2EFC.second);
     third=func_021BA3D0(p,d_021C2EFC.third);
     fourth=func_021BA3D0(p,d_021C2EFC.fourth);
-    *(unsigned *)&((struct Obj01785 *)p)->f7C=(unsigned)func_0204B294((void *)first,second,third,fourth,&vec,d_021C2EFC.arg,((struct Obj01785 *)p)->f4);
+    *(unsigned *)&((struct Obj01785 *)p)->f7C=(unsigned)CLACT_CreateActor((void *)first,second,third,fourth,&vec,d_021C2EFC.arg,((struct Obj01785 *)p)->f4);
     func_0204B3DC(*(struct Obj * *)&((struct Obj01785 *)p)->f7C,0);
 }

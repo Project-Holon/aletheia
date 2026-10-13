@@ -1,5 +1,5 @@
 /*
- * function: func_02013144
+ * function: BTL_SETUP_SetStatusFlag
  * address:  0x02013144
  * packet:   pkt_020130C4
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj15642.h"
 
-void func_02013144(char *p, int v)
+void BTL_SETUP_SetStatusFlag(char *p, int v)
 {
     ((struct Obj15642 *)p)->f82 |= (unsigned short)v;
 }

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern void *func_021C88A4(char *p, int a, int b);
 extern int func_021D59B4(u8 *p, int k);
@@ -57,8 +57,8 @@ void func_021E4BB0(int a, void *b, int c)
     u8 *w;
     u8 k;
 
-    if (c == func_021D775C(3)) {
-        k = func_021D775C(6);
+    if (c == BTL_EVENT_GetVar(3)) {
+        k = BTL_EVENT_GetVar(6);
         q = func_021C7CF4(b, k);
         w = func_021C88A4(b, 0xf, c);
         w[4] = c;
@@ -94,8 +94,8 @@ void func_021E4C74(int unused, void *s, int k)
     u32 *t;
     int i;
     u8 *p;
-    if (k == func_021D775C(3)) {
-        v = func_021D775C(6);
+    if (k == BTL_EVENT_GetVar(3)) {
+        v = BTL_EVENT_GetVar(6);
         a = func_021C7CF4(s, v);
         b = func_021C7CF4(s, k);
         t = (u32 *)func_021C8120(s, 28);
@@ -147,8 +147,8 @@ void func_021E4D98(int unused, void *s, int k)
     u32 x;
     u32 y;
     u8 *p;
-    if (k == func_021D775C(3)) {
-        v = func_021D775C(6);
+    if (k == BTL_EVENT_GetVar(3)) {
+        v = BTL_EVENT_GetVar(6);
         a = func_021C7CF4(s, v);
         b = func_021C7CF4(s, k);
         x = func_021D59B4(b, 1);

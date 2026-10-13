@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_02148BCC       0x02148BCC  data
+ *   SCREENTEX_CameraState       0x02148BCC  data
  * Packs three 10-bit fields (each taken from a signed value shifted right by
- * three) plus the slot index at bits 30..31 into one word of g_02148BCC.
+ * three) plus the slot index at bits 30..31 into one word of SCREENTEX_CameraState.
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G3dGlbLightVector.c \
  *       --func NNS_G3dGlbLightVector --addr 0x0206AA3C --cc 1.1p1 --arm
@@ -22,10 +22,10 @@
 
 typedef unsigned int u32;
 
-extern struct Glb g_02148BCC;
+extern struct Glb SCREENTEX_CameraState;
 
 void NNS_G3dGlbLightVector(int idx, int a, int b, int c)
 {
-    ((u32 *)&g_02148BCC)[idx] = (u32)(((a >> 3) & 0x3FF) | (((b >> 3) & 0x3FF) << 10)
+    ((u32 *)&SCREENTEX_CameraState)[idx] = (u32)(((a >> 3) & 0x3FF) | (((b >> 3) & 0x3FF) << 10)
                             | (((c >> 3) & 0x3FF) << 20) | (idx << 30));
 }

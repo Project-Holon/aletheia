@@ -1,5 +1,5 @@
 /*
- * function: func_021C6744
+ * function: FIELD_G3DOBJ_SetAnimeFrame
  * address:  0x021C6744
  * packet:   pkt_ov021_021C6744
  * region:   ov021
@@ -12,7 +12,7 @@
  * push {r0-r3} entry (0x021C6744); the fourth parameter's address is taken.
  *
  * symbols:
- *   func_0204784C  0x0204784C  arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09694.h"
@@ -25,9 +25,9 @@ typedef struct { u32 k : 2; } K;
 
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 
-void func_021C6744(u32 *a, int idx, int mode, u32 val)
+void FIELD_G3DOBJ_SetAnimeFrame(u32 *a, int idx, int mode, u32 val)
 {
     u8 *e = (u8 *)a[3] + idx * 0x68;
     int n, i;
@@ -38,12 +38,12 @@ void func_021C6744(u32 *a, int idx, int mode, u32 val)
             i = 0;
             if (n > 0) {
                 do {
-                    func_0204784C((struct AnmCtl *)(((struct Obj09694 *)e)->f44), (u16)i, (s32 *)(&val));
+                    G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)(((struct Obj09694 *)e)->f44), (u16)i, (s32 *)(&val));
                     i++;
                 } while (i < n);
             }
         } else if (mode < n) {
-            func_0204784C((struct AnmCtl *)(((struct Obj09694 *)e)->f44), (u16)mode, (s32 *)(&val));
+            G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)(((struct Obj09694 *)e)->f44), (u16)mode, (s32 *)(&val));
         }
     }
 }

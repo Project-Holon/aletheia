@@ -12,14 +12,14 @@
  * Script command: relative jump when func_021F7F1C(x) equals y.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F7F1C 0x021F7F1C thumb ov094
  *   VM_Jump 0x020113B0 thumb
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj21679.h"
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 extern int func_021F7F1C(int);
 typedef unsigned int   u32;
 struct Cur;
@@ -27,9 +27,9 @@ extern void VM_Jump(struct Cur *c, u32 v);
 
 int func_021FBE28(struct Cursor *a, char *s)
 {
-    int x = func_0201134C(a);
-    int y = func_0201134C(a);
-    int off = func_0201134C(a);
+    int x = VM_GetU32(a);
+    int y = VM_GetU32(a);
+    int off = VM_GetU32(a);
 
     if (y == func_021F7F1C(x))
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + off);

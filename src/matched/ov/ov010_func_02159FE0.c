@@ -11,7 +11,7 @@
  *
  * Unlabelled leaf (push {r4,r5} only, so disasm.py prints it as .word
  * data): a 1-based index lookup over a 17-entry, 0x14-byte table.
- * Callee of ov020 func_021857C0.
+ * Callee of ov020 EVENT_MAPCHANGE_ApplyLocation.
  *
  * symbols:
  *   d_02170FEC     0x02170FEC  data  ov010  a4

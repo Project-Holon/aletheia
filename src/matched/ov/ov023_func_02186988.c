@@ -1,5 +1,5 @@
 /*
- * function: func_02186988
+ * function: OEKAKI_StoreStroke
  * address: 0x02186988
  * packet: pkt_ov023_02186988
  * region: ov023
@@ -12,7 +12,7 @@
 typedef unsigned char u8;
 typedef struct { u8 b[4]; u8 lo:3; u8 mid:3; u8 hi:2; u8 b5; } Rec;
 typedef struct { Rec r[5]; } Grp;
-void func_02186988(Rec *s, char *p, int i)
+void OEKAKI_StoreStroke(Rec *s, char *p, int i)
 {
     ((Grp *)p)[*(int *)(p + 0xBBC)].r[i] = *s;
 }

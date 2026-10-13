@@ -1,5 +1,5 @@
 /*
- * function: func_0203D798
+ * function: GFL_NET_GetInitParam
  * address:  0x0203D798
  * packet:   pkt_0203D798
  * region:   arm9
@@ -27,8 +27,8 @@
  * layout/function_starts.txt, which is the integrator's file.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D798.c \
- *       --func func_0203D798 --addr 0x0203D798 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_GetInitParam.c \
+ *       --func GFL_NET_GetInitParam --addr 0x0203D798 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Singleton.h"
@@ -37,7 +37,7 @@ typedef unsigned char u8;
 
 extern struct Singleton gGFLNetMain;
 
-void *func_0203D798(void)
+void *GFL_NET_GetInitParam(void)
 {
     if (gGFLNetMain.unk_08 == 0) {
         return 0;

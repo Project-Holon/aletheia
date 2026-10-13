@@ -1,5 +1,5 @@
 /*
- * function: func_02158F78
+ * function: SCRIPT_WORK_GetMsgBuffer
  * address:  0x02158F78
  * packet:   pkt_02158F78
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u32 func_02158F78(u8 *p)
+u32 SCRIPT_WORK_GetMsgBuffer(u8 *p)
 {
     return ((struct Obj17632 *)p)->f30;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CC38C
+ * function: FLD_TRADE_DumpTradeData
  * address:  0x021CC38C
  * packet:   pkt_ov021_021CC38C
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * Empty callback (bx lr). Region ov021: ov021 has Thumb code here and its
- * caller func_021CC390 is the next function in ov021; ov016 is ARM at this
+ * caller FLD_TRADE_EventMain is the next function in ov021; ov016 is ARM at this
  * address (wave A1 witness).
  * Addresses are Black-image addresses.
  */
 
-void func_021CC38C(void *p)
+void FLD_TRADE_DumpTradeData(void *p)
 {
 }

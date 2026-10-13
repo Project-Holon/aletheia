@@ -11,7 +11,7 @@
  * symbols:
  *   d_021C39A8 0x021C39A8 data a1
  *   d_021C3900 0x021C3900 data a1
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_02035D20 0x02035D20 arm
  *   TOUCHPANEL_HitPoint 0x02035D40 arm
  *   func_021BACDC 0x021BACDC thumb ov110
@@ -28,7 +28,7 @@ struct Box { u8 b[8]; };
 struct Ctx;
 extern const struct Box d_021C39A8;
 extern const struct Box d_021C3900[];
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern u32 func_02035D20(u32 *, u32 *);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *, u32, u32);
 extern int func_021BACDC(u8 *p, int unused, unsigned n);
@@ -42,7 +42,7 @@ int func_021BEF4C(u8 *p)
     struct Box box = d_021C39A8;
     int outer, inner, stop;
     u16 index;
-    if (func_02035C08(d_021C3900) == 0) {
+    if (TOUCHPANEL_HitTrg(d_021C3900) == 0) {
         func_02035D20(&x, &y);
         switch (func_021BACDC(*(u8 * *)&((struct Obj00493 *)p)->f14, x, y)) {
         case 0:

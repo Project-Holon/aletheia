@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void P_STA_SKILL_SetSlotAnim(u8 *p, int i)
 {
-    func_0204B878(((struct Obj14080 *)p)->f8, (u16)(p[0] + i * 5));
+    CLACT_SetActorAnimSeq(((struct Obj14080 *)p)->f8, (u16)(p[0] + i * 5));
 }

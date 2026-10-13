@@ -10,8 +10,9 @@
  * extent: two trailing zero padding bytes at 0x021D9F06.
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02045334 0x02045334 arm
- *   func_020310C4 0x020310C4 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   TCBL_Main 0x020310C4 arm
+ *   APP_KEYCURSOR_Update  0x020286C4  thumb  arm9
  */
 #include "../include/Obj00909.h"
 typedef unsigned char u8;
@@ -24,10 +25,10 @@ struct Ctx;
 struct PrintSys;
 struct Tcbl;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *);
-extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern s32 func_02028484(struct Blk *blk, void *h);
-extern void func_020310C4(struct Tcbl *p);
+extern void TCBL_Main(struct Tcbl *p);
 void func_021D9E50(u8 *p)
 {
     u32 q;
@@ -36,7 +37,7 @@ void func_021D9E50(u8 *p)
         q = ((struct Obj00909 *)p)->f24;
         if (p[0x20]) {
             if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00909 *)p)->f1C))) == 0) {
-                func_02045334((struct Descriptor *)((struct Obj00909 *)p)->f1C);
+                BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00909 *)p)->f1C);
                 p[0x20] = 0;
             }
         }
@@ -45,7 +46,7 @@ void func_021D9E50(u8 *p)
         q = ((struct Obj00909 *)p)->f24;
         if (p[0x20]) {
             if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00909 *)p)->f1C))) == 0) {
-                func_02045334((struct Descriptor *)((struct Obj00909 *)p)->f1C);
+                BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00909 *)p)->f1C);
                 p[0x20] = 0;
             }
         }
@@ -54,7 +55,7 @@ void func_021D9E50(u8 *p)
     case 1:
         if (((struct Obj00909 *)p)->f8) {
             if (((struct Obj00909 *)p)->f30)
-                func_020286C4((struct Ctx *)(((struct Obj00909 *)p)->f30), (void *)(((struct Obj00909 *)p)->f8), (void *)(((struct Obj00909 *)p)->f10));
+                APP_KEYCURSOR_Update((struct Ctx *)(((struct Obj00909 *)p)->f30), (void *)(((struct Obj00909 *)p)->f8), (void *)(((struct Obj00909 *)p)->f10));
             if (func_02028484((struct Blk *)(p + 0x34), (void *)(((struct Obj00909 *)p)->f8)))
                 ((struct Obj00909 *)p)->f2C = 1;
         }
@@ -62,5 +63,5 @@ void func_021D9E50(u8 *p)
     case 3:
         break;
     }
-    func_020310C4((struct Tcbl *)(((struct Obj00909 *)p)->fC));
+    TCBL_Main((struct Tcbl *)(((struct Obj00909 *)p)->fC));
 }

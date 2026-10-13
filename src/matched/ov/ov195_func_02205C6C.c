@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
 
-extern void func_02047970(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 
 void func_02205C6C(void *p)
 {
-    func_02047970();
+    G3D_SYSTEM_DrawEnd();
 }

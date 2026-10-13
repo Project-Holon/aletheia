@@ -1,5 +1,5 @@
 /*
- * function: func_021A240C
+ * function: WEATHER_TASK_GetZoneFogD
  * address:  0x021A240C
  * packet:   pkt_ov021_021A240C
  * region:   ov021
@@ -12,13 +12,13 @@
  * Unlabelled tail-call stub, filed as a blocker of the ov024 lane S26.
  *
  * symbols:
- *   func_021A240C  0x021A240C  thumb  ov021
- *   func_021A03B8  0x021A03B8  thumb  ov021
+ *   WEATHER_TASK_GetZoneFogD  0x021A240C  thumb  ov021
+ *   FIELD_ZONEFOG_GetFogSlope  0x021A03B8  thumb  ov021
  */
 
-int func_021A03B8(int *p);
+int FIELD_ZONEFOG_GetFogSlope(int *p);
 
-int func_021A240C(int *p)
+int WEATHER_TASK_GetZoneFogD(int *p)
 {
-    return func_021A03B8((int *)p[4]);
+    return FIELD_ZONEFOG_GetFogSlope((int *)p[4]);
 }

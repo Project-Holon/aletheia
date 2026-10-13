@@ -1,5 +1,5 @@
 /*
- * function: func_02191DC8
+ * function: FIELD_MSGBG_DrawBgWinFrame
  * address:  0x02191DC8
  * packet:   pkt_ov021_02191DC8
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 pal);
 
-void func_02191DC8(u8 layer, u8 x, u8 y, u8 w, u8 h, u16 tile, u8 pal)
+void FIELD_MSGBG_DrawBgWinFrame(u8 layer, u8 x, u8 y, u8 w, u8 h, u16 tile, u8 pal)
 {
     func_02041300(layer, tile, x - 2, y - 1, 1, 1, pal);
     func_02041300(layer, tile + 1, x - 1, y - 1, 1, 1, pal);

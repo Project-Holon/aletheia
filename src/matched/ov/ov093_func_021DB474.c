@@ -1,5 +1,5 @@
 /*
- * function: func_021DB474
+ * function: BTL_TOKUSEI_Redirect_ShowMessage
  * address:  0x021DB474
  * packet:   pkt_ov093_021DB474
  * region:   ov093
@@ -29,7 +29,7 @@ extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
 
-void func_021DB474(int unused, void *a, int id, int *f)
+void BTL_TOKUSEI_Redirect_ShowMessage(int unused, void *a, int id, int *f)
 {
     u8 *r;
 

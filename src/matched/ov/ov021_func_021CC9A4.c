@@ -1,5 +1,5 @@
 /*
- * function: func_021CC9A4
+ * function: PARTY_SELECT_LIST_FreeMonIconResources
  * address:  0x021CC9A4
  * packet:   pkt_ov021_021CC9A4
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_0201AA18  0x0201AA18  thumb
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  */
 #include "../include/Obj06097.h"
 
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_0201AA18(void *p);
-extern void func_0204A8D4(u32 v);
-extern void func_0204AFD8(u32 v);
-extern void func_0204ADA4(u32 v);
+extern void CLACT_ReleaseCharacter(u32 v);
+extern void CLACT_ReleaseCellAnim(u32 v);
+extern void CLACT_ReleasePalette(u32 v);
 
-void func_021CC9A4(u8 *p)
+void PARTY_SELECT_LIST_FreeMonIconResources(u8 *p)
 {
     int i;
     int n;
@@ -34,11 +34,11 @@ void func_021CC9A4(u8 *p)
     if (((struct Obj06097 *)p)->f8) {
         n = func_0201AA18(((struct Obj06097 *)p)->f8);
         for (i = 0; i < n; i++)
-            func_0204A8D4(*(u16 *)(p + i * 2 + 0x8c));
+            CLACT_ReleaseCharacter(*(u16 *)(p + i * 2 + 0x8c));
     }
     n = func_0201AA18(((struct Obj06097 *)p)->f4);
     for (i = 0; i < n; i++)
-        func_0204A8D4(*(u16 *)(p + i * 2 + 0x80));
-    func_0204AFD8(((struct Obj06097 *)p)->f7E);
-    func_0204ADA4(((struct Obj06097 *)p)->f7C);
+        CLACT_ReleaseCharacter(*(u16 *)(p + i * 2 + 0x80));
+    CLACT_ReleaseCellAnim(((struct Obj06097 *)p)->f7E);
+    CLACT_ReleasePalette(((struct Obj06097 *)p)->f7C);
 }

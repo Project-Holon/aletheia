@@ -1,5 +1,5 @@
 /*
- * function: func_02188BF8
+ * function: FIELDMAP_CheckPlayerRequest
  * address:  0x02188BF8
  * packet:   pkt_ov021_02188BF8
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3098  0x021A3098  thumb
- *   func_021A2F48  0x021A2F48  thumb
- *   func_021A2F54  0x021A2F54  thumb
+ *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb
+ *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb
+ *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_02012F2C  0x02012F2C  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
  * Addresses are Black-image addresses.
  */
@@ -27,29 +27,29 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021A3098(u8 *p);
-extern void func_021A2F48(u8 *p, u32 a1);
+extern u32 FIELD_PLAYER_GetFormCode(u8 *p);
+extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1);
 struct Sub02008C20Obj;
-extern int func_021A2F54(u8 *p);
+extern int FIELD_PLAYER_StepFormChange(u8 *p);
 extern void func_020061E4(u32 a);
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
-u32 func_02188BF8(u8 *a)
+u32 FIELDMAP_CheckPlayerRequest(u8 *a)
 {
     u32 r = 0;
-    u32 t = func_021A3098((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C));
+    u32 t = FIELD_PLAYER_GetFormCode((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C));
 
     if (t == 1) {
         r = 1;
-        func_021A2F48((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 1);
+        FIELD_PLAYER_StartFormChange((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 1);
     } else if (t == 0) {
         r = 1;
         func_020061E4(0x55F);
-        func_021A2F48((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 2);
-        func_02008DF0(func_02012F2C((int *)(*(u32 *)&((struct Obj00020 *)a)->f8)), 3);
+        FIELD_PLAYER_StartFormChange((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C), 2);
+        func_02008DF0(GAME_DATA_GetTrainerRecord((int *)(*(u32 *)&((struct Obj00020 *)a)->f8)), 3);
     }
     if (r == 1)
-        func_021A2F54((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C));
+        FIELD_PLAYER_StepFormChange((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C));
     return r;
 }

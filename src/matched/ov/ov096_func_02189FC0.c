@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
  *   func_021895AC  0x021895AC  thumb  ov096
  *   func_0218A378  0x0218A378  thumb  ov096
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 extern int func_021895AC(u8 *, u8 *);
@@ -40,9 +40,9 @@ int func_02189FC0(struct Cursor *a, u8 *b)
     u16 *base;
     int m;
     int flag;
-    t = func_0201134C(a);
-    u = func_0201134C(a);
-    w = func_0201134C(a);
+    t = VM_GetU32(a);
+    u = VM_GetU32(a);
+    w = VM_GetU32(a);
     base = (u16 *)(*(u8 * *)&((struct Obj00005 *)a)->f14 + w);
     flag = 0;
     if (t == 0) {

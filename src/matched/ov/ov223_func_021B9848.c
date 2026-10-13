@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02047E54 0x02047E54 arm
+ *   G3D_UTIL_Delete 0x02047E54 arm
  */
 #include "../include/Obj02266.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Rec;extern void func_02047E54(struct Rec *);
-void func_021B9848(int *p) { func_02047E54(*(struct Rec * *)&((struct Obj02266 *)p)->f28); }
+struct Rec;extern void G3D_UTIL_Delete(struct Rec *);
+void func_021B9848(int *p) { G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj02266 *)p)->f28); }

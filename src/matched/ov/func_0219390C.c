@@ -1,5 +1,5 @@
 /*
- * function: func_0219390C
+ * function: FIELD_WFBC_GetPeople
  * address:  0x0219390C
  * packet:   pkt_0219390C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02193F34  0x02193F34  thumb  ov021
+ *   FIELD_WFBC_FindPeopleByNpcId  0x02193F34  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,12 +23,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct E50;
 struct V;
-extern struct E50 *func_02193F34(struct V *v, u32 key);
+extern struct E50 *FIELD_WFBC_FindPeopleByNpcId(struct V *v, u32 key);
 
-void *func_0219390C(void *a, u32 b)
+void *FIELD_WFBC_GetPeople(void *a, u32 b)
 {
 if (b < 30) {
-    return func_02193F34(a, b);
+    return FIELD_WFBC_FindPeopleByNpcId(a, b);
 }
 return 0;
 }

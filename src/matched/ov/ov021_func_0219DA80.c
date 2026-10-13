@@ -1,5 +1,5 @@
 /*
- * function: func_0219DA80
+ * function: FLDMMDL_RAIL_MOVE_MapAttrGrassProc0
  * address:  0x0219DA80
  * packet:   pkt_ov021_0219DA80
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
- *   func_0219DC08  0x0219DC08  thumb  ov021
- *   func_021AC760  0x021AC760  thumb  ov021
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
+ *   FLDMMDL_RAIL_MOVE_GetFldEffCtrl  0x0219DC08  thumb  ov021
+ *   FLDEFF_GRASS_Start  0x021AC760  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,12 +21,12 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern u16 func_021AB0F8(u32 attr);
-extern int func_0219DC08(u32 a);
-extern void func_021AC760(u32 a, u32 b, u32 c, int d);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern int FLDMMDL_RAIL_MOVE_GetFldEffCtrl(u32 a);
+extern void FLDEFF_GRASS_Start(u32 a, u32 b, u32 c, int d);
 
-void func_0219DA80(u32 a, u32 b, u32 a2, u32 a3)
+void FLDMMDL_RAIL_MOVE_MapAttrGrassProc0(u32 a, u32 b, u32 a2, u32 a3)
 {
-    if (func_021AB0F8(b) & 0x20)
-        func_021AC760(func_0219DC08(a), a, 0, 0);
+    if (MAP_ATTR_GetFlags(b) & 0x20)
+        FLDEFF_GRASS_Start(FLDMMDL_RAIL_MOVE_GetFldEffCtrl(a), a, 0, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0219F628
+ * function: FLDMMDL_DRAW_GetFrameOffsetZero
  * address:  0x0219F628
  * packet:   pkt_0219F628
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0219F628(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_DRAW_GetFrameOffsetZero(u32 a, u32 b, u32 c, u32 d)
 {
 ((struct Obj09179 *)((u8 *)(d)))->f0 = 0;
 ((struct Obj09179 *)((u8 *)(d)))->f4 = 0;

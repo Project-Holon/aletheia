@@ -1,5 +1,5 @@
 /*
- * function: func_02014204
+ * function: ZONEDATA_SetZoneStartLocation
  * address:  0x02014204
  * packet:   pkt_020141A8
  * region:   arm9
@@ -18,6 +18,7 @@
  *   ZONEDATA_GetStartRailPos   0x02013B90  thumb
  *   ZONEDATA_GetStartPos   0x02013B74  thumb
  *   ZONEDATA_IsRailMap  0x02013C70  thumb
+ *   ZONEDATA_InitLocation  0x020140F8  thumb
  */
 
 typedef unsigned char u8;
@@ -40,16 +41,16 @@ struct t {
 
 struct v3 { u32 x, y, z; };
 
-extern void func_020140F8(int p0);
+extern void ZONEDATA_InitLocation(int p0);
 extern int ZONEDATA_IsRailMap(u32 a);
 extern void ZONEDATA_GetStartRailPos(u32 id, u32 *out);
 extern void ZONEDATA_GetStartPos(u32 id, u32 *out);
 
-void func_02014204(struct t *p, int id)
+void ZONEDATA_SetZoneStartLocation(struct t *p, int id)
 {
     struct v3 v;
 
-    func_020140F8((int)p);
+    ZONEDATA_InitLocation((int)p);
     p->a = 1;
     p->b = id;
     p->c = -1;

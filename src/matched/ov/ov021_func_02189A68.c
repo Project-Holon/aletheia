@@ -1,5 +1,5 @@
 /*
- * function: func_02189A68
+ * function: FIELDMAP_SetZoneEffectWork
  * address:  0x02189A68
  * packet:   pkt_ov021_02189A68
  * region:   ov021
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj19507.h"
 
-void func_02189A68(char *a, int b)
+void FIELDMAP_SetZoneEffectWork(char *a, int b)
 {
     ((struct Obj19507 *)a)->f150 = b;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5ABC
+ * function: ENCEFF_StartBlockFlip
  * address:  0x021F5ABC
  * packet:   pkt_ov079_021F5ABC
  * region:   ov079
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F5620  0x021F5620  thumb  ov077
- *   func_021F5AE4  0x021F5AE4  thumb  ov079
- *   func_021F5B24  0x021F5B24  thumb  ov079
+ *   ENCEFF_StartCellGrid  0x021F5620  thumb  ov077
+ *   ENCEFF_StepBlockFlip  0x021F5AE4  thumb  ov079
+ *   ENCEFF_StepFlipCell  0x021F5B24  thumb  ov079
  * Addresses are Black-image addresses.
  */
 
@@ -26,18 +26,18 @@ typedef struct {
 
 typedef unsigned char  u8;
 struct Param;
-extern void *func_021F5620(void *task, const struct Param *p, int flag);
-extern void func_021F5AE4(u8 *w);
-extern int func_021F5B24(int *o);
+extern void *ENCEFF_StartCellGrid(void *task, const struct Param *p, int flag);
+extern void ENCEFF_StepBlockFlip(u8 *w);
+extern int ENCEFF_StepFlipCell(int *o);
 
-void func_021F5ABC(void *a)
+void ENCEFF_StartBlockFlip(void *a)
 {
     Cfg c;
 
     c.w = 4;
     c.h = 4;
     c.z = 0;
-    c.step = (void (*)(void *))func_021F5AE4;
-    c.done = (int (*)(void *))func_021F5B24;
-    func_021F5620(a, (const struct Param *)(&c), 0);
+    c.step = (void (*)(void *))ENCEFF_StepBlockFlip;
+    c.done = (int (*)(void *))ENCEFF_StepFlipCell;
+    ENCEFF_StartCellGrid(a, (const struct Param *)(&c), 0);
 }

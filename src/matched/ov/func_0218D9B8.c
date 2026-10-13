@@ -1,5 +1,5 @@
 /*
- * function: func_0218D9B8
+ * function: FIELD_G3D_MAPPER_ClearHit
  * address:  0x0218D9B8
  * packet:   pkt_0218D9B8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0218D9B8(u32 a)
+int FIELD_G3D_MAPPER_ClearHit(u32 a)
 {
 ((struct Obj05857 *)((u8 *)(a)))->f0 = 0;
 ((struct Obj05857 *)((u8 *)(a)))->f2 = 0;

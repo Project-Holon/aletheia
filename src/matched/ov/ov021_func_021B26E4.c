@@ -1,5 +1,5 @@
 /*
- * function: func_021B26E4
+ * function: SCRCMD_GIMMICK42_CallSecondEventU16
  * address:  0x021B26E4
  * packet:   pkt_ov021_021B26E4
  * region:   ov021
@@ -10,32 +10,32 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011330  0x02011330  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021F3888  0x021F3888  thumb  ov042
+ *   VM_GetU16  0x02011330  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GIMMICK42_CreateOneShotEvent  0x021F3888  thumb  ov042
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned short u16;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern int func_021F3888(void *a, u32 b);
-extern void func_0215897C(void *vm, void *task);
+extern u16 VM_GetU16(struct Stream *s);
+extern int GIMMICK42_CreateOneShotEvent(void *a, u32 b);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B26E4(u32 a, u32 b)
+int SCRCMD_GIMMICK42_CallSecondEventU16(u32 a, u32 b)
 {
-    void *s = func_0215A5F4((void *)b);
-    void *d = func_0215A5DC((void *)b);
-    u32 r = func_021F3888(d, func_02011330((struct Stream *)a));
+    void *s = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *d = SCRCMD_WORK_GetGameSystem((void *)b);
+    u32 r = GIMMICK42_CreateOneShotEvent(d, VM_GetU16((struct Stream *)a));
 
     if (r == 0) {
         return 1;
     }
-    func_0215897C(s, (void *)r);
+    SCRIPT_SYS_CallEvent(s, (void *)r);
     return 1;
 }

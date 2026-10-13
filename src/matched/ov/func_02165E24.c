@@ -1,5 +1,5 @@
 /*
- * function: func_02165E24
+ * function: GAME_BEACON_ACCESSOR_GetActionNo
  * address:  0x02165E24
  * packet:   pkt_02165E24
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02165E24(int a0)
+int GAME_BEACON_ACCESSOR_GetActionNo(int a0)
 {
 
 a0 = ((struct Obj17726 *)a0)->f30;

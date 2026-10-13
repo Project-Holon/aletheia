@@ -1,5 +1,5 @@
 /*
- * function: func_021BC484
+ * function: FIELD_PLACE_NAME_Main
  * address:  0x021BC484
  * packet:   pkt_ov021_021BC484
  * region:   ov021
@@ -10,56 +10,56 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD0B0  0x021BD0B0  thumb  ov021
- *   func_021BD0A4  0x021BD0A4  thumb  ov021
- *   func_021BCC3C  0x021BCC3C  thumb  ov021
- *   func_021BCC80  0x021BCC80  thumb  ov021
- *   func_021BCD34  0x021BCD34  thumb  ov021
- *   func_021BCD70  0x021BCD70  thumb  ov021
- *   func_021BCD84  0x021BCD84  thumb  ov021
- *   func_021BCDD8  0x021BCDD8  thumb  ov021
- *   func_021BCE88  0x021BCE88  thumb  ov021
- *   func_021BC970  0x021BC970  thumb  ov021
+ *   FIELD_PLACE_NAME_IncrementFrame  0x021BD0B0  thumb  ov021
+ *   FIELD_PLACE_NAME_GetState  0x021BD0A4  thumb  ov021
+ *   FIELD_PLACE_NAME_StateIdle  0x021BCC3C  thumb  ov021
+ *   FIELD_PLACE_NAME_StatePrepare  0x021BCC80  thumb  ov021
+ *   FIELD_PLACE_NAME_StateFadeIn  0x021BCD34  thumb  ov021
+ *   FIELD_PLACE_NAME_StateFadeInWait  0x021BCD70  thumb  ov021
+ *   FIELD_PLACE_NAME_StateLettersLaunch  0x021BCD84  thumb  ov021
+ *   FIELD_PLACE_NAME_StateLettersLand  0x021BCDD8  thumb  ov021
+ *   FIELD_PLACE_NAME_StateFadeOut  0x021BCE88  thumb  ov021
+ *   FIELD_PLACE_NAME_UpdateLetters  0x021BC970  thumb  ov021
  */
 
-extern void func_021BD0B0(int a);
+extern void FIELD_PLACE_NAME_IncrementFrame(int a);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_021BD0A4(u8 *p);
-extern void func_021BCC3C(void *p);
-extern void func_021BCC80(char *p);
-extern void func_021BCD34(int a);
-extern void func_021BCD70(int a);
-extern void func_021BCD84(char *p);
-extern void func_021BCDD8(char *p);
-extern void func_021BCE88(char *p);
-extern void func_021BC970(int a);
+extern u32 FIELD_PLACE_NAME_GetState(u8 *p);
+extern void FIELD_PLACE_NAME_StateIdle(void *p);
+extern void FIELD_PLACE_NAME_StatePrepare(char *p);
+extern void FIELD_PLACE_NAME_StateFadeIn(int a);
+extern void FIELD_PLACE_NAME_StateFadeInWait(int a);
+extern void FIELD_PLACE_NAME_StateLettersLaunch(char *p);
+extern void FIELD_PLACE_NAME_StateLettersLand(char *p);
+extern void FIELD_PLACE_NAME_StateFadeOut(char *p);
+extern void FIELD_PLACE_NAME_UpdateLetters(int a);
 
-void func_021BC484(u32 a)
+void FIELD_PLACE_NAME_Main(u32 a)
 {
-    func_021BD0B0(a);
-    switch (func_021BD0A4((u8 *)a)) {
+    FIELD_PLACE_NAME_IncrementFrame(a);
+    switch (FIELD_PLACE_NAME_GetState((u8 *)a)) {
     case 0:
-        func_021BCC3C((void *)a);
+        FIELD_PLACE_NAME_StateIdle((void *)a);
         break;
     case 1:
-        func_021BCC80((char *)a);
+        FIELD_PLACE_NAME_StatePrepare((char *)a);
         break;
     case 2:
-        func_021BCD34(a);
+        FIELD_PLACE_NAME_StateFadeIn(a);
         break;
     case 3:
-        func_021BCD70(a);
+        FIELD_PLACE_NAME_StateFadeInWait(a);
         break;
     case 4:
-        func_021BCD84((char *)a);
+        FIELD_PLACE_NAME_StateLettersLaunch((char *)a);
         break;
     case 5:
-        func_021BCDD8((char *)a);
+        FIELD_PLACE_NAME_StateLettersLand((char *)a);
         break;
     case 6:
-        func_021BCE88((char *)a);
+        FIELD_PLACE_NAME_StateFadeOut((char *)a);
         break;
     }
-    func_021BC970(a);
+    FIELD_PLACE_NAME_UpdateLetters(a);
 }

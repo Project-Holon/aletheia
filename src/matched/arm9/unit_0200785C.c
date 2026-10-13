@@ -20,8 +20,8 @@
  *   BOX_SAVEDATA_GetBoxPokemon       0x02007AF4  thumb
  *   POKE_TOOL_GetBoxValue       0x02017E88  thumb
  *   func_02034714      0x02034714  arm
- *   func_02045924      0x02045924  arm
- *   func_02045A38      0x02045A38  arm
+ *   STRBUF_SetString      0x02045924  arm
+ *   STRBUF_ToChars      0x02045A38  arm
  *
  * The box name getter and setter, two per box counts, and the whole-storage
  * totals that sum each of them over all 24 boxes.
@@ -81,9 +81,9 @@ extern struct Sub02007454Header *BOX_SAVEDATA_GetHeader(void **save);
 extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box);
 extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 struct U16Vec;
-extern void func_02045A38(struct U16Vec *src, unsigned short *dest,
+extern void STRBUF_ToChars(struct U16Vec *src, unsigned short *dest,
                           u32 n);
 
 int BOX_SAVEDATA_CountPokemonInBox(void *save, u32 box);
@@ -97,7 +97,7 @@ void BOX_SAVEDATA_GetBoxName(void *save, u32 box, void *dest)
         box = h->unk00;
     }
     if (box < 0x18) {
-        func_02045924(dest, (const u16 *)(&h->unk04[box]));
+        STRBUF_SetString(dest, (const u16 *)(&h->unk04[box]));
         return;
     }
     func_02034714(sub_0200785C_File, 0, sub_0200785C_File);
@@ -111,7 +111,7 @@ void BOX_SAVEDATA_SetBoxName(void *save, u32 box, const void *src)
         box = h->unk00;
     }
     if (box < 0x18) {
-        func_02045A38((struct U16Vec *)src, (unsigned short *)&h->unk04[box], 0x14);
+        STRBUF_ToChars((struct U16Vec *)src, (unsigned short *)&h->unk04[box], 0x14);
     }
 }
 

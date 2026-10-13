@@ -1,5 +1,5 @@
 /*
- * function: func_021F380C
+ * function: FIELD_GIMMICK_BSUBWAY_GetTrainEffect
  * address: 0x021F380C
  * packet: pkt_ov052_021F380C
  * region: ov052
@@ -9,33 +9,33 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02188C80 0x02188C80 thumb ov021
- *   func_020120F4 0x020120F4 thumb
- *   func_02012EC4 0x02012EC4 thumb
- *   func_02188C9C 0x02188C9C thumb ov021
- *   func_0200B3A4 0x0200B3A4 thumb
- *   func_02188C84 0x02188C84 thumb ov021
- *   func_021F3998 0x021F3998 thumb ov052
+ *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
+ *   FIELDMAP_GetZoneId 0x02188C9C thumb ov021
+ *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
+ *   FIELDMAP_GetHeapId 0x02188C84 thumb ov021
+ *   FIELD_GIMMICK_BSUBWAY_FindZoneEntry 0x021F3998 thumb ov052
  */
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern u16 func_02188C9C(u8 *p);
-extern char *func_0200B3A4(unsigned, int);
-extern u16 func_02188C84(u8 *p);
-extern void func_021F3998(int, int *, int *);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern char *GIMMICK_WORK_GetSaveArea(unsigned, int);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void FIELD_GIMMICK_BSUBWAY_FindZoneEntry(int, int *, int *);
 
-int func_021F380C(int a)
+int FIELD_GIMMICK_BSUBWAY_GetTrainEffect(int a)
 {
     int y, x;
     unsigned h;
-    func_02188C84((u8 *)a);
-    h = (unsigned int)func_02012EC4(func_020120F4(func_02188C80((void *)a)));
-    func_021F3998(func_02188C9C((u8 *)a), &x, &y);
-    return **(int **)(func_0200B3A4(h, x) + 0x24);
+    FIELDMAP_GetHeapId((u8 *)a);
+    h = (unsigned int)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a)));
+    FIELD_GIMMICK_BSUBWAY_FindZoneEntry(FIELDMAP_GetZoneId((u8 *)a), &x, &y);
+    return **(int **)(GIMMICK_WORK_GetSaveArea(h, x) + 0x24);
 }

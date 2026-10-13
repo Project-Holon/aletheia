@@ -1,5 +1,5 @@
 /*
- * function: func_021AA35C
+ * function: FIELD_ENCOUNT_GetEncountType
  * address:  0x021AA35C
  * packet:   pkt_ov021_021AA35C
  * region:   ov021
@@ -11,14 +11,14 @@
  *
  *
  * symbols:
- *   func_02188C98  0x02188C98  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A30C8  0x021A30C8  thumb
- *   func_021AB0F0  0x021AB0F0  thumb
- *   func_021AB0F8  0x021AB0F8  thumb
- *   func_021AB100  0x021AB100  thumb
- *   func_021AB140  0x021AB140  thumb
- *   func_021AB29C  0x021AB29C  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb
+ *   MAP_ATTR_IsPresent  0x021AB100  thumb
+ *   MAP_ATTR_IsTallGrass  0x021AB140  thumb
+ *   MAP_ATTR_IsAnyDoubleGrass  0x021AB29C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -30,32 +30,32 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u32 func_02188C98(u8 *p);
-extern u32 func_021A30C8(void **ctx);
-extern int func_021AB100(u32 attr);
-extern u16 func_021AB0F8(u32 attr);
-extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB140(int x);
-extern int func_021AB29C(u16 x);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
+extern int MAP_ATTR_IsPresent(u32 attr);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern int MAP_ATTR_IsTallGrass(int x);
+extern int MAP_ATTR_IsAnyDoubleGrass(u16 x);
 
-int func_021AA35C(void **ctx, int mode, u8 *out)
+int FIELD_ENCOUNT_GetEncountType(void **ctx, int mode, u8 *out)
 {
-    void *y = func_02188CB4(ctx[0]);
+    void *y = FIELDMAP_GetFieldPlayer(ctx[0]);
     u32 attr;
     u16 fl;
     u16 t;
 
-    func_02188C98(ctx[0]);
+    FIELDMAP_GetG3dMapper(ctx[0]);
     *out = 0;
-    attr = func_021A30C8(y);
-    if (func_021AB100(attr) == 0)
+    attr = FIELD_PLAYER_GetNowAttribute(y);
+    if (MAP_ATTR_IsPresent(attr) == 0)
         return 0xFF;
-    fl = func_021AB0F8(attr);
+    fl = MAP_ATTR_GetFlags(attr);
     if (mode != 1 && (fl & 4) == 0)
         return 0xFF;
-    t = func_021AB0F0(attr);
-    if (func_021AB140(t))
+    t = MAP_ATTR_GetTerrainId(attr);
+    if (MAP_ATTR_IsTallGrass(t))
         *out += 10;
     if (fl & 2) {
         if (mode == 1)
@@ -64,7 +64,7 @@ int func_021AA35C(void **ctx, int mode, u8 *out)
     }
     if (mode == 1)
         return 2;
-    if (func_021AB29C(t))
+    if (MAP_ATTR_IsAnyDoubleGrass(t))
         return 1;
     return 0;
 }

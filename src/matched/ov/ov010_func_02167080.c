@@ -1,5 +1,5 @@
 /*
- * function: func_02167080
+ * function: EVENT_RESEARCH_RADAR_ReportTaskMain
  * address:  0x02167080
  * packet:   pkt_ov010_02167080
  * region:   ov010
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02167154  0x02167154  thumb  ov010
- *   func_02167178  0x02167178  thumb  ov010
- *   func_021671DC  0x021671DC  thumb  ov010
- *   func_021671FC  0x021671FC  thumb  ov010
- *   func_0219077C  0x0219077C  thumb  ov021
+ *   EVENT_RESEARCH_RADAR_LoadReportMsgData  0x02167154  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_CreateInfoWindow  0x02167178  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_CreateWordSet  0x021671DC  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_PrintReport  0x021671FC  thumb  ov010
+ *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
  *   func_020362DC  0x020362DC  arm
- *   func_021672B4  0x021672B4  thumb  ov010
- *   func_021671EC  0x021671EC  thumb  ov010
- *   func_021671CC  0x021671CC  thumb  ov010
- *   func_02167168  0x02167168  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_CloseInfoWindow  0x021672B4  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_DeleteWordSet  0x021671EC  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_DeleteInfoWindow  0x021671CC  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_DeleteReportMsgData  0x02167168  thumb  ov010
  */
 
 typedef unsigned int u32;
@@ -30,31 +30,31 @@ struct O {
 };
 
 struct MsgBank;
-extern struct MsgBank *func_02167154(int a0, int a1, int a2, int a3);
-extern void func_02167178(struct O *o);
+extern struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(int a0, int a1, int a2, int a3);
+extern void EVENT_RESEARCH_RADAR_CreateInfoWindow(struct O *o);
 struct WordSet;
-extern struct WordSet *func_021671DC(int a0);
-extern void func_021671FC(struct O *o);
+extern struct WordSet *EVENT_RESEARCH_RADAR_CreateWordSet(int a0);
+extern void EVENT_RESEARCH_RADAR_PrintReport(struct O *o);
 typedef unsigned char  u8;
-extern int func_0219077C(u8 *p);
+extern int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
 extern u32 func_020362DC(void);
-extern int func_021672B4(int a0);
-extern int func_021671EC(int a0);
-extern int func_021671CC(int a0);
-extern int func_02167168(int a0);
+extern int EVENT_RESEARCH_RADAR_CloseInfoWindow(int a0);
+extern int EVENT_RESEARCH_RADAR_DeleteWordSet(int a0);
+extern int EVENT_RESEARCH_RADAR_DeleteInfoWindow(int a0);
+extern int EVENT_RESEARCH_RADAR_DeleteReportMsgData(int a0);
 
-int func_02167080(void *a, int *st, struct O *o, int a3)
+int EVENT_RESEARCH_RADAR_ReportTaskMain(void *a, int *st, struct O *o, int a3)
 {
     switch (*st) {
     case 0:
-        func_02167154((int)o, (int)st, (int)o, a3);
-        func_02167178(o);
-        func_021671DC((int)o);
-        func_021671FC(o);
+        EVENT_RESEARCH_RADAR_LoadReportMsgData((int)o, (int)st, (int)o, a3);
+        EVENT_RESEARCH_RADAR_CreateInfoWindow(o);
+        EVENT_RESEARCH_RADAR_CreateWordSet((int)o);
+        EVENT_RESEARCH_RADAR_PrintReport(o);
         *st = *st + 1;
         break;
     case 1:
-        if (func_0219077C((u8 *)o->f14) == 1)
+        if (FIELD_MSGBG_IsMsgWinTransDone((u8 *)o->f14) == 1)
             *st = *st + 1;
         break;
     case 2:
@@ -62,10 +62,10 @@ int func_02167080(void *a, int *st, struct O *o, int a3)
             *st = *st + 1;
         break;
     case 3:
-        func_021672B4((int)o);
-        func_021671EC((int)o);
-        func_021671CC((int)o);
-        func_02167168((int)o);
+        EVENT_RESEARCH_RADAR_CloseInfoWindow((int)o);
+        EVENT_RESEARCH_RADAR_DeleteWordSet((int)o);
+        EVENT_RESEARCH_RADAR_DeleteInfoWindow((int)o);
+        EVENT_RESEARCH_RADAR_DeleteReportMsgData((int)o);
         return 1;
     }
     return 0;

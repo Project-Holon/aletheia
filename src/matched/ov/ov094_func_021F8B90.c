@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_0204A648, then PALANM_TransferPalettes on the handle at 0x18c of the global work block.
+ * Calls CLACT_VBlankSystem, then PALANM_TransferPalettes on the handle at 0x18c of the global work block.
  *
  * symbols:
  *   d_0220AF20  0x0220AF20  data  ov094
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  */
 extern char *d_0220AF20;
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 struct S02021D50;
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 
 void func_021F8B90(void)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
     PALANM_TransferPalettes(*(void **)(d_0220AF20 + 0x18c));
 }

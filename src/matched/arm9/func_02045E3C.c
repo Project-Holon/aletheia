@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *
  * The message-bank string cipher, decrypting a raw UTF-16-code-unit run in
  * place. This is the routine the asset lane's tools/assets/text.py was
@@ -22,7 +22,7 @@
  * The seed is derived forward from the entry's own descriptor index in the
  * message file, so no brute force or terminator-anchored back-solve is
  * needed. Decryption stops at the first unit that equals the global
- * end-of-string code func_02045A98() returns (0xFFFF in this build), and the
+ * end-of-string code STRBUF_GetEosChar() returns (0xFFFF in this build), and the
  * function returns the index of that unit, i.e. the decoded length; if no
  * terminator is found inside count units it returns count.
  *
@@ -39,11 +39,11 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 
 u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex)
 {
-    u16 eos = func_02045A98();
+    u16 eos = STRBUF_GetEosChar();
     u16 key = (u16)((msgIndex + 3) * 0x2983);
     u32 i;
 

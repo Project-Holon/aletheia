@@ -1,5 +1,5 @@
 /*
- * function: func_0216F244
+ * function: TRCARD_SYS_StateChooseScreen
  * address:  0x0216F244
  * packet:   pkt_ov010_0216F244
  * region:   ov010
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-int func_0216F244(char *a, char *b)
+int TRCARD_SYS_StateChooseScreen(char *a, char *b)
 {
     char *q;
 

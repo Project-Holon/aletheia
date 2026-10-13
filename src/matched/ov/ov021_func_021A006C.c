@@ -1,5 +1,5 @@
 /*
- * function: func_021A006C
+ * function: FLDMMDL_DRAW_InitBlactId
  * address:  0x021A006C
  * packet:   pkt_ov021_021A006C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D6D8  0x0216D6D8  thumb  ov010
- *   func_0219D634  0x0219D634  thumb  ov021
+ *   FLDMMDL_InitDrawProcWork  0x0216D6D8  thumb  ov010
+ *   FLDMMDL_G3DOBJ_AddObj  0x0219D634  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void *func_0216D6D8(int a0, int a1);
-extern u32 func_0219D634(u32 a);
+extern void *FLDMMDL_InitDrawProcWork(int a0, int a1);
+extern u32 FLDMMDL_G3DOBJ_AddObj(u32 a);
 
-void func_021A006C(u32 a)
+void FLDMMDL_DRAW_InitBlactId(u32 a)
 {
-    u16 *q = (u16 *)func_0216D6D8(a, 2);
-    *q = func_0219D634(a);
+    u16 *q = (u16 *)FLDMMDL_InitDrawProcWork(a, 2);
+    *q = FLDMMDL_G3DOBJ_AddObj(a);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6DE0
+ * function: FIELD_TASK_MANAGER_AddTask
  * address:  0x021C6DE0
  * packet:   pkt_ov021_021C6DE0
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021C6E5C  0x021C6E5C  thumb  ov021
- *   func_021C6CC4  0x021C6CC4  thumb  ov021
- *   func_021C6CA8  0x021C6CA8  thumb  ov021
+ *   FIELD_TASK_Start  0x021C6CC4  thumb  ov021
+ *   FIELD_TASK_Delete  0x021C6CA8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12957.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_021C6E5C(u8 *p, u8 i, u32 a, u32 b);
-extern void func_021C6CC4(u32 *a0);
-extern void func_021C6CA8(u32 a);
+extern void FIELD_TASK_Start(u32 *a0);
+extern void FIELD_TASK_Delete(u32 a);
 
-void func_021C6DE0(u8 *p, u32 *a, u32 b)
+void FIELD_TASK_MANAGER_AddTask(u8 *p, u32 *a, u32 b)
 {
     int i;
 
@@ -33,9 +33,9 @@ void func_021C6DE0(u8 *p, u32 *a, u32 b)
         if (((u32 *)((struct Obj12957 *)p)->f4)[i] == 0) {
             func_021C6E5C(p, i, (u32)a, b);
             if (b == 0)
-                func_021C6CC4(a);
+                FIELD_TASK_Start(a);
             return;
         }
     }
-    func_021C6CA8((u32)a);
+    FIELD_TASK_Delete((u32)a);
 }

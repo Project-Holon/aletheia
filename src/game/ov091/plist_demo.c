@@ -1,7 +1,7 @@
 /*
  * file:     plist_demo.c
  * unit:     yes
- * function: func_021BDABC, func_021BDBE0, func_021BDBF8, func_021BDC3C, func_021BDC5C, func_021BDCA0, func_021BDCC0, func_021BDD58, func_021BDD78, func_021BE2B4, func_021BE874, func_021BE914, func_021BE948, func_021BE9BC
+ * function: PLIST_DEMO_CreateParticles, PLIST_DEMO_DeleteParticles, PLIST_DEMO_CheckGiratinaToOrigin, PLIST_DEMO_ApplyGiratinaOriginForm, PLIST_DEMO_CheckGiratinaToAltered, PLIST_DEMO_ApplyGiratinaAlteredForm, PLIST_DEMO_CanUseGracidea, PLIST_DEMO_ApplyShayminSkyForm, PLIST_DEMO_CheckItemUsable, PLIST_DEMO_UseItemOnMon, PLIST_DEMO_RaiseMovePpUps, PLIST_DEMO_RestoreHp, PLIST_DEMO_AddEv, PLIST_DEMO_FriendshipItemApplies
  * address:  0x021BDABC
  * region:   ov091
  * compiler: dsi/1.1p1
@@ -13,32 +13,32 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_020307B0 0x020307B0 arm
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   func_02020F34 0x02020F34 thumb
  *   func_02021014 0x02021014 thumb
- *   func_02017988 0x02017988 thumb
- *   func_0205121C 0x0205121C arm
+ *   POKE_TOOL_ChangeForm 0x02017988 thumb
+ *   PARTICLE_LoadArchiveMember 0x0205121C arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
- *   func_02050C04 0x02050C04 arm
- *   func_02051230 0x02051230 arm
+ *   PARTICLE_CreateSystemDefault 0x02050C04 arm
+ *   PARTICLE_SetupSystem 0x02051230 arm
  *   PARTICLE_StartEffect 0x020515B4 arm
  *   d_021BED58 0x021BED58 data ov091 a4
- *   func_02050DB8 0x02050DB8 arm
+ *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   func_0200CDE0 0x0200CDE0 thumb
- *   func_02011400  0x02011400  thumb
+ *   TIMEZONE_GetZoneLightLevel  0x02011400  thumb
  *   func_0203F4CC  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
- *   func_02018584 0x02018584 thumb
- *   func_020185C4 0x020185C4 thumb
+ *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
+ *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKE_TOOL_RestorePP 0x0201B970 thumb
- *   func_021BEA48 0x021BEA48 thumb ov091
- *   func_021BB3D4  0x021BB3D4  thumb
+ *   PLIST_DEMO_ApplyFriendshipItem 0x021BEA48 thumb ov091
+ *   PLIST_PLATE_GetCenterPos  0x021BB3D4  thumb
  */
 struct Rec;
 struct RtcTime;
@@ -51,52 +51,52 @@ typedef signed int     s32;
 #include "plist_battle_types.h"
 #include "plist_demo_types.h"
 
-extern u32 func_02017E1C(void *,u32,u32);
-extern void func_02017E40(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 func_020307B0(void *p);
 extern u32 POKE_TOOL_GetStatusCondition(void *p);
 void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void *func_02020F34(u32 item, u32 which, u32 heap);
 extern u32 func_02021014(struct Rec *p, u32 sel);
-extern u32 func_02017988(void *,u32);
-extern int func_0205121C(u32,u32,u32);
+extern u32 POKE_TOOL_ChangeForm(void *,u32);
+extern int PARTICLE_LoadArchiveMember(u32,u32,u32);
 extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
-extern void *func_02050C04(void *memory, int size, int a, int heap);
+extern void *PARTICLE_CreateSystemDefault(void *memory, int size, int a, int heap);
 extern u32 func_020056BC(void);
-extern void func_02051230(void *system, u32 handle, u32 a, u32 b);
+extern void PARTICLE_SetupSystem(void *system, u32 handle, u32 a, u32 b);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
-extern void func_02050DB8(void *system);
+extern void PARTICLE_DeleteSystem(void *system);
 extern void GFL_NET_FreeAligned(void *);
 extern void func_0200CDE0(void *zukanSave, void *mon);
-extern u8 func_02011400(int row, int col);
+extern u8 TIMEZONE_GetZoneLightLevel(int row, int col);
 extern void func_0203F4CC(struct RtcTime *time);
 extern u8 WAZA_TOOL_GetMaxPP(u16, u32);
 extern u8 POKE_TOOL_IsPPRestorable(void *, u32);
-extern u32 func_02018584(u16, u16, u16);
-extern void func_020185C4(void *);
+extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
+extern void POKE_TOOL_RecalcParam(void *);
 extern u32 POKE_TOOL_RestorePP(void *, u32, u32);
-extern int func_021BEA48(int, int, int, int, u16, int);
-void func_021BB3D4(PlistWork *work, u8 *plate, PlistPos *out);
-void func_021BDABC(PlistWork *work);
-void func_021BDBE0(PlistWork *work);
-int func_021BDBF8(PlistWork *work, void *unused);
-void func_021BDC3C(PlistWork *work, void *mon);
-int func_021BDC5C(PlistWork *work, void *unused);
-void func_021BDCA0(PlistWork *work, void *mon);
-int func_021BDCC0(PlistWork *work, u32 unused);
-void func_021BDD58(PlistWork *work, void *mon);
-int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId);
-int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
-int func_021BE874(void *mon, int moveSlot, int ups);
-void func_021BE914(void *mon, u32 hp, u32 maxHp, u32 amount);
-int func_021BE948(int ev, int otherEvTotal, int delta, int ignoreCap);
-int func_021BE9BC(void *mon, void *itemRec);
+extern int PLIST_DEMO_ApplyFriendshipItem(int, int, int, int, u16, int);
+void PLIST_PLATE_GetCenterPos(PlistWork *work, u8 *plate, PlistPos *out);
+void PLIST_DEMO_CreateParticles(PlistWork *work);
+void PLIST_DEMO_DeleteParticles(PlistWork *work);
+int PLIST_DEMO_CheckGiratinaToOrigin(PlistWork *work, void *unused);
+void PLIST_DEMO_ApplyGiratinaOriginForm(PlistWork *work, void *mon);
+int PLIST_DEMO_CheckGiratinaToAltered(PlistWork *work, void *unused);
+void PLIST_DEMO_ApplyGiratinaAlteredForm(PlistWork *work, void *mon);
+int PLIST_DEMO_CanUseGracidea(PlistWork *work, u32 unused);
+void PLIST_DEMO_ApplyShayminSkyForm(PlistWork *work, void *mon);
+int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId);
+int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
+int PLIST_DEMO_RaiseMovePpUps(void *mon, int moveSlot, int ups);
+void PLIST_DEMO_RestoreHp(void *mon, u32 hp, u32 maxHp, u32 amount);
+int PLIST_DEMO_AddEv(int ev, int otherEvTotal, int delta, int ignoreCap);
+int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec);
 extern u8 d_021BED58[];
 
 /*
  * lever: two-halfword coordinate struct keeps its address sp-relative; int alias added 4 B.
  */
-void func_021BDABC(PlistWork *work)
+void PLIST_DEMO_CreateParticles(PlistWork *work)
 {
     u8 count;
     int member;
@@ -114,11 +114,11 @@ void func_021BDABC(PlistWork *work)
         count = 2;
         work->effectLength = 0x26;
     }
-    handle = func_0205121C(0x4c, member, work->heapId);
+    handle = PARTICLE_LoadArchiveMember(0x4c, member, work->heapId);
     work->particleMemory = GFL_NET_AllocAligned(work->heapId, 0x5000, (const char *)d_021BED58, 0xea);
-    work->particleSystem = func_02050C04(work->particleMemory, 0x5000, 0, work->heapId);
-    func_02051230(work->particleSystem, handle, 0, func_020056BC());
-    func_021BB3D4(work, (u8 *)work->plates[work->selectedSlot], &pos);
+    work->particleSystem = PARTICLE_CreateSystemDefault(work->particleMemory, 0x5000, 0, work->heapId);
+    PARTICLE_SetupSystem(work->particleSystem, handle, 0, func_020056BC());
+    PLIST_PLATE_GetCenterPos(work, (u8 *)work->plates[work->selectedSlot], &pos);
     pos.x -= 0x28;
     pos.y += 4;
     if (pos.x > 0) vec[0] = (int)(0.5f + (float)(pos.x << 12)) / 0x26;
@@ -129,20 +129,20 @@ void func_021BDABC(PlistWork *work)
     for (i = 0; i < count; i++) PARTICLE_StartEffect(work->particleSystem, i, (int)vec);
 }
 
-void func_021BDBE0(PlistWork *work)
+void PLIST_DEMO_DeleteParticles(PlistWork *work)
 {
-    func_02050DB8(work->particleSystem);
+    PARTICLE_DeleteSystem(work->particleSystem);
     GFL_NET_FreeAligned(work->particleMemory);
 }
 
-int func_021BDBF8(PlistWork *work, void *unused)
+int PLIST_DEMO_CheckGiratinaToOrigin(PlistWork *work, void *unused)
 {
     int result = 0;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_GIRATINA)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_GIRATINA)
         return 0;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_HELD_ITEM, result) != PLIST_ITEM_GRISEOUS_ORB)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_HELD_ITEM, result) != PLIST_ITEM_GRISEOUS_ORB)
         return 0;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_FORM, result) == 0)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_FORM, result) == 0)
         result = 1;
     return result;
 }
@@ -150,20 +150,20 @@ int func_021BDBF8(PlistWork *work, void *unused)
 /*
  * Extent tail: two bytes of alignment padding at 0x021BDC5A.
  */
-void func_021BDC3C(PlistWork *work, void *mon)
+void PLIST_DEMO_ApplyGiratinaOriginForm(PlistWork *work, void *mon)
 {
-    func_02017988(mon, 1);
+    POKE_TOOL_ChangeForm(mon, 1);
     func_0200CDE0(work->arg->zukanSave, mon);
 }
 
-int func_021BDC5C(PlistWork *work, void *unused)
+int PLIST_DEMO_CheckGiratinaToAltered(PlistWork *work, void *unused)
 {
     int result = 0;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_HELD_ITEM, 0) == PLIST_ITEM_GRISEOUS_ORB)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_HELD_ITEM, 0) == PLIST_ITEM_GRISEOUS_ORB)
         return 0;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_SPECIES, result) != PLIST_SPECIES_GIRATINA)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, result) != PLIST_SPECIES_GIRATINA)
         return 0;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_FORM, result) == 1)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_FORM, result) == 1)
         result = 1;
     return result;
 }
@@ -171,40 +171,40 @@ int func_021BDC5C(PlistWork *work, void *unused)
 /*
  * Extent tail: two bytes of alignment padding at 0x021BDCBE.
  */
-void func_021BDCA0(PlistWork *work, void *mon)
+void PLIST_DEMO_ApplyGiratinaAlteredForm(PlistWork *work, void *mon)
 {
-    func_02017988(mon, 0);
+    POKE_TOOL_ChangeForm(mon, 0);
     func_0200CDE0(work->arg->zukanSave, mon);
 }
 
-int func_021BDCC0(PlistWork *work, u32 unused)
+int PLIST_DEMO_CanUseGracidea(PlistWork *work, u32 unused)
 {
     u32 now[3];
     u32 dayStart, dayEnd;
     int result = 0;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHAYMIN)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHAYMIN)
         return result;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_FORM, result) != 0)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_FORM, result) != 0)
         return result;
-    if (func_02017E1C((void *)work->selectedMon, PLIST_MON_SPECIAL_FLAG, result) != 1)
+    if (POKE_TOOL_GetPartyValue((void *)work->selectedMon, PLIST_MON_SPECIAL_FLAG, result) != 1)
         return result;
     if (POKE_TOOL_GetStatusCondition((void *)work->selectedMon) & 0x20)
         return result;
-    dayStart = func_02011400(work->arg->season, result);
-    dayEnd = func_02011400(work->arg->season, 3);
+    dayStart = TIMEZONE_GetZoneLightLevel(work->arg->season, result);
+    dayEnd = TIMEZONE_GetZoneLightLevel(work->arg->season, 3);
     func_0203F4CC((struct RtcTime *)now);
     if (now[0] < dayStart || now[0] >= dayEnd)
         return 0;
     return 1;
 }
 
-void func_021BDD58(PlistWork *work, void *mon)
+void PLIST_DEMO_ApplyShayminSkyForm(PlistWork *work, void *mon)
 {
-    func_02017988(mon, 1);
+    POKE_TOOL_ChangeForm(mon, 1);
     func_0200CDE0(work->arg->zukanSave, mon);
 }
 
-int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
+int PLIST_DEMO_CheckItemUsable(void *mon, u32 itemId, int moveSlot, u32 heapId)
 {
   void *itemRec;
   u32 result;
@@ -253,7 +253,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
     func_020307B0(itemRec);
     return 1;
   }
-  hp = func_02017E1C(mon, PLIST_MON_HP, 0);
+  hp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_HP, 0);
   if (((func_02021014(itemRec, PLIST_ITEM_REVIVES) != 0) || (func_02021014(itemRec, PLIST_ITEM_REVIVES_FULL) != 0)) && (func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL) == 0))
   {
     if (hp == 0)
@@ -263,12 +263,12 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
     }
   }
   else
-    if (((func_02021014(itemRec, PLIST_ITEM_RESTORES_HP) != 0) && (hp != 0)) && (hp < func_02017E1C(mon, PLIST_MON_MAX_HP, 0)))
+    if (((func_02021014(itemRec, PLIST_ITEM_RESTORES_HP) != 0) && (hp != 0)) && (hp < POKE_TOOL_GetPartyValue(mon, PLIST_MON_MAX_HP, 0)))
   {
     func_020307B0(itemRec);
     return 1;
   }
-  if ((func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL) != 0) && (func_02017E1C(mon, PLIST_MON_LEVEL, 0) < 100))
+  if ((func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL) != 0) && (POKE_TOOL_GetPartyValue(mon, PLIST_MON_LEVEL, 0) < 100))
   {
     func_020307B0(itemRec);
     return 1;
@@ -276,7 +276,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
   if ((func_02021014(itemRec, PLIST_ITEM_RAISES_PP_UPS) != 0) || (func_02021014(itemRec, PLIST_ITEM_MAXES_PP_UPS) != 0))
   {
     result = 0;
-    if ((func_02017E1C(mon, moveSlot + PLIST_MON_MOVE_PP_UPS, 0) < 3) && (WAZA_TOOL_GetMaxPP((u16) func_02017E1C(mon, moveSlot + PLIST_MON_MOVE_ID, 0), result) >= 5))
+    if ((POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_PP_UPS, 0) < 3) && (WAZA_TOOL_GetMaxPP((u16) POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_ID, 0), result) >= 5))
     {
       func_020307B0(itemRec);
       return 1;
@@ -299,14 +299,14 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
     }
 
   }
-  evHp = func_02017E1C(mon, PLIST_MON_EV_HP, 0);
-  evAtk = func_02017E1C(mon, PLIST_MON_EV_ATK, 0);
-  evDef = func_02017E1C(mon, PLIST_MON_EV_DEF, 0);
-  evSpeed = func_02017E1C(mon, PLIST_MON_EV_SPEED, 0);
-  evSpAtk = func_02017E1C(mon, PLIST_MON_EV_SPATK, 0);
-  evSpDef = func_02017E1C(mon, PLIST_MON_EV_SPDEF, 0);
+  evHp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_HP, 0);
+  evAtk = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_ATK, 0);
+  evDef = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_DEF, 0);
+  evSpeed = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPEED, 0);
+  evSpAtk = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPATK, 0);
+  evSpDef = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPDEF, 0);
   ignoreCap = func_02021014(itemRec, PLIST_ITEM_EV_IGNORES_CAP);
-  if (func_02017E1C(mon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHEDINJA)
+  if (POKE_TOOL_GetPartyValue(mon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHEDINJA)
     if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_HP) != 0)
   {
     amount = func_02021014(itemRec, PLIST_ITEM_EV_HP_AMOUNT);
@@ -326,7 +326,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
         func_020307B0(itemRec);
         return 1;
       }
-      if (func_021BE9BC(mon, itemRec) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
         func_020307B0(itemRec);
         return 1;
@@ -352,7 +352,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
         func_020307B0(itemRec);
         return 1;
       }
-      if (func_021BE9BC(mon, itemRec) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
         func_020307B0(itemRec);
         return 1;
@@ -378,7 +378,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
         func_020307B0(itemRec);
         return 1;
       }
-      if (func_021BE9BC(mon, itemRec) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
         func_020307B0(itemRec);
         return 1;
@@ -404,7 +404,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
         func_020307B0(itemRec);
         return 1;
       }
-      if (func_021BE9BC(mon, itemRec) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
         func_020307B0(itemRec);
         return 1;
@@ -430,7 +430,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
         func_020307B0(itemRec);
         return 1;
       }
-      if (func_021BE9BC(mon, itemRec) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
         func_020307B0(itemRec);
         return 1;
@@ -457,7 +457,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
         func_020307B0(itemRec);
         return 1;
       }
-      if (func_021BE9BC(mon, itemRec) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(mon, itemRec) == 1)
       {
         func_020307B0(itemRec);
         return 1;
@@ -477,7 +477,7 @@ int func_021BDD78(void *mon, u32 itemId, int moveSlot, u32 heapId)
  *   fixed 31 of 35 bytes (spill reloads of item), u16 or u8 moveSlot the last 4 (r2 spill
  *   order); u16 chosen with item/arg, no byte evidence between u16 and u8.
  */
-int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap)
+int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap)
 {
     void *itemRec;
     int changed = 0;
@@ -487,36 +487,36 @@ int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap)
     itemRec = func_02020F34(item, 0, (u16)heap);
     if (func_02021014(itemRec, PLIST_ITEM_USABLE_ON_PARTY) != 1) { func_020307B0(itemRec); return changed; }
     applicable = 0;
-    originalStatus = func_02017E1C(mon, PLIST_MON_STATUS, 0);
+    originalStatus = POKE_TOOL_GetPartyValue(mon, PLIST_MON_STATUS, 0);
     status = originalStatus;
     if (func_02021014(itemRec, PLIST_ITEM_CURES_SLEEP)) { status = 0; applicable = 1; }
     if (func_02021014(itemRec, PLIST_ITEM_CURES_POISON)) { status = 0; applicable = 1; }
     if (func_02021014(itemRec, PLIST_ITEM_CURES_BURN)) { status = 0; applicable = 1; }
     if (func_02021014(itemRec, PLIST_ITEM_CURES_FREEZE)) { status = 0; applicable = 1; }
     if (func_02021014(itemRec, PLIST_ITEM_CURES_PARALYSIS)) { status = 0; applicable = 1; }
-    if (originalStatus != status) { func_02017E40(mon, PLIST_MON_STATUS, status); changed = 1; }
-    hp = func_02017E1C(mon, PLIST_MON_HP, 0);
-    maxHp = func_02017E1C(mon, PLIST_MON_MAX_HP, 0);
+    if (originalStatus != status) { POKE_TOOL_SetPartyValue(mon, PLIST_MON_STATUS, status); changed = 1; }
+    hp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_HP, 0);
+    maxHp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_MAX_HP, 0);
     if ((func_02021014(itemRec, PLIST_ITEM_REVIVES) || func_02021014(itemRec, PLIST_ITEM_REVIVES_FULL)) && !func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL)) {
         if (hp == 0) {
-            func_021BE914(mon, hp, maxHp, func_02021014(itemRec, PLIST_ITEM_HP_AMOUNT));
+            PLIST_DEMO_RestoreHp(mon, hp, maxHp, func_02021014(itemRec, PLIST_ITEM_HP_AMOUNT));
             changed = 1;
         }
         applicable = 1;
     } else if (func_02021014(itemRec, PLIST_ITEM_RESTORES_HP)) {
-        if (hp < maxHp) { func_021BE914(mon, hp, maxHp, func_02021014(itemRec, PLIST_ITEM_HP_AMOUNT)); changed = 1; }
+        if (hp < maxHp) { PLIST_DEMO_RestoreHp(mon, hp, maxHp, func_02021014(itemRec, PLIST_ITEM_HP_AMOUNT)); changed = 1; }
         applicable = 1;
     }
-    level = func_02017E1C(mon, PLIST_MON_LEVEL, 0);
+    level = POKE_TOOL_GetPartyValue(mon, PLIST_MON_LEVEL, 0);
     if (func_02021014(itemRec, PLIST_ITEM_RAISES_LEVEL)) {
         if (level < 100) {
-            i = func_02017E1C(mon, PLIST_MON_SPECIES, 0);
-            result = func_02017E1C(mon, PLIST_MON_FORM, 0);
-            func_02017E40(mon, PLIST_MON_EXP, func_02018584(i, result, level + 1));
-            func_020185C4(mon);
+            i = POKE_TOOL_GetPartyValue(mon, PLIST_MON_SPECIES, 0);
+            result = POKE_TOOL_GetPartyValue(mon, PLIST_MON_FORM, 0);
+            POKE_TOOL_SetPartyValue(mon, PLIST_MON_EXP, POKE_TOOL_GetExpForLevel(i, result, level + 1));
+            POKE_TOOL_RecalcParam(mon);
             if (hp == 0) {
-                result = func_02017E1C(mon, PLIST_MON_MAX_HP, 0);
-                func_021BE914(mon, hp, result, result - maxHp);
+                result = POKE_TOOL_GetPartyValue(mon, PLIST_MON_MAX_HP, 0);
+                PLIST_DEMO_RestoreHp(mon, hp, result, result - maxHp);
             }
             changed = 1;
         }
@@ -525,10 +525,10 @@ int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap)
     if (func_02021014(itemRec, PLIST_ITEM_EVOLVES)) applicable = 1;
     if (func_02021014(itemRec, PLIST_ITEM_RAISES_PP_UPS)) {
         applicable = 1;
-        if (func_021BE874(mon, moveSlot, 1) == 1) changed = 1;
+        if (PLIST_DEMO_RaiseMovePpUps(mon, moveSlot, 1) == 1) changed = 1;
         applicable = 1;
     } else if (func_02021014(itemRec, PLIST_ITEM_MAXES_PP_UPS)) {
-        if (func_021BE874(mon, moveSlot, 3) == 1) changed = 1;
+        if (PLIST_DEMO_RaiseMovePpUps(mon, moveSlot, 3) == 1) changed = 1;
         applicable = 1;
     }
     if (func_02021014(itemRec, PLIST_ITEM_RESTORES_PP_ONE)) {
@@ -538,64 +538,64 @@ int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap)
         for (i = 0; i < 4; i++) if (POKE_TOOL_RestorePP(mon, i, func_02021014(itemRec, PLIST_ITEM_PP_AMOUNT)) == 1) changed = 1;
         applicable = 1;
     }
-    evHp = func_02017E1C(mon, PLIST_MON_EV_HP, 0);
-    evAtk = func_02017E1C(mon, PLIST_MON_EV_ATK, 0);
-    evDef = func_02017E1C(mon, PLIST_MON_EV_DEF, 0);
-    evSpeed = func_02017E1C(mon, PLIST_MON_EV_SPEED, 0);
-    evSpAtk = func_02017E1C(mon, PLIST_MON_EV_SPATK, 0);
-    evSpDef = func_02017E1C(mon, PLIST_MON_EV_SPDEF, 0);
+    evHp = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_HP, 0);
+    evAtk = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_ATK, 0);
+    evDef = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_DEF, 0);
+    evSpeed = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPEED, 0);
+    evSpAtk = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPATK, 0);
+    evSpDef = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EV_SPDEF, 0);
     ignoreCap = func_02021014(itemRec, PLIST_ITEM_EV_IGNORES_CAP);
-    if (func_02017E1C(mon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHEDINJA && func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_HP)) {
+    if (POKE_TOOL_GetPartyValue(mon, PLIST_MON_SPECIES, 0) != PLIST_SPECIES_SHEDINJA && func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_HP)) {
         amount = func_02021014(itemRec, PLIST_ITEM_EV_HP_AMOUNT);
-        result = func_021BE948(evHp, evSpDef + (evSpAtk + (evSpeed + (evAtk + evDef))), amount, ignoreCap);
-        if (result != -1) { evHp = result; func_02017E40(mon, PLIST_MON_EV_HP, result); func_020185C4(mon); changed = 1; }
+        result = PLIST_DEMO_AddEv(evHp, evSpDef + (evSpAtk + (evSpeed + (evAtk + evDef))), amount, ignoreCap);
+        if (result != -1) { evHp = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_HP, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
     if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_ATK)) {
         amount = func_02021014(itemRec, PLIST_ITEM_EV_ATK_AMOUNT);
-        result = func_021BE948(evAtk, evSpDef + (evSpAtk + (evSpeed + (evHp + evDef))), amount, ignoreCap);
-        if (result != -1) { evAtk = result; func_02017E40(mon, PLIST_MON_EV_ATK, result); func_020185C4(mon); changed = 1; }
+        result = PLIST_DEMO_AddEv(evAtk, evSpDef + (evSpAtk + (evSpeed + (evHp + evDef))), amount, ignoreCap);
+        if (result != -1) { evAtk = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_ATK, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
     if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_DEF)) {
         amount = func_02021014(itemRec, PLIST_ITEM_EV_DEF_AMOUNT);
-        result = func_021BE948(evDef, evSpDef + (evSpAtk + (evSpeed + (evHp + evAtk))), amount, ignoreCap);
-        if (result != -1) { evDef = result; func_02017E40(mon, PLIST_MON_EV_DEF, result); func_020185C4(mon); changed = 1; }
+        result = PLIST_DEMO_AddEv(evDef, evSpDef + (evSpAtk + (evSpeed + (evHp + evAtk))), amount, ignoreCap);
+        if (result != -1) { evDef = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_DEF, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
     if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPEED)) {
         amount = func_02021014(itemRec, PLIST_ITEM_EV_SPEED_AMOUNT);
-        result = func_021BE948(evSpeed, evSpDef + (evSpAtk + (evDef + (evHp + evAtk))), amount, ignoreCap);
-        if (result != -1) { evSpeed = result; func_02017E40(mon, PLIST_MON_EV_SPEED, result); func_020185C4(mon); changed = 1; }
+        result = PLIST_DEMO_AddEv(evSpeed, evSpDef + (evSpAtk + (evDef + (evHp + evAtk))), amount, ignoreCap);
+        if (result != -1) { evSpeed = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_SPEED, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
     if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPATK)) {
         amount = func_02021014(itemRec, PLIST_ITEM_EV_SPATK_AMOUNT);
-        result = func_021BE948(evSpAtk, evSpDef + (evSpeed + (evDef + (evHp + evAtk))), amount, ignoreCap);
-        if (result != -1) { evSpAtk = result; func_02017E40(mon, PLIST_MON_EV_SPATK, result); func_020185C4(mon); changed = 1; }
+        result = PLIST_DEMO_AddEv(evSpAtk, evSpDef + (evSpeed + (evDef + (evHp + evAtk))), amount, ignoreCap);
+        if (result != -1) { evSpAtk = result; POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_SPATK, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
     if (func_02021014(itemRec, PLIST_ITEM_CHANGES_EV_SPDEF)) {
         amount = func_02021014(itemRec, PLIST_ITEM_EV_SPDEF_AMOUNT);
-        result = func_021BE948(evSpDef, evSpAtk + (evSpeed + (evDef + (evHp + evAtk))), amount, ignoreCap);
-        if (result != -1) { func_02017E40(mon, PLIST_MON_EV_SPDEF, result); func_020185C4(mon); changed = 1; }
+        result = PLIST_DEMO_AddEv(evSpDef, evSpAtk + (evSpeed + (evDef + (evHp + evAtk))), amount, ignoreCap);
+        if (result != -1) { POKE_TOOL_SetPartyValue(mon, PLIST_MON_EV_SPDEF, result); POKE_TOOL_RecalcParam(mon); changed = 1; }
         if (amount > 0) applicable = 1;
     }
     if (changed == 0 && applicable == 1) { func_020307B0(itemRec); return 0; }
-    friendship = func_02017E1C(mon, PLIST_MON_FRIENDSHIP, 0);
+    friendship = POKE_TOOL_GetPartyValue(mon, PLIST_MON_FRIENDSHIP, 0);
     if (friendship < 100) {
         if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW)) {
-            func_021BEA48((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT), item, arg, heap);
+            PLIST_DEMO_ApplyFriendshipItem((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_LOW_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     } else if (friendship >= 100 && friendship < 200) {
         if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID)) {
-            func_021BEA48((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT), item, arg, heap);
+            PLIST_DEMO_ApplyFriendshipItem((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_MID_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     } else if (friendship >= 200 && friendship <= 255) {
         if (func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH)) {
-            func_021BEA48((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT), item, arg, heap);
+            PLIST_DEMO_ApplyFriendshipItem((int)mon, friendship, func_02021014(itemRec, PLIST_ITEM_FRIENDSHIP_HIGH_AMOUNT), item, arg, heap);
             func_020307B0(itemRec); return changed;
         }
     }
@@ -603,7 +603,7 @@ int func_021BE2B4(void *mon, u16 item, u16 moveSlot, u16 arg, int heap)
     return changed;
 }
 
-int func_021BE874(void *mon, int moveSlot, int ups)
+int PLIST_DEMO_RaiseMovePpUps(void *mon, int moveSlot, int ups)
 {
     int result = 0;
     u16 moveId;
@@ -611,13 +611,13 @@ int func_021BE874(void *mon, int moveSlot, int ups)
     u32 pp;
     u32 upCount;
     int newUps;
-    upCount = (u8)func_02017E1C(mon, moveSlot + PLIST_MON_MOVE_PP_UPS, 0);
+    upCount = (u8)POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_PP_UPS, 0);
     if (upCount == 3)
         return result;
-    moveId = (u16)func_02017E1C(mon, moveSlot + PLIST_MON_MOVE_ID, result);
+    moveId = (u16)POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_ID, result);
     if (WAZA_TOOL_GetMaxPP(moveId, result) < 5)
         return result;
-    pp = (u8)func_02017E1C(mon, moveSlot + PLIST_MON_MOVE_PP, result);
+    pp = (u8)POKE_TOOL_GetPartyValue(mon, moveSlot + PLIST_MON_MOVE_PP, result);
     oldMaxPp = WAZA_TOOL_GetMaxPP(moveId, upCount);
     newUps = upCount + ups;
     if ((u32)newUps > 3)
@@ -625,12 +625,12 @@ int func_021BE874(void *mon, int moveSlot, int ups)
     else
         upCount = (u8)newUps;
     pp = (u8)(pp + WAZA_TOOL_GetMaxPP(moveId, upCount) - oldMaxPp);
-    func_02017E40(mon, moveSlot + PLIST_MON_MOVE_PP_UPS, upCount);
-    func_02017E40(mon, moveSlot + PLIST_MON_MOVE_PP, pp);
+    POKE_TOOL_SetPartyValue(mon, moveSlot + PLIST_MON_MOVE_PP_UPS, upCount);
+    POKE_TOOL_SetPartyValue(mon, moveSlot + PLIST_MON_MOVE_PP, pp);
     return 1;
 }
 
-void func_021BE914(void *mon, u32 hp, u32 maxHp, u32 amount)
+void PLIST_DEMO_RestoreHp(void *mon, u32 hp, u32 maxHp, u32 amount)
 {
     if (maxHp == 1) amount = 1;
     else if (amount == 0xff) amount = maxHp;
@@ -638,10 +638,10 @@ void func_021BE914(void *mon, u32 hp, u32 maxHp, u32 amount)
     else if (amount == 0xfd) amount = maxHp >> 2;
     hp += amount;
     if (hp > maxHp) hp = maxHp;
-    func_02017E40(mon, PLIST_MON_HP, hp);
+    POKE_TOOL_SetPartyValue(mon, PLIST_MON_HP, hp);
 }
 
-int func_021BE948(int ev, int otherEvTotal, int delta, int ignoreCap)
+int PLIST_DEMO_AddEv(int ev, int otherEvTotal, int delta, int ignoreCap)
 {
     if (ev == 0 && delta < 0)
         return -1;
@@ -661,10 +661,10 @@ int func_021BE948(int ev, int otherEvTotal, int delta, int ignoreCap)
     return ev;
 }
 
-int func_021BE9BC(void *mon, void *itemRec)
+int PLIST_DEMO_FriendshipItemApplies(void *mon, void *itemRec)
 {
     int result = 0;
-    int friendship = func_02017E1C(mon, PLIST_MON_FRIENDSHIP, 0);
+    int friendship = POKE_TOOL_GetPartyValue(mon, PLIST_MON_FRIENDSHIP, 0);
     if (friendship >= 0xFF)
         return result;
     if (friendship < 100) {

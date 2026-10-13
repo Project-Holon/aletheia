@@ -17,8 +17,8 @@
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
  *   ov_id 0x00000072 data
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   GAME_DATA_GetSaveBlock3B 0x02012EFC thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
@@ -26,6 +26,7 @@
  *   func_021D6998 0x021D6998 thumb ov116
  *   func_021D6B50 0x021D6B50 thumb ov116
  *   func_021D70D8 0x021D70D8 thumb ov116
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  */
 typedef unsigned char u8;
 extern u8 ov_id[];
@@ -36,12 +37,12 @@ struct BigObj;
 struct Ctx;
 struct Sub02008AECObj;
 extern int func_02034AC4(s32 handle);
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
@@ -54,13 +55,13 @@ int func_021D6660(void *ctx,int unused,u8 *q) {
     u8 *p;
     void *save;
     func_02034AC4((s32)ov_id);
-    func_0203064C(1,125,0x18000);
-    p=func_0203159C(ctx,0x185c,125);
+    GFL_HEAP_CreateChildHeap(1,125,0x18000);
+    p=PROCSYS_AllocProcWork(ctx,0x185c,125);
     func_02082BCC(p,0,0x185c);
     *(u8 **)p=q;
     *(int *)(q+8)=1;
     save=func_020120F4(*(void **)(*(u8 **)p+4));
-    q=func_02012EBC(save);
+    q=GAME_DATA_GetSaveControl(save);
     *(void **)(p+0x1844)=save;
     *(int *)(p+0x1848)=(int)func_02008B08(q);
     *(int *)(p+0x184c)=func_0201283C(save);

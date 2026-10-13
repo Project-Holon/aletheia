@@ -1,5 +1,5 @@
 /*
- * function: func_021E8D48
+ * function: BTLV_CORE_BytesOverlap
  * address:  0x021E8D48
  * packet:   pkt_ov093_021E8D48
  * region:   ov093
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8CFC  0x021E8CFC  thumb  ov093
- *   func_021E8D04  0x021E8D04  thumb  ov093
+ *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
+ *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
  */
 typedef unsigned char u8;
-extern u8 func_021E8CFC(int v);
-extern int func_021E8D04(int x);
+extern u8 BTLV_CORE_GetHighByte(int v);
+extern int BTLV_CORE_GetLowByte(int x);
 
-int func_021E8D48(int a, int b)
+int BTLV_CORE_BytesOverlap(int a, int b)
 {
-    if (func_021E8CFC(a) == func_021E8CFC(b)) return 1;
-    if (func_021E8CFC(a) == func_021E8D04(b)) return 1;
-    if (func_021E8D04(a) == func_021E8CFC(b)) return 1;
-    if (func_021E8D04(a) == func_021E8D04(b)) return 1;
+    if (BTLV_CORE_GetHighByte(a) == BTLV_CORE_GetHighByte(b)) return 1;
+    if (BTLV_CORE_GetHighByte(a) == BTLV_CORE_GetLowByte(b)) return 1;
+    if (BTLV_CORE_GetLowByte(a) == BTLV_CORE_GetHighByte(b)) return 1;
+    if (BTLV_CORE_GetLowByte(a) == BTLV_CORE_GetLowByte(b)) return 1;
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216E470
+ * function: FLDMMDL_MoveRecoverProcDummy
  * address:  0x0216E470
  * packet:   pkt_0216E470
  * region:   ov010
@@ -15,6 +15,6 @@
  *   (none)
  */
 
-void func_0216E470(void)
+void FLDMMDL_MoveRecoverProcDummy(void)
 {
 }

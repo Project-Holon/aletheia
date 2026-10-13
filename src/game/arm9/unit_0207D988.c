@@ -1,7 +1,7 @@
 /*
  * file:     unit_0207D988.c
  * unit:     yes
- * function: func_0207D988, func_0207DA8C, func_0207DAF8, func_0207DB1C, func_0207DBB4, func_0207DC44, func_0207DC98, func_0207DCC8, func_0207DCF8, func_0207DD10, func_0207DD24, func_0207DD4C, func_0207DE30, func_0207DE5C, func_0207DE88, func_0207DEA4, func_0207DECC
+ * function: func_0207D988, func_0207DA8C, func_0207DAF8, func_0207DB1C, func_0207DBB4, G3X_SetFog, func_0207DC98, func_0207DCC8, func_0207DCF8, G3X_SetFogTable, G3X_SetClearColor, func_0207DD4C, func_0207DE30, func_0207DE5C, func_0207DE88, func_0207DEA4, func_0207DECC
  * address:  0x0207D988
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -118,12 +118,12 @@ void func_0207DA8C(void);
 void func_0207DAF8(void);
 void func_0207DB1C(void);
 void func_0207DBB4(void);
-void func_0207DC44(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset);
+void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset);
 int func_0207DC98(MtxFx44 *m);
 int func_0207DCC8(MtxFx33 *m);
 void G3X_SetEdgeColorTable(const void *src);
 void G3X_SetFogTable(const void *src);
-void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
+void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
 void func_0207DD4C(void);
 int func_0207DE30(s32 *level);
 int func_0207DE5C(s32 *level);
@@ -290,7 +290,7 @@ void func_0207DBB4(void)
 /*
  * sdk:      G3X_SetFog (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207DC44(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset)
+void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset)
 {
     if (enable) {
         reg_G3X_FOG_OFFSET = (u16)fogOffset;
@@ -364,7 +364,7 @@ void G3X_SetFogTable(const void *src)
 /*
  * sdk:      G3X_SetClearColor (libgx.TWL.HYB.a g3x.o)
  */
-void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, BOOL fog)
+void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog)
 {
     u32 val = (u32)(rgb | (alpha << 16) | (polygonID << 24));
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0216555C
+ * function: GAME_BEACON_SEARCH_SetInfoCountValue
  * address:  0x0216555C
  * packet:   pkt_0216555C
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216555C.c \
- *       --func func_0216555C --addr 0x0216555C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_BEACON_SEARCH_SetInfoCountValue.c \
+ *       --func GAME_BEACON_SEARCH_SetInfoCountValue --addr 0x0216555C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj00121.h"
 
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_ResetDetails(void *);
 
-void func_0216555C(void *a0, unsigned a1)
+void GAME_BEACON_SEARCH_SetInfoCountValue(void *a0, unsigned a1)
 {
     ((struct Obj00121 *)a0)->f30 = 36;
     ((struct Obj00121 *)a0)->f34 = a1;

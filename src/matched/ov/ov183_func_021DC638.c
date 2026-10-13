@@ -23,8 +23,8 @@
  *   func_021DD0AC 0x021DD0AC thumb ov183
  *   func_021DD0F4 0x021DD0F4 thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021FD860 0x021FD860 thumb ov186
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
  *   func_021F9C50 0x021F9C50 thumb ov186
@@ -59,7 +59,7 @@ extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021DD2FC(char *,int,int),func_021DD33C(char *,int,int);
 extern void func_021FD170(char *p, char *q, void *text);
-extern int func_02012DAC(int),func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern void func_021FD860(int,int,int *);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern void func_021F9C50(S *);
@@ -97,9 +97,9 @@ void func_021DC638(int *a,int *state,char *p)
         func_021FE784((int)(*(int * *)&((struct Obj24564 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,0);*state=15;break;
     case 15: if(func_021FE7B0(*(int * *)&((struct Obj24565 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) *state=16;break;
     case 16: *state=17;break;
-    case 17: func_02012DAC(((struct Obj24566 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f28);*state=18;break;
+    case 17: GAME_DATA_SaveStart(((struct Obj24566 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f28);*state=18;break;
     case 18:
-        if(func_02012DD0(*(u8 * *)&((struct Obj24567 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f28)==2) {func_021FD860(*(int *)&((struct Obj00050 *)p)->fC,0,0);*state=19;}
+        if(GAME_DATA_SaveMain(*(u8 * *)&((struct Obj24567 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f28)==2) {func_021FD860(*(int *)&((struct Obj00050 *)p)->fC,0,0);*state=19;}
         break;
     case 19: func_021FE784((int)(*(int * *)&((struct Obj24568 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,1);*state=20;break;
     case 20: if(func_021FE7B0(*(int * *)&((struct Obj24569 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) *state=21;break;

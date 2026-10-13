@@ -14,7 +14,7 @@
  *   BTL_SETUP_SetupComm   0x02013528  thumb
  *
  * btl_setup.c.  The three-slot builder on the eight-argument writer: the
- * same shape as func_020136E0 and func_02013734 (both EXACT), but the lead
+ * same shape as BTL_SETUP_SetupTrainerTag and BTL_SETUP_SetupTrainerMulti (both EXACT), but the lead
  * call is BTL_SETUP_SetupComm rather than BTL_SETUP_SetupTrainerBase, so the object's mode is
  * stored by this function (1) instead of by the writer.
  *
@@ -23,7 +23,7 @@
  * BTL_SETUP_SetTrainer seven, and passed the object's +0x28 sub-block as a bare
  * constant.  The arity is fixed by the matched members of both families:
  * BTL_SETUP_SetupComm takes eight (BTL_SETUP_SetupCommSingle, BTL_SETUP_SetupCommMulti et al) and
- * BTL_SETUP_SetTrainer takes six (func_02013610, func_020136E0 et al).  With those
+ * BTL_SETUP_SetTrainer takes six (BTL_SETUP_SetupTrainerSingle, BTL_SETUP_SetupTrainerTag et al).  With those
  * two prototypes and the shared halfword forwarded to all three calls, the
  * body is the ordinary family shape and matches first try.
  *

@@ -1,5 +1,5 @@
 /*
- * function: func_021DA138
+ * function: HAND_TOKUSEI_AddCloudNine
  * address: 0x021DA138
  * packet: pkt_ov093_021DA138
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F0800 0x021F0800 data ov093 a4
  */
 
-int *func_021DA138(int *p);
+int *HAND_TOKUSEI_AddCloudNine(int *p);
 extern int d_021F0800[];
 
-int *func_021DA138(int *p)
+int *HAND_TOKUSEI_AddCloudNine(int *p)
 {
     *p = 1;
     return d_021F0800;

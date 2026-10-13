@@ -1,5 +1,5 @@
 /*
- * function: func_0217D904
+ * function: INTRUDE_SUBDISP_BmpWinExit
  * address: 0x0217D904
  * packet: pkt_ov018_0217D904
  * region: ov018
@@ -16,7 +16,7 @@
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
-void func_0217D904(char *p)
+void INTRUDE_SUBDISP_BmpWinExit(char *p)
 {
     func_020452E8(*(struct Descriptor * *)&((struct Obj00703 *)p)->f44);
     func_020452E8(*(struct Descriptor * *)&((struct Obj00703 *)p)->f4C);

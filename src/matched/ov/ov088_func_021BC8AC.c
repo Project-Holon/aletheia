@@ -1,5 +1,5 @@
 /*
- * function: func_021BC8AC
+ * function: STARTMENU_ConfigPromptReadInput
  * address:  0x021BC8AC
  * packet:   pkt_ov088_021BC8AC
  * region:   ov088
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm
- *   func_021BC870  0x021BC870  thumb  ov088
+ *   STARTMENU_ConfigPromptHighlightChoice  0x021BC870  thumb  ov088
  *   func_020061E4  0x020061E4  thumb
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   d_021BD83C     0x021BD83C  data  a1
  */
 
@@ -27,11 +27,11 @@ typedef struct C12 {
 extern C12 d_021BD83C;
 
 extern u32 func_020362DC(void);
-extern void func_021BC870(u8 *);
+extern void STARTMENU_ConfigPromptHighlightChoice(u8 *);
 extern void func_020061E4(u32);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 
-int func_021BC8AC(u8 *p)
+int STARTMENU_ConfigPromptReadInput(u8 *p)
 {
     int r;
     u32 k;
@@ -43,7 +43,7 @@ int func_021BC8AC(u8 *p)
             p[0] = 1;
         else
             p[0] = 0;
-        func_021BC870(p);
+        STARTMENU_ConfigPromptHighlightChoice(p);
         func_020061E4(0x548);
     }
     k = func_020362DC();
@@ -55,7 +55,7 @@ int func_021BC8AC(u8 *p)
         return r;
     }
     s = d_021BD83C;
-    t = func_02035C08(&s);
+    t = TOUCHPANEL_HitTrg(&s);
     if (t != -1) {
         func_020061E4(0x54C);
         return t == 0 ? 1 : 2;

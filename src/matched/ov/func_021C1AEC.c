@@ -1,5 +1,5 @@
 /*
- * function: func_021C1AEC
+ * function: FLD_PARTICLE_Exit
  * address:  0x021C1AEC
  * packet:   pkt_021C1AEC
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_02050BE8 with no argument change.
+ * Tail-call thunk: forwards to PARTICLE_Main with no argument change.
  *
  * symbols:
- *   func_02050BE8  0x02050BE8  arm
+ *   PARTICLE_Main  0x02050BE8  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02050BE8();
+extern void PARTICLE_Main();
 
-void func_021C1AEC(void)
+void FLD_PARTICLE_Exit(void)
 {
-    func_02050BE8();
+    PARTICLE_Main();
 }

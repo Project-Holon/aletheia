@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A8AFC",
+   "name": "FIELD_MENU_LoadFrameBg",
    "address": "0x021A8AFC",
    "kind": "game",
    "region": "ov021",

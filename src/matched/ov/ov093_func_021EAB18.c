@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021E9100  0x021E9100  thumb  ov093
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021F8414  0x021F8414  thumb  ov094
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  *   func_021ED53C  0x021ED53C  thumb  ov093
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u8 *func_021E9100(u8 *p, int n);
-extern u32 func_021CD9E0(u8 *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021F8414(int a, int b, int c);
 extern int func_021F7EB4(void);
 extern void func_021ED53C(u8 *p, int k);
@@ -36,7 +36,7 @@ int func_021EAB18(int *st, u8 *b)
 
     switch (*st) {
     case 0:
-        func_021F8414(t[1], t[2] & 1, func_021CD9E0(((struct Obj04382 *)b)->f4) == 0);
+        func_021F8414(t[1], t[2] & 1, BTL_CLIENT_IsMainStepActive(((struct Obj04382 *)b)->f4) == 0);
         *st = *st + 1;
         break;
     case 1:

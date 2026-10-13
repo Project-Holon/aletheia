@@ -1,5 +1,5 @@
 /*
- * function: func_0219B2E8
+ * function: FLDMMDL_MOVECODE_UpdateTriggerWait
  * address:  0x0219B2E8
  * packet:   pkt_ov021_0219B2E8
  * region:   ov021
@@ -10,34 +10,34 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D5A8  0x0216D5A8  thumb  ov010
- *   func_02164168  0x02164168  thumb  ov010
- *   func_0219B0C4  0x0219B0C4  thumb  ov021
- *   func_0216D63C  0x0216D63C  thumb  ov010
+ *   FLDMMDL_GetEventType  0x0216D5A8  thumb  ov010
+ *   FLDMMDL_MOVE_IsNearPlayer  0x02164168  thumb  ov010
+ *   FLDMMDL_MOVECODE_IsBButtonPressed  0x0219B0C4  thumb  ov021
+ *   FLDMMDL_GetParam  0x0216D63C  thumb  ov010
  */
 
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
 typedef unsigned short u16;
-extern u16 func_0216D5A8(u8 *p);
-extern int func_02164168(int a);
-extern int func_0219B0C4(void);
-extern int func_0216D63C(char *a0, int a1);
+extern u16 FLDMMDL_GetEventType(u8 *p);
+extern int FLDMMDL_MOVE_IsNearPlayer(int a);
+extern int FLDMMDL_MOVECODE_IsBButtonPressed(void);
+extern int FLDMMDL_GetParam(char *a0, int a1);
 
-int func_0219B2E8(int a, u8 *b)
+int FLDMMDL_MOVECODE_UpdateTriggerWait(int a, u8 *b)
 {
-    if (func_0216D5A8((u8 *)a) != 12) {
+    if (FLDMMDL_GetEventType((u8 *)a) != 12) {
         return 1;
     }
     if (b[0] == 0) {
-        if (func_02164168(a) == 0) {
+        if (FLDMMDL_MOVE_IsNearPlayer(a) == 0) {
             return 0;
         }
-        if (func_0219B0C4() == 0) {
+        if (FLDMMDL_MOVECODE_IsBButtonPressed() == 0) {
             return 0;
         }
-        b[0] = func_0216D63C((char *)a, 1);
+        b[0] = FLDMMDL_GetParam((char *)a, 1);
     }
     if (b[0] != 0) {
         b[0]--;

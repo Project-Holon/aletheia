@@ -1,5 +1,5 @@
 /*
- * function: func_0219B074
+ * function: FLDMMDL_MOVECODE_IsPlayerWalking
  * address:  0x0219B074
  * packet:   pkt_ov021_0219B074
  * region:   ov021
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216DEE0  0x0216DEE0  thumb  ov010
- *   func_0216D7C4  0x0216D7C4  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
+ *   FLDMMDL_GetAcmdCode  0x0216D7C4  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern void *func_0216D67C(void *a0);
-extern void *func_0216DEE0(void *a0);
-extern u16 func_0216D7C4(u8 *p);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_SysSearchPlayer(void *a0);
+extern u16 FLDMMDL_GetAcmdCode(u8 *p);
 
-int func_0219B074(int a)
+int FLDMMDL_MOVECODE_IsPlayerWalking(int a)
 {
     int t;
 
-    t = (int)func_0216DEE0(func_0216D67C((void *)a));
+    t = (int)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)a));
     if (t != 0) {
-        switch (func_0216D7C4((u8 *)t)) {
+        switch (FLDMMDL_GetAcmdCode((u8 *)t)) {
         case 0x58:
         case 0x59:
         case 0x5a:

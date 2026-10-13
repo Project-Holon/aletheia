@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_0207ADC4 0x0207ADC4 arm
- *   func_02047A60 0x02047A60 arm
+ *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   d_021F8430 0x021F8430 data a4
  *   d_021F8418 0x021F8418 data a4
  */
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Arg;
 extern void func_0207ADC4(void *);
-extern void func_02047A60(void *,struct Arg *);
+extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
 extern u32 d_021F8430[];
 extern struct Arg d_021F8418;
-void func_021F6F8C(u8 *p) { if(((struct Obj13838 *)p)->f1C) { func_0207ADC4(d_021F8430); func_02047A60(((struct Obj13838 *)p)->f3C,&d_021F8418); } }
+void func_021F6F8C(u8 *p) { if(((struct Obj13838 *)p)->f1C) { func_0207ADC4(d_021F8430); G3D_SYSTEM_DrawObject(((struct Obj13838 *)p)->f3C,&d_021F8418); } }

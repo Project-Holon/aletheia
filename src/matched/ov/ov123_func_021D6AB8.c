@@ -10,8 +10,8 @@
  * lever: declare out2 before out to place out at sp+0x3c, out2 at sp+0x40.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_02049250 0x02049250 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_LoadHandleMember 0x02049250 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02020E60 0x02020E60 thumb
  *   func_02062A98 0x02062A98 arm
  *   func_02062A4C 0x02062A4C arm
@@ -31,8 +31,8 @@ struct Record { void *h; u16 x,y,a,b,age,c,d,e,f,g; };
 struct Obj { u8 pad[0x40f4]; struct Record records[30]; };
 struct ArcFile;
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void func_02049238(void *);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_02020E60(u16, int);
 typedef signed int     s32;
 struct NitroFileHeader;
@@ -58,17 +58,17 @@ void func_021D6AB8(u8 *p)
     for (i = 0; i < 20; i++) {
         species = ((struct Obj *)p)->records[i].d;
         if (species) {
-            buf = func_02049250(h,func_02020E60(species,2),((struct Obj03268 *)p)->f43C4);
+            buf = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,2),((struct Obj03268 *)p)->f43C4);
             func_02062A98(buf,(void **)(&out));
             func_02082D44(((struct Obj22951 *)out)->fC,p+0xbc+i*0x224,32);
             func_020307B0(buf);
-            buf2 = func_02049250(h,func_02020E60(species,1),((struct Obj03268 *)p)->f43C4);
+            buf2 = ARC_TOOL_LoadHandleMember(h,func_02020E60(species,1),((struct Obj03268 *)p)->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
             func_02082D44(((struct Obj13981 *)out2)->f14,p+0xdc+i*0x224,512);
             func_020307B0(buf2);
         }
     }
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     h2 = func_020490F4(7, ((struct Obj03268 *)p)->f43C4);
     for (i = 0; i < 10; i++) {
         n = i+20;
@@ -78,12 +78,12 @@ void func_021D6AB8(u8 *p)
             form = (int)func_02019D30((u16)species,(u8)(((struct Obj *)p)->records[n].e));
             value = func_0201BB5C(species,form,gender,0);
             id = POKE_TOOL_CalcGraphicIndex(species,form,gender,0);
-            buf2 = func_02049250(h2,id,((struct Obj03268 *)p)->f43C4);
+            buf2 = ARC_TOOL_LoadHandleMember(h2,id,((struct Obj03268 *)p)->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
             func_02082D44(((struct Obj13981 *)out2)->f14,p+0xdc+n*0x224,512);
             func_020307B0(buf2);
             *(u32 *)(p+n*0x224+0x2dc) = value;
         }
     }
-    func_02049238(h2);
+    ARC_TOOL_DeleteHandle(h2);
 }

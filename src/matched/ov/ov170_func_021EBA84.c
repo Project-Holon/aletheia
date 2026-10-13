@@ -14,7 +14,7 @@
  *   func_021EBA30 0x021EBA30 thumb
  *   func_021EAC28 0x021EAC28 thumb
  *   func_021EABA0 0x021EABA0 thumb
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_021EE0FC 0x021EE0FC thumb
  *
  * Prints message msg of the box-menu bank into message window i.
@@ -28,7 +28,7 @@ extern void func_021EBA30(unsigned char *p, void *win);
 extern void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, u16 color);
 extern void func_021EABA0(void **win);
 struct Rec;
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_021EE0FC(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -39,6 +39,6 @@ void func_021EBA84(unsigned char *p, int msg, int i)
     func_021EBA30(p, *(void **)(WORK(p) + i * 8 + 0x94));
     func_021EAC28(WORK(p), i, bank, msg, 0, 0, *(u32 *)(WORK(p) + 0x78), 0x44F);
     func_021EABA0((void **)(WORK(p) + 0x94 + i * 8));
-    func_02045C04(bank);
+    MSGDATA_Delete(bank);
     func_021EE0FC((char *)p);
 }

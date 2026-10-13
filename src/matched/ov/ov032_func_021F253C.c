@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021F253C, func_021F2544
+ * function: BEACON_VIEW_RequestTransition, func_021F2544
  * address:  0x021F253C
  * packet:   pkt_021F253C
  * region:   ov032
@@ -13,7 +13,7 @@
 #include "../include/Obj20459.h"
 #include "../include/Obj20460.h"
 
-void func_021F253C(char *p, int v)
+void BEACON_VIEW_RequestTransition(char *p, int v)
 {
     ((struct Obj20459 *)p)->f70 = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D5E0
+ * function: FLDMMDL_SetDirDispCheckPause
  * address:  0x0216D5E0
  * packet:   pkt_0216D5E0
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D55C  0x0216D55C  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
  */
 #include "../include/Obj00113.h"
 
@@ -18,9 +18,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D55C(int a0, int a1);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
 
-void func_0216D5E0(int a0, int a1)
+void FLDMMDL_SetDirDispCheckPause(int a0, int a1)
 {
     int t4;
     int t5;
@@ -28,7 +28,7 @@ void func_0216D5E0(int a0, int a1)
 t4 = a1 + 0;
 a1 = 8;
 t5 = a0 + 0;
-    a0 = func_0216D55C(a0, a1);
+    a0 = FLDMMDL_CheckStatusBit(a0, a1);
 loc_0216D5EC:
     if (a0 != 0) goto loc_0216D5F6;
 loc_0216D5F0:

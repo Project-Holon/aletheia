@@ -1,5 +1,5 @@
 /*
- * function: func_021F0CA0
+ * function: C_GEAR_InitTabTimer
  * address: 0x021F0CA0
  * packet: pkt_ov029_021F0CA0
  * region: ov029
@@ -13,7 +13,7 @@
  */
 typedef struct { unsigned short f0, f2, f4, f6; unsigned char f8, f9; } Record;
 typedef enum { Zero } ZeroValue;
-void func_021F0CA0(Record *p, unsigned short a, unsigned char b, unsigned char c)
+void C_GEAR_InitTabTimer(Record *p, unsigned short a, unsigned char b, unsigned char c)
 {
     ZeroValue z;
     z = Zero;

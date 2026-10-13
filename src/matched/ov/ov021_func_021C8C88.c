@@ -1,5 +1,5 @@
 /*
- * function: func_021C8C88
+ * function: FIELD_TILE_MOVE_StartSlideTask
  * address:  0x021C8C88
  * packet:   pkt_ov021_021C8C88
  * region:   ov021
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Creates task func_021C8BFC with a 0x28 byte work area, fills it from the
+ * Creates task FIELD_TILE_MOVE_SlideTaskMain with a 0x28 byte work area, fills it from the
  * owner, and loads three resources (0x55E, 0x6E2, 0x769) through
- * func_02006148.
+ * GFL_USE_GetSeSlot.
  *
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A3074  0x021A3074  thumb
- *   func_02006148  0x02006148  thumb
- *   func_021C8BFC  0x021C8BFC  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
+ *   FIELD_TILE_MOVE_SlideTaskMain  0x021C8BFC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -48,26 +48,26 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern int func_02006148(u32 a0);
-extern int func_021C8BFC(int a, int *st, int *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern int GFL_USE_GetSeSlot(u32 a0);
+extern int FIELD_TILE_MOVE_SlideTaskMain(int a, int *st, int *p);
 
-void *func_021C8C88(u32 prio, void *sys, struct Obj00020 *owner)
+void *FIELD_TILE_MOVE_StartSlideTask(u32 prio, void *sys, struct Obj00020 *owner)
 {
-    void *v = func_02188CB4(owner);
-    void *task = func_020122C0(sys, (void *)prio, (TaskFn)func_021C8BFC, 0x28);
+    void *v = FIELDMAP_GetFieldPlayer(owner);
+    void *task = func_020122C0(sys, (void *)prio, (TaskFn)FIELD_TILE_MOVE_SlideTaskMain, 0x28);
     struct Work8C88 *w = func_020124E8(task);
 
     w->sys = sys;
     w->owner = (u8 *)owner;
     w->f8 = (u8 *)v;
-    w->fC = func_021A3074(w->f8);
+    w->fC = FIELD_PLAYER_GetMmdl(w->f8);
     w->f10 = 0;
     w->f14 = 0;
     w->f18 = 0;
-    w->f1C = func_02006148(0x55E);
-    w->f20 = func_02006148(0x6E2);
-    w->f24 = func_02006148(0x769);
+    w->f1C = GFL_USE_GetSeSlot(0x55E);
+    w->f20 = GFL_USE_GetSeSlot(0x6E2);
+    w->f24 = GFL_USE_GetSeSlot(0x769);
     return task;
 }

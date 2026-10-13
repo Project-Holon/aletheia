@@ -1,5 +1,5 @@
 /*
- * function: func_021C6AFC
+ * function: FIELD_G3DOBJ_AddResDescAnimeFile
  * address:  0x021C6AFC
  * packet:   pkt_ov021_021C6AFC
  * region:   ov021
@@ -31,7 +31,7 @@ extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-void func_021C6AFC(D *d, u16 v)
+void FIELD_G3DOBJ_AddResDescAnimeFile(D *d, u16 v)
 {
     d->f10[d->f20] = v;
     d->f20++;

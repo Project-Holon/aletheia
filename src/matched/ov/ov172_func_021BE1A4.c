@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_020456F8  0x020456F8  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -28,8 +28,8 @@ typedef signed int     s32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 void func_021BE1A4(char *p)
 {
@@ -38,9 +38,9 @@ void func_021BE1A4(char *p)
     p[0x1b4] = 0;
     p[0x1b5] = 0;
     for (i = 0; i < 4; i++) {
-        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))), 0);
+        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))), 0);
         if (((struct Obj10667 *)p)->f8 != 3) {
-            func_020456F8((struct Descriptor *)(*(u32 *)(p + i * 4 + 0x1b8)));
+            BMP_WIN_ClearScreen((struct Descriptor *)(*(u32 *)(p + i * 4 + 0x1b8)));
         }
     }
 }

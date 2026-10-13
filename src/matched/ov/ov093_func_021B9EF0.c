@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetChars  0x02045A00  arm
  *   func_02082D44  0x02082D44  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
@@ -49,7 +49,7 @@ struct B {
 typedef unsigned int   u32;
 struct Buf;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetChars(struct Buf *buf, const void *src, u32 n);
 extern void func_02082D44(const void *, void *, int);
 struct Rec8;
@@ -65,7 +65,7 @@ void func_021B9EF0(struct A *p, const struct B *src)
     if (src) {
         p->ha = src->f0;
         p->h8 = src->f4;
-        t = (int)func_020457B0(0x20, 0x12);
+        t = (int)STRBUF_Create(0x20, 0x12);
         u = src->f68 + 1;
         p->q = t;
         STRBUF_SetChars((struct Buf *)t, (char *)src + 0x28, u);

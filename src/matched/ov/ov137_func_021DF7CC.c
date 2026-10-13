@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
-int func_021DF7CC(int *p){if(func_020221A4()){*p=52;return 1;}return 0;}
+extern u32 WIPE_SYS_EndCheck(void);
+int func_021DF7CC(int *p){if(WIPE_SYS_EndCheck()){*p=52;return 1;}return 0;}
 int func_021DF7E4(void){return 2;}

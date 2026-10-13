@@ -12,6 +12,8 @@
  * schedules movs r5,#1 before both getters (14 concrete bytes differ).
  * symbols:
  *   func_021BC628 0x021BC628 thumb ov217
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb  arm9
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb  arm9
  * 021BC628 forwards to the +8 getter 021C09B4; its void source leaves r0
  * live and the original immediately feeds that result to 0201296C.
  */
@@ -19,22 +21,22 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct BigObj;
 extern u32 func_021BC628(u8 *a0);
-extern u32 func_0201296C(const struct BigObj *);
-extern u32 func_020142E8(void *, int);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *);
+extern u32 ZONEDATA_CheckEventFlag(void *, int);
 void func_021BC820(u8 *p)
 {
     void *bitmap;
     int n;
-    bitmap = (void *)func_0201296C((const struct BigObj *)func_021BC628(p));
+    bitmap = (void *)GAME_DATA_GetEventWork((const struct BigObj *)func_021BC628(p));
     n = 1;
-    if (func_020142E8(bitmap, 240) == 1) n++;
-    if (func_020142E8(bitmap, 241) == 1) n++;
-    if (func_020142E8(bitmap, 242) == 1) n++;
-    if (func_020142E8(bitmap, 243) == 1) n++;
-    if (func_020142E8(bitmap, 244) == 1) n++;
-    if (func_020142E8(bitmap, 245) == 1) n++;
-    if (func_020142E8(bitmap, 246) == 1) n++;
-    if (func_020142E8(bitmap, 247) == 1) n++;
-    if (func_020142E8(bitmap, 248) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 240) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 241) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 242) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 243) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 244) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 245) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 246) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 247) == 1) n++;
+    if (ZONEDATA_CheckEventFlag(bitmap, 248) == 1) n++;
     p[0x30] = n;
 }

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D34C  0x0203D34C  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_021D8AA8  0x021D8AA8  thumb  ov119
  *   func_021D8FA4  0x021D8FA4  thumb  ov119
  *   func_0201EEF4  0x0201EEF4  thumb
@@ -30,9 +30,9 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 struct WordSet;
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *, int);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
@@ -44,15 +44,15 @@ extern void func_021E7208(void *p, int a);
 
 void func_021D4820(u8 *p)
 {
-    func_0203D34C(0, ((struct Obj00983 *)p)->f5F4);
+    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00983 *)p)->f5F4);
     if (((struct Obj00983 *)p)->f118C == 6) {
-        func_02045CAC((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x98, (void *)(((struct Obj00983 *)p)->f73C));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x98, (void *)(((struct Obj00983 *)p)->f73C));
     } else if (((struct Obj00983 *)p)->f118C == 8) {
-        func_02045CAC((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x9B, (void *)(((struct Obj00983 *)p)->f73C));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x9B, (void *)(((struct Obj00983 *)p)->f73C));
     } else if (((struct Obj00983 *)p)->f11ED != 0) {
-        func_02045CAC((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x82, (void *)(((struct Obj00983 *)p)->f73C));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x82, (void *)(((struct Obj00983 *)p)->f73C));
     } else {
-        func_02045CAC((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x81, (void *)(((struct Obj00983 *)p)->f73C));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x81, (void *)(((struct Obj00983 *)p)->f73C));
     }
     func_0201EEF4(((struct Obj00983 *)p)->f724, 0, func_021D8FA4(p, func_021D8AA8(p)));
     func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00983 *)p)->f724), 1, (void *)(((struct Obj00983 *)p)->f834));

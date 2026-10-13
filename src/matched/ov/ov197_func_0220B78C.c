@@ -13,9 +13,9 @@
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  */
 
 typedef unsigned char u8;
@@ -30,9 +30,9 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
 void func_0220B78C(u8 *p, u32 idx)
 {
@@ -43,10 +43,10 @@ void func_0220B78C(u8 *p, u32 idx)
     void *w;
     func_0201EF40(*(void **)(p + 0x10), 0, *(u16 *)(row + 0x150 + idx * 4));
     func_0201F250(*(void **)(p + 0x10), *(void **)(p + 0x14), msg);
-    func_02043B5C(func_02045770(win), 0);
+    BMP_Clear(func_02045770(win), 0);
     w = *(void **)(p + 0x18);
-    func_0201C724(w, (u32)func_02045770(*(void **)(p + 0x120)), 0, 0,
+    PRINTSYS_PrintQueColor(w, (u32)func_02045770(*(void **)(p + 0x120)), 0, 0,
                   *(u32 *)(p + 0x14), *(u32 *)(*(u8 **)p + 4), 0x3C40);
     *(u8 *)(p + 0x124) = 1;
-    func_02045808(msg);
+    STRBUF_Delete(msg);
 }

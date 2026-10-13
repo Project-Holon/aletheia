@@ -1,5 +1,5 @@
 /*
- * function: func_021F3EE8
+ * function: GIMMICK_OBJ_ELBOARD_AddPlaceListMessage
  * address:  0x021F3EE8
  * packet:   pkt_ov048_021F3EE8
  * region:   ov048
@@ -20,20 +20,20 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_021F44D8  0x021F44D8  thumb  ov048
+ *   GIMMICK_OBJ_ELBOARD_CollectHighlights  0x021F44D8  thumb  ov048
  *   func_0201EC74  0x0201EC74  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02013E4C  0x02013E4C  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045C04  0x02045C04  arm
- *   func_021F4488  0x021F4488  thumb  ov048
- *   func_021F3D38  0x021F3D38  thumb  ov048
- *   d_021F5124     0x021F5124  data  a4
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   GIMMICK_OBJ_ELBOARD_CountHighlights  0x021F4488  thumb  ov048
+ *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
+ *   gElboardLabelMsgId     0x021F5124  data  a4
  *   d_021F50C0     0x021F50C0  data  a4
  */
 #include "../include/Obj02413.h"
@@ -48,7 +48,7 @@ typedef struct {
     u8  b[4];
 } Slots;
 
-extern void func_021F44D8(int *p, Slots *q);
+extern void GIMMICK_OBJ_ELBOARD_CollectHighlights(int *p, Slots *q);
 struct WordSet;
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 struct MsgBank;
@@ -60,18 +60,18 @@ struct U16Vec;
 struct WordSet;
 extern u32 func_02013E4C(u32 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02045C04(struct Rec *rec);
-extern int func_021F4488(unsigned char *p);
-extern void func_021F3D38(int *p, int unused, int b, int *c);
-extern u32 d_021F5124[];
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern int GIMMICK_OBJ_ELBOARD_CountHighlights(unsigned char *p);
+extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
+extern u32 gElboardLabelMsgId[];
 extern struct T d_021F50C0;
 
-void func_021F3EE8(int *p)
+void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
 {
     struct { u16 a; int b, c, d, e, f, g; } m;
     Slots s;
@@ -88,7 +88,7 @@ void func_021F3EE8(int *p)
     u32 s3;
     void *buf;
 
-    func_021F44D8(p, &s);
+    GIMMICK_OBJ_ELBOARD_CollectHighlights(p, &s);
     sz = 0x100;
     h1 = func_0201EC74(4, sz, ((struct Obj02413 *)p)->f0);
     a = (u32)func_02045B38(0, 2, 0x59, ((struct Obj02413 *)p)->f0);
@@ -98,23 +98,23 @@ void func_021F3EE8(int *p)
             continue;
         c = s.b[i];
         s1 = (u32)func_02045EC0((struct MsgBank *)a, func_02013E4C(s.h[i]));
-        s2 = (u32)func_02045EC0((struct MsgBank *)b, d_021F5124[c]);
+        s2 = (u32)func_02045EC0((struct MsgBank *)b, gElboardLabelMsgId[c]);
         h2 = func_0201EC74(2, sz, ((struct Obj02413 *)p)->f0);
         s3 = (u32)func_02045EC0((struct MsgBank *)b, 0xc0);
-        buf = func_020457B0(0x40, ((struct Obj02413 *)p)->f0);
+        buf = STRBUF_Create(0x40, ((struct Obj02413 *)p)->f0);
         func_0201EE0C(h2, 0, (const void *)s1, 0, 1, 0);
         func_0201EE0C(h2, 1, (const void *)s2, 0, 1, 0);
         func_0201F250(h2, buf, (void *)s3);
-        func_02045808((struct U16Vec *)s3);
+        STRBUF_Delete((struct U16Vec *)s3);
         func_0201ED04(h2);
         func_0201EE0C(h1, i, (const void *)buf, 0, 1, 0);
-        func_02045808((struct U16Vec *)s1);
-        func_02045808((struct U16Vec *)s2);
-        func_02045808((struct U16Vec *)((u32)buf));
+        STRBUF_Delete((struct U16Vec *)s1);
+        STRBUF_Delete((struct U16Vec *)s2);
+        STRBUF_Delete((struct U16Vec *)((u32)buf));
     }
-    func_02045C04((struct Rec *)b);
-    func_02045C04((struct Rec *)a);
-    switch (func_021F4488((unsigned char *)(&s))) {
+    MSGDATA_Delete((struct Rec *)b);
+    MSGDATA_Delete((struct Rec *)a);
+    switch (GIMMICK_OBJ_ELBOARD_CountHighlights((unsigned char *)(&s))) {
     case 0:
         break;
     case 1:
@@ -137,6 +137,6 @@ void func_021F3EE8(int *p)
     m.e = 0x26;
     m.f = f;
     m.g = (int)h1;
-    func_021F3D38(p, (int)&m, 2, 0);
+    GIMMICK_OBJ_ELBOARD_AddMessage(p, (int)&m, 2, 0);
     func_0201ED04(h1);
 }

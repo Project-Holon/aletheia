@@ -11,7 +11,7 @@
  * arity: E44C reads only r0/r1, no calls/forwarding; legacy p2/p3 omitted. BC628 and E394 returns used live by this caller.
  * symbols:
  *   func_021BC628 0x021BC628 thumb ov217
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200E394 0x0200E394 thumb
  *   func_0200E44C 0x0200E44C thumb
  *   d_021C308A 0x021C308A data a1
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 struct Big;
 extern unsigned func_021BC628(u8 *);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_0200E394(void *a0);
 extern int func_0200E44C(int p0, int p1);
 extern const u8 d_021C308A[], d_021C3080[], d_021C30A8[];
@@ -31,7 +31,7 @@ u8 func_021BBC50(u8 *p)
     int i;
     void *data;
     u8 a, b, c, index;
-    data = func_0200E394(func_02012EBC((struct Big *)func_021BC628(p)));
+    data = func_0200E394(GAME_DATA_GetSaveControl((struct Big *)func_021BC628(p)));
     for (i = 0; i < 3; i++) values[i] = func_0200E44C((int)data, i);
     a = values[0];
     b = values[1];

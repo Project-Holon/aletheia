@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   func_02030734  0x02030734  arm
  *   UNION_COMM_InitSituation  0x021734E0  thumb  ov012
  *   UNION_COMM_InitChatLog  0x0217365C  thumb  ov012
@@ -34,7 +34,7 @@ typedef struct {
 } Work;
 
 extern char str_02175600[];
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Work;
@@ -47,7 +47,7 @@ Work *UNION_COMM_Create(u32 a)
 {
     Work *w;
 
-    func_0203064C(4, 0x41, 0x8a00);
+    GFL_HEAP_CreateChildHeap(4, 0x41, 0x8a00);
     w = func_02030734(0x41, sizeof(Work), 1, str_02175600, 0x89);
     w->field0 = a;
     UNION_COMM_InitSituation((struct Work *)w);

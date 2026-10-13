@@ -1,5 +1,5 @@
 /*
- * function: func_021DDEA4
+ * function: BTL_HANDLER_ITEM_IsHpAtOrBelowFraction
  * address:  0x021DDEA4
  * packet:   pkt_ov093_021DDEA4
  * region:   ov093
@@ -12,7 +12,7 @@
  * symbols:
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D7B60  0x021D7B60  thumb  ov093
+ *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -21,9 +21,9 @@ typedef unsigned int u32;
 
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
-extern u32 func_021D7B60(void *p, u32 b);
+extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
 
-int func_021DDEA4(void *a, int b, u32 n)
+int BTL_HANDLER_ITEM_IsHpAtOrBelowFraction(void *a, int b, u32 n)
 {
     void *m;
     u32 v;
@@ -35,7 +35,7 @@ int func_021DDEA4(void *a, int b, u32 n)
         n = 1;
     if ((u32)func_021D59B4(m, 0xe) > 1) {
         v = func_021D59B4(m, 0xd);
-        if (v <= func_021D7B60(m, n))
+        if (v <= BTL_CALC_DivideMaxHp(m, n))
             return 1;
     }
     return 0;

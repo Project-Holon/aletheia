@@ -1,5 +1,5 @@
 /*
- * function: func_0216D524
+ * function: FLDMMDL_SysSetG3dObjCont
  * address:  0x0216D524
  * packet:   pkt_ov010_0216D524
  * region:   ov010
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj19121.h"
 
-void func_0216D524(void *p, void *v)
+void FLDMMDL_SysSetG3dObjCont(void *p, void *v)
 {
     ((struct Obj19121 *)p)->f28 = v;
 }

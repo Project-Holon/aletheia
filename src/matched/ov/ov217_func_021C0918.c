@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02026454  0x02026454  thumb
  *   GAME_COMM_SetNotifyFlag  0x02026498  thumb
  *   func_021BF734  0x021BF734  thumb  ov217
  *
- * Opens the +0x10 record (func_02012138 on the result of func_021BF734),
+ * Opens the +0x10 record (GAMESYSTEM_GetGameComm on the result of func_021BF734),
  * tags it with 1, and releases it when func_02026454 reports state 2.
  * Closed by the generator's duplicate guard statement (O89).
  *
@@ -31,17 +31,17 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
 struct Comm;
-extern void func_02026400(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern u32 func_02026454(void *obj);
 extern void GAME_COMM_SetNotifyFlag(void *obj, u32 flag);
 extern u32 func_021BF734(u8 *);
 void func_021C0918(u8 *a0)
 {
-    u32 v1 = func_02012138((const struct Ctx *)func_021BF734(a0));
+    u32 v1 = GAMESYSTEM_GetGameComm((const struct Ctx *)func_021BF734(a0));
     GAME_COMM_SetNotifyFlag((void *)v1, 1);
     if (func_02026454((void *)v1) == 2) {
-    func_02026400((struct Comm *)v1);
+    GAME_COMM_RequestExitNoCallback((struct Comm *)v1);
     }
 }

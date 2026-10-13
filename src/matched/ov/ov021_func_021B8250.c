@@ -1,5 +1,5 @@
 /*
- * function: func_021B8250
+ * function: FIELD_RAIL_ClampLocation
  * address:  0x021B8250
  * packet:   pkt_ov021_021B8250
  * region:   ov021
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Twin of func_021B7DE0. The first call adds a zero-valued local to off,
+ * Twin of FIELD_RAIL_WORK_IsLocationValid. The first call adds a zero-valued local to off,
  * which gives the early multiply, the spilled offset and the
  * `adds r0,r3,#0` copy. `const Mgr *m` lets the base load schedule into the
  * struct copy (`ldr r7,[r6,#0x34]` between the stores to a).
  *
  * symbols:
- *   func_021B9278  0x021B9278  thumb  ov021
- *   func_021B9280  0x021B9280  thumb  ov021
+ *   FIELD_RAIL_LINE_GetLength  0x021B9278  thumb  ov021
+ *   FIELD_RAIL_LINE_GetWidthAt  0x021B9280  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -35,10 +35,10 @@ typedef struct Mgr {
     u32 f4C;
 } Mgr;
 
-extern int func_021B9278(u8 *a, u32 b, const Tbl *t);
-extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
+extern int FIELD_RAIL_LINE_GetLength(u8 *a, u32 b, const Tbl *t);
+extern int FIELD_RAIL_LINE_GetWidthAt(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
 
-void func_021B8250(const Mgr *m, const Arg *src, Arg *out)
+void FIELD_RAIL_ClampLocation(const Mgr *m, const Arg *src, Arg *out)
 {
     Arg a;
     u8 *base;
@@ -56,8 +56,8 @@ void func_021B8250(const Mgr *m, const Arg *src, Arg *out)
     pad = 0;
     y = a.h6 << 4;
     x = a.h4 << 4;
-    v = func_021B9278(base + (off + pad), m->f4C, &m->tbl);
-    w = func_021B9280(base + off, y, v, (u8 *)(&m->tbl));
+    v = FIELD_RAIL_LINE_GetLength(base + (off + pad), m->f4C, &m->tbl);
+    w = FIELD_RAIL_LINE_GetWidthAt(base + off, y, v, (u8 *)(&m->tbl));
     if (y >= v)
         out->h6 = (v - 1) / 16;
     if ((x < 0 ? -x : x) > w) {

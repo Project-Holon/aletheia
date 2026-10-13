@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  *   (none)
  *
  * Returns 1 when the ARM9 call at 0x0204B98C on the word at [p] comes back zero.
@@ -17,9 +18,9 @@
 
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 int func_021BD7E4(int *p)
 {
-    return func_0204B98C((struct Actor *)(*p)) == 0;
+    return CLACT_IsActorAnimActive((struct Actor *)(*p)) == 0;
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021D9418, func_021D9440, func_021D9450
+ * function: BTL_TOKUSEI_SleepGuard_CheckAdd, BTL_TOKUSEI_SleepGuard_CureOnEntry, BTL_TOKUSEI_SleepGuard_CureOnPeriodicCheck
  * address:  0x021D9418
  * packet:   pkt_ov093_021D9418
  * region:   ov093
@@ -11,31 +11,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D9648  0x021D9648  thumb  ov093
- *   func_021D96DC  0x021D96DC  thumb  ov093
- *   func_021D96FC  0x021D96FC  thumb  ov093
+ *   BTL_TOKUSEI_BlockSickIfTargeted  0x021D9648  thumb  ov093
+ *   BTL_TOKUSEI_CureSickIfOwner  0x021D96DC  thumb  ov093
+ *   BTL_TOKUSEI_CureSick  0x021D96FC  thumb  ov093
  */
 
-extern int func_021D9648(int, int, int);
-extern void func_021D96DC(int, int, int);
-extern void func_021D96FC(void *a, int b, int c);
+extern int BTL_TOKUSEI_BlockSickIfTargeted(int, int, int);
+extern void BTL_TOKUSEI_CureSickIfOwner(int, int, int);
+extern void BTL_TOKUSEI_CureSick(void *a, int b, int c);
 
-void func_021D9418(int a, int b, int c, int *out)
+void BTL_TOKUSEI_SleepGuard_CheckAdd(int a, int b, int c, int *out)
 {
     int r;
 
-    r = func_021D9648(b, c, 2);
+    r = BTL_TOKUSEI_BlockSickIfTargeted(b, c, 2);
     *out = r;
     if (r == 0)
-        *out = func_021D9648(b, c, 0xe);
+        *out = BTL_TOKUSEI_BlockSickIfTargeted(b, c, 0xe);
 }
 
-void func_021D9440(int a, int b, int c)
+void BTL_TOKUSEI_SleepGuard_CureOnEntry(int a, int b, int c)
 {
-    func_021D96DC(b, c, 2);
+    BTL_TOKUSEI_CureSickIfOwner(b, c, 2);
 }
 
-void func_021D9450(int a, int b, int c)
+void BTL_TOKUSEI_SleepGuard_CureOnPeriodicCheck(int a, int b, int c)
 {
-    func_021D96FC((void *)b, c, 2);
+    BTL_TOKUSEI_CureSick((void *)b, c, 2);
 }

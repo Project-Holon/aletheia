@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C8E14",
+   "name": "FIELD_TILE_MOVE_SlidePlayBumpEffectSe",
    "address": "0x021C8E14",
    "kind": "game",
    "region": "ov021",

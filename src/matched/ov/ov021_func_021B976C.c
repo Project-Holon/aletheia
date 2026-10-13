@@ -1,5 +1,5 @@
 /*
- * function: func_021B976C
+ * function: FIELD_RAIL_POINT_DebugPrint
  * address:  0x021B976C
  * packet:   pkt_ov021_021B976C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9768  0x021B9768  thumb  ov021
+ *   FIELD_RAIL_DebugPrintPos  0x021B9768  thumb  ov021
  */
 
 typedef struct {
@@ -18,11 +18,11 @@ typedef struct {
     char f30[1];
 } Obj;
 
-extern void func_021B9768(void *a, void *b);
+extern void FIELD_RAIL_DebugPrintPos(void *a, void *b);
 
-void func_021B976C(void *a, Obj *b)
+void FIELD_RAIL_POINT_DebugPrint(void *a, Obj *b)
 {
     if (b != 0) {
-        func_021B9768(a, b->f30);
+        FIELD_RAIL_DebugPrintPos(a, b->f30);
     }
 }

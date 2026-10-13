@@ -1,5 +1,5 @@
 /*
- * function: func_021C4160
+ * function: SODATEYA_AddSharedMoves
  * address:  0x021C4160
  * packet:   pkt_ov021_021C4160
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  * symbols:
  *   func_0201ADD0  0x0201ADD0  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_021C42F4  0x021C42F4  thumb  ov021
- *   d_021DA8F8     0x021DA8F8  data  ov021  a4
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   SODATEYA_AddMove  0x021C42F4  thumb  ov021
+ *   sSodateyaSharedMoveSlotIds     0x021DA8F8  data  ov021  a4
  *
- * Twin of func_021C4084 (same goto-rotated learnset walk). The call
+ * Twin of SODATEYA_AddLevelUpMoves (same goto-rotated learnset walk). The call
  * result must be a named local (v == mv gives cmp r0, r5), and end = 0
  * goes after the entry copies, as in the twin.
  */
@@ -26,14 +26,14 @@ typedef struct { u16 x, y; } P;
 typedef struct { u32 v[4]; } T4;
 
 extern void func_0201ADD0(unsigned int a, int b, void *buf);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_021C42F4(u32 *p, u32 v);
-extern const T4 d_021DA8F8;
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void SODATEYA_AddMove(u32 *p, u32 v);
+extern const T4 sSodateyaSharedMoveSlotIds;
 
-void func_021C4160(u32 *p, u32 *q)
+void SODATEYA_AddSharedMoves(u32 *p, u32 *q)
 {
     P buf[26];
-    T4 t = d_021DA8F8;
+    T4 t = sSodateyaSharedMoveSlotIds;
     P d, b, a;
     int i;
     int fa;
@@ -52,21 +52,21 @@ body:
     fa = 0;
     fb = 0;
     for (k = 0; k < 4; k++) {
-        v = func_02017E1C((void *)p[0], t.v[k], 0);
+        v = POKE_TOOL_GetPartyValue((void *)p[0], t.v[k], 0);
         if (v == mv) {
             fa = 1;
             break;
         }
     }
     for (k = 0; k < 4; k++) {
-        v = func_02017E1C((void *)p[1], t.v[k], 0);
+        v = POKE_TOOL_GetPartyValue((void *)p[1], t.v[k], 0);
         if (v == mv) {
             fb = 1;
             break;
         }
     }
     if (fa && fb)
-        func_021C42F4(q, mv);
+        SODATEYA_AddMove(q, mv);
     i++;
 test:
     a = buf[i];

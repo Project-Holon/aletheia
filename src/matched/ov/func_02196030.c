@@ -1,5 +1,5 @@
 /*
- * function: func_02196030
+ * function: IRCBATTLEMENU_StoreSeqFunc
  * address:  0x02196030
  * packet:   pkt_02196030
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02196030(u32 *p, u32 v)
+void IRCBATTLEMENU_StoreSeqFunc(u32 *p, u32 v)
 {
     *p = v;
 }

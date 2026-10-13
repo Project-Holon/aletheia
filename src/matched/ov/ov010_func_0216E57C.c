@@ -1,5 +1,5 @@
 /*
- * function: func_0216E57C
+ * function: FLDMMDL_StoreMovedPos
  * address: 0x0216E57C
  * packet: pkt_ov010_0216E57C
  * region: ov010
@@ -15,9 +15,9 @@
  * halfword or 30. Thus i <=65535 and i*12 <=786420; no Vec array bound
  * is assumed. D88C unconditionally initializes all 12 bytes of v.
  * symbols:
- *   func_0216E4EC 0x0216E4EC thumb ov010
- *   func_0216D67C 0x0216D67C thumb ov010
- *   func_0216D88C 0x0216D88C thumb ov010
+ *   FLDMMDL_GetMovedPosSlot 0x0216E4EC thumb ov010
+ *   FLDMMDL_GetMmdlSys 0x0216D67C thumb ov010
+ *   FLDMMDL_GetPos 0x0216D88C thumb ov010
  */
 
 typedef struct
@@ -31,24 +31,24 @@ typedef struct
     char pad00[44];
     unsigned int raw44;
 } Context;
-extern int func_0216E4EC(int a0, int a1);
-extern void *func_0216D67C(void *a0);
+extern int FLDMMDL_GetMovedPosSlot(int a0, int a1);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
 
-void func_0216E57C(void *a, int a1)
+void FLDMMDL_StoreMovedPos(void *a, int a1)
 {
     int i;
     Vec *p;
     Vec v;
     Context *tmp;
-    i = func_0216E4EC((int)a, a1);
+    i = FLDMMDL_GetMovedPosSlot((int)a, a1);
     if (i != 30)
     {
-        tmp = func_0216D67C(a);
+        tmp = FLDMMDL_GetMmdlSys(a);
         p = (Vec *) (tmp->raw44 + (i * 12));
-        func_0216D88C(a, (struct VecFx32 *)&v);
+        FLDMMDL_GetPos(a, (struct VecFx32 *)&v);
         *p = v;
     }
 }

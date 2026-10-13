@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021B70C4((char *)p + 0x48).
+ * Tail call to MONOLITH_TOOL_UpdateBlink((char *)p + 0x48).
  *
  * symbols:
- *   func_021B70C4  0x021B70C4  thumb  ov071
+ *   MONOLITH_TOOL_UpdateBlink  0x021B70C4  thumb  ov071
  */
 
 void func_021B8EDC(void *p)
 {
-    void func_021B70C4(void *);
-    func_021B70C4((char *)p + 0x48);
+    void MONOLITH_TOOL_UpdateBlink(void *);
+    MONOLITH_TOOL_UpdateBlink((char *)p + 0x48);
 }

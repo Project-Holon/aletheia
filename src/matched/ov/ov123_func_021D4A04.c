@@ -10,7 +10,7 @@
  * lever: one-word struct = {0} keeps add r1, sp then str [r1]; scalar/array sink the address.
  * symbols:
  *   func_021D45F4 0x021D45F4 thumb ov123
- *   func_02051B84 0x02051B84 arm
+ *   BUTTON_MAN_Create 0x02051B84 arm
  *   func_021D4778 0x021D4778 thumb ov123
  *   func_021D4BA8 0x021D4BA8 thumb ov123
  *   func_021D4CA0 0x021D4CA0 thumb ov123
@@ -23,7 +23,7 @@
 typedef unsigned short u16;
 extern void func_021D45F4(int, void *, char *, void *, void *, void *);
 typedef unsigned char  u8;
-extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
+extern void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3);
 extern void func_021D4778(void);
 extern int func_021D4BA8(int n, char *p);
 extern void func_021D4CA0(char *p);
@@ -35,7 +35,7 @@ void func_021D4A04(char *p)
 {
     struct { int value; } zero = {0};
     func_021D45F4(1, &zero, p, func_021DA9C0, d_021DA640, d_021DA640 + 1);
-    ((struct Obj10434 *)p)->f20 = func_02051B84((u8 *)d_021DA648, (int)func_021D4778, (int)p, ((struct Obj10434 *)p)->fC);
+    ((struct Obj10434 *)p)->f20 = BUTTON_MAN_Create((u8 *)d_021DA648, (int)func_021D4778, (int)p, ((struct Obj10434 *)p)->fC);
     ((struct Obj10434 *)p)->f4 = func_021D4BA8;
     func_021D4244(p, func_021D4CA0, 0x321);
 }

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02012DAC",
+   "name": "GAME_DATA_SaveStart",
    "address": "0x02012DAC",
    "kind": "game",
    "region": "arm9",

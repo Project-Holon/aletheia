@@ -1,5 +1,5 @@
 /*
- * function: func_021D11B0
+ * function: FIELD_SAVEANIME_Start
  * address:  0x021D11B0
  * packet:   pkt_ov021_021D11B0
  * region:   ov021
@@ -12,8 +12,8 @@
  * symbols:
  *   func_020056A0  0x020056A0  thumb
  *   func_020414AC  0x020414AC  arm
- *   func_021D1400  0x021D1400  thumb  ov021
- *   func_021D1488  0x021D1488  thumb  ov021
+ *   FIELD_SAVEANIME_ShowWindow  0x021D1400  thumb  ov021
+ *   FIELD_SAVEANIME_AnimTask  0x021D1488  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -21,15 +21,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_020414AC(int a);
-extern int func_021D1400(void *a);
+extern int FIELD_SAVEANIME_ShowWindow(void *a);
 extern void *func_020056A0(void *, void *, int);
 struct Anim021D1488;
-extern void func_021D1488(void *task, struct Anim021D1488 *p);
+extern void FIELD_SAVEANIME_AnimTask(void *task, struct Anim021D1488 *p);
 
-void func_021D11B0(u32 *p)
+void FIELD_SAVEANIME_Start(u32 *p)
 {
     func_020414AC(3);
     p[5] = 0;
-    func_021D1400(p);
-    p[3] = (u32)func_020056A0(func_021D1488, p, 0x80);
+    FIELD_SAVEANIME_ShowWindow(p);
+    p[3] = (u32)func_020056A0(FIELD_SAVEANIME_AnimTask, p, 0x80);
 }

@@ -20,11 +20,11 @@
  *   func_0217CFDC 0x0217CFDC thumb ov176
  *   func_0217CFD0 0x0217CFD0 thumb ov176
  *   func_0200AE14 0x0200AE14 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200B110 0x0200B110 thumb
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  *   func_0217D010 0x0217D010 thumb ov176
  *   func_0217D000 0x0217D000 thumb ov176
@@ -35,7 +35,7 @@
  *   func_0217CC78 0x0217CC78 thumb ov176
  *   func_0217C628 0x0217C628 thumb ov176
  *   func_0200BBD8 0x0200BBD8 thumb
- *   func_0200BA38 0x0200BA38 thumb
+ *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
  */
 #include "../include/Obj00053.h"
 #include "../include/Obj24408.h"
@@ -60,11 +60,11 @@ extern void func_0217CEAC(u8 *p, int mode);
 extern int func_0217CFDC(int *p);
 extern void func_0217CFD0(int *p);
 extern void * func_0200AE14(void *);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void * func_0200BAC8(void *);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
-extern int func_02012DAC(int);
-extern int func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(u8 *);
 extern void func_021E8AA0(int *,int);
 extern void func_0217D010(u8 *,int);
 extern int func_0217D000(u8 *);
@@ -75,7 +75,7 @@ extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern void func_0217CC78(int *a, int *state, u8 *p);
 extern void func_0217C628(int *sys, u32 *state, u8 *p);
 extern void func_0200BBD8(struct Obj *p, int v);
-extern u32 func_0200BA38(u32 v);
+extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 void func_0217C2EC(int *sys,u32 *state,u8 *p)
 {
     switch(*state){
@@ -111,11 +111,11 @@ void func_0217C2EC(int *sys,u32 *state,u8 *p)
         if(v!=-1){func_0217CFD0((int *)p);switch(v){case 0:*state=14;break;case 1:*state=5;break;}}break;
     }
     case 14:func_0217CFE8(p,10,2);*state=25;func_021E8AB4((u32)sys,15);break;
-    case 15:func_0200B110(((struct Obj00053 *)p)->f38,10,4);func_0200BBD8(func_0200BAC8(func_02012EBC(((struct Obj00053 *)p)->f1B8)),2);func_02012DAC(*(int *)&((struct Obj00053 *)p)->f1B8);*state=16;break;
-    case 16:switch((u32)func_02012DD0(*(u8 * *)&((struct Obj00053 *)p)->f1B8)){case 2:case 3:*state=17;break;case 0:case 1:break;}break;
+    case 15:func_0200B110(((struct Obj00053 *)p)->f38,10,4);func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),2);GAME_DATA_SaveStart(*(int *)&((struct Obj00053 *)p)->f1B8);*state=16;break;
+    case 16:switch((u32)GAME_DATA_SaveMain(*(u8 * *)&((struct Obj00053 *)p)->f1B8)){case 2:case 3:*state=17;break;case 0:case 1:break;}break;
     case 17:func_0217D1A0(p,1);func_0217CFE8(p,19,1);*state=25;func_021E8AB4((u32)sys,18);break;
     case 18:if(func_0217D194((int *)p)){func_0217D174((int *)p);*state=24;}break;
-    case 19:if(func_0200BA38((u8)(((struct Obj24410 *)(*(u8 * *)&((struct Obj00053 *)p)->f1C0))->f44)))*state=20;else *state=21;break;
+    case 19:if(BATTLE_REC_IsVersionSupported((u8)(((struct Obj24410 *)(*(u8 * *)&((struct Obj00053 *)p)->f1C0))->f44)))*state=20;else *state=21;break;
     case 20:func_0217CFE8(p,16,1);*state=25;func_021E8AB4((u32)sys,22);break;
     case 21:func_0217CFE8(p,34,1);*state=25;func_021E8AB4((u32)sys,5);break;
     case 22:func_0217D010(p,4);break;

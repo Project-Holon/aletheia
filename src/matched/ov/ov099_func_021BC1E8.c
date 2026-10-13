@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   func_021BA858  0x021BA858  thumb  ov099
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
  */
@@ -18,7 +18,7 @@
 
 typedef unsigned char u8;
 
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 typedef unsigned int   u32;
 extern u32 func_021BA858(char *p);
 extern void func_021BA8EC(char *p);
@@ -27,7 +27,7 @@ int func_021BC1E8(char *p, int r)
 {
     int v;
 
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     v = func_021BA858(p);
     if (v == -1)
         return r;

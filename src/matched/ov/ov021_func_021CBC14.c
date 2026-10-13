@@ -12,11 +12,11 @@
  * Shows the kind's message (20/21/22) with the +0x10 number capped at 9999 and reports whether it ended with 2 or 3.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F54  0x02158F54  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012ED8  0x02012ED8  thumb
- *   func_0200B6E0  0x0200B6E0  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetCurrentEvent  0x02012ED8  thumb
+ *   BATTLE_REC_Save  0x0200B6E0  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12976.h"
@@ -25,13 +25,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_02158F54(void *a);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetGameSystem(void *a);
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012ED8(struct Big *p);
-extern u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetCurrentEvent(struct Big *p);
+extern u32 BATTLE_REC_Save(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
 
 int func_021CBC14(u32 unused, u32 a)
 {
@@ -41,8 +41,8 @@ int func_021CBC14(u32 unused, u32 a)
     int v;
     int r;
 
-    t = func_020120F4(func_02158F54(func_0215A5F4((void *)a)));
-    p = func_02012ED8(t);
+    t = GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork((void *)a)));
+    p = GAME_DATA_GetCurrentEvent(t);
     id = 20;
     v = ((struct Obj12976 *)p)->f10;
     switch (p[9]) {
@@ -63,7 +63,7 @@ int func_021CBC14(u32 unused, u32 a)
     }
     if (v > 9999)
         v = 9999;
-    r = func_0200B6E0(t, 4, id, v, 0, (u16 *)(p + 0x7e8), (u16 *)(p + 0x7ea));
+    r = BATTLE_REC_Save(t, 4, id, v, 0, (u16 *)(p + 0x7e8), (u16 *)(p + 0x7ea));
     if (r == 2 || r == 3)
         return 1;
     return 0;

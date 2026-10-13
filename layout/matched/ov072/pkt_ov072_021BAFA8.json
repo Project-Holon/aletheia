@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAFA8",
+   "name": "TOWNMAP_StepScrollZoom",
    "address": "0x021BAFA8",
    "kind": "game",
    "region": "ov072",

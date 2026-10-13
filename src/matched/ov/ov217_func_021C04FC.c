@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   d_021C37A4 0x021C37A4 data a4
- *   func_0204384C 0x0204384C arm
- *   func_020439A0 0x020439A0 arm
+ *   BMP_CreateFromArchive 0x0204384C arm
+ *   BMP_Blit 0x020439A0 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201C7D0 0x0201C7D0 thumb
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_020437AC 0x020437AC arm
+ *   BMP_Delete 0x020437AC arm
  */
 #include "../include/Obj14753.h"
 #include "../include/Obj14754.h"
@@ -27,12 +27,12 @@ struct Bmp;
 struct MsgBank;
 struct Obj020437AC;
 extern const struct Entry d_021C37A4[];
-extern struct Bmp *func_0204384C(u32,u32,u32,u32);
-extern void func_020439A0(struct Bmp *,struct Bmp *,u32,u32,int,int,u32,u32,u32);
+extern struct Bmp *BMP_CreateFromArchive(u32,u32,u32,u32);
+extern void BMP_Blit(struct Bmp *,struct Bmp *,u32,u32,int,int,u32,u32,u32);
 extern void *func_02045EC0(struct MsgBank *,u32);
-extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
+extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern u32 func_020307B0(void *p);
-extern void func_020437AC(struct Obj020437AC *);
+extern void BMP_Delete(struct Obj020437AC *);
 void func_021C04FC(u8 *p)
 {
     const struct Entry *q;
@@ -44,14 +44,14 @@ void func_021C04FC(u8 *p)
     for(i=0;i<2;i++) {
         q=&d_021C37A4[i];
         if(q->enabled) {
-            bmp=func_0204384C(q->arc,q->member,0,((struct Obj14753 *)p)->f4);
+            bmp=BMP_CreateFromArchive(q->arc,q->member,0,((struct Obj14753 *)p)->f4);
             dest=p+i*4;
-            func_020439A0(bmp,*(struct Bmp * *)&((struct Obj14754 *)dest)->f3B0,0,0,0,0,q->x<<3,q->y<<3,q->b);
+            BMP_Blit(bmp,*(struct Bmp * *)&((struct Obj14754 *)dest)->f3B0,0,0,0,0,q->x<<3,q->y<<3,q->b);
             color=((q->r&31)<<10)|((q->g&31)<<5)|(q->b&31);
             text=func_02045EC0(*(struct MsgBank **)(p+12+q->bank*4),q->index);
-            func_0201C7D0(((struct Obj14754 *)dest)->f3B0,q->px,q->py,text,((struct Obj14753 *)p)->f8,color);
+            PRINTSYS_PrintColor(((struct Obj14754 *)dest)->f3B0,q->px,q->py,text,((struct Obj14753 *)p)->f8,color);
             func_020307B0(text);
-            func_020437AC((struct Obj020437AC *)bmp);
+            BMP_Delete((struct Obj020437AC *)bmp);
         }
     }
 }

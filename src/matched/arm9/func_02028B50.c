@@ -1,5 +1,5 @@
 /*
- * function: func_02028B50
+ * function: FIELD_SOUND_SYSTEM_ReleaseSlot
  * address:  0x02028B50
  * packet:   pkt_02028B50
  * region:   arm9
@@ -17,29 +17,29 @@
  * is EXACT.
  *
  * symbols:
- *   func_02006148  0x02006148  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   func_020061F8  0x020061F8  thumb
- *   func_021D21C0  0x021D21C0  thumb ov021
- *   func_021D21E0  0x021D21E0  thumb ov021
+ *   SCRCMD_FindRegisteredEntry  0x021D21C0  thumb ov021
+ *   SCRCMD_IsRegisteredEntryEnabled  0x021D21E0  thumb ov021
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_02006148(u32 a0);
+extern int GFL_USE_GetSeSlot(u32 a0);
 extern void func_020061F8(int i);
-extern int func_021D21C0(u32 id);
-extern int func_021D21E0(u32 id);
+extern int SCRCMD_FindRegisteredEntry(u32 id);
+extern int SCRCMD_IsRegisteredEntryEnabled(u32 id);
 struct S { u8 pad[0xac]; u16 lo[2]; u16 hi[2]; };
-void func_02028B50(u8 *p, int a0)
+void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0)
 {
     u32 idx;
     struct S *s = (struct S *)p;
-    idx = func_02006148(a0);
-    if (func_021D21C0(a0) == 0) {
+    idx = GFL_USE_GetSeSlot(a0);
+    if (SCRCMD_FindRegisteredEntry(a0) == 0) {
         func_020061F8(idx);
         return;
     }
-    if (func_021D21E0(a0) != 0) {
+    if (SCRCMD_IsRegisteredEntryEnabled(a0) != 0) {
         if (a0 == s->lo[idx - 1]) {
             s->lo[idx - 1] = 0xffff;
             s->hi[idx - 1] = 0xffff;

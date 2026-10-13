@@ -1,5 +1,5 @@
 /*
- * function: func_021A5610
+ * function: FIELD_PLAYER_GRID_IsOnHopStartTile
  * address:  0x021A5610
  * packet:   pkt_ov021_021A5610
  * region:   ov021
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A5788  0x021A5788  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021A55FC  0x021A55FC  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetAttrAtDir  0x021A5788  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsHopStartTileKind  0x021A55FC  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-void func_021A5788(u32 *p, int k, int *out);
+void FIELD_PLAYER_GRID_GetAttrAtDir(u32 *p, int k, int *out);
 typedef unsigned short u16;
-u16 func_021AB0F0(u32 attr);
-int func_021A55FC(int x);
+u16 MAP_ATTR_GetTerrainId(u32 attr);
+int FIELD_PLAYER_GRID_IsHopStartTileKind(int x);
 
-int func_021A5610(u32 *p)
+int FIELD_PLAYER_GRID_IsOnHopStartTile(u32 *p)
 {
     int x;
 
-    func_021A5788(p, 9, &x);
-    if (func_021A55FC(func_021AB0F0(x)) == 1)
+    FIELD_PLAYER_GRID_GetAttrAtDir(p, 9, &x);
+    if (FIELD_PLAYER_GRID_IsHopStartTileKind(MAP_ATTR_GetTerrainId(x)) == 1)
         return 1;
     return 0;
 }

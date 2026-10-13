@@ -1,5 +1,5 @@
 /*
- * function: func_021A6A3C
+ * function: FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2
  * address:  0x021A6A3C
  * packet:   pkt_ov021_021A6A3C
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D608  0x0216D608  thumb
+ *   FLDMMDL_GetDirMove  0x0216D608  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_021A6908  0x021A6908  thumb
+ *   FIELD_PLAYER_NOGRID_ForcedSlide  0x021A6908  thumb
  */
 
 typedef unsigned short u16;
@@ -22,15 +22,15 @@ typedef struct {
     int f1c;
 } S;
 
-extern u16 func_0216D608(int a);
+extern u16 FLDMMDL_GetDirMove(int a);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern int func_021A6908(S *a, int b, int c);
+extern int FIELD_PLAYER_NOGRID_ForcedSlide(S *a, int b, int c);
 
-int func_021A6A3C(S *a, int b, int c)
+int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2(S *a, int b, int c)
 {
-    if (func_0216D608(a->f1c) == 2) {
+    if (FLDMMDL_GetDirMove(a->f1c) == 2) {
         func_020061E4(0x55e);
     }
-    return func_021A6908(a, b, c);
+    return FIELD_PLAYER_NOGRID_ForcedSlide(a, b, c);
 }

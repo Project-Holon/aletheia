@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   (none)
 
  * Releases each of the six 0x14-byte element handles against a parallel table and clears its +0x2C slot.
@@ -20,7 +21,7 @@
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 typedef unsigned short u16;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void func_021BF4C4(int unused, char *q, int c, int *tbl)
 {
@@ -29,7 +30,7 @@ void func_021BF4C4(int unused, char *q, int c, int *tbl)
     for (i = 0; i < 6; i++) {
         func_0204B3DC((struct Obj *)*(int *)(q + i * 0x14 + 0x1c), tbl[i]);
         *(int *)(q + i * 0x14 + 0x2c) = 0;
-        func_0204B878((struct Obj *)(*(int *)(q + i * 0x14 + 0x1c)), *(unsigned short *)(q + i * 0x14 + 0x24));
+        CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(q + i * 0x14 + 0x1c)), *(unsigned short *)(q + i * 0x14 + 0x24));
     }
     ((struct Obj18262 *)q)->f94 = 6;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF510
+ * function: BTL_HANDLER_ITEM_GetLightBallHandlers
  * address: 0x021DF510
  * packet: pkt_ov093_021DF510
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF48C.c and filed here.
  *
  * symbols:
- *   d_021F167C 0x021F167C data ov093 a4
+ *   gLightBallHandlers 0x021F167C data ov093 a4
  */
 
-int *func_021DF510(int *p);
-extern int d_021F167C[];
+int *BTL_HANDLER_ITEM_GetLightBallHandlers(int *p);
+extern int gLightBallHandlers[];
 
-int *func_021DF510(int *p)
+int *BTL_HANDLER_ITEM_GetLightBallHandlers(int *p)
 {
     *p = 2;
-    return d_021F167C;
+    return gLightBallHandlers;
 }

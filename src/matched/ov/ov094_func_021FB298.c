@@ -12,14 +12,14 @@
  * Script command: runs func_021F7F04 on each id listed by func_021FCA04.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021FCA04 0x021FCA04 thumb ov094
  *   func_021F7F04 0x021F7F04 thumb ov094
  */
 #include "../include/Obj00177.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FCA04(char *, int, int *);
 extern void func_021F7F04(int);
 
@@ -29,7 +29,7 @@ int func_021FB298(void *a, char *s)
     int n;
     int i;
 
-    n = func_021FCA04(s, func_0201134C(a), ids);
+    n = func_021FCA04(s, VM_GetU32(a), ids);
     if (n != 0) {
         for (i = 0; i < n; i++)
             func_021F7F04(ids[i]);

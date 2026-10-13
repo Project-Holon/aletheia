@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
-extern void func_0204A8D4(unsigned);
-extern void func_0204ADA4(unsigned);
-extern void func_0204AFD8(unsigned);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleasePalette(unsigned);
+extern void CLACT_ReleaseCellAnim(unsigned);
 void func_021BDBA8(char *p)
 {
     unsigned i;
-    for(i=0;i<36;i++)if(*(unsigned *)(p+i*4+0xb64)!=-1)func_0204A8D4(*(unsigned *)(p+i*4+0xb64));
-    for(i=0;i<6;i++)if(*(unsigned *)(p+i*4+0xbf4)!=-1)func_0204ADA4(*(unsigned *)(p+i*4+0xbf4));
-    for(i=0;i<6;i++)if(*(unsigned *)(p+i*4+0xc0c)!=-1)func_0204AFD8(*(unsigned *)(p+i*4+0xc0c));
+    for(i=0;i<36;i++)if(*(unsigned *)(p+i*4+0xb64)!=-1)CLACT_ReleaseCharacter(*(unsigned *)(p+i*4+0xb64));
+    for(i=0;i<6;i++)if(*(unsigned *)(p+i*4+0xbf4)!=-1)CLACT_ReleasePalette(*(unsigned *)(p+i*4+0xbf4));
+    for(i=0;i<6;i++)if(*(unsigned *)(p+i*4+0xc0c)!=-1)CLACT_ReleaseCellAnim(*(unsigned *)(p+i*4+0xc0c));
 }

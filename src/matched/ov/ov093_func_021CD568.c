@@ -1,5 +1,5 @@
 /*
- * function: func_021CD568
+ * function: BTL_SERVER_CMD_FillReserved
  * address:  0x021CD568
  * packet:   pkt_ov093_021CD568
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CCB18  0x021CCB18  thumb  ov093
- *   func_021CCAD4  0x021CCAD4  thumb  ov093
- *   func_021CCC0C  0x021CCC0C  thumb  ov093
+ *   BTL_SERVER_CMD_ReadU16  0x021CCB18  thumb  ov093
+ *   BTL_SERVER_CMD_ReadU8  0x021CCAD4  thumb  ov093
+ *   BTL_SERVER_CMD_WriteCommand  0x021CCC0C  thumb  ov093
  *   data_021EFF14  0x021EFF14  data
  *   data_021F3B44  0x021F3B44  data
  */
@@ -29,11 +29,11 @@ typedef struct {
 
 extern const u8 data_021EFF14[];
 extern s32 data_021F3B44[];
-extern u16 func_021CCB18(void *r);
-extern u8 func_021CCAD4(u8 *p);
-extern void func_021CCC0C(void *w, u32 id, int cmd, s32 *a);
+extern u16 BTL_SERVER_CMD_ReadU16(void *r);
+extern u8 BTL_SERVER_CMD_ReadU8(u8 *p);
+extern void BTL_SERVER_CMD_WriteCommand(void *w, u32 id, int cmd, s32 *a);
 
-void func_021CD568(Buf *w, u32 x, u32 id, ...)
+void BTL_SERVER_CMD_FillReserved(Buf *w, u32 x, u32 id, ...)
 {
     va_list ap;
     u32 i = 0;
@@ -47,13 +47,13 @@ void func_021CD568(Buf *w, u32 x, u32 id, ...)
     }
     pos = w->rpos;
     w->rpos = x;
-    func_021CCB18(w);
-    func_021CCAD4((u8 *)w);
+    BTL_SERVER_CMD_ReadU16(w);
+    BTL_SERVER_CMD_ReadU8((u8 *)w);
     w->rpos = pos;
     if (id != 0x5f) {
         pos = w->wpos;
         w->wpos = x;
-        func_021CCC0C(w, id, cmd, data_021F3B44);
+        BTL_SERVER_CMD_WriteCommand(w, id, cmd, data_021F3B44);
         w->wpos = pos;
     }
 }

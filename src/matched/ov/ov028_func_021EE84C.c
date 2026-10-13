@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021EE84C, func_021EE864
+ * function: WEATHER_FOG_EndFinishFixed, WEATHER_FOG_UpdateParticleFixed
  * address: 0x021EE84C
  * packet: pkt_ov028_021EE84C
  * region: ov028
@@ -10,20 +10,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021A231C 0x021A231C thumb ov021
- *   func_021A2120 0x021A2120 thumb ov021
+ *   WEATHER_TASK_DisableFog 0x021A231C thumb ov021
+ *   WEATHER_TASK_ResetLight 0x021A2120 thumb ov021
  */
 
 typedef unsigned int u32;
-extern void func_021A231C(u32 *, int);
-extern void func_021A2120(u32 *, int);
-int func_021EE84C(u32 *a, int b)
+extern void WEATHER_TASK_DisableFog(u32 *, int);
+extern void WEATHER_TASK_ResetLight(u32 *, int);
+int WEATHER_FOG_EndFinishFixed(u32 *a, int b)
 {
-    func_021A231C(a, b);
-    func_021A2120(a, b);
+    WEATHER_TASK_DisableFog(a, b);
+    WEATHER_TASK_ResetLight(a, b);
     return 1;
 }
 
-void func_021EE864(void)
+void WEATHER_FOG_UpdateParticleFixed(void)
 {
 }

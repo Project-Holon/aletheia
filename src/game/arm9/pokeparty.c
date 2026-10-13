@@ -1,7 +1,7 @@
 /*
  * file:     pokeparty.c
  * unit:     yes
- * function: func_0201A920, POKEPARTY_Init, func_0201A954, func_0201A98C, func_0201A9C8, func_0201AA14, func_0201AA18, func_0201AA1C, func_0201AA50, func_0201AA88, func_0201AAD4, func_0201AB08, POKEPARTY_FindFirstNonEgg, func_0201AB28, POKEPARTY_IsMemberBattleReady, func_0201AB48, func_0201AB8C, func_0201AC2C, POKEPARTY_HasSpecies, POKEPARTY_GetAliveNonEggCount, POKEPARTY_GetSlotFlag, POKEPARTY_SetSlotFlag, func_0201AD0C, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg, POKEPARTY_FindFirst, POKE_PERSONAL_OpenHandle, POKE_PERSONAL_LoadData, func_0201ADD0, func_0201ADE4, func_0201AE14, func_0201AE1C, func_0201AF6C, POKE_PERSONAL_LoadFormTable, POKE_PERSONAL_GetFormDataId, POKERUS_TryInfectParty, POKERUS_DecreaseDays, POKERUS_SpreadParty, POKERUS_GetInfectedMask, POKERUS_IsInfected, POKERUS_IsBoxInfected, POKERUS_IsCured, POKERUS_IsBoxCured, func_0201B2B0, SHINKA_CHECK_GetRowParam, SHINKA_CHECK_LoadData, SHINKA_CHECK_KnowsMove, NATSUKI_Calc, NATSUKI_CalcUseItem, func_0201B7EC, NATSUKI_CalcParty, NATSUKI_Apply, POKE_TOOL_IsPPRestorable, POKE_TOOL_RestorePP, func_0201B9F0, POKE_TOOL_HealParty, func_0201BA68, POKE_TOOL_CalcGraphicIndex, func_0201BB5C, POKE_TOOL_GetIconPalette, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, func_0201BD28, WAZA_TOOL_GetDataParam, WAZA_TOOL_GetFlag, WAZA_TOOL_GetDataFlag, WAZA_TOOL_GetSickCont, WAZA_TOOL_GetRankEffectCount, WAZA_TOOL_GetRankEffect, WAZA_TOOL_GetMaxPP, WAZA_TOOL_GetWeather, WAZA_TOOL_GetCategory, WAZA_TOOL_GetType, WAZA_TOOL_GetPower, WAZA_TOOL_GetDamageType, WAZA_TOOL_IsAlwaysHit, WAZA_TOOL_IsAlwaysCritical, WAZA_TOOL_IsDamaging, WAZA_TOOL_CreateCache, WAZA_TOOL_DeleteCache, PRINTSYS_Init, func_0201C440, func_0201C450, func_0201C4C0, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, func_0201C4E4, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, func_0201C7A4, func_0201C7D0, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, func_0201CCE4, func_0201CD10, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, func_0201CE30, func_0201CE34, func_0201CE38, func_0201CE48, func_0201CE5C, func_0201CE8C, func_0201CEB8
+ * function: func_0201A920, POKEPARTY_Init, func_0201A954, func_0201A98C, func_0201A9C8, func_0201AA14, func_0201AA18, func_0201AA1C, func_0201AA50, func_0201AA88, func_0201AAD4, func_0201AB08, POKEPARTY_FindFirstNonEgg, func_0201AB28, POKEPARTY_IsMemberBattleReady, func_0201AB48, func_0201AB8C, func_0201AC2C, POKEPARTY_HasSpecies, POKEPARTY_GetAliveNonEggCount, POKEPARTY_GetSlotFlag, POKEPARTY_SetSlotFlag, func_0201AD0C, POKEPARTY_IsBattleReady, POKEPARTY_IsNotEgg, POKEPARTY_FindFirst, POKE_PERSONAL_OpenHandle, POKE_PERSONAL_LoadData, func_0201ADD0, func_0201ADE4, func_0201AE14, func_0201AE1C, func_0201AF6C, POKE_PERSONAL_LoadFormTable, POKE_PERSONAL_GetFormDataId, POKERUS_TryInfectParty, POKERUS_DecreaseDays, POKERUS_SpreadParty, POKERUS_GetInfectedMask, POKERUS_IsInfected, POKERUS_IsBoxInfected, POKERUS_IsCured, POKERUS_IsBoxCured, SHINKA_CHECK_CheckEvolution, SHINKA_CHECK_GetRowParam, SHINKA_CHECK_LoadData, SHINKA_CHECK_KnowsMove, NATSUKI_Calc, NATSUKI_CalcUseItem, NATSUKI_CalcWalk, NATSUKI_CalcParty, NATSUKI_Apply, POKE_TOOL_IsPPRestorable, POKE_TOOL_RestorePP, func_0201B9F0, POKE_TOOL_HealParty, func_0201BA68, POKE_TOOL_CalcGraphicIndex, func_0201BB5C, POKE_TOOL_GetIconPalette, func_0201BC3C, func_0201BC40, func_0201BC78, func_0201BCB4, func_0201BCEC, func_0201BD28, WAZA_TOOL_GetDataParam, WAZA_TOOL_GetFlag, WAZA_TOOL_GetDataFlag, WAZA_TOOL_GetSickCont, WAZA_TOOL_GetRankEffectCount, WAZA_TOOL_GetRankEffect, WAZA_TOOL_GetMaxPP, WAZA_TOOL_GetWeather, WAZA_TOOL_GetCategory, WAZA_TOOL_GetType, WAZA_TOOL_GetPower, WAZA_TOOL_GetDamageType, WAZA_TOOL_IsAlwaysHit, WAZA_TOOL_IsAlwaysCritical, WAZA_TOOL_IsDamaging, WAZA_TOOL_CreateCache, WAZA_TOOL_DeleteCache, PRINTSYS_Init, func_0201C440, func_0201C450, func_0201C4C0, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, PRINTSYS_QUE_Main, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, PRINTSYS_Print, PRINTSYS_PrintColor, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, PRINTSYS_PrintStream, PRINTSYS_PrintStreamCallBack, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, func_0201CE30, func_0201CE34, func_0201CE38, func_0201CE48, func_0201CE5C, func_0201CE8C, func_0201CEB8
  * address:  0x0201A920
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,16 +14,16 @@
  * Split from pokeparty.c at 0x0201A920 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   func_02030734 0x02030734  arm
  *   func_020307B0   0x020307B0  arm
  *   pokeparty_File  0x020A7304  data
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   _pPersonalArc  0x0214652C  data
  *   poke_personal_File  0x020A7310  data
- *   func_0204A39C  0x0204A39C  arm
+ *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   func_0203F0A8  0x0203F0A8  arm
  *   func_02020FE4   0x02020FE4  thumb
  *   TIMEZONE_IsNight   0x02011410  thumb
@@ -33,7 +33,7 @@
  *   _MagneticZones      0x020A7324  data  a2
  *   _ExtraEvolutionZones      0x020A732A  data  a2
  *   func_020490F4  0x020490F4  arm
- *   func_0204932C  0x0204932C  arm
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   _NatsukiDeltaTable     0x0209E45C  data
  *   _NatsukiWalkDeltas     0x0209E465  data  a1
  *   _NatsukiPartyDeltas     0x0209E462  data
@@ -47,13 +47,13 @@
  *   printsys_File   0x020A734C  data
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_020870D0  0x020870D0  arm
  *   func_0201D7C4  0x0201D7C4  thumb
  *   _PrintJobWork   0x0214655C  data
  *   STRBUF_GetChars  0x02045A90  arm
  *   func_0201D26C  0x0201D26C  thumb
- *   func_020437DC  0x020437DC  arm
+ *   BMP_GetWidth  0x020437DC  arm
  *   func_02045770  0x02045770  arm
  *   func_020311B8  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
@@ -67,6 +67,11 @@
  *   STRBUF_SetEosChar  0x020457A0  arm
  *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   BMP_Create  0x02043678  arm
+ *   BMP_GetPixels  0x020437D4  arm
+ *   BMP_Blit  0x020439A0  arm
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  */
 #define REG_DISPCNT      (*(volatile u32 *)0x04000000)
 #define REG_DB_DISPCNT   (*(volatile u32 *)0x04001000)
@@ -320,9 +325,9 @@ struct TextPrinter {
 struct BoxPokemon;
 extern struct BoxPokemon *func_020185F0(struct PokemonParam *pp);
 extern u32   func_02017E88(struct BoxPokemon *box, u32 id, u32 arg);
-extern void  func_02048F4C(void *dst, u32 arcId, u32 dataId);
+extern void  ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 dataId);
 extern u32   func_02017E1C(struct PokemonParam *pp, u32 id, u32 arg);
-extern void  func_02017E40(struct PokemonParam *pp, u32 id, u32 value);
+extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 extern void *func_02030734(u32 heap, u32 size, int fromTail, const char *file, u16 line);
 extern u32   func_020307B0(void *ptr);
 extern void  MIi_CpuClearFast(u32 value, void *dest, u32 size);
@@ -332,35 +337,35 @@ extern struct ArcHandle *func_020490F4(unsigned int arcId, unsigned int heap);
 extern u32   ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 dataId);
 extern void  func_0204960C(struct ArcHandle *arc, u32 offset);
 extern void  ARC_TOOL_ReadHandle(struct ArcHandle *arc, u32 size, void *dst);
-extern void *func_0204A39C(struct ArcHandle *arc, int dataId, int fromTail, u32 heap, u32 *sizeOut);
+extern void *ARC_UTIL_LoadHandleMemberWithSize(struct ArcHandle *arc, int dataId, int fromTail, u32 heap, u32 *sizeOut);
 extern u32   func_0203F0A8(void);
 extern u32   func_02020FE4(u32 item, u32 param, u16 heap);
 extern u32   TIMEZONE_IsNight(u32 timezone);
-extern void  func_0204932C(struct ArcHandle *arc, u32 dataId, void *dst);
+extern void  ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 dataId, void *dst);
 extern u32   func_02013E4C(u32 zoneId);
 extern int   GPOWER_ApplyFriendshipBonus(int delta);
 extern u32   func_02017DBC(struct BoxPokemon *box);
 extern u32   func_02017DE4(struct BoxPokemon *box, u32 wasDecoded);
-extern u32   func_020490A8(u32 arcId, u32 dataId);
+extern u32   ARC_TOOL_GetMemberSize(u32 arcId, u32 dataId);
 extern void  STRBUF_SetEosChar(u16 eosChar);
-extern struct Bmp *func_02043678(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
+extern struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
 extern void  GF_FONT_GetTextColor(u8 *letter, u8 *shadow, u8 *background);
 extern u32   GF_FONT_IsTextColorDifferent(u32 letter, u32 shadow, u32 background);
-extern void  func_0201DD78(u32 letter, u32 shadow, u32 background);
+extern void  GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 background);
 extern u64   func_020870D0(void);
 extern struct PrintCtx *func_0201D7C4(struct PrintQueue *queue, struct PrintCtx *job);
-extern int   func_0203D1B4(void);
+extern int   GFL_NET_GetNegotiationNum(void);
 extern u32   func_0201D6B8(struct Strbuf *str);
 extern u32   func_0201D6C4(const struct PrintQueue *queue);
 extern void  func_0201D6D8(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
 extern u16  *STRBUF_GetChars(struct Strbuf *str);
 extern u8    BMP_GetTileBytes(struct Bmp *bmp);
-extern void *func_020437D4(const struct Bmp *bmp);
-extern void  func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 colorKey);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern void  BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 colorKey);
 extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 code, void *dst, void *metrics);
 extern void  BMP_BlitPaletteOffset(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
 extern u32   func_0201D26C(u16 *str, void *font, u32 spacing, u16 **next);
-extern u16   func_020437DC(const struct Bmp *bmp);
+extern u16   BMP_GetWidth(const struct Bmp *bmp);
 extern struct Bmp *func_02045770(struct BmpWin *win);
 extern struct TcblNode *func_020311B8(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
 extern void *TCBL_GetWork(struct TcblNode *task);
@@ -418,7 +423,7 @@ void SHINKA_CHECK_LoadData(u32 species, struct EvolutionRow *rows);
 u32 SHINKA_CHECK_KnowsMove(struct PokemonParam *pp, u32 move);
 void NATSUKI_Calc(struct PokemonParam *pp, int type, int zoneId, u16 heap);
 void NATSUKI_CalcUseItem(struct PokemonParam *pp, int item, u16 zoneId, u16 heap);
-void func_0201B7EC(struct PokemonParam *pp, int zoneId, u16 heap);
+void NATSUKI_CalcWalk(struct PokemonParam *pp, int zoneId, u16 heap);
 void NATSUKI_CalcParty(struct Party *party, int zoneId, u16 heap);
 void NATSUKI_Apply(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 heap);
 u8 POKE_TOOL_IsPPRestorable(struct PokemonParam *pp, u32 slot);
@@ -459,15 +464,15 @@ struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap);
 void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 void PRINTSYS_QUE_SetForceQueue(struct PrintQueue *queue, u32 forceQueue);
 void PRINTSYS_QUE_SetLimitTick(struct PrintQueue *queue, u32 tickLow, u32 tickHigh);
-u32 func_0201C4E4(struct PrintQueue *queue);
+u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 u32 PRINTSYS_QUE_IsFinished(const struct PrintQueue *queue);
 u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
 void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
-void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 void PRINTSYS_SetupJob(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y);
 void PRINTSYS_SetJobColor(struct PrintCtx *job, u16 color);
 void PRINTSYS_RunJob(struct PrintCtx *job, struct Strbuf *str);
@@ -476,8 +481,8 @@ void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u
 void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
 u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor);
 u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor);
-void func_0201CCE4(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
-struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor, PrintCallback callback);
+void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
+struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor, PrintCallback callback);
 void PRINTSYS_SplitWait(int wait, u8 *speed);
 void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
 void PRINTSYS_PrintStreamRun(struct TextPrinter *printer);
@@ -1276,7 +1281,7 @@ void POKE_PERSONAL_LoadDataDirect(u32 species, int form, void *dst)
 {
     u32 dataId = POKE_PERSONAL_GetFormDataId(species, form);
 
-    func_02048F4C(dst, 0x12, dataId);
+    ARC_TOOL_ReadMember(dst, 0x12, dataId);
 }
 
 
@@ -1546,7 +1551,7 @@ u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut)
     u16 i;
 
     count = 0;
-    table = func_0204A39C(_pPersonalArc, 0x29C, 0, heap, &size);
+    table = ARC_UTIL_LoadHandleMemberWithSize(_pPersonalArc, 0x29C, 0, heap, &size);
     entryCount = (u16)(size >> 1);
     if (countOut != 0) {
         for (i = 0; i < entryCount; i++) {
@@ -1669,7 +1674,7 @@ void POKERUS_TryInfectParty(struct Party *party)
             strain = strain & 7;
         }
         pokerus = strain; pokerus |= (u8)(strain << 4);
-        func_02017E40(member, 0x97, (u8)((u8)(pokerus & 0xF3) + 1));
+        POKE_TOOL_SetPartyValue(member, 0x97, (u8)((u8)(pokerus & 0xF3) + 1));
     }
 }
 
@@ -1770,7 +1775,7 @@ void POKERUS_DecreaseDays(struct Party *party, s32 days)
         if (pokerus == 0) {
             pokerus = 0x10;
         }
-        func_02017E40(member, 0x97, pokerus);
+        POKE_TOOL_SetPartyValue(member, 0x97, pokerus);
     }
 }
 
@@ -1805,13 +1810,13 @@ void POKERUS_SpreadParty(struct Party *party)
         if (i != 0) {
             neighbor = POKEPARTY_GetMember(party, i - 1);
             if ((func_02017E1C(neighbor, 0x97, 0) & 0xF0) == 0) {
-                func_02017E40(neighbor, 0x97, pokerus);
+                POKE_TOOL_SetPartyValue(neighbor, 0x97, pokerus);
             }
         }
         if (i < memberCount - 1) {
             neighbor = POKEPARTY_GetMember(party, i + 1);
             if ((func_02017E1C(neighbor, 0x97, 0) & 0xF0) == 0) {
-                func_02017E40(neighbor, 0x97, pokerus);
+                POKE_TOOL_SetPartyValue(neighbor, 0x97, pokerus);
                 i++;
             }
         }
@@ -2300,7 +2305,7 @@ u32 SHINKA_CHECK_GetRowParam(struct ArcHandle *arc, u32 species, u32 rowIndex, u
 {
     struct EvolutionData data;
 
-    func_0204932C(arc, species, &data);
+    ARC_TOOL_ReadHandleMember(arc, species, &data);
     switch (field) {
     case 0:
         return data.rows[rowIndex].method;
@@ -2321,7 +2326,7 @@ u32 SHINKA_CHECK_GetRowParam(struct ArcHandle *arc, u32 species, u32 rowIndex, u
 
 void SHINKA_CHECK_LoadData(u32 species, struct EvolutionRow *rows)
 {
-    func_02048F4C(rows, 0x13, species);
+    ARC_TOOL_ReadMember(rows, 0x13, species);
 }
 
 
@@ -2431,10 +2436,10 @@ void NATSUKI_CalcUseItem(struct PokemonParam *pp, int item, u16 zoneId, u16 heap
  * `tst` against 1.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201B7EC.c \
- *       --func func_0201B7EC --addr 0x0201B7EC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/NATSUKI_CalcWalk.c \
+ *       --func NATSUKI_CalcWalk --addr 0x0201B7EC --cc 1.1p1 --thumb
  */
-void func_0201B7EC(struct PokemonParam *pp, int zoneId, u16 heap)
+void NATSUKI_CalcWalk(struct PokemonParam *pp, int zoneId, u16 heap)
 {
     if ((u32)((u64)func_0203F0A8() * 2 >> 32) % 2 == 0) {
         NATSUKI_Apply(pp, _NatsukiWalkDeltas, zoneId, heap);
@@ -2561,7 +2566,7 @@ void NATSUKI_Apply(struct PokemonParam *pp, const s8 *deltas, int zoneId, u16 he
     if (friendship > 255) {
         friendship = 255;
     }
-    func_02017E40(pp, 9, friendship);
+    POKE_TOOL_SetPartyValue(pp, 9, friendship);
     return;
 }
 
@@ -2670,7 +2675,7 @@ u8 POKE_TOOL_IsPPRestorable(struct PokemonParam *pp, u32 slot)
  * WAZA_TOOL_GetMaxPP for the slot's maximum, and if the slot is short either fill
  * it (amount 0x7F) or add `amount` and clamp at the maximum.
  *
- * The last register copy (`adds r2, r4, #0` ahead of func_02017E40, the new
+ * The last register copy (`adds r2, r4, #0` ahead of POKE_TOOL_SetPartyValue, the new
  * PP kept in r4 where the old one lived) is the compound assignment
  * `pp += (u8)amount`: the spelled-out `pp = (u8)(pp + (u8)amount)` starts a
  * new value that coalesces straight into the argument register (wave 15;
@@ -2708,7 +2713,7 @@ u32 POKE_TOOL_RestorePP(struct PokemonParam *pp, u32 slot, u32 amount)
                 curPP = maxPP;
             }
         }
-        func_02017E40(pp, ppId, curPP);
+        POKE_TOOL_SetPartyValue(pp, ppId, curPP);
         return 1;
     }
     return 0;
@@ -2772,8 +2777,8 @@ void POKE_TOOL_HealFull(struct PokemonParam *pp)
 {
     s32 i;
 
-    func_02017E40(pp, 0xA0, func_02017E1C(pp, 0xA1, 0));
-    func_02017E40(pp, 0x9D, 0);
+    POKE_TOOL_SetPartyValue(pp, 0xA0, func_02017E1C(pp, 0xA1, 0));
+    POKE_TOOL_SetPartyValue(pp, 0x9D, 0);
     for (i = 0; i < 4; i++) {
         if (POKE_TOOL_IsPPRestorable(pp, i) == 1) {
             POKE_TOOL_RestorePP(pp, i, 0x7F);
@@ -2932,7 +2937,7 @@ u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg)
     case 0:
         break;
     case 1:
-        hasFemale = func_020490A8(7, index + 1);
+        hasFemale = ARC_TOOL_GetMemberSize(7, index + 1);
         gender = 1;
         if (hasFemale == 0) {
             gender = 0;
@@ -3195,7 +3200,7 @@ int func_0201BCEC(void)
  * getter it ends in.
  *
  * sub_0201BD28 finds the move's record in the cache the constructor in
- * src/matched/unit_0201C328.c builds, loading it through func_02048F4C if the
+ * src/matched/unit_0201C328.c builds, loading it through ARC_TOOL_ReadMember if the
  * slot it picks is empty or is holding a different move, and falls back to
  * the single record buffer at 0x02146534 when the cache has not been built.
  * The slot search, the "cache full, reuse the last slot" fixup and the load
@@ -3244,7 +3249,7 @@ u32 sub_0201BD28(u16 move, u32 param)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (_pWazaTool->moveIds[i] == 0) {
                 _pWazaTool->moveIds[i] = move;
-                func_02048F4C(_pWazaTool->records[i], 0x15, move);
+                ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
                 break;
             }
             if (move == _pWazaTool->moveIds[i]) {
@@ -3254,12 +3259,12 @@ u32 sub_0201BD28(u16 move, u32 param)
         if (i == _pWazaTool->count) {
             i--;
             _pWazaTool->moveIds[i] = move;
-            func_02048F4C(_pWazaTool->records[i], 0x15, move);
+            ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
         }
         data = _pWazaTool->records[i];
     } else {
         data = &_WazaTempData;
-        func_02048F4C(data, 0x15, move);
+        ARC_TOOL_ReadMember(data, 0x15, move);
     }
     return WAZA_TOOL_GetDataParam(data, param);
 }
@@ -3356,7 +3361,7 @@ u32 WAZA_TOOL_GetFlag(u16 move, u32 flag)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (_pWazaTool->moveIds[i] == 0) {
                 _pWazaTool->moveIds[i] = move;
-                func_02048F4C(_pWazaTool->records[i], 0x15, move);
+                ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
                 break;
             }
             if (move == _pWazaTool->moveIds[i]) {
@@ -3366,12 +3371,12 @@ u32 WAZA_TOOL_GetFlag(u16 move, u32 flag)
         if (i == _pWazaTool->count) {
             i--;
             _pWazaTool->moveIds[i] = move;
-            func_02048F4C(_pWazaTool->records[i], 0x15, move);
+            ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
         }
         data = _pWazaTool->records[i];
     } else {
         data = &_WazaTempData;
-        func_02048F4C(data, 0x15, move);
+        ARC_TOOL_ReadMember(data, 0x15, move);
     }
     return WAZA_TOOL_GetDataFlag(data, flag);
 }
@@ -3415,7 +3420,7 @@ s16 WAZA_TOOL_GetSickCont(u16 move)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (_pWazaTool->moveIds[i] == 0) {
                 _pWazaTool->moveIds[i] = move;
-                func_02048F4C(_pWazaTool->records[i], 0x15, move);
+                ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
                 break;
             }
             if (move == _pWazaTool->moveIds[i]) {
@@ -3425,12 +3430,12 @@ s16 WAZA_TOOL_GetSickCont(u16 move)
         if (i == _pWazaTool->count) {
             i--;
             _pWazaTool->moveIds[i] = move;
-            func_02048F4C(_pWazaTool->records[i], 0x15, move);
+            ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
         }
         data = _pWazaTool->records[i];
     } else {
         data = &_WazaTempData;
-        func_02048F4C(data, 0x15, move);
+        ARC_TOOL_ReadMember(data, 0x15, move);
     }
     if (data->sickContType != 0) {
         cont.bits.type = data->sickContType;
@@ -3476,7 +3481,7 @@ u8 WAZA_TOOL_GetRankEffectCount(u16 move)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (_pWazaTool->moveIds[i] == 0) {
                 _pWazaTool->moveIds[i] = move;
-                func_02048F4C(_pWazaTool->records[i], 0x15, move);
+                ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
                 break;
             }
             if (move == _pWazaTool->moveIds[i]) {
@@ -3486,12 +3491,12 @@ u8 WAZA_TOOL_GetRankEffectCount(u16 move)
         if (i == _pWazaTool->count) {
             i--;
             _pWazaTool->moveIds[i] = move;
-            func_02048F4C(_pWazaTool->records[i], 0x15, move);
+            ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
         }
         data = _pWazaTool->records[i];
     } else {
         data = &_WazaTempData;
-        func_02048F4C(data, 0x15, move);
+        ARC_TOOL_ReadMember(data, 0x15, move);
     }
     rankCount = 0;
     for (k = 0; k < 3; k++) {
@@ -3521,7 +3526,7 @@ u8 WAZA_TOOL_GetRankEffect(u16 move, u32 index, s32 *value)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (_pWazaTool->moveIds[i] == 0) {
                 _pWazaTool->moveIds[i] = move;
-                func_02048F4C(_pWazaTool->records[i], 0x15, move);
+                ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
                 break;
             }
             if (move == _pWazaTool->moveIds[i]) {
@@ -3531,12 +3536,12 @@ u8 WAZA_TOOL_GetRankEffect(u16 move, u32 index, s32 *value)
         if (i == _pWazaTool->count) {
             i--;
             _pWazaTool->moveIds[i] = move;
-            func_02048F4C(_pWazaTool->records[i], 0x15, move);
+            ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
         }
         data = _pWazaTool->records[i];
     } else {
         data = &_WazaTempData;
-        func_02048F4C(data, 0x15, move);
+        ARC_TOOL_ReadMember(data, 0x15, move);
     }
     rankType = data->rankType[index];
     if (rankType != 0) {
@@ -3707,7 +3712,7 @@ int WAZA_TOOL_GetDamageType(u16 move)
  *
  * Both carry their own copy of that file's cache lookup rather than calling
  * it: the slot search, the "cache full, reuse the last slot" fixup, the
- * func_02048F4C load and the not-yet-built fallback to 0x02146534 are written
+ * ARC_TOOL_ReadMember load and the not-yet-built fallback to 0x02146534 are written
  * out again in each.  The duplication is in the source, not an inlining
  * decision: sub_0201BD28 is a real function with eight callers, and the
  * bodies here reach the record directly instead of going through its
@@ -3730,7 +3735,7 @@ u32 WAZA_TOOL_IsAlwaysHit(u16 move)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (_pWazaTool->moveIds[i] == 0) {
                 _pWazaTool->moveIds[i] = move;
-                func_02048F4C(_pWazaTool->records[i], 0x15, move);
+                ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
                 break;
             }
             if (move == _pWazaTool->moveIds[i]) {
@@ -3740,12 +3745,12 @@ u32 WAZA_TOOL_IsAlwaysHit(u16 move)
         if (i == _pWazaTool->count) {
             i--;
             _pWazaTool->moveIds[i] = move;
-            func_02048F4C(_pWazaTool->records[i], 0x15, move);
+            ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
         }
         data = _pWazaTool->records[i];
     } else {
         data = &_WazaTempData;
-        func_02048F4C(data, 0x15, move);
+        ARC_TOOL_ReadMember(data, 0x15, move);
     }
     if (data->accuracy == 0x65) {
         return 1;
@@ -3770,7 +3775,7 @@ u32 WAZA_TOOL_IsAlwaysCritical(u16 move)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (_pWazaTool->moveIds[i] == 0) {
                 _pWazaTool->moveIds[i] = move;
-                func_02048F4C(_pWazaTool->records[i], 0x15, move);
+                ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
                 break;
             }
             if (move == _pWazaTool->moveIds[i]) {
@@ -3780,12 +3785,12 @@ u32 WAZA_TOOL_IsAlwaysCritical(u16 move)
         if (i == _pWazaTool->count) {
             i--;
             _pWazaTool->moveIds[i] = move;
-            func_02048F4C(_pWazaTool->records[i], 0x15, move);
+            ARC_TOOL_ReadMember(_pWazaTool->records[i], 0x15, move);
         }
         data = _pWazaTool->records[i];
     } else {
         data = &_WazaTempData;
-        func_02048F4C(data, 0x15, move);
+        ARC_TOOL_ReadMember(data, 0x15, move);
     }
     if (data->criticalRank == 6) {
         return 1;
@@ -3826,7 +3831,7 @@ u32 WAZA_TOOL_IsDamaging(u16 move)
 /*
  * waza_tool.c: the module's constructor, its destructor, its "is it up"
  * predicate, and (folded back in this run) PRINTSYS_Init, which resets
- * something with 0xFFFF and hands func_02043678's result to the static at
+ * something with 0xFFFF and hands BMP_Create's result to the static at
  * 0x02146558.  PRINTSYS_Init used to be cut out into src/pending/PRINTSYS_Init.c
  * because its one call, to STRBUF_SetEosChar, had no witness anywhere in the
  * image; STRBUF_SetEosChar is now EXACT in src/matched/STRBUF_SetEosChar.c, giving the
@@ -3921,7 +3926,7 @@ u32 WAZA_TOOL_IsCacheCreated(void)
 void PRINTSYS_Init(u32 heap)
 {
     STRBUF_SetEosChar(0xFFFF);
-    _pGlyphBmp = func_02043678(2, 2, 0x20, heap);
+    _pGlyphBmp = BMP_Create(2, 2, 0x20, heap);
 }
 
 
@@ -4090,7 +4095,7 @@ static inline u16 PrintQueue_WrapOffset(struct PrintQueue *queue, u16 offset)
  * `lsls r0, r7 / lsrs r1, r0 / ldrh r0, [r5, #4]` order.  History in
  * docs/notes/PRINTSYS_QUE_Main.c.txt.
  */
-u32 func_0201C4E4(struct PrintQueue *queue)
+u32 PRINTSYS_QUE_Main(struct PrintQueue *queue)
 {
     
     u8  color[3];
@@ -4125,7 +4130,7 @@ u32 func_0201C4E4(struct PrintQueue *queue)
     }
     if (applyColor != 0) {
         if (GF_FONT_IsTextColorDifferent(letter, shadow, background) != 0) {
-            func_0201DD78(letter, shadow, background);
+            GF_FONT_SetTextColor(letter, shadow, background);
         }
     }
     startTick = func_020870D0();
@@ -4137,7 +4142,7 @@ u32 func_0201C4E4(struct PrintQueue *queue)
                 jobShadow = (u8)((queue->job->activeColor >> 5) & 0x1F);
                 jobBackground = (u8)(queue->job->activeColor & 0x1F);
                 if (GF_FONT_IsTextColorDifferent(jobLetter, jobShadow, jobBackground) != 0) {
-                    func_0201DD78(jobLetter, jobShadow, jobBackground);
+                    GF_FONT_SetTextColor(jobLetter, jobShadow, jobBackground);
                 }
                 queue->job->pos.bits.colorMode = 2;
             }
@@ -4159,7 +4164,7 @@ u32 func_0201C4E4(struct PrintQueue *queue)
             }
         } while (timedOut == 0 && queue->job != 0);
     }
-    func_0201DD78((u8)((savedColor >> 10) & 0x1F), (u8)((savedColor >> 5) & 0x1F),
+    GF_FONT_SetTextColor((u8)((savedColor >> 10) & 0x1F), (u8)((savedColor >> 5) & 0x1F),
                   (u8)(savedColor & 0x1F));
     if (queue->job != 0) {
         queue->tail = (u16)((u8 *)queue->cursor - queue->data);
@@ -4279,7 +4284,7 @@ void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s1
 
 void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str)
 {
-    u32 busy = func_0203D1B4() != 0;
+    u32 busy = GFL_NET_GetNegotiationNum() != 0;
     u32 size;
 
     if (busy == 0 && queue->state.bits.forceQueue == 0) {
@@ -4304,12 +4309,12 @@ void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct S
  *
  * Withdrawn 2026-09-24 (wave 20, lane 20G): the ../2.0/sp2 pin is retired.
  * The scratch address is held as an integer, a u32 local assigned
- * (u32)&_PrintJobWork and cast back at each site, matching func_0201C7D0.c.
+ * (u32)&_PrintJobWork and cast back at each site, matching PRINTSYS_PrintColor.c.
  * Spelled this way, dsi/1.1p1 caches the address in a callee-saved
  * register and copies it into r0 at each site, byte-exact under the
  * default compiler.
  */
-void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font)
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font)
 {
     u32 jobAddr;
 
@@ -4325,7 +4330,7 @@ void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfF
 
 
 /*
- * A printsys entry point: the func_0201C7A4 body plus a
+ * A printsys entry point: the PRINTSYS_Print body plus a
  * PRINTSYS_SetJobColor(scratch, v) step between building the shared print request
  * in the static scratch and handing it to PRINTSYS_RunJob.  The leading
  * STRBUF_GetChars(s) call's result is unused.
@@ -4340,7 +4345,7 @@ void func_0201C7A4(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfF
  * image does, and the stacked u16 read keeps the 1.1p1 base.  This retires
  * the ../2.0/sp2 near miss (2 out) the notes carried.
  */
-void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color)
+void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color)
 {
     u32 jobAddr;
 
@@ -4441,9 +4446,9 @@ void PRINTSYS_SetJobColor(struct PrintCtx *job, u16 color)
  * printsys.c: if the 4-bit field at bits 20..23 of PrintCtx+0x04 is 1,
  * split the packed 5/5/5 triple at +0x0E and pass it to GF_FONT_IsTextColorDifferent; on a
  * nonzero result fill buf through GF_FONT_GetTextColor, pass the triple to
- * func_0201DD78 and set done; then set the field to 2.  Render glyphs
+ * GF_FONT_SetTextColor and set done; then set the field to 2.  Render glyphs
  * through PRINTSYS_PrintStep until 0xFFFF, and if done, pass buf back to
- * func_0201DD78.
+ * GF_FONT_SetTextColor.
  *
  * Two facts the bytes pin (docs/notes/pkt_0201C8BC.c.txt has the history):
  *
@@ -4484,7 +4489,7 @@ void PRINTSYS_RunJob(struct PrintCtx *job, struct Strbuf *str)
         background = (u8)(color & 0x1F);
         if (GF_FONT_IsTextColorDifferent(letter, shadow, background) != 0) {
             GF_FONT_GetTextColor(&savedColor[2], &savedColor[1], &savedColor[0]);
-            func_0201DD78((int)letter, (int)shadow, (int)background);
+            GF_FONT_SetTextColor((int)letter, (int)shadow, (int)background);
             changed = 1;
         }
         job->pos.raw = (job->pos.raw & 0xFF0FFFFF) | 0x200000;
@@ -4493,7 +4498,7 @@ void PRINTSYS_RunJob(struct PrintCtx *job, struct Strbuf *str)
         cursor = (u16 *)PRINTSYS_PrintStep(job, cursor, 1);
     }
     if (changed) {
-        func_0201DD78((int)savedColor[2], (int)savedColor[1], (int)savedColor[0]);
+        GF_FONT_SetTextColor((int)savedColor[2], (int)savedColor[1], (int)savedColor[0]);
     }
 }
 
@@ -4631,8 +4636,8 @@ u16 *PRINTSYS_PrintStep(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
  */
 void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
 {
-    GF_FONT_ReadGlyph(font, code, func_020437D4(_pGlyphBmp), (void *)glyphInfo);
-    func_020439A0(_pGlyphBmp, bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0);
+    GF_FONT_ReadGlyph(font, code, BMP_GetPixels(_pGlyphBmp), (void *)glyphInfo);
+    BMP_Blit(_pGlyphBmp, bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0);
 }
 
 
@@ -4669,7 +4674,7 @@ void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u
  */
 void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
 {
-    GF_FONT_ReadGlyph(font, code, func_020437D4(_pGlyphBmp), (void *)glyphInfo);
+    GF_FONT_ReadGlyph(font, code, BMP_GetPixels(_pGlyphBmp), (void *)glyphInfo);
     BMP_BlitPaletteOffset(_pGlyphBmp, (u32)bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0xF, 0);
 }
 
@@ -4707,7 +4712,7 @@ void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u
  *     (docs/idioms/commutative-operand-order-names-the-temporary.md).
  *
  * Also corrected against docs/families/printsys.h as it stood: the measuring
- * arms (cases 2 and 3) hand func_020437DC the handle at PrintCtx+0x14, not
+ * arms (cases 2 and 3) hand BMP_GetWidth the handle at PrintCtx+0x14, not
  * +0x18; +0x18 is the renderer hook PRINTSYS_PrintStep calls through.  And
  * PrintCtx+0x04 is a SIGNED 10-BIT BITFIELD (`lsls #0x16 / asrs #0x16`), not
  * a u32 flag word -- the same fact src/matched/PRINTSYS_PrintStep.c records.
@@ -4734,17 +4739,17 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
         letter = (u8)((code == 0xF000) ? cursor[3] : 0);
         shadow = (u8)((code == 0xF000) ? cursor[4] : 0);
         background = (u8)((code == 0xF000) ? cursor[5] : 0);
-        func_0201DD78(letter, shadow, background);
+        GF_FONT_SetTextColor(letter, shadow, background);
         job->activeColor = (u16)((background & 0x1F) | (((letter << 27) >> 17) | ((shadow << 27) >> 22)));
         break;
     }
     case 1: {
         u16 color = job->textColor;
-        func_0201DD78((u8)((color >> 10) & 0x1F), (u8)((color >> 5) & 0x1F), (u8)(color & 0x1F));
+        GF_FONT_SetTextColor((u8)((color >> 10) & 0x1F), (u8)((color >> 5) & 0x1F), (u8)(color & 0x1F));
         break;
     }
     case 3: {
-        s32 width = func_020437DC(job->bmp);
+        s32 width = BMP_GetWidth(job->bmp);
         s32 room = (s32)(width - job->pos.bits.originX);
         u32 strWidth;
         u32 unusedMargin = 0;
@@ -4759,7 +4764,7 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
         break;
     }
     case 2: {
-        s32 width = func_020437DC(job->bmp);
+        s32 width = BMP_GetWidth(job->bmp);
         s32 room = (s32)(width - job->pos.bits.originX);
         s32 strWidth = func_0201D26C(cursor, job->font, 0, 0);
         if (strWidth < room) {
@@ -4810,7 +4815,7 @@ u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor)
     if (tag == 0) {
         paletteRow = (u8)((cursor[0] == 0xF000) ? cursor[3] : 0);
         if (paletteRow == 0xFF) {
-            func_0201DD78((u8)((job->activeColor >> 10) & 0x1F), (u8)((job->activeColor >> 5) & 0x1F),
+            GF_FONT_SetTextColor((u8)((job->activeColor >> 10) & 0x1F), (u8)((job->activeColor >> 5) & 0x1F),
                           (u8)(job->activeColor & 0x1F));
         } else {
             int letter;
@@ -4819,7 +4824,7 @@ u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor)
             background = (u8)(job->textColor & 0x1F);
             shadow = base + 2;
             letter = base + 1;
-            func_0201DD78((u8)letter, (u8)shadow, background);
+            GF_FONT_SetTextColor((u8)letter, (u8)shadow, background);
             job->activeColor = (u16)((((u8)letter & 0x1F) << 10) | (((u8)shadow & 0x1F) << 5)
                           | (background & 0x1F));
         }
@@ -4834,13 +4839,13 @@ u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201CCE4.c \
- *       --func func_0201CCE4 --addr 0x0201CCE4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_PrintStream.c \
+ *       --func PRINTSYS_PrintStream --addr 0x0201CCE4 --cc 1.1p1 --thumb
  */
-void func_0201CCE4(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl,
+void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl,
                    u32 priority, u16 heap, u16 fillColor)
 {
-    func_0201CD10(win, x, y, str, font, wait, tcbl, priority, heap, fillColor, 0);
+    PRINTSYS_PrintStreamCallBack(win, x, y, str, font, wait, tcbl, priority, heap, fillColor, 0);
 }
 
 
@@ -4864,7 +4869,7 @@ void func_0201CCE4(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct 
  *    it pinned the a4 load late.  With a9 a real u16 parameter nothing
  *    takes an address and the loads schedule as in the image.
  */
-struct TextPrinter *func_0201CD10(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str,
+struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str,
                           struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor,
                           PrintCallback callback)
 {

@@ -9,14 +9,14 @@
  * status: EXACT*
  * extent: Follower 021DEE14 is filed separately and verified.
  * symbols:
- *   func_0203CEAC 0x0203CEAC arm
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE618 0x021DE618 thumb ov121
  */
 #include "../include/Obj22918.h"
-extern int func_0203CEAC(int);
-extern int func_0203CD98(void);
+extern int GFL_NET_Exit(int);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
 extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE618(void);
@@ -24,11 +24,11 @@ void func_021DEDC8(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        if (func_0203CEAC(0)) *state = 1;
+        if (GFL_NET_Exit(0)) *state = 1;
         else *state = 2;
         break;
     case 1:
-        if (func_0203CD98() == 0) {
+        if (GFL_NET_GetRunState() == 0) {
             ((struct Obj22918 *)p)->f5C = 0;
             *state = 2;
         }

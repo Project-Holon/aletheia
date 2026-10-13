@@ -19,8 +19,8 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_02030734 0x02030734 arm
  *   d_021DFBC0 0x021DFBC0 data ov121 a1
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203D798 0x0203D798 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_GetInitParam 0x0203D798 arm
  *   WIH_DWC_Delete 0x020103E4 thumb
  *   func_0200FBA0 0x0200FBA0 thumb
  *   func_0200FB24 0x0200FB24 thumb
@@ -30,25 +30,25 @@
  *   func_0200FBB0 0x0200FBB0 thumb
  *   GFL_NET_ERR_ShowSimpleScreen 0x0200F83C thumb
  *   func_0200FA84 0x0200FA84 thumb
- *   func_0203CBAC 0x0203CBAC arm
- *   func_02043598 0x02043598 arm
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_StartSession 0x0203CBAC arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02010360 0x02010360 thumb
- *   func_0203D010 0x0203D010 arm
+ *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   d_021DFABC 0x021DFABC data a4
- *   func_0203CEAC 0x0203CEAC arm
- *   func_021576D0 0x021576D0 thumb ov010
- *   func_021578A0 0x021578A0 thumb ov010
- *   d_0209DF0C 0x0209DF0C data
- *   func_02157938 0x02157938 thumb ov010
- *   func_0203D210 0x0203D210 arm
- *   func_02157928 0x02157928 thumb ov010
- *   func_02157910 0x02157910 thumb ov010
- *   func_02157DD8 0x02157DD8 thumb ov010
- *   func_02157E34 0x02157E34 thumb ov010
- *   func_02157E8C 0x02157E8C thumb ov010
- *   func_02157E78 0x02157E78 thumb ov010
- *   func_02157E6C 0x02157E6C thumb ov010
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   DELIVERY_BEACON_Create 0x021576D0 thumb ov010
+ *   DELIVERY_BEACON_Start 0x021578A0 thumb ov010
+ *   GAME_LANGUAGE_Code 0x0209DF0C data
+ *   DELIVERY_BEACON_Delete 0x02157938 thumb ov010
+ *   GFL_NET_IsIdle 0x0203D210 arm
+ *   DELIVERY_BEACON_RunStep 0x02157928 thumb ov010
+ *   DELIVERY_BEACON_TryComplete 0x02157910 thumb ov010
+ *   DELIVERY_IRC_Create 0x02157DD8 thumb ov010
+ *   DELIVERY_IRC_Start 0x02157E34 thumb ov010
+ *   DELIVERY_IRC_Delete 0x02157E8C thumb ov010
+ *   DELIVERY_IRC_Main 0x02157E78 thumb ov010
+ *   DELIVERY_IRC_GetResult 0x02157E6C thumb ov010
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   func_021C5928 0x021C5928 arm ov114
  *   func_021C5C04 0x021C5C04 arm ov114
@@ -66,8 +66,9 @@
  *   d_021DFC00 0x021DFC00 data a4
  *   func_021C5B80 0x021C5B80 arm ov114
  *   d_021DFA8C 0x021DFA8C data a1
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_021DEFAC 0x021DEFAC thumb ov121
+ *   WIH_DWC_PollStatus  0x0201058C  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -124,8 +125,8 @@ extern void func_02082D44(const void *,void *,int);
 extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *,int,u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_0203CD98(void);
-extern char *func_0203D798(void);
+extern int GFL_NET_GetRunState(void);
+extern char *GFL_NET_GetInitParam(void);
 extern void WIH_DWC_Delete(u8 *);
 extern void func_0200FBA0(void);
 extern u32 func_0200FB24(void);
@@ -135,25 +136,25 @@ extern void func_02059F18(void);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FA84(void);
-extern void func_0203CBAC(struct Req *req, unsigned int a2, unsigned int a3);
-extern void func_02043598(u32 mask, u32 enable);
-extern void func_0203D34C(unsigned, unsigned);
+extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int a3);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
 extern u8 *func_02010360(int idx, void *heap);
-extern void func_0203D010(void);
-extern int func_0203CEAC(int);
+extern void GFL_NET_BeaconScanStart(void);
+extern int GFL_NET_Exit(int);
 extern void func_02010498(void);
-extern u32 func_0201058C(void *key);
-extern void *func_021576D0(u8 *p);
-extern int func_021578A0(u32 *);
-extern int func_02157938(void *a0);
-extern unsigned func_0203D210(void);
-extern void func_02157928(u8 *);
-extern int func_02157910(u8 *);
-extern void *func_02157DD8(u8 *p);
-extern int func_02157E34(void *);
-extern int func_02157E8C(void *a0);
-extern void func_02157E78(u8 *p);
-extern unsigned char func_02157E6C(char *p);
+extern u32 WIH_DWC_PollStatus(void *key);
+extern void *DELIVERY_BEACON_Create(u8 *p);
+extern int DELIVERY_BEACON_Start(u32 *);
+extern int DELIVERY_BEACON_Delete(void *a0);
+extern unsigned GFL_NET_IsIdle(void);
+extern void DELIVERY_BEACON_RunStep(u8 *);
+extern int DELIVERY_BEACON_TryComplete(u8 *);
+extern void *DELIVERY_IRC_Create(u8 *p);
+extern int DELIVERY_IRC_Start(void *);
+extern int DELIVERY_IRC_Delete(void *a0);
+extern void DELIVERY_IRC_Main(u8 *p);
+extern unsigned char DELIVERY_IRC_GetResult(char *p);
 extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern int func_021C5928(void (*callback)(int, int), char *gamecd, char *passwd);
 extern int func_021C5C04(char *,char *,char *);
@@ -165,7 +166,7 @@ extern int func_021C5DB4(void);
 extern u32 func_0203F0A8(void);
 extern void GFL_NET_STATE_SetError(int,u32,u32,u32);
 extern int func_021C5B80(void);
-extern unsigned short func_02045A98(void);
+extern unsigned short STRBUF_GetEosChar(void);
 extern int func_021DEFAC(struct Rec *r, void *gs, u16 heap);
 void *func_021DE2A0(void *arg,int heap);
 void func_021DE2F0(u8 *p);
@@ -210,7 +211,7 @@ int func_021DEF54(char *p, int unused, int type);
 int func_021DEF6C(char *p, void *a, unsigned short b);
 extern const char d_021DFBC0[];
 extern unsigned d_021DFABC[];
-extern u8 d_0209DF0C;
+extern u8 GAME_LANGUAGE_Code;
 extern char d_021DFBD8[],d_021DFBD0[],d_021DFBF8[],d_021DFBEC[];
 extern int d_021DFC00[];
 extern const signed char d_021DFA8C[][2];
@@ -319,8 +320,8 @@ int func_021DE4DC(u8 *p, void *a, u32 b)
 int func_021DE500(void *p)
 {
     int result=0;
-    if (func_0203CD98()) {
-        switch (*(unsigned char *)(func_0203D798()+0x65)) {
+    if (GFL_NET_GetRunState()) {
+        switch (*(unsigned char *)(GFL_NET_GetInitParam()+0x65)) {
         case 0: case 5: result=func_021DE5D8(p); break;
         case 1: result=func_021DE570(p); break;
         case 3: result=func_021DE5F8(p); break;
@@ -382,20 +383,20 @@ void func_021DE61C(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_0203CBAC((struct Req *)d_021DFABC, 0, (unsigned)p);
-        func_02043598(0x10, 0);
+        GFL_NET_StartSession((struct Req *)d_021DFABC, 0, (unsigned)p);
+        BG_SYS_SetSubPlaneVisible(0x10, 0);
         *state = 1;
         break;
     case 1:
-        if (func_0203CD98()) {
-            func_0203D34C(1, ((struct Obj10424 *)p)->f58);
+        if (GFL_NET_GetRunState()) {
+            GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj10424 *)p)->f58);
             ((struct Obj10424 *)p)->f10 = func_02010360(4, (void *)(((struct Obj10424 *)p)->f58));
-            func_0203D010();
+            GFL_NET_BeaconScanStart();
             *state = 2;
         }
         break;
     case 2:
-        func_02043598(0x10, 1);
+        BG_SYS_SetSubPlaneVisible(0x10, 1);
         func_021DEEA4(a, func_021DE6F8);
         break;
     }
@@ -412,7 +413,7 @@ void func_021DE690(void *a, int *state, char *p)
         *state = 1;
         break;
     case 1:
-        if (func_0203CEAC((int)func_021DEED0)) *state = 2;
+        if (GFL_NET_Exit((int)func_021DEED0)) *state = 2;
         else *state = 3;
         break;
     case 2:
@@ -433,12 +434,12 @@ void func_021DE690(void *a, int *state, char *p)
 void func_021DE6F8(int a, int b, char *c)
 {
     func_02010498();
-    ((struct Obj22915 *)c)->f54 = func_0201058C(0);
+    ((struct Obj22915 *)c)->f54 = WIH_DWC_PollStatus(0);
 }
 
 
 
-void func_021DE70C(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: func_02082BCC(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=d_0209DF0C;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((struct Obj08101 *)p)->f58;h=(u32)func_021576D0((u8 *)(&cfg));((struct Obj08101 *)p)->f798=h;func_021578A0((u32 *)h);func_02043598(16,0);((struct Obj08101 *)p)->f17A4=0;*state=1;break;case 1:if(func_0203CD98()) {func_0203D34C(1,((struct Obj08101 *)p)->f58);func_02043598(16,1);*state=2;}break;case 2:func_021DEEA4(a,func_021DE7FC);break;} }
+void func_021DE70C(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: func_02082BCC(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((struct Obj08101 *)p)->f58;h=(u32)DELIVERY_BEACON_Create((u8 *)(&cfg));((struct Obj08101 *)p)->f798=h;DELIVERY_BEACON_Start((u32 *)h);BG_SYS_SetSubPlaneVisible(16,0);((struct Obj08101 *)p)->f17A4=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RestartWithDefaultTimeout(1,((struct Obj08101 *)p)->f58);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:func_021DEEA4(a,func_021DE7FC);break;} }
 
 
 
@@ -446,11 +447,11 @@ void func_021DE7BC(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_02157938((void *)(((struct Obj22916 *)p)->f798));
+        DELIVERY_BEACON_Delete((void *)(((struct Obj22916 *)p)->f798));
         *state = 1;
         break;
     case 1:
-        if (func_0203D210()) *state = 2;
+        if (GFL_NET_IsIdle()) *state = 2;
         break;
     case 2:
         func_021DEEA4(a, func_021DE618);
@@ -460,7 +461,7 @@ void func_021DE7BC(void *a, int *state, char *p)
 
 
 
-void func_021DE7FC(void *a,int b,char *p) {func_02157928(*(u8 * *)&((struct Obj10427 *)p)->f798);if(func_02157910(*(u8 * *)&((struct Obj10427 *)p)->f798)) {((struct Obj10427 *)p)->f17A4=1;func_021DEEA4(a,func_021DE7BC);}}
+void func_021DE7FC(void *a,int b,char *p) {DELIVERY_BEACON_RunStep(*(u8 * *)&((struct Obj10427 *)p)->f798);if(DELIVERY_BEACON_TryComplete(*(u8 * *)&((struct Obj10427 *)p)->f798)) {((struct Obj10427 *)p)->f17A4=1;func_021DEEA4(a,func_021DE7BC);}}
 
 
 
@@ -475,17 +476,17 @@ void func_021DE830(void *a, int *state, char *p)
         d.data = p + 0x7a4;
         d.zero = 0;
         d.heap = ((struct Obj06455 *)p)->f58;
-        d.setting = d_0209DF0C;
+        d.setting = GAME_LANGUAGE_Code;
         d.enabled = 1;
         d.flags = 0x200000;
-        ((struct Obj06455 *)p)->f79C = func_02157DD8((u8 *)(&d));
-        func_02157E34(((struct Obj06455 *)p)->f79C);
+        ((struct Obj06455 *)p)->f79C = DELIVERY_IRC_Create((u8 *)(&d));
+        DELIVERY_IRC_Start(((struct Obj06455 *)p)->f79C);
         ((struct Obj06455 *)p)->f17A4 = 0;
         *state = 1;
         break;
     case 1:
-        if (func_0203CD98()) {
-            func_0203D34C(1, ((struct Obj06455 *)p)->f58);
+        if (GFL_NET_GetRunState()) {
+            GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj06455 *)p)->f58);
             *state = 2;
         }
         break;
@@ -501,11 +502,11 @@ void func_021DE8D0(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_02157E8C((void *)(((struct Obj22917 *)p)->f79C));
+        DELIVERY_IRC_Delete((void *)(((struct Obj22917 *)p)->f79C));
         *state = 1;
         break;
     case 1:
-        if (func_0203D210()) *state = 2;
+        if (GFL_NET_IsIdle()) *state = 2;
         break;
     case 2:
         func_021DEEA4(a, func_021DE618);
@@ -518,8 +519,8 @@ void func_021DE8D0(void *a, int *state, char *p)
 void func_021DE910(void *a, int *state, char *p)
 {
     int result;
-    func_02157E78(((struct Obj08102 *)p)->f79C);
-    result = func_02157E6C(((struct Obj08102 *)p)->f79C);
+    DELIVERY_IRC_Main(((struct Obj08102 *)p)->f79C);
+    result = DELIVERY_IRC_GetResult(((struct Obj08102 *)p)->f79C);
     if (result != 0) {
         switch (result) {
         case 1: ((struct Obj08102 *)p)->f17A4 = 1; break;
@@ -637,11 +638,11 @@ void func_021DEDC8(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        if (func_0203CEAC(0)) *state = 1;
+        if (GFL_NET_Exit(0)) *state = 1;
         else *state = 2;
         break;
     case 1:
-        if (func_0203CD98() == 0) {
+        if (GFL_NET_GetRunState() == 0) {
             ((struct Obj22918 *)p)->f5C = 0;
             *state = 2;
         }
@@ -811,7 +812,7 @@ int func_021DEF6C(char *p, void *a, unsigned short b)
     int found = 1;
     int i;
     for (i = 0; i < 253; i++) {
-        if (*(unsigned short *)(p + i * 2 + 0xd0) == func_02045A98()) found = 0;
+        if (*(unsigned short *)(p + i * 2 + 0xd0) == STRBUF_GetEosChar()) found = 0;
     }
     if (found) count++;
     return count + func_021DEFAC((struct Rec *)p, a, b);

@@ -16,7 +16,7 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data   a4
  *   g_ParentConnectModes     0x0217967C  data   a2
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0208F1B4  0x0208F1B4  arm
  *   func_0217778C  0x0217778C  thumb  ov014
  *   func_0217727C  0x0217727C  thumb  ov014
@@ -57,7 +57,7 @@
 
 typedef int BOOL;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u16 func_0208F1B4(void);
 extern void func_0217778C(void);
 extern void func_0217727C(WhPipeWork *work, WhPipeTask task);
@@ -96,9 +96,9 @@ void NET_WHPIPE_TaskChildScanWait(WhPipeWork *work);
 void NET_WHPIPE_TaskChildScanStart(WhPipeWork *work);
 int NET_WHPIPE_StartAutoSearch(void);
 void NET_WHPIPE_OnChildDisconnected(void);
-/* Leaf called from func_0201058C at +005C; byte-identical to func_02177B80: read g_pWhPipeWork, test the per-slot flag, return the slot's state byte, or 0. */
+/* Leaf called from WIH_DWC_PollStatus at +005C; byte-identical to func_02177B80: read g_pWhPipeWork, test the per-slot flag, return the slot's state byte, or 0. */
 u8 NET_WHPIPE_GetEntryKind(u8 i);
-/* Leaf called from ov010 func_02157760. */
+/* Leaf called from ov010 DELIVERY_BEACON_StepCollectPieces. */
 void NET_WHPIPE_SelectEntry(u32 i);
 void NET_WHPIPE_StartJoinLock(int a);
 void NET_WHPIPE_SetBeaconStatus(u8 value);
@@ -161,7 +161,7 @@ void NET_WHPIPE_TaskConnectParent(WhPipeWork *work)
     connectModeTable[0] = g_ParentConnectModes[0];
     connectModeTable[1] = g_ParentConnectModes[1];
     if (state == 7) {
-        net = func_0203D798();
+        net = GFL_NET_GetInitParam();
         work->beaconStatus = 0;
         work->entryListChanged = 0;
         work->scanning = 0;
@@ -197,7 +197,7 @@ int NET_WHPIPE_StartParent(int autoChannel)
 void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
 {
     WhPipeWork *work = g_pWhPipeWork;
-    WhPipeNetInit *net = func_0203D798();
+    WhPipeNetInit *net = GFL_NET_GetInitParam();
     if (work != 0 && net != 0) {
         ((WhPipeBeacon *)buf)->checksum = func_0203F1FC(buf + 2, len - 2);
         func_020862F0(buf, len);
@@ -211,7 +211,7 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
 
 void NET_WHPIPE_TaskConnectChild(WhPipeWork *work)
 {
-    WhPipeNetInit *net = func_0203D798();
+    WhPipeNetInit *net = GFL_NET_GetInitParam();
     u16 connectModeTable[2];
     connectModeTable[0] = g_ChildConnectModes[0];
     connectModeTable[1] = g_ChildConnectModes[1];
@@ -226,7 +226,7 @@ void NET_WHPIPE_TaskConnectChild(WhPipeWork *work)
 
 int NET_WHPIPE_StartChild(u32 unused, u8 *bssid, u32 entryIndex, void (*onConnected)(void))
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (g_pWhPipeWork->task != 0)
         return 0;
     if (func_02178E4C() == 2) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEBE8",
+   "name": "BTL_ADAPTER_GetRecvCommand",
    "address": "0x021EEBE8",
    "kind": "game",
    "region": "ov093",

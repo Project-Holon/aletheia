@@ -1,5 +1,5 @@
 /*
- * function: func_02010FF4
+ * function: GPOWER_ApplyHatchRate
  * address:  0x02010FF4
  * packet:   pkt_02010EEC
  * region:   arm9
@@ -22,8 +22,8 @@
  * register comes out r1 and the function is four bytes too long.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010FF4.c \
- *       --func func_02010FF4 --addr 0x02010FF4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ApplyHatchRate.c \
+ *       --func GPOWER_ApplyHatchRate --addr 0x02010FF4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 extern u8 g_02146208[];
 extern u8 g_02146228[];
 
-u32 func_02010FF4(u32 v)
+u32 GPOWER_ApplyHatchRate(u32 v)
 {
     if (g_02146208[0x16] != 0x30)
         v = *(u16 *)(g_02146228 + 6) * v / 100;

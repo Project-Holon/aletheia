@@ -27,6 +27,9 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201F554.c  *       --addr 0x0201F554 --thumb
+ *
+ * symbols:
+ *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  */
 
 typedef unsigned char  u8;
@@ -34,12 +37,12 @@ typedef unsigned int   u32;
 
 extern u8 func_0201F53C(int i);
 extern u8 func_0201F548(int i);
-extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void ARC_UTIL_UploadBgCharFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 
 void func_0201F554(u32 a, u32 b, u32 c, u32 d)
 {
-    func_02049624(5, func_0201F53C(c), a, b, 0, 0, d);
+    ARC_UTIL_UploadBgCharFromArchive(5, func_0201F53C(c), a, b, 0, 0, d);
 }
 
 void func_0201F57C(u32 a, u32 b, u32 c, u32 d)

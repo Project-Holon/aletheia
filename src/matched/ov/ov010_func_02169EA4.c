@@ -1,5 +1,5 @@
 /*
- * function: func_02169EA4
+ * function: REPORT_EVENT_PrintMessage
  * address:  0x02169EA4
  * packet:   pkt_ov010_02169EA4
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045CAC  0x02045CAC  arm
- *   func_02169EBC  0x02169EBC  thumb  ov010
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   REPORT_EVENT_StartPrintStream  0x02169EBC  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -49,11 +49,11 @@ typedef struct Work {
 } Work;
 
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02169EBC(Work *w);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void REPORT_EVENT_StartPrintStream(Work *w);
 
-void func_02169EA4(Work *w, u32 n)
+void REPORT_EVENT_PrintMessage(Work *w, u32 n)
 {
-    func_02045CAC(w->f18->f04, n, w->f18->f18);
-    func_02169EBC(w);
+    MSGDATA_ReadString(w->f18->f04, n, w->f18->f18);
+    REPORT_EVENT_StartPrintStream(w);
 }

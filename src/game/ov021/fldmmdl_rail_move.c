@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl_rail_move.c
  * unit:     yes
- * function: func_0219D6B8, func_0219D6CC, func_0219D724, func_0219D738, func_0219D780, func_0219D7AC, func_0219D7D0, func_0219D7F0, func_0219D824, func_0219D85C, func_0219D8DC, func_0219D930, func_0219D990, func_0219D9D8, func_0219DA20, func_0219DA80, func_0219DAA4, func_0219DAD0, func_0219DB04, func_0219DB0C, func_0219DB44, func_0219DB48, func_0219DB5C, func_0219DBC8, func_0219DC08, func_0219DC18, func_0219DC28, func_0219DC34, func_0219DC58, func_0219DC64, func_0219DC70, func_0219DC7C, func_0219DC88, func_0219DCC4, func_0219DD18, func_0219DD24, func_0219DD34, func_0219DD44, func_0219DD54, func_0219DD64, func_0219DD74, func_0219DD84, func_0219DD94, func_0219DDA4, func_0219DDB4, func_0219DDC4, func_0219DDD4, func_0219DDE4, func_0219DDF4, func_0219DE04, func_0219DE14, func_0219DE24, func_0219DE34, func_0219DE44, func_0219DE54, func_0219DE64, func_0219DE98, func_0219DECC, func_0219DEDC, func_0219DEEC, func_0219DEFC, func_0219DF0C, func_0219DF1C, func_0219DF2C, func_0219DF3C, func_0219DF4C, func_0219DF5C, func_0219DF6C, func_0219DF7C, func_0219DF8C, func_0219DF9C, func_0219DFAC, func_0219DFBC, func_0219DFCC, func_0219DFDC, func_0219DFEC, func_0219DFFC, func_0219E00C, func_0219E084, func_0219E0A8, func_0219E1B0, func_0219E1D0, func_0219E1F4, func_0219E218, func_0219E238, func_0219E258, func_0219E27C, func_0219E29C
+ * function: FLDMMDL_RAIL_MOVE_InitMove, FLDMMDL_RAIL_MOVE_UpdateMove, FLDMMDL_RAIL_MOVE_GetLocationAttr, FLDMMDL_RAIL_MOVE_GetDirByAngle, FLDMMDL_RAIL_MOVE_CheckMoveStart, FLDMMDL_RAIL_MOVE_UpdateAttrBeforeMove, FLDMMDL_RAIL_MOVE_ProcMoveStartFirst, FLDMMDL_RAIL_MOVE_ProcMoveStartSecond, FLDMMDL_RAIL_MOVE_ProcMoveEnd, FLDMMDL_RAIL_MOVE_UpdateCurrentAttr, FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartFirst, FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartSecond, FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartJumpSecond, FLDMMDL_RAIL_MOVE_MapAttrProcMoveEnd, FLDMMDL_RAIL_MOVE_MapAttrProcMoveEndJump, FLDMMDL_RAIL_MOVE_MapAttrGrassProc0, FLDMMDL_RAIL_MOVE_MapAttrGrassProc12, FLDMMDL_RAIL_MOVE_MapAttrFootMarkProc1, FLDMMDL_RAIL_MOVE_MapAttrShadowProc0, FLDMMDL_RAIL_MOVE_MapAttrShadowProc12, FLDMMDL_RAIL_MOVE_MapAttrEndNopProc, FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2, FLDMMDL_RAIL_MOVE_MapAttrReflectProc01, FLDMMDL_RAIL_MOVE_MapAttrReflectProc2, FLDMMDL_RAIL_MOVE_GetFldEffCtrl, FLDMMDL_RAIL_MOVE_AcEnd, FLDMMDL_RAIL_MOVE_AcNextStep, FLDMMDL_RAIL_MOVE_AcDirSet, FLDMMDL_RAIL_MOVE_AcDirU0, FLDMMDL_RAIL_MOVE_AcDirD0, FLDMMDL_RAIL_MOVE_AcDirL0, FLDMMDL_RAIL_MOVE_AcDirR0, FLDMMDL_RAIL_MOVE_AcWalkSet, FLDMMDL_RAIL_MOVE_AcWalk1, FLDMMDL_RAIL_MOVE_AcWalkEnd, FLDMMDL_RAIL_MOVE_AcWalkU16F0, FLDMMDL_RAIL_MOVE_AcWalkD16F0, FLDMMDL_RAIL_MOVE_AcWalkL16F0, FLDMMDL_RAIL_MOVE_AcWalkR16F0, FLDMMDL_RAIL_MOVE_AcWalkU8F0, FLDMMDL_RAIL_MOVE_AcWalkD8F0, FLDMMDL_RAIL_MOVE_AcWalkL8F0, FLDMMDL_RAIL_MOVE_AcWalkR8F0, FLDMMDL_RAIL_MOVE_AcWalkU4F0, FLDMMDL_RAIL_MOVE_AcWalkD4F0, FLDMMDL_RAIL_MOVE_AcWalkL4F0, FLDMMDL_RAIL_MOVE_AcWalkR4F0, FLDMMDL_RAIL_MOVE_AcWalkU2F0, FLDMMDL_RAIL_MOVE_AcWalkD2F0, FLDMMDL_RAIL_MOVE_AcWalkL2F0, FLDMMDL_RAIL_MOVE_AcWalkR2F0, FLDMMDL_RAIL_MOVE_AcDashU4F0, FLDMMDL_RAIL_MOVE_AcDashD4F0, FLDMMDL_RAIL_MOVE_AcDashL4F0, FLDMMDL_RAIL_MOVE_AcDashR4F0, FLDMMDL_RAIL_MOVE_AcStayWalkSet, FLDMMDL_RAIL_MOVE_AcStayWalk1, FLDMMDL_RAIL_MOVE_AcStayWalkU32F0, FLDMMDL_RAIL_MOVE_AcStayWalkD32F0, FLDMMDL_RAIL_MOVE_AcStayWalkL32F0, FLDMMDL_RAIL_MOVE_AcStayWalkR32F0, FLDMMDL_RAIL_MOVE_AcStayWalkU16F0, FLDMMDL_RAIL_MOVE_AcStayWalkD16F0, FLDMMDL_RAIL_MOVE_AcStayWalkL16F0, FLDMMDL_RAIL_MOVE_AcStayWalkR16F0, FLDMMDL_RAIL_MOVE_AcStayWalkU8F0, FLDMMDL_RAIL_MOVE_AcStayWalkD8F0, FLDMMDL_RAIL_MOVE_AcStayWalkL8F0, FLDMMDL_RAIL_MOVE_AcStayWalkR8F0, FLDMMDL_RAIL_MOVE_AcStayWalkU2F0, FLDMMDL_RAIL_MOVE_AcStayWalkD2F0, FLDMMDL_RAIL_MOVE_AcStayWalkL2F0, FLDMMDL_RAIL_MOVE_AcStayWalkR2F0, FLDMMDL_RAIL_MOVE_AcStayWalkU4F0, FLDMMDL_RAIL_MOVE_AcStayWalkD4F0, FLDMMDL_RAIL_MOVE_AcStayWalkL4F0, FLDMMDL_RAIL_MOVE_AcStayWalkR4F0, FLDMMDL_RAIL_MOVE_AcJumpSetSe, FLDMMDL_RAIL_MOVE_AcJumpSet, FLDMMDL_RAIL_MOVE_AcJump1, FLDMMDL_RAIL_MOVE_AcJumpU8F0, FLDMMDL_RAIL_MOVE_AcJumpD8F0, FLDMMDL_RAIL_MOVE_AcJumpL8F0, FLDMMDL_RAIL_MOVE_AcJumpR8F0, FLDMMDL_RAIL_MOVE_AcJumpU16F0, FLDMMDL_RAIL_MOVE_AcJumpD16F0, FLDMMDL_RAIL_MOVE_AcJumpL16F0, FLDMMDL_RAIL_MOVE_AcJumpR16F0
  * address:  0x0219D6B8
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,64 +14,64 @@
  * Split from fldmmdl_g3dobj.c at 0x0219D6B8 (no anchor; the field model rail move and rail anime command code, with its own const tables at 0x021D80E4..0x021D841B).
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216E3C4  0x0216E3C4  thumb  ov010
- *   func_0216D6F4  0x0216D6F4  thumb  ov010
- *   func_0216D548  0x0216D548  thumb  ov010
- *   func_0216DA20  0x0216DA20  thumb  ov010
- *   func_0216D57C  0x0216D57C  thumb  ov010
- *   func_02197EB4  0x02197EB4  thumb  ov021
- *   func_0216DB10  0x0216DB10  thumb  ov010
- *   func_0216D708  0x0216D708  thumb  ov010
- *   func_0216D530  0x0216D530  thumb
- *   func_021BB3C4  0x021BB3C4  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0207CDB8  0x0207CDB8  arm
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
+ *   FLDMMDL_CallMoveInitProc  0x0216D6F4  thumb  ov010
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
+ *   FLDMMDL_CheckSysStatusBit  0x0216DA20  thumb  ov010
+ *   FLDMMDL_CheckMoveBit  0x0216D57C  thumb  ov010
+ *   FLDMMDL_ACMD_RunCmds  0x02197EB4  thumb  ov021
+ *   FLDMMDL_CheckMoveBitMovePause  0x0216DB10  thumb  ov010
+ *   FLDMMDL_CallMoveProc  0x0216D708  thumb  ov010
+ *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb
+ *   FIELD_NOGRID_MAPPER_GetAttribute  0x021BB3C4  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   VEC_Fx16Normalize  0x0207CDB8  arm
  *   func_0207CFB8  0x0207CFB8  arm
  *   d_021D80E4     0x021D80E4  data   ov021  a1
- *   func_0216DA5C  0x0216DA5C  thumb  ov010
- *   func_0216D5A0  0x0216D5A0  thumb  ov010
- *   func_0216DA70  0x0216DA70  thumb  ov010
- *   func_0216D570  0x0216D570  thumb  ov010
- *   func_0216DCB4  0x0216DCB4  thumb  ov010
- *   func_0216D7E0  0x0216D7E0  thumb  ov010
- *   func_0216D7D8  0x0216D7D8  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_0216DB24  0x0216DB24  thumb  ov010
- *   func_0216D7DC  0x0216D7DC  thumb  ov010
- *   func_0216D7E4  0x0216D7E4  thumb  ov010
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
- *   func_021AC760  0x021AC760  thumb  ov021
- *   func_021BBDD4  0x021BBDD4  thumb  ov021
- *   func_0216D98C  0x0216D98C  thumb  ov010
- *   func_021AC2C0  0x021AC2C0  thumb  ov021
- *   func_021AC578  0x021AC578  thumb  ov021
- *   func_0216DC34  0x0216DC34  thumb  ov010
- *   func_02163F40  0x02163F40  thumb  ov010
- *   func_0216DC18  0x0216DC18  thumb  ov010
- *   func_021BBFB8  0x021BBFB8  thumb  ov021
- *   func_0216D534  0x0216D534  thumb  ov010
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_0216D7CC  0x0216D7CC  thumb
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_021B8028  0x021B8028  thumb  ov021
- *   func_021B8040  0x021B8040  thumb  ov021
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D6BC  0x0216D6BC  thumb  ov010
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
+ *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
+ *   FLDMMDL_OnMoveBitMoveStart  0x0216DA70  thumb  ov010
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
+ *   FLDMMDL_CheckStatusBitAttrGetOff  0x0216DCB4  thumb  ov010
+ *   FLDMMDL_SetOldAttr  0x0216D7E0  thumb  ov010
+ *   FLDMMDL_SetNowAttr  0x0216D7D8  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_CheckDrawInitComp  0x0216DB24  thumb  ov010
+ *   FLDMMDL_GetNowAttr  0x0216D7DC  thumb  ov010
+ *   FLDMMDL_GetOldAttr  0x0216D7E4  thumb  ov010
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
+ *   FLDEFF_GRASS_Start  0x021AC760  thumb  ov021
+ *   FLDEFF_FOOTMARK_SetMMdl  0x021BBDD4  thumb  ov021
+ *   FLDMMDL_SysIsDrawEnable  0x0216D98C  thumb  ov010
+ *   FLDEFF_SHADOW_Start  0x021AC2C0  thumb  ov021
+ *   FLDEFF_KEMURI_StartFacing  0x021AC578  thumb  ov021
+ *   FLDMMDL_CheckMoveBitReflect  0x0216DC34  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirMapAttr  0x02163F40  thumb  ov010
+ *   FLDMMDL_SetMoveBitReflect  0x0216DC18  thumb  ov010
+ *   FLDEFF_REFLECT_SetMMdl  0x021BBFB8  thumb  ov021
+ *   FLDMMDL_SysGetFieldMap  0x0216D534  thumb  ov010
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
+ *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb  ov021
+ *   FIELD_RAIL_WORK_IsMoving  0x021B8040  thumb  ov021
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
  *   func_020061E4  0x020061E4  thumb
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
  *   d_021DDD94     0x021DDD94  data
- *   func_0219E2F4  0x0219E2F4  thumb  ov021
- *   func_0219E334  0x0219E334  thumb  ov021
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_0219E354  0x0219E354  thumb  ov021
- *   func_0219E370  0x0219E370  thumb  ov021
- *   func_0219E6C8  0x0219E6C8  thumb  ov021
- *   func_0219E784  0x0219E784  thumb  ov021
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb  ov021
+ *   FLDMMDL_RAIL_GetNowLocation  0x0219E334  thumb  ov021
+ *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
+ *   FLDMMDL_RAIL_UpdateRailWork  0x0219E354  thumb  ov021
+ *   FLDMMDL_RAIL_SetMoveRequest  0x0219E370  thumb  ov021
+ *   FLDMMDL_RAIL_SetGridPosByDir  0x0219E6C8  thumb  ov021
+ *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -128,7 +128,7 @@ typedef struct {
 #define _MOVEBIT_ATTR_GET_ERROR 0x800
 #define _MOVEBIT_SHADOW_SET     0x4000
 
-/* Map attribute flags (func_021AB0F8). */
+/* Map attribute flags (MAP_ATTR_GetFlags). */
 #define _ATTRFLAG_FOOTMARK 0x08
 #define _ATTRFLAG_GRASS    0x20
 #define _ATTRFLAG_REFLECT  0x40
@@ -151,153 +151,153 @@ typedef struct {
 #define _SE_RAIL_JUMP 0x55E
 #define _SE_RAIL_LAND 0x67B
 
-extern void *func_0216D67C(Mmdl *mmdl);
-extern MmdlObjCodeParam *func_0216E3C4(Mmdl *mmdl);
-extern u32 *func_0216D548(Mmdl *mmdl, u32 bit);
-extern void func_0216D6F4(Mmdl *mmdl);
-extern int func_0216DA20(Mmdl *mmdl, unsigned int bit);
-extern u32 func_0216D57C(Mmdl *mmdl, u32 bit);
-extern void func_02197EB4(Mmdl *mmdl);
-extern int func_0216DB10(Mmdl *mmdl);
-extern void func_0216D708(Mmdl *mmdl);
-extern void *func_0216D530(void *mmdlSys);
-extern u32 func_021BB3C4(void *railMapper, RailLocation *location);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-extern void func_0207CDB8(s16 *src, s16 *dst);
+extern void *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
+extern MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(Mmdl *mmdl);
+extern u32 *FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
+extern void FLDMMDL_CallMoveInitProc(Mmdl *mmdl);
+extern int FLDMMDL_CheckSysStatusBit(Mmdl *mmdl, unsigned int bit);
+extern u32 FLDMMDL_CheckMoveBit(Mmdl *mmdl, u32 bit);
+extern void FLDMMDL_ACMD_RunCmds(Mmdl *mmdl);
+extern int FLDMMDL_CheckMoveBitMovePause(Mmdl *mmdl);
+extern void FLDMMDL_CallMoveProc(Mmdl *mmdl);
+extern void *FLDMMDL_SysGetNogridMapper(void *mmdlSys);
+extern u32 FIELD_NOGRID_MAPPER_GetAttribute(void *railMapper, RailLocation *location);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+extern void VEC_Fx16Normalize(s16 *src, s16 *dst);
 extern int func_0207CFB8(int y, int x);
-extern int func_0216DA5C(Mmdl *mmdl);
-extern u16 func_0216D5A0(Mmdl *mmdl);
-extern void func_0216DA70(Mmdl *mmdl);
-extern char *func_0216D570(Mmdl *mmdl, u32 bit);
-extern int func_0216DCB4(Mmdl *mmdl);
-extern void func_0216D7E0(Mmdl *mmdl, u32 attr);
-extern void func_0216D7D8(Mmdl *mmdl, u32 attr);
-extern void *func_0216D568(Mmdl *mmdl, u32 bit);
-extern int func_0216DB24(Mmdl *mmdl);
-extern u32 func_0216D7DC(Mmdl *mmdl);
-extern u32 func_0216D7E4(Mmdl *mmdl);
-extern u16 func_021AB0F8(u32 attr);
-extern void func_021AC760(u32 fldEffCtrl, Mmdl *mmdl, u32 animate, int arg);
-extern void func_021BBDD4(Mmdl *mmdl, u32 fldEffCtrl, int cycle);
-extern int func_0216D98C(void *mmdlSys);
-extern void func_021AC2C0(Mmdl *mmdl, u32 fldEffCtrl);
-extern u32 func_021AC578(Mmdl *mmdl, u32 fldEffCtrl);
-extern int func_0216DC34(Mmdl *mmdl);
-extern int func_02163F40(Mmdl *mmdl, int dir);
-extern int func_0216DC18(Mmdl *mmdl, int on);
-extern void func_021BBFB8(void *mmdlSys, Mmdl *mmdl, u32 fldEffCtrl, u32 arg);
-extern void *func_0216D534(void *mmdlSys);
-extern u32 func_02188CD0(void *fieldmap);
-extern void func_0216D7CC(Mmdl *mmdl);
-extern int func_02163F10(Mmdl *mmdl);
-extern void func_0216D5E0(Mmdl *mmdl, int dir);
-extern void func_0216D674(Mmdl *mmdl, u16 drawStatus);
-extern void func_0216D60C(Mmdl *mmdl, u16 dir);
-extern void func_021B8028();
-extern u8 func_021B8040(void *railWork);
-extern void func_0216D89C();
-extern void *func_0216D6BC(Mmdl *mmdl, int size, int arg);
-extern void *func_0216D6D4(Mmdl *mmdl);
+extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
+extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
+extern void FLDMMDL_OnMoveBitMoveStart(Mmdl *mmdl);
+extern char *FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bit);
+extern int FLDMMDL_CheckStatusBitAttrGetOff(Mmdl *mmdl);
+extern void FLDMMDL_SetOldAttr(Mmdl *mmdl, u32 attr);
+extern void FLDMMDL_SetNowAttr(Mmdl *mmdl, u32 attr);
+extern void *FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bit);
+extern int FLDMMDL_CheckDrawInitComp(Mmdl *mmdl);
+extern u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
+extern u32 FLDMMDL_GetOldAttr(Mmdl *mmdl);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern void FLDEFF_GRASS_Start(u32 fldEffCtrl, Mmdl *mmdl, u32 animate, int arg);
+extern void FLDEFF_FOOTMARK_SetMMdl(Mmdl *mmdl, u32 fldEffCtrl, int cycle);
+extern int FLDMMDL_SysIsDrawEnable(void *mmdlSys);
+extern void FLDEFF_SHADOW_Start(Mmdl *mmdl, u32 fldEffCtrl);
+extern u32 FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, u32 fldEffCtrl);
+extern int FLDMMDL_CheckMoveBitReflect(Mmdl *mmdl);
+extern int FLDMMDL_MOVE_GetDirMapAttr(Mmdl *mmdl, int dir);
+extern int FLDMMDL_SetMoveBitReflect(Mmdl *mmdl, int on);
+extern void FLDEFF_REFLECT_SetMMdl(void *mmdlSys, Mmdl *mmdl, u32 fldEffCtrl, u32 arg);
+extern void *FLDMMDL_SysGetFieldMap(void *mmdlSys);
+extern u32 FIELDMAP_GetEffect(void *fieldmap);
+extern void FLDMMDL_IncAcmdSeq(Mmdl *mmdl);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
+extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
+extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 drawStatus);
+extern void FLDMMDL_SetDirAll(Mmdl *mmdl, u16 dir);
+extern void FIELD_RAIL_WORK_GetPos();
+extern u8 FIELD_RAIL_WORK_IsMoving(void *railWork);
+extern void FLDMMDL_SetPos();
+extern void *FLDMMDL_InitMoveCmdWork(Mmdl *mmdl, int size, int arg);
+extern void *FLDMMDL_GetMoveCmdWork(Mmdl *mmdl);
 extern void func_020061E4(u32 seNo);
-extern void func_0216D8C0(Mmdl *mmdl, VecFx32 *offset);
+extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
 
-int func_0219D6B8(Mmdl *mmdl);
-void func_0219D6CC(Mmdl *mmdl);
-int func_0219D724(Mmdl *mmdl, RailLocation *location);
-u32 func_0219D738(Mmdl *mmdl, int angle);
-int func_0219D780(Mmdl *mmdl);
-void func_0219D7AC(Mmdl *mmdl);
-void func_0219D7D0(Mmdl *mmdl);
-void func_0219D7F0(Mmdl *mmdl);
-void func_0219D824(Mmdl *mmdl);
-u32 func_0219D85C(Mmdl *mmdl);
-void func_0219D8DC(Mmdl *mmdl);
-void func_0219D930(Mmdl *mmdl);
-void func_0219D990(Mmdl *mmdl);
-void func_0219D9D8(Mmdl *mmdl);
-void func_0219DA20(Mmdl *mmdl);
-void func_0219DA80(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-void func_0219DAA4(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-void func_0219DAD0(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-void func_0219DB04(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-void func_0219DB0C(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-void func_0219DB44(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-int func_0219DB48(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-void func_0219DB5C(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-void func_0219DBC8(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-u32 func_0219DC08(Mmdl *mmdl);
-int func_0219DC18(Mmdl *mmdl);
-int func_0219DC28(Mmdl *mmdl);
-void func_0219DC34(Mmdl *mmdl, u32 dir);
-int func_0219DC58(Mmdl *mmdl);
-int func_0219DC64(Mmdl *mmdl);
-int func_0219DC70(Mmdl *mmdl);
-int func_0219DC7C(Mmdl *mmdl);
-void func_0219DC88(Mmdl *mmdl, u32 dir, u32 frames, u16 drawStatus);
-int func_0219DCC4(Mmdl *mmdl);
-int func_0219DD18(Mmdl *mmdl);
-int func_0219DD24(Mmdl *mmdl);
-int func_0219DD34(Mmdl *mmdl);
-int func_0219DD44(Mmdl *mmdl);
-int func_0219DD54(Mmdl *mmdl);
-int func_0219DD64(Mmdl *mmdl);
-int func_0219DD74(Mmdl *mmdl);
-int func_0219DD84(Mmdl *mmdl);
-int func_0219DD94(Mmdl *mmdl);
-int func_0219DDA4(Mmdl *mmdl);
-int func_0219DDB4(Mmdl *mmdl);
-int func_0219DDC4(Mmdl *mmdl);
-int func_0219DDD4(Mmdl *mmdl);
-int func_0219DDE4(Mmdl *mmdl);
-int func_0219DDF4(Mmdl *mmdl);
-int func_0219DE04(Mmdl *mmdl);
-int func_0219DE14(Mmdl *mmdl);
-int func_0219DE24(Mmdl *mmdl);
-int func_0219DE34(Mmdl *mmdl);
-int func_0219DE44(Mmdl *mmdl);
-int func_0219DE54(Mmdl *mmdl);
-void func_0219DE64(Mmdl *mmdl, u32 dir, u16 frames, u16 drawStatus);
-int func_0219DE98(Mmdl *mmdl);
-int func_0219DECC(Mmdl *mmdl);
-int func_0219DEDC(Mmdl *mmdl);
-int func_0219DEEC(Mmdl *mmdl);
-int func_0219DEFC(Mmdl *mmdl);
-int func_0219DF0C(Mmdl *mmdl);
-int func_0219DF1C(Mmdl *mmdl);
-int func_0219DF2C(Mmdl *mmdl);
-int func_0219DF3C(Mmdl *mmdl);
-int func_0219DF4C(Mmdl *mmdl);
-int func_0219DF5C(Mmdl *mmdl);
-int func_0219DF6C(Mmdl *mmdl);
-int func_0219DF7C(Mmdl *mmdl);
-int func_0219DF8C(Mmdl *mmdl);
-int func_0219DF9C(Mmdl *mmdl);
-int func_0219DFAC(Mmdl *mmdl);
-int func_0219DFBC(Mmdl *mmdl);
-int func_0219DFCC(Mmdl *mmdl);
-int func_0219DFDC(Mmdl *mmdl);
-int func_0219DFEC(Mmdl *mmdl);
-int func_0219DFFC(Mmdl *mmdl);
-void func_0219E00C(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep, u32 seNo);
-void func_0219E084(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep);
-int func_0219E0A8(Mmdl *mmdl);
-int func_0219E1B0(Mmdl *mmdl);
-int func_0219E1D0(Mmdl *mmdl);
-int func_0219E1F4(Mmdl *mmdl);
-int func_0219E218(Mmdl *mmdl);
-int func_0219E238(Mmdl *mmdl);
-int func_0219E258(Mmdl *mmdl);
-int func_0219E27C(Mmdl *mmdl);
-int func_0219E29C(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_InitMove(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_UpdateMove(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_GetLocationAttr(Mmdl *mmdl, RailLocation *location);
+u32 FLDMMDL_RAIL_MOVE_GetDirByAngle(Mmdl *mmdl, int angle);
+int FLDMMDL_RAIL_MOVE_CheckMoveStart(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_UpdateAttrBeforeMove(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_ProcMoveStartFirst(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_ProcMoveStartSecond(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_ProcMoveEnd(Mmdl *mmdl);
+u32 FLDMMDL_RAIL_MOVE_UpdateCurrentAttr(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartFirst(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartSecond(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartJumpSecond(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveEnd(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveEndJump(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_MapAttrGrassProc0(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrGrassProc12(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrFootMarkProc1(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrShadowProc0(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrShadowProc12(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrEndNopProc(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+int FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+u32 FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcEnd(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcNextStep(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_AcDirSet(Mmdl *mmdl, u32 dir);
+int FLDMMDL_RAIL_MOVE_AcDirU0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcDirD0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcDirL0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcDirR0(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_AcWalkSet(Mmdl *mmdl, u32 dir, u32 frames, u16 drawStatus);
+int FLDMMDL_RAIL_MOVE_AcWalk1(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkEnd(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkU16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkD16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkL16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkR16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkU8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkD8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkL8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkR8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkU4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkD4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkL4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkR4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkU2F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkD2F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkL2F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcWalkR2F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcDashU4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcDashD4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcDashL4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcDashR4F0(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_AcStayWalkSet(Mmdl *mmdl, u32 dir, u16 frames, u16 drawStatus);
+int FLDMMDL_RAIL_MOVE_AcStayWalk1(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkU32F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkD32F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkL32F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkR32F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkU16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkD16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkL16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkR16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkU8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkD8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkL8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkR8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkU2F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkD2F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkL2F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkR2F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkU4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkD4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkL4F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcStayWalkR4F0(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_AcJumpSetSe(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep, u32 seNo);
+void FLDMMDL_RAIL_MOVE_AcJumpSet(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep);
+int FLDMMDL_RAIL_MOVE_AcJump1(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcJumpU8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcJumpD8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcJumpL8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcJumpR8F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcJumpU16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcJumpD16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcJumpL16F0(Mmdl *mmdl);
+int FLDMMDL_RAIL_MOVE_AcJumpR16F0(Mmdl *mmdl);
 
 /* fldmmdl_rail.c */
-void func_0219E2F4(Mmdl *mmdl, RailLocation *location);
-int func_0219E334(Mmdl *mmdl, RailLocation *location);
-void *func_0219E348(Mmdl *mmdl);
-void func_0219E354(Mmdl *mmdl);
-void func_0219E370(Mmdl *mmdl, u32 dir, u32 frames);
-void func_0219E6C8(Mmdl *mmdl, u16 dir);
-void func_0219E784(Mmdl *mmdl, u32 dir, s16 *vec);
+void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *location);
+int FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *location);
+void *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
+void FLDMMDL_RAIL_UpdateRailWork(Mmdl *mmdl);
+void FLDMMDL_RAIL_SetMoveRequest(Mmdl *mmdl, u32 dir, u32 frames);
+void FLDMMDL_RAIL_SetGridPosByDir(Mmdl *mmdl, u16 dir);
+void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *vec);
 
 /* Display direction for each 1/16 turn of the camera relative angle. */
 extern u8 d_021D80E4[];
@@ -305,43 +305,43 @@ extern u8 d_021D80E4[];
 extern s32 *d_021DDD94[];
 
 /* Move proc init of the rail move. */
-int func_0219D6B8(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_InitMove(Mmdl *mmdl)
 {
-    func_0216D6F4(mmdl);
-    return (int)func_0216D548(mmdl, 2);
+    FLDMMDL_CallMoveInitProc(mmdl);
+    return (int)FLDMMDL_SetStatusBit(mmdl, 2);
 }
 
 /* Per-frame update of a field model on a rail: anime command or move proc,
  * with the map attribute procs before and after. */
-void func_0219D6CC(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_UpdateMove(Mmdl *mmdl)
 {
-    if (func_0216DA20(mmdl, 2) == 0) {
-        func_0219D7AC(mmdl);
-        func_0219D7D0(mmdl);
-        if (func_0216D57C(mmdl, _MOVEBIT_ACMD) != 0) {
-            func_02197EB4(mmdl);
-        } else if (func_0216DB10(mmdl) == 0 && func_0219D780(mmdl) == 1) {
-            func_0216D708(mmdl);
+    if (FLDMMDL_CheckSysStatusBit(mmdl, 2) == 0) {
+        FLDMMDL_RAIL_MOVE_UpdateAttrBeforeMove(mmdl);
+        FLDMMDL_RAIL_MOVE_ProcMoveStartFirst(mmdl);
+        if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_ACMD) != 0) {
+            FLDMMDL_ACMD_RunCmds(mmdl);
+        } else if (FLDMMDL_CheckMoveBitMovePause(mmdl) == 0 && FLDMMDL_RAIL_MOVE_CheckMoveStart(mmdl) == 1) {
+            FLDMMDL_CallMoveProc(mmdl);
         }
-        func_0219D7F0(mmdl);
-        func_0219D824(mmdl);
+        FLDMMDL_RAIL_MOVE_ProcMoveStartSecond(mmdl);
+        FLDMMDL_RAIL_MOVE_ProcMoveEnd(mmdl);
     }
 }
 
 /* Map attribute at a rail location of the field model's rail mapper. */
-int func_0219D724(Mmdl *mmdl, RailLocation *location)
+int FLDMMDL_RAIL_MOVE_GetLocationAttr(Mmdl *mmdl, RailLocation *location)
 {
-    return func_021BB3C4(func_0216D530(func_0216D67C(mmdl)), location);
+    return FIELD_NOGRID_MAPPER_GetAttribute(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl)), location);
 }
 
 /* Display direction of the field model's rail direction seen at `angle`. */
-u32 func_0219D738(Mmdl *mmdl, int angle)
+u32 FLDMMDL_RAIL_MOVE_GetDirByAngle(Mmdl *mmdl, int angle)
 {
     s16 vec[4];
     int relAngle;
-    func_0219E784(mmdl, func_0216D5F8(mmdl), vec);
+    FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, FLDMMDL_GetDirDisp(mmdl), vec);
     vec[1] = 0;
-    func_0207CDB8(vec, vec);
+    VEC_Fx16Normalize(vec, vec);
     relAngle = func_0207CFB8(vec[0], vec[2]) - angle;
     if (relAngle < 0) {
         relAngle += 0x10000;
@@ -349,399 +349,399 @@ u32 func_0219D738(Mmdl *mmdl, int angle)
     return d_021D80E4[relAngle >> 12];
 }
 
-int func_0219D780(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_CheckMoveStart(Mmdl *mmdl)
 {
-    if (func_0216DA5C(mmdl) == 1) {
+    if (FLDMMDL_CheckMoveBitMove(mmdl) == 1) {
         return 1;
     }
-    if (func_0216D57C(mmdl, _MOVEBIT_ATTR_GET_ERROR) == 0) {
+    if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_ATTR_GET_ERROR) == 0) {
         return 1;
     }
-    func_0216D5A0(mmdl);
+    FLDMMDL_GetMoveCode(mmdl);
     return 1;
 }
 
-void func_0219D7AC(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_UpdateAttrBeforeMove(Mmdl *mmdl)
 {
-    if (func_0216D57C(mmdl, _MOVEBIT_ATTR_GET_ERROR) != 0 && func_0219D85C(mmdl) == 1) {
-        func_0216DA70(mmdl);
+    if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_ATTR_GET_ERROR) != 0 && FLDMMDL_RAIL_MOVE_UpdateCurrentAttr(mmdl) == 1) {
+        FLDMMDL_OnMoveBitMoveStart(mmdl);
     }
 }
 
-void func_0219D7D0(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_ProcMoveStartFirst(Mmdl *mmdl)
 {
-    if (func_0216D57C(mmdl, _MOVEBIT_MOVE_START) != 0) {
-        func_0219D8DC(mmdl);
+    if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_MOVE_START) != 0) {
+        FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartFirst(mmdl);
     }
-    func_0216D570(mmdl, _MOVEBIT_MOVE_START | _MOVEBIT_JUMP_START);
+    FLDMMDL_ClearMoveBit(mmdl, _MOVEBIT_MOVE_START | _MOVEBIT_JUMP_START);
 }
 
-void func_0219D7F0(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_ProcMoveStartSecond(Mmdl *mmdl)
 {
-    if (func_0216D57C(mmdl, _MOVEBIT_JUMP_START) != 0) {
-        func_0219D990(mmdl);
-    } else if (func_0216D57C(mmdl, _MOVEBIT_MOVE_START) != 0) {
-        func_0219D930(mmdl);
+    if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_JUMP_START) != 0) {
+        FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartJumpSecond(mmdl);
+    } else if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_MOVE_START) != 0) {
+        FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartSecond(mmdl);
     }
-    func_0216D570(mmdl, _MOVEBIT_MOVE_START | _MOVEBIT_JUMP_START);
+    FLDMMDL_ClearMoveBit(mmdl, _MOVEBIT_MOVE_START | _MOVEBIT_JUMP_START);
 }
 
-void func_0219D824(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_ProcMoveEnd(Mmdl *mmdl)
 {
-    if (func_0216D57C(mmdl, _MOVEBIT_JUMP_END) != 0) {
-        func_0219DA20(mmdl);
-    } else if (func_0216D57C(mmdl, _MOVEBIT_MOVE_END) != 0) {
-        func_0219D9D8(mmdl);
+    if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_JUMP_END) != 0) {
+        FLDMMDL_RAIL_MOVE_MapAttrProcMoveEndJump(mmdl);
+    } else if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_MOVE_END) != 0) {
+        FLDMMDL_RAIL_MOVE_MapAttrProcMoveEnd(mmdl);
     }
-    func_0216D570(mmdl, _MOVEBIT_MOVE_END | _MOVEBIT_JUMP_END);
+    FLDMMDL_ClearMoveBit(mmdl, _MOVEBIT_MOVE_END | _MOVEBIT_JUMP_END);
 }
 
 /* Reads the map attributes at the current and the previous rail location;
  * returns 0 (and sets _MOVEBIT_ATTR_GET_ERROR) when there is none. */
-u32 func_0219D85C(Mmdl *mmdl)
+u32 FLDMMDL_RAIL_MOVE_UpdateCurrentAttr(Mmdl *mmdl)
 {
     RailLocation prevLocation;
     RailLocation nowLocation;
     u32 attrOld = _ATTR_NONE;
     u32 attrNow = _ATTR_NONE;
     void *railMapper;
-    if (func_0216DCB4(mmdl) == 0) {
-        railMapper = func_0216D530(func_0216D67C(mmdl));
-        func_0219E2F4(mmdl, &nowLocation);
-        func_0219E334(mmdl, &prevLocation);
-        attrOld = func_021BB3C4(railMapper, &prevLocation);
-        attrNow = func_021BB3C4(railMapper, &nowLocation);
+    if (FLDMMDL_CheckStatusBitAttrGetOff(mmdl) == 0) {
+        railMapper = FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl));
+        FLDMMDL_RAIL_GetNextLocation(mmdl, &nowLocation);
+        FLDMMDL_RAIL_GetNowLocation(mmdl, &prevLocation);
+        attrOld = FIELD_NOGRID_MAPPER_GetAttribute(railMapper, &prevLocation);
+        attrNow = FIELD_NOGRID_MAPPER_GetAttribute(railMapper, &nowLocation);
     }
-    func_0216D7E0(mmdl, attrOld);
-    func_0216D7D8(mmdl, attrNow);
+    FLDMMDL_SetOldAttr(mmdl, attrOld);
+    FLDMMDL_SetNowAttr(mmdl, attrNow);
     if (attrNow == _ATTR_NONE) {
-        func_0216D568(mmdl, _MOVEBIT_ATTR_GET_ERROR);
+        FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_ATTR_GET_ERROR);
         return 0;
     }
-    func_0216D570(mmdl, _MOVEBIT_ATTR_GET_ERROR);
+    FLDMMDL_ClearMoveBit(mmdl, _MOVEBIT_ATTR_GET_ERROR);
     return 1;
 }
 
-void func_0219D8DC(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartFirst(Mmdl *mmdl)
 {
     u32 attrNow;
     u32 attrOld;
     MmdlObjCodeParam *param;
-    if (func_0219D85C(mmdl) != 0 && func_0216DB24(mmdl) == 1) {
-        attrNow = func_0216D7DC(mmdl);
-        attrOld = func_0216D7E4(mmdl);
-        param = func_0216E3C4(mmdl);
-        func_0219DA80(mmdl, attrNow, attrOld, param);
-        func_0219DB04(mmdl, attrNow, attrOld, param);
-        func_0219DB5C(mmdl, attrNow, attrOld, param);
+    if (FLDMMDL_RAIL_MOVE_UpdateCurrentAttr(mmdl) != 0 && FLDMMDL_CheckDrawInitComp(mmdl) == 1) {
+        attrNow = FLDMMDL_GetNowAttr(mmdl);
+        attrOld = FLDMMDL_GetOldAttr(mmdl);
+        param = FLDMMDL_GetObjCodeParam(mmdl);
+        FLDMMDL_RAIL_MOVE_MapAttrGrassProc0(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrShadowProc0(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(mmdl, attrNow, attrOld, param);
     }
 }
 
-void func_0219D930(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartSecond(Mmdl *mmdl)
 {
     u32 attrNow;
     u32 attrOld;
     MmdlObjCodeParam *param;
-    if (func_0219D85C(mmdl) != 0 && func_0216DB24(mmdl) == 1) {
-        attrNow = func_0216D7DC(mmdl);
-        attrOld = func_0216D7E4(mmdl);
-        param = func_0216E3C4(mmdl);
-        func_0219DAA4(mmdl, attrNow, attrOld, param);
-        func_0219DAD0(mmdl, attrNow, attrOld, param);
-        func_0219DB0C(mmdl, attrNow, attrOld, param);
-        func_0219DB5C(mmdl, attrNow, attrOld, param);
+    if (FLDMMDL_RAIL_MOVE_UpdateCurrentAttr(mmdl) != 0 && FLDMMDL_CheckDrawInitComp(mmdl) == 1) {
+        attrNow = FLDMMDL_GetNowAttr(mmdl);
+        attrOld = FLDMMDL_GetOldAttr(mmdl);
+        param = FLDMMDL_GetObjCodeParam(mmdl);
+        FLDMMDL_RAIL_MOVE_MapAttrGrassProc12(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrFootMarkProc1(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrShadowProc12(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(mmdl, attrNow, attrOld, param);
     }
 }
 
-void func_0219D990(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartJumpSecond(Mmdl *mmdl)
 {
     u32 attrNow;
     u32 attrOld;
     MmdlObjCodeParam *param;
-    if (func_0219D85C(mmdl) != 0 && func_0216DB24(mmdl) == 1) {
-        attrNow = func_0216D7DC(mmdl);
-        attrOld = func_0216D7E4(mmdl);
-        param = func_0216E3C4(mmdl);
-        func_0219DB0C(mmdl, attrNow, attrOld, param);
-        func_0219DB5C(mmdl, attrNow, attrOld, param);
+    if (FLDMMDL_RAIL_MOVE_UpdateCurrentAttr(mmdl) != 0 && FLDMMDL_CheckDrawInitComp(mmdl) == 1) {
+        attrNow = FLDMMDL_GetNowAttr(mmdl);
+        attrOld = FLDMMDL_GetOldAttr(mmdl);
+        param = FLDMMDL_GetObjCodeParam(mmdl);
+        FLDMMDL_RAIL_MOVE_MapAttrShadowProc12(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(mmdl, attrNow, attrOld, param);
     }
 }
 
-void func_0219D9D8(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveEnd(Mmdl *mmdl)
 {
     u32 attrNow;
     u32 attrOld;
     MmdlObjCodeParam *param;
-    if (func_0219D85C(mmdl) != 0 && func_0216DB24(mmdl) == 1) {
-        attrNow = func_0216D7DC(mmdl);
-        attrOld = func_0216D7E4(mmdl);
-        param = func_0216E3C4(mmdl);
-        func_0219DBC8(mmdl, attrNow, attrOld, param);
-        func_0219DB44(mmdl, attrNow, attrOld, param);
+    if (FLDMMDL_RAIL_MOVE_UpdateCurrentAttr(mmdl) != 0 && FLDMMDL_CheckDrawInitComp(mmdl) == 1) {
+        attrNow = FLDMMDL_GetNowAttr(mmdl);
+        attrOld = FLDMMDL_GetOldAttr(mmdl);
+        param = FLDMMDL_GetObjCodeParam(mmdl);
+        FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrEndNopProc(mmdl, attrNow, attrOld, param);
     }
 }
 
-void func_0219DA20(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_MapAttrProcMoveEndJump(Mmdl *mmdl)
 {
     u32 attrNow;
     u32 attrOld;
     MmdlObjCodeParam *param;
-    if (func_0219D85C(mmdl) != 0 && func_0216DB24(mmdl) == 1) {
-        attrNow = func_0216D7DC(mmdl);
-        attrOld = func_0216D7E4(mmdl);
-        param = func_0216E3C4(mmdl);
-        func_0219DBC8(mmdl, attrNow, attrOld, param);
-        func_0219DB44(mmdl, attrNow, attrOld, param);
-        func_0219DAA4(mmdl, attrNow, attrOld, param);
-        func_0219DB48(mmdl, attrNow, attrOld, param);
+    if (FLDMMDL_RAIL_MOVE_UpdateCurrentAttr(mmdl) != 0 && FLDMMDL_CheckDrawInitComp(mmdl) == 1) {
+        attrNow = FLDMMDL_GetNowAttr(mmdl);
+        attrOld = FLDMMDL_GetOldAttr(mmdl);
+        param = FLDMMDL_GetObjCodeParam(mmdl);
+        FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrEndNopProc(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrGrassProc12(mmdl, attrNow, attrOld, param);
+        FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(mmdl, attrNow, attrOld, param);
     }
 }
 
-void func_0219DA80(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrGrassProc0(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
-    if (func_021AB0F8(attrNow) & _ATTRFLAG_GRASS)
-        func_021AC760(func_0219DC08(mmdl), mmdl, 0, 0);
+    if (MAP_ATTR_GetFlags(attrNow) & _ATTRFLAG_GRASS)
+        FLDEFF_GRASS_Start(FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl), mmdl, 0, 0);
 }
 
-void func_0219DAA4(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrGrassProc12(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
-    if (attrNow != _ATTR_NONE && (func_021AB0F8(attrNow) & _ATTRFLAG_GRASS))
-        func_021AC760(func_0219DC08(mmdl), mmdl, 1, 0);
+    if (attrNow != _ATTR_NONE && (MAP_ATTR_GetFlags(attrNow) & _ATTRFLAG_GRASS))
+        FLDEFF_GRASS_Start(FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl), mmdl, 1, 0);
 }
 
-void func_0219DAD0(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrFootMarkProc1(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
     u32 fldEffCtrl;
     int cycle;
-    if (attrOld != _ATTR_NONE && (func_021AB0F8(attrOld) & _ATTRFLAG_FOOTMARK)) {
-        fldEffCtrl = func_0219DC08(mmdl);
+    if (attrOld != _ATTR_NONE && (MAP_ATTR_GetFlags(attrOld) & _ATTRFLAG_FOOTMARK)) {
+        fldEffCtrl = FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl);
         cycle = 0;
         if (param->footMarkType == 2)
             cycle = 1;
-        func_021BBDD4(mmdl, fldEffCtrl, cycle);
+        FLDEFF_FOOTMARK_SetMMdl(mmdl, fldEffCtrl, cycle);
     }
 }
 
-void func_0219DB04(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrShadowProc0(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
-    func_0219DB0C(mmdl, attrNow, attrOld, param);
+    FLDMMDL_RAIL_MOVE_MapAttrShadowProc12(mmdl, attrNow, attrOld, param);
 }
 
-void func_0219DB0C(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrShadowProc12(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
-    if (func_0216D98C(func_0216D67C(mmdl)) != 0) {
-        if (func_0216D57C(mmdl, _MOVEBIT_SHADOW_SET) == 0) {
-            func_021AC2C0(mmdl, func_0219DC08(mmdl));
-            func_0216D568(mmdl, _MOVEBIT_SHADOW_SET);
+    if (FLDMMDL_SysIsDrawEnable(FLDMMDL_GetMmdlSys(mmdl)) != 0) {
+        if (FLDMMDL_CheckMoveBit(mmdl, _MOVEBIT_SHADOW_SET) == 0) {
+            FLDEFF_SHADOW_Start(mmdl, FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl));
+            FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_SHADOW_SET);
         }
     }
 }
 
-void func_0219DB44(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrEndNopProc(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
 }
 
-int func_0219DB48(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+int FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
-    return func_021AC578(mmdl, func_0219DC08(mmdl));
+    return FLDEFF_KEMURI_StartFacing(mmdl, FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl));
 }
 
-void func_0219DB5C(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
     u32 reflectAttr;
     u32 fldEffCtrl;
     void *mmdlSys;
-    if (param->reflectType != 0 && func_0216DC34(mmdl) == 0) {
+    if (param->reflectType != 0 && FLDMMDL_CheckMoveBitReflect(mmdl) == 0) {
         reflectAttr = _ATTR_NONE;
         if (attrNow != _ATTR_NONE) {
-            if (func_021AB0F8(attrNow) & _ATTRFLAG_REFLECT) {
+            if (MAP_ATTR_GetFlags(attrNow) & _ATTRFLAG_REFLECT) {
                 reflectAttr = attrNow;
             } else {
-                attrNow = func_02163F40(mmdl, _DIR_DOWN);
-                if (func_021AB0F8(attrNow) & _ATTRFLAG_REFLECT) {
+                attrNow = FLDMMDL_MOVE_GetDirMapAttr(mmdl, _DIR_DOWN);
+                if (MAP_ATTR_GetFlags(attrNow) & _ATTRFLAG_REFLECT) {
                     reflectAttr = attrNow;
                 }
             }
             if (reflectAttr != _ATTR_NONE) {
-                fldEffCtrl = func_0219DC08(mmdl);
-                mmdlSys = func_0216D67C(mmdl);
-                func_0216DC18(mmdl, 1);
-                func_021BBFB8(mmdlSys, mmdl, fldEffCtrl, 1);
+                fldEffCtrl = FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl);
+                mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
+                FLDMMDL_SetMoveBitReflect(mmdl, 1);
+                FLDEFF_REFLECT_SetMMdl(mmdlSys, mmdl, fldEffCtrl, 1);
             }
         }
     }
 }
 
-void func_0219DBC8(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
     int attrBelow;
-    if (param->reflectType != 0 && func_0216DC34(mmdl) != 0) {
-        attrBelow = func_02163F40(mmdl, _DIR_DOWN);
+    if (param->reflectType != 0 && FLDMMDL_CheckMoveBitReflect(mmdl) != 0) {
+        attrBelow = FLDMMDL_MOVE_GetDirMapAttr(mmdl, _DIR_DOWN);
         if (attrBelow == -1) {
-            func_0216DC18(mmdl, 0);
+            FLDMMDL_SetMoveBitReflect(mmdl, 0);
             return;
         }
-        if ((func_021AB0F8(attrBelow) & _ATTRFLAG_REFLECT) == 0) {
-            func_0216DC18(mmdl, 0);
+        if ((MAP_ATTR_GetFlags(attrBelow) & _ATTRFLAG_REFLECT) == 0) {
+            FLDMMDL_SetMoveBitReflect(mmdl, 0);
         }
     }
 }
 
 /* Field effect control of the field map that owns the field model. */
-u32 func_0219DC08(Mmdl *mmdl)
+u32 FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl)
 {
-    return func_02188CD0(func_0216D534(func_0216D67C(mmdl)));
+    return FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
 }
 
 /* Anime command step: end of the command. */
-int func_0219DC18(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcEnd(Mmdl *mmdl)
 {
-    func_0216D568(mmdl, _MOVEBIT_ACMD_END);
+    FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_ACMD_END);
     return 0;
 }
 
 /* Anime command step: nothing, go to the next step. */
-int func_0219DC28(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcNextStep(Mmdl *mmdl)
 {
-    func_0216D7CC(mmdl);
+    FLDMMDL_IncAcmdSeq(mmdl);
     return 1;
 }
 
-void func_0219DC34(Mmdl *mmdl, u32 dir)
+void FLDMMDL_RAIL_MOVE_AcDirSet(Mmdl *mmdl, u32 dir)
 {
-    func_0216D5E0(mmdl, (u16)dir);
-    func_0216D674(mmdl, _DRAW_STA_STOP);
-    func_02163F10(mmdl);
-    func_0216D7CC(mmdl);
+    FLDMMDL_SetDirDispCheckPause(mmdl, (u16)dir);
+    FLDMMDL_SetDrawStatus(mmdl, _DRAW_STA_STOP);
+    FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
+    FLDMMDL_IncAcmdSeq(mmdl);
 }
 
-int func_0219DC58(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcDirU0(Mmdl *mmdl)
 {
-    func_0219DC34(mmdl, _DIR_UP);
+    FLDMMDL_RAIL_MOVE_AcDirSet(mmdl, _DIR_UP);
     return 1;
 }
 
-int func_0219DC64(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcDirD0(Mmdl *mmdl)
 {
-    func_0219DC34(mmdl, _DIR_DOWN);
+    FLDMMDL_RAIL_MOVE_AcDirSet(mmdl, _DIR_DOWN);
     return 1;
 }
 
-int func_0219DC70(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcDirL0(Mmdl *mmdl)
 {
-    func_0219DC34(mmdl, _DIR_LEFT);
+    FLDMMDL_RAIL_MOVE_AcDirSet(mmdl, _DIR_LEFT);
     return 1;
 }
 
-int func_0219DC7C(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcDirR0(Mmdl *mmdl)
 {
-    func_0219DC34(mmdl, _DIR_RIGHT);
+    FLDMMDL_RAIL_MOVE_AcDirSet(mmdl, _DIR_RIGHT);
     return 1;
 }
 
-void func_0219DC88(Mmdl *mmdl, u32 dir, u32 frames, u16 drawStatus)
+void FLDMMDL_RAIL_MOVE_AcWalkSet(Mmdl *mmdl, u32 dir, u32 frames, u16 drawStatus)
 {
-    func_0219E370(mmdl, (u16)dir, frames);
-    func_0219E6C8(mmdl, dir);
-    func_0216D60C(mmdl, (u16)dir);
-    func_0216D674(mmdl, drawStatus);
-    func_0216D568(mmdl, _MOVEBIT_MOVE_START);
-    func_0216D7CC(mmdl);
+    FLDMMDL_RAIL_SetMoveRequest(mmdl, (u16)dir, frames);
+    FLDMMDL_RAIL_SetGridPosByDir(mmdl, dir);
+    FLDMMDL_SetDirAll(mmdl, (u16)dir);
+    FLDMMDL_SetDrawStatus(mmdl, drawStatus);
+    FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_MOVE_START);
+    FLDMMDL_IncAcmdSeq(mmdl);
 }
 
-int func_0219DCC4(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcWalk1(Mmdl *mmdl)
 {
     void *railWork;
     VecFx32 pos;
-    railWork = func_0219E348(mmdl);
-    func_0219E354(mmdl);
-    func_021B8028(railWork, &pos);
-    func_0216D89C(mmdl, &pos);
-    if (func_021B8040(railWork)) {
+    railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
+    FLDMMDL_RAIL_UpdateRailWork(mmdl);
+    FIELD_RAIL_WORK_GetPos(railWork, &pos);
+    FLDMMDL_SetPos(mmdl, &pos);
+    if (FIELD_RAIL_WORK_IsMoving(railWork)) {
         return 0;
     }
-    func_0216D568(mmdl, _MOVEBIT_MOVE_END | _MOVEBIT_ACMD_END);
-    func_0216D674(mmdl, _DRAW_STA_STOP);
-    func_0216D7CC(mmdl);
+    FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_MOVE_END | _MOVEBIT_ACMD_END);
+    FLDMMDL_SetDrawStatus(mmdl, _DRAW_STA_STOP);
+    FLDMMDL_IncAcmdSeq(mmdl);
     return 0;
 }
 
 /* Anime command step: end of a walk command (stop animation). */
-int func_0219DD18(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcWalkEnd(Mmdl *mmdl)
 {
-    func_0216D674(mmdl, _DRAW_STA_STOP);
+    FLDMMDL_SetDrawStatus(mmdl, _DRAW_STA_STOP);
     return 0;
 }
 
-int func_0219DD24(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_UP, 16, _DRAW_STA_WALK_16F); return 1; }
-int func_0219DD34(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_DOWN, 16, _DRAW_STA_WALK_16F); return 1; }
-int func_0219DD44(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_LEFT, 16, _DRAW_STA_WALK_16F); return 1; }
-int func_0219DD54(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_RIGHT, 16, _DRAW_STA_WALK_16F); return 1; }
-int func_0219DD64(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_UP, 8, _DRAW_STA_WALK_8F); return 1; }
-int func_0219DD74(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_DOWN, 8, _DRAW_STA_WALK_8F); return 1; }
-int func_0219DD84(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_LEFT, 8, _DRAW_STA_WALK_8F); return 1; }
-int func_0219DD94(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_RIGHT, 8, _DRAW_STA_WALK_8F); return 1; }
-int func_0219DDA4(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_UP, 4, _DRAW_STA_WALK_4F); return 1; }
-int func_0219DDB4(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_DOWN, 4, _DRAW_STA_WALK_4F); return 1; }
-int func_0219DDC4(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_LEFT, 4, _DRAW_STA_WALK_4F); return 1; }
-int func_0219DDD4(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_RIGHT, 4, _DRAW_STA_WALK_4F); return 1; }
-int func_0219DDE4(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_UP, 2, _DRAW_STA_WALK_2F); return 1; }
-int func_0219DDF4(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_DOWN, 2, _DRAW_STA_WALK_2F); return 1; }
-int func_0219DE04(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_LEFT, 2, _DRAW_STA_WALK_2F); return 1; }
-int func_0219DE14(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_RIGHT, 2, _DRAW_STA_WALK_2F); return 1; }
-int func_0219DE24(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_UP, 4, _DRAW_STA_DASH_4F); return 1; }
-int func_0219DE34(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_DOWN, 4, _DRAW_STA_DASH_4F); return 1; }
-int func_0219DE44(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_LEFT, 4, _DRAW_STA_DASH_4F); return 1; }
-int func_0219DE54(Mmdl *mmdl) { func_0219DC88(mmdl, _DIR_RIGHT, 4, _DRAW_STA_DASH_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkU16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_UP, 16, _DRAW_STA_WALK_16F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkD16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_DOWN, 16, _DRAW_STA_WALK_16F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkL16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_LEFT, 16, _DRAW_STA_WALK_16F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkR16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_RIGHT, 16, _DRAW_STA_WALK_16F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkU8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_UP, 8, _DRAW_STA_WALK_8F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkD8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_DOWN, 8, _DRAW_STA_WALK_8F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkL8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_LEFT, 8, _DRAW_STA_WALK_8F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkR8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_RIGHT, 8, _DRAW_STA_WALK_8F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkU4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_UP, 4, _DRAW_STA_WALK_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkD4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_DOWN, 4, _DRAW_STA_WALK_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkL4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_LEFT, 4, _DRAW_STA_WALK_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkR4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_RIGHT, 4, _DRAW_STA_WALK_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkU2F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_UP, 2, _DRAW_STA_WALK_2F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkD2F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_DOWN, 2, _DRAW_STA_WALK_2F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkL2F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_LEFT, 2, _DRAW_STA_WALK_2F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcWalkR2F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_RIGHT, 2, _DRAW_STA_WALK_2F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcDashU4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_UP, 4, _DRAW_STA_DASH_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcDashD4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_DOWN, 4, _DRAW_STA_DASH_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcDashL4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_LEFT, 4, _DRAW_STA_DASH_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcDashR4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl, _DIR_RIGHT, 4, _DRAW_STA_DASH_4F); return 1; }
 
-void func_0219DE64(Mmdl *mmdl, u32 dir, u16 frames, u16 drawStatus)
+void FLDMMDL_RAIL_MOVE_AcStayWalkSet(Mmdl *mmdl, u32 dir, u16 frames, u16 drawStatus)
 {
-    RailAcmdStayWalkWork *work = func_0216D6BC(mmdl, sizeof(RailAcmdStayWalkWork), frames);
+    RailAcmdStayWalkWork *work = FLDMMDL_InitMoveCmdWork(mmdl, sizeof(RailAcmdStayWalkWork), frames);
     work->drawStatus = drawStatus;
     work->frameCount = frames;
-    func_0216D5E0(mmdl, (u16)dir);
-    func_0216D674(mmdl, drawStatus);
-    func_02163F10(mmdl);
-    func_0216D7CC(mmdl);
+    FLDMMDL_SetDirDispCheckPause(mmdl, (u16)dir);
+    FLDMMDL_SetDrawStatus(mmdl, drawStatus);
+    FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
+    FLDMMDL_IncAcmdSeq(mmdl);
 }
 
-int func_0219DE98(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcStayWalk1(Mmdl *mmdl)
 {
-    RailAcmdStayWalkWork *work = func_0216D6D4(mmdl);
+    RailAcmdStayWalkWork *work = FLDMMDL_GetMoveCmdWork(mmdl);
     work->frameCount--;
     if (work->frameCount > 0)
         return 0;
-    func_0216D568(mmdl, _MOVEBIT_ACMD_END);
-    func_0216D674(mmdl, _DRAW_STA_STOP);
-    func_0216D7CC(mmdl);
+    FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_ACMD_END);
+    FLDMMDL_SetDrawStatus(mmdl, _DRAW_STA_STOP);
+    FLDMMDL_IncAcmdSeq(mmdl);
     return 1;
 }
 
-int func_0219DECC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_UP, 32, _DRAW_STA_WALK_32F); return 1; }
-int func_0219DEDC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_DOWN, 32, _DRAW_STA_WALK_32F); return 1; }
-int func_0219DEEC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_LEFT, 32, _DRAW_STA_WALK_32F); return 1; }
-int func_0219DEFC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_RIGHT, 32, _DRAW_STA_WALK_32F); return 1; }
-int func_0219DF0C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_UP, 16, _DRAW_STA_WALK_16F); return 1; }
-int func_0219DF1C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_DOWN, 16, _DRAW_STA_WALK_16F); return 1; }
-int func_0219DF2C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_LEFT, 16, _DRAW_STA_WALK_16F); return 1; }
-int func_0219DF3C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_RIGHT, 16, _DRAW_STA_WALK_16F); return 1; }
-int func_0219DF4C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_UP, 8, _DRAW_STA_WALK_8F); return 1; }
-int func_0219DF5C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_DOWN, 8, _DRAW_STA_WALK_8F); return 1; }
-int func_0219DF6C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_LEFT, 8, _DRAW_STA_WALK_8F); return 1; }
-int func_0219DF7C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_RIGHT, 8, _DRAW_STA_WALK_8F); return 1; }
-int func_0219DF8C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_UP, 2, _DRAW_STA_WALK_2F); return 1; }
-int func_0219DF9C(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_DOWN, 2, _DRAW_STA_WALK_2F); return 1; }
-int func_0219DFAC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_LEFT, 2, _DRAW_STA_WALK_2F); return 1; }
-int func_0219DFBC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_RIGHT, 2, _DRAW_STA_WALK_2F); return 1; }
-int func_0219DFCC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_UP, 4, _DRAW_STA_WALK_4F); return 1; }
-int func_0219DFDC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_DOWN, 4, _DRAW_STA_WALK_4F); return 1; }
-int func_0219DFEC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_LEFT, 4, _DRAW_STA_WALK_4F); return 1; }
-int func_0219DFFC(Mmdl *mmdl) { func_0219DE64(mmdl, _DIR_RIGHT, 4, _DRAW_STA_WALK_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkU32F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_UP, 32, _DRAW_STA_WALK_32F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkD32F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_DOWN, 32, _DRAW_STA_WALK_32F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkL32F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_LEFT, 32, _DRAW_STA_WALK_32F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkR32F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_RIGHT, 32, _DRAW_STA_WALK_32F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkU16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_UP, 16, _DRAW_STA_WALK_16F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkD16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_DOWN, 16, _DRAW_STA_WALK_16F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkL16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_LEFT, 16, _DRAW_STA_WALK_16F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkR16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_RIGHT, 16, _DRAW_STA_WALK_16F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkU8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_UP, 8, _DRAW_STA_WALK_8F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkD8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_DOWN, 8, _DRAW_STA_WALK_8F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkL8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_LEFT, 8, _DRAW_STA_WALK_8F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkR8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_RIGHT, 8, _DRAW_STA_WALK_8F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkU2F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_UP, 2, _DRAW_STA_WALK_2F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkD2F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_DOWN, 2, _DRAW_STA_WALK_2F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkL2F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_LEFT, 2, _DRAW_STA_WALK_2F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkR2F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_RIGHT, 2, _DRAW_STA_WALK_2F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkU4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_UP, 4, _DRAW_STA_WALK_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkD4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_DOWN, 4, _DRAW_STA_WALK_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkL4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_LEFT, 4, _DRAW_STA_WALK_4F); return 1; }
+int FLDMMDL_RAIL_MOVE_AcStayWalkR4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkSet(mmdl, _DIR_RIGHT, 4, _DRAW_STA_WALK_4F); return 1; }
 
-void func_0219E00C(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep, u32 seNo)
+void FLDMMDL_RAIL_MOVE_AcJumpSetSe(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep, u32 seNo)
 {
     RailAcmdJumpWork *work;
-    work = func_0216D6BC(mmdl, sizeof(RailAcmdJumpWork), speed);
+    work = FLDMMDL_InitMoveCmdWork(mmdl, sizeof(RailAcmdJumpWork), speed);
     work->dir = dir;
     work->speed = speed;
     work->frameCount = frames;
@@ -749,26 +749,26 @@ void func_0219E00C(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s1
     work->heightTable = heightTable;
     work->heightStep = heightStep;
     if (speed == 0) {
-        func_02163F10(mmdl);
+        FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
     } else {
-        func_0219E370(mmdl, (u16)dir, 8);
-        func_0219E6C8(mmdl, dir);
+        FLDMMDL_RAIL_SetMoveRequest(mmdl, (u16)dir, 8);
+        FLDMMDL_RAIL_SetGridPosByDir(mmdl, dir);
     }
-    func_0216D568(mmdl, _MOVEBIT_MOVE_START | _MOVEBIT_JUMP_START);
-    func_0216D60C(mmdl, (u16)dir);
-    func_0216D674(mmdl, drawStatus);
-    func_0216D7CC(mmdl);
+    FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_MOVE_START | _MOVEBIT_JUMP_START);
+    FLDMMDL_SetDirAll(mmdl, (u16)dir);
+    FLDMMDL_SetDrawStatus(mmdl, drawStatus);
+    FLDMMDL_IncAcmdSeq(mmdl);
     if (seNo) {
         func_020061E4(seNo);
     }
 }
 
-void func_0219E084(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep)
+void FLDMMDL_RAIL_MOVE_AcJumpSet(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep)
 {
-    func_0219E00C(mmdl, dir, speed, frames, drawStatus, heightTable, heightStep, _SE_RAIL_JUMP);
+    FLDMMDL_RAIL_MOVE_AcJumpSetSe(mmdl, dir, speed, frames, drawStatus, heightTable, heightStep, _SE_RAIL_JUMP);
 }
 
-int func_0219E0A8(Mmdl *mmdl)
+int FLDMMDL_RAIL_MOVE_AcJump1(Mmdl *mmdl)
 {
     RailAcmdJumpWork *work;
     void *railWork;
@@ -778,18 +778,18 @@ int func_0219E0A8(Mmdl *mmdl)
     VecFx32 pos;
     VecFx32 offset;
     s32 zeroOffset[3]; /* stand-in: a VecFx32 here moves it on the stack; the s32[3] seen through a VecFx32 pointer keeps the layout */
-    work = func_0216D6D4(mmdl);
+    work = FLDMMDL_GetMoveCmdWork(mmdl);
     work->frameCount--;
     if (work->speed != 0) {
-        railWork = func_0219E348(mmdl);
-        func_0219E354(mmdl);
-        func_021B8028(railWork, &pos);
-        func_0216D89C(mmdl, &pos);
+        railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
+        FLDMMDL_RAIL_UpdateRailWork(mmdl);
+        FIELD_RAIL_WORK_GetPos(railWork, &pos);
+        FLDMMDL_SetPos(mmdl, &pos);
         if (work->moveAcc >= 0x10000 && work->frameCount > 0) {
             work->moveAcc = 0;
-            func_0219E370(mmdl, work->dir, 8);
-            func_0219E6C8(mmdl, work->dir);
-            func_0216D568(mmdl, _MOVEBIT_MOVE_START);
+            FLDMMDL_RAIL_SetMoveRequest(mmdl, work->dir, 8);
+            FLDMMDL_RAIL_SetGridPosByDir(mmdl, work->dir);
+            FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_MOVE_START);
         }
         absSpeed = work->speed;
         if (absSpeed < 0) {
@@ -806,8 +806,8 @@ int func_0219E0A8(Mmdl *mmdl)
     offset.x = 0;
     offset.y = d_021DDD94[table][heightIndex];
     offset.z = 0;
-    func_0216D8C0(mmdl, &offset);
-    if (work->frameCount > 0 || func_021B8040(railWork)) {
+    FLDMMDL_SetDrawOffset(mmdl, &offset);
+    if (work->frameCount > 0 || FIELD_RAIL_WORK_IsMoving(railWork)) {
         return 0;
     }
     {
@@ -815,21 +815,21 @@ int func_0219E0A8(Mmdl *mmdl)
         zero->x = 0;
         zero->y = 0;
         zero->z = 0;
-        func_0216D8C0(mmdl, zero);
+        FLDMMDL_SetDrawOffset(mmdl, zero);
     }
-    func_0216D568(mmdl, _MOVEBIT_MOVE_END | _MOVEBIT_JUMP_END | _MOVEBIT_ACMD_END);
-    func_02163F10(mmdl);
-    func_0216D674(mmdl, _DRAW_STA_STOP);
-    func_0216D7CC(mmdl);
+    FLDMMDL_SetMoveBit(mmdl, _MOVEBIT_MOVE_END | _MOVEBIT_JUMP_END | _MOVEBIT_ACMD_END);
+    FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
+    FLDMMDL_SetDrawStatus(mmdl, _DRAW_STA_STOP);
+    FLDMMDL_IncAcmdSeq(mmdl);
     func_020061E4(_SE_RAIL_LAND);
     return 1;
 }
 
-int func_0219E1B0(Mmdl *mmdl) { func_0219E084(mmdl, _DIR_UP, 0x2000, 8, _DRAW_STA_WALK_8F, 0, 0x200); return 1; }
-int func_0219E1D0(Mmdl *mmdl) { func_0219E084(mmdl, _DIR_DOWN, 0x2000, 8, _DRAW_STA_WALK_8F, 0, 0x200); return 1; }
-int func_0219E1F4(Mmdl *mmdl) { func_0219E084(mmdl, _DIR_LEFT, 0x2000, 8, _DRAW_STA_WALK_8F, 0, 0x200); return 1; }
-int func_0219E218(Mmdl *mmdl) { func_0219E084(mmdl, _DIR_RIGHT, 0x2000, 8, _DRAW_STA_WALK_8F, 0, 0x200); return 1; }
-int func_0219E238(Mmdl *mmdl) { func_0219E084(mmdl, _DIR_UP, 0x2000, 16, _DRAW_STA_WALK_8F, 0, 0x100); return 1; }
-int func_0219E258(Mmdl *mmdl) { func_0219E084(mmdl, _DIR_DOWN, 0x2000, 16, _DRAW_STA_WALK_8F, 0, 0x100); return 1; }
-int func_0219E27C(Mmdl *mmdl) { func_0219E084(mmdl, _DIR_LEFT, 0x2000, 16, _DRAW_STA_WALK_8F, 0, 0x100); return 1; }
-int func_0219E29C(Mmdl *mmdl) { func_0219E084(mmdl, _DIR_RIGHT, 0x2000, 16, _DRAW_STA_WALK_8F, 0, 0x100); return 1; }
+int FLDMMDL_RAIL_MOVE_AcJumpU8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcJumpSet(mmdl, _DIR_UP, 0x2000, 8, _DRAW_STA_WALK_8F, 0, 0x200); return 1; }
+int FLDMMDL_RAIL_MOVE_AcJumpD8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcJumpSet(mmdl, _DIR_DOWN, 0x2000, 8, _DRAW_STA_WALK_8F, 0, 0x200); return 1; }
+int FLDMMDL_RAIL_MOVE_AcJumpL8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcJumpSet(mmdl, _DIR_LEFT, 0x2000, 8, _DRAW_STA_WALK_8F, 0, 0x200); return 1; }
+int FLDMMDL_RAIL_MOVE_AcJumpR8F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcJumpSet(mmdl, _DIR_RIGHT, 0x2000, 8, _DRAW_STA_WALK_8F, 0, 0x200); return 1; }
+int FLDMMDL_RAIL_MOVE_AcJumpU16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcJumpSet(mmdl, _DIR_UP, 0x2000, 16, _DRAW_STA_WALK_8F, 0, 0x100); return 1; }
+int FLDMMDL_RAIL_MOVE_AcJumpD16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcJumpSet(mmdl, _DIR_DOWN, 0x2000, 16, _DRAW_STA_WALK_8F, 0, 0x100); return 1; }
+int FLDMMDL_RAIL_MOVE_AcJumpL16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcJumpSet(mmdl, _DIR_LEFT, 0x2000, 16, _DRAW_STA_WALK_8F, 0, 0x100); return 1; }
+int FLDMMDL_RAIL_MOVE_AcJumpR16F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcJumpSet(mmdl, _DIR_RIGHT, 0x2000, 16, _DRAW_STA_WALK_8F, 0, 0x100); return 1; }

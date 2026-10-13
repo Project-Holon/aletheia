@@ -1,7 +1,7 @@
 /*
  * file:     unit_021AEB20.c
  * unit:     yes
- * function: VCT_MAIN_InitAudio, VCT_MAIN_MicRestartDone, VCT_MAIN_StreamCallback, VCT_MAIN_RequestConnection, VCT_MAIN_AcceptPendingPeer, VCT_MAIN_OnEventGroup, VCT_MAIN_OnEventPair, VCT_MAIN_ReleasePeer, VCT_MAIN_Update, VCT_MAIN_HandlePacket, VCT_MAIN_Start, VCT_MAIN_StartStream, VCT_MAIN_HangUp, VCT_MAIN_SetExitCallback, VCT_MAIN_Exit, VCT_MAIN_GetVoiceLevel, VCT_MAIN_ConnectPeers, VCT_MAIN_DisconnectPeers, VCT_MAIN_SetMuted, VCT_ADPCM_Decode4Bit, VCT_ADPCM_Encode4Bit, VCT_ADPCM_Decode3Bit, VCT_ADPCM_Encode3Bit, VCT_ADPCM_Decode2Bit, VCT_ADPCM_Encode2Bit, VCT_ADPCM_DecodePacket, VCT_ADPCM_EncodePacket, VCT_SESSION_Init, VCT_SESSION_ClearMemberCount, VCT_SESSION_AddMember, VCT_SESSION_RemoveMember, VCT_SESSION_QueueFrame, VCT_SESSION_ReadChannel, VCT_SESSION_MixVoices, VCT_SESSION_SetCodecMode, func_021B0CD8
+ * function: VCT_MAIN_InitAudio, VCT_MAIN_MicRestartDone, VCT_MAIN_StreamCallback, VCT_MAIN_RequestConnection, VCT_MAIN_AcceptPendingPeer, VCT_MAIN_OnEventGroup, VCT_MAIN_OnEventPair, VCT_MAIN_ReleasePeer, VCT_MAIN_Update, VCT_MAIN_HandlePacket, VCT_MAIN_Start, VCT_MAIN_StartStream, VCT_MAIN_HangUp, VCT_MAIN_SetExitCallback, VCT_MAIN_Exit, VCT_MAIN_GetVoiceLevel, VCT_MAIN_ConnectPeers, VCT_MAIN_DisconnectPeers, VCT_MAIN_SetMuted, VCT_ADPCM_Decode4Bit, VCT_ADPCM_Encode4Bit, VCT_ADPCM_Decode3Bit, VCT_ADPCM_Encode3Bit, VCT_ADPCM_Decode2Bit, VCT_ADPCM_Encode2Bit, VCT_ADPCM_DecodePacket, VCT_ADPCM_EncodePacket, VCT_SESSION_Init, VCT_SESSION_ClearMemberCount, VCT_SESSION_AddMember, VCT_SESSION_RemoveMember, VCT_SESSION_QueueFrame, VCT_SESSION_ReadChannel, VCT_SESSION_MixVoices, VCT_SESSION_SetCodecMode, VCT_SESSION_SetSendEnabled
  * address:  0x021AEB20
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -15,11 +15,11 @@
  *   func_0208B8B0  0x0208B8B0  arm
  *   func_0208BEF0  0x0208BEF0  arm
  *   func_0208BF38  0x0208BF38  arm
- *   func_021B0CD8  0x021B0CD8  arm ov013
+ *   VCT_SESSION_SetSendEnabled  0x021B0CD8  arm ov013
  *   func_020726D0  0x020726D0  arm
  *   func_020737C0  0x020737C0  arm
  *   func_02082AC0  0x02082AC0  arm
- *   func_021B0D08  0x021B0D08  arm ov013
+ *   VCT_SESSION_SetFilterEnabled  0x021B0D08  arm ov013
  *   gVctWork     0x021B3C80  data ov013
  *   func_02082BCC  0x02082BCC  arm
  *   func_0202EB0C  0x0202EB0C  thumb
@@ -29,7 +29,7 @@
  *   VCT_SESSION_MixVoices  0x021B0B48  arm ov013
  *   VCT_SESSION_QueueFrame  0x021B07F8  arm ov013
  *   VCT_SESSION_AllocPeerRecord  0x021B1F2C  arm ov013
- *   func_021B20B0  0x021B20B0  arm ov013
+ *   VCT_SESSION_SendGroupCommand  0x021B20B0  arm ov013
  *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm ov013
  *   VCT_SESSION_SendPeerReply  0x021B2180  arm ov013
  *   VCT_SESSION_AddMember  0x021B0614  arm ov013
@@ -69,7 +69,7 @@
  *   gAdpcmStepTable     0x021B3A1C  data ov013 a2
  *   gAdpcmIndexTable3     0x021B3A04  data ov013 a1
  *   gAdpcmIndexTable2     0x021B3A00  data ov013 a1
- *   d_021B3C84     0x021B3C84  data ov013 a4
+ *   gVctSendState     0x021B3C84  data ov013 a4
  *   d_021B3C24     0x021B3C24  data ov013 a4
  *   gVctSession     0x021B60D8  data ov013 a4
  *   d_021B3AD0     0x021B3AD0  data ov013 a1
@@ -141,7 +141,7 @@ extern u8 DWC_GetMyAID(void);
 
 /* Engine (ov013). */
 extern VctPeer *VCT_SESSION_AllocPeerRecord(unsigned int peerType);
-extern int func_021B20B0(VctPeer *peer, int command);
+extern int VCT_SESSION_SendGroupCommand(VctPeer *peer, int command);
 extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
 extern int VCT_SESSION_SendPeerReply(VctPeer *peer, int state);
 extern int VCT_SESSION_AddPeer(u8 aid);
@@ -167,8 +167,8 @@ extern void VCT_DSP_ResetVoiceGate(void);
 extern void VCT_DSP_MixSaturated(s16 *input, s16 *other, s16 *output, u32 length);
 extern void VCT_DSP_SetEchoReference(void *samples, u32 length);
 
-extern void func_021B0CD8(int enabled);
-extern void func_021B0D08(int enabled);
+extern void VCT_SESSION_SetSendEnabled(int enabled);
+extern void VCT_SESSION_SetFilterEnabled(int enabled);
 
 /* Two names for 0x02082AC0: see VCT_SESSION_MixVoices. */
 extern void MIi_CpuClearFast(int value, void *dst, u32 size);
@@ -228,12 +228,12 @@ void VCT_MAIN_InitAudio(void)
     func_0208B8B0();
     func_0208BEF0(1);
     func_0208BF38(3);
-    func_021B0CD8(1);
+    VCT_SESSION_SetSendEnabled(1);
     func_020726D0();
     func_020737C0(gVctWork->audioStream);
     func_02082AC0(0, gVctWork->playbackBuffers[1], VCT_BUFFER_BYTES);
     gVctWork->microsecondDebt = 0;
-    func_021B0D08(1);
+    VCT_SESSION_SetFilterEnabled(1);
 }
 
 
@@ -303,7 +303,7 @@ void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 l
  * allocate one, then issue command 0 to it. Returns 1 when the request was
  * started, 0 when it failed (the peer is released again).
  *
- * note: 2026-10-05 the call to func_021B20B0 is written in each arm of the
+ * note: 2026-10-05 the call to VCT_SESSION_SendGroupCommand is written in each arm of the
  *   null test (new allocation, existing node); the compiler cross-jumps the
  *   shared tail and the first arm uses the call result register directly.
  */
@@ -317,9 +317,9 @@ int VCT_MAIN_RequestConnection(int peerType)
         if (peer == 0) {
             return 0;
         }
-        result = func_021B20B0(peer, 0);
+        result = VCT_SESSION_SendGroupCommand(peer, 0);
     } else {
-        result = func_021B20B0(peer, 0);
+        result = VCT_SESSION_SendGroupCommand(peer, 0);
     }
     if (result != 0) {
         VCT_SESSION_FreePeerRecord(peer);
@@ -544,7 +544,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     gVctWork->sendPaused = 0;
     VCT_SESSION_SetCodecMode(codecMode);
     VCT_MAIN_StartStream();
-    func_021B0D08(1);
+    VCT_SESSION_SetFilterEnabled(1);
 }
 
 
@@ -560,12 +560,12 @@ void VCT_MAIN_HangUp(void)
         return;
     }
     if (gVctWork->linkState == 1) {
-        if (func_021B20B0(gVctWork->pendingPeer, 2)) {
+        if (VCT_SESSION_SendGroupCommand(gVctWork->pendingPeer, 2)) {
             DWC_RAP_CleanupVchat();
             return;
         }
     }
-    if (func_021B20B0(gVctWork->pendingPeer, 1)) {
+    if (VCT_SESSION_SendGroupCommand(gVctWork->pendingPeer, 1)) {
         DWC_RAP_CleanupVchat();
     }
 }
@@ -1170,19 +1170,19 @@ int VCT_SESSION_Init(void)
     u32 i;
     u32 codecMode;
 
-    d_021B3C84.sequence = func_02087170();
+    gVctSendState.sequence = func_02087170();
     d_021B3C24 = 1;
-    d_021B3C84.memberCount = 0;
-    d_021B3C84.memberMask = 0;
+    gVctSendState.memberCount = 0;
+    gVctSendState.memberMask = 0;
     codecMode = 0;
     if (gVctSession.mode != 1) {
         codecMode = 4;
-        d_021B3C84.codecMode = codecMode;
+        gVctSendState.codecMode = codecMode;
     } else {
-        d_021B3C84.codecMode = codecMode;
+        gVctSendState.codecMode = codecMode;
     }
-    d_021B3C84.frameBytes = VCT_FRAME_BYTES;
-    d_021B3C84.packetBytes = GetPacketBytes(codecMode);
+    gVctSendState.frameBytes = VCT_FRAME_BYTES;
+    gVctSendState.packetBytes = GetPacketBytes(codecMode);
     d_021B42C0.readCount = 0;
     d_021B42C0.writeCount = 0;
     d_021B42C0.pendingMask = 0;
@@ -1202,7 +1202,7 @@ int VCT_SESSION_Init(void)
 
 
 /* Forget all members (the member slots themselves are cleared by the engine shutdown). */
-void VCT_SESSION_ClearMemberCount(void) { d_021B3C84.memberCount = 0; }
+void VCT_SESSION_ClearMemberCount(void) { gVctSendState.memberCount = 0; }
 
 
 /*
@@ -1218,7 +1218,7 @@ int VCT_SESSION_AddMember(VctPeer *peer)
     if (peer == 0) {
         return 0;
     }
-    if (d_021B3C84.memberCount == VCT_MAX_MEMBERS) {
+    if (gVctSendState.memberCount == VCT_MAX_MEMBERS) {
         return 0;
     }
     if (peer->phase != 2 && peer->phase != 3) {
@@ -1235,19 +1235,19 @@ int VCT_SESSION_AddMember(VctPeer *peer)
             break;
         }
     }
-    d_021B3C84.memberCount++;
-    d_021B3C84.memberMask |= peer->memberMask;
+    gVctSendState.memberCount++;
+    gVctSendState.memberMask |= peer->memberMask;
     VCT_AUDIO_InitReceiveSource(&d_021B3CBC[slotIndex], slotIndex, peer->floorHolderId);
     VCT_AUDIO_ClearReadyQueue(slotIndex);
     if (peer->phase != 2) {
         return 1;
     }
-    if (d_021B3C84.memberCount == 1) {
+    if (gVctSendState.memberCount == 1) {
         VCT_DSP_ResetVoiceGate();
-        d_021B3C84.sequence = func_02087170();
-        d_021B3C84.adpcmPredictor = 0;
-        d_021B3C84.adpcmStepIndex = 0;
-        d_021B3C84.markerRequest = 1;
+        gVctSendState.sequence = func_02087170();
+        gVctSendState.adpcmPredictor = 0;
+        gVctSendState.adpcmStepIndex = 0;
+        gVctSendState.markerRequest = 1;
         d_021B42C0.readCount = 0;
         d_021B42C0.writeCount = 0;
         d_021B42C0.pendingMask = 0;
@@ -1271,21 +1271,21 @@ void VCT_SESSION_RemoveMember(VctPeer *peer)
     do {
         if(gVctMembers[slotIndex]==peer) {
             nullPeer = 0;
-            oldCount = d_021B3C84.memberCount;
+            oldCount = gVctSendState.memberCount;
             gVctMembers[slotIndex]=nullPeer;
-            d_021B3C84.memberCount = oldCount - 1;
+            gVctSendState.memberCount = oldCount - 1;
             VCT_AUDIO_DetachReceiveSource(&d_021B3CBC[slotIndex]);
             VCT_AUDIO_FlushReadyQueue(slotIndex);
             VCT_AUDIO_FlushPendingSlot(slotIndex);
-            d_021B3C84.memberMask &= ~peer->memberMask;
+            gVctSendState.memberMask &= ~peer->memberMask;
             break;
         }
         slotIndex++;
     } while(slotIndex<VCT_MAX_MEMBERS);
-    if(d_021B3C84.memberCount==0) {
-        d_021B3C84.markerRequest=1;
+    if(gVctSendState.memberCount==0) {
+        gVctSendState.markerRequest=1;
         VCT_DSP_ResetVoiceGate();
-        d_021B3C84.memberMask=0;
+        gVctSendState.memberMask=0;
     }
 }
 #pragma opt_propagation reset
@@ -1300,7 +1300,7 @@ void VCT_SESSION_RemoveMember(VctPeer *peer)
  * no member, or no member is in phase 2.
  *
  * pass 3 2026-10-06 P3L09: closed. The codec mode field is read through a const pointer to the shared
- * state (`const VctSendState *sendState = &d_021B3C84; if (sendState->codecMode >= 2)`). A const load has no memory
+ * state (`const VctSendState *sendState = &gVctSendState; if (sendState->codecMode >= 2)`). A const load has no memory
  * dependence on the header magic store, so the scheduler issues moveq before the f1C load
  * (idiom a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer). The rest is the
  * G7L4 form: opt_propagation off, `(i < 3) ? 1 : 0` while loop, magic and divisor as named locals.
@@ -1316,11 +1316,11 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 length)
   u32 magic;
   const VctSendState *sendState;
   hasJoinedMember = 0;
-  if (length != d_021B3C84.frameBytes)
+  if (length != gVctSendState.frameBytes)
   {
     return 0;
   }
-  if (d_021B3C84.memberCount == 0)
+  if (gVctSendState.memberCount == 0)
   {
     return 0;
   }
@@ -1342,7 +1342,7 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 length)
   header = (VctAudioFrame *) ((u8 *) &d_021B42C0 + slotOffset);
   magic = VCT_PACKET_MAGIC;
   header->magic = magic;
-  sendState = &d_021B3C84;
+  sendState = &gVctSendState;
   if (sendState->codecMode >= 2)
   {
     func_02082B0C(src, ((u8 *) header) + 0x10, length);
@@ -1353,8 +1353,8 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 length)
   }
   frameType = 0x40;
   header->type = frameType;
-  sequence = d_021B3C84.sequence;
-  d_021B3C84.sequence = d_021B3C84.sequence + 1;
+  sequence = gVctSendState.sequence;
+  gVctSendState.sequence = gVctSendState.sequence + 1;
   header->seq = sequence;
   header->timestamp = (u32) (func_020870D0() / (u32)frameType);
   d_021B42C0.writeCount++;
@@ -1475,7 +1475,7 @@ int VCT_SESSION_MixVoices(void *output, u32 length, u32 *sourceMask)
         *sourceMask = 0;
 
     mixed = 0;
-    if (length == d_021B3C84.frameBytes && d_021B3C84.memberCount != 0) {
+    if (length == gVctSendState.frameBytes && gVctSendState.memberCount != 0) {
         for (i = 0; i < VCT_MAX_MEMBERS; i++) {
             if (VCT_SESSION_ReadChannel(output, length, i, sourceMask) == 1) {
                 mixed = 1;
@@ -1500,7 +1500,7 @@ int VCT_SESSION_MixVoices(void *output, u32 length, u32 *sourceMask)
         func_02082AC0(mixed, output, length);
     }
 
-    if (d_021B3C84.echoSuppressEnabled != 0)
+    if (gVctSendState.echoSuppressEnabled != 0)
         VCT_DSP_SetEchoReference(output, length);
     return mixed;
 }
@@ -1515,17 +1515,17 @@ int VCT_SESSION_SetCodecMode(int codecMode)
     if (gVctSession.mode != 1 && (unsigned)codecMode <= 1) {
         return 0;
     }
-    d_021B3C84.packetBytes = d_021B3AD0[codecMode].blocks * 0x44 + d_021B3AD0[codecMode].extraBytes + 0xC;
-    d_021B3C84.codecMode = codecMode;
-    d_021B3C84.adpcmPredictor = 0;
-    d_021B3C84.adpcmStepIndex = 0;
+    gVctSendState.packetBytes = d_021B3AD0[codecMode].blocks * 0x44 + d_021B3AD0[codecMode].extraBytes + 0xC;
+    gVctSendState.codecMode = codecMode;
+    gVctSendState.adpcmPredictor = 0;
+    gVctSendState.adpcmStepIndex = 0;
     return 1;
 }
 
 /* Enable or disable sending; the gate is reset and a disable asks the sender to mute. */
-void func_021B0CD8(int enabled)
+void VCT_SESSION_SetSendEnabled(int enabled)
 {
     d_021B3C24 = enabled;
     VCT_DSP_ResetVoiceGate();
-    if (enabled == 0) d_021B3C84.markerRequestNoVad = 1;
+    if (enabled == 0) gVctSendState.markerRequestNoVad = 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218F818
+ * function: FIELD_CAMERA_PushState
  * address:  0x0218F818
  * packet:   pkt_ov021_0218F818
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218E13C  0x0218E13C  thumb
- *   func_0218F780  0x0218F780  thumb
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb
+ *   FIELD_CAMERA_TakeView  0x0218F780  thumb
  */
 #include "../include/Obj02371.h"
 
@@ -28,17 +28,17 @@ typedef struct {
     u32 active;
 } Sub;
 
-extern void func_0218E13C(u8 *a, u32 s);
-extern void func_0218F780(u8 *s, u8 *d);
+extern void FIELD_CAMERA_SetMode(u8 *a, u32 s);
+extern void FIELD_CAMERA_TakeView(u8 *s, u8 *d);
 
-void func_0218F818(u8 *a)
+void FIELD_CAMERA_PushState(u8 *a)
 {
     if (a != 0) {
         Sub *s = (Sub *)(a + 0xf0);
         if (s->active == 0) {
             s->saved = ((struct Obj02371 *)a)->f14;
-            func_0218E13C(a, 0);
-            func_0218F780(a, s->body);
+            FIELD_CAMERA_SetMode(a, 0);
+            FIELD_CAMERA_TakeView(a, s->body);
             s->active = 1;
         }
     }

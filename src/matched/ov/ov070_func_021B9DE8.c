@@ -1,5 +1,5 @@
 /*
- * function: func_021B9DE8
+ * function: ITEMMENU_DestroyMovingCursor
  * address: 0x021B9DE8
  * packet: pkt_ov070_021B9DE8
  * region: ov070
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  */
 #include "../include/Obj01041.h"
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(unsigned);
-extern void func_0204ADA4(unsigned);
-void func_021B9DE8(char *p) { if (((struct Obj01041 *)p)->f6A0) { func_0204B3B4(((struct Obj01041 *)p)->f6A0); func_0204A8D4(*(unsigned *)&((struct Obj01041 *)p)->f54C); func_0204ADA4(*(unsigned *)&((struct Obj01041 *)p)->f548); ((struct Obj01041 *)p)->f6A0 = 0; } }
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleasePalette(unsigned);
+void ITEMMENU_DestroyMovingCursor(char *p) { if (((struct Obj01041 *)p)->f6A0) { CLACT_DeleteActor(((struct Obj01041 *)p)->f6A0); CLACT_ReleaseCharacter(*(unsigned *)&((struct Obj01041 *)p)->f54C); CLACT_ReleasePalette(*(unsigned *)&((struct Obj01041 *)p)->f548); ((struct Obj01041 *)p)->f6A0 = 0; } }

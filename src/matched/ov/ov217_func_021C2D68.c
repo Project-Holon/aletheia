@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02021F64  0x02021F64  thumb
+ *   PALANM_BlendColors  0x02021F64  thumb
  */
 #include "../include/Obj00115.h"
 
@@ -21,10 +21,10 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_02021F64(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void PALANM_BlendColors(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 void func_021C2D68(void *p)
 {
-    func_02021F64(*(u32 *)&((struct Obj00115 *)p)->fC, *(u32 *)&((struct Obj00115 *)p)->f8, ((struct Obj00115 *)p)->f10, 7, ((struct Obj00115 *)p)->f12);
+    PALANM_BlendColors(*(u32 *)&((struct Obj00115 *)p)->fC, *(u32 *)&((struct Obj00115 *)p)->f8, ((struct Obj00115 *)p)->f10, 7, ((struct Obj00115 *)p)->f12);
     (((struct Obj00115 *)p)->f1C)++;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A0138
+ * function: FIELD_FOG_Delete
  * address:  0x021A0138
  * packet:   pkt_021A0138
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021A0138(u32 a)
+void FIELD_FOG_Delete(u32 a)
 {
     func_020307B0((void *)a);
 }

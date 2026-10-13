@@ -11,19 +11,20 @@
  *   func_021D580C 0x021D580C thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D6EE8 0x021D6EE8 thumb ov123
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  */
 #include "../include/Obj13984.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern int func_021D580C(char *);
-extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
+extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 typedef unsigned char  u8;
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D6EE8(char *);
 void func_021D6F04(char *p)
 {
     if (func_021D580C(*(char * *)&((struct Obj13984 *)p)->f18)) {
-        func_0202208C(0,0,0,0,6,1,((struct Obj13984 *)p)->f0);
+        WIPE_SYS_Start(0,0,0,0,6,1,((struct Obj13984 *)p)->f0);
         func_021D6EE0((u8 *)p,(int)func_021D6EE8,0x16b);
     }
 }

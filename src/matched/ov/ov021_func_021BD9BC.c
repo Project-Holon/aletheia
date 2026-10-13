@@ -1,5 +1,5 @@
 /*
- * function: func_021BD9BC
+ * function: EVENT_ENTRANCE_OUT_Create
  * address:  0x021BD9BC
  * packet:   pkt_ov021_021BD9BC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D9BC8     0x021D9BC8  data  ov021  a4
+ *   gEntranceOutEventTable     0x021D9BC8  data  ov021  a4
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  * Addresses are Black-image addresses.
@@ -22,15 +22,15 @@ typedef unsigned int   u32;
 
 typedef struct { u32 v[6]; } T6;
 
-extern const T6 d_021D9BC8;
+extern const T6 gEntranceOutEventTable;
 struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *, void *, void *, u32);
 extern void *func_020124E8(struct Obj *);
 
-int func_021BD9BC(u32 *p)
+int EVENT_ENTRANCE_OUT_Create(u32 *p)
 {
-    T6 t = d_021D9BC8;
+    T6 t = gEntranceOutEventTable;
     u32 i;
     u32 r;
 

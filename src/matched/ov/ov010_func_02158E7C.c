@@ -1,5 +1,5 @@
 /*
- * function: func_02158E7C
+ * function: SCRIPT_WORK_Create
  * address:  0x02158E7C
  * packet:   pkt_ov010_02158E7C
  * region:   ov010
@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02158DB0  0x02158DB0  thumb  ov010
+ *   SCRIPT_SYS_IsChildScript  0x02158DB0  thumb  ov010
  *   func_0201EC74  0x0201EC74  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_0215A514  0x0215A514  thumb  ov010
- *   func_02158E54  0x02158E54  thumb  ov010
- *   func_02159130  0x02159130  thumb  ov010
- *   d_0217289C     0x0217289C  data  ov010  a1
+ *   STRBUF_Create  0x020457B0  arm
+ *   SCRCMD_WORK_CreateCommon  0x0215A514  thumb  ov010
+ *   SCRIPT_WORK_InitFieldParam  0x02158E54  thumb  ov010
+ *   SCRIPT_WORK_ClearCheckFlags  0x02159130  thumb  ov010
+ *   sScriptWorkFileName     0x0217289C  data  ov010  a1
  */
 #include "../include/Obj00105.h"
 
@@ -31,19 +31,19 @@ struct O {
 
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_02158DB0(int);
+extern int SCRIPT_SYS_IsChildScript(int);
 struct WordSet;
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_0215A514(int a, int heap);
-extern int func_02158E54(int a0, int a1);
-extern void func_02159130(void);
-extern char d_0217289C[];
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void *SCRCMD_WORK_CreateCommon(int a, int heap);
+extern int SCRIPT_WORK_InitFieldParam(int a0, int a1);
+extern void SCRIPT_WORK_ClearCheckFlags(void);
+extern char sScriptWorkFileName[];
 
-int *func_02158E7C(u16 a, int b, int c, int d, int e, int f)
+int *SCRIPT_WORK_Create(u16 a, int b, int c, int d, int e, int f)
 {
-    int *p = func_02030734(a, 0x14C, 1, d_0217289C, 0xAF);
+    int *p = func_02030734(a, 0x14C, 1, sScriptWorkFileName, 0xAF);
     p[0] = 0x3643F;
     *(u16 *)(p + 3) = a;
     p[4] = b;
@@ -52,19 +52,19 @@ int *func_02158E7C(u16 a, int b, int c, int d, int e, int f)
     p[2] = 0;
     p[8] = e;
     p[10] = f;
-    p[9] = func_02158DB0(f);
+    p[9] = SCRIPT_SYS_IsChildScript(f);
     if (p[9] == 0) {
         p[11] = (int)func_0201EC74(0x1C, 0x40, a);
-        p[12] = (int)func_020457B0(0x500, a);
-        p[13] = (int)func_020457B0(0x500, a);
+        p[12] = (int)STRBUF_Create(0x500, a);
+        p[13] = (int)STRBUF_Create(0x500, a);
     } else {
         p[11] = 0;
         p[12] = 0;
         p[13] = 0;
     }
-    p[0x52] = (int)func_0215A514((int)p, a);
-    func_02158E54((int)(p + 6), b);
+    p[0x52] = (int)SCRCMD_WORK_CreateCommon((int)p, a);
+    SCRIPT_WORK_InitFieldParam((int)(p + 6), b);
     if (p[9] == 0)
-        func_02159130();
+        SCRIPT_WORK_ClearCheckFlags();
     return p;
 }

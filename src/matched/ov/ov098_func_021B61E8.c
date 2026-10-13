@@ -8,13 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note: 2026-10-05 EXACT. heap is a u8 parameter (func_0203101C takes it as u16 with no
+ * note: 2026-10-05 EXACT. heap is a u8 parameter (TCBL_Create takes it as u16 with no
  *   narrowing). func_02202058 (ov094) returns its callee's pointer, but ov094_func_02202058.c
  *   declares it void; this file declares it int. Owner file needs the return fixed.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021B636C 0x021B636C thumb ov098
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_021B6144 0x021B6144 thumb ov098
  *   func_021F73F0 0x021F73F0 thumb ov094
  *   func_021F7544 0x021F7544 thumb ov094
@@ -22,7 +22,7 @@
  *   func_021B613C 0x021B613C thumb ov098
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   func_02202058 0x02202058 thumb ov094
- *   func_0203101C 0x0203101C arm
+ *   TCBL_Create 0x0203101C arm
  *   func_021B6140 0x021B6140 thumb ov098
  *   func_021B6150 0x021B6150 thumb ov098
  *   func_021B67D4 0x021B67D4 thumb ov098
@@ -42,7 +42,7 @@ extern const char d_021B6E68[];
 extern const struct Halves d_021B6D80;
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_021B636C(u16);
-extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
+extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern int func_021B6144(void *);
 extern void *func_021F73F0(int,int,void *,int,u16 *,int,int,u16);
 extern void func_021F7544(void *,int,u16);
@@ -51,7 +51,7 @@ extern int func_021B613C(void *);
 extern int func_021F86E0(void);
 struct Obj;
 extern struct Obj *func_02202058(int a, int b, int c, int d, int e, u16 k);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern int func_021B6140(void *);
 extern u32 func_021B6150(u8 *);
 extern u8 *func_021B67D4(void *,void *,void *,u32);
@@ -70,8 +70,8 @@ u8 *func_021B61E8(void *input,u8 heap)
     H(0x6c)=heap;
     P(0)=input;
     func_021B636C(H(0x6c));
-    P(8)=func_0201D7EC(23,0,0,0,H(0x6c));
-    P(12)=func_0201D7EC(23,2,0,0,H(0x6c));
+    P(8)=GF_FONT_Create(23,0,0,0,H(0x6c));
+    P(12)=GF_FONT_Create(23,2,0,0,H(0x6c));
     *(u32 *)(p+0x60)=0;
     h=d_021B6D80;
     q=func_021F73F0(0,0,(void *)func_021B6144(input),0,(u16 *)&h,0,0,H(0x6c));
@@ -79,7 +79,7 @@ u8 *func_021B61E8(void *input,u8 heap)
     func_020307B0(q);
     ctx=func_021B613C(input);
     P(16)=(void *)func_02202058(ctx,0,func_021F86E0(),(int)P(8),(int)(p+0x74),H(0x6c));
-    P(24)=func_0203101C(heap,heap,64,128);
+    P(24)=TCBL_Create(heap,heap,64,128);
     *(int *)(p+4)=func_021B6140(input);
     P(20)=func_021B67D4(P(8),(void *)func_021B6150(input),P(24),H(0x6c));
     P(0x70)=func_02008254(H(0x6c));

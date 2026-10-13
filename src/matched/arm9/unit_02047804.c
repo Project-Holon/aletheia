@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02047804, func_02047828
+ * function: G3D_SYSTEM_ResetObjectAnimeFrame, G3D_SYSTEM_GetObjectAnimeFrame
  * address:  0x02047804
  * packet:   pkt_02047804
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Two siblings of func_0204784C over the same slot table at +8: a null slot
+ * Two siblings of G3D_SYSTEM_SetObjectAnimeFrame over the same slot table at +8: a null slot
  * returns 0; otherwise the first clears the slot object's frame and the
  * second stores it to *frame, and both return 1.  Seeded from ov021
  * 0x0218C064 and 0x0218C486 (blx).
@@ -44,7 +44,7 @@ struct AnmCtl {
     struct AnmSlot **slots; /* +8 */
 };
 
-u32 func_02047804(struct AnmCtl *c, u16 idx)
+u32 G3D_SYSTEM_ResetObjectAnimeFrame(struct AnmCtl *c, u16 idx)
 {
     struct AnmSlot *s = c->slots[idx];
 
@@ -55,7 +55,7 @@ u32 func_02047804(struct AnmCtl *c, u16 idx)
     return 1;
 }
 
-u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame)
+u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame)
 {
     struct AnmSlot *s = c->slots[idx];
 

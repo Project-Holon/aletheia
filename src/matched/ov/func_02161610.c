@@ -1,5 +1,5 @@
 /*
- * function: func_02161610
+ * function: EVENT_FIELD_PROCLINK_ReturnEvolution
  * address:  0x02161610
  * packet:   pkt_02161610
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  */
 #include "../include/Obj05854.h"
 
@@ -20,16 +20,16 @@ typedef unsigned int u32;
 
 struct Ctx;
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
-int func_02161610(int a0)
+int EVENT_FIELD_PROCLINK_ReturnEvolution(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
 a0 = ((struct Obj05854 *)t4)->f18;
 a0 = ((struct Obj05854 *)((char *)a0))->f0;
-    func_020120F4((const struct Ctx *)a0);
+    GAMESYSTEM_GetGameData((const struct Ctx *)a0);
 loc_0216161C:
 a0 = ((struct Obj05854 *)t4)->f68;
     if (a0 != 3) goto loc_0216162A;

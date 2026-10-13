@@ -1,5 +1,5 @@
 /*
- * function: func_0217FEF4
+ * function: COLOSSEUM_IsAnyFinished
  * address: 0x0217FEF4
  * packet: pkt_ov019_0217FEF4
  * region: ov019
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-int func_0217FEF4(u8 *p)
+int COLOSSEUM_IsAnyFinished(u8 *p)
 {
     int i;
     for (i = 0; i < 4; i++) {

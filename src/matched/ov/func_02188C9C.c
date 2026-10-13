@@ -1,5 +1,5 @@
 /*
- * function: func_02188C9C
+ * function: FIELDMAP_GetZoneId
  * address:  0x02188C9C
  * packet:   pkt_02188C54
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_02188C9C(u8 *p)
+u16 FIELDMAP_GetZoneId(u8 *p)
 {
     return ((struct Obj17866 *)p)->fD8;
 }

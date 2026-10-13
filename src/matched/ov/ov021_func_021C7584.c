@@ -1,5 +1,5 @@
 /*
- * function: func_021C7584
+ * function: FIELD_TASK_UpdatePlayerPosTween
  * address:  0x021C7584
  * packet:   pkt_ov021_021C7584
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021A3044  0x021A3044  thumb  ov021
- *   func_02164010  0x02164010  thumb  ov010
- *   func_020520A4  0x020520A4  arm
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
+ *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
+ *   BUTTON_MAN_ScaleVec  0x020520A4  arm
  *   func_0207C9D0  0x0207C9D0  arm
  *   _fgr           0x0209BBB0  arm
  *   _fflt          0x0209BDBC  arm
@@ -46,19 +46,19 @@ typedef struct {
 } Work;
 
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 struct Vec3;
-extern void func_021A3044(u8 *p, void *v);
-extern int func_02164010(int a);
-extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *dst);
+extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
+extern int FLDMMDL_MOVE_UpdateHeight(int a);
+extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *c);
 
 #define FX32_ONE 0x1000
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-int func_021C7584(Work *w)
+int FIELD_TASK_UpdatePlayerPosTween(Work *w)
 {
     void *o;
     void *m;
@@ -67,21 +67,21 @@ int func_021C7584(Work *w)
     VecFx32 b;
     VecFx32 c;
 
-    o = func_02188CB4(w->id);
-    m = func_021A3074(o);
+    o = FIELDMAP_GetFieldPlayer(w->id);
+    m = FIELD_PLAYER_GetMmdl(o);
     switch (w->state) {
     case 0:
-        func_021A3038(o, &w->from);
+        FIELD_PLAYER_GetPos(o, &w->from);
         w->state++;
         break;
     case 1:
         w->cnt++;
         t = FX_F32_TO_FX32((f32)w->cnt / (f32)w->max);
-        func_020520A4((const struct Vec3 *)(&w->from), FX32_ONE - t, (struct Vec3 *)(&a));
-        func_020520A4((const struct Vec3 *)(&w->to), t, (struct Vec3 *)(&b));
+        BUTTON_MAN_ScaleVec((const struct Vec3 *)(&w->from), FX32_ONE - t, (struct Vec3 *)(&a));
+        BUTTON_MAN_ScaleVec((const struct Vec3 *)(&w->to), t, (struct Vec3 *)(&b));
         func_0207C9D0(&a, &b, &c);
-        func_021A3044(o, &c);
-        func_02164010((int)m);
+        FIELD_PLAYER_SetPos(o, &c);
+        FLDMMDL_MOVE_UpdateHeight((int)m);
         if (w->max <= w->cnt)
             return 1;
         break;

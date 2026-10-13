@@ -1,5 +1,5 @@
 /*
- * function: func_021B6600
+ * function: TOUCHBAR_GetButton
  * address:  0x021B6600
  * packet:   pkt_ov067_021B6600
  * region:   ov067
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021B65C8.
+ * Tail call to TOUCHBAR_FindButton.
  *
  * symbols:
- *   func_021B65C8  0x021B65C8  thumb  ov067
+ *   TOUCHBAR_FindButton  0x021B65C8  thumb  ov067
  */
 
-void *func_021B6600(unsigned char *p, unsigned int v)
+void *TOUCHBAR_GetButton(unsigned char *p, unsigned int v)
 {
-    void *func_021B65C8(unsigned char *p, unsigned int v);
-    return func_021B65C8(p, v);
+    void *TOUCHBAR_FindButton(unsigned char *p, unsigned int v);
+    return TOUCHBAR_FindButton(p, v);
 }

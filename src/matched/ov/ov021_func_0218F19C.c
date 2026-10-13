@@ -1,5 +1,5 @@
 /*
- * function: func_0218F19C
+ * function: FIELD_CAMERA_GetEye
  * address:  0x0218F19C
  * packet:   pkt_ov021_0218F19C
  * region:   ov021
@@ -19,7 +19,7 @@ typedef signed int     s32;
 
 typedef struct { u32 a, b, c; } Vec3;
 
-void func_0218F19C(u8 *a, Vec3 *out)
+void FIELD_CAMERA_GetEye(u8 *a, Vec3 *out)
 {
     *out = *(Vec3 *)(a + 0x3c);
 }

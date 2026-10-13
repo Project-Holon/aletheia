@@ -31,9 +31,9 @@
  *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb ov009
  *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb ov009
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb ov009
- *   func_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200ED48 0x0200ED48 thumb
  *   func_0200ED54 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
@@ -62,7 +62,7 @@ extern int func_021D9F04(char *,void *,void *);
 extern void func_021D8BC4(int *a, int *state, char *ctx);
 extern void func_021D8CF0(u32 sys, int *state, char *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void DWC_RAPCOMMON_CreateSubHeap(u32 a, u32 b, u32 c, u32 d);
 extern void DWC_RAPCOMMON_SetHeapTag(int);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
@@ -71,7 +71,7 @@ extern int func_021DA6B8(char *p, u32 *out);
 extern u32 func_021DADAC(u8 *p);
 extern void func_021DA36C(char *),func_021DA384(char *);
 extern int func_021DA390(char *);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200ED48(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -89,7 +89,7 @@ void func_021D8904(u32 sys,int *state,char *p)
     case 0:if(((struct Obj02512 *)q)->fC==2 && ((struct Obj00477 *)p)->f100==0) func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else {
             ((struct Obj00477 *)p)->f100=0;
-            func_0203064C(1,134,0x60000);
+            GFL_HEAP_CreateChildHeap(1,134,0x60000);
             DWC_RAPCOMMON_CreateSubHeap(9,0x60000,1000,134);
             DWC_RAPCOMMON_SetHeapTag(134);*state=1;
         }break;
@@ -115,7 +115,7 @@ void func_021D8904(u32 sys,int *state,char *p)
     case 4:DWC_RAPCOMMON_DestroySubHeap();
         if(((struct Obj02512 *)q)->fC==2)func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else *state=5;break;
-    case 5:list=func_0200ED48(func_02012EBC(**(void ** *)&((struct Obj02512 *)q)->f8));
+    case 5:list=func_0200ED48(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
         func_0200ED54(list,func_02008530(((struct Obj02512 *)q)->f18));
         func_021DA384(*(char * *)&((struct Obj00477 *)p)->f34);*state=6;break;
     case 6:if(func_021DA390(*(char * *)&((struct Obj00477 *)p)->f34)) *state=7;

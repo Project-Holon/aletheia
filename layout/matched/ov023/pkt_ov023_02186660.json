@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02186660",
+   "name": "OEKAKI_PollYesNoMenu",
    "address": "0x02186660",
    "kind": "game",
    "region": "ov023",

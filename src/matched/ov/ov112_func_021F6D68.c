@@ -14,9 +14,9 @@
  *   func_021F9DA4 0x021F9DA4 thumb ov132
  *   func_021F9E04 0x021F9E04 thumb ov132
  *   func_021F8044 0x021F8044 thumb ov112
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_0204B404 0x0204B404 arm
  *   _fflt 0x0209BDBC arm
  *   _ffltu 0x0209BE04 arm
@@ -38,9 +38,9 @@ extern void *func_021F9DA4(char *p, u32 i);
 extern u16 func_021F9E04(u8 *p);
 struct Vec2;
 extern void func_021F8044(void *unused, u32 *p, u32 *q);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021F6D68(char *p)
 {
@@ -57,13 +57,13 @@ void func_021F6D68(char *p)
         d.z=0;
         d.a=0;
         d.b=2;
-        a=func_0204B294((void *)((struct Obj00771 *)p)->fA8,((struct Obj00771 *)p)->fB0,((struct Obj00771 *)p)->fAC,((struct Obj00771 *)p)->fB4,&d.x,0,((struct Obj00771 *)p)->f0);
+        a=CLACT_CreateActor((void *)((struct Obj00771 *)p)->fA8,((struct Obj00771 *)p)->fB0,((struct Obj00771 *)p)->fAC,((struct Obj00771 *)p)->fB4,&d.x,0,((struct Obj00771 *)p)->f0);
         ((struct Obj00771 *)p)->fA4=a;
         func_0204B3DC(a,1);
     }
     if(((struct Obj00771 *)p)->f88==1) {
         if(func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
-            func_0204B3B4(((struct Obj00771 *)p)->fA4);
+            CLACT_DeleteActor(((struct Obj00771 *)p)->fA4);
             ((struct Obj00771 *)p)->f88=0;
             return;
         }

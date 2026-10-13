@@ -16,9 +16,9 @@
  *   func_02206A14 0x02206A14 thumb ov094
  *   func_02205B80 0x02205B80 thumb ov094
  *   func_020498F4 0x020498F4 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_0204B22C 0x0204B22C arm
  *   func_022044C0 0x022044C0 thumb ov094
  *   func_022045A8 0x022045A8 thumb ov094
@@ -63,9 +63,9 @@ struct Bank;
 struct Cfg;
 struct Descriptor;
 struct Obj;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_022044C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
@@ -93,7 +93,7 @@ void func_022035C0(void *task, Ctx *c)
         func_022043C0(c->main, 0x3000, 0x1000, -0x400, 0x98);
         func_022044C0(c->main, 0, 0x1c0, 8, 8);
         func_02206A14((char *)c->main);
-        func_02045374(c->main->obj230);
+        BMP_WIN_MakeScreen(c->main->obj230);
         func_020409B4(6);
         PALANM_RequestFadeOverwrite(c->main->pal, 2, 3, 1, 12, 0, 0x842, c->main->owner);
         c->state++;
@@ -101,7 +101,7 @@ void func_022035C0(void *task, Ctx *c)
     case 1:
     default:
         if (c->main->st == 0) {
-            func_02045334(c->main->obj230);
+            BMP_WIN_TransferChars(c->main->obj230);
             func_02040588(4, 1);
             func_02040588(5, 1);
             func_02040588(7, 0);

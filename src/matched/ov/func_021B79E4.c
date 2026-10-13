@@ -1,5 +1,5 @@
 /*
- * function: func_021B79E4
+ * function: FIELD_RAIL_Update
  * address:  0x021B79E4
  * packet:   pkt_021B79E4
  * region:   ov021
@@ -14,7 +14,7 @@
  * branch is the fall-through `bx lr`.
  */
 
-void func_021B79E4(unsigned short *p)
+void FIELD_RAIL_Update(unsigned short *p)
 {
     if (p[1] == 0)
         return;

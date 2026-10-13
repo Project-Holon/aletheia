@@ -14,7 +14,7 @@
  *   func_021B9FBC 0x021B9FBC thumb ov225
  *   func_021BA158 0x021BA158 thumb ov225
  *   func_021BA154 0x021BA154 thumb ov225
- *   func_02028178 0x02028178 thumb
+ *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_021BB53C 0x021BB53C thumb ov225
  */
@@ -31,7 +31,7 @@ extern void func_021B9FBC(char *);
 extern unsigned func_021BA158(char *p);
 extern unsigned func_021BA154(char *p);
 typedef unsigned int   u32;
-extern void func_02028178(u8 *p);
+extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern int func_021BB53C(char *);
 int func_021BB31C(char *p)
@@ -61,7 +61,7 @@ int func_021BB31C(char *p)
         }
     }
     if (((struct Obj00691 *)p)->f18==0 || ((struct Obj00691 *)p)->f18==3) {
-        for (i=0;i<2;i++) func_02028178((u8 *)(*(char **)(p+0xc+i*4)));
+        for (i=0;i<2;i++) APP_TASKMENU_WIN_Update((u8 *)(*(char **)(p+0xc+i*4)));
         if (((struct Obj00691 *)p)->f18==0) {
             if (func_021BB53C(p)) ((struct Obj00691 *)p)->f18=3;
         } else {

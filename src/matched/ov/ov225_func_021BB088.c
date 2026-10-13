@@ -17,8 +17,8 @@
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_WIN_CreateExNoScreen 0x0202804C thumb
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
- *   func_02028178 0x02028178 thumb
- *   func_02045808 0x02045808 arm
+ *   APP_TASKMENU_WIN_Update 0x02028178 thumb
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj00074.h"
 #include "../include/Obj26217.h"
@@ -44,8 +44,8 @@ extern void APP_TASKMENU_WIN_DeleteNoClear(void);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern u32 *APP_TASKMENU_WIN_CreateExNoScreen(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
-extern void func_02028178(u8 *);
-extern void func_02045808(struct U16Vec *);
+extern void APP_TASKMENU_WIN_Update(u8 *);
+extern void STRBUF_Delete(struct U16Vec *);
 void func_021BB088(char *p)
 {
     struct Entry e;
@@ -81,9 +81,9 @@ void func_021BB088(char *p)
             *(u32 **)(p+i*4+0xc)=APP_TASKMENU_WIN_CreateExNoScreen(*(u32 *)&((struct Obj00074 *)p)->f8,(u32)&e,2,(u8)(i*3),28,3,0,0,((struct Obj26223 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
         else
             *(u32 *)(p+i*4+0xc)=APP_TASKMENU_WIN_Create(*(u32 *)&((struct Obj00074 *)p)->f8,(u32)&e,2,(u8)(i*3),28,((struct Obj26224 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
-        func_02028178(*(u8 **)(p+i*4+0xc));
+        APP_TASKMENU_WIN_Update(*(u8 **)(p+i*4+0xc));
         *(u32 *)(p+i*4+0x2c)=1;
-        func_02045808(e.resource);
+        STRBUF_Delete(e.resource);
         if (*(u32 *)(*(char * *)&((struct Obj26225 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+4)==0)
             func_0204B3DC(*(void **)(p+i*4+0x60),0);
         else if (*(u32 *)(*(char * *)&((struct Obj26226 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+4)==1)

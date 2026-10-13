@@ -13,7 +13,7 @@
  * state already equals the +0xa8 one.
  *
  * symbols:
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void func_021B99B4(void *a0, char *a1)
 {
@@ -33,12 +33,12 @@ void func_021B99B4(void *a0, char *a1)
     if (v == w)
         return;
     if (v == 1) {
-        func_0204B878(((struct Obj06561 *)a1)->fA0, 0x17);
+        CLACT_SetActorAnimSeq(((struct Obj06561 *)a1)->fA0, 0x17);
         return;
     }
     if (v == 2) {
-        func_0204B878(((struct Obj06561 *)a1)->fA0, 0x23);
+        CLACT_SetActorAnimSeq(((struct Obj06561 *)a1)->fA0, 0x23);
         return;
     }
-    func_0204B878(((struct Obj06561 *)a1)->fA0, 0x18);
+    CLACT_SetActorAnimSeq(((struct Obj06561 *)a1)->fA0, 0x18);
 }

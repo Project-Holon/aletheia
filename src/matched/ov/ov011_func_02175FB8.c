@@ -11,7 +11,7 @@
  *
  * symbols:
  *   INTRUDE_COMM_IsValidObjCode  0x021756B0  thumb  ov011
- *   func_021756D0  0x021756D0  thumb  ov011
+ *   INTRUDE_COMM_IsValidProfileCode  0x021756D0  thumb  ov011
  */
 
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ typedef struct {
 } Rec;
 
 extern int INTRUDE_COMM_IsValidObjCode(int value);
-extern int func_021756D0(u32 a);
+extern int INTRUDE_COMM_IsValidProfileCode(u32 a);
 
 int INTRUDE_COMM_IsJoinRequestValid(void *unused, Rec *p)
 {
@@ -50,9 +50,9 @@ int INTRUDE_COMM_IsJoinRequestValid(void *unused, Rec *p)
     }
     for (i = 0; i < 2; i++) {
         if (p->t == 3) {
-            if (func_021756D0(p->h14) == 0) return 0;
+            if (INTRUDE_COMM_IsValidProfileCode(p->h14) == 0) return 0;
         } else if (p->t == 4) {
-            if (func_021756D0(p->h16) == 0) return 0;
+            if (INTRUDE_COMM_IsValidProfileCode(p->h16) == 0) return 0;
         }
     }
     return 1;

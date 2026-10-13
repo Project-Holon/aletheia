@@ -1,5 +1,5 @@
 /*
- * function: func_021D7360
+ * function: BTL_EVENT_FindNextFactor
  * address:  0x021D7360
  * packet:   pkt_ov093_021D7360
  * region:   ov093
@@ -38,7 +38,7 @@ struct Node {
 struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x84]; };
 extern struct NodeList data_021F3CB0;
 
-struct Node *func_021D7360(struct Node *n)
+struct Node *BTL_EVENT_FindNextFactor(struct Node *n)
 {
     int id;
     u8 sub;

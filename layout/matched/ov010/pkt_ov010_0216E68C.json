@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216E68C",
+   "name": "EVENT_BATTLE_ProcScriptedBattle",
    "address": "0x0216E68C",
    "kind": "game",
    "region": "ov010",

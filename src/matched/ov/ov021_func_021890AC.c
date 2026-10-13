@@ -1,5 +1,5 @@
 /*
- * function: func_021890AC
+ * function: FIELDMAP_DrawEnd
  * address:  0x021890AC
  * packet:   pkt_ov021_021890AC
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047970  0x02047970  arm
- *   d_021D35B4     0x021D35B4  data  a4
+ *   G3D_SYSTEM_DrawEnd  0x02047970  arm
+ *   sDrawEndFuncs     0x021D35B4  data  a4
  */
 
 typedef int (*Fn)(unsigned char *p);
 
-extern Fn d_021D35B4[];
-void func_02047970(int x);
+extern Fn sDrawEndFuncs[];
+void G3D_SYSTEM_DrawEnd(int x);
 
-void func_021890AC(unsigned char *p)
+void FIELDMAP_DrawEnd(unsigned char *p)
 {
-    func_02047970(d_021D35B4[*(int *)(p + 0x12C)](p));
+    G3D_SYSTEM_DrawEnd(sDrawEndFuncs[*(int *)(p + 0x12C)](p));
 }

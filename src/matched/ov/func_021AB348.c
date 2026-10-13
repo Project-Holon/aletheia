@@ -1,5 +1,5 @@
 /*
- * function: func_021AB348
+ * function: MAP_ATTR_IsForcedSlide
  * address:  0x021AB348
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-BOOL func_021AB348(u32 id)
+BOOL MAP_ATTR_IsForcedSlide(u32 id)
 {
     if (id == 0x18 || id == 0x10) {
         return 1;

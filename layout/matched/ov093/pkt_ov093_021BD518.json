@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD518",
+   "name": "BTL_SERVER_FLOW_DispatchShiftInEventLocked",
    "address": "0x021BD518",
    "kind": "game",
    "region": "ov093",

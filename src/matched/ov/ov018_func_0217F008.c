@@ -1,5 +1,5 @@
 /*
- * function: func_0217F008
+ * function: INTRUDE_SUBDISP_UpdateTownState
  * address:  0x0217F008
  * packet:   pkt_ov018_0217F008
  * region:   ov018
@@ -14,10 +14,10 @@
  *   func_02012B58  0x02012B58  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_02080D24  0x02080D24  arm
- *   func_0217F5A0  0x0217F5A0  thumb  ov018
- *   func_021758C8  0x021758C8  thumb  ov011
- *   func_02175B34  0x02175B34  thumb  ov011
- *   func_0217C070  0x0217C070  thumb  ov018
+ *   EVENT_COMM_COMMON_GetMissionState  0x0217F5A0  thumb  ov018
+ *   INTRUDE_COMM_GetSessionRemaining  0x021758C8  thumb  ov011
+ *   INTRUDE_COMM_GetActiveSessionRequest  0x02175B34  thumb  ov011
+ *   INTRUDE_FIELD_IsStartRequested  0x0217C070  thumb  ov018
  */
 #include "../include/Obj00399.h"
 #include "../include/Obj12492.h"
@@ -41,12 +41,12 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 func_02012B58(const struct BigObj *p);
 extern void func_02082BCC(void *, int, int);
 extern int func_02080D24(unsigned int x);
-extern int func_0217F5A0(char *);
-extern int func_021758C8(u8 *o);
-extern u8 *func_02175B34(u8 *p);
-extern int func_0217C070(u8 *p);
+extern int EVENT_COMM_COMMON_GetMissionState(char *);
+extern int INTRUDE_COMM_GetSessionRemaining(u8 *o);
+extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
+extern int INTRUDE_FIELD_IsStartRequested(u8 *p);
 
-void func_0217F008(char *p, char *q)
+void INTRUDE_SUBDISP_UpdateTownState(char *p, char *q)
 {
     O *o;
     int h;
@@ -65,13 +65,13 @@ void func_0217F008(char *p, char *q)
     o->b = ((struct Obj12492 *)q)->f8FB;
     o->c = func_02080D24(o->b);
     o->d = ((struct Obj12492 *)q)->f910;
-    o->e = func_0217F5A0(q + 0x1ac);
-    o->f = func_021758C8((u8 *)(q + 0x1ac));
-    o->g = (T *)func_02175B34((u8 *)(q + 0x1ac));
+    o->e = EVENT_COMM_COMMON_GetMissionState(q + 0x1ac);
+    o->f = INTRUDE_COMM_GetSessionRemaining((u8 *)(q + 0x1ac));
+    o->g = (T *)INTRUDE_COMM_GetActiveSessionRequest((u8 *)(q + 0x1ac));
     if (o->g != 0) {
         o->h = ((Bf *)(q + o->g->idx * 0x1c + 0xa2))->lo;
     }
-    o->i = func_0217C070((u8 *)q);
+    o->i = INTRUDE_FIELD_IsStartRequested((u8 *)q);
     o->j = 0;
     for (i = 0; i < 3; i++) {
         if (i != n && o->a == ((Bf *)(q + i * 0x1c + 0xa2))->lo) {

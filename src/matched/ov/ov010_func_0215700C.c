@@ -1,5 +1,5 @@
 /*
- * function: func_0215700C
+ * function: MUSICAL_STAGE_SYS_SetPerformerProp
  * address:  0x0215700C
  * packet:   pkt_ov010_0215700C
  * region:   ov010
@@ -32,7 +32,7 @@ typedef struct Stage {
     Obj *f04[4];        /* 0x04 */
 } Stage;
 
-void func_0215700C(Stage *s, u8 idx, u8 j, u16 id, s16 a, u8 b)
+void MUSICAL_STAGE_SYS_SetPerformerProp(Stage *s, u8 idx, u8 j, u16 id, s16 a, u8 b)
 {
     Obj *o;
 

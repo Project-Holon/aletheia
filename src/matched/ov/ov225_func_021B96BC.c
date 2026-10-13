@@ -12,8 +12,8 @@
  * trailing: separately matched callback021B98FC (2B) and two alignment bytes at021B98FE; lead576B.
  * attempts: four one calls in final retry; direct-goto enum baseline DIFF66/576, repeated tails enum DIFF404/584, wide store casts unchanged, repeated tails int EXACT*576.
  * symbols:
- *   func_0204E804 0x0204E804 arm
- *   func_0204E720 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
  *   func_021BB31C 0x021BB31C thumb ov225
  *   func_021BB308 0x021BB308 thumb ov225
  *   func_021BB6E0 0x021BB6E0 thumb ov225
@@ -51,8 +51,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum {ZERO=0,ONE=1} Flag;
-extern int func_0204E804(void);
-extern void func_0204E720(u32,int,int,int);
+extern int FADE_IsActive(void);
+extern void FADE_Start(u32,int,int,int);
 extern int func_021BB31C(char *);
 extern void func_021BB308(char *);
 extern char *func_021BB6E0(char *,char *);
@@ -85,7 +85,7 @@ int func_021B96BC(void *a,u32 *state,void *unused,char *p)
  u16 id,i,item,selected;
  switch(*state) {
  case 0: *state=1; break;
- case 1: if(!func_0204E804()) *state=2; break;
+ case 1: if(!FADE_IsActive()) *state=2; break;
  case 2:
   done=0;
   switch(((struct Obj00100 *)p)->f10) {
@@ -164,9 +164,9 @@ innerDone:
    }
    break;
   }
-  if(done) { *state=3; func_0204E720(3,0,16,0); }
+  if(done) { *state=3; FADE_Start(3,0,16,0); }
   break;
- case 3: if(!func_0204E804()) *state=4; break;
+ case 3: if(!FADE_IsActive()) *state=4; break;
  case 4: return 1;
  }
  func_021B9E60(*(char * *)&((struct Obj00100 *)p)->f8);

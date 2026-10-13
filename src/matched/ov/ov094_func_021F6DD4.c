@@ -12,7 +12,7 @@
  * Unless flag bit 0 at 0x68 is set, applies the vector at 0x1c to the handle at 0x18.
  *
  * symbols:
- *   func_02047A60 0x02047A60 arm
+ *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  */
 typedef struct {
     char pad[0x18];
@@ -23,10 +23,10 @@ typedef struct {
 } Obj;
 
 struct Arg;
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
 void func_021F6DD4(Obj *p)
 {
     if (!p->b0)
-        func_02047A60(p->h, (struct Arg *)p->v);
+        G3D_SYSTEM_DrawObject(p->h, (struct Arg *)p->v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2A4
+ * function: BSUBWAY_RECORD_LIST_PollTouchAndCancel
  * address: 0x021BA2A4
  * packet: pkt_ov069_021BA2A4
  * region: ov069
@@ -9,26 +9,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020362DC 0x020362DC arm
  *   func_020061E4 0x020061E4 thumb
- *   func_021BA2D8 0x021BA2D8 thumb ov069
- *   d_021BA5FC 0x021BA5FC data a4
+ *   BSUBWAY_RECORD_LIST_HandleAction 0x021BA2D8 thumb ov069
+ *   sTouchRects 0x021BA5FC data a4
  */
-extern int func_02035C08(const void *key);
+extern int TOUCHPANEL_HitTrg(const void *key);
 extern unsigned func_020362DC(void);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern void func_021BA2D8(char *o, int k);
-extern const char d_021BA5FC[];
-int func_021BA2A4(char *p)
+extern void BSUBWAY_RECORD_LIST_HandleAction(char *o, int k);
+extern const char sTouchRects[];
+int BSUBWAY_RECORD_LIST_PollTouchAndCancel(char *p)
 {
     int k;
-    k = func_02035C08(d_021BA5FC);
+    k = TOUCHPANEL_HitTrg(sTouchRects);
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
         k = 2;
     }
-    func_021BA2D8(p, k);
+    BSUBWAY_RECORD_LIST_HandleAction(p, k);
     return k;
 }

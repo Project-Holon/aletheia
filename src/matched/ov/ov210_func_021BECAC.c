@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  * Addresses are Black-image addresses.
  */
 
 struct Descriptor;
-extern void func_02045334(struct Descriptor *v);
+extern void BMP_WIN_TransferChars(struct Descriptor *v);
 
 void func_021BECAC(int a, unsigned *p)
 {
-    func_02045334((struct Descriptor *)*p);
+    BMP_WIN_TransferChars((struct Descriptor *)*p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A5A00
+ * function: FIELD_PLAYER_NOGRID_SetRailLocation
  * address:  0x021A5A00
  * packet:   pkt_021A5A00
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards the object's word at +0x1c to func_0219E2C0.
+ * Tail-call thunk: forwards the object's word at +0x1c to FLDMMDL_RAIL_SetLocation.
  *
  * symbols:
- *   func_0219E2C0  0x0219E2C0  thumb  ov021
+ *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0219E2C0(void *a, void *r);
+extern void FLDMMDL_RAIL_SetLocation(void *a, void *r);
 
-void func_021A5A00(u8 *p, void *r)
+void FIELD_PLAYER_NOGRID_SetRailLocation(u8 *p, void *r)
 {
-    func_0219E2C0(((struct Obj18055 *)p)->f1C, r);
+    FLDMMDL_RAIL_SetLocation(((struct Obj18055 *)p)->f1C, r);
 }

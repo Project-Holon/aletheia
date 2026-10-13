@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   func_021D6134  0x021D6134  thumb  ov115
  */
 
 typedef unsigned int   u32;
-u32 func_020221A4(void);
+u32 WIPE_SYS_EndCheck(void);
 void func_021D6134(void *a0, int a1, int a2);
 
 void func_021D630C(void *a0)
 {
-    if (func_020221A4())
+    if (WIPE_SYS_EndCheck())
         func_021D6134(a0, 0, 0x221);
 }

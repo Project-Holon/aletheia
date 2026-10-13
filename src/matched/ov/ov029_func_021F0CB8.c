@@ -1,5 +1,5 @@
 /*
- * function: func_021F0CB8
+ * function: C_GEAR_TickTabTimer
  * address: 0x021F0CB8
  * packet: pkt_ov029_021F0CB8
  * region: ov029
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021F0CB8(unsigned char *p)
+void C_GEAR_TickTabTimer(unsigned char *p)
 {
     int i;
     if (p[9]) {

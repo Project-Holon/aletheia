@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *
  * Five unlabelled leaf accessors of the item archive block, none of which
  * saves lr and none of which therefore carries a `func_` label in the
@@ -49,7 +49,7 @@ typedef unsigned int u32;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 struct ArcFile;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
 u32 func_02020F08(void)
 {
@@ -77,5 +77,5 @@ u32 func_02020F20(void *handle, u32 item, u32 arg)
         item = 0;
     }
 
-    return (u32)func_02049250(handle, item, arg);
+    return (u32)ARC_TOOL_LoadHandleMember(handle, item, arg);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02190B2C
+ * function: FIELD_MSGBG_MakeListHeader
  * address:  0x02190B2C
  * packet:   pkt_ov021_02190B2C
  * region:   ov021
@@ -65,7 +65,7 @@ typedef struct Dst {
 
 extern void func_02082BCC(void *p, int v, int n);
 
-void func_02190B2C(Dst *d, const Src *s)
+void FIELD_MSGBG_MakeListHeader(Dst *d, const Src *s)
 {
     func_02082BCC(d, 0, 0x34);
     d->d10 = s->a00;

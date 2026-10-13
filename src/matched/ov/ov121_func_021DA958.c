@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0202570C 0x0202570C thumb
- *   func_020437AC 0x020437AC arm
- *   func_02045808 0x02045808 arm
+ *   BMP_OAM_Delete 0x0202570C thumb
+ *   BMP_Delete 0x020437AC arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10414.h"
@@ -21,8 +21,8 @@ typedef unsigned int u32;
 struct Grid;
 struct Obj020437AC;
 struct U16Vec;
-extern void func_0202570C(struct Grid *g);
-extern void func_020437AC(struct Obj020437AC *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void BMP_OAM_Delete(struct Grid *g);
+extern void BMP_Delete(struct Obj020437AC *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
-void func_021DA958(u8 *p) { func_0202570C(((struct Obj10414 *)p)->f1C); func_020437AC(((struct Obj10414 *)p)->f0); func_02045808(((struct Obj10414 *)p)->f18); func_020307B0(p); }
+void func_021DA958(u8 *p) { BMP_OAM_Delete(((struct Obj10414 *)p)->f1C); BMP_Delete(((struct Obj10414 *)p)->f0); STRBUF_Delete(((struct Obj10414 *)p)->f18); func_020307B0(p); }

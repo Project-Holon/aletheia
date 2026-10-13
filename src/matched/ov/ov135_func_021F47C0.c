@@ -10,7 +10,7 @@
  * symbols:
  *   func_021F50EC 0x021F50EC thumb ov135
  *   func_021F49A4 0x021F49A4 thumb ov135
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_02030DA4 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_0203133C 0x0203133C arm
@@ -32,7 +32,7 @@ struct Rec;
 struct S020314B8;
 struct S020315D4;
 struct WordSet;
-extern unsigned int func_02045C04(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int func_0201ED04(struct WordSet *p);
 extern void func_02030DA4(void *);
 typedef unsigned int   u32;
@@ -49,11 +49,11 @@ int func_021F47C0(void *ctx, int unused1, int unused2, u8 *p)
     GFL_USE_CancelChangeAndStopBgm();
     func_021F50EC(p);
     func_021F49A4(p);
-    func_02045C04(((struct Obj02854 *)p)->fB70);
-    func_02045C04(((struct Obj02854 *)p)->fB78);
-    func_02045C04(((struct Obj02854 *)p)->fB74);
-    func_02045C04(((struct Obj02854 *)p)->fB6C);
-    func_02045C04(((struct Obj02854 *)p)->fB7C);
+    MSGDATA_Delete(((struct Obj02854 *)p)->fB70);
+    MSGDATA_Delete(((struct Obj02854 *)p)->fB78);
+    MSGDATA_Delete(((struct Obj02854 *)p)->fB74);
+    MSGDATA_Delete(((struct Obj02854 *)p)->fB6C);
+    MSGDATA_Delete(((struct Obj02854 *)p)->fB7C);
     func_0201ED04(((struct Obj02854 *)p)->fB68);
     func_02030DA4(((struct Obj02854 *)p)->fF94);
     func_020307B0(((struct Obj02854 *)p)->fF9C);

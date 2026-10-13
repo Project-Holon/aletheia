@@ -12,16 +12,16 @@
  *           here attests through the sole-ref class (docs/notes/pkt_02008A54.c.txt)
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   sub_02008A54  0x02008A54  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   func_0201C724  0x0201C724  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_021C7AD4  0x021C7AD4  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -114,16 +114,16 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern Rec sub_02008A54(void *obj, int i);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_021C7AD4(Work *p, int x, int k, void *str);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
 void func_021C7B20(Work *p, int mode, int idx)
 {
@@ -132,23 +132,23 @@ void func_021C7B20(Work *p, int mode, int idx)
     void *v;
     int i;
 
-    str = func_020457B0(0x68, 0x27);
-    func_02043B5C(func_02045770(p->f8), 0xF);
+    str = STRBUF_Create(0x68, 0x27);
+    BMP_Clear(func_02045770(p->f8), 0xF);
     switch (mode) {
     case 0:
         r = sub_02008A54(p->f184, idx);
         func_0201EFA4(p->f24, 0, r.a + 0x7D0, 4, 0, 1);
         func_0201EFA4(p->f24, 1, r.b, 2, 0, 1);
         func_0201EFA4(p->f24, 2, r.c, 2, 0, 1);
-        func_02045CAC(p->f20, idx * 3 + 0x58, str);
+        MSGDATA_ReadString(p->f20, idx * 3 + 0x58, str);
         func_0201F250(p->f24, p->f28, str);
         v = p->f14;
-        func_0201C724(v, (u32)func_02045770(p->fC), (int)0, (s16)0, (u32)p->f28, (u32)p->f4, (int)0x44F);
+        PRINTSYS_PrintQueColor(v, (u32)func_02045770(p->fC), (int)0, (s16)0, (u32)p->f28, (u32)p->f4, (int)0x44F);
         p->f10 = 1;
         for (i = 1; i < 3; i++) {
-            func_02045CAC(p->f20, i + (idx * 3 + 0x58), str);
+            MSGDATA_ReadString(p->f20, i + (idx * 3 + 0x58), str);
             v = p->f14;
-            func_0201C724(v, (u32)func_02045770(p->fC), (int)0, (s16)(i << 5), (u32)str, (u32)p->f4, (int)0x44F);
+            PRINTSYS_PrintQueColor(v, (u32)func_02045770(p->fC), (int)0, (s16)(i << 5), (u32)str, (u32)p->f4, (int)0x44F);
             p->f10 = 1;
         }
         break;
@@ -161,5 +161,5 @@ void func_021C7B20(Work *p, int mode, int idx)
         }
         break;
     }
-    func_02045808(str);
+    STRBUF_Delete(str);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA644
+ * function: OPTION_MENU_UpdateButtonWindows
  * address:  0x021BA644
  * packet:   pkt_ov068_021BA644
  * region:   ov068
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02028178  0x02028178  thumb
+ *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02028178(u8 *p);
+extern void APP_TASKMENU_WIN_Update(u8 *p);
 
-void func_021BA644(u8 *p)
+void OPTION_MENU_UpdateButtonWindows(u8 *p)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        func_02028178((u8 *)(*(u32 *)(p + i * 4 + 0x34)));
+        APP_TASKMENU_WIN_Update((u8 *)(*(u32 *)(p + i * 4 + 0x34)));
     }
 }

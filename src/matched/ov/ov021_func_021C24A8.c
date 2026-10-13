@@ -1,5 +1,5 @@
 /*
- * function: func_021C24A8
+ * function: FLD3D_CI_StartTrack
  * address:  0x021C24A8
  * packet:   pkt_ov021_021C24A8
  * region:   ov021
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  * EXACT*: the 72-byte listing extent runs on into the unlabelled leaf
- * func_021C24BC (ov021_func_021C24BC.c), whose EXACT entry attests the
+ * FLD3D_CI_FollowTargetCallback (ov021_func_021C24BC.c), whose EXACT entry attests the
  * pool word 0x021C24BD as matched.
  * symbols:
- *   func_020515CC  0x020515CC  arm
- *   func_021C24BC  0x021C24BC  thumb  ov021
+ *   PARTICLE_StartEffectWithCallback  0x020515CC  arm
+ *   FLD3D_CI_FollowTargetCallback  0x021C24BC  thumb  ov021
  */
 #include "../include/Obj20162.h"
 
-void func_021C24BC(char *p);
-int func_020515CC(int *p, int a, int b, int c);
+void FLD3D_CI_FollowTargetCallback(char *p);
+int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 
-void func_021C24A8(char *p, int k)
+void FLD3D_CI_StartTrack(char *p, int k)
 {
-    func_020515CC((int *)(((struct Obj20162 *)p)->f58), k, (int)func_021C24BC, 0);
+    PARTICLE_StartEffectWithCallback((int *)(((struct Obj20162 *)p)->f58), k, (int)FLD3D_CI_FollowTargetCallback, 0);
 }

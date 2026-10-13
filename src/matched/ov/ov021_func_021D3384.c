@@ -1,5 +1,5 @@
 /*
- * function: func_021D3384
+ * function: FLD_VREQ_ApplyChangeBlendBrightness
  * address:  0x021D3384
  * packet:   pkt_ov021_021D3384
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern void func_0207D6C0(u32 addr, int brightness);
 
-void func_021D3384(u32 *p, int main)
+void FLD_VREQ_ApplyChangeBlendBrightness(u32 *p, int main)
 {
     if (main) {
         func_0207D6C0(0x04000050, p[0]);

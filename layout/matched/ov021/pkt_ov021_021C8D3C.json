@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C8D3C",
+   "name": "FIELD_TILE_MOVE_SlideStartStep",
    "address": "0x021C8D3C",
    "kind": "game",
    "region": "ov021",

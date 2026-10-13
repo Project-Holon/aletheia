@@ -1,5 +1,5 @@
 /*
- * function: func_0219F7CC
+ * function: FLDMMDL_DRAW_GetFrameGroup
  * address:  0x0219F7CC
  * packet:   pkt_ov021_0219F7CC
  * region:   ov021
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocked at MATCH: func_02050880 (0x02050880) is an unlabelled arm9 leaf
+ * Blocked at MATCH: BILLBOARD_ACT_GetEntryCursor (0x02050880) is an unlabelled arm9 leaf
  * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
- *   u16 func_02050880(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0x10); }  (EXACT, verified)
+ *   u16 BILLBOARD_ACT_GetEntryCursor(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0x10); }  (EXACT, verified)
  *
  * symbols:
- *   func_0205085C  0x0205085C  arm
- *   func_02050880  0x02050880  arm
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
- *   func_0216D910  0x0216D910  thumb  ov010
- *   func_0219C9DC  0x0219C9DC  thumb  ov021
+ *   BILLBOARD_ACT_SetEntryCursor  0x0205085C  arm
+ *   BILLBOARD_ACT_GetEntryCursor  0x02050880  arm
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_GetBlActCont  0x0216D910  thumb  ov010
+ *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -28,20 +28,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void *func_0216D6F0(void *p);
-extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u8 *p);
-extern u16 func_02050880(u8 *p, int i);
-extern void func_0205085C(void *p, int idx, u32 v);
+extern void *FLDMMDL_GetDrawProcWork(void *p);
+extern int FLDMMDL_GetBlActCont(int a0);
+extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *p);
+extern u16 BILLBOARD_ACT_GetEntryCursor(u8 *p, int i);
+extern void BILLBOARD_ACT_SetEntryCursor(void *p, int idx, u32 v);
 
-int func_0219F7CC(u32 a, u32 b)
+int FLDMMDL_DRAW_GetFrameGroup(u32 a, u32 b)
 {
     u32 idx;
     u16 *p;
     u32 h;
     u32 t;
 
-    p =func_0216D6F0((void *)a);
+    p =FLDMMDL_GetDrawProcWork((void *)a);
     if (*p == 0xFFFF) {
         return 0;
     }
@@ -63,10 +63,10 @@ int func_0219F7CC(u32 a, u32 b)
     } else {
         idx = 12;
     }
-    h = func_0219C9DC((u8 *)func_0216D910(a));
-    t = func_02050880((u8 *)h, *p);
+    h = FLDMMDL_BLACT_GetBbActSys((u8 *)FLDMMDL_GetBlActCont(a));
+    t = BILLBOARD_ACT_GetEntryCursor((u8 *)h, *p);
     if (t != idx) {
-        func_0205085C((void *)h, *p, 0);
+        BILLBOARD_ACT_SetEntryCursor((void *)h, *p, 0);
     }
     return 1;
 }

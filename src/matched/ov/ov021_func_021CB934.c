@@ -12,15 +12,15 @@
  * Task step: fades out, runs the ov021 sub-screen on the +0xc argument, stores whether it was cancelled at *w[1].
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A684  0x0215A684  thumb  ov010
- *   func_0215A690  0x0215A690  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C54  0x02188C54  thumb
- *   func_02190BE4  0x02190BE4  thumb
- *   func_02190C78  0x02190C78  thumb
- *   func_021909BC  0x021909BC  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_SetWaitCount  0x0215A684  thumb  ov010
+ *   SCRCMD_WORK_CountDownWait  0x0215A690  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -35,33 +35,33 @@ typedef struct {
     u32 arg;
 } Work;
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct Ctx;
-extern void func_0215A684(int *p, unsigned short v);
-extern int func_0215A690(char *a0);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188C54(u8 *p);
+extern void SCRCMD_WORK_SetWaitCount(int *p, unsigned short v);
+extern int SCRCMD_WORK_CountDownWait(char *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
 struct Handle;
-extern u32 *func_02190BE4(u16 *a, u32 b);
-extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(void *a);
+extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
+extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
 
 int func_021CB934(void *task, int *state, Work *w)
 {
-    func_0215A5F4(w->owner);
+    SCRCMD_WORK_GetScriptWork(w->owner);
     switch (*state) {
     case 0:
-        func_0215A684(w->owner, 8);
+        SCRCMD_WORK_SetWaitCount(w->owner, 8);
         (*state)++;
     case 1:
-        if (func_0215A690(w->owner) == 1) {
-            w->screen = (u32)func_02190BE4((u16 *)func_02188C54(func_0201210C(func_0215A5DC(w->owner))), w->arg);
+        if (SCRCMD_WORK_CountDownWait(w->owner) == 1) {
+            w->screen = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(w->owner))), w->arg);
             (*state)++;
         }
         break;
     case 2:
-        switch (func_02190C78((struct Handle *)w->screen)) {
+        switch (FIELD_MSGBG_YesNoMenuMain((struct Handle *)w->screen)) {
         case 0:
             *w->result = 0;
             (*state)++;
@@ -75,7 +75,7 @@ int func_021CB934(void *task, int *state, Work *w)
         }
         break;
     case 3:
-        func_021909BC((void *)w->screen);
+        FIELD_MSGBG_DeleteMenuFunc((void *)w->screen);
         return 1;
     }
     return 0;

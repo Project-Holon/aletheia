@@ -14,12 +14,12 @@
  *
  * symbols:
  *   func_0203FCA0 0x0203FCA0 arm
- *   func_02051E74 0x02051E74 arm
+ *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_0207D59C 0x0207D59C arm
  *   func_02041EE4 0x02041EE4 arm
  *   func_02041FB0 0x02041FB0 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_02040EBC 0x02040EBC arm
  *   d_021B80E8 0x021B80E8 data ov180 a4
  *   func_020403F4 0x020403F4 arm
@@ -27,16 +27,16 @@
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_0207D63C 0x0207D63C arm
  *   func_02045B38 0x02045B38 arm
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201EC64 0x0201EC64 thumb
- *   func_020457B0 0x020457B0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_0201D83C 0x0201D83C thumb
- *   func_02045C04 0x02045C04 arm
+ *   GF_FONT_Delete 0x0201D83C thumb
+ *   MSGDATA_Delete 0x02045C04 arm
  *   d_021B8018 0x021B8018 data a4
  *   GFL_USE_LoadWaveArcSet 0x02005A98 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -48,32 +48,32 @@
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
  *   func_02006CAC 0x02006CAC thumb
  *   PM_VOICE_Prepare 0x020069D4 thumb
- *   func_0207DC44 0x0207DC44 arm
- *   func_0207DD24 0x0207DD24 arm
+ *   G3X_SetFog 0x0207DC44 arm
+ *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
- *   func_02046BE0 0x02046BE0 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   d_021B8040 0x021B8040 data a4
- *   func_02046440 0x02046440 arm
- *   func_02047CFC 0x02047CFC arm
- *   func_02047E54  0x02047E54  arm
- *   func_02046788  0x02046788  arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
+ *   G3D_UTIL_Create 0x02047CFC arm
+ *   G3D_UTIL_Delete  0x02047E54  arm
+ *   G3D_SYSTEM_Exit  0x02046788  arm
  *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   func_0204EA38 0x0204EA38 arm
- *   func_02050BE8 0x02050BE8 arm
+ *   PARTICLE_Main 0x02050BE8 arm
  *   func_0204EA4C 0x0204EA4C arm
  *   func_0204E8C0 0x0204E8C0 arm
  *   func_0204EA0C 0x0204EA0C arm
- *   func_02050B80 0x02050B80 arm
- *   func_02050ED4 0x02050ED4 arm
- *   func_02050C04 0x02050C04 arm
- *   func_0205121C 0x0205121C arm
- *   func_02051230 0x02051230 arm
+ *   PARTICLE_InitManager 0x02050B80 arm
+ *   PARTICLE_ExitManager 0x02050ED4 arm
+ *   PARTICLE_CreateSystemDefault 0x02050C04 arm
+ *   PARTICLE_LoadArchiveMember 0x0205121C arm
+ *   PARTICLE_SetupSystem 0x02051230 arm
  *   d_021B8108 0x021B8108 data a4
- *   func_02050DB8  0x02050DB8  arm
+ *   PARTICLE_DeleteSystem  0x02050DB8  arm
  *   PARTICLE_StartEffect 0x020515B4 arm
  *   d_021B80CC 0x021B80CC data a4
  *   PARTICLE_ReleaseCamera 0x02051758 arm
@@ -81,12 +81,12 @@
  *   MCSS_Init 0x02014B08 thumb
  *   MCSS_SetTextureTransAdrs 0x02016020 thumb
  *   MCSS_SetOrthoMode 0x02015BF0 thumb
- *   func_02048A24 0x02048A24 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_02048AD0 0x02048AD0 arm
  *   d_021B8034 0x021B8034 data a4
  *   d_021B801C 0x021B801C data a4
  *   d_021B8028 0x021B8028 data a4
- *   func_02048AC4  0x02048AC4  arm
+ *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   MCSS_Exit  0x02014BA8  thumb
  *   d_021B80C0 0x021B80C0 data a4
  *   MCSS_TOOL_MakeAddWorkFromPP 0x02017100 thumb
@@ -105,11 +105,11 @@
  *   func_021B7D5C 0x021B7D5C thumb ov180
  *   func_021B7F30 0x021B7F30 thumb ov180
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D534 0x0207D534 arm
  *   func_021B6210 0x021B6210 thumb ov180
  *   func_021B621C 0x021B621C thumb ov180
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_021B61D4 0x021B61D4 thumb ov180
  *   func_021B6224 0x021B6224 thumb ov180
  *   func_021B7CF0 0x021B7CF0 thumb ov180
@@ -133,45 +133,45 @@
  *   MCSS_ResetAnmStopFlag 0x02015E4C thumb
  *   func_021B7F38 0x021B7F38 thumb ov180
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   func_020056EC 0x020056EC thumb
  *   func_02041F28  0x02041F28  arm
  *   d_021B827C 0x021B827C data a4
  *   d_021B8298 0x021B8298 data a4
  *   func_021B61FC 0x021B61FC thumb ov180
- *   func_0204A48C 0x0204A48C arm
- *   func_0204B100 0x0204B100 arm
- *   func_02025538 0x02025538 thumb
- *   func_02025588 0x02025588 thumb
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   BMP_OAM_CreateSys 0x02025538 thumb
+ *   BMP_OAM_DeleteSys 0x02025588 thumb
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   CLACT_GetActorAutoAnim 0x0204B944 arm
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B98C  0x0204B98C  arm
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   d_021B90CC     0x021B90CC  data  ov180  a4
  *   d_021B90E4     0x021B90E4  data  ov180  a4
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204B294 0x0204B294 arm
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   d_021B8174 0x021B8174 data ov180 a4
  *   d_021B818C 0x021B818C data a4
- *   func_0202D7C8 0x0202D7C8 thumb
+ *   POKEGRA_OpenHandle 0x0202D7C8 thumb
  *   func_020185F0 0x020185F0 thumb
  *   func_02017DBC 0x02017DBC thumb
- *   func_0202D934 0x0202D934 thumb
- *   func_0202D8D0 0x0202D8D0 thumb
- *   func_0202D9A4 0x0202D9A4 thumb
+ *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
+ *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
+ *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
  *   func_02017DE4 0x02017DE4 thumb
  */
 #include "../../matched/include/Obj02515.h"
@@ -322,28 +322,28 @@ typedef unsigned int u32_021B756C;
 typedef unsigned long u32_021B761C;
 
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
+extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *,Mtx *,u32,u32,u32,u32);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_02041FB0(u32,u32,u16);
-extern void func_020434DC(u32,u32),func_02043598(u32,u32),func_02040EBC(u32,u32);
+extern void func_020434DC(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32),func_02040EBC(u32,u32);
 extern void func_020434DC(u32,u32);
-extern void func_02043598(u32,u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_020403F4(u32);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02049238(u8 *p);
+extern void ARC_TOOL_DeleteHandle(u8 *p);
 extern void func_0207D63C(void *,u32,u32,u32,u32);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern void *func_020457B0(unsigned,unsigned);
-extern void func_02045808(struct U16Vec *vec);
+extern void *STRBUF_Create(unsigned,unsigned);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 GF_FONT_Delete(void *ptr);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *,u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
 extern void func_02005B04(const u32 *arg);
@@ -354,39 +354,39 @@ extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void func_02006CAC(void **out);
 extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
-extern void func_0207DC44(int,int,int,int);
-extern void func_0207DD24(u16,int,int,int,int);
+extern void G3X_SetFog(int,int,int,int);
+extern void G3X_SetClearColor(u16,int,int,int,int);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
-extern void func_02046BE0(unsigned,unsigned);
-extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
-extern struct Util *func_02047CFC(u16,u16,u16);
-extern void func_02047E54(struct Rec *p);
-extern void func_02046788(void);
+extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
+extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
+extern struct Util *G3D_UTIL_Create(u16,u16,u16);
+extern void G3D_UTIL_Delete(struct Rec *p);
+extern void G3D_SYSTEM_Exit(void);
 extern void func_02047964(void);
-extern void func_020479D8(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Main(char *);
 extern void MCSS_Draw(struct McssSys *);
-extern void func_02047970(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 extern unsigned func_0204EA38(void);
-extern void func_02050BE8(void);
+extern void PARTICLE_Main(void);
 extern void func_0204EA4C(void);
 extern void func_0204E8C0(u32 heap);
 extern int func_0204EA0C(void);
-extern void func_02050B80(u32);
-extern void func_02050ED4(void);
-extern int func_02050C04(int a, int b, int c, int d);
-extern int func_0205121C(u32 a, u32 b, u32 c);
-extern void func_02051230(void *,void *,int,int);
-extern void func_02050DB8(u8 *p);
+extern void PARTICLE_InitManager(u32);
+extern void PARTICLE_ExitManager(void);
+extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
+extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
+extern void PARTICLE_SetupSystem(void *,void *,int,int);
+extern void PARTICLE_DeleteSystem(u8 *p);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern int PARTICLE_ReleaseCamera(int a0);
 extern void PARTICLE_InitCamera(void *,Desc *,unsigned short,void *,void *,void *,unsigned);
 extern void *MCSS_Init(u32 id, void *heap);
 extern void MCSS_SetTextureTransAdrs(void *,unsigned);
 extern void MCSS_SetOrthoMode(void *);
-extern void *func_02048A24(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,void *,void *,void *,unsigned short);
+extern void *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,void *,void *,void *,unsigned short);
 extern void func_02048AD0(struct Light *l);
-extern u32 func_02048AC4(void *ptr);
+extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void MCSS_Exit(u8 *a0);
 extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
 extern struct Rec *MCSS_Add(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
@@ -399,11 +399,11 @@ extern void func_02015F2C(int, void *, void *, int);
 extern void func_021B7D5C(void *p);
 extern void func_021B7F30(void *p);
 extern void func_02043534(u32_021B6A60 planes);
-extern void func_020435F4(u32_021B6A60 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32_021B6A60 planes);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_021B6210(void);
 extern void func_021B621C(void);
-extern unsigned func_020221A4(void);
+extern unsigned WIPE_SYS_EndCheck(void);
 extern void func_021B61D4(int);
 extern void func_021B6224(void);
 extern void func_021B7CF0(char *);
@@ -419,40 +419,40 @@ extern void func_021B7D80(char *);
 extern void func_021B6170(int *p);
 extern void func_021B7F0C(int *p);
 extern u32_021B6FAC func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void),func_020061E4(u32_021B6FAC),GFL_USE_FadeOutBgm(u32_021B6FAC),MCSS_ResetAnmStopFlag(void *);
 extern void func_021B7C60(char *p, int index, unsigned value);
 extern void func_021B692C(char *),func_021B699C(char *,int),func_021B69F8(char *),func_021B6984(char *),func_021B7F38(char *);
-extern void func_0202208C(void *p1, u32_021B7210 p2, u32_021B7210 p3, u32_021B7210 p4, u32_021B7210 p5, u32_021B7210 p6, u32_021B7210 p7);
+extern void WIPE_SYS_Start(void *p1, u32_021B7210 p2, u32_021B7210 p3, u32_021B7210 p4, u32_021B7210 p5, u32_021B7210 p6, u32_021B7210 p7);
 extern unsigned func_020056EC(unsigned);
 extern void func_02041F28(u32_021B7300 which, u32_021B7300 op, u16 value);
 extern int func_021B61FC(int);
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32_021B7318 heapId);
-extern void *func_02025538(unsigned int a0, void *a1);
-extern void func_02025588(void *);
-extern u32_021B7390 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32_021B7318 heapId);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
+extern void BMP_OAM_DeleteSys(void *);
+extern u32_021B7390 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 extern u32_021B73B0 CLACT_GetActorAutoAnim(struct Obj *p);
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32_021B73B0 arg);
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32_021B73E4 which);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B3DC(struct Obj *,unsigned int);
-extern void CLACT_SetActorAnimFrame(struct Obj *,u32_021B7488),func_0204B878(struct Obj *,u16),func_0204B92C(struct Obj *,u32_021B7488);
-extern u32_021B74B4 func_0204B98C(struct Actor *a);
-extern void func_0204A8D4(u32_021B7510);
-extern void func_0204ADA4(u32_021B7530);
-extern void func_0204AFD8(u32_021B7550 i);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3B4(struct Obj *p);
-extern int func_0202D7C8(int);
+extern void CLACT_SetActorAnimFrame(struct Obj *,u32_021B7488),CLACT_SetActorAnimSeq(struct Obj *,u16),func_0204B92C(struct Obj *,u32_021B7488);
+extern u32_021B74B4 CLACT_IsActorAnimActive(struct Actor *a);
+extern void CLACT_ReleaseCharacter(u32_021B7510);
+extern void CLACT_ReleasePalette(u32_021B7530);
+extern void CLACT_ReleaseCellAnim(u32_021B7550 i);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern int POKEGRA_OpenHandle(int);
 extern void *func_020185F0(void *);
 extern u32_021B761C func_02017DBC(struct Sav *p);
 extern u32_021B761C func_02017DE4(struct Sav *p, u32_021B761C f);
-extern int func_0202D934(int,void *,int,int,u16),func_0202D8D0(int,void *,int,int,u16,u16);
-extern u32_021B761C func_0202D9A4(u32_021B761C,u32_021B761C,u32_021B761C,u32_021B761C,u16);
+extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16),POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
+extern u32_021B761C POKEGRA_RegisterCellAnimPP(u32_021B761C,u32_021B761C,u32_021B761C,u32_021B761C,u16);
 void func_021B6254(void);
 void func_021B6340(void);
 void func_021B6360(void);
@@ -541,14 +541,14 @@ void func_021B6254(void)
     Template t=d_021B80E8;
     Mtx m;
     func_0203FCA0(3,(const struct BgTemplate *)(&t),2);func_0203FCA0(7,(const struct BgTemplate *)(&t),2);
-    func_02051E74((struct Mtx22 *)(&m),0,(void *)4096,(void *)4096,0);
+    BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&m),0,(void *)4096,(void *)4096,0);
     func_0207D59C((void *)0x04000030,&m,0,0,0,0);
     func_0207D59C((void *)0x04001030,&m,0,0,0,0);
     func_02041EE4(3,0,160);func_02041EE4(3,3,112);
     func_02041EE4(7,0,160);func_02041EE4(7,3,-152);
     func_02041FB0(3,9,160);func_02041FB0(3,12,160);
     func_02041FB0(7,9,160);func_02041FB0(7,12,160);
-    func_020434DC(8,1);func_02043598(8,1);
+    func_020434DC(8,1);BG_SYS_SetSubPlaneVisible(8,1);
     func_02040EBC(0,0);func_02040EBC(4,0);
 }
 
@@ -557,7 +557,7 @@ void func_021B6254(void)
 
 
 
-void func_021B6340(void) {func_020434DC(8,0);func_02043598(8,0);func_020403F4(7);func_020403F4(3);}
+void func_021B6340(void) {func_020434DC(8,0);BG_SYS_SetSubPlaneVisible(8,0);func_020403F4(7);func_020403F4(3);}
 
 
 
@@ -575,7 +575,7 @@ void func_021B6360(void)
     func_02049658(p, 0x16, 7, 0, 0, 0, 0x8d);
     func_020498F4(p, 0x1c, 3, 0, 0, 0, 0x8d);
     func_020498F4(p, 0x1c, 7, 0, 0, 0, 0x8d);
-    func_02049238(p);
+    ARC_TOOL_DeleteHandle(p);
 }
 
 
@@ -593,10 +593,10 @@ void func_021B63E8(void) {func_0207D63C((void *)0x04000050,1,46,6,10);func_0207D
 
 void func_021B6418(char *p) {
  ((struct Obj02515 *)p)->f9038=func_02045B38(0,2,32,141);
- ((struct Obj02515 *)p)->f9030=func_0201D7EC(23,0,0,0,141);
- ((struct Obj02515 *)p)->f9034=func_0201D7EC(23,3,0,0,141);
+ ((struct Obj02515 *)p)->f9030=GF_FONT_Create(23,0,0,0,141);
+ ((struct Obj02515 *)p)->f9034=GF_FONT_Create(23,3,0,0,141);
  ((struct Obj02515 *)p)->f903C=func_0201EC64(141);
- ((struct Obj02515 *)p)->f9040=func_020457B0(1024,141);
+ ((struct Obj02515 *)p)->f9040=STRBUF_Create(1024,141);
 }
 
 
@@ -604,7 +604,7 @@ void func_021B6418(char *p) {
 
 
 
-void func_021B6474(char *p) {func_02045808(((struct Obj05469 *)p)->f9040);func_0201ED04(*(struct WordSet * *)&((struct Obj05469 *)p)->f903C);func_0201D83C(((struct Obj05469 *)p)->f9034);func_0201D83C(((struct Obj05469 *)p)->f9030);func_02045C04(*(struct Rec * *)&((struct Obj05469 *)p)->f9038);}
+void func_021B6474(char *p) {STRBUF_Delete(((struct Obj05469 *)p)->f9040);func_0201ED04(*(struct WordSet * *)&((struct Obj05469 *)p)->f903C);GF_FONT_Delete(((struct Obj05469 *)p)->f9034);GF_FONT_Delete(((struct Obj05469 *)p)->f9030);MSGDATA_Delete(*(struct Rec * *)&((struct Obj05469 *)p)->f9038);}
 
 
 
@@ -676,17 +676,17 @@ void func_021B65FC(void) {
  REG(0x04000060)&=(u16)~0x3004;
  REG(0x04000060)=(u16)((REG(0x04000060)&~0x3000)|8);
  REG(0x04000060)&=(u16)~0x3020;
- func_0207DC44(0,0,0,0); func_0207DD24(0,0,32767,63,0);
+ G3X_SetFog(0,0,0,0); G3X_SetClearColor(0,0,32767,63,0);
  *(volatile unsigned *)0x04000580=0xBFFF0000;
  for(i=0;i<4;i++) G3D_SYSTEM_SetLight((unsigned char)i,(const u16 *)(d_021B8040+i*8));
- func_02046BE0(1,0);
+ G3D_SYSTEM_SetSwapBuffersMode(1,0);
 }
 
 
 
 
 
-void func_021B66A0(char *p) {func_02046440(0,1,0,1,4096,141,func_021B65FC);*(struct Util * *)&((struct Obj00547 *)p)->f10=func_02047CFC(32,32,141);}
+void func_021B66A0(char *p) {G3D_SYSTEM_Init(0,1,0,1,4096,141,func_021B65FC);*(struct Util * *)&((struct Obj00547 *)p)->f10=G3D_UTIL_Create(32,32,141);}
 
 
 
@@ -695,25 +695,25 @@ void func_021B66A0(char *p) {func_02046440(0,1,0,1,4096,141,func_021B65FC);*(str
 
 void func_021B66D4(int *p)
 {
-    func_02047E54((struct Rec *)(((struct Obj24484 *)p)->f10));
-    func_02046788();
+    G3D_UTIL_Delete((struct Rec *)(((struct Obj24484 *)p)->f10));
+    G3D_SYSTEM_Exit();
 }
 
 
 
 
 
-void func_021B66E4(char *p) {func_02047964();func_020479D8();MCSS_Main(*(char * *)&((struct Obj14398 *)p)->f18);MCSS_Draw(*(struct McssSys * *)&((struct Obj14398 *)p)->f18);func_02047970();}
+void func_021B66E4(char *p) {func_02047964();G3D_SYSTEM_ApplyLookAt();MCSS_Main(*(char * *)&((struct Obj14398 *)p)->f18);MCSS_Draw(*(struct McssSys * *)&((struct Obj14398 *)p)->f18);G3D_SYSTEM_DrawEnd();}
 
 
 
 
 
 void func_021B6704(char *p) {
- func_02047964(); func_020479D8();
+ func_02047964(); G3D_SYSTEM_ApplyLookAt();
  if(func_0204EA38()==1) { func_021B6844(p,*(void **)(p+0x28),1); func_021B6844(p,*(void **)(p+0x2C),1); }
  else { func_021B6844(p,*(void **)(p+0x28),0); func_021B6844(p,*(void **)(p+0x2C),0); }
- func_02050BE8(); func_02047970(); func_0204EA4C();
+ PARTICLE_Main(); G3D_SYSTEM_DrawEnd(); func_0204EA4C();
 }
 
 
@@ -729,17 +729,17 @@ void func_021B675C(void) {func_0204EA0C();}
 
 
 
-void func_021B6764(void) {func_02050B80(141);}
+void func_021B6764(void) {PARTICLE_InitManager(141);}
 
 
 
 
-void func_021B6770(void) {func_02050ED4();}
+void func_021B6770(void) {PARTICLE_ExitManager();}
 
 
 
 
-void func_021B6778(char *p){((struct Obj10718 *)p)->f28=(void *)func_02050C04((int)(p+48),18432,1,141);func_02051230(((struct Obj10718 *)p)->f28,(void *)func_0205121C(216,*(int *)((u32)&d_021B8108+((struct Obj10718 *)p)->f915A*4),141),1,0);}
+void func_021B6778(char *p){((struct Obj10718 *)p)->f28=(void *)PARTICLE_CreateSystemDefault((int)(p+48),18432,1,141);PARTICLE_SetupSystem(((struct Obj10718 *)p)->f28,(void *)PARTICLE_LoadArchiveMember(216,*(int *)((u32)&d_021B8108+((struct Obj10718 *)p)->f915A*4),141),1,0);}
 
 
 
@@ -747,7 +747,7 @@ void func_021B6778(char *p){((struct Obj10718 *)p)->f28=(void *)func_02050C04((i
 
 void func_021B67B4(int *p)
 {
-    func_02050DB8((u8 *)(((struct Obj14399 *)p)->f28));
+    PARTICLE_DeleteSystem((u8 *)(((struct Obj14399 *)p)->f28));
     ((struct Obj14399 *)p)->f28 = 0;
 }
 
@@ -759,7 +759,7 @@ void func_021B67C4(char *p,int a){Triple v;v=d_021B80CC;PARTICLE_StartEffect(((s
 
 
 
-void func_021B67EC(char *p){((struct Obj14400 *)p)->f2C=(void *)func_02050C04((int)(p+18480),18432,1,141);func_02051230(((struct Obj14400 *)p)->f2C,(void *)func_0205121C(216,51,141),1,0);}
+void func_021B67EC(char *p){((struct Obj14400 *)p)->f2C=(void *)PARTICLE_CreateSystemDefault((int)(p+18480),18432,1,141);PARTICLE_SetupSystem(((struct Obj14400 *)p)->f2C,(void *)PARTICLE_LoadArchiveMember(216,51,141),1,0);}
 
 
 
@@ -767,7 +767,7 @@ void func_021B67EC(char *p){((struct Obj14400 *)p)->f2C=(void *)func_02050C04((i
 
 void func_021B681C(int *p)
 {
-    func_02050DB8((u8 *)(((struct Obj14401 *)p)->f2C));
+    PARTICLE_DeleteSystem((u8 *)(((struct Obj14401 *)p)->f2C));
     ((struct Obj14401 *)p)->f2C = 0;
 }
 
@@ -801,7 +801,7 @@ void func_021B6844(char *p,void *q,int mode) {
 
 void func_021B68A8(char *p) {
  ((struct Obj00547 *)p)->f18=MCSS_Init(1,(void *)141); MCSS_SetTextureTransAdrs(((struct Obj00547 *)p)->f18,0); MCSS_SetOrthoMode(((struct Obj00547 *)p)->f18);
- ((struct Obj00547 *)p)->f20=func_02048A24(2,0x60000,0xFFFA0000,0xFFF80000,0x80000,0x1000,0x400000,0,d_021B8034,d_021B801C,d_021B8028,141);
+ ((struct Obj00547 *)p)->f20=G3D_CAMERA_Create(2,0x60000,0xFFFA0000,0xFFF80000,0x80000,0x1000,0x400000,0,d_021B8034,d_021B801C,d_021B8028,141);
  func_02048AD0(((struct Obj00547 *)p)->f20);
 }
 
@@ -812,7 +812,7 @@ void func_021B68A8(char *p) {
 void func_021B6914(int *p)
 {
     func_021B6984((char *)p);
-    func_02048AC4((void *)(((struct Obj04569 *)p)->f20));
+    G3D_CAMERA_Delete((void *)(((struct Obj04569 *)p)->f20));
     MCSS_Exit((u8 *)(((struct Obj04569 *)p)->f18));
 }
 
@@ -904,7 +904,7 @@ int func_021B6A10(char *p) {
 
 
 int func_021B6A60(char *p) {
-    func_02043534(0); func_020435F4(0);
+    func_02043534(0); BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     func_0207D534((void *)0x0400006c,-16);
@@ -921,13 +921,13 @@ int func_021B6AB0(char *p) {
     func_0207D534((void *)0x0400106c,-16);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
-    func_02043534(0); func_020435F4(0);
+    func_02043534(0); BG_SYS_SetSubVisiblePlanes(0);
     return 10;
 }
 
 
 
-int func_021B6AFC(char *p){if(func_020221A4()==1)return ((struct Obj24487 *)p)->f9194;return 2;}
+int func_021B6AFC(char *p){if(WIPE_SYS_EndCheck()==1)return ((struct Obj24487 *)p)->f9194;return 2;}
 
 
 
@@ -1011,7 +1011,7 @@ int func_021B6F80(char *p){func_021B6188((u8 *)p);func_021B7F0C((int *)p);func_0
  */
 int func_021B6FAC(char *p) {
     int ready;
-    if(((struct Obj00242 *)p)->f9198==1 && func_020221A4()==1 && GFL_USE_IsBgmFading()==0) { GFL_USE_CancelChangeAndStopBgm();return 9; }
+    if(((struct Obj00242 *)p)->f9198==1 && WIPE_SYS_EndCheck()==1 && GFL_USE_IsBgmFading()==0) { GFL_USE_CancelChangeAndStopBgm();return 9; }
     switch(((struct Obj00242 *)p)->f9190) {
     case 0: ++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);
     case 1: func_020061E4(0x79D);++((struct Obj00242 *)p)->f9190;break;
@@ -1039,7 +1039,7 @@ int func_021B6FAC(char *p) {
         }break;
     }
     if(((struct Obj00242 *)p)->f9190>=6)func_021B7F38(p);
-    if(((struct Obj00242 *)p)->f9190>=8 && ((struct Obj00242 *)p)->f9198==0 && ((func_020362DC()&3)!=0 || func_02035C60()==1)){
+    if(((struct Obj00242 *)p)->f9190>=8 && ((struct Obj00242 *)p)->f9198==0 && ((func_020362DC()&3)!=0 || TOUCHPANEL_GetTrg()==1)){
         ((struct Obj00242 *)p)->f9198=1;GFL_USE_FadeOutBgm(220);func_021B723C(p,9,188);
     }
     return 8;
@@ -1047,7 +1047,7 @@ int func_021B6FAC(char *p) {
 
 
 
-int func_021B7210(char *p,int n){func_0202208C(0,1,1,0,6,1,141);((struct Obj24488 *)p)->f9194=n;return 2;}
+int func_021B7210(char *p,int n){WIPE_SYS_Start(0,1,1,0,6,1,141);((struct Obj24488 *)p)->f9194=n;return 2;}
 
 
 
@@ -1055,7 +1055,7 @@ int func_021B7210(char *p,int n){func_0202208C(0,1,1,0,6,1,141);((struct Obj2448
  * follower: 0x021B7268 store-return stub included in this verified unit.
  */
 int func_021B723C(char *p,int value,int duration) {
-    func_0202208C(0,0,0,0,duration,1,141);
+    WIPE_SYS_Start(0,0,0,0,duration,1,141);
     ((struct Obj24489 *)p)->f9194=value;
     return 2;
 }
@@ -1098,24 +1098,24 @@ void func_021B7300(char *a0)
 void func_021B7318(char *p,int mode) {
     if(mode==0) {
         Config cfg=d_021B827C;
-        func_0204A48C((const struct Cfg *)(&cfg),func_021B61FC(mode),141);
+        CLACT_InitSystem((const struct Cfg *)(&cfg),func_021B61FC(mode),141);
     } else {
         Config cfg=d_021B8298;
-        func_0204A48C((const struct Cfg *)(&cfg),func_021B61FC(mode),141);
+        CLACT_InitSystem((const struct Cfg *)(&cfg),func_021B61FC(mode),141);
     }
-    *(int *)&((struct Obj00547 *)p)->f9044=(int)func_0204B100(249,0,141);
-    ((struct Obj00547 *)p)->f911C=func_02025538(141,((struct Obj00547 *)p)->f9044);
+    *(int *)&((struct Obj00547 *)p)->f9044=(int)CLACT_CreateUnit(249,0,141);
+    ((struct Obj00547 *)p)->f911C=BMP_OAM_CreateSys(141,((struct Obj00547 *)p)->f9044);
     func_021B74C8((int *)p);
-    func_020434DC(16,1); func_02043598(16,1);
+    func_020434DC(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }
 
 
 
-void func_021B7390(char *p){func_02025588(((struct Obj04569 *)p)->f911C);func_0204B1CC(((struct Obj04569 *)p)->f9044);func_0204A5AC();}
+void func_021B7390(char *p){BMP_OAM_DeleteSys(((struct Obj04569 *)p)->f911C);CLACT_DeleteUnit(((struct Obj04569 *)p)->f9044);CLACT_ExitSystem();}
 
 
 
-void func_021B73B0(char *p){u32_021B73B0 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(((struct Obj10720 *)q)->f9048&&CLACT_GetActorAutoAnim(((struct Obj10720 *)q)->f9048)!=1)CLACT_AddActorAnimFrame(((struct Obj10720 *)q)->f9048,4096);}func_0204A600();}
+void func_021B73B0(char *p){u32_021B73B0 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(((struct Obj10720 *)q)->f9048&&CLACT_GetActorAutoAnim(((struct Obj10720 *)q)->f9048)!=1)CLACT_AddActorAnimFrame(((struct Obj10720 *)q)->f9048,4096);}CLACT_DrawSystem();}
 
 
 
@@ -1123,7 +1123,7 @@ void func_021B73E4(char *p, int i, short x, short y){Pair_021B73E4 v;v.x=x;v.y=y
 
 
 
-void func_021B7408(u8 *p,int n,s16_021B7408 *x,s16_021B7408 *y) { Pair_021B7408 s; func_0204B454(*(void **)(p+n*4+0x9048),(struct PtS *)&s,0); *x=s.x; *y=s.y; }
+void func_021B7408(u8 *p,int n,s16_021B7408 *x,s16_021B7408 *y) { Pair_021B7408 s; CLACT_GetActorSurfacePos(*(void **)(p+n*4+0x9048),(struct PtS *)&s,0); *x=s.x; *y=s.y; }
 
 
 
@@ -1142,14 +1142,14 @@ void func_021B746C(int *p, int i, int a)
 
 
 
-void func_021B7488(u8 *p,int n,int v) { CLACT_SetActorAnimFrame(*(struct Obj **)(p+0x9048+n*4),0); func_0204B878(*(struct Obj **)(p+0x9048+n*4),v); func_0204B92C(*(struct Obj **)(p+0x9048+n*4),1); }
+void func_021B7488(u8 *p,int n,int v) { CLACT_SetActorAnimFrame(*(struct Obj **)(p+0x9048+n*4),0); CLACT_SetActorAnimSeq(*(struct Obj **)(p+0x9048+n*4),v); func_0204B92C(*(struct Obj **)(p+0x9048+n*4),1); }
 
 
 
 
 int func_021B74B4(int *p, int i)
 {
-    return func_0204B98C((struct Actor *)(*(int *)((char *)p + i * 4 + 0x9048)));
+    return CLACT_IsActorAnimActive((struct Actor *)(*(int *)((char *)p + i * 4 + 0x9048)));
 }
 
 
@@ -1172,11 +1172,11 @@ void func_021B74C8(int *base)
 
 
 
-void func_021B7510(char *p,int n) { if(*(u32_021B7510 *)(p+0x90cc+n*4)!=~0u) { func_0204A8D4(*(u32_021B7510 *)(p+0x90cc+n*4)); *(u32_021B7510 *)(p+0x90cc+n*4)=~0u; } }
+void func_021B7510(char *p,int n) { if(*(u32_021B7510 *)(p+0x90cc+n*4)!=~0u) { CLACT_ReleaseCharacter(*(u32_021B7510 *)(p+0x90cc+n*4)); *(u32_021B7510 *)(p+0x90cc+n*4)=~0u; } }
 
 
 
-void func_021B7530(char *p,int n) { if(*(u32_021B7530 *)(p+0x90e4+n*4)!=~0u) { func_0204ADA4(*(u32_021B7530 *)(p+0x90e4+n*4)); *(u32_021B7530 *)(p+0x90e4+n*4)=~0u; } }
+void func_021B7530(char *p,int n) { if(*(u32_021B7530 *)(p+0x90e4+n*4)!=~0u) { CLACT_ReleasePalette(*(u32_021B7530 *)(p+0x90e4+n*4)); *(u32_021B7530 *)(p+0x90e4+n*4)=~0u; } }
 
 
 
@@ -1184,7 +1184,7 @@ void func_021B7530(char *p,int n) { if(*(u32_021B7530 *)(p+0x90e4+n*4)!=~0u) { f
 void func_021B7550(char *p, int i)
 {
     if (*(int *)(p + 0x9100 + i * 4) != -1) {
-        func_0204AFD8(*(int *)(p + 0x9100 + i * 4));
+        CLACT_ReleaseCellAnim(*(int *)(p + 0x9100 + i * 4));
         *(int *)(p + 0x9100 + i * 4) = -1;
     }
 }
@@ -1199,7 +1199,7 @@ void func_021B756C(char *p) { u32_021B756C i; for(i=0;i<6;i++) func_021B7510(p,i
 
 
 struct Obj *func_021B75A4(char *p,const char *q) {
-    return func_0204B294((void *)((struct Obj24493 *)p)->f9044,*(int *)(p+0x90cc+*(const int *)&((struct Obj08299 *)q)->f8*4),*(int *)(p+0x90e4+*(const int *)&((struct Obj08299 *)q)->fC*4),*(int *)(p+0x9100+*(const int *)&((struct Obj08299 *)q)->f10*4),(void *)q,*(const unsigned short *)&((struct Obj08299 *)q)->f16,141);
+    return CLACT_CreateActor((void *)((struct Obj24493 *)p)->f9044,*(int *)(p+0x90cc+*(const int *)&((struct Obj08299 *)q)->f8*4),*(int *)(p+0x90e4+*(const int *)&((struct Obj08299 *)q)->fC*4),*(int *)(p+0x9100+*(const int *)&((struct Obj08299 *)q)->f10*4),(void *)q,*(const unsigned short *)&((struct Obj08299 *)q)->f16,141);
 }
 
 
@@ -1208,7 +1208,7 @@ struct Obj *func_021B75A4(char *p,const char *q) {
 void func_021B75E8(char *p, int i)
 {
     if (*(int *)(p + 0x9048 + i * 4) != 0) {
-        func_0204B3B4((struct Obj *)(*(int *)(p + 0x9048 + i * 4)));
+        CLACT_DeleteActor((struct Obj *)(*(int *)(p + 0x9048 + i * 4)));
         *(int *)(p + 0x9048 + i * 4) = 0;
     }
 }
@@ -1237,16 +1237,16 @@ void func_021B761C(char *p)
     if(((struct Obj02516 *)p)->f904C) {
         func_021B75E8(p,1);func_021B7510(p,1);func_021B7530(p,1);func_021B7550(p,1);
     }
-    bank=func_0202D7C8(141);
+    bank=POKEGRA_OpenHandle(141);
     mon=func_020185F0(*(void **)((u32_021B761C)p+((struct Obj02516 *)p)->f915D*4+0x9140));
     lock=func_02017DBC(mon);
-    ((struct Obj02516 *)p)->f90CC=func_0202D934(bank,mon,0,0,141);
-    ((struct Obj02516 *)p)->f90E4=func_0202D8D0(bank,mon,0,0,96,141);
-    ((struct Obj02516 *)p)->f9100=func_0202D9A4((u32_021B761C)mon,0,2,0,141);
-    ((struct Obj02516 *)p)->f90D0=func_0202D934(bank,mon,1,0,141);
-    ((struct Obj02516 *)p)->f90E8=func_0202D8D0(bank,mon,1,0,128,141);
-    ((struct Obj02516 *)p)->f9104=func_0202D9A4((u32_021B761C)mon,1,2,0,141);
-    func_02017DE4(mon,lock);func_02049238((u8 *)bank);
+    ((struct Obj02516 *)p)->f90CC=POKEGRA_RegisterCgrPP(bank,mon,0,0,141);
+    ((struct Obj02516 *)p)->f90E4=POKEGRA_RegisterPalettePP(bank,mon,0,0,96,141);
+    ((struct Obj02516 *)p)->f9100=POKEGRA_RegisterCellAnimPP((u32_021B761C)mon,0,2,0,141);
+    ((struct Obj02516 *)p)->f90D0=POKEGRA_RegisterCgrPP(bank,mon,1,0,141);
+    ((struct Obj02516 *)p)->f90E8=POKEGRA_RegisterPalettePP(bank,mon,1,0,128,141);
+    ((struct Obj02516 *)p)->f9104=POKEGRA_RegisterCellAnimPP((u32_021B761C)mon,1,2,0,141);
+    func_02017DE4(mon,lock);ARC_TOOL_DeleteHandle((u8 *)bank);
     ((struct Obj02516 *)p)->f9048=(int)func_021B75A4(p,d_021B8174);
     ((struct Obj02516 *)p)->f904C=(int)func_021B75A4(p,d_021B818C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6AE4
+ * function: TOUCHBAR_PrintAligned
  * address:  0x021B6AE4
  * packet:   pkt_ov067_021B6AE4
  * region:   ov067
@@ -14,9 +14,9 @@
  *           r4/r5, and `b -= f()` truncates the call result first (worse).
  *
  * symbols:
- *   func_021B6C4C  0x021B6C4C  thumb  ov067
+ *   TOUCHBAR_GetStringAlignOffset  0x021B6C4C  thumb  ov067
  *   func_02045770  0x02045770  arm
- *   func_0201C724  0x0201C724  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  */
 #include "../include/Obj05378.h"
 
@@ -26,14 +26,14 @@ typedef unsigned int u32;
 typedef short s16;
 
 struct StrObj;
-extern u16 func_021B6C4C(struct StrObj *s, u32 a, u32 mode);
+extern u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *s, u32 a, u32 mode);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3)
+void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3)
 {
-    b = b - func_021B6C4C((struct StrObj *)s0, s1, s3);
-    func_0201C724(a, (u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj05378 *)p)->f0), (s16)b, (s16)c, s0, s1, s2);
+    b = b - TOUCHBAR_GetStringAlignOffset((struct StrObj *)s0, s1, s3);
+    PRINTSYS_PrintQueColor(a, (u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj05378 *)p)->f0), (s16)b, (s16)c, s0, s1, s2);
     p[4] = 1;
 }

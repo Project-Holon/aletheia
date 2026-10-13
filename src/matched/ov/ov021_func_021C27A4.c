@@ -1,5 +1,5 @@
 /*
- * function: func_021C27A4
+ * function: FLD3D_CI_SaveLayerPriorities
  * address:  0x021C27A4
  * packet:   pkt_ov021_021C27A4
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u8 func_020416D4(u32 layer);
 
-void func_021C27A4(u8 *p)
+void FLD3D_CI_SaveLayerPriorities(u8 *p)
 {
     int i;
 

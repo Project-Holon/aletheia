@@ -1,5 +1,5 @@
 /*
- * function: func_021A56C0
+ * function: FIELD_PLAYER_GRID_IsAtGroundHeight
  * address:  0x021A56C0
  * packet:   pkt_ov021_021A56C0
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02163E58  0x02163E58  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  */
 #include "../include/Obj12739.h"
 
@@ -24,20 +24,20 @@ typedef struct {
     int z;
 } Vec021A56C0;
 
-void *func_021A3960(unsigned char *p);
+void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
 struct Actor;
 struct VecFx32;
-void func_0216D88C(const struct Actor *h, struct VecFx32 *v);
-void func_02163E58(void *h, Vec021A56C0 *v, int *lim);
+void FLDMMDL_GetPos(const struct Actor *h, struct VecFx32 *v);
+void FLDMMDL_MOVE_GetMapHeight(void *h, Vec021A56C0 *v, int *lim);
 
-u32 func_021A56C0(u32 *p, u32 a1, u32 a2, u32 a3)
+u32 FIELD_PLAYER_GRID_IsAtGroundHeight(u32 *p, u32 a1, u32 a2, u32 a3)
 {
-    void *h = func_021A3960(*(unsigned char * *)&((struct Obj12739 *)p)->fC);
+    void *h = FIELD_PLAYER_CORE_GetMmdl(*(unsigned char * *)&((struct Obj12739 *)p)->fC);
     Vec021A56C0 v;
     int lim;
 
-    func_0216D88C(h, (struct VecFx32 *)&v);
-    func_02163E58(h, &v, &lim);
+    FLDMMDL_GetPos(h, (struct VecFx32 *)&v);
+    FLDMMDL_MOVE_GetMapHeight(h, &v, &lim);
     if (v.y <= lim)
         return 1;
     return 0;

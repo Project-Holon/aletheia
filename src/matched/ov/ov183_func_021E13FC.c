@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021E0E40 0x021E0E40 thumb ov183
  *   func_021E0CE8 0x021E0CE8 thumb ov183
  *   func_021E1008 0x021E1008 thumb ov183
@@ -35,14 +35,14 @@ typedef struct {u32 x,y;} Pair;
 extern const int d_021E3998[],d_021E397C[];
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021E0E40(int,int);
 extern void func_021E0CE8(char *p, int index, int a2);
 extern void func_021E1008(char *);
@@ -62,7 +62,7 @@ int func_021E13FC(char *p) {
         for(i=0;i<((struct Obj00478 *)p)->f23C;i++){
             record=(char *)((u32)p+i*28);
             if(((struct Obj00417 *)record)->f18!=0){
-                func_0204B454(((struct Obj00417 *)record)->fC,(struct PtS *)&coords.x,1);
+                CLACT_GetActorSurfacePos(((struct Obj00417 *)record)->fC,(struct PtS *)&coords.x,1);
                 coords.x+=((struct Obj00417 *)record)->f14;
                 coords.y+=((struct Obj00417 *)record)->f16;
                 func_0204B404(((struct Obj00417 *)record)->fC,(const struct Vec2 *)(&coords.x),1);
@@ -84,7 +84,7 @@ int func_021E13FC(char *p) {
         for(i=0;i<2;i++){
             record=(char *)((u32)p+i*28);
             if(((struct Obj00417 *)record)->f168!=0){
-                func_0204B454(((struct Obj00417 *)record)->f15C,(struct PtS *)&coords.a,1);
+                CLACT_GetActorSurfacePos(((struct Obj00417 *)record)->f15C,(struct PtS *)&coords.a,1);
                 coords.a+=((struct Obj00417 *)record)->f164;
                 coords.b+=((struct Obj00417 *)record)->f166;
                 func_0204B404(((struct Obj00417 *)record)->f15C,(const struct Vec2 *)(&coords.a),1);
@@ -94,11 +94,11 @@ int func_021E13FC(char *p) {
         if(((struct Obj00478 *)p)->f18==0){
             for(i=((struct Obj00478 *)p)->f248;i<((struct Obj00478 *)p)->f24C;i++){
                 record=(char *)((u32)p+i*28);
-                func_0204B878(((struct Obj00417 *)record)->fC,func_021E0E40(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
+                CLACT_SetActorAnimSeq(((struct Obj00417 *)record)->fC,func_021E0E40(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
             }
             for(i=((struct Obj00478 *)p)->f250;i<((struct Obj00478 *)p)->f254;i++){
                 record=(char *)((u32)p+i*28);
-                func_0204B878(((struct Obj00417 *)record)->fC,func_021E0E40(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
+                CLACT_SetActorAnimSeq(((struct Obj00417 *)record)->fC,func_021E0E40(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
             }
             ++((struct Obj00478 *)p)->f234;
         }

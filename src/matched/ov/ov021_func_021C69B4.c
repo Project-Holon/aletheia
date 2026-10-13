@@ -1,5 +1,5 @@
 /*
- * function: func_021C69B4
+ * function: FIELD_G3DOBJ_CreateObject
  * address:  0x021C69B4
  * packet:   pkt_ov021_021C69B4
  * region:   ov021
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unused 5th parameter puts pos/flag at sp+0x1c/0x20.  func_0204767C takes
+ * Unused 5th parameter puts pos/flag at sp+0x1c/0x20.  G3D_SYSTEM_CreateObject takes
  * the count as a third argument (the last f28 load is reused in r2).  The
  * h value starts (i = 0) before the e->f4/f6 stores, so it interferes with
  * idx in r2 and lands in r5, copied to r2 at the call.
  *
  * symbols:
- *   func_02047400  0x02047400  arm
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
- *   func_020477A4  0x020477A4  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   func_0207ADC4  0x0207ADC4  arm
  *   MIi_CpuClear32  0x02082A7C  arm
  */
@@ -47,14 +47,14 @@ typedef struct {
 } Elem;
 struct G3dOwner;
 struct G3dRec;
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 struct G3dSys;
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern void func_0207ADC4(void *p);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-void func_021C69B4(Elem *e, S *s, u16 idx, u16 id, u32 unused, V *pos, int flag)
+void FIELD_G3DOBJ_CreateObject(Elem *e, S *s, u16 idx, u16 id, u32 unused, V *pos, int flag)
 {
     int i;
     u32 m;
@@ -67,16 +67,16 @@ void func_021C69B4(Elem *e, S *s, u16 idx, u16 id, u32 unused, V *pos, int flag)
         if (s->f4 != 0)
             i = s->f4;
     }
-    m = (u32)func_02047400((void *)s->f0, id, (void *)i);
+    m = (u32)G3D_SYSTEM_CreateRender((void *)s->f0, id, (void *)i);
     if (s->f28 != 0) {
         MIi_CpuClear32(0, e->f48, sizeof(e->f48));
         for (i = 0; i < s->f28; i++)
-            e->f48[i] = (u32)func_02047564((struct G3dOwner *)m, (const struct G3dOwner *)s->f8[i], 0);
+            e->f48[i] = (u32)G3D_SYSTEM_CreateAnime((struct G3dOwner *)m, (const struct G3dOwner *)s->f8[i], 0);
     }
-    e->f44 = (u32)func_0204767C(m, e->f48, s->f28);
+    e->f44 = (u32)G3D_SYSTEM_CreateObject(m, e->f48, s->f28);
     if (s->f28 != 0) {
         for (i = 0; i < s->f28; i++)
-            func_020477A4((struct G3dSys *)e->f44, (u16)i);
+            G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)e->f44, (u16)i);
     }
     if (pos != 0)
         e->f8 = *pos;

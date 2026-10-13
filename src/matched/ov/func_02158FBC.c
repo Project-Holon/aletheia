@@ -1,5 +1,5 @@
 /*
- * function: func_02158FBC
+ * function: SCRIPT_WORK_FreeUserWork
  * address:  0x02158FBC
  * packet:   pkt_02158FBC
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int func_020307B0();
 
-void func_02158FBC(int a0)
+void SCRIPT_WORK_FreeUserWork(int a0)
 {
     int t4;
 

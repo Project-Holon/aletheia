@@ -1,5 +1,5 @@
 /*
- * function: func_021A94B0
+ * function: FIELD_ENCOUNT_CalcEncountRate
  * address:  0x021A94B0
  * packet:   pkt_ov021_021A94B0
  * region:   ov021
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_0209C2B0  0x0209C2B0  arm
- *   func_02010FB0  0x02010FB0  thumb
+ *   GPOWER_ApplyEncountRate  0x02010FB0  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -33,9 +33,9 @@ struct Obj {
 };
 
 extern u32 func_0209C2B0(u32 a, u32 b);
-extern u32 func_02010FB0(u32 v);
+extern u32 GPOWER_ApplyEncountRate(u32 v);
 
-u32 func_021A94B0(struct Obj *o, u32 unused, u32 n)
+u32 FIELD_ENCOUNT_CalcEncountRate(struct Obj *o, u32 unused, u32 n)
 {
     u32 v = n;
 
@@ -59,5 +59,5 @@ u32 func_021A94B0(struct Obj *o, u32 unused, u32 n)
     if (v > 100) {
         v = 100;
     }
-    return func_02010FB0(v);
+    return GPOWER_ApplyEncountRate(v);
 }

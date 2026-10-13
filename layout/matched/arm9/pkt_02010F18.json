@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02010F18",
+   "name": "GPOWER_GetExpiringPowerId",
    "address": "0x02010F18",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02010F40",
+   "name": "GPOWER_ClearByPowerId",
    "address": "0x02010F40",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02010F7C",
+   "name": "GPOWER_LoadPowerTable",
    "address": "0x02010F7C",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02010F8C",
+   "name": "GPOWER_FreePowerTable",
    "address": "0x02010F8C",
    "kind": "game",
    "region": "arm9",

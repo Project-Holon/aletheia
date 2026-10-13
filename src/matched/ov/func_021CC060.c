@@ -1,5 +1,5 @@
 /*
- * function: func_021CC060
+ * function: FLD_TRADE_GetWantedSpecies
  * address:  0x021CC060
  * packet:   pkt_021CC060
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021CC060(u8 *p)
+u32 FLD_TRADE_GetWantedSpecies(u8 *p)
 {
     u8 *q = *(u8 * *)&((struct Obj01219 *)p)->f8;
 

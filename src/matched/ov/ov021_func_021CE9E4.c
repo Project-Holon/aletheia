@@ -1,5 +1,5 @@
 /*
- * function: func_021CE9E4
+ * function: COMM_ENTRY_MENU_PrintMessage
  * address:  0x021CE9E4
  * packet:   pkt_ov021_021CE9E4
  * region:   ov021
@@ -12,9 +12,9 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201F250  0x0201F250  thumb
- *   func_02045808  0x02045808  arm
- *   func_02190F7C  0x02190F7C  thumb  ov021
- *   func_02190EB8  0x02190EB8  thumb  ov021
+ *   STRBUF_Delete  0x02045808  arm
+ *   FIELD_MSGBG_ClearSysWin  0x02190F7C  thumb  ov021
+ *   FIELD_MSGBG_SysWinPrintStr  0x02190EB8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00011.h"
@@ -33,11 +33,11 @@ struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02190F7C(struct P *p);
-extern void func_02190EB8(struct P *p, u32 b, u16 c, u32 d);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void FIELD_MSGBG_ClearSysWin(struct P *p);
+extern void FIELD_MSGBG_SysWinPrintStr(struct P *p, u32 b, u16 c, u32 d);
 
-void func_021CE9E4(S *p, u32 m)
+void COMM_ENTRY_MENU_PrintMessage(S *p, u32 m)
 {
     u32 n;
 
@@ -46,7 +46,7 @@ void func_021CE9E4(S *p, u32 m)
     ((struct Obj00011 *)p)->f57A = m;
     n = (u32)func_02045EC0((struct MsgBank *)p->f8, m);
     func_0201F250((struct WordSet *)p->f4, (void *)p->f18, (void *)n);
-    func_02045808((struct U16Vec *)n);
-    func_02190F7C((struct P *)p->f14);
-    func_02190EB8((struct P *)p->f14, 0, 0, p->f18);
+    STRBUF_Delete((struct U16Vec *)n);
+    FIELD_MSGBG_ClearSysWin((struct P *)p->f14);
+    FIELD_MSGBG_SysWinPrintStr((struct P *)p->f14, 0, 0, p->f18);
 }

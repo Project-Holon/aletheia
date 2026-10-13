@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  */
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 void func_021FE750(void *h)
 {
-    unsigned int *p = *((unsigned int **)func_02030EE8(h));
+    unsigned int *p = *((unsigned int **)TCBL_IsDeletePending(h));
 
     *p &= ~0x800u;
 }

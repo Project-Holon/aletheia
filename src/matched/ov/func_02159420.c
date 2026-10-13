@@ -1,5 +1,5 @@
 /*
- * function: func_02159420
+ * function: SCRIPT_WORK_CmdPopDiscard
  * address:  0x02159420
  * packet:   pkt_02159420
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Ring;
 extern u32 VM_PopStack(struct Ring *r);
 
-int func_02159420(int a0)
+int SCRIPT_WORK_CmdPopDiscard(int a0)
 {
 
     a0 = VM_PopStack((struct Ring *)a0);

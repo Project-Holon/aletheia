@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F037C",
+   "name": "C_GEAR_POWER_ONOFF_StepTurnOn",
    "address": "0x021F037C",
    "kind": "game",
    "region": "ov035",

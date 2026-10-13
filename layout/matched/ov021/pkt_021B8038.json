@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8038",
+   "name": "FIELD_RAIL_WORK_GetLastKey",
    "address": "0x021B8038",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B8040",
+   "name": "FIELD_RAIL_WORK_IsMoving",
    "address": "0x021B8040",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B8048",
+   "name": "FIELD_RAIL_WORK_HasStepped",
    "address": "0x021B8048",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B80D8",
+   "name": "FIELD_RAIL_WORK_GetLineKey",
    "address": "0x021B80D8",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021B821C",
+   "name": "FIELD_RAIL_GetFieldCamera",
    "address": "0x021B821C",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8220",
+   "name": "FIELD_RAIL_GetFocusWork",
    "address": "0x021B8220",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8248",
+   "name": "FIELD_RAIL_GetUnitScaleRaw",
    "address": "0x021B8248",
    "kind": "game",
    "region": "ov021",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B824C",
+   "name": "FIELD_RAIL_GetProbeWork",
    "address": "0x021B824C",
    "kind": "game",
    "region": "ov021",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B82F4",
+   "name": "FIELD_RAIL_WORK_GetSpot",
    "address": "0x021B82F4",
    "kind": "game",
    "region": "ov021",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B82F8",
+   "name": "FIELD_RAIL_WORK_GetLineOffset",
    "address": "0x021B82F8",
    "kind": "game",
    "region": "ov021",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B82FC",
+   "name": "FIELD_RAIL_WORK_GetLineEndOffset",
    "address": "0x021B82FC",
    "kind": "game",
    "region": "ov021",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8300",
+   "name": "FIELD_RAIL_WORK_GetWidthOffsetRaw",
    "address": "0x021B8300",
    "kind": "game",
    "region": "ov021",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8304",
+   "name": "FIELD_RAIL_WORK_GetWidthLimit",
    "address": "0x021B8304",
    "kind": "game",
    "region": "ov021",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B8308",
+   "name": "FIELD_RAIL_WORK_GetUnitScale",
    "address": "0x021B8308",
    "kind": "game",
    "region": "ov021",

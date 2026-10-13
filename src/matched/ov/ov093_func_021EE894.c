@@ -1,5 +1,5 @@
 /*
- * function: func_021EE894
+ * function: BTL_REC_IsChannelDone
  * address:  0x021EE894
  * packet:   pkt_ov093_021EE894
  * region:   ov093
@@ -21,7 +21,7 @@ typedef struct {
     u32 pos[4];
 } Q;
 
-int func_021EE894(Q *q, int i)
+int BTL_REC_IsChannelDone(Q *q, int i)
 {
     u32 p;
 

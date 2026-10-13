@@ -11,8 +11,8 @@
  * symbols:
  *   func_021E8738 0x021E8738 thumb ov177
  *   func_021E8AB4 0x021E8AB4 thumb ov177
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021DBC04 0x021DBC04 thumb ov175
  *   func_021DBDAC 0x021DBDAC thumb ov175
  *   func_021D9F04 0x021D9F04 thumb ov175
@@ -27,10 +27,10 @@
 typedef unsigned long u32;
 extern void func_021E8738(int *p, int a, int b, int c);
 extern void func_021E8AB4(u32,u32);
-extern int func_02012DAC(int a0);
+extern int GAME_DATA_SaveStart(int a0);
 typedef unsigned char  u8;
 struct Record;
-extern int func_02012DD0(u8 *p);
+extern int GAME_DATA_SaveMain(u8 *p);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *p);
 extern int func_021D9F04(char *,void *,void *);
@@ -44,8 +44,8 @@ void func_021D8EC8(u32 sys,int *state,char *p)
     switch(*state) {
     case 0:func_021E8738((int *)(((struct Obj02886 *)p)->f2C),((struct Obj02886 *)p)->f14,40,2);
         func_021E8AB4(sys,1);*state=7;break;
-    case 1:func_02012DAC((int)(**(void ** *)&((struct Obj10683 *)q)->f8));*state=2;break;
-    case 2:if(func_02012DD0(**(void ** *)&((struct Obj10683 *)q)->f8)==2) *state=3;break;
+    case 1:GAME_DATA_SaveStart((int)(**(void ** *)&((struct Obj10683 *)q)->f8));*state=2;break;
+    case 2:if(GAME_DATA_SaveMain(**(void ** *)&((struct Obj10683 *)q)->f8)==2) *state=3;break;
     case 3:func_021E8738((int *)(((struct Obj02886 *)p)->f2C),((struct Obj02886 *)p)->f14,37,2);
         func_021E8AB4(sys,4);*state=7;break;
     case 4:if(**(u32 * *)&((struct Obj10683 *)q)->f20==0) {func_021DBC04(((struct Obj02886 *)p)->f34,2,0);*state=5;}break;

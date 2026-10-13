@@ -16,7 +16,7 @@
  *   The u64 read is a judgement call for the integrator: the two words are plausibly one 64-bit field.
  * symbols:
  *   func_021FC4DC 0x021FC4DC thumb ov186
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
@@ -29,7 +29,7 @@ struct Big;
 struct GdsProfile;
 struct ObjC4;
 extern u32 func_021FC4DC(u8 *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 typedef unsigned short u16;
 extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
@@ -58,7 +58,7 @@ void func_021F94E4(int *out,int *source,const char *ctx,int type)
         out[2]=*(int *)(ctx+8);out[12]=0;
         *(int *)(*(char **)((char *)source[6]+8)+0x1744)=out[2];
         sys=*(void **)(*(char **)((char *)source[6]+12)+4);
-        BATTLE_REC_Load(func_02012EBC(sys),0x59,&result,out[2]);
+        BATTLE_REC_Load(GAME_DATA_GetSaveControl(sys),0x59,&result,out[2]);
         if(result==1) {if(!out[2]) GDS_PROFILE_Init((struct GdsProfile *)BATTLE_REC_GetWork(),sys);}
         else func_02034714(d_02200D00,0,d_02200D00);
         return;

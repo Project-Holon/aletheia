@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EE104",
+   "name": "BTLV_SCU_GetBallStates",
    "address": "0x021EE104",
    "kind": "game",
    "region": "ov093",

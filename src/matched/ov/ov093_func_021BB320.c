@@ -1,5 +1,5 @@
 /*
- * function: func_021BB320
+ * function: BTL_SERVER_StepWaitEnd
  * address:  0x021BB320
  * packet:   pkt_ov093_021BB320
  * region:   ov093
@@ -11,7 +11,7 @@
  * symbols:
  *   func_021B9114  0x021B9114  thumb  ov093
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  */
 #include "../include/Obj21033.h"
 
@@ -20,15 +20,15 @@ typedef unsigned int u32;
 
 extern u8 func_021B9114(u8 **);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 
-int func_021BB320(u8 *p, int *s)
+int BTL_SERVER_StepWaitEnd(u8 *p, int *s)
 {
     switch (*s) {
     case 0: {
         int r = 0;
         if (func_021B9114(*(u8 ** *)&((struct Obj21033 *)p)->fC) == 0) {
-            if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) r = 1;
+            if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) r = 1;
         } else {
             r = 1;
         }

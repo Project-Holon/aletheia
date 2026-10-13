@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBB0C",
+   "name": "TOWNMAP_GRH_GetSpriteActor",
    "address": "0x021BBB0C",
    "kind": "game",
    "region": "ov072",

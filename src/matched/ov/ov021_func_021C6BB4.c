@@ -1,5 +1,5 @@
 /*
- * function: func_021C6BB4
+ * function: FIELDMAP_TCB_CAMERA_ZOOM_Step
  * address:  0x021C6BB4
  * packet:   pkt_ov021_021C6BB4
  * region:   ov021
@@ -14,8 +14,8 @@
  * must go through one float temp so the _ffix and the call are shared.
  *
  * symbols:
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218ED58  0x0218ED58  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb  ov021
  *   _ffltu         0x0209BE04  arm
  *   _fdiv          0x0209CE10  arm
  *   _fmul          0x0209C77C  arm
@@ -35,13 +35,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02188C58(void *p);
-extern void func_0218ED58(u8 *p, u32 v);
+extern void *FIELDMAP_GetCamera(void *p);
+extern void FIELD_CAMERA_SetDistance(u8 *p, u32 v);
 extern double _dsqrt(double x);
 
-void func_021C6BB4(u8 *p)
+void FIELDMAP_TCB_CAMERA_ZOOM_Step(u8 *p)
 {
-    u32 h = (u32)func_02188C58((void *)(((struct Obj03145 *)p)->f0));
+    u32 h = (u32)FIELDMAP_GetCamera((void *)(((struct Obj03145 *)p)->f0));
     u32 n = ((struct Obj03145 *)p)->f6;
     float t, a, b, v;
 
@@ -56,6 +56,6 @@ void func_021C6BB4(u8 *p)
             v = 4096.0f * v + 0.5f;
         else
             v = 4096.0f * v - 0.5f;
-        func_0218ED58((u8 *)h, (int)v);
+        FIELD_CAMERA_SetDistance((u8 *)h, (int)v);
     }
 }

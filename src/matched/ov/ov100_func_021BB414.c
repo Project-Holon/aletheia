@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
@@ -22,10 +22,10 @@
 
 typedef unsigned short u16;
 
-extern void func_0203064C(unsigned int, unsigned int, unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 typedef unsigned int   u32;
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(int, int, int);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
@@ -36,9 +36,9 @@ int func_021BB414(struct Obj0203159C *a, int b, int c)
 {
     int r5;
 
-    func_0203064C(1, 0x1f, 0x20000);
+    GFL_HEAP_CreateChildHeap(1, 0x1f, 0x20000);
     r5 = 0xcf0;
-    a = (struct Obj0203159C *)func_0203159C(a, r5, 0x1f);
+    a = (struct Obj0203159C *)PROCSYS_AllocProcWork(a, r5, 0x1f);
     func_02082BCC((int)a, 0, r5);
     ((struct Obj00178 *)a)->f244 = c;
     ((struct Obj00178 *)a)->f278 = 0x1f;

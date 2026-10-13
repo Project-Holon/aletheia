@@ -1,5 +1,5 @@
 /*
- * function: func_02028BA0
+ * function: FIELD_SOUND_SYSTEM_PauseSlots
  * address:  0x02028BA0
  * packet:   pkt_02028B50
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 
 extern void func_020061F8(int i);
 
-void func_02028BA0(u8 *o, u32 v)
+void FIELD_SOUND_SYSTEM_PauseSlots(u8 *o, u32 v)
 {
     int i;
 

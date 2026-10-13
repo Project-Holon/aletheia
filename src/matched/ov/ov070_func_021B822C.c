@@ -1,5 +1,5 @@
 /*
- * function: func_021B822C
+ * function: ITEMMENU_CheckItemFilter
  * address:  0x021B822C
  * packet:   pkt_ov070_021B822C
  * region:   ov070
@@ -27,7 +27,7 @@ struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 func_0202136C(u16 v);
 
-void func_021B822C(Obj *o, void *rec, u16 *p, u8 *out)
+void ITEMMENU_CheckItemFilter(Obj *o, void *rec, u16 *p, u8 *out)
 {
     if (func_02021014(rec, 6) != 0) {
         if (func_0202136C(*p) == 1)

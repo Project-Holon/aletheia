@@ -1,5 +1,5 @@
 /*
- * function: func_021904B0
+ * function: FIELD_MSGBG_CreateMsgData
  * address:  0x021904B0
  * packet:   pkt_021904B0
  * region:   ov021
@@ -25,7 +25,7 @@ typedef signed char    s8;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-int func_021904B0(u32 a, u32 b)
+int FIELD_MSGBG_CreateMsgData(u32 a, u32 b)
 {
 return (int)func_02045B38(0, 2, ((b << 16) >> 16), ((struct Obj17924 *)((u8 *)(a)))->f0);
 }

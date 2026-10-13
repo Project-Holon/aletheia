@@ -1,5 +1,5 @@
 /*
- * function: func_02167E88
+ * function: BSUBWAY_COMM_RecvWord5
  * address: 0x02167E88
  * packet: pkt_ov010_02167E88
  * region: ov010
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  */
 #include "../include/Obj12375.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u16 func_02039338(void);
-void func_02167E88(u16 a, int b, u16 *c, u8 *p)
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+void BSUBWAY_COMM_RecvWord5(u16 a, int b, u16 *c, u8 *p)
 {
     p[0x724]++;
-    if (a != func_02039338())
+    if (a != GFL_NET_SYSTEM_GetCurrentAid())
         ((struct Obj12375 *)p)->f728 = *c;
 }

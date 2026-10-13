@@ -1,5 +1,5 @@
 /*
- * function: func_021BB508
+ * function: OPTION_MENU_IsPointInRect
  * address:  0x021BB508
  * packet:   pkt_ov068_021BB508
  * region:   ov068
@@ -30,7 +30,7 @@ typedef struct {
     u32 y;
 } Pt;
 
-u32 func_021BB508(const Box *b, const Pt *p)
+u32 OPTION_MENU_IsPointInRect(const Box *b, const Pt *p)
 {
     u32 inx = (p->x - b->x0) <= (b->x1 - b->x0);
     u32 iny = (p->y - b->y0) <= (b->y1 - b->y0);

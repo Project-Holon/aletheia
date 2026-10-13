@@ -1,5 +1,5 @@
 /*
- * function: func_02199AEC
+ * function: FLDMMDL_ACMD_HopUpFaceLeft8F
  * address:  0x02199AEC
  * packet:   pkt_ov021_02199AEC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02199888  0x02199888  thumb  ov021
+ *   FLDMMDL_ACMD_HopInit  0x02199888  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -18,10 +18,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02199888(u32 a, int b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u8 i);
+extern void FLDMMDL_ACMD_HopInit(u32 a, int b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u8 i);
 
-int func_02199AEC(u32 a)
+int FLDMMDL_ACMD_HopUpFaceLeft8F(u32 a)
 {
-    func_02199888(a, 0x2000, 2, 0, 8, 3, 1, 1, 0);
+    FLDMMDL_ACMD_HopInit(a, 0x2000, 2, 0, 8, 3, 1, 1, 0);
     return 1;
 }

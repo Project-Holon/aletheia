@@ -1,5 +1,5 @@
 /*
- * function: func_021C10A0
+ * function: FIELD_PLAYER_GRID_EVENT_DeleteHopTask
  * address:  0x021C10A0
  * packet:   pkt_021C10A0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  * Addresses are Black-image addresses.
@@ -26,11 +26,11 @@ typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 extern u32 func_02030EAC(u32);
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
-int func_021C10A0(u32 a)
+int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(u32 a)
 {
-func_020307B0((void *)func_02030EE8((struct S02030EE8 *)a));
+func_020307B0((void *)TCBL_IsDeletePending((struct S02030EE8 *)a));
 return func_02030EAC(a);
 }
 

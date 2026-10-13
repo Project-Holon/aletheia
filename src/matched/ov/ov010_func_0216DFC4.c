@@ -1,5 +1,5 @@
 /*
- * function: func_0216DFC4
+ * function: FLDMMDL_CheckSameObjCodeOther
  * address:  0x0216DFC4
  * packet:   pkt_ov010_0216DFC4
  * region:   ov010
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0216D67C(void *a);
+extern void *FLDMMDL_GetMmdlSys(void *a);
 struct Ctx;
 struct Rec;
-extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
-extern u16 func_0216D598(void *p);
+extern int FLDMMDL_SysSearchUseMmdl(struct Ctx *c, struct Rec **out, u32 *iter);
+extern u16 FLDMMDL_GetObjCode(void *p);
 
-int func_0216DFC4(void *a, u32 id)
+int FLDMMDL_CheckSameObjCodeOther(void *a, u32 id)
 {
     u32 iter = 0;
     void *out;
     void *ctx;
 
-    ctx = func_0216D67C(a);
-    while (func_0216DD1C(ctx, (struct Rec **)(&out), &iter) == 1) {
+    ctx = FLDMMDL_GetMmdlSys(a);
+    while (FLDMMDL_SysSearchUseMmdl(ctx, (struct Rec **)(&out), &iter) == 1) {
         if (out != a) {
-            u32 v = func_0216D598(out);
+            u32 v = FLDMMDL_GetObjCode(out);
             if (v != 0xFFFF && v == id)
                 return 1;
         }

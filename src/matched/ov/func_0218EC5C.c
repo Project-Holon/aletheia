@@ -1,5 +1,5 @@
 /*
- * function: func_0218EC5C
+ * function: FIELD_CAMERA_GetTraceTarget
  * address:  0x0218EC5C
  * packet:   pkt_0218EC2C
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0218EC5C(u8 *p)
+u32 FIELD_CAMERA_GetTraceTarget(u8 *p)
 {
     return ((struct Obj17908 *)p)->f1C;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218AD28
+ * function: FIELD_EVENT_CHECK_CheckTileMoveTask
  * address:  0x0218AD28
  * packet:   pkt_ov021_0218AD28
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * Looks up the tile attribute under the position and starts the matching tile
- * task (func_021C8A30 or func_021C8C88); returns the task or 0.
+ * task (FIELD_TILE_MOVE_StartSpinTask or FIELD_TILE_MOVE_StartSlideTask); returns the task or 0.
  *
  * symbols:
- *   func_021A3038  0x021A3038  thumb
- *   func_02188C98  0x02188C98  thumb
- *   func_021AB0D4  0x021AB0D4  thumb
- *   func_021AB0F0  0x021AB0F0  thumb
- *   func_021C8A74  0x021C8A74  thumb
- *   func_021C8A30  0x021C8A30  thumb
- *   func_021C8CF0  0x021C8CF0  thumb
- *   func_021C8C88  0x021C8C88  thumb
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   MAP_ATTR_GetAt  0x021AB0D4  thumb
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
+ *   FIELD_TILE_MOVE_IsSpinTile  0x021C8A74  thumb
+ *   FIELD_TILE_MOVE_StartSpinTask  0x021C8A30  thumb
+ *   FIELD_TILE_MOVE_IsSlideTile  0x021C8CF0  thumb
+ *   FIELD_TILE_MOVE_StartSlideTask  0x021C8C88  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -46,26 +46,26 @@ struct FieldCtx {
 };
 
 struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern u32 func_02188C98(u8 *p);
-extern int func_021AB0D4(void *a, void *b);
-extern u16 func_021AB0F0(u32 attr);
-extern int func_021C8A74(u32 a);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern int MAP_ATTR_GetAt(void *a, void *b);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern int FIELD_TILE_MOVE_IsSpinTile(u32 a);
 struct Obj00020;
-extern void *func_021C8A30(u32 prio, void *sys, struct Obj00020 *owner);
-extern int func_021C8CF0(u32 a);
-extern void *func_021C8C88(u32 prio, void *sys, struct Obj00020 *owner);
+extern void *FIELD_TILE_MOVE_StartSpinTask(u32 prio, void *sys, struct Obj00020 *owner);
+extern int FIELD_TILE_MOVE_IsSlideTile(u32 a);
+extern void *FIELD_TILE_MOVE_StartSlideTask(u32 prio, void *sys, struct Obj00020 *owner);
 
-void *func_0218AD28(struct FieldCtx *p, struct Obj00020 *pos)
+void *FIELD_EVENT_CHECK_CheckTileMoveTask(struct FieldCtx *p, struct Obj00020 *pos)
 {
     int buf[3];
     u16 attr;
 
-    func_021A3038(p->f18, (struct VecFx32 *)buf);
-    attr = func_021AB0F0(func_021AB0D4((void *)func_02188C98((u8 *)pos), buf));
-    if (func_021C8A74(attr))
-        return func_021C8A30(0, p->f4, pos);
-    if (func_021C8CF0(attr))
-        return func_021C8C88(0, p->f4, pos);
+    FIELD_PLAYER_GetPos(p->f18, (struct VecFx32 *)buf);
+    attr = MAP_ATTR_GetTerrainId(MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper((u8 *)pos), buf));
+    if (FIELD_TILE_MOVE_IsSpinTile(attr))
+        return FIELD_TILE_MOVE_StartSpinTask(0, p->f4, pos);
+    if (FIELD_TILE_MOVE_IsSlideTile(attr))
+        return FIELD_TILE_MOVE_StartSlideTask(0, p->f4, pos);
     return 0;
 }

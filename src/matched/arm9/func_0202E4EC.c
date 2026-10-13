@@ -23,7 +23,7 @@
  *
  * symbols:
  *   func_02030734    0x02030734  arm
- *   func_020457B0    0x020457B0  arm
+ *   STRBUF_Create    0x020457B0  arm
  *   codein_param_File 0x020A77D0  data
  */
 
@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 
 extern const char codein_param_File[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020457B0(u32 n, u16 heap);
+extern u32 STRBUF_Create(u32 n, u16 heap);
 
 struct Param {
     u32 w0;        /* 0x00 */
@@ -52,7 +52,7 @@ struct Param *CODEIN_PARAM_Create(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src)
     p = func_02030734((u16)heap, sizeof(struct Param), 0, codein_param_File, 0x37);
     p->w0 = a1;
     p->w4 = a3;
-    p->w20 = func_020457B0(a3 + 1, (u16)heap);
+    p->w20 = STRBUF_Create(a3 + 1, (u16)heap);
     p->w1c = a2;
     for (i = 0; i < 3; i++) {
         p->items[i] = src[i];

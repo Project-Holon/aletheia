@@ -1,5 +1,5 @@
 /*
- * function: func_021BE258
+ * function: FIELD_GIMMICK_RunMapCallback
  * address:  0x021BE258
  * packet:   pkt_ov021_021BE258
  * region:   ov021
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   func_0200B3AC  0x0200B3AC  thumb
- *   d_021D9E74  0x021D9E74  data
+ *   gFieldGimmickCallbackTbl  0x021D9E74  data
  */
 
 typedef void (*Handler)(void *p);
 
-extern void *func_02188C80(void *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
 extern s32 func_0200B3AC(struct Rec94 *p);
-extern Handler d_021D9E74[];
+extern Handler gFieldGimmickCallbackTbl[];
 
-void func_021BE258(void *p)
+void FIELD_GIMMICK_RunMapCallback(void *p)
 {
     int i;
 
-    i = func_0200B3AC((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(p))));
-    if (i != -1 && d_021D9E74[i] != 0)
-        d_021D9E74[i](p);
+    i = func_0200B3AC((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(p))));
+    if (i != -1 && gFieldGimmickCallbackTbl[i] != 0)
+        gFieldGimmickCallbackTbl[i](p);
 }

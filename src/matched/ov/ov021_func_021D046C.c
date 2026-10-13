@@ -1,5 +1,5 @@
 /*
- * function: func_021D046C
+ * function: FLDEFF_HIDE_Start
  * address:  0x021D046C
  * packet:   pkt_ov021_021D046C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DB93C     0x021DB93C  data  ov021  a4
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
+ *   sHideFuncs     0x021DB93C  data  ov021  a4
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -27,18 +27,18 @@ typedef struct Arg021D046C {
     u32 c;
 } Arg021D046C;
 
-extern int func_021ABEA0(u32 a, u32 b);
-extern u32 func_021ABE18(u8 *p);
-extern void func_021ABFA8(void *a, void *b, u32 c, u32 d, void *e, u32 f);
-extern char d_021DB93C[];
+extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
+extern u32 FIELD_EFFECT_GetFieldMapData(u8 *p);
+extern void FIELD_EFFECT_AddObject(void *a, void *b, u32 c, u32 d, void *e, u32 f);
+extern char sHideFuncs[];
 
-void func_021D046C(void *a, u32 b, u32 c)
+void FLDEFF_HIDE_Start(void *a, u32 b, u32 c)
 {
     Arg021D046C arg;
 
-    arg.h1 = func_021ABEA0((u32)a, 0xf);
-    arg.h2 = func_021ABE18(a);
+    arg.h1 = FIELD_EFFECT_GetResource((u32)a, 0xf);
+    arg.h2 = FIELD_EFFECT_GetFieldMapData(a);
     arg.b = b;
     arg.c = c;
-    func_021ABFA8(a, d_021DB93C, 0, 0, &arg, 0);
+    FIELD_EFFECT_AddObject(a, sHideFuncs, 0, 0, &arg, 0);
 }

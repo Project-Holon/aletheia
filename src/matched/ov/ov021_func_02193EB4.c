@@ -1,5 +1,5 @@
 /*
- * function: func_02193EB4
+ * function: FIELD_WFBC_LoadSaveData
  * address:  0x02193EB4
  * packet:   pkt_ov021_02193EB4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02193FBC  0x02193FBC  thumb  ov021
+ *   FIELD_WFBC_PEOPLE_LoadPerson  0x02193FBC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -42,14 +42,14 @@ typedef struct V {
     Tbl *f08;
 } V;
 
-extern void func_02193FBC(u16 *a, void *b);
+extern void FIELD_WFBC_PEOPLE_LoadPerson(u16 *a, void *b);
 
-void func_02193EB4(V *v)
+void FIELD_WFBC_LoadSaveData(V *v)
 {
     int i;
 
     if (v->f01 == 0 && v->f08 != 0) {
         for (i = 0; i < 10; i++)
-            func_02193FBC((u16 *)(&v->f04[i]), &v->f08->e[i]);
+            FIELD_WFBC_PEOPLE_LoadPerson((u16 *)(&v->f04[i]), &v->f08->e[i]);
     }
 }

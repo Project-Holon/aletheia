@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F05E8  0x021F05E8  thumb  ov032
- *   func_021F029C  0x021F029C  thumb  ov032
+ *   BEACON_VIEW_SetArrowAnim  0x021F05E8  thumb  ov032
+ *   BEACON_VIEW_SetPrintQueueLimit  0x021F029C  thumb  ov032
  *   func_021F1A08  0x021F1A08  thumb  ov032
  */
 #include "../include/Obj00007.h"
@@ -19,8 +19,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021F05E8(u8 *p, int a, u32 b);
-extern void func_021F029C(char *p, int flag);
+extern void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b);
+extern void BEACON_VIEW_SetPrintQueueLimit(char *p, int flag);
 extern void func_021F1A08(char *p);
 
 int func_021F03EC(u8 *p)
@@ -29,14 +29,14 @@ int func_021F03EC(u8 *p)
 
     switch (s) {
     case 0:
-        func_021F05E8(p, 0, 1);
-        func_021F029C((char *)p, 1);
+        BEACON_VIEW_SetArrowAnim(p, 0, 1);
+        BEACON_VIEW_SetPrintQueueLimit((char *)p, 1);
         func_021F1A08((char *)p);
         ((struct Obj00007 *)p)->f6C = ((struct Obj00007 *)p)->f6C + 1;
         break;
     case 1:
         if (((struct Obj00007 *)p)->fA8 == 0) {
-            func_021F029C((char *)p, 0);
+            BEACON_VIEW_SetPrintQueueLimit((char *)p, 0);
             ((struct Obj00007 *)p)->f6C = 0;
             return 1;
         }

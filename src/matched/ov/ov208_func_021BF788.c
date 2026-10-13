@@ -21,7 +21,7 @@
  *   func_021BC518 0x021BC518 thumb ov208
  *   func_021BC508 0x021BC508 thumb ov208
  *   func_021BC560 0x021BC560 thumb ov208
- *   func_021BBB24 0x021BBB24 thumb ov072
+ *   TOWNMAP_GRH_LoadTownInfo 0x021BBB24 thumb ov072
  *   func_02012984 0x02012984 thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02082BCC 0x02082BCC arm
@@ -44,7 +44,7 @@ extern int func_021BC3AC(int *p);
 extern int func_02034AC4(int);
 extern void func_02082BCC(void *,int,u32);
 extern u8 func_02012984(const struct BigObj *p);
-extern int func_021BBB24(int);
+extern int TOWNMAP_GRH_LoadTownInfo(int);
 extern void func_021C0048(u16 *,char *,int);
 extern void func_021C06C8(u16 *,char *,int);
 extern void func_021BFFEC(void *,char *);
@@ -79,7 +79,7 @@ u32 func_021BF788(void *a0,u32 a1,u16 *heap,u32 a3,int key)
     p[0x79]=0xff;
     ((struct Obj00510 *)p)->f84=0;
     ((struct Obj00510 *)p)->f88=1;
-    ((struct Obj00510 *)p)->f3C8=func_021BBB24(*heap);
+    ((struct Obj00510 *)p)->f3C8=TOWNMAP_GRH_LoadTownInfo(*heap);
     func_021C0048(heap,(char *)p,key);
     ((struct Obj00510 *)p)->f40C=func_020490F4(0xb2,*heap);
     ((struct Obj00510 *)p)->f410=func_020056A0((u32)func_021BFFEC,(u32)p,1);

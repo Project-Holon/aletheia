@@ -12,7 +12,7 @@
  * symbols:
  *   func_02010054             0x02010054  thumb
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   func_020435F4             0x020435F4  arm
+ *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   G2_GetBG1CharPtr          0x0207E24C  arm
  *   G2_GetBG1ScrPtr           0x0207DFB4  arm
  *   MIi_CpuCopy16             0x02082A60  arm
@@ -103,7 +103,7 @@ typedef struct {
 
 extern u32  func_02010054(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int v);
-extern void func_020435F4(u32 a);
+extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void *G2_GetBG1CharPtr(void);
 extern void *G2_GetBG1ScrPtr(void);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
@@ -181,7 +181,7 @@ void GFL_NET_ERR_RestoreDisplay(BOOL keepDark)
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, -16);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, -16);
     *(volatile u16 *)0x05000400 = w->pltt0;
-    func_020435F4(w->f38);
+    BG_SYS_SetSubVisiblePlanes(w->f38);
     reg_G2_BLDCNT = w->bldCnt;
     reg_G2S_DB_BLDCNT = w->subBldCnt;
     MIi_CpuCopy16(w->bg1Char, G2_GetBG1CharPtr(), 0x4000);

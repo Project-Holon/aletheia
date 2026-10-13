@@ -1,5 +1,5 @@
 /*
- * function: func_021C5224
+ * function: SHORTCUT_MENU_Main
  * address:  0x021C5224
  * packet:   pkt_ov021_021C5224
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5334 0x021C5334 thumb ov021
+ *   SHORTCUT_MENU_RunPrint 0x021C5334 thumb ov021
  *   func_020061E4 0x020061E4 thumb
  *   func_020056A0 0x020056A0 thumb
- *   func_021C59BC 0x021C59BC thumb ov021
+ *   SHORTCUT_MENU_ScrollStep 0x021C59BC thumb ov021
  *   func_02030EAC 0x02030EAC arm
- *   func_021C553C 0x021C553C thumb ov021
- *   func_021C5768 0x021C5768 thumb ov021
+ *   SHORTCUT_MENU_UpdateInput 0x021C553C thumb ov021
+ *   SHORTCUT_MENU_GetSelection 0x021C5768 thumb ov021
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02040618 0x02040618 arm
  */
@@ -25,25 +25,25 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021C5334(u32 a);
+extern int SHORTCUT_MENU_RunPrint(u32 a);
 extern void func_020061E4(u32 se);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 typedef unsigned char  u8;
 struct Node;
-extern void func_021C59BC(void *a, u8 *p);
+extern void SHORTCUT_MENU_ScrollStep(void *a, u8 *p);
 extern void func_02030EAC(struct Node *n);
-extern void func_021C553C(char *p);
-extern int func_021C5768(char *p);
+extern void SHORTCUT_MENU_UpdateInput(char *p);
+extern int SHORTCUT_MENU_GetSelection(char *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 
-void func_021C5224(char *p)
+void SHORTCUT_MENU_Main(char *p)
 {
     int r;
     int i;
 
-    if (func_021C5334((u32)p) == 0) {
+    if (SHORTCUT_MENU_RunPrint((u32)p) == 0) {
         return;
     }
     switch (((struct Obj01216 *)p)->f70) {
@@ -53,7 +53,7 @@ void func_021C5224(char *p)
         func_020061E4(0x54C);
         ((struct Obj01216 *)p)->f72 = 0;
         ((struct Obj01216 *)p)->f80 = 0;
-        ((struct Obj01216 *)p)->f84 = func_020056A0((void *)func_021C59BC, p, 0);
+        ((struct Obj01216 *)p)->f84 = func_020056A0((void *)SHORTCUT_MENU_ScrollStep, p, 0);
         ((struct Obj01216 *)p)->f70 = 2;
         break;
     case 2:
@@ -63,8 +63,8 @@ void func_021C5224(char *p)
         }
         break;
     case 3:
-        func_021C553C(p);
-        r = func_021C5768(p);
+        SHORTCUT_MENU_UpdateInput(p);
+        r = SHORTCUT_MENU_GetSelection(p);
         switch (r) {
         case -1:
             ((struct Obj01216 *)p)->f74 = 0;

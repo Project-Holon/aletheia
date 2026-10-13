@@ -1,5 +1,5 @@
 /*
- * function: func_02168C74
+ * function: FLD_BTL_INST_TOOL_PartySelectStepEventMain
  * address:  0x02168C74
  * packet:   pkt_ov010_02168C74
  * region:   ov010
@@ -14,8 +14,8 @@
  * (2026-10-05 recoup), which keeps the store before the epilogue add sp.
  *
  * symbols:
- *   func_02167EF4  0x02167EF4  thumb
- *   func_02012374  0x02012374  thumb
+ *   FLD_BTL_INST_TOOL_CreatePokeListEvent  0x02167EF4  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -39,18 +39,18 @@ typedef struct {
 } C;
 
 struct Evt;
-extern int func_02167EF4(int a, int b, int c, int d, int e, int f, int g, int h, int i);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int FLD_BTL_INST_TOOL_CreatePokeListEvent(int a, int b, int c, int d, int e, int f, int g, int h, int i);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern u32 func_020307B0(void *p);
 
 
-int func_02168C74(int a, int *b, C *c)
+int FLD_BTL_INST_TOOL_PartySelectStepEventMain(int a, int *b, C *c)
 {
     int r0 = c->f0;
     switch (*b) {
     case 0: {
-        int t = func_02167EF4(r0, c->f10, 0x17, c->f14, c->f18, (int)(&c->f28), (int)(&c->f20), (int)(&c->f24), *(int *)(c->f30 + 0x128));
-        func_02012374((struct Evt *)a, (struct Evt **)t);
+        int t = FLD_BTL_INST_TOOL_CreatePokeListEvent(r0, c->f10, 0x17, c->f14, c->f18, (int)(&c->f28), (int)(&c->f20), (int)(&c->f24), *(int *)(c->f30 + 0x128));
+        GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)t);
         *b = 1;
         break;
     }

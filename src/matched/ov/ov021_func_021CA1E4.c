@@ -1,5 +1,5 @@
 /*
- * function: func_021CA1E4
+ * function: BSUBWAY_SCR_LoadPartyCopy
  * address:  0x021CA1E4
  * packet:   pkt_ov021_021CA1E4
  * region:   ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BAC8  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  * Addresses are Black-image addresses.
@@ -26,13 +26,13 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *p);
 extern void *func_0200BAF4(int a0, int a1);
 
-void func_021CA1E4(u8 *p)
+void BSUBWAY_SCR_LoadPartyCopy(u8 *p)
 {
     if (((struct Obj07584 *)p)->f7C8 != 0)
         func_020307B0(((struct Obj07584 *)p)->f7C8);
-    ((struct Obj07584 *)p)->f7C8 = func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)(((struct Obj07584 *)p)->f6C))), 4);
+    ((struct Obj07584 *)p)->f7C8 = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)(((struct Obj07584 *)p)->f6C))), 4);
 }

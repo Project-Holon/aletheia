@@ -14,7 +14,7 @@
  *   _pCommandWork     0x021469D8  data
  *   g_020A7AF8     0x020A7AF8  data
  *   g_020A7B78     0x020A7B78  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02034714  0x02034714  arm
  *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   GFL_NET_SYSTEM_SetSendQueue  0x02038C18  arm
@@ -45,7 +45,7 @@ extern u8   *_pCommandWork;
 extern char  g_020A7AF8[];
 extern char  g_020A7B78[];
 struct Entry;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 extern int GFL_NET_SYSTEM_SetSendQueue(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
@@ -66,7 +66,7 @@ u32 GFL_NET_COMMAND_SetSendSlot(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
     Status *sc;
     Status *st;
 
-    cfg = func_0203D798();
+    cfg = GFL_NET_GetInitParam();
     t = _pCommandWork;
     st57 = t + 0x57;
     for (i = 0; i < 5; i++) {

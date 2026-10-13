@@ -1,5 +1,5 @@
 /*
- * function: func_021642F8
+ * function: FLDMMDL_MOVE_SetStatusPauseDraw
  * address:  0x021642F8
  * packet:   pkt_021642F8
  * region:   ov010
@@ -11,31 +11,31 @@
  *
  *
  * symbols:
- *   func_0216D548  0x0216D548  thumb  ov010
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
 
  *
  * generated: lane O24 (ov010 leaf/wrapper sweep)
  *
  * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0216D548, the shape of the arm9 copy.
+ * thunk into FLDMMDL_SetStatusBit, the shape of the arm9 copy.
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
  *
  * Addresses are Black-image addresses.  --region ov010 is required: this
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021642F8.c \
- *       --func func_021642F8 --addr 0x021642F8 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_MOVE_SetStatusPauseDraw.c \
+ *       --func FLDMMDL_MOVE_SetStatusPauseDraw --addr 0x021642F8 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 *func_0216D548(u32 *p, u32 v);
+extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
 
-void func_021642F8(void *a0)
+void FLDMMDL_MOVE_SetStatusPauseDraw(void *a0)
 {
 
-    func_0216D548(a0, 8192);
+    FLDMMDL_SetStatusBit(a0, 8192);
 }

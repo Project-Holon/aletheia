@@ -10,26 +10,26 @@
  * status: EXACT*
  * Trailing two bytes are zero alignment padding; separate component stores preserve ascending order.
  * symbols:
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_0207ADC4 0x0207ADC4 arm
  *   func_02048A18 0x02048A18 arm
- *   func_02047A60 0x02047A60 arm
+ *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  */
 #include "../include/Obj06675.h"
 
 struct Light;
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207ADC4(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
 struct Arg;
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
 void func_021BF9FC(char *p)
 {
     struct Transform { int pos[3]; int scale[3]; int matrix[9]; } t;
-    func_02048AD0(((struct Obj06675 *)p)->fC);
+    G3D_CAMERA_Reset(((struct Obj06675 *)p)->fC);
     if (((struct Obj06675 *)p)->f14 != 0 && ((struct Obj06675 *)p)->f18 != 0)
     {
         t.pos[0] = 0;
@@ -39,6 +39,6 @@ void func_021BF9FC(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         func_0207ADC4(t.matrix);
-        func_02047A60((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), (struct Arg *)(&t));
+        G3D_SYSTEM_DrawObject((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), (struct Arg *)(&t));
     }
 }

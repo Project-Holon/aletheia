@@ -1,5 +1,5 @@
 /*
- * function: func_021BBFB0
+ * function: FLDEFF_REFLECT_InitResource
  * address:  0x021BBFB0
  * packet:   pkt_021BBA6C
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021BBFB0(void)
+void FLDEFF_REFLECT_InitResource(void)
 {
 }
 

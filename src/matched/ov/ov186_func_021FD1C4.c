@@ -94,7 +94,7 @@
  * if(B) (1093); B688 through a static inline SetVis(obj,v) or SetVis(obj) (4
  * each); stores through a static inline SetReq(&r,x,y,z) with int or u16
  * params (4 each); Req of short fields with B688 arg 1u (4); z as 1u with arg
- * -1+2 (4); keeping h live past the stores (func_02049238 moved after B688)
+ * -1+2 (4); keeping h live past the stores (ARC_TOOL_DeleteHandle moved after B688)
  * to test register pressure: still pooled (r6 instead of r7), so pressure is
  * not the cause; the whole icon block as a static inline MakeIcon (11 B, slots
  * move, still pooled). Conclusion unchanged: store operand 1 followed by an
@@ -141,7 +141,7 @@
  * func_0204B6F4 (src/matched/arm9/unit_0204B6F4.c, written there as void) never
  * writes r0, so it is byte-identical to a definition that ends `return o;`.
  * The integrator should know that the matched definition is spelled void.
- * Also: t inlined into the func_0204AF28 call (same bytes, one fewer local).
+ * Also: t inlined into the CLACT_RegisterCellAnim call (same bytes, one fewer local).
  *
  * symbols:
  *   func_02030734 0x02030734 arm
@@ -169,27 +169,27 @@
  *   func_0200D774 0x0200D774 thumb
  *   func_0200D810 0x0200D810 thumb
  *   func_0200D820 0x0200D820 thumb
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
- *   func_02045874 0x02045874 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   STRBUF_Clone 0x02045874 arm
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_0201F230 0x0201F230 thumb
  *   func_0201F048 0x0201F048 thumb
  *   func_0201F094 0x0201F094 thumb
  *   func_020490F4 0x020490F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0201BC3C 0x0201BC3C thumb
  *   func_0201BC40 0x0201BC40 thumb
  *   func_0201BCB4 0x0201BCB4 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BB5C 0x0201BB5C thumb
- *   func_0204ACEC 0x0204ACEC arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B688 0x0204B688 arm
  *   d_02200D5C 0x02200D5C data a1
@@ -244,24 +244,24 @@ extern u32 func_0200D760(struct GdsProfile *p);
 extern u32 func_0200D810(struct GdsProfile *p);
 extern u32 func_0200D820(struct GdsProfile *p);
 extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
-extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201F230(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_020490F4(u32,u16);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
-extern int func_0204ACEC(void *,u32,u32,u32,u16);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
-extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
+extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
+extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void *func_0204B6F4(void *,u32,u32);
 extern void func_0204B688(struct Actor *actor, u32 value);
 char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
@@ -295,13 +295,13 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             {
             void *name;
             void *msg;
-            text=func_020457B0(0x80,(u16)heap);
+            text=STRBUF_Create(0x80,(u16)heap);
             name=GDS_PROFILE_CreateNameStr(prof,heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201EE0C(words,0,name,func_0200D6EC(prof),1,2);
             func_0201F250(words,text,msg);
-            func_02045808(name);
-            func_02045808(msg);
+            STRBUF_Delete(name);
+            STRBUF_Delete(msg);
             break;
             }
         case 1:
@@ -309,11 +309,11 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             u32 v;
             void *msg;
             v=func_0200D810(prof);
-            text=func_020457B0(0x80,(u16)heap);
+            text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201F230(words,0,v);
             func_0201F250(words,text,msg);
-            func_02045808(msg);
+            STRBUF_Delete(msg);
             break;
             }
         case 3:
@@ -321,11 +321,11 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             u32 v;
             void *msg;
             v=func_0200D74C(prof);
-            text=func_020457B0(0x80,(u16)heap);
+            text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201F048(words,0,v);
             func_0201F250(words,text,msg);
-            func_02045808(msg);
+            STRBUF_Delete(msg);
             func_021FC868(*(void **)(p+i*4),8,1,0);
             break;
             }
@@ -335,11 +335,11 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             void *msg;
             v=func_0200D74C(prof);
             w=func_0200D760(prof);
-            text=func_020457B0(0x80,(u16)heap);
+            text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             func_0201F094(words,0,v,w);
             func_0201F250(words,text,msg);
-            func_02045808(msg);
+            STRBUF_Delete(msg);
             func_021FC868(*(void **)(p+i*4),8,1,0);
             break;
             }
@@ -349,8 +349,8 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             void *msg;
             msg=func_0200D774(prof,(struct GdsRecord *)rec,heap);
             if(msg) {
-                text=func_02045874(msg,heap);
-                func_02045808(msg);
+                text=STRBUF_Clone(msg,heap);
+                STRBUF_Delete(msg);
                 func_021FC868(*(void **)(p+i*4),8,1,0);
             } else {
                 Pair c=d_02200B6C;
@@ -367,7 +367,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         }
         if(ready) {
             func_021FC7C4(*(void **)(p+i*4),text,font,0x3da0);
-            func_02045808(text);
+            STRBUF_Delete(text);
         }
     }
     }
@@ -381,13 +381,13 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         Req r;
         hf=(heap&0x7fff)|0x8000;
         h=func_020490F4(7,hf);
-        *(int *)(p+0x2c)=func_0204ACEC(h,func_0201BC3C(),0,0x80,hf);
-        *(int *)(p+0x34)=func_0204AF28(h,func_0201BC40(),func_0201BCB4(),(u16)hf);
-        *(int *)(p+0x30)=func_0204A6C8(h,POKE_TOOL_CalcGraphicIndex(B,C,D,A),0,0,hf);
-        func_02049238(h);
+        *(int *)(p+0x2c)=CLACT_RegisterPaletteCompressed(h,func_0201BC3C(),0,0x80,hf);
+        *(int *)(p+0x34)=CLACT_RegisterCellAnim(h,func_0201BC40(),func_0201BCB4(),(u16)hf);
+        *(int *)(p+0x30)=CLACT_RegisterCharacter(h,POKE_TOOL_CalcGraphicIndex(B,C,D,A),0,0,hf);
+        ARC_TOOL_DeleteHandle(h);
         func_02082BCC(&r,0,8);
         r.x=0x4b;r.y=0x40;r.z=1;
-        *(void **)(p+0x24)=func_0204B294(a2,*(u32 *)(p+0x30),*(u32 *)(p+0x2c),*(u32 *)(p+0x34),&r,0,heap);
+        *(void **)(p+0x24)=CLACT_CreateActor(a2,*(u32 *)(p+0x30),*(u32 *)(p+0x2c),*(u32 *)(p+0x34),&r,0,heap);
         func_0204B6F4(*(void **)(p+0x24),func_0201BB5C(B,C,D,A),0);
         func_0204B688(*(void **)(p+0x24),1);
     }
@@ -401,10 +401,10 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
             k3=6;k1=0x17;k2=0x15;k4=0x16;
         }
         h=func_020490F4(0x1f,(heap&0x7fff)|0x8000);
-        *(int *)(p+0x38)=func_0204AC18(h,k3,0,0x1a0,0,1,heap);
-        *(int *)(p+0x40)=func_0204AF28(h,k2,k4,(u16)heap);
-        *(int *)(p+0x3c)=func_0204A6C8(h,k1,0,0,heap);
-        func_02049238(h);
+        *(int *)(p+0x38)=CLACT_RegisterPaletteEx(h,k3,0,0x1a0,0,1,heap);
+        *(int *)(p+0x40)=CLACT_RegisterCellAnim(h,k2,k4,(u16)heap);
+        *(int *)(p+0x3c)=CLACT_RegisterCharacter(h,k1,0,0,heap);
+        ARC_TOOL_DeleteHandle(h);
         break;
         }
     case 1:
@@ -413,10 +413,10 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         void *h;
         k=func_0200D820(prof);
         h=func_020490F4(0x20,(heap&0x7fff)|0x8000);
-        *(int *)(p+0x38)=func_0204AC18(h,0,0,0x1a0,d_02200AFC[k],1,heap);
-        *(int *)(p+0x40)=func_0204AF28(h,0x41,0x42,(u16)heap);
-        *(int *)(p+0x3c)=func_0204A6C8(h,k+0x31,0,0,heap);
-        func_02049238(h);
+        *(int *)(p+0x38)=CLACT_RegisterPaletteEx(h,0,0,0x1a0,d_02200AFC[k],1,heap);
+        *(int *)(p+0x40)=CLACT_RegisterCellAnim(h,0x41,0x42,(u16)heap);
+        *(int *)(p+0x3c)=CLACT_RegisterCharacter(h,k+0x31,0,0,heap);
+        ARC_TOOL_DeleteHandle(h);
         break;
         }
     }
@@ -424,7 +424,7 @@ char *func_021FD1C4(void *prof,char *q,void *a2,void *a3,int mode,u16 heap)
         Req r;
         func_02082BCC(&r,0,8);
         r.x=0x30;r.y=0x40;
-        *(void **)(p+0x28)=func_0204B294(a2,*(u32 *)(p+0x3c),*(u32 *)(p+0x38),*(u32 *)(p+0x40),&r,0,heap);
+        *(void **)(p+0x28)=CLACT_CreateActor(a2,*(u32 *)(p+0x3c),*(u32 *)(p+0x38),*(u32 *)(p+0x40),&r,0,heap);
         func_0204B6F4(*(void **)(p+0x28),0,1);
         func_0204B688(*(void **)(p+0x28),1);
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8FA0
+ * function: FRAME_LIST_ClampBgFrameId
  * address:  0x021B8FA0
  * packet:   pkt_ov067_021B8FA0
  * region:   ov067
@@ -12,7 +12,7 @@
  * symbols:
  */
 
-int func_021B8FA0(int x)
+int FRAME_LIST_ClampBgFrameId(int x)
 {
     if (x == 0)
         return 0;

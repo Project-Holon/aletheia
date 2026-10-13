@@ -10,15 +10,15 @@
  * status:   EXACT* (extent 168, compiled 166, trailing padding)
  *
  * symbols:
- *   func_021D5B7C  0x021D5B7C  thumb  ov093
- *   func_021B8588  0x021B8588  thumb  ov093
- *   func_021B8B78  0x021B8B78  thumb  ov093
+ *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb  ov093
+ *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
+ *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_021D5848  0x021D5848  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
- *   func_021D5854  0x021D5854  thumb  ov093
- *   func_021D6C24  0x021D6C24  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
+ *   BTL_POKEPARAM_SetFakeMon  0x021D5848  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_ClearFakeMon  0x021D5854  thumb  ov093
+ *   BTL_POKEPARAM_IsIllusionActive  0x021D6C24  thumb  ov093
  */
 #include "../include/Obj20995.h"
 
@@ -27,18 +27,18 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Arr { void *e[6]; u8 n; };
 
-extern int func_021D5B7C(void *m);
-extern u32 func_021B8588(void **p);
-extern unsigned int func_021B8B78(unsigned char *p, int k);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *m);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern unsigned int BTL_MAIN_CountClientTrainers(unsigned char *p, int k);
 extern int func_021D59B4(u8 *p, int k);
-extern void *func_021D5844(void *m);
+extern void *BTL_POKEPARAM_GetMon(void *m);
 struct QH;
 struct R4;
 struct Work;
-extern void func_021D5848(struct QH *p, void *v);
-extern void *func_021D5864(struct Work *p);
-extern void func_021D5854(struct Work *p);
-extern int func_021D6C24(struct R4 *p);
+extern void BTL_POKEPARAM_SetFakeMon(struct QH *p, void *v);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
+extern void BTL_POKEPARAM_ClearFakeMon(struct Work *p);
+extern int BTL_POKEPARAM_IsIllusionActive(struct R4 *p);
 
 void func_021B9D10(char *a, struct Arr *arr, int k)
 {
@@ -47,25 +47,25 @@ void func_021B9D10(char *a, struct Arr *arr, int k)
     void *h;
 
     for (j = arr->n - 1; j > 0; j--) {
-        if (func_021D5B7C(arr->e[j]) != 0)
+        if (BTL_POKEPARAM_IsAbleToBattle(arr->e[j]) != 0)
             break;
     }
-    if (func_021B8588((void **)a) != 3)
-        k = func_021B8B78((unsigned char *)a, k);
+    if (BTL_MAIN_GetRule((void **)a) != 3)
+        k = BTL_MAIN_CountClientTrainers((unsigned char *)a, k);
     else
         k = 3;
     for (; k < arr->n; k++) {
         m = arr->e[k];
         if (func_021D59B4(m, 0x11) == 0x95) {
             if (k < j) {
-                func_021D5848(m, func_021D5844(arr->e[j]));
+                BTL_POKEPARAM_SetFakeMon(m, BTL_POKEPARAM_GetMon(arr->e[j]));
             } else {
-                h = func_021D5864(m);
+                h = BTL_POKEPARAM_GetDisplayMon(m);
                 if (h != ((struct Obj20995 *)a)->f2C0)
-                    func_021D5854(m);
+                    BTL_POKEPARAM_ClearFakeMon(m);
             }
         }
     }
     for (k = 0; k < arr->n; k++)
-        func_021D6C24(arr->e[k]);
+        BTL_POKEPARAM_IsIllusionActive(arr->e[k]);
 }

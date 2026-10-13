@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  */
 typedef unsigned int u32;
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 u32 func_021D95A0(void *mon)
 {
     u32 r = 0;
-    if (func_02017E1C(mon, 3, 0) == 1)
+    if (POKE_TOOL_GetPartyValue(mon, 3, 0) == 1)
         return 1;
-    if ((int)func_02017E1C(mon, 5, r) > 0x28b)
+    if ((int)POKE_TOOL_GetPartyValue(mon, 5, r) > 0x28b)
         r = 1;
     return r;
 }

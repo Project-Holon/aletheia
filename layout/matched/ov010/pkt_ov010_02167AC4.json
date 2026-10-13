@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02167AC4",
-    "func_02167AF0",
-    "func_02167AF4"
+    "BSUBWAY_COMM_GetBeaconData",
+    "BSUBWAY_COMM_GetBeaconSize",
+    "BSUBWAY_COMM_CheckConnectService"
+   ],
+   "addresses": [
+    "0x02167AC4",
+    "0x02167AF0",
+    "0x02167AF4"
    ]
   }
  ]

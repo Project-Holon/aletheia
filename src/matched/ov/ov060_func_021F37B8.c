@@ -9,21 +9,21 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021F399C  0x021F399C  thumb  ov060
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   GIMMICK60_ShowEffect  0x021F399C  thumb  ov060
  */
 
-extern int *func_021897BC(char *p, int idx);
-extern int func_02188D2C(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern int FIELDMAP_GetExpObj(int *p);
 typedef struct { int a, b, c; } V;
-extern void func_021F399C(unsigned char *o, void *p, V *v);
+extern void GIMMICK60_ShowEffect(unsigned char *o, void *p, V *v);
 
 void func_021F37B8(char *p, V *v)
 {
     unsigned char *o;
     void *s;
-    o = (unsigned char *)func_021897BC(p, 0);
-    s = (void *)func_02188D2C((int *)p);
-    func_021F399C(o, s, v);
+    o = (unsigned char *)FIELDMAP_GetCommonWork(p, 0);
+    s = (void *)FIELDMAP_GetExpObj((int *)p);
+    GIMMICK60_ShowEffect(o, s, v);
 }

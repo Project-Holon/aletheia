@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020275C4",
+   "name": "BEACON_STATUS_GetMessage",
    "address": "0x020275C4",
    "kind": "game",
    "region": "arm9",

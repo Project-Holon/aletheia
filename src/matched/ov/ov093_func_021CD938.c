@@ -1,5 +1,5 @@
 /*
- * function: func_021CD938
+ * function: BTL_CLIENT_AttachRemoteLink
  * address: 0x021CD938
  * packet: pkt_ov093_021CD938
  * region: ov093
@@ -11,13 +11,13 @@
  * Prototype: 021D3F48 stores only r1 low16; caller forwards full getter
  * result without truncation, so its extern argument is widened to u32.
  * symbols:
- *   func_021EE830 0x021EE830 thumb ov093
+ *   BTL_REC_CountFlaggedRecords 0x021EE830 thumb ov093
  *   func_021D3F48 0x021D3F48 thumb ov093
  */
 #include "../include/Obj13353.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021EE830(void *);
+extern u32 BTL_REC_CountFlaggedRecords(void *);
 extern void func_021D3F48(u8 *,u32);
-void func_021CD938(u8 *p,void *a) { p[0x1a7]=2; ((struct Obj13353 *)p)->f14=a; func_021D3F48(p+0x18,func_021EE830(a)); }
+void BTL_CLIENT_AttachRemoteLink(u8 *p,void *a) { p[0x1a7]=2; ((struct Obj13353 *)p)->f14=a; func_021D3F48(p+0x18,BTL_REC_CountFlaggedRecords(a)); }

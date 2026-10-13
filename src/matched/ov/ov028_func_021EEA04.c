@@ -12,7 +12,7 @@
  * Unlabelled 4-byte Thumb leaf (`movs r0,#0; bx lr`), emitted as a data word
  * by disasm.py because it saves no lr. A standalone slot: it follows the
  * `pop {r4,r5,r6,pc}` end of the preceding function and precedes
- * func_021EEA08.
+ * WEATHER_FOG_EndParticles.
  *
  * symbols:
  *   func_021EEA04  0x021EEA04  thumb

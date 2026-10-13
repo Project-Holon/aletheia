@@ -1,5 +1,5 @@
 /*
- * function: func_021A3938
+ * function: FIELD_PLAYER_CORE_SetObjCode
  * address:  0x021A3938
  * packet:   pkt_021A3938
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A3AD8  0x021A3AD8  thumb  ov021
- *   func_02012B30  0x02012B30  thumb
+ *   FIELD_PLAYER_CORE_ChangeModel  0x021A3AD8  thumb  ov021
+ *   GAME_DATA_SetPlayerPalaceZoneId  0x02012B30  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18034.h"
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02012B30(u32, u32);
-extern void func_021A3AD8(u8 *p, int a);
+extern u32 GAME_DATA_SetPlayerPalaceZoneId(u32, u32);
+extern void FIELD_PLAYER_CORE_ChangeModel(u8 *p, int a);
 
-int func_021A3938(u32 a, u32 b)
+int FIELD_PLAYER_CORE_SetObjCode(u32 a, u32 b)
 {
-func_021A3AD8((u8 *)a, b);
-return func_02012B30(((struct Obj18034 *)((u8 *)(a)))->fC, b);
+FIELD_PLAYER_CORE_ChangeModel((u8 *)a, b);
+return GAME_DATA_SetPlayerPalaceZoneId(((struct Obj18034 *)((u8 *)(a)))->fC, b);
 }
 

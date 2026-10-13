@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
  *   func_021D59B4  0x021D59B4  thumb  ov093
@@ -32,7 +32,7 @@ typedef struct { u8 p0[0x38]; int f38; u8 p1[0x88]; int fc4; } Obj;
 
 extern const Seven d_0218A58C;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_021D59B4(u8 *p, int k);
@@ -42,7 +42,7 @@ int func_02189C8C(struct Cursor *a, Obj *b) {
     int v;
     u32 i;
     Seven t;
-    s = func_0218A160((u8 *)b, func_0201134C(a));
+    s = func_0218A160((u8 *)b, VM_GetU32(a));
     t = d_0218A58C;
     i = 0;
     b->f38 = 0;

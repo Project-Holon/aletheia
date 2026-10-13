@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  */
 
 typedef unsigned int   u32;
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021CA4C8(int *p)
 {
-    func_0204A8D4(p[95]);
-    func_0204ADA4(p[96]);
-    func_0204AFD8(p[97]);
-    func_0204B3B4((struct Obj *)p[94]);
+    CLACT_ReleaseCharacter(p[95]);
+    CLACT_ReleasePalette(p[96]);
+    CLACT_ReleaseCellAnim(p[97]);
+    CLACT_DeleteActor((struct Obj *)p[94]);
 }

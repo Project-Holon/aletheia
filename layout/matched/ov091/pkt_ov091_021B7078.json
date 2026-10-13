@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7078",
+   "name": "POKELIST_LoadBgPlane",
    "address": "0x021B7078",
    "kind": "game",
    "region": "ov091",

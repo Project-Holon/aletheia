@@ -13,9 +13,9 @@
  *   func_021F30D4  0x021F30D4  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_02030734  0x02030734  arm
- *   func_0204ABF0  0x0204ABF0  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204AF28  0x0204AF28  arm
+ *   CLACT_RegisterPalette  0x0204ABF0  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   d_021F36A0     0x021F36A0  data  a1
  */
 #include "../include/Obj07640.h"
@@ -38,9 +38,9 @@ extern char d_021F36A0[];
 extern void func_02082BCC(void *p, int v, int n);
 typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc)
 {
@@ -53,9 +53,9 @@ void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc)
             out[i].items = func_02030734(((struct Obj07640 *)this)->f94, out[i].count << 2, 1, d_021F36A0, 0x4C3);
     }
     for (i = 0; i < out[0].count; i++)
-        out[0].items[i] = func_0204ABF0(arc, spec[0].base + i, 1, 0, ((struct Obj07640 *)this)->f94);
+        out[0].items[i] = CLACT_RegisterPalette(arc, spec[0].base + i, 1, 0, ((struct Obj07640 *)this)->f94);
     for (i = 0; i < out[1].count; i++)
-        out[1].items[i] = func_0204A6C8(arc, spec[1].base + i, 0, 1, ((struct Obj07640 *)this)->f94);
+        out[1].items[i] = CLACT_RegisterCharacter(arc, spec[1].base + i, 0, 1, ((struct Obj07640 *)this)->f94);
     for (i = 0; i < out[2].count; i++)
-        out[2].items[i] = func_0204AF28(arc, spec[2].base + i * 2, spec[2].base + 1 + i * 2, ((struct Obj07640 *)this)->f94);
+        out[2].items[i] = CLACT_RegisterCellAnim(arc, spec[2].base + i * 2, spec[2].base + 1 + i * 2, ((struct Obj07640 *)this)->f94);
 }

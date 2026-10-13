@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj13951.h"
 typedef unsigned char u8;
@@ -19,6 +19,6 @@ typedef unsigned int u32;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-void func_021DA2F0(u8 *p,u32 i) { u8 *d=*(u8 **)(p+16+i*4); func_02043B5C(func_02045770(((struct Obj13951 *)d)->fC),((struct Obj13951 *)d)->f16&31); func_02045334(*(void **)(*(u8 **)(p+16+i*4)+12)); }
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+void func_021DA2F0(u8 *p,u32 i) { u8 *d=*(u8 **)(p+16+i*4); BMP_Clear(func_02045770(((struct Obj13951 *)d)->fC),((struct Obj13951 *)d)->f16&31); BMP_WIN_TransferChars(*(void **)(*(u8 **)(p+16+i*4)+12)); }

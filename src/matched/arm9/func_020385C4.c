@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02034714  0x02034714  arm
  *   GFL_NET_SYSTEM_SetDebugByte  0x02037224  arm
  *   GFL_NET_SYSTEM_GetSendSize  0x02037258  arm
@@ -52,7 +52,7 @@ struct Oth {
 };
 
 extern void *GFL_NET_GetSession(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void GFL_NET_SYSTEM_SetDebugByte(u8 v, int b);
 extern u32  GFL_NET_SYSTEM_GetSendSize(void);
@@ -72,7 +72,7 @@ extern struct LinkState *_pNetSys;
 void GFL_NET_SYSTEM_UpdateMPParent(void)
 {
     struct Ctx *c = GFL_NET_GetSession();
-    struct Oth *o = func_0203D798();
+    struct Oth *o = GFL_NET_GetInitParam();
     u8 s = o->f65;
 
     if ((u8)(s + 0xff) <= 1) {

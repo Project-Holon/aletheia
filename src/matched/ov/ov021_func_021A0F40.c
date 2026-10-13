@@ -1,5 +1,5 @@
 /*
- * function: func_021A0F40
+ * function: FIELD_SUBSCREEN_ChangeModeNow
  * address:  0x021A0F40
  * packet:   pkt_ov021_021A0F40
  * region:   ov021
@@ -36,7 +36,7 @@ extern const Entry d_021D872C[];
 
 extern u32 func_021A0EE4(u32 *);
 
-void func_021A0F40(u32 *p, u32 v)
+void FIELD_SUBSCREEN_ChangeModeNow(u32 *p, u32 v)
 {
     u32 n = func_021A0EE4(p);
     d_021D872C[p[0]].exit(p);

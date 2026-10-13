@@ -1,5 +1,5 @@
 /*
- * function: func_021F3778
+ * function: GIMMICK53_Update
  * address:  0x021F3778
  * packet:   pkt_ov053_021F3778
  * region:   ov053
@@ -10,41 +10,41 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218ECE4  0x0218ECE4  thumb  ov021
- *   func_0218ECB4  0x0218ECB4  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_GetEyeRaw  0x0218ECE4  thumb  ov021
+ *   FIELD_CAMERA_GetTargetRaw  0x0218ECB4  thumb  ov021
  *   ISS_3DS_SYS_SetCamera  0x0202B93C  thumb
- *   func_021F3A5C  0x021F3A5C  thumb  ov053
- *   func_021C4DE4  0x021C4DE4  thumb  ov021
- *   func_021F3A38  0x021F3A38  thumb  ov053
- *   func_021F3A7C  0x021F3A7C  thumb  ov053
- *   func_021F3A6C  0x021F3A6C  thumb  ov053
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE580  0x021BE580  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021F3B40  0x021F3B40  thumb  ov053
+ *   GIMMICK53_RestartAnime  0x021F3A5C  thumb  ov053
+ *   SOUND_OBJ_AdvanceAnime  0x021C4DE4  thumb  ov021
+ *   GIMMICK53_StartWait  0x021F3A38  thumb  ov053
+ *   GIMMICK53_UpdateBgmFade  0x021F3A7C  thumb  ov053
+ *   GIMMICK53_ApplyBgmVolume  0x021F3A6C  thumb  ov053
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   GIMMICK53_UpdateSlideSe  0x021F3B40  thumb  ov053
  */
 
 typedef unsigned char  u8;
 struct Obj;
-extern int *func_021897BC(char *p, int idx);
-extern void *func_02188C58(void *p);
-extern void func_0218ECE4(int, int *);
-extern void func_0218ECB4(int, int *);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void *FIELDMAP_GetCamera(void *p);
+extern void FIELD_CAMERA_GetEyeRaw(int, int *);
+extern void FIELD_CAMERA_GetTargetRaw(int, int *);
 extern void ISS_3DS_SYS_SetCamera(int a, void *b, void *c);
-extern int func_021F3A5C(char *p, int i);
-extern int func_021C4DE4(int, int);
-extern void func_021F3A38(char *a, int i);
-extern void func_021F3A7C(char *p, int a);
-extern void func_021F3A6C(int *);
-extern int func_02188D2C(int *p);
-extern void func_021BE580(int);
+extern int GIMMICK53_RestartAnime(char *p, int i);
+extern int SOUND_OBJ_AdvanceAnime(int, int);
+extern void GIMMICK53_StartWait(char *a, int i);
+extern void GIMMICK53_UpdateBgmFade(char *p, int a);
+extern void GIMMICK53_ApplyBgmVolume(int *);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void FLD_EXP_OBJ_UpdateAnimes(int);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021F3B40(struct Obj *o, int h, u8 *a2);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void GIMMICK53_UpdateSlideSe(struct Obj *o, int h, u8 *a2);
 
-void func_021F3778(int a)
+void GIMMICK53_Update(int a)
 {
     int i;
     int h;
@@ -53,16 +53,16 @@ void func_021F3778(int a)
     int v2[3];
 
     i = 0;
-    p = func_021897BC((char *)a, 0);
-    h = (int)func_02188C58((void *)a);
-    func_0218ECE4(h, v1);
-    func_0218ECB4(h, v2);
+    p = FIELDMAP_GetCommonWork((char *)a, 0);
+    h = (int)FIELDMAP_GetCamera((void *)a);
+    FIELD_CAMERA_GetEyeRaw(h, v1);
+    FIELD_CAMERA_GetTargetRaw(h, v2);
     ISS_3DS_SYS_SetCamera(p[1], v1, v2);
     for (i = 0; i < 5; i++) {
         int *q = p + i;
         if (q[7] > 0) {
             if (--q[7] <= 0) {
-                func_021F3A5C((char *)p, i);
+                GIMMICK53_RestartAnime((char *)p, i);
                 switch (i) {
                 case 0:
                     p[8] = 1;
@@ -72,12 +72,12 @@ void func_021F3778(int a)
                     break;
                 }
             }
-        } else if (func_021C4DE4(q[2], 0x1000)) {
-            func_021F3A38((char *)p, i);
+        } else if (SOUND_OBJ_AdvanceAnime(q[2], 0x1000)) {
+            GIMMICK53_StartWait((char *)p, i);
         }
     }
-    func_021F3A7C((char *)p, a);
-    func_021F3A6C(p);
-    func_021BE580(func_02188D2C((int *)a));
-    func_021F3B40((struct Obj *)(p + 0x1a), h, (u8 *)func_02188CB4((struct Obj00020 *)a));
+    GIMMICK53_UpdateBgmFade((char *)p, a);
+    GIMMICK53_ApplyBgmVolume(p);
+    FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj((int *)a));
+    GIMMICK53_UpdateSlideSe((struct Obj *)(p + 0x1a), h, (u8 *)FIELDMAP_GetFieldPlayer((struct Obj00020 *)a));
 }

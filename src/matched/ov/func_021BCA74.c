@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA74
+ * function: FIELD_PLACE_NAME_GetZoneChangeRequest
  * address:  0x021BCA74
  * packet:   pkt_021BCA74
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021BCA74(u8 *p)
+u32 FIELD_PLACE_NAME_GetZoneChangeRequest(u8 *p)
 {
     return ((struct Obj18197 *)p)->f48;
 }

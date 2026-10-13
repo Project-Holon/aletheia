@@ -1,5 +1,5 @@
 /*
- * function: func_020279E8
+ * function: APP_TASKMENU_IsFinish
  * address:  0x020279E8
  * packet:   pkt_02027974
  * region:   arm9
@@ -27,7 +27,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020279E8.c \
- *       --func func_020279E8 --addr 0x020279E8 --cc 1.1p1 --thumb
+ *       --func APP_TASKMENU_IsFinish --addr 0x020279E8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ struct TaskMenu {
     u32 height;
 };
 
-u32 func_020279E8(struct TaskMenu *m)
+u32 APP_TASKMENU_IsFinish(struct TaskMenu *m)
 {
     if (m->count >= 16 / m->height) {
         return 1;

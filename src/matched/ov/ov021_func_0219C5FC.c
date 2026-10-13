@@ -1,5 +1,5 @@
 /*
- * function: func_0219C5FC
+ * function: FLDMMDL_BLACT_Update
  * address:  0x0219C5FC
  * packet:   pkt_ov021_0219C5FC
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D520  0x0216D520  thumb  ov010
- *   func_0219D0F4  0x0219D0F4  thumb  ov021
- *   func_0219CDAC  0x0219CDAC  thumb  ov021
- *   func_0219D390  0x0219D390  thumb  ov021
+ *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
+ *   FLDMMDL_BLACT_AddReservedActors  0x0219D0F4  thumb  ov021
+ *   FLDMMDL_BLACT_LoadReservedRes  0x0219CDAC  thumb  ov021
+ *   FLDMMDL_BLACT_UpdateCodeChanges  0x0219D390  thumb  ov021
  */
 #include "../include/Obj03579.h"
 
@@ -22,20 +22,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D520(void *p);
-extern void func_0219D0F4(int *obj);
-extern void func_0219CDAC(u8 *);
-extern void func_0219D390(u8 *);
+extern u32 FLDMMDL_SysGetBlActCont(void *p);
+extern void FLDMMDL_BLACT_AddReservedActors(int *obj);
+extern void FLDMMDL_BLACT_LoadReservedRes(u8 *);
+extern void FLDMMDL_BLACT_UpdateCodeChanges(u8 *);
 
-void func_0219C5FC(u32 a)
+void FLDMMDL_BLACT_Update(u32 a)
 {
-    u8 *s = (u8 *)func_0216D520((void *)a);
+    u8 *s = (u8 *)FLDMMDL_SysGetBlActCont((void *)a);
     if (s != 0) {
         if (*(u32 *)&((struct Obj03579 *)s)->f1C != 0) {
-            func_0219D0F4((int *)s);
-            func_0219CDAC(s);
+            FLDMMDL_BLACT_AddReservedActors((int *)s);
+            FLDMMDL_BLACT_LoadReservedRes(s);
         }
-        func_0219D390(s);
+        FLDMMDL_BLACT_UpdateCodeChanges(s);
         s[0] = 0;
     }
 }

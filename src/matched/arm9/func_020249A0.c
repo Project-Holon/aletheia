@@ -1,5 +1,5 @@
 /*
- * function: func_020249A0
+ * function: PMS_WORD_SetFlag
  * address:  0x020249A0
  * packet:   pkt_02024768
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-void func_020249A0(int *p, int bit)
+void PMS_WORD_SetFlag(int *p, int bit)
 {
     *p |= 1 << bit;
 }

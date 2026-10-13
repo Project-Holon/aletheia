@@ -1,5 +1,5 @@
 /*
- * function: func_02047E54
+ * function: G3D_UTIL_Delete
  * address:  0x02047E54
  * packet:   pkt_020477D4
  * region:   arm9
@@ -17,8 +17,8 @@
  * value, which is why the frame is two words.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047E54.c \
- *       --func func_02047E54 --addr 0x02047E54 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_Delete.c \
+ *       --func G3D_UTIL_Delete --addr 0x02047E54 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -33,7 +33,7 @@ struct Rec {
 
 extern u32 func_020307B0(void *p);
 
-void func_02047E54(struct Rec *p)
+void G3D_UTIL_Delete(struct Rec *p)
 {
     func_020307B0(p->unk_10);
     func_020307B0(p->unk_0c);

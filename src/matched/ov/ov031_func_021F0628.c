@@ -1,5 +1,5 @@
 /*
- * function: func_021F0628
+ * function: UNION_SUBDISP_SelectAppeal
  * address:  0x021F0628
  * packet:   pkt_ov031_021F0628
  * region:   ov031
@@ -14,7 +14,7 @@
  * `? 1 : 0` ternary (keeps the entry branch to the bottom test).
  *
  * symbols:
- *   d_021F1038     0x021F1038  data  a1
+ *   sUnionSubdispAppealNo     0x021F1038  data  a1
  *   func_0204B6F4  0x0204B6F4  arm
  */
 #include "../include/Obj06133.h"
@@ -23,16 +23,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 d_021F1038[];
+extern u8 sUnionSubdispAppealNo[];
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
-void func_021F0628(char *p, int sel)
+void UNION_SUBDISP_SelectAppeal(char *p, int sel)
 {
     int i;
     int v;
 
-    v = d_021F1038[sel];
+    v = sUnionSubdispAppealNo[sel];
     if (v == ((struct Obj06133 *)p)->f30)
         ((struct Obj06133 *)p)->f30 = 0;
     else

@@ -1,5 +1,5 @@
 /*
- * function: func_021DAD20
+ * function: BTL_ABILITY_GetWonderGuardHandlers
  * address: 0x021DAD20
  * packet: pkt_ov093_021DAD20
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DA624_p01.c and filed here.
  *
  * symbols:
- *   d_021F0660 0x021F0660 data ov093 a4
+ *   gWonderGuardHandlerTable 0x021F0660 data ov093 a4
  */
 
-int *func_021DAD20(int *p);
-extern int d_021F0660[];
+int *BTL_ABILITY_GetWonderGuardHandlers(int *p);
+extern int gWonderGuardHandlerTable[];
 
-int *func_021DAD20(int *p)
+int *BTL_ABILITY_GetWonderGuardHandlers(int *p)
 {
     *p = 1;
-    return d_021F0660;
+    return gWonderGuardHandlerTable;
 }

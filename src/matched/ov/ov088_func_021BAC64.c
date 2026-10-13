@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC64
+ * function: STARTMENU_DeleteBlinkPalette
  * address:  0x021BAC64
  * packet:   pkt_ov088_021BAC64
  * region:   ov088
@@ -18,7 +18,7 @@ struct Obj0202EA20;
 typedef unsigned int   u32;
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
 
-void func_021BAC64(char *p)
+void STARTMENU_DeleteBlinkPalette(char *p)
 {
     func_0202EA20((struct Obj0202EA20 *)(((struct Obj20816 *)p)->f11C));
 }

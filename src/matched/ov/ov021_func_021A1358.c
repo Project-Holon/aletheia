@@ -1,5 +1,5 @@
 /*
- * function: func_021A1358
+ * function: FIELD_SUBSCREEN_GetCGear
  * address:  0x021A1358
  * packet:   pkt_ov021_021A1358
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-u32 func_021A1358(u32 *p)
+u32 FIELD_SUBSCREEN_GetCGear(u32 *p)
 {
     if (p[0] == 0 || p[0] == 8)
         return p[8];

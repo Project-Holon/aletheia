@@ -1,5 +1,5 @@
 /*
- * function: func_0217FC6C
+ * function: EVENT_COMM_COMMON_CreateTalkedStartEvent
  * address:  0x0217FC6C
  * packet:   pkt_ov018_0217FC6C
  * region:   ov018
@@ -13,8 +13,8 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_0217545C  0x0217545C  thumb ov011
- *   func_0217FCAC  0x0217FCAC  thumb ov018
+ *   INTRUDE_COMM_ClearRequestOpen  0x0217545C  thumb ov011
+ *   EVENT_COMM_COMMON_TalkedStartEventMain  0x0217FCAC  thumb ov018
  */
 #include "../include/Obj07367.h"
 
@@ -27,12 +27,12 @@ struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
 typedef unsigned char  u8;
-void func_0217545C(u8 *p);
-int func_0217FCAC(int x, int *st, int *obj);
+void INTRUDE_COMM_ClearRequestOpen(u8 *p);
+int EVENT_COMM_COMMON_TalkedStartEventMain(int x, int *st, int *obj);
 
-void *func_0217FC6C(void *p, int a, int b, int c, int d, u16 e)
+void *EVENT_COMM_COMMON_CreateTalkedStartEvent(void *p, int a, int b, int c, int d, u16 e)
 {
-    void *r = func_020122C0(p, 0, func_0217FCAC, 0x10);
+    void *r = func_020122C0(p, 0, EVENT_COMM_COMMON_TalkedStartEventMain, 0x10);
     int *q = func_020124E8(r);
 
     func_02082BCC(q, 0, 0x10);
@@ -40,6 +40,6 @@ void *func_0217FC6C(void *p, int a, int b, int c, int d, u16 e)
     q[1] = c;
     q[2] = d;
     ((struct Obj07367 *)q)->fC = e;
-    func_0217545C((u8 *)b);
+    INTRUDE_COMM_ClearRequestOpen((u8 *)b);
     return r;
 }

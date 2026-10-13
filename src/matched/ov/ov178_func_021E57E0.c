@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012EBC   0x02012EBC  thumb
- *   func_02012944   0x02012944  thumb
+ *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
+ *   GAME_DATA_GetMyStatus   0x02012944  thumb
  *   func_0200CA1C   0x0200CA1C  thumb
  *   func_0200873C   0x0200873C  thumb
  *   func_0201AA18   0x0201AA18  thumb
@@ -27,8 +27,8 @@ typedef unsigned char  u8;
 struct Big;
 struct Blk37;
 struct Sub02008700Obj;
-extern void *func_02012EBC(struct Big *p);
-extern u8 *func_02012944(void *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *func_0200CA1C(void *a);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern unsigned int func_0201AA18(void *p);
@@ -38,8 +38,8 @@ void func_021E57E0(int *r5, int *r6, char *r4)
 {
     int a;
     int b;
-    a = (int)func_02012EBC((struct Big *)r5[5]);
-    func_02012944((void *)r5[5]);
+    a = (int)GAME_DATA_GetSaveControl((struct Big *)r5[5]);
+    GAME_DATA_GetMyStatus((void *)r5[5]);
     b = (int)func_0200CA1C((void *)r5[5]);
     ((struct Obj01763 *)r4)->f0 = r6[1];
     ((struct Obj01763 *)r4)->f8 = r5[5];

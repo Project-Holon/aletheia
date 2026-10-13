@@ -8,30 +8,30 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B86C8 0x021B86C8 thumb ov093
+ *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   func_021B8FE4 0x021B8FE4 thumb ov093
  *   func_021B8FF4 0x021B8FF4 thumb ov093
  *   func_021B9000 0x021B9000 thumb ov093
  *   func_021BA020 0x021BA020 thumb ov093
  *   func_021B904C 0x021B904C thumb ov093
- *   func_021B8588 0x021B8588 thumb ov093
- *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_021B8714 0x021B8714 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
+ *   BTL_MAIN_GetFieldSituation 0x021B8714 thumb ov093
  *   func_021F73F0 0x021F73F0 thumb ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int w[4]; } Q;
-extern int func_021B86C8(unsigned char **p);
+extern int BTL_MAIN_IsMultiMode(unsigned char **p);
 extern u8 func_021B8FE4(u8 *p);
 extern u8 func_021B8FF4(u8 *);
 extern u8 func_021B9000(u8 *p);
 extern u16 func_021BA020(char *, int);
 extern u8 func_021B904C(u8 *p, int k);
-extern u32 func_021B8588(void **p);
-extern void *func_021B86B8(void ***);
-extern char *func_021B8714(char **);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern void *BTL_MAIN_GetCompetitor(void ***);
+extern char *BTL_MAIN_GetFieldSituation(char **);
 extern void *func_021F73F0(int, int, Q *, int, u16 *, int, int, u16);
 
 void *func_021F745C(u8 *p, int a, u16 heap)
@@ -42,7 +42,7 @@ void *func_021F745C(u8 *p, int a, u16 heap)
     int mode, type;
     Q *q;
     for (i = 0; i < 4; i++) h[i] = 0;
-    if (func_021B86C8((unsigned char **)p) == 1) {
+    if (BTL_MAIN_IsMultiMode((unsigned char **)p) == 1) {
         side = func_021B8FE4(p);
         idx = func_021B8FF4(p);
         other = func_021B9000(p);
@@ -56,8 +56,8 @@ void *func_021F745C(u8 *p, int a, u16 heap)
         h[2] = 0;
         h[3] = 0;
     }
-    mode = func_021B8588((void **)p);
-    type = (int)func_021B86B8((void ***)p);
-    q = (Q *)func_021B8714((char **)p);
-    return func_021F73F0(mode, type, q, func_021B86C8((unsigned char **)p), h, (int)p, a, heap);
+    mode = BTL_MAIN_GetRule((void **)p);
+    type = (int)BTL_MAIN_GetCompetitor((void ***)p);
+    q = (Q *)BTL_MAIN_GetFieldSituation((char **)p);
+    return func_021F73F0(mode, type, q, BTL_MAIN_IsMultiMode((unsigned char **)p), h, (int)p, a, heap);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB890
+ * function: STARTMENU_MoveCursor
  * address:  0x021BB890
  * packet:   pkt_ov088_021BB890
  * region:   ov088
@@ -13,13 +13,13 @@
  * +0x120, redraws the row it leaves, and scrolls (+0x138) when the new
  * row's top (+0x12f) runs off either edge.  Returns 1 when it moved.
  *
- * `old` is a u8 local and func_021BB810 takes its row as u8: only that
+ * `old` is a u8 local and STARTMENU_PaintRowPalette takes its row as u8: only that
  * pair stores nv's spill before old's reload in the d >= 0 arm (each alone
  * is 21 B / 250 B off; see docs/notes/pkt_ov088_021BB890.c.txt).
  *
  * symbols:
- *   func_021BB840  0x021BB840  thumb  ov088
- *   func_021BB810  0x021BB810  thumb  ov088
+ *   STARTMENU_RowTileY  0x021BB840  thumb  ov088
+ *   STARTMENU_PaintRowPalette  0x021BB810  thumb  ov088
  *   _s32_div_f     0x0209C0A4  arm
  *   d_021BD5EE     0x021BD5EE  data  ov088  a2
  */
@@ -32,12 +32,12 @@ typedef unsigned int u32;
 
 extern u16 d_021BD5EE[];
 
-extern int func_021BB840(char *p, int y);
-extern void func_021BB810(void *, u8, int, int);
+extern int STARTMENU_RowTileY(char *p, int y);
+extern void STARTMENU_PaintRowPalette(void *, u8, int, int);
 
 #define ROWH(r) (*(u16 *)((char *)d_021BD5EE + (r) * 4))
 
-int func_021BB890(char *p, int d)
+int STARTMENU_MoveCursor(char *p, int d)
 {
     u8 old;
     u16 h;
@@ -55,7 +55,7 @@ int func_021BB890(char *p, int d)
         n = cur + d;
         h = ROWH((u8)(p + n)[0x120]);
         y = (s8)p[0x12f] - h;
-        func_021BB810(p, old, func_021BB840(p, (s8)p[0x12f]), 1);
+        STARTMENU_PaintRowPalette(p, old, STARTMENU_RowTileY(p, (s8)p[0x12f]), 1);
         if ((u8)p[0x120] == 0) {
             if (y < 2) {
                 if (n == 0) {
@@ -77,7 +77,7 @@ int func_021BB890(char *p, int d)
             return 0;
         nv = (p + (s8)(cur + d))[0x120];
         y = (s8)p[0x12f] + ROWH(old);
-        func_021BB810(p, old, func_021BB840(p, (s8)p[0x12f]), 1);
+        STARTMENU_PaintRowPalette(p, old, STARTMENU_RowTileY(p, (s8)p[0x12f]), 1);
         if ((u8)p[0x120] == 0) {
             if (y == 0x18) {
                 ((struct Obj00271 *)p)->f138 = (ROWH(nv) / 3) * 8;

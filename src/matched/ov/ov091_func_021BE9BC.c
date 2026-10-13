@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9BC
+ * function: PLIST_DEMO_FriendshipItemApplies
  * address:  0x021BE9BC
  * packet:   pkt_ov091_021BE9BC
  * region:   ov091
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02021014  0x02021014  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 
-int func_021BE9BC(void *a, void *b)
+int PLIST_DEMO_FriendshipItemApplies(void *a, void *b)
 {
     int r = 0;
-    int v = func_02017E1C(a, 9, 0);
+    int v = POKE_TOOL_GetPartyValue(a, 9, 0);
     if (v >= 0xFF)
         return r;
     if (v < 100) {

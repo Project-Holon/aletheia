@@ -1,5 +1,5 @@
 /*
- * function: func_021C3400
+ * function: SODATEYA_HasEgg
  * address:  0x021C3400
  * packet:   pkt_021C3400
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf in ov021 (the listing prints it as a `.word` run at
- * 0x021C3400, next to ov010's field-VM code); ov010's func_0215CE98 reaches
+ * 0x021C3400, next to ov010's field-VM code); ov010's SCRCMD_PROC_GetDaycareState reaches
  * it across the overlay pair.  Eight-byte thunk: load [a+8] and tail-call
  * the ARM9 helper.
  *
@@ -24,7 +24,7 @@ typedef int s32;
 struct Obj11233;
 extern int func_0200BCA0(struct Obj11233 *p);
 
-int func_021C3400(void *a)
+int SODATEYA_HasEgg(void *a)
 {
     return func_0200BCA0((struct Obj11233 *)(((struct Obj18300 *)a)->f8));
 }

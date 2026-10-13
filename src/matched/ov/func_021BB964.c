@@ -1,5 +1,5 @@
 /*
- * function: func_021BB964
+ * function: BTL_SERVER_GetFlow
  * address:  0x021BB964
  * packet:   pkt_021BB840
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB964   0x021BB964  thumb
+ *   BTL_SERVER_GetFlow   0x021BB964  thumb
  *
  * Reads the u32 field at #0x44 of the argument and returns it.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021BB964  ldr r0,[r0,#0x44] */
 struct Q5 { u8 pad[0x44]; u32 v; };
-u32 func_021BB964(struct Q5 *p) { return p->v; }
+u32 BTL_SERVER_GetFlow(struct Q5 *p) { return p->v; }
 

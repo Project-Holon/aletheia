@@ -43,6 +43,6 @@ typedef struct ModelScene {
 /* The position, scale and rotation the three objects are drawn with. */
 extern G3dObjectStatus d_021F38C4;
 
-extern void func_02047A60(G3dObject *object, G3dObjectStatus *status);
+extern void G3D_SYSTEM_DrawObject(G3dObject *object, G3dObjectStatus *status);
 
 #endif

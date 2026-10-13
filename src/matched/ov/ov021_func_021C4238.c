@@ -1,5 +1,5 @@
 /*
- * function: func_021C4238
+ * function: SODATEYA_AddTmMoves
  * address:  0x021C4238
  * packet:   pkt_ov021_021C4238
  * region:   ov021
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_020212B0  0x020212B0  thumb
- *   func_021C447C  0x021C447C  thumb  ov021
- *   func_021C42F4  0x021C42F4  thumb  ov021
- *   d_021DA8E8     0x021DA8E8  data  ov021  a4
+ *   SODATEYA_CanLearnTm  0x021C447C  thumb  ov021
+ *   SODATEYA_AddMove  0x021C42F4  thumb  ov021
+ *   sSodateyaTmMoveSlotIds     0x021DA8E8  data  ov021  a4
  */
 
 typedef unsigned int u32;
@@ -21,25 +21,25 @@ typedef unsigned short u16;
 
 typedef struct { u32 v[4]; } T;
 
-extern u32 func_02017E1C(void *a, u32 b, u32 c);
+extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 extern u16 func_020212B0(u16 id);
-extern int func_021C447C(u32 a, u32 b, u32 c, u32 d);
-extern void func_021C42F4(u32 *p, u32 v);
-extern T d_021DA8E8;
+extern int SODATEYA_CanLearnTm(u32 a, u32 b, u32 c, u32 d);
+extern void SODATEYA_AddMove(u32 *p, u32 v);
+extern T sSodateyaTmMoveSlotIds;
 
-void func_021C4238(u32 *a, u32 *b, u32 *c)
+void SODATEYA_AddTmMoves(u32 *a, u32 *b, u32 *c)
 {
-    T t = d_021DA8E8;
+    T t = sSodateyaTmMoveSlotIds;
     int i;
 
     for (i = 0; i < 4; i++) {
-        u32 v = func_02017E1C((void *)a[0], t.v[i], 0);
+        u32 v = POKE_TOOL_GetPartyValue((void *)a[0], t.v[i], 0);
         int k;
 
         for (k = 0x148; k <= 0x272; k++) {
             if (v == func_020212B0(k)) {
-                if (func_021C447C((u32)c, (u16)b[0], (u16)b[1], (u16)k)) {
-                    func_021C42F4(b, v);
+                if (SODATEYA_CanLearnTm((u32)c, (u16)b[0], (u16)b[1], (u16)k)) {
+                    SODATEYA_AddMove(b, v);
                     break;
                 }
             }

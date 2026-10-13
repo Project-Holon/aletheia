@@ -1,7 +1,7 @@
 /*
  * file:     touchpanel.c
  * unit:     yes
- * function: TOUCHPANEL_GetWork, TOUCHPANEL_ReadPointX, TOUCHPANEL_ReadPointY, TOUCHPANEL_ReadCont, TOUCHPANEL_ReadTrg, TOUCHPANEL_Create, TOUCHPANEL_MainSys, TOUCHPANEL_Main, TOUCHPANEL_HitCircle, TOUCHPANEL_HitRect, TOUCHPANEL_SearchHitTable, TOUCHPANEL_HitContSys, TOUCHPANEL_HitCont, TOUCHPANEL_HitTrgSys, func_02035C08, TOUCHPANEL_GetContSys, func_02035C38, TOUCHPANEL_GetTrgSys, func_02035C60, TOUCHPANEL_GetPointContSys, TOUCHPANEL_GetPointCont, TOUCHPANEL_GetPointTrgSys, func_02035D20, TOUCHPANEL_HitPoint, TOUCHPANEL_RequestAutoSamplingStop, TOUCHPANEL_AutoSamplingRestartSys, TOUCHPANEL_AutoSamplingRestart, TOUCHPANEL_AutoSamplingStopSys, TOUCHPANEL_AutoSamplingStop, TOUCHPANEL_RequestAutoSamplingStart, TOUCHPANEL_ClearFrameRateWork, TOUCHPANEL_SetPoint, TOUCHPANEL_SetTrg, TOUCHPANEL_SetCont, KEY_Create, KEY_MainSys, KEY_Main, KEY_ApplyControlMode, KEY_SetRepeatSpeedSys, KEY_SetRepeatSpeed, KEY_SetControlModeTableSys, KEY_SetControlModeTable, KEY_GetTrgSys, func_020362DC, KEY_GetContSys, func_0203630C, KEY_GetRepeatSys, func_0203633C, KEY_GetRepeatSpeedSys, KEY_GetRepeatSpeed, KEY_ClearFrameRateWork, KEY_SetTrg, KEY_SetCont, KEY_SetRepeat, GFL_NET_RING_BUFF_Init, GFL_NET_RING_BUFF_Write, GFL_NET_RING_BUFF_Read, GFL_NET_RING_BUFF_ReadByte, GFL_NET_RING_BUFF_ReadU16, GFL_NET_RING_BUFF_Peek, GFL_NET_RING_BUFF_GetDataSize, GFL_NET_RING_BUFF_GetFreeSize, GFL_NET_RING_BUFF_WrapPos, GFL_NET_RING_BUFF_GetWritableSize, GFL_NET_RING_BUFF_EndChange, GFL_NET_QUEUE_GetFreeNode, GFL_NET_QUEUE_IsEmpty, GFL_NET_QUEUE_GetCount, GFL_NET_QUEUE_PopList, GFL_NET_QUEUE_PutByte, GFL_NET_QUEUE_WriteHeader, GFL_NET_QUEUE_WriteNode, GFL_NET_QUEUE_Put, GFL_NET_QUEUE_GetNext, GFL_NET_QUEUE_RemoveNext, GFL_NET_QUEUE_FillSendBuffer, GFL_NET_QUEUE_Init, GFL_NET_QUEUE_Reset, GFL_NET_QUEUE_Exit, GFL_NET_QUEUE_IsCommandQueued, GFL_NET_WM_ICON_Create, GFL_NET_WM_ICON_Draw, GFL_NET_WM_ICON_GetEngine, GFL_NET_WM_ICON_GetCharName, GFL_NET_WM_ICON_SetLevel, GFL_NET_WM_ICON_Delete, GFL_NET_WM_ICON_SetScreen, GFL_NET_WM_ICON_GetCharOffset, GFL_NET_WM_ICON_LoadGraphics, GFL_NET_WM_ICON_ClearOam, GFL_NET_WM_ICON_EasyStart, GFL_NET_WM_ICON_EasyEnd, GFL_NET_WM_ICON_EasySetLevel, GFL_NET_WM_ICON_EasySetScreen, GFL_NET_WM_ICON_EasyMain, func_02037174, func_02037190, func_020371AC, GFL_NET_WM_ICON_SetDefaultScreen, GFL_NET_WM_ICON_EasyGetEngine
+ * function: TOUCHPANEL_GetWork, TOUCHPANEL_ReadPointX, TOUCHPANEL_ReadPointY, TOUCHPANEL_ReadCont, TOUCHPANEL_ReadTrg, TOUCHPANEL_Create, TOUCHPANEL_MainSys, TOUCHPANEL_Main, TOUCHPANEL_HitCircle, TOUCHPANEL_HitRect, TOUCHPANEL_SearchHitTable, TOUCHPANEL_HitContSys, TOUCHPANEL_HitCont, TOUCHPANEL_HitTrgSys, TOUCHPANEL_HitTrg, TOUCHPANEL_GetContSys, TOUCHPANEL_GetCont, TOUCHPANEL_GetTrgSys, TOUCHPANEL_GetTrg, TOUCHPANEL_GetPointContSys, TOUCHPANEL_GetPointCont, TOUCHPANEL_GetPointTrgSys, func_02035D20, TOUCHPANEL_HitPoint, TOUCHPANEL_RequestAutoSamplingStop, TOUCHPANEL_AutoSamplingRestartSys, TOUCHPANEL_AutoSamplingRestart, TOUCHPANEL_AutoSamplingStopSys, TOUCHPANEL_AutoSamplingStop, TOUCHPANEL_RequestAutoSamplingStart, TOUCHPANEL_ClearFrameRateWork, TOUCHPANEL_SetPoint, TOUCHPANEL_SetTrg, TOUCHPANEL_SetCont, KEY_Create, KEY_MainSys, KEY_Main, KEY_ApplyControlMode, KEY_SetRepeatSpeedSys, KEY_SetRepeatSpeed, KEY_SetControlModeTableSys, KEY_SetControlModeTable, KEY_GetTrgSys, func_020362DC, KEY_GetContSys, func_0203630C, KEY_GetRepeatSys, func_0203633C, KEY_GetRepeatSpeedSys, KEY_GetRepeatSpeed, KEY_ClearFrameRateWork, KEY_SetTrg, KEY_SetCont, KEY_SetRepeat, GFL_NET_RING_BUFF_Init, GFL_NET_RING_BUFF_Write, GFL_NET_RING_BUFF_Read, GFL_NET_RING_BUFF_ReadByte, GFL_NET_RING_BUFF_ReadU16, GFL_NET_RING_BUFF_Peek, GFL_NET_RING_BUFF_GetDataSize, GFL_NET_RING_BUFF_GetFreeSize, GFL_NET_RING_BUFF_WrapPos, GFL_NET_RING_BUFF_GetWritableSize, GFL_NET_RING_BUFF_EndChange, GFL_NET_QUEUE_GetFreeNode, GFL_NET_QUEUE_IsEmpty, GFL_NET_QUEUE_GetCount, GFL_NET_QUEUE_PopList, GFL_NET_QUEUE_PutByte, GFL_NET_QUEUE_WriteHeader, GFL_NET_QUEUE_WriteNode, GFL_NET_QUEUE_Put, GFL_NET_QUEUE_GetNext, GFL_NET_QUEUE_RemoveNext, GFL_NET_QUEUE_FillSendBuffer, GFL_NET_QUEUE_Init, GFL_NET_QUEUE_Reset, GFL_NET_QUEUE_Exit, GFL_NET_QUEUE_IsCommandQueued, GFL_NET_WM_ICON_Create, GFL_NET_WM_ICON_Draw, GFL_NET_WM_ICON_GetEngine, GFL_NET_WM_ICON_GetCharName, GFL_NET_WM_ICON_SetLevel, GFL_NET_WM_ICON_Delete, GFL_NET_WM_ICON_SetScreen, GFL_NET_WM_ICON_GetCharOffset, GFL_NET_WM_ICON_LoadGraphics, GFL_NET_WM_ICON_ClearOam, GFL_NET_WM_ICON_EasyStart, GFL_NET_WM_ICON_EasyEnd, GFL_NET_WM_ICON_EasySetLevel, GFL_NET_WM_ICON_EasySetScreen, GFL_NET_WM_ICON_EasyMain, GFL_NET_WM_ICON_EasyObjWindowOn, GFL_NET_WM_ICON_EasyObjWindowOff, GFL_NET_WM_ICON_SetDefaultPos, GFL_NET_WM_ICON_SetDefaultScreen, GFL_NET_WM_ICON_EasyGetEngine
  * address:  0x02035750
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -42,7 +42,7 @@
  *   func_020490F4                    0x020490F4  arm
  *   func_02049B68                    0x02049B68  arm
  *   func_02049800                    0x02049800  arm
- *   func_02049238                    0x02049238  arm
+ *   ARC_TOOL_DeleteHandle                    0x02049238  arm
  *   _pTouchPanelWork                 0x021469C4  data
  *   _WmIconEasy                      0x021469C8  data
  *   touchpanel_File                  0x020A798C  data
@@ -261,7 +261,7 @@ extern void func_0200F16C(WmIconArcData *ids);
 extern void *func_020490F4(u32 arcId, u32 heapId);
 extern void func_02049B68(void *arc, u32 dataId, int palType, int offset, int size, int heapId);
 extern void func_02049800(void *arc, u32 dataId, int engine, int offset, int a4, int a5, int heapId);
-extern void func_02049238(void *arc);
+extern void ARC_TOOL_DeleteHandle(void *arc);
 
 /* touchpanel.c */
 TouchPanelWork *TOUCHPANEL_GetWork(void);
@@ -278,7 +278,7 @@ int TOUCHPANEL_SearchHitTable(const TouchHitTable *tbl, u32 x, u32 y);
 int TOUCHPANEL_HitContSys(UiCtx *ui, const TouchHitTable *tbl);
 int TOUCHPANEL_HitCont(const TouchHitTable *tbl);
 int TOUCHPANEL_HitTrgSys(UiCtx *ui, const TouchHitTable *tbl);
-int func_02035C08(const TouchHitTable *tbl);
+int TOUCHPANEL_HitTrg(const TouchHitTable *tbl);
 int TOUCHPANEL_GetContSys(UiCtx *ui);
 int TOUCHPANEL_GetCont(void);
 u16 TOUCHPANEL_GetTrgSys(UiCtx *ui);
@@ -363,9 +363,9 @@ void GFL_NET_WM_ICON_EasyEnd(void);
 u32 GFL_NET_WM_ICON_EasySetLevel(u32 level);
 void GFL_NET_WM_ICON_EasySetScreen(u32 isTop, u32 heapId);
 void GFL_NET_WM_ICON_EasyMain(void);
-void func_02037174(void);
-void func_02037190(void);
-void func_020371AC(u16 x, u16 y);
+void GFL_NET_WM_ICON_EasyObjWindowOn(void);
+void GFL_NET_WM_ICON_EasyObjWindowOff(void);
+void GFL_NET_WM_ICON_SetDefaultPos(u16 x, u16 y);
 void GFL_NET_WM_ICON_SetDefaultScreen(u32 screen);
 u32 GFL_NET_WM_ICON_EasyGetEngine(void);
 
@@ -631,7 +631,7 @@ int TOUCHPANEL_HitTrgSys(UiCtx *ui, const TouchHitTable *tbl)
     return TOUCHPANEL_SearchHitTable(tbl, x, y);
 }
 
-int func_02035C08(const TouchHitTable *tbl)
+int TOUCHPANEL_HitTrg(const TouchHitTable *tbl)
 {
     return TOUCHPANEL_HitTrgSys(sub_02035224(), tbl);
 }
@@ -1437,7 +1437,7 @@ int GFL_NET_QUEUE_IsCommandQueued(NetQueue *queue, int command)
 
 /*
  * Sets up an icon (allocating it when icon is 0) and loads its graphics.
- * A default position set with func_020371AC wins over x and y.
+ * A default position set with GFL_NET_WM_ICON_SetDefaultPos wins over x and y.
  */
 WmIcon *GFL_NET_WM_ICON_Create(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant,
                       WmIcon *icon, u32 screen, u32 screenChanged, u32 level)
@@ -1612,7 +1612,7 @@ void GFL_NET_WM_ICON_LoadGraphics(int engine, int iconVariant, int heapId)
     charIdx = (iconVariant == 0) ? 1 : 0;
     charOffset = GFL_NET_WM_ICON_GetCharOffset(engine);
     func_02049800(arc, ids.charData[charIdx], objEngine, charOffset, 0, 0, heapId);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
 }
 
 /* Hides the first four OAM entries of both engines. */
@@ -1681,7 +1681,7 @@ void GFL_NET_WM_ICON_EasyMain(void)
     GFL_NET_WM_ICON_Draw(_WmIconEasy.icon);
 }
 
-void func_02037174(void)
+void GFL_NET_WM_ICON_EasyObjWindowOn(void)
 {
     WmIcon *icon;
 
@@ -1690,7 +1690,7 @@ void func_02037174(void)
         icon->objWindow = 1;
 }
 
-void func_02037190(void)
+void GFL_NET_WM_ICON_EasyObjWindowOff(void)
 {
     WmIcon *icon;
 
@@ -1699,7 +1699,7 @@ void func_02037190(void)
         icon->objWindow = 0;
 }
 
-void func_020371AC(u16 x, u16 y)
+void GFL_NET_WM_ICON_SetDefaultPos(u16 x, u16 y)
 {
     _WmIconEasy.defaultX = x;
     _WmIconEasy.defaultY = y;

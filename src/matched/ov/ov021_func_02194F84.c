@@ -1,5 +1,5 @@
 /*
- * function: func_02194F84
+ * function: TALKMSGWIN_CalcTail
  * address:  0x02194F84
  * packet:   pkt_ov021_02194F84
  * region:   ov021
@@ -16,7 +16,7 @@
  *   func_02045750  0x02045750  arm
  *   func_02045730  0x02045730  arm
  *   func_02040804  0x02040804  arm
- *   func_02194F5C  0x02194F5C  thumb  ov021
+ *   TALKMSGWIN_GetTailBaseX  0x02194F5C  thumb  ov021
  *   func_0206E0C4  0x0206E0C4  arm
  * Addresses are Black-image addresses.
  */
@@ -33,10 +33,10 @@ extern u8 func_02045748(struct Descriptor *p);
 extern u8 func_02045750(struct Descriptor *p);
 extern u8 func_02045730(struct Descriptor *p);
 extern u32 func_02040804(u32 layer);
-extern void func_02194F5C(int x, int w, int side, u16 *a, u16 *b);
+extern void TALKMSGWIN_GetTailBaseX(int x, int w, int side, u16 *a, u16 *b);
 extern void func_0206E0C4(int x, int y, void *c, int z);
 
-int func_02194F84(u8 *e, int b, int c, void *d, void *f)
+int TALKMSGWIN_CalcTail(u8 *e, int b, int c, void *d, void *f)
 {
     int x;
     int y;
@@ -111,7 +111,7 @@ int func_02194F84(u8 *e, int b, int c, void *d, void *f)
             side = 1;
             r = 8;
         }
-        func_02194F5C(x, w, side, &v[1], &v[0]);
+        TALKMSGWIN_GetTailBaseX(x, w, side, &v[1], &v[0]);
         break;
     case 2:
         yb = ya =y + 4;
@@ -130,7 +130,7 @@ int func_02194F84(u8 *e, int b, int c, void *d, void *f)
             side = 1;
             r = 6;
         }
-        func_02194F5C(x, w, side, &v[1], &v[0]);
+        TALKMSGWIN_GetTailBaseX(x, w, side, &v[1], &v[0]);
         break;
     }
     func_0206E0C4(v[1], ya, d, 0);

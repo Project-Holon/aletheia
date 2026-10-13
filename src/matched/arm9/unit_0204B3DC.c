@@ -14,7 +14,7 @@
  *
  * symbols:
  *   CLACT_GetSurfaceOrigin  0x0204CF74  arm
- *   func_0204B528  0x0204B528  arm
+ *   CLACT_SetActorPos  0x0204B528  arm
  *
  * Three consecutive members of one object's interface.  The object carries a
  * handle at +8, a packed flag word at +0x60 and an embedded sub-object at
@@ -25,7 +25,7 @@
  *   CLACT_AddActorSurfacePos  move by a delta: ask CLACT_GetSurfaceOrigin for the current
  *                 position into a scratch pair, add the caller's s16 x/y
  *                 pair to it in a second scratch pair, and hand that to
- *                 func_0204B528.
+ *                 CLACT_SetActorPos.
  *
  * The two 4-byte scratch pairs sit at sp+0 and sp+4; the later declaration
  * takes the lower stack address, so `pos` is declared before `dest`.
@@ -65,7 +65,7 @@ typedef unsigned short u16;
 struct Actor;
 struct Pt;
 extern void CLACT_GetSurfaceOrigin(struct Obj *o, u32 id, u16 *out);
-extern void func_0204B528(struct Actor *actor, const struct Pt *src);
+extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 
 void CLACT_SetActorDrawEnable(struct Obj *p, u32 v)
 {
@@ -85,5 +85,5 @@ void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which
     CLACT_GetSurfaceOrigin(p, which, (u16 *)(&pos));
     dest.x = delta->x + pos.x;
     dest.y = delta->y + pos.y;
-    func_0204B528((struct Actor *)p, (const struct Pt *)(&dest));
+    CLACT_SetActorPos((struct Actor *)p, (const struct Pt *)(&dest));
 }

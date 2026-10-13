@@ -1,5 +1,5 @@
 /*
- * function: func_021569A4
+ * function: MUSICAL_EVENT_GetBestAppealCategory
  * address:  0x021569A4
  * packet:   pkt_ov010_021569A4
  * region:   ov010
@@ -38,7 +38,7 @@ typedef struct Work {
     Party *party;       /* 0x30 */
 } Work;
 
-u8 func_021569A4(Work *w, u8 idx)
+u8 MUSICAL_EVENT_GetBestAppealCategory(Work *w, u8 idx)
 {
     u8 best;
     u8 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_02184060
+ * function: UNION_APP_QueueJoinConfirm
  * address:  0x02184060
  * packet:   pkt_ov022_02184060
  * region:   ov022
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 
-void func_02184060(u8 *s, int i)
+void UNION_APP_QueueJoinConfirm(u8 *s, int i)
 {
-    if (func_0203D378() == 1) {
+    if (GFL_NET_IsParentAid() == 1) {
         if ((s[0xe] & (1 << i)) && (s[4] & (1 << i))) {
             s[7] |= (u8)(1 << i);
         }

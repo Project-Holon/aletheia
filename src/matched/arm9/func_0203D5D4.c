@@ -14,16 +14,19 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_GetGameKind.c \
  *       --func GFL_NET_GetGameKind --addr 0x0203D5D4 --arm --cc 1.1p1
+ *
+ * symbols:
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 
 u32 GFL_NET_GetGameKind(void)
 {
-    u8 *p = func_0203D798();
+    u8 *p = GFL_NET_GetInitParam();
 
     return p != 0 ? p[0x67] : 0;
 }

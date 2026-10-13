@@ -1,5 +1,5 @@
 /*
- * function: func_021F53B4
+ * function: FLD_FACEUP_SetupBg
  * address:  0x021F53B4
  * packet:   pkt_ov082_021F53B4
  * region:   ov082
@@ -11,15 +11,15 @@
  * volatile: reg_G2_BG3CNT re-read at 0x021F53CA and 0x021F53CE (SDK inline over the register macro)
  *
  * symbols:
- *   func_021F56C0  0x021F56C0  thumb  ov082
- *   func_021F56D8  0x021F56D8  thumb  ov082
+ *   FLD_FACEUP_SaveBgPriorities  0x021F56C0  thumb  ov082
+ *   FLD_FACEUP_SaveVisiblePlanes  0x021F56D8  thumb  ov082
  *   func_0207D63C  0x0207D63C  arm
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02190378  0x02190378  thumb  ov021
- *   func_021904D0  0x021904D0  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_ReleaseSysFrame  0x02190378  thumb  ov021
+ *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
  *   func_020403F4  0x020403F4  arm
  *   func_0203FCA0  0x0203FCA0  arm
- *   func_02048F60  0x02048F60  arm
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_02062A4C  0x02062A4C  arm
  *   func_02062B30  0x02062B30  arm
  *   func_02062A98  0x02062A98  arm
@@ -29,7 +29,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0204047C  0x0204047C  arm
  *   func_02040588  0x02040588  arm
- *   d_021F58F4     0x021F58F4  data  a4
+ *   gFldFaceupBgTemplate     0x021F58F4  data  a4
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09918.h"
@@ -59,20 +59,20 @@ typedef struct {
     void *data;
 } Plt;
 
-extern const BgTemplate d_021F58F4;
+extern const BgTemplate gFldFaceupBgTemplate;
 
-extern void func_021F56C0(u8 *w);
+extern void FLD_FACEUP_SaveBgPriorities(u8 *w);
 typedef signed int     s32;
 struct BgTemplate;
 struct NitroFileHeader;
-extern void func_021F56D8(int *p);
+extern void FLD_FACEUP_SaveVisiblePlanes(int *p);
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
-extern u32 func_02188C54(u8 *p);
-extern int func_02190378(u8 *a);
-extern void func_021904D0(u8 *p);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern int FIELD_MSGBG_ReleaseSysFrame(u8 *a);
+extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
 extern void func_020403F4(u32 i);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern int func_02062B30(void *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
@@ -97,7 +97,7 @@ static inline void G2_SetBG3ControlText(GXBGScrSizeText screenSize, GXBGColorMod
                           (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
 
-void func_021F53B4(u8 *w, int p)
+void FLD_FACEUP_SetupBg(u8 *w, int p)
 {
     BgTemplate tbl;
     Chr *chr1;
@@ -111,18 +111,18 @@ void func_021F53B4(u8 *w, int p)
     int b;
     int c;
 
-    func_021F56C0(w);
-    func_021F56D8((int *)w);
+    FLD_FACEUP_SaveBgPriorities(w);
+    FLD_FACEUP_SaveVisiblePlanes((int *)w);
     ((struct Obj09918 *)w)->f8 = reg_G2_BG3CNT;
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256,
                          GX_BG_SCRBASE_0x1000, GX_BG_CHARBASE_0x04000);
     func_0207D63C(0x04000050, 8, 4, 0, 16);
-    obj = func_02188C54((u8 *)p);
-    if (func_02190378((u8 *)obj) != 0)
-        func_021904D0((u8 *)obj);
+    obj = FIELDMAP_GetMsgBg((u8 *)p);
+    if (FIELD_MSGBG_ReleaseSysFrame((u8 *)obj) != 0)
+        FIELD_MSGBG_RequestSysFrame((u8 *)obj);
     else
         func_020403F4(2);
-    tbl = d_021F58F4;
+    tbl = gFldFaceupBgTemplate;
     func_0203FCA0(2, (const struct BgTemplate *)(&tbl), 0);
     if (((struct Obj09918 *)w)->fC == 0) {
         a = 4;
@@ -137,23 +137,23 @@ void func_021F53B4(u8 *w, int p)
         b = 10;
         c = 2;
     }
-    f = func_02048F60(0xbb, a, 0x8015);
+    f = ARC_TOOL_LoadMember(0xbb, a, 0x8015);
     func_02062A4C(f, (void **)(&chr1));
     func_02040B1C(2, chr1->data, chr1->size, 0);
     func_020307B0(f);
-    f = func_02048F60(0xbb, b, 0x8015);
+    f = ARC_TOOL_LoadMember(0xbb, b, 0x8015);
     func_02062B30(f, (void **)(&scr1));
     func_020409E0(2, scr1->data, scr1->size, 0);
     func_020307B0(f);
-    f = func_02048F60(0xbb, c, 0x8015);
+    f = ARC_TOOL_LoadMember(0xbb, c, 0x8015);
     func_02062A98(f, (void **)(&plt));
     func_02040E78(2, plt->data, 0x140, 0);
     func_020307B0(f);
-    f = func_02048F60(0xbb, 7, 0x8015);
+    f = ARC_TOOL_LoadMember(0xbb, 7, 0x8015);
     func_02062A4C(f, (void **)(&chr2));
     func_02040B1C(3, chr2->data, chr2->size, 0);
     func_020307B0(f);
-    f = func_02048F60(0xbb, 11, 0x8015);
+    f = ARC_TOOL_LoadMember(0xbb, 11, 0x8015);
     func_02062B30(f, (void **)(&scr2));
     func_020409E0(3, scr2->data, scr2->size, 0);
     func_020307B0(f);

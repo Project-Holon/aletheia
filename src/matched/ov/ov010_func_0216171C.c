@@ -1,5 +1,5 @@
 /*
- * function: func_0216171C
+ * function: EVENT_FIELD_PROCLINK_FreeAnimWork
  * address: 0x0216171C
  * packet: pkt_ov010_0216171C
  * region: ov010
@@ -16,10 +16,10 @@
  */
 
 extern int func_020307B0();
-void func_0216171C(void);
+void EVENT_FIELD_PROCLINK_FreeAnimWork(void);
 
 /* Thumb tail call into the ARM function func_020307B0: ldr r3,[pc]; bx r3. */
-void func_0216171C(void)
+void EVENT_FIELD_PROCLINK_FreeAnimWork(void)
 {
     func_020307B0();
 }

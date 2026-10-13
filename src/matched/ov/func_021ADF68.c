@@ -1,5 +1,5 @@
 /*
- * function: func_021ADF68
+ * function: FLDEFF_FISHING_FreeResources
  * address:  0x021ADF68
  * packet:   pkt_021ADF68
  * region:   ov021
@@ -12,11 +12,11 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02047738  0x02047738  arm
- *   func_0204762C  0x0204762C  arm
- *   func_02047504  0x02047504  arm
- *   func_02046EFC  0x02046EFC  arm
- *   func_020470D0  0x020470D0  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04889.h"
@@ -26,20 +26,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02046EFC(u32);
+extern u32 G3D_SYSTEM_DeleteResource(u32);
 struct Rec;
-extern int func_020470D0(u32 *p);
-extern void func_02047504(struct Rec *p);
-extern void func_0204762C(struct Rec *p);
-extern void func_02047738(struct Rec *p);
+extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
+extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
+extern void G3D_SYSTEM_DeleteAnime(struct Rec *p);
+extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
 
-int func_021ADF68(void *a)
+int FLDEFF_FISHING_FreeResources(void *a)
 {
-func_02047738((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->fC));
-func_0204762C((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->f10));
-func_02047504((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->f14));
-func_02046EFC(((struct Obj04889 *)((u8 *)(a)))->f8);
-func_020470D0((u32 *)(((struct Obj04889 *)((u8 *)(a)))->f4));
-return func_02046EFC(((struct Obj04889 *)((u8 *)(a)))->f4);
+G3D_SYSTEM_DeleteObject((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->fC));
+G3D_SYSTEM_DeleteAnime((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->f10));
+G3D_SYSTEM_DeleteRender((struct Rec *)(((struct Obj04889 *)((u8 *)(a)))->f14));
+G3D_SYSTEM_DeleteResource(((struct Obj04889 *)((u8 *)(a)))->f8);
+G3D_SYSTEM_FreeVramTexture((u32 *)(((struct Obj04889 *)((u8 *)(a)))->f4));
+return G3D_SYSTEM_DeleteResource(((struct Obj04889 *)((u8 *)(a)))->f4);
 }
 

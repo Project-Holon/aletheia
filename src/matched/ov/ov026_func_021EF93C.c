@@ -1,5 +1,5 @@
 /*
- * function: func_021EF93C
+ * function: WEATHER_STORM_ResetThunderTimer
  * address: 0x021EF93C
  * packet: pkt_ov026_021EF93C
  * region: ov026
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 typedef short s16;
 extern u32 func_020056EC(u32);
-void func_021EF93C(s16 *p)
+void WEATHER_STORM_ResetThunderTimer(s16 *p)
 {
     p[9] = 0;
     p[10] = func_020056EC(16) + 50;

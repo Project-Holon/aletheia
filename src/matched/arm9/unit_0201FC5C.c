@@ -11,7 +11,7 @@
  * function: BMP_MENU_DrawItems, BMP_MENU_DrawCursor, BMP_MENU_GetItemPixelPos
  * symbols:
  *   func_02045770   0x02045770  arm
- *   func_02043B5C   0x02043B5C  arm
+ *   BMP_Clear   0x02043B5C  arm
  *   func_0201C6FC   0x0201C6FC  thumb
  *   BMP_CURSOR_Draw   0x02020D5C  thumb
  *   _s32_div_f      0x0209C0A4  arm
@@ -32,7 +32,7 @@
  *    quotient in r0 and the remainder in r1: the "unexplained" r1 of the
  *    second call in BMP_MENU_GetItemPixelPos is `pos % ymax`, not a register tie
  *    (docs/idioms/div-and-mod-are-two-calls.md).
- *  - header byte +0x0B is three UNSIGNED bitfields 4:2:2 (func_0201FDA0
+ *  - header byte +0x0B is three UNSIGNED bitfields 4:2:2 (BMP_MENU_CreateYesNo
  *    writes them with 0x0F / 0x30 / 0xC0 masks); an unsigned field gives the
  *    `lsrs` BMP_MENU_DrawCursor needs where a shift expression gave `asrs`.
  *  - the print call is an inline taking the util handle first, which is what
@@ -97,7 +97,7 @@ typedef struct {
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Desc;
 struct Handle;
 struct PrintSys;
@@ -117,7 +117,7 @@ void BMP_MENU_DrawItems(BmpMenu *m)
     u8 i, j;
     u8 x, step;
 
-    func_02043B5C(func_02045770(m->hdr.win), 0xFF);
+    BMP_Clear(func_02045770(m->hdr.win), 0xFF);
     x = m->px;
     step = m->width + m->xspc * 2;
     for (i = 0; i < m->hdr.xmax; i++) {

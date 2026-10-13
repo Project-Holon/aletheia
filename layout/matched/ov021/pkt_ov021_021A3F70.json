@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A3F70",
+   "name": "FIELD_PLAYER_CORE_FormStepSlot5",
    "address": "0x021A3F70",
    "kind": "game",
    "region": "ov021",

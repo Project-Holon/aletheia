@@ -1,5 +1,5 @@
 /*
- * function: func_0216B7B0
+ * function: FIELD_G3D_MAP_CmdSetSurveyAnswer
  * address:  0x0216B7B0
  * packet:   pkt_ov010_0216B7B0
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E394  0x0200E394  thumb
  *   func_0200E3A0  0x0200E3A0  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_0200E3E8  0x0200E3E8  thumb
  *   GAME_BEACON_SetQuestionnaire  0x02027100  thumb
  */
@@ -26,25 +26,25 @@ typedef unsigned int u32;
 
 struct Big;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02012EBC(struct Big *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E394(void *a0);
 extern void *func_0200E3A0(void *a);
-extern unsigned int func_02159B10(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void func_0200E3E8(u8 *bits, int id, u32 value);
 extern void GAME_BEACON_SetQuestionnaire(const void *src);
 
-int func_0216B7B0(int c, int vm)
+int FIELD_G3D_MAP_CmdSetSurveyAnswer(int c, int vm)
 {
     void *r6;
     int a;
     int b;
 
-    func_0215A5F4((void *)vm);
-    r6 = func_0200E3A0(func_0200E394(func_02012EBC((struct Big *)func_0215A5E4((void *)vm))));
-    a = func_02159B10((void *)c, (void *)vm);
-    b = func_02159B10((void *)c, (void *)vm);
+    SCRCMD_WORK_GetScriptWork((void *)vm);
+    r6 = func_0200E3A0(func_0200E394(GAME_DATA_GetSaveControl((struct Big *)SCRCMD_WORK_GetGameData((void *)vm))));
+    a = SCRIPT_WORK_ReadWorkValue((void *)c, (void *)vm);
+    b = SCRIPT_WORK_ReadWorkValue((void *)c, (void *)vm);
     func_0200E3E8(r6, (u8)a, b);
     GAME_BEACON_SetQuestionnaire(r6);
     return 0;

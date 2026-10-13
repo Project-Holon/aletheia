@@ -1,5 +1,5 @@
 /*
- * function: func_0216AF1C
+ * function: SCRCMD_SYMBOL_CreateObjectPokemon
  * address:  0x0216AF1C
  * packet:   pkt_0216AF1C
  * region:   ov010
@@ -13,24 +13,24 @@
  * the fourth argument.
  *
  * symbols:
- *   func_0215A5E4   0x0215A5E4  thumb  ov010
- *   func_0217C274   0x0217C274  thumb
- *   func_0217C2A0   0x0217C2A0  thumb
+ *   SCRCMD_WORK_GetGameData   0x0215A5E4  thumb  ov010
+ *   INTRUDE_FIELD_GetMmdlParamPair   0x0217C274  thumb
+ *   INTRUDE_FIELD_CreateSymbolMon   0x0217C2A0  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
-extern void func_0217C274(void *, void *);
-extern void func_0217C2A0(int, void *, void *);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void INTRUDE_FIELD_GetMmdlParamPair(void *, void *);
+extern void INTRUDE_FIELD_CreateSymbolMon(int, void *, void *);
 
-void func_0216AF1C(void *a0, void *a1, void *a2, void *a3)
+void SCRCMD_SYMBOL_CreateObjectPokemon(void *a0, void *a1, void *a2, void *a3)
 {
-    void *v = func_0215A5E4(a0);
+    void *v = SCRCMD_WORK_GetGameData(a0);
 
-    func_0217C274(a3, a1);
-    func_0217C2A0(4, v, a3);
+    INTRUDE_FIELD_GetMmdlParamPair(a3, a1);
+    INTRUDE_FIELD_CreateSymbolMon(4, v, a3);
 }
 

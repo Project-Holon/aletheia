@@ -1,5 +1,5 @@
 /*
- * function: func_021CEAF8
+ * function: COMM_ENTRY_MENU_GetNameBuffer
  * address: 0x021CEAF8
  * packet: pkt_ov021_021CEAF8
  * region: ov021
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned char u8;
-void *func_021CEAF8(u8 *p);
+void *COMM_ENTRY_MENU_GetNameBuffer(u8 *p);
 
-void *func_021CEAF8(u8 *p)
+void *COMM_ENTRY_MENU_GetNameBuffer(u8 *p)
 {
     return p + 0x494;
 }

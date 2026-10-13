@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: FIELD_SOUND_SYSTEM_ChangeTask, func_020298A0
+ * function: FIELD_SOUND_SYSTEM_ChangeTask, FIELD_SOUND_SYSTEM_StartChangeTask
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  The body issues one command 5 carrying all three stored parameters.
@@ -24,6 +24,8 @@
  *
  * symbols:
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  */
 
 typedef unsigned short u16;
@@ -61,19 +63,19 @@ u32 FIELD_SOUND_SYSTEM_ChangeTask(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
-extern unsigned int func_02012A30(const struct BigObj *a);
+extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *a);
 
-void *func_020298A0(void *a, u32 b, u32 c, u32 d)
+void *FIELD_SOUND_SYSTEM_StartChangeTask(void *a, u32 b, u32 c, u32 d)
 {
-    void *x = func_020120F4(a);
+    void *x = GAMESYSTEM_GetGameData(a);
     void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_ChangeTask, 0x10);
     struct Work *work = func_020124E8(task);
 
-    work->unk04 = (void *)func_02012A30(x);
+    work->unk04 = (void *)GAME_DATA_GetBgmInfo(x);
     work->unk08 = b;
     work->unk0C = d;
     work->unk0E = c;

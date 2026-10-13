@@ -1,5 +1,5 @@
 /*
- * function: func_021A8FFC
+ * function: FIELD_MENU_HandleTouch
  * address:  0x021A8FFC
  * packet:   pkt_ov021_021A8FFC
  * region:   ov021
@@ -11,11 +11,11 @@
  *
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_020355D8  0x020355D8  arm
- *   func_021A90A4  0x021A90A4  thumb  ov021
- *   d_021D8C2C     0x021D8C2C  data  ov021  a1
+ *   FIELD_MENU_StartLeave  0x021A90A4  thumb  ov021
+ *   gFieldMenuTouchTable     0x021D8C2C  data  ov021  a1
  * Addresses are Black-image addresses.
  */
 
@@ -53,18 +53,18 @@ struct Buf32 {
     u8 b[32];
 };
 
-extern struct Buf32 d_021D8C2C;
+extern struct Buf32 gFieldMenuTouchTable;
 
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020355D8(u8 v);
-extern void func_021A90A4(struct W *w, u32 v);
+extern void FIELD_MENU_StartLeave(struct W *w, u32 v);
 
-void func_021A8FFC(struct W *w)
+void FIELD_MENU_HandleTouch(struct W *w)
 {
-    struct Buf32 buf = d_021D8C2C;
-    int r = func_02035C08(&buf);
+    struct Buf32 buf = gFieldMenuTouchTable;
+    int r = TOUCHPANEL_HitTrg(&buf);
     u32 z;
 
     if (r != -1 && w->slots[r].f08 != 7) {
@@ -74,11 +74,11 @@ void func_021A8FFC(struct W *w)
         w->f2C = z;
         func_0204B3DC(w->f124, 0);
         if (r == 6) {
-            func_021A90A4(w, 1);
+            FIELD_MENU_StartLeave(w, 1);
             return;
         }
         w->f24 = 1;
-        func_021A90A4(w, z);
+        FIELD_MENU_StartLeave(w, z);
         func_020355D8(1);
     }
 }

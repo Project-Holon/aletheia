@@ -1,5 +1,5 @@
 /*
- * function: func_021B9464
+ * function: FIELD_RAIL_CLOSED_Clear
  * address:  0x021B9464
  * packet:   pkt_ov021_021B9464
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-u16 *func_021B9464(u16 *p)
+u16 *FIELD_RAIL_CLOSED_Clear(u16 *p)
 {
     int i;
 

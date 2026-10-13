@@ -13,18 +13,18 @@
  * symbols:
  *   func_021B9944 0x021B9944 thumb ov218
  *   func_021B9C74 0x021B9C74 thumb ov218
- *   func_021B61F8 0x021B61F8 thumb ov067
+ *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
  */
 #include "../include/Obj26048.h"
 extern void func_021B9944(void);
 typedef unsigned char  u8;
 extern void func_021B9C74(u8 *p);
-extern void func_021B61F8(unsigned char *task, int value);
+extern void UI_SCENE_SetNextScene(unsigned char *task, int value);
 int func_021BA21C(unsigned char *task, char *ctx)
 {
     func_021B9944();
     func_021B9C74(((struct Obj26048 *)ctx)->f28);
-    func_021B61F8(task, 0);
+    UI_SCENE_SetNextScene(task, 0);
     return 1;
 }
 void func_021BA238(void)

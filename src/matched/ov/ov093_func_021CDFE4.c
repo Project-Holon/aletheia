@@ -1,5 +1,5 @@
 /*
- * function: func_021CDFE4
+ * function: BTL_CLIENT_PickWindowMode
  * address:  0x021CDFE4
  * packet:   pkt_ov093_021CDFE4
  * region:   ov093
@@ -24,7 +24,7 @@ typedef unsigned long long u64;
 
 extern u32 func_0203F0A8(void);
 
-u32 func_021CDFE4(u32 mode)
+u32 BTL_CLIENT_PickWindowMode(u32 mode)
 {
     u32 v;
     int t;

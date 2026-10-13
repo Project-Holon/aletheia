@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219390C",
+   "name": "FIELD_WFBC_GetPeople",
    "address": "0x0219390C",
    "kind": "game",
    "region": "ov021",

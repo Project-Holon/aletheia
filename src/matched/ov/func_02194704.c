@@ -1,5 +1,5 @@
 /*
- * function: func_02194704
+ * function: TALKMSGWIN_LoadTexture
  * address:  0x02194704
  * packet:   pkt_02194704
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_02195530 with no argument change.
+ * Tail-call thunk: forwards to TALKMSGWIN_UploadTexture with no argument change.
  *
  * symbols:
- *   func_02195530  0x02195530  thumb
+ *   TALKMSGWIN_UploadTexture  0x02195530  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02195530(char *p);
+extern void TALKMSGWIN_UploadTexture(char *p);
 
-void func_02194704(char *a0)
+void TALKMSGWIN_LoadTexture(char *a0)
 {
-    func_02195530(a0);
+    TALKMSGWIN_UploadTexture(a0);
 }

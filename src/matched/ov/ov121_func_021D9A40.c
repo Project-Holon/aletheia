@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020452E8  0x020452E8  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  *
  * Addresses are Black-image addresses.
@@ -26,12 +26,12 @@ typedef signed int     s32;
 struct Descriptor;
 struct U16Vec;
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 
 void func_021D9A40(u8 *p)
 {
     func_020452E8(((struct Obj13950 *)p)->fC);
-    func_02045808(((struct Obj13950 *)p)->f10);
+    STRBUF_Delete(((struct Obj13950 *)p)->f10);
     func_020307B0(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD59C
+ * function: PLIST_BATTLE_CreateTimerWindows
  * address:  0x021BD59C
  * packet:   pkt_ov091_021BD59C
  * region:   ov091
@@ -10,34 +10,34 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020450F0  0x020450F0  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045770  0x02045770  arm
- *   func_02045808  0x02045808  arm
- *   func_0201C724  0x0201C724  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  */
 #include "../include/Obj04353.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned short u16;
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void func_021BD59C(char *p)
+void PLIST_BATTLE_CreateTimerWindows(char *p)
 {
     int s;
-    ((struct Obj04353 *)p)->f1FC = func_020450F0(4, 7, 0x15, 0xB, 3, 0xE, 1);
-    ((struct Obj04353 *)p)->f200 = func_020450F0(4, 0x14, 0x15, 5, 3, 0xE, 1);
+    ((struct Obj04353 *)p)->f1FC = BMP_WIN_Create(4, 7, 0x15, 0xB, 3, 0xE, 1);
+    ((struct Obj04353 *)p)->f200 = BMP_WIN_Create(4, 0x14, 0x15, 5, 3, 0xE, 1);
     s = (int)func_02045EC0((struct MsgBank *)(((struct Obj04353 *)p)->f134), 0xAD);
-    func_0201C724((void *)(((struct Obj04353 *)p)->f140), (int)func_02045770((struct Descriptor *)((struct Obj04353 *)p)->f1FC), 0, 4, s,
+    PRINTSYS_PrintQueColor((void *)(((struct Obj04353 *)p)->f140), (int)func_02045770((struct Descriptor *)((struct Obj04353 *)p)->f1FC), 0, 4, s,
                   ((struct Obj04353 *)p)->f138, 0x3C40);
-    func_02045808((struct U16Vec *)s);
+    STRBUF_Delete((struct U16Vec *)s);
     ((struct Obj04353 *)p)->f204 = 1;
 }

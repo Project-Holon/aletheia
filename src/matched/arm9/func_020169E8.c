@@ -13,6 +13,7 @@
  *   data_020A72CC  0x020A72CC  data
  *   MCSS_TransPaletteTask  0x0201691C  thumb
  *   MCSS_DeletePaletteTask  0x02016C38  thumb
+ *   PALANM_BlendColors  0x02021F64  thumb
  *
  * Closed in the second pass (2026-09-22) from the 4-byte near miss in
  * docs/notes/MCSS_UpdatePaletteFade.c.txt.  The residue was NOT the pool-word
@@ -44,7 +45,7 @@ typedef signed int     s32;
 
 struct Obj_0201691C;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02021F64(void *a, void *b, u16 c, u8 d, u16 e);
+extern void PALANM_BlendColors(void *a, void *b, u16 c, u8 d, u16 e);
 extern int MCSS_DeletePaletteTask(int a0);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
@@ -103,11 +104,11 @@ void MCSS_UpdatePaletteFade(u8 *a0, u8 *a1)
     p->f04->f0c = func_02030734((u16)(((u16)((struct Obj00353 *)a1)->f14C & 0x7FFF) | 0x8000), ((struct Obj00353 *)a1)->fDC, 0, data_020A72CC, 0x9A9 + 5);
 
     if ((((struct Obj00353 *)a1)->f140 << 3) >> 0x1F) {
-        func_02021F64(((struct Obj00353 *)a1)->fD8, p->f04->f0c,
+        PALANM_BlendColors(((struct Obj00353 *)a1)->fD8, p->f04->f0c,
                       ((s32)((struct Obj00353 *)a1)->fDC / 2),
                       *(u8 *)&((struct Obj00353 *)a1)->f134, (u16)((struct Obj00353 *)a1)->f13C);
     } else {
-        func_02021F64(((struct Obj00353 *)a1)->fD4, p->f04->f0c,
+        PALANM_BlendColors(((struct Obj00353 *)a1)->fD4, p->f04->f0c,
                       ((s32)((struct Obj00353 *)a1)->fDC / 2),
                       *(u8 *)&((struct Obj00353 *)a1)->f134, (u16)((struct Obj00353 *)a1)->f13C);
     }

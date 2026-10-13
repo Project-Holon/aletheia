@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Build the unit table of a block: n = func_02049030(0x93) members, the
+ * Build the unit table of a block: n = ARC_TOOL_GetArchiveFileCount(0x93) members, the
  * count stored at +4, an n-word pointer array allocated from heapId at +8
  * (file word 0x020A7758, line 0x13A), then one unit per slot from
  * ISS_SWITCH_SET_Create(heapId), initialised by ISS_SWITCH_SET_Load(unit, i, heapId).
@@ -28,6 +28,7 @@
  * symbols:
  *   ISS_SWITCH_SET_Create  0x0202C2EC  thumb
  *   ISS_SWITCH_SET_Load  0x0202C318  thumb
+ *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  */
 #include "../include/Obj04107.h"
 
@@ -35,7 +36,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02049030(u32 a);
+extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 ISS_SWITCH_SET_Create(void *heap);
 extern void  ISS_SWITCH_SET_Load(u8 *unit, u32 i, u16 heapId);
@@ -45,7 +46,7 @@ void ISS_SWITCH_SYS_CreateSets(u8 *p, u16 heapId)
     u32 i;
     int n;
 
-    n = func_02049030(0x93);
+    n = ARC_TOOL_GetArchiveFileCount(0x93);
     p[4] = (u8)n;
     ((struct Obj04107 *)p)->f8 = (u32)func_02030734(heapId, (u32)(n << 2), 0,
                                          (const void *)0x020A7758, 0x13a);

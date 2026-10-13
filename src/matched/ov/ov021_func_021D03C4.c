@@ -1,5 +1,5 @@
 /*
- * function: func_021D03C4
+ * function: FLDEFF_HIDE_LoadResources
  * address:  0x021D03C4
  * packet:   pkt_ov021_021D03C4
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C6AE0  0x021C6AE0  thumb  ov021
- *   func_021C6AF0  0x021C6AF0  thumb  ov021
- *   func_021C6AF8  0x021C6AF8  thumb  ov021
- *   func_021C6AFC  0x021C6AFC  thumb  ov021
- *   func_021C6574  0x021C6574  thumb  ov021
- *   func_021C6590  0x021C6590  thumb  ov021
- *   func_021C67D8  0x021C67D8  thumb  ov021
- *   data_021DB92C  0x021DB92C  data  ov021  a2
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_InitResDesc  0x021C6AE0  thumb  ov021
+ *   FIELD_G3DOBJ_SetResDescModel  0x021C6AF0  thumb  ov021
+ *   FIELD_G3DOBJ_SetResDescAnimeArc  0x021C6AF8  thumb  ov021
+ *   FIELD_G3DOBJ_AddResDescAnimeFile  0x021C6AFC  thumb  ov021
+ *   FIELD_G3DOBJ_AddResourceDefaultPal  0x021C6574  thumb  ov021
+ *   FIELD_G3DOBJ_AddObject  0x021C6590  thumb  ov021
+ *   FIELD_G3DOBJ_SetObjectManualDraw  0x021C67D8  thumb  ov021
+ *   sHideFiles  0x021DB92C  data  ov021  a2
  * Addresses are Black-image addresses.
  */
 
@@ -38,37 +38,37 @@ typedef struct W {
 } W;
 
 typedef unsigned char  u8;
-extern u32 func_021ABE24(u8 *p);
-extern u32 func_021ABE18(u8 *p);
-extern void func_021C6AE0(u32 a);
-extern int func_021C6AF0(u32 a, u32 b, u32 c);
-extern void func_021C6AF8(u32 *p, u32 v);
-extern void func_021C6AFC(u32 *, u16);
-extern int func_021C6574(u32 a, u32 b, u32 c);
-extern u16 func_021C6590(u32, u32, u32, u32);
-extern void func_021C67D8(u32, u32, u32);
-extern const T data_021DB92C[];
+extern u32 FIELD_EFFECT_GetArcHandle(u8 *p);
+extern u32 FIELD_EFFECT_GetFieldMapData(u8 *p);
+extern void FIELD_G3DOBJ_InitResDesc(u32 a);
+extern int FIELD_G3DOBJ_SetResDescModel(u32 a, u32 b, u32 c);
+extern void FIELD_G3DOBJ_SetResDescAnimeArc(u32 *p, u32 v);
+extern void FIELD_G3DOBJ_AddResDescAnimeFile(u32 *, u16);
+extern int FIELD_G3DOBJ_AddResourceDefaultPal(u32 a, u32 b, u32 c);
+extern u16 FIELD_G3DOBJ_AddObject(u32, u32, u32, u32);
+extern void FIELD_G3DOBJ_SetObjectManualDraw(u32, u32, u32);
+extern const T sHideFiles[];
 
-void func_021D03C4(W *p)
+void FLDEFF_HIDE_LoadResources(W *p)
 {
     u32 buf[9];
     u32 k;
     u32 h;
     int i = 0;
-    const T *t = data_021DB92C;
+    const T *t = sHideFiles;
     u16 *hp = (u16 *)p;
     u16 *q;
 
-    k = func_021ABE24((u8 *)p->f4);
-    h = func_021ABE18((u8 *)p->f4);
+    k = FIELD_EFFECT_GetArcHandle((u8 *)p->f4);
+    h = FIELD_EFFECT_GetFieldMapData((u8 *)p->f4);
     for (; i < 2; i++, t++) {
-        func_021C6AE0((u32)buf);
-        func_021C6AF0((u32)buf, k, t->a);
-        func_021C6AF8((u32 *)buf, k);
-        func_021C6AFC(buf, t->b);
+        FIELD_G3DOBJ_InitResDesc((u32)buf);
+        FIELD_G3DOBJ_SetResDescModel((u32)buf, k, t->a);
+        FIELD_G3DOBJ_SetResDescAnimeArc((u32 *)buf, k);
+        FIELD_G3DOBJ_AddResDescAnimeFile(buf, t->b);
         q = hp + i;
-        hp[i] = func_021C6574(h, (u32)buf, 0);
-        q[4] = func_021C6590(h, hp[i], 0, 0);
-        func_021C67D8(h, q[4], 1);
+        hp[i] = FIELD_G3DOBJ_AddResourceDefaultPal(h, (u32)buf, 0);
+        q[4] = FIELD_G3DOBJ_AddObject(h, hp[i], 0, 0);
+        FIELD_G3DOBJ_SetObjectManualDraw(h, q[4], 1);
     }
 }

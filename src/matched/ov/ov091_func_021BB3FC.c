@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3FC
+ * function: PLIST_PLATE_GetTouchRect
  * address:  0x021BB3FC
  * packet:   pkt_ov091_021BB3FC
  * region:   ov091
@@ -9,21 +9,21 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   d_021BEC74  0x021BEC74  data  ov091  a1
- *   d_021BEC75  0x021BEC75  data  ov091  a1
+ *   gPlistPlateTileX  0x021BEC74  data  ov091  a1
+ *   gPlistPlateTileY  0x021BEC75  data  ov091  a1
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 d_021BEC74[];
-extern u8 d_021BEC75[];
+extern u8 gPlistPlateTileX[];
+extern u8 gPlistPlateTileY[];
 
-void func_021BB3FC(int unused, u8 *s, u8 *out)
+void PLIST_PLATE_GetTouchRect(int unused, u8 *s, u8 *out)
 {
-    out[2] = d_021BEC74[s[4] * 2] << 3;
-    out[0] = d_021BEC75[s[4] * 2] << 3;
-    out[3] = (d_021BEC74[s[4] * 2] + 16) << 3;
-    out[1] = (d_021BEC75[s[4] * 2] + 6) << 3;
+    out[2] = gPlistPlateTileX[s[4] * 2] << 3;
+    out[0] = gPlistPlateTileY[s[4] * 2] << 3;
+    out[3] = (gPlistPlateTileX[s[4] * 2] + 16) << 3;
+    out[1] = (gPlistPlateTileY[s[4] * 2] + 6) << 3;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EE224
+ * function: BTLV_SCU_NoOp
  * address:  0x021EE224
  * packet:   pkt_021EE224
  * region:   ov093
@@ -12,6 +12,6 @@
  *           trailing alignment padding, no byte difference.
  */
 
-void func_021EE224(char *p)
+void BTLV_SCU_NoOp(char *p)
 {
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AF4E8
+ * function: SCRCMD_PokeVoiceEvent
  * address:  0x021AF4E8
  * packet:   pkt_ov021_021AF4E8
  * region:   ov021
@@ -12,8 +12,8 @@
  * symbols:
  *   func_02005C64  0x02005C64  thumb
  *   func_02006CAC  0x02006CAC  thumb
- *   func_02006984  0x02006984  thumb
- *   func_0215A6B8  0x0215A6B8  thumb  ov010
+ *   PM_VOICE_Play  0x02006984  thumb
+ *   SCRCMD_WORK_SetFadeParam  0x0215A6B8  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -29,10 +29,10 @@ typedef struct {
 
 extern int func_02005C64(void);
 extern void func_02006CAC(void **out);
-extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
-extern void func_0215A6B8(u32 *a, u32 b);
+extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+extern void SCRCMD_WORK_SetFadeParam(u32 *a, u32 b);
 
-int func_021AF4E8(u32 a, u32 b, Rec *c)
+int SCRCMD_PokeVoiceEvent(u32 a, u32 b, Rec *c)
 {
     u32 v, r;
 
@@ -44,10 +44,10 @@ int func_021AF4E8(u32 a, u32 b, Rec *c)
         y = c->b;
         x = c->a;
         func_02006CAC((void **)(&v));
-        r = func_02006984(x, y, 0x40, 0, 0, 0, 0, (u32)(&v));
+        r = PM_VOICE_Play(x, y, 0x40, 0, 0, 0, 0, (u32)(&v));
     } else {
-        r = func_02006984(c->a, c->b, 0x40, 0, 0, 0, 0, 0);
+        r = PM_VOICE_Play(c->a, c->b, 0x40, 0, 0, 0, 0, 0);
     }
-    func_0215A6B8((u32 *)c->f8, r);
+    SCRCMD_WORK_SetFadeParam((u32 *)c->f8, r);
     return 1;
 }

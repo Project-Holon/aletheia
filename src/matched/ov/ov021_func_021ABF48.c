@@ -1,5 +1,5 @@
 /*
- * function: func_021ABF48
+ * function: FIELD_EFFECT_GetResourceDef
  * address:  0x021ABF48
  * packet:   pkt_ov021_021ABF48
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D8F60  0x021D8F60  data  a4
+ *   gFieldEffectResourceDefs  0x021D8F60  data  a4
  */
 
 typedef unsigned short u16;
@@ -36,12 +36,12 @@ struct T {
     E *f10;
 };
 
-extern D d_021D8F60[];
+extern D gFieldEffectResourceDefs[];
 
-D *func_021ABF48(int id)
+D *FIELD_EFFECT_GetResourceDef(int id)
 {
     int i;
-    D *d = d_021D8F60;
+    D *d = gFieldEffectResourceDefs;
     for (i = 0; i < 0x18; i++) {
         if (d->id == id) {
             return d;

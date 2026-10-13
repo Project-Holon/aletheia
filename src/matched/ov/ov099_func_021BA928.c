@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020286C4  0x020286C4  thumb
+ *   APP_KEYCURSOR_Update  0x020286C4  thumb
  *   func_02028484  0x02028484  thumb
  *   func_0201CE48  0x0201CE48  thumb
  */
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned long  u32;
 
 struct Ctx;
-extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 typedef signed int     s32;
 struct Blk;
 extern s32 func_02028484(struct Blk *blk, void *h);
@@ -41,7 +41,7 @@ int func_021BA928(W *w)
     int r = 1;
     if (w->f1bc != 0) {
         if (w->f190 != 0) {
-            func_020286C4(w->f9b0, w->f1bc, (void *)w->f190);
+            APP_KEYCURSOR_Update(w->f9b0, w->f1bc, (void *)w->f190);
         }
         r = func_02028484((struct Blk *)w->f26c, w->f1bc);
         if (r != 0 && w->f1bc != 0) {

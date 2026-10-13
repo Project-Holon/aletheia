@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD34
+ * function: ENTRANCE_CAMERA_Restore
  * address:  0x021BDD34
  * packet:   pkt_021BDD34
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x54.
  *
  * symbols:
- *   func_0218FF20  0x0218FF20  thumb
+ *   FIELD_CAMERA_ANIME_Restore  0x0218FF20  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0218FF20(u8 *a);
+extern void FIELD_CAMERA_ANIME_Restore(u8 *a);
 
-void func_021BDD34(u8 *p)
+void ENTRANCE_CAMERA_Restore(u8 *p)
 {
-    func_0218FF20((u8 *)(((struct Obj18252 *)p)->f54));
+    FIELD_CAMERA_ANIME_Restore((u8 *)(((struct Obj18252 *)p)->f54));
 }

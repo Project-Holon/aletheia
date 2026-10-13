@@ -1,5 +1,5 @@
 /*
- * function: func_021B69AC
+ * function: MONOLITH_TOOL_LoadSlotRecords
  * address:  0x021B69AC
  * packet:   pkt_ov071_021B69AC
  * region:   ov071
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * When b[0x3D] is set, copies six 24-byte records from the table
- * func_02048F60(0x25, 0, 0x61) into a+0x60, indexed by b[4..9] (an index
- * past func_020490A8's count reads record 0), then frees the table.
+ * ARC_TOOL_LoadMember(0x25, 0, 0x61) into a+0x60, indexed by b[4..9] (an index
+ * past ARC_TOOL_GetMemberSize's count reads record 0), then frees the table.
  * The loop counter is enum-typed: with an int counter mwcc knows it is zero
  * at the loop and drops the rotation's entry guard (cmp r5,#6; bge), 4 bytes
  * short; an enum-typed counter is not folded (see
@@ -19,8 +19,8 @@
  * The listing's extent includes 2 bytes of alignment padding (EXACT*).
  *
  * symbols:
- *   func_02048F60  0x02048F60  arm
- *   func_020490A8  0x020490A8  arm
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -33,11 +33,11 @@ struct E24 {
     int w[6];
 };
 
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern u32 func_020490A8(u32 a, u32 b);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
+extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern u32 func_020307B0(void *p);
 
-void func_021B69AC(u8 *a, u8 *b)
+void MONOLITH_TOOL_LoadSlotRecords(u8 *a, u8 *b)
 {
     struct E24 *tbl;
     u32 n;
@@ -45,8 +45,8 @@ void func_021B69AC(u8 *a, u8 *b)
     Idx i;
 
     if (b[0x3d] != 0) {
-        tbl = func_02048F60(0x25, 0, 0x61);
-        n = func_020490A8(0x25, 0);
+        tbl = ARC_TOOL_LoadMember(0x25, 0, 0x61);
+        n = ARC_TOOL_GetMemberSize(0x25, 0);
         for (i = IDX_FIRST; i < IDX_COUNT; i++) {
             idx = b[4 + i];
             if (idx >= n) {

@@ -12,8 +12,8 @@
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_02087C6C  0x02087C6C  arm
- *   func_020399A8  0x020399A8  arm
- *   func_0203D4D0  0x0203D4D0  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendDataMask  0x0203D4D0  arm
  */
 
 typedef struct { int w[8]; } B32;
@@ -22,9 +22,9 @@ typedef struct { B32 a; unsigned char t[8]; } Msg;
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02087C6C(void *p);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern u32 GFL_NET_SendDataMask(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 void UNION_COMMAND_SendAppJoinData(int a, B32 *src)
 {
@@ -33,5 +33,5 @@ void UNION_COMMAND_SendAppJoinData(int a, B32 *src)
     func_02082BCC(&m, 0, 0x28);
     m.a = *src;
     func_02087C6C(m.t);
-    func_0203D4D0((int)func_020399A8(), a, 0x1411, 0x28, (u32)(&m), 1, 0, 0);
+    GFL_NET_SendDataMask((int)GFL_NET_HANDLE_GetCurrentHandle(), a, 0x1411, 0x28, (u32)(&m), 1, 0, 0);
 }

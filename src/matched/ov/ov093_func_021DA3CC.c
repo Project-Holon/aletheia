@@ -1,5 +1,5 @@
 /*
- * function: func_021DA3CC
+ * function: HAND_TOKUSEI_AddDownload
  * address: 0x021DA3CC
  * packet: pkt_ov093_021DA3CC
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F0970[];
-int *func_021DA3CC(int *p);
+int *HAND_TOKUSEI_AddDownload(int *p);
 
-int *func_021DA3CC(int *p)
+int *HAND_TOKUSEI_AddDownload(int *p)
 {
     *p = 2;
     return d_021F0970;

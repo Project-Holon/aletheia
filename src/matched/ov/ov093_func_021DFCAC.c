@@ -1,5 +1,5 @@
 /*
- * function: func_021DFCAC
+ * function: BTL_HANDLER_ITEM_GetRingTargetHandlers
  * address: 0x021DFCAC
  * packet: pkt_ov093_021DFCAC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFABC.c and filed here.
  *
  * symbols:
- *   d_021F14BC 0x021F14BC data ov093 a4
+ *   gBtlHandlerItemRingTargetHandlers 0x021F14BC data ov093 a4
  */
 
-int *func_021DFCAC(int *p);
-extern int d_021F14BC[];
+int *BTL_HANDLER_ITEM_GetRingTargetHandlers(int *p);
+extern int gBtlHandlerItemRingTargetHandlers[];
 
-int *func_021DFCAC(int *p)
+int *BTL_HANDLER_ITEM_GetRingTargetHandlers(int *p)
 {
     *p = 1;
-    return d_021F14BC;
+    return gBtlHandlerItemRingTargetHandlers;
 }

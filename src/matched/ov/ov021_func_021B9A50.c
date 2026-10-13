@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A50
+ * function: FIELD_RAIL_SlerpDir
  * address:  0x021B9A50
  * packet:   pkt_ov021_021B9A50
  * region:   ov021
@@ -22,7 +22,7 @@
  *   FX_AcosIdx       0x0207D184  arm
  *   FX_Div           0x0207C768  arm
  *   VEC_Add          0x0207C9D0  arm
- *   func_020520A4    0x020520A4  arm
+ *   BUTTON_MAN_ScaleVec    0x020520A4  arm
  *   _ll_mul          0x0209C054  arm
  *   d_020A1B38       0x020A1B38  data   a2
  * Addresses are Black-image addresses.
@@ -37,7 +37,7 @@ extern u16 FX_AcosIdx(int x);
 extern int FX_Div(int n, int d);
 extern void VEC_Add(V *a, V *b, V *o);
 struct Vec3;
-extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *dst);
+extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 extern u16 d_020A1B38[];
 
 #define FX32_ONE ((int)0x00001000L)
@@ -47,7 +47,7 @@ static inline int FX_Mul(int a, int b)
     return (int)(((long long)a * b + (FX32_ONE >> 1)) >> 12);
 }
 
-void func_021B9A50(V *out, V *a, V *b, int t)
+void FIELD_RAIL_SlerpDir(V *out, V *a, V *b, int t)
 {
     V na;
     V nb;
@@ -64,8 +64,8 @@ void func_021B9A50(V *out, V *a, V *b, int t)
         return;
     }
     aw = w << 12;
-    func_020520A4((const struct Vec3 *)(&na), FX_Div(d_020A1B38[(FX_Mul(aw, FX32_ONE - t) >> 16) * 2], s), (struct Vec3 *)(&na));
-    func_020520A4((const struct Vec3 *)(&nb), FX_Div(d_020A1B38[(FX_Mul(aw, t) >> 16) * 2], s), (struct Vec3 *)(&nb));
+    BUTTON_MAN_ScaleVec((const struct Vec3 *)(&na), FX_Div(d_020A1B38[(FX_Mul(aw, FX32_ONE - t) >> 16) * 2], s), (struct Vec3 *)(&na));
+    BUTTON_MAN_ScaleVec((const struct Vec3 *)(&nb), FX_Div(d_020A1B38[(FX_Mul(aw, t) >> 16) * 2], s), (struct Vec3 *)(&nb));
     VEC_Add(&na, &nb, out);
     VEC_Normalize(out, out);
 }

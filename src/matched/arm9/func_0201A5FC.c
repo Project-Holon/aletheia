@@ -13,7 +13,7 @@
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0201AA18   0x0201AA18  thumb
  *   func_0201AB28   0x0201AB28  thumb
- *   func_02017E1C   0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_REGULATION_AdjustLevel   0x0201A26C  thumb
  *   POKE_REGULATION_CheckPokemon   0x02019DA4  thumb
  *
@@ -28,7 +28,7 @@ struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32 func_0201AA18(void *a1);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_REGULATION_AdjustLevel(void *a0, u32 a1);
 extern int POKE_REGULATION_CheckPokemon(void *a0, void *a1);
 
@@ -69,9 +69,9 @@ int POKE_REGULATION_CheckOrder(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
         if ((int)n >= (int)func_0201AA18(a1))
             continue;
         p = func_0201AB28(a1, n);
-        v18 = func_02017E1C(p, 5, 0);
-        v6 = func_02017E1C(p, 6, 0);
-        v14 = (u32)POKE_REGULATION_AdjustLevel(a0, func_02017E1C(p, 0x9e, 0));
+        v18 = POKE_TOOL_GetPartyValue(p, 5, 0);
+        v6 = POKE_TOOL_GetPartyValue(p, 6, 0);
+        v14 = (u32)POKE_REGULATION_AdjustLevel(a0, POKE_TOOL_GetPartyValue(p, 0x9e, 0));
         r = POKE_REGULATION_CheckPokemon(a0, p);
         if (r != 0) {
             if (a4 != 0)
@@ -103,7 +103,7 @@ int POKE_REGULATION_CheckOrder(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
         if (a3 != 0)
             a3[count] = (char)(n + 1);
         arr5c[count] = v18;
-        arr44[count] = func_02017E1C(p, 0x6f, 0);
+        arr44[count] = POKE_TOOL_GetPartyValue(p, 0x6f, 0);
         arr2c[count] = v6;
         acc = (u16)(acc + (u16)v14);
         count = (u8)(count + 1);

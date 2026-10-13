@@ -1,5 +1,5 @@
 /*
- * function: func_0217F928
+ * function: UNION_EFF_Draw
  * address: 0x0217F928
  * packet: pkt_ov019_0217F928
  * region: ov019
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0217FD38 0x0217FD38 thumb ov019
- *   func_0217FAF0 0x0217FAF0 thumb ov019
+ *   UNION_EFF_DrawIconGroup 0x0217FD38 thumb ov019
+ *   UNION_EFF_DrawAnimGroup 0x0217FAF0 thumb ov019
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct E;
-extern void func_0217FD38(struct E *p);
-extern void func_0217FAF0(u32 *p);
-void func_0217F928(char *p) { if(p) { func_0217FD38((struct E *)(p+0x20)); func_0217FAF0((u32 *)p); } }
+extern void UNION_EFF_DrawIconGroup(struct E *p);
+extern void UNION_EFF_DrawAnimGroup(u32 *p);
+void UNION_EFF_Draw(char *p) { if(p) { UNION_EFF_DrawIconGroup((struct E *)(p+0x20)); UNION_EFF_DrawAnimGroup((u32 *)p); } }

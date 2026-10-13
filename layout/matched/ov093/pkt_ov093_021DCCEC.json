@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DCCEC",
-    "func_021DCD14"
+    "BTL_HANDLER_TOKUSEI_UnnerveSkipBerry",
+    "BTL_HANDLER_TOKUSEI_AddUnnerve"
+   ],
+   "addresses": [
+    "0x021DCCEC",
+    "0x021DCD14"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,5 +1,5 @@
 /*
- * function: func_02167B9C
+ * function: BSUBWAY_COMM_SetSendTrainerData
  * address:  0x02167B9C
  * packet:   pkt_ov010_02167B9C
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 func_02167BFC.
+ * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 BSUBWAY_COMM_SetSendData.
  *
  * symbols:
  *   func_02082D44  0x02082D44  arm
@@ -28,7 +28,7 @@ typedef struct Obj {
 
 extern void func_02082D44(void *dst, void *src, int n);
 
-void func_02167B9C(Obj *o)
+void BSUBWAY_COMM_SetSendTrainerData(Obj *o)
 {
     func_02082D44(o->b32, o->b668, 0x1C);
 }

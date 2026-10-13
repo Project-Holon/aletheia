@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D5440",
+   "name": "BTL_POKEPARAM_GetPokeId",
    "address": "0x021D5440",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D5444",
+   "name": "BTL_POKEPARAM_GetSpecies",
    "address": "0x021D5444",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D5448",
+   "name": "BTL_POKEPARAM_GetMoveCount",
    "address": "0x021D5448",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D5844",
+   "name": "BTL_POKEPARAM_GetMon",
    "address": "0x021D5844",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D5848",
+   "name": "BTL_POKEPARAM_SetFakeMon",
    "address": "0x021D5848",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D5B40",
+   "name": "BTL_POKEPARAM_GetItem",
    "address": "0x021D5B40",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D5B44",
+   "name": "BTL_POKEPARAM_SetItem",
    "address": "0x021D5B44",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D6314",
+   "name": "BTL_POKEPARAM_GetSickContRaw",
    "address": "0x021D6314",
    "kind": "game",
    "region": "ov093",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D631C",
+   "name": "BTL_POKEPARAM_GetSickTurn",
    "address": "0x021D631C",
    "kind": "game",
    "region": "ov093",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D66D0",
+   "name": "BTL_POKEPARAM_SetAbility",
    "address": "0x021D66D0",
    "kind": "game",
    "region": "ov093",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D6730",
+   "name": "BTL_POKEPARAM_ConsumeHeldItem",
    "address": "0x021D6730",
    "kind": "game",
    "region": "ov093",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D6740",
+   "name": "BTL_POKEPARAM_GetConsumedItem",
    "address": "0x021D6740",
    "kind": "game",
    "region": "ov093",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D67A8",
+   "name": "BTL_POKEPARAM_GetLastUsedMoveId",
    "address": "0x021D67A8",
    "kind": "game",
    "region": "ov093",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D67B0",
+   "name": "BTL_POKEPARAM_GetLastTargetPos",
    "address": "0x021D67B0",
    "kind": "game",
    "region": "ov093",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D67D0",
+   "name": "BTL_POKEPARAM_IsLevelUpPending",
    "address": "0x021D67D0",
    "kind": "game",
    "region": "ov093",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D6C24",
+   "name": "BTL_POKEPARAM_IsIllusionActive",
    "address": "0x021D6C24",
    "kind": "game",
    "region": "ov093",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D6D54",
+   "name": "BTL_POKEPARAM_IsTransformed",
    "address": "0x021D6D54",
    "kind": "game",
    "region": "ov093",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D70A8",
+   "name": "BTL_EVENT_GetFactorKey",
    "address": "0x021D70A8",
    "kind": "game",
    "region": "ov093",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D70B4",
+   "name": "BTL_EVENT_GetFactorWork",
    "address": "0x021D70B4",
    "kind": "game",
    "region": "ov093",
@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D70BC",
+   "name": "BTL_EVENT_EnableFactorSpecialEvent",
    "address": "0x021D70BC",
    "kind": "game",
    "region": "ov093",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D70DC",
+   "name": "BTL_EVENT_SetFactorWork",
    "address": "0x021D70DC",
    "kind": "game",
    "region": "ov093",
@@ -259,7 +259,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D7320",
+   "name": "BTL_EVENT_SetFactorSkipCheck",
    "address": "0x021D7320",
    "kind": "game",
    "region": "ov093",
@@ -271,7 +271,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D7B08",
+   "name": "BTL_CALC_Max",
    "address": "0x021D7B08",
    "kind": "game",
    "region": "ov093",
@@ -283,7 +283,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D7D6C",
+   "name": "BTL_CALC_HasDefaultSickCont",
    "address": "0x021D7D6C",
    "kind": "game",
    "region": "ov093",
@@ -295,7 +295,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021D826C",
+   "name": "BTL_CLIENT_SET_GetCount",
    "address": "0x021D826C",
    "kind": "game",
    "region": "ov093",

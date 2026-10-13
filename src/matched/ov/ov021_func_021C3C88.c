@@ -1,5 +1,5 @@
 /*
- * function: func_021C3C88
+ * function: SODATEYA_ApplyEverstoneRule
  * address:  0x021C3C88
  * packet:   pkt_ov021_021C3C88
  * region:   ov021
@@ -9,28 +9,28 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02005728  0x02005728  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(void *a, u32 b, u32 c);
+extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 extern u32 func_02005728(u32 n);
 
-void func_021C3C88(u32 *p, u32 *q)
+void SODATEYA_ApplyEverstoneRule(u32 *p, u32 *q)
 {
     int x, y;
     u32 s0, s1;
 
     x = 0;
-    if (func_02017E1C((void *)p[0], 6, 0) == 0xe5)
+    if (POKE_TOOL_GetPartyValue((void *)p[0], 6, 0) == 0xe5)
         x = 1;
     y = 0;
-    if (func_02017E1C((void *)p[1], 6, 0) == 0xe5)
+    if (POKE_TOOL_GetPartyValue((void *)p[1], 6, 0) == 0xe5)
         y = 1;
-    s0 = func_02017E1C((void *)p[0], 0x70, 0);
-    s1 = func_02017E1C((void *)p[1], 0x70, 0);
+    s0 = POKE_TOOL_GetPartyValue((void *)p[0], 0x70, 0);
+    s1 = POKE_TOOL_GetPartyValue((void *)p[1], 0x70, 0);
     if (x || y) {
         if (func_02005728(2) == 0)
             return;

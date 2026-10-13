@@ -1,5 +1,5 @@
 /*
- * function: func_0204F638
+ * function: BILLBOARD_SetElemPos
  * address:  0x0204F638
  * packet:   pkt_0204F344
  * region:   arm9
@@ -31,7 +31,7 @@ struct Ent {
     u8  pad_1a[2];
 };
 
-void func_0204F638(u8 *a0, int i, struct Trip *src)
+void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src)
 {
     struct Ent *e = &((struct Ent *)((struct Obj16139 *)a0)->f8)[i];
 

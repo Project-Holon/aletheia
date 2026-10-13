@@ -1,5 +1,5 @@
 /*
- * function: func_021B8748
+ * function: BTL_MAIN_GetGameData
  * address:  0x021B8748
  * packet:   pkt_021B8748
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8748   0x021B8748  thumb ov093
+ *   BTL_MAIN_GetGameData   0x021B8748  thumb ov093
  *
  * double deref: *(u32*)(*p + 0x58)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u32 func_021B8748(void **p)
+u32 BTL_MAIN_GetGameData(void **p)
 {
     return ((struct Obj18131 *)((u8 *)*p))->f58;
 }

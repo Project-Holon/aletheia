@@ -1,5 +1,5 @@
 /*
- * function: func_021A3CC0
+ * function: FIELD_PLAYER_CORE_StepFormChange
  * address:  0x021A3CC0
  * packet:   pkt_ov021_021A3CC0
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3C94  0x021A3C94  thumb  ov021
- *   func_021A3C6C  0x021A3C6C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetLowestFormSlot  0x021A3C94  thumb  ov021
+ *   FIELD_PLAYER_CORE_RunFormSteps  0x021A3C6C  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -28,16 +28,16 @@ typedef struct {
     u16 done;
 } Obj021A3CC0;
 
-int func_021A3C94(u32 x);
-u16 func_021A3C6C(Obj021A3CC0 *p, int idx);
+int FIELD_PLAYER_CORE_GetLowestFormSlot(u32 x);
+u16 FIELD_PLAYER_CORE_RunFormSteps(Obj021A3CC0 *p, int idx);
 
-int func_021A3CC0(Obj021A3CC0 *p)
+int FIELD_PLAYER_CORE_StepFormChange(Obj021A3CC0 *p)
 {
-    int i = func_021A3C94(p->mask);
+    int i = FIELD_PLAYER_CORE_GetLowestFormSlot(p->mask);
 
     if (i >= 10)
         return 1;
-    if (func_021A3C6C(p, i) == 1)
+    if (FIELD_PLAYER_CORE_RunFormSteps(p, i) == 1)
         return 1;
     return 0;
 }

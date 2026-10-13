@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02026608",
+   "name": "GAME_COMM_PopInfoMessage",
    "address": "0x02026608",
    "kind": "game",
    "region": "arm9",

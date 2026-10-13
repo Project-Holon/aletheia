@@ -85,7 +85,7 @@
  *   0x9A       D +0x1C bit 7
  *   0x9B       D +0x1D u8
  *   0x9C       D +0x1E u16
- *   0x9E       derived                     func_0201850C(species, form, exp)
+ *   0x9E       derived                     POKE_TOOL_CalcLevelFromExp(species, form, exp)
  *   0x9D, 0x9F..0xA8                       gaps here; the party area, owned by
  *                                          POKE_TOOL_GetPartyValueRaw
  *   0xA9       derived                     species != 0
@@ -157,11 +157,14 @@
  *
  * symbols:
  *   _ll_shl        0x0209C074  arm
- *   gMsgBank       0x020A7370  data
+ *   gSpeciesNameBank       0x020A7370  data
  *   func_02019BBC  0x02019BBC  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
+ *   POKE_TOOL_CalcLevelFromExp  0x0201850C  thumb
+ *   STRBUF_SetString  0x02045924  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  */
 
 typedef unsigned char      u8;
@@ -245,17 +248,17 @@ extern u16 func_02019A9C(const u16 *p, u32 size);
 struct MsgBank;
 struct MsgData;
 struct Strbuf;
-extern u32 func_0201850C(u16 species, u16 form, u32 exp);
+extern u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp);
 extern u8   POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern u32 func_02019BBC(u32 item);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
-extern void *gMsgBank;
+extern void *gSpeciesNameBank;
 
 u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
 {
@@ -296,7 +299,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
         }
         break;
     case 0x9E:
-        r = func_0201850C(a->species, b->f2, a->exp);
+        r = POKE_TOOL_CalcLevelFromExp(a->species, b->f2, a->exp);
         break;
     case 0x05:
         if (p->b2 != 0) {
@@ -395,14 +398,14 @@ u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
     case 0x72: r = b->unk1C; break;
     case 0x73:
         if (p->b2 != 0) {
-            func_02045CAC(gMsgBank, 651, (void *)v);
+            MSGDATA_ReadString(gSpeciesNameBank, 651, (void *)v);
         } else {
-            func_02045924((void *)v, c->unk00);
+            STRBUF_SetString((void *)v, c->unk00);
         }
         break;
     case 0x74:
         if (p->b2 != 0) {
-            MSGDATA_ReadUnits(gMsgBank, 651, (void *)v, 11);
+            MSGDATA_ReadUnits(gSpeciesNameBank, 651, (void *)v, 11);
         } else {
             func_0201F41C(c->unk00, (void *)v, 11);
         }
@@ -420,7 +423,7 @@ u32 POKE_TOOL_GetBoxValueRaw(struct Mon *p, u32 id, u32 v)
         r = ok;
         break;
     case 0x8D:
-        func_02045924((void *)v, d->unk00);
+        STRBUF_SetString((void *)v, d->unk00);
         break;
     case 0x8E:
         func_0201F41C(d->unk00, (void *)v, 8);

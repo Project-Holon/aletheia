@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200A300",
+   "name": "MYSTERY_DATA_Create",
    "address": "0x0200A300",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200A338",
+   "name": "MYSTERY_DATA_Delete",
    "address": "0x0200A338",
    "kind": "game",
    "region": "arm9",

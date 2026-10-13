@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216DE94",
+   "name": "FLDMMDL_SysSearchObjId",
    "address": "0x0216DE94",
    "kind": "game",
    "region": "ov010",

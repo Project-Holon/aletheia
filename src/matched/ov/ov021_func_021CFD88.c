@@ -1,5 +1,5 @@
 /*
- * function: func_021CFD88
+ * function: SCRCMD_CalcPartnerGreetingIndex
  * address:  0x021CFD88
  * packet:   pkt_ov021_021CFD88
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_021CFD88(int a, u32 b, u32 c, int d, int e)
+int SCRCMD_CalcPartnerGreetingIndex(int a, u32 b, u32 c, int d, int e)
 {
     int off;
 

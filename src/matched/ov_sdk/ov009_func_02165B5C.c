@@ -1,5 +1,5 @@
 /*
- * function: func_02165B5C
+ * function: WcmKeepAliveAlarm
  * address:  0x02165B5C
  * packet:   pkt_ov009_02165AF4
  * region:   ov009
@@ -15,7 +15,7 @@
 
 extern void func_02165AF4(void);
 
-void func_02165B5C(void)
+void WcmKeepAliveAlarm(void)
 {
     func_02165AF4();
 }

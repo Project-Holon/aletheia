@@ -1,5 +1,5 @@
 /*
- * function: func_021CCFD8
+ * function: PARTY_SELECT_LIST_DeleteTextWindow
  * address:  0x021CCFD8
  * packet:   pkt_021CCFD8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call on the word at +0xb0.
  *
  * symbols:
- *   func_02190E40  0x02190E40  thumb  ov021
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02190E40(u32 a);
+extern int FIELD_MSGBG_DeleteSysWin(u32 a);
 
-void func_021CCFD8(u8 *p)
+void PARTY_SELECT_LIST_DeleteTextWindow(u8 *p)
 {
-    func_02190E40(((struct Obj18359 *)p)->fB0);
+    FIELD_MSGBG_DeleteSysWin(((struct Obj18359 *)p)->fB0);
 }

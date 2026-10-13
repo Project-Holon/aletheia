@@ -1,5 +1,5 @@
 /*
- * function: func_021642B4
+ * function: FLDMMDL_MOVE_GetDirFromPoints
  * address:  0x021642B4
  * packet:   pkt_ov010_021642B4
  * region:   ov010
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (word run in the listing), blocker of func_0219B13C and
- * func_0219BA6C (ov021).  Direction code 0..3 from a point pair.
+ * Unlabelled leaf (word run in the listing), blocker of FLDMMDL_MOVECODE_GetSightDirToPlayer and
+ * FLDMMDL_MOVE_TurnToPlayer (ov021).  Direction code 0..3 from a point pair.
  */
 
 typedef unsigned short u16;
 
-u16 func_021642B4(int x0, int y0, int x1, int y1)
+u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int y0, int x1, int y1)
 {
     int r;
 

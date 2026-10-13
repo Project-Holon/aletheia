@@ -1,5 +1,5 @@
 /*
- * function: func_0219D7D0
+ * function: FLDMMDL_RAIL_MOVE_ProcMoveStartFirst
  * address:  0x0219D7D0
  * packet:   pkt_ov021_0219D7D0
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D57C  0x0216D57C  thumb  ov010
- *   func_0219D8DC  0x0219D8DC  thumb  ov021
- *   func_0216D570  0x0216D570  thumb  ov010
+ *   FLDMMDL_CheckMoveBit  0x0216D57C  thumb  ov010
+ *   FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartFirst  0x0219D8DC  thumb  ov021
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -20,14 +20,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D57C(void *p, u32 v);
-extern void func_0219D8DC(u32);
-extern char *func_0216D570(char *p, u32 v);
+extern u32 FLDMMDL_CheckMoveBit(void *p, u32 v);
+extern void FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartFirst(u32);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
 
-void func_0219D7D0(u32 a)
+void FLDMMDL_RAIL_MOVE_ProcMoveStartFirst(u32 a)
 {
-    if (func_0216D57C((void *)a, 0x20) != 0) {
-        func_0219D8DC(a);
+    if (FLDMMDL_CheckMoveBit((void *)a, 0x20) != 0) {
+        FLDMMDL_RAIL_MOVE_MapAttrProcMoveStartFirst(a);
     }
-    func_0216D570((char *)a, 0xA0);
+    FLDMMDL_ClearMoveBit((char *)a, 0xA0);
 }

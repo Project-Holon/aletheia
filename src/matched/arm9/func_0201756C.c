@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017588  0x02017588  thumb
+ *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *
- * Forwarder: func_02017588(obj, species, level, id, 0xFFFFFFFF,
+ * Forwarder: POKE_TOOL_SetupPartyParamEx(obj, species, level, id, 0xFFFFFFFF,
  * 0xFFFFFFFF00000000) -- random IVs, random personality.  Wave 11,
  * 2026-09-23: the u64 `id` straddles r3 and the first stack word; declaring
  * it u64 is the whole fix for the 18-byte prologue residue (push {r4,r5,r6}
@@ -23,9 +23,9 @@ typedef unsigned int   u32;
 typedef unsigned long long u64;
 
 struct Mon;
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
+extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 
 void POKE_TOOL_SetupPartyParam(void *obj, u16 species, u16 level, u64 id)
 {
-    func_02017588(obj, species, level, id, 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
+    POKE_TOOL_SetupPartyParamEx(obj, species, level, id, 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
 }

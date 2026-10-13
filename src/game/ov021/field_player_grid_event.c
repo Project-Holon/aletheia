@@ -1,7 +1,7 @@
 /*
  * file:     field_player_grid_event.c
  * unit:     yes
- * function: func_021C0CA4, func_021C0CE4, func_021C0D08, func_021C0DDC, func_021C0E4C, func_021C0E98, func_021C1024, func_021C1094, func_021C10A0, func_021C10B4, func_021C1228, func_021C12C4, func_021C12D0, func_021C12E4, func_021C1318, func_021C146C, func_021C14F8, func_021C157C, func_021C161C, func_021C1670, func_021C16AC
+ * function: FIELD_PLAYER_GRID_EVENT_TryPushBoulder, FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags, FIELD_PLAYER_GRID_EVENT_GetHoleCoverage, FIELD_PLAYER_GRID_EVENT_StartBoulderDrop, FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent, FIELD_PLAYER_GRID_EVENT_BoulderDropEvent, FIELD_PLAYER_GRID_EVENT_CreateHopTask, FIELD_PLAYER_GRID_EVENT_IsHopDone, FIELD_PLAYER_GRID_EVENT_DeleteHopTask, FIELD_PLAYER_GRID_EVENT_HopTask, FIELD_PLAYER_GRID_EVENT_CreateJumpTask, FIELD_PLAYER_GRID_EVENT_IsJumpDone, FIELD_PLAYER_GRID_EVENT_DeleteJumpTask, FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset, FIELD_PLAYER_GRID_EVENT_JumpUpStart, FIELD_PLAYER_GRID_EVENT_JumpUpApproach, FIELD_PLAYER_GRID_EVENT_JumpUpRise, FIELD_PLAYER_GRID_EVENT_JumpUpArc, FIELD_PLAYER_GRID_EVENT_JumpUpLand, FIELD_PLAYER_GRID_EVENT_JumpUpWaitEffect, FIELD_PLAYER_GRID_EVENT_UpdateJumpDown
  * address:  0x021C0CA4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,77 +15,77 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_02188CD0  0x02188CD0  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_0216D454 0x0216D454 thumb ov010
- *   func_0216D480 0x0216D480 thumb ov010
- *   func_02188C98  0x02188C98  thumb  ov021
+ *   FLDMMDL_CheckEndAcmd 0x0216D454 thumb ov010
+ *   FLDMMDL_EndAcmd 0x0216D480 thumb ov010
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  *   _s32_div_f     0x0209C0A4  arm
- *   func_021A5728  0x021A5728  thumb  ov021
- *   func_021A572C  0x021A572C  thumb  ov021
- *   func_021A3AB8  0x021A3AB8  thumb  ov021
- *   func_021A44BC  0x021A44BC  thumb  ov021
- *   func_021A448C  0x021A448C  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02164208  0x02164208  thumb  ov010
- *   func_0216D91C  0x0216D91C  thumb  ov010
- *   func_0216D924  0x0216D924  thumb  ov010
- *   func_021AB0D4  0x021AB0D4  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB11C  0x021AB11C  thumb  ov021
- *   func_021AB2DC  0x021AB2DC  thumb  ov021
- *   func_021C19B4  0x021C19B4  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216E5FC  0x0216E5FC  thumb  ov010
- *   func_021A395C  0x021A395C  thumb  ov021
- *   func_021639C0  0x021639C0  thumb  ov010
- *   func_021A3990  0x021A3990  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetCore  0x021A5728  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetMmdl  0x021A572C  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChooseMoveDirFromKeys  0x021A3AB8  thumb  ov021
+ *   FIELD_PLAYER_GRID_CheckCoreAction  0x021A44BC  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetDirChangeKind  0x021A448C  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb  ov010
+ *   FLDMMDL_GetSizeWidth  0x0216D91C  thumb  ov010
+ *   FLDMMDL_GetSizeDepth  0x0216D924  thumb  ov010
+ *   MAP_ATTR_GetAt  0x021AB0D4  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_IsBlocked  0x021AB11C  thumb  ov021
+ *   MAP_ATTR_IsHole  0x021AB2DC  thumb  ov021
+ *   FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr  0x021C19B4  thumb  ov021
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_IsMovedPosObjCode  0x0216E5FC  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetFieldMap  0x021A395C  thumb  ov021
+ *   FLDMMDL_MOVE_HitCheckMoveDir  0x021639C0  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetGameSystem  0x021A3990  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A5408  0x021A5408  thumb  ov021
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_02163E58  0x02163E58  thumb  ov010
- *   func_0216DB4C  0x0216DB4C  thumb  ov010
- *   func_0216DAE0  0x0216DAE0  thumb  ov010
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D8E0  0x0216D8E0  thumb  ov010
- *   func_0216E014  0x0216E014  thumb  ov010
- *   func_0216E57C  0x0216E57C  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_GRID_StopTurnOrBlocked  0x021A5408  thumb  ov021
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
+ *   FLDMMDL_SetStatusBitHeightGetOff  0x0216DB4C  thumb  ov010
+ *   FLDMMDL_SetStatusBitFellowHit  0x0216DAE0  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_SetDrawOffsetOutside  0x0216D8E0  thumb  ov010
+ *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
+ *   FLDMMDL_StoreMovedPos  0x0216E57C  thumb  ov010
  *   func_02030734  0x02030734  arm
- *   d_021DE3AC     0x021DE3AC  data  ov021  a4
- *   func_021A3068  0x021A3068  thumb  ov021
- *   func_021A36E0  0x021A36E0  thumb  ov021
- *   func_021AB2E8  0x021AB2E8  thumb  ov021
- *   func_02188D30  0x02188D30  thumb  ov021
+ *   gFileFieldPlayerGridEvent     0x021DE3AC  data  ov021  a4
+ *   FIELD_PLAYER_GetFieldMap  0x021A3068  thumb  ov021
+ *   FIELD_PLAYER_GetGrid  0x021A36E0  thumb  ov021
+ *   MAP_ATTR_IsLongHopEdge  0x021AB2E8  thumb  ov021
+ *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   func_02030DA8  0x02030DA8  arm
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_02164280  0x02164280  thumb  ov010
- *   func_021ACB38  0x021ACB38  thumb  ov021
- *   func_021A2F8C  0x021A2F8C  thumb  ov021
- *   func_02188CE8  0x02188CE8  thumb  ov021
- *   func_021AA900  0x021AA900  thumb  ov021
- *   func_021AAB1C  0x021AAB1C  thumb  ov021
- *   func_021A2F98  0x021A2F98  thumb  ov021
- *   func_021ACBB8  0x021ACBB8  thumb  ov021
- *   func_021A2F48  0x021A2F48  thumb  ov021
- *   func_021A2F54  0x021A2F54  thumb  ov021
- *   func_021A35A0  0x021A35A0  thumb  ov021
- *   func_021C1988  0x021C1988  thumb  ov021
- *   func_021ABE30  0x021ABE30  thumb  ov021
- *   func_021AD564  0x021AD564  thumb  ov021
- *   func_021C6B18  0x021C6B18  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVE_GridToVectorPos  0x02164280  thumb  ov010
+ *   FLDEFF_NAMIPOKE_Start  0x021ACB38  thumb  ov021
+ *   FIELD_PLAYER_SetRideEffect  0x021A2F8C  thumb  ov021
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
+ *   EFFECT_ENCOUNT_IsSpotAt  0x021AA900  thumb  ov021
+ *   EFFECT_ENCOUNT_SetEffectFlag  0x021AAB1C  thumb  ov021
+ *   FIELD_PLAYER_GetRideEffect  0x021A2F98  thumb  ov021
+ *   FLDEFF_NAMIPOKE_SetFollowMode  0x021ACBB8  thumb  ov021
+ *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
+ *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
+ *   FIELD_PLAYER_SetGridMoveState  0x021A35A0  thumb  ov021
+ *   FIELD_PLAYER_GRID_EVENT_RunStateTable  0x021C1988  thumb  ov021
+ *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
+ *   FLDEFF_NAMIPOKE_SPLASH_StartOnEffect  0x021AD564  thumb  ov021
+ *   FIELDMAP_TCB_CAMERA_ZOOM_Create  0x021C6B18  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_021AD5CC  0x021AD5CC  thumb  ov021
- *   func_021ABE64  0x021ABE64  thumb  ov021
+ *   FLDEFF_NAMIPOKE_SPLASH_IsFinished  0x021AD5CC  thumb  ov021
+ *   FIELD_EFFECT_FreeResource  0x021ABE64  thumb  ov021
  */
 #include "../ov010/fldmmdl_types.h"
 
@@ -159,110 +159,110 @@ extern void *func_020124E8(GameEvent *event);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern u32 func_020307B0(void *block);
 extern void func_02030DA8(TcblSys *tcblSys, void (*func)(), void *work, u32 priority);
-extern void *func_02030EE8(TcblTask *task);
+extern void *TCBL_IsDeletePending(TcblTask *task);
 extern u32 func_02030EAC(TcblTask *task);
 extern void func_02082BCC(void *dst, int value, int size);
 extern int func_0209C0A4(int dividend, int divisor);
-extern void func_02163E58(Mmdl *mmdl, MmdlVec *pos, int *outHeight);
-extern u32 func_021639C0(Mmdl *mmdl, u32 dir);
-extern void func_02164208(int dir, MmdlVec *pos, int amount);
-extern void func_02164280(int x, int z, MmdlVec *out);
-extern int func_0216D3CC(Mmdl *mmdl);
-extern void func_0216D410(Mmdl *mmdl, u32 acmd);
-extern int func_0216D454(Mmdl *mmdl);
-extern int func_0216D480(Mmdl *mmdl);
-extern u16 func_0216D598(Mmdl *mmdl);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-extern int func_0216D83C(Mmdl *mmdl);
-extern int func_0216D86C(Mmdl *mmdl);
-extern void func_0216D88C(const Mmdl *mmdl, MmdlVec *out);
-extern void func_0216D89C(Mmdl *mmdl, const MmdlVec *pos);
-extern void func_0216D8E0(Mmdl *mmdl, const MmdlVec *offset);
-extern u8 func_0216D91C(const Mmdl *mmdl);
-extern u8 func_0216D924(const Mmdl *mmdl);
-extern void func_0216DAE0(Mmdl *mmdl, unsigned int value);
-extern int func_0216DB4C(Mmdl *mmdl, int value);
-extern void func_0216E014(Mmdl *mmdl, MmdlVec *pos, int dir);
-extern void func_0216E57C(Mmdl *mmdl);
-extern int func_0216E5FC(u16 objCode);
-extern G3dMapper *func_02188C98(FieldMap *fieldMap);
-extern FieldEffectSys *func_02188CD0(FieldMap *fieldMap);
-extern EncountSys *func_02188CE8(FieldMap *fieldMap);
-extern TcblSys *func_02188D30(FieldMap *fieldMap);
-extern int func_02197E7C(int dir, int base);
-extern void func_021A2F48(FieldPlayer *player, u32 value);
-extern int func_021A2F54(FieldPlayer *player);
-extern void func_021A2F8C(FieldPlayer *player, u32 value);
-extern FieldPlayerAnim *func_021A2F98(FieldPlayer *player);
-extern FieldMap *func_021A3068(FieldPlayer *player);
-extern Mmdl *func_021A3074(FieldPlayer *player);
-extern void func_021A35A0(FieldPlayer *player, int value);
-extern GameSystem *func_021A36E0(FieldPlayer *player);
-extern FieldMap *func_021A395C(FieldPlayerCore *core);
-extern void *func_021A3960(FieldPlayerCore *core);
-extern GameSystem *func_021A3990(FieldPlayerCore *core);
-extern u16 func_021A3AB8(FieldPlayerCore *core, u32 keyDir);
-extern int func_021A448C(FieldPlayer *player, u32 dir);
-extern int func_021A44BC(FieldPlayer *player, int dir);
-extern int func_021A5408(FieldPlayer *player);
-extern FieldPlayerCore *func_021A5728(FieldPlayer *player);
-extern void *func_021A572C(FieldPlayer *player);
-extern int func_021AA900(EncountSys *encount, short *tile);
-extern void func_021AAB1C(EncountSys *encount, int value);
-extern int func_021AB0D4(G3dMapper *map, const MmdlVec *pos);
-extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB11C(u32 attr);
-extern int func_021AB2DC(u16 id);
-extern int func_021AB2E8(int id);
-extern void func_021ABE30(FieldEffectSys *effects, int *effectId, int value);
-extern void func_021ABE64(FieldEffectSys *effects, int effectId);
-extern void func_021AC154(u32 handle);
-extern u32 func_021ACB38(FieldEffectSys *effects, u32 dir, MmdlVec *pos, Mmdl *mmdl, int value);
-extern void func_021ACBB8(FieldPlayerAnim *anim, u8 value);
-extern u32 func_021AD564(FieldEffectSys *effects, u32 kind, FieldPlayerAnim *anim);
-extern int func_021AD5CC(u32 handle);
-extern void func_021C1988(void *work, u16 *state);
-extern Mmdl *func_021C19B4(FieldPlayer *player, u32 dir);
-extern void func_021C6B18(FieldMap *fieldMap, u16 kind, u32 value);
-extern u8 d_021DE3AC;
+extern void FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, MmdlVec *pos, int *outHeight);
+extern u32 FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u32 dir);
+extern void FLDMMDL_MOVE_AddDirVector(int dir, MmdlVec *pos, int amount);
+extern void FLDMMDL_MOVE_GridToVectorPos(int x, int z, MmdlVec *out);
+extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
+extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u32 acmd);
+extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
+extern int FLDMMDL_EndAcmd(Mmdl *mmdl);
+extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, MmdlVec *out);
+extern void FLDMMDL_SetPos(Mmdl *mmdl, const MmdlVec *pos);
+extern void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const MmdlVec *offset);
+extern u8 FLDMMDL_GetSizeWidth(const Mmdl *mmdl);
+extern u8 FLDMMDL_GetSizeDepth(const Mmdl *mmdl);
+extern void FLDMMDL_SetStatusBitFellowHit(Mmdl *mmdl, unsigned int value);
+extern int FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int value);
+extern void FLDMMDL_InitPosition(Mmdl *mmdl, MmdlVec *pos, int dir);
+extern void FLDMMDL_StoreMovedPos(Mmdl *mmdl);
+extern int FLDMMDL_IsMovedPosObjCode(u16 objCode);
+extern G3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
+extern FieldEffectSys *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern EncountSys *FIELDMAP_GetEncount(FieldMap *fieldMap);
+extern TcblSys *FIELDMAP_GetTcblSys(FieldMap *fieldMap);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int base);
+extern void FIELD_PLAYER_StartFormChange(FieldPlayer *player, u32 value);
+extern int FIELD_PLAYER_StepFormChange(FieldPlayer *player);
+extern void FIELD_PLAYER_SetRideEffect(FieldPlayer *player, u32 value);
+extern FieldPlayerAnim *FIELD_PLAYER_GetRideEffect(FieldPlayer *player);
+extern FieldMap *FIELD_PLAYER_GetFieldMap(FieldPlayer *player);
+extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
+extern void FIELD_PLAYER_SetGridMoveState(FieldPlayer *player, int value);
+extern GameSystem *FIELD_PLAYER_GetGrid(FieldPlayer *player);
+extern FieldMap *FIELD_PLAYER_CORE_GetFieldMap(FieldPlayerCore *core);
+extern void *FIELD_PLAYER_CORE_GetMmdl(FieldPlayerCore *core);
+extern GameSystem *FIELD_PLAYER_CORE_GetGameSystem(FieldPlayerCore *core);
+extern u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(FieldPlayerCore *core, u32 keyDir);
+extern int FIELD_PLAYER_GRID_GetDirChangeKind(FieldPlayer *player, u32 dir);
+extern int FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayer *player, int dir);
+extern int FIELD_PLAYER_GRID_StopTurnOrBlocked(FieldPlayer *player);
+extern FieldPlayerCore *FIELD_PLAYER_GRID_GetCore(FieldPlayer *player);
+extern void *FIELD_PLAYER_GRID_GetMmdl(FieldPlayer *player);
+extern int EFFECT_ENCOUNT_IsSpotAt(EncountSys *encount, short *tile);
+extern void EFFECT_ENCOUNT_SetEffectFlag(EncountSys *encount, int value);
+extern int MAP_ATTR_GetAt(G3dMapper *map, const MmdlVec *pos);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern int MAP_ATTR_IsBlocked(u32 attr);
+extern int MAP_ATTR_IsHole(u16 id);
+extern int MAP_ATTR_IsLongHopEdge(int id);
+extern void FIELD_EFFECT_LoadResources(FieldEffectSys *effects, int *effectId, int value);
+extern void FIELD_EFFECT_FreeResource(FieldEffectSys *effects, int effectId);
+extern void FIELD_EFFECT_DeleteObject(u32 handle);
+extern u32 FLDEFF_NAMIPOKE_Start(FieldEffectSys *effects, u32 dir, MmdlVec *pos, Mmdl *mmdl, int value);
+extern void FLDEFF_NAMIPOKE_SetFollowMode(FieldPlayerAnim *anim, u8 value);
+extern u32 FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *effects, u32 kind, FieldPlayerAnim *anim);
+extern int FLDEFF_NAMIPOKE_SPLASH_IsFinished(u32 handle);
+extern void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state);
+extern Mmdl *FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayer *player, u32 dir);
+extern void FIELDMAP_TCB_CAMERA_ZOOM_Create(FieldMap *fieldMap, u16 kind, u32 value);
+extern u8 gFileFieldPlayerGridEvent;
 
-int func_021C0CA4(FieldPlayer *player, int unused, int keyDir, int flags);
-int func_021C0CE4(FieldPlayer *player, u32 dir, u32 flags);
-int func_021C0D08(Mmdl *boulder, u32 dir, G3dMapper *map);
-int func_021C0DDC(FieldPlayer *player, u32 dir, int hitResult);
-GameEvent *func_021C0E4C(FieldPlayer *player, u32 dir, Mmdl *boulder, u32 fillsHole);
-int func_021C0E98(GameEvent *event, int *seq, BoulderDropWork *work);
-void func_021C1024(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
-int func_021C1094(TcblTask *task);
-int func_021C10A0(TcblTask *task);
-void func_021C10B4(TcblTask *task, HopWork *work);
-void func_021C1228(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
-int func_021C12C4(TcblTask *task);
-void func_021C12D0(TcblTask *task);
-void func_021C12E4(Mmdl *mmdl, const MmdlVec *offset);
-int func_021C1318(JumpWork *work);
-int func_021C146C(JumpWork *work);
-int func_021C14F8(JumpWork *work);
-int func_021C157C(JumpWork *work);
-int func_021C161C(JumpWork *work);
-int func_021C1670(JumpWork *work);
-void func_021C16AC(JumpWork *work);
+int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayer *player, int unused, int keyDir, int flags);
+int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayer *player, u32 dir, u32 flags);
+int FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(Mmdl *boulder, u32 dir, G3dMapper *map);
+int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayer *player, u32 dir, int hitResult);
+GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayer *player, u32 dir, Mmdl *boulder, u32 fillsHole);
+int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, BoulderDropWork *work);
+void FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
+int FIELD_PLAYER_GRID_EVENT_IsHopDone(TcblTask *task);
+int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(TcblTask *task);
+void FIELD_PLAYER_GRID_EVENT_HopTask(TcblTask *task, HopWork *work);
+void FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
+int FIELD_PLAYER_GRID_EVENT_IsJumpDone(TcblTask *task);
+void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(TcblTask *task);
+void FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset(Mmdl *mmdl, const MmdlVec *offset);
+int FIELD_PLAYER_GRID_EVENT_JumpUpStart(JumpWork *work);
+int FIELD_PLAYER_GRID_EVENT_JumpUpApproach(JumpWork *work);
+int FIELD_PLAYER_GRID_EVENT_JumpUpRise(JumpWork *work);
+int FIELD_PLAYER_GRID_EVENT_JumpUpArc(JumpWork *work);
+int FIELD_PLAYER_GRID_EVENT_JumpUpLand(JumpWork *work);
+int FIELD_PLAYER_GRID_EVENT_JumpUpWaitEffect(JumpWork *work);
+void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work);
 
 /*
  * Tries to start the boulder drop for the tile the player faces.
  */
-int func_021C0CA4(FieldPlayer *player, int unused, int keyDir, int flags)
+int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayer *player, int unused, int keyDir, int flags)
 {
     FieldPlayerCore *core;
     int dir;
     int result;
 
-    core = func_021A5728(player);
-    func_021A572C(player);
-    dir = func_021A3AB8(core, keyDir);
-    if (func_021A44BC(player, dir) == 0)
+    core = FIELD_PLAYER_GRID_GetCore(player);
+    FIELD_PLAYER_GRID_GetMmdl(player);
+    dir = FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(core, keyDir);
+    if (FIELD_PLAYER_GRID_CheckCoreAction(player, dir) == 0)
         return 0;
-    result = func_021C0CE4(player, dir, flags);
+    result = FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(player, dir, flags);
     if (result == 0)
         return 0;
     return result;
@@ -271,12 +271,12 @@ int func_021C0CA4(FieldPlayer *player, int unused, int keyDir, int flags)
 /*
  * Runs the boulder drop check when bit 0 of the flags is set.
  */
-int func_021C0CE4(FieldPlayer *player, u32 dir, u32 flags)
+int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayer *player, u32 dir, u32 flags)
 {
     int result = 0;
-    int hitResult = func_021A448C(player, dir);
+    int hitResult = FIELD_PLAYER_GRID_GetDirChangeKind(player, dir);
     if (flags & 1)
-        result = func_021C0DDC(player, dir, hitResult);
+        result = FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(player, dir, hitResult);
     return result;
 }
 
@@ -285,7 +285,7 @@ int func_021C0CE4(FieldPlayer *player, u32 dir, u32 flags)
  * blocks it, 0 when no tile is a hole, 3 when all tiles are holes and 2
  * when only some are.
  */
-int func_021C0D08(Mmdl *boulder, u32 dir, G3dMapper *map)
+int FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(Mmdl *boulder, u32 dir, G3dMapper *map)
 {
     MmdlVec pos;
     MmdlVec cur;
@@ -298,19 +298,19 @@ int func_021C0D08(Mmdl *boulder, u32 dir, G3dMapper *map)
     u32 attr;
     u16 id;
 
-    func_0216D88C(boulder, &pos);
-    func_02164208(dir, &pos, 0x10000);
-    width = func_0216D91C(boulder);
-    depth = func_0216D924(boulder);
+    FLDMMDL_GetPos(boulder, &pos);
+    FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
+    width = FLDMMDL_GetSizeWidth(boulder);
+    depth = FLDMMDL_GetSizeDepth(boulder);
     hasOtherTile = 0;
     hasHoleTile = 0;
     for (row = 0; row < depth; row++, pos.z -= 0x10000) {
         cur = pos;
         for (col = 0; col < width; col++, cur.x += 0x10000) {
-            attr = func_021AB0D4(map, &cur);
-            id = func_021AB0F0(attr);
-            if (func_021AB11C(attr)) {
-                if (func_021AB2DC(id) == 0)
+            attr = MAP_ATTR_GetAt(map, &cur);
+            id = MAP_ATTR_GetTerrainId(attr);
+            if (MAP_ATTR_IsBlocked(attr)) {
+                if (MAP_ATTR_IsHole(id) == 0)
                     return 1;
                 hasHoleTile = 1;
             } else {
@@ -326,18 +326,18 @@ int func_021C0D08(Mmdl *boulder, u32 dir, G3dMapper *map)
     return 0;
 }
 
-int func_021C0DDC(FieldPlayer *player, u32 dir, int hitResult)
+int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayer *player, u32 dir, int hitResult)
 {
     Mmdl *boulder;
     u32 coverage;
     u32 moveHit;
 
     if (hitResult == 1) {
-        boulder = func_021C19B4(player, dir);
+        boulder = FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(player, dir);
         if (boulder != 0) {
-            if (func_0216E5FC(func_0216D598(boulder)) == 1) {
-                coverage = func_021C0D08(boulder, dir, func_02188C98(func_021A395C(func_021A5728(player))));
-                moveHit = func_021639C0(boulder, dir);
+            if (FLDMMDL_IsMovedPosObjCode(FLDMMDL_GetObjCode(boulder)) == 1) {
+                coverage = FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(boulder, dir, FIELDMAP_GetG3dMapper(FIELD_PLAYER_CORE_GetFieldMap(FIELD_PLAYER_GRID_GetCore(player))));
+                moveHit = FLDMMDL_MOVE_HitCheckMoveDir(boulder, dir);
                 moveHit &= ~1;
                 if ((moveHit & 2) && coverage - 2 <= 1)
                     moveHit &= ~2;
@@ -345,7 +345,7 @@ int func_021C0DDC(FieldPlayer *player, u32 dir, int hitResult)
                     int fillsHole = 0;
                     if (coverage == 3)
                         fillsHole = 1;
-                    return (int)func_021C0E4C(player, dir, boulder, fillsHole);
+                    return (int)FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(player, dir, boulder, fillsHole);
                 }
             }
         }
@@ -353,25 +353,25 @@ int func_021C0DDC(FieldPlayer *player, u32 dir, int hitResult)
     return 0;
 }
 
-GameEvent *func_021C0E4C(FieldPlayer *player, u32 dir, Mmdl *boulder, u32 fillsHole)
+GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayer *player, u32 dir, Mmdl *boulder, u32 fillsHole)
 {
     FieldPlayerCore *core;
     GameEvent *event;
     BoulderDropWork *work;
 
-    core = func_021A5728(player);
-    event = func_020122C0(func_021A3990(core), 0, func_021C0E98, sizeof(BoulderDropWork));
+    core = FIELD_PLAYER_GRID_GetCore(player);
+    event = func_020122C0(FIELD_PLAYER_CORE_GetGameSystem(core), 0, FIELD_PLAYER_GRID_EVENT_BoulderDropEvent, sizeof(BoulderDropWork));
     work = func_020124E8(event);
     func_02082BCC(work, 0, sizeof(BoulderDropWork));
     work->player = player;
     work->dir = dir;
     work->fillsHole = fillsHole;
     work->boulder = boulder;
-    work->playerMmdl = func_021A3960(core);
+    work->playerMmdl = FIELD_PLAYER_CORE_GetMmdl(core);
     return event;
 }
 
-int func_021C0E98(GameEvent *event, int *seq, BoulderDropWork *work)
+int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, BoulderDropWork *work)
 {
     MmdlVec boulderPos;
     MmdlVec sinkPos;
@@ -379,37 +379,37 @@ int func_021C0E98(GameEvent *event, int *seq, BoulderDropWork *work)
 
     switch (*seq) {
     case 0:
-        if (func_0216D3CC(work->boulder) == 0)
+        if (FLDMMDL_CheckPossibleAcmd(work->boulder) == 0)
             break;
-        if (func_0216D3CC(work->playerMmdl) == 0 && func_021A5408(work->player) == 0)
+        if (FLDMMDL_CheckPossibleAcmd(work->playerMmdl) == 0 && FIELD_PLAYER_GRID_StopTurnOrBlocked(work->player) == 0)
             break;
-        func_0216D410(work->boulder, func_02197E7C(work->dir, 8));
-        func_0216D410(work->playerMmdl, func_02197E7C(work->dir, 0x20));
+        FLDMMDL_SetAcmd(work->boulder, FLDMMDL_ACMD_ConvertCodeByDir(work->dir, 8));
+        FLDMMDL_SetAcmd(work->playerMmdl, FLDMMDL_ACMD_ConvertCodeByDir(work->dir, 0x20));
         func_020061E4(0x674);
         (*seq)++;
         break;
     case 1:
-        if (func_0216D454(work->boulder) == 0)
+        if (FLDMMDL_CheckEndAcmd(work->boulder) == 0)
             break;
-        if (func_0216D454(work->playerMmdl) == 0)
+        if (FLDMMDL_CheckEndAcmd(work->playerMmdl) == 0)
             break;
         if (work->fillsHole == 0) {
             *seq = 4;
             break;
         }
-        func_0216D88C(work->boulder, &boulderPos);
-        func_02163E58(work->boulder, &boulderPos, &work->targetY);
-        if (func_0216D598(work->boulder) == 0x6d)
+        FLDMMDL_GetPos(work->boulder, &boulderPos);
+        FLDMMDL_MOVE_GetMapHeight(work->boulder, &boulderPos, &work->targetY);
+        if (FLDMMDL_GetObjCode(work->boulder) == 0x6d)
             work->targetY -= 14 << 12;
         else
             work->targetY -= 26 << 12;
-        func_0216DB4C(work->boulder, 1);
-        func_0216DAE0(work->boulder, 0);
+        FLDMMDL_SetStatusBitHeightGetOff(work->boulder, 1);
+        FLDMMDL_SetStatusBitFellowHit(work->boulder, 0);
         func_020061E4(0x675);
         (*seq)++;
         break;
     case 2:
-        func_0216D88C(work->boulder, &sinkPos);
+        FLDMMDL_GetPos(work->boulder, &sinkPos);
         if (work->targetY < sinkPos.y) {
             sinkPos.y -= 0x4000;
             if (work->targetY > sinkPos.y)
@@ -419,14 +419,14 @@ int func_021C0E98(GameEvent *event, int *seq, BoulderDropWork *work)
             if (work->targetY < sinkPos.y)
                 sinkPos.y = work->targetY;
         }
-        func_0216D89C(work->boulder, &sinkPos);
+        FLDMMDL_SetPos(work->boulder, &sinkPos);
         if (work->targetY == sinkPos.y) {
             work->drawOffset.y = 0x2000;
             (*seq)++;
         }
         break;
     case 3:
-        func_0216D8E0(work->boulder, &work->drawOffset);
+        FLDMMDL_SetDrawOffsetOutside(work->boulder, &work->drawOffset);
         work->drawOffset.y = -work->drawOffset.y;
         work->frame = work->frame + 1;
         if (work->frame & 4) {
@@ -436,10 +436,10 @@ int func_021C0E98(GameEvent *event, int *seq, BoulderDropWork *work)
                 work->drawOffset.y -= 0x1000;
         }
         if (work->drawOffset.y == 0) {
-            func_0216D88C(work->boulder, &settlePos);
-            func_0216E014(work->boulder, &settlePos, work->dir);
-            func_0216D8E0(work->boulder, &work->drawOffset);
-            func_0216E57C(work->boulder);
+            FLDMMDL_GetPos(work->boulder, &settlePos);
+            FLDMMDL_InitPosition(work->boulder, &settlePos, work->dir);
+            FLDMMDL_SetDrawOffsetOutside(work->boulder, &work->drawOffset);
+            FLDMMDL_StoreMovedPos(work->boulder);
             (*seq)++;
         }
         break;
@@ -449,32 +449,32 @@ int func_021C0E98(GameEvent *event, int *seq, BoulderDropWork *work)
     return 0;
 }
 
-void func_021C1024(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
+void FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
 {
     HopWork *work;
 
-    work = func_02030734((u16)(0x8000 | (heapId & 0x7fff)), sizeof(HopWork), 1, (const char *)&d_021DE3AC, 0x1e6);
-    work->fieldMap = func_021A3068(player);
+    work = func_02030734((u16)(0x8000 | (heapId & 0x7fff)), sizeof(HopWork), 1, (const char *)&gFileFieldPlayerGridEvent, 0x1e6);
+    work->fieldMap = FIELD_PLAYER_GetFieldMap(player);
     work->startDir = dir;
     work->player = player;
-    work->gameSystem = func_021A36E0(player);
-    if (func_021AB2E8(func_021AB0F0(attr)) == 1)
+    work->gameSystem = FIELD_PLAYER_GetGrid(player);
+    if (MAP_ATTR_IsLongHopEdge(MAP_ATTR_GetTerrainId(attr)) == 1)
         work->isLong = 1;
-    func_02030DA8(func_02188D30(work->fieldMap), func_021C10B4, work, 0);
+    func_02030DA8(FIELDMAP_GetTcblSys(work->fieldMap), FIELD_PLAYER_GRID_EVENT_HopTask, work, 0);
 }
 
-int func_021C1094(TcblTask *task)
+int FIELD_PLAYER_GRID_EVENT_IsHopDone(TcblTask *task)
 {
-    return ((HopWork *)func_02030EE8(task))->done;
+    return ((HopWork *)TCBL_IsDeletePending(task))->done;
 }
 
-int func_021C10A0(TcblTask *task)
+int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(TcblTask *task)
 {
-    func_020307B0(func_02030EE8(task));
+    func_020307B0(TCBL_IsDeletePending(task));
     return func_02030EAC(task);
 }
 
-void func_021C10B4(TcblTask *task, HopWork *work)
+void FIELD_PLAYER_GRID_EVENT_HopTask(TcblTask *task, HopWork *work)
 {
     Mmdl *mmdl;
     u16 dir;
@@ -487,28 +487,28 @@ void func_021C10B4(TcblTask *task, HopWork *work)
     EncountSys *encount;
     int stepDist;
 
-    mmdl = func_021A3074(work->player);
+    mmdl = FIELD_PLAYER_GetMmdl(work->player);
     switch (work->state) {
     case 0:
-        dir = func_0216D5F8(mmdl);
-        gridX = func_0216D83C(mmdl);
-        gridZ = func_0216D86C(mmdl);
-        func_0216D88C(mmdl, &pos);
-        func_02164280(gridX, gridZ, &pos);
+        dir = FLDMMDL_GetDirDisp(mmdl);
+        gridX = FLDMMDL_GetGridNowX(mmdl);
+        gridZ = FLDMMDL_GetGridNowZ(mmdl);
+        FLDMMDL_GetPos(mmdl, &pos);
+        FLDMMDL_MOVE_GridToVectorPos(gridX, gridZ, &pos);
         stepDist = 0x10000;
         if (work->isLong == 1)
             stepDist = 0x20000;
-        func_02164208(dir, &pos, stepDist);
+        FLDMMDL_MOVE_AddDirVector(dir, &pos, stepDist);
         mapHeight = 0;
-        func_02163E58(mmdl, &pos, &mapHeight);
+        FLDMMDL_MOVE_GetMapHeight(mmdl, &pos, &mapHeight);
         pos.y = mapHeight;
-        func_021A2F8C(work->player, func_021ACB38(func_02188CD0(work->fieldMap), dir, &pos, mmdl, 0));
-        encount = func_02188CE8(work->fieldMap);
+        FIELD_PLAYER_SetRideEffect(work->player, FLDEFF_NAMIPOKE_Start(FIELDMAP_GetEffect(work->fieldMap), dir, &pos, mmdl, 0));
+        encount = FIELDMAP_GetEncount(work->fieldMap);
         tile[0] = (pos.x >> 4) / 0x1000;
         tile[1] = (pos.y >> 4) / 0x1000;
         tile[2] = (pos.z >> 4) / 0x1000;
-        if (func_021AA900(encount, tile))
-            func_021AAB1C(encount, 1);
+        if (EFFECT_ENCOUNT_IsSpotAt(encount, tile))
+            EFFECT_ENCOUNT_SetEffectFlag(encount, 1);
         work->state++;
         break;
     case 1:
@@ -517,23 +517,23 @@ void func_021C10B4(TcblTask *task, HopWork *work)
             work->state++;
         break;
     case 2:
-        dir = func_0216D5F8(mmdl);
-        acmd = func_02197E7C(dir, 0x34);
+        dir = FLDMMDL_GetDirDisp(mmdl);
+        acmd = FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x34);
         if (work->isLong == 1)
-            acmd = func_02197E7C(dir, 0x38);
-        func_0216D410(mmdl, acmd);
+            acmd = FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x38);
+        FLDMMDL_SetAcmd(mmdl, acmd);
         work->state++;
         break;
     case 3:
-        if (func_0216D454(mmdl) == 0)
+        if (FLDMMDL_CheckEndAcmd(mmdl) == 0)
             break;
-        func_0216D480(mmdl);
-        func_021ACBB8(func_021A2F98(work->player), 1);
-        func_021A2F48(work->player, 4);
+        FLDMMDL_EndAcmd(mmdl);
+        FLDEFF_NAMIPOKE_SetFollowMode(FIELD_PLAYER_GetRideEffect(work->player), 1);
+        FIELD_PLAYER_StartFormChange(work->player, 4);
         work->state++;
     case 4:
-        if (func_021A2F54(work->player) == 1) {
-            func_021A35A0(work->player, 1);
+        if (FIELD_PLAYER_StepFormChange(work->player) == 1) {
+            FIELD_PLAYER_SetGridMoveState(work->player, 1);
             work->done = 1;
             work->state++;
         }
@@ -543,7 +543,7 @@ void func_021C10B4(TcblTask *task, HopWork *work)
     }
 }
 
-void func_021C1228(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
+void FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
 {
     JumpWork *work;
     Mmdl *mmdl;
@@ -551,44 +551,44 @@ void func_021C1228(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
     MmdlVec ahead;
     int aheadHeight;
 
-    work = func_02030734((u16)(0x8000 | (heapId & 0x7fff)), sizeof(JumpWork), 1, (const char *)&d_021DE3AC, 0x2b3);
+    work = func_02030734((u16)(0x8000 | (heapId & 0x7fff)), sizeof(JumpWork), 1, (const char *)&gFileFieldPlayerGridEvent, 0x2b3);
     work->dir = dir;
     work->player = player;
-    work->fieldMap = func_021A3068(player);
-    mmdl = func_021A3074(player);
-    func_0216D88C(mmdl, &start);
+    work->fieldMap = FIELD_PLAYER_GetFieldMap(player);
+    mmdl = FIELD_PLAYER_GetMmdl(player);
+    FLDMMDL_GetPos(mmdl, &start);
     ahead = start;
-    func_02164208(work->dir, &ahead, 0x20000);
-    func_02163E58(mmdl, &ahead, &aheadHeight);
+    FLDMMDL_MOVE_AddDirVector(work->dir, &ahead, 0x20000);
+    FLDMMDL_MOVE_GetMapHeight(mmdl, &ahead, &aheadHeight);
     if (aheadHeight > start.y)
         work->targetHigher = 1;
-    work->gameSystem = func_021A36E0(work->player);
-    func_02030DA8(func_02188D30(work->fieldMap), func_021C1988, work, 0);
+    work->gameSystem = FIELD_PLAYER_GetGrid(work->player);
+    func_02030DA8(FIELDMAP_GetTcblSys(work->fieldMap), FIELD_PLAYER_GRID_EVENT_RunStateTable, work, 0);
 }
 
-int func_021C12C4(TcblTask *task)
+int FIELD_PLAYER_GRID_EVENT_IsJumpDone(TcblTask *task)
 {
-    return ((JumpWork *)func_02030EE8(task))->done;
+    return ((JumpWork *)TCBL_IsDeletePending(task))->done;
 }
 
-void func_021C12D0(TcblTask *task)
+void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(TcblTask *task)
 {
-    func_020307B0(func_02030EE8(task));
+    func_020307B0(TCBL_IsDeletePending(task));
     func_02030EAC(task);
 }
 
 /*
  * Offsets a draw offset by (0, 1.0, 5.0) fx32 and applies it.
  */
-void func_021C12E4(Mmdl *mmdl, const MmdlVec *offset)
+void FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset(Mmdl *mmdl, const MmdlVec *offset)
 {
     MmdlVec shifted = *offset;
     shifted.y += 0x1000;
     shifted.z += 0x5000;
-    func_0216D8E0(mmdl, &shifted);
+    FLDMMDL_SetDrawOffsetOutside(mmdl, &shifted);
 }
 
-int func_021C1318(JumpWork *work)
+int FIELD_PLAYER_GRID_EVENT_JumpUpStart(JumpWork *work)
 {
     u32 effectKind;
     Mmdl *mmdl;
@@ -600,75 +600,75 @@ int func_021C1318(JumpWork *work)
     MmdlVec origin;
     int effectId;
 
-    mmdl = func_021A3074(work->player);
+    mmdl = FIELD_PLAYER_GetMmdl(work->player);
     effectKind = 1;
-    func_0216DB4C(mmdl, 1);
-    func_0216D88C(mmdl, &pos);
+    FLDMMDL_SetStatusBitHeightGetOff(mmdl, 1);
+    FLDMMDL_GetPos(mmdl, &pos);
     origin = pos;
     nearPos = origin;
     farPos = origin;
-    func_02164208(work->dir, &nearPos, 0x10000);
-    func_02164208(work->dir, &farPos, 0x20000);
-    func_02164280((s16)((nearPos.x >> 4) / 0x1000), (s16)((nearPos.z >> 4) / 0x1000), &nearPos);
-    func_02164280((s16)((farPos.x >> 4) / 0x1000), (s16)((farPos.z >> 4) / 0x1000), &work->target);
+    FLDMMDL_MOVE_AddDirVector(work->dir, &nearPos, 0x10000);
+    FLDMMDL_MOVE_AddDirVector(work->dir, &farPos, 0x20000);
+    FLDMMDL_MOVE_GridToVectorPos((s16)((nearPos.x >> 4) / 0x1000), (s16)((nearPos.z >> 4) / 0x1000), &nearPos);
+    FLDMMDL_MOVE_GridToVectorPos((s16)((farPos.x >> 4) / 0x1000), (s16)((farPos.z >> 4) / 0x1000), &work->target);
     work->target = farPos;
-    func_02163E58(mmdl, &farPos, &work->target.y);
+    FLDMMDL_MOVE_GetMapHeight(mmdl, &farPos, &work->target.y);
     work->stepX = (nearPos.x - pos.x) / 2 / 16;
     work->stepZ = (nearPos.z - pos.z) / 2 / 16;
     work->velocityY = 0x6000;
     work->drawOffset.y = 0x1000;
-    playerAnim = func_021A2F98(work->player);
-    func_021ACBB8(playerAnim, 2);
+    playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
+    FLDEFF_NAMIPOKE_SetFollowMode(playerAnim, 2);
     if ((u16)(work->dir + 0xfffe) <= 1)
         effectKind = 3;
-    effects = func_02188CD0(work->fieldMap);
+    effects = FIELDMAP_GetEffect(work->fieldMap);
     effectId = 9;
-    func_021ABE30(effects, &effectId, 1);
-    work->effectHandle = func_021AD564(effects, effectKind, playerAnim);
-    func_021C6B18(work->fieldMap, 0x10, 0x20000);
+    FIELD_EFFECT_LoadResources(effects, &effectId, 1);
+    work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(effects, effectKind, playerAnim);
+    FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, 0x20000);
     func_020061E4(0x6e0);
     work->state = work->state + 1;
     return 1;
 }
 
-int func_021C146C(JumpWork *work)
+int FIELD_PLAYER_GRID_EVENT_JumpUpApproach(JumpWork *work)
 {
     MmdlVec pos;
     Mmdl *mmdl;
     FieldPlayerAnim *playerAnim;
 
-    mmdl = func_021A3074(work->player);
-    func_0216D88C(mmdl, &pos);
+    mmdl = FIELD_PLAYER_GetMmdl(work->player);
+    FLDMMDL_GetPos(mmdl, &pos);
     pos.x += work->stepX;
     pos.z += work->stepZ;
-    func_0216D89C(mmdl, &pos);
+    FLDMMDL_SetPos(mmdl, &pos);
     work->drawOffset.y = -work->drawOffset.y;
     work->frame += 1;
     if (work->frame >= 0x10) {
         work->frame = 0;
         work->drawOffset.y = 0;
         work->state = work->state + 1;
-        func_021AC154(work->effectHandle);
-        playerAnim = func_021A2F98(work->player);
+        FIELD_EFFECT_DeleteObject(work->effectHandle);
+        playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
         {
             /* both branches give 2 */
             u32 effectKind = 2;
             if ((u16)(work->dir + 0xfffe) <= 1)
                 effectKind = 2;
-            work->effectHandle = func_021AD564(func_02188CD0(work->fieldMap), effectKind, playerAnim);
+            work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FIELDMAP_GetEffect(work->fieldMap), effectKind, playerAnim);
         }
     }
-    func_021C12E4(mmdl, &work->drawOffset);
+    FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset(mmdl, &work->drawOffset);
     return 0;
 }
 
-int func_021C14F8(JumpWork *work)
+int FIELD_PLAYER_GRID_EVENT_JumpUpRise(JumpWork *work)
 {
     MmdlVec pos;
     Mmdl *mmdl;
 
-    mmdl = func_021A3074(work->player);
-    func_0216D88C(mmdl, &pos);
+    mmdl = FIELD_PLAYER_GetMmdl(work->player);
+    FLDMMDL_GetPos(mmdl, &pos);
     pos.y += work->velocityY;
     if (pos.y >= work->target.y) {
         pos.y = work->target.y;
@@ -678,20 +678,20 @@ int func_021C14F8(JumpWork *work)
         work->gravity = -0x8000;
         work->velocityY = 0x6000;
         work->gravity = func_0209C0A4(-0x8000, 0xb);
-        func_021C6B18(work->fieldMap, 0x10, (u32)-0x8000 << 2);
-        func_021AC154(work->effectHandle);
+        FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, (u32)-0x8000 << 2);
+        FIELD_EFFECT_DeleteObject(work->effectHandle);
     }
-    func_0216D89C(mmdl, &pos);
+    FLDMMDL_SetPos(mmdl, &pos);
     return 0;
 }
 
-int func_021C157C(JumpWork *work)
+int FIELD_PLAYER_GRID_EVENT_JumpUpArc(JumpWork *work)
 {
     MmdlVec pos;
     Mmdl *mmdl;
 
-    mmdl = func_021A3074(work->player);
-    func_0216D88C(mmdl, &pos);
+    mmdl = FIELD_PLAYER_GetMmdl(work->player);
+    FLDMMDL_GetPos(mmdl, &pos);
     if (pos.x < work->target.x) {
         pos.x += work->stepX;
         if (pos.x > work->target.x)
@@ -720,43 +720,43 @@ int func_021C157C(JumpWork *work)
         work->drawOffset.z = 0;
         work->state = work->state + 1;
     }
-    func_0216D89C(mmdl, &pos);
-    func_021C12E4(mmdl, &work->drawOffset);
+    FLDMMDL_SetPos(mmdl, &pos);
+    FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset(mmdl, &work->drawOffset);
     return 0;
 }
 
-int func_021C161C(JumpWork *work)
+int FIELD_PLAYER_GRID_EVENT_JumpUpLand(JumpWork *work)
 {
     Mmdl *mmdl;
     FieldPlayerAnim *playerAnim;
 
-    mmdl = func_021A3074(work->player);
-    func_0216DB4C(mmdl, 0);
-    func_0216E014(mmdl, &work->target, work->dir);
-    playerAnim = func_021A2F98(work->player);
-    func_021ACBB8(playerAnim, 1);
-    work->effectHandle = func_021AD564(func_02188CD0(work->fieldMap), 0, playerAnim);
+    mmdl = FIELD_PLAYER_GetMmdl(work->player);
+    FLDMMDL_SetStatusBitHeightGetOff(mmdl, 0);
+    FLDMMDL_InitPosition(mmdl, &work->target, work->dir);
+    playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
+    FLDEFF_NAMIPOKE_SetFollowMode(playerAnim, 1);
+    work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FIELDMAP_GetEffect(work->fieldMap), 0, playerAnim);
     func_020061E4(0x6e2);
     work->state = work->state + 1;
     return 0;
 }
 
-int func_021C1670(JumpWork *work)
+int FIELD_PLAYER_GRID_EVENT_JumpUpWaitEffect(JumpWork *work)
 {
     FieldEffectSys *effects;
 
-    if (work->effectHandle != 0 && func_021AD5CC(work->effectHandle) == 1) {
-        effects = func_02188CD0(work->fieldMap);
-        func_021AC154(work->effectHandle);
-        func_021ABE64(effects, 9);
-        func_021A35A0(work->player, 1);
+    if (work->effectHandle != 0 && FLDEFF_NAMIPOKE_SPLASH_IsFinished(work->effectHandle) == 1) {
+        effects = FIELDMAP_GetEffect(work->fieldMap);
+        FIELD_EFFECT_DeleteObject(work->effectHandle);
+        FIELD_EFFECT_FreeResource(effects, 9);
+        FIELD_PLAYER_SetGridMoveState(work->player, 1);
         work->effectHandle = 0;
         work->done = 1;
     }
     return 0;
 }
 
-void func_021C16AC(JumpWork *work)
+void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
 {
     Mmdl *mmdl;
     u32 effectKind;
@@ -769,89 +769,89 @@ void func_021C16AC(JumpWork *work)
     MmdlVec origin;
     int effectId;
 
-    mmdl = func_021A3074(work->player);
+    mmdl = FIELD_PLAYER_GetMmdl(work->player);
     switch (work->state) {
     case 0:
         effectKind = 1;
-        func_0216DB4C(mmdl, 1);
-        func_0216D88C(mmdl, &pos);
+        FLDMMDL_SetStatusBitHeightGetOff(mmdl, 1);
+        FLDMMDL_GetPos(mmdl, &pos);
         origin = pos;
         nearPos = origin;
         farPos = origin;
-        func_02164208(work->dir, &nearPos, 0x10000);
-        func_02164208(work->dir, &farPos, 0x20000);
-        func_02164280((s16)((nearPos.x >> 4) / 0x1000), (s16)((nearPos.z >> 4) / 0x1000), &nearPos);
-        func_02164208(work->dir, &nearPos, 0x4000);
-        func_02164280((s16)((farPos.x >> 4) / 0x1000), (s16)((farPos.z >> 4) / 0x1000), &farPos);
+        FLDMMDL_MOVE_AddDirVector(work->dir, &nearPos, 0x10000);
+        FLDMMDL_MOVE_AddDirVector(work->dir, &farPos, 0x20000);
+        FLDMMDL_MOVE_GridToVectorPos((s16)((nearPos.x >> 4) / 0x1000), (s16)((nearPos.z >> 4) / 0x1000), &nearPos);
+        FLDMMDL_MOVE_AddDirVector(work->dir, &nearPos, 0x4000);
+        FLDMMDL_MOVE_GridToVectorPos((s16)((farPos.x >> 4) / 0x1000), (s16)((farPos.z >> 4) / 0x1000), &farPos);
         work->target = farPos;
-        func_02163E58(mmdl, &farPos, &work->target.y);
+        FLDMMDL_MOVE_GetMapHeight(mmdl, &farPos, &work->target.y);
         work->stepX = (nearPos.x - pos.x) / 16;
         work->stepZ = (nearPos.z - pos.z) / 16;
         work->velocityY = -0x6000;
         work->drawOffset.y = 0x1000;
-        playerAnim = func_021A2F98(work->player);
-        func_021ACBB8(playerAnim, 2);
+        playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
+        FLDEFF_NAMIPOKE_SetFollowMode(playerAnim, 2);
         if ((u16)(work->dir + 0xfffe) <= 1)
             effectKind = 3;
-        effects = func_02188CD0(work->fieldMap);
+        effects = FIELDMAP_GetEffect(work->fieldMap);
         effectId = 9;
-        func_021ABE30(effects, &effectId, 1);
-        work->effectHandle = func_021AD564(effects, effectKind, playerAnim);
-        func_021C6B18(work->fieldMap, 0x10, 0x20000);
+        FIELD_EFFECT_LoadResources(effects, &effectId, 1);
+        work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(effects, effectKind, playerAnim);
+        FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, 0x20000);
         func_020061E4(0x6e1);
         work->state = work->state + 1;
     case 1:
-        func_0216D88C(mmdl, &nowPos);
+        FLDMMDL_GetPos(mmdl, &nowPos);
         nowPos.x += work->stepX;
         nowPos.z += work->stepZ;
-        func_0216D89C(mmdl, &nowPos);
+        FLDMMDL_SetPos(mmdl, &nowPos);
         work->drawOffset.y = -work->drawOffset.y;
         work->frame += 1;
         if (work->frame >= 0x10) {
             work->frame = 0;
             work->drawOffset.y = 0;
             work->state = work->state + 1;
-            func_021AC154(work->effectHandle);
-            playerAnim = func_021A2F98(work->player);
+            FIELD_EFFECT_DeleteObject(work->effectHandle);
+            playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
             {
                 /* both branches give 2 */
                 u32 landKind = 2;
                 if ((u16)(work->dir + 0xfffe) <= 1)
                     landKind = 2;
-                work->effectHandle = func_021AD564(func_02188CD0(work->fieldMap), landKind, playerAnim);
+                work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FIELDMAP_GetEffect(work->fieldMap), landKind, playerAnim);
             }
         }
-        func_021C12E4(mmdl, &work->drawOffset);
+        FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset(mmdl, &work->drawOffset);
         break;
     case 2:
-        func_0216D88C(mmdl, &nowPos);
+        FLDMMDL_GetPos(mmdl, &nowPos);
         nowPos.y += work->velocityY;
         if (nowPos.y <= work->target.y) {
             nowPos.y = work->target.y;
             work->state = work->state + 1;
             work->stepX = (work->target.x - nowPos.x) / 16;
             work->stepZ = (work->target.z - nowPos.z) / 16;
-            func_021C6B18(work->fieldMap, 0x10, -0x20000);
-            func_021AC154(work->effectHandle);
-            playerAnim = func_021A2F98(work->player);
-            func_021ACBB8(playerAnim, 1);
-            work->effectHandle = func_021AD564(func_02188CD0(work->fieldMap), 0, playerAnim);
+            FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, -0x20000);
+            FIELD_EFFECT_DeleteObject(work->effectHandle);
+            playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
+            FLDEFF_NAMIPOKE_SetFollowMode(playerAnim, 1);
+            work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FIELDMAP_GetEffect(work->fieldMap), 0, playerAnim);
         }
-        func_0216D89C(mmdl, &nowPos);
+        FLDMMDL_SetPos(mmdl, &nowPos);
         break;
     case 3:
-        func_0216D88C(mmdl, &nowPos);
+        FLDMMDL_GetPos(mmdl, &nowPos);
         nowPos.x += work->stepX;
         nowPos.z += work->stepZ;
-        func_0216D89C(mmdl, &nowPos);
+        FLDMMDL_SetPos(mmdl, &nowPos);
         work->frame += 1;
         if (work->frame >= 0x10) {
-            effects = func_02188CD0(work->fieldMap);
-            func_0216DB4C(mmdl, 0);
-            func_0216E014(mmdl, &work->target, work->dir);
-            func_021AC154(work->effectHandle);
-            func_021ABE64(effects, 9);
-            func_021A35A0(work->player, 1);
+            effects = FIELDMAP_GetEffect(work->fieldMap);
+            FLDMMDL_SetStatusBitHeightGetOff(mmdl, 0);
+            FLDMMDL_InitPosition(mmdl, &work->target, work->dir);
+            FIELD_EFFECT_DeleteObject(work->effectHandle);
+            FIELD_EFFECT_FreeResource(effects, 9);
+            FIELD_PLAYER_SetGridMoveState(work->player, 1);
             work->effectHandle = 0;
             work->done = 1;
             func_020061E4(0x6e2);

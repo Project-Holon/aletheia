@@ -1,5 +1,5 @@
 /*
- * function: func_021AE650
+ * function: EVENT_TRAINER_EYE_StepAdjacent
  * address: 0x021AE650
  * packet: pkt_ov021_021AE650
  * region: ov021
@@ -26,7 +26,7 @@ typedef struct IwaTask {
     int cnt;
 } IwaTask;
 
-int func_021AE650(IwaTask *w)
+int EVENT_TRAINER_EYE_StepAdjacent(IwaTask *w)
 {
     w->cnt++;
     if (w->cnt < 8) {

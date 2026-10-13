@@ -9,12 +9,12 @@
  * status: EXACT*
  * extent: two zero padding bytes at 0x021CFFAA, followed by labelled func_021CFFAC.
  * symbols:
- *   func_021D57FC 0x021D57FC thumb ov093
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
+ *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
- *   func_021D799C 0x021D799C thumb ov093
+ *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
  *   func_021D055C 0x021D055C thumb ov093
  *   _ull_mul 0x0209C054 arm
  */
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 struct G { u8 pad[0xf4]; u64 seed; u64 mul; u64 add; };
-extern u16 func_021D57FC(void *);
+extern u16 BTL_POKEPARAM_GetTypePair(void *);
 struct QG;
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern u8 WAZA_TOOL_GetType(void *p);
-extern int func_021D799C(int, int);
+extern int BTL_CALC_GetTypeAffinityVsPair(int, int);
 extern int func_021D055C(u8 *g, void *a, int b);
 int func_021CFE98(struct G *g, void *a, void *b)
 {
@@ -38,13 +38,13 @@ int func_021CFE98(struct G *g, void *a, void *b)
     u32 c;
     u32 i;
     u32 v;
-    k = func_021D57FC(b);
-    n = func_021D5448(a);
+    k = BTL_POKEPARAM_GetTypePair(b);
+    n = BTL_POKEPARAM_GetMoveCount(a);
     c = 0;
     for (i = 0; i < n; i++) {
-        v = (u32)func_021D54C0(a, (u8)i);
+        v = (u32)BTL_POKEPARAM_GetMoveId(a, (u8)i);
         if (WAZA_TOOL_IsDamaging((void *)v)) {
-            if (func_021D799C(WAZA_TOOL_GetType((void *)v), k))
+            if (BTL_CALC_GetTypeAffinityVsPair(WAZA_TOOL_GetType((void *)v), k))
                 return 0;
             c++;
         }

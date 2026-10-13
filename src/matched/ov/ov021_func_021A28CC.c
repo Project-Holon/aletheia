@@ -1,5 +1,5 @@
 /*
- * function: func_021A28CC
+ * function: WEATHER_TASK_AllocParticles
  * address:  0x021A28CC
  * packet:   pkt_ov021_021A28CC
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_021A2BD4  0x021A2BD4  thumb  ov021
- *   d_021DDE80     0x021DDE80  data  a4
+ *   WEATHER_TASK_CreateParticleActor  0x021A2BD4  thumb  ov021
+ *   gWeatherTaskFileName     0x021DDE80  data  a4
  */
 
 typedef struct {
@@ -32,19 +32,19 @@ typedef struct {
     int f3c;
 } Obj;
 
-extern int d_021DDE80;
+extern int gWeatherTaskFileName;
 
 void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
-void func_021A2BD4(void *p, void *o, void *s, int a, int b);
+void WEATHER_TASK_CreateParticleActor(void *p, void *o, void *s, int a, int b);
 
-void func_021A28CC(Obj *o, int heap)
+void WEATHER_TASK_AllocParticles(Obj *o, int heap)
 {
     int i;
 
-    o->f3c = (int)func_02030734(heap, o->hdr->f28, 1, (const char *)&d_021DDE80, 0x874);
+    o->f3c = (int)func_02030734(heap, o->hdr->f28, 1, (const char *)&gWeatherTaskFileName, 0x874);
     if (o->hdr->n != 0) {
         for (i = 0; i < 0x20; i++) {
-            func_021A2BD4((char *)o + 0x74 + i * 0x38, o, o->sub, o->f0, heap);
+            WEATHER_TASK_CreateParticleActor((char *)o + 0x74 + i * 0x38, o, o->sub, o->f0, heap);
         }
     }
 }

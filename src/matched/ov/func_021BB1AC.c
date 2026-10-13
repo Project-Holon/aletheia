@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1AC
+ * function: RAIL_ATTR_IsForceMoveUp
  * address:  0x021BB1AC
  * packet:   pkt_021BB1AC
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BB1AC(int x)
+int RAIL_ATTR_IsForceMoveUp(int x)
 {
     if (x == 165)
         return 1;

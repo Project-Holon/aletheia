@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BACA8",
+   "name": "FIELD_RAIL_CAMERA_BlendAnglesShift",
    "address": "0x021BACA8",
    "kind": "game",
    "region": "ov021",

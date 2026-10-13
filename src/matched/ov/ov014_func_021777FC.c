@@ -11,7 +11,7 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data   a4
  *   sEmptyString     0x02179790  data   a4
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02034714  0x02034714  arm
  *   func_02082D44  0x02082D44  arm
  *   func_02177A74  0x02177A74  thumb  ov014
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 extern u8 *g_pWhPipeWork;
 extern u8 sEmptyString[];
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082D44(void *src, void *dst, int n);
 extern int func_02177A74(void);
@@ -39,7 +39,7 @@ void func_021777FC(void)
 {
     u8 *w = g_pWhPipeWork;
     u8 *e = w + 0xC6E;
-    u8 *st = func_0203D798();
+    u8 *st = GFL_NET_GetInitParam();
     SizeFn sfn = *(SizeFn *)&((struct Obj19331 *)st)->f1C;
     int n;
 

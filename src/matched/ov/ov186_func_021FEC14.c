@@ -12,22 +12,22 @@
  * volatile: 021FECBC writes the engine-B blend register at 04001052.
  * abi: 0204E6E0 returns the word loaded into r0 despite its asm void declaration.
  * symbols:
- *   func_0204E720 0x0204E720 arm
+ *   FADE_Start 0x0204E720 arm
  *   func_0207D63C 0x0207D63C arm
  *   FADE_GetSpeed 0x0204E6E0 arm
- *   func_02043598 0x02043598 arm
- *   func_0204E804 0x0204E804 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_0209C0A4 0x0209C0A4 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
 #include "../include/Obj01426.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void func_0204E720(u32,int,int,int);
+extern void FADE_Start(u32,int,int,int);
 extern void func_0207D63C(u32,int,int,int,int);
 extern int FADE_GetSpeed(void);
-extern void func_02043598(u32,u32);
-extern int func_0204E804(void);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
+extern int FADE_IsActive(void);
 extern int func_0209C0A4(int,int);
 extern u32 _u32_div_f(u32,u32);
 int func_021FEC14(char *p,int *state)
@@ -39,7 +39,7 @@ int func_021FEC14(char *p,int *state)
         else if(((struct Obj01426 *)p)->f8==1){first=0;second=16;}
         if(((struct Obj01426 *)p)->f8==0){a=0;b=16;}
         else if(((struct Obj01426 *)p)->f8==1){a=16;b=0;}
-        func_0204E720(4,first,second,((struct Obj01426 *)p)->f18);
+        FADE_Start(4,first,second,((struct Obj01426 *)p)->f18);
         func_0207D63C(0x04001050,3,7,a,b);
         ((struct Obj01426 *)p)->f10=0;
         duration=((struct Obj01426 *)p)->f18;
@@ -54,9 +54,9 @@ int func_021FEC14(char *p,int *state)
         if(((struct Obj01426 *)p)->f8==0){a=_u32_div_f(((struct Obj01426 *)p)->f10<<4,((struct Obj01426 *)p)->f14);b=16-a;}
         else if(((struct Obj01426 *)p)->f8==1){b=_u32_div_f(((struct Obj01426 *)p)->f10<<4,((struct Obj01426 *)p)->f14);a=16-b;}
         *(volatile u16 *)0x04001052=a|(b<<8);
-        if(a==0)func_02043598(3,0);else func_02043598(3,1);
+        if(a==0)BG_SYS_SetSubPlaneVisible(3,0);else BG_SYS_SetSubPlaneVisible(3,1);
         done&=((((struct Obj01426 *)p)->f10)++ >= ((struct Obj01426 *)p)->f14);
-        if(done & !func_0204E804())*state=2;
+        if(done & !FADE_IsActive())*state=2;
         break;
     }
     case 2:return 1;

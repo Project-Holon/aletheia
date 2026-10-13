@@ -10,12 +10,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F05F8 0x021F05F8 data a4
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   gOvercoatHandlers 0x021F05F8 data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
-extern unsigned char d_021F05F8[];
-extern int func_021D775C(int);
-extern int func_021D76BC(int,unsigned int);
-void func_021DC4A4(int a, int b, int c) { if (c == func_021D775C(2) && func_021D775C(50) > 0) func_021D76BC(65,1); }
-void *func_021DC4C8(int *p) { *p = 1; return d_021F05F8; }
+extern unsigned char gOvercoatHandlers[];
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int,unsigned int);
+void func_021DC4A4(int a, int b, int c) { if (c == BTL_EVENT_GetVar(2) && BTL_EVENT_GetVar(50) > 0) BTL_EVENT_OverwriteVar(65,1); }
+void *func_021DC4C8(int *p) { *p = 1; return gOvercoatHandlers; }

@@ -1,5 +1,5 @@
 /*
- * function: func_02194B70
+ * function: TALKMSGWIN_RequestOpen
  * address:  0x02194B70
  * packet:   pkt_02194B70
  * region:   ov021
@@ -13,7 +13,7 @@
  * into the u16 at offset 0.  Listing bytes 02 21 01 80 70 47.
  *
  * symbols:
- *   func_02194B70  0x02194B70  thumb  ov021
+ *   TALKMSGWIN_RequestOpen  0x02194B70  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02194B70(u16 *p, int i)
+void TALKMSGWIN_RequestOpen(u16 *p, int i)
 {
     *p = 2;
 }

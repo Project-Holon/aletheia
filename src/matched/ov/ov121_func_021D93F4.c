@@ -10,7 +10,7 @@
  * extent: two zero alignment bytes at 021D9486; next function starts 021D9488.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_02025538 0x02025538 thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021DA8CC 0x021DA8CC thumb ov121
  *   func_021DA9EC 0x021DA9EC thumb ov121
  *   func_021DA9F0 0x021DA9F0 thumb ov121
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { short x,y,z; u8 a,b; } Pos;
 extern void func_02082BCC(void *,int,int);
-extern void *func_02025538(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern void *func_021DA8CC(const char *p, u16 a, u16 b, int c, u8 d, int e, void *f, void *g, u16 heap);
 typedef unsigned int   u32;
 struct Obj;
@@ -38,7 +38,7 @@ void func_021D93F4(u8 *p,const void *q,int n,int k,int x,int y,int z,u16 heap)
     Pos pos;
     func_02082BCC(p,0,12);
     *(const void * *)&((struct Obj04492 *)p)->f8=q;
-    ((struct Obj04492 *)p)->f0=func_02025538(heap,(void *)n);
+    ((struct Obj04492 *)p)->f0=BMP_OAM_CreateSys(heap,(void *)n);
     func_02082BCC(&pos,0,8);
     pos.x=96; pos.y=169; pos.a=0; pos.b=0;
     ((struct Obj04492 *)p)->f4=func_021DA8CC((const char *)(&pos),8,2,(int)(*(void *const *)&((struct Obj22870 *)q)->f0),3,0,((struct Obj04492 *)p)->f0,(void *)k,heap);

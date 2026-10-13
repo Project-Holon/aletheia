@@ -1,5 +1,5 @@
 /*
- * function: func_021AC900
+ * function: FLDEFF_GRASS_Update
  * address:  0x021AC900
  * packet:   pkt_ov021_021AC900
  * region:   ov021
@@ -13,14 +13,14 @@
  * unlabelled `bx lr` stub.
  *
  * symbols:
- *   func_0216E1C4  0x0216E1C4  thumb  ov010
- *   func_021AC9D8  0x021AC9D8  thumb  ov021
- *   func_0216D608  0x0216D608  thumb  ov010
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_020508EC  0x020508EC  arm
- *   func_0205085C  0x0205085C  arm
- *   d_021D90C0     0x021D90C0  data
- *   d_021D90C8     0x021D90C8  data  a2
+ *   FLDMMDL_CheckCheckInfo  0x0216E1C4  thumb  ov010
+ *   FLDEFF_GRASS_IsModelOnTile  0x021AC9D8  thumb  ov021
+ *   FLDMMDL_GetDirMove  0x0216D608  thumb  ov010
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   BILLBOARD_ACT_GetEntryLastCommand  0x020508EC  arm
+ *   BILLBOARD_ACT_SetEntryCursor  0x0205085C  arm
+ *   sGrassEndsOnLeave     0x021D90C0  data
+ *   sGrassCommandCursor     0x021D90C8  data  a2
  * Addresses are Black-image addresses.
  */
 
@@ -37,16 +37,16 @@ typedef struct B {
     u16 f30;
 } B;
 
-extern int func_0216E1C4(int a0, int a1);
-extern int func_021AC9D8(u8 *p);
-extern u16 func_0216D608(void *p);
-extern void func_021AC154(u32 a);
-extern u32 func_020508EC(u8 *p, int i, u16 *out);
-extern void func_0205085C(void *p, int idx, u32 v);
-extern u8 d_021D90C0[];
-extern u16 d_021D90C8[];
+extern int FLDMMDL_CheckCheckInfo(int a0, int a1);
+extern int FLDEFF_GRASS_IsModelOnTile(u8 *p);
+extern u16 FLDMMDL_GetDirMove(void *p);
+extern void FIELD_EFFECT_DeleteObject(u32 a);
+extern u32 BILLBOARD_ACT_GetEntryLastCommand(u8 *p, int i, u16 *out);
+extern void BILLBOARD_ACT_SetEntryCursor(void *p, int idx, u32 v);
+extern u8 sGrassEndsOnLeave[];
+extern u16 sGrassCommandCursor[];
 
-void func_021AC900(u32 a, B *b)
+void FLDEFF_GRASS_Update(u32 a, B *b)
 {
     u32 h = *(u32 *)(b->blk.w[0] + 4);
     u32 m;
@@ -54,33 +54,33 @@ void func_021AC900(u32 a, B *b)
 
     switch (b->f0) {
     case 0:
-        if (d_021D90C0[b->blk.w[8]] == 1) {
+        if (sGrassEndsOnLeave[b->blk.w[8]] == 1) {
             m = b->blk.w[1];
-            if (func_0216E1C4(m, (int)b->f28) == 1 && func_021AC9D8((u8 *)b) == 0 && func_0216D608((void *)m) == 1) {
-                func_021AC154(a);
+            if (FLDMMDL_CheckCheckInfo(m, (int)b->f28) == 1 && FLDEFF_GRASS_IsModelOnTile((u8 *)b) == 0 && FLDMMDL_GetDirMove((void *)m) == 1) {
+                FIELD_EFFECT_DeleteObject(a);
                 return;
             }
         }
-        if (func_020508EC((u8 *)h, b->f30, &tmp) != 0)
+        if (BILLBOARD_ACT_GetEntryLastCommand((u8 *)h, b->f30, &tmp) != 0)
             b->f0++;
         break;
     case 1:
-        if (func_0216E1C4(b->blk.w[1], (int)b->f28) == 0) {
-            func_021AC154(a);
+        if (FLDMMDL_CheckCheckInfo(b->blk.w[1], (int)b->f28) == 0) {
+            FIELD_EFFECT_DeleteObject(a);
             return;
         }
-        func_0205085C((void *)h, b->f30, d_021D90C8[b->blk.w[8]]);
+        BILLBOARD_ACT_SetEntryCursor((void *)h, b->f30, sGrassCommandCursor[b->blk.w[8]]);
         b->f0++;
         break;
     case 2:
         b->f0++;
     case 3:
-        if (func_0216E1C4(b->blk.w[1], (int)b->f28) == 0) {
-            func_021AC154(a);
+        if (FLDMMDL_CheckCheckInfo(b->blk.w[1], (int)b->f28) == 0) {
+            FIELD_EFFECT_DeleteObject(a);
             return;
         }
-        if (func_021AC9D8((u8 *)b) == 0)
-            func_021AC154(a);
+        if (FLDEFF_GRASS_IsModelOnTile((u8 *)b) == 0)
+            FIELD_EFFECT_DeleteObject(a);
         break;
     }
 }

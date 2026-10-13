@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: pointer addition spells base + index + 0x24, avoiding indexed strb.
  * symbols:
- *   func_02006224 0x02006224 thumb
+ *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021C2874 0x021C2874 thumb ov099
  *   func_021C23C8 0x021C23C8 thumb ov099
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_02006224(u32 a0);
+extern int GFL_USE_IsSeSlotBusy(u32 a0);
 extern int func_021C23B8(int i);
 extern int func_021C2874(void *);
 extern int func_021C23C8(void *a, void *b);
@@ -37,7 +37,7 @@ extern void func_021BC090(char *);
 int func_021BF950(char *p, int ret)
 {
     int i = ((struct Obj03734 *)p)->f242 - 1;
-    if (func_02006224(0)) return ret;
+    if (GFL_USE_IsSeSlotBusy(0)) return ret;
     *(*(u8 * *)&((struct Obj03734 *)p)->f248 + i + 0x24) = func_021C2874((void *)func_021C23B8(i));
     if (i >= 0 && i < 32 && func_021C23C8(p, (void *)i)) {
         ((struct Obj03734 *)p)->f1C4 = 0xe10;

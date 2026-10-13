@@ -1,5 +1,5 @@
 /*
- * function: func_0215882C
+ * function: SCRIPT_SYS_Main
  * address:  0x0215882C
  * packet:   pkt_0215882C
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   VM_Control  0x02011298  thumb
- *   func_02158CB4  0x02158CB4  thumb  ov010
+ *   SCRIPT_SYS_DeleteVm  0x02158CB4  thumb  ov010
  */
 #include "../include/Obj00105.h"
 #include "../include/Obj12028.h"
@@ -22,9 +22,9 @@ typedef unsigned int u32;
 
 struct ScriptVm;
 extern int VM_Control(struct ScriptVm *vm);
-extern int func_02158CB4(int a0);
+extern int SCRIPT_SYS_DeleteVm(int a0);
 
-int func_0215882C(int a0)
+int SCRIPT_SYS_Main(int a0)
 {
     int t4;
     int t5;
@@ -50,7 +50,7 @@ a0 = ((struct Obj00105 *)t5)->f2;
 a0 = a0 - 1;
 ((struct Obj00105 *)t5)->f2 = a0;
 a0 = t6 + 0;
-    a0 = func_02158CB4(a0);
+    a0 = SCRIPT_SYS_DeleteVm(a0);
 loc_02158856:
 t4 = t4 + 1;
     if (t4 < 3) goto loc_02158832;

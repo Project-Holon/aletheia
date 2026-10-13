@@ -1,5 +1,5 @@
 /*
- * function: func_021B5CE8
+ * function: SCRCMD_POKEMON_FLD_GetMonIvStat
  * address:  0x021B5CE8
  * packet:   pkt_ov021_021B5CE8
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215B4AC  0x0215B4AC  thumb  ov010
- *   func_02017E1C  0x02017E1C  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_PROC_GetPartyMember  0x0215B4AC  thumb  ov010
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -21,12 +21,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02159B10(void *, void *);
-extern int func_0215B4AC(void *a0, u32 a1, void **a2);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern int SCRCMD_PROC_GetPartyMember(void *a0, u32 a1, void **a2);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
-int func_021B5CE8(void *a, void *b)
+int SCRCMD_POKEMON_FLD_GetMonIvStat(void *a, void *b)
 {
     u16 v[6];
     void *mon;
@@ -37,20 +37,20 @@ int func_021B5CE8(void *a, void *b)
     u16 max;
     u32 i;
 
-    slot = func_02159B10(a, b);
-    which = func_02159B10(a, b);
-    out = func_02159AE8(a, b);
-    if (func_0215B4AC(b, slot, &mon) == 0) {
+    slot = SCRIPT_WORK_ReadWorkValue(a, b);
+    which = SCRIPT_WORK_ReadWorkValue(a, b);
+    out = SCRIPT_WORK_ReadWorkPointer(a, b);
+    if (SCRCMD_PROC_GetPartyMember(b, slot, &mon) == 0) {
         *out = 0;
         return 0;
     }
     sum = 0;
-    v[0] = func_02017E1C(mon, 0x46, 0);
-    v[1] = func_02017E1C(mon, 0x47, 0);
-    v[2] = func_02017E1C(mon, 0x48, 0);
-    v[3] = func_02017E1C(mon, 0x49, 0);
-    v[4] = func_02017E1C(mon, 0x4a, 0);
-    v[5] = func_02017E1C(mon, 0x4b, 0);
+    v[0] = POKE_TOOL_GetPartyValue(mon, 0x46, 0);
+    v[1] = POKE_TOOL_GetPartyValue(mon, 0x47, 0);
+    v[2] = POKE_TOOL_GetPartyValue(mon, 0x48, 0);
+    v[3] = POKE_TOOL_GetPartyValue(mon, 0x49, 0);
+    v[4] = POKE_TOOL_GetPartyValue(mon, 0x4a, 0);
+    v[5] = POKE_TOOL_GetPartyValue(mon, 0x4b, 0);
     max = 0;
     for (i = 0; i < 6; i++) {
         sum += v[i];

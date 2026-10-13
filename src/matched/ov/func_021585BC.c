@@ -1,5 +1,5 @@
 /*
- * function: func_021585BC
+ * function: INTRUDE_COMM_IsWarnedWithoutRequest
  * address:  0x021585BC
  * packet:   pkt_021585BC
  * region:   ov010
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02175B14  0x02175B14  thumb
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02175B14();
+extern int INTRUDE_COMM_IsSessionActive();
 
-int func_021585BC(int a0)
+int INTRUDE_COMM_IsWarnedWithoutRequest(int a0)
 {
     int a1;
 
@@ -32,7 +32,7 @@ loc_021585C8:
 a1 = 0x6b;
 a1 = a1 << 2;
 a0 = a0 + a1;
-    a0 = func_02175B14(a0, a1);
+    a0 = INTRUDE_COMM_IsSessionActive(a0, a1);
 loc_021585D2:
     if (a0 != 0) goto loc_021585DA;
 loc_021585D6:

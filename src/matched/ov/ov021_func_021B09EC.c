@@ -1,5 +1,5 @@
 /*
- * function: func_021B09EC
+ * function: SCRCMD_MSGWIN_GetBalloonTailParams
  * address:  0x021B09EC
  * packet:   pkt_ov021_021B09EC
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B09EC  0x021B09EC  thumb
+ *   SCRCMD_MSGWIN_GetBalloonTailParams  0x021B09EC  thumb
  */
 
-void func_021B09EC(int sel, int *a, int *b)
+void SCRCMD_MSGWIN_GetBalloonTailParams(int sel, int *a, int *b)
 {
     *a = 0;
     *b = 0;

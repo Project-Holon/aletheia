@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02082D44 0x02082D44 arm
  */
 
 typedef unsigned int   u32;
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void func_02082D44(void *thread, void *arg1, void *res);
 
 void OS_KillThread(void *thread, void *arg1)
 {
-    void *res = (void *)func_020173EC();
+    void *res = (void *)POKE_TOOL_GetPartyParamSize();
     func_02082D44(thread, arg1, res);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A3068
+ * function: FIELD_PLAYER_GetFieldMap
  * address:  0x021A3068
  * packet:   pkt_021A2F48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A395C  0x021A395C  thumb
+ *   FIELD_PLAYER_CORE_GetFieldMap  0x021A395C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A395C(u8 *p);
+extern u32 FIELD_PLAYER_CORE_GetFieldMap(u8 *p);
 
-u32 func_021A3068(u8 *p)
+u32 FIELD_PLAYER_GetFieldMap(u8 *p)
 {
-    return func_021A395C((u8 *)(((struct Obj18014 *)p)->f4));
+    return FIELD_PLAYER_CORE_GetFieldMap((u8 *)(((struct Obj18014 *)p)->f4));
 }

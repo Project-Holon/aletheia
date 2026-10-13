@@ -1,5 +1,5 @@
 /*
- * function: func_021F0C44
+ * function: DOWSING_UpdateFade
  * address:  0x021F0C44
  * packet:   pkt_ov033_021F0C44
  * region:   ov033
@@ -31,7 +31,7 @@ extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, 
 extern void CLACT_StartActorAnim(struct Actor *a);
 extern void CLACT_StopActorAnim(struct Actor *a);
 
-void func_021F0C44(char *p)
+void DOWSING_UpdateFade(char *p)
 {
     u16 m;
     u8 i;

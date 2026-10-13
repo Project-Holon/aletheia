@@ -1,5 +1,5 @@
 /*
- * function: func_021D5C08
+ * function: BTL_POKEPARAM_GetSemiInvulnerableFlag
  * address:  0x021D5C08
  * packet:   pkt_ov093_021D5C08
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   data_021F040C  0x021F040C  data  ov093
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -50,13 +50,13 @@ struct UtilWork {
 };
 
 extern const u32 data_021F040C[4];
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 
-u32 func_021D5C08(struct UtilWork *p)
+u32 BTL_POKEPARAM_GetSemiInvulnerableFlag(struct UtilWork *p)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        if (func_021D5BDC(p, data_021F040C[i])) return data_021F040C[i];
+        if (BTL_POKEPARAM_TestContFlag(p, data_021F040C[i])) return data_021F040C[i];
     }
     return 0x10;
 }

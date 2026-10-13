@@ -10,18 +10,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020263D8, func_02026400, func_0202640C
+ * function: GAME_COMM_Start, GAME_COMM_RequestExitNoCallback, GAME_COMM_RequestExit
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_020264F4  0x020264F4  thumb
+ *   GAME_COMM_ClearPlayerStatus  0x020264F4  thumb
  *   GAME_COMM_SetSeqState  0x02026490  thumb
  *
  * game_comm.c, 0x020263D8..0x02026454: start a request, the unlabelled
- * forwarding leaf func_02026400 (func_0202640C(p, 0, 0) as a pool-word tail
+ * forwarding leaf GAME_COMM_RequestExitNoCallback (GAME_COMM_RequestExit(p, 0, 0) as a pool-word tail
  * call), and the request update.  The byte at +4 of the comm object and of
  * its 8-byte sub-object at +0xC is a set of one-bit flags; every clear is a
  * `bics` and every set an `orrs`, which only bitfield stores give
- * (docs/families/game_comm.h).  func_020263D8 clears bit 1 between its two
+ * (docs/families/game_comm.h).  GAME_COMM_Start clears bit 1 between its two
  * plain stores: f14, bit, f05 is the one order whose flag load lands after
  * the f14 store (the other two schedule the f05 store first).
  *
@@ -60,9 +60,9 @@ struct Comm {
 };
 
 extern void func_02082BCC(void *dst, int val, u32 n);
-extern void func_020264F4(u8 *p);
+extern void GAME_COMM_ClearPlayerStatus(u8 *p);
 
-void func_020263D8(struct Comm *p, u32 a1, u32 a2)
+void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2)
 {
     p->f14 = a2;
     p->b1 = 0;
@@ -70,19 +70,19 @@ void func_020263D8(struct Comm *p, u32 a1, u32 a2)
     p->f20 = 0;
     p->f1c = 0;
     func_02082BCC(&p->sub, 0, 8);
-    func_020264F4((u8 *)p);
+    GAME_COMM_ClearPlayerStatus((u8 *)p);
 }
 
-void func_0202640C(struct Comm *p, u32 a, u32 b);
+void GAME_COMM_RequestExit(struct Comm *p, u32 a, u32 b);
 
-void func_02026400(struct Comm *p)
+void GAME_COMM_RequestExitNoCallback(struct Comm *p)
 {
-    func_0202640C(p, 0, 0);
+    GAME_COMM_RequestExit(p, 0, 0);
 }
 
 extern void GAME_COMM_SetSeqState(void *obj, u32 value);
 
-void func_0202640C(struct Comm *p, u32 a, u32 b)
+void GAME_COMM_RequestExit(struct Comm *p, u32 a, u32 b)
 {
     if (*((u8 *)&p->sub + 4) == 2) {
         GAME_COMM_SetSeqState(&p->sub, 3);

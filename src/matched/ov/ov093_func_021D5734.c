@@ -1,5 +1,5 @@
 /*
- * function: func_021D5734
+ * function: BTL_POKEPARAM_ReplaceMove
  * address: 0x021D5734
  * packet: pkt_ov093_021D5734
  * region: ov093
@@ -16,5 +16,5 @@ struct S;
 extern void func_021D51DC(struct S *p, unsigned int a, unsigned int b, unsigned int c);
 typedef unsigned int u32;
 typedef unsigned short u16;
-void func_021D5734(u8 *p, u8 i, u16 a, u8 b, u32 c)
+void BTL_POKEPARAM_ReplaceMove(u8 *p, u8 i, u16 a, u8 b, u32 c)
 { func_021D51DC((void *)((u32)p + 0x104 + i * 14), a, b, c); }

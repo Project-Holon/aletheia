@@ -1,5 +1,5 @@
 /*
- * function: func_0216F064
+ * function: EVENT_BATTLE_IntegrityProbeA
  * address:  0x0216F064
  * packet:   pkt_0216F064
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 func_0203F0A8(void);
 
-int func_0216F064(int a0)
+int EVENT_BATTLE_IntegrityProbeA(int a0)
 {
 
     a0 = func_0203F0A8();

@@ -1,5 +1,5 @@
 /*
- * function: func_02165D40
+ * function: GAME_BEACON_ACCESSOR_GetPassCount
  * packet: pkt_ov010_02165D40
  * address: 0x02165D40
  * region: ov010
@@ -13,4 +13,4 @@
  */
 typedef unsigned int u32;
 struct S {u32 a,b;u32 value:17;u32 rest:15;};
-u32 func_02165D40(const struct S *p) { return p->value; }
+u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct S *p) { return p->value; }

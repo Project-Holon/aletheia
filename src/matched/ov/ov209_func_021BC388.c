@@ -16,7 +16,7 @@
  *   func_02040B94 0x02040B94 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   data_021BE804 0x021BE804 data a4
  *   data_021BE894 0x021BE894 data a4
  *   data_021BE874 0x021BE874 data a4
@@ -42,7 +42,7 @@ typedef unsigned char  u8;
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02041B6C(u32);
 extern void func_020434DC(u32,u32);
-extern void func_02043598(u32,u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 void func_021BC388(void)
 {
     struct Display display;
@@ -61,5 +61,5 @@ void func_021BC388(void)
     b6=data_021BE8D4;func_0203FCA0(6,&b6,0);
     func_020414EC(6);func_02041B6C(6);
     b7=data_021BE834;func_0203FCA0(7,&b7,0);
-    func_020434DC(15,1);func_02043598(15,1);
+    func_020434DC(15,1);BG_SYS_SetSubPlaneVisible(15,1);
 }

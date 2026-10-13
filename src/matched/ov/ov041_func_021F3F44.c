@@ -1,5 +1,5 @@
 /*
- * function: func_021F3F44
+ * function: GIMMICK41_FacingToRingIndex
  * address:  0x021F3F44
  * packet:   pkt_021F3F44
  * region:   ov041
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021F3F44(int x)
+int GIMMICK41_FacingToRingIndex(int x)
 {
     switch (x) {
     case 0: return 0;

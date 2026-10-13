@@ -1,5 +1,5 @@
 /*
- * function: func_021CE3B4
+ * function: BTL_CLIENT_ShowMessage
  * address: 0x021CE3B4
  * packet: pkt_ov093_021CE3B4
  * region: ov093
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct H;
 extern void func_021EA614(char *p, struct H *h);
-void func_021CE3B4(u8 *p, void *q) { func_021EA614(((struct Obj13356 *)p)->f54,q); p[0x120]=1; }
+void BTL_CLIENT_ShowMessage(u8 *p, void *q) { func_021EA614(((struct Obj13356 *)p)->f54,q); p[0x120]=1; }

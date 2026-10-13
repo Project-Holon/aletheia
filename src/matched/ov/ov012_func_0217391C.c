@@ -1,5 +1,5 @@
 /*
- * function: func_0217391C
+ * function: UNION_MAIN_GetFieldRequest
  * address:  0x0217391C
  * packet:   pkt_ov012_0217391C
  * region:   ov012
@@ -17,7 +17,7 @@
 
 typedef unsigned char u8;
 
-int func_0217391C(u8 *p)
+int UNION_MAIN_GetFieldRequest(u8 *p)
 {
     return ((struct Obj19240 *)p)->f3568;
 }

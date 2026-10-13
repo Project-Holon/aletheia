@@ -1,5 +1,5 @@
 /*
- * function: func_021DDC38
+ * function: BTL_ITEM_GetWeakenDamageGhostHandlers
  * address: 0x021DDC38
  * packet: pkt_ov093_021DDC38
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DDC24.c and filed here.
  *
  * symbols:
- *   d_021F180C 0x021F180C data ov093 a4
+ *   gBtlItemWeakenDamageGhostHandlers 0x021F180C data ov093 a4
  */
 
-extern int d_021F180C[];
-int *func_021DDC38(int *p);
+extern int gBtlItemWeakenDamageGhostHandlers[];
+int *BTL_ITEM_GetWeakenDamageGhostHandlers(int *p);
 
-int *func_021DDC38(int *p)
+int *BTL_ITEM_GetWeakenDamageGhostHandlers(int *p)
 {
     *p = 2;
-    return d_021F180C;
+    return gBtlItemWeakenDamageGhostHandlers;
 }

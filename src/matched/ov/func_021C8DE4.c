@@ -1,5 +1,5 @@
 /*
- * function: func_021C8DE4
+ * function: FIELD_TILE_MOVE_SlideShowSurfPokemon
  * address:  0x021C8DE4
  * packet:   pkt_021C8DE4
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A2F98  0x021A2F98  thumb  ov021
- *   func_021ACBC8  0x021ACBC8  thumb  ov021
+ *   FIELD_PLAYER_GetRideEffect  0x021A2F98  thumb  ov021
+ *   FLDEFF_NAMIPOKE_SetWakeEnabled  0x021ACBC8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18342.h"
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021A2F98(u8 *p);
-extern u32 func_021ACBC8(u32, u32);
+extern u32 FIELD_PLAYER_GetRideEffect(u8 *p);
+extern u32 FLDEFF_NAMIPOKE_SetWakeEnabled(u32, u32);
 
-int func_021C8DE4(u32 a)
+int FIELD_TILE_MOVE_SlideShowSurfPokemon(u32 a)
 {
-return func_021ACBC8(func_021A2F98((u8 *)(((struct Obj18342 *)((u8 *)(a)))->f8)), 1);
+return FLDEFF_NAMIPOKE_SetWakeEnabled(FIELD_PLAYER_GetRideEffect((u8 *)(((struct Obj18342 *)((u8 *)(a)))->f8)), 1);
 }
 

@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020450F0  0x020450F0  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   tbl_02203668   0x02203668  data  a4
@@ -45,11 +45,11 @@ typedef struct {
 
 extern const WinDef tbl_02203668[];
 
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 v);
 
@@ -59,21 +59,21 @@ void func_021FD104(Menu *p)
     const WinDef *d;
     u32 v;
 
-    p->frame = func_020450F0((u8)4, (u8)2, (u8)0x13, (u8)0x1b, 4, 1, (u16)1);
+    p->frame = BMP_WIN_Create((u8)4, (u8)2, (u8)0x13, (u8)0x1b, 4, 1, (u16)1);
     if (p->flag == 0) {
-        p->side[0] = func_020450F0((u8)4, (u8)1, (u8)0x15, (u8)0xd, 2, 1, (u16)1);
-        p->side[1] = func_020450F0((u8)4, (u8)0x11, (u8)0x15, (u8)0xd, 2, 1, (u16)1);
+        p->side[0] = BMP_WIN_Create((u8)4, (u8)1, (u8)0x15, (u8)0xd, 2, 1, (u16)1);
+        p->side[1] = BMP_WIN_Create((u8)4, (u8)0x11, (u8)0x15, (u8)0xd, 2, 1, (u16)1);
     }
     for (i = 0; i < 16; i++) {
         d = &tbl_02203668[i];
         if (d->bg == 2) {
-            p->win[i] = func_020450F0((u8)d->bg, (u8)d->x, (u8)d->y, (u8)d->w, d->h, 0xd, (u16)1);
+            p->win[i] = BMP_WIN_Create((u8)d->bg, (u8)d->x, (u8)d->y, (u8)d->w, d->h, 0xd, (u16)1);
         } else {
-            p->win[i] = func_020450F0((u8)d->bg, (u8)d->x, (u8)d->y, (u8)d->w, d->h, 1, (u16)1);
+            p->win[i] = BMP_WIN_Create((u8)d->bg, (u8)d->x, (u8)d->y, (u8)d->w, d->h, 1, (u16)1);
         }
         v = p->win[i];
-        func_02045334((struct Descriptor *)v);
-        func_02045374((struct Cfg *)v);
+        BMP_WIN_TransferChars((struct Descriptor *)v);
+        BMP_WIN_MakeScreen((struct Cfg *)v);
         func_02041B6C(func_02045730((struct Descriptor *)v));
     }
 }

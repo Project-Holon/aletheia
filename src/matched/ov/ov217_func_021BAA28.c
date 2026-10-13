@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B1CC  0x0204B1CC  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
  *
  * Addresses are Black-image addresses.
  */
 
 struct Bank;
 typedef unsigned int   u32;
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 void func_021BAA28(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        func_0204B1CC((struct Bank *)p[i + 0x1D]);
+        CLACT_DeleteUnit((struct Bank *)p[i + 0x1D]);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218FDF0
+ * function: FIELD_CAMERA_LerpAngle
  * address:  0x0218FDF0
  * packet:   pkt_ov021_0218FDF0
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u16 func_0218FDF0(u16 *a, u16 *b, s32 d, s32 n)
+u16 FIELD_CAMERA_LerpAngle(u16 *a, u16 *b, s32 d, s32 n)
 {
     u16 x, delta, rem;
     if (d == 0)

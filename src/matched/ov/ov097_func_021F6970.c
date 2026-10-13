@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045B38  0x02045B38  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201C450  0x0201C450  thumb
  */
@@ -28,15 +28,15 @@ struct GfFont;
 struct MsgBank;
 struct WordSet;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_0201C450(u16 n, u32 heap);
 
 void func_021F6970(u8 *p)
 {
     ((struct Obj00111 *)p)->f14 = func_02045B38(0, 2, 0x12, 0x71);
-    ((struct Obj00111 *)p)->fC = func_0201D7EC(0x17, 0, 0, 0, 0x71);
-    ((struct Obj00111 *)p)->f10 = func_0201D7EC(0x17, 3, 0, 0, 0x71);
+    ((struct Obj00111 *)p)->fC = GF_FONT_Create(0x17, 0, 0, 0, 0x71);
+    ((struct Obj00111 *)p)->f10 = GF_FONT_Create(0x17, 3, 0, 0, 0x71);
     ((struct Obj00111 *)p)->f18 = func_0201EC64(0x71);
     ((struct Obj00111 *)p)->f1C = func_0201C450(0x800, 0x71);
 }

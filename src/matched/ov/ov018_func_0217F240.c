@@ -1,5 +1,5 @@
 /*
- * function: func_0217F240
+ * function: INTRUDE_SUBDISP_DrawInfoPanel
  * address:  0x0217F240
  * packet:   pkt_ov018_0217F240
  * region:   ov018
@@ -21,7 +21,7 @@ extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a
 extern void func_02041B6C(u32 bit);
 extern void func_020409B4(u32 layer);
 
-void func_0217F240(u8 *p, int mode)
+void INTRUDE_SUBDISP_DrawInfoPanel(u8 *p, int mode)
 {
     func_020410D0(6, 0x14, 0x16, 0xC, 2, (u32)(p + 0x138), 0, 0, 0xC, 2);
     if (mode == 1) {

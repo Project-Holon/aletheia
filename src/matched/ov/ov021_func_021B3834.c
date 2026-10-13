@@ -1,5 +1,5 @@
 /*
- * function: func_021B3834
+ * function: SCRCMD_PROC_FLD_LoadItemRows
  * address:  0x021B3834
  * packet:   pkt_ov021_021B3834
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern u32 func_02021288(u32 id);
 
-u32 func_021B3834(u8 *p, int n)
+u32 SCRCMD_PROC_FLD_LoadItemRows(u8 *p, int n)
 {
     u32 r = func_02021288(((struct Obj19995 *)p)->f0);
     int i;

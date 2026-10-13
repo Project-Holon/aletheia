@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021D1410   0x021D1410  thumb
- *   func_021B86DC   0x021B86DC  thumb ov093
+ *   BTL_MAIN_GetWinBgm   0x021B86DC  thumb ov093
  *   func_021B8FF4   0x021B8FF4  thumb ov093
  *   func_021B904C   0x021B904C  thumb ov093
  *   func_021B919C   0x021B919C  thumb ov093
@@ -45,7 +45,7 @@ typedef struct {
 } BattleSeq;
 
 extern int func_021D13A4(BattleSeq *s);
-extern u16 func_021B86DC(void **p);
+extern u16 BTL_MAIN_GetWinBgm(void **p);
 extern void func_021F878C(u32 a);
 extern u8 func_021B904C(u8 *p, int k);
 extern int func_021BA1A8(char **p, int m);
@@ -74,7 +74,7 @@ int func_021D1410(BattleSeq *s, int *state)
     switch (*state) {
     case 0:
         if (func_021D13A4(s) == 1) {
-            func_021F878C(func_021B86DC(s->battle));
+            func_021F878C(BTL_MAIN_GetWinBgm(s->battle));
             a = func_021B904C(s->battle, 0);
             b = func_021B904C(s->battle, 1);
             if (a == b) {

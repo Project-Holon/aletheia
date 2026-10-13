@@ -1,5 +1,5 @@
 /*
- * function: func_0218BA48
+ * function: FIELD_BUILDMODEL_RemoveNode
  * address:  0x0218BA48
  * packet:   pkt_ov021_0218BA48
  * region:   ov021
@@ -15,7 +15,7 @@ typedef struct {
     void *arr[7];
 } S;
 
-void func_0218BA48(S *p, void *v)
+void FIELD_BUILDMODEL_RemoveNode(S *p, void *v)
 {
     int i;
     for (i = 0; i < 7; i++) {

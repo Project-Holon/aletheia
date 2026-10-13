@@ -1,5 +1,5 @@
 /*
- * function: func_021A3920
+ * function: FIELD_PLAYER_CORE_GetDirDisp
  * address:  0x021A3920
  * packet:   pkt_021A3810
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x1c.
  *
  * symbols:
- *   func_0216D5F8  0x0216D5F8  thumb
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0216D5F8(u32);
+extern u16 FLDMMDL_GetDirDisp(u32);
 
-u16 func_021A3920(u8 *p)
+u16 FIELD_PLAYER_CORE_GetDirDisp(u8 *p)
 {
-    return func_0216D5F8(((struct Obj18033 *)p)->f1C);
+    return FLDMMDL_GetDirDisp(((struct Obj18033 *)p)->f1C);
 }

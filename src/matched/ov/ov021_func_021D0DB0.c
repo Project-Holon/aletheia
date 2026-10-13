@@ -1,5 +1,5 @@
 /*
- * function: func_021D0DB0
+ * function: TRIAL_HOUSE_ComputeScoreAndRank
  * address:  0x021D0DB0
  * packet:   pkt_ov021_021D0DB0
  * region:   ov021
@@ -17,13 +17,13 @@
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E8F8  0x0200E8F8  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02030734  0x02030734  arm
- *   func_020072CC  0x020072CC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_02082D44  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
@@ -58,13 +58,13 @@ struct Big;
 struct Ctx;
 struct Sub02008C20Obj;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E8F8(void *sys);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
-extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
+extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern u8 *func_020073D8(u32 sv, u32 id, u32 v);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern u32 func_020307B0(void *p);
@@ -77,7 +77,7 @@ extern void func_02008E68(struct Sub02008C20Obj *obj, u32 value);
 
 #define U32(o) (*(u32 *)(w + (o)))
 
-void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
+void TRIAL_HOUSE_ComputeScoreAndRank(u32 a, u8 *w, u16 *outRank, u16 *outScore)
 {
     u16 *st;
     u32 h;
@@ -130,7 +130,7 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
     *outRank = rank;
     *outScore = s;
 
-    h = (u32)func_02012EBC(func_020120F4((const struct Ctx *)a));
+    h = (u32)GAME_DATA_GetSaveControl(func_020120F4((const struct Ctx *)a));
     rec = func_0200E8F8((void *)h);
     e = (Rec *)(rec + (u8)(U32(0x150) != 0) * 20);
     e->valid = 1;
@@ -152,9 +152,9 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
     }
 
     if (U32(0x150) != 0) {
-        h2 = (u32)func_02012EBC(func_020120F4((const struct Ctx *)a));
+        h2 = (u32)GAME_DATA_GetSaveControl(func_020120F4((const struct Ctx *)a));
         buf = func_02030734(0x8004, 0x8004 >> 3, 1, (const char *)&d_021DE674, 0x277);
-        if (func_020072CC(h2, 5, 0x8004, buf, 0x8004 >> 3) == 1) {
+        if (SAVE_CONTROL_LoadExtraSaveWithBuffer(h2, 5, 0x8004, buf, 0x8004 >> 3) == 1) {
             func_02082D44(func_020073D8(h2, 5, 0) + 0x5a0, rec += 0x38, 0x22);
         }
         func_020307B0(buf);

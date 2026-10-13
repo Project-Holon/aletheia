@@ -1,5 +1,5 @@
 /*
- * function: func_02189A18
+ * function: FIELDMAP_GetSceneArea
  * address:  0x02189A18
  * packet:   pkt_02189A00
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02189A18(u8 *p)
+u32 FIELDMAP_GetSceneArea(u8 *p)
 {
     return ((struct Obj17887 *)p)->f40;
 }

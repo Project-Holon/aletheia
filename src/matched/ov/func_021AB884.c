@@ -1,5 +1,5 @@
 /*
- * function: func_021AB884
+ * function: FLD_SCENEAREA_LOADER_GetRecCount
  * address:  0x021AB884
  * packet:   pkt_021AB764
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021AB884(u8 *p)
+u32 FLD_SCENEAREA_LOADER_GetRecCount(u8 *p)
 {
     return ((struct Obj18078 *)p)->f4;
 }

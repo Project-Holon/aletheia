@@ -1,5 +1,5 @@
 /*
- * function: func_0215EA58
+ * function: MOVE_POKEMON_CheckCut
  * address:  0x0215EA58
  * packet:   pkt_0215EA58
  * region:   ov010
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215F104  0x0215F104  thumb  ov010
+ *   MOVE_POKEMON_IsSkillUsable  0x0215F104  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215F104(int a0, int a1);
+extern int MOVE_POKEMON_IsSkillUsable(int a0, int a1);
 
-int func_0215EA58(int a0, int a1)
+int MOVE_POKEMON_CheckCut(int a0, int a1)
 {
     int t4;
 
 a1 = 0;
 t4 = 0;
-    a0 = func_0215F104(a0, a1);
+    a0 = MOVE_POKEMON_IsSkillUsable(a0, a1);
 loc_0215EA62:
     if (a0 != 0) goto loc_0215EA68;
 loc_0215EA66:

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3BC4",
+   "name": "FIELD_GIMMICK_D06_ScanSlide",
    "address": "0x021F3BC4",
    "kind": "game",
    "region": "ov051",

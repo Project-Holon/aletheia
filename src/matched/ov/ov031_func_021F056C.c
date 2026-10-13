@@ -1,5 +1,5 @@
 /*
- * function: func_021F056C
+ * function: UNION_SUBDISP_DeleteActors
  * address: 0x021F056C
  * packet: pkt_ov031_021F056C
  * region: ov031
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-void func_021F056C(char *p) { int i; for (i=0;i<6;i++) func_0204B3B4((struct Obj *)(*(unsigned *)(p+i*4+0x18))); }
+extern void CLACT_DeleteActor(struct Obj *p);
+void UNION_SUBDISP_DeleteActors(char *p) { int i; for (i=0;i<6;i++) CLACT_DeleteActor((struct Obj *)(*(unsigned *)(p+i*4+0x18))); }

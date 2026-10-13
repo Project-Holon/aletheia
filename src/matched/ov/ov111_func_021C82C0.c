@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02048A0C  0x02048A0C  arm
- *   func_02047250  0x02047250  arm
+ *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
  *   func_02061CA4  0x02061CA4  arm
  *   d_021C8874  0x021C8874  data
  *
@@ -114,7 +114,7 @@ typedef struct {
 
 typedef signed int     s32;
 extern u32 func_02048A0C(u8 *a0, int i);
-extern Tex *func_02047250(void *p);
+extern Tex *G3D_SYSTEM_GetResourceTex(void *p);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern const int d_021C8874[];
 
@@ -145,7 +145,7 @@ void func_021C82C0(Work *p, int idx, int k)
         k = 2;
     }
     dst = p->f170[k]->fC;
-    tex = func_02047250((void *)func_02048A0C(p->fF8, 0));
+    tex = G3D_SYSTEM_GetResourceTex((void *)func_02048A0C(p->fF8, 0));
     e = TexGetPltt(tex, idx);
     func_02061CA4((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215C4C8
+ * function: SCRCMD_PROC_AddMonToBox
  * address:  0x0215C4C8
  * packet:   pkt_ov010_0215C4C8
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201293C  0x0201293C  thumb
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   func_02007984  0x02007984  thumb
- *   func_0215C40C  0x0215C40C  thumb  ov010
+ *   SCRCMD_PROC_CreateMonFromSpec  0x0215C40C  thumb  ov010
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_020074D8  0x020074D8  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
@@ -26,10 +26,10 @@ typedef unsigned int u32;
 
 struct BigObj;
 struct Sub02007454Entry;
-extern u32 func_0201293C(const struct BigObj *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern int func_02007984(void *a);
 struct Spec;
-extern void *func_0215C40C(void *a, struct Spec *s);
+extern void *SCRCMD_PROC_CreateMonFromSpec(void *a, struct Spec *s);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void *func_0200CA1C(void *a);
@@ -37,15 +37,15 @@ struct Blk37;
 extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern u32 func_020307B0(void *p);
 
-int func_0215C4C8(void *a, void *b)
+int SCRCMD_PROC_AddMonToBox(void *a, void *b)
 {
     void *r6;
     void *r5;
 
-    r6 = (void *)func_0201293C(a);
+    r6 = (void *)GAME_DATA_GetBoxManager(a);
     if (func_02007984(r6) >= 0x2D0)
         return 0;
-    r5 = func_0215C40C(a, b);
+    r5 = SCRCMD_PROC_CreateMonFromSpec(a, b);
     func_020074D8(r6, (const struct Sub02007454Entry *)((u32)POKE_TOOL_GetBoxParam(r5)));
     func_0200CDE0(func_0200CA1C(a), r5);
     func_020307B0(r5);

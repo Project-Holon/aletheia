@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020392B8  0x020392B8  arm
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_IsNetTypeBeacon  0x0203D26C  arm
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   GFL_USE_RunHBlankTasks   0x02005610  thumb
@@ -25,7 +25,7 @@
  * Integrator: seed 0x02005204 (unlabelled follower, member of this unit).
  */
 
-extern int func_020392B8(void);
+extern int GFL_NET_SYSTEM_GetConnectNum(void);
 typedef unsigned int   u32;
 extern u32 GFL_NET_IsNetTypeBeacon(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
@@ -33,7 +33,7 @@ extern void GFL_USE_RunHBlankTasks(void);
 
 int GFL_USE_IsNetQuiet(void)
 {
-    if (func_020392B8() > 1)
+    if (GFL_NET_SYSTEM_GetConnectNum() > 1)
         return 0;
     if (GFL_NET_IsNetTypeBeacon() != 0)
         return 0;

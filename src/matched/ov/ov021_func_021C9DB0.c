@@ -1,5 +1,5 @@
 /*
- * function: func_021C9DB0
+ * function: BSUBWAY_SCR_AddBattlePoint
  * address:  0x021C9DB0
  * packet:   pkt_ov021_021C9DB0
  * region:   ov021
@@ -39,7 +39,7 @@ extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
 extern void func_0200DA80(struct Blk1AC *p, s32 v);
 extern const u8 d_021DACDC[7][10];
 
-u32 func_021C9DB0(u8 *p)
+u32 BSUBWAY_SCR_AddBattlePoint(u8 *p)
 {
     int r;
     int row;

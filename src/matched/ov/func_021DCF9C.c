@@ -1,5 +1,5 @@
 /*
- * function: func_021DCF9C
+ * function: BTL_HANDLER_ITEM_RemoveFactor
  * address:  0x021DCF9C
  * packet:   pkt_021DCF9C
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D7040   0x021D7040  thumb ov093
- *   func_021DCF9C   0x021DCF9C  thumb ov093
+ *   BTL_EVENT_RemoveFactor   0x021D7040  thumb ov093
+ *   BTL_HANDLER_ITEM_RemoveFactor   0x021DCF9C  thumb ov093
  *
- * tail-call thunk to func_021D7040
+ * tail-call thunk to BTL_EVENT_RemoveFactor
  */
 
 typedef unsigned char u8;
@@ -24,9 +24,9 @@ typedef signed short s16;
 typedef signed int s32;
 
 struct Node;
-extern void func_021D7040(struct Node *n);
+extern void BTL_EVENT_RemoveFactor(struct Node *n);
 
-void func_021DCF9C(void *n)
+void BTL_HANDLER_ITEM_RemoveFactor(void *n)
 {
-    func_021D7040(n);
+    BTL_EVENT_RemoveFactor(n);
 }

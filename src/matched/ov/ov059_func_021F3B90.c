@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B90
+ * function: SP_POKE_GIMMICK_MoveEventMain
  * address:  0x021F3B90
  * packet:   pkt_ov059_021F3B90
  * region:   ov059
@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     the task callback func_021F39B8 installs: steps w->g towards
+ * note:     the task callback SP_POKE_GIMMICK_StartMove installs: steps w->g towards
  *           w->f and interpolates a position between w->c and w->d with a
  *           bump of w->e on the middle axis. Each difference goes through
  *           the named temporary k (the original computes it into r1 and
@@ -18,11 +18,11 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE4B4  0x021BE4B4  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -46,13 +46,13 @@ typedef struct {
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern V *func_021BE480(void *p, int i, u16 j);
-extern void func_021BE4B4(char *p, int i, int j, int v);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern V *FLD_EXP_OBJ_GetModelStatus(void *p, int i, u16 j);
+extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
 
-int func_021F3B90(void *a)
+int SP_POKE_GIMMICK_MoveEventMain(void *a)
 {
     void *t;
     void *s;
@@ -63,10 +63,10 @@ int func_021F3B90(void *a)
     int k;
     V pos;
 
-    t = func_0201210C(func_020124E4(a));
-    s = (void *)func_02188D2C(t);
+    t = GAMESYSTEM_GetFieldMap(func_020124E4(a));
+    s = (void *)FIELDMAP_GetExpObj(t);
     flag = 1;
-    w = (W *)func_021897BC(t, 1);
+    w = (W *)FIELDMAP_GetCommonWork(t, 1);
     if (w->b == 0)
         flag = 0;
     w->g++;
@@ -81,10 +81,10 @@ int func_021F3B90(void *a)
     if (n >= (d + 1) / 2)
         n = d - n;
     pos.b += w->e * n / d;
-    *func_021BE480(s, 0, flag) = pos;
+    *FLD_EXP_OBJ_GetModelStatus(s, 0, flag) = pos;
     if (w->g >= w->f) {
         if (w->b == 1)
-            func_021BE4B4(s, 0, (u16)flag, 1);
+            FLD_EXP_OBJ_SetModelHidden(s, 0, (u16)flag, 1);
         return 1;
     }
     return 0;

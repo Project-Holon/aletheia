@@ -1,7 +1,7 @@
 /*
  * file:     app_taskmenu.c
  * unit:     yes
- * function: BEACON_STATUS_Create, BEACON_STATUS_Delete, BEACON_STATUS_GetLog, BEACON_STATUS_GetViewTop, BEACON_STATUS_SetViewTop, func_020275C4, BEACON_STATUS_GetViewFlags, BEACON_STATUS_IsLocked, BEACON_STATUS_DoNothing, func_020275E4, func_020275E8, func_020275EC, func_020275F8, func_020275FC, func_02027600, func_02027604, func_02027610, func_02027614, func_02027618, func_0202761C, func_02027620, func_02027624, func_02027628, func_0202762C, func_02027630, func_02027634, func_02027694, func_02027698, func_0202769C, func_020276A0, func_020276A4, func_020276A8, func_020276AC, func_020276B0, func_020276B4, func_020276B8, func_020276BC, func_020276C0, func_020276C4, func_02027710, func_02027714, func_02027718, func_0202771C, func_02027720, func_0202772C, func_02027738, func_02027740, func_02027748, func_0202774C, func_02027750, func_02027754, func_02027758, func_0202775C, func_02027760, func_02027764, func_02027768, func_0202776C, func_02027770, func_02027774, func_02027778, APP_TASKMENU_OpenMenuFastDecide, func_02027858, APP_TASKMENU_TransWinAfterPrint, func_02027974, func_020279E8, func_02027A04, APP_TASKMENU_SetCursorActive, APP_TASKMENU_IsDecide, APP_TASKMENU_CreateWindows, APP_TASKMENU_SetWinActive, APP_TASKMENU_UpdateCursorColor, APP_TASKMENU_UpdateCursorColorBlend, func_02027CD8, APP_TASKMENU_SetCursorPos, APP_TASKMENU_UpdateKey, APP_TASKMENU_UpdateTouch, func_02027F60, func_02027FD8, APP_TASKMENU_WIN_Create, APP_TASKMENU_WIN_CreateEx, APP_TASKMENU_WIN_CreateExNoScreen, APP_TASKMENU_WIN_CreateCore, func_02028148, APP_TASKMENU_WIN_DeleteNoClear, APP_TASKMENU_WIN_Free, func_02028178, APP_TASKMENU_WIN_SetActive, APP_TASKMENU_WIN_SetDecide, APP_TASKMENU_WIN_IsFinish, APP_TASKMENU_WIN_IsTouch, APP_TASKMENU_WIN_ResetDecide, APP_TASKMENU_WIN_ChangePalette, APP_TASKMENU_DrawWinFrame, APP_TASKMENU_WIN_ClearScreen, APP_TASKMENU_WIN_TransChar, APP_TASKMENU_WIN_IsUpdateTrans, func_02028470, func_02028484, func_020284F4, func_02028528, func_0202855C, func_02028590, APP_TASKMENU_WIN_SetDecideReturn
+ * function: BEACON_STATUS_Create, BEACON_STATUS_Delete, BEACON_STATUS_GetLog, BEACON_STATUS_GetViewTop, BEACON_STATUS_SetViewTop, BEACON_STATUS_GetMessage, BEACON_STATUS_GetViewFlags, BEACON_STATUS_IsLocked, BEACON_STATUS_DoNothing, func_020275E4, func_020275E8, func_020275EC, func_020275F8, func_020275FC, func_02027600, func_02027604, func_02027610, func_02027614, func_02027618, func_0202761C, func_02027620, func_02027624, func_02027628, func_0202762C, func_02027630, func_02027634, func_02027694, func_02027698, func_0202769C, func_020276A0, func_020276A4, func_020276A8, func_020276AC, func_020276B0, func_020276B4, func_020276B8, func_020276BC, func_020276C0, func_020276C4, func_02027710, func_02027714, func_02027718, func_0202771C, func_02027720, func_0202772C, func_02027738, func_02027740, func_02027748, func_0202774C, func_02027750, func_02027754, func_02027758, func_0202775C, func_02027760, func_02027764, func_02027768, func_0202776C, func_02027770, func_02027774, APP_TASKMENU_OpenMenu, APP_TASKMENU_OpenMenuFastDecide, APP_TASKMENU_CloseMenu, APP_TASKMENU_TransWinAfterPrint, APP_TASKMENU_UpdateMenu, APP_TASKMENU_IsFinish, APP_TASKMENU_GetCursorPos, APP_TASKMENU_SetCursorActive, APP_TASKMENU_IsDecide, APP_TASKMENU_CreateWindows, APP_TASKMENU_SetWinActive, APP_TASKMENU_UpdateCursorColor, APP_TASKMENU_UpdateCursorColorBlend, APP_TASKMENU_SetDisableKey, APP_TASKMENU_SetCursorPos, APP_TASKMENU_UpdateKey, APP_TASKMENU_UpdateTouch, APP_TASKMENU_RES_Create, APP_TASKMENU_RES_Delete, APP_TASKMENU_WIN_Create, APP_TASKMENU_WIN_CreateEx, APP_TASKMENU_WIN_CreateExNoScreen, APP_TASKMENU_WIN_CreateCore, APP_TASKMENU_WIN_Delete, APP_TASKMENU_WIN_DeleteNoClear, APP_TASKMENU_WIN_Free, APP_TASKMENU_WIN_Update, APP_TASKMENU_WIN_SetActive, APP_TASKMENU_WIN_SetDecide, APP_TASKMENU_WIN_IsFinish, APP_TASKMENU_WIN_IsTouch, APP_TASKMENU_WIN_ResetDecide, APP_TASKMENU_WIN_ChangePalette, APP_TASKMENU_DrawWinFrame, APP_TASKMENU_WIN_ClearScreen, APP_TASKMENU_WIN_TransChar, APP_TASKMENU_WIN_IsUpdateTrans, func_02028470, func_02028484, func_020284F4, func_02028528, func_0202855C, func_02028590, APP_TASKMENU_WIN_SetDecideReturn
  * address:  0x0202751C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -30,13 +30,13 @@
  *   MI_CpuFill8 0x02082BCC  arm
  *   func_02030734  0x02030734  arm
  *   _u32_div_f     0x0209C2B0  arm
- *   func_020457B0       0x020457B0  arm
+ *   STRBUF_Create       0x020457B0  arm
  *   func_02045B38       0x02045B38  arm
  *   func_02045EC0       0x02045EC0  arm
- *   func_02045A38       0x02045A38  arm
- *   func_02045924       0x02045924  arm
- *   func_02045808       0x02045808  arm
- *   func_02045C04       0x02045C04  arm
+ *   STRBUF_ToChars       0x02045A38  arm
+ *   STRBUF_SetString       0x02045924  arm
+ *   STRBUF_Delete       0x02045808  arm
+ *   MSGDATA_Delete       0x02045C04  arm
  *   beacon_status_File  0x020A74D0  data
  *   _PokeTypePltOffset  0x0209FCF8  data
  *   _WazaKindPltOffset  0x0209FCEC  data
@@ -46,15 +46,15 @@
  *   func_020307B0  0x020307B0  arm
  *   MIi_CpuCopy16     0x02082A60  arm
  *   app_taskmenu_File  0x020A74E0  data
- *   func_0201C4E4  0x0201C4E4  thumb
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   func_020452E8  0x020452E8  arm
- *   func_020456F8  0x020456F8  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02045730  0x02045730  arm
  *   func_02045770  0x02045770  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_Create   0x020450F0  arm
  *   PRINTSYS_PrintQueColor   0x0201C724  thumb
  *   FX_SinCosTable_   0x020A1B38  data
@@ -64,7 +64,7 @@
  *   func_0203633C  0x0203633C  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_02049DB4   0x02049DB4  arm
  *   func_02049B40   0x02049B40  arm
  *   sub_0201D304   0x0201D304  thumb
@@ -74,13 +74,15 @@
  *   func_02045760  0x02045760  arm
  *   BMP_WIN_SetPalette  0x02045798  arm
  *   func_02045740  0x02045740  arm
- *   func_020437D4  0x020437D4  arm
+ *   BMP_GetPixels  0x020437D4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   func_0201CE30  0x0201CE30  thumb
  *   func_0201CE38  0x0201CE38  thumb
  *   func_0201CE5C  0x0201CE5C  thumb
  *   _KeyCursorDefaultPixels  0x0209FD10  data
  *   APP_KEYCURSOR_Create  0x020285A4  thumb
+ *   TOUCHPANEL_GetCont  0x02035C38  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  */
 
 typedef unsigned char  u8;
@@ -219,28 +221,28 @@ typedef struct PrintStreamCtrl {
 
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern struct StrBuf *func_020457B0(u32 length, u32 heapId);
+extern struct StrBuf *STRBUF_Create(u32 length, u32 heapId);
 extern struct MsgData *func_02045B38(u32 loadType, u32 arcId, u32 datId, u32 heapId);
 extern struct StrBuf *func_02045EC0(struct MsgData *msgData, u32 strId);
-extern void func_02045A38(struct StrBuf *str, u16 *code, u32 length);
-extern void func_02045924(struct StrBuf *str, const u16 *code);
-extern void func_02045808(struct StrBuf *str);
-extern u32 func_02045C04(struct MsgData *msgData);
+extern void STRBUF_ToChars(struct StrBuf *str, u16 *code, u32 length);
+extern void STRBUF_SetString(struct StrBuf *str, const u16 *code);
+extern void STRBUF_Delete(struct StrBuf *str);
+extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 func_020307B0(void *memory);
 extern void *func_0204162C(int bgFrame);
 extern void *func_02049EF4(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
 extern void func_02082D44(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern u32 func_02017E1C(const struct PokemonParam *pp, int paramId, void *buf);
-extern u32 func_0201C4E4(struct PrintQueue *printQue);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *printQue);
 extern u32 func_0201C6C4(struct PrintQueue *printQue, struct Bmp *bmp);
 extern void func_02041B6C(u32 bgFrame);
 extern u32 func_020452E8(struct BmpWin *win);
-extern void func_020456F8(struct BmpWin *win);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern u8 func_02045730(struct BmpWin *win);
 extern struct Bmp *func_02045770(struct BmpWin *win);
-extern void func_02045334(struct BmpWin *win);
-extern void func_02045374(struct BmpWin *win);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u32 _u32_div_f(u32 a, u32 b);
 extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 charPosX, u32 charPosY, u32 sizeX, u8 sizeY,
                                    u8 palNo, u8 dir);
@@ -253,7 +255,7 @@ extern u32 func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_020355D8(u8 isTouch);
 extern void func_020061E4(u32 seId);
-extern int func_02035C08(const void *hitTbl);
+extern int TOUCHPANEL_HitTrg(const void *hitTbl);
 extern void *func_02049DB4(u32 arcId, u32 datId, u32 compressed, TaskMenuChrData **chrData, u16 heapId);
 extern void func_02049B40(u32 arcId, u32 datId, u32 pltType, u32 offset, u32 size, u16 heapId);
 extern u32 sub_0201D304(struct StrBuf *str, struct GFont *font, u32 margin);
@@ -262,14 +264,14 @@ extern u8 func_02045738(struct BmpWin *win);
 extern u8 func_02045758(struct BmpWin *win);
 extern u8 func_02045760(struct BmpWin *win);
 extern u8 func_02045740(struct BmpWin *win);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
 extern u32 func_0201CE30(struct PrintStream *stream);
 extern void func_0201CE38(struct PrintStream *stream);
 extern void func_0201CE5C(struct PrintStream *stream, int wait);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern unsigned int func_0203630C(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern struct KeyCursor *APP_KEYCURSOR_Create(u32 id, u32 isLive, u32 isFlip, u16 heapId, const void *pixels);
 
 BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId);
@@ -277,7 +279,7 @@ void BEACON_STATUS_Delete(BeaconStatus *bs);
 u8 *BEACON_STATUS_GetLog(BeaconStatus *bs);
 u8 BEACON_STATUS_GetViewTop(BeaconStatus *bs);
 void BEACON_STATUS_SetViewTop(BeaconStatus *bs, int top);
-struct StrBuf *func_020275C4(BeaconStatus *bs);
+struct StrBuf *BEACON_STATUS_GetMessage(BeaconStatus *bs);
 u16 *BEACON_STATUS_GetViewFlags(BeaconStatus *bs);
 int BEACON_STATUS_IsLocked(void);
 void BEACON_STATUS_DoNothing(void);
@@ -331,33 +333,33 @@ int func_02027768(void);
 int func_0202776C(int mapping);
 int func_02027770(int mapping);
 int func_02027774(int mapping);
-TaskMenuWork *func_02027778(TaskMenuInitWork *init, TaskMenuRes *res);
+TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInitWork *init, TaskMenuRes *res);
 TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(TaskMenuInitWork *init, TaskMenuRes *res);
-void func_02027858(TaskMenuWork *menu);
+void APP_TASKMENU_CloseMenu(TaskMenuWork *menu);
 void APP_TASKMENU_TransWinAfterPrint(TaskMenuWork *menu);
-void func_02027974(TaskMenuWork *menu);
-u32 func_020279E8(TaskMenuWork *menu);
-u8 func_02027A04(const TaskMenuWork *menu);
+void APP_TASKMENU_UpdateMenu(TaskMenuWork *menu);
+u32 APP_TASKMENU_IsFinish(TaskMenuWork *menu);
+u8 APP_TASKMENU_GetCursorPos(const TaskMenuWork *menu);
 void APP_TASKMENU_SetCursorActive(TaskMenuWork *menu, u32 isActive);
 u32 APP_TASKMENU_IsDecide(TaskMenuWork *menu);
 void APP_TASKMENU_CreateWindows(TaskMenuWork *menu, TaskMenuRes *res);
 void APP_TASKMENU_SetWinActive(struct BmpWin *win, TaskMenuRes *res, int isActive);
 void APP_TASKMENU_UpdateCursorColor(u16 *colorPhase, u16 *color, u32 bgFrame, u32 palNo);
 void APP_TASKMENU_UpdateCursorColorBlend(u16 *colorPhase, u16 *color, u16 bgFrame, u32 palNo, u16 color0, u16 color1);
-void func_02027CD8(TaskMenuWork *menu, int isDisable);
+void APP_TASKMENU_SetDisableKey(TaskMenuWork *menu, int isDisable);
 void APP_TASKMENU_SetCursorPos(TaskMenuWork *menu, int pos);
 void APP_TASKMENU_UpdateKey(TaskMenuWork *menu);
 void APP_TASKMENU_UpdateTouch(TaskMenuWork *menu);
-TaskMenuRes *func_02027F60(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-void func_02027FD8(TaskMenuRes *res);
+TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
+void APP_TASKMENU_RES_Delete(TaskMenuRes *res);
 TaskMenuWin *APP_TASKMENU_WIN_Create(TaskMenuRes *res, const TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
 TaskMenuWin *APP_TASKMENU_WIN_CreateEx(TaskMenuRes *res, const TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
 TaskMenuWin *APP_TASKMENU_WIN_CreateExNoScreen(TaskMenuRes *res, const TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
 TaskMenuWin *APP_TASKMENU_WIN_CreateCore(TaskMenuRes *res, const TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
-void func_02028148(TaskMenuWin *win);
+void APP_TASKMENU_WIN_Delete(TaskMenuWin *win);
 void APP_TASKMENU_WIN_DeleteNoClear(TaskMenuWin *win);
 void APP_TASKMENU_WIN_Free(TaskMenuWin *win);
-void func_02028178(TaskMenuWin *win);
+void APP_TASKMENU_WIN_Update(TaskMenuWin *win);
 void APP_TASKMENU_WIN_SetActive(TaskMenuWin *win, u32 isActive);
 void APP_TASKMENU_WIN_SetDecide(TaskMenuWin *win, int isDecide);
 u32 APP_TASKMENU_WIN_IsFinish(TaskMenuWin *win);
@@ -398,19 +400,19 @@ BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId)
     u16 code[10];
 
     bs = func_02030734(heapId, sizeof(BeaconStatus), 1, beacon_status_File, 42);
-    bs->message = func_020457B0(9, heapId);
+    bs->message = STRBUF_Create(9, heapId);
     msgData = func_02045B38(0, 2, 8, msgHeapId);
     str = func_02045EC0(msgData, 0x11);
-    func_02045A38(str, code, 9);
-    func_02045924(bs->message, code);
-    func_02045808(str);
-    func_02045C04(msgData);
+    STRBUF_ToChars(str, code, 9);
+    STRBUF_SetString(bs->message, code);
+    STRBUF_Delete(str);
+    MSGDATA_Delete(msgData);
     return bs;
 }
 
 void BEACON_STATUS_Delete(BeaconStatus *bs)
 {
-    func_02045808(bs->message);
+    STRBUF_Delete(bs->message);
     MI_CpuFill8(bs, 0, sizeof(BeaconStatus));
     func_020307B0(bs);
 }
@@ -430,7 +432,7 @@ void BEACON_STATUS_SetViewTop(BeaconStatus *bs, int top)
     bs->viewTop = top;
 }
 
-struct StrBuf *func_020275C4(BeaconStatus *bs)
+struct StrBuf *BEACON_STATUS_GetMessage(BeaconStatus *bs)
 {
     return bs->message;
 }
@@ -770,7 +772,7 @@ int func_02027774(int mapping)
  * init->width load above them; without it the load stays in source order.
  * The two defaults are unconditional stores of a conditioned value.
  */
-TaskMenuWork *func_02027778(TaskMenuInitWork *init, TaskMenuRes *res)
+TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInitWork *init, TaskMenuRes *res)
 {
     TaskMenuWork *menu;
     u8 width;
@@ -811,7 +813,7 @@ TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(TaskMenuInitWork *init, TaskMenuRe
 {
     TaskMenuWork *menu;
 
-    menu = func_02027778(init, res);
+    menu = APP_TASKMENU_OpenMenu(init, res);
     menu->anmSpeed = 2;
     return menu;
 }
@@ -824,7 +826,7 @@ TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(TaskMenuInitWork *init, TaskMenuRe
  * increment). The second loop's entry test reuses the count the first
  * loop's last bottom-of-loop read left in a register.
  */
-void func_02027858(TaskMenuWork *menu)
+void APP_TASKMENU_CloseMenu(TaskMenuWork *menu)
 {
     u8 bgFrame;
     u8 i;
@@ -834,11 +836,11 @@ void func_02027858(TaskMenuWork *menu)
     for (i = 0; i < menu->init.itemNum; i++) {
         while (func_0201C6C4(menu->res->printQue,
                              func_02045770(menu->winWork[i])) != 0) {
-            func_0201C4E4(menu->res->printQue);
+            PRINTSYS_QUE_Main(menu->res->printQue);
         }
     }
     for (j = 0; j < menu->init.itemNum; j++) {
-        func_020456F8(menu->winWork[j]);
+        BMP_WIN_ClearScreen(menu->winWork[j]);
         func_020452E8(menu->winWork[j]);
     }
     func_02041B6C(bgFrame);
@@ -874,8 +876,8 @@ void APP_TASKMENU_TransWinAfterPrint(TaskMenuWork *menu)
     }
     for (i = 0; i < menu->init.itemNum; i++) {
         struct BmpWin *win = menu->winWork[i];
-        func_02045334(win);
-        func_02045374(win);
+        BMP_WIN_TransferChars(win);
+        BMP_WIN_MakeScreen(win);
         func_02041B6C(func_02045730(win));
     }
     menu->isUpdateTrans = 0;
@@ -886,7 +888,7 @@ void APP_TASKMENU_TransWinAfterPrint(TaskMenuWork *menu)
  * entry is decided, then the decide blink; the cursor colour animates in
  * every state.
  */
-void func_02027974(TaskMenuWork *menu)
+void APP_TASKMENU_UpdateMenu(TaskMenuWork *menu)
 {
     u32 step;
     TaskMenuRes *res;
@@ -915,7 +917,7 @@ void func_02027974(TaskMenuWork *menu)
  * division makes the comparison `blo`; the 1-returning arm falls through
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  */
-u32 func_020279E8(TaskMenuWork *menu)
+u32 APP_TASKMENU_IsFinish(TaskMenuWork *menu)
 {
     if (menu->anmCnt >= 16 / menu->anmSpeed) {
         return 1;
@@ -923,7 +925,7 @@ u32 func_020279E8(TaskMenuWork *menu)
     return 0;
 }
 
-u8 func_02027A04(const TaskMenuWork *menu)
+u8 APP_TASKMENU_GetCursorPos(const TaskMenuWork *menu)
 {
     return menu->cursorPos;
 }
@@ -972,8 +974,8 @@ void APP_TASKMENU_CreateWindows(TaskMenuWork *menu, TaskMenuRes *res)
         PRINTSYS_PrintQueColor(res->printQue, func_02045770(menu->winWork[i]), 0xa, 6,
                      items[i].str, res->font, item->msgColor);
         win = menu->winWork[i];
-        func_02045334(win);
-        func_02045374(win);
+        BMP_WIN_TransferChars(win);
+        BMP_WIN_MakeScreen(win);
         func_02041B6C(func_02045730(win));
     }
 }
@@ -986,7 +988,7 @@ void APP_TASKMENU_SetWinActive(struct BmpWin *win, TaskMenuRes *res, int isActiv
     } else if (isActive == 0) {
         BMP_WIN_SetPalette(win, (u8)(res->palNo + 1));
     }
-    func_02045374(win);
+    BMP_WIN_MakeScreen(win);
     func_02041B6C(func_02045730(win));
 }
 
@@ -1056,7 +1058,7 @@ void APP_TASKMENU_UpdateCursorColorBlend(u16 *colorPhase, u16 *color, u16 bgFram
 }
 
 /* Disable key input; switching to touch mode un-highlights the cursor entry. */
-void func_02027CD8(TaskMenuWork *menu, int isDisable)
+void APP_TASKMENU_SetDisableKey(TaskMenuWork *menu, int isDisable)
 {
     menu->isDisableKey = isDisable;
     if (isDisable == 1) {
@@ -1181,7 +1183,7 @@ void APP_TASKMENU_UpdateTouch(TaskMenuWork *menu)
         hitTbl[i * 4 + 3] = (u8)(((posX + menu->init.width) << 3) - 1);
     }
     hitTbl[i * 4] = 0xff;
-    hit = func_02035C08(hitTbl);
+    hit = TOUCHPANEL_HitTrg(hitTbl);
     if (hit == ~0) {
         return;
     }
@@ -1209,7 +1211,7 @@ void APP_TASKMENU_UpdateTouch(TaskMenuWork *menu)
  * The archive id is the first argument of both loaders and the heap id
  * is the last of six, an ordinary fifth (stack) parameter here.
  */
-TaskMenuRes *func_02027F60(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId)
+TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId)
 {
     TaskMenuRes *res;
     u32 pltType;
@@ -1229,7 +1231,7 @@ TaskMenuRes *func_02027F60(u16 bgFrame, u16 palNo, struct GFont *font, struct Pr
     return res;
 }
 
-void func_02027FD8(TaskMenuRes *res)
+void APP_TASKMENU_RES_Delete(TaskMenuRes *res)
 {
     func_020307B0(res->chrBuf);
     func_020307B0(res);
@@ -1246,8 +1248,8 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateEx(TaskMenuRes *res, const TaskMenuItem *ite
 {
     TaskMenuWin *win = APP_TASKMENU_WIN_CreateCore(res, item, charPosX, charPosY, width, height, anmSpeed, isCenter, heapId);
     struct BmpWin *bmpWin = win->bmpWin;
-    func_02045334(bmpWin);
-    func_02045374(bmpWin);
+    BMP_WIN_TransferChars(bmpWin);
+    BMP_WIN_MakeScreen(bmpWin);
     func_02041B6C(func_02045730(bmpWin));
     return win;
 }
@@ -1257,7 +1259,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateExNoScreen(TaskMenuRes *res, const TaskMenuI
                            u32 anmSpeed, u32 isCenter, u16 heapId)
 {
     TaskMenuWin *win = APP_TASKMENU_WIN_CreateCore(res, item, charPosX, charPosY, width, height, anmSpeed, isCenter, heapId);
-    func_02045374(win->bmpWin);
+    BMP_WIN_MakeScreen(win->bmpWin);
     func_02041B6C(func_02045730(win->bmpWin));
     return win;
 }
@@ -1301,9 +1303,9 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateCore(TaskMenuRes *res, const TaskMenuItem *i
     return win;
 }
 
-void func_02028148(TaskMenuWin *win)
+void APP_TASKMENU_WIN_Delete(TaskMenuWin *win)
 {
-    func_020456F8(win->bmpWin);
+    BMP_WIN_ClearScreen(win->bmpWin);
     APP_TASKMENU_WIN_Free(win);
 }
 
@@ -1324,7 +1326,7 @@ void APP_TASKMENU_WIN_Free(TaskMenuWin *win)
  * the decide blink (4 / anmSpeed frames per phase) and animate the cursor
  * colour. The parity test is the signed `% 2` sequence, not a mask.
  */
-void func_02028178(TaskMenuWin *win)
+void APP_TASKMENU_WIN_Update(TaskMenuWin *win)
 {
     struct BmpWin *bmpWin;
     TaskMenuRes *res;
@@ -1332,8 +1334,8 @@ void func_02028178(TaskMenuWin *win)
     if (win->isUpdateTrans != 0) {
         if (func_0201C6C4(win->res->printQue, func_02045770(win->bmpWin)) == 0) {
             bmpWin = win->bmpWin;
-            func_02045334(bmpWin);
-            func_02045374(bmpWin);
+            BMP_WIN_TransferChars(bmpWin);
+            BMP_WIN_MakeScreen(bmpWin);
             func_02041B6C(func_02045730(bmpWin));
             win->isUpdateTrans = 0;
         }
@@ -1422,7 +1424,7 @@ void APP_TASKMENU_WIN_ChangePalette(TaskMenuWin *win, TaskMenuRes *res, u32 palN
     win->activeColor0 = color0;
     win->activeColor1 = color1;
     BMP_WIN_SetPalette(win->bmpWin, (u8)(palNo + 1));
-    func_02045374(win->bmpWin);
+    BMP_WIN_MakeScreen(win->bmpWin);
     func_02041B6C(func_02045730(win->bmpWin));
 }
 
@@ -1460,7 +1462,7 @@ void APP_TASKMENU_DrawWinFrame(struct BmpWin *win, TaskMenuRes *res, u32 frameSt
             goto nextrow;
         }
         for (;;) {
-        charBuf = (u32)func_020437D4(func_02045770(win));
+        charBuf = (u32)BMP_GetPixels(func_02045770(win));
         cellOfs = (x + y * func_02045738(win)) << 5;
         if (y == 0 && x == 0) {
             src = (u32)res->chrData->pRawData;
@@ -1501,13 +1503,13 @@ nextrow:
 
 void APP_TASKMENU_WIN_ClearScreen(TaskMenuWin *win)
 {
-    func_020456F8(win->bmpWin);
+    BMP_WIN_ClearScreen(win->bmpWin);
     func_02041B6C((u8)win->res->bgFrame);
 }
 
 void APP_TASKMENU_WIN_TransChar(TaskMenuWin *win)
 {
-    func_02045374(win->bmpWin);
+    BMP_WIN_MakeScreen(win->bmpWin);
     func_02041B6C((u8)win->res->bgFrame);
 }
 
@@ -1579,7 +1581,7 @@ u32 func_020284F4(u32 inputType)
         }
     }
     if (inputType & 4) {
-        if (func_02035C60() != 0) {
+        if (TOUCHPANEL_GetTrg() != 0) {
             result = 1;
         }
     }
@@ -1599,7 +1601,7 @@ u32 func_02028528(u32 inputType)
         }
     }
     if (inputType & 4) {
-        if (func_02035C38() != 0) {
+        if (TOUCHPANEL_GetCont() != 0) {
             result = 1;
         }
     }
@@ -1619,7 +1621,7 @@ u32 func_0202855C(u32 inputType)
         }
     }
     if (inputType & 4) {
-        if (func_02035C38() == 0) {
+        if (TOUCHPANEL_GetCont() == 0) {
             result = 1;
         }
     }

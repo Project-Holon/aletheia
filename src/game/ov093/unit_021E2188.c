@@ -13,29 +13,29 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021E89C0  0x021E89C0  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021D78AC  0x021D78AC  thumb  ov093
- *   func_021E896C  0x021E896C  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
- *   func_021D7DC0  0x021D7DC0  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind2  0x021E896C  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
+ *   BTL_CALC_MakeSickContFromKind  0x021D7DC0  thumb  ov093
  *   func_021E03D8  0x021E03D8  thumb  ov093
  *   d_021F2C90     0x021F2C90  data   ov093  a4
  *   func_021C7D00 0x021C7D00 thumb ov093
  *   func_021C8120 0x021C8120 thumb ov093
  *   func_021C7F68 0x021C7F68 thumb ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F2E78     0x021F2E78  data   ov093  a4
  *   func_021E03F8  0x021E03F8  thumb  ov093
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
- *   func_021E8860  0x021E8860  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
+ *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
  *   d_021F29C8     0x021F29C8  data   ov093  a4
  *   d_021F2EA0     0x021F2EA0  data   ov093  a4
  *   func_021C81C8  0x021C81C8  thumb  ov093
@@ -72,27 +72,27 @@ typedef struct Word { u32 v; } Word;
 
 struct Cnt { u32 n; int max; };
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void *func_021C88A4(char *p, int a, int b);
-extern int func_021E89C0(void);
+extern int BTLV_CORE_MakeSlotKind1Empty(void);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C88C8(void *a, void *b);
-extern u32 func_021D78AC(u32 range);
-extern Word func_021E896C(int a, int b);
-extern u16 func_021D70A8(struct QQ *p);
-extern void func_021D7DC0(int a, void *b, void *c);
+extern u32 BTL_CALC_Random(u32 range);
+extern Word BTLV_CORE_MakeSlotKind2(int a, int b);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
+extern void BTL_CALC_MakeSickContFromKind(int a, void *b, void *c);
 extern void func_021E03D8(u8 *a, int b);
 extern int func_021C7D00(u8 *p, int b);
 extern u8 *func_021C8120(u8 *p, int b);
 extern u8 func_021C7F68(int *p, int b, u8 *out);
-extern int func_021D5B68(void *m);
-extern int func_021D76BC(int key, unsigned v);
+extern int BTL_POKEPARAM_IsFainted(void *m);
+extern int BTL_EVENT_OverwriteVar(int key, unsigned v);
 extern void func_021E03F8(int a, int b);
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
-extern void func_021E8860(int n);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
+extern void BTLV_CORE_EventScaleDamage(int n);
 extern u16 func_021C81C8(u8 *p, u8 *x, int flag);
 void func_021E2188(int u, int a, int b);
 int *func_021E21E8(int *p);
@@ -119,7 +119,7 @@ void func_021E27B0(int a, void *b, int c);
 int *func_021E2810(int *p);
 extern int d_021F2C90[];
 /*
- * lever: Word return from func_021E896C reserves the unused aggregate slot;
+ * lever: Word return from BTLV_CORE_MakeSlotKind2 reserves the unused aggregate slot;
  * u8 c schedules its stack reload after the zero store at 021E23CE.
  */
 extern int d_021F2E78[];
@@ -135,11 +135,11 @@ void func_021E2188(int u, int a, int b)
 {
     u8 *r;
 
-    if (b == func_021D775C(3)) {
-        if (func_021D62C4(func_021C7CF4((int *)a, b), 0x23) == 0) {
+    if (b == BTL_EVENT_GetVar(3)) {
+        if (BTL_POKEPARAM_HasSick(func_021C7CF4((int *)a, b), 0x23) == 0) {
             r = func_021C88A4((char *)a, 0xc, b);
             ((struct Obj10073 *)r)->f4 = 0x23;
-            ((struct Obj10073 *)r)->f8 = func_021E89C0();
+            ((struct Obj10073 *)r)->f8 = BTLV_CORE_MakeSlotKind1Empty();
             r[0xf] = b;
             func_021C8838(r + 0x14, 2, 0x259);
             func_021C8860((struct S *)(r + 0x14), b);
@@ -161,7 +161,7 @@ int *func_021E21E8(int *p)
 
 
 /*
- * Lever: func_021E896C returns a one-word struct (Word), which reserves the
+ * Lever: BTLV_CORE_MakeSlotKind2 returns a one-word struct (Word), which reserves the
  * third frame word (`sub sp, #0xc` with push {r4-r7, lr}); see
  * docs/idioms/an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md.
  */
@@ -170,12 +170,12 @@ void func_021E21F4(void *u, int a, int b, int *p)
     u8 *r;
     u8 t;
 
-    if (b == func_021D775C(2)) {
-        if (func_021D62C4(func_021C7CF4((int *)a, b), 0x19) == 0 && p[6] == 0) {
-            t = func_021D78AC(2) + 2;
+    if (b == BTL_EVENT_GetVar(2)) {
+        if (BTL_POKEPARAM_HasSick(func_021C7CF4((int *)a, b), 0x19) == 0 && p[6] == 0) {
+            t = BTL_CALC_Random(2) + 2;
             r = func_021C88A4((char *)a, 0xc, b);
             ((struct Obj10075 *)r)->f4 = 0x19;
-            *(Word *)(r + 8) = func_021E896C(t, func_021D70A8(u));
+            *(Word *)(r + 8) = BTLV_CORE_MakeSlotKind2(t, BTL_EVENT_GetFactorKey(u));
             r[0xc] = 0;
             r[0xf] = b;
             func_021C88C8((void *)a, r);
@@ -196,13 +196,13 @@ void func_021E2268(void *u, int a, int b, int *p)
     u8 *r;
     int f;
 
-    if (b == func_021D775C(2)) {
+    if (b == BTL_EVENT_GetVar(2)) {
         q = func_021C7CF4((int *)a, b);
         if (p[6] != 0) {
             f = 0;
             if (p[0] != 0)
                 p[0] = p[0] - 1;
-            if (func_021D775C(0x51) == 0) {
+            if (BTL_EVENT_GetVar(0x51) == 0) {
                 r = func_021C88A4((char *)a, 0xb, b);
                 ((struct Obj05221 *)r)->f4 = 0x19;
                 f = 1;
@@ -213,7 +213,7 @@ void func_021E2268(void *u, int a, int b, int *p)
             if (p[0] == 0) {
                 r = func_021C88A4((char *)a, 0xc, b);
                 ((struct Obj05221 *)r)->f4 = 6;
-                func_021D7DC0(6, q, r + 8);
+                BTL_CALC_MakeSickContFromKind(6, q, r + 8);
                 f = 1;
                 r[0xd] = 1;
                 r[0xf] = b;
@@ -222,7 +222,7 @@ void func_021E2268(void *u, int a, int b, int *p)
                 func_021C88C8((void *)a, r);
             }
             if (f != 0)
-                func_021E03D8(q, func_021D70A8(u));
+                func_021E03D8(q, BTL_EVENT_GetFactorKey(u));
         }
     }
 }
@@ -237,15 +237,15 @@ void func_021E231C(void *u, int a, int b)
     void *q;
     u8 *r;
 
-    if (b == func_021D775C(2)) {
+    if (b == BTL_EVENT_GetVar(2)) {
         q = func_021C7CF4((int *)a, b);
-        if (func_021D62C4(q, 2) != 0) {
+        if (BTL_POKEPARAM_HasSick(q, 2) != 0) {
             r = func_021C88A4((char *)a, 0xb, b);
             ((struct Obj10076 *)r)->f4 = 0x19;
             r[0x14] = 1;
             r[8] = b;
             func_021C88C8((void *)a, r);
-            func_021E03D8(q, func_021D70A8(u));
+            func_021E03D8(q, BTL_EVENT_GetFactorKey(u));
         }
     }
 }
@@ -267,12 +267,12 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
     u32 flags;
     unsigned i;
     u8 *entry;
-    if (c != func_021D775C(3)) return;
-    if (func_021D62C4(func_021C7CF4(b, c), 25) != 0) return;
+    if (c != BTL_EVENT_GetVar(3)) return;
+    if (BTL_POKEPARAM_HasSick(func_021C7CF4(b, c), 25) != 0) return;
     if (((struct Obj13508 *)d)->f18 != 0) return;
     p = func_021C88A4(b, 12, c);
     ((struct Obj05222 *)p)->f4 = 25;
-    *(Word *)(p + 8) = func_021E896C(3, func_021D70A8(a));
+    *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind2(3, BTL_EVENT_GetFactorKey(a));
     p[12] = 0;
     p[15] = c;
     func_021C88C8(b, p);
@@ -285,7 +285,7 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
     buf[0] = func_021C7F68(b, (u16)(flags | 0x800), buf + 1);
     for (i = 0; i < buf[0]; i++) {
         entry = buf + i;
-        if (func_021D62C4(func_021C7CF4(b, entry[1]), 2) != 0) {
+        if (BTL_POKEPARAM_HasSick(func_021C7CF4(b, entry[1]), 2) != 0) {
             p = func_021C88A4(b, 11, c);
             ((struct Obj05222 *)p)->f4 = 2;
             p[20] = 1;
@@ -306,8 +306,8 @@ void func_021E249C(int u, int a, int b)
 {
     u8 *s;
 
-    if (b == func_021D775C(2)) {
-        if (func_021D775C(0x51) == 0) {
+    if (b == BTL_EVENT_GetVar(2)) {
+        if (BTL_EVENT_GetVar(0x51) == 0) {
             s = func_021C88A4((char *)a, 0xb, b);
             ((struct Obj10078 *)s)->f4 = 0x19;
             s[0x14] = 1;
@@ -326,15 +326,15 @@ void func_021E24D4(void *a, void *b, int c, int *d)
     void *v;
     char *p;
 
-    if (c == func_021D775C(2) && d[6] != 0) {
+    if (c == BTL_EVENT_GetVar(2) && d[6] != 0) {
         v = func_021C7CF4(b, c);
-        if (func_021D5B68(v) == 0) {
-            if (func_021D62C4(v, 0x19) == 0) {
+        if (BTL_POKEPARAM_IsFainted(v) == 0) {
+            if (BTL_POKEPARAM_HasSick(v, 0x19) == 0) {
                 p = func_021C88A4(b, 4, c);
                 func_021C8838(p + 4, 2, 0x2CE);
                 func_021C8860((struct S *)(p + 4), c);
                 func_021C88C8(b, p);
-                func_021E03D8(v, func_021D70A8(a));
+                func_021E03D8(v, BTL_EVENT_GetFactorKey(a));
             } else {
                 p = func_021C88A4(b, 4, c);
                 func_021C8838(p + 4, 2, 0x2CB);
@@ -354,9 +354,9 @@ void func_021E2574(int a, void *b, int c, int *d)
     char *p;
     u8 u;
 
-    if (d[6] != 0 && func_021D775C(0x1D) == 2 && func_021D76BC(0x41, 1) != 0) {
+    if (d[6] != 0 && BTL_EVENT_GetVar(0x1D) == 2 && BTL_EVENT_OverwriteVar(0x41, 1) != 0) {
         p = func_021C88A4(b, 4, c);
-        u = func_021D775C(4);
+        u = BTL_EVENT_GetVar(4);
         func_021C8838(p + 4, 2, (u16)(u == c ? 0x2C8 : 0x2C5));
         func_021C8860((struct S *)(p + 4), u);
         func_021C88C8(b, p);
@@ -369,7 +369,7 @@ void func_021E2574(int a, void *b, int c, int *d)
 void func_021E25DC(int u, int a, int b, int *p)
 {
     if (p[6] != 0)
-        func_021D76BC(0x41, 1);
+        BTL_EVENT_OverwriteVar(0x41, 1);
 }
 
 
@@ -387,12 +387,12 @@ void func_021E25FC(void *a, void *b, int c, int *d)
     void *v;
     int *p;
 
-    if (c == func_021D775C(2)) {
+    if (c == BTL_EVENT_GetVar(2)) {
         v = func_021C7CF4(b, c);
-        if (func_021D62C4(v, 0x19) == 0 && func_021D62C4(v, 2) == 0 && d[6] == 0) {
+        if (BTL_POKEPARAM_HasSick(v, 0x19) == 0 && BTL_POKEPARAM_HasSick(v, 2) == 0 && d[6] == 0) {
             p = func_021C88A4(b, 12, c);
             p[1] = 0x19;
-            *(Word *)(p + 2) = func_021E896C(5, func_021D70A8(a));
+            *(Word *)(p + 2) = BTLV_CORE_MakeSlotKind2(5, BTL_EVENT_GetFactorKey(a));
             ((u8 *)p)[12] = 0;
             ((u8 *)p)[15] = c;
             func_021C88C8(b, p);
@@ -412,7 +412,7 @@ void func_021E25FC(void *a, void *b, int c, int *d)
 
 void func_021E2678(void *u, int a, int b, int *p)
 {
-    if (b == func_021D775C(2))
+    if (b == BTL_EVENT_GetVar(2))
         func_021E26C8(u, a, b, p);
 }
 
@@ -425,8 +425,8 @@ void func_021E2678(void *u, int a, int b, int *p)
 
 void func_021E269C(void *u, int a, int b, int *p)
 {
-    if (b == func_021D775C(2)) {
-        if (func_021D775C(0x51) == 0)
+    if (b == BTL_EVENT_GetVar(2)) {
+        if (BTL_EVENT_GetVar(0x51) == 0)
             func_021E26C8(u, a, b, p);
     }
 }
@@ -447,7 +447,7 @@ void func_021E26C8(void *u, int a, int b, int *p)
     ((struct Obj10080 *)s)->f4 = 0x19;
     func_021C88C8((void *)a, s);
     p[6] = 0;
-    func_021E03F8(b, func_021D70A8(u));
+    func_021E03F8(b, BTL_EVENT_GetFactorKey(u));
 }
 
 
@@ -462,17 +462,17 @@ void func_021E2700(void *a, void *b, int c, struct Cnt *d)
     u32 i;
     int k;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         v = func_021C7CF4(b, c);
         k = 1;
         for (i = 0; i < d->n; i++)
             k <<= 1;
-        if (func_021D5BDC(v, 7))
+        if (BTL_POKEPARAM_TestContFlag(v, 7))
             k <<= 1;
-        func_021E8860(k);
+        BTLV_CORE_EventScaleDamage(k);
         d->n++;
         if ((int)d->n >= d->max)
-            func_021E03F8(c, func_021D70A8(a));
+            func_021E03F8(c, BTL_EVENT_GetFactorKey(a));
     }
 }
 
@@ -496,24 +496,24 @@ void func_021E2768(int u, int a, int b, int *p)
 {
     int n;
 
-    if (b == func_021D775C(3)) {
+    if (b == BTL_EVENT_GetVar(3)) {
         n = *p + 1;
         *p = n;
-        func_021D76BC(0x30, n * 10);
+        BTL_EVENT_OverwriteVar(0x30, n * 10);
     }
 }
 
 
 
 
-/* 021E278C  shape F1: gate on func_021D775C(3) */
+/* 021E278C  shape F1: gate on BTL_EVENT_GetVar(3) */
 /*
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021E27A2; movs r0, #0x42; movs r1, #1; bl func_021D76BC; pop {r4, pc}.
+ * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021E27A2; movs r0, #0x42; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
  */
 void func_021E278C(int a, int b, int c)
 {
-    if (c == func_021D775C(3))
-        func_021D76BC(0x42, 1);
+    if (c == BTL_EVENT_GetVar(3))
+        BTL_EVENT_OverwriteVar(0x42, 1);
 }
 
 
@@ -534,15 +534,15 @@ void func_021E27B0(int a, void *b, int c)
     int q;
     u32 r;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         x = func_021C7CF4(b, c);
-        y = func_021C7CF4(b, (u8)func_021D775C(4));
+        y = func_021C7CF4(b, (u8)BTL_EVENT_GetVar(4));
         p = func_021C81C8(b, x, 0);
         q = func_021C81C8(b, y, 0);
         r = q * 25 / p + 1;
         if (r > 0x96)
             r = 0x96;
-        func_021D76BC(0x30, r);
+        BTL_EVENT_OverwriteVar(0x30, r);
     }
 }
 

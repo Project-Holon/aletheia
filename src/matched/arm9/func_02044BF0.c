@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * bmp.c fill worker, 4bpp tiled (two pixels per byte), reached from the
- * fill dispatcher func_02043AF4.  Clips right/bottom before the loops and
+ * fill dispatcher BMP_FillRect.  Clips right/bottom before the loops and
  * left/top per pixel (signed cmp/cmpge/blt triple), then merges the
  * nibble: odd x takes the high nibble, even x the low one.
  *

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B93B8 0x021B93B8 thumb
+ *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb
  *   func_021BEDF0 0x021BEDF0 thumb
  *   func_021BCEF0 0x021BCEF0 thumb
  *   func_021BEE38 0x021BEE38 thumb
@@ -17,14 +17,14 @@
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_021B93B8(void *);
+extern int FRAME_LIST_GetScrollPos(void *);
 extern void func_021BEDF0(int p, int i, int v);
 extern u32 func_021BCEF0(u32 a, u32 b);
 extern void func_021BEE38(char *p, int idx, int a, short b, unsigned short c);
 
 void func_021BF89C(char *p, u8 a, u8 b)
 {
-    u8 cur = (u8)func_021B93B8(((struct Obj04619 *)p)->f1E0);
+    u8 cur = (u8)FRAME_LIST_GetScrollPos(((struct Obj04619 *)p)->f1E0);
     u8 d;
     int y;
 

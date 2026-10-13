@@ -1,5 +1,5 @@
 /*
- * function: func_021B8484
+ * function: FIELD_RAIL_WORK_SetLineLocation
  * address:  0x021B8484
  * packet:   pkt_ov021_021B8484
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   func_021B7DC0  0x021B7DC0  thumb  ov021
- *   func_021B7EE4  0x021B7EE4  thumb  ov021
- *   func_021B91F8  0x021B91F8  thumb  ov021
+ *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb  ov021
+ *   FIELD_RAIL_WORK_GetSpotPos  0x021B91F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj03135.h"
@@ -24,10 +24,10 @@ typedef struct { u16 a, b, c, d; } Q;
 typedef struct { int x, y, z; } V;
 
 void func_021B7DC0(u8 *p, Q *q);
-void func_021B7EE4(u8 *p, Q *q);
-void func_021B91F8(u8 *p, V *v);
+void FIELD_RAIL_WORK_SetLocation(u8 *p, Q *q);
+void FIELD_RAIL_WORK_GetSpotPos(u8 *p, V *v);
 
-void func_021B8484(u8 *p, u32 a, u32 b, int c)
+void FIELD_RAIL_WORK_SetLineLocation(u8 *p, u32 a, u32 b, int c)
 {
     Q q;
 
@@ -35,9 +35,9 @@ void func_021B8484(u8 *p, u32 a, u32 b, int c)
     q.a = a;
     q.c = 0;
     q.d = b;
-    func_021B7EE4(p, &q);
+    FIELD_RAIL_WORK_SetLocation(p, &q);
     q.c = c - ((struct Obj03135 *)p)->f18 / 16;
-    func_021B91F8(p, (V *)(p + 0x38));
+    FIELD_RAIL_WORK_GetSpotPos(p, (V *)(p + 0x38));
     ((struct Obj03135 *)p)->f5C = q.a;
     ((struct Obj03135 *)p)->f5E = q.b;
     ((struct Obj03135 *)p)->f60 = q.c;

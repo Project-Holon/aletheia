@@ -1,5 +1,5 @@
 /*
- * function: func_02045924
+ * function: STRBUF_SetString
  * address:  0x02045924
  * packet:   pkt_02045924
  * region:   arm9
@@ -22,8 +22,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045924.c \
- *       --func func_02045924 --addr 0x02045924 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_SetString.c \
+ *       --func STRBUF_SetString --addr 0x02045924 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -39,7 +39,7 @@ struct Strbuf {
 
 extern u16 sStrbufEnd;
 
-void func_02045924(struct Strbuf *o, const u16 *src)
+void STRBUF_SetString(struct Strbuf *o, const u16 *src)
 {
     o->n = 0;
     while (*src != sStrbufEnd) {

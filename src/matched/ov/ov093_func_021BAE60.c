@@ -1,5 +1,5 @@
 /*
- * function: func_021BAE60
+ * function: BTL_SERVER_StepShiftPrompt
  * address:  0x021BAE60
  * packet:   pkt_ov093_021BAE60
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB718  0x021BB718  thumb  ov093
- *   func_021BB724  0x021BB724  thumb  ov093
- *   func_021BB798  0x021BB798  thumb  ov093
- *   func_021BB7D0  0x021BB7D0  thumb  ov093
+ *   BTL_SERVER_SendCommand  0x021BB718  thumb  ov093
+ *   BTL_SERVER_SendCommandData  0x021BB724  thumb  ov093
+ *   BTL_SERVER_AreRepliesReady  0x021BB798  thumb  ov093
+ *   BTL_SERVER_ClearReplies  0x021BB7D0  thumb  ov093
  *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021EEB64  0x021EEB64  thumb  ov093
- *   func_021BC360  0x021BC360  thumb  ov093
- *   func_021BABEC  0x021BABEC  thumb  ov093
- *   func_021BAEF8  0x021BAEF8  thumb  ov093
+ *   BTL_ADAPTER_GetSendBuffer  0x021EEB64  thumb  ov093
+ *   BTL_SERVER_FLOW_RunEscapeFromLead  0x021BC360  thumb  ov093
+ *   BTL_SERVER_SetHandler  0x021BABEC  thumb  ov093
+ *   BTL_SERVER_StepRequestPokeChange  0x021BAEF8  thumb  ov093
  */
 #include "../include/Obj06222.h"
 
@@ -26,45 +26,45 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct QW;
-extern void func_021BB718(int a, int b);
-extern void func_021BB724(u8 *p, int a, int b, int c);
-extern int func_021BB798(u8 *);
-extern void func_021BB7D0(const u8 *p);
+extern void BTL_SERVER_SendCommand(int a, int b);
+extern void BTL_SERVER_SendCommandData(u8 *p, int a, int b, int c);
+extern int BTL_SERVER_AreRepliesReady(u8 *);
+extern void BTL_SERVER_ClearReplies(const u8 *p);
 extern u8 func_021B8FF4(u8 *);
-extern u32 func_021EEB64(struct QW *p, u32 *out);
-extern int func_021BC360(u8 *p);
-extern void func_021BABEC(int *p, void *f);
-extern int func_021BAEF8(u8 *, int *);
+extern u32 BTL_ADAPTER_GetSendBuffer(struct QW *p, u32 *out);
+extern int BTL_SERVER_FLOW_RunEscapeFromLead(u8 *p);
+extern void BTL_SERVER_SetHandler(int *p, void *f);
+extern int BTL_SERVER_StepRequestPokeChange(u8 *, int *);
 
-int func_021BAE60(u8 *p, int *s)
+int BTL_SERVER_StepShiftPrompt(u8 *p, int *s)
 {
     switch (*s) {
     case 0:
-        func_021BB718((int)p, 7);
+        BTL_SERVER_SendCommand((int)p, 7);
         (*s)++;
         break;
     case 1:
-        if (func_021BB798(p) != 0) {
+        if (BTL_SERVER_AreRepliesReady(p) != 0) {
             u8 idx = func_021B8FF4(*(u8 * *)&((struct Obj06222 *)p)->fC);
             int *q;
 
-            func_021BB7D0(p);
-            if (*((u8 *)func_021EEB64((struct QW *)(*(u32 *)(p + 0x14 + idx * 12)), 0)) == 0) {
-                func_021BABEC((int *)p, (void *)func_021BAEF8);
+            BTL_SERVER_ClearReplies(p);
+            if (*((u8 *)BTL_ADAPTER_GetSendBuffer((struct QW *)(*(u32 *)(p + 0x14 + idx * 12)), 0)) == 0) {
+                BTL_SERVER_SetHandler((int *)p, (void *)BTL_SERVER_StepRequestPokeChange);
             } else {
-                ((struct Obj06222 *)p)->f48 = func_021BC360((u8 *)(((struct Obj06222 *)p)->f44));
+                ((struct Obj06222 *)p)->f48 = BTL_SERVER_FLOW_RunEscapeFromLead((u8 *)(((struct Obj06222 *)p)->f44));
                 q = *(int * *)&((struct Obj06222 *)p)->fCB0;
-                func_021BB724(p, 8, (int)(q + 2), *q);
+                BTL_SERVER_SendCommandData(p, 8, (int)(q + 2), *q);
                 (*s)++;
             }
         }
         break;
     case 2:
-        if (func_021BB798(p) != 0) {
-            func_021BB7D0(p);
+        if (BTL_SERVER_AreRepliesReady(p) != 0) {
+            BTL_SERVER_ClearReplies(p);
             if (((struct Obj06222 *)p)->f48 != 0)
                 return 1;
-            func_021BABEC((int *)p, (void *)func_021BAEF8);
+            BTL_SERVER_SetHandler((int *)p, (void *)BTL_SERVER_StepRequestPokeChange);
         }
         break;
     }

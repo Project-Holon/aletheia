@@ -1,5 +1,5 @@
 /*
- * function: func_021BD040
+ * function: FIELD_PLACE_NAME_DeleteWordSet
  * address:  0x021BD040
  * packet:   pkt_ov021_021BD040
  * region:   ov021
@@ -19,7 +19,7 @@ struct WordSet;
 typedef unsigned int   u32;
 extern u32 func_0201ED04(struct WordSet *p);
 
-void func_021BD040(Obj *p)
+void FIELD_PLACE_NAME_DeleteWordSet(Obj *p)
 {
     if (p->f8 != 0) {
         func_0201ED04(p->f8);

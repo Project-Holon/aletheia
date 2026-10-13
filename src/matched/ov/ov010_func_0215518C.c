@@ -1,5 +1,5 @@
 /*
- * function: func_0215518C
+ * function: MUSICAL_EVENT_BuildParty
  * address:  0x0215518C
  * packet:   pkt_ov010_0215518C
  * region:   ov010
@@ -16,17 +16,17 @@
  *
  * symbols:
  *   func_0200BAC8  0x0200BAC8  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   func_0201AC2C  0x0201AC2C  thumb
  *   func_020307B0  0x020307B0  arm
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
- *   func_02155160  0x02155160  thumb  ov010
+ *   MUSICAL_EVENT_SetPartyLevel50  0x02155160  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -46,19 +46,19 @@ struct BigObj;
 struct Party;
 struct PartyMon;
 struct Rec534;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200BAF4(int a, int b);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern u32 func_020307B0(void *p);
 extern void POKE_TOOL_HealParty(void *p);
-extern void func_02155160(void *list);
+extern void MUSICAL_EVENT_SetPartyLevel50(void *list);
 
-void func_0215518C(int mode, struct Ctx *ctx)
+void MUSICAL_EVENT_BuildParty(int mode, struct Ctx *ctx)
 {
     int t;
     void *e;
@@ -67,10 +67,10 @@ void func_0215518C(int mode, struct Ctx *ctx)
     void *h;
     t = (int)func_0200BAC8(ctx->f4c);
     if (mode == 0) {
-        list = func_02012934(func_020120F4(ctx->f00));
+        list = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(ctx->f00));
         for (i = 0; i < (int)func_0201AA18(list); i++) {
             e = func_0201AB28(list, i);
-            if (func_02017E1C(e, 0x4c, 0) == 0)
+            if (POKE_TOOL_GetPartyValue(e, 0x4c, 0) == 0)
                 func_0201A98C(ctx->f38, e);
         }
     } else {
@@ -79,5 +79,5 @@ void func_0215518C(int mode, struct Ctx *ctx)
         func_020307B0(h);
     }
     POKE_TOOL_HealParty(ctx->f38);
-    func_02155160(ctx->f38);
+    MUSICAL_EVENT_SetPartyLevel50(ctx->f38);
 }

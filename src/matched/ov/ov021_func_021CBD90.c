@@ -1,5 +1,5 @@
 /*
- * function: func_021CBD90
+ * function: BSUBWAY_SCR_DrawTrainerNo
  * address:  0x021CBD90
  * packet:   pkt_ov021_021CBD90
  * region:   ov021
@@ -52,7 +52,7 @@ static inline u16 RandInRange(void *ctx, u32 tbl, u32 round)
     return func_021CBF98(ctx) % span + ((const Range *)(tbl + round * 4))->lo;
 }
 
-u16 func_021CBD90(void *ctx, u32 round, u32 stage, u32 line, u8 alt)
+u16 BSUBWAY_SCR_DrawTrainerNo(void *ctx, u32 round, u32 stage, u32 line, u8 alt)
 {
     int super;
     int boss;

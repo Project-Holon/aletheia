@@ -1,5 +1,5 @@
 /*
- * function: func_021BC2FC
+ * function: STARTMENU_NewGameIntroEnd
  * address:  0x021BC2FC
  * packet:   pkt_ov088_021BC2FC
  * region:   ov088
@@ -12,9 +12,9 @@
  * symbols:
  *   func_020070A4  0x020070A4  thumb
  *   func_02005B04  0x02005B04  thumb
- *   func_021BD29C  0x021BD29C  thumb  ov088
+ *   SAVE_CONTROL_INTR_Delete  0x021BD29C  thumb  ov088
  *   func_02008730  0x02008730  thumb
- *   func_02008494  0x02008494  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_Copy  0x02008314  thumb
  *   func_020307B0  0x020307B0  arm
@@ -27,7 +27,7 @@
  *   func_021DFEB0  0x021DFEB0  thumb  ov228
  *   func_021DFDB8  0x021DFDB8  thumb  ov228
  *   GAMESYSTEM_SetupInitWork  0x02011EEC  thumb
- *   func_0216C0C0  0x0216C0C0  thumb  ov010
+ *   NAMEIN_SETUP_FreeArgs  0x0216C0C0  thumb  ov010
  *   func_020315D4  0x020315D4  arm
  *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   ov228_id       0x000000E4  data
@@ -49,9 +49,9 @@ struct Sub0200852CObj;
 struct Sub02008700Obj;
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern void func_02005B04(const u32 *arg);
-extern void func_021BD29C(void *p);
+extern void SAVE_CONTROL_INTR_Delete(void *p);
 extern struct Sub0200852CObj *func_02008730(void *sys);
-extern void func_02008494(void *, void *);
+extern void MYSTATUS_Copy(void *, void *);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void CONFIG_Copy(void *, void *);
 extern u32 func_020307B0(void *p);
@@ -65,21 +65,21 @@ extern u8 func_021DFE90(u8 *p);
 extern void func_021DFEB0(char *p, void *ctrl);
 extern void func_021DFDB8(void *);
 extern void *GAMESYSTEM_SetupInitWork(u32 a0, u16 a1, struct Rec12 *a2, int a3);
-extern int func_0216C0C0(int);
+extern int NAMEIN_SETUP_FreeArgs(int);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern u8 ov228_id[];
 extern char d_0209DF9C[];
 
-int func_021BC2FC(int a, int b, int c, char *t)
+int STARTMENU_NewGameIntroEnd(int a, int b, int c, char *t)
 {
     void *r4 = func_020070A4();
     void *r6;
     Rec12 z = {0, 0, 0};
     func_02005B04((const u32 *)(((struct Obj03676 *)t)->f34));
-    func_021BD29C((void *)(((struct Obj03676 *)t)->f2C));
-    func_02008494(((struct Obj03676 *)t)->f54, func_02008730(r4));
+    SAVE_CONTROL_INTR_Delete((void *)(((struct Obj03676 *)t)->f2C));
+    MYSTATUS_Copy(((struct Obj03676 *)t)->f54, func_02008730(r4));
     CONFIG_Copy(((struct Obj03676 *)t)->f58, func_0200873C(r4));
     func_020307B0(((struct Obj03676 *)t)->f54);
     func_020307B0(((struct Obj03676 *)t)->f58);
@@ -93,7 +93,7 @@ int func_021BC2FC(int a, int b, int c, char *t)
         func_02034A5C((int)ov228_id);
     }
     r4 = GAMESYSTEM_SetupInitWork(0, 0, &z, 0);
-    func_0216C0C0(((struct Obj03676 *)t)->f28);
+    NAMEIN_SETUP_FreeArgs(((struct Obj03676 *)t)->f28);
     func_020315D4((struct S020315D4 *)a);
     PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)r4);
     return 1;

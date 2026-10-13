@@ -1,5 +1,5 @@
 /*
- * function: func_021C8A8C
+ * function: FIELD_TILE_MOVE_GetSpinStopDir
  * address:  0x021C8A8C
  * packet:   pkt_021C8A8C
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C8A8C(u32 a)
+int FIELD_TILE_MOVE_GetSpinStopDir(u32 a)
 {
 if (*(u32 *)&((struct Obj00876 *)((u8 *)(a)))->f10 != 0) {
     return *(u16 *)((u8 *)(*(u32 *)&((struct Obj00876 *)((u8 *)(a)))->f10) + 4);

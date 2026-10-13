@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBB04",
+   "name": "TOWNMAP_GRH_VBlankSprites",
    "address": "0x021BBB04",
    "kind": "game",
    "region": "ov072",

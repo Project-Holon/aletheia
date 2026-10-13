@@ -18,7 +18,7 @@
  * Extent remainder: two-byte zero alignment padding.
  * symbols:
  *   PMSI_PARAM_SetUiInputMode 0x02024224 thumb
- *   func_02051C6C 0x02051C6C arm
+ *   BUTTON_MAN_Delete 0x02051C6C arm
  *   func_021B9B20 0x021B9B20 thumb ov110
  *   func_02030DA4 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
@@ -32,7 +32,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void PMSI_PARAM_SetUiInputMode(void *,void *);
-extern void func_02051C6C(void *);
+extern void BUTTON_MAN_Delete(void *);
 extern void func_021B9B20(u8 *);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
@@ -43,7 +43,7 @@ extern void func_020315D4(struct S020315D4 *p);
 void func_021BD764(u8 *p,void *a)
 {
     PMSI_PARAM_SetUiInputMode(*(void **)p,*(void **)(p+0x70));
-    func_02051C6C(*(void **)(p+0x44));
+    BUTTON_MAN_Delete(*(void **)(p+0x44));
     func_021B9B20(*(u8 **)(p+0x14));
     func_02030DA4(*(void **)(p+0x7c));
     func_020307B0(*(void **)(p+0x78));

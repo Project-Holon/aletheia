@@ -1,5 +1,5 @@
 /*
- * function: func_0219BE3C
+ * function: FLDMMDL_MOVE_Hide
  * address:  0x0219BE3C
  * packet:   pkt_ov021_0219BE3C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   d_021D537C  0x021D537C  data  a4
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   gHideStepTable  0x021D537C  data  a4
  */
 
 typedef unsigned char  u8;
@@ -20,12 +20,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef int (*Step)(u32, u8 *);
-extern void *func_0216D69C(void *p);
-extern Step d_021D537C[];
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern Step gHideStepTable[];
 
-void func_0219BE3C(u32 a)
+void FLDMMDL_MOVE_Hide(u32 a)
 {
-    u8 *p = func_0216D69C((void *)a);
-    while (d_021D537C[p[0]](a, p) == 1) {
+    u8 *p = FLDMMDL_GetMoveProcWork((void *)a);
+    while (gHideStepTable[p[0]](a, p) == 1) {
     }
 }

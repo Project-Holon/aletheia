@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204B1CC 0x0204B1CC arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
  */
 #include "../include/Obj21994.h"
 struct Obj;
 struct Bank;
-extern void func_0204B3B4(struct Obj *);
+extern void CLACT_DeleteActor(struct Obj *);
 typedef unsigned int   u32;
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 void func_021F72BC(char *p)
 {
     unsigned i;
     for (i = 0; i < 24; i++)
-        func_0204B3B4(*(struct Obj **)(p + i * 4 + 0x54));
-    func_0204B1CC(*(struct Bank * *)&((struct Obj21994 *)p)->f50);
+        CLACT_DeleteActor(*(struct Obj **)(p + i * 4 + 0x54));
+    CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj21994 *)p)->f50);
 }

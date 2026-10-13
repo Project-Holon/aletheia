@@ -1,5 +1,5 @@
 /*
- * function: func_021DD134
+ * function: BTL_HANDLER_ITEM_LumBerryOnTrigger
  * address:  0x021DD134
  * packet:   pkt_021DD134
  * region:   ov093
@@ -10,13 +10,13 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  *
  * symbols:
- *   func_021DD158  0x021DD158  thumb  ov093
+ *   BTL_HANDLER_ITEM_CureSickOnTrigger  0x021DD158  thumb  ov093
  */
 
 typedef unsigned char  u8;
-void func_021DD158(u8 *a, u8 *b, int c, int d);
+void BTL_HANDLER_ITEM_CureSickOnTrigger(u8 *a, u8 *b, int c, int d);
 
-void func_021DD134(int a, int b, int c)
+void BTL_HANDLER_ITEM_LumBerryOnTrigger(int a, int b, int c)
 {
-    func_021DD158((u8 *)a, (u8 *)b, c, 0x25);
+    BTL_HANDLER_ITEM_CureSickOnTrigger((u8 *)a, (u8 *)b, c, 0x25);
 }

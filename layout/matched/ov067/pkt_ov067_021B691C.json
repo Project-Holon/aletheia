@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B691C",
+   "name": "TOUCHBAR_FreeButton",
    "address": "0x021B691C",
    "kind": "game",
    "region": "ov067",

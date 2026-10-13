@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF88
+ * function: FIELD_PLACE_NAME_AllocWork
  * address:  0x021BCF88
  * packet:   pkt_ov021_021BCF88
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DE354     0x021DE354  data  a4
+ *   gFieldPlaceNameFileName     0x021DE354  data  a4
  */
 
-extern int d_021DE354;
+extern int gFieldPlaceNameFileName;
 
 extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 
-void *func_021BCF88(int a)
+void *FIELD_PLACE_NAME_AllocWork(int a)
 {
-    return func_02030734(a, 0x154, 1, (const char *)&d_021DE354, 0x73C);
+    return func_02030734(a, 0x154, 1, (const char *)&gFieldPlaceNameFileName, 0x73C);
 }

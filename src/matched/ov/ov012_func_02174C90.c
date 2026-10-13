@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 u32 COLOSSEUM_SendPackage(u32 a)
 {
-    return func_0203D3F8((u32)func_020399A8(),255,0x1503,20,a,0,1,1);
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),255,0x1503,20,a,0,1,1);
 }

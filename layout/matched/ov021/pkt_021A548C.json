@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A548C",
+   "name": "FIELD_PLAYER_GRID_IsOnForcedMoveTile",
    "address": "0x021A548C",
    "kind": "game",
    "region": "ov021",

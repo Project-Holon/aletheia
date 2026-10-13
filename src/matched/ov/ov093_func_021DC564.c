@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D84F0 0x021D84F0 thumb ov093
- *   d_021F0600 0x021F0600 data a4
+ *   BTL_CALC_PackAbilityHandlerInfo 0x021D84F0 thumb ov093
+ *   gPoisonTouchHandlers 0x021F0600 data a4
  */
-extern unsigned int func_021D84F0(unsigned int, unsigned int);
-extern unsigned char d_021F0600[];
+extern unsigned int BTL_CALC_PackAbilityHandlerInfo(unsigned int, unsigned int);
+extern unsigned char gPoisonTouchHandlers[];
 void *func_021DC564(unsigned int *p)
 {
-    *p = func_021D84F0(4, 1);
-    return d_021F0600;
+    *p = BTL_CALC_PackAbilityHandlerInfo(4, 1);
+    return gPoisonTouchHandlers;
 }

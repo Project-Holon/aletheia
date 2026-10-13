@@ -1,5 +1,5 @@
 /*
- * function: func_0216E5B0
+ * function: FLDMMDL_CheckMovedPosAtMapPos
  * address:  0x0216E5B0
  * packet:   pkt_ov010_0216E5B0
  * region:   ov010
@@ -13,8 +13,8 @@
  * hit whose check returns 1.
  *
  * symbols:
- *   func_0216DDDC  0x0216DDDC  thumb  ov010
- *   func_0216E51C  0x0216E51C  thumb  ov010
+ *   FLDMMDL_SysSearchGridPosHeight  0x0216DDDC  thumb  ov010
+ *   FLDMMDL_HasMovedPos  0x0216E51C  thumb  ov010
  */
 
 typedef short s16;
@@ -29,14 +29,14 @@ typedef struct VecFx32 {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
-extern int func_0216E51C(void *hit);
+extern u8 *FLDMMDL_SysSearchGridPosHeight(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
+extern int FLDMMDL_HasMovedPos(void *hit);
 
-int func_0216E5B0(void *map, const VecFx32 *pos)
+int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos)
 {
-    void *hit = func_0216DDDC((u32)map, (s16)((pos->x >> 4) / 4096), (s16)((pos->z >> 4) / 4096), pos->y, 0x20000, (int)0);
+    void *hit = FLDMMDL_SysSearchGridPosHeight((u32)map, (s16)((pos->x >> 4) / 4096), (s16)((pos->z >> 4) / 4096), pos->y, 0x20000, (int)0);
 
-    if (hit != 0 && func_0216E51C(hit) == 1)
+    if (hit != 0 && FLDMMDL_HasMovedPos(hit) == 1)
         return 1;
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F0E64
+ * function: UNION_SUBDISP_FindHighlightSlot
  * address:  0x021F0E64
  * packet:   pkt_ov031_021F0E64
  * region:   ov031
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0E64  0x021F0E64  thumb
+ *   UNION_SUBDISP_FindHighlightSlot  0x021F0E64  thumb
  *   func_02034714  0x02034714  arm
  */
 
@@ -37,7 +37,7 @@ typedef struct {
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-Slot *func_021F0E64(A *p, B *q, int idx)
+Slot *UNION_SUBDISP_FindHighlightSlot(A *p, B *q, int idx)
 {
     int i;
 

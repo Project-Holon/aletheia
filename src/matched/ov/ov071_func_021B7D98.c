@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D98
+ * function: MONOLITH_TOOL_TITLE_FreeBackgrounds
  * address: 0x021B7D98
  * packet: pkt_ov071_021B7D98
  * region: ov071
@@ -16,4 +16,4 @@
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(unsigned);
-void func_021B7D98(void) { func_02040588(2, 0); func_020403F4(2); }
+void MONOLITH_TOOL_TITLE_FreeBackgrounds(void) { func_02040588(2, 0); func_020403F4(2); }

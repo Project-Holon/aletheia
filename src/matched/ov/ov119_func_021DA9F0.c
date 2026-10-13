@@ -9,19 +9,19 @@
  * status: EXACT
  * symbols:
  *   func_021E12AC 0x021E12AC thumb ov119
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_021E1098 0x021E1098 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DA8F8 0x021DA8F8 thumb ov119
  */
 typedef unsigned int   u32;
 extern int func_021E12AC(char *p);
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void func_021E1098(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DA8F8(char *p);
 void func_021DA9F0(void *p) {
- if(func_021E12AC(p) && func_020221A4()) {
+ if(func_021E12AC(p) && WIPE_SYS_EndCheck()) {
   func_021E1098(p);
   func_021D8E84(p,(int)func_021DA8F8);
  }

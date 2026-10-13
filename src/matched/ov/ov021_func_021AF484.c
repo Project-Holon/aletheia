@@ -1,5 +1,5 @@
 /*
- * function: func_021AF484
+ * function: SCRCMD_IssSwitchOff
  * address:  0x021AF484
  * packet:   pkt_ov021_021AF484
  * region:   ov021
@@ -10,10 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012134  0x02012134  thumb
- *   func_0202B578  0x0202B578  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
+ *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   ISS_SWITCH_SYS_SwitchOff  0x0202C0E4  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -22,16 +23,16 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void *func_0215A5DC(void *a0);
-extern u32 func_02012134(u32 *p);
-extern u32 func_0202B578(u32 *p);
-extern unsigned int func_02159B10(void *a, void *b);
-extern void func_0202C0E4(u8 *p, u32 a);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
+extern u32 ISS_SYS_GetSwitchSys(u32 *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void ISS_SWITCH_SYS_SwitchOff(u8 *p, u32 a);
 
-int func_021AF484(u32 a, u32 b)
+int SCRCMD_IssSwitchOff(u32 a, u32 b)
 {
-    u32 x = func_0202B578((u32 *)func_02012134(func_0215A5DC((void *)b)));
+    u32 x = ISS_SYS_GetSwitchSys((u32 *)GAMESYSTEM_GetIssSystem(SCRCMD_WORK_GetGameSystem((void *)b)));
 
-    func_0202C0E4((u8 *)x, func_02159B10((void *)a, (void *)b));
+    ISS_SWITCH_SYS_SwitchOff((u8 *)x, SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b));
     return 0;
 }

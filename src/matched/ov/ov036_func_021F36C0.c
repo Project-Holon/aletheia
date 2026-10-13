@@ -15,13 +15,13 @@
  *
  * symbols:
  *   func_0203F4E4  0x0203F4E4  arm
- *   func_021F38F4  0x021F38F4  thumb  ov036
- *   func_021F3980  0x021F3980  thumb  ov036
- *   func_021F38AC  0x021F38AC  thumb  ov036
+ *   DAILY_LAYOUT_ResetDeck  0x021F38F4  thumb  ov036
+ *   DAILY_LAYOUT_DealCells  0x021F3980  thumb  ov036
+ *   DAILY_LAYOUT_PickDistinct  0x021F38AC  thumb  ov036
  *   d_021F3AD4     0x021F3AD4  data  a4
- *   d_021F3B4C     0x021F3B4C  data  a4
+ *   gDailyLayoutMainDefs     0x021F3B4C  data  a4
  *   d_021F3A98     0x021F3A98  data  a4
- *   d_021F3BEC     0x021F3BEC  data  a4
+ *   gDailyLayoutFillerDefs     0x021F3BEC  data  a4
  */
 
 typedef unsigned char u8;
@@ -85,15 +85,15 @@ typedef struct {
 } P12;
 
 extern const P8 d_021F3AD4[];
-extern const P16 d_021F3B4C[];
+extern const P16 gDailyLayoutMainDefs[];
 extern const P12 d_021F3A98[];
-extern const P12 d_021F3BEC[];
+extern const P12 gDailyLayoutFillerDefs[];
 
 struct RtcDate;
 extern void func_0203F4E4(struct RtcDate *date);
-extern void func_021F38F4(unsigned char *p);
-extern int func_021F3980(u8 *p);
-extern void func_021F38AC(int n, int m, u8 *buf, u8 *out);
+extern void DAILY_LAYOUT_ResetDeck(unsigned char *p);
+extern int DAILY_LAYOUT_DealCells(u8 *p);
+extern void DAILY_LAYOUT_PickDistinct(int n, int m, u8 *buf, u8 *out);
 
 void func_021F36C0(W *w)
 {
@@ -138,12 +138,12 @@ void func_021F36C0(W *w)
         break;
     }
     w->f6 = v;
-    func_021F38F4((unsigned char *)(&d));
-    if (func_021F3980((u8 *)(&d)) == 0)
-        func_021F38F4((unsigned char *)(&d));
-    func_021F38AC(10, v, ta, d.a);
-    func_021F38AC(5, 2, tb, d.b);
-    func_021F38AC(15, 15 - (v + 2), tc, d.c);
+    DAILY_LAYOUT_ResetDeck((unsigned char *)(&d));
+    if (DAILY_LAYOUT_DealCells((u8 *)(&d)) == 0)
+        DAILY_LAYOUT_ResetDeck((unsigned char *)(&d));
+    DAILY_LAYOUT_PickDistinct(10, v, ta, d.a);
+    DAILY_LAYOUT_PickDistinct(5, 2, tb, d.b);
+    DAILY_LAYOUT_PickDistinct(15, 15 - (v + 2), tc, d.c);
     for (i = 0; i < v; i++) {
         s = d.order[i];
         if (d_021F3AD4[s].a == 0)
@@ -160,11 +160,11 @@ void func_021F36C0(W *w)
         y = d.order[n];
         x = d.a[i];
         w->ent[y].id = x;
-        w->ent[y].sub = d_021F3B4C[x].b;
-        w->ent[y].a = d_021F3B4C[x].a;
+        w->ent[y].sub = gDailyLayoutMainDefs[x].b;
+        w->ent[y].a = gDailyLayoutMainDefs[x].a;
         w->ent[y].type = 0;
-        w->ent[y].c = d_021F3B4C[x].c;
-        w->ent[y].d = d_021F3B4C[x].d;
+        w->ent[y].c = gDailyLayoutMainDefs[x].c;
+        w->ent[y].d = gDailyLayoutMainDefs[x].d;
         n++;
     }
     for (i = 0; i < 2; i++) {
@@ -184,10 +184,10 @@ void func_021F36C0(W *w)
         x = d.c[i];
         w->ent[y].id = i;
         w->ent[y].sub = 0;
-        w->ent[y].a = d_021F3BEC[x].a;
+        w->ent[y].a = gDailyLayoutFillerDefs[x].a;
         w->ent[y].type = 1;
-        w->ent[y].c = d_021F3BEC[x].b;
-        w->ent[y].d = d_021F3BEC[x].c;
+        w->ent[y].c = gDailyLayoutFillerDefs[x].b;
+        w->ent[y].d = gDailyLayoutFillerDefs[x].c;
         n++;
     }
 }

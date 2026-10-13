@@ -1,5 +1,5 @@
 /*
- * function: func_02161964
+ * function: EVENT_FIELD_PROCLINK_IsAnimNodeDone
  * address:  0x02161964
  * packet:   pkt_02161964
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02161964(int a0, int a1)
+int EVENT_FIELD_PROCLINK_IsAnimNodeDone(int a0, int a1)
 {
     int a2;
     int a3;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D7C0
+ * function: FLDMMDL_SetAcmdCode
  * address:  0x0216D7C0
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D7C0.c \
- *       --func func_0216D7C0 --addr 0x0216D7C0 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SetAcmdCode.c \
+ *       --func FLDMMDL_SetAcmdCode --addr 0x0216D7C0 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17824.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void func_0216D7C0(void *p, u16 v) { ((struct Obj17824 *)p)->f26 = v; }
+void FLDMMDL_SetAcmdCode(void *p, u16 v) { ((struct Obj17824 *)p)->f26 = v; }

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02030734      0x02030734  arm
- *   func_02049F78      0x02049F78  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle      0x02049F78  arm
  *   func_02082D44      0x02082D44  arm
  *   func_020307B0      0x020307B0  arm
  *   blink_palanm_File  0x020A7804  data
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern const char blink_palanm_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void  func_02082D44(void *dst, const void *src, int size);
 extern u32 func_020307B0(void *p);
 
@@ -55,7 +55,7 @@ void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4)
                            0x83);
     p->w04 = func_02030734(p->h18, (u32)p->h0e * 2, 0, blink_palanm_File,
                            0x84);
-    handle = func_02049F78(a1, a2, (u32)(&tmp), p->h18);
+    handle = ARC_UTIL_LoadPaletteBlockFromHandle(a1, a2, (u32)(&tmp), p->h18);
     base = *(u8 * *)&((struct Obj15860 *)tmp)->fC;
     func_02082D44(base + a3 * 2, p->w00, (int)((u32)p->h0e * 2));
     func_02082D44(base + a4 * 2, p->w04, (int)((u32)p->h0e * 2));

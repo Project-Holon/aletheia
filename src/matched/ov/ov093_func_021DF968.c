@@ -1,5 +1,5 @@
 /*
- * function: func_021DF968
+ * function: BTL_HANDLER_ITEM_GetLustrousOrbHandlers
  * address: 0x021DF968
  * packet: pkt_ov093_021DF968
  * region: ov093
@@ -12,17 +12,17 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF8E8.c and filed here.
  *
  * symbols:
- *   d_021F141C 0x021F141C data ov093 a4
+ *   gLustrousOrbHandlers 0x021F141C data ov093 a4
  */
 
-int *func_021DF968(int *p);
-extern int d_021F141C[];
+int *BTL_HANDLER_ITEM_GetLustrousOrbHandlers(int *p);
+extern int gLustrousOrbHandlers[];
 
 /*
  * sdk:      sciGetServiceUrl (libdwcgssc.TWL.HYB.a(sciinterface.o))
  */
-int *func_021DF968(int *p)
+int *BTL_HANDLER_ITEM_GetLustrousOrbHandlers(int *p)
 {
     *p = 1;
-    return d_021F141C;
+    return gLustrousOrbHandlers;
 }

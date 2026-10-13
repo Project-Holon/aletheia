@@ -1,5 +1,5 @@
 /*
- * function: func_02160A28
+ * function: EVENT_SHORTCUT_MENU_InitHooks
  * address:  0x02160A28
  * packet:   pkt_ov010_02160A28
  * region:   ov010
@@ -28,7 +28,7 @@ typedef struct Rect {
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
-void func_02160A28(Rect *r, u32 tag, u32 x, u32 y, u32 w, u32 h)
+void EVENT_SHORTCUT_MENU_InitHooks(Rect *r, u32 tag, u32 x, u32 y, u32 w, u32 h)
 {
     MI_CpuFill8(r, 0, sizeof(Rect));
     r->x = x;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218F900
+ * function: FIELD_CAMERA_StartMove
  * address:  0x0218F900
  * packet:   pkt_ov021_0218F900
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218F89C  0x0218F89C  thumb
- *   func_0218F780  0x0218F780  thumb
+ *   FIELD_CAMERA_SetMoveGoal  0x0218F89C  thumb
+ *   FIELD_CAMERA_TakeView  0x0218F780  thumb
  */
 
 typedef unsigned char  u8;
@@ -21,13 +21,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0218F89C(void *a);
-extern void func_0218F780(u8 *s, u8 *d);
+extern void FIELD_CAMERA_SetMoveGoal(void *a);
+extern void FIELD_CAMERA_TakeView(u8 *s, u8 *d);
 
-void func_0218F900(u8 *a, void *p, int n)
+void FIELD_CAMERA_StartMove(u8 *a, void *p, int n)
 {
     if (a != 0) {
-        func_0218F89C(a);
-        func_0218F780(a, a + 0x124);
+        FIELD_CAMERA_SetMoveGoal(a);
+        FIELD_CAMERA_TakeView(a, a + 0x124);
     }
 }

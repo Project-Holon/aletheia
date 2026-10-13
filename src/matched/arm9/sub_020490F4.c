@@ -1,5 +1,5 @@
 /*
- * function: sub_020490F4
+ * function: ARC_TOOL_CreateHandle
  * address:  0x020490F4
  * packet:   pkt_02048F9C
  * region:   arm9
@@ -33,7 +33,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 id);
 extern void ARC_TOOL_ReadHandleHeader(u8 *p);
 
-void *sub_020490F4(u32 id, u32 heap)
+void *ARC_TOOL_CreateHandle(u32 id, u32 heap)
 {
     void *rec = func_02030734(heap, 0x50, 0, arc_tool_file, 0x209);
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D0824
+ * function: FLDEFF_BUBBLE_SpawnBubble
  * address:  0x021D0824
  * packet:   pkt_ov021_021D0824
  * region:   ov021
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021D0914  0x021D0914  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDEFF_BUBBLE_GetFacingVector  0x021D0914  thumb  ov021
  */
 
 typedef short s16;
@@ -18,18 +18,18 @@ typedef long long s64;
 
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern int func_021D0914(int a, s16 *v);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern int FLDEFF_BUBBLE_GetFacingVector(int a, s16 *v);
 
-void func_021D0824(int *p, int a)
+void FLDEFF_BUBBLE_SpawnBubble(int *p, int a)
 {
     s16 v[3];
     int k;
 
     p[0] = 1;
     p[1] = 0;
-    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)(p + 2));
-    if (func_021D0914(a, v) == 0) {
+    FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)(p + 2));
+    if (FLDEFF_BUBBLE_GetFacingVector(a, v) == 0) {
         k = 0xE000;
     } else {
         k = 1 << 14;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2918
+ * function: FLD3D_CI_LoadPokemonIconTexture
  * address:  0x021C2918
  * packet:   pkt_ov021_021C2918
  * region:   ov021
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02043678  0x02043678  arm
+ *   BMP_Create  0x02043678  arm
  *   func_02048A0C  0x02048A0C  arm
- *   func_02047388  0x02047388  arm
- *   func_020473B8  0x020473B8  arm
- *   func_0202D060  0x0202D060  thumb
- *   func_0202D064  0x0202D064  thumb
- *   func_0202D0D4  0x0202D0D4  thumb
- *   func_02049E34  0x02049E34  arm
- *   func_02049F34  0x02049F34  arm
- *   func_020437D4  0x020437D4  arm
+ *   G3D_SYSTEM_GetTexVramKey  0x02047388  arm
+ *   G3D_SYSTEM_GetPlttVramKey  0x020473B8  arm
+ *   POKEGRA_GetArcID  0x0202D060  thumb
+ *   POKEGRA_GetCgrArcIndex  0x0202D064  thumb
+ *   POKEGRA_GetPalArcIndex  0x0202D0D4  thumb
+ *   ARC_UTIL_LoadScreenDataFromArchive  0x02049E34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
+ *   BMP_GetPixels  0x020437D4  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_02082A90  0x02082A90  arm
- *   func_02044F64  0x02044F64  arm
+ *   BMP_ConvertToLinear  0x02044F64  arm
  *   func_02061CA4  0x02061CA4  arm
  *   func_02030830  0x02030830  arm
  * Twin of ov195 func_0220685C (same tile-copy body). The far argument block
@@ -60,23 +60,23 @@ typedef struct Obj {
 typedef signed int     s32;
 struct Bmp;
 struct Layer;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern u32 func_02048A0C(u8 *a0, int i);
-extern u32 func_02047388(struct Layer *layer);
-extern u32 func_020473B8(struct Layer *layer);
-extern int func_0202D060(void);
-extern s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern u32 G3D_SYSTEM_GetTexVramKey(struct Layer *layer);
+extern u32 G3D_SYSTEM_GetPlttVramKey(struct Layer *layer);
+extern int POKEGRA_GetArcID(void);
+extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
-extern struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap);
+extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern void *func_02030830(u32 heapId);
 
-void func_021C2918(Obj *p)
+void FLD3D_CI_LoadPokemonIconTexture(Obj *p)
 {
     u16 heap;
     u8 *buf;
@@ -94,22 +94,22 @@ void func_021C2918(Obj *p)
     int k;
 
     heap = p->heap;
-    p->canvas = func_02043678(16, 16, 32, heap);
+    p->canvas = BMP_Create(16, 16, 32, heap);
     k = 0;
     h = (void *)func_02048A0C(p->f14, 0);
-    t1 = func_02047388(h);
-    t2 = func_020473B8(h);
+    t1 = G3D_SYSTEM_GetTexVramKey(h);
+    t2 = G3D_SYSTEM_GetPlttVramKey(h);
     tex = (u16)t1 << 3;
     pltt = (u16)t2 << 3;
     a = p->args;
-    chrFile = func_0202D064(func_0202D060(), a[0], a[1], a[2], a[3], 0, a[4]);
-    plttFile = func_0202D0D4(func_0202D060(), a[0], a[1], a[2], a[3], 0, a[4]);
+    chrFile = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), a[0], a[1], a[2], a[3], 0, a[4]);
+    plttFile = POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), a[0], a[1], a[2], a[3], 0, a[4]);
     p->chr = 0;
     p->pltt = 0;
-    p->chrRes = func_02049E34(func_0202D060(), chrFile, 1, (u32)(&p->chr), heap);
-    p->plttRes = func_02049F34(func_0202D060(), plttFile, (u32)(&p->pltt), heap);
+    p->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (u32)(&p->chr), heap);
+    p->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (u32)(&p->pltt), heap);
     src = p->chr->raw;
-    buf = func_020437D4(p->canvas);
+    buf = BMP_GetPixels(p->canvas);
     func_02082A7C(0, buf, 0x2000);
     for (j = 0; j < 8; j++) {
         for (i = 0; i < 8; i++) {
@@ -135,8 +135,8 @@ void func_021C2918(Obj *p)
             k++;
         }
     }
-    func_02044F64(p->canvas, 0, heap);
-    func_02061CA4(0, tex, (u32)func_020437D4(p->canvas), 0x2000);
+    BMP_ConvertToLinear(p->canvas, 0, heap);
+    func_02061CA4(0, tex, (u32)BMP_GetPixels(p->canvas), 0x2000);
     func_02061CA4((void *)1, pltt, (u32)p->pltt->raw, 0x20);
     func_02030830(p->heap);
 }

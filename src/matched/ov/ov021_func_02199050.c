@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -21,17 +21,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void *func_0216D6D4(void *p);
-extern void func_0216D7CC(u8 *p);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
 int func_02199050(u32 a)
 {
     u16 *p;
 
-    p = func_0216D6D4((void *)a);
+    p = FLDMMDL_GetMoveCmdWork((void *)a);
     p[0]++;
     if (p[0] >= p[1]) {
-        func_0216D7CC((u8 *)a);
+        FLDMMDL_IncAcmdSeq((u8 *)a);
     }
     return 0;
 }

@@ -9,8 +9,8 @@
  * status: EXACT
  * prototype: 021B7DD4 tail-forwards live r0 from u32 0201C4E4; caller reads it.
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021B8EB0 0x021B8EB0 thumb ov104
  *   func_021B7DD4 0x021B7DD4 thumb ov104
  *   func_021B7EE4 0x021B7EE4 thumb ov104
@@ -23,8 +23,8 @@
 #include "../include/Obj22214.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0204E720(u32,int,int,int);
-extern int func_0204E804(void);
+extern void FADE_Start(u32,int,int,int);
+extern int FADE_IsActive(void);
 extern void func_021B8EB0(u8 *);
 extern int func_021B7DD4(u8 *);
 extern int func_021B7EE4(u8 *p, u8 *q);
@@ -37,11 +37,11 @@ extern int func_021B63D0(struct Obj *p);
 int func_021B77EC(void *a,u32 *state,void *b,u8 *p) {
  switch(*state) {
  case 0: *state=1; break;
- case 1: func_0204E720(3,16,0,0); *state=2; break;
- case 2: if(!func_0204E804()) *state=3; break;
+ case 1: FADE_Start(3,16,0,0); *state=2; break;
+ case 2: if(!FADE_IsActive()) *state=3; break;
  case 3: (*(void (**)(u8 *,unsigned short *))(p+0x804))(p,(unsigned short *)(p+0x808)); if(((struct Obj07987 *)p)->f80C) *state=4; func_021B8EB0(p+0x7cc); break;
- case 4: func_0204E720(3,0,16,0); *state=5; break;
- case 5: if(!func_0204E804()) *state=6; break;
+ case 4: FADE_Start(3,0,16,0); *state=5; break;
+ case 5: if(!FADE_IsActive()) *state=6; break;
  case 6: return 1;
  }
  if(func_021B7DD4(p+0xbc)) { func_021B7EE4(p+0xcc,p+0xbc); func_021B7EE4(p+0x7dc,p+0xbc); func_021B7EE4(p+0x7f0,p+0xbc); }

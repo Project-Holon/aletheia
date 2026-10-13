@@ -1,5 +1,5 @@
 /*
- * function: func_02186520
+ * function: FIELD_WFBC_DATA_LOCAL_InsertPersonForCity
  * address: 0x02186520
  * packet: pkt_ov020_02186520
  * region: ov020
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02186AC8 0x02186AC8 thumb ov020
+ *   FIELD_WFBC_DATA_LOCAL_InsertPerson 0x02186AC8 thumb ov020
  */
 #include "../include/Obj19457.h"
-extern void func_02186AC8(char *, int, char *, int);
-void func_02186520(char *p, int b, char *c) { if (((struct Obj19457 *)p)->f2 == 0) func_02186AC8(p,b,c,1); else func_02186AC8(p,b,c,0); }
+extern void FIELD_WFBC_DATA_LOCAL_InsertPerson(char *, int, char *, int);
+void FIELD_WFBC_DATA_LOCAL_InsertPersonForCity(char *p, int b, char *c) { if (((struct Obj19457 *)p)->f2 == 0) FIELD_WFBC_DATA_LOCAL_InsertPerson(p,b,c,1); else FIELD_WFBC_DATA_LOCAL_InsertPerson(p,b,c,0); }

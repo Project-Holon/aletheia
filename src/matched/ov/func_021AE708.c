@@ -1,5 +1,5 @@
 /*
- * function: func_021AE708
+ * function: EVENT_TRAINER_EYE_StepRelease
  * address:  0x021AE708
  * packet:   pkt_021AE708
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D480  0x0216D480  thumb  ov010
- *   func_0216E0E8  0x0216E0E8  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   FLDMMDL_ChangeMoveCode  0x0216E0E8  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09183.h"
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0216D480(char *p);
-extern int func_0216E0E8(int a0, int a1);
+extern int FLDMMDL_EndAcmd(char *p);
+extern int FLDMMDL_ChangeMoveCode(int a0, int a1);
 
-int func_021AE708(u32 a, u32 b, u32 c, u32 d)
+int EVENT_TRAINER_EYE_StepRelease(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D480((char *)(((struct Obj09183 *)((u8 *)(a)))->f8));
-func_0216E0E8(((struct Obj09183 *)((u8 *)(a)))->f8, 0);
+FLDMMDL_EndAcmd((char *)(((struct Obj09183 *)((u8 *)(a)))->f8));
+FLDMMDL_ChangeMoveCode(((struct Obj09183 *)((u8 *)(a)))->f8, 0);
 ((struct Obj09183 *)((u8 *)(a)))->f0 = 17;
 return 1;
 }

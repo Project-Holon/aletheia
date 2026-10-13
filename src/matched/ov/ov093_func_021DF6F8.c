@@ -1,5 +1,5 @@
 /*
- * function: func_021DF6F8
+ * function: BTL_HANDLER_ITEM_SilverPowderBoostPower
  * address:  0x021DF6F8
  * packet:   pkt_ov093_021DF6F8
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021DF93C  0x021DF93C  thumb  ov093
+ *   BTL_HANDLER_ITEM_BoostMovePowerOfType  0x021DF93C  thumb  ov093
  */
 
-void func_021DF93C(int, int, int, int);
+void BTL_HANDLER_ITEM_BoostMovePowerOfType(int, int, int, int);
 
-void func_021DF6F8(int a, int b, int c)
+void BTL_HANDLER_ITEM_SilverPowderBoostPower(int a, int b, int c)
 {
-    func_021DF93C(a, b, c, 6);
+    BTL_HANDLER_ITEM_BoostMovePowerOfType(a, b, c, 6);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D539C
+ * function: BTL_POKEPARAM_ClearMoveFlags
  * address:  0x021D539C
  * packet:   pkt_ov093_021D539C
  * region:   ov093
@@ -45,7 +45,7 @@ struct UtilWork {
     u8 f157[5];
 };
 
-void func_021D539C(struct UtilWork *p)
+void BTL_POKEPARAM_ClearMoveFlags(struct UtilWork *p)
 {
     u32 i;
     for (i = 0; i < 5; i++) p->f157[i] = 0;

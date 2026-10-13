@@ -1,5 +1,5 @@
 /*
- * function: func_021B90B8
+ * function: FRAME_LIST_ScrollBgRows
  * address:  0x021B90B8
  * packet:   pkt_ov067_021B90B8
  * region:   ov067
@@ -39,7 +39,7 @@ extern void func_020410D0(u8 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32 bit);
 
-void func_021B90B8(struct S *p, int a1, s8 a2)
+void FRAME_LIST_ScrollBgRows(struct S *p, int a1, s8 a2)
 {
     u32 t;
     u32 id;

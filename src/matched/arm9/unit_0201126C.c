@@ -13,7 +13,7 @@
  *
  * symbols:
  *   VM_Reset  0x020111EC  thumb
- *   func_02011330  0x02011330  thumb
+ *   VM_GetU16  0x02011330  thumb
  *
  * The step function of the game's script virtual machine ("vm.c"), plus the
  * four small entry points around it.  The context layout and the
@@ -23,7 +23,7 @@
  * of the context:
  *
  *   state 0  stopped, nothing to do
- *   state 1  running: fetch a u16 opcode with func_02011330 (the cursor read
+ *   state 1  running: fetch a u16 opcode with VM_GetU16 (the cursor read
  *            that advances +0x14 by two), bounds-check it against +0x08, run
  *            the optional pre-dispatch hook at +0x24, then call
  *            cmds[opcode](vm, user).  A handler returning 1 yields for this
@@ -60,7 +60,7 @@
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * The field script system instantiates this VM in overlay 10 at
- * func_02158BFC with a 609-entry command table at 0x0217062C; see the
+ * SCRIPT_SYS_CreateVm with a 609-entry command table at 0x0217062C; see the
  * "Script virtual machine" section of docs/ASSETS.md.
  *
  * Addresses are Black-image addresses.
@@ -105,7 +105,7 @@ typedef struct ScriptVm {
 
 extern void VM_Reset(ScriptVm *vm);
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
+extern u16 VM_GetU16(struct Stream *s);
 
 void VM_Init(ScriptVm *vm, void *user)
 {
@@ -152,7 +152,7 @@ int VM_Control(ScriptVm *vm)
                 vm->state = 0;
                 return 0;
             }
-            op = func_02011330((struct Stream *)vm);
+            op = VM_GetU16((struct Stream *)vm);
             if (op >= vm->params.cmd_count) {
                 vm->state = 0;
                 return 0;

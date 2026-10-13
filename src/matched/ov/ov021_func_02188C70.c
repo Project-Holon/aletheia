@@ -1,5 +1,5 @@
 /*
- * function: func_02188C70
+ * function: FIELDMAP_QueryIssSwitch
  * address:  0x02188C70
  * packet:   pkt_ov021_02188C70
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u8 func_0202C794(void *a0, u32 a1);
 
-int func_02188C70(int *p, int b)
+int FIELDMAP_QueryIssSwitch(int *p, int b)
 {
     return func_0202C794((void *)p[1], b);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C87D4
+ * function: PLEASURE_BOAT_SetPassengerOccupied
  * address:  0x021C87D4
  * packet:   pkt_ov021_021C87D4
  * region:   ov021
@@ -12,7 +12,7 @@
  * symbols:
  */
 
-void func_021C87D4(char *p, int i, int v)
+void PLEASURE_BOAT_SetPassengerOccupied(char *p, int i, int v)
 {
     *(int *)(p + i * 0x1c + 0x24) = v;
 }

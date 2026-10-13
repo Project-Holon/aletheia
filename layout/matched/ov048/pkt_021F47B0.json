@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F47B0",
-    "func_021F47B4",
-    "func_021F47B8"
+    "GIMMICK_OBJ_ELBOARD_GetScroll",
+    "GIMMICK_OBJ_ELBOARD_GetHeapId",
+    "GIMMICK_OBJ_ELBOARD_GetLineCount"
+   ],
+   "addresses": [
+    "0x021F47B0",
+    "0x021F47B4",
+    "0x021F47B8"
    ]
   }
  ]

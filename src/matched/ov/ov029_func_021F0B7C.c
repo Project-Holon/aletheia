@@ -1,5 +1,5 @@
 /*
- * function: func_021F0B7C
+ * function: C_GEAR_StopTileFlash
  * address:  0x021F0B7C
  * packet:   pkt_021F0B7C
  * region:   ov029
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F0B7C 0x021F0B7C thumb
+ *   C_GEAR_StopTileFlash 0x021F0B7C thumb
  */
 
 struct S021F0B7C {
     unsigned short f0 : 1;
 };
 
-void func_021F0B7C(struct S021F0B7C *p)
+void C_GEAR_StopTileFlash(struct S021F0B7C *p)
 {
     p->f0 = 0;
 }

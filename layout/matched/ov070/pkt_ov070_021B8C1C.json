@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8C1C",
+   "name": "ITEMMENU_StartSideButtonPress",
    "address": "0x021B8C1C",
    "kind": "game",
    "region": "ov070",

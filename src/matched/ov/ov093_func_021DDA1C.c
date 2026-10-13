@@ -1,5 +1,5 @@
 /*
- * function: func_021DDA1C
+ * function: BTL_ITEM_GetSuperEffectiveHitRecoverHandlers
  * address: 0x021DDA1C
  * packet: pkt_ov093_021DDA1C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DD87C.c and filed here.
  *
  * symbols:
- *   d_021F16CC 0x021F16CC data ov093 a4
+ *   gBtlItemSuperEffectiveHitRecoverHandlers 0x021F16CC data ov093 a4
  */
 
-int *func_021DDA1C(int *p);
-extern int d_021F16CC[];
+int *BTL_ITEM_GetSuperEffectiveHitRecoverHandlers(int *p);
+extern int gBtlItemSuperEffectiveHitRecoverHandlers[];
 
-int *func_021DDA1C(int *p)
+int *BTL_ITEM_GetSuperEffectiveHitRecoverHandlers(int *p)
 {
     *p = 2;
-    return d_021F16CC;
+    return gBtlItemSuperEffectiveHitRecoverHandlers;
 }

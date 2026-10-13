@@ -12,9 +12,10 @@
  *   func_021D4F70 0x021D4F70 thumb ov120
  *   func_021D8118 0x021D8118 thumb ov120
  *   func_02041B6C 0x02041B6C arm
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
  */
 typedef unsigned int   u32;
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 typedef unsigned char  u8;
 extern int func_021D7C48(u8 *p, int n, int a, int b, int c, int d);
 extern void *func_021D4F70(void **p, int i);
@@ -24,7 +25,7 @@ void func_021D81E0(char *p,void *q)
 {
     int i;
     void *r;
-    func_0201DD78(15,2,0);
+    GF_FONT_SetTextColor(15,2,0);
     func_021D7C48((u8 *)p,30,0,0,20,5);
     for(i=0;i<3;i++) {
         r=func_021D4F70(q,i);

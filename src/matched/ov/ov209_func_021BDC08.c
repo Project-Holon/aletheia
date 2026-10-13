@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   func_021C940C 0x021C940C thumb ov212
- *   func_0204BA20 0x0204BA20 arm
+ *   CLACT_SetActorVisible 0x0204BA20 arm
  *   func_021BD8D8 0x021BD8D8 thumb ov209
  *   func_021BD890 0x021BD890 thumb ov209
  *   func_0200CA54 0x0200CA54 thumb
@@ -31,10 +31,10 @@ extern const Template d_021BE9F0[10];
 struct Actor;
 struct Bank;
 struct Blk37;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct Obj;
 extern struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap);
-extern void func_0204BA20(struct Actor *a, u32 v);
+extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 extern void func_021BD8D8(char *p, u32 idx, u32 value);
 extern void func_021BD890(char *, int, int);
 extern u32 func_0200CA54(struct Blk37 *p);
@@ -44,7 +44,7 @@ void func_021BDC08(char *p)
 {
     unsigned i;
     Template t;
-    ((struct Obj04617 *)p)->fA70 = func_0204B100(60, 0, 0x6b);
+    ((struct Obj04617 *)p)->fA70 = CLACT_CreateUnit(60, 0, 0x6b);
     for (i = 0; i < 60; i++)
         *(unsigned *)(p + i * 4 + 0xa74) = 0;
     for (i = 0; i <= 9; i++) {
@@ -53,7 +53,7 @@ void func_021BDC08(char *p)
         t.wC = *(u32 *)(p + t.wC * 4 + 0xbf4);
         t.w10 = *(u32 *)(p + t.w10 * 4 + 0xc0c);
         *(void **)(p + i * 4 + 0xa74) = func_021C940C((u32)(((struct Obj04617 *)p)->fA70), (const u8 *)(&t), 0x6b);
-        func_0204BA20(*(void **)(p + i * 4 + 0xa74), 0);
+        CLACT_SetActorVisible(*(void **)(p + i * 4 + 0xa74), 0);
     }
     if (((struct Obj25570 *)(*(char * *)&((struct Obj04617 *)p)->f0))->fA <= 7) {
         func_021BD8D8(p, 0, 0);

@@ -1,7 +1,7 @@
 /*
  * file:     wipe.c
  * unit:     yes
- * function: func_0202208C, WIPE_SYS_Main, func_020221A4, WIPE_SYS_ExeEnd, WIPE_ResetWndMask, WIPE_ResetBrightness, func_0202223C, WIPE_SetMstBrightColor, WIPE_SetBackColor, WIPE_SetBrightness, WIPE_SYS_Finish, WIPE_SYS_MainPanels, WIPE_SYS_MainPanel, WIPE_SYS_CallPattern, WIPE_SYS_SetDivision, WIPE_SYS_SetDivisionFlags, WIPE_SYS_InitPanel, WIPE_InitHBlankSlots, WIPE_HBlankSlotsTask, WIPE_SetHBlankSlot, WIPE_ClearHBlankSlot, WIPE_RequestSetHBlankSlot, WIPE_RequestClearHBlankSlot, WIPE_SetHBlankSlotTask, WIPE_ClearHBlankSlotTask, WIPE_DummyHBlank
+ * function: WIPE_SYS_Start, WIPE_SYS_Main, WIPE_SYS_EndCheck, WIPE_SYS_ExeEnd, WIPE_ResetWndMask, WIPE_ResetBrightness, WIPE_SetBrightnessFadeOut, WIPE_SetMstBrightColor, WIPE_SetBackColor, WIPE_SetBrightness, WIPE_SYS_Finish, WIPE_SYS_MainPanels, WIPE_SYS_MainPanel, WIPE_SYS_CallPattern, WIPE_SYS_SetDivision, WIPE_SYS_SetDivisionFlags, WIPE_SYS_InitPanel, WIPE_InitHBlankSlots, WIPE_HBlankSlotsTask, WIPE_SetHBlankSlot, WIPE_ClearHBlankSlot, WIPE_RequestSetHBlankSlot, WIPE_RequestClearHBlankSlot, WIPE_SetHBlankSlotTask, WIPE_ClearHBlankSlotTask, WIPE_DummyHBlank
  * address:  0x0202208C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -77,13 +77,13 @@ extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020056A0(void *fn, void *arg, u32 prio);
 extern u32 func_020307B0(void *p);
-void func_0202208C(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
+void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
 void WIPE_SYS_Main(void);
-u32 func_020221A4(void);
+u32 WIPE_SYS_EndCheck(void);
 void WIPE_SYS_ExeEnd(void);
 void WIPE_ResetWndMask(void *win);
 void WIPE_ResetBrightness(u32 which);
-void func_0202223C(u32 a, u32 color);
+void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 void WIPE_SetMstBrightColor(u32 color);
 void WIPE_SetBackColor(u32 a);
 void WIPE_SetBrightness(u32 which, int brightness);
@@ -117,7 +117,7 @@ extern char  g_wipeSourceFile[];
  * The setup entry point of the dual-screen window/text cluster whose object
  * lives at 0x021467A4, the same fixed object WIPE_SUB_ClearSys zero-fills in five
  * sub-ranges (0x00/0x14, 0x14/0x30, 0x44/0x30, 0x74/0x18, 0x8C/0xC0) and the
- * one func_0202223C/WIPE_SetMstBrightColor read the sentinel colour out of at +0x150.
+ * one WIPE_SetBrightnessFadeOut/WIPE_SetMstBrightColor read the sentinel colour out of at +0x150.
  * It divides its sixth argument by CARD_GetBackupSectorSize(), clears the
  * object, runs two configuration calls, then builds the two screens with the
  * same eleven-argument builder WIPE_SYS_InitPanel: sub-object +0x14 with the
@@ -149,9 +149,9 @@ extern char  g_wipeSourceFile[];
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202208C.c  *       --func func_0202208C --addr 0x0202208C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/WIPE_SYS_Start.c  *       --func WIPE_SYS_Start --addr 0x0202208C --cc 1.1p1 --thumb
  */
-void func_0202208C(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7)
+void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7)
 {
     s32    n;
     struct WipeSys *g;
@@ -228,10 +228,10 @@ void WIPE_SYS_Main(void)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020221A4.c \
- *       --func func_020221A4 --addr 0x020221A4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SYS_EndCheck.c \
+ *       --func WIPE_SYS_EndCheck --addr 0x020221A4 --cc 1.1p1 --thumb
  */
-u32 func_020221A4(void)
+u32 WIPE_SYS_EndCheck(void)
 {
     if (g_wipeSys.active == 0)
         return 1;
@@ -239,7 +239,7 @@ u32 func_020221A4(void)
 }
 
 /*
- * Shutdown of the dual-screen text cluster, the counterpart of func_0202208C.
+ * Shutdown of the dual-screen text cluster, the counterpart of WIPE_SYS_Start.
  * It drops both entries of the callback block at +0x74, forces each live screen
  * into state 2, unpublishes both sub-objects through the same WIPE_SYS_MainPanel
  * slot writer the setup used, clears the live counter and the two delegate
@@ -329,10 +329,10 @@ void WIPE_ResetBrightness(u32 which)
  * pools in the image.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202223C.c \
- *       --func func_0202223C --addr 0x0202223C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SetBrightnessFadeOut.c \
+ *       --func WIPE_SetBrightnessFadeOut --addr 0x0202223C --cc 1.1p1 --thumb
  */
-void func_0202223C(u32 a, u32 color)
+void WIPE_SetBrightnessFadeOut(u32 a, u32 color)
 {
     if (color == 0xFFFF) {
         color = g_wipeSys.color;
@@ -346,7 +346,7 @@ void func_0202223C(u32 a, u32 color)
 }
 
 /*
- * Same sentinel-mapping shape as func_0202223C.c, but read-modify-write:
+ * Same sentinel-mapping shape as WIPE_SetBrightnessFadeOut.c, but read-modify-write:
  * it substitutes the sentinel readback the same way, maps the result to
  * one of the same two hardware constants, forwards it to both of
  * WIPE_SetBrightness's hardware selections (0 and 1), and then stores the
@@ -560,7 +560,7 @@ static void WIPE_SYS_SetDivisionFlags(struct WipeSys *p, u32 kind, u32 a, u32 b)
 }
 
 /*
- * The eleven-argument screen descriptor builder func_0202208C runs twice, once
+ * The eleven-argument screen descriptor builder WIPE_SYS_Start runs twice, once
  * per screen: a pure field-by-field copy of the argument list into the 0x26
  * byte sub-object, with no validation at all.  The four register arguments
  * land at +0x00..+0x0C and the seven stacked ones at +0x10..+0x24.
@@ -597,7 +597,7 @@ void WIPE_SYS_InitPanel(struct WipePanel *s, u32 a, u32 b, s32 c, u32 d, u32 e,
 
 /*
  * Resets the 24-byte two-entry callback block at +0x74 of the dual-screen
- * text object (the buffer func_0202208C hands to both screen builders):
+ * text object (the buffer WIPE_SYS_Start hands to both screen builders):
  * three parallel two-element arrays, the context pointers at +0x00, the
  * handlers at +0x08 and the user words at +0x10.  Both handler slots are
  * armed with the do-nothing WIPE_DummyHBlank rather than a null, so the

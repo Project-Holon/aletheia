@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_021BCF50  0x021BCF50  thumb  ov210
  *   func_02030EAC  0x02030EAC  arm
  *   d_02FE0000 0x02FE0000 data a4
  *   func_020419E4 0x020419E4 arm
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021C0754  0x021C0754  data  a4
  */
 #include "../../matched/include/Obj25581.h"
@@ -51,8 +51,8 @@ typedef signed char    s8;
 
 typedef signed int     s32;
 
-extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern u32 func_021BCF50(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
@@ -60,13 +60,13 @@ extern void func_020306F0(u32);
 extern u32 func_020056A0(void (*)(void), u8 *, u32);
 extern u32 func_02030EAC(u32 a);
 extern void func_020419E4(void);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void func_020434DC(unsigned,unsigned);
-extern void func_02043598(unsigned,unsigned);
+extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 extern void *func_02005624(u32 a, u32 b, u32 c);
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 u32 func_021BC240(void *man, u32 b, u32 arg);
 u32 func_021BC270(u32 a, u32 b, u32 c, u32 d);
 u32 func_021BC284(void *p);
@@ -85,8 +85,8 @@ extern u8 d_021C0754[];
 u32 func_021BC240(void *man, u32 b, u32 arg)
 {
     u32 *p;
-    func_0203064C(1, 0x7b, 0x60000);
-    p = func_0203159C(man, 0x2d4, 0x7b);
+    GFL_HEAP_CreateChildHeap(1, 0x7b, 0x60000);
+    p = PROCSYS_AllocProcWork(man, 0x2d4, 0x7b);
     func_02082BCC(p, 0, 0x2d4);
     *p = arg;
     return 1;
@@ -124,15 +124,15 @@ u32 func_021BC2AC(u8 *p)
 void func_021BC2B8(void *unused,unsigned char *p)
 {
     func_020419E4();
-    func_0204A648();
+    CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct S02021D50 *)(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC));
     if (p[0x2b8]==1) {
         func_020434DC(10,1);
-        func_02043598(2,1);
+        BG_SYS_SetSubPlaneVisible(2,1);
         p[0x2b8]=0;
     } else if (p[0x2b8]==2) {
         func_020434DC(10,0);
-        func_02043598(2,0);
+        BG_SYS_SetSubPlaneVisible(2,0);
         p[0x2b8]=0;
     }
     *(volatile unsigned *)((unsigned)d_02FE0000+0x3ff8) |= 1;
@@ -194,7 +194,7 @@ void func_021BC33C(void *ctx, unsigned char *p)
 void func_021BC3D4(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((const struct DispVram *)d_021C0754);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021C0754);
 }
 
 

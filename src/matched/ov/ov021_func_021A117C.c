@@ -1,5 +1,5 @@
 /*
- * function: func_021A117C
+ * function: FIELD_SUBSCREEN_ExitNoGear
  * address:  0x021A117C
  * packet:   pkt_ov021_021A117C
  * region:   ov021
@@ -25,7 +25,7 @@ extern unsigned char abs_id_1e[];
 extern void func_021E0118(char *p);
 extern void func_02034A5C(int);
 
-void func_021A117C(u32 *p)
+void FIELD_SUBSCREEN_ExitNoGear(u32 *p)
 {
     func_021E0118((char *)p[8]);
     func_02034A5C((int)abs_id_1e);

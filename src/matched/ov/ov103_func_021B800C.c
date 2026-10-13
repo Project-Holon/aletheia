@@ -11,10 +11,10 @@
  * symbols:
  *   func_021B831C 0x021B831C thumb ov103
  *   func_02082BCC 0x02082BCC arm
- *   func_020450F0 0x020450F0 arm
- *   func_020457B0 0x020457B0 arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
@@ -27,10 +27,10 @@ struct Descriptor;
 struct U16Vec;
 extern void func_021B831C(u8 *p);
 extern void func_02082BCC(void *, int, int);
-extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern u32 BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 void func_021B800C(struct Rec *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g)
@@ -38,13 +38,13 @@ void func_021B800C(struct Rec *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g)
     int q;
     func_02082BCC(p, 0, 20);
     p->f10 = 15;
-    p->f0 = func_020450F0(a, b, c, d, e, f, 1);
-    p->fC = (u32)func_020457B0(255, g);
+    p->f0 = BMP_WIN_Create(a, b, c, d, e, f, 1);
+    p->fC = (u32)STRBUF_Create(255, g);
     p->f4 = p->f0;
     p->f8 = 0;
     func_021B831C((u8 *)p);
     q = p->f0;
-    func_02045334((void *)q);
-    func_02045374((struct Cfg *)q);
+    BMP_WIN_TransferChars((void *)q);
+    BMP_WIN_MakeScreen((struct Cfg *)q);
     func_020409B4(func_02045730((struct Descriptor *)q));
 }

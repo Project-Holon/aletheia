@@ -1,5 +1,5 @@
 /*
- * function: func_021B621C
+ * function: ITEMMENU_SwapSlots
  * address: 0x021B621C
  * packet: pkt_ov070_021B621C
  * region: ov070
@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 extern void MI_CpuCopy8(const void *, void *, unsigned int);
-void func_021B621C(u8 *p, int a, int b)
+void ITEMMENU_SwapSlots(u8 *p, int a, int b)
 {
     int tmp;
     MI_CpuCopy8(p + 0x20 + (int)((unsigned int)a * 4U), &tmp, 4);

@@ -1,5 +1,5 @@
 /*
- * function: func_02163F40
+ * function: FLDMMDL_MOVE_GetDirMapAttr
  * address:  0x02163F40
  * packet:   pkt_ov010_02163F40
  * region:   ov010
@@ -10,31 +10,31 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb
- *   func_0216D86C  0x0216D86C  thumb
- *   func_0216D8AC  0x0216D8AC  thumb
- *   func_02164280  0x02164280  thumb
- *   func_02164208  0x02164208  thumb
- *   func_02163E34  0x02163E34  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb
+ *   FLDMMDL_GetPosY  0x0216D8AC  thumb
+ *   FLDMMDL_MOVE_GridToVectorPos  0x02164280  thumb
+ *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb
+ *   FLDMMDL_MOVE_GetMapAttr  0x02163E34  thumb
  */
 
 typedef unsigned int   u32;
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
-extern u32 func_0216D8AC(void *p);
-extern void func_02164280(int x, int y, int *p);
-extern void func_02164208(int dir, int *p, int amt);
-extern void func_02163E34(int a, int *p, int *out);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern u32 FLDMMDL_GetPosY(void *p);
+extern void FLDMMDL_MOVE_GridToVectorPos(int x, int y, int *p);
+extern void FLDMMDL_MOVE_AddDirVector(int dir, int *p, int amt);
+extern void FLDMMDL_MOVE_GetMapAttr(int a, int *p, int *out);
 
-int func_02163F40(int a, int dir)
+int FLDMMDL_MOVE_GetDirMapAttr(int a, int dir)
 {
     int buf[3];
     int v;
 
     v = -1;
-    func_02164280(func_0216D83C((void *)a), func_0216D86C((void *)a), buf);
-    buf[1] = func_0216D8AC((void *)a);
-    func_02164208(dir, buf, 0x10000);
-    func_02163E34(a, buf, &v);
+    FLDMMDL_MOVE_GridToVectorPos(FLDMMDL_GetGridNowX((void *)a), FLDMMDL_GetGridNowZ((void *)a), buf);
+    buf[1] = FLDMMDL_GetPosY((void *)a);
+    FLDMMDL_MOVE_AddDirVector(dir, buf, 0x10000);
+    FLDMMDL_MOVE_GetMapAttr(a, buf, &v);
     return v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CEB84
+ * function: COMM_ENTRY_MENU_MainYesNo
  * address:  0x021CEB84
  * packet:   pkt_ov021_021CEB84
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CEE00  0x021CEE00  thumb  ov021
- *   func_021CEE48  0x021CEE48  thumb  ov021
- *   func_021CEDA0  0x021CEDA0  thumb  ov021
- *   func_021CEF1C  0x021CEF1C  thumb  ov021
- *   func_02190A14  0x02190A14  thumb  ov021
- *   func_020392B8  0x020392B8  arm
- *   func_02039ACC  0x02039ACC  arm
+ *   COMM_ENTRY_TickParentTimeouts  0x021CEE00  thumb  ov021
+ *   COMM_ENTRY_ScanParents  0x021CEE48  thumb  ov021
+ *   COMM_ENTRY_PollParentList  0x021CEDA0  thumb  ov021
+ *   COMM_ENTRY_BuildParentItems  0x021CEF1C  thumb  ov021
+ *   FIELD_MSGBG_RewriteMenuFunc  0x02190A14  thumb  ov021
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
+ *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
  *   func_020362DC  0x020362DC  arm
- *   func_021CE9E4  0x021CE9E4  thumb  ov021
- *   func_020399A8  0x020399A8  arm
- *   func_020399B8  0x020399B8  arm
- *   func_021CF1AC  0x021CF1AC  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02190BE4  0x02190BE4  thumb  ov021
- *   func_02190C78  0x02190C78  thumb  ov021
- *   func_0219049C  0x0219049C  thumb  ov021
- *   func_021909BC  0x021909BC  thumb  ov021
- *   func_02190B1C  0x02190B1C  thumb  ov021
- *   func_02190EF0  0x02190EF0  thumb  ov021
+ *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
+ *   COMM_ENTRY_SendJoinRequest  0x021CF1AC  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_IsPrintQueFinished  0x0219049C  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_DrawMenuFuncFrame  0x02190B1C  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
  */
 #include "../include/Obj00011.h"
 
@@ -36,27 +36,27 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021CEE00(u8 *p);
-extern void func_021CEE48(u8 *p);
-extern int func_021CEDA0(u8 *p);
-extern void func_021CEF1C(u8 *p);
+extern void COMM_ENTRY_TickParentTimeouts(u8 *p);
+extern void COMM_ENTRY_ScanParents(u8 *p);
+extern int COMM_ENTRY_PollParentList(u8 *p);
+extern void COMM_ENTRY_BuildParentItems(u8 *p);
 struct Handle;
-extern void func_02190A14(u8 *p);
-extern int func_020392B8(void);
-extern int func_02039ACC(void);
+extern void FIELD_MSGBG_RewriteMenuFunc(u8 *p);
+extern int GFL_NET_SYSTEM_GetConnectNum(void);
+extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern u32 func_020362DC(void);
-extern void func_021CE9E4(u8 *p, int n);
+extern void COMM_ENTRY_MENU_PrintMessage(u8 *p, int n);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_020399B8(u8 *p);
-extern u32 func_021CF1AC(u32 a, u32 b, u32 c);
-extern u32 func_02188C54(u8 *p);
-extern u32 *func_02190BE4(u16 *a, u32 b);
-extern int func_02190C78(struct Handle *h);
-extern int func_0219049C(u8 *p);
-extern int func_021909BC(void *a);
-extern int func_02190B1C(u32 a);
-extern u32 func_02190EF0(u32 *p);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
+extern u32 COMM_ENTRY_SendJoinRequest(u32 a, u32 b, u32 c);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
+extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
+extern int FIELD_MSGBG_IsPrintQueFinished(u8 *p);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
+extern int FIELD_MSGBG_DrawMenuFuncFrame(u32 a);
+extern u32 FIELD_MSGBG_SysWinMain(u32 *p);
 
 typedef struct {
     u8 pad0[0x2c8];
@@ -68,7 +68,7 @@ typedef struct {
     u16 timer;
 } Sub;
 
-u32 func_021CEB84(u8 *p)
+u32 COMM_ENTRY_MENU_MainYesNo(u8 *p)
 {
     u32 *w = (u32 *)(p + 0x130);
     Sub *s = (Sub *)(p + 0x13c);
@@ -77,18 +77,18 @@ u32 func_021CEB84(u8 *p)
     switch (s->state) {
     case 0:
         if (s->busy == 0) {
-            func_021CEE00(p);
-            func_021CEE48(p);
-            if (func_021CEDA0(p) == 0) {
+            COMM_ENTRY_TickParentTimeouts(p);
+            COMM_ENTRY_ScanParents(p);
+            if (COMM_ENTRY_PollParentList(p) == 0) {
                 s->result = 3;
                 s->state = 3;
             } else if (p[0x40d] == 1) {
-                func_021CEF1C(p);
-                func_02190A14((u8 *)(((struct Obj00011 *)p)->f140));
+                COMM_ENTRY_BuildParentItems(p);
+                FIELD_MSGBG_RewriteMenuFunc((u8 *)(((struct Obj00011 *)p)->f140));
                 p[0x40d] = 0;
             }
-        } else if (func_020392B8() > 1) {
-            if (func_02039ACC() == 1) {
+        } else if (GFL_NET_SYSTEM_GetConnectNum() > 1) {
+            if (GFL_NET_HANDLE_CheckNegotiation() == 1) {
                 s->state++;
             }
         } else {
@@ -99,14 +99,14 @@ u32 func_021CEB84(u8 *p)
             (s->timer)++;
             if (s->timer >= 300) {
                 s->state = 6;
-                func_021CE9E4(p, 0x24);
+                COMM_ENTRY_MENU_PrintMessage(p, 0x24);
             }
         }
         break;
     case 1:
-        if (func_020399B8((u8 *)func_020399A8()) == 1) {
+        if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)GFL_NET_HANDLE_GetCurrentHandle()) == 1) {
             ((struct Obj00011 *)p)->f52C = 0;
-            if (func_021CF1AC((u32)(p + 0x30), 0, p[0x51b]) == 1) {
+            if (COMM_ENTRY_SendJoinRequest((u32)(p + 0x30), 0, p[0x51b]) == 1) {
                 s->state = 2;
             }
         } else if (func_020362DC() & 2) {
@@ -137,30 +137,30 @@ u32 func_021CEB84(u8 *p)
     case 3:
         return s->result;
     case 4:
-        func_021CE9E4(p, 0x23);
-        *w = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)(((struct Obj00011 *)p)->f0)), 0);
+        COMM_ENTRY_MENU_PrintMessage(p, 0x23);
+        *w = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg((u8 *)(((struct Obj00011 *)p)->f0)), 0);
         s->state = 5;
         break;
     case 5:
-        r = func_02190C78((struct Handle *)(*w));
-        if (func_0219049C((u8 *)func_02188C54((u8 *)(((struct Obj00011 *)p)->f0))) == 1 && p[0x576] == 1) {
+        r = FIELD_MSGBG_YesNoMenuMain((struct Handle *)(*w));
+        if (FIELD_MSGBG_IsPrintQueFinished((u8 *)FIELDMAP_GetMsgBg((u8 *)(((struct Obj00011 *)p)->f0))) == 1 && p[0x576] == 1) {
             r = 1;
         }
-        if (r == 2 && func_0219049C((u8 *)func_02188C54((u8 *)(((struct Obj00011 *)p)->f0))) == 1) {
+        if (r == 2 && FIELD_MSGBG_IsPrintQueFinished((u8 *)FIELDMAP_GetMsgBg((u8 *)(((struct Obj00011 *)p)->f0))) == 1) {
             if (p[0x519] == 1 || p[0x51a] == 1) {
-                func_021909BC((void *)(*w));
+                FIELD_MSGBG_DeleteMenuFunc((void *)(*w));
                 *w = 0;
                 s->result = 1;
                 s->state = 3;
             }
         } else {
-            func_021909BC((void *)(*w));
+            FIELD_MSGBG_DeleteMenuFunc((void *)(*w));
             *w = 0;
             if (r == 1) {
                 s->state = s->prev;
-                func_021CE9E4(p, 0x20);
+                COMM_ENTRY_MENU_PrintMessage(p, 0x20);
                 if (((struct Obj00011 *)p)->f140 != 0) {
-                    func_02190B1C(((struct Obj00011 *)p)->f140);
+                    FIELD_MSGBG_DrawMenuFuncFrame(((struct Obj00011 *)p)->f140);
                 }
             } else {
                 s->result = 3;
@@ -169,7 +169,7 @@ u32 func_021CEB84(u8 *p)
         }
         break;
     case 6:
-        if (func_02190EF0((u32 *)(((struct Obj00011 *)p)->f14)) == 1) {
+        if (FIELD_MSGBG_SysWinMain((u32 *)(((struct Obj00011 *)p)->f14)) == 1) {
             s->result = 3;
             s->state = 3;
         }

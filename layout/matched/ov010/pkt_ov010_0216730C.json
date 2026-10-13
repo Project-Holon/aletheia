@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216730C",
+   "name": "EVENT_RESEARCH_RADAR_GetReportMessageId",
    "address": "0x0216730C",
    "kind": "game",
    "region": "ov010",

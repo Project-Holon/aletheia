@@ -1,5 +1,5 @@
 /*
- * function: func_0216B3EC
+ * function: FIELD_G3D_MAP_SymbolEntryEventMain
  * address:  0x0216B3EC
  * packet:   pkt_ov010_0216B3EC
  * region:   ov010
@@ -19,21 +19,21 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_0216B24C  0x0216B24C  thumb  ov010
- *   func_02012374  0x02012374  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   FIELD_G3D_MAP_CreateIntrudeRequestEvent  0x0216B24C  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_021BE8D4  0x021BE8D4  thumb
- *   func_021665D0  0x021665D0  thumb  ov010
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   SYMBOL_MAP_GetSelectedCellTile  0x021665D0  thumb  ov010
  *   GAME_DATA_SetSymbolMapFlag  0x02012FA4  thumb
- *   func_021854B0  0x021854B0  thumb
- *   func_0219C630  0x0219C630  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
+ *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb
+ *   FLDMMDL_BLACT_IsReservePending  0x0219C630  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -58,38 +58,38 @@ struct Ctx;
 struct Evt;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C7C(u8 *p);
-extern void func_0216D9A0(void *map);
-extern int func_0216B24C(void *vm, int value, int flag);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern void FLDMMDL_SysPauseMove(void *map);
+extern int FIELD_G3D_MAP_CreateIntrudeRequestEvent(void *vm, int value, int flag);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void func_020061E4(u32 se);
-extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
-extern int func_021665D0(int a0, int a1);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *sys, void *proc, u32 a, u32 b);
+extern int SYMBOL_MAP_GetSelectedCellTile(int a0, int a1);
 extern void GAME_DATA_SetSymbolMapFlag(char *p, unsigned char v);
-extern void *func_021854B0(void *sys, void *proc, u32 id, void *pos, u32 flag);
-extern int func_0219C630(void *map);
-extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 *func_0216D9E4(void *c);
+extern void *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(void *sys, void *proc, u32 id, void *pos, u32 flag);
+extern int FLDMMDL_BLACT_IsReservePending(void *map);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 *FLDMMDL_SysResumeMove(void *c);
 
-int func_0216B3EC(void *evt, u32 *state, Work *w)
+int FIELD_G3D_MAP_SymbolEntryEventMain(void *evt, u32 *state, Work *w)
 {
     void *sys = func_020124E4(evt);
     void *ctx;
     void *proc;
 
-    func_02012138(sys);
-    ctx = func_020120F4(sys);
-    proc = func_0201210C(sys);
+    GAMESYSTEM_GetGameComm(sys);
+    ctx = GAMESYSTEM_GetGameData(sys);
+    proc = GAMESYSTEM_GetFieldMap(sys);
     switch (*state) {
     case 0:
-        func_0216D9A0(func_02188C7C(proc));
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(proc));
         if (w->f20 == 1) {
             *state = 2;
         } else {
-            func_02012374(evt, (void *)func_0216B24C(sys, (int)(&w->f18), w->f16));
+            GAME_EVENT_CallEvent(evt, (void *)FIELD_G3D_MAP_CreateIntrudeRequestEvent(sys, (int)(&w->f18), w->f16));
             (*state)++;
         }
         break;
@@ -105,19 +105,19 @@ int func_0216B3EC(void *evt, u32 *state, Work *w)
     case 2:
         if (w->f1c != 0)
             func_020061E4(1369);
-        func_02012374(evt, func_021BE8D4(sys, proc, 9, 0));
+        GAME_EVENT_CallEvent(evt, EVENT_FIELDMAP_CONTROL_StartFadeOut(sys, proc, 9, 0));
         (*state)++;
         break;
     case 3:
-        w->f04 = func_021665D0((int)sys, w->f16);
+        w->f04 = SYMBOL_MAP_GetSelectedCellTile((int)sys, w->f16);
         GAME_DATA_SetSymbolMapFlag(ctx, w->f16);
-        func_02012374(evt, func_021854B0(sys, proc, w->f04, w->f08, w->f14));
+        GAME_EVENT_CallEvent(evt, EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(sys, proc, w->f04, w->f08, w->f14));
         (*state)++;
         break;
     case 4:
-        if (func_0219C630(func_02188C7C(func_0201210C(sys))) == 1)
+        if (FLDMMDL_BLACT_IsReservePending(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(sys))) == 1)
             break;
-        func_02012374(evt, func_021BE92C(sys, proc, 9, 0, 0, 0, 0));
+        GAME_EVENT_CallEvent(evt, EVENT_FIELDMAP_CONTROL_StartFadeIn(sys, proc, 9, 0, 0, 0, 0));
         (*state)++;
         break;
     case 5:
@@ -126,7 +126,7 @@ int func_0216B3EC(void *evt, u32 *state, Work *w)
         *state = 6;
         break;
     case 6:
-        func_0216D9E4(func_02188C7C(proc));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(proc));
         return 1;
     }
     return 0;

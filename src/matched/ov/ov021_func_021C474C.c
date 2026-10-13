@@ -1,5 +1,5 @@
 /*
- * function: func_021C474C
+ * function: FIELD_OV063_Start
  * address:  0x021C474C
  * packet:   pkt_ov021_021C474C
  * region:   ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021F36C0  0x021F36C0  thumb  ov063
- *   func_021C4788  0x021C4788  thumb  ov021
+ *   FIELD_OV063_TaskUpdate  0x021C4788  thumb  ov021
  *   ov063_id       0x0000003F  data
  */
 
@@ -27,11 +27,11 @@ void *func_020124E8(struct Obj *p);
 extern int func_02034AC4(s32 handle);
 extern void *func_021F36C0(void *a, u32 b, u32 c, u32 d);
 extern char ov063_id[];
-int func_021C4788(void *t);
+int FIELD_OV063_TaskUpdate(void *t);
 
-void *func_021C474C(void *a, u32 b, u32 c)
+void *FIELD_OV063_Start(void *a, u32 b, u32 c)
 {
-    void *t = func_020122C0(a, 0, func_021C4788, 4);
+    void *t = func_020122C0(a, 0, FIELD_OV063_TaskUpdate, 4);
     void **w = func_020124E8(t);
 
     func_02034AC4((u32)ov063_id);

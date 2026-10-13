@@ -1,5 +1,5 @@
 /*
- * function: func_021B50F8
+ * function: SCRCMD_PROC_FLD_CallEventMode4
  * address:  0x021B50F8
  * packet:   pkt_ov021_021B50F8
  * region:   ov021
@@ -10,27 +10,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0216E95C  0x0216E95C  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   EVENT_BATTLE_CreateCatchTutorial  0x0216E95C  thumb  ov010
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0216E95C(void *sys, u32 arg, u32 heap);
-extern void func_0215897C(void *vm, void *task);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *EVENT_BATTLE_CreateCatchTutorial(void *sys, u32 arg, u32 heap);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B50F8(u32 a, u32 b)
+int SCRCMD_PROC_FLD_CallEventMode4(u32 a, u32 b)
 {
-    void *s = func_0215A5F4((void *)b);
-    void *d = func_0215A5DC((void *)b);
+    void *s = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *d = SCRCMD_WORK_GetGameSystem((void *)b);
 
-    func_0215897C(s, func_0216E95C(d, (u32)func_0201210C((void *)d), 4));
+    SCRIPT_SYS_CallEvent(s, EVENT_BATTLE_CreateCatchTutorial(d, (u32)GAMESYSTEM_GetFieldMap((void *)d), 4));
     return 1;
 }

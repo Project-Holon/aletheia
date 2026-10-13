@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200BA38, BATTLE_REC_SetBodyCrc
+ * function: BATTLE_REC_IsVersionSupported, BATTLE_REC_SetBodyCrc
  *
  * 32 bytes, 0x0200BA38..0x0200BA58, 2 functions, one of which carries a
  * label in the generated listing.
@@ -36,12 +36,12 @@
  * is flat, so the missing copy is not reachable from the source shape.  Same
  * class as the near misses at 0x0200B2A4 and 0x0200B37C.
  *
- * Near miss, and the reason this range stops at 0x0200BA58: func_0200BA58 and
- * func_0200BA68, eight bytes of tail call each.  Both reproduce every
+ * Near miss, and the reason this range stops at 0x0200BA58: BATTLE_REC_LoadToolOverlay and
+ * BATTLE_REC_UnloadToolOverlay, eight bytes of tail call each.  Both reproduce every
  * instruction but hold their argument in a pool word rather than in a `movs`,
  * and 0xBC fits a `movs` immediate, so the argument cannot be an integer
  * literal.  Both are now matched on their own: src/matched/arm9/
- * func_0200BA58.c and func_0200BA68.c. *
+ * BATTLE_REC_LoadToolOverlay.c and BATTLE_REC_UnloadToolOverlay.c. *
  * symbols:
  *   func_0203F1FC  0x0203F1FC  arm
  *   BATTLE_REC_Decode  0x0200B900  thumb
@@ -50,6 +50,8 @@
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   pBattleRec  0x0214616C  data
  *   BattleRecModeTable  0x0209DDCC  data
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
  */
 
 typedef unsigned char  u8;
@@ -72,7 +74,7 @@ extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 
 extern void  BATTLE_REC_Decode(void *a, u32 b, u32 c);
@@ -85,7 +87,7 @@ extern u32   func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
-extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void *func_0200BBEC(void *a, u32 b, u32 c);
 
 extern const u16 BattleRecModeTable[];
@@ -130,7 +132,7 @@ struct Rec35C {
     u8 unk344[0x18];
 };
 
-u32 func_0200BA38(u32 v)
+u32 BATTLE_REC_IsVersionSupported(u32 v)
 {
     if (v <= 100) {
         return 1;

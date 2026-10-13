@@ -13,11 +13,11 @@
  *   address is not CSE'd across the calls (the original re-adds it each time);
  *   func_0218A378's second parameter is int (no truncation before the bl).
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
  *   func_0218A378  0x0218A378  thumb  ov096
- *   func_021D5448  0x021D5448  thumb  ov093
- *   func_021D54C0  0x021D54C0  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
  */
 #include "../include/Obj00005.h"
 
@@ -33,25 +33,25 @@ typedef struct {
 } Conn;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 struct QG;
 extern void VM_Jump(struct Cur *c, u32 v);
 extern int func_0218A378(Conn *, int, int);
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 
 int func_02188BB0(struct Cursor *a, Conn *b)
 {
     int m;
     int i;
 
-    m = func_0201134C(a);
-    for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-        if (func_0218A378(b, func_021D54C0(b->fbc, (u8)i), 3) != 0)
+    m = VM_GetU32(a);
+    for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+        if (func_0218A378(b, BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i), 3) != 0)
             break;
     }
-    if (i < func_021D5448((struct QG *)b->fbc))
+    if (i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc))
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return b->fc4;
 }

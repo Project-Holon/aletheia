@@ -1,5 +1,5 @@
 /*
- * function: func_021DF340
+ * function: BTL_HANDLER_ITEM_GetDracoPlateHandlers
  * address: 0x021DF340
  * packet: pkt_ov093_021DF340
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F14D4[];
-int *func_021DF340(int *p);
+int *BTL_HANDLER_ITEM_GetDracoPlateHandlers(int *p);
 
-int *func_021DF340(int *p)
+int *BTL_HANDLER_ITEM_GetDracoPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F14D4;

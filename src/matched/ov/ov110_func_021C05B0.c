@@ -14,8 +14,8 @@
  *   retain that width through the inline helper and caller local.
  * symbols:
  *   func_0201C6EC 0x0201C6EC thumb
- *   func_02027FD8 0x02027FD8 thumb
- *   func_021B6284 0x021B6284 thumb ov067
+ *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
+ *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   func_021C0AB4 0x021C0AB4 thumb ov110
  *   func_021C0C18 0x021C0C18 thumb ov110
  *   func_021C07E8 0x021C07E8 thumb ov110
@@ -27,10 +27,10 @@ struct PrintSys;
 struct TaskMenuState;
 extern void func_0201C6EC(struct PrintSys *p);
 typedef unsigned char u8;
-extern void func_021B6284(unsigned int *);
+extern void UI_SCENE_FreeActorGfx(unsigned int *);
 extern void func_021C0AB4(u8 *);
 typedef unsigned int   u32;
-extern u32 func_02027FD8(struct TaskMenuState *s);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void func_021C0C18(u8 *);
 extern void func_021C07E8(u8 *);
 extern void func_021C16B0(u8 *);
@@ -46,9 +46,9 @@ void func_021C05B0(char *p) {
     func_0201C6EC(((struct Obj06395 *)p)->f5C);
     z=Clear(p, 0);
     ((struct Obj06395 *)p)->f4C=z;
-    func_021B6284((unsigned int *)(p+0xc));
+    UI_SCENE_FreeActorGfx((unsigned int *)(p+0xc));
     func_021C0AB4((u8 *)p);
-    func_02027FD8(((struct Obj06395 *)p)->f64);
+    APP_TASKMENU_RES_Delete(((struct Obj06395 *)p)->f64);
     func_021C0C18((u8 *)p);
     func_021C07E8((u8 *)(p+0x24));
     func_021C16B0(((struct Obj06395 *)p)->f50);

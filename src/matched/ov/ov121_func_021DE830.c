@@ -9,13 +9,13 @@
  * status: EXACT
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_02157DD8 0x02157DD8 thumb ov010
- *   func_02157E34 0x02157E34 thumb ov010
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203D34C 0x0203D34C arm
+ *   DELIVERY_IRC_Create 0x02157DD8 thumb ov010
+ *   DELIVERY_IRC_Start 0x02157E34 thumb ov010
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE910 0x021DE910 thumb ov121
- *   d_0209DF0C 0x0209DF0C data a1
+ *   GAME_LANGUAGE_Code 0x0209DF0C data a1
  */
 #include "../include/Obj06455.h"
 typedef unsigned short u16;
@@ -31,14 +31,14 @@ typedef struct Descriptor {
     int enabled;
 } Descriptor;
 extern void func_02082BCC(void *, int, int);
-extern void *func_02157DD8(u8 *p);
-extern int func_02157E34(void *);
-extern int func_0203CD98(void);
-extern void func_0203D34C(unsigned, unsigned);
+extern void *DELIVERY_IRC_Create(u8 *p);
+extern int DELIVERY_IRC_Start(void *);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
 typedef unsigned int   u32;
 extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE910(void *, int *, char *);
-extern u8 d_0209DF0C;
+extern u8 GAME_LANGUAGE_Code;
 void func_021DE830(void *a, int *state, char *p)
 {
     Descriptor d;
@@ -50,17 +50,17 @@ void func_021DE830(void *a, int *state, char *p)
         d.data = p + 0x7a4;
         d.zero = 0;
         d.heap = ((struct Obj06455 *)p)->f58;
-        d.setting = d_0209DF0C;
+        d.setting = GAME_LANGUAGE_Code;
         d.enabled = 1;
         d.flags = 0x200000;
-        ((struct Obj06455 *)p)->f79C = func_02157DD8((u8 *)(&d));
-        func_02157E34(((struct Obj06455 *)p)->f79C);
+        ((struct Obj06455 *)p)->f79C = DELIVERY_IRC_Create((u8 *)(&d));
+        DELIVERY_IRC_Start(((struct Obj06455 *)p)->f79C);
         ((struct Obj06455 *)p)->f17A4 = 0;
         *state = 1;
         break;
     case 1:
-        if (func_0203CD98()) {
-            func_0203D34C(1, ((struct Obj06455 *)p)->f58);
+        if (GFL_NET_GetRunState()) {
+            GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj06455 *)p)->f58);
             *state = 2;
         }
         break;

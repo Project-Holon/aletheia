@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_021DC720  0x021DC720  thumb  ov119
- *   func_0204A5AC  0x0204A5AC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
  *   func_021E3E40  0x021E3E40  thumb  ov119
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   func_02030734  0x02030734  arm
  *   func_021E5284  0x021E5284  thumb  ov119
  *   func_021E3208  0x021E3208  thumb  ov119
@@ -40,10 +40,10 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern void func_021DC720(char *p);
-extern void func_0204A5AC(void);
+extern void CLACT_ExitSystem(void);
 extern void func_021E3E40(char *p);
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021E5284(char *p, int mode);
 extern void func_021E3208(void *p, int a);
@@ -65,9 +65,9 @@ extern const char d_021D55CC[];
 void func_021D4BF4(u8 *p)
 {
     func_021DC720((char *)p);
-    func_0204A5AC();
+    CLACT_ExitSystem();
     func_021E3E40((char *)p);
-    ((struct Obj02829 *)p)->f9C4 = (int)func_0204B100(3, 0, HEAP);
+    ((struct Obj02829 *)p)->f9C4 = (int)CLACT_CreateUnit(3, 0, HEAP);
     WORK = func_02030734(HEAP, 0xBC, 1, d_021D55CC, 0x65);
     *(u16 *)(WORK + 0xBA) = HEAP;
     func_021E5284((char *)p, 1);

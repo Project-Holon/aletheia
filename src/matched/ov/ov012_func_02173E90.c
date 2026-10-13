@@ -10,23 +10,23 @@
  * status:   EXACT
  * lever:    Nested null recheck retains the original dead second bne.
  * symbols:
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_02034714  0x02034714  arm
- *   func_02183F88  0x02183F88  thumb ov022
+ *   UNION_APP_AddSettingTarget  0x02183F88  thumb ov022
  */
 #include "../include/Obj19266.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02183F88(u8 *p, u8 a);
+extern void UNION_APP_AddSettingTarget(u8 *p, u8 a);
 
 void UNION_COMMAND_RecvAppQuitCancel(int a, int b, int c, u8 *p)
 {
     u8 *q;
-    if (func_0203D378() != 0) {
+    if (GFL_NET_IsParentAid() != 0) {
         q = *(u8 * *)&((struct Obj19266 *)p)->f3528;
         if (q == 0) {
             if (q == 0) {
@@ -34,7 +34,7 @@ void UNION_COMMAND_RecvAppQuitCancel(int a, int b, int c, u8 *p)
                 return;
             }
         } else {
-            func_02183F88(q, (u8)a);
+            UNION_APP_AddSettingTarget(q, (u8)a);
         }
     }
 }

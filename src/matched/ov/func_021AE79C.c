@@ -1,5 +1,5 @@
 /*
- * function: func_021AE79C
+ * function: EVENT_TRAINER_EYE_GetSightType
  * address:  0x021AE79C
  * packet:   pkt_021AE79C
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D5A8 (0x0216D5A8) is a matched manifest entry, so the `matched`
+ * FLDMMDL_GetEventType (0x0216D5A8) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D5A8  0x0216D5A8  thumb
- *   func_0216E434  0x0216E434  thumb
+ *   FLDMMDL_GetEventType  0x0216D5A8  thumb
+ *   FLDMMDL_NormalizeEventType  0x0216E434  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -27,11 +27,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D5A8(u32);
-extern u32 func_0216E434(u32);
+extern u32 FLDMMDL_GetEventType(u32);
+extern u32 FLDMMDL_NormalizeEventType(u32);
 
-int func_021AE79C(u32 a)
+int EVENT_TRAINER_EYE_GetSightType(u32 a)
 {
-return func_0216E434(func_0216D5A8(a));
+return FLDMMDL_NormalizeEventType(FLDMMDL_GetEventType(a));
 }
 

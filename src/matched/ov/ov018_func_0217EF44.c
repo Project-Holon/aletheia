@@ -1,5 +1,5 @@
 /*
- * function: func_0217EF44
+ * function: INTRUDE_SUBDISP_UpdateBgPalette
  * address: 0x0217EF44
  * packet: pkt_ov018_0217EF44
  * region: ov018
@@ -9,21 +9,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020120F4 0x020120F4 thumb
- *   func_02012138 0x02012138 thumb
- *   func_0217EF70 0x0217EF70 thumb ov018
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
+ *   INTRUDE_SUBDISP_SetBgPalette 0x0217EF70 thumb ov018
  * interface: r1 holds p[0xd8] at 0x0217EF64 and EF70 reads it.
  */
 #include "../include/Obj03092.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern void func_0217EF70(int *p, int x);
-void func_0217EF44(u8 *p)
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern void INTRUDE_SUBDISP_SetBgPalette(int *p, int x);
+void INTRUDE_SUBDISP_UpdateBgPalette(u8 *p)
 {
-    func_020120F4(((struct Obj03092 *)p)->f0);
-    func_02012138(((struct Obj03092 *)p)->f0);
-    if (p[0xd8] != p[0x105]) func_0217EF70((int *)p, p[0xd8]);
+    GAMESYSTEM_GetGameData(((struct Obj03092 *)p)->f0);
+    GAMESYSTEM_GetGameComm(((struct Obj03092 *)p)->f0);
+    if (p[0xd8] != p[0x105]) INTRUDE_SUBDISP_SetBgPalette((int *)p, p[0xd8]);
 }

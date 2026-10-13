@@ -15,7 +15,7 @@
  *   func_021D7D6C 0x021D7D6C thumb ov120
  *   func_021D4C98 0x021D4C98 thumb ov120
  *   func_021D42D8 0x021D42D8 thumb ov120
- *   func_02012934 0x02012934 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   func_0201AA1C 0x0201AA1C thumb
  *   func_021D79F4 0x021D79F4 thumb ov120
  *   func_02040588 0x02040588 arm
@@ -34,7 +34,7 @@ extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_021D7D6C(char *p, int a, int b);
 extern void func_021D4C98(void *p, int n, u8 *s);
 extern int func_021D42D8(int n, u8 *p);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA1C(void *);
 extern void func_021D79F4(u8 *p, u16 n);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -55,7 +55,7 @@ void func_021D588C(u8 *p)
         func_021D69F4(((struct Obj01729 *)p)->f3C, 0, 9);
     func_021D7D6C(((struct Obj01729 *)p)->f40, (int)func_021D4C98, (int)p);
     *(void (**)(void))(p + 4) = (void (*)(void))func_021D42D8;
-    if ((int)func_0201AA1C(func_02012934(((struct Obj01729 *)p)->f2C)) < 2)
+    if ((int)func_0201AA1C(GAME_DATA_GetMyParty(((struct Obj01729 *)p)->f2C)) < 2)
         ((struct Obj01729 *)p)->f184 = 1;
     if (((struct Obj01729 *)p)->f184 == 0)
         func_021D79F4(((struct Obj01729 *)p)->f40, 0x20);

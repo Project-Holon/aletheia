@@ -1,5 +1,5 @@
 /*
- * function: func_021A0734
+ * function: FIELD_LIGHT_LoadZoneTable
  * address:  0x021A0734
  * packet:   pkt_ov021_021A0734
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A0748  0x021A0748  thumb  ov021
+ *   FIELD_LIGHT_LoadTable  0x021A0748  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19696.h"
@@ -21,10 +21,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021A0748(u8 *a, u32 b, u32 c);
+extern void FIELD_LIGHT_LoadTable(u8 *a, u32 b, u32 c);
 
-void func_021A0734(u8 *a, u32 b)
+void FIELD_LIGHT_LoadZoneTable(u8 *a, u32 b)
 {
     ((struct Obj19696 *)a)->f354 = b;
-    func_021A0748(a, 0x3d, b);
+    FIELD_LIGHT_LoadTable(a, 0x3d, b);
 }

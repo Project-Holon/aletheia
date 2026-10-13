@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201FEBC 0x0201FEBC thumb
+ *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  */
 #include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_0201FEBC(u8 *);
+extern u32 BMP_MENU_ProcessYesNo(u8 *);
 u32 func_021BA858(char *p)
 {
-    u32 r = func_0201FEBC(*(u8 * *)&((struct Obj00008 *)p)->f108);
+    u32 r = BMP_MENU_ProcessYesNo(*(u8 * *)&((struct Obj00008 *)p)->f108);
     if (r != 0xFFFFFFFF)
         *(u32 *)&((struct Obj00008 *)p)->f108 = 0;
     return r;

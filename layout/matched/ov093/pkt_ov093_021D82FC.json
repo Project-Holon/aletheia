@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D82FC",
-    "func_021D8318",
-    "func_021D832C"
+    "BTL_ACTION_SetFightTarget",
+    "BTL_ACTION_SetFightSlotFlag",
+    "BTL_ACTION_GetFightSlotFlag"
+   ],
+   "addresses": [
+    "0x021D82FC",
+    "0x021D8318",
+    "0x021D832C"
    ]
   }
  ]

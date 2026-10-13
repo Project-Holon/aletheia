@@ -1,5 +1,5 @@
 /*
- * function: func_02197C78
+ * function: FLDMMDL_ACMD_DrawIfInitialized
  * address:  0x02197C78
  * packet:   pkt_ov021_02197C78
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D4D4  0x0216D4D4  thumb  ov010
- *   func_0216DAA0  0x0216DAA0  thumb  ov010
- *   func_0216D758  0x0216D758  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysCheckStatusBit  0x0216D4D4  thumb  ov010
+ *   FLDMMDL_CheckMoveBitDrawInitComp  0x0216DAA0  thumb  ov010
+ *   FLDMMDL_CallDrawProc  0x0216D758  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -23,14 +23,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void *func_0216D67C(void *a0);
-extern int func_0216D4D4(int a0, int a1);
-extern int func_0216DAA0(void *a0);
-extern void func_0216D758(void *a0);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern int FLDMMDL_SysCheckStatusBit(int a0, int a1);
+extern int FLDMMDL_CheckMoveBitDrawInitComp(void *a0);
+extern void FLDMMDL_CallDrawProc(void *a0);
 
-void func_02197C78(u32 a)
+void FLDMMDL_ACMD_DrawIfInitialized(u32 a)
 {
-    if (func_0216D4D4((int)func_0216D67C((void *)a), 4) == 0 && func_0216DAA0((void *)a) != 0) {
-        func_0216D758((void *)a);
+    if (FLDMMDL_SysCheckStatusBit((int)FLDMMDL_GetMmdlSys((void *)a), 4) == 0 && FLDMMDL_CheckMoveBitDrawInitComp((void *)a) != 0) {
+        FLDMMDL_CallDrawProc((void *)a);
     }
 }

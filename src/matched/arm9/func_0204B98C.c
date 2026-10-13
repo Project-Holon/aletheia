@@ -1,5 +1,5 @@
 /*
- * function: func_0204B98C
+ * function: CLACT_IsActorAnimActive
  * address:  0x0204B98C
  * packet:   pkt_0204B954
  * region:   arm9
@@ -17,8 +17,8 @@
  * same field through CLACT_GetAnimCtrl's record instead.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B98C.c \
- *       --func func_0204B98C --addr 0x0204B98C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_IsActorAnimActive.c \
+ *       --func CLACT_IsActorAnimActive --addr 0x0204B98C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ struct Actor {
 
 extern struct Rec *CLACT_GetAnimObject(struct Ctl *c);
 
-u32 func_0204B98C(struct Actor *a)
+u32 CLACT_IsActorAnimActive(struct Actor *a)
 {
     return CLACT_GetAnimObject(&a->ctl)->value;
 }

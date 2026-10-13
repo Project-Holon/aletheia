@@ -51,6 +51,7 @@
  *   PRINTSYS_SetupJob  0x0201C808  thumb
  *   PRINTSYS_SetJobColor  0x0201C8A4  thumb
  *   PRINTSYS_RunJob  0x0201C8BC  thumb
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  */
 
 #include "../include/G_Scratch.h"
@@ -95,7 +96,7 @@ struct PrintSys {
 
 extern struct Scratch _PrintJobWork;
 
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern u32   func_0201D6B8(void *s);
 struct Rec2;
 struct Ring;
@@ -124,7 +125,7 @@ void PRINTSYS_PrintQueColor(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u3
 
 void PRINTSYS_SubmitJob(struct PrintSys *p, struct PrintCtx *c, void *s)
 {
-    u32 busy = func_0203D1B4() != 0;
+    u32 busy = GFL_NET_GetNegotiationNum() != 0;
     u32 need;
 
     if (busy == 0 && (((u32)((u8 *)p)[7] << 24) >> 28) == 0) {

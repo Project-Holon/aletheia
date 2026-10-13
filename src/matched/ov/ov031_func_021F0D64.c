@@ -1,5 +1,5 @@
 /*
- * function: func_021F0D64
+ * function: UNION_SUBDISP_CheckTrackTouch
  * address:  0x021F0D64
  * packet:   pkt_ov031_021F0D64
  * region:   ov031
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F0D64  0x021F0D64  thumb
+ *   UNION_SUBDISP_CheckTrackTouch  0x021F0D64  thumb
  *   func_02035D20  0x02035D20  arm
  *   func_0204B404  0x0204B404  arm
  */
@@ -26,7 +26,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-int func_021F0D64(char *p)
+int UNION_SUBDISP_CheckTrackTouch(char *p)
 {
     unsigned short t[2];
     u32 x;

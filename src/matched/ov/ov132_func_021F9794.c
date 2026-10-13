@@ -21,7 +21,7 @@
  *   func_021FD9D0 0x021FD9D0 thumb ov132
  *   func_021F99F4 0x021F99F4 thumb ov132
  *   func_020061E4 0x020061E4 thumb
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_021FDA24 0x021FDA24 thumb ov132
  */
 #include "../include/Obj00159.h"
@@ -39,7 +39,7 @@ extern void func_021FDA18(unsigned char *p);
 extern void func_021FD9D0(unsigned char *p, unsigned char key);
 extern int func_021F99F4(char *, unsigned, unsigned);
 extern void func_020061E4(u32 a);
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void func_021FDA24(void *, u32, u32, u32);
 void func_021F9794(char *p)
 {
@@ -107,7 +107,7 @@ void func_021F9794(char *p)
                 result = func_021F99F4(p, ((struct Obj00159 *)p)->f11C, ((struct Obj00159 *)p)->f11D);
                 *(int *)(*(char **)(*(char * *)&((struct Obj00159 *)p)->f30 + ((struct Obj00159 *)p)->f11C * 4 + 4) + ((struct Obj00159 *)p)->f11D * 4 + 0x54) = 1;
                 func_020061E4(result);
-            } else if (func_0203D378() == 1) {
+            } else if (GFL_NET_IsParentAid() == 1) {
                 result = func_021F99F4(p, ((struct Obj00159 *)p)->f11C, ((struct Obj00159 *)p)->f11D);
                 if (result == 1580) func_021FDA24(**(void ** *)&((struct Obj00159 *)p)->f30, ((struct Obj00159 *)p)->f11C, ((struct Obj00159 *)p)->f11D, 1);
                 else func_021FDA24(**(void ** *)&((struct Obj00159 *)p)->f30, ((struct Obj00159 *)p)->f11C, ((struct Obj00159 *)p)->f11D, 2);

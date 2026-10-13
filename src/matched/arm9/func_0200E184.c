@@ -12,7 +12,7 @@
  * symbols:
  *   func_0200E0BC  0x0200E0BC  thumb
  *
- * notes:    Thumb thunk (ldr r3,[pc]; bx r3) to func_0200E0BC; a tail call. Witness for the call in ov010 func_0216628C (2026-10-05, lane W-B).
+ * notes:    Thumb thunk (ldr r3,[pc]; bx r3) to func_0200E0BC; a tail call. Witness for the call in ov010 SYMBOL_MAP_MoveRecordToPairedBand (2026-10-05, lane W-B).
  */
 
 extern unsigned int func_0200E0BC(unsigned int);

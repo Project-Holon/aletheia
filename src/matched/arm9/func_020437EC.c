@@ -1,5 +1,5 @@
 /*
- * function: func_020437EC
+ * function: BMP_GetByteSize
  * address:  0x020437EC
  * packet:   pkt_0204361C
  * region:   arm9
@@ -15,7 +15,7 @@
  * that its callers have a `matched` witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020437EC.c  *       --func func_020437EC --addr 0x020437EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_GetByteSize.c  *       --func BMP_GetByteSize --addr 0x020437EC --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -29,7 +29,7 @@ struct Bmp {
     u16   kind;   /* 0x0a */
 };
 
-u32 func_020437EC(const struct Bmp *bmp)
+u32 BMP_GetByteSize(const struct Bmp *bmp)
 {
     return bmp->depth * ((bmp->width / 8) * bmp->height / 8);
 }

@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  *
 
  * Decrement the countdown at +0xd3c and, when the tick returns non-zero, zero it and latch state 1.
@@ -20,14 +21,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 
 int func_021FF174(u8 *p)
 {
     u32 v = ((struct Obj07251 *)p)->fD3C - 1;
 
     ((struct Obj07251 *)p)->fD3C = v;
-    if (func_020221A4() != 0) {
+    if (WIPE_SYS_EndCheck() != 0) {
         ((struct Obj07251 *)p)->fD3C = 0;
         ((struct Obj07251 *)p)->f28 = 1;
     }

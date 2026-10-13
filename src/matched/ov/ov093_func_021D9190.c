@@ -1,5 +1,5 @@
 /*
- * function: func_021D9190
+ * function: BTL_ABILITY_GetRecklessHandlers
  * address: 0x021D9190
  * packet: pkt_ov093_021D9190
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D9118.c and filed here.
  *
  * symbols:
- *   d_021F0720 0x021F0720 data ov093 a4
+ *   gRecklessHandlerTable 0x021F0720 data ov093 a4
  */
 
-int *func_021D9190(int *p);
-extern int d_021F0720[];
+int *BTL_ABILITY_GetRecklessHandlers(int *p);
+extern int gRecklessHandlerTable[];
 
-int *func_021D9190(int *p)
+int *BTL_ABILITY_GetRecklessHandlers(int *p)
 {
     *p = 1;
-    return d_021F0720;
+    return gRecklessHandlerTable;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02186324
+ * function: OEKAKI_UpdateMembers
  * address:  0x02186324
  * packet:   pkt_ov023_02186324
  * region:   ov023
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02186164  0x02186164  thumb  ov023
- *   func_02186558  0x02186558  thumb  ov023
- *   func_02186480  0x02186480  thumb  ov023
- *   func_02186304  0x02186304  thumb  ov023
- *   func_0218654C  0x0218654C  thumb  ov023
- *   func_0204B878  0x0204B878  arm
+ *   OEKAKI_GetMemberCount  0x02186164  thumb  ov023
+ *   OEKAKI_GetJoinedBits  0x02186558  thumb  ov023
+ *   OEKAKI_CloseMenuIfOpen  0x02186480  thumb  ov023
+ *   OEKAKI_NotifyHostSync  0x02186304  thumb  ov023
+ *   OEKAKI_GetJoinedCount  0x0218654C  thumb  ov023
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 #include "../include/Obj00460.h"
 
@@ -22,20 +22,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02186164(char *p);
-extern int func_02186558(char *p);
-extern void func_02186480(char *p);
-extern void func_02186304(char *p, int a);
-extern int func_0218654C(char *p);
+extern int OEKAKI_GetMemberCount(char *p);
+extern int OEKAKI_GetJoinedBits(char *p);
+extern void OEKAKI_CloseMenuIfOpen(char *p);
+extern void OEKAKI_NotifyHostSync(char *p, int a);
+extern int OEKAKI_GetJoinedCount(char *p);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-int func_02186324(u8 *p)
+int OEKAKI_UpdateMembers(u8 *p)
 {
     int st;
     int r;
 
-    st = func_02186164((char *)p);
+    st = OEKAKI_GetMemberCount((char *)p);
     switch (st) {
     case 0:
         break;
@@ -43,13 +43,13 @@ int func_02186324(u8 *p)
         if (((struct Obj00460 *)p)->f198 > 0x10) {
             break;
         }
-        if (func_02186558((char *)p) != 1) {
+        if (OEKAKI_GetJoinedBits((char *)p) != 1) {
             ((struct Obj00460 *)p)->f9E78 = 1;
         }
         ((struct Obj00460 *)p)->f19C = 0x16;
         if (((struct Obj00460 *)p)->f9E70 != 0) {
-            func_02186480((char *)p);
-            func_0204B878(((struct Obj00460 *)p)->fF0, 0x15);
+            OEKAKI_CloseMenuIfOpen((char *)p);
+            CLACT_SetActorAnimSeq(((struct Obj00460 *)p)->fF0, 0x15);
         }
         return 2;
     case 2:
@@ -57,11 +57,11 @@ int func_02186324(u8 *p)
     case 4:
         if (st < ((struct Obj00460 *)p)->f1A8) {
             if (((struct Obj00460 *)p)->f9E6C == 2) {
-                func_02186304((char *)p, 0);
+                OEKAKI_NotifyHostSync((char *)p, 0);
             } else if (((struct Obj00460 *)p)->f9E7C == 0) {
-                func_02186304((char *)p, 1);
+                OEKAKI_NotifyHostSync((char *)p, 1);
             } else {
-                func_02186304((char *)p, 0);
+                OEKAKI_NotifyHostSync((char *)p, 0);
             }
         }
         break;
@@ -69,21 +69,21 @@ int func_02186324(u8 *p)
         break;
     }
     if (st < ((struct Obj00460 *)p)->f1A8) {
-        ((struct Obj00460 *)p)->f1AC = func_0218654C((char *)p);
-        r = func_02186558((char *)p);
+        ((struct Obj00460 *)p)->f1AC = OEKAKI_GetJoinedCount((char *)p);
+        r = OEKAKI_GetJoinedBits((char *)p);
         ((struct Obj00460 *)p)->f1B0 = r;
         if (((struct Obj00460 *)p)->f9E7C != 0 && (r & ((struct Obj00460 *)p)->f9E80) == 0) {
-            func_02186304((char *)p, 1);
+            OEKAKI_NotifyHostSync((char *)p, 1);
             ((struct Obj00460 *)p)->f9E6C = 1;
             ((struct Obj00460 *)p)->f9E7C = 0;
             ((struct Obj00460 *)p)->f9E80 = 0;
         }
     }
-    ((struct Obj00460 *)p)->f1A8 = func_02186164((char *)p);
-    if (((struct Obj00460 *)p)->f1AC < func_0218654C((char *)p)) {
+    ((struct Obj00460 *)p)->f1A8 = OEKAKI_GetMemberCount((char *)p);
+    if (((struct Obj00460 *)p)->f1AC < OEKAKI_GetJoinedCount((char *)p)) {
         ((struct Obj00460 *)p)->f9E6C = 2;
         ((struct Obj00460 *)p)->f9E7C = 1;
-        ((struct Obj00460 *)p)->f9E80 = func_02186558((char *)p) ^ ((struct Obj00460 *)p)->f1B0;
+        ((struct Obj00460 *)p)->f9E80 = OEKAKI_GetJoinedBits((char *)p) ^ ((struct Obj00460 *)p)->f1B0;
     }
     return 1;
 }

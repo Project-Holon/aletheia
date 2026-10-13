@@ -1,5 +1,5 @@
 /*
- * function: func_021A530C
+ * function: FIELD_PLAYER_GRID_ClearFlag
  * address:  0x021A530C
  * packet:   pkt_021A530C
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A530C(u32 a, u32 b)
+int FIELD_PLAYER_GRID_ClearFlag(u32 a, u32 b)
 {
 ((struct Obj07218 *)((u8 *)(a)))->f8 = ((~b) & ((struct Obj07218 *)((u8 *)(a)))->f8);
 return a;

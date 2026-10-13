@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
- *   func_021D5B48 0x021D5B48 thumb ov093
- *   func_021D7D78 0x021D7D78 thumb ov093
+ *   BTL_POKEPARAM_IsHpFull 0x021D5B48 thumb ov093
+ *   BTL_CALC_MakeSickContTurns 0x021D7D78 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  *   func_021C88A4 0x021C88A4 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
  *   func_021C8838 0x021C8838 thumb ov093
@@ -26,12 +26,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5B48(u8 *p);
-extern Word func_021D7D78(int);
+extern int BTL_POKEPARAM_IsHpFull(u8 *p);
+extern Word BTL_CALC_MakeSickContTurns(int);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021D76BC(int, u32);
+extern int BTL_EVENT_OverwriteVar(int, u32);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *, void *);
 extern void func_021C8838(void *, int, int);
@@ -44,13 +44,13 @@ void func_021E448C(int unused, void *s, int k)
     void *q;
     u8 *p;
     u32 n;
-    if (k == func_021D775C(3)) {
+    if (k == BTL_EVENT_GetVar(3)) {
         q = func_021C7CF4(s, k);
-        if (func_021D5B48(q) == 0) {
+        if (BTL_POKEPARAM_IsHpFull(q) == 0) {
             p = func_021C88A4(s, 12, k);
             p[15] = k;
             ((struct Obj02433 *)p)->f4 = 2;
-            *(Word *)(p + 8) = func_021D7D78(3);
+            *(Word *)(p + 8) = BTL_CALC_MakeSickContTurns(3);
             p[12] = 1;
             p[16] = 1;
             p[14] = 1;
@@ -68,7 +68,7 @@ void func_021E448C(int unused, void *s, int k)
             ((struct Obj02433 *)p)->f8 = 3;
             ((struct Obj02433 *)p)->f0 |= 0x1000000;
             func_021C88C8(s, p);
-            func_021D76BC(81, 0);
+            BTL_EVENT_OverwriteVar(81, 0);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216513C
+ * function: GAME_BEACON_SEARCH_SetBattleSpecialPokeWin
  * address:  0x0216513C
  * packet:   pkt_0216513C
  * region:   ov010
@@ -16,7 +16,7 @@
  *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
  *   GAME_BEACON_RequestSend   0x02026FB8  thumb
  *   GAME_BEACON_Work      0x02146940  data
- *   func_02165164   0x02165164  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin   0x02165164  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern u32 GAME_BEACON_CheckActionPriority(u32 a);
 extern void GAME_BEACON_RequestSend(void *);
 extern char *GAME_BEACON_Work;
-extern void func_02165164(void *a0, unsigned a1);
+extern void GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin(void *a0, unsigned a1);
 
-void func_0216513C(void *a0)
+void GAME_BEACON_SEARCH_SetBattleSpecialPokeWin(void *a0)
 {
     if (GAME_BEACON_CheckActionPriority(0x5)) {
-        func_02165164(GAME_BEACON_Work + 4, (unsigned int)a0);
+        GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin(GAME_BEACON_Work + 4, (unsigned int)a0);
         GAME_BEACON_RequestSend(GAME_BEACON_Work + 4);
     }
 }

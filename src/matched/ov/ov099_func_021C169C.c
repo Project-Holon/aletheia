@@ -8,28 +8,28 @@
  * isa: thumb
  * status: EXACT*
  * follower: two zero alignment bytes at 0x021C16EA.
- * lever: func_0203CEAC receives the live zero in r0.
+ * lever: GFL_NET_Exit receives the live zero in r0.
  * symbols:
  *   func_021BA928 0x021BA928 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
- *   func_0203CEAC 0x0203CEAC arm
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  */
 #include "../include/Obj00008.h"
 extern int func_021BA928(char *, int);
 extern void func_021BAAB8(char *, int, int);
 struct Sub020097BCObj;
-extern int func_0203CEAC(int a0);
-extern int func_0203CD98(void);
+extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_GetRunState(void);
 extern void func_02009B3C(struct Sub020097BCObj *obj);
 int func_021C169C(char *p, int ret)
 {
     if (func_021BA928(p, ret) == 0) return ret;
     if (((struct Obj00008 *)p)->f1E0 == 1) {
         ((struct Obj00008 *)p)->f1E0 = 0;
-        func_0203CEAC(0);
+        GFL_NET_Exit(0);
     }
-    if (func_0203CD98() == 0) {
+    if (GFL_NET_GetRunState() == 0) {
         func_02009B3C(((struct Obj00008 *)p)->f4);
         func_021BAAB8(p, 27, 1);
         ((struct Obj00008 *)p)->f1CC = 52;

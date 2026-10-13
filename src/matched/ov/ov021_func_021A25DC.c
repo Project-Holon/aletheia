@@ -1,5 +1,5 @@
 /*
- * function: func_021A25DC
+ * function: WEATHER_TASK_PlaySeDirect
  * address:  0x021A25DC
  * packet:   pkt_ov021_021A25DC
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02005C64  0x02005C64  thumb
- *   func_02028A7C  0x02028A7C  thumb
+ *   FIELD_SOUND_SYSTEM_ClaimSlot  0x02028A7C  thumb
  *   func_020061E4  0x020061E4  thumb
  */
 #include "../include/Obj00954.h"
@@ -21,14 +21,14 @@ typedef unsigned int  u32;
 
 int func_02005C64(void);
 struct SoundSys2;
-void func_02028A7C(struct SoundSys2 *s, u32 id);
+void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id);
 void func_020061E4(u32 a);
 
-void func_021A25DC(u8 *p, int a)
+void WEATHER_TASK_PlaySeDirect(u8 *p, int a)
 {
     if (func_02005C64() == 0) {
         if (((struct Obj00954 *)p)->f48 != 0)
-            func_02028A7C((struct SoundSys2 *)(((struct Obj00954 *)p)->fC), a);
+            FIELD_SOUND_SYSTEM_ClaimSlot((struct SoundSys2 *)(((struct Obj00954 *)p)->fC), a);
         else
             func_020061E4(a);
     }

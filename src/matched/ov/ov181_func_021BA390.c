@@ -10,7 +10,7 @@
  * extent: two zero alignment bytes at 021BA4AA, then labelled 021BA4AC.
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_020437D4 0x020437D4 arm
+ *   BMP_GetPixels 0x020437D4 arm
  *   func_021BA354 0x021BA354 thumb ov181
  *   func_021B9DCC 0x021B9DCC thumb ov181
  */
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Bmp { void *pixels; u16 width, height, depth, kind; };
-extern void *func_020437D4(const struct Bmp *);
+extern void *BMP_GetPixels(const struct Bmp *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021BA354(u8 *p, u8 *out, u32 n);
@@ -36,8 +36,8 @@ void func_021BA390(char *p)
     ((struct Obj04570 *)p)->f2DC -= 0x1000;
     n = 1;
     if (((struct Obj04570 *)p)->f2D2) n = 4;
-    a = func_020437D4(func_02045770(((struct Obj04570 *)p)->f2BC));
-    b = func_020437D4(func_02045770(((struct Obj04570 *)p)->f2C4));
+    a = BMP_GetPixels(func_02045770(((struct Obj04570 *)p)->f2BC));
+    b = BMP_GetPixels(func_02045770(((struct Obj04570 *)p)->f2C4));
     x = 0;
     for (i = 0; i < 32; i++, x += 32) func_021BA354((u8 *)(a + x), 0, n);
     for (j = 1; j < 25; j++) {

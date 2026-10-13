@@ -1,5 +1,5 @@
 /*
- * function: func_0215CEBC
+ * function: SCRCMD_PROC_DaycareInitFromParty
  * address: 0x0215CEBC
  * packet: pkt_ov010_0215CEBC
  * region: ov010
@@ -8,27 +8,27 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_0215A5E4 0x0215A5E4 thumb ov010
- *   func_02012934 0x02012934 thumb
- *   func_0201210C 0x0201210C thumb
- *   func_02188D50 0x02188D50 thumb ov021
- *   func_021C32F4 0x021C32F4 thumb ov021
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   SCRCMD_WORK_GetGameData 0x0215A5E4 thumb ov010
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
+ *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
+ *   FIELDMAP_GetSodateya 0x02188D50 thumb ov021
+ *   SODATEYA_ReceiveEgg 0x021C32F4 thumb ov021
  */
 typedef unsigned short u16;
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
 struct Ctx;
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D50(unsigned char *);
-extern void func_021C32F4(unsigned int *, unsigned int);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetSodateya(unsigned char *);
+extern void SODATEYA_ReceiveEgg(unsigned int *, unsigned int);
 
-int func_0215CEBC(void *a, void *b)
+int SCRCMD_PROC_DaycareInitFromParty(void *a, void *b)
 {
-    void *p = func_0215A5DC(b);
-    void *q = func_02012934(func_0215A5E4(b));
-    func_021C32F4(func_02188D50(func_0201210C(p)), (unsigned int)q);
+    void *p = SCRCMD_WORK_GetGameSystem(b);
+    void *q = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(b));
+    SODATEYA_ReceiveEgg(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(p)), (unsigned int)q);
     return 0;
 }

@@ -12,9 +12,9 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
- *   func_020457B0 0x020457B0 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_0201D304 0x0201D304 thumb
@@ -49,9 +49,9 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 func_02045738(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
@@ -79,27 +79,27 @@ void func_0220D494(u8 *p, int slot, int a2, int a3)
     w1 = func_0201D304(text, P->hdr->font, 0);
     x = ((func_02045738(handle) << 3) - w1) >> 1;
     ctx1 = P->f1EAC;
-    func_0201C724((void *)ctx1, (u32)func_02045770(*(void **)(tab + slot)), (s16)x, (s16)0, (u32)text, P->hdr->font, (u32)0x3DC0);
+    PRINTSYS_PrintQueColor((void *)ctx1, (u32)func_02045770(*(void **)(tab + slot)), (s16)x, (s16)0, (u32)text, P->hdr->font, (u32)0x3DC0);
     fl = p + 0x1F74;
     fl[slot] = 1;
-    func_02045808(text);
+    STRBUF_Delete(text);
     text2 = func_02045EC0(P->f1EA0, 0x36);
-    h2 = func_020457B0(6, P->hdr->f10);
+    h2 = STRBUF_Create(6, P->hdr->f10);
     func_0201EFA4(P->f1EA4, 0, a2, 3, 0, 1);
     func_0201F250(P->f1EA4, h2, text2);
     w2 = func_0201D304(h2, P->hdr->font, 0);
     ctx2 = P->f1EAC;
-    func_0201C724((void *)ctx2, (u32)func_02045770(*(void **)(tab + slot)), (s16)(x - w2), (s16)0, (u32)h2, P->hdr->font, (u32)0x3DC0);
+    PRINTSYS_PrintQueColor((void *)ctx2, (u32)func_02045770(*(void **)(tab + slot)), (s16)(x - w2), (s16)0, (u32)h2, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;
-    func_02045808(text2);
-    func_02045808(h2);
+    STRBUF_Delete(text2);
+    STRBUF_Delete(h2);
     text3 = func_02045EC0(P->f1EA0, 0x37);
-    h3 = func_020457B0(6, P->hdr->f10);
+    h3 = STRBUF_Create(6, P->hdr->f10);
     func_0201EFA4(P->f1EA4, 0, a3, 3, 0, 1);
     func_0201F250(P->f1EA4, h3, text3);
     ctx3 = P->f1EAC;
-    func_0201C724((void *)ctx3, (u32)func_02045770(*(void **)(tab + slot)), (s16)(x + w1), (s16)0, (u32)h3, P->hdr->font, (u32)0x3DC0);
+    PRINTSYS_PrintQueColor((void *)ctx3, (u32)func_02045770(*(void **)(tab + slot)), (s16)(x + w1), (s16)0, (u32)h3, P->hdr->font, (u32)0x3DC0);
     fl[slot] = 1;
-    func_02045808(text3);
-    func_02045808(h3);
+    STRBUF_Delete(text3);
+    STRBUF_Delete(h3);
 }

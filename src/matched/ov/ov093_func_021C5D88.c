@@ -1,5 +1,5 @@
 /*
- * function: func_021C5D88
+ * function: BTL_SERVER_FLOW_PushMsgSetPoke
  * address:  0x021C5D88
  * packet:   pkt_ov093_021C5D88
  * region:   ov093
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021CD64C  0x021CD64C  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_SERVER_CMD_PushVariable  0x021CD64C  thumb  ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 func_021D5440(u8 *p);
-extern void func_021CD64C(void *w, u8 id, ...);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 
-void func_021C5D88(u8 *p, u8 *a, int b)
+void BTL_SERVER_FLOW_PushMsgSetPoke(u8 *p, u8 *a, int b)
 {
-    func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, b, func_021D5440(a), 0xffff0000);
+    BTL_SERVER_CMD_PushVariable(((struct Obj00003 *)p)->fC, 0x5b, b, BTL_POKEPARAM_GetPokeId(a), 0xffff0000);
 }

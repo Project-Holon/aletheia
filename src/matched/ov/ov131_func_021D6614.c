@@ -15,8 +15,8 @@
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
  *   MCSS_SetOfsPosition 0x02015C78 thumb
  *   MCSS_SetOfsScale 0x02015D30 thumb
- *   func_02048AFC 0x02048AFC arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   d_020A1B38 0x020A1B38 data a2
  *   d_021DC234 0x021DC234 data a4
  *   d_021DC228 0x021DC228 data a4
@@ -41,9 +41,9 @@ extern void MCSS_ResetVanishFlag(void *);
 extern void MCSS_SetVanishFlag(void *);
 extern void MCSS_SetOfsPosition(void *p, u32 *src);
 extern void MCSS_SetOfsScale(void *p, u32 *src);
-extern void func_02048AFC(void *,const Vec *);
+extern void G3D_CAMERA_SetEye(void *,const Vec *);
 struct Light;
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern const s16 d_020A1B38[];
 extern const Vec d_021DC234,d_021DC228,d_021DC198,d_021DC210;
 extern const Pair d_021DC170,d_021DC178,d_021DC168;
@@ -80,8 +80,8 @@ void P_STA_SUB_Main(u8 *a,u8 *p) {
         MCSS_SetOfsPosition(((struct Obj00200 *)p)->f0,(u32 *)(&v30));
         MCSS_SetOfsPosition(((struct Obj00200 *)p)->f4,(u32 *)(&v30));
         MCSS_SetOfsScale(((struct Obj00200 *)p)->f0,(u32 *)(&v3c));
-        func_02048AFC(((struct Obj05385 *)a)->f70,&v48);
-        func_02048AD0(((struct Obj05385 *)a)->f70);
+        G3D_CAMERA_SetEye(((struct Obj05385 *)a)->f70,&v48);
+        G3D_CAMERA_Reset(((struct Obj05385 *)a)->f70);
     } else if(st==1) {
         Vec v24=d_021DC198;
         Vec v18=d_021DC210;
@@ -96,15 +96,15 @@ void P_STA_SUB_Main(u8 *a,u8 *p) {
             v18.x=t1.v[k];
             v18.y=t2.v[k];
             v24.x=t3.v[k];
-            func_02048AFC(((struct Obj05385 *)a)->f70,&v24);
-            func_02048AD0(((struct Obj05385 *)a)->f70);
+            G3D_CAMERA_SetEye(((struct Obj05385 *)a)->f70,&v24);
+            G3D_CAMERA_Reset(((struct Obj05385 *)a)->f70);
             MCSS_SetOfsScale(((struct Obj00200 *)p)->f0,(u32 *)(&v18));
         } else {
             MCSS_SetVanishFlag(((struct Obj00200 *)p)->f0);
             MCSS_ResetVanishFlag(((struct Obj00200 *)p)->f4);
             MCSS_SetOfsScale(((struct Obj00200 *)p)->f4,(u32 *)(&v18));
-            func_02048AFC(((struct Obj05385 *)a)->f70,&v24);
-            func_02048AD0(((struct Obj05385 *)a)->f70);
+            G3D_CAMERA_SetEye(((struct Obj05385 *)a)->f70,&v24);
+            G3D_CAMERA_Reset(((struct Obj05385 *)a)->f70);
             ((struct Obj00200 *)p)->fC=0;
             ((struct Obj00200 *)p)->f8=2;
             ((struct Obj00200 *)p)->f6C=0;

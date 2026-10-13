@@ -1,5 +1,5 @@
 /*
- * function: func_021C94B4
+ * function: LAND_DATA_PATCH_GetBuildModelBlock
  * address:  0x021C94B4
  * packet:   pkt_021C94B4
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C94B4(u32 a)
+int LAND_DATA_PATCH_GetBuildModelBlock(u32 a)
 {
 return (((struct Obj12138 *)((u8 *)(a)))->f0 + *(u16 *)((u8 *)(((struct Obj12138 *)((u8 *)(a)))->f0) + 2));
 }

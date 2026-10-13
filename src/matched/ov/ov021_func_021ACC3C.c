@@ -1,5 +1,5 @@
 /*
- * function: func_021ACC3C
+ * function: FLDEFF_NAMIPOKE_Init
  * address:  0x021ACC3C
  * packet:   pkt_ov021_021ACC3C
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021AC1A0  0x021AC1A0  thumb  ov021
- *   func_021AC178  0x021AC178  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_EFFECT_GetObjectMode  0x021AC1A0  thumb  ov021
+ *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19874.h"
@@ -39,23 +39,23 @@ typedef struct B {
     Inner in;
 } B;
 
-extern int func_021AC1AC(u32 a);
-extern void func_021AC1CC(u32 a, u8 *b);
-extern u32 func_021ABE18(u8 *p);
-extern int func_021AC1A0(u32 a);
-extern void func_021AC178(u32 a);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
+extern void FIELD_EFFECT_SetObjectPos(u32 a, u8 *b);
+extern u32 FIELD_EFFECT_GetFieldMapData(u8 *p);
+extern int FIELD_EFFECT_GetObjectMode(u32 a);
+extern void FIELD_EFFECT_UpdateObject(u32 a);
 
-void func_021ACC3C(u32 a, B *b)
+void FLDEFF_NAMIPOKE_Init(u32 a, B *b)
 {
-    u8 *p = (u8 *)func_021AC1AC(a);
+    u8 *p = (u8 *)FIELD_EFFECT_GetObjectParam(a);
     Inner *q;
     u32 k = 0x1000;
     b->blk = *(Blk *)p;
-    func_021AC1CC(a, p + 0x10);
+    FIELD_EFFECT_SetObjectPos(a, p + 0x10);
     b->fc = ((struct Obj19874 *)p)->fC;
-    func_021ABE18((u8 *)(*(u32 *)b->blk.w[0]));
+    FIELD_EFFECT_GetFieldMapData((u8 *)(*(u32 *)b->blk.w[0]));
     b->f18 = *(u16 *)(b->blk.w[0] + 8);
-    b->f9 = func_021AC1A0(a);
+    b->f9 = FIELD_EFFECT_GetObjectMode(a);
     b->f10 = k;
     b->f14 = k >> 2;
     q = &b->in;
@@ -65,5 +65,5 @@ void func_021ACC3C(u32 a, B *b)
     q->d = k;
     q->e = k;
     q->f = k;
-    func_021AC178(a);
+    FIELD_EFFECT_UpdateObject(a);
 }

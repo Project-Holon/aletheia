@@ -1,5 +1,5 @@
 /*
- * function: func_021588B0
+ * function: SCRIPT_SYS_CallEndCallback
  * address:  0x021588B0
  * packet:   pkt_021588B0
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_021588B0(int a0, int a1, int a2)
+int SCRIPT_SYS_CallEndCallback(int a0, int a1, int a2)
 {
 
 a2 = a0 + 0;

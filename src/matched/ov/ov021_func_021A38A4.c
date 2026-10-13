@@ -1,5 +1,5 @@
 /*
- * function: func_021A38A4
+ * function: FIELD_PLAYER_CORE_SetPos
  * address:  0x021A38A4
  * packet:   pkt_ov021_021A38A4
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D80C  0x0216D80C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D818  0x0216D818  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_0216D824  0x0216D824  thumb  ov010
- *   func_0216D844  0x0216D844  thumb  ov010
- *   func_0216D85C  0x0216D85C  thumb  ov010
- *   func_0216D874  0x0216D874  thumb  ov010
- *   func_0216D89C  0x0216D89C  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_SetGridOldX  0x0216D80C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_SetGridOldY  0x0216D818  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_SetGridOldZ  0x0216D824  thumb  ov010
+ *   FLDMMDL_SetGridNowX  0x0216D844  thumb  ov010
+ *   FLDMMDL_SetGridNowY  0x0216D85C  thumb  ov010
+ *   FLDMMDL_SetGridNowZ  0x0216D874  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  */
 #include "../include/Obj19775.h"
 
@@ -33,29 +33,29 @@ typedef struct {
     int z;
 } Vec021A38A4;
 
-u16 func_0216D83C(u32 h);
-void func_0216D80C(void *p, u16 v);
-u16 func_0216D854(u32 h);
-void func_0216D818(void *p, u16 v);
-u16 func_0216D86C(u32 h);
-void func_0216D824(void *p, u16 v);
-void func_0216D844(void *p, short v);
-void func_0216D85C(void *p, int v);
-void func_0216D874(int a0, int a1);
-void func_0216D89C(u32 h, Vec021A38A4 *v);
+u16 FLDMMDL_GetGridNowX(u32 h);
+void FLDMMDL_SetGridOldX(void *p, u16 v);
+u16 FLDMMDL_GetGridNowY(u32 h);
+void FLDMMDL_SetGridOldY(void *p, u16 v);
+u16 FLDMMDL_GetGridNowZ(u32 h);
+void FLDMMDL_SetGridOldZ(void *p, u16 v);
+void FLDMMDL_SetGridNowX(void *p, short v);
+void FLDMMDL_SetGridNowY(void *p, int v);
+void FLDMMDL_SetGridNowZ(int a0, int a1);
+void FLDMMDL_SetPos(u32 h, Vec021A38A4 *v);
 
-void func_021A38A4(u8 *p, Vec021A38A4 *v)
+void FIELD_PLAYER_CORE_SetPos(u8 *p, Vec021A38A4 *v)
 {
     int x = (v->x >> 4) / 4096;
     int y = (v->y >> 4) / 4096;
     int z = (v->z >> 4) / 4096;
     u32 h = ((struct Obj19775 *)p)->f1C;
 
-    func_0216D80C((void *)h, func_0216D83C(h));
-    func_0216D818((void *)h, func_0216D854(h));
-    func_0216D824((void *)h, func_0216D86C(h));
-    func_0216D844((void *)h, (short)x);
-    func_0216D85C((void *)h, (short)y);
-    func_0216D874(h, (short)z);
-    func_0216D89C(h, v);
+    FLDMMDL_SetGridOldX((void *)h, FLDMMDL_GetGridNowX(h));
+    FLDMMDL_SetGridOldY((void *)h, FLDMMDL_GetGridNowY(h));
+    FLDMMDL_SetGridOldZ((void *)h, FLDMMDL_GetGridNowZ(h));
+    FLDMMDL_SetGridNowX((void *)h, (short)x);
+    FLDMMDL_SetGridNowY((void *)h, (short)y);
+    FLDMMDL_SetGridNowZ(h, (short)z);
+    FLDMMDL_SetPos(h, v);
 }

@@ -14,10 +14,10 @@
  *
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_021BF594 0x021BF594 thumb ov204
  *   func_021BF8DC 0x021BF8DC thumb ov204
@@ -27,8 +27,8 @@
  *   func_021BFCD0 0x021BFCD0 thumb ov204
  *   func_021BF5E0 0x021BF5E0 thumb ov204
  *   func_021BF9D0 0x021BF9D0 thumb ov204
- *   func_02045C04 0x02045C04 arm
- *   func_0201D83C 0x0201D83C thumb
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021BEF74 0x021BEF74 thumb ov204
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -39,18 +39,18 @@
  *   func_021BFCE0  0x021BFCE0  thumb  ov204
  *   func_021BF9FC  0x021BF9FC  thumb  ov204
  *   func_020434DC 0x020434DC arm
- *   func_0207DC44 0x0207DC44 arm
- *   func_0207DD24 0x0207DD24 arm
+ *   G3X_SetFog 0x0207DC44 arm
+ *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
- *   func_02046BE0 0x02046BE0 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   d_021BFDAC 0x021BFDAC data a2
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   func_0204363C 0x0204363C arm
- *   func_0204361C 0x0204361C arm
+ *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0201DD60 0x0201DD60 thumb
  *   func_020056A0 0x020056A0 thumb
  *   d_021C09C0 0x021C09C0 data a4
@@ -60,7 +60,7 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -73,14 +73,14 @@
  *   d_021BFE7C 0x021BFE7C data a4
  *   d_021BFE9C 0x021BFE9C data a4
  *   d_021BFEBC 0x021BFEBC data a4
- *   func_0204A48C 0x0204A48C arm
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_02043598 0x02043598 arm
- *   func_0204A600 0x0204A600 arm
- *   func_0204A648 0x0204A648 arm
- *   func_02046440 0x02046440 arm
- *   func_02048A24 0x02048A24 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_02048B6C 0x02048B6C arm
  *   func_02048B60 0x02048B60 arm
  *   func_02048BC4 0x02048BC4 arm
@@ -93,8 +93,13 @@
  *   d_021BFD54 0x021BFD54 data a4
  *   func_02048AD0 0x02048AD0 arm
  *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
+ *   BMP_WIN_Exit  0x020450C8  arm  arm9
+ *   G3D_SYSTEM_Exit  0x02046788  arm  arm9
+ *   G3D_CAMERA_Delete  0x02048AC4  arm  arm9
+ *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
+ *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
  */
 #include "../../matched/include/Obj00689.h"
 #include "../../matched/include/Obj25331.h"
@@ -149,10 +154,10 @@ struct BgTemplate { u32 a,b,c,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u32 n; };
 typedef struct { u32 x, y, z; } Vec3;
 
 extern int func_02034AC4(int);
-extern void func_0203064C(unsigned int, unsigned, unsigned);
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned, unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *, unsigned, unsigned);
-extern struct GfFont *func_0201D7EC(int, int, int, int, unsigned);
+extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
 extern struct MsgBank *func_02045B38(unsigned, unsigned, unsigned, unsigned);
 extern void *func_021BF594(unsigned int heap, int kind);
 extern char *func_021BF8DC(void *owner, int kind, u32 heap);
@@ -161,8 +166,8 @@ extern char *func_021BEF20(void *, unsigned, unsigned, char *, unsigned, unsigne
 extern void func_021BFCD0(char *);
 extern void func_021BF5E0(u8 *p);
 extern void func_021BF9D0(char *);
-extern unsigned int func_02045C04(struct Rec *rec);
-extern u32 func_0201D83C(void *ptr);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021BEF74(u8 *p);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
@@ -173,57 +178,57 @@ extern void func_021BF610(u8 *p);
 extern void func_021BFCE0(int);
 extern void func_021BF9FC(char *p);
 extern void func_020434DC(unsigned, unsigned);
-extern void func_0207DC44(BOOL, int, int, int);
-extern void func_0207DD24(unsigned short, int, int, int, BOOL);
+extern void G3X_SetFog(BOOL, int, int, int);
+extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
-extern void func_02046BE0(unsigned, unsigned);
+extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void func_0204363C(u32);
-extern void func_0204361C(void);
+extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_020433E0(const struct DispVram *);
+extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void func_0201DD60(void);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_02030EAC(struct Node *);
 extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
 extern void func_0203F8F4(unsigned);
-extern void func_02045088(unsigned);
+extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern u32 func_02043658(void);
 extern void func_02041EE4(u32, u32, u32);
 extern void func_020419E4(void);
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_02043598(u32 mask, u32 enable);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
-extern void func_0204A600(void);
-extern void func_0204A648(void);
-extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
+extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u16 fifoSize, u16 heap, void (*setup)(void));
-extern u32 *func_02048A24(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
+extern u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                           Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
 extern void func_02048B6C(struct Light *l, const u32 *in);
 extern void func_02048B60(struct Light *l, const u32 *in);
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_02048C58(struct LightSlot *slots);
 extern void func_02048C4C(u32);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02046788(void);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(void);
 /* Original consumes 02048AD0's live r0 through the next veneer call. */
 extern void *func_02048AD0(struct Light *);
 extern void func_02047964(void);
-extern void func_020479D8(void);
-extern void func_02047970(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 int func_021BDA40(struct Obj0203159C *owner, int unused, char *args);
 int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p);
 int func_021BDB30(int a, int b, int c, void *p);
@@ -270,13 +275,13 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
 {
     char *p;
     func_02034AC4((int)ov067_id);
-    func_0203064C(1, 111, 0x100000);
-    p = func_0203159C(owner, 0x24, 111);
+    GFL_HEAP_CreateChildHeap(1, 111, 0x100000);
+    p = PROCSYS_AllocProcWork(owner, 0x24, 111);
     func_02082BCC(p, 0, 0x24);
     ((struct Obj00689 *)p)->f0 = 111;
     *(char * *)&((struct Obj00689 *)p)->f4 = args;
     *(unsigned char * *)&((struct Obj00689 *)p)->f8 = func_021BDC18(1, ((struct Obj25331 *)args)->f8, ((struct Obj00689 *)p)->f0);
-    *(struct GfFont * *)&((struct Obj00689 *)p)->fC = func_0201D7EC(23, 0, 0, 0, ((struct Obj00689 *)p)->f0);
+    *(struct GfFont * *)&((struct Obj00689 *)p)->fC = GF_FONT_Create(23, 0, 0, 0, ((struct Obj00689 *)p)->f0);
     *(struct MsgBank * *)&((struct Obj00689 *)p)->f10 = func_02045B38(0, 2, 65, ((struct Obj00689 *)p)->f0);
     *(char * *)&((struct Obj00689 *)p)->f18 = func_021BF594(((struct Obj00689 *)p)->f0, ((struct Obj25332 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8);
     ((struct Obj00689 *)p)->f1C = func_021BF8DC(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj25333 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8, ((struct Obj00689 *)p)->f0);
@@ -292,8 +297,8 @@ int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
     func_021BFCD0(*(char * *)&((struct Obj03918 *)p)->f20);
     func_021BF5E0((u8 *)(*(char * *)&((struct Obj03918 *)p)->f18));
     func_021BF9D0(*(char * *)&((struct Obj03918 *)p)->f1C);
-    func_02045C04(*(struct Rec * *)&((struct Obj03918 *)p)->f10);
-    func_0201D83C(((struct Obj03918 *)p)->fC);
+    MSGDATA_Delete(*(struct Rec * *)&((struct Obj03918 *)p)->f10);
+    GF_FONT_Delete(((struct Obj03918 *)p)->fC);
     func_021BEF74((u8 *)(*(char * *)&((struct Obj03918 *)p)->f14));
     func_021BDCF0(*(unsigned char * *)&((struct Obj03918 *)p)->f8);
     heap = ((struct Obj03918 *)p)->f0;
@@ -349,11 +354,11 @@ void func_021BDB70(void)
     AlphaTest(0, 0);
     AlphaBlend(1);
     EdgeMarking(0);
-    func_0207DC44(0, 0, 0, 0);
-    func_0207DD24(0, 0, 0x7FFF, 63, 0);
+    G3X_SetFog(0, 0, 0, 0);
+    G3X_SetClearColor(0, 0, 0x7FFF, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xBFFF0000;
     for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, d_021BFDAC[i]);
-    func_02046BE0(0, 0);
+    G3D_SYSTEM_SetSwapBuffersMode(0, 0);
 }
 
 
@@ -368,16 +373,16 @@ void *func_021BDC18(int swap, int mode, u16 heap)
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
     func_0204363C(swap);
-    func_0204361C();
+    BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     if (mode==7) {
-        func_020433E0(&d_021BFE4C);
+        BG_SYS_SetVramBanks(&d_021BFE4C);
         func_021BDE30(p,heap);
         func_021BDF34(p+4,(u32)&d_021BFE1C,heap);
         func_021BE03C(p+8,heap);
     } else {
-        func_020433E0(&d_021BFE1C);
+        BG_SYS_SetVramBanks(&d_021BFE1C);
         func_021BDD98(p,heap);
         func_021BDF34(p+4,(u32)&d_021BFE1C,heap);
         func_021BDFA4(p+8,heap);
@@ -441,7 +446,7 @@ void func_021BDD98(void *p, unsigned heap)
     unsigned i, layer;
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
-    func_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28(&(*(struct DispConfig *)&d_021BFD80));
     for (i = 0; i < 4; i++) {
         row = d_021BFF1C[i];
@@ -459,7 +464,7 @@ void func_021BDD98(void *p, unsigned heap)
  */
 void func_021BDDF8(u8 *p)
 {
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     func_02082BCC(p, 0, 4);
 }
@@ -482,7 +487,7 @@ void func_021BDE30(void *p,u16 heap)
     struct BgTemplate t1,t2,t3,t4,t5;
     func_02082BCC(p,0,4);
     func_0203F8F4(heap);
-    func_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28(&d_021BFD80);
     t1=d_021BFEFC;
     func_0203FCA0(1,&t1,0);
@@ -505,27 +510,27 @@ void func_021BDE30(void *p,u16 heap)
 void func_021BDF34(unsigned char *p, int a, int b)
 {
     func_02082BCC(p, 0, 4);
-    func_0204A48C((const struct Cfg *)0x021BFD90, a, b);
-    ((struct Obj14602 *)p)->f0 = func_0204B100(0x80, 0, b);
+    CLACT_InitSystem((const struct Cfg *)0x021BFD90, a, b);
+    ((struct Obj14602 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct Obj14602 *)p)->f0);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 
 
 void func_021BDF74(u8 *p)
 {
-    func_0204B1CC((struct Bank *)(((struct Obj25335 *)p)->f0));
-    func_0204A5AC();
+    CLACT_DeleteUnit((struct Bank *)(((struct Obj25335 *)p)->f0));
+    CLACT_ExitSystem();
     func_02082BCC(p, 0, 4);
 }
 
 
-void func_021BDF90(void *a0){func_0204A600();}
+void func_021BDF90(void *a0){CLACT_DrawSystem();}
 
 
-void func_021BDF98(void *a0){func_0204A648();}
+void func_021BDF98(void *a0){CLACT_VBlankSystem();}
 
 
 unsigned func_021BDFA0(char *p){return ((struct Obj25336 *)p)->f0;}
@@ -542,8 +547,8 @@ unsigned func_021BDFA0(char *p){return ((struct Obj25336 *)p)->f0;}
 void func_021BDFA4(u8 *p, u16 heap)
 {
     u32 far_clip, near_clip;
-    func_02046440(0, 4, 0, 2, 0, heap, func_021BDB70);
-    *(u32 **)p = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&d_021BFD68), ((Vec3 *)&d_021BFD5C), ((Vec3 *)&d_021BFD74), heap);
+    G3D_SYSTEM_Init(0, 4, 0, 2, 0, heap, func_021BDB70);
+    *(u32 **)p = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&d_021BFD68), ((Vec3 *)&d_021BFD5C), ((Vec3 *)&d_021BFD74), heap);
     far_clip = 0x800000;
     near_clip = 0x19A;
     func_02048B6C(*(struct Light **)p, &far_clip);
@@ -556,8 +561,8 @@ void func_021BDFA4(u8 *p, u16 heap)
 void func_021BE03C(u8 *p, u16 heap)
 {
     u32 far_clip, near_clip;
-    func_02046440(0, 2, 0, 2, 0, heap, func_021BDB70);
-    *(u32 **)p = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&d_021BFD68), ((Vec3 *)&d_021BFD5C), ((Vec3 *)&d_021BFD74), heap);
+    G3D_SYSTEM_Init(0, 2, 0, 2, 0, heap, func_021BDB70);
+    *(u32 **)p = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&d_021BFD68), ((Vec3 *)&d_021BFD5C), ((Vec3 *)&d_021BFD74), heap);
     far_clip = 0x800000;
     near_clip = 0x19A;
     func_02048B6C(*(struct Light **)p, &far_clip);
@@ -571,15 +576,15 @@ void func_021BE03C(u8 *p, u16 heap)
 void func_021BE0D4(u8 *p)
 {
     func_02048C4C(((struct Obj14603 *)p)->f4);
-    func_02048AC4((void *)(((struct Obj14603 *)p)->f0));
-    func_02046788();
+    G3D_CAMERA_Delete((void *)(((struct Obj14603 *)p)->f0));
+    G3D_SYSTEM_Exit();
 }
 
 
-void func_021BE0EC(char *p){func_02048AD0(*(struct Light * *)&((struct Obj25337 *)p)->f0);func_02047964();func_020479D8();}
+void func_021BE0EC(char *p){func_02048AD0(*(struct Light * *)&((struct Obj25337 *)p)->f0);func_02047964();G3D_SYSTEM_ApplyLookAt();}
 
 
-void func_021BE100(char *unused){func_02047970();}
+void func_021BE100(char *unused){G3D_SYSTEM_DrawEnd();}
 
 
 int func_021BE108(void){return 1;}

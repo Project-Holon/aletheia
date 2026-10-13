@@ -1,5 +1,5 @@
 /*
- * function: func_021A00FC
+ * function: FLDMMDL_DRAW_InitEffectAlias
  * address: 0x021A00FC
  * packet: pkt_ov021_021A00FC
  * region: ov021
@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov021/field_fog.c and filed here.
  *
  * symbols:
- *   func_021A006C 0x021A006C thumb
+ *   FLDMMDL_DRAW_InitBlactId 0x021A006C thumb
  */
 
 typedef unsigned int   u32;
-void func_021A006C(u32 a);
-void func_021A00FC(u32 a);
+void FLDMMDL_DRAW_InitBlactId(u32 a);
+void FLDMMDL_DRAW_InitEffectAlias(u32 a);
 
-void func_021A00FC(u32 a) { func_021A006C(a); }
+void FLDMMDL_DRAW_InitEffectAlias(u32 a) { FLDMMDL_DRAW_InitBlactId(a); }

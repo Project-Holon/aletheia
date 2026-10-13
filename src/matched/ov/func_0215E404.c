@@ -1,5 +1,5 @@
 /*
- * function: func_0215E404
+ * function: MOVE_POKEMON_HasActiveEntry
  * address:  0x0215E404
  * packet:   pkt_0215E404
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Blk38;
 extern u8 func_0200D488(struct Blk38 *p, u32 i);
 
-int func_0215E404(int a0)
+int MOVE_POKEMON_HasActiveEntry(int a0)
 {
     int a1;
     int t4;

@@ -8,12 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  */
 
 typedef struct { void *h; int x; } E;
 typedef struct { char pad[0x180]; E a[6]; } W;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_02205F40(W *p)
 {
@@ -21,7 +24,7 @@ void func_02205F40(W *p)
 
     for (i = 0; i < 6; i++) {
         if (p->a[i].h != 0) {
-            func_0204B3B4(p->a[i].h);
+            CLACT_DeleteActor(p->a[i].h);
             p->a[i].h = 0;
         }
     }

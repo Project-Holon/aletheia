@@ -76,8 +76,8 @@
    "status": "EXACT",
    "functions": [
     "func_0200B394",
-    "func_0200B3A4",
-    "func_0200B3A8",
+    "GIMMICK_WORK_GetSaveArea",
+    "GIMMICK_WORK_GetProgress",
     "func_0200B3AC",
     "func_0200B3B0",
     "func_0200B3C8",

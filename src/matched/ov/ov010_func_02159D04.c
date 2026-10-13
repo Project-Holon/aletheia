@@ -1,5 +1,5 @@
 /*
- * function: func_02159D04
+ * function: MAP_MATRIX_SetupFromFile
  * address:  0x02159D04
  * packet:   pkt_ov010_02159D04
  * region:   ov010
@@ -52,7 +52,7 @@ struct MapMatrix {
 extern void func_02082A48(u32 value, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 
-void func_02159D04(struct MapMatrix *dst, const struct MatrixFile *src,
+void MAP_MATRIX_SetupFromFile(struct MapMatrix *dst, const struct MatrixFile *src,
                    u32 matrix_id, u16 zone_id)
 {
     u32 n;

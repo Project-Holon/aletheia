@@ -1,5 +1,5 @@
 /*
- * function: func_02196BF8
+ * function: IRCBATTLEMENU_TouchKindMenu
  * address:  0x02196BF8
  * packet:   pkt_ov021_02196BF8
  * region:   ov021
@@ -12,9 +12,9 @@
  * Handler: stores the request at +0x300 and dispatches on it.
  *
  * symbols:
- *   func_02196034  0x02196034  thumb  ov021
- *   func_02196B28  0x02196B28  thumb  ov021
- *   func_02196B94  0x02196B94  thumb  ov021
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_SeqPressKindButton  0x02196B28  thumb  ov021
+ *   IRCBATTLEMENU_SeqPressKindBack  0x02196B94  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  *
  * Addresses are Black-image addresses.
@@ -26,13 +26,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02196034(u8 *p, void *fn, u32 n);
+extern void IRCBATTLEMENU_SetSeq(u8 *p, void *fn, u32 n);
 struct Obj;
-extern void func_02196B28(struct Obj *a);
-extern void func_02196B94(struct Obj *a);
+extern void IRCBATTLEMENU_SeqPressKindButton(struct Obj *a);
+extern void IRCBATTLEMENU_SeqPressKindBack(struct Obj *a);
 extern void func_020061E4(u32 a);
 
-int func_02196BF8(u32 v, u8 *p)
+int IRCBATTLEMENU_TouchKindMenu(u32 v, u8 *p)
 {
     int r = 1;
 
@@ -40,17 +40,17 @@ int func_02196BF8(u32 v, u8 *p)
     switch (v) {
     case 0:
         func_020061E4(0x73B);
-        func_02196034(p, func_02196B28, 0x4A3);
+        IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressKindButton, 0x4A3);
         break;
     case 1:
         func_020061E4(0x73B);
         ((struct Obj09493 *)p)->f8 = 5;
-        func_02196034(p, func_02196B28, 0x4A9);
+        IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressKindButton, 0x4A9);
         break;
     case 2:
         func_020061E4(0x73C);
         ((struct Obj09493 *)p)->f8 = 0xC;
-        func_02196034(p, func_02196B94, 0x4AF);
+        IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressKindBack, 0x4AF);
         break;
     default:
         r = 1;

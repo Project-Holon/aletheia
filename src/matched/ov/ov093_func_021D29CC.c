@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   d_021EFF88     0x021EFF88  data  ov093  a2
  */
 
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 *func_021B9934(char *p, int i);
-extern void *func_021D5844(void *m);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void *BTL_POKEPARAM_GetMon(void *m);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u16 d_021EFF88[];
 
 int func_021D29CC(u32 *a, int b, u32 *c)
@@ -34,15 +34,15 @@ int func_021D29CC(u32 *a, int b, u32 *c)
     int k;
     u32 v;
 
-    m = func_021D5844(func_021B9934((char *)a[1], (u8)c[0]));
+    m = BTL_POKEPARAM_GetMon(func_021B9934((char *)a[1], (u8)c[0]));
     for (i = 0; i < 6; i++) {
         if (d_021EFF88[i + 1] != 0) {
             k = d_021EFF88[i];
-            v = c[i + 1] + func_02017E1C(m, k, 0);
+            v = c[i + 1] + POKE_TOOL_GetPartyValue(m, k, 0);
             if (v > 0xff) {
                 v = 0xff;
             }
-            func_02017E40(m, k, v);
+            POKE_TOOL_SetPartyValue(m, k, v);
         }
     }
     return 1;

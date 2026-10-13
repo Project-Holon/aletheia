@@ -1,5 +1,5 @@
 /*
- * function: func_02165CE4
+ * function: GAME_BEACON_ACCESSOR_GetTrainerId
  * address:  0x02165CE4
  * packet:   pkt_ov010_02165CE4
  * region:   ov010
@@ -16,7 +16,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-u16 func_02165CE4(u8 *r)
+u16 GAME_BEACON_ACCESSOR_GetTrainerId(u8 *r)
 {
     return ((struct Obj19000 *)r)->f10;
 }

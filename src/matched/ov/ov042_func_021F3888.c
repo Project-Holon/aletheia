@@ -1,5 +1,5 @@
 /*
- * function: func_021F3888
+ * function: GIMMICK42_CreateOneShotEvent
  * address:  0x021F3888
  * packet:   pkt_ov042_021F3888
  * region:   ov042
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F3888  0x021F3888  thumb
- *   func_021F3980  0x021F3980  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
+ *   GIMMICK42_CreateOneShotEvent  0x021F3888  thumb
+ *   GIMMICK42_EventPlayOneShot  0x021F3980  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   func_020122C0  0x020122C0  thumb
  */
 
@@ -26,34 +26,34 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 struct Big;
 struct Desc;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F3980(void *a, int *st);
+extern int GIMMICK42_EventPlayOneShot(void *a, int *st);
 
-int func_021F3888(void *a, u32 b)
+int GIMMICK42_CreateOneShotEvent(void *a, u32 b)
 {
     void *s;
     u8 *p;
     int r;
 
-    s = func_0201210C((void *)a);
-    func_02188D2C(s);
-    p = (u8 *)func_021897BC(s, 1);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(s))), 4);
+    s = GAMESYSTEM_GetFieldMap((void *)a);
+    FIELDMAP_GetExpObj(s);
+    p = (u8 *)FIELDMAP_GetCommonWork(s, 1);
+    GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(s))), 4);
     if (b > 3) {
         return 0;
     }
-    r = (int)func_020122C0(a, 0, func_021F3980, 0);
+    r = (int)func_020122C0(a, 0, GIMMICK42_EventPlayOneShot, 0);
     p[1] = b;
     return r;
 }

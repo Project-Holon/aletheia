@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *
  * Levers: the word index 0x73 of the first arm is an enum-typed local set
@@ -26,10 +26,10 @@ typedef unsigned long  u32;
 
 typedef enum { K73 = 0x73 } Idx;
 
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void func_021BAAB8(char *p, int a, int b);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
 
@@ -38,10 +38,10 @@ int func_021BC6F4(char *p, int v)
     u32 *a = (u32 *)p;
     Idx k;
 
-    if (func_0203D378() != 0) {
+    if (GFL_NET_IsParentAid() != 0) {
         k = K73;
         func_021BAAB8(p, 0x73, 0);
-        func_02039C68((struct Link *)func_020399A8(), 0x1b, 0xa);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
         a[k] = 0x49;
     } else {
         func_021BAAB8(p, 0x72, 0);

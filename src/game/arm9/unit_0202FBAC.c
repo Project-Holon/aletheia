@@ -1,7 +1,7 @@
 /*
  * file:     unit_0202FBAC.c
  * unit:     yes
- * function: GFL_HEAP_GetHeap, GFL_HEAP_GetParentHeap, GFL_HEAP_GetBlock, GFL_HEAP_GetAllocCount, GFL_HEAP_InitManager, GFL_HEAP_CreateChildHeapImpl, GFL_HEAP_RegisterBlockHeapImpl, GFL_HEAP_AddRecord, GFL_HEAP_Delete, GFL_HEAP_AllocMemory, GFL_HEAP_FreeMemory, GFL_HEAP_InitAllocator, GFL_HEAP_ResizeMemory, GFL_HEAP_GetTotalFreeSize, func_0203038C, GFL_HEAP_GetHeapSize, GFL_HEAP_GetHeapHandle, GFL_HEAP_GetAllocCountById, GFL_HEAP_GetBlockHeapId, GFL_HEAP_GetBlockName, GFL_HEAP_IsHeapValid, GFL_HEAP_GetLastError, GFL_HEAP_InitSystemHeap, GFL_HEAP_AllocSystem, GFL_HEAP_FreeSystem, GFL_HEAP_Init, func_0203064C, func_02030678, GFL_HEAP_FatalError
+ * function: GFL_HEAP_GetHeap, GFL_HEAP_GetParentHeap, GFL_HEAP_GetBlock, GFL_HEAP_GetAllocCount, GFL_HEAP_InitManager, GFL_HEAP_CreateChildHeapImpl, GFL_HEAP_RegisterBlockHeapImpl, GFL_HEAP_AddRecord, GFL_HEAP_Delete, GFL_HEAP_AllocMemory, GFL_HEAP_FreeMemory, GFL_HEAP_InitAllocator, GFL_HEAP_ResizeMemory, GFL_HEAP_GetTotalFreeSize, GFL_HEAP_GetAllocatableSize, GFL_HEAP_GetHeapSize, GFL_HEAP_GetHeapHandle, GFL_HEAP_GetAllocCountById, GFL_HEAP_GetBlockHeapId, GFL_HEAP_GetBlockName, GFL_HEAP_IsHeapValid, GFL_HEAP_GetLastError, GFL_HEAP_InitSystemHeap, GFL_HEAP_AllocSystem, GFL_HEAP_FreeSystem, GFL_HEAP_Init, GFL_HEAP_CreateChildHeap, GFL_HEAP_RegisterBlockHeap, GFL_HEAP_FatalError
  * address:  0x0202FBAC
  * region:   arm9
  * compiler: dsi/1.1p1

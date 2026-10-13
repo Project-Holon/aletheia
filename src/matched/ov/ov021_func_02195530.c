@@ -1,5 +1,5 @@
 /*
- * function: func_02195530
+ * function: TALKMSGWIN_UploadTexture
  * address:  0x02195530
  * packet:   pkt_ov021_02195530
  * region:   ov021
@@ -17,16 +17,16 @@
  *   func_0207FA0C  0x0207FA0C  arm
  *   func_0207FA40  0x0207FA40  arm
  *   func_0207FADC  0x0207FADC  arm
- *   d_021DDA84     0x021DDA84  data  a4
- *   d_021DDAA4     0x021DDAA4  data  a4
+ *   sTalkMsgWinTexture     0x021DDA84  data  a4
+ *   sTalkMsgWinPalette     0x021DDAA4  data  a4
  */
 #include "../include/Obj12626.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 d_021DDA84[];
-extern u32 d_021DDAA4[];
+extern u32 sTalkMsgWinTexture[];
+extern u32 sTalkMsgWinPalette[];
 extern void func_0207F7A0();
 extern void DC_FlushRange(void *p, u32 size);
 extern void func_0207F7FC(void *p, u32 off, u32 size);
@@ -35,14 +35,14 @@ extern void func_0207FA0C();
 extern void func_0207FA40(void *p, u32 off, u32 size);
 extern void func_0207FADC();
 
-void func_02195530(char *p)
+void TALKMSGWIN_UploadTexture(char *p)
 {
     func_0207F7A0();
-    DC_FlushRange(d_021DDA84, 0x20);
-    func_0207F7FC(d_021DDA84, (u16)((struct Obj12626 *)p)->fCC8 << 3, 0x20);
+    DC_FlushRange(sTalkMsgWinTexture, 0x20);
+    func_0207F7FC(sTalkMsgWinTexture, (u16)((struct Obj12626 *)p)->fCC8 << 3, 0x20);
     func_0207F9B4();
     func_0207FA0C();
-    DC_FlushRange(d_021DDAA4, 0x20);
-    func_0207FA40(d_021DDAA4, (u16)((struct Obj12626 *)p)->fCCC << 3, 0x20);
+    DC_FlushRange(sTalkMsgWinPalette, 0x20);
+    func_0207FA40(sTalkMsgWinPalette, (u16)((struct Obj12626 *)p)->fCCC << 3, 0x20);
     func_0207FADC();
 }

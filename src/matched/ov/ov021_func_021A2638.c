@@ -1,5 +1,5 @@
 /*
- * function: func_021A2638
+ * function: WEATHER_TASK_GetParticleActor
  * address:  0x021A2638
  * packet:   pkt_ov021_021A2638
  * region:   ov021
@@ -12,13 +12,13 @@
  * Unlabelled tail-call stub, filed for the ov026 lane.
  *
  * symbols:
- *   func_021A2638 0x021A2638 thumb ov021
- *   func_021A2C28 0x021A2C28 thumb ov021
+ *   WEATHER_TASK_GetParticleActor 0x021A2638 thumb ov021
+ *   WEATHER_TASK_GetParticleActorPtr 0x021A2C28 thumb ov021
  */
 
-extern unsigned int func_021A2C28(unsigned char *p);
+extern unsigned int WEATHER_TASK_GetParticleActorPtr(unsigned char *p);
 
-unsigned int func_021A2638(unsigned char *o)
+unsigned int WEATHER_TASK_GetParticleActor(unsigned char *o)
 {
-    return func_021A2C28(o);
+    return WEATHER_TASK_GetParticleActorPtr(o);
 }

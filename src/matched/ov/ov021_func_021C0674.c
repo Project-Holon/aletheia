@@ -1,5 +1,5 @@
 /*
- * function: func_021C0674
+ * function: HEIGHT_EX_FreeTable
  * address:  0x021C0674
  * packet:   pkt_ov021_021C0674
  * region:   ov021
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021C0674(void **p)
+void HEIGHT_EX_FreeTable(void **p)
 {
     func_020307B0(p[1]);
     func_020307B0(p);

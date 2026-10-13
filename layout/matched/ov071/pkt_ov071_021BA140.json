@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA140",
+   "name": "MONOLITH_TOOL_UpdateRows",
    "address": "0x021BA140",
    "kind": "game",
    "region": "ov071",

@@ -1,5 +1,5 @@
 /*
- * function: func_0217DFB4
+ * function: UNION_ONESELF_ColosseumStandPosMain
  * address:  0x0217DFB4
  * packet:   pkt_ov019_0217DFB4
  * region:   ov019
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0217BB20  0x0217BB20  thumb  ov019
- *   func_0217F074  0x0217F074  thumb  ov019
- *   func_0217F1EC  0x0217F1EC  thumb  ov019
- *   func_02174CE4  0x02174CE4  thumb  ov012
- *   func_021750D0  0x021750D0  thumb  ov012
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0217F060  0x0217F060  thumb  ov019
- *   func_0217FE44  0x0217FE44  thumb  ov019
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216D480  0x0216D480  thumb  ov010
- *   func_0217B8E4  0x0217B8E4  thumb  ov019
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
+ *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
+ *   COLOSSEUM_SendChoiceRequest  0x02174CE4  thumb  ov012
+ *   COLOSSEUM_GetMyChoiceReply  0x021750D0  thumb  ov012
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
+ *   COLOSSEUM_GetStandPosIndex  0x0217FE44  thumb  ov019
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  */
 #include "../include/Obj19422.h"
 
@@ -36,31 +36,31 @@ typedef struct {
 } Obj;
 
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 typedef unsigned int   u32;
-extern void *func_021A3074(u8 *p);
-extern int func_0217BB20(char *p);
-extern void func_0217F074(void *ctx);
-extern u32 func_0217F1EC(u8 *p);
-extern u32 func_02174CE4(char *p);
-extern u8 func_021750D0(u8 *p);
-extern int func_0216D3CC(int a0);
-extern int func_0217F060(int i);
-extern int func_0217FE44(int a, int mode, unsigned *out);
-extern void func_0216D410(void *h, u16 v);
-extern int func_0216D454(void *h);
-extern int func_0216D480(char *p);
-extern int func_0217B8E4(char *p, int v);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern int UNION_ONESELF_CheckNetErrorExit(char *p);
+extern void UNION_MSG_CloseAllWindows(void *ctx);
+extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
+extern u32 COLOSSEUM_SendChoiceRequest(char *p);
+extern u8 COLOSSEUM_GetMyChoiceReply(u8 *p);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern int UNION_MSG_GetCategoryTableValue(int i);
+extern int COLOSSEUM_GetStandPosIndex(int a, int mode, unsigned *out);
+extern void FLDMMDL_SetAcmd(void *h, u16 v);
+extern int FLDMMDL_CheckEndAcmd(void *h);
+extern int FLDMMDL_EndAcmd(char *p);
+extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 
-int func_0217DFB4(void *ctx, Obj *obj, int a2, u8 *state)
+int UNION_ONESELF_ColosseumStandPosMain(void *ctx, Obj *obj, int a2, u8 *state)
 {
     void *w = ((struct Obj19422 *)ctx)->f355C;
     void *h;
     unsigned out;
     int r;
 
-    if (func_0217BB20(ctx) == 1) {
-        func_0217F074(ctx);
+    if (UNION_ONESELF_CheckNetErrorExit(ctx) == 1) {
+        UNION_MSG_CloseAllWindows(ctx);
         return 1;
     }
 
@@ -69,33 +69,33 @@ int func_0217DFB4(void *ctx, Obj *obj, int a2, u8 *state)
         (*state)++;
         break;
     case 1:
-        if (func_02174CE4(w) == 1)
+        if (COLOSSEUM_SendChoiceRequest(w) == 1)
             (*state)++;
         break;
     case 2:
-        if (func_0217F1EC(ctx) != 0) {
-            r = func_021750D0(w);
+        if (UNION_MSG_CheckTalkPrintEnd(ctx) != 0) {
+            r = COLOSSEUM_GetMyChoiceReply(w);
             if (r == 1) {
                 (*state)++;
             } else if (r == 0) {
-                func_0217B8E4(ctx, 0x2c);
+                UNION_ONESELF_SetNextPlayCategory(ctx, 0x2c);
                 return 1;
             }
         }
         break;
     case 3:
-        h = func_021A3074(func_02188CB4((void *)a2));
-        if (func_0216D3CC((int)h) == 1) {
-            func_0217FE44(a2, func_0217F060(obj->f2d), &out);
-            func_0216D410(h, (out & 1) ? 2 : 3);
+        h = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)a2));
+        if (FLDMMDL_CheckPossibleAcmd((int)h) == 1) {
+            COLOSSEUM_GetStandPosIndex(a2, UNION_MSG_GetCategoryTableValue(obj->f2d), &out);
+            FLDMMDL_SetAcmd(h, (out & 1) ? 2 : 3);
             (*state)++;
         }
         break;
     case 4:
-        h = func_021A3074(func_02188CB4((void *)a2));
-        if (func_0216D454(h) == 1) {
-            func_0216D480(h);
-            func_0217B8E4(ctx, 0x2d);
+        h = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)a2));
+        if (FLDMMDL_CheckEndAcmd(h) == 1) {
+            FLDMMDL_EndAcmd(h);
+            UNION_ONESELF_SetNextPlayCategory(ctx, 0x2d);
             return 1;
         }
         break;

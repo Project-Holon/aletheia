@@ -1,5 +1,5 @@
 /*
- * function: func_021D1F48
+ * function: EVENT_PERAP_RECORD_OnRecorded
  * address:  0x021D1F48
  * packet:   pkt_021D1F48
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * Completion callback: writes 1 through its second argument.  Referenced
- * only by address from func_021D1C8C's literal pool.
+ * only by address from EVENT_PERAP_RECORD_Main's literal pool.
  *
  * Addresses are Black-image addresses.
  */
 
-void func_021D1F48(void *unused, int *done)
+void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done)
 {
     *done = 1;
 }

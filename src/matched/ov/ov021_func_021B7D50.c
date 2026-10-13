@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D50
+ * function: FIELD_RAIL_GetLocationWidthGrid
  * address:  0x021B7D50
  * packet:   pkt_ov021_021B7D50
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7EE4  0x021B7EE4  thumb ov021
+ *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb ov021
  */
 
 typedef unsigned char  u8;
@@ -27,10 +27,10 @@ typedef struct {
     Inner *x1c;
 } Outer;
 
-extern void func_021B7EE4(Inner *, void *);
+extern void FIELD_RAIL_WORK_SetLocation(Inner *, void *);
 
-int func_021B7D50(Outer *o, void *out)
+int FIELD_RAIL_GetLocationWidthGrid(Outer *o, void *out)
 {
-    func_021B7EE4(o->x1c, out);
+    FIELD_RAIL_WORK_SetLocation(o->x1c, out);
     return o->x1c->x18 / 16;
 }

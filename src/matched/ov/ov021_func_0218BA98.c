@@ -1,5 +1,5 @@
 /*
- * function: func_0218BA98
+ * function: FIELD_BUILDMODEL_GetNodeByHandle
  * address:  0x0218BA98
  * packet:   pkt_ov021_0218BA98
  * region:   ov021
@@ -15,7 +15,7 @@ typedef struct {
     void *arr[7];
 } S;
 
-void *func_0218BA98(S *p, int h)
+void *FIELD_BUILDMODEL_GetNodeByHandle(S *p, int h)
 {
     unsigned short idx = h & ~0xFFF0;
     if ((unsigned short)(h & 0xFFF0) != 0xFFF0)

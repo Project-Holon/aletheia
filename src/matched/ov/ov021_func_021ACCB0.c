@@ -1,5 +1,5 @@
 /*
- * function: func_021ACCB0
+ * function: FLDEFF_NAMIPOKE_PlaceObjects
  * address:  0x021ACCB0
  * packet:   pkt_ov021_021ACCB0
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D9198     0x021D9198  data  a2
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C6658  0x021C6658  thumb  ov021
- *   func_020520FC  0x020520FC  arm
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   d_021D91C8     0x021D91C8  data  a4
- *   d_021D91B0     0x021D91B0  data  a2
- *   func_021C6678  0x021C6678  thumb  ov021
+ *   sNamipokeWaveAngles     0x021D9198  data  a2
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_GetObjectTrans  0x021C6658  thumb  ov021
+ *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   sNamipokeWakeOffsets     0x021D91C8  data  a4
+ *   sNamipokeWakeAngles     0x021D91B0  data  a2
+ *   FIELD_G3DOBJ_SetObjectHidden  0x021C6678  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -58,42 +58,42 @@ typedef struct B {
     Inner in;
 } B;
 
-extern AngTbl d_021D9198;
-extern PosTbl d_021D91C8;
-extern AngTbl d_021D91B0;
-extern u32 func_021ABE18(u8 *p);
-extern int func_021C6658(u32 a, u32 b);
+extern AngTbl sNamipokeWaveAngles;
+extern PosTbl sNamipokeWakeOffsets;
+extern AngTbl sNamipokeWakeAngles;
+extern u32 FIELD_EFFECT_GetFieldMapData(u8 *p);
+extern int FIELD_G3DOBJ_GetObjectTrans(u32 a, u32 b);
 struct Mtx33;
-extern void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst);
-extern void func_021AC1B8(u32 a, Node *n);
-extern void func_021C6678(u32 a, u32 b, u32 c);
+extern void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, struct Mtx33 *dst);
+extern void FIELD_EFFECT_GetObjectPos(u32 a, Node *n);
+extern void FIELD_G3DOBJ_SetObjectHidden(u32 a, u32 b, u32 c);
 
-void func_021ACCB0(u32 a, B *b)
+void FLDEFF_NAMIPOKE_PlaceObjects(u32 a, B *b)
 {
-    AngTbl t = d_021D9198;
+    AngTbl t = sNamipokeWaveAngles;
     Ang *e = &t.e[b->fc];
     u32 obj;
     Node *n;
 
-    obj = func_021ABE18((u8 *)(*b->f1c));
-    n = (Node *)func_021C6658(obj, b->f18);
-    func_020520FC(e->x, e->y, e->z, (struct Mtx33 *)n->mtx);
-    func_021AC1B8(a, n);
+    obj = FIELD_EFFECT_GetFieldMapData((u8 *)(*b->f1c));
+    n = (Node *)FIELD_G3DOBJ_GetObjectTrans(obj, b->f18);
+    BUTTON_MAN_MakeRotMtxXYZ(e->x, e->y, e->z, (struct Mtx33 *)n->mtx);
+    FIELD_EFFECT_GetObjectPos(a, n);
     if (b->in.a == 0) {
         Inner *in = &b->in;
-        PosTbl pt = d_021D91C8;
-        AngTbl at = d_021D91B0;
+        PosTbl pt = sNamipokeWakeOffsets;
+        AngTbl at = sNamipokeWakeAngles;
         V3 *p = &pt.e[b->fc];
         Ang *g = &at.e[b->fc];
-        n = (Node *)func_021C6658(obj, in->c);
-        func_020520FC(g->x, g->y, g->z, (struct Mtx33 *)n->mtx);
-        func_021AC1B8(a, n);
+        n = (Node *)FIELD_G3DOBJ_GetObjectTrans(obj, in->c);
+        BUTTON_MAN_MakeRotMtxXYZ(g->x, g->y, g->z, (struct Mtx33 *)n->mtx);
+        FIELD_EFFECT_GetObjectPos(a, n);
         n->pos.x = n->pos.x + (in->pos.x + p->x);
         n->pos.y = n->pos.y + (in->pos.y + p->y);
         n->pos.z = n->pos.z + (in->pos.z + p->z);
         n->scale = in->scale;
-        func_021C6678(obj, in->c, 0);
+        FIELD_G3DOBJ_SetObjectHidden(obj, in->c, 0);
     } else {
-        func_021C6678(obj, b->in.c, 1);
+        FIELD_G3DOBJ_SetObjectHidden(obj, b->in.c, 1);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02193228
+ * function: FIELD_MSGBG_KeyWaitCheckSkip
  * address:  0x02193228
  * packet:   pkt_ov021_02193228
  * region:   ov021
@@ -23,7 +23,7 @@ typedef short          s16;
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 
-int func_02193228(u8 *p)
+int FIELD_MSGBG_KeyWaitCheckSkip(u8 *p)
 {
     u32 held = func_020362DC();
     u32 trg = func_0203630C();

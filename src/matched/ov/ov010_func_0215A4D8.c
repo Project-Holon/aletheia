@@ -9,10 +9,10 @@
  * status: EXACT
  * interface: original narrows r1 by shift pairs; u16 extern preserves this.
  * symbols:
- *   func_020142E8 0x020142E8 thumb
+ *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  */
 typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern u32 func_020142E8(void *bitmap, s32 id);
-unsigned func_0215A4D8(void *a, unsigned b) { return func_020142E8(a, (u16)(b + 1420)); }
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
+unsigned func_0215A4D8(void *a, unsigned b) { return ZONEDATA_CheckEventFlag(a, (u16)(b + 1420)); }

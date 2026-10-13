@@ -29,7 +29,7 @@
  *   one-field struct pointer: 11; o as 16-word struct with o = ob->w: 11; local s = *st: 11; q declared
  *   before h: 11; dead first parameter reused as h: 11. Worse: returns in each arm 37; if/if chain 62;
  *   case 1 before case 0 78; Ctx struct fields with &o->out 74; h read in each arm 14.
- *   Twin search: grep func_020120F4/GAMESYSTEM_CallProc/GAMESYSTEM_GetProcStatus in src/matched/ov (ov010 0215A370, ov000
+ *   Twin search: grep GAMESYSTEM_GetGameData/GAMESYSTEM_CallProc/GAMESYSTEM_GetProcStatus in src/matched/ov (ov010 0215A370, ov000
  *   021542C0 use the same callees; 0215A370 reads s = *st then p0 = c->f0, no shape that changes this).
  *   Idioms read in full: two-long-lived-values-in-each-others-registers (no missing arg, no join local),
  *   a-colour-swap-no-source-form-fixes-can-be-opt-lifetimes-off (pragma: no effect here),
@@ -59,7 +59,7 @@
  *   is the same (ldr o[2] still first), but the IR order changes the colouring so st takes r6 and o r5.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   d_0215513C     0x0215513C  data  ov008  a4
@@ -68,7 +68,7 @@
 typedef unsigned int   u32;
 struct GameSystem;
 struct ProcHandle;
-void *func_020120F4(const struct GameSystem *gameSystem);
+void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void GAMESYSTEM_CallProc(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
 u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern char d_0215513C[];
@@ -81,7 +81,7 @@ int EVENT_BATTLE_REC_SAVE_EventMain(int unused, int *stage, int *work)
     switch (*stage) {
     case 0:
         procArgs = work + 4;
-        work[4] = (int)func_020120F4(gameSystem);
+        work[4] = (int)GAMESYSTEM_GetGameData(gameSystem);
         procArgs[1] = work[1];
         procArgs[2] = work[2];
         procArgs[3] = *(int *)(work[2] + 0x48);

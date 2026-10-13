@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AB474",
+   "name": "MAP_ATTR_IsSlopeYB",
    "address": "0x021AB474",
    "kind": "game",
    "region": "ov021",

@@ -18,6 +18,8 @@
  *   func_021F6B34  0x021F6B34  thumb
  *   func_022026A0  0x022026A0  thumb
  *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb  arm9
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
+ *   POKE_TOOL_ChangeForm  0x02017988  thumb  arm9
  */
 
 typedef signed char s8;
@@ -44,8 +46,8 @@ typedef struct {
 
 extern int func_021F6B34(int v);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02017988(void *p, u32 a);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 struct Sub0200852CObj;
 struct Sub02009470Obj;
@@ -69,9 +71,9 @@ void func_021F8554(u8 *dst, Work *p)
     if (func_021F6B34(p->box) != 0) {
         species = func_02017E88(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
-            func_02017988(p->mon, 0);
+            POKE_TOOL_ChangeForm(p->mon, 0);
         }
-        func_02082B0C(p->mon, dst, func_020173EC());
+        func_02082B0C(p->mon, dst, POKE_TOOL_GetPartyParamSize());
     } else {
         species = func_02017E88(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {

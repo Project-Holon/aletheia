@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215A954",
+   "name": "SCRCMD_WORK_WaitMenu",
    "address": "0x0215A954",
    "kind": "game",
    "region": "ov010",

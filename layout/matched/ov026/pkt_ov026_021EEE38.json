@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEE38",
+   "name": "WEATHER_THUNDERSTORM_SpawnParticles",
    "address": "0x021EEE38",
    "kind": "game",
    "region": "ov026",

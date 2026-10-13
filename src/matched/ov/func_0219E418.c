@@ -1,5 +1,5 @@
 /*
- * function: func_0219E418
+ * function: FLDMMDL_RAIL_GetHitBitsDirNoAttr
  * address:  0x0219E418
  * packet:   pkt_0219E418
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: pins the third argument to 0.
  *
  * symbols:
- *   func_0219E424  0x0219E424  thumb
+ *   FLDMMDL_RAIL_GetHitBitsDir  0x0219E424  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0219E424(u32 o, u32 k, u32 x);
+extern int FLDMMDL_RAIL_GetHitBitsDir(u32 o, u32 k, u32 x);
 
-int func_0219E418(u32 a, u32 b)
+int FLDMMDL_RAIL_GetHitBitsDirNoAttr(u32 a, u32 b)
 {
-    return func_0219E424(a, b, 0);
+    return FLDMMDL_RAIL_GetHitBitsDir(a, b, 0);
 }

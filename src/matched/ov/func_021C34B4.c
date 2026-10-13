@@ -1,5 +1,5 @@
 /*
- * function: func_021C34B4
+ * function: SODATEYA_GetWithdrawCost
  * address:  0x021C34B4
  * packet:   pkt_021C34B4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021C3490  0x021C3490  thumb  ov021
+ *   SODATEYA_GetLevelsGained  0x021C3490  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_021C3490(void **p, int i);
+extern int SODATEYA_GetLevelsGained(void **p, int i);
 
-int func_021C34B4(void **a, int b)
+int SODATEYA_GetWithdrawCost(void **a, int b)
 {
-return ((func_021C3490((void **)a, b) + 1) * 100);
+return ((SODATEYA_GetLevelsGained((void **)a, b) + 1) * 100);
 }
 

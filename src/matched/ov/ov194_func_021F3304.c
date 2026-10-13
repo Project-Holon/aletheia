@@ -10,17 +10,17 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj05512.h"
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *); extern int func_0201C6C4(int,int); extern void func_02045334(struct Descriptor *d);
+extern void *func_02045770(struct Descriptor *); extern int func_0201C6C4(int,int); extern void BMP_WIN_TransferChars(struct Descriptor *d);
 int func_021F3304(char *p) {
  int q;
  q=((struct Obj05512 *)p)->fF8;
  if(((struct Obj05512 *)p)->fF0) {
  if(func_0201C6C4(q,(int)func_02045770((struct Descriptor *)*(int *)&((struct Obj05512 *)p)->fEC))==0) {
- func_02045334(((struct Obj05512 *)p)->fEC);((struct Obj05512 *)p)->fF0=0;
+ BMP_WIN_TransferChars(((struct Obj05512 *)p)->fEC);((struct Obj05512 *)p)->fF0=0;
  }}
  if(((struct Obj05512 *)p)->fF0==0)return 1;return 0;
 }

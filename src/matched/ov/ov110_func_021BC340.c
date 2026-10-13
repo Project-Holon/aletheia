@@ -20,9 +20,9 @@
  *   func_021BC5BC 0x021BC5BC thumb ov110
  *   func_021BC484 0x021BC484 thumb ov110
  *   func_02045770 0x02045770 arm
- *   func_02045808 0x02045808 arm
- *   func_0201DD78 0x0201DD78 thumb
- *   func_0201C7A4 0x0201C7A4 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_0201D304 0x0201D304 thumb
  */
 typedef unsigned char u8;
@@ -42,15 +42,15 @@ struct Obj;
 struct Strbuf;
 struct Vec2;
 extern int func_021BC490(struct Cursor *p, struct Strbuf *out);
-extern void func_0201DD78(u32,u32,u32);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7A4(void *,s16,s16,void *,void *);
+extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_021BC58C(void *,Pair *);
 extern u32 func_021BF6F0(u8 *p, u32 i);
 extern void func_021BC5BC(u8 *p, struct Descriptor *window, const struct Vec2 *input, u32 id, struct Obj *sprite);
 extern void func_021BC484(u8 *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 int func_021BC340(Obj *p,void *desc,u8 bank)
 {
     void *str;
@@ -65,8 +65,8 @@ int func_021BC340(Obj *p,void *desc,u8 bank)
     do {
         switch(func_021BC490((struct Cursor *)p->parser,str)) {
         case 0:
-            func_0201DD78(1,2,15);
-            func_0201C7A4(func_02045770(desc),x,y,str,(void *)font);
+            GF_FONT_SetTextColor(1,2,15);
+            PRINTSYS_Print(func_02045770(desc),x,y,str,(void *)font);
             x+=func_0201D304(str,font,0);
             break;
         case 1: {
@@ -85,6 +85,6 @@ int func_021BC340(Obj *p,void *desc,u8 bank)
         }
     } while(running);
     func_021BC484(p->parser);
-    func_02045808(str);
+    STRBUF_Delete(str);
     return count;
 }

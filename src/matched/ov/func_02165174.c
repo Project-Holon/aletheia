@@ -1,5 +1,5 @@
 /*
- * function: func_02165174
+ * function: GAME_BEACON_SEARCH_SetBattleTrainerStart
  * address:  0x02165174
  * packet:   pkt_02165174
  * region:   ov010
@@ -16,7 +16,7 @@
  *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
  *   GAME_BEACON_RequestSend   0x02026FB8  thumb
  *   GAME_BEACON_Work      0x02146940  data
- *   func_0216519C   0x0216519C  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetInfoBattleTrainerStart   0x0216519C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern u32 GAME_BEACON_CheckActionPriority(u32 a);
 extern void GAME_BEACON_RequestSend(void *);
 extern char *GAME_BEACON_Work;
-extern void func_0216519C(void *a0, unsigned a1);
+extern void GAME_BEACON_SEARCH_SetInfoBattleTrainerStart(void *a0, unsigned a1);
 
-void func_02165174(void *a0)
+void GAME_BEACON_SEARCH_SetBattleTrainerStart(void *a0)
 {
     if (GAME_BEACON_CheckActionPriority(0x6)) {
-        func_0216519C(GAME_BEACON_Work + 4, (unsigned int)a0);
+        GAME_BEACON_SEARCH_SetInfoBattleTrainerStart(GAME_BEACON_Work + 4, (unsigned int)a0);
         GAME_BEACON_RequestSend(GAME_BEACON_Work + 4);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021ACBC8
+ * function: FLDEFF_NAMIPOKE_SetWakeEnabled
  * address:  0x021ACBC8
  * packet:   pkt_ov021_021ACBC8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC1E0  0x021AC1E0  thumb  ov021
+ *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -19,14 +19,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern int func_021AC1E0(u32 a);
+extern int FIELD_EFFECT_GetObjectWork(u32 a);
 
-void func_021ACBC8(u32 a, int v)
+void FLDEFF_NAMIPOKE_SetWakeEnabled(u32 a, int v)
 {
     u8 *p;
 
     if (a != 0) {
-        p = (u8 *)func_021AC1E0(a);
+        p = (u8 *)FIELD_EFFECT_GetObjectWork(a);
         if (v == 1)
             p[10] = 0;
         else

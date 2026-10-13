@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021679C4",
+   "name": "COMM_PLAYER_SetEffect",
    "address": "0x021679C4",
    "kind": "game",
    "region": "ov010",

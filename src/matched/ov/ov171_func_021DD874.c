@@ -9,18 +9,18 @@
  * status: EXACT
  * lever: the first creation call passes 3 in r0, shared with its stack argument.
  * symbols:
- *   func_02045088 0x02045088 arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Init 0x02045088 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  */
 #include "../include/Obj03850.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_02045088(u16 heapId);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_Init(u16 heapId);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 void func_021DD874(char *p)
 {
-    func_02045088(0x8c);
-    ((struct Obj03850 *)p)->fB48 = func_020450F0(3, 1, 0, 30, 2, 3, 1);
-    ((struct Obj03850 *)p)->fB50 = func_020450F0(5, 4, 7, 24, 15, 1, 1);
+    BMP_WIN_Init(0x8c);
+    ((struct Obj03850 *)p)->fB48 = BMP_WIN_Create(3, 1, 0, 30, 2, 3, 1);
+    ((struct Obj03850 *)p)->fB50 = BMP_WIN_Create(5, 4, 7, 24, 15, 1, 1);
 }

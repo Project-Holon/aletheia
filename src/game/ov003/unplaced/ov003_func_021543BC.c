@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf callback (tail call through a pool word), sole blocker of
- * ov010 func_0215CCE8's MATCH.
+ * ov010 SCRCMD_PROC_CallMenuProc's MATCH.
  *
  * symbols:
  *   EVENT_MENUPROC_Create  0x0215437C  thumb  ov003

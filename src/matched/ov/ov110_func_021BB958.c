@@ -10,14 +10,14 @@
  * symbols:
  *   func_021BAC44 0x021BAC44 thumb ov110
  *   func_021BF7D4 0x021BF7D4 thumb ov110
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_0201DD78 0x0201DD78 thumb
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02045808 0x02045808 arm
- *   func_02045374 0x02045374 arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
@@ -30,26 +30,26 @@ struct Descriptor;
 struct U16Vec;
 extern u32 func_021BAC44(u8 *p);
 extern void func_021BF7D4(u8 *p, void *q);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32);
 void func_021BB958(char *p)
 {
     u32 r7 = func_021BAC44((u8 *)(*(u32 *)p));
     void *r4 = *(void **)(p + 0x94);
-    void *r6 = func_020457B0(14, 42);
+    void *r6 = STRBUF_Create(14, 42);
     func_021BF7D4((u8 *)(*(u32 *)(p + 4)), r6);
-    func_02043B5C(func_02045770(r4), 1);
-    func_0201DD78(15, 14, 1);
-    func_0201C7A4(func_02045770(r4), 0, 0, r6, (void *)r7);
-    func_02045808(r6);
-    func_02045374(r4);
-    func_02045334(r4);
+    BMP_Clear(func_02045770(r4), 1);
+    GF_FONT_SetTextColor(15, 14, 1);
+    PRINTSYS_Print(func_02045770(r4), 0, 0, r6, (void *)r7);
+    STRBUF_Delete(r6);
+    BMP_WIN_MakeScreen(r4);
+    BMP_WIN_TransferChars(r4);
     func_02041B6C(1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215A760
+ * function: SCRCMD_WORK_LoadMsgData
  * address: 0x0215A760
  * packet: pkt_ov010_0215A760
  * region: ov010
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-void func_0215A760(u8 *a, unsigned b, unsigned c) {
+void SCRCMD_WORK_LoadMsgData(u8 *a, unsigned b, unsigned c) {
  ((struct Obj05883 *)a)->f14 = func_02045B38(0, (u16)b, (u16)c, ((struct Obj05883 *)a)->f0);
  ((struct Obj05883 *)a)->f18 = c;
 }

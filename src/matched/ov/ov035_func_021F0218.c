@@ -1,5 +1,5 @@
 /*
- * function: func_021F0218
+ * function: C_GEAR_POWER_ONOFF_ExitWindows
  * address: 0x021F0218
  * packet: pkt_ov035_021F0218
  * region: ov035
@@ -13,9 +13,9 @@
  *            02028604 uses only r0; legacy trailing inputs are unread.
  * symbols:
  *   func_0201CE48 0x0201CE48 thumb
- *   func_02045808 0x02045808 arm
- *   func_02028604 0x02028604 thumb
- *   func_02031140 0x02031140 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   APP_KEYCURSOR_Delete 0x02028604 thumb
+ *   TCBL_Destroy 0x02031140 arm
  *   func_020452E8 0x020452E8 arm
  *   func_0201F614 0x0201F614 thumb
  *
@@ -27,22 +27,22 @@ struct Rec3;
 struct S02031140;
 struct U16Vec;
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_02045808(struct U16Vec *vec);
-extern int func_02028604(int a0);
-extern void func_02031140(struct S02031140 *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern int APP_KEYCURSOR_Delete(int a0);
+extern void TCBL_Destroy(struct S02031140 *p);
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0201F614(int, unsigned int);
-void func_021F0218(char *p)
+void C_GEAR_POWER_ONOFF_ExitWindows(char *p)
 {
     if (*(void **)(p + 0x24)) {
         func_0201CE48(*(void **)(p + 0x24));
         *(void **)(p + 0x24) = 0;
-        func_02045808(*(void **)(p + 0x28));
+        STRBUF_Delete(*(void **)(p + 0x28));
         *(void **)(p + 0x28) = 0;
     }
-    func_02028604((int)(*(void **)(p + 0x30)));
-    func_02031140(*(void **)(p + 0x20));
+    APP_KEYCURSOR_Delete((int)(*(void **)(p + 0x30)));
+    TCBL_Destroy(*(void **)(p + 0x20));
     func_020452E8(*(void **)(p + 0x1c));
     func_020452E8(*(void **)(p + 0x18));
     func_0201F614(5, *(unsigned int *)(p + 0x14));

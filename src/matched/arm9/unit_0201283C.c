@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201283C, func_02012844, func_0201284C, func_02012854,
- *           func_02012870, func_02012878, func_02012894, func_0201289C,
- *           func_020128B8, func_020128C0, func_020128DC, func_020128E4,
- *           func_02012900
+ * function: GAME_DATA_GetWifiList, GAME_DATA_GetEventData, GAME_DATA_GetStartLocation, GAME_DATA_SetStartLocation,
+ *           GAME_DATA_GetEntranceLocation, GAME_DATA_SetEntranceLocation, GAME_DATA_GetSpecialLocation, GAME_DATA_SetSpecialLocation,
+ *           GAME_DATA_GetEscapeLocation, GAME_DATA_SetEscapeLocation, GAME_DATA_GetWarpLocation, GAME_DATA_SetWarpLocation,
+ *           GAME_DATA_SetWarpId
  *
  * symbols:
  *   func_02008850  0x02008850  thumb
@@ -31,7 +31,7 @@
  * and the `adds r2, r0, r1` that opens each.
  *
  * The file is cut at 0x02012914 rather than at 0x02012924, which is where the
- * next file starts, because func_02012900 and func_02012914 are the only two
+ * next file starts, because GAME_DATA_SetWarpId and GAME_DATA_GetSituationWarpId are the only two
  * callers of func_02008850 in the image: one range holding both leaves the
  * `label` class no witness and the whole unit reads MATCH with every concrete
  * byte right.  Split, each is the other's outside witness and both are EXACT.
@@ -68,67 +68,67 @@ struct BigObj {
     u32 unk1A0;
 };
 
-u32 func_0201283C(const struct BigObj *p)
+u32 GAME_DATA_GetWifiList(const struct BigObj *p)
 {
     return p->unk1A0;
 }
 
-u32 func_02012844(const struct BigObj *p)
+u32 GAME_DATA_GetEventData(const struct BigObj *p)
 {
     return p->unk158;
 }
 
-struct Rec1C *func_0201284C(const struct BigObj *p)
+struct Rec1C *GAME_DATA_GetStartLocation(const struct BigObj *p)
 {
     return p->unk160;
 }
 
-void func_02012854(struct BigObj *p, const struct Rec1C *src)
+void GAME_DATA_SetStartLocation(struct BigObj *p, const struct Rec1C *src)
 {
     *p->unk160 = *src;
 }
 
-struct Rec1C *func_02012870(const struct BigObj *p)
+struct Rec1C *GAME_DATA_GetEntranceLocation(const struct BigObj *p)
 {
     return p->unk164;
 }
 
-void func_02012878(struct BigObj *p, const struct Rec1C *src)
+void GAME_DATA_SetEntranceLocation(struct BigObj *p, const struct Rec1C *src)
 {
     *p->unk164 = *src;
 }
 
-struct Rec1C *func_02012894(const struct BigObj *p)
+struct Rec1C *GAME_DATA_GetSpecialLocation(const struct BigObj *p)
 {
     return p->unk168;
 }
 
-void func_0201289C(struct BigObj *p, const struct Rec1C *src)
+void GAME_DATA_SetSpecialLocation(struct BigObj *p, const struct Rec1C *src)
 {
     *p->unk168 = *src;
 }
 
-struct Rec1C *func_020128B8(const struct BigObj *p)
+struct Rec1C *GAME_DATA_GetEscapeLocation(const struct BigObj *p)
 {
     return p->unk16C;
 }
 
-void func_020128C0(struct BigObj *p, const struct Rec1C *src)
+void GAME_DATA_SetEscapeLocation(struct BigObj *p, const struct Rec1C *src)
 {
     *p->unk16C = *src;
 }
 
-struct Rec1C *func_020128DC(struct BigObj *p)
+struct Rec1C *GAME_DATA_GetWarpLocation(struct BigObj *p)
 {
     return &p->unk170;
 }
 
-void func_020128E4(struct BigObj *p, const struct Rec1C *src)
+void GAME_DATA_SetWarpLocation(struct BigObj *p, const struct Rec1C *src)
 {
     p->unk170 = *src;
 }
 
-void func_02012900(const struct BigObj *p, u16 v)
+void GAME_DATA_SetWarpId(const struct BigObj *p, u16 v)
 {
     *func_02008850((void *)p->unk15C) = v;
 }

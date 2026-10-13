@@ -1,5 +1,5 @@
 /*
- * function: func_021D7F00
+ * function: BTL_CALC_GetFightersPerSide
  * address: 0x021D7F00
  * packet: pkt_ov093_021D7F00
  * region: ov093
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021D7F00(u32 n) { switch(n) { case 0:return 1; case 1:return 2; case 2:return 3; case 3:return 1; default:return 1; } }
+u32 BTL_CALC_GetFightersPerSide(u32 n) { switch(n) { case 0:return 1; case 1:return 2; case 2:return 3; case 3:return 1; default:return 1; } }

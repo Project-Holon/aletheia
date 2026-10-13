@@ -11,9 +11,9 @@
  * status: EXACT
  * extent: includes cleared tiny follower func_021F662C; no further code included.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 #include "../include/Obj25752.h"
-extern void func_0204A648(void);
-void func_021F6624(void *a0){func_0204A648();}
+extern void CLACT_VBlankSystem(void);
+void func_021F6624(void *a0){CLACT_VBlankSystem();}
 int func_021F662C(void *p){return ((struct Obj25752 *)p)->f0;}

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDD34",
+   "name": "ENTRANCE_CAMERA_Restore",
    "address": "0x021BDD34",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BDD74",
+   "name": "ENTRANCE_CAMERA_FreeWork",
    "address": "0x021BDD74",
    "kind": "game",
    "region": "ov021",

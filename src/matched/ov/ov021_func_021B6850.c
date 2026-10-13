@@ -1,5 +1,5 @@
 /*
- * function: func_021B6850
+ * function: SCRCMD_POKEMON_FLD_FindBoxedLegend
  * address:  0x021B6850
  * packet:   pkt_ov021_021B6850
  * region:   ov021
@@ -20,9 +20,9 @@
  * Stack slots need the declaration order base, i, t10, j.
  *
  * symbols:
- *   func_02012934  0x02012934  thumb
- *   func_02012944  0x02012944  thumb
- *   func_0201293C  0x0201293C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   func_02007698  0x02007698  thumb
  *   func_02008530  0x02008530  thumb
  *   func_020079BC  0x020079BC  thumb
@@ -33,16 +33,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 typedef unsigned char  u8;
 struct Sub0200852CObj;
-extern u8 *func_02012944(void *p);
-extern u32 func_0201293C(const struct BigObj *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern int func_02007698(void);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
 
-int func_021B6850(u32 a, u16 b, u16 *c, u16 *d)
+int SCRCMD_POKEMON_FLD_FindBoxedLegend(u32 a, u16 b, u16 *c, u16 *d)
 {
     int base;
     int i;
@@ -52,9 +52,9 @@ int func_021B6850(u32 a, u16 b, u16 *c, u16 *d)
     u32 r4;
     u32 r6;
 
-    func_02012934((void *)a);
-    r4 = (u32)func_02012944((void *)a);
-    r6 = func_0201293C((const struct BigObj *)a);
+    GAME_DATA_GetMyParty((void *)a);
+    r4 = (u32)GAME_DATA_GetMyStatus((void *)a);
+    r6 = GAME_DATA_GetBoxManager((const struct BigObj *)a);
     base = func_02007698();
     t10 = func_02008530((const struct Sub0200852CObj *)r4);
     for (i = 0; i < 24; i++) {

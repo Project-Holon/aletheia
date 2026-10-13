@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD01C",
+   "name": "FIELD_PLACE_NAME_CreateBmpWin",
    "address": "0x021BD01C",
    "kind": "game",
    "region": "ov021",

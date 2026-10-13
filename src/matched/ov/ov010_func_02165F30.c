@@ -1,5 +1,5 @@
 /*
- * function: func_02165F30
+ * function: GAME_BEACON_ACCESSOR_GetActionTrainerNo
  * address:  0x02165F30
  * packet:   pkt_ov010_02165F30
  * region:   ov010
@@ -27,7 +27,7 @@ typedef struct Rec {
     u16 f38;            /* 0x38 */
 } Rec;
 
-u16 func_02165F30(Rec *r)
+u16 GAME_BEACON_ACCESSOR_GetActionTrainerNo(Rec *r)
 {
     switch (r->type) {
     case 6:

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB474",
+   "name": "BTL_TOKUSEI_Redirect_ShowMessage",
    "address": "0x021DB474",
    "kind": "game",
    "region": "ov093",

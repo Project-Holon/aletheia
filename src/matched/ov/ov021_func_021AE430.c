@@ -1,5 +1,5 @@
 /*
- * function: func_021AE430
+ * function: EVENT_TRAINER_EYE_CreatePairEvent
  * address:  0x021AE430
  * packet:   pkt_ov021_021AE430
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AE754  0x021AE754  thumb  ov021
+ *   EVENT_TRAINER_EYE_UpdatePairEvent  0x021AE754  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -23,14 +23,14 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021AE754(u32 a, u32 b, u32 *c);
+extern int EVENT_TRAINER_EYE_UpdatePairEvent(u32 a, u32 b, u32 *c);
 
-u32 func_021AE430(u32 a, u32 x, u32 y)
+u32 EVENT_TRAINER_EYE_CreatePairEvent(u32 a, u32 x, u32 y)
 {
     u32 h;
     u32 *p;
 
-    h = (u32)func_020122C0((void *)a, 0, func_021AE754, 8);
+    h = (u32)func_020122C0((void *)a, 0, EVENT_TRAINER_EYE_UpdatePairEvent, 8);
     p = func_020124E8((struct Obj *)h);
     p[0] = x;
     p[1] = y;

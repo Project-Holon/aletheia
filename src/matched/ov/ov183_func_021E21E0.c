@@ -20,7 +20,7 @@
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021D76A8 0x021D76A8 thumb ov125
  *   func_021D76D8 0x021D76D8 thumb ov125
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021E2194 0x021E2194 thumb ov183
@@ -40,7 +40,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct {u32 a,b;} Pair;
 extern u32 func_02035D20(u32 *,u32 *);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern int func_021E24F8(char *,int,int),func_021E2538(char *,int,int);
 extern void func_021FD170(char *p, char *q, void *text);
 extern void func_021FE784(int,int,int,int);
@@ -86,7 +86,7 @@ void func_021E21E0(int task,int *state,char *p) {
         old=((struct Obj00683 *)p)->f24;((struct Obj00683 *)p)->f24=old+1;
         if(old>96) {func_021FD860(((struct Obj00683 *)p)->f14,0,0);func_021FD170((char *)(((struct Obj00683 *)p)->f4),(char *)(((struct Obj24665 *)(*(char * *)&((struct Obj00683 *)p)->f20))->fC),(void *)324);*state=9;}break;
     case 9:
-        if(func_02035C60()) {
+        if(TOUCHPANEL_GetTrg()) {
             func_02035D20(&x9,&y9);second.a=x9;second.b=y9;
             func_021FD860(((struct Obj00683 *)p)->f18,1,&second);func_020061E4(0x703);*state=10;
         }break;

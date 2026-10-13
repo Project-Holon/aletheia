@@ -20,7 +20,7 @@
  *   NNCancel                     0x02199FB4 arm   ov009
  *   func_0217695C                0x0217695C arm   ov009
  *   func_02176554                0x02176554 arm   ov009
- *   func_0216BBDC                0x0216BBDC arm   ov009
+ *   DWCi_GetGT2ConnectionByProfileID                0x0216BBDC arm   ov009
  *   DWCi_RestartFromTimeout      0x02172DB4 arm   ov009
  *   func_02175F4C                0x02175F4C arm   ov009
  *   func_02171E34                0x02171E34 arm   ov009
@@ -51,7 +51,7 @@ extern int func_02176674(void);
 extern void NNCancel(int cookie);
 extern int func_0217695C(void);
 extern int func_02176554(void);
-extern int *func_0216BBDC(int pid, int flag);
+extern int *DWCi_GetGT2ConnectionByProfileID(int pid, int flag);
 extern void DWCi_RestartFromTimeout(void);
 extern void func_02175F4C(int state);
 extern int func_02171E34(int resendPid);
@@ -85,7 +85,7 @@ int func_02172124(void)
             goto restart;
     }
     if (func_02176554()) {
-        if (func_0216BBDC(((struct DWCstMatchControl *)func_02175F3C())->f554, 1) != 0)
+        if (DWCi_GetGT2ConnectionByProfileID(((struct DWCstMatchControl *)func_02175F3C())->f554, 1) != 0)
             goto restart;
     }
     if (func_0217603C() > 1) {

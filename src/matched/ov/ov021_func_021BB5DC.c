@@ -1,5 +1,5 @@
 /*
- * function: func_021BB5DC
+ * function: FLDEFF_GYOE_InitHeldTask
  * address:  0x021BB5DC
  * packet:   pkt_ov021_021BB5DC
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC178  0x021AC178  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
  */
 
 typedef struct {
@@ -24,12 +24,12 @@ typedef struct {
     int f2C;
 } Out;
 
-extern Blk *func_021AC1AC(int a);
-extern void func_021AC178(int a);
+extern Blk *FIELD_EFFECT_GetObjectParam(int a);
+extern void FIELD_EFFECT_UpdateObject(int a);
 
-void func_021BB5DC(int a, Out *out)
+void FLDEFF_GYOE_InitHeldTask(int a, Out *out)
 {
-    out->b = *func_021AC1AC(a);
+    out->b = *FIELD_EFFECT_GetObjectParam(a);
     out->f2C = 0x6000;
-    func_021AC178(a);
+    FIELD_EFFECT_UpdateObject(a);
 }

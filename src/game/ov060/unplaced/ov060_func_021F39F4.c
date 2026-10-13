@@ -1,5 +1,5 @@
 /*
- * function: func_021F39F4
+ * function: GIMMICK60_UpdateEffect
  * address:  0x021F39F4
  * packet:   pkt_ov060_021F39F4
  * region:   ov060
@@ -13,23 +13,23 @@
  *           function is 52 bytes, the rest of the handed 492 is data.
  *
  * symbols:
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6BC  0x021BE6BC  thumb  ov021
- *   func_021BE4B4  0x021BE4B4  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  */
 
 #include "../unit_021F36C0_types.h"
 
-extern u8 *func_021BE674(void *expObj, int unit, int model, int animeIdx);
-extern int func_021BE6BC(u8 *anime);
-extern void func_021BE4B4(void *expObj, int unit, int model, int hidden);
+extern u8 *FLD_EXP_OBJ_GetAnime(void *expObj, int unit, int model, int animeIdx);
+extern int FLD_EXP_OBJ_IsAnimeStopped(u8 *anime);
+extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
 
 /* Ends the effect once its first anime has stopped: hides the model and clears the flag. */
-void func_021F39F4(Gimmick60Work *work, void *expObj)
+void GIMMICK60_UpdateEffect(Gimmick60Work *work, void *expObj)
 {
     if (work->effectActive != 0) {
-        if (func_021BE6BC(func_021BE674(expObj, 0, GIMMICK60_EFFECT_MODEL, 0)) != 0) {
-            func_021BE4B4(expObj, 0, GIMMICK60_EFFECT_MODEL, 1);
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, GIMMICK60_EFFECT_MODEL, 0)) != 0) {
+            FLD_EXP_OBJ_SetModelHidden(expObj, 0, GIMMICK60_EFFECT_MODEL, 1);
             work->effectActive = 0;
         }
     }

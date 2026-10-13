@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAB20",
+   "name": "STARTMENU_TeardownBackgrounds",
    "address": "0x021BAB20",
    "kind": "game",
    "region": "ov088",

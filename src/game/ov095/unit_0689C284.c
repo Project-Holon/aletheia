@@ -17,8 +17,8 @@
  *   func_021C8810  0x021C8810  thumb
  *   func_021C8838  0x021C8838  thumb
  *   func_021C8860  0x021C8860  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021E8B80  0x021E8B80  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb
  */
 /* stand-in: a 4-byte by-value struct is the only form that gives the varargs-style push {r0-r3} and a stack-read second argument */
 typedef struct { int v; } Word;
@@ -27,9 +27,9 @@ typedef unsigned short u16;
 
 extern int func_021E8A78(Word);
 extern void func_021C8838(void *, int, u16);
-extern int func_021D5440(void *);
+extern int BTL_POKEPARAM_GetPokeId(void *);
 extern void func_021C8860(void *, int);
-extern int func_021E8B80(Word);
+extern int BTLV_CORE_GetSlotValue(Word);
 extern void func_021C8810(void *);
 int func_0689C284(unsigned int selector, Word value);
 void func_0689C364(int a, Word b, void *c, void *d);
@@ -70,9 +70,9 @@ void func_0689C364(int a, Word b, void *c, void *d)
     k = func_0689C284(a, b);
     if (k >= 0) {
         func_021C8838(d, 2, k);
-        func_021C8860(d, func_021D5440(c));
+        func_021C8860(d, BTL_POKEPARAM_GetPokeId(c));
         if (a == 8 || a == 13)
-            func_021C8860(d, func_021E8B80(b));
+            func_021C8860(d, BTLV_CORE_GetSlotValue(b));
     } else {
         func_021C8810(d);
     }

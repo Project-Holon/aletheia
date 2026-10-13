@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B434",
+   "name": "ISS_DUNGEON_SYS_IsActive",
    "address": "0x0202B434",
    "kind": "game",
    "region": "arm9",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B438",
+   "name": "ISS_DUNGEON_SYS_HasRecord",
    "address": "0x0202B438",
    "kind": "game",
    "region": "arm9",

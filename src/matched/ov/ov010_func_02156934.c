@@ -1,5 +1,5 @@
 /*
- * function: func_02156934
+ * function: MUSICAL_EVENT_GetScoreCapped
  * address:  0x02156934
  * packet:   pkt_ov010_02156934
  * region:   ov010
@@ -46,7 +46,7 @@ typedef struct Work {
     u8 f4C;             /* 0x4C */
 } Work;
 
-u8 func_02156934(Work *w, u8 idx)
+u8 MUSICAL_EVENT_GetScoreCapped(Work *w, u8 idx)
 {
     u16 v;
 

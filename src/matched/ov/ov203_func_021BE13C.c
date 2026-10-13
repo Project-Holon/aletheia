@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  */
 
-extern void func_02047964(void *);
-extern void func_020479D8(void);
+extern void G3D_SYSTEM_DrawStart(void *);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 
 void func_021BE13C(void *a)
 {
-    func_02047964(a);
-    func_020479D8();
+    G3D_SYSTEM_DrawStart(a);
+    G3D_SYSTEM_ApplyLookAt();
 }

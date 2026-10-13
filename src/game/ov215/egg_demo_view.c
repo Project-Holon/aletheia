@@ -16,9 +16,9 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
- *   func_0204361C 0x0204361C arm
+ *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
@@ -29,7 +29,7 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -37,31 +37,31 @@
  *   d_021F7178 0x021F7178 data a4
  *   d_021F71F4 0x021F71F4 data a4
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
- *   func_0204A48C 0x0204A48C arm
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
- *   func_0204A600 0x0204A600 arm
- *   func_0204A648 0x0204A648 arm
- *   func_02046440 0x02046440 arm
- *   func_02048A24 0x02048A24 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_021F6328 0x021F6328 thumb ov215
  *   d_020A1EB8 0x020A1EB8 data a2
  *   d_021F7160 0x021F7160 data a4
  *   d_021F7154 0x021F7154 data a4
  *   d_021F716C 0x021F716C data a4
- *   func_02048AC4 0x02048AC4 arm
- *   func_02046788 0x02046788 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_02047964 0x02047964 arm
  *   func_02048AD0 0x02048AD0 arm
- *   func_020479D8 0x020479D8 arm
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   func_0207ADC4 0x0207ADC4 arm
  *   d_021F73F4 0x021F73F4 data a1
  *   func_02017E1C 0x02017E1C thumb
@@ -70,14 +70,14 @@
  *   sub_02030EAC 0x02030EAC arm
  *   func_020061E4 0x020061E4 thumb
  *   func_02006238 0x02006238 thumb
- *   func_02006224 0x02006224 thumb
- *   func_02006148 0x02006148 thumb
+ *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
+ *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   func_0200616C 0x0200616C thumb
  *   func_020061F8 0x020061F8 thumb
  *   func_021F70F8 0x021F70F8 thumb ov215
  *   func_021F7100 0x021F7100 thumb ov215
  *   func_021F7110 0x021F7110 thumb ov215
- *   func_02006984 0x02006984 thumb
+ *   PM_VOICE_Play 0x02006984 thumb
  *   func_02006650 0x02006650 thumb
  *   MCSS_Main 0x02014C08 thumb
  *   MCSS_Draw 0x02014D2C thumb
@@ -116,30 +116,30 @@
  *   MCSS_GetAlpha 0x02015FAC thumb
  *   MCSS_SetAlpha 0x02015FBC thumb
  *   MCSS_ResetVanishFlag 0x02015EB0 thumb
- *   func_02050B80 0x02050B80 arm
- *   func_02050C04 0x02050C04 arm
- *   func_0205121C 0x0205121C arm
- *   func_02051B04 0x02051B04 arm
- *   func_02051230 0x02051230 arm
+ *   PARTICLE_InitManager 0x02050B80 arm
+ *   PARTICLE_CreateSystemDefault 0x02050C04 arm
+ *   PARTICLE_LoadArchiveMember 0x0205121C arm
+ *   BUTTON_MAN_GetResourceType 0x02051B04 arm
+ *   PARTICLE_SetupSystem 0x02051230 arm
  *   d_021F7300 0x021F7300 data a4
- *   func_02050ED4 0x02050ED4 arm
+ *   PARTICLE_ExitManager 0x02050ED4 arm
  *   PARTICLE_StartEffect 0x020515B4 arm
  *   PARTICLE_KillAllEffects 0x02051620 arm
  *   d_021F73B4 0x021F73B4 data a4
- *   func_02050BE8 0x02050BE8 arm
- *   func_02046BE0 0x02046BE0 arm
- *   func_02047CFC 0x02047CFC arm
- *   func_02047E54 0x02047E54 arm
+ *   PARTICLE_Main 0x02050BE8 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
+ *   G3D_UTIL_Create 0x02047CFC arm
+ *   G3D_UTIL_Delete 0x02047E54 arm
  *   func_02048A18 0x02048A18 arm
- *   func_02047A60 0x02047A60 arm
- *   func_02047E88 0x02047E88 arm
+ *   G3D_SYSTEM_DrawObject 0x02047A60 arm
+ *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   func_020489F4 0x020489F4 arm
- *   func_020477A4 0x020477A4 arm
- *   func_0204784C 0x0204784C arm
+ *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  *   d_021F7330 0x021F7330 data a4
- *   func_020480E4 0x020480E4 arm
- *   func_02047910    0x02047910  arm
- *   func_020478B8    0x020478B8  arm
+ *   G3D_UTIL_RemoveUnit 0x020480E4 arm
+ *   G3D_SYSTEM_LoopObjectAnimeFrame    0x02047910  arm
+ *   G3D_SYSTEM_IncObjectAnimeFrame    0x020478B8  arm
  */
 #include "../../matched/include/Obj25749.h"
 #include "../../matched/include/Obj25750.h"
@@ -221,9 +221,9 @@ typedef struct { int x,y,z; } Vec_021F6D7C;
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void func_02082BCC(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0204363C(unsigned);
-extern void func_0204361C(void);
+extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
@@ -232,46 +232,46 @@ extern void func_02030EAC(struct Node *n);
 extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
 extern void func_0203F8F4(unsigned);
-extern void func_02045088(unsigned);
+extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void func_020403F4(u32 i);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_020419E4(void);
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
-extern void func_0204A600(void);
-extern void func_0204A648(void);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
 extern void func_021F6328(void);
-extern void func_02046440(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
-extern void *func_02048A24(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,const struct Vec3 *,const struct Vec3 *,const struct Vec3 *,u16);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02046788(int);
+extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
+extern void *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,const struct Vec3 *,const struct Vec3 *,const struct Vec3 *,u16);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(int);
 extern void func_02047964(void);
 extern void func_02048AD0(struct Light *);
-extern void func_020479D8(void);
-extern void func_02047970(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 extern void func_0207ADC4(void *);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void sub_02030EAC(struct Node *);
 extern void func_020061E4(u32);
 extern int func_02006238(void);
-extern int func_02006224(u32);
-extern int func_02006148(u32);
+extern int GFL_USE_IsSeSlotBusy(u32);
+extern int GFL_USE_GetSeSlot(u32);
 extern void func_0200616C(void *,int);
 extern void func_020061F8(int);
 extern void func_021F70F8(char *);
 extern int func_021F7100(char *);
 extern void func_021F7110(char *);
-extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern int func_02006650(void);
 extern void MCSS_Main(char *);
 extern void MCSS_Draw(struct McssSys *);
@@ -304,25 +304,25 @@ extern int MCSS_TOOL_SetAnimeStopCallback(int a0);
 extern u8 MCSS_GetAlpha(struct Data *);
 extern void MCSS_SetAlpha(char *,int);
 extern void MCSS_ResetVanishFlag(void *);
-extern void func_02050B80(unsigned);
-extern int func_02050C04(int,int,int,int);
-extern int func_0205121C(unsigned,unsigned,unsigned);
-extern u16 func_02051B04(void *);
-extern void func_02051230(void *,unsigned,unsigned,unsigned);
-extern void func_02050ED4(void);
+extern void PARTICLE_InitManager(unsigned);
+extern int PARTICLE_CreateSystemDefault(int,int,int,int);
+extern int PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
+extern u16 BUTTON_MAN_GetResourceType(void *);
+extern void PARTICLE_SetupSystem(void *,unsigned,unsigned,unsigned);
+extern void PARTICLE_ExitManager(void);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_KillAllEffects(void *);
-extern void func_02050BE8(void);
-extern void func_02046BE0(unsigned,unsigned);
-extern struct Util *func_02047CFC(u16,u16,u16);
-extern void func_02047E54(struct Rec *);
+extern void PARTICLE_Main(void);
+extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
+extern struct Util *G3D_UTIL_Create(u16,u16,u16);
+extern void G3D_UTIL_Delete(struct Rec *);
 extern unsigned func_02048A18(unsigned char *,int);
-extern void func_02047A60(void *,struct Arg *);
-extern u16 func_02047E88(struct Util *,const struct Setup *);
+extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
+extern u16 G3D_UTIL_AddUnit(struct Util *,const struct Setup *);
 extern unsigned func_020489F4(unsigned char *,int);
-extern unsigned func_020477A4(struct G3dSys *,unsigned);
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
-extern int func_020478B8(void *p, int a, int b);
+extern unsigned G3D_SYSTEM_EnableObjectAnime(struct G3dSys *,unsigned);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(void *p, int a, int b);
 char *func_021F63CC(unsigned mode,u16 heap);
 void func_021F6474(char *p);
 void func_021F64D0(char *a);
@@ -410,9 +410,9 @@ char *func_021F63CC(unsigned mode,u16 heap)
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((const struct DispVram *)d_021F71C4);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021F71C4);
     func_0204363C(mode);
-    func_0204361C();
+    BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
@@ -505,7 +505,7 @@ void func_021F651C(void *out,unsigned heap)
     unsigned i;
     func_02082BCC(out,0,4);
     func_0203F8F4(heap);
-    func_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021F7178);
     for(i=0;i<6;i++) {
         func_0203FCA0((u8)d_021F71F4[i].layer,&d_021F71F4[i].template,(u8)d_021F71F4[i].type);
@@ -526,7 +526,7 @@ void func_021F651C(void *out,unsigned heap)
  * lever: a named unsigned byte-address base keeps the table in r4 and
  * index in r5; the inline address swaps them, and word indexing adds lsl #2.
  */
-void func_021F657C(void *p){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));func_020450C8();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_021F657C(void *p){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
 
 
 
@@ -557,11 +557,11 @@ void func_021F65B8(void *a0){func_020419E4();}
 void func_021F65C0(unsigned char *p, int a, u32 b)
 {
     func_02082BCC(p, 0, 4);
-    func_0204A48C((const struct Cfg *)0x021F7188, a, b);
-    ((struct Obj14709 *)p)->f0 = func_0204B100(0x80, 0, b);
+    CLACT_InitSystem((const struct Cfg *)0x021F7188, a, b);
+    ((struct Obj14709 *)p)->f0 = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct Obj14709 *)p)->f0);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 
@@ -570,7 +570,7 @@ void func_021F65C0(unsigned char *p, int a, u32 b)
 
 
 
-void func_021F6600(char *p){func_0204B1CC(*(struct Bank * *)&((struct Obj25751 *)p)->f0);func_0204A5AC();func_02082BCC(p,0,4);}
+void func_021F6600(char *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25751 *)p)->f0);CLACT_ExitSystem();func_02082BCC(p,0,4);}
 
 
 
@@ -578,7 +578,7 @@ void func_021F6600(char *p){func_0204B1CC(*(struct Bank * *)&((struct Obj25751 *
 
 
 
-void func_021F661C(void *a0){func_0204A600();}
+void func_021F661C(void *a0){CLACT_DrawSystem();}
 
 
 
@@ -589,7 +589,7 @@ void func_021F661C(void *a0){func_0204A600();}
 /*
  * extent: includes cleared tiny follower func_021F662C; no further code included.
  */
-void func_021F6624(void *a0){func_0204A648();}
+void func_021F6624(void *a0){CLACT_VBlankSystem();}
 
 
 
@@ -610,8 +610,8 @@ int func_021F662C(void *p){return ((struct Obj25752 *)p)->f0;}
  */
 void func_021F6630(void **out,u16 heap)
 {
-    func_02046440(0,2,0,1,0,heap,func_021F6328);
-    *out=func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,4194304,0,&d_021F7160,&d_021F7154,&d_021F716C,heap);
+    G3D_SYSTEM_Init(0,2,0,1,0,heap,func_021F6328);
+    *out=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,4194304,0,&d_021F7160,&d_021F7154,&d_021F716C,heap);
 }
 
 
@@ -623,7 +623,7 @@ void func_021F6630(void **out,u16 heap)
 
 void func_021F669C(int *p)
 {
-    func_02046788(func_02048AC4((void *)(*p)));
+    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }
 
 
@@ -635,7 +635,7 @@ void func_021F669C(int *p)
 /*
  * extent: includes cleared tiny follower func_021F66C0; no further code included.
  */
-void func_021F66AC(void *p){func_02047964();func_02048AD0(*(struct Light * *)&((struct Obj25755 *)p)->f0);func_020479D8();}
+void func_021F66AC(void *p){func_02047964();func_02048AD0(*(struct Light * *)&((struct Obj25755 *)p)->f0);G3D_SYSTEM_ApplyLookAt();}
 
 
 
@@ -643,7 +643,7 @@ void func_021F66AC(void *p){func_02047964();func_02048AD0(*(struct Light * *)&((
 
 
 
-void func_021F66C0(void *p){func_02047970();}
+void func_021F66C0(void *p){G3D_SYSTEM_DrawEnd();}
 
 
 
@@ -753,7 +753,7 @@ void func_021F67E0(char *p)
             else if(W(24)==15)func_020061E4(1968);
             else if(W(24)==85)func_020061E4(1968);
             else if(W(24)==90)func_020061E4(1968);
-            if(W(28)&&!func_02006224(W(32))) {
+            if(W(28)&&!GFL_USE_IsSeSlotBusy(W(32))) {
                 W(28)=0;
                 if(W(24)>=150&&W(24)<309)W(36)=20;
                 else if(W(24)>309)W(36)=0;
@@ -761,12 +761,12 @@ void func_021F67E0(char *p)
             if(W(24)>=150&&W(24)<limit) {
                 if(!W(28)) {
                     if(!W(36)) {
-                        W(32)=func_02006148(1967);
+                        W(32)=GFL_USE_GetSeSlot(1967);
                         func_0200616C((void *)1967,W(32));
                         W(28)=1;
                     }else W(36)--;
                 }
-            }else if(W(24)==limit&&W(28)&&func_02006224(W(32))) {
+            }else if(W(24)==limit&&W(28)&&GFL_USE_IsSeSlotBusy(W(32))) {
                 func_020061F8(W(32));W(28)=0;
             }
         }
@@ -785,7 +785,7 @@ void func_021F67E0(char *p)
             W(12)=8;
             a=func_02017E1C(((struct Obj01083 *)p)->f4,5,0);
             b=func_02017E1C(((struct Obj01083 *)p)->f4,111,0);
-            func_02006984(a,b,64,0,0,0,0,0);
+            PM_VOICE_Play(a,b,64,0,0,0,0,0);
         }
         break;
     case 8:if(!func_02006650())W(12)=9;break;
@@ -1038,12 +1038,12 @@ char *func_021F6DB4(unsigned heap,unsigned count,const void *table)
     *(const void * *)&((struct Obj03373 *)p)->f8=table;
     ((struct Obj03373 *)p)->f4814=0;
     ((struct Obj03373 *)p)->f4818=-1;
-    func_02050B80(heap);
-    *(int *)&((struct Obj03373 *)p)->f480C=func_02050C04((int)(p+12),0x4800,1,heap);
+    PARTICLE_InitManager(heap);
+    *(int *)&((struct Obj03373 *)p)->f480C=PARTICLE_CreateSystemDefault((int)(p+12),0x4800,1,heap);
     config=d_021F7300;
-    resource=func_0205121C((unsigned)config,(unsigned)(config>>32),heap);
-    ((struct Obj03373 *)p)->f4810=func_02051B04((void *)resource);
-    func_02051230(((struct Obj03373 *)p)->f480C,resource,1,0);
+    resource=PARTICLE_LoadArchiveMember((unsigned)config,(unsigned)(config>>32),heap);
+    ((struct Obj03373 *)p)->f4810=BUTTON_MAN_GetResourceType((void *)resource);
+    PARTICLE_SetupSystem(((struct Obj03373 *)p)->f480C,resource,1,0);
     return p;
 }
 
@@ -1054,7 +1054,7 @@ char *func_021F6DB4(unsigned heap,unsigned count,const void *table)
 
 void func_021F6E4C(char *a)
 {
-    func_02050ED4();
+    PARTICLE_ExitManager();
     func_020307B0(a);
 }
 
@@ -1090,7 +1090,7 @@ void func_021F6E5C(char *p)
 
 
 
-void func_021F6EE4(char *p){func_02050BE8();}
+void func_021F6EE4(char *p){PARTICLE_Main();}
 
 
 
@@ -1103,12 +1103,12 @@ void func_021F6EEC(char *p){((struct Obj25763 *)p)->f4814=1;}
 
 
 
-void func_021F6EF8(char *p){unsigned z=0;func_02046BE0(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=func_02047CFC(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}
+void func_021F6EF8(char *p){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=G3D_UTIL_Create(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}
 
 
 
 
-void func_021F6F18(char *p){func_02047E54(*(struct Rec * *)&((struct Obj04636 *)p)->f48);}
+void func_021F6F18(char *p){G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj04636 *)p)->f48);}
 
 
 
@@ -1118,7 +1118,7 @@ void func_021F6F24(char *p)
     for(i=0;i<((struct Obj06708 *)p)->f50;i++) {
         char *entry=*(char * *)&((struct Obj06708 *)p)->f54+i*0x44;
         if(((struct Obj14714 *)entry)->f40)
-            func_02047A60((void *)func_02048A18(*(unsigned char * *)&((struct Obj06708 *)p)->f48,((struct Obj14714 *)entry)->f0),(struct Arg *)(entry+4));
+            G3D_SYSTEM_DrawObject((void *)func_02048A18(*(unsigned char * *)&((struct Obj06708 *)p)->f48,((struct Obj14714 *)entry)->f0),(struct Arg *)(entry+4));
     }
 }
 
@@ -1131,7 +1131,7 @@ void func_021F6F64(char *p)
     u16 i;
     void *q;
     int frame;
-    ((struct Obj00317 *)p)->f4C=func_02047E88(*(struct Util * *)&((struct Obj00317 *)p)->f48,&d_021F7330);
+    ((struct Obj00317 *)p)->f4C=G3D_UTIL_AddUnit(*(struct Util * *)&((struct Obj00317 *)p)->f48,&d_021F7330);
     ((struct Obj00317 *)p)->f50=1;
     *(struct Record * *)&((struct Obj00317 *)p)->f54=(struct Record *)func_021F66C8(((struct Obj00317 *)p)->f0,((struct Obj00317 *)p)->f50);
     id=func_020489F4(*(unsigned char * *)&((struct Obj00317 *)p)->f48,((struct Obj00317 *)p)->f4C);
@@ -1143,19 +1143,19 @@ void func_021F6F64(char *p)
     ((struct Obj06709 *)entry)->fC=0;
     ((struct Obj06709 *)entry)->f40=1;
     for(i=0;i<((struct Obj00317 *)p)->f50;i++)
-        func_020477A4((struct G3dSys *)func_02048A18(*(unsigned char * *)&((struct Obj00317 *)p)->f48,*(u16 *)(*(char * *)&((struct Obj00317 *)p)->f54+i*68)),0);
+        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(*(unsigned char * *)&((struct Obj00317 *)p)->f48,*(u16 *)(*(char * *)&((struct Obj00317 *)p)->f54+i*68)),0);
     ((struct Obj00317 *)p)->f58=0;
     q=(void *)func_02048A18(*(unsigned char * *)&((struct Obj00317 *)p)->f48,*(u16 *)(*(char * *)&((struct Obj00317 *)p)->f54+((struct Obj00317 *)p)->f4E*68));
     frame=0;
     ((struct Obj00317 *)p)->f5C=0;
-    func_020477A4((struct G3dSys *)q,1);
-    func_020477A4((struct G3dSys *)q,2);
-    func_0204784C((struct AnmCtl *)q,1,&frame);
-    func_0204784C((struct AnmCtl *)q,2,&frame);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)q,1);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)q,2);
+    G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)q,1,&frame);
+    G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)q,2,&frame);
 }
 
 
-void func_021F7028(char *p){func_020480E4(*(struct Ctx * *)&((struct Obj04636 *)p)->f48,((struct Obj04636 *)p)->f4C);func_021F6718(((struct Obj04636 *)p)->f54);((struct Obj04636 *)p)->f50=0;}
+void func_021F7028(char *p){G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj04636 *)p)->f48,((struct Obj04636 *)p)->f4C);func_021F6718(((struct Obj04636 *)p)->f54);((struct Obj04636 *)p)->f50=0;}
 
 
 
@@ -1166,18 +1166,18 @@ void func_021F7048(char *p)
     int a, b;
 
     for (i = 0; i < ((struct Obj01083 *)p)->f50; i++) {
-        func_02047910((void *)func_02048A18((unsigned char *)(((struct Obj01083 *)p)->f48), *(u16 *)(*(char * *)&((struct Obj01083 *)p)->f54 + i * 0x44)), 0, 0x1000);
+        G3D_SYSTEM_LoopObjectAnimeFrame((void *)func_02048A18((unsigned char *)(((struct Obj01083 *)p)->f48), *(u16 *)(*(char * *)&((struct Obj01083 *)p)->f54 + i * 0x44)), 0, 0x1000);
     }
     ((struct Obj01083 *)p)->f58 = ((struct Obj01083 *)p)->f58 + 1;
     q = (void *)func_02048A18((unsigned char *)(((struct Obj01083 *)p)->f48), *(u16 *)(*(char * *)&((struct Obj01083 *)p)->f54 + ((struct Obj01083 *)p)->f4E * 0x44));
     if (((struct Obj01083 *)p)->f5C == 1) {
-        a = func_020478B8(q, 1, 0x5000);
-        b = func_020478B8(q, 2, 0x5000);
+        a = G3D_SYSTEM_IncObjectAnimeFrame(q, 1, 0x5000);
+        b = G3D_SYSTEM_IncObjectAnimeFrame(q, 2, 0x5000);
         if (a == 0 && b == 0)
             ((struct Obj01083 *)p)->f5C = 2;
     } else if (((struct Obj01083 *)p)->f5C == 3) {
-        a = func_020478B8(q, 1, -0x2000);
-        b = func_020478B8(q, 2, -0x2000);
+        a = G3D_SYSTEM_IncObjectAnimeFrame(q, 1, -0x2000);
+        b = G3D_SYSTEM_IncObjectAnimeFrame(q, 2, -0x2000);
         if (a == 0 && b == 0)
             ((struct Obj01083 *)p)->f5C = 0;
     }

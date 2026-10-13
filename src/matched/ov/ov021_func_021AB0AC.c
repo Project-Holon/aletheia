@@ -1,5 +1,5 @@
 /*
- * function: func_021AB0AC
+ * function: EFFECT_ENCOUNT_StartItemEvent
  * address:  0x021AB0AC
  * packet:   pkt_ov021_021AB0AC
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb
- *   func_02158768  0x02158768  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb
  */
 
 typedef unsigned short u16;
@@ -30,11 +30,11 @@ typedef struct {
 } S;
 
 typedef unsigned char  u8;
-extern u16 func_02188C84(u8 *p);
-extern int func_02158768(void *a0, u32 a1, int a2, u16 a3);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern int SCRIPT_SYS_CreateScriptEventSimple(void *a0, u32 a1, int a2, u16 a3);
 
-void func_021AB0AC(S *s, u16 v)
+void EFFECT_ENCOUNT_StartItemEvent(S *s, u16 v)
 {
     s->f10->h5bc = v;
-    func_02158768(s->f4, 0x2795, 0, func_02188C84((u8 *)s->f0));
+    SCRIPT_SYS_CreateScriptEventSimple(s->f4, 0x2795, 0, FIELDMAP_GetHeapId((u8 *)s->f0));
 }

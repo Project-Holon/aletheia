@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02028A7C
+ * function: FIELD_SOUND_SYSTEM_ClaimSlot
  * address:  0x02028A7C
  * packet:   pkt_0202878C
  * region:   arm9
@@ -20,10 +20,10 @@
  * (docs/idioms/thumb-immediate-reach-costs-an-adds.md).
  *
  * symbols:
- *   func_02006148  0x02006148  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_021D21C0  0x021D21C0  thumb ov021
- *   func_021D21E0  0x021D21E0  thumb ov021
+ *   SCRCMD_FindRegisteredEntry  0x021D21C0  thumb ov021
+ *   SCRCMD_IsRegisteredEntryEnabled  0x021D21E0  thumb ov021
  *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *
  * The overlay callee 0x021D21C0 is attested through the label class
@@ -31,7 +31,7 @@
  *
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/func_02028A7C.c --addr 0x02028A7C --thumb
+ *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_ClaimSlot.c --addr 0x02028A7C --thumb
  */
 
 typedef unsigned short u16;
@@ -45,23 +45,23 @@ struct SoundSys2 {
     u32 unkB4;
 };
 
-extern int func_021D21C0(u32 id);
-extern int func_021D21E0(u32 id);
-extern int func_02006148(u32 a0);
+extern int SCRCMD_FindRegisteredEntry(u32 id);
+extern int SCRCMD_IsRegisteredEntryEnabled(u32 id);
+extern int GFL_USE_GetSeSlot(u32 a0);
 extern void func_020061E4(u32 id);
 extern void func_020061F0(u32 id, u32 who);
 extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 
-void func_02028A7C(struct SoundSys2 *s, u32 id)
+void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id)
 {
     u32 n;
 
-    if (func_021D21C0(id) == 0) {
+    if (SCRCMD_FindRegisteredEntry(id) == 0) {
         func_020061E4(id);
         return;
     }
-    if (func_021D21E0(id) != 0) {
-        n = func_02006148(id) - 1;
+    if (SCRCMD_IsRegisteredEntryEnabled(id) != 0) {
+        n = GFL_USE_GetSeSlot(id) - 1;
         s->slot[n] = id;
         s->owner[n] = 0xFFFF;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_02167AF0
+ * function: BSUBWAY_COMM_GetBeaconSize
  * address:  0x02167AF0
  * packet:   pkt_02167AF0
  * region:   ov010
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_02167AF0(void)
+int BSUBWAY_COMM_GetBeaconSize(void)
 {
     return 0x28;
 }

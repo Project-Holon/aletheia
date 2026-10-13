@@ -1,5 +1,5 @@
 /*
- * function: func_02165F64
+ * function: GAME_BEACON_ACCESSOR_GetPresetEventValue
  * address:  0x02165F64
  * packet:   pkt_ov010_02165F64
  * region:   ov010
@@ -31,7 +31,7 @@ typedef struct Rec {
     u16 f38;            /* 0x38 */
 } Rec;
 
-u32 func_02165F64(Rec *r)
+u32 GAME_BEACON_ACCESSOR_GetPresetEventValue(Rec *r)
 {
     if (r->type == 0x16)
         return r->f34.w;

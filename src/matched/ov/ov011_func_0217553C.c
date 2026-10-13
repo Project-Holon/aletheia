@@ -1,5 +1,5 @@
 /*
- * function: func_0217553C
+ * function: INTRUDE_COMM_ClearRequestResult
  * address:  0x0217553C
  * packet:   pkt_ov011_0217553C
  * region:   ov011
@@ -14,7 +14,7 @@
 
 typedef unsigned char u8;
 
-void func_0217553C(u8 *p)
+void INTRUDE_COMM_ClearRequestResult(u8 *p)
 {
     p[0x157] = 0;
 }

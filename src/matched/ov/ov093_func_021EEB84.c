@@ -1,5 +1,5 @@
 /*
- * function: func_021EEB84
+ * function: BTL_ADAPTER_StartSend
  * address:  0x021EEB84
  * packet:   pkt_ov093_021EEB84
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D4B58  0x021D4B58  thumb  ov093
+ *   BTL_NET_SendServerCmd  0x021D4B58  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -31,15 +31,15 @@ typedef struct {
     u8 d[1];
 } W;
 
-extern u32 func_021D4B58(u32 a, u32 b, u32 c);
+extern u32 BTL_NET_SendServerCmd(u32 a, u32 b, u32 c);
 
-u32 func_021EEB84(W *p)
+u32 BTL_ADAPTER_StartSend(W *p)
 {
     u16 *q;
 
     if (p->hi != 0) {
         q = &p->h10;
-        return func_021D4B58(p->f0d, (u32)q, q[1] + 4);
+        return BTL_NET_SendServerCmd(p->f0d, (u32)q, q[1] + 4);
     }
     return 1;
 }

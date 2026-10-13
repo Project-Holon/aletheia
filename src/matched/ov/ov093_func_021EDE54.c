@@ -8,10 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020437EC 0x020437EC arm
- *   func_020437D4 0x020437D4 arm
+ *   BMP_GetByteSize 0x020437EC arm
+ *   BMP_GetPixels 0x020437D4 arm
  *   func_02082A90 0x02082A90 arm
- *   func_021EEE24 0x021EEE24 thumb ov093
+ *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
+ *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
  */
 #include "../include/Obj01524.h"
 #include "../include/Obj02797.h"
@@ -23,15 +25,15 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Bmp;
 struct StrObj;
-extern u32 func_020437EC(const struct Bmp *bmp);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern u32 BMP_GetByteSize(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A90(const void *, void *, u32);
-extern void func_0201DD78(u32, u32, u32);
-extern void func_021EEE24(u32, u16, u32, ...);
+extern void GF_FONT_SetTextColor(u32, u32, u32);
+extern void BTL_MSG_FormatArgs(u32, u16, u32, ...);
 extern u32 func_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 void func_021EDE54(u8 *p)
 {
     u8 *q;
@@ -47,11 +49,11 @@ void func_021EDE54(u8 *p)
     u32 width;
     u32 center;
     q = *(u8 * *)&((struct Obj02797 *)p)->f0;
-    size = func_020437EC(((struct Obj02797 *)p)->f4);
-    pixels = func_020437D4(((struct Obj02797 *)p)->f4);
+    size = BMP_GetByteSize(((struct Obj02797 *)p)->f4);
+    pixels = BMP_GetPixels(((struct Obj02797 *)p)->f4);
     func_02082A90(*(u8 * *)&((struct Obj21616 *)(*(u8 * *)&((struct Obj21615 *)(*(u8 * *)&((struct Obj02797 *)p)->f0))->fDC))->f14 + p[0xa] * 0x900, pixels, size);
-    func_0201DD78(1, 2, 0);
-    func_021EEE24(*(u32 *)&((struct Obj01524 *)q)->f38, 0x67, 2, p[0xc], ((struct Obj02797 *)p)->f8);
+    GF_FONT_SetTextColor(1, 2, 0);
+    BTL_MSG_FormatArgs(*(u32 *)&((struct Obj01524 *)q)->f38, 0x67, 2, p[0xc], ((struct Obj02797 *)p)->f8);
     if ((u8)func_0201D33C(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f28, 0, widths, 2) > 1) {
         width = widths[0];
         edge = width + 8;
@@ -69,12 +71,12 @@ void func_021EDE54(u8 *p)
         if (left < 0) left = 0;
         if (right < 0) right = 0;
         func_0201D37C(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f3C, 0);
-        func_0201C7A4(((struct Obj02797 *)p)->f4, left, 7, ((struct Obj01524 *)q)->f3C, (void *)(((struct Obj01524 *)q)->f28));
+        PRINTSYS_Print(((struct Obj02797 *)p)->f4, left, 7, ((struct Obj01524 *)q)->f3C, (void *)(((struct Obj01524 *)q)->f28));
         func_0201D37C(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f3C, 1);
-        func_0201C7A4(((struct Obj02797 *)p)->f4, right, 18, ((struct Obj01524 *)q)->f3C, (void *)(((struct Obj01524 *)q)->f28));
+        PRINTSYS_Print(((struct Obj02797 *)p)->f4, right, 18, ((struct Obj01524 *)q)->f3C, (void *)(((struct Obj01524 *)q)->f28));
     } else {
         center = (0x88 - func_0201D304(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f28, 0)) / 2;
         if ((int)center < 0) center = 0;
-        func_0201C7A4(((struct Obj02797 *)p)->f4, center, 18, ((struct Obj01524 *)q)->f38, (void *)(((struct Obj01524 *)q)->f28));
+        PRINTSYS_Print(((struct Obj02797 *)p)->f4, center, 18, ((struct Obj01524 *)q)->f38, (void *)(((struct Obj01524 *)q)->f28));
     }
 }

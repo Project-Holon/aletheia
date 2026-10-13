@@ -1,5 +1,5 @@
 /*
- * function: func_02158824
+ * function: SCRIPT_SYS_Delete
  * address:  0x02158824
  * packet:   pkt_02158824
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02158824.c \
- *       --func func_02158824 --addr 0x02158824 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRIPT_SYS_Delete.c \
+ *       --func SCRIPT_SYS_Delete --addr 0x02158824 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_02158824(void *a0, unsigned a1, unsigned a2, unsigned a3)
+void SCRIPT_SYS_Delete(void *a0, unsigned a1, unsigned a2, unsigned a3)
 {
 
     func_020307B0(a0);

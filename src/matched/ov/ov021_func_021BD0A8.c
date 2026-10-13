@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0A8
+ * function: FIELD_PLACE_NAME_ResetFrame
  * address:  0x021BD0A8
  * packet:   pkt_021BD0A8
  * region:   ov021
@@ -13,7 +13,7 @@
 
 typedef unsigned short u16;
 
-void func_021BD0A8(char *p)
+void FIELD_PLACE_NAME_ResetFrame(char *p)
 {
     ((struct Obj20122 *)p)->f42 = 0;
 }

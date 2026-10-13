@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAF9C",
+   "name": "OPTION_MENU_ExitSettings",
    "address": "0x021BAF9C",
    "kind": "game",
    "region": "ov068",

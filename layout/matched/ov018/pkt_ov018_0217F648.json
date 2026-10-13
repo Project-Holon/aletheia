@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217F648",
+   "name": "EVENT_COMM_COMMON_CmdCallExitSyncEvent",
    "address": "0x0217F648",
    "kind": "game",
    "region": "ov018",

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B4C24 0x021B4C24 data
+ *   gVoiceFramePool 0x021B4C24 data
 */
 
 typedef struct E E;
@@ -20,11 +20,11 @@ typedef struct {
     E *buf;
 } G;
 
-extern G d_021B4C24;
+extern G gVoiceFramePool;
 
 void DWCi_InitReliableQueue(void)
 {
-    d_021B4C24.cur = 0;
-    d_021B4C24.buf = 0;
+    gVoiceFramePool.cur = 0;
+    gVoiceFramePool.buf = 0;
 }
 

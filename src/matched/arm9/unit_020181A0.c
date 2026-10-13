@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_TOOL_RecoverBoxAllPP, func_020181F4, POKE_TOOL_SetBoxMoveSlot
+ * function: POKE_TOOL_RecoverBoxAllPP, POKE_TOOL_SetMoveSlot, POKE_TOOL_SetBoxMoveSlot
  *
  * Two move-slot writers over the record's ids 0x36..0x39 (the four move ids),
  * 0x3A..0x3D (their current PP) and 0x3E..0x41 (their PP-up counts), the same
@@ -16,7 +16,7 @@
  * slot's PP to the maximum WAZA_TOOL_GetMaxPP computes from the move and its PP-up
  * count; POKE_TOOL_SetBoxMoveSlot writes one slot outright, clearing the PP-up count and
  * setting the PP to the fresh maximum, or to zero when the move is zero.
- * func_020181F4 in front of it is an eight byte
+ * POKE_TOOL_SetMoveSlot in front of it is an eight byte
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk, `local` because its
  * target is the next function in this unit.
  *
@@ -40,6 +40,8 @@
  * symbols:
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  */
 
 typedef unsigned char  u8;
@@ -47,8 +49,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
@@ -57,7 +59,7 @@ void POKE_TOOL_SetBoxMoveSlot(void *p, u16 move, u32 slot);
 
 void POKE_TOOL_RecoverBoxAllPP(void *p)
 {
-    u32 t = func_02017DBC(p);
+    u32 t = POKE_TOOL_DecodeBoxParam(p);
     u32 i;
 
     for (i = 0; i < 4; i++) {
@@ -69,10 +71,10 @@ void POKE_TOOL_RecoverBoxAllPP(void *p)
             POKE_TOOL_SetBoxValue(p, 0x3A + i, WAZA_TOOL_GetMaxPP((u16)m, (u8)u));
         }
     }
-    func_02017DE4(p, t);
+    POKE_TOOL_EncodeBoxParam(p, t);
 }
 
-void func_020181F4(void *p, u16 move, u32 slot)
+void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot)
 {
     POKE_TOOL_SetBoxMoveSlot(p, move, slot);
 }

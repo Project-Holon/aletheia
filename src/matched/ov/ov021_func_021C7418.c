@@ -1,5 +1,5 @@
 /*
- * function: func_021C7418
+ * function: FIELD_TASK_UpdateSpinLinear
  * address:  0x021C7418
  * packet:   pkt_ov021_021C7418
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   _ffltu         0x0209BE04  arm
- *   func_021C72F8  0x021C72F8  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
+ *   FIELD_TASK_GetSpinAcmdLinear  0x021C72F8  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -29,16 +29,16 @@ typedef struct {
     u16 he;
 } Ctl;
 
-extern u16 func_021C72F8(float a, float b, float c);
-extern void func_0216D410(u32 a, int b);
+extern u16 FIELD_TASK_GetSpinAcmdLinear(float a, float b, float c);
+extern void FLDMMDL_SetAcmd(u32 a, int b);
 
-int func_021C7418(Ctl *o)
+int FIELD_TASK_UpdateSpinLinear(Ctl *o)
 {
     u32 s;
     int k;
 
     s = o->w4;
-    func_0216D410(s,func_021C72F8((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
+    FLDMMDL_SetAcmd(s,FIELD_TASK_GetSpinAcmdLinear((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
     o->h8 = o->h8 + 1;
     if (o->ha < o->h8) {
         switch (o->he) {
@@ -48,7 +48,7 @@ int func_021C7418(Ctl *o)
         case 2: k = 2; break;
         case 3: k = 3; break;
         }
-        func_0216D410(s, k);
+        FLDMMDL_SetAcmd(s, k);
         return 1;
     }
     return 0;

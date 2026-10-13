@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4A4
+ * function: FLD_EXP_OBJ_SetModelCullDraw
  * address:  0x021BE4A4
  * packet:   pkt_ov021_021BE4A4
  * region:   ov021
@@ -13,11 +13,11 @@
  * pointer sits at +0xC of element i (stride 0x10).
  *
  * symbols:
- *   func_021BE4A4  0x021BE4A4  thumb
+ *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb
  */
 #include "../include/Obj20142.h"
 
-void func_021BE4A4(char *p, int i, int j, int v)
+void FLD_EXP_OBJ_SetModelCullDraw(char *p, int i, int j, int v)
 {
     char *e = p + i * 0x10;
 

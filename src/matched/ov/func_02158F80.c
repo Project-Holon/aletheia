@@ -1,5 +1,5 @@
 /*
- * function: func_02158F80
+ * function: SCRIPT_WORK_SetMsgData
  * address:  0x02158F80
  * packet:   pkt_02158F80
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-void func_02158F80(u8 *p, u32 v)
+void SCRIPT_WORK_SetMsgData(u8 *p, u32 v)
 {
     ((struct Obj17634 *)p)->f38 = v;
 }

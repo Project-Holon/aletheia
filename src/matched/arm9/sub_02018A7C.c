@@ -14,12 +14,12 @@
  * The six-stat recalculation of poke_tool.c, and the only thing in the region
  * that reads and writes the record through both halves of the dispatcher
  * quartet at once.  It takes no arguments but the record pointer: everything
- * it needs is read back through func_02017E1C (src/matched/unit_02017E1C.c)
- * and everything it produces is written through func_02017E40
+ * it needs is read back through POKE_TOOL_GetPartyValue (src/matched/unit_02017E1C.c)
+ * and everything it produces is written through POKE_TOOL_SetPartyValue
  * (src/matched/unit_02017E40.c), so the whole function is seventeen reads, a
  * base-stat table lookup, six formulas and six writes.
  *
- * Its single caller is func_020185C4 (src/pending/unit_020185C4.c), which was
+ * Its single caller is POKE_TOOL_RecalcParam (src/pending/unit_020185C4.c), which was
  * MATCH-capped on exactly this address; with this entry EXACT the `matched`
  * class carries that site and the parked file graduates.
  *
@@ -64,12 +64,12 @@
  * THE THREE THINGS THAT COST THE MOST TIME
  * ---------------------------------------------------------------------------
  * **The nature multiplier's first argument is a named local.**  Written
- * inline, `func_02019B04(func_02018598(p), (u16)stat, k)`, the first three
+ * inline, `func_02019B04(POKE_TOOL_GetNature(p), (u16)stat, k)`, the first three
  * stats are byte for byte right and the last two are not: the compiler hoists
- * the `bl func_02018598` in front of the arithmetic, which costs the `adds r5,
+ * the `bl POKE_TOOL_GetNature` in front of the arithmetic, which costs the `adds r5,
  * r0, #5` its fold and adds three instructions per stat, twelve bytes and 203
  * concrete bytes in total.  Binding the call result to a local before the
- * outer call, `nature = func_02018598(p);`, pins the evaluation order for all
+ * outer call, `nature = POKE_TOOL_GetNature(p);`, pins the evaluation order for all
  * five and is EXACT.  This is the store form of
  * docs/idioms/a-store-that-lands-after-the-next-call-names-a-local-temporary.md
  * seen at an argument rather than at a field, and the new file
@@ -114,15 +114,18 @@
  *
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   POKE_TOOL_GetNature  0x02018598  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32  func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u8 func_02018598(void *p);
+extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern u8 POKE_TOOL_GetNature(void *p);
 extern u32  func_02019B04(u32 a, u32 b, u32 n);
 extern void *func_02019C54(u32 a, u32 b);
 
@@ -151,23 +154,23 @@ void POKE_TOOL_CalcParam(void *p)
     u32 nature;
     s32 delta;
 
-    level = func_02017E1C(p, 0x9E, 0);
-    oldMax = func_02017E1C(p, 0xA1, 0);
-    cur = func_02017E1C(p, 0xA0, 0);
-    iv0 = func_02017E1C(p, 0x46, 0);
-    ev0 = func_02017E1C(p, 0x0D, 0);
-    iv1 = func_02017E1C(p, 0x47, 0);
-    ev1 = func_02017E1C(p, 0x0E, 0);
-    iv2 = func_02017E1C(p, 0x48, 0);
-    ev2 = func_02017E1C(p, 0x0F, 0);
-    iv3 = func_02017E1C(p, 0x49, 0);
-    ev3 = func_02017E1C(p, 0x10, 0);
-    iv4 = func_02017E1C(p, 0x4A, 0);
-    ev4 = func_02017E1C(p, 0x11, 0);
-    iv5 = func_02017E1C(p, 0x4B, 0);
-    ev5 = func_02017E1C(p, 0x12, 0);
-    form = func_02017E1C(p, 0x6F, 0);
-    species = func_02017E1C(p, 0x05, 0);
+    level = POKE_TOOL_GetPartyValue(p, 0x9E, 0);
+    oldMax = POKE_TOOL_GetPartyValue(p, 0xA1, 0);
+    cur = POKE_TOOL_GetPartyValue(p, 0xA0, 0);
+    iv0 = POKE_TOOL_GetPartyValue(p, 0x46, 0);
+    ev0 = POKE_TOOL_GetPartyValue(p, 0x0D, 0);
+    iv1 = POKE_TOOL_GetPartyValue(p, 0x47, 0);
+    ev1 = POKE_TOOL_GetPartyValue(p, 0x0E, 0);
+    iv2 = POKE_TOOL_GetPartyValue(p, 0x48, 0);
+    ev2 = POKE_TOOL_GetPartyValue(p, 0x0F, 0);
+    iv3 = POKE_TOOL_GetPartyValue(p, 0x49, 0);
+    ev3 = POKE_TOOL_GetPartyValue(p, 0x10, 0);
+    iv4 = POKE_TOOL_GetPartyValue(p, 0x4A, 0);
+    ev4 = POKE_TOOL_GetPartyValue(p, 0x11, 0);
+    iv5 = POKE_TOOL_GetPartyValue(p, 0x4B, 0);
+    ev5 = POKE_TOOL_GetPartyValue(p, 0x12, 0);
+    form = POKE_TOOL_GetPartyValue(p, 0x6F, 0);
+    species = POKE_TOOL_GetPartyValue(p, 0x05, 0);
     base = func_02019C54((u16)species, (u16)form);
 
     if (species == 292) {
@@ -176,27 +179,27 @@ void POKE_TOOL_CalcParam(void *p)
         newMax = (base[0] * 2 + iv0 + ev0 / 4) * level / 100 + level;
         newMax = newMax + 10;
     }
-    func_02017E40(p, 0xA1, newMax);
+    POKE_TOOL_SetPartyValue(p, 0xA1, newMax);
 
     stat = (base[1] * 2 + iv1 + ev1 / 4) * level / 100 + 5;
-    nature = func_02018598(p);
-    func_02017E40(p, 0xA2, func_02019B04(nature, (u16)stat, 1));
+    nature = POKE_TOOL_GetNature(p);
+    POKE_TOOL_SetPartyValue(p, 0xA2, func_02019B04(nature, (u16)stat, 1));
 
     stat = (base[2] * 2 + iv2 + ev2 / 4) * level / 100 + 5;
-    nature = func_02018598(p);
-    func_02017E40(p, 0xA3, func_02019B04(nature, (u16)stat, 2));
+    nature = POKE_TOOL_GetNature(p);
+    POKE_TOOL_SetPartyValue(p, 0xA3, func_02019B04(nature, (u16)stat, 2));
 
     stat = (base[3] * 2 + iv3 + ev3 / 4) * level / 100 + 5;
-    nature = func_02018598(p);
-    func_02017E40(p, 0xA4, func_02019B04(nature, (u16)stat, 5));
+    nature = POKE_TOOL_GetNature(p);
+    POKE_TOOL_SetPartyValue(p, 0xA4, func_02019B04(nature, (u16)stat, 5));
 
     stat = (base[4] * 2 + iv4 + ev4 / 4) * level / 100 + 5;
-    nature = func_02018598(p);
-    func_02017E40(p, 0xA5, func_02019B04(nature, (u16)stat, 3));
+    nature = POKE_TOOL_GetNature(p);
+    POKE_TOOL_SetPartyValue(p, 0xA5, func_02019B04(nature, (u16)stat, 3));
 
     stat = (base[5] * 2 + iv5 + ev5 / 4) * level / 100 + 5;
-    nature = func_02018598(p);
-    func_02017E40(p, 0xA6, func_02019B04(nature, (u16)stat, 4));
+    nature = POKE_TOOL_GetNature(p);
+    POKE_TOOL_SetPartyValue(p, 0xA6, func_02019B04(nature, (u16)stat, 4));
 
     if (cur != 0 || oldMax == 0) {
         if (species == 292) {
@@ -215,6 +218,6 @@ void POKE_TOOL_CalcParam(void *p)
         }
     }
     if (cur != 0) {
-        func_02017E40(p, 0xA0, cur);
+        POKE_TOOL_SetPartyValue(p, 0xA0, cur);
     }
 }

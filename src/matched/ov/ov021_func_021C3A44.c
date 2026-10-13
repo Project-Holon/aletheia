@@ -1,5 +1,5 @@
 /*
- * function: func_021C3A44
+ * function: SODATEYA_PutDittoSecond
  * address:  0x021C3A44
  * packet:   pkt_ov021_021C3A44
  * region:   ov021
@@ -12,19 +12,20 @@
  * Applies the special-case hook for species 0x84 holding item 2 (EXACT*: pad).
  *
  * symbols:
- *   func_021C3A70  0x021C3A70  thumb  ov021
+ *   SODATEYA_SwapParents  0x021C3A70  thumb  ov021
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void func_021C3A70(u32 *p);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern void SODATEYA_SwapParents(u32 *p);
 
-void func_021C3A44(void **p)
+void SODATEYA_PutDittoSecond(void **p)
 {
-    u32 sp = func_02017E1C(p[0], 5, 0);
-    u32 item = func_02017E1C(p[1], 0x6E, 0);
+    u32 sp = POKE_TOOL_GetPartyValue(p[0], 5, 0);
+    u32 item = POKE_TOOL_GetPartyValue(p[1], 0x6E, 0);
 
     if (sp == 0x84 && item == 2)
-        func_021C3A70((u32 *)p);
+        SODATEYA_SwapParents((u32 *)p);
 }

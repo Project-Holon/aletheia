@@ -1,5 +1,5 @@
 /*
- * function: func_021AF1D0
+ * function: SCRCMD_ResumeBgmSlotsEvent
  * address:  0x021AF1D0
  * packet:   pkt_021AF1D0
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02028BDC  0x02028BDC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_ResumeSlots  0x02028BDC  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18089.h"
@@ -25,15 +25,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *);
 struct S;
-extern void func_02028BDC(struct S *s, u32 mask);
+extern void FIELD_SOUND_SYSTEM_ResumeSlots(struct S *s, u32 mask);
 
-int func_021AF1D0(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_ResumeBgmSlotsEvent(u32 a, u32 b, u32 c, u32 d)
 {
-func_02028BDC((struct S *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)(((struct Obj18089 *)((u8 *)(a)))->f0))), 2);
+FIELD_SOUND_SYSTEM_ResumeSlots((struct S *)GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj18089 *)((u8 *)(a)))->f0))), 2);
 return 1;
 }
 

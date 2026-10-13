@@ -1,5 +1,5 @@
 /*
- * function: func_021D96DC
+ * function: BTL_TOKUSEI_CureSickIfOwner
  * address: 0x021D96DC
  * packet: pkt_ov093_021D96DC
  * region: ov093
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D96FC 0x021D96FC thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_TOKUSEI_CureSick 0x021D96FC thumb ov093
  */
-extern int func_021D775C(int);
-extern void func_021D96FC(void *a, int b, int c);
-void func_021D96DC(int a,int b,int c) { if(b==func_021D775C(2)) func_021D96FC((void *)a,b,c); }
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_TOKUSEI_CureSick(void *a, int b, int c);
+void BTL_TOKUSEI_CureSickIfOwner(int a,int b,int c) { if(b==BTL_EVENT_GetVar(2)) BTL_TOKUSEI_CureSick((void *)a,b,c); }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D678
+ * function: FLDMMDL_GetDrawStatus
  * address:  0x0216D678
  * packet:   pkt_ov010_0216D678
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_0216D678(void *p)
+u16 FLDMMDL_GetDrawStatus(void *p)
 {
     return ((struct Obj19127 *)p)->f2A;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6F34",
+   "name": "BTL_SERVER_FLOW_QueryPokeGroundedEvent",
    "address": "0x021C6F34",
    "kind": "game",
    "region": "ov093",

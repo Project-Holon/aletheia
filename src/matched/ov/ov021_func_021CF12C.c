@@ -1,5 +1,5 @@
 /*
- * function: func_021CF12C
+ * function: COMM_ENTRY_IsOtherMemberConnected
  * address:  0x021CF12C
  * packet:   pkt_ov021_021CF12C
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_0203D1C0  0x0203D1C0  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  */
 
 typedef unsigned char u8;
@@ -20,17 +20,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
-extern u32 func_0203D1C0(u32 index);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern u32 GFL_NET_IsConnectMember(u32 index);
 
-int func_021CF12C(int mask)
+int COMM_ENTRY_IsOtherMemberConnected(int mask)
 {
     u8 i;
 
     for (i = 0; i < 4; i++) {
-        if (i != func_0203D1A4((struct Link *)((int)func_020399A8())) && ((1 << i) & mask) && func_0203D1C0(i) == 1) {
+        if (i != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) && ((1 << i) & mask) && GFL_NET_IsConnectMember(i) == 1) {
             return 1;
         }
     }

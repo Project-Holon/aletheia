@@ -1,5 +1,5 @@
 /*
- * function: func_021F38AC
+ * function: DAILY_LAYOUT_PickDistinct
  * address:  0x021F38AC
  * packet:   pkt_ov036_021F38AC
  * region:   ov036
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
 
-void func_021F38AC(int n, int m, unsigned char *buf, unsigned char *out)
+void DAILY_LAYOUT_PickDistinct(int n, int m, unsigned char *buf, unsigned char *out)
 {
     unsigned char i;
     unsigned char j;

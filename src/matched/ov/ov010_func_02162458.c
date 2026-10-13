@@ -1,5 +1,5 @@
 /*
- * function: func_02162458
+ * function: EVENTDATA_SYSTEM_IsEncountDataLoaded
  * address:  0x02162458
  * packet:   pkt_ov010_02162458
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled thumb leaf (ldr r0,[r0,#0x34]; bx lr), the sole blocker of
- * ov021 func_021892CC (lane S26).
+ * ov021 FIELDMAP_UpdateZoneChange (lane S26).
  * symbols:
  * Addresses are Black-image addresses.
  */
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_02162458(u8 *p)
+u32 EVENTDATA_SYSTEM_IsEncountDataLoaded(u8 *p)
 {
     return ((struct Obj18957 *)p)->f34;
 }

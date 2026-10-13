@@ -15,7 +15,7 @@
  * extent: unlabelled boolean accessor MYSTERY_ALBUM_IsIntroIdle at 0x021DE014 follows.
  * symbols:
  *   func_021DC024 0x021DC024 thumb ov121
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
  *   MYSTERY_ALBUM_SetBlendMain 0x021DDC30 arm ov121
  *   MYSTERY_ALBUM_SetBlendSub 0x021DDC44 arm ov121
@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021DC024(void *);
-extern void func_0204B84C(void *,u8);
+extern void CLACT_SetActorBgPriority(void *,u8);
 typedef unsigned int   u32;
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 extern void MYSTERY_ALBUM_SetBlendMain(int,int);
@@ -39,7 +39,7 @@ void MYSTERY_ALBUM_ResetIntro(char *p)
     if (func_021DC024(p)==1) {
         *(u16 *)(p+0xdc)=0;
         *(u16 *)(p+0xde)=0;
-        func_0204B84C(*(void **)(*(char **)(p+0x11c)+0x20),*(unsigned *)(*(char **)(p+0x11c)+0x8c));
+        CLACT_SetActorBgPriority(*(void **)(*(char **)(p+0x11c)+0x20),*(unsigned *)(*(char **)(p+0x11c)+0x8c));
         if (*(int *)(*(char **)(p+0x11c)+0x84)) {
             palette=(char *)(CLACT_GetPaletteVramAddress((u32)(*(void **)(*(char **)(p+0x11c)+0x10)),*(int *)(*(char **)(p+0x11c)+0x98))+0x05000200);
             blend=MYSTERY_ALBUM_SetBlendMain;

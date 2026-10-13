@@ -1,5 +1,5 @@
 /*
- * function: func_021EF9C8
+ * function: BTL_FIELD_ClearCountdown
  * address:  0x021EF9C8
  * packet:   pkt_ov093_021EF9C8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-void func_021EF9C8(int *p)
+void BTL_FIELD_ClearCountdown(int *p)
 {
     p[0] = 0;
     p[1] = 0;

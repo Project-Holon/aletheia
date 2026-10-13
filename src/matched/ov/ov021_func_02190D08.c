@@ -1,5 +1,5 @@
 /*
- * function: func_02190D08
+ * function: FIELD_MSGBG_MsgStreamCallback
  * address:  0x02190D08
  * packet:   pkt_ov021_02190D08
  * region:   ov021
@@ -23,7 +23,7 @@ typedef short          s16;
 extern void func_020061E4(u32 se);
 extern int func_02006238(void);
 
-int func_02190D08(int x)
+int FIELD_MSGBG_MsgStreamCallback(int x)
 {
     switch (x) {
     case 3:

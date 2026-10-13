@@ -1,5 +1,5 @@
 /*
- * function: func_021579A4
+ * function: DELIVERY_IRC_GetRecvBuffer
  * address: 0x021579A4
  * packet: pkt_ov010_021579A4
  * region: ov010
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned char u8;
-u8 *func_021579A4(int a, u8 *p);
+u8 *DELIVERY_IRC_GetRecvBuffer(int a, u8 *p);
 
-u8 *func_021579A4(int a, u8 *p) { return p + 0x7c; }
+u8 *DELIVERY_IRC_GetRecvBuffer(int a, u8 *p) { return p + 0x7c; }

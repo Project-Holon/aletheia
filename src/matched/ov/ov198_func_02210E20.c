@@ -22,7 +22,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EEF4 0x0201EEF4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 int func_02210E20(u8 *p)
 {
     u32 index=func_022110D4(p,(*(u8 **)p)[32]);
@@ -64,6 +64,6 @@ int func_02210E20(u8 *p)
     case 0: return 1;
     }
     func_0201F250(*(void **)(p+0x1EA4),*(void **)(p+0x1EA8),text);
-    func_02045808(text);
+    STRBUF_Delete(text);
     return 0;
 }

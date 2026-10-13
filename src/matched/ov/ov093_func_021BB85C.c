@@ -1,5 +1,5 @@
 /*
- * function: func_021BB85C
+ * function: BTL_SERVER_GetClientChecked
  * address: 0x021BB85C
  * packet: pkt_ov093_021BB85C
  * region: ov093
@@ -10,4 +10,4 @@
  * status: EXACT*
  */
 typedef unsigned char u8;
-u8 *func_021BB85C(u8 *p, unsigned int i) { if (i < 4 && (p+i*12)[31] != 255) return p+20+i*12; return 0; }
+u8 *BTL_SERVER_GetClientChecked(u8 *p, unsigned int i) { if (i < 4 && (p+i*12)[31] != 255) return p+20+i*12; return 0; }

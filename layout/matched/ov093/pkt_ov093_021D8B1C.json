@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D8B1C",
-    "func_021D8B44"
+    "BTL_CALC_TintedLensDoubleResisted",
+    "BTL_CALC_GetTintedLensHandlers"
+   ],
+   "addresses": [
+    "0x021D8B1C",
+    "0x021D8B44"
    ],
    "evidence": {
     "sole-ref": [

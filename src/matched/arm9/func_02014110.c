@@ -1,5 +1,5 @@
 /*
- * function: func_02014110
+ * function: ZONEDATA_SetExitLocation
  * address:  0x02014110
  * packet:   pkt_02014110
  * region:   arm9
@@ -24,7 +24,7 @@ typedef struct {
     u32 x0C, x10, x14, x18;
 } Rect14110;
 
-void func_02014110(Rect14110 *p, u16 a, u16 b, u16 c, u16 d, u32 e, u32 f, u32 g)
+void ZONEDATA_SetExitLocation(Rect14110 *p, u16 a, u16 b, u16 c, u16 d, u32 e, u32 f, u32 g)
 {
     p->x00 = 0;
     p->x04 = a;

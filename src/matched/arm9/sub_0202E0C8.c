@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *
  * A two-iteration loop over a two-element pointer array at offset 8, not
  * two calls written out: the `lsls`/`adds`/`ldr` address arithmetic and
@@ -32,13 +32,13 @@ struct Obj0202E0C8 {
 };
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void sub_0202E0C8(struct Obj0202E0C8 *p)
 {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        func_0204B3B4(p->unk08[i]);
+        CLACT_DeleteActor(p->unk08[i]);
     }
 }

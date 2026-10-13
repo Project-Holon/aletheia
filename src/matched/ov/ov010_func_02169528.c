@@ -1,5 +1,5 @@
 /*
- * function: func_02169528
+ * function: FIELD_G3D_MAP_GetBuffer
  * address:  0x02169528
  * packet:   pkt_ov010_02169528
  * region:   ov010
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj19043.h"
 
-void func_02169528(unsigned char *a, int *out)
+void FIELD_G3D_MAP_GetBuffer(unsigned char *a, int *out)
 {
     *out = ((struct Obj19043 *)a)->fD4;
 }

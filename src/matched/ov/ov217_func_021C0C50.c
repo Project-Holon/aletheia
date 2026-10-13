@@ -12,12 +12,12 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_02021540  0x02021540  thumb
+ *   PALANM_Delete  0x02021540  thumb
  *   func_021C0C50  0x021C0C50  thumb  ov217
  *
 
  * BLOCKED at MATCH: the relocation site(s) below have no independent witness.
- *   +0008 ABS32 func_02021540          -> unresolved: 02021540 (arm, from name) has no witness outside 021C0C50..021C0C5C
+ *   +0008 ABS32 PALANM_Delete          -> unresolved: 02021540 (arm, from name) has no witness outside 021C0C50..021C0C5C
  * Promote automatically when the target is matched.
  *
  * Addresses are Black-image addresses.
@@ -31,9 +31,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02021540(void *a0);
+extern u32 PALANM_Delete(void *a0);
 void func_021C0C50(u8 *a0)
 {
-    func_02021540((void *)(((struct Obj25990 *)(((u8*)a0)))->f28));
+    PALANM_Delete((void *)(((struct Obj25990 *)(((u8*)a0)))->f28));
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02195E90
+ * function: TALKMSGWIN_ClearFrame
  * address:  0x02195E90
  * packet:   pkt_ov021_02195E90
  * region:   ov021
@@ -11,14 +11,14 @@
  *
  * Clears the one-tile frame around a window (tile 0 on all eight edges),
  * skipping any edge that touches the 32x24 screen border. The erase
- * counterpart of func_02195938.
+ * counterpart of TALKMSGWIN_DrawCorneredFrame.
  *
  * symbols:
  *   func_02045758  0x02045758  arm
  *   func_02045760  0x02045760  arm
  *   func_02045748  0x02045748  arm
  *   func_02045750  0x02045750  arm
- *   func_020456F8  0x020456F8  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  */
@@ -37,11 +37,11 @@ extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 extern u8 func_02045748(struct Descriptor *p);
 extern u8 func_02045750(struct Descriptor *p);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
 extern void func_020409B4(u32 index);
 
-void func_02195E90(struct FrameStyle *style, void *win)
+void TALKMSGWIN_ClearFrame(struct FrameStyle *style, void *win)
 {
     u16 x;
     u16 y;
@@ -66,7 +66,7 @@ void func_02195E90(struct FrameStyle *style, void *win)
     rightClip = 0;
     bg = style->bgLayer;
 
-    func_020456F8(win);
+    BMP_WIN_ClearScreen(win);
 
     if (x == 0)
         leftClip = 1;

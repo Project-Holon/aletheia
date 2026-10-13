@@ -1,5 +1,5 @@
 /*
- * function: func_021A6D58
+ * function: FIELDMAP_CTRL_NOGRID_WORK_CreateWork
  * address:  0x021A6D58
  * packet:   pkt_ov021_021A6D58
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3664  0x021A3664  thumb  ov021
- *   func_021A36A4  0x021A36A4  thumb  ov021
- *   func_021BB3AC  0x021BB3AC  thumb  ov021
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_CreateNogrid  0x021A3664  thumb  ov021
+ *   FIELD_PLAYER_GetNogridState  0x021A36A4  thumb  ov021
+ *   FIELD_NOGRID_MAPPER_BindCameraWork  0x021BB3AC  thumb  ov021
  *   sub_02030734   0x02030734  arm
  *   data_021DDF1C  0x021DDF1C  data  a1
  * Addresses are Black-image addresses.
@@ -25,23 +25,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02188C5C(u8 *p);
+extern u32 FIELDMAP_GetNogridMapper(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3664(u32 *p, u32 heap);
-extern u32 func_021A36A4(u8 *p);
-extern void func_021BB3AC(u8 *p, u32 b);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void FIELD_PLAYER_CreateNogrid(u32 *p, u32 heap);
+extern u32 FIELD_PLAYER_GetNogridState(u8 *p);
+extern void FIELD_NOGRID_MAPPER_BindCameraWork(u8 *p, u32 b);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_021DDF1C[];
 
-u32 *func_021A6D58(void *a, u32 heap)
+u32 *FIELDMAP_CTRL_NOGRID_WORK_CreateWork(void *a, u32 heap)
 {
-    u32 r7 = func_02188C5C(a);
+    u32 r7 = FIELDMAP_GetNogridMapper(a);
     u32 *p = sub_02030734(heap, 8, 1, data_021DDF1C, 0x3e);
-    void *r6 = func_02188CB4(a);
+    void *r6 = FIELDMAP_GetFieldPlayer(a);
 
     ((struct Obj19810 *)p)->f0 = r6;
-    func_021A3664(r6, heap);
-    func_021BB3AC((u8 *)r7, func_021A36A4(r6));
+    FIELD_PLAYER_CreateNogrid(r6, heap);
+    FIELD_NOGRID_MAPPER_BindCameraWork((u8 *)r7, FIELD_PLAYER_GetNogridState(r6));
     return p;
 }

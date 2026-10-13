@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4F8
+ * function: FLD_EXP_OBJ_Draw
  * address:  0x021BE4F8
  * packet:   pkt_ov021_021BE4F8
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BE4F8  0x021BE4F8  thumb
+ *   FLD_EXP_OBJ_Draw  0x021BE4F8  thumb
  *   func_020489F4  0x020489F4  arm
  *   func_02048A00  0x02048A00  arm
  *   func_02048A18  0x02048A18  arm
- *   func_02047AC8  0x02047AC8  arm
- *   func_02047A60  0x02047A60  arm
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
+ *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  */
 #include "../include/Obj06057.h"
 #include "../include/Obj09660.h"
@@ -30,10 +30,10 @@ extern u32 func_02048A00(u8 *a0, int i);
 struct Arg;
 extern u32 func_02048A18(u8 *a0, int i);
 struct Arg;
-extern int func_02047AC8(void *a0, struct Arg *a1);
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
-void func_021BE4F8(char *p)
+void FLD_EXP_OBJ_Draw(char *p)
 {
     u8 i;
     u8 j;
@@ -52,9 +52,9 @@ void func_021BE4F8(char *p)
                     void *r = (void *)func_02048A18(((struct Obj09660 *)p)->f4, (u16)(base + j));
                     ent = *(char * *)&((struct Obj06057 *)e)->fC + j * 0x44;
                     if (((struct Obj20144 *)ent)->f0 != 0) {
-                        func_02047AC8(r, (struct Arg *)(ent + 8));
+                        G3D_SYSTEM_DrawObjectCulling(r, (struct Arg *)(ent + 8));
                     } else {
-                        func_02047A60(r, (struct Arg *)(ent + 8));
+                        G3D_SYSTEM_DrawObject(r, (struct Arg *)(ent + 8));
                     }
                 }
             }

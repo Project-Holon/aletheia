@@ -1,5 +1,5 @@
 /*
- * function: func_0216C8B0
+ * function: NAMEIN_SETUP_ExitHostProc
  * address: 0x0216C8B0
  * packet: pkt_ov010_0216C8B0
  * region: ov010
@@ -19,6 +19,6 @@ struct S020315D4;
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
-int func_0216C8B0(void *a, int b, int c, void **d) {
+int NAMEIN_SETUP_ExitHostProc(void *a, int b, int c, void **d) {
     func_0203133C(*d); func_020315D4(a); func_020306F0(0x76); return 1;
 }

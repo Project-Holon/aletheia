@@ -1,5 +1,5 @@
 /*
- * function: func_02162FC8
+ * function: EVENTDATA_SYSTEM_IsPosEventRailHit
  * address:  0x02162FC8
  * packet:   pkt_ov010_02162FC8
  * region:   ov010
@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef short s16;
 
-int func_02162FC8(char *p, u16 *v)
+int EVENTDATA_SYSTEM_IsPosEventRailHit(char *p, u16 *v)
 {
     u16 *q;
 

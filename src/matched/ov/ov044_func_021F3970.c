@@ -1,5 +1,5 @@
 /*
- * function: func_021F3970
+ * function: GIMMICK44_SnapLiftToBottom
  * address:  0x021F3970
  * packet:   pkt_ov044_021F3970
  * region:   ov044
@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021A3044  0x021A3044  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  */
 
 typedef unsigned int u32;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 typedef unsigned char  u8;
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern void *func_02188C58(void *p);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218EC54(u8 *p);
-extern int func_021BE480(char *p, unsigned i, int j);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void *FIELDMAP_GetCamera(void *p);
+extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(u8 *p, void *v);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 
-void func_021F3970(void *a)
+void GIMMICK44_SnapLiftToBottom(void *a)
 {
     void *s;
     void *r;
@@ -48,15 +48,15 @@ void func_021F3970(void *a)
     void *c;
     int v[3];
 
-    s = func_0201210C((void *)a);
-    r = (void *)func_02188D2C(s);
-    p = func_021897BC(s, 1);
-    h = (u32)func_02188C58(s);
-    p[3] = func_0218EC5C((u8 *)h);
-    func_0218EC54((u8 *)h);
-    ((int *)func_021BE480(r, 0, 0))[1] = -0x50000;
-    c = func_02188CB4((void *)s);
-    func_021A3038(c, (struct VecFx32 *)v);
+    s = GAMESYSTEM_GetFieldMap((void *)a);
+    r = (void *)FIELDMAP_GetExpObj(s);
+    p = FIELDMAP_GetCommonWork(s, 1);
+    h = (u32)FIELDMAP_GetCamera(s);
+    p[3] = FIELD_CAMERA_GetTraceTarget((u8 *)h);
+    FIELD_CAMERA_StopTargetTrace((u8 *)h);
+    ((int *)FLD_EXP_OBJ_GetModelStatus(r, 0, 0))[1] = -0x50000;
+    c = FIELDMAP_GetFieldPlayer((void *)s);
+    FIELD_PLAYER_GetPos(c, (struct VecFx32 *)v);
     v[1] = -0x50000;
-    func_021A3044(c, v);
+    FIELD_PLAYER_SetPos(c, v);
 }

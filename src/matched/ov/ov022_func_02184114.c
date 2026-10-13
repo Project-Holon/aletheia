@@ -1,5 +1,5 @@
 /*
- * function: func_02184114
+ * function: UNION_APP_Close
  * address:  0x02184114
  * packet:   pkt_02184114
  * region:   ov022
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1E8  0x0203D1E8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
  */
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-extern void func_0203D1E8(u32 unused, void *arg);
+extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
 
-int func_02184114(unsigned char *p)
+int UNION_APP_Close(unsigned char *p)
 {
     if (p[4] == 0) {
-        func_0203D1E8((u32)func_020399A8(), 0);
+        GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
         p[9] = 1;
         return 1;
     }

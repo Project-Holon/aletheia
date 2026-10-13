@@ -11,13 +11,13 @@
  * note: Two alignment bytes follow; existing pkt_ov011_02173D2C covers
  *       the next function's push at 02173D2C. No unit is created.
  * symbols:
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   INTRUDE_COMM_SetMemberEntry 0x02175F34 thumb ov011
  *   INTRUDE_COMM_SetSessionEntrySendFlag 0x02175914 thumb ov011
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_0203D378(void);
+u32 GFL_NET_IsParentAid(void);
 typedef unsigned short u16;
 typedef struct Ent {
     u16 h[8];
@@ -29,7 +29,7 @@ void INTRUDE_COMM_SetSessionEntrySendFlag(int a, int b);
 
 void INTRUDE_CMD_RecvEntryIndex(u32 a, int b, int *c, u8 *d)
 {
-    if (func_0203D378()) {
+    if (GFL_NET_IsParentAid()) {
         INTRUDE_COMM_SetMemberEntry(d, (Ent *)(d + 0x1ac), a, *c);
         INTRUDE_COMM_SetSessionEntrySendFlag((int)(d + 0x1ac), *c);
     }

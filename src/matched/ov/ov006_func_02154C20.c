@@ -1,5 +1,5 @@
 /*
- * function: func_02154C20
+ * function: EVENT_WIFICLUB_Entry
  * address:  0x02154C20
  * packet:   pkt_ov006_02154C20
  * region:   ov006
@@ -13,8 +13,8 @@
  * EVENT_WIFICLUB_Create (docs/idioms/tail-call-is-a-pool-word-and-bx.md). Region
  * ov006: the only overlay mapped at this address; Thumb code directly after
  * the pool word of EVENT_WIFICLUB_Create, which is also its tail-call target.
- * ov021 func_021B4C54 passes it as a function pointer together with the block
- * {func_0201210C(..), 0} (wave A1 witness).
+ * ov021 SCRCMD_PROC_FLD_CallOv006Event passes it as a function pointer together with the block
+ * {GAMESYSTEM_GetFieldMap(..), 0} (wave A1 witness).
  *
  * symbols:
  *   EVENT_WIFICLUB_Create  0x02154BF8  thumb  ov006
@@ -28,7 +28,7 @@ typedef struct Pair {
 
 extern int EVENT_WIFICLUB_Create(int a, int b, int c);
 
-int func_02154C20(int x, Pair *p)
+int EVENT_WIFICLUB_Entry(int x, Pair *p)
 {
     return EVENT_WIFICLUB_Create(x, p->a, p->b);
 }

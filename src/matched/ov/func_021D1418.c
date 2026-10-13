@@ -1,5 +1,5 @@
 /*
- * function: func_021D1418
+ * function: FIELD_SAVEANIME_HideWindow
  * address:  0x021D1418
  * packet:   pkt_021D1418
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_020456F8  0x020456F8  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_02040588  0x02040588  arm
  * Addresses are Black-image addresses.
@@ -27,11 +27,11 @@ typedef signed char    s8;
 extern u32 func_02040588(u32, u32);
 extern void func_02041B6C(u32 bit);
 struct Descriptor;
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
-int func_021D1418(void *a)
+int FIELD_SAVEANIME_HideWindow(void *a)
 {
-func_020456F8((struct Descriptor *)(((struct Obj18373 *)((u8 *)(a)))->f4));
+BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj18373 *)((u8 *)(a)))->f4));
 func_02041B6C(3);
 return func_02040588(3, 0);
 }

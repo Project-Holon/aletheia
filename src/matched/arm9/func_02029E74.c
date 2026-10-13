@@ -14,6 +14,8 @@
  * symbols:
  *   sZoneBgmOverrides  0x0209FE94  data
  *   g_0209FE98  0x0209FE98  data
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *
  * 2026-09-21, FAMILY wave.  Re-verified in a fresh process: still MATCH,
  * every concrete byte identical.  Evidence worked to exhaustion:
@@ -38,19 +40,19 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 struct BigObj;
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020142E8(void *bitmap, s32 id);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u8  sZoneBgmOverrides[];
 extern u8  g_0209FE98[];
 
 u32 FIELD_SOUND_SYSTEM_FindZoneBgmOverride(u32 a0, u16 a1)
 {
-    u32 v = func_0201296C((const struct BigObj *)a0);
+    u32 v = GAME_DATA_GetEventWork((const struct BigObj *)a0);
     u32 i;
 
     for (i = 0; i < 8; i++) {
         if (a1 == *(u16 *)(sZoneBgmOverrides + i * 8 + 2)) {
-            if (func_020142E8((void *)v, *(u16 *)(sZoneBgmOverrides + i * 8)) == 1) {
+            if (ZONEDATA_CheckEventFlag((void *)v, *(u16 *)(sZoneBgmOverrides + i * 8)) == 1) {
                 return *(u32 *)(g_0209FE98 + i * 8);
             }
         }

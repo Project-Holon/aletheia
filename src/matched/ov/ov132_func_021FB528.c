@@ -10,7 +10,7 @@
  * status: EXACT
  * lever: Void callback return omits the extra zero result instruction.
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F9DA0 0x021F9DA0 thumb ov132
  *   func_021FAE4C 0x021FAE4C thumb ov132
  *   func_021F8054 0x021F8054 thumb ov112
@@ -18,7 +18,7 @@
  */
 #include "../include/Obj08163.h"
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *);
+extern unsigned int VM_GetU32(struct Cursor *);
 extern void *func_021F9DA0(char *p);
 extern int func_021FAE4C(char *,int *);
 extern void func_021F8054(void *,unsigned int *,const unsigned int *);

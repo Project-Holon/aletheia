@@ -16,7 +16,7 @@
  * symbols:
  *   d_0220AAF0     0x0220AAF0  data   ov094  a4
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 
 typedef unsigned int u32;
@@ -39,7 +39,7 @@ typedef struct T7 {
 extern T7 d_0220AAF0;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void func_02208814(O *obj, int k, int idx)
 {
@@ -48,10 +48,10 @@ void func_02208814(O *obj, int k, int idx)
     if (obj->e[idx].h != 0) {
         if (k == 0) {
             func_0204B3DC((struct Obj *)obj->e[idx].h, 0);
-            func_0204B878((struct Obj *)obj->e[idx].h, 0);
+            CLACT_SetActorAnimSeq((struct Obj *)obj->e[idx].h, 0);
         } else {
             func_0204B3DC((struct Obj *)obj->e[idx].h, 1);
-            func_0204B878((struct Obj *)obj->e[idx].h, t.w[k]);
+            CLACT_SetActorAnimSeq((struct Obj *)obj->e[idx].h, t.w[k]);
         }
     }
 }

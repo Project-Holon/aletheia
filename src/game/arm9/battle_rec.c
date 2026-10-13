@@ -1,7 +1,7 @@
 /*
  * file:     battle_rec.c
  * unit:     yes
- * function: func_0200B2A4, func_0200B348, func_0200B358, func_0200B364, func_0200B368, func_0200B37C, func_0200B394, func_0200B3A4, func_0200B3A8, func_0200B3AC, func_0200B3B0, func_0200B3C8, BATTLE_REC_Create, BATTLE_REC_AllocWork, func_0200B424, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize, BATTLE_REC_Clear, BATTLE_REC_IsDataExist, BATTLE_REC_ClearWork, BATTLE_REC_DecodeWork, BATTLE_REC_EncodeWork, BATTLE_REC_LoadToWork, BATTLE_REC_Load, BATTLE_REC_LoadAlloc, func_0200B5CC, BATTLE_REC_SaveSeq, func_0200B6E0, BATTLE_REC_GetModeLayout, BATTLE_REC_MakeHeader, BATTLE_REC_IsMagicBroken, BATTLE_REC_IsValid, BATTLE_REC_Decode, BATTLE_REC_Encode, BATTLE_REC_GetWork, BATTLE_REC_GetBody, BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf, BATTLE_REC_SetData, BATTLE_REC_GetHeaderParam, func_0200BA38, BATTLE_REC_SetBodyCrc, func_0200BA58, func_0200BA68, func_0200BA78, func_0200BA80, func_0200BAC8, func_0200BAD4, sub_0200BAF4, func_0200BB58, func_0200BBA8, func_0200BBC8, func_0200BBD8, func_0200BBEC, func_0200BBFC, func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C, func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8, func_0200BCD8, func_0200BCEC, func_0200BD48, func_0200BD98, func_0200BDA0, func_0200BDB0, func_0200BDBC, func_0200BDC4, func_0200BDE4, func_0200BDF8, func_0200BDFC, func_0200BE00, func_0200BE24, func_0200BE48, func_0200BE54, func_0200BE6C, func_0200BE84, func_0200BF08, func_0200BF10, func_0200BF18, func_0200BF54, func_0200BF70, func_0200BF78, func_0200BF94, func_0200BFA4, func_0200C054, func_0200C058, func_0200C0E8, func_0200C0F0, func_0200C0FC, func_0200C104, func_0200C10C, func_0200C11C, func_0200C164, func_0200C184, func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4, func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4, func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224, func_0200C22C, func_0200C234, func_0200C248, func_0200C258, func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0, func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C, func_0200C324, func_0200C32C, func_0200C334, func_0200C33C, func_0200C344, func_0200C34C, func_0200C358, func_0200C364, func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C, func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0, func_0200C3EC
+ * function: func_0200B2A4, func_0200B348, func_0200B358, func_0200B364, func_0200B368, func_0200B37C, func_0200B394, func_0200B3A4, func_0200B3A8, func_0200B3AC, func_0200B3B0, func_0200B3C8, BATTLE_REC_Create, BATTLE_REC_AllocWork, BATTLE_REC_FreeWork, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize, BATTLE_REC_Clear, BATTLE_REC_IsDataExist, BATTLE_REC_ClearWork, BATTLE_REC_DecodeWork, BATTLE_REC_EncodeWork, BATTLE_REC_LoadToWork, BATTLE_REC_Load, BATTLE_REC_LoadAlloc, BATTLE_REC_CheckSaved, BATTLE_REC_SaveSeq, func_0200B6E0, BATTLE_REC_GetModeLayout, BATTLE_REC_MakeHeader, BATTLE_REC_IsMagicBroken, BATTLE_REC_IsValid, BATTLE_REC_Decode, BATTLE_REC_Encode, BATTLE_REC_GetWork, BATTLE_REC_GetBody, BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf, BATTLE_REC_SetData, BATTLE_REC_GetHeaderParam, BATTLE_REC_IsVersionSupported, BATTLE_REC_SetBodyCrc, BATTLE_REC_LoadToolOverlay, BATTLE_REC_UnloadToolOverlay, func_0200BA78, func_0200BA80, func_0200BAC8, func_0200BAD4, sub_0200BAF4, func_0200BB58, func_0200BBA8, func_0200BBC8, func_0200BBD8, func_0200BBEC, func_0200BBFC, func_0200BC10, func_0200BC20, func_0200BC2C, func_0200BC4C, func_0200BC88, func_0200BCA0, func_0200BCA8, func_0200BCB8, func_0200BCD8, func_0200BCEC, func_0200BD48, func_0200BD98, func_0200BDA0, func_0200BDB0, func_0200BDBC, func_0200BDC4, func_0200BDE4, func_0200BDF8, func_0200BDFC, func_0200BE00, func_0200BE24, func_0200BE48, func_0200BE54, func_0200BE6C, func_0200BE84, func_0200BF08, func_0200BF10, func_0200BF18, func_0200BF54, func_0200BF70, func_0200BF78, func_0200BF94, func_0200BFA4, func_0200C054, func_0200C058, func_0200C0E8, func_0200C0F0, func_0200C0FC, func_0200C104, func_0200C10C, func_0200C11C, func_0200C164, func_0200C184, func_0200C18C, func_0200C1A4, func_0200C1B0, func_0200C1C4, func_0200C1C8, func_0200C1DC, func_0200C1E0, func_0200C1F4, func_0200C1F8, func_0200C20C, func_0200C210, func_0200C224, func_0200C22C, func_0200C234, func_0200C248, func_0200C258, func_0200C274, func_0200C278, func_0200C29C, func_0200C2B0, func_0200C2D0, func_0200C2F0, func_0200C308, func_0200C31C, func_0200C324, func_0200C32C, func_0200C334, func_0200C33C, func_0200C344, func_0200C34C, func_0200C358, func_0200C364, func_0200C37C, func_0200C384, func_0200C38C, func_0200C39C, func_0200C3B0, func_0200C3B8, func_0200C3C0, func_0200C3E0, func_0200C3EC
  * address:  0x0200B2A4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -33,7 +33,7 @@
  *   ov188_id       0x000000BC  data  a1
  *   func_02045B38  0x02045B38  arm
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   INTRUDE_COMM_ResetOutcomes   0x021763BC  thumb
  *   GX_GetBankForLCDC  0x02045A98  arm
  *   func_0200864C  0x0200864C  thumb
@@ -42,11 +42,16 @@
  *   _ull_mul       0x0209C054  arm
  *   _PlayTimeLatch  0x02146170  data  a8
  *   func_02045EC0    0x02045EC0  arm
- *   func_02045A38    0x02045A38  arm
- *   func_02045808    0x02045808  arm
+ *   STRBUF_ToChars    0x02045A38  arm
+ *   STRBUF_Delete    0x02045808  arm
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
+ *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
+ *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -259,7 +264,7 @@ extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern void *func_020071CC(struct SaveControl *save, u32 blockId);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
 extern void func_020072A4(struct SaveControl *save, u32 id);
-extern u32 func_020072CC(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
+extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
 extern void func_02007324(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
 extern void func_0200734C(struct SaveControl *save, u32 id);
 extern void *func_020073D8(struct SaveControl *save, u32 id, u32 arg);
@@ -269,23 +274,23 @@ extern u32 func_0203F2FC(const u8 *data, u32 size);
 extern u16 func_0203F1FC(const u8 *data, u32 size);
 extern void func_0203F328(void *data, u32 size, u32 code);
 extern void func_0203F37C(void *data, u32 size, u32 code);
-extern struct SaveControl *func_02012EBC(struct GameData *gameData);
-extern void func_02012E4C(struct GameData *gameData, u32 id);
-extern int func_02012E7C(struct GameData *gameData, int id);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
+extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
 extern int func_02034AC4(u32 overlayId);
 extern void func_02034A5C(u32 overlayId);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_02045C04(struct MsgData *msg);
+extern u32 MSGDATA_Delete(struct MsgData *msg);
 extern struct StrBuf *func_02045EC0(struct MsgData *msg, u32 msgIndex);
-extern void func_02045A38(struct StrBuf *str, u16 *out, u32 maxLen);
-extern void func_02045808(struct StrBuf *str);
+extern void STRBUF_ToChars(struct StrBuf *str, u16 *out, u32 maxLen);
+extern void STRBUF_Delete(struct StrBuf *str);
 extern void POKE_TOOL_ClearBoxParam(struct BoxMon *mon);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201A954(struct Party *party, s32 capacity);
 extern u32 func_0201A98C(struct Party *party, const struct PokeParam *mon);
 extern struct BoxMon *POKE_TOOL_GetBoxParam(struct PokeParam *mon);
-extern struct PokeParam *func_0201747C(struct BoxMon *mon, u32 heap);
+extern struct PokeParam *POKE_TOOL_CreateFromBoxParam(struct BoxMon *mon, u32 heap);
 extern void INTRUDE_COMM_ResetOutcomes(struct IntrudeOccupy *occupy);
 extern u16 GX_GetBankForLCDC(void);
 extern u16 func_0200864C(const struct PlayTime *time);
@@ -305,7 +310,7 @@ void func_0200B3B0(const struct GimmickWork *src, struct SaveControl *save);
 void func_0200B3C8(struct SaveControl *save, struct GimmickWork *dest);
 struct BattleRecSave *BATTLE_REC_Create(u32 heap);
 void BATTLE_REC_AllocWork(u32 heap);
-void func_0200B424(void);
+void BATTLE_REC_FreeWork(void);
 void BATTLE_REC_Delete(struct BattleRecSave *rec);
 u32 BATTLE_REC_GetWorkSize(void);
 void BATTLE_REC_Clear(struct BattleRecSave *rec);
@@ -316,7 +321,7 @@ void BATTLE_REC_EncodeWork(void);
 u32 BATTLE_REC_LoadToWork(struct SaveControl *save, struct BattleRecSave *rec, u32 heap, u32 *result, u32 id);
 u32 BATTLE_REC_Load(struct SaveControl *save, u16 heap, u32 *result, u32 id);
 struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u32 *result, u32 id);
-u32 func_0200B5CC(struct SaveControl *save, u32 heap, u32 *result, u32 id);
+u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 id);
 u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32 id, u16 *seq, u16 heap);
 u32 func_0200B6E0(struct GameData *gameData, u16 heap, u32 modeIndex, u32 battleCount, u32 id, u16 *seq, u16 *subSeq);
 void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members);
@@ -331,10 +336,10 @@ struct BattleRecHeader *BATTLE_REC_GetHeader(void);
 struct BattleRecHeader *BATTLE_REC_GetHeaderOf(struct BattleRecSave *rec);
 void BATTLE_REC_SetData(const void *profile, const struct BattleRecHeader *head, const struct BattleRecBody *body);
 u64 BATTLE_REC_GetHeaderParam(const struct BattleRecHeader *head, int param, int index);
-u32 func_0200BA38(u32 version);
+u32 BATTLE_REC_IsVersionSupported(u32 version);
 void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body);
-void func_0200BA58(void);
-void func_0200BA68(void);
+void BATTLE_REC_LoadToolOverlay(void);
+void BATTLE_REC_UnloadToolOverlay(void);
 u32 func_0200BA78(void);
 void func_0200BA80(struct BattleBoxSave *box);
 struct BattleBoxSave *func_0200BAC8(struct SaveControl *save);
@@ -738,7 +743,7 @@ void BATTLE_REC_AllocWork(u32 heap)
 
 
 
-void func_0200B424(void)
+void BATTLE_REC_FreeWork(void)
 {
     func_020307B0(pBattleRec);
     pBattleRec = 0;
@@ -909,7 +914,7 @@ void BATTLE_REC_EncodeWork(void)
  *
  * This range stops at 0x0200B5CC and src/matched/unit_0200B5CC.c starts
  * there, because BATTLE_REC_IsMagicBroken and BATTLE_REC_IsValid are each called exactly
- * twice in the image, once from BATTLE_REC_LoadToWork and once from func_0200B5CC;
+ * twice in the image, once from BATTLE_REC_LoadToWork and once from BATTLE_REC_CheckSaved;
  * one range holding both pairs has no witness left for either and caps at
  * MATCH with every byte right.  Cut between them, each file is the other's
  * witness.  See
@@ -920,7 +925,7 @@ u32 BATTLE_REC_LoadToWork(struct SaveControl *save, struct BattleRecSave *rec, u
     struct BattleRecBody *body;
     u16 crc;
 
-    *result = func_020072CC(save, id, heap, rec, 0x2000);
+    *result = SAVE_CONTROL_LoadExtraSaveWithBuffer(save, id, heap, rec, 0x2000);
     func_020072A4(save, id);
     if (*result == 0) {
         *result = 0;
@@ -995,7 +1000,7 @@ struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u
  * with a `func_020072A4` release on every path instead of only on entry.  See
  * src/matched/unit_0200B4E0.c for why the two are separate files. *
  */
-u32 func_0200B5CC(struct SaveControl *save, u32 heap, u32 *result, u32 id)
+u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 id)
 {
     struct BattleRecSave *rec;
     struct BattleRecBody *body;
@@ -1056,11 +1061,11 @@ u32 func_0200B5CC(struct SaveControl *save, u32 heap, u32 *result, u32 id)
  * wrong anyway: the two belong to different original files.
  *
  * alias: inside "battle_rec.c"; the two steps of the record-save state machine
- * that BATTLE_REC_LoadToWork and func_0200B5CC read back.
+ * that BATTLE_REC_LoadToWork and BATTLE_REC_CheckSaved read back.
  *
  * Three things cost time here.
  *
- *  - func_02012EBC is declared with **one** parameter, not four.  The call
+ *  - GAME_DATA_GetSaveControl is declared with **one** parameter, not four.  The call
  *    leaves r1 through r3 holding this function's own second, third and fourth
  *    arguments, which reads like a four-argument call and is not one: declaring
  *    four parameters keeps `b` live from the entry and the whole of
@@ -1079,17 +1084,17 @@ u32 func_0200B5CC(struct SaveControl *save, u32 heap, u32 *result, u32 id)
  */
 u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32 id, u16 *seq, u16 heap)
 {
-    struct SaveControl *save = func_02012EBC(gameData);
+    struct SaveControl *save = GAME_DATA_GetSaveControl(gameData);
     u32 result;
 
     switch (*seq) {
     case 0:
         func_02007324(save, id, heap, pBattleRec, 0x2000);
-        func_02012E4C(gameData, id);
+        GAME_DATA_PartSaveStart(gameData, id);
         (*seq)++;
         break;
     case 1:
-        result = func_02012E7C(gameData, id);
+        result = GAME_DATA_PartSaveMain(gameData, id);
         if (result == 2 || result == 3) {
             func_0200734C(save, id);
             return result;
@@ -1112,7 +1117,7 @@ u32 func_0200B6E0(struct GameData *gameData, u16 heap, u32 modeIndex, u32 battle
     struct BattleRecBody *body;
     u16 crc;
 
-    save = func_02012EBC(gameData);
+    save = GAME_DATA_GetSaveControl(gameData);
 
     switch (*seq) {
     case 0:
@@ -1540,14 +1545,14 @@ u64 BATTLE_REC_GetHeaderParam(const struct BattleRecHeader *head, int param, int
  * is flat, so the missing copy is not reachable from the source shape.  Same
  * class as the near misses at 0x0200B2A4 and 0x0200B37C.
  *
- * Near miss, and the reason this range stops at 0x0200BA58: func_0200BA58 and
- * func_0200BA68, eight bytes of tail call each.  Both reproduce every
+ * Near miss, and the reason this range stops at 0x0200BA58: BATTLE_REC_LoadToolOverlay and
+ * BATTLE_REC_UnloadToolOverlay, eight bytes of tail call each.  Both reproduce every
  * instruction but hold their argument in a pool word rather than in a `movs`,
  * and 0xBC fits a `movs` immediate, so the argument cannot be an integer
  * literal.  Both are now matched on their own: src/matched/arm9/
- * func_0200BA58.c and func_0200BA68.c. *
+ * BATTLE_REC_LoadToolOverlay.c and BATTLE_REC_UnloadToolOverlay.c. *
  */
-u32 func_0200BA38(u32 version)
+u32 BATTLE_REC_IsVersionSupported(u32 version)
 {
     if (version <= 100) {
         return 1;
@@ -1573,7 +1578,7 @@ void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body)
  * for the ov021 script dispatcher 0x021CA5C4 (also unblocks the pending
  * ov187 0x0220B164 and ov199 0x022132C4).
  */
-void func_0200BA58(void)
+void BATTLE_REC_LoadToolOverlay(void)
 {
     func_02034AC4((u32)ov188_id);
 }
@@ -1581,13 +1586,13 @@ void func_0200BA58(void)
 
 
 /*
- * Unloads overlay 188 (0xBC), the pair of func_0200BA58: a Thumb tail call
+ * Unloads overlay 188 (0xBC), the pair of BATTLE_REC_LoadToolOverlay: a Thumb tail call
  * to the ARM unloader through `ldr r3; bx r3`, the id as the overlay-id
  * symbol.  Filed as the call witness for the ov021 script dispatcher
  * 0x021CA5C4 (also unblocks the pending ov187 0x0220B164 and ov199
  * 0x022132C4).
  */
-void func_0200BA68(void)
+void BATTLE_REC_UnloadToolOverlay(void)
 {
     func_02034A5C((u32)ov188_id);
 }
@@ -1616,8 +1621,8 @@ void func_0200BA68(void)
  * call whose pool word names 0x020271CC and which nothing else in the image
  * branches to or holds a pointer to, so the `label` and `literal` classes are
  * both empty and no cut helps.  It is now matched on its own, as are the
- * other two: src/matched/arm9/func_0200BAC8.c, func_0200BA58.c and
- * func_0200BA68.c. *
+ * other two: src/matched/arm9/func_0200BAC8.c, BATTLE_REC_LoadToolOverlay.c and
+ * BATTLE_REC_UnloadToolOverlay.c. *
  */
 u32 func_0200BA78(void)
 {
@@ -1640,7 +1645,7 @@ void func_0200BA80(struct BattleBoxSave *box)
     msg = func_02045B38(0, 2, 9, 1);
     if (msg != 0) {
         MSGDATA_ReadUnits(msg, 6, box->boxName, sizeof(box->boxName));
-        func_02045C04(msg);
+        MSGDATA_Delete(msg);
     }
 }
 
@@ -1718,7 +1723,7 @@ struct Party *sub_0200BAF4(struct BoxMonGroup *box, int heap)
         if (exists == 0) {
             break;
         }
-        mon = func_0201747C(mon, (u16)tempHeap);
+        mon = POKE_TOOL_CreateFromBoxParam(mon, (u16)tempHeap);
         func_0201A98C(party, mon);
         func_020307B0(mon);
     }
@@ -2394,12 +2399,12 @@ void func_0200C058(struct BeaconSave *beacon)
     beacon->bestScore = 0;
     msg = func_02045B38(0, 3, 0x2f, 0x8007);
     greet = func_02045EC0(msg, 0x151);
-    func_02045A38(greet, beacon->greetMessage, 9);
-    func_02045808(greet);
+    STRBUF_ToChars(greet, beacon->greetMessage, 9);
+    STRBUF_Delete(greet);
     thanks = func_02045EC0(msg, 0x159);
-    func_02045A38(thanks, beacon->thanksMessage, 9);
-    func_02045808(thanks);
-    func_02045C04(msg);
+    STRBUF_ToChars(thanks, beacon->thanksMessage, 9);
+    STRBUF_Delete(thanks);
+    MSGDATA_Delete(msg);
     beacon->mode = 0;
     beacon->entryCount = 0;
     beacon->recentIds[0] = 0xff;
@@ -2586,7 +2591,7 @@ u16 *func_0200C1F4(struct BeaconSave *beacon)
 
 void func_0200C1F8(struct BeaconSave *beacon, struct StrBuf *message)
 {
-    func_02045A38(message, beacon->greetMessage, 9);
+    STRBUF_ToChars(message, beacon->greetMessage, 9);
 }
 
 
@@ -2600,7 +2605,7 @@ u16 *func_0200C20C(struct BeaconSave *beacon)
 
 void func_0200C210(struct BeaconSave *beacon, struct StrBuf *message)
 {
-    func_02045A38(message, beacon->thanksMessage, 9);
+    STRBUF_ToChars(message, beacon->thanksMessage, 9);
 }
 
 

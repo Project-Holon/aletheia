@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200DE5C, func_0200DE64, BSUBWAY_SAVEDATA_SetTrainers, func_0200DE94,
+ * function: BSUBWAY_SAVEDATA_GetTrainersPresent, BSUBWAY_SAVEDATA_GetHistoryPresent, BSUBWAY_SAVEDATA_SetTrainers, BSUBWAY_SAVEDATA_GetTrainersTagA,
  *           BSUBWAY_SAVEDATA_GetTrainersTagB
  *
  * 76 bytes, 0x0200DE5C..0x0200DEA8, 5 functions, four of which carry no label
@@ -51,12 +51,12 @@ struct RecSlot {
     u8 unk104[0x690];
 };
 
-u8 func_0200DE5C(struct RecSlot *p)
+u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct RecSlot *p)
 {
     return p->unkFE;
 }
 
-u8 func_0200DE64(struct RecSlot *p)
+u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct RecSlot *p)
 {
     return p->unkFF;
 }
@@ -69,7 +69,7 @@ void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b
     p->unkFE = 1;
 }
 
-u8 func_0200DE94(struct RecSlot *p)
+u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct RecSlot *p)
 {
     return p->unk101;
 }

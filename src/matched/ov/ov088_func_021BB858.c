@@ -1,5 +1,5 @@
 /*
- * function: func_021BB858
+ * function: STARTMENU_ScrollRowActors
  * address:  0x021BB858
  * packet:   pkt_ov088_021BB858
  * region:   ov088
@@ -12,7 +12,7 @@
  * Shifts the six sprites at +0x1c..+0x30 vertically by d.
  *
  * symbols:
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  */
 
@@ -22,16 +22,16 @@ typedef struct { s16 x; s16 y; } Pos;
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021BB858(char *p, int d)
+void STARTMENU_ScrollRowActors(char *p, int d)
 {
     u32 i;
     Pos pos;
     for (i = 0; i < 6; i++) {
-        func_0204B454((struct Actor *)*(int *)((p + i * 4) + 0x1c), (struct PtS *)&pos, 0);
+        CLACT_GetActorSurfacePos((struct Actor *)*(int *)((p + i * 4) + 0x1c), (struct PtS *)&pos, 0);
         pos.y += (s16)d;
         func_0204B404((struct Obj *)(*(int *)((p + i * 4) + 0x1c)), (const struct Vec2 *)(&pos), 0);
     }

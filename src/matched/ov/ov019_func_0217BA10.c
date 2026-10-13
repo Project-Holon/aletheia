@@ -1,5 +1,5 @@
 /*
- * function: func_0217BA10
+ * function: UNION_ONESELF_LoadRegulation
  * address: 0x0217BA10
  * packet: pkt_ov019_0217BA10
  * region: ov019
@@ -12,21 +12,21 @@
  * Interface evidence: stub at 0201A364 moves r0 to r2, r1 to r0,
  * sets r1=0x69, then jumps through pool 02048F4C. the integrator owns it.
  * symbols:
- *   func_0217B908 0x0217B908 thumb ov019
- *   func_0217B974 0x0217B974 thumb ov019
- *   func_0201A364 0x0201A364 thumb
+ *   UNION_ONESELF_GetRegulationId 0x0217B908 thumb ov019
+ *   UNION_ONESELF_GetRegulationFlag 0x0217B974 thumb ov019
+ *   POKE_REGULATION_LoadInto 0x0201A364 thumb
  *   func_0200AEE8 0x0200AEE8 thumb
  */
-extern int func_0217B908(int);
-extern int func_0217B974(int);
-extern void func_0201A364(int a, unsigned int b);
+extern int UNION_ONESELF_GetRegulationId(int);
+extern int UNION_ONESELF_GetRegulationFlag(int);
+extern void POKE_REGULATION_LoadInto(int a, unsigned int b);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Reg;
 extern void func_0200AEE8(struct Reg *p, u32 id, s32 value);
-void func_0217BA10(char *p, int x)
+void UNION_ONESELF_LoadRegulation(char *p, int x)
 {
-    func_0201A364(func_0217B908(x), (unsigned int)(*(void **)(p + 0x352c)));
-    if (func_0217B974(x) == 1) func_0200AEE8(*(void **)(p + 0x352c), 13, 1);
+    POKE_REGULATION_LoadInto(UNION_ONESELF_GetRegulationId(x), (unsigned int)(*(void **)(p + 0x352c)));
+    if (UNION_ONESELF_GetRegulationFlag(x) == 1) func_0200AEE8(*(void **)(p + 0x352c), 13, 1);
     else func_0200AEE8(*(void **)(p + 0x352c), 13, 0);
 }

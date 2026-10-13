@@ -10,7 +10,7 @@
  * symbols:
  *   func_021FF914 0x021FF914 thumb ov135
  *   func_021FFAEC 0x021FFAEC thumb ov135
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_020307B0 0x020307B0 arm
  *   func_02030EAC 0x02030EAC arm
  */
@@ -23,7 +23,7 @@ typedef struct { int state; int y; u8 *p; } Anim;
 extern void func_021FF914(u32 *p, u32 v);
 extern void func_021FFAEC(u32, int, int);
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -43,7 +43,7 @@ void func_021FF92C(void *task, Anim *a)
         func_021FFAEC(((struct Obj10589 *)p)->fD0C, 128, a->y);
         break;
     case 1:
-        if (func_0204B98C((struct Actor *)(((struct Obj10589 *)p)->fD0C)) == 0) {
+        if (CLACT_IsActorAnimActive((struct Actor *)(((struct Obj10589 *)p)->fD0C)) == 0) {
             func_021FF914((u32 *)a, 2);
             a->state = 2;
         }

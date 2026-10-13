@@ -11,14 +11,14 @@
  * lever: SDK 256x16-affine inline order; word byte offset and address retain queue register allocation.
  * volatile: BG2CNT/BG3CNT read/write at 021B62D0..021B62FC.
  * symbols:
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_021B6A90 0x021B6A90 thumb ov174
  *   func_021B6F2C 0x021B6F2C thumb ov174
  *   func_021B6F24 0x021B6F24 thumb ov174
  *   func_021B6D3C 0x021B6D3C thumb ov174
  *   func_021B687C 0x021B687C thumb ov174
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  */
 #include "../include/Obj00152.h"
 typedef unsigned char u8;
@@ -36,14 +36,14 @@ static inline void G2_SetBG3Control256x16Affine(GXBGScrSize256x16Pltt size,GXBGA
 {
     *(volatile u16 *)0x0400000E=(u16)((*(volatile u16 *)0x0400000E &0x43)|(size<<14)|(chr<<2)|(scr<<8)|(over<<13));
 }
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern u32 func_020221A4(void);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void func_021B6A90(u8 *);
 extern int func_021B6F2C(int,char *);
 extern void func_021B6F24(u8 *,u8 *,int);
 extern void func_021B6D3C(u8 *,u8 *);
 extern void func_021B687C(u8 *);
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 int func_021B622C(u8 *p)
 {
     GXBGCharBase a,b;
@@ -51,18 +51,18 @@ int func_021B622C(u8 *p)
     u8 i;
     switch(p[12]) {
     case 0:
-        func_0202208C(0,1,1,0,6,1,((struct Obj00152 *)p)->f0);
+        WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj00152 *)p)->f0);
         p[12]=1;
         break;
     case 1:
-        if(func_020221A4()==1) p[12]=4;
+        if(WIPE_SYS_EndCheck()==1) p[12]=4;
         break;
     case 2:
-        func_0202208C(0,0,0,0,6,1,((struct Obj00152 *)p)->f0);
+        WIPE_SYS_Start(0,0,0,0,6,1,((struct Obj00152 *)p)->f0);
         p[12]=3;
         break;
     case 3:
-        if(func_020221A4()==1) return 1;
+        if(WIPE_SYS_EndCheck()==1) return 1;
         break;
     case 4:
         func_021B6A90(p);
@@ -99,6 +99,6 @@ int func_021B622C(u8 *p)
         if(*(u8 **)(p+28+i*4)!=0) func_021B6D3C(p,*(u8 **)(p+28+i*4));
     }
     func_021B687C(p);
-    func_0204A600();
+    CLACT_DrawSystem();
     return 0;
 }

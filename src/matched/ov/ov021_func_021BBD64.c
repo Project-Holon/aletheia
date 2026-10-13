@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD64
+ * function: FLDEFF_FOOTMARK_DeleteResource
  * address:  0x021BBD64
  * packet:   pkt_ov021_021BBD64
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -20,13 +23,13 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct BbActSys;
-extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
+extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count);
 
-void func_021BBD64(Obj *p)
+void FLDEFF_FOOTMARK_DeleteResource(Obj *p)
 {
     int i;
 
     for (i = 0; i < 0x1A; i++) {
-        func_02050278((struct BbActSys *)p->f4, p->h8[i], 1);
+        BILLBOARD_ACT_DeleteSlots((struct BbActSys *)p->f4, p->h8[i], 1);
     }
 }

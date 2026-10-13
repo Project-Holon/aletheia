@@ -1,5 +1,5 @@
 /*
- * function: func_0218FF20
+ * function: FIELD_CAMERA_ANIME_Restore
  * address:  0x0218FF20
  * packet:   pkt_ov021_0218FF20
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02190000  0x02190000  thumb
+ *   FIELD_CAMERA_ANIME_RestoreCameraState  0x02190000  thumb
  */
 #include "../include/Obj04204.h"
 
@@ -21,10 +21,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02190000(u32 *p);
+extern void FIELD_CAMERA_ANIME_RestoreCameraState(u32 *p);
 
-void func_0218FF20(u8 *a)
+void FIELD_CAMERA_ANIME_Restore(u8 *a)
 {
     if (((struct Obj04204 *)a)->fC != 0)
-        func_02190000((u32 *)a);
+        FIELD_CAMERA_ANIME_RestoreCameraState((u32 *)a);
 }

@@ -25,7 +25,7 @@
  *   func_02210B00 0x02210B00 thumb ov198
  *   PALANM_CopyToSlot 0x020215BC thumb
  *   func_02211128 0x02211128 thumb ov198
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_0220BC70 0x0220BC70 thumb ov198
  *   d_02211B14 0x02211B14 data a1
  */
@@ -68,7 +68,7 @@ extern void func_02041B6C(u32);
 extern int func_02210B00(u8 *p, int i);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern int func_02211128(u8 *,u8 *,u8 *,int);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0220BC70(u8 *, unsigned int);
 void func_0220B120(char *p,u16 *src);
 void func_0220B3B4(char *p,u16 *src);
@@ -366,6 +366,6 @@ void func_0220BC24(u8 *p)
     Item *s = d_02211B14;
     u32 i;
     for (i=0;i<2;i++,s++)
-        *(void **)(p+i*8+0x1F60)=(void *)func_020450F0(s->a,s->b,s->c,s->d,s->e,s->f,1);
+        *(void **)(p+i*8+0x1F60)=(void *)BMP_WIN_Create(s->a,s->b,s->c,s->d,s->e,s->f,1);
     func_0220BC70(p,p[0x2180]);
 }

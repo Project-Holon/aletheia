@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02165E24 0x02165E24 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetActionNo 0x02165E24 thumb ov010
  */
-extern int func_02165E24(int a0);
-int func_021F0DC0(void *p) { int a; a=func_02165E24((int)p); if(a==0 || a>=0x33) return 0x12; return a+0x11; }
+extern int GAME_BEACON_ACCESSOR_GetActionNo(int a0);
+int func_021F0DC0(void *p) { int a; a=GAME_BEACON_ACCESSOR_GetActionNo((int)p); if(a==0 || a>=0x33) return 0x12; return a+0x11; }

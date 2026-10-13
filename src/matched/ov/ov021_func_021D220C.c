@@ -1,5 +1,5 @@
 /*
- * function: func_021D220C
+ * function: SCRCMD_ShowStepMilestoneMessage
  * address:  0x021D220C
  * packet:   pkt_ov021_021D220C
  * region:   ov021
@@ -14,12 +14,12 @@
  * once it passes 500; returns 0 otherwise.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008854  0x02008854  thumb
  *   func_02008990  0x02008990  thumb
- *   func_02188C84  0x02188C84  thumb
- *   func_02158768  0x02158768  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   data_021DD6BC  0x021DD6BC  data
  * Addresses are Black-image addresses.
  */
@@ -39,24 +39,24 @@ extern const struct Milestone data_021DD6BC[5];
 struct Big;
 struct Ctx;
 struct Sub02008828Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u16 func_02008990(const struct Sub02008828Obj *obj);
-extern u16 func_02188C84(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct Desc;
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 
-int func_021D220C(void *msg, u8 *pos)
+int SCRCMD_ShowStepMilestoneMessage(void *msg, u8 *pos)
 {
-    u16 n = func_02008990(func_02008854(func_02012EBC(func_020120F4(msg))));
+    u16 n = func_02008990(func_02008854(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(msg))));
     u32 i;
 
     for (i = 0; i < 5; i++) {
         if (n == data_021DD6BC[i].count)
-            return (int)func_02158768((int)msg, data_021DD6BC[i].msg, 0, func_02188C84(pos));
+            return (int)SCRIPT_SYS_CreateScriptEventSimple((int)msg, data_021DD6BC[i].msg, 0, FIELDMAP_GetHeapId(pos));
     }
     if (n > 500)
-        return (int)func_02158768((int)msg, 0x28E1, 0, func_02188C84(pos));
+        return (int)SCRIPT_SYS_CreateScriptEventSimple((int)msg, 0x28E1, 0, FIELDMAP_GetHeapId(pos));
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02164E04
+ * function: GAME_BEACON_SEARCH_PickBestScanResult
  * address:  0x02164E04
  * packet:   pkt_ov010_02164E04
  * region:   ov010
@@ -14,8 +14,8 @@
  *
  * symbols:
  *   NET_WHPIPE_GetEntryKind  0x02178098  thumb ov014
- *   func_0203CF10  0x0203CF10  arm
- *   func_02164F9C  0x02164F9C  thumb ov010
+ *   GFL_NET_GetScanResult  0x0203CF10  arm
+ *   GAME_BEACON_SEARCH_SelectBetterEntry  0x02164F9C  thumb ov010
  *   func_02177BF4  0x02177BF4  thumb ov014
  *
  * Addresses are Black-image addresses.
@@ -36,11 +36,11 @@ typedef struct Ent {
 } Ent;
 
 extern u8 NET_WHPIPE_GetEntryKind(u8 i);
-extern u32 func_0203CF10(u32 a);
-extern Ent  *func_02164F9C(Ent *a, Ent *b);
+extern u32 GFL_NET_GetScanResult(u32 a);
+extern Ent  *GAME_BEACON_SEARCH_SelectBetterEntry(Ent *a, Ent *b);
 extern void func_02177BF4(unsigned int idx);
 
-Ent *func_02164E04(u8 *obj, int *out)
+Ent *GAME_BEACON_SEARCH_PickBestScanResult(u8 *obj, int *out)
 {
     int none = -1;
     int best = -1;
@@ -55,14 +55,14 @@ Ent *func_02164E04(u8 *obj, int *out)
         if (r == 2 && ((struct Obj18986 *)obj)->fC != 0) {
             continue;
         }
-        p = (Ent *)func_0203CF10(i);
+        p = (Ent *)GFL_NET_GetScanResult(i);
         if (p == 0) {
             continue;
         }
         if (p->lo < p->hi) {
             if (best == none) {
                 best = i;
-            } else if (func_02164F9C(p, (Ent *)func_0203CF10(best)) == p) {
+            } else if (GAME_BEACON_SEARCH_SelectBetterEntry(p, (Ent *)GFL_NET_GetScanResult(best)) == p) {
                 best = i;
             }
         } else {
@@ -71,7 +71,7 @@ Ent *func_02164E04(u8 *obj, int *out)
     }
     if (best != -1) {
         *out = best;
-        return (Ent *)func_0203CF10(best);
+        return (Ent *)GFL_NET_GetScanResult(best);
     }
     return 0;
 }

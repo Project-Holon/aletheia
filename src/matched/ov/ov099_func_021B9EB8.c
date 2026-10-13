@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
  */
@@ -34,7 +34,7 @@ typedef struct {
 } Rec;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, u16 f, u16 g);
+extern struct Obj *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, u16 f, u16 g);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B92C(struct Obj *a, u32 b);
 
@@ -47,11 +47,11 @@ void func_021B9EB8(Obj *o, int a)
     r.c = 0;
     r.d = 0;
     r.e = 0;
-    o->f14 = (u32)func_0204B294((void *)o->f0, o->f8, o->fc, o->f10, &r, 0, a);
+    o->f14 = (u32)CLACT_CreateActor((void *)o->f0, o->f8, o->fc, o->f10, &r, 0, a);
     r.c = 2;
     r.d = 0xfe;
     r.e = 3;
-    o->f18 = (u32)func_0204B294((void *)o->f0, o->f8, o->fc, o->f10, &r, 0, a);
+    o->f18 = (u32)CLACT_CreateActor((void *)o->f0, o->f8, o->fc, o->f10, &r, 0, a);
     func_0204B3DC((struct Obj *)o->f14, 0);
     func_0204B3DC((struct Obj *)o->f18, 0);
     func_0204B92C((struct Obj *)o->f14, 1);

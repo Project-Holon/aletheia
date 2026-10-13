@@ -1,5 +1,5 @@
 /*
- * function: func_021D83FC
+ * function: BTL_ACTION_SetRotate
  * address: 0x021D83FC
  * packet: pkt_ov093_021D83FC
  * region: ov093
@@ -14,4 +14,4 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef enum { ZERO=0 } Bits;
-void func_021D83FC(u32 *p,u32 sub) { Bits t=ZERO; t &=~15; t|=6; t &=~0x70; t|=(sub&7)<<4; *p=t; }
+void BTL_ACTION_SetRotate(u32 *p,u32 sub) { Bits t=ZERO; t &=~15; t|=6; t &=~0x70; t|=(sub&7)<<4; *p=t; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CF0F4
+ * function: COMM_ENTRY_ResetLeaveConfirm
  * address:  0x021CF0F4
  * packet:   pkt_ov021_021CF0F4
  * region:   ov021
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021909BC  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021909BC(void *a);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
 
-void func_021CF0F4(u8 *p)
+void COMM_ENTRY_ResetLeaveConfirm(u8 *p)
 {
     u32 *q = (u32 *)(p + 0x130);
 
     if (q[0] != 0) {
-        func_021909BC((void *)q[0]);
+        FIELD_MSGBG_DeleteMenuFunc((void *)q[0]);
         q[0] = 0;
     }
     ((u8 *)q)[8] = 0;

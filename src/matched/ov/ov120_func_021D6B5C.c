@@ -11,11 +11,11 @@
  * extent: two-byte zero alignment padding follows.
  * lever: base + index*4 + 0xc4 preserves the original add order.
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-void func_021D6B5C(u8 *p){int i;for(i=0;i<12;i++){if(*(void **)(p+i*4+0xc4)){func_0204B3B4(*(void **)(p+i*4+0xc4));*(int *)(p+i*4+0xc4)=0;}}}
+extern void CLACT_DeleteActor(struct Obj *p);
+void func_021D6B5C(u8 *p){int i;for(i=0;i<12;i++){if(*(void **)(p+i*4+0xc4)){CLACT_DeleteActor(*(void **)(p+i*4+0xc4));*(int *)(p+i*4+0xc4)=0;}}}

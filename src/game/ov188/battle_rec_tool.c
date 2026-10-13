@@ -25,15 +25,15 @@
  *   func_020173EC 0x020173EC thumb
  *   func_02030734 0x02030734 arm
  *   func_0201A954 0x0201A954 thumb
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0201A98C 0x0201A98C thumb
  *   func_020307B0 0x020307B0 arm
  *   d_021EF360 0x021EF360 data a4
- *   func_02008494 0x02008494 thumb
- *   func_02045A38 0x02045A38 arm
- *   func_02045924 0x02045924 arm
+ *   MYSTATUS_Copy 0x02008494 thumb
+ *   STRBUF_ToChars 0x02045A38 arm
+ *   STRBUF_SetString 0x02045924 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_02082D44  0x02082D44  arm
  *   CONFIG_Copy  0x02008314  thumb
  */
@@ -101,14 +101,14 @@ extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_020173EC(void);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_0201A954(struct Party *p, s32 capacity);
-extern void func_02017E40(void *,u32,u32);
+extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
-extern void func_02008494(void *, void *);
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void MYSTATUS_Copy(void *, void *);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern void func_02082D44(void *, void *, int);
 extern void CONFIG_Copy(void *a, void *b);
 void func_021EE920(struct Mon *p,char *q);
@@ -315,7 +315,7 @@ void func_021EEF2C(u8 *a,void *b,u32 c)
     func_0201A954(b,((struct Obj14491 *)a)->f0);
     for(i=0;i<((struct Obj14491 *)a)->f2;i++) {
         func_021EEBF0((char *)(a+4+i*112),(struct Mon *)p);
-        func_02017E40(p,159,0);
+        POKE_TOOL_SetPartyValue(p,159,0);
         func_0201A98C(b,(const struct PartyMon *)p);
     }
     func_020307B0(p);
@@ -364,7 +364,7 @@ void func_021EF014(u8 *a, u8 *b)
             p = b+i*0x44;
             ((struct Obj08341 *)p)->f16C8 = 2;
         } else if (*(void **)(a+0x34+i*4)) {
-            func_02008494(*(void **)(a+0x34+i*4), b+0x16CC+i*0x44);
+            MYSTATUS_Copy(*(void **)(a+0x34+i*4), b+0x16CC+i*0x44);
             p = b+i*0x44;
             ((struct Obj08341 *)p)->f16C8 = 1;
         } else {
@@ -383,7 +383,7 @@ void func_021EF090(u8 *a, u8 *b)
     for(i=0;i<4;i++) {
         p = b+i*0x44;
         switch(((struct Obj14492 *)p)->f16C8) {
-        case 1: func_02008494(b+0x16CC+i*0x44, *(void **)(a+0x34+i*4)); break;
+        case 1: MYSTATUS_Copy(b+0x16CC+i*0x44, *(void **)(a+0x34+i*4)); break;
         case 2: func_021EF140(*(u8 **)(a+0x48+i*4), b+0x16CC+i*0x44); break;
         }
         a[0x44+i] = ((struct Obj14492 *)p)->f16CA;
@@ -406,7 +406,7 @@ void func_021EF0F4(u8 *a, u8 *b)
     ((struct Obj02528 *)b)->f3C = ((struct Obj02238 *)a)->f24;
     ((struct Obj02528 *)b)->f3E = ((struct Obj02238 *)a)->f26;
     for(i=0;i<4;i++) *(u16 *)(b+8+i*2) = *(u16 *)(a+12+i*2);
-    func_02045A38(((struct Obj02238 *)a)->f14, (u16 *)(b+16), 16);
+    STRBUF_ToChars(((struct Obj02238 *)a)->f14, (u16 *)(b+16), 16);
 }
 
 
@@ -426,9 +426,9 @@ void func_021EF140(u8 *a, u8 *b)
     ((struct Obj01970 *)a)->f24 = ((struct Obj02529 *)b)->f3C;
     ((struct Obj01970 *)a)->f26 = ((struct Obj02529 *)b)->f3E;
     for(i=0;i<4;i++) *(u16 *)(a+12+i*2) = *(u16 *)(b+8+i*2);
-    func_02045924(((struct Obj01970 *)a)->f14, (u16 *)(b+16));
+    STRBUF_SetString(((struct Obj01970 *)a)->f14, (u16 *)(b+16));
     p = STRBUF_GetChars(((struct Obj01970 *)a)->f14);
-    while (*p != func_02045A98()) p++;
+    while (*p != STRBUF_GetEosChar()) p++;
 }
 
 

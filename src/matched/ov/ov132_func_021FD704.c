@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   func_021FDA74 0x021FDA74 thumb ov132
- *   func_0203996C 0x0203996C arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  */
 #include "../include/Obj14135.h"
 #include "../include/Obj23295.h"
@@ -20,15 +20,15 @@ typedef unsigned int u32;
 extern void func_021FDA74(int a0, int a1, int a2);
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
-extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+extern u32 GFL_NET_SendData(u32, u32, u32, u32, u32, u32, u32, u32);
 int func_021FD704(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct Obj23295 *)p)->f140;
     u32 id;
     func_021FDA74(q[1], q[8], 2);
-    id = (u32)func_0203996C(255);
-    return func_0203D3F8(id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (*(u32 **)(p + 0x140))[1], 1, 0, 1);
+    id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
+    return GFL_NET_SendData(id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (*(u32 **)(p + 0x140))[1], 1, 0, 1);
 }
 void func_021FD744(void *a, void *b, void *c, u8 *p)
 {

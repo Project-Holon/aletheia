@@ -1,5 +1,5 @@
 /*
- * function: func_02198FB0
+ * function: FLDMMDL_ACMD_HideOffMove
  * address:  0x02198FB0
  * packet:   pkt_ov021_02198FB0
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
  *   d_021DDBD4     0x021DDBD4  data   ov021  a4
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_0219BF48  0x0219BF48  thumb  ov021
- *   func_021D04C4  0x021D04C4  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_0219BF3C  0x0219BF3C  thumb  ov021
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_0219BF54  0x0219BF54  thumb  ov021
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_MOVE_GetHideEffect  0x0219BF48  thumb  ov021
+ *   FLDEFF_HIDE_IsFinished  0x021D04C4  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   FLDMMDL_MOVE_SetHideEffect  0x0219BF3C  thumb  ov021
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_MOVE_SetHideNoEffect  0x0219BF54  thumb  ov021
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -29,32 +29,32 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
-extern void *func_0216D6D4(void *p);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
 extern u32 *d_021DDBD4;
-extern void func_0216D8C0(u32, Vec *);
-extern int func_0219BF48(u32 a);
-extern int func_021D04C4(u32 a);
-extern u32 func_021AC154(u32);
-extern void func_0219BF3C(int a, u32 v);
-extern void *func_0216D568(void *p, u32 v);
-extern void func_0219BF54(int a0);
-extern u32 func_0216D7CC(u32);
+extern void FLDMMDL_SetDrawOffset(u32, Vec *);
+extern int FLDMMDL_MOVE_GetHideEffect(u32 a);
+extern int FLDEFF_HIDE_IsFinished(u32 a);
+extern u32 FIELD_EFFECT_DeleteObject(u32);
+extern void FLDMMDL_MOVE_SetHideEffect(int a, u32 v);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern void FLDMMDL_MOVE_SetHideNoEffect(int a0);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-int func_02198FB0(u32 a)
+int FLDMMDL_ACMD_HideOffMove(u32 a)
 {
     u32 *p;
     u32 r;
 
-    p = func_0216D6D4((void *)a);
+    p = FLDMMDL_GetMoveCmdWork((void *)a);
     {
         Vec v = { 0, 0, 0 };
         v.y = d_021DDBD4[p[0]];
-        func_0216D8C0(a, &v);
-        r = func_0219BF48(a);
+        FLDMMDL_SetDrawOffset(a, &v);
+        r = FLDMMDL_MOVE_GetHideEffect(a);
         if (r != 0) {
-            if (func_021D04C4(r) == 1) {
-                func_021AC154(r);
-                func_0219BF3C(a, 0);
+            if (FLDEFF_HIDE_IsFinished(r) == 1) {
+                FIELD_EFFECT_DeleteObject(r);
+                FLDMMDL_MOVE_SetHideEffect(a, 0);
             }
         }
         p[0] = p[0] + 2;
@@ -62,10 +62,10 @@ int func_02198FB0(u32 a)
             return 0;
         }
         v.y = 0;
-        func_0216D8C0(a, &v);
+        FLDMMDL_SetDrawOffset(a, &v);
     }
-    func_0216D568((void *)a, 1344);
-    func_0219BF54(a);
-    func_0216D7CC(a);
+    FLDMMDL_SetMoveBit((void *)a, 1344);
+    FLDMMDL_MOVE_SetHideNoEffect(a);
+    FLDMMDL_IncAcmdSeq(a);
     return 1;
 }

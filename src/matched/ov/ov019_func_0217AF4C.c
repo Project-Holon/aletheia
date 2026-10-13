@@ -1,5 +1,5 @@
 /*
- * function: func_0217AF4C
+ * function: UNION_CHARA_CheckTalkable
  * address:  0x0217AF4C
  * packet:   pkt_ov019_0217AF4C
  * region:   ov019
@@ -26,7 +26,7 @@ typedef struct {
     u8 pad[2];
 } Ent;
 
-int func_0217AF4C(char *a, u16 key)
+int UNION_CHARA_CheckTalkable(char *a, u16 key)
 {
     Ent *p;
     int i;

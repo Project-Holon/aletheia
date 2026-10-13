@@ -1,5 +1,5 @@
 /*
- * function: func_021F0AC4
+ * function: DOWSING_UpdateCloseButton
  * address:  0x021F0AC4
  * packet:   pkt_ov033_021F0AC4
  * region:   ov033
@@ -13,10 +13,10 @@
  *   func_02035D20 0x02035D20 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020362DC 0x020362DC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B98C 0x0204B98C arm
- *   func_021A0F30 0x021A0F30 thumb ov021
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
+ *   FIELD_SUBSCREEN_RequestMode 0x021A0F30 thumb ov021
  */
 
 typedef unsigned int u32;
@@ -28,10 +28,10 @@ extern u32 func_020362DC(void);
 typedef unsigned short u16;
 struct Actor;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020061E4(unsigned);
-extern u32 func_0204B98C(struct Actor *a);
-extern int func_021A0F30(u32 a, u32 b);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
 
 typedef struct {
     unsigned f00;
@@ -41,7 +41,7 @@ typedef struct {
     unsigned f28;
 } T;
 
-void func_021F0AC4(T *p)
+void DOWSING_UpdateCloseButton(T *p)
 {
     unsigned x;
     unsigned y;
@@ -64,20 +64,20 @@ void func_021F0AC4(T *p)
         }
         if (hit != 0) {
             p->f28 = 1;
-            func_0204B878((struct Obj *)p->f24, 8);
+            CLACT_SetActorAnimSeq((struct Obj *)p->f24, 8);
             func_020061E4(0x556);
             return;
         }
         break;
     case 1:
-        if (func_0204B98C((struct Actor *)p->f24) == 0) {
+        if (CLACT_IsActorAnimActive((struct Actor *)p->f24) == 0) {
             p->f28 = 2;
-            func_0204B878((struct Obj *)p->f24, 0);
+            CLACT_SetActorAnimSeq((struct Obj *)p->f24, 0);
             return;
         }
         break;
     case 2:
-        func_021A0F30(p->f04, 0);
+        FIELD_SUBSCREEN_RequestMode(p->f04, 0);
         p->f28 = 3;
         break;
     case 3:

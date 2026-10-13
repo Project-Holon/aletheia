@@ -1,5 +1,5 @@
 /*
- * function: func_021B4FB0
+ * function: SCRCMD_PROC_FLD_CallShortcutEvent
  * address:  0x021B4FB0
  * packet:   pkt_ov021_021B4FB0
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_021C5BD0  0x021C5BD0  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   SCRCMD_CreateSubProcEvent  0x021C5BD0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -26,19 +26,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void func_0215897C(void *a, void *b);
-extern unsigned short *func_02159AE8(void *a0, void *a1);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void SCRIPT_SYS_CallEvent(void *a, void *b);
+extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Big;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
-extern void *func_021C5BD0(void *a, u32 b, u32 c);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern void *SCRCMD_CreateSubProcEvent(void *a, u32 b, u32 c);
 
-int func_021B4FB0(u32 a, u32 b)
+int SCRCMD_PROC_FLD_CallShortcutEvent(u32 a, u32 b)
 {
     void *r0;
     void *r7;
@@ -46,16 +46,16 @@ int func_021B4FB0(u32 a, u32 b)
     unsigned short *x;
     u32 y;
 
-    r0 = func_0215A5F4((void *)b);
-    r7 = func_0215A5DC((void *)b);
-    func_02012EBC(func_020120F4(r7));
-    func_0201210C((void *)r7);
-    r4 = func_02159B10((void *)a, (void *)b);
-    x = func_02159AE8((void *)a, (void *)b);
+    r0 = SCRCMD_WORK_GetScriptWork((void *)b);
+    r7 = SCRCMD_WORK_GetGameSystem((void *)b);
+    GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(r7));
+    GAMESYSTEM_GetFieldMap((void *)r7);
+    r4 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    x = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     if (r4 == 0 || r4 != 1)
         y = 0;
     else
         y = 1;
-    func_0215897C(r0, func_021C5BD0(r7, y, (u32)x));
+    SCRIPT_SYS_CallEvent(r0, SCRCMD_CreateSubProcEvent(r7, y, (u32)x));
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCFAC
+ * function: BTL_SERVER_FLOW_CheckDisobedience
  * address: 0x021BCFAC
  * packet: pkt_ov093_021BCFAC
  * region: ov093
@@ -18,7 +18,7 @@
  *   compares; an int d = x - y block; r as u32 with (u16) at the def and (int)r at the compare (a real
  *   signedness cast, still forwards r0). All 55 B.
  * note 2026-10-05 (integrator): the source no longer has the (int)(u32)r stand-in cast, so it is DIFF (the plain compare drops the reload of r). With the cast it verifies EXACT*: rejected as a stand-in.
- * note 2026-10-05: witness src/matched/arm9/POKE_TOOL_IsOwnedByPlayer.c filed (EXACT); the wildcard at +0x38 resolves after regeneration. The reload still needs the (int)(u32)r spelling, which is a no-op steering cast (stand-in, not accepted). Tried without it: u16 callee return type for func_021D78AC with plain compares, and an int local fed from the u16 return: both forward r0 and drop the ldr (200 bytes). Parked MATCH* because of the cast; reading: r is spilled for real (p,a,x,y fill r4..r7), so the original defines r with the store at the def and the reload at first use; no stand-in free source found.
+ * note 2026-10-05: witness src/matched/arm9/POKE_TOOL_IsOwnedByPlayer.c filed (EXACT); the wildcard at +0x38 resolves after regeneration. The reload still needs the (int)(u32)r spelling, which is a no-op steering cast (stand-in, not accepted). Tried without it: u16 callee return type for BTL_CALC_Random with plain compares, and an int local fed from the u16 return: both forward r0 and drop the ldr (200 bytes). Parked MATCH* because of the cast; reading: r is spilled for real (p,a,x,y fill r4..r7), so the original defines r with the store at the def and the reload at first use; no stand-in free source found.
  * evidence (older): every concrete byte matched (MATCH*, the trailing 021BD07E
  *   halfword is alignment padding). The one wildcard is +0x38, the bl to the
  *   ARM9 Thumb thunk POKE_TOOL_IsOwnedByPlayer (ldr r3,[pc]; bx r3; .word 0x02018489),
@@ -41,55 +41,55 @@
  *   the bge into bhs.
  * symbols:
  *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb
- *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021B8DDC 0x021B8DDC thumb ov093
  *   func_021B8FF4 0x021B8FF4 thumb ov093
- *   func_021D5844 0x021D5844 thumb ov093
+ *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
  *   func_021B871C 0x021B871C thumb ov093
- *   func_021B85A0 0x021B85A0 thumb ov093
+ *   BTL_MAIN_GetBadgeCount 0x021B85A0 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D78AC 0x021D78AC thumb ov093
- *   func_021D62C4 0x021D62C4 thumb ov093
- *   func_021BD080 0x021BD080 thumb ov093
+ *   BTL_CALC_Random 0x021D78AC thumb ov093
+ *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
+ *   BTL_SERVER_FLOW_CheckObedienceOverride 0x021BD080 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_021B86B8(void ***);
-extern u8 func_021D5440(u8 *);
+extern void *BTL_MAIN_GetCompetitor(void ***);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern u8 func_021B8DDC(u32);
 extern u8 func_021B8FF4(u8 *);
-extern void *func_021D5844(void *);
+extern void *BTL_POKEPARAM_GetMon(void *);
 extern int func_021B871C(char *);
 extern int POKE_TOOL_IsOwnedByPlayer(void *, int);
 struct Unk021D62A8;
-extern u8 func_021B85A0(u8 **p);
+extern u8 BTL_MAIN_GetBadgeCount(u8 **p);
 extern int func_021D59B4(u8 *, int);
-extern u32 func_021D78AC(u32);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern int func_021BD080(u8 *, u8 *);
+extern u32 BTL_CALC_Random(u32);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern int BTL_SERVER_FLOW_CheckObedienceOverride(u8 *, u8 *);
 
-int func_021BCFAC(u8 *p, u8 *a)
+int BTL_SERVER_FLOW_CheckDisobedience(u8 *p, u8 *a)
 {
     int k;
     u32 n;
     u16 x, y;
-    if ((u32)func_021B86B8(*(void ****)(p + 4)) <= 1) {
-        k = func_021B8DDC(func_021D5440(a));
+    if ((u32)BTL_MAIN_GetCompetitor(*(void ****)(p + 4)) <= 1) {
+        k = func_021B8DDC(BTL_POKEPARAM_GetPokeId(a));
         if (k == func_021B8FF4(*(u8 **)(p + 4))) {
-            void *v = func_021D5844(a);
+            void *v = BTL_POKEPARAM_GetMon(a);
             if (POKE_TOOL_IsOwnedByPlayer(v, func_021B871C(*(char **)(p + 4))) == 0) {
-                n = func_021B85A0((u8 **)(*(u8 **)(p + 4)));
+                n = BTL_MAIN_GetBadgeCount((u8 **)(*(u8 **)(p + 4)));
                 if (n < 8) {
                     u16 r;
                     x = (u16)func_021D59B4(a, 15);
                     y = (u16)(10 * (n + 1));
                     if (x <= y) return 0;
-                    if ((u16)func_021D78AC(x + y + 1) < y) return 0;
-                    if (func_021D62C4((struct Unk021D62A8 *)a, 2) != 0) return 4;
-                    r = func_021D78AC(256);
-                    if (r < x - y && func_021BD080(p, a) == 0) return 2;
+                    if ((u16)BTL_CALC_Random(x + y + 1) < y) return 0;
+                    if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 2) != 0) return 4;
+                    r = BTL_CALC_Random(256);
+                    if (r < x - y && BTL_SERVER_FLOW_CheckObedienceOverride(p, a) == 0) return 2;
                     r -= x - y;
                     if (r < x - y) return 3;
                     return 4;

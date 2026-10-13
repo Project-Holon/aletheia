@@ -1,5 +1,5 @@
 /*
- * function: func_0203CD98
+ * function: GFL_NET_GetRunState
  * address:  0x0203CD98
  * packet:   pkt_0203C304
  * region:   arm9
@@ -19,8 +19,8 @@
  * own call closes on the `label` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CD98.c \
- *       --func func_0203CD98 --addr 0x0203CD98 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_GetRunState.c \
+ *       --func GFL_NET_GetRunState --addr 0x0203CD98 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -38,7 +38,7 @@ struct Singleton {
 
 extern void *GFL_NET_GetSession(void);
 
-int func_0203CD98(void)
+int GFL_NET_GetRunState(void)
 {
     struct Singleton *s = GFL_NET_GetSession();
 

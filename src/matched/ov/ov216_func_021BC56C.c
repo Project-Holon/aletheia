@@ -10,13 +10,13 @@
  * symbols:
  *   func_021BC43C 0x021BC43C thumb ov216
  *   func_020307B0 0x020307B0 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj14716.h"
 extern void func_021BC43C(void *,char *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021BC56C(char *p)
 {
     int i;
@@ -25,5 +25,5 @@ void func_021BC56C(char *p)
     func_020307B0(((struct Obj14716 *)p)->f114);
     func_021BC43C(p,p+0x80);
     func_021BC43C(p,p+0x5c);
-    func_02049238(((struct Obj14716 *)p)->f58);
+    ARC_TOOL_DeleteHandle(((struct Obj14716 *)p)->f58);
 }

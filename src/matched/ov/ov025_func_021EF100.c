@@ -1,5 +1,5 @@
 /*
- * function: func_021EF100
+ * function: WEATHER_DOWNPOUR_EndParticles
  * address: 0x021EF100
  * packet: pkt_ov025_021EF100
  * region: ov025
@@ -9,23 +9,23 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021A21B8 0x021A21B8 thumb ov021
- *   func_021A2228 0x021A2228 thumb ov021
- *   func_021A25CC 0x021A25CC thumb ov021
+ *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
+ *   WEATHER_TASK_RetargetSpawner 0x021A2228 thumb ov021
+ *   WEATHER_TASK_StopSe 0x021A25CC thumb ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int *func_021A21B8(int *);
-extern void func_021A2228(u8 *, int, int, int, int);
-extern void func_021A25CC(u8 *);
+extern int *WEATHER_TASK_GetWorkBuffer(int *);
+extern void WEATHER_TASK_RetargetSpawner(u8 *, int, int, int, int);
+extern void WEATHER_TASK_StopSe(u8 *);
 
-int func_021EF100(u8 *a)
+int WEATHER_DOWNPOUR_EndParticles(u8 *a)
 {
     int *p;
-    p = func_021A21B8((int *)a);
-    func_021A2228(a, 0, 8, 4, -1);
+    p = WEATHER_TASK_GetWorkBuffer((int *)a);
+    WEATHER_TASK_RetargetSpawner(a, 0, 8, 4, -1);
     *p = 1;
-    func_021A25CC(a);
+    WEATHER_TASK_StopSe(a);
     return 1;
 }

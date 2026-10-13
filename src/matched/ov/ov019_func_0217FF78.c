@@ -11,22 +11,22 @@
  *
  * symbols:
  *   func_0217FF78   0x0217FF78  thumb
- *   func_020399A8   0x020399A8  arm
- *   func_0203D1A4   0x0203D1A4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle   0x020399A8  arm
+ *   GFL_NET_GetHandleNetID   0x0203D1A4  arm
  *   func_02008550   0x02008550  thumb
- *   func_021751DC   0x021751DC  thumb  ov012
- *   func_021677E4   0x021677E4  thumb
- *   func_021675D0   0x021675D0  thumb
- *   func_02167848   0x02167848  thumb  ov010
+ *   COLOSSEUM_TakePackage   0x021751DC  thumb  ov012
+ *   COMM_PLAYER_CheckOccupy   0x021677E4  thumb
+ *   COMM_PLAYER_Add   0x021675D0  thumb
+ *   COMM_PLAYER_SetPackage   0x02167848  thumb  ov010
  *
  * Up to four entries of the table based at p+0x18 (stride 0x2c), dispatching
  * each through one of two handlers.  Addresses are Black-image addresses.
  *
  * Recursive MATCH unblocker result (wave 9).  Both previously-blocked sites
  * now attest `matched`, so the file reaches EXACT:
- *   +0024 func_021751DC ov012 -- already matched by an earlier lane
+ *   +0024 COLOSSEUM_TakePackage ov012 -- already matched by an earlier lane
  *       (src/matched/ov012_func_021751DC.c).
- *   +005C func_02167848 ov010 -- the last blocker; now
+ *   +005C COMM_PLAYER_SetPackage ov010 -- the last blocker; now
  *       src/matched/ov010_func_02167848.c.  It is an unlabelled Thumb leaf
  *       (ov010 emitted it as a `pool_` word run because `push {r4,r5}` saves no
  *       `lr`), so no `func_` label witnesses it and the only reference
@@ -42,16 +42,16 @@
 typedef unsigned int u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
-extern int func_021751DC(u32 *p, int i, u32 *out);
-extern int func_021677E4(u32 v, int i);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern int COLOSSEUM_TakePackage(u32 *p, int i, u32 *out);
+extern int COMM_PLAYER_CheckOccupy(u32 v, int i);
 typedef unsigned char  u8;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_021675D0(u32 v, int i, int mode, u32 *out);
-extern void func_02167848(char *a0, int a1, char *a2);
+extern void COMM_PLAYER_Add(u32 v, int i, int mode, u32 *out);
+extern void COMM_PLAYER_SetPackage(char *a0, int a1, char *a2);
 
 void func_0217FF78(u32 *p)
 {
@@ -59,19 +59,19 @@ void func_0217FF78(u32 *p)
     int i;
     u32 tmp[5];
 
-    count = func_0203D1A4((struct Link *)func_020399A8());
+    count = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
 
     for (i = 0; i < 4; i++) {
-        if (count != i && func_021751DC(p, i, tmp) == 1) {
-            if (func_021677E4(p[0], i) == 0) {
+        if (count != i && COLOSSEUM_TakePackage(p, i, tmp) == 1) {
+            if (COMM_PLAYER_CheckOccupy(p[0], i) == 0) {
                 int v = func_02008550((const struct Sub0200852CObj *)((u32 *)((char *)p + 0x18 + 0x2c * i)));
                 int mode = 1;
 
                 if (v)
                     mode = 4;
-                func_021675D0(p[0], i, mode, tmp);
+                COMM_PLAYER_Add(p[0], i, mode, tmp);
             } else {
-                func_02167848((char *)p[0], i, (char *)tmp);
+                COMM_PLAYER_SetPackage((char *)p[0], i, (char *)tmp);
             }
         }
     }

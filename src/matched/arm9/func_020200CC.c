@@ -1,5 +1,5 @@
 /*
- * function: func_020200CC
+ * function: BMP_MENULIST_Main
  * address:  0x020200CC
  * packet:   pkt_020200CC
  * region:   arm9
@@ -16,15 +16,15 @@
  *   BMP_MENULIST_MoveCursor  0x02020970  thumb
  *
  * The per-frame key handler of the menu-cursor object built by
- * func_0201FF30: same shape as BMP_MENU_ProcessInput one block down, over the wider
+ * BMP_MENULIST_Create: same shape as BMP_MENU_ProcessInput one block down, over the wider
  * struct that unit_020206C0.c already spells out.  Sound ids 0x54C / 0x551 /
  * 0x548 sit in the trailing pool.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020200CC.c \
- *       --func func_020200CC --addr 0x020200CC --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENULIST_Main.c \
+ *       --func BMP_MENULIST_Main --addr 0x020200CC --thumb
  *
- * Closed in wave 13 from the 2026-09-21 note (docs/notes/func_020200CC.c.txt,
+ * Closed in wave 13 from the 2026-09-21 note (docs/notes/BMP_MENULIST_Main.c.txt,
  * 81 bytes out).  The note read the residue as an allocator choice (`tst`
  * versus a copy and `ands`); it was a misread of the image.  In the
  * f1Amid == 2 arm the masks are derived from the 0x80 still live in r2:
@@ -67,7 +67,7 @@ extern unsigned int func_0203633C(void);
 extern void func_020061E4(u32 id);
 extern u32  BMP_MENULIST_MoveCursor(struct Obj *o, u8 a, u8 b, u8 c);
 
-s32 func_020200CC(struct Obj *o)
+s32 BMP_MENULIST_Main(struct Obj *o)
 {
     u32 keys = func_020362DC();
     u32 one = 1;

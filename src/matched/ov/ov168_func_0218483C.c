@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  */
 
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 
 int func_0218483C(void)
 {
-    return func_02035C08((void *)0x0218486E);
+    return TOUCHPANEL_HitTrg((void *)0x0218486E);
 }

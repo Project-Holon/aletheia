@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note: 2026-10-05 (D5-03): closed. func_02166CD0 takes two arguments (key handle, message id),
+ * note: 2026-10-05 (D5-03): closed. SYMBOL_MAP_CheckEventFlag takes two arguments (key handle, message id),
  *   as in its matched definition; the 0x10 field read is passed as the second one. The image
  *   copies the result to r1 for that call, which was the old "sentinel compare" residue.
  * symbols:
  *   ov208_func_021BC3A4  0x021BC3A4  thumb  ov208
- *   func_021BBB3C  0x021BBB3C  thumb  ov072
- *   func_02166CD0  0x02166CD0  thumb
- *   func_0204B294  0x0204B294  arm
+ *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
+ *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B688  0x0204B688  arm
@@ -38,9 +38,9 @@ typedef struct {
 extern int  ov208_func_021BC3A4(int key);
 struct Actor;
 struct Obj;
-extern unsigned short func_021BBB3C(char *p, int a, int b);
-extern int  func_02166CD0(int a, u32 msg);
-extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
+extern int  SYMBOL_MAP_CheckEventFlag(int a, u32 msg);
+extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -57,20 +57,20 @@ void ov208_func_021C0544(u16 *heap, u8 *p, int key)
 
     k = ov208_func_021BC3A4(key);
     for (i = 0; i < 0x3d; i++) {
-        msg = func_021BBB3C((char *)W(0x3c8), i, 0x10);
+        msg = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 0x10);
         if (msg != 0xffff) {
-            if ((func_02166CD0(k, msg) == 0 ? 1 : 0)) {
+            if ((SYMBOL_MAP_CheckEventFlag(k, msg) == 0 ? 1 : 0)) {
                 *(u32 *)(p + i * 8 + 0x1e0) = 1;
                 *(u32 *)(p + i * 8 + 0x1e4) = 0;
             } else {
-                kind = func_021BBB3C((char *)W(0x3c8), i, 0xb);
-                pos.x = func_021BBB3C((char *)W(0x3c8), i, 2);
-                pos.y = func_021BBB3C((char *)W(0x3c8), i, 3);
+                kind = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 0xb);
+                pos.x = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 2);
+                pos.y = TOWNMAP_GRH_GetTownInfoValue((char *)W(0x3c8), i, 3);
                 pos.z = kind == 4 ? 0xe : 0x10;
                 pos.pri = 5;
                 pos.f7 = 2;
                 *(u32 *)(p + i * 8 + 0x1e0) = 2;
-                *(u32 *)(p + i * 8 + 0x1e4) = (u32)func_0204B294((void *)W(0x1d0), W(0x98), W(0x9c), W(0xa0), &pos, 0, *heap);
+                *(u32 *)(p + i * 8 + 0x1e4) = (u32)CLACT_CreateActor((void *)W(0x1d0), W(0x98), W(0x9c), W(0xa0), &pos, 0, *heap);
                 func_0204B92C((struct Obj *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
                 func_0204B3DC((struct Obj *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);
                 func_0204B688((struct Actor *)(*(u32 *)(p + i * 8 + 0x1e4)), 1);

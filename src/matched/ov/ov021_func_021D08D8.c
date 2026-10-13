@@ -1,5 +1,5 @@
 /*
- * function: func_021D08D8
+ * function: FLDEFF_BUBBLE_DrawBubble
  * address:  0x021D08D8
  * packet:   pkt_ov021_021D08D8
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   d_021DE628     0x021DE628  data  ov021  a4
- *   func_0204784C  0x0204784C  arm
- *   func_02047AC8  0x02047AC8  arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  */
 
 typedef unsigned char u8;
@@ -31,20 +31,20 @@ typedef struct Blk021D08D8 {
 
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 struct Arg;
-extern int func_02047AC8(void *a0, struct Arg *a1);
+extern int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1);
 extern Blk021D08D8 d_021DE628;
 
-void func_021D08D8(Row *r, int a)
+void FLDEFF_BUBBLE_DrawBubble(Row *r, int a)
 {
     int i;
 
     if (r->f0 != 0) {
         d_021DE628 = *(Blk021D08D8 *)r->f8;
         for (i = 0; i < 2; i++) {
-            func_0204784C((struct AnmCtl *)a, (u16)i, &r->f4);
+            G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)a, (u16)i, &r->f4);
         }
-        func_02047AC8((void *)a, (struct Arg *)(&d_021DE628));
+        G3D_SYSTEM_DrawObjectCulling((void *)a, (struct Arg *)(&d_021DE628));
     }
 }

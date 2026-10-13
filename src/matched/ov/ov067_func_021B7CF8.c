@@ -1,5 +1,5 @@
 /*
- * function: func_021B7CF8
+ * function: FRAME_LIST_ReadTouch
  * address:  0x021B7CF8
  * packet:   pkt_ov067_021B7CF8
  * region:   ov067
@@ -13,7 +13,7 @@
  * entry is its smallest displacement), so it is written first in the switch.
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
  */
@@ -47,18 +47,18 @@ typedef struct S {
     u8 f95;
 } S;
 
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern u8 func_020355C4(void);
 extern void func_020355D8(int a);
 
-int func_021B7CF8(S *p)
+int FRAME_LIST_ReadTouch(S *p)
 {
     int idx;
     int save;
 
     if (p->f2c == 0)
         return 14;
-    idx = func_02035C08(p->f2c);
+    idx = TOUCHPANEL_HitTrg(p->f2c);
     if (idx == -1)
         return 14;
     save = func_020355C4();

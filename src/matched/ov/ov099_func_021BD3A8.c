@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_0200AE54  0x0200AE54  thumb
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned long  u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *h, unsigned int a, unsigned int b);
 struct Reg;
@@ -37,7 +37,7 @@ int func_021BD3A8(char *p, int v)
     int b;
     int id;
 
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x11, 0xA) != 0) {
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0xA) != 0) {
         a = func_0200AE54((struct Reg *)(((struct Obj07947 *)p)->f1348), 2);
         b = func_0200AE54((struct Reg *)(((struct Obj07947 *)p)->f1348), 3);
         if (a == 3 && b == 3) {

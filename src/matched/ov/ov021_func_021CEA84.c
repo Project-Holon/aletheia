@@ -1,5 +1,5 @@
 /*
- * function: func_021CEA84
+ * function: COMM_ENTRY_MENU_ClearPendingBits
  * address:  0x021CEA84
  * packet:   pkt_ov021_021CEA84
  * region:   ov021
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021CEA84(u8 *p, int n)
+void COMM_ENTRY_MENU_ClearPendingBits(u8 *p, int n)
 {
     p[0x521] &= 0xff ^ (1 << n);
     p[0x522] &= 0xff ^ (1 << n);

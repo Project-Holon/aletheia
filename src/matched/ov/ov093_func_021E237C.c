@@ -7,15 +7,15 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * lever: Word return from func_021E896C reserves the unused aggregate slot;
+ * lever: Word return from BTLV_CORE_MakeSlotKind2 reserves the unused aggregate slot;
  * u8 c schedules its stack reload after the zero store at 021E23CE.
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
- *   func_021D62C4 0x021D62C4 thumb ov093
+ *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   func_021C88A4 0x021C88A4 thumb ov093
- *   func_021D70A8 0x021D70A8 thumb ov093
- *   func_021E896C 0x021E896C thumb ov093
+ *   BTL_EVENT_GetFactorKey 0x021D70A8 thumb ov093
+ *   BTLV_CORE_MakeSlotKind2 0x021E896C thumb ov093
  *   func_021C8838 0x021C8838 thumb ov093
  *   func_021C8860 0x021C8860 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
@@ -29,14 +29,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 struct QQ;
 struct Unk021D62A8;
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void *func_021C88A4(char *p, int a, int b);
-extern u16 func_021D70A8(struct QQ *p);
-extern Word func_021E896C(int, int);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
+extern Word BTLV_CORE_MakeSlotKind2(int, int);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
@@ -51,12 +51,12 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
     u32 flags;
     unsigned i;
     u8 *entry;
-    if (c != func_021D775C(3)) return;
-    if (func_021D62C4(func_021C7CF4(b, c), 25) != 0) return;
+    if (c != BTL_EVENT_GetVar(3)) return;
+    if (BTL_POKEPARAM_HasSick(func_021C7CF4(b, c), 25) != 0) return;
     if (((struct Obj13508 *)d)->f18 != 0) return;
     p = func_021C88A4(b, 12, c);
     ((struct Obj05222 *)p)->f4 = 25;
-    *(Word *)(p + 8) = func_021E896C(3, func_021D70A8(a));
+    *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind2(3, BTL_EVENT_GetFactorKey(a));
     p[12] = 0;
     p[15] = c;
     func_021C88C8(b, p);
@@ -69,7 +69,7 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
     buf[0] = func_021C7F68(b, (u16)(flags | 0x800), buf + 1);
     for (i = 0; i < buf[0]; i++) {
         entry = buf + i;
-        if (func_021D62C4(func_021C7CF4(b, entry[1]), 2) != 0) {
+        if (BTL_POKEPARAM_HasSick(func_021C7CF4(b, entry[1]), 2) != 0) {
             p = func_021C88A4(b, 11, c);
             ((struct Obj05222 *)p)->f4 = 2;
             p[20] = 1;

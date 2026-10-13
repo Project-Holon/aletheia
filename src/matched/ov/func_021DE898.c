@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * blocker:  every concrete byte reproduces; the single call to
- *   func_02012F98 (0x02012F98) stays wildcarded because the target is an
+ *   GAME_DATA_GetBoxSave (0x02012F98) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  *
  * symbols:
- *   func_02012F98  0x02012F98  thumb
+ *   GAME_DATA_GetBoxSave  0x02012F98  thumb
  *   func_02007C34  0x02007C34  thumb
  */
 #include "../include/Obj09222.h"
 #include "../include/Obj18454.h"
 
 struct Sub02007AC8Entry;
-extern struct Sub02007AC8Entry *func_02012F98(void *p);
+extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
 struct PerapVoice;
 extern void func_02007C34(struct PerapVoice *p, void *a);
 
@@ -33,5 +33,5 @@ void func_021DE898(int *q)
     int *r = *(int * *)&((struct Obj18454 *)q)->f0;
 
     if ((((struct Obj09222 *)r)->f24 - 4) > 1)
-        func_02007C34((struct PerapVoice *)func_02012F98((void *)(((struct Obj09222 *)r)->f0)), (void *)(((struct Obj09222 *)r)->f8));
+        func_02007C34((struct PerapVoice *)GAME_DATA_GetBoxSave((void *)(((struct Obj09222 *)r)->f0)), (void *)(((struct Obj09222 *)r)->f8));
 }

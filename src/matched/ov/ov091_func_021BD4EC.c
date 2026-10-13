@@ -1,5 +1,5 @@
 /*
- * function: func_021BD4EC
+ * function: PLIST_BATTLE_RefreshOpponentMessage
  * address: 0x021BD4EC
  * packet: pkt_ov091_021BD4EC
  * region: ov091
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BD504 0x021BD504 thumb ov091
+ *   PLIST_BATTLE_PrintOpponentMessage 0x021BD504 thumb ov091
  */
 #include "../include/Obj00009.h"
 #include "../include/Obj20921.h"
-extern void func_021BD504(char *);
-void func_021BD4EC(char *p) { func_021BD504(p); ((struct Obj00009 *)p)->f20C=((struct Obj20921 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f94; }
+extern void PLIST_BATTLE_PrintOpponentMessage(char *);
+void PLIST_BATTLE_RefreshOpponentMessage(char *p) { PLIST_BATTLE_PrintOpponentMessage(p); ((struct Obj00009 *)p)->f20C=((struct Obj20921 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f94; }

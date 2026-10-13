@@ -1,5 +1,5 @@
 /*
- * function: func_0215C7C4
+ * function: SCRCMD_PROC_OnGtsNegotiationDone
  * address:  0x0215C7C4
  * packet:   pkt_ov010_0215C7C4
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled Thumb leaf (callback of func_0215C7E0): stores whether the
+ * Unlabelled Thumb leaf (callback of SCRCMD_PROC_CallGtsNegotiation): stores whether the
  * first record's word at +4 equals 1 into the halfword the second record
  * points to, then frees the first record's first word.
  *
@@ -27,7 +27,7 @@ typedef struct Rec {
 
 extern u32 func_020307B0(void *p);
 
-void func_0215C7C4(Rec *r)
+void SCRCMD_PROC_OnGtsNegotiationDone(Rec *r)
 {
     if (r->src[1] == 1)
         *r->dst = 1;

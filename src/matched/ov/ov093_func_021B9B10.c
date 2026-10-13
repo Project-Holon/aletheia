@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B8B9C 0x021B8B9C thumb ov093
- *   func_021CD9F4 0x021CD9F4 thumb ov093
+ *   BTL_MAIN_IsClientUsed 0x021B8B9C thumb ov093
+ *   BTL_CLIENT_AddPoints 0x021CD9F4 thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021B8B9C(unsigned char *p, unsigned char k);
-extern void func_021CD9F4(void *,int);
+extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
+extern void BTL_CLIENT_AddPoints(void *,int);
 void func_021B9B10(u8 *p,u8 i,int v) {
     void *q;
-    if(p[0x46e] && func_021B8B9C(p,i)) {
+    if(p[0x46e] && BTL_MAIN_IsClientUsed(p,i)) {
         q=*(void **)(p+i*4+16);
-        if(q) func_021CD9F4(q,v);
+        if(q) BTL_CLIENT_AddPoints(q,v);
     }
 }

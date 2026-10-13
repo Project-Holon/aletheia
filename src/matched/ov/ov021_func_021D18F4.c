@@ -1,5 +1,5 @@
 /*
- * function: func_021D18F4
+ * function: SCRCMD_MMDL_ICA_Update
  * address:  0x021D18F4
  * packet:   pkt_ov021_021D18F4
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011590  0x02011590  thumb
- *   func_02011558  0x02011558  thumb
- *   func_021D1988  0x021D1988  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216E014  0x0216E014  thumb  ov010
- *   func_0216D570  0x0216D570  thumb  ov010
- *   func_0216D758  0x0216D758  thumb  ov010
+ *   ICA_ANIME_IncFrameLoop  0x02011590  thumb
+ *   ICA_ANIME_Delete  0x02011558  thumb
+ *   SCRCMD_MMDL_ICA_ApplyFrame  0x021D1988  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
+ *   FLDMMDL_CallDrawProc  0x0216D758  thumb  ov010
  *   d_021DD5E0     0x021DD5E0  data    ov021  a4
  * Addresses are Black-image addresses.
  */
@@ -31,19 +31,19 @@ typedef int            s32;
 typedef struct Vec3 { s32 x, y, z; } Vec3;
 
 struct IcaAnime;
-extern u32 func_02011590(struct IcaAnime *p, s32 v);
-extern void func_02011558(struct IcaAnime *p);
-extern void func_021D1988(u32 a, u32 b, struct Vec3 *c);
+extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
+extern void SCRCMD_MMDL_ICA_ApplyFrame(u32 a, u32 b, struct Vec3 *c);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern u16 func_0216D5F8(void *p);
-extern void func_0216E014(void *a, int *p, int b);
-extern char *func_0216D570(char *p, u32 v);
-extern void func_0216D758(void *a0);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void FLDMMDL_InitPosition(void *a, int *p, int b);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
+extern void FLDMMDL_CallDrawProc(void *a0);
 extern u32 d_021DD5E0[];
 
-void func_021D18F4(u32 a, u32 b, u8 *p)
+void SCRCMD_MMDL_ICA_Update(u32 a, u32 b, u8 *p)
 {
     Vec3 v;
 
@@ -51,18 +51,18 @@ void func_021D18F4(u32 a, u32 b, u8 *p)
         return;
     }
     if (p[0x19A] == 1) {
-        if (func_02011590((struct IcaAnime *)(((struct Obj01673 *)p)->f184), 0x1000) == 0) {
-            func_021D1988(((struct Obj01673 *)p)->f184, ((struct Obj01673 *)p)->f0, (struct Vec3 *)(p + 0x18C));
+        if (ICA_ANIME_IncFrameLoop((struct IcaAnime *)(((struct Obj01673 *)p)->f184), 0x1000) == 0) {
+            SCRCMD_MMDL_ICA_ApplyFrame(((struct Obj01673 *)p)->f184, ((struct Obj01673 *)p)->f0, (struct Vec3 *)(p + 0x18C));
         } else {
-            func_02011558((struct IcaAnime *)(((struct Obj01673 *)p)->f184));
+            ICA_ANIME_Delete((struct IcaAnime *)(((struct Obj01673 *)p)->f184));
             ((struct Obj01673 *)p)->f184 = 0;
             p[0x19A] = 0;
-            func_0216D88C((const struct Actor *)((struct Obj01673 *)p)->f0, (struct VecFx32 *)&v);
-            func_0216E014((void *)(((struct Obj01673 *)p)->f0), (int *)(&v), func_0216D5F8((void *)(((struct Obj01673 *)p)->f0)));
+            FLDMMDL_GetPos((const struct Actor *)((struct Obj01673 *)p)->f0, (struct VecFx32 *)&v);
+            FLDMMDL_InitPosition((void *)(((struct Obj01673 *)p)->f0), (int *)(&v), FLDMMDL_GetDirDisp((void *)(((struct Obj01673 *)p)->f0)));
             if (d_021DD5E0[p[0x199]] != 0) {
-                func_0216D570((char *)(((struct Obj01673 *)p)->f0), 0x8000);
+                FLDMMDL_ClearMoveBit((char *)(((struct Obj01673 *)p)->f0), 0x8000);
             }
         }
-        func_0216D758((void *)(((struct Obj01673 *)p)->f0));
+        FLDMMDL_CallDrawProc((void *)(((struct Obj01673 *)p)->f0));
     }
 }

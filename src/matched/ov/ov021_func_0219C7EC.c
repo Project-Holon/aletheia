@@ -1,5 +1,5 @@
 /*
- * function: func_0219C7EC
+ * function: FLDMMDL_BLACT_AddActorMmdlByCode
  * address:  0x0219C7EC
  * packet:   pkt_ov021_0219C7EC
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D520  0x0216D520  thumb  ov010
- *   func_0219CBD4  0x0219CBD4  thumb  ov021
- *   func_0219C74C  0x0219C74C  thumb  ov021
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
+ *   FLDMMDL_BLACT_FindRes  0x0219CBD4  thumb  ov021
+ *   FLDMMDL_BLACT_AddActorMmdl  0x0219C74C  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -21,14 +21,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D67C(void *a0);
-extern u32 func_0216D520(void *p);
-extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
-extern void func_0219C74C(u32 a, u16 e);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern u32 FLDMMDL_SysGetBlActCont(void *p);
+extern int FLDMMDL_BLACT_FindRes(u32 a, u32 b, u32 c, u32 d);
+extern void FLDMMDL_BLACT_AddActorMmdl(u32 a, u16 e);
 
-void func_0219C7EC(u32 a, u32 b)
+void FLDMMDL_BLACT_AddActorMmdlByCode(u32 a, u32 b)
 {
     u16 t[2];
-    func_0219CBD4(func_0216D520(func_0216D67C((void *)a)), b, (u32)(&t[1]), (u32)(&t[0]));
-    func_0219C74C(a, t[1]);
+    FLDMMDL_BLACT_FindRes(FLDMMDL_SysGetBlActCont(FLDMMDL_GetMmdlSys((void *)a)), b, (u32)(&t[1]), (u32)(&t[0]));
+    FLDMMDL_BLACT_AddActorMmdl(a, t[1]);
 }

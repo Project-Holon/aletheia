@@ -1,5 +1,5 @@
 /*
- * function: func_0217BAA8
+ * function: UNION_ONESELF_CheckEntryParties
  * address:  0x0217BAA8
  * packet:   pkt_ov019_0217BAA8
  * region:   ov019
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217B9BC  0x0217B9BC  thumb  ov019
- *   func_0217BA10  0x0217BA10  thumb  ov019
- *   func_0217BA48  0x0217BA48  thumb  ov019
- *   func_0217BA6C  0x0217BA6C  thumb  ov019
+ *   UNION_ONESELF_IsBattleStatus  0x0217B9BC  thumb  ov019
+ *   UNION_ONESELF_LoadRegulation  0x0217BA10  thumb  ov019
+ *   UNION_ONESELF_CheckMyParty  0x0217BA48  thumb  ov019
+ *   UNION_ONESELF_CheckBattleTeamParty  0x0217BA6C  thumb  ov019
  */
 
-extern int func_0217B9BC(unsigned int x);
-extern void func_0217BA10(char *p, int x);
-extern int func_0217BA48(char *p, unsigned int *mask);
-extern int func_0217BA6C(char *p, unsigned int *mask);
+extern int UNION_ONESELF_IsBattleStatus(unsigned int x);
+extern void UNION_ONESELF_LoadRegulation(char *p, int x);
+extern int UNION_ONESELF_CheckMyParty(char *p, unsigned int *mask);
+extern int UNION_ONESELF_CheckBattleTeamParty(char *p, unsigned int *mask);
 
-int func_0217BAA8(int a, int b, int *p, int *q)
+int UNION_ONESELF_CheckEntryParties(int a, int b, int *p, int *q)
 {
     int r, t;
     *p = 0;
     *q = 0;
-    if (func_0217B9BC(b) == 0)
+    if (UNION_ONESELF_IsBattleStatus(b) == 0)
         return 1;
-    func_0217BA10((char *)a, b);
-    r = func_0217BA48((char *)a, (unsigned int *)p);
-    t = func_0217BA6C((char *)a, (unsigned int *)q);
+    UNION_ONESELF_LoadRegulation((char *)a, b);
+    r = UNION_ONESELF_CheckMyParty((char *)a, (unsigned int *)p);
+    t = UNION_ONESELF_CheckBattleTeamParty((char *)a, (unsigned int *)q);
     if (r == 0 || t == 0)
         return 1;
     return 0;

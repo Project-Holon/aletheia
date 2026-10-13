@@ -1,5 +1,5 @@
 /*
- * function: func_02165FB4
+ * function: GAME_BEACON_ACCESSOR_GetActionCheckIndex
  * address:  0x02165FB4
  * packet:   pkt_ov010_02165FB4
  * region:   ov010
@@ -12,7 +12,7 @@
  * First byte of the two-byte table row for a record type.
  *
  * symbols:
- *   d_02171CE8  0x02171CE8  data  a1
+ *   GAME_BEACON_ACCESSOR_ActionTable  0x02171CE8  data  a1
  */
 
 typedef unsigned char u8;
@@ -26,9 +26,9 @@ typedef struct Row {
     u8 b;
 } Row;
 
-extern const Row d_02171CE8[];
+extern const Row GAME_BEACON_ACCESSOR_ActionTable[];
 
-u8 func_02165FB4(u16 type)
+u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 type)
 {
-    return d_02171CE8[type].a;
+    return GAME_BEACON_ACCESSOR_ActionTable[type].a;
 }

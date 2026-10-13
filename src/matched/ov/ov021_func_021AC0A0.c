@@ -1,5 +1,5 @@
 /*
- * function: func_021AC0A0
+ * function: FIELD_EFFECT_AddObjectToMgr
  * address:  0x021AC0A0
  * packet:   pkt_ov021_021AC0A0
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC134  0x021AC134  thumb  ov021
- *   func_021AC140  0x021AC140  thumb  ov021
+ *   FIELD_EFFECT_ObjectTask  0x021AC134  thumb  ov021
+ *   FIELD_EFFECT_InitObject  0x021AC140  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -39,10 +39,10 @@ struct Mgr { u32 count; u32 f4; Obj *objs; u32 heap; };
 
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02030DA8(u32 heap, void (*cb)(void), void *arg, u32 pri);
-extern void func_021AC134(u32 a, u32 b);
-extern void func_021AC140(Obj *o);
+extern void FIELD_EFFECT_ObjectTask(u32 a, u32 b);
+extern void FIELD_EFFECT_InitObject(Obj *o);
 
-Obj *func_021AC0A0(Mgr *m, const ObjFuncs *funcs, const V3 *pos, u32 f4, u32 f8, u32 pri)
+Obj *FIELD_EFFECT_AddObjectToMgr(Mgr *m, const ObjFuncs *funcs, const V3 *pos, u32 f4, u32 f8, u32 pri)
 {
     u32 i = 0;
     Obj *o = m->objs;
@@ -57,14 +57,14 @@ Obj *func_021AC0A0(Mgr *m, const ObjFuncs *funcs, const V3 *pos, u32 f4, u32 f8,
             if (pos != 0)
                 o->pos = *pos;
             o->mgr = m;
-            o->fd0 = func_02030DA8(m->heap, (void (*)(void))func_021AC134, o, pri);
+            o->fd0 = func_02030DA8(m->heap, (void (*)(void))FIELD_EFFECT_ObjectTask, o, pri);
             break;
         }
         i++;
         o++;
     } while (i < m->count);
     if (i < m->count) {
-        func_021AC140(o);
+        FIELD_EFFECT_InitObject(o);
         return o;
     }
     return 0;

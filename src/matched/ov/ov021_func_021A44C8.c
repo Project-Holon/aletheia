@@ -1,5 +1,5 @@
 /*
- * function: func_021A44C8
+ * function: FIELD_PLAYER_GRID_GetMoveResultOnFoot
  * address:  0x021A44C8
  * packet:   pkt_ov021_021A44C8
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A5610  0x021A5610  thumb  ov021
- *   func_021A53BC  0x021A53BC  thumb  ov021
- *   func_021A46F0  0x021A46F0  thumb  ov021
- *   func_021A4544  0x021A4544  thumb  ov021
- *   func_021A4598  0x021A4598  thumb  ov021
- *   func_021A4664  0x021A4664  thumb  ov021
- *   func_021A4698  0x021A4698  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsOnHopStartTile  0x021A5610  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsHopFlagSet  0x021A53BC  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetMoveResultOnFootHop  0x021A46F0  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetStandResultOnFoot  0x021A4544  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetWalkResultOnFoot  0x021A4598  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetTurnResultOnFoot  0x021A4664  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetBlockedResultOnFoot  0x021A4698  thumb  ov021
  */
 #include "../include/Obj09565.h"
 
@@ -25,37 +25,37 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021A3960(unsigned char *p);
-extern int func_021A5610(u32 *p);
-extern int func_021A53BC(u32 a);
-extern int func_021A46F0(u8 *, u32);
-extern int func_021A4544(u8 *p, u32 r, u8 *q);
-extern int func_021A4598(u8 *a, void *b, u8 *c);
-extern int func_021A4664(int a, int b, u8 *c);
-extern int func_021A4698(u8 *, void *, u32);
+extern void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+extern int FIELD_PLAYER_GRID_IsOnHopStartTile(u32 *p);
+extern int FIELD_PLAYER_GRID_IsHopFlagSet(u32 a);
+extern int FIELD_PLAYER_GRID_GetMoveResultOnFootHop(u8 *, u32);
+extern int FIELD_PLAYER_GRID_GetStandResultOnFoot(u8 *p, u32 r, u8 *q);
+extern int FIELD_PLAYER_GRID_GetWalkResultOnFoot(u8 *a, void *b, u8 *c);
+extern int FIELD_PLAYER_GRID_GetTurnResultOnFoot(int a, int b, u8 *c);
+extern int FIELD_PLAYER_GRID_GetBlockedResultOnFoot(u8 *, void *, u32);
 
-int func_021A44C8(u8 *p, u32 s)
+int FIELD_PLAYER_GRID_GetMoveResultOnFoot(u8 *p, u32 s)
 {
     void *a;
     int r;
 
-    a = func_021A3960(((struct Obj09565 *)p)->fC);
+    a = FIELD_PLAYER_CORE_GetMmdl(((struct Obj09565 *)p)->fC);
     r = 0;
-    if (func_021A5610((u32 *)p) == 1 || func_021A53BC((u32)p) == 1) {
-        return func_021A46F0(p, s);
+    if (FIELD_PLAYER_GRID_IsOnHopStartTile((u32 *)p) == 1 || FIELD_PLAYER_GRID_IsHopFlagSet((u32)p) == 1) {
+        return FIELD_PLAYER_GRID_GetMoveResultOnFootHop(p, s);
     }
     switch (((struct Obj09565 *)p)->f0) {
     case 0:
-        r = func_021A4544(p, (u32)a, (u8 *)s);
+        r = FIELD_PLAYER_GRID_GetStandResultOnFoot(p, (u32)a, (u8 *)s);
         break;
     case 1:
-        r = func_021A4598(p, a, (u8 *)s);
+        r = FIELD_PLAYER_GRID_GetWalkResultOnFoot(p, a, (u8 *)s);
         break;
     case 2:
-        r = func_021A4664((int)p, (int)a, (u8 *)s);
+        r = FIELD_PLAYER_GRID_GetTurnResultOnFoot((int)p, (int)a, (u8 *)s);
         break;
     case 3:
-        r = func_021A4698(p, a, s);
+        r = FIELD_PLAYER_GRID_GetBlockedResultOnFoot(p, a, s);
         break;
     }
     return r;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD01C
+ * function: FIELD_PLACE_NAME_CreateBmpWin
  * address:  0x021BD01C
  * packet:   pkt_ov021_021BD01C
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD090  0x021BD090  thumb  ov021
+ *   FIELD_PLACE_NAME_GetHeapId  0x021BD090  thumb  ov021
+ *   BMP_WIN_Create  0x020450F0  arm  arm9
  */
 
 typedef struct {
@@ -19,13 +20,13 @@ typedef struct {
 } Obj;
 
 typedef unsigned short u16;
-extern u16 func_021BD090(unsigned char *p);
+extern u16 FIELD_PLACE_NAME_GetHeapId(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
-void func_021BD01C(Obj *p)
+void FIELD_PLACE_NAME_CreateBmpWin(Obj *p)
 {
-    func_021BD090((unsigned char *)p);
-    p->f24 = (void *)func_020450F0(3, 0, 1, 0x20, 2, 0, 0);
+    FIELD_PLACE_NAME_GetHeapId((unsigned char *)p);
+    p->f24 = (void *)BMP_WIN_Create(3, 0, 1, 0x20, 2, 0, 0);
 }

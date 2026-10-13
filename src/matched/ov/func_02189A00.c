@@ -1,5 +1,5 @@
 /*
- * function: func_02189A00
+ * function: FIELDMAP_GetFld3dCi
  * address:  0x02189A00
  * packet:   pkt_02189A00
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_02189A00(u8 *p)
+void *FIELDMAP_GetFld3dCi(u8 *p)
 {
     return ((struct Obj00020 *)p)->f124;
 }

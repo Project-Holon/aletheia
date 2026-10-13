@@ -1,5 +1,5 @@
 /*
- * function: func_02188B58
+ * function: FIELDMAP_Main
  * address:  0x02188B58
  * packet:   pkt_ov021_02188B58
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   data_021D36B8  0x021D36B8  data  a4
+ *   sFieldMapSeqTable  0x021D36B8  data  a4
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02685.h"
@@ -23,9 +23,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 typedef u32 (*Fn)(void *a, void *b);
-extern Fn data_021D36B8[][2];
+extern Fn sFieldMapSeqTable[][2];
 
-u32 func_02188B58(void *a, u8 *b, u32 a2, u32 a3)
+u32 FIELDMAP_Main(void *a, u8 *b, u32 a2, u32 a3)
 {
     u32 c = ((struct Obj02685 *)b)->fCC;
     s32 r = 0;
@@ -33,7 +33,7 @@ u32 func_02188B58(void *a, u8 *b, u32 a2, u32 a3)
     Fn *row;
 
     ((struct Obj02685 *)b)->fCC = c + 1;
-    row = data_021D36B8[((struct Obj02685 *)b)->fC4];
+    row = sFieldMapSeqTable[((struct Obj02685 *)b)->fC4];
     f = row[b[0xC9]];
     if (f != 0)
         r = f(a, b);

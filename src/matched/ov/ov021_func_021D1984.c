@@ -1,5 +1,5 @@
 /*
- * function: func_021D1984
+ * function: SCRCMD_MMDL_ICA_Nop
  * address: 0x021D1984
  * packet: pkt_ov021_021D1984
  * region: ov021
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov021/field_palace_sys.c and filed here.
  */
 
-void func_021D1984(void);
+void SCRCMD_MMDL_ICA_Nop(void);
 
-void func_021D1984(void) {}
+void SCRCMD_MMDL_ICA_Nop(void) {}

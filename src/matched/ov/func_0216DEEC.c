@@ -1,5 +1,5 @@
 /*
- * function: func_0216DEEC
+ * function: FLDMMDL_SysGetFreeMmdl
  * address:  0x0216DEEC
  * packet:   pkt_0216DEEC
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D4F0  0x0216D4F0  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
+ *   FLDMMDL_SysGetMmdlMax  0x0216D4F0  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
  */
 #include "../include/Obj17852.h"
 
@@ -19,10 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 func_0216D4F0(void *p);
-extern int func_0216D55C(int a0, int a1);
+extern u16 FLDMMDL_SysGetMmdlMax(void *p);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
 
-int func_0216DEEC(int a0)
+int FLDMMDL_SysGetFreeMmdl(int a0)
 {
     int a1;
     int t4;
@@ -32,7 +32,7 @@ int func_0216DEEC(int a0)
 
 t5 = a0 + 0;
 t4 = 0;
-    a0 = func_0216D4F0((void *)a0);
+    a0 = FLDMMDL_SysGetMmdlMax((void *)a0);
 loc_0216DEF6:
 t7 = 1;
 t5 = ((struct Obj17852 *)t5)->f18;
@@ -41,7 +41,7 @@ t7 = t7 << 8;
 loc_0216DEFE:
 a0 = t5 + 0;
 a1 = 1;
-    a0 = func_0216D55C(a0, a1);
+    a0 = FLDMMDL_CheckStatusBit(a0, a1);
 loc_0216DF06:
     if (a0 != 0) goto loc_0216DF0E;
 loc_0216DF0A:

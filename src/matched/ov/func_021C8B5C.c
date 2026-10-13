@@ -1,5 +1,5 @@
 /*
- * function: func_021C8B5C
+ * function: FIELD_TILE_MOVE_SpinIsBlocked
  * address:  0x021C8B5C
  * packet:   pkt_021C8B5C
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021C8A8C  0x021C8A8C  thumb  ov021
- *   func_021639C0  0x021639C0  thumb  ov010
+ *   FIELD_TILE_MOVE_GetSpinStopDir  0x021C8A8C  thumb  ov021
+ *   FLDMMDL_MOVE_HitCheckMoveDir  0x021639C0  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00876.h"
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021639C0(u32, u32);
-extern int func_021C8A8C(u32 a);
+extern u32 FLDMMDL_MOVE_HitCheckMoveDir(u32, u32);
+extern int FIELD_TILE_MOVE_GetSpinStopDir(u32 a);
 
-int func_021C8B5C(u32 a)
+int FIELD_TILE_MOVE_SpinIsBlocked(u32 a)
 {
-if (func_021639C0(((struct Obj00876 *)((u8 *)(a)))->fC, func_021C8A8C(a)) != 0) {
+if (FLDMMDL_MOVE_HitCheckMoveDir(((struct Obj00876 *)((u8 *)(a)))->fC, FIELD_TILE_MOVE_GetSpinStopDir(a)) != 0) {
     return 1;
 }
 return 0;

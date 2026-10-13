@@ -113,7 +113,7 @@ enum {
     DWC_RAP_RESULT_DISCONNECT_ERROR = 0x3F1
 };
 
-extern GFLNetInitializeStruct *func_0203D798(void);
+extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
 
 /* Heap object that _pRapHeap points to (the DWC allocator of this module). */
 typedef struct DwcRapHeap {

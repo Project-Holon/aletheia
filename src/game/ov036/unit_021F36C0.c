@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F36C0.c
  * unit:     yes
- * function: func_021F36C0, func_021F38AC, func_021F38F4, func_021F3934, func_021F394C, func_021F395C, func_021F3980
+ * function: func_021F36C0, DAILY_LAYOUT_PickDistinct, DAILY_LAYOUT_ResetDeck, DAILY_LAYOUT_FindPoolCell, DAILY_LAYOUT_GetPoolCell, DAILY_LAYOUT_RemovePoolCell, DAILY_LAYOUT_DealCells
  * address:  0x021F36C0
  * region:   ov036
  * compiler: dsi/1.1p1
@@ -14,15 +14,15 @@
  *
  * symbols:
  *   func_0203F4E4  0x0203F4E4  arm
- *   func_021F3980  0x021F3980  thumb  ov036
+ *   DAILY_LAYOUT_DealCells  0x021F3980  thumb  ov036
  *   d_021F3AD4     0x021F3AD4  data  a4
- *   d_021F3B4C     0x021F3B4C  data  a4
+ *   gDailyLayoutMainDefs     0x021F3B4C  data  a4
  *   d_021F3A98     0x021F3A98  data  a4
- *   d_021F3BEC     0x021F3BEC  data  a4
+ *   gDailyLayoutFillerDefs     0x021F3BEC  data  a4
  *   func_020056EC 0x020056EC thumb
- *   d_021F3A7C     0x021F3A7C  data  a1
- *   d_021F3A82     0x021F3A82  data  a1
- *   d_021F3A90     0x021F3A90  data  a1
+ *   gDailyLayoutAnchorCells     0x021F3A7C  data  a1
+ *   gDailyLayoutCompanionCellsA     0x021F3A82  data  a1
+ *   gDailyLayoutCompanionCellsB     0x021F3A90  data  a1
  */
 struct RtcDate;
 typedef unsigned char u8;
@@ -94,18 +94,18 @@ typedef struct ExtraEntryDef {
 } ExtraEntryDef;
 
 extern void func_0203F4E4(struct RtcDate *date);
-extern int func_021F3980(CellDeck *deck);
+extern int DAILY_LAYOUT_DealCells(CellDeck *deck);
 extern u32 func_020056EC(u32 range);
 void func_021F36C0(DailyLayoutWork *work);
-void func_021F38AC(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks);
-void func_021F38F4(CellDeck *deck);
-int func_021F3934(CellDeck *deck, int cell);
-int func_021F394C(CellDeck *deck, int poolIdx);
-int func_021F395C(CellDeck *deck, int poolIdx);
+void DAILY_LAYOUT_PickDistinct(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks);
+void DAILY_LAYOUT_ResetDeck(CellDeck *deck);
+int DAILY_LAYOUT_FindPoolCell(CellDeck *deck, int cell);
+int DAILY_LAYOUT_GetPoolCell(CellDeck *deck, int poolIdx);
+int DAILY_LAYOUT_RemovePoolCell(CellDeck *deck, int poolIdx);
 extern const CellFlags d_021F3AD4[];
-extern const MainEntryDef d_021F3B4C[];
+extern const MainEntryDef gDailyLayoutMainDefs[];
 extern const ExtraEntryDef d_021F3A98[];
-extern const ExtraEntryDef d_021F3BEC[];
+extern const ExtraEntryDef gDailyLayoutFillerDefs[];
 
 
 /*
@@ -155,12 +155,12 @@ void func_021F36C0(DailyLayoutWork *work)
         break;
     }
     work->mainCount = mainCount;
-    func_021F38F4(&deck);
-    if (func_021F3980(&deck) == 0)
-        func_021F38F4(&deck);
-    func_021F38AC(10, mainCount, mainScratch, deck.mainPick);
-    func_021F38AC(5, 2, bonusScratch, deck.bonusPick);
-    func_021F38AC(15, 15 - (mainCount + 2), fillerScratch, deck.fillerPick);
+    DAILY_LAYOUT_ResetDeck(&deck);
+    if (DAILY_LAYOUT_DealCells(&deck) == 0)
+        DAILY_LAYOUT_ResetDeck(&deck);
+    DAILY_LAYOUT_PickDistinct(10, mainCount, mainScratch, deck.mainPick);
+    DAILY_LAYOUT_PickDistinct(5, 2, bonusScratch, deck.bonusPick);
+    DAILY_LAYOUT_PickDistinct(15, 15 - (mainCount + 2), fillerScratch, deck.fillerPick);
     for (i = 0; i < mainCount; i++) {
         cell = deck.dealt[i];
         if (d_021F3AD4[cell].flagA == 0)
@@ -177,11 +177,11 @@ void func_021F36C0(DailyLayoutWork *work)
         entryCell = deck.dealt[dealtIdx];
         pick = deck.mainPick[i];
         work->entry[entryCell].slotId = pick;
-        work->entry[entryCell].subId = d_021F3B4C[pick].subId;
-        work->entry[entryCell].valueA = d_021F3B4C[pick].valueA;
+        work->entry[entryCell].subId = gDailyLayoutMainDefs[pick].subId;
+        work->entry[entryCell].valueA = gDailyLayoutMainDefs[pick].valueA;
         work->entry[entryCell].category = 0;
-        work->entry[entryCell].valueC = d_021F3B4C[pick].valueC;
-        work->entry[entryCell].valueD = d_021F3B4C[pick].valueD;
+        work->entry[entryCell].valueC = gDailyLayoutMainDefs[pick].valueC;
+        work->entry[entryCell].valueD = gDailyLayoutMainDefs[pick].valueD;
         dealtIdx++;
     }
     for (i = 0; i < 2; i++) {
@@ -201,17 +201,17 @@ void func_021F36C0(DailyLayoutWork *work)
         pick = deck.fillerPick[i];
         work->entry[entryCell].slotId = i;
         work->entry[entryCell].subId = 0;
-        work->entry[entryCell].valueA = d_021F3BEC[pick].valueA;
+        work->entry[entryCell].valueA = gDailyLayoutFillerDefs[pick].valueA;
         work->entry[entryCell].category = 1;
-        work->entry[entryCell].valueC = d_021F3BEC[pick].valueC;
-        work->entry[entryCell].valueD = d_021F3BEC[pick].valueD;
+        work->entry[entryCell].valueC = gDailyLayoutFillerDefs[pick].valueC;
+        work->entry[entryCell].valueD = gDailyLayoutFillerDefs[pick].valueD;
         dealtIdx++;
     }
 }
 
 
 /* Picks pickCount distinct values out of 0..poolSize-1 into picks, without repeats. */
-void func_021F38AC(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks)
+void DAILY_LAYOUT_PickDistinct(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks)
 {
     unsigned char i;
     unsigned char pickIdx;
@@ -228,7 +228,7 @@ void func_021F38AC(int poolSize, int pickCount, unsigned char *scratch, unsigned
 }
 
 /* Resets the deck: all 15 cells in the pool, nothing dealt, identity picks. */
-void func_021F38F4(CellDeck *deck)
+void DAILY_LAYOUT_ResetDeck(CellDeck *deck)
 {
     int i;
     int j;
@@ -248,7 +248,7 @@ void func_021F38F4(CellDeck *deck)
 }
 
 /* Index of the cell in the pool, or -1. */
-int func_021F3934(CellDeck *deck, int cell)
+int DAILY_LAYOUT_FindPoolCell(CellDeck *deck, int cell)
 {
     int i;
     for (i = 0; i < 15; i++) {
@@ -258,14 +258,14 @@ int func_021F3934(CellDeck *deck, int cell)
 }
 
 /* Cell at the pool index, or -1 past the end. */
-int func_021F394C(CellDeck *deck, int poolIdx)
+int DAILY_LAYOUT_GetPoolCell(CellDeck *deck, int poolIdx)
 {
     if (poolIdx > deck->poolLast) return -1;
     return deck->pool[poolIdx];
 }
 
 /* Removes the pool entry by moving the last one into its place. */
-int func_021F395C(CellDeck *deck, int poolIdx)
+int DAILY_LAYOUT_RemovePoolCell(CellDeck *deck, int poolIdx)
 {
     if (poolIdx > deck->poolLast)
         return 0;
@@ -279,16 +279,16 @@ int func_021F395C(CellDeck *deck, int poolIdx)
 
 typedef enum { K_021F3980 } KType_021F3980;
 
-extern u8 d_021F3A7C[];
-extern u8 d_021F3A82[];
-extern u8 d_021F3A90[];
+extern u8 gDailyLayoutAnchorCells[];
+extern u8 gDailyLayoutCompanionCellsA[];
+extern u8 gDailyLayoutCompanionCellsB[];
 
 /*
  * Deals all 15 cells: one anchor cell first, then one companion cell for the
  * half the anchor does not cover, then the rest in random order.  Returns 0
  * when a pool operation fails.
  */
-int func_021F3980(CellDeck *deck)
+int DAILY_LAYOUT_DealCells(CellDeck *deck)
 {
     int hasFlagA;
     int hasFlagB;
@@ -303,8 +303,8 @@ int func_021F3980(CellDeck *deck)
     hasFlagA = 0;
     hasFlagB = 0;
     anchorIdx = func_020056EC(6);
-    cell = d_021F3A7C[anchorIdx];
-    if (func_021F395C(deck, func_021F3934(deck, cell)) == 0)
+    cell = gDailyLayoutAnchorCells[anchorIdx];
+    if (DAILY_LAYOUT_RemovePoolCell(deck, DAILY_LAYOUT_FindPoolCell(deck, cell)) == 0)
         return hasFlagA;
     (deck->dealt)[deck->dealtCount] = cell;
     deck->dealtCount++;
@@ -316,10 +316,10 @@ int func_021F3980(CellDeck *deck)
         hasFlagB = 1;
     if (hasFlagB == 0 || hasFlagA == 0) {
         if (hasFlagB == 0)
-            cell = d_021F3A82[func_020056EC(7)];
+            cell = gDailyLayoutCompanionCellsA[func_020056EC(7)];
         else
-            cell = d_021F3A90[func_020056EC(8)];
-        if (func_021F395C(deck, func_021F3934(deck, cell)) == 0)
+            cell = gDailyLayoutCompanionCellsB[func_020056EC(8)];
+        if (DAILY_LAYOUT_RemovePoolCell(deck, DAILY_LAYOUT_FindPoolCell(deck, cell)) == 0)
             return 0;
         remaining--;
         (deck->dealt)[deck->dealtCount] = cell;
@@ -327,10 +327,10 @@ int func_021F3980(CellDeck *deck)
     }
     for (i = 0; i < remaining; i++) {
         rolled = func_020056EC(remaining - i);
-        picked = func_021F394C(deck, rolled);
+        picked = DAILY_LAYOUT_GetPoolCell(deck, rolled);
         if (picked < 0)
             return 0;
-        if (func_021F395C(deck, rolled) == 0)
+        if (DAILY_LAYOUT_RemovePoolCell(deck, rolled) == 0)
             return 0;
         (deck->dealt)[deck->dealtCount] = picked;
         deck->dealtCount++;

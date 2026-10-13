@@ -11,8 +11,8 @@
  *   48-byte follower at 02207C94; retain this lead as a single function.
  * symbols:
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D5444 0x021D5444 thumb ov093
- *   func_02018584 0x02018584 thumb
+ *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
+ *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
  *   func_02207EA8 0x02207EA8 thumb ov094
  */
 typedef unsigned char u8;
@@ -38,8 +38,8 @@ typedef struct {
 typedef struct { char pad[0x40]; E e[8]; } O;
 extern int func_021D59B4(u8 *p, int k);
 struct QF;
-extern u16 func_021D5444(struct QF *p);
-extern u32 func_02018584(u16, u16, u16);
+extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
+extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
 struct S;
 extern void func_02207EA8(struct S *p, int a);
 void func_02207BAC(O *o, void *q, int idx)
@@ -52,8 +52,8 @@ void func_02207BAC(O *o, void *q, int idx)
     o->e[idx].f50 = (int)0x80000000;
     o->e[idx].f68 = 0;
     o->e[idx].f6c = func_021D59B4(q, 15);
-    next = func_02018584(func_021D5444(q), func_021D59B4(q, 19), func_021D59B4(q, 15) + 1);
-    o->e[idx].f5c = next - func_02018584(func_021D5444(q), func_021D59B4(q, 19), func_021D59B4(q, 15));
+    next = POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), func_021D59B4(q, 19), func_021D59B4(q, 15) + 1);
+    o->e[idx].f5c = next - POKE_TOOL_GetExpForLevel(BTL_POKEPARAM_GetSpecies(q), func_021D59B4(q, 19), func_021D59B4(q, 15));
     o->e[idx].f4 = 0;
     o->e[idx].b2 = 1;
     o->e[idx].f8 = 0;

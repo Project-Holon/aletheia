@@ -1,5 +1,5 @@
 /*
- * function: func_021CA270
+ * function: BSUBWAY_SCR_GetMemberNum
  * address:  0x021CA270
  * packet:   pkt_ov021_021CA270
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021CA270(u16 kind)
+int BSUBWAY_SCR_GetMemberNum(u16 kind)
 {
     switch (kind) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6534
+ * function: FIELD_G3DOBJ_SetPalTable
  * address:  0x021C6534
  * packet:   pkt_021C6534
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Setter: stores the second argument at +0x10.  Unlabelled in the listing;
- * called from func_021881D8.
+ * called from FIELDMAP_SeqCreateSubsystems.
  *
  * Addresses are Black-image addresses.
  */
@@ -18,7 +18,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021C6534(u32 *p, u32 v)
+void FIELD_G3DOBJ_SetPalTable(u32 *p, u32 v)
 {
     p[4] = v;
 }

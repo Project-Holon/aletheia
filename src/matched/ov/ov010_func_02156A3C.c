@@ -1,5 +1,5 @@
 /*
- * function: func_02156A3C
+ * function: MUSICAL_EVENT_SetPlayerNameWord
  * address:  0x02156A3C
  * packet:   pkt_ov010_02156A3C
  * region:   ov010
@@ -16,17 +16,17 @@
  * First draft; the ov132 call to 0x021FCE28 resolves since seeds_2 labelled it.
  *
  * symbols:
- *   func_021568E8  0x021568E8  thumb  ov010
- *   func_021568A8  0x021568A8  thumb  ov010
- *   func_02157384  0x02157384  thumb  ov010
+ *   MUSICAL_EVENT_GetPlayerOfSlot  0x021568E8  thumb  ov010
+ *   MUSICAL_EVENT_CountNpcSlotsBelow  0x021568A8  thumb  ov010
+ *   MUSICAL_PROGRAM_GetNpcNameId  0x02157384  thumb  ov010
  *   func_021FCE28  0x021FCE28  thumb  ov132
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  */
 
 typedef unsigned char u8;
@@ -47,31 +47,31 @@ typedef struct Work {
     u8 f4c;             /* 0x4C */
 } Work;
 
-extern u8 func_021568E8(Work *w, u8 j);
-extern u8 func_021568A8(Work *w, u8 n);
+extern u8 MUSICAL_EVENT_GetPlayerOfSlot(Work *w, u8 j);
+extern u8 MUSICAL_EVENT_CountNpcSlotsBelow(Work *w, u8 n);
 struct MsgBank;
 struct Rec;
 struct Table;
 struct U16Vec;
 struct WordSet;
-extern u8 func_02157384(struct Table *t, int i);
+extern u8 MUSICAL_PROGRAM_GetNpcNameId(struct Table *t, int i);
 extern int func_021FCE28(char *p, u32 index);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
-void func_02156A3C(Work *w, u8 j, void *ws, u32 slot)
+void MUSICAL_EVENT_SetPlayerNameWord(Work *w, u8 j, void *ws, u32 slot)
 {
     int done = 0;
-    u8 k = func_021568E8(w, j);
+    u8 k = MUSICAL_EVENT_GetPlayerOfSlot(w, j);
     void *p;
 
     if (j == w->f4c) {
-        func_0201F02C(ws, slot, func_02012944(w->f04));
+        func_0201F02C(ws, slot, GAME_DATA_GetMyStatus(w->f04));
         done = 1;
     } else if (w->f14 == 1) {
         p = (void *)func_021FCE28(w->f28, k);
@@ -81,12 +81,12 @@ void func_02156A3C(Work *w, u8 j, void *ws, u32 slot)
         }
     }
     if (!done) {
-        u8 n = func_02157384(w->f38, func_021568A8(w, k));
+        u8 n = MUSICAL_PROGRAM_GetNpcNameId(w->f38, MUSICAL_EVENT_CountNpcSlotsBelow(w, k));
         void *bank = func_02045B38(0, 2, 0x4C, 4);
         void *str = func_02045EC0(bank, n);
 
         func_0201EE0C(ws, slot, str, 0, 1, 2);
-        func_02045808(str);
-        func_02045C04(bank);
+        STRBUF_Delete(str);
+        MSGDATA_Delete(bank);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02180FCC",
+   "name": "EVENT_COMM_COMMON_TalkedPowerShareAsTargetEventMain",
    "address": "0x02180FCC",
    "kind": "game",
    "region": "ov018",

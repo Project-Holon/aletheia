@@ -14,7 +14,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_021BF280 0x021BF280 thumb ov208
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_020355D8 0x020355D8 arm
  *   func_021BDC48 0x021BDC48 thumb ov208
@@ -30,7 +30,7 @@ extern u32 func_0203633C(void);
 extern u32 func_020362DC(void);
 extern u32 func_0204B3F4(struct Obj *);
 extern void func_021BF280(void *,char *,void *,int);
-extern void func_0204B878(struct Obj *,u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void func_020061E4(u32);
 extern void func_020355D8(u8);
 extern void func_021BDC48(struct Ov208Scene *,u32);
@@ -72,7 +72,7 @@ int func_021BF088(void *first,char *p,int key)
     if(changed!=0) {
         func_021BF280(first,p,(void *)key,((struct Obj00442 *)p)->f94);
         *(u32 *)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x2c)=1;
-        func_0204B878(*(struct Obj **)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x1c),*(u16 *)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x26));
+        CLACT_SetActorAnimSeq(*(struct Obj **)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x1c),*(u16 *)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x26));
         func_020061E4(0x54a);
         func_020355D8(0);
         func_021BDC48(scene,0);

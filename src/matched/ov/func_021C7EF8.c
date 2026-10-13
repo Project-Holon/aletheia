@@ -1,5 +1,5 @@
 /*
- * function: func_021C7EF8
+ * function: FIELD_FLASH_SetTweenAlpha
  * address:  0x021C7EF8
  * packet:   pkt_021C7EF8
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_021C7EF8(u8 *p, u8 v)
+u8 *FIELD_FLASH_SetTweenAlpha(u8 *p, u8 v)
 {
     ((struct Obj18329 *)p)->f4 = v;
     return p;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB48
+ * function: BTL_SERVER_FLOW_Destroy
  * address: 0x021BBB48
  * packet: pkt_ov093_021BBB48
  * region: ov093
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj21039.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02049238(u32);
+extern void ARC_TOOL_DeleteHandle(u32);
 extern u32 func_020307B0(void *p);
-void func_021BBB48(u8 *p)
+void BTL_SERVER_FLOW_Destroy(u8 *p)
 {
-    func_02049238(((struct Obj21039 *)p)->f4A4);
+    ARC_TOOL_DeleteHandle(((struct Obj21039 *)p)->f4A4);
     func_020307B0(p);
 }

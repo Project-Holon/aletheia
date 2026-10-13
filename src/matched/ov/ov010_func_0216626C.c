@@ -1,5 +1,5 @@
 /*
- * function: func_0216626C
+ * function: GAME_BEACON_ACCESSOR_IsActionHalfwordValueInvalid
  * address:  0x0216626C
  * packet:   pkt_ov010_0216626C
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_0216626C(Rec *r)
+int GAME_BEACON_ACCESSOR_IsActionHalfwordValueInvalid(Rec *r)
 {
     if (r->f34 >= 0x30)
         return 1;

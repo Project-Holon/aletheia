@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218F18C",
+   "name": "FIELD_CAMERA_GetTarget",
    "address": "0x0218F18C",
    "kind": "game",
    "region": "ov021",

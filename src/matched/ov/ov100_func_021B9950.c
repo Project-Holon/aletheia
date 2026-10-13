@@ -10,15 +10,15 @@
  * extent: two bytes of zero alignment padding follow the return.
  * lever: pointer declared before counter; zero counter assigned before pointer base.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_0203EFC8 0x0203EFC8 arm
  */
 #include "../include/Obj22071.h"
 typedef unsigned char u8;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern unsigned func_0203D378(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern unsigned GFL_NET_IsParentAid(void);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
@@ -26,8 +26,8 @@ void func_021B9950(int a,int b,void *c,int d,int e)
 {
  u8 *p;
  int i;
- if(e == (int)func_020399A8()) {
-  if(func_0203D378() != 0) {
+ if(e == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
+  if(GFL_NET_IsParentAid() != 0) {
    i=0;
    p = (u8 *)(d+0x260);
    for(;i<4;i++) {

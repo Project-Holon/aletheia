@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020216D4
+ * function: PALANM_CopyHwPaletteToSlot
  * address:  0x020216D4
  * packet:   pkt_02021444
  * region:   arm9
@@ -33,8 +33,8 @@
  * EXACT*: the extent runs to 106 bytes because the switch pools and the next function at 0x0202173E are pulled in.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020216D4.c \
- *       --func func_020216D4 --addr 0x020216D4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_CopyHwPaletteToSlot.c \
+ *       --func PALANM_CopyHwPaletteToSlot --addr 0x020216D4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -51,7 +51,7 @@ struct PalAnmSlot {
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx,
                           u32 off, u16 size);
 
-void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size)
+void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size)
 {
     u16 *base;
 

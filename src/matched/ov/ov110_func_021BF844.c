@@ -10,8 +10,8 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   d_021C3C84 0x021C3C84 data a1
- *   func_020457B0 0x020457B0 arm
- *   func_020450F0 0x020450F0 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_021BF6D4 0x021BF6D4 thumb ov110
  */
 #include "../include/Obj02819.h"
@@ -21,15 +21,15 @@ typedef unsigned int u32;
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021C3C84[];
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u8 *func_021BF6D4(u8 *);
 u8 *func_021BF844(void *a,void *b,void *c) {
     u8 *p=func_02030734(42,160,0,d_021C3C84,154);
     ((struct Obj02819 *)p)->f0=a; ((struct Obj02819 *)p)->f4=b; ((struct Obj02819 *)p)->f8=c;
-    ((struct Obj02819 *)p)->f48=func_020457B0(32,42);
-    ((struct Obj02819 *)p)->fC=(void *)func_020450F0(2,3,0,26,32,13,1);
-    ((struct Obj02819 *)p)->f10=(void *)func_020450F0(2,0,0,12,4,13,1);
+    ((struct Obj02819 *)p)->f48=STRBUF_Create(32,42);
+    ((struct Obj02819 *)p)->fC=(void *)BMP_WIN_Create(2,3,0,26,32,13,1);
+    ((struct Obj02819 *)p)->f10=(void *)BMP_WIN_Create(2,0,0,12,4,13,1);
     ((struct Obj02819 *)p)->f14=0; ((struct Obj02819 *)p)->f18=0;
     ((struct Obj02819 *)p)->f9C=func_021BF6D4(*(u8 * *)&((struct Obj02819 *)p)->f4);
     return p;

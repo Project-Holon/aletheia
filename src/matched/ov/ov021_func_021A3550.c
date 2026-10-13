@@ -1,5 +1,5 @@
 /*
- * function: func_021A3550
+ * function: FIELD_PLAYER_SetGridMoveFlag
  * address:  0x021A3550
  * packet:   pkt_ov021_021A3550
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021A5738  0x021A5738  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELD_PLAYER_GRID_ResetHold  0x021A5738  thumb  ov021
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-u32 func_02188CFC(u8 *p);
-void func_021A5738(u32 x, int a);
+u32 FIELDMAP_GetMoveKind(u8 *p);
+void FIELD_PLAYER_GRID_ResetHold(u32 x, int a);
 
-void func_021A3550(u32 *p, int a)
+void FIELD_PLAYER_SetGridMoveFlag(u32 *p, int a)
 {
-    if (func_02188CFC((u8 *)p[0]) == 0)
-        func_021A5738(p[2], a);
+    if (FIELDMAP_GetMoveKind((u8 *)p[0]) == 0)
+        FIELD_PLAYER_GRID_ResetHold(p[2], a);
 }

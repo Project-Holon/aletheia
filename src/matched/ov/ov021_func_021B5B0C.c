@@ -1,5 +1,5 @@
 /*
- * function: func_021B5B0C
+ * function: SCRCMD_C03CENTER_CameraTurnTaskMain
  * address:  0x021B5B0C
  * packet:   pkt_ov021_021B5B0C
  * region:   ov021
@@ -13,7 +13,7 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
- *   g_021EE724     0x021EE724  data  a2
+ *   gCameraTurnAngle     0x021EE724  data  a2
  */
 
 typedef unsigned char u8;
@@ -27,16 +27,16 @@ typedef struct {
     int fc;
 } Ramp;
 
-extern u16 g_021EE724;
+extern u16 gCameraTurnAngle;
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021B5B0C(int a0, Ramp *p)
+void SCRCMD_C03CENTER_CameraTurnTaskMain(int a0, Ramp *p)
 {
     p->f8++;
-    g_021EE724 = (p->f4 * p->f8) / p->fc;
-    g_021EE724 = g_021EE724 + (u16)p->f0;
+    gCameraTurnAngle = (p->f4 * p->f8) / p->fc;
+    gCameraTurnAngle = gCameraTurnAngle + (u16)p->f0;
     if (p->f8 >= p->fc) {
         func_020307B0(p);
         func_02030EAC((struct Node *)a0);

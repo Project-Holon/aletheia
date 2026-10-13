@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021C3B8C  0x021C3B8C  thumb  ov093
- *   func_021C3BB8  0x021C3BB8  thumb  ov093
- *   func_021C5A1C  0x021C5A1C  thumb  ov093
- *   func_021C5A34  0x021C5A34  thumb  ov093
+ *   BTL_SERVER_FLOW_CanChangeWeather  0x021C3B8C  thumb  ov093
+ *   BTL_SERVER_FLOW_ApplyWeatherChange  0x021C3BB8  thumb  ov093
+ *   BTL_SERVER_FLOW_PushAbilityPopupIn  0x021C5A1C  thumb  ov093
+ *   BTL_SERVER_FLOW_PushAbilityPopupOut  0x021C5A34  thumb  ov093
  *   func_021C99A0  0x021C99A0  thumb  ov093
  *   func_021CC8D8  0x021CC8D8  thumb  ov093
  *   func_021C7BF8  0x021C7BF8  thumb  ov093
@@ -37,10 +37,10 @@ struct Cmd {
 };
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021C3B8C(void *w, u32 a, u32 b);
-extern void func_021C3BB8(u8 *p, u32 a, u32 b);
-extern void func_021C5A1C(u8 *p, u8 *a);
-extern void func_021C5A34(u8 *p, u8 *a);
+extern int BTL_SERVER_FLOW_CanChangeWeather(void *w, u32 a, u32 b);
+extern void BTL_SERVER_FLOW_ApplyWeatherChange(u8 *p, u32 a, u32 b);
+extern void BTL_SERVER_FLOW_PushAbilityPopupIn(u8 *p, u8 *a);
+extern void BTL_SERVER_FLOW_PushAbilityPopupOut(u8 *p, u8 *a);
 struct Msg;
 extern int func_021C99A0(void *w, const struct Msg *m);
 extern u32 func_021CC8D8(void *lock, int line);
@@ -53,21 +53,21 @@ u8 func_021C98E4(u8 *w, struct Cmd *c)
     int r = 0;
     u32 s;
     if (c->b4 != 0) {
-        if (func_021C3B8C(w, c->b4, c->b5) != 0) {
-            if (c->flag) func_021C5A1C(w, id);
-            func_021C3BB8(w, c->b4, c->b5);
+        if (BTL_SERVER_FLOW_CanChangeWeather(w, c->b4, c->b5) != 0) {
+            if (c->flag) BTL_SERVER_FLOW_PushAbilityPopupIn(w, id);
+            BTL_SERVER_FLOW_ApplyWeatherChange(w, c->b4, c->b5);
             func_021C99A0(w, (const struct Msg *)((u8 *)c + 8));
             r = 1;
-            if (c->flag) func_021C5A34(w, id);
+            if (c->flag) BTL_SERVER_FLOW_PushAbilityPopupOut(w, id);
         }
     } else if (c->b6 != 0) {
-        if (c->flag) func_021C5A1C(w, id);
+        if (c->flag) BTL_SERVER_FLOW_PushAbilityPopupIn(w, id);
         func_021C99A0(w, (const struct Msg *)((u8 *)c + 8));
         s = func_021CC8D8(w + 0x1D74, 15467);
         func_021C7BF8(w);
         func_021CC95C((u32 *)(w + 0x1D74), s, 15469);
         r = 1;
-        if (c->flag) func_021C5A34(w, id);
+        if (c->flag) BTL_SERVER_FLOW_PushAbilityPopupOut(w, id);
     }
     return r;
 }

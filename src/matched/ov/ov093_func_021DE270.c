@@ -1,5 +1,5 @@
 /*
- * function: func_021DE270
+ * function: BTL_HANDLER_ITEM_WhiteHerbCheckOnStatChange
  * address: 0x021DE270
  * packet: pkt_ov093_021DE270
  * region: ov093
@@ -11,16 +11,16 @@
  * extent: two-byte alignment padding at 021DE29E.
  * interface: func_021C7CF4 leaves r0 live for the following call; r1 carries c.
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
- *   func_021D5D68 0x021D5D68 thumb ov093
- *   func_021DD044 0x021DD044 thumb ov093
+ *   BTL_POKEPARAM_HasLoweredStatStage 0x021D5D68 thumb ov093
+ *   BTL_HANDLER_ITEM_PushUseItem 0x021DD044 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 typedef signed char    s8;
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5D68(s8 *p);
-extern void func_021DD044(void *, void *, int);
-void func_021DE270(int a, void *b, int c) { if(c == func_021D775C(2)) { if(func_021D5D68(func_021C7CF4(b,c))) func_021DD044((void *)a,b,c); } }
+extern int BTL_POKEPARAM_HasLoweredStatStage(s8 *p);
+extern void BTL_HANDLER_ITEM_PushUseItem(void *, void *, int);
+void BTL_HANDLER_ITEM_WhiteHerbCheckOnStatChange(int a, void *b, int c) { if(c == BTL_EVENT_GetVar(2)) { if(BTL_POKEPARAM_HasLoweredStatStage(func_021C7CF4(b,c))) BTL_HANDLER_ITEM_PushUseItem((void *)a,b,c); } }

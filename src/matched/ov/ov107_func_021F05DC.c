@@ -11,12 +11,12 @@
  * symbols:
  *   d_021F6EA0 0x021F6EA0 data a4
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_02040588 0x02040588 arm
  */
 
 #include "../include/G_Counter.h"
 
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-extern struct Counter d_021F6EA0;extern void func_02043534(int),func_020435F4(int),func_02040588(u32,u32);
-int func_021F05DC(void) { func_02043534(0);func_020435F4(0);func_02040588(*(int *)(((u8 *)&d_021F6EA0)+4)==1?4:2,1);return 1; }
+extern struct Counter d_021F6EA0;extern void func_02043534(int),BG_SYS_SetSubVisiblePlanes(int),func_02040588(u32,u32);
+int func_021F05DC(void) { func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);func_02040588(*(int *)(((u8 *)&d_021F6EA0)+4)==1?4:2,1);return 1; }

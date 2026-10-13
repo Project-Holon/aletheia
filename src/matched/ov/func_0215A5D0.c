@@ -1,5 +1,5 @@
 /*
- * function: func_0215A5D0
+ * function: SCRCMD_WORK_GetScriptId
  * address:  0x0215A5D0
  * packet:   pkt_0215A5D0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0215A5D0.c \
- *       --func func_0215A5D0 --addr 0x0215A5D0 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRCMD_WORK_GetScriptId.c \
+ *       --func SCRCMD_WORK_GetScriptId --addr 0x0215A5D0 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17654.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u16 func_0215A5D0(void *p) { return ((struct Obj17654 *)p)->f4; }
+u16 SCRCMD_WORK_GetScriptId(void *p) { return ((struct Obj17654 *)p)->f4; }

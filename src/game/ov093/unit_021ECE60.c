@@ -13,14 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02043B5C  0x02043B5C  arm
- *   func_0201DD78  0x0201DD78  thumb
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_02045334  0x02045334  arm
- *   func_021B85DC  0x021B85DC  thumb  ov093
- *   func_0201CD10  0x0201CD10  thumb
+ *   BMP_Clear  0x02043B5C  arm
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BTL_MAIN_GetTextSpeedFrames  0x021B85DC  thumb  ov093
+ *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
  *   PRINTSYS_PrintStreamStop  0x0201CE0C  thumb
- *   func_021B86C0  0x021B86C0  thumb  ov093
+ *   BTL_MAIN_GetCommPos  0x021B86C0  thumb  ov093
  *   PRINTSYS_PrintStreamRun  0x0201CE20  thumb  arm9
  *   PRINTSYS_PrintStreamIsOverrideSpeed  0x0201CED4  thumb  arm9
  *   func_0201CE8C  0x0201CE8C  thumb  arm9
@@ -28,9 +28,9 @@
  *   func_0201CEB8  0x0201CEB8  thumb  arm9
  *   func_0201CE30  0x0201CE30  thumb  arm9
  *   func_0203630C  0x0203630C  arm  arm9
- *   func_02035C38  0x02035C38  arm  arm9
+ *   TOUCHPANEL_GetCont  0x02035C38  arm  arm9
  *   func_020362DC  0x020362DC  arm  arm9
- *   func_02035C60  0x02035C60  arm  arm9
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
  *   func_0201DD68  0x0201DD68  thumb  arm9
  *   func_0201CE48  0x0201CE48  thumb  arm9
  *   func_0201CE38  0x0201CE38  thumb  arm9
@@ -49,7 +49,7 @@
  *   func_021F80E4  0x021F80E4  thumb  ov094
  *   func_021F7CE4  0x021F7CE4  thumb  ov094
  *   func_021F7F04  0x021F7F04  thumb  ov094
- *   func_021D5864  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_021F7EE8  0x021F7EE8  thumb  ov094
  *   func_020311B8  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
@@ -57,35 +57,35 @@
  *   TCBL_DeleteTask  0x02031194  arm
  *   func_021B9920  0x021B9920  thumb  ov093
  *   func_021F87D4  0x021F87D4  thumb  ov094
- *   func_021D5844  0x021D5844  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_021F7D80  0x021F7D80  thumb  ov094
  *   func_021F7E38  0x021F7E38  thumb  ov094
  *   func_021F803C  0x021F803C  thumb  ov094
  *   func_021B8ED8  0x021B8ED8  thumb  ov093
  *   func_0207D63C  0x0207D63C  arm  arm9
  *   func_02045770  0x02045770  arm
- *   func_021B8588  0x021B8588  thumb  ov093
- *   func_021B8640  0x021B8640  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
+ *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
+ *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   func_021B9AE0  0x021B9AE0  thumb  ov093
- *   func_021B8BD0  0x021B8BD0  thumb  ov093
+ *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   func_021F8504  0x021F8504  thumb  ov094
  *   func_021F8B28  0x021F8B28  thumb  ov094
  *   func_02049DB4  0x02049DB4  arm
- *   func_02043678  0x02043678  arm
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Create  0x02043678  arm
+ *   BMP_Delete  0x020437AC  arm
  *   func_020307B0  0x020307B0  arm
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021F8AE8  0x021F8AE8  thumb  ov094
  *   func_02040B1C 0x02040B1C arm
  *   func_02040618 0x02040618 arm
- *   func_020437D4 0x020437D4 arm
+ *   BMP_GetPixels 0x020437D4 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
- *   func_020437EC 0x020437EC arm
+ *   BMP_GetByteSize 0x020437EC arm
  *   func_02082A90 0x02082A90 arm
- *   func_021EEE24 0x021EEE24 thumb ov093
+ *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
  *   PALANM_RequestFade  0x0202173C  thumb  arm9
  */
 #include "../../matched/include/Obj02796.h"
@@ -281,14 +281,14 @@ struct W_021EDE54 {
     u8 f22_0 : 1;
 };
 
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201C7A4(void *x, s16_021ECE60 y, s16_021ECE60 z, void *s, void *w);
-extern void func_02045334(struct Descriptor *d);
-extern int func_021B85DC(unsigned char *p);
-extern struct Rec *func_0201CD10(u32 a0, s16_021ECEB8 a1, s16_021ECEB8 a2, u32 a3, u32 a4, s32_021ECEB8 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+extern void PRINTSYS_Print(void *x, s16_021ECE60 y, s16_021ECE60 z, void *s, void *w);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern int BTL_MAIN_GetTextSpeedFrames(unsigned char *p);
+extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16_021ECEB8 a1, s16_021ECEB8 a2, u32 a3, u32 a4, s32_021ECEB8 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern void PRINTSYS_PrintStreamStop(void *p);
-extern u8 func_021B86C0(u8 **);
+extern u8 BTL_MAIN_GetCommPos(u8 **);
 extern void PRINTSYS_PrintStreamRun(void *);
 extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct Rec *p);
 extern void func_0201CE8C(struct Rec *p, s32_021ECF68 v);
@@ -296,9 +296,9 @@ extern signed char func_02013080(u32 idx);
 extern void func_0201CEB8(struct Rec *p);
 extern u32 func_0201CE30(void *p);
 extern u32 func_0203630C(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_0201DD68(void);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201CE38(void *);
@@ -317,7 +317,7 @@ extern int func_021F8180(void);
 extern void func_021F80E4(u32);
 extern void func_021F7CE4(int);
 extern void func_021F7F04(int);
-extern void *func_021D5864(struct Work *p);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern void func_021F7EE8(void *, int);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 extern void *TCBL_GetWork(struct S02030FB4 *p);
@@ -325,36 +325,36 @@ extern void func_021F7A28(int a, u32 b);
 extern void TCBL_DeleteTask(struct TcblNode *n);
 extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern void func_021F87D4(u32 v);
-extern void *func_021D5844(void *m);
+extern void *BTL_POKEPARAM_GetMon(void *m);
 extern void func_021F7D80(void *a, int b);
 extern void func_021F7E38(void *a, int b);
 extern void func_021F803C(u32 a, void *m, u32 c);
 extern u8 func_021B8ED8(u8 *p, u8 k);
 extern void func_0207D63C(int, int, int, int, int);
 extern void *func_02045770(struct Descriptor *p);
-extern u32 func_021B8588(void **p);
-extern unsigned int func_021B8640(unsigned int **p);
-extern int func_021D5B68(void *m);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern unsigned int BTL_MAIN_GetRuleSlotSpan(unsigned int **p);
+extern int BTL_POKEPARAM_IsFainted(void *m);
 extern u8 func_021B9AE0(u32);
-extern int func_021B8BD0(u8 *, u8);
+extern int BTL_MAIN_IsLocalSide(u8 *, u8);
 extern void func_021F8504(u32, u32, u32);
 extern int func_021F8B28(void);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern void func_020437AC(struct Obj020437AC *p);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 func_020307B0(void *p);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021F8AE8(int a, u32 b);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02040618(u32, u32, u32);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern int func_021F86E0(void);
 extern void *func_021F86D4(void);
 extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
-extern u32 func_020437EC(const struct Bmp *bmp);
+extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void func_02082A90(const void *, void *, u32);
-extern void func_021EEE24(u32, u16, u32, ...);
+extern void BTL_MSG_FormatArgs(u32, u16, u32, ...);
 extern u32 func_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
@@ -434,10 +434,10 @@ int func_021EDFC4(u8 *p);
 
 void func_021ECE60(u8 *a, int b)
 {
-    func_02043B5C((struct CharBuf *)(((struct Obj02796 *)a)->f4), 0xc);
-    func_0201DD78(1, 9, 0xc);
-    func_0201C7A4((void *)(((struct Obj02796 *)a)->f4), 0, 0, (void *)b, (void *)(((struct Obj02796 *)a)->f24));
-    func_02045334((struct Descriptor *)((struct Obj02796 *)a)->f0);
+    BMP_Clear((struct CharBuf *)(((struct Obj02796 *)a)->f4), 0xc);
+    GF_FONT_SetTextColor(1, 9, 0xc);
+    PRINTSYS_Print((void *)(((struct Obj02796 *)a)->f4), 0, 0, (void *)b, (void *)(((struct Obj02796 *)a)->f24));
+    BMP_WIN_TransferChars((struct Descriptor *)((struct Obj02796 *)a)->f0);
     a[0x13f] = 0;
     ((struct Obj02796 *)a)->f148 = 0;
     ((struct Obj02796 *)a)->f14A = 0;
@@ -458,10 +458,10 @@ void func_021ECEB8(u8 *a, u32 b, u16 s, u32 c)
 {
     void *o;
 
-    func_02043B5C((struct CharBuf *)(((struct Obj00027 *)a)->f4), 0xc);
-    func_0201DD78(1, 9, 0xc);
-    o = func_0201CD10(((struct Obj00027 *)a)->f0, 0, 0, b, ((struct Obj00027 *)a)->f24,
-                      func_021B85DC((unsigned char *)(*(int *)&((struct Obj00027 *)a)->f134)),
+    BMP_Clear((struct CharBuf *)(((struct Obj00027 *)a)->f4), 0xc);
+    GF_FONT_SetTextColor(1, 9, 0xc);
+    o = PRINTSYS_PrintStreamCallBack(((struct Obj00027 *)a)->f0, 0, 0, b, ((struct Obj00027 *)a)->f24,
+                      BTL_MAIN_GetTextSpeedFrames((unsigned char *)(*(int *)&((struct Obj00027 *)a)->f134)),
                       ((struct Obj00027 *)a)->f2C, 0,
                       ((struct Obj00027 *)a)->f13C, 0xc, c);
     ((struct Obj00027 *)a)->f30 = o;
@@ -522,8 +522,8 @@ int func_021ECF68(struct T_021ECF68 *p)
         p->b13f = p->b13f + 1;
     case 2:
         if (p->h30 != 0) {
-            if (func_021B86C0(p->owner) == 0) {
-                if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
+            if (BTL_MAIN_GetCommPos(p->owner) == 0) {
+                if ((func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
                     if (PRINTSYS_PrintStreamIsOverrideSpeed(p->h30) == 0)
                         func_0201CE8C(p->h30, func_02013080(2));
                 } else {
@@ -533,7 +533,7 @@ int func_021ECF68(struct T_021ECF68 *p)
             }
             p->i144 = func_0201CE30(p->h30);
             if (p->i144 != 0) {
-                if (func_021B86C0(p->owner) == 0)
+                if (BTL_MAIN_GetCommPos(p->owner) == 0)
                     p->b13f = 3;
                 else
                     p->b13f = 4;
@@ -547,7 +547,7 @@ int func_021ECF68(struct T_021ECF68 *p)
         }
         break;
     case 3:
-        if ((func_020362DC() & 3) != 0 || func_02035C60() != 0)
+        if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0)
             p->h148 = 0;
         if (p->h148 != 0) {
             p->h148 = p->h148 - 1;
@@ -782,7 +782,7 @@ int func_021ED2BC(void)
 void func_021ED2D0(u8 *p, u8 k)
 {
     u8 r = func_021B8E70(*(u8 * *)&((struct Obj13566 *)p)->f134, k);
-    func_021F7EE8(func_021D5864((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj13566 *)p)->f138, k)), r);
+    func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj13566 *)p)->f138, k)), r);
     func_021EDA04((struct E_021EDA04 *)((struct E *)(p + 0x48 + k * 12)));
 }
 
@@ -893,7 +893,7 @@ void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag)
     (*t->cnt)++;
     m = func_021B9920(((struct Obj10119 *)p)->f138, a, b);
     y = func_021B8E70(*(u8 * *)&((struct Obj10119 *)p)->f134, k);
-    func_021F7EE8(func_021D5864((struct Work *)m), y);
+    func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)m), y);
     if (flag == 0)
         func_021F7A28(y, 0x26d);
 }
@@ -1082,7 +1082,7 @@ void func_021ED5E8(u32 x, struct S_021ED5D8 *t)
 
     switch (t->c) {
     case 0:
-        r = func_021D5844(func_021B98AC(*(char *const * *)&((struct Obj21597 *)(t->w))->f138, t->k));
+        r = BTL_POKEPARAM_GetMon(func_021B98AC(*(char *const * *)&((struct Obj21597 *)(t->w))->f138, t->k));
         if (t->a == 0)
             func_021F7D80(r, t->v);
         else
@@ -1110,7 +1110,7 @@ void func_021ED660(char *p, u32 k, u32 a, u32 b)
     struct S_021ED724 *t;
 
     t = (struct S_021ED724 *)TCBL_GetWork(func_020311B8(((struct Obj10120 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
-    t->v = func_021D5844(func_021B98AC(*(char *const * *)&((struct Obj10120 *)p)->f138,
+    t->v = BTL_POKEPARAM_GetMon(func_021B98AC(*(char *const * *)&((struct Obj10120 *)p)->f138,
                                               func_021B8ED8(*(u8 * *)&((struct Obj10120 *)p)->f134, a)));
     t->w = p;
     t->k = k;
@@ -1129,7 +1129,7 @@ void func_021ED6BC(char *p, u32 k, u32 a)
     struct S_021ED724 *t;
 
     t = (struct S_021ED724 *)TCBL_GetWork(func_020311B8(((struct Obj10121 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
-    t->v = func_021D5844(func_021B98AC(*(char *const * *)&((struct Obj10121 *)p)->f138,
+    t->v = BTL_POKEPARAM_GetMon(func_021B98AC(*(char *const * *)&((struct Obj10121 *)p)->f138,
                                               func_021B8ED8(*(u8 * *)&((struct Obj10121 *)p)->f134, k)));
     t->w = p;
     t->k = k;
@@ -1211,8 +1211,8 @@ void func_021ED7C8(struct S_021ED7C8 *s, int keep)
 {
     if ((u8)(s->state + 0xff) <= 1) {
         if (keep == 0) {
-            func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->h)), 0xc);
-            func_02045334((struct Descriptor *)s->h);
+            BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->h)), 0xc);
+            BMP_WIN_TransferChars((struct Descriptor *)s->h);
         }
         s->x = 0;
         s->y = 0x10000;
@@ -1336,8 +1336,8 @@ void func_021ED930(char *s)
         *(u8 *)(s + i * 12 + 0x53) = 0;
         *(int *)(s + i * 12 + 0x48) = 0;
     }
-    if (func_021B8588(((struct Obj10122 *)s)->f134) != 3) {
-        n = func_021B8640(((struct Obj10122 *)s)->f134);
+    if (BTL_MAIN_GetRule(((struct Obj10122 *)s)->f134) != 3) {
+        n = BTL_MAIN_GetRuleSlotSpan(((struct Obj10122 *)s)->f134);
     } else {
         n = 5;
     }
@@ -1411,7 +1411,7 @@ void func_021EDA04(struct E_021EDA04 *e)
 {
     if (e->fb != 0) {
         e->a0 = func_021B98AC(*(char *const * *)&((struct Obj21607 *)(e->owner))->f138, e->k8);
-        if (func_021D5B68(e->a0) == 0) {
+        if (BTL_POKEPARAM_IsFainted(e->a0) == 0) {
             func_021F803C(((struct Obj21608 *)(e->owner))->f134, e->a0, e->v9);
             e->fa = 1;
         }
@@ -1429,7 +1429,7 @@ void func_021EDA04(struct E_021EDA04 *e)
  */
 Bool func_021EDA3C(u8 *p, u32 x)
 {
-    if (func_021B8BD0(p, func_021B9AE0(x)) != 0)
+    if (BTL_MAIN_IsLocalSide(p, func_021B9AE0(x)) != 0)
         return B_FALSE;
     return B_TRUE;
 }
@@ -1510,7 +1510,7 @@ void func_021EDB3C(struct S *s, char *a1)
         s->e[i].f0a = i;
         s->e[i].f0b = (i == 0) ? 2 : 3;
         s->e[i].f10 = s->fdc->f14 + i * 0x900;
-        s->e[i].f04 = (int)func_02043678(0x12, 4, 0x20, s->f13c);
+        s->e[i].f04 = (int)BMP_Create(0x12, 4, 0x20, s->f13c);
         s->e[i].f08 = 0;
         s->e[i].f0c = 0x1f;
         s->e[i].f1c = a1 + i * 0x48;
@@ -1528,7 +1528,7 @@ void func_021EDBE8(char *s)
 
     for (i = 0; i < 2; i++) {
         if (*(int *)(s + i * 0x24 + 0x94) != 0) {
-            func_020437AC((struct Obj020437AC *)(*(int *)(s + i * 0x24 + 0x94)));
+            BMP_Delete((struct Obj020437AC *)(*(int *)(s + i * 0x24 + 0x94)));
             *(int *)(s + i * 0x24 + 0x94) = 0;
         }
     }
@@ -1555,7 +1555,7 @@ void func_021EDC28(struct W_021ED76C *w, u8 a1, int flag)
 
     t = func_021B98AC(*(char *const **)(w->f00 + 0x138), a1);
     h = func_021D59B4(t, 0x10);
-    k = func_021D5440(t);
+    k = BTL_POKEPARAM_GetPokeId(t);
     if (w->f22_0) {
         if (k == w->f0c) {
             return;
@@ -1618,7 +1618,7 @@ int func_021EDCA8(u8 *p)
         break;
     case 3:
         if (p[0x21] < 17) {
-            src = (u8 *)func_020437D4(((struct Obj00341 *)p)->f4);
+            src = (u8 *)BMP_GetPixels(((struct Obj00341 *)p)->f4);
             dst = ((struct Obj00341 *)p)->f1C + p[0x21];
             src += p[0x21] * 32;
             for (i = 0; i < 4; i++) {
@@ -1666,11 +1666,11 @@ void func_021EDE54(u8 *p)
     u32 width;
     u32 center;
     q = *(u8 * *)&((struct Obj02797 *)p)->f0;
-    size = func_020437EC(((struct Obj02797 *)p)->f4);
-    pixels = func_020437D4(((struct Obj02797 *)p)->f4);
+    size = BMP_GetByteSize(((struct Obj02797 *)p)->f4);
+    pixels = BMP_GetPixels(((struct Obj02797 *)p)->f4);
     func_02082A90(*(u8 * *)&((struct Obj21616 *)(*(u8 * *)&((struct Obj21615 *)(*(u8 * *)&((struct Obj02797 *)p)->f0))->fDC))->f14 + p[0xa] * 0x900, pixels, size);
-    func_0201DD78(1, 2, 0);
-    func_021EEE24(*(u32 *)&((struct Obj01524 *)q)->f38, 0x67, 2, p[0xc], ((struct Obj02797 *)p)->f8);
+    GF_FONT_SetTextColor(1, 2, 0);
+    BTL_MSG_FormatArgs(*(u32 *)&((struct Obj01524 *)q)->f38, 0x67, 2, p[0xc], ((struct Obj02797 *)p)->f8);
     if ((u8)func_0201D33C(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f28, 0, widths, 2) > 1) {
         width = widths[0];
         edge = width + 8;
@@ -1688,13 +1688,13 @@ void func_021EDE54(u8 *p)
         if (left < 0) left = 0;
         if (right < 0) right = 0;
         func_0201D37C(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f3C, 0);
-        func_0201C7A4(((struct Obj02797 *)p)->f4, left, 7, ((struct Obj01524 *)q)->f3C, (void *)(((struct Obj01524 *)q)->f28));
+        PRINTSYS_Print(((struct Obj02797 *)p)->f4, left, 7, ((struct Obj01524 *)q)->f3C, (void *)(((struct Obj01524 *)q)->f28));
         func_0201D37C(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f3C, 1);
-        func_0201C7A4(((struct Obj02797 *)p)->f4, right, 18, ((struct Obj01524 *)q)->f3C, (void *)(((struct Obj01524 *)q)->f28));
+        PRINTSYS_Print(((struct Obj02797 *)p)->f4, right, 18, ((struct Obj01524 *)q)->f3C, (void *)(((struct Obj01524 *)q)->f28));
     } else {
         center = (0x88 - func_0201D304(((struct Obj01524 *)q)->f38, ((struct Obj01524 *)q)->f28, 0)) / 2;
         if ((int)center < 0) center = 0;
-        func_0201C7A4(((struct Obj02797 *)p)->f4, center, 18, ((struct Obj01524 *)q)->f38, (void *)(((struct Obj01524 *)q)->f28));
+        PRINTSYS_Print(((struct Obj02797 *)p)->f4, center, 18, ((struct Obj01524 *)q)->f38, (void *)(((struct Obj01524 *)q)->f28));
     }
 }
 
@@ -1729,7 +1729,7 @@ void func_021EDF7C(u8 *p, u8 b)
 
     r = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj21617 *)(*(u8 * *)&((struct Obj05234 *)p)->f0))->f138, b);
     h = func_021D59B4(r, 0x10);
-    t = func_021D5440(r);
+    t = BTL_POKEPARAM_GetPokeId(r);
     if (h != ((struct Obj05234 *)p)->f8 || t != p[0xc]) {
         p[0xc] = t;
         ((struct Obj05234 *)p)->f8 = h;
@@ -1781,7 +1781,7 @@ int func_021EDFC4(u8 *p)
         }
         break;
     case 2:
-        func_02040B1C(p[0xb], func_020437D4(((struct Obj00623 *)p)->f4), 0x900, ((struct Obj00623 *)p)->f1C);
+        func_02040B1C(p[0xb], BMP_GetPixels(((struct Obj00623 *)p)->f4), 0x900, ((struct Obj00623 *)p)->f1C);
         p[0xd]++;
         break;
     case 3:

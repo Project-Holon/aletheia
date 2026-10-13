@@ -1,5 +1,5 @@
 /*
- * function: func_02048F74
+ * function: ARC_TOOL_ReadMemberRange
  * address:  0x02048F74
  * packet:   pkt_02048F4C
  * region:   arm9
@@ -18,13 +18,13 @@
  * function pushed) and leaves r0-r3 untouched.
  *
  * Kept in its own file so the branch to ARC_TOOL_ReadMemberRangeImpl is witnessed from
- * outside this range by src/matched/func_02048F4C.c.
+ * outside this range by src/matched/ARC_TOOL_ReadMember.c.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048F74.c \
- *       --func func_02048F74 --addr 0x02048F74 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_ReadMemberRange.c \
+ *       --func ARC_TOOL_ReadMemberRange --addr 0x02048F74 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 extern void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archive_id, u32 member, u32 mode,
                           u32 *size_out);
 
-void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode,
+void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode,
                    u32 *size_out)
 {
     ARC_TOOL_ReadMemberRangeImpl(dst, archive_id, member, mode, size_out);

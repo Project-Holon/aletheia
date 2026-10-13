@@ -1,5 +1,5 @@
 /*
- * function: func_021D49CC
+ * function: BTL_NET_GetRelayedPlayerInfo
  * address: 0x021D49CC
  * packet: pkt_ov093_021D49CC
  * region: ov093
@@ -8,14 +8,14 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * Unlabelled leaf called by func_021B7968 (+0x1EC): returns the object
- * word at +0x3b14 of the d_021F3B88 block (the word func_021D49E0 frees).
+ * Unlabelled leaf called by BTL_MAIN_SeqExchangePlayers (+0x1EC): returns the object
+ * word at +0x3b14 of the gBtlNet block (the word BTL_NET_FreeRelayedPlayerInfo frees).
  * symbols:
- *   d_021F3B88 0x021F3B88 data ov093 a4
+ *   gBtlNet 0x021F3B88 data ov093 a4
  */
 typedef unsigned char u8;
-extern u8 *d_021F3B88;
-void *func_021D49CC(void)
+extern u8 *gBtlNet;
+void *BTL_NET_GetRelayedPlayerInfo(void)
 {
-    return *(void **)(d_021F3B88 + 0x3b14);
+    return *(void **)(gBtlNet + 0x3b14);
 }

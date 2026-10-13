@@ -1,5 +1,5 @@
 /*
- * function: func_021BD554
+ * function: PLACE_NAME_LETTER_SetMotion
  * address:  0x021BD554
  * packet:   pkt_ov021_021BD554
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD484  0x021BD484  thumb  ov021
+ *   PLACE_NAME_LETTER_ComputeAcceleration  0x021BD484  thumb  ov021
  */
 
 typedef struct {
@@ -30,9 +30,9 @@ typedef struct {
     V2 g;
 } Obj;
 
-extern void func_021BD484(Obj *p);
+extern void PLACE_NAME_LETTER_ComputeAcceleration(Obj *p);
 
-void func_021BD554(Obj *p, Src *s)
+void PLACE_NAME_LETTER_SetMotion(Obj *p, Src *s)
 {
     p->a = s->a;
     p->b = s->b;
@@ -41,5 +41,5 @@ void func_021BD554(Obj *p, Src *s)
     p->e = s->e;
     p->f = s->f;
     p->g = s->g;
-    func_021BD484(p);
+    PLACE_NAME_LETTER_ComputeAcceleration(p);
 }

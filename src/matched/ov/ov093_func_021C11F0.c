@@ -1,5 +1,5 @@
 /*
- * function: func_021C11F0
+ * function: BTL_SERVER_FLOW_ApplyDamageRecord
  * address:  0x021C11F0
  * packet:   pkt_ov093_021C11F0
  * region:   ov093
@@ -20,32 +20,32 @@
  *   (docs/idioms/a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md), which fixes the
  *   5798/5840/59C4 order; u8 cnt2 fixes the cnt/cnt2 slot swap. No (u8) casts needed. EXACT in --lang c99 and c.
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D6D7C  0x021D6D7C  thumb  ov093
- *   func_021D5FC0  0x021D5FC0  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_HasSubstitute  0x021D6D7C  thumb  ov093
+ *   BTL_POKEPARAM_SetTurnFlag  0x021D5FC0  thumb  ov093
  *   func_021C14B0  0x021C14B0  thumb  ov093
  *   func_021C14C0  0x021C14C0  thumb  ov093
  *   func_021C14D0  0x021C14D0  thumb  ov093
- *   func_021C0C38  0x021C0C38  thumb  ov093
- *   func_021C0CB4  0x021C0CB4  thumb  ov093
- *   func_021C0CE8  0x021C0CE8  thumb  ov093
- *   func_021C0D70  0x021C0D70  thumb  ov093
- *   func_021C1184  0x021C1184  thumb  ov093
- *   func_021C1194  0x021C1194  thumb  ov093
- *   func_021C1198  0x021C1198  thumb  ov093
- *   func_021C15E8  0x021C15E8  thumb  ov093
- *   func_021C16F8  0x021C16F8  thumb  ov093
- *   func_021C1788  0x021C1788  thumb  ov093
- *   func_021C1828  0x021C1828  thumb  ov093
- *   func_021C1880  0x021C1880  thumb  ov093
- *   func_021C1CCC  0x021C1CCC  thumb  ov093
- *   func_021C1DCC  0x021C1DCC  thumb  ov093
- *   func_021C4104  0x021C4104  thumb  ov093
- *   func_021C4218  0x021C4218  thumb  ov093
- *   func_021C4F64  0x021C4F64  thumb  ov093
- *   func_021C5798  0x021C5798  thumb  ov093
+ *   BTL_SERVER_FLOW_UnpackDamageEntries  0x021C0C38  thumb  ov093
+ *   BTL_SERVER_FLOW_UnpackEntryPokes  0x021C0CB4  thumb  ov093
+ *   BTL_SERVER_FLOW_UnpackHitEntries  0x021C0CE8  thumb  ov093
+ *   BTL_SERVER_FLOW_SumHitRecordDamage  0x021C0D70  thumb  ov093
+ *   BTL_SERVER_FLOW_IsFirstHit  0x021C1184  thumb  ov093
+ *   BTL_SERVER_FLOW_GetHitFlagsMultiHit  0x021C1194  thumb  ov093
+ *   BTL_SERVER_FLOW_SetHitFlagsResultIf3  0x021C1198  thumb  ov093
+ *   BTL_SERVER_FLOW_RunMoveHitEventLocked  0x021C15E8  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcDamageAftereffect  0x021C16F8  thumb  ov093
+ *   BTL_SERVER_FLOW_RunTargetsDamagedEventLocked  0x021C1788  thumb  ov093
+ *   BTL_SERVER_FLOW_RecordDamageHit  0x021C1828  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcMoveCategoryEffect  0x021C1880  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcFlinchChance  0x021C1CCC  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcDrainHeal  0x021C1DCC  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcSubstituteDamage  0x021C4104  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcDamageEndEvents  0x021C4218  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcFaintedPoke  0x021C4F64  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMoveEffectiveness  0x021C5798  thumb  ov093
  *   func_021C5840  0x021C5840  thumb  ov093
- *   func_021C59C4  0x021C59C4  thumb  ov093
+ *   BTL_SERVER_FLOW_PushCriticalHitMessage  0x021C59C4  thumb  ov093
  *   d_021F3B2C  0x021F3B2C  data  ov093  a4
  *   d_021F3B20  0x021F3B20  data  ov093  a4
  *   d_021F3B38  0x021F3B38  data  a4
@@ -65,37 +65,37 @@ extern u16 d_021F3B26[];
 extern u8 d_021F3B23[];
 extern u32 d_021F3B20b[];
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct Q;
 struct UtilWork;
-extern u32 func_021D6D7C(u8 *p);
-extern void func_021D5FC0(struct UtilWork *p, u32 n);
+extern u32 BTL_POKEPARAM_HasSubstitute(u8 *p);
+extern void BTL_POKEPARAM_SetTurnFlag(struct UtilWork *p, u32 n);
 extern u8 func_021C14B0(void *p, int n);
 extern void func_021C14C0(void *w, u8 *c, int h, int f);
 extern void func_021C14D0(void *w, u8 *c, int d, int f);
-extern int func_021C0C38(u8 *p, u8 *q, void *o1, void *o2, void *o3, void *o4);
+extern int BTL_SERVER_FLOW_UnpackDamageEntries(u8 *p, u8 *q, void *o1, void *o2, void *o3, void *o4);
 struct Q;
-extern int func_021C0CB4(u8 *p, const struct Q *q, u32 *out);
-extern int func_021C0CE8(u8 *p, const struct Q *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5);
-extern u32 func_021C0D70(const u8 *q);
-extern int func_021C1184(const u8 *p);
-extern u8 func_021C1194(u8 *p);
-extern void func_021C1198(u8 *p, int x);
-extern void func_021C15E8(u8 *p, u8 *a, u8 *b, u16 *c);
-extern void func_021C16F8(u8 *p, u8 *a, int k);
-extern void func_021C1788(u8 *p, u32 x, u8 *a, u32 n, u32 *arr);
-extern void func_021C1828(u8 *p, u8 b, u8 *x, u8 *c, u8 *q, u16 w);
-extern void func_021C1880(u8 *p, u8 *q, u32 a, u32 b, u32 s0, int s1);
-extern int func_021C1CCC(u8 *p, u16 *x, u8 *a, u8 *q);
-extern void func_021C1DCC(u8 *p, u8 *q, u32 a, u8 *b, u32 s);
-extern int func_021C4104(u8 *p, u8 *q, u8 *c, u16 d, int sa, u8 sb, u16 *e);
-extern void func_021C4218(u8 *p, u8 *a, u8 *b, u8 *c, u32 s0, u32 s1, u32 s2, u32 s3);
-extern int func_021C4F64(u8 *p, u8 *a);
-extern void func_021C5798(u8 *p, u16 *a, u32 n, int *arr, u8 **ptrs, u16 *vals, u8 *unused1, int unused2);
+extern int BTL_SERVER_FLOW_UnpackEntryPokes(u8 *p, const struct Q *q, u32 *out);
+extern int BTL_SERVER_FLOW_UnpackHitEntries(u8 *p, const struct Q *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5);
+extern u32 BTL_SERVER_FLOW_SumHitRecordDamage(const u8 *q);
+extern int BTL_SERVER_FLOW_IsFirstHit(const u8 *p);
+extern u8 BTL_SERVER_FLOW_GetHitFlagsMultiHit(u8 *p);
+extern void BTL_SERVER_FLOW_SetHitFlagsResultIf3(u8 *p, int x);
+extern void BTL_SERVER_FLOW_RunMoveHitEventLocked(u8 *p, u8 *a, u8 *b, u16 *c);
+extern void BTL_SERVER_FLOW_ProcDamageAftereffect(u8 *p, u8 *a, int k);
+extern void BTL_SERVER_FLOW_RunTargetsDamagedEventLocked(u8 *p, u32 x, u8 *a, u32 n, u32 *arr);
+extern void BTL_SERVER_FLOW_RecordDamageHit(u8 *p, u8 b, u8 *x, u8 *c, u8 *q, u16 w);
+extern void BTL_SERVER_FLOW_ProcMoveCategoryEffect(u8 *p, u8 *q, u32 a, u32 b, u32 s0, int s1);
+extern int BTL_SERVER_FLOW_ProcFlinchChance(u8 *p, u16 *x, u8 *a, u8 *q);
+extern void BTL_SERVER_FLOW_ProcDrainHeal(u8 *p, u8 *q, u32 a, u8 *b, u32 s);
+extern int BTL_SERVER_FLOW_ProcSubstituteDamage(u8 *p, u8 *q, u8 *c, u16 d, int sa, u8 sb, u16 *e);
+extern void BTL_SERVER_FLOW_ProcDamageEndEvents(u8 *p, u8 *a, u8 *b, u8 *c, u32 s0, u32 s1, u32 s2, u32 s3);
+extern int BTL_SERVER_FLOW_ProcFaintedPoke(u8 *p, u8 *a);
+extern void BTL_SERVER_FLOW_PushMoveEffectiveness(u8 *p, u16 *a, u32 n, int *arr, u8 **ptrs, u16 *vals, u8 *unused1, int unused2);
 extern void func_021C5840(u8 *p, u32 count, int *v, u8 **a, int flag);
-extern void func_021C59C4(u8 *p, u32 n, u8 **a, u8 *b, int flag);
+extern void BTL_SERVER_FLOW_PushCriticalHitMessage(u8 *p, u32 n, u8 **a, u8 *b, int flag);
 
-int func_021C11F0(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u8 *st, u32 a6, struct Fl a7)
+int BTL_SERVER_FLOW_ApplyDamageRecord(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u8 *st, u32 a6, struct Fl a7)
 {
     int sum;
     u8 v28;
@@ -106,50 +106,50 @@ int func_021C11F0(u8 *p, u8 *x, u32 unused, u8 *y, u16 *e, u8 *st, u32 a6, struc
     int j;
     int flag;
 
-    v28 = func_021C14B0(p + 0x1AB8, func_021D5440(x));
-    sum = func_021C0D70(y);
-    cnt = func_021C0C38(p, y, d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20);
+    v28 = func_021C14B0(p + 0x1AB8, BTL_POKEPARAM_GetPokeId(x));
+    sum = BTL_SERVER_FLOW_SumHitRecordDamage(y);
+    cnt = BTL_SERVER_FLOW_UnpackDamageEntries(p, y, d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20);
     for (i = 0; i < cnt; i++) {
-        if (func_021D6D7C(d_021F3B38[i])) {
-            h = func_021C4104(p, x, d_021F3B38[i], d_021F3B26[i], d_021F3B2C[i], d_021F3B20[i], e);
+        if (BTL_POKEPARAM_HasSubstitute(d_021F3B38[i])) {
+            h = BTL_SERVER_FLOW_ProcSubstituteDamage(p, x, d_021F3B38[i], d_021F3B26[i], d_021F3B2C[i], d_021F3B20[i], e);
             func_021C14C0(*(void **)(p + 0x860), d_021F3B38[i], h, 1);
             sum -= d_021F3B26[i] - h;
         }
     }
-    if (func_021C1184(st)) {
-        cnt2 = func_021C0CB4(p, (const struct Q *)y, (u32 *)d_021F3B38);
+    if (BTL_SERVER_FLOW_IsFirstHit(st)) {
+        cnt2 = BTL_SERVER_FLOW_UnpackEntryPokes(p, (const struct Q *)y, (u32 *)d_021F3B38);
         for (j = 0; j < cnt2; j++)
-            func_021C15E8(p, x, d_021F3B38[j], e);
+            BTL_SERVER_FLOW_RunMoveHitEventLocked(p, x, d_021F3B38[j], e);
     }
     st[1] = st[1] + 1;
-    cnt = func_021C0CE8(p, (const struct Q *)y, (u32 *)d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20, d_021F3B23);
+    cnt = BTL_SERVER_FLOW_UnpackHitEntries(p, (const struct Q *)y, (u32 *)d_021F3B38, d_021F3B26, d_021F3B2C, d_021F3B20, d_021F3B23);
     if (cnt == 0)
         return sum;
-    func_021C1788(p, (u32)e, x, cnt, (u32 *)d_021F3B38);
+    BTL_SERVER_FLOW_RunTargetsDamagedEventLocked(p, (u32)e, x, cnt, (u32 *)d_021F3B38);
     flag = a7.f;
-    func_021C5798(p, e, cnt, (int *)d_021F3B2C, d_021F3B38, d_021F3B26, d_021F3B20, flag);
-    if (func_021C1194(st) == 0)
+    BTL_SERVER_FLOW_PushMoveEffectiveness(p, e, cnt, (int *)d_021F3B2C, d_021F3B38, d_021F3B26, d_021F3B20, flag);
+    if (BTL_SERVER_FLOW_GetHitFlagsMultiHit(st) == 0)
         func_021C5840(p, cnt, (int *)d_021F3B2C, d_021F3B38, flag);
     else
-        func_021C1198(st, d_021F3B20b[3]);
-    func_021C59C4(p, cnt, d_021F3B38, d_021F3B20, flag);
+        BTL_SERVER_FLOW_SetHitFlagsResultIf3(st, d_021F3B20b[3]);
+    BTL_SERVER_FLOW_PushCriticalHitMessage(p, cnt, d_021F3B38, d_021F3B20, flag);
     for (j = 0; j < cnt; j++) {
         func_021C14D0(*(void **)(p + 0x860), d_021F3B38[j], d_021F3B26[j], 0);
-        func_021C1828(p, v28, x, d_021F3B38[j], (u8 *)e, d_021F3B26[j]);
-        func_021D5FC0((struct UtilWork *)d_021F3B38[j], 2);
+        BTL_SERVER_FLOW_RecordDamageHit(p, v28, x, d_021F3B38[j], (u8 *)e, d_021F3B26[j]);
+        BTL_POKEPARAM_SetTurnFlag((struct UtilWork *)d_021F3B38[j], 2);
     }
     for (i = 0; i < cnt; i++) {
         if (d_021F3B23[i])
-            func_021C16F8(p, d_021F3B38[i], d_021F3B23[i]);
+            BTL_SERVER_FLOW_ProcDamageAftereffect(p, d_021F3B38[i], d_021F3B23[i]);
     }
     for (i = 0; i < cnt; i++) {
-        func_021C1CCC(p, e, x, d_021F3B38[i]);
-        func_021C1DCC(p, (u8 *)e, (u32)x, d_021F3B38[i], d_021F3B26[i]);
-        func_021C1880(p, (u8 *)e, (u32)x, (u32)d_021F3B38[i], d_021F3B26[i], 0);
-        func_021C4218(p, x, d_021F3B38[i], (u8 *)e, d_021F3B2C[i], d_021F3B26[i], d_021F3B20[i], 0);
+        BTL_SERVER_FLOW_ProcFlinchChance(p, e, x, d_021F3B38[i]);
+        BTL_SERVER_FLOW_ProcDrainHeal(p, (u8 *)e, (u32)x, d_021F3B38[i], d_021F3B26[i]);
+        BTL_SERVER_FLOW_ProcMoveCategoryEffect(p, (u8 *)e, (u32)x, (u32)d_021F3B38[i], d_021F3B26[i], 0);
+        BTL_SERVER_FLOW_ProcDamageEndEvents(p, x, d_021F3B38[i], (u8 *)e, d_021F3B2C[i], d_021F3B26[i], d_021F3B20[i], 0);
     }
     for (i = 0; i < cnt; i++)
-        func_021C4F64(p, d_021F3B38[i]);
-    func_021C4F64(p, x);
+        BTL_SERVER_FLOW_ProcFaintedPoke(p, d_021F3B38[i]);
+    BTL_SERVER_FLOW_ProcFaintedPoke(p, x);
     return sum;
 }

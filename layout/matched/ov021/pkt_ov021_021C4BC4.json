@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4BC4",
+   "name": "FLDEFF_SPLASH_UnloadModel",
    "address": "0x021C4BC4",
    "kind": "game",
    "region": "ov021",

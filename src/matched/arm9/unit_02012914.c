@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02012914
+ * function: GAME_DATA_GetSituationWarpId
  *
  * symbols:
  *   func_02008850  0x02008850  thumb
@@ -36,7 +36,7 @@ struct BigObj {
     u32 unk15C;
 };
 
-u16 func_02012914(const struct BigObj *p)
+u16 GAME_DATA_GetSituationWarpId(const struct BigObj *p)
 {
     return *func_02008850((void *)p->unk15C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02018790
+ * function: POKE_TOOL_GetHiddenPowerType
  * address:  0x02018790
  * packet:   pkt_02018790
  * note:     144 bytes, one function
@@ -48,34 +48,35 @@
  * symbols:
  *   sHiddenPowerTypes  0x0209E288  data
  *   _u32_div_f           0x0209C2B0  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern const u8 sHiddenPowerTypes[];
 
-u32 func_02018790(void *p)
+u32 POKE_TOOL_GetHiddenPowerType(void *p)
 {
     u32 n = 0;
 
-    if (func_02017E1C(p, 0x46, 0) & 1) {
+    if (POKE_TOOL_GetPartyValue(p, 0x46, 0) & 1) {
         n += 1;
     }
-    if (func_02017E1C(p, 0x47, 0) & 1) {
+    if (POKE_TOOL_GetPartyValue(p, 0x47, 0) & 1) {
         n += 2;
     }
-    if (func_02017E1C(p, 0x48, 0) & 1) {
+    if (POKE_TOOL_GetPartyValue(p, 0x48, 0) & 1) {
         n += 4;
     }
-    if (func_02017E1C(p, 0x49, 0) & 1) {
+    if (POKE_TOOL_GetPartyValue(p, 0x49, 0) & 1) {
         n += 8;
     }
-    if (func_02017E1C(p, 0x4A, 0) & 1) {
+    if (POKE_TOOL_GetPartyValue(p, 0x4A, 0) & 1) {
         n += 16;
     }
-    if (func_02017E1C(p, 0x4B, 0) & 1) {
+    if (POKE_TOOL_GetPartyValue(p, 0x4B, 0) & 1) {
         n += 32;
     }
     n = n * 15 / 63;

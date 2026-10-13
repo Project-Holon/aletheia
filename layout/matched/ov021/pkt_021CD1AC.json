@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CD1AC",
+   "name": "PARTY_SELECT_LIST_HideParty",
    "address": "0x021CD1AC",
    "kind": "game",
    "region": "ov021",

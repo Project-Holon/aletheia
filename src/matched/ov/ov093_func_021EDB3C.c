@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02049DB4  0x02049DB4  arm
- *   func_02043678  0x02043678  arm
+ *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
+ *   BMP_Create  0x02043678  arm
  */
 
 typedef unsigned char u8;
@@ -48,20 +48,20 @@ struct S {
 };
 
 struct Bmp;
-extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
 void func_021EDB3C(struct S *s, char *a1)
 {
     u32 i;
 
-    s->fd8 = (int)func_02049DB4(0xb, 0xd5, 0, (u32)(&s->fdc), s->f13c);
+    s->fd8 = (int)ARC_UTIL_LoadBgCharDataFromArchive(0xb, 0xd5, 0, (u32)(&s->fdc), s->f13c);
     for (i = 0; i < 2; i++) {
         s->e[i].f00 = s;
         s->e[i].f0a = i;
         s->e[i].f0b = (i == 0) ? 2 : 3;
         s->e[i].f10 = s->fdc->f14 + i * 0x900;
-        s->e[i].f04 = (int)func_02043678(0x12, 4, 0x20, s->f13c);
+        s->e[i].f04 = (int)BMP_Create(0x12, 4, 0x20, s->f13c);
         s->e[i].f08 = 0;
         s->e[i].f0c = 0x1f;
         s->e[i].f1c = a1 + i * 0x48;

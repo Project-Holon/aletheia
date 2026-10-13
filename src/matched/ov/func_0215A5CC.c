@@ -1,5 +1,5 @@
 /*
- * function: func_0215A5CC
+ * function: SCRCMD_WORK_GetHeapId
  * address:  0x0215A5CC
  * packet:   pkt_0215A5CC
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-u16 func_0215A5CC(void *a0)
+u16 SCRCMD_WORK_GetHeapId(void *a0)
 {
     return ((struct Obj17653 *)a0)->f0;
 }

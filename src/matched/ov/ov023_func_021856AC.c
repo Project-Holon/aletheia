@@ -1,5 +1,5 @@
 /*
- * function: func_021856AC
+ * function: OEKAKI_StepShowQuitMessage
  * address:  0x021856AC
  * packet:   pkt_021856AC
  * region:   ov023
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02185354  0x02185354  thumb  ov023
- *   func_02186444  0x02186444  thumb  ov023
- *   func_021861C4  0x021861C4  thumb  ov023
+ *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
+ *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
+ *   OEKAKI_PrintMessage  0x021861C4  thumb  ov023
  */
 
-extern void func_02185354(char *p);
+extern void OEKAKI_ApplyRemoteStrokes(char *p);
 typedef unsigned int   u32;
-extern void func_02186444(char *p, u32 v);
+extern void OEKAKI_SetNextScene(char *p, u32 v);
 typedef unsigned char  u8;
-extern void func_021861C4(u8 *w, u32 msg, int mode);
+extern void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode);
 
-int func_021856AC(char *p, int a1)
+int OEKAKI_StepShowQuitMessage(char *p, int a1)
 {
-    func_021861C4((u8 *)p, 6, 1);
-    func_02186444(p, 0xd);
-    func_02185354(p);
+    OEKAKI_PrintMessage((u8 *)p, 6, 1);
+    OEKAKI_SetNextScene(p, 0xd);
+    OEKAKI_ApplyRemoteStrokes(p);
     return a1;
 }

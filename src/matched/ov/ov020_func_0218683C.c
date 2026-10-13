@@ -1,5 +1,5 @@
 /*
- * function: func_0218683C
+ * function: FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable
  * address: 0x0218683C
  * packet: pkt_ov020_0218683C
  * region: ov020
@@ -15,4 +15,4 @@
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_0218683C(void *p) { func_020307B0(p); }
+void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(void *p) { func_020307B0(p); }

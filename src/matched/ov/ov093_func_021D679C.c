@@ -1,5 +1,5 @@
 /*
- * function: func_021D679C
+ * function: BTL_POKEPARAM_GetMoveStreak
  * address: 0x021D679C
  * packet: pkt_ov093_021D679C
  * region: ov093
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u16 func_021D679C(u8 *p) { return ((struct Obj21234 *)p)->f14E; }
+u16 BTL_POKEPARAM_GetMoveStreak(u8 *p) { return ((struct Obj21234 *)p)->f14E; }

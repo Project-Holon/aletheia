@@ -1,5 +1,5 @@
 /*
- * function: func_021BF7F8
+ * function: EVENT_APPEAR_StartZoomOut
  * address:  0x021BF7F8
  * packet:   pkt_ov021_021BF7F8
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188C58 0x02188C58 thumb ov021
- *   func_0218FE80 0x0218FE80 thumb ov021
- *   func_0218FEA0 0x0218FEA0 thumb ov021
- *   func_0218FEA4 0x0218FEA4 thumb ov021
- *   func_0218FE78 0x0218FE78 thumb ov021
- *   func_0218FEC0 0x0218FEC0 thumb ov021
- *   func_0218FF00 0x0218FF00 thumb ov021
+ *   FIELDMAP_GetCamera 0x02188C58 thumb ov021
+ *   FIELD_CAMERA_ANIME_Create 0x0218FE80 thumb ov021
+ *   FIELD_CAMERA_ANIME_SetData 0x0218FEA0 thumb ov021
+ *   FIELD_CAMERA_ANIME_Setup 0x0218FEA4 thumb ov021
+ *   FIELD_CAMERA_ANIME_GetCurrentParam 0x0218FE78 thumb ov021
+ *   FIELD_CAMERA_ANIME_ApplyStartParam 0x0218FEC0 thumb ov021
+ *   FIELD_CAMERA_ANIME_Start 0x0218FF00 thumb ov021
  */
 
 typedef struct {
@@ -37,30 +37,30 @@ typedef struct {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void *func_02188C58(void *p);
-extern void *func_0218FE80(void *a);
-extern void func_0218FEA0(u8 *p, u32 v);
-extern void func_0218FEA4(int);
-extern void func_0218FE78(int, V8 *);
-extern void func_0218FEC0(u8 *o);
-extern int func_0218FF00(u32 a);
+extern void *FIELDMAP_GetCamera(void *p);
+extern void *FIELD_CAMERA_ANIME_Create(void *a);
+extern void FIELD_CAMERA_ANIME_SetData(u8 *p, u32 v);
+extern void FIELD_CAMERA_ANIME_Setup(int);
+extern void FIELD_CAMERA_ANIME_GetCurrentParam(int, V8 *);
+extern void FIELD_CAMERA_ANIME_ApplyStartParam(u8 *o);
+extern int FIELD_CAMERA_ANIME_Start(u32 a);
 
-void func_021BF7F8(Q *q)
+void EVENT_APPEAR_StartZoomOut(Q *q)
 {
     int r4;
     int r0;
 
-    r4 = (int)func_02188C58((void *)q->f4);
-    r0 = (int)func_0218FE80((void *)q->f4);
+    r4 = (int)FIELDMAP_GetCamera((void *)q->f4);
+    r0 = (int)FIELD_CAMERA_ANIME_Create((void *)q->f4);
     q->fc = 60;
     q->f50 = 1;
     q->f54 = 1;
     q->f58 = r0;
-    func_0218FEA0((u8 *)r0, (u32)(&q->fc));
-    func_0218FEA4(q->f58);
-    func_0218FE78(r4, &q->v30);
+    FIELD_CAMERA_ANIME_SetData((u8 *)r0, (u32)(&q->fc));
+    FIELD_CAMERA_ANIME_Setup(q->f58);
+    FIELD_CAMERA_ANIME_GetCurrentParam(r4, &q->v30);
     q->v10 = q->v30;
     q->v10.w[1] = q->v10.w[1] - 0x64000;
-    func_0218FEC0((u8 *)q->f58);
-    func_0218FF00(q->f58);
+    FIELD_CAMERA_ANIME_ApplyStartParam((u8 *)q->f58);
+    FIELD_CAMERA_ANIME_Start(q->f58);
 }

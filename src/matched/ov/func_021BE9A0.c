@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9A0
+ * function: EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback
  * address:  0x021BE9A0
  * packet:   pkt_021BE9A0
  * region:   ov021
@@ -15,8 +15,8 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021BEA6C  0x021BEA6C  thumb  ov021
- *   func_021BF0E4  0x021BF0E4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_GetFadeKind  0x021BEA6C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback  0x021BF0E4  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -27,12 +27,12 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-int func_021BEA6C(int x);
-int func_021BF0E4(u32 p0, int *st, u8 *q);
+int EVENT_FIELDMAP_CONTROL_GetFadeKind(int x);
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(u32 p0, int *st, u8 *q);
 
-void *func_021BE9A0(void *p, int a1, int a2, int a3, int a4, int a5)
+void *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(void *p, int a1, int a2, int a3, int a4, int a5)
 {
-    void *r0v = func_020122C0(p, 0, func_021BF0E4, 0x2C);
+    void *r0v = func_020122C0(p, 0, EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback, 0x2C);
     int *r4 = func_020124E8(r0v);
 
     r4[0] = (int)p;
@@ -40,7 +40,7 @@ void *func_021BE9A0(void *p, int a1, int a2, int a3, int a4, int a5)
     r4[2] = 3;
     ((u8 *)r4)[0x20] = a2;
     ((u8 *)r4)[0x21] = a3;
-    r4[3] = (int)func_021BEA6C(r4[2]);
+    r4[3] = (int)EVENT_FIELDMAP_CONTROL_GetFadeKind(r4[2]);
     r4[9] = a4;
     r4[10] = a5;
     return r0v;

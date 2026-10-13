@@ -1,5 +1,5 @@
 /*
- * function: func_02195E80
+ * function: TALKMSGWIN_RedrawEntryFrame
  * address:  0x02195E80
  * packet:   pkt_02195E80
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02195E54  0x02195E54  thumb  ov021
+ *   TALKMSGWIN_DrawFrameByType  0x02195E54  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09176.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02195E54(u32, u32, u32, u32);
+extern u32 TALKMSGWIN_DrawFrameByType(u32, u32, u32, u32);
 
-int func_02195E80(u32 a, u32 b)
+int TALKMSGWIN_RedrawEntryFrame(u32 a, u32 b)
 {
-return func_02195E54(a, ((struct Obj09176 *)((u8 *)(b)))->fC, ((struct Obj09176 *)((u8 *)(b)))->f3, ((struct Obj09176 *)((u8 *)(b)))->f58);
+return TALKMSGWIN_DrawFrameByType(a, ((struct Obj09176 *)((u8 *)(b)))->fC, ((struct Obj09176 *)((u8 *)(b)))->f3, ((struct Obj09176 *)((u8 *)(b)))->f58);
 }
 

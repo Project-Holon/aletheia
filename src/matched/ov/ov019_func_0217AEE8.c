@@ -1,5 +1,5 @@
 /*
- * function: func_0217AEE8
+ * function: UNION_CHARA_IsChildObjId
  * address: 0x0217AEE8
  * packet: pkt_ov019_0217AEE8
  * region: ov019
@@ -12,4 +12,4 @@
 
 typedef unsigned short u16;
 typedef enum { FALSE, TRUE } BOOL;
-BOOL func_0217AEE8(u16 a) { if ((u16)((unsigned char)a - 0x20) == 0) return FALSE; else return TRUE; }
+BOOL UNION_CHARA_IsChildObjId(u16 a) { if ((u16)((unsigned char)a - 0x20) == 0) return FALSE; else return TRUE; }

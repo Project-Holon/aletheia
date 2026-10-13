@@ -1,5 +1,5 @@
 /*
- * function: func_02158894
+ * function: SCRIPT_SYS_GetVm
  * address:  0x02158894
  * packet:   pkt_02158894
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02158894(int a0, int a1)
+int SCRIPT_SYS_GetVm(int a0, int a1)
 {
 
 a1 = a1 << 2;

@@ -1,7 +1,7 @@
 /*
  * file:     place_name_letter.c
  * unit:     yes
- * function: func_021BD148, func_021BD184, func_021BD19C, func_021BD1CC, func_021BD1D4, func_021BD1DC, func_021BD1E4, func_021BD1EC, func_021BD1F4, func_021BD1FC, func_021BD204, func_021BD20C, func_021BD214, func_021BD22C, func_021BD234, func_021BD250, func_021BD264, func_021BD278, func_021BD2A4, func_021BD2B8, func_021BD2BC, func_021BD2C0, func_021BD2C4, func_021BD2C8, func_021BD2D0, func_021BD2D8, func_021BD2DC, func_021BD2E8, func_021BD2F4, func_021BD2FC, func_021BD304, func_021BD308, func_021BD30C, func_021BD340, func_021BD36C, func_021BD394, func_021BD3BC, func_021BD3EC, func_021BD430, func_021BD474, func_021BD47C, func_021BD484, func_021BD554, func_021BD57C, func_021BD588, func_021BD5D4, func_021BD5F8, func_021BD604
+ * function: PLACE_NAME_LETTER_Create, PLACE_NAME_LETTER_Delete, PLACE_NAME_LETTER_Setup, PLACE_NAME_LETTER_Update, PLACE_NAME_LETTER_Start, PLACE_NAME_LETTER_GetBmp, PLACE_NAME_LETTER_SetVisible, PLACE_NAME_LETTER_GetWidth, PLACE_NAME_LETTER_GetHeight, PLACE_NAME_LETTER_GetX, PLACE_NAME_LETTER_GetY, PLACE_NAME_LETTER_IsActive, PLACE_NAME_LETTER_AllocWork, PLACE_NAME_LETTER_FreeWork, PLACE_NAME_LETTER_InitWork, PLACE_NAME_LETTER_CreateBmp, PLACE_NAME_LETTER_DeleteBmp, PLACE_NAME_LETTER_CreateBmpOam, PLACE_NAME_LETTER_DeleteBmpOam, PLACE_NAME_LETTER_GetHeapId, PLACE_NAME_LETTER_SetHeapId, PLACE_NAME_LETTER_GetFont, PLACE_NAME_LETTER_SetFont, PLACE_NAME_LETTER_GetChar, PLACE_NAME_LETTER_SetChar, PLACE_NAME_LETTER_GetActive, PLACE_NAME_LETTER_GetIntX, PLACE_NAME_LETTER_GetIntY, PLACE_NAME_LETTER_GetWidthRaw, PLACE_NAME_LETTER_GetHeightRaw, PLACE_NAME_LETTER_GetMotion, PLACE_NAME_LETTER_GetBmpRaw, PLACE_NAME_LETTER_MeasureGlyph, PLACE_NAME_LETTER_IsFinished, PLACE_NAME_LETTER_IsXDone, PLACE_NAME_LETTER_IsYDone, PLACE_NAME_LETTER_UpdateActive, PLACE_NAME_LETTER_StepX, PLACE_NAME_LETTER_StepY, PLACE_NAME_LETTER_Activate, PLACE_NAME_LETTER_Deactivate, PLACE_NAME_LETTER_ComputeAcceleration, PLACE_NAME_LETTER_SetMotion, PLACE_NAME_LETTER_ClearBmp, PLACE_NAME_LETTER_PrintChar, PLACE_NAME_LETTER_UpdateOamPos, PLACE_NAME_LETTER_SetVisibleRaw, PLACE_NAME_LETTER_MeasureChar
  * address:  0x021BD148
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -16,20 +16,24 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_02082BCC  0x02082BCC  arm
- *   d_021DE368     0x021DE368  data  a4
- *   func_020437AC  0x020437AC  arm
+ *   gPlaceNameLetterFileName     0x021DE368  data  a4
+ *   BMP_Delete  0x020437AC  arm
  *   func_0209C494  0x0209C494  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045A98  0x02045A98  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
- *   func_0201C7D0  0x0201C7D0  thumb
- *   func_020257D0  0x020257D0  thumb
- *   func_02025774  0x02025774  thumb
+ *   BMP_Clear  0x02043B5C  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
+ *   BMP_OAM_UploadChars  0x020257D0  thumb
+ *   BMP_OAM_SetEnabled  0x02025774  thumb
  *   func_0201D304  0x0201D304  thumb
  *   func_0201D42C  0x0201D42C  thumb
+ *   BMP_OAM_Create  0x020255A0  thumb  arm9
+ *   BMP_OAM_Delete  0x0202570C  thumb  arm9
+ *   BMP_OAM_SetPos  0x0202590C  thumb  arm9
+ *   BMP_Create  0x02043678  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -65,181 +69,181 @@ typedef struct BmpOamParam {
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
 extern u32 func_020307B0(void *p);
-extern void func_02043B5C(Bmp *bmp, u8 value);
-extern void func_02045808(Strbuf *strbuf);
+extern void BMP_Clear(Bmp *bmp, u8 value);
+extern void STRBUF_Delete(Strbuf *strbuf);
 extern void func_02082BCC(void *dst, int value, int size);
-extern Strbuf *func_020457B0(u32 capacity, u32 heapId);
-extern u16 func_02045A98(void);
-extern Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heapId);
-extern void func_020437AC(Bmp *bmp);
-extern BmpOam *func_020255A0(BmpOamSys *sys, const BmpOamParam *param);
-extern void func_0202570C(BmpOam *bmpOam);
+extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern u16 STRBUF_GetEosChar(void);
+extern Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
+extern void BMP_Delete(Bmp *bmp);
+extern BmpOam *BMP_OAM_Create(BmpOamSys *sys, const BmpOamParam *param);
+extern void BMP_OAM_Delete(BmpOam *bmpOam);
 extern u32 func_0209C494(u32 value);
-extern void func_02045994(Strbuf *strbuf, const u16 *chars, u32 count);
-extern void func_0201C7D0(Bmp *bmp, s16 x, s16 y, Strbuf *strbuf, GfFont *font, u16 color);
-extern void func_020257D0(BmpOam *bmpOam);
-extern void func_0202590C(BmpOam *bmpOam, int x, int y);
-extern void func_02025774(BmpOam *bmpOam, unsigned int visible);
+extern void STRBUF_SetStringN(Strbuf *strbuf, const u16 *chars, u32 count);
+extern void PRINTSYS_PrintColor(Bmp *bmp, s16 x, s16 y, Strbuf *strbuf, GfFont *font, u16 color);
+extern void BMP_OAM_UploadChars(BmpOam *bmpOam);
+extern void BMP_OAM_SetPos(BmpOam *bmpOam, int x, int y);
+extern void BMP_OAM_SetEnabled(BmpOam *bmpOam, unsigned int visible);
 extern u32 func_0201D304(Strbuf *strbuf, GfFont *font, u32 spacing);
 extern u32 func_0201D42C(Strbuf *strbuf, GfFont *font);
-PlaceNameLetter *func_021BD148(u32 heapId, BmpOamSys *bmpOamSys, u16 space, int paletteId);
-void func_021BD184(PlaceNameLetter *letter);
-void func_021BD19C(PlaceNameLetter *letter, const PlaceNameLetterParam *param);
-void func_021BD1CC(PlaceNameLetter *letter);
-void func_021BD1D4(PlaceNameLetter *letter);
-Bmp *func_021BD1DC(PlaceNameLetter *letter);
-void func_021BD1E4(PlaceNameLetter *letter, unsigned int visible);
-int func_021BD1EC(PlaceNameLetter *letter);
-int func_021BD1F4(PlaceNameLetter *letter);
-u32 func_021BD1FC(PlaceNameLetter *letter);
-u32 func_021BD204(PlaceNameLetter *letter);
-unsigned int func_021BD20C(PlaceNameLetter *letter);
-PlaceNameLetter *func_021BD214(u32 heapId);
-u32 func_021BD22C(PlaceNameLetter *letter);
-void func_021BD234(PlaceNameLetter *letter);
-void func_021BD250(PlaceNameLetter *letter);
-void func_021BD264(PlaceNameLetter *letter);
-void func_021BD278(PlaceNameLetter *letter, BmpOamSys *bmpOamSys, u16 space, int paletteId);
-void func_021BD2A4(PlaceNameLetter *letter);
-u16 func_021BD2B8(PlaceNameLetter *letter);
-void func_021BD2BC(PlaceNameLetter *letter, int heapId);
-GfFont *func_021BD2C0(PlaceNameLetter *letter);
-void func_021BD2C4(PlaceNameLetter *letter, GfFont *font);
-u16 func_021BD2C8(PlaceNameLetter *letter);
-void func_021BD2D0(PlaceNameLetter *letter, u16 ch);
-u32 func_021BD2D8(PlaceNameLetter *letter);
-u32 func_021BD2DC(PlaceNameLetter *letter);
-u32 func_021BD2E8(PlaceNameLetter *letter);
-u8 func_021BD2F4(PlaceNameLetter *letter);
-u8 func_021BD2FC(PlaceNameLetter *letter);
-PlaceNameLetterMotion *func_021BD304(PlaceNameLetter *letter);
-Bmp *func_021BD308(PlaceNameLetter *letter);
-void func_021BD30C(PlaceNameLetter *letter);
-int func_021BD340(PlaceNameLetter *letter);
-int func_021BD36C(PlaceNameLetter *letter);
-int func_021BD394(PlaceNameLetter *letter);
-void func_021BD3BC(PlaceNameLetter *letter);
-void func_021BD3EC(PlaceNameLetter *letter);
-void func_021BD430(PlaceNameLetter *letter);
-void func_021BD474(PlaceNameLetter *letter);
-void func_021BD47C(PlaceNameLetter *letter);
-void func_021BD484(PlaceNameLetter *letter);
-void func_021BD554(PlaceNameLetter *letter, const PlaceNameLetterParam *param);
-void func_021BD57C(PlaceNameLetter *letter);
-void func_021BD588(PlaceNameLetter *letter);
-void func_021BD5D4(PlaceNameLetter *letter);
-void func_021BD5F8(PlaceNameLetter *letter, unsigned int visible);
-void func_021BD604(GfFont *font, u16 ch, u32 heapId, u8 *width, u8 *height);
-extern u8 d_021DE368[20];
+PlaceNameLetter *PLACE_NAME_LETTER_Create(u32 heapId, BmpOamSys *bmpOamSys, u16 space, int paletteId);
+void PLACE_NAME_LETTER_Delete(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_Setup(PlaceNameLetter *letter, const PlaceNameLetterParam *param);
+void PLACE_NAME_LETTER_Update(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_Start(PlaceNameLetter *letter);
+Bmp *PLACE_NAME_LETTER_GetBmp(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_SetVisible(PlaceNameLetter *letter, unsigned int visible);
+int PLACE_NAME_LETTER_GetWidth(PlaceNameLetter *letter);
+int PLACE_NAME_LETTER_GetHeight(PlaceNameLetter *letter);
+u32 PLACE_NAME_LETTER_GetX(PlaceNameLetter *letter);
+u32 PLACE_NAME_LETTER_GetY(PlaceNameLetter *letter);
+unsigned int PLACE_NAME_LETTER_IsActive(PlaceNameLetter *letter);
+PlaceNameLetter *PLACE_NAME_LETTER_AllocWork(u32 heapId);
+u32 PLACE_NAME_LETTER_FreeWork(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_InitWork(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_CreateBmp(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_DeleteBmp(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_CreateBmpOam(PlaceNameLetter *letter, BmpOamSys *bmpOamSys, u16 space, int paletteId);
+void PLACE_NAME_LETTER_DeleteBmpOam(PlaceNameLetter *letter);
+u16 PLACE_NAME_LETTER_GetHeapId(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_SetHeapId(PlaceNameLetter *letter, int heapId);
+GfFont *PLACE_NAME_LETTER_GetFont(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_SetFont(PlaceNameLetter *letter, GfFont *font);
+u16 PLACE_NAME_LETTER_GetChar(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_SetChar(PlaceNameLetter *letter, u16 ch);
+u32 PLACE_NAME_LETTER_GetActive(PlaceNameLetter *letter);
+u32 PLACE_NAME_LETTER_GetIntX(PlaceNameLetter *letter);
+u32 PLACE_NAME_LETTER_GetIntY(PlaceNameLetter *letter);
+u8 PLACE_NAME_LETTER_GetWidthRaw(PlaceNameLetter *letter);
+u8 PLACE_NAME_LETTER_GetHeightRaw(PlaceNameLetter *letter);
+PlaceNameLetterMotion *PLACE_NAME_LETTER_GetMotion(PlaceNameLetter *letter);
+Bmp *PLACE_NAME_LETTER_GetBmpRaw(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_MeasureGlyph(PlaceNameLetter *letter);
+int PLACE_NAME_LETTER_IsFinished(PlaceNameLetter *letter);
+int PLACE_NAME_LETTER_IsXDone(PlaceNameLetter *letter);
+int PLACE_NAME_LETTER_IsYDone(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_UpdateActive(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_StepX(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_StepY(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_Activate(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_Deactivate(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_ComputeAcceleration(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_SetMotion(PlaceNameLetter *letter, const PlaceNameLetterParam *param);
+void PLACE_NAME_LETTER_ClearBmp(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_PrintChar(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_UpdateOamPos(PlaceNameLetter *letter);
+void PLACE_NAME_LETTER_SetVisibleRaw(PlaceNameLetter *letter, unsigned int visible);
+void PLACE_NAME_LETTER_MeasureChar(GfFont *font, u16 ch, u32 heapId, u8 *width, u8 *height);
+extern u8 gPlaceNameLetterFileName[20];
 
 /* Creates a letter: work, bitmap, OAM actor. It starts hidden and inactive. */
-PlaceNameLetter *func_021BD148(u32 heapId, BmpOamSys *bmpOamSys, u16 space, int paletteId)
+PlaceNameLetter *PLACE_NAME_LETTER_Create(u32 heapId, BmpOamSys *bmpOamSys, u16 space, int paletteId)
 {
-    PlaceNameLetter *letter = func_021BD214(heapId);
-    func_021BD234(letter);
-    func_021BD2BC(letter, heapId);
-    func_021BD250(letter);
-    func_021BD278(letter, bmpOamSys, space, paletteId);
-    func_021BD5F8(letter, 0);
+    PlaceNameLetter *letter = PLACE_NAME_LETTER_AllocWork(heapId);
+    PLACE_NAME_LETTER_InitWork(letter);
+    PLACE_NAME_LETTER_SetHeapId(letter, heapId);
+    PLACE_NAME_LETTER_CreateBmp(letter);
+    PLACE_NAME_LETTER_CreateBmpOam(letter, bmpOamSys, space, paletteId);
+    PLACE_NAME_LETTER_SetVisibleRaw(letter, 0);
     return letter;
 }
 
-void func_021BD184(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_Delete(PlaceNameLetter *letter)
 {
-    func_021BD2A4(letter);
-    func_021BD264(letter);
-    func_021BD22C(letter);
+    PLACE_NAME_LETTER_DeleteBmpOam(letter);
+    PLACE_NAME_LETTER_DeleteBmp(letter);
+    PLACE_NAME_LETTER_FreeWork(letter);
 }
 
 /* Gives the letter its character and motion, draws the glyph and sets the OAM position. */
-void func_021BD19C(PlaceNameLetter *letter, const PlaceNameLetterParam *param)
+void PLACE_NAME_LETTER_Setup(PlaceNameLetter *letter, const PlaceNameLetterParam *param)
 {
-    func_021BD2C4(letter, param->font);
-    func_021BD2D0(letter, param->ch);
-    func_021BD30C(letter);
-    func_021BD57C(letter);
-    func_021BD588(letter);
-    func_021BD554(letter, param);
+    PLACE_NAME_LETTER_SetFont(letter, param->font);
+    PLACE_NAME_LETTER_SetChar(letter, param->ch);
+    PLACE_NAME_LETTER_MeasureGlyph(letter);
+    PLACE_NAME_LETTER_ClearBmp(letter);
+    PLACE_NAME_LETTER_PrintChar(letter);
+    PLACE_NAME_LETTER_SetMotion(letter, param);
 }
 
-void func_021BD1CC(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_Update(PlaceNameLetter *letter)
 {
-    func_021BD3BC(letter);
+    PLACE_NAME_LETTER_UpdateActive(letter);
 }
 
-void func_021BD1D4(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_Start(PlaceNameLetter *letter)
 {
-    func_021BD474(letter);
+    PLACE_NAME_LETTER_Activate(letter);
 }
 
-Bmp *func_021BD1DC(PlaceNameLetter *letter)
+Bmp *PLACE_NAME_LETTER_GetBmp(PlaceNameLetter *letter)
 {
-    return func_021BD308(letter);
+    return PLACE_NAME_LETTER_GetBmpRaw(letter);
 }
 
-void func_021BD1E4(PlaceNameLetter *letter, unsigned int visible)
+void PLACE_NAME_LETTER_SetVisible(PlaceNameLetter *letter, unsigned int visible)
 {
-    func_021BD5F8(letter, visible);
+    PLACE_NAME_LETTER_SetVisibleRaw(letter, visible);
 }
 
-int func_021BD1EC(PlaceNameLetter *letter)
+int PLACE_NAME_LETTER_GetWidth(PlaceNameLetter *letter)
 {
-    return func_021BD2F4(letter);
+    return PLACE_NAME_LETTER_GetWidthRaw(letter);
 }
 
-int func_021BD1F4(PlaceNameLetter *letter)
+int PLACE_NAME_LETTER_GetHeight(PlaceNameLetter *letter)
 {
-    return func_021BD2FC(letter);
+    return PLACE_NAME_LETTER_GetHeightRaw(letter);
 }
 
-u32 func_021BD1FC(PlaceNameLetter *letter)
+u32 PLACE_NAME_LETTER_GetX(PlaceNameLetter *letter)
 {
-    return func_021BD2DC(letter);
+    return PLACE_NAME_LETTER_GetIntX(letter);
 }
 
-u32 func_021BD204(PlaceNameLetter *letter)
+u32 PLACE_NAME_LETTER_GetY(PlaceNameLetter *letter)
 {
-    return func_021BD2E8(letter);
+    return PLACE_NAME_LETTER_GetIntY(letter);
 }
 
 /* 1 while the letter moves. */
-unsigned int func_021BD20C(PlaceNameLetter *letter)
+unsigned int PLACE_NAME_LETTER_IsActive(PlaceNameLetter *letter)
 {
-    return func_021BD2D8(letter);
+    return PLACE_NAME_LETTER_GetActive(letter);
 }
 
-PlaceNameLetter *func_021BD214(u32 heapId)
+PlaceNameLetter *PLACE_NAME_LETTER_AllocWork(u32 heapId)
 {
-    return func_02030734(heapId, 0x4C, 0, (const char *)&d_021DE368, 0x170);
+    return func_02030734(heapId, 0x4C, 0, (const char *)&gPlaceNameLetterFileName, 0x170);
 }
 
-u32 func_021BD22C(PlaceNameLetter *letter)
+u32 PLACE_NAME_LETTER_FreeWork(PlaceNameLetter *letter)
 {
     return func_020307B0(letter);
 }
 
-void func_021BD234(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_InitWork(PlaceNameLetter *letter)
 {
     func_02082BCC(letter, 0, 0x4C);
     letter->active = 0;
-    letter->ch = func_02045A98();
+    letter->ch = STRBUF_GetEosChar();
 }
 
-void func_021BD250(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_CreateBmp(PlaceNameLetter *letter)
 {
-    letter->bmp = func_02043678(PLACE_NAME_LETTER_TILES_WIDE, PLACE_NAME_LETTER_TILES_HIGH, PLACE_NAME_LETTER_BMP_DEPTH, letter->heapId);
+    letter->bmp = BMP_Create(PLACE_NAME_LETTER_TILES_WIDE, PLACE_NAME_LETTER_TILES_HIGH, PLACE_NAME_LETTER_BMP_DEPTH, letter->heapId);
 }
 
-void func_021BD264(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_DeleteBmp(PlaceNameLetter *letter)
 {
     Bmp *bmp = letter->bmp;
     if (bmp != 0) {
-        func_020437AC(bmp);
+        BMP_Delete(bmp);
         letter->bmp = 0;
     }
 }
 
-void func_021BD278(PlaceNameLetter *letter, BmpOamSys *bmpOamSys, u16 space, int paletteId)
+void PLACE_NAME_LETTER_CreateBmpOam(PlaceNameLetter *letter, BmpOamSys *bmpOamSys, u16 space, int paletteId)
 {
     BmpOamParam param;
     param.bmp = letter->bmp;
@@ -251,102 +255,102 @@ void func_021BD278(PlaceNameLetter *letter, BmpOamSys *bmpOamSys, u16 space, int
     param.bgPriority = 0;
     param.space = space;
     param.engine = 0;
-    letter->bmpOam = func_020255A0(bmpOamSys, &param);
+    letter->bmpOam = BMP_OAM_Create(bmpOamSys, &param);
 }
 
-void func_021BD2A4(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_DeleteBmpOam(PlaceNameLetter *letter)
 {
     if (letter->bmpOam != 0) {
-        func_0202570C(letter->bmpOam);
+        BMP_OAM_Delete(letter->bmpOam);
         letter->bmpOam = 0;
     }
 }
 
-u16 func_021BD2B8(PlaceNameLetter *letter)
+u16 PLACE_NAME_LETTER_GetHeapId(PlaceNameLetter *letter)
 {
     return letter->heapId;
 }
 
-void func_021BD2BC(PlaceNameLetter *letter, int heapId)
+void PLACE_NAME_LETTER_SetHeapId(PlaceNameLetter *letter, int heapId)
 {
     letter->heapId = heapId;
 }
 
-GfFont *func_021BD2C0(PlaceNameLetter *letter)
+GfFont *PLACE_NAME_LETTER_GetFont(PlaceNameLetter *letter)
 {
     return letter->font;
 }
 
-void func_021BD2C4(PlaceNameLetter *letter, GfFont *font)
+void PLACE_NAME_LETTER_SetFont(PlaceNameLetter *letter, GfFont *font)
 {
     letter->font = font;
 }
 
-u16 func_021BD2C8(PlaceNameLetter *letter)
+u16 PLACE_NAME_LETTER_GetChar(PlaceNameLetter *letter)
 {
     return letter->ch;
 }
 
-void func_021BD2D0(PlaceNameLetter *letter, u16 ch)
+void PLACE_NAME_LETTER_SetChar(PlaceNameLetter *letter, u16 ch)
 {
     letter->ch = ch;
 }
 
-u32 func_021BD2D8(PlaceNameLetter *letter)
+u32 PLACE_NAME_LETTER_GetActive(PlaceNameLetter *letter)
 {
     return letter->active;
 }
 
 /* Current x position as an integer (letter + 0x10 is the motion x). */
-u32 func_021BD2DC(PlaceNameLetter *letter)
+u32 PLACE_NAME_LETTER_GetIntX(PlaceNameLetter *letter)
 {
     return func_0209C494(*(u32 *)&letter->motion.x);
 }
 
 /* Current y position as an integer. */
-u32 func_021BD2E8(PlaceNameLetter *letter)
+u32 PLACE_NAME_LETTER_GetIntY(PlaceNameLetter *letter)
 {
     return func_0209C494(*(u32 *)&letter->motion.y);
 }
 
-u8 func_021BD2F4(PlaceNameLetter *letter)
+u8 PLACE_NAME_LETTER_GetWidthRaw(PlaceNameLetter *letter)
 {
     return letter->width;
 }
 
-u8 func_021BD2FC(PlaceNameLetter *letter)
+u8 PLACE_NAME_LETTER_GetHeightRaw(PlaceNameLetter *letter)
 {
     return letter->height;
 }
 
-PlaceNameLetterMotion *func_021BD304(PlaceNameLetter *letter)
+PlaceNameLetterMotion *PLACE_NAME_LETTER_GetMotion(PlaceNameLetter *letter)
 {
     return &letter->motion;
 }
 
-Bmp *func_021BD308(PlaceNameLetter *letter)
+Bmp *PLACE_NAME_LETTER_GetBmpRaw(PlaceNameLetter *letter)
 {
     return letter->bmp;
 }
 
 /* Measures the glyph of the letter's character. */
-void func_021BD30C(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_MeasureGlyph(PlaceNameLetter *letter)
 {
     GfFont *font;
     u16 ch;
-    font = func_021BD2C0(letter);
-    ch = func_021BD2C8(letter);
-    func_021BD604(font, ch, func_021BD2B8(letter), &letter->width, &letter->height);
+    font = PLACE_NAME_LETTER_GetFont(letter);
+    ch = PLACE_NAME_LETTER_GetChar(letter);
+    PLACE_NAME_LETTER_MeasureChar(font, ch, PLACE_NAME_LETTER_GetHeapId(letter), &letter->width, &letter->height);
 }
 
 /* 1 when the letter is inactive or both axes finished. */
-int func_021BD340(PlaceNameLetter *letter)
+int PLACE_NAME_LETTER_IsFinished(PlaceNameLetter *letter)
 {
-    if (func_021BD2D8(letter) == 0) {
+    if (PLACE_NAME_LETTER_GetActive(letter) == 0) {
         return 1;
     }
-    if (func_021BD36C(letter) != 0) {
-        if (func_021BD394(letter) != 0) {
+    if (PLACE_NAME_LETTER_IsXDone(letter) != 0) {
+        if (PLACE_NAME_LETTER_IsYDone(letter) != 0) {
             return 1;
         }
     }
@@ -354,10 +358,10 @@ int func_021BD340(PlaceNameLetter *letter)
 }
 
 /* 1 when the x axis needs no more steps. */
-int func_021BD36C(PlaceNameLetter *letter)
+int PLACE_NAME_LETTER_IsXDone(PlaceNameLetter *letter)
 {
-    PlaceNameLetterMotion *motion = func_021BD304(letter);
-    if (func_021BD2D8(letter) == 0) {
+    PlaceNameLetterMotion *motion = PLACE_NAME_LETTER_GetMotion(letter);
+    if (PLACE_NAME_LETTER_GetActive(letter) == 0) {
         return 1;
     }
     if (motion->framesX <= 0) {
@@ -367,10 +371,10 @@ int func_021BD36C(PlaceNameLetter *letter)
 }
 
 /* 1 when the y axis needs no more steps. */
-int func_021BD394(PlaceNameLetter *letter)
+int PLACE_NAME_LETTER_IsYDone(PlaceNameLetter *letter)
 {
-    PlaceNameLetterMotion *motion = func_021BD304(letter);
-    if (func_021BD2D8(letter) == 0) {
+    PlaceNameLetterMotion *motion = PLACE_NAME_LETTER_GetMotion(letter);
+    if (PLACE_NAME_LETTER_GetActive(letter) == 0) {
         return 1;
     }
     if (motion->framesY <= 0) {
@@ -380,23 +384,23 @@ int func_021BD394(PlaceNameLetter *letter)
 }
 
 /* One frame of movement: both axes, the OAM position, and deactivation when done. */
-void func_021BD3BC(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_UpdateActive(PlaceNameLetter *letter)
 {
-    if (func_021BD2D8(letter)) {
-        func_021BD3EC(letter);
-        func_021BD430(letter);
-        func_021BD5D4(letter);
-        if (func_021BD340(letter) == 1) {
-            func_021BD47C(letter);
+    if (PLACE_NAME_LETTER_GetActive(letter)) {
+        PLACE_NAME_LETTER_StepX(letter);
+        PLACE_NAME_LETTER_StepY(letter);
+        PLACE_NAME_LETTER_UpdateOamPos(letter);
+        if (PLACE_NAME_LETTER_IsFinished(letter) == 1) {
+            PLACE_NAME_LETTER_Deactivate(letter);
         }
     }
 }
 
 /* One step on the x axis: x += vx + ax / 2, vx += ax; the last step snaps to the target. */
-void func_021BD3EC(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_StepX(PlaceNameLetter *letter)
 {
     PlaceNameLetterMotion *motion;
-    if (func_021BD36C(letter) == 1) {
+    if (PLACE_NAME_LETTER_IsXDone(letter) == 1) {
         return;
     }
     motion = &letter->motion;
@@ -409,10 +413,10 @@ void func_021BD3EC(PlaceNameLetter *letter)
 }
 
 /* One step on the y axis. */
-void func_021BD430(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_StepY(PlaceNameLetter *letter)
 {
     PlaceNameLetterMotion *motion;
-    if (func_021BD394(letter) == 1) {
+    if (PLACE_NAME_LETTER_IsYDone(letter) == 1) {
         return;
     }
     motion = &letter->motion;
@@ -424,12 +428,12 @@ void func_021BD430(PlaceNameLetter *letter)
     }
 }
 
-void func_021BD474(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_Activate(PlaceNameLetter *letter)
 {
     letter->active = 1;
 }
 
-void func_021BD47C(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_Deactivate(PlaceNameLetter *letter)
 {
     letter->active = 0;
 }
@@ -438,7 +442,7 @@ void func_021BD47C(PlaceNameLetter *letter)
  * Derives acceleration and frame count per axis from start and target:
  * a = (targetV^2 - v^2) / (2 * distance), frames = (targetV - v) / a.
  */
-void func_021BD484(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_ComputeAcceleration(PlaceNameLetter *letter)
 {
     float dx;
     float dy;
@@ -461,7 +465,7 @@ void func_021BD484(PlaceNameLetter *letter)
 }
 
 /* Copies the start and target values into the motion, then derives acceleration and frames. */
-void func_021BD554(PlaceNameLetter *letter, const PlaceNameLetterParam *param)
+void PLACE_NAME_LETTER_SetMotion(PlaceNameLetter *letter, const PlaceNameLetterParam *param)
 {
     letter->motion.x = param->x;
     letter->motion.y = param->y;
@@ -471,53 +475,53 @@ void func_021BD554(PlaceNameLetter *letter, const PlaceNameLetterParam *param)
     letter->motion.targetY = param->targetY;
     letter->motion.targetVx = param->targetVx;
     letter->motion.targetVy = param->targetVy;
-    func_021BD484(letter);
+    PLACE_NAME_LETTER_ComputeAcceleration(letter);
 }
 
 /* Clears the letter bitmap. */
-void func_021BD57C(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_ClearBmp(PlaceNameLetter *letter)
 {
-    func_02043B5C(letter->bmp, 0);
+    BMP_Clear(letter->bmp, 0);
 }
 
 /* Prints the character into the bitmap and uploads it to the OAM actor. */
-void func_021BD588(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_PrintChar(PlaceNameLetter *letter)
 {
     u16 chars[2];
     Strbuf *strbuf;
-    chars[0] = func_021BD2C8(letter);
-    chars[1] = func_02045A98();
-    strbuf = func_020457B0(2, letter->heapId);
-    func_02045994(strbuf, chars, 2);
-    func_0201C7D0(letter->bmp, 0, 0, strbuf, letter->font, PLACE_NAME_LETTER_PRINT_COLOR);
-    func_020257D0(letter->bmpOam);
-    func_02045808(strbuf);
+    chars[0] = PLACE_NAME_LETTER_GetChar(letter);
+    chars[1] = STRBUF_GetEosChar();
+    strbuf = STRBUF_Create(2, letter->heapId);
+    STRBUF_SetStringN(strbuf, chars, 2);
+    PRINTSYS_PrintColor(letter->bmp, 0, 0, strbuf, letter->font, PLACE_NAME_LETTER_PRINT_COLOR);
+    BMP_OAM_UploadChars(letter->bmpOam);
+    STRBUF_Delete(strbuf);
 }
 
 /* Moves the OAM actor to the letter's position. */
-void func_021BD5D4(PlaceNameLetter *letter)
+void PLACE_NAME_LETTER_UpdateOamPos(PlaceNameLetter *letter)
 {
-    PlaceNameLetterMotion *motion = func_021BD304(letter);
+    PlaceNameLetterMotion *motion = PLACE_NAME_LETTER_GetMotion(letter);
     int x = (int)motion->x;
     int y = (int)motion->y;
-    func_0202590C(letter->bmpOam, x, y);
+    BMP_OAM_SetPos(letter->bmpOam, x, y);
 }
 
-void func_021BD5F8(PlaceNameLetter *letter, unsigned int visible)
+void PLACE_NAME_LETTER_SetVisibleRaw(PlaceNameLetter *letter, unsigned int visible)
 {
-    func_02025774(letter->bmpOam, visible);
+    BMP_OAM_SetEnabled(letter->bmpOam, visible);
 }
 
 /* Pixel width and height of one character in the font. */
-void func_021BD604(GfFont *font, u16 ch, u32 heapId, u8 *width, u8 *height)
+void PLACE_NAME_LETTER_MeasureChar(GfFont *font, u16 ch, u32 heapId, u8 *width, u8 *height)
 {
     u16 chars[2];
     Strbuf *strbuf;
     chars[0] = ch;
-    chars[1] = func_02045A98();
-    strbuf = func_020457B0(2, heapId);
-    func_02045994(strbuf, chars, 2);
+    chars[1] = STRBUF_GetEosChar();
+    strbuf = STRBUF_Create(2, heapId);
+    STRBUF_SetStringN(strbuf, chars, 2);
     *width = func_0201D304(strbuf, font, 0);
     *height = func_0201D42C(strbuf, font);
-    func_02045808(strbuf);
+    STRBUF_Delete(strbuf);
 }

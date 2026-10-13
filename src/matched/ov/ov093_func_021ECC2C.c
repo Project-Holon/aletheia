@@ -9,18 +9,18 @@
  * status: EXACT
  * symbols:
  *   func_021B8FF4 0x021B8FF4 thumb ov093
- *   func_021EE104 0x021EE104 thumb ov093
+ *   BTLV_SCU_GetBallStates 0x021EE104 thumb ov093
  *   func_021F823C 0x021F823C thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
  *   func_021F827C 0x021F827C thumb ov094
  *   func_021B8ED8 0x021B8ED8 thumb ov093
  *   func_021B98AC 0x021B98AC thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D5864 0x021D5864 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_GetDisplayMon 0x021D5864 thumb ov093
  *   func_021F7EE8 0x021F7EE8 thumb ov094
- *   func_021EEE24 0x021EEE24 thumb ov093
+ *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
  *   func_021ECEB8 0x021ECEB8 thumb ov093
  *   func_021ECF68 0x021ECF68 thumb ov093
  *   func_021F8260 0x021F8260 thumb ov094
@@ -34,19 +34,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021B8FF4(u8 *);
-extern void func_021EE104(u8 *, u32 *, u32, u32, u32);
+extern void BTLV_SCU_GetBallStates(u8 *, u32 *, u32, u32, u32);
 extern void func_021F823C(u32 *);
 extern int func_021F7EB4(void);
 extern void func_021F7998(u32);
 extern int func_021F827C(u32);
 extern u8 func_021B8ED8(u8 *p, u8 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
-extern u8 func_021D5440(u8 *p);
-extern int func_021D5B68(void *);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern int BTL_POKEPARAM_IsFainted(void *);
 struct Work;
-extern void *func_021D5864(struct Work *p);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern void func_021F7EE8(void *, int);
-extern void func_021EEE24(u32, u16, u32, ...);
+extern void BTL_MSG_FormatArgs(u32, u16, u32, ...);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
 struct E;
 struct S;
@@ -65,7 +65,7 @@ int func_021ECC2C(u8 *p, int *state)
     switch (*state) {
     case 0:
         b[22] = func_021B8FF4(*(u8 * *)&((struct Obj00027 *)p)->f134);
-        func_021EE104(p, buf, b[22], 4, 0);
+        BTLV_SCU_GetBallStates(p, buf, b[22], 4, 0);
         func_021F823C(buf);
         (*state)++;
         break;
@@ -85,16 +85,16 @@ int func_021ECC2C(u8 *p, int *state)
             for (i = 0; i < 3U; i++) {
                 b[12 + i] = func_021B8ED8(*(u8 * *)&((struct Obj00027 *)p)->f134, b[15 + i]);
                 ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj00027 *)p)->f138, b[12 + i]);
-                b[18 + i] = func_021D5440(((u8 **)b)[i]);
-                if (!func_021D5B68(((u8 **)b)[i])) b[21]++;
+                b[18 + i] = BTL_POKEPARAM_GetPokeId(((u8 **)b)[i]);
+                if (!BTL_POKEPARAM_IsFainted(((u8 **)b)[i])) b[21]++;
             }
-            func_021F7EE8(func_021D5864(((struct Obj00378 *)b)->f0), b[15]);
-            if (b[21] > 1) func_021F7EE8(func_021D5864(((struct Obj00378 *)b)->f4), b[16]);
-            if (b[21] > 2) func_021F7EE8(func_021D5864(((struct Obj00378 *)b)->f8), b[17]);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj00378 *)b)->f0), b[15]);
+            if (b[21] > 1) func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj00378 *)b)->f4), b[16]);
+            if (b[21] > 2) func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj00378 *)b)->f8), b[17]);
             func_021F7998(0x234);
             if (b[21] == 3) msg = 13;
             else msg = b[21] == 2 ? 12 : 11;
-            func_021EEE24(((struct Obj00027 *)p)->f34, msg, 3, b[18], b[19], b[20]);
+            BTL_MSG_FormatArgs(((struct Obj00027 *)p)->f34, msg, 3, b[18], b[19], b[20]);
             func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }

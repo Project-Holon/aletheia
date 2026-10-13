@@ -1,5 +1,5 @@
 /*
- * function: func_021F1A64
+ * function: C_GEAR_SetAllActorsVisible
  * address:  0x021F1A64
  * packet:   pkt_ov029_021F1A64
  * region:   ov029
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_021F1F80  0x021F1F80  thumb  ov029
+ *   C_GEAR_UpdateClock  0x021F1F80  thumb  ov029
  */
 #include "../include/Obj00106.h"
 
@@ -18,9 +18,9 @@ typedef unsigned char u8;
 
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_021F1F80(char *p);
+extern void C_GEAR_UpdateClock(char *p);
 
-void func_021F1A64(char *p, int flag)
+void C_GEAR_SetAllActorsVisible(char *p, int flag)
 {
     int i;
 
@@ -55,6 +55,6 @@ void func_021F1A64(char *p, int flag)
         func_0204B3DC((struct Obj *)((struct Obj00106 *)p)->f16C, flag);
     }
     if (flag == 1) {
-        func_021F1F80(p);
+        C_GEAR_UpdateClock(p);
     }
 }

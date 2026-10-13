@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  */
 #include "../include/Obj06364.h"
-extern void func_0204AFD8(unsigned); extern void func_0204A8D4(unsigned); extern void func_0204ADA4(unsigned);
-void func_021B7384(unsigned p) { func_0204AFD8(((struct Obj06364 *)p)->f38); func_0204A8D4(((struct Obj06364 *)p)->f34); func_0204ADA4(((struct Obj06364 *)p)->f30); }
+extern void CLACT_ReleaseCellAnim(unsigned); extern void CLACT_ReleaseCharacter(unsigned); extern void CLACT_ReleasePalette(unsigned);
+void func_021B7384(unsigned p) { CLACT_ReleaseCellAnim(((struct Obj06364 *)p)->f38); CLACT_ReleaseCharacter(((struct Obj06364 *)p)->f34); CLACT_ReleasePalette(((struct Obj06364 *)p)->f30); }

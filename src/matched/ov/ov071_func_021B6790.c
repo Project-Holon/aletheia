@@ -1,5 +1,5 @@
 /*
- * function: func_021B6790
+ * function: MONOLITH_TOOL_InitText
  * address:  0x021B6790
  * packet:   pkt_ov071_021B6790
  * region:   ov071
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201DD78  0x0201DD78  thumb
- *   func_0203101C  0x0203101C  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
+ *   TCBL_Create  0x0203101C  arm
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201C440  0x0201C440  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   func_02045B38  0x02045B38  arm
@@ -24,18 +24,18 @@ struct GfFont;
 struct MsgBank;
 struct Tcbl;
 struct WordSet;
-void func_021B6790(int *p)
+void MONOLITH_TOOL_InitText(int *p)
 {
-    void func_0201DD78(u32 r, u32 g, u32 b);
-    struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-    struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+    void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+    struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+    struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
     u32 func_0201C440(void *p);
     struct WordSet *func_0201EC64(u32 heap);
     struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-    func_0201DD78(0xf, 2, 0);
-    p[6] = (int)func_0203101C(0x61, 0x61, 4, 0x20);
-    p[3] = (int)func_0201D7EC(0x17, 0, 0, 0, 0x61);
+    GF_FONT_SetTextColor(0xf, 2, 0);
+    p[6] = (int)TCBL_Create(0x61, 0x61, 4, 0x20);
+    p[3] = (int)GF_FONT_Create(0x17, 0, 0, 0, 0x61);
     p[2] = func_0201C440((void *)0x61);
     p[4] = (int)func_0201EC64(0x61);
     p[7] = (int)func_02045B38(0, 2, 0x43, 0x61);

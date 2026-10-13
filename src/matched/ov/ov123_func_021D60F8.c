@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  *   func_0207E3D0 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
  */
 #include "../include/Obj06462.h"
 #include "../include/Obj22948.h"
 typedef unsigned char u8;
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 extern void func_0207E3D0(void *, unsigned int, unsigned int);
 extern void func_0207E468(void *, unsigned int, unsigned int);
 void func_021D60F8(void *a, u8 *p)
@@ -23,7 +23,7 @@ void func_021D60F8(void *a, u8 *p)
     int n;
     u8 *base;
     int off;
-    func_0204A648();
+    CLACT_VBlankSystem();
     n = ((struct Obj06462 *)p)->f4564 + 1;
     ((struct Obj06462 *)p)->f4564 = n;
     if (n % 10 == 1) {

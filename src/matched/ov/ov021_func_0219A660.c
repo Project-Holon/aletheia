@@ -1,5 +1,5 @@
 /*
- * function: func_0219A660
+ * function: FLDMMDL_MOVECODE_SpinStepWaitInterval
  * address:  0x0219A660
  * packet:   pkt_ov021_0219A660
  * region:   ov021
@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D5A8  0x0216D5A8  thumb  ov010
- *   func_02164168  0x02164168  thumb  ov010
- *   func_0219B0C4  0x0219B0C4  thumb  ov021
- *   func_0219B200  0x0219B200  thumb  ov021
+ *   FLDMMDL_GetEventType  0x0216D5A8  thumb  ov010
+ *   FLDMMDL_MOVE_IsNearPlayer  0x02164168  thumb  ov010
+ *   FLDMMDL_MOVECODE_IsBButtonPressed  0x0219B0C4  thumb  ov021
+ *   FLDMMDL_MOVECODE_GetDirTowardPlayerInSet  0x0219B200  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 x; u8 b; u8 pad; int n; } St;
-extern u16 func_0216D5A8(u8 *p);
-extern int func_02164168(int a);
-extern int func_0219B0C4(void);
-extern int func_0219B200(int a, int id, int end);
+extern u16 FLDMMDL_GetEventType(u8 *p);
+extern int FLDMMDL_MOVE_IsNearPlayer(int a);
+extern int FLDMMDL_MOVECODE_IsBButtonPressed(void);
+extern int FLDMMDL_MOVECODE_GetDirTowardPlayerInSet(int a, int id, int end);
 
-int func_0219A660(u32 a, St *p)
+int FLDMMDL_MOVECODE_SpinStepWaitInterval(u32 a, St *p)
 {
-    if (func_0216D5A8((u8 *)a) == 11) {
+    if (FLDMMDL_GetEventType((u8 *)a) == 11) {
         if (p->n != 0) {
             p->n = 0;
             return 0;
         }
-        if (func_02164168(a) == 0)
+        if (FLDMMDL_MOVE_IsNearPlayer(a) == 0)
             return 0;
-        if (func_0219B0C4() == 0)
+        if (FLDMMDL_MOVECODE_IsBButtonPressed() == 0)
             return 0;
         p->n = p->n + 1;
     } else {
         if (p->n != 0) {
-            if (func_0219B200(a, 0x26, 9) != 9) {
+            if (FLDMMDL_MOVECODE_GetDirTowardPlayerInSet(a, 0x26, 9) != 9) {
                 p->b = 0;
                 return 1;
             }

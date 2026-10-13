@@ -1,5 +1,5 @@
 /*
- * function: func_021BB968
+ * function: TOWNMAP_GRH_ExitBgLayers
  * address:  0x021BB968
  * packet:   pkt_ov072_021BB968
  * region:   ov072
@@ -13,10 +13,10 @@
  *   func_02040DA8  0x02040DA8  arm
  *   func_020414AC  0x020414AC  arm
  *   func_020403F4  0x020403F4  arm
- *   func_020450C8  0x020450C8  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
  *   func_02082BCC  0x02082BCC  arm
- *   d_021BBC28     0x021BBC28  data  a4
+ *   sTownMapGrhBgTable     0x021BBC28  data  a4
  */
 
 #include "../include/G_Ent.h"
@@ -24,27 +24,27 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern struct Ent d_021BBC28[];
+extern struct Ent sTownMapGrhBgTable[];
 
 extern void func_02040DA8(u32 a, u32 b, u32 c);
 extern void func_020414AC(u8 a);
 extern void func_020403F4(u32 i);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_02082BCC(void *p, int v, int n);
 
-void func_021BB968(void *p)
+void TOWNMAP_GRH_ExitBgLayers(void *p)
 {
     int i;
     u32 id;
 
     func_02040DA8(1, 1, 0);
     for (i = 0; i < 7; i++) {
-        id = d_021BBC28[i].id;
+        id = sTownMapGrhBgTable[i].id;
         func_020414AC(id);
         func_020403F4((u8)id);
     }
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     func_02082BCC(p, 0, 4);
 }

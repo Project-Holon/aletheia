@@ -1,5 +1,5 @@
 /*
- * function: func_02194014
+ * function: FIELD_WFBC_BLOCK_SetCell
  * address:  0x02194014
  * packet:   pkt_ov021_02194014
  * region:   ov021
@@ -26,7 +26,7 @@ typedef signed char    s8;
 typedef struct { u8 a; u8 b; } Pair;
 typedef struct { Pair k; u16 c; } Cell;
 
-void func_02194014(Cell (*t)[8], int j, int i, Pair e, u16 c)
+void FIELD_WFBC_BLOCK_SetCell(Cell (*t)[8], int j, int i, Pair e, u16 c)
 {
     t[i][j].k = e;
     t[i][j].c = c;

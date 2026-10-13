@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EE7F0",
+   "name": "WEATHER_FOG_EndParticlesFixed",
    "address": "0x021EE7F0",
    "kind": "game",
    "region": "ov028",

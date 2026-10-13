@@ -11,25 +11,25 @@
  *   func_021BE00C 0x021BE00C thumb ov172
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   func_021B8050 0x021B8050 thumb ov172
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203D010 0x0203D010 arm
- *   func_0203D01C 0x0203D01C arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_BeaconScanStart 0x0203D010 arm
+ *   GFL_NET_StartByNetType 0x0203D01C arm
  *   func_02179328 0x02179328 thumb ov014
  *   func_021B8130 0x021B8130 thumb ov172
  *   func_021B8614 0x021B8614 thumb ov172
  *   GFL_NET_ConnectMacAddressParent 0x0203CFF0 arm
- *   func_02039ACC 0x02039ACC arm
- *   func_020399A8 0x020399A8 arm
- *   func_020399B8 0x020399B8 arm
- *   func_0203A574 0x0203A574 arm
+ *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8 arm
+ *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021C6ED4 0x021C6ED4 data a4
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_021B8154 0x021B8154 thumb ov172
  *   func_021B8448 0x021B8448 thumb ov172
- *   func_0203CEAC 0x0203CEAC arm
- *   func_0203CDBC 0x0203CDBC arm
- *   func_0203A5E4 0x0203A5E4 arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_IsSessionNull 0x0203CDBC arm
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   func_0200FB24 0x0200FB24 thumb
  */
 #include "../include/Obj00289.h"
@@ -44,27 +44,27 @@ typedef struct {
 extern u16 func_021BE00C(u16 *p);
 extern void GFL_NET_SetWaitMode(int a);
 extern void func_021B8050(void *a, void *b);
-extern int func_0203CD98(void);
-extern void func_0203D010(void);
-extern void func_0203D01C(void);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_BeaconScanStart(void);
+extern void GFL_NET_StartByNetType(void);
 extern void func_02179328(void *v);
 extern int func_021B8130(void *a0, u8 *a1);
 extern void func_021B8614(int unused, int unused2, void *p);
 extern void GFL_NET_ConnectMacAddressParent(void *p);
-extern int func_02039ACC(void);
+extern int GFL_NET_HANDLE_CheckNegotiation(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_020399B8(u8 *p);
-extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern u8 d_021C6ED4[];
 struct Link;
 extern void func_02039C68(struct Link *p, u32 a, u32 b);
 extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
 extern void func_021B8154(void *p, char *q);
 extern void func_021B8448(void *p, char *q);
-extern int func_0203CEAC(int a0);
-extern int func_0203CDBC(void);
-extern void func_0203A5E4(u32 key);
+extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_IsSessionNull(void);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern u32 func_0200FB24(void);
 void func_021B7E34(void *p, char *q)
 {
@@ -89,15 +89,15 @@ void func_021B7E34(void *p, char *q)
         ((struct Obj00289 *)q)->f8 = 2;
         break;
     case 2:
-        if (func_0203CD98() != 1)
+        if (GFL_NET_GetRunState() != 1)
             break;
         switch (((struct Obj00289 *)q)->f178) {
         case 2:
-            func_0203D010();
+            GFL_NET_BeaconScanStart();
             ((struct Obj00289 *)q)->f8 = 7;
             break;
         case 3:
-            func_0203D01C();
+            GFL_NET_StartByNetType();
             func_02179328(func_021B8130);
             ((struct Obj00289 *)q)->f8 = 3;
             break;
@@ -111,25 +111,25 @@ void func_021B7E34(void *p, char *q)
         ((struct Obj00289 *)q)->f174 = ((struct Obj00289 *)q)->f178;
         break;
     case 3:
-        if (func_02039ACC() == 1)
+        if (GFL_NET_HANDLE_CheckNegotiation() == 1)
             ((struct Obj00289 *)q)->f8 = 4;
         if (((struct Obj00289 *)q)->f174 != ((struct Obj00289 *)q)->f178)
             ((struct Obj00289 *)q)->f8 = 8;
         break;
     case 4:
-        if (func_020399B8((u8 *)func_020399A8()) == 1)
+        if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)GFL_NET_HANDLE_GetCurrentHandle()) == 1)
             ((struct Obj00289 *)q)->f8 = 7;
         if (((struct Obj00289 *)q)->f174 != ((struct Obj00289 *)q)->f178)
             ((struct Obj00289 *)q)->f8 = 8;
         break;
     case 5:
-        h = (u32)func_020399A8();
-        func_0203A574(0x2000, (u32)d_021C6ED4, 4, (u32)q);
+        h = (u32)GFL_NET_HANDLE_GetCurrentHandle();
+        GFL_NET_COMMAND_AddCommandTable(0x2000, (u32)d_021C6ED4, 4, (u32)q);
         func_02039C68((struct Link *)h, 8, 0x20);
         ((struct Obj00289 *)q)->f8 = 6;
         break;
     case 6:
-        if (func_02039CB4((struct Link *)func_020399A8(), 8, 0x20) == 1)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x20) == 1)
             ((struct Obj00289 *)q)->f8 = 7;
         break;
     case 7:
@@ -140,11 +140,11 @@ void func_021B7E34(void *p, char *q)
             func_021B8448(p, q);
         break;
     case 8:
-        func_0203CEAC(0);
+        GFL_NET_Exit(0);
         ((struct Obj00289 *)q)->f8 = 11;
         break;
     case 11:
-        if (func_0203CDBC() != 1)
+        if (GFL_NET_IsSessionNull() != 1)
             break;
         if (((struct Obj00289 *)q)->f178 == 1)
             ((struct Obj00289 *)q)->f8 = 12;
@@ -152,16 +152,16 @@ void func_021B7E34(void *p, char *q)
             ((struct Obj00289 *)q)->f8 = 1;
         break;
     case 9:
-        func_02039C68((struct Link *)func_020399A8(), 9, 0x20);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x20);
         ((struct Obj00289 *)q)->f8 = 10;
         break;
     case 10:
-        if (func_02039CB4((struct Link *)func_020399A8(), 9, 0x20) == 1) {
-            func_0203A5E4(0x2000);
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x20) == 1) {
+            GFL_NET_COMMAND_DeleteCommandTable(0x2000);
             ((struct Obj00289 *)q)->f8 = 12;
         }
         if (func_0200FB24() != 0) {
-            func_0203A5E4(0x2000);
+            GFL_NET_COMMAND_DeleteCommandTable(0x2000);
             ((struct Obj00289 *)q)->f8 = 12;
         }
         break;

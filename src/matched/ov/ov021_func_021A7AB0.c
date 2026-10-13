@@ -1,5 +1,5 @@
 /*
- * function: func_021A7AB0
+ * function: FIELD_GROUND_ANIME_KeyTableUnpack
  * address:  0x021A7AB0
  * packet:   pkt_ov021_021A7AB0
  * region:   ov021
@@ -25,7 +25,7 @@ typedef struct Out {
     u32 f18;
 } Out;
 
-void func_021A7AB0(u32 *src, Out *o)
+void FIELD_GROUND_ANIME_KeyTableUnpack(u32 *src, Out *o)
 {
     u32 n;
     u32 p;

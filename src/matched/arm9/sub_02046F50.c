@@ -1,5 +1,5 @@
 /*
- * function: func_02046F50
+ * function: G3D_SYSTEM_CheckResourceType
  * address:  0x02046F50
  * packet:   pkt_02046EFC
  * region:   arm9
@@ -32,7 +32,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02046F50.c \
- *       --func func_02046F50 --addr 0x02046F50 --cc 1.1p1 --arm
+ *       --func G3D_SYSTEM_CheckResourceType --addr 0x02046F50 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -43,7 +43,7 @@ struct Tagged {
     u16 kind;
 };
 
-u32 func_02046F50(struct Tagged *p, u32 sel)
+u32 G3D_SYSTEM_CheckResourceType(struct Tagged *p, u32 sel)
 {
     u16 v = p->kind;
 

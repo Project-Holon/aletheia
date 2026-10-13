@@ -1,5 +1,5 @@
 /*
- * function: func_02183EE0
+ * function: UNION_APP_ClearDisconnectedPending
  * address:  0x02183EE0
  * packet:   pkt_ov022_02183EE0
  * region:   ov022
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Sibling of func_02183E48 (same S/C layout).
+ * Sibling of UNION_APP_UpdateLeaves (same S/C layout).
  *
  * symbols:
- *   func_0203D1C0  0x0203D1C0  arm
- *   func_02173614  0x02173614  thumb  ov012
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
+ *   UNION_COMM_RemoveMember  0x02173614  thumb  ov012
  * Addresses are Black-image addresses.
  */
 
@@ -42,10 +42,10 @@ typedef struct C {
     T14 t;
 } C;
 
-extern u32 func_0203D1C0(u32 index);
-extern void func_02173614(u8 *self, const u8 *mac);
+extern u32 GFL_NET_IsConnectMember(u32 index);
+extern void UNION_COMM_RemoveMember(u8 *self, const u8 *mac);
 
-void func_02183EE0(S *s, C *c)
+void UNION_APP_ClearDisconnectedPending(S *s, C *c)
 {
     u8 i;
     u32 m;
@@ -53,11 +53,11 @@ void func_02183EE0(S *s, C *c)
     for (i = 0; i < 5; i++) {
         m = 1 << i;
         if (s->b04 & m) {
-            if (func_0203D1C0(i) == 0) {
+            if (GFL_NET_IsConnectMember(i) == 0) {
                 s->b04 ^= (u8)m;
                 if (s->b0e & m) {
                     s->b0e &= (u8)(m ^ 0xff);
-                    func_02173614(c->t.f, s->ents[i].f20);
+                    UNION_COMM_RemoveMember(c->t.f, s->ents[i].f20);
                 }
                 if (s->b09 == 2 && s->b0a != 0) {
                     s->b0a--;

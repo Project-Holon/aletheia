@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA48
+ * function: PLIST_DEMO_ApplyFriendshipItem
  * address:  0x021BEA48
  * packet:   pkt_021BEA48
  * region:   ov091
@@ -27,7 +27,7 @@ void NATSUKI_CalcUseItem(struct PokemonParam *mon, int item, u16 zoneId, u16 hea
  * already at its limit in the direction of the change (255 and a rise, or 0
  * and a fall). The band delta comes from the item record.
  */
-int func_021BEA48(struct PokemonParam *mon, int friendship, int delta, int item, u16 zoneId, int heapId)
+int PLIST_DEMO_ApplyFriendshipItem(struct PokemonParam *mon, int friendship, int delta, int item, u16 zoneId, int heapId)
 {
     if (friendship == 0xff && delta > 0)
         return 0;

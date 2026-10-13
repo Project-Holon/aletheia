@@ -1,5 +1,5 @@
 /*
- * function: func_02027FD8
+ * function: APP_TASKMENU_RES_Delete
  * address:  0x02027FD8
  * packet:   pkt_02027A04
  * region:   arm9
@@ -23,7 +23,7 @@ struct TaskMenuState {
 
 extern u32 sub_020307B0(void *p);
 
-u32 func_02027FD8(struct TaskMenuState *s)
+u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s)
 {
     sub_020307B0(s->child);
     return sub_020307B0(s);

@@ -1,7 +1,7 @@
 /*
  * file:     event_game_manual.c
  * unit:     yes
- * function: func_021D30B8, func_021D310C, func_021D3164
+ * function: EVENT_GAME_MANUAL_Create, EVENT_GAME_MANUAL_Main, EVENT_GAME_MANUAL_SetResult
  * address:  0x021D30B8
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -16,13 +16,13 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02012374  0x02012374  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   d_021DE698     0x021DE698  data  ov021  a4
- *   func_020146F8  0x020146F8  thumb
+ *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
  *   abs_id_e1      0x000000E1  data
  *   d_021BBDE4    0x021BBDE4  data  ov225  a4
  */
@@ -47,29 +47,29 @@ typedef struct EventGameManualWork {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern void func_02012374(struct GameEvent *event, struct GameEvent *next);
-extern void *func_0201210C(const struct GameSystem *gameSystem);
-extern struct GameEvent *func_020146F8(struct GameSystem *gameSystem, void *fieldMap, int overlayId, const void *procData, void *param);
-struct GameEvent *func_021D30B8(struct GameSystem *gameSystem, u16 *resultOut);
-u32 func_021D310C(struct GameEvent *event, u32 *seq, EventGameManualWork *work);
-void func_021D3164(EventGameManualWork *work);
+extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *next);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, void *fieldMap, int overlayId, const void *procData, void *param);
+struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *resultOut);
+u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWork *work);
+void EVENT_GAME_MANUAL_SetResult(EventGameManualWork *work);
 extern char d_021DE698[];        /* "event_game_manual.c" */
 extern unsigned char abs_id_e1[]; /* FS_OVERLAY_ID(ov225) */
 extern char d_021BBDE4[];        /* ov225 proc table */
 
-struct GameEvent *func_021D30B8(struct GameSystem *gameSystem, u16 *resultOut)
+struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *resultOut)
 {
     struct GameData *gameData;
     void *fieldMap;
     struct GameEvent *event;
     EventGameManualWork *work;
 
-    gameData = func_020120F4(gameSystem);
-    fieldMap = func_0201210C(gameSystem);
-    event = func_020122C0(gameSystem, 0, func_021D310C, sizeof(EventGameManualWork));
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    event = func_020122C0(gameSystem, 0, EVENT_GAME_MANUAL_Main, sizeof(EventGameManualWork));
     work = func_020124E8(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -87,22 +87,22 @@ struct GameEvent *func_021D30B8(struct GameSystem *gameSystem, u16 *resultOut)
  * (attest_xwin_loaded(), 2026-10-02).  No overlay listing labels
  * 0x021BBDE4 as a function; ov114 has ARM code there.
  */
-u32 func_021D310C(struct GameEvent *event, u32 *seq, EventGameManualWork *work)
+u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWork *work)
 {
     switch (seq[0]) {
     case 0:
-        func_02012374(event, func_020146F8(work->gameSystem, work->fieldMap, (int)abs_id_e1, d_021BBDE4, work->param));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(work->gameSystem, work->fieldMap, (int)abs_id_e1, d_021BBDE4, work->param));
         seq[0]++;
         break;
     case 1:
-        func_021D3164(work);
+        EVENT_GAME_MANUAL_SetResult(work);
         func_020307B0(work->param);
         return 1;
     }
     return 0;
 }
 
-void func_021D3164(EventGameManualWork *work)
+void EVENT_GAME_MANUAL_SetResult(EventGameManualWork *work)
 {
     if (work->param->result == 0) {
         *work->resultOut = 0;

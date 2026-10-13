@@ -1,5 +1,5 @@
 /*
- * function: func_021763D8
+ * function: INTRUDE_COMM_PickEntryForKind
  * address:  0x021763D8
  * packet:   pkt_ov011_021763D8
  * region:   ov011
@@ -34,7 +34,7 @@ typedef struct {
 extern Ent gIntrudePickTable[];
 extern u32 func_020056EC(u32 a);
 
-void func_021763D8(u8 *p, u32 key)
+void INTRUDE_COMM_PickEntryForKind(u8 *p, u32 key)
 {
     int sum;
     u32 i;

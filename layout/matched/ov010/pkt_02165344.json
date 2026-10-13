@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02165344",
+   "name": "GAME_BEACON_SEARCH_SetScriptEvent",
    "address": "0x02165344",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: sub_021AB44C
+ * function: MAP_ATTR_IsNoDash
  * address:  0x021AB44C
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef int BOOL;
 
-BOOL sub_021AB44C(u16 id)
+BOOL MAP_ATTR_IsNoDash(u16 id)
 {
     if (id == 0x33) {
         return 1;

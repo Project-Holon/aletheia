@@ -1,5 +1,5 @@
 /*
- * function: func_021F2AB8
+ * function: C_GEAR_IsLastCommandKind5
  * address:  0x021F2AB8
  * packet:   pkt_ov029_021F2AB8
  * region:   ov029
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf, sole blocker of ov021 func_0218A6E8.
+ * Unlabelled leaf, sole blocker of ov021 FIELD_EVENT_CHECK_StopSoundAfterEvent.
  */
 #include "../include/Obj20398.h"
 
-int func_021F2AB8(char *p)
+int C_GEAR_IsLastCommandKind5(char *p)
 {
     if (p == 0)
         return 0;

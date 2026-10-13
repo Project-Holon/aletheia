@@ -31,12 +31,12 @@
  *   func_021DC1E4 0x021DC1E4 thumb ov175
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02082D44 0x02082D44 arm
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045A38 0x02045A38 arm
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   STRBUF_ToChars 0x02045A38 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_02025BEC 0x02025BEC thumb
  *   PMSI_PARAM_IsValid 0x020245D4 thumb
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
@@ -81,12 +81,12 @@ extern u32 func_021DC1A0(char *obj, u32 data);
 extern u32 func_021DC1E4(char *, char **);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void func_02082D44(const void *, void *, u32);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *, u32);
-extern void func_02045A38(struct U16Vec *, u16 *, unsigned int);
-extern void func_02045808(struct U16Vec *);
-extern u32 func_02045C04(struct Rec *rec);
+extern void STRBUF_ToChars(struct U16Vec *, u16 *, unsigned int);
+extern void STRBUF_Delete(struct U16Vec *);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
 extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
 extern void PMSI_PARAM_InitSentence(void *, unsigned int);
@@ -179,13 +179,13 @@ void func_021D5908(unsigned sys, int *state, char *p)
             size = POKE_REGULATION_GetDataSize() + 0xd4;
             func_02082D44(incoming, data, size);
             empty = 1;
-            for (i = 0; i < 8; i++) if (((u16 *)data)[i] == func_02045A98()) empty = 0;
+            for (i = 0; i < 8; i++) if (((u16 *)data)[i] == STRBUF_GetEosChar()) empty = 0;
             if (empty) {
                 bank = func_02045B38(0, 2, 0xd2, 0x8057);
                 str = func_02045EC0(bank, 0x8057);
-                func_02045A38(str, (u16 *)data, 8);
-                func_02045808(str);
-                func_02045C04((struct Rec *)bank);
+                STRBUF_ToChars(str, (u16 *)data, 8);
+                STRBUF_Delete(str);
+                MSGDATA_Delete((struct Rec *)bank);
             }
             if ((u8)data[0x1d] != 0 && (u8)data[0x1d] != 1) data[0x1d] = 0;
             if ((u8)data[0x1c] >= 16) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02175B14
+ * function: INTRUDE_COMM_IsSessionActive
  * address: 0x02175B14
  * packet: pkt_ov011_02175B14
  * region: ov011
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-int func_02175B14(u8 *p)
+int INTRUDE_COMM_IsSessionActive(u8 *p)
 {
     if (p[0xA4] == 4 || p[0x1A1] == 0) return 0;
     return 1;

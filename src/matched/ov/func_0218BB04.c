@@ -1,5 +1,5 @@
 /*
- * function: func_0218BB04
+ * function: FIELD_BUILDMODEL_GetHandleTable
  * address:  0x0218BB04
  * packet:   pkt_0218BB04
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_0218BB04(u8 *p)
+u8 *FIELD_BUILDMODEL_GetHandleTable(u8 *p)
 {
     return p + 432;
 }

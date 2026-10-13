@@ -1,5 +1,5 @@
 /*
- * function: func_0204A600
+ * function: CLACT_DrawSystem
  * address:  0x0204A600
  * packet:   pkt_0204A600
  * isa:      arm
@@ -27,7 +27,7 @@ extern void CLACT_ResetOamIfPending(void);
 extern void CLACT_DrawAllUnits(void);
 extern void func_02066998(void);
 
-void func_0204A600(void)
+void CLACT_DrawSystem(void)
 {
     struct Struct_0204A600 *p = lbl_02146A74;
 

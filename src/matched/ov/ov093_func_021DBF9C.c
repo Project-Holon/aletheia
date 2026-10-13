@@ -10,14 +10,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0D14 0x021F0D14 data a4
- *   func_021D775C 0x021D775C thumb ov093
+ *   gSheerForceHandlers 0x021F0D14 data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021DBFD4 0x021DBFD4 thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
-extern int d_021F0D14;
-extern int func_021D775C(int);
+extern int gSheerForceHandlers;
+extern int BTL_EVENT_GetVar(int);
 extern int func_021DBFD4(unsigned short);
-extern int func_021D76BC(int,unsigned int);
-void func_021DBF9C(int a,int b,int c) { if(c==func_021D775C(3) && func_021DBFD4(func_021D775C(0x12))) func_021D76BC(0x48,1); }
-int *func_021DBFC8(int *p) { *p=5; return &d_021F0D14; }
+extern int BTL_EVENT_OverwriteVar(int,unsigned int);
+void func_021DBF9C(int a,int b,int c) { if(c==BTL_EVENT_GetVar(3) && func_021DBFD4(BTL_EVENT_GetVar(0x12))) BTL_EVENT_OverwriteVar(0x48,1); }
+int *func_021DBFC8(int *p) { *p=5; return &gSheerForceHandlers; }

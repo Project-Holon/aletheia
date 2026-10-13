@@ -1,7 +1,7 @@
 /*
  * file:     app_keycursor.c
  * unit:     yes
- * function: APP_KEYCURSOR_Create, func_02028604, APP_KEYCURSOR_DrawMark, APP_KEYCURSOR_Animate, func_020286C4, func_02028748, func_02028754, PLAYER_VOLUME_FADER_Create, PLAYER_VOLUME_FADER_Delete, PLAYER_VOLUME_FADER_Update, PLAYER_VOLUME_FADER_SetTarget, PLAYER_VOLUME_FADER_SetMute, PLAYER_VOLUME_FADER_Init, PLAYER_VOLUME_FADER_StartFade, PLAYER_VOLUME_FADER_SetLevel, PLAYER_VOLUME_FADER_Tick, PLAYER_VOLUME_FADER_GetLevel, PLAYER_VOLUME_FADER_Apply
+ * function: APP_KEYCURSOR_Create, APP_KEYCURSOR_Delete, APP_KEYCURSOR_DrawMark, APP_KEYCURSOR_Animate, APP_KEYCURSOR_Update, func_02028748, func_02028754, PLAYER_VOLUME_FADER_Create, PLAYER_VOLUME_FADER_Delete, PLAYER_VOLUME_FADER_Update, PLAYER_VOLUME_FADER_SetTarget, PLAYER_VOLUME_FADER_SetMute, PLAYER_VOLUME_FADER_Init, PLAYER_VOLUME_FADER_StartFade, PLAYER_VOLUME_FADER_SetLevel, PLAYER_VOLUME_FADER_Tick, PLAYER_VOLUME_FADER_GetLevel, PLAYER_VOLUME_FADER_Apply
  * address:  0x020285A4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,20 +14,20 @@
  *
  * symbols:
  *   func_02030734      0x02030734  arm
- *   func_020436FC      0x020436FC  arm
+ *   BMP_CreateFromBuffer      0x020436FC  arm
  *   app_keycursor_File 0x020A74F0  data
  *   player_volume_fader_File 0x020A7500  data
- *   func_020437AC  0x020437AC  arm
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
- *   func_02043AF4  0x02043AF4  arm
- *   func_020439A0  0x020439A0  arm
+ *   BMP_Delete  0x020437AC  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
+ *   BMP_FillRect  0x02043AF4  arm
+ *   BMP_Blit  0x020439A0  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   PRINTSYS_PrintStreamGetState   0x0201CE30  thumb
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   func_02045770  0x02045770  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020307B0  0x020307B0  arm
  *   NNS_SndPlayerSetPlayerVolume  0x02072D98  arm
  */
@@ -77,24 +77,24 @@ struct Fader {
 struct Descriptor;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern void func_020437AC(struct Bmp *bmp);
-extern u16  func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern void func_02043AF4(const struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_020439A0(struct Bmp *dst, const struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern void BMP_Delete(struct Bmp *bmp);
+extern u16  BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern void BMP_FillRect(const struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_Blit(struct Bmp *dst, const struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern u32   PRINTSYS_PrintStreamGetState(void *p);
 extern u32   func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 extern void NNS_SndPlayerSetPlayerVolume(u32 channel, u32 level);
 struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap, void *pixels);
-void func_02028604(struct KeyCursor *k);
+void APP_KEYCURSOR_Delete(struct KeyCursor *k);
 void APP_KEYCURSOR_DrawMark(struct KeyCursor *k, const struct Bmp *bmp, u32 color);
 void APP_KEYCURSOR_Animate(struct KeyCursor *k, const struct Bmp *bmp, u32 color);
-void func_020286C4(struct KeyCursor *k, void *p, void *cell);
+void APP_KEYCURSOR_Update(struct KeyCursor *k, void *p, void *cell);
 void func_02028748(struct Obj *obj, int n, int mask);
 u32 func_02028754(struct Obj *obj, u32 n);
 struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v);
@@ -125,25 +125,25 @@ struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap,
     k->id = id;
     k->live = live;
     k->flip = flip;
-    k->item = func_020436FC(pixels, 2, 2, 0x20, heap);
+    k->item = BMP_CreateFromBuffer(pixels, 2, 2, 0x20, heap);
 
     return k;
 }
 
 
-void func_02028604(struct KeyCursor *k)
+void APP_KEYCURSOR_Delete(struct KeyCursor *k)
 {
-    func_020437AC(k->item);
+    BMP_Delete(k->item);
     func_020307B0(k);
 }
 
 
 void APP_KEYCURSOR_DrawMark(struct KeyCursor *k, const struct Bmp *bmp, u32 color)
 {
-    u16 w = func_020437DC(bmp) - 11;
-    u16 h = func_020437E4(bmp) - 9;
+    u16 w = BMP_GetWidth(bmp) - 11;
+    u16 h = BMP_GetHeight(bmp) - 9;
 
-    func_02043AF4(bmp, (s16)w, (s16)(h + k->phase), 0xa, 7, (u8)color);
+    BMP_FillRect(bmp, (s16)w, (s16)(h + k->phase), 0xa, 7, (u8)color);
 }
 
 
@@ -161,14 +161,14 @@ void APP_KEYCURSOR_Animate(struct KeyCursor *k, const struct Bmp *bmp, u32 color
         k->phase = (s32)k->phase % 3;
     }
 
-    w = func_020437DC(bmp) - 11;
-    h = func_020437E4(bmp) - 9;
+    w = BMP_GetWidth(bmp) - 11;
+    h = BMP_GetHeight(bmp) - 9;
 
-    func_020439A0(k->item, bmp, 0, 2, w, h + k->phase, 0xa, 7, 0);
+    BMP_Blit(k->item, bmp, 0, 2, w, h + k->phase, 0xa, 7, 0);
 }
 
 
-void func_020286C4(struct KeyCursor *k, void *p, void *cell)
+void APP_KEYCURSOR_Update(struct KeyCursor *k, void *p, void *cell)
 {
     u32 mode = PRINTSYS_PrintStreamGetState(p);
 
@@ -185,20 +185,20 @@ void func_020286C4(struct KeyCursor *k, void *p, void *cell)
         }
         if (r == 0) {
             if (k->flip) {
-                r = func_02035C60();
+                r = TOUCHPANEL_GetTrg();
             }
         }
         if (r != 0) {
             k->held = 1;
             APP_KEYCURSOR_DrawMark(k, func_02045770(cell), k->id);
-            func_02045334(cell);
+            BMP_WIN_TransferChars(cell);
             return;
         }
         if (k->held != 0) {
             return;
         }
         APP_KEYCURSOR_Animate(k, func_02045770(cell), k->id);
-        func_02045334(cell);
+        BMP_WIN_TransferChars(cell);
         return;
     }
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3D94
+ * function: FIELD_GIMMICK_D06_GetGimmickId
  * address:  0x021F3D94
  * packet:   pkt_ov051_021F3D94
  * region:   ov051
@@ -15,7 +15,7 @@
 #include "../field_gimmick_d06_ids.h"
 
 /* The gimmick id of the zone (the id of its save area); the first one for an unknown zone. */
-int func_021F3D94(int zoneId)
+int FIELD_GIMMICK_D06_GetGimmickId(int zoneId)
 {
     switch (zoneId) {
     case GIMMICK_D06_ZONE_R0101:

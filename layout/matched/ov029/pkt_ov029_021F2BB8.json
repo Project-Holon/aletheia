@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F2BB8",
+   "name": "C_GEAR_IsCellMarked",
    "address": "0x021F2BB8",
    "kind": "game",
    "region": "ov029",

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "POKE_TOOL_GetBoxLevelMinExp",
-    "func_02018584"
+    "POKE_TOOL_GetExpForLevel"
    ],
    "addresses": [
     "0x0201854C",
@@ -38,7 +38,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02018598",
+    "POKE_TOOL_GetNature",
     "POKE_TOOL_GetBoxNature",
     "POKE_TOOL_SetNature"
    ],
@@ -60,7 +60,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020185F0",
+    "POKE_TOOL_Dummy",
     "POKE_TOOL_GetBoxParam",
     "POKE_TOOL_GetGenderRatioClass"
    ],
@@ -84,7 +84,7 @@
    "functions": [
     "POKE_TOOL_CheckBoxTmCompat",
     "POKE_TOOL_CheckSpeciesTmCompat",
-    "func_0201891C",
+    "POKE_TOOL_CheckTutorCompat",
     "POKE_TOOL_CheckSpeciesTutorCompat",
     "POKE_TOOL_HasRibbonData"
    ],
@@ -108,7 +108,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02018A00",
+    "POKE_TOOL_SetAbility",
     "POKE_TOOL_SetBoxAbility"
    ],
    "addresses": [

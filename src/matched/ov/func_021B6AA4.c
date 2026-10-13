@@ -1,5 +1,5 @@
 /*
- * function: func_021B6AA4
+ * function: SCRCMD_POKEMON_FLD_GetWarpEntry
  * address:  0x021B6AA4
  * packet:   pkt_021B6AA4
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021B6AA4(u32 a, u32 b)
+int SCRCMD_POKEMON_FLD_GetWarpEntry(u32 a, u32 b)
 {
 return (a + (b * 10));
 }

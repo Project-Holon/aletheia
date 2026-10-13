@@ -94,20 +94,20 @@ typedef struct BsubwayZoneHandlers {
 } BsubwayZoneHandlers;
 
 /* Functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
-extern BsubwayZoneGimmick *func_0200B3A4(struct GimmickWork *gimmickWork, u32 slotId);
-extern u16 func_02188C9C(struct FieldMap *fieldMap);
-extern struct FieldEffectSys *func_02188CD0(struct FieldMap *fieldMap);
-extern struct FieldG3dMapper *func_02188C98(struct FieldMap *fieldMap);
-extern struct FieldEffectObj *func_021D0218(struct FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos);
-extern void func_021ABE30(struct FieldEffectSys *fieldEffect, const int *effectIds, int count);
-extern void func_0218DC4C(struct FieldG3dMapper *mapper, VecFx32 *offset);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern BsubwayZoneGimmick *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+extern struct FieldEffectObj *FLDEFF_BTRAIN_Start(struct FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos);
+extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *fieldEffect, const int *effectIds, int count);
+extern void FIELD_G3D_MAPPER_SetOriginOffset(struct FieldG3dMapper *mapper, VecFx32 *offset);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 func_020307B0(void *p);
 
-void func_021F3998(int zoneId, int *slotId, int *handlerIndex);
+void FIELD_GIMMICK_BSUBWAY_FindZoneEntry(int zoneId, int *slotId, int *handlerIndex);
 
 #endif

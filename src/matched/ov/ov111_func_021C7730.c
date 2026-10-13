@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02048C4C  0x02048C4C  arm
- *   func_02046788  0x02046788  arm
+ *   G3D_LIGHT_DeleteSlots  0x02048C4C  arm
+ *   G3D_SYSTEM_Exit  0x02046788  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef struct {
     void *f100;
 } Work;
 
-extern void func_02048C4C(void *p);
-extern void func_02046788(void);
+extern void G3D_LIGHT_DeleteSlots(void *p);
+extern void G3D_SYSTEM_Exit(void);
 
 void func_021C7730(Work *p)
 {
-    func_02048C4C(p->f100);
-    func_02046788();
+    G3D_LIGHT_DeleteSlots(p->f100);
+    G3D_SYSTEM_Exit();
 }

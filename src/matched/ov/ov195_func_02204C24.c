@@ -11,13 +11,13 @@
  *
  * symbols:
  *   ov067_id 0x00000043 data
- *   func_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02040588 0x02040588 arm
  *   func_0204047C 0x0204047C arm
  *   func_02040EBC 0x02040EBC arm
  *   func_0207D63C 0x0207D63C arm
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201C440 0x0201C440 thumb
  *   func_022058F8 0x022058F8 thumb ov195
  *   func_02205A34 0x02205A34 thumb ov195
@@ -60,7 +60,7 @@ typedef struct Scene {
     void *f108;
 } Scene;
 
-extern void func_0203064C(u32 parent, u32 id, u32 size);
+extern void GFL_HEAP_CreateChildHeap(u32 parent, u32 id, u32 size);
 extern u8 ov067_id[];
 typedef signed int     s32;
 struct Anim;
@@ -71,7 +71,7 @@ extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_0207D63C(int, int, int, int, int);
 struct GfFont;
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *p);
 extern char *func_022058F8(u32 a, u32 b);
 extern void func_02205A34(void);
@@ -87,14 +87,14 @@ void func_02204C24(App *a, Scene *s)
     u8 i;
     u8 b;
 
-    func_0203064C(1, 0x68, 0x70000);
+    GFL_HEAP_CreateChildHeap(1, 0x68, 0x70000);
     s->heap = 0x68;
     func_02034AC4((u32)ov067_id);
     for (i = 0; i <= 7; i++)
         func_02040588(i, 0);
     s->f04 = func_022058F8(1, s->heap);
     func_02205A34();
-    s->f08 = (u32)func_0201D7EC(0x17, 0, 0, 0, s->heap);
+    s->f08 = (u32)GF_FONT_Create(0x17, 0, 0, 0, s->heap);
     s->f0c = (void *)func_0201C440((void *)s->heap);
     func_022051FC((int)a, (char *)s);
     s->f9c = 0;

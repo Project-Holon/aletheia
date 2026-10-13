@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204932C
+ * function: ARC_TOOL_ReadHandleMember
  * address:  0x0204932C
  * packet:   pkt_02049250
  * region:   arm9
@@ -18,15 +18,15 @@
  *   arc_tool_msg_member_bounds  0x020A7F18  data
  *
  * Read one archive member straight into a caller-supplied buffer: the
- * allocating variant is func_02049250 one function above, and the FAT
+ * allocating variant is ARC_TOOL_LoadHandleMember one function above, and the FAT
  * lookup, the image-base offset and the length are identical.
  *
- * The bounds assertion is the same five-argument call func_02049250 uses:
+ * The bounds assertion is the same five-argument call ARC_TOOL_LoadHandleMember uses:
  * the count is already in r3 from the guard's own `cmp`, so only the member
  * reaches the stack (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204932C.c  *       --func func_0204932C --addr 0x0204932C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_ReadHandleMember.c  *       --func ARC_TOOL_ReadHandleMember --addr 0x0204932C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -49,7 +49,7 @@ struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-void func_0204932C(struct ArcFile *arc, u32 member, void *dst)
+void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst)
 {
     u32 range[2];
 

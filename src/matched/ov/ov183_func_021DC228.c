@@ -48,10 +48,10 @@
  *   func_021FF72C 0x021FF72C thumb ov186
  *   func_021FF698 0x021FF698 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_SetData 0x0200B938 thumb
  *   func_021F9C50 0x021F9C50 thumb ov186
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_020061E4 0x020061E4 thumb
  *   GFL_USE_IsSeqPlaying 0x02006254 thumb
@@ -76,10 +76,10 @@ extern int func_021FF648(char *p);
 extern int func_021FF72C(char *p, int *out);
 extern int func_021FF698(char *,int,int *);
 extern void func_021FD860(int,int,int *);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void BATTLE_REC_SetData(const void *,const void *,const void *,unsigned int);
 extern void func_021F9C50(S *);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
 extern int GFL_USE_IsSeqPlaying(u32 a);
@@ -120,7 +120,7 @@ void func_021DC228(int *a,int *state,char *p)
     case 7:
         if(!func_021FF72C(*(void **)(*(char **)(p+0xd0)+0x24),&message)) {
             if(func_021FF698(*(char **)(*(char **)(p+0xd0)+0x24),(int)&source,&index)) {
-                BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)func_02012EBC(*(void **)(*(char **)(p+0xd0)+0x28)));
+                BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(*(char **)(p+0xd0)+0x28)));
                 **(long long **)(*(char **)(p+0xd0)+0x2c)=index;
                 **(int **)(p+0xd0)=1;
                 func_021F9C50(*(S **)(*(char **)(p+0xd0)+0x14));*state=8;
@@ -132,7 +132,7 @@ void func_021DC228(int *a,int *state,char *p)
         }
         break;
     case 11:
-        if(func_02035C60()) {
+        if(TOUCHPANEL_GetTrg()) {
             func_02035D20(&x,&y);args[0]=x;args[1]=y;
             func_021FD860(*(int *)(p+0x10),1,args);func_020061E4(0x703);*state=12;
         }

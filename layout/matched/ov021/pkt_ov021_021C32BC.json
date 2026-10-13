@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C32BC",
+   "name": "SODATEYA_ReturnHeldItem",
    "address": "0x021C32BC",
    "kind": "game",
    "region": "ov021",

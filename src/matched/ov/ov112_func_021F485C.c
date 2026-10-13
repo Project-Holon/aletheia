@@ -9,7 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb  arm9
  */
 #include "../include/Obj06406.h"
 typedef unsigned char u8;
@@ -21,9 +22,9 @@ struct MsgBank;
 struct TaskMenu;
 struct TaskMenuTmpl;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021F485C(u8 *p)
 {
     Item items[2];
@@ -42,7 +43,7 @@ void func_021F485C(u8 *p)
     menu.b=6;
     menu.c=8;
     menu.d=3;
-    ((struct Obj06406 *)p)->f3C=func_02027778((struct TaskMenuTmpl *)(&menu),(void *)(((struct Obj06406 *)p)->f40));
-    func_02045808(items[0].data);
-    func_02045808(items[1].data);
+    ((struct Obj06406 *)p)->f3C=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),(void *)(((struct Obj06406 *)p)->f40));
+    STRBUF_Delete(items[0].data);
+    STRBUF_Delete(items[1].data);
 }

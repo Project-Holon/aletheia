@@ -1,5 +1,5 @@
 /*
- * function: func_021D7674
+ * function: BTL_EVENT_SetVarRanged
  * address:  0x021D7674
  * packet:   pkt_ov093_021D7674
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021F3ECC     0x021F3ECC  data
- *   func_021D77C4  0x021D77C4  thumb  ov093
+ *   gBtlEventVarStack     0x021F3ECC  data
+ *   BTL_EVENT_FindVarSlot  0x021D77C4  thumb  ov093
  */
 
 #include "../include/G_Tbl.h"
@@ -27,15 +27,15 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern struct Tbl g_021F3ECC;
-extern u32 func_021D77C4(Tbl *p, int key);
+extern struct Tbl gBtlEventVarStack;
+extern u32 BTL_EVENT_FindVarSlot(Tbl *p, int key);
 
-void func_021D7674(int key, u32 val, u32 x, u32 y)
+void BTL_EVENT_SetVarRanged(int key, u32 val, u32 x, u32 y)
 {
-    u32 i = func_021D77C4(((Tbl *)&g_021F3ECC), key);
-    g_021F3ECC.keys[i] = key;
-    g_021F3ECC.vals[i] = val;
-    g_021F3ECC.b[i] = x;
-    g_021F3ECC.a[i] = y;
-    g_021F3ECC.c[i] = 3;
+    u32 i = BTL_EVENT_FindVarSlot(((Tbl *)&gBtlEventVarStack), key);
+    gBtlEventVarStack.keys[i] = key;
+    gBtlEventVarStack.vals[i] = val;
+    gBtlEventVarStack.b[i] = x;
+    gBtlEventVarStack.a[i] = y;
+    gBtlEventVarStack.c[i] = 3;
 }

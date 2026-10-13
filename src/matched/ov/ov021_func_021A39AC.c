@@ -1,5 +1,5 @@
 /*
- * function: func_021A39AC
+ * function: FIELD_PLAYER_CORE_SetFormSlotModel
  * address:  0x021A39AC
  * packet:   pkt_ov021_021A39AC
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A398C  0x021A398C  thumb  ov021
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A3190  0x021A3190  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_021A3AD8  0x021A3AD8  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetSex  0x021A398C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELD_PLAYER_GetFormObjCode  0x021A3190  thumb  ov021
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FIELD_PLAYER_CORE_ChangeModel  0x021A3AD8  thumb  ov021
  */
 #include "../include/Obj19778.h"
 
@@ -22,19 +22,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A398C(u8 *p);
-void *func_021A3960(u8 *p);
-u16 func_021A3190(int i, int j);
-u16 func_0216D598(void *p);
-void func_021A3AD8(u8 *p, int v);
+u32 FIELD_PLAYER_CORE_GetSex(u8 *p);
+void *FIELD_PLAYER_CORE_GetMmdl(u8 *p);
+u16 FIELD_PLAYER_GetFormObjCode(int i, int j);
+u16 FLDMMDL_GetObjCode(void *p);
+void FIELD_PLAYER_CORE_ChangeModel(u8 *p, int v);
 
-void func_021A39AC(u8 *p, int a)
+void FIELD_PLAYER_CORE_SetFormSlotModel(u8 *p, int a)
 {
-    u32 x = func_021A398C(p);
-    void *h = func_021A3960(p);
-    int v = func_021A3190(x, a);
+    u32 x = FIELD_PLAYER_CORE_GetSex(p);
+    void *h = FIELD_PLAYER_CORE_GetMmdl(p);
+    int v = FIELD_PLAYER_GetFormObjCode(x, a);
 
-    if (v != func_0216D598(h))
-        func_021A3AD8(p, v);
+    if (v != FLDMMDL_GetObjCode(h))
+        FIELD_PLAYER_CORE_ChangeModel(p, v);
     ((struct Obj19778 *)p)->f2C = 0;
 }

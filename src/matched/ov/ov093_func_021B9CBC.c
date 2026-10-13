@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 int func_021B9CBC(u8 *p, int v) {
     int i;
-    for(i=0;i<p[24];i++) if(v==func_021D5440(*(void **)((u32)p+(u32)i*4))) return i;
+    for(i=0;i<p[24];i++) if(v==BTL_POKEPARAM_GetPokeId(*(void **)((u32)p+(u32)i*4))) return i;
     return -1;
 }

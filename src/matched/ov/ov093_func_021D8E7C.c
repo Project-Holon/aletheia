@@ -1,5 +1,5 @@
 /*
- * function: func_021D8E7C
+ * function: BTL_ABILITY_ChangeCherrimForm
  * address:  0x021D8E7C
  * packet:   pkt_ov093_021D8E7C
  * region:   ov093
@@ -30,7 +30,7 @@ extern void func_021C88C8(void *a, void *b);
 
 struct Hd { u32 lo : 23; u32 flag : 1; u32 hi : 8; };
 
-void func_021D8E7C(int u, void *a, u32 b, u32 c, u8 d)
+void BTL_ABILITY_ChangeCherrimForm(int u, void *a, u32 b, u32 c, u8 d)
 {
     u8 *r;
 

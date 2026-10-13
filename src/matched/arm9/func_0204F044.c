@@ -1,5 +1,5 @@
 /*
- * function: func_0204F044
+ * function: BILLBOARD_AddImageFromVramKeys
  * address:  0x0204F044
  * packet:   pkt_0204F044
  * region:   arm9
@@ -45,7 +45,7 @@ typedef signed int     s32;
 struct Cell;
 extern void BILLBOARD_SetImageFormat(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c);
 
-int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6)
+int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6)
 {
     u32 idx;
 

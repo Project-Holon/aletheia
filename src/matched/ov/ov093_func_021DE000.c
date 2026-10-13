@@ -1,5 +1,5 @@
 /*
- * function: func_021DE000
+ * function: BTL_HANDLER_ITEM_MicleBerryCheckAfterAction
  * address: 0x021DE000
  * packet: pkt_ov093_021DE000
  * region: ov093
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021DDFDC 0x021DDFDC thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_HANDLER_ITEM_MicleBerryCheckAfterDamage 0x021DDFDC thumb ov093
  * Interface: C7CF4 returns the live r0 payload and receives observed r1.
  */
-extern int func_021D775C(int);
-extern void func_021DDFDC(int, void *, int, int);
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_HANDLER_ITEM_MicleBerryCheckAfterDamage(int, void *, int, int);
 
-void func_021DE000(int a, void *b, int c, int d)
+void BTL_HANDLER_ITEM_MicleBerryCheckAfterAction(int a, void *b, int c, int d)
 {
-    if (func_021D775C(12) != 6) func_021DDFDC(a, b, c, d);
+    if (BTL_EVENT_GetVar(12) != 6) BTL_HANDLER_ITEM_MicleBerryCheckAfterDamage(a, b, c, d);
 }

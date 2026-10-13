@@ -1,5 +1,5 @@
 /*
- * function: func_021D5B44
+ * function: BTL_POKEPARAM_SetItem
  * address:  0x021D5B44
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5B44   0x021D5B44  thumb
+ *   BTL_POKEPARAM_SetItem   0x021D5B44  thumb
  *
  * Stores the second argument (a u16) into the field at #0x12.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 struct QI { u8 pad[0x12]; u16 v; };
 /* 021D5B44  strh r1,[r0,#0x12] */
-void func_021D5B44(struct QI *p, u16 v) { p->v = v; }
+void BTL_POKEPARAM_SetItem(struct QI *p, u16 v) { p->v = v; }
 

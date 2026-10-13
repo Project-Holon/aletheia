@@ -1,5 +1,5 @@
 /*
- * function: func_021C1094
+ * function: FIELD_PLAYER_GRID_EVENT_IsHopDone
  * address:  0x021C1094
  * packet:   pkt_021C1094
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18274.h"
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
-int func_021C1094(void *a)
+int FIELD_PLAYER_GRID_EVENT_IsHopDone(void *a)
 {
-return ((struct Obj18274 *)((u8 *)(func_02030EE8((struct S02030EE8 *)a))))->f4;
+return ((struct Obj18274 *)((u8 *)(TCBL_IsDeletePending((struct S02030EE8 *)a))))->f4;
 }
 

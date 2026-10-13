@@ -1,5 +1,5 @@
 /*
- * function: func_021F3868
+ * function: GIMMICK61_IsPlayerStepReady
  * address:  0x021F3868
  * packet:   pkt_021F3868
  * region:   ov061
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3080  0x021A3080  thumb
- *   func_021A308C  0x021A308C  thumb
+ *   FIELD_PLAYER_GetStepKind  0x021A3080  thumb
+ *   FIELD_PLAYER_GetStepPhase  0x021A308C  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_021A3080(void *x);
-extern u32 func_021A308C(void *x);
+extern u32 FIELD_PLAYER_GetStepKind(void *x);
+extern u32 FIELD_PLAYER_GetStepPhase(void *x);
 
-int func_021F3868(void *unused, void *x)
+int GIMMICK61_IsPlayerStepReady(void *unused, void *x)
 {
-    u32 a = func_021A3080(x);
+    u32 a = FIELD_PLAYER_GetStepKind(x);
 
-    if (func_021A308C(x) == 3 && a == 0) {
+    if (FIELD_PLAYER_GetStepPhase(x) == 3 && a == 0) {
         return 1;
     }
     return 0;

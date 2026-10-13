@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B05AC",
+   "name": "SCRCMD_MSGWIN_CmdSetTimeIcon",
    "address": "0x021B05AC",
    "kind": "game",
    "region": "ov021",

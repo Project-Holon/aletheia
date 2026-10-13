@@ -1,5 +1,5 @@
 /*
- * function: func_021B87C8
+ * function: FIELD_RAIL_SETTING_Copy
  * address:  0x021B87C8
  * packet:   pkt_021B87C8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02082D44(u32 a, u32 b, u32 c);
 
-void func_021B87C8(u32 a, u32 b)
+void FIELD_RAIL_SETTING_Copy(u32 a, u32 b)
 {
     func_02082D44(b, a, 0x30);
 }

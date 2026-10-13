@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021961A4",
+   "name": "IRCBATTLEMENU_FadePaletteBank",
    "address": "0x021961A4",
    "kind": "game",
    "region": "ov021",

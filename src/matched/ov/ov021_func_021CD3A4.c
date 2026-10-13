@@ -1,5 +1,5 @@
 /*
- * function: func_021CD3A4
+ * function: EVENT_NAMEIN_StoreResult
  * address:  0x021CD3A4
  * packet:   pkt_ov021_021CD3A4
  * region:   ov021
@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_0200C1F8  0x0200C1F8  thumb
- *   func_02027198  0x02027198  thumb
+ *   GAME_BEACON_UpdateGreeting  0x02027198  thumb
  *   func_0200C210  0x0200C210  thumb
- *   func_020275C4  0x020275C4  thumb
- *   func_02045838  0x02045838  arm
- *   func_02165844  0x02165844  thumb  ov010
+ *   BEACON_STATUS_GetMessage  0x020275C4  thumb
+ *   STRBUF_Copy  0x02045838  arm
+ *   GAME_BEACON_SEARCH_SetFreeText  0x02165844  thumb  ov010
  */
 #include "../include/Obj03150.h"
 #include "../include/Obj06099.h"
@@ -28,13 +28,13 @@ typedef unsigned short u16;
 struct Blk34;
 struct U16Vec;
 extern void func_0200C1F8(struct Blk34 *p, const u16 *src);
-extern void func_02027198(void);
+extern void GAME_BEACON_UpdateGreeting(void);
 extern void func_0200C210(struct Blk34 *p, const u16 *src);
-extern int func_020275C4(void *p);
-extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
-extern void func_02165844(void *v);
+extern int BEACON_STATUS_GetMessage(void *p);
+extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
+extern void GAME_BEACON_SEARCH_SetFreeText(void *v);
 
-void func_021CD3A4(u8 *a, u8 *b)
+void EVENT_NAMEIN_StoreResult(u8 *a, u8 *b)
 {
     u16 *q = *(u16 * *)&((struct Obj03150 *)a)->f18;
 
@@ -49,14 +49,14 @@ void func_021CD3A4(u8 *a, u8 *b)
     switch (((struct Obj03150 *)a)->f4C) {
     case 5:
         func_0200C1F8((struct Blk34 *)(((struct Obj03150 *)a)->f8), (const u16 *)(((struct Obj06099 *)b)->f20));
-        func_02027198();
+        GAME_BEACON_UpdateGreeting();
         return;
     case 6:
         func_0200C210((struct Blk34 *)(((struct Obj03150 *)a)->f8), (const u16 *)(((struct Obj06099 *)b)->f20));
         return;
     case 7:
-        func_02045838((struct U16Vec *)func_020275C4((void *)(((struct Obj03150 *)a)->f14)), (struct U16Vec *)(((struct Obj03150 *)a)->f3C));
-        func_02165844((void *)(((struct Obj06099 *)b)->f20));
+        STRBUF_Copy((struct U16Vec *)BEACON_STATUS_GetMessage((void *)(((struct Obj03150 *)a)->f14)), (struct U16Vec *)(((struct Obj03150 *)a)->f3C));
+        GAME_BEACON_SEARCH_SetFreeText((void *)(((struct Obj06099 *)b)->f20));
         return;
     }
 }

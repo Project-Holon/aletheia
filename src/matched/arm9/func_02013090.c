@@ -1,5 +1,5 @@
 /*
- * function: func_02013090
+ * function: BTL_SETUP_Create
  * address:  0x02013090
  * packet:   pkt_02013090
  * region:   arm9
@@ -11,10 +11,11 @@
  *
  * symbols:
  *   sZonedataFile  0x020A729C  data
+ *   BTL_SETUP_Clear  0x020130C4  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013090.c \
- *       --func func_02013090 --addr 0x02013090 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_Create.c \
+ *       --func BTL_SETUP_Create --addr 0x02013090 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -24,14 +25,14 @@ typedef signed short s16;
 typedef signed char s8;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020130C4(u8 *p);
+extern void BTL_SETUP_Clear(u8 *p);
 extern u8    sZonedataFile;
 
-void *func_02013090(u32 heap)
+void *BTL_SETUP_Create(u32 heap)
 {
     void *p;
 
     p = func_02030734(heap, 0xf0, 0, (const char *)&sZonedataFile, 0x31);
-    func_020130C4(p);
+    BTL_SETUP_Clear(p);
     return p;
 }

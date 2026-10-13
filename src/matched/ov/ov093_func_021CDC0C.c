@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021CDC0C, func_021CDD34
+ * function: BTL_CLIENT_StepRemote, BTL_CLIENT_ResetSendWord
  * address: 0x021CDC0C
  * packet: pkt_ov093_021CDC0C
  * region: ov093
@@ -13,16 +13,16 @@
  * symbols:
  *   func_021D3FDC 0x021D3FDC thumb ov093
  *   func_021D3F98 0x021D3F98 thumb ov093
- *   func_021EEBE8 0x021EEBE8 thumb ov093
+ *   BTL_ADAPTER_GetRecvCommand 0x021EEBE8 thumb ov093
  *   func_021CDD50 0x021CDD50 thumb ov093
- *   func_021CDD34 0x021CDD34 thumb ov093
+ *   BTL_CLIENT_ResetSendWord 0x021CDD34 thumb ov093
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   func_021EAE24 0x021EAE24 thumb ov093
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   func_021F88BC 0x021F88BC thumb ov094
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
  *   func_021F8678 0x021F8678 thumb ov094
- *   func_021EEC4C 0x021EEC4C thumb ov093
+ *   BTL_ADAPTER_SetRecvTarget 0x021EEC4C thumb ov093
  *   func_021EAE34 0x021EAE34 thumb ov093
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   func_021D3FA8 0x021D3FA8 thumb ov093
@@ -38,22 +38,22 @@ typedef int (*Callback)(u8 *,int *);
 struct Q;
 extern void func_021D3FDC(u8 *p, struct Q *q);
 extern int func_021D3F98(u8 *);
-extern u8 func_021EEBE8(void *);
+extern u8 BTL_ADAPTER_GetRecvCommand(void *);
 extern Callback func_021CDD50(u8 *,u32,int *);
-extern void func_021CDD34(u8 *);
+extern void BTL_CLIENT_ResetSendWord(u8 *);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void func_021EAE24(u8 *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void func_021F88BC(int);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void *func_021F8678(void);
-extern int func_021EEC4C(void *,void *,u32);
+extern int BTL_ADAPTER_SetRecvTarget(void *,void *,u32);
 extern int func_021EAE34(u8 *p);
 extern int GFL_USE_IsBgmFading(void);
 extern u16 func_021D3FA8(u8 *p);
 extern void func_021EAE74(char *p, u32 a, u32 b);
 extern void func_021BA7F8(char *p);
-int func_021CDC0C(u8 *p)
+int BTL_CLIENT_StepRemote(u8 *p)
 {
     u32 id;
     u16 n;
@@ -64,7 +64,7 @@ int func_021CDC0C(u8 *p)
         p[0x1a8] = 1;
     case 1:
         if (!func_021D3F98(p+0x18)) {
-            id = func_021EEBE8(((struct Obj00818 *)p)->f50);
+            id = BTL_ADAPTER_GetRecvCommand(((struct Obj00818 *)p)->f50);
             if (id) {
                 zero = 0;
                 *(Callback *)&((struct Obj00818 *)p)->fC8 = func_021CDD50(p,id,0);
@@ -73,7 +73,7 @@ int func_021CDC0C(u8 *p)
                     ((struct Obj00818 *)p)->fCC = zero;
                 }
                 else {
-                    func_021CDD34(p);
+                    BTL_CLIENT_ResetSendWord(p);
                     p[0x1a8] = 3;
                     ((struct Obj00818 *)p)->fCC = zero;
                 }
@@ -97,7 +97,7 @@ int func_021CDC0C(u8 *p)
         }
         break;
     case 3:
-        if (func_021EEC4C(((struct Obj00818 *)p)->f50,((struct Obj00818 *)p)->fD8,((struct Obj00818 *)p)->fDC)) p[0x1a8] = 1;
+        if (BTL_ADAPTER_SetRecvTarget(((struct Obj00818 *)p)->f50,((struct Obj00818 *)p)->fD8,((struct Obj00818 *)p)->fDC)) p[0x1a8] = 1;
         break;
     case 4:
         if (((struct Obj00818 *)p)->f54) {
@@ -114,7 +114,7 @@ int func_021CDC0C(u8 *p)
     }
     return 0;
 }
-void func_021CDD34(u8 *p)
+void BTL_CLIENT_ResetSendWord(u8 *p)
 {
     ((struct Obj09986 *)p)->fE0 = 0;
     *(u8 * *)&((struct Obj09986 *)p)->fD8 = p+0xe0;

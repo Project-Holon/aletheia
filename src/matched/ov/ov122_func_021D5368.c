@@ -10,10 +10,10 @@
  * status: EXACT
  * leaf: root-claimed sole callback witness for func_021D5370.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 void func_021D5368(void)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

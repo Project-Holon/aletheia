@@ -1,5 +1,5 @@
 /*
- * function: func_021828B8
+ * function: EVENT_COMM_COMMON_StartMsgEvent
  * address:  0x021828B8
  * packet:   pkt_ov018_021828B8
  * region:   ov018
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0201232C  0x0201232C  thumb
- *   func_02182920  0x02182920  thumb  ov018
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   GAME_EVENT_Change  0x0201232C  thumb
+ *   EVENT_COMM_COMMON_MsgEventMain  0x02182920  thumb  ov018
  *   func_020124E8  0x020124E8  thumb
  *   func_02082D44  0x02082D44  arm
  *   func_0201F02C  0x0201F02C  thumb
@@ -44,23 +44,23 @@ struct Obj;
 struct WordSet;
 extern void *func_020124E4(struct Obj *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_02158344(int a0);
-extern void func_0201232C(char *p, int a1, int a2);
-extern void func_02182920();
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
+extern void GAME_EVENT_Change(char *p, int a1, int a2);
+extern void EVENT_COMM_COMMON_MsgEventMain();
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(void *, void *, int);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02183B4C[];
 
-void func_021828B8(void *a, Src *b, u16 *c)
+void EVENT_COMM_COMMON_StartMsgEvent(void *a, Src *b, u16 *c)
 {
     u8 *v;
     Dst *p;
 
-    v = (u8 *)func_02158344((int)((void *)func_02012138(func_020124E4(a))));
-    func_0201232C(a, (int)func_02182920, 0xAC);
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(func_020124E4(a))));
+    GAME_EVENT_Change(a, (int)EVENT_COMM_COMMON_MsgEventMain, 0xAC);
     p = func_020124E8(a);
     func_02082D44(b, p, 0x98);
     if (v != 0) {

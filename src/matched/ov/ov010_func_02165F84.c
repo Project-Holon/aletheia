@@ -1,5 +1,5 @@
 /*
- * function: func_02165F84
+ * function: GAME_BEACON_ACCESSOR_GetActionWordValue
  * address:  0x02165F84
  * packet:   pkt_ov010_02165F84
  * region:   ov010
@@ -31,7 +31,7 @@ typedef struct Rec {
     u16 f38;            /* 0x38 */
 } Rec;
 
-u32 func_02165F84(Rec *r)
+u32 GAME_BEACON_ACCESSOR_GetActionWordValue(Rec *r)
 {
     if (r->type == 0x29)
         return r->f34.w;

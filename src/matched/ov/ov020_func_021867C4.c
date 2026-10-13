@@ -1,5 +1,5 @@
 /*
- * function: func_021867C4
+ * function: FIELD_WFBC_DATA_LOCAL_OpenNpcData
  * address:  0x021867C4
  * packet:   pkt_ov020_021867C4
  * region:   ov020
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_020490F4  0x020490F4  arm
- *   func_0204932C  0x0204932C  arm
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   d_02187EB4     0x02187EB4  data  ov020  a4
  */
 
@@ -20,15 +20,15 @@ extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, co
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
 struct ArcFile;
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
+extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 extern int d_02187EB4;
 
-int *func_021867C4(int a, int id)
+int *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int a, int id)
 {
     int *p = func_02030734(id, 0x38, 1, (const char *)&d_02187EB4, 0x448);
 
     p[0] = (int)func_020490F4(0x9a, id);
-    func_0204932C((void *)p[0], a, p + 2);
+    ARC_TOOL_ReadHandleMember((void *)p[0], a, p + 2);
     p[1] = a;
     return p;
 }

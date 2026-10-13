@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D8B84",
-    "func_021D8BA8"
+    "BTL_CALC_SniperBoostCritical",
+    "BTL_CALC_GetSniperHandlers"
+   ],
+   "addresses": [
+    "0x021D8B84",
+    "0x021D8BA8"
    ],
    "evidence": {
     "sole-ref": [

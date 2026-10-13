@@ -16,17 +16,17 @@
  *   func_0201C6B4  0x0201C6B4  thumb
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_0201CE48  0x0201CE48  thumb
- *   func_020450F0  0x020450F0  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_0201CCE4  0x0201CCE4  thumb
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   PRINTSYS_PrintStream  0x0201CCE4  thumb
  *   func_02028470  0x02028470  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 typedef unsigned short u16;
@@ -46,17 +46,17 @@ extern int func_021BA8BC(void *p);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201CE48(struct Rec3 *p);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern u32 func_0201CCE4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 j);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern u32 PRINTSYS_PrintStream(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 j);
 extern void func_02028470(u8 *p, u32 v);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
 
 void func_021BA978(char *p, int a1, int a2, int a3)
@@ -71,24 +71,24 @@ void func_021BA978(char *p, int a1, int a2, int a3)
         func_0201CE48((struct Rec3 *)(*(u32 *)(p + 0x1BC)));
         *(u32 *)(p + 0x1BC) = 0;
     }
-    *(u32 *)(p + 0x190) = func_020450F0(2, 2, 0x13, 0x1B, (u32)4, (u32)0xF, (u32)1);
+    *(u32 *)(p + 0x190) = BMP_WIN_Create(2, 2, 0x13, 0x1B, (u32)4, (u32)0xF, (u32)1);
     if (a2)
-        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0xE4)), a1, (void *)(*(u32 *)(p + 0xF0)));
+        MSGDATA_ReadString((struct MsgBank *)(*(u32 *)(p + 0xE4)), a1, (void *)(*(u32 *)(p + 0xF0)));
     else
-        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0xE0)), a1, (void *)(*(u32 *)(p + 0xF0)));
+        MSGDATA_ReadString((struct MsgBank *)(*(u32 *)(p + 0xE0)), a1, (void *)(*(u32 *)(p + 0xF0)));
     func_0201F250((struct WordSet *)(*(u32 *)(p + 0xDC)), (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xF0)));
     k = 0xFF;
-    func_02043B5C(func_02045770((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)k);
+    BMP_Clear(func_02045770((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)k);
     e = 0xE;
     func_0201F73C((void *)(*(u32 *)(p + 0x190)), (u32)1, (u16)(*(u32 *)(p + 0x1334)), (u32)e);
     if (a3 == 0) {
-        func_0201C7A4(func_02045770((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)0, (u32)0, (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xE8)));
+        PRINTSYS_Print(func_02045770((struct Descriptor *)(*(u32 *)(p + 0x190))), (u32)0, (u32)0, (void *)(*(u32 *)(p + 0xF4)), (void *)(*(u32 *)(p + 0xE8)));
     } else {
         u32 t = func_02012FFC();
-        *(u32 *)(p + (k + 0xBD)) = func_0201CCE4(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8), t, *(u32 *)(p + e * 0x20), 2, 0x21, 0xF);
+        *(u32 *)(p + (k + 0xBD)) = PRINTSYS_PrintStream(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xF4), *(u32 *)(p + 0xE8), t, *(u32 *)(p + e * 0x20), 2, 0x21, 0xF);
         func_02028470((u8 *)(p + 0x26C), 2);
     }
-    func_02045334((struct Descriptor *)(*(u32 *)(p + 0x190)));
-    func_02045374((struct Cfg *)(*(u32 *)(p + 0x190)));
+    BMP_WIN_TransferChars((struct Descriptor *)(*(u32 *)(p + 0x190)));
+    BMP_WIN_MakeScreen((struct Cfg *)(*(u32 *)(p + 0x190)));
     func_02041B6C(2);
 }

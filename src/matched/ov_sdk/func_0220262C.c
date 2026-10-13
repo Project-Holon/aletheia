@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
  *
 
  *
@@ -20,10 +21,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void func_02082D44(u32 a, u32 b, u32 c);
 
 void func_0220262C(u32 a, u32 b)
 {
-    func_02082D44(a, b, func_020173EC());
+    func_02082D44(a, b, POKE_TOOL_GetPartyParamSize());
 }

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   func_021D75F4 0x021D75F4 thumb ov120
  */
@@ -17,9 +17,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 struct Row;
 typedef signed int     s32;
 extern s32 BLINK_PALANM_Update(struct Row *p);
 extern void func_021D75F4(char *p);
-void func_021D5F98(u8 *p){func_0204A600();if(((struct Obj04488 *)p)->fF8)BLINK_PALANM_Update(((struct Obj04488 *)p)->fF8);if(((struct Obj04488 *)p)->fFC)BLINK_PALANM_Update(((struct Obj04488 *)p)->fFC);func_021D75F4((char *)p);}
+void func_021D5F98(u8 *p){CLACT_DrawSystem();if(((struct Obj04488 *)p)->fF8)BLINK_PALANM_Update(((struct Obj04488 *)p)->fF8);if(((struct Obj04488 *)p)->fFC)BLINK_PALANM_Update(((struct Obj04488 *)p)->fFC);func_021D75F4((char *)p);}

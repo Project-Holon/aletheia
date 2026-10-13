@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj00287.h"
 typedef unsigned char u8;
@@ -18,5 +18,5 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
-void func_021F59E8(char *p) { func_020307B0(((struct Obj00287 *)p)->fEAC); func_02045808(((struct Obj00287 *)p)->fB80); func_02045808(((struct Obj00287 *)p)->fB88); func_02045808(((struct Obj00287 *)p)->fB84); }
+extern void STRBUF_Delete(struct U16Vec *vec);
+void func_021F59E8(char *p) { func_020307B0(((struct Obj00287 *)p)->fEAC); STRBUF_Delete(((struct Obj00287 *)p)->fB80); STRBUF_Delete(((struct Obj00287 *)p)->fB88); STRBUF_Delete(((struct Obj00287 *)p)->fB84); }

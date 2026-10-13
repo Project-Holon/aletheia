@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0F4
+ * function: STARTMENU_SaveEraseStartVblankTask
  * address:  0x021BD0F4
  * packet:   pkt_ov088_021BD0F4
  * region:   ov088
@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_020056A0  0x020056A0  thumb
- *   func_021BD0D8  0x021BD0D8  thumb  ov088
+ *   STARTMENU_SaveEraseVblankTask  0x021BD0D8  thumb  ov088
  */
 
 extern void *func_020056A0(void (*)(void), void *, int);
-extern void func_021BD0D8(void);
+extern void STARTMENU_SaveEraseVblankTask(void);
 
-void func_021BD0F4(void **p)
+void STARTMENU_SaveEraseStartVblankTask(void **p)
 {
-    *p = func_020056A0(func_021BD0D8, p, 0);
+    *p = func_020056A0(STARTMENU_SaveEraseVblankTask, p, 0);
 }

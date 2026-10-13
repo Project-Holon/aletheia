@@ -1,5 +1,5 @@
 /*
- * function: func_0215F238
+ * function: SCRCMD_NETWORK_CmdRequestCommExit
  * address:  0x0215F238
  * packet:   pkt_ov010_0215F238
  * region:   ov010
@@ -10,38 +10,38 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02012138  0x02012138  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
- *   func_02159144  0x02159144  thumb  ov010
+ *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  */
 
-extern void *func_0215A5DC(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *p);
 struct Ctx;
-extern unsigned int func_02012138(const struct Ctx *p);
+extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Comm;
 struct Ctx;
 extern u32 func_02026454(void *obj);
-extern void func_02026400(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern void GAMESYSTEM_SetCommBlocked(struct Ctx *p, u32 v);
-extern void func_02159144(int v);
+extern void SCRIPT_WORK_SetCheckFlag(int v);
 
-int func_0215F238(void *a, void *b)
+int SCRCMD_NETWORK_CmdRequestCommExit(void *a, void *b)
 {
     void *t;
     void *s;
 
-    t = func_0215A5DC(b);
-    s = (void *)func_02012138(t);
+    t = SCRCMD_WORK_GetGameSystem(b);
+    s = (void *)GAMESYSTEM_GetGameComm(t);
     switch (func_02026454(s)) {
     case 1:
     case 2:
     case 5:
-        func_02026400(s);
+        GAME_COMM_RequestExitNoCallback(s);
         break;
     case 0:
     case 3:
@@ -49,6 +49,6 @@ int func_0215F238(void *a, void *b)
         break;
     }
     GAMESYSTEM_SetCommBlocked(t, 1);
-    func_02159144(0xb);
+    SCRIPT_WORK_SetCheckFlag(0xb);
     return 1;
 }

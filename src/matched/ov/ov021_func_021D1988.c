@@ -1,5 +1,5 @@
 /*
- * function: func_021D1988
+ * function: SCRCMD_MMDL_ICA_ApplyFrame
  * address:  0x021D1988
  * packet:   pkt_ov021_021D1988
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011610  0x02011610  thumb
- *   func_02011638  0x02011638  thumb
+ *   ICA_ANIME_GetTranslate  0x02011610  thumb
+ *   ICA_ANIME_GetRotate  0x02011638  thumb
  *   func_0207C9D0  0x0207C9D0  arm
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D60C  0x0216D60C  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -27,28 +27,28 @@ typedef struct Vec3 { s32 x, y, z; } Vec3;
 
 struct IcaAnime;
 struct Rec12;
-extern u32 func_02011610(struct IcaAnime *a, struct Rec12 *out);
-extern u32 func_02011638(struct IcaAnime *a, struct Rec12 *out);
+extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *a, struct Rec12 *out);
+extern u32 ICA_ANIME_GetRotate(struct IcaAnime *a, struct Rec12 *out);
 extern void func_0207C9D0(Vec3 *a, Vec3 *b, Vec3 *c);
-extern void func_0216D89C(u32 a, Vec3 *v);
-extern int func_0216D60C(int a0, int a1);
+extern void FLDMMDL_SetPos(u32 a, Vec3 *v);
+extern int FLDMMDL_SetDirAll(int a0, int a1);
 
-void func_021D1988(u32 a, u32 b, Vec3 *c)
+void SCRCMD_MMDL_ICA_ApplyFrame(u32 a, u32 b, Vec3 *c)
 {
     Vec3 v1;
     Vec3 v0;
 
-    func_02011610((struct IcaAnime *)a, (struct Rec12 *)&v1);
-    func_02011638((struct IcaAnime *)a, (struct Rec12 *)&v0);
+    ICA_ANIME_GetTranslate((struct IcaAnime *)a, (struct Rec12 *)&v1);
+    ICA_ANIME_GetRotate((struct IcaAnime *)a, (struct Rec12 *)&v0);
     func_0207C9D0(&v1, c, &v1);
-    func_0216D89C(b, &v1);
+    FLDMMDL_SetPos(b, &v1);
     if (v0.y == 0) {
-        func_0216D60C(b, 1);
+        FLDMMDL_SetDirAll(b, 1);
     } else if (v0.y == 0x5A000) {
-        func_0216D60C(b, 3);
+        FLDMMDL_SetDirAll(b, 3);
     } else if (v0.y == 0xB4000) {
-        func_0216D60C(b, 0);
+        FLDMMDL_SetDirAll(b, 0);
     } else if (v0.y == 0x10E000) {
-        func_0216D60C(b, 2);
+        FLDMMDL_SetDirAll(b, 2);
     }
 }

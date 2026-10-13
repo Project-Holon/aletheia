@@ -1,5 +1,5 @@
 /*
- * function: func_021B83A0
+ * function: ITEMMENU_IsItemRegistered
  * address: 0x021B83A0
  * packet: pkt_ov070_021B83A0
  * region: ov070
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_0202E448(u32 id);
 extern int GAME_DATA_CheckSaveFlag(int p, int value);
-int func_021B83A0(char *p, int value)
+int ITEMMENU_IsItemRegistered(char *p, int value)
 {
     return GAME_DATA_CheckSaveFlag(((struct Obj20669 *)p)->f0, (int)func_0202E448((u16)value));
 }

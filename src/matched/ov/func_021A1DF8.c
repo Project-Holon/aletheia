@@ -1,5 +1,5 @@
 /*
- * function: func_021A1DF8
+ * function: WEATHER_TASK_Delete
  * address:  0x021A1DF8
  * packet:   pkt_021A1DF8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021A20C8  0x021A20C8  thumb  ov021
+ *   WEATHER_TASK_ForceEnd  0x021A20C8  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 struct O;
-extern void func_021A20C8(struct O *p);
+extern void WEATHER_TASK_ForceEnd(struct O *p);
 extern u32 func_020307B0(void *p);
 
-void func_021A1DF8(u8 *p)
+void WEATHER_TASK_Delete(u8 *p)
 {
-    func_021A20C8((struct O *)p);
+    WEATHER_TASK_ForceEnd((struct O *)p);
     func_020307B0(p);
 }

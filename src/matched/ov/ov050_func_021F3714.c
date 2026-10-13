@@ -1,5 +1,5 @@
 /*
- * function: func_021F3714
+ * function: GIMMICK49_InitModels
  * address: 0x021F3714
  * packet: pkt_ov050_021F3714
  * region: ov050
@@ -10,14 +10,14 @@
  * status: EXACT*
  * note: two-byte alignment padding at 0x021F3742 follows the return.
  * symbols:
- *   func_02188D2C 0x02188D2C thumb ov021
- *   func_021BE700 0x021BE700 thumb ov021
- *   func_021BE674 0x021BE674 thumb ov021
- *   func_021BE6B8 0x021BE6B8 thumb ov021
+ *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled 0x021BE700 thumb ov021
+ *   FLD_EXP_OBJ_GetAnime 0x021BE674 thumb ov021
+ *   FLD_EXP_OBJ_SetAnimeLoop 0x021BE6B8 thumb ov021
  */
 
-extern int func_02188D2C(int *);
-extern void func_021BE700(void *, int,int,int,int);
-extern void *func_021BE674(char *, int,unsigned int,int);
-extern void func_021BE6B8(unsigned char *,int);
-void func_021F3714(int *p) { char *q=(char *)func_02188D2C(p); func_021BE700(q,0,0,0,1); func_021BE6B8(func_021BE674(q,0,0,0),0); }
+extern int FIELDMAP_GetExpObj(int *);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *, int,int,int,int);
+extern void *FLD_EXP_OBJ_GetAnime(char *, int,unsigned int,int);
+extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *,int);
+void GIMMICK49_InitModels(int *p) { char *q=(char *)FIELDMAP_GetExpObj(p); FLD_EXP_OBJ_SetAnimeEnabled(q,0,0,0,1); FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(q,0,0,0),0); }

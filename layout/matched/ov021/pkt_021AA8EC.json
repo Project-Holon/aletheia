@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AA8EC",
+   "name": "EFFECT_ENCOUNT_Reset",
    "address": "0x021AA8EC",
    "kind": "game",
    "region": "ov021",

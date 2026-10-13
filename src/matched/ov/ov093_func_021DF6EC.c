@@ -1,5 +1,5 @@
 /*
- * function: func_021DF6EC
+ * function: BTL_HANDLER_ITEM_GetSilverPowderHandlers
  * address: 0x021DF6EC
  * packet: pkt_ov093_021DF6EC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF48C.c and filed here.
  *
  * symbols:
- *   d_021F14F4 0x021F14F4 data ov093 a4
+ *   gSilverPowderHandlers 0x021F14F4 data ov093 a4
  */
 
-int *func_021DF6EC(int *p);
-extern int d_021F14F4[];
+int *BTL_HANDLER_ITEM_GetSilverPowderHandlers(int *p);
+extern int gSilverPowderHandlers[];
 
-int *func_021DF6EC(int *p)
+int *BTL_HANDLER_ITEM_GetSilverPowderHandlers(int *p)
 {
     *p = 1;
-    return d_021F14F4;
+    return gSilverPowderHandlers;
 }

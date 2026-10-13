@@ -1,5 +1,5 @@
 /*
- * function: func_02185954
+ * function: OEKAKI_StepWaitMessage
  * address: 0x02185954
  * packet: pkt_ov023_02185954
  * region: ov023
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021862B0 0x021862B0 thumb ov023
- *   func_02186444 0x02186444 thumb ov023
- *   func_02185354 0x02185354 thumb ov023
+ *   OEKAKI_IsMessageDone 0x021862B0 thumb ov023
+ *   OEKAKI_SetNextScene 0x02186444 thumb ov023
+ *   OEKAKI_ApplyRemoteStrokes 0x02185354 thumb ov023
  */
-extern int func_021862B0(char *);
-extern void func_02186444(char *, unsigned int);
-extern void func_02185354(char *);
-int func_02185954(char *p, int a)
+extern int OEKAKI_IsMessageDone(char *);
+extern void OEKAKI_SetNextScene(char *, unsigned int);
+extern void OEKAKI_ApplyRemoteStrokes(char *);
+int OEKAKI_StepWaitMessage(char *p, int a)
 {
-    if (func_021862B0(p))
-        func_02186444(p, 0xe);
-    func_02185354(p);
+    if (OEKAKI_IsMessageDone(p))
+        OEKAKI_SetNextScene(p, 0xe);
+    OEKAKI_ApplyRemoteStrokes(p);
     return a;
 }

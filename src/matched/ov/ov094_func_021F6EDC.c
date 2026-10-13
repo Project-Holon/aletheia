@@ -13,16 +13,16 @@
  * leaf that disasm.py did not label.
  *
  * symbols:
- *   func_02048AFC  0x02048AFC  arm
- *   func_02048B44  0x02048B44  arm
- *   func_02048AD0  0x02048AD0  arm
+ *   G3D_CAMERA_SetEye  0x02048AFC  arm
+ *   G3D_CAMERA_SetUp  0x02048B44  arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_021F73A4  0x021F73A4  thumb  ov094
  */
 
-extern void func_02048AFC(int, const int *);
-extern void func_02048B44(int, int);
+extern void G3D_CAMERA_SetEye(int, const int *);
+extern void G3D_CAMERA_SetUp(int, int);
 struct Light;
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_021F73A4(int *);
 
 void func_021F6EDC(int *p, int *a, int *b)
@@ -31,14 +31,14 @@ void func_021F6EDC(int *p, int *a, int *b)
         p[6] = a[0];
         p[7] = a[1];
         p[8] = a[2];
-        func_02048AFC(p[1], a);
+        G3D_CAMERA_SetEye(p[1], a);
     }
     if (b) {
         p[9] = b[0];
         p[10] = b[1];
         p[11] = b[2];
-        func_02048B44(p[1], (int)b);
+        G3D_CAMERA_SetUp(p[1], (int)b);
     }
-    func_02048AD0((struct Light *)p[1]);
+    G3D_CAMERA_Reset((struct Light *)p[1]);
     func_021F73A4(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216F228
+ * function: TRCARD_SYS_ExitMinimal
  * address:  0x0216F228
  * packet:   pkt_ov010_0216F228
  * region:   ov010
@@ -25,7 +25,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 
-int func_0216F228(void *a, int b, int c, char *d)
+int TRCARD_SYS_ExitMinimal(void *a, int b, int c, char *d)
 {
     func_020307B0(((struct Obj19151 *)d)->f18);
     func_020315D4(a);

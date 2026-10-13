@@ -31,12 +31,12 @@
  *   BUTTON_MAN_SetCallback 0x02051A24 arm
  *   func_0207C768 0x0207C768 arm
  *   func_0207CF3C 0x0207CF3C arm
- *   func_0207CCA4 0x0207CCA4 arm
+ *   VEC_Normalize 0x0207CCA4 arm
  *   func_0207CA68 0x0207CA68 arm
- *   func_0207D184 0x0207D184 arm
+ *   FX_AcosIdx 0x0207D184 arm
  *   func_0207CAE8 0x0207CAE8 arm
- *   func_0207B65C 0x0207B65C arm
- *   func_0207BC08 0x0207BC08 arm
+ *   MTX_RotAxis43 0x0207B65C arm
+ *   MTX_MultVec43 0x0207BC08 arm
  *   BUTTON_MAN_SetRow2 0x020519C4 arm
  *   BUTTON_MAN_SetRow5 0x02051A04 arm
  *   BUTTON_MAN_GetRot 0x020517B4 arm
@@ -128,12 +128,12 @@ extern void BUTTON_MAN_SetUserData(void *p, int v);
 extern void BUTTON_MAN_SetCallback(void *p, int v);
 extern u32 func_0207C768(u32 a, u32 b);
 extern int func_0207CF3C(const Vec *a, const Vec *b);
-extern void func_0207CCA4(const Vec *a, Vec *b);
+extern void VEC_Normalize(const Vec *a, Vec *b);
 extern int func_0207CA68(const Vec *a, const Vec *b);
-extern u16 func_0207D184(int a);
+extern u16 FX_AcosIdx(int a);
 extern void func_0207CAE8(const Vec *a, const Vec *b, Vec *c);
-extern void func_0207B65C(void *m, const Vec *axis, int s, int c);
-extern void func_0207BC08(const Vec *a, const void *m, Vec *out);
+extern void MTX_RotAxis43(void *m, const Vec *axis, int s, int c);
+extern void MTX_MultVec43(const Vec *a, const void *m, Vec *out);
 extern void BUTTON_MAN_SetRow2(void *p, struct S12 *q);
 extern void BUTTON_MAN_SetRow5(void *p, struct S12 *q);
 extern void BUTTON_MAN_GetRot(void *p, Vec16 *v);
@@ -311,14 +311,14 @@ void func_021FD1CC(void *p)
         d.x = b.x - a.x;
         d.y = b.y - a.y;
         d.z = b.z - a.z;
-        func_0207CCA4(&d, &d);
+        VEC_Normalize(&d, &d);
         e.x = 0x1000;
         e.y = 0;
         e.z = 0;
-        ang = func_0207D184(func_0207CA68(&e, &d));
+        ang = FX_AcosIdx(func_0207CA68(&e, &d));
         func_0207CAE8(&e, &d, &axis);
-        func_0207CCA4(&axis, &axis);
-        func_0207B65C(o, &axis, d_020A1B38[(ang >> 4) * 2], d_020A1B38[(ang >> 4) * 2 + 1]);
+        VEC_Normalize(&axis, &axis);
+        MTX_RotAxis43(o, &axis, d_020A1B38[(ang >> 4) * 2], d_020A1B38[(ang >> 4) * 2 + 1]);
         o->pos.x = a.x;
         o->pos.y = a.y;
         o->pos.z = a.z;
@@ -337,17 +337,17 @@ void func_021FD1CC(void *p)
         v1.x = dir.dir.x;
         v1.y = 0;
         v1.z = dir.dir.z;
-        func_0207CCA4(&v1, &v1);
-        func_0207CCA4(&v2, &v2);
-        ang = func_0207D184(func_0207CA68(&v1, &v2));
+        VEC_Normalize(&v1, &v1);
+        VEC_Normalize(&v2, &v2);
+        ang = FX_AcosIdx(func_0207CA68(&v1, &v2));
         func_0207CAE8(&v1, &v2, &axis2);
-        func_0207CCA4(&axis2, &axis2);
-        func_0207B65C(&m, &axis2, d_020A1B38[(ang >> 4) * 2], d_020A1B38[(ang >> 4) * 2 + 1]);
+        VEC_Normalize(&axis2, &axis2);
+        MTX_RotAxis43(&m, &axis2, d_020A1B38[(ang >> 4) * 2], d_020A1B38[(ang >> 4) * 2 + 1]);
         v1.x = dir.dir.x;
         v1.y = dir.dir.y;
         v1.z = dir.dir.z;
-        func_0207BC08(&v1, &m, &v1);
-        func_0207CCA4(&v1, &v1);
+        MTX_MultVec43(&v1, &m, &v1);
+        VEC_Normalize(&v1, &v1);
         if (flip == 1) {
             v1.x *= -1;
             v1.z *= -1;

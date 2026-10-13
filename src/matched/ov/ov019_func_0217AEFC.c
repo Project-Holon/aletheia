@@ -1,5 +1,5 @@
 /*
- * function: func_0217AEFC
+ * function: UNION_CHARA_GetBeaconIndex
  * address:  0x0217AEFC
  * packet:   pkt_0217AEFC
  * region:   ov019
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-u16 func_0217AEFC(unsigned int x)
+u16 UNION_CHARA_GetBeaconIndex(unsigned int x)
 {
     return (u16)(x >> 8);
 }

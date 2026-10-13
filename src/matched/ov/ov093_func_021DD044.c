@@ -1,5 +1,5 @@
 /*
- * function: func_021DD044
+ * function: BTL_HANDLER_ITEM_PushUseItem
  * address: 0x021DD044
  * packet: pkt_ov093_021DD044
  * region: ov093
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D70C8 0x021D70C8 thumb ov093
+ *   BTL_EVENT_KeepFactorRunning 0x021D70C8 thumb ov093
  *   func_021C88B4 0x021C88B4 thumb ov093
  */
 typedef struct Node Node;
-extern void func_021D70C8(Node *);
+extern void BTL_EVENT_KeepFactorRunning(Node *);
 extern void func_021C88B4(void *, int, int);
-void func_021DD044(void *a, void *b, int c)
+void BTL_HANDLER_ITEM_PushUseItem(void *a, void *b, int c)
 {
-    func_021D70C8(a);
+    BTL_EVENT_KeepFactorRunning(a);
     func_021C88B4(b, 0, c);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB40
+ * function: PLIST_MENU_OpenFixed
  * address:  0x021BBB40
  * packet:   pkt_ov091_021BBB40
  * region:   ov091
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021BBC04  0x021BBC04  thumb  ov091
+ *   PLIST_MENU_BuildCommandList  0x021BBC04  thumb  ov091
  *   func_020355D8  0x020355D8  arm
- *   func_02027778  0x02027778  thumb
- *   d_021BEC80     0x021BEC80  data  a4
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb
+ *   gPlistMenuFixedItems     0x021BEC80  data  a4
  */
 #include "../include/Obj07734.h"
 #include "../include/Obj13255.h"
@@ -35,19 +35,19 @@ typedef struct Tbl {
     u32 c;
 } Tbl;
 
-extern Tbl d_021BEC80;
-extern void func_021BBC04(u8 *p, u8 *s, int *items);
+extern Tbl gPlistMenuFixedItems;
+extern void PLIST_MENU_BuildCommandList(u8 *p, u8 *s, int *items);
 extern void func_020355D8(u32 a);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
-void func_021BBB40(u8 *a, u8 *b)
+void PLIST_MENU_OpenFixed(u8 *a, u8 *b)
 {
     Req r;
-    Tbl t = d_021BEC80;
+    Tbl t = gPlistMenuFixedItems;
 
-    func_021BBC04(a, b, (int *)(&t));
+    PLIST_MENU_BuildCommandList(a, b, (int *)(&t));
     r.heap = ((struct Obj07734 *)a)->f0;
     r.v = b[0];
     r.p = b + 0x14;
@@ -57,5 +57,5 @@ void func_021BBB40(u8 *a, u8 *b)
     r.c[2] = 8;
     r.c[3] = 3;
     func_020355D8(((struct Obj07734 *)a)->f8);
-    ((struct Obj13255 *)b)->f74 = (int)func_02027778((struct TaskMenuTmpl *)(&r), (void *)(((struct Obj07734 *)a)->f254));
+    ((struct Obj13255 *)b)->f74 = (int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&r), (void *)(((struct Obj07734 *)a)->f254));
 }

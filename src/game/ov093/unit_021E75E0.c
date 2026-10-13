@@ -14,22 +14,22 @@
  *
  * symbols:
  *   d_021F257C     0x021F257C  data   ov093  a4
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F28B8     0x021F28B8  data   ov093  a4
  *   func_021C7CF4 0x021C7CF4 thumb ov093
  *   func_021C8374 0x021C8374 thumb ov093
  *   func_021C8234 0x021C8234 thumb ov093
- *   func_021D62C4 0x021D62C4 thumb ov093
- *   func_021D5BDC 0x021D5BDC thumb ov093
- *   func_021E89C0 0x021E89C0 thumb ov093
+ *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
+ *   BTL_POKEPARAM_TestContFlag 0x021D5BDC thumb ov093
+ *   BTLV_CORE_MakeSlotKind1Empty 0x021E89C0 thumb ov093
  *   func_021C8838 0x021C8838 thumb ov093
  *   func_021C8860 0x021C8860 thumb ov093
  *   d_021F274C 0x021F274C data a4
  *   d_021F2714     0x021F2714  data   ov093  a4
- *   func_021D57FC   0x021D57FC  thumb ov093
+ *   BTL_POKEPARAM_GetTypePair   0x021D57FC  thumb ov093
  */
 #include "../../matched/include/Obj13543.h"
 #include "../../matched/include/Obj02139.h"
@@ -54,19 +54,19 @@ typedef signed int s32;
 
 typedef struct Word { u32 v; } Word;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C88A4(char *p, int a, int b);
-extern u16 func_021D70A8(struct QQ *p);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern void func_021C88C8(void *a, void *b);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021C8374(u8 *p, int i);
 extern int func_021C8234(u8 *p, int i);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
-extern Word func_021E89C0(u32);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
+extern Word BTLV_CORE_MakeSlotKind1Empty(u32);
 extern void func_021C8838(void *, int, int);
 extern void func_021C8860(struct S *, u32);
-u16 func_021D57FC(void *p);
+u16 BTL_POKEPARAM_GetTypePair(void *p);
 void func_021E75E0(int a, int b, int c);
 int *func_021E7628(int *p);
 void func_021E7634(int a, int b, int c);
@@ -84,10 +84,10 @@ void func_021E75E0(int a, int b, int c)
     u8 *p;
     int k, r;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         p = func_021C88A4((char *)b, 0x2e, c);
-        p[6] = func_021D775C(6);
-        r = func_021D70A8((void *)a);
+        p[6] = BTL_EVENT_GetVar(6);
+        r = BTL_EVENT_GetFactorKey((void *)a);
         k = 0x1fd;
         if (r == k)
             k += 0x8e;
@@ -110,7 +110,7 @@ int *func_021E7628(int *p)
 }
 
 /*
- * lever: func_021E89C0 returns a one-word aggregate, reserving its frame temporary.
+ * lever: BTLV_CORE_MakeSlotKind1Empty returns a one-word aggregate, reserving its frame temporary.
  */
 void func_021E7634(int a, int b, int c)
 {
@@ -118,21 +118,21 @@ void func_021E7634(int a, int b, int c)
     void *x;
     int flag;
     u8 *p;
-    if (c == func_021D775C(3)) {
-        k = func_021D775C(6);
+    if (c == BTL_EVENT_GetVar(3)) {
+        k = BTL_EVENT_GetVar(6);
         x = func_021C7CF4((int *)b, k);
         flag = 0;
         if (func_021C8374((u8 *)b, k) == 0) {
-            if (func_021C8234((u8 *)b, k) != 0 && func_021D62C4(x, 0x21) == 0) {
+            if (func_021C8234((u8 *)b, k) != 0 && BTL_POKEPARAM_HasSick(x, 0x21) == 0) {
                 p = func_021C88A4((char *)b, 12, c);
                 p[15] = k;
                 ((struct Obj02139 *)p)->f4 = 0x1f;
-                *(Word *)(p + 8) = func_021E89C0(0x1f);
+                *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind1Empty(0x1f);
                 func_021C8838(p + 20, 2, 0x468);
                 func_021C8860((struct S *)(p + 20), k);
                 func_021C88C8((void *)b, p);
                 flag = 1;
-                if (func_021D62C4(x, 0x1e) != 0) {
+                if (BTL_POKEPARAM_HasSick(x, 0x1e) != 0) {
                     p = func_021C88A4((char *)b, 11, c);
                     p[20] = 1;
                     p[8] = k;
@@ -140,7 +140,7 @@ void func_021E7634(int a, int b, int c)
                     ((struct Obj02139 *)p)->f4 = 0x1e;
                     func_021C88C8((void *)b, p);
                 }
-                if (func_021D62C4(x, 0x20) != 0) {
+                if (BTL_POKEPARAM_HasSick(x, 0x20) != 0) {
                     p = func_021C88A4((char *)b, 11, c);
                     p[20] = 1;
                     p[8] = k;
@@ -149,7 +149,7 @@ void func_021E7634(int a, int b, int c)
                     func_021C88C8((void *)b, p);
                 }
             }
-            if (func_021D5BDC(x, 3) != 0) {
+            if (BTL_POKEPARAM_TestContFlag(x, 3) != 0) {
                 p = func_021C88A4((char *)b, 0x36, c);
                 p[4] = k;
                 *(int *)(p + 8) = 3;
@@ -175,7 +175,7 @@ void func_021E7760(int a, int b, int c)
 {
     u8 *p;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         p = func_021C88A4((char *)b, 0xe, c);
         ((struct Obj00663 *)p)->f4 = 2;
         ((struct Obj00663 *)p)->fC = -1;
@@ -223,8 +223,8 @@ int *func_021E7810(int *p)
 
 
 /*
- * Gate on func_021D775C(3); the (u8) of func_021D775C(6) keys func_021C7CF4,
- * whose result is halfword-stored through func_021D57FC in record #0x14.  A
+ * Gate on BTL_EVENT_GetVar(3); the (u8) of BTL_EVENT_GetVar(6) keys func_021C7CF4,
+ * whose result is halfword-stored through BTL_POKEPARAM_GetTypePair in record #0x14.  A
  * second record #4 gets the 4<<22 flag in its header word and the two-string
  * tail (c and the key).
  */
@@ -234,13 +234,13 @@ void func_021E781C(void *a, int b, int c)
     void *r;
     u8 *p;
 
-    if (c != func_021D775C(3))
+    if (c != BTL_EVENT_GetVar(3))
         return;
-    k = (u8)func_021D775C(6);
+    k = (u8)BTL_EVENT_GetVar(6);
     r = func_021C7CF4((int *)b, k);
     p = func_021C88A4((char *)b, 0x14, c);
     ((struct Obj07237 *)p)->f6 = c;
-    ((struct Obj07237 *)p)->f4 = func_021D57FC(r);
+    ((struct Obj07237 *)p)->f4 = BTL_POKEPARAM_GetTypePair(r);
     ((struct Obj07237 *)p)->f7 = 1;
     func_021C88C8((void *)b, p);
     p = func_021C88A4((char *)b, 4, c);

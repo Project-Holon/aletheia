@@ -1,5 +1,5 @@
 /*
- * function: func_0219852C
+ * function: FLDMMDL_ACMD_JumpInitWithSe
  * address:  0x0219852C
  * packet:   pkt_ov021_0219852C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021984C0 0x021984C0  thumb  ov021
+ *   FLDMMDL_ACMD_JumpInit 0x021984C0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void func_021984C0(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g, u32 h);
+extern void FLDMMDL_ACMD_JumpInit(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g, u32 h);
 
-void func_0219852C(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g)
+void FLDMMDL_ACMD_JumpInitWithSe(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g)
 {
-    func_021984C0(a, b, c, d, e, f, g, 0x55E);
+    FLDMMDL_ACMD_JumpInit(a, b, c, d, e, f, g, 0x55E);
 }

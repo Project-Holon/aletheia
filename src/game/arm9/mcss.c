@@ -15,13 +15,13 @@
  * symbols:
  *   func_02013F2C  0x02013F2C  thumb
  *   func_02013B38  0x02013B38  thumb
- *   func_0201407C  0x0201407C  thumb
+ *   ZONEDATA_CreateAreaData  0x0201407C  thumb
  *   func_020140DC  0x020140DC  thumb
  *   func_020140B4  0x020140B4  thumb
  *   sub_020307B0   0x020307B0  arm
  *   sub_0209E054_Map  0x0209E054  data
- *   func_020490A8       0x020490A8  arm
- *   func_02048F60       0x02048F60  arm
+ *   ARC_TOOL_GetMemberSize       0x020490A8  arm
+ *   ARC_TOOL_LoadMember       0x02048F60  arm
  *   VEC_Fx16Normalize   0x0207CDB8  arm
  *   func_02011400  0x02011400  thumb
  *   func_02030734     0x02030734  arm
@@ -30,7 +30,7 @@
  *   func_020056A0     0x020056A0  thumb
  *   sFileMcss  0x020A72CC  data
  *   MCSS_CloseHandle   0x02014CD4  thumb
- *   func_02030EE8   0x02030EE8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
  *   func_020307B0   0x020307B0  arm
  *   func_02030EAC   0x02030EAC  arm
  *   MCSS_Del   0x02015BA4  thumb
@@ -49,8 +49,8 @@
  *   G3_RotZ          0x0207D888  arm
  *   G3_MultMtx44     0x0207D8FC  arm
  *   sub_0207C768     0x0207C768  arm
- *   g_02148B98       0x02148B98  data
- *   g_02148B54       0x02148B54  data
+ *   g_renderStateDrawParams       0x02148B98  data
+ *   SCREENTEX_ProjectionMatrix       0x02148B54  data
  *   SCREENTEX_CameraPositionOut       0x02148D8C  data
  *   SCREENTEX_CameraTargetOut       0x02148D98  data
  *   SCREENTEX_CameraUpOut       0x02148DA4  data
@@ -63,7 +63,7 @@
  *   NNSi_G2dMCEnumAnimBank  0x02064D70  arm
  *   func_020627D8  0x020627D8  arm
  *   func_0206469C  0x0206469C  arm
- *   func_02021F64  0x02021F64  thumb
+ *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02030DA8  0x02030DA8  arm
  *   func_02082A60  0x02082A60  arm
  *   MIi_CpuCopy16  0x02082A60  arm
@@ -74,9 +74,9 @@
  *   _s32_to_double  0x0209B750  arm
  *   func_0209AB80   0x0209AB80  arm
  *   _d2s            0x0209C508  arm
- *   func_0202D060  0x0202D060  thumb
+ *   POKEGRA_GetArcID  0x0202D060  thumb
  *   POKEGRA_GetCbrArcIndex  0x0202D09C  thumb
- *   func_0202D0D4  0x0202D0D4  thumb
+ *   POKEGRA_GetPalArcIndex  0x0202D0D4  thumb
  *   POKEGRA_GetCelArcIndex  0x0202D110  thumb
  *   POKEGRA_GetAnmArcIndex  0x0202D144  thumb
  *   POKEGRA_GetMCelArcIndex  0x0202D178  thumb
@@ -101,6 +101,7 @@
  *   ARC_UTIL_LoadAnimBankFromHandle  0x0204A0FC  arm
  *   ARC_UTIL_LoadMultiAnimBankFromArchive  0x0204A13C  arm
  *   ARC_UTIL_LoadMultiAnimBankFromHandle  0x0204A17C  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  */
 
 #define REG_MTX_MODE     (*(vu32 *)0x04000440)
@@ -448,12 +449,12 @@ extern void *func_020124E8(void *task);
 extern u32 func_02014878(u32 task, u32 *mode, u32 *taskWork);
 extern u32 func_02013F2C(u32 id);
 extern u32 func_02013B38(u32 id);
-extern void *func_0201407C(u16 heap, u32 zoneLightId, u32 season);
+extern void *ZONEDATA_CreateAreaData(u16 heap, u32 zoneLightId, u32 season);
 extern u8 func_020140DC(void *p);
 extern u32 func_020140B4(void *a);
 extern u32 sub_020307B0(void *p);
-extern u32   func_020490A8(u32 archive, u32 member);
-extern void *func_02048F60(u32 archive, u32 member, u32 heap);
+extern u32   ARC_TOOL_GetMemberSize(u32 archive, u32 member);
+extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
 extern void  VEC_Fx16Normalize(void *dest, const void *src);
 extern u8 func_02011400(int season, int key);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -461,7 +462,7 @@ extern void func_020637D4(u32 *proxy);
 extern void *func_02049F34(u32 arcId, u32 member, McssPlttData **out, u32 heap);
 extern void *func_020056A0(void *fn, void *work, u32 priority);
 extern void MCSS_CloseHandle(McssSys *sys);
-extern void *func_02030EE8(void *task);
+extern void *TCBL_IsDeletePending(void *task);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(void *task);
 extern void MCSS_Del(McssSys *sys, McssWork *work);
@@ -490,7 +491,7 @@ extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
 extern void *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void func_0206469C(McssAnimCtrl *ctrl, void *seq);
 extern void *func_02030DA8(void *taskSys, void *callback, void *work, int priority);
-extern void  func_02021F64(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
+extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
 extern void  func_02082A60(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void func_02064CBC(McssAnimCtrl *ctrl);
@@ -504,7 +505,7 @@ extern void *ARC_UTIL_LoadCellBankFromHandle(void *arcHandle, u32 member, u32 fl
 extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
 extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
 extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
-extern void *func_02049250(void *arcHandle, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(void *arcHandle, u32 member, u32 heap);
 extern void *func_02049DF4(void *arcHandle, u32 member, u32 flag, McssTransTask *out, u16 heap);
 extern void *func_02049F78(void *arcHandle, u32 member, McssPlttData **out, u32 heap);
 extern void func_02063A54(McssTexData *tex, u32 dst, int mode, McssTexImage *out);
@@ -514,9 +515,9 @@ extern void func_02064754(McssAnimCtrl *ctrl, void *animWork, void *cellAnimBank
 extern double _s32_to_double(s32 v);
 extern double func_0209AB80(double base, double exponent);
 extern s32 _d2s(double d);
-extern int func_0202D060(void);
+extern int POKEGRA_GetArcID(void);
 extern s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
-extern s32 func_0202D0D4(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
+extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
 extern s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
 extern s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
 extern s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
@@ -639,8 +640,8 @@ u32 POKE_TOOL_IsBoxShiny(void *p);
 void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 sub_0209E054_Map[];
 extern const char sFileMcss[];
-extern MtxFx43 g_02148B98;
-extern MtxFx44 g_02148B54;
+extern MtxFx43 g_renderStateDrawParams;
+extern MtxFx44 SCREENTEX_ProjectionMatrix;
 extern VecFx32 SCREENTEX_CameraPositionOut;
 extern VecFx32 SCREENTEX_CameraTargetOut;
 extern VecFx32 SCREENTEX_CameraUpOut;
@@ -672,7 +673,7 @@ void *func_02014910(void *anime, int slot, int config, int target)
 /*
  * The three-way fallback load of the 0x34-byte time-of-day table (member
  * 0x3e for an explicit id, 0x52 for the id func_02013F2C maps, else 0x3d
- * built through func_0201407C), then func_02014A80 over it and a free.
+ * built through ZONEDATA_CreateAreaData), then func_02014A80 over it and a free.
  *
  * Closed in wave 13 by the declaration, not the body: the seventh
  * parameter is a u16 heap id (the ov094 caller at 0x021F7702 loads it
@@ -703,7 +704,7 @@ void func_0201493C(u32 zoneId, u32 hour, u32 minute, u32 lightTableId,
             table = func_02014A20(0x52, mapped, &count, (u16)((heapId & 0x7fff) | 0x8000));
     }
     if (table == 0) {
-        void *zoneLight = func_0201407C((heapId & 0x7fff) | 0x8000, func_02013B38((u16)zoneId), season);
+        void *zoneLight = ZONEDATA_CreateAreaData((heapId & 0x7fff) | 0x8000, func_02013B38((u16)zoneId), season);
         table = func_02014A20(0x3d, func_020140DC(zoneLight), &count, (u16)((heapId & 0x7fff) | 0x8000));
         func_020140B4((void *)zoneLight);
     }
@@ -722,7 +723,7 @@ u16 func_02014A10(u32 i)
  * Load a record table out of an archive sub-file: the sub-file's byte size
  * divided by 0x34 is the record count (unsigned divide, `_u32_div_f`), the
  * count is handed back through a3's slot and the block itself is loaded by
- * func_02048F60.  Each 0x34-byte record carries four 6-byte vectors at +0x10
+ * ARC_TOOL_LoadMember.  Each 0x34-byte record carries four 6-byte vectors at +0x10
  * (a VecFx16 triple plus a spare halfword) and each is normalized in place
  * before the count is returned.
  *
@@ -738,9 +739,9 @@ void *func_02014A20(u32 archive, u32 member, u32 *countOut, u32 heap)
     u8 *table;
     int dirIdx;
 
-    recordCount = func_020490A8(archive, member) / 0x34;
+    recordCount = ARC_TOOL_GetMemberSize(archive, member) / 0x34;
     *countOut = recordCount;
-    table = func_02048F60(archive, member, heap);
+    table = ARC_TOOL_LoadMember(archive, member, heap);
     for (recordIdx = 0; recordIdx < recordCount; recordIdx++) {
         dir = table + recordIdx * 0x34 + 0x10;
         for (dirIdx = 0; dirIdx < 4; dirIdx++) {
@@ -838,7 +839,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
 
 /*
  * Tear-down of a "list of arrays" record: close the open sub-object at +0xC
- * (three frees through the handle returned by func_02030EE8, then the handle
+ * (three frees through the handle returned by TCBL_IsDeletePending, then the handle
  * itself), then walk the +0x14 array of +0x10 entries and release each live
  * one through MCSS_Del, finally the array and the record itself.
  *
@@ -852,7 +853,7 @@ void MCSS_Exit(McssSys *sys)
 
     MCSS_CloseHandle(sys);
     if (sys->shadowPlttTask != 0) {
-        McssTransTask *task = func_02030EE8(sys->shadowPlttTask);
+        McssTransTask *task = TCBL_IsDeletePending(sys->shadowPlttTask);
 
         func_020307B0(task->plttData->data);
         func_020307B0(task->plttData);
@@ -1117,7 +1118,7 @@ void MCSS_Draw(McssSys *sys)
     REG_MTX_MODE = 3;
     REG_MTX_IDENTITY = 0;
     REG_MTX_MODE = 2;
-    MTX_Inverse43(&g_02148B98, &invView);
+    MTX_Inverse43(&g_renderStateDrawParams, &invView);
     MI_Copy36B(&invView, &invViewRot);
     MTX_Copy33To44_(&invViewRot, &billboardMtx);
 
@@ -1177,8 +1178,8 @@ void MCSS_Draw(McssSys *sys)
             MtxFx44 viewMtx;
             scaleX = FX_MUL(work->scale.x, work->shadowScale.x);
             scaleY = FX_MUL(work->scale.y, work->shadowScale.y);
-            MTX_Copy43To44_(&g_02148B98, &viewMtx);
-            MTX_Concat44(&viewMtx, &g_02148B54, &viewMtx);
+            MTX_Copy43To44_(&g_renderStateDrawParams, &viewMtx);
+            MTX_Concat44(&viewMtx, &SCREENTEX_ProjectionMatrix, &viewMtx);
             MCSS_MulVecMtx44(&pos, &viewMtx, &pos, &projW);
             pos.x = FX_MUL(sub_0207C768(pos.x, projW), 0x80000);
             pos.y = FX_MUL(sub_0207C768(pos.y, projW), 0x60000);
@@ -2384,7 +2385,7 @@ u16 MCSS_GetAnimSeqNumEx(McssWork *work)
  * lever" guess (make a2 reach a call earlier) was not needed.
  *
  * This is also a data point for the family: the value at +0x13C that
- * MCSS_UpdatePaletteFade hands to func_02021F64 as `(u16)` is 16-bit AT THE
+ * MCSS_UpdatePaletteFade hands to PALANM_BlendColors as `(u16)` is 16-bit AT THE
  * PARAMETER here, not only at the call.
  *
  * Verified with:
@@ -2416,7 +2417,7 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
             (u16)(((u16)work->heapId & 0x7fff) | 0x8000),
             work->plttByteSize, 0, sFileMcss, 0x76e);
 
-    func_02021F64(work->plttOriginal,
+    PALANM_BlendColors(work->plttOriginal,
                   task->plttData->data,
                   (u16)((s32)work->plttByteSize / 2),
                   fadeLevel, (u16)fadeColor);
@@ -2603,7 +2604,7 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
     work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromArchive(addWork->arcId, addWork->multiCellAnimMember, 0, &work->multiCellAnimBank, heap);
     MCSS_SetAnimeIndex(work, 0);
 
-    cellHeader = func_02048F60(addWork->arcId, addWork->cellHeaderMember, heap);
+    cellHeader = ARC_TOOL_LoadMember(addWork->arcId, addWork->cellHeaderMember, heap);
     work->cellHeader = cellHeader;
     work->stopCellTable = (u8 *)cellHeader + ((0x30 * cellHeader->cellCount + 0xC) & ~3u);
 
@@ -2684,7 +2685,7 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
                                             (u16)work->heapId);
     MCSS_SetAnimeIndex(work, 0);
 
-    cellHeader = func_02049250(arcHandle, addWork->cellHeaderMember, (u16)work->heapId);
+    cellHeader = ARC_TOOL_LoadHandleMember(arcHandle, addWork->cellHeaderMember, (u16)work->heapId);
     work->cellHeader = cellHeader;
     work->stopCellTable = (u8 *)cellHeader + ((0x30 * cellHeader->cellCount + 0xC) & ~3u);
 
@@ -2887,9 +2888,9 @@ void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work)
     task->plttData->data = func_02030734((u16)(((u16)work->heapId & 0x7FFF) | 0x8000), work->plttByteSize, 0, sFileMcss, 0x9A9 + 5);
 
     if (work->flags.bits.plttCurrentValid) {
-        func_02021F64(work->plttCurrent, task->plttData->data, ((s32)work->plttByteSize / 2), *(u8 *)&work->fadeStart, (u16)work->fadeColor);
+        PALANM_BlendColors(work->plttCurrent, task->plttData->data, ((s32)work->plttByteSize / 2), *(u8 *)&work->fadeStart, (u16)work->fadeColor);
     } else {
-        func_02021F64(work->plttOriginal, task->plttData->data, ((s32)work->plttByteSize / 2), *(u8 *)&work->fadeStart, (u16)work->fadeColor);
+        PALANM_BlendColors(work->plttOriginal, task->plttData->data, ((s32)work->plttByteSize / 2), *(u8 *)&work->fadeStart, (u16)work->fadeColor);
     }
 
     if (work->fadeTask != 0) {
@@ -2942,7 +2943,7 @@ dec:
  * zeroes the other four (+0xc, +0x1c, +0x14, +0x24, +0x2c) and, if the
  * object's own field at +0 is non-zero, recurses into MCSS_DeleteTextureTask with
  * that field's value before zeroing it too. MCSS_DeleteTextureTask turns an id into
- * an object through func_02030EE8, releases one or two of the object's own
+ * an object through TCBL_IsDeletePending, releases one or two of the object's own
  * pointer fields the same way, releases the object itself, and finally
  * releases the id through func_02030EAC.
  *
@@ -2989,7 +2990,7 @@ void MCSS_FreeResource(McssWork *work)
 
 void MCSS_DeleteTextureTask(void *taskHandle)
 {
-    McssTransTask *task = func_02030EE8(taskHandle);
+    McssTransTask *task = TCBL_IsDeletePending(taskHandle);
 
     if (task->texBuf != 0) {
         func_020307B0(task->texBuf);
@@ -3004,7 +3005,7 @@ void MCSS_DeleteTextureTask(void *taskHandle)
 
 void MCSS_DeletePaletteTask(void *taskHandle)
 {
-    McssTransTask *task = func_02030EE8(taskHandle);
+    McssTransTask *task = TCBL_IsDeletePending(taskHandle);
     func_020307B0(task->plttData->data);
     func_020307B0(task->plttData);
     func_020307B0(task);
@@ -3401,9 +3402,9 @@ void MCSS_TOOL_MakeAddWorkFromPPP(void *pokemon, McssAddWork *out, u32 direction
 void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShiny, u32 isEgg, McssAddWork *out,
                    u32 direction)
 {
-    out->arcId = func_0202D060();
+    out->arcId = POKEGRA_GetArcID();
     out->textureMember = POKEGRA_GetCbrArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
-    out->paletteMember = func_0202D0D4(out->arcId, species, form, gender, isShiny, direction, isEgg);
+    out->paletteMember = POKEGRA_GetPalArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
     out->cellMember = POKEGRA_GetCelArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
     out->cellAnimMember = POKEGRA_GetAnmArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);
     out->multiCellMember = POKEGRA_GetMCelArcIndex(out->arcId, species, form, gender, isShiny, direction, isEgg);

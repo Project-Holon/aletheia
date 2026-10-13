@@ -1,5 +1,5 @@
 /*
- * function: func_02169470
+ * function: FIELD_G3D_MAP_StartLoad
  * address:  0x02169470
  * packet:   pkt_ov010_02169470
  * region:   ov010
@@ -12,11 +12,11 @@
  * gives table r1 and sentinel r0; validation agrees with all five relocations.
  *
  * symbols:
- *   func_02169998  0x02169998  thumb  ov010
- *   func_02169550  0x02169550  thumb  ov010
- *   func_02169568  0x02169568  thumb  ov010
- *   func_02169880  0x02169880  thumb  ov010
- *   func_0204944C  0x0204944C  arm
+ *   FIELD_G3D_MAP_ClearRenderObjModel  0x02169998  thumb  ov010
+ *   FIELD_G3D_MAP_ClearModelRes  0x02169550  thumb  ov010
+ *   FIELD_G3D_MAP_ClearTextureRes  0x02169568  thumb  ov010
+ *   FIELD_G3D_MAP_ClearPlacements  0x02169880  thumb  ov010
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,24 +42,24 @@ inline static int Find(const u16 *pv, const E *tbl)
   return i;
 }
 
-extern int func_02169998(int a0, int a1);
-extern void func_02169550(char *p);
-extern void func_02169568(char *p);
-extern void func_02169880(u8 *p);
+extern int FIELD_G3D_MAP_ClearRenderObjModel(int a0, int a1);
+extern void FIELD_G3D_MAP_ClearModelRes(char *p);
+extern void FIELD_G3D_MAP_ClearTextureRes(char *p);
+extern void FIELD_G3D_MAP_ClearPlacements(u8 *p);
 struct ArcFile;
-extern void func_0204944C(struct ArcFile *h, u32 b, u32 c, u32 d, void *out);
-void func_02169470(u8 *p, u32 b)
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *h, u32 b, u32 c, u32 d, void *out);
+void FIELD_G3D_MAP_StartLoad(u8 *p, u32 b)
 {
   u16 v;
   const E *tbl;
   int i;
   E *tmp;
-  func_02169998((int)(*((void **) (p + 0x2c))), b);
-  func_02169550((char *)p);
-  func_02169568((char *)p);
-  func_02169880(p);
+  FIELD_G3D_MAP_ClearRenderObjModel((int)(*((void **) (p + 0x2c))), b);
+  FIELD_G3D_MAP_ClearModelRes((char *)p);
+  FIELD_G3D_MAP_ClearTextureRes((char *)p);
+  FIELD_G3D_MAP_ClearPlacements(p);
   *((u32 *) (p + 0x14)) = b;
-  func_0204944C((struct ArcFile *)*((u32 *) (p + 0x10)), b, 0, 2, &v);
+  ARC_TOOL_ReadHandleMemberRange((struct ArcFile *)*((u32 *) (p + 0x10)), b, 0, 2, &v);
   tmp = *((E **) (p + 0x28));
   tbl = *((E **) (p + 0x28));
   i = Find(&v, tmp);

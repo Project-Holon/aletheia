@@ -15,8 +15,8 @@
  * symbols:
  *   func_021B9A40  0x021B9A40  thumb
  *   func_021C815C  0x021C815C  thumb
- *   func_021D7704  0x021D7704  thumb
- *   func_021D775C  0x021D775C  thumb
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   d_0689D6F0     0x0689D6F0  data   ov095  a4
  *   d_0689D710     0x0689D710  data   ov095  a4
  */
@@ -26,10 +26,10 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern int func_021D775C(int k);
+extern int BTL_EVENT_GetVar(int k);
 extern int func_021B9A40(int k);
 extern int func_021C815C(int a);
-extern void func_021D7704(int k, int v);
+extern void BTL_EVENT_MultiplyVar(int k, int v);
 u8 *func_06898E1C(u32 *p);
 void func_06898E28(int a, int b, int c);
 u8 *func_06898E38(u32 *p);
@@ -73,11 +73,11 @@ void func_06898E44(int a, int b, int c)
 
 void func_06898E54(int a, int b, int c)
 {
-    u8 t = func_021D775C(4);
+    u8 t = BTL_EVENT_GetVar(4);
 
-    if (b == func_021B9A40(t) && c == func_021D775C(0x1a) && func_021D775C(0x45) == 0) {
+    if (b == func_021B9A40(t) && c == BTL_EVENT_GetVar(0x1a) && BTL_EVENT_GetVar(0x45) == 0) {
         int r = func_021C815C(a);
 
-        func_021D7704(0x35, (r == 0 || r == 3) ? 0x800 : 0xa8f);
+        BTL_EVENT_MultiplyVar(0x35, (r == 0 || r == 3) ? 0x800 : 0xa8f);
     }
 }

@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   APP_TASKMENU_WIN_CreateCore  0x02028084  thumb
@@ -26,8 +26,8 @@ extern u32 *APP_TASKMENU_WIN_CreateCore(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, 
                           u32 a7, u32 a8);
 struct Cfg;
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
@@ -37,8 +37,8 @@ u32 *APP_TASKMENU_WIN_CreateEx(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32
     u32 *p = APP_TASKMENU_WIN_CreateCore(a0, a1, a2, a3, a4, a5, a6, a7, a8);
     void *q = (void *)p[0];
 
-    func_02045334(q);
-    func_02045374(q);
+    BMP_WIN_TransferChars(q);
+    BMP_WIN_MakeScreen(q);
     func_02041B6C(func_02045730(q));
     return p;
 }

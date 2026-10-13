@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020141F0",
+   "name": "ZONEDATA_SetLocationVec",
    "address": "0x020141F0",
    "kind": "game",
    "region": "arm9",

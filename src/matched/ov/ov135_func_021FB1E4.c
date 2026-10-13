@@ -10,7 +10,7 @@
  * status: EXACT*
  * Extent remainder: 2-byte zero alignment padding.
  * symbols:
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021F9660 0x021F9660 thumb ov135
  */
@@ -22,7 +22,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Actor;
 struct Obj;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021F9660(void *,u32);
-int func_021FB1E4(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660(p,5);if(((struct Obj00098 *)p)->f3A>=0)*(u32 *)&((struct Obj00098 *)p)->f48=14;else *(u32 *)&((struct Obj00098 *)p)->f48=9;return -1; }
+int func_021FB1E4(u8 *p) { if(CLACT_IsActorAnimActive(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660(p,5);if(((struct Obj00098 *)p)->f3A>=0)*(u32 *)&((struct Obj00098 *)p)->f48=14;else *(u32 *)&((struct Obj00098 *)p)->f48=9;return -1; }

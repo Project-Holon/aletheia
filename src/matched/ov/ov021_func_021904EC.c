@@ -1,5 +1,5 @@
 /*
- * function: func_021904EC
+ * function: FIELD_MSGBG_AddMsgPrint
  * address:  0x021904EC
  * packet:   pkt_ov021_021904EC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00126.h"
@@ -32,9 +32,9 @@ typedef struct Slot {
 } Slot;
 
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-Slot *func_021904EC(u32 *p, u32 a, u32 b)
+Slot *FIELD_MSGBG_AddMsgPrint(u32 *p, u32 a, u32 b)
 {
     Slot *e;
     int i;
@@ -48,7 +48,7 @@ Slot *func_021904EC(u32 *p, u32 a, u32 b)
             e->f04 = 1;
             e->f08 = p[2];
             e->f0c = p[3];
-            e->f18 = (u32)func_020457B0(0xa0, ((struct Obj00126 *)p)->f0);
+            e->f18 = (u32)STRBUF_Create(0xa0, ((struct Obj00126 *)p)->f0);
             e->f10 = a;
             e->f1c = b;
             e->f20 = 0;

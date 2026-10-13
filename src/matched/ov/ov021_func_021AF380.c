@@ -1,5 +1,5 @@
 /*
- * function: func_021AF380
+ * function: SCRCMD_PlayPokeVoice
  * address:  0x021AF380
  * packet:   pkt_ov021_021AF380
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_021AF4E8  0x021AF4E8  thumb  ov021
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_PokeVoiceEvent  0x021AF4E8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -30,33 +30,33 @@ typedef struct {
     u32 f8;
 } Rec;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *a, void *b, void *c, unsigned int d);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0215897C(void *vm, void *task);
-extern int func_021AF4E8(u32 a, u32 b, Rec *c);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern int SCRCMD_PokeVoiceEvent(u32 a, u32 b, Rec *c);
 
-int func_021AF380(u32 a, u32 b)
+int SCRCMD_PlayPokeVoice(u32 a, u32 b)
 {
     u32 u, v, h;
     void *p;
     void *x;
     Rec *r;
 
-    p = func_0215A5F4((void *)b);
-    x = func_0215A5DC((void *)b);
-    u = func_02159B10((void *)a, (void *)b);
-    v = func_02159B10((void *)a, (void *)b);
-    h = (u32)func_020122C0(x, 0, (void *)func_021AF4E8, 12);
+    p = SCRCMD_WORK_GetScriptWork((void *)b);
+    x = SCRCMD_WORK_GetGameSystem((void *)b);
+    u = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    v = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    h = (u32)func_020122C0(x, 0, (void *)SCRCMD_PokeVoiceEvent, 12);
     r = func_020124E8((struct Obj *)h);
     r->a = u;
     r->b = v;
     r->f4 = 0;
     r->f8 = b;
-    func_0215897C(p, (void *)h);
+    SCRIPT_SYS_CallEvent(p, (void *)h);
     return 1;
 }

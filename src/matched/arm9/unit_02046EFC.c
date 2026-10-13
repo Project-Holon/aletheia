@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02046EFC
+ * function: G3D_SYSTEM_DeleteResource
  * address:  0x02046EFC
  * packet:   pkt_02046EFC
  * region:   arm9
@@ -42,7 +42,7 @@ struct Tagged {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02046EFC(struct Tagged *p)
+void G3D_SYSTEM_DeleteResource(struct Tagged *p)
 {
     if (p == 0) {
         return;

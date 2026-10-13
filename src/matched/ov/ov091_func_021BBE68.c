@@ -1,5 +1,5 @@
 /*
- * function: func_021BBE68
+ * function: PLIST_MENU_ButtonWinSetDecide
  * address:  0x021BBE68
  * packet:   pkt_021BBE68
  * region:   ov091
@@ -17,14 +17,14 @@
  * so the `bl` site cannot be resolved.  All bytes are correct.
  
  *
- * DUPLICATE: src/matched/func_021BBE68.c (packet pkt_021BBE68) is the
+ * DUPLICATE: src/matched/PLIST_MENU_ButtonWinSetDecide.c (packet pkt_021BBE68) is the
  * promoted EXACT entry for this address; this copy shares the same packet
  * and is left parked so the address is not sharded twice.
 */
 
 void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 
-void func_021BBE68(int p, int v)
+void PLIST_MENU_ButtonWinSetDecide(int p, int v)
 {
     if (p) {
         APP_TASKMENU_WIN_SetDecide((char *)p, v);

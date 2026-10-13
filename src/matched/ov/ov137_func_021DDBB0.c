@@ -11,7 +11,7 @@
  * explicit input despite the pending empty callee's no-argument declaration.
  * symbols:
  *   func_021DD924 0x021DD924 thumb ov137
- *   func_0201FDA0 0x0201FDA0 thumb
+ *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   d_021E1AE8 0x021E1AE8 data a2
  */
 #include "../include/Obj14211.h"
@@ -22,5 +22,5 @@ extern void func_021DD924(char *p);
 typedef struct {u8 frame,x,y,pal;u16 chr;} WinDat;
 struct BmpMenu;
 extern const WinDat d_021E1AE8;
-extern struct BmpMenu *func_0201FDA0(const WinDat *,u16,u8,u8,u16);
-int func_021DDBB0(char *p,int state) {*(struct BmpMenu * *)&((struct Obj14211 *)p)->fE8=func_0201FDA0(&d_021E1AE8,31,11,0,114);((struct Obj14211 *)p)->f118=23;func_021DD924(p);return state;}
+extern struct BmpMenu *BMP_MENU_CreateYesNo(const WinDat *,u16,u8,u8,u16);
+int func_021DDBB0(char *p,int state) {*(struct BmpMenu * *)&((struct Obj14211 *)p)->fE8=BMP_MENU_CreateYesNo(&d_021E1AE8,31,11,0,114);((struct Obj14211 *)p)->f118=23;func_021DD924(p);return state;}

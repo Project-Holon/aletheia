@@ -15,7 +15,7 @@
  *   func_021D5E34 0x021D5E34 thumb ov115
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200B358 0x0200B358 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B078 0x0200B078 thumb
  *   func_021D5D3C 0x021D5D3C thumb ov115
  *   func_021D5ED8 0x021D5ED8 thumb ov115
@@ -39,7 +39,7 @@ struct Rec160;
 struct Reg2;
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200B358(void *);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_021D5D3C(u8 *p);
 extern void func_021D5ED8(u8 *p, u32 n);
@@ -52,5 +52,5 @@ extern void func_021D497C(u8 *);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))
 void func_021D47C4(u8 *p) {
- int x; void *v; u32 y; if(func_021D5E6C((u8 *)W(0x30))) { x=func_021D5EA8((u8 *)W(0x30)); func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; if(!x) { v=func_0200B1D4(func_0200B358(func_02012EBC((void *)W(0x44))),0); x=func_0200B078(v,2); y=func_0200B078(v,10); if(x && y>=1 && y<=4) { func_021D5D3C((u8 *)W(0x38)); func_021D5ED8((u8 *)W(0x38),38); func_021D426C(p,(u32)func_021D4798); } else { *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); func_021D426C(p,(u32)func_021D4474); } } else { *(int *)(P(0x40)+0x1c)=1; func_021D426C(p,(u32)func_021D497C); } }
+ int x; void *v; u32 y; if(func_021D5E6C((u8 *)W(0x30))) { x=func_021D5EA8((u8 *)W(0x30)); func_021D5F7C((u8 *)W(0x38)); if(!*(int *)(P(0x40)+4)) func_021D5CCC((u8 *)W(0x38),35); func_021D5E34((u8 *)W(0x30)); W(0x30)=0; if(!x) { v=func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((void *)W(0x44))),0); x=func_0200B078(v,2); y=func_0200B078(v,10); if(x && y>=1 && y<=4) { func_021D5D3C((u8 *)W(0x38)); func_021D5ED8((u8 *)W(0x38),38); func_021D426C(p,(u32)func_021D4798); } else { *(int *)(P(0x40)+0x1c)=0; func_02009800((void *)W(0x3c)); func_021D426C(p,(u32)func_021D4474); } } else { *(int *)(P(0x40)+0x1c)=1; func_021D426C(p,(u32)func_021D497C); } }
 }

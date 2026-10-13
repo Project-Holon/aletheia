@@ -1,5 +1,5 @@
 /*
- * function: func_0203D7BC
+ * function: GFL_NET_SetLoginOption
  * address:  0x0203D7BC
  * packet:   pkt_0203D7B0
  * region:   arm9
@@ -22,8 +22,8 @@
  * two 12-byte twins are in different directories.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0203D7BC.c \
- *       --func func_0203D7BC --addr 0x0203D7BC --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/GFL_NET_SetLoginOption.c \
+ *       --func GFL_NET_SetLoginOption --addr 0x0203D7BC --cc 1.1p1 --arm
  *
  * symbols:
  *   GFL_NET_STATE_SetLoginOption  0x0203C900  arm
@@ -32,7 +32,7 @@
 typedef unsigned char  u8;
 extern void GFL_NET_STATE_SetLoginOption(u8 v);
 
-void func_0203D7BC(u8 a0)
+void GFL_NET_SetLoginOption(u8 a0)
 {
     GFL_NET_STATE_SetLoginOption(a0);
 }

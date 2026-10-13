@@ -1,5 +1,5 @@
 /*
- * function: func_021D826C
+ * function: BTL_CLIENT_SET_GetCount
  * address:  0x021D826C
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D826C   0x021D826C  thumb
+ *   BTL_CLIENT_SET_GetCount   0x021D826C  thumb
  *
  * Reads the u32 field at offset 0 of the argument and returns it.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D826C  ldr r0,[r0] */
-u32 func_021D826C(u32 *p) { return *p; }
+u32 BTL_CLIENT_SET_GetCount(u32 *p) { return *p; }
 

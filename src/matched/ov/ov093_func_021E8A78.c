@@ -1,5 +1,5 @@
 /*
- * function: func_021E8A78
+ * function: BTLV_CORE_IsSlotKind1Index15
  * address:  0x021E8A78
  * packet:   pkt_ov093_021E8A78
  * region:   ov093
@@ -21,7 +21,7 @@ union Slot {
     struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 rest : 17; } s;
 };
 
-int func_021E8A78(union Slot s)
+int BTLV_CORE_IsSlotKind1Index15(union Slot s)
 {
     if (s.s.kind == 1 && s.s.lo == 0xf)
         return 1;

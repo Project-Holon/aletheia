@@ -1,5 +1,5 @@
 /*
- * function: func_021D325C
+ * function: FLD_VREQ_SetMainBlendAlpha
  * address:  0x021D325C
  * packet:   pkt_ov021_021D325C
  * region:   ov021
@@ -23,7 +23,7 @@ typedef struct St021D325C {
     u32 d;
 } St021D325C;
 
-void func_021D325C(St021D325C *p, u32 a, u32 b, u32 c, u32 d)
+void FLD_VREQ_SetMainBlendAlpha(St021D325C *p, u32 a, u32 b, u32 c, u32 d)
 {
     p->kind = 2;
     p->a = a;

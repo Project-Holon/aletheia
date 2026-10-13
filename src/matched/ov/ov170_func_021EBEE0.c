@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B294 0x0204B294 arm
- *   func_0204BA20 0x0204BA20 arm
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_SetActorVisible 0x0204BA20 arm
  */
 #include "../include/Obj23997.h"
 
@@ -25,16 +25,16 @@ typedef struct {
     unsigned short d;
 } Desc;
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 typedef unsigned int   u32;
 struct Actor;
-extern void func_0204BA20(struct Actor *a, u32 v);
+extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
 void *func_021EBEE0(char *w, const Desc *s)
 {
-    void *r = func_0204B294(((struct Obj23997 *)w)->f9E70, (unsigned int)*(void **)(w + s->a * 4 + 0x9FF4),
+    void *r = CLACT_CreateActor(((struct Obj23997 *)w)->f9E70, (unsigned int)*(void **)(w + s->a * 4 + 0x9FF4),
                             (unsigned int)*(void **)(w + s->b * 4 + 0xA108), (unsigned int)*(void **)(w + s->c * 4 + 0xA134),
                             s, s->d, 0x4C);
-    func_0204BA20(r, 0);
+    CLACT_SetActorVisible(r, 0);
     return r;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021840FC",
+   "name": "UNION_APP_SetCallbacks",
    "address": "0x021840FC",
    "kind": "game",
    "region": "ov022",

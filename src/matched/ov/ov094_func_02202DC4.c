@@ -13,7 +13,7 @@
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   func_020362DC  0x020362DC  arm
  *   func_021F8168  0x021F8168  thumb  ov094
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_02206B58  0x02206B58  thumb  ov094
  *   func_02206B30  0x02206B30  thumb  ov094
  *   func_0220648C  0x0220648C  thumb  ov094
@@ -70,7 +70,7 @@ typedef struct {
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern u32 func_020362DC(void);
 extern void func_021F8168(void);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern void func_02206B58(char *p);
 extern void func_02206B30(char *p);
 extern int func_0220648C(char *p);
@@ -110,7 +110,7 @@ int func_02202DC4(Obj *o, Cmd *c, int x)
             func_021F8168();
     }
     if (o->mode == 6) {
-        r = func_02035C08(c->key);
+        r = TOUCHPANEL_HitTrg(c->key);
         if (r != -1) {
             if (o->en[r] == 0)
                 r = -1;
@@ -126,7 +126,7 @@ int func_02202DC4(Obj *o, Cmd *c, int x)
         return r;
     }
 
-    k = func_02035C08(c->key);
+    k = TOUCHPANEL_HitTrg(c->key);
     r = func_02206140(o, c, x, 0, k, o->f280);
     if (r != -1) {
         keys = func_0203630C();

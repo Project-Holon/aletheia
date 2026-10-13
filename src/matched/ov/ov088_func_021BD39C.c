@@ -1,5 +1,5 @@
 /*
- * function: func_021BD39C
+ * function: SAVE_CONTROL_INTR_NoOp
  * address:  0x021BD39C
  * packet:   pkt_ov088_021BD39C
  * region:   ov088
@@ -14,6 +14,6 @@
  * overlay in the window not overlapping the caller's ov204.
  */
 
-void func_021BD39C(int a0)
+void SAVE_CONTROL_INTR_NoOp(int a0)
 {
 }

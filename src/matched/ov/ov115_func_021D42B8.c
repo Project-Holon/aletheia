@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_020099C8 0x020099C8 thumb
  */
 #include "../include/Obj22583.h"
@@ -18,6 +18,6 @@ typedef unsigned int u32;
 struct BigObj;
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
-void func_021D42B8(u8 *p) { func_020099C8((void *)func_0201283C(((struct Obj22583 *)p)->f44),0); }
+void func_021D42B8(u8 *p) { func_020099C8((void *)GAME_DATA_GetWifiList(((struct Obj22583 *)p)->f44),0); }

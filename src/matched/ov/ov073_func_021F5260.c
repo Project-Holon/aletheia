@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021F5260, func_021F526C, func_021F5278, func_021F5284, func_021F5290, func_021F529C, func_021F52A8, func_021F52B4, func_021F52C0, func_021F52CC, func_021F52D8, func_021F52E4, func_021F52F0, func_021F52FC, func_021F5308, func_021F5314, func_021F5320, func_021F532C, func_021F5338, func_021F5344, func_021F5350, func_021F535C, func_021F5368, func_021F5374, func_021F5380, func_021F538C
+ * function: ENCEFF_BuildNameCutInKind10, ENCEFF_BuildNameCutInKind11, ENCEFF_BuildNameCutInKind12, ENCEFF_BuildNameCutInKind13, ENCEFF_BuildNameCutInKind14, ENCEFF_BuildNameCutInKind15, ENCEFF_BuildNameCutInKind16, ENCEFF_BuildNameCutInKind17, ENCEFF_BuildNameCutInKind18, ENCEFF_BuildNameCutInKind19, ENCEFF_BuildNameCutInKind20, ENCEFF_BuildNameCutInKind21, ENCEFF_BuildNameCutInKind22, ENCEFF_BuildNameCutInKind23, ENCEFF_BuildNameCutInKind24, ENCEFF_BuildNameCutInKind25, ENCEFF_BuildNameCutInKind26, ENCEFF_BuildNameCutInKind27, ENCEFF_BuildNameCutInKind28, ENCEFF_BuildNameCutInKind29, ENCEFF_BuildNameCutInKind30, ENCEFF_BuildNameCutInKind32, ENCEFF_BuildNameCutInKind33, ENCEFF_BuildNameCutInKind34, ENCEFF_BuildNameCutInKind03, ENCEFF_BuildNameCutInKind04
  * address:  0x021F5260
  * packet:   pkt_021F5260
  * region:   ov073
@@ -10,141 +10,141 @@
  * isa:      thumb
  * status:   EXACT
  *
- * 26 thin wrappers over func_021F5398, each passing a distinct index.
+ * 26 thin wrappers over ENCEFF_StartNameCutIn, each passing a distinct index.
  *
  * symbols:
- *   func_021F5398  0x021F5398  thumb  ov073
+ *   ENCEFF_StartNameCutIn  0x021F5398  thumb  ov073
  */
 
 typedef unsigned int   u32;
-extern void *func_021F5398(void *a, int unused, u32 b, u32 c);
+extern void *ENCEFF_StartNameCutIn(void *a, int unused, u32 b, u32 c);
 
-void func_021F5260(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind10(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 0, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 0, c);
 }
 
-void func_021F526C(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind11(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 1, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 1, c);
 }
 
-void func_021F5278(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind12(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 2, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 2, c);
 }
 
-void func_021F5284(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind13(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 3, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 3, c);
 }
 
-void func_021F5290(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind14(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 4, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 4, c);
 }
 
-void func_021F529C(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind15(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 5, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 5, c);
 }
 
-void func_021F52A8(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind16(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 6, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 6, c);
 }
 
-void func_021F52B4(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind17(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 7, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 7, c);
 }
 
-void func_021F52C0(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind18(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 8, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 8, c);
 }
 
-void func_021F52CC(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind19(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 9, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 9, c);
 }
 
-void func_021F52D8(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind20(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 10, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 10, c);
 }
 
-void func_021F52E4(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind21(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 11, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 11, c);
 }
 
-void func_021F52F0(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind22(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 12, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 12, c);
 }
 
-void func_021F52FC(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind23(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 13, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 13, c);
 }
 
-void func_021F5308(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind24(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 14, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 14, c);
 }
 
-void func_021F5314(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind25(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 15, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 15, c);
 }
 
-void func_021F5320(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind26(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 16, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 16, c);
 }
 
-void func_021F532C(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind27(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 17, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 17, c);
 }
 
-void func_021F5338(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind28(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 18, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 18, c);
 }
 
-void func_021F5344(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind29(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 19, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 19, c);
 }
 
-void func_021F5350(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind30(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 20, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 20, c);
 }
 
-void func_021F535C(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind32(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 21, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 21, c);
 }
 
-void func_021F5368(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind33(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 22, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 22, c);
 }
 
-void func_021F5374(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind34(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 23, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 23, c);
 }
 
-void func_021F5380(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind03(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 24, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 24, c);
 }
 
-void func_021F538C(int a, int b, int c)
+void ENCEFF_BuildNameCutInKind04(int a, int b, int c)
 {
-    func_021F5398((void *)a, b, 25, c);
+    ENCEFF_StartNameCutIn((void *)a, b, 25, c);
 }

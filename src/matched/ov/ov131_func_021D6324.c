@@ -10,15 +10,15 @@
  * note 2026-10-02 (lane R4): the two Moves copies per branch come from an inline helper
  *   taking the struct by value (argument temp + parameter copy), which sets the slot order.
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02030734 0x02030734 arm
  *   func_0203630C 0x0203630C arm
  *   func_0201A920 0x0201A920 thumb
  *   func_0201A954 0x0201A954 thumb
- *   func_020173F0 0x020173F0 thumb
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_Create 0x020173F0 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0201A98C 0x0201A98C thumb
  *   func_020307B0 0x020307B0 arm
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
@@ -39,9 +39,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 v[5];} Moves;
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
 typedef signed int     s32;
 struct Party;
@@ -50,8 +50,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_0203630C(void);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201A954(struct Party *p, s32 capacity);
-extern void *func_020173F0(u16,u16,u32,u32,u32);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
@@ -66,7 +66,7 @@ extern void func_020355D8(u8 v);
 extern int P_STATUS_InitWork(char *);
 extern const char d_021DC80C[];
 extern const Moves d_021DC138,d_021DC144;
-static inline void SetA(void *p, Moves m) { func_02017E40(p,0x8e,(u32)(&m)); }
+static inline void SetA(void *p, Moves m) { POKE_TOOL_SetPartyValue(p,0x8e,(u32)(&m)); }
 static inline void SetB(void *p, Moves m) { POKE_TOOL_SetBoxValue(p,0x8e,(u32)(&m)); }
 int P_STATUS_ProcInit(u32 heap,int *st,u8 *obj,char *d) {
     switch(*st) {
@@ -74,8 +74,8 @@ int P_STATUS_ProcInit(u32 heap,int *st,u8 *obj,char *d) {
         u8 *c=obj;
         u8 *o;
         u8 i;
-                func_0203064C(1,0x42,0x50000);
-        o=func_0203159C((void *)heap,0x264,0x42);
+                GFL_HEAP_CreateChildHeap(1,0x42,0x50000);
+        o=PROCSYS_AllocProcWork((void *)heap,0x264,0x42);
         func_02082BCC(o,0,0x264);
         ((struct Obj14064 *)o)->f0=0x42;
         i=0;
@@ -87,9 +87,9 @@ int P_STATUS_ProcInit(u32 heap,int *st,u8 *obj,char *d) {
                 party=func_0201A920(1);
                 func_0201A954(party,6);
                 for(i=0;i<5;i++) {
-                    pt=func_020173F0(i+3,10,-1,0,1);
+                    pt=POKE_TOOL_Create(i+3,10,-1,0,1);
                     SetA(pt,d_021DC138);
-                    func_02017E40(pt,0x9a,0);
+                    POKE_TOOL_SetPartyValue(pt,0x9a,0);
                     func_0201A98C(party,pt);
                     func_020307B0(pt);
                 }

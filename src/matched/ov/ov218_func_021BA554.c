@@ -13,7 +13,7 @@
  * single-lever: separate inline helpers use item-before-index in the first loop and index-before-item in the second; shared helper order swaps one loop's r4/r5 pair (9 bytes out).
  * symbols:
  *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
@@ -26,7 +26,7 @@ extern u32 func_0204B3F4(struct Obj *p);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -39,7 +39,7 @@ static inline void scroll(const char *p,short delta,int space,Pair *pos)
         if(space==0)item=((struct Row0 *)(p+i*4))->item;
         else item=((struct Row1 *)(p+i*4))->item;
         if(func_0204B3F4(item)){
-            func_0204B454(item,(struct PtS *)pos,space);
+            CLACT_GetActorSurfacePos(item,(struct PtS *)pos,space);
             pos->y+=delta;
             value=pos->y;
             func_0204B404(item,(const struct Vec2 *)pos,space);
@@ -60,7 +60,7 @@ static inline void scrollSecond(const char *p,short delta,int space,Pair *pos)
         if(space==0)item=((struct Row0 *)(p+i*4))->item;
         else item=((struct Row1 *)(p+i*4))->item;
         if(func_0204B3F4(item)){
-            func_0204B454(item,(struct PtS *)pos,space);
+            CLACT_GetActorSurfacePos(item,(struct PtS *)pos,space);
             pos->y+=delta;
             value=pos->y;
             func_0204B404(item,(const struct Vec2 *)pos,space);

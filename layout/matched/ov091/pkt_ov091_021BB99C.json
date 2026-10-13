@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB99C",
+   "name": "PLIST_MESSAGE_SetWordSetPokemon",
    "address": "0x021BB99C",
    "kind": "game",
    "region": "ov091",

@@ -15,19 +15,19 @@
  *           shift before it.
  *
  * symbols:
- *   func_021B873C  0x021B873C  thumb  ov093
- *   func_021D78AC  0x021D78AC  thumb  ov093
+ *   BTL_MAIN_GetZukanSeenCount  0x021B873C  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  */
 #include "../include/Obj09980.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_021B873C(char **p);
-extern u32 func_021D78AC(u32 range);
+extern u32 BTL_MAIN_GetZukanSeenCount(char **p);
+extern u32 BTL_CALC_Random(u32 range);
 
 int func_021CBEA8(u8 *p, int x)
 {
-    u32 v = func_021B873C(*(char ** *)&((struct Obj09980 *)p)->f4);
+    u32 v = BTL_MAIN_GetZukanSeenCount(*(char ** *)&((struct Obj09980 *)p)->f4);
     int k;
     if (v > 600) k = 0x2800;
     else if (v > 450) k = 0x2000;
@@ -37,7 +37,7 @@ int func_021CBEA8(u8 *p, int x)
     else return 0;
     if (x > 0xff000) x = 0xff000;
     x = (int)(((long long)x * k + 0x800) >> 12) / 6;
-    if (func_021D78AC(256) < (u32)(x >> 12))
+    if (BTL_CALC_Random(256) < (u32)(x >> 12))
         return 1;
     return 0;
 }

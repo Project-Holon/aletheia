@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BC8
+ * function: MONOLITH_TOOL_DeleteMarker
  * address: 0x021B9BC8
  * packet: pkt_ov071_021B9BC8
  * region: ov071
@@ -13,4 +13,4 @@
  */
 
 extern void func_021B70B8(void **);
-void func_021B9BC8(char *p) { func_021B70B8((void **)(p + 0x298)); }
+void MONOLITH_TOOL_DeleteMarker(char *p) { func_021B70B8((void **)(p + 0x298)); }

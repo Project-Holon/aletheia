@@ -11,7 +11,7 @@
  * symbols:
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   WIPE_SYS_ExeEnd 0x020221B8 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   BGWINFRM_Delete 0x0202CA0C thumb
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 struct PrintSys;struct Rec3;struct Obj;struct S02031140;struct Node;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void WIPE_SYS_ExeEnd(void);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 struct WinMgr;
@@ -56,7 +56,7 @@ int func_02210420(struct Node *task,char *p)
             if(((struct Obj25239 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f34==1) PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj01006 *)p)->f1EAC);
             else return 0;
         }
-        if(func_020221A4()==0) {
+        if(WIPE_SYS_EndCheck()==0) {
             if(((struct Obj25240 *)(*(char * *)&((struct Obj01006 *)p)->f0))->f34==1) WIPE_SYS_ExeEnd();
             else return 0;
         }

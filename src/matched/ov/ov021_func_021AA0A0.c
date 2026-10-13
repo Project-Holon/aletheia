@@ -1,5 +1,5 @@
 /*
- * function: func_021AA0A0
+ * function: FIELD_ENCOUNT_StartScriptedWild
  * address:  0x021AA0A0
  * packet:   pkt_ov021_021AA0A0
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb
- *   func_02188C6C  0x02188C6C  thumb
- *   func_021A1BF4  0x021A1BF4  thumb
- *   func_021A9350  0x021A9350  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELDMAP_GetWeather  0x02188C6C  thumb
+ *   WEATHER_GetWeatherId  0x021A1BF4  thumb
+ *   FIELD_ENCOUNT_SetupParam  0x021A9350  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_02013090  0x02013090  thumb
- *   func_021AA490  0x021AA490  thumb
- *   func_02013144  0x02013144  thumb
- *   func_0216E7C8  0x0216E7C8  thumb
+ *   BTL_SETUP_Create  0x02013090  thumb
+ *   FIELD_ENCOUNT_SetupWildBattle  0x021AA490  thumb
+ *   BTL_SETUP_SetStatusFlag  0x02013144  thumb
+ *   EVENT_BATTLE_CreateScriptedBattle  0x0216E7C8  thumb
  */
 
 typedef unsigned char u8;
@@ -48,29 +48,29 @@ typedef struct {
 } S;
 
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u32 func_02188C6C(u8 *p);
-extern u16 func_021A1BF4(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u32 FIELDMAP_GetWeather(u8 *p);
+extern u16 WEATHER_GetWeatherId(u8 *p);
 struct Ctx;
 struct Sel;
 struct Slot14;
 struct Unit;
-extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
+extern void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02013090(u32 heap);
-extern void func_021AA490(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
-extern void func_02013144(char *p, int v);
-extern void func_0216E7C8(int a, int b, int h, int c, int d);
+extern void *BTL_SETUP_Create(u32 heap);
+extern void FIELD_ENCOUNT_SetupWildBattle(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
+extern void BTL_SETUP_SetStatusFlag(char *p, int v);
+extern void EVENT_BATTLE_CreateScriptedBattle(int a, int b, int h, int c, int d);
 
-void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
+void FIELD_ENCOUNT_StartScriptedWild(S *s, u16 a, u8 b, u32 flags)
 {
     Opts opts;
     Buf buf;
     int h;
     Opts *o;
 
-    func_02188CB4((struct Obj00020 *)s->f0);
-    func_021A9350((struct Sel *)(&buf), (void *)s->f8, 0xff, 0, func_021A1BF4((u8 *)func_02188C6C((u8 *)s->f0)));
+    FIELDMAP_GetFieldPlayer((struct Obj00020 *)s->f0);
+    FIELD_ENCOUNT_SetupParam((struct Sel *)(&buf), (void *)s->f8, 0xff, 0, WEATHER_GetWeatherId((u8 *)FIELDMAP_GetWeather((u8 *)s->f0)));
     o = &opts;
     func_02082BCC(o, 0, 0x28);
     opts.h0 = a;
@@ -93,15 +93,15 @@ void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
     } else if (flags & 0x40) {
         o->b10 = 2;
     }
-    h = (int)func_02013090(4);
-    func_021AA490((struct Ctx *)s, (struct Unit *)(&buf), (void *)h, 4, (struct Slot14 *)(&opts));
+    h = (int)BTL_SETUP_Create(4);
+    FIELD_ENCOUNT_SetupWildBattle((struct Ctx *)s, (struct Unit *)(&buf), (void *)h, 4, (struct Slot14 *)(&opts));
     if (flags & 1) {
-        func_02013144((char *)h, 4);
+        BTL_SETUP_SetStatusFlag((char *)h, 4);
     } else if (flags & 0x80) {
-        func_02013144((char *)h, 0x80);
+        BTL_SETUP_SetStatusFlag((char *)h, 0x80);
     }
     if (flags & 0x100) {
-        func_02013144((char *)h, 0x200);
+        BTL_SETUP_SetStatusFlag((char *)h, 0x200);
     }
-    func_0216E7C8(s->f4, s->f0, h, 1, 0);
+    EVENT_BATTLE_CreateScriptedBattle(s->f4, s->f0, h, 1, 0);
 }

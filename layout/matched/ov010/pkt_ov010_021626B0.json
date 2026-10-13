@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021626B0",
+   "name": "EVENTDATA_SYSTEM_GetConnectRailExitOffset",
    "address": "0x021626B0",
    "kind": "game",
    "region": "ov010",

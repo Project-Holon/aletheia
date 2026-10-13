@@ -1,5 +1,5 @@
 /*
- * function: func_0216BD54
+ * function: FIELD_G3D_MAP_CmdFindEventMonInParty
  * address:  0x0216BD54
  * packet:   pkt_ov010_0216BD54
  * region:   ov010
@@ -12,33 +12,33 @@
  * Script command: reads a species and a flag value and two result
  * variables, maps the event species (243-245, 251, 492, 647-649) to a kind
  * and, for 647/648, a signature move (548/547, dropped when the flag is 0),
- * and stores func_0216BE20's answer in the second variable; any other
+ * and stores FIELD_G3D_MAP_FindEventMonInParty's answer in the second variable; any other
  * species stores 0.
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012934  0x02012934  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0216BE20  0x0216BE20  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   FIELD_G3D_MAP_FindEventMonInParty  0x0216BE20  thumb  ov010
  */
 
 typedef unsigned short u16;
 
-extern void *func_0215A5E4(void *work);
+extern void *SCRCMD_WORK_GetGameData(void *work);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern u16 *func_02159AE8(void *ctx, void *work);
-extern int func_0216BE20(int a, int b, int e, int d, u16 *out);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *ctx, void *work);
+extern int FIELD_G3D_MAP_FindEventMonInParty(int a, int b, int e, int d, u16 *out);
 
-int func_0216BD54(void *ctx, void *work)
+int FIELD_G3D_MAP_CmdFindEventMonInParty(void *ctx, void *work)
 {
-    void *s = func_02012934(func_0215A5E4(work));
-    int species = func_02159B10(ctx, work);
-    unsigned int flag = func_02159B10(ctx, work);
-    u16 *out = func_02159AE8(ctx, work);
-    u16 *res = func_02159AE8(ctx, work);
+    void *s = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(work));
+    int species = SCRIPT_WORK_ReadWorkValue(ctx, work);
+    unsigned int flag = SCRIPT_WORK_ReadWorkValue(ctx, work);
+    u16 *out = SCRIPT_WORK_ReadWorkPointer(ctx, work);
+    u16 *res = SCRIPT_WORK_ReadWorkPointer(ctx, work);
     int kind;
     int move;
 
@@ -76,6 +76,6 @@ int func_0216BD54(void *ctx, void *work)
     if (flag == 0) {
         move = 0;
     }
-    *res = func_0216BE20((int)s, species, move, kind, out);
+    *res = FIELD_G3D_MAP_FindEventMonInParty((int)s, species, move, kind, out);
     return 0;
 }

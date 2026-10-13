@@ -1,5 +1,5 @@
 /*
- * function: func_021F3DE4
+ * function: GIMMICK39_GetAnimeFrame
  * address: 0x021F3DE4
  * packet: pkt_ov039_021F3DE4
  * region: ov039
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BE4C4 0x021BE4C4 thumb ov021
- *   func_02047828 0x02047828 arm
+ *   FLD_EXP_OBJ_GetModelObject 0x021BE4C4 thumb ov021
+ *   G3D_SYSTEM_GetObjectAnimeFrame 0x02047828 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021BE4C4(void *p, u32 i, int delta);
+extern int FLD_EXP_OBJ_GetModelObject(void *p, u32 i, int delta);
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
-int func_021F3DE4(void *p, u16 delta, u16 i) { int v = 0; func_02047828((struct AnmCtl *)func_021BE4C4(p, 0, delta), i, &v); return v; }
+extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
+int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i) { int v = 0; G3D_SYSTEM_GetObjectAnimeFrame((struct AnmCtl *)FLD_EXP_OBJ_GetModelObject(p, 0, delta), i, &v); return v; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A75BC
+ * function: FIELD_GROUND_ANIME_AnmEntryUpdate
  * address:  0x021A75BC
  * packet:   pkt_ov021_021A75BC
  * region:   ov021
@@ -33,7 +33,7 @@ typedef struct {
     T *f4;
 } S;
 
-int func_021A75BC(S *s, int a)
+int FIELD_GROUND_ANIME_AnmEntryUpdate(S *s, int a)
 {
     T *t;
     if (s->b0) {

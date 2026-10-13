@@ -1,5 +1,5 @@
 /*
- * function: func_02169598
+ * function: FIELD_G3D_MAP_GetRenderObj
  * address:  0x02169598
  * packet:   pkt_02169598
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u32 func_02169598(u8 *p)
+u32 FIELD_G3D_MAP_GetRenderObj(u8 *p)
 {
     return ((struct Obj17745 *)p)->f2C;
 }

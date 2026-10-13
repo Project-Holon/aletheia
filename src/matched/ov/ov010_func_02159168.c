@@ -1,5 +1,5 @@
 /*
- * function: func_02159168
+ * function: SCRIPT_WORK_ResetCheckFlag
  * address: 0x02159168
  * packet: pkt_ov010_02159168
  * region: ov010
@@ -14,16 +14,16 @@
  * 021AF03A passes 13; 021B10C8 forwards its saved literal 3).
  * On these traced paths n is nonnegative and below 14 before the shift.
  * symbols:
- *   func_02159198 0x02159198 thumb ov010
- *   d_02172BA0 0x02172BA0 data a4
+ *   SCRIPT_WORK_IsCheckFlagSet 0x02159198 thumb ov010
+ *   gScriptCheckFlags 0x02172BA0 data a4
  */
-extern int d_02172BA0;
-extern int func_02159198(int);
+extern int gScriptCheckFlags;
+extern int SCRIPT_WORK_IsCheckFlagSet(int);
 typedef enum { BIT = 1 } Mask;
-void func_02159168(int n)
+void SCRIPT_WORK_ResetCheckFlag(int n)
 {
-    if (n < 14 && func_02159198(n)) {
+    if (n < 14 && SCRIPT_WORK_IsCheckFlagSet(n)) {
         Mask bit = BIT;
-        d_02172BA0 &= (bit << n) ^ -1;
+        gScriptCheckFlags &= (bit << n) ^ -1;
     }
 }

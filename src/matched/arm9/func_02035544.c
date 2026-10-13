@@ -17,10 +17,12 @@
  *   FADE_Update  0x0204E638  arm
  *   CARD_TryWaitBackupAsync  0x02076B8C  arm
  *   UI_SetBottomBackLight  0x02035428  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
+ *   GFL_NET_IsIdle  0x0203D210  arm
  *
  * The soft-reset trap: fade both screens to white, tear the UI down, then spin
  * forever pumping the main loop's per-frame work.  The loop never exits (the
- * image's tail is an unconditional `b` back to the func_0203D210 test), and
+ * image's tail is an unconditional `b` back to the GFL_NET_IsIdle test), and
  * the reset path inside it returns through OS_ResetSystem.
  *
  * Both master-brightness registers come off one pool word: 0x0400006C is the
@@ -42,8 +44,8 @@ struct UiCtx;
 
 extern struct UiCtx *sub_02035224(void);
 extern void GXx_SetMasterBrightness_(u32 reg, int brightness);
-extern int func_0203CEAC(int a0);
-extern u32 func_0203D210(void);
+extern int GFL_NET_Exit(int a0);
+extern u32 GFL_NET_IsIdle(void);
 extern u32 CARD_TryWaitBackupAsync(void);
 extern void UI_SetBottomBackLight(u32 status);
 extern void OS_ResetSystem(u32 param);
@@ -58,10 +60,10 @@ void UI_SoftReset(u32 param)
     ctx = sub_02035224();
     GXx_SetMasterBrightness_(0x0400006C, 0x10);
     GXx_SetMasterBrightness_(0x0400006C + 0x1000, 0x10);
-    func_0203CEAC(0);
+    GFL_NET_Exit(0);
 
     while (1) {
-        if (func_0203D210() != 0 && CARD_TryWaitBackupAsync() != 0) {
+        if (GFL_NET_IsIdle() != 0 && CARD_TryWaitBackupAsync() != 0) {
             UI_SetBottomBackLight(((u8 *)ctx)[0x3b]);
             OS_ResetSystem(param);
         }

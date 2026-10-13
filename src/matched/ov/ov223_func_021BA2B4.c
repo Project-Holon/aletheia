@@ -19,9 +19,9 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   func_021BA0AC 0x021BA0AC thumb ov223
  *   d_021BC7F0 0x021BC7F0 data
  *   d_021BC8C0 0x021BC8C0 data ov223
@@ -60,9 +60,9 @@ extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Actor;
 struct Node;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-extern void func_0204B84C(struct Obj *, u32);
+extern void CLACT_SetActorBgPriority(struct Obj *, u32);
 extern int func_021BA0AC(s16 *pos, int *size, u16 a, u16 b, u8 c, u8 d, u8 e, u8 f, u32 duration, u8 amplitude, u32 time);
 void func_021BA2B4(Main *p)
 {
@@ -198,14 +198,14 @@ void func_021BA2B4(Main *p)
             func_0204B404(e->f1C, &v4, 1);
             CLACT_SetActorScale(e->f1C, (struct Pair *)(&s4));
             if (d < 0) {
-                func_0204B84C(e->f1C, 3);
+                CLACT_SetActorBgPriority(e->f1C, 3);
                 e->f84 = t[11] - 1;
                 e->f88 = 3;
                 e->f90 = 0;
                 break;
             }
             if (e->f8C == 1) {
-                func_0204B84C(e->f1C, 2);
+                CLACT_SetActorBgPriority(e->f1C, 2);
                 e->f8C = 0;
                 if (e->f90 == 0)
                     p->f230 = 1;
@@ -226,7 +226,7 @@ void func_021BA2B4(Main *p)
         if (flags[i]) {
             z[i] = res[i];
         } else {
-            func_0204B454((struct Actor *)p->ents[i].f1C, (struct PtS *)(&pos), 1);
+            CLACT_GetActorSurfacePos((struct Actor *)p->ents[i].f1C, (struct PtS *)(&pos), 1);
             z[i] = pos.y;
         }
     }

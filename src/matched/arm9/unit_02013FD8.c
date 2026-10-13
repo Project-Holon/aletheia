@@ -16,20 +16,20 @@
  *
  * symbols:
  *   ZONEDATA_GetHeader       0x02013AD0  thumb
- *   sub_02013B10       0x02013B10  thumb
+ *   ZONEDATA_IsZoneInTable       0x02013B10  thumb
  *   ZONEDATA_GetParentZoneId       0x02013E40  thumb
  *
  * alias: ZONEDATA_GetExpObjSetId is the low 5 bit accessor of the cache record's
  * offset 0x1e halfword (unit_02013ED8.c has the high one).
  *
  * ZONEDATA_IsZoneInTableDFDC, ZONEDATA_IsZoneInTableDFB8 and ZONEDATA_IsZoneInTableDFD2 are plain tail calls to
- * sub_02013B10 (unit_02013AD0.c) against three small { key; value } tables
+ * ZONEDATA_IsZoneInTable (unit_02013AD0.c) against three small { key; value } tables
  * of their own (0x0209DFDC/8, 0x0209DFB8/4, 0x0209DFD2/5); mwccarm emits a
  * tail call as a pool word and `bx` even to a function outside the unit
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), so each is a function
  * with no prologue, invisible to disasm.py's prologue sweep and printed
  * inside the extent of the labelled accessor at 0x02013FD8.  The pool
- * words that hold sub_02013B10's own address are wildcarded (`literal`
+ * words that hold ZONEDATA_IsZoneInTable's own address are wildcarded (`literal`
  * class, attested by the same address in unit_02013AD0.c's callers); the
  * table addresses themselves need no attestation, since they are ordinary
  * immediate constants passed by value, not relocated pointers into this
@@ -52,7 +52,7 @@ typedef unsigned int   u32;
 typedef int             s32;
 
 extern void *ZONEDATA_GetHeader(u32 id);
-extern u32   sub_02013B10(u32 id, const u16 *table, s32 count);
+extern u32   ZONEDATA_IsZoneInTable(u32 id, const u16 *table, s32 count);
 extern u32   ZONEDATA_GetParentZoneId(u32 id);
 
 u8 ZONEDATA_GetExpObjSetId(u32 id)
@@ -64,12 +64,12 @@ u8 ZONEDATA_GetExpObjSetId(u32 id)
 
 u32 ZONEDATA_IsZoneInTableDFDC(u32 id)
 {
-    return sub_02013B10(id, (const u16 *)0x0209DFDC, 8);
+    return ZONEDATA_IsZoneInTable(id, (const u16 *)0x0209DFDC, 8);
 }
 
 u32 ZONEDATA_IsZoneInTableDFB8(u32 id)
 {
-    return sub_02013B10(id, (const u16 *)0x0209DFB8, 4);
+    return ZONEDATA_IsZoneInTable(id, (const u16 *)0x0209DFB8, 4);
 }
 
 u32 ZONEDATA_IsRawZoneF6(u32 id)
@@ -84,7 +84,7 @@ u32 ZONEDATA_IsRawZoneF7(u32 id)
 
 u32 ZONEDATA_IsZoneInTableDFD2(u32 id)
 {
-    return sub_02013B10(id, (const u16 *)0x0209DFD2, 5);
+    return ZONEDATA_IsZoneInTable(id, (const u16 *)0x0209DFD2, 5);
 }
 
 u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id)

@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  */
 #include "../include/Obj10185.h"
 
@@ -22,12 +22,12 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 
 int func_02189668(struct Cursor *a, int b) {
     int r;
-    r = func_0201134C(a);
+    r = VM_GetU32(a);
     func_0218A0F4((u8 *)a, 2, ((u8 *)b)[0x94] & 1, ((u8 *)b)[0x95] & 1, r);
     return ((struct Obj10185 *)b)->fC4;
 }

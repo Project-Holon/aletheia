@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   unk_021469D0   0x021469D0  data
  *
  * May the caller proceed?  With no link state, or with the +0x64 byte of the
@@ -40,7 +40,7 @@ struct Session {
 };
 
 extern struct LinkState *unk_021469D0;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 
 int sub_02039594(void)
 {
@@ -50,7 +50,7 @@ int sub_02039594(void)
         goto yes;
     }
 
-    s = func_0203D798();
+    s = GFL_NET_GetInitParam();
     if (s->unk_64 != 0) {
         goto yes;
     }

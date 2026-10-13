@@ -26,7 +26,7 @@
  * fall out together.
  *
  * This is the same family idiom that closed src/matched/GFL_NET_STATE_DeviceInitialized.c in
- * the same wave (there the argument is func_0203D650()'s return value) and
+ * the same wave (there the argument is GFL_NET_GetUserArg()'s return value) and
  * that src/pending/GFL_NET_STATE_ChangeoverParentConnectWait.c already documented in prose.  Across
  * net_state.c, a `ldr rN,[base,#off] / cmp rN,#0 / blx rN` where N is not r0
  * means the callback is being PASSED something, and the thing passed is

@@ -7,19 +7,23 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   BMP_Clear  0x02043B5C  arm  arm9
+ *   BMP_WIN_TransferChars  0x02045334  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 void func_021BE1E4(u8 *p)
 {
     u8 i;
     for (i = 0; i < 4; i++) {
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))), 0);
-        func_02045334((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8));
+        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))), 0);
+        BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8));
     }
 }

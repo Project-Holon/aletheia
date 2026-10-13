@@ -10,10 +10,10 @@
  * lever: byte locals plus declaration order restore the spill/register assignment.
  * permuter: rejected added return target; transferred only declarations and two temporaries.
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021B9A40 0x021B9A40 thumb ov093
  *   func_021C88A4 0x021C88A4 thumb ov093
- *   func_021E8940 0x021E8940 thumb ov093
+ *   BTLV_CORE_MakeSlotKind2Index 0x021E8940 thumb ov093
  *   func_021C8838 0x021C8838 thumb ov093
  *   func_021C8860 0x021C8860 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
@@ -25,10 +25,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern unsigned char func_021B9A40(unsigned int x);
 extern void *func_021C88A4(char *p, int a, int b);
-extern Word func_021E8940(int);
+extern Word BTLV_CORE_MakeSlotKind2Index(int);
 extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *, u32);
@@ -47,10 +47,10 @@ void func_021E84FC(int a, int b, int c, const int *d)
     u8 message;
     u8 mode;
     u8 *tmp1;
-    if (c == func_021D775C(3) && d[0] != 0) {
+    if (c == BTL_EVENT_GetVar(3) && d[0] != 0) {
         mode = 14;
         own = func_021B9A40(c);
-        other = func_021B9A40((u8)func_021D775C(6));
+        other = func_021B9A40((u8)BTL_EVENT_GetVar(6));
         code = 0;
         message = 0;
         target = 31;
@@ -67,21 +67,21 @@ void func_021E84FC(int a, int b, int c, const int *d)
             selected = other;
             mode = 12;
             code = 0x28e;
-            target = (u8)func_021D775C(6);
+            target = (u8)BTL_EVENT_GetVar(6);
             break;
         case 3:
             message = 0xac;
             selected = other;
             mode = 13;
             code = 0x28f;
-            target = (u8)func_021D775C(6);
+            target = (u8)BTL_EVENT_GetVar(6);
             break;
         }
         if (mode != 14) {
             p = func_021C88A4((char *)b, 25, c);
             ((struct Obj07838 *)p)->f4 = mode;
             p[12] = selected;
-            *(Word *)(p + 8) = func_021E8940(4);
+            *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind2Index(4);
             func_021C8838(p + 16, 1, message);
             func_021C8860((struct S *)(p + 16), selected);
             func_021C88C8((void *)b, p);

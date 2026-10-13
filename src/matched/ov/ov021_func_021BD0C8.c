@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0C8
+ * function: FIELD_PLACE_NAME_ResetStep
  * address:  0x021BD0C8
  * packet:   pkt_021BD0C8
  * region:   ov021
@@ -13,7 +13,7 @@
 
 typedef unsigned char u8;
 
-void func_021BD0C8(char *p)
+void FIELD_PLACE_NAME_ResetStep(char *p)
 {
     ((struct Obj20124 *)p)->f40 = 0;
 }

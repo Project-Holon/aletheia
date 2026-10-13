@@ -1,5 +1,5 @@
 /*
- * function: func_0218D1D0
+ * function: FIELD_G3D_MAPPER_LayoutLinear
  * address:  0x0218D1D0
  * packet:   pkt_ov021_0218D1D0
  * region:   ov021
@@ -14,8 +14,8 @@
  *   _u32_div_f     0x0209C2B0  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   _ll_mul        0x0209C054  arm
- *   func_0218DD80  0x0218DD80  thumb  ov021
- *   func_0218DD9C  0x0218DD9C  thumb  ov021
+ *   FIELD_G3D_MAPPER_SetCellGridIndex  0x0218DD80  thumb  ov021
+ *   FIELD_G3D_MAPPER_SetCellPos  0x0218DD9C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02687.h"
@@ -28,15 +28,15 @@ typedef signed int     s32;
 typedef struct Elem { int idx; int x; int y; int z; } Elem;
 
 extern u32 func_0207C768(u32 a, u32 b);
-extern void func_0218DD80(u8 *p, u32 v);
-extern void func_0218DD9C(Elem *e, int x, int y, int z);
+extern void FIELD_G3D_MAPPER_SetCellGridIndex(u8 *p, u32 v);
+extern void FIELD_G3D_MAPPER_SetCellPos(Elem *e, int x, int y, int z);
 
 static inline s32 FX_Mul(s32 a, s32 b)
 {
     return (s32)(((long long)a * b + 0x800LL) >> 12);
 }
 
-void func_0218D1D0(char *p, void *a, Elem *e)
+void FIELD_G3D_MAPPER_LayoutLinear(char *p, void *a, Elem *e)
 {
     int r;
     int c;
@@ -65,8 +65,8 @@ void func_0218D1D0(char *p, void *a, Elem *e)
             r = col / ((struct Obj02687 *)p)->f14;
             if (idx >= ((struct Obj02687 *)p)->f18)
                 idx = -1;
-            func_0218DD80((u8 *)(e + idx), idx);
-            func_0218DD9C(e + idx, base + FX_Mul(c << 12, s), y, base + FX_Mul(r << 12, s));
+            FIELD_G3D_MAPPER_SetCellGridIndex((u8 *)(e + idx), idx);
+            FIELD_G3D_MAPPER_SetCellPos(e + idx, base + FX_Mul(c << 12, s), y, base + FX_Mul(r << 12, s));
             idx++;
         }
     }

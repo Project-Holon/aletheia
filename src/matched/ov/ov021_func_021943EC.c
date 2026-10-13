@@ -1,5 +1,5 @@
 /*
- * function: func_021943EC
+ * function: FIELD_COMM_ACTOR_CTRL_GetMmdl
  * address:  0x021943EC
  * packet:   pkt_ov021_021943EC
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * Unlabelled Thumb leaf (push {r4, r5} saves no lr): finds the record whose
  * key equals the argument among n 12-byte records and returns its +8 field,
- * or 0. Sole blocker of ov010 func_021679C4's callee relocation.
+ * or 0. Sole blocker of ov010 COMM_PLAYER_SetEffect's callee relocation.
  *
  * symbols:
  *   (none)
@@ -34,7 +34,7 @@ typedef struct Tbl {
     Rec *recs;
 } Tbl;
 
-u32 func_021943EC(Tbl *t, u32 key)
+u32 FIELD_COMM_ACTOR_CTRL_GetMmdl(Tbl *t, u32 key)
 {
     u16 i;
     Rec *r;

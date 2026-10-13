@@ -17,7 +17,7 @@
  *   implied.
  * symbols:
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  */
 
 typedef unsigned char u8;
@@ -30,7 +30,7 @@ typedef int s32;
 typedef enum { Z0 } E;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u32 func_0203F0A8(void);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 
@@ -39,8 +39,8 @@ int func_0218875C(struct Cursor *a, int unused, int c) {
     u32 v;
     int r;
     E z;
-    p = (u8 *)func_0201134C(a);
-    r = (int)func_0201134C(a);
+    p = (u8 *)VM_GetU32(a);
+    r = (int)VM_GetU32(a);
     v = func_0203F0A8();
     z = Z0;
     return func_0218A0F4((u8 *)a, c, ((v >> 24) | (z << 8)), (int)p, r);

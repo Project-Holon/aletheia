@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CC060",
+   "name": "FLD_TRADE_GetWantedSpecies",
    "address": "0x021CC060",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021CC068",
+   "name": "FLD_TRADE_GetWantedGender",
    "address": "0x021CC068",
    "kind": "game",
    "region": "ov021",

@@ -12,19 +12,19 @@
  * ABI: 02031324 also receives the heap in r0, preserved in this extern.
  * symbols:
  *   sub_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02017E1C 0x02017E1C thumb
  *   sub_02030734 0x02030734 arm
- *   func_0204E720 0x0204E720 arm
+ *   FADE_Start 0x0204E720 arm
  *   func_02204DC4 0x02204DC4 thumb ov195
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   func_022051A8 0x022051A8 thumb ov195
  *   PROCSYS_Create 0x02031324 arm
  *   func_02204C24 0x02204C24 thumb ov195
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_02208F40 0x02208F40 data a4
  */
 #include "../include/Obj00734.h"
@@ -37,25 +37,25 @@ struct U16Vec;
 struct App;
 struct Scene;
 extern void sub_0203064C(u32 src, u32 dst, u32 size);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u32,u32);
 extern void *POKEPARTY_GetMember(void *,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void *sub_02030734(u32,u32,int,const char *,u16);
-extern void func_0204E720(u32,int,int,int);
+extern void FADE_Start(u32,int,int,int);
 extern void func_02204DC4(u8 *,u8 *);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void func_022051A8(int task, char *p);
 extern void *PROCSYS_Create(int a0);
 extern void func_02204C24(struct App *,struct Scene *);
-extern void func_0203D34C(u32,u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern const char d_02208F40[];
 int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
 {
     char *p;
     sub_0203064C(1,0x94,0x10000);
-    p=func_0203159C(owner,0x120,0x94);
+    p=PROCSYS_AllocProcWork(owner,0x120,0x94);
     func_02082BCC(p,0,0x120);
     ((struct Obj00734 *)p)->f0=0x94;
     ((struct Obj00734 *)p)->f28=0;
@@ -70,7 +70,7 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
     ((struct Obj00734 *)p)->fA8=0;
     ((struct Obj00734 *)p)->fAC=0;
     ((struct Obj00734 *)p)->f100=sub_02030734(((struct Obj00734 *)p)->f0,0x28,1,d_02208F40,0x242);
-    func_0204E720(3,16,16,-16);
+    FADE_Start(3,16,16,-16);
     func_02204DC4(app,(u8 *)p);
     ((struct Obj00734 *)p)->f38=GFL_USE_AddMainTask((u32)func_022051A8,(u32)p,1);
     ((struct Obj00734 *)p)->f10C=0;
@@ -79,6 +79,6 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
     ((struct Obj00734 *)p)->f118=0;
     ((struct Obj00734 *)p)->f11C=(unsigned int)PROCSYS_Create(((struct Obj00734 *)p)->f0);
     func_02204C24((struct App *)app,(struct Scene *)p);
-    func_0203D34C(0,((struct Obj00734 *)p)->f0);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00734 *)p)->f0);
     return 1;
 }

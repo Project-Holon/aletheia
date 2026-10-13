@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DA624",
-    "func_021DA6D4",
-    "func_021DA6E0"
+    "BTL_ABILITY_FriskShowOpponentItem",
+    "BTL_ABILITY_GetFriskHandlers",
+    "BTL_ABILITY_GetSturdyHandlers"
+   ],
+   "addresses": [
+    "0x021DA624",
+    "0x021DA6D4",
+    "0x021DA6E0"
    ],
    "evidence": {
     "sole-ref": [

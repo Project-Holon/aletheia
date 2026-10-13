@@ -16,7 +16,7 @@
  *   func_021FC0C8  0x021FC0C8  thumb  ov186
  *   func_021FB63C  0x021FB63C  thumb  ov186
  *   func_020307B0  0x020307B0  arm
- *   func_02025588  0x02025588  thumb
+ *   BMP_OAM_DeleteSys  0x02025588  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
  */
 #include "../include/Obj01175.h"
@@ -30,7 +30,7 @@ extern void func_021FACE0(char *p);
 extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FB63C(void *p);
 extern u32 func_020307B0(void *p);
-extern void func_02025588(void *p);
+extern void BMP_OAM_DeleteSys(void *p);
 extern void func_0201C4C0(struct PrintSys *p);
 
 void func_021F9F48(u8 *p)
@@ -51,7 +51,7 @@ void func_021F9F48(u8 *p)
     func_021FC0C8((char *)(((struct Obj01175 *)p)->f4), ((struct Obj01175 *)p)->f10);
     func_021FC0C8((char *)(((struct Obj01175 *)p)->f4), ((struct Obj01175 *)p)->f10 + 1);
     func_021FB63C((void *)(((struct Obj01175 *)p)->f44));
-    func_02025588((void *)(((struct Obj01175 *)p)->f48));
+    BMP_OAM_DeleteSys((void *)(((struct Obj01175 *)p)->f48));
     func_0201C4C0((struct PrintSys *)(((struct Obj01175 *)p)->f4C));
     func_020307B0(p);
 }

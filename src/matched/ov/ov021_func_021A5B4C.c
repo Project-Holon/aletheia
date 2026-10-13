@@ -1,5 +1,5 @@
 /*
- * function: func_021A5B4C
+ * function: FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck
  * address:  0x021A5B4C
  * packet:   pkt_ov021_021A5B4C
  * region:   ov021
@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3AC4  0x021A3AC4  thumb  ov021
- *   func_021A6738  0x021A6738  thumb  ov021
- *   func_021A672C  0x021A672C  thumb  ov021
+ *   FIELD_PLAYER_CORE_RememberKeyDirs  0x021A3AC4  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_ClearPending  0x021A6738  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_ClearForcedMoveEnded  0x021A672C  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-void func_021A3AC4(u32 a, u32 v);
-void func_021A6738(void *a);
-void func_021A672C(void *a);
+void FIELD_PLAYER_CORE_RememberKeyDirs(u32 a, u32 v);
+void FIELD_PLAYER_NOGRID_ClearPending(void *a);
+void FIELD_PLAYER_NOGRID_ClearForcedMoveEnded(void *a);
 
-void func_021A5B4C(u32 *p, u32 a, int mode)
+void FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck(u32 *p, u32 a, int mode)
 {
-    func_021A3AC4(p[5], a);
-    func_021A6738(p);
+    FIELD_PLAYER_CORE_RememberKeyDirs(p[5], a);
+    FIELD_PLAYER_NOGRID_ClearPending(p);
     if (mode == 2)
-        func_021A672C(p);
+        FIELD_PLAYER_NOGRID_ClearForcedMoveEnded(p);
 }

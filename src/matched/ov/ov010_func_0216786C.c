@@ -1,5 +1,5 @@
 /*
- * function: func_0216786C
+ * function: COMM_PLAYER_UpdateMyPackage
  * address:  0x0216786C
  * packet:   pkt_ov010_0216786C
  * region:   ov010
@@ -16,22 +16,22 @@
  * `return 0`.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012B28  0x02012B28  thumb
- *   func_02012B38  0x02012B38  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
- *   func_02012114  0x02012114  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188BE8  0x02188BE8  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021A34EC  0x021A34EC  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_02197CCC  0x02197CCC  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_02012AA0  0x02012AA0  thumb
- *   func_02012AE4  0x02012AE4  thumb
+ *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_PLAYER_GetFormSlot  0x021A34EC  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FLDMMDL_ACMD_GetDrawPos  0x02197CCC  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
+ *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
  *   func_0203EFC8  0x0203EFC8  arm
  */
 
@@ -74,26 +74,26 @@ struct Ctx;
 struct Rec44;
 struct SaveBlock;
 struct Sub02014444Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u32 func_02012B28(const struct Rec44 *p);
-extern void *func_02012B38(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
+extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
-extern u32 func_02012114(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188BE8(void *proc);
+extern u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_IsReady(void *proc);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern int func_021A34EC(u8 *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_02197CCC(u8 *p, s32 *out);
-extern u16 func_021A3050(u8 *p);
-extern VecFx32 *func_02012AA0(void *pl);
-extern u16 func_02012AE4(void *pl);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern int FIELD_PLAYER_GetFormSlot(u8 *p);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, s32 *out);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
+extern VecFx32 *GAME_DATA_GetPlayerPosition(void *pl);
+extern u16 GAME_DATA_GetPlayerDirectionType(void *pl);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-int func_0216786C(Work *w, Report *out)
+int COMM_PLAYER_UpdateMyPackage(Work *w, Report *out)
 {
     VecFx32 pos;
     void *a;
@@ -105,29 +105,29 @@ int func_0216786C(Work *w, Report *out)
     u32 dir;
     u16 zone;
 
-    ctx = func_020120F4(w->sys);
+    ctx = GAMESYSTEM_GetGameData(w->sys);
     last = &w->last;
     flag = 0;
     if (w->f8f == 1)
         return 0;
-    pl = func_020127A4(ctx);
-    dir = func_02012B28(pl);
-    if (FIELD_STATUS_GetSeasonDispFlag(func_02012B38(ctx)) == 2) {
+    pl = GAME_DATA_GetMyPlayerWork(ctx);
+    dir = GAME_DATA_GetPlayerObjectCode(pl);
+    if (FIELD_STATUS_GetSeasonDispFlag(GAME_DATA_GetMoveModelSys(ctx)) == 2) {
         zone = last->zone;
         pos = last->pos;
         flag = 1;
         dir = last->dir;
-    } else if (func_02012114(w->sys) == 1 && func_02188BE8(func_0201210C(w->sys)) == 1) {
-        q = func_02188CB4(func_0201210C(w->sys));
-        a = func_021A3074(q);
-        if (func_021A34EC(q) == 4)
-            func_021A3038(q, &pos);
+    } else if (GAMESYSTEM_IsFieldMapExist(w->sys) == 1 && FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap(w->sys)) == 1) {
+        q = FIELDMAP_GetFieldPlayer(GAMESYSTEM_GetFieldMap(w->sys));
+        a = FIELD_PLAYER_GetMmdl(q);
+        if (FIELD_PLAYER_GetFormSlot(q) == 4)
+            FIELD_PLAYER_GetPos(q, &pos);
         else
-            func_02197CCC(a, (s32 *)(&pos));
-        zone = func_021A3050(q);
+            FLDMMDL_ACMD_GetDrawPos(a, (s32 *)(&pos));
+        zone = FIELD_PLAYER_GetDirDisp(q);
     } else {
-        pos = *func_02012AA0(pl);
-        zone = func_02012AE4(pl);
+        pos = *GAME_DATA_GetPlayerPosition(pl);
+        zone = GAME_DATA_GetPlayerDirectionType(pl);
     }
     out->zone = zone;
     out->pos = pos;

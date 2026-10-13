@@ -1,5 +1,5 @@
 /*
- * function: func_021B6144
+ * function: UI_SCENE_Step
  * address:  0x021B6144
  * packet:   pkt_021B6144
  * region:   ov067
@@ -36,7 +36,7 @@ struct S {
     u8 e;
 };
 
-int func_021B6144(struct S *s)
+int UI_SCENE_Step(struct S *s)
 {
     struct Entry *e = (struct Entry *)((u8 *)s->arr + s->idx * 0x14);
 

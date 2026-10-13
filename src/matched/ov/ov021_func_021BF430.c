@@ -1,5 +1,5 @@
 /*
- * function: func_021BF430
+ * function: EVENT_FIELDMAP_CONTROL_RunWipeInEffect7
  * address:  0x021BF430
  * packet:   pkt_ov021_021BF430
  * region:   ov021
@@ -10,43 +10,43 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF564 0x021BF564 thumb ov021
- *   func_021BF584 0x021BF584 thumb ov021
- *   func_0204E720 0x0204E720 arm
- *   func_02188C84 0x02188C84 thumb ov021
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes 0x021BF564 thumb ov021
+ *   EVENT_FIELDMAP_CONTROL_ResetBgAffine 0x021BF584 thumb ov021
+ *   FADE_Start 0x0204E720 arm
+ *   FIELDMAP_GetHeapId 0x02188C84 thumb ov021
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
 
-extern void func_021BF564(void);
-extern void func_021BF584(unsigned char *a0);
+extern void EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes(void);
+extern void EVENT_FIELDMAP_CONTROL_ResetBgAffine(unsigned char *a0);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u16 func_02188C84(u8 *p);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern u32 func_020221A4(void);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 WIPE_SYS_EndCheck(void);
 
-int func_021BF430(int a, int *s, int *q)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(int a, int *s, int *q)
 {
     int k = s[0];
     int v = q[1];
 
     switch (k) {
     case 0:
-        func_021BF564();
-        func_021BF584((unsigned char *)q[1]);
-        func_0204E720(q[3], 16, 0, -1);
+        EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes();
+        EVENT_FIELDMAP_CONTROL_ResetBgAffine((unsigned char *)q[1]);
+        FADE_Start(q[3], 16, 0, -1);
         s[0] = s[0] + 1;
         break;
     case 1:
-        func_0202208C((void *)3, 7, 7, 0, 6, 1, func_02188C84((u8 *)v));
+        WIPE_SYS_Start((void *)3, 7, 7, 0, 6, 1, FIELDMAP_GetHeapId((u8 *)v));
         s[0] = s[0] + 1;
         break;
     case 2:
-        if (func_020221A4() != 0) {
+        if (WIPE_SYS_EndCheck() != 0) {
             s[0] = s[0] + 1;
         }
         break;

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
- *   func_0203D7BC 0x0203D7BC arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_021D846C 0x021D846C thumb ov120
  *   func_021D63F4 0x021D63F4 thumb ov120
  *   func_02040588 0x02040588 arm
@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 a0);
 extern void func_021D846C(u8 *);
 extern void func_021D63F4(u8 *p, int flag, int mode);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -41,7 +41,7 @@ void func_021D5BEC(u8 *p)
     if (((struct Obj22834 *)(*(u8 * *)&((struct Obj01056 *)p)->f48))->f1B0 != 1) {
         int zero = 0;
         GFL_NET_SetAutoExit(0);
-        func_0203D7BC(0);
+        GFL_NET_SetLoginOption(0);
         func_021D846C(*(u8 * *)&((struct Obj01056 *)p)->f40);
         func_021D63F4(((struct Obj01056 *)p)->f3C, 0, 0);
         func_02040588(4, 0);

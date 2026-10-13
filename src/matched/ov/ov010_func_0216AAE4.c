@@ -1,5 +1,5 @@
 /*
- * function: func_0216AAE4
+ * function: FORMCHANGE_UpdateSeasonForms
  * address:  0x0216AAE4
  * packet:   pkt_ov010_0216AAE4
  * region:   ov010
@@ -17,8 +17,8 @@
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017988  0x02017988  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
  */
 
@@ -29,11 +29,11 @@ struct Blk37;
 extern void *func_0200CA1C(void *a);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017988(void *mon, u16 form);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_ChangeForm(void *mon, u16 form);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 
-void func_0216AAE4(void *sys, void *party, int season)
+void FORMCHANGE_UpdateSeasonForms(void *sys, void *party, int season)
 {
     u32 dex;
     int i;
@@ -73,17 +73,17 @@ void func_0216AAE4(void *sys, void *party, int season)
     n = func_0201AA18(party);
     for (i = 0; i < n; i++) {
         void *mon = func_0201AB28(party, i);
-        int species = func_02017E1C(mon, 5, 0);
-        int form = func_02017E1C(mon, 0x6F, 0);
+        int species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        int form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
 
         if (species == 585 && form != formA) {
-            func_02017988(mon, formA);
+            POKE_TOOL_ChangeForm(mon, formA);
             if (!doneA) {
                 func_0200CFA0((struct Blk37 *)dex, mon);
                 doneA = 1;
             }
         } else if (species == 586 && form != formB) {
-            func_02017988(mon, formB);
+            POKE_TOOL_ChangeForm(mon, formB);
             if (!doneB) {
                 func_0200CFA0((struct Blk37 *)dex, mon);
                 doneB = 1;

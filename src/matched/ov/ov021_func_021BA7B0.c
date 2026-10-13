@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7B0
+ * function: FIELD_RAIL_CAMERA_Orbit
  * address:  0x021BA7B0
  * packet:   pkt_ov021_021BA7B0
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8220  0x021B8220  thumb  ov021
- *   func_021B830C  0x021B830C  thumb  ov021
- *   func_021BA7E0  0x021BA7E0  thumb  ov021
+ *   FIELD_RAIL_GetFocusWork  0x021B8220  thumb  ov021
+ *   FIELD_RAIL_WORK_GetCamera  0x021B830C  thumb  ov021
+ *   FIELD_RAIL_CAMERA_SetOrbit  0x021BA7E0  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -28,23 +28,23 @@ typedef struct {
     V pos;
 } Cam;
 
-u32 func_021B8220(u8 *p);
-Cam *func_021B830C(void);
-void func_021BA7E0(u8 *p, u16 ang, int r, V *pos);
+u32 FIELD_RAIL_GetFocusWork(u8 *p);
+Cam *FIELD_RAIL_WORK_GetCamera(void);
+void FIELD_RAIL_CAMERA_SetOrbit(u8 *p, u16 ang, int r, V *pos);
 
-void func_021BA7B0(u8 *p)
+void FIELD_RAIL_CAMERA_Orbit(u8 *p)
 {
     Cam *c;
     u16 ang;
     int r;
     V pos;
 
-    func_021B8220(p);
-    c = func_021B830C();
+    FIELD_RAIL_GetFocusWork(p);
+    c = FIELD_RAIL_WORK_GetCamera();
     ang = c->ang;
     r = c->r;
     pos.x = c->pos.x;
     pos.y = c->pos.y;
     pos.z = c->pos.z;
-    func_021BA7E0(p, ang, r, &pos);
+    FIELD_RAIL_CAMERA_SetOrbit(p, ang, r, &pos);
 }

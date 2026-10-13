@@ -9,9 +9,9 @@
  * status: EXACT*
  * tail: two zero padding bytes at 0x021C1036, not a follower.
  * symbols:
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -19,22 +19,22 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
-extern void func_020456F8(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_ClearScreen(struct Descriptor *);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(u32);
 void func_021C0FF8(u8 *p,int visible)
 {
     if (((struct Obj06716 *)p)->f1C==0 && visible!=0) {
         struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;
-        func_02045334(d);
-        func_02045374((struct Cfg *)d);
+        BMP_WIN_TransferChars(d);
+        BMP_WIN_MakeScreen((struct Cfg *)d);
         func_02041B6C(func_02045730(d));
     } else if (((struct Obj06716 *)p)->f1C!=0 && visible==0) {
         struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;
-        func_020456F8(d);
+        BMP_WIN_ClearScreen(d);
         func_02041B6C(func_02045730(d));
     }
     ((struct Obj06716 *)p)->f1C=visible;

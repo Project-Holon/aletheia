@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 func_02048AFC and func_02048B44 have no external witnesses; the integrator owns them.
+ * blocker: ARM9 G3D_CAMERA_SetEye and G3D_CAMERA_SetUp have no external witnesses; the integrator owns them.
  * blocker C (read-only root show):
- *   void func_02048AFC(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
- *   void func_02048B44(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
+ *   void G3D_CAMERA_SetEye(char *p, const Vec *v) { *(Vec *)(p + 0x20) = *v; }
+ *   void G3D_CAMERA_SetUp(char *p, const Vec *v) { *(Vec *)(p + 0x38) = *v; }
  * symbols:
  *   func_021F8044 0x021F8044 thumb ov112
  *   func_021F6F04 0x021F6F04 thumb ov112
@@ -20,9 +20,9 @@
  *   func_021F6AF0 0x021F6AF0 thumb ov112
  *   func_021FA57C 0x021FA57C thumb ov132
  *   func_0203630C 0x0203630C arm
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetUp 0x02048B44 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_02040618 0x02040618 arm
  *   d_021FDBEC 0x021FDBEC data a4
  *   _fflt 0x0209BDBC arm
@@ -48,9 +48,9 @@ extern void func_021F7098(u8 *p, u16 v);
 extern void func_021F75DC(u8 *p, u16 v);
 extern void func_021F6AF0(void *, u16);
 extern void func_021FA57C(void *unused, int x);
-extern void func_02048AFC(void *, const Vec *);
-extern void func_02048B44(void *, const Vec *);
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_SetEye(void *, const Vec *);
+extern void G3D_CAMERA_SetUp(void *, const Vec *);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_02040618(u32, u32, u32);
 #define FX(x) ((int)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
 void func_021F8EA8(u8 *p)
@@ -94,9 +94,9 @@ void func_021F8EA8(u8 *p)
         }
         scale.x = FX((float)*(u16 *)(p + 4) / 16.0f);
         translation.x = FX((float)*(u16 *)(p + 4) / 16.0f);
-        func_02048AFC(*(void **)(p + 0xA8), &scale);
-        func_02048B44(*(void **)(p + 0xA8), &translation);
-        func_02048AD0(*(void **)(p + 0xA8));
+        G3D_CAMERA_SetEye(*(void **)(p + 0xA8), &scale);
+        G3D_CAMERA_SetUp(*(void **)(p + 0xA8), &translation);
+        G3D_CAMERA_Reset(*(void **)(p + 0xA8));
         func_02040618(2, 0, *(u16 *)(p + 4));
         func_021F7098(*(void **)(p + 0x3C), *(u16 *)(p + 4));
         func_021F75DC(*(void **)(p + 0x40), *(u16 *)(p + 4));

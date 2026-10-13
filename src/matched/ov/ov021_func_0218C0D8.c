@@ -1,5 +1,5 @@
 /*
- * function: func_0218C0D8
+ * function: FIELD_BUILDMODEL_FreeAnimSet
  * address:  0x0218C0D8
  * packet:   pkt_ov021_0218C0D8
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204779C  0x0204779C  arm
- *   func_02047790  0x02047790  arm
- *   func_0204762C  0x0204762C  arm
- *   func_02047788  0x02047788  arm
- *   func_02047738  0x02047738  arm
- *   func_02047504  0x02047504  arm
+ *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
+ *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  */
 
 typedef unsigned char  u8;
@@ -23,30 +23,30 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Rec;
-extern int func_0204779C(int *p);
-extern int func_02047790(int *p, int i);
-extern void func_0204762C(struct Rec *p);
-extern int func_02047788(int *p);
-extern void func_02047738(struct Rec *p);
-extern void func_02047504(struct Rec *p);
+extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
+extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
+extern void G3D_SYSTEM_DeleteAnime(struct Rec *p);
+extern int G3D_SYSTEM_GetObjectRender(int *p);
+extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
+extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
 
-void func_0218C0D8(void **s)
+void FIELD_BUILDMODEL_FreeAnimSet(void **s)
 {
     int n;
     int i;
     void *r;
 
     if (s[0] != 0) {
-        n = func_0204779C(s[0]);
+        n = G3D_SYSTEM_GetObjectAnimeCount(s[0]);
         for (i = 0; i < n; i++) {
-            void *o = (void *)func_02047790(s[0], (u16)i);
+            void *o = (void *)G3D_SYSTEM_GetObjectAnime(s[0], (u16)i);
             if (o != 0)
-                func_0204762C(o);
+                G3D_SYSTEM_DeleteAnime(o);
         }
-        r = (void *)func_02047788(s[0]);
-        func_02047738(s[0]);
+        r = (void *)G3D_SYSTEM_GetObjectRender(s[0]);
+        G3D_SYSTEM_DeleteObject(s[0]);
         s[0] = 0;
         s[1] = 0;
-        func_02047504(r);
+        G3D_SYSTEM_DeleteRender(r);
     }
 }

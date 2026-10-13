@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A44
+ * function: BSUBWAY_RECORD_LIST_DeleteFrames
  * address:  0x021B9A44
  * packet:   pkt_ov069_021B9A44
  * region:   ov069
@@ -17,7 +17,7 @@
 #include "../include/Obj01132.h"
 
 struct WinMgr;
-void func_021B9A44(void *p)
+void BSUBWAY_RECORD_LIST_DeleteFrames(void *p)
 {
     void BGWINFRM_Delete(struct WinMgr *mgr);
     BGWINFRM_Delete(((struct Obj01132 *)p)->f4);

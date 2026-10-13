@@ -1,5 +1,5 @@
 /*
- * function: func_0216D874
+ * function: FLDMMDL_SetGridNowZ
  * address:  0x0216D874
  * packet:   pkt_0216D874
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-void func_0216D874(int a0, int a1)
+void FLDMMDL_SetGridNowZ(int a0, int a1)
 {
 
 a0 = a0 + 0x40;

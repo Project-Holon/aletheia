@@ -1,5 +1,5 @@
 /*
- * function: func_021598EC
+ * function: SCRIPT_WORK_CmdPopAllBgm
  * address:  0x021598EC
  * packet:   pkt_ov010_021598EC
  * region:   ov010
@@ -10,39 +10,39 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_021B1BE8  0x021B1BE8  thumb
- *   func_02012A30  0x02012A30  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   SCRCMD_FLDMMDL_UnpauseAllMmdls  0x021B1BE8  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAllTask  0x0202972C  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef signed int     s32;
 typedef unsigned short u16;
 struct Ctx;
 struct Sys;
-extern void *func_020120F4(const struct Ctx *p);
-extern void func_021B1BE8(int);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void SCRCMD_FLDMMDL_UnpauseAllMmdls(int);
 struct BigObj;
-extern unsigned int func_02012A30(const struct BigObj *p);
+extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct Sys *s);
 extern void *FIELD_SOUND_SYSTEM_StartPopAllTask(void *a, u16 b);
-extern void func_0215897C(void *vm, void *task);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021598EC(int a, int b)
+int SCRIPT_WORK_CmdPopAllBgm(int a, int b)
 {
-    void *x = func_0215A5F4((void *)b);
-    void *y = func_0215A5DC((void *)b);
-    int h = (int)func_020120F4(y);
+    void *x = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *y = SCRCMD_WORK_GetGameSystem((void *)b);
+    int h = (int)GAMESYSTEM_GetGameData(y);
     int r = 0;
-    func_021B1BE8(b);
-    if (FIELD_SOUND_SYSTEM_GetQueueDepth((struct Sys *)((int)func_02012A30((const struct BigObj *)h)))) {
-        func_0215897C(x, FIELD_SOUND_SYSTEM_StartPopAllTask(y, r));
+    SCRCMD_FLDMMDL_UnpauseAllMmdls(b);
+    if (FIELD_SOUND_SYSTEM_GetQueueDepth((struct Sys *)((int)GAME_DATA_GetBgmInfo((const struct BigObj *)h)))) {
+        SCRIPT_SYS_CallEvent(x, FIELD_SOUND_SYSTEM_StartPopAllTask(y, r));
         r = 1;
     }
     return r;

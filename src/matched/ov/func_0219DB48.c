@@ -1,5 +1,5 @@
 /*
- * function: func_0219DB48
+ * function: FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2
  * address:  0x0219DB48
  * packet:   pkt_0219DB48
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0219DC08  0x0219DC08  thumb  ov021
- *   func_021AC578  0x021AC578  thumb  ov021
+ *   FLDMMDL_RAIL_MOVE_GetFldEffCtrl  0x0219DC08  thumb  ov021
+ *   FLDEFF_KEMURI_StartFacing  0x021AC578  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0219DC08(u32 a);
-extern u32 func_021AC578(u32, u32);
+extern int FLDMMDL_RAIL_MOVE_GetFldEffCtrl(u32 a);
+extern u32 FLDEFF_KEMURI_StartFacing(u32, u32);
 
-int func_0219DB48(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(u32 a, u32 b, u32 c, u32 d)
 {
-return func_021AC578(a, func_0219DC08(a));
+return FLDEFF_KEMURI_StartFacing(a, FLDMMDL_RAIL_MOVE_GetFldEffCtrl(a));
 }
 

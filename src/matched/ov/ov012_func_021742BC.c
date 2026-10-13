@@ -14,8 +14,8 @@
  * that overlay's window, as in ov001 func_021542C0.
  *
  * symbols:
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
@@ -54,8 +54,8 @@ typedef struct Ctx {
 } Ctx;
 
 struct IcaAnime;
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
@@ -73,7 +73,7 @@ int UNION_MAIN_StepPokemonTrade(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void *
 
     switch (*state) {
     case 0:
-        *out = (void *)func_021BE8D4((void *)a0, a2, 0, 0);
+        *out = (void *)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)a0, a2, 0, 0);
         (*state)++;
         break;
     case 1:
@@ -120,7 +120,7 @@ int UNION_MAIN_StepPokemonTrade(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void *
         *state = 7;
         break;
     case 7:
-        *out = (void *)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0);
+        *out = (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)a0, a2, 0, 0, 1, 0, 0);
         *state = 8;
         break;
     default:

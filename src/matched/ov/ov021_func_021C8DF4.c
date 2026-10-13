@@ -1,5 +1,5 @@
 /*
- * function: func_021C8DF4
+ * function: FIELD_TILE_MOVE_SlidePlayBumpSe
  * address:  0x021C8DF4
  * packet:   pkt_ov021_021C8DF4
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; void *f10; void *f14; u32 f18; 
 extern int func_02005C64(void);
 extern void func_020061F8(int i);
 extern void func_0200616C(void *arg, int i);
-void func_021C8DF4(P *p)
+void FIELD_TILE_MOVE_SlidePlayBumpSe(P *p)
 {
     if (func_02005C64() == 0) {
         func_020061F8(p->f24);

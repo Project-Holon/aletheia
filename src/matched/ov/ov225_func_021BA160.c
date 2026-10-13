@@ -12,7 +12,7 @@
  *   d_021BBF4C 0x021BBF4C data a4
  *   func_02082BCC 0x02082BCC arm
  *   func_021B9A08 0x021B9A08 thumb ov225
- *   func_021B62E0 0x021B62E0 thumb ov067
+ *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   func_021B6558 0x021B6558 thumb ov067
  */
 #include "../include/Obj08468.h"
@@ -26,7 +26,7 @@ struct Block {u32 words[16];};
 extern const struct Block d_021BBF4C;
 extern void func_02082BCC(void *,u8,u32);
 extern u32 func_021B9A08(const u8 *p);
-extern R *func_021B62E0(A *,int);
+extern R *TOUCHBAR_Create(A *,int);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 void func_021BA160(char *p)
 {
@@ -36,6 +36,6 @@ void func_021BA160(char *p)
     args.f0=(u8 *)&table;args.f4=2;
     args.f8=(int)func_021B9A08(((struct Obj26147 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f8);
     args.fC=6;args.f10=3;args.f14=1;args.f18=0;
-    *(R * *)&((struct Obj08468 *)p)->f4=func_021B62E0(&args,((struct Obj26148 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f4);
+    *(R * *)&((struct Obj08468 *)p)->f4=TOUCHBAR_Create(&args,((struct Obj26148 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f4);
     func_021B6558(((struct Obj08468 *)p)->f4,0,0);
 }

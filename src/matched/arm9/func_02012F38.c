@@ -1,5 +1,5 @@
 /*
- * function: func_02012F38
+ * function: GAME_DATA_GetSaveSyncBlock
  * address:  0x02012F38
  * packet:   pkt_02012F38
  * region:   arm9
@@ -12,10 +12,10 @@
  * Unlabelled leaf accessor: base + 0x694.
  *
  * symbols:
- *   func_02012F38  0x02012F38  thumb
+ *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
  */
 
-int func_02012F38(int base)
+int GAME_DATA_GetSaveSyncBlock(int base)
 {
     return base + 0x694;
 }

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B63D0 0x021B63D0 thumb ov067
+ *   TOUCHBAR_Update 0x021B63D0 thumb ov067
  */
 typedef struct S S;
-extern void func_021B63D0(struct S *p);
-void func_021BC3DC(S *p){func_021B63D0(p);}
+extern void TOUCHBAR_Update(struct S *p);
+void func_021BC3DC(S *p){TOUCHBAR_Update(p);}

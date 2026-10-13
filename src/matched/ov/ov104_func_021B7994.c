@@ -11,7 +11,7 @@
  * prototype: Incoming heap is u16, forwarded unchanged to narrow stack arguments.
  * symbols:
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -22,7 +22,7 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02040C14 0x02040C14 arm
  *   func_02049740 0x02049740 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
  *   d_021B8F30 0x021B8F30 data ov104
  *   d_021B8F5C 0x021B8F5C data
@@ -41,7 +41,7 @@ extern const u32 d_021B8F5C[];
 extern const struct BgTemplate d_021B8FB4[];
 extern const u32 d_021B8F40[];
 extern void func_0203F8F4(u16);
-extern void func_02045088(u16);
+extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
@@ -52,12 +52,12 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02040C14(u32,u32,u32,u32);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 void func_021B7994(void *p,u16 heap) {
  int i; BgId bg; void *archive;
  func_0203F8F4(heap);
- func_02045088(heap);
+ BMP_WIN_Init(heap);
  func_0203FC28(&d_021B8F30);
  for(i=0;i<7;i++) {
   bg=d_021B8F5C[i];
@@ -76,7 +76,7 @@ void func_021B7994(void *p,u16 heap) {
  func_020498F4((void *)((u32)archive),0x2f,4,0,0,0,heap);
  func_02040C14(5,0,1,0);
  ((struct Obj22217 *)p)->f0=func_02049740((void *)((u32)archive),0x31,5,0,0,heap);
- func_02049238(archive);
+ ARC_TOOL_DeleteHandle(archive);
  func_02049B40(0x17,5,0,0x1a0,0x20,heap);
  func_02040C14(2,0,1,0);
 }

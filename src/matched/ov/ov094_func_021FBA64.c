@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021F9858  0x021F9858  thumb  ov094
  */
 typedef struct {
@@ -19,22 +19,22 @@ typedef struct {
 } State;
 
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 typedef unsigned int   u32;
 extern void func_021F9858(void *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, int d);
 
 int func_021FBA64(struct Cursor *a, State *s)
 {
-    int v0 = func_0201134C(a);
-    int v1 = func_0201134C(a);
-    int v2 = func_0201134C(a);
-    int v3 = func_0201134C(a);
-    int v4 = func_0201134C(a);
-    int v5 = func_0201134C(a);
-    int v6 = func_0201134C(a);
-    int v7 = func_0201134C(a);
+    int v0 = VM_GetU32(a);
+    int v1 = VM_GetU32(a);
+    int v2 = VM_GetU32(a);
+    int v3 = VM_GetU32(a);
+    int v4 = VM_GetU32(a);
+    int v5 = VM_GetU32(a);
+    int v6 = VM_GetU32(a);
+    int v7 = VM_GetU32(a);
 
-    func_0201134C(a);
+    VM_GetU32(a);
     func_021F9858((void *)a, v0, v1, v2, v4, v5, v6, v7, v3);
     return s->f23c;
 }

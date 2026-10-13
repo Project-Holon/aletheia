@@ -1,5 +1,5 @@
 /*
- * function: func_021AE72C
+ * function: EVENT_TRAINER_EYE_Run
  * address:  0x021AE72C
  * packet:   pkt_ov021_021AE72C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D9348  0x021D9348  data
+ *   sTrainerEyeStepFuncs  0x021D9348  data
  */
 
 typedef unsigned char  u8;
@@ -22,11 +22,11 @@ typedef signed char    s8;
 typedef struct S { u32 f0; u32 f4; } S;
 typedef int (*StepFn)(S *s);
 
-extern StepFn d_021D9348[];
+extern StepFn sTrainerEyeStepFuncs[];
 
-int func_021AE72C(S *s)
+int EVENT_TRAINER_EYE_Run(S *s)
 {
-    while (d_021D9348[s->f0](s) == 1)
+    while (sTrainerEyeStepFuncs[s->f0](s) == 1)
         ;
     if (s->f4 == 1)
         return 1;

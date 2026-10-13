@@ -46,14 +46,14 @@
  *   func_021CA084 0x021CA084 thumb ov128
  *   BLINK_PALANM_Update 0x0202EA40 thumb
  *   BLINK_PALANM_ResetPhase 0x0202EB04 thumb
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
- *   func_0201283C 0x0201283C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_020099D4 0x020099D4 thumb
  *   func_02009A00 0x02009A00 thumb
  *   func_02009A74 0x02009A74 thumb
  *   func_020355C4 0x020355C4 arm
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  */
 #include "../include/Obj00179.h"
 #include "../include/Obj00298.h"
@@ -96,9 +96,9 @@ typedef signed int     s32;
 struct Row;
 extern s32 BLINK_PALANM_Update(struct Row *p);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern u32 func_020221A4(void);
-extern u32 func_0201283C(const struct BigObj *p);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern u32 WIPE_SYS_EndCheck(void);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Actor;
 struct Sub020097BCEnt;
 struct Sub020097BCObj;
@@ -106,7 +106,7 @@ extern struct Sub020097BCEnt *func_020099D4(struct Sub020097BCObj *obj, int i);
 extern void func_02009A00(struct Sub020097BCObj *obj, int i, void *dest);
 extern void func_02009A74(struct Sub020097BCObj *obj, u32 i);
 extern u8 func_020355C4(void);
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
 {
     int idx;
@@ -168,26 +168,26 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
         q[8]=1;
         break;
     case 12:
-        func_0202208C(0,0,0,0,6,1,heap);
+        WIPE_SYS_Start(0,0,0,0,6,1,heap);
         idx=func_021C87A0((s16 *)p);
-        base=func_0201283C(((struct Obj00298 *)q)->f4);
+        base=GAME_DATA_GetWifiList(((struct Obj00298 *)q)->f4);
         func_021C6514((char *)q,(int)func_020099D4((void *)base,*(u8 *)((u32)q+(u32)idx+24)));
         q[8]=13;
         break;
     case 13:
-        if(func_020221A4()!=0) {
+        if(WIPE_SYS_EndCheck()!=0) {
             func_021C7E48(p,q,ctx);func_021C6438(q,2,4);func_021C7AC4(p,q,ctx);return 1;
         }
         break;
     case 14:
         idx=func_021C87A0((s16 *)p);
-        base=func_0201283C(((struct Obj00298 *)q)->f4);
+        base=GAME_DATA_GetWifiList(((struct Obj00298 *)q)->f4);
         func_02009A00((void *)base,*(u8 *)((u32)q+(u32)idx+24),((struct Obj00298 *)q)->f58);
     case 15:
         func_021C76F0(p,q,ctx,52);func_021C7E0C(p,q,ctx,heap);
-        func_0202208C(0,1,1,0,6,1,heap);q[8]=16;
+        WIPE_SYS_Start(0,1,1,0,6,1,heap);q[8]=16;
         break;
-    case 16: if(func_020221A4()!=0) q[8]=2; break;
+    case 16: if(WIPE_SYS_EndCheck()!=0) q[8]=2; break;
     case 17: func_021C8548((s16 *)p,q,ctx,heap);q[8]=18;break;
     case 18: if(func_021C8574(p,(int *)q,ctx,heap)==1) q[8]=19;break;
     case 19:
@@ -201,7 +201,7 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
     case 20: func_021C87B0(p,ctx);q[8]=21;break;
     case 21:
         if(func_021C8850(p,ctx)==1) {
-            base=func_0201283C(((struct Obj00298 *)q)->f4);
+            base=GAME_DATA_GetWifiList(((struct Obj00298 *)q)->f4);
             idx=func_021C87A0((s16 *)p);
             func_02009A74((void *)base,*(u8 *)((u32)q+(u32)idx+24));
             func_021C6520((char *)q);
@@ -217,14 +217,14 @@ int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
         if(func_021C873C(p,(int *)q,ctx)!=0 && func_021CA084((int *)q)==1) {q[8]=2;func_021C875C((char *)p,(char *)ctx);}
         break;
     case 25:
-        if(func_0204B98C(((struct Obj03809 *)ctx)->f164)!=1) {
+        if(CLACT_IsActorAnimActive(((struct Obj03809 *)ctx)->f164)!=1) {
             func_021C7E48(p,q,ctx);func_021C6438(q,0,2);func_021C7AC4(p,q,ctx);return 1;
         }
         break;
-    case 26: if(func_0204B98C(((struct Obj03809 *)ctx)->f168)!=1) q[8]=27;break;
-    case 27: func_0202208C(0,0,0,0,6,1,heap);q[8]=28;break;
+    case 26: if(CLACT_IsActorAnimActive(((struct Obj03809 *)ctx)->f168)!=1) q[8]=27;break;
+    case 27: WIPE_SYS_Start(0,0,0,0,6,1,heap);q[8]=28;break;
     case 28:
-        if(func_020221A4()!=0) {func_021C6438(q,6,0);func_021C7AC4(p,q,ctx);return 1;}
+        if(WIPE_SYS_EndCheck()!=0) {func_021C6438(q,6,0);func_021C7AC4(p,q,ctx);return 1;}
         break;
     }
     return 0;

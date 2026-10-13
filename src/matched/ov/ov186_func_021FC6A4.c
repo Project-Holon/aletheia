@@ -10,12 +10,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_020457B0 0x020457B0 arm
- *   func_020450F0 0x020450F0 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_02200D5C 0x02200D5C data a1
@@ -29,13 +29,13 @@ struct CharBuf;
 struct Descriptor;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
-extern void *func_020457B0(unsigned,unsigned short);
+extern void *STRBUF_Create(unsigned,unsigned short);
 struct Cfg;
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 void *func_021FC6A4(unsigned short plane,unsigned a,unsigned short b,unsigned short c,unsigned char d,unsigned char e,void *owner,unsigned short heap)
@@ -47,15 +47,15 @@ void *func_021FC6A4(unsigned short plane,unsigned a,unsigned short b,unsigned sh
     ((struct Obj02901 *)p)->f14=0;
     ((struct Obj02901 *)p)->f8=owner;
     ((struct Obj02901 *)p)->f16=plane;
-    ((struct Obj02901 *)p)->f10=func_020457B0(0xff,heap);
-    bmp=(void *)func_020450F0((unsigned char)plane,a,b,c,d,e,1);
+    ((struct Obj02901 *)p)->f10=STRBUF_Create(0xff,heap);
+    bmp=(void *)BMP_WIN_Create((unsigned char)plane,a,b,c,d,e,1);
     ((struct Obj02901 *)p)->fC=bmp;
     ((struct Obj02901 *)p)->f0=bmp;
     p[4]=0;
-    func_02043B5C(func_02045770(bmp),((struct Obj02901 *)p)->f14);
+    BMP_Clear(func_02045770(bmp),((struct Obj02901 *)p)->f14);
     bmp=((struct Obj02901 *)p)->fC;
-    func_02045334(bmp);
-    func_02045374(bmp);
+    BMP_WIN_TransferChars(bmp);
+    BMP_WIN_MakeScreen(bmp);
     func_020409B4(func_02045730(bmp));
     return p;
 }

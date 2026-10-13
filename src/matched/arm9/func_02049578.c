@@ -20,7 +20,7 @@
  * Return the absolute image offset of one archive member, the value
  * ARC_TOOL_GetHandleMemberOffsetOut writes through a pointer instead.
  *
- * The bounds assertion is the same five-argument call func_02049250
+ * The bounds assertion is the same five-argument call ARC_TOOL_LoadHandleMember
  * uses: the count is already in r3 from the guard's own `cmp`, so only
  * the member reaches the stack
  * (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).

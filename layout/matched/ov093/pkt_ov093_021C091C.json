@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C091C",
+   "name": "BTL_SERVER_FLOW_ProcMoveHitTargets",
    "address": "0x021C091C",
    "kind": "game",
    "region": "ov093",

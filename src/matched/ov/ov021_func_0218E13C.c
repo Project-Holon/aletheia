@@ -1,5 +1,5 @@
 /*
- * function: func_0218E13C
+ * function: FIELD_CAMERA_SetMode
  * address:  0x0218E13C
  * packet:   pkt_ov021_0218E13C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218E124  0x0218E124  thumb
- *   d_021DDA00  0x021DDA00  data  ov021  a4
+ *   FIELD_CAMERA_EnterMode  0x0218E124  thumb
+ *   gFieldCameraPrepareModeFuncs  0x021DDA00  data  ov021  a4
  */
 #include "../include/Obj19557.h"
 
@@ -23,13 +23,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 typedef void (*StateFunc)(void *a);
-extern StateFunc d_021DDA00[];
-extern void func_0218E124(u8 *a, u32 s);
+extern StateFunc gFieldCameraPrepareModeFuncs[];
+extern void FIELD_CAMERA_EnterMode(u8 *a, u32 s);
 
-void func_0218E13C(u8 *a, u32 s)
+void FIELD_CAMERA_SetMode(u8 *a, u32 s)
 {
     if (((struct Obj19557 *)a)->f14 != s) {
-        d_021DDA00[s](a);
-        func_0218E124(a, s);
+        gFieldCameraPrepareModeFuncs[s](a);
+        FIELD_CAMERA_EnterMode(a, s);
     }
 }

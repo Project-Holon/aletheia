@@ -1,5 +1,5 @@
 /*
- * function: func_021C1624
+ * function: BTL_SERVER_FLOW_RunMoveHitEvent
  * address:  0x021C1624
  * packet:   pkt_ov093_021C1624
  * region:   ov093
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D74F8  0x021D74F8  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D75EC  0x021D75EC  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
- *   func_021D7540  0x021D7540  thumb  ov093
+ *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
+ *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
+ *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021D74F8(int line);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int key, u32 val);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D7540(int line);
+extern void BTL_EVENT_PushVarFrame(int line);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
+extern void BTL_EVENT_PopVarFrame(int line);
 
-void func_021C1624(u8 *p, u8 *a, u8 *b, u16 *c)
+void BTL_SERVER_FLOW_RunMoveHitEvent(u8 *p, u8 *a, u8 *b, u16 *c)
 {
-    func_021D74F8(0x19bd);
-    func_021D75EC(3, func_021D5440(a));
-    func_021D75EC(4, func_021D5440(b));
-    func_021D75EC(0x12, c[0]);
-    func_021D75EC(0x16, ((u8 *)c)[6]);
-    func_021D70F0(p, 0x45);
-    func_021D7540(0x19bd + 7);
+    BTL_EVENT_PushVarFrame(0x19bd);
+    BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));
+    BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(b));
+    BTL_EVENT_SetVarReadOnly(0x12, c[0]);
+    BTL_EVENT_SetVarReadOnly(0x16, ((u8 *)c)[6]);
+    BTL_EVENT_DispatchEventChecked(p, 0x45);
+    BTL_EVENT_PopVarFrame(0x19bd + 7);
 }

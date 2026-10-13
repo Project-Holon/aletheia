@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  */
-extern void func_0204A5AC(void);
-void func_02183F98(void *a0) { func_0204A5AC(); }
+extern void CLACT_ExitSystem(void);
+void func_02183F98(void *a0) { CLACT_ExitSystem(); }

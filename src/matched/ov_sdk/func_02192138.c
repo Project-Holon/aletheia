@@ -1,5 +1,5 @@
 /*
- * function: func_02192138
+ * function: FIELD_MSGBG_IsLineMissing
  * address:  0x02192138
  * packet:   pkt_02192138
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed char    s8;
 struct StrObj;
 extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
 
-int func_02192138(u32 a, u32 b, u32 c)
+int FIELD_MSGBG_IsLineMissing(u32 a, u32 b, u32 c)
 {
 if (func_0201D37C((struct StrObj *)a, (struct StrObj *)b, c) == 0) {
     return 1;

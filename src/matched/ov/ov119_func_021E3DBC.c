@@ -9,12 +9,13 @@
  * status: EXACT
  * symbols:
  *   func_021E3D04 0x021E3D04 thumb ov119
+ *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
  */
 #include "../include/Obj22798.h"
 typedef unsigned int   u32;
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void *func_020185F0(void *);
+extern void *POKE_TOOL_Dummy(void *);
 extern unsigned char func_021E3D04(void *, unsigned int);
 void func_021E3DBC(char *p, void *party, unsigned char *out)
 {
@@ -23,7 +24,7 @@ void func_021E3DBC(char *p, void *party, unsigned char *out)
     count = func_0201AA18(party);
     for (i = 0; i < 6; i++) {
         if (count > i)
-            out[i] = func_021E3D04(func_020185F0(func_0201AB28(party, i)), ((struct Obj22798 *)p)->f5F4);
+            out[i] = func_021E3D04(POKE_TOOL_Dummy(func_0201AB28(party, i)), ((struct Obj22798 *)p)->f5F4);
         else
             out[i] = 0;
     }

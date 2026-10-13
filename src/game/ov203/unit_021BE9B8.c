@@ -25,7 +25,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_0200616C 0x0200616C thumb
  *   func_020061E4 0x020061E4 thumb
- *   func_02006148 0x02006148 thumb
+ *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_SetSeSlotVolume 0x020062BC thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   sub_020311B8 0x020311B8 arm
@@ -92,7 +92,7 @@ extern void TCBL_DeleteTask(struct TcblNode *);
 extern void func_02030EAC(struct Node *n);
 extern void func_0200616C(void *,int);
 extern void func_020061E4(unsigned);
-extern int func_02006148(unsigned);
+extern int GFL_USE_GetSeSlot(unsigned);
 extern void GFL_USE_SetSeSlotVolume(int,unsigned);
 extern void GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
 extern void func_020061F8(int);
@@ -217,7 +217,7 @@ void func_021BEBC8(void *unused,int ignored,int *s)
 {
     int channel;
     if(s[4]!=-1){func_0200616C((void *)s[0],s[4]);channel=s[4];}
-    else {func_020061E4(s[0]);channel=func_02006148(s[0]);}
+    else {func_020061E4(s[0]);channel=GFL_USE_GetSeSlot(s[0]);}
     if(s[1]!=-1)GFL_USE_SetSeSlotVolume(channel,s[1]);
     if(s[2]!=-1)GFL_USE_SetSeSlotParams(channel,-1,-1,s[2]);
     if(s[3]!=-1)GFL_USE_SetSeSlotParams(channel,-1,s[3],-1);
@@ -230,7 +230,7 @@ void func_021BEC24(u32 a, u32 b, int *c)
 {
     int ch = c[1];
     if (ch == -1) {
-        ch = func_02006148(c[0]);
+        ch = GFL_USE_GetSeSlot(c[0]);
     }
     func_020061F8(ch);
 }
@@ -269,7 +269,7 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     work->end=end;
     work->duration=func_021BF7AC((char *)owner,duration);
     if(flag == -1) work->target=flag;
-    else work->target=func_02006148(target);
+    else work->target=GFL_USE_GetSeSlot(target);
     if(start>0) a=0.5f+(float)(start<<12);
     else a=(float)(start<<12)-0.5f;
     work->current=(int)a;

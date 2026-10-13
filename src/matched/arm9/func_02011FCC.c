@@ -45,7 +45,7 @@
  *   GAME_EVENT_Control  0x02012380  thumb
  *   func_0202627C  0x0202627C  thumb
  *   PROCSYS_Main  0x02031330  arm
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_Update  0x02028A14  thumb
  *   ISS_SYS_Update  0x0202B500  thumb
  *   PALANM_UpdateTimer  0x02021464  thumb
@@ -67,7 +67,7 @@ extern int GAME_EVENT_Control(void *p);
 struct Comm;
 extern void func_0202627C(struct Comm *p);
 extern unsigned int PROCSYS_Main(void *p);
-extern unsigned int func_02012A30(const struct BigObj *p);
+extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void FIELD_SOUND_SYSTEM_Update(struct T *p);
 extern void ISS_SYS_Update(unsigned char *p);
 extern void PALANM_UpdateTimer(unsigned char *p);
@@ -85,7 +85,7 @@ int GAMESYSTEM_Main(char *p)
         func_0202627C((struct Comm *)((struct Obj01458 *)p)->f24);
     }
     ((struct Obj01458 *)p)->fC = PROCSYS_Main((void *)((struct Obj01458 *)p)->f8);
-    FIELD_SOUND_SYSTEM_Update((struct T *)func_02012A30((const struct BigObj *)((struct Obj01458 *)p)->f1C));
+    FIELD_SOUND_SYSTEM_Update((struct T *)GAME_DATA_GetBgmInfo((const struct BigObj *)((struct Obj01458 *)p)->f1C));
     ISS_SYS_Update((unsigned char *)((struct Obj01458 *)p)->f2C);
     PALANM_UpdateTimer((unsigned char *)((struct Obj01458 *)p)->f1C);
     if (GAME_DATA_IsWalkCountEnabled((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)

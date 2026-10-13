@@ -1,5 +1,5 @@
 /*
- * function: func_021F0478
+ * function: UNION_SUBDISP_DeleteLineWindows
  * address: 0x021F0478
  * packet: pkt_ov031_021F0478
  * region: ov031
@@ -14,7 +14,7 @@
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
-void func_021F0478(char *p)
+void UNION_SUBDISP_DeleteLineWindows(char *p)
 {
     int i;
     for (i = 0; i < 3; i++) {

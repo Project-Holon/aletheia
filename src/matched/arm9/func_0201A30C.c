@@ -16,7 +16,7 @@
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0201AA18   0x0201AA18  thumb
  *   func_0201AB28   0x0201AB28  thumb
- *   func_02017E1C   0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   func_02019B58   0x02019B58  thumb
  *
  * Guarded sweep over a record array: only when the object reports state zero
@@ -35,7 +35,7 @@ struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32  func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32  func_02017E1C(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_02019B58(void *p);
 
 void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c)
@@ -48,7 +48,7 @@ void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c)
     for (i = 0; i < (int)func_0201AA18(a1); i++) {
         void *e = func_0201AB28(a1, i);
 
-        if (func_02017E1C(e, 0xA9, 0) != 0)
+        if (POKE_TOOL_GetPartyValue(e, 0xA9, 0) != 0)
             func_02019B58(e);
     }
 }

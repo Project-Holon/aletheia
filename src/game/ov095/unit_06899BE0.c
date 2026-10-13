@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02043598  0x02043598  arm
- *   func_021B8588  0x021B8588  thumb
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
+ *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B86B8  0x021B86B8  thumb
- *   func_021B8748  0x021B8748  thumb
+ *   BTL_MAIN_GetGameData  0x021B8748  thumb
  *   func_021F86E0  0x021F86E0  thumb
  *   func_0220207C  0x0220207C  thumb
  *   func_022025D8  0x022025D8  thumb
@@ -46,12 +46,12 @@ typedef struct Obj {
 
 typedef signed char s8;
 
-extern int func_021B8748(int a);
-extern int func_021B8588(int a);
+extern int BTL_MAIN_GetGameData(int a);
+extern int BTL_MAIN_GetRule(int a);
 extern int func_021B86B8(int a);
 extern int func_021F86E0(void);
 extern int func_0220207C(int a, int b, int c, int d, int e, u8 *f, int g, int h);
-extern void func_02043598(int a, int b);
+extern void BG_SYS_SetSubPlaneVisible(int a, int b);
 extern void func_06899D38(Obj *o);
 extern int func_022025D8(u32, u32);
 void func_06899BE0(Obj *o);
@@ -65,12 +65,12 @@ void func_06899BE0(Obj *o)
     int c;
     int d;
 
-    a = func_021B8748(o->fa0);
-    b = func_021B8588(o->fa0);
+    a = BTL_MAIN_GetGameData(o->fa0);
+    b = BTL_MAIN_GetRule(o->fa0);
     c = func_021B86B8(o->fa0);
     d = func_021F86E0();
     o->fb0 = func_0220207C(a, b, c, d, o->f08, &o->f8f, o->f90, o->fac);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
     func_06899D38(o);
 }
 

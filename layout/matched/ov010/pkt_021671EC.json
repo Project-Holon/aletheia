@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021671EC",
+   "name": "EVENT_RESEARCH_RADAR_DeleteWordSet",
    "address": "0x021671EC",
    "kind": "game",
    "region": "ov010",

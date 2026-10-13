@@ -1,7 +1,7 @@
 /*
  * file:     field_player.c
  * unit:     yes
- * function: func_021A2E50, func_021A2E90, func_021A2EB8, func_021A2F20, func_021A2F48, func_021A2F54, func_021A2F60, func_021A2F6C, func_021A2F8C, func_021A2F98, func_021A2FA4, func_021A2FB0, func_021A2FD0, func_021A2FE4, func_021A3038, func_021A3044, func_021A3050, func_021A305C, func_021A3068, func_021A3074, func_021A3080, func_021A308C, func_021A3098, func_021A30A4, func_021A30B0, func_021A30BC, func_021A30C8, func_021A3128, func_021A3190, func_021A31A4, func_021A31D0, func_021A3208, func_021A3220, func_021A322C, func_021A3238, func_021A3244, func_021A3250, func_021A32A8, func_021A330C, func_021A3364, func_021A3460, func_021A3484, func_021A34EC, func_021A34F8, func_021A3504, func_021A3524, func_021A3550, func_021A356C, func_021A3584, func_021A35A0, func_021A35BC, func_021A35E0, func_021A35F0, func_021A35FC, func_021A3624, func_021A3644, func_021A3664, func_021A3674, func_021A3680, func_021A368C, func_021A3698, func_021A36A4, func_021A36B0, func_021A36BC, func_021A36C8, func_021A36D4, func_021A36E0
+ * function: FIELD_PLAYER_Create, FIELD_PLAYER_Delete, FIELD_PLAYER_SaveToPlayerWork, FIELD_PLAYER_TryPushBoulder, FIELD_PLAYER_StartFormChange, FIELD_PLAYER_StepFormChange, FIELD_PLAYER_FinishFormChange, FIELD_PLAYER_ResetMoveWork, FIELD_PLAYER_SetRideEffect, FIELD_PLAYER_GetRideEffect, FIELD_PLAYER_ChooseMoveDirFromKeys, FIELD_PLAYER_CheckMoveBusy, FIELD_PLAYER_ChangeToNormalForm, FIELD_PLAYER_UpdateStepPhase, FIELD_PLAYER_GetPos, FIELD_PLAYER_SetPos, FIELD_PLAYER_GetDirDisp, FIELD_PLAYER_SetDirDisp, FIELD_PLAYER_GetFieldMap, FIELD_PLAYER_GetMmdl, FIELD_PLAYER_GetStepKind, FIELD_PLAYER_GetStepPhase, FIELD_PLAYER_GetFormCode, FIELD_PLAYER_SetFormCode, FIELD_PLAYER_GetSex, FIELD_PLAYER_GetGameSystem, FIELD_PLAYER_GetNowAttribute, FIELD_PLAYER_GetFrontAttribute, FIELD_PLAYER_GetFormObjCode, FIELD_PLAYER_GetObjCodeOfFormCode, FIELD_PLAYER_GetFormSlotOfObjCode, FIELD_PLAYER_CheckNotWaterForm, FIELD_PLAYER_SetObjCode, FIELD_PLAYER_ClearRememberedObjCode, FIELD_PLAYER_CheckFormModel, FIELD_PLAYER_CheckAnimePaused, FIELD_PLAYER_SearchFrontMmdl, FIELD_PLAYER_SearchFrontMmdlHeight, FIELD_PLAYER_GetGridPosInDir, FIELD_PLAYER_GetPosInDir, FIELD_PLAYER_GetFrontGridPos, FIELD_PLAYER_GetMoveOffsetInDir, FIELD_PLAYER_GetFormSlot, FIELD_PLAYER_WaitModelReady, FIELD_PLAYER_CheckEncountAttr, FIELD_PLAYER_CheckSurfEntryAttr, FIELD_PLAYER_SetGridMoveFlag, FIELD_PLAYER_ResetGridMove, FIELD_PLAYER_GetGridMoveState, FIELD_PLAYER_SetGridMoveState, FIELD_PLAYER_CheckMoveRestrictFlag, FIELD_PLAYER_CreateGrid, FIELD_PLAYER_SetupGrid, FIELD_PLAYER_GetNowGridPos, FIELD_PLAYER_CheckGridMoving, FIELD_PLAYER_FinishGridMove, FIELD_PLAYER_CreateNogrid, FIELD_PLAYER_SetupNogrid, FIELD_PLAYER_SetNogridParam, FIELD_PLAYER_ResetNogrid, FIELD_PLAYER_CheckNogridMoveReady, FIELD_PLAYER_GetNogridState, FIELD_PLAYER_GetNogridLocation, FIELD_PLAYER_SetNogridLocation, FIELD_PLAYER_GetNogridLocationByDir, FIELD_PLAYER_ClearNogridState, FIELD_PLAYER_GetGrid
  * address:  0x021A2E50
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -11,105 +11,105 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
- * Split from weather_task.c (lane L141): __FILE__ anchor 021A2E8C (d_021DDEA8 "field_player.c"); wrapper layer that forwards to core (+4), grid (+8) and nogrid (+C) objects.
+ * Split from weather_task.c (lane L141): __FILE__ anchor 021A2E8C (gFieldPlayerFileName "field_player.c"); wrapper layer that forwards to core (+4), grid (+8) and nogrid (+C) objects.
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   d_021DDEA8     0x021DDEA8  data  a4
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02012A90  0x02012A90  thumb
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_02012AD4  0x02012AD4  thumb
- *   func_02188CFC  0x02188CFC  thumb
- *   func_02012ABC  0x02012ABC  thumb
- *   func_0219E2F4  0x0219E2F4  thumb
- *   func_02012AA4  0x02012AA4  thumb
- *   func_021C0CA4  0x021C0CA4  thumb  ov021
- *   func_02188C5C  0x02188C5C  thumb
- *   func_02188C98  0x02188C98  thumb
- *   func_021AB0D4  0x021AB0D4  thumb
- *   func_021BB3C4  0x021BB3C4  thumb
- *   func_0219E664  0x0219E664  thumb
- *   data_021D890C  0x021D890C  data
- *   func_02188C7C  0x02188C7C  thumb
- *   func_0216DDC0  0x0216DDC0  thumb  ov010
- *   func_0219E634  0x0219E634  thumb
- *   func_0219E570  0x0219E570  thumb
- *   func_0216DDDC  0x0216DDDC  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_02164280  0x02164280  thumb  ov010
- *   func_021BB480  0x021BB480  thumb  ov021
- *   func_021B7D38  0x021B7D38  thumb  ov021
- *   func_0219E784  0x0219E784  thumb  ov021
- *   func_021B7C38  0x021B7C38  thumb  ov021
- *   func_0207CCA4  0x0207CCA4  arm
- *   func_021AB5AC  0x021AB5AC  thumb  ov021
- *   func_021AB11C  0x021AB11C  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB310  0x021AB310  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
- *   func_0216D548  0x0216D548  thumb  ov010
- *   func_021A36E4  0x021A36E4  thumb  ov021
- *   func_021A3810  0x021A3810  thumb  ov021
- *   func_021A3818  0x021A3818  thumb  ov021
- *   func_021A3898  0x021A3898  thumb  ov021
- *   func_021A38A4  0x021A38A4  thumb  ov021
- *   func_021A3920  0x021A3920  thumb  ov021
- *   func_021A392C  0x021A392C  thumb  ov021
- *   func_021A3938  0x021A3938  thumb  ov021
- *   func_021A394C  0x021A394C  thumb  ov021
- *   func_021A395C  0x021A395C  thumb  ov021
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A3968  0x021A3968  thumb  ov021
- *   func_021A396C  0x021A396C  thumb  ov021
- *   func_021A3970  0x021A3970  thumb  ov021
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A3980  0x021A3980  thumb  ov021
- *   func_021A398C  0x021A398C  thumb  ov021
- *   func_021A3990  0x021A3990  thumb  ov021
- *   func_021A3994  0x021A3994  thumb  ov021
- *   func_021A39E4  0x021A39E4  thumb  ov021
- *   func_021A3A10  0x021A3A10  thumb  ov021
- *   func_021A3A20  0x021A3A20  thumb  ov021
- *   func_021A3A3C  0x021A3A3C  thumb  ov021
- *   func_021A3AB8  0x021A3AB8  thumb  ov021
- *   func_021A3AD0  0x021A3AD0  thumb  ov021
- *   func_021A3AD4  0x021A3AD4  thumb  ov021
- *   func_021A3CB0  0x021A3CB0  thumb  ov021
- *   func_021A3CC0  0x021A3CC0  thumb  ov021
- *   func_021A3CE8  0x021A3CE8  thumb  ov021
- *   func_021A4140  0x021A4140  thumb  ov021
- *   func_021A41A8  0x021A41A8  thumb  ov021
- *   func_021A41B0  0x021A41B0  thumb  ov021
- *   func_021A53D0  0x021A53D0  thumb  ov021
- *   func_021A548C  0x021A548C  thumb  ov021
- *   func_021A54A0  0x021A54A0  thumb  ov021
- *   func_021A54B4  0x021A54B4  thumb  ov021
- *   func_021A5738  0x021A5738  thumb  ov021
- *   func_021A575C  0x021A575C  thumb  ov021
- *   func_021A5764  0x021A5764  thumb  ov021
- *   func_021A5768  0x021A5768  thumb  ov021
- *   func_021A5778  0x021A5778  thumb  ov021
- *   func_021A5880  0x021A5880  thumb  ov021
- *   func_021A5920  0x021A5920  thumb  ov021
- *   func_021A5928  0x021A5928  thumb  ov021
- *   func_021A5964  0x021A5964  thumb  ov021
- *   func_021A596C  0x021A596C  thumb  ov021
- *   func_021A59DC  0x021A59DC  thumb  ov021
- *   func_021A59EC  0x021A59EC  thumb  ov021
- *   func_021A5A00  0x021A5A00  thumb  ov021
- *   func_021A5A0C  0x021A5A0C  thumb  ov021
- *   func_021A5A18  0x021A5A18  thumb  ov021
- *   func_021A5A24  0x021A5A24  thumb  ov021
- *   func_021A5A30  0x021A5A30  thumb  ov021
- *   func_021A5A34  0x021A5A34  thumb  ov021
+ *   gFieldPlayerFileName     0x021DDEA8  data  a4
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   GAME_DATA_SetPlayerPosition  0x02012A90  thumb
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   GAME_DATA_SetPlayerDirectionType  0x02012AD4  thumb
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb
+ *   GAME_DATA_SetPlayerMoveForm  0x02012ABC  thumb
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb
+ *   GAME_DATA_SetPlayerRailLocation  0x02012AA4  thumb
+ *   FIELD_PLAYER_GRID_EVENT_TryPushBoulder  0x021C0CA4  thumb  ov021
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   MAP_ATTR_GetAt  0x021AB0D4  thumb
+ *   FIELD_NOGRID_MAPPER_GetAttribute  0x021BB3C4  thumb
+ *   FLDMMDL_RAIL_GetLocationByDir  0x0219E664  thumb
+ *   gFieldPlayerFormTable  0x021D890C  data
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
+ *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
+ *   FLDMMDL_RAIL_GetFrontLocation  0x0219E634  thumb
+ *   FLDMMDL_RAIL_SearchMmdlByLocation  0x0219E570  thumb
+ *   FLDMMDL_SysSearchGridPosHeight  0x0216DDDC  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FLDMMDL_MOVE_GridToVectorPos  0x02164280  thumb  ov010
+ *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb  ov021
+ *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb  ov021
+ *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
+ *   FIELD_RAIL_GetUnitScale  0x021B7C38  thumb  ov021
+ *   VEC_Normalize  0x0207CCA4  arm
+ *   MAP_ATTR_IsHopTransition  0x021AB5AC  thumb  ov021
+ *   MAP_ATTR_IsBlocked  0x021AB11C  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_IsWaterfall  0x021AB310  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
+ *   FIELD_PLAYER_CORE_Create  0x021A36E4  thumb  ov021
+ *   FIELD_PLAYER_CORE_Delete  0x021A3810  thumb  ov021
+ *   FIELD_PLAYER_CORE_UpdateStepPhase  0x021A3818  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetPos  0x021A3898  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetPos  0x021A38A4  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetDirDisp  0x021A3920  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetDirDisp  0x021A392C  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetObjCode  0x021A3938  thumb  ov021
+ *   FIELD_PLAYER_CORE_ClearRememberedObjCode  0x021A394C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFieldMap  0x021A395C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetStepKind  0x021A3968  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetStepPhase  0x021A396C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetStepPhase  0x021A3970  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetFormCode  0x021A3980  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetSex  0x021A398C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetGameSystem  0x021A3990  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetPlayerWork  0x021A3994  thumb  ov021
+ *   FIELD_PLAYER_CORE_WaitModelReady  0x021A39E4  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormSlot  0x021A3A10  thumb  ov021
+ *   FIELD_PLAYER_CORE_CheckFormModel  0x021A3A20  thumb  ov021
+ *   FIELD_PLAYER_CORE_CheckAnimePaused  0x021A3A3C  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChooseMoveDirFromKeys  0x021A3AB8  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetRideEffect  0x021A3AD0  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetRideEffect  0x021A3AD4  thumb  ov021
+ *   FIELD_PLAYER_CORE_StartFormChange  0x021A3CB0  thumb  ov021
+ *   FIELD_PLAYER_CORE_StepFormChange  0x021A3CC0  thumb  ov021
+ *   FIELD_PLAYER_CORE_FinishFormChange  0x021A3CE8  thumb  ov021
+ *   FIELD_PLAYER_GRID_Create  0x021A4140  thumb  ov021
+ *   FIELD_PLAYER_GRID_Delete  0x021A41A8  thumb  ov021
+ *   FIELD_PLAYER_GRID_Move  0x021A41B0  thumb  ov021
+ *   FIELD_PLAYER_GRID_ResetBlockedPose  0x021A53D0  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsOnForcedMoveTile  0x021A548C  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsHopping  0x021A54A0  thumb  ov021
+ *   FIELD_PLAYER_GRID_FinishHop  0x021A54B4  thumb  ov021
+ *   FIELD_PLAYER_GRID_ResetHold  0x021A5738  thumb  ov021
+ *   FIELD_PLAYER_GRID_StopForcedMove  0x021A575C  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetHopLanded  0x021A5764  thumb  ov021
+ *   FIELD_PLAYER_GRID_SetHopLanded  0x021A5768  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsBlocked  0x021A5778  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_Create  0x021A5880  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_Delete  0x021A5920  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_AttachMmdl  0x021A5928  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_ClearRailWork  0x021A5964  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_Update  0x021A596C  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_IsBlocked  0x021A59DC  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_IsForcedMove  0x021A59EC  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_SetRailLocation  0x021A5A00  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_GetNextRailLocation  0x021A5A0C  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_GetRailLocationByDir  0x021A5A18  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_GetRailPos  0x021A5A24  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_GetRailWork  0x021A5A30  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_EndBlockedWalk  0x021A5A34  thumb  ov021
  */
 #include "field_player_types.h"
 
@@ -138,350 +138,350 @@ struct FieldNogridMapper;
 
 extern u32 func_020307B0(void *work);
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *pos);
-extern void func_02012A90(struct PlayerWork *playerWork, const FieldPlayerLocationPos *pos);
-extern u16 func_0216D5F8(const Mmdl *mmdl);
-extern void func_02012AD4(struct PlayerWork *playerWork, int dir);
-extern u32 func_02188CFC(FieldMap *fieldMap);
-extern void func_02012ABC(struct PlayerWork *playerWork, u8 moveForm);
-extern void func_0219E2F4(const Mmdl *mmdl, void *railLocation);
-extern void func_02012AA4(struct PlayerWork *playerWork, const void *railLocation);
-extern int func_021C0CA4(FieldPlayerGrid *grid, int a, int b, int c);
-extern struct FieldG3dMapper *func_02188C98(FieldMap *fieldMap);
-extern int func_021AB0D4(struct FieldG3dMapper *g3dMapper, FieldPlayerLocationPos *pos);
-extern struct FieldNogridMapper *func_02188C5C(FieldMap *fieldMap);
-extern u32 func_021BB3C4(struct FieldNogridMapper *mapper, void *railLocation);
-extern int func_0219E664(const Mmdl *mmdl, u32 dir, void *railLocation);
-extern struct MmdlSys *func_02188C7C(FieldMap *fieldMap);
-extern void *func_0216DDC0(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, u32 mask);
-extern void func_0219E634(const Mmdl *mmdl, void *railLocation);
-extern u32 func_0219E570(struct MmdlSys *mmdlSys, void *railLocation, u32 flag);
-extern u8 *func_0216DDDC(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, s32 posY, s32 limit, u32 mask);
-extern u16 func_0216D83C(const Mmdl *mmdl);
-extern u16 func_0216D854(const Mmdl *mmdl);
-extern u16 func_0216D86C(const Mmdl *mmdl);
-extern int func_021641E8(int dir);
-extern int func_021641F8(int dir);
-extern void func_02164280(int gridX, int gridZ, int *vecPos);
-extern void *func_021BB480(struct FieldNogridMapper *mapper);
-extern void func_021B7D38(void *railMan, s16 *railLocation, int *pos);
-extern void func_0219E784(const Mmdl *mmdl, u32 dir, s16 *offset);
-extern int func_021B7C38(void *railMan);
-extern void func_0207CCA4();
-extern int func_021AB5AC(unsigned long a, unsigned long b);
-extern int func_021AB11C(u32 attr);
-extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB310(u16 id);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
-extern void *func_0201296C(struct GameData *gameData);
-extern u32 func_020142E8(void *eventWork, s32 flagId);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *pos);
+extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *playerWork, const FieldPlayerLocationPos *pos);
+extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
+extern void GAME_DATA_SetPlayerDirectionType(struct PlayerWork *playerWork, int dir);
+extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
+extern void GAME_DATA_SetPlayerMoveForm(struct PlayerWork *playerWork, u8 moveForm);
+extern void FLDMMDL_RAIL_GetNextLocation(const Mmdl *mmdl, void *railLocation);
+extern void GAME_DATA_SetPlayerRailLocation(struct PlayerWork *playerWork, const void *railLocation);
+extern int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *grid, int a, int b, int c);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
+extern int MAP_ATTR_GetAt(struct FieldG3dMapper *g3dMapper, FieldPlayerLocationPos *pos);
+extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
+extern u32 FIELD_NOGRID_MAPPER_GetAttribute(struct FieldNogridMapper *mapper, void *railLocation);
+extern int FLDMMDL_RAIL_GetLocationByDir(const Mmdl *mmdl, u32 dir, void *railLocation);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+extern void *FLDMMDL_SysSearchGridPos(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, u32 mask);
+extern void FLDMMDL_RAIL_GetFrontLocation(const Mmdl *mmdl, void *railLocation);
+extern u32 FLDMMDL_RAIL_SearchMmdlByLocation(struct MmdlSys *mmdlSys, void *railLocation, u32 flag);
+extern u8 *FLDMMDL_SysSearchGridPosHeight(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, s32 posY, s32 limit, u32 mask);
+extern u16 FLDMMDL_GetGridNowX(const Mmdl *mmdl);
+extern u16 FLDMMDL_GetGridNowY(const Mmdl *mmdl);
+extern u16 FLDMMDL_GetGridNowZ(const Mmdl *mmdl);
+extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
+extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
+extern void FLDMMDL_MOVE_GridToVectorPos(int gridX, int gridZ, int *vecPos);
+extern void *FIELD_NOGRID_MAPPER_GetRailMan(struct FieldNogridMapper *mapper);
+extern void FIELD_RAIL_GetLocationPos(void *railMan, s16 *railLocation, int *pos);
+extern void FLDMMDL_RAIL_GetDrawOffsetByDir(const Mmdl *mmdl, u32 dir, s16 *offset);
+extern int FIELD_RAIL_GetUnitScale(void *railMan);
+extern void VEC_Normalize();
+extern int MAP_ATTR_IsHopTransition(unsigned long a, unsigned long b);
+extern int MAP_ATTR_IsBlocked(u32 attr);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern int MAP_ATTR_IsWaterfall(u16 id);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
+extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 
-extern FieldPlayerCore *func_021A36E4(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId);
-extern void func_021A3810(FieldPlayerCore *core);
-extern void func_021A3818(FieldPlayerCore *core);
-extern void func_021A3898(FieldPlayerCore *core, VecFx32 *out);
-extern void func_021A38A4(FieldPlayerCore *core, VecFx32 *pos);
-extern u16 func_021A3920(FieldPlayerCore *core);
-extern void func_021A392C(FieldPlayerCore *core, int dir);
-extern int func_021A3938(FieldPlayerCore *core, u32 objCode);
-extern void func_021A394C(FieldPlayerCore *core);
-extern FieldMap *func_021A395C(FieldPlayerCore *core);
-extern Mmdl *func_021A3960(FieldPlayerCore *core);
-extern u32 func_021A3968(FieldPlayerCore *core);
-extern void func_021A396C(FieldPlayerCore *core, u32 stepPhase);
-extern u32 func_021A3970(FieldPlayerCore *core);
-extern u32 func_021A3974(FieldPlayerCore *core);
-extern void func_021A3980(FieldPlayerCore *core, u32 formCode);
-extern u32 func_021A398C(FieldPlayerCore *core);
-extern struct GameSystem *func_021A3990(FieldPlayerCore *core);
-extern struct PlayerWork *func_021A3994(FieldPlayerCore *core);
-extern int func_021A39E4(FieldPlayerCore *core);
-extern int func_021A3A10(FieldPlayerCore *core);
-extern int func_021A3A20(FieldPlayerCore *core);
-extern int func_021A3A3C(FieldPlayerCore *core);
-extern u16 func_021A3AB8(FieldPlayerCore *core, u32 keys);
-extern void func_021A3AD0(FieldPlayerCore *core, u32 rideEffect);
-extern u32 func_021A3AD4(FieldPlayerCore *core);
-extern FieldPlayerCore *func_021A3CB0(FieldPlayerCore *core, u32 mask);
-extern int func_021A3CC0(FieldPlayerCore *core);
-extern void func_021A3CE8(FieldPlayerCore *core);
+extern FieldPlayerCore *FIELD_PLAYER_CORE_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId);
+extern void FIELD_PLAYER_CORE_Delete(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_UpdateStepPhase(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_GetPos(FieldPlayerCore *core, VecFx32 *out);
+extern void FIELD_PLAYER_CORE_SetPos(FieldPlayerCore *core, VecFx32 *pos);
+extern u16 FIELD_PLAYER_CORE_GetDirDisp(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_SetDirDisp(FieldPlayerCore *core, int dir);
+extern int FIELD_PLAYER_CORE_SetObjCode(FieldPlayerCore *core, u32 objCode);
+extern void FIELD_PLAYER_CORE_ClearRememberedObjCode(FieldPlayerCore *core);
+extern FieldMap *FIELD_PLAYER_CORE_GetFieldMap(FieldPlayerCore *core);
+extern Mmdl *FIELD_PLAYER_CORE_GetMmdl(FieldPlayerCore *core);
+extern u32 FIELD_PLAYER_CORE_GetStepKind(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_SetStepPhase(FieldPlayerCore *core, u32 stepPhase);
+extern u32 FIELD_PLAYER_CORE_GetStepPhase(FieldPlayerCore *core);
+extern u32 FIELD_PLAYER_CORE_GetFormCode(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_SetFormCode(FieldPlayerCore *core, u32 formCode);
+extern u32 FIELD_PLAYER_CORE_GetSex(FieldPlayerCore *core);
+extern struct GameSystem *FIELD_PLAYER_CORE_GetGameSystem(FieldPlayerCore *core);
+extern struct PlayerWork *FIELD_PLAYER_CORE_GetPlayerWork(FieldPlayerCore *core);
+extern int FIELD_PLAYER_CORE_WaitModelReady(FieldPlayerCore *core);
+extern int FIELD_PLAYER_CORE_GetFormSlot(FieldPlayerCore *core);
+extern int FIELD_PLAYER_CORE_CheckFormModel(FieldPlayerCore *core);
+extern int FIELD_PLAYER_CORE_CheckAnimePaused(FieldPlayerCore *core);
+extern u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(FieldPlayerCore *core, u32 keys);
+extern void FIELD_PLAYER_CORE_SetRideEffect(FieldPlayerCore *core, u32 rideEffect);
+extern u32 FIELD_PLAYER_CORE_GetRideEffect(FieldPlayerCore *core);
+extern FieldPlayerCore *FIELD_PLAYER_CORE_StartFormChange(FieldPlayerCore *core, u32 mask);
+extern int FIELD_PLAYER_CORE_StepFormChange(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_FinishFormChange(FieldPlayerCore *core);
 
-extern FieldPlayerGrid *func_021A4140(FieldPlayerCore *core, u32 heapId);
-extern void func_021A41A8(FieldPlayerGrid *grid);
-extern void func_021A41B0(FieldPlayerGrid *grid, u32 a, u32 b, u32 c);
-extern void func_021A53D0(FieldPlayerGrid *grid);
-extern int func_021A548C(FieldPlayerGrid *grid);
-extern int func_021A54A0(FieldPlayerGrid *grid);
-extern void func_021A54B4(FieldPlayerGrid *grid);
-extern void func_021A5738(FieldPlayerGrid *grid, int a);
-extern void func_021A575C(FieldPlayerGrid *grid);
-extern u32 func_021A5764(FieldPlayerGrid *grid);
-extern int func_021A5768(FieldPlayerGrid *grid, u32 a);
-extern int func_021A5778(FieldPlayerGrid *grid);
+extern FieldPlayerGrid *FIELD_PLAYER_GRID_Create(FieldPlayerCore *core, u32 heapId);
+extern void FIELD_PLAYER_GRID_Delete(FieldPlayerGrid *grid);
+extern void FIELD_PLAYER_GRID_Move(FieldPlayerGrid *grid, u32 a, u32 b, u32 c);
+extern void FIELD_PLAYER_GRID_ResetBlockedPose(FieldPlayerGrid *grid);
+extern int FIELD_PLAYER_GRID_IsOnForcedMoveTile(FieldPlayerGrid *grid);
+extern int FIELD_PLAYER_GRID_IsHopping(FieldPlayerGrid *grid);
+extern void FIELD_PLAYER_GRID_FinishHop(FieldPlayerGrid *grid);
+extern void FIELD_PLAYER_GRID_ResetHold(FieldPlayerGrid *grid, int a);
+extern void FIELD_PLAYER_GRID_StopForcedMove(FieldPlayerGrid *grid);
+extern u32 FIELD_PLAYER_GRID_GetHopLanded(FieldPlayerGrid *grid);
+extern int FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 a);
+extern int FIELD_PLAYER_GRID_IsBlocked(FieldPlayerGrid *grid);
 
-extern FieldPlayerNogrid *func_021A5880(FieldPlayerCore *core, int heapId);
-extern void func_021A5920(FieldPlayerNogrid *nogrid);
-extern void func_021A5928(FieldPlayerNogrid *nogrid, int a);
-extern void func_021A5964(FieldPlayerNogrid *nogrid);
-extern void func_021A596C(FieldPlayerNogrid *nogrid, u32 a, u32 b);
-extern int func_021A59DC(FieldPlayerNogrid *nogrid);
-extern u32 func_021A59EC(FieldPlayerNogrid *nogrid);
-extern void func_021A5A00(FieldPlayerNogrid *nogrid, void *a);
-extern void func_021A5A0C(FieldPlayerNogrid *nogrid, void *a);
-extern int func_021A5A18(FieldPlayerNogrid *nogrid, u32 a, void *b);
-extern void func_021A5A24(FieldPlayerNogrid *nogrid);
-extern u32 func_021A5A30(FieldPlayerNogrid *nogrid);
-extern void func_021A5A34(FieldPlayerNogrid *nogrid);
+extern FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(FieldPlayerCore *core, int heapId);
+extern void FIELD_PLAYER_NOGRID_Delete(FieldPlayerNogrid *nogrid);
+extern void FIELD_PLAYER_NOGRID_AttachMmdl(FieldPlayerNogrid *nogrid, int a);
+extern void FIELD_PLAYER_NOGRID_ClearRailWork(FieldPlayerNogrid *nogrid);
+extern void FIELD_PLAYER_NOGRID_Update(FieldPlayerNogrid *nogrid, u32 a, u32 b);
+extern int FIELD_PLAYER_NOGRID_IsBlocked(FieldPlayerNogrid *nogrid);
+extern u32 FIELD_PLAYER_NOGRID_IsForcedMove(FieldPlayerNogrid *nogrid);
+extern void FIELD_PLAYER_NOGRID_SetRailLocation(FieldPlayerNogrid *nogrid, void *a);
+extern void FIELD_PLAYER_NOGRID_GetNextRailLocation(FieldPlayerNogrid *nogrid, void *a);
+extern int FIELD_PLAYER_NOGRID_GetRailLocationByDir(FieldPlayerNogrid *nogrid, u32 a, void *b);
+extern void FIELD_PLAYER_NOGRID_GetRailPos(FieldPlayerNogrid *nogrid);
+extern u32 FIELD_PLAYER_NOGRID_GetRailWork(FieldPlayerNogrid *nogrid);
+extern void FIELD_PLAYER_NOGRID_EndBlockedWalk(FieldPlayerNogrid *nogrid);
 
-void func_021A3038(FieldPlayer *player, VecFx32 *out);
-Mmdl *func_021A3074(FieldPlayer *player);
-u32 func_021A3098(FieldPlayer *player);
-void func_021A3364(FieldPlayer *player, int dir, int *out);
-void func_021A3460(FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);
+void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *out);
+Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
+u32 FIELD_PLAYER_GetFormCode(FieldPlayer *player);
+void FIELD_PLAYER_GetPosInDir(FieldPlayer *player, int dir, int *out);
+void FIELD_PLAYER_GetFrontGridPos(FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);
 
-extern int d_021DDEA8;
-extern const FieldPlayerFormRow data_021D890C[];
+extern int gFieldPlayerFileName;
+extern const FieldPlayerFormRow gFieldPlayerFormTable[];
 
 /*
  * Addresses are Black-image addresses.
  */
-FieldPlayer *func_021A2E50(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId)
+FieldPlayer *FIELD_PLAYER_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId)
 {
-    FieldPlayer *player = func_02030734(heapId, 0x10, 1, (const char *)&d_021DDEA8, 0x4C);
+    FieldPlayer *player = func_02030734(heapId, 0x10, 1, (const char *)&gFieldPlayerFileName, 0x4C);
 
     player->fieldMap = fieldMap;
-    player->core = func_021A36E4(playerWork, fieldMap, pos, sex, heapId);
+    player->core = FIELD_PLAYER_CORE_Create(playerWork, fieldMap, pos, sex, heapId);
     return player;
 }
 
-int func_021A2E90(FieldPlayer *player)
+int FIELD_PLAYER_Delete(FieldPlayer *player)
 {
     if (player->grid != 0) {
-        func_021A41A8(player->grid);
+        FIELD_PLAYER_GRID_Delete(player->grid);
     }
     if (player->nogrid != 0) {
-        func_021A5920(player->nogrid);
+        FIELD_PLAYER_NOGRID_Delete(player->nogrid);
     }
-    func_021A3810(player->core);
+    FIELD_PLAYER_CORE_Delete(player->core);
     return func_020307B0(player);
 }
 
-void func_021A2EB8(FieldPlayer *player)
+void FIELD_PLAYER_SaveToPlayerWork(FieldPlayer *player)
 {
     u8 gridPos[12];
     u8 railLocation[8];
-    struct PlayerWork *playerWork = func_021A3994(player->core);
-    Mmdl *mmdl = func_021A3960(player->core);
+    struct PlayerWork *playerWork = FIELD_PLAYER_CORE_GetPlayerWork(player->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
 
-    func_0216D88C(mmdl, (VecFx32 *)gridPos);
-    func_02012A90(playerWork, (const FieldPlayerLocationPos *)gridPos);
-    func_02012AD4(playerWork, func_0216D5F8(mmdl));
-    if (func_02188CFC(player->fieldMap) == 0) {
-        func_02012ABC(playerWork, 0);
+    FLDMMDL_GetPos(mmdl, (VecFx32 *)gridPos);
+    GAME_DATA_SetPlayerPosition(playerWork, (const FieldPlayerLocationPos *)gridPos);
+    GAME_DATA_SetPlayerDirectionType(playerWork, FLDMMDL_GetDirDisp(mmdl));
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        GAME_DATA_SetPlayerMoveForm(playerWork, 0);
         return;
     }
-    func_0219E2F4(mmdl, railLocation);
-    func_02012AA4(playerWork, railLocation);
-    func_02012ABC(playerWork, 1);
+    FLDMMDL_RAIL_GetNextLocation(mmdl, railLocation);
+    GAME_DATA_SetPlayerRailLocation(playerWork, railLocation);
+    GAME_DATA_SetPlayerMoveForm(playerWork, 1);
 }
 
-int func_021A2F20(FieldPlayer *player, int a, int b, int c)
+int FIELD_PLAYER_TryPushBoulder(FieldPlayer *player, int a, int b, int c)
 {
     int pushed = 0;
 
-    if (func_02188CFC(player->fieldMap) == 0)
-        pushed = func_021C0CA4(player->grid, a, b, c);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
+        pushed = FIELD_PLAYER_GRID_EVENT_TryPushBoulder(player->grid, a, b, c);
     return pushed;
 }
 
-void func_021A2F48(FieldPlayer *player, u32 mask)
+void FIELD_PLAYER_StartFormChange(FieldPlayer *player, u32 mask)
 {
-    func_021A3CB0(player->core, mask);
+    FIELD_PLAYER_CORE_StartFormChange(player->core, mask);
 }
 
-int func_021A2F54(FieldPlayer *player)
+int FIELD_PLAYER_StepFormChange(FieldPlayer *player)
 {
-    return func_021A3CC0(player->core);
+    return FIELD_PLAYER_CORE_StepFormChange(player->core);
 }
 
-void func_021A2F60(FieldPlayer *player)
+void FIELD_PLAYER_FinishFormChange(FieldPlayer *player)
 {
-    func_021A3CE8(player->core);
+    FIELD_PLAYER_CORE_FinishFormChange(player->core);
 }
 
-void func_021A2F6C(FieldPlayer *player)
+void FIELD_PLAYER_ResetMoveWork(FieldPlayer *player)
 {
-    if (func_02188CFC(player->fieldMap) == 0)
-        func_021A53D0(player->grid);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
+        FIELD_PLAYER_GRID_ResetBlockedPose(player->grid);
     else
-        func_021A5A34(player->nogrid);
+        FIELD_PLAYER_NOGRID_EndBlockedWalk(player->nogrid);
 }
 
-void func_021A2F8C(FieldPlayer *player, u32 rideEffect)
+void FIELD_PLAYER_SetRideEffect(FieldPlayer *player, u32 rideEffect)
 {
-    func_021A3AD0(player->core, rideEffect);
+    FIELD_PLAYER_CORE_SetRideEffect(player->core, rideEffect);
 }
 
-u32 func_021A2F98(FieldPlayer *player)
+u32 FIELD_PLAYER_GetRideEffect(FieldPlayer *player)
 {
-    return func_021A3AD4(player->core);
+    return FIELD_PLAYER_CORE_GetRideEffect(player->core);
 }
 
-u16 func_021A2FA4(FieldPlayer *player, u32 keys)
+u16 FIELD_PLAYER_ChooseMoveDirFromKeys(FieldPlayer *player, u32 keys)
 {
-    return func_021A3AB8(player->core, keys);
+    return FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(player->core, keys);
 }
 
-u32 func_021A2FB0(FieldPlayer *player)
+u32 FIELD_PLAYER_CheckMoveBusy(FieldPlayer *player)
 {
-    if (func_02188CFC(player->fieldMap) == 0) {
-        return func_021A5778(player->grid);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        return FIELD_PLAYER_GRID_IsBlocked(player->grid);
     }
-    return func_021A59DC(player->nogrid);
+    return FIELD_PLAYER_NOGRID_IsBlocked(player->nogrid);
 }
 
-void func_021A2FD0(FieldPlayer *player)
+void FIELD_PLAYER_ChangeToNormalForm(FieldPlayer *player)
 {
-    func_021A3CB0(player->core, 1);
-    func_021A3CE8(player->core);
+    FIELD_PLAYER_CORE_StartFormChange(player->core, 1);
+    FIELD_PLAYER_CORE_FinishFormChange(player->core);
 }
 
-void func_021A2FE4(FieldPlayer *player)
+void FIELD_PLAYER_UpdateStepPhase(FieldPlayer *player)
 {
-    if (func_02188CFC(player->fieldMap) == 0) {
-        if (func_021A548C(player->grid) == 1) {
-            func_021A396C(player->core, 2);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        if (FIELD_PLAYER_GRID_IsOnForcedMoveTile(player->grid) == 1) {
+            FIELD_PLAYER_CORE_SetStepPhase(player->core, 2);
             return;
         }
-        if (func_021A54A0(player->grid) == 1) {
-            func_021A396C(player->core, 2);
+        if (FIELD_PLAYER_GRID_IsHopping(player->grid) == 1) {
+            FIELD_PLAYER_CORE_SetStepPhase(player->core, 2);
             return;
         }
     } else {
-        if (func_021A59EC(player->nogrid) == 1) {
-            func_021A396C(player->core, 2);
+        if (FIELD_PLAYER_NOGRID_IsForcedMove(player->nogrid) == 1) {
+            FIELD_PLAYER_CORE_SetStepPhase(player->core, 2);
             return;
         }
     }
-    func_021A3818(player->core);
+    FIELD_PLAYER_CORE_UpdateStepPhase(player->core);
 }
 
-void func_021A3038(FieldPlayer *player, VecFx32 *out)
+void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *out)
 {
-    func_021A3898(player->core, out);
+    FIELD_PLAYER_CORE_GetPos(player->core, out);
 }
 
-void func_021A3044(FieldPlayer *player, VecFx32 *pos)
+void FIELD_PLAYER_SetPos(FieldPlayer *player, VecFx32 *pos)
 {
-    func_021A38A4(player->core, pos);
+    FIELD_PLAYER_CORE_SetPos(player->core, pos);
 }
 
-u16 func_021A3050(FieldPlayer *player)
+u16 FIELD_PLAYER_GetDirDisp(FieldPlayer *player)
 {
-    return func_021A3920(player->core);
+    return FIELD_PLAYER_CORE_GetDirDisp(player->core);
 }
 
-void func_021A305C(FieldPlayer *player, int dir)
+void FIELD_PLAYER_SetDirDisp(FieldPlayer *player, int dir)
 {
-    func_021A392C(player->core, dir);
+    FIELD_PLAYER_CORE_SetDirDisp(player->core, dir);
 }
 
-FieldMap *func_021A3068(FieldPlayer *player)
+FieldMap *FIELD_PLAYER_GetFieldMap(FieldPlayer *player)
 {
-    return func_021A395C(player->core);
+    return FIELD_PLAYER_CORE_GetFieldMap(player->core);
 }
 
-Mmdl *func_021A3074(FieldPlayer *player)
+Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player)
 {
-    return func_021A3960(player->core);
+    return FIELD_PLAYER_CORE_GetMmdl(player->core);
 }
 
-u32 func_021A3080(FieldPlayer *player)
+u32 FIELD_PLAYER_GetStepKind(FieldPlayer *player)
 {
-    return func_021A3968(player->core);
+    return FIELD_PLAYER_CORE_GetStepKind(player->core);
 }
 
-u32 func_021A308C(FieldPlayer *player)
+u32 FIELD_PLAYER_GetStepPhase(FieldPlayer *player)
 {
-    return func_021A3970(player->core);
+    return FIELD_PLAYER_CORE_GetStepPhase(player->core);
 }
 
-u32 func_021A3098(FieldPlayer *player)
+u32 FIELD_PLAYER_GetFormCode(FieldPlayer *player)
 {
-    return func_021A3974(player->core);
+    return FIELD_PLAYER_CORE_GetFormCode(player->core);
 }
 
-void func_021A30A4(FieldPlayer *player, u32 formCode)
+void FIELD_PLAYER_SetFormCode(FieldPlayer *player, u32 formCode)
 {
-    func_021A3980(player->core, formCode);
+    FIELD_PLAYER_CORE_SetFormCode(player->core, formCode);
 }
 
-u32 func_021A30B0(FieldPlayer *player)
+u32 FIELD_PLAYER_GetSex(FieldPlayer *player)
 {
-    return func_021A398C(player->core);
+    return FIELD_PLAYER_CORE_GetSex(player->core);
 }
 
-struct GameSystem *func_021A30BC(FieldPlayer *player)
+struct GameSystem *FIELD_PLAYER_GetGameSystem(FieldPlayer *player)
 {
-    return func_021A3990(player->core);
+    return FIELD_PLAYER_CORE_GetGameSystem(player->core);
 }
 
-u32 func_021A30C8(FieldPlayer *player)
+u32 FIELD_PLAYER_GetNowAttribute(FieldPlayer *player)
 {
     u32 attr;
 
-    if (func_02188CFC(player->fieldMap) == 0) {
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
         FieldPlayerLocationPos pos;
-        struct FieldG3dMapper *g3dMapper = func_02188C98(player->fieldMap);
+        struct FieldG3dMapper *g3dMapper = FIELDMAP_GetG3dMapper(player->fieldMap);
 
-        func_021A3038(player, (VecFx32 *)&pos);
-        attr = func_021AB0D4(g3dMapper, &pos);
-    } else if (func_02188CFC(player->fieldMap) == 1) {
+        FIELD_PLAYER_GetPos(player, (VecFx32 *)&pos);
+        attr = MAP_ATTR_GetAt(g3dMapper, &pos);
+    } else if (FIELDMAP_GetMoveKind(player->fieldMap) == 1) {
         FieldPlayerRailLocation location;
-        Mmdl *mmdl = func_021A3074(player);
-        struct FieldNogridMapper *mapper = func_02188C5C(player->fieldMap);
+        Mmdl *mmdl = FIELD_PLAYER_GetMmdl(player);
+        struct FieldNogridMapper *mapper = FIELDMAP_GetNogridMapper(player->fieldMap);
 
-        func_0219E2F4(mmdl, &location);
-        attr = func_021BB3C4(mapper, &location);
+        FLDMMDL_RAIL_GetNextLocation(mmdl, &location);
+        attr = FIELD_NOGRID_MAPPER_GetAttribute(mapper, &location);
     }
     return attr;
 }
 
-u32 func_021A3128(FieldPlayer *player, u32 dir)
+u32 FIELD_PLAYER_GetFrontAttribute(FieldPlayer *player, u32 dir)
 {
     u32 attr;
     u8 frontPos[12];
     u8 railLocation[8];
 
-    if (func_02188CFC(player->fieldMap) == 0) {
-        struct FieldG3dMapper *g3dMapper = func_02188C98(player->fieldMap);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        struct FieldG3dMapper *g3dMapper = FIELDMAP_GetG3dMapper(player->fieldMap);
 
-        func_021A3364(player, dir, (int *)frontPos);
-        attr = func_021AB0D4(g3dMapper, (FieldPlayerLocationPos *)frontPos);
-    } else if (func_02188CFC(player->fieldMap) == 1) {
-        Mmdl *mmdl = func_021A3074(player);
-        struct FieldNogridMapper *mapper = func_02188C5C(player->fieldMap);
+        FIELD_PLAYER_GetPosInDir(player, dir, (int *)frontPos);
+        attr = MAP_ATTR_GetAt(g3dMapper, (FieldPlayerLocationPos *)frontPos);
+    } else if (FIELDMAP_GetMoveKind(player->fieldMap) == 1) {
+        Mmdl *mmdl = FIELD_PLAYER_GetMmdl(player);
+        struct FieldNogridMapper *mapper = FIELDMAP_GetNogridMapper(player->fieldMap);
 
-        func_0219E664(mmdl, dir, railLocation);
-        attr = func_021BB3C4(mapper, railLocation);
+        FLDMMDL_RAIL_GetLocationByDir(mmdl, dir, railLocation);
+        attr = FIELD_NOGRID_MAPPER_GetAttribute(mapper, railLocation);
     }
     return attr;
 }
 
 /* Model code of avatar form slot formSlot in the row for sex. */
-u16 func_021A3190(int sex, int formSlot)
+u16 FIELD_PLAYER_GetFormObjCode(int sex, int formSlot)
 {
-    return data_021D890C[sex].entries[formSlot].objCode;
+    return gFieldPlayerFormTable[sex].entries[formSlot].objCode;
 }
 
 /* Model code of the entry of row sex whose form code is formCode, else the hero model. */
-int func_021A31A4(int sex, int formCode)
+int FIELD_PLAYER_GetObjCodeOfFormCode(int sex, int formCode)
 {
     const FieldPlayerFormEntry *entry;
     int slot;
 
     slot = 0;
-    entry = data_021D890C[sex].entries;
+    entry = gFieldPlayerFormTable[sex].entries;
     for (; slot < FIELD_PLAYER_AVATAR_FORM_COUNT; slot++, entry++) {
         if (entry->formCode == formCode)
             return entry->objCode;
@@ -490,14 +490,14 @@ int func_021A31A4(int sex, int formCode)
 }
 
 /* Form slot whose model code is objCode in either row, else FIELD_PLAYER_AVATAR_FORM_COUNT. */
-int func_021A31D0(u16 objCode)
+int FIELD_PLAYER_GetFormSlotOfObjCode(u16 objCode)
 {
     int sex;
     int slot;
     const FieldPlayerFormEntry *entry;
 
     for (sex = 0; sex < 2; sex++) {
-        entry = data_021D890C[sex].entries;
+        entry = gFieldPlayerFormTable[sex].entries;
         for (slot = 0; slot < FIELD_PLAYER_AVATAR_FORM_COUNT; slot++) {
             if (entry->objCode == objCode)
                 return slot;
@@ -508,9 +508,9 @@ int func_021A31D0(u16 objCode)
 }
 
 /* 0 while the form code is 2 or 3 (surf, dive), else 1. */
-int func_021A3208(FieldPlayer *player)
+int FIELD_PLAYER_CheckNotWaterForm(FieldPlayer *player)
 {
-    switch (func_021A3098(player)) {
+    switch (FIELD_PLAYER_GetFormCode(player)) {
     case 2:
     case 3:
         return 0;
@@ -518,73 +518,73 @@ int func_021A3208(FieldPlayer *player)
     return 1;
 }
 
-void func_021A3220(FieldPlayer *player, u32 objCode)
+void FIELD_PLAYER_SetObjCode(FieldPlayer *player, u32 objCode)
 {
-    func_021A3938(player->core, objCode);
+    FIELD_PLAYER_CORE_SetObjCode(player->core, objCode);
 }
 
-void func_021A322C(FieldPlayer *player)
+void FIELD_PLAYER_ClearRememberedObjCode(FieldPlayer *player)
 {
-    func_021A394C(player->core);
+    FIELD_PLAYER_CORE_ClearRememberedObjCode(player->core);
 }
 
-int func_021A3238(FieldPlayer *player)
+int FIELD_PLAYER_CheckFormModel(FieldPlayer *player)
 {
-    return func_021A3A20(player->core);
+    return FIELD_PLAYER_CORE_CheckFormModel(player->core);
 }
 
-int func_021A3244(FieldPlayer *player)
+int FIELD_PLAYER_CheckAnimePaused(FieldPlayer *player)
 {
-    return func_021A3A3C(player->core);
+    return FIELD_PLAYER_CORE_CheckAnimePaused(player->core);
 }
 
 /*
- * func_0216DDC0 forwards r0-r3 to func_0216DD60, so it takes four
+ * FLDMMDL_SysSearchGridPos forwards r0-r3 to FLDMMDL_SysSearchGridPosList, so it takes four
  * arguments; the fourth is the literal 0 whose register the compiler also
  * uses as the v[0] index.
  */
-void func_021A3250(FieldPlayer *player)
+void FIELD_PLAYER_SearchFrontMmdl(FieldPlayer *player)
 {
     s16 v[8];
-    struct MmdlSys *mmdlSys = func_02188C7C(player->fieldMap);
+    struct MmdlSys *mmdlSys = FIELDMAP_GetMmdlSys(player->fieldMap);
 
-    if (func_02188CFC(player->fieldMap) == 0) {
-        func_021A3460(player, &v[2], &v[1], &v[0]);
-        func_0216DDC0(mmdlSys, v[2], v[0], 0);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        FIELD_PLAYER_GetFrontGridPos(player, &v[2], &v[1], &v[0]);
+        FLDMMDL_SysSearchGridPos(mmdlSys, v[2], v[0], 0);
         return;
     }
-    func_0219E634(func_021A3960(player->core), &v[3]);
-    func_0219E570(mmdlSys, &v[3], 0);
+    FLDMMDL_RAIL_GetFrontLocation(FIELD_PLAYER_CORE_GetMmdl(player->core), &v[3]);
+    FLDMMDL_RAIL_SearchMmdlByLocation(mmdlSys, &v[3], 0);
 }
 
-void func_021A32A8(FieldPlayer *player, u32 limit)
+void FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit)
 {
     s16 v[8];
-    struct MmdlSys *mmdlSys = func_02188C7C(player->fieldMap);
+    struct MmdlSys *mmdlSys = FIELDMAP_GetMmdlSys(player->fieldMap);
 
-    if (func_02188CFC(player->fieldMap) == 0) {
-        func_021A3460(player, &v[2], &v[1], &v[0]);
-        func_0216DDDC(mmdlSys, v[2], v[0], v[1] << 16, limit, 0);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        FIELD_PLAYER_GetFrontGridPos(player, &v[2], &v[1], &v[0]);
+        FLDMMDL_SysSearchGridPosHeight(mmdlSys, v[2], v[0], v[1] << 16, limit, 0);
         return;
     }
-    func_0219E634(func_021A3960(player->core), &v[3]);
-    func_0219E570(mmdlSys, &v[3], 0);
+    FLDMMDL_RAIL_GetFrontLocation(FIELD_PLAYER_CORE_GetMmdl(player->core), &v[3]);
+    FLDMMDL_RAIL_SearchMmdlByLocation(mmdlSys, &v[3], 0);
 }
 
-void func_021A330C(FieldPlayer *player, u32 dir, s16 *gridX, s16 *gridY, s16 *gridZ)
+void FIELD_PLAYER_GetGridPosInDir(FieldPlayer *player, u32 dir, s16 *gridX, s16 *gridY, s16 *gridZ)
 {
-    Mmdl *mmdl = func_021A3074(player);
+    Mmdl *mmdl = FIELD_PLAYER_GetMmdl(player);
 
-    if (func_02188CFC(player->fieldMap) == 0) {
-        *gridX = func_0216D83C(mmdl);
-        *gridY = func_0216D854(mmdl);
-        *gridZ = func_0216D86C(mmdl);
-        *gridX = *gridX + func_021641E8(dir);
-        *gridZ = *gridZ + func_021641F8(dir);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        *gridX = FLDMMDL_GetGridNowX(mmdl);
+        *gridY = FLDMMDL_GetGridNowY(mmdl);
+        *gridZ = FLDMMDL_GetGridNowZ(mmdl);
+        *gridX = *gridX + FLDMMDL_MOVE_GetDirAddGridX(dir);
+        *gridZ = *gridZ + FLDMMDL_MOVE_GetDirAddGridZ(dir);
     }
 }
 
-void func_021A3364(FieldPlayer *player, int dir, int *out)
+void FIELD_PLAYER_GetPosInDir(FieldPlayer *player, int dir, int *out)
 {
     int railPos[3];
     s16 drawOffset[3];
@@ -596,48 +596,48 @@ void func_021A3364(FieldPlayer *player, int dir, int *out)
     void *railMan;
     int unitScale;
 
-    mmdl = func_021A3960(player->core);
-    if (func_02188CFC(player->fieldMap) == 0) {
-        func_021A330C(player, dir, &gridX, &gridY, &gridZ);
-        func_02164280(gridX, gridZ, out);
+    mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        FIELD_PLAYER_GetGridPosInDir(player, dir, &gridX, &gridY, &gridZ);
+        FLDMMDL_MOVE_GridToVectorPos(gridX, gridZ, out);
         out[1] = gridY << 16;
         return;
     }
-    railMan = func_021BB480(func_02188C5C(player->fieldMap));
-    func_0219E2F4(mmdl, location);
-    func_021B7D38(railMan, location, railPos);
-    func_0219E784(mmdl, dir, drawOffset);
-    unitScale = func_021B7C38(railMan);
+    railMan = FIELD_NOGRID_MAPPER_GetRailMan(FIELDMAP_GetNogridMapper(player->fieldMap));
+    FLDMMDL_RAIL_GetNextLocation(mmdl, location);
+    FIELD_RAIL_GetLocationPos(railMan, location, railPos);
+    FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, dir, drawOffset);
+    unitScale = FIELD_RAIL_GetUnitScale(railMan);
     out[0] = railPos[0] + (int)(((long long)drawOffset[0] * unitScale + 0x800) >> 12);
     out[1] = railPos[1] + (int)(((long long)drawOffset[1] * unitScale + 0x800) >> 12);
     out[2] = railPos[2] + (int)(((long long)drawOffset[2] * unitScale + 0x800) >> 12);
 }
 
-void func_021A3460(FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ)
+void FIELD_PLAYER_GetFrontGridPos(FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ)
 {
-    func_021A330C(player, func_0216D5F8(func_021A3074(player)), gridX, gridY, gridZ);
+    FIELD_PLAYER_GetGridPosInDir(player, FLDMMDL_GetDirDisp(FIELD_PLAYER_GetMmdl(player)), gridX, gridY, gridZ);
 }
 
-void func_021A3484(FieldPlayer *player, int dir, s32 *out)
+void FIELD_PLAYER_GetMoveOffsetInDir(FieldPlayer *player, int dir, s32 *out)
 {
     s16 offset[4];
     s32 offsetX;
     s32 offsetY;
     s32 offsetZ;
-    Mmdl *mmdl = func_021A3960(player->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
 
-    if (func_02188CFC(player->fieldMap) == 0) {
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
         s32 dz;
 
         out[1] = 0;
-        out[0] = func_021641E8(dir);
-        dz = func_021641F8(dir);
+        out[0] = FLDMMDL_MOVE_GetDirAddGridX(dir);
+        dz = FLDMMDL_MOVE_GetDirAddGridZ(dir);
         out[0] = out[0] << 16;
         out[2] = dz << 16;
-        func_0207CCA4(out, out);
+        VEC_Normalize(out, out);
         return;
     }
-    func_0219E784(mmdl, dir, offset);
+    FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, dir, offset);
     offsetZ = offset[2];
     offsetY = offset[1];
     offsetX = offset[0];
@@ -646,153 +646,153 @@ void func_021A3484(FieldPlayer *player, int dir, s32 *out)
     out[2] = offsetZ;
 }
 
-int func_021A34EC(FieldPlayer *player)
+int FIELD_PLAYER_GetFormSlot(FieldPlayer *player)
 {
-    return func_021A3A10(player->core);
+    return FIELD_PLAYER_CORE_GetFormSlot(player->core);
 }
 
-int func_021A34F8(FieldPlayer *player)
+int FIELD_PLAYER_WaitModelReady(FieldPlayer *player)
 {
-    return func_021A39E4(player->core);
+    return FIELD_PLAYER_CORE_WaitModelReady(player->core);
 }
 
-int func_021A3504(FieldPlayer *player, int a, int b)
+int FIELD_PLAYER_CheckEncountAttr(FieldPlayer *player, int a, int b)
 {
-    int formCode = func_021A3098(player);
+    int formCode = FIELD_PLAYER_GetFormCode(player);
 
     if (formCode == 2 || formCode == 3)
         return 0;
-    return func_021AB5AC(a, b);
+    return MAP_ATTR_IsHopTransition(a, b);
 }
 
-int func_021A3524(FieldPlayer *player, int attrA, int attrB)
+int FIELD_PLAYER_CheckSurfEntryAttr(FieldPlayer *player, int attrA, int attrB)
 {
-    int formCode = func_021A3098(player);
+    int formCode = FIELD_PLAYER_GetFormCode(player);
 
-    if (func_021AB11C(attrA) != 0 || formCode != 2)
+    if (MAP_ATTR_IsBlocked(attrA) != 0 || formCode != 2)
         return 0;
-    return func_021AB310(func_021AB0F0(attrB));
+    return MAP_ATTR_IsWaterfall(MAP_ATTR_GetTerrainId(attrB));
 }
 
-void func_021A3550(FieldPlayer *player, int a)
+void FIELD_PLAYER_SetGridMoveFlag(FieldPlayer *player, int a)
 {
-    if (func_02188CFC(player->fieldMap) == 0)
-        func_021A5738(player->grid, a);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
+        FIELD_PLAYER_GRID_ResetHold(player->grid, a);
 }
 
-void func_021A356C(FieldPlayer *player)
+void FIELD_PLAYER_ResetGridMove(FieldPlayer *player)
 {
-    if (func_02188CFC(player->fieldMap) == 0)
-        func_021A575C(player->grid);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
+        FIELD_PLAYER_GRID_StopForcedMove(player->grid);
 }
 
-int func_021A3584(FieldPlayer *player)
+int FIELD_PLAYER_GetGridMoveState(FieldPlayer *player)
 {
-    if (func_02188CFC(player->fieldMap) == 0) {
-        return func_021A5764(player->grid);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        return FIELD_PLAYER_GRID_GetHopLanded(player->grid);
     }
     return 0;
 }
 
-void func_021A35A0(FieldPlayer *player, int a)
+void FIELD_PLAYER_SetGridMoveState(FieldPlayer *player, int a)
 {
-    if (func_02188CFC(player->fieldMap) == 0)
-        func_021A5768(player->grid, a);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
+        FIELD_PLAYER_GRID_SetHopLanded(player->grid, a);
 }
 
-int func_021A35BC(FieldPlayer *player)
+int FIELD_PLAYER_CheckMoveRestrictFlag(FieldPlayer *player)
 {
-    if (func_020142E8(func_0201296C(func_020120F4(func_021A30BC(player))), 0x963) != 0)
+    if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(FIELD_PLAYER_GetGameSystem(player))), 0x963) != 0)
         return 1;
     return 0;
 }
 
-void func_021A35E0(FieldPlayer *player, u32 heapId)
+void FIELD_PLAYER_CreateGrid(FieldPlayer *player, u32 heapId)
 {
-    player->grid = func_021A4140(player->core, heapId);
+    player->grid = FIELD_PLAYER_GRID_Create(player->core, heapId);
 }
 
-void func_021A35F0(FieldPlayer *player, u32 a, u32 b, u32 c)
+void FIELD_PLAYER_SetupGrid(FieldPlayer *player, u32 a, u32 b, u32 c)
 {
-    func_021A41B0(player->grid, a, b, c);
+    FIELD_PLAYER_GRID_Move(player->grid, a, b, c);
 }
 
-void func_021A35FC(FieldPlayer *player, u16 *gridX, u16 *gridY, u16 *gridZ)
+void FIELD_PLAYER_GetNowGridPos(FieldPlayer *player, u16 *gridX, u16 *gridY, u16 *gridZ)
 {
-    Mmdl *mmdl = func_021A3960(player->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
 
-    *gridX = func_0216D83C(mmdl);
-    *gridY = func_0216D854(mmdl);
-    *gridZ = func_0216D86C(mmdl);
+    *gridX = FLDMMDL_GetGridNowX(mmdl);
+    *gridY = FLDMMDL_GetGridNowY(mmdl);
+    *gridZ = FLDMMDL_GetGridNowZ(mmdl);
 }
 
-int func_021A3624(FieldPlayer *player)
+int FIELD_PLAYER_CheckGridMoving(FieldPlayer *player)
 {
-    if (func_02188CFC(player->fieldMap) == 0) {
-        if (func_021A54A0(player->grid) == 1) {
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
+        if (FIELD_PLAYER_GRID_IsHopping(player->grid) == 1) {
             return 1;
         }
     }
     return 0;
 }
 
-void func_021A3644(FieldPlayer *player)
+void FIELD_PLAYER_FinishGridMove(FieldPlayer *player)
 {
-    if (func_02188CFC(player->fieldMap) == 0 && func_021A54A0(player->grid) == 1)
-        func_021A54B4(player->grid);
+    if (FIELDMAP_GetMoveKind(player->fieldMap) == 0 && FIELD_PLAYER_GRID_IsHopping(player->grid) == 1)
+        FIELD_PLAYER_GRID_FinishHop(player->grid);
 }
 
-void func_021A3664(FieldPlayer *player, u32 heapId)
+void FIELD_PLAYER_CreateNogrid(FieldPlayer *player, u32 heapId)
 {
-    player->nogrid = func_021A5880(player->core, heapId);
+    player->nogrid = FIELD_PLAYER_NOGRID_Create(player->core, heapId);
 }
 
-void func_021A3674(FieldPlayer *player, u32 a, u32 b)
+void FIELD_PLAYER_SetupNogrid(FieldPlayer *player, u32 a, u32 b)
 {
-    func_021A596C(player->nogrid, a, b);
+    FIELD_PLAYER_NOGRID_Update(player->nogrid, a, b);
 }
 
-void func_021A3680(FieldPlayer *player, int a)
+void FIELD_PLAYER_SetNogridParam(FieldPlayer *player, int a)
 {
-    func_021A5928(player->nogrid, a);
+    FIELD_PLAYER_NOGRID_AttachMmdl(player->nogrid, a);
 }
 
-void func_021A368C(FieldPlayer *player)
+void FIELD_PLAYER_ResetNogrid(FieldPlayer *player)
 {
-    func_021A5964(player->nogrid);
+    FIELD_PLAYER_NOGRID_ClearRailWork(player->nogrid);
 }
 
-u32 func_021A3698(FieldPlayer *player)
+u32 FIELD_PLAYER_CheckNogridMoveReady(FieldPlayer *player)
 {
-    return func_021A59EC(player->nogrid);
+    return FIELD_PLAYER_NOGRID_IsForcedMove(player->nogrid);
 }
 
-u32 func_021A36A4(FieldPlayer *player)
+u32 FIELD_PLAYER_GetNogridState(FieldPlayer *player)
 {
-    return func_021A5A30(player->nogrid);
+    return FIELD_PLAYER_NOGRID_GetRailWork(player->nogrid);
 }
 
-void func_021A36B0(FieldPlayer *player, void *a)
+void FIELD_PLAYER_GetNogridLocation(FieldPlayer *player, void *a)
 {
-    func_021A5A00(player->nogrid, a);
+    FIELD_PLAYER_NOGRID_SetRailLocation(player->nogrid, a);
 }
 
-void func_021A36BC(FieldPlayer *player, void *a)
+void FIELD_PLAYER_SetNogridLocation(FieldPlayer *player, void *a)
 {
-    func_021A5A0C(player->nogrid, a);
+    FIELD_PLAYER_NOGRID_GetNextRailLocation(player->nogrid, a);
 }
 
-int func_021A36C8(FieldPlayer *player, u32 a, void *b)
+int FIELD_PLAYER_GetNogridLocationByDir(FieldPlayer *player, u32 a, void *b)
 {
-    return func_021A5A18(player->nogrid, a, b);
+    return FIELD_PLAYER_NOGRID_GetRailLocationByDir(player->nogrid, a, b);
 }
 
-void func_021A36D4(FieldPlayer *player, u32 unused)
+void FIELD_PLAYER_ClearNogridState(FieldPlayer *player, u32 unused)
 {
-    func_021A5A24(player->nogrid);
+    FIELD_PLAYER_NOGRID_GetRailPos(player->nogrid);
 }
 
-FieldPlayerGrid *func_021A36E0(FieldPlayer *player)
+FieldPlayerGrid *FIELD_PLAYER_GetGrid(FieldPlayer *player)
 {
     return player->grid;
 }

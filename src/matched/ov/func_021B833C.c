@@ -1,5 +1,5 @@
 /*
- * function: func_021B833C
+ * function: FIELD_RAIL_WORK_GetStartPoint
  * address:  0x021B833C
  * packet:   pkt_021B833C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call with two object fields.
  *
  * symbols:
- *   func_021B87D8  0x021B87D8  thumb  ov021
+ *   FIELD_RAIL_SETTING_GetPoint  0x021B87D8  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_021B87D8(u8 *p, u32 idx);
+extern u8 *FIELD_RAIL_SETTING_GetPoint(u8 *p, u32 idx);
 
-u8 *func_021B833C(u8 *p)
+u8 *FIELD_RAIL_WORK_GetStartPoint(u8 *p)
 {
-    return func_021B87D8((u8 *)(*(u32 *)&((struct Obj00454 *)p)->f24), *(u32 *)*(u32 *)&((struct Obj00454 *)p)->f4);
+    return FIELD_RAIL_SETTING_GetPoint((u8 *)(*(u32 *)&((struct Obj00454 *)p)->f24), *(u32 *)*(u32 *)&((struct Obj00454 *)p)->f4);
 }

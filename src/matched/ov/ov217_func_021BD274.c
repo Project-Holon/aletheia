@@ -13,11 +13,11 @@
  *
  * symbols:
  *   _s32_div_f 0x0209C0A4 arm
- *   func_0204384C 0x0204384C arm
- *   func_020439A0 0x020439A0 arm
- *   func_020437AC 0x020437AC arm
+ *   BMP_CreateFromArchive 0x0204384C arm
+ *   BMP_Blit 0x020439A0 arm
+ *   BMP_Delete 0x020437AC arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201C7D0 0x0201C7D0 thumb
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   d_021C32D8 0x021C32D8 data a4
  *   d_021C34C8 0x021C34C8 data a4
  *   func_020307B0 0x020307B0 arm
@@ -48,11 +48,11 @@ struct S { char pad0[8]; u16 h8; char pad1[2]; u32 f0c; u32 arr[0x148 / 4 - 4]; 
 extern int _s32_div_f(int, int);
 extern const struct Tab d_021C32D8;
 extern const struct G d_021C34C8;
-extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_020437AC(struct Obj020437AC *p);
+extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
+extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void BMP_Delete(struct Obj020437AC *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 
 #define G ((const struct G *)gb)
 void func_021BD274(struct S *p)
@@ -64,16 +64,16 @@ void func_021BD274(struct S *p)
     void *heap;
     void *res;
     u16 color;
-    heap = func_0204384C(G->f20, G->f24, 0, p->h8);
+    heap = BMP_CreateFromArchive(G->f20, G->f24, 0, p->h8);
     for (i = 0; i < 3; i++) {
         int y = i * 8;
         for (j = 0; j < 10; j++) {
-            func_020439A0(heap, p->f148, (tab.v[i][j] % 3) * 8, (tab.v[i][j] / 3) * 8, j * 8, y, 8, 8, 0);
+            BMP_Blit(heap, p->f148, (tab.v[i][j] % 3) * 8, (tab.v[i][j] / 3) * 8, j * 8, y, 8, 8, 0);
         }
     }
-    func_020437AC(heap);
+    BMP_Delete(heap);
     color = (G->f1e & 0x1f) | (((G->f1c & 0x1f) << 10) | ((G->f1d & 0x1f) << 5));
     res = func_02045EC0((void *)p->arr[G->f0c], G->f10);
-    func_0201C7D0(p->f148, (s16)G->f14, (s16)G->f18, res, (void *)p->f0c, color);
+    PRINTSYS_PrintColor(p->f148, (s16)G->f14, (s16)G->f18, res, (void *)p->f0c, color);
     func_020307B0(res);
 }

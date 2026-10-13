@@ -10,7 +10,7 @@
  * symbols:
  *   func_0221372C 0x0221372C thumb ov199
  *   func_022133D0 0x022133D0 thumb ov199
- *   func_0200B424 0x0200B424 thumb
+ *   BATTLE_REC_FreeWork 0x0200B424 thumb
  *   func_020307B0 0x020307B0 arm
  *   GAME_DATA_Delete 0x02012704 thumb
  *   func_02087BCC 0x02087BCC arm
@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 struct S020315D4;
 extern void func_0221372C(char *p);
 extern void func_022133D0(u8 *p);
-extern void func_0200B424(void);
+extern void BATTLE_REC_FreeWork(void);
 extern u32 func_020307B0(void *p);
 extern void GAME_DATA_Delete(u8 *p);
 extern void func_02087BCC(u32 parameter);
@@ -35,7 +35,7 @@ int func_0221268C(void *sys, int unused, void *data, char *p)
 {
     func_0221372C(((struct Obj03352 *)p)->f18);
     func_022133D0((u8 *)p);
-    func_0200B424();
+    BATTLE_REC_FreeWork();
     func_020307B0(((struct Obj03352 *)p)->f3C);
     func_020307B0(((struct Obj03352 *)p)->f38);
     func_020307B0(((struct Obj03352 *)p)->f34);

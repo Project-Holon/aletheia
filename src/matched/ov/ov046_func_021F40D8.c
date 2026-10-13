@@ -1,5 +1,5 @@
 /*
- * function: func_021F40D8
+ * function: GIMMICK46_IsPosInside
  * address:  0x021F40D8
  * packet:   pkt_021F40D8
  * region:   ov046
@@ -12,7 +12,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021F40D8(int *p)
+int GIMMICK46_IsPosInside(int *p)
 {
     if (p[1] > 0x40000)
         return 0;

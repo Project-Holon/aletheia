@@ -1,5 +1,5 @@
 /*
- * function: func_021DA144
+ * function: HAND_TOKUSEI_AddTrace
  * address: 0x021DA144
  * packet: pkt_ov093_021DA144
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F07F8 0x021F07F8 data ov093 a4
  */
 
-int *func_021DA144(int *p);
+int *HAND_TOKUSEI_AddTrace(int *p);
 extern int d_021F07F8[];
 
-int *func_021DA144(int *p)
+int *HAND_TOKUSEI_AddTrace(int *p)
 {
     *p = 1;
     return d_021F07F8;

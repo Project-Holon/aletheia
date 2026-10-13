@@ -14,16 +14,16 @@
  *   plain u8 (the enum local is not needed). Callees: 02008550 returns u8-range
  *   index, 0204B100 returns a pointer, others as in matched callers.
  * symbols:
- * func_02012944 0x02012944 thumb
+ * GAME_DATA_GetMyStatus 0x02012944 thumb
  * func_02008550 0x02008550 thumb
  * func_020490F4 0x020490F4 arm
- * func_0204A48C 0x0204A48C arm
- * func_0204B100 0x0204B100 arm
- * func_0204A6C8 0x0204A6C8 arm
- * func_0204AC18 0x0204AC18 arm
- * func_0204AF28 0x0204AF28 arm
- * func_02049238 0x02049238 arm
- * d_020A1448 0x020A1448 data a4
+ * CLACT_InitSystem 0x0204A48C arm
+ * CLACT_CreateUnit 0x0204B100 arm
+ * CLACT_RegisterCharacter 0x0204A6C8 arm
+ * CLACT_RegisterPaletteEx 0x0204AC18 arm
+ * CLACT_RegisterCellAnim 0x0204AF28 arm
+ * ARC_TOOL_DeleteHandle 0x02049238 arm
+ * gClActorInitParam 0x020A1448 data a4
  * d_021E1B40 0x021E1B40 data a4
  * d_021E1B20 0x021E1B20 data a4
  * d_021E1B30 0x021E1B30 data a4
@@ -32,19 +32,19 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_02012944(void *);
+extern u8 *GAME_DATA_GetMyStatus(void *);
 struct Bank;
 struct Cfg;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
-extern int func_0204AF28(void *,u32,u32,u32);
-extern void func_02049238(void *);
-extern const u32 d_020A1448[],d_021E1B40[],d_021E1B20[],d_021E1B30[],d_021E1B38[];
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
+extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
+extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern const u32 gClActorInitParam[],d_021E1B40[],d_021E1B20[],d_021E1B30[],d_021E1B38[];
 void func_021DD4A8(const u8 *p)
 {
     u8 v;
@@ -52,18 +52,18 @@ void func_021DD4A8(const u8 *p)
     u32 a,b;
     const u32 *table;
     void *arc;
-    v=func_02008550((const struct Sub0200852CObj *)func_02012944(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
+    v=func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
     arc=func_020490F4(31,114);
-    func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021E1B40,114);
-    *(void **)(p+104)=func_0204B100(30,1,114);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021E1B40,114);
+    *(void **)(p+104)=CLACT_CreateUnit(30,1,114);
     i=0;
     table=d_021E1B20+v;
     a=table[0]; b=table[2];
     for(;i<5;i++) {
-        *(int *)(p+i*4+128)=func_0204A6C8(arc,a,0,0,114);
-        *(int *)(p+i*4+108)=func_0204AC18(arc,b,0,(u16)(i*32),0,1,114);
+        *(int *)(p+i*4+128)=CLACT_RegisterCharacter(arc,a,0,0,114);
+        *(int *)(p+i*4+108)=CLACT_RegisterPaletteEx(arc,b,0,(u16)(i*32),0,1,114);
     }
-    *(int *)(p+148)=func_0204AF28(arc,d_021E1B30[v],d_021E1B38[v],114);
-    func_02049238(arc);
+    *(int *)(p+148)=CLACT_RegisterCellAnim(arc,d_021E1B30[v],d_021E1B38[v],114);
+    ARC_TOOL_DeleteHandle(arc);
     *(void **)(p+52)=func_020490F4(32,114);
 }

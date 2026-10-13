@@ -14,7 +14,7 @@
  *
  * Leaf predicate on the +0x4a byte of an entry: "is this entry in state 5".
  * No relocation and no frame; the same three-instruction body appears
- * inlined inside func_020399B8.
+ * inlined inside GFL_NET_HANDLE_IsNegotiationDone.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_IsHandleReady.c \

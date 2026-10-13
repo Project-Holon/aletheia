@@ -1,5 +1,5 @@
 /*
- * function: func_021D7A44
+ * function: BTL_CALC_CalcBaseDamage
  * address: 0x021D7A44
  * packet: pkt_ov093_021D7A44
  * region: ov093
@@ -13,4 +13,4 @@
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
-u32 func_021D7A44(u32 a,u32 b,u32 c,u32 d) { return (a*b*(2*c/5+2)/d)/50+2; }
+u32 BTL_CALC_CalcBaseDamage(u32 a,u32 b,u32 c,u32 d) { return (a*b*(2*c/5+2)/d)/50+2; }

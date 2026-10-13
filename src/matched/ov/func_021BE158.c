@@ -1,5 +1,5 @@
 /*
- * function: func_021BE158
+ * function: ENTRANCE_CAMERA_AimAtTarget
  * address:  0x021BE158
  * packet:   pkt_021BE158
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_0218EC90  0x0218EC90  thumb  ov021
- *   func_0218E104  0x0218E104  thumb  ov021
- *   func_0218EC60  0x0218EC60  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_Main  0x0218E104  thumb  ov021
+ *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -24,16 +24,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0218E104(u8 *a, u32 b);
-extern void func_0218EC54(u8 *p);
-extern int func_0218EC60(u32 a);
-extern u32 func_0218EC90(u32, u32);
+extern void FIELD_CAMERA_Main(u8 *a, u32 b);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern int FIELD_CAMERA_ResumeTargetTrace(u32 a);
+extern u32 FIELD_CAMERA_SetTarget(u32, u32);
 
-int func_021BE158(u32 a, u32 b)
+int ENTRANCE_CAMERA_AimAtTarget(u32 a, u32 b)
 {
-func_0218EC54((u8 *)a);
-func_0218EC90(a, b);
-func_0218E104((u8 *)a, 0);
-return func_0218EC60(a);
+FIELD_CAMERA_StopTargetTrace((u8 *)a);
+FIELD_CAMERA_SetTarget(a, b);
+FIELD_CAMERA_Main((u8 *)a, 0);
+return FIELD_CAMERA_ResumeTargetTrace(a);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0218571C
+ * function: EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent
  * address: 0x0218571C
  * packet: pkt_ov020_0218571C
  * region: ov020
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020120F4 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02012914 0x02012914 thumb
+ *   GAME_DATA_GetSituationWarpId 0x02012914 thumb
  *   func_02159FA8 0x02159FA8 thumb ov010
- *   func_02185694 0x02185694 thumb ov020
+ *   EVENT_MAPCHANGE_RunSituationWarpArrivalEvent 0x02185694 thumb ov020
  */
 typedef struct { void *owner; void *object; unsigned char payload[0x1c]; } Work;
 typedef unsigned short u16;
@@ -23,21 +23,21 @@ struct BigObj;
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern u16 func_02012914(const struct BigObj *p);
+extern u16 GAME_DATA_GetSituationWarpId(const struct BigObj *p);
 extern void func_02159FA8(int a, int b);
-extern int func_02185694(int a0, int *st, int *p);
-void *func_0218571C(void *owner)
+extern int EVENT_MAPCHANGE_RunSituationWarpArrivalEvent(int a0, int *st, int *p);
+void *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(void *owner)
 {
     void *task;
     Work *w;
-    func_020120F4(owner);
-    task = func_020122C0(owner, 0, (void *)func_02185694, sizeof(Work));
+    GAMESYSTEM_GetGameData(owner);
+    task = func_020122C0(owner, 0, (void *)EVENT_MAPCHANGE_RunSituationWarpArrivalEvent, sizeof(Work));
     w = func_020124E8(task);
     w->owner = owner;
-    w->object = func_020120F4(owner);
-    func_02159FA8(func_02012914(w->object), (int)w->payload);
+    w->object = GAMESYSTEM_GetGameData(owner);
+    func_02159FA8(GAME_DATA_GetSituationWarpId(w->object), (int)w->payload);
     return task;
 }

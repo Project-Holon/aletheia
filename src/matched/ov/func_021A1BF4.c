@@ -1,5 +1,5 @@
 /*
- * function: func_021A1BF4
+ * function: WEATHER_GetWeatherId
  * address:  0x021A1BF4
  * packet:   pkt_021A1780
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_021A1BF4(u8 *p)
+u16 WEATHER_GetWeatherId(u8 *p)
 {
     return ((struct Obj17998 *)p)->fC;
 }

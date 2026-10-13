@@ -1,5 +1,5 @@
 /*
- * function: func_021C3F60
+ * function: SODATEYA_RollRandomIvInheritance
  * address:  0x021C3F60
  * packet:   pkt_ov021_021C3F60
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 
 extern u32 func_02005728(u32 n);
 
-void func_021C3F60(int a, u32 *p)
+void SODATEYA_RollRandomIvInheritance(int a, u32 *p)
 {
     while (p[0x22] < 3) {
         u32 r = func_02005728(6);

@@ -1,7 +1,7 @@
 /*
  * file:     iss_3ds_sys.c
  * unit:     yes
- * function: ISS_SYS_Create, ISS_SYS_Delete, ISS_SYS_Update, func_0202B544, func_0202B578, func_0202B57C, func_0202B584, ISS_SYS_Setup, ISS_SYS_DeleteSubsystems, ISS_SYS_CreateRoad, ISS_SYS_CreateCity, ISS_SYS_CreateDungeon, ISS_SYS_CreateZone, ISS_SYS_CreateSwitch, ISS_SYS_Create3ds, ISS_SYS_DeleteRoad, ISS_SYS_DeleteCity, ISS_SYS_DeleteDungeon, ISS_SYS_DeleteZone, ISS_SYS_DeleteSwitch, ISS_SYS_Delete3ds, ISS_SYS_UpdateRoad, ISS_SYS_UpdateCity, ISS_SYS_UpdateDungeon, ISS_SYS_UpdateZone, ISS_SYS_UpdateSwitch, ISS_SYS_Update3ds, ISS_SYS_EnterRoad, ISS_SYS_EnterCity, ISS_SYS_EnterDungeon, ISS_SYS_EnterZone, ISS_SYS_EnterSwitch, ISS_SYS_Enter3ds, ISS_SYS_LeaveRoad, ISS_SYS_LeaveCity, ISS_SYS_LeaveDungeon, ISS_SYS_LeaveZone, ISS_SYS_LeaveSwitch, ISS_SYS_Leave3ds, func_0202B7B8, ISS_SYS_OnZoneChangeCity, ISS_SYS_OnZoneChangeDungeon, ISS_SYS_OnZoneChangeZone, ISS_SYS_OnZoneChangeSwitch, ISS_SYS_OnZoneChange3ds, ISS_SYS_GetLocation, ISS_SYS_GetZoneId, ISS_SYS_GetCurrentBgmId, ISS_SYS_GetBgmMode, ISS_SYS_HasBgmChanged, ISS_SYS_SwitchMode, ISS_3DS_SYS_Create, ISS_3DS_SYS_Delete, ISS_3DS_SYS_Update, ISS_3DS_SYS_Enter, ISS_3DS_SYS_Leave, ISS_3DS_SYS_OnZoneChange, ISS_3DS_SYS_SetVolume, func_0202B920, func_0202B928, func_0202B934, ISS_3DS_SYS_SetCamera, func_0202B944, ISS_3DS_SYS_LoadTable, ISS_3DS_SYS_FreeTable, ISS_3DS_SYS_SetTableIndex, ISS_3DS_SYS_FindTableIndex, ISS_3DS_SYS_ResetSources, ISS_3DS_SYS_StartSourceImpl, ISS_3DS_SYS_SetSourcePosImpl, ISS_3DS_SYS_SetCameraImpl, ISS_3DS_SYS_EnterImpl, ISS_3DS_SYS_LeaveImpl
+ * function: ISS_SYS_Create, ISS_SYS_Delete, ISS_SYS_Update, ISS_SYS_ChangeZone, ISS_SYS_GetSwitchSys, func_0202B57C, func_0202B584, ISS_SYS_Setup, ISS_SYS_DeleteSubsystems, ISS_SYS_CreateRoad, ISS_SYS_CreateCity, ISS_SYS_CreateDungeon, ISS_SYS_CreateZone, ISS_SYS_CreateSwitch, ISS_SYS_Create3ds, ISS_SYS_DeleteRoad, ISS_SYS_DeleteCity, ISS_SYS_DeleteDungeon, ISS_SYS_DeleteZone, ISS_SYS_DeleteSwitch, ISS_SYS_Delete3ds, ISS_SYS_UpdateRoad, ISS_SYS_UpdateCity, ISS_SYS_UpdateDungeon, ISS_SYS_UpdateZone, ISS_SYS_UpdateSwitch, ISS_SYS_Update3ds, ISS_SYS_EnterRoad, ISS_SYS_EnterCity, ISS_SYS_EnterDungeon, ISS_SYS_EnterZone, ISS_SYS_EnterSwitch, ISS_SYS_Enter3ds, ISS_SYS_LeaveRoad, ISS_SYS_LeaveCity, ISS_SYS_LeaveDungeon, ISS_SYS_LeaveZone, ISS_SYS_LeaveSwitch, ISS_SYS_Leave3ds, func_0202B7B8, ISS_SYS_OnZoneChangeCity, ISS_SYS_OnZoneChangeDungeon, ISS_SYS_OnZoneChangeZone, ISS_SYS_OnZoneChangeSwitch, ISS_SYS_OnZoneChange3ds, ISS_SYS_GetLocation, ISS_SYS_GetZoneId, ISS_SYS_GetCurrentBgmId, ISS_SYS_GetBgmMode, ISS_SYS_HasBgmChanged, ISS_SYS_SwitchMode, ISS_3DS_SYS_Create, ISS_3DS_SYS_Delete, ISS_3DS_SYS_Update, ISS_3DS_SYS_Enter, ISS_3DS_SYS_Leave, ISS_3DS_SYS_OnZoneChange, ISS_3DS_SYS_SetVolume, ISS_3DS_SYS_StartSource, ISS_3DS_SYS_IsSourceActive, ISS_3DS_SYS_SetSourcePos, ISS_3DS_SYS_SetCamera, func_0202B944, ISS_3DS_SYS_LoadTable, ISS_3DS_SYS_FreeTable, ISS_3DS_SYS_SetTableIndex, ISS_3DS_SYS_FindTableIndex, ISS_3DS_SYS_ResetSources, ISS_3DS_SYS_StartSourceImpl, ISS_3DS_SYS_SetSourcePosImpl, ISS_3DS_SYS_SetCameraImpl, ISS_3DS_SYS_EnterImpl, ISS_3DS_SYS_LeaveImpl
  * address:  0x0202B4BC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -49,6 +49,11 @@
  *   ISS_ZONE_SYS_Update  0x0202BEBC  thumb
  *   ISS_ZONE_SYS_Start  0x0202BEDC  thumb
  *   ISS_SWITCH_SYS_Delete  0x0202C08C  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
+ *   ARC_TOOL_GetHandleFileCount  0x0204961C  arm
  */
 
 typedef unsigned char u8;
@@ -182,24 +187,24 @@ extern void ISS_CITY_SYS_NotifyZoneChange(IssCitySys *city, u32 zoneId);
 extern void sub_0202B420(IssDungeonSys *dungeon, u16 zoneId);
 extern void ISS_ZONE_SYS_SwitchZone(IssZoneSys *zone, u32 zoneId);
 extern void sub_0202C0C8(IssSwitchSys *sw);
-extern const Location *func_020127A4(const GameData *gameData);
-extern u16 func_02012AC8(const Location *loc);
+extern const Location *GAME_DATA_GetMyPlayerWork(const GameData *gameData);
+extern u16 GAME_DATA_GetPlayerZoneId(const Location *loc);
 extern u16 GFL_USE_GetBgmNo(void);
 extern const BgmInfoTable *GAME_DATA_GetBagCursor(const GameData *gameData);
 extern u8 func_02006E7C(const BgmInfoTable *table, u16 bgmId);
 extern void func_0202BAF4(Iss3dsSys *sys);
 extern void func_0202BB40(Iss3dsSys *sys);
 extern void *func_020490F4(u32 archiveId, u32 heapId);
-extern u16 func_0204961C(void *arc);
-extern void func_0204932C(void *arc, u32 member, void *dst);
-extern void func_02049238(void *arc);
+extern u16 ARC_TOOL_GetHandleFileCount(void *arc);
+extern void ARC_TOOL_ReadHandleMember(void *arc, u32 member, void *dst);
+extern void ARC_TOOL_DeleteHandle(void *arc);
 extern int func_0202BB48(Iss3dsSys *sys);
 
 IssSys *ISS_SYS_Create(GameData *gameData, u32 heapId);
 void ISS_SYS_Delete(IssSys *iss);
 void ISS_SYS_Update(IssSys *iss);
-void func_0202B544(IssSys *iss, u16 zoneId);
-IssSwitchSys *func_0202B578(IssSys *iss);
+void ISS_SYS_ChangeZone(IssSys *iss, u16 zoneId);
+IssSwitchSys *ISS_SYS_GetSwitchSys(IssSys *iss);
 Iss3dsSys *ISS_SYS_Get3dsSys(IssSys *iss);
 IssDungeonSys *ISS_SYS_GetDungeonSys(IssSys *iss);
 void ISS_SYS_ClearFields(IssSys *iss);
@@ -254,9 +259,9 @@ void ISS_3DS_SYS_Enter(Iss3dsSys *sys);
 void ISS_3DS_SYS_Leave(Iss3dsSys *sys);
 void ISS_3DS_SYS_OnZoneChange(Iss3dsSys *sys);
 void ISS_3DS_SYS_SetVolume(Iss3dsSys *sys, u32 volume);
-void func_0202B920(Iss3dsSys *sys, int slot, int radius, int amp);
-int func_0202B928(Iss3dsSys *sys, int slot);
-void func_0202B934(Iss3dsSys *sys, int slot, const IssVec3 *pos);
+void ISS_3DS_SYS_StartSource(Iss3dsSys *sys, int slot, int radius, int amp);
+int ISS_3DS_SYS_IsSourceActive(Iss3dsSys *sys, int slot);
+void ISS_3DS_SYS_SetSourcePos(Iss3dsSys *sys, int slot, const IssVec3 *pos);
 void ISS_3DS_SYS_SetCamera(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget);
 void ISS_3DS_SYS_ClearTable(Iss3dsSys *sys);
 void ISS_3DS_SYS_LoadTable(Iss3dsSys *sys);
@@ -315,7 +320,7 @@ void ISS_SYS_Update(IssSys *iss)
 }
 
 /* Tells every subsystem that the player moved to another zone. */
-void func_0202B544(IssSys *iss, u16 zoneId)
+void ISS_SYS_ChangeZone(IssSys *iss, u16 zoneId)
 {
     ISS_SYS_OnZoneChangeRoad();
     ISS_SYS_OnZoneChangeCity(iss, zoneId);
@@ -325,7 +330,7 @@ void func_0202B544(IssSys *iss, u16 zoneId)
     ISS_SYS_OnZoneChange3ds(iss, zoneId);
 }
 
-IssSwitchSys *func_0202B578(IssSys *iss)
+IssSwitchSys *ISS_SYS_GetSwitchSys(IssSys *iss)
 {
     return iss->sw;
 }
@@ -577,12 +582,12 @@ void ISS_SYS_OnZoneChange3ds(IssSys *iss, u32 zoneId)
 /* The player's current location, from the game data. */
 const Location *ISS_SYS_GetLocation(IssSys *iss)
 {
-    return func_020127A4(iss->gameData);
+    return GAME_DATA_GetMyPlayerWork(iss->gameData);
 }
 
 u16 ISS_SYS_GetZoneId(IssSys *iss)
 {
-    return func_02012AC8(ISS_SYS_GetLocation(iss));
+    return GAME_DATA_GetPlayerZoneId(ISS_SYS_GetLocation(iss));
 }
 
 /* The BGM that is playing now. */
@@ -689,18 +694,18 @@ void ISS_3DS_SYS_SetVolume(Iss3dsSys *sys, u32 volume)
 }
 
 /* Starts a sound source in a free slot. */
-void func_0202B920(Iss3dsSys *sys, int slot, int radius, int amp)
+void ISS_3DS_SYS_StartSource(Iss3dsSys *sys, int slot, int radius, int amp)
 {
     ISS_3DS_SYS_StartSourceImpl(sys, slot, radius, amp);
 }
 
 /* Returns the active flag of a slot. */
-int func_0202B928(Iss3dsSys *sys, int slot)
+int ISS_3DS_SYS_IsSourceActive(Iss3dsSys *sys, int slot)
 {
     return sys->slots[slot].active;
 }
 
-void func_0202B934(Iss3dsSys *sys, int slot, const IssVec3 *pos)
+void ISS_3DS_SYS_SetSourcePos(Iss3dsSys *sys, int slot, const IssVec3 *pos)
 {
     ISS_3DS_SYS_SetSourcePosImpl(sys, slot, pos);
 }
@@ -724,16 +729,16 @@ void ISS_3DS_SYS_LoadTable(Iss3dsSys *sys)
 {
     u32 heapId = sys->heapId;
     void *arc = func_020490F4(0xb9, (u16)((heapId & 0x7fff) | 0x8000));
-    u8 count = (u8)func_0204961C(arc);
+    u8 count = (u8)ARC_TOOL_GetHandleFileCount(arc);
     u32 i;
 
     sys->tableCount = count;
     sys->table = func_02030734(heapId, (u32)(count << 3), 0, ISS_3DS_SYS_FileName, 0x178);
 
     for (i = 0; i < (u32)count; i++) {
-        func_0204932C(arc, i, sys->table + i);
+        ARC_TOOL_ReadHandleMember(arc, i, sys->table + i);
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
 }
 
 /* Frees the BGM table and empties it. */

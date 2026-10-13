@@ -1,5 +1,5 @@
 /*
- * function: func_02027A04
+ * function: APP_TASKMENU_GetCursorPos
  * address:  0x02027A04
  * packet:   pkt_02027A04
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 func_02027A04(const u8 *p)
+u8 APP_TASKMENU_GetCursorPos(const u8 *p)
 {
     return *p;
 }

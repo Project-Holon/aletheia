@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045374  0x02045374  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02041B6C  0x02041B6C  arm
  *   d_021C876C     0x021C876C  data  a1
  *
@@ -28,8 +28,8 @@ typedef struct {
 
 struct Cfg;
 struct Descriptor;
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern const u8 d_021C876C[];
 
@@ -38,13 +38,13 @@ void func_021C631C(Work *p, void **bg)
     int i;
 
     if (p->f3034 != 0) {
-        func_02045374(bg[6]);
-        func_02045334(bg[6]);
+        BMP_WIN_MakeScreen(bg[6]);
+        BMP_WIN_TransferChars(bg[6]);
     } else {
         for (i = 0; i <= 5; i++) {
             if (d_021C876C[i] != 0) {
-                func_02045374(bg[i]);
-                func_02045334(bg[i]);
+                BMP_WIN_MakeScreen(bg[i]);
+                BMP_WIN_TransferChars(bg[i]);
             }
         }
     }

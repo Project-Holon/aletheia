@@ -10,29 +10,37 @@
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_021E5978 0x021E5978 thumb ov177
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   d_021E8CBE 0x021E8CBE data a1
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm  arm9
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm  arm9
+ *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  */
 #include "../include/Obj10709.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
 typedef unsigned short u16;
 
 extern void func_02082BCC(void *, unsigned, unsigned);
-extern void *func_0204B294(unsigned, unsigned, unsigned, unsigned, const Request *, unsigned short, unsigned);
+extern void *CLACT_CreateActor(unsigned, unsigned, unsigned, unsigned, const Request *, unsigned short, unsigned);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Obj;
 extern int func_021E5978(int *p, int i);
 extern unsigned func_021E7CF0(void *, unsigned short, unsigned short);
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(unsigned);
-extern void func_0204AFD8(unsigned);
-extern void func_0204ADA4(unsigned);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleaseCellAnim(unsigned);
+extern void CLACT_ReleasePalette(unsigned);
 extern void *func_020490F4(u32 id, u32 heap);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern const unsigned char d_021E8CBE[];
 void func_021E73E4(char *p, unsigned owner, void *table, unsigned heap)
@@ -48,5 +56,5 @@ void func_021E73E4(char *p, unsigned owner, void *table, unsigned heap)
     a = func_021E5978(table, v + 2);
     b = func_021E5978(table, ((struct Obj10709 *)p)->f234);
     c = func_021E5978(table, v + 4);
-    ((struct Obj10709 *)p)->f18C = func_0204B294(owner, a, b, c, &req, v, heap);
+    ((struct Obj10709 *)p)->f18C = CLACT_CreateActor(owner, a, b, c, &req, v, heap);
 }

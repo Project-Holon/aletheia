@@ -1,5 +1,5 @@
 /*
- * function: func_021DF2BC
+ * function: BTL_HANDLER_ITEM_GetZapPlateHandlers
  * address: 0x021DF2BC
  * packet: pkt_ov093_021DF2BC
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F136C[];
-int *func_021DF2BC(int *p);
+int *BTL_HANDLER_ITEM_GetZapPlateHandlers(int *p);
 
-int *func_021DF2BC(int *p)
+int *BTL_HANDLER_ITEM_GetZapPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F136C;

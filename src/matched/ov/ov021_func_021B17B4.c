@@ -1,5 +1,5 @@
 /*
- * function: func_021B17B4
+ * function: SCRCMD_FLDMMDL_GetPlayerGridPos
  * address:  0x021B17B4
  * packet:   pkt_ov021_021B17B4
  * region:   ov021
@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  */
 
 typedef signed short s16;
 
-void *func_0215A5F4(void *p);
-int func_02158F58(int a0);
+void *SCRCMD_WORK_GetScriptWork(void *p);
+int SCRIPT_WORK_ResetFieldParam(int a0);
 struct Obj00020;
-void *func_02188CB4(struct Obj00020 *p);
-void *func_021A3074(unsigned char *p);
-s16 *func_02159AE8(void *a0, void *a1);
-int func_0216D83C(void *p);
-int func_0216D86C(void *p);
+void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+s16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+int FLDMMDL_GetGridNowX(void *p);
+int FLDMMDL_GetGridNowZ(void *p);
 
-int func_021B17B4(int a, int b)
+int SCRCMD_FLDMMDL_GetPlayerGridPos(int a, int b)
 {
     void *r5;
     s16 *r6;
     s16 *r4;
 
-    r5 = func_021A3074(func_02188CB4((struct Obj00020 *)(((unsigned char **)func_02158F58((int)func_0215A5F4((void *)b)))[1])));
-    r6 = func_02159AE8((void *)a, (void *)b);
-    r4 = func_02159AE8((void *)a, (void *)b);
-    *r6 = func_0216D83C(r5);
-    *r4 = func_0216D86C(r5);
+    r5 = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((struct Obj00020 *)(((unsigned char **)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)b)))[1])));
+    r6 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    r4 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    *r6 = FLDMMDL_GetGridNowX(r5);
+    *r4 = FLDMMDL_GetGridNowZ(r5);
     return 0;
 }

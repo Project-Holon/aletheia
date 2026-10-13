@@ -1,5 +1,5 @@
 /*
- * function: func_021AB504
+ * function: MAP_ATTR_GetEncounterEffectKind
  * address:  0x021AB504
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * Terrain class of a tile attribute word, for the encounter-effect lane.
- * Its one caller, func_021AACD4 in effect_encount.c, drops the tile when
+ * Its one caller, EFFECT_ENCOUNT_CollectCandidates in effect_encount.c, drops the tile when
  * the answer is 8 and otherwise stores the class byte in its per-tile
  * candidate list, so 8 is "no effect".  Note the flag-half gate: unless
  * bit 2 of the high half is set, every id falls through to 8, which is why
  * the overwhelmingly common 0x0081 flag half never produces a class.
  *
- * The two half accessors are func_021AB0F0/func_021AB0F8 inlined.
+ * The two half accessors are MAP_ATTR_GetTerrainId/MAP_ATTR_GetFlags inlined.
  */
 
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-int func_021AB504(u32 attr)
+int MAP_ATTR_GetEncounterEffectKind(u32 attr)
 {
     u16 id = (u16)attr;
     u16 flags = (u16)(attr >> 16);

@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   d_0220B2A0 0x0220B2A0 data a4
- *   func_02045808   0x02045808  arm
+ *   STRBUF_Delete   0x02045808  arm
  *   func_020315D4   0x020315D4  arm
  *   func_020306F0   0x020306F0  arm
- *   func_0200B424   0x0200B424  thumb
+ *   BATTLE_REC_FreeWork   0x0200B424  thumb
  *   PROCSYS_Create  0x02031324  arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
@@ -32,8 +32,8 @@
  *   d_0220B2E4 0x0220B2E4 data a1
  *   func_020307B0  0x020307B0  arm
  *   BTL_SETUP_InitWithSlots 0x020138C4 thumb
- *   func_0200BA58 0x0200BA58 thumb
- *   func_0200BA68 0x0200BA68 thumb
+ *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
+ *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
  *   func_021EEEA8 0x021EEEA8 thumb ov188
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
@@ -86,14 +86,14 @@ typedef struct { int state, mode; void *data, *owner; } Work;
 
 typedef struct { unsigned char low:1, flag:1, rest:6; } Flag;
 
-extern void func_0203064C(unsigned, unsigned, unsigned);
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void *func_02082BCC(void *, int, unsigned);
 extern void BATTLE_REC_AllocWork(unsigned);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
-extern void func_0200B424(void);
+extern void BATTLE_REC_FreeWork(void);
 extern void *PROCSYS_Create(int a0);
 extern void PROCSYS_Push(void *, int, const void *, void *);
 extern unsigned int PROCSYS_Main(void *p);
@@ -102,8 +102,8 @@ extern void func_0203133C(struct S020314B8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void BTL_SETUP_InitWithSlots(void *,int,void *);
-extern void func_0200BA58(void);
-extern void func_0200BA68(void);
+extern void BATTLE_REC_LoadToolOverlay(void);
+extern void BATTLE_REC_UnloadToolOverlay(void);
 extern void func_021EEEA8(void *,u32);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
@@ -131,8 +131,8 @@ extern const char d_0220B2E4[];
 int func_0220AF40(struct Obj0203159C *a, unsigned unused, unsigned mode)
 {
     char *p;
-    func_0203064C(1, 0x59, 0x12000);
-    p = func_0203159C(a, 0x17f4, 0x59);
+    GFL_HEAP_CreateChildHeap(1, 0x59, 0x12000);
+    p = PROCSYS_AllocProcWork(a, 0x17f4, 0x59);
     func_02082BCC(p, 0, 0x17f4);
     ((struct Obj24881 *)p)->f17F0 = mode;
     BATTLE_REC_AllocWork(0x59);
@@ -153,11 +153,11 @@ int func_0220AF94(int a, int b, int c, char *p)
         for (i = 0; i < 4; i++) {
             int v = *(int *)(p + 0x1780 + i * 4);
             if (v != 0)
-                func_02045808((struct U16Vec *)v);
+                STRBUF_Delete((struct U16Vec *)v);
         }
     }
     func_0220B0CC((int *)p);
-    func_0200B424();
+    BATTLE_REC_FreeWork();
     func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x59);
     return 1;
@@ -246,9 +246,9 @@ void *func_0220B164(u32 a,u8 *b)
     u8 *p = func_02030734(a,240,0,d_0220B2E4,542);
     func_02082BCC(p,0,240);
     BTL_SETUP_InitWithSlots(p,*(int *)(*(u8 **)(b+0x17F0)+4),(void *)a);
-    func_0200BA58();
+    BATTLE_REC_LoadToolOverlay();
     func_021EEEA8(p,a);
-    func_0200BA68();
+    BATTLE_REC_UnloadToolOverlay();
     GFL_USE_SetBgmPlayerParam((void *)1);
     GFL_USE_PushBgm();
     func_0220B240((u16 *)(p+24),(u16 *)(p+26));

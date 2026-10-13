@@ -1,7 +1,7 @@
 /*
  * file:     unit_021542C0.c
  * unit:     yes
- * function: func_021542C0, EVENT_WIFICLUB_BuildBattleEntry
+ * function: EVENT_WIFICLUB_SetupBattle, EVENT_WIFICLUB_BuildBattleEntry
  * address:  0x021542C0
  * region:   ov006
  * compiler: dsi/1.1p1
@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_0200AEE8  0x0200AEE8  thumb
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
  *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
  *   BTL_SETUP_SetupCommTriple  0x02013864  thumb
  *   BTL_SETUP_SetupCommRotation  0x02013894  thumb
  *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
  *   BTL_SETUP_ApplyRegulation  0x02013160  thumb
- *   func_0201A2A8  0x0201A2A8  thumb
- *   func_02012F2C  0x02012F2C  thumb
- *   func_0203D1A4 0x0203D1A4 arm
- *   func_02012950 0x02012950 thumb
+ *   POKE_REGULATION_AdjustPartyLevels  0x0201A2A8  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
@@ -47,35 +47,35 @@ typedef struct BattleSetupView {
     void *trainerRecord;
 } BattleSetupView;
 
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void func_0200AEE8(struct Reg *regulation, u32 id, s32 value);
-extern void *func_020399A8(void);
+extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void BTL_SETUP_SetupCommSingle(void *battleSetup, struct GameData *gameData, void *netHandle, u32 a, u16 b);
 extern void BTL_SETUP_SetupCommDouble(void *battleSetup, struct GameData *gameData, void *netHandle, u32 a, u16 b);
 extern void BTL_SETUP_SetupCommTriple(void *battleSetup, struct GameData *gameData, void *netHandle, u32 a, u16 b);
 extern void BTL_SETUP_SetupCommRotation(void *battleSetup, struct GameData *gameData, void *netHandle, u32 a, u16 b);
 extern void BTL_SETUP_AllocRecordBuffer(void *battleSetup, u32 heapArg);
 extern void BTL_SETUP_ApplyRegulation(void *battleSetup, void *regulation, u32 a);
-extern void func_0201A2A8(void *dst, void *src);
-extern void *func_02012F2C(struct GameData *gameData);
-u32 func_0203D1A4(struct Link *netHandle);
-void *func_02012950(void *gameData, u32 index);
+extern void POKE_REGULATION_AdjustPartyLevels(void *dst, void *src);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
+u32 GFL_NET_GetHandleNetID(struct Link *netHandle);
+void *GAME_DATA_GetPlayerStatus(void *gameData, u32 index);
 const void *func_020084F4(const void *p);
 u8 func_02008550(const void *playerRecord);
 void POKEPARTY_Init(void *party);
 void BTL_SETUP_SetParty(void *battleSetup, void *party, int a);
-void func_021542C0(WifiClubEventWork *work, int menuIndex);
+void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
 void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData);
 void EVENT_WIFICLUB_SetBattleParty(WifiClubEventWork *work);
 
 
-void func_021542C0(WifiClubEventWork *work, int menuIndex)
+void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex)
 {
     struct GameData *gameData;
     u8 useAltRule;
     int battleKind;
 
-    gameData = func_020120F4(work->gameSystem);
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     useAltRule = work->session->useAltRule;
     if (useAltRule)
         func_0200AEE8(work->session->regulation, 0xd, 1);
@@ -130,26 +130,26 @@ void func_021542C0(WifiClubEventWork *work, int menuIndex)
     switch (menuIndex) {
     case 7:
     case 8:
-        BTL_SETUP_SetupCommSingle(work->battleSetup, gameData, func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommSingle(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 9:
     case 10:
-        BTL_SETUP_SetupCommDouble(work->battleSetup, gameData, func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommDouble(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 11:
     case 12:
-        BTL_SETUP_SetupCommTriple(work->battleSetup, gameData, func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommTriple(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 13:
     case 14:
-        BTL_SETUP_SetupCommRotation(work->battleSetup, gameData, func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommRotation(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     }
     BTL_SETUP_AllocRecordBuffer(work->battleSetup, 1);
     BTL_SETUP_ApplyRegulation(work->battleSetup, work->session->regulation, 4);
-    func_0201A2A8(work->session->regulation, work->session->party[0]);
-    func_0201A2A8(work->session->regulation, work->session->party[1]);
-    ((BattleSetupView *)work->battleSetup)->trainerRecord = func_02012F2C(func_020120F4(work->gameSystem));
+    POKE_REGULATION_AdjustPartyLevels(work->session->regulation, work->session->party[0]);
+    POKE_REGULATION_AdjustPartyLevels(work->session->regulation, work->session->party[1]);
+    ((BattleSetupView *)work->battleSetup)->trainerRecord = GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->gameSystem));
 }
 
 
@@ -159,10 +159,10 @@ void func_021542C0(WifiClubEventWork *work, int menuIndex)
  * The lead is 110 bytes, followed by two padding bytes and the 24-byte
  * EVENT_WIFICLUB_SetBattleParty thunk. function_starts: 0x021544BC.
  * func_020084F4 is the bx-lr identity: the original retains the pointer
- * returned by func_02012950 in r0 across two loads, passes it to the
+ * returned by GAME_DATA_GetPlayerStatus in r0 across two loads, passes it to the
  * identity, and stores the unchanged result. Its prior (void) extern
  * dropped the live input and caused an 18-byte scheduling residue.
- * func_0203D1A4 explicitly returns only eight bits; the caller consumes
+ * GFL_NET_GetHandleNetID explicitly returns only eight bits; the caller consumes
  * those bits without truncation. Indexed record reads retain modular
  * unsigned address arithmetic without assuming an index domain.
  */
@@ -173,9 +173,9 @@ void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData)
     ClubBattleEntry *entry;
     WifiClubSession *session;
 
-    selfSide = func_0203D1A4(func_020399A8());
+    selfSide = GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
     partnerSide = 1 - selfSide;
-    partnerRecord = func_02012950(gameData, partnerSide);
+    partnerRecord = GAME_DATA_GetPlayerStatus(gameData, partnerSide);
     work->battleEntry.regulation = work->session->regulation;
     entry = &work->battleEntry;
     entry->ownParty = *(void **)((unsigned int)work->session + 0x14 + 4 * (unsigned int)selfSide);

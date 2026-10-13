@@ -12,18 +12,18 @@
  * Script command: passes two arguments to func_021F839C.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F839C 0x021F839C thumb ov094
  */
 #include "../include/Obj21667.h"
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 typedef unsigned int   u32;
 extern void func_021F839C(u32 a, u32 b);
 
 int func_021FB624(void *a, char *s)
 {
-    int x = func_0201134C(a);
-    func_021F839C(x, func_0201134C(a));
+    int x = VM_GetU32(a);
+    func_021F839C(x, VM_GetU32(a));
     return ((struct Obj21667 *)s)->f23C;
 }

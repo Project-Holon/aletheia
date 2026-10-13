@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DBE70 0x021DBE70 thumb ov119
  */
-extern void func_020435F4(unsigned);
+extern void BG_SYS_SetSubVisiblePlanes(unsigned);
 extern void func_021D8E84(void *,int);
 extern void func_021DBE70(char *p);
 void func_021DB278(void *p) {
- func_020435F4(30);
+ BG_SYS_SetSubVisiblePlanes(30);
  func_021D8E84(p,(int)func_021DBE70);
 }

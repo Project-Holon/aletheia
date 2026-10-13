@@ -1,5 +1,5 @@
 /*
- * function: func_02050278
+ * function: BILLBOARD_ACT_DeleteSlots
  * address:  0x02050278
  * packet:   pkt_02050278
  * region:   arm9
@@ -10,13 +10,13 @@
  * status:   EXACT
  * symbols:
  *   BILLBOARD_DeleteImage  0x0204F150  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   BILLBOARD_ACT_InitSlot  0x02050088  arm
  *   AREAMAN_Free  0x0203422C  arm
  *
  * billboard_act.c: release `count` slot records from `first`: the board
  * record through BILLBOARD_DeleteImage(board, id) when the id is live, the payload
- * through func_02046EFC when nonzero, then reset the record and return the
+ * through G3D_SYSTEM_DeleteResource when nonzero, then reset the record and return the
  * index range to the pool.  BILLBOARD_DeleteImage takes TWO arguments (the loaded
  * id is the r1 the image compares); the rest is plain subscripts.
  */
@@ -41,11 +41,11 @@ typedef signed int     s32;
 struct AreaMan;
 extern void BILLBOARD_DeleteImage(u8 *a0, int i);
 struct Tagged;
-extern void func_02046EFC(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 extern void BILLBOARD_ACT_InitSlot(int p0);
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-void func_02050278(struct BbActSys *o, u32 first, u32 count)
+void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count)
 {
     u32 i;
 
@@ -54,7 +54,7 @@ void func_02050278(struct BbActSys *o, u32 first, u32 count)
             BILLBOARD_DeleteImage(o->f04, o->f0C[first + i].id);
         }
         if (o->f0C[first + i].val != 0) {
-            func_02046EFC((struct Tagged *)o->f0C[first + i].val);
+            G3D_SYSTEM_DeleteResource((struct Tagged *)o->f0C[first + i].val);
         }
         BILLBOARD_ACT_InitSlot((int)(&o->f0C[first + i]));
     }

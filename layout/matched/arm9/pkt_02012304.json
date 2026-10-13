@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02012374",
+   "name": "GAME_EVENT_CallEvent",
    "address": "0x02012374",
    "kind": "game",
    "region": "arm9",

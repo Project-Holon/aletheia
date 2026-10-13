@@ -1,5 +1,5 @@
 /*
- * function: func_021C64E0
+ * function: FIELD_G3DOBJ_DrawAll
  * address:  0x021C64E0
  * packet:   pkt_ov021_021C64E0
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02047AC8  0x02047AC8  arm
- *   func_02047A60  0x02047A60  arm
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
+ *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  */
 
 typedef unsigned char u8;
@@ -42,10 +42,10 @@ typedef struct {
 } Mgr;
 
 struct Arg;
-extern int func_02047AC8(void *a0, struct Arg *a1);
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
-void func_021C64E0(Mgr *m)
+void FIELD_G3DOBJ_DrawAll(Mgr *m)
 {
     u32 i;
     Elem *e;
@@ -55,9 +55,9 @@ void func_021C64E0(Mgr *m)
         if (e->kind == 1) {
             if (e->b4 == 0 && e->b3 == 0) {
                 if (e->b2 == 1)
-                    func_02047AC8(e->f44, (struct Arg *)e->f8);
+                    G3D_SYSTEM_DrawObjectCulling(e->f44, (struct Arg *)e->f8);
                 else
-                    func_02047A60(e->f44, (struct Arg *)e->f8);
+                    G3D_SYSTEM_DrawObject(e->f44, (struct Arg *)e->f8);
             }
             e->b5 = 0;
         }

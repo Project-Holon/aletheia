@@ -1,5 +1,5 @@
 /*
- * function: func_021B6DC0
+ * function: YESNO_MENU_Create
  * address:  0x021B6DC0
  * packet:   pkt_ov067_021B6DC0
  * region:   ov067
@@ -13,7 +13,7 @@
  *           stores it before the call); f1C is a flag local set to 1 in an
  *           `if` (the `a1 > 3` value compiles the opposite polarity); the
  *           palette rows are a flat u16 index `(i + 1) * 16 + j`; the
- *           func_021B76C8 calls are inline arguments (x/y locals schedule
+ *           YESNO_MENU_GetButtonPos calls are inline arguments (x/y locals schedule
  *           the i * 4 after them); stack locals are declared in reverse
  *           slot order.
  *
@@ -23,8 +23,8 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_020414AC  0x020414AC  arm
  *   func_020490F4  0x020490F4  arm
- *   func_020493D4  0x020493D4  arm
- *   func_0204932C  0x0204932C  arm
+ *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   func_02062A98  0x02062A98  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02049B68  0x02049B68  arm
@@ -32,21 +32,21 @@
  *   func_020498F4  0x020498F4  arm
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
- *   func_02049238  0x02049238  arm
- *   func_021B7718  0x021B7718  thumb  ov067
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   YESNO_MENU_CopyPalette  0x021B7718  thumb  ov067
  *   func_02040588  0x02040588  arm
  *   func_02049B40  0x02049B40  arm
- *   func_020450F0  0x020450F0  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_021B6208  0x021B6208  thumb  ov067
- *   func_021B76C8  0x021B76C8  thumb  ov067
- *   func_021B629C  0x021B629C  thumb  ov067
- *   func_0204B84C  0x0204B84C  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   UI_SCENE_LoadActorGfx  0x021B6208  thumb  ov067
+ *   YESNO_MENU_GetButtonPos  0x021B76C8  thumb  ov067
+ *   UI_SCENE_CreateActor  0x021B629C  thumb  ov067
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  */
 
 typedef unsigned char u8;
@@ -111,8 +111,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_020414AC(u32 a);
 extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
@@ -122,27 +122,27 @@ extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
-extern void func_02049238(void *h);
-extern void func_021B7718(int which, int idx, void *data);
+extern void ARC_TOOL_DeleteHandle(void *h);
+extern void YESNO_MENU_CopyPalette(int which, int idx, void *data);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_021B6208(void *out, In *in, int unused, u16 d);
-extern u8 func_021B76C8(u32 a, u32 b, u32 c);
-extern int func_021B629C(void *p, int a, u16 x, u16 y, u8 e, u16 f);
-extern void func_0204B84C(int p, u32 a);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void UI_SCENE_LoadActorGfx(void *out, In *in, int unused, u16 d);
+extern u8 YESNO_MENU_GetButtonPos(u32 a, u32 b, u32 c);
+extern int UI_SCENE_CreateActor(void *p, int a, u16 x, u16 y, u8 e, u16 f);
+extern void CLACT_SetActorBgPriority(int p, u32 a);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *a, u32 b);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-S *func_021B6DC0(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u32 a7)
+S *YESNO_MENU_Create(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u32 a7)
 {
     In in;
     Pltt *pl;
@@ -184,8 +184,8 @@ S *func_021B6DC0(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u32 a7
     p->f9c = 2;
     p->fC0 = 0;
     h = func_020490F4(0x53, p->heap);
-    buf = func_02030734(p->heap, func_020493D4(h, 0xa3), 0, d_021B9564, 0x10d);
-    func_0204932C(h, 0xa3, buf);
+    buf = func_02030734(p->heap, ARC_TOOL_GetHandleMemberSize(h, 0xa3), 0, d_021B9564, 0x10d);
+    ARC_TOOL_ReadHandleMember(h, 0xa3, buf);
     func_02062A98(buf, (void **)(&pl));
     src = (u16 *)pl->data;
     for (i = 0; i < 3; i++) {
@@ -200,15 +200,15 @@ S *func_021B6DC0(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u32 a7
     func_020413B0(p->f14, 0, 0, 0x20, 0xb, p->f16);
     func_020413B0(p->f14, 0, 0xb, 0x20, 0xd, p->f17);
     func_020409B4(p->f14);
-    func_02049238(h);
-    func_021B7718(p->f10, p->f16, p->pal);
-    func_021B7718(p->f10, p->f17, p->pal);
+    ARC_TOOL_DeleteHandle(h);
+    YESNO_MENU_CopyPalette(p->f10, p->f16, p->pal);
+    YESNO_MENU_CopyPalette(p->f10, p->f17, p->pal);
     func_02040588(p->f14, 0);
     func_02049B40(0x17, 5, p->f10, p->f1A << 5, 0x20, p->heap);
-    p->f88 = func_020450F0(p->f18, 0, 5, 0x20, 6, p->f1A, 1);
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f88)), 0);
-    p->f8c = func_020450F0(p->f18, 0, 0xb, 0x20, 6, p->f1A, 1);
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f8c)), 0);
+    p->f88 = BMP_WIN_Create(p->f18, 0, 5, 0x20, 6, p->f1A, 1);
+    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f88)), 0);
+    p->f8c = BMP_WIN_Create(p->f18, 0, 0xb, 0x20, 6, p->f1A, 1);
+    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)p->f8c)), 0);
     func_02040588(p->f18, 0);
     in.f0 = p->f1C;
     in.f4 = 0;
@@ -220,18 +220,18 @@ S *func_021B6DC0(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u32 a7
     in.b1c = p->f20;
     in.b1d = 0;
     in.b1e = 5;
-    func_021B6208(p->fB0, &in, p->f4, p->heap);
+    UI_SCENE_LoadActorGfx(p->fB0, &in, p->f4, p->heap);
     q = p->fB0;
     for (i = 0; i < 4; i++) {
-        p->arrA0[i] = func_021B629C(q, p->f4, func_021B76C8(p->fC0, i, 0),
-                                    func_021B76C8(p->fC0, i, 1), i, p->heap);
-        func_0204B84C(p->arrA0[i], p->f19);
+        p->arrA0[i] = UI_SCENE_CreateActor(q, p->f4, YESNO_MENU_GetButtonPos(p->fC0, i, 0),
+                                    YESNO_MENU_GetButtonPos(p->fC0, i, 1), i, p->heap);
+        CLACT_SetActorBgPriority(p->arrA0[i], p->f19);
         func_0204B3DC((struct Obj *)p->arrA0[i], 0);
         func_0204B92C((struct Obj *)p->arrA0[i], 0);
     }
     if (p->f1C == 0)
         func_020434DC(0x10, 1);
     else
-        func_02043598(0x10, 1);
+        BG_SYS_SetSubPlaneVisible(0x10, 1);
     return p;
 }

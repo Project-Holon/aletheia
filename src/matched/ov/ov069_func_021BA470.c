@@ -1,5 +1,5 @@
 /*
- * function: func_021BA470
+ * function: BSUBWAY_RECORD_LIST_GetRowCountOnPage
  * address:  0x021BA470
  * packet:   pkt_ov069_021BA470
  * region:   ov069
@@ -14,7 +14,7 @@
  * symbols:
  */
 
-int func_021BA470(int a, int b, int c)
+int BSUBWAY_RECORD_LIST_GetRowCountOnPage(int a, int b, int c)
 {
     int r = c - a * 10;
 

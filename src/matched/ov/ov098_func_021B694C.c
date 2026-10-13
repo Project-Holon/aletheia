@@ -13,12 +13,12 @@
  *   func_0201F02C 0x0201F02C thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_021B6B8C 0x021B6B8C thumb ov098
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj07935.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct MsgBank;
-extern void *func_02045EC0(struct MsgBank *bank, u32 index); extern u32 func_021B6148(u8 *); extern void func_0201F02C(void *,u32,void *); extern void func_0201F250(void *,void *,void *); extern void func_021B6B8C(int,int); extern void func_02045808(void *);
-void func_021B694C(u8 *p,u8 *q) { void *r; u32 t; r=func_02045EC0(((struct Obj07935 *)p)->f20,3); t=func_021B6148(q); func_0201F02C(((struct Obj07935 *)p)->f30,0,(void *)t); func_0201F250(((struct Obj07935 *)p)->f30,((struct Obj07935 *)p)->f2C,r); func_021B6B8C((int)p,0); func_02045808(r); }
+extern void *func_02045EC0(struct MsgBank *bank, u32 index); extern u32 func_021B6148(u8 *); extern void func_0201F02C(void *,u32,void *); extern void func_0201F250(void *,void *,void *); extern void func_021B6B8C(int,int); extern void STRBUF_Delete(void *);
+void func_021B694C(u8 *p,u8 *q) { void *r; u32 t; r=func_02045EC0(((struct Obj07935 *)p)->f20,3); t=func_021B6148(q); func_0201F02C(((struct Obj07935 *)p)->f30,0,(void *)t); func_0201F250(((struct Obj07935 *)p)->f30,((struct Obj07935 *)p)->f2C,r); func_021B6B8C((int)p,0); STRBUF_Delete(r); }

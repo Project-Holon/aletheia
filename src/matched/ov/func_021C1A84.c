@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A84
+ * function: FLD_PARTICLE_DeleteEffect
  * address:  0x021C1A84
  * packet:   pkt_021C1A84
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_02050DB8  0x02050DB8  arm
+ *   PARTICLE_DeleteSystem  0x02050DB8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09206.h"
@@ -21,13 +21,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_02050DB8(u8 *p);
+extern void PARTICLE_DeleteSystem(u8 *p);
 
-void func_021C1A84(u8 *p)
+void FLD_PARTICLE_DeleteEffect(u8 *p)
 {
     u32 v = ((struct Obj09206 *)p)->fC;
     if (v != 0) {
-        func_02050DB8((u8 *)v);
+        PARTICLE_DeleteSystem((u8 *)v);
         ((struct Obj09206 *)p)->fC = 0;
     }
 }

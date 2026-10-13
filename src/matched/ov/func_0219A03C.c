@@ -1,5 +1,5 @@
 /*
- * function: func_0219A03C
+ * function: FLDMMDL_ACMD_AnimeDash2FSetReset
  * address:  0x0219A03C
  * packet:   pkt_0219A03C
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D7CC (0x0216D7CC) is a matched manifest entry, so the `matched`
+ * FLDMMDL_IncAcmdSeq (0x0216D7CC) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0219FE64  0x0219FE64  thumb  ov021
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_DRAW_ResetBlactAnime  0x0219FE64  thumb  ov021
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -28,15 +28,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0216D674(void *p, u16 v);
-extern u32 func_0216D7CC(u32);
-extern void func_0219FE64(u32 a);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
+extern void FLDMMDL_DRAW_ResetBlactAnime(u32 a);
 
-int func_0219A03C(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_ACMD_AnimeDash2FSetReset(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D674((void *)a, 12);
-func_0219FE64(a);
-func_0216D7CC(a);
+FLDMMDL_SetDrawStatus((void *)a, 12);
+FLDMMDL_DRAW_ResetBlactAnime(a);
+FLDMMDL_IncAcmdSeq(a);
 return 0;
 }
 

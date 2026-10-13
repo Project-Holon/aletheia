@@ -1,5 +1,5 @@
 /*
- * function: func_0203D000
+ * function: GFL_NET_ConnectMacAddressChild
  * address:  0x0203D000
  * packet:   pkt_0203DC70
  * region:   arm9
@@ -19,7 +19,7 @@
 
 extern void GFL_NET_STATE_ConnectMacAddress(int a0, int a1);
 
-void func_0203D000(void *p)
+void GFL_NET_ConnectMacAddressChild(void *p)
 {
     GFL_NET_STATE_ConnectMacAddress((int)p, 0);
 }

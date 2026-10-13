@@ -28,7 +28,7 @@
  *   data_020A72CC  0x020A72CC  data
  *   MCSS_TransPaletteTask  0x0201691C  thumb
  *   MCSS_DeletePaletteTask  0x02016C38  thumb
- *   func_02021F64  0x02021F64  thumb
+ *   PALANM_BlendColors  0x02021F64  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
@@ -50,7 +50,7 @@
  * lever" guess (make a2 reach a call earlier) was not needed.
  *
  * This is also a data point for the family: the value at +0x13C that
- * MCSS_UpdatePaletteFade hands to func_02021F64 as `(u16)` is 16-bit AT THE
+ * MCSS_UpdatePaletteFade hands to PALANM_BlendColors as `(u16)` is 16-bit AT THE
  * PARAMETER here, not only at the call.
  *
  * Verified with:
@@ -75,7 +75,7 @@ extern char data_020A72CC[];
 struct Obj_0201691C;
 extern void MCSS_TransPaletteTask(void *a0, struct Obj_0201691C *a1);
 extern int MCSS_DeletePaletteTask(int a0);
-extern void  func_02021F64(int a, int b, u16 c, int d, u16 e);
+extern void  PALANM_BlendColors(int a, int b, u16 c, int d, u16 e);
 extern int   func_020056A0(int fn, int arg, int n);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern int   func_02030DA8(int owner, int fn, int arg, int n);
@@ -107,7 +107,7 @@ void MCSS_CreatePaletteTransTask(char *a0, char *a1, u16 a2, int a3)
             (u16)(((u16)((struct Obj01093 *)a1)->f14C & 0x7fff) | 0x8000),
             ((struct Obj01093 *)a1)->fDC, 0, (const char *)data_020A72CC, 0x76e);
 
-    func_02021F64(((struct Obj01093 *)a1)->fD4,
+    PALANM_BlendColors(((struct Obj01093 *)a1)->fD4,
                   ((struct Obj15679 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC,
                   (u16)(((struct Obj01093 *)a1)->fDC / 2),
                   a2, (u16)a3);

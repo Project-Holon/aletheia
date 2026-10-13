@@ -10,8 +10,8 @@
  * status: EXACT
  * ABI: own 0203159C is void, but this caller consumes allocator result r0 at 021B9BCA; its body stores that result then returns without overwriting r0.
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082A7C 0x02082A7C arm
  */
 #include "../include/Obj10885.h"
@@ -19,5 +19,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Obj0203159C;extern void func_0203064C(u32 src,u32 dst,u32 size);extern void *func_0203159C(struct Obj0203159C *,u32,u32);extern void func_02082A7C(u32,void *,u32);
-int func_021B9BAC(struct Obj0203159C *obj,u32 unused,char *ctx) { char *p;func_0203064C(1,84,0x40000);p=func_0203159C(obj,28,84);func_02082A7C(0,p,28);((struct Obj10885 *)p)->f0=84;((struct Obj10885 *)p)->f4=((struct Obj14634 *)ctx)->f4;((struct Obj10885 *)p)->f8=((struct Obj14634 *)ctx)->f8;return 1; }
+struct Obj0203159C;extern void GFL_HEAP_CreateChildHeap(u32 src,u32 dst,u32 size);extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,u32,u32);extern void func_02082A7C(u32,void *,u32);
+int func_021B9BAC(struct Obj0203159C *obj,u32 unused,char *ctx) { char *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=PROCSYS_AllocProcWork(obj,28,84);func_02082A7C(0,p,28);((struct Obj10885 *)p)->f0=84;((struct Obj10885 *)p)->f4=((struct Obj14634 *)ctx)->f4;((struct Obj10885 *)p)->f8=((struct Obj14634 *)ctx)->f8;return 1; }

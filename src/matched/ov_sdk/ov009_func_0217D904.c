@@ -1,5 +1,5 @@
 /*
- * function: func_0217D904
+ * function: gsiLargeIntDiv
  * address:  0x0217D904
  * packet:   pkt_ov009_0217D904
  * region:   ov009
@@ -47,7 +47,7 @@
  *           same exchange.
  *
  * symbols:
- *   func_0217D3AC                  0x0217D3AC  arm ov009
+ *   gsiLargeIntTimerEnter                  0x0217D3AC  arm ov009
  *   memcpy                         0x02092344  arm
  *   gsiLargeIntTimerExit                  0x0217D3F8  arm ov009
  *   gsiLargeIntCompare                  0x0217D448  arm ov009
@@ -61,12 +61,12 @@ typedef struct gsLargeInt_s {
 } gsLargeInt_t;
 
 #include "../../matched/arm9_sdk/libc/string.h"
-extern void func_0217D3AC(int id);
+extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
 extern int gsiLargeIntCompare(const unsigned int *data1, unsigned int len1, const unsigned int *data2, unsigned int len2);
 extern int gsiLargeIntSubDivide(unsigned int *src, unsigned int length, const unsigned int *divisor, unsigned int dlen, int divisorHighBit, unsigned int *quotient);
 
-int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder)
+int gsiLargeIntDiv(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
     int result = 0;
     int divisorHighBit = 31;
@@ -84,7 +84,7 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
 
     int endLoop = 0;
 
-    func_0217D3AC(5);
+    gsiLargeIntTimerEnter(5);
 
     memset(scopy, 0, sizeof(scopy));
 

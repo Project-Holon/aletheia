@@ -12,15 +12,15 @@
  * State handler: on cancel closes the menu at +0x80; otherwise picks the next state from the probes.
  *
  * symbols:
- *   func_02027858  0x02027858  thumb
- *   func_02027974  0x02027974  thumb
- *   func_020279E8  0x020279E8  thumb
- *   func_02027A04  0x02027A04  thumb
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020456F8  0x020456F8  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021B7578  0x021B7578  thumb  ov172
  *   func_021B7B80  0x021B7B80  thumb  ov172
  *   func_021B80E4  0x021B80E4  thumb  ov172
@@ -39,19 +39,19 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 struct TaskMenu;
-extern void func_02027858(struct TaskMenu *m);
-extern void func_02027974(void *p);
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+extern void APP_TASKMENU_UpdateMenu(void *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 typedef unsigned short u16;
 struct Cfg;
 struct Descriptor;
 struct Obj;
-extern void func_020456F8(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021B7578(int x, char *p);
 extern void func_021B7B80(int x, char *p);
 extern u32 func_021B80E4(int unused, char *p);
@@ -69,14 +69,14 @@ void func_021B9D04(int self, int *q)
     u32 r7;
 
     if (func_021B9DF8((void *)self, q) == 1) {
-        func_02027858((void *)q[0x20]);
+        APP_TASKMENU_CloseMenu((void *)q[0x20]);
         q[0x20] = 0;
         return;
     }
-    func_02027974((void *)q[0x20]);
-    if (func_020279E8((void *)q[0x20]) != 1)
+    APP_TASKMENU_UpdateMenu((void *)q[0x20]);
+    if (APP_TASKMENU_IsFinish((void *)q[0x20]) != 1)
         return;
-    if (func_02027A04((const u8 *)q[0x20]) == 0) {
+    if (APP_TASKMENU_GetCursorPos((const u8 *)q[0x20]) == 0) {
         if (func_021B80E4(self, (char *)func_021BDFE4((void *)self)) == 5) {
             q[0] = 0xF;
             q[0x21] = 1;
@@ -96,11 +96,11 @@ void func_021B9D04(int self, int *q)
     } else {
         q[0] = 5;
         func_0201F7A8((void *)q[0x1F], 1);
-        func_020456F8((struct Descriptor *)q[0x1F]);
-        func_02045374((struct Cfg *)q[0xB]);
+        BMP_WIN_ClearScreen((struct Descriptor *)q[0x1F]);
+        BMP_WIN_MakeScreen((struct Cfg *)q[0xB]);
         func_020409B4(4);
-        func_0204B878((struct Obj *)q[0x26], 1);
+        CLACT_SetActorAnimSeq((struct Obj *)q[0x26], 1);
     }
-    func_02027858((void *)q[0x20]);
+    APP_TASKMENU_CloseMenu((void *)q[0x20]);
     q[0x20] = 0;
 }

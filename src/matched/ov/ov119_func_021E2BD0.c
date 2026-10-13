@@ -9,23 +9,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
- *   func_02048B60 0x02048B60 arm
- *   func_02048B6C 0x02048B6C arm
- *   func_02048B20 0x02048B20 arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetUp 0x02048B44 arm
+ *   G3D_CAMERA_SetScale 0x02048B60 arm
+ *   G3D_CAMERA_SetRoll 0x02048B6C arm
+ *   G3D_CAMERA_SetTarget 0x02048B20 arm
  *   func_021E3A40 0x021E3A40 thumb ov119
  */
 #include "../include/Obj06427.h"
 typedef struct {int x,y,z;} Vec;
-extern void func_02048AFC(void *,Vec *);
-extern void func_02048B44(void *,Vec *);
+extern void G3D_CAMERA_SetEye(void *,Vec *);
+extern void G3D_CAMERA_SetUp(void *,Vec *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Light;
-extern void func_02048B60(struct Light *l, const u32 *in);
-extern void func_02048B6C(struct Light *l, const u32 *in);
-extern void func_02048B20(void *,Vec *);
+extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetTarget(void *,Vec *);
 void func_021E2BD0(char *p) {
     Vec a;
     Vec b;
@@ -33,12 +33,12 @@ void func_021E2BD0(char *p) {
     int d=0x1000;
     a.x=0; a.y=0x3000; a.z=0xf000;
     b.x=0; b.y=0; b.z=0;
-    func_02048AFC(((struct Obj06427 *)p)->f83C,&a);
-    func_02048B44(((struct Obj06427 *)p)->f83C,&b);
-    func_02048B60(((struct Obj06427 *)p)->f83C,(const u32 *)(&d));
-    func_02048B6C(((struct Obj06427 *)p)->f83C,(const u32 *)(&c));
+    G3D_CAMERA_SetEye(((struct Obj06427 *)p)->f83C,&a);
+    G3D_CAMERA_SetUp(((struct Obj06427 *)p)->f83C,&b);
+    G3D_CAMERA_SetScale(((struct Obj06427 *)p)->f83C,(const u32 *)(&d));
+    G3D_CAMERA_SetRoll(((struct Obj06427 *)p)->f83C,(const u32 *)(&c));
     b.x=0; b.y=0x10000; b.z=0x1000;
-    func_02048B20(((struct Obj06427 *)p)->f83C,&b);
+    G3D_CAMERA_SetTarget(((struct Obj06427 *)p)->f83C,&b);
 }
 extern void func_021E3A40(const u8 *p);
 void func_021E2C34(char *p) {func_021E3A40((const u8 *)p);}

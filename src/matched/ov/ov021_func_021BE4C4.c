@@ -1,5 +1,5 @@
 /*
- * function: func_021BE4C4
+ * function: FLD_EXP_OBJ_GetModelObject
  * address:  0x021BE4C4
  * packet:   pkt_ov021_021BE4C4
  * region:   ov021
@@ -35,7 +35,7 @@ typedef struct {
 extern u32 func_020489F4(u8 *a0, int i);
 extern u32 func_02048A18(u8 *a0, int i);
 
-int func_021BE4C4(Obj *o, u32 i, int delta)
+int FLD_EXP_OBJ_GetModelObject(Obj *o, u32 i, int delta)
 {
     int v;
 

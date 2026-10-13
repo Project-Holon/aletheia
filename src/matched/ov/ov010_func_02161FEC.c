@@ -1,5 +1,5 @@
 /*
- * function: func_02161FEC
+ * function: EVENT_FIELD_PROCLINK_SetReturnLinkId
  * address:  0x02161FEC
  * packet:   pkt_ov010_02161FEC
  * region:   ov010
@@ -15,7 +15,7 @@
 
 typedef unsigned short u16;
 
-void func_02161FEC(char *p, u16 v)
+void EVENT_FIELD_PROCLINK_SetReturnLinkId(char *p, u16 v)
 {
     ((struct Obj18948 *)p)->f4 = v;
 }

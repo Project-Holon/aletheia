@@ -1,5 +1,5 @@
 /*
- * function: func_021624B0
+ * function: EVENTDATA_SYSTEM_ReadEventFile
  * address:  0x021624B0
  * packet:   pkt_ov010_021624B0
  * region:   ov010
@@ -18,8 +18,8 @@
  * 1 to 4.
  * symbols:
  *   func_02013ECC  0x02013ECC  thumb
- *   func_020493D4  0x020493D4  arm
- *   func_0204944C  0x0204944C  arm
+ *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  */
 
 typedef unsigned char u8;
@@ -55,11 +55,11 @@ typedef struct {
 } O;
 
 extern unsigned func_02013ECC(unsigned);
-extern unsigned func_020493D4(struct ArcFile *, unsigned);
-extern void func_0204944C(struct ArcFile *, unsigned, unsigned, unsigned, void *);
+extern unsigned ARC_TOOL_GetHandleMemberSize(struct ArcFile *, unsigned);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, unsigned, unsigned, unsigned, void *);
 
 
-void func_021624B0(O *o, int x)
+void EVENTDATA_SYSTEM_ReadEventFile(O *o, int x)
 {
     int a;
     unsigned r;
@@ -68,8 +68,8 @@ void func_021624B0(O *o, int x)
     const H *h;
 
     a = func_02013ECC(x);
-    r = func_020493D4(o->f4, a);
-    func_0204944C(o->f4, a, 0, r, &o->size);
+    r = ARC_TOOL_GetHandleMemberSize(o->f4, a);
+    ARC_TOOL_ReadHandleMemberRange(o->f4, a, 0, r, &o->size);
     off = 0;
     h = &o->hdr;
     d = (unsigned)h + 4;

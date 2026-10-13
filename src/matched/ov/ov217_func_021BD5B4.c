@@ -13,6 +13,7 @@
  *
  * symbols:
  *   func_021BD5B4  0x021BD5B4  thumb  ov217
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -25,9 +26,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 void func_021BD5B4(u32 a0)
 {
-    func_0203D34C(1, ((struct Obj25893 *)(((u8*)a0 + 0)))->f8);
+    GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj25893 *)(((u8*)a0 + 0)))->f8);
 }
 

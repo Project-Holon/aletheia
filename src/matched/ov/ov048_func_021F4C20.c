@@ -1,5 +1,5 @@
 /*
- * function: func_021F4C20
+ * function: GIMMICK_OBJ_ELBOARD_CameraEventMain
  * address:  0x021F4C20
  * packet:   pkt_ov048_021F4C20
  * region:   ov048
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_0218ED2C  0x0218ED2C  thumb  ov021
- *   func_0218ED40  0x0218ED40  thumb  ov021
- *   func_0218ED54  0x0218ED54  thumb  ov021
- *   func_0218ECC4  0x0218ECC4  thumb  ov021
- *   func_021F3790  0x021F3790  thumb  ov048
- *   func_021C6F00  0x021C6F00  thumb  ov021
- *   func_021C7058  0x021C7058  thumb  ov021
- *   func_021C701C  0x021C701C  thumb  ov021
- *   func_021C7AE4  0x021C7AE4  thumb  ov021
- *   func_021C6DE0  0x021C6DE0  thumb  ov021
- *   func_021C6E48  0x021C6E48  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
+ *   FIELD_CAMERA_GetPitch  0x0218ED2C  thumb  ov021
+ *   FIELD_CAMERA_GetYaw  0x0218ED40  thumb  ov021
+ *   FIELD_CAMERA_GetDistance  0x0218ED54  thumb  ov021
+ *   FIELD_CAMERA_GetTargetShift  0x0218ECC4  thumb  ov021
+ *   FIELD_GIMMICK_GATE_GetBoardFacing  0x021F3790  thumb  ov048
+ *   FIELD_TASK_CreateCameraDistanceTween  0x021C6F00  thumb  ov021
+ *   FIELD_TASK_CreateCameraPitchTween  0x021C7058  thumb  ov021
+ *   FIELD_TASK_CreateCameraYawTween  0x021C701C  thumb  ov021
+ *   FIELD_TASK_CreateCameraTargetTween  0x021C7AE4  thumb  ov021
+ *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
+ *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
  *   func_020362DC  0x020362DC  arm
  */
 
@@ -43,22 +43,22 @@ typedef struct W {
     Vec v14;
 } W;
 
-extern void *func_02188C58(void *p);
-extern u32 func_02188D38(u8 *p);
-extern u16 func_0218ED2C(u8 *p);
-extern u16 func_0218ED40(u8 *p);
-extern u32 func_0218ED54(u8 *p);
-extern void func_0218ECC4(u32 a, void *b);
-extern u8 func_021F3790(char *p);
-extern u32 func_021C6F00(u32 a, u16 b, u32 c);
-extern u32 func_021C7058(u32 a, u16 b, u16 c);
-extern u32 func_021C701C(u32 a, u16 b, u16 c);
-extern u32 func_021C7AE4(u32 a, u16 b, void *c);
-extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
-extern int func_021C6E48(u32 a);
+extern void *FIELDMAP_GetCamera(void *p);
+extern u32 FIELDMAP_GetTaskManager(u8 *p);
+extern u16 FIELD_CAMERA_GetPitch(u8 *p);
+extern u16 FIELD_CAMERA_GetYaw(u8 *p);
+extern u32 FIELD_CAMERA_GetDistance(u8 *p);
+extern void FIELD_CAMERA_GetTargetShift(u32 a, void *b);
+extern u8 FIELD_GIMMICK_GATE_GetBoardFacing(char *p);
+extern u32 FIELD_TASK_CreateCameraDistanceTween(u32 a, u16 b, u32 c);
+extern u32 FIELD_TASK_CreateCameraPitchTween(u32 a, u16 b, u16 c);
+extern u32 FIELD_TASK_CreateCameraYawTween(u32 a, u16 b, u16 c);
+extern u32 FIELD_TASK_CreateCameraTargetTween(u32 a, u16 b, void *c);
+extern void FIELD_TASK_MANAGER_AddTask(u8 *p, u32 *a, u32 b);
+extern int FIELD_TASK_MANAGER_IsEmpty(u32 a);
 extern u32 func_020362DC(void);
 
-int func_021F4C20(int a0, int *state, W *w)
+int GIMMICK_OBJ_ELBOARD_CameraEventMain(int a0, int *state, W *w)
 {
     u32 cam;
     u32 obj;
@@ -66,14 +66,14 @@ int func_021F4C20(int a0, int *state, W *w)
     u32 v;
 
     cam = w->f4;
-    obj = (u32)func_02188C58((void *)cam);
-    h = func_02188D38((u8 *)cam);
+    obj = (u32)FIELDMAP_GetCamera((void *)cam);
+    h = FIELDMAP_GetTaskManager((u8 *)cam);
     switch (*state) {
     case 0:
-        w->hA = func_0218ED2C((u8 *)obj);
-        w->hC = func_0218ED40((u8 *)obj);
-        w->f10 = func_0218ED54((u8 *)obj);
-        func_0218ECC4(obj, &w->v14);
+        w->hA = FIELD_CAMERA_GetPitch((u8 *)obj);
+        w->hC = FIELD_CAMERA_GetYaw((u8 *)obj);
+        w->f10 = FIELD_CAMERA_GetDistance((u8 *)obj);
+        FIELD_CAMERA_GetTargetShift(obj, &w->v14);
         (*state)++;
         break;
     case 1: {
@@ -86,7 +86,7 @@ int func_021F4C20(int a0, int *state, W *w)
         u32 r2;
         u32 r3;
 
-        switch (func_021F3790((char *)cam)) {
+        switch (FIELD_GIMMICK_GATE_GetBoardFacing((char *)cam)) {
         case 1:
         default:
             ang1 = 0xEE5;
@@ -105,19 +105,19 @@ int func_021F4C20(int a0, int *state, W *w)
             vec.z = 0;
             break;
         }
-        r0 = func_021C6F00(cam, w->h8, dist);
-        r1 = func_021C7058(cam, w->h8, ang1);
-        r2 = func_021C701C(cam, w->h8, ang2);
-        r3 = func_021C7AE4(cam, w->h8, &vec);
-        func_021C6DE0((u8 *)h, (u32 *)r0, 0);
-        func_021C6DE0((u8 *)h, (u32 *)r1, 0);
-        func_021C6DE0((u8 *)h, (u32 *)r2, 0);
-        func_021C6DE0((u8 *)h, (u32 *)r3, 0);
+        r0 = FIELD_TASK_CreateCameraDistanceTween(cam, w->h8, dist);
+        r1 = FIELD_TASK_CreateCameraPitchTween(cam, w->h8, ang1);
+        r2 = FIELD_TASK_CreateCameraYawTween(cam, w->h8, ang2);
+        r3 = FIELD_TASK_CreateCameraTargetTween(cam, w->h8, &vec);
+        FIELD_TASK_MANAGER_AddTask((u8 *)h, (u32 *)r0, 0);
+        FIELD_TASK_MANAGER_AddTask((u8 *)h, (u32 *)r1, 0);
+        FIELD_TASK_MANAGER_AddTask((u8 *)h, (u32 *)r2, 0);
+        FIELD_TASK_MANAGER_AddTask((u8 *)h, (u32 *)r3, 0);
         (*state)++;
         break;
     }
     case 2:
-        if (func_021C6E48(h))
+        if (FIELD_TASK_MANAGER_IsEmpty(h))
             (*state)++;
         break;
     case 3:
@@ -131,19 +131,19 @@ int func_021F4C20(int a0, int *state, W *w)
         u32 r2;
         u32 r3;
 
-        r0 = func_021C6F00(cam, w->h8, w->f10);
-        r1 = func_021C7058(cam, w->h8, w->hA);
-        r2 = func_021C701C(cam, w->h8, w->hC);
-        r3 = func_021C7AE4(cam, w->h8, &w->v14);
-        func_021C6DE0((u8 *)h, (u32 *)r0, 0);
-        func_021C6DE0((u8 *)h, (u32 *)r1, 0);
-        func_021C6DE0((u8 *)h, (u32 *)r2, 0);
-        func_021C6DE0((u8 *)h, (u32 *)r3, 0);
+        r0 = FIELD_TASK_CreateCameraDistanceTween(cam, w->h8, w->f10);
+        r1 = FIELD_TASK_CreateCameraPitchTween(cam, w->h8, w->hA);
+        r2 = FIELD_TASK_CreateCameraYawTween(cam, w->h8, w->hC);
+        r3 = FIELD_TASK_CreateCameraTargetTween(cam, w->h8, &w->v14);
+        FIELD_TASK_MANAGER_AddTask((u8 *)h, (u32 *)r0, 0);
+        FIELD_TASK_MANAGER_AddTask((u8 *)h, (u32 *)r1, 0);
+        FIELD_TASK_MANAGER_AddTask((u8 *)h, (u32 *)r2, 0);
+        FIELD_TASK_MANAGER_AddTask((u8 *)h, (u32 *)r3, 0);
         (*state)++;
         break;
     }
     case 5:
-        if (func_021C6E48(h))
+        if (FIELD_TASK_MANAGER_IsEmpty(h))
             (*state)++;
         break;
     case 6:

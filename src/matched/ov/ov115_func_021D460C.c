@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_021D5C70 0x021D5C70 thumb ov115
  *   func_021D426C 0x021D426C thumb ov115
  *   func_021D5D5C 0x021D5D5C thumb ov115
@@ -19,6 +19,6 @@
 #include "../include/Obj08040.h"
 #include "../include/Obj22590.h"
 typedef unsigned char u8; typedef unsigned int u32;
-extern u32 func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
+extern u32 WIPE_SYS_EndCheck(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
 extern void func_021D456C(u8 *); extern void func_021D5D3C(int);
-void func_021D460C(u8 *p) { if(func_020221A4()) { func_021D5D3C(*(int *)&((struct Obj08040 *)p)->f38); ((struct Obj08040 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08040 *)p)->f38,1,!((struct Obj22590 *)(*(u8 * *)&((struct Obj08040 *)p)->f40))->f4,0); func_021D426C(p,(u32)func_021D456C); } }
+void func_021D460C(u8 *p) { if(WIPE_SYS_EndCheck()) { func_021D5D3C(*(int *)&((struct Obj08040 *)p)->f38); ((struct Obj08040 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08040 *)p)->f38,1,!((struct Obj22590 *)(*(u8 * *)&((struct Obj08040 *)p)->f40))->f4,0); func_021D426C(p,(u32)func_021D456C); } }

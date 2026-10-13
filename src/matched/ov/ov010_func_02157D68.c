@@ -1,5 +1,5 @@
 /*
- * function: func_02157D68
+ * function: DELIVERY_IRC_StepWaitConnect
  * address: 0x02157D68
  * packet: pkt_ov010_02157D68
  * region: ov010
@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203D1B4 0x0203D1B4 arm
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
- *   func_02157960 0x02157960 thumb ov010
- *   func_02157D0C 0x02157D0C thumb ov010
+ *   DELIVERY_IRC_SetStepAtLine 0x02157960 thumb ov010
+ *   DELIVERY_IRC_StepSendRequest 0x02157D0C thumb ov010
  */
 typedef unsigned char u8;
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
-extern void func_02157960(int, int, int);
-extern void func_02157D0C(int *p);
-void func_02157D68(int *p) { if (func_0203D1B4() > 1) { func_02039C68((struct Link *)func_020399A8(), 0x17, (u8)p[0]); func_02157960((int)p, (int)func_02157D0C, 0x1af); } }
+extern void DELIVERY_IRC_SetStepAtLine(int, int, int);
+extern void DELIVERY_IRC_StepSendRequest(int *p);
+void DELIVERY_IRC_StepWaitConnect(int *p) { if (GFL_NET_GetNegotiationNum() > 1) { func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)p[0]); DELIVERY_IRC_SetStepAtLine((int)p, (int)DELIVERY_IRC_StepSendRequest, 0x1af); } }

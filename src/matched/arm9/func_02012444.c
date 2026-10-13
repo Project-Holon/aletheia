@@ -1,5 +1,5 @@
 /*
- * function: func_02012444
+ * function: GAME_EVENT_CallProc
  * address:  0x02012444
  * packet:   pkt_020123D8
  * region:   arm9
@@ -17,13 +17,14 @@
  * 0x0201240C to be an EXACT entry of its own; now that it is, the site
  * resolves through the `matched` class and this file needs no change.
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012444.c \
- *       --func func_02012444 --addr 0x02012444 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_CallProc.c \
+ *       --func GAME_EVENT_CallProc --addr 0x02012444 --cc 1.1p1 --thumb
  *
  * symbols:
  *   GAME_EVENT_CallProcSeq  0x0201240C  thumb
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
 typedef unsigned char u8;
@@ -35,7 +36,7 @@ extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 struct Evt;
 struct Obj;
 extern void *GAME_EVENT_GetWork(struct Obj *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int GAME_EVENT_CallProcSeq(void *o, u32 *state, u32 *item);
 
 struct Obj {
@@ -43,7 +44,7 @@ struct Obj {
     void *unk_10;
 };
 
-void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3)
+void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3)
 {
     struct Desc *d;
     u32 *p;
@@ -53,5 +54,5 @@ void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3)
     p[0] = a1;
     p[1] = a2;
     p[2] = a3;
-    func_02012374((struct Evt *)obj, (struct Evt **)d);
+    GAME_EVENT_CallEvent((struct Evt *)obj, (struct Evt **)d);
 }

@@ -12,11 +12,11 @@
  *   func_021DE7F4 0x021DE7F4 thumb ov137
  *   func_020061E4 0x020061E4 thumb
  *   func_021DD924 0x021DD924 thumb ov137
- *   func_0201FEBC 0x0201FEBC thumb
+ *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  *   func_021DCF50 0x021DCF50 thumb ov137
- *   func_02184134 0x02184134 thumb ov022
+ *   UNION_APP_Open 0x02184134 thumb ov022
  *   func_021DCBC4 0x021DCBC4 thumb ov137
- *   func_02184180 0x02184180 thumb ov022
+ *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
  *   func_0201F02C 0x0201F02C thumb
  */
 #include "../include/Obj04538.h"
@@ -30,11 +30,11 @@ extern int func_021DE354(void *p);
 extern unsigned func_021DE7F4(void);
 extern void func_020061E4(u32 a);
 extern void func_021DD924(char *);
-extern u32 func_0201FEBC(u8 *p);
+extern u32 BMP_MENU_ProcessYesNo(u8 *p);
 extern void *func_021DCF50(u8 *p);
-extern void func_02184134(u8 *p);
+extern void UNION_APP_Open(u8 *p);
 extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
-extern char *func_02184180(unsigned char *p, int i);
+extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 int func_021DDD80(char *p, int state) {
     char *q = *(char * *)&((struct Obj04538 *)p)->f10;
@@ -44,15 +44,15 @@ int func_021DDD80(char *p, int state) {
         func_021DD924(p);
         return state;
     }
-    result = func_0201FEBC(((struct Obj04538 *)p)->fE8);
+    result = BMP_MENU_ProcessYesNo(((struct Obj04538 *)p)->fE8);
     if (result != -1) {
         if (result == -2) {
             ((struct Obj04538 *)p)->f118 = 0;
-            func_02184134(func_021DCF50((u8 *)p));
+            UNION_APP_Open(func_021DCF50((u8 *)p));
         } else {
             ((struct Obj04538 *)p)->f118 = 0xd;
             func_021DCBC4(((struct Obj04538 *)p)->f10, 0x2802, 0, 0);
-            func_0201F02C(((struct Obj04538 *)p)->f3C, 0, func_02184180(func_021DCF50((u8 *)p), 0));
+            func_0201F02C(((struct Obj04538 *)p)->f3C, 0, UNION_APP_GetMemberEntry(func_021DCF50((u8 *)p), 0));
         }
         ((struct Obj04538 *)p)->fE8 = 0;
     }

@@ -20,10 +20,10 @@
  *   func_021C88A4  0x021C88A4  thumb
  *   func_021C88C8  0x021C88C8  thumb
  *   func_021D59B4  0x021D59B4  thumb
- *   func_021D5B48  0x021D5B48  thumb
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb
  *   func_021D62A8  0x021D62A8  thumb
- *   func_021D7040  0x021D7040  thumb
- *   func_021D775C  0x021D775C  thumb
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   d_0689D6A8 0x0689D6A8 data a4
  */
 #include "../../matched/include/Obj03722.h"
@@ -34,17 +34,17 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern int func_021C8010(void *, u32);
 extern void *func_021C7CF4(void *, int);
-extern int func_021D5B48(void *);
+extern int BTL_POKEPARAM_IsHpFull(void *);
 extern int func_021D62A8(void *);
 extern u8 *func_021C88A4(void *, int, int);
 extern void func_021C8838(void *, int, int);
 extern void func_021C8860(void *, u32);
 extern void func_021C88C8(void *, void *);
 extern int func_021D59B4(void *, int);
-extern void func_021D7040(void *);
+extern void BTL_EVENT_RemoveFactor(void *);
 void *func_068987A8(unsigned int *state);
 void func_068987B4(void *a, void *b, u8 c);
 extern unsigned char d_0689D6A8[];
@@ -72,11 +72,11 @@ void func_068987B4(void *a, void *b, u8 c)
     int flag;
     u8 *p;
     int value;
-    slot = (u8)func_021D775C(2);
+    slot = (u8)BTL_EVENT_GetVar(2);
     if (c == func_021C8010(b, slot)) {
         m = func_021C7CF4(b, slot);
         flag = 0;
-        if (func_021D5B48(m) == 0)
+        if (BTL_POKEPARAM_IsHpFull(m) == 0)
             flag = 1;
         if (func_021D62A8(m) != 0)
             flag = 1;
@@ -88,7 +88,7 @@ void func_068987B4(void *a, void *b, u8 c)
             func_021C8838(p + 12, 2, 0x2b9);
             func_021C8860(p + 12, slot);
             func_021C88C8(b, p);
-            if (func_021D5B48(m) == 0) {
+            if (BTL_POKEPARAM_IsHpFull(m) == 0) {
                 p = func_021C88A4(b, 5, slot);
                 p[6] = slot;
                 value = func_021D59B4(m, 14);
@@ -103,6 +103,6 @@ void func_068987B4(void *a, void *b, u8 c)
                 func_021C88C8(b, p);
             }
         }
-        func_021D7040(a);
+        BTL_EVENT_RemoveFactor(a);
     }
 }

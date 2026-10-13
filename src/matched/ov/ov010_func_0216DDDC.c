@@ -1,5 +1,5 @@
 /*
- * function: func_0216DDDC
+ * function: FLDMMDL_SysSearchGridPosHeight
  * address:  0x0216DDDC
  * packet:   pkt_ov010_0216DDDC
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216DD60  0x0216DD60  thumb  ov010
- *   func_0216D8AC  0x0216D8AC  thumb  ov010
+ *   FLDMMDL_SysSearchGridPosList  0x0216DD60  thumb  ov010
+ *   FLDMMDL_GetPosY  0x0216D8AC  thumb  ov010
  *   func_0209C054  0x0209C054  arm
  */
 
@@ -26,20 +26,20 @@ typedef struct {
     u8 *e[16];
 } List;
 
-extern u32 func_0216DD60(u32 a, u32 b, u32 c, u32 d, List *out);
-extern u32 func_0216D8AC(void *p);
+extern u32 FLDMMDL_SysSearchGridPosList(u32 a, u32 b, u32 c, u32 d, List *out);
+extern u32 FLDMMDL_GetPosY(void *p);
 
-u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d)
+u8 *FLDMMDL_SysSearchGridPosHeight(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d)
 {
     List buf;
     u32 i;
     u32 n;
 
-    n = func_0216DD60(a, b, c, d, &buf);
+    n = FLDMMDL_SysSearchGridPosList(a, b, c, d, &buf);
     if (n == 0)
         return 0;
     for (i = 0; i < n; i++) {
-        s32 q = func_0216D8AC(buf.e[i]) - x;
+        s32 q = FLDMMDL_GetPosY(buf.e[i]) - x;
 
         if (q < 0)
             q = (s32)(((s64)q * (s64)(s32)0xFFFFF000 + 0x800) >> 12);

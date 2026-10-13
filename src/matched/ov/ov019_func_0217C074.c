@@ -1,5 +1,5 @@
 /*
- * function: func_0217C074
+ * function: UNION_ONESELF_ConnectChildMain
  * address:  0x0217C074
  * packet:   pkt_ov019_0217C074
  * region:   ov019
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217BB04  0x0217BB04  thumb ov019
- *   d_021807E4     0x021807E4  data a1
+ *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
+ *   gUnionEmptyString1     0x021807E4  data a1
  *   func_02034714  0x02034714  arm
- *   func_0203D14C  0x0203D14C  arm
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_0203D7BC  0x0203D7BC  arm
+ *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   func_020362DC  0x020362DC  arm
- *   func_02172D20  0x02172D20  thumb ov012
- *   func_02172D68  0x02172D68  thumb ov012
- *   func_021734A8  0x021734A8  thumb ov012
- *   func_02173A90  0x02173A90  thumb ov012
- *   func_0217B8E4  0x0217B8E4  thumb ov019
- *   func_0217F210  0x0217F210  thumb ov019
- *   func_0217F1EC  0x0217F1EC  thumb ov019
+ *   UNION_COMM_RequestRestart  0x02172D20  thumb ov012
+ *   UNION_COMM_IsResetting  0x02172D68  thumb ov012
+ *   UNION_COMM_SetSituationParam  0x021734A8  thumb ov012
+ *   UNION_COMMAND_SendMyMac  0x02173A90  thumb ov012
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb ov019
+ *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb ov019
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb ov019
  */
 
 typedef unsigned char u8;
@@ -40,79 +40,79 @@ typedef struct {
     s16 f6c;
 } Obj;
 
-extern char d_021807E4[];
+extern char gUnionEmptyString1[];
 
-int func_0217BB04(char *p);
+int UNION_ONESELF_CheckNetError(char *p);
 void func_02034714(const char *expr, u32 line, const char *file);
-void func_0203D14C(int a, int b, void *c);
-int func_0203D1B4(void);
-void func_0203D7BC(u8 a0);
+void GFL_NET_SetChangeoverModeWrapper(int a, int b, void *c);
+int GFL_NET_GetNegotiationNum(void);
+void GFL_NET_SetLoginOption(u8 a0);
 u32 func_020362DC(void);
-void func_02172D20(u8 *p);
-int func_02172D68(u8 *p);
-void func_021734A8(u8 *self, u32 id, u32 v);
-int func_02173A90(void);
-int func_0217B8E4(char *p, int v);
-void func_0217F210(u8 *p, u8 *a, u32 b);
-u32 func_0217F1EC(u8 *p);
+void UNION_COMM_RequestRestart(u8 *p);
+int UNION_COMM_IsResetting(u8 *p);
+void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
+int UNION_COMMAND_SendMyMac(void);
+int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
+void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
+u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 
-int func_0217C074(void *ctx, Obj *obj, u8 *a2, u8 *state)
+int UNION_ONESELF_ConnectChildMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
 {
-    if (func_0217BB04(ctx) == 1)
+    if (UNION_ONESELF_CheckNetError(ctx) == 1)
         return 1;
 
     switch (*state) {
     case 0:
         if (obj->f1c == 0)
-            func_02034714(d_021807E4, 0, d_021807E4);
-        func_0203D14C(2, 1, obj->f1c + 0x64);
+            func_02034714(gUnionEmptyString1, 0, gUnionEmptyString1);
+        GFL_NET_SetChangeoverModeWrapper(2, 1, obj->f1c + 0x64);
         obj->f6c = 0;
         *state = 1;
         break;
     case 1:
-        if (func_0203D1B4() > 1) {
-            func_0203D7BC(1);
+        if (GFL_NET_GetNegotiationNum() > 1) {
+            GFL_NET_SetLoginOption(1);
             *state = 3;
             break;
         }
         obj->f6c++;
         if (obj->f6c > 600 || (func_020362DC() & 2)) {
-            func_02172D20(ctx);
-            func_0217B8E4(ctx, 0);
-            func_021734A8(ctx, 2, 0);
+            UNION_COMM_RequestRestart(ctx);
+            UNION_ONESELF_SetNextPlayCategory(ctx, 0);
+            UNION_COMM_SetSituationParam(ctx, 2, 0);
             if (obj->f6c > 600)
-                func_0217F210(ctx, a2, 8);
+                UNION_MSG_SetupPrintTalkMsg(ctx, a2, 8);
             else
-                func_0217F210(ctx, a2, 10);
+                UNION_MSG_SetupPrintTalkMsg(ctx, a2, 10);
             *state = 2;
         }
         break;
     case 2:
-        if (func_02172D68(ctx) == 0 && func_0217F1EC(ctx) == 1 && (func_020362DC() & 0xf3))
+        if (UNION_COMM_IsResetting(ctx) == 0 && UNION_MSG_CheckTalkPrintEnd(ctx) == 1 && (func_020362DC() & 0xf3))
             return 1;
         break;
     case 3:
-        if (func_02173A90() == 1)
+        if (UNION_COMMAND_SendMyMac() == 1)
             *state = 4;
         break;
     case 4:
         switch (obj->mode) {
         case 1:
-            func_021734A8(ctx, 3, (u32)obj->f1c);
-            func_021734A8(ctx, 2, 0);
-            func_0217B8E4(ctx, 9);
+            UNION_COMM_SetSituationParam(ctx, 3, (u32)obj->f1c);
+            UNION_COMM_SetSituationParam(ctx, 2, 0);
+            UNION_ONESELF_SetNextPlayCategory(ctx, 9);
             return 1;
         case 2:
-            func_021734A8(ctx, 2, 0);
-            func_0217F210(ctx, a2, 8);
-            func_02172D20(ctx);
+            UNION_COMM_SetSituationParam(ctx, 2, 0);
+            UNION_MSG_SetupPrintTalkMsg(ctx, a2, 8);
+            UNION_COMM_RequestRestart(ctx);
             *state = 5;
             break;
         }
         break;
     case 5:
-        if (func_02172D68(ctx) == 0 && func_0217F1EC(ctx) == 1 && (func_020362DC() & 0xf3)) {
-            func_0217B8E4(ctx, 0);
+        if (UNION_COMM_IsResetting(ctx) == 0 && UNION_MSG_CheckTalkPrintEnd(ctx) == 1 && (func_020362DC() & 0xf3)) {
+            UNION_ONESELF_SetNextPlayCategory(ctx, 0);
             return 1;
         }
         break;

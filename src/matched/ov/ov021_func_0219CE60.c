@@ -1,5 +1,5 @@
 /*
- * function: func_0219CE60
+ * function: FLDMMDL_BLACT_LoadAddRes
  * address:  0x0219CE60
  * packet:   pkt_ov021_0219CE60
  * region:   ov021
@@ -12,8 +12,8 @@
  * Claims the first free 0x14-byte slot of the table at *(*(+0x1c)+0x10).
  *
  * symbols:
- *   func_0216D518  0x0216D518  thumb  ov010
- *   func_02046E24  0x02046E24  arm
+ *   FLDMMDL_SysGetResArcHandle  0x0216D518  thumb  ov010
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -25,10 +25,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D518(u8 *p);
-extern void *func_02046E24(u32 a0, u32 a1);
+extern u32 FLDMMDL_SysGetResArcHandle(u8 *p);
+extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
 
-int func_0219CE60(u8 *o, u32 a, u32 b, u32 c, u16 e, u32 w)
+int FLDMMDL_BLACT_LoadAddRes(u8 *o, u32 a, u32 b, u32 c, u16 e, u32 w)
 {
     u8 *ctx = *(u8 * *)&((struct Obj03579 *)o)->f1C;
     u8 *p = *(u8 * *)&((struct Obj12673 *)ctx)->f10;
@@ -40,7 +40,7 @@ int func_0219CE60(u8 *o, u32 a, u32 b, u32 c, u16 e, u32 w)
             ((struct Obj03580 *)p)->fA = b;
             ((struct Obj03580 *)p)->fB = c;
             ((struct Obj03580 *)p)->f4 = w;
-            ((struct Obj03580 *)p)->f10 = (u32)func_02046E24(func_0216D518((u8 *)(((struct Obj03579 *)o)->f10)), e);
+            ((struct Obj03580 *)p)->f10 = (u32)G3D_SYSTEM_CreateResourceArcHandle(FLDMMDL_SysGetResArcHandle((u8 *)(((struct Obj03579 *)o)->f10)), e);
             ((struct Obj03580 *)p)->f0 = 1;
             return 1;
         }

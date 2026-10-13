@@ -1,5 +1,5 @@
 /*
- * function: func_02194E74
+ * function: TALKMSGWIN_ProjectToWorld
  * address:  0x02194E74
  * packet:   pkt_02194E74
  * region:   ov021
@@ -27,7 +27,7 @@ typedef signed char    s8;
 extern u32 func_0206DF3C(u32, u32, u32, u32);
 extern u32 func_0206E0C4(u32, u32, u32, u32);
 
-int func_02194E74(u32 a, u32 b, u32 c, u32 d)
+int TALKMSGWIN_ProjectToWorld(u32 a, u32 b, u32 c, u32 d)
 {
 func_0206DF3C(a, b, c, d);
 return func_0206E0C4(((struct Obj17945 *)((u8 *)(b)))->f0, ((struct Obj17946 *)((u8 *)(c)))->f0, d, 0);

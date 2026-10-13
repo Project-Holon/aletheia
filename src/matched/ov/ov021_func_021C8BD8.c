@@ -1,5 +1,5 @@
 /*
- * function: func_021C8BD8
+ * function: FIELD_TILE_MOVE_FindBumpEntry
  * address:  0x021C8BD8
  * packet:   pkt_ov021_021C8BD8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DAB44  0x021DAB44  data  ov021  a4
+ *   sFieldTileMoveBumpTable  0x021DAB44  data  ov021  a4
  */
 
 typedef unsigned char u8;
@@ -19,13 +19,13 @@ typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
 typedef struct { u32 f0; u32 f4; u32 f8; u32 fC; void *f10; } P;
 typedef struct { u16 id; u16 a; } E;
-extern E d_021DAB44[4];
-E *func_021C8BD8(u16 id)
+extern E sFieldTileMoveBumpTable[4];
+E *FIELD_TILE_MOVE_FindBumpEntry(u16 id)
 {
     u32 i;
     for (i = 0; i < 4; i++) {
-        if (id == d_021DAB44[i].id)
-            return &d_021DAB44[i];
+        if (id == sFieldTileMoveBumpTable[i].id)
+            return &sFieldTileMoveBumpTable[i];
     }
     return 0;
 }

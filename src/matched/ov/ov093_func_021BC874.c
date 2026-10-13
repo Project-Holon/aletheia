@@ -1,5 +1,5 @@
 /*
- * function: func_021BC874
+ * function: BTL_SERVER_FLOW_SortActionOrder
  * address:  0x021BC874
  * packet:   pkt_ov093_021BC874
  * region:   ov093
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D78AC  0x021D78AC  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 typedef struct { u32 a, b, key, d; } E;
 
-extern u32 func_021D78AC(u32 range);
+extern u32 BTL_CALC_Random(u32 range);
 
-void func_021BC874(E *p, u32 n)
+void BTL_SERVER_FLOW_SortActionOrder(E *p, u32 n)
 {
     u32 i;
     u32 j;
@@ -32,7 +32,7 @@ void func_021BC874(E *p, u32 n)
             a = &p[i];
             do {
                 b = &p[j];
-                if (a->key <= b->key && (a->key != b->key || func_021D78AC(2) != 0)) {
+                if (a->key <= b->key && (a->key != b->key || BTL_CALC_Random(2) != 0)) {
                     t = *a;
                     *a = *b;
                     *b = t;

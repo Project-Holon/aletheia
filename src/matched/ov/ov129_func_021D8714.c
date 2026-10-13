@@ -11,18 +11,18 @@
  *
  * symbols:
  *   func_021D8F78  0x021D8F78  thumb
- *   func_0204A600  0x0204A600  arm
+ *   CLACT_DrawSystem  0x0204A600  arm
  *
  * Addresses are Black-image addresses.
  */
 
 extern int func_021D8F78(char *p);
-extern void func_0204A600(void *);
+extern void CLACT_DrawSystem(void *);
 
 int func_021D8714(int a, int b, int c, int d)
 {
     void *r = (void *)func_021D8F78((char *)d);
 
-    func_0204A600(r);
+    CLACT_DrawSystem(r);
     return r != 0;
 }

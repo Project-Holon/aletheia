@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
  *
 
  *
@@ -21,15 +23,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
 int func_021F6C28(u32 handle)
 {
-    u32 stamp = func_02017DBC((struct Sav *)handle);
+    u32 stamp = POKE_TOOL_DecodeBoxParam((struct Sav *)handle);
 
     func_02017E88((void *)handle, 6, 0);
-    func_02017DE4((struct Sav *)handle, stamp);
+    POKE_TOOL_EncodeBoxParam((struct Sav *)handle, stamp);
     return 0;
 }

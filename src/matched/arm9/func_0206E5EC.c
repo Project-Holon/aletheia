@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206E4FC    0x0206E4FC  arm
+ *   NNS_G3dMdlSetMdlPolygonID    0x0206E4FC  arm
  *
- * Walks the count byte at +0x18, calling func_0206E4FC with the counter and the
+ * Walks the count byte at +0x18, calling NNS_G3dMdlSetMdlPolygonID with the counter and the
  * caller's second argument; the counter is zeroed before the entry test (which
  * is why the original's `mov r4, #0` precedes `cmp`/`popls`) and the count is
  * re-read from memory every iteration.
@@ -30,13 +30,13 @@ typedef struct {
     u8 count18;
 } Obj0206E5EC;
 
-extern void func_0206E4FC(Obj0206E5EC *p, u32 idx, u32 a);
+extern void NNS_G3dMdlSetMdlPolygonID(Obj0206E5EC *p, u32 idx, u32 a);
 
 void NNS_G3dMdlSetMdlPolygonIDAll(Obj0206E5EC *p, u32 a)
 {
     u32 i = 0;
 
     for (i = 0; i < p->count18; i++) {
-        func_0206E4FC(p, i, a);
+        NNS_G3dMdlSetMdlPolygonID(p, i, a);
     }
 }

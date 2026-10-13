@@ -1,5 +1,5 @@
 /*
- * function: func_021C24F0
+ * function: FLD3D_CI_LoadSequence
  * address:  0x021C24F0
  * packet:   pkt_ov021_021C24F0
  * region:   ov021
@@ -14,7 +14,7 @@
  *           scan uses its own counter j, declared before n, for the r3/r5 colouring.
  *
  * symbols:
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   func_02030734  0x02030734  arm
  *   d_021DE3D8     0x021DE3D8  data  a4
  * Addresses are Black-image addresses.
@@ -77,18 +77,18 @@ typedef struct {
     u32 w30;
 } Out;
 
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u8 d_021DE3D8;
 
-void func_021C24F0(Out *out, u32 b, u32 heap)
+void FLD3D_CI_LoadSequence(Out *out, u32 b, u32 heap)
 {
     Src s;
     u16 ids[8];
     u8 na, nb, nc, total, baseb, basec;
     u8 i, j, n;
 
-    func_02048F4C(&s, 0x75, b);
+    ARC_TOOL_ReadMember(&s, 0x75, b);
     na = 0;
     for (i = 0; i < 2; i++) {
         if (s.a[i] != 0xFFFF) {

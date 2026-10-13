@@ -1,5 +1,5 @@
 /*
- * function: func_021690B4
+ * function: FIELD_CLOCK_GetTimeZone
  * address:  0x021690B4
  * packet:   pkt_021690B4
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008B14  0x02008B14  thumb
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   TIMEZONE_GetTimeZoneOfHour  0x020113F0  thumb
  */
 #include "../include/Obj17735.h"
@@ -24,13 +24,13 @@ typedef unsigned int u32;
 struct Big;
 struct Sub02008AECSession;
 
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 struct BigObj;
-extern u8 func_02012984(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 
-int func_021690B4(int a0)
+int FIELD_CLOCK_GetTimeZone(int a0)
 {
     int a1;
     struct Sub02008AECSession *t4;
@@ -38,12 +38,12 @@ int func_021690B4(int a0)
     int t5;
 
 t5 = a0 + 0;
-    big = func_02012EBC((struct Big *)a0);
+    big = GAME_DATA_GetSaveControl((struct Big *)a0);
 loc_021690BC:
     t4 = func_02008B14(big);
 loc_021690C0:
 a0 = t5 + 0;
-    a0 = func_02012984((const struct BigObj *)a0);
+    a0 = GAME_DATA_GetSeason((const struct BigObj *)a0);
 loc_021690C8:
 a1 = ((struct Obj17735 *)t4)->f14;
     a0 = TIMEZONE_GetTimeZoneOfHour(a0, a1);

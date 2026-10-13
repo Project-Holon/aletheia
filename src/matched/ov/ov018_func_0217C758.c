@@ -1,5 +1,5 @@
 /*
- * function: func_0217C758
+ * function: INTRUDE_FIELD_InitMmdlCopyAnime
  * address:  0x0217C758
  * packet:   pkt_ov018_0217C758
  * region:   ov018
@@ -18,17 +18,17 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_02012964  0x02012964  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_0216D8AC  0x0216D8AC  thumb  ov010
- *   func_0216E618  0x0216E618  thumb  ov010
- *   func_0216CE60  0x0216CE60  thumb  ov010
- *   func_0217BCDC  0x0217BCDC  thumb  ov018
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_GetPosY  0x0216D8AC  thumb  ov010
+ *   FLDMMDL_InitPosRecord  0x0216E618  thumb  ov010
+ *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
+ *   INTRUDE_FIELD_ChangePlayerLook  0x0217BCDC  thumb  ov018
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   d_02183AF0     0x02183AF0  data  a4
  *   g_02183AF0     0x02183AF0  data  a4
  */
@@ -71,19 +71,19 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012964(const struct BigObj *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern u16 func_02188C9C(unsigned char *);
-extern u16 func_0216D598(void *);
-extern int func_0216D83C(void *);
-extern int func_0216D86C(void *);
-extern u32 func_0216D8AC(void *p);
-extern void func_0216E618(Tmpl *, u16, u16, int);
-extern void *func_0216CE60(int, Tmpl *, int);
-extern void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag);
-extern void func_0216DAC8(unsigned int *, unsigned int);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern u16 FIELDMAP_GetZoneId(unsigned char *);
+extern u16 FLDMMDL_GetObjCode(void *);
+extern int FLDMMDL_GetGridNowX(void *);
+extern int FLDMMDL_GetGridNowZ(void *);
+extern u32 FLDMMDL_GetPosY(void *p);
+extern void FLDMMDL_InitPosRecord(Tmpl *, u16, u16, int);
+extern void *FLDMMDL_AddMmdl(int, Tmpl *, int);
+extern void INTRUDE_FIELD_ChangePlayerLook(u8 *p, void *a1, int id, u8 kind, u8 flag);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *, unsigned int);
 
-void func_0217C758(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
+void INTRUDE_FIELD_InitMmdlCopyAnime(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
                    u8 flag, u16 idx, int place)
 {
     int sys;
@@ -103,16 +103,16 @@ void func_0217C758(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
     r->f13 = idx;
     if (place != 0) {
         sys = func_02012964(func_020120F4(a1));
-        obj = func_021A3074(func_02188CB4(a2));
-        zone = func_02188C9C(a2);
-        d_02183AF0.f2 = func_0216D598(obj);
+        obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a2));
+        zone = FIELDMAP_GetZoneId(a2);
+        d_02183AF0.f2 = FLDMMDL_GetObjCode(obj);
         d_02183AF0.fC = idx;
-        x = func_0216D83C(obj);
-        y = func_0216D86C(obj);
-        func_0216E618(((Tmpl *)&g_02183AF0), x, y, func_0216D8AC(obj));
-        r->f14 = func_0216CE60(sys, ((Tmpl *)&g_02183AF0), zone);
-        func_0217BCDC(a3, r->f0, r->fC, r->fE, r->fF);
-        func_0216DAC8(obj, 1);
-        func_0216DAC8(r->f14, 0);
+        x = FLDMMDL_GetGridNowX(obj);
+        y = FLDMMDL_GetGridNowZ(obj);
+        FLDMMDL_InitPosRecord(((Tmpl *)&g_02183AF0), x, y, FLDMMDL_GetPosY(obj));
+        r->f14 = FLDMMDL_AddMmdl(sys, ((Tmpl *)&g_02183AF0), zone);
+        INTRUDE_FIELD_ChangePlayerLook(a3, r->f0, r->fC, r->fE, r->fF);
+        FLDMMDL_SetStatusBitVanish(obj, 1);
+        FLDMMDL_SetStatusBitVanish(r->f14, 0);
     }
 }

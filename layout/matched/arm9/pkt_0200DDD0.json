@@ -18,10 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0200DE5C",
-    "func_0200DE64",
+    "BSUBWAY_SAVEDATA_GetTrainersPresent",
+    "BSUBWAY_SAVEDATA_GetHistoryPresent",
     "BSUBWAY_SAVEDATA_SetTrainers",
-    "func_0200DE94",
+    "BSUBWAY_SAVEDATA_GetTrainersTagA",
     "BSUBWAY_SAVEDATA_GetTrainersTagB"
    ],
    "addresses": [
@@ -45,11 +45,11 @@
    "status": "EXACT",
    "functions": [
     "BSUBWAY_SAVEDATA_SetHistory",
-    "func_0200DF40",
-    "func_0200DF4C",
-    "func_0200DF58",
-    "func_0200DF94",
-    "func_0200DFB4",
+    "BSUBWAY_SAVEDATA_GetHistoryTagA",
+    "BSUBWAY_SAVEDATA_GetHistoryTagB",
+    "BSUBWAY_SAVEDATA_AllocHistoryCopy",
+    "BSUBWAY_SAVEDATA_CountHistoryEntries",
+    "BSUBWAY_SAVEDATA_GetHistoryEntryScore",
     "BSUBWAY_SAVEDATA_InitStats"
    ],
    "addresses": [

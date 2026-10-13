@@ -1,5 +1,5 @@
 /*
- * function: func_0219EA78
+ * function: FLDMMDL_RAIL_StoreNowLocation
  * address:  0x0219EA78
  * packet:   pkt_ov021_0219EA78
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021B7DC0  0x021B7DC0  thumb  ov021
- *   func_0219EAD8  0x0219EAD8  thumb  ov021
+ *   FLDMMDL_RAIL_StoreLocation  0x0219EAD8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern void func_021B7DC0(void *p, u16 *out);
-extern void func_0219EAD8(u32 *p, u16 *src);
+extern void FLDMMDL_RAIL_StoreLocation(u32 *p, u16 *src);
 
-void func_0219EA78(u32 *p, u32 a1)
+void FLDMMDL_RAIL_StoreNowLocation(u32 *p, u32 a1)
 {
     u16 buf[4];
     func_021B7DC0((void *)*p, buf);
-    func_0219EAD8(p, buf);
+    FLDMMDL_RAIL_StoreLocation(p, buf);
 }

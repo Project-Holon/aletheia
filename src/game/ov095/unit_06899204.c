@@ -14,15 +14,15 @@
  *
  * symbols:
  *   func_021B9A40  0x021B9A40  thumb
- *   func_021D76BC  0x021D76BC  thumb
- *   func_021D775C  0x021D775C  thumb
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   d_0689D730 0x0689D730 data a4
  */
 typedef unsigned char u8;
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern int func_021B9A40(u8);
-extern void func_021D76BC(int, int);
+extern void BTL_EVENT_OverwriteVar(int, int);
 unsigned int *func_06899204(unsigned int *out);
 void func_06899210(int a0, int a1, int value);
 extern unsigned int d_0689D730;
@@ -38,7 +38,7 @@ unsigned int *func_06899204(unsigned int *out)
 
 void func_06899210(int a0, int a1, int value)
 {
-    if (value == func_021B9A40(func_021D775C(4))) {
-        func_021D76BC(0x41, 1);
+    if (value == func_021B9A40(BTL_EVENT_GetVar(4))) {
+        BTL_EVENT_OverwriteVar(0x41, 1);
     }
 }

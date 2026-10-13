@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02047CFC  0x02047CFC  arm
+ *   G3D_UTIL_Create  0x02047CFC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -18,10 +18,10 @@
 
 typedef unsigned short u16;
 
-extern int func_02047CFC(int, int, u16);
+extern int G3D_UTIL_Create(int, int, u16);
 
 void func_021B9830(char *p)
 {
-    ((struct Obj00739 *)p)->f28 = func_02047CFC(5, 4, ((struct Obj00739 *)p)->f0);
+    ((struct Obj00739 *)p)->f28 = G3D_UTIL_Create(5, 4, ((struct Obj00739 *)p)->f0);
     ((struct Obj00739 *)p)->f3A = 0;
 }

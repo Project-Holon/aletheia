@@ -1,5 +1,5 @@
 /*
- * function: func_021852F4
+ * function: OEKAKI_SetQuitButtonPressed
  * address: 0x021852F4
  * packet: pkt_ov023_021852F4
  * region: ov023
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
-void func_021852F4(void *p, int flag)
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+void OEKAKI_SetQuitButtonPressed(void *p, int flag)
 {
     if (flag == 1)
-        func_0204B878(p, 9);
+        CLACT_SetActorAnimSeq(p, 9);
     else
-        func_0204B878(p, 1);
+        CLACT_SetActorAnimSeq(p, 1);
 }

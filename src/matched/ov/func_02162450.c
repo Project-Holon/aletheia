@@ -1,5 +1,5 @@
 /*
- * function: func_02162450
+ * function: EVENTDATA_SYSTEM_GetSpecialScriptData
  * address:  0x02162450
  * packet:   pkt_02162450
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02162450.c \
- *       --func func_02162450 --addr 0x02162450 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/EVENTDATA_SYSTEM_GetSpecialScriptData.c \
+ *       --func EVENTDATA_SYSTEM_GetSpecialScriptData --addr 0x02162450 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17714.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_02162450(void *p) { return ((struct Obj17714 *)p)->f120; }
+u32 EVENTDATA_SYSTEM_GetSpecialScriptData(void *p) { return ((struct Obj17714 *)p)->f120; }

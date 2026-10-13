@@ -1,5 +1,5 @@
 /*
- * function: func_021F52D8
+ * function: ENCEFF_DrawScreenTexEffect
  * address:  0x021F52D8
  * packet:   pkt_ov075_021F52D8
  * region:   ov075
@@ -41,7 +41,7 @@ static inline void G3_Perspective(int fs, int fc, int aspect, int n, int f, void
     func_0207D704(fs, fc, aspect, n, f, 0x1000, 1, (int)mtx);
 }
 
-void func_021F52D8(u32 *p)
+void ENCEFF_DrawScreenTexEffect(u32 *p)
 {
     struct V a;
 

@@ -11,6 +11,7 @@
  *
  * symbols:
  *   func_021BE7A8  0x021BE7A8  thumb  ov203
+ *   ICA_ANIME_CreateStream  0x02011510  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -20,12 +21,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_021BE7A8(u32);
-extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
+extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
 
 void func_021BE7BC(u32 a, u32 b, u32 c)
 {
     u16 *t = (u16 *)func_021BE7A8(a);
 
-    func_02011510(b, 0xa0, *t, c);
+    ICA_ANIME_CreateStream(b, 0xa0, *t, c);
 }
 

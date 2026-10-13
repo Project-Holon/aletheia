@@ -1,5 +1,5 @@
 /*
- * function: func_021D9BA4
+ * function: HAND_TOKUSEI_ShellArmorOnCriticalCheck
  * address:  0x021D9BA4
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D9BA4   0x021D9BA4  thumb
- *   func_021D76BC   0x021D76BC  thumb
- *   func_021D775C   0x021D775C  thumb
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #4; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021D9BBA; movs r0, #0x41; movs r1, #1; bl func_021D76BC; pop {r4, pc}.
+ *   HAND_TOKUSEI_ShellArmorOnCriticalCheck   0x021D9BA4  thumb
+ *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
+ *   BTL_EVENT_GetVar   0x021D775C  thumb
+ * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #4; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021D9BBA; movs r0, #0x41; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -23,10 +23,10 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021D9BA4  shape F1: gate on func_021D775C(4) */
-void func_021D9BA4(int a, int b, int c)
+/* 021D9BA4  shape F1: gate on BTL_EVENT_GetVar(4) */
+void HAND_TOKUSEI_ShellArmorOnCriticalCheck(int a, int b, int c)
 {
-    if (c == func_021D775C(4))
-        func_021D76BC(0x41, 1);
+    if (c == BTL_EVENT_GetVar(4))
+        BTL_EVENT_OverwriteVar(0x41, 1);
 }
 

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *
@@ -20,12 +20,12 @@
 typedef unsigned char  u8;
 struct Cfg;
 struct Descriptor;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 
 void func_021CA4B4(char *p)
 {
-    func_02045374((struct Cfg *)p);
+    BMP_WIN_MakeScreen((struct Cfg *)p);
     func_02041B6C(func_02045730((struct Descriptor *)p));
 }

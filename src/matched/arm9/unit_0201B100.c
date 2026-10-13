@@ -72,6 +72,8 @@
  *   _ull_mul  0x0209C054  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201B100.c \
@@ -84,8 +86,8 @@ typedef unsigned int   u32;
 typedef int            s32;
 typedef unsigned long long u64;
 
-extern u32   func_02017E1C(void *mon, u32 id, u32 v);
-extern void  func_02017E40(void *mon, u32 id, u32 v);
+extern u32   POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern void  POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32   func_0203F0A8(void);
@@ -101,10 +103,10 @@ void POKERUS_DecreaseDays(void *party, s32 amount)
     n = POKEPARTY_GetCount(party);
     for (i = 0; i < n; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(mon, 5, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0) {
             continue;
         }
-        v = (u8)func_02017E1C(mon, 0x97, 0);
+        v = (u8)POKE_TOOL_GetPartyValue(mon, 0x97, 0);
         low = v & 0xF;
         if (low == 0) {
             continue;
@@ -117,7 +119,7 @@ void POKERUS_DecreaseDays(void *party, s32 amount)
         if (v == 0) {
             v = 0x10;
         }
-        func_02017E40(mon, 0x97, v);
+        POKE_TOOL_SetPartyValue(mon, 0x97, v);
     }
 }
 
@@ -135,23 +137,23 @@ void POKERUS_SpreadParty(void *party)
     }
     for (i = 0; i < n; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(mon, 5, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0) {
             continue;
         }
-        v = (u8)func_02017E1C(mon, 0x97, 0);
+        v = (u8)POKE_TOOL_GetPartyValue(mon, 0x97, 0);
         if ((v & 0xF) == 0) {
             continue;
         }
         if (i != 0) {
             other = POKEPARTY_GetMember(party, i - 1);
-            if ((func_02017E1C(other, 0x97, 0) & 0xF0) == 0) {
-                func_02017E40(other, 0x97, v);
+            if ((POKE_TOOL_GetPartyValue(other, 0x97, 0) & 0xF0) == 0) {
+                POKE_TOOL_SetPartyValue(other, 0x97, v);
             }
         }
         if (i < n - 1) {
             other = POKEPARTY_GetMember(party, i + 1);
-            if ((func_02017E1C(other, 0x97, 0) & 0xF0) == 0) {
-                func_02017E40(other, 0x97, v);
+            if ((POKE_TOOL_GetPartyValue(other, 0x97, 0) & 0xF0) == 0) {
+                POKE_TOOL_SetPartyValue(other, 0x97, v);
                 i++;
             }
         }

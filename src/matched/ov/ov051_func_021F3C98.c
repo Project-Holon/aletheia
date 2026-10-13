@@ -1,5 +1,5 @@
 /*
- * function: func_021F3C98
+ * function: FIELD_GIMMICK_D06_IsStoneNextToPanel
  * address: 0x021F3C98
  * packet: pkt_ov051_021F3C98
  * region: ov051
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F3BC4 0x021F3BC4 thumb ov051
+ *   FIELD_GIMMICK_D06_ScanSlide 0x021F3BC4 thumb ov051
  */
 
-extern int func_021F3BC4(int *, int *, int, unsigned short, unsigned *);
+extern int FIELD_GIMMICK_D06_ScanSlide(int *, int *, int, unsigned short, unsigned *);
 
-int func_021F3C98(int *a, int *b)
+int FIELD_GIMMICK_D06_IsStoneNextToPanel(int *a, int *b)
 {
     unsigned short i = 0;
     unsigned out;
     do {
-        if (func_021F3BC4(a, b, i, 1, &out) == 1)
+        if (FIELD_GIMMICK_D06_ScanSlide(a, b, i, 1, &out) == 1)
             return 1;
         i++;
     } while (i < 4);

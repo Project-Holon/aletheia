@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * witness: arm9 func_02051614 filed as src/matched/arm9/func_02051614.c.
+ * witness: arm9 PARTICLE_GetEffectCount filed as src/matched/arm9/PARTICLE_GetEffectCount.c.
  * followers: 021FC9D0 countdown <=0; 021FC9E4 !flags bit7;
  *   021FC9F4 !flags bit16 (filed as their own packets).
  * lever: enum loop counters retain entry guards; flag bitfields retain
@@ -22,11 +22,11 @@
  *   func_02200494 0x02200494 thumb ov094
  *   func_021F8700 0x021F8700 thumb ov094
  *   func_0220985C 0x0220985C thumb ov094
- *   func_02051614 0x02051614 arm
+ *   PARTICLE_GetEffectCount 0x02051614 arm
  *   func_021F8324 0x021F8324 thumb ov094
  *   func_02006238 0x02006238 thumb
- *   func_02006224 0x02006224 thumb
- *   func_02006BD0 0x02006BD0 thumb
+ *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
+ *   PM_VOICE_IsActive 0x02006BD0 thumb
  */
 typedef enum { SLOT_ZERO, SLOT_LAST = 14 } Slot;
 typedef union {
@@ -65,11 +65,11 @@ extern int func_021FFD9C(char *p, int key);
 extern int func_02200494(char *p, int key);
 extern int func_021F8700(void);
 extern int func_0220985C(void *);
-extern int func_02051614(int **p);
+extern int PARTICLE_GetEffectCount(int **p);
 extern int func_021F8324(unsigned);
 extern int func_02006238(void);
-extern int func_02006224(unsigned);
-extern u32 func_02006BD0(u32 i);
+extern int GFL_USE_IsSeSlotBusy(unsigned);
+extern u32 PM_VOICE_IsActive(u32 i);
 
 int func_021FC744(int a, State *s)
 {
@@ -102,7 +102,7 @@ int func_021FC744(int a, State *s)
     if (s->mode == 0 || s->mode == 2) {
         for (i = 0; i < 16; i++) {
             if (s->objects[i] != 0) {
-                if (func_02051614(s->objects[i]) != 0) return 0;
+                if (PARTICLE_GetEffectCount(s->objects[i]) != 0) return 0;
             }
         }
     }
@@ -119,25 +119,25 @@ int func_021FC744(int a, State *s)
         if (func_02006238() != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
     }
     if (s->mode == 11) {
-        if (func_02006224(1) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
+        if (GFL_USE_IsSeSlotBusy(1) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
     }
     if (s->mode == 12) {
-        if (func_02006224(2) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
+        if (GFL_USE_IsSeSlotBusy(2) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
     }
     if (s->mode == 13) {
-        if (func_02006224(4) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
+        if (GFL_USE_IsSeSlotBusy(4) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
     }
     if (s->mode == 14) {
-        if (func_02006224(3) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
+        if (GFL_USE_IsSeSlotBusy(3) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
     }
     if (s->mode == 15) {
-        if (func_02006224(0) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
+        if (GFL_USE_IsSeSlotBusy(0) != 0 || s->flags.bit.b2 || s->flags.bit.b3) return 0;
     }
     if (s->mode == 16) {
         if (s->flags.bit.b11) return 0;
         for (i = 0; i < 6; i++) {
             if (s->slots[i] != -1) {
-                if (func_02006BD0(s->slots[i]) != 0) return 0;
+                if (PM_VOICE_IsActive(s->slots[i]) != 0) return 0;
                 s->slots[i] = -1;
             }
         }

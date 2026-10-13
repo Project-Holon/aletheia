@@ -1,5 +1,5 @@
 /*
- * function: func_021F4928
+ * function: GIMMICK39_SampleJointTrack
  * address:  0x021F4928
  * packet:   pkt_ov039_021F4928
  * region:   ov039
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef short s16;
 typedef long long s64;
 
-void func_021F4928(int *out, int frame, const u32 *data, const u8 *base)
+void GIMMICK39_SampleJointTrack(int *out, int frame, const u32 *data, const u8 *base)
 {
     const u8 *arr;
     u32 f;

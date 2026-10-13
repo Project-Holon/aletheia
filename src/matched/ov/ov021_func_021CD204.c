@@ -1,5 +1,5 @@
 /*
- * function: func_021CD204
+ * function: FIELD_BBD_COLOR_Load
  * address:  0x021CD204
  * packet:   pkt_ov021_021CD204
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Forwards to func_0204932C with the holder's archive, the caller's argument and the holder's +4 field.
+ * Forwards to ARC_TOOL_ReadHandleMember with the holder's archive, the caller's argument and the holder's +4 field.
  *
  * symbols:
- *   func_0204932C  0x0204932C  arm
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  * Addresses are Black-image addresses.
  */
 
@@ -24,9 +24,9 @@ typedef struct {
 } Holder;
 
 struct ArcFile;
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
+extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 
-void func_021CD204(Holder *h, u32 a)
+void FIELD_BBD_COLOR_Load(Holder *h, u32 a)
 {
-    func_0204932C(h->arc, a, &h->f4);
+    ARC_TOOL_ReadHandleMember(h->arc, a, &h->f4);
 }

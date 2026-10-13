@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B9C
+ * function: MONOLITH_TOOL_SLOT_SELECT_FreeButtons
  * address: 0x021B7B9C
  * packet: pkt_ov071_021B7B9C
  * region: ov071
@@ -13,4 +13,4 @@
  */
 
 extern void func_021B6B38(void **p);
-void func_021B7B9C(char *p) { int i; p += 0x2c; for (i=0;i<2;i++) func_021B6B38((void **)(p+i*16)); }
+void MONOLITH_TOOL_SLOT_SELECT_FreeButtons(char *p) { int i; p += 0x2c; for (i=0;i<2;i++) func_021B6B38((void **)(p+i*16)); }

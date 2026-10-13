@@ -1,5 +1,5 @@
 /*
- * function: func_021D62C4
+ * function: BTL_POKEPARAM_HasSick
  * address:  0x021D62C4
  * packet:   pkt_ov093_021D62C4
  * region:   ov093
@@ -15,7 +15,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Slot { u32 a : 3; u32 rest : 29; };
 struct Unk021D62A8 { u8 pad[0x1C]; struct Slot e[6]; };
-int func_021D62C4(struct Unk021D62A8 *p, int i)
+int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i)
 {
     if (p->e[i].a) return 1;
     return 0;

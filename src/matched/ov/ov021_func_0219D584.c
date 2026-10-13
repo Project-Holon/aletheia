@@ -1,5 +1,5 @@
 /*
- * function: func_0219D584
+ * function: FLDMMDL_G3DOBJ_LoadRes
  * address:  0x0219D584
  * packet:   pkt_ov021_0219D584
  * region:   ov021
@@ -10,48 +10,48 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D518  0x0216D518  thumb  ov010
- *   func_021C6AE0  0x021C6AE0  thumb  ov021
- *   func_021C6AF0  0x021C6AF0  thumb  ov021
- *   func_021C6AF8  0x021C6AF8  thumb  ov021
- *   func_021C6AFC  0x021C6AFC  thumb  ov021
- *   func_021C6574  0x021C6574  thumb  ov021
- *   func_0219D524  0x0219D524  thumb  ov021
+ *   FLDMMDL_SysGetResArcHandle  0x0216D518  thumb  ov010
+ *   FIELD_G3DOBJ_InitResDesc  0x021C6AE0  thumb  ov021
+ *   FIELD_G3DOBJ_SetResDescModel  0x021C6AF0  thumb  ov021
+ *   FIELD_G3DOBJ_SetResDescAnimeArc  0x021C6AF8  thumb  ov021
+ *   FIELD_G3DOBJ_AddResDescAnimeFile  0x021C6AFC  thumb  ov021
+ *   FIELD_G3DOBJ_AddResourceDefaultPal  0x021C6574  thumb  ov021
+ *   FLDMMDL_G3DOBJ_AddResEntry  0x0219D524  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char  u8;
-extern u32 func_0216D518(u8 *p);
-extern void func_021C6AE0(u32 a);
-extern void func_021C6AF0(u32 *, u32, u16);
-extern void func_021C6AF8(u32 *p, u32 v);
-extern void func_021C6AFC(u32 *, u16);
-extern u32 func_021C6574(u32, u32 *, u32);
-extern u16 func_0219D524(u32 *s, u32 b, u32 a);
+extern u32 FLDMMDL_SysGetResArcHandle(u8 *p);
+extern void FIELD_G3DOBJ_InitResDesc(u32 a);
+extern void FIELD_G3DOBJ_SetResDescModel(u32 *, u32, u16);
+extern void FIELD_G3DOBJ_SetResDescAnimeArc(u32 *p, u32 v);
+extern void FIELD_G3DOBJ_AddResDescAnimeFile(u32 *, u16);
+extern u32 FIELD_G3DOBJ_AddResourceDefaultPal(u32, u32 *, u32);
+extern u16 FLDMMDL_G3DOBJ_AddResEntry(u32 *s, u32 b, u32 a);
 
-u32 func_0219D584(u32 a, u32 *b, u32 c, u16 *d)
+u32 FLDMMDL_G3DOBJ_LoadRes(u32 a, u32 *b, u32 c, u16 *d)
 {
     u32 buf[9];
     u32 t;
     u32 r;
     int i;
-    t = func_0216D518((u8 *)a);
-    func_021C6AE0((u32)buf);
+    t = FLDMMDL_SysGetResArcHandle((u8 *)a);
+    FIELD_G3DOBJ_InitResDesc((u32)buf);
     if (d[0] != 0xFFFF) {
-        func_021C6AF0(buf, t, d[0]);
+        FIELD_G3DOBJ_SetResDescModel(buf, t, d[0]);
     }
     if (d[1] != 0xFFFF) {
-        func_021C6AF0(buf, t, d[1]);
+        FIELD_G3DOBJ_SetResDescModel(buf, t, d[1]);
     }
-    func_021C6AF8((u32 *)buf, t);
+    FIELD_G3DOBJ_SetResDescAnimeArc((u32 *)buf, t);
     for (i = 0; i < 3; i++) {
         if (d[i + 2] != 0xFFFF) {
-            func_021C6AFC(buf, d[i + 2]);
+            FIELD_G3DOBJ_AddResDescAnimeFile(buf, d[i + 2]);
         }
     }
-    r = func_021C6574(b[1], buf, 0);
-    func_0219D524(b, c, r);
+    r = FIELD_G3DOBJ_AddResourceDefaultPal(b[1], buf, 0);
+    FLDMMDL_G3DOBJ_AddResEntry(b, c, r);
     return r;
 }

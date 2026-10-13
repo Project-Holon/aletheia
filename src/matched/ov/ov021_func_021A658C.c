@@ -1,5 +1,5 @@
 /*
- * function: func_021A658C
+ * function: FIELD_PLAYER_NOGRID_CheckRailStep
  * address:  0x021A658C
  * packet:   pkt_ov021_021A658C
  * region:   ov021
@@ -12,41 +12,41 @@
  * 
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A5B6C  0x021A5B6C  thumb  ov021
- *   func_021A652C  0x021A652C  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_NOGRID_GetHitBits  0x021A5B6C  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_CheckRailFromStand  0x021A652C  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D3CC(int a0);
-extern int func_021A5B6C(u32 a, u32 b, u32 c, u32 d);
-extern int func_021A652C(void *a, void *b, int c, int d, u16 e, int f);
-extern u16 func_021AB0F0(u32 attr);
-extern u16 func_021AB0F8(u32 attr);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern int FIELD_PLAYER_NOGRID_GetHitBits(u32 a, u32 b, u32 c, u32 d);
+extern int FIELD_PLAYER_NOGRID_CheckRailFromStand(void *a, void *b, int c, int d, u16 e, int f);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
 
-int func_021A658C(void *a, void *b, int c, int d, u16 e, int f)
+int FIELD_PLAYER_NOGRID_CheckRailStep(void *a, void *b, int c, int d, u16 e, int f)
 {
     int r;
     int loc;
-    if (func_0216D3CC((int)b) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd((int)b) == 0) {
         return 0;
     }
     if (e == 9) {
-        return func_021A652C(a, b, c, d, e, f);
+        return FIELD_PLAYER_NOGRID_CheckRailFromStand(a, b, c, d, e, f);
     }
-    r = func_021A5B6C((u32)a, (u32)b, e, (u32)(&loc));
+    r = FIELD_PLAYER_NOGRID_GetHitBits((u32)a, (u32)b, e, (u32)(&loc));
     if (f == 1 && r != 0 && (r & 0x10) == 0) {
         r = 0;
     }
     if (loc != -1) {
         int t;
-        func_021AB0F0(loc);
-        t = func_021AB0F8(loc);
+        MAP_ATTR_GetTerrainId(loc);
+        t = MAP_ATTR_GetFlags(loc);
         if (r == 0) {
             if (t & 2) {
                 return 2;

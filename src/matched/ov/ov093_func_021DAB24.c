@@ -1,5 +1,5 @@
 /*
- * function: func_021DAB24
+ * function: BTL_ABILITY_MotorDriveAbsorbElectric
  * address: 0x021DAB24
  * packet: pkt_ov093_021DAB24
  * region: ov093
@@ -10,14 +10,14 @@
  * status: EXACT*
  * extent: trailing two-byte alignment padding.
  * symbols:
- *   func_021DA8A8 0x021DA8A8 thumb ov093
- *   func_021DA96C 0x021DA96C thumb ov093
+ *   BTL_ABILITY_AbsorbCheckMoveType 0x021DA8A8 thumb ov093
+ *   BTL_ABILITY_AbsorbRaiseStat 0x021DA96C thumb ov093
  */
-extern int func_021DA8A8(int, int, int);
-extern void func_021DA96C(void *, int, unsigned int, int);
+extern int BTL_ABILITY_AbsorbCheckMoveType(int, int, int);
+extern void BTL_ABILITY_AbsorbRaiseStat(void *, int, unsigned int, int);
 
-void func_021DAB24(int a, void *b, int c)
+void BTL_ABILITY_MotorDriveAbsorbElectric(int a, void *b, int c)
 {
-    if (func_021DA8A8((int)b, c, 0xc))
-        func_021DA96C(b, c, 5, 1);
+    if (BTL_ABILITY_AbsorbCheckMoveType((int)b, c, 0xc))
+        BTL_ABILITY_AbsorbRaiseStat(b, c, 5, 1);
 }

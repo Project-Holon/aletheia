@@ -35,7 +35,7 @@
  *   func_021FA5B0 0x021FA5B0 thumb ov132
  *   func_021FAAF4 0x021FAAF4 thumb ov132
  *   func_021F9CF4 0x021F9CF4 thumb ov132
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_021F8D88 0x021F8D88 thumb ov132
  *   d_021FDCA0 0x021FDCA0 data a1
  *   g_02FFFC3C 0x02FFFC3C data a4
@@ -62,7 +62,7 @@ extern char *func_021F9FEC(u32,void *,u32);
 extern char *func_021FA5B0(u32,void *,char *);
 extern void *func_021FAAF4(u32,void *);
 extern void func_021F9CF4(char *);
-extern void func_0203D34C(u32,u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void func_021F8D88(u8 *,u32);
 u8 *func_021F8480(u8 *input, int heap)
 {
@@ -120,7 +120,7 @@ u8 *func_021F8480(u8 *input, int heap)
     *(void **)(p+0xa4)=func_021FA5B0(*(u16 *)p,p,*(char **)(*(u8 **)(p+0x30)+p[0xa]*4+4));
     *(void **)(p+0xb0)=func_021FAAF4(*(u16 *)p,p);
     func_021F9CF4((char *)p);
-    func_0203D34C(0,*(u16 *)p);
+    GFL_NET_RestartWithDefaultTimeout(0,*(u16 *)p);
     func_021F8D88(p,0);
     *(u32 *)(p+0x1dc)=*(u32 *)((*(u8 ***)(p+0x30))[6]+0x14);
     *(u32 *)(p+0x1e0)=*(u32 *)((*(u8 ***)(p+0x30))[6]+0x18);

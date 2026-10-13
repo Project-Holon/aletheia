@@ -19,6 +19,7 @@
  *   func_0207D55C 0x0207D55C arm
  *   func_021F68A4 0x021F68A4 thumb ov135
  *   func_021F9254 0x021F9254 thumb ov135
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  */
 #include "../include/Obj10575.h"
 typedef unsigned char u8;
@@ -32,7 +33,7 @@ extern void func_021F57EC(u8 *);
 extern void func_021F5420(u8 *);
 extern void func_021FFD44(char *p);
 extern int func_0207D55C(volatile u16 *reg);
-extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
+extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 extern void func_021F68A4(u8 *, int);
 extern void func_021F9254(u8 *);
 int func_021F5154(u8 *p)
@@ -46,9 +47,9 @@ int func_021F5154(u8 *p)
     func_021F5420(p);
     func_021FFD44((char *)p);
     if (func_0207D55C((u16 *)0x0400106c) == 0) {
-        func_0202208C((void *)3, 1, 1, 0, 6, 1, 0x48);
+        WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
     } else {
-        func_0202208C(0, 1, 1, 0, 6, 1, 0x48);
+        WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x48);
     }
     func_021F68A4(p, ((struct Obj10575 *)p)->fC4);
     func_021F9254(p);

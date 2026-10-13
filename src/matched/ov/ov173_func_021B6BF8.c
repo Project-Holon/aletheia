@@ -20,7 +20,7 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_02045738 0x02045738 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C7D0 0x0201C7D0 thumb
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  */
 #include "../include/Obj10668.h"
 typedef unsigned char u8;
@@ -32,7 +32,7 @@ struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 func_02045738(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
-extern u32 func_0201C7D0(void *, s16, s16, void *, u8, u16);
+extern u32 PRINTSYS_PrintColor(void *, s16, s16, void *, u8, u16);
 u32 func_021B6BF8(char *p, int index, u8 font, u16 w, int align, u8 y)
 {
     u8 x;
@@ -48,5 +48,5 @@ u32 func_021B6BF8(char *p, int index, u8 font, u16 w, int align, u8 y)
         x = (u8)(((int)(u8)(func_02045738(*(void **)(p + index * 4 + 4)) * 8) - width) / 2);
         break;
     }
-    return func_0201C7D0(func_02045770(*(void **)(p + index * 4 + 4)), x, y, ((struct Obj10668 *)p)->f4C, font, w);
+    return PRINTSYS_PrintColor(func_02045770(*(void **)(p + index * 4 + 4)), x, y, ((struct Obj10668 *)p)->f4C, font, w);
 }

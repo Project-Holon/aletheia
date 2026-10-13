@@ -9,22 +9,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_0218A160 0x0218A160 thumb ov096
  *   func_0218A2FC 0x0218A2FC thumb ov096
- *   func_021D5444 0x021D5444 thumb ov093
+ *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  */
 #include "../include/Obj13668.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 struct QF;
-extern u16 func_021D5444(struct QF *p);
+extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 int func_02189F34(struct Cursor *a, u8 *b)
 {
-    int t; u8 s; t = func_0201134C(a); s = func_0218A160(b,t); ((struct Obj13668 *)b)->f38 = func_021D5444((struct QF *)func_0218A2FC(b,s)); return ((struct Obj13668 *)b)->fC4;
+    int t; u8 s; t = VM_GetU32(a); s = func_0218A160(b,t); ((struct Obj13668 *)b)->f38 = BTL_POKEPARAM_GetSpecies((struct QF *)func_0218A2FC(b,s)); return ((struct Obj13668 *)b)->fC4;
 }

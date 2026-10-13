@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0D8
+ * function: TOWNMAP_CursorClear
  * address:  0x021BA0D8
  * packet:   pkt_021BA0D8
  * region:   ov072
@@ -15,7 +15,7 @@
 
 void func_02082BCC(void *p, int v, int n);
 
-void func_021BA0D8(void *p)
+void TOWNMAP_CursorClear(void *p)
 {
     func_02082BCC(p, 0, 0x18);
 }

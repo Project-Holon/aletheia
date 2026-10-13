@@ -17,9 +17,9 @@
  *   func_021C88A4  0x021C88A4  thumb
  *   func_021C88C8  0x021C88C8  thumb
  *   func_021D59B4  0x021D59B4  thumb
- *   func_021D6314  0x021D6314  thumb
- *   func_021D7B74  0x021D7B74  thumb
- *   func_021E8B80  0x021E8B80  thumb
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
+ *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,10 +30,10 @@ typedef union {
 } Word;
 typedef struct { u32 kind:3, rest:29; } Slot;
 typedef struct { u32 flags; u16 hp; u8 c, bits; u16 msg; u8 id, slot; u8 data[1]; } Rec;
-extern Slot func_021D6314(void *, int);
-extern u16 func_021E8B80(Word);
+extern Slot BTL_POKEPARAM_GetSickContRaw(void *, int);
+extern u16 BTLV_CORE_GetSlotValue(Word);
 extern int func_021C7D44(char *p, u8 i);
-extern int func_021D7B74(void *, u32);
+extern int BTL_CALC_DivideMaxHpMin1(void *, u32);
 extern int func_021D59B4(void *, int);
 extern Rec *func_021C88A4(void *, int, int);
 extern void func_021C8838(void *, int, int);
@@ -42,7 +42,7 @@ extern int func_021C8010(void *, int);
 extern void func_021C88C8(void *, void *);
 static inline u16 decode(Slot s)
 {
-    return func_021E8B80(*(Word *)&s);
+    return BTLV_CORE_GetSlotValue(*(Word *)&s);
 }
 void func_0689B9F4(void *a, void *b, int c)
 {
@@ -51,10 +51,10 @@ void func_0689B9F4(void *a, void *b, int c)
     u16 hp, max;
     Rec *r;
     int msg;
-    id = (u8)decode(func_021D6314(b, 0x12));
+    id = (u8)decode(BTL_POKEPARAM_GetSickContRaw(b, 0x12));
     x = func_021C7D44(a, id);
     if (x == 0x1f) return;
-    hp = func_021D7B74(b, 8);
+    hp = BTL_CALC_DivideMaxHpMin1(b, 8);
     max = func_021D59B4(b, 0xd);
     if (hp > max) hp = max;
     r = func_021C88A4(a, 7, c);

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 
 struct S021BC6B4
@@ -23,7 +23,7 @@ struct S021BC6B4
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021BC6B4(struct S021BC6B4 *p)
 {
@@ -31,6 +31,6 @@ void func_021BC6B4(struct S021BC6B4 *p)
     for (i = 0; i < 2; i++)
     {
         func_0204B3DC(p->slots[i], 0);
-        func_0204B3B4(p->slots[i]);
+        CLACT_DeleteActor(p->slots[i]);
     }
 }

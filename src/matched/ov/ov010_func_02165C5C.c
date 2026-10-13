@@ -1,5 +1,5 @@
 /*
- * function: func_02165C5C
+ * function: GAME_BEACON_ACCESSOR_GetArea
  * packet: pkt_ov010_02165C5C
  * address: 0x02165C5C
  * region: ov010
@@ -11,4 +11,4 @@
  * blocker-leaf: ov216 021BD174 MATCH*; parent ownership cleared; no source/unit/shard; full original getter body read.
  */
 typedef unsigned char u8;
-u8 func_02165C5C(const u8 *p) { return p[2]; }
+u8 GAME_BEACON_ACCESSOR_GetArea(const u8 *p) { return p[2]; }

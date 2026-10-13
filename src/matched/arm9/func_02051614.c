@@ -1,5 +1,5 @@
 /*
- * function: func_02051614
+ * function: PARTICLE_GetEffectCount
  * address:  0x02051614
  * packet:   pkt_02051614
  * region:   arm9
@@ -12,7 +12,7 @@
  * Returns word 2 of the object at *p. Filed as the witness for ov094 func_021FC744.
  */
 
-int func_02051614(int **p)
+int PARTICLE_GetEffectCount(int **p)
 {
     return (*p)[2];
 }

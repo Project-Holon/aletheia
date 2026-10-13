@@ -1,5 +1,5 @@
 /*
- * function: func_021F2C78
+ * function: C_GEAR_StepFadeIcon
  * address:  0x021F2C78
  * packet:   pkt_ov029_021F2C78
  * region:   ov029
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F2E68  0x021F2E68  thumb  ov029
- *   func_021F2E8C  0x021F2E8C  thumb  ov029
+ *   C_GEAR_StartFadeFx  0x021F2E68  thumb  ov029
+ *   C_GEAR_StepFadeFx  0x021F2E8C  thumb  ov029
  */
 #include "../include/Obj09788.h"
 
-extern void func_021F2E68(char *a, int b);
-extern int func_021F2E8C(char *a);
+extern void C_GEAR_StartFadeFx(char *a, int b);
+extern int C_GEAR_StepFadeFx(char *a);
 
-int func_021F2C78(char *p)
+int C_GEAR_StepFadeIcon(char *p)
 {
     switch (((struct Obj09788 *)p)->f455) {
     case 0:
         switch (((struct Obj09788 *)p)->f416) {
         case 3:
-            func_021F2E68(p + 0x21c, 0x1c0);
+            C_GEAR_StartFadeFx(p + 0x21c, 0x1c0);
             break;
         case 4:
-            func_021F2E68(p + 0x21c, 0x200);
+            C_GEAR_StartFadeFx(p + 0x21c, 0x200);
             break;
         }
         ((struct Obj09788 *)p)->f455 += 1;
         break;
     case 1:
-        if (func_021F2E8C(p + 0x21c) != 0)
+        if (C_GEAR_StepFadeFx(p + 0x21c) != 0)
             return 1;
         break;
     }

@@ -23,7 +23,7 @@
  * 4 redundant-bitfield/result-truncation idioms; 5 fresh full idiom ls
  * and full 6C50/6A5C/6E50 neighbours. Iteration2, no stop exhaustion.
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009470 0x02009470 thumb
  *   func_0201283C 0x0201283C thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
@@ -32,8 +32,8 @@
  *   func_020084F4 0x020084F4 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_02008530 0x02008530 thumb
- *   d_0209DF08 0x0209DF08 data a1
- *   d_0209DF0C 0x0209DF0C data a1
+ *   GAME_VERSION_Code 0x0209DF08 data a1
+ *   GAME_LANGUAGE_Code 0x0209DF0C data a1
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
  *   func_02008550 0x02008550 thumb
@@ -53,7 +53,7 @@ struct Blk1AC;
 struct Rec0200E6FC;
 struct Sub0200852CObj;
 struct Sub02009470Obj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern u32 func_0201283C(const struct BigObj *p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
@@ -62,7 +62,7 @@ extern void func_02082BCC(void *, u8, u32);
 extern const void *func_020084F4(const void *p);
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern u8 d_0209DF08, d_0209DF0C;
+extern u8 GAME_VERSION_Code, GAME_LANGUAGE_Code;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -75,7 +75,7 @@ void func_021D6D40(u8 *p, void *save, void *idx)
 {
     void *profile, *n, *object;
     int i;
-    profile = func_02012EBC(save);
+    profile = GAME_DATA_GetSaveControl(save);
     func_02009470(profile);
     func_0201283C(save);
     n = GAME_DATA_GetSaveBlock3A(save);
@@ -83,8 +83,8 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     func_02082BCC(p, 0, 240);
     func_02082D44(func_020084F4(idx), p + 0xb4, 16);
     *(u32 *)(p + 0xc8) = func_02008530(idx);
-    p[0xc4] = d_0209DF08;
-    p[0xc5] = d_0209DF0C;
+    p[0xc4] = GAME_VERSION_Code;
+    p[0xc5] = GAME_LANGUAGE_Code;
     p[0xc6] = func_0200856C(idx);
     p[0xc7] = func_02008570(idx);
     ((Bits *)(p + 0xd4))->b = (u8)(u32)func_02008550(idx);

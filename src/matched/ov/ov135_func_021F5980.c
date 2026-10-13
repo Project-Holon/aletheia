@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021F6E08 0x021F6E08 thumb ov135
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02030734 0x02030734 arm
  *   str_02203B54 0x02203B54 data a1
@@ -21,15 +21,15 @@ typedef unsigned int u32;
 extern void func_021F6E08(u8 *);
 struct MsgBank;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char str_02203B54[];
 void func_021F5980(u8 *p)
 {
     func_021F6E08(p);
-    ((struct Obj04526 *)p)->fB80 = func_020457B0(0x12, 0x48);
-    ((struct Obj04526 *)p)->fB88 = func_020457B0(0xb4, 0x48);
+    ((struct Obj04526 *)p)->fB80 = STRBUF_Create(0x12, 0x48);
+    ((struct Obj04526 *)p)->fB88 = STRBUF_Create(0xb4, 0x48);
     ((struct Obj04526 *)p)->fB84 = func_02045EC0(((struct Obj04526 *)p)->fB6C, 0x73);
     if (((struct Obj04526 *)p)->fC6 == 0x1e) {
         ((struct Obj04526 *)p)->fC6 = 0;

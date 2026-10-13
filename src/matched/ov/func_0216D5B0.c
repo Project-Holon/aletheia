@@ -1,5 +1,5 @@
 /*
- * function: func_0216D5B0
+ * function: FLDMMDL_GetEventFlag
  * address:  0x0216D5B0
  * packet:   pkt_0216D5B0
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u16 func_0216D5B0(u8 *p)
+u16 FLDMMDL_GetEventFlag(u8 *p)
 {
     return ((struct Obj17803 *)p)->f12;
 }

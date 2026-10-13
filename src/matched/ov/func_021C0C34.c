@@ -1,5 +1,5 @@
 /*
- * function: func_021C0C34
+ * function: BTL_SERVER_FLOW_GetHitFlagsByte2
  * address:  0x021C0C34
  * packet:   pkt_021C0C34
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C0C34   0x021C0C34  thumb
+ *   BTL_SERVER_FLOW_GetHitFlagsByte2   0x021C0C34  thumb
  *
  * Reads the u8 field at #2 of the argument and returns it.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021C0C34  ldrb r0,[r0,#2] */
-u32 func_021C0C34(u8 *p) { return p[2]; }
+u32 BTL_SERVER_FLOW_GetHitFlagsByte2(u8 *p) { return p[2]; }
 

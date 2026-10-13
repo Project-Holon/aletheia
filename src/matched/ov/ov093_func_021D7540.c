@@ -1,5 +1,5 @@
 /*
- * function: func_021D7540
+ * function: BTL_EVENT_PopVarFrame
  * address:  0x021D7540
  * packet:   pkt_ov093_021D7540
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021F3ECC     0x021F3ECC  data
+ *   gBtlEventVarStack     0x021F3ECC  data
  */
 
 #include "../include/G_Tbl.h"
@@ -26,10 +26,10 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern struct Tbl g_021F3ECC;
-void func_021D7540(int line)
+extern struct Tbl gBtlEventVarStack;
+void BTL_EVENT_PopVarFrame(int line)
 {
-    Tbl *p = ((Tbl *)&g_021F3ECC);
+    Tbl *p = ((Tbl *)&gBtlEventVarStack);
     u16 i;
     if (p->count != 0) {
         i = p->count;

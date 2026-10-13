@@ -1,5 +1,5 @@
 /*
- * function: func_021C70DC
+ * function: FIELD_TASK_StepCameraAngleTween
  * address:  0x021C70DC
  * packet:   pkt_ov021_021C70DC
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218E138  0x0218E138  thumb  ov021
- *   func_0218E13C  0x0218E13C  thumb  ov021
- *   func_0218ED34  0x0218ED34  thumb  ov021
- *   func_0218ED48  0x0218ED48  thumb  ov021
+ *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
+ *   FIELD_CAMERA_SetPitch  0x0218ED34  thumb  ov021
+ *   FIELD_CAMERA_SetYaw  0x0218ED48  thumb  ov021
  *   _ffltu         0x0209BE04  arm
  *   _ffixu         0x0209C4C8  arm
  *   _fmul          0x0209C77C  arm
@@ -39,12 +39,12 @@ typedef struct {
     u32 to;
 } Work;
 
-extern u32 func_0218E138(u8 *p);
-extern void func_0218E13C(u8 *a, u32 s);
-extern void func_0218ED34(u8 *p, u16 v);
-extern void func_0218ED48(u8 *p, u32 v);
+extern u32 FIELD_CAMERA_GetMode(u8 *p);
+extern void FIELD_CAMERA_SetMode(u8 *a, u32 s);
+extern void FIELD_CAMERA_SetPitch(u8 *p, u16 v);
+extern void FIELD_CAMERA_SetYaw(u8 *p, u32 v);
 
-void func_021C70DC(Work *w)
+void FIELD_TASK_StepCameraAngleTween(Work *w)
 {
     u16 max;
     void *o;
@@ -61,15 +61,15 @@ void func_021C70DC(Work *w)
     t = (f32)w->cnt / (f32)max;
     s = (3.0f + -2.0f * t) * (t * t);
     v = (u16)((1.0f - s) * (f32)w->from + s * (f32)w->to);
-    save = func_0218E138(o);
-    func_0218E13C(o, 0);
+    save = FIELD_CAMERA_GetMode(o);
+    FIELD_CAMERA_SetMode(o, 0);
     switch (w->mode) {
     case 0:
-        func_0218ED48(o, v);
+        FIELD_CAMERA_SetYaw(o, v);
         break;
     case 1:
-        func_0218ED34(o, v);
+        FIELD_CAMERA_SetPitch(o, v);
         break;
     }
-    func_0218E13C(o, save);
+    FIELD_CAMERA_SetMode(o, save);
 }

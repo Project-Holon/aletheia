@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215CF00",
+   "name": "SCRCMD_PROC_CallDaycarePartyMenu",
    "address": "0x0215CF00",
    "kind": "game",
    "region": "ov010",

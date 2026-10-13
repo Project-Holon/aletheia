@@ -1,5 +1,5 @@
 /*
- * function: func_021F39B4
+ * function: GIMMICK38_Exit
  * address: 0x021F39B4
  * packet: pkt_ov038_021F39B4
  * region: ov038
@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02188D2C 0x02188D2C thumb ov021
- *   func_021897BC 0x021897BC thumb ov021
- *   func_021897A0 0x021897A0 thumb ov021
- *   func_021BE418 0x021BE418 thumb ov021
+ *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
+ *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
+ *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
+ *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
  */
 typedef unsigned short u16;
-extern int func_02188D2C(int *);
-extern int *func_021897BC(char *, int);
-extern void func_021897A0(unsigned char *, int);
-extern void func_021BE418(unsigned char *, u16);
-void func_021F39B4(void *p)
+extern int FIELDMAP_GetExpObj(int *);
+extern int *FIELDMAP_GetCommonWork(char *, int);
+extern void FIELDMAP_FreeCommonWork(unsigned char *, int);
+extern void FLD_EXP_OBJ_RemoveUnit(unsigned char *, u16);
+void GIMMICK38_Exit(void *p)
 {
-    int h = func_02188D2C(p);
-    func_021897BC(p, 1);
-    func_021897A0(p, 1);
-    func_021BE418((unsigned char *)h, 0);
+    int h = FIELDMAP_GetExpObj(p);
+    FIELDMAP_GetCommonWork(p, 1);
+    FIELDMAP_FreeCommonWork(p, 1);
+    FLD_EXP_OBJ_RemoveUnit((unsigned char *)h, 0);
 }

@@ -36,7 +36,7 @@
  *
  * symbols:
  *   g_renderState   0x02148B4C  data
- *   g_02148B98   0x02148B98  data
+ *   g_renderStateDrawParams   0x02148B98  data
  *   g_renderStateIdentityMtx   0x02148C08  data
  *   g_02148C7C   0x02148C7C  data
  *   g_02148CAC   0x02148CAC  data
@@ -52,7 +52,7 @@
 typedef unsigned int u32;
 
 extern u32 g_renderState[];
-extern char g_02148B98[];
+extern char g_renderStateDrawParams[];
 extern char g_renderStateIdentityMtx[];
 extern char g_02148C7C[];
 extern char g_02148CAC[];
@@ -63,7 +63,7 @@ extern void func_0207B67C(void *a, void *b);
 
 void func_0206AD64(void)
 {
-    func_0207B9F0(g_renderStateIdentityMtx, g_02148B98, g_02148C7C);
+    func_0207B9F0(g_renderStateIdentityMtx, g_renderStateDrawParams, g_02148C7C);
     func_0207B60C(g_02148C7C, g_02148C7C, g_renderState[0x3b], g_renderState[0x3c],
                   g_renderState[0x3d]);
     func_0207B67C(g_02148C7C, g_02148CAC);

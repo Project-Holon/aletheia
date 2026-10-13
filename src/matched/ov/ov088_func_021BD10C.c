@@ -1,5 +1,5 @@
 /*
- * function: func_021BD10C
+ * function: STARTMENU_SaveEraseStopVblankTask
  * address:  0x021BD10C
  * packet:   pkt_021BD10C
  * region:   ov088
@@ -16,7 +16,7 @@
 struct Node;
 void func_02030EAC(struct Node *n);
 
-void func_021BD10C(int *p)
+void STARTMENU_SaveEraseStopVblankTask(int *p)
 {
     func_02030EAC((struct Node *)p[0]);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A635C
+ * function: FIELD_PLAYER_NOGRID_StartActionRail
  * address:  0x021A635C
  * packet:   pkt_ov021_021A635C
  * region:   ov021
@@ -12,12 +12,12 @@
  * 
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A63EC  0x021A63EC  thumb  ov021
- *   func_021A63F0  0x021A63F0  thumb  ov021
- *   func_021A6428  0x021A6428  thumb  ov021
- *   func_021A6454  0x021A6454  thumb  ov021
- *   func_021A6478  0x021A6478  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartRailNone  0x021A63EC  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartRailStand  0x021A63F0  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartRailStep  0x021A6428  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartRailTurn  0x021A6454  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_StartRailBlocked  0x021A6478  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -30,21 +30,21 @@ typedef struct {
     unsigned char *f14;
 } S;
 
-extern void *func_021A3960(unsigned char *p);
-extern void func_021A63EC(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A63F0(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A6428(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A6454(void *a, void *b, int c, int d, int e, int f);
-extern void func_021A6478(void *a, void *b, int c, int d, int e, int f);
+extern void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+extern void FIELD_PLAYER_NOGRID_StartRailNone(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartRailStand(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartRailStep(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartRailTurn(void *a, void *b, int c, int d, int e, int f);
+extern void FIELD_PLAYER_NOGRID_StartRailBlocked(void *a, void *b, int c, int d, int e, int f);
 
-void func_021A635C(S *a, int sel, int c, int d, int e, int f)
+void FIELD_PLAYER_NOGRID_StartActionRail(S *a, int sel, int c, int d, int e, int f)
 {
-    void *x = func_021A3960(a->f14);
+    void *x = FIELD_PLAYER_CORE_GetMmdl(a->f14);
     switch (sel) {
-    case 0: func_021A63EC(a, x, c, d, e, f); break;
-    case 1: func_021A63F0(a, x, c, d, e, f); break;
-    case 2: func_021A6428(a, x, c, d, e, f); break;
-    case 3: func_021A6454(a, x, c, d, e, f); break;
-    case 4: func_021A6478(a, x, c, d, e, f); break;
+    case 0: FIELD_PLAYER_NOGRID_StartRailNone(a, x, c, d, e, f); break;
+    case 1: FIELD_PLAYER_NOGRID_StartRailStand(a, x, c, d, e, f); break;
+    case 2: FIELD_PLAYER_NOGRID_StartRailStep(a, x, c, d, e, f); break;
+    case 3: FIELD_PLAYER_NOGRID_StartRailTurn(a, x, c, d, e, f); break;
+    case 4: FIELD_PLAYER_NOGRID_StartRailBlocked(a, x, c, d, e, f); break;
     }
 }

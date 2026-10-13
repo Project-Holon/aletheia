@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CCB98",
+   "name": "PARTY_SELECT_LIST_DeleteMonIcons",
    "address": "0x021CCB98",
    "kind": "game",
    "region": "ov021",

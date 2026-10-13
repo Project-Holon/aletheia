@@ -1,5 +1,5 @@
 /*
- * function: func_0217E3D0
+ * function: INTRUDE_SUBDISP_UpdateMyPlayerActor
  * address:  0x0217E3D0
  * packet:   pkt_ov018_0217E3D0
  * region:   ov018
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012B58  0x02012B58  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   func_02013D5C  0x02013D5C  thumb
- *   func_0217BEA8  0x0217BEA8  thumb  ov018
+ *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0217F118  0x0217F118  thumb  ov018
+ *   INTRUDE_SUBDISP_SetTownCursor  0x0217F118  thumb  ov018
  *   d_021836A4     0x021836A4  data  a4
  *   d_02176AA0     0x02176AA0  data  a4
  */
@@ -51,21 +51,21 @@ typedef struct {
 
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012B58(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
-extern Mon *func_0217BEA8(int a0);
+extern Mon *INTRUDE_FIELD_FindZonePos(int a0);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
-extern void func_0217F118(Obj *p, int a1);
+extern void INTRUDE_SUBDISP_SetTownCursor(Obj *p, int a1);
 extern const s8 d_021836A4[][2];
 extern const Ent d_02176AA0[];
 
-void func_0217E3D0(Obj *p, int a1, u16 id)
+void INTRUDE_SUBDISP_UpdateMyPlayerActor(Obj *p, int a1, u16 id)
 {
     s16 pos[2];
     int sel;
@@ -75,7 +75,7 @@ void func_0217E3D0(Obj *p, int a1, u16 id)
     int v;
     int h;
 
-    idx = func_02012B58(func_020120F4((const struct Ctx *)p->f00));
+    idx = GAME_DATA_GetExitMode(GAMESYSTEM_GetGameData((const struct Ctx *)p->f00));
     sel = 0xFF;
     if (func_02013D5C(id) == 1) {
         pos[0] = d_021836A4[idx][0] + 0x80;
@@ -84,7 +84,7 @@ void func_0217E3D0(Obj *p, int a1, u16 id)
         p->slots[idx].mon = 0;
     } else {
         if (id != p->slots[idx].id) {
-            m = func_0217BEA8(id);
+            m = INTRUDE_FIELD_FindZonePos(id);
         } else {
             m = p->slots[idx].mon;
         }
@@ -110,6 +110,6 @@ void func_0217E3D0(Obj *p, int a1, u16 id)
     h = p->f98;
     func_0204B404((struct Obj *)h, (const struct Vec2 *)pos, 0);
     func_0204B3DC((struct Obj *)h, 1);
-    func_0217F118(p, sel);
+    INTRUDE_SUBDISP_SetTownCursor(p, sel);
     p->slots[idx].id = id;
 }

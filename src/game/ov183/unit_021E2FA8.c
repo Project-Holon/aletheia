@@ -21,7 +21,7 @@
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FC21C 0x021FC21C thumb ov186
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_021FC124 0x021FC124 thumb ov186
@@ -34,7 +34,7 @@
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
  *   func_021FD19C 0x021FD19C thumb ov186
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021FB494 0x021FB494 thumb ov186
  *   func_021FC0C8 0x021FC0C8 thumb ov186
  *   func_020061E4 0x020061E4 thumb
@@ -77,7 +77,7 @@ extern void func_021FD15C(void *,int);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern int func_021FC21C(char *);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02082BCC(void *,int,unsigned),func_021FBE54(char *,unsigned,unsigned);
 extern int func_021FC124(void *,int,Triple *);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -89,7 +89,7 @@ extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
 extern u32 func_0200D6EC(struct RecGet *p);
 extern void func_021FD19C(char *p, void *q, void *text);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021FB494(char *p);
 extern void func_021FC0C8(char *,unsigned);
 extern void func_020061E4(u32 a);
@@ -221,8 +221,8 @@ void func_021E301C(char *p,char *q)
     h=func_021FC20C(*(char **)(q+8));
     c=func_021FC214(*(char **)(q+8));
     a=(void *)func_021FC21C(*(char **)(q+8));
-    b=func_020457B0(0x80,*(u16 *)(p+0x38));
-    s=func_020457B0(0x80,*(u16 *)(p+0x38));
+    b=STRBUF_Create(0x80,*(u16 *)(p+0x38));
+    s=STRBUF_Create(0x80,*(u16 *)(p+0x38));
     func_02082BCC(&d,0,8);
     d.x=0x30;d.y=0x28;d.n=11;d.flag=1;
     func_021FBE54(*(char **)(q+8),1,*(u16 *)(p+0x38));
@@ -246,7 +246,7 @@ void func_021E301C(char *p,char *q)
     func_0201EE0C(a,0,(const void *)tmp,func_0200D6EC(owner),1,2);
     func_0201F250(a,b,s);
     func_021FD19C(*(void **)(p+8),(void *)(*(int *)(q+8)),b);
-    func_02045808(tmp);func_02045808(s);func_02045808(b);
+    STRBUF_Delete(tmp);STRBUF_Delete(s);STRBUF_Delete(b);
 }
 
 

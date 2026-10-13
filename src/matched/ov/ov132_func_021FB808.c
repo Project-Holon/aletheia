@@ -9,7 +9,7 @@
  * status: EXACT
  * note: task allocation is 32 bytes; the product local reproduces count-first multiply scheduling.
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132
  *   func_021F9DA0 0x021F9DA0 thumb ov132
  *   func_021F9DA4 0x021F9DA4 thumb ov132
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct TaskData { void *context; int tick, duration, count; void *slot; int amplitude; void *owner; void *task; } TaskData;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FB1F4(char *, int);
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
@@ -40,11 +40,11 @@ int func_021FB808(int unused, char *p)
     u8 i;
     TaskData *data;
     obj = *(char * *)&((struct Obj04517 *)p)->f0;
-    mask = func_021FB1F4(p, func_0201134C(((struct Obj04517 *)p)->f4));
-    duration = func_0201134C(((struct Obj04517 *)p)->f4);
-    count = func_0201134C(((struct Obj04517 *)p)->f4);
-    amplitude = func_0201134C(((struct Obj04517 *)p)->f4);
-    wait = func_0201134C(((struct Obj04517 *)p)->f4);
+    mask = func_021FB1F4(p, VM_GetU32(((struct Obj04517 *)p)->f4));
+    duration = VM_GetU32(((struct Obj04517 *)p)->f4);
+    count = VM_GetU32(((struct Obj04517 *)p)->f4);
+    amplitude = VM_GetU32(((struct Obj04517 *)p)->f4);
+    wait = VM_GetU32(((struct Obj04517 *)p)->f4);
     func_021F9DA0(((struct Obj08165 *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {

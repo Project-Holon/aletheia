@@ -1,5 +1,5 @@
 /*
- * function: func_02175274
+ * function: INTRUDE_COMM_AdjustAllRemotePositions
  * address:  0x02175274
  * packet:   pkt_ov011_02175274
  * region:   ov011
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02012B58  0x02012B58  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   INTRUDE_COMM_AdjustRemotePosition  0x021751D4  thumb ov011
  */
 #include "../include/Obj12425.h"
@@ -28,10 +28,10 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Ent;
 u32 func_02026478(void *obj);
-u8 func_02012B58(const struct BigObj *p);
+u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, struct Ent *c);
 
-void func_02175274(u8 *p, int arg)
+void INTRUDE_COMM_AdjustAllRemotePositions(u8 *p, int arg)
 {
     u8 *arr;
     u8 *h;
@@ -39,7 +39,7 @@ void func_02175274(u8 *p, int arg)
     int i;
     u8 *e;
 
-    n = func_02012B58((const struct BigObj *)func_02026478((void *)(((struct Obj12425 *)p)->f4)));
+    n = GAME_DATA_GetExitMode((const struct BigObj *)func_02026478((void *)(((struct Obj12425 *)p)->f4)));
     h = p + 0x70;
     i = 0;
     arr = p + 0x8C;

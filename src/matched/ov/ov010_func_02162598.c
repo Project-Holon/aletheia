@@ -1,5 +1,5 @@
 /*
- * function: func_02162598
+ * function: EVENTDATA_SYSTEM_SearchConnectIdByRailLocation
  * address: 0x02162598
  * packet: pkt_ov010_02162598
  * region: ov010
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02162E00 0x02162E00 thumb ov010
+ *   EVENTDATA_SYSTEM_IsConnectRailHit 0x02162E00 thumb ov010
  */
 #include "../include/Obj12338.h"
 typedef unsigned short u16;
 struct Box; struct Q;
-extern int func_02162E00(struct Box *, struct Q *);
-int func_02162598(char *p, struct Q *q) { int i; char *r; i=0; r=*(char * *)&((struct Obj12338 *)p)->f24; for(;i<((struct Obj12338 *)p)->f16;i++,r+=20) { if(func_02162E00((struct Box *)r,q)) return i; } return 0xffff; }
+extern int EVENTDATA_SYSTEM_IsConnectRailHit(struct Box *, struct Q *);
+int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(char *p, struct Q *q) { int i; char *r; i=0; r=*(char * *)&((struct Obj12338 *)p)->f24; for(;i<((struct Obj12338 *)p)->f16;i++,r+=20) { if(EVENTDATA_SYSTEM_IsConnectRailHit((struct Box *)r,q)) return i; } return 0xffff; }

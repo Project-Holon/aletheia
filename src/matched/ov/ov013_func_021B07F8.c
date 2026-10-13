@@ -9,12 +9,12 @@
  * isa: arm
  * status: EXACT
  * pass 3 2026-10-06 P3L09: closed. The mode field is read through a const pointer to the shared
- * state (`const Ctx3C84 *ctx = &d_021B3C84; if (ctx->f1C >= 2)`). A const load has no memory
+ * state (`const Ctx3C84 *ctx = &gVctSendState; if (ctx->f1C >= 2)`). A const load has no memory
  * dependence on the header magic store, so the scheduler issues moveq before the f1C load
  * (idiom a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer). The rest is the
  * G7L4 form: opt_propagation off, `(i < 3) ? 1 : 0` while loop, magic and divisor as named locals.
  * symbols:
- *   d_021B3C84     0x021B3C84  data  ov013  a4
+ *   gVctSendState     0x021B3C84  data  ov013  a4
  *   gVctMembers     0x021B3CB0  data  ov013  a4
  *   d_021B42C0     0x021B42C0  data  ov013  a4
  *   func_02082B0C  0x02082B0C  arm
@@ -60,7 +60,7 @@ typedef struct
   u16 f6;
   u32 f8;
 } PacketHeader;
-extern Ctx3C84 d_021B3C84;
+extern Ctx3C84 gVctSendState;
 extern Req * const gVctMembers[3];
 extern struct Ctx42C0 d_021B42C0;
 extern void func_02082B0C(const void *src, void *dst, u32 n);
@@ -77,11 +77,11 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
   u32 magic;
   const Ctx3C84 *ctx;
   found = 0;
-  if (n != d_021B3C84.f24)
+  if (n != gVctSendState.f24)
   {
     return 0;
   }
-  if (d_021B3C84.f20 == 0)
+  if (gVctSendState.f20 == 0)
   {
     return 0;
   }
@@ -103,7 +103,7 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
   hdr = (PacketHeader *) ((u8 *) &d_021B42C0 + off);
   magic = 0x5F564354;
   hdr->magic = magic;
-  ctx = &d_021B3C84;
+  ctx = &gVctSendState;
   if (ctx->f1C >= 2)
   {
     func_02082B0C(src, ((u8 *) hdr) + 0x10, n);
@@ -114,8 +114,8 @@ int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
   }
   divisor = 0x40;
   hdr->f4 = divisor;
-  seq = d_021B3C84.f0;
-  d_021B3C84.f0 = d_021B3C84.f0 + 1;
+  seq = gVctSendState.f0;
+  gVctSendState.f0 = gVctSendState.f0 + 1;
   hdr->f6 = seq;
   hdr->f8 = (u32) (func_020870D0() / (u32)divisor);
   d_021B42C0.f8C4++;

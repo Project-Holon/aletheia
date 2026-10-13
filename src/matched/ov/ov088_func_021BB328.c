@@ -1,5 +1,5 @@
 /*
- * function: func_021BB328
+ * function: STARTMENU_DeleteActors
  * address:  0x021BB328
  * packet:   pkt_ov088_021BB328
  * region:   ov088
@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204A5AC  0x0204A5AC  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
  */
 #include "../include/Obj20817.h"
 
 struct Bank;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern unsigned int func_0204B1CC(struct Bank *bank);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
 typedef unsigned int   u32;
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern void func_0204A5AC(void);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ExitSystem(void);
 
-void func_021BB328(char *p)
+void STARTMENU_DeleteActors(char *p)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        func_0204B3B4(*(void **)(p + 0x1c + i * 4));
-    func_0204B1CC(((struct Obj20817 *)p)->f18);
+        CLACT_DeleteActor(*(void **)(p + 0x1c + i * 4));
+    CLACT_DeleteUnit(((struct Obj20817 *)p)->f18);
     for (i = 0; i < 3; i++)
-        func_0204A8D4((u32)(*(void **)(p + 0x34 + i * 4)));
+        CLACT_ReleaseCharacter((u32)(*(void **)(p + 0x34 + i * 4)));
     for (i = 0; i < 3; i++)
-        func_0204ADA4((u32)(*(void **)(p + 0x40 + i * 4)));
+        CLACT_ReleasePalette((u32)(*(void **)(p + 0x40 + i * 4)));
     for (i = 0; i < 3; i++)
-        func_0204AFD8((u32)(*(void **)(p + 0x4c + i * 4)));
-    func_0204A5AC();
+        CLACT_ReleaseCellAnim((u32)(*(void **)(p + 0x4c + i * 4)));
+    CLACT_ExitSystem();
 }

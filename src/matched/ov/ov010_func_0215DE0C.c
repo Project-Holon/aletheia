@@ -1,5 +1,5 @@
 /*
- * function: func_0215DE0C
+ * function: SCRCMD_MUSICAL_DeleteLinkWork
  * address:  0x0215DE0C
  * packet:   pkt_ov010_0215DE0C
  * region:   ov010
@@ -36,7 +36,7 @@ extern void GAME_DATA_SetExternalWork(void *h, void *w);
 typedef signed int     s32;
 extern void func_02034A5C(s32 handle);
 
-void func_0215DE0C(void *w, void *h)
+void SCRCMD_MUSICAL_DeleteLinkWork(void *w, void *h)
 {
     func_02034A5C((u32)ov112_id);
     func_02034A5C((u32)ov132_id);

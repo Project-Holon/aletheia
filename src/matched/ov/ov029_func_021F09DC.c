@@ -1,5 +1,5 @@
 /*
- * function: func_021F09DC
+ * function: C_GEAR_SelectTabPalette
  * address: 0x021F09DC
  * packet: pkt_ov029_021F09DC
  * region: ov029
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021F09DC(unsigned char *p, int i, int v, int a, int b, int j)
+int C_GEAR_SelectTabPalette(unsigned char *p, int i, int v, int a, int b, int j)
 {
     if (a == b && i == j) {
         *(unsigned short *)(p + i * 2 + 0x26c) = v;

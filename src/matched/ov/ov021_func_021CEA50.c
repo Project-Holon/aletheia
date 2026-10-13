@@ -1,5 +1,5 @@
 /*
- * function: func_021CEA50
+ * function: COMM_ENTRY_MENU_StatesUnchanged
  * address:  0x021CEA50
  * packet:   pkt_ov021_021CEA50
  * region:   ov021
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_021CEA50(u8 *p)
+int COMM_ENTRY_MENU_StatesUnchanged(u8 *p)
 {
     u8 i;
 

@@ -14,7 +14,7 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021BB224 0x021BB224 thumb ov110
  *   func_0204B404 0x0204B404 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj05290.h"
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ extern u8 func_021BF6DC(u8 *);
 extern void func_021BB224(unsigned, int *, int *);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void func_021BBB84(u8 *p, unsigned index)
 {
     Vec2 pos;
@@ -54,5 +54,5 @@ void func_021BBB84(u8 *p, unsigned index)
         }
     }
     func_0204B404(((struct Obj05290 *)p)->f54, (const struct Vec2 *)(&pos), 0);
-    func_0204B878(((struct Obj05290 *)p)->f54, state);
+    CLACT_SetActorAnimSeq(((struct Obj05290 *)p)->f54, state);
 }

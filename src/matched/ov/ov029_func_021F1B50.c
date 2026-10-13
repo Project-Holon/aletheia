@@ -1,5 +1,5 @@
 /*
- * function: func_021F1B50
+ * function: C_GEAR_CreateSplashActors
  * address:  0x021F1B50
  * packet:   pkt_ov029_021F1B50
  * region:   ov029
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B954  0x0204B954  arm
- *   func_0204B9A0  0x0204B9A0  arm
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   func_0204B92C  0x0204B92C  arm
  */
 #include "../include/Obj06128.h"
@@ -26,16 +26,16 @@ typedef struct {
 } S13Rec;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 typedef unsigned int   u32;
 struct Actor;
-extern void func_0204B954(struct Actor *a, u32 v);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 
-void func_021F1B50(char *p)
+void C_GEAR_CreateSplashActors(char *p)
 {
     int i;
     S13Rec s;
@@ -48,11 +48,11 @@ void func_021F1B50(char *p)
         s.a = 0;
         s.b = 2;
         q = (int *)(p + i * 4);
-        q[0x5c] = (int)func_0204B294((void *)((struct Obj06128 *)p)->f34, ((struct Obj06128 *)p)->f2C, ((struct Obj06128 *)p)->f28,
+        q[0x5c] = (int)CLACT_CreateActor((void *)((struct Obj06128 *)p)->f34, ((struct Obj06128 *)p)->f2C, ((struct Obj06128 *)p)->f28,
                                 ((struct Obj06128 *)p)->f30, &s, 0, ((struct Obj06128 *)p)->fC);
         func_0204B3DC((struct Obj *)q[0x5c], 0);
-        func_0204B954((struct Actor *)q[0x5c], 0x2000);
-        func_0204B9A0((struct Actor *)q[0x5c]);
+        CLACT_SetActorAutoAnimSpeed((struct Actor *)q[0x5c], 0x2000);
+        CLACT_RestartActorAnim((struct Actor *)q[0x5c]);
         func_0204B92C((struct Obj *)q[0x5c], 1);
     }
 }

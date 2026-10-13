@@ -1,5 +1,5 @@
 /*
- * function: func_021F3D2C
+ * function: FIELD_FK_DEMO_UploadModelOnce
  * address:  0x021F3D2C
  * packet:   pkt_021F3D2C
  * region:   ov056
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02047204  0x02047204  arm
+ *   G3D_SYSTEM_TransAllocatedTexture  0x02047204  arm
  */
 #include "../include/Obj09852.h"
 
@@ -18,12 +18,12 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Tagged;
-extern u32 func_02047204(struct Tagged *p);
+extern u32 G3D_SYSTEM_TransAllocatedTexture(struct Tagged *p);
 
-void func_021F3D2C(u8 *p)
+void FIELD_FK_DEMO_UploadModelOnce(u8 *p)
 {
     if (((struct Obj09852 *)p)->fC != 0) {
-        func_02047204((struct Tagged *)(((struct Obj09852 *)p)->f0));
+        G3D_SYSTEM_TransAllocatedTexture((struct Tagged *)(((struct Obj09852 *)p)->f0));
         ((struct Obj09852 *)p)->fC = 0;
     }
 }

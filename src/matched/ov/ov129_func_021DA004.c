@@ -11,7 +11,7 @@
  * Extent ends with two bytes of zero alignment padding.
  * Lever: declare the 4-byte-stride pointer before the 28-byte-stride pointer.
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021D9FF0 0x021D9FF0 thumb ov129
  */
 #include "../include/Obj02186.h"
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef short s16;
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021D9FF0(char *,int,int);
 void func_021DA004(char *p)
 {
@@ -40,19 +40,19 @@ void func_021DA004(char *p)
         case 1:
             ((struct Obj02186 *)q)->f1F4+=1;
             if(((struct Obj02186 *)q)->f1F4==1) {
-                func_0204B878((struct Obj *)(((struct Obj02186 *)q)->f1E8),1);
+                CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),1);
                 func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
             } else if(((struct Obj02186 *)q)->f1F4==2) {
-                func_0204B878((struct Obj *)(((struct Obj02186 *)q)->f1E8),2);
+                CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),2);
                 func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
             } else if(((struct Obj02186 *)q)->f1F4==10) {
-                func_0204B878((struct Obj *)(((struct Obj02186 *)q)->f1E8),0);
+                CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),0);
                 func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
                 ((struct Obj02186 *)q)->f1DC+=1;
             }
             break;
         default:
-            func_0204B878((struct Obj *)(((struct Obj02186 *)q)->f1E8),0);
+            CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02186 *)q)->f1E8),0);
             func_021D9FF0(*(char * *)&((struct Obj04507 *)r)->f304,x,y);
             ((struct Obj02186 *)q)->f1DC=0;
             break;

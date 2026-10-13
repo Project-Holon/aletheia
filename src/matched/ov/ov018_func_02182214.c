@@ -1,5 +1,5 @@
 /*
- * function: func_02182214
+ * function: EVENT_COMM_COMMON_OfferAnswerEventMain
  * address:  0x02182214
  * packet:   pkt_ov018_02182214
  * region:   ov018
@@ -10,24 +10,24 @@
  * status:   EXACT
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0217405C  0x0217405C  thumb  ov011
- *   func_02175CF4  0x02175CF4  thumb  ov011
- *   func_021745F8  0x021745F8  thumb  ov011
- *   func_02012944  0x02012944  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   INTRUDE_CMD_SendProposal  0x0217405C  thumb  ov011
+ *   INTRUDE_COMM_GetJoinStatus  0x02175CF4  thumb  ov011
+ *   INTRUDE_COMM_SendProfile  0x021745F8  thumb  ov011
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201EF40  0x0201EF40  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_0217F5F0  0x0217F5F0  thumb
- *   func_0217F318  0x0217F318  thumb
- *   func_0217F3C4  0x0217F3C4  thumb
- *   func_0217F40C  0x0217F40C  thumb
- *   func_0217F420  0x0217F420  thumb
- *   func_021804F8  0x021804F8  thumb
- *   func_0201235C  0x0201235C  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   EVENT_COMM_COMMON_GetPeerTalkStatus  0x0217F5F0  thumb
+ *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
+ *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
+ *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
+ *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb
+ *   EVENT_COMM_COMMON_CreateMissionResultEvent  0x021804F8  thumb
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   d_02183998     0x02183998  data  a2
  */
 
@@ -70,27 +70,27 @@ struct Obj;
 struct S0201235C;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
-u32 func_02012138(const struct Ctx *p);
-void *func_020120F4(const struct Ctx *p);
-void *func_0201210C(const struct Ctx *p);
-int func_02158344(int a0);
+u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+int INTRUDE_COMM_GetWorkIfRunning(int a0);
 struct BigObj;
-int func_0217405C(char *a, char *b);
-int func_02175CF4(char *p, u8 *q);
-int func_021745F8(u32 a, u32 b);
-u8 *func_02012944(void *p);
+int INTRUDE_CMD_SendProposal(char *a, char *b);
+int INTRUDE_COMM_GetJoinStatus(char *p, u8 *q);
+int INTRUDE_COMM_SendProfile(u32 a, u32 b);
+u8 *GAME_DATA_GetMyStatus(void *p);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-u8 func_02012B58(const struct BigObj *p);
-int func_0217F5F0(void *, u8);
-void func_0217F318(Ov018Obj *p);
-void func_0217F3C4(Ov018Obj *p, u16 a);
-int func_0217F40C(Ov018Obj *p);
-int func_0217F420(void);
-void *func_021804F8(void *, int);
-void func_0201235C(struct S0201235C *o, u32 *out);
+u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+int EVENT_COMM_COMMON_GetPeerTalkStatus(void *, u8);
+void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
+void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, u16 a);
+int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
+int EVENT_COMM_COMMON_IsKeyTrg(void);
+void *EVENT_COMM_COMMON_CreateMissionResultEvent(void *, int);
+void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 
-int func_02182214(void *a, int *state, Ov018Work *c)
+int EVENT_COMM_COMMON_OfferAnswerEventMain(void *a, int *state, Ov018Work *c)
 {
     void *sub;
     void *x;
@@ -98,16 +98,16 @@ int func_02182214(void *a, int *state, Ov018Work *c)
     int idx;
 
     sub = func_020124E4(a);
-    v = (u8 *)func_02012138(sub);
-    x = func_020120F4(sub);
-    func_0201210C(sub);
-    v = (u8 *)func_02158344((int)v);
+    v = (u8 *)GAMESYSTEM_GetGameComm(sub);
+    x = GAMESYSTEM_GetGameData(sub);
+    GAMESYSTEM_GetFieldMap(sub);
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)v);
     if (v == 0) {
-        if (func_0217F40C(&c->obj) == 0) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 0) {
             return 0;
         }
         if (*state < 4) {
-            func_0217F3C4(&c->obj, 6);
+            EVENT_COMM_COMMON_PrintMsg(&c->obj, 6);
             *state = 4;
             c->f48 = 1;
             return 0;
@@ -115,30 +115,30 @@ int func_02182214(void *a, int *state, Ov018Work *c)
     }
     switch (*state) {
     case 0:
-        if (func_0217405C((char *)v, (char *)(v + 0x1AC)) == 1) {
+        if (INTRUDE_CMD_SendProposal((char *)v, (char *)(v + 0x1AC)) == 1) {
             (*state)++;
         }
         break;
     case 1:
-        if ((c->f50 = func_02175CF4((char *)v, v + 0x1AC)) != 0) {
+        if ((c->f50 = INTRUDE_COMM_GetJoinStatus((char *)v, v + 0x1AC)) != 0) {
             (*state)++;
         }
         break;
     case 2:
-        func_0201F02C(c->obj.f00, 0, func_02012944(x));
+        func_0201F02C(c->obj.f00, 0, GAME_DATA_GetMyStatus(x));
         func_0201EF40(c->obj.f00, 1, c->f40);
         if (c->f50 == 1) {
-            idx = d_02183998[func_0217F5F0(v, (int)func_02012B58(x))];
+            idx = d_02183998[EVENT_COMM_COMMON_GetPeerTalkStatus(v, (int)GAME_DATA_GetExitMode(x))];
             c->f4C = 1;
         } else {
             idx = 5;
         }
-        func_0217F3C4(&c->obj, idx);
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, idx);
         (*state)++;
         break;
     case 3:
         if (c->f4C == 1) {
-            if (func_021745F8((u8)c->f44, (u32)c->f30) == 1) {
+            if (INTRUDE_COMM_SendProfile((u8)c->f44, (u32)c->f30) == 1) {
                 (*state)++;
             }
         } else {
@@ -146,18 +146,18 @@ int func_02182214(void *a, int *state, Ov018Work *c)
         }
         break;
     case 4:
-        if (func_0217F40C(&c->obj) == 1) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
             *state = 5;
         }
         break;
     case 5:
-        if (func_0217F420() == 1) {
+        if (EVENT_COMM_COMMON_IsKeyTrg() == 1) {
             *state = 6;
         }
         break;
     case 6:
-        func_0217F318(&c->obj);
-        func_0201235C(a, func_021804F8(sub, c->f4C));
+        EVENT_COMM_COMMON_ExitMsgBox(&c->obj);
+        GAME_EVENT_ChangeEvent(a, EVENT_COMM_COMMON_CreateMissionResultEvent(sub, c->f4C));
         return 0;
     }
     return 0;

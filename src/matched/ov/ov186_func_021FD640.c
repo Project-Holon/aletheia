@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   func_021FC734 0x021FC734 thumb ov186
  *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   func_021FBDA4 0x021FBDA4 thumb ov186
@@ -19,11 +19,11 @@
  *   func_020409B4 0x020409B4 arm
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
 extern void PMS_DRAW_Delete(struct Obj *p);
@@ -33,8 +33,8 @@ extern void func_020409B4(u32 index);
 void func_021FD640(int *p)
 {
     int i;
-    if(p[10]) {func_0204B3B4((struct Obj *)p[10]);func_0204ADA4(p[14]);func_0204A8D4(p[15]);func_0204AFD8(p[16]);}
-    if(p[9]) {func_0204B3B4((struct Obj *)p[9]);func_0204ADA4(p[11]);func_0204A8D4(p[12]);func_0204AFD8(p[13]);}
+    if(p[10]) {CLACT_DeleteActor((struct Obj *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}
+    if(p[9]) {CLACT_DeleteActor((struct Obj *)p[9]);CLACT_ReleasePalette(p[11]);CLACT_ReleaseCharacter(p[12]);CLACT_ReleaseCellAnim(p[13]);}
     for(i=0;i<7;i++) if(p[i]) {func_021FC734((void *)p[i]);p[i]=0;}
     PMS_DRAW_Delete((struct Obj *)p[8]);func_021FBDA4(p[7],8);func_020307B0(p);func_020409B4(1);
 }

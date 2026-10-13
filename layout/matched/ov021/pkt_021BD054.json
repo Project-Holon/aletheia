@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD054",
+   "name": "FIELD_PLACE_NAME_DeleteMsgData",
    "address": "0x021BD054",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021EE674
+ * function: BTL_REC_ResetReader
  * address:  0x021EE674
  * packet:   pkt_ov093_021EE674
  * region:   ov093
@@ -20,7 +20,7 @@ typedef struct {
     u32 w[4];
 } Q;
 
-void func_021EE674(Q *q)
+void BTL_REC_ResetReader(Q *q)
 {
     u32 i;
 

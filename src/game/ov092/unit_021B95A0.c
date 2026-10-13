@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B95A0.c
  * unit:     yes
- * function: func_021B95A0, func_021B95E8, func_021B9614, func_021B9A14, func_021B9AA0, func_021B9BD8, func_021B9C34, func_021B9C80, func_021B9CA4
+ * function: EVENT_BATTLE_RETURN_Init, EVENT_BATTLE_RETURN_Exit, EVENT_BATTLE_RETURN_Main, EVENT_BATTLE_RETURN_FlagLeveledUpMembers, EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather, EVENT_BATTLE_RETURN_ApplyNaturalCure, EVENT_BATTLE_RETURN_ApplyBurmyForms, EVENT_BATTLE_RETURN_GetBurmyForm, EVENT_BATTLE_RETURN_RegisterShayminForms
  * address:  0x021B95A0
  * region:   ov092
  * compiler: dsi/1.1p1
@@ -13,81 +13,81 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
- *   func_020457B0  0x020457B0  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   PROCSYS_Create  0x02031324  arm
  *   func_0203133C 0x0203133C arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   PROCSYS_Main 0x02031330 arm
- *   func_02012934 0x02012934 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200CA1C 0x0200CA1C thumb
- *   func_0201293C 0x0201293C thumb
+ *   GAME_DATA_GetBoxManager 0x0201293C thumb
  *   func_0201AC2C 0x0201AC2C thumb
  *   POKERUS_TryInfectParty 0x0201B038 thumb
  *   POKERUS_SpreadParty 0x0201B170 thumb
- *   func_02012F08 0x02012F08 thumb
+ *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C278 0x0200C278 thumb
  *   func_0200C29C 0x0200C29C thumb
  *   func_0201AB28 0x0201AB28 thumb
  *   func_02008500 0x02008500 thumb
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AA14 0x0201AA14 thumb
  *   func_02007698 0x02007698 thumb
  *   func_020076D0 0x020076D0 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_0201296C 0x0201296C thumb
- *   func_020142E8 0x020142E8 thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
+ *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045C04 0x02045C04 arm
- *   func_020127A4 0x020127A4 thumb
- *   func_02012AC8 0x02012AC8 thumb
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
+ *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   func_02013E4C 0x02013E4C thumb
  *   func_0202F190 0x0202F190 thumb
  *   func_0200CA38 0x0200CA38 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0200CED4 0x0200CED4 thumb
  *   func_0200CFA0 0x0200CFA0 thumb
  *   func_0200CDE0 0x0200CDE0 thumb
  *   PROCSYS_Push 0x02031348 arm
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200C0F0 0x0200C0F0 thumb
- *   func_0216C0A4 0x0216C0A4 thumb ov010
- *   func_0216C0E4 0x0216C0E4 thumb ov010
- *   func_0216C0D4 0x0216C0D4 thumb ov010
- *   func_02012F2C 0x02012F2C thumb
+ *   NAMEIN_SETUP_CreateCaptureArgs 0x0216C0A4 thumb ov010
+ *   NAMEIN_SETUP_IsCanceled 0x0216C0E4 thumb ov010
+ *   NAMEIN_SETUP_CopyName 0x0216C0D4 thumb ov010
+ *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008DF0 0x02008DF0 thumb
- *   func_0216C0C0 0x0216C0C0 thumb ov010
- *   func_021B9D04 0x021B9D04 thumb ov092
+ *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
+ *   EVENT_BATTLE_RETURN_ApplyHealBall 0x021B9D04 thumb ov092
  *   func_0201A98C 0x0201A98C thumb
- *   func_020185F0 0x020185F0 thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   func_020074D8 0x020074D8 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
- *   func_02012984 0x02012984 thumb
- *   func_0201B2B0 0x0201B2B0 thumb
+ *   GAME_DATA_GetSeason 0x02012984 thumb
+ *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   data_0220BAB0 0x0220BAB0 data a4 ov207
+ *   gCatchRegistrationProcData 0x0220BAB0 data a4 ov207
  *   data_021F5580 0x021F5580 data a4 ov194
  *   data_02208C40 0x02208C40 data a4 ov195
  *   ov207_id 0x000000CF data a1
  *   ov194_id 0x000000C2 data a1
  *   ov195_id 0x000000C3 data a1
- *   data_021B9DC0 0x021B9DC0 data a1
+ *   sSourceFileName 0x021B9DC0 data a1
  *   _u32_div_f 0x0209C2B0 arm
- *   d_021B9D44 0x021B9D44 data a1
- *   d_021B9D6E 0x021B9D6E data ov092 a2
- *   d_021B9D58 0x021B9D58 data ov092 a2
- *   d_021B9D4D 0x021B9D4D data ov092 a1
+ *   sPickupRollThresholds 0x021B9D44 data a1
+ *   sPickupCommonItems 0x021B9D6E data ov092 a2
+ *   sPickupRareItems 0x021B9D58 data ov092 a2
+ *   sHoneyGatherChance 0x021B9D4D data ov092 a1
  *   POKE_TOOL_SetStatusCondition  0x02017F9C  thumb
- *   func_0216E62C  0x0216E62C  thumb  ov010
- *   func_02048F60 0x02048F60 arm
+ *   FLDMMDL_ApplyBurmyFormForPlace  0x0216E62C  thumb  ov010
+ *   ARC_TOOL_LoadMember 0x02048F60 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -237,96 +237,96 @@ struct BurmyFormRecord {
     u8 formByAttr[0x11];
 };
 
-extern void func_0203064C(u32 parentHeapId, u32 heapId, u32 size);
-extern void *func_0203159C(struct ProcObj *proc, u32 size, u32 heapId);
-extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
+extern void *PROCSYS_AllocProcWork(struct ProcObj *proc, u32 size, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct ProcSys *PROCSYS_Create(int heapId);
 extern void func_0203133C(struct ProcSys *procSys);
-extern void func_02045808(struct Strbuf *strbuf);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void func_020315D4(struct ProcObj *proc);
 extern void func_020306F0(unsigned int heapId);
 extern u32 PROCSYS_Main(struct ProcSys *procSys);
-extern struct PokeParty *func_02012934(const struct GameData *gameData);
-extern struct MyStatus *func_02012944(const struct GameData *gameData);
+extern struct PokeParty *GAME_DATA_GetMyParty(const struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(const struct GameData *gameData);
 extern struct ZukanSave *func_0200CA1C(const struct GameData *gameData);
-extern struct BoxManager *func_0201293C(const struct GameData *gameData);
+extern struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
 extern void func_0201AC2C(const struct PokeParty *src, struct PokeParty *dst);
 extern void POKERUS_TryInfectParty(struct PokeParty *party);
 extern void POKERUS_SpreadParty(struct PokeParty *party);
-extern struct MiscSave *func_02012F08(const struct GameData *gameData);
+extern struct MiscSave *GAME_DATA_GetMiscSave(const struct GameData *gameData);
 extern u32 func_0200C278(struct MiscSave *misc, u32 amount);
 extern u32 func_0200C29C(struct MiscSave *misc, u32 amount);
 extern struct PokemonParam *func_0201AB28(struct PokeParty *party, u32 index);
 extern void func_02008500(struct MyStatus *status, struct Strbuf *name);
-extern void func_02017E40(struct PokemonParam *mon, u32 paramId, u32 value);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *mon, u32 paramId, u32 value);
 extern u32 func_0201AA18(struct PokeParty *party);
 extern u32 func_0201AA14(struct PokeParty *party);
 extern u32 func_02007698(struct BoxManager *boxManager);
 extern int func_020076D0(struct BoxManager *boxManager, int *box, int *slot);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct EventWork *func_0201296C(const struct GameData *gameData);
-extern u32 func_020142E8(struct EventWork *eventWork, s32 flagId);
+extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct MsgBank *bank);
-extern struct PlayerWork *func_020127A4(const struct GameData *gameData);
-extern u16 func_02012AC8(const struct PlayerWork *player);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(const struct GameData *gameData);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 extern u32 func_02013E4C(u32 zoneId);
 extern void func_0202F190(struct PokemonParam *mon, u32 mode, const struct MyStatus *trainer, u32 placeNameId, u16 heapId);
 extern u32 func_0200CA38(struct ZukanSave *zukan);
-extern u32 func_02017E1C(struct PokemonParam *mon, u32 paramId, u32 unused);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, u32 unused);
 extern u32 func_0200CED4(struct ZukanSave *zukan, u16 species);
 extern void func_0200CFA0(struct ZukanSave *zukan, struct PokemonParam *mon);
 extern void func_0200CDE0(struct ZukanSave *zukan, struct PokemonParam *mon);
 extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, const struct SubProcTable *procTable, void *args);
-extern struct SaveControl *func_02012EBC(const struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(const struct GameData *gameData);
 extern struct MiscSave *func_0200C0F0(struct SaveControl *saveControl);
-extern struct NameInArgs *func_0216C0A4(unsigned short heapId, struct PokemonParam *mon, int maxLength, int mode, struct Strbuf *boxFullMsg, struct BoxManager *boxManager, int boxNo, struct MiscSave *misc);
-extern int func_0216C0E4(struct NameInArgs *args);
-extern void func_0216C0D4(struct NameInArgs *args, struct Strbuf *dst);
-extern struct RecordBlock *func_02012F2C(const struct GameData *gameData);
+extern struct NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(unsigned short heapId, struct PokemonParam *mon, int maxLength, int mode, struct Strbuf *boxFullMsg, struct BoxManager *boxManager, int boxNo, struct MiscSave *misc);
+extern int NAMEIN_SETUP_IsCanceled(struct NameInArgs *args);
+extern void NAMEIN_SETUP_CopyName(struct NameInArgs *args, struct Strbuf *dst);
+extern struct RecordBlock *GAME_DATA_GetTrainerRecord(const struct GameData *gameData);
 extern u32 func_02008DF0(struct RecordBlock *record, int index);
-extern int func_0216C0C0(struct NameInArgs *args);
-extern void func_021B9D04(struct PokemonParam *mon);
+extern int NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
+extern void EVENT_BATTLE_RETURN_ApplyHealBall(struct PokemonParam *mon);
 extern u32 func_0201A98C(struct PokeParty *party, const struct PokemonParam *mon);
-extern struct BoxPokemon *func_020185F0(struct PokemonParam *mon);
+extern struct BoxPokemon *POKE_TOOL_Dummy(struct PokemonParam *mon);
 extern int func_020074D8(struct BoxManager *boxManager, const struct BoxPokemon *mon);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern u8 func_02012984(const struct GameData *gameData);
-extern u16 func_0201B2B0(struct PokeParty *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
+extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
+extern u16 SHINKA_CHECK_CheckEvolution(struct PokeParty *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 func_020307B0(void *memory);
 extern u32 func_020056EC(u32 range);
 extern void POKE_TOOL_SetStatusCondition(struct PokemonParam *mon, u32 status);
-extern void func_0216E62C(struct GameData *gameData, struct PokemonParam *mon, int burmyForm);
-extern void *func_02048F60(u32 archiveId, u32 member, u32 heapId);
+extern void FLDMMDL_ApplyBurmyFormForPlace(struct GameData *gameData, struct PokemonParam *mon, int burmyForm);
+extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
 
-int func_021B95A0(struct ProcObj *proc);
-int func_021B95E8(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work);
-int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *args, struct EventBattleReturnWork *work);
-void func_021B9A14(struct EventBattleReturnWork *work, struct EventBattleReturnArgs *args);
-void func_021B9AA0(struct PokeParty *party);
-void func_021B9BD8(struct PokeParty *party);
-void func_021B9C34(struct EventBattleReturnArgs *args, struct PokeParty *party, int burmyForm);
-u32 func_021B9C80(const struct BattleField *field, u32 heapId);
-void func_021B9CA4(struct EventBattleReturnArgs *args, struct PokeParty *party);
+int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc);
+int EVENT_BATTLE_RETURN_Exit(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work);
+int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *args, struct EventBattleReturnWork *work);
+void EVENT_BATTLE_RETURN_FlagLeveledUpMembers(struct EventBattleReturnWork *work, struct EventBattleReturnArgs *args);
+void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(struct PokeParty *party);
+void EVENT_BATTLE_RETURN_ApplyNaturalCure(struct PokeParty *party);
+void EVENT_BATTLE_RETURN_ApplyBurmyForms(struct EventBattleReturnArgs *args, struct PokeParty *party, int burmyForm);
+u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u32 heapId);
+void EVENT_BATTLE_RETURN_RegisterShayminForms(struct EventBattleReturnArgs *args, struct PokeParty *party);
 
-extern const struct SubProcTable data_0220BAB0, data_021F5580, data_02208C40;
-extern const u8 data_021B9DC0[];
-extern const u8 d_021B9D44[];
-extern const u16 d_021B9D6E[];
-extern const u16 d_021B9D58[];
-extern const u8 d_021B9D4D[];
+extern const struct SubProcTable gCatchRegistrationProcData, data_021F5580, data_02208C40;
+extern const u8 sSourceFileName[];
+extern const u8 sPickupRollThresholds[];
+extern const u16 sPickupCommonItems[];
+extern const u16 sPickupRareItems[];
+extern const u8 sHoneyGatherChance[];
 
 /* Step machine init: heap, work, name buffer and sub-proc system. */
-int func_021B95A0(struct ProcObj *proc)
+int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc)
 {
     struct EventBattleReturnWork *work;
 
-    func_0203064C(1, EVENT_BATTLE_RETURN_HEAP_ID, 0x1000);
-    work = func_0203159C(proc, 0x4c, EVENT_BATTLE_RETURN_HEAP_ID);
-    work->nameBuf = func_020457B0(0x20, EVENT_BATTLE_RETURN_HEAP_ID);
+    GFL_HEAP_CreateChildHeap(1, EVENT_BATTLE_RETURN_HEAP_ID, 0x1000);
+    work = PROCSYS_AllocProcWork(proc, 0x4c, EVENT_BATTLE_RETURN_HEAP_ID);
+    work->nameBuf = STRBUF_Create(0x20, EVENT_BATTLE_RETURN_HEAP_ID);
     work->nameInArgs = 0;
     work->caughtMon = 0;
     work->boxFullMsg = 0;
@@ -340,11 +340,11 @@ int func_021B95A0(struct ProcObj *proc)
 }
 
 /* Step machine exit: frees the sub-proc system, both strings, the work and the heap. */
-int func_021B95E8(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work)
+int EVENT_BATTLE_RETURN_Exit(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work)
 {
     func_0203133C(work->procSys);
-    if (work->boxFullMsg) func_02045808(work->boxFullMsg);
-    func_02045808(work->nameBuf);
+    if (work->boxFullMsg) STRBUF_Delete(work->boxFullMsg);
+    STRBUF_Delete(work->nameBuf);
     func_020315D4(proc);
     func_020306F0(EVENT_BATTLE_RETURN_HEAP_ID);
     return 1;
@@ -363,7 +363,7 @@ int func_021B95E8(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleRetu
  *   the guarded arm and again after it (cross-jumped copy leaves the b stub); species and slot as u16 locals,
  *   box/bslot declared first; the source record pointer s is not const. Case 4 mask and slot use a two-field view.
  */
-int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *args, struct EventBattleReturnWork *work)
+int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *args, struct EventBattleReturnWork *work)
 {
     u32 busy;
     struct PokeParty *party;
@@ -385,43 +385,43 @@ int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *
     if (busy == 1) return 0;
     switch (*seq) {
     case 0:
-        party = func_02012934(args->gameData);
-        myStatus = func_02012944(args->gameData);
+        party = GAME_DATA_GetMyParty(args->gameData);
+        myStatus = GAME_DATA_GetMyStatus(args->gameData);
         zukan = func_0200CA1C(args->gameData);
-        boxManager = func_0201293C(args->gameData);
+        boxManager = GAME_DATA_GetBoxManager(args->gameData);
         work->scanIndex = 0;
         work->levelUpMask = 0;
         if (args->battleParam->competitor <= COMPETITOR_LAST_NORMAL) {
-            func_021B9A14(work, args);
+            EVENT_BATTLE_RETURN_FlagLeveledUpMembers(work, args);
             func_0201AC2C(args->battleParam->playerParty, party);
             POKERUS_TryInfectParty(party);
             POKERUS_SpreadParty(party);
-            if (args->battleParam->outcome == BATTLE_OUTCOME_WIN) func_021B9AA0(party);
-            func_021B9C34(args, party, func_021B9C80(&args->battleParam->field, work->heapId));
-            func_021B9CA4(args, party);
+            if (args->battleParam->outcome == BATTLE_OUTCOME_WIN) EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(party);
+            EVENT_BATTLE_RETURN_ApplyBurmyForms(args, party, EVENT_BATTLE_RETURN_GetBurmyForm(&args->battleParam->field, work->heapId));
+            EVENT_BATTLE_RETURN_RegisterShayminForms(args, party);
             moneyDelta = args->battleParam->moneyDelta;
-            if (moneyDelta > 0) func_0200C278(func_02012F08(args->gameData), moneyDelta);
-            else if (moneyDelta < 0) func_0200C29C(func_02012F08(args->gameData), -moneyDelta);
+            if (moneyDelta > 0) func_0200C278(GAME_DATA_GetMiscSave(args->gameData), moneyDelta);
+            else if (moneyDelta < 0) func_0200C29C(GAME_DATA_GetMiscSave(args->gameData), -moneyDelta);
         }
-        func_021B9BD8(party);
+        EVENT_BATTLE_RETURN_ApplyNaturalCure(party);
         if (args->battleParam->outcome == BATTLE_OUTCOME_CAUGHT) {
             work->caughtMon = func_0201AB28(args->battleParam->opponentParty, args->battleParam->capturedIndex);
             func_02008500(myStatus, work->nameBuf);
-            func_02017E40(work->caughtMon, MON_PARAM_ORIGINAL_TRAINER_NAME, (u32)work->nameBuf);
+            POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_ORIGINAL_TRAINER_NAME, (u32)work->nameBuf);
             partyCount = (int)func_0201AA18(party);
             if (partyCount >= (int)func_0201AA14(party)) {
                 box = func_02007698(boxManager); boxSlot = 0;
                 func_020076D0(boxManager, &box, &boxSlot);
                 work->boxNo = box;
                 msgBank = func_02045B38(0, 2, 234, EVENT_BATTLE_RETURN_HEAP_ID);
-                msgIndex = func_020142E8(func_0201296C(args->gameData), EVENT_FLAG_BOX_NOTICE_SEEN) ? 177 : 176;
+                msgIndex = ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(args->gameData), EVENT_FLAG_BOX_NOTICE_SEEN) ? 177 : 176;
                 work->boxFullMsg = func_02045EC0(msgBank, msgIndex);
-                func_02045C04(msgBank);
+                MSGDATA_Delete(msgBank);
             }
-            func_0202F190(work->caughtMon, 0, myStatus, func_02013E4C(func_02012AC8(func_020127A4(args->gameData))), work->heapId);
+            func_0202F190(work->caughtMon, 0, myStatus, func_02013E4C(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(args->gameData))), work->heapId);
             isNewSpecies = 0;
             dexMode = func_0200CA38(zukan);
-            if (func_0200CED4(zukan, func_02017E1C(work->caughtMon, MON_PARAM_SPECIES, 0)) == 0) isNewSpecies = 1;
+            if (func_0200CED4(zukan, POKE_TOOL_GetPartyValue(work->caughtMon, MON_PARAM_SPECIES, 0)) == 0) isNewSpecies = 1;
             func_0200CFA0(zukan, work->caughtMon);
             func_0200CDE0(zukan, work->caughtMon);
             work->catchArgs.dexMode = dexMode;
@@ -431,18 +431,18 @@ int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *
             work->catchArgs.boxNo = work->boxNo;
             work->catchArgs.gameData = args->gameData;
             if (isNewSpecies) work->catchArgs.wasAlreadyCaught = 0; else work->catchArgs.wasAlreadyCaught = 1;
-            PROCSYS_Push(work->procSys, (u32)ov207_id, &data_0220BAB0, &work->catchArgs);
+            PROCSYS_Push(work->procSys, (u32)ov207_id, &gCatchRegistrationProcData, &work->catchArgs);
             ++*seq;
         } else *seq = 4;
         break;
     case 1:
         if (busy != 1) {
-        boxManager = func_0201293C(args->gameData);
+        boxManager = GAME_DATA_GetBoxManager(args->gameData);
         wantsNickname = 0;
         if (work->catchArgs.wantsNickname == 1) wantsNickname = 1;
         if (wantsNickname) {
-            miscSave = func_0200C0F0(func_02012EBC(args->gameData));
-            work->nameInArgs = func_0216C0A4(work->heapId, work->caughtMon, MAX_NICKNAME_LENGTH, 0, work->boxFullMsg, boxManager, work->boxNo, miscSave);
+            miscSave = func_0200C0F0(GAME_DATA_GetSaveControl(args->gameData));
+            work->nameInArgs = NAMEIN_SETUP_CreateCaptureArgs(work->heapId, work->caughtMon, MAX_NICKNAME_LENGTH, 0, work->boxFullMsg, boxManager, work->boxNo, miscSave);
             PROCSYS_Push(work->procSys, (u32)ov194_id, &data_021F5580, work->nameInArgs);
             ++*seq;
         } else *seq = 3;
@@ -451,24 +451,24 @@ int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *
         return 0;
     case 2:
         if (busy != 1) {
-        if (!func_0216C0E4(work->nameInArgs)) {
-            func_0216C0D4(work->nameInArgs, work->nameBuf);
-            func_02017E40(work->caughtMon, MON_PARAM_NICKNAME, (u32)work->nameBuf);
-            func_02008DF0(func_02012F2C(args->gameData), RECORD_NICKNAMED_COUNT);
+        if (!NAMEIN_SETUP_IsCanceled(work->nameInArgs)) {
+            NAMEIN_SETUP_CopyName(work->nameInArgs, work->nameBuf);
+            POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_NICKNAME, (u32)work->nameBuf);
+            func_02008DF0(GAME_DATA_GetTrainerRecord(args->gameData), RECORD_NICKNAMED_COUNT);
         }
-        func_0216C0C0(work->nameInArgs);
+        NAMEIN_SETUP_FreeArgs(work->nameInArgs);
         work->nameInArgs = 0;
         ++*seq;
         break;
         }
         return 0;
     case 3:
-        party = func_02012934(args->gameData);
-        func_021B9D04(work->caughtMon);
+        party = GAME_DATA_GetMyParty(args->gameData);
+        EVENT_BATTLE_RETURN_ApplyHealBall(work->caughtMon);
         if (!work->boxFullMsg) func_0201A98C(party, work->caughtMon);
         else {
-            boxManager = func_0201293C(args->gameData);
-            func_020074D8(boxManager, func_020185F0(work->caughtMon));
+            boxManager = GAME_DATA_GetBoxManager(args->gameData);
+            func_020074D8(boxManager, POKE_TOOL_Dummy(work->caughtMon));
         }
         ++*seq;
         break;
@@ -487,18 +487,18 @@ int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *
         }
         if (work->levelUpMask) {
             species = 0;
-            scanParty = func_02012934(args->gameData);
+            scanParty = GAME_DATA_GetMyParty(args->gameData);
             *seq = 6;
             while (work->levelUpMask) {
                 if (work->levelUpMask & 1) {
                     mon = func_0201AB28(scanParty, work->scanIndex);
-                    species = func_0201B2B0(scanParty, mon, 0, args->battleParam->field.zoneId, func_02012984(args->gameData), &method, work->heapId);
+                    species = SHINKA_CHECK_CheckEvolution(scanParty, mon, 0, args->battleParam->field.zoneId, GAME_DATA_GetSeason(args->gameData), &method, work->heapId);
                     slot = work->scanIndex;
                 }
                 work->levelUpMask = work->levelUpMask >> 1;
                 work->scanIndex++;
                 if (species) {
-                    evolutionRequest = func_02030734(work->heapId, 20, 0, (const char *)data_021B9DC0, LINE_OF_HEAP_ALLOC);
+                    evolutionRequest = func_02030734(work->heapId, 20, 0, (const char *)sSourceFileName, LINE_OF_HEAP_ALLOC);
                     evolutionRequest->gameData = args->gameData; evolutionRequest->party = scanParty; evolutionRequest->targetSpecies = species; evolutionRequest->partySlot = slot; evolutionRequest->evolveCondition = method; evolutionRequest->fromTrade = 0; evolutionRequest->fromField = 1;
                     work->evolutionRequest = evolutionRequest;
                     PROCSYS_Push(work->procSys, (u32)ov195_id, &data_02208C40, evolutionRequest);
@@ -526,7 +526,7 @@ int func_021B9614(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *
 }
 
 /* Sets bit i of levelUpMask for each member whose level is higher after the battle. */
-void func_021B9A14(struct EventBattleReturnWork *work, struct EventBattleReturnArgs *args)
+void EVENT_BATTLE_RETURN_FlagLeveledUpMembers(struct EventBattleReturnWork *work, struct EventBattleReturnArgs *args)
 {
     struct BattleReturnParam *battleParam = args->battleParam;
     struct PokeParty *partyBefore;
@@ -538,7 +538,7 @@ void func_021B9A14(struct EventBattleReturnWork *work, struct EventBattleReturnA
         switch (battleParam->competitor) {
         case 0:
         case 1:
-            partyBefore = func_02012934(args->gameData);
+            partyBefore = GAME_DATA_GetMyParty(args->gameData);
             count = func_0201AA18(partyBefore);
             i = 0;
             if (count > 0) {
@@ -546,8 +546,8 @@ void func_021B9A14(struct EventBattleReturnWork *work, struct EventBattleReturnA
                 do {
                     struct PokemonParam *monBefore = func_0201AB28(partyBefore, i);
                     struct PokemonParam *monAfter = func_0201AB28(args->battleParam->playerParty, i);
-                    u32 levelBefore = func_02017E1C(monBefore, MON_PARAM_LEVEL, 0);
-                    u32 levelAfter = func_02017E1C(monAfter, MON_PARAM_LEVEL, 0);
+                    u32 levelBefore = POKE_TOOL_GetPartyValue(monBefore, MON_PARAM_LEVEL, 0);
+                    u32 levelAfter = POKE_TOOL_GetPartyValue(monAfter, MON_PARAM_LEVEL, 0);
                     if (levelBefore < levelAfter) {
                         *mask |= (u16)(1 << i);
                     }
@@ -560,7 +560,7 @@ void func_021B9A14(struct EventBattleReturnWork *work, struct EventBattleReturnA
 }
 
 /* Pickup and Honey Gather: members holding nothing may find an item after the battle. */
-void func_021B9AA0(struct PokeParty *party)
+void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(struct PokeParty *party)
 {
     int i;
     struct PokemonParam *mon;
@@ -573,19 +573,19 @@ void func_021B9AA0(struct PokeParty *party)
     int chanceIndex;
     for (i=0;i<(int)func_0201AA18(party);i++) {
         mon = func_0201AB28(party,i);
-        species = func_02017E1C(mon,MON_PARAM_SPECIES_OR_EGG,0);
-        item = func_02017E1C(mon,MON_PARAM_HELD_ITEM,0);
-        ability = (u8)func_02017E1C(mon,MON_PARAM_ABILITY,0);
+        species = POKE_TOOL_GetPartyValue(mon,MON_PARAM_SPECIES_OR_EGG,0);
+        item = POKE_TOOL_GetPartyValue(mon,MON_PARAM_HELD_ITEM,0);
+        ability = (u8)POKE_TOOL_GetPartyValue(mon,MON_PARAM_ABILITY,0);
         if (ability == ABILITY_PICKUP && species != 0 && species != SPECIES_EGG && item == 0 && func_020056EC(10) == 0) {
             roll = func_020056EC(100);
-            levelTier = (func_02017E1C(mon,MON_PARAM_LEVEL,0)-1)/10u;
+            levelTier = (POKE_TOOL_GetPartyValue(mon,MON_PARAM_LEVEL,0)-1)/10u;
             if (levelTier >= 10) levelTier=9;
             for (j=0;j<9;j++) {
-                if (d_021B9D44[j] > roll) {
-                    func_02017E40(mon,MON_PARAM_HELD_ITEM,d_021B9D6E[levelTier+j]);
+                if (sPickupRollThresholds[j] > roll) {
+                    POKE_TOOL_SetPartyValue(mon,MON_PARAM_HELD_ITEM,sPickupCommonItems[levelTier+j]);
                     break;
                 } else if (roll >= 98 && roll <= 99) {
-                    func_02017E40(mon,MON_PARAM_HELD_ITEM,d_021B9D58[levelTier+(99-roll)]);
+                    POKE_TOOL_SetPartyValue(mon,MON_PARAM_HELD_ITEM,sPickupRareItems[levelTier+(99-roll)]);
                     break;
                 }
             }
@@ -593,18 +593,18 @@ void func_021B9AA0(struct PokeParty *party)
         if (ability == ABILITY_HONEY_GATHER && species != 0 && species != SPECIES_EGG && item == 0) {
             chanceIndex=0;
             levelCeil=10;
-            ability=(u8)func_02017E1C(mon,MON_PARAM_LEVEL,0);
+            ability=(u8)POKE_TOOL_GetPartyValue(mon,MON_PARAM_LEVEL,0);
             while (levelCeil < ability) {
                 levelCeil+=10;
                 chanceIndex++;
             }
-            if (func_020056EC(100) < d_021B9D4D[chanceIndex]) func_02017E40(mon,MON_PARAM_HELD_ITEM,ITEM_HONEY);
+            if (func_020056EC(100) < sHoneyGatherChance[chanceIndex]) POKE_TOOL_SetPartyValue(mon,MON_PARAM_HELD_ITEM,ITEM_HONEY);
         }
     }
 }
 
 /* Natural Cure: clears the status of every member that has the ability. */
-void func_021B9BD8(struct PokeParty *party)
+void EVENT_BATTLE_RETURN_ApplyNaturalCure(struct PokeParty *party)
 {
     int i;
     struct PokemonParam *mon;
@@ -613,8 +613,8 @@ void func_021B9BD8(struct PokeParty *party)
 
     for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, i);
-        species = func_02017E1C(mon, MON_PARAM_SPECIES_OR_EGG, 0);
-        ability = func_02017E1C(mon, MON_PARAM_ABILITY, 0);
+        species = POKE_TOOL_GetPartyValue(mon, MON_PARAM_SPECIES_OR_EGG, 0);
+        ability = POKE_TOOL_GetPartyValue(mon, MON_PARAM_ABILITY, 0);
         if (ability == ABILITY_NATURAL_CURE && species != 0 && species != SPECIES_EGG) {
             POKE_TOOL_SetStatusCondition(mon, 0);
         }
@@ -622,26 +622,26 @@ void func_021B9BD8(struct PokeParty *party)
 }
 
 /* Applies the Burmy form for the battle background to every member that took part. */
-void func_021B9C34(struct EventBattleReturnArgs *args, struct PokeParty *party, int burmyForm)
+void EVENT_BATTLE_RETURN_ApplyBurmyForms(struct EventBattleReturnArgs *args, struct PokeParty *party, int burmyForm)
 {
     int i;
 
     if (args->battleParam->competitor - 2 > 1) {
         for (i = 0; i < (int)func_0201AA18(party); i++) {
             if (args->battleParam->participated[i] != 0) {
-                func_0216E62C(args->gameData, func_0201AB28(party, i), burmyForm);
+                FLDMMDL_ApplyBurmyFormForPlace(args->gameData, func_0201AB28(party, i), burmyForm);
             }
         }
     }
 }
 
 /* Reads the Burmy form of a battle background from its archive table. */
-u32 func_021B9C80(const struct BattleField *field, u32 heapId)
+u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u32 heapId)
 {
     struct BurmyFormRecord *table;
     u32 form;
     struct BurmyFormRecord *record;
-    table = func_02048F60(BURMY_FORM_ARCHIVE, 0, heapId);
+    table = ARC_TOOL_LoadMember(BURMY_FORM_ARCHIVE, 0, heapId);
     record = &table[field->bgType];
     form = record->formByAttr[field->bgAttr];
     func_020307B0(table);
@@ -649,7 +649,7 @@ u32 func_021B9C80(const struct BattleField *field, u32 heapId)
 }
 
 /* Registers the form of each participating Shaymin in the Pokedex. */
-void func_021B9CA4(struct EventBattleReturnArgs *args, struct PokeParty *party)
+void EVENT_BATTLE_RETURN_RegisterShayminForms(struct EventBattleReturnArgs *args, struct PokeParty *party)
 {
     int i;
     struct PokemonParam *mon;
@@ -662,7 +662,7 @@ void func_021B9CA4(struct EventBattleReturnArgs *args, struct PokeParty *party)
         for (i = 0; i < (int)func_0201AA18(party); i++) {
             if (args->battleParam->participated[i] != 0) {
                 mon = func_0201AB28(party, i);
-                if (func_02017E1C(mon, MON_PARAM_SPECIES, 0) == SPECIES_SHAYMIN) {
+                if (POKE_TOOL_GetPartyValue(mon, MON_PARAM_SPECIES, 0) == SPECIES_SHAYMIN) {
                     func_0200CFA0(func_0200CA1C(args->gameData), mon);
                 }
             }

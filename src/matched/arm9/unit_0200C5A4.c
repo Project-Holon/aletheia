@@ -40,14 +40,14 @@
  *    (the func_020073D8 call at 0x0200C560) is a register copy rather than a
  *    second `movs`.  Doing so costs the original a register, and the visible
  *    consequence is that the first parameter is homed to the stack at entry
- *    (`str r0, [sp, #4]`) while the func_02012EBC result keeps r6; every
+ *    (`str r0, [sp, #4]`) while the GAME_DATA_GetSaveControl result keeps r6; every
  *    source shape tried here does the reverse and is 116 bytes against the
  *    original's 118.  Thirty-six shapes were compiled and ranked by diff
  *    count: six permutations of the three field stores crossed with four
- *    positions for the func_020072CC call, the result as a named local
+ *    positions for the SAVE_CONTROL_LoadExtraSaveWithBuffer call, the result as a named local
  *    against the call written inline in the `if`, the id 6 as a literal
  *    against a local, five declaration orders for the locals, and a six
- *    argument reading of func_020072CC.  The ranking is flat at 57 to 80
+ *    argument reading of SAVE_CONTROL_LoadExtraSaveWithBuffer.  The ranking is flat at 57 to 80
  *    concrete bytes and every one of them is 116 bytes, so the missing
  *    instruction is not reachable by statement order.  All nine front ends
  *    agree, at every optimisation level.  Same class as the near misses at
@@ -64,6 +64,7 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   MUSICAL_DIST_SAVE_Create  0x0200C52C  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  */
 
 typedef unsigned char  u8;
@@ -73,7 +74,7 @@ typedef unsigned int   u32;
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 struct Big;
 struct Sub020072A4Ctrl;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern u32 func_020307B0(void *p);
 
@@ -99,7 +100,7 @@ extern struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap);
 
 void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p)
 {
-    func_020072A4(func_02012EBC(p->unk28), 6);
+    func_020072A4(GAME_DATA_GetSaveControl(p->unk28), 6);
     if (p->unk1C != 0) {
         func_020307B0(p->unk1C);
     }

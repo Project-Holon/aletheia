@@ -1,5 +1,5 @@
 /*
- * function: func_02190110
+ * function: FIELD_CAMERA_ANIME_ApplyEndParam
  * address:  0x02190110
  * packet:   pkt_ov021_02190110
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021901E8  0x021901E8  thumb
- *   func_0218ED34  0x0218ED34  thumb
- *   func_0218ED48  0x0218ED48  thumb
- *   func_0218ED58  0x0218ED58  thumb
- *   func_0218EC90  0x0218EC90  thumb
- *   func_0218ECD4  0x0218ECD4  thumb
+ *   FIELD_CAMERA_ANIME_GetData  0x021901E8  thumb
+ *   FIELD_CAMERA_SetPitch  0x0218ED34  thumb
+ *   FIELD_CAMERA_SetYaw  0x0218ED48  thumb
+ *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb
+ *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb
  */
 #include "../include/Obj19579.h"
 
@@ -36,20 +36,20 @@ typedef struct {
     Vec3 v14;
 } Params;
 
-extern u32 func_021901E8(u8 *p);
-extern void func_0218ED34(u8 *p, u16 v);
-extern void func_0218ED48(u8 *p, u32 v);
-extern void func_0218ED58(u8 *p, u32 v);
-extern void func_0218EC90(void *a, const Vec3 *p);
-extern void func_0218ECD4(void *a, const Vec3 *p);
+extern u32 FIELD_CAMERA_ANIME_GetData(u8 *p);
+extern void FIELD_CAMERA_SetPitch(u8 *p, u16 v);
+extern void FIELD_CAMERA_SetYaw(u8 *p, u32 v);
+extern void FIELD_CAMERA_SetDistance(u8 *p, u32 v);
+extern void FIELD_CAMERA_SetTarget(void *a, const Vec3 *p);
+extern void FIELD_CAMERA_SetTargetShift(void *a, const Vec3 *p);
 
-void func_02190110(u8 *a)
+void FIELD_CAMERA_ANIME_ApplyEndParam(u8 *a)
 {
     void *x = ((struct Obj19579 *)a)->f4;
-    Params *p = (Params *)(func_021901E8(a) + 0x24);
-    func_0218ED34(x, p->h0);
-    func_0218ED48(x, p->h2);
-    func_0218ED58(x, p->w4);
-    func_0218EC90(x, &p->v8);
-    func_0218ECD4(x, &p->v14);
+    Params *p = (Params *)(FIELD_CAMERA_ANIME_GetData(a) + 0x24);
+    FIELD_CAMERA_SetPitch(x, p->h0);
+    FIELD_CAMERA_SetYaw(x, p->h2);
+    FIELD_CAMERA_SetDistance(x, p->w4);
+    FIELD_CAMERA_SetTarget(x, &p->v8);
+    FIELD_CAMERA_SetTargetShift(x, &p->v14);
 }

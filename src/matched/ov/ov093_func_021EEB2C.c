@@ -1,5 +1,5 @@
 /*
- * function: func_021EEB2C
+ * function: BTL_ADAPTER_Update
  * address:  0x021EEB2C
  * packet:   pkt_ov093_021EEB2C
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EEB84  0x021EEB84  thumb  ov093
- *   func_021EEBA4  0x021EEBA4  thumb  ov093
+ *   BTL_ADAPTER_StartSend  0x021EEB84  thumb  ov093
+ *   BTL_ADAPTER_PollSend  0x021EEBA4  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -32,18 +32,18 @@ typedef struct {
     u8 d[1];
 } W;
 
-extern int func_021EEB84(W *);
-extern int func_021EEBA4(W *);
+extern int BTL_ADAPTER_StartSend(W *);
+extern int BTL_ADAPTER_PollSend(W *);
 
-int func_021EEB2C(W *p)
+int BTL_ADAPTER_Update(W *p)
 {
     switch (p->mode) {
     case 1:
-        if (func_021EEB84(p) == 0)
+        if (BTL_ADAPTER_StartSend(p) == 0)
             break;
         p->mode = 3;
     case 3:
-        if (func_021EEBA4(p) == 0)
+        if (BTL_ADAPTER_PollSend(p) == 0)
             break;
         p->mode = 4;
     case 4:

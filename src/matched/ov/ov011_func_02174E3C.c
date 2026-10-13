@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02008468  0x02008468  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   MYSTATUS_GetSize  0x02008468  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_020127B8  0x020127B8  thumb
+ *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   INTRUDE_COMM_UpdateSelfRecord  0x021752DC  thumb ov011
- *   func_02039338  0x02039338  arm
- *   func_02175710  0x02175710  thumb ov011
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb ov011
  */
 #include "../include/Obj09349.h"
 
@@ -34,25 +34,25 @@ typedef struct F86 {
 } F86;
 
 unsigned int func_02026478(void *obj);
-u8 *func_02012944(void *p);
-int func_02008468(void);
+u8 *GAME_DATA_GetMyStatus(void *p);
+int MYSTATUS_GetSize(void);
 void func_02082D44(int a, u8 *b, int c);
-void *func_020127B8(void *p);
+void *GAME_DATA_GetLastBattleRecSlot(void *p);
 typedef unsigned int   u32;
 int INTRUDE_COMM_UpdateSelfRecord(u8 *p);
-u16 func_02039338(void);
-void func_02175710(u8 *o, u32 v);
+u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+void INTRUDE_COMM_SetIntrudeId(u8 *o, u32 v);
 
 void INTRUDE_COMM_RefreshSelfRecord(u8 *p)
 {
     int v;
 
     v = func_02026478((void *)(((struct Obj09349 *)p)->f4));
-    func_02082D44((int)func_02012944((void *)v), p + 0x160, func_02008468());
-    func_02082D44((int)func_020127B8((void *)v), p + 0x180, 0x10);
+    func_02082D44((int)GAME_DATA_GetMyStatus((void *)v), p + 0x160, MYSTATUS_GetSize());
+    func_02082D44((int)GAME_DATA_GetLastBattleRecSlot((void *)v), p + 0x180, 0x10);
     INTRUDE_COMM_UpdateSelfRecord(p);
     if (((F86 *)(p + 0x86))->x == 0x80) {
-        func_02175710(p, func_02039338());
+        INTRUDE_COMM_SetIntrudeId(p, GFL_NET_SYSTEM_GetCurrentAid());
     }
     *(Ent *)(p + 0x190) = *(Ent *)(p + 0x70);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AF2CC
+ * function: SCRCMD_WaitSeStopped
  * address:  0x021AF2CC
  * packet:   pkt_021AF2CC
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021AF23C  0x021AF23C  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_IsMarkedSeBusy  0x021AF23C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0215A5F4(void *p);
-extern int func_021AF23C(u32 a);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern int SCRCMD_IsMarkedSeBusy(u32 a);
 
-int func_021AF2CC(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_WaitSeStopped(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021AF23C((u32)func_0215A5F4((void *)b)) == 0) {
+if (SCRCMD_IsMarkedSeBusy((u32)SCRCMD_WORK_GetScriptWork((void *)b)) == 0) {
     return 1;
 }
 return 0;

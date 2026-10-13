@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7D50",
+   "name": "FIELD_RAIL_GetLocationWidthGrid",
    "address": "0x021B7D50",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_02184360
+ * function: EVENT_MAPCHANGE_CreateChangeFieldEvent
  * address: 0x02184360
  * packet: pkt_ov020_02184360
  * region: ov020
@@ -11,7 +11,7 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_021841C0 0x021841C0 thumb ov020
+ *   EVENT_MAPCHANGE_ChangeFieldEvent 0x021841C0 thumb ov020
  */
 #include "../include/Obj00082.h"
 typedef unsigned char u8;
@@ -20,12 +20,12 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021841C0(int ctx, int *state, u8 **pp);
-void *func_02184360(u8 *p, int value)
+extern int EVENT_MAPCHANGE_ChangeFieldEvent(int ctx, int *state, u8 **pp);
+void *EVENT_MAPCHANGE_CreateChangeFieldEvent(u8 *p, int value)
 {
     void *task;
     void **w;
-    task = func_020122C0(((struct Obj00082 *)p)->f0, 0, (void *)func_021841C0, 4);
+    task = func_020122C0(((struct Obj00082 *)p)->f0, 0, (void *)EVENT_MAPCHANGE_ChangeFieldEvent, 4);
     w = func_020124E8(task);
     *w = p;
     p[0x30] = value;

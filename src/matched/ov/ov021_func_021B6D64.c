@@ -1,5 +1,5 @@
 /*
- * function: func_021B6D64
+ * function: SCRCMD_POKEMON_FLD_PrepareGiftFollowUpMessage
  * address:  0x021B6D64
  * packet:   pkt_ov021_021B6D64
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb ov010
- *   func_02158F74  0x02158F74  thumb ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb ov010
  *   d_021D9984     0x021D9984  data  a4
  */
 
@@ -24,16 +24,16 @@ typedef struct {
     u8 pad[0x14];
 } Entry;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_02158F74(void *);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetWordSet(void *);
 extern Entry d_021D9984[];
 
-int func_021B6D64(int idx, void *x, void *c)
+int SCRCMD_POKEMON_FLD_PrepareGiftFollowUpMessage(int idx, void *x, void *c)
 {
     void *r;
     int (*fn)(void *, void *, void *);
 
-    r = func_02158F74(func_0215A5F4(c));
+    r = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(c));
     fn = d_021D9984[idx].fn;
     if (x != 0 && fn != 0) {
         return fn(r, x, c);

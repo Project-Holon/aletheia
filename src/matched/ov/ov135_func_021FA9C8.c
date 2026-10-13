@@ -18,7 +18,7 @@
  *   func_021FBFB0 0x021FBFB0 thumb ov135
  *   func_021FC014 0x021FC014 thumb ov135
  *   func_021FAC50 0x021FAC50 thumb ov135
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  */
@@ -39,7 +39,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern int func_021FBFB0(void *, int);
 extern int func_021FC014(void *, int);
 extern void func_021FAC50(void *, void *, void *, u32, u16, void *);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 void func_021FA9C8(u8 *p, int mode, int pos)
@@ -75,12 +75,12 @@ void func_021FA9C8(u8 *p, int mode, int pos)
             }
         }
         func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
-        func_02045808(str);
+        STRBUF_Delete(str);
     }
     if (mode == 6) {
         str = func_02045EC0(((struct Obj01744 *)p)->f20, 188);
         func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[15], str, 2, 0x3dc2, p + 124);
-        func_02045808(str);
+        STRBUF_Delete(str);
     }
     BGWINFRM_PutFrame(((struct Obj01744 *)p)->f18, 0, pos, 0);
     BGWINFRM_ShowFrame(((struct Obj01744 *)p)->f18, 0);

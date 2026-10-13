@@ -1,5 +1,5 @@
 /*
- * function: func_021CD95C
+ * function: BTL_CLIENT_SetView
  * address:  0x021CD95C
  * packet:   pkt_021CC95C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD95C   0x021CD95C  thumb
+ *   BTL_CLIENT_SetView   0x021CD95C  thumb
  *
  * Stores the second argument (a u32) into the field at #0x54.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021CD95C  str r1,[r0,#0x54] */
 struct QA { u8 pad[0x54]; u32 v; };
-void func_021CD95C(struct QA *p, u32 v) { p->v = v; }
+void BTL_CLIENT_SetView(struct QA *p, u32 v) { p->v = v; }
 

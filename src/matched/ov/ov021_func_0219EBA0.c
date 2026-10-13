@@ -1,5 +1,5 @@
 /*
- * function: func_0219EBA0
+ * function: FLDMMDL_RAIL_WanderInit
  * address:  0x0219EBA0
  * packet:   pkt_ov021_0219EBA0
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0219E968  0x0219E968  thumb  ov021
- *   func_0219E2F4  0x0219E2F4  thumb  ov021
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216DA50  0x0216DA50  thumb  ov010
+ *   FLDMMDL_RAIL_InitMoveWork  0x0219E968  thumb  ov021
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb  ov021
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -38,23 +38,23 @@ typedef struct {
     u16 d;
 } S;
 
-extern void *func_0219E968(u32 a, u32 size);
-extern void func_0219E2F4(void *o, void *out);
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216DA50(u8 *p);
+extern void *FLDMMDL_RAIL_InitMoveWork(u32 a, u32 size);
+extern void FLDMMDL_RAIL_GetNextLocation(void *o, void *out);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_OffMoveBitMove(u8 *p);
 
-void func_0219EBA0(u32 o, u32 k)
+void FLDMMDL_RAIL_WanderInit(u32 o, u32 k)
 {
     E *e;
     S s;
 
-    e = func_0219E968(o, 0x10);
-    func_0219E2F4((void *)o, &s);
+    e = FLDMMDL_RAIL_InitMoveWork(o, 0x10);
+    FLDMMDL_RAIL_GetNextLocation((void *)o, &s);
     e->lo = 0;
     e->z = 0;
     e->hi = k;
     e->d = s.d;
     e->c = s.c;
-    func_0216D674((void *)o, 0);
-    func_0216DA50((u8 *)o);
+    FLDMMDL_SetDrawStatus((void *)o, 0);
+    FLDMMDL_OffMoveBitMove((u8 *)o);
 }

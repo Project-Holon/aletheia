@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B1498.c
  * unit:     yes
- * function: VCT_AUDIO_GetPendingCount, VCT_AUDIO_FindPending, VCT_AUDIO_UnlinkPending, VCT_AUDIO_EncodeMuLaw, VCT_AUDIO_DecodeMuLaw, VCT_AUDIO_ConvertPcm16ToPcm8, VCT_AUDIO_ConvertPcm8ToPcm16, VCT_AUDIO_ClearReadyQueue, VCT_AUDIO_FlushReadyQueue, VCT_AUDIO_FlushAllReadyQueues, VCT_AUDIO_InsertReadyPacket, VCT_AUDIO_PeekReadyPacket, VCT_AUDIO_PopReadyPacket, VCT_AUDIO_GetReadyCount, VCT_AUDIO_InitReceiveSource, VCT_AUDIO_DetachReceiveSource, VCT_AUDIO_SetLastPacket, VCT_AUDIO_InitSequence, VCT_AUDIO_UpdateSequence, VCT_AUDIO_TrackPacketTiming, VCT_SESSION_AllocPeerRecord, VCT_SESSION_FreePeerRecord, VCT_SESSION_BuildGroupCommand, func_021B20B0, VCT_SESSION_BuildPeerReply, VCT_SESSION_SendPeerReply, VCT_SESSION_AddPeer, VCT_SESSION_RemovePeer, VCT_SESSION_InitPeerPool
+ * function: VCT_AUDIO_GetPendingCount, VCT_AUDIO_FindPending, VCT_AUDIO_UnlinkPending, VCT_AUDIO_EncodeMuLaw, VCT_AUDIO_DecodeMuLaw, VCT_AUDIO_ConvertPcm16ToPcm8, VCT_AUDIO_ConvertPcm8ToPcm16, VCT_AUDIO_ClearReadyQueue, VCT_AUDIO_FlushReadyQueue, VCT_AUDIO_FlushAllReadyQueues, VCT_AUDIO_InsertReadyPacket, VCT_AUDIO_PeekReadyPacket, VCT_AUDIO_PopReadyPacket, VCT_AUDIO_GetReadyCount, VCT_AUDIO_InitReceiveSource, VCT_AUDIO_DetachReceiveSource, VCT_AUDIO_SetLastPacket, VCT_AUDIO_InitSequence, VCT_AUDIO_UpdateSequence, VCT_AUDIO_TrackPacketTiming, VCT_SESSION_AllocPeerRecord, VCT_SESSION_FreePeerRecord, VCT_SESSION_BuildGroupCommand, VCT_SESSION_SendGroupCommand, VCT_SESSION_BuildPeerReply, VCT_SESSION_SendPeerReply, VCT_SESSION_AddPeer, VCT_SESSION_RemovePeer, VCT_SESSION_InitPeerPool
  * address:  0x021B1498
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -72,7 +72,7 @@ int VCT_AUDIO_TrackPacketTiming(VctReceiveSource *source, VctRxPacket *packet);
 VctPeer *VCT_SESSION_AllocPeerRecord(unsigned int index);
 int VCT_SESSION_FreePeerRecord(VctPeer *peer);
 int VCT_SESSION_BuildGroupCommand(void *peer, unsigned int type, unsigned char *buffer, unsigned int size);
-int func_021B20B0(int peer, int type);
+int VCT_SESSION_SendGroupCommand(int peer, int type);
 int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int type, unsigned char *buffer, unsigned int size);
 int VCT_SESSION_SendPeerReply(int peer, int type);
 int VCT_SESSION_AddPeer(unsigned char aid);
@@ -722,7 +722,7 @@ int VCT_SESSION_BuildGroupCommand(void *peer, unsigned int type, unsigned char *
 
 
 
-int func_021B20B0(int peer, int type)
+int VCT_SESSION_SendGroupCommand(int peer, int type)
 {
     if (gVctSession.mode == 2)
         return -3;

@@ -1,5 +1,5 @@
 /*
- * function: func_0215E440
+ * function: MOVE_POKEMON_SpawnEntry
  * address:  0x0215E440
  * packet:   pkt_ov010_0215E440
  * region:   ov010
@@ -17,21 +17,21 @@
  * u32 truncated at the call, `a` declared before `save`.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200D418  0x0200D418  thumb
  *   func_0200D4AC  0x0200D4AC  thumb
  *   func_0200D50C  0x0200D50C  thumb
- *   func_02012944  0x02012944  thumb
- *   func_020173EC  0x020173EC  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
  *   func_02008530  0x02008530  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0200CA10  0x0200CA10  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02012984  0x02012984  thumb
- *   func_0215E740  0x0215E740  thumb  ov010
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   MOVE_POKEMON_MoveToNeighbor  0x0215E740  thumb  ov010
  *   func_0200D470  0x0200D470  thumb
  *   d_0217293C     0x0217293C  data
  */
@@ -47,26 +47,26 @@ struct Blk38;
 struct GdsEnt;
 struct Mon;
 struct Sub0200852CObj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200D418(void *save);
 extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
 extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
-extern u8 *func_02012944(void *p);
-extern u32 func_020173EC(void);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *func_0200CA10(void *save);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern u32 func_020307B0(void *p);
 struct BigObj;
-extern u8 func_02012984(const struct BigObj *p);
-extern void func_0215E740(void *a, u32 b, u16 c, int d);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern void MOVE_POKEMON_MoveToNeighbor(void *a, u32 b, u16 c, int d);
 extern void func_0200D470(struct Blk38 *p, u32 i, u32 v);
 extern const char d_0217293C[];
 
-void func_0215E440(void *sys, u8 which)
+void MOVE_POKEMON_SpawnEntry(void *sys, u8 which)
 {
     void *a;
     void *save;
@@ -77,7 +77,7 @@ void func_0215E440(void *sys, u8 which)
     u16 level;
     u32 flag;
 
-    save = func_02012EBC(sys);
+    save = GAME_DATA_GetSaveControl(sys);
     a = func_0200D418(save);
     rec = func_0200D4AC(a, which);
     switch (which) {
@@ -97,17 +97,17 @@ void func_0215E440(void *sys, u8 which)
     func_0200D50C(rec, 4, species);
     func_0200D50C(rec, 6, level);
     func_0200D50C(rec, 9, flag);
-    party = func_02012944(sys);
-    mon = func_02030734(0x8003, func_020173EC(), 1, d_0217293C, 0x12E);
-    func_02017588(mon, species, level, func_02008530(party), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
+    party = GAME_DATA_GetMyStatus(sys);
+    mon = func_02030734(0x8003, POKE_TOOL_GetPartyParamSize(), 1, d_0217293C, 0x12E);
+    POKE_TOOL_SetupPartyParamEx(mon, species, level, func_02008530(party), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
     func_0200D50C(rec, 7, 0);
     func_0200D50C(rec, 8, 1);
-    func_0200D50C(rec, 2, func_02017E1C(mon, 0xAC, 0));
-    func_0200D50C(rec, 3, func_02017E1C(mon, 0, 0));
-    func_0200D50C(rec, 10, func_02017E1C(mon, 0x70, 0));
-    func_0200D50C(rec, 5, func_02017E1C(mon, 0xA1, 0));
+    func_0200D50C(rec, 2, POKE_TOOL_GetPartyValue(mon, 0xAC, 0));
+    func_0200D50C(rec, 3, POKE_TOOL_GetPartyValue(mon, 0, 0));
+    func_0200D50C(rec, 10, POKE_TOOL_GetPartyValue(mon, 0x70, 0));
+    func_0200D50C(rec, 5, POKE_TOOL_GetPartyValue(mon, 0xA1, 0));
     func_0200CFA0(func_0200CA10(save), mon);
     func_020307B0(mon);
-    func_0215E740(a, (u32)((void *)func_02012984(sys)), which, 5);
+    MOVE_POKEMON_MoveToNeighbor(a, (u32)((void *)GAME_DATA_GetSeason(sys)), which, 5);
     func_0200D470(a, which, 1);
 }

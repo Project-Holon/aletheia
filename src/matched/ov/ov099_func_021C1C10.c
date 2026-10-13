@@ -12,8 +12,8 @@
  * symbols:
  *   func_020362DC  0x020362DC  arm
  *   func_0203630C  0x0203630C  arm
- *   func_021B63D0  0x021B63D0  thumb  ov067
- *   func_021B6448  0x021B6448  thumb  ov067
+ *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
+ *   TOUCHBAR_GetPressedButtonIdIfDone  0x021B6448  thumb  ov067
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -26,8 +26,8 @@ typedef struct {
 } Work;
 
 struct S;
-extern void func_021B63D0(struct S *p);
-extern int func_021B6448(u8 *p);
+extern void TOUCHBAR_Update(struct S *p);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *p);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
 
@@ -36,8 +36,8 @@ int func_021C1C10(Work *w)
     if (w->f8ef == 3)
         return 0;
     if (w->f9ac != 0) {
-        func_021B63D0(w->f9ac);
-        if (func_021B6448(w->f9ac) == 1)
+        TOUCHBAR_Update(w->f9ac);
+        if (TOUCHBAR_GetPressedButtonIdIfDone(w->f9ac) == 1)
             return 1;
     }
     if ((func_0203630C() & 0xf0) || (func_020362DC() & 0x403))

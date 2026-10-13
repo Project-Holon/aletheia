@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov021/field_3dbg.c and filed here.
  *
  * symbols:
- *   func_021F2344 0x021F2344 thumb ov032
+ *   BEACON_VIEW_Update 0x021F2344 thumb ov032
  */
 
 typedef struct { unsigned char pad[0x20]; void *f20; } Obj_021A145C;
-extern int func_021F2344(void *p);
+extern int BEACON_VIEW_Update(void *p);
 int func_021A145C(Obj_021A145C *p);
 
-int func_021A145C(Obj_021A145C *p) { return func_021F2344(p->f20); }
+int func_021A145C(Obj_021A145C *p) { return BEACON_VIEW_Update(p->f20); }

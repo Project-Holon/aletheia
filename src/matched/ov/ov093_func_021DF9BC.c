@@ -1,5 +1,5 @@
 /*
- * function: func_021DF9BC
+ * function: BTL_HANDLER_ITEM_GetAdamantOrbHandlers
  * address: 0x021DF9BC
  * packet: pkt_ov093_021DF9BC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF974.c and filed here.
  *
  * symbols:
- *   d_021F157C 0x021F157C data ov093 a4
+ *   gBtlHandlerItemAdamantOrbHandlers 0x021F157C data ov093 a4
  */
 
-extern int d_021F157C[];
-int *func_021DF9BC(int *p);
+extern int gBtlHandlerItemAdamantOrbHandlers[];
+int *BTL_HANDLER_ITEM_GetAdamantOrbHandlers(int *p);
 
-int *func_021DF9BC(int *p)
+int *BTL_HANDLER_ITEM_GetAdamantOrbHandlers(int *p)
 {
     *p = 1;
-    return d_021F157C;
+    return gBtlHandlerItemAdamantOrbHandlers;
 }

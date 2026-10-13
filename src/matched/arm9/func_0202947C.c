@@ -14,7 +14,7 @@
  * `matched` class refuses the EXACT entry at 0x02012E40 on the ISA mismatch.
  *
  * symbols:
- *   func_02012E40  0x02012E40  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/FIELD_SOUND_SYSTEM_IsSaving.c \\
@@ -26,9 +26,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 func_02012E40(const u8 *o);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
 
 u32 FIELD_SOUND_SYSTEM_IsSaving(u8 *p)
 {
-    return func_02012E40((const u8 *)(((struct Obj15804 *)p)->f0));
+    return GAME_DATA_IsSaving((const u8 *)(((struct Obj15804 *)p)->f0));
 }

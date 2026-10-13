@@ -14,7 +14,7 @@
  *   _ffix 0x0209C494 arm
  *   func_021B95A0 0x021B95A0 thumb ov223
  *   func_021BC52C 0x021BC52C thumb ov223
- *   func_02011B8C 0x02011B8C thumb
+ *   ICA_ANIME_SetCameraStatus 0x02011B8C thumb
  *   d_021BC790 0x021BC790 data a2
  */
 #include "../include/Obj05573.h"
@@ -23,7 +23,7 @@ struct TableRow { u16 h[5]; };
 extern const struct TableRow d_021BC790[];
 extern int func_021B95A0(int,int);
 extern unsigned func_021BC52C(unsigned char *p);
-extern void func_02011B8C(void *,void *);
+extern void ICA_ANIME_SetCameraStatus(void *,void *);
 void func_021B9C00(char *p,unsigned index)
 {
     u16 value;
@@ -32,7 +32,7 @@ void func_021B9C00(char *p,unsigned index)
     if(value!=0) coordinate=(int)((float)(value<<12)+0.5f);
     else coordinate=(int)((float)(value<<12)-0.5f);
     func_021B95A0(*(int *)&((struct Obj05573 *)p)->f40,coordinate);
-    func_02011B8C((void *)func_021BC52C(((struct Obj05573 *)p)->f14),((struct Obj05573 *)p)->f40);
+    ICA_ANIME_SetCameraStatus((void *)func_021BC52C(((struct Obj05573 *)p)->f14),((struct Obj05573 *)p)->f40);
     ((struct Obj05573 *)p)->f44=index;
     ((struct Obj05573 *)p)->f48=0;
     ((struct Obj05573 *)p)->f4C=value;

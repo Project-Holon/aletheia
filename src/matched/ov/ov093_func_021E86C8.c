@@ -1,5 +1,5 @@
 /*
- * function: func_021E86C8
+ * function: BTLV_CORE_CheckPartySlotCondition
  * address:  0x021E86C8
  * packet:   pkt_ov093_021E86C8
  * region:   ov093
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern int func_021C8168(void *p);
 extern u8 func_021B8DDC(u32 x);
 
-int func_021E86C8(void *a, int b)
+int BTLV_CORE_CheckPartySlotCondition(void *a, int b)
 {
     int r;
 

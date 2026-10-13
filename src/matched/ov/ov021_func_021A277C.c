@@ -1,5 +1,5 @@
 /*
- * function: func_021A277C
+ * function: WEATHER_TASK_LinkParticle
  * address:  0x021A277C
  * packet:   pkt_ov021_021A277C
  * region:   ov021
@@ -33,7 +33,7 @@ typedef struct {
 struct Obj;
 void func_0204B3DC(struct Obj *h, unsigned int v);
 
-void func_021A277C(Obj021A277C *p, Node021A277C *n)
+void WEATHER_TASK_LinkParticle(Obj021A277C *p, Node021A277C *n)
 {
     Node021A277C *tail;
 

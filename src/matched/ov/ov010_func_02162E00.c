@@ -1,5 +1,5 @@
 /*
- * function: func_02162E00
+ * function: EVENTDATA_SYSTEM_IsConnectRailHit
  * address:  0x02162E00
  * packet:   pkt_ov010_02162E00
  * region:   ov010
@@ -36,7 +36,7 @@ struct Q {
     u16 f6;
 };
 
-int func_02162E00(struct Box *b, struct Q *q)
+int EVENTDATA_SYSTEM_IsConnectRailHit(struct Box *b, struct Q *q)
 {
     struct Sub *s;
     if (b->f6 == 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E20
+ * function: FIELD_TASK_MANAGER_CountUsedSlots
  * address:  0x021C6E20
  * packet:   pkt_ov021_021C6E20
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Q Q;
 typedef struct { u8 n; u8 pad[3]; Q **f4; u32 *f8; } R;
-u8 func_021C6E20(R *r)
+u8 FIELD_TASK_MANAGER_CountUsedSlots(R *r)
 {
     int i;
     u8 c = 0;

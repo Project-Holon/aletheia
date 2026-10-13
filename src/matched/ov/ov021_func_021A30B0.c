@@ -1,5 +1,5 @@
 /*
- * function: func_021A30B0
+ * function: FIELD_PLAYER_GetSex
  * address:  0x021A30B0
  * packet:   pkt_ov021_021A30B0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Forwards the +4 member to 0x021A398C (unlabelled start).
  *
  * symbols:
- *   func_021A398C  0x021A398C  thumb
+ *   FIELD_PLAYER_CORE_GetSex  0x021A398C  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19766.h"
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A398C(u8 *p);
+extern u32 FIELD_PLAYER_CORE_GetSex(u8 *p);
 
-u32 func_021A30B0(u8 *p)
+u32 FIELD_PLAYER_GetSex(u8 *p)
 {
-    return func_021A398C((u8 *)(((struct Obj19766 *)p)->f4));
+    return FIELD_PLAYER_CORE_GetSex((u8 *)(((struct Obj19766 *)p)->f4));
 }

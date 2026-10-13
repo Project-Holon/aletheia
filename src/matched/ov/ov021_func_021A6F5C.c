@@ -1,5 +1,5 @@
 /*
- * function: func_021A6F5C
+ * function: FIELDMAP_CTRL_HYBRID_UpdateGrid
  * address:  0x021A6F5C
  * packet:   pkt_ov021_021A6F5C
  * region:   ov021
@@ -12,19 +12,19 @@
  * symbols:
  *   func_020362DC  0x020362DC  arm
  *   func_0203630C  0x0203630C  arm
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021A2FA4  0x021A2FA4  thumb  ov021
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A2FB0  0x021A2FB0  thumb  ov021
- *   func_021A30C8  0x021A30C8  thumb  ov021
- *   func_021A3128  0x021A3128  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021BB1A0  0x021BB1A0  thumb  ov021
- *   func_021AB11C  0x021AB11C  thumb  ov021
- *   func_021A71E4  0x021A71E4  thumb  ov021
- *   func_021A70D0  0x021A70D0  thumb  ov021
- *   func_021A35BC  0x021A35BC  thumb  ov021
- *   func_021A35F0  0x021A35F0  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_PLAYER_ChooseMoveDirFromKeys  0x021A2FA4  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_CheckMoveBusy  0x021A2FB0  thumb  ov021
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
+ *   FIELD_PLAYER_GetFrontAttribute  0x021A3128  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   RAIL_ATTR_IsJumpStart  0x021BB1A0  thumb  ov021
+ *   MAP_ATTR_IsBlocked  0x021AB11C  thumb  ov021
+ *   FIELDMAP_CTRL_HYBRID_FindRailLocation  0x021A71E4  thumb  ov021
+ *   FIELDMAP_CTRL_HYBRID_SwitchToNogrid  0x021A70D0  thumb  ov021
+ *   FIELD_PLAYER_CheckMoveRestrictFlag  0x021A35BC  thumb  ov021
+ *   FIELD_PLAYER_SetupGrid  0x021A35F0  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -35,21 +35,21 @@ typedef unsigned int   u32;
 
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern void *func_021A3074(unsigned char *p);
-extern u16 func_021A2FA4(u8 *p, u32 a1);
-extern int func_0216D3CC(int a0);
-extern u32 func_021A2FB0(u32 a);
-extern u32 func_021A30C8(void **ctx);
-extern u32 func_021A3128(u32 *a, u32 b);
-extern u16 func_021AB0F0(u32 attr);
-extern int func_021BB1A0(int x);
-extern int func_021AB11C(u32 attr);
-extern int func_021A71E4(u32 a, u32 *b, u16 *c, u32 d);
-extern void func_021A70D0(u32 a, u32 *b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern int func_021A35BC(int a);
-extern int func_021A35F0(u32 a, u32 b, u32 c, u32 d);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern u16 FIELD_PLAYER_ChooseMoveDirFromKeys(u8 *p, u32 a1);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern u32 FIELD_PLAYER_CheckMoveBusy(u32 a);
+extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
+extern u32 FIELD_PLAYER_GetFrontAttribute(u32 *a, u32 b);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern int RAIL_ATTR_IsJumpStart(int x);
+extern int MAP_ATTR_IsBlocked(u32 attr);
+extern int FIELDMAP_CTRL_HYBRID_FindRailLocation(u32 a, u32 *b, u16 *c, u32 d);
+extern void FIELDMAP_CTRL_HYBRID_SwitchToNogrid(u32 a, u32 *b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern int FIELD_PLAYER_CheckMoveRestrictFlag(int a);
+extern int FIELD_PLAYER_SetupGrid(u32 a, u32 b, u32 c, u32 d);
 
-void func_021A6F5C(u32 a, u32 *b)
+void FIELDMAP_CTRL_HYBRID_UpdateGrid(u32 a, u32 *b)
 {
     u16 out[4];
     u32 v1c;
@@ -62,23 +62,23 @@ void func_021A6F5C(u32 a, u32 *b)
     v10 = func_020362DC();
     r7 = func_0203630C();
     fl = 0;
-    v14 = func_021A3074((unsigned char *)b[1]);
-    r4 = func_021A2FA4((u8 *)b[1], r7);
-    if (func_0216D3CC((int)v14) == 1 || func_021A2FB0(b[1]) == 1) {
+    v14 = FIELD_PLAYER_GetMmdl((unsigned char *)b[1]);
+    r4 = FIELD_PLAYER_ChooseMoveDirFromKeys((u8 *)b[1], r7);
+    if (FLDMMDL_CheckPossibleAcmd((int)v14) == 1 || FIELD_PLAYER_CheckMoveBusy(b[1]) == 1) {
         if (r4 != 9) {
-            v18 = func_021A30C8((void **)b[1]);
-            v1c = func_021A3128((u32 *)b[1], r4);
-            if (func_021BB1A0(func_021AB0F0(v18)) != 0) {
-                if (func_021AB11C(v1c) != 0) {
-                    if (func_021A71E4(a, b, out, r4) != 0) {
-                        func_021A70D0(a, b, r4, 1, (u32)out, v10, r7);
+            v18 = FIELD_PLAYER_GetNowAttribute((void **)b[1]);
+            v1c = FIELD_PLAYER_GetFrontAttribute((u32 *)b[1], r4);
+            if (RAIL_ATTR_IsJumpStart(MAP_ATTR_GetTerrainId(v18)) != 0) {
+                if (MAP_ATTR_IsBlocked(v1c) != 0) {
+                    if (FIELDMAP_CTRL_HYBRID_FindRailLocation(a, b, out, r4) != 0) {
+                        FIELDMAP_CTRL_HYBRID_SwitchToNogrid(a, b, r4, 1, (u32)out, v10, r7);
                         return;
                     }
                 }
             }
         }
     }
-    if (func_021A35BC(b[1]) == 1)
+    if (FIELD_PLAYER_CheckMoveRestrictFlag(b[1]) == 1)
         fl |= 1;
-    func_021A35F0(b[1], v10, r7, fl);
+    FIELD_PLAYER_SetupGrid(b[1], v10, r7, fl);
 }

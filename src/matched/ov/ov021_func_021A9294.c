@@ -1,5 +1,5 @@
 /*
- * function: func_021A9294
+ * function: FIELD_MENU_ShowItemWindow
  * address:  0x021A9294
  * packet:   pkt_ov021_021A9294
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  */
 
 typedef struct {
@@ -19,11 +19,11 @@ typedef struct {
 } S;
 
 struct Descriptor;
-extern void func_02045334(struct Descriptor *a);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
-void func_021A9294(int a, S *s)
+void FIELD_MENU_ShowItemWindow(int a, S *s)
 {
     if (s->f0 == 1) {
-        func_02045334((struct Descriptor *)s->f4);
+        BMP_WIN_TransferChars((struct Descriptor *)s->f4);
     }
 }

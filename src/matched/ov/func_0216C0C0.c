@@ -1,5 +1,5 @@
 /*
- * function: func_0216C0C0
+ * function: NAMEIN_SETUP_FreeArgs
  * address:  0x0216C0C0
  * packet:   pkt_0216C0C0
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj17766.h"
@@ -19,16 +19,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02045808();
+extern int STRBUF_Delete();
 extern int func_020307B0();
 
-int func_0216C0C0(int a0)
+int NAMEIN_SETUP_FreeArgs(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
 a0 = ((struct Obj17766 *)t4)->f20;
-    a0 = func_02045808(a0);
+    a0 = STRBUF_Delete(a0);
 loc_0216C0CA:
 a0 = t4 + 0;
     a0 = func_020307B0(a0);

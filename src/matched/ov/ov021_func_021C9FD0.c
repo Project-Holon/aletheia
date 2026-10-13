@@ -1,5 +1,5 @@
 /*
- * function: func_021C9FD0
+ * function: BSUBWAY_SCR_IsWinMax
  * address:  0x021C9FD0
  * packet:   pkt_ov021_021C9FD0
  * region:   ov021
@@ -30,7 +30,7 @@ typedef struct {
 struct Blk3C;
 extern u16 func_0200DA54(struct Blk3C *p);
 
-int func_021C9FD0(u8 *p)
+int BSUBWAY_SCR_IsWinMax(u8 *p)
 {
     if (((Latch *)p)->done == 0) {
         if (func_0200DA54((struct Blk3C *)(((struct Obj20232 *)p)->f70)) < 7)

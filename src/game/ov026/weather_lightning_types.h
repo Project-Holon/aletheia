@@ -44,12 +44,12 @@ typedef struct WeatherLightning {
 } WeatherLightning;
 
 /* Lightning sequencer (weather_rain_thunderstorm_storm.c). */
-extern void func_021EF9B0(WeatherLightning *lightning, int mode);
-extern void func_021EF9CC(WeatherLightning *lightning);
-extern void func_021EF9D8(WeatherLightning *lightning, struct WeatherTaskSys *task);
-extern void func_021EFBA4(WeatherLightning *lightning);
-extern void func_021EFBFC(WeatherLightning *lightning);
-extern void func_021EFC3C(WeatherLightning *lightning);
-extern unsigned short func_021EFCD4(WeatherLightning *lightning);
+extern void WEATHER_LIGHTNING_Init(WeatherLightning *lightning, int mode);
+extern void WEATHER_LIGHTNING_Clear(WeatherLightning *lightning);
+extern void WEATHER_LIGHTNING_Update(WeatherLightning *lightning, struct WeatherTaskSys *task);
+extern void WEATHER_LIGHTNING_PickShortFlashes(WeatherLightning *lightning);
+extern void WEATHER_LIGHTNING_PickSingleFlash(WeatherLightning *lightning);
+extern void WEATHER_LIGHTNING_PickLongSequence(WeatherLightning *lightning);
+extern unsigned short WEATHER_LIGHTNING_GetFlashColor(WeatherLightning *lightning);
 
 #endif

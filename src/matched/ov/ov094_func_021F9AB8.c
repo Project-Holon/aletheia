@@ -13,7 +13,7 @@
  *   [2][3] or a pair struct hoist the last load above the B.y store).
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021FDB20  0x021FDB20  thumb  ov094
  *   func_021F8710  0x021F8710  thumb  ov094
  *   func_021F8694  0x021F8694  thumb  ov094
@@ -65,7 +65,7 @@ typedef struct {
 } Ctx;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void func_021FDB20(Ctx *c);
 extern int func_021F8710(void);
 extern int func_021F8694(void);
@@ -96,11 +96,11 @@ int func_021F9AB8(void *r, Ctx *c)
     int k;
     int v;
 
-    type = func_0201134C(r);
-    mode = func_0201134C(r);
-    n = func_0201134C(r);
-    s = func_0201134C(r);
-    t = func_0201134C(r);
+    type = VM_GetU32(r);
+    mode = VM_GetU32(r);
+    n = VM_GetU32(r);
+    s = VM_GetU32(r);
+    t = VM_GetU32(r);
     if (c->flags.f15) {
         return c->ret;
     }

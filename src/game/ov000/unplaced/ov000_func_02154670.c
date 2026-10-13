@@ -14,9 +14,9 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_021542C0  0x021542C0  thumb  ov000
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   EVENT_GSYNC_Main  0x021542C0  thumb  ov000
  */
 
 typedef unsigned char  u8;
@@ -42,9 +42,9 @@ typedef struct GsyncEventWorkInit {
 
 struct GameEvent *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
 void *func_020124E8(struct GameEvent *event);
-struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-struct SaveControl *func_02012EBC(struct GameData *gameData);
-u32 func_021542C0(void *event, u32 *seq, char *work);
+struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+u32 EVENT_GSYNC_Main(void *event, u32 *seq, char *work);
 
 void *EVENT_GSYNC_Create(void *gameSystem)
 {
@@ -52,13 +52,13 @@ void *EVENT_GSYNC_Create(void *gameSystem)
     GsyncEventWorkInit *work;
     struct GameData *gameData;
 
-    event = func_020122C0(gameSystem, 0, func_021542C0, 0x2CC);
+    event = func_020122C0(gameSystem, 0, EVENT_GSYNC_Main, 0x2CC);
     work = func_020124E8(event);
-    gameData = func_020120F4(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->gameData = gameData;
-    work->saveControl = func_02012EBC(gameData);
+    work->saveControl = GAME_DATA_GetSaveControl(gameData);
     work->gameSystem = gameSystem;
-    work->loginGameData = func_020120F4(gameSystem);
+    work->loginGameData = GAMESYSTEM_GetGameData(gameSystem);
     work->loginType = 1;
     work->loginOption = 0;
     work->loginMessageId = 0x31;

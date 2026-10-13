@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB964  0x021BB964  thumb  ov093
+ *   BTL_SERVER_GetFlow  0x021BB964  thumb  ov093
  */
 
 typedef unsigned int   u32;
 struct Q5;
-u32 func_021BB964(struct Q5 *p);
+u32 BTL_SERVER_GetFlow(struct Q5 *p);
 
 u32 func_021BA820(int *p)
 {
-    return func_021BB964((struct Q5 *)p[2]);
+    return BTL_SERVER_GetFlow((struct Q5 *)p[2]);
 }

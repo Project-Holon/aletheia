@@ -20,8 +20,8 @@
  *   func_021C098C 0x021C098C thumb ov110
  *   func_020355D8 0x020355D8 arm
  *   func_021C0AC0 0x021C0AC0 thumb ov110
- *   func_021B6470 0x021B6470 thumb ov067
- *   func_021B6448 0x021B6448 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   func_020355C4 0x020355C4 arm
  *   func_021C0F14 0x021C0F14 thumb ov110
  *   func_020061E4 0x020061E4 thumb
@@ -34,8 +34,8 @@ typedef struct { u8 bit:1; u8 rest:7; } Flag;
 extern void func_021C098C(char *);
 extern void func_020355D8(u8);
 extern void func_021C0AC0(void *);
-extern int func_021B6470(u8 *);
-extern int func_021B6448(u8 *);
+extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
 extern u8 func_020355C4(void);
 extern int func_021C0F14(u8 *);
 typedef unsigned int   u32;
@@ -55,8 +55,8 @@ int func_021C133C(void *unused,u8 *p)
             if(*(int *)(p+0xa8)) func_020355D8(1);
             else func_020355D8(0);
             func_021C0AC0(*(void **)(p+0x54));
-            if(func_021B6470(*(u8 **)(p+0x54))!=-1) *(int *)(p+0xa4)=0;
-            result=func_021B6448(*(u8 **)(p+0x54));
+            if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 **)(p+0x54))!=-1) *(int *)(p+0xa4)=0;
+            result=TOUCHBAR_GetPressedButtonIdIfDone(*(u8 **)(p+0x54));
             if(result!=-1) *(int *)(p+0xa4)=1;
             *(int *)(p+0xa8)=func_020355C4()==1;
         }

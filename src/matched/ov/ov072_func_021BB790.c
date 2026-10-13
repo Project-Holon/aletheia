@@ -1,5 +1,5 @@
 /*
- * function: func_021BB790
+ * function: TOWNMAP_GRH_GetResourceIds
  * address: 0x021BB790
  * packet: pkt_ov072_021BB790
  * region: ov072
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BBB1C 0x021BBB1C thumb ov072
+ *   TOWNMAP_GRH_GetSpriteResourceId 0x021BBB1C thumb ov072
  */
-extern int func_021BBB1C(char *,int);
-void func_021BB790(char *p,int *a,int *b,int *c) { *a=func_021BBB1C(p+4,0); *b=func_021BBB1C(p+4,1); *c=func_021BBB1C(p+4,2); }
+extern int TOWNMAP_GRH_GetSpriteResourceId(char *,int);
+void TOWNMAP_GRH_GetResourceIds(char *p,int *a,int *b,int *c) { *a=TOWNMAP_GRH_GetSpriteResourceId(p+4,0); *b=TOWNMAP_GRH_GetSpriteResourceId(p+4,1); *c=TOWNMAP_GRH_GetSpriteResourceId(p+4,2); }

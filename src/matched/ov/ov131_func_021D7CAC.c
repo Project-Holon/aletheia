@@ -15,8 +15,8 @@
  *   func_020410D0 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02040AE0 0x02040AE0 arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   func_02017E88 0x02017E88 thumb
@@ -26,8 +26,8 @@
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B84C 0x0204B84C arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj01407.h"
 #include "../include/Obj05391.h"
@@ -45,8 +45,8 @@ struct Cfg;
 struct Descriptor;
 struct Obj;
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern u32 func_02017E88(void *,u32,u32);
@@ -58,8 +58,8 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B84C(void *,u32);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorBgPriority(void *,u32);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void P_STA_INFO_ShowPage(u8 *a,u8 *p)
 {
     struct Rec r1,r2;
@@ -78,13 +78,13 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
     func_02041B6C(5);
     for(i=0;i<10;i++) {
         cell=*(void **)((p+i*4)+0xc);
-        func_02045334(cell);
-        func_02045374(cell);
+        BMP_WIN_TransferChars(cell);
+        BMP_WIN_MakeScreen(cell);
         func_020409B4(func_02045730(cell));
     }
     cell=((struct Obj05391 *)p)->f34;
-    func_02045334(cell);
-    func_02045374(cell);
+    BMP_WIN_TransferChars(cell);
+    BMP_WIN_MakeScreen(cell);
     func_020409B4(func_02045730(cell));
     if(((struct Obj01407 *)a)->f38==0) {
         first=func_02017E88(object,174,0);
@@ -96,7 +96,7 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
         point.y=48;
         func_0204B404(((struct Obj01407 *)a)->f198,(const struct Vec2 *)(&point),0);
         func_0204B3DC(((struct Obj01407 *)a)->f198,1);
-        func_0204B84C(((struct Obj01407 *)a)->f198,1);
+        CLACT_SetActorBgPriority(((struct Obj01407 *)a)->f198,1);
         if(first!=second) {
             CLACT_GetCharacterProxy(*(u32 *)((u32)a+second*4u+0x130u),&r2);
             CLACT_SetActorImageProxy(((struct Obj01407 *)a)->f19C,(const struct Struct36 *)(&r2));
@@ -105,11 +105,11 @@ void P_STA_INFO_ShowPage(u8 *a,u8 *p)
             point.y=48;
             func_0204B404(((struct Obj01407 *)a)->f19C,(const struct Vec2 *)(&point),0);
             func_0204B3DC(((struct Obj01407 *)a)->f19C,1);
-            func_0204B84C(((struct Obj01407 *)a)->f19C,1);
+            CLACT_SetActorBgPriority(((struct Obj01407 *)a)->f19C,1);
         } else func_0204B3DC(((struct Obj01407 *)a)->f19C,0);
     } else {
         func_0204B3DC(((struct Obj01407 *)a)->f198,0);
         func_0204B3DC(((struct Obj01407 *)a)->f19C,0);
     }
-    func_0204B878(((struct Obj01407 *)a)->f178,3);
+    CLACT_SetActorAnimSeq(((struct Obj01407 *)a)->f178,3);
 }

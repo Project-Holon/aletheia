@@ -17,7 +17,7 @@
  *   func_021DB160  0x021DB160  thumb
  *   func_021DAFB8  0x021DAFB8  thumb
  *   func_02034714  0x02034714  arm
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   d_021E2EF8     0x021E2EF8  data
  *
  * Arms a storage-server report: resets the report state words, stores mode and the result slot, and picks the report callback at +0x158 from mode (0: plain, 1 with a result slot, or 1 without one, which also stores a3 and the two record words) and kind (0 or 2; anything else asserts).
@@ -37,7 +37,7 @@ extern int func_021DB238(u32 *ctx);
 extern void func_021DB160(int *ctx, int *input, int invert);
 extern void func_021DAFB8(int *ctx, const u32 *record, int invert);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern const char d_021E2EF8[];
 
 void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot)
@@ -78,7 +78,7 @@ void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot)
                 break;
             }
         } else {
-            func_0203D378();
+            GFL_NET_IsParentAid();
             ((struct Obj01069 *)obj)->f180 = a3;
             ((struct Obj01069 *)obj)->f184 = rec[0];
             ((struct Obj01069 *)obj)->f188 = rec[4];

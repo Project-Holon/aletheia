@@ -1,5 +1,5 @@
 /*
- * function: func_02167848
+ * function: COMM_PLAYER_SetPackage
  * address:  0x02167848
  * packet:   pkt_02167848
  * region:   ov010
@@ -41,7 +41,7 @@ typedef struct {
     u32 hi;
 } Blk12;
 
-void func_02167848(char *a0, int a1, char *a2)
+void COMM_PLAYER_SetPackage(char *a0, int a1, char *a2)
 {
     char *d = a0 + a1 * 0x1C;
 

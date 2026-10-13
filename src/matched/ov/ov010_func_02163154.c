@@ -1,5 +1,5 @@
 /*
- * function: func_02163154
+ * function: FLDMMDL_MOVE_ProcMoveStartSecond
  * address: 0x02163154
  * packet: pkt_ov010_02163154
  * region: ov010
@@ -7,24 +7,24 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * trailing: two-byte zero alignment at 0x02163186 before func_02163188.
+ * trailing: two-byte zero alignment at 0x02163186 before FLDMMDL_MOVE_ProcMoveEnd.
  * symbols:
- *   func_0216D57C 0x0216D57C thumb ov010
- *   func_021632F0 0x021632F0 thumb ov010
- *   func_02163288 0x02163288 thumb ov010
- *   func_0216D570 0x0216D570 thumb ov010
+ *   FLDMMDL_CheckMoveBit 0x0216D57C thumb ov010
+ *   FLDMMDL_MOVE_AttrProcJumpStart 0x021632F0 thumb ov010
+ *   FLDMMDL_MOVE_AttrProcMoveStartSecond 0x02163288 thumb ov010
+ *   FLDMMDL_ClearMoveBit 0x0216D570 thumb ov010
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_0216D57C(void *p, u32 v);
-extern void func_021632F0(int a0);
-extern void func_02163288(int a0);
-extern char *func_0216D570(char *p, u32 v);
-void func_02163154(char *p)
+extern u32 FLDMMDL_CheckMoveBit(void *p, u32 v);
+extern void FLDMMDL_MOVE_AttrProcJumpStart(int a0);
+extern void FLDMMDL_MOVE_AttrProcMoveStartSecond(int a0);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
+void FLDMMDL_MOVE_ProcMoveStartSecond(char *p)
 {
-    if (func_0216D57C(p, 0x80)) func_021632F0((int)p);
-    else if (func_0216D57C(p, 0x20)) func_02163288((int)p);
-    func_0216D570(p, 0xa0);
+    if (FLDMMDL_CheckMoveBit(p, 0x80)) FLDMMDL_MOVE_AttrProcJumpStart((int)p);
+    else if (FLDMMDL_CheckMoveBit(p, 0x20)) FLDMMDL_MOVE_AttrProcMoveStartSecond((int)p);
+    FLDMMDL_ClearMoveBit(p, 0xa0);
 }

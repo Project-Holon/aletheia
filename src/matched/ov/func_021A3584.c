@@ -1,5 +1,5 @@
 /*
- * function: func_021A3584
+ * function: FIELD_PLAYER_GetGridMoveState
  * address:  0x021A3584
  * packet:   pkt_021A3584
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021A5764  0x021A5764  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetHopLanded  0x021A5764  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12087.h"
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02188CFC(u8 *p);
-extern u32 func_021A5764(u8 *p);
+extern u32 FIELDMAP_GetMoveKind(u8 *p);
+extern u32 FIELD_PLAYER_GRID_GetHopLanded(u8 *p);
 
-int func_021A3584(void *a)
+int FIELD_PLAYER_GetGridMoveState(void *a)
 {
-if (func_02188CFC((u8 *)(((struct Obj12087 *)((u8 *)(a)))->f0)) == 0) {
-    return func_021A5764((u8 *)(((struct Obj12087 *)((u8 *)(a)))->f8));
+if (FIELDMAP_GetMoveKind((u8 *)(((struct Obj12087 *)((u8 *)(a)))->f0)) == 0) {
+    return FIELD_PLAYER_GRID_GetHopLanded((u8 *)(((struct Obj12087 *)((u8 *)(a)))->f8));
 }
 return 0;
 }

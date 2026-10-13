@@ -1,5 +1,5 @@
 /*
- * function: func_021F4DBC
+ * function: GIMMICK_OBJ_ELBOARD_CreateCameraEvent
  * address: 0x021F4DBC
  * packet: pkt_ov048_021F4DBC
  * region: ov048
@@ -11,7 +11,7 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_021F4C20 0x021F4C20 thumb ov048
+ *   GIMMICK_OBJ_ELBOARD_CameraEventMain 0x021F4C20 thumb ov048
  */
 #include "../include/Obj09840.h"
 typedef unsigned int   u32;
@@ -20,5 +20,5 @@ struct Obj;
 struct W;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021F4C20(int a0, int *state, struct W *w);
-void *func_021F4DBC(int a, int b, int c) { void *d; unsigned char *p; d=func_020122C0((void *)a,0,(void *)func_021F4C20,0x20); p=func_020124E8(d); ((struct Obj09840 *)p)->f0=a; ((struct Obj09840 *)p)->f4=b; ((struct Obj09840 *)p)->f8=c; return d; }
+extern int GIMMICK_OBJ_ELBOARD_CameraEventMain(int a0, int *state, struct W *w);
+void *GIMMICK_OBJ_ELBOARD_CreateCameraEvent(int a, int b, int c) { void *d; unsigned char *p; d=func_020122C0((void *)a,0,(void *)GIMMICK_OBJ_ELBOARD_CameraEventMain,0x20); p=func_020124E8(d); ((struct Obj09840 *)p)->f0=a; ((struct Obj09840 *)p)->f4=b; ((struct Obj09840 *)p)->f8=c; return d; }

@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021680C8  0x021680C8  thumb  ov010
+ *   FLD_BTL_INST_TOOL_CreateTrainerMsgEvent  0x021680C8  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021680C8(u32, u32, u32, u32);
+extern u32 FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(u32, u32, u32, u32);
 
 int func_021D0BD8(u32 a, u32 b, u32 c, u32 d)
 {
-return func_021680C8(a, b, c, ((d << 16) >> 16));
+return FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(a, b, c, ((d << 16) >> 16));
 }
 

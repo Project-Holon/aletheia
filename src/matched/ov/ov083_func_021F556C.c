@@ -1,5 +1,5 @@
 /*
- * function: func_021F556C
+ * function: GPOWER_EVENT_PrintPowerRow
  * address:  0x021F556C
  * packet:   pkt_ov083_021F556C
  * region:   ov083
@@ -13,7 +13,7 @@
  *   func_0201F184  0x0201F184  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_02190844  0x02190844  thumb  ov021
+ *   FIELD_MSGBG_InfoMsgWinPrintStr  0x02190844  thumb  ov021
  */
 #include "../include/Obj00815.h"
 
@@ -27,13 +27,13 @@ struct WordSet;
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02190844(struct Slot **p, int x, int y, u32 z);
+extern void FIELD_MSGBG_InfoMsgWinPrintStr(struct Slot **p, int x, int y, u32 z);
 
-void func_021F556C(char *p, u32 a1, u32 a2, int a3, u8 a4)
+void GPOWER_EVENT_PrintPowerRow(char *p, u32 a1, u32 a2, int a3, u8 a4)
 {
     func_0201F184((struct WordSet *)(((struct Obj00815 *)p)->f2C), 0, a2);
     func_0201EFA4((struct WordSet *)(((struct Obj00815 *)p)->f2C), 1, a3 / 60, 2, 1, 1);
     func_0201EFA4((struct WordSet *)(((struct Obj00815 *)p)->f2C), 2, a3 % 60, 2, 2, 1);
     func_0201F250((struct WordSet *)(((struct Obj00815 *)p)->f2C), (void *)(((struct Obj00815 *)p)->f38), (void *)a1);
-    func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 8, (u16)(a4 << 4), ((struct Obj00815 *)p)->f38);
+    FIELD_MSGBG_InfoMsgWinPrintStr((struct Slot **)(((struct Obj00815 *)p)->f18), 8, (u16)(a4 << 4), ((struct Obj00815 *)p)->f38);
 }

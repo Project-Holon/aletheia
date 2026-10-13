@@ -12,7 +12,7 @@
  * Original passes p to 020362DC although the own matched body ignores entry r0.
  * symbols:
  *   func_020362DC 0x020362DC arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021C09B8 0x021C09B8 thumb ov217
  *   func_021BA4D4 0x021BA4D4 thumb ov217
  *   func_021BA1C0 0x021BA1C0 thumb ov217
@@ -34,7 +34,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern void * func_021C09B8(void *);
 extern u32 func_021BA4D4(void *);
 extern void func_021BA1C0(u8 *,u32);
@@ -54,8 +54,8 @@ extern u32 func_021BA228(u32);
 void func_021B9C54(char *p)
 {
     u32 keys=func_020362DC();
-    int choice=func_02035C08(p+44);
-    int other=func_02035C08(func_021C09B8(((struct Obj00511 *)p)->f0));
+    int choice=TOUCHPANEL_HitTrg(p+44);
+    int other=TOUCHPANEL_HitTrg(func_021C09B8(((struct Obj00511 *)p)->f0));
     if(func_021BA4D4(p)!=0 || other==0) {
         func_021BA1C0((u8 *)p,1);func_021BA1CC(p,2);func_021BA31C((u8 *)p);func_020061E4(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_02184454
+ * function: OEKAKI_RecvAck
  * address:  0x02184454
  * packet:   pkt_02184454
  * region:   ov023
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  */
 #include "../include/Obj20339.h"
 
 typedef unsigned short u16;
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-void func_02184454(int a0, int a1, int a2, char *a3)
+void OEKAKI_RecvAck(int a0, int a1, int a2, char *a3)
 {
-    if (func_02039338())
+    if (GFL_NET_SYSTEM_GetCurrentAid())
         return;
     ((struct Obj20339 *)a3)->f9280 |= 1 << a0;
 }

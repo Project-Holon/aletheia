@@ -1,5 +1,5 @@
 /*
- * function: func_021ADEA0
+ * function: FLDEFF_IWAKUDAKI_Draw
  * address:  0x021ADEA0
  * packet:   pkt_ov021_021ADEA0
  * region:   ov021
@@ -10,8 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D92A4  0x021D92A4  data
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
+ *   sIwakudakiDrawStatus  0x021D92A4  data
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -26,17 +27,17 @@ typedef struct Xf { V3 pos; V3 scale; M33 rot; } Xf;
 typedef struct Q { u32 f0; u32 f4; u32 f8; u32 fc; } Q;
 
 extern void func_0207ADC4(M33 *m);
-extern void func_021AC1B8(u32 a, V3 *out);
+extern void FIELD_EFFECT_GetObjectPos(u32 a, V3 *out);
 struct Arg;
-extern int func_02047AC8(void *a0, struct Arg *a1);
-extern Xf d_021D92A4;
+extern int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1);
+extern Xf sIwakudakiDrawStatus;
 
-void func_021ADEA0(u32 a, Q *q)
+void FLDEFF_IWAKUDAKI_Draw(u32 a, Q *q)
 {
 
-    Xf x = d_021D92A4;
+    Xf x = sIwakudakiDrawStatus;
 
     func_0207ADC4(&x.rot);
-    func_021AC1B8(a, &x.pos);
-    func_02047AC8((void *)q->f4, (struct Arg *)(&x));
+    FIELD_EFFECT_GetObjectPos(a, &x.pos);
+    G3D_SYSTEM_DrawObjectCulling((void *)q->f4, (struct Arg *)(&x));
 }

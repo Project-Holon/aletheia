@@ -1,5 +1,5 @@
 /*
- * function: func_0216619C
+ * function: GAME_BEACON_ACCESSOR_IsActionMonsNoWithNicknameInvalid
  * address:  0x0216619C
  * packet:   pkt_ov010_0216619C
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_0216619C(Rec *r)
+int GAME_BEACON_ACCESSOR_IsActionMonsNoWithNicknameInvalid(Rec *r)
 {
     if (r->f32 == 0 || r->f32 > 0x289)
         return 1;

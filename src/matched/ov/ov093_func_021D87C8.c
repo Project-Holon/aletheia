@@ -1,5 +1,5 @@
 /*
- * function: func_021D87C8
+ * function: BTL_CALC_QuickFeetBoostSpeed
  * address:  0x021D87C8
  * packet:   pkt_ov093_021D87C8
  * region:   ov093
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -24,21 +24,21 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021D775C(int a);
+int BTL_EVENT_GetVar(int a);
 void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
-int func_021D62A8(struct Unk021D62A8 *p);
-void func_021D7704(int a, int b);
-int func_021D76BC(int key, u32 val);
+int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
+void BTL_EVENT_MultiplyVar(int a, int b);
+int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021D87C8(void *a, int b, int c)
+void BTL_CALC_QuickFeetBoostSpeed(void *a, int b, int c)
 {
     void *r;
-    if (c == func_021D775C(2)) {
+    if (c == BTL_EVENT_GetVar(2)) {
         r = func_021C7CF4((int *)b, c);
-        if (func_021D62A8(r) != 0) {
-            func_021D7704(0x35, 6 << 10);
-            func_021D76BC(0x51, 0);
+        if (BTL_POKEPARAM_GetMajorStatusIndex(r) != 0) {
+            BTL_EVENT_MultiplyVar(0x35, 6 << 10);
+            BTL_EVENT_OverwriteVar(0x51, 0);
         }
     }
 }

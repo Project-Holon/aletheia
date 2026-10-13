@@ -1,5 +1,5 @@
 /*
- * function: func_021DF84C
+ * function: BTL_HANDLER_ITEM_GetSpellTagHandlers
  * address: 0x021DF84C
  * packet: pkt_ov093_021DF84C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF840.c and filed here.
  *
  * symbols:
- *   d_021F15BC 0x021F15BC data ov093 a4
+ *   gSpellTagHandlers 0x021F15BC data ov093 a4
  */
 
-int *func_021DF84C(int *p);
-extern int d_021F15BC[];
+int *BTL_HANDLER_ITEM_GetSpellTagHandlers(int *p);
+extern int gSpellTagHandlers[];
 
-int *func_021DF84C(int *p)
+int *BTL_HANDLER_ITEM_GetSpellTagHandlers(int *p)
 {
     *p = 1;
-    return d_021F15BC;
+    return gSpellTagHandlers;
 }

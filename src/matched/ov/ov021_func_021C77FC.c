@@ -1,5 +1,5 @@
 /*
- * function: func_021C77FC
+ * function: FIELD_TASK_UpdateWait
  * address:  0x021C77FC
  * packet:   pkt_021C77FC
  * region:   ov021
@@ -18,7 +18,7 @@
 typedef unsigned short u16;
 typedef struct { u16 f0; u16 f2; } X_021C77D8;
 
-int func_021C77FC(X_021C77D8 *x)
+int FIELD_TASK_UpdateWait(X_021C77D8 *x)
 {
     x->f0++;
     if (x->f2 <= x->f0)

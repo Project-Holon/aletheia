@@ -10,7 +10,7 @@
  * symbols:
  *   func_021E0DA0 0x021E0DA0 thumb ov119
  *   func_021E0DBC 0x021E0DBC thumb ov119
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj08065.h"
@@ -20,7 +20,7 @@ typedef struct { int a,b,c,d; } Quad;
 struct Obj;
 extern void func_021E0DA0(char *p);
 extern void func_021E0DBC(char *,void *,int,int,int,int,int,u16);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021E2070(char *p,void *mon,Quad *t)
 {
@@ -28,8 +28,8 @@ void func_021E2070(char *p,void *mon,Quad *t)
     func_021E0DA0(p+0x900+t->a*20);
     func_021E0DA0(p+0x900+t->b*20);
     func_021E0DBC(p+0x900+t->a*20,mon,0,((struct Obj08065 *)p)->f9C4,176,95,0,((struct Obj08065 *)p)->f5F4);
-    a=func_02017E1C(mon,174,0);
-    b=func_02017E1C(mon,175,0);
+    a=POKE_TOOL_GetPartyValue(mon,174,0);
+    b=POKE_TOOL_GetPartyValue(mon,175,0);
     if(a!=b)
         func_021E0DBC(p+0x900+t->b*20,mon,1,((struct Obj08065 *)p)->f9C4,210,95,0,((struct Obj08065 *)p)->f5F4);
     if(*(void **)(p+t->c*20+0x910))

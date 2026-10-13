@@ -1,5 +1,5 @@
 /*
- * function: func_021C15E8
+ * function: BTL_SERVER_FLOW_RunMoveHitEventLocked
  * address: 0x021C15E8
  * packet: pkt_ov093_021C15E8
  * region: ov093
@@ -12,7 +12,7 @@
  * 021CC95C stores the unchanged full r1 word. Scalar u32 preserves all bits.
  * symbols:
  *   func_021CC8D8 0x021CC8D8 thumb ov093
- *   func_021C1624 0x021C1624 thumb ov093
+ *   BTL_SERVER_FLOW_RunMoveHitEvent 0x021C1624 thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
  */
 typedef unsigned char u8;
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_021CC8D8(void *, int);
-extern void func_021C1624(u8 *p, u8 *a, u8 *b, u16 *c);
+extern void BTL_SERVER_FLOW_RunMoveHitEvent(u8 *p, u8 *a, u8 *b, u16 *c);
 extern void func_021CC95C(u32 *p, u32 v, int line);
 
-void func_021C15E8(u8 *p, u8 *a, u8 *b, u16 *c)
+void BTL_SERVER_FLOW_RunMoveHitEventLocked(u8 *p, u8 *a, u8 *b, u16 *c)
 {
     u32 s = func_021CC8D8(p + 0x1d74, 6570);
-    func_021C1624(p, a, b, c);
+    BTL_SERVER_FLOW_RunMoveHitEvent(p, a, b, c);
     func_021CC95C((u32 *)(p + 0x1d74), s, 6570 + 4);
 }

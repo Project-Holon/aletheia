@@ -1,5 +1,5 @@
 /*
- * function: func_0216D8F0
+ * function: FLDMMDL_GetAttrOffset
  * address:  0x0216D8F0
  * packet:   pkt_0216D8F0
  * region:   ov010
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef struct S12 { u32 a, b, c; } S12;
 
 
-void func_0216D8F0(u8 *p, u8 *q)
+void FLDMMDL_GetAttrOffset(u8 *p, u8 *q)
 {
     *(S12 *)q = *(S12 *)(p + 0x68);
 }

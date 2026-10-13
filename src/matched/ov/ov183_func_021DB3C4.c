@@ -25,7 +25,7 @@
  *   func_021FC830 0x021FC830 thumb ov186
  *   func_021DB690 0x021DB690 thumb ov183
  *   func_020061E4 0x020061E4 thumb
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020409B4 0x020409B4 arm
  */
 #include "../include/Obj00630.h"
@@ -59,7 +59,7 @@ extern int *func_021FD73C(int *p, int v);
 extern void func_021DB690(int *task);
 extern void func_020061E4(u32 a);
 extern void func_020409B4(u32 index);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 void func_021DB3C4(int *task,int *state,char *p)
 {
     int a,b;
@@ -77,7 +77,7 @@ void func_021DB3C4(int *task,int *state,char *p)
     case 5: if(func_021FE7B0(*(int * *)&((struct Obj24522 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8))*state=6;break;
     case 6: func_021FE794((char *)(((struct Obj24523 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8),3,15,0,4);*state=7;break;
     case 7: if(func_021FE7B0(*(int * *)&((struct Obj24524 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8))*state=8;break;
-    case 8: if(func_02035C60()) {func_020061E4(0x6ff);func_021FC734(((struct Obj00630 *)p)->f8);*(int *)&((struct Obj00630 *)p)->f8=0;func_020409B4(4);*state=9;}break;
+    case 8: if(TOUCHPANEL_GetTrg()) {func_020061E4(0x6ff);func_021FC734(((struct Obj00630 *)p)->f8);*(int *)&((struct Obj00630 *)p)->f8=0;func_020409B4(4);*state=9;}break;
     case 9: func_021FE794((char *)(((struct Obj24525 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8),3,3,0,48);func_021FEE24((char *)(((struct Obj24526 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f14));*state=10;break;
     case 10: {enum {ONE=1} mask=ONE;if(func_021FE7B0(*(int * *)&((struct Obj24527 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8)&mask) {func_021FD860(*(int *)&((struct Obj00630 *)p)->f18,8,0);*state=11;}break;}
     case 11: func_021FE794((char *)(((struct Obj24528 *)(*(char * *)&((struct Obj00630 *)p)->f1C))->f8),2,3,1,1);*state=12;break;

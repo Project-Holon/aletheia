@@ -10,35 +10,35 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D732C  0x021D732C  thumb  ov093
- *   func_021D7360  0x021D7360  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
- *   func_021D70B4  0x021D70B4  thumb  ov093
- *   func_021D7040  0x021D7040  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_EVENT_FindFactor  0x021D732C  thumb  ov093
+ *   BTL_EVENT_FindNextFactor  0x021D7360  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_GetFactorWork  0x021D70B4  thumb  ov093
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 typedef unsigned int   u32;
 struct Node;
 struct QQ;
-extern struct Node *func_021D732C(int id, int sub);
-extern struct Node *func_021D7360(struct Node *n);
-extern u16 func_021D70A8(struct QQ *p);
-extern u32 func_021D70B4(u8 *p, int i);
-extern void func_021D7040(struct Node *n);
+extern struct Node *BTL_EVENT_FindFactor(int id, int sub);
+extern struct Node *BTL_EVENT_FindNextFactor(struct Node *n);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
+extern u32 BTL_EVENT_GetFactorWork(u8 *p, int i);
+extern void BTL_EVENT_RemoveFactor(struct Node *n);
 
 void func_021E0394(u8 *a, int b)
 {
     void *n;
     void *next;
 
-    n = func_021D732C(0, func_021D5440(a));
+    n = BTL_EVENT_FindFactor(0, BTL_POKEPARAM_GetPokeId(a));
     while (n != 0) {
-        next = func_021D7360(n);
-        if (b == func_021D70A8(n) && func_021D70B4(n, 6) == 0) {
-            func_021D7040(n);
+        next = BTL_EVENT_FindNextFactor(n);
+        if (b == BTL_EVENT_GetFactorKey(n) && BTL_EVENT_GetFactorWork(n, 6) == 0) {
+            BTL_EVENT_RemoveFactor(n);
         }
         n = next;
     }

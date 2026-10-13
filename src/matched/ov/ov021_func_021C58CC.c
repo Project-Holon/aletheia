@@ -1,5 +1,5 @@
 /*
- * function: func_021C58CC
+ * function: SHORTCUT_MENU_CreateList
  * address:  0x021C58CC
  * packet:   pkt_ov021_021C58CC
  * region:   ov021
@@ -12,12 +12,12 @@
  * symbols:
  *   func_0200C468 0x0200C468 thumb
  *   func_0200C464 0x0200C464 thumb
- *   func_0201F81C 0x0201F81C thumb
- *   func_0201F878 0x0201F878 thumb
- *   func_021C5880 0x021C5880 thumb ov021
- *   func_021C576C 0x021C576C thumb ov021
- *   func_0201FF30 0x0201FF30 thumb
- *   d_021DAA80    0x021DAA80 data  a4
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
+ *   SHORTCUT_MENU_ClampListWindow 0x021C5880 thumb ov021
+ *   SHORTCUT_MENU_ListMoveCallback 0x021C576C thumb ov021
+ *   BMP_MENULIST_Create 0x0201FF30 thumb
+ *   gShortcutMenuListTemplate    0x021DAA80 data  a4
  */
 #include "../include/Obj00874.h"
 
@@ -42,30 +42,30 @@ typedef struct {
     u32 w30;
 } Tmpl;
 
-extern const Tmpl d_021DAA80;
+extern const Tmpl gShortcutMenuListTemplate;
 
 extern u16 func_0200C468(const u8 *a);
 struct Obj;
 struct Slot;
 struct Src;
 extern u8 func_0200C464(const u8 *a, u32 i);
-extern void *func_0201F81C(int n, u32 heap);
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void func_021C5880(u16 *a, u16 *b, u16 c);
-extern void func_021C576C(void *a);
-extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
+extern void *BMP_MENUWORK_Create(int n, u32 heap);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern void SHORTCUT_MENU_ClampListWindow(u16 *a, u16 *b, u16 c);
+extern void SHORTCUT_MENU_ListMoveCallback(void *a);
+extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 
-void func_021C58CC(char *p, u16 a, u16 b, u32 heap)
+void SHORTCUT_MENU_CreateList(char *p, u16 a, u16 b, u32 heap)
 {
     Tmpl t;
     u32 n;
     u32 i;
 
     n = func_0200C468(((struct Obj00874 *)p)->f20);
-    ((struct Obj00874 *)p)->f0 = func_0201F81C(n, heap);
+    ((struct Obj00874 *)p)->f0 = BMP_MENUWORK_Create(n, heap);
     for (i = 0; i < n; i++) {
         u8 v = func_0200C464(((struct Obj00874 *)p)->f20, (u8)i);
-        func_0201F878(((struct Obj00874 *)p)->f0, ((struct Obj00874 *)p)->f38, (int)v, (int)v, heap);
+        BMP_MENUWORK_AddMsgItem(((struct Obj00874 *)p)->f0, ((struct Obj00874 *)p)->f38, (int)v, (int)v, heap);
     }
     while (b + a >= n) {
         if (b != 0) {
@@ -74,11 +74,11 @@ void func_021C58CC(char *p, u16 a, u16 b, u32 heap)
             a--;
         }
     }
-    func_021C5880(&a, &b, n);
-    t = d_021DAA80;
+    SHORTCUT_MENU_ClampListWindow(&a, &b, n);
+    t = gShortcutMenuListTemplate;
     t.arr = ((struct Obj00874 *)p)->f0;
     t.count = n;
-    t.cb04 = (void *)func_021C576C;
+    t.cb04 = (void *)SHORTCUT_MENU_ListMoveCallback;
     t.cb08 = 0;
     t.w0c = *(u32 *)&((struct Obj00874 *)p)->f8;
     t.w1c = p;
@@ -86,5 +86,5 @@ void func_021C58CC(char *p, u16 a, u16 b, u32 heap)
     t.w28 = p + 0x10;
     t.w2c = ((struct Obj00874 *)p)->fC;
     t.w30 = ((struct Obj00874 *)p)->f3C;
-    ((struct Obj00874 *)p)->f4 = func_0201FF30((struct Src *)(&t), a, b, heap);
+    ((struct Obj00874 *)p)->f4 = BMP_MENULIST_Create((struct Src *)(&t), a, b, heap);
 }

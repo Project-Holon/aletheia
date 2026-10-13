@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D1C0  0x0203D1C0  arm
- *   func_02173AE0  0x02173AE0  thumb ov011
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
+ *   INTRUDE_COMM_SendReply  0x02173AE0  thumb ov011
  *   INTRUDE_COMM_SendNotice  0x02173B44  thumb ov011
  */
 
 typedef unsigned int   u32;
-u32 func_0203D1C0(u32 index);
-int func_02173AE0(int a, int b, int c, int d);
+u32 GFL_NET_IsConnectMember(u32 index);
+int INTRUDE_COMM_SendReply(int a, int b, int c, int d);
 int INTRUDE_COMM_SendNotice(void *p, int i, int v);
 
 void INTRUDE_COMM_UpdatePendingNotices(unsigned char *p)
@@ -26,8 +26,8 @@ void INTRUDE_COMM_UpdatePendingNotices(unsigned char *p)
 
     for (i = 0; i < 3; i++) {
         if (p[i + 0x945] != 0) {
-            if ((int)func_0203D1C0((unsigned char)i) == 1) {
-                if (func_02173AE0((int)p, i, 2, p[i + 0x945]) == 1) {
+            if ((int)GFL_NET_IsConnectMember((unsigned char)i) == 1) {
+                if (INTRUDE_COMM_SendReply((int)p, i, 2, p[i + 0x945]) == 1) {
                     p[i + 0x945] = 0;
                 }
             } else {
@@ -37,7 +37,7 @@ void INTRUDE_COMM_UpdatePendingNotices(unsigned char *p)
     }
     for (i = 0; i < 3; i++) {
         if (p[i + 0x948] != 0) {
-            if ((int)func_0203D1C0((unsigned char)i) == 1) {
+            if ((int)GFL_NET_IsConnectMember((unsigned char)i) == 1) {
                 if (INTRUDE_COMM_SendNotice(p, i, p[i + 0x948]) == 1) {
                     p[i + 0x948] = 0;
                 }

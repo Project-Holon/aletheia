@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02051C6C  0x02051C6C  arm
+ *   BUTTON_MAN_Delete  0x02051C6C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,12 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02051C6C(void *);
+extern void BUTTON_MAN_Delete(void *);
 
 void func_021D7710(u8 *p)
 {
     if (((struct Obj10401 *)p)->f8) {
-        func_02051C6C(((struct Obj10401 *)p)->f8);
+        BUTTON_MAN_Delete(((struct Obj10401 *)p)->f8);
         *(u32 *)&((struct Obj10401 *)p)->f8 = 0;
     }
 }

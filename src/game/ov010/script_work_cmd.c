@@ -1,7 +1,7 @@
 /*
  * file:     script_work_cmd.c
  * unit:     yes
- * function: func_0215932C, func_02159340, func_02159370, func_02159398, func_021593B8, func_021593DC, func_021593F0, func_02159404, func_02159420, func_0215942C, func_0215944C, func_0215946C, func_0215948C, func_021594B0, func_021594E0, func_02159570, func_021595A0, func_021595CC, func_02159644, func_02159658, func_02159670, func_021596B4, func_021596E8, func_02159708, func_02159728, func_02159750, func_02159778, func_021597AC, func_021597CC, func_021597EC, func_0215980C, func_02159830, func_02159854, func_02159874, func_02159894, func_021598AC, func_021598C8, func_021598E4, func_021598EC, func_02159934, func_02159960, func_02159974, func_02159984, func_02159998, func_021599A8, func_02159A64, func_02159AE8, func_02159B10, func_02159B38
+ * function: SCRIPT_WORK_CompareValues, SCRIPT_WORK_CmdCompareRegs, SCRIPT_WORK_CmdCompareRegConst, SCRIPT_WORK_CmdCompareWorkConst, SCRIPT_WORK_CmdCompareWorks, SCRIPT_WORK_CmdPushConst, SCRIPT_WORK_CmdPushWorkValue, SCRIPT_WORK_CmdPopToWork, SCRIPT_WORK_CmdPopDiscard, SCRIPT_WORK_CmdAdd, SCRIPT_WORK_CmdSub, SCRIPT_WORK_CmdMul, SCRIPT_WORK_CmdDiv, SCRIPT_WORK_CmdPushEventFlag, SCRIPT_WORK_CmdCompareStack, SCRIPT_WORK_CmdChangeScript, SCRIPT_WORK_WaitChildScript, SCRIPT_WORK_CmdCallScript, SCRIPT_WORK_CmdEnd, SCRIPT_WORK_CmdJump, SCRIPT_WORK_CmdIfJump, SCRIPT_WORK_CmdIfCall, SCRIPT_WORK_CmdSetProcAction, SCRIPT_WORK_CmdGetContinueFlag, SCRIPT_WORK_CmdSetEventFlag, SCRIPT_WORK_CmdResetEventFlag, SCRIPT_WORK_CmdCheckEventFlag, SCRIPT_WORK_CmdAddWork, SCRIPT_WORK_CmdSubWork, SCRIPT_WORK_CmdMulWork, SCRIPT_WORK_CmdDivWork, SCRIPT_WORK_CmdModWork, SCRIPT_WORK_CmdAndWork, SCRIPT_WORK_CmdOrWork, SCRIPT_WORK_CmdLoadWorkConst, SCRIPT_WORK_CmdCopyWork, SCRIPT_WORK_CmdLoadWorkValue, SCRIPT_WORK_CmdCallFieldCommand, SCRIPT_WORK_CmdPopAllBgm, SCRIPT_WORK_CmdCallScriptEvent, SCRIPT_WORK_WaitKeyDecide, SCRIPT_WORK_CmdWaitKeyDecide, SCRIPT_WORK_WaitKeyAny, SCRIPT_WORK_CmdWaitKeyAny, SCRIPT_WORK_WaitReportSave, SCRIPT_WORK_CmdReportSave, SCRIPT_WORK_ReadWorkPointer, SCRIPT_WORK_ReadWorkValue, SCRIPT_WORK_GetPlayerZoneId
  * address:  0x0215932C
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -18,69 +18,69 @@
  * contiguous and merge into script_work.c at cut time.
  *
  * symbols:
- *   func_02011330   0x02011330  thumb
+ *   VM_GetU16   0x02011330  thumb
  *   VM_PushStack  0x0201137C  thumb
  *   VM_PopStack  0x02011398  thumb
  *   func_0209C2B0  0x0209C2B0  arm
- *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
- *   func_021589A0  0x021589A0  thumb  ov010
- *   func_0215AA4C  0x0215AA4C  thumb  ov010
- *   func_021587E0  0x021587E0  thumb  ov010
- *   func_0215AA34  0x0215AA34  thumb  ov010
- *   func_0215AA48  0x0215AA48  thumb  ov010
- *   func_0215AA24  0x0215AA24  thumb  ov010
- *   func_02158A34  0x02158A34  thumb  ov010
- *   func_020113D0  0x020113D0  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
+ *   SCRIPT_SYS_AddScript  0x021589A0  thumb  ov010
+ *   SCRCMD_WORK_GetChildScriptIndex  0x0215AA4C  thumb  ov010
+ *   SCRIPT_SYS_HasVm  0x021587E0  thumb  ov010
+ *   SCRCMD_WORK_RestoreScriptState  0x0215AA34  thumb  ov010
+ *   SCRCMD_WORK_SetChildScriptIndex  0x0215AA48  thumb  ov010
+ *   SCRCMD_WORK_SaveScriptState  0x0215AA24  thumb  ov010
+ *   SCRIPT_SYS_RunScriptNow  0x02158A34  thumb  ov010
+ *   VM_SetWait  0x020113D0  thumb
  *   func_02011290  0x02011290  thumb
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
  *   d_021705DC     0x021705DC  data  ov010
- *   func_02012B38   0x02012B38  thumb
+ *   GAME_DATA_GetMoveModelSys   0x02012B38  thumb
  *   func_02014474   0x02014474  thumb
  *   func_02014460  0x02014460  thumb
- *   func_02014314  0x02014314  thumb
- *   func_0201433C  0x0201433C  thumb
+ *   ZONEDATA_SetEventFlag  0x02014314  thumb
+ *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   _u32_div_f 0x0209C2B0 arm
- *   func_021B1BB8  0x021B1BB8  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_021B1BE8  0x021B1BE8  thumb
- *   func_02012A30  0x02012A30  thumb
+ *   SCRCMD_FLDMMDL_PauseMmdls  0x021B1BB8  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   SCRCMD_FLDMMDL_UnpauseAllMmdls  0x021B1BE8  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAllTask  0x0202972C  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02159204 0x02159204 thumb ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_CreateCheckTask 0x02159204 thumb ov010
  *   func_020362DC  0x020362DC  arm
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CCC  0x02188CCC  thumb
- *   func_02012E40  0x02012E40  thumb
- *   func_02012DD0  0x02012DD0  thumb
- *   func_021A0F90  0x021A0F90  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
+ *   GAME_DATA_SaveMain  0x02012DD0  thumb
+ *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
  *   func_021A153C  0x021A153C  thumb  ov021
  *   func_021A1548  0x021A1548  thumb  ov021
- *   func_021590FC  0x021590FC  thumb  ov010
- *   func_021D11D8  0x021D11D8  thumb
- *   func_021D1194  0x021D1194  thumb
- *   func_021590F4  0x021590F4  thumb  ov010
- *   func_02188C84  0x02188C84  thumb
- *   func_021D1164  0x021D1164  thumb
- *   func_021D11B0  0x021D11B0  thumb
+ *   SCRIPT_WORK_GetReturnScriptId  0x021590FC  thumb  ov010
+ *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb
+ *   FIELD_SAVEANIME_Delete  0x021D1194  thumb
+ *   SCRIPT_WORK_SetReturnScriptId  0x021590F4  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb
+ *   FIELD_SAVEANIME_Create  0x021D1164  thumb
+ *   FIELD_SAVEANIME_Start  0x021D11B0  thumb
  *   func_021A1524  0x021A1524  thumb  ov021
  *   func_021A1530  0x021A1530  thumb  ov021
- *   func_02012F2C  0x02012F2C  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
- *   func_02012DAC  0x02012DAC  thumb
- *   func_02158FE0   0x02158FE0  thumb  ov010
- *   func_0215901C   0x0215901C  thumb  ov010
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10   0x02159B10  thumb  ov010
- *   func_0215A5D4  0x0215A5D4  thumb  ov010
- *   func_0215A5D8  0x0215A5D8  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   GAME_DATA_SaveStart  0x02012DAC  thumb
+ *   SCRIPT_WORK_GetWorkPtr   0x02158FE0  thumb  ov010
+ *   SCRIPT_WORK_GetWorkValue   0x0215901C  thumb  ov010
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue   0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetCallMode  0x0215A5D4  thumb  ov010
+ *   SCRCMD_WORK_GetCallParam  0x0215A5D8  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   VM_Call  0x020113B4  thumb  arm9
  */
 typedef unsigned char u8;
@@ -106,88 +106,88 @@ struct ScrcmdWork;
 typedef struct ScrcmdWork ScrcmdWork;
 
 /* Arm9 script VM primitives. */
-extern u16 func_02011330(ScriptVm *vm);
-extern s32 func_0201134C(ScriptVm *vm);
+extern u16 VM_GetU16(ScriptVm *vm);
+extern s32 VM_GetU32(ScriptVm *vm);
 extern void VM_PushStack(ScriptVm *vm, u32 value);
 extern u32 VM_PopStack(ScriptVm *vm);
 extern void func_02011290(ScriptVm *vm);
 extern void VM_Jump(ScriptVm *vm, u32 target);
 extern void VM_Call(ScriptVm *vm, u32 target);
-extern void func_020113D0(ScriptVm *vm, int (*waitFn)(ScriptVm *, ScrcmdWork *));
+extern void VM_SetWait(ScriptVm *vm, int (*waitFn)(ScriptVm *, ScrcmdWork *));
 extern u64 _u32_div_f(u32 dividend, u32 divisor);
 
 /* Game data and system accessors. */
-extern struct EventWork *func_0201296C(const struct GameData *gameData);
-extern u32 func_020142E8(struct EventWork *eventWork, s32 flagId);
-extern void func_02014314(struct EventWork *eventWork, int flagId);
-extern void func_0201433C(struct EventWork *eventWork, int flagId);
-extern struct MoveModelSys *func_02012B38(const struct GameData *gameData);
+extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
+extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
+extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
+extern struct MoveModelSys *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
 extern void func_02014474(struct MoveModelSys *sys, void *action);
 extern u8 func_02014460(struct MoveModelSys *sys);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct FieldSoundSystem *func_02012A30(const struct GameData *gameData);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct FieldSoundSystem *soundSystem);
 extern struct ScriptTask *FIELD_SOUND_SYSTEM_StartPopAllTask(struct GameSystem *gameSystem, u16 mode);
 extern u32 func_020362DC(void);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
-extern u8 func_02012E40(struct GameData *gameData);
-extern int func_02012DD0(struct GameData *gameData);
-extern void func_02012DAC(struct GameData *gameData);
-extern struct TrainerRecord *func_02012F2C(struct GameData *gameData);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern u8 GAME_DATA_IsSaving(struct GameData *gameData);
+extern int GAME_DATA_SaveMain(struct GameData *gameData);
+extern void GAME_DATA_SaveStart(struct GameData *gameData);
+extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern u32 func_02008DF0(struct TrainerRecord *record, int index);
-extern struct PlayerWork *func_020127A4(struct GameData *gameData);
-extern u16 func_02012AC8(const struct PlayerWork *player);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 
 /* Field map overlay helpers. */
-extern struct FieldMapState *func_02188CCC(struct FieldMap *fieldMap);
-extern int func_02188C84(struct FieldMap *fieldMap);
-extern u32 func_021A0F90(struct FieldMapState *state);
+extern struct FieldMapState *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+extern int FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern u32 FIELD_SUBSCREEN_GetMode(struct FieldMapState *state);
 extern int func_021A153C(struct FieldMapState *state);
 extern void func_021A1548(struct FieldMapState *state);
 extern void func_021A1524(struct FieldMapState *state);
 extern void func_021A1530(struct FieldMapState *state);
-extern int func_021D1164(int mapId, struct FieldMap *fieldMap);
-extern void func_021D11B0(int effectHandle);
-extern void func_021D11D8(int effectHandle);
-extern void func_021D1194(int effectHandle);
-extern int func_021B1BB8(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern void func_021B1BE8(ScrcmdWork *cmdWork);
+extern int FIELD_SAVEANIME_Create(int mapId, struct FieldMap *fieldMap);
+extern void FIELD_SAVEANIME_Start(int effectHandle);
+extern void FIELD_SAVEANIME_Stop(int effectHandle);
+extern void FIELD_SAVEANIME_Delete(int effectHandle);
+extern int SCRCMD_FLDMMDL_PauseMmdls(ScriptVm *vm, ScrcmdWork *cmdWork);
+extern void SCRCMD_FLDMMDL_UnpauseAllMmdls(ScrcmdWork *cmdWork);
 
 /* Script system and script work. */
-extern int func_021589A0(ScriptWork *scriptWork, int zoneId, int scriptId);
-extern int func_021587E0(ScriptWork *scriptWork, int childIndex);
-extern void func_02158A34(void *first, void *second, int scriptId, int callParam);
-extern void func_0215897C(ScriptWork *scriptWork, struct ScriptTask *task);
-extern u16 *func_02158FE0(ScriptWork *scriptWork, struct GameData *gameData, u32 workId);
-extern u32 func_0215901C(ScriptWork *scriptWork, struct GameData *gameData, u32 workId);
-extern void func_021590F4(ScriptWork *scriptWork, u32 scriptId);
-extern u32 func_021590FC(ScriptWork *scriptWork);
-extern struct ScriptTask *func_02159204(ScrcmdWork *cmdWork);
+extern int SCRIPT_SYS_AddScript(ScriptWork *scriptWork, int zoneId, int scriptId);
+extern int SCRIPT_SYS_HasVm(ScriptWork *scriptWork, int childIndex);
+extern void SCRIPT_SYS_RunScriptNow(void *first, void *second, int scriptId, int callParam);
+extern void SCRIPT_SYS_CallEvent(ScriptWork *scriptWork, struct ScriptTask *task);
+extern u16 *SCRIPT_WORK_GetWorkPtr(ScriptWork *scriptWork, struct GameData *gameData, u32 workId);
+extern u32 SCRIPT_WORK_GetWorkValue(ScriptWork *scriptWork, struct GameData *gameData, u32 workId);
+extern void SCRIPT_WORK_SetReturnScriptId(ScriptWork *scriptWork, u32 scriptId);
+extern u32 SCRIPT_WORK_GetReturnScriptId(ScriptWork *scriptWork);
+extern struct ScriptTask *SCRIPT_WORK_CreateCheckTask(ScrcmdWork *cmdWork);
 
 /* Command work accessors. */
-extern u8 func_0215AA4C(ScrcmdWork *cmdWork);
-extern int func_0215AA34(ScrcmdWork *cmdWork);
-extern void func_0215AA48(ScrcmdWork *cmdWork, int childIndex);
-extern void *func_0215AA24(ScrcmdWork *cmdWork);
-extern u32 func_0215A5D4(ScrcmdWork *cmdWork);
-extern u32 func_0215A5D8(ScrcmdWork *cmdWork);
-extern struct GameSystem *func_0215A5DC(ScrcmdWork *cmdWork);
-extern struct GameData *func_0215A5E4(ScrcmdWork *cmdWork);
-extern ScriptWork *func_0215A5F4(ScrcmdWork *cmdWork);
+extern u8 SCRCMD_WORK_GetChildScriptIndex(ScrcmdWork *cmdWork);
+extern int SCRCMD_WORK_RestoreScriptState(ScrcmdWork *cmdWork);
+extern void SCRCMD_WORK_SetChildScriptIndex(ScrcmdWork *cmdWork, int childIndex);
+extern void *SCRCMD_WORK_SaveScriptState(ScrcmdWork *cmdWork);
+extern u32 SCRCMD_WORK_GetCallMode(ScrcmdWork *cmdWork);
+extern u32 SCRCMD_WORK_GetCallParam(ScrcmdWork *cmdWork);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
+extern struct GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
+extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
 
 /* Condition table of the conditional jump and call commands, [condition][compare flag]. */
 extern u8 d_021705DC[][3];
 
-int func_0215932C(unsigned int lhs, unsigned int rhs);
-int func_021595A0(ScriptVm *vm, ScrcmdWork *cmdWork);
-int func_02159960(ScriptVm *vm, ScrcmdWork *cmdWork);
-int func_02159984(ScriptVm *vm, ScrcmdWork *cmdWork);
-int func_021599A8(ScriptVm *vm, ScrcmdWork *cmdWork);
-u16 *func_02159AE8(ScriptVm *vm, ScrcmdWork *cmdWork);
-unsigned int func_02159B10(ScriptVm *vm, ScrcmdWork *cmdWork);
-int func_02159B38(ScrcmdWork *cmdWork);
+int SCRIPT_WORK_CompareValues(unsigned int lhs, unsigned int rhs);
+int SCRIPT_WORK_WaitChildScript(ScriptVm *vm, ScrcmdWork *cmdWork);
+int SCRIPT_WORK_WaitKeyDecide(ScriptVm *vm, ScrcmdWork *cmdWork);
+int SCRIPT_WORK_WaitKeyAny(ScriptVm *vm, ScrcmdWork *cmdWork);
+int SCRIPT_WORK_WaitReportSave(ScriptVm *vm, ScrcmdWork *cmdWork);
+u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
+unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+int SCRIPT_WORK_GetPlayerZoneId(ScrcmdWork *cmdWork);
 
-int func_0215932C(unsigned int lhs, unsigned int rhs)
+int SCRIPT_WORK_CompareValues(unsigned int lhs, unsigned int rhs)
 {
     if (lhs < rhs) return 0;
     if (lhs == rhs) return 1;
@@ -206,21 +206,21 @@ static inline int ReadByte(ScriptVm *vm)
  * lever: inline byte reader binds the load before incrementing the cursor;
  * a postincrement expression schedules the cursor store before the load.
  */
-int func_02159340(ScriptVm *vm)
+int SCRIPT_WORK_CmdCompareRegs(ScriptVm *vm)
 {
     u8 lhs, rhs;
     lhs = vm->ring[ReadByte(vm)];
     rhs = vm->ring[ReadByte(vm)];
-    vm->cmpFlag = func_0215932C(lhs, rhs);
+    vm->cmpFlag = SCRIPT_WORK_CompareValues(lhs, rhs);
     return 0;
 }
 
-int func_02159370(ScriptVm *vm)
+int SCRIPT_WORK_CmdCompareRegConst(ScriptVm *vm)
 {
     u8 lhs, rhs;
     lhs = vm->ring[ReadByte(vm)];
     rhs = ReadByte(vm);
-    vm->cmpFlag = func_0215932C(lhs, rhs);
+    vm->cmpFlag = SCRIPT_WORK_CompareValues(lhs, rhs);
     return 0;
 }
 
@@ -228,44 +228,44 @@ int func_02159370(ScriptVm *vm)
  * Halfword out of the record the overlay looks up, classified through an
  * arm9 call, and the class byte stored back on the object.
  */
-int func_02159398(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdCompareWorkConst(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 workValue = *func_02159AE8(vm, cmdWork);
+    u16 workValue = *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    vm->cmpFlag = func_0215932C(workValue, func_02011330(vm));
+    vm->cmpFlag = SCRIPT_WORK_CompareValues(workValue, VM_GetU16(vm));
 
     return 0;
 }
 
-int func_021593B8(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdCompareWorks(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *lhs = func_02159AE8(vm, cmdWork);
-    u16 *rhs = func_02159AE8(vm, cmdWork);
-    vm->cmpFlag = func_0215932C(*lhs, *rhs);
+    u16 *lhs = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    u16 *rhs = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    vm->cmpFlag = SCRIPT_WORK_CompareValues(*lhs, *rhs);
     return 0;
 }
 
-int func_021593DC(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdPushConst(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    VM_PushStack(vm, func_02011330(vm));
+    VM_PushStack(vm, VM_GetU16(vm));
     return 0;
 }
 
-int func_021593F0(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdPushWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    VM_PushStack(vm, func_02159B10(vm, cmdWork));
+    VM_PushStack(vm, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
-int func_02159404(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdPopToWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 value = VM_PopStack(vm);
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     *workPtr = value;
     return 0;
 }
 
-int func_02159420(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdPopDiscard(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     VM_PopStack(vm);
     return 0;
@@ -275,7 +275,7 @@ int func_02159420(ScriptVm *vm, ScrcmdWork *cmdWork)
  * One arm9 getter read twice, folded with '+', written back
  * through the arm9 setter.
  */
-int func_0215942C(ScriptVm *vm)
+int SCRIPT_WORK_CmdAdd(ScriptVm *vm)
 {
     int top = VM_PopStack(vm);
     int below = VM_PopStack(vm);
@@ -289,7 +289,7 @@ int func_0215942C(ScriptVm *vm)
  * One arm9 getter read twice, folded with '-', written back
  * through the arm9 setter.
  */
-int func_0215944C(ScriptVm *vm)
+int SCRIPT_WORK_CmdSub(ScriptVm *vm)
 {
     int top = VM_PopStack(vm);
     VM_PushStack(vm, VM_PopStack(vm) - top);
@@ -300,7 +300,7 @@ int func_0215944C(ScriptVm *vm)
  * One arm9 getter read twice, folded with '*', written back
  * through the arm9 setter.
  */
-int func_0215946C(ScriptVm *vm)
+int SCRIPT_WORK_CmdMul(ScriptVm *vm)
 {
     int top = VM_PopStack(vm);
     int below = VM_PopStack(vm);
@@ -308,7 +308,7 @@ int func_0215946C(ScriptVm *vm)
     return 0;
 }
 
-int func_0215948C(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdDiv(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 divisor = VM_PopStack(vm);
     u32 dividend = VM_PopStack(vm);
@@ -316,21 +316,21 @@ int func_0215948C(ScriptVm *vm, ScrcmdWork *cmdWork)
     return 0;
 }
 
-int func_021594B0(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdPushEventFlag(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    struct GameData *gameData = func_0215A5E4(cmdWork);
-    struct EventWork *eventWork = func_0201296C(gameData);
-    u32 flagId = func_02159B10(vm, cmdWork);
-    VM_PushStack(vm, func_020142E8(eventWork, flagId));
+    struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
+    u32 flagId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    VM_PushStack(vm, ZONEDATA_CheckEventFlag(eventWork, flagId));
     return 0;
 }
 
-int func_021594E0(ScriptVm *vm)
+int SCRIPT_WORK_CmdCompareStack(ScriptVm *vm)
 {
     u32 top = VM_PopStack(vm);
     u32 below = VM_PopStack(vm);
     int result;
-    switch (func_02011330(vm)) {
+    switch (VM_GetU16(vm)) {
     case 0: result = (below < top) ? 1 : 0; break;
     case 1: result = (below == top) ? 1 : 0; break;
     case 2: result = (below > top) ? 1 : 0; break;
@@ -345,66 +345,66 @@ int func_021594E0(ScriptVm *vm)
     return 0;
 }
 
-int func_02159570(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdChangeScript(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptWork *scriptWork;
     int scriptId;
 
-    func_0215A5DC(cmdWork);
-    scriptWork = func_0215A5F4(cmdWork);
-    scriptId = func_02011330(vm);
-    func_021589A0(scriptWork, func_02159B38(cmdWork), scriptId);
+    SCRCMD_WORK_GetGameSystem(cmdWork);
+    scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    scriptId = VM_GetU16(vm);
+    SCRIPT_SYS_AddScript(scriptWork, SCRIPT_WORK_GetPlayerZoneId(cmdWork), scriptId);
     return 1;
 }
 
-int func_021595A0(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_WaitChildScript(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    ScriptWork *scriptWork = func_0215A5F4(cmdWork);
-    if (func_021587E0(scriptWork, func_0215AA4C(cmdWork)) == 0) {
-        func_0215AA34(cmdWork);
+    ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    if (SCRIPT_SYS_HasVm(scriptWork, SCRCMD_WORK_GetChildScriptIndex(cmdWork)) == 0) {
+        SCRCMD_WORK_RestoreScriptState(cmdWork);
         return 1;
     }
     return 0;
 }
 
-int func_021595CC(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdCallScript(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    struct GameSystem *gameSystem = func_0215A5DC(cmdWork);
-    ScriptWork *scriptWork = func_0215A5F4(cmdWork);
-    int scriptId = func_02011330(vm);
-    if (func_0215A5D4(cmdWork) == 0) {
-        func_0215AA48(cmdWork, func_021589A0(scriptWork, func_02159B38(cmdWork), scriptId));
-        func_0215AA24(cmdWork);
-        func_020113D0(vm, func_021595A0);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    int scriptId = VM_GetU16(vm);
+    if (SCRCMD_WORK_GetCallMode(cmdWork) == 0) {
+        SCRCMD_WORK_SetChildScriptIndex(cmdWork, SCRIPT_SYS_AddScript(scriptWork, SCRIPT_WORK_GetPlayerZoneId(cmdWork), scriptId));
+        SCRCMD_WORK_SaveScriptState(cmdWork);
+        VM_SetWait(vm, SCRIPT_WORK_WaitChildScript);
         return 1;
     }
-    func_0215AA24(cmdWork);
-    func_02158A34(gameSystem, scriptWork, scriptId, func_0215A5D8(cmdWork));
-    func_0215AA34(cmdWork);
+    SCRCMD_WORK_SaveScriptState(cmdWork);
+    SCRIPT_SYS_RunScriptNow(gameSystem, scriptWork, scriptId, SCRCMD_WORK_GetCallParam(cmdWork));
+    SCRCMD_WORK_RestoreScriptState(cmdWork);
     return 0;
 }
 
-int func_02159644(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdEnd(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    func_0215A5F4(cmdWork);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
     func_02011290(vm);
     return 1;
 }
 
-int func_02159658(ScriptVm *vm)
+int SCRIPT_WORK_CmdJump(ScriptVm *vm)
 {
-    s32 offset = func_0201134C(vm);
+    s32 offset = VM_GetU32(vm);
     VM_Jump(vm, (u32)vm->pc + offset);
     return 0;
 }
 
-int func_02159670(ScriptVm *vm)
+int SCRIPT_WORK_CmdIfJump(ScriptVm *vm)
 {
     u8 *pc = vm->pc;
     u8 condition = *pc;
     int offset;
     vm->pc = pc + 1;
-    offset = func_0201134C(vm);
+    offset = VM_GetU32(vm);
     if (condition == 0xFF) {
         if (VM_PopStack(vm) == 1)
             goto end;
@@ -422,13 +422,13 @@ end:
  * input unchanged into +0x14; original caller supplies a cursor address.
  * Pointer declaration preserves that payload and matches the fixed flags.
  */
-int func_021596B4(ScriptVm *vm)
+int SCRIPT_WORK_CmdIfCall(ScriptVm *vm)
 {
     u8 *pc = vm->pc;
     u8 condition = *pc;
     int offset;
     vm->pc = pc + 1;
-    offset = func_0201134C(vm);
+    offset = VM_GetU32(vm);
     if (d_021705DC[condition][vm->cmpFlag] == 1)
         VM_Call(vm, (u32)(vm->pc + offset));
     return 0;
@@ -438,62 +438,62 @@ int func_021596B4(ScriptVm *vm)
  * The record's arm9 handle and the caller's second argument are the two
  * operands of the arm9 pair call.
  */
-int func_021596E8(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdSetProcAction(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    void *action = (void *)func_02011330(vm);
-    func_02014474(func_02012B38(func_0215A5E4(cmdWork)), action);
+    void *action = (void *)VM_GetU16(vm);
+    func_02014474(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(cmdWork)), action);
     return 0;
 }
 
-int func_02159708(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdGetContinueFlag(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    struct MoveModelSys *moveModelSys = func_02012B38(func_0215A5E4(cmdWork));
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    struct MoveModelSys *moveModelSys = GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(cmdWork));
     *workPtr = func_02014460(moveModelSys);
     return 0;
 }
 
-int func_02159728(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdSetEventFlag(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    struct GameData *gameData = func_0215A5E4(cmdWork);
-    struct EventWork *eventWork = func_0201296C(gameData);
-    int flagId = func_02159B10(vm, cmdWork);
-    func_02014314(eventWork, flagId);
+    struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
+    int flagId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    ZONEDATA_SetEventFlag(eventWork, flagId);
     return 0;
 }
 
-int func_02159750(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdResetEventFlag(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    struct GameData *gameData = func_0215A5E4(cmdWork);
-    struct EventWork *eventWork = func_0201296C(gameData);
-    int flagId = func_02159B10(vm, cmdWork);
-    func_0201433C(eventWork, flagId);
+    struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
+    int flagId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    ZONEDATA_ResetEventFlag(eventWork, flagId);
     return 0;
 }
 
-int func_02159778(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdCheckEventFlag(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    struct EventWork *eventWork = func_0201296C(func_0215A5E4(cmdWork));
-    u32 flagId = func_02159B10(vm, cmdWork);
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    *workPtr = func_020142E8(eventWork, flagId);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(SCRCMD_WORK_GetGameData(cmdWork));
+    u32 flagId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    *workPtr = ZONEDATA_CheckEventFlag(eventWork, flagId);
     return 0;
 }
 
 /*
  * extent: two bytes of zero alignment padding at 0x021597CA.
  */
-int func_021597AC(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdAddWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    *workPtr = *workPtr + func_02159B10(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    *workPtr = *workPtr + SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     return 0;
 }
 
-int func_021597CC(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdSubWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    u32 value = func_02159B10(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    u32 value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     *workPtr = *workPtr - value;
     return 0;
 }
@@ -501,17 +501,17 @@ int func_021597CC(ScriptVm *vm, ScrcmdWork *cmdWork)
 /*
  * extent: two bytes of zero alignment padding at 0x0215980A.
  */
-int func_021597EC(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdMulWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    *workPtr = *workPtr * func_02159B10(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    *workPtr = *workPtr * SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     return 0;
 }
 
-int func_0215980C(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdDivWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    u32 divisor = func_02159B10(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    u32 divisor = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     *workPtr = (u32)_u32_div_f(*workPtr, divisor);
     return 0;
 }
@@ -526,49 +526,49 @@ int func_0215980C(ScriptVm *vm, ScrcmdWork *cmdWork)
  * Fixed-flag run 1 proves u64 return in r0/r1: high-word extraction emits
  * no shift, and strh r1 immediately follows the original helper call.
  */
-int func_02159830(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdModWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    u32 divisor = func_02159B10(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    u32 divisor = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     *workPtr = (u32)(_u32_div_f(*workPtr, divisor) >> 32);
     return 0;
 }
 
-int func_02159854(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdAndWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    u32 value = func_02159B10(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    u32 value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     *workPtr = value & *workPtr;
     return 0;
 }
 
-int func_02159874(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdOrWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    u32 value = func_02159B10(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    u32 value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     *workPtr = value | *workPtr;
     return 0;
 }
 
-int func_02159894(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdLoadWorkConst(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    *workPtr = func_02011330(vm);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    *workPtr = VM_GetU16(vm);
     return 0;
 }
 
-int func_021598AC(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdCopyWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *dstPtr = func_02159AE8(vm, cmdWork);
-    u16 *srcPtr = func_02159AE8(vm, cmdWork);
+    u16 *dstPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    u16 *srcPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     *dstPtr = *srcPtr;
     return 0;
 }
 
-int func_021598C8(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdLoadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    u16 *workPtr = func_02159AE8(vm, cmdWork);
-    *workPtr = func_02159B10(vm, cmdWork);
+    u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    *workPtr = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     return 0;
 }
 
@@ -576,30 +576,30 @@ int func_021598C8(ScriptVm *vm, ScrcmdWork *cmdWork)
  * generated: lane O24 (ov010 leaf/wrapper sweep)
  *
  * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_021B1BB8, the shape of the arm9 copy.
+ * thunk into SCRCMD_FLDMMDL_PauseMmdls, the shape of the arm9 copy.
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
  *
  * Addresses are Black-image addresses.  --region ov010 is required: this
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021598E4.c \
- *       --func func_021598E4 --addr 0x021598E4 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRIPT_WORK_CmdCallFieldCommand.c \
+ *       --func SCRIPT_WORK_CmdCallFieldCommand --addr 0x021598E4 --region ov010 --cc dsi/1.1p1 --thumb
  */
-int func_021598E4(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdCallFieldCommand(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    return func_021B1BB8(vm, cmdWork);
+    return SCRCMD_FLDMMDL_PauseMmdls(vm, cmdWork);
 }
 
-int func_021598EC(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdPopAllBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    ScriptWork *scriptWork = func_0215A5F4(cmdWork);
-    struct GameSystem *gameSystem = func_0215A5DC(cmdWork);
-    struct GameData *gameData = func_020120F4(gameSystem);
+    ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     int popped = 0;
-    func_021B1BE8(cmdWork);
-    if (FIELD_SOUND_SYSTEM_GetQueueDepth(func_02012A30(gameData))) {
-        func_0215897C(scriptWork, FIELD_SOUND_SYSTEM_StartPopAllTask(gameSystem, popped));
+    SCRCMD_FLDMMDL_UnpauseAllMmdls(cmdWork);
+    if (FIELD_SOUND_SYSTEM_GetQueueDepth(GAME_DATA_GetBgmInfo(gameData))) {
+        SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPopAllTask(gameSystem, popped));
         popped = 1;
     }
     return popped;
@@ -608,104 +608,104 @@ int func_021598EC(ScriptVm *vm, ScrcmdWork *cmdWork)
 /*
  * extent: two bytes of zero alignment padding at 0x0215995E.
  */
-int func_02159934(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdCallScriptEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    ScriptWork *scriptWork = func_0215A5F4(cmdWork);
+    ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct ScriptTask *task;
-    func_0215A5DC(cmdWork);
-    task = func_02159204(cmdWork);
+    SCRCMD_WORK_GetGameSystem(cmdWork);
+    task = SCRIPT_WORK_CreateCheckTask(cmdWork);
     if (task == 0)
         return 1;
-    func_0215897C(scriptWork, task);
+    SCRIPT_SYS_CallEvent(scriptWork, task);
     return 1;
 }
 
-int func_02159960(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_WaitKeyDecide(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     if ((func_020362DC() & 3) == 0)
         return 0;
     return 1;
 }
 
-int func_02159974(ScriptVm *vm)
+int SCRIPT_WORK_CmdWaitKeyDecide(ScriptVm *vm)
 {
-    func_020113D0(vm, func_02159960);
+    VM_SetWait(vm, SCRIPT_WORK_WaitKeyDecide);
     return 1;
 }
 
-int func_02159984(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_WaitKeyAny(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     if ((func_020362DC() & 0xf3) == 0)
         return 0;
     return 1;
 }
 
-int func_02159998(ScriptVm *vm)
+int SCRIPT_WORK_CmdWaitKeyAny(ScriptVm *vm)
 {
-    func_020113D0(vm, func_02159984);
+    VM_SetWait(vm, SCRIPT_WORK_WaitKeyAny);
     return 1;
 }
 
-int func_021599A8(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_WaitReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    struct GameData *gameData = func_0215A5E4(cmdWork);
-    ScriptWork *scriptWork = func_0215A5F4(cmdWork);
+    struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
+    ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct FieldMapState *mapState;
     int done;
-    mapState = func_02188CCC(func_0201210C(func_0215A5DC(cmdWork)));
-    if (func_02012E40(gameData) == 0) {
+    mapState = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    if (GAME_DATA_IsSaving(gameData) == 0) {
         done = 1;
-        if (func_021A0F90(mapState) == 7) {
+        if (FIELD_SUBSCREEN_GetMode(mapState) == 7) {
             if (func_021A153C(mapState) == 0)
                 done = 0;
         }
     } else {
-        switch (func_02012DD0(gameData)) {
+        switch (GAME_DATA_SaveMain(gameData)) {
         case 0:
         case 1:
             done = 0;
             break;
         case 2:
-            *func_02159AE8(vm, cmdWork) = 1;
+            *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = 1;
             done = 0;
             break;
         case 3:
-            *func_02159AE8(vm, cmdWork) = 0;
+            *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = 0;
             done = 1;
-            if (func_021A0F90(mapState) == 7)
+            if (FIELD_SUBSCREEN_GetMode(mapState) == 7)
                 func_021A1548(mapState);
             break;
         }
     }
     if (done == 1) {
-        int effectHandle = func_021590FC(scriptWork);
-        func_021D11D8(effectHandle);
-        func_021D1194(effectHandle);
-        func_021590F4(scriptWork, 0);
+        int effectHandle = SCRIPT_WORK_GetReturnScriptId(scriptWork);
+        FIELD_SAVEANIME_Stop(effectHandle);
+        FIELD_SAVEANIME_Delete(effectHandle);
+        SCRIPT_WORK_SetReturnScriptId(scriptWork, 0);
     }
     return done;
 }
 
-int func_02159A64(ScriptVm *vm, ScrcmdWork *cmdWork)
+int SCRIPT_WORK_CmdReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    ScriptWork *scriptWork = func_0215A5F4(cmdWork);
-    struct GameData *gameData = func_0215A5E4(cmdWork);
+    ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
+    struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
     int mapId, effectHandle;
     struct FieldMap *fieldMap;
     struct FieldMapState *mapState;
-    fieldMap = func_0201210C(func_0215A5DC(cmdWork));
-    mapId = func_02188C84(fieldMap);
-    mapState = func_02188CCC(fieldMap);
-    effectHandle = func_021D1164(mapId, fieldMap);
-    func_021D11B0(effectHandle);
-    if (func_021A0F90(mapState) == 7) {
+    fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
+    mapId = FIELDMAP_GetHeapId(fieldMap);
+    mapState = FIELDMAP_GetSubscreen(fieldMap);
+    effectHandle = FIELD_SAVEANIME_Create(mapId, fieldMap);
+    FIELD_SAVEANIME_Start(effectHandle);
+    if (FIELD_SUBSCREEN_GetMode(mapState) == 7) {
         func_021A1524(mapState);
         func_021A1530(mapState);
     }
-    func_021590F4(scriptWork, effectHandle);
-    func_02008DF0(func_02012F2C(gameData), 1);
-    func_02012DAC(gameData);
-    func_020113D0(vm, func_021599A8);
+    SCRIPT_WORK_SetReturnScriptId(scriptWork, effectHandle);
+    func_02008DF0(GAME_DATA_GetTrainerRecord(gameData), 1);
+    GAME_DATA_SaveStart(gameData);
+    VM_SetWait(vm, SCRIPT_WORK_WaitReportSave);
     return 1;
 }
 
@@ -713,24 +713,24 @@ int func_02159A64(ScriptVm *vm, ScrcmdWork *cmdWork)
  * Two record lookups on the second argument and a classification of the
  * first, submitted as three arguments.
  */
-u16 *func_02159AE8(ScriptVm *vm, ScrcmdWork *cmdWork)
+u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    struct GameData *gameData = func_0215A5E4(cmdWork);
-    return func_02158FE0(func_0215A5F4(cmdWork), gameData, func_02011330(vm));
+    struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
+    return SCRIPT_WORK_GetWorkPtr(SCRCMD_WORK_GetScriptWork(cmdWork), gameData, VM_GetU16(vm));
 }
 
 /*
  * Same three-argument submission as its neighbour, aimed at the second
  * overlay handler.
  */
-unsigned int func_02159B10(ScriptVm *vm, ScrcmdWork *cmdWork)
+unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    struct GameData *gameData = func_0215A5E4(cmdWork);
-    return func_0215901C(func_0215A5F4(cmdWork), gameData, func_02011330(vm));
+    struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
+    return SCRIPT_WORK_GetWorkValue(SCRCMD_WORK_GetScriptWork(cmdWork), gameData, VM_GetU16(vm));
 }
 
-int func_02159B38(ScrcmdWork *cmdWork)
+int SCRIPT_WORK_GetPlayerZoneId(ScrcmdWork *cmdWork)
 {
-    struct PlayerWork *player = func_020127A4(func_0215A5E4(cmdWork));
-    return func_02012AC8(player);
+    struct PlayerWork *player = GAME_DATA_GetMyPlayerWork(SCRCMD_WORK_GetGameData(cmdWork));
+    return GAME_DATA_GetPlayerZoneId(player);
 }

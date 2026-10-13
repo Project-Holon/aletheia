@@ -1,5 +1,5 @@
 /*
- * function: func_0219BDC4
+ * function: FLDMMDL_MOVE_InitHide
  * address:  0x0219BDC4
  * packet:   pkt_ov021_0219BDC4
  * region:   ov021
@@ -9,35 +9,35 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0216D684  0x0216D684  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216DA50  0x0216DA50  thumb
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   d_021D5474     0x021D5474  data   ov021  a4
+ *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   gHideDrawOffsetInit     0x021D5474  data   ov021  a4
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_0216D684(u32, u32);
+extern u32 FLDMMDL_InitMoveProcWork(u32, u32);
 typedef unsigned short u16;
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216DA50(u32);
-extern void *func_0216D568(void *p, u32 v);
-extern void func_0216D8C0(u32, void *);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_OffMoveBitMove(u32);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern void FLDMMDL_SetDrawOffset(u32, void *);
 
 typedef struct { u32 a, b, c; } T12;
-extern T12 d_021D5474;
+extern T12 gHideDrawOffsetInit;
 
-void func_0219BDC4(u32 a, u32 b)
+void FLDMMDL_MOVE_InitHide(u32 a, u32 b)
 {
     T12 t;
     u32 k = 8;
-    *(u8 *)(func_0216D684(a, 8) + 1) = b;
-    func_0216D674((void *)a, 0);
-    func_0216DA50(a);
-    func_0216D568((void *)a, k << 12);
-    t = d_021D5474;
-    func_0216D8C0(a, &t);
+    *(u8 *)(FLDMMDL_InitMoveProcWork(a, 8) + 1) = b;
+    FLDMMDL_SetDrawStatus((void *)a, 0);
+    FLDMMDL_OffMoveBitMove(a);
+    FLDMMDL_SetMoveBit((void *)a, k << 12);
+    t = gHideDrawOffsetInit;
+    FLDMMDL_SetDrawOffset(a, &t);
 }

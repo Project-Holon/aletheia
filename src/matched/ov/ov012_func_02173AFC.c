@@ -1,5 +1,5 @@
 /*
- * function: func_02173AFC
+ * function: UNION_COMMAND_SendPartnerMode
  * address:  0x02173AFC
  * packet:   pkt_ov012_02173AFC
  * region:   ov012
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3A8  0x0203D3A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *
  * Opens with push {r0-r3} before the listing's func_02173AFE label: the
  * address of the register parameter is taken. Blocker of ov019
- * func_0217BE64's two calls.
+ * UNION_ONESELF_ConnectParentMain's two calls.
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Entry;
-struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
-int func_02173AFC(int v)
+int UNION_COMMAND_SendPartnerMode(int v)
 {
-    return func_0203D3A8(func_020399A8(), 0x1404, 4, (u32)(&v));
+    return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x1404, 4, (u32)(&v));
 }

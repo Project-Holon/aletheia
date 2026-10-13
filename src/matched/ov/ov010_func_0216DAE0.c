@@ -1,5 +1,5 @@
 /*
- * function: func_0216DAE0
+ * function: FLDMMDL_SetStatusBitFellowHit
  * address: 0x0216DAE0
  * packet: pkt_ov010_0216DAE0
  * region: ov010
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0216D548 0x0216D548 thumb ov010
- *   func_0216D550 0x0216D550 thumb ov010
+ *   FLDMMDL_SetStatusBit 0x0216D548 thumb ov010
+ *   FLDMMDL_ClearStatusBit 0x0216D550 thumb ov010
  */
 
-extern unsigned int *func_0216D548(unsigned int *p, unsigned int v);
+extern unsigned int *FLDMMDL_SetStatusBit(unsigned int *p, unsigned int v);
 typedef unsigned int   u32;
-extern u32 *func_0216D550(u32 *p, u32 v);
-void func_0216DAE0(unsigned int *p, unsigned int v)
+extern u32 *FLDMMDL_ClearStatusBit(u32 *p, u32 v);
+void FLDMMDL_SetStatusBitFellowHit(unsigned int *p, unsigned int v)
 {
-    if (v == 1) func_0216D550(p, 128);
-    else func_0216D548(p, 128);
+    if (v == 1) FLDMMDL_ClearStatusBit(p, 128);
+    else FLDMMDL_SetStatusBit(p, 128);
 }

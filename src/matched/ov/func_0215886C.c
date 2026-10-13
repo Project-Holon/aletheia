@@ -1,5 +1,5 @@
 /*
- * function: func_0215886C
+ * function: SCRIPT_SYS_AddVm
  * address:  0x0215886C
  * packet:   pkt_0215886C
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 
 
-int func_0215886C(int a0, int a1)
+int SCRIPT_SYS_AddVm(int a0, int a1)
 {
     int a2;
     int a3;

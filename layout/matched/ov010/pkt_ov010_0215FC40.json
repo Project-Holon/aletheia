@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215FC40",
+   "name": "SCRCMD_NETWORK_CreateBattleRecordLinkEvent",
    "address": "0x0215FC40",
    "kind": "game",
    "region": "ov010",

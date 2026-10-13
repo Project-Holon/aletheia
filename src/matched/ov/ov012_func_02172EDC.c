@@ -1,5 +1,5 @@
 /*
- * function: func_02172EDC
+ * function: UNION_COMM_StartConnectSync
  * address: 0x02172EDC
  * packet: pkt_ov012_02172EDC
  * region: ov012
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_02172EDC(u8 *p) { p[0x288f] |= 0x80; }
+void UNION_COMM_StartConnectSync(u8 *p) { p[0x288f] |= 0x80; }

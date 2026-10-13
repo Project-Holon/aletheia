@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCEB4",
+   "name": "FIELD_PLACE_NAME_DrawFadeIn",
    "address": "0x021BCEB4",
    "kind": "game",
    "region": "ov021",

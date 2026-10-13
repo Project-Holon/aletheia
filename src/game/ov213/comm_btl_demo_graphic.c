@@ -16,9 +16,9 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
- *   func_0204361C 0x0204361C arm
+ *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
@@ -30,7 +30,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021BAE64 0x021BAE64 thumb ov213
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -38,31 +38,31 @@
  *   d_021BB17C 0x021BB17C data a4
  *   d_021BB1F8 0x021BB1F8 data a4
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
- *   func_0204A48C  0x0204A48C  arm
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_InitSystem  0x0204A48C  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   d_021BB18C     0x021BB18C  data  a4
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
- *   func_0204A600 0x0204A600 arm
- *   func_0204A648 0x0204A648 arm
- *   func_02046440 0x02046440 arm
- *   func_02048A24 0x02048A24 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_021BAABC 0x021BAABC thumb ov213
  *   d_021BB158 0x021BB158 data a4
  *   d_021BB164 0x021BB164 data a4
  *   d_021BB170 0x021BB170 data a4
  *   d_020A1EB8 0x020A1EB8 data a4
- *   func_02048AC4 0x02048AC4 arm
- *   func_02046788 0x02046788 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_02047964  0x02047964  arm
  *   func_02048AD0    0x02048AD0  arm
- *   func_020479D8    0x020479D8  arm
+ *   G3D_SYSTEM_ApplyLookAt    0x020479D8  arm
  */
 #include "../../matched/include/Obj25714.h"
 #include "../../matched/include/Obj25715.h"
@@ -88,9 +88,9 @@ typedef struct {u32 x,y,z;} Vec3;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p,unsigned value,unsigned size);
 extern void BG_SYS_ClearGraphicsMemory(unsigned mode);
-extern void func_020433E0(const struct DispVram *p);
+extern void BG_SYS_SetVramBanks(const struct DispVram *p);
 extern void func_0204363C(unsigned swap);
-extern void func_0204361C(void);
+extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
@@ -100,32 +100,32 @@ extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
 extern void func_021BAE64(void *);
 extern void func_0203F8F4(unsigned);
-extern void func_02045088(unsigned);
+extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char, unsigned char);
 extern void func_020403F4(u32 i);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_020419E4(void);
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
-extern void func_0204A600(void);
-extern void func_0204A648(void);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
 extern void func_021BAABC(void);
-extern void func_02046440(u32 a,u32 b,u32 c,u32 d,u16 fifo,unsigned heap,void (*setup)(void));
-extern u32 *func_02048A24(u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h,Vec3 *i,Vec3 *j,Vec3 *k,unsigned heap);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02046788(int);
+extern void G3D_SYSTEM_Init(u32 a,u32 b,u32 c,u32 d,u16 fifo,unsigned heap,void (*setup)(void));
+extern u32 *G3D_CAMERA_Create(u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h,Vec3 *i,Vec3 *j,Vec3 *k,unsigned heap);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(int);
 extern void func_02047964(void);
 extern void func_02048AD0(struct Light *l);
-extern void func_020479D8(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 void *func_021BAB64(unsigned mode,unsigned heap);
 void func_021BAC0C(unsigned char *p);
 void func_021BAC68(char *p);
@@ -164,9 +164,9 @@ void *func_021BAB64(unsigned mode,unsigned heap)
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &= 0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0(&d_021BB1C8);
+    BG_SYS_SetVramBanks(&d_021BB1C8);
     func_0204363C(mode);
-    func_0204361C();
+    BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
@@ -212,7 +212,7 @@ void func_021BACB4(void *p, unsigned heap)
     unsigned i, layer;
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
-    func_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28(&d_021BB17C);
     for (i = 0; i < 6; i++) {
         row = d_021BB1F8[i];
@@ -223,7 +223,7 @@ void func_021BACB4(void *p, unsigned heap)
     }
 }
 
-void func_021BAD14(void *p){unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)d_021BB1F8[i][0]);func_020450C8();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_021BAD14(void *p){unsigned i;for(i=0;i<6;i++)func_020403F4((unsigned char)d_021BB1F8[i][0]);BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
 
 /*
  * Tail: two zero alignment bytes at 021BAD4E.
@@ -236,21 +236,21 @@ void func_021BAD50(void *a0){func_020419E4();}
 void func_021BAD58(void **out, int a, int b)
 {
     func_02082BCC(out, 0, 4);
-    func_0204A48C((const struct Cfg *)(&d_021BB18C), a, b);
-    *out = func_0204B100(0x80, 0, b);
+    CLACT_InitSystem((const struct Cfg *)(&d_021BB18C), a, b);
+    *out = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(*out);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 /*
  * Tail: two zero alignment bytes at 021BADB2.
  */
-void func_021BAD98(void *p){func_0204B1CC(*(struct Bank * *)&((struct Obj25716 *)p)->f0);func_0204A5AC();func_02082BCC(p,0,4);}
+void func_021BAD98(void *p){CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj25716 *)p)->f0);CLACT_ExitSystem();func_02082BCC(p,0,4);}
 
-void func_021BADB4(void *a0){func_0204A600();}
+void func_021BADB4(void *a0){CLACT_DrawSystem();}
 
-void func_021BADBC(void *a0){func_0204A648();}
+void func_021BADBC(void *a0){CLACT_VBlankSystem();}
 
 void *func_021BADC4(void **p){return *p;}
 
@@ -261,15 +261,15 @@ void *func_021BADC4(void **p){return *p;}
 void func_021BADC8(u32 **p,unsigned heap)
 {
     Vec3 copy;
-    func_02046440(0,1,0,1,0,heap,func_021BAABC);
+    G3D_SYSTEM_Init(0,1,0,1,0,heap,func_021BAABC);
     copy=d_021BB158;
-    *p=func_02048A24(0,*(const short *)(d_020A1EB8+12),*(const short *)(d_020A1EB8+14),0x1555,0,0x1000,0x400000,0,&d_021BB170,&copy,&d_021BB164,heap);
+    *p=G3D_CAMERA_Create(0,*(const short *)(d_020A1EB8+12),*(const short *)(d_020A1EB8+14),0x1555,0,0x1000,0x400000,0,&d_021BB170,&copy,&d_021BB164,heap);
 }
 
 
 void func_021BAE40(int *p)
 {
-    func_02046788(func_02048AC4((void *)(*p)));
+    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }
 
 
@@ -277,5 +277,5 @@ void func_021BAE50(int *p)
 {
     func_02047964();
     func_02048AD0((struct Light *)(*p));
-    func_020479D8();
+    G3D_SYSTEM_ApplyLookAt();
 }

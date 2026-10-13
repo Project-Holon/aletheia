@@ -1,5 +1,5 @@
 /*
- * function: func_021C6D5C
+ * function: FIELD_TASK_MANAGER_Delete
  * address:  0x021C6D5C
  * packet:   pkt_ov021_021C6D5C
  * region:   ov021
@@ -34,7 +34,7 @@ extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef struct { u8 n; u8 pad[3]; void *f4; void *f8; } R;
 extern void func_021C6E74(R *r, u8 i);
-void func_021C6D5C(R *r)
+void FIELD_TASK_MANAGER_Delete(R *r)
 {
     int i;
     for (i = 0; i < r->n; i++)

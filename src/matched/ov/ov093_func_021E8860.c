@@ -1,5 +1,5 @@
 /*
- * function: func_021E8860
+ * function: BTLV_CORE_EventScaleDamage
  * address:  0x021E8860
  * packet:   pkt_ov093_021E8860
  * region:   ov093
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_GetVar(int key);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021E8860(int n)
+void BTLV_CORE_EventScaleDamage(int n)
 {
-    n *= func_021D775C(0x30);
-    func_021D76BC(0x30, n);
+    n *= BTL_EVENT_GetVar(0x30);
+    BTL_EVENT_OverwriteVar(0x30, n);
 }

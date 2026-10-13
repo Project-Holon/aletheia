@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B93B8 0x021B93B8 thumb ov067
+ *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb ov067
  *   func_021BF7B0 0x021BF7B0 thumb ov210
  */
 #include "../include/Obj25630.h"
-extern int func_021B93B8(char *);
+extern int FRAME_LIST_GetScrollPos(char *);
 extern void func_021BF7B0(char *p, int idx, int y, int flag);
 void func_021BFABC(char *ctx, int slot, int index)
 {
-    unsigned center = func_021B93B8(*(char * *)&((struct Obj25630 *)ctx)->f1E0);
+    unsigned center = FRAME_LIST_GetScrollPos(*(char * *)&((struct Obj25630 *)ctx)->f1E0);
     signed short lower = center - 7;
     signed short upper = center + 7;
     if (lower < 0) lower = 0;

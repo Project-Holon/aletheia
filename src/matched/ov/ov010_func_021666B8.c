@@ -1,5 +1,5 @@
 /*
- * function: func_021666B8
+ * function: SYMBOL_MAP_RecordTaskMain
  * address: 0x021666B8
  * packet: pkt_ov010_021666B8
  * region: ov010
@@ -8,16 +8,16 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * former blocker: overlay ID 0xCB reaches func_02012444 r1, absent from
+ * former blocker: overlay ID 0xCB reaches GAME_EVENT_CallProc r1, absent from
  * OVERLAY_ID_CONSUMERS. The ov203-qualified descriptor at 0x021BFB3C
  * resolves sole-ref; its first word names ov203 func_021BDA40.
  * Store the flag in each branch to retain the original materialisation.
- * func_02166714 has an s16 parameter in its own source, but this caller
+ * SYMBOL_MAP_StoreResult has an s16 parameter in its own source, but this caller
  * loads the complete f10 word without narrowing; its extern stays int.
  * symbols:
  *   func_020124E8 0x020124E8 thumb
- *   func_02012444 0x02012444 thumb
- *   func_02166714 0x02166714 thumb ov010
+ *   GAME_EVENT_CallProc 0x02012444 thumb
+ *   SYMBOL_MAP_StoreResult 0x02166714 thumb ov010
  *   ov203_id 0x000000CB data a1
  *   d_021BFB3C 0x021BFB3C data ov203 a4
  
@@ -35,22 +35,22 @@ struct Work {
 };
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
-extern void func_02166714(u8 *p, int n);
+extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void SYMBOL_MAP_StoreResult(u8 *p, int n);
 extern u8 ov203_id[];
 extern u8 d_021BFB3C[];
-int func_021666B8(void *task, u32 *state)
+int SYMBOL_MAP_RecordTaskMain(void *task, u32 *state)
 {
     struct Work *w = func_020124E8(task);
     switch (*state) {
     case 0:
-        func_02012444(task, (u32)ov203_id, (u32)d_021BFB3C, (u32)w);
+        GAME_EVENT_CallProc(task, (u32)ov203_id, (u32)d_021BFB3C, (u32)w);
         *state = *state + 1;
         break;
     case 1:
         if (w->f14 == 2) *w->f1c = 1;
         else *w->f1c = 0;
-        func_02166714((u8 *)w->f18, w->f10);
+        SYMBOL_MAP_StoreResult((u8 *)w->f18, w->f10);
         return 1;
     }
     return 0;

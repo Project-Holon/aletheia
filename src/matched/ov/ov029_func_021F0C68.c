@@ -1,5 +1,5 @@
 /*
- * function: func_021F0C68
+ * function: C_GEAR_IsTileFlashing
  * address:  0x021F0C68
  * packet:   pkt_021F0C68
  * region:   ov029
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0C68 0x021F0C68 thumb
+ *   C_GEAR_IsTileFlashing 0x021F0C68 thumb
  */
 
-int func_021F0C68(unsigned short *p)
+int C_GEAR_IsTileFlashing(unsigned short *p)
 {
     return (int)((unsigned)(*p << 31) >> 31);
 }

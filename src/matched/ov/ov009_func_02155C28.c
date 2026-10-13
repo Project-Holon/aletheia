@@ -12,20 +12,20 @@
  * Stores a and b into every one of 0x20 slots at +0x17C and +0x1FC whose first word is -1.
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   g_021A8264    0x021A8264  data  ov009
  */
 
 typedef int s32;
 
 extern char *g_021A8264;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 
 void DWC_RAP_OnFriendDeleted(s32 a, s32 b)
 {
     s32 i;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     for (i = 0; i < 0x20; i++) {
         if (*(s32 *)(g_021A8264 + i * 4 + 0x17C) == -1) {
             *(s32 *)(g_021A8264 + i * 4 + 0x17C) = a;

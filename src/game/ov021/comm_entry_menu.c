@@ -1,7 +1,7 @@
 /*
  * file:     comm_entry_menu.c
  * unit:     yes
- * function: func_021CD48C, func_021CD5A4, func_021CD60C, func_021CD624, func_021CD688, func_021CD6D0, func_021CDAB8, func_021CDD5C, func_021CDF18, func_021CE12C, func_021CE1F4, func_021CE24C, func_021CE2BC, func_021CE36C, func_021CE3D8, func_021CE3E8, func_021CE41C, func_021CE52C, func_021CE5AC, func_021CE6F0, func_021CE70C, func_021CE718, func_021CE724, func_021CE73C, func_021CE760, func_021CE78C, func_021CE7AC, func_021CE81C, func_021CE84C, func_021CE8B0, func_021CE8F4, func_021CE934, func_021CE984, func_021CE9A0, func_021CE9E4, func_021CEA28, func_021CEA50, func_021CEA84, func_021CEAB0, func_021CEADC, func_021CEAF8, func_021CEB04, func_021CEB20, func_021CEB64, func_021CEB84, func_021CEDA0, func_021CEE00, func_021CEE48, func_021CEE78, func_021CEF08, func_021CEF1C, func_021CF068, func_021CF0F4, func_021CF110, func_021CF128, func_021CF12C, func_021CF164, func_021CF17C, func_021CF188, func_021CF194, func_021CF1AC, func_021CF214, func_021CF220, func_021CF27C, func_021CF288, func_021CF2E4, func_021CF2F0, func_021CF31C, func_021CF32C, func_021CF36C, func_021CF378, func_021CF3A4, func_021CF3B0, func_021CF3DC, func_021CF3FC
+ * function: COMM_ENTRY_MENU_Create, COMM_ENTRY_MENU_Delete, COMM_ENTRY_MENU_SetCallbacks, COMM_ENTRY_MENU_AddMember, COMM_ENTRY_MENU_Main, COMM_ENTRY_MENU_MainRecruit, COMM_ENTRY_MENU_MainMode1, COMM_ENTRY_MENU_MainMode2, COMM_ENTRY_MENU_MainMode3, COMM_ENTRY_MENU_ProcessMemberQueues, COMM_ENTRY_MENU_CollectMemberNames, COMM_ENTRY_MENU_CheckDisconnects, COMM_ENTRY_MENU_UpdateMemberList, COMM_ENTRY_MENU_AdvanceMemberStates, COMM_ENTRY_MENU_ClearMember, COMM_ENTRY_MENU_LatchRequest, COMM_ENTRY_MENU_ProcessRequest, COMM_ENTRY_MENU_ProcessCancel, COMM_ENTRY_MENU_ProcessStartConfirm, COMM_ENTRY_MENU_MarkMemberReady, COMM_ENTRY_MENU_SetAcceptFlag, COMM_ENTRY_MENU_SetCancelFlag, COMM_ENTRY_MENU_SetBusyFlags, COMM_ENTRY_MENU_CountAcceptedMembers, COMM_ENTRY_MENU_GetAcceptedMask, COMM_ENTRY_MENU_IsIdle, COMM_ENTRY_MENU_OpenWindows, COMM_ENTRY_MENU_CloseWindows, COMM_ENTRY_MENU_PrintRemaining, COMM_ENTRY_MENU_UpdateMemberName, COMM_ENTRY_MENU_ClearMemberName, COMM_ENTRY_MENU_PrintMemberName, COMM_ENTRY_MENU_EraseMemberName, COMM_ENTRY_MENU_RefreshNames, COMM_ENTRY_MENU_PrintMessage, COMM_ENTRY_MENU_SnapshotStates, COMM_ENTRY_MENU_StatesUnchanged, COMM_ENTRY_MENU_ClearPendingBits, COMM_ENTRY_MENU_QueueSend, COMM_ENTRY_MENU_AckSend, COMM_ENTRY_MENU_GetNameBuffer, COMM_ENTRY_MENU_SetNameBuffer, COMM_ENTRY_MENU_StartYesNo, COMM_ENTRY_MENU_EndYesNo, COMM_ENTRY_MENU_MainYesNo, COMM_ENTRY_PollParentList, COMM_ENTRY_TickParentTimeouts, COMM_ENTRY_ScanParents, COMM_ENTRY_AddParent, COMM_ENTRY_ClearParentSlot, COMM_ENTRY_BuildParentItems, COMM_ENTRY_RunLeaveConfirm, COMM_ENTRY_ResetLeaveConfirm, COMM_ENTRY_StoreJoinReply, COMM_ENTRY_GetRosterSize, COMM_ENTRY_IsOtherMemberConnected, COMM_ENTRY_StartNetCommands, COMM_ENTRY_EndNetCommands, COMM_ENTRY_GetRosterBuffer, COMM_ENTRY_RecvJoinRequest, COMM_ENTRY_SendJoinRequest, COMM_ENTRY_RecvJoinAccept, func_021CF220, func_021CF27C, func_021CF288, func_021CF2E4, COMM_ENTRY_SendSessionLock, COMM_ENTRY_RecvReady, func_021CF32C, func_021CF36C, COMM_ENTRY_SendAccept, COMM_ENTRY_RecvCancel, COMM_ENTRY_SendCancel, COMM_ENTRY_RecvRoster, COMM_ENTRY_SendRoster
  * address:  0x021CD48C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,115 +14,115 @@
  * Split from fld_trade_p01.c and fld_trade_p02.c (lane CL125b): __FILE__ anchor 021CD590 (d_021DE5E8 "comm_entry_menu.c").
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_02190740  0x02190740  thumb  ov021
- *   func_02045808  0x02045808  arm
+ *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
+ *   STRBUF_Delete  0x02045808  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02188C54  0x02188C54  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_0201EC64  0x0201EC64  thumb
- *   func_021904B0  0x021904B0  thumb  ov021
- *   func_02190F64  0x02190F64  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
+ *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
  *   func_02045EC0  0x02045EC0  arm
- *   func_02008494  0x02008494  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_021CF164  0x021CF164  thumb  ov021
- *   func_0203D798  0x0203D798  arm
- *   func_0203D650  0x0203D650  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   COMM_ENTRY_StartNetCommands  0x021CF164  thumb  ov021
+ *   GFL_NET_GetInitParam  0x0203D798  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
  *   d_021DE5E8     0x021DE5E8  data   ov021  a1
- *   func_021909BC  0x021909BC  thumb  ov021
- *   func_02190E40  0x02190E40  thumb  ov021
- *   func_021904C8  0x021904C8  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  *   func_0201ED04  0x0201ED04  thumb
- *   func_0203CD98  0x0203CD98  arm
- *   func_021CF17C  0x021CF17C  thumb  ov021
- *   d_021DB498  0x021DB498  data
- *   func_021CF1AC  0x021CF1AC  thumb  ov021
- *   func_021CF2F0  0x021CF2F0  thumb  ov021
- *   func_021CF3B0  0x021CF3B0  thumb  ov021
- *   func_021CF378  0x021CF378  thumb  ov021
- *   func_02190EF0  0x02190EF0  thumb  ov021
- *   func_021CF12C  0x021CF12C  thumb  ov021
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   COMM_ENTRY_EndNetCommands  0x021CF17C  thumb  ov021
+ *   gCommEntryMsgTable  0x021DB498  data
+ *   COMM_ENTRY_SendJoinRequest  0x021CF1AC  thumb  ov021
+ *   COMM_ENTRY_SendSessionLock  0x021CF2F0  thumb  ov021
+ *   COMM_ENTRY_SendCancel  0x021CF3B0  thumb  ov021
+ *   COMM_ENTRY_SendAccept  0x021CF378  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
+ *   COMM_ENTRY_IsOtherMemberConnected  0x021CF12C  thumb  ov021
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0203D01C  0x0203D01C  arm
- *   func_020392B8  0x020392B8  arm
- *   func_02039ACC  0x02039ACC  arm
+ *   GFL_NET_StartByNetType  0x0203D01C  arm
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
+ *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
  *   func_020362DC  0x020362DC  arm
- *   func_020399A8  0x020399A8  arm
- *   func_020399B8  0x020399B8  arm
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_0203D1E8  0x0203D1E8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_0203D1C0  0x0203D1C0  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  *   func_02080D24  0x02080D24  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203D010  0x0203D010  arm
+ *   GFL_NET_BeaconScanStart  0x0203D010  arm
  *   func_0201F02C  0x0201F02C  thumb
- *   func_021CF068  0x021CF068  thumb  ov021
- *   func_021CF0F4  0x021CF0F4  thumb  ov021
+ *   COMM_ENTRY_RunLeaveConfirm  0x021CF068  thumb  ov021
+ *   COMM_ENTRY_ResetLeaveConfirm  0x021CF0F4  thumb  ov021
  *   func_021CF32C  0x021CF32C  thumb  ov021
- *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203CDBC  0x0203CDBC  arm
- *   func_0203CBAC  0x0203CBAC  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
+ *   GFL_NET_StartSession  0x0203CBAC  arm
  *   func_021CF220  0x021CF220  thumb  ov021
  *   func_021CF288  0x021CF288  thumb  ov021
- *   func_021CF3FC  0x021CF3FC  thumb  ov021
- *   func_02190BE4  0x02190BE4  thumb  ov021
- *   func_02190C78  0x02190C78  thumb  ov021
- *   func_02190708  0x02190708  thumb  ov021
- *   func_02190490  0x02190490  thumb  ov021
- *   func_02190728  0x02190728  thumb  ov021
- *   func_0219077C  0x0219077C  thumb  ov021
- *   func_02190794  0x02190794  thumb  ov021
- *   func_02190758  0x02190758  thumb  ov021
+ *   COMM_ENTRY_SendRoster  0x021CF3FC  thumb  ov021
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
+ *   FIELD_MSGBG_ClearPrintQue  0x02190490  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
+ *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
+ *   FIELD_MSGBG_FillMsgWin  0x02190794  thumb  ov021
+ *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   func_0203EFC8  0x0203EFC8  arm
- *   d_021DB470     0x021DB470  data  a4
+ *   gCommEntryEmptyMac     0x021DB470  data  a4
  *   func_02008534  0x02008534  thumb
- *   func_02190F7C  0x02190F7C  thumb  ov021
- *   func_02190EB8  0x02190EB8  thumb  ov021
- *   func_02190A20  0x02190A20  thumb  ov021
- *   func_021CEF1C  0x021CEF1C  thumb  ov021
- *   func_0219097C  0x0219097C  thumb  ov021
- *   d_021DB478     0x021DB478  data  a4
- *   func_021CEE00  0x021CEE00  thumb  ov021
- *   func_021CEE48  0x021CEE48  thumb  ov021
- *   func_021CEDA0  0x021CEDA0  thumb  ov021
- *   func_02190A14  0x02190A14  thumb  ov021
- *   func_0219049C  0x0219049C  thumb  ov021
- *   func_02190B1C  0x02190B1C  thumb  ov021
- *   func_021909E4  0x021909E4  thumb  ov021
- *   func_0203D000  0x0203D000  arm
- *   func_021CE9E4  0x021CE9E4  thumb  ov021
- *   func_0203CF10  0x0203CF10  arm
- *   func_02045A98  0x02045A98  arm
- *   func_02190A6C  0x02190A6C  thumb  ov021
+ *   FIELD_MSGBG_ClearSysWin  0x02190F7C  thumb  ov021
+ *   FIELD_MSGBG_SysWinPrintStr  0x02190EB8  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
+ *   COMM_ENTRY_BuildParentItems  0x021CEF1C  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuFunc  0x0219097C  thumb  ov021
+ *   gCommEntryParentListHeader     0x021DB478  data  a4
+ *   COMM_ENTRY_TickParentTimeouts  0x021CEE00  thumb  ov021
+ *   COMM_ENTRY_ScanParents  0x021CEE48  thumb  ov021
+ *   COMM_ENTRY_PollParentList  0x021CEDA0  thumb  ov021
+ *   FIELD_MSGBG_RewriteMenuFunc  0x02190A14  thumb  ov021
+ *   FIELD_MSGBG_IsPrintQueFinished  0x0219049C  thumb  ov021
+ *   FIELD_MSGBG_DrawMenuFuncFrame  0x02190B1C  thumb  ov021
+ *   FIELD_MSGBG_MenuFuncMain  0x021909E4  thumb  ov021
+ *   GFL_NET_ConnectMacAddressChild  0x0203D000  arm
+ *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
+ *   GFL_NET_GetScanResult  0x0203CF10  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
+ *   FIELD_MSGBG_DeleteMenuItems  0x02190A6C  thumb  ov021
  *   func_02045CAC  0x02045CAC  arm
- *   func_02045924  0x02045924  arm
+ *   STRBUF_SetString  0x02045924  arm
  *   func_0201EE0C  0x0201EE0C  thumb
- *   func_02190A64  0x02190A64  thumb  ov021
- *   func_0203A574  0x0203A574  arm
+ *   FIELD_MSGBG_AddMenuItemStr  0x02190A64  thumb  ov021
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   data_021DB4BC  0x021DB4BC  data
- *   func_0203A5E4  0x0203A5E4  arm
- *   func_021CEAF8  0x021CEAF8  thumb  ov021
- *   func_021CD624  0x021CD624  thumb  ov021
+ *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
+ *   COMM_ENTRY_MENU_GetNameBuffer  0x021CEAF8  thumb  ov021
+ *   COMM_ENTRY_MENU_AddMember  0x021CD624  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
  *   func_02087C6C  0x02087C6C  arm
- *   func_0203D3F8  0x0203D3F8  arm
- *   func_0203996C  0x0203996C  arm
- *   func_02008468  0x02008468  thumb
- *   func_021CE724  0x021CE724  thumb  ov021
- *   func_0203D3A8  0x0203D3A8  arm
- *   func_021CE6F0  0x021CE6F0  thumb  ov021
- *   func_021CE70C  0x021CE70C  thumb  ov021
- *   func_021CE718  0x021CE718  thumb  ov021
- *   func_0203D378  0x0203D378  arm
- *   func_021CEADC  0x021CEADC  thumb  ov021
- *   func_021CEB04  0x021CEB04  thumb  ov021
- *   func_0203D4D0  0x0203D4D0  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
+ *   MYSTATUS_GetSize  0x02008468  thumb
+ *   COMM_ENTRY_MENU_SetBusyFlags  0x021CE724  thumb  ov021
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
+ *   COMM_ENTRY_MENU_MarkMemberReady  0x021CE6F0  thumb  ov021
+ *   COMM_ENTRY_MENU_SetAcceptFlag  0x021CE70C  thumb  ov021
+ *   COMM_ENTRY_MENU_SetCancelFlag  0x021CE718  thumb  ov021
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   COMM_ENTRY_MENU_AckSend  0x021CEADC  thumb  ov021
+ *   COMM_ENTRY_MENU_SetNameBuffer  0x021CEB04  thumb  ov021
+ *   GFL_NET_SendDataMask  0x0203D4D0  arm
  */
 
 #include "field_msgbg_types.h"
@@ -292,7 +292,7 @@ enum {
     COMM_ENTRY_MSG_LIST_TIMEOUT = 0x24
 };
 
-/* Columns of the message table d_021DB498, one row per isChild value. */
+/* Columns of the message table gCommEntryMsgTable, one row per isChild value. */
 enum {
     COMM_ENTRY_MSGCOL_TITLE = 0,       /* header window text */
     COMM_ENTRY_MSGCOL_QUIT_ASK = 1,    /* first question when the player quits */
@@ -304,10 +304,10 @@ enum {
 
 /*
  * Message id of column `col` for the isChild row. Kept as byte arithmetic on
- * the table: d_021DB498[isChild][col] folds the column into the pool address
+ * the table: gCommEntryMsgTable[isChild][col] folds the column into the pool address
  * and changes the bytes.
  */
-#define COMM_ENTRY_MSG(isChild, col) (*(const u16 *)((const u8 *)d_021DB498 + (isChild) * 12 + (col) * 2))
+#define COMM_ENTRY_MSG(isChild, col) (*(const u16 *)((const u8 *)gCommEntryMsgTable + (isChild) * 12 + (col) * 2))
 
 /* Network commands of the entry menu (command table data_021DB4BC). */
 enum {
@@ -461,188 +461,188 @@ typedef struct CommEntryMenu {
     u8 pad57C[4];
 } CommEntryMenu;
 
-extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *ws, u32 slot, u32 number, u32 digits, u32 dispType, u32 charCode);
 extern void func_0201F250(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *format);
-extern int func_02190740(FieldMsgWin *msgWin, int x, int y, u32 msgId);
-extern void func_02045808(struct Strbuf *str);
+extern int FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId);
+extern void STRBUF_Delete(struct Strbuf *str);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
-extern FieldMsgBg *func_02188C54(struct FieldMap *fieldMap);
+extern FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern struct WordSet *func_0201EC64(u32 heapId);
-extern struct MsgData *func_021904B0(FieldMsgBg *msgBg, u32 fileId);
-extern FieldSysWin *func_02190F64(FieldMsgBg *msgBg, struct MsgData *msgData);
+extern struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
+extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *msgData);
 extern struct Strbuf *func_02045EC0(struct MsgData *msgData, u32 msgId);
-extern void func_02008494(const void *myStatus, void *dst);
+extern void MYSTATUS_Copy(const void *myStatus, void *dst);
 extern void func_02082D44(const void *src, void *dst, u32 n);
-extern void func_0203D7BC(u8 a0);
-extern GFLNetInitializeStruct *func_0203D798(void);
-extern u32 func_0203D650(void);
-extern int func_021909BC(FieldMenuFunc *menu);
-extern int func_02190E40(FieldSysWin *sysWin);
-extern u32 func_021904C8(struct MsgData *msgData);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
+extern u32 GFL_NET_GetUserArg(void);
+extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
+extern int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
+extern u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData);
 extern u32 func_0201ED04(struct WordSet *ws);
-extern int func_0203CD98(void);
-extern void func_0203D01C(void);
-extern int func_020392B8(void);
-extern int func_02039ACC(void);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_StartByNetType(void);
+extern int GFL_NET_SYSTEM_GetConnectNum(void);
+extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern u32 func_020362DC(void);
-extern GFLNetHandle *func_020399A8(void);
-extern u32 func_020399B8(GFLNetHandle *handle);
-extern int func_0203D1B4(void);
-extern void func_0203D1E8(GFLNetHandle *handle, void *arg);
-extern u32 func_0203D1A4(GFLNetHandle *handle);
-extern u32 func_0203D1C0(u32 netId);
+extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
+extern int GFL_NET_GetNegotiationNum(void);
+extern void GFL_NET_NotifyUserEvent(GFLNetHandle *handle, void *arg);
+extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
+extern u32 GFL_NET_IsConnectMember(u32 netId);
 extern u32 func_02080D24(int bits);
 extern void func_02039C68(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
 extern unsigned int func_02039CB4(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
-extern u32 func_02190EF0(FieldSysWin *sysWin);
+extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
 extern u32 func_0200FB24(void);
-extern void func_0203D010(void);
+extern void GFL_NET_BeaconScanStart(void);
 extern void func_0201F02C(struct WordSet *ws, u32 slot, const void *myStatus);
-extern int func_0203CEAC(int a0);
-extern int func_0203CDBC(void);
-extern void func_0203CBAC(GFLNetInitializeStruct *init, u32 a2, u32 userArg);
-extern FieldMenuFunc *func_02190BE4(FieldMsgBg *msgBg, u32 cursorPos);
-extern int func_02190C78(FieldMenuFunc *menu);
-extern FieldMsgWin *func_02190708(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
-extern int func_02190728(FieldMsgWin *msgWin);
-extern void func_02190490(FieldMsgBg *msgBg);
-extern int func_0219077C(FieldMsgWin *msgWin);
-extern void func_02190794(FieldMsgWin *msgWin, int x, int y, int width, int height);
-extern void func_02190758(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
+extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_IsSessionNull(void);
+extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 a2, u32 userArg);
+extern FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
+extern int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
+extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
+extern int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
+extern void FIELD_MSGBG_ClearPrintQue(FieldMsgBg *msgBg);
+extern int FIELD_MSGBG_IsMsgWinTransDone(FieldMsgWin *msgWin);
+extern void FIELD_MSGBG_FillMsgWin(FieldMsgWin *msgWin, int x, int y, int width, int height);
+extern void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
 extern int func_0203EFC8(const void *a, const void *b, int n);
 extern u16 func_02008534(const void *myStatus);
-extern void func_02190F7C(FieldSysWin *sysWin);
-extern void func_02190EB8(FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
-extern struct BmpMenuWork *func_02190A20(int count, u16 heapId);
-extern u32 func_0219097C(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items);
-extern void func_02190A14(FieldMenuFunc *menu);
-extern int func_0219049C(FieldMsgBg *msgBg);
-extern int func_02190B1C(FieldMenuFunc *menu);
-extern u16 func_02045A98(void);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin);
+extern void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
+extern struct BmpMenuWork *FIELD_MSGBG_CreateMenuItems(int count, u16 heapId);
+extern u32 FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items);
+extern void FIELD_MSGBG_RewriteMenuFunc(FieldMenuFunc *menu);
+extern int FIELD_MSGBG_IsPrintQueFinished(FieldMsgBg *msgBg);
+extern int FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu);
+extern u16 STRBUF_GetEosChar(void);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_0203A5E4(u32 v);
-extern int func_02008468(void);
-extern u32 func_0203D378(void);
-extern int func_021909E4(FieldMenuFunc *menu);
-extern void func_0203D000(const u8 *mac);
-extern CommEntryBeaconData *func_0203CF10(u32 index);
-extern void func_02190A6C(struct BmpMenuWork *items);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32 v);
+extern int MYSTATUS_GetSize(void);
+extern u32 GFL_NET_IsParentAid(void);
+extern int FIELD_MSGBG_MenuFuncMain(FieldMenuFunc *menu);
+extern void GFL_NET_ConnectMacAddressChild(const u8 *mac);
+extern CommEntryBeaconData *GFL_NET_GetScanResult(u32 index);
+extern void FIELD_MSGBG_DeleteMenuItems(struct BmpMenuWork *items);
 extern void func_02045CAC(struct MsgData *msgData, u32 messageId, struct Strbuf *dest);
-extern int func_02190A64(struct BmpMenuWork *items, struct Strbuf *text, u32 value, u32 heapId);
-extern GFLNetHandle *func_0203996C(s32 id);
-extern void func_0203A574(u32 heapId, const void *commandTable, u32 commandCount, void *work);
+extern int FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *text, u32 value, u32 heapId);
+extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 id);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 heapId, const void *commandTable, u32 commandCount, void *work);
 extern void func_02082BCC();
 extern void func_02087C6C(void *p);
-extern u32 func_0203D3F8(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 a, u32 b, u32 c);
-extern u32 func_0203D4D0(GFLNetHandle *handle, u32 recipients, u32 command, u32 size, const void *data, u32 a, u32 b, u32 c);
-extern int func_0203D3A8(GFLNetHandle *handle, u32 command, u32 a, u32 b);
+extern u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 a, u32 b, u32 c);
+extern u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 recipients, u32 command, u32 size, const void *data, u32 a, u32 b, u32 c);
+extern int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 a, u32 b);
 
-CommEntryMenu *func_021CD48C(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, const u8 *mac);
-u32 func_021CD5A4(CommEntryMenu *menu);
-void func_021CD60C(CommEntryMenu *menu, void *work, CommEntryMemberFunc onAdd, CommEntryMemberFunc onRemove);
-void func_021CD624(CommEntryMenu *menu, int netId, const void *myStatus, u32 autoAccept, const u8 *mac);
-u32 func_021CD688(CommEntryMenu *menu);
-int func_021CD6D0(CommEntryMenu *menu);
-int func_021CDAB8(CommEntryMenu *menu);
-int func_021CDD5C(CommEntryMenu *menu);
-int func_021CDF18(CommEntryMenu *menu);
-void func_021CE12C(CommEntryMenu *menu);
-u8 func_021CE1F4(CommEntryMenu *menu);
-void func_021CE24C(CommEntryMenu *menu);
-void func_021CE2BC(CommEntryMenu *menu);
-void func_021CE36C(CommEntryMenu *menu);
-void func_021CE3D8(CommEntryMenu *menu, int index);
-int func_021CE3E8(CommEntryMenu *menu, CommEntryMember *member);
-void func_021CE41C(CommEntryMenu *menu);
-int func_021CE52C(CommEntryMenu *menu);
-u32 func_021CE5AC(CommEntryMenu *menu);
-void func_021CE6F0(CommEntryMenu *menu, int netId);
-void func_021CE70C(CommEntryMenu *menu);
-void func_021CE718(CommEntryMenu *menu);
-void func_021CE724(CommEntryMenu *menu);
-int func_021CE73C(CommEntryMenu *menu);
-u32 func_021CE760(CommEntryMenu *menu);
-int func_021CE78C(CommEntryMenu *menu);
-void func_021CE7AC(CommEntryMenu *menu);
-void func_021CE81C(CommEntryMenu *menu);
-int func_021CE84C(CommEntryMenu *menu, int count);
-void func_021CE8B0(CommEntryMenu *menu, CommEntryMember *member, int index);
-void func_021CE8F4(CommEntryMenu *menu, CommEntryMember *member, int index);
-void func_021CE934(CommEntryMenu *menu, const void *myStatus, u32 row);
-void func_021CE984(CommEntryMenu *menu, u32 row);
-void func_021CE9A0(CommEntryMenu *menu);
-void func_021CE9E4(CommEntryMenu *menu, u32 msgId);
-void func_021CEA28(CommEntryMenu *menu);
-int func_021CEA50(CommEntryMenu *menu);
-void func_021CEA84(CommEntryMenu *menu, int index);
-void func_021CEAB0(CommEntryMenu *menu);
-CommEntryMenu *func_021CEADC(CommEntryMenu *menu);
-CommEntryRoster *func_021CEAF8(CommEntryMenu *menu);
-void func_021CEB04(CommEntryMenu *menu, const CommEntryRoster *roster);
-void func_021CEB20(CommEntryMenu *menu);
-void func_021CEB64(CommEntryMenu *menu);
-u32 func_021CEB84(CommEntryMenu *menu);
-int func_021CEDA0(CommEntryMenu *menu);
-void func_021CEE00(CommEntryMenu *menu);
-void func_021CEE48(CommEntryMenu *menu);
-void func_021CEE78(CommEntryMenu *menu, u8 *mac, CommEntryBeaconData *beacon);
-void func_021CEF08(CommEntryMenu *menu, int slotIndex);
-void func_021CEF1C(CommEntryMenu *menu);
-int func_021CF068(CommEntryMenu *menu);
-void func_021CF0F4(CommEntryMenu *menu);
-void func_021CF110(CommEntryMenu *menu, u32 reply, const void *parentMyStatus);
-u32 func_021CF128(void);
-int func_021CF12C(int mask);
-void func_021CF164(CommEntryMenu *menu);
-void func_021CF17C(void);
-CommEntryRoster *func_021CF188(u32 netId, CommEntryMenu *menu);
-int func_021CF194(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu);
-u32 func_021CF1AC(const void *myStatus, u32 isChild, u32 netMode);
-void func_021CF214(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu);
+CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, const u8 *mac);
+u32 COMM_ENTRY_MENU_Delete(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_SetCallbacks(CommEntryMenu *menu, void *work, CommEntryMemberFunc onAdd, CommEntryMemberFunc onRemove);
+void COMM_ENTRY_MENU_AddMember(CommEntryMenu *menu, int netId, const void *myStatus, u32 autoAccept, const u8 *mac);
+u32 COMM_ENTRY_MENU_Main(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_MainMode2(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_MainMode3(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_ProcessMemberQueues(CommEntryMenu *menu);
+u8 COMM_ENTRY_MENU_CollectMemberNames(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_CheckDisconnects(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_UpdateMemberList(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_AdvanceMemberStates(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_ClearMember(CommEntryMenu *menu, int index);
+int COMM_ENTRY_MENU_LatchRequest(CommEntryMenu *menu, CommEntryMember *member);
+void COMM_ENTRY_MENU_ProcessRequest(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_ProcessCancel(CommEntryMenu *menu);
+u32 COMM_ENTRY_MENU_ProcessStartConfirm(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_MarkMemberReady(CommEntryMenu *menu, int netId);
+void COMM_ENTRY_MENU_SetAcceptFlag(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_SetCancelFlag(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_SetBusyFlags(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_CountAcceptedMembers(CommEntryMenu *menu);
+u32 COMM_ENTRY_MENU_GetAcceptedMask(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_IsIdle(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_OpenWindows(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_CloseWindows(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count);
+void COMM_ENTRY_MENU_UpdateMemberName(CommEntryMenu *menu, CommEntryMember *member, int index);
+void COMM_ENTRY_MENU_ClearMemberName(CommEntryMenu *menu, CommEntryMember *member, int index);
+void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, u32 row);
+void COMM_ENTRY_MENU_EraseMemberName(CommEntryMenu *menu, u32 row);
+void COMM_ENTRY_MENU_RefreshNames(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_PrintMessage(CommEntryMenu *menu, u32 msgId);
+void COMM_ENTRY_MENU_SnapshotStates(CommEntryMenu *menu);
+int COMM_ENTRY_MENU_StatesUnchanged(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_ClearPendingBits(CommEntryMenu *menu, int index);
+void COMM_ENTRY_MENU_QueueSend(CommEntryMenu *menu);
+CommEntryMenu *COMM_ENTRY_MENU_AckSend(CommEntryMenu *menu);
+CommEntryRoster *COMM_ENTRY_MENU_GetNameBuffer(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_SetNameBuffer(CommEntryMenu *menu, const CommEntryRoster *roster);
+void COMM_ENTRY_MENU_StartYesNo(CommEntryMenu *menu);
+void COMM_ENTRY_MENU_EndYesNo(CommEntryMenu *menu);
+u32 COMM_ENTRY_MENU_MainYesNo(CommEntryMenu *menu);
+int COMM_ENTRY_PollParentList(CommEntryMenu *menu);
+void COMM_ENTRY_TickParentTimeouts(CommEntryMenu *menu);
+void COMM_ENTRY_ScanParents(CommEntryMenu *menu);
+void COMM_ENTRY_AddParent(CommEntryMenu *menu, u8 *mac, CommEntryBeaconData *beacon);
+void COMM_ENTRY_ClearParentSlot(CommEntryMenu *menu, int slotIndex);
+void COMM_ENTRY_BuildParentItems(CommEntryMenu *menu);
+int COMM_ENTRY_RunLeaveConfirm(CommEntryMenu *menu);
+void COMM_ENTRY_ResetLeaveConfirm(CommEntryMenu *menu);
+void COMM_ENTRY_StoreJoinReply(CommEntryMenu *menu, u32 reply, const void *parentMyStatus);
+u32 COMM_ENTRY_GetRosterSize(void);
+int COMM_ENTRY_IsOtherMemberConnected(int mask);
+void COMM_ENTRY_StartNetCommands(CommEntryMenu *menu);
+void COMM_ENTRY_EndNetCommands(void);
+CommEntryRoster *COMM_ENTRY_GetRosterBuffer(u32 netId, CommEntryMenu *menu);
+int COMM_ENTRY_RecvJoinRequest(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu);
+u32 COMM_ENTRY_SendJoinRequest(const void *myStatus, u32 isChild, u32 netMode);
+void COMM_ENTRY_RecvJoinAccept(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu);
 u32 func_021CF220(u32 index, u32 netMode, const void *myStatus);
 void func_021CF27C(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu);
 u32 func_021CF288(u32 index, u32 netMode, const void *myStatus);
 void func_021CF2E4(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
-int func_021CF2F0(int netMode);
-void func_021CF31C(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
+int COMM_ENTRY_SendSessionLock(int netMode);
+void COMM_ENTRY_RecvReady(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
 u32 func_021CF32C(u32 netMode);
 void func_021CF36C(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
-int func_021CF378(int netMode);
-void func_021CF3A4(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
-int func_021CF3B0(int netMode);
-int func_021CF3DC(u32 netId, u32 size, const CommEntryRoster *roster, CommEntryMenu *menu);
-u32 func_021CF3FC(const CommEntryRoster *roster, u32 recipients, int netMode);
+int COMM_ENTRY_SendAccept(int netMode);
+void COMM_ENTRY_RecvCancel(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
+int COMM_ENTRY_SendCancel(int netMode);
+int COMM_ENTRY_RecvRoster(u32 netId, u32 size, const CommEntryRoster *roster, CommEntryMenu *menu);
+u32 COMM_ENTRY_SendRoster(const CommEntryRoster *roster, u32 recipients, int netMode);
 
 extern const char d_021DE5E8[];
 extern const u8 data_021DB4BC[];
-extern const u16 d_021DB498[2][6];
-extern const u8 d_021DB470[6];
-extern const FieldMenuHeader d_021DB478;
+extern const u16 gCommEntryMsgTable[2][6];
+extern const u8 gCommEntryEmptyMac[6];
+extern const FieldMenuHeader gCommEntryParentListHeader;
 
 
-CommEntryMenu *func_021CD48C(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, const u8 *mac)
+CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, const u8 *mac)
 {
     FieldMsgBg *msgBg;
     CommEntryMenu *menu;
     GFLNetInitializeStruct *netInit;
 
-    msgBg = func_02188C54(fieldMap);
+    msgBg = FIELDMAP_GetMsgBg(fieldMap);
     menu = func_02030734(heapId, sizeof(CommEntryMenu), 1, d_021DE5E8, 0x179);
     menu->wordSet = func_0201EC64(heapId);
-    menu->msgData = func_021904B0(msgBg, 0x1e);
-    menu->sysWin = func_02190F64(msgBg, menu->msgData);
-    menu->msgStr = func_020457B0(0x64, heapId);
+    menu->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x1e);
+    menu->sysWin = FIELD_MSGBG_CreateBottomSysWin(msgBg, menu->msgData);
+    menu->msgStr = STRBUF_Create(0x64, heapId);
     menu->nameFormat = func_02045EC0(menu->msgData, 7);
-    menu->nameStr = func_020457B0(0x40, heapId);
+    menu->nameStr = STRBUF_Create(0x40, heapId);
     if (isChild == 1) {
         menu->remainingFormat = func_02045EC0(menu->msgData, 3);
     } else {
         menu->remainingFormat = func_02045EC0(menu->msgData, 2);
     }
-    menu->remainingStr = func_020457B0(0x20, heapId);
+    menu->remainingStr = STRBUF_Create(0x20, heapId);
     menu->minMembers = minMembers;
     menu->maxMembers = maxMembers;
     menu->fieldMap = fieldMap;
@@ -651,48 +651,48 @@ CommEntryMenu *func_021CD48C(struct MyStatus *myStatus, struct FieldMap *fieldMa
     menu->heapId = heapId;
     menu->memberCount = -1;
     menu->nextMessage = 0xffff;
-    func_02008494(myStatus, menu->myStatus);
+    MYSTATUS_Copy(myStatus, menu->myStatus);
     if (mac != 0) {
         func_02082D44(mac, menu->ownMac, 6);
     }
-    func_0203D7BC(0);
-    func_021CF164(menu);
+    GFL_NET_SetLoginOption(0);
+    COMM_ENTRY_StartNetCommands(menu);
     if (isChild == 1) {
         menu->netMode = 1;
     }
-    netInit = func_0203D798();
-    ((CommEntryBeaconData *)netInit->getBeaconDataFunc((void *)func_0203D650()))->advertiseId = COMM_ENTRY_ADVERTISE_ID;
+    netInit = GFL_NET_GetInitParam();
+    ((CommEntryBeaconData *)netInit->getBeaconDataFunc((void *)GFL_NET_GetUserArg()))->advertiseId = COMM_ENTRY_ADVERTISE_ID;
     return menu;
 }
 
 
-u32 func_021CD5A4(CommEntryMenu *menu)
+u32 COMM_ENTRY_MENU_Delete(CommEntryMenu *menu)
 {
     u32 acceptedMask;
 
-    acceptedMask = func_021CE760(menu);
-    func_021CE81C(menu);
+    acceptedMask = COMM_ENTRY_MENU_GetAcceptedMask(menu);
+    COMM_ENTRY_MENU_CloseWindows(menu);
     if (menu->confirm.menu) {
-        func_021909BC(menu->confirm.menu);
+        FIELD_MSGBG_DeleteMenuFunc(menu->confirm.menu);
         menu->confirm.menu = 0;
     }
-    func_02045808(menu->remainingStr);
-    func_02045808(menu->remainingFormat);
-    func_02045808(menu->nameStr);
-    func_02045808(menu->nameFormat);
-    func_02045808(menu->msgStr);
-    func_02190E40(menu->sysWin);
-    func_021904C8(menu->msgData);
+    STRBUF_Delete(menu->remainingStr);
+    STRBUF_Delete(menu->remainingFormat);
+    STRBUF_Delete(menu->nameStr);
+    STRBUF_Delete(menu->nameFormat);
+    STRBUF_Delete(menu->msgStr);
+    FIELD_MSGBG_DeleteSysWin(menu->sysWin);
+    FIELD_MSGBG_DeleteMsgData(menu->msgData);
     func_0201ED04(menu->wordSet);
-    if (func_0203CD98() == 1) {
-        func_021CF17C();
+    if (GFL_NET_GetRunState() == 1) {
+        COMM_ENTRY_EndNetCommands();
     }
     func_020307B0(menu);
     return acceptedMask;
 }
 
 
-void func_021CD60C(CommEntryMenu *menu, void *work, CommEntryMemberFunc onAdd, CommEntryMemberFunc onRemove)
+void COMM_ENTRY_MENU_SetCallbacks(CommEntryMenu *menu, void *work, CommEntryMemberFunc onAdd, CommEntryMemberFunc onRemove)
 {
     menu->callbackWork = work;
     menu->onAdd = onAdd;
@@ -700,39 +700,39 @@ void func_021CD60C(CommEntryMenu *menu, void *work, CommEntryMemberFunc onAdd, C
 }
 
 
-void func_021CD624(CommEntryMenu *menu, int netId, const void *myStatus, u32 autoAccept, const u8 *mac)
+void COMM_ENTRY_MENU_AddMember(CommEntryMenu *menu, int netId, const void *myStatus, u32 autoAccept, const u8 *mac)
 {
     CommEntryMember *member;
 
     member = &menu->members[netId];
-    func_02008494(myStatus, member);
+    MYSTATUS_Copy(myStatus, member);
     member->state = COMM_ENTRY_MEMBER_JOINED;
     member->autoAccept = autoAccept;
     func_02082D44(mac, member->mac, 6);
-    func_021CEA84(menu, (u8)netId);
-    func_021CEAB0(menu);
+    COMM_ENTRY_MENU_ClearPendingBits(menu, (u8)netId);
+    COMM_ENTRY_MENU_QueueSend(menu);
     if (menu->onAdd) {
         menu->onAdd(menu->callbackWork, myStatus, mac);
     }
 }
 
 
-u32 func_021CD688(CommEntryMenu *menu)
+u32 COMM_ENTRY_MENU_Main(CommEntryMenu *menu)
 {
     int done;
 
     switch (menu->menuMode) {
     case COMM_ENTRY_MODE_RECRUIT:
-        done = func_021CD6D0(menu);
+        done = COMM_ENTRY_MENU_MainRecruit(menu);
         break;
     case COMM_ENTRY_MODE_CHOOSE:
-        done = func_021CDAB8(menu);
+        done = COMM_ENTRY_MENU_MainMode1(menu);
         break;
     case COMM_ENTRY_MODE_HOST:
-        done = func_021CDD5C(menu);
+        done = COMM_ENTRY_MENU_MainMode2(menu);
         break;
     case COMM_ENTRY_MODE_JOIN:
-        done = func_021CDF18(menu);
+        done = COMM_ENTRY_MENU_MainMode3(menu);
         break;
     }
     if (done == 1) {
@@ -752,7 +752,7 @@ u32 func_021CD688(CommEntryMenu *menu)
  * promotion the shift is evaluated before the readyBits load, so `movs r0,#1`
  * is live across the reload of the spilled offset and the reload lands in r1.
  */
-int func_021CD6D0(CommEntryMenu *menu)
+int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
 {
     int count;
     u16 pendingMessage;
@@ -760,28 +760,28 @@ int func_021CD6D0(CommEntryMenu *menu)
     u8 netId;
 
     if (menu->state != 0) {
-        func_021CE24C(menu);
-        func_021CE2BC(menu);
-        func_021CE12C(menu);
+        COMM_ENTRY_MENU_CheckDisconnects(menu);
+        COMM_ENTRY_MENU_UpdateMemberList(menu);
+        COMM_ENTRY_MENU_ProcessMemberQueues(menu);
     }
 
     switch (menu->state) {
     case RECRUIT_OPEN:
-        func_021CE7AC(menu);
-        func_021CE9E4(menu, COMM_ENTRY_MSG_WAIT_FOR_MEMBERS);
+        COMM_ENTRY_MENU_OpenWindows(menu);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_WAIT_FOR_MEMBERS);
         menu->state++;
         break;
     case RECRUIT_CHECK_ROLE:
         if (menu->isChild == 0) {
             menu->state = RECRUIT_REGISTER_SELF;
         } else {
-            func_0203D01C();
+            GFL_NET_StartByNetType();
             menu->state++;
         }
         break;
     case RECRUIT_WAIT_CONNECT:
-        if (func_020392B8() > 1) {
-            if (func_02039ACC() == 1) {
+        if (GFL_NET_SYSTEM_GetConnectNum() > 1) {
+            if (GFL_NET_HANDLE_CheckNegotiation() == 1) {
                 menu->state++;
             }
         } else if (func_020362DC() & 2) {
@@ -791,45 +791,45 @@ int func_021CD6D0(CommEntryMenu *menu)
         }
         break;
     case RECRUIT_WAIT_NEGOTIATION:
-        if (func_020399B8(func_020399A8()) == 1) {
+        if (GFL_NET_HANDLE_IsNegotiationDone(GFL_NET_HANDLE_GetCurrentHandle()) == 1) {
             menu->state = RECRUIT_REGISTER_SELF;
         }
         break;
     case RECRUIT_REGISTER_SELF:
-        if (func_021CF1AC(menu->myStatus, 1, menu->netMode) == 1) {
+        if (COMM_ENTRY_SendJoinRequest(menu->myStatus, 1, menu->netMode) == 1) {
             menu->state++;
         }
         break;
     case RECRUIT_COLLECT:
-        func_021CE36C(menu);
-        func_021CE41C(menu);
-        if (func_021CE78C(menu) == 1) {
-            count = func_021CE73C(menu);
+        COMM_ENTRY_MENU_AdvanceMemberStates(menu);
+        COMM_ENTRY_MENU_ProcessRequest(menu);
+        if (COMM_ENTRY_MENU_IsIdle(menu) == 1) {
+            count = COMM_ENTRY_MENU_CountAcceptedMembers(menu);
             pendingMessage = menu->nextMessage;
             menu->nextMessage = 0xFFFF;
             if (count >= menu->maxMembers || (count >= menu->minMembers && (func_020362DC() & 1))) {
-                func_021CEA28(menu);
+                COMM_ENTRY_MENU_SnapshotStates(menu);
                 menu->state = RECRUIT_CONFIRM_START;
             } else if (func_020362DC() & 2) {
                 menu->state = RECRUIT_CONFIRM_QUIT;
-            } else if (menu->isChild == 0 && func_0203D1B4() <= 1) {
+            } else if (menu->isChild == 0 && GFL_NET_GetNegotiationNum() <= 1) {
                 menu->state = RECRUIT_SHOW_ALONE_MESSAGE;
             } else if (pendingMessage != 0xFFFF) {
-                func_021CE9E4(menu, pendingMessage);
+                COMM_ENTRY_MENU_PrintMessage(menu, pendingMessage);
             }
         }
         break;
     case RECRUIT_CONFIRM_START:
-        count = func_021CE52C(menu);
+        count = COMM_ENTRY_MENU_ProcessCancel(menu);
         if (count == 1) {
-            func_0203D1E8(func_020399A8(), 0);
+            GFL_NET_NotifyUserEvent(GFL_NET_HANDLE_GetCurrentHandle(), 0);
             menu->state = RECRUIT_SEND_READY_REQUEST;
         } else if (count == 2) {
-            if (func_021CE73C(menu) >= menu->maxMembers) {
+            if (COMM_ENTRY_MENU_CountAcceptedMembers(menu) >= menu->maxMembers) {
                 menu->state = RECRUIT_CONFIRM_QUIT;
             } else {
                 menu->state = RECRUIT_COLLECT;
-                if (func_021CE73C(menu) > 1 && menu->isChild == 1) {
+                if (COMM_ENTRY_MENU_CountAcceptedMembers(menu) > 1 && menu->isChild == 1) {
                     menu->nextMessage = COMM_ENTRY_MSG_MEMBERS_CAN_START;
                 } else {
                     menu->nextMessage = COMM_ENTRY_MSG_WAIT_FOR_MEMBERS;
@@ -838,27 +838,27 @@ int func_021CD6D0(CommEntryMenu *menu)
         }
         break;
     case RECRUIT_CONFIRM_QUIT:
-        count = func_021CE5AC(menu);
+        count = COMM_ENTRY_MENU_ProcessStartConfirm(menu);
         if (count == 1) {
-            func_0203D1E8(func_020399A8(), 0);
+            GFL_NET_NotifyUserEvent(GFL_NET_HANDLE_GetCurrentHandle(), 0);
             menu->state = RECRUIT_SEND_QUIT;
         } else if (count == 2) {
             menu->state = RECRUIT_COLLECT;
         }
         break;
     case RECRUIT_SEND_READY_REQUEST:
-        if (func_021CF2F0(menu->netMode) == 1) {
-            func_021CE6F0(menu, func_0203D1A4(func_020399A8()));
+        if (COMM_ENTRY_SendSessionLock(menu->netMode) == 1) {
+            COMM_ENTRY_MENU_MarkMemberReady(menu, GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()));
             menu->readyMask = menu->roster.mask;
-            func_0203D7BC(1);
+            GFL_NET_SetLoginOption(1);
             menu->state = RECRUIT_WAIT_READY;
         }
         break;
     case RECRUIT_WAIT_READY:
-        repliedMask = 1 << func_0203D1A4(func_020399A8());
+        repliedMask = 1 << GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
         for (netId = 0; (netId < 4) ? 1 : 0; netId++) {
-            if (netId != func_0203D1A4(func_020399A8()) && (menu->readyMask & (1u << netId))) {
-                if (func_0203D1C0(netId) == 1) {
+            if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && (menu->readyMask & (1u << netId))) {
+                if (GFL_NET_IsConnectMember(netId) == 1) {
                     if (menu->readyBits & (1 << (u32)netId)) {
                         repliedMask |= (u8)(1 << netId);
                     }
@@ -877,38 +877,38 @@ int func_021CD6D0(CommEntryMenu *menu)
         }
         break;
     case RECRUIT_SEND_ABORT:
-        if (func_021CF3B0(menu->netMode) == 1) {
+        if (COMM_ENTRY_SendCancel(menu->netMode) == 1) {
             menu->readyMask = menu->roster.mask;
             menu->result = COMM_ENTRY_RESULT_CANCEL;
             menu->state = RECRUIT_SHOW_ABORT_MESSAGE;
         }
         break;
     case RECRUIT_SEND_START:
-        if (func_021CF378(menu->netMode) == 1) {
+        if (COMM_ENTRY_SendAccept(menu->netMode) == 1) {
             menu->result = COMM_ENTRY_RESULT_START;
             menu->state = RECRUIT_WAIT_START_SYNC;
             menu->readyCount = func_02080D24(menu->readyBits);
-            func_02039C68(func_020399A8(), 1, 0x27);
+            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         }
         break;
     case RECRUIT_WAIT_START_SYNC:
-        if (menu->readyCount != func_020392B8() || menu->minMembers > func_020392B8()) {
-            if (func_021CF3B0(menu->netMode) == 1) {
+        if (menu->readyCount != GFL_NET_SYSTEM_GetConnectNum() || menu->minMembers > GFL_NET_SYSTEM_GetConnectNum()) {
+            if (COMM_ENTRY_SendCancel(menu->netMode) == 1) {
                 menu->readyMask = menu->roster.mask;
                 menu->result = COMM_ENTRY_RESULT_CANCEL;
                 menu->state = RECRUIT_SHOW_ABORT_MESSAGE;
             }
-        } else if (func_02039CB4(func_020399A8(), 1, 0x27) == 1) {
+        } else if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
             GFLNetInitializeStruct *netInit;
 
             menu->result = COMM_ENTRY_RESULT_START;
             menu->state = RECRUIT_DONE;
-            netInit = func_0203D798();
-            ((CommEntryBeaconData *)netInit->getBeaconDataFunc((void *)func_0203D650()))->advertiseId = 0;
+            netInit = GFL_NET_GetInitParam();
+            ((CommEntryBeaconData *)netInit->getBeaconDataFunc((void *)GFL_NET_GetUserArg()))->advertiseId = 0;
         }
         break;
     case RECRUIT_SEND_QUIT:
-        if (func_021CF3B0(menu->netMode) == 1) {
+        if (COMM_ENTRY_SendCancel(menu->netMode) == 1) {
             menu->readyMask = menu->roster.mask;
             menu->result = COMM_ENTRY_RESULT_CANCEL;
             menu->state = RECRUIT_WAIT_QUIT_SENT;
@@ -916,34 +916,34 @@ int func_021CD6D0(CommEntryMenu *menu)
         break;
     case RECRUIT_SHOW_ABORT_MESSAGE:
         {
-            const u16 *row = d_021DB498[menu->isChild];
+            const u16 *row = gCommEntryMsgTable[menu->isChild];
 
-            func_021CE9E4(menu, row[COMM_ENTRY_MSGCOL_ABORT]);
+            COMM_ENTRY_MENU_PrintMessage(menu, row[COMM_ENTRY_MSGCOL_ABORT]);
         }
         menu->state = RECRUIT_WAIT_ABORT_MESSAGE;
         break;
     case RECRUIT_WAIT_ABORT_MESSAGE:
-        if (func_02190EF0(menu->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->state = RECRUIT_WAIT_QUIT_SENT;
         }
         break;
     case RECRUIT_WAIT_QUIT_SENT:
-        if (func_021CF12C(menu->readyMask) == 0) {
+        if (COMM_ENTRY_IsOtherMemberConnected(menu->readyMask) == 0) {
             menu->state = RECRUIT_DONE;
         }
         break;
     case RECRUIT_SHOW_ALONE_MESSAGE:
-        func_021CE9E4(menu, COMM_ENTRY_MSG_NO_MEMBERS);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_NO_MEMBERS);
         menu->state = RECRUIT_WAIT_ALONE_MESSAGE;
         break;
     case RECRUIT_WAIT_ALONE_MESSAGE:
-        if (func_02190EF0(menu->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->result = COMM_ENTRY_RESULT_CANCEL;
             menu->state = RECRUIT_DONE;
         }
         break;
     case RECRUIT_DONE:
-        func_021CE81C(menu);
+        COMM_ENTRY_MENU_CloseWindows(menu);
         return 1;
     }
 
@@ -955,61 +955,61 @@ int func_021CD6D0(CommEntryMenu *menu)
 }
 
 
-int func_021CDAB8(CommEntryMenu *menu)
+int COMM_ENTRY_MENU_MainMode1(CommEntryMenu *menu)
 {
     switch (menu->state) {
     case CHOOSE_SHOW_OPEN_MESSAGE:
-        func_021CE9E4(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_OPEN));
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_OPEN));
         menu->state++;
         break;
     case CHOOSE_WAIT_OPEN_MESSAGE:
-        if (func_02190EF0(menu->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->state++;
         }
         break;
     case CHOOSE_OPEN_LIST:
-        func_021CEB64(menu);
-        func_021CE81C(menu);
+        COMM_ENTRY_MENU_EndYesNo(menu);
+        COMM_ENTRY_MENU_CloseWindows(menu);
         menu->parentList.selected = 0;
-        func_021CEB20(menu);
-        func_0203D010();
+        COMM_ENTRY_MENU_StartYesNo(menu);
+        GFL_NET_BeaconScanStart();
         menu->state++;
         break;
     case CHOOSE_RUN_LIST:
-        switch (func_021CEB84(menu)) {
+        switch (COMM_ENTRY_MENU_MainYesNo(menu)) {
         case LIST_RESULT_JOINED:
-            func_021CEB64(menu);
+            COMM_ENTRY_MENU_EndYesNo(menu);
             if (menu->acceptFlag == 1) {
                 menu->state = CHOOSE_ACCEPTED;
             } else if (menu->cancelFlag == 1) {
                 menu->state = CHOOSE_SHOW_CANCEL_MESSAGE;
             } else {
                 func_0201F02C(menu->wordSet, 0, menu->parentList.selected);
-                func_021CE9E4(menu, COMM_ENTRY_MSG_JOINED);
+                COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_JOINED);
                 menu->state = CHOOSE_WAIT_JOINED_MESSAGE;
             }
             break;
         case LIST_RESULT_REDIRECTED:
-            func_021CEB64(menu);
+            COMM_ENTRY_MENU_EndYesNo(menu);
             menu->state = CHOOSE_SWITCH_BEGIN;
             break;
         case LIST_RESULT_LEFT:
-            func_021CEB64(menu);
+            COMM_ENTRY_MENU_EndYesNo(menu);
             menu->state = CHOOSE_CANCELLED;
             break;
         }
         break;
     case CHOOSE_WAIT_JOINED_MESSAGE:
-        if (func_02190EF0(menu->sysWin) == 1) {
-            func_021CE9E4(menu, COMM_ENTRY_MSG_WAIT_IN_LOBBY);
-            func_021CE7AC(menu);
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_WAIT_IN_LOBBY);
+            COMM_ENTRY_MENU_OpenWindows(menu);
             menu->state++;
         }
         break;
     case CHOOSE_COLLECT:
-        if (func_021CF068(menu) == 2) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+        if (COMM_ENTRY_RunLeaveConfirm(menu) == 2) {
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = CHOOSE_CANCELLED;
             break;
         }
@@ -1018,27 +1018,27 @@ int func_021CDAB8(CommEntryMenu *menu)
                 menu->lockNotifyPending = 0;
             }
         }
-        func_021CE9A0(menu);
+        COMM_ENTRY_MENU_RefreshNames(menu);
         if (menu->acceptFlag == 1) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = CHOOSE_ACCEPTED;
         } else if (menu->cancelFlag == 1) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = CHOOSE_SHOW_CANCEL_MESSAGE;
         }
         break;
     case CHOOSE_ACCEPTED:
         if (menu->isChild == 0) {
-            func_021CE9E4(menu, COMM_ENTRY_MSG_STARTING);
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_STARTING);
         }
         menu->state = CHOOSE_WAIT_SYNC;
-        func_02039C68(func_020399A8(), 1, 0x27);
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         break;
     case CHOOSE_WAIT_SYNC:
-        if (menu->isChild != 0 || func_02190EF0(menu->sysWin) == 1) {
-            if (func_02039CB4(func_020399A8(), 1, 0x27) == 1) {
+        if (menu->isChild != 0 || FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
+            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
                 menu->result = COMM_ENTRY_RESULT_START;
                 menu->state = CHOOSE_DONE;
             } else if (menu->cancelFlag == 1) {
@@ -1047,35 +1047,35 @@ int func_021CDAB8(CommEntryMenu *menu)
         }
         break;
     case CHOOSE_SHOW_CANCEL_MESSAGE:
-        func_021CE9E4(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_ABORT));
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_ABORT));
         menu->state = CHOOSE_WAIT_CANCEL_MESSAGE;
         break;
     case CHOOSE_WAIT_CANCEL_MESSAGE:
-        if (func_02190EF0(menu->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->state = CHOOSE_CANCELLED;
         }
         break;
     case CHOOSE_SWITCH_BEGIN:
-        menu->savedUserArg = func_0203D650();
-        func_02082D44(func_0203D798(), &menu->netInitBackup, sizeof(GFLNetInitializeStruct));
-        func_021CF17C();
-        func_0203CEAC(0);
+        menu->savedUserArg = GFL_NET_GetUserArg();
+        func_02082D44(GFL_NET_GetInitParam(), &menu->netInitBackup, sizeof(GFLNetInitializeStruct));
+        COMM_ENTRY_EndNetCommands();
+        GFL_NET_Exit(0);
         func_0201F02C(menu->wordSet, 0, menu->parentMyStatus);
-        func_021CE9E4(menu, COMM_ENTRY_MSG_SWITCHING);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_SWITCHING);
         menu->state = CHOOSE_SWITCH_WAIT_EXIT;
         break;
     case CHOOSE_SWITCH_WAIT_EXIT:
-        if (func_0203CDBC() == 1 && func_02190EF0(menu->sysWin) == 1) {
+        if (GFL_NET_IsSessionNull() == 1 && FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->state = CHOOSE_SWITCH_START_SESSION;
         }
         break;
     case CHOOSE_SWITCH_START_SESSION:
-        func_0203CBAC(&menu->netInitBackup, 0, menu->savedUserArg);
+        GFL_NET_StartSession(&menu->netInitBackup, 0, menu->savedUserArg);
         menu->state = CHOOSE_SWITCH_WAIT_SESSION;
         break;
     case CHOOSE_SWITCH_WAIT_SESSION:
-        if (func_0203CD98() == 1) {
-            func_021CF164(menu);
+        if (GFL_NET_GetRunState() == 1) {
+            COMM_ENTRY_StartNetCommands(menu);
             menu->state = CHOOSE_SHOW_OPEN_MESSAGE;
         }
         break;
@@ -1084,13 +1084,13 @@ int func_021CDAB8(CommEntryMenu *menu)
         menu->state = CHOOSE_DONE;
         break;
     case CHOOSE_DONE:
-        func_021CEB64(menu);
-        func_021CE81C(menu);
+        COMM_ENTRY_MENU_EndYesNo(menu);
+        COMM_ENTRY_MENU_CloseWindows(menu);
         return 1;
     }
     if (func_0200FB24() != 0) {
-        func_021CF0F4(menu);
-        func_021CEB64(menu);
+        COMM_ENTRY_ResetLeaveConfirm(menu);
+        COMM_ENTRY_MENU_EndYesNo(menu);
         menu->result = COMM_ENTRY_RESULT_NET_ERROR;
         return 1;
     }
@@ -1098,26 +1098,26 @@ int func_021CDAB8(CommEntryMenu *menu)
 }
 
 
-int func_021CDD5C(CommEntryMenu *menu)
+int COMM_ENTRY_MENU_MainMode2(CommEntryMenu *menu)
 {
     switch (menu->state) {
     case HOST_SHOW_CONNECT_MESSAGE:
-        func_021CE9E4(menu, COMM_ENTRY_MSG_CONNECTING);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_CONNECTING);
         menu->state++;
         break;
     case HOST_REGISTER_SELF:
-        if (func_021CF1AC(menu->myStatus, 1, menu->netMode) == 1) {
+        if (COMM_ENTRY_SendJoinRequest(menu->myStatus, 1, menu->netMode) == 1) {
             menu->state++;
         }
         break;
     case HOST_OPEN_WINDOWS:
-        func_021CE7AC(menu);
+        COMM_ENTRY_MENU_OpenWindows(menu);
         menu->state++;
         break;
     case HOST_COLLECT:
-        if (func_021CF068(menu) == 2) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+        if (COMM_ENTRY_RunLeaveConfirm(menu) == 2) {
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = HOST_CANCELLED;
             break;
         }
@@ -1126,27 +1126,27 @@ int func_021CDD5C(CommEntryMenu *menu)
                 menu->lockNotifyPending = 0;
             }
         }
-        func_021CE9A0(menu);
+        COMM_ENTRY_MENU_RefreshNames(menu);
         if (menu->acceptFlag == 1) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = HOST_ACCEPTED;
         } else if (menu->cancelFlag == 1) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = HOST_SHOW_CANCEL_MESSAGE;
         }
         break;
     case HOST_ACCEPTED:
         if (menu->isChild == 0) {
-            func_021CE9E4(menu, COMM_ENTRY_MSG_STARTING);
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_STARTING);
         }
         menu->state = HOST_WAIT_SYNC;
-        func_02039C68(func_020399A8(), 1, 0x27);
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         break;
     case HOST_WAIT_SYNC:
-        if (menu->isChild != 0 || func_02190EF0(menu->sysWin) == 1) {
-            if (func_02039CB4(func_020399A8(), 1, 0x27) == 1) {
+        if (menu->isChild != 0 || FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
+            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
                 menu->result = COMM_ENTRY_RESULT_START;
                 menu->state = HOST_DONE;
             } else if (menu->cancelFlag == 1) {
@@ -1155,23 +1155,23 @@ int func_021CDD5C(CommEntryMenu *menu)
         }
         break;
     case HOST_SHOW_CANCEL_MESSAGE:
-        func_021CE9E4(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_ABORT));
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_ABORT));
         menu->state = HOST_WAIT_CANCEL_MESSAGE;
         break;
     case HOST_WAIT_CANCEL_MESSAGE:
-        if (func_02190EF0(menu->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->result = COMM_ENTRY_RESULT_CANCEL;
             menu->state = HOST_DONE;
         }
         break;
     case HOST_SWITCH_SHOW_MESSAGE:
-        func_0203CEAC(0);
+        GFL_NET_Exit(0);
         func_0201F02C(menu->wordSet, 0, menu->parentList.selected);
-        func_021CE9E4(menu, COMM_ENTRY_MSG_SWITCHING);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_SWITCHING);
         menu->state = HOST_SWITCH_WAIT_MESSAGE;
         break;
     case HOST_SWITCH_WAIT_MESSAGE:
-        if (func_0203CDBC() == 1 && func_02190EF0(menu->sysWin) == 1) {
+        if (GFL_NET_IsSessionNull() == 1 && FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->result = COMM_ENTRY_RESULT_SWITCHED;
             menu->state = HOST_DONE;
         }
@@ -1181,11 +1181,11 @@ int func_021CDD5C(CommEntryMenu *menu)
         menu->state = HOST_DONE;
         break;
     case HOST_DONE:
-        func_021CE81C(menu);
+        COMM_ENTRY_MENU_CloseWindows(menu);
         return 1;
     }
     if (func_0200FB24() != 0) {
-        func_021CF0F4(menu);
+        COMM_ENTRY_ResetLeaveConfirm(menu);
         menu->result = COMM_ENTRY_RESULT_NET_ERROR;
         return 1;
     }
@@ -1194,52 +1194,52 @@ int func_021CDD5C(CommEntryMenu *menu)
 
 
 /*
- * In WAIT_REPLY the refused arm calls func_021CF0F4 twice: the original's
+ * In WAIT_REPLY the refused arm calls COMM_ENTRY_ResetLeaveConfirm twice: the original's
  * branch lands on COLLECT's second-call tail after its own call.
  */
-int func_021CDF18(CommEntryMenu *menu)
+int COMM_ENTRY_MENU_MainMode3(CommEntryMenu *menu)
 {
     switch (menu->state) {
     case JOIN_SHOW_CONNECT_MESSAGE:
-        func_021CE9E4(menu, COMM_ENTRY_MSG_CONNECTING);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_CONNECTING);
         menu->state++;
         break;
     case JOIN_REGISTER_SELF:
         menu->joinReply = 0;
-        if (func_021CF1AC(menu->myStatus, 0, menu->netMode) == 1) {
+        if (COMM_ENTRY_SendJoinRequest(menu->myStatus, 0, menu->netMode) == 1) {
             menu->state = JOIN_WAIT_REPLY;
         }
         break;
     case JOIN_WAIT_REPLY:
-        if (func_021CF068(menu) == 2) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
-            func_021CF0F4(menu);
+        if (COMM_ENTRY_RunLeaveConfirm(menu) == 2) {
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = JOIN_CANCELLED;
             break;
         }
         if (menu->joinReply == 1) {
             menu->state = JOIN_OPEN_WINDOWS;
-            func_021CF0F4(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
         } else if (menu->joinReply == 2) {
             menu->state = JOIN_SWITCH_SHOW_MESSAGE;
-            func_021CF0F4(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
         } else if (menu->acceptFlag == 1) {
             menu->state = JOIN_ACCEPTED;
-            func_021CF0F4(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
         } else if (menu->cancelFlag == 1) {
             menu->state = JOIN_CANCELLED;
-            func_021CF0F4(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
         }
         break;
     case JOIN_OPEN_WINDOWS:
-        func_021CE7AC(menu);
+        COMM_ENTRY_MENU_OpenWindows(menu);
         menu->state++;
         break;
     case JOIN_COLLECT:
-        if (func_021CF068(menu) == 2) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+        if (COMM_ENTRY_RunLeaveConfirm(menu) == 2) {
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = JOIN_CANCELLED;
             break;
         }
@@ -1248,27 +1248,27 @@ int func_021CDF18(CommEntryMenu *menu)
                 menu->lockNotifyPending = 0;
             }
         }
-        func_021CE9A0(menu);
+        COMM_ENTRY_MENU_RefreshNames(menu);
         if (menu->acceptFlag == 1) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = JOIN_ACCEPTED;
         } else if (menu->cancelFlag == 1) {
-            func_021CE81C(menu);
-            func_021CF0F4(menu);
+            COMM_ENTRY_MENU_CloseWindows(menu);
+            COMM_ENTRY_ResetLeaveConfirm(menu);
             menu->state = JOIN_SHOW_CANCEL_MESSAGE;
         }
         break;
     case JOIN_ACCEPTED:
         if (menu->isChild == 0) {
-            func_021CE9E4(menu, COMM_ENTRY_MSG_STARTING);
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_STARTING);
         }
         menu->state = JOIN_WAIT_SYNC;
-        func_02039C68(func_020399A8(), 1, 0x27);
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27);
         break;
     case JOIN_WAIT_SYNC:
-        if (menu->isChild != 0 || func_02190EF0(menu->sysWin) == 1) {
-            if (func_02039CB4(func_020399A8(), 1, 0x27) == 1) {
+        if (menu->isChild != 0 || FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
+            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x27) == 1) {
                 menu->result = COMM_ENTRY_RESULT_START;
                 menu->state = JOIN_DONE;
             } else if (menu->cancelFlag == 1) {
@@ -1277,23 +1277,23 @@ int func_021CDF18(CommEntryMenu *menu)
         }
         break;
     case JOIN_SHOW_CANCEL_MESSAGE:
-        func_021CE9E4(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_ABORT));
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_ABORT));
         menu->state = JOIN_WAIT_CANCEL_MESSAGE;
         break;
     case JOIN_WAIT_CANCEL_MESSAGE:
-        if (func_02190EF0(menu->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->result = COMM_ENTRY_RESULT_CANCEL;
             menu->state = JOIN_DONE;
         }
         break;
     case JOIN_SWITCH_SHOW_MESSAGE:
-        func_0203CEAC(0);
+        GFL_NET_Exit(0);
         func_0201F02C(menu->wordSet, 0, menu->parentMyStatus);
-        func_021CE9E4(menu, COMM_ENTRY_MSG_SWITCHING);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_SWITCHING);
         menu->state = JOIN_SWITCH_WAIT_MESSAGE;
         break;
     case JOIN_SWITCH_WAIT_MESSAGE:
-        if (func_0203CDBC() == 1 && func_02190EF0(menu->sysWin) == 1) {
+        if (GFL_NET_IsSessionNull() == 1 && FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             menu->result = COMM_ENTRY_RESULT_SWITCHED;
             menu->state = JOIN_DONE;
         }
@@ -1303,11 +1303,11 @@ int func_021CDF18(CommEntryMenu *menu)
         menu->state = JOIN_DONE;
         break;
     case JOIN_DONE:
-        func_021CE81C(menu);
+        COMM_ENTRY_MENU_CloseWindows(menu);
         return 1;
     }
     if (func_0200FB24() != 0) {
-        func_021CF0F4(menu);
+        COMM_ENTRY_ResetLeaveConfirm(menu);
         menu->result = COMM_ENTRY_RESULT_NET_ERROR;
         return 1;
     }
@@ -1315,7 +1315,7 @@ int func_021CDF18(CommEntryMenu *menu)
 }
 
 
-void func_021CE12C(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_ProcessMemberQueues(CommEntryMenu *menu)
 {
     u8 netId;
     int bit;
@@ -1332,9 +1332,9 @@ void func_021CE12C(CommEntryMenu *menu)
         }
     }
     if (menu->sendPending == 1 && menu->sendBusy == 0) {
-        memberCount = func_021CE1F4(menu);
+        memberCount = COMM_ENTRY_MENU_CollectMemberNames(menu);
         if (memberCount > 1) {
-            if (func_021CF3FC(&menu->roster, memberCount, menu->netMode) == 1) {
+            if (COMM_ENTRY_SendRoster(&menu->roster, memberCount, menu->netMode) == 1) {
                 menu->sendPending = 0;
                 menu->sendBusy = 1;
             }
@@ -1344,7 +1344,7 @@ void func_021CE12C(CommEntryMenu *menu)
 
 
 /* Copies the accepted members' names into the roster; returns 1 | mask. */
-u8 func_021CE1F4(CommEntryMenu *menu)
+u8 COMM_ENTRY_MENU_CollectMemberNames(CommEntryMenu *menu)
 {
     u8 netId;
     u8 mask;
@@ -1357,7 +1357,7 @@ u8 func_021CE1F4(CommEntryMenu *menu)
     roster = &menu->roster;
     for (; netId < 4; netId++) {
         if (menu->members[netId].state) {
-            func_02008494(members + netId, roster->myStatus[netId]);
+            MYSTATUS_Copy(members + netId, roster->myStatus[netId]);
             mask |= 1 << netId;
         }
     }
@@ -1366,26 +1366,26 @@ u8 func_021CE1F4(CommEntryMenu *menu)
 }
 
 
-void func_021CE24C(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_CheckDisconnects(CommEntryMenu *menu)
 {
     u8 netId;
 
     for (netId = 0; netId < 4; netId++) {
-        if (menu->members[netId].state && !func_0203D1C0(netId)) {
+        if (menu->members[netId].state && !GFL_NET_IsConnectMember(netId)) {
             CommEntryMemberFunc onRemove = menu->onRemove;
 
             if (onRemove) {
                 onRemove(menu->callbackWork, &menu->members[netId], menu->members[netId].mac);
             }
-            func_021CE3D8(menu, netId);
-            func_021CEA84(menu, netId);
-            func_021CEAB0(menu);
+            COMM_ENTRY_MENU_ClearMember(menu, netId);
+            COMM_ENTRY_MENU_ClearPendingBits(menu, netId);
+            COMM_ENTRY_MENU_QueueSend(menu);
         }
     }
 }
 
 
-void func_021CE2BC(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_UpdateMemberList(CommEntryMenu *menu)
 {
     CommEntryMember *members;
     int index;
@@ -1396,18 +1396,18 @@ void func_021CE2BC(CommEntryMenu *menu)
     members = menu->members;
     for (; index < 4; index++) {
         if (menu->members[index].state) {
-            func_021CE8B0(menu, members + index, index);
+            COMM_ENTRY_MENU_UpdateMemberName(menu, members + index, index);
             count++;
         } else {
-            func_021CE8F4(menu, members + index, index);
+            COMM_ENTRY_MENU_ClearMemberName(menu, members + index, index);
         }
     }
     if (count == 0) {
-        func_021CE934(menu, menu->myStatus, 0);
+        COMM_ENTRY_MENU_PrintMemberName(menu, menu->myStatus, 0);
         count++;
     }
     if (menu->memberCount != count) {
-        if (func_021CE84C(menu, count) == 1) {
+        if (COMM_ENTRY_MENU_PrintRemaining(menu, count) == 1) {
             menu->memberCount = count;
             if (menu->isChild == 1 && count == 1) {
                 menu->refreshPending = 1;
@@ -1415,9 +1415,9 @@ void func_021CE2BC(CommEntryMenu *menu)
         }
     }
     if (menu->refreshPending == 1) {
-        if (func_021CE78C(menu) == 1 && menu->confirm.menu == 0) {
+        if (COMM_ENTRY_MENU_IsIdle(menu) == 1 && menu->confirm.menu == 0) {
             if (count == 1) {
-                func_021CE9E4(menu, COMM_ENTRY_MSG_WAIT_FOR_MEMBERS);
+                COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_WAIT_FOR_MEMBERS);
             }
             menu->refreshPending = 0;
         }
@@ -1425,7 +1425,7 @@ void func_021CE2BC(CommEntryMenu *menu)
 }
 
 
-void func_021CE36C(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_AdvanceMemberStates(CommEntryMenu *menu)
 {
     CommEntryMember *member;
     u8 netId;
@@ -1442,7 +1442,7 @@ void func_021CE36C(CommEntryMenu *menu)
             }
             break;
         case COMM_ENTRY_MEMBER_QUEUED:
-            if (func_021CE3E8(menu, member) == 1) {
+            if (COMM_ENTRY_MENU_LatchRequest(menu, member) == 1) {
                 member->state = COMM_ENTRY_MEMBER_ASKING;
             }
             break;
@@ -1451,14 +1451,14 @@ void func_021CE36C(CommEntryMenu *menu)
 }
 
 
-void func_021CE3D8(CommEntryMenu *menu, int index)
+void COMM_ENTRY_MENU_ClearMember(CommEntryMenu *menu, int index)
 {
     menu->members[index].state = COMM_ENTRY_MEMBER_EMPTY;
 }
 
 
 /* Latches a join request when none is pending; returns whether it did. */
-int func_021CE3E8(CommEntryMenu *menu, CommEntryMember *member)
+int COMM_ENTRY_MENU_LatchRequest(CommEntryMenu *menu, CommEntryMember *member)
 {
     if (menu->requestPending == 0) {
         menu->request = *member;
@@ -1472,7 +1472,7 @@ int func_021CE3E8(CommEntryMenu *menu, CommEntryMember *member)
 /*
  * The request base kept in r6 comes from `request` being assigned first.
  */
-void func_021CE41C(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_ProcessRequest(CommEntryMenu *menu)
 {
     CommEntryConfirm *confirm;
     CommEntryMember *request;
@@ -1485,21 +1485,21 @@ void func_021CE41C(CommEntryMenu *menu)
     if (menu->requestPending == 0) {
         return;
     }
-    if (!func_02190EF0(menu->sysWin)) {
+    if (!FIELD_MSGBG_SysWinMain(menu->sysWin)) {
         return;
     }
     switch (confirm->state) {
     case CONFIRM_ASK:
         func_0201F02C(menu->wordSet, 0, request);
-        func_021CE9E4(menu, COMM_ENTRY_MSG_ASK_JOIN_REQUEST);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_ASK_JOIN_REQUEST);
         confirm->state++;
         break;
     case CONFIRM_OPEN_MENU:
-        confirm->menu = func_02190BE4(func_02188C54(menu->fieldMap), 0);
+        confirm->menu = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg(menu->fieldMap), 0);
         confirm->state++;
         break;
     case CONFIRM_WAIT_ANSWER:
-        answer = func_02190C78(confirm->menu);
+        answer = FIELD_MSGBG_YesNoMenuMain(confirm->menu);
         if (answer == 2) {
             break;
         }
@@ -1518,16 +1518,16 @@ void func_021CE41C(CommEntryMenu *menu)
                 break;
             }
         }
-        func_021909BC(confirm->menu);
+        FIELD_MSGBG_DeleteMenuFunc(confirm->menu);
         confirm->menu = 0;
         confirm->state++;
         break;
     case CONFIRM_FINISH_REQUEST:
         menu->requestPending = 0;
         confirm->state = CONFIRM_ASK;
-        func_021CE36C(menu);
+        COMM_ENTRY_MENU_AdvanceMemberStates(menu);
         if (menu->requestPending == 0) {
-            if (func_021CE73C(menu) > 1 && menu->isChild == 1) {
+            if (COMM_ENTRY_MENU_CountAcceptedMembers(menu) > 1 && menu->isChild == 1) {
                 menu->nextMessage = COMM_ENTRY_MSG_MEMBERS_CAN_START;
             } else {
                 menu->nextMessage = COMM_ENTRY_MSG_WAIT_FOR_MEMBERS;
@@ -1539,34 +1539,34 @@ void func_021CE41C(CommEntryMenu *menu)
 
 
 /* Asks whether to start with the members present; returns 1 for yes, 2 for no, else 0. */
-int func_021CE52C(CommEntryMenu *menu)
+int COMM_ENTRY_MENU_ProcessCancel(CommEntryMenu *menu)
 {
     CommEntryConfirm *confirm;
     u32 answer;
 
     confirm = &menu->confirm;
-    if (!func_02190EF0(menu->sysWin)) {
+    if (!FIELD_MSGBG_SysWinMain(menu->sysWin)) {
         return 0;
     }
     switch (confirm->state) {
     case CONFIRM_ASK:
-        func_021CE9E4(menu, COMM_ENTRY_MSG_CONFIRM_START);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_CONFIRM_START);
         confirm->state++;
         break;
     case CONFIRM_OPEN_MENU:
-        confirm->menu = func_02190BE4(func_02188C54(menu->fieldMap), 0);
+        confirm->menu = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg(menu->fieldMap), 0);
         confirm->state++;
         break;
     case CONFIRM_WAIT_ANSWER:
-        if (!func_021CEA50(menu)) {
+        if (!COMM_ENTRY_MENU_StatesUnchanged(menu)) {
             answer = 1;
         } else {
-            answer = func_02190C78(confirm->menu);
+            answer = FIELD_MSGBG_YesNoMenuMain(confirm->menu);
             if (answer == 2) {
                 break;
             }
         }
-        func_021909BC(confirm->menu);
+        FIELD_MSGBG_DeleteMenuFunc(confirm->menu);
         confirm->menu = 0;
         confirm->state = CONFIRM_ASK;
         if (answer == 0) {
@@ -1582,55 +1582,55 @@ int func_021CE52C(CommEntryMenu *menu)
  * Asks whether to quit; returns 1 to quit, 2 to stay, else 0. The two
  * question steps (3 and 1) are identical bodies the compiler tail-merged.
  */
-u32 func_021CE5AC(CommEntryMenu *menu)
+u32 COMM_ENTRY_MENU_ProcessStartConfirm(CommEntryMenu *menu)
 {
     CommEntryConfirm *confirm;
     u32 answer;
 
     confirm = &menu->confirm;
-    if (!func_02190EF0(menu->sysWin)) {
+    if (!FIELD_MSGBG_SysWinMain(menu->sysWin)) {
         return 0;
     }
     switch (confirm->state) {
     case CONFIRM_ASK:
-        func_021CE9E4(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_QUIT_ASK));
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_QUIT_ASK));
         confirm->state++;
         break;
     case CONFIRM_OPEN_MENU:
-        confirm->menu = func_02190BE4(func_02188C54(menu->fieldMap), 0);
+        confirm->menu = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg(menu->fieldMap), 0);
         confirm->state++;
         break;
     case CONFIRM_WAIT_ANSWER:
-        answer = func_02190C78(confirm->menu);
+        answer = FIELD_MSGBG_YesNoMenuMain(confirm->menu);
         if (answer == 2) {
             break;
         }
-        func_021909BC(confirm->menu);
+        FIELD_MSGBG_DeleteMenuFunc(confirm->menu);
         confirm->menu = 0;
         if (answer == 1) {
             confirm->result = 2;
             confirm->state = CONFIRM_ABORTED;
-        } else if (func_021CE73C(menu) <= 1) {
-            func_021CE9E4(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_QUIT_ALONE));
+        } else if (COMM_ENTRY_MENU_CountAcceptedMembers(menu) <= 1) {
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_QUIT_ALONE));
             confirm->state = CONFIRM_NOTIFY_ALONE;
         } else {
-            func_021CE9E4(menu, COMM_ENTRY_MSG_CONFIRM_QUIT_MEMBERS);
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_CONFIRM_QUIT_MEMBERS);
             confirm->state++;
         }
         break;
     case CONFIRM_OPEN_MENU_AGAIN:
-        confirm->menu = func_02190BE4(func_02188C54(menu->fieldMap), 0);
+        confirm->menu = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg(menu->fieldMap), 0);
         confirm->state++;
         break;
     case CONFIRM_WAIT_ANSWER_AGAIN:
-        answer = func_02190C78(confirm->menu);
+        answer = FIELD_MSGBG_YesNoMenuMain(confirm->menu);
         if (answer == 2) {
             break;
         }
-        func_021909BC(confirm->menu);
+        FIELD_MSGBG_DeleteMenuFunc(confirm->menu);
         confirm->menu = 0;
         if (answer == 0) {
-            func_021CE9E4(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_QUIT_ALONE));
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_QUIT_ALONE));
             confirm->state++;
         } else {
             confirm->result = 2;
@@ -1642,7 +1642,7 @@ u32 func_021CE5AC(CommEntryMenu *menu)
         confirm->result = 1;
         break;
     case CONFIRM_ABORTED:
-        if (func_021CE73C(menu) > 1 && menu->isChild == 1) {
+        if (COMM_ENTRY_MENU_CountAcceptedMembers(menu) > 1 && menu->isChild == 1) {
             menu->nextMessage = COMM_ENTRY_MSG_MEMBERS_CAN_START;
         } else {
             menu->nextMessage = COMM_ENTRY_MSG_WAIT_FOR_MEMBERS;
@@ -1651,7 +1651,7 @@ u32 func_021CE5AC(CommEntryMenu *menu)
         break;
     case CONFIRM_FINISHED:
         if (confirm->menu) {
-            func_021909BC(confirm->menu);
+            FIELD_MSGBG_DeleteMenuFunc(confirm->menu);
             confirm->menu = 0;
         }
         confirm->state = CONFIRM_ASK;
@@ -1661,34 +1661,34 @@ u32 func_021CE5AC(CommEntryMenu *menu)
 }
 
 
-void func_021CE6F0(CommEntryMenu *menu, int netId)
+void COMM_ENTRY_MENU_MarkMemberReady(CommEntryMenu *menu, int netId)
 {
     menu->readyBits |= 1 << netId;
 }
 
 
-void func_021CE70C(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_SetAcceptFlag(CommEntryMenu *menu)
 {
     menu->acceptFlag = 1;
 }
 
 
-void func_021CE718(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_SetCancelFlag(CommEntryMenu *menu)
 {
     menu->cancelFlag = 1;
 }
 
 
 /* Marks the session as locked and the lock as not yet broadcast. */
-void func_021CE724(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_SetBusyFlags(CommEntryMenu *menu)
 {
     menu->sessionLocked = 1;
     menu->lockNotifyPending = 1;
-    func_0203D7BC(1);
+    GFL_NET_SetLoginOption(1);
 }
 
 
-int func_021CE73C(CommEntryMenu *menu)
+int COMM_ENTRY_MENU_CountAcceptedMembers(CommEntryMenu *menu)
 {
     int netId;
     int count = 0;
@@ -1700,7 +1700,7 @@ int func_021CE73C(CommEntryMenu *menu)
 }
 
 
-u32 func_021CE760(CommEntryMenu *menu)
+u32 COMM_ENTRY_MENU_GetAcceptedMask(CommEntryMenu *menu)
 {
     u32 mask = 0;
     int netId;
@@ -1714,10 +1714,10 @@ u32 func_021CE760(CommEntryMenu *menu)
 
 
 /* Emitted from the ov021 instruction shape. */
-int func_021CE78C(CommEntryMenu *menu)
+int COMM_ENTRY_MENU_IsIdle(CommEntryMenu *menu)
 {
     if (menu->requestPending == 0) {
-        if (func_02190EF0(menu->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             return 1;
         }
     }
@@ -1725,72 +1725,72 @@ int func_021CE78C(CommEntryMenu *menu)
 }
 
 
-void func_021CE7AC(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_OpenWindows(CommEntryMenu *menu)
 {
     FieldMsgBg *msgBg;
     int height;
 
-    msgBg = func_02188C54(menu->fieldMap);
+    msgBg = FIELDMAP_GetMsgBg(menu->fieldMap);
     height = 0x10;
     if (menu->menuMode) {
         height = 0xe;
     }
-    menu->memberWin = func_02190708(msgBg, menu->msgData, 2, 6, 0x12, height - 6);
-    menu->titleWin = func_02190708(msgBg, menu->msgData, 2, 1, 0x1c, 2);
-    func_02190740(menu->titleWin, 0, 0, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_TITLE));
+    menu->memberWin = FIELD_MSGBG_CreateMsgWin(msgBg, menu->msgData, 2, 6, 0x12, height - 6);
+    menu->titleWin = FIELD_MSGBG_CreateMsgWin(msgBg, menu->msgData, 2, 1, 0x1c, 2);
+    FIELD_MSGBG_MsgWinPrintMsg(menu->titleWin, 0, 0, COMM_ENTRY_MSG(menu->isChild, COMM_ENTRY_MSGCOL_TITLE));
 }
 
 
-void func_021CE81C(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_CloseWindows(CommEntryMenu *menu)
 {
-    FieldMsgBg *msgBg = func_02188C54(menu->fieldMap);
+    FieldMsgBg *msgBg = FIELDMAP_GetMsgBg(menu->fieldMap);
     if (menu->titleWin != 0) {
-        func_02190728(menu->titleWin);
+        FIELD_MSGBG_DeleteMsgWin(menu->titleWin);
         menu->titleWin = 0;
     }
     if (menu->memberWin != 0) {
-        func_02190728(menu->memberWin);
+        FIELD_MSGBG_DeleteMsgWin(menu->memberWin);
         menu->memberWin = 0;
     }
-    func_02190490(msgBg);
+    FIELD_MSGBG_ClearPrintQue(msgBg);
 }
 
 
-int func_021CE84C(CommEntryMenu *menu, int count)
+int COMM_ENTRY_MENU_PrintRemaining(CommEntryMenu *menu, int count)
 {
-    if (menu->memberWin && func_0219077C(menu->memberWin) == 1) {
-        func_02190794(menu->memberWin, 0, 0x40, 0x90, 0x50);
+    if (menu->memberWin && FIELD_MSGBG_IsMsgWinTransDone(menu->memberWin) == 1) {
+        FIELD_MSGBG_FillMsgWin(menu->memberWin, 0, 0x40, 0x90, 0x50);
         func_0201EFA4(menu->wordSet, 0, menu->maxMembers - count, 1, 0, 1);
         func_0201F250(menu->wordSet, menu->remainingStr, menu->remainingFormat);
-        func_02190758(menu->memberWin, 0, 0x40, menu->remainingStr);
+        FIELD_MSGBG_MsgWinPrintStr(menu->memberWin, 0, 0x40, menu->remainingStr);
         return 1;
     }
     return 0;
 }
 
 
-void func_021CE8B0(CommEntryMenu *menu, CommEntryMember *member, int index)
+void COMM_ENTRY_MENU_UpdateMemberName(CommEntryMenu *menu, CommEntryMember *member, int index)
 {
     MacAddress *macs;
     macs = menu->memberMacs;
     if (func_0203EFC8(member->mac, macs[index].b, 6)) {
-        func_021CE934(menu, member, (u8)index);
+        COMM_ENTRY_MENU_PrintMemberName(menu, member, (u8)index);
         func_02082D44(member->mac, macs[index].b, 6);
     }
 }
 
 
-void func_021CE8F4(CommEntryMenu *menu, CommEntryMember *member, int index)
+void COMM_ENTRY_MENU_ClearMemberName(CommEntryMenu *menu, CommEntryMember *member, int index)
 {
-    if (func_0203EFC8((u8 *)menu->memberMacs + index * 6, d_021DB470, 6)) {
-        func_021CE984(menu, index);
-        func_02082D44(d_021DB470, menu->memberMacs[index].b, 6);
+    if (func_0203EFC8((u8 *)menu->memberMacs + index * 6, gCommEntryEmptyMac, 6)) {
+        COMM_ENTRY_MENU_EraseMemberName(menu, index);
+        func_02082D44(gCommEntryEmptyMac, menu->memberMacs[index].b, 6);
     }
 }
 
 
 /* Prints the name and trainer id of a member on row `row` of the member window. */
-void func_021CE934(CommEntryMenu *menu, const void *myStatus, u32 row)
+void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, u32 row)
 {
     u32 trainerId;
     if (menu->memberWin != 0) {
@@ -1798,34 +1798,34 @@ void func_021CE934(CommEntryMenu *menu, const void *myStatus, u32 row)
         trainerId = func_02008534(myStatus);
         func_0201EFA4(menu->wordSet, 1, trainerId, 5, 2, 1);
         func_0201F250(menu->wordSet, menu->nameStr, menu->nameFormat);
-        func_02190758(menu->memberWin, 0, (row & 0xfff) << 4, menu->nameStr);
+        FIELD_MSGBG_MsgWinPrintStr(menu->memberWin, 0, (row & 0xfff) << 4, menu->nameStr);
     }
 }
 
 
-void func_021CE984(CommEntryMenu *menu, u32 row)
+void COMM_ENTRY_MENU_EraseMemberName(CommEntryMenu *menu, u32 row)
 {
     if (menu->memberWin != 0) {
-        func_02190794(menu->memberWin, 0, row << 4, 0x90, 0x10);
+        FIELD_MSGBG_FillMsgWin(menu->memberWin, 0, row << 4, 0x90, 0x10);
     }
 }
 
 
-void func_021CE9A0(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_RefreshNames(CommEntryMenu *menu)
 {
     int row;
     if (menu->namesDirty != 0) {
         menu->namesDirty = 0;
         for (row = 0; row < 4; row++) {
-            func_021CE984(menu, row);
+            COMM_ENTRY_MENU_EraseMemberName(menu, row);
             if (menu->roster.mask & (1 << row))
-                func_021CE934(menu, menu->roster.myStatus[row], (u8)row);
+                COMM_ENTRY_MENU_PrintMemberName(menu, menu->roster.myStatus[row], (u8)row);
         }
     }
 }
 
 
-void func_021CE9E4(CommEntryMenu *menu, u32 msgId)
+void COMM_ENTRY_MENU_PrintMessage(CommEntryMenu *menu, u32 msgId)
 {
     struct Strbuf *format;
     if (msgId == COMM_ENTRY_MSG_WAIT_FOR_MEMBERS && menu->lastMessageId == COMM_ENTRY_MSG_WAIT_FOR_MEMBERS)
@@ -1833,13 +1833,13 @@ void func_021CE9E4(CommEntryMenu *menu, u32 msgId)
     menu->lastMessageId = msgId;
     format = func_02045EC0(menu->msgData, msgId);
     func_0201F250(menu->wordSet, menu->msgStr, format);
-    func_02045808(format);
-    func_02190F7C(menu->sysWin);
-    func_02190EB8(menu->sysWin, 0, 0, menu->msgStr);
+    STRBUF_Delete(format);
+    FIELD_MSGBG_ClearSysWin(menu->sysWin);
+    FIELD_MSGBG_SysWinPrintStr(menu->sysWin, 0, 0, menu->msgStr);
 }
 
 
-void func_021CEA28(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_SnapshotStates(CommEntryMenu *menu)
 {
     u8 netId;
     for (netId = 0; netId < 4; netId++) {
@@ -1848,7 +1848,7 @@ void func_021CEA28(CommEntryMenu *menu)
 }
 
 
-int func_021CEA50(CommEntryMenu *menu)
+int COMM_ENTRY_MENU_StatesUnchanged(CommEntryMenu *menu)
 {
     u8 netId;
     for (netId = 0; netId < 4; netId++) {
@@ -1860,14 +1860,14 @@ int func_021CEA50(CommEntryMenu *menu)
 }
 
 
-void func_021CEA84(CommEntryMenu *menu, int index)
+void COMM_ENTRY_MENU_ClearPendingBits(CommEntryMenu *menu, int index)
 {
     menu->pendingAddBits &= 0xff ^ (1 << index);
     menu->pendingRemoveBits &= 0xff ^ (1 << index);
 }
 
 
-void func_021CEAB0(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_QueueSend(CommEntryMenu *menu)
 {
     if (menu->sendPending == 1 || menu->sendBusy == 1) {
         menu->sendQueued = 1;
@@ -1878,7 +1878,7 @@ void func_021CEAB0(CommEntryMenu *menu)
 }
 
 
-CommEntryMenu *func_021CEADC(CommEntryMenu *menu)
+CommEntryMenu *COMM_ENTRY_MENU_AckSend(CommEntryMenu *menu)
 {
     menu->sendBusy = 0;
     menu->sendPending = menu->sendQueued;
@@ -1887,41 +1887,41 @@ CommEntryMenu *func_021CEADC(CommEntryMenu *menu)
 }
 
 
-CommEntryRoster *func_021CEAF8(CommEntryMenu *menu)
+CommEntryRoster *COMM_ENTRY_MENU_GetNameBuffer(CommEntryMenu *menu)
 {
     return &menu->roster;
 }
 
 
-void func_021CEB04(CommEntryMenu *menu, const CommEntryRoster *roster)
+void COMM_ENTRY_MENU_SetNameBuffer(CommEntryMenu *menu, const CommEntryRoster *roster)
 {
     func_02082D44(roster, &menu->roster, sizeof(CommEntryRoster));
     menu->namesDirty = 1;
 }
 
 
-void func_021CEB20(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_StartYesNo(CommEntryMenu *menu)
 {
     FieldMsgBg *msgBg;
-    msgBg = func_02188C54(menu->fieldMap);
-    menu->parentList.items = func_02190A20(0x10, menu->heapId);
-    func_021CEF1C(menu);
-    menu->parentList.menu = (FieldMenuFunc *)func_0219097C(msgBg, &d_021DB478, menu->parentList.items);
+    msgBg = FIELDMAP_GetMsgBg(menu->fieldMap);
+    menu->parentList.items = FIELD_MSGBG_CreateMenuItems(0x10, menu->heapId);
+    COMM_ENTRY_BuildParentItems(menu);
+    menu->parentList.menu = (FieldMenuFunc *)FIELD_MSGBG_CreateMenuFunc(msgBg, &gCommEntryParentListHeader, menu->parentList.items);
     menu->parentList.state = 0;
 }
 
 
-void func_021CEB64(CommEntryMenu *menu)
+void COMM_ENTRY_MENU_EndYesNo(CommEntryMenu *menu)
 {
     if (menu->parentList.menu != 0) {
-        func_021909BC(menu->parentList.menu);
+        FIELD_MSGBG_DeleteMenuFunc(menu->parentList.menu);
         menu->parentList.menu = 0;
         menu->parentList.itemsBuilt = 0;
     }
 }
 
 
-u32 func_021CEB84(CommEntryMenu *menu)
+u32 COMM_ENTRY_MENU_MainYesNo(CommEntryMenu *menu)
 {
     FieldMenuFunc **confirmMenu = &menu->confirm.menu;
     CommEntryParentList *list = &menu->parentList;
@@ -1929,18 +1929,18 @@ u32 func_021CEB84(CommEntryMenu *menu)
     switch (list->state) {
     case LIST_BROWSE:
         if (list->selected == 0) {
-            func_021CEE00(menu);
-            func_021CEE48(menu);
-            if (func_021CEDA0(menu) == 0) {
+            COMM_ENTRY_TickParentTimeouts(menu);
+            COMM_ENTRY_ScanParents(menu);
+            if (COMM_ENTRY_PollParentList(menu) == 0) {
                 list->result = LIST_RESULT_LEFT;
                 list->state = LIST_FINISHED;
             } else if (menu->parentList.listDirty == 1) {
-                func_021CEF1C(menu);
-                func_02190A14(menu->parentList.menu);
+                COMM_ENTRY_BuildParentItems(menu);
+                FIELD_MSGBG_RewriteMenuFunc(menu->parentList.menu);
                 menu->parentList.listDirty = 0;
             }
-        } else if (func_020392B8() > 1) {
-            if (func_02039ACC() == 1) {
+        } else if (GFL_NET_SYSTEM_GetConnectNum() > 1) {
+            if (GFL_NET_HANDLE_CheckNegotiation() == 1) {
                 list->state++;
             }
         } else {
@@ -1951,14 +1951,14 @@ u32 func_021CEB84(CommEntryMenu *menu)
             (list->waitFrames)++;
             if (list->waitFrames >= 300) {
                 list->state = LIST_SHOW_TIMEOUT;
-                func_021CE9E4(menu, COMM_ENTRY_MSG_LIST_TIMEOUT);
+                COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_LIST_TIMEOUT);
             }
         }
         break;
     case LIST_WAIT_NEGOTIATION:
-        if (func_020399B8(func_020399A8()) == 1) {
+        if (GFL_NET_HANDLE_IsNegotiationDone(GFL_NET_HANDLE_GetCurrentHandle()) == 1) {
             menu->joinReply = 0;
-            if (func_021CF1AC(menu->myStatus, 0, menu->netMode) == 1) {
+            if (COMM_ENTRY_SendJoinRequest(menu->myStatus, 0, menu->netMode) == 1) {
                 list->state = LIST_WAIT_REPLY;
             }
         } else if (func_020362DC() & 2) {
@@ -1989,30 +1989,30 @@ u32 func_021CEB84(CommEntryMenu *menu)
     case LIST_FINISHED:
         return list->result;
     case LIST_ASK_LEAVE:
-        func_021CE9E4(menu, COMM_ENTRY_MSG_ASK_LEAVE);
-        *confirmMenu = func_02190BE4(func_02188C54(menu->fieldMap), 0);
+        COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_ASK_LEAVE);
+        *confirmMenu = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg(menu->fieldMap), 0);
         list->state = LIST_WAIT_LEAVE_ANSWER;
         break;
     case LIST_WAIT_LEAVE_ANSWER:
-        answer = func_02190C78(*confirmMenu);
-        if (func_0219049C(func_02188C54(menu->fieldMap)) == 1 && menu->sessionLocked == 1) {
+        answer = FIELD_MSGBG_YesNoMenuMain(*confirmMenu);
+        if (FIELD_MSGBG_IsPrintQueFinished(FIELDMAP_GetMsgBg(menu->fieldMap)) == 1 && menu->sessionLocked == 1) {
             answer = 1;
         }
-        if (answer == 2 && func_0219049C(func_02188C54(menu->fieldMap)) == 1) {
+        if (answer == 2 && FIELD_MSGBG_IsPrintQueFinished(FIELDMAP_GetMsgBg(menu->fieldMap)) == 1) {
             if (menu->acceptFlag == 1 || menu->cancelFlag == 1) {
-                func_021909BC(*confirmMenu);
+                FIELD_MSGBG_DeleteMenuFunc(*confirmMenu);
                 *confirmMenu = 0;
                 list->result = LIST_RESULT_JOINED;
                 list->state = LIST_FINISHED;
             }
         } else {
-            func_021909BC(*confirmMenu);
+            FIELD_MSGBG_DeleteMenuFunc(*confirmMenu);
             *confirmMenu = 0;
             if (answer == 1) {
                 list->state = list->returnState;
-                func_021CE9E4(menu, COMM_ENTRY_MSG_LEAVE_REFUSED);
+                COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_LEAVE_REFUSED);
                 if (menu->parentList.menu != 0) {
-                    func_02190B1C(menu->parentList.menu);
+                    FIELD_MSGBG_DrawMenuFuncFrame(menu->parentList.menu);
                 }
             } else {
                 list->result = LIST_RESULT_LEFT;
@@ -2021,7 +2021,7 @@ u32 func_021CEB84(CommEntryMenu *menu)
         }
         break;
     case LIST_SHOW_TIMEOUT:
-        if (func_02190EF0(menu->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(menu->sysWin) == 1) {
             list->result = LIST_RESULT_LEFT;
             list->state = LIST_FINISHED;
         }
@@ -2031,12 +2031,12 @@ u32 func_021CEB84(CommEntryMenu *menu)
 }
 
 /* Polls the parent list menu; a chosen used slot becomes the selected parent. */
-int func_021CEDA0(CommEntryMenu *menu)
+int COMM_ENTRY_PollParentList(CommEntryMenu *menu)
 {
     CommEntryParentList *list = &menu->parentList;
     int choice;
 
-    choice = func_021909E4(list->menu);
+    choice = FIELD_MSGBG_MenuFuncMain(list->menu);
     switch (choice) {
     case -2:
         return 0;
@@ -2045,9 +2045,9 @@ int func_021CEDA0(CommEntryMenu *menu)
     default:
         if (list->slots[choice].used == 1) {
             list->selected = &list->slots[choice];
-            func_0203D000(list->selected->mac);
+            GFL_NET_ConnectMacAddressChild(list->selected->mac);
             func_0201F02C(menu->wordSet, 0, list->selected);
-            func_021CE9E4(menu, COMM_ENTRY_MSG_LEAVE_REFUSED);
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_LEAVE_REFUSED);
             list->waitFrames = 0;
         }
         break;
@@ -2056,7 +2056,7 @@ int func_021CEDA0(CommEntryMenu *menu)
 }
 
 /* Counts the timeouts down; an expired parent slot is cleared. */
-void func_021CEE00(CommEntryMenu *menu)
+void COMM_ENTRY_TickParentTimeouts(CommEntryMenu *menu)
 {
     CommEntryParentList *list = &menu->parentList;
     int i;
@@ -2065,7 +2065,7 @@ void func_021CEE00(CommEntryMenu *menu)
         if (list->slots[i].used == 1) {
             list->slots[i].timeout -= 1;
             if (list->slots[i].timeout <= 0) {
-                func_021CEF08(menu, i);
+                COMM_ENTRY_ClearParentSlot(menu, i);
                 list->listDirty = 1;
             }
         }
@@ -2073,21 +2073,21 @@ void func_021CEE00(CommEntryMenu *menu)
 }
 
 /* Registers every beacon that advertises an open session as a parent. */
-void func_021CEE48(CommEntryMenu *menu)
+void COMM_ENTRY_ScanParents(CommEntryMenu *menu)
 {
     int i;
     CommEntryBeaconData *beacon;
 
     for (i = 0; i < 0x10; i++) {
-        beacon = func_0203CF10(i);
+        beacon = GFL_NET_GetScanResult(i);
         if (beacon != 0 && beacon->advertiseId == COMM_ENTRY_ADVERTISE_ID) {
-            func_021CEE78(menu, beacon->mac, beacon);
+            COMM_ENTRY_AddParent(menu, beacon->mac, beacon);
         }
     }
 }
 
 /* Refreshes the timeout of a known parent, or stores a new one in a free slot. */
-void func_021CEE78(CommEntryMenu *menu, u8 *mac, CommEntryBeaconData *beacon)
+void COMM_ENTRY_AddParent(CommEntryMenu *menu, u8 *mac, CommEntryBeaconData *beacon)
 {
     CommEntryParentList *list = &menu->parentList;
     int i;
@@ -2101,7 +2101,7 @@ void func_021CEE78(CommEntryMenu *menu, u8 *mac, CommEntryBeaconData *beacon)
     for (i = 0; i < COMM_ENTRY_PARENT_SLOTS; i++) {
         if (list->slots[i].used == 0) {
             func_02082D44(mac, list->slots[i].mac, 6);
-            func_02008494(beacon, list->slots[i].myStatus);
+            MYSTATUS_Copy(beacon, list->slots[i].myStatus);
             list->slots[i].timeout = COMM_ENTRY_PARENT_TIMEOUT_FRAMES;
             list->slots[i].used = 1;
             list->listDirty = 1;
@@ -2110,26 +2110,26 @@ void func_021CEE78(CommEntryMenu *menu, u8 *mac, CommEntryBeaconData *beacon)
     }
 }
 
-void func_021CEF08(CommEntryMenu *menu, int slotIndex)
+void COMM_ENTRY_ClearParentSlot(CommEntryMenu *menu, int slotIndex)
 {
     menu->parentList.slots[slotIndex].used = 0;
 }
 
 /* Rebuilds the item list of the parent menu from the 16 slots. */
-void func_021CEF1C(CommEntryMenu *menu)
+void COMM_ENTRY_BuildParentItems(CommEntryMenu *menu)
 {
     u16 emptyChar;
     struct Strbuf *line, *emptyFormat, *nameFormat, *emptyStr;
     int i;
 
-    emptyChar = func_02045A98();
+    emptyChar = STRBUF_GetEosChar();
     if (menu->parentList.itemsBuilt == 1) {
-        func_02190A6C(menu->parentList.items);
+        FIELD_MSGBG_DeleteMenuItems(menu->parentList.items);
     }
-    emptyFormat = func_020457B0(0x40, menu->heapId);
-    nameFormat = func_020457B0(0x40, menu->heapId);
-    line = func_020457B0(0x40, menu->heapId);
-    emptyStr = func_020457B0(4, menu->heapId);
+    emptyFormat = STRBUF_Create(0x40, menu->heapId);
+    nameFormat = STRBUF_Create(0x40, menu->heapId);
+    line = STRBUF_Create(0x40, menu->heapId);
+    emptyStr = STRBUF_Create(4, menu->heapId);
     func_02045CAC(menu->msgData, 0x1a, emptyFormat);
     func_02045CAC(menu->msgData, 0x1b, nameFormat);
     for (i = 0; i < COMM_ENTRY_PARENT_SLOTS; i++) {
@@ -2139,22 +2139,22 @@ void func_021CEF1C(CommEntryMenu *menu)
             func_0201EFA4(menu->wordSet, 2, func_02008534(&menu->parentList.slots[i]), 5, 2, 1);
             func_0201F250(menu->wordSet, line, nameFormat);
         } else {
-            func_02045924(emptyStr, &emptyChar);
+            STRBUF_SetString(emptyStr, &emptyChar);
             func_0201EE0C(menu->wordSet, 1, emptyStr, 0, 1, 2);
             func_0201EE0C(menu->wordSet, 2, emptyStr, 0, 1, 2);
             func_0201F250(menu->wordSet, line, emptyFormat);
         }
-        func_02190A64(menu->parentList.items, line, i, menu->heapId);
+        FIELD_MSGBG_AddMenuItemStr(menu->parentList.items, line, i, menu->heapId);
     }
-    func_02045808(nameFormat);
-    func_02045808(emptyFormat);
-    func_02045808(line);
-    func_02045808(emptyStr);
+    STRBUF_Delete(nameFormat);
+    STRBUF_Delete(emptyFormat);
+    STRBUF_Delete(line);
+    STRBUF_Delete(emptyStr);
     menu->parentList.itemsBuilt = 1;
 }
 
 /* Runs the "leave the group?" dialog. Returns 2 when the player leaves, 1 while it is open, else 0. */
-int func_021CF068(CommEntryMenu *menu)
+int COMM_ENTRY_RunLeaveConfirm(CommEntryMenu *menu)
 {
     CommEntryConfirm *confirm = &menu->confirm;
     u32 answer;
@@ -2162,21 +2162,21 @@ int func_021CF068(CommEntryMenu *menu)
     switch (confirm->state) {
     case 0:
         if (func_020362DC() & 2) {
-            confirm->menu = func_02190BE4(func_02188C54(menu->fieldMap), 0);
-            func_021CE9E4(menu, COMM_ENTRY_MSG_ASK_LEAVE);
+            confirm->menu = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg(menu->fieldMap), 0);
+            COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_ASK_LEAVE);
             confirm->state = 1;
         }
         break;
     case 1:
-        answer = func_02190C78(confirm->menu);
-        if (func_0219049C(func_02188C54(menu->fieldMap)) == 1 && menu->sessionLocked == 1)
+        answer = FIELD_MSGBG_YesNoMenuMain(confirm->menu);
+        if (FIELD_MSGBG_IsPrintQueFinished(FIELDMAP_GetMsgBg(menu->fieldMap)) == 1 && menu->sessionLocked == 1)
             answer = 1;
         if (answer != 2) {
-            func_021909BC(confirm->menu);
+            FIELD_MSGBG_DeleteMenuFunc(confirm->menu);
             confirm->menu = 0;
             if (answer == 1) {
                 confirm->state = 0;
-                func_021CE9E4(menu, COMM_ENTRY_MSG_WAIT_IN_LOBBY);
+                COMM_ENTRY_MENU_PrintMessage(menu, COMM_ENTRY_MSG_WAIT_IN_LOBBY);
             } else {
                 return 2;
             }
@@ -2186,36 +2186,36 @@ int func_021CF068(CommEntryMenu *menu)
     return 0;
 }
 
-void func_021CF0F4(CommEntryMenu *menu)
+void COMM_ENTRY_ResetLeaveConfirm(CommEntryMenu *menu)
 {
     CommEntryConfirm *confirm = &menu->confirm;
 
     if (confirm->menu != 0) {
-        func_021909BC(confirm->menu);
+        FIELD_MSGBG_DeleteMenuFunc(confirm->menu);
         confirm->menu = 0;
     }
     confirm->state = 0;
 }
 
 /* Stores the join reply (1 accepted, 2 redirected) and the parent's MyStatus. */
-void func_021CF110(CommEntryMenu *menu, u32 reply, const void *parentMyStatus)
+void COMM_ENTRY_StoreJoinReply(CommEntryMenu *menu, u32 reply, const void *parentMyStatus)
 {
     menu->joinReply = reply;
-    func_02008494(parentMyStatus, menu->parentMyStatus);
+    MYSTATUS_Copy(parentMyStatus, menu->parentMyStatus);
 }
 
 /* Size of the roster packet. */
-u32 func_021CF128(void)
+u32 COMM_ENTRY_GetRosterSize(void)
 {
     return sizeof(CommEntryRoster);
 }
 
 /* Returns 1 when a member other than this machine is set in mask and connected. */
-int func_021CF12C(int mask)
+int COMM_ENTRY_IsOtherMemberConnected(int mask)
 {
     u8 i;
     for (i = 0; i < COMM_ENTRY_MAX_MEMBERS; i++) {
-        if (i != func_0203D1A4(func_020399A8()) && ((1 << i) & mask) && func_0203D1C0(i) == 1) {
+        if (i != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && ((1 << i) & mask) && GFL_NET_IsConnectMember(i) == 1) {
             return 1;
         }
     }
@@ -2223,47 +2223,47 @@ int func_021CF12C(int mask)
 }
 
 /* Starts the network command handling for the entry menu commands. */
-void func_021CF164(CommEntryMenu *menu)
+void COMM_ENTRY_StartNetCommands(CommEntryMenu *menu)
 {
-    func_0203A574(COMM_ENTRY_NET_HEAP, data_021DB4BC, COMM_ENTRY_CMD_COUNT, menu);
+    GFL_NET_COMMAND_AddCommandTable(COMM_ENTRY_NET_HEAP, data_021DB4BC, COMM_ENTRY_CMD_COUNT, menu);
 }
 
-void func_021CF17C(void)
+void COMM_ENTRY_EndNetCommands(void)
 {
-    func_0203A5E4(COMM_ENTRY_NET_HEAP);
+    GFL_NET_COMMAND_DeleteCommandTable(COMM_ENTRY_NET_HEAP);
 }
 
 /* Receive buffer of the roster command. */
-CommEntryRoster *func_021CF188(u32 netId, CommEntryMenu *menu)
+CommEntryRoster *COMM_ENTRY_GetRosterBuffer(u32 netId, CommEntryMenu *menu)
 {
-    return func_021CEAF8(menu);
+    return COMM_ENTRY_MENU_GetNameBuffer(menu);
 }
 
 /* Receive of the join request: the packet holds MyStatus, MAC and the child flag. */
-int func_021CF194(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu)
+int COMM_ENTRY_RecvJoinRequest(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu)
 {
-    func_021CD624(menu, netId, request, request->isChild, request->mac);
+    COMM_ENTRY_MENU_AddMember(menu, netId, request, request->isChild, request->mac);
 }
 
 /* Sends MyStatus to every machine (netMode 1) or to the parent; returns the send result when not netMode 1. */
-u32 func_021CF1AC(const void *myStatus, u32 isChild, u32 netMode)
+u32 COMM_ENTRY_SendJoinRequest(const void *myStatus, u32 isChild, u32 netMode)
 {
     CommEntryJoinRequest packet;
 
     func_02082BCC(&packet, 0, sizeof(CommEntryJoinRequest));
-    func_02008494(myStatus, &packet);
+    MYSTATUS_Copy(myStatus, &packet);
     func_02087C6C(packet.mac);
     packet.isChild = isChild;
     if (netMode == 1)
-        func_0203D3F8(func_020399A8(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_JOIN_REQUEST, sizeof(CommEntryJoinRequest), &packet, 0, 0, 0);
+        GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_JOIN_REQUEST, sizeof(CommEntryJoinRequest), &packet, 0, 0, 0);
     else
-        return func_0203D3F8(func_020399A8(), 0, COMM_ENTRY_CMD_JOIN_REQUEST, sizeof(CommEntryJoinRequest), &packet, 0, 0, 0);
+        return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, COMM_ENTRY_CMD_JOIN_REQUEST, sizeof(CommEntryJoinRequest), &packet, 0, 0, 0);
 }
 
 /* Receive of the join accept. */
-void func_021CF214(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu)
+void COMM_ENTRY_RecvJoinAccept(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu)
 {
-    func_021CF110(menu, 1, parentMyStatus);
+    COMM_ENTRY_StoreJoinReply(menu, 1, parentMyStatus);
 }
 
 /* Sends the join accept with the parent's MyStatus to member index. */
@@ -2272,18 +2272,18 @@ u32 func_021CF220(u32 index, u32 netMode, const void *myStatus)
     GFLNetHandle *handle;
 
     if (netMode == 1) {
-        handle = func_0203996C(COMM_ENTRY_NET_ALL);
-        func_0203D3F8(handle, index, COMM_ENTRY_CMD_JOIN_ACCEPT, func_02008468(), myStatus, 0, 0, 0);
+        handle = GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL);
+        GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_ACCEPT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
     } else {
-        handle = func_020399A8();
-        func_0203D3F8(handle, index, COMM_ENTRY_CMD_JOIN_ACCEPT, func_02008468(), myStatus, 0, 0, 0);
+        handle = GFL_NET_HANDLE_GetCurrentHandle();
+        GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_ACCEPT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
     }
 }
 
 /* Receive of the join redirect. */
 void func_021CF27C(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu)
 {
-    func_021CF110(menu, 2, parentMyStatus);
+    COMM_ENTRY_StoreJoinReply(menu, 2, parentMyStatus);
 }
 
 /* Sends the join redirect with the parent's MyStatus to member index. */
@@ -2292,92 +2292,92 @@ u32 func_021CF288(u32 index, u32 netMode, const void *myStatus)
     GFLNetHandle *handle;
 
     if (netMode == 1) {
-        handle = func_0203996C(COMM_ENTRY_NET_ALL);
-        func_0203D3F8(handle, index, COMM_ENTRY_CMD_JOIN_REDIRECT, func_02008468(), myStatus, 0, 0, 0);
+        handle = GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL);
+        GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_REDIRECT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
     } else {
-        handle = func_020399A8();
-        func_0203D3F8(handle, index, COMM_ENTRY_CMD_JOIN_REDIRECT, func_02008468(), myStatus, 0, 0, 0);
+        handle = GFL_NET_HANDLE_GetCurrentHandle();
+        GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_REDIRECT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
     }
 }
 
 /* Receive of the session lock. */
 void func_021CF2E4(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
 {
-    func_021CE724(menu);
+    COMM_ENTRY_MENU_SetBusyFlags(menu);
 }
 
-int func_021CF2F0(int netMode)
+int COMM_ENTRY_SendSessionLock(int netMode)
 {
     if (netMode == 1) {
-        return func_0203D3A8(func_0203996C(COMM_ENTRY_NET_ALL), COMM_ENTRY_CMD_SESSION_LOCK, 0, 0);
+        return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL), COMM_ENTRY_CMD_SESSION_LOCK, 0, 0);
     } else {
-        return func_0203D3A8(func_020399A8(), COMM_ENTRY_CMD_SESSION_LOCK, 0, 0);
+        return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_CMD_SESSION_LOCK, 0, 0);
     }
 }
 
 /* Receive of the ready message: marks the sender in readyBits. */
-void func_021CF31C(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
+void COMM_ENTRY_RecvReady(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
 {
-    func_021CE6F0(menu, (u8)netId);
+    COMM_ENTRY_MENU_MarkMemberReady(menu, (u8)netId);
 }
 
 u32 func_021CF32C(u32 netMode)
 {
     if (netMode == 1)
-        func_0203D3F8(func_020399A8(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_READY, 0, 0, 0, 0, 0);
+        GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_READY, 0, 0, 0, 0, 0);
     else
-        return func_0203D3F8(func_020399A8(), 0, COMM_ENTRY_CMD_READY, 0, 0, 0, 0, 0);
+        return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, COMM_ENTRY_CMD_READY, 0, 0, 0, 0, 0);
 }
 
 /* Receive of the accept message. */
 void func_021CF36C(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
 {
-    func_021CE70C(menu);
+    COMM_ENTRY_MENU_SetAcceptFlag(menu);
 }
 
-int func_021CF378(int netMode)
+int COMM_ENTRY_SendAccept(int netMode)
 {
     if (netMode == 1) {
-        return func_0203D3A8(func_0203996C(COMM_ENTRY_NET_ALL), COMM_ENTRY_CMD_ACCEPT, 0, 0);
+        return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL), COMM_ENTRY_CMD_ACCEPT, 0, 0);
     } else {
-        return func_0203D3A8(func_020399A8(), COMM_ENTRY_CMD_ACCEPT, 0, 0);
+        return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_CMD_ACCEPT, 0, 0);
     }
 }
 
 /* Receive of the cancel message. */
-void func_021CF3A4(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
+void COMM_ENTRY_RecvCancel(u32 netId, u32 size, const void *data, CommEntryMenu *menu)
 {
-    func_021CE718(menu);
+    COMM_ENTRY_MENU_SetCancelFlag(menu);
 }
 
-int func_021CF3B0(int netMode)
+int COMM_ENTRY_SendCancel(int netMode)
 {
     if (netMode == 1) {
-        return func_0203D3A8(func_0203996C(COMM_ENTRY_NET_ALL), COMM_ENTRY_CMD_CANCEL, 0, 0);
+        return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL), COMM_ENTRY_CMD_CANCEL, 0, 0);
     } else {
-        return func_0203D3A8(func_020399A8(), COMM_ENTRY_CMD_CANCEL, 0, 0);
+        return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_CMD_CANCEL, 0, 0);
     }
 }
 
 /* Receive of the roster: the parent only returns the menu, a child stores the roster. */
-int func_021CF3DC(u32 netId, u32 size, const CommEntryRoster *roster, CommEntryMenu *menu)
+int COMM_ENTRY_RecvRoster(u32 netId, u32 size, const CommEntryRoster *roster, CommEntryMenu *menu)
 {
-    if (func_0203D378() == 1) {
-        return (int)func_021CEADC(menu);
+    if (GFL_NET_IsParentAid() == 1) {
+        return (int)COMM_ENTRY_MENU_AckSend(menu);
     }
-    func_021CEB04(menu, roster);
+    COMM_ENTRY_MENU_SetNameBuffer(menu, roster);
 }
 
 /* Sends the roster to every machine (netMode 1) or to the parent. */
-u32 func_021CF3FC(const CommEntryRoster *roster, u32 recipients, int netMode)
+u32 COMM_ENTRY_SendRoster(const CommEntryRoster *roster, u32 recipients, int netMode)
 {
     GFLNetHandle *handle;
 
     if (netMode == 1) {
-        handle = func_0203996C(COMM_ENTRY_NET_ALL);
-        func_0203D4D0(handle, recipients, COMM_ENTRY_CMD_ROSTER, func_021CF128(), roster, 0, 0, 1);
+        handle = GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL);
+        GFL_NET_SendDataMask(handle, recipients, COMM_ENTRY_CMD_ROSTER, COMM_ENTRY_GetRosterSize(), roster, 0, 0, 1);
     } else {
-        handle = func_020399A8();
-        func_0203D4D0(handle, recipients, COMM_ENTRY_CMD_ROSTER, func_021CF128(), roster, 0, 0, 1);
+        handle = GFL_NET_HANDLE_GetCurrentHandle();
+        GFL_NET_SendDataMask(handle, recipients, COMM_ENTRY_CMD_ROSTER, COMM_ENTRY_GetRosterSize(), roster, 0, 0, 1);
     }
 }

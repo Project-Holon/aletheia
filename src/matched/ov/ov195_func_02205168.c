@@ -14,12 +14,12 @@
  * +0x60 pointer reports success without probing.
  *
  * symbols:
- *   func_0204B98C  0x0204B98C  arm
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   func_02205100  0x02205100  thumb
  */
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void func_02205100(void *unused, char *p);
 
 int func_02205168(int a, int *p)
@@ -30,7 +30,7 @@ int func_02205168(int a, int *p)
         int ok = 1;
 
         for (i = 0; i < 6; i++) {
-            if (func_0204B98C((struct Actor *)p[0x12 + i]) != 0) {
+            if (CLACT_IsActorAnimActive((struct Actor *)p[0x12 + i]) != 0) {
                 ok = 0;
                 break;
             }

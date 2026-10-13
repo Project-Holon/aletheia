@@ -29,8 +29,8 @@
  *   ov_id_0B       0x0000000B  data
  *   ov_id_0D       0x0000000D  data
  *   DWC_IsValidFriendData 0x020596D8  arm
- *   func_02045994         0x02045994  arm
- *   func_02045A38         0x02045A38  arm
+ *   STRBUF_SetStringN         0x02045994  arm
+ *   STRBUF_ToChars         0x02045A38  arm
  *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
  */
 #define GAME_SYNC_BLOCK_ID 0x23
@@ -127,8 +127,8 @@ extern void func_02034A5C(int handle);
 extern int func_02034AC4(int id);
 extern void DWC_RAPCOMMON_InitUserData(void *p);
 extern int  DWC_IsValidFriendData(const void *friendData);
-extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
-extern void func_02045A38(struct U16Vec *src, u16 *dest, u32 size);
+extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
+extern void STRBUF_ToChars(struct U16Vec *src, u16 *dest, u32 size);
 struct GameSyncData *sub_02009448(struct SaveControl *saveControl);
 u32 sub_02009454(void);
 void sub_0200945C(struct GameSyncData *data);
@@ -845,13 +845,13 @@ struct WifiFriendInfo *WIFILIST_GetFriendInfo(struct WifiList *list, int index)
 
 void WIFILIST_CopyFriendNameToStrbuf(struct WifiList *list, int index, struct Strbuf *dest)
 {
-    func_02045994(dest, (const u16 *)&list->friendInfo[index], 0x10);
+    STRBUF_SetStringN(dest, (const u16 *)&list->friendInfo[index], 0x10);
 }
 
 
 void WIFILIST_StoreFriendNameFromStrbuf(struct WifiList *list, int index, struct U16Vec *dest)
 {
-    func_02045A38(dest, (u16 *)(&list->friendInfo[index]), 0x10);
+    STRBUF_ToChars(dest, (u16 *)(&list->friendInfo[index]), 0x10);
 }
 
 

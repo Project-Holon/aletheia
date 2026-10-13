@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf setter (hidden in a .word run); helper for the call in
- * ov010 func_02157A78.
+ * ov010 DELIVERY_IRC_StepWaitEndSync.
  *
  * symbols:
  *   d_0217AB40  0x0217AB40  data ov015

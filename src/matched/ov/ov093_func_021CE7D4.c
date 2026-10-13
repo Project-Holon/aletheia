@@ -14,7 +14,7 @@
  *   func_021F7F58 0x021F7F58 thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
  *   func_021EA6B0 0x021EA6B0 thumb ov093
- *   func_021D7F38 0x021D7F38 thumb ov093
+ *   BTL_CALC_IsGymLeaderTrainer 0x021D7F38 thumb ov093
  *   func_021F87EC 0x021F87EC thumb ov094
  *   func_021F8774 0x021F8774 thumb ov094
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
@@ -22,7 +22,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_021EA710 0x021EA710 thumb ov093
- *   func_021CE150 0x021CE150 thumb ov093
+ *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
  *   func_021CE4D0 0x021CE4D0 thumb ov093
  */
 #include "../include/Obj02785.h"
@@ -36,7 +36,7 @@ extern unsigned short func_021BA020(char *p, int i);
 extern void func_021F7F58(int, u32, u32, u32, u32);
 extern void func_021F7998(u32 a);
 extern int func_021EA6B0(char *, u16, u16);
-extern int func_021D7F38(u32 n);
+extern int BTL_CALC_IsGymLeaderTrainer(u32 n);
 extern void func_021F87EC(u32);
 extern int func_021F8774(void);
 extern void GFL_USE_FadeOutBgm(u32);
@@ -44,7 +44,7 @@ extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u16, u16);
 extern int func_021F7EB4(void);
 extern int func_021EA710(u32 *p);
-extern void func_021CE150(u8 *p, void *q);
+extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
 extern int func_021CE4D0(u8 *p, u32 *st);
 
 u32 func_021CE7D4(u8 *p, int *st)
@@ -61,7 +61,7 @@ u32 func_021CE7D4(u8 *p, int *st)
         func_021F7998(0x270);
         func_021EA6B0(*(char * *)&((struct Obj02785 *)p)->f54, k, ((struct Obj02785 *)p)->f19E);
         if ((u16)(((struct Obj02785 *)p)->f19E + 0xffed) <= 1 &&
-            func_021D7F38(func_021BA020(((struct Obj02785 *)p)->f0, i)) && !((Flags *)(p + 0x1b2))->flag) {
+            BTL_CALC_IsGymLeaderTrainer(func_021BA020(((struct Obj02785 *)p)->f0, i)) && !((Flags *)(p + 0x1b2))->flag) {
             func_021F87EC(0x47b);
             if (!func_021F8774()) {
                 GFL_USE_FadeOutBgm(8);
@@ -85,7 +85,7 @@ u32 func_021CE7D4(u8 *p, int *st)
         }
         break;
     case 3:
-        if (!func_021F7EB4()) func_021CE150(p, (void *)((u32)func_021CE4D0));
+        if (!func_021F7EB4()) BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CE4D0));
         break;
     }
     return 0;

@@ -15,8 +15,8 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   GFL_NET_IsNetTypeWifi 0x0203D29C arm
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  */
 typedef short s16;
 typedef unsigned u32;
@@ -28,8 +28,8 @@ extern int func_02006238(void);
 extern int func_021D8A24(void *);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
 #define H(o) (*(s16 *)(p+(o)))
 #define I(o) (*(int *)(p+(o)))
 void func_021DB7AC(char *p,int a,int b)
@@ -43,11 +43,11 @@ void func_021DB7AC(char *p,int a,int b)
     if(func_021D8A24(p) && b) {
         if(GFL_NET_IsNetTypeWifi()) {
             if(H(0x107c)%16==0) {
-                func_0203D3F8((u32)func_020399A8(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
+                GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
                 return;
             }
         } else {
-            func_0203D3F8((u32)func_020399A8(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
+            GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
             return;
         }
     } else {

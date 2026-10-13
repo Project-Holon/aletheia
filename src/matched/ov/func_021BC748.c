@@ -1,5 +1,5 @@
 /*
- * function: func_021BC748
+ * function: FIELD_PLACE_NAME_DeleteClactRenderer
  * address:  0x021BC748
  * packet:   pkt_021BC748
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_0204B084  0x0204B084  arm
+ *   CLACT_DeleteRenderer  0x0204B084  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00575.h"
@@ -21,13 +21,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_0204B084(u32 v);
+extern void CLACT_DeleteRenderer(u32 v);
 
-void func_021BC748(u8 *p)
+void FIELD_PLACE_NAME_DeleteClactRenderer(u8 *p)
 {
     u32 v = ((struct Obj00575 *)p)->f38;
     if (v != 0) {
-        func_0204B084(v);
+        CLACT_DeleteRenderer(v);
         ((struct Obj00575 *)p)->f38 = 0;
     }
 }

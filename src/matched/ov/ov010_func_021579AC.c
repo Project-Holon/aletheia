@@ -1,5 +1,5 @@
 /*
- * function: func_021579AC
+ * function: DELIVERY_IRC_StepEnd
  * address:  0x021579AC
  * packet:   pkt_ov010_021579AC
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * Unlabelled empty callback (bx lr) hidden in a .word run; witness for the
- * function pointer taken in func_021579B0.
+ * function pointer taken in DELIVERY_IRC_StepFinish.
  */
 
-void func_021579AC(void)
+void DELIVERY_IRC_StepEnd(void)
 {
 }

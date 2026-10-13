@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_0201D26C  0x0201D26C  thumb
- *   func_020437DC  0x020437DC  arm
+ *   BMP_GetWidth  0x020437DC  arm
  *
  * printsys.c: applies one 0xF000 control block whose code byte is 0xBD -- the
  * "set colour / align line" family -- and steps the cursor past the block.
@@ -43,7 +43,7 @@
  *     (docs/idioms/commutative-operand-order-names-the-temporary.md).
  *
  * Also corrected against docs/families/printsys.h as it stood: the measuring
- * arms (cases 2 and 3) hand func_020437DC the handle at PrintCtx+0x14, not
+ * arms (cases 2 and 3) hand BMP_GetWidth the handle at PrintCtx+0x14, not
  * +0x18; +0x18 is the renderer hook PRINTSYS_PrintStep calls through.  And
  * PrintCtx+0x04 is a SIGNED 10-BIT BITFIELD (`lsls #0x16 / asrs #0x16`), not
  * a u32 flag word -- the same fact src/matched/PRINTSYS_PrintStep.c records.
@@ -73,10 +73,10 @@ struct PrintCtx {
     void *unk18;
 };
 
-extern void func_0201DD78(u32 a, u32 b, u32 c);
+extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 struct Bmp;
 extern u32 func_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
-extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
 u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *c, u16 *p)
 {
@@ -96,17 +96,17 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *c, u16 *p)
         r = (u8)((v == 0xF000) ? p[3] : 0);
         g = (u8)((v == 0xF000) ? p[4] : 0);
         arg = (u8)((v == 0xF000) ? p[5] : 0);
-        func_0201DD78(r, g, arg);
+        GF_FONT_SetTextColor(r, g, arg);
         c->unk0E = (u16)((arg & 0x1F) | (((r << 27) >> 17) | ((g << 27) >> 22)));
         break;
     }
     case 1: {
         u16 t = c->unk0C;
-        func_0201DD78((u8)((t >> 10) & 0x1F), (u8)((t >> 5) & 0x1F), (u8)(t & 0x1F));
+        GF_FONT_SetTextColor((u8)((t >> 10) & 0x1F), (u8)((t >> 5) & 0x1F), (u8)(t & 0x1F));
         break;
     }
     case 3: {
-        s32 w = func_020437DC(c->unk14);
+        s32 w = BMP_GetWidth(c->unk14);
         s32 x0 = (s32)(w - c->unk04);
         u32 adv;
         u32 n = 0;
@@ -121,7 +121,7 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *c, u16 *p)
         break;
     }
     case 2: {
-        s32 w = func_020437DC(c->unk14);
+        s32 w = BMP_GetWidth(c->unk14);
         s32 x0 = (s32)(w - c->unk04);
         s32 adv = func_0201D26C(p, c->unk10, 0, 0);
         if (adv < x0) {

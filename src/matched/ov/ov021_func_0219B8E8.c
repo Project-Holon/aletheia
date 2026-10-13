@@ -1,5 +1,5 @@
 /*
- * function: func_0219B8E8
+ * function: FLDMMDL_MOVE_LookPlayer
  * address:  0x0219B8E8
  * packet:   pkt_ov021_0219B8E8
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0219B984  0x0219B984  thumb  ov021
- *   func_0216DAE0  0x0216DAE0  thumb  ov010
- *   d_021D5374  0x021D5374  data  a4
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_MOVE_UpdatePlayerTracking  0x0219B984  thumb  ov021
+ *   FLDMMDL_SetStatusBitFellowHit  0x0216DAE0  thumb  ov010
+ *   gLookPlayerStepTable  0x021D5374  data  a4
  */
 
 typedef unsigned char  u8;
@@ -22,17 +22,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef int (*Step)(u32, u8 *);
-extern void *func_0216D69C(void *p);
-extern int func_0219B984(u32 a, u32 b);
-extern void func_0216DAE0(unsigned int *p, unsigned int v);
-extern Step d_021D5374[];
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern int FLDMMDL_MOVE_UpdatePlayerTracking(u32 a, u32 b);
+extern void FLDMMDL_SetStatusBitFellowHit(unsigned int *p, unsigned int v);
+extern Step gLookPlayerStepTable[];
 
-void func_0219B8E8(u32 a)
+void FLDMMDL_MOVE_LookPlayer(u32 a)
 {
-    u8 *p = func_0216D69C((void *)a);
-    if (func_0219B984(a, (u32)p)) {
-        func_0216DAE0((unsigned int *)a, 0);
-        while (d_021D5374[p[0]](a, p) == 1) {
+    u8 *p = FLDMMDL_GetMoveProcWork((void *)a);
+    if (FLDMMDL_MOVE_UpdatePlayerTracking(a, (u32)p)) {
+        FLDMMDL_SetStatusBitFellowHit((unsigned int *)a, 0);
+        while (gLookPlayerStepTable[p[0]](a, p) == 1) {
         }
     }
 }

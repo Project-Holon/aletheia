@@ -1,5 +1,5 @@
 /*
- * function: func_02025774
+ * function: BMP_OAM_SetEnabled
  * address:  0x02025774
  * packet:   pkt_02025774
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
-void func_02025774(u8 *g, u32 a)
+void BMP_OAM_SetEnabled(u8 *g, u32 a)
 {
     u8 i;
     u8 j;

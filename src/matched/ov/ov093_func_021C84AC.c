@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021C2128 0x021C2128 thumb ov093
+ *   BTL_SERVER_FLOW_ProcHeldItemActivate 0x021C2128 thumb ov093
  */
 typedef unsigned char u8;
 struct Flags { u8 low:5; u8 flag:1; u8 high:2; };
-extern int func_021C2128(u8 *p, u8 *a);
+extern int BTL_SERVER_FLOW_ProcHeldItemActivate(u8 *p, u8 *a);
 int func_021C84AC(u8 *p, u8 *a, u8 *out)
 {
     int r;
     ((struct Flags *)(p + 0x78a))->flag = 0;
-    r = func_021C2128(p, a);
+    r = BTL_SERVER_FLOW_ProcHeldItemActivate(p, a);
     *out = ((struct Flags *)(p + 0x78a))->flag;
     return r;
 }

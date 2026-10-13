@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_021C4DD4 0x021C4DD4 thumb
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_021C77C4 0x021C77C4 data a1
  */
 extern const char d_021C77C4[];
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 void func_021C4DD4(void)
 {
-    func_020433E0((const struct DispVram *)d_021C77C4);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021C77C4);
 }

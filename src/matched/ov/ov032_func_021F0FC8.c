@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A9D0 0x0204A9D0 arm
+ *   CLACT_TransferCharacter 0x0204A9D0 arm
  */
 
 typedef unsigned char u8;
 struct Sub0204A9D0;
-extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
+extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 void func_021F0FC8(char *p, u8 *q, int r)
 {
-    func_0204A9D0((*(int **)(p + 0x170))[q[0]], (struct Sub0204A9D0 *)(*(int *)(p + r * 8 + 0x2d8)));
+    CLACT_TransferCharacter((*(int **)(p + 0x170))[q[0]], (struct Sub0204A9D0 *)(*(int *)(p + r * 8 + 0x2d8)));
 }

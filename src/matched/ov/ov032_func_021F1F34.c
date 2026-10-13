@@ -12,7 +12,7 @@
  * symbols:
  *   func_021F1F34 0x021F1F34 thumb
  *   func_021F1F9C 0x021F1F9C thumb
- *   func_02021FD8 0x02021FD8 thumb
+ *   PALANM_BlendChannel 0x02021FD8 thumb
  *   func_020311B8 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 
 extern void func_021F1F9C(void *task, u8 *s);
 struct Chan02021FD8;
-extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
@@ -43,7 +43,7 @@ void func_021F1F34(char *p, u8 *q, int *r)
     *(u8 * *)&((struct Obj04312 *)t)->f8 = q;
     t[2] = 2;
     t[3] = (q[0] + 4) << 4;
-    func_02021FD8((struct Chan02021FD8 *)(((struct Obj20441 *)(*(char * *)&((struct Obj04312 *)t)->fC))->fAC), 3, t[3], 0x10, 4, 0x7fff);
+    PALANM_BlendChannel((struct Chan02021FD8 *)(((struct Obj20441 *)(*(char * *)&((struct Obj04312 *)t)->fC))->fAC), 3, t[3], 0x10, 4, 0x7fff);
     if (r != 0) {
         *(int * *)&((struct Obj04312 *)t)->f10 = r;
         (*r)++;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF358
+ * function: BTL_HANDLER_ITEM_GetIronPlateHandlers
  * address: 0x021DF358
  * packet: pkt_ov093_021DF358
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F1424[];
-int *func_021DF358(int *p);
+int *BTL_HANDLER_ITEM_GetIronPlateHandlers(int *p);
 
-int *func_021DF358(int *p)
+int *BTL_HANDLER_ITEM_GetIronPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F1424;

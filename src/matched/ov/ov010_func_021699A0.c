@@ -1,5 +1,5 @@
 /*
- * function: func_021699A0
+ * function: FIELD_G3D_MAP_TestModelBox
  * address:  0x021699A0
  * packet:   pkt_ov010_021699A0
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0206DDA4  0x0206DDA4  arm
- *   func_02169A14  0x02169A14  thumb  ov010
+ *   FIELD_G3D_MAP_RunBoxTest  0x02169A14  thumb  ov010
  */
 #include "../include/Obj04164.h"
 
@@ -20,9 +20,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern u32 func_02169A14(u32 a);
+extern u32 FIELD_G3D_MAP_RunBoxTest(u32 a);
 
-int func_021699A0(void *p)
+int FIELD_G3D_MAP_TestModelBox(void *p)
 {
     s16 v[6];
     u32 w[3];
@@ -43,7 +43,7 @@ int func_021699A0(void *p)
     w[1] = w[0];
     w[2] = w[0];
     func_0206DDA4(0x1b, w, 3);
-    if (func_02169A14((u32)v) == 0)
+    if (FIELD_G3D_MAP_RunBoxTest((u32)v) == 0)
         r = 0;
     one = 1;
     func_0206DDA4(0x12, &one, 1);

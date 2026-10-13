@@ -11,7 +11,7 @@
  * symbols:
  *   func_021D13A4 0x021D13A4 thumb ov093
  *   func_021B916C 0x021B916C thumb ov093
- *   func_021B86DC 0x021B86DC thumb ov093
+ *   BTL_MAIN_GetWinBgm 0x021B86DC thumb ov093
  *   func_021F878C 0x021F878C thumb ov094
  *   func_021B904C 0x021B904C thumb ov093
  *   func_021BA020 0x021BA020 thumb ov093
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 typedef struct { u8 pad[0x1B2]; unsigned char f0:5; unsigned char flag:1; unsigned char f6:2; } Flags;
 extern u32 func_021D13A4(void *);
 extern void func_021B916C(u8 *p, u32 x);
-extern u16 func_021B86DC(void **p);
+extern u16 BTL_MAIN_GetWinBgm(void **p);
 extern void func_021F878C(u32 a);
 extern u8 func_021B904C(u8 *p, int k);
 extern unsigned short func_021BA020(char *p, int i);
@@ -48,7 +48,7 @@ int func_021D171C(u8 *p, int *state, void *a2)
         if (((Flags *)p)->flag != 0) return 1;
         mode = func_021D13A4(p);
         func_021B916C(((struct Obj00066 *)p)->f0, mode);
-        if (mode == 1) func_021F878C(func_021B86DC(((struct Obj00066 *)p)->f0));
+        if (mode == 1) func_021F878C(BTL_MAIN_GetWinBgm(((struct Obj00066 *)p)->f0));
         if (mode <= 1) {
             idx = func_021B904C(((struct Obj00066 *)p)->f0, 0);
             func_021F7F58(func_021BA020(((struct Obj00066 *)p)->f0, idx), 9, 0, 0, 0);

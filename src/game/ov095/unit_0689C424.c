@@ -15,8 +15,8 @@
  * symbols:
  *   func_021C8838  0x021C8838  thumb
  *   func_021C8860  0x021C8860  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021E8B80  0x021E8B80  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb
  *   d_0689E21C   0x0689E21C  data  ov095  a4
  */
 typedef unsigned int u32;
@@ -34,9 +34,9 @@ typedef unsigned short u16;
 typedef struct Word { int v; } Word;
 
 extern void func_021C8838(void *, int, u16);
-extern int func_021D5440(void *);
+extern int BTL_POKEPARAM_GetPokeId(void *);
 extern void func_021C8860(void *, int);
-extern int func_021E8B80(Word);
+extern int BTLV_CORE_GetSlotValue(Word);
 int func_0689C424(u32 key, int flag);
 int func_0689C464(int a, Word b, void *c, unsigned char d, void *e);
 extern Ent d_0689E21C[17];
@@ -73,12 +73,12 @@ int func_0689C464(int a, Word b, void *c, unsigned char d, void *e)
     k = func_0689C424(a, f);
     if (k >= 0) {
         func_021C8838(e, 2, k);
-        func_021C8860(e, func_021D5440(c));
+        func_021C8860(e, BTL_POKEPARAM_GetPokeId(c));
         if (f != 0)
             func_021C8860(e, d);
         switch (a) {
         case 8:
-            func_021C8860(e, func_021E8B80(b));
+            func_021C8860(e, BTLV_CORE_GetSlotValue(b));
             break;
         case 0x12:
             func_021C8860(e, 0x49);

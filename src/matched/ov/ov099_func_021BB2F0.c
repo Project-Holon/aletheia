@@ -14,11 +14,11 @@
  *   func_02040AF0  0x02040AF0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_021BB528  0x021BB528  thumb  ov099
  *   func_02041B6C  0x02041B6C  arm
- *   func_02045334  0x02045334  arm
- *   func_02043598  0x02043598  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  */
 #include "../include/Obj00008.h"
 #include "../include/Obj22020.h"
@@ -33,11 +33,11 @@ extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void func_02040AF0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_020414AC(int a);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021BB528(char *p, int v);
 extern void func_02041B6C(u32 bit);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 void func_021BB2F0(char *p, int v)
 {
@@ -47,12 +47,12 @@ void func_021BB2F0(char *p, int v)
     q = *(char * *)&((struct Obj00008 *)p)->f8C0;
     func_02040AF0(6, q + 0xC, (u32)(((struct Obj22020 *)q)->f8), 0);
     func_020414AC(7);
-    func_02043B5C(func_02045770(((struct Obj00008 *)p)->f95C), 0);
-    func_02043B5C(func_02045770(((struct Obj00008 *)p)->f958), 0);
+    BMP_Clear(func_02045770(((struct Obj00008 *)p)->f95C), 0);
+    BMP_Clear(func_02045770(((struct Obj00008 *)p)->f958), 0);
     func_021BB528(p, v);
     func_02041B6C(7);
-    func_02045334(((struct Obj00008 *)p)->f95C);
-    func_02045334(((struct Obj00008 *)p)->f958);
-    func_02043598(2, 0);
-    func_02043598(8, 1);
+    BMP_WIN_TransferChars(((struct Obj00008 *)p)->f95C);
+    BMP_WIN_TransferChars(((struct Obj00008 *)p)->f958);
+    BG_SYS_SetSubPlaneVisible(2, 0);
+    BG_SYS_SetSubPlaneVisible(8, 1);
 }

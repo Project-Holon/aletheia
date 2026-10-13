@@ -1,5 +1,5 @@
 /*
- * function: func_021AA3E0
+ * function: FIELD_ENCOUNT_GetEncountRate
  * address:  0x021AA3E0
  * packet:   pkt_ov021_021AA3E0
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 struct Tab { u8 pad00[0xC]; u8 *f0C; };
 
-int func_021AA3E0(struct Tab *t, int i, int add)
+int FIELD_ENCOUNT_GetEncountRate(struct Tab *t, int i, int add)
 {
     int v;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021A01D8
+ * function: FIELD_FOG_InitFogTable
  * address:  0x021A01D8
  * packet:   pkt_ov021_021A01D8
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-void func_021A01D8(u8 *p)
+void FIELD_FOG_InitFogTable(u8 *p)
 {
     int i;
     for (i = 0; i < 32; i++) {

@@ -13,7 +13,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_020434DC 0x020434DC arm
  *   func_0207D534 0x0207D534 arm
- *   func_02051E74 0x02051E74 arm
+ *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   func_02040860 0x02040860 arm
  */
 #include "../include/Obj00682.h"
@@ -25,7 +25,7 @@ extern void func_021B9A80(void *, int);
 extern void func_0207D63C(unsigned, int, int, int, int);
 extern void func_020434DC(unsigned, unsigned);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_02051E74(struct Mtx22 *, unsigned, const void *, const void *, u8);
+extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *, unsigned, const void *, const void *, u8);
 extern void func_02040860(unsigned, unsigned, unsigned, unsigned);
 int func_021BA83C(char *p)
 {
@@ -48,7 +48,7 @@ int func_021BA83C(char *p)
         v = ((struct Obj00682 *)p)->f2D0;
         if (v >= 16) {
             *(volatile u16 *)0x04000052 = 16;
-            func_02051E74(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
+            BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
             *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
             *(u16 *)&((struct Obj00682 *)p)->f2DA = 0xa6;
@@ -56,7 +56,7 @@ int func_021BA83C(char *p)
         } else {
             *(volatile u16 *)0x04000052 = v | ((16 - v) << 8);
             scale = 8 - ((struct Obj00682 *)p)->f2D0 / 2;
-            func_02051E74(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
+            BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
         }
         break;
@@ -75,7 +75,7 @@ int func_021BA83C(char *p)
         if (v >= 16) {
             *(volatile u16 *)0x04000050 = 0;
             func_020434DC(8, 0);
-            func_02051E74(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
+            BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
             func_021B9A80(p, 0);
             *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
@@ -84,7 +84,7 @@ int func_021BA83C(char *p)
         } else {
             *(volatile u16 *)0x04000052 = (16 - v) | (v << 8);
             scale = ((struct Obj00682 *)p)->f2D0 / 2 + 1;
-            func_02051E74(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
+            BUTTON_MAN_RotScaleMtx22(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
         }
         break;

@@ -20,9 +20,9 @@
  * between the two pairs is what lets this half land
  * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
  *
- * POKE_TOOL_GetGraphicIndex brackets its four reads with func_02017DBC and func_02017DE4,
+ * POKE_TOOL_GetGraphicIndex brackets its four reads with POKE_TOOL_DecodeBoxParam and POKE_TOOL_EncodeBoxParam,
  * which is the pair the region uses around a run of raw field reads; that is
- * why the reads here are func_02017E88 and not the func_02017E1C of
+ * why the reads here are func_02017E88 and not the POKE_TOOL_GetPartyValue of
  * src/matched/POKE_TOOL_CalcParam.c.  The fourth read is written inline as the call's
  * fourth argument rather than bound to a local, which is what puts it in r3
  * with the other three already in place.
@@ -68,6 +68,11 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201BA68.c \
  *       --addr 0x0201BA68 --thumb
+ *
+ * symbols:
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  */
 
 typedef unsigned char  u8;
@@ -76,11 +81,11 @@ typedef unsigned int   u32;
 typedef int            s32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *mon, u32 id, u32 v);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
-extern u32  func_020490A8(u32 kind, u32 member);
+extern u32  ARC_TOOL_GetMemberSize(u32 kind, u32 member);
 
 u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 
@@ -92,12 +97,12 @@ u32 POKE_TOOL_GetGraphicIndex(void *mon)
     u32 gender;
     u32 r;
 
-    save = func_02017DBC(mon);
+    save = POKE_TOOL_DecodeBoxParam(mon);
     species = func_02017E88(mon, 5, 0);
     form = func_02017E88(mon, 0x6F, 0);
     gender = func_02017E88(mon, 0x6E, 0);
     r = POKE_TOOL_CalcGraphicIndex(species, form, gender, func_02017E88(mon, 0x4C, 0));
-    func_02017DE4(mon, save);
+    POKE_TOOL_EncodeBoxParam(mon, save);
     return r;
 }
 
@@ -127,7 +132,7 @@ u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg)
     case 0:
         break;
     case 1:
-        ok = func_020490A8(7, idx + 1);
+        ok = ARC_TOOL_GetMemberSize(7, idx + 1);
         gender = 1;
         if (ok == 0) {
             gender = 0;

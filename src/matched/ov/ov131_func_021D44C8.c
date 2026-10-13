@@ -14,28 +14,28 @@
  *   Follower 021D46E4 is the complete eight-byte no-argument tail stub
  *   to owner 0204A648 (void(void)), with no return consumed.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   P_STATUS_UpdateRefresh 0x021D5DC4 thumb ov131
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
- *   func_0204B98C 0x0204B98C arm
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   P_STATUS_UpdateTouch 0x021D5280 thumb ov131
  *   P_STA_SUB_Main 0x021D6614 thumb ov131
  *   P_STATUS_UpdateInput 0x021D52A8 thumb ov131
  *   P_STA_INFO_Main 0x021D7B48 thumb ov131
  *   P_STA_SKILL_Main 0x021D9740 thumb ov131
  *   P_STA_RIBBON_Main 0x021D8830 thumb ov131
- *   func_0201C4E4 0x0201C4E4 thumb
- *   func_0204A600 0x0204A600 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   MCSS_Main 0x02014C08 thumb
- *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Draw 0x02014D2C thumb
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   func_02041EE4 0x02041EE4 arm
  *   P_STATUS_SearchPokemon 0x021D5BAC thumb ov131
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   P_STATUS_UpdatePaletteAnime 0x021D5650 thumb ov131
  */
 #include "../include/Obj00035.h"
@@ -46,29 +46,29 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
 extern void P_STATUS_UpdateRefresh(u8 *p);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern u32 func_020221A4(void);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern u32 WIPE_SYS_EndCheck(void);
 struct Actor;
 struct McssSys;
 struct Obj;
 struct PrintSys;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void P_STATUS_UpdateTouch(char *p);
 extern void P_STA_SUB_Main(u8 *a, u8 *p);
 extern void P_STATUS_UpdateInput(char *p);
 extern void P_STA_INFO_Main(void *,void *);
 extern void P_STA_SKILL_Main(u8 *a, u8 *p);
 extern void P_STA_RIBBON_Main(u8 *,u8 *);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_0204A600(void);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void CLACT_DrawSystem(void);
 extern void MCSS_Main(char *);
-extern void func_02047964(void);
-extern void func_020479D8(void);
+extern void G3D_SYSTEM_DrawStart(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Draw(struct McssSys *sys);
-extern void func_02047970(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 extern void func_02041EE4(u32,u32,u32);
 extern int P_STATUS_SearchPokemon(u8 *,int,u16 *);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef signed int     s32;
 struct W;
 extern s32 P_STATUS_UpdatePaletteAnime(struct W *p);
@@ -82,21 +82,21 @@ int P_STATUS_MainSeq(char *p)
     case 0:
         if (((struct Obj00035 *)p)->fC==1) P_STATUS_UpdateRefresh((u8 *)p);
         else {
-            func_0202208C(0,1,1,0,6,1,((struct Obj00035 *)p)->f0);
+            WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj00035 *)p)->f0);
             ((struct Obj00035 *)p)->f50=1;
         }
         break;
     case 1:
-        if (func_020221A4()==1) ((struct Obj00035 *)p)->f50=4;
+        if (WIPE_SYS_EndCheck()==1) ((struct Obj00035 *)p)->f50=4;
         break;
     case 2:
-        if (((struct Obj00035 *)p)->f1A0==0 || func_0204B98C(((struct Obj00035 *)p)->f1A0)==0 || ((struct Obj23121 *)(*(char * *)&((struct Obj00035 *)p)->f8))->f24==1) {
-            func_0202208C(0,0,0,0,6,1,((struct Obj00035 *)p)->f0);
+        if (((struct Obj00035 *)p)->f1A0==0 || CLACT_IsActorAnimActive(((struct Obj00035 *)p)->f1A0)==0 || ((struct Obj23121 *)(*(char * *)&((struct Obj00035 *)p)->f8))->f24==1) {
+            WIPE_SYS_Start(0,0,0,0,6,1,((struct Obj00035 *)p)->f0);
             ((struct Obj00035 *)p)->f50=3;
         }
         break;
     case 3:
-        if (func_020221A4()==1) return ((struct Obj00035 *)p)->f54;
+        if (WIPE_SYS_EndCheck()==1) return ((struct Obj00035 *)p)->f54;
         break;
     case 4:
         P_STATUS_UpdateTouch(p);
@@ -119,13 +119,13 @@ int P_STATUS_MainSeq(char *p)
         }
         break;
     }
-    func_0201C4E4(((struct Obj00035 *)p)->f84);
-    func_0204A600();
+    PRINTSYS_QUE_Main(((struct Obj00035 *)p)->f84);
+    CLACT_DrawSystem();
     MCSS_Main(*(char * *)&((struct Obj00035 *)p)->f78);
-    func_02047964();
-    func_020479D8();
+    G3D_SYSTEM_DrawStart();
+    G3D_SYSTEM_ApplyLookAt();
     MCSS_Draw(((struct Obj00035 *)p)->f78);
-    func_02047970();
+    G3D_SYSTEM_DrawEnd();
     tick=*(u32 *)0x02fffc3c;
     ((struct Obj00035 *)p)->f1B+=(u8)(tick-((struct Obj00035 *)p)->f20);
     ((struct Obj00035 *)p)->f20=tick;
@@ -136,14 +136,14 @@ int P_STATUS_MainSeq(char *p)
         func_02041EE4(7,4,1);
         ((struct Obj00035 *)p)->f1B-=4;
     }
-    if (((struct Obj00035 *)p)->f48==1 && func_0204B98C(((struct Obj00035 *)p)->f188)==0) {
-        if (P_STATUS_SearchPokemon((u8 *)p,0,0)==1) func_0204B878(((struct Obj00035 *)p)->f188,3);
-        else func_0204B878(((struct Obj00035 *)p)->f188,17);
+    if (((struct Obj00035 *)p)->f48==1 && CLACT_IsActorAnimActive(((struct Obj00035 *)p)->f188)==0) {
+        if (P_STATUS_SearchPokemon((u8 *)p,0,0)==1) CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f188,3);
+        else CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f188,17);
         ((struct Obj00035 *)p)->f48=0;
     }
-    if (((struct Obj00035 *)p)->f4C==1 && func_0204B98C(((struct Obj00035 *)p)->f18C)==0) {
-        if (P_STATUS_SearchPokemon((u8 *)p,1,0)==1) func_0204B878(((struct Obj00035 *)p)->f18C,2);
-        else func_0204B878(((struct Obj00035 *)p)->f18C,16);
+    if (((struct Obj00035 *)p)->f4C==1 && CLACT_IsActorAnimActive(((struct Obj00035 *)p)->f18C)==0) {
+        if (P_STATUS_SearchPokemon((u8 *)p,1,0)==1) CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f18C,2);
+        else CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f18C,16);
         ((struct Obj00035 *)p)->f4C=0;
     }
     P_STATUS_UpdatePaletteAnime((struct W *)p);
@@ -151,5 +151,5 @@ int P_STATUS_MainSeq(char *p)
 }
 
 
-extern void func_0204A648(void);
-void P_STATUS_VBlankTask(void) { func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void P_STATUS_VBlankTask(void) { CLACT_VBlankSystem(); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FC8
+ * function: BSUBWAY_RECORD_LIST_PlaceCursorActor
  * address: 0x021B9FC8
  * packet: pkt_ov069_021B9FC8
  * region: ov069
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-void func_021B9FC8(char *p, int i)
+void BSUBWAY_RECORD_LIST_PlaceCursorActor(char *p, int i)
 {
     Point pt;
     u8 *v;

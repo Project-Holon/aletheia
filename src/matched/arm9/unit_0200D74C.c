@@ -21,8 +21,8 @@
  * 0x020A71E8, see src/matched/unit_0200D59C.c.
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  *   PMSI_PARAM_InitSentence  0x020242A4  thumb
  *   PMS_WORD_MakeWordId  0x02024888  thumb
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
@@ -39,9 +39,9 @@ extern int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2);
 extern void  PMSI_PARAM_InitSentence(void *rec, u32 n);
 extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Strbuf;
-extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
+extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 
 struct GdsRecord {
     u16 unk00;
@@ -110,9 +110,9 @@ void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
         }
         return 0;
     } else {
-        void *h = func_020457B0(0x28, (u16)tag);
+        void *h = STRBUF_Create(0x28, (u16)tag);
 
-        func_02045994(h, (const u16 *)&p->unk20, sizeof(p->unk20));
+        STRBUF_SetStringN(h, (const u16 *)&p->unk20, sizeof(p->unk20));
         return h;
     }
 }

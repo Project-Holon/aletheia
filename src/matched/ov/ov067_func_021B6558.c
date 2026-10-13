@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B65C8 0x021B65C8 thumb ov067
+ *   TOUCHBAR_FindButton 0x021B65C8 thumb ov067
  *   func_021B69BC 0x021B69BC thumb ov067
  */
-extern void *func_021B65C8(unsigned char *p, unsigned int v);
+extern void *TOUCHBAR_FindButton(unsigned char *p, unsigned int v);
 extern void func_021B69BC(void *p, unsigned int v);
 
 void func_021B6558(unsigned char *p, unsigned int id, unsigned int v)
 {
-    func_021B69BC(func_021B65C8(p, id), v);
+    func_021B69BC(TOUCHBAR_FindButton(p, id), v);
 }

@@ -1,5 +1,5 @@
 /*
- * function: DWC_StartUtilityEx
+ * function: BTL_FIELD_SetCountdown
  * address:  0x021EF8A4
  * packet:   pkt_ov093_021EF8A4
  * region:   ov093
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * DWC_StartUtilityEx (libdwcutil/main.o): two-argument wrapper that forwards
+ * BTL_FIELD_SetCountdown (libdwcutil/main.o): two-argument wrapper that forwards
  * the persistent heap block together with both parameters to the overlay's
- * local DWC_StartUtility copy (func_021EF9C0); tail call, so the return type
+ * local DWC_StartUtility copy (BTL_FIELD_StoreCountdown); tail call, so the return type
  * does not affect codegen.
  *
  * symbols:
- *   func_021EF9C0  0x021EF9C0  thumb  ov093
+ *   BTL_FIELD_StoreCountdown  0x021EF9C0  thumb  ov093
  *   HeapMem        0x021F63F4  data   ov093  a4
  */
 
 extern char HeapMem;
-extern int *func_021EF9C0(int *p, int a, int b);
+extern int *BTL_FIELD_StoreCountdown(int *p, int a, int b);
 
-int DWC_StartUtilityEx(int a, int b)
+int BTL_FIELD_SetCountdown(int a, int b)
 {
-    return (int)func_021EF9C0((int *)(&HeapMem), a, b);
+    return (int)BTL_FIELD_StoreCountdown((int *)(&HeapMem), a, b);
 }

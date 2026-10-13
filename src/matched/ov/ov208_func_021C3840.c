@@ -14,8 +14,8 @@
  *   PM_VOICE_GetFrequency 0x02006B3C thumb
  *   PM_VOICE_GetDataSize 0x02006B78 thumb
  *   func_02006B20 0x02006B20 thumb
- *   func_02043B5C 0x02043B5C arm
- *   func_02043AF4 0x02043AF4 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_FillRect 0x02043AF4 arm
  *   _ffltu 0x0209BE04 arm
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
@@ -39,8 +39,8 @@ extern u32 PM_VOICE_GetFrequency(u32 i);
 extern u32 PM_VOICE_GetDataSize(u32 i);
 extern s8 func_02006B20(u32 i);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02043AF4(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 color);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 color);
 
 void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
 {
@@ -65,7 +65,7 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
     ((struct Obj01010 *)p)->f38 = (u32)(1000.0f * (32768.0f * (float)PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64)
                                            / (float)(int)ca
                                            / (float)(int)cb) + 0.5f);
-    func_02043B5C((struct CharBuf *)(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C), 0);
+    BMP_Clear((struct CharBuf *)(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C), 0);
     k = 0;
     i = 0;
     while (i < PM_VOICE_GetDataSize(((struct Obj01010 *)p)->f64)) {
@@ -95,7 +95,7 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
                     lo = -55;
                 if (hi > 0x37)
                     hi = 0x37;
-                func_02043AF4(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C, (s16)k, (s16)(0x37 - hi), 1, (u16)(hi - lo + 1), 0xf);
+                BMP_FillRect(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C, (s16)k, (s16)(0x37 - hi), 1, (u16)(hi - lo + 1), 0xf);
             }
         }
         k++;

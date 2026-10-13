@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045994 0x02045994 arm
+ *   STRBUF_SetStringN 0x02045994 arm
  */
 #include "../include/Obj24901.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Strbuf;
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
 void func_021F2328(char *self, struct Strbuf *dst)
 {
-    func_02045994(dst, (const u16 *)self,
+    STRBUF_SetStringN(dst, (const u16 *)self,
                  ((struct Obj24901 *)self)->f1E + 1);
 }

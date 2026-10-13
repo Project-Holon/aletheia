@@ -1,5 +1,5 @@
 /*
- * function: func_02027198
+ * function: GAME_BEACON_UpdateGreeting
  * address:  0x02027198
  * packet:   pkt_02027198
  * region:   arm9
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   GAME_BEACON_Work  0x02146940  data
- *   func_02012EBC    0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl    0x02012EBC  thumb
  *   func_0200C0F0    0x0200C0F0  thumb
- *   func_02045A98    0x02045A98  arm
+ *   STRBUF_GetEosChar    0x02045A98  arm
  *   func_0200C1F4    0x0200C1F4  thumb
  */
 
@@ -36,13 +36,13 @@ struct Outer {
 extern struct Outer *GAME_BEACON_Work;
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *sv);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 struct Blk34;
 extern u16 *func_0200C1F4(struct Blk34 *p);
 
-void func_02027198(void)
+void GAME_BEACON_UpdateGreeting(void)
 {
     struct Outer *g = GAME_BEACON_Work;
     struct Inner *in;
@@ -52,8 +52,8 @@ void func_02027198(void)
     int i;
 
     in = &g->in;
-    t = (u32)func_0200C0F0(func_02012EBC((void *)g->f00));
-    v = func_02045A98();
+    t = (u32)func_0200C0F0(GAME_DATA_GetSaveControl((void *)g->f00));
+    v = STRBUF_GetEosChar();
     q = func_0200C1F4((struct Blk34 *)t);
     for (i = 0; i < 8; i++) {
         in->arr[i] = q[i];

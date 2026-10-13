@@ -1,5 +1,5 @@
 /*
- * function: func_0219C298
+ * function: FLDMMDL_MOVE_IsWallNearA
  * address:  0x0219C298
  * packet:   pkt_ov021_0219C298
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0219C180  0x0219C180  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_MOVE_IsWallAtOffsetA  0x0219C180  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -22,12 +22,12 @@ typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
-extern int func_0219C180(u32 a, Vec *p, int b, int c);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *v);
+extern int FLDMMDL_MOVE_IsWallAtOffsetA(u32 a, Vec *p, int b, int c);
 
-int func_0219C298(u32 a, int b, int c)
+int FLDMMDL_MOVE_IsWallNearA(u32 a, int b, int c)
 {
     Vec v;
-    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
-    return func_0219C180(a, &v, b, c);
+    FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)&v);
+    return FLDMMDL_MOVE_IsWallAtOffsetA(a, &v, b, c);
 }

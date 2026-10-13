@@ -1,5 +1,5 @@
 /*
- * function: func_0218B9FC
+ * function: FIELD_BUILDMODEL_UnregisterObject
  * address:  0x0218B9FC
  * packet:   pkt_0218B924
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_0218C4EC with no argument change.
+ * Tail-call thunk: forwards to FIELD_BUILDMODEL_RemoveEntriesByObject with no argument change.
  *
  * symbols:
- *   func_0218C4EC  0x0218C4EC  thumb
+ *   FIELD_BUILDMODEL_RemoveEntriesByObject  0x0218C4EC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0218C4EC(unsigned char *p, void *key);
+extern void FIELD_BUILDMODEL_RemoveEntriesByObject(unsigned char *p, void *key);
 
-void func_0218B9FC(int a, int obj)
+void FIELD_BUILDMODEL_UnregisterObject(int a, int obj)
 {
-    func_0218C4EC((unsigned char *)a, (void *)obj);
+    FIELD_BUILDMODEL_RemoveEntriesByObject((unsigned char *)a, (void *)obj);
 }

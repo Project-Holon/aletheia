@@ -1,5 +1,5 @@
 /*
- * function: func_02156074
+ * function: MUSICAL_EVENT_ScorePerformers
  * address:  0x02156074
  * packet:   pkt_ov010_02156074
  * region:   ov010
@@ -18,7 +18,7 @@
  *   func_021F4F14  0x021F4F14  thumb  ov112
  *   func_021F5140  0x021F5140  thumb  ov112
  *   func_021F4F40  0x021F4F40  thumb  ov112
- *   func_02157394  0x02157394  thumb  ov010
+ *   MUSICAL_PROGRAM_GetCategoryShare  0x02157394  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -58,9 +58,9 @@ extern u32 func_021FD964(void *p, u32 i, u32 j);
 extern u32 *func_021F4F14(int heap);
 extern unsigned char func_021F5140(void *p, int i);
 extern void func_021F4F40(void **p);
-extern u16 func_02157394(int a0, int a1);
+extern u16 MUSICAL_PROGRAM_GetCategoryShare(int a0, int a1);
 
-void func_02156074(Work *w)
+void MUSICAL_EVENT_ScorePerformers(Work *w)
 {
     Member *m;
     void *h;
@@ -85,7 +85,7 @@ void func_02156074(Work *w)
         for (j = 0; j < 9; j++) {
             if (m->used[j] == 1) {
                 t = (u32)func_021F5140(h, (u16)m->recs[j].id);
-                m->total += func_02157394((int)w->f38, t);
+                m->total += MUSICAL_PROGRAM_GetCategoryShare((int)w->f38, t);
             }
         }
     }

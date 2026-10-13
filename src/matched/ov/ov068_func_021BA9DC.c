@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9DC
+ * function: OPTION_MENU_GetListCursor
  * address:  0x021BA9DC
  * packet:   pkt_ov068_021BA9DC
  * region:   ov068
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj20644.h"
 
-int func_021BA9DC(void *p)
+int OPTION_MENU_GetListCursor(void *p)
 {
     return ((struct Obj20644 *)p)->f4;
 }

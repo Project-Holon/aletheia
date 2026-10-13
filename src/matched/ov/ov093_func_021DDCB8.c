@@ -1,5 +1,5 @@
 /*
- * function: func_021DDCB8
+ * function: BTL_HANDLER_ITEM_GetChilanBerryHandlers
  * address: 0x021DDCB8
  * packet: pkt_ov093_021DDCB8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DDCA4.c and filed here.
  *
  * symbols:
- *   d_021F184C 0x021F184C data ov093 a4
+ *   gChilanBerryHandlerTable 0x021F184C data ov093 a4
  */
 
-int *func_021DDCB8(int *p);
-extern int d_021F184C[];
+int *BTL_HANDLER_ITEM_GetChilanBerryHandlers(int *p);
+extern int gChilanBerryHandlerTable[];
 
-int *func_021DDCB8(int *p)
+int *BTL_HANDLER_ITEM_GetChilanBerryHandlers(int *p)
 {
     *p = 2;
-    return d_021F184C;
+    return gChilanBerryHandlerTable;
 }

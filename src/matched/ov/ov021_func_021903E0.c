@@ -1,5 +1,5 @@
 /*
- * function: func_021903E0
+ * function: FIELD_MSGBG_Main
  * address:  0x021903E0
  * packet:   pkt_ov021_021903E0
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C4E4  0x0201C4E4  thumb
- *   func_021919C8  0x021919C8  thumb  ov021
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   FIELD_MSGBG_SubMsgWinMain  0x021919C8  thumb  ov021
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
- *   func_020310C4  0x020310C4  arm
- *   func_0219470C  0x0219470C  thumb  ov021
- *   func_02194760  0x02194760  thumb  ov021
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   TCBL_Main  0x020310C4  arm
+ *   TALKMSGWIN_Update  0x0219470C  thumb  ov021
+ *   TALKMSGWIN_EndUpdate  0x02194760  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -49,17 +49,17 @@ typedef struct Obj {
 struct PrintSys;
 struct Q;
 struct Tcbl;
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern int func_021919C8(struct Q *q);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern int FIELD_MSGBG_SubMsgWinMain(struct Q *q);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *a);
-extern void func_020310C4(struct Tcbl *p);
-extern void func_0219470C(unsigned char *a);
-extern void func_02194760(u32 a);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
+extern void TCBL_Main(struct Tcbl *p);
+extern void TALKMSGWIN_Update(unsigned char *a);
+extern void TALKMSGWIN_EndUpdate(u32 a);
 
-void func_021903E0(Obj *o)
+void FIELD_MSGBG_Main(Obj *o)
 {
     int i;
     u32 *w;
@@ -67,12 +67,12 @@ void func_021903E0(Obj *o)
     int j;
     u32 t;
 
-    func_0201C4E4((struct PrintSys *)o->f0c);
+    PRINTSYS_QUE_Main((struct PrintSys *)o->f0c);
     i = 0;
     w = o->f0a0;
     for (; i < 8; i++, w++) {
         if (*w != 0) {
-            func_021919C8((struct Q *)(*w));
+            FIELD_MSGBG_SubMsgWinMain((struct Q *)(*w));
         }
     }
     s = o->slot;
@@ -81,16 +81,16 @@ void func_021903E0(Obj *o)
         if (t != 0) {
             if (s->f20 != 0) {
                 if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)s->f1c))) == 0) {
-                    func_02045334((struct Descriptor *)s->f1c);
+                    BMP_WIN_TransferChars((struct Descriptor *)s->f1c);
                     s->f20 = 0;
                 }
             }
             s->f04 = (s->f20 == 0) ? 1 : 0;
         }
     }
-    func_020310C4((struct Tcbl *)(((u32 *)o)[0x59]));
+    TCBL_Main((struct Tcbl *)(((u32 *)o)[0x59]));
     if (((u32 *)o)[0x57] != 0) {
-        func_0219470C((unsigned char *)(((u32 *)o)[0x57]));
-        func_02194760(((u32 *)o)[0x57]);
+        TALKMSGWIN_Update((unsigned char *)(((u32 *)o)[0x57]));
+        TALKMSGWIN_EndUpdate(((u32 *)o)[0x57]);
     }
 }

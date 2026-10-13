@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02028604",
+   "name": "APP_KEYCURSOR_Delete",
    "address": "0x02028604",
    "kind": "game",
    "region": "arm9",

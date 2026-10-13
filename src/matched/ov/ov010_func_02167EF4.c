@@ -1,5 +1,5 @@
 /*
- * function: func_02167EF4
+ * function: FLD_BTL_INST_TOOL_CreatePokeListEvent
  * address: 0x02167EF4
  * packet: pkt_ov010_02167EF4
  * region: ov010
@@ -18,13 +18,13 @@
  *   func_0201210C 0x0201210C thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_0201A364 0x0201A364 thumb
+ *   POKE_REGULATION_LoadInto 0x0201A364 thumb
  *   func_020120F4 0x020120F4 thumb
  *   func_0200CA1C 0x0200CA1C thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0200CA38 0x0200CA38 thumb
- *   func_02167FB4 0x02167FB4 thumb
+ *   FLD_BTL_INST_TOOL_PokeListEventMain 0x02167FB4 thumb
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -71,15 +71,15 @@ struct Obj;
 extern void *func_0201210C(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0201A364(int a, unsigned int b);
+extern void POKE_REGULATION_LoadInto(int a, unsigned int b);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_0200CA1C(void);
 extern void func_02082BCC(void *, int, int);
 extern u32 func_0201AA18(void *p);
 extern u32 func_0200CA38(struct Blk37 *p);
 struct SeqWork;
-extern int func_02167FB4(void *evt, u32 *seq, struct SeqWork *w);
-int func_02167EF4(int a, int b, int c, int d, int e, int f, int g, int h, int i)
+extern int FLD_BTL_INST_TOOL_PokeListEventMain(void *evt, u32 *seq, struct SeqWork *w);
+int FLD_BTL_INST_TOOL_CreatePokeListEvent(int a, int b, int c, int d, int e, int f, int g, int h, int i)
 {
   P *p;
   Q *q;
@@ -93,7 +93,7 @@ int func_02167EF4(int a, int b, int c, int d, int e, int f, int g, int h, int i)
   P *tmp3;
   u8 tmp;
   x = (int)func_0201210C((const struct Ctx *)a);
-  hd = (int)func_020122C0((void *)a, 0, func_02167FB4, 0x198);
+  hd = (int)func_020122C0((void *)a, 0, FLD_BTL_INST_TOOL_PokeListEventMain, 0x198);
   tmp3 = func_020124E8((struct Obj *)hd);
   p = tmp3;
   q = (Q *) p;
@@ -106,7 +106,7 @@ int func_02167EF4(int a, int b, int c, int d, int e, int f, int g, int h, int i)
   tmp2 = ((u8 *) q) + 0x30;
   p->f194 = i;
   tmp1 = (Q *) tmp2;
-  func_0201A364(d, (unsigned int)p->buf);
+  POKE_REGULATION_LoadInto(d, (unsigned int)p->buf);
   q = tmp1;
   p->f30 = e;
   q->f14 = p->buf;

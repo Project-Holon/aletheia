@@ -11,10 +11,10 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_021D10A8  0x021D10A8  thumb  ov021
- *   func_021D1164  0x021D1164  thumb  ov021
- *   func_021D11B0  0x021D11B0  thumb  ov021
+ *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
+ *   FIELD_SAVEANIME_Start  0x021D11B0  thumb  ov021
  */
 
 typedef struct Work {
@@ -30,10 +30,10 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int func_021D10A8(u32 a, u32 *b, u32 *c);
-extern void *func_021D1164(u32 heap, u32 v);
-extern void func_021D11B0(u32 *p);
+extern void *FIELD_SAVEANIME_Create(u32 heap, u32 v);
+extern void FIELD_SAVEANIME_Start(u32 *p);
 
 void *func_021D0FE8(void *a, int unused, int c)
 {
@@ -46,8 +46,8 @@ void *func_021D0FE8(void *a, int unused, int c)
     w->f00 = a;
     w->f04 = 0;
     w->f08 = c;
-    v = (int)func_021D1164(0x8015, (u32)func_0201210C(a));
+    v = (int)FIELD_SAVEANIME_Create(0x8015, (u32)GAMESYSTEM_GetFieldMap(a));
     w->f0C = v;
-    func_021D11B0((u32 *)v);
+    FIELD_SAVEANIME_Start((u32 *)v);
     return task;
 }

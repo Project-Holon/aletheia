@@ -1,5 +1,5 @@
 /*
- * function: func_02006E18
+ * function: SND_MIC_StoreRecording
  * address:  0x02006E18
  * packet:   pkt_02006E18
  * region:   arm9
@@ -20,7 +20,7 @@ typedef signed char    s8;
 struct PerapVoice;
 extern void func_02007BD0(struct PerapVoice *p, const s8 *src);
 
-void func_02006E18(void *a0)
+void SND_MIC_StoreRecording(void *a0)
 {
     void *res = (void *)SND_MIC_GetBufferAligned();
     func_02007BD0(a0, res);

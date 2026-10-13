@@ -1,5 +1,5 @@
 /*
- * function: func_021B269C
+ * function: SCRCMD_GIMMICK44_Cleanup
  * address:  0x021B269C
  * packet:   pkt_021B269C
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_021F3970  0x021F3970  thumb  ov044
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GIMMICK44_SnapLiftToBottom  0x021F3970  thumb  ov044
  * Addresses are Black-image addresses.
  */
 
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0215A5DC(void *a0);
-extern void func_021F3970(void *a);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void GIMMICK44_SnapLiftToBottom(void *a);
 
-int func_021B269C(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_GIMMICK44_Cleanup(u32 a, u32 b, u32 c, u32 d)
 {
-func_021F3970(func_0215A5DC((void *)b));
+GIMMICK44_SnapLiftToBottom(SCRCMD_WORK_GetGameSystem((void *)b));
 return 0;
 }
 

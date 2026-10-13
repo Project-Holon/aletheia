@@ -1,5 +1,5 @@
 /*
- * function: func_021AF370
+ * function: SCRCMD_StartWaitBgmThenPop
  * address:  0x021AF370
  * packet:   pkt_ov021_021AF370
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AF324  0x021AF324  thumb  ov021
+ *   SCRCMD_WaitBgmThenPop  0x021AF324  thumb  ov021
+ *   VM_SetWait  0x020113D0  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -19,11 +20,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void func_020113D0(char *p, int val);
-extern int func_021AF324(u32 a, u32 b);
+extern void VM_SetWait(char *p, int val);
+extern int SCRCMD_WaitBgmThenPop(u32 a, u32 b);
 
-int func_021AF370(u32 a)
+int SCRCMD_StartWaitBgmThenPop(u32 a)
 {
-    func_020113D0((char *)a, (int)func_021AF324);
+    VM_SetWait((char *)a, (int)SCRCMD_WaitBgmThenPop);
     return 1;
 }

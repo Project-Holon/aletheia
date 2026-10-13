@@ -12,7 +12,7 @@
  * symbols:
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045770 0x02045770 arm
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj05509.h"
 
@@ -21,7 +21,7 @@ struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 int func_021F22E8(unsigned char *p)
 {
@@ -30,7 +30,7 @@ int func_021F22E8(unsigned char *p)
 
     if (c != 0) {
         if (func_0201C6C4((struct PrintSys *)r4, (void *)((int)func_02045770((struct Descriptor *)((struct Obj05509 *)p)->f2C))) == 0) {
-            func_02045334((struct Descriptor *)((struct Obj05509 *)p)->f2C);
+            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj05509 *)p)->f2C);
             p[0x30] = 0;
         }
     }

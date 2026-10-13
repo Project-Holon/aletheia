@@ -1,5 +1,5 @@
 /*
- * function: func_021653B4
+ * function: GAME_BEACON_SEARCH_SetInfoPresetEvent
  * address:  0x021653B4
  * packet:   pkt_021650F4
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021653B4.c \
- *       --func func_021653B4 --addr 0x021653B4 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_BEACON_SEARCH_SetInfoPresetEvent.c \
+ *       --func GAME_BEACON_SEARCH_SetInfoPresetEvent --addr 0x021653B4 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj00121.h"
 
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_ResetDetails(void *);
 
-void func_021653B4(void *a0, unsigned a1)
+void GAME_BEACON_SEARCH_SetInfoPresetEvent(void *a0, unsigned a1)
 {
     ((struct Obj00121 *)a0)->f30 = 22;
     *(u32 *)((char *)a0 + 52) = a1;

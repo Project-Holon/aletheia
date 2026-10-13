@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02185880",
+   "name": "OEKAKI_StepWaitFinishMessage",
    "address": "0x02185880",
    "kind": "game",
    "region": "ov023",

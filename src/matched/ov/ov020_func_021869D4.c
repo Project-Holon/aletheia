@@ -1,5 +1,5 @@
 /*
- * function: func_021869D4
+ * function: FIELD_WFBC_DATA_LOCAL_WriteValue
  * address:  0x021869D4
  * packet:   pkt_021869D4
  * region:   ov020
@@ -13,7 +13,7 @@
 
 typedef unsigned short u16;
 
-void func_021869D4(char *p, u16 v)
+void FIELD_WFBC_DATA_LOCAL_WriteValue(char *p, u16 v)
 {
     ((struct Obj19470 *)p)->f2 = v;
 }

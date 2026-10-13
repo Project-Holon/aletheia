@@ -1,5 +1,5 @@
 /*
- * function: func_02051B84
+ * function: BUTTON_MAN_Create
  * address:  0x02051B84
  * packet:   pkt_02051B84
  * region:   arm9
@@ -32,7 +32,7 @@ typedef struct S02051B84 {
     int f10;
 } S02051B84;
 
-void *func_02051B84(u8 *a0, int a1, int a2, int a3)
+void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3)
 {
     S02051B84 *r;
     int i = 0;

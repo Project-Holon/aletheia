@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * blocker:  every concrete byte reproduces; the single call to
- *   func_020257C4 (0x020257C4) stays wildcarded because the target is an
+ *   BMP_OAM_GetEnabled (0x020257C4) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  *
  * symbols:
- *   func_020257C4  0x020257C4  thumb
+ *   BMP_OAM_GetEnabled  0x020257C4  thumb
  */
 
-extern int func_020257C4(const int *p);
+extern int BMP_OAM_GetEnabled(const int *p);
 
 int func_021EE234(int *a, int i)
 {
-    return func_020257C4((const int *)(*(int *)((char *)a + i * 8 + 4)));
+    return BMP_OAM_GetEnabled((const int *)(*(int *)((char *)a + i * 8 + 4)));
 }

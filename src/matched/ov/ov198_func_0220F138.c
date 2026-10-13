@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 
 typedef unsigned short u16;
@@ -20,13 +20,13 @@ typedef unsigned int   u32;
 struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void func_0204B878(void *, int);
+extern void CLACT_SetActorAnimSeq(void *, int);
 
 void func_0220F138(void *a, int b)
 {
     if (b != CLACT_GetActorAnimSeq(a))
     {
         CLACT_SetActorAnimFrame(a, 0);
-        func_0204B878(a, b);
+        CLACT_SetActorAnimSeq(a, b);
     }
 }

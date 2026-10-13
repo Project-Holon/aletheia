@@ -1,5 +1,5 @@
 /*
- * function: func_02164B38
+ * function: CALENDER_CreateTask
  * address: 0x02164B38
  * packet: pkt_ov010_02164B38
  * region: ov010
@@ -10,9 +10,9 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02164A2C 0x02164A2C thumb ov010
- *   func_020120F4 0x020120F4 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   CALENDER_OverlaySequenceEvent 0x02164A2C thumb ov010
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  */
 #include "../include/Obj07302.h"
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ struct Big;
 struct Ctx;
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern int func_02164A2C(void *,u32 *,struct SeqWork2 *);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
-void *func_02164B38(void *a, void *b, u8 c){void *t=func_020122C0(a,0,(void *)func_02164A2C,0x1c);u8 *p=func_020124E8(t);void *v=func_020120F4(a);((struct Obj07302 *)p)->f4=v;((struct Obj07302 *)p)->f8=func_02012EBC(v);((struct Obj07302 *)p)->f0=a; p[0x18]=c;return t;}
+extern int CALENDER_OverlaySequenceEvent(void *,u32 *,struct SeqWork2 *);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+void *CALENDER_CreateTask(void *a, void *b, u8 c){void *t=func_020122C0(a,0,(void *)CALENDER_OverlaySequenceEvent,0x1c);u8 *p=func_020124E8(t);void *v=GAMESYSTEM_GetGameData(a);((struct Obj07302 *)p)->f4=v;((struct Obj07302 *)p)->f8=GAME_DATA_GetSaveControl(v);((struct Obj07302 *)p)->f0=a; p[0x18]=c;return t;}

@@ -1,5 +1,5 @@
 /*
- * function: func_021D3270
+ * function: FLD_VREQ_SetMainBlendBrightnessExt
  * address:  0x021D3270
  * packet:   pkt_ov021_021D3270
  * region:   ov021
@@ -24,7 +24,7 @@ typedef struct {
     int f14;
 } Rec;
 
-void func_021D3270(Rec *p, int a, int b, int c, int d, int e)
+void FLD_VREQ_SetMainBlendBrightnessExt(Rec *p, int a, int b, int c, int d, int e)
 {
     p->f0 = 4;
     p->f4 = a;

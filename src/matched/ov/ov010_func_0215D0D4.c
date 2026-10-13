@@ -1,5 +1,5 @@
 /*
- * function: func_0215D0D4
+ * function: SCRCMD_PROC_GetDaycareSlotLevelsGrown
  * address: 0x0215D0D4
  * packet: pkt_ov010_0215D0D4
  * region: ov010
@@ -8,29 +8,29 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02159AE8 0x02159AE8 thumb ov010
- *   func_02159B10 0x02159B10 thumb ov010
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_0201210C 0x0201210C thumb
- *   func_02188D50 0x02188D50 thumb ov021
- *   func_021C34F8 0x021C34F8 thumb ov021
- *   func_021C3490 0x021C3490 thumb ov021
+ *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
+ *   SCRIPT_WORK_ReadWorkValue 0x02159B10 thumb ov010
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
+ *   FIELDMAP_GetSodateya 0x02188D50 thumb ov021
+ *   SODATEYA_GetPokemon 0x021C34F8 thumb ov021
+ *   SODATEYA_GetLevelsGained 0x021C3490 thumb ov021
  */
 typedef unsigned short u16;
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Ctx;
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D50(unsigned char *);
-extern void *func_021C34F8(void *,unsigned int);
-extern int func_021C3490(void **,int);
-int func_0215D0D4(void *a,void *b)
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetSodateya(unsigned char *);
+extern void *SODATEYA_GetPokemon(void *,unsigned int);
+extern int SODATEYA_GetLevelsGained(void **,int);
+int SCRCMD_PROC_GetDaycareSlotLevelsGrown(void *a,void *b)
 {
- u16 *p = func_02159AE8(a,b);
- int i = func_02159B10(a,b);
- void **q = func_02188D50(func_0201210C(func_0215A5DC(b)));
- func_021C34F8(q,i);
- *p = func_021C3490(q,i);
+ u16 *p = SCRIPT_WORK_ReadWorkPointer(a,b);
+ int i = SCRIPT_WORK_ReadWorkValue(a,b);
+ void **q = FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(b)));
+ SODATEYA_GetPokemon(q,i);
+ *p = SODATEYA_GetLevelsGained(q,i);
  return 0;
 }

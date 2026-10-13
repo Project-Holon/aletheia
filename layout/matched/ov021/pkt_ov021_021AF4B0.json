@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AF4B0",
+   "name": "SCRCMD_IsIssSwitchOn",
    "address": "0x021AF4B0",
    "kind": "game",
    "region": "ov021",

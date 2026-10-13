@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02156BD0",
+   "name": "MUSICAL_DRESSUP_SYS_Init",
    "address": "0x02156BD0",
    "kind": "game",
    "region": "ov010",

@@ -1,7 +1,7 @@
 /*
  * file:     field_encount.c
  * unit:     yes
- * function: func_021A9350, func_021A94B0, func_021A9508, func_021A954C, func_021A957C, func_021A9604, func_021A96B8, func_021A9780, func_021A9810, func_021A9828, func_021A996C, func_021A99A8, func_021A99E4, func_021A9A5C, func_021A9B00, func_021A9B68, func_021A9BE8, func_021A9C58, func_021A9CAC, func_021A9D30, func_021A9DC8, func_021A9DE0, func_021A9E64, func_021A9E98, func_021A9EC4, func_021A9ED8, func_021A9F28, func_021A9F40, func_021AA0A0, func_021AA180, func_021AA248, func_021AA304, func_021AA35C, func_021AA3E0, func_021AA3FC, func_021AA42C, func_021AA490, func_021AA548, func_021AA5CC, func_021AA69C, func_021AA6E0, func_021AA6F8, func_021AA728, func_021AA778
+ * function: FIELD_ENCOUNT_SetupParam, FIELD_ENCOUNT_CalcEncountRate, FIELD_ENCOUNT_CreateWildMons, FIELD_ENCOUNT_CreateZoneWildMons, FIELD_ENCOUNT_PickRoamer, FIELD_ENCOUNT_PickWfbcMon, FIELD_ENCOUNT_InitWildPokemon, FIELD_ENCOUNT_InitRoamerPokemon, FIELD_ENCOUNT_GetSwarmZoneId, FIELD_ENCOUNT_ApplyLeadAbility, FIELD_ENCOUNT_IsRepelled, FIELD_ENCOUNT_GetSwarmEntry, FIELD_ENCOUNT_TrySwarmSlot, FIELD_ENCOUNT_LoadSlots, FIELD_ENCOUNT_RollSlotMon, FIELD_ENCOUNT_PickSlotByType, FIELD_ENCOUNT_ApplyHighLevelBias, FIELD_ENCOUNT_SelectMon, FIELD_ENCOUNT_RollHeldItem, FIELD_ENCOUNT_CreatePersonality, FIELD_ENCOUNT_RandPercent, FIELD_ENCOUNT_PickGroundSlot, FIELD_ENCOUNT_PickWaterSlot, FIELD_ENCOUNT_PickFishingSlot, FIELD_ENCOUNT_PickRandomSlot, FIELD_ENCOUNT_Create, FIELD_ENCOUNT_Delete, FIELD_ENCOUNT_CheckWildEncount, FIELD_ENCOUNT_StartScriptedWild, FIELD_ENCOUNT_CheckFishingEncount, FIELD_ENCOUNT_CheckWfbcEncount, FIELD_ENCOUNT_SetFieldSituation, FIELD_ENCOUNT_GetEncountType, FIELD_ENCOUNT_GetEncountRate, FIELD_ENCOUNT_CheckEncountRoll, FIELD_ENCOUNT_CheckWfbcRoll, FIELD_ENCOUNT_SetupWildBattle, FIELD_ENCOUNT_SetupRoamerBattle, FIELD_ENCOUNT_SetupTrainerBattle, FIELD_ENCOUNT_GetBattleWeather, FIELD_ENCOUNT_RandRatePercent, FIELD_ENCOUNT_ResetStepWork, FIELD_ENCOUNT_UpdateStepWork, FIELD_ENCOUNT_GetStepCount
  * address:  0x021A9350
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,11 +15,11 @@
  * 0x021AA548; 0x021A9350 (encounter parameter setup) is called only by field_encount functions.
  *
  * symbols:
- *   func_020142E8  0x020142E8  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02012934  0x02012934  thumb
  *   func_0200D418  0x0200D418  thumb
  *   func_02012944  0x02012944  thumb
@@ -32,82 +32,82 @@
  *   func_0201AA50  0x0201AA50  thumb
  *   func_0201AB08  0x0201AB08  thumb
  *   func_0209C2B0  0x0209C2B0  arm
- *   func_02010FB0  0x02010FB0  thumb
+ *   GPOWER_ApplyEncountRate  0x02010FB0  thumb
  *   MIi_CpuClear32  0x02082A7C  arm
  *   func_02005728  0x02005728  thumb
  *   func_0200D488  0x0200D488  thumb
  *   func_0200D4AC  0x0200D4AC  thumb
  *   func_0200D4B8  0x0200D4B8  thumb
- *   func_0219390C  0x0219390C  thumb  ov021
- *   func_02193C00  0x02193C00  thumb  ov021
+ *   FIELD_WFBC_GetPeople  0x0219390C  thumb  ov021
+ *   FIELD_WFBC_PEOPLE_GetNpcRecord  0x02193C00  thumb  ov021
  *   func_020056EC  0x020056EC  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_020185C4  0x020185C4  thumb
+ *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   func_02018A00  0x02018A00  thumb
  *   func_0201ADE4  0x0201ADE4  thumb
  *   func_0201AE14  0x0201AE14  thumb
- *   data_021D8DE8  0x021D8DE8  data
+ *   sSwarmTable  0x021D8DE8  data
  *   func_0200D454  0x0200D454  thumb
  *   func_02019C90  0x02019C90  thumb
- *   data_021D8DD8  0x021D8DD8  data
- *   data_021D8DCC  0x021D8DCC  data
+ *   sSlotPickFuncs  0x021D8DD8  data
+ *   sHeldItemWeights  0x021D8DCC  data
  *   func_0201AE1C  0x0201AE1C  thumb
- *   func_020186C8  0x020186C8  thumb
+ *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   func_0201AF6C  0x0201AF6C  thumb
  *   func_02030734  0x02030734  arm
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   func_020120F4  0x020120F4  thumb
  *   func_02012844  0x02012844  thumb
- *   func_0216255C  0x0216255C  thumb  ov010
- *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   EVENTDATA_SYSTEM_GetEncountData  0x0216255C  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_02012A38  0x02012A38  thumb
- *   func_02188C6C  0x02188C6C  thumb  ov021
- *   func_021A1BF4  0x021A1BF4  thumb  ov021
- *   func_02012F2C  0x02012F2C  thumb
+ *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
+ *   WEATHER_GetWeatherId  0x021A1BF4  thumb  ov021
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02013090  0x02013090  thumb
- *   func_0216E7C8  0x0216E7C8  thumb  ov010
- *   func_02013144  0x02013144  thumb
- *   func_02193920  0x02193920  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   BTL_SETUP_Create  0x02013090  thumb
+ *   EVENT_BATTLE_CreateScriptedBattle  0x0216E7C8  thumb  ov010
+ *   BTL_SETUP_SetStatusFlag  0x02013144  thumb
+ *   FIELD_WFBC_IsBackPeople  0x02193920  thumb  ov021
  *   func_02012984  0x02012984  thumb
  *   func_02013ED8  0x02013ED8  thumb
  *   func_0203F4CC  0x0203F4CC  arm
- *   func_021A30C8  0x021A30C8  thumb
- *   func_02188C98  0x02188C98  thumb
- *   func_021938F4  0x021938F4  thumb  ov021
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   FIELD_WFBC_GetPeopleNum  0x021938F4  thumb  ov021
  *   func_0207C7B4  0x0207C7B4  arm
- *   data_021DDFA4  0x021DDFA4  data
- *   func_0201347C  0x0201347C  thumb
+ *   sFieldEncountFileName  0x021DDFA4  data
+ *   BTL_SETUP_SetupWild  0x0201347C  thumb
  *   func_020173EC  0x020173EC  thumb
  *   func_0201A920  0x0201A920  thumb
  *   func_0201A98C  0x0201A98C  thumb
- *   func_020130C4  0x020130C4  thumb
+ *   BTL_SETUP_Clear  0x020130C4  thumb
  *   func_0202A230  0x0202A230  thumb
  *   func_0202A420  0x0202A420  thumb
- *   func_02013734  0x02013734  thumb
- *   func_02013644  0x02013644  thumb
- *   func_020136E0  0x020136E0  thumb
- *   func_02013610  0x02013610  thumb
- *   func_02013678  0x02013678  thumb
- *   func_020136AC  0x020136AC  thumb
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021A3074  0x021A3074  thumb
+ *   BTL_SETUP_SetupTrainerMulti  0x02013734  thumb
+ *   BTL_SETUP_SetupTrainerDouble  0x02013644  thumb
+ *   BTL_SETUP_SetupTrainerTag  0x020136E0  thumb
+ *   BTL_SETUP_SetupTrainerSingle  0x02013610  thumb
+ *   BTL_SETUP_SetupTrainerTriple  0x02013678  thumb
+ *   BTL_SETUP_SetupTrainerRotation  0x020136AC  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_021AA77C  0x021AA77C  thumb  ov021
- *   func_021AA794  0x021AA794  thumb  ov021
- *   func_021AA7AC  0x021AA7AC  thumb  ov021
- *   func_021AA7CC  0x021AA7CC  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
- *   func_021AB100  0x021AB100  thumb  ov021
- *   func_021AB140  0x021AB140  thumb  ov021
- *   func_021AB29C  0x021AB29C  thumb  ov021
- *   func_021AB580  0x021AB580  thumb  ov021
+ *   EFFECT_ENCOUNT_Create  0x021AA77C  thumb  ov021
+ *   EFFECT_ENCOUNT_Delete  0x021AA794  thumb  ov021
+ *   EFFECT_ENCOUNT_Init  0x021AA7AC  thumb  ov021
+ *   EFFECT_ENCOUNT_Exit  0x021AA7CC  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
+ *   MAP_ATTR_IsPresent  0x021AB100  thumb  ov021
+ *   MAP_ATTR_IsTallGrass  0x021AB140  thumb  ov021
+ *   MAP_ATTR_IsAnyDoubleGrass  0x021AB29C  thumb  ov021
+ *   MAP_ATTR_GetBattleBackground  0x021AB580  thumb  ov021
  */
 typedef unsigned char u8;
 
@@ -214,11 +214,11 @@ typedef struct EncountStepWork {
 
 struct RtcTime { u32 hour; u32 minute; u32 second; };
 
-extern u32 func_020142E8(struct EventWork *eventWork, s32 flagId);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern const u16 *func_020084F4(const struct MyStatus *myStatus);
 extern u8 func_02008550(const struct MyStatus *myStatus);
 extern u32 func_020307B0(void *memory);
-extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Party *func_02012934(const struct GameData *gameData);
 extern struct EncountSave *func_0200D418(struct SaveControl *saveControl);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
@@ -231,20 +231,20 @@ extern u32 func_0200D58C(struct EncountSave *encountSave);
 extern u32 func_0201AA50(struct Party *party);
 extern u32 func_0201AB08(struct Party *party);
 extern u32 func_0209C2B0(u32 numerator, u32 denominator);
-extern u32 func_02010FB0(u32 rate);
+extern u32 GPOWER_ApplyEncountRate(u32 rate);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 extern u8 func_0200D488(struct EncountSave *encountSave, u32 index);
 extern struct Roamer *func_0200D4AC(struct EncountSave *encountSave, u32 index);
 extern u32 func_0200D4B8(const struct Roamer *roamer, u32 field);
 extern u32 func_02005728(u32 range);
-extern struct FieldWfbcPeople *func_0219390C(struct FieldWfbc *wfbc, u32 npcId);
-extern u8 *func_02193C00(struct FieldWfbcPeople *people);
+extern struct FieldWfbcPeople *FIELD_WFBC_GetPeople(struct FieldWfbc *wfbc, u32 npcId);
+extern u8 *FIELD_WFBC_PEOPLE_GetNpcRecord(struct FieldWfbcPeople *people);
 extern u32 func_020056EC(u32 range);
 extern struct PersonalData *func_0201ADE4(unsigned int species, int form, unsigned int heapId);
-extern void func_02017588(struct PokemonParam *pp, u16 species, u16 level, unsigned long long otId, u32 ivs, unsigned long long personality);
-extern void func_02017E40(struct PokemonParam *pp, u32 id, u32 value);
+extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, unsigned long long otId, u32 ivs, unsigned long long personality);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 extern void func_02018A00(struct PokemonParam *pp, u32 species, u32 form);
-extern void func_020185C4(struct PokemonParam *pp);
+extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 extern void func_0201AE14(struct PersonalData *personal);
 extern u8 func_0200D454(struct EncountSave *encountSave);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
@@ -252,114 +252,114 @@ extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern u32 func_02019C90(u16 species, u16 form, u32 field);
 extern u32 func_0201AE1C(const struct PersonalData *personal, u32 field);
 extern u32 func_0201AF6C(u32 genderRatio);
-extern u32 func_020186C8(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 extern struct EventDataSystem *func_02012844(const struct GameData *gameData);
-extern EncountData *func_0216255C(struct EventDataSystem *eventData);
+extern EncountData *EVENTDATA_SYSTEM_GetEncountData(struct EventDataSystem *eventData);
 extern void *func_02030734(u32 heapId, u32 size, int fromTop, const char *file, u16 line);
-extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern EncountStepWork *func_02012A38(const struct GameData *gameData);
-extern struct WeatherSys *func_02188C6C(struct FieldMap *fieldMap);
-extern u16 func_021A1BF4(struct WeatherSys *weatherSys);
-extern struct TrainerRecord *func_02012F2C(struct GameData *gameData);
+extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
+extern u16 WEATHER_GetWeatherId(struct WeatherSys *weatherSys);
+extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern u32 func_02008DF0(struct TrainerRecord *record, int recordId);
-extern u16 func_02188C9C(struct FieldMap *fieldMap);
-extern struct BattleSetupParam *func_02013090(u32 heapId);
-extern int func_0216E7C8(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct BattleSetupParam *btlSetup, int isScripted, int triggerMode);
-extern void func_02013144(struct BattleSetupParam *btlSetup, int flag);
-extern u8 func_02193920(struct FieldWfbc *wfbc);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
+extern int EVENT_BATTLE_CreateScriptedBattle(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct BattleSetupParam *btlSetup, int isScripted, int triggerMode);
+extern void BTL_SETUP_SetStatusFlag(struct BattleSetupParam *btlSetup, int flag);
+extern u8 FIELD_WFBC_IsBackPeople(struct FieldWfbc *wfbc);
 extern u8 func_02013ED8(u32 zoneId);
-extern u32 func_021A30C8(struct FieldPlayer *player);
+extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
 extern void func_0203F4CC(struct RtcTime *time);
 extern u8 func_02012984(const struct GameData *gameData);
-extern struct FieldG3dMapper *func_02188C98(struct FieldMap *fieldMap);
-extern int func_021938F4(struct FieldWfbc *wfbc);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+extern int FIELD_WFBC_GetPeopleNum(struct FieldWfbc *wfbc);
 extern fx32 func_0207C7B4(fx32 x);
 extern struct Party *func_0201A920(u32 heapId);
 extern u32 func_020173EC(void);
 extern u32 func_0201A98C(struct Party *party, const struct PokemonParam *pp);
-extern void func_0201347C(struct BattleSetupParam *param, struct GameData *gd, struct Party *wildParty, const struct FieldSituation *sit, u32 rule, u16 heap);
-extern void func_020130C4(struct BattleSetupParam *param);
+extern void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, struct Party *wildParty, const struct FieldSituation *sit, u32 rule, u16 heap);
+extern void BTL_SETUP_Clear(struct BattleSetupParam *param);
 extern u32 func_0202A230(u32 trainerId, u32 field);
 extern u32 func_0202A420(u32 trainerType);
-extern void func_02013734(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u32 heap);
-extern void func_020136E0(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId1, u32 trainerId2, u16 heap);
-extern void func_02013644(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
-extern void func_02013610(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
-extern void func_02013678(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
-extern void func_020136AC(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
-extern struct Mmdl *func_021A3074(struct FieldPlayer *player);
-extern int func_0216D83C(struct Mmdl *mmdl);
-extern int func_0216D854(struct Mmdl *mmdl);
-extern int func_0216D86C(struct Mmdl *mmdl);
-void func_021A9350(FieldEncountParam *param, struct GameData *gameData, int encountType, int triggerMode, u16 weather);
-u32 func_021A94B0(FieldEncountParam *param, struct GameData *gameData, u32 baseRate);
-int func_021A9508(FieldEncountParam *param, EncountSlot *slots, EncountMon *mons);
-int func_021A954C(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountMon *mons);
-struct Roamer *func_021A957C(EncountData *encountData, FieldEncountParam *param, u32 zoneId);
-u32 func_021A9604(struct FieldWfbc *wfbc, FieldEncountParam *param, EncountMon *mon);
-void func_021A96B8(struct PokemonParam *pp, const FieldEncountParam *param, EncountMon *encMon);
-void func_021A9780(struct PokemonParam *pp, const FieldEncountParam *param, struct Roamer *roamer);
-u16 func_021A9810(struct GameData *gameData);
-void func_021A9828(FieldEncountParam *param, u16 weather);
-int func_021A996C(FieldEncountParam *param, u8 level);
-const SwarmEntry *func_021A99A8(struct GameData *gameData);
-int func_021A99E4(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountSlot *slot);
-u8 func_021A9A5C(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountSlot *slots);
-void func_021A9B00(EncountSlot *slot, EncountMon *mon);
-u8 func_021A9B68(FieldEncountParam *param, EncountSlot *slots, u32 type);
-void func_021A9BE8(const FieldEncountParam *param, const EncountSlot *slots, EncountMon *mon);
-void func_021A9C58(FieldEncountParam *param, EncountSlot *slots, EncountMon *mon);
-void func_021A9CAC(struct PokemonParam *pp, struct PersonalData *personal, int compoundEyes, int isDarkGrass);
-u32 func_021A9D30(const FieldEncountParam *param, struct PersonalData *personal, EncountMon *encMon);
-u32 func_021A9DC8(void);
-u32 func_021A9DE0(u8 slotCount);
-u32 func_021A9E64(u8 slotCount);
-u32 func_021A9E98(u8 slotCount);
-u32 func_021A9EC4(u32 slotCount);
-FieldEncount *func_021A9ED8(struct FieldMap *fieldMap);
-void func_021A9F28(FieldEncount *encount);
-int func_021A9F40(FieldEncount *encount, int triggerMode);
-int func_021AA0A0(FieldEncount *encount, u16 species, u8 level, u32 flags);
-struct BattleSetupParam *func_021AA180(FieldEncount *encount, int triggerMode);
-int func_021AA248(FieldEncount *encount, struct FieldWfbc *wfbc);
-void func_021AA304(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap);
-int func_021AA35C(FieldEncount *encount, int triggerMode, u8 *rateBonus);
-int func_021AA3E0(FieldEncount *encount, int encountType, int rateBonus);
-int func_021AA3FC(FieldEncount *encount, EncountStepWork *stepWork, u32 rate);
-int func_021AA42C(EncountStepWork *stepWork, struct FieldWfbc *wfbc);
-void func_021AA490(FieldEncount *encount, FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, EncountMon *mons);
-void func_021AA548(FieldEncount *encount, const FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, struct Roamer *roamer);
-void func_021AA5CC(FieldEncount *encount, struct BattleSetupParam *btlSetup, u32 rule, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heapId);
-u8 func_021AA69C(struct FieldMap *fieldMap);
-u32 func_021AA6E0(void);
-void func_021AA6F8(EncountStepWork *stepWork, struct FieldPlayer *player);
-void func_021AA728(EncountStepWork *stepWork, struct FieldPlayer *player);
-u32 func_021AA778(EncountStepWork *stepWork);
-struct EffectEncount *func_021AA77C(int heapId);
-int func_021AA794(struct EffectEncount *effectEncount);
-void func_021AA7AC(FieldEncount *encount, struct EffectEncount *effectEncount);
-void func_021AA7CC(FieldEncount *encount, struct EffectEncount *effectEncount);
-u16 func_021AB0F0(u32 attr);
-u16 func_021AB0F8(u32 attr);
-BOOL func_021AB100(u32 attr);
-int func_021AB140(int attrValue);
-BOOL func_021AB29C(u16 attrValue);
-u8 func_021AB580(u16 attrValue);
-extern const SwarmEntry data_021D8DE8[];
-extern const u8 data_021D8DCC[];
-extern const char data_021DDFA4[];
-extern u32 (*const data_021D8DD8[])(u8 slotCount);
+extern void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u32 heap);
+extern void BTL_SETUP_SetupTrainerTag(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId1, u32 trainerId2, u16 heap);
+extern void BTL_SETUP_SetupTrainerDouble(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
+extern void BTL_SETUP_SetupTrainerSingle(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
+extern void BTL_SETUP_SetupTrainerTriple(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
+extern void BTL_SETUP_SetupTrainerRotation(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowY(struct Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
+void FIELD_ENCOUNT_SetupParam(FieldEncountParam *param, struct GameData *gameData, int encountType, int triggerMode, u16 weather);
+u32 FIELD_ENCOUNT_CalcEncountRate(FieldEncountParam *param, struct GameData *gameData, u32 baseRate);
+int FIELD_ENCOUNT_CreateWildMons(FieldEncountParam *param, EncountSlot *slots, EncountMon *mons);
+int FIELD_ENCOUNT_CreateZoneWildMons(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountMon *mons);
+struct Roamer *FIELD_ENCOUNT_PickRoamer(EncountData *encountData, FieldEncountParam *param, u32 zoneId);
+u32 FIELD_ENCOUNT_PickWfbcMon(struct FieldWfbc *wfbc, FieldEncountParam *param, EncountMon *mon);
+void FIELD_ENCOUNT_InitWildPokemon(struct PokemonParam *pp, const FieldEncountParam *param, EncountMon *encMon);
+void FIELD_ENCOUNT_InitRoamerPokemon(struct PokemonParam *pp, const FieldEncountParam *param, struct Roamer *roamer);
+u16 FIELD_ENCOUNT_GetSwarmZoneId(struct GameData *gameData);
+void FIELD_ENCOUNT_ApplyLeadAbility(FieldEncountParam *param, u16 weather);
+int FIELD_ENCOUNT_IsRepelled(FieldEncountParam *param, u8 level);
+const SwarmEntry *FIELD_ENCOUNT_GetSwarmEntry(struct GameData *gameData);
+int FIELD_ENCOUNT_TrySwarmSlot(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountSlot *slot);
+u8 FIELD_ENCOUNT_LoadSlots(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountSlot *slots);
+void FIELD_ENCOUNT_RollSlotMon(EncountSlot *slot, EncountMon *mon);
+u8 FIELD_ENCOUNT_PickSlotByType(FieldEncountParam *param, EncountSlot *slots, u32 type);
+void FIELD_ENCOUNT_ApplyHighLevelBias(const FieldEncountParam *param, const EncountSlot *slots, EncountMon *mon);
+void FIELD_ENCOUNT_SelectMon(FieldEncountParam *param, EncountSlot *slots, EncountMon *mon);
+void FIELD_ENCOUNT_RollHeldItem(struct PokemonParam *pp, struct PersonalData *personal, int compoundEyes, int isDarkGrass);
+u32 FIELD_ENCOUNT_CreatePersonality(const FieldEncountParam *param, struct PersonalData *personal, EncountMon *encMon);
+u32 FIELD_ENCOUNT_RandPercent(void);
+u32 FIELD_ENCOUNT_PickGroundSlot(u8 slotCount);
+u32 FIELD_ENCOUNT_PickWaterSlot(u8 slotCount);
+u32 FIELD_ENCOUNT_PickFishingSlot(u8 slotCount);
+u32 FIELD_ENCOUNT_PickRandomSlot(u32 slotCount);
+FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap);
+void FIELD_ENCOUNT_Delete(FieldEncount *encount);
+int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode);
+int FIELD_ENCOUNT_StartScriptedWild(FieldEncount *encount, u16 species, u8 level, u32 flags);
+struct BattleSetupParam *FIELD_ENCOUNT_CheckFishingEncount(FieldEncount *encount, int triggerMode);
+int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc);
+void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap);
+int FIELD_ENCOUNT_GetEncountType(FieldEncount *encount, int triggerMode, u8 *rateBonus);
+int FIELD_ENCOUNT_GetEncountRate(FieldEncount *encount, int encountType, int rateBonus);
+int FIELD_ENCOUNT_CheckEncountRoll(FieldEncount *encount, EncountStepWork *stepWork, u32 rate);
+int FIELD_ENCOUNT_CheckWfbcRoll(EncountStepWork *stepWork, struct FieldWfbc *wfbc);
+void FIELD_ENCOUNT_SetupWildBattle(FieldEncount *encount, FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, EncountMon *mons);
+void FIELD_ENCOUNT_SetupRoamerBattle(FieldEncount *encount, const FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, struct Roamer *roamer);
+void FIELD_ENCOUNT_SetupTrainerBattle(FieldEncount *encount, struct BattleSetupParam *btlSetup, u32 rule, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heapId);
+u8 FIELD_ENCOUNT_GetBattleWeather(struct FieldMap *fieldMap);
+u32 FIELD_ENCOUNT_RandRatePercent(void);
+void FIELD_ENCOUNT_ResetStepWork(EncountStepWork *stepWork, struct FieldPlayer *player);
+void FIELD_ENCOUNT_UpdateStepWork(EncountStepWork *stepWork, struct FieldPlayer *player);
+u32 FIELD_ENCOUNT_GetStepCount(EncountStepWork *stepWork);
+struct EffectEncount *EFFECT_ENCOUNT_Create(int heapId);
+int EFFECT_ENCOUNT_Delete(struct EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_Init(FieldEncount *encount, struct EffectEncount *effectEncount);
+void EFFECT_ENCOUNT_Exit(FieldEncount *encount, struct EffectEncount *effectEncount);
+u16 MAP_ATTR_GetTerrainId(u32 attr);
+u16 MAP_ATTR_GetFlags(u32 attr);
+BOOL MAP_ATTR_IsPresent(u32 attr);
+int MAP_ATTR_IsTallGrass(int attrValue);
+BOOL MAP_ATTR_IsAnyDoubleGrass(u16 attrValue);
+u8 MAP_ATTR_GetBattleBackground(u16 attrValue);
+extern const SwarmEntry sSwarmTable[];
+extern const u8 sHeldItemWeights[];
+extern const char sFieldEncountFileName[];
+extern u32 (*const sSlotPickFuncs[])(u8 slotCount);
 
-void func_021A9350(FieldEncountParam *param, struct GameData *gameData, int encountType, int triggerMode, u16 weather)
+void FIELD_ENCOUNT_SetupParam(FieldEncountParam *param, struct GameData *gameData, int encountType, int triggerMode, u16 weather)
 {
     struct SaveControl *saveControl;
     struct Party *party;
     struct PokemonParam *leadMon;
 
-    saveControl = func_02012EBC(gameData);
+    saveControl = GAME_DATA_GetSaveControl(gameData);
     party = func_02012934(gameData);
     MI_CpuFill8(param, 0, 0x2C);
     param->encountType = encountType;
@@ -378,9 +378,9 @@ void func_021A9350(FieldEncountParam *param, struct GameData *gameData, int enco
         param->leadAbility = func_02017E1C(leadMon, 10, 0);
         param->leadGender = func_02017E1C(leadMon, 0x6E, 0);
         param->leadNature = func_02018598(leadMon);
-        func_021A9828(param, weather);
+        FIELD_ENCOUNT_ApplyLeadAbility(param, weather);
     }
-    param->swarmEnabled = func_020142E8(func_0201296C(gameData), 0x960);
+    param->swarmEnabled = ZONEDATA_CheckEventFlag(func_0201296C(gameData), 0x960);
     if (func_0200D58C(func_0200D418(saveControl)) == 0)
         param->repelActive = 1;
     if (param->triggerMode == 2) {
@@ -391,7 +391,7 @@ void func_021A9350(FieldEncountParam *param, struct GameData *gameData, int enco
         param->ignoreRepel = 1;
     param->unusedFlag = 0;
     param->isDoubleBattle = 0;
-    if (param->encountType == 1 && (int)func_0201AA50(party) >= 2 && func_021A9DC8() < 0x28)
+    if (param->encountType == 1 && (int)func_0201AA50(party) >= 2 && FIELD_ENCOUNT_RandPercent() < 0x28)
         param->isDoubleBattle = 1;
     if (param->intimidate || param->repelActive)
         param->leadLevel = func_02017E1C(func_0201AB28(party, func_0201AB08(party)), 0x9E, 0);
@@ -399,7 +399,7 @@ void func_021A9350(FieldEncountParam *param, struct GameData *gameData, int enco
 }
 
 /* Cleanse Tag (0xE0) and Pure Incense (0x140) cut the rate to two thirds. */
-u32 func_021A94B0(FieldEncountParam *param, struct GameData *gameData, u32 baseRate)
+u32 FIELD_ENCOUNT_CalcEncountRate(FieldEncountParam *param, struct GameData *gameData, u32 baseRate)
 {
     u32 rate = baseRate;
 
@@ -423,34 +423,34 @@ u32 func_021A94B0(FieldEncountParam *param, struct GameData *gameData, u32 baseR
     if (rate > 100) {
         rate = 100;
     }
-    return func_02010FB0(rate);
+    return GPOWER_ApplyEncountRate(rate);
 }
 
-int func_021A9508(FieldEncountParam *param, EncountSlot *slots, EncountMon *mons)
+int FIELD_ENCOUNT_CreateWildMons(FieldEncountParam *param, EncountSlot *slots, EncountMon *mons)
 {
     int count = 0;
     int i;
 
     for (i = 0; i < param->monCount; i++) {
         EncountMon *mon = &mons[count];
-        func_021A9C58(param, slots, mon);
-        if (func_021A996C(param, mon->level) == 0)
+        FIELD_ENCOUNT_SelectMon(param, slots, mon);
+        if (FIELD_ENCOUNT_IsRepelled(param, mon->level) == 0)
             count++;
     }
     return count;
 }
 
-int func_021A954C(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountMon *mons)
+int FIELD_ENCOUNT_CreateZoneWildMons(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountMon *mons)
 {
     EncountSlot slots[12];
 
     MIi_CpuClear32(0, slots, sizeof(slots));
-    func_021A9A5C(encountData, param, zoneId, slots);
-    return func_021A9508(param, slots, mons);
+    FIELD_ENCOUNT_LoadSlots(encountData, param, zoneId, slots);
+    return FIELD_ENCOUNT_CreateWildMons(param, slots, mons);
 }
 
 /* A roaming Pokemon in this zone appears half of the time. */
-struct Roamer *func_021A957C(EncountData *encountData, FieldEncountParam *param, u32 zoneId)
+struct Roamer *FIELD_ENCOUNT_PickRoamer(EncountData *encountData, FieldEncountParam *param, u32 zoneId)
 {
     struct Roamer *candidates[2];
     u8 count = 0;
@@ -463,7 +463,7 @@ struct Roamer *func_021A957C(EncountData *encountData, FieldEncountParam *param,
         roamer = func_0200D4AC(param->encountSave, i);
         if (func_0200D4B8(roamer, 1) != zoneId)
             continue;
-        if (func_021A996C(param, func_0200D4B8(roamer, 6)) != 0)
+        if (FIELD_ENCOUNT_IsRepelled(param, func_0200D4B8(roamer, 6)) != 0)
             continue;
         candidates[count++] = roamer;
     }
@@ -478,7 +478,7 @@ struct Roamer *func_021A957C(EncountData *encountData, FieldEncountParam *param,
  * 0x08, the levels at 0x10 and the weights at 0x14; the shared record type
  * names those bytes otherwise, so they are read by offset here.
  */
-u32 func_021A9604(struct FieldWfbc *wfbc, FieldEncountParam *param, EncountMon *mon)
+u32 FIELD_ENCOUNT_PickWfbcMon(struct FieldWfbc *wfbc, FieldEncountParam *param, EncountMon *mon)
 {
     u32 column;
     u32 totalWeight;
@@ -502,17 +502,17 @@ u32 func_021A9604(struct FieldWfbc *wfbc, FieldEncountParam *param, EncountMon *
     }
     totalWeight = 0;
     for (i = 0; i < 30; i++) {
-        people = func_0219390C(wfbc, i);
+        people = FIELD_WFBC_GetPeople(wfbc, i);
         if (people) {
-            totalWeight += func_02193C00(people)[column + 0x14];
+            totalWeight += FIELD_WFBC_PEOPLE_GetNpcRecord(people)[column + 0x14];
         }
     }
     roll = func_020056EC(totalWeight);
     totalWeight = 0;
     for (i = 0; i < 30; i++) {
-        people = func_0219390C(wfbc, i);
+        people = FIELD_WFBC_GetPeople(wfbc, i);
         if (people) {
-            record = func_02193C00(people);
+            record = FIELD_WFBC_PEOPLE_GetNpcRecord(people);
             totalWeight += record[column + 0x14];
             if (roll < totalWeight) {
                 MI_CpuFill8(mon, 0, 0x14);
@@ -525,49 +525,49 @@ u32 func_021A9604(struct FieldWfbc *wfbc, FieldEncountParam *param, EncountMon *
     return 0;
 }
 
-void func_021A96B8(struct PokemonParam *pp, const FieldEncountParam *param, EncountMon *encMon)
+void FIELD_ENCOUNT_InitWildPokemon(struct PokemonParam *pp, const FieldEncountParam *param, EncountMon *encMon)
 {
     struct PersonalData *personal = func_0201ADE4(encMon->species, encMon->form, 4);
-    u32 personality = func_021A9D30(param, personal, encMon);
+    u32 personality = FIELD_ENCOUNT_CreatePersonality(param, personal, encMon);
 
-    func_02017588(pp, encMon->species, encMon->level, param->ownerId, 0xFFFFFFFF, personality);
-    func_02017E40(pp, 0x6F, encMon->form);
+    POKE_TOOL_SetupPartyParamEx(pp, encMon->species, encMon->level, param->ownerId, 0xFFFFFFFF, personality);
+    POKE_TOOL_SetPartyValue(pp, 0x6F, encMon->form);
     if (encMon->hiddenAbility)
         func_02018A00(pp, encMon->species, encMon->form);
     if (encMon->heldItem <= 0x272) {
         if (encMon->heldItem != 0)
-            func_02017E40(pp, 6, encMon->heldItem);
+            POKE_TOOL_SetPartyValue(pp, 6, encMon->heldItem);
         else
-            func_021A9CAC(pp, personal, param->compoundEyes, param->encountType == 1);
+            FIELD_ENCOUNT_RollHeldItem(pp, personal, param->compoundEyes, param->encountType == 1);
     }
-    func_02017E40(pp, 0x9A, func_02008550(param->myStatus));
-    func_02017E40(pp, 0x8E, (u32)func_020084F4(param->myStatus));
+    POKE_TOOL_SetPartyValue(pp, 0x9A, func_02008550(param->myStatus));
+    POKE_TOOL_SetPartyValue(pp, 0x8E, (u32)func_020084F4(param->myStatus));
     if (param->syncNature)
-        func_02017E40(pp, 0x70, param->leadNature);
-    func_020185C4(pp);
+        POKE_TOOL_SetPartyValue(pp, 0x70, param->leadNature);
+    POKE_TOOL_RecalcParam(pp);
     func_0201AE14(personal);
 }
 
 /*
  * Lever: `const FieldEncountParam *param` settles the argument scheduling
- * before the func_02017588 call (as in func_021A96B8).
+ * before the POKE_TOOL_SetupPartyParamEx call (as in FIELD_ENCOUNT_InitWildPokemon).
  */
-void func_021A9780(struct PokemonParam *pp, const FieldEncountParam *param, struct Roamer *roamer)
+void FIELD_ENCOUNT_InitRoamerPokemon(struct PokemonParam *pp, const FieldEncountParam *param, struct Roamer *roamer)
 {
     u16 species = func_0200D4B8(roamer, 4);
     u8 level = func_0200D4B8(roamer, 6);
     u32 ivs = func_0200D4B8(roamer, 2);
 
-    func_02017588(pp, species, level, param->ownerId, ivs, func_0200D4B8(roamer, 3));
-    func_02017E40(pp, 0x70, func_0200D4B8(roamer, 10));
-    func_02017E40(pp, 0x9D, func_0200D4B8(roamer, 7));
-    func_02017E40(pp, 0xA0, func_0200D4B8(roamer, 5));
-    func_020185C4(pp);
+    POKE_TOOL_SetupPartyParamEx(pp, species, level, param->ownerId, ivs, func_0200D4B8(roamer, 3));
+    POKE_TOOL_SetPartyValue(pp, 0x70, func_0200D4B8(roamer, 10));
+    POKE_TOOL_SetPartyValue(pp, 0x9D, func_0200D4B8(roamer, 7));
+    POKE_TOOL_SetPartyValue(pp, 0xA0, func_0200D4B8(roamer, 5));
+    POKE_TOOL_RecalcParam(pp);
 }
 
-u16 func_021A9810(struct GameData *gameData)
+u16 FIELD_ENCOUNT_GetSwarmZoneId(struct GameData *gameData)
 {
-    const SwarmEntry *entry = func_021A99A8(gameData);
+    const SwarmEntry *entry = FIELD_ENCOUNT_GetSwarmEntry(gameData);
     if (entry == 0) {
         return 0xffff;
     }
@@ -575,7 +575,7 @@ u16 func_021A9810(struct GameData *gameData)
 }
 
 /* Lead Pokemon abilities that change the rate or the wild Pokemon. */
-void func_021A9828(FieldEncountParam *param, u16 weather)
+void FIELD_ENCOUNT_ApplyLeadAbility(FieldEncountParam *param, u16 weather)
 {
     switch (param->leadAbility) {
     case 0x23:
@@ -605,11 +605,11 @@ void func_021A9828(FieldEncountParam *param, u16 weather)
         param->compoundEyes = 1;
         return;
     }
-    if (param->leadAbility == 0x38 && func_021A9DC8() < 0x43) {
+    if (param->leadAbility == 0x38 && FIELD_ENCOUNT_RandPercent() < 0x43) {
         param->cuteCharm = 1;
         return;
     }
-    if (func_021A9DC8() < 0x32)
+    if (FIELD_ENCOUNT_RandPercent() < 0x32)
         return;
     switch (param->leadAbility) {
     case 0x2A:
@@ -634,7 +634,7 @@ void func_021A9828(FieldEncountParam *param, u16 weather)
 }
 
 /* Returns 1 when a repel or the lead ability keeps a Pokemon of this level away. */
-int func_021A996C(FieldEncountParam *param, u8 level)
+int FIELD_ENCOUNT_IsRepelled(FieldEncountParam *param, u8 level)
 {
     if (param->ignoreRepel)
         return 0;
@@ -645,22 +645,22 @@ int func_021A996C(FieldEncountParam *param, u8 level)
     return 0;
 }
 
-const SwarmEntry *func_021A99A8(struct GameData *gameData)
+const SwarmEntry *FIELD_ENCOUNT_GetSwarmEntry(struct GameData *gameData)
 {
-    struct SaveControl *saveControl = func_02012EBC(gameData);
+    struct SaveControl *saveControl = GAME_DATA_GetSaveControl(gameData);
     u32 index;
 
-    if (func_020142E8(func_0201296C(gameData), 0x960) == 0)
+    if (ZONEDATA_CheckEventFlag(func_0201296C(gameData), 0x960) == 0)
         return 0;
     index = func_0200D454(func_0200D418(saveControl));
     if (index >= 0x11)
         index = 0;
-    return &data_021D8DE8[index];
+    return &sSwarmTable[index];
 }
 
-int func_021A99E4(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountSlot *slot)
+int FIELD_ENCOUNT_TrySwarmSlot(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountSlot *slot)
 {
-    const SwarmEntry *entry = func_021A99A8(param->gameData);
+    const SwarmEntry *entry = FIELD_ENCOUNT_GetSwarmEntry(param->gameData);
 
     if (entry == 0 || entry->zoneId != zoneId)
         return 0;
@@ -682,13 +682,13 @@ int func_021A99E4(EncountData *encountData, FieldEncountParam *param, u16 zoneId
  * assigns kind, then count, then src; that order keeps every case its own
  * block with a branch to the join and gives count r6, src r4.
  */
-u8 func_021A9A5C(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountSlot *slots)
+u8 FIELD_ENCOUNT_LoadSlots(EncountData *encountData, FieldEncountParam *param, u16 zoneId, EncountSlot *slots)
 {
     u8 count = 0;
     u32 kind = 0;
     EncountSlot *src;
 
-    if (func_021A99E4(encountData, param, zoneId, slots) != 0)
+    if (FIELD_ENCOUNT_TrySwarmSlot(encountData, param, zoneId, slots) != 0)
         return param->slotCount;
     if (param->encountType >= 7)
         param->encountType = 0;
@@ -732,7 +732,7 @@ u8 func_021A9A5C(EncountData *encountData, FieldEncountParam *param, u16 zoneId,
     return count;
 }
 
-void func_021A9B00(EncountSlot *slot, EncountMon *mon)
+void FIELD_ENCOUNT_RollSlotMon(EncountSlot *slot, EncountMon *mon)
 {
     s16 levelRange = slot->maxLevel - slot->minLevel;
     u8 formCount;
@@ -742,7 +742,7 @@ void func_021A9B00(EncountSlot *slot, EncountMon *mon)
     MI_CpuFill8(mon, 0, 0x14);
     if (levelRange < 0)
         levelRange = 0;
-    mon->level = slot->minLevel + func_021A9DC8() % (u32)(levelRange + 1);
+    mon->level = slot->minLevel + FIELD_ENCOUNT_RandPercent() % (u32)(levelRange + 1);
     species = slot->species;
     mon->species = species;
     formCount = func_02019C90(species, 0, 0x20);
@@ -756,7 +756,7 @@ void func_021A9B00(EncountSlot *slot, EncountMon *mon)
 }
 
 /* Magnet Pull and Static: pick a random slot whose species has the type. */
-u8 func_021A9B68(FieldEncountParam *param, EncountSlot *slots, u32 type)
+u8 FIELD_ENCOUNT_PickSlotByType(FieldEncountParam *param, EncountSlot *slots, u32 type)
 {
     u8 candidates[12];
     int i;
@@ -776,7 +776,7 @@ u8 func_021A9B68(FieldEncountParam *param, EncountSlot *slots, u32 type)
     }
     if (count == 0)
         return 0xFF;
-    return candidates[func_021A9DC8() % count];
+    return candidates[FIELD_ENCOUNT_RandPercent() % count];
 }
 
 /*
@@ -784,7 +784,7 @@ u8 func_021A9B68(FieldEncountParam *param, EncountSlot *slots, u32 type)
  * the per-iteration reload of param->slotCount and the image colouring;
  * declaration order i, maxLevel, baseLevel, hasRange.
  */
-void func_021A9BE8(const FieldEncountParam *param, const EncountSlot *slots, EncountMon *mon)
+void FIELD_ENCOUNT_ApplyHighLevelBias(const FieldEncountParam *param, const EncountSlot *slots, EncountMon *mon)
 {
     int i;
     u8 maxLevel;
@@ -808,21 +808,21 @@ void func_021A9BE8(const FieldEncountParam *param, const EncountSlot *slots, Enc
         mon->level = maxLevel;
 }
 
-void func_021A9C58(FieldEncountParam *param, EncountSlot *slots, EncountMon *mon)
+void FIELD_ENCOUNT_SelectMon(FieldEncountParam *param, EncountSlot *slots, EncountMon *mon)
 {
     u8 slotIndex = 0xFF;
 
     if (param->magnetPull)
-        slotIndex = func_021A9B68(param, slots, 8);
+        slotIndex = FIELD_ENCOUNT_PickSlotByType(param, slots, 8);
     else if (param->staticElectric)
-        slotIndex = func_021A9B68(param, slots, 12);
+        slotIndex = FIELD_ENCOUNT_PickSlotByType(param, slots, 12);
     if (slotIndex == 0xFF)
-        slotIndex = data_021D8DD8[param->slotTableKind](param->slotCount);
-    func_021A9B00(&slots[slotIndex], mon);
-    func_021A9BE8(param, slots, mon);
+        slotIndex = sSlotPickFuncs[param->slotTableKind](param->slotCount);
+    FIELD_ENCOUNT_RollSlotMon(&slots[slotIndex], mon);
+    FIELD_ENCOUNT_ApplyHighLevelBias(param, slots, mon);
 }
 
-void func_021A9CAC(struct PokemonParam *pp, struct PersonalData *personal, int compoundEyes, int isDarkGrass)
+void FIELD_ENCOUNT_RollHeldItem(struct PokemonParam *pp, struct PersonalData *personal, int compoundEyes, int isDarkGrass)
 {
     u16 itemIds[3];
     int i;
@@ -833,22 +833,22 @@ void func_021A9CAC(struct PokemonParam *pp, struct PersonalData *personal, int c
     for (i = 0; i < 3; i++)
         itemIds[i] = func_0201AE1C(personal, 0x11 + i);
     if (itemIds[0] == itemIds[1]) {
-        func_02017E40(pp, 6, itemIds[0]);
+        POKE_TOOL_SetPartyValue(pp, 6, itemIds[0]);
         return;
     }
-    weights = &data_021D8DCC[(compoundEyes + isDarkGrass * 2) * 3];
-    roll = func_021A9DC8();
+    weights = &sHeldItemWeights[(compoundEyes + isDarkGrass * 2) * 3];
+    roll = FIELD_ENCOUNT_RandPercent();
     cumulative = 0;
     for (i = 0; i < 3; i++) {
         cumulative += weights[i];
         if (roll < cumulative) {
-            func_02017E40(pp, 6, itemIds[i]);
+            POKE_TOOL_SetPartyValue(pp, 6, itemIds[i]);
             return;
         }
     }
 }
 
-u32 func_021A9D30(const FieldEncountParam *param, struct PersonalData *personal, EncountMon *encMon)
+u32 FIELD_ENCOUNT_CreatePersonality(const FieldEncountParam *param, struct PersonalData *personal, EncountMon *encMon)
 {
     u32 gender = 2;
     u32 personality;
@@ -866,7 +866,7 @@ u32 func_021A9D30(const FieldEncountParam *param, struct PersonalData *personal,
         else if (encMon->forcedGender == 2)
             gender = 1;
     }
-    personality = func_020186C8(param->ownerId, encMon->species, encMon->form, gender, 2, encMon->shinyMode == 2 ? 0 : 2);
+    personality = POKE_TOOL_CreatePersonalRnd(param->ownerId, encMon->species, encMon->form, gender, 2, encMon->shinyMode == 2 ? 0 : 2);
     if (encMon->shinyMode != 2) {
         idCheck = (u16)personality ^ ((param->ownerId >> 16) ^ (u16)param->ownerId);
         if (idCheck & 1)
@@ -877,14 +877,14 @@ u32 func_021A9D30(const FieldEncountParam *param, struct PersonalData *personal,
     return personality;
 }
 
-u32 func_021A9DC8(void)
+u32 FIELD_ENCOUNT_RandPercent(void)
 {
     return func_0209C2B0(func_020056EC(0xFFFF), 0x290);
 }
 
-u32 func_021A9DE0(u8 slotCount)
+u32 FIELD_ENCOUNT_PickGroundSlot(u8 slotCount)
 {
-    u32 roll = func_021A9DC8();
+    u32 roll = FIELD_ENCOUNT_RandPercent();
 
     if (roll < 0x14) return 0;
     if (roll >= 0x14 && roll < 0x28) return 1;
@@ -900,9 +900,9 @@ u32 func_021A9DE0(u8 slotCount)
     return 11;
 }
 
-u32 func_021A9E64(u8 slotCount)
+u32 FIELD_ENCOUNT_PickWaterSlot(u8 slotCount)
 {
-    u32 roll = func_021A9DC8();
+    u32 roll = FIELD_ENCOUNT_RandPercent();
     if (roll < 60) {
         return 0;
     }
@@ -918,9 +918,9 @@ u32 func_021A9E64(u8 slotCount)
     return 4;
 }
 
-u32 func_021A9E98(u8 slotCount)
+u32 FIELD_ENCOUNT_PickFishingSlot(u8 slotCount)
 {
-    u32 roll = func_021A9DC8();
+    u32 roll = FIELD_ENCOUNT_RandPercent();
     if (roll < 40) {
         return 0;
     }
@@ -936,39 +936,39 @@ u32 func_021A9E98(u8 slotCount)
     return 4;
 }
 
-u32 func_021A9EC4(u32 slotCount)
+u32 FIELD_ENCOUNT_PickRandomSlot(u32 slotCount)
 {
-    return func_021A9DC8() % slotCount;
+    return FIELD_ENCOUNT_RandPercent() % slotCount;
 }
 
-FieldEncount *func_021A9ED8(struct FieldMap *fieldMap)
+FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap)
 {
-    u32 heapId = func_02188C84(fieldMap);
-    FieldEncount *encount = func_02030734(heapId, 0x14, 1, data_021DDFA4, 0x62);
+    u32 heapId = FIELDMAP_GetHeapId(fieldMap);
+    FieldEncount *encount = func_02030734(heapId, 0x14, 1, sFieldEncountFileName, 0x62);
     struct GameSystem *gameSystem;
     struct GameData *gameData;
     struct EffectEncount *effectEncount;
 
     encount->fieldMap = fieldMap;
-    gameSystem = func_02188C80(fieldMap);
+    gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     encount->gameSystem = gameSystem;
     gameData = func_020120F4(gameSystem);
     encount->gameData = gameData;
-    encount->encountData = func_0216255C(func_02012844(gameData));
-    effectEncount = func_021AA77C(heapId);
+    encount->encountData = EVENTDATA_SYSTEM_GetEncountData(func_02012844(gameData));
+    effectEncount = EFFECT_ENCOUNT_Create(heapId);
     encount->effectEncount = effectEncount;
-    func_021AA7AC(encount, effectEncount);
+    EFFECT_ENCOUNT_Init(encount, effectEncount);
     return encount;
 }
 
-void func_021A9F28(FieldEncount *encount)
+void FIELD_ENCOUNT_Delete(FieldEncount *encount)
 {
-    func_021AA7CC(encount, encount->effectEncount);
-    func_021AA794(encount->effectEncount);
+    EFFECT_ENCOUNT_Exit(encount, encount->effectEncount);
+    EFFECT_ENCOUNT_Delete(encount->effectEncount);
     func_020307B0(encount);
 }
 
-int func_021A9F40(FieldEncount *encount, int triggerMode)
+int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
 {
     EncountMon mons[2];
     FieldEncountParam param;
@@ -984,46 +984,46 @@ int func_021A9F40(FieldEncount *encount, int triggerMode)
 
     skipRateCheck = 0;
     roamer = 0;
-    player = func_02188CB4(encount->fieldMap);
+    player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
     stepWork = func_02012A38(encount->gameData);
     if (triggerMode == 1 || triggerMode == 2)
         skipRateCheck = 1;
     else
-        func_021AA728(stepWork, player);
+        FIELD_ENCOUNT_UpdateStepWork(stepWork, player);
     if (encount->encountData == 0 || !encount->encountData->enabled)
         return 0;
     rateBonus = 0;
-    encountType = func_021AA35C(encount, triggerMode, &rateBonus);
-    rate = func_021AA3E0(encount, encountType, rateBonus);
+    encountType = FIELD_ENCOUNT_GetEncountType(encount, triggerMode, &rateBonus);
+    rate = FIELD_ENCOUNT_GetEncountRate(encount, encountType, rateBonus);
     if (encountType == 0xFF || rate == 0)
         return 0;
-    func_021A9350(&param, encount->gameData, encountType, triggerMode, func_021A1BF4(func_02188C6C(encount->fieldMap)));
+    FIELD_ENCOUNT_SetupParam(&param, encount->gameData, encountType, triggerMode, WEATHER_GetWeatherId(FIELDMAP_GetWeather(encount->fieldMap)));
     if (!skipRateCheck) {
-        if (!func_021AA3FC(encount, stepWork, func_021A94B0(&param, encount->gameData, rate)))
+        if (!FIELD_ENCOUNT_CheckEncountRoll(encount, stepWork, FIELD_ENCOUNT_CalcEncountRate(&param, encount->gameData, rate)))
             return 0;
     }
     if (triggerMode == 1)
-        func_02008DF0(func_02012F2C(encount->gameData), 0x70);
+        func_02008DF0(GAME_DATA_GetTrainerRecord(encount->gameData), 0x70);
     else
-        roamer = func_021A957C(encount->encountData, &param, func_02188C9C(encount->fieldMap));
+        roamer = FIELD_ENCOUNT_PickRoamer(encount->encountData, &param, FIELDMAP_GetZoneId(encount->fieldMap));
     if (roamer) {
-        btlSetup = func_02013090(4);
-        func_021AA548(encount, &param, btlSetup, 4, roamer);
+        btlSetup = BTL_SETUP_Create(4);
+        FIELD_ENCOUNT_SetupRoamerBattle(encount, &param, btlSetup, 4, roamer);
     } else {
         roamer = 0;
         MI_CpuFill8(mons, 0, 0x28);
-        monCount = func_021A954C(encount->encountData, &param, func_02188C9C(encount->fieldMap), mons);
+        monCount = FIELD_ENCOUNT_CreateZoneWildMons(encount->encountData, &param, FIELDMAP_GetZoneId(encount->fieldMap), mons);
         if (monCount == 0)
             return (int)roamer;
         if (param.isDoubleBattle && monCount == 1) {
             param.isDoubleBattle = 0;
             param.monCount = monCount;
         }
-        btlSetup = func_02013090(4);
-        func_021AA490(encount, &param, btlSetup, 4, mons);
+        btlSetup = BTL_SETUP_Create(4);
+        FIELD_ENCOUNT_SetupWildBattle(encount, &param, btlSetup, 4, mons);
     }
-    func_021AA6F8(stepWork, player);
-    return func_0216E7C8(encount->gameSystem, encount->fieldMap, btlSetup, 0, triggerMode);
+    FIELD_ENCOUNT_ResetStepWork(stepWork, player);
+    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 0, triggerMode);
 }
 
 /*
@@ -1031,15 +1031,15 @@ int func_021A9F40(FieldEncount *encount, int triggerMode)
  * shiny mode, 4 no held item, 8 hidden ability, 0x20 or 0x40 gender,
  * 0x100 status flag 0x200.
  */
-int func_021AA0A0(FieldEncount *encount, u16 species, u8 level, u32 flags)
+int FIELD_ENCOUNT_StartScriptedWild(FieldEncount *encount, u16 species, u8 level, u32 flags)
 {
     EncountMon mons[2];
     FieldEncountParam param;
     struct BattleSetupParam *btlSetup;
     EncountMon *mon;
 
-    func_02188CB4(encount->fieldMap);
-    func_021A9350(&param, encount->gameData, 0xff, 0, func_021A1BF4(func_02188C6C(encount->fieldMap)));
+    FIELDMAP_GetFieldPlayer(encount->fieldMap);
+    FIELD_ENCOUNT_SetupParam(&param, encount->gameData, 0xff, 0, WEATHER_GetWeatherId(FIELDMAP_GetWeather(encount->fieldMap)));
     mon = mons;
     MI_CpuFill8(mon, 0, 0x28);
     mons[0].species = species;
@@ -1062,20 +1062,20 @@ int func_021AA0A0(FieldEncount *encount, u16 species, u8 level, u32 flags)
     } else if (flags & 0x40) {
         mon->forcedGender = 2;
     }
-    btlSetup = func_02013090(4);
-    func_021AA490(encount, &param, btlSetup, 4, mons);
+    btlSetup = BTL_SETUP_Create(4);
+    FIELD_ENCOUNT_SetupWildBattle(encount, &param, btlSetup, 4, mons);
     if (flags & 1) {
-        func_02013144(btlSetup, 4);
+        BTL_SETUP_SetStatusFlag(btlSetup, 4);
     } else if (flags & 0x80) {
-        func_02013144(btlSetup, 0x80);
+        BTL_SETUP_SetStatusFlag(btlSetup, 0x80);
     }
     if (flags & 0x100) {
-        func_02013144(btlSetup, 0x200);
+        BTL_SETUP_SetStatusFlag(btlSetup, 0x200);
     }
-    return func_0216E7C8(encount->gameSystem, encount->fieldMap, btlSetup, 1, 0);
+    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 1, 0);
 }
 
-struct BattleSetupParam *func_021AA180(FieldEncount *encount, int triggerMode)
+struct BattleSetupParam *FIELD_ENCOUNT_CheckFishingEncount(FieldEncount *encount, int triggerMode)
 {
     EncountMon mons[2];
     FieldEncountParam param;
@@ -1089,27 +1089,27 @@ struct BattleSetupParam *func_021AA180(FieldEncount *encount, int triggerMode)
     encountType = 6;
     if (triggerMode != 1)
         encountType = 5;
-    baseRate = func_021AA3E0(encount, encountType, 0);
+    baseRate = FIELD_ENCOUNT_GetEncountRate(encount, encountType, 0);
     if (baseRate == 0)
         return 0;
-    func_021A9350(&param, encount->gameData, encountType, triggerMode, func_021A1BF4(func_02188C6C(encount->fieldMap)));
+    FIELD_ENCOUNT_SetupParam(&param, encount->gameData, encountType, triggerMode, WEATHER_GetWeatherId(FIELDMAP_GetWeather(encount->fieldMap)));
     if (triggerMode != 1) {
-        rate = func_021A94B0(&param, encount->gameData, baseRate);
-        if (func_021AA6E0() > rate)
+        rate = FIELD_ENCOUNT_CalcEncountRate(&param, encount->gameData, baseRate);
+        if (FIELD_ENCOUNT_RandRatePercent() > rate)
             return 0;
     }
     btlSetup = 0;
     MI_CpuFill8(mons, 0, 0x28);
-    if ((u32)func_021A954C(encount->encountData, &param, func_02188C9C(encount->fieldMap), mons) < param.monCount)
+    if ((u32)FIELD_ENCOUNT_CreateZoneWildMons(encount->encountData, &param, FIELDMAP_GetZoneId(encount->fieldMap), mons) < param.monCount)
         return btlSetup;
-    btlSetup = func_02013090(4);
-    func_021AA490(encount, &param, btlSetup, 4, mons);
-    func_02013144(btlSetup, 1);
+    btlSetup = BTL_SETUP_Create(4);
+    FIELD_ENCOUNT_SetupWildBattle(encount, &param, btlSetup, 4, mons);
+    BTL_SETUP_SetStatusFlag(btlSetup, 1);
     btlSetup->fieldSituation.bgAttr = 6;
     return btlSetup;
 }
 
-int func_021AA248(FieldEncount *encount, struct FieldWfbc *wfbc)
+int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc)
 {
     EncountMon mons[2];
     FieldEncountParam param;
@@ -1119,62 +1119,62 @@ int func_021AA248(FieldEncount *encount, struct FieldWfbc *wfbc)
     int encountType;
     struct BattleSetupParam *btlSetup;
 
-    player = func_02188CB4(encount->fieldMap);
+    player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
     stepWork = func_02012A38(encount->gameData);
-    func_021AA728(stepWork, player);
-    if (func_02193920(wfbc) == 1) {
+    FIELD_ENCOUNT_UpdateStepWork(stepWork, player);
+    if (FIELD_WFBC_IsBackPeople(wfbc) == 1) {
         return 0;
     }
-    if (!func_021AA42C(stepWork, wfbc)) {
+    if (!FIELD_ENCOUNT_CheckWfbcRoll(stepWork, wfbc)) {
         return 0;
     }
     rateBonus = 0;
-    encountType = func_021AA35C(encount, 3, &rateBonus);
-    func_021A9350(&param, encount->gameData, encountType, 3, func_021A1BF4(func_02188C6C(encount->fieldMap)));
+    encountType = FIELD_ENCOUNT_GetEncountType(encount, 3, &rateBonus);
+    FIELD_ENCOUNT_SetupParam(&param, encount->gameData, encountType, 3, WEATHER_GetWeatherId(FIELDMAP_GetWeather(encount->fieldMap)));
     MI_CpuFill8(mons, 0, 0x28);
-    if (!func_021A9604(wfbc, &param, mons)) {
+    if (!FIELD_ENCOUNT_PickWfbcMon(wfbc, &param, mons)) {
         return 0;
     }
-    btlSetup = func_02013090(4);
-    func_021AA490(encount, &param, btlSetup, 4, mons);
-    func_021AA6F8(stepWork, player);
-    return func_0216E7C8(encount->gameSystem, encount->fieldMap, btlSetup, 0, 3);
+    btlSetup = BTL_SETUP_Create(4);
+    FIELD_ENCOUNT_SetupWildBattle(encount, &param, btlSetup, 4, mons);
+    FIELD_ENCOUNT_ResetStepWork(stepWork, player);
+    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 0, 3);
 }
 
-void func_021AA304(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap)
+void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap)
 {
     struct RtcTime time;
-    u16 zoneId = func_02188C9C(fieldMap);
-    struct FieldPlayer *player = func_02188CB4(fieldMap);
+    u16 zoneId = FIELDMAP_GetZoneId(fieldMap);
+    struct FieldPlayer *player = FIELDMAP_GetFieldPlayer(fieldMap);
 
     situation->bgType = func_02013ED8(zoneId);
-    situation->bgAttr = func_021AB580(func_021AB0F0(func_021A30C8(player)));
+    situation->bgAttr = MAP_ATTR_GetBattleBackground(MAP_ATTR_GetTerrainId(FIELD_PLAYER_GetNowAttribute(player)));
     situation->zoneId = zoneId;
     func_0203F4CC(&time);
     situation->hour = time.hour;
     situation->minute = time.minute;
-    situation->weather = func_021AA69C(fieldMap);
+    situation->weather = FIELD_ENCOUNT_GetBattleWeather(fieldMap);
     situation->season = func_02012984(gameData);
 }
 
 /* Encounter type of the player's cell, 0xFF when nothing can appear there. */
-int func_021AA35C(FieldEncount *encount, int triggerMode, u8 *rateBonus)
+int FIELD_ENCOUNT_GetEncountType(FieldEncount *encount, int triggerMode, u8 *rateBonus)
 {
-    struct FieldPlayer *player = func_02188CB4(encount->fieldMap);
+    struct FieldPlayer *player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
     u32 attr;
     u16 attrFlags;
     u16 attrValue;
 
-    func_02188C98(encount->fieldMap);
+    FIELDMAP_GetG3dMapper(encount->fieldMap);
     *rateBonus = 0;
-    attr = func_021A30C8(player);
-    if (func_021AB100(attr) == 0)
+    attr = FIELD_PLAYER_GetNowAttribute(player);
+    if (MAP_ATTR_IsPresent(attr) == 0)
         return 0xFF;
-    attrFlags = func_021AB0F8(attr);
+    attrFlags = MAP_ATTR_GetFlags(attr);
     if (triggerMode != 1 && (attrFlags & 4) == 0)
         return 0xFF;
-    attrValue = func_021AB0F0(attr);
-    if (func_021AB140(attrValue))
+    attrValue = MAP_ATTR_GetTerrainId(attr);
+    if (MAP_ATTR_IsTallGrass(attrValue))
         *rateBonus += 10;
     if (attrFlags & 2) {
         if (triggerMode == 1)
@@ -1183,12 +1183,12 @@ int func_021AA35C(FieldEncount *encount, int triggerMode, u8 *rateBonus)
     }
     if (triggerMode == 1)
         return 2;
-    if (func_021AB29C(attrValue))
+    if (MAP_ATTR_IsAnyDoubleGrass(attrValue))
         return 1;
     return 0;
 }
 
-int func_021AA3E0(FieldEncount *encount, int encountType, int rateBonus)
+int FIELD_ENCOUNT_GetEncountRate(FieldEncount *encount, int encountType, int rateBonus)
 {
     int rate;
 
@@ -1203,18 +1203,18 @@ int func_021AA3E0(FieldEncount *encount, int encountType, int rateBonus)
 }
 
 /* No encounter on the first step after a battle; the second step rolls at 1 percent. */
-int func_021AA3FC(FieldEncount *encount, EncountStepWork *stepWork, u32 rate)
+int FIELD_ENCOUNT_CheckEncountRoll(FieldEncount *encount, EncountStepWork *stepWork, u32 rate)
 {
     u32 steps;
 
     if (rate > 100)
         rate = 100;
-    steps = func_021AA778(stepWork);
+    steps = FIELD_ENCOUNT_GetStepCount(stepWork);
     if (steps == 0)
         return 0;
     if (steps == 1)
         rate = 1;
-    if (func_021AA6E0() <= rate)
+    if (FIELD_ENCOUNT_RandRatePercent() <= rate)
         return 1;
     return 0;
 }
@@ -1225,59 +1225,59 @@ static inline fx32 FX_MUL(fx32 v1, fx32 v2)
 }
 
 /* White Forest rate: (steps - 1) * sqrt(resident count) * 4 percent. */
-int func_021AA42C(EncountStepWork *stepWork, struct FieldWfbc *wfbc)
+int FIELD_ENCOUNT_CheckWfbcRoll(EncountStepWork *stepWork, struct FieldWfbc *wfbc)
 {
-    int steps = func_021AA778(stepWork);
-    int peopleCount = func_021938F4(wfbc);
+    int steps = FIELD_ENCOUNT_GetStepCount(stepWork);
+    int peopleCount = FIELD_WFBC_GetPeopleNum(wfbc);
     int roll = func_020056EC(100);
     fx32 peopleSqrt = func_0207C7B4(peopleCount << 12);
     fx32 chance = FX_MUL((steps - 1) << 12, peopleSqrt);
     chance = FX_MUL(chance, 0x4000);
-    return (int)func_02010FB0((int)(chance >> 12)) > roll;
+    return (int)GPOWER_ApplyEncountRate((int)(chance >> 12)) > roll;
 }
 
-void func_021AA490(FieldEncount *encount, FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, EncountMon *mons)
+void FIELD_ENCOUNT_SetupWildBattle(FieldEncount *encount, FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, EncountMon *mons)
 {
     struct FieldSituation situation;
     struct Party *party = func_0201A920(heapId);
-    struct PokemonParam *pp = func_02030734(heapId, func_020173EC(), 1, data_021DDFA4, 0x285);
+    struct PokemonParam *pp = func_02030734(heapId, func_020173EC(), 1, sFieldEncountFileName, 0x285);
     int i;
 
     for (i = 0; i < (u8)param->isDoubleBattle + 1; i++) {
-        func_021A96B8(pp, param, &mons[i]);
+        FIELD_ENCOUNT_InitWildPokemon(pp, param, &mons[i]);
         func_0201A98C(party, pp);
     }
-    func_021AA304(&situation, encount->gameData, encount->fieldMap);
-    func_0201347C(btlSetup, encount->gameData, party, &situation, param->isDoubleBattle, heapId);
+    FIELD_ENCOUNT_SetFieldSituation(&situation, encount->gameData, encount->fieldMap);
+    BTL_SETUP_SetupWild(btlSetup, encount->gameData, party, &situation, param->isDoubleBattle, heapId);
     if (param->encountType == 1)
-        func_02013144(btlSetup, 0x20);
+        BTL_SETUP_SetStatusFlag(btlSetup, 0x20);
     func_020307B0(pp);
     func_020307B0(party);
 }
 
-void func_021AA548(FieldEncount *encount, const FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, struct Roamer *roamer)
+void FIELD_ENCOUNT_SetupRoamerBattle(FieldEncount *encount, const FieldEncountParam *param, struct BattleSetupParam *btlSetup, u16 heapId, struct Roamer *roamer)
 {
     struct FieldSituation situation;
     struct Party *party = func_0201A920(heapId);
-    struct PokemonParam *pp = func_02030734((u16)((heapId & 0x7FFF) | 0x8000), func_020173EC(), 1, data_021DDFA4, 0x2A4);
+    struct PokemonParam *pp = func_02030734((u16)((heapId & 0x7FFF) | 0x8000), func_020173EC(), 1, sFieldEncountFileName, 0x2A4);
 
-    func_021A9780(pp, param, roamer);
+    FIELD_ENCOUNT_InitRoamerPokemon(pp, param, roamer);
     func_0201A98C(party, pp);
-    func_021AA304(&situation, encount->gameData, encount->fieldMap);
-    func_0201347C(btlSetup, encount->gameData, party, &situation, 0, heapId);
-    func_02013144(btlSetup, 8);
+    FIELD_ENCOUNT_SetFieldSituation(&situation, encount->gameData, encount->fieldMap);
+    BTL_SETUP_SetupWild(btlSetup, encount->gameData, party, &situation, 0, heapId);
+    BTL_SETUP_SetStatusFlag(btlSetup, 8);
     func_020307B0(pp);
     func_020307B0(party);
 }
 
-void func_021AA5CC(FieldEncount *encount, struct BattleSetupParam *btlSetup, u32 rule, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heapId)
+void FIELD_ENCOUNT_SetupTrainerBattle(FieldEncount *encount, struct BattleSetupParam *btlSetup, u32 rule, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heapId)
 {
     struct FieldSituation situation;
     struct GameData *gameData = encount->gameData;
     u32 trainerBgAttr;
 
-    func_020130C4(btlSetup);
-    func_021AA304(&situation, encount->gameData, encount->fieldMap);
+    BTL_SETUP_Clear(btlSetup);
+    FIELD_ENCOUNT_SetFieldSituation(&situation, encount->gameData, encount->fieldMap);
     trainerBgAttr = func_0202A420(func_0202A230(trainerId1, 1));
     if (trainerBgAttr != 0x11) {
         situation.bgAttr = trainerBgAttr;
@@ -1285,31 +1285,31 @@ void func_021AA5CC(FieldEncount *encount, struct BattleSetupParam *btlSetup, u32
     switch (rule) {
     case 1:
         if (partnerId) {
-            func_02013734(btlSetup, gameData, &situation, partnerId, trainerId1, trainerId2, heapId);
+            BTL_SETUP_SetupTrainerMulti(btlSetup, gameData, &situation, partnerId, trainerId1, trainerId2, heapId);
         } else {
-            func_02013644(btlSetup, gameData, &situation, trainerId1, heapId);
+            BTL_SETUP_SetupTrainerDouble(btlSetup, gameData, &situation, trainerId1, heapId);
         }
         return;
     case 0:
         if (trainerId2) {
-            func_020136E0(btlSetup, gameData, &situation, trainerId1, trainerId2, heapId);
+            BTL_SETUP_SetupTrainerTag(btlSetup, gameData, &situation, trainerId1, trainerId2, heapId);
         } else {
-            func_02013610(btlSetup, gameData, &situation, trainerId1, heapId);
+            BTL_SETUP_SetupTrainerSingle(btlSetup, gameData, &situation, trainerId1, heapId);
         }
         return;
     case 2:
-        func_02013678(btlSetup, gameData, &situation, trainerId1, heapId);
+        BTL_SETUP_SetupTrainerTriple(btlSetup, gameData, &situation, trainerId1, heapId);
         return;
     case 3:
-        func_020136AC(btlSetup, gameData, &situation, trainerId1, heapId);
+        BTL_SETUP_SetupTrainerRotation(btlSetup, gameData, &situation, trainerId1, heapId);
         return;
     }
 }
 
 /* Battle weather for the field weather. */
-u8 func_021AA69C(struct FieldMap *fieldMap)
+u8 FIELD_ENCOUNT_GetBattleWeather(struct FieldMap *fieldMap)
 {
-    switch (func_021A1BF4(func_02188C6C(fieldMap))) {
+    switch (WEATHER_GetWeatherId(FIELDMAP_GetWeather(fieldMap))) {
     case 2:
     case 6:
     case 7:
@@ -1324,37 +1324,37 @@ u8 func_021AA69C(struct FieldMap *fieldMap)
     return 0;
 }
 
-u32 func_021AA6E0(void)
+u32 FIELD_ENCOUNT_RandRatePercent(void)
 {
     return func_0209C2B0(func_020056EC(0xFFFF), 0x290);
 }
 
-void func_021AA6F8(EncountStepWork *stepWork, struct FieldPlayer *player)
+void FIELD_ENCOUNT_ResetStepWork(EncountStepWork *stepWork, struct FieldPlayer *player)
 {
-    struct Mmdl *mmdl = func_021A3074(player);
+    struct Mmdl *mmdl = FIELD_PLAYER_GetMmdl(player);
 
     MI_CpuFill8(stepWork, 0, sizeof(*stepWork));
-    stepWork->x = func_0216D83C(mmdl);
-    stepWork->y = func_0216D854(mmdl);
-    stepWork->z = func_0216D86C(mmdl);
+    stepWork->x = FLDMMDL_GetGridNowX(mmdl);
+    stepWork->y = FLDMMDL_GetGridNowY(mmdl);
+    stepWork->z = FLDMMDL_GetGridNowZ(mmdl);
 }
 
-void func_021AA728(EncountStepWork *stepWork, struct FieldPlayer *player)
+void FIELD_ENCOUNT_UpdateStepWork(EncountStepWork *stepWork, struct FieldPlayer *player)
 {
-    struct Mmdl *mmdl = func_021A3074(player);
+    struct Mmdl *mmdl = FIELD_PLAYER_GetMmdl(player);
 
     if (stepWork->moved != 0) {
         if (stepWork->stepCount < 0xA000)
             stepWork->stepCount++;
         return;
     }
-    if (stepWork->x != func_0216D83C(mmdl) || stepWork->y != func_0216D854(mmdl) || stepWork->z != func_0216D86C(mmdl)) {
+    if (stepWork->x != FLDMMDL_GetGridNowX(mmdl) || stepWork->y != FLDMMDL_GetGridNowY(mmdl) || stepWork->z != FLDMMDL_GetGridNowZ(mmdl)) {
         stepWork->moved = 1;
         stepWork->stepCount++;
     }
 }
 
-u32 func_021AA778(EncountStepWork *stepWork)
+u32 FIELD_ENCOUNT_GetStepCount(EncountStepWork *stepWork)
 {
     return stepWork->stepCount;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B889C
+ * function: MONOLITH_TOOL_STATS_Create
  * address:  0x021B889C
  * packet:   pkt_ov071_021B889C
  * region:   ov071
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Twin of func_021B8494 (six handle slots at +0x18 instead of two at +8).
+ * Twin of MONOLITH_TOOL_SUMMARY_Create (six handle slots at +0x18 instead of two at +8).
  *
  * symbols:
- *   func_0203159C  0x0203159C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_021B8A70  0x021B8A70  thumb  ov071
  *   func_021B8ADC  0x021B8ADC  thumb  ov071
@@ -21,9 +21,9 @@
  *   func_021B8C0C  0x021B8C0C  thumb  ov071
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02040588  0x02040588  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  */
 #include "../include/Obj06189.h"
 
@@ -43,9 +43,9 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct PrintSys;
 struct Obj0203159C;
-int func_021B889C(struct Obj0203159C *a, int *b, C *c, u8 *d)
+int MONOLITH_TOOL_STATS_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
 {
-    extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+    extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
     extern void func_02082BCC(void *, int, int);
     extern void func_021B8A70(void);
     extern void func_021B8ADC(char *p);
@@ -54,16 +54,16 @@ int func_021B889C(struct Obj0203159C *a, int *b, C *c, u8 *d)
     extern void func_021B8C0C(C *, Q *, u8 *);
     extern void *func_02045770(struct Descriptor *p);
     extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-    extern void func_02045334(struct Descriptor *d);
+    extern void BMP_WIN_TransferChars(struct Descriptor *d);
     extern void func_02040588(unsigned char which, unsigned char enable);
-    extern void func_02043598(u32 mask, u32 enable);
+    extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
     u8 *m;
     int busy;
     int i;
 
     switch (*b) {
     case 0:
-        m = func_0203159C(a, 0x50, 0x61);
+        m = PROCSYS_AllocProcWork(a, 0x50, 0x61);
         func_02082BCC(m, 0, 0x50);
         func_021B8A70();
         func_021B8ADC((char *)c->f4);
@@ -79,7 +79,7 @@ int func_021B889C(struct Obj0203159C *a, int *b, C *c, u8 *d)
             u8 *s = d + i * 8;
             if (s[0x1c] != 0) {
                 if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06189 *)s)->f18))) == 0) {
-                    func_02045334(((struct Obj06189 *)s)->f18);
+                    BMP_WIN_TransferChars(((struct Obj06189 *)s)->f18);
                     s[0x1c] = 0;
                 }
             }
@@ -90,7 +90,7 @@ int func_021B889C(struct Obj0203159C *a, int *b, C *c, u8 *d)
         if (busy == 0) {
             func_02040588(4, 1);
             func_02040588(6, 1);
-            func_02043598(0x10, 1);
+            BG_SYS_SetSubPlaneVisible(0x10, 1);
             return 1;
         }
         break;

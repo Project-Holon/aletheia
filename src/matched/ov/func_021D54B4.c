@@ -1,5 +1,5 @@
 /*
- * function: func_021D54B4
+ * function: BTL_POKEPARAM_GetUsedMoveTotal
  * address:  0x021D54B4
  * packet:   pkt_021D54B4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D54B4   0x021D54B4  thumb ov093
+ *   BTL_POKEPARAM_GetUsedMoveTotal   0x021D54B4  thumb ov093
  *
  * ldrb at #0x143 (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 func_021D54B4(u8 *p)
+u8 BTL_POKEPARAM_GetUsedMoveTotal(u8 *p)
 {
     return ((struct Obj18407 *)p)->f143;
 }

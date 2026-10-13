@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02048AC4 0x02048AC4 arm
- *   func_020480E4 0x020480E4 arm
- *   func_02047E54 0x02047E54 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_UTIL_RemoveUnit 0x020480E4 arm
+ *   G3D_UTIL_Delete 0x02047E54 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj08385.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Ctx; struct Rec; extern void func_02048AC4(void *); extern void func_020480E4(struct Ctx *,u32); extern void func_02047E54(struct Rec *); extern void func_020307B0(void *);
-void func_021BF9D0(char *p) { u16 id; func_02048AC4(((struct Obj08385 *)p)->fC); id=((struct Obj08385 *)p)->f10; if(id!=65535) func_020480E4(*(struct Ctx * *)&((struct Obj08385 *)p)->f8,id);func_02047E54(*(struct Rec * *)&((struct Obj08385 *)p)->f8);func_020307B0(p); }
+struct Ctx; struct Rec; extern void G3D_CAMERA_Delete(void *); extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32); extern void G3D_UTIL_Delete(struct Rec *); extern void func_020307B0(void *);
+void func_021BF9D0(char *p) { u16 id; G3D_CAMERA_Delete(((struct Obj08385 *)p)->fC); id=((struct Obj08385 *)p)->f10; if(id!=65535) G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj08385 *)p)->f8,id);G3D_UTIL_Delete(*(struct Rec * *)&((struct Obj08385 *)p)->f8);func_020307B0(p); }

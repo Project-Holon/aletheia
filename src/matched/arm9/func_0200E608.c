@@ -15,13 +15,13 @@
  * ov021 func_021D0C58 (wave A1).
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
  *   data_020A721C  0x020A721C  data
- *   func_020072CC  0x020072CC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_02012E4C  0x02012E4C  thumb
- *   func_02012E7C  0x02012E7C  thumb
+ *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
+ *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   OS_WaitIrq     0x0208459C  arm
  *   func_0200734C  0x0200734C  thumb
  *   func_020307B0  0x020307B0  arm
@@ -30,15 +30,15 @@
 typedef unsigned int u32;
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_020A721C[];
-extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
+extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern void func_02082D44(void *src, void *dst, int n);
 typedef unsigned char u8;
-extern void func_02012E4C(u8 *p, u32 id);
-extern int func_02012E7C(char *p, int a1);
+extern void GAME_DATA_PartSaveStart(u8 *p, u32 id);
+extern int GAME_DATA_PartSaveMain(char *p, int a1);
 extern void OS_WaitIrq(int clear, u32 mask);
 struct Sub02007324Ctrl;
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
@@ -46,14 +46,14 @@ extern u32 func_020307B0(void *p);
 
 void func_0200E608(void *sys, void *dst, u32 heap)
 {
-    u32 sv = (u32)func_02012EBC(sys);
+    u32 sv = (u32)GAME_DATA_GetSaveControl(sys);
     void *buf = func_02030734(heap, 0x1000, 0, data_020A721C, 0x99);
 
-    func_020072CC(sv, 5, heap, buf, 0x1000);
+    SAVE_CONTROL_LoadExtraSaveWithBuffer(sv, 5, heap, buf, 0x1000);
     func_02082D44(dst, buf, 0x5C8);
-    func_02012E4C(sys, 5);
+    GAME_DATA_PartSaveStart(sys, 5);
     for (;;) {
-        if (func_02012E7C(sys, 5) == 2) {
+        if (GAME_DATA_PartSaveMain(sys, 5) == 2) {
             break;
         }
         OS_WaitIrq(1, 1);

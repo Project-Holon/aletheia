@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020480E4  0x020480E4  arm
+ *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  */
 #include "../include/Obj10375.h"
 
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 struct Ctx;
-extern void func_020480E4(struct Ctx *c, u32 i);
+extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 
 void func_021E32C4(char *p)
 {
@@ -26,6 +26,6 @@ void func_021E32C4(char *p)
 
     v = ((struct Obj10375 *)p)->f824;
     if (v != 0xFFFF)
-        func_020480E4(((struct Obj10375 *)p)->f820, v);
+        G3D_UTIL_RemoveUnit(((struct Obj10375 *)p)->f820, v);
     ((struct Obj10375 *)p)->f824 = 0xFFFF;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02006A8C
+ * function: PM_VOICE_AddVolume
  * address:  0x02006A8C
  * packet:   pkt_02006948
  * region:   arm9
@@ -23,8 +23,8 @@
  * re-narrowed to a byte before it is passed on, so the call takes a u8.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02006A8C.c \
- *       --func func_02006A8C --addr 0x02006A8C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PM_VOICE_AddVolume.c \
+ *       --func PM_VOICE_AddVolume --addr 0x02006A8C --cc 1.1p1 --thumb
  */
 
 typedef signed char   s8;
@@ -55,7 +55,7 @@ extern u8 PM_VOICE_ScaleVolume(u8 volume);
 struct S;
 extern void NNS_SndWaveOutSetVolume(struct S *s, u32 v);
 
-void func_02006A8C(u32 idx, int delta)
+void PM_VOICE_AddVolume(u32 idx, int delta)
 {
     struct Sub02006A8CVoice *p;
     int v;

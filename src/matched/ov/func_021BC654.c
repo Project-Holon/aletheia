@@ -1,5 +1,5 @@
 /*
- * function: func_021BC654
+ * function: FIELD_PLACE_NAME_ResetWindow
  * address:  0x021BC654
  * packet:   pkt_021BC654
  * region:   ov021
@@ -12,8 +12,8 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021BC63C  0x021BC63C  thumb  ov021
- *   func_021BC5E4  0x021BC5E4  thumb  ov021
+ *   FIELD_PLACE_NAME_ReleaseWindow  0x021BC63C  thumb  ov021
+ *   FIELD_PLACE_NAME_SetupWindow  0x021BC5E4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021BC63C(void *p);
-extern void func_021BC5E4(int *p);
+extern void FIELD_PLACE_NAME_ReleaseWindow(void *p);
+extern void FIELD_PLACE_NAME_SetupWindow(int *p);
 
-void func_021BC654(u8 *p)
+void FIELD_PLACE_NAME_ResetWindow(u8 *p)
 {
-    func_021BC63C(p);
-    func_021BC5E4((int *)p);
+    FIELD_PLACE_NAME_ReleaseWindow(p);
+    FIELD_PLACE_NAME_SetupWindow((int *)p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02194960
+ * function: TALKMSGWIN_IsFree
  * address:  0x02194960
  * packet:   pkt_02194960
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-u32 func_02194960(u32 a, u32 b, u32 c, u32 a3)
+u32 TALKMSGWIN_IsFree(u32 a, u32 b, u32 c, u32 a3)
 {
 if (*(u16 *)((u8 *)((a + (b * 100))) + 24) == 0) {
     return 1;

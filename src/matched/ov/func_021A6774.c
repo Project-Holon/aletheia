@@ -1,5 +1,5 @@
 /*
- * function: func_021A6774
+ * function: FIELD_PLAYER_NOGRID_SetFaceRight
  * address:  0x021A6774
  * packet:   pkt_021A6708
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: pins the second argument to 32.
  *
  * symbols:
- *   func_021A66E4  0x021A66E4  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_SetFlags  0x021A66E4  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A66E4(u32 *p, u32 v);
+extern void FIELD_PLAYER_NOGRID_SetFlags(u32 *p, u32 v);
 
-void func_021A6774(void *a)
+void FIELD_PLAYER_NOGRID_SetFaceRight(void *a)
 {
-    func_021A66E4(a, 32);
+    FIELD_PLAYER_NOGRID_SetFlags(a, 32);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3C2C",
+   "name": "FIELD_GIMMICK_GATE_FindNewsEntry",
    "address": "0x021F3C2C",
    "kind": "game",
    "region": "ov048",

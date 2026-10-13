@@ -1,5 +1,5 @@
 /*
- * function: func_021862F4
+ * function: OEKAKI_ClearMessageWindow
  * address: 0x021862F4
  * packet: pkt_ov023_021862F4
  * region: ov023
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj20365.h"
 extern void func_0201F7A8(void *, unsigned int);
-void func_021862F4(char *p)
+void OEKAKI_ClearMessageWindow(char *p)
 {
     func_0201F7A8(((struct Obj20365 *)p)->f11C, 0);
 }

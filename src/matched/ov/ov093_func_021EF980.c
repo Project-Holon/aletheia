@@ -1,5 +1,5 @@
 /*
- * function: func_021EF980
+ * function: BTL_FIELD_Delete
  * address: 0x021EF980
  * packet: pkt_ov093_021EF980
  * region: ov093
@@ -12,4 +12,4 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021EF980(void *p) { func_020307B0(p); }
+void BTL_FIELD_Delete(void *p) { func_020307B0(p); }

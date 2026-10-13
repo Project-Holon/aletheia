@@ -1,5 +1,5 @@
 /*
- * function: func_021EFEC0
+ * function: BEACON_VIEW_InitList
  * address:  0x021EFEC0
  * packet:   pkt_ov032_021EFEC0
  * region:   ov032
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EFEC0  0x021EFEC0  thumb
+ *   BEACON_VIEW_InitList  0x021EFEC0  thumb
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   func_021F0AC0  0x021F0AC0  thumb  ov032
  *   func_021F0B10  0x021F0B10  thumb  ov032
- *   func_02165AC4  0x02165AC4  thumb  ov010
- *   func_021659F0  0x021659F0  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_TableRingGet  0x02165AC4  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_TableGetRingIndex  0x021659F0  thumb  ov010
  *   func_021F0F44  0x021F0F44  thumb  ov032
  *   func_021F0F30  0x021F0F30  thumb  ov032
  *   func_021F1144  0x021F1144  thumb  ov032
@@ -23,7 +23,7 @@
  *   func_021F0E24  0x021F0E24  thumb  ov032
  *   func_021F0E7C  0x021F0E7C  thumb  ov032
  *   func_021F0DF4  0x021F0DF4  thumb  ov032
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  */
 #include "../include/Obj00007.h"
 
@@ -38,8 +38,8 @@ struct Rec;
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern void func_021F0AC0(char *p);
 extern void func_021F0B10(char *p, int a, int b);
-extern int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta);
-extern int func_021659F0(u8 *q, int delta);
+extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *q, struct Rec *out, u16 *tag, int delta);
+extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
 extern u8 *func_021F0F44(u8 *p, int a);
 extern void func_021F0F30(char *p, int a, int b);
 extern void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t);
@@ -47,9 +47,9 @@ extern void func_021F0EA4(char *p, unsigned a);
 extern void func_021F0E24(char *p);
 extern void func_021F0E7C(char *p);
 extern void func_021F0DF4(void *p, unsigned short v);
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-void func_021EFEC0(u8 *o)
+void BEACON_VIEW_InitList(u8 *o)
 {
     int i;
     u8 *q;
@@ -63,8 +63,8 @@ void func_021EFEC0(u8 *o)
     for (i = 0; i < o[0x7D]; i++) {
         q = o + 0x48;
         t = o[0x7C];
-        func_02165AC4((struct Queue *)(((struct Obj00007 *)o)->f3C), (struct Rec *)(((struct Obj00007 *)o)->f40), (u16 *)q, t + i);
-        s = func_021659F0((u8 *)(((struct Obj00007 *)o)->f3C), t + i);
+        GAME_BEACON_ACCESSOR_TableRingGet((struct Queue *)(((struct Obj00007 *)o)->f3C), (struct Rec *)(((struct Obj00007 *)o)->f40), (u16 *)q, t + i);
+        s = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)(((struct Obj00007 *)o)->f3C), t + i);
         e = func_021F0F44(o, 0xFF);
         func_021F0F30((char *)e, (u8)s, (u8)(i + 1));
         func_021F1144(o, e, (void *)(((struct Obj00007 *)o)->f40), 2, 0, 0);
@@ -74,5 +74,5 @@ void func_021EFEC0(u8 *o)
     func_021F0E7C((char *)o);
     if (((struct Obj00007 *)o)->f28 == 0x30)
         func_021F0DF4((void *)(*(int *)&((struct Obj00007 *)o)->f2BC), 3);
-    func_0203D34C(0, ((struct Obj00007 *)o)->f96);
+    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00007 *)o)->f96);
 }

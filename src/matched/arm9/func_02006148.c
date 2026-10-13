@@ -1,5 +1,5 @@
 /*
- * function: func_02006148
+ * function: GFL_USE_GetSeSlot
  * address:  0x02006148
  * packet:   pkt_02006148
  * region:   arm9
@@ -20,8 +20,8 @@
  * the shared block.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02006148.c \
- *       --func func_02006148 --addr 0x02006148 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_GetSeSlot.c \
+ *       --func GFL_USE_GetSeSlot --addr 0x02006148 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ typedef unsigned int  u32;
 
 extern u8 *NNS_SndArcGetSeqParam(int index);
 
-int func_02006148(u32 a0)
+int GFL_USE_GetSeSlot(u32 a0)
 {
     if (a0 < 0x546) {
         goto fail;

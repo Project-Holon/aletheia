@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CE0BC",
+   "name": "BTL_CLIENT_PollTimeLimitAndSetSub",
    "address": "0x021CE0BC",
    "kind": "game",
    "region": "ov093",

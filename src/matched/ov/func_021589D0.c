@@ -1,5 +1,5 @@
 /*
- * function: func_021589D0
+ * function: SCRIPT_SYS_GetEventScriptWork
  * address:  0x021589D0
  * packet:   pkt_021589D0
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 
-int func_021589D0(int a0)
+int SCRIPT_SYS_GetEventScriptWork(int a0)
 {
     void *p;
 

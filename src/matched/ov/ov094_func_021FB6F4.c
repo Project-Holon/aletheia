@@ -11,7 +11,7 @@
  * (pt is 3 words: the third is unused padding that sets the 0x30 frame)
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021FCF2C  0x021FCF2C  thumb  ov094
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_021FF3F4  0x021FF3F4  thumb  ov094
@@ -24,7 +24,7 @@ typedef short s16;
 
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FCF2C(int a, int b);
 extern int func_021F8694(void);
 extern void func_021FF3F4(void *obj, void *out, int idx);
@@ -38,13 +38,13 @@ int func_021FB6F4(struct Cursor *a, char *b)
     int o1, o2;
     int t0, t1, t2, t3, t4, t5, t6;
 
-    t0 = func_0201134C(a);
-    t1 = func_0201134C(a);
-    t2 = func_021FCF2C((int)a, func_0201134C(a));
-    t3 = func_0201134C(a);
-    t4 = func_0201134C(a);
-    t5 = func_0201134C(a);
-    t6 = func_0201134C(a);
+    t0 = VM_GetU32(a);
+    t1 = VM_GetU32(a);
+    t2 = func_021FCF2C((int)a, VM_GetU32(a));
+    t3 = VM_GetU32(a);
+    t4 = VM_GetU32(a);
+    t5 = VM_GetU32(a);
+    t6 = VM_GetU32(a);
     func_021FF3F4((void *)func_021F8694(), pt, t2);
     pt[0] += t3;
     pt[1] += t4;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE148
+ * function: ENTRANCE_CAMERA_LoadRecord
  * address:  0x021BE148
  * packet:   pkt_021BE148
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call with a constant and the argument less 7.
  *
  * symbols:
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
-void func_021BE148(u32 a, int b)
+void ENTRANCE_CAMERA_LoadRecord(u32 a, int b)
 {
-    func_02048F4C((void *)a, 0xb3, b - 7);
+    ARC_TOOL_ReadMember((void *)a, 0xb3, b - 7);
 }

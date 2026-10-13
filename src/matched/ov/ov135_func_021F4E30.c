@@ -16,6 +16,9 @@
   *
  * symbols:
  *   func_021F5060  0x021F5060  thumb
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb  arm9
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb  arm9
  */
 #include "../include/Obj00045.h"
 
@@ -26,10 +29,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_02027974(void *m);
+extern void APP_TASKMENU_UpdateMenu(void *m);
 struct TaskMenu;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void func_021F5060(void);
 
 u32 func_021F4E30(u8 *p)
@@ -37,9 +40,9 @@ u32 func_021F4E30(u8 *p)
     u32 r = (u32)-1;
 
     if (((struct Obj00045 *)p)->fE08 != 0) {
-        func_02027974(((struct Obj00045 *)p)->fE08);
-        if (func_020279E8(((struct Obj00045 *)p)->fE08) != 0) {
-            r = func_02027A04(((struct Obj00045 *)p)->fE08) + 1;
+        APP_TASKMENU_UpdateMenu(((struct Obj00045 *)p)->fE08);
+        if (APP_TASKMENU_IsFinish(((struct Obj00045 *)p)->fE08) != 0) {
+            r = APP_TASKMENU_GetCursorPos(((struct Obj00045 *)p)->fE08) + 1;
             func_021F5060();
         }
     }

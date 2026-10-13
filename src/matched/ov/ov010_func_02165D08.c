@@ -1,5 +1,5 @@
 /*
- * function: func_02165D08
+ * function: GAME_BEACON_ACCESSOR_GetSex
  * address:  0x02165D08
  * packet:   pkt_ov010_02165D08
  * region:   ov010
@@ -24,7 +24,7 @@ typedef struct Rec {
     u8 hi : 1;
 } Rec;
 
-u8 func_02165D08(Rec *r)
+u8 GAME_BEACON_ACCESSOR_GetSex(Rec *r)
 {
     return r->hi;
 }

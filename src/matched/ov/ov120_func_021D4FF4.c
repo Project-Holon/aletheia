@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021D8664 0x021D8664 thumb ov120
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_021D7EC4 0x021D7EC4 thumb ov120
  *   func_021D68C4 0x021D68C4 thumb ov120
  *   func_021D63F4 0x021D63F4 thumb ov120
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D8664(u8 *p);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_021D7EC4(u8 *p);
 extern void func_021D68C4(u8 *p);
 extern void func_021D63F4(u8 *p, int flag, int mode);
@@ -37,7 +37,7 @@ extern void func_021D4FD0(u8 *p);
 void func_021D4FF4(u8 *p)
 {
     if (func_021D8664(((struct Obj04485 *)p)->f40)) {
-        func_020435F4(8);
+        BG_SYS_SetSubVisiblePlanes(8);
         func_021D7EC4(((struct Obj04485 *)p)->f40);
         func_021D68C4(((struct Obj04485 *)p)->f3C);
         func_021D63F4(((struct Obj04485 *)p)->f3C, 0, 0);

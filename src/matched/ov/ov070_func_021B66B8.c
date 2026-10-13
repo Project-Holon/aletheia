@@ -1,5 +1,5 @@
 /*
- * function: func_021B66B8
+ * function: ITEMMENU_IsBackButtonTouched
  * address: 0x021B66B8
  * packet: pkt_ov070_021B66B8
  * region: ov070
@@ -13,7 +13,7 @@
  */
 typedef unsigned int   u32;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-int func_021B66B8(void)
+int ITEMMENU_IsBackButtonTouched(void)
 {
     unsigned int x;
     unsigned int y;

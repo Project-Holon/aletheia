@@ -1,5 +1,5 @@
 /*
- * function: func_021BB830
+ * function: BTL_SERVER_IsClientSlotUsed
  * address: 0x021BB830
  * packet: pkt_ov093_021BB830
  * region: ov093
@@ -10,4 +10,4 @@
  * status: EXACT*
  */
 typedef unsigned char u8;
-int func_021BB830(u8 *p) { if (p[11] != 255) return 1; return 0; }
+int BTL_SERVER_IsClientSlotUsed(u8 *p) { if (p[11] != 255) return 1; return 0; }

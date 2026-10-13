@@ -17,7 +17,7 @@
  *   bgm_info_File  0x020A7048  data
  *   func_02030734      0x02030734  arm
  *   func_020307B0      0x020307B0  arm
- *   func_02048F74      0x02048F74  arm
+ *   ARC_TOOL_ReadMemberRange      0x02048F74  arm
  *
  * alias: the file identity is in the image.  BGM_INFO_Create and BGM_INFO_Load
  * both pass 0x020A7048 to the debug allocator at 0x02030734, and the bytes
@@ -41,7 +41,7 @@
  *    guard, `blt` on the back edge) even though the count is a `u8` field,
  *    which is the ordinary integer promotion of a byte compared against an
  *    `int` induction variable.
- *  - the fourth argument of the four func_02048F74 calls is a running
+ *  - the fourth argument of the four ARC_TOOL_ReadMemberRange calls is a running
  *    counter, not a function of the loop index.  Written as `i * 3 + 1` and
  *    `i * 3 + 3` the compiler reassociates the multiply against the array
  *    index and computes the value inside the loop (`adds r6, r4, r1`), which
@@ -50,7 +50,7 @@
  *  - where that variable is stepped decides two registers and one
  *    instruction.  The original materialises its value 1 as `adds r6, r4, #1`
  *    off the zero already in r4, immediately before the first allocation, so
- *    the increment has to sit between the first func_02048F74 call and the
+ *    the increment has to sit between the first ARC_TOOL_ReadMemberRange call and the
  *    two allocations.  Move it after them and the compiler hoists the file
  *    name pool word into r7 instead, loading it once rather than twice, and
  *    puts the heap id in r6.  Write the increment as `k = 1` anywhere and the
@@ -74,7 +74,7 @@ extern const char bgm_info_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 
 void BGM_INFO_Load(struct Sub02006E40Obj *obj, u32 heap);
 
@@ -112,14 +112,14 @@ void BGM_INFO_Load(struct Sub02006E40Obj *obj, u32 heap)
     int k;
 
     k = 0;
-    func_02048F74(obj, 0x57, 0, k, (u32 *)1);
+    ARC_TOOL_ReadMemberRange(obj, 0x57, 0, k, (u32 *)1);
     k++;
     obj->unk04 = func_02030734(heap, obj->count * 2, 0, bgm_info_File,
                                0xAF);
     obj->unk08 = func_02030734(heap, obj->count, 0, bgm_info_File, 0xB0);
     for (i = 0; i < obj->count; i++) {
-        func_02048F74(&obj->unk04[i], 0x57, 0, k, (u32 *)2);
-        func_02048F74(&obj->unk08[i], 0x57, 0, k + 2, (u32 *)1);
+        ARC_TOOL_ReadMemberRange(&obj->unk04[i], 0x57, 0, k, (u32 *)2);
+        ARC_TOOL_ReadMemberRange(&obj->unk08[i], 0x57, 0, k + 2, (u32 *)1);
         k += 3;
     }
 }

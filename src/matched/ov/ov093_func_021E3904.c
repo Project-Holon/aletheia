@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D78AC  0x021D78AC  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
@@ -21,8 +21,8 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
-extern u32 func_021D78AC(u32 range);
+extern int BTL_EVENT_GetVar(int key);
+extern u32 BTL_CALC_Random(u32 range);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
@@ -34,8 +34,8 @@ void func_021E3904(int u, void *p, int key, int *o)
     u8 i;
     u8 v;
     u8 *q;
-    if (key == func_021D775C(2)) {
-        v = func_021D78AC(100);
+    if (key == BTL_EVENT_GetVar(2)) {
+        v = BTL_CALC_Random(100);
         for (i = 0; i < 7; i++) {
             if (v < data_021F2878[i * 2])
                 break;

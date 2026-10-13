@@ -1,5 +1,5 @@
 /*
- * function: func_021A797C
+ * function: FIELD_GROUND_ANIME_GetTexSize
  * address:  0x021A797C
  * packet:   pkt_ov021_021A797C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047250  0x02047250  arm
+ *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
  *   func_0209C2B0  0x0209C2B0  arm
- *   d_021D8B08     0x021D8B08  data  a2
- *   d_021D8B00     0x021D8B00  data  a1
+ *   gTexDimensionTable     0x021D8B08  data  a2
+ *   gTexPixelsPerByteTable     0x021D8B00  data  a1
  */
 
 typedef unsigned char u8;
@@ -39,10 +39,10 @@ typedef struct Res {
     Dict dict;
 } Res;
 
-extern Res *func_02047250(void *p);
+extern Res *G3D_SYSTEM_GetResourceTex(void *p);
 extern u32 func_0209C2B0(u32 a, u32 b);
-extern const u16 d_021D8B08[];
-extern const u8 d_021D8B00[];
+extern const u16 gTexDimensionTable[];
+extern const u8 gTexPixelsPerByteTable[];
 
 static inline void *DictGetByIdx(const Dict *d, u32 idx)
 {
@@ -53,14 +53,14 @@ static inline void *DictGetByIdx(const Dict *d, u32 idx)
     return 0;
 }
 
-u32 func_021A797C(void *a, u32 idx)
+u32 FIELD_GROUND_ANIME_GetTexSize(void *a, u32 idx)
 {
     Res *r;
     u32 *e;
     u32 v;
 
-    r = func_02047250(a);
+    r = G3D_SYSTEM_GetResourceTex(a);
     e = r ? DictGetByIdx(&r->dict, idx) : 0;
     v = *e;
-    return func_0209C2B0(d_021D8B08[(v & 0x700000) >> 20] * d_021D8B08[(v & 0x3800000) >> 23], d_021D8B00[(v & 0x1C000000) >> 26]);
+    return func_0209C2B0(gTexDimensionTable[(v & 0x700000) >> 20] * gTexDimensionTable[(v & 0x3800000) >> 23], gTexPixelsPerByteTable[(v & 0x1C000000) >> 26]);
 }

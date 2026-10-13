@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021ABF2C  0x021ABF2C  thumb  ov021
+ *   FIELD_EFFECT_FindResourceSlot  0x021ABF2C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,11 +23,11 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct T T;
 typedef struct E E;
-extern E *func_021ABF2C(T *, int);
+extern E *FIELD_EFFECT_FindResourceSlot(T *, int);
 
 int func_021ABE8C(T *a, int id)
 {
-if (func_021ABF2C(a, id) != 0) {
+if (FIELD_EFFECT_FindResourceSlot(a, id) != 0) {
     return 1;
 }
 return 0;

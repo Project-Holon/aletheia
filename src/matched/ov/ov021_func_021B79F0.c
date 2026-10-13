@@ -1,5 +1,5 @@
 /*
- * function: func_021B79F0
+ * function: FIELD_RAIL_UpdateCamera
  * address:  0x021B79F0
  * packet:   pkt_ov021_021B79F0
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B91AC  0x021B91AC  thumb
- *   func_021B8048  0x021B8048  thumb
- *   func_021B8820  0x021B8820  thumb
- *   func_021B8870  0x021B8870  thumb
+ *   FIELD_RAIL_WORK_IsActive  0x021B91AC  thumb
+ *   FIELD_RAIL_WORK_HasStepped  0x021B8048  thumb
+ *   FIELD_RAIL_SETTING_GetCamera  0x021B8820  thumb
+ *   FIELD_RAIL_SETTING_GetCameraFunc  0x021B8870  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -25,13 +25,13 @@ struct Sub { u16 f0; u16 pad2; struct Info *f4; char pad08[0x1C]; void *f24; };
 typedef void (*Cb)(void *);
 struct Obj { char pad00[2]; u16 f2; u16 f4; char pad06[0xE]; struct Sub *f14; u32 f18; };
 
-extern int func_021B91AC(u32 a);
+extern int FIELD_RAIL_WORK_IsActive(u32 a);
 typedef unsigned char  u8;
-extern u8 func_021B8048(u8 *p);
-extern u32 *func_021B8820(void *p);
-extern Cb func_021B8870(void *p, u32 v);
+extern u8 FIELD_RAIL_WORK_HasStepped(u8 *p);
+extern u32 *FIELD_RAIL_SETTING_GetCamera(void *p);
+extern Cb FIELD_RAIL_SETTING_GetCameraFunc(void *p, u32 v);
 
-int func_021B79F0(struct Obj *o, int flag)
+int FIELD_RAIL_UpdateCamera(struct Obj *o, int flag)
 {
     struct Sub *t;
     Cb cb;
@@ -44,9 +44,9 @@ int func_021B79F0(struct Obj *o, int flag)
         return 0;
     if (t == 0)
         return 0;
-    if (func_021B91AC((u32)t) == 0)
+    if (FIELD_RAIL_WORK_IsActive((u32)t) == 0)
         return 0;
-    if (func_021B8048((u8 *)t) == 0 && o->f18 == 0 && flag == 0)
+    if (FIELD_RAIL_WORK_HasStepped((u8 *)t) == 0 && o->f18 == 0 && flag == 0)
         return 0;
     switch (t->f0) {
     case 0:
@@ -57,7 +57,7 @@ int func_021B79F0(struct Obj *o, int flag)
         if (t->f4->f10 == 0xFFFF)
             break;
 lookup:
-        cb = func_021B8870(t->f24, *func_021B8820(t->f24));
+        cb = FIELD_RAIL_SETTING_GetCameraFunc(t->f24, *FIELD_RAIL_SETTING_GetCamera(t->f24));
         break;
     }
     if (cb)

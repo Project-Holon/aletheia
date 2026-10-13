@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Shutdown of the dual-screen text cluster, the counterpart of func_0202208C.
+ * Shutdown of the dual-screen text cluster, the counterpart of WIPE_SYS_Start.
  * It drops both entries of the callback block at +0x74, forces each live screen
  * into state 2, unpublishes both sub-objects through the same WIPE_SYS_MainPanel
  * slot writer the setup used, clears the live counter and the two delegate

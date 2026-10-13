@@ -1,5 +1,5 @@
 /*
- * function: func_021C60B8
+ * function: SWEET_SCENT_EventMain
  * address:  0x021C60B8
  * packet:   pkt_ov021_021C60B8
  * region:   ov021
@@ -9,21 +9,21 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021A2F48  0x021A2F48  thumb  ov021
- *   func_021A2F54  0x021A2F54  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D480  0x0216D480  thumb  ov010
- *   func_02189A00  0x02189A00  thumb  ov021
- *   func_021C1D68  0x021C1D68  thumb  ov021
- *   func_02012374  0x02012374  thumb
- *   func_021C61D4  0x021C61D4  thumb  ov021
- *   func_021C61EC  0x021C61EC  thumb  ov021
- *   func_02188CE8  0x02188CE8  thumb  ov021
- *   func_021A9F40  0x021A9F40  thumb  ov021
- *   func_02158780  0x02158780  thumb  ov010
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
+ *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
+ *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   FIELDMAP_GetFld3dCi  0x02189A00  thumb  ov021
+ *   FLD3D_CI_StartPartyMemberSequence  0x021C1D68  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   SWEET_SCENT_CheckWeatherClear  0x021C61D4  thumb  ov021
+ *   SWEET_SCENT_StartFade  0x021C61EC  thumb  ov021
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
+ *   FIELD_ENCOUNT_CheckWildEncount  0x021A9F40  thumb  ov021
+ *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -39,25 +39,25 @@ typedef struct {
     void *f10;
 } Work;
 
-extern void func_021A2F48(u8 *p, u32 a1);
+extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1);
 struct Evt;
-extern int func_021A2F54(u8 *p);
-extern void *func_021A3074(u8 *p);
-extern void func_0216D410(void *a0, u16 a1);
-extern int func_0216D480(char *p);
+extern int FIELD_PLAYER_StepFormChange(u8 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void FLDMMDL_SetAcmd(void *a0, u16 a1);
+extern int FLDMMDL_EndAcmd(char *p);
 struct Ctx;
-extern void *func_02189A00(u8 *p);
-extern int func_021C1D68(int a, int b, int c);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_021C61D4(u32 a);
-extern void func_021C61EC(void *a, void *b, void *c);
-extern u32 func_02188CE8(u8 *p);
-extern int func_021A9F40(struct Ctx *ctx, int mode);
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
-extern void *func_02188C7C(u8 *p);
-extern u32 *func_0216D9E4(void *c);
+extern void *FIELDMAP_GetFld3dCi(u8 *p);
+extern int FLD3D_CI_StartPartyMemberSequence(int a, int b, int c);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern int SWEET_SCENT_CheckWeatherClear(u32 a);
+extern void SWEET_SCENT_StartFade(void *a, void *b, void *c);
+extern u32 FIELDMAP_GetEncount(u8 *p);
+extern int FIELD_ENCOUNT_CheckWildEncount(struct Ctx *ctx, int mode);
+extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern u32 *FLDMMDL_SysResumeMove(void *c);
 
-int func_021C60B8(void *task, int *state, Work *w)
+int SWEET_SCENT_EventMain(void *task, int *state, Work *w)
 {
     void *t;
 
@@ -67,57 +67,57 @@ int func_021C60B8(void *task, int *state, Work *w)
             *state = 5;
             break;
         }
-        func_021A2F48(w->f10, 0x80);
+        FIELD_PLAYER_StartFormChange(w->f10, 0x80);
         (*state)++;
     case 1:
-        if (func_021A2F54(w->f10) != 1)
+        if (FIELD_PLAYER_StepFormChange(w->f10) != 1)
             break;
-        func_0216D410(func_021A3074(w->f10), 0xa2);
+        FLDMMDL_SetAcmd(FIELD_PLAYER_GetMmdl(w->f10), 0xa2);
         (*state)++;
         break;
     case 2:
-        if (func_0216D480(func_021A3074(w->f10)) != 1)
+        if (FLDMMDL_EndAcmd(FIELD_PLAYER_GetMmdl(w->f10)) != 1)
             break;
-        t = (void *)func_021C1D68(w->f4, (int)func_02189A00(w->fC), w->f0);
+        t = (void *)FLD3D_CI_StartPartyMemberSequence(w->f4, (int)FIELDMAP_GetFld3dCi(w->fC), w->f0);
         if (t != 0)
-            func_02012374(task, t);
+            GAME_EVENT_CallEvent(task, t);
         (*state)++;
         break;
     case 3:
-        func_021A2F48(w->f10, 8);
+        FIELD_PLAYER_StartFormChange(w->f10, 8);
         (*state)++;
     case 4:
-        if (func_021A2F54(w->f10) != 1)
+        if (FIELD_PLAYER_StepFormChange(w->f10) != 1)
             break;
         *state = 5;
         break;
     case 5:
-        if (func_021C61D4((u32)w) == 0) {
+        if (SWEET_SCENT_CheckWeatherClear((u32)w) == 0) {
             *state = 8;
             break;
         }
-        func_021C61EC(task, (void *)w->f4, w->fC);
+        SWEET_SCENT_StartFade(task, (void *)w->f4, w->fC);
         *state = 6;
         break;
     case 6:
-        t = (void *)func_021A9F40((struct Ctx *)func_02188CE8(w->fC), 2);
+        t = (void *)FIELD_ENCOUNT_CheckWildEncount((struct Ctx *)FIELDMAP_GetEncount(w->fC), 2);
         if (t == 0) {
             *state = 7;
             break;
         }
-        func_02012374(task, t);
+        GAME_EVENT_CallEvent(task, t);
         *state = 9;
         break;
     case 7:
-        func_02158780(task, 0x2793, 0, 0, 0x15);
+        SCRIPT_SYS_CallScriptEvent(task, 0x2793, 0, 0, 0x15);
         *state = 9;
         break;
     case 8:
-        func_02158780(task, 0x2794, 0, 0, 0x15);
+        SCRIPT_SYS_CallScriptEvent(task, 0x2794, 0, 0, 0x15);
         *state = 9;
         break;
     case 9:
-        func_0216D9E4(func_02188C7C(w->fC));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(w->fC));
         return 1;
     }
     return 0;

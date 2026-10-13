@@ -1,5 +1,5 @@
 /*
- * function: func_021F373C
+ * function: GIMMICK54_Update
  * address:  0x021F373C
  * packet:   pkt_ov054_021F373C
  * region:   ov054
@@ -24,30 +24,30 @@
  * Callee 0x021F3918 (ov054, 36 B) is unmatched but resolves sole-ref/code.
  *
  * symbols:
- *   func_021897BC  0x021897BC  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218EC2C  0x0218EC2C  thumb  ov021
- *   func_02048AE8  0x02048AE8  arm
- *   func_02048B30  0x02048B30  arm
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
+ *   G3D_CAMERA_GetUp  0x02048B30  arm
  *   ISS_3DS_SYS_SetCamera  0x0202B93C  thumb
- *   func_021C4DE4  0x021C4DE4  thumb  ov021
- *   func_021F393C  0x021F393C  thumb  ov054
- *   func_021F3918  0x021F3918  thumb  ov054
+ *   SOUND_OBJ_AdvanceAnime  0x021C4DE4  thumb  ov021
+ *   GIMMICK54_RestartAnime  0x021F393C  thumb  ov054
+ *   GIMMICK54_StartWait  0x021F3918  thumb  ov054
  */
 
-extern void *func_021897BC(int, int);
+extern void *FIELDMAP_GetCommonWork(int, int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void *func_02188C58(void *p);
-extern u32 func_0218EC2C(u8 *p);
-extern void func_02048AE8(void *, void *);
-extern void func_02048B30(void *, void *);
+extern void *FIELDMAP_GetCamera(void *p);
+extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
+extern void G3D_CAMERA_GetEye(void *, void *);
+extern void G3D_CAMERA_GetUp(void *, void *);
 extern void ISS_3DS_SYS_SetCamera(int, void *, void *);
-extern int func_021C4DE4(int, int);
-extern int func_021F393C(char *, int);
-extern void func_021F3918(char *, int);
+extern int SOUND_OBJ_AdvanceAnime(int, int);
+extern int GIMMICK54_RestartAnime(char *, int);
+extern void GIMMICK54_StartWait(char *, int);
 
-void func_021F373C(int a)
+void GIMMICK54_Update(int a)
 {
     int i;
     char *p;
@@ -55,19 +55,19 @@ void func_021F373C(int a)
     int v[3];
     int w[3];
 
-    p = (char *)func_021897BC(a, 0);
-    cam = (void *)func_0218EC2C(func_02188C58((void *)a));
-    func_02048AE8(cam, v);
-    func_02048B30(cam, w);
+    p = (char *)FIELDMAP_GetCommonWork(a, 0);
+    cam = (void *)FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera((void *)a));
+    G3D_CAMERA_GetEye(cam, v);
+    G3D_CAMERA_GetUp(cam, w);
     ISS_3DS_SYS_SetCamera(*(int *)(p + 4), v, w);
     for (i = 0; i < 2; i++) {
         int *e = (int *)(p + i * 4);
         if (e[4] > 0) {
             e[4]--;
             if (e[4] <= 0)
-                func_021F393C(p, i);
-        } else if (func_021C4DE4(e[2], 0x1000)) {
-            func_021F3918(p, i);
+                GIMMICK54_RestartAnime(p, i);
+        } else if (SOUND_OBJ_AdvanceAnime(e[2], 0x1000)) {
+            GIMMICK54_StartWait(p, i);
         }
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B77E4",
+   "name": "PDW_POSTMAN_GetMysteryCard",
    "address": "0x021B77E4",
    "kind": "game",
    "region": "ov021",

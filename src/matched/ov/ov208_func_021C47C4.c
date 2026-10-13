@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BC3C0  0x021BC3C0  thumb
  *   func_0201EC64  0x0201EC64  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0201F250  0x0201F250  thumb
  *   func_0201ED04  0x0201ED04  thumb
@@ -29,7 +29,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201ED04(struct WordSet *p);
@@ -53,7 +53,7 @@ void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int 
     case 0:
         ws = (u32)func_0201EC64(*heap);
         src = ((struct Obj06686 *)p)->f5A4;
-        str = (u32)func_020457B0(0x40, *heap);
+        str = (u32)STRBUF_Create(0x40, *heap);
         func_0201EE60((struct WordSet *)ws, 0, k);
         func_0201F250((struct WordSet *)ws, (void *)str, (void *)src);
         func_0201ED04((struct WordSet *)ws);

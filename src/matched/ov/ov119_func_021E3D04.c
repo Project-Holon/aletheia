@@ -7,12 +7,16 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
  */
 typedef unsigned int   u32;
 struct Personal;
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_0201ADE4(unsigned int, int, unsigned int);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
@@ -24,7 +28,7 @@ unsigned char func_021E3D04(void *mon, unsigned int heap)
     int species;
     void *data;
     result = 0;
-    old = func_02017DBC(mon);
+    old = POKE_TOOL_DecodeBoxParam(mon);
     species = func_02017E88(mon, 5, 0);
     if (func_02017E88(mon, 0xA9, 0)) {
         if (!func_02017E88(mon, 0x4C, 0)) {
@@ -39,6 +43,6 @@ unsigned char func_021E3D04(void *mon, unsigned int heap)
         }
         result++;
     }
-    func_02017DE4(mon, old);
+    POKE_TOOL_EncodeBoxParam(mon, old);
     return result;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2AB0
+ * function: BTL_SERVER_FLOW_GetEffectiveWeather
  * address:  0x021C2AB0
  * packet:   pkt_ov093_021C2AB0
  * region:   ov093
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D74F8  0x021D74F8  thumb  ov093
- *   func_021D7630  0x021D7630  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7540  0x021D7540  thumb  ov093
- *   func_021EF884  0x021EF884  thumb  ov093
+ *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
+ *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
+ *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
+ *   BTL_FIELD_GetCountdownValue  0x021EF884  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021D74F8(int line);
-extern void func_021D7630(int key, u32 val);
-extern void func_021D70F0(void *a, int id);
-extern int func_021D775C(int key);
-extern void func_021D7540(int line);
-extern int func_021EF884(void);
+extern void BTL_EVENT_PushVarFrame(int line);
+extern void BTL_EVENT_SetVarOnce(int key, u32 val);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
+extern int BTL_EVENT_GetVar(int key);
+extern void BTL_EVENT_PopVarFrame(int line);
+extern int BTL_FIELD_GetCountdownValue(void);
 
-int func_021C2AB0(u8 *p)
+int BTL_SERVER_FLOW_GetEffectiveWeather(u8 *p)
 {
     int r;
     int t;
-    func_021D74F8(7971);
-    func_021D7630(0x41, 0);
+    BTL_EVENT_PushVarFrame(7971);
+    BTL_EVENT_SetVarOnce(0x41, 0);
     r = 0;
-    func_021D70F0(p, 0x7a);
-    t = func_021D775C(0x41);
-    func_021D7540(7975);
+    BTL_EVENT_DispatchEventChecked(p, 0x7a);
+    t = BTL_EVENT_GetVar(0x41);
+    BTL_EVENT_PopVarFrame(7975);
     if (t == 0)
-        r = func_021EF884();
+        r = BTL_FIELD_GetCountdownValue();
     return r;
 }

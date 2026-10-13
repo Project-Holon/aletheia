@@ -1,5 +1,5 @@
 /*
- * function: func_021EE830
+ * function: BTL_REC_CountFlaggedRecords
  * address:  0x021EE830
  * packet:   pkt_ov093_021EE830
  * region:   ov093
@@ -26,7 +26,7 @@ typedef struct {
     u32 pos[4];
 } Q;
 
-int func_021EE830(Q *q)
+int BTL_REC_CountFlaggedRecords(Q *q)
 {
     int count;
     u8 v;

@@ -14,6 +14,7 @@
  *   func_021F4FF4  0x021F4FF4  thumb  ov135
  *   g_0220320E  0x0220320E  data  ov135
  *   g_0220320F  0x0220320F  data  ov135
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
 
  * Reset, re-arm the 6 frame, then index the two parallel stride-2 tables from the cursor at +0x44.
  */
@@ -26,7 +27,7 @@ typedef signed int s32;
 extern void func_021FAAD4(u8 *p);
 extern void func_021F4FF4(u32 v, u32 a, u32 b);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 g_0220320E[];
 extern u8 g_0220320F[];
 
@@ -36,7 +37,7 @@ int func_021FBCB8(u8 *p)
 
     ((struct Obj04906 *)p)->f44 = 0;
     func_021FAAD4(p);
-    func_0204B878((struct Obj *)(((struct Obj04906 *)p)->f8), 6);
+    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj04906 *)p)->f8), 6);
     i = ((struct Obj04906 *)p)->f44;
     func_021F4FF4(((struct Obj04906 *)p)->f8, g_0220320E[i * 2], g_0220320F[i * 2]);
     ((struct Obj04906 *)p)->f48 = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_02157278
+ * function: MUSICAL_PROGRAM_UnpackBonus
  * address:  0x02157278
  * packet:   pkt_ov010_02157278
  * region:   ov010
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-void func_02157278(u8 *p, u32 v)
+void MUSICAL_PROGRAM_UnpackBonus(u8 *p, u32 v)
 {
     p[0] = v;
     p[1] = (v & 0xFF00) >> 8;

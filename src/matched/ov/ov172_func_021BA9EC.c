@@ -45,6 +45,11 @@
  *   func_021BB4D0  0x021BB4D0  thumb  ov172
  *   func_021BB288  0x021BB288  thumb  ov172
  *   d_020A1B38     0x020A1B38  data a2
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
+ *   BMP_WIN_TransferChars  0x02045334  arm  arm9
+ *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -82,16 +87,16 @@ extern void func_021BAE58(void *p, u8 *q);
 extern void func_021BAEE0(void *ctx, u8 *p);
 extern void func_021BB4D0(void *unused, u8 *q);
 extern void func_021BB288(void *ctx, u8 *p);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern u32  func_020221A4(void);
-extern int func_02035C60(void);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32  WIPE_SYS_EndCheck(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32  func_020362DC(void);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
 extern void func_020409B4(u32 a);
 extern void func_020061E4(u32 id);
@@ -117,14 +122,14 @@ int func_021BA9EC(void *a0, char *p)
     switch (((struct Obj00140 *)p)->f0) {
     case 0:
         if (func_021BE02C(a0) == 1) {
-            func_0202208C((void *)z, 1, 1, z, 6, 1, v);
+            WIPE_SYS_Start((void *)z, 1, 1, z, 6, 1, v);
         } else {
-            func_0202208C((void *)4, 1, 1, z, 6, 1, v);
+            WIPE_SYS_Start((void *)4, 1, 1, z, 6, 1, v);
         }
         ((struct Obj00140 *)p)->f0 = 1;
         break;
     case 1:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             ((struct Obj00140 *)p)->f18 = 1;
             ((struct Obj00140 *)p)->f0 = 4;
         }
@@ -136,12 +141,12 @@ int func_021BA9EC(void *a0, char *p)
                 break;
             }
         }
-        func_0202208C(0, 0, 0, 0, 6, 1, v);
+        WIPE_SYS_Start(0, 0, 0, 0, 6, 1, v);
         ((struct Obj00140 *)p)->f0 = 3;
         ((struct Obj00140 *)p)->f18 = 0;
         break;
     case 3:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             if (((struct Obj00140 *)p)->f1C == 0) {
                 return 1;
             }
@@ -168,7 +173,7 @@ int func_021BA9EC(void *a0, char *p)
         ((struct Obj00140 *)p)->f20 = flag;
         break;
     case 7:
-        if (func_02035C60() == 1 || (func_020362DC() & 3) != 0) {
+        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0) {
             ((struct Obj00140 *)p)->f1C = flag = 1;
             ((struct Obj00140 *)p)->f0 = 2;
             func_021BE0B0(a0, 1);
@@ -193,7 +198,7 @@ int func_021BA9EC(void *a0, char *p)
         break;
     case 10:
         ((struct Obj00140 *)p)->f54 = ((struct Obj00140 *)p)->f54 + 1;
-        if (func_02035C60() == 1 || (func_020362DC() & 3) != 0
+        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0
             || ((struct Obj00140 *)p)->f54 >= 300) {
             ((struct Obj00140 *)p)->f0 = 11;
         }
@@ -221,7 +226,7 @@ int func_021BA9EC(void *a0, char *p)
         ((struct Obj00140 *)p)->f20 = flag;
         break;
     case 14:
-        if (func_02035C60() == 1 || (func_020362DC() & 3) != 0) {
+        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0) {
             ((struct Obj00140 *)p)->f1C = flag = 1;
             ((struct Obj00140 *)p)->f0 = 2;
             func_021BE0B0(a0, 1);
@@ -238,8 +243,8 @@ int func_021BA9EC(void *a0, char *p)
         t = func_021BE044(a0);
         if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00140 *)p)->f48))) == 0) {
             func_0201F73C((void *)(((struct Obj00140 *)p)->f48), 2, 0x140, 9);
-            func_02045334((struct Descriptor *)((struct Obj00140 *)p)->f48);
-            func_02045374((struct Cfg *)(((struct Obj00140 *)p)->f48));
+            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f48);
+            BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f48));
             func_02041B6C(4);
             i = 0;
             ((struct Obj00140 *)p)->f38 = 0;
@@ -259,8 +264,8 @@ int func_021BA9EC(void *a0, char *p)
     if (((struct Obj00140 *)p)->f40 == 1) {
         t = func_021BE044(a0);
         if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00140 *)p)->f4C))) == 0) {
-            func_02045334((struct Descriptor *)((struct Obj00140 *)p)->f4C);
-            func_02045374((struct Cfg *)(((struct Obj00140 *)p)->f4C));
+            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f4C);
+            BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f4C));
             func_020409B4(4);
             ((struct Obj00140 *)p)->f40 = 0;
         }
@@ -268,8 +273,8 @@ int func_021BA9EC(void *a0, char *p)
     if (((struct Obj00140 *)p)->f44 == 1 && ((struct Obj00140 *)p)->f50 != 0) {
         t = func_021BE044(a0);
         if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00140 *)p)->f50))) == 0) {
-            func_02045334((struct Descriptor *)((struct Obj00140 *)p)->f50);
-            func_02045374((struct Cfg *)(((struct Obj00140 *)p)->f50));
+            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00140 *)p)->f50);
+            BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00140 *)p)->f50));
             func_020409B4(0);
             ((struct Obj00140 *)p)->f44 = 0;
         }

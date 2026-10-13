@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FE4
+ * function: STARTMENU_MenuMain
  * address:  0x021B9FE4
  * packet:   pkt_ov088_021B9FE4
  * region:   ov088
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020310C4  0x020310C4  arm
- *   func_0204A600  0x0204A600  arm
- *   d_021BD63C     0x021BD63C  data  ov088  a4
+ *   TCBL_Main  0x020310C4  arm
+ *   CLACT_DrawSystem  0x0204A600  arm
+ *   gStartMenuStateTable     0x021BD63C  data  ov088  a4
  */
 #include "../include/Obj13230.h"
 
 typedef int (*StateFn)(char *);
 
 struct Tcbl;
-extern void func_020310C4(struct Tcbl *p);
-extern void func_0204A600(void);
-extern StateFn d_021BD63C[];
+extern void TCBL_Main(struct Tcbl *p);
+extern void CLACT_DrawSystem(void);
+extern StateFn gStartMenuStateTable[];
 
-int func_021B9FE4(int a0, int a1, int a2, char *p)
+int STARTMENU_MenuMain(int a0, int a1, int a2, char *p)
 {
-    int s = d_021BD63C[*(int *)(p + 0x13c)](p);
+    int s = gStartMenuStateTable[*(int *)(p + 0x13c)](p);
     ((struct Obj13230 *)p)->f13C = s;
     if (s == 12) {
         return 1;
     }
-    func_020310C4((struct Tcbl *)(((struct Obj13230 *)p)->f70));
-    func_0204A600();
+    TCBL_Main((struct Tcbl *)(((struct Obj13230 *)p)->f70));
+    CLACT_DrawSystem();
     return 0;
 }

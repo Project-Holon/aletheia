@@ -1,5 +1,5 @@
 /*
- * function: func_02169FFC
+ * function: REPORT_EVENT_QueueMessage
  * address:  0x02169FFC
  * packet:   pkt_ov010_02169FFC
  * region:   ov010
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_021904AC  0x021904AC  thumb  ov021
+ *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
  *   func_0201C6FC  0x0201C6FC  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -68,19 +68,19 @@ struct Descriptor;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_021904AC(u8 *p);
+extern u32 FIELD_MSGBG_GetFont(u8 *p);
 struct PrintSys;
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
-void func_02169FFC(Work *w, u32 msg)
+void REPORT_EVENT_QueueMessage(Work *w, u32 msg)
 {
     void *str;
     u32 a;
@@ -88,17 +88,17 @@ void func_02169FFC(Work *w, u32 msg)
     void *t;
     void *p;
 
-    func_02043B5C(func_02045770(w->f18->f08), 15);
+    BMP_Clear(func_02045770(w->f18->f08), 15);
     func_0201F73C(w->f18->f08, 2, 1, 13);
     str = func_02045EC0(w->f18->f04, msg);
-    a = func_021904AC(w->f0C);
+    a = FIELD_MSGBG_GetFont(w->f0C);
     s = (Slot *)&w->f18->f08;
     t = w->f18->f14;
     func_0201C6FC(t, (u32)func_02045770(s->f00), 0, 0, str, a);
     s->f04 = 1;
-    func_02045808(str);
+    STRBUF_Delete(str);
     p = w->f18->f08;
-    func_02045334(p);
-    func_02045374(p);
+    BMP_WIN_TransferChars(p);
+    BMP_WIN_MakeScreen(p);
     func_02041B6C(func_02045730(p));
 }

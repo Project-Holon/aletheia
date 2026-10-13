@@ -21,9 +21,9 @@
  *   func_021E2680 0x021E2680 thumb ov119
  *   func_021E4888 0x021E4888 thumb ov119
  *   func_021E2438 0x021E2438 thumb ov119
- *   func_021B639C 0x021B639C thumb ov067
+ *   TOUCHBAR_Delete 0x021B639C thumb ov067
  *   func_021E48E0 0x021E48E0 thumb ov119
- *   func_0204B1CC 0x0204B1CC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
  *   func_021E11A8 0x021E11A8 thumb ov119
  *   func_021DD174 0x021DD174 thumb ov119
  *   func_021E293C 0x021E293C thumb ov119
@@ -41,9 +41,9 @@ extern void func_021DD588(char *p);
 extern void func_021DF8E0(void *);
 extern void func_021E4570(char *p);
 extern void func_021DD9DC(unsigned char *),func_021E36D8(void *,int),func_021E69A4(char *),func_021DF7D0(void *),func_021E2680(char *),func_021E4888(char *),func_021E2438(char *,int);
-extern void func_021B639C(u8 *p);
+extern void TOUCHBAR_Delete(u8 *p);
 extern void func_021E48E0(char *);
-extern unsigned int func_0204B1CC(struct Bank *bank);
+extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
 extern void func_021E11A8(char *);
 extern void func_021DD174(char *);
 extern void func_021E293C(char *p, int i);
@@ -60,9 +60,9 @@ void func_021DC720(char *p)
     func_021E64B8(p);func_021E3230(p);func_021DD588(p);func_021DF8E0(p);func_021DD9DC((unsigned char *)p);func_021E4570(p);
     func_021E36D8(p,1);func_021E69A4(p);func_021DF7D0(p);func_021E2680(p);func_021E4888(p);
     func_021E2438(p,0);func_021E2438(p,1);
-    if(P(0x9c0)) {func_021B639C(P(0x9c0));P(0x9c0)=0;}
+    if(P(0x9c0)) {TOUCHBAR_Delete(P(0x9c0));P(0x9c0)=0;}
     func_021E48E0(p);
-    if(P(0x9c4)) {func_0204B1CC(P(0x9c4));P(0x9c4)=0;}
+    if(P(0x9c4)) {CLACT_DeleteUnit(P(0x9c4));P(0x9c4)=0;}
     func_021E11A8(p);func_021DD174(p);
     func_021E293C(p,0);func_021E293C(p,1);func_021E3F08(p);func_021E4000(p);func_021E57A4((int)p);
     if(P(0x818)) {func_020307B0(P(0x818));P(0x818)=0;}

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D60
+ * function: OPTION_MENU_FlushGfx
  * address:  0x021B9D60
  * packet:   pkt_ov068_021B9D60
  * region:   ov068
@@ -15,7 +15,7 @@
  *   func_020419E4  0x020419E4  arm
  */
 
-void func_021B9D60(char *a0)
+void OPTION_MENU_FlushGfx(char *a0)
 {
     void func_020419E4(void);
     func_020419E4();

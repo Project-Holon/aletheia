@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2C8
+ * function: PLACE_NAME_LETTER_GetChar
  * address:  0x021BD2C8
  * packet:   pkt_021BCA74
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_021BD2C8(u8 *p)
+u16 PLACE_NAME_LETTER_GetChar(u8 *p)
 {
     return ((struct Obj18221 *)p)->f48;
 }

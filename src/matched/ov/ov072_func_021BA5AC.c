@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5AC
+ * function: TOWNMAP_MapUpdate
  * address:  0x021BA5AC
  * packet:   pkt_021BA5AC
  * region:   ov072
@@ -12,6 +12,6 @@
  *           trailing alignment padding, no byte difference.
  */
 
-void func_021BA5AC(void *a0)
+void TOWNMAP_MapUpdate(void *a0)
 {
 }

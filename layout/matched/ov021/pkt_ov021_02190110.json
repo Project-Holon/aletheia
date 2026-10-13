@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02190110",
+   "name": "FIELD_CAMERA_ANIME_ApplyEndParam",
    "address": "0x02190110",
    "kind": "game",
    "region": "ov021",

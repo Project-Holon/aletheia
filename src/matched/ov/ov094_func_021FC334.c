@@ -12,20 +12,20 @@
  * Script command: jumps the reader by a relative offset.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   VM_Jump 0x020113B0 thumb
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj21682.h"
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 typedef unsigned int   u32;
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 
 int func_021FC334(struct Cursor *a, char *s)
 {
-    int off = func_0201134C(a);
+    int off = VM_GetU32(a);
     VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + off);
     return ((struct Obj21682 *)s)->f23C;
 }

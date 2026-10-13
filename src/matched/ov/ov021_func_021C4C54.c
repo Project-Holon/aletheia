@@ -1,5 +1,5 @@
 /*
- * function: func_021C4C54
+ * function: FLDEFF_SPLASH_UpdateModelObj
  * address:  0x021C4C54
  * packet:   pkt_ov021_021C4C54
  * region:   ov021
@@ -10,58 +10,58 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216E1C4  0x0216E1C4  thumb  ov010
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_0216DBE8  0x0216DBE8  thumb  ov010
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C6658  0x021C6658  thumb  ov021
- *   func_021C6844  0x021C6844  thumb  ov021
- *   func_021C66EC  0x021C66EC  thumb  ov021
- *   func_021C6828  0x021C6828  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
+ *   FLDMMDL_CheckCheckInfo  0x0216E1C4  thumb  ov010
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   FLDMMDL_CheckMoveBitSplash  0x0216DBE8  thumb  ov010
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_GetObjectTrans  0x021C6658  thumb  ov021
+ *   FIELD_G3DOBJ_GetObjectRedrawFlag  0x021C6844  thumb  ov021
+ *   FIELD_G3DOBJ_LoopAnimeFrame  0x021C66EC  thumb  ov021
+ *   FIELD_G3DOBJ_SetObjectRedrawFlag  0x021C6828  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
  */
 #include "../include/Obj06076.h"
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
-extern int func_0216E1C4(int a0, int a1);
-extern void func_021AC154(int a);
-extern int func_0216DBE8(void *a0);
+extern int FLDMMDL_CheckCheckInfo(int a0, int a1);
+extern void FIELD_EFFECT_DeleteObject(int a);
+extern int FLDMMDL_CheckMoveBitSplash(void *a0);
 typedef unsigned char  u8;
-extern u32 func_021ABE18(u8 *p);
-extern int func_021C6658(u32 a, u32 b);
-extern int func_021C6844(int a, int b);
-extern int func_021C66EC(u32 *a, int idx, int v);
-extern void func_021C6828(int a, int b, int c);
+extern u32 FIELD_EFFECT_GetFieldMapData(u8 *p);
+extern int FIELD_G3DOBJ_GetObjectTrans(u32 a, u32 b);
+extern int FIELD_G3DOBJ_GetObjectRedrawFlag(int a, int b);
+extern int FIELD_G3DOBJ_LoopAnimeFrame(u32 *a, int idx, int v);
+extern void FIELD_G3DOBJ_SetObjectRedrawFlag(int a, int b, int c);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void func_021AC1CC(int a, int *v);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
+extern void FIELD_EFFECT_SetObjectPos(int a, int *v);
 
-void func_021C4C54(int a, int *b)
+void FLDEFF_SPLASH_UpdateModelObj(int a, int *b)
 {
     int v[3];
     int h;
     int r;
 
-    if (func_0216E1C4(b[1], (int)(b + 2)) == 0) {
-        func_021AC154(a);
+    if (FLDMMDL_CheckCheckInfo(b[1], (int)(b + 2)) == 0) {
+        FIELD_EFFECT_DeleteObject(a);
         return;
     }
-    if (func_0216DBE8((void *)b[1]) == 0) {
-        func_021AC154(a);
+    if (FLDMMDL_CheckMoveBitSplash((void *)b[1]) == 0) {
+        FIELD_EFFECT_DeleteObject(a);
         return;
     }
     h = ((struct Obj06076 *)b)->f10;
-    r = func_021ABE18((u8 *)(*(int *)b[0]));
-    func_021C6658(r, h);
-    if (func_021C6844(r, h) == 0) {
-        func_021C66EC((u32 *)r, h, 0x1000);
-        func_021C6828(r, h, 1);
+    r = FIELD_EFFECT_GetFieldMapData((u8 *)(*(int *)b[0]));
+    FIELD_G3DOBJ_GetObjectTrans(r, h);
+    if (FIELD_G3DOBJ_GetObjectRedrawFlag(r, h) == 0) {
+        FIELD_G3DOBJ_LoopAnimeFrame((u32 *)r, h, 0x1000);
+        FIELD_G3DOBJ_SetObjectRedrawFlag(r, h, 1);
     }
-    func_0216D88C((const struct Actor *)b[1], (struct VecFx32 *)v);
+    FLDMMDL_GetPos((const struct Actor *)b[1], (struct VecFx32 *)v);
     v[2] += 0x8000;
-    func_021AC1CC(a, v);
+    FIELD_EFFECT_SetObjectPos(a, v);
 }

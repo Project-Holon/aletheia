@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216555C",
+   "name": "GAME_BEACON_SEARCH_SetInfoCountValue",
    "address": "0x0216555C",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021655C4",
+   "name": "GAME_BEACON_SEARCH_SetInfoSymbolMapPoke",
    "address": "0x021655C4",
    "kind": "game",
    "region": "ov010",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02165690",
+   "name": "GAME_BEACON_SEARCH_SetInfoWordClear",
    "address": "0x02165690",
    "kind": "game",
    "region": "ov010",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021657D8",
+   "name": "GAME_BEACON_SEARCH_SetInfoHalfwordValue",
    "address": "0x021657D8",
    "kind": "game",
    "region": "ov010",

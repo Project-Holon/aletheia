@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02010FB0",
+   "name": "GPOWER_ApplyEncountRate",
    "address": "0x02010FB0",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02010FF4",
+   "name": "GPOWER_ApplyHatchRate",
    "address": "0x02010FF4",
    "kind": "game",
    "region": "arm9",

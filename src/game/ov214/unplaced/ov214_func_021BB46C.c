@@ -9,7 +9,7 @@
  * status: EXACT
  * trailing: code ends at 021BB474; subsequent words are data.
  * symbols:
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
-extern void func_02047970(void);
-void func_021BB46C(void *a0) { func_02047970(); }
+extern void G3D_SYSTEM_DrawEnd(void);
+void func_021BB46C(void *a0) { G3D_SYSTEM_DrawEnd(); }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035C38  0x02035C38  arm
+ *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   func_0203630C  0x0203630C  arm
  *
  * Addresses are Black-image addresses.
@@ -24,13 +24,13 @@ typedef struct {
     int mode;
 } Work;
 
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern unsigned int func_0203630C(void);
 
 int func_021C5008(Work *p)
 {
     if (p->mode == 1) {
-        if (func_02035C38()) {
+        if (TOUCHPANEL_GetCont()) {
             return 0;
         }
         if (func_0203630C()) {
@@ -41,7 +41,7 @@ int func_021C5008(Work *p)
         if (func_0203630C()) {
             return 0;
         }
-        if (func_02035C38()) {
+        if (TOUCHPANEL_GetCont()) {
             p->mode = 1;
             return 0;
         }

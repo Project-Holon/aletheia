@@ -1,5 +1,5 @@
 /*
- * function: func_0216F40C
+ * function: TRCARD_SYS_BuildProfile
  * address:  0x0216F40C
  * packet:   pkt_ov010_0216F40C
  * region:   ov010
@@ -23,15 +23,15 @@
  * Thumb thunks whose only caller is this function, so neither call has a
  * witness. 0x02010F7C is `ldr r3, =0x02048F61; adds r2, r0, #0; movs r0,
  * #0x26; movs r1, #0; bx r3` (a heap-id forwarder, `return
- * func_02048F60(0x26, 0, heap);`), 0x02010F8C is `ldr r3, =0x020307B1;
+ * ARC_TOOL_LoadMember(0x26, 0, heap);`), 0x02010F8C is `ldr r3, =0x020307B1;
  * bx r3` (`func_020307B0(p);`). Matching either thunk (ARM9 territory)
  * closes that site.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_020089C0  0x020089C0  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02012F08  0x02012F08  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_02008B14  0x02008B14  thumb
  *   func_02008C58  0x02008C58  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
@@ -42,7 +42,7 @@
  *   func_02008530  0x02008530  thumb
  *   func_0200C274  0x0200C274  thumb
  *   func_0200C234  0x0200C234  thumb
- *   func_02012FCC  0x02012FCC  thumb
+ *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_02008554  0x02008554  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
@@ -51,10 +51,10 @@
  *   func_0200E6FC  0x0200E6FC  thumb
  *   func_0200C1DC  0x0200C1DC  thumb
  *   func_0200BE48  0x0200BE48  thumb
- *   func_02010F7C  0x02010F7C  thumb
+ *   GPOWER_LoadPowerTable  0x02010F7C  thumb
  *   func_0200BF54  0x0200BF54  thumb
- *   func_020127B8  0x020127B8  thumb
- *   func_02010F8C  0x02010F8C  thumb
+ *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
+ *   GPOWER_FreePowerTable  0x02010F8C  thumb
  *   func_0200C184  0x0200C184  thumb
  *   func_02008EA0  0x02008EA0  thumb
  *   func_02008E78  0x02008E78  thumb
@@ -62,18 +62,18 @@
  *   func_020090E0  0x020090E0  thumb
  *   func_0200BF94  0x0200BF94  thumb
  *   func_02008DFC  0x02008DFC  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_0200D0AC  0x0200D0AC  thumb
  *   func_020089D0  0x020089D0  thumb
  *   func_020089CC  0x020089CC  thumb
- *   func_0216F830  0x0216F830  thumb  ov010
- *   func_0216F3D4  0x0216F3D4  thumb  ov010
- *   func_0216FEAC  0x0216FEAC  thumb  ov010
+ *   TRCARD_SYS_CountStars  0x0216F830  thumb  ov010
+ *   TRCARD_SYS_SumCappedRecords  0x0216F3D4  thumb  ov010
+ *   TOWN_MAP_SPOT_CountVisited  0x0216FEAC  thumb  ov010
  *   MIi_CpuCopy16  0x02082A60  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  */
 
 typedef unsigned char u8;
@@ -169,10 +169,10 @@ struct Sub02008AECSession;
 struct Sub02008C20Obj;
 struct Sub020090B0Obj;
 struct Sub02009210Obj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub020089A8Obj *func_020089C0(void *sys);
-extern u8 *func_02012944(void *p);
-extern void *func_02012F08(int *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern void *func_0200E6E8(u32 a);
@@ -183,7 +183,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u32 func_0200C274(struct Blk34 *p);
 extern u32 func_0200C234(struct Blk34 *p, u32 bit);
-extern int func_02012FCC(int p0);
+extern int GAME_DATA_GetPlayTime(int p0);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
@@ -192,10 +192,10 @@ extern u8 func_02008A28(const struct Sub020089A8Obj *obj);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 func_0200C1DC(struct Blk34 *p);
 extern u16 *func_0200BE48(void *sys);
-extern void *func_02010F7C(u32 heap);
+extern void *GPOWER_LoadPowerTable(u32 heap);
 extern void func_0200BF54(struct Rec1B0 *p, u8 *dest, u32 n);
-extern void *func_020127B8(void *save);
-extern void func_02010F8C(void *p);
+extern void *GAME_DATA_GetLastBattleRecSlot(void *save);
+extern void GPOWER_FreePowerTable(void *p);
 extern u32 func_0200C184(struct Blk34 *p);
 extern u32 func_02008EA0(struct Sub02008C20Obj *obj);
 extern u8 func_02008E78(struct Sub02008C20Obj *obj);
@@ -203,21 +203,21 @@ extern struct Sub02009210Obj *func_0200921C(void *p);
 extern u8 func_020090E0(const struct Sub020090B0Obj *obj);
 extern unsigned long long func_0200BF94(struct Rec1B0 *p);
 extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020142E8(void *bitmap, int id);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 struct Blk37;
 extern u32 func_0200D0AC(struct Blk37 *p, u32 heap);
 extern int func_020089D0(const struct Sub020089A8Obj *obj);
 extern void *func_020089CC(void *p);
-extern int func_0216F830(void *save);
-extern u32 func_0216F3D4(void *p, int idx, u32 cap);
-extern int func_0216FEAC(void *tbl, void *pos, u8 *flags);
+extern int TRCARD_SYS_CountStars(void *save);
+extern u32 TRCARD_SYS_SumCappedRecords(void *p, int idx, u32 cap);
+extern int TOWN_MAP_SPOT_CountVisited(void *tbl, void *pos, u8 *flags);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 
-void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 heap)
+void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volatile u16 heap)
 {
     RTCDate date;
     RTCTime time;
@@ -235,10 +235,10 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
     u8 i;
     u8 bit;
 
-    x28 = func_02012EBC(save);
+    x28 = GAME_DATA_GetSaveControl(save);
     x24 = func_020089C0(x28);
-    player = func_02012944(save);
-    x1c = func_02012F08(save);
+    player = GAME_DATA_GetMyStatus(save);
+    x1c = GAME_DATA_GetMiscSave(save);
     clock = (Clock *)func_02008B14(x28);
     x14 = func_02008C58(x28);
     x10 = func_0200E6E8((u32)x28);
@@ -253,9 +253,9 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
         out->name[3] = 'a';
         out->name[4] = 'm';
         out->name[5] = 'e';
-        out->name[6] = func_02045A98();
+        out->name[6] = STRBUF_GetEosChar();
     }
-    out->f03 = (u32)func_0216F830(save);
+    out->f03 = (u32)TRCARD_SYS_CountStars(save);
     out->b1 = (u32)func_02008550(player);
     out->f28 = func_02008530(player);
     out->f20 = func_0200C274(x1c);
@@ -268,7 +268,7 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
     }
 
     if (mode == 1) {
-        p = (void *)func_02012FCC((int)save);
+        p = (void *)GAME_DATA_GetPlayTime((int)save);
         out->f06 = (u32)func_02008554(player);
         out->b0 = 0;
         out->f1c = 0;
@@ -277,7 +277,7 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
     } else {
         out->f06 = (u32)func_02008554(player);
         out->b0 = 1;
-        out->f1c = (u32)func_02012FCC((int)save);
+        out->f1c = (u32)GAME_DATA_GetPlayTime((int)save);
     }
     out->f48 = (u32)func_02008A0C(x24);
     out->b4 = (u32)func_02008A28(x24);
@@ -302,23 +302,23 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
         out->minute2 = time.minute;
     }
 
-    out->f38 = func_0216F3D4(x14, 0, 999999999);
-    out->f3c = func_0216F3D4(x14, 1, 999999999);
-    out->f40 = func_0216F3D4(x14, 2, 999999999);
-    out->f44 = func_0216F3D4(x14, 3, 999999999);
-    out->f4c = func_0216F3D4(x14, 4, 999999999);
-    out->f50 = func_0216F3D4(x14, 5, 999999999);
-    out->f54 = func_0216F3D4(x14, 6, 999999999);
+    out->f38 = TRCARD_SYS_SumCappedRecords(x14, 0, 999999999);
+    out->f3c = TRCARD_SYS_SumCappedRecords(x14, 1, 999999999);
+    out->f40 = TRCARD_SYS_SumCappedRecords(x14, 2, 999999999);
+    out->f44 = TRCARD_SYS_SumCappedRecords(x14, 3, 999999999);
+    out->f4c = TRCARD_SYS_SumCappedRecords(x14, 4, 999999999);
+    out->f50 = TRCARD_SYS_SumCappedRecords(x14, 5, 999999999);
+    out->f54 = TRCARD_SYS_SumCappedRecords(x14, 6, 999999999);
     out->f58 = func_0200C1DC(x1c);
-    out->f5c = func_0216F3D4(x14, 7, 9999);
+    out->f5c = TRCARD_SYS_SumCappedRecords(x14, 7, 9999);
 
     q = func_0200BE48(x28);
-    p = func_02010F7C(heap);
+    p = GPOWER_LoadPowerTable(heap);
     func_0200BF54(q, work, 2);
-    out->f5e = func_0216FEAC(p, func_020127B8(save), work);
-    func_02010F8C(p);
+    out->f5e = TOWN_MAP_SPOT_CountVisited(p, GAME_DATA_GetLastBattleRecSlot(save), work);
+    GPOWER_FreePowerTable(p);
 
-    out->f60 = func_0216F3D4(x14, 8, 9999);
+    out->f60 = TRCARD_SYS_SumCappedRecords(x14, 8, 9999);
     out->f62 = func_0200C184(x1c);
     out->f64 = func_02008EA0(x14);
     out->f66 = (u32)func_02008E78(x14);
@@ -331,7 +331,7 @@ void func_0216F40C(Profile *out, void *save, int mode, int flag, volatile u16 he
         out->fl3 = 1;
     if (func_02008DFC(x14, (u16)0x79))
         out->fl4 = 1;
-    if (func_020142E8((void *)func_0201296C(save), 2402) == 1)
+    if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save), 2402) == 1)
         out->b2 = 1;
     else
         out->b2 = 0;

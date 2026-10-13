@@ -1,5 +1,5 @@
 /*
- * function: func_021EFF00
+ * function: C_GEAR_GetHexNeighbors
  * address:  0x021EFF00
  * packet:   pkt_ov029_021EFF00
  * region:   ov029
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EFF00  0x021EFF00  thumb  ov029
+ *   C_GEAR_GetHexNeighbors  0x021EFF00  thumb  ov029
  */
 
-void func_021EFF00(int x, int y, int *a, int *b)
+void C_GEAR_GetHexNeighbors(int x, int y, int *a, int *b)
 {
     int m = x % 2;
 

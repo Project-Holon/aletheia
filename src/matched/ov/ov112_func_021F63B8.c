@@ -20,10 +20,10 @@
  *   func_020627D8 0x020627D8 arm
  *   func_021F659C 0x021F659C thumb ov112
  *   func_0206469C 0x0206469C arm
- *   func_02048F60 0x02048F60 arm
+ *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   func_02030734 0x02030734 arm
- *   func_02049DB4 0x02049DB4 arm
- *   func_02049F34 0x02049F34 arm
+ *   ARC_UTIL_LoadBgCharDataFromArchive 0x02049DB4 arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   MCSS_TOOL_DrawSpindaSpots 0x020172D8 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021F6540 0x021F6540 thumb ov112
@@ -48,10 +48,10 @@ extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32,u32,u32,u32,u16);
 extern struct AnimSequence *func_020627D8(struct AnimBank *,u32);
 extern void func_021F659C(char *,int);
 extern void func_0206469C(struct Obj0206469C *o, void *bank);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void MCSS_TOOL_DrawSpindaSpots(u8 *,u32);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021F6540(void *,void **);
@@ -72,7 +72,7 @@ void func_021F63B8(u8 *a,int index,u32 *res,u32 mode)
     sequence=func_020627D8(*(struct AnimBank * *)&((struct Obj00722 *)q)->f1C,0);
     func_021F659C((char *)q,1);
     func_0206469C((struct Obj0206469C *)(q+40),sequence);
-    table=func_02048F60(res[0],res[7],(u16)(((struct Obj00722 *)q)->fF4));
+    table=ARC_TOOL_LoadMember(res[0],res[7],(u16)(((struct Obj00722 *)q)->fF4));
     *(u8 * *)&((struct Obj00722 *)q)->f20=table;
     *(u8 * *)&((struct Obj00722 *)q)->f24=table+4+56* ((struct Obj22550 *)table)->f0;
     job=func_02030734((u16)((struct Obj00722 *)q)->fF4,36,1,d_021F83D4,1104);
@@ -81,8 +81,8 @@ void func_021F63B8(u8 *a,int index,u32 *res,u32 mode)
     job[6]=*(u8 * *)&((struct Obj13834 *)a)->fC+index*16384;
     job[7]=*(u8 * *)&((struct Obj13834 *)a)->f10+index*32;
     job[8]=q;
-    job[4]=func_02049DB4(res[0],res[1],1,(u32)job,((struct Obj00722 *)q)->fF4);
-    job[5]=func_02049F34(res[0],res[2],(u32)(job+1),(u16)(((struct Obj00722 *)q)->fF4));
+    job[4]=ARC_UTIL_LoadBgCharDataFromArchive(res[0],res[1],1,(u32)job,((struct Obj00722 *)q)->fF4);
+    job[5]=ARC_UTIL_LoadPaletteBlockFromArchive(res[0],res[2],(u32)(job+1),(u16)(((struct Obj00722 *)q)->fF4));
     if(res[7]==6548) MCSS_TOOL_DrawSpindaSpots(*(u8 * *)&((struct Obj22551 *)((u8 *)job[0]))->f14,res[8]);
     if(mode==1) func_020056A0((u32)func_021F6540,(u32)job,0);
     else func_021F6540(0,job);

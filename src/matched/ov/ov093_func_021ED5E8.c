@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021B98AC  0x021B98AC  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_021F7D80  0x021F7D80  thumb  ov094
  *   func_021F7E38  0x021F7E38  thumb  ov094
  *   func_021F80E4  0x021F80E4  thumb  ov094
@@ -28,7 +28,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct S { char *w; u8 k; u8 pad[3]; u32 v; u32 c; u32 a; u8 *cnt; };
 
 extern u8 *func_021B98AC(char *const *q, u8 b);
-extern void *func_021D5844(void *m);
+extern void *BTL_POKEPARAM_GetMon(void *m);
 extern void func_021F7D80(void *a, int b);
 extern void func_021F7E38(void *a, int b);
 extern void func_021F80E4(u32 a);
@@ -43,7 +43,7 @@ void func_021ED5E8(u32 x, struct S *t)
 
     switch (t->c) {
     case 0:
-        r = func_021D5844(func_021B98AC(*(char *const * *)&((struct Obj21597 *)(t->w))->f138, t->k));
+        r = BTL_POKEPARAM_GetMon(func_021B98AC(*(char *const * *)&((struct Obj21597 *)(t->w))->f138, t->k));
         if (t->a == 0)
             func_021F7D80(r, t->v);
         else

@@ -16,17 +16,17 @@
  * GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  * GFL_USE_PushBgm 0x02005E64 thumb
  * GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- * func_0204E720 0x0204E720 arm
- * func_0204E804 0x0204E804 arm
+ * FADE_Start 0x0204E720 arm
+ * FADE_IsActive 0x0204E804 arm
  * func_02005F38 0x02005F38 thumb
  * GFL_USE_PopBgm 0x02005E9C thumb
  * GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  * func_020362DC 0x020362DC arm
  * func_020355D8 0x020355D8 arm
  * func_02035D20 0x02035D20 arm
- * func_0201C4E4 0x0201C4E4 thumb
- * func_02045334 0x02045334 arm
- * func_02045374 0x02045374 arm
+ * PRINTSYS_QUE_Main 0x0201C4E4 thumb
+ * BMP_WIN_TransferChars 0x02045334 arm
+ * BMP_WIN_MakeScreen 0x02045374 arm
  * func_02045730 0x02045730 arm
  * func_02041B6C 0x02041B6C arm
  * func_021BA01C 0x021BA01C thumb ov220
@@ -40,19 +40,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 sounds[];
-extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),func_02005F38(void),func_0204E804(void);
+extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),func_02005F38(void),FADE_IsActive(void);
 extern void GFL_USE_SetBgmPlayerParam(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
-extern void func_0204E720(u32,int,int,int);
+extern void FADE_Start(u32,int,int,int);
 struct Cfg;
 struct Obj;
 struct PrintSys;
 extern u32 func_020362DC(void);
 extern u32 func_02035D20(u32*,u32*);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 struct Descriptor;
 extern void func_020355D8(u8);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_021BA01C(struct Obj *o);
@@ -73,10 +73,10 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
                 GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((u32)sounds+((struct Obj03379 *)p)->fB0*12),0xFFFF);
             }
         }
-        if (flag) {func_0204E720(3,16,0,0);*state=1;}
+        if (flag) {FADE_Start(3,16,0,0);*state=1;}
         break;
     case 1:
-        if (!func_0204E804()) {
+        if (!FADE_IsActive()) {
             if (((struct Obj26060 *)(*(char * *)&((struct Obj03379 *)p)->f4))->fC && ((struct Obj03379 *)p)->fB0!=7) *state=2;
             else *state=3;
         }
@@ -90,17 +90,17 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
         flag=0;
         if (func_020362DC()&3) {func_020355D8(0);flag=1;}
         else if (func_02035D20(&x,&y)) {func_020355D8(1);flag=1;}
-        if (flag) {*state=4;func_0204E720(3,0,16,0);}
+        if (flag) {*state=4;FADE_Start(3,0,16,0);}
         break;
     case 4:
-        if (!func_0204E804()) *state=5;
+        if (!FADE_IsActive()) *state=5;
         break;
     case 5:return 1;
     }
-    if (func_0201C4E4(((struct Obj03379 *)p)->f10) && !((struct Obj03379 *)p)->f80) {
+    if (PRINTSYS_QUE_Main(((struct Obj03379 *)p)->f10) && !((struct Obj03379 *)p)->f80) {
         for (i=1;i<4;i++) {
             void *v=*(void **)((u32)p+(u32)i*4+0x60);
-            func_02045334(v);func_02045374(v);func_02041B6C(func_02045730(v));
+            BMP_WIN_TransferChars(v);BMP_WIN_MakeScreen(v);func_02041B6C(func_02045730(v));
         }
         ((struct Obj03379 *)p)->f80=1;
     }

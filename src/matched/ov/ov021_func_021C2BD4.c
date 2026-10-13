@@ -1,5 +1,5 @@
 /*
- * function: func_021C2BD4
+ * function: FLD3D_CI_IsAltFadeSequence
  * address:  0x021C2BD4
  * packet:   pkt_ov021_021C2BD4
  * region:   ov021
@@ -15,7 +15,7 @@
 
 typedef unsigned short u16;
 
-int func_021C2BD4(u16 id)
+int FLD3D_CI_IsAltFadeSequence(u16 id)
 {
     if (id == 0xc || id == 0x13)
         return 1;

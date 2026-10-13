@@ -1,5 +1,5 @@
 /*
- * function: func_021D3734
+ * function: BTL_CLIENT_CmdPpMinusWorking
  * address: 0x021D3734
  * packet: pkt_ov093_021D3734
  * region: ov093
@@ -10,21 +10,21 @@
  * status: EXACT*
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D5640 0x021D5640 thumb ov093
+ *   BTL_POKEPARAM_DecrementRealMovePP 0x021D5640 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
 struct Work;
-extern void func_021D5640(struct Work *p, u32 i, u32 n);
-int func_021D3734(u32 *a, int b, u32 *c)
+extern void BTL_POKEPARAM_DecrementRealMovePP(struct Work *p, u32 i, u32 n);
+int BTL_CLIENT_CmdPpMinusWorking(u32 *a, int b, u32 *c)
 {
     u8 *m;
     u8 k, n;
     k = c[1];
     n = c[2];
     m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5640((struct Work *)m, k, n);
+    BTL_POKEPARAM_DecrementRealMovePP((struct Work *)m, k, n);
     return 1;
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   func_0204B688 0x0204B688 arm
  *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
  *   func_021C940C 0x021C940C thumb ov212
@@ -48,7 +48,7 @@ struct Obj021BF0DC {
 
 struct Actor;
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 struct Obj;
@@ -68,7 +68,7 @@ void func_021BF0DC(struct Obj021BF0DC *p)
     struct Tpl021BF0DC ta;
     struct Tpl021BF0DC tb;
 
-    p->set = func_0204B100(0x39, 0, 0x7B);
+    p->set = CLACT_CreateUnit(0x39, 0, 0x7B);
     for (i = 0; i < 0x39; i++)
         p->objs[i] = 0;
 

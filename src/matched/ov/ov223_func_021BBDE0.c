@@ -26,8 +26,8 @@
  *   func_021BA81C 0x021BA81C thumb ov223
  *   func_021BB9A4 0x021BB9A4 thumb ov223
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021BB3BC 0x021BB3BC thumb ov223
  *   func_021BB414 0x021BB414 thumb ov223
  *   func_021BB424 0x021BB424 thumb ov223
@@ -49,7 +49,7 @@
  *   func_021B9C58 0x021B9C58 thumb ov223
  *   func_021BB274 0x021BB274 thumb ov223
  *   func_021BB18C 0x021BB18C thumb ov223
- *   func_02006984 0x02006984 thumb
+ *   PM_VOICE_Play 0x02006984 thumb
  *   d_021BC75C 0x021BC75C data a4
  *   d_021BC794 0x021BC794 data a2
  *   d_021BC710 0x021BC710 data a2
@@ -74,8 +74,8 @@ extern void func_021B9C90(char *,u32);
 extern void func_021BA81C(char *,u32);
 extern void func_021BB9A4(unsigned char *p, int value);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_021BB3BC(char *),func_021BB414(char *),func_021BB424(char *),func_021BB404(char *),func_02041B6C(u32);
 extern u32 func_021BB440(char *);
 extern void func_021B9AE4(char *,int,int),func_021B9B80(char *);
@@ -92,7 +92,7 @@ extern void func_021BB18C(char *p, int idx);
 extern u32 func_021BB4F8(char *);
 extern int func_021BB508(int *);
 extern u8 func_020355C4(void);
-extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern const u8 d_021BC75C[];
 extern const u16 d_021BC794[],d_021BC710[];
 int func_021BBDE0(char *p,u32 *state)
@@ -121,16 +121,16 @@ int func_021BBDE0(char *p,u32 *state)
                 else if(func_020362DC()&32){if(*(int *)&((struct Obj00084 *)p)->f228>0){--*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
                 else if(func_020362DC()&16){if(*(int *)&((struct Obj00084 *)p)->f228<2){++*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
                 if(changed){func_020061E4(1352);func_021BAA84(p);func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}
-            }else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct Obj00084 *)p)->f228!=choice)dirty=1;func_020061E4(1352);func_021BAA5C(p,0);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);((struct Obj00084 *)p)->f8=1;*state=5;}}
+            }else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct Obj00084 *)p)->f228!=choice)dirty=1;func_020061E4(1352);func_021BAA5C(p,0);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);((struct Obj00084 *)p)->f8=1;*state=5;}}
         }else{
             if(func_020362DC()!=0){((struct Obj00084 *)p)->f8=0;*state=3;}
-            else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice>=0&&choice<=2){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;*state=5;}}
+            else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;*state=5;}}
         }break;
     case 5:func_021BB3BC(p);*state=6;break;
     case 6:
         func_021BB414(p);
         if(func_020362DC()!=0){((struct Obj00084 *)p)->f8=0;if(func_020362DC()&1){func_020061E4(1356);func_021BB424(p);*state=7;}else{func_021BB404(p);func_02041B6C(3);*state=3;}}
-        else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice==3){func_020061E4(1356);func_021BB424(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct Obj00084 *)p)->f228!=choice){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}}break;
+        else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice==3){func_020061E4(1356);func_021BB424(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct Obj00084 *)p)->f228!=choice){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,(u8)selected);dirty=1;}}break;
     case 7:func_021BB414(p);if(func_021BB440(p)){func_021BB404(p);func_02041B6C(3);*state=8;}break;
     case 8:func_021BAFC4(p,(u32)20);func_021B9AE4(p,*(int *)&((struct Obj00084 *)p)->f228,0);*state=9;break;
     case 9:func_021B9B80(p);if(func_021BB0B0(p)&&func_021B9B4C(p))*state=10;break;
@@ -143,6 +143,6 @@ int func_021BBDE0(char *p,u32 *state)
     case 16:func_021B9C58(p);*(int *)&((struct Obj00084 *)p)->f10=0;return 10;
     }
     if(dirty){((struct Obj00084 *)p)->f24|=32;func_021BB274(p);}
-    else if(((struct Obj00084 *)p)->f230!=0){((struct Obj00084 *)p)->f24|=16;func_021BB18C(p,(u32)(((struct Obj00084 *)p)->f228));func_02006984(d_021BC710[((struct Obj00084 *)p)->f228],0,64,0,0,0,0,0);}
+    else if(((struct Obj00084 *)p)->f230!=0){((struct Obj00084 *)p)->f24|=16;func_021BB18C(p,(u32)(((struct Obj00084 *)p)->f228));PM_VOICE_Play(d_021BC710[((struct Obj00084 *)p)->f228],0,64,0,0,0,0,0);}
     ((struct Obj00084 *)p)->f230=0;++((struct Obj00084 *)p)->f10;return 9;
 }

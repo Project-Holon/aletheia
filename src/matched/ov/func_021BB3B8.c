@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3B8
+ * function: FIELD_NOGRID_MAPPER_UnbindCameraWork
  * address:  0x021BB3B8
  * packet:   pkt_021BB3AC
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x0.
  *
  * symbols:
- *   func_021B79CC  0x021B79CC  thumb  ov021
+ *   FIELD_RAIL_ClearFocusWork  0x021B79CC  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021B79CC(u32 *p);
+extern void FIELD_RAIL_ClearFocusWork(u32 *p);
 
-void func_021BB3B8(u8 *p)
+void FIELD_NOGRID_MAPPER_UnbindCameraWork(u8 *p)
 {
-    func_021B79CC((u32 *)(((struct Obj18169 *)p)->f0));
+    FIELD_RAIL_ClearFocusWork((u32 *)(((struct Obj18169 *)p)->f0));
 }

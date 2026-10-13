@@ -1,5 +1,5 @@
 /*
- * function: func_0219B520
+ * function: FLDMMDL_MOVE_WalkRepeat
  * address:  0x0219B520
  * packet:   pkt_ov021_0219B520
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D6B8  0x0216D6B8  thumb  ov010
- *   func_0219B494  0x0219B494  thumb  ov021
- *   func_0219B4C8  0x0219B4C8  thumb  ov021
- *   func_0216DA5C  0x0216DA5C  thumb  ov010
+ *   FLDMMDL_GetMoveSubProcWork  0x0216D6B8  thumb  ov010
+ *   FLDMMDL_MOVECODE_HasLeftOldGrid  0x0219B494  thumb  ov021
+ *   FLDMMDL_MOVECODE_IsAtOldGrid  0x0219B4C8  thumb  ov021
+ *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,24 +26,24 @@ typedef struct St {
     s8 max;
 } St;
 
-extern void *func_0216D6B8(void *p);
-extern int func_0219B494(int a);
-extern int func_0219B4C8(int a);
-extern int func_0216DA5C(void *a0);
+extern void *FLDMMDL_GetMoveSubProcWork(void *p);
+extern int FLDMMDL_MOVECODE_HasLeftOldGrid(int a);
+extern int FLDMMDL_MOVECODE_IsAtOldGrid(int a);
+extern int FLDMMDL_CheckMoveBitMove(void *a0);
 
-int func_0219B520(int a)
+int FLDMMDL_MOVE_WalkRepeat(int a)
 {
     St *p;
 
-    p = func_0216D6B8((void *)a);
+    p = FLDMMDL_GetMoveSubProcWork((void *)a);
     switch (p->state) {
     case 0:
-        if (func_0219B494(a) == 1) {
+        if (FLDMMDL_MOVECODE_HasLeftOldGrid(a) == 1) {
             p->state++;
         }
         break;
     case 1:
-        if (func_0219B4C8(a) == 0) {
+        if (FLDMMDL_MOVECODE_IsAtOldGrid(a) == 0) {
             break;
         }
         p->cur++;
@@ -53,7 +53,7 @@ int func_0219B520(int a)
         }
         p->state++;
     case 2:
-        if (func_0216DA5C((void *)a) == 1) {
+        if (FLDMMDL_CheckMoveBitMove((void *)a) == 1) {
             break;
         }
         p->state++;

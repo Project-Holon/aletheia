@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02018A00, POKE_TOOL_SetBoxAbility
+ * function: POKE_TOOL_SetAbility, POKE_TOOL_SetBoxAbility
  *
  * The two functions after src/matched/unit_020188B4.c and the three that its
- * header records as a near miss.  func_02018A00 is the eight byte
+ * header records as a near miss.  POKE_TOOL_SetAbility is the eight byte
  * `ldr r3, [pc, #0]; bx r3` tail call that
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes; its callee is the
  * next function in this same range, so the site is the `local` class.
@@ -38,7 +38,7 @@ extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 
 void POKE_TOOL_SetBoxAbility(void *p, u32 a, u32 b);
 
-void func_02018A00(void *p, u32 a, u32 b)
+void POKE_TOOL_SetAbility(void *p, u32 a, u32 b)
 {
     POKE_TOOL_SetBoxAbility(p, a, b);
 }

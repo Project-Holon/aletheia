@@ -1,5 +1,5 @@
 /*
- * function: func_021F2E10
+ * function: C_GEAR_CreateFadeFx
  * address:  0x021F2E10
  * packet:   pkt_ov029_021F2E10
  * region:   ov029
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
 #include "../include/Obj04309.h"
@@ -24,10 +24,10 @@ typedef struct {
 } S;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *a, unsigned int b);
 
-void func_021F2E10(char *p, int *q)
+void C_GEAR_CreateFadeFx(char *p, int *q)
 {
     S s;
 
@@ -36,7 +36,7 @@ void func_021F2E10(char *p, int *q)
     s.c = 0x25;
     s.d = 0;
     s.e = 2;
-    q[2] = (int)func_0204B294((void *)((struct Obj04309 *)p)->f34, ((struct Obj04309 *)p)->f2C, ((struct Obj04309 *)p)->f28,
+    q[2] = (int)CLACT_CreateActor((void *)((struct Obj04309 *)p)->f34, ((struct Obj04309 *)p)->f2C, ((struct Obj04309 *)p)->f28,
                          ((struct Obj04309 *)p)->f30, &s, 0, ((struct Obj04309 *)p)->fC);
     func_0204B3DC((struct Obj *)q[2], 0);
     q[3] = ((struct Obj04309 *)p)->f210;

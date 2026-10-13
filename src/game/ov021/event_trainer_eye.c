@@ -1,7 +1,7 @@
 /*
  * file:     event_trainer_eye.c
  * unit:     yes
- * function: func_021AE0CC, func_021AE198, func_021AE1FC, func_021AE288, func_021AE348, func_021AE360, func_021AE394, func_021AE3C8, func_021AE3FC, func_021AE430, func_021AE454, func_021AE498, func_021AE4B4, func_021AE4E0, func_021AE524, func_021AE550, func_021AE56C, func_021AE58C, func_021AE5A8, func_021AE5BC, func_021AE5D4, func_021AE5EC, func_021AE604, func_021AE630, func_021AE650, func_021AE66C, func_021AE6E0, func_021AE708, func_021AE724, func_021AE72C, func_021AE754, func_021AE79C, func_021AE7A8, func_021AE884, func_021AE890, func_021AE8B4, func_021AE8D4, func_021AE930
+ * function: EVENT_TRAINER_EYE_Check, EVENT_TRAINER_EYE_GetPlayerDistance, EVENT_TRAINER_EYE_FindTrainer, EVENT_TRAINER_EYE_GetSightDistance, EVENT_TRAINER_EYE_CheckSight, EVENT_TRAINER_EYE_CheckSightUp, EVENT_TRAINER_EYE_CheckSightDown, EVENT_TRAINER_EYE_CheckSightLeft, EVENT_TRAINER_EYE_CheckSightRight, EVENT_TRAINER_EYE_CreatePairEvent, EVENT_TRAINER_EYE_Create, EVENT_TRAINER_EYE_StepResumeMove, EVENT_TRAINER_EYE_StepFaceTarget, EVENT_TRAINER_EYE_StepWaitPlayer, EVENT_TRAINER_EYE_StepStartTurn, EVENT_TRAINER_EYE_StepWaitTurn, EVENT_TRAINER_EYE_StepStartMark, EVENT_TRAINER_EYE_StepWaitMark, EVENT_TRAINER_EYE_StepStartAlert, EVENT_TRAINER_EYE_StepWaitAlert, EVENT_TRAINER_EYE_StepDelay, EVENT_TRAINER_EYE_StepSelectApproach, EVENT_TRAINER_EYE_StepApproach, EVENT_TRAINER_EYE_StepWaitStep, EVENT_TRAINER_EYE_StepAdjacent, EVENT_TRAINER_EYE_StepPlayerFaceTrainer, EVENT_TRAINER_EYE_StepWaitPlayerFace, EVENT_TRAINER_EYE_StepRelease, EVENT_TRAINER_EYE_StepDone, EVENT_TRAINER_EYE_Run, EVENT_TRAINER_EYE_UpdatePairEvent, EVENT_TRAINER_EYE_GetSightType, EVENT_TRAINER_EYE_IsPathBlocked, EVENT_TRAINER_EYE_GetTrainerId, EVENT_TRAINER_EYE_IsTrainerDefeated, EVENT_TRAINER_EYE_FillHit, EVENT_TRAINER_EYE_FindPartner, EVENT_TRAINER_EYE_CreateScriptWork
  * address:  0x021AE0CC
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -17,62 +17,62 @@
  * holds no other function.
  *
  * symbols:
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  *   func_0215A4C8  0x0215A4C8  thumb  ov010
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_0218B6AC  0x0218B6AC  thumb  ov021
- *   func_021AE930  0x021AE930  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FIELD_EVENT_CHECK_CountAlivePartyMembers  0x0218B6AC  thumb  ov021
+ *   EVENT_TRAINER_EYE_CreateScriptWork  0x021AE930  thumb  ov021
  *   func_0215A438  0x0215A438  thumb  ov010
- *   func_021AE8D4  0x021AE8D4  thumb  ov021
- *   func_021AE8B4  0x021AE8B4  thumb  ov021
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_0216D828  0x0216D828  thumb  ov010
- *   func_021AE7A8  0x021AE7A8  thumb  ov021
- *   func_02188CE8  0x02188CE8  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_021AE890  0x021AE890  thumb  ov021
- *   func_021AE79C  0x021AE79C  thumb  ov021
- *   func_0216D63C  0x0216D63C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   d_021D9338  0x021D9338  data  a4
- *   func_021AE754  0x021AE754  thumb  ov021
+ *   EVENT_TRAINER_EYE_FindPartner  0x021AE8D4  thumb  ov021
+ *   EVENT_TRAINER_EYE_FillHit  0x021AE8B4  thumb  ov021
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
+ *   EVENT_TRAINER_EYE_IsPathBlocked  0x021AE7A8  thumb  ov021
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   EVENT_TRAINER_EYE_IsTrainerDefeated  0x021AE890  thumb  ov021
+ *   EVENT_TRAINER_EYE_GetSightType  0x021AE79C  thumb  ov021
+ *   FLDMMDL_GetParam  0x0216D63C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   sTrainerEyeSightFuncs  0x021D9338  data  a4
+ *   EVENT_TRAINER_EYE_UpdatePairEvent  0x021AE754  thumb  ov021
  *   func_02030734  0x02030734  arm
- *   d_021DE138  0x021DE138  data  a4
- *   func_0216DA5C  0x0216DA5C  thumb  ov010
- *   func_0216DB04  0x0216DB04  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216DAF8  0x0216DAF8  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216D5A0  0x0216D5A0  thumb  ov010
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_021BB528  0x021BB528  thumb  ov021
- *   func_021BB5C8  0x021BB5C8  thumb  ov021
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021642B4  0x021642B4  thumb  ov010
- *   func_0216D480  0x0216D480  thumb  ov010
- *   func_0216E0E8  0x0216E0E8  thumb  ov010
- *   d_021D9348  0x021D9348  data
+ *   sEventTrainerEyeFileName  0x021DE138  data  a4
+ *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
+ *   FLDMMDL_OffMoveBitMovePause  0x0216DB04  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDEFF_GYOE_SetMMdl  0x021BB528  thumb  ov021
+ *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirFromPoints  0x021642B4  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   FLDMMDL_ChangeMoveCode  0x0216E0E8  thumb  ov010
+ *   sTrainerEyeStepFuncs  0x021D9348  data
  *   func_020307B0  0x020307B0  arm
- *   func_0216D5A8  0x0216D5A8  thumb
- *   func_0216E434  0x0216E434  thumb
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_02163994  0x02163994  thumb  ov010
- *   func_021AA900  0x021AA900  thumb  ov021
- *   func_0216D5B8  0x0216D5B8  thumb  ov010
+ *   FLDMMDL_GetEventType  0x0216D5A8  thumb
+ *   FLDMMDL_NormalizeEventType  0x0216E434  thumb
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb  ov010
+ *   EFFECT_ENCOUNT_IsSpotAt  0x021AA900  thumb  ov021
+ *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
  *   func_0215A460  0x0215A460  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   func_0215A4D8  0x0215A4D8  thumb  ov010
- *   func_02158768  0x02158768  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  */
 #include "event_trainer_eye_types.h"
 #include "field_effect_types.h"
@@ -133,102 +133,102 @@ typedef int (*GameEventFunc)(void *eventSys, void *gameSystem, void *work);
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void func_020307B0(void *memory);
-extern void func_021AC154(FieldEffectObj *effect);
+extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
 extern int func_0215A4C8(int trainerId);
 extern int func_0215A460(u32 eventId);
 extern u32 func_0215A4D8(void *saveData, u32 trainerId);
 extern void func_0215A438(int scriptWork, int index, TrainerEyeHit *hit);
-extern GameSystem *func_02188C80(FieldMap *fieldMap);
-extern int func_0218B6AC(GameSystem *gameSystem);
-extern void *func_020120F4(GameSystem *gameSystem);
-extern void *func_0201296C(void *gameData);
-extern int func_02158768(GameSystem *gameSystem, u32 size, Mmdl *trainer, int flag);
-extern MmdlSys *func_0216D67C(Mmdl *mmdl);
-extern Mmdl *func_0216DE94(MmdlSys *mmdlSys, u32 objId);
-extern void func_0216D828(Mmdl *mmdl, GridPos *out);
-extern FieldEncount *func_02188CE8(FieldMap *fieldMap);
-extern FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern Mmdl *func_021A3074(FieldPlayer *player);
-extern MmdlSys *func_02188C7C(FieldMap *fieldMap);
-extern int func_0216DD1C(MmdlSys *mmdlSys, Mmdl **outMmdl, u32 *iter);
-extern int func_0216D63C(Mmdl *mmdl, int paramIndex);
-extern u16 func_0216D5F8(const Mmdl *mmdl);
+extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
+extern int FIELD_EVENT_CHECK_CountAlivePartyMembers(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
+extern void *GAME_DATA_GetEventWork(void *gameData);
+extern int SCRIPT_SYS_CreateScriptEventSimple(GameSystem *gameSystem, u32 size, Mmdl *trainer, int flag);
+extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
+extern Mmdl *FLDMMDL_SysSearchObjId(MmdlSys *mmdlSys, u32 objId);
+extern void FLDMMDL_GetGridNowPos(Mmdl *mmdl, GridPos *out);
+extern FieldEncount *FIELDMAP_GetEncount(FieldMap *fieldMap);
+extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
+extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **outMmdl, u32 *iter);
+extern int FLDMMDL_GetParam(Mmdl *mmdl, int paramIndex);
+extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
 extern GameEvent *func_020122C0(void *owner, void *a, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
-extern int func_0216DA5C(Mmdl *mmdl);
-extern void func_0216DB04(Mmdl *mmdl);
-extern void func_0216D5E0(Mmdl *mmdl, int dir);
-extern void func_0216DAF8(Mmdl *mmdl);
-extern int func_0216D454(Mmdl *mmdl);
-extern u16 func_0216D5A0(Mmdl *mmdl);
-extern int func_0216D3CC(Mmdl *mmdl);
-extern void func_0216D410(Mmdl *mmdl, u32 acmd);
-extern int func_02197E7C(int dir, int acmdBase);
-extern FieldEffectObj *func_021BB528(void *fieldEffect, Mmdl *mmdl, u32 a, u32 b);
-extern int func_021BB5C8(FieldEffectObj *effect);
-extern void *func_02188CD0(FieldMap *fieldMap);
-extern int func_0216D83C(Mmdl *mmdl);
-extern int func_0216D86C(Mmdl *mmdl);
-extern u16 func_021642B4(int x0, int z0, int x1, int z1);
-extern void func_0216D480(Mmdl *mmdl);
-extern void func_0216E0E8(Mmdl *mmdl, int value);
-extern u32 func_0216D5A8(Mmdl *mmdl);
-extern int func_0216E434(u32 movementCode);
-extern u32 func_0216D5B8(Mmdl *mmdl);
-extern s16 func_021641E8(u32 dir);
-extern s16 func_021641F8(u32 dir);
-extern int func_02163994(Mmdl *mmdl, int x, int y, int z, u32 dir);
-extern int func_021AA900(FieldEncount *encount, GridPos *pos);
+extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
+extern void FLDMMDL_OffMoveBitMovePause(Mmdl *mmdl);
+extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
+extern void FLDMMDL_OnMoveBitMovePause(Mmdl *mmdl);
+extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
+extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
+extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
+extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u32 acmd);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int acmdBase);
+extern FieldEffectObj *FLDEFF_GYOE_SetMMdl(void *fieldEffect, Mmdl *mmdl, u32 a, u32 b);
+extern int FLDEFF_GYOE_IsFinished(FieldEffectObj *effect);
+extern void *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
+extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int z0, int x1, int z1);
+extern void FLDMMDL_EndAcmd(Mmdl *mmdl);
+extern void FLDMMDL_ChangeMoveCode(Mmdl *mmdl, int value);
+extern u32 FLDMMDL_GetEventType(Mmdl *mmdl);
+extern int FLDMMDL_NormalizeEventType(u32 movementCode);
+extern u32 FLDMMDL_GetEventId(Mmdl *mmdl);
+extern s16 FLDMMDL_MOVE_GetDirAddGridX(u32 dir);
+extern s16 FLDMMDL_MOVE_GetDirAddGridZ(u32 dir);
+extern int FLDMMDL_MOVE_HitCheckMoveCurrent(Mmdl *mmdl, int x, int y, int z, u32 dir);
+extern int EFFECT_ENCOUNT_IsSpotAt(FieldEncount *encount, GridPos *pos);
 
-int func_021AE0CC(FieldMap *fieldMap);
-int func_021AE198(Mmdl *mmdl, u32 dir, int range, FieldEncount *encount);
-int func_021AE1FC(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out);
-int func_021AE288(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDir);
-int func_021AE348(int dir, int range, const GridPos *trainerPos, const GridPos *targetPos);
-int func_021AE360(int range, const GridPos *trainerPos, const GridPos *targetPos);
-int func_021AE394(int range, const GridPos *trainerPos, const GridPos *targetPos);
-int func_021AE3C8(int range, const GridPos *trainerPos, const GridPos *targetPos);
-int func_021AE3FC(int range, const GridPos *trainerPos, const GridPos *targetPos);
-GameEvent *func_021AE430(void *owner, TrainerEyeWork *first, TrainerEyeWork *second);
-TrainerEyeWork *func_021AE454(u32 heapId, FieldMap *fieldMap, TrainerEyeHit *hit, int recordIndex);
-int func_021AE498(TrainerEyeWork *work);
-int func_021AE4B4(TrainerEyeWork *work);
-int func_021AE4E0(TrainerEyeWork *work);
-int func_021AE524(TrainerEyeWork *work);
-int func_021AE550(TrainerEyeWork *work);
-int func_021AE56C(TrainerEyeWork *work);
-int func_021AE58C(TrainerEyeWork *work);
-int func_021AE5A8(TrainerEyeWork *work);
-int func_021AE5BC(TrainerEyeWork *work);
-int func_021AE5D4(TrainerEyeWork *work);
-int func_021AE5EC(TrainerEyeWork *work);
-int func_021AE604(TrainerEyeWork *work);
-int func_021AE630(TrainerEyeWork *work);
-int func_021AE650(TrainerEyeWork *work);
-int func_021AE66C(TrainerEyeWork *work);
-int func_021AE6E0(TrainerEyeWork *work);
-int func_021AE708(TrainerEyeWork *work);
-int func_021AE724(TrainerEyeWork *work);
-int func_021AE72C(TrainerEyeWork *work);
-int func_021AE754(void *eventSys, void *gameSystem, void *work);
-int func_021AE79C(Mmdl *mmdl);
-int func_021AE7A8(Mmdl *mmdl, u32 dir, int distance, FieldEncount *encount);
-int func_021AE884(Mmdl *mmdl);
-int func_021AE890(FieldMap *fieldMap, Mmdl *mmdl);
-void func_021AE8B4(TrainerEyeHit *hit, Mmdl *trainer, u32 distance, u32 direction);
-Mmdl *func_021AE8D4(Mmdl *mmdl, u16 trainerId);
-int func_021AE930(FieldMap *fieldMap, Mmdl *trainer);
+int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap);
+int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u32 dir, int range, FieldEncount *encount);
+int EVENT_TRAINER_EYE_FindTrainer(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out);
+int EVENT_TRAINER_EYE_GetSightDistance(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDir);
+int EVENT_TRAINER_EYE_CheckSight(int dir, int range, const GridPos *trainerPos, const GridPos *targetPos);
+int EVENT_TRAINER_EYE_CheckSightUp(int range, const GridPos *trainerPos, const GridPos *targetPos);
+int EVENT_TRAINER_EYE_CheckSightDown(int range, const GridPos *trainerPos, const GridPos *targetPos);
+int EVENT_TRAINER_EYE_CheckSightLeft(int range, const GridPos *trainerPos, const GridPos *targetPos);
+int EVENT_TRAINER_EYE_CheckSightRight(int range, const GridPos *trainerPos, const GridPos *targetPos);
+GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, TrainerEyeWork *first, TrainerEyeWork *second);
+TrainerEyeWork *EVENT_TRAINER_EYE_Create(u32 heapId, FieldMap *fieldMap, TrainerEyeHit *hit, int recordIndex);
+int EVENT_TRAINER_EYE_StepResumeMove(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepFaceTarget(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepWaitPlayer(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepStartTurn(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepWaitTurn(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepStartMark(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepWaitMark(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepStartAlert(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepWaitAlert(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepDelay(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepSelectApproach(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepApproach(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepWaitStep(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepAdjacent(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepPlayerFaceTrainer(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepWaitPlayerFace(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepRelease(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_StepDone(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_Run(TrainerEyeWork *work);
+int EVENT_TRAINER_EYE_UpdatePairEvent(void *eventSys, void *gameSystem, void *work);
+int EVENT_TRAINER_EYE_GetSightType(Mmdl *mmdl);
+int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u32 dir, int distance, FieldEncount *encount);
+int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl);
+int EVENT_TRAINER_EYE_IsTrainerDefeated(FieldMap *fieldMap, Mmdl *mmdl);
+void EVENT_TRAINER_EYE_FillHit(TrainerEyeHit *hit, Mmdl *trainer, u32 distance, u32 direction);
+Mmdl *EVENT_TRAINER_EYE_FindPartner(Mmdl *mmdl, u16 trainerId);
+int EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer);
 
-extern TrainerEyeSightFunc d_021D9338[4];              /* sight check per direction */
-extern TrainerEyeStepFunc d_021D9348[];                /* step table of the event */
-extern char d_021DE138[];                              /* source file name for the heap allocator */
+extern TrainerEyeSightFunc sTrainerEyeSightFuncs[4];              /* sight check per direction */
+extern TrainerEyeStepFunc sTrainerEyeStepFuncs[];                /* step table of the event */
+extern char sEventTrainerEyeFileName[];                              /* source file name for the heap allocator */
 
 /*
  * Looks for the trainers that see the player and registers them as records
  * of a script command work. Returns that work, or 0 when no trainer sees
  * the player.
  */
-int func_021AE0CC(FieldMap *fieldMap)
+int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap)
 {
     TrainerEyeHit hit;
     TrainerEyeHit partner;
@@ -237,16 +237,16 @@ int func_021AE0CC(FieldMap *fieldMap)
     int zero = 0;
     int scriptWork = 0;
 
-    if (func_021AE1FC(fieldMap, 0, &hit) == 1) {
+    if (EVENT_TRAINER_EYE_FindTrainer(fieldMap, 0, &hit) == 1) {
         battleType = (u32)func_0215A4C8((u16)hit.trainerId);
-        partyCount = func_0218B6AC(func_02188C80(fieldMap));
+        partyCount = FIELD_EVENT_CHECK_CountAlivePartyMembers(FIELDMAP_GetGameSystem(fieldMap));
         if (battleType == TRAINER_EYE_BATTLE_SINGLE) {
-            if (partyCount < 2 || func_021AE1FC(fieldMap, hit.trainer, &partner) == 0) {
-                scriptWork = func_021AE930(fieldMap, hit.trainer);
+            if (partyCount < 2 || EVENT_TRAINER_EYE_FindTrainer(fieldMap, hit.trainer, &partner) == 0) {
+                scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_SINGLE;
                 func_0215A438(scriptWork, 0, &hit);
             } else {
-                scriptWork = func_021AE930(fieldMap, hit.trainer);
+                scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_DOUBLE_PAIR;
                 func_0215A438(scriptWork, zero, &hit);
                 partner.hitKind = TRAINER_EYE_HIT_DOUBLE_PAIR;
@@ -254,8 +254,8 @@ int func_021AE0CC(FieldMap *fieldMap)
             }
         } else if (battleType == TRAINER_EYE_BATTLE_DOUBLE) {
             if (partyCount >= 2) {
-                func_021AE8B4(&partner, func_021AE8D4(hit.trainer, hit.trainerId), hit.distance, (u16)hit.direction);
-                scriptWork = func_021AE930(fieldMap, hit.trainer);
+                EVENT_TRAINER_EYE_FillHit(&partner, EVENT_TRAINER_EYE_FindPartner(hit.trainer, hit.trainerId), hit.distance, (u16)hit.direction);
+                scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_DOUBLE_SOLO;
                 func_0215A438(scriptWork, zero, &hit);
                 partner.hitKind = TRAINER_EYE_HIT_DOUBLE_SOLO;
@@ -263,7 +263,7 @@ int func_021AE0CC(FieldMap *fieldMap)
             }
         } else if (battleType == TRAINER_EYE_BATTLE_TRIPLE || battleType == TRAINER_EYE_BATTLE_ROTATION) {
             if (partyCount >= 3) {
-                scriptWork = func_021AE930(fieldMap, hit.trainer);
+                scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = zero;
                 func_0215A438(scriptWork, zero, &hit);
             }
@@ -273,28 +273,28 @@ int func_021AE0CC(FieldMap *fieldMap)
 }
 
 /* Distance in tiles to the player along dir, or -1 when the player is not in line or the way is blocked. */
-int func_021AE198(Mmdl *mmdl, u32 dir, int range, FieldEncount *encount)
+int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u32 dir, int range, FieldEncount *encount)
 {
     GridPos trainerPos;
     GridPos playerPos;
     Mmdl *player;
     int distance;
 
-    player = func_0216DE94(func_0216D67C(mmdl), TRAINER_EYE_PLAYER_OBJ_ID);
+    player = FLDMMDL_SysSearchObjId(FLDMMDL_GetMmdlSys(mmdl), TRAINER_EYE_PLAYER_OBJ_ID);
     if (player == 0)
         return -1;
-    func_0216D828(player, &playerPos);
-    func_0216D828(mmdl, &trainerPos);
-    distance = func_021AE348(dir, (s16)range, &trainerPos, &playerPos);
+    FLDMMDL_GetGridNowPos(player, &playerPos);
+    FLDMMDL_GetGridNowPos(mmdl, &trainerPos);
+    distance = EVENT_TRAINER_EYE_CheckSight(dir, (s16)range, &trainerPos, &playerPos);
     if (distance != -1) {
-        if (func_021AE7A8(mmdl, dir, distance, encount) == 1)
+        if (EVENT_TRAINER_EYE_IsPathBlocked(mmdl, dir, distance, encount) == 1)
             distance = -1;
     }
     return distance;
 }
 
 /* Finds the first model that is not exclude and sees the player; fills out. */
-int func_021AE1FC(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out)
+int EVENT_TRAINER_EYE_FindTrainer(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out)
 {
     TrainerEyeHit *hit = out;
     FieldEncount *encount;
@@ -305,16 +305,16 @@ int func_021AE1FC(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out)
     Mmdl *player;
     MmdlSys *mmdlSys;
 
-    encount = func_02188CE8(fieldMap);
-    player = func_021A3074(func_02188CB4(fieldMap));
-    mmdlSys = func_02188C7C(fieldMap);
+    encount = FIELDMAP_GetEncount(fieldMap);
+    player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
+    mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
     current = 0;
     iter = 0;
-    while (func_0216DD1C(mmdlSys, &current, &iter) == 1) {
+    while (FLDMMDL_SysSearchUseMmdl(mmdlSys, &current, &iter) == 1) {
         if (current != player && (exclude == 0 || exclude != current)) {
-            distance = func_021AE288(encount, current, player, &direction);
-            if (distance != -1 && func_021AE890(fieldMap, current) == 0) {
-                func_021AE8B4(hit, current, distance, direction);
+            distance = EVENT_TRAINER_EYE_GetSightDistance(encount, current, player, &direction);
+            if (distance != -1 && EVENT_TRAINER_EYE_IsTrainerDefeated(fieldMap, current) == 0) {
+                EVENT_TRAINER_EYE_FillHit(hit, current, distance, direction);
                 return 1;
             }
         }
@@ -323,7 +323,7 @@ int func_021AE1FC(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out)
 }
 
 /* Distance in tiles from the trainer to the player along its sight, or -1. Sets the direction used. */
-int func_021AE288(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDir)
+int EVENT_TRAINER_EYE_GetSightDistance(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDir)
 {
     GridPos trainerPos;
     GridPos playerPos;
@@ -332,23 +332,23 @@ int func_021AE288(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDi
     int dir;
     u16 scanDir;
 
-    sightType = func_021AE79C(trainer);
+    sightType = EVENT_TRAINER_EYE_GetSightType(trainer);
     if ((u16)(sightType + 0xffff) <= 1) {
         scanDir = 0;
-        range = (s16)func_0216D63C(trainer, 0);
-        func_0216D828(trainer, &trainerPos);
-        func_0216D828(player, &playerPos);
+        range = (s16)FLDMMDL_GetParam(trainer, 0);
+        FLDMMDL_GetGridNowPos(trainer, &trainerPos);
+        FLDMMDL_GetGridNowPos(player, &playerPos);
         if (sightType == TRAINER_EYE_SIGHT_FACING) {
-            dir = func_0216D5F8(trainer);
-            sightType = func_021AE348(dir, range, &trainerPos, &playerPos);
-            if (sightType != scanDir - 1 && func_021AE7A8(trainer, dir, sightType, encount) == 0) {
+            dir = FLDMMDL_GetDirDisp(trainer);
+            sightType = EVENT_TRAINER_EYE_CheckSight(dir, range, &trainerPos, &playerPos);
+            if (sightType != scanDir - 1 && EVENT_TRAINER_EYE_IsPathBlocked(trainer, dir, sightType, encount) == 0) {
                 *outDir = dir;
                 return sightType;
             }
         } else {
             do {
-                sightType = func_021AE348(scanDir, range, &trainerPos, &playerPos);
-                if (sightType != -1 && func_021AE7A8(trainer, scanDir, sightType, encount) == 0) {
+                sightType = EVENT_TRAINER_EYE_CheckSight(scanDir, range, &trainerPos, &playerPos);
+                if (sightType != -1 && EVENT_TRAINER_EYE_IsPathBlocked(trainer, scanDir, sightType, encount) == 0) {
                     *outDir = scanDir;
                     return sightType;
                 }
@@ -360,13 +360,13 @@ int func_021AE288(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDi
 }
 
 /* Runs the sight check of one direction (0 up, 1 down, 2 left, 3 right). */
-int func_021AE348(int dir, int range, const GridPos *trainerPos, const GridPos *targetPos)
+int EVENT_TRAINER_EYE_CheckSight(int dir, int range, const GridPos *trainerPos, const GridPos *targetPos)
 {
-    return d_021D9338[dir](range, trainerPos, targetPos);
+    return sTrainerEyeSightFuncs[dir](range, trainerPos, targetPos);
 }
 
 /* Sight check upwards: tiles to the target on the same column above the trainer, or -1. */
-int func_021AE360(int range, const GridPos *trainerPos, const GridPos *targetPos)
+int EVENT_TRAINER_EYE_CheckSightUp(int range, const GridPos *trainerPos, const GridPos *targetPos)
 {
     if (trainerPos->x == targetPos->x && trainerPos->y == targetPos->y && targetPos->z < trainerPos->z && targetPos->z >= trainerPos->z - range)
         return trainerPos->z - targetPos->z;
@@ -374,7 +374,7 @@ int func_021AE360(int range, const GridPos *trainerPos, const GridPos *targetPos
 }
 
 /* Sight check downwards. */
-int func_021AE394(int range, const GridPos *trainerPos, const GridPos *targetPos)
+int EVENT_TRAINER_EYE_CheckSightDown(int range, const GridPos *trainerPos, const GridPos *targetPos)
 {
     if (trainerPos->x == targetPos->x && trainerPos->y == targetPos->y && targetPos->z > trainerPos->z && targetPos->z <= trainerPos->z + range)
         return targetPos->z - trainerPos->z;
@@ -382,7 +382,7 @@ int func_021AE394(int range, const GridPos *trainerPos, const GridPos *targetPos
 }
 
 /* Sight check to the left. */
-int func_021AE3C8(int range, const GridPos *trainerPos, const GridPos *targetPos)
+int EVENT_TRAINER_EYE_CheckSightLeft(int range, const GridPos *trainerPos, const GridPos *targetPos)
 {
     if (trainerPos->z == targetPos->z && trainerPos->y == targetPos->y && targetPos->x < trainerPos->x && targetPos->x >= trainerPos->x - range)
         return trainerPos->x - targetPos->x;
@@ -390,7 +390,7 @@ int func_021AE3C8(int range, const GridPos *trainerPos, const GridPos *targetPos
 }
 
 /* Sight check to the right. */
-int func_021AE3FC(int range, const GridPos *trainerPos, const GridPos *targetPos)
+int EVENT_TRAINER_EYE_CheckSightRight(int range, const GridPos *trainerPos, const GridPos *targetPos)
 {
     if (trainerPos->z == targetPos->z && trainerPos->y == targetPos->y && targetPos->x > trainerPos->x && targetPos->x <= trainerPos->x + range)
         return targetPos->x - trainerPos->x;
@@ -398,12 +398,12 @@ int func_021AE3FC(int range, const GridPos *trainerPos, const GridPos *targetPos
 }
 
 /* Creates the event that waits for two trainer eye events to end. */
-GameEvent *func_021AE430(void *owner, TrainerEyeWork *first, TrainerEyeWork *second)
+GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, TrainerEyeWork *first, TrainerEyeWork *second)
 {
     GameEvent *event;
     TrainerEyePairWork *pair;
 
-    event = func_020122C0(owner, 0, func_021AE754, sizeof(TrainerEyePairWork));
+    event = func_020122C0(owner, 0, EVENT_TRAINER_EYE_UpdatePairEvent, sizeof(TrainerEyePairWork));
     pair = func_020124E8(event);
     pair->first = first;
     pair->second = second;
@@ -411,47 +411,47 @@ GameEvent *func_021AE430(void *owner, TrainerEyeWork *first, TrainerEyeWork *sec
 }
 
 /* Creates the trainer eye event for one record. */
-TrainerEyeWork *func_021AE454(u32 heapId, FieldMap *fieldMap, TrainerEyeHit *hit, int recordIndex)
+TrainerEyeWork *EVENT_TRAINER_EYE_Create(u32 heapId, FieldMap *fieldMap, TrainerEyeHit *hit, int recordIndex)
 {
-    TrainerEyeWork *work = func_02030734(heapId, sizeof(TrainerEyeWork), 1, d_021DE138, 0x1fa);
+    TrainerEyeWork *work = func_02030734(heapId, sizeof(TrainerEyeWork), 1, sEventTrainerEyeFileName, 0x1fa);
 
     work->hit = *hit;
     work->reserved20 = 0;
     work->recordIndex = recordIndex;
     work->fieldMap = fieldMap;
-    work->player = func_02188CB4(fieldMap);
+    work->player = FIELDMAP_GetFieldPlayer(fieldMap);
     return work;
 }
 
 /* Step 0: lets the trainer move again if it was paused. */
-int func_021AE498(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepResumeMove(TrainerEyeWork *work)
 {
-    if (func_0216DA5C(work->hit.trainer) == 1) {
-        func_0216DB04(work->hit.trainer);
+    if (FLDMMDL_CheckMoveBitMove(work->hit.trainer) == 1) {
+        FLDMMDL_OffMoveBitMovePause(work->hit.trainer);
     }
     work->state = TRAINER_EYE_STATE_FACE_TARGET;
     return 1;
 }
 
 /* Step 1: waits for the trainer to stop, then turns it toward the player and pauses it. */
-int func_021AE4B4(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepFaceTarget(TrainerEyeWork *work)
 {
-    if (func_0216DA5C(work->hit.trainer) == 1) {
+    if (FLDMMDL_CheckMoveBitMove(work->hit.trainer) == 1) {
         return 0;
     }
-    func_0216D5E0(work->hit.trainer, (u16)work->hit.direction);
-    func_0216DAF8(work->hit.trainer);
+    FLDMMDL_SetDirDispCheckPause(work->hit.trainer, (u16)work->hit.direction);
+    FLDMMDL_OnMoveBitMovePause(work->hit.trainer);
     work->state = TRAINER_EYE_STATE_WAIT_PLAYER;
     return 1;
 }
 
 /* Step 2: waits for the player model to finish its animation. */
-int func_021AE4E0(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepWaitPlayer(TrainerEyeWork *work)
 {
-    if (func_0216D454(func_021A3074(work->player)) == 0)
+    if (FLDMMDL_CheckEndAcmd(FIELD_PLAYER_GetMmdl(work->player)) == 0)
         return 0;
     work->state = TRAINER_EYE_STATE_START_TURN;
-    switch (func_0216D5A0(work->hit.trainer)) {
+    switch (FLDMMDL_GetMoveCode(work->hit.trainer)) {
     case 0x33:
     case 0x34:
     case 0x35:
@@ -463,19 +463,19 @@ int func_021AE4E0(TrainerEyeWork *work)
 }
 
 /* Step 3: starts the turn animation toward the player. */
-int func_021AE524(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepStartTurn(TrainerEyeWork *work)
 {
-    if (func_0216D3CC(work->hit.trainer) == 1) {
-        func_0216D410(work->hit.trainer, func_02197E7C((u16)work->hit.direction, TRAINER_EYE_ACMD_TURN));
+    if (FLDMMDL_CheckPossibleAcmd(work->hit.trainer) == 1) {
+        FLDMMDL_SetAcmd(work->hit.trainer, FLDMMDL_ACMD_ConvertCodeByDir((u16)work->hit.direction, TRAINER_EYE_ACMD_TURN));
         work->state = TRAINER_EYE_STATE_WAIT_TURN;
     }
     return 0;
 }
 
 /* Step 4: waits for the turn animation to end. */
-int func_021AE550(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepWaitTurn(TrainerEyeWork *work)
 {
-    if (func_0216D454(work->hit.trainer) == 0) {
+    if (FLDMMDL_CheckEndAcmd(work->hit.trainer) == 0) {
         return 0;
     }
     work->state = TRAINER_EYE_STATE_START_MARK;
@@ -483,42 +483,42 @@ int func_021AE550(TrainerEyeWork *work)
 }
 
 /* Step 5: shows the "!" mark over the trainer. */
-int func_021AE56C(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepStartMark(TrainerEyeWork *work)
 {
-    work->markEffect = func_021BB528(func_02188CD0(work->fieldMap), work->hit.trainer, 0, 0);
+    work->markEffect = FLDEFF_GYOE_SetMMdl(FIELDMAP_GetEffect(work->fieldMap), work->hit.trainer, 0, 0);
     work->state = TRAINER_EYE_STATE_WAIT_MARK;
     return 0;
 }
 
 /* Step 6: waits for the mark effect to finish, then removes it. */
-int func_021AE58C(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepWaitMark(TrainerEyeWork *work)
 {
-    if (func_021BB5C8(work->markEffect) == 1) {
-        func_021AC154(work->markEffect);
+    if (FLDEFF_GYOE_IsFinished(work->markEffect) == 1) {
+        FIELD_EFFECT_DeleteObject(work->markEffect);
         work->state = TRAINER_EYE_STATE_DELAY;
     }
     return 0;
 }
 
 /* Step 7: starts the alert animation of trainers that show no mark. */
-int func_021AE5A8(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepStartAlert(TrainerEyeWork *work)
 {
-    func_0216D410(work->hit.trainer, TRAINER_EYE_ACMD_ALERT);
+    FLDMMDL_SetAcmd(work->hit.trainer, TRAINER_EYE_ACMD_ALERT);
     work->state = TRAINER_EYE_STATE_WAIT_ALERT;
     return 0;
 }
 
 /* Step 8: waits for the alert animation to end. */
-int func_021AE5BC(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepWaitAlert(TrainerEyeWork *work)
 {
-    if (func_0216D454(work->hit.trainer) == 1) {
+    if (FLDMMDL_CheckEndAcmd(work->hit.trainer) == 1) {
         work->state = TRAINER_EYE_STATE_DELAY;
     }
     return 0;
 }
 
 /* Step 9: waits TRAINER_EYE_DELAY_FRAMES frames. */
-int func_021AE5D4(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepDelay(TrainerEyeWork *work)
 {
     work->delayCount++;
     if (work->delayCount >= TRAINER_EYE_DELAY_FRAMES) {
@@ -529,7 +529,7 @@ int func_021AE5D4(TrainerEyeWork *work)
 }
 
 /* Step 10: the trainer walks to the player, or just turns when next to it. */
-int func_021AE5EC(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepSelectApproach(TrainerEyeWork *work)
 {
     if (work->hit.distance <= 1) {
         work->state = TRAINER_EYE_STATE_ADJACENT;
@@ -540,19 +540,19 @@ int func_021AE5EC(TrainerEyeWork *work)
 }
 
 /* Step 11: starts the trainer's walk step toward the player. */
-int func_021AE604(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepApproach(TrainerEyeWork *work)
 {
-    if (func_0216D3CC(work->hit.trainer) == 1) {
-        func_0216D410(work->hit.trainer, func_02197E7C((u16)work->hit.direction, TRAINER_EYE_ACMD_WALK));
+    if (FLDMMDL_CheckPossibleAcmd(work->hit.trainer) == 1) {
+        FLDMMDL_SetAcmd(work->hit.trainer, FLDMMDL_ACMD_ConvertCodeByDir((u16)work->hit.direction, TRAINER_EYE_ACMD_WALK));
         work->state = TRAINER_EYE_STATE_WAIT_STEP;
     }
     return 0;
 }
 
 /* Step 12: waits for the step to end, then counts one tile off the distance. */
-int func_021AE630(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepWaitStep(TrainerEyeWork *work)
 {
-    if (func_0216D454(work->hit.trainer) == 0)
+    if (FLDMMDL_CheckEndAcmd(work->hit.trainer) == 0)
         return 0;
     work->hit.distance--;
     work->state = TRAINER_EYE_STATE_SELECT_APPROACH;
@@ -560,7 +560,7 @@ int func_021AE630(TrainerEyeWork *work)
 }
 
 /* Step 13: the trainer stands next to the player; waits TRAINER_EYE_ADJACENT_FRAMES frames. */
-int func_021AE650(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepAdjacent(TrainerEyeWork *work)
 {
     work->delayCount++;
     if (work->delayCount < TRAINER_EYE_ADJACENT_FRAMES) {
@@ -575,18 +575,18 @@ int func_021AE650(TrainerEyeWork *work)
  * Step 14: turns the player toward the trainer (first record only, or both
  * records of a pair battle) unless it already faces it.
  */
-int func_021AE66C(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepPlayerFaceTrainer(TrainerEyeWork *work)
 {
-    Mmdl *player = func_021A3074(work->player);
-    int playerX = func_0216D83C(player);
-    int playerZ = func_0216D86C(player);
-    int trainerX = func_0216D83C(work->hit.trainer);
+    Mmdl *player = FIELD_PLAYER_GetMmdl(work->player);
+    int playerX = FLDMMDL_GetGridNowX(player);
+    int playerZ = FLDMMDL_GetGridNowZ(player);
+    int trainerX = FLDMMDL_GetGridNowX(work->hit.trainer);
     int dirToTrainer;
 
-    dirToTrainer = func_021642B4(playerX, playerZ, trainerX, func_0216D86C(work->hit.trainer));
-    if (dirToTrainer != func_0216D5F8(player) && (work->recordIndex == 0 || work->hit.hitKind == TRAINER_EYE_HIT_DOUBLE_PAIR)) {
-        if (func_0216D3CC(player) == 1) {
-            func_0216D410(player, func_02197E7C(dirToTrainer, TRAINER_EYE_ACMD_TURN));
+    dirToTrainer = FLDMMDL_MOVE_GetDirFromPoints(playerX, playerZ, trainerX, FLDMMDL_GetGridNowZ(work->hit.trainer));
+    if (dirToTrainer != FLDMMDL_GetDirDisp(player) && (work->recordIndex == 0 || work->hit.hitKind == TRAINER_EYE_HIT_DOUBLE_PAIR)) {
+        if (FLDMMDL_CheckPossibleAcmd(player) == 1) {
+            FLDMMDL_SetAcmd(player, FLDMMDL_ACMD_ConvertCodeByDir(dirToTrainer, TRAINER_EYE_ACMD_TURN));
             work->state = TRAINER_EYE_STATE_WAIT_PLAYER_FACE;
         }
     } else {
@@ -596,37 +596,37 @@ int func_021AE66C(TrainerEyeWork *work)
 }
 
 /* Step 15: waits for the player's turn to end. */
-int func_021AE6E0(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepWaitPlayerFace(TrainerEyeWork *work)
 {
-    Mmdl *player = func_021A3074(work->player);
+    Mmdl *player = FIELD_PLAYER_GetMmdl(work->player);
 
-    if (func_0216D454(player) == 0)
+    if (FLDMMDL_CheckEndAcmd(player) == 0)
         return 0;
-    func_0216D480(player);
+    FLDMMDL_EndAcmd(player);
     work->state = TRAINER_EYE_STATE_RELEASE;
     return 1;
 }
 
 /* Step 16: releases the trainer from its paused state. */
-int func_021AE708(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepRelease(TrainerEyeWork *work)
 {
-    func_0216D480(work->hit.trainer);
-    func_0216E0E8(work->hit.trainer, 0);
+    FLDMMDL_EndAcmd(work->hit.trainer);
+    FLDMMDL_ChangeMoveCode(work->hit.trainer, 0);
     work->state = TRAINER_EYE_STATE_DONE;
     return 1;
 }
 
 /* Step 17: marks the event as finished. */
-int func_021AE724(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_StepDone(TrainerEyeWork *work)
 {
     work->finished = 1;
     return 0;
 }
 
 /* Runs steps until one asks to wait; returns 1 when the event is finished. */
-int func_021AE72C(TrainerEyeWork *work)
+int EVENT_TRAINER_EYE_Run(TrainerEyeWork *work)
 {
-    while (d_021D9348[work->state](work) == 1)
+    while (sTrainerEyeStepFuncs[work->state](work) == 1)
         ;
     if (work->finished == 1)
         return 1;
@@ -634,18 +634,18 @@ int func_021AE72C(TrainerEyeWork *work)
 }
 
 /* Event callback: runs both trainer eye events of a pair and frees each when done. Returns 1 when both ended. */
-int func_021AE754(void *eventSys, void *gameSystem, void *work)
+int EVENT_TRAINER_EYE_UpdatePairEvent(void *eventSys, void *gameSystem, void *work)
 {
     TrainerEyePairWork *pair = work;
 
     if (pair->first != 0) {
-        if (func_021AE72C(pair->first) == 1) {
+        if (EVENT_TRAINER_EYE_Run(pair->first) == 1) {
             func_020307B0(pair->first);
             pair->first = 0;
         }
     }
     if (pair->second != 0) {
-        if (func_021AE72C(pair->second) == 1) {
+        if (EVENT_TRAINER_EYE_Run(pair->second) == 1) {
             func_020307B0(pair->second);
             pair->second = 0;
         }
@@ -657,13 +657,13 @@ int func_021AE754(void *eventSys, void *gameSystem, void *work)
 }
 
 /* Sight type of a model (TRAINER_EYE_SIGHT_*), from its movement code. */
-int func_021AE79C(Mmdl *mmdl)
+int EVENT_TRAINER_EYE_GetSightType(Mmdl *mmdl)
 {
-    return func_0216E434(func_0216D5A8(mmdl));
+    return FLDMMDL_NormalizeEventType(FLDMMDL_GetEventType(mmdl));
 }
 
 /* Returns 1 when something blocks the straight path of distance tiles from the model along dir. */
-int func_021AE7A8(Mmdl *mmdl, u32 dir, int distance, FieldEncount *encount)
+int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u32 dir, int distance, FieldEncount *encount)
 {
     GridPos pos;
     s16 dx;
@@ -672,60 +672,60 @@ int func_021AE7A8(Mmdl *mmdl, u32 dir, int distance, FieldEncount *encount)
 
     if (distance != 0) {
         i = 0;
-        func_0216D828(mmdl, &pos);
-        dx = func_021641E8(dir);
-        dz = func_021641F8(dir);
+        FLDMMDL_GetGridNowPos(mmdl, &pos);
+        dx = FLDMMDL_MOVE_GetDirAddGridX(dir);
+        dz = FLDMMDL_MOVE_GetDirAddGridZ(dir);
         pos.x += dx;
         pos.z += dz;
         for (; i < distance - 1; i++) {
-            if ((func_02163994(mmdl, pos.x, pos.y, pos.z, dir) & ~1) != 0)
+            if ((FLDMMDL_MOVE_HitCheckMoveCurrent(mmdl, pos.x, pos.y, pos.z, dir) & ~1) != 0)
                 return 1;
-            if (encount != 0 && func_021AA900(encount, &pos) != 0)
+            if (encount != 0 && EFFECT_ENCOUNT_IsSpotAt(encount, &pos) != 0)
                 return 1;
             pos.x += dx;
             pos.z += dz;
         }
-        if ((func_02163994(mmdl, pos.x, pos.y, pos.z, dir) & ~1) != 4)
+        if ((FLDMMDL_MOVE_HitCheckMoveCurrent(mmdl, pos.x, pos.y, pos.z, dir) & ~1) != 4)
             return 1;
-        if (encount != 0 && func_021AA900(encount, &pos) != 0)
+        if (encount != 0 && EFFECT_ENCOUNT_IsSpotAt(encount, &pos) != 0)
             return 1;
     }
     return 0;
 }
 
 /* Trainer id of a trainer model, from its object event id. */
-int func_021AE884(Mmdl *mmdl)
+int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl)
 {
-    return func_0215A460(func_0216D5B8(mmdl));
+    return func_0215A460(FLDMMDL_GetEventId(mmdl));
 }
 
 /* Nonzero when the trainer of the model was already beaten. */
-int func_021AE890(FieldMap *fieldMap, Mmdl *mmdl)
+int EVENT_TRAINER_EYE_IsTrainerDefeated(FieldMap *fieldMap, Mmdl *mmdl)
 {
-    return func_0215A4D8(func_0201296C(func_020120F4(func_02188C80(fieldMap))), func_021AE884(mmdl));
+    return func_0215A4D8(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), EVENT_TRAINER_EYE_GetTrainerId(mmdl));
 }
 
 /* Fills a hit record for a trainer model. */
-void func_021AE8B4(TrainerEyeHit *hit, Mmdl *trainer, u32 distance, u32 direction)
+void EVENT_TRAINER_EYE_FillHit(TrainerEyeHit *hit, Mmdl *trainer, u32 distance, u32 direction)
 {
     hit->distance = distance;
     hit->direction = direction;
-    hit->eventId = func_0216D5B8(trainer);
-    hit->trainerId = func_021AE884(trainer);
+    hit->eventId = FLDMMDL_GetEventId(trainer);
+    hit->trainerId = EVENT_TRAINER_EYE_GetTrainerId(trainer);
     hit->trainer = trainer;
 }
 
 /* Finds the other trainer model with the same trainer id that has a sight; 0 if none. */
-Mmdl *func_021AE8D4(Mmdl *mmdl, u16 trainerId)
+Mmdl *EVENT_TRAINER_EYE_FindPartner(Mmdl *mmdl, u16 trainerId)
 {
     Mmdl *other;
     u32 iter;
     MmdlSys *mmdlSys;
 
     iter = 0;
-    mmdlSys = func_0216D67C(mmdl);
-    while (func_0216DD1C(mmdlSys, &other, &iter) == 1) {
-        if (other != mmdl && (u16)(func_021AE79C(other) + 0xFFFF) <= 1 && trainerId == func_021AE884(other)) {
+    mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
+    while (FLDMMDL_SysSearchUseMmdl(mmdlSys, &other, &iter) == 1) {
+        if (other != mmdl && (u16)(EVENT_TRAINER_EYE_GetSightType(other) + 0xFFFF) <= 1 && trainerId == EVENT_TRAINER_EYE_GetTrainerId(other)) {
             return other;
         }
     }
@@ -733,7 +733,7 @@ Mmdl *func_021AE8D4(Mmdl *mmdl, u16 trainerId)
 }
 
 /* Creates the script work of the trainer battle for a trainer model. */
-int func_021AE930(FieldMap *fieldMap, Mmdl *trainer)
+int EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer)
 {
-    return func_02158768(func_02188C80(fieldMap), TRAINER_EYE_SCRIPT_WORK_SIZE, trainer, 1);
+    return SCRIPT_SYS_CreateScriptEventSimple(FIELDMAP_GetGameSystem(fieldMap), TRAINER_EYE_SCRIPT_WORK_SIZE, trainer, 1);
 }

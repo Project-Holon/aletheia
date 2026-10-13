@@ -1,5 +1,5 @@
 /*
- * function: func_021C4BAC
+ * function: BTL_SERVER_FLOW_PushSideEffectExpireMessage
  * address:  0x021C4BAC
  * packet:   pkt_ov093_021C4BAC
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD64C  0x021CD64C  thumb  ov093
+ *   BTL_SERVER_CMD_PushVariable  0x021CD64C  thumb  ov093
  */
 #include "../include/Obj21095.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021CD64C(void *w, u8 id, ...);
+extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 
-void func_021C4BAC(u8 *p, int k, int v)
+void BTL_SERVER_FLOW_PushSideEffectExpireMessage(u8 *p, int k, int v)
 {
     int r = -1;
     switch (k) {
@@ -38,6 +38,6 @@ void func_021C4BAC(u8 *p, int k, int v)
     case 13: r = 0xae; break;
     }
     if (r >= 0) {
-        func_021CD64C(((struct Obj21095 *)p)->fC, 0x5a, r, v, 0xffff0000);
+        BTL_SERVER_CMD_PushVariable(((struct Obj21095 *)p)->fC, 0x5a, r, v, 0xffff0000);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A6BB4
+ * function: FIELD_PLAYER_NOGRID_UpdateInputHold
  * address:  0x021A6BB4
  * packet:   pkt_ov021_021A6BB4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -29,9 +29,9 @@ typedef struct {
     u32 val;
 } St;
 
-extern int func_0216D3CC(int a0);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
 
-void func_021A6BB4(St *p, u32 a1, u32 a2)
+void FIELD_PLAYER_NOGRID_UpdateInputHold(St *p, u32 a1, u32 a2)
 {
     if (p->on) {
         if (p->st != 0) {
@@ -47,7 +47,7 @@ void func_021A6BB4(St *p, u32 a1, u32 a2)
             else
                 p->st = 1;
         }
-        if (func_0216D3CC(a2) == 1) {
+        if (FLDMMDL_CheckPossibleAcmd(a2) == 1) {
             if (p->st == 0) {
                 p->keep = 0;
                 p->flag = 0;

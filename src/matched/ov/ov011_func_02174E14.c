@@ -1,5 +1,5 @@
 /*
- * function: func_02174E14
+ * function: INTRUDE_COMM_SetState
  * address: 0x02174E14
  * packet: pkt_ov011_02174E14
  * region: ov011
@@ -16,7 +16,7 @@ typedef struct {
     u16 state : 6;
     u16 high : 1;
 } F86;
-void func_02174E14(u8 *p, int a)
+void INTRUDE_COMM_SetState(u8 *p, int a)
 {
     ((F86 *)(p + 0x86))->state = (u16)a;
     p[0x900] = 1;

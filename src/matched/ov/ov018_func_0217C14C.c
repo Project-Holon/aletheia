@@ -1,5 +1,5 @@
 /*
- * function: func_0217C14C
+ * function: INTRUDE_FIELD_AddMarkerMmdl
  * address:  0x0217C14C
  * packet:   pkt_ov018_0217C14C
  * region:   ov018
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_0216CE60  0x0216CE60  thumb  ov010
- *   d_021835D4     0x021835D4  data   a4
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
+ *   INTRUDE_FIELD_gMarkerMmdlHeader     0x021835D4  data   a4
  */
 
 typedef unsigned short u16;
@@ -29,25 +29,25 @@ typedef struct {
     T t;
 } S;
 
-extern void *func_02188C7C(unsigned char *p);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 typedef unsigned char  u8;
-extern u16 func_02188C9C(u8 *p);
-extern void func_0216CE60(int a, int b, int c);
-extern const S d_021835D4;
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern void FLDMMDL_AddMmdl(int a, int b, int c);
+extern const S INTRUDE_FIELD_gMarkerMmdlHeader;
 
-void func_0217C14C(int a0, u16 a1, u16 a2, int a3)
+void INTRUDE_FIELD_AddMarkerMmdl(int a0, u16 a1, u16 a2, int a3)
 {
     void *v;
     int c;
     S s;
     T *t;
 
-    v = func_02188C7C((void *)a0);
-    c = func_02188C9C((u8 *)a0);
-    s = d_021835D4;
+    v = FIELDMAP_GetMmdlSys((void *)a0);
+    c = FIELDMAP_GetZoneId((u8 *)a0);
+    s = INTRUDE_FIELD_gMarkerMmdlHeader;
     t = &s.t;
     t->h0 = a1;
     t->h2 = a2;
     t->w4 = a3;
-    func_0216CE60((int)v, (int)(&s), c);
+    FLDMMDL_AddMmdl((int)v, (int)(&s), c);
 }

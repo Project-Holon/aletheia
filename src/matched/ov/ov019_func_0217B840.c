@@ -1,5 +1,5 @@
 /*
- * function: func_0217B840
+ * function: UNION_ONESELF_RunPlayCategory
  * address:  0x0217B840
  * packet:   pkt_ov019_0217B840
  * region:   ov019
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   d_02180074  0x02180074  data  a4
- *   d_02180078  0x02180078  data  a4
- *   d_0218007C  0x0218007C  data  a4
+ *   gUnionOneselfActionStart  0x02180074  data  a4
+ *   gUnionOneselfActionMain  0x02180078  data  a4
+ *   gUnionOneselfActionEnd  0x0218007C  data  a4
  */
 
 typedef int (*fn_t)(char *, unsigned char *, int, unsigned char *);
 struct ent { fn_t f; int a; int b; };
 
-extern struct ent d_02180074[];
-extern struct ent d_02180078[];
-extern struct ent d_0218007C[];
+extern struct ent gUnionOneselfActionStart[];
+extern struct ent gUnionOneselfActionMain[];
+extern struct ent gUnionOneselfActionEnd[];
 
-int func_0217B840(char *base, int r1)
+int UNION_ONESELF_RunPlayCategory(char *base, int r1)
 {
     unsigned char *q = (unsigned char *)base + 0x2830;
     int res = 1;
@@ -29,13 +29,13 @@ int func_0217B840(char *base, int r1)
 
     switch (q[0x72]) {
     case 0:
-        fn = d_02180074[q[1]].f;
+        fn = gUnionOneselfActionStart[q[1]].f;
         break;
     case 1:
-        fn = d_02180078[q[1]].f;
+        fn = gUnionOneselfActionMain[q[1]].f;
         break;
     case 2:
-        fn = d_0218007C[q[1]].f;
+        fn = gUnionOneselfActionEnd[q[1]].f;
         break;
     }
     if (fn != 0) {

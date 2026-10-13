@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A13E4
+ * function: FIELD_SUBSCREEN_InitIntrude
  * address:  0x021A13E4
  * packet:   pkt_ov021_021A13E4
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_0217CFE4  0x0217CFE4  thumb  ov018
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   INTRUDE_SUBDISP_Init  0x0217CFE4  thumb  ov018
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 typedef unsigned char  u8;
-extern void *func_02188C80(void *p);
-extern u8 *func_0217CFE4(void *a);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern u8 *INTRUDE_SUBDISP_Init(void *a);
 
-void ov021_func_021A13E4(u32 *p)
+void FIELD_SUBSCREEN_InitIntrude(u32 *p)
 {
-    p[8] = (u32)func_0217CFE4(func_02188C80((void *)p[5]));
+    p[8] = (u32)INTRUDE_SUBDISP_Init(FIELDMAP_GetGameSystem((void *)p[5]));
 }

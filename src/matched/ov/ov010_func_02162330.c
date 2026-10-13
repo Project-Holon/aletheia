@@ -1,5 +1,5 @@
 /*
- * function: func_02162330
+ * function: EVENT_FIELD_PROCLINK_ClearReturnResultSlotSub
  * address: 0x02162330
  * packet: pkt_ov010_02162330
  * region: ov010
@@ -20,4 +20,4 @@
 #include "../include/Obj12334.h"
 typedef unsigned short u16;
 extern void func_02082BCC(void *, int, int);
-void func_02162330(char *p, unsigned i) { func_02082BCC(p+0x30+i*8,0,8); ((struct Obj12334 *)p)->f2 = ((struct Obj12334 *)p)->f2 & ~(1<<(i+5)); }
+void EVENT_FIELD_PROCLINK_ClearReturnResultSlotSub(char *p, unsigned i) { func_02082BCC(p+0x30+i*8,0,8); ((struct Obj12334 *)p)->f2 = ((struct Obj12334 *)p)->f2 & ~(1<<(i+5)); }

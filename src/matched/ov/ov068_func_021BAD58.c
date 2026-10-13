@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD58
+ * function: OPTION_MENU_ShiftInputTrail
  * address:  0x021BAD58
  * packet:   pkt_ov068_021BAD58
  * region:   ov068
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj20647.h"
 
-void func_021BAD58(void *p)
+void OPTION_MENU_ShiftInputTrail(void *p)
 {
     ((struct Obj20647 *)p)->f3C <<= 1;
 }

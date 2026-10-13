@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5BD0",
+   "name": "SCRCMD_CreateSubProcEvent",
    "address": "0x021C5BD0",
    "kind": "game",
    "region": "ov021",

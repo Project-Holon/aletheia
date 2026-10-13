@@ -1,5 +1,5 @@
 /*
- * function: func_0218A6E8
+ * function: FIELD_EVENT_CHECK_StopSoundAfterEvent
  * address:  0x0218A6E8
  * packet:   pkt_ov021_0218A6E8
  * region:   ov021
@@ -10,39 +10,39 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CCC  0x02188CCC  thumb  ov021
- *   func_021A1358  0x021A1358  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02028A70  0x02028A70  thumb
- *   func_021F2AB8  0x021F2AB8  thumb  ov029
- *   func_021F2AD4  0x021F2AD4  thumb  ov029
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
+ *   FIELD_SUBSCREEN_GetCGear  0x021A1358  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_StopRingtone  0x02028A70  thumb
+ *   C_GEAR_IsLastCommandKind5  0x021F2AB8  thumb  ov029
+ *   C_GEAR_StopRingtone  0x021F2AD4  thumb  ov029
  */
 
-extern unsigned int func_02188CCC(unsigned char *p);
+extern unsigned int FIELDMAP_GetSubscreen(unsigned char *p);
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_021A1358(u32 *p);
+extern u32 FIELD_SUBSCREEN_GetCGear(u32 *p);
 typedef unsigned char  u8;
 struct Ctx;
 struct SoundSys;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028A70(struct SoundSys *sys);
-extern int func_021F2AB8(char *p);
-extern void func_021F2AD4(u8 *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys);
+extern int C_GEAR_IsLastCommandKind5(char *p);
+extern void C_GEAR_StopRingtone(u8 *p);
 
-void func_0218A6E8(void *sys, void *q)
+void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *sys, void *q)
 {
     void *r;
 
-    r = (void *)func_021A1358((u32 *)func_02188CCC(q));
+    r = (void *)FIELD_SUBSCREEN_GetCGear((u32 *)FIELDMAP_GetSubscreen(q));
     if (r == 0) {
-        func_02028A70((struct SoundSys *)func_02012A30(func_020120F4(sys)));
+        FIELD_SOUND_SYSTEM_StopRingtone((struct SoundSys *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(sys)));
         return;
     }
-    if (func_021F2AB8(r) == 0) {
-        func_02028A70((struct SoundSys *)func_02012A30(func_020120F4(sys)));
-        func_021F2AD4(r);
+    if (C_GEAR_IsLastCommandKind5(r) == 0) {
+        FIELD_SOUND_SYSTEM_StopRingtone((struct SoundSys *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(sys)));
+        C_GEAR_StopRingtone(r);
     }
 }

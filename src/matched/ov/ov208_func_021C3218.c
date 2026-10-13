@@ -8,25 +8,25 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02049B90 0x02049B90 arm
- *   func_020450F0 0x020450F0 arm
+ *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_021C32FC 0x021C32FC thumb ov208
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj00146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021C32FC(u16 *,u8 *,int);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 void func_021C3218(u16 *heap,u8 *p,int key)
 {
-    func_02049B90(23,5,4,0,0,32,*heap);
-    *(u32 *)&((struct Obj00146 *)p)->fC=func_020450F0(6,10,5,12,4,0,1);
+    ARC_UTIL_UploadPaletteFromArchive(23,5,4,0,0,32,*heap);
+    *(u32 *)&((struct Obj00146 *)p)->fC=BMP_WIN_Create(6,10,5,12,4,0,1);
     ((struct Obj00146 *)p)->f10=0;
     func_021C32FC(heap,p,key);
-    func_02045334((struct Descriptor *)*(u32 *)&((struct Obj00146 *)p)->fC);
+    BMP_WIN_TransferChars((struct Descriptor *)*(u32 *)&((struct Obj00146 *)p)->fC);
 }

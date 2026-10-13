@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1E8  0x0203D1E8  arm
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_02039C68  0x02039C68  arm
  *   func_021BA874  0x021BA874  thumb  ov099
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
@@ -23,9 +23,9 @@
 typedef unsigned short u16;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern int func_0203D1E8(int a, int b);
-extern int func_0203D378(int a);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_NotifyUserEvent(int a, int b);
+extern int GFL_NET_IsParentAid(int a);
 struct Link;
 extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern void func_021BA874(void *p, int id);
@@ -34,7 +34,7 @@ extern void func_021BC090(void *p);
 
 int func_021BC228(char *p, int r)
 {
-    if (func_0203D378(func_0203D1E8((int)func_020399A8(), 0)) != 0) {
+    if (GFL_NET_IsParentAid(GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), 0)) != 0) {
         ((struct Obj06354 *)p)->f135C = 3;
         func_021BA874(p, ((struct Obj06354 *)p)->f242 - 1);
         func_021BAAB8(p, 0x60, 0);
@@ -43,7 +43,7 @@ int func_021BC228(char *p, int r)
         ((struct Obj06354 *)p)->f135C = 4;
         func_021BAAB8(p, 0x4C, 0);
         func_021BC090(p);
-        func_02039C68((struct Link *)func_020399A8(), 0x1B, 0xA);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1B, 0xA);
         ((struct Obj06354 *)p)->f1CC = 0x49;
     }
     return r;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DFA20
+ * function: BTL_HANDLER_ITEM_IronBallSpeedRatio
  * address:  0x021DFA20
  * packet:   pkt_ov093_021DFA20
  * region:   ov093
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  */
 
-extern int func_021D775C(int key);
-extern void func_021D7704(int key, int m);
+extern int BTL_EVENT_GetVar(int key);
+extern void BTL_EVENT_MultiplyVar(int key, int m);
 
-void func_021DFA20(int a, int b, int c)
+void BTL_HANDLER_ITEM_IronBallSpeedRatio(int a, int b, int c)
 {
     int n = 2;
 
-    if (c == func_021D775C(n))
-        func_021D7704(53, n << 10);
+    if (c == BTL_EVENT_GetVar(n))
+        BTL_EVENT_MultiplyVar(53, n << 10);
 }

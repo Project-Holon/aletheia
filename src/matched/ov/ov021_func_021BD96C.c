@@ -1,5 +1,5 @@
 /*
- * function: func_021BD96C
+ * function: EVENT_ENTRANCE_IN_StartBgmFadeOut
  * address:  0x021BD96C
  * packet:   pkt_ov021_021BD96C
  * region:   ov021
@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GAME_EVENT_CallEvent  0x02012374  thumb  arm9
+ *   FIELD_SOUND_SYSTEM_StartFadeOutTask  0x0202952C  thumb  arm9
  */
 
 typedef struct {
@@ -25,13 +29,13 @@ typedef struct {
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Evt;
-extern u8 *func_0202952C(u8 *p, u32 a);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern u8 *FIELD_SOUND_SYSTEM_StartFadeOutTask(u8 *p, u32 a);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-void func_021BD96C(Obj *p, void *b)
+void EVENT_ENTRANCE_IN_StartBgmFadeOut(Obj *p, void *b)
 {
     Inner *q = p->f8;
 
-    func_02012374(b, (struct Evt **)func_0202952C(q->f4, 0x1E));
+    GAME_EVENT_CallEvent(b, (struct Evt **)FIELD_SOUND_SYSTEM_StartFadeOutTask(q->f4, 0x1E));
     q->f4C = 1;
 }

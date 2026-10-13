@@ -1,5 +1,5 @@
 /*
- * function: func_0216D8C0
+ * function: FLDMMDL_SetDrawOffset
  * address:  0x0216D8C0
  * packet:   pkt_ov010_0216D8C0
  * region:   ov010
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 
 typedef struct { int x, y, z; } Vec;
 
-void func_0216D8C0(u8 *p, const Vec *v)
+void FLDMMDL_SetDrawOffset(u8 *p, const Vec *v)
 {
     *(Vec *)(p + 0x50) = *v;
 }

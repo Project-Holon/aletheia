@@ -11,6 +11,8 @@
  *
  * symbols:
  *   BMP_MENU_Delete  0x0201F9E8  thumb
+ *   GF_FONT_Delete  0x0201D83C  thumb
+ *   BMP_MENUWORK_Delete  0x0201F868  thumb
  */
 #include "../include/Obj02993.h"
 
@@ -22,8 +24,8 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_020307B0(void *p);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_0201F868(void *p);
+extern u32 GF_FONT_Delete(void *ptr);
+extern u32 BMP_MENUWORK_Delete(void *p);
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
 struct Obj;
@@ -35,8 +37,8 @@ void BMP_MENU_DeleteYesNo(u8 *o)
     func_0201C4C0((struct PrintSys *)(((struct Obj02993 *)o)->f18));
     func_020307B0(((struct Obj02993 *)o)->f14);
     func_0201F7A8(((struct Obj02993 *)o)->f4, 0);
-    func_0201D83C(((struct Obj02993 *)o)->f1C);
-    func_0201F868(((struct Obj02993 *)o)->f0);
+    GF_FONT_Delete(((struct Obj02993 *)o)->f1C);
+    BMP_MENUWORK_Delete(((struct Obj02993 *)o)->f0);
     func_020452E8(((struct Obj02993 *)o)->f4);
     BMP_MENU_Delete((struct Obj *)o, 0);
 }

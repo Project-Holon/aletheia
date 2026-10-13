@@ -1,5 +1,5 @@
 /*
- * function: func_021B02C8
+ * function: SCRCMD_MSGWIN_CmdInitMenuMsgDataMode1
  * address:  0x021B02C8
  * packet:   pkt_ov021_021B02C8
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02011330  0x02011330  thumb
- *   func_02158FE0  0x02158FE0  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_0215A60C  0x0215A60C  thumb  ov010
- *   func_0215A77C  0x0215A77C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   VM_GetU16  0x02011330  thumb
+ *   SCRIPT_WORK_GetWorkPtr  0x02158FE0  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRCMD_WORK_GetMsgData  0x0215A60C  thumb  ov010
+ *   SCRCMD_WORK_InitMenu  0x0215A77C  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -29,17 +29,17 @@ typedef struct {
     u8 *p;
 } Ctx;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
-extern unsigned int func_02159B10(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern u16 *func_02158FE0(void *a, void *b, unsigned int id);
-extern void *func_02158F74(void *p);
-extern u32 func_0215A60C(u8 *p);
-extern u32 func_0215A77C(u32, u32, u32, u32, u32, u32, u32, u32, u32);
+extern u16 VM_GetU16(struct Stream *s);
+extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern u32 SCRCMD_WORK_GetMsgData(u8 *p);
+extern u32 SCRCMD_WORK_InitMenu(u32, u32, u32, u32, u32, u32, u32, u32, u32);
 
-int func_021B02C8(Ctx *c, u32 b)
+int SCRCMD_MSGWIN_CmdInitMenuMsgDataMode1(Ctx *c, u32 b)
 {
     u8 *q;
     u32 v2, r;
@@ -47,17 +47,17 @@ int func_021B02C8(Ctx *c, u32 b)
     void *t1;
     u8 v0, v1, v3;
 
-    t0 = func_0215A5F4((void *)b);
-    t1 = func_0215A5E4((void *)b);
+    t0 = SCRCMD_WORK_GetScriptWork((void *)b);
+    t1 = SCRCMD_WORK_GetGameData((void *)b);
     v0 = *c->p;
     c->p = c->p + 1;
     v1 = *c->p;
     c->p = c->p + 1;
-    v2 = func_02159B10(c, (void *)b);
+    v2 = SCRIPT_WORK_ReadWorkValue(c, (void *)b);
     q = c->p;
     v3 = q[0];
     c->p = q + 1;
-    r = (u32)func_02158FE0(t0, t1, func_02011330((struct Stream *)c));
-    func_0215A77C(b, v0, v1, v2, v3, 1, r, (u32)func_02158F74(t0), func_0215A60C((u8 *)b));
+    r = (u32)SCRIPT_WORK_GetWorkPtr(t0, t1, VM_GetU16((struct Stream *)c));
+    SCRCMD_WORK_InitMenu(b, v0, v1, v2, v3, 1, r, (u32)SCRIPT_WORK_GetWordSet(t0), SCRCMD_WORK_GetMsgData((u8 *)b));
     return 1;
 }

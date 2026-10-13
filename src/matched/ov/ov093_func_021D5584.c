@@ -1,5 +1,5 @@
 /*
- * function: func_021D5584
+ * function: BTL_POKEPARAM_GetMovePPChecked
  * address:  0x021D5584
  * packet:   pkt_ov093_021D5584
  * region:   ov093
@@ -45,7 +45,7 @@ struct UtilWork {
     u8 f157[5];
 };
 
-u8 func_021D5584(struct UtilWork *p, u32 i)
+u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i)
 {
     if (i < p->n140) return p->e[i].f8;
     return 0;

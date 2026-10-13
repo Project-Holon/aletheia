@@ -10,7 +10,7 @@
  * symbols:
  *   func_021B9C08 0x021B9C08 thumb ov133
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj00004.h"
 typedef unsigned char u8;
@@ -23,7 +23,7 @@ extern void func_021B9C08(u8 *p, unsigned int index, void *object);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 void func_021B9D54(u8 *p, int state)
 {
@@ -49,6 +49,6 @@ void func_021B9D54(u8 *p, int state)
     str = func_02045EC0(((struct Obj00004 *)p)->f18E0, index);
     func_0201EE0C(w, 0, str, 0, 1, 2);
     func_021B9C08(p, 4, w);
-    func_02045808(str);
+    STRBUF_Delete(str);
     func_0201ED04(w);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B76B4
+ * function: PDW_POSTMAN_ReceiveItems
  * address:  0x021B76B4
  * packet:   pkt_021B76B4
  * region:   ov021
@@ -13,7 +13,7 @@
  * four-argument predicate and releasing the ones it accepts.
  *
  * symbols:
- *   func_0201292C  0x0201292C  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02009310  0x02009310  thumb
  *   func_02009330  0x02009330  thumb
  *   func_02007E50  0x02007E50  thumb
@@ -25,16 +25,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct BigObj;
-void *func_0201292C(const struct BigObj *p);
+void *GAME_DATA_GetMyItem(const struct BigObj *p);
 struct Sub02009210Obj;
 u16 func_02009310(const struct Sub02009210Obj *obj, int i);
 u8 func_02009330(const struct Sub02009210Obj *obj, int i);
 int func_02007E50(void *saved, int a, int b, int c);
 void func_02009364(struct Sub02009210Obj *obj, int i);
 
-void func_021B76B4(void *a0, int a1, int a2)
+void PDW_POSTMAN_ReceiveItems(void *a0, int a1, int a2)
 {
-    void *saved = func_0201292C(a0);
+    void *saved = GAME_DATA_GetMyItem(a0);
     u32 i;
 
     for (i = 0; i < 0x14; i++) {

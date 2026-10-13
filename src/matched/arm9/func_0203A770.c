@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   GFL_NET_COMMAND_GetHeaderSize 0x0203A634  arm
- *   func_020399B8 0x020399B8  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8  arm
  *   GFL_NET_COMMAND_GetRecvFunc 0x0203A70C  arm
  *   GFL_NET_COMMAND_GetCommandWork 0x0203A730  arm
  */
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 GFL_NET_COMMAND_GetHeaderSize(u32 a);
-extern u32 func_020399B8(u8 *p);
+extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 extern int GFL_NET_COMMAND_GetRecvFunc(u32 idx);
 extern u32 GFL_NET_COMMAND_GetCommandWork(u32 a);
 
@@ -32,7 +32,7 @@ void GFL_NET_COMMAND_CallCommand(u32 a, u32 b, int c, u32 d, u32 e, u32 f)
         return;
     }
     ok = 1;
-    if (func_020399B8((u8 *)f) == 0) {
+    if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)f) == 0) {
         if (c >= 0x11) {
             ok = 0;
         }

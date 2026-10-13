@@ -9,30 +9,30 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203A574 0x0203A574 arm
+ *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021BB6C0 0x021BB6C0 data a4
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
- *   func_0203D7BC 0x0203D7BC arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9EF8 0x021B9EF8 thumb ov100
  */
-extern void func_0203A574(unsigned,unsigned,unsigned,unsigned);
+extern void GFL_NET_COMMAND_AddCommandTable(unsigned,unsigned,unsigned,unsigned);
 extern const unsigned d_021BB6C0[];
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 typedef unsigned char  u8;
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 a0);
 extern void func_021B95B8(unsigned char *,unsigned);
 extern void func_021B9EF8(u8 *a);
 void func_021B9F80(unsigned a)
 {
- func_0203A574(0xc00,(unsigned)d_021BB6C0,6,a);
- func_02039C68((struct Link *)func_020399A8(),0x78,12);
- GFL_NET_SetAutoExit(1);func_0203D7BC(1);
+ GFL_NET_COMMAND_AddCommandTable(0xc00,(unsigned)d_021BB6C0,6,a);
+ func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x78,12);
+ GFL_NET_SetAutoExit(1);GFL_NET_SetLoginOption(1);
  func_021B95B8((unsigned char *)a,(unsigned)func_021B9EF8);
 }

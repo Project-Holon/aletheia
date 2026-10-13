@@ -11,8 +11,8 @@
  * trailing: Two zero alignment bytes.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0204ACEC 0x0204ACEC arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj23118.h"
 typedef unsigned char u8;
@@ -20,6 +20,6 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204ACEC(void *,u32,u32,u32,u16);
-extern void func_02049238(void *);
-void func_021DA3FC(u8 *p) { void *f; f=func_020490F4(23,50); ((struct Obj23118 *)p)->f30C=func_0204ACEC(f,5,0,128,50); func_02049238(f); }
+extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
+extern void ARC_TOOL_DeleteHandle(void *);
+void func_021DA3FC(u8 *p) { void *f; f=func_020490F4(23,50); ((struct Obj23118 *)p)->f30C=CLACT_RegisterPaletteCompressed(f,5,0,128,50); ARC_TOOL_DeleteHandle(f); }

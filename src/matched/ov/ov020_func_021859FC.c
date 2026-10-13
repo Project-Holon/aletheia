@@ -1,5 +1,5 @@
 /*
- * function: func_021859FC
+ * function: EVENT_MAPCHANGE_ReloadMmdl
  * address: 0x021859FC
  * packet: pkt_ov020_021859FC
  * region: ov020
@@ -9,34 +9,34 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02186470 0x02186470 thumb ov020
- *   func_02013DD0 0x02013DD0 thumb
- *   func_02185928 0x02185928 thumb ov020
- *   func_02012B38 0x02012B38 thumb
+ *   FIELD_WFBC_DATA_LOCAL_MoveBoredPeopleToBackList 0x02186470 thumb ov020
+ *   ZONEDATA_IsZoneInTableDFC0 0x02013DD0 thumb
+ *   EVENT_MAPCHANGE_AddWfbcMmdl 0x02185928 thumb ov020
+ *   GAME_DATA_GetMoveModelSys 0x02012B38 thumb
  *   func_0201444C 0x0201444C thumb
- *   func_020127C4 0x020127C4 thumb
- *   func_021864DC 0x021864DC thumb ov020
+ *   GAME_DATA_GetSecondUnionInfo 0x020127C4 thumb
+ *   FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus 0x021864DC thumb ov020
  */
 #include "../include/Obj19456.h"
 typedef unsigned short u16;
-extern void func_02186470(int a0);
-extern int func_02013DD0(int id);
-extern void func_02185928(void *a, const short *p);
+extern void FIELD_WFBC_DATA_LOCAL_MoveBoredPeopleToBackList(int a0);
+extern int ZONEDATA_IsZoneInTableDFC0(int id);
+extern void EVENT_MAPCHANGE_AddWfbcMmdl(void *a, const short *p);
 typedef unsigned int   u32;
 struct BigObj;
 struct Sub02014444Obj;
-extern void *func_02012B38(const struct BigObj *p);
+extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u32 func_0201444C(struct Sub02014444Obj *o);
-extern unsigned char *func_020127C4(void *p);
+extern unsigned char *GAME_DATA_GetSecondUnionInfo(void *p);
 typedef unsigned char  u8;
-extern void func_021864DC(u8 *p);
-void func_021859FC(void *p, const short *s)
+extern void FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus(u8 *p);
+void EVENT_MAPCHANGE_ReloadMmdl(void *p, const short *s)
 {
-    func_02186470((int)p);
-    if (func_02013DD0(*(const u16 *)&((struct Obj19456 *)s)->f4) != 0) {
-        func_02185928((void *)p, s);
-        if (func_0201444C(func_02012B38(p)) == 0) {
-            func_021864DC(func_020127C4(p));
+    FIELD_WFBC_DATA_LOCAL_MoveBoredPeopleToBackList((int)p);
+    if (ZONEDATA_IsZoneInTableDFC0(*(const u16 *)&((struct Obj19456 *)s)->f4) != 0) {
+        EVENT_MAPCHANGE_AddWfbcMmdl((void *)p, s);
+        if (func_0201444C(GAME_DATA_GetMoveModelSys(p)) == 0) {
+            FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus(GAME_DATA_GetSecondUnionInfo(p));
         }
     }
 }

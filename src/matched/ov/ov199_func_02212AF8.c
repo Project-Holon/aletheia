@@ -12,20 +12,20 @@
  *   original has; explicit copies per index (0 and 1) instead of a helper; y*2+0x21+x add order.
  * symbols:
  *   ov093_id 0x0000005D data
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02012F2C 0x02012F2C thumb
+ *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   BTL_SETUP_SetupCommSingle 0x02013790 thumb
  *   BTL_SETUP_SetupCommDouble 0x020137C0 thumb
  *   BTL_SETUP_SetupCommTriple 0x02013864 thumb
  *   BTL_SETUP_SetupCommRotation 0x02013894 thumb
- *   func_0201A354 0x0201A354 thumb
+ *   POKE_REGULATION_Load 0x0201A354 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0200AE54 0x0200AE54 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
@@ -45,7 +45,7 @@ typedef signed int     s32;
 struct Big;
 struct Rec160;
 extern const char ov093_id[];
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *);
 extern void BATTLE_REC_ClearWork(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -54,15 +54,15 @@ struct Entry;
 struct Reg;
 struct Reg2;
 struct ZoneData;
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(int);
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void BTL_SETUP_SetupCommSingle(void *, void *, int, int, u32);
 extern void BTL_SETUP_SetupCommDouble(void *, void *, int, int, u32);
 extern void BTL_SETUP_SetupCommTriple(void *, void *, int, int, u32);
 extern void BTL_SETUP_SetupCommRotation(void *, void *, int, int, u32);
-extern void *func_0201A354(int, int);
+extern void *POKE_REGULATION_Load(int, int);
 extern void *func_0200AE14(void *);
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
@@ -97,7 +97,7 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
     int id;
     int a;
     int flag = 0;
-    sys = func_0200B358(func_02012EBC(p->f4));
+    sys = func_0200B358(GAME_DATA_GetSaveControl(p->f4));
     out = func_02030734(heap, 0x10, 0, d_02213D04, 0x3e0);
     func_02082BCC(out, 0, 0x10);
     out->f0 = p->f4;
@@ -105,7 +105,7 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
     func_02082BCC((u8 *)p + 0x1b4, 0, 0x18);
     out->f8 = func_02030734(heap, 0x58, 0, d_02213D04, 0x3eb);
     func_02082BCC(out->f8, 0, 0x58);
-    out->f8->f54 = func_02012F2C(p->f4);
+    out->f8->f54 = GAME_DATA_GetTrainerRecord(p->f4);
     out->f8->f50 = 0;
     {
         struct R8 *r = out->f8;
@@ -126,31 +126,31 @@ struct Out *func_02212AF8(int unused, u32 heap, struct In *p)
     if (p->f1c == 2 || p->f1c == 3) {
         id = 16;
         switch (p->f8) {
-        case 0: default: id = 15; BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: id = 17; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: id = 18; BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 4: id = 19; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: default: id = 15; BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: id = 17; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: id = 18; BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 4: id = 19; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
-        v = func_0201A354(id, heap);
+        v = POKE_REGULATION_Load(id, heap);
         flag = 1;
     } else if (p->f1c == 0) {
         v = func_0200AE14(func_0200B1D4(sys, 0));
         switch (func_0200AE54(v, 0x15)) {
-        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else if (p->f1c == 1) {
         v = func_0200AE14(func_0200B1D4(sys, 1));
         switch (func_0200AE54(v, 0x15)) {
-        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else {
         func_02034714(d_02213D00, flag, d_02213D00);

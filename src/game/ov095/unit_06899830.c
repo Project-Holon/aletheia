@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_021B9A40  0x021B9A40  thumb
- *   func_021D76BC  0x021D76BC  thumb
- *   func_021D775C  0x021D775C  thumb
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   d_0689D768 0x0689D768 data ov095 a4
  */
 typedef unsigned int u32;
@@ -24,9 +24,9 @@ typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern int func_021B9A40(u8);
-extern int func_021D76BC(int, u16);
+extern int BTL_EVENT_OverwriteVar(int, u16);
 unsigned char *func_06899830(u32 *p);
 void func_0689983C(int a, int b, int c);
 extern unsigned char d_0689D768[];
@@ -47,8 +47,8 @@ unsigned char *func_06899830(u32 *p)
 void func_0689983C(int a, int b, int c)
 {
     u16 value;
-    if (c == func_021B9A40((u8)func_021D775C(3))) {
-        value = func_021D775C(0x26) * 2;
-        func_021D76BC(0x26, value);
+    if (c == func_021B9A40((u8)BTL_EVENT_GetVar(3))) {
+        value = BTL_EVENT_GetVar(0x26) * 2;
+        BTL_EVENT_OverwriteVar(0x26, value);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02194F5C
+ * function: TALKMSGWIN_GetTailBaseX
  * address:  0x02194F5C
  * packet:   pkt_ov021_02194F5C
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (no lr save), sole caller func_02194F84.
+ * Unlabelled leaf (no lr save), sole caller TALKMSGWIN_CalcTail.
  * Addresses are Black-image addresses.
  */
 
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02194F5C(int x, int w, int side, u16 *a, u16 *b)
+void TALKMSGWIN_GetTailBaseX(int x, int w, int side, u16 *a, u16 *b)
 {
     if (side == 0) {
         *a = x + 0x40;

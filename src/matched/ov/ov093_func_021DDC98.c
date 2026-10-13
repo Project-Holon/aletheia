@@ -1,5 +1,5 @@
 /*
- * function: func_021DDC98
+ * function: BTL_HANDLER_ITEM_GetBabiriBerryHandlers
  * address: 0x021DDC98
  * packet: pkt_ov093_021DDC98
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DDC84.c and filed here.
  *
  * symbols:
- *   d_021F183C 0x021F183C data ov093 a4
+ *   gBabiriBerryHandlerTable 0x021F183C data ov093 a4
  */
 
-extern int d_021F183C[];
-int *func_021DDC98(int *p);
+extern int gBabiriBerryHandlerTable[];
+int *BTL_HANDLER_ITEM_GetBabiriBerryHandlers(int *p);
 
-int *func_021DDC98(int *p)
+int *BTL_HANDLER_ITEM_GetBabiriBerryHandlers(int *p)
 {
     *p = 2;
-    return d_021F183C;
+    return gBabiriBerryHandlerTable;
 }

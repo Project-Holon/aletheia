@@ -1,5 +1,5 @@
 /*
- * function: func_02158E54
+ * function: SCRIPT_WORK_InitFieldParam
  * address:  0x02158E54
  * packet:   pkt_02158E54
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_02082A7C  0x02082A7C  arm
- *   func_02188C54  0x02188C54  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb
  */
 #include "../include/Obj00020.h"
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern int func_02082A7C();
-extern int func_02188C54();
+extern int FIELDMAP_GetMsgBg();
 
-int func_02158E54(int a0, int a1)
+int SCRIPT_WORK_InitFieldParam(int a0, int a1)
 {
     int a2;
     void *t4;
@@ -33,7 +33,7 @@ int func_02158E54(int a0, int a1)
 
 t5 = a0 + 0;
 a0 = a1 + 0;
-    t4 = func_0201210C((const struct Ctx *)a0);
+    t4 = GAMESYSTEM_GetFieldMap((const struct Ctx *)a0);
 loc_02158E5E:
 a0 = 0;
 a1 = t5 + 0;
@@ -44,7 +44,7 @@ loc_02158E6A:
     if (t4 == 0) goto loc_02158E78;
 loc_02158E70:
 a0 = (int)t4 + 0; /* int-typed on purpose: pointer local changes codegen */
-    a0 = func_02188C54(a0);
+    a0 = FIELDMAP_GetMsgBg(a0);
 loc_02158E76:
 ((struct Obj00020 *)((char *)t5))->f0 = a0;
 loc_02158E78:

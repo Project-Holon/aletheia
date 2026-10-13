@@ -13,19 +13,22 @@
  *   func_021B9774 0x021B9774 thumb ov114
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   GAME_DATA_SaveCancel  0x02012E08  thumb  arm9
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
+ *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb  arm9
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
  */
 #include "../include/Obj03276.h"
 #include "../include/Obj22990.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_0200FB24(void);
-extern void func_02027974(void *);
+extern void APP_TASKMENU_UpdateMenu(void *);
 extern void func_021D9A14(int);
 extern void func_021D9404(char *p);
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void func_021B9774(u8 *p);
 extern void GAME_DATA_SaveCancel(char *p);
-extern void func_0202223C(u32 a, u32 color);
+extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
 int func_021DA54C(int a,int b,char *c,char *p)
 {
@@ -37,18 +40,18 @@ int func_021DA54C(int a,int b,char *c,char *p)
         if (!func_0200FB24()) f(p);
         r = 0;
     }
-    if (((struct Obj03276 *)p)->f14) func_02027974(((struct Obj03276 *)p)->f14);
+    if (((struct Obj03276 *)p)->f14) APP_TASKMENU_UpdateMenu(((struct Obj03276 *)p)->f14);
     func_021D9A14(((struct Obj03276 *)p)->fC);
     func_021D9404(((struct Obj03276 *)p)->f10);
-    if (func_020221A4()) {
+    if (WIPE_SYS_EndCheck()) {
         if (func_0200FB24()) {
             func_021B9774(((struct Obj03276 *)p)->f8);
             if (((struct Obj03276 *)p)->f6C) {
                 GAME_DATA_SaveCancel(((struct Obj03276 *)p)->f20);
                 ((struct Obj03276 *)p)->f6C = 0;
             }
-            func_0202223C(0,0);
-            func_0202223C(1,0);
+            WIPE_SetBrightnessFadeOut(0,0);
+            WIPE_SetBrightnessFadeOut(1,0);
             r = 1;
             DWC_RAPCOMMON_HandleNetError(1,0);
             ((struct Obj22990 *)c)->f10 = 1;

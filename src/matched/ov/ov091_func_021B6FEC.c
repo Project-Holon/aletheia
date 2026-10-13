@@ -1,5 +1,5 @@
 /*
- * function: func_021B6FEC
+ * function: POKELIST_ShutdownDisplay
  * address:  0x021B6FEC
  * packet:   pkt_ov091_021B6FEC
  * region:   ov091
@@ -19,26 +19,26 @@
  *
  * symbols:
  *   func_02061C30  0x02061C30  arm
- *   func_0204A5AC  0x0204A5AC  arm
- *   func_021B7034  0x021B7034  thumb
+ *   CLACT_ExitSystem  0x0204A5AC  arm
+ *   POKELIST_ShutdownBgPlane0  0x021B7034  thumb
  *   func_020403F4  0x020403F4  arm
- *   func_020450C8  0x020450C8  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
  */
 
 extern void func_02061C30(void);
-extern void func_0204A5AC(void);
-extern void func_021B7034(int);
+extern void CLACT_ExitSystem(void);
+extern void POKELIST_ShutdownBgPlane0(int);
 typedef unsigned int   u32;
 extern void func_020403F4(u32 i);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 
-void func_021B6FEC(int a)
+void POKELIST_ShutdownDisplay(int a)
 {
     func_02061C30();
-    func_0204A5AC();
-    func_021B7034(a);
+    CLACT_ExitSystem();
+    POKELIST_ShutdownBgPlane0(a);
     func_020403F4(3);
     func_020403F4(2);
     func_020403F4(1);
@@ -46,6 +46,6 @@ void func_021B6FEC(int a)
     func_020403F4(6);
     func_020403F4(5);
     func_020403F4(4);
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
 }

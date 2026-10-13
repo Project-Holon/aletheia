@@ -1,5 +1,5 @@
 /*
- * function: func_02158F8C
+ * function: SCRIPT_WORK_GetScriptId
  * address:  0x02158F8C
  * packet:   pkt_02158F8C
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u16 func_02158F8C(u8 *p)
+u16 SCRIPT_WORK_GetScriptId(u8 *p)
 {
     return ((struct Obj17635 *)p)->f4;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021693CC
+ * function: FIELD_G3D_MAP_ClearPlacedModels
  * address:  0x021693CC
  * packet:   pkt_ov010_021693CC
  * region:   ov010
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from ov021 func_0218D05C.
+ * called from ov021 FIELD_G3D_MAPPER_ReleaseBlocks.
  */
 #include "../include/Obj19040.h"
 
-void func_021693CC(char *p)
+void FIELD_G3D_MAP_ClearPlacedModels(char *p)
 {
     ((struct Obj19040 *)p)->f98 = 0;
 }

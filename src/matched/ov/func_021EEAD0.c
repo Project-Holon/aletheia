@@ -1,5 +1,5 @@
 /*
- * function: func_021EEAD0
+ * function: BTL_ADAPTER_ResetCommand
  * address:  0x021EEAD0
  * packet:   pkt_021ED450
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EEAD0   0x021EEAD0  thumb
+ *   BTL_ADAPTER_ResetCommand   0x021EEAD0  thumb
  *
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: ldrb r2, [r0, #0xc]; movs r1, #0; strb r1, [r0, #0xe]; strb r1, [r0, #0xf]; movs r1, #0xf; bics r2, r1; strb r2, [r0, #0xc]; bx lr.
  */
@@ -23,7 +23,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021EEAD0  clear the low nibble of byte +0xc and zero bytes +0xe/+0xf */
-void func_021EEAD0(u8 *p)
+void BTL_ADAPTER_ResetCommand(u8 *p)
 {
     u8 v = p[0xc];
 

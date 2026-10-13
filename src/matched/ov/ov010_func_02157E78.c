@@ -1,5 +1,5 @@
 /*
- * function: func_02157E78
+ * function: DELIVERY_IRC_Main
  * address: 0x02157E78
  * packet: pkt_ov010_02157E78
  * region: ov010
@@ -9,7 +9,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_02157E78(u8 *p)
+void DELIVERY_IRC_Main(u8 *p)
 {
     void (*callback)(u8 *) = *(void (**)(u8 *))(p + 0x678);
     if (callback != 0)

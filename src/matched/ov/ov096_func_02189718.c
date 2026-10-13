@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj21969.h"
@@ -26,24 +26,24 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 struct UtilWork;
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 
 int func_02189718(struct Cursor *a, int b) {
     int r7;
     int r6;
     u8 *t;
     u8 s;
-    r7 = func_0201134C(a);
-    r6 = func_0201134C(a);
+    r7 = VM_GetU32(a);
+    r6 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, r7);
     t = func_0218A2FC((u8 *)b, s);
-    if (func_021D5BDC((struct UtilWork *)t, 13)) {
+    if (BTL_POKEPARAM_TestContFlag((struct UtilWork *)t, 13)) {
         VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r6);
     }
     return ((struct Obj21969 *)b)->fC4;

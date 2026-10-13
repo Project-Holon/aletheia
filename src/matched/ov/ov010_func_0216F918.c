@@ -1,5 +1,5 @@
 /*
- * function: func_0216F918
+ * function: WAZA_OSHIE_Create
  * address: 0x0216F918
  * packet: pkt_ov010_0216F918
  * region: ov010
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 extern char d_02172B74[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,int);
-void *func_0216F918(u32 heap) { void *p; p=func_02030734(heap,28,0,d_02172B74,35); func_02082BCC(p,0,28); return p; }
+void *WAZA_OSHIE_Create(u32 heap) { void *p; p=func_02030734(heap,28,0,d_02172B74,35); func_02082BCC(p,0,28); return p; }

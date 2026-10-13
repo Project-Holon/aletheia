@@ -1,5 +1,5 @@
 /*
- * function: func_021B7ED4
+ * function: FIELD_RAIL_WORK_GetPrevPos
  * address:  0x021B7ED4
  * packet:   pkt_ov021_021B7ED4
  * region:   ov021
@@ -20,7 +20,7 @@ typedef struct {
     u32 w[3];
 } Triple;
 
-void func_021B7ED4(u8 *o, Triple *out)
+void FIELD_RAIL_WORK_GetPrevPos(u8 *o, Triple *out)
 {
     *out = *(Triple *)(o + 0x44);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7BD8
+ * function: MONOLITH_TOOL_SLOT_SELECT_CreateCursor
  * address:  0x021B7BD8
  * packet:   pkt_ov071_021B7BD8
  * region:   ov071
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj20703.h"
 
-void func_021B7BD8(void *p, int a)
+void MONOLITH_TOOL_SLOT_SELECT_CreateCursor(void *p, int a)
 {
     void func_021B7070(int *p, int *out);
     func_021B7070(((struct Obj20703 *)p)->f4, (int *)(a + 0x24));

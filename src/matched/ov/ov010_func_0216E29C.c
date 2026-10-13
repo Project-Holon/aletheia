@@ -1,5 +1,5 @@
 /*
- * function: func_0216E29C
+ * function: FLDMMDL_SysLoadObjCodeParamCache
  * address:  0x0216E29C
  * packet:   pkt_ov010_0216E29C
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Unlabelled leaf (saves no lr, so disasm.py prints it as .word data):
- * a tail call through a pool word, the sole blocker of ov020 func_021857C0.
+ * a tail call through a pool word, the sole blocker of ov020 EVENT_MAPCHANGE_ApplyLocation.
  *
  * symbols:
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  */
 
 typedef struct Obj {
@@ -22,9 +22,9 @@ typedef struct Obj {
 } Obj;
 
 typedef unsigned int   u32;
-void func_02048F4C(void *dst, u32 archive_id, u32 member);
+void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
-void func_0216E29C(Obj *o, int v)
+void FLDMMDL_SysLoadObjCodeParamCache(Obj *o, int v)
 {
-    func_02048F4C(o->f44, 0x3a, v);
+    ARC_TOOL_ReadMember(o->f44, 0x3a, v);
 }

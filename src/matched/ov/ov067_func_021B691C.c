@@ -1,5 +1,5 @@
 /*
- * function: func_021B691C
+ * function: TOUCHBAR_FreeButton
  * address: 0x021B691C
  * packet: pkt_ov067_021B691C
  * region: ov067
@@ -10,14 +10,14 @@
  * status: EXACT*
  * extent: trailing two-byte alignment padding at 0x021B6932.
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_02082BCC 0x02082BCC arm
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_02082BCC(void *p, unsigned int v, unsigned int n);
-void func_021B691C(void **p)
+void TOUCHBAR_FreeButton(void **p)
 {
-    func_0204B3B4(*p);
+    CLACT_DeleteActor(*p);
     func_02082BCC(p, 0, 0x38);
 }

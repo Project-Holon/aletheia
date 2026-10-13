@@ -26,6 +26,8 @@
  * symbols:
  *   func_02025B94  0x02025B94  thumb
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201F094.c \
@@ -42,8 +44,8 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 struct MsgBank;
 struct Obj;
 struct Rec;
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
 extern void  MYSTATUS_NameToStrbuf(void *a, void *b);
 extern u32   func_02025B94(u32 a);
@@ -79,12 +81,12 @@ void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n)
         s = func_02045B38(0, 2, (u16)id, (u16)p->heap);
         if (s != 0) {
             if (n < func_02045F50(s)) {
-                func_02045CAC(s, n, p->buf);
+                MSGDATA_ReadString(s, n, p->buf);
                 func_0201ED84(p, i, p->buf, 0);
-                func_02045C04(s);
+                MSGDATA_Delete(s);
                 return;
             }
-            func_02045C04(s);
+            MSGDATA_Delete(s);
         }
     }
     func_0201ED64(p, i);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7E60
+ * function: MONOLITH_TOOL_MENU_Create
  * address:  0x021B7E60
  * packet:   pkt_ov071_021B7E60
  * region:   ov071
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
- *   func_0203159C  0x0203159C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_021B8308  0x021B8308  thumb  ov071
  *   func_021B8350  0x021B8350  thumb  ov071
  *   func_021B81A0  0x021B81A0  thumb  ov071
  *   func_021B82E4  0x021B82E4  thumb  ov071
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  */
 
 typedef struct {
@@ -43,23 +43,23 @@ struct Ctx;
 struct BigObj;
 typedef unsigned char  u8;
 struct Obj0203159C;
-int func_021B7E60(struct Obj0203159C *a, int unused, C *c)
+int MONOLITH_TOOL_MENU_Create(struct Obj0203159C *a, int unused, C *c)
 {
     extern void *func_020120F4(const struct Ctx *p);
-    extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+    extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
     extern void func_02082BCC(void *, int, int);
     extern u32 func_0201296C(const struct BigObj *p);
-    extern u32 func_020142E8(void *bitmap, s32 id);
+    extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
     extern void func_021B8308(void);
     extern void func_021B8350(W *, int *);
     extern void func_021B81A0(int *a, u8 *p);
     extern void func_021B82E4(void *, int);
-    extern void func_02043598(u32 mask, u32 enable);
+    extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
     void *h = func_020120F4(*(void **)c->q);
-    W *w = func_0203159C(a, 0x48, 0x61);
+    W *w = PROCSYS_AllocProcWork(a, 0x48, 0x61);
 
     func_02082BCC(w, 0, 0x48);
-    if (func_020142E8((void *)func_0201296C(h), 0x980) == 0) {
+    if (ZONEDATA_CheckEventFlag((void *)func_0201296C(h), 0x980) == 0) {
         w->f32 = 2;
     } else if (c->q->f3d == 1) {
         w->f32 = 1;
@@ -70,6 +70,6 @@ int func_021B7E60(struct Obj0203159C *a, int unused, C *c)
     func_021B8350(w, c->f4);
     func_021B81A0((int *)c, (u8 *)w);
     func_021B82E4(c, (int)w);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021899F8
+ * function: FIELDMAP_SetDrawMode
  * address:  0x021899F8
  * packet:   pkt_ov021_021899F8
  * region:   ov021
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-void func_021899F8(u8 *p, u32 v)
+void FIELDMAP_SetDrawMode(u8 *p, u32 v)
 {
     ((struct Obj19502 *)p)->f12C = v;
 }

@@ -59,8 +59,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02011330",
-    "func_0201134C",
+    "VM_GetU16",
+    "VM_GetU32",
     "VM_PushStack",
     "VM_PopStack",
     "VM_Jump",
@@ -78,7 +78,7 @@
    ]
   },
   {
-   "name": "func_020113D8",
+   "name": "TIMEZONE_GetNowTimeZone",
    "address": "0x020113D8",
    "kind": "game",
    "region": "arm9",

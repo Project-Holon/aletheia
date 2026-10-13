@@ -1,5 +1,5 @@
 /*
- * function: func_021606D0
+ * function: EVENT_SHORTCUT_MENU_SuspendLinkHook
  * address:  0x021606D0
  * packet:   pkt_ov010_021606D0
  * region:   ov010
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled thunk: tail-calls func_0216060C with its second argument.
+ * Unlabelled thunk: tail-calls EVENT_SHORTCUT_MENU_CloseLink with its second argument.
  *
  * symbols:
- *   func_0216060C  0x0216060C  thumb  ov010
+ *   EVENT_SHORTCUT_MENU_CloseLink  0x0216060C  thumb  ov010
  */
 
-extern int func_0216060C(int a0, int a1);
+extern int EVENT_SHORTCUT_MENU_CloseLink(int a0, int a1);
 
-void func_021606D0(int a, int b)
+void EVENT_SHORTCUT_MENU_SuspendLinkHook(int a, int b)
 {
-    func_0216060C(b, b);
+    EVENT_SHORTCUT_MENU_CloseLink(b, b);
 }

@@ -16,12 +16,12 @@
  *   APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0201CE48 0x0201CE48 thumb
- *   func_02027974 0x02027974 thumb
+ *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02021FD8 0x02021FD8 thumb
+ *   PALANM_BlendChannel 0x02021FD8 thumb
  *   APP_TASKMENU_WIN_TransChar 0x02028454 thumb
  *   func_021C47C4 0x021C47C4 thumb ov136
  *   func_021C44FC 0x021C44FC thumb ov136
@@ -42,12 +42,12 @@ extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern u32 func_0201CE30(void *h);
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_02027974(void *p);
+extern void APP_TASKMENU_UpdateMenu(void *p);
 extern void func_0201F7A8(void *p, u32 a);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
 extern void func_021C47C4(u8 *p, int n);
 extern void func_021C44FC(u8 *p);
@@ -83,13 +83,13 @@ int func_021C49D0(u8 *p)
         }
         return 0;
     case 3:
-        func_02027974(((struct Obj00275 *)p)->f10C);
+        APP_TASKMENU_UpdateMenu(((struct Obj00275 *)p)->f10C);
         r = func_021C4998(p);
         if (r < 0)
             return 0;
         func_0201F7A8(((struct Obj00275 *)p)->f5C, 2);
         w = ((struct Obj00275 *)p)->f5C;
-        func_020456F8(w);
+        BMP_WIN_ClearScreen(w);
         func_020409B4(func_02045730(w));
         ((struct Obj00275 *)p)->f8 = 0;
         if (r == 0) {
@@ -99,7 +99,7 @@ int func_021C49D0(u8 *p)
         }
         ((struct Obj00275 *)p)->f10 = 0;
         p[0xB] = p[0xC];
-        func_02021FD8(((struct Obj00275 *)p)->f38, 0, 0, 0x30, 0, 0);
+        PALANM_BlendChannel(((struct Obj00275 *)p)->f38, 0, 0, 0x30, 0, 0);
         APP_TASKMENU_WIN_TransChar(((struct Obj00275 *)p)->f128);
         APP_TASKMENU_WIN_TransChar(((struct Obj00275 *)p)->f12C);
         return 0;

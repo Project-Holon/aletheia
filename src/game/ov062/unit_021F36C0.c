@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F36C0.c
  * unit:     yes
- * function: func_021F36C0, func_021F3738
+ * function: func_021F36C0, GIMMICK62_Exit
  * address:  0x021F36C0
  * region:   ov062
  * compiler: dsi/1.1p1
@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE4A4  0x021BE4A4  thumb  ov021
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE4B4  0x021BE4B4  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  *   d_021F3768     0x021F3768  data  a4
  *   d_021F3790     0x021F3790  data  a4
- *   func_021BE418  0x021BE418  thumb  ov021
+ *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
  */
 #include "unit_021F36C0_types.h"
 
@@ -33,19 +33,19 @@ struct GameSystem;
 struct GameData;
 struct GimmickWork;
 
-extern struct GameSystem *func_02188C80(void *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
-extern s32 *func_0200B3A4(struct GimmickWork *gimmickWork, u32 slot);
-extern void *func_02188D2C(void *fieldMap);
-extern void func_021BE760(void *expObj, void *unitDesc, int b);
-extern VecFx32 *func_021BE480(void *expObj, unsigned unit, int model);
-extern void func_021BE4A4(void *expObj, int unit, int model, int visible);
-extern void func_021BE700(void *expObj, int unit, int model, int animeIdx, int enabled);
-extern void func_021BE4B4(void *expObj, int unit, int model, int hidden);
-extern void func_021BE418(void *expObj, unsigned short unit);
+extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slot);
+extern void *FIELDMAP_GetExpObj(void *fieldMap);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
+extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
+extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int visible);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, int model, int animeIdx, int enabled);
+extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
+extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
 void func_021F36C0(void *fieldMap);
-void func_021F3738(void *fieldMap);
+void GIMMICK62_Exit(void *fieldMap);
 extern VecFx32 d_021F3768;
 extern VecFx32 d_021F3790;
 
@@ -54,17 +54,17 @@ void func_021F36C0(void *fieldMap)
     s32 *hideFlag;
     void *expObj;
 
-    hideFlag = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK62_WORK_SLOT);
-    expObj = func_02188D2C(fieldMap);
-    func_021BE760(expObj, &d_021F3768, 0);
-    *func_021BE480(expObj, 0, 0) = d_021F3790;
-    func_021BE4A4(expObj, 0, 0, 1);
-    func_021BE700(expObj, 0, 0, 0, 1);
+    hideFlag = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK62_WORK_SLOT);
+    expObj = FIELDMAP_GetExpObj(fieldMap);
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &d_021F3768, 0);
+    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = d_021F3790;
+    FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, 0, 1);
+    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, 0, 0, 1);
     if (*hideFlag != 0)
-        func_021BE4B4(expObj, 0, 0, 1);
+        FLD_EXP_OBJ_SetModelHidden(expObj, 0, 0, 1);
 }
 
-void func_021F3738(void *fieldMap)
+void GIMMICK62_Exit(void *fieldMap)
 {
-    func_021BE418(func_02188D2C(fieldMap), 0);
+    FLD_EXP_OBJ_RemoveUnit(FIELDMAP_GetExpObj(fieldMap), 0);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * bmp.c fill worker (8bpp tiled, one byte per pixel), reached from the
- * fill dispatcher func_02043AF4.  Clips right/bottom against the
+ * fill dispatcher BMP_FillRect.  Clips right/bottom against the
  * descriptor before the loops and left/top per pixel (the signed
  * cmp/cmpge/blt triple), then stores the fill byte at the 8x8-tiled
  * address.  0x02044CE0 and 0x02044EBC are byte-identical twins.

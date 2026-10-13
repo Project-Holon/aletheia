@@ -1,5 +1,5 @@
 /*
- * function: func_021C3490
+ * function: SODATEYA_GetLevelsGained
  * address:  0x021C3490
  * packet:   pkt_ov021_021C3490
  * region:   ov021
@@ -13,18 +13,19 @@
  *
  * symbols:
  *   func_0200BC2C  0x0200BC2C  thumb
- *   func_021C341C  0x021C341C  thumb  ov021
+ *   SODATEYA_GetCurrentLevel  0x021C341C  thumb  ov021
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  */
 
 typedef unsigned int u32;
 
 extern void *func_0200BC2C(void *e, int i);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern int func_021C341C(u32 *p, u32 b);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern int SODATEYA_GetCurrentLevel(u32 *p, u32 b);
 
-int func_021C3490(void **p, int i)
+int SODATEYA_GetLevelsGained(void **p, int i)
 {
-    int lv = func_02017E1C(func_0200BC2C(p[2], i), 0x9E, 0);
+    int lv = POKE_TOOL_GetPartyValue(func_0200BC2C(p[2], i), 0x9E, 0);
 
-    return func_021C341C((u32 *)p, i) - lv;
+    return SODATEYA_GetCurrentLevel((u32 *)p, i) - lv;
 }

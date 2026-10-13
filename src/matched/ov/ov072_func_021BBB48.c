@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB48
+ * function: TOWNMAP_GRH_FindRecordIndex
  * address:  0x021BBB48
  * packet:   pkt_021BBB48
  * region:   ov072
@@ -16,20 +16,20 @@
  * docs/idioms/a-named-zero-argument-pins-the-callers-truncation.md).
  *
  * symbols:
- *   func_021BBB3C  0x021BBB3C  thumb
+ *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb
  */
 
 typedef unsigned short u16;
 
-int func_021BBB3C(int a0, u16 a1, int a2);
+int TOWNMAP_GRH_GetTownInfoValue(int a0, u16 a1, int a2);
 
-int func_021BBB48(int a0, int a1)
+int TOWNMAP_GRH_FindRecordIndex(int a0, int a1)
 {
     int i;
     int j = 0;
 
     for (i = 0; i < 0x3d; i++) {
-        if (func_021BBB3C(a0, i, j) == a1)
+        if (TOWNMAP_GRH_GetTownInfoValue(a0, i, j) == a1)
             return (u16)i;
     }
     return 0xffff;

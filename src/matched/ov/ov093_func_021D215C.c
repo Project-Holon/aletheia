@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021CD644  0x021CD644  thumb  ov093
+ *   BTL_SERVER_CMD_ReadU8Wrapper  0x021CD644  thumb  ov093
  *   func_021EA280  0x021EA280  thumb  ov093
  *   func_021EA2BC  0x021EA2BC  thumb  ov093
  */
@@ -26,7 +26,7 @@ typedef struct {
     u32 unk134;
 } Seq;
 
-extern u8 func_021CD644(u8 *p);
+extern u8 BTL_SERVER_CMD_ReadU8Wrapper(u8 *p);
 extern void func_021EA280(char *ctx, u32 n, int b, const u8 *c, u16 e);
 extern int func_021EA2BC(char *ctx);
 
@@ -44,7 +44,7 @@ int func_021D215C(Seq *s, int *state, u32 *a)
         p1 = a[1];
         p2 = a[2];
         for (i = 0; i < n; i++) {
-            buf[i] = func_021CD644((u8 *)s->unk134);
+            buf[i] = BTL_SERVER_CMD_ReadU8Wrapper((u8 *)s->unk134);
         }
         func_021EA280(s->win, n, p1, buf, p2);
         *state = *state + 1;

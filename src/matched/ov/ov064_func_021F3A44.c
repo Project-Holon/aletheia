@@ -1,5 +1,5 @@
 /*
- * function: func_021F3A44
+ * function: GIMMICK64_ShowArcModelAt
  * address:  0x021F3A44
  * packet:   pkt_ov064_021F3A44
  * region:   ov064
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE4B4  0x021BE4B4  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE6CC  0x021BE6CC  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -32,28 +32,28 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
 extern void func_020061E4(u32 a);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void func_021BE4B4(char *p, int i, int j, int v);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B0(u8 *p, int v);
-extern void func_021BE700(int a, int b, int c, u16 d, int e);
-extern void func_021BE6CC(int a, int b, int c, u16 d, int e);
+extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
+extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(int a, int b, int c, u16 d, int e);
+extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, u16 d, int e);
 
-void func_021F3A44(int a, V3 *v)
+void GIMMICK64_ShowArcModelAt(int a, V3 *v)
 {
     int i;
     int s;
 
-    s = func_02188D2C(func_0201210C((void *)a));
+    s = FIELDMAP_GetExpObj(GAMESYSTEM_GetFieldMap((void *)a));
     func_020061E4(0x567);
-    *(V3 *)func_021BE480((char *)s, 0, 1) = *v;
-    func_021BE4B4((char *)s, 0, 1, 0);
+    *(V3 *)FLD_EXP_OBJ_GetModelStatus((char *)s, 0, 1) = *v;
+    FLD_EXP_OBJ_SetModelHidden((char *)s, 0, 1, 0);
     for (i = 0; i < 3; i++) {
-        func_021BE6B0(func_021BE674((char *)s, 0, (int)1, (u16)i), 0);
-        func_021BE700(s, 0, 1, i, 1);
-        func_021BE6CC(s, 0, 1, i, 0);
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((char *)s, 0, (int)1, (u16)i), 0);
+        FLD_EXP_OBJ_SetAnimeEnabled(s, 0, 1, i, 1);
+        FLD_EXP_OBJ_SetAnimeFrame(s, 0, 1, i, 0);
     }
 }

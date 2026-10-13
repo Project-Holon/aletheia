@@ -1,5 +1,5 @@
 /*
- * function: func_02157948
+ * function: DELIVERY_IRC_SetAckFlag
  * address: 0x02157948
  * packet: pkt_ov010_02157948
  * region: ov010
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad00[0x670]; u16 f670; } Dress_02157948;
 
-void func_02157948(Dress_02157948 *d)
+void DELIVERY_IRC_SetAckFlag(Dress_02157948 *d)
 {
     d->f670 = 1;
 }

@@ -35,6 +35,8 @@
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   pBattleRec  0x0214616C  data
  *   BattleRecModeTable  0x0209DDCC  data
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
  *   (none)
  */
 
@@ -58,7 +60,7 @@ extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 
 extern void  BATTLE_REC_Decode(void *a, u32 b, u32 c);
@@ -71,7 +73,7 @@ extern u32   func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
-extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void *func_0200BBEC(void *a, u32 b, u32 c);
 
 extern const u16 BattleRecModeTable[];

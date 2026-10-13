@@ -1,5 +1,5 @@
 /*
- * function: func_021B9138
+ * function: FRAME_LIST_ClearBgRows
  * address:  0x021B9138
  * packet:   pkt_ov067_021B9138
  * region:   ov067
@@ -31,7 +31,7 @@ struct S {
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_02041B6C(u32 bit);
 
-void func_021B9138(struct S *p, u32 a1, s8 a2)
+void FRAME_LIST_ClearBgRows(struct S *p, u32 a1, s8 a2)
 {
     u32 j;
 

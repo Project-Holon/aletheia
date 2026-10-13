@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202F038  0x0202F038  thumb
+ *   TIME_ICON_Delete  0x0202F038  thumb
  *
  * Guarded release of the pointer at +0x100.
  */
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_0202F038(u8 *p);
+extern void TIME_ICON_Delete(u8 *p);
 
 typedef struct {
     char pad[0x100];
@@ -33,7 +33,7 @@ typedef struct {
 void func_021BA8D4(S *s)
 {
     if (s->f100 != 0) {
-        func_0202F038(s->f100);
+        TIME_ICON_Delete(s->f100);
         s->f100 = 0;
     }
 }

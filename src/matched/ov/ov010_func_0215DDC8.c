@@ -1,5 +1,5 @@
 /*
- * function: func_0215DDC8
+ * function: SCRCMD_MUSICAL_CreateLinkWork
  * address:  0x0215DDC8
  * packet:   pkt_ov010_0215DDC8
  * region:   ov010
@@ -44,7 +44,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void GAME_DATA_SetExternalWork(void *h, void *w);
 extern int func_02034AC4(s32 handle);
 
-void func_0215DDC8(void *unused, void *h)
+void SCRCMD_MUSICAL_CreateLinkWork(void *unused, void *h)
 {
     Work *w = func_02030734(4, 0x38, 1, d_02172914, 0x413);
 

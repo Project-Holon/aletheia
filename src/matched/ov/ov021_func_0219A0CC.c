@@ -1,5 +1,5 @@
 /*
- * function: func_0219A0CC
+ * function: FLDMMDL_MOVECODE_InitTurnRandomSet0
  * address: 0x0219A0CC
  * packet: pkt_ov021_0219A0CC
  * region: ov021
@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov021/unit_02198D3C.c and filed here.
  *
  * symbols:
- *   func_0219A098 0x0219A098 thumb
+ *   FLDMMDL_MOVECODE_InitTurnRandom 0x0219A098 thumb
  */
 
 typedef unsigned int   u32;
-int func_0219A098(u32 a, u32 b);
-int func_0219A0CC(u32 a);
+int FLDMMDL_MOVECODE_InitTurnRandom(u32 a, u32 b);
+int FLDMMDL_MOVECODE_InitTurnRandomSet0(u32 a);
 
-int func_0219A0CC(u32 a) { return func_0219A098(a, 0); }
+int FLDMMDL_MOVECODE_InitTurnRandomSet0(u32 a) { return FLDMMDL_MOVECODE_InitTurnRandom(a, 0); }

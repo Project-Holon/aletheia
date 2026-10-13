@@ -10,7 +10,7 @@
  * volatile: hardware halfword stores at 0x04000050 and 0x04001050.
  * symbols:
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D534 0x0207D534 arm
  *   func_021B6210 0x021B6210 thumb ov180
  *   func_021B6418 0x021B6418 thumb ov180
@@ -20,14 +20,14 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_021B6210(void);
 extern void func_021B6418(char *);
 extern void func_021B64AC(char *);
 extern void func_021B64DC(unsigned char *p);
 int func_021B6A60(char *p) {
-    func_02043534(0); func_020435F4(0);
+    func_02043534(0); BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
     func_0207D534((void *)0x0400006c,-16);

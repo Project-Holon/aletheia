@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02025774  0x02025774  thumb  ov170
+ *   BMP_OAM_SetEnabled  0x02025774  thumb  ov170
  *
  * Forward the i-th entry word plus the third argument.
  */
 
-extern void func_02025774(int, int);
+extern void BMP_OAM_SetEnabled(int, int);
 
 void func_021EE224(char *p, int i, int v)
 {
-    func_02025774(*(int *)(p + i * 8 + 4), v);
+    BMP_OAM_SetEnabled(*(int *)(p + i * 8 + 4), v);
 }
 

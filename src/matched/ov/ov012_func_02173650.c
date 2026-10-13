@@ -1,5 +1,5 @@
 /*
- * function: func_02173650
+ * function: UNION_COMM_RemoveMemberOfBeaconPc
  * address:  0x02173650
  * packet:   pkt_ov012_02173650
  * region:   ov012
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02173614  0x02173614  thumb  ov012
+ *   UNION_COMM_RemoveMember  0x02173614  thumb  ov012
  */
 
 typedef unsigned char u8;
 
-extern void func_02173614(u8 *self, const u8 *mac);
+extern void UNION_COMM_RemoveMember(u8 *self, const u8 *mac);
 
-void func_02173650(int a, u8 *b)
+void UNION_COMM_RemoveMemberOfBeaconPc(int a, u8 *b)
 {
-    func_02173614((u8 *)a, b + 0x64);
+    UNION_COMM_RemoveMember((u8 *)a, b + 0x64);
 }

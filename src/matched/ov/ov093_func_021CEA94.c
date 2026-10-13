@@ -19,9 +19,9 @@
  * Byte increment is promoted in 0..255 then narrowed; all locals initialized
  * on each path to a use. The branch to state 4 has no uninitialized outputs.
  * symbols:
- *   func_021B8588 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   func_021CF524 0x021CF524 thumb ov093
- *   func_021CE150 0x021CE150 thumb ov093
+ *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
  *   func_021CF220 0x021CF220 thumb ov093
  *   func_021CE3C8 0x021CE3C8 thumb ov093
  *   func_021CE4D0 0x021CE4D0 thumb ov093
@@ -29,21 +29,21 @@
  *   func_021CECB4 0x021CECB4 thumb ov093
  *   func_021E97BC 0x021E97BC thumb ov093
  *   func_021E9808 0x021E9808 thumb ov093
- *   func_021CE0BC 0x021CE0BC thumb ov093
+ *   BTL_CLIENT_PollTimeLimitAndSetSub 0x021CE0BC thumb ov093
  *   func_021E98AC 0x021E98AC thumb ov093
  *   func_021E98B4 0x021E98B4 thumb ov093
- *   func_021D8454 0x021D8454 thumb ov093
+ *   BTL_CALC_ActionGetKind 0x021D8454 thumb ov093
  *   func_021B9AB0 0x021B9AB0 thumb ov093
- *   func_021D832C 0x021D832C thumb ov093
- *   func_021D5778 0x021D5778 thumb ov093
+ *   BTL_ACTION_GetFightSlotFlag 0x021D832C thumb ov093
+ *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
  *   func_021CF5B0 0x021CF5B0 thumb ov093
  *   func_021EAF78 0x021EAF78 thumb ov093
- *   func_021CE3B4 0x021CE3B4 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D8340 0x021D8340 thumb ov093
- *   func_021D83FC 0x021D83FC thumb ov093
- *   func_021D82D0 0x021D82D0 thumb ov093
- *   func_021D7EF0 0x021D7EF0 thumb ov093
+ *   BTL_CLIENT_ShowMessage 0x021CE3B4 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_ACTION_GetFightMove 0x021D8340 thumb ov093
+ *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
+ *   BTL_ACTION_SetFight 0x021D82D0 thumb ov093
+ *   BTL_CALC_IsMultiFighterRule 0x021D7EF0 thumb ov093
  *   func_021E98BC 0x021E98BC thumb ov093
  *   func_021E9920 0x021E9920 thumb ov093
  *   func_021E98E8 0x021E98E8 thumb ov093
@@ -57,9 +57,9 @@ typedef unsigned int u32;
 typedef struct { u32 kind:4; u32 sub:3; u32 id:16; u32 rest:9; } Record;
 struct Unk021D82D0;
 struct UtilWork;
-extern u32 func_021B8588(void **p);
+extern u32 BTL_MAIN_GetRule(void **p);
 extern u32 func_021CF524(u32, void *, u32);
-extern void func_021CE150(u8 *p, void *q);
+extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
 extern u32 func_021CF220(u8 *, int *);
 extern int func_021CE3C8(u8 *, int *);
 extern int func_021CE4D0(u8 *, u32 *);
@@ -67,22 +67,22 @@ extern u32 func_021CED4C(u8 *, int *);
 extern void func_021CECB4(u8 *, void *);
 extern void func_021E97BC(char *p, u8 *a, int b);
 extern void func_021E9808(char *p, u32 *q, int c);
-extern int func_021CE0BC(u8 *p, void *q);
+extern int BTL_CLIENT_PollTimeLimitAndSetSub(u8 *p, void *q);
 extern void func_021E98AC(void *);
 extern u32 func_021E98B4(void *);
-extern u32 func_021D8454(u32 *);
+extern u32 BTL_CALC_ActionGetKind(u32 *);
 extern int func_021B9AB0(int);
 struct Unk021D82FC;
-extern u32 func_021D832C(struct Unk021D82FC *p);
-extern u8 func_021D5778(struct UtilWork *p, u16 id);
+extern u32 BTL_ACTION_GetFightSlotFlag(struct Unk021D82FC *p);
+extern u8 BTL_POKEPARAM_FindMoveSlot(struct UtilWork *p, u16 id);
 extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
 extern void func_021EAF78(u8 *, u8);
-extern void func_021CE3B4(u8 *p, void *q);
-extern int func_021D5B68(void *);
-extern u32 func_021D8340(u32 *);
-extern void func_021D83FC(u32 *p, u32 sub);
-extern void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub);
-extern u32 func_021D7EF0(u32);
+extern void BTL_CLIENT_ShowMessage(u8 *p, void *q);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern u32 BTL_ACTION_GetFightMove(u32 *);
+extern void BTL_ACTION_SetRotate(u32 *p, u32 sub);
+extern void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub);
+extern u32 BTL_CALC_IsMultiFighterRule(u32);
 extern void func_021E98BC(char *p, u8 *a, int b);
 extern void func_021E9920(void *);
 extern int func_021E98E8(char *p);
@@ -97,9 +97,9 @@ int func_021CEA94(u8 *p, u32 *state)
     u8 sub;
     switch (*state) {
     case 0:
-        if (func_021B8588(((struct Obj00434 *)p)->f0) != 3) {
+        if (BTL_MAIN_GetRule(((struct Obj00434 *)p)->f0) != 3) {
             if (func_021CF524((u32)p, ((struct Obj00434 *)p)->f8, *(u32 *)&((struct Obj00434 *)p)->fC))
-                func_021CE150(p, (void *)((u32)func_021CF220));
+                BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
             else *state = 1;
         } else {
             func_021CECB4(p, p + 0xa4);
@@ -115,43 +115,43 @@ int func_021CEA94(u8 *p, u32 *state)
         *state = 3;
         break;
     case 3:
-        if (func_021CE0BC(p, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)func_021CE3C8))) {
             func_021E98AC(((struct Obj00434 *)p)->f54);
             return 0;
         }
         if (func_021E98B4(((struct Obj00434 *)p)->f54)) {
-            k = func_021D8454(*(u32 * *)&((struct Obj00434 *)p)->fC);
-            if (k == 0) func_021CE150(p, (void *)((u32)func_021CE4D0));
-            else if (k == 5) func_021CE150(p, (void *)((u32)func_021CF220));
+            k = BTL_CALC_ActionGetKind(*(u32 * *)&((struct Obj00434 *)p)->fC);
+            if (k == 0) BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CE4D0));
+            else if (k == 5) BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
             else {
                 m = ((struct Obj00434 *)p)->f8;
                 record = *(u32 * *)&((struct Obj00434 *)p)->fC;
                 sub = 0;
                 slot = p[0x11d];
-                if (func_021B8588(((struct Obj00434 *)p)->f0) == 3) {
+                if (BTL_MAIN_GetRule(((struct Obj00434 *)p)->f0) == 3) {
                     sub = (u8)((Record *)(p + 0xbc))->sub;
                     slot = func_021B9AB0(sub);
                     m = *(void **)((u32)p + slot * 8U + 0xa4U);
                 }
-                if (func_021D832C((struct Unk021D82FC *)record)) {
+                if (BTL_ACTION_GetFightSlotFlag((struct Unk021D82FC *)record)) {
                     p[0x1b0] = slot;
-                    p[0x1b1] = func_021D5778(m, (u16)((Record *)record)->id);
+                    p[0x1b1] = BTL_POKEPARAM_FindMoveSlot(m, (u16)((Record *)record)->id);
                     if (p[0x1b1] != 4) {
-                        func_021CE150(p, (void *)((u32)func_021CED4C));
+                        BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CED4C));
                         return 0;
                     }
                 }
                 if (func_021CF5B0(p, m, (u16)((Record *)record)->id, p + 0x58)) {
                     func_021EAF78(p + 0x58, 0xff);
-                    func_021CE3B4(p, p + 0x58);
+                    BTL_CLIENT_ShowMessage(p, p + 0x58);
                     *state = 7;
                 } else {
-                    if (func_021B8588(((struct Obj00434 *)p)->f0) == 3 && sub != 0 && sub != 1 && !func_021D5B68(m)) {
-                        k = func_021D8340((u32 *)(p + 0xc0));
+                    if (BTL_MAIN_GetRule(((struct Obj00434 *)p)->f0) == 3 && sub != 0 && sub != 1 && !BTL_POKEPARAM_IsFainted(m)) {
+                        k = BTL_ACTION_GetFightMove((u32 *)(p + 0xc0));
                         record = *(u32 * *)&((struct Obj00434 *)p)->fC;
                         *(u32 *)&((struct Obj00434 *)p)->fC = (u32)record + 4U;
-                        func_021D83FC(record, sub);
-                        func_021D82D0(((struct Obj00434 *)p)->fC, k, 6);
+                        BTL_ACTION_SetRotate(record, sub);
+                        BTL_ACTION_SetFight(((struct Obj00434 *)p)->fC, k, 6);
                         ++p[0x1af];
                     }
                     *state = 4;
@@ -160,20 +160,20 @@ int func_021CEA94(u8 *p, u32 *state)
         }
         break;
     case 4:
-        if (func_021D7EF0(func_021B8588(((struct Obj00434 *)p)->f0))) *state = 5;
-        else func_021CE150(p, (void *)((u32)func_021CF220));
+        if (BTL_CALC_IsMultiFighterRule(BTL_MAIN_GetRule(((struct Obj00434 *)p)->f0))) *state = 5;
+        else BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
         break;
     case 5:
         func_021E98BC(((struct Obj00434 *)p)->f54, (u8 *)(*(u32 *)&((struct Obj00434 *)p)->f8), *(u32 *)&((struct Obj00434 *)p)->fC);
         *state = 6;
         break;
     case 6:
-        if (func_021CE0BC(p, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(p, (void *)((u32)func_021CE3C8))) {
             func_021E9920(((struct Obj00434 *)p)->f54);
             return 0;
         }
         k = func_021E98E8(((struct Obj00434 *)p)->f54);
-        if (k == 1) func_021CE150(p, (void *)((u32)func_021CF220));
+        if (k == 1) BTL_CLIENT_SetSubFn(p, (void *)((u32)func_021CF220));
         else if (k == 2) *state = 1;
         break;
     case 7:

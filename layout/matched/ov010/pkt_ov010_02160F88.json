@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02160F88",
+   "name": "EVENT_FIELD_PROCLINK_ReturnPokeStatus",
    "address": "0x02160F88",
    "kind": "game",
    "region": "ov010",

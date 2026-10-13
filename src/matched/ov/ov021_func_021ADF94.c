@@ -1,5 +1,5 @@
 /*
- * function: func_021ADF94
+ * function: FLDEFF_FISHING_Start
  * address:  0x021ADF94
  * packet:   pkt_ov021_021ADF94
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
  *   func_0209BDBC  0x0209BDBC  arm
  *   func_0209C95C  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   d_021D92E0     0x021D92E0  data  a1
- *   d_021D92E8     0x021D92E8  data  a4
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   sFishingRodOffsets     0x021D92E0  data  a1
+ *   sFishingFuncs     0x021D92E8  data  a4
  */
 
 typedef unsigned char u8;
@@ -26,25 +26,25 @@ typedef struct Tb { u8 b[8]; } Tb;
 typedef struct V { int x, y, z; } V;
 typedef struct Arg { int a; V v; } Arg;
 
-extern Tb d_021D92E0;
-extern u8 d_021D92E8[];
+extern Tb sFishingRodOffsets;
+extern u8 sFishingFuncs[];
 
 typedef unsigned int   u32;
-extern int func_021ABEA0(u32 a, u32 b);
+extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
-extern void func_021ABFA8(int a, u8 *b, int c, int d, Arg *e, int f);
+extern void FIELD_EFFECT_AddObject(int a, u8 *b, int c, int d, Arg *e, int f);
 
-void func_021ADF94(int a, V *b, int c, int d)
+void FLDEFF_FISHING_Start(int a, V *b, int c, int d)
 {
-    Tb t = d_021D92E0;
+    Tb t = sFishingRodOffsets;
     Arg s;
     int v;
     int r;
 
-    s.a = func_021ABEA0(a, 13);
+    s.a = FIELD_EFFECT_GetResource(a, 13);
     s.v = *b;
     v = (t.b + d * 4)[c];
     if (v != 0) {
@@ -53,5 +53,5 @@ void func_021ADF94(int a, V *b, int c, int d)
         r = func_0209CB8C(func_0209BDBC(v << 12), 0x3f000000);
     }
     s.v.z +=func_0209C494(r);
-    func_021ABFA8(a, d_021D92E8, 0, 0, &s, 0);
+    FIELD_EFFECT_AddObject(a, sFishingFuncs, 0, 0, &s, 0);
 }

@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_02027858.
+ * Tail call to APP_TASKMENU_CloseMenu.
  *
  * symbols:
- *   func_02027858  0x02027858  thumb
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  */
 
 struct TaskMenu;
 void func_021B71FC(void *p)
 {
-    void func_02027858(struct TaskMenu *m);
-    func_02027858(p);
+    void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+    APP_TASKMENU_CloseMenu(p);
 }

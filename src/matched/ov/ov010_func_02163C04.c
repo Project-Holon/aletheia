@@ -1,5 +1,5 @@
 /*
- * function: func_02163C04
+ * function: FLDMMDL_MOVE_IsGridInObjectRect
  * address:  0x02163C04
  * packet:   pkt_ov010_02163C04
  * region:   ov010
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb
- *   func_0216D86C  0x0216D86C  thumb
- *   func_0216D804  0x0216D804  thumb
- *   func_0216D81C  0x0216D81C  thumb
- *   func_02163A08  0x02163A08  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb
+ *   FLDMMDL_GetGridOldX  0x0216D804  thumb
+ *   FLDMMDL_GetGridOldZ  0x0216D81C  thumb
+ *   FLDMMDL_MOVE_GetGridRect  0x02163A08  thumb
  */
 
 typedef short s16;
 
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
-extern int func_0216D804(void *p);
-extern int func_0216D81C(void *p);
-extern void func_02163A08(int a, int b, int c, s16 *r);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern int FLDMMDL_GetGridOldX(void *p);
+extern int FLDMMDL_GetGridOldZ(void *p);
+extern void FLDMMDL_MOVE_GetGridRect(int a, int b, int c, s16 *r);
 
-int func_02163C04(int a, int x, int y, int flag)
+int FLDMMDL_MOVE_IsGridInObjectRect(int a, int x, int y, int flag)
 {
     s16 r[4];
     int t;
 
-    t = func_0216D83C((void *)a);
-    func_02163A08(a, t, func_0216D86C((void *)a), r);
+    t = FLDMMDL_GetGridNowX((void *)a);
+    FLDMMDL_MOVE_GetGridRect(a, t, FLDMMDL_GetGridNowZ((void *)a), r);
     if (r[0] <= x && r[2] >= x && r[1] <= y && r[3] >= y)
         return 1;
     if (flag == 1) {
-        t = func_0216D804((void *)a);
-        func_02163A08(a, t, func_0216D81C((void *)a), r);
+        t = FLDMMDL_GetGridOldX((void *)a);
+        FLDMMDL_MOVE_GetGridRect(a, t, FLDMMDL_GetGridOldZ((void *)a), r);
         if (r[0] <= x && r[2] >= x && r[1] <= y && r[3] >= y)
             return 1;
     }

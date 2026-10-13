@@ -1,5 +1,5 @@
 /*
- * function: func_021B99E4
+ * function: POKELIST_GetFieldMoveMenuIndex
  * address:  0x021B99E4
  * packet:   pkt_ov091_021B99E4
  * region:   ov091
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-int func_021B99E4(void *p, int i)
+int POKELIST_GetFieldMoveMenuIndex(void *p, int i)
 {
-    switch (func_02017E1C(p, i + 0x36, 0)) {
+    switch (POKE_TOOL_GetPartyValue(p, i + 0x36, 0)) {
     case 0xf:
         return 0xb;
     case 0x13:

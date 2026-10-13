@@ -11,9 +11,9 @@
  *
  * symbols:
  *   g_021469F4     0x021469F4  data
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_LOWER_DATA_SendControl  0x0203ED84  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_SYSTEM_GetParentRingDataSize  0x02038D4C  arm
  *   GFL_NET_SYSTEM_GetChildRingDataSize  0x02038D30  arm
  *   GFL_NET_LOWER_DATA_SendChunk  0x0203EC04  arm
@@ -55,9 +55,9 @@ struct Tbl {
 };
 
 extern struct Tbl *g_021469F4;
-extern int  func_0203CD98(void);
+extern int  GFL_NET_GetRunState(void);
 extern int  GFL_NET_LOWER_DATA_SendControl(int a0);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern int  GFL_NET_SYSTEM_GetParentRingDataSize(void);
 extern int  GFL_NET_SYSTEM_GetChildRingDataSize(void);
 extern u32 GFL_NET_LOWER_DATA_SendChunk(int a0);
@@ -70,7 +70,7 @@ void GFL_NET_LOWER_DATA_MainSend(void)
     if (g_021469F4 == 0 || g_021469F4->unk_20 == 0) {
         return;
     }
-    if (func_0203CD98() != 1) {
+    if (GFL_NET_GetRunState() != 1) {
         return;
     }
     if (g_021469F4->unk_34 == 1) {
@@ -79,7 +79,7 @@ void GFL_NET_LOWER_DATA_MainSend(void)
         }
     } else if (g_021469F4->unk_44 < g_021469F4->unk_24) {
         if (g_021469F4->unk_3c == 1) {
-            ctx = func_0203D798();
+            ctx = GFL_NET_GetInitParam();
             if (g_021469F4->unk_2c == 1) {
                 d = ctx->unk_6c - GFL_NET_SYSTEM_GetParentRingDataSize();
             } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_021A1848
+ * function: FIELD_3DBG_DrawQuad
  * address:  0x021A1848
  * packet:   pkt_ov021_021A1848
  * region:   ov021
@@ -48,7 +48,7 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
     REG_VTX_16 = (u32)(u16)z;
 }
 
-void func_021A1848(const fx32 *a)
+void FIELD_3DBG_DrawQuad(const fx32 *a)
 {
     REG_MTX_MODE = 3;
     REG_MTX_IDENTITY = 0;

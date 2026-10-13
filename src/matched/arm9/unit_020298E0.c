@@ -33,6 +33,8 @@
  * symbols:
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  *   FIELD_SOUND_SYSTEM_Reset  0x02028A50  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  */
 
 typedef unsigned short u16;
@@ -52,13 +54,13 @@ typedef u32 (*TaskFn)(void *task, u32 *state, struct Work *work);
 struct Ctx;
 struct Sys;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
-extern u32 func_020289B8(struct Sys *s);
+extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct Sys *s);
 extern void  FIELD_SOUND_SYSTEM_Reset(void *sys, void *res);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
 u32 FIELD_SOUND_SYSTEM_FadeOutAndResetTask(void *task, u32 *state, struct Work *work)
 {
-    void *res = func_020120F4(work->unk00);
+    void *res = GAMESYSTEM_GetGameData(work->unk00);
     void *sys = work->unk04;
 
     switch (*state) {
@@ -67,7 +69,7 @@ u32 FIELD_SOUND_SYSTEM_FadeOutAndResetTask(void *task, u32 *state, struct Work *
         (*state)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
+        if (FIELD_SOUND_SYSTEM_IsBusy(sys) == 0) {
             (*state)++;
         }
         break;

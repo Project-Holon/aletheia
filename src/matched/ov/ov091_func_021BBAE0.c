@@ -1,5 +1,5 @@
 /*
- * function: func_021BBAE0
+ * function: PLIST_MENU_Delete
  * address: 0x021BBAE0
  * packet: pkt_ov091_021BBAE0
  * region: ov091
@@ -14,4 +14,4 @@
 #include "../include/Obj20900.h"
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021BBAE0(int a,unsigned char *b) {func_020307B0(((struct Obj20900 *)b)->f80);func_020307B0(b);}
+void PLIST_MENU_Delete(int a,unsigned char *b) {func_020307B0(((struct Obj20900 *)b)->f80);func_020307B0(b);}

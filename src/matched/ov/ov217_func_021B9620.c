@@ -14,7 +14,7 @@
  *   Full lifecycle/body proof: scratchpad/overlay-goal-20260930-w32/S23/state-proof.md.
  * symbols:
  *   func_021B96A0 0x021B96A0 thumb ov217
- *   func_02012204 0x02012204 thumb
+ *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   func_021C09FC 0x021C09FC thumb ov217
  *   func_021B97B8 0x021B97B8 thumb ov217
  *   func_021B97BC 0x021B97BC thumb ov217
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Ctx;
 extern void func_021B96A0(u32);
-extern u32 func_02012204(const struct Ctx *);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *);
 extern void func_021C09FC(void *);
 extern int func_021B97B8(void *a0);
 extern u32 func_021B97BC(u8 *);
@@ -41,7 +41,7 @@ int func_021B9620(void *unused, u32 *state, u32 unused2, u32 *p)
 {
     u32 next;
     func_021B96A0((u32)p);
-    if (func_02012204((const struct Ctx *)p[1]) != 0)
+    if (GAMESYSTEM_IsNetOffBySleep((const struct Ctx *)p[1]) != 0)
         func_021C09FC((void *)p[3]);
     switch (*state) {
     case 0: next = func_021B97B8(p); break;

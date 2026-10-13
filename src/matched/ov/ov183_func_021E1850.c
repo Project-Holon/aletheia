@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   func_021E0E40 0x021E0E40 thumb ov183
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj00732.h"
 typedef unsigned short u16;
 typedef struct {int tag,value,mode,handle; char rest[12];} Record;
 extern int func_021E0E40(int,int);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void func_021E1850(const Record *records)
 {
     char *p=(char *)records;
@@ -32,10 +32,10 @@ void func_021E1850(const Record *records)
         ((struct Obj00732 *)p)->f320=1;
     } else {
         i=((struct Obj00732 *)p)->f188;
-        func_0204B878((struct Obj *)records[i].handle,func_021E0E40(((Record *)records)[i].tag=0,records[i].mode));
+        CLACT_SetActorAnimSeq((struct Obj *)records[i].handle,func_021E0E40(((Record *)records)[i].tag=0,records[i].mode));
         old=records[i].value;
         if (i>0) {
-            func_0204B878((struct Obj *)records[i-1].handle,func_021E0E40(records[i-1].tag,records[i-1].mode));
+            CLACT_SetActorAnimSeq((struct Obj *)records[i-1].handle,func_021E0E40(records[i-1].tag,records[i-1].mode));
             value=records[i-1].value;
             if (old!=value) {
                 ((struct Obj00732 *)p)->f318=1;

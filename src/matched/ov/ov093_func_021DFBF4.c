@@ -1,5 +1,5 @@
 /*
- * function: func_021DFBF4
+ * function: BTL_HANDLER_ITEM_GetRedCardHandlers
  * address: 0x021DFBF4
  * packet: pkt_ov093_021DFBF4
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFABC.c and filed here.
  *
  * symbols:
- *   d_021F14CC 0x021F14CC data ov093 a4
+ *   gBtlHandlerItemRedCardHandlers 0x021F14CC data ov093 a4
  */
 
-int *func_021DFBF4(int *p);
-extern int d_021F14CC[];
+int *BTL_HANDLER_ITEM_GetRedCardHandlers(int *p);
+extern int gBtlHandlerItemRedCardHandlers[];
 
-int *func_021DFBF4(int *p)
+int *BTL_HANDLER_ITEM_GetRedCardHandlers(int *p)
 {
     *p = 1;
-    return d_021F14CC;
+    return gBtlHandlerItemRedCardHandlers;
 }

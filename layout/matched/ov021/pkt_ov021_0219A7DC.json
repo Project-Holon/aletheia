@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219A7DC",
+   "name": "FLDMMDL_MOVECODE_SwingStepRotateDir",
    "address": "0x0219A7DC",
    "kind": "game",
    "region": "ov021",

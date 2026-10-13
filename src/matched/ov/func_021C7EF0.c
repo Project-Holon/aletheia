@@ -1,5 +1,5 @@
 /*
- * function: func_021C7EF0
+ * function: FIELD_FLASH_SetTweenSize
  * address:  0x021C7EF0
  * packet:   pkt_021C7EF0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021C7EF0(u8 *p, u32 v)
+void FIELD_FLASH_SetTweenSize(u8 *p, u32 v)
 {
     ((struct Obj18327 *)p)->f0 = v;
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798   0x0203D798  arm
+ *   GFL_NET_GetInitParam   0x0203D798  arm
  *   GFL_NET_GetSession   0x0203D788  arm
  *   GFL_NET_SYSTEM_InitWork   0x02037288  arm
  *   GFL_NET_SYSTEM_ResetRecvBuffer   0x02037680  arm
@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 extern void GFL_NET_SYSTEM_ResetRecvBuffer(int i);
@@ -36,7 +36,7 @@ extern void  GFL_NET_SYSTEM_RecvCallback(void);
 u32 GFL_NET_SYSTEM_ConnectDevice(u8 arg0)
 {
     u32 zero;
-    char *a = func_0203D798();
+    char *a = GFL_NET_GetInitParam();
     char *b = GFL_NET_GetSession();
     u16 val;
     void (*f)(void *);

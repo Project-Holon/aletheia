@@ -1,5 +1,5 @@
 /*
- * function: func_02189B28
+ * function: FIELDMAP_GetMapType
  * address:  0x02189B28
  * packet:   pkt_02189B28
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_02013B50(u32 id);
 
-u32 func_02189B28(u32 id)
+u32 FIELDMAP_GetMapType(u32 id)
 {
     return func_02013B50(id);
 }

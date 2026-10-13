@@ -1,5 +1,5 @@
 /*
- * function: func_0215EDD0
+ * function: MOVE_POKEMON_DigEventMain
  * address:  0x0215EDD0
  * packet:   pkt_ov010_0215EDD0
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02158780  0x02158780  thumb  ov010
- *   func_02159058  0x02159058  thumb  ov010
- *   func_02184EEC  0x02184EEC  thumb  ov020
- *   func_0201235C  0x0201235C  thumb
+ *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
+ *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
+ *   EVENT_MAPCHANGE_CreateEscapeRopeEvent  0x02184EEC  thumb  ov020
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  */
 
 typedef unsigned char u8;
@@ -26,13 +26,13 @@ struct C {
     u16 fc;
 };
 
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
-extern int func_02159058(int a, int b, int c, int d, u16 e);
-extern void *func_02184EEC(void *p);
+extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
+extern int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
+extern void *EVENT_MAPCHANGE_CreateEscapeRopeEvent(void *p);
 struct S0201235C;
-extern void func_0201235C(struct S0201235C *o, u32 *out);
+extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 
-int func_0215EDD0(void *a, int *st, struct C *c)
+int MOVE_POKEMON_DigEventMain(void *a, int *st, struct C *c)
 {
     u32 h;
     void *t;
@@ -40,12 +40,12 @@ int func_0215EDD0(void *a, int *st, struct C *c)
     switch (*st) {
     case 0:
         h = c->fc;
-        t = (void *)func_02158780(a, 0x271a, 0, 0, 0x15);
-        func_02159058((int)t, h, 0, 0, 0);
+        t = (void *)SCRIPT_SYS_CallScriptEvent(a, 0x271a, 0, 0, 0x15);
+        SCRIPT_WORK_SetParams((int)t, h, 0, 0, 0);
         *st = *st + 1;
         break;
     case 1:
-        func_0201235C(a, func_02184EEC(c->f8));
+        GAME_EVENT_ChangeEvent(a, EVENT_MAPCHANGE_CreateEscapeRopeEvent(c->f8));
         break;
     }
     return 0;

@@ -47,7 +47,7 @@
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   sub_020307B0   0x020307B0  arm
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02042360  0x02042360  arm
  *   GFL_NET_SetIrcParams  0x0203D814  arm
  *   g_BgConfig     0x02146A44  data
@@ -73,7 +73,7 @@
  *   func_0207E280  0x0207E280  arm
  *   func_0207E2F0  0x0207E2F0  arm
  *   func_0207E388  0x0207E388  arm
- *   func_02051E74  0x02051E74  arm
+ *   BUTTON_MAN_RotScaleMtx22  0x02051E74  arm
  *   func_02043228  0x02043228  arm
  *   func_02043264  0x02043264  arm
  *   func_020432E4  0x020432E4  arm
@@ -313,7 +313,7 @@ extern void BG_SYS_ClearSubBgPlanes(void);
 extern void BG_SYS_ClearMainPlanes(u32 handle);
 extern void BG_SYS_ClearSubPlanes(u32 handle);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
 extern void func_02042360(struct Bg *p, u32 op, u32 value);
 extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
@@ -341,7 +341,7 @@ extern u32 func_0207E22C(void);
 extern u32 func_0207E280(void);
 extern void *func_0207E2F0(void);
 extern void *func_0207E388(void);
-extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
+extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_02043228(struct Bg *p, u32 op, u16 value);
 extern void func_02043264(struct Bg *p, u32 op, u32 value);
 extern void func_020432E4(struct Bg *p, u32 op, u32 value);
@@ -2094,7 +2094,7 @@ void func_0204047C(int idx, unsigned short val)
  * Eight-way dispatch turning a small selector into a one-hot plane mask for
  * one of the two 2D engines: selectors 0..3 go to the engine-A visible-plane
  * toggle at func_020434DC with masks 1/2/4/8 and selectors 4..7 to the
- * engine-B toggle at func_02043598 with the same four.  The on/off flag is
+ * engine-B toggle at BG_SYS_SetSubPlaneVisible with the same four.  The on/off flag is
  * the second parameter and is forwarded untouched in r1, which is why no
  * argument setup other than the mask appears in any arm.  The ARM form
  * of the dense switch is `cmp #7` plus `addls pc, pc, r0, lsl #2` over a
@@ -2117,16 +2117,16 @@ void sub_02040588(unsigned char which, unsigned char enable)
         func_020434DC(8, enable);
         break;
     case 4:
-        func_02043598(1, enable);
+        BG_SYS_SetSubPlaneVisible(1, enable);
         break;
     case 5:
-        func_02043598(2, enable);
+        BG_SYS_SetSubPlaneVisible(2, enable);
         break;
     case 6:
-        func_02043598(4, enable);
+        BG_SYS_SetSubPlaneVisible(4, enable);
         break;
     case 7:
-        func_02043598(8, enable);
+        BG_SYS_SetSubPlaneVisible(8, enable);
         break;
     }
 }
@@ -3406,7 +3406,7 @@ void sub_02041B6C(u32 bit)
  *
  * Layers 2, 3, 6 and 7 are affine-capable and first read the record's +0x1c
  * flag: zero takes the same plain path, non-zero builds a 16-byte matrix on
- * the stack with func_02051E74 and hands it to func_0207D59C along with the
+ * the stack with BUTTON_MAN_RotScaleMtx22 and hands it to func_0207D59C along with the
  * layer's affine register block.
  *
  * THREE DECLARATIONS CARRY THE FUNCTION, all three established by this pass
@@ -3462,7 +3462,7 @@ void func_02041B94(void)
                           | (hm & (SLOT(2).scrollY << 16));
         } else {
             struct Mtx22 t;
-            func_02051E74(&t, SLOT(2).unk_18,
+            BUTTON_MAN_RotScaleMtx22(&t, SLOT(2).unk_18,
                           (const void *)SLOT(2).unk_1c,
                           (const void *)SLOT(2).unk_20, 2);
             func_0207D59C((void *)0x04000020, &t,
@@ -3476,7 +3476,7 @@ void func_02041B94(void)
                           | (hm & (SLOT(3).scrollY << 16));
         } else {
             struct Mtx22 t;
-            func_02051E74(&t, SLOT(3).unk_18,
+            BUTTON_MAN_RotScaleMtx22(&t, SLOT(3).unk_18,
                           (const void *)SLOT(3).unk_1c,
                           (const void *)SLOT(3).unk_20, 2);
             func_0207D59C((void *)0x04000030, &t,
@@ -3498,7 +3498,7 @@ void func_02041B94(void)
                           | (hm & (SLOT(6).scrollY << 16));
         } else {
             struct Mtx22 t;
-            func_02051E74(&t, SLOT(6).unk_18,
+            BUTTON_MAN_RotScaleMtx22(&t, SLOT(6).unk_18,
                           (const void *)SLOT(6).unk_1c,
                           (const void *)SLOT(6).unk_20, 2);
             func_0207D59C((void *)0x04001020, &t,
@@ -3512,7 +3512,7 @@ void func_02041B94(void)
                           | (hm & (SLOT(7).scrollY << 16));
         } else {
             struct Mtx22 t;
-            func_02051E74(&t, SLOT(7).unk_18,
+            BUTTON_MAN_RotScaleMtx22(&t, SLOT(7).unk_18,
                           (const void *)SLOT(7).unk_1c,
                           (const void *)SLOT(7).unk_20, 2);
             func_0207D59C((void *)0x04001030, &t,
@@ -3840,7 +3840,7 @@ void func_020423D4(u32 layer)
 {
     struct Mtx22 p;
 
-    func_02051E74(&p, 0, (const void *)0x1000, (const void *)0x1000, 0);
+    BUTTON_MAN_RotScaleMtx22(&p, 0, (const void *)0x1000, (const void *)0x1000, 0);
     sub_02040860(layer, &p, 0, 0);
 }
 

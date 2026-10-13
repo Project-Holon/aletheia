@@ -11,15 +11,15 @@
  *
  * Builds a message menu: reads the entry range for an id, allocates the table
  * and fills one slot per entry. The slot call takes five arguments (heap id
- * 0x48 on the stack), as in the other matched callers of func_0201F878 (the
+ * 0x48 on the stack), as in the other matched callers of BMP_MENUWORK_AddMsgItem (the
  * arm9 definition lists four parameters; the fifth is passed but not read).
  * Closed with opt_common_subs off: the original does not share start + i
  * between the table index and the tag. 2026-10-05 (P21): plain form 16 bytes
  * off, only that pragma closes it. Table extern is not const (const gave 18).
  *
  * symbols:
- *   func_0201F81C 0x0201F81C thumb
- *   func_0201F878 0x0201F878 thumb
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   func_021F88D8 0x021F88D8 thumb ov135
  *   tbl_022030E8 0x022030E8 data a2
  */
@@ -27,9 +27,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021F88D8(u32 id, u32 *start);
-extern void *func_0201F81C(u32 n, u32 heap);
+extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 struct Slot;
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern u16 tbl_022030E8[];
 int func_021F8908(void **menu, void *msg, int id)
 {
@@ -37,9 +37,9 @@ int func_021F8908(void **menu, void *msg, int id)
     int count;
     u32 start;
     count = func_021F88D8(id, &start);
-    *menu = func_0201F81C(count, 0x48);
+    *menu = BMP_MENUWORK_Create(count, 0x48);
     for (i = 0; (i < count) ? 1 : 0; i++) {
-        func_0201F878(*menu, (u32)msg, tbl_022030E8[start + i], start + i + 1, 0x48);
+        BMP_MENUWORK_AddMsgItem(*menu, (u32)msg, tbl_022030E8[start + i], start + i + 1, 0x48);
     }
     return count;
 }

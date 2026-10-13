@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021B95C0 0x021B95C0 thumb ov100
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B96B8 0x021B96B8 thumb ov100
  */
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern int func_021B95C0(unsigned char *p);
 extern void func_021B95B8(unsigned char *,unsigned);
 typedef unsigned char  u8;
 extern void func_021B96B8(u8 *a);
 void func_021B99D4(unsigned char *a)
 {
- if(func_02035C60()!=0) {
+ if(TOUCHPANEL_GetTrg()!=0) {
   func_021B95C0(a);
   func_021B95B8((unsigned char *)a,(unsigned)func_021B96B8);
  }

@@ -15,13 +15,13 @@
  *   SCREENTEX_CameraBlockTemplate        0x020A0300  data
  *   FX_SinCosTable_   0x020A1B38  data
  *   SCREENTEX_RotationSinCos        0x020A2B38  data
- *   g_02148B54        0x02148B54  data
- *   g_02148B98        0x02148B98  data
- *   g_02148BCC        0x02148BCC  data
+ *   SCREENTEX_ProjectionMatrix        0x02148B54  data
+ *   g_renderStateDrawParams        0x02148B98  data
+ *   SCREENTEX_CameraState        0x02148BCC  data
  *   SCREENTEX_CameraPositionOut        0x02148D8C  data
  *   SCREENTEX_CameraTargetOut        0x02148D98  data
  *   SCREENTEX_CameraUpOut        0x02148DA4  data
- *   func_02047A60     0x02047A60  arm
+ *   G3D_SYSTEM_DrawObject     0x02047A60  arm
  *   MTX_PerspectiveW  0x0207C408  arm
  *   MTX_LookAt        0x0207BCA0  arm
  *   MTX_RotX33_       0x0207AF00  thumb
@@ -85,15 +85,15 @@ static inline s16 FX_CosIdx(int idx)
 }
 
 extern s16      SCREENTEX_RotationSinCos[];
-extern u32      g_02148B54[];
-extern u32      g_02148B98[];
-extern struct Glb g_02148BCC;
+extern u32      SCREENTEX_ProjectionMatrix[];
+extern u32      g_renderStateDrawParams[];
+extern struct Glb SCREENTEX_CameraState;
 extern VecFx32  SCREENTEX_CameraPositionOut;
 extern VecFx32  SCREENTEX_CameraTargetOut;
 extern VecFx32  SCREENTEX_CameraUpOut;
 
 struct Arg;
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void MTX_PerspectiveW(s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, void *g);
 static inline void MTX_Perspective(s32 fovySin, s32 fovyCos, s32 aspect,
                                    s32 n, s32 f, void *mtx)
@@ -113,14 +113,14 @@ void SCREENTEX_SetupCamera(u32 a0)
     Blk buf = SCREENTEX_CameraBlockTemplate;
 
     MTX_Perspective(FX_SinIdx(0xE38), FX_CosIdx(0xE38), 0x1555, 0x1000,
-                    0x400000, g_02148B54);
-    ((u32 *)&g_02148BCC)[31] &= ~0x50u;
+                    0x400000, SCREENTEX_ProjectionMatrix);
+    ((u32 *)&SCREENTEX_CameraState)[31] &= ~0x50u;
     SCREENTEX_CameraPositionOut = cam;
     SCREENTEX_CameraTargetOut = tgt;
     SCREENTEX_CameraUpOut = up;
-    MTX_LookAt(&cam, &tgt, &up, g_02148B98);
-    ((u32 *)&g_02148BCC)[31] &= ~0xe8u;
+    MTX_LookAt(&cam, &tgt, &up, g_renderStateDrawParams);
+    ((u32 *)&SCREENTEX_CameraState)[31] &= ~0xe8u;
     MTX_RotX33_(&buf.m, SCREENTEX_RotationSinCos[0], SCREENTEX_RotationSinCos[1]);
-    func_02047A60((void *)a0, (struct Arg *)buf.f);
+    G3D_SYSTEM_DrawObject((void *)a0, (struct Arg *)buf.f);
 }
 

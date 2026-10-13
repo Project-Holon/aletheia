@@ -1,5 +1,5 @@
 /*
- * function: func_021C7FBC
+ * function: FIELDSKILL_MAPEFF_GetFlash
  * address:  0x021C7FBC
  * packet:   pkt_ov021_021C7FBC
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Unlabelled leaf accessor (prints as .word in the listing): returns the first word of its argument.
- * Sole blocker of ov010 func_0215ECBC's MATCH.
+ * Sole blocker of ov010 MOVE_POKEMON_FlashEventMain's MATCH.
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void *func_021C7FBC(void **p)
+void *FIELDSKILL_MAPEFF_GetFlash(void **p)
 {
     return *p;
 }

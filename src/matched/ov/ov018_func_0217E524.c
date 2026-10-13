@@ -1,5 +1,5 @@
 /*
- * function: func_0217E524
+ * function: INTRUDE_SUBDISP_UpdateInfoIcon
  * address:  0x0217E524
  * packet:   pkt_ov018_0217E524
  * region:   ov018
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0217F1E8  0x0217F1E8  thumb  ov018
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   INTRUDE_SUBDISP_IsInfoActive  0x0217F1E8  thumb  ov018
  *   func_0204B3F4  0x0204B3F4  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0217F214  0x0217F214  thumb  ov018
- *   func_0217F240  0x0217F240  thumb  ov018
- *   func_020127B8  0x020127B8  thumb
+ *   INTRUDE_SUBDISP_ClearInfoPanel  0x0217F214  thumb  ov018
+ *   INTRUDE_SUBDISP_DrawInfoPanel  0x0217F240  thumb  ov018
+ *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   func_020061E4  0x020061E4  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
@@ -46,20 +46,20 @@ typedef struct {
 } Obj;
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_0217F1E8(u8 *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern int INTRUDE_SUBDISP_IsInfoActive(u8 *p);
 struct Obj;
 extern unsigned int func_0204B3F4(struct Obj *p);
 struct Obj;
 extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
-extern void func_0217F214(void);
-extern void func_0217F240(u8 *p, int mode);
-extern void *func_020127B8(void *p);
+extern void INTRUDE_SUBDISP_ClearInfoPanel(void);
+extern void INTRUDE_SUBDISP_DrawInfoPanel(u8 *p, int mode);
+extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);
 
-void func_0217E524(Obj *p)
+void INTRUDE_SUBDISP_UpdateInfoIcon(Obj *p)
 {
     int h;
     int v;
@@ -67,19 +67,19 @@ void func_0217E524(Obj *p)
     int rem;
     u8 *base;
 
-    h = (int)func_020120F4((const struct Ctx *)p->f00);
-    if (func_0217F1E8((u8 *)p) == 0) {
+    h = (int)GAMESYSTEM_GetGameData((const struct Ctx *)p->f00);
+    if (INTRUDE_SUBDISP_IsInfoActive((u8 *)p) == 0) {
         if (func_0204B3F4((struct Obj *)p->fAC) == 1) {
             func_0204B3DC((struct Obj *)p->fAC, 0);
-            func_0217F214();
+            INTRUDE_SUBDISP_ClearInfoPanel();
         }
         return;
     }
     if (func_0204B3F4((struct Obj *)p->fAC) == 0) {
         func_0204B3DC((struct Obj *)p->fAC, 1);
-        func_0217F240((u8 *)p, 1);
+        INTRUDE_SUBDISP_DrawInfoPanel((u8 *)p, 1);
     }
-    func_020127B8((void *)h);
+    GAME_DATA_GetLastBattleRecSlot((void *)h);
     v = p->fE0;
     if (p->f10A != -1 && p->f10A != v && v <= 5 && p->fDC == 3) {
         func_020061E4(0x550);

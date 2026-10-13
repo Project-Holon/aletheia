@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207CDB8 0x0207CDB8 arm
- *   func_02048CA4 0x02048CA4 arm
+ *   VEC_Fx16Normalize 0x0207CDB8 arm
+ *   G3D_LIGHT_SetSlotColor 0x02048CA4 arm
  */
 #include "../include/Obj25310.h"
 
-extern void func_0207CDB8(int, void *);
+extern void VEC_Fx16Normalize(int, void *);
 typedef unsigned int   u32;
 struct LightSlot;
 struct Rgb555;
-extern void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in);
+extern void G3D_LIGHT_SetSlotColor(struct LightSlot *slots, u32 i, struct Rgb555 *in);
 
 void func_021BDF88(char *p, int a, int b)
 {
     int buf[2];
-    func_0207CDB8(b, buf);
-    func_02048CA4(((struct Obj25310 *)p)->fC, a, (struct Rgb555 *)buf);
+    VEC_Fx16Normalize(b, buf);
+    G3D_LIGHT_SetSlotColor(((struct Obj25310 *)p)->fC, a, (struct Rgb555 *)buf);
 }

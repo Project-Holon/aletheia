@@ -1,5 +1,5 @@
 /*
- * function: func_0201B7EC
+ * function: NATSUKI_CalcWalk
  * address:  0x0201B7EC
  * packet:   pkt_0201B7EC
  * region:   arm9
@@ -27,8 +27,8 @@
  * `tst` against 1.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201B7EC.c \
- *       --func func_0201B7EC --addr 0x0201B7EC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/NATSUKI_CalcWalk.c \
+ *       --func NATSUKI_CalcWalk --addr 0x0201B7EC --cc 1.1p1 --thumb
  */
 
 typedef signed char        s8;
@@ -39,7 +39,7 @@ extern u32  func_0203F0A8(void);
 extern void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3);
 extern const s8 _NatsukiWalkDeltas[];
 
-void func_0201B7EC(void *a0, int a1, int a2)
+void NATSUKI_CalcWalk(void *a0, int a1, int a2)
 {
     if ((u32)((u64)func_0203F0A8() * 2 >> 32) % 2 == 0) {
         NATSUKI_Apply(a0, _NatsukiWalkDeltas, a1, a2);

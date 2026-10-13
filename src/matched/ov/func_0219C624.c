@@ -1,5 +1,5 @@
 /*
- * function: func_0219C624
+ * function: FLDMMDL_BLACT_RegisterLoadedRes
  * address:  0x0219C624
  * packet:   pkt_0219C624
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D520  0x0216D520  thumb  ov010
- *   func_0219CEAC  0x0219CEAC  thumb  ov021
+ *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
+ *   FLDMMDL_BLACT_RegisterAddRes  0x0219CEAC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D520(void *p);
-extern u32 func_0219CEAC(u32);
+extern u32 FLDMMDL_SysGetBlActCont(void *p);
+extern u32 FLDMMDL_BLACT_RegisterAddRes(u32);
 
-int func_0219C624(void *p)
+int FLDMMDL_BLACT_RegisterLoadedRes(void *p)
 {
-return func_0219CEAC(func_0216D520(p));
+return FLDMMDL_BLACT_RegisterAddRes(FLDMMDL_SysGetBlActCont(p));
 }
 

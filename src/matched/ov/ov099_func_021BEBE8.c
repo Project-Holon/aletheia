@@ -28,7 +28,7 @@
  * lever: default switch arm precedes cases 0 and 1; else state is the callee result.
  * symbols:
  *   DWC_RAP_IsUserDataChanged 0x02156C84 thumb ov009
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   DWC_RAP_ClearUserDataChanged 0x02156C98 thumb ov009
  *   GFL_NET_STATE_IsWifiLoginState 0x0203C600 arm
  *   func_021BE6F0 0x021BE6F0 thumb ov099
@@ -40,7 +40,7 @@
  */
 typedef unsigned char u8;
 extern u8 DWC_RAP_IsUserDataChanged(void);
-extern int func_02012DD0(u8 *p);
+extern int GAME_DATA_SaveMain(u8 *p);
 extern void DWC_RAP_ClearUserDataChanged(int v);
 extern int GFL_NET_STATE_IsWifiLoginState(void);
 extern void func_021BE6F0(char *p, int a, int b);
@@ -53,7 +53,7 @@ int func_021BEBE8(char *p, int result)
 {
     int v;
     if (DWC_RAP_IsUserDataChanged()) {
-        v = func_02012DD0(*(u8 **)(p + 0xc4));
+        v = GAME_DATA_SaveMain(*(u8 **)(p + 0xc4));
         switch (v) {
         default:
             DWC_RAP_ClearUserDataChanged(v);

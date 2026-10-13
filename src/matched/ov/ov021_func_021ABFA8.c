@@ -1,5 +1,5 @@
 /*
- * function: func_021ABFA8
+ * function: FIELD_EFFECT_AddObject
  * address:  0x021ABFA8
  * packet:   pkt_ov021_021ABFA8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC0A0  0x021AC0A0  thumb
+ *   FIELD_EFFECT_AddObjectToMgr  0x021AC0A0  thumb
  */
 
 typedef unsigned short u16;
@@ -27,9 +27,9 @@ typedef struct {
     int f20;
 } T;
 
-extern void func_021AC0A0(int a, int b, int c, int d, int e, int f);
+extern void FIELD_EFFECT_AddObjectToMgr(int a, int b, int c, int d, int e, int f);
 
-void func_021ABFA8(T *t, int b, int c, int d, int e, int f)
+void FIELD_EFFECT_AddObject(T *t, int b, int c, int d, int e, int f)
 {
-    func_021AC0A0(t->f20, b, c, d, e, f);
+    FIELD_EFFECT_AddObjectToMgr(t->f20, b, c, d, e, f);
 }

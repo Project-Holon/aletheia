@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204BA00  0x0204BA00  arm
+ *   CLACT_ApplyActorAnimCommand  0x0204BA00  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef signed int     s32;
 
 struct Actor;
 struct Cmd;
-extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
+extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 
 void func_021D62D0(u8 *p, int i, int v)
 {
-    func_0204BA00(*(void **)(p + i * 4 + 0x74), (const struct Cmd *)v);
+    CLACT_ApplyActorAnimCommand(*(void **)(p + i * 4 + 0x74), (const struct Cmd *)v);
 }

@@ -10,16 +10,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Builds a sprite/resource request: func_0202D064 turns the mon
+ * Builds a sprite/resource request: POKEGRA_GetCgrArcIndex turns the mon
  * descriptor (species/form/gender plus the three stack words) into a
- * resource id, which func_02049E34 instantiates with the caller's
+ * resource id, which ARC_UTIL_LoadScreenDataFromArchive instantiates with the caller's
  * out-slot `a0` as its a3 payload.  When the species word a1 is the
  * sentinel 0x147 the freshly filled *a0 is additionally run through the
  * POKEGRA_ConvertCharTo2D / POKEGRA_DrawSpindaSpots / POKEGRA_ConvertCharTo1D triple, which is why
  * `*a0` is re-read before each of them (POKEGRA_DrawSpindaSpots may store through
  * it, so the load cannot be cached).  This answers the open question in
- * docs/notes/func_0202D81C.c.txt: a0 is a genuine out-parameter, written
- * by func_02049E34 via its a3, not read-only.
+ * docs/notes/POKEGRA_RegisterCgr.c.txt: a0 is a genuine out-parameter, written
+ * by ARC_UTIL_LoadScreenDataFromArchive via its a3, not read-only.
  *
  * Blocked at MATCH: every concrete byte is identical.  2026-09-21, unblock
  * lane: ONE OF THE TWO BLOCKING SITES IS NOW CLEARED.  POKEGRA_ConvertCharTo1D was
@@ -34,21 +34,21 @@
  * and the twelve spellings that do not move it further.
  *
  * symbols:
- *   func_0202D060   0x0202D060  thumb
- *   func_0202D064   0x0202D064  thumb
+ *   POKEGRA_GetArcID   0x0202D060  thumb
+ *   POKEGRA_GetCgrArcIndex   0x0202D064  thumb
  *   POKEGRA_ConvertCharTo2D   0x0202D214  thumb
  *   POKEGRA_ConvertCharTo1D   0x0202D2EC  thumb
  *   POKEGRA_DrawSpindaSpots   0x0202D3D0  thumb
- *   func_02049E34   0x02049E34  arm
+ *   ARC_UTIL_LoadScreenDataFromArchive   0x02049E34  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef signed int     s32;
-extern int func_0202D060(void);
-extern s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int POKEGRA_GetArcID(void);
+extern s32 POKEGRA_GetCgrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 struct Obj;
 extern void POKEGRA_ConvertCharTo2D(void *p, u32 v);
 extern void POKEGRA_DrawSpindaSpots(struct Obj *obj, u32 a1);
@@ -60,8 +60,8 @@ void *POKEGRA_LoadCharData(u32 *out, u32 a1, u32 a2, u32 a3,
     u32 id;
     void *res;
 
-    id = func_0202D064(func_0202D060(), a1, a2, a3, s0, s1, s2);
-    res = func_02049E34(func_0202D060(), id, 1, (u32)out, s4);
+    id = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), a1, a2, a3, s0, s1, s2);
+    res = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), id, 1, (u32)out, s4);
     if (a1 == 0x147) {
         POKEGRA_ConvertCharTo2D((void *)(*out), s4);
         POKEGRA_DrawSpindaSpots((struct Obj *)(*out), s3);

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D4DC
+ * function: FLDMMDL_SysSetStatusBit
  * address:  0x0216D4DC
  * packet:   pkt_0216D4DC
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D4DC(int a0, int a1, int a2)
+int FLDMMDL_SysSetStatusBit(int a0, int a1, int a2)
 {
 
 a2 = ((struct Obj12057 *)((char *)a0))->f0;

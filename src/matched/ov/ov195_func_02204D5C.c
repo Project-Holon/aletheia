@@ -23,7 +23,7 @@
  *   func_022052E8  0x022052E8  thumb
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
- *   func_0201D83C  0x0201D83C  thumb
+ *   GF_FONT_Delete  0x0201D83C  thumb
  *   func_02205A84  0x02205A84  thumb
  *   func_022059A0  0x022059A0  thumb
  *   func_02034A5C  0x02034A5C  arm
@@ -40,7 +40,7 @@ extern void func_022052E8(int, int *);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 typedef unsigned int   u32;
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_02205A84(int);
 extern void func_022059A0(char *p);
 extern void func_02034A5C(int);
@@ -57,7 +57,7 @@ void func_02204D5C(int a, int *p)
     func_022052E8(a, p);
     func_0201C6EC((struct PrintSys *)p[3]);
     func_0201C4C0((struct PrintSys *)p[3]);
-    func_0201D83C((void *)p[2]);
+    GF_FONT_Delete((void *)p[2]);
     func_02205A84(p[1]);
     func_022059A0((char *)p[1]);
     func_02034A5C((int)ov067_id);

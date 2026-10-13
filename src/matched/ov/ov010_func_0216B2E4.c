@@ -1,5 +1,5 @@
 /*
- * function: func_0216B2E4
+ * function: FIELD_G3D_MAP_GetEdgePosition
  * address:  0x0216B2E4
  * packet:   pkt_ov010_0216B2E4
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } V12;
 
-void func_0216B2E4(V12 *src, int kind, V12 *dst)
+void FIELD_G3D_MAP_GetEdgePosition(V12 *src, int kind, V12 *dst)
 {
     *dst = *src;
     switch (kind) {

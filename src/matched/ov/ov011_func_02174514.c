@@ -17,11 +17,11 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02012F20  0x02012F20  thumb
- *   func_02012B38  0x02012B38  thumb
+ *   GAME_DATA_GetPmsWork  0x02012F20  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
  *   COMM_PLAYER_SUPPORT_GetMode  0x0202E7E0  thumb
- *   func_02012950  0x02012950  thumb
+ *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   COMM_PLAYER_SUPPORT_SetModeAndCurrent  0x0202E7C4  thumb
  */
 
@@ -32,11 +32,11 @@ struct Rec44;
 struct Sub02014444Obj;
 struct Sub24;
 u32 func_02026478(void *obj);
-int func_02012F20(int a);
-void *func_02012B38(const struct BigObj *p);
+int GAME_DATA_GetPmsWork(int a);
+void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
 int COMM_PLAYER_SUPPORT_GetMode(int a);
-struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 void COMM_PLAYER_SUPPORT_SetModeAndCurrent(int a, int b, int c);
 
 void INTRUDE_COMM_RecvSupportMode(int a, int b, int *c, char *d)
@@ -46,12 +46,12 @@ void INTRUDE_COMM_RecvSupportMode(int a, int b, int *c, char *d)
     int t;
 
     p = func_02026478((void *)(((int *)d)[1]));
-    q = func_02012F20(p);
+    q = GAME_DATA_GetPmsWork(p);
     if ((unsigned char)d[0x8fb] & (1 << a)) {
-        if (FIELD_STATUS_GetSeasonDispFlag(func_02012B38((const struct BigObj *)p)) == 1) {
+        if (FIELD_STATUS_GetSeasonDispFlag(GAME_DATA_GetMoveModelSys((const struct BigObj *)p)) == 1) {
             t = COMM_PLAYER_SUPPORT_GetMode(q);
             if (t == 0 || t == 3) {
-                COMM_PLAYER_SUPPORT_SetModeAndCurrent(q, *c, (int)func_02012950((struct Sub24 *)p, a));
+                COMM_PLAYER_SUPPORT_SetModeAndCurrent(q, *c, (int)GAME_DATA_GetPlayerStatus((struct Sub24 *)p, a));
             }
         }
     }

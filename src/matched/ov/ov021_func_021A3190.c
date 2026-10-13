@@ -1,5 +1,5 @@
 /*
- * function: func_021A3190
+ * function: FIELD_PLAYER_GetFormObjCode
  * address:  0x021A3190
  * packet:   pkt_ov021_021A3190
  * region:   ov021
@@ -12,7 +12,7 @@
  * Halfword a of entry j in row i of the 10-entry table at 0x021D890C.
  *
  * symbols:
- *   data_021D890C  0x021D890C  data
+ *   gFieldPlayerFormTable  0x021D890C  data
  * Addresses are Black-image addresses.
  */
 
@@ -29,9 +29,9 @@ typedef struct {
     Pair e[10];
 } Row;
 
-extern const Row data_021D890C[];
+extern const Row gFieldPlayerFormTable[];
 
-u16 func_021A3190(int i, int j)
+u16 FIELD_PLAYER_GetFormObjCode(int i, int j)
 {
-    return data_021D890C[i].e[j].a;
+    return gFieldPlayerFormTable[i].e[j].a;
 }

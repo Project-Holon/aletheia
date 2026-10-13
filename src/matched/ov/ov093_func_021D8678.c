@@ -1,5 +1,5 @@
 /*
- * function: func_021D8678
+ * function: BTL_CALC_GetInnerFocusHandlers
  * address: 0x021D8678
  * packet: pkt_ov093_021D8678
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D8434.c and filed here.
  *
  * symbols:
- *   d_021F0710 0x021F0710 data ov093 a4
+ *   gInnerFocusHandlers 0x021F0710 data ov093 a4
  */
 
-extern int d_021F0710[];
-int *func_021D8678(int *p);
+extern int gInnerFocusHandlers[];
+int *BTL_CALC_GetInnerFocusHandlers(int *p);
 
-int *func_021D8678(int *p)
+int *BTL_CALC_GetInnerFocusHandlers(int *p)
 {
     *p = 1;
-    return d_021F0710;
+    return gInnerFocusHandlers;
 }

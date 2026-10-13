@@ -1,5 +1,5 @@
 /*
- * function: func_021BB6DC
+ * function: TOWNMAP_GRH_RestartTouchDrag
  * address:  0x021BB6DC
  * packet:   pkt_021BB6DC
  * region:   ov072
@@ -13,7 +13,7 @@
  *           difference.
  */
 
-void func_021BB6DC(int *p)
+void TOWNMAP_GRH_RestartTouchDrag(int *p)
 {
     p[8] = 1;
 }

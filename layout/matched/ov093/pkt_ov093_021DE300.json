@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE300",
-    "func_021DE310"
+    "BTL_HANDLER_ITEM_WhiteHerbUseWhenForced",
+    "BTL_HANDLER_ITEM_GetMentalHerbHandlers"
+   ],
+   "addresses": [
+    "0x021DE300",
+    "0x021DE310"
    ],
    "evidence": {
     "sole-ref": [

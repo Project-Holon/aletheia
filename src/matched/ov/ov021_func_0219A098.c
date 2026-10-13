@@ -1,5 +1,5 @@
 /*
- * function: func_0219A098
+ * function: FLDMMDL_MOVECODE_InitTurnRandom
  * address:  0x0219A098
  * packet:   pkt_ov021_0219A098
  * region:   ov021
@@ -10,30 +10,30 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D684  0x0216D684  thumb  ov010
- *   func_0219B0F0  0x0219B0F0  thumb  ov021
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216DA50  0x0216DA50  thumb
- *   d_021D4FA4     0x021D4FA4  data  a4
+ *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
+ *   FLDMMDL_MOVECODE_GetRandomTableEntry  0x0219B0F0  thumb  ov021
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb
+ *   gMmdlRandomWaitFrames     0x021D4FA4  data  a4
  */
 #include "../include/Obj12644.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u16 *func_0216D684(u32, u32);
-extern int func_0219B0F0(u32 a, u32 b);
-extern void func_0216D674(void *p, u16 v);
-extern int func_0216DA50(u32);
-extern u8 d_021D4FA4[];
+extern u16 *FLDMMDL_InitMoveProcWork(u32, u32);
+extern int FLDMMDL_MOVECODE_GetRandomTableEntry(u32 a, u32 b);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern int FLDMMDL_OffMoveBitMove(u32);
+extern u8 gMmdlRandomWaitFrames[];
 
-int func_0219A098(u32 a, u32 b)
+int FLDMMDL_MOVECODE_InitTurnRandom(u32 a, u32 b)
 {
     u16 *p;
     int k = 8;
-    p = func_0216D684(a, 8);
-    p[1] = func_0219B0F0((u32)d_021D4FA4, k - 9);
+    p = FLDMMDL_InitMoveProcWork(a, 8);
+    p[1] = FLDMMDL_MOVECODE_GetRandomTableEntry((u32)gMmdlRandomWaitFrames, k - 9);
     ((struct Obj12644 *)p)->f4 = b;
-    func_0216D674((void *)a, 0);
-    return func_0216DA50(a);
+    FLDMMDL_SetDrawStatus((void *)a, 0);
+    return FLDMMDL_OffMoveBitMove(a);
 }

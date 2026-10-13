@@ -15,14 +15,14 @@
  *   func_02007B50  0x02007B50  thumb
  *   func_02007B64  0x02007B64  thumb
  *   func_02007B68  0x02007B68  thumb
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *
  * The reader for a/1/9/4, the per-species cry parameter table.  It sits in
  * pm_voice.c (the __FILE__ strings either side of it in the image are
  * pm_voice.c at 0x020066E0 and snd_mic.c at 0x02006D2C), and it is the only
  * call site in the whole image that loads archive id 194.
  *
- * func_02048F4C(dst, archive_id, member) copies one member into a
+ * ARC_TOOL_ReadMember(dst, archive_id, member) copies one member into a
  * caller-supplied buffer, and here the buffer is four bytes, matching
  * a/1/9/4's 652 fixed 4-byte records.  Only the halfword at +2 is used:
  * its low byte is written to *cryPitch, and the value's range over the
@@ -61,14 +61,14 @@ struct PerapVoice;
 extern u8 *func_02007B64(struct PerapVoice *p);
 typedef signed char    s8;
 extern void func_02007B68(s8 *dest, const s8 *src);
-extern void  func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void  ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
 u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **rec, void **owner,
                   u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch)
 {
     u16 entry[2];
 
-    func_02048F4C(entry, 194, species);
+    ARC_TOOL_ReadMember(entry, 194, species);
     *cryPitch = (u8)entry[1];
     if (rec == 0) {
         return 0;

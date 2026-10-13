@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DD140",
-    "func_021DD14C"
+    "BTL_HANDLER_ITEM_LumBerryOnEaten",
+    "BTL_HANDLER_ITEM_AddLumBerry"
+   ],
+   "addresses": [
+    "0x021DD140",
+    "0x021DD14C"
    ],
    "evidence": {
     "sole-ref": [

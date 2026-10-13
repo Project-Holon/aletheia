@@ -14,19 +14,19 @@
  *   banks 0x021BC6FC data a1
  *   motion 0x021BC7F0 data a1
  *   files 0x021BC73C data a1
- *   func_0202D7C8 0x0202D7C8 thumb
- *   func_0202D81C 0x0202D81C thumb
- *   func_0202D7D8 0x0202D7D8 thumb
- *   func_0202D898 0x0202D898 thumb
- *   func_02049238 0x02049238 arm
+ *   POKEGRA_OpenHandle 0x0202D7C8 thumb
+ *   POKEGRA_RegisterCgr 0x0202D81C thumb
+ *   POKEGRA_RegisterPalette 0x0202D7D8 thumb
+ *   POKEGRA_RegisterCellAnim 0x0202D898 thumb
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021BC520 0x021BC520 thumb
- *   func_0204B294 0x0204B294 arm
- *   func_0204B324 0x0204B324 arm
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_CreateAffineActor 0x0204B324 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020490F4 0x020490F4 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   _fgr 0x0209BBB0 arm
  *   _ffltu 0x0209BE04 arm
  *   _ffix 0x0209C494 arm
@@ -48,21 +48,21 @@ extern const u16 ids[];
 extern const u8 banks[];
 extern const Motion motion[];
 extern const Files files[];
-extern int func_0202D7C8(int a0);
-extern u32 func_0202D81C(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern u32 func_0202D7D8(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
-extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern void func_02049238(u32);
+extern int POKEGRA_OpenHandle(int a0);
+extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
+extern u32 POKEGRA_RegisterPalette(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
+extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
+extern void ARC_TOOL_DeleteHandle(u32);
 extern void func_02082BCC(void *,int,u32);
 extern unsigned func_021BC520(unsigned char *p);
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 typedef signed int     s32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 #define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
 void func_021B9D9C(char *p)
 {
@@ -72,36 +72,36 @@ void func_021B9D9C(char *p)
     char *r;
     const Files *f;
     u8 i,j;
-    arc=func_0202D7C8(((struct Obj00211 *)p)->f0);
+    arc=POKEGRA_OpenHandle(((struct Obj00211 *)p)->f0);
     for(i=0;i<3;i++) {
         id=ids[i];r=p+i*148;
-        ((struct Obj01595 *)r)->f54=func_0202D81C(arc,id,0,0,0,0,0,0,1,((struct Obj00211 *)p)->f0);
-        ((struct Obj01595 *)r)->f58=func_0202D7D8(arc,id,0,0,0,0,0,1,(u16)(banks[i]<<5),((struct Obj00211 *)p)->f0);
-        ((struct Obj01595 *)r)->f5C=func_0202D898(id,0,0,0,0,0,0,1,((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f54=POKEGRA_RegisterCgr(arc,id,0,0,0,0,0,0,1,((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f58=POKEGRA_RegisterPalette(arc,id,0,0,0,0,0,1,(u16)(banks[i]<<5),((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f5C=POKEGRA_RegisterCellAnim(id,0,0,0,0,0,0,1,((struct Obj00211 *)p)->f0);
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     for(j=0;j<3;j++) {
         func_02082BCC(&request,0,8);
         request.x=motion[j].b[0];request.y=motion[j].b[1];request.z=0;request.a=2;request.b=3;
         r=p+j*148;
-        ((struct Obj01595 *)r)->f6C=(u32)func_0204B294((void *)func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f54,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f5C,&request,1,((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f6C=(u32)CLACT_CreateActor((void *)func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f54,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f5C,&request,1,((struct Obj00211 *)p)->f0);
         func_0204B3DC((struct Obj *)((struct Obj01595 *)r)->f6C,0);
     }
     other=(u32)func_020490F4(205,((struct Obj00211 *)p)->f0);
     for(i=0;i<3;i++) {
         f=files+i;
         r=p+i*148;
-        ((struct Obj01595 *)r)->f60=func_0204A6C8((void *)other,f->b[0],0,1,((struct Obj00211 *)p)->f0);
-        ((struct Obj01595 *)r)->f68=func_0204AF28((void *)other,f->b[2],f->b[3],((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f60=CLACT_RegisterCharacter((void *)other,f->b[0],0,1,((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f68=CLACT_RegisterCellAnim((void *)other,f->b[2],f->b[3],((struct Obj00211 *)p)->f0);
     }
-    func_02049238(other);
+    ARC_TOOL_DeleteHandle(other);
     for(j=0;j<3;j++) {
         func_02082BCC(&desc,0,24);
         desc.x=motion[j].b[0];desc.y=motion[j].b[1];desc.z=0;desc.a=2;desc.b=3;desc.c=0;desc.d=0;
         desc.sx=FIX((float)motion[j].b[6]/16.0f);desc.sy=FIX((float)motion[j].b[6]/16.0f);
         desc.e=0;desc.f=1;
         r=p+j*148;
-        ((struct Obj01595 *)r)->f70=(unsigned int)func_0204B324(func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f60,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f68,(u32)(&desc),1,((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f70=(unsigned int)CLACT_CreateAffineActor(func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f60,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f68,(u32)(&desc),1,((struct Obj00211 *)p)->f0);
         func_0204B3DC((struct Obj *)((struct Obj01595 *)r)->f70,0);
     }
     for(i=0;i<3;i++) {

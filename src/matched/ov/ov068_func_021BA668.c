@@ -1,5 +1,5 @@
 /*
- * function: func_021BA668
+ * function: OPTION_MENU_IsButtonFinished
  * address:  0x021BA668
  * packet:   pkt_021BA668
  * region:   ov068
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
- *   func_021BA694  0x021BA694  thumb
+ *   OPTION_MENU_ResetButtons  0x021BA694  thumb
  */
 #include "../include/Obj13140.h"
 
@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-extern void func_021BA694(u8 *p);
+extern void OPTION_MENU_ResetButtons(u8 *p);
 
-u32 func_021BA668(u8 *p)
+u32 OPTION_MENU_IsButtonFinished(u8 *p)
 {
     u32 r = 0;
 
@@ -31,7 +31,7 @@ u32 func_021BA668(u8 *p)
         if (t != 3) {
             r = APP_TASKMENU_WIN_IsFinish((u8 *)(*(u32 *)(p + t * 4 + 0x34)));
             if (r != 0) {
-                func_021BA694(p);
+                OPTION_MENU_ResetButtons(p);
             }
         }
     }

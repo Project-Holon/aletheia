@@ -1,5 +1,5 @@
 /*
- * function: func_021D7040
+ * function: BTL_EVENT_RemoveFactor
  * address:  0x021D7040
  * packet:   pkt_ov093_021D7040
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021F3CB0     0x021F3CB0  data
- *   func_021D6F08  0x021D6F08  thumb  ov093
- *   func_021D7494  0x021D7494  thumb  ov093
+ *   gBtlEventFactorList     0x021F3CB0  data
+ *   BTL_EVENT_DebugPrintFactorList  0x021D6F08  thumb  ov093
+ *   BTL_EVENT_FreeFactor  0x021D7494  thumb  ov093
  */
 
 #include "../include/G_NodeList.h"
@@ -38,11 +38,11 @@ typedef struct Node {
     Flags f18;
 } Node;
 
-extern struct NodeList g_021F3CB0;
-extern void func_021D6F08(void);
-extern void func_021D7494(void *p);
+extern struct NodeList gBtlEventFactorList;
+extern void BTL_EVENT_DebugPrintFactorList(void);
+extern void BTL_EVENT_FreeFactor(void *p);
 
-void func_021D7040(Node *n)
+void BTL_EVENT_RemoveFactor(Node *n)
 {
     if (n != 0) {
         if (n->f18.b29) {
@@ -50,14 +50,14 @@ void func_021D7040(Node *n)
                 n->f18.b27 = 1;
                 return;
             }
-            if (n == g_021F3CB0.head)
-                g_021F3CB0.head = n->next;
+            if (n == gBtlEventFactorList.head)
+                gBtlEventFactorList.head = n->next;
             if (n->prev != 0)
                 n->prev->next = n->next;
             if (n->next != 0)
                 n->next->prev = n->prev;
-            func_021D6F08();
-            func_021D7494(n);
+            BTL_EVENT_DebugPrintFactorList();
+            BTL_EVENT_FreeFactor(n);
         }
     }
 }

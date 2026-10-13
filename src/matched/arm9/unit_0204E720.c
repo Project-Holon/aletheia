@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0204E720
+ * function: FADE_Start
  * address:  0x0204E720
  * packet:   pkt_0204E6F4
  * region:   arm9
@@ -28,8 +28,8 @@
  *   g_02146A7C     0x02146A7C  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204E720.c \
- *       --func func_0204E720 --addr 0x0204E720 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/FADE_Start.c \
+ *       --func FADE_Start --addr 0x0204E720 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Run0204E720.h"
@@ -42,7 +42,7 @@ extern struct Run0204E720 *g_02146A7C;
 extern s32  func_0209C0A4(s32 a, s32 b);
 extern void FADE_ApplyBrightness(void);
 
-void func_0204E720(u32 a, s32 b, s32 c, s32 d)
+void FADE_Start(u32 a, s32 b, s32 c, s32 d)
 {
     g_02146A7C->unk00 = a;
     g_02146A7C->unk04 = b;
@@ -75,7 +75,7 @@ void func_0204E720(u32 a, s32 b, s32 c, s32 d)
     FADE_ApplyBrightness();
 }
 
-int func_0204E804(void)
+int FADE_IsActive(void)
 {
     return g_02146A7C->unk00 != 0;
 }

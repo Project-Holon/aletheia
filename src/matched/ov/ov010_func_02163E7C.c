@@ -1,5 +1,5 @@
 /*
- * function: func_02163E7C
+ * function: FLDMMDL_MOVE_UpdateGridPosDir
  * address:  0x02163E7C
  * packet:   pkt_ov010_02163E7C
  * region:   ov010
@@ -10,53 +10,53 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb
- *   func_0216D80C  0x0216D80C  thumb
- *   func_0216D854  0x0216D854  thumb
- *   func_0216D818  0x0216D818  thumb
- *   func_0216D86C  0x0216D86C  thumb
- *   func_0216D824  0x0216D824  thumb
- *   func_021641E8  0x021641E8  thumb
- *   func_0216D848  0x0216D848  thumb
- *   func_021641F8  0x021641F8  thumb
- *   func_0216D87C  0x0216D87C  thumb
- *   func_02164280  0x02164280  thumb
- *   func_0216D8AC  0x0216D8AC  thumb
- *   func_02163E58  0x02163E58  thumb
- *   func_0216D85C  0x0216D85C  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb
+ *   FLDMMDL_SetGridOldX  0x0216D80C  thumb
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb
+ *   FLDMMDL_SetGridOldY  0x0216D818  thumb
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb
+ *   FLDMMDL_SetGridOldZ  0x0216D824  thumb
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb
+ *   FLDMMDL_AddGridNowX  0x0216D848  thumb
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb
+ *   FLDMMDL_AddGridNowZ  0x0216D87C  thumb
+ *   FLDMMDL_MOVE_GridToVectorPos  0x02164280  thumb
+ *   FLDMMDL_GetPosY  0x0216D8AC  thumb
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb
+ *   FLDMMDL_SetGridNowY  0x0216D85C  thumb
  */
 
 typedef short s16;
 
 typedef unsigned int   u32;
-extern int func_0216D83C(void *p);
-extern void func_0216D80C(int a, int b);
-extern int func_0216D854(void *p);
-extern void func_0216D818(int a, int b);
-extern int func_0216D86C(void *p);
-extern void func_0216D824(int a, int b);
-extern int func_021641E8(int a);
-extern void func_0216D848(int a, int b);
-extern int func_021641F8(int a);
-extern void func_0216D87C(int a, int b);
-extern void func_02164280(int x, int y, int *p);
-extern u32 func_0216D8AC(void *p);
-extern void func_02163E58(int a, int *p, int *out);
-extern void func_0216D85C(void *p, int v);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern void FLDMMDL_SetGridOldX(int a, int b);
+extern int FLDMMDL_GetGridNowY(void *p);
+extern void FLDMMDL_SetGridOldY(int a, int b);
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern void FLDMMDL_SetGridOldZ(int a, int b);
+extern int FLDMMDL_MOVE_GetDirAddGridX(int a);
+extern void FLDMMDL_AddGridNowX(int a, int b);
+extern int FLDMMDL_MOVE_GetDirAddGridZ(int a);
+extern void FLDMMDL_AddGridNowZ(int a, int b);
+extern void FLDMMDL_MOVE_GridToVectorPos(int x, int y, int *p);
+extern u32 FLDMMDL_GetPosY(void *p);
+extern void FLDMMDL_MOVE_GetMapHeight(int a, int *p, int *out);
+extern void FLDMMDL_SetGridNowY(void *p, int v);
 
-void func_02163E7C(int a, int b)
+void FLDMMDL_MOVE_UpdateGridPosDir(int a, int b)
 {
     int v;
     int buf[3];
 
-    func_0216D80C(a, func_0216D83C((void *)a));
-    func_0216D818(a, func_0216D854((void *)a));
-    func_0216D824(a, func_0216D86C((void *)a));
-    func_0216D848(a, func_021641E8(b));
-    func_0216D87C(a, func_021641F8(b));
+    FLDMMDL_SetGridOldX(a, FLDMMDL_GetGridNowX((void *)a));
+    FLDMMDL_SetGridOldY(a, FLDMMDL_GetGridNowY((void *)a));
+    FLDMMDL_SetGridOldZ(a, FLDMMDL_GetGridNowZ((void *)a));
+    FLDMMDL_AddGridNowX(a, FLDMMDL_MOVE_GetDirAddGridX(b));
+    FLDMMDL_AddGridNowZ(a, FLDMMDL_MOVE_GetDirAddGridZ(b));
     v = 0;
-    func_02164280(func_0216D83C((void *)a), func_0216D86C((void *)a), buf);
-    buf[1] = func_0216D8AC((void *)a);
-    func_02163E58(a, buf, &v);
-    func_0216D85C((void *)a, (s16)((v >> 4) / 4096));
+    FLDMMDL_MOVE_GridToVectorPos(FLDMMDL_GetGridNowX((void *)a), FLDMMDL_GetGridNowZ((void *)a), buf);
+    buf[1] = FLDMMDL_GetPosY((void *)a);
+    FLDMMDL_MOVE_GetMapHeight(a, buf, &v);
+    FLDMMDL_SetGridNowY((void *)a, (s16)((v >> 4) / 4096));
 }

@@ -23,7 +23,7 @@
  *   func_021F8934 0x021F8934 thumb ov094
  *   func_02011290 0x02011290 thumb
  *   func_021F8764 0x021F8764 thumb ov094
- *   func_021EB2A8 0x021EB2A8 thumb ov093
+ *   BTLV_SCU_ReloadGraphics 0x021EB2A8 thumb ov093
  *   func_0204047C 0x0204047C arm
  *   func_02040618 0x02040618 arm
  *   func_0207D63C 0x0207D63C arm
@@ -33,7 +33,7 @@
  *   func_021FFF38 0x021FFF38 thumb ov094
  *   func_02040588 0x02040588 arm
  *   VM_Start 0x0201127C thumb
- *   func_02048F60 0x02048F60 arm
+ *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   func_021FF374 0x021FF374 thumb ov094
  */
 #include "../include/Obj13598.h"
@@ -93,7 +93,7 @@ extern void func_021FE520(State *);
 extern void func_021F8934(int);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 extern int func_021F8764(void);
-extern void func_021EB2A8(const u8 *a);
+extern void BTLV_SCU_ReloadGraphics(const u8 *a);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(int, int, int, int, int);
@@ -104,7 +104,7 @@ extern int func_021FFF38(char *p, int key);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern void func_021FF374(void *, int, int);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 
 int func_021FC448(void *a, State *s)
 {
@@ -143,7 +143,7 @@ int func_021FC448(void *a, State *s)
     if (s->flags.bit.b4) {
         q = (void *)func_021F8764();
         if (q != 0)
-            func_021EB2A8(q);
+            BTLV_SCU_ReloadGraphics(q);
         func_0204047C(3, 0);
         s->flags.bit.b4 = 0;
         func_02040618(3, 0, s->f264);
@@ -181,7 +181,7 @@ int func_021FC448(void *a, State *s)
     if (b == 1 && s->h258 == 0x291) {
         func_020307B0(s->f1e8);
         s->h258 = 0x34;
-        p = func_02048F60(0x43, s->h258, (u16)((s->h238 & 0x7fff) | 0x8000));
+        p = ARC_TOOL_LoadMember(0x43, s->h258, (u16)((s->h238 & 0x7fff) | 0x8000));
         s->f1e8 = p;
         s->flags.bit.b6 = 1;
         s->f4 = 0;
@@ -195,7 +195,7 @@ int func_021FC448(void *a, State *s)
             func_021FF374((void *)func_021F8694(), s->fdc, 0);
         func_020307B0(s->f1e8);
         s->h258 = 0x34;
-        p = func_02048F60(0x43, s->h258, (u16)((s->h238 & 0x7fff) | 0x8000));
+        p = ARC_TOOL_LoadMember(0x43, s->h258, (u16)((s->h238 & 0x7fff) | 0x8000));
         s->f1e8 = p;
         s->flags.bit.b6 = 1;
         s->f4 = 0;

@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A600 0x0204A600  arm
+ *   CLACT_DrawSystem 0x0204A600  arm
  *
  * Tail call to the ARM9 function at 0x0204A600, forwarding the first argument.
  */
 
-extern void func_0204A600(char *);
+extern void CLACT_DrawSystem(char *);
 
 void func_021BD098(char *p)
 {
-    func_0204A600(p);
+    CLACT_DrawSystem(p);
 }

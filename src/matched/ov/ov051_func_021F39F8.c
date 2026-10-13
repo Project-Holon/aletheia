@@ -1,5 +1,5 @@
 /*
- * function: func_021F39F8
+ * function: FIELD_GIMMICK_D06_EventSlideStone
  * address:  0x021F39F8
  * packet:   pkt_ov051_021F39F8
  * region:   ov051
@@ -10,44 +10,44 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A3074  0x021A3074  thumb
- *   func_0216D3CC  0x0216D3CC  thumb
- *   func_02197E7C  0x02197E7C  thumb
- *   func_0216D410  0x0216D410  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_0216D454  0x0216D454  thumb
- *   func_0216D480  0x0216D480  thumb
- *   func_021C909C  0x021C909C  thumb
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb
+ *   FLDEFF_D06DENKI_FollowFreezeLoop  0x021C909C  thumb
  */
 #include "../include/Obj01876.h"
 
-extern void *func_02188CB4(unsigned char *p);
-extern void *func_021A3074(unsigned char *p);
-extern int func_0216D3CC(void *a);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D410(void *a, int b);
+extern void *FIELDMAP_GetFieldPlayer(unsigned char *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern int FLDMMDL_CheckPossibleAcmd(void *a);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetAcmd(void *a, int b);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern int func_0216D454(void *a);
-extern void func_0216D480(void *a);
-extern void func_021C909C(int a);
+extern int FLDMMDL_CheckEndAcmd(void *a);
+extern void FLDMMDL_EndAcmd(void *a);
+extern void FLDEFF_D06DENKI_FollowFreezeLoop(int a);
 
-int func_021F39F8(int a, int *s, int *t)
+int FIELD_GIMMICK_D06_EventSlideStone(int a, int *s, int *t)
 {
     void *r6;
 
-    r6 = func_021A3074(func_02188CB4(*(void **)(t[3] + 8)));
+    r6 = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(*(void **)(t[3] + 8)));
     switch (*s) {
     case 0:
-        if (func_0216D3CC(r6) == 1) {
-            func_0216D410(r6, func_02197E7C(((struct Obj01876 *)t)->f0, 0x1c));
+        if (FLDMMDL_CheckPossibleAcmd(r6) == 1) {
+            FLDMMDL_SetAcmd(r6, FLDMMDL_ACMD_ConvertCodeByDir(((struct Obj01876 *)t)->f0, 0x1c));
             func_020061E4(0x6ce);
             *s = *s + 1;
         }
         break;
     case 1:
-        if (func_0216D3CC(*(void **)t[2]) == 1) {
+        if (FLDMMDL_CheckPossibleAcmd(*(void **)t[2]) == 1) {
             if (t[1] > 0) {
                 int v = 8;
                 if (t[1] <= 1)
@@ -56,7 +56,7 @@ int func_021F39F8(int a, int *s, int *t)
                     v = 0x10;
                 else if (t[1] <= 4)
                     v = 0xc;
-                func_0216D410(*(void **)t[2], func_02197E7C(((struct Obj01876 *)t)->f0, v));
+                FLDMMDL_SetAcmd(*(void **)t[2], FLDMMDL_ACMD_ConvertCodeByDir(((struct Obj01876 *)t)->f0, v));
                 t[1] = t[1] - 1;
             } else {
                 func_020061E4(0x6a3);
@@ -65,10 +65,10 @@ int func_021F39F8(int a, int *s, int *t)
         }
         break;
     case 2:
-        if (func_0216D454(r6) == 1) {
-            func_0216D480(*(void **)t[2]);
-            func_0216D480(r6);
-            func_021C909C(((int *)t[2])[1]);
+        if (FLDMMDL_CheckEndAcmd(r6) == 1) {
+            FLDMMDL_EndAcmd(*(void **)t[2]);
+            FLDMMDL_EndAcmd(r6);
+            FLDEFF_D06DENKI_FollowFreezeLoop(((int *)t[2])[1]);
             return 1;
         }
         break;

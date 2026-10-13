@@ -9,28 +9,28 @@
  * isa: thumb
  * status: EXACT*
  * extent: compiled 50 bytes; 021C947A..021C947C is alignment padding.
- * note: caller consumes live r0 after void-declared func_021D5EFC;
+ * note: caller consumes live r0 after void-declared BTL_POKEPARAM_RaiseLoweredStatStages;
  *       return interface follows its explicit u8 truncation at 021C9470.
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
- *   func_021D5EFC 0x021D5EFC thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
+ *   BTL_POKEPARAM_RaiseLoweredStatStages 0x021D5EFC thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D5B68(void *);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern int func_021D5EFC(char *);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
+extern int BTL_POKEPARAM_RaiseLoweredStatStages(char *);
 int func_021C9448(u8 *p, u8 *e)
 {
     char *a;
     a = (char *)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, e[4]);
-    if (func_021D5B68(a) == 0) {
-        func_021CD4B0(((struct Obj00003 *)p)->fC, 12, e[4]);
-        return (u8)func_021D5EFC(a);
+    if (BTL_POKEPARAM_IsFainted(a) == 0) {
+        BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 12, e[4]);
+        return (u8)BTL_POKEPARAM_RaiseLoweredStatStages(a);
     }
     return 0;
 }

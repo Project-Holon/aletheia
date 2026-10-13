@@ -1,5 +1,5 @@
 /*
- * function: func_02167D44
+ * function: BSUBWAY_COMM_RecvPlayerData
  * address:  0x02167D44
  * packet:   pkt_ov010_02167D44
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * lever: Const source halfwords restores c[0]/c[1] load scheduling.
  * symbols:
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  */
 
 typedef unsigned int u32;
@@ -37,15 +37,15 @@ typedef struct {
     u16 f728;
 } D;
 
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-void func_02167D44(int a, int b, const u16 *c, D *d)
+void BSUBWAY_COMM_RecvPlayerData(int a, int b, const u16 *c, D *d)
 {
     u16 n = 0;
     u16 w;
     u16 v;
     d->f724++;
-    if (a != func_02039338()) {
+    if (a != GFL_NET_SYSTEM_GetCurrentAid()) {
         w = c[0];
         v = c[1];
         d->f0b = w;

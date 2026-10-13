@@ -1,5 +1,5 @@
 /*
- * function: func_02164890
+ * function: CALENDER_LoadZoneTable
  * address: 0x02164890
  * packet: pkt_ov010_02164890
  * region: ov010
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204944C 0x0204944C arm
+ *   ARC_TOOL_ReadHandleMemberRange 0x0204944C arm
  */
 #include "../include/Obj18979.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct ArcFile;
-extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
-void func_02164890(u8 *p){func_0204944C((struct ArcFile *)((struct Obj18979 *)p)->f8,1,2,0x110,p+12);}
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+void CALENDER_LoadZoneTable(u8 *p){ARC_TOOL_ReadHandleMemberRange((struct ArcFile *)((struct Obj18979 *)p)->f8,1,2,0x110,p+12);}

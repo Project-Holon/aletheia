@@ -1,5 +1,5 @@
 /*
- * function: func_021C90D0
+ * function: FLDEFF_D06DENKI_FollowIsEnded
  * address:  0x021C90D0
  * packet:   pkt_021C90D0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021AC1E0  0x021AC1E0  thumb  ov021
+ *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18344.h"
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_021AC1E0(u32 a);
+extern int FIELD_EFFECT_GetObjectWork(u32 a);
 
-int func_021C90D0(u32 a, u32 b, u32 c, u32 d)
+int FLDEFF_D06DENKI_FollowIsEnded(u32 a, u32 b, u32 c, u32 d)
 {
 if (a != 0) {
-    return ((struct Obj18344 *)((u8 *)(func_021AC1E0(a))))->f16;
+    return ((struct Obj18344 *)((u8 *)(FIELD_EFFECT_GetObjectWork(a))))->f16;
 }
 return 1;
 }

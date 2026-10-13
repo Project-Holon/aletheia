@@ -17,7 +17,7 @@
  *   func_06899F64  0x06899F64  thumb
  *   func_06899FD4  0x06899FD4  thumb
  *   func_06899FDC  0x06899FDC  thumb
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021E964C  0x021E964C  thumb  ov093
  *   func_021E9928 0x021E9928 thumb ov093
  */
@@ -55,7 +55,7 @@ struct S {
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021E964C(char *p, int *st);
 extern void func_021E9928(char *p);
 extern void func_06899F40(void *a, u8 *b, int c);
@@ -110,7 +110,7 @@ int func_021E9738(struct S *s)
 void func_021E9760(char *p, u8 *a, int b, int c)
 {
     *(u8 * *)&((struct Obj06279 *)p)->fBC = a;
-    ((struct Obj06279 *)p)->fC0 = func_021D5440(a);
+    ((struct Obj06279 *)p)->fC0 = BTL_POKEPARAM_GetPokeId(a);
     ((struct Obj06279 *)p)->fB8 = c;
     ((struct Obj06279 *)p)->fC4 = 0;
     ((struct Obj06279 *)p)->f175 = b;
@@ -136,7 +136,7 @@ int func_021E97A4(char *p)
 void func_021E97BC(char *p, u8 *a, int b)
 {
     *(u8 * *)&((struct Obj06280 *)p)->fBC = a;
-    ((struct Obj06280 *)p)->fC0 = func_021D5440(a);
+    ((struct Obj06280 *)p)->fC0 = BTL_POKEPARAM_GetPokeId(a);
     ((struct Obj06280 *)p)->fB8 = b;
     func_06899F40(((struct Obj06280 *)p)->f180, *(u8 * *)&((struct Obj06280 *)p)->fBC, b);
     func_021E9728((struct QU *)p, (u32)func_021E9884);
@@ -148,7 +148,7 @@ void func_021E9808(char *p, u32 *q, int c)
     u32 v = *q;
 
     ((struct Obj06281 *)p)->fBC = v;
-    ((struct Obj06281 *)p)->fC0 = func_021D5440((u8 *)v);
+    ((struct Obj06281 *)p)->fC0 = BTL_POKEPARAM_GetPokeId((u8 *)v);
     *(u32 * *)&((struct Obj06281 *)p)->f170 = q;
     ((struct Obj06281 *)p)->fB8 = c;
     func_06899F64(((struct Obj06281 *)p)->f180, q, c);

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: FIELD_SOUND_SYSTEM_PopAndWaitTask, func_02029620
+ * function: FIELD_SOUND_SYSTEM_PopAndWaitTask, FIELD_SOUND_SYSTEM_StartPopAndWaitTask
  *
  * One of the sixteen (task body, task spawner) pairs that make up the tail of
  * field_sound_system.c.  Every pair has the same shape: a small state machine
@@ -23,11 +23,11 @@
  * `local` symbol and the relocation needs no image evidence at all.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_020289B8  0x020289B8  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  *
  * Verified with:
@@ -53,7 +53,7 @@ struct Desc;
 struct Obj;
 struct Sys;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
-extern u32 func_020289B8(struct Sys *s);
+extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct Sys *s);
 
 u32 FIELD_SOUND_SYSTEM_PopAndWaitTask(void *task, u32 *state, struct Work *work)
 {
@@ -65,7 +65,7 @@ u32 FIELD_SOUND_SYSTEM_PopAndWaitTask(void *task, u32 *state, struct Work *work)
         (*state)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
+        if (FIELD_SOUND_SYSTEM_IsBusy(sys) == 0) {
             (*state)++;
         }
         break;
@@ -75,19 +75,19 @@ u32 FIELD_SOUND_SYSTEM_PopAndWaitTask(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
-void *func_02029620(void *a, u32 b, u32 c)
+void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(void *a, u32 b, u32 c)
 {
-    void *x = func_020120F4(a);
+    void *x = GAMESYSTEM_GetGameData(a);
     void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_PopAndWaitTask, 0x10);
     struct Work *work = func_020124E8(task);
 
-    work->unk04 = (void *)func_02012A30(x);
+    work->unk04 = (void *)GAME_DATA_GetBgmInfo(x);
     work->unk0C = c;
     work->unk0E = b;
     return task;

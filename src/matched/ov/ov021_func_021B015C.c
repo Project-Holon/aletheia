@@ -1,5 +1,5 @@
 /*
- * function: func_021B015C
+ * function: SCRCMD_MSGWIN_MenuEventMain
  * address:  0x021B015C
  * packet:   pkt_ov021_021B015C
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A684  0x0215A684  thumb  ov010
- *   func_0215A690  0x0215A690  thumb  ov010
- *   func_0215A864  0x0215A864  thumb  ov010
- *   func_0215A990  0x0215A990  thumb  ov010
- *   func_0215A954  0x0215A954  thumb  ov010
+ *   SCRCMD_WORK_SetWaitCount  0x0215A684  thumb  ov010
+ *   SCRCMD_WORK_CountDownWait  0x0215A690  thumb  ov010
+ *   SCRCMD_WORK_StartMenu  0x0215A864  thumb  ov010
+ *   SCRCMD_WORK_WaitMenuOrCancel  0x0215A990  thumb  ov010
+ *   SCRCMD_WORK_WaitMenu  0x0215A954  thumb  ov010
  */
 
 typedef struct {
@@ -23,31 +23,31 @@ typedef struct {
 } Ctx;
 
 typedef unsigned char  u8;
-extern void func_0215A684(int *p, unsigned short v);
-extern int func_0215A690(char *a0);
-extern void func_0215A864(int *p);
-extern int func_0215A990(u8 *a);
-extern int func_0215A954(u8 *a);
+extern void SCRCMD_WORK_SetWaitCount(int *p, unsigned short v);
+extern int SCRCMD_WORK_CountDownWait(char *a0);
+extern void SCRCMD_WORK_StartMenu(int *p);
+extern int SCRCMD_WORK_WaitMenuOrCancel(u8 *a);
+extern int SCRCMD_WORK_WaitMenu(u8 *a);
 
-int func_021B015C(int a0, int *st, Ctx *c)
+int SCRCMD_MSGWIN_MenuEventMain(int a0, int *st, Ctx *c)
 {
     int r;
 
     switch (*st) {
     case 0:
-        func_0215A684((int *)c->h, 8);
+        SCRCMD_WORK_SetWaitCount((int *)c->h, 8);
         (*st)++;
     case 1:
-        if (func_0215A690((char *)c->h) == 1) {
-            func_0215A864((int *)c->h);
+        if (SCRCMD_WORK_CountDownWait((char *)c->h) == 1) {
+            SCRCMD_WORK_StartMenu((int *)c->h);
             (*st)++;
         }
         break;
     case 2:
         if (c->flag != 0)
-            r = func_0215A990((u8 *)c->h);
+            r = SCRCMD_WORK_WaitMenuOrCancel((u8 *)c->h);
         else
-            r = func_0215A954((u8 *)c->h);
+            r = SCRCMD_WORK_WaitMenu((u8 *)c->h);
         if (r == 1)
             return 1;
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_0204B954
+ * function: CLACT_SetActorAutoAnimSpeed
  * address:  0x0204B954
  * packet:   pkt_0204B954
  * region:   arm9
@@ -16,8 +16,8 @@
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B954.c \
- *       --func func_0204B954 --addr 0x0204B954 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorAutoAnimSpeed.c \
+ *       --func CLACT_SetActorAutoAnimSpeed --addr 0x0204B954 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ struct Actor {
     u32 unk_54;   /* 0x54 */
 };
 
-void func_0204B954(struct Actor *a, u32 v)
+void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v)
 {
     a->unk_54 = v;
 }

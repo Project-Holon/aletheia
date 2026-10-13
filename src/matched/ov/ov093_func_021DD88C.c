@@ -1,5 +1,5 @@
 /*
- * function: func_021DD88C
+ * function: BTL_ITEM_GetRaiseDefenseOneHandlers
  * address: 0x021DD88C
  * packet: pkt_ov093_021DD88C
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DD87C.c and filed here.
  *
  * symbols:
- *   d_021F1CF4 0x021F1CF4 data ov093 a4
+ *   gBtlItemRaiseDefenseOneHandlers 0x021F1CF4 data ov093 a4
  */
 
-int *func_021DD88C(int *p);
+int *BTL_ITEM_GetRaiseDefenseOneHandlers(int *p);
 
-/* 021DD898  shifted 3-arg wrapper -> func_021DD9E8(..., 0x2, 1) */
-extern int d_021F1CF4[];
+/* 021DD898  shifted 3-arg wrapper -> BTL_ITEM_RaiseStat(..., 0x2, 1) */
+extern int gBtlItemRaiseDefenseOneHandlers[];
 
-int *func_021DD88C(int *p)
+int *BTL_ITEM_GetRaiseDefenseOneHandlers(int *p)
 {
     *p = 5;
-    return d_021F1CF4;
+    return gBtlItemRaiseDefenseOneHandlers;
 }

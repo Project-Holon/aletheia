@@ -1,5 +1,5 @@
 /*
- * function: func_021F57D8
+ * function: FLD_FACEUP_VBlankUpload
  * address:  0x021F57D8
  * packet:   pkt_ov082_021F57D8
  * region:   ov082
@@ -25,7 +25,7 @@ typedef struct {
 
 extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 
-void func_021F57D8(int a0, char *p)
+void FLD_FACEUP_VBlankUpload(int a0, char *p)
 {
     Sub *q = (Sub *)(p + 0x28);
     Sub *r;

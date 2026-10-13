@@ -13,7 +13,7 @@
  *   GFL_NET_GetSession   0x0203D788  arm
  *   GFL_NET_SYSTEM_ChildConnectHook   0x02037858  arm
  *   GFL_NET_SYSTEM_RecvParentData   0x02038924  arm
- *   func_0203D798   0x0203D798  arm
+ *   GFL_NET_GetInitParam   0x0203D798  arm
  *   GFL_NET_SYSTEM_InitWork   0x02037288  arm
  *   g_020A7A20      0x020A7A20  data
  *
@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *GFL_NET_GetSession(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void GFL_NET_SYSTEM_ChildConnectHook(u32 arg);
 extern void  GFL_NET_SYSTEM_RecvParentData(void);
 extern int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
@@ -63,7 +63,7 @@ u32 GFL_NET_SYSTEM_StartBeaconScan(u32 a0, u16 a1)
             flag = 0;
         }
 
-        a = func_0203D798();
+        a = GFL_NET_GetInitParam();
         val = ((struct Obj15929 *)a)->f56;
         GFL_NET_SYSTEM_InitWork(a1, val, flag);
 

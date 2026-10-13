@@ -18,7 +18,7 @@
  * symbols:
  *   lbl_021469D0   0x021469D0  data
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_WM_ICON_EasySetLevel  0x020370F4  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
  *   GFL_NET_SYSTEM_SendWireless  0x02037F48  arm
@@ -26,7 +26,7 @@
  *   GFL_NET_SYSTEM_SendIrc  0x02038298  arm
  *   GFL_NET_SYSTEM_SendMP  0x02038340  arm
  *   GFL_NET_SYSTEM_ProcessParentRecv  0x02039050  arm
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
  *   GFL_NET_SYSTEM_UpdateMPParent  0x020385C4  arm
  *   GFL_NET_SYSTEM_ProcessChildRecv  0x020390BC  arm
@@ -56,7 +56,7 @@ struct Net {
 
 extern struct Net *lbl_021469D0;
 extern void *GFL_NET_GetSession(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32  GFL_NET_WM_ICON_EasySetLevel(u32 a);
 extern int  GFL_NET_SYSTEM_IsError(void);
 extern void GFL_NET_SYSTEM_SendWireless(void);
@@ -64,7 +64,7 @@ extern void GFL_NET_SYSTEM_SendWifi(void);
 extern void GFL_NET_SYSTEM_SendIrc(void);
 extern void GFL_NET_SYSTEM_SendMP(void);
 extern void GFL_NET_SYSTEM_ProcessParentRecv(void);
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int  GFL_NET_SYSTEM_IsConnectMember(u32 a);
 extern void GFL_NET_SYSTEM_UpdateMPParent(void);
 extern void GFL_NET_SYSTEM_ProcessChildRecv(void);
@@ -74,7 +74,7 @@ extern void GFL_NET_SYSTEM_CheckAutoFree(void);
 int GFL_NET_SYSTEM_Main(void)
 {
     struct Ctx *c = GFL_NET_GetSession();
-    struct Oth *o = func_0203D798();
+    struct Oth *o = GFL_NET_GetInitParam();
 
     if (lbl_021469D0 == 0) {
         if (c != 0)
@@ -103,11 +103,11 @@ int GFL_NET_SYSTEM_Main(void)
     } else {
         GFL_NET_SYSTEM_SendMP();
         GFL_NET_SYSTEM_ProcessParentRecv();
-        if (func_02039338() == 0) {
+        if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             if (GFL_NET_SYSTEM_IsConnectMember(0) != 0 && o->f64 != 0)
                 GFL_NET_SYSTEM_UpdateMPParent();
         }
-        if (func_02039338() != 0)
+        if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
             goto skip;
     }
     GFL_NET_SYSTEM_ProcessChildRecv();

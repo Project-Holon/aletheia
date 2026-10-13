@@ -1,5 +1,5 @@
 /*
- * function: func_021BFD70
+ * function: EVENT_DISAPPEAR_CreateSpinZoom
  * address:  0x021BFD70
  * packet:   pkt_ov021_021BFD70
  * region:   ov021
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Spawns a 0x7C-byte task (callback func_021C00C8).
+ * Spawns a 0x7C-byte task (callback EVENT_DISAPPEAR_RunSpinZoom).
  *
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021C00C8  0x021C00C8  thumb  ov021
+ *   EVENT_DISAPPEAR_RunSpinZoom  0x021C00C8  thumb  ov021
  */
 
 typedef unsigned int   u32;
@@ -22,11 +22,11 @@ struct Desc;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 void *func_020124E8(struct Obj *p);
-int func_021C00C8(void *task, int *state, void **q);
+int EVENT_DISAPPEAR_RunSpinZoom(void *task, int *state, void **q);
 
-void *func_021BFD70(int a0, void *p, int a2, int a3)
+void *EVENT_DISAPPEAR_CreateSpinZoom(int a0, void *p, int a2, int a3)
 {
-    void *t = func_020122C0(p, (void *)a0, func_021C00C8, 0x7C);
+    void *t = func_020122C0(p, (void *)a0, EVENT_DISAPPEAR_RunSpinZoom, 0x7C);
     int *w = func_020124E8(t);
 
     w[0] = (int)p;

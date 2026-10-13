@@ -14,8 +14,8 @@
  *   func_021B7FFC 0x021B7FFC thumb ov103
  *   func_021B8008 0x021B8008 thumb ov103
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
+ *   BMP_Clear 0x02043B5C arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C6FC 0x0201C6FC thumb
  */
@@ -25,5 +25,5 @@ typedef unsigned short u16;
 typedef short s16;
 extern int func_021B8004(void *); extern int func_021B8000(void *); extern int func_021B7FFC(void *); extern int func_021B8008(void *);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *); extern void func_02043B5C(int,u8); extern void func_02045CAC(int,int,int); extern void func_0201C6EC(int); extern void func_0201C6FC(int,int,s16,s16,int,int);
-void func_021B8138(u8 *p,void *q,int c,int x,s16 y) { int a,b,d; a=func_021B8004(q); b=func_021B8000(q); d=func_021B7FFC(q); func_02043B5C((int)func_02045770((struct Descriptor *)((struct Obj02159 *)p)->f0),((struct Obj02159 *)p)->f10); func_02045CAC(a,c,((struct Obj02159 *)p)->fC); func_0201C6EC(b); func_0201C6FC(b,(int)func_02045770((struct Descriptor *)((struct Obj02159 *)p)->f4),x,y,((struct Obj02159 *)p)->fC,d); p[8]=1; }
+extern void *func_02045770(struct Descriptor *); extern void BMP_Clear(int,u8); extern void MSGDATA_ReadString(int,int,int); extern void func_0201C6EC(int); extern void func_0201C6FC(int,int,s16,s16,int,int);
+void func_021B8138(u8 *p,void *q,int c,int x,s16 y) { int a,b,d; a=func_021B8004(q); b=func_021B8000(q); d=func_021B7FFC(q); BMP_Clear((int)func_02045770((struct Descriptor *)((struct Obj02159 *)p)->f0),((struct Obj02159 *)p)->f10); MSGDATA_ReadString(a,c,((struct Obj02159 *)p)->fC); func_0201C6EC(b); func_0201C6FC(b,(int)func_02045770((struct Descriptor *)((struct Obj02159 *)p)->f4),x,y,((struct Obj02159 *)p)->fC,d); p[8]=1; }

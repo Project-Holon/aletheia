@@ -1,5 +1,5 @@
 /*
- * function: func_021F45F0
+ * function: GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight
  * address:  0x021F45F0
  * packet:   pkt_ov048_021F45F0
  * region:   ov048
@@ -10,35 +10,35 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200D418  0x0200D418  thumb
- *   func_021F44B8  0x021F44B8  thumb  ov048
- *   func_0215E404  0x0215E404  thumb  ov010
- *   func_0215E3E4  0x0215E3E4  thumb  ov010
+ *   GIMMICK_OBJ_ELBOARD_ClearHighlights  0x021F44B8  thumb  ov048
+ *   MOVE_POKEMON_HasActiveEntry  0x0215E404  thumb  ov010
+ *   MOVE_POKEMON_GetEntryZoneId  0x0215E3E4  thumb  ov010
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  */
 #include "../include/Obj13107.h"
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200D418(void *sys);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021F44B8(u8 *p);
-extern int func_0215E404(int a);
+extern void GIMMICK_OBJ_ELBOARD_ClearHighlights(u8 *p);
+extern int MOVE_POKEMON_HasActiveEntry(int a);
 extern u32 GPOWER_GetSpecialPowerId(void);
-extern u32 func_0215E3E4(void *p, u32 slot);
+extern u32 MOVE_POKEMON_GetEntryZoneId(void *p, u32 slot);
 
-void func_021F45F0(int *a, void *b)
+void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(int *a, void *b)
 {
     int r7;
     int r4;
     int r6;
     int r0;
 
-    r7 = (int)func_0200D418(func_02012EBC((struct Big *)a[2]));
-    func_021F44B8(b);
-    if (func_0215E404(r7)) {
+    r7 = (int)func_0200D418(GAME_DATA_GetSaveControl((struct Big *)a[2]));
+    GIMMICK_OBJ_ELBOARD_ClearHighlights(b);
+    if (MOVE_POKEMON_HasActiveEntry(r7)) {
         r0 = GPOWER_GetSpecialPowerId();
         switch (r0) {
         case 0x14:
@@ -56,7 +56,7 @@ void func_021F45F0(int *a, void *b)
             r6 = 7;
             break;
         }
-        r0 = (int)func_0215E3E4((void *)r7, (unsigned char)r4);
+        r0 = (int)MOVE_POKEMON_GetEntryZoneId((void *)r7, (unsigned char)r4);
         if (r0 != 0xFFFF) {
             ((struct Obj13107 *)b)->f0 = r0;
             *((unsigned char *)b + 8) = r6;

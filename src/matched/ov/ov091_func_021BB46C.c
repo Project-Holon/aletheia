@@ -1,5 +1,5 @@
 /*
- * function: func_021BB46C
+ * function: PLIST_PLATE_UpdateLabelState
  * address: 0x021BB46C
  * packet: pkt_ov091_021BB46C
  * region: ov091
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B9A84 0x021B9A84 thumb ov091
+ *   POKELIST_IsItemMode 0x021B9A84 thumb ov091
  *   POKE_REGULATION_CheckPokemon 0x02019DA4 thumb
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern int func_021B9A84(u32 p);
+extern int POKELIST_IsItemMode(u32 p);
 extern int POKE_REGULATION_CheckPokemon(void *a, void *b);
-void func_021BB46C(u8 *p, u32 *q)
+void PLIST_PLATE_UpdateLabelState(u8 *p, u32 *q)
 {
-    if (func_021B9A84((u32)p) == 0) {
+    if (POKELIST_IsItemMode((u32)p) == 0) {
         q[7] = 8;
         return;
     }

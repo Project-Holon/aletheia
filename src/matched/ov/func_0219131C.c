@@ -1,5 +1,5 @@
 /*
- * function: func_0219131C
+ * function: FIELD_MSGBG_ClearTalkWin
  * address:  0x0219131C
  * packet:   pkt_0219131C
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02045808  0x02045808  arm
- *   func_0219492C  0x0219492C  thumb  ov021
- *   func_021927E8  0x021927E8  thumb  ov021
+ *   STRBUF_Delete  0x02045808  arm
+ *   TALKMSGWIN_Release  0x0219492C  thumb  ov021
+ *   FIELD_MSGBG_ExitCursor  0x021927E8  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
@@ -26,18 +26,18 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_02082BCC(u32, u32, u32);
-extern void func_021927E8(u32 *p);
-extern void func_0219492C(u8 *p, int i);
+extern void FIELD_MSGBG_ExitCursor(u32 *p);
+extern void TALKMSGWIN_Release(u8 *p, int i);
 
-int func_0219131C(u32 a)
+int FIELD_MSGBG_ClearTalkWin(u32 a)
 {
 if (((struct Obj00005 *)((u8 *)(a)))->f4 != 0) {
-    func_02045808((struct U16Vec *)(((struct Obj00005 *)((u8 *)(a)))->f4));
+    STRBUF_Delete((struct U16Vec *)(((struct Obj00005 *)((u8 *)(a)))->f4));
 }
-func_0219492C((u8 *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8), *(u8 *)((u8 *)(a) + 1));
-func_021927E8((u32 *)(a + 12));
+TALKMSGWIN_Release((u8 *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8), *(u8 *)((u8 *)(a) + 1));
+FIELD_MSGBG_ExitCursor((u32 *)(a + 12));
 return func_02082BCC(a, 0, 52);
 }
 

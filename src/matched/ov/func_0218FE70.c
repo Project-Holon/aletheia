@@ -1,5 +1,5 @@
 /*
- * function: func_0218FE70
+ * function: FIELD_CAMERA_GetMoveGoal
  * address:  0x0218FE70
  * packet:   pkt_0218FE70
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_0218FE70(u8 *p)
+u8 *FIELD_CAMERA_GetMoveGoal(u8 *p)
 {
     return p + 340;
 }

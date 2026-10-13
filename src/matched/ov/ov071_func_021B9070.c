@@ -1,5 +1,5 @@
 /*
- * function: func_021B9070
+ * function: MONOLITH_TOOL_LIST_Main
  * address: 0x021B9070
  * packet: pkt_ov071_021B9070
  * region: ov071
@@ -11,7 +11,7 @@
  * extent: final halfword at 021B94CA is alignment padding.
  * lever: state9 writes its state10 tail twice, one reached by goto, preserving the cross-jump.
  * symbols:
- *   func_02012138 0x02012138 thumb
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_0201F184 0x0201F184 thumb
@@ -23,28 +23,28 @@
  *   func_02005F38 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_020120F4 0x020120F4 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BE48 0x0200BE48 thumb
  *   func_0200BF08 0x0200BF08 thumb
- *   func_02012B58 0x02012B58 thumb
+ *   GAME_DATA_GetExitMode 0x02012B58 thumb
  *   GAME_COMM_PushPairMessage 0x020266AC thumb
- *   func_02158344 0x02158344 thumb ov010
+ *   INTRUDE_COMM_GetWorkIfRunning 0x02158344 thumb ov010
  *   INTRUDE_COMM_SendPairMessage 0x02174660 thumb ov011
  *   func_021B6C7C 0x021B6C7C thumb ov071
- *   func_021B9BD8 0x021B9BD8 thumb ov071
- *   func_021B9BAC 0x021B9BAC thumb ov071
- *   func_021B9798 0x021B9798 thumb ov071
- *   func_021B98B4 0x021B98B4 thumb ov071
- *   func_021B98C4 0x021B98C4 thumb ov071
- *   func_021B9F2C 0x021B9F2C thumb ov071
- *   func_021B7108 0x021B7108 thumb ov071
- *   func_021B9C7C 0x021B9C7C thumb ov071
- *   func_021BA004 0x021BA004 thumb ov071
- *   func_021BA0CC 0x021BA0CC thumb ov071
- *   func_021BA11C 0x021BA11C thumb ov071
- *   func_021BA140 0x021BA140 thumb ov071
- *   func_021BA01C 0x021BA01C thumb ov071
+ *   MONOLITH_TOOL_UpdateMarker 0x021B9BD8 thumb ov071
+ *   MONOLITH_TOOL_UpdateBackButton 0x021B9BAC thumb ov071
+ *   MONOLITH_TOOL_LIST_ShowMessage 0x021B9798 thumb ov071
+ *   MONOLITH_TOOL_LIST_IsMessageDone 0x021B98B4 thumb ov071
+ *   MONOLITH_TOOL_LIST_HideMessage 0x021B98C4 thumb ov071
+ *   MONOLITH_TOOL_SetCursor 0x021B9F2C thumb ov071
+ *   MONOLITH_TOOL_StartBlink 0x021B7108 thumb ov071
+ *   MONOLITH_TOOL_ProcessListInput 0x021B9C7C thumb ov071
+ *   MONOLITH_TOOL_ClearPrevHighlight 0x021BA004 thumb ov071
+ *   MONOLITH_TOOL_ScrollBy 0x021BA0CC thumb ov071
+ *   MONOLITH_TOOL_UpdateBgScroll 0x021BA11C thumb ov071
+ *   MONOLITH_TOOL_UpdateRows 0x021BA140 thumb ov071
+ *   MONOLITH_TOOL_ApplyCursorChange 0x021BA01C thumb ov071
  *   func_021B6B58 0x021B6B58 thumb ov071
  *   func_021B6C74 0x021B6C74 thumb ov071
  *   func_021B7194 0x021B7194 thumb ov071
@@ -52,16 +52,16 @@
  *   func_021B71FC 0x021B71FC thumb ov071
  *   func_021B6C30 0x021B6C30 thumb ov071
  *   func_021B6B98 0x021B6B98 thumb ov071
- *   func_021B9818 0x021B9818 thumb ov071
- *   func_021B7114 0x021B7114 thumb ov071
- *   func_021B9C30 0x021B9C30 thumb ov071
+ *   MONOLITH_TOOL_LIST_ShowFormattedMessage 0x021B9818 thumb ov071
+ *   MONOLITH_TOOL_IsBlinking 0x021B7114 thumb ov071
+ *   MONOLITH_TOOL_UpdateScrollArrows 0x021B9C30 thumb ov071
  *   func_02045770 0x02045770 arm
- *   func_02045334 0x02045334 arm
- *   func_02035C60 0x02035C60 arm
- *   func_02035C38 0x02035C38 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_020362DC 0x020362DC arm
  *   func_0203630C 0x0203630C arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
  *   func_02034714 0x02034714 arm
  *   d_021BAAFC 0x021BAAFC data a4
@@ -72,11 +72,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { FALSE, TRUE } Bool;
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_02158344(int a0);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void func_021B6C7C(int *p, int idx);
-extern void func_021B9BD8(char *p);
-extern void func_021B9BAC(void *p, int a);
+extern void MONOLITH_TOOL_UpdateMarker(char *p);
+extern void MONOLITH_TOOL_UpdateBackButton(void *p, int a);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 typedef signed int     s32;
@@ -86,25 +86,25 @@ struct BigObj;
 struct PrintSys;
 struct WordSet;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *);
-extern void func_021B9798(char *a, char *b, u32 c);
-extern int func_021B98B4(u8 *a, u8 *b);
-extern int func_02035C60(void);
-extern int func_02035C38(void);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void MONOLITH_TOOL_LIST_ShowMessage(char *a, char *b, u32 c);
+extern int MONOLITH_TOOL_LIST_IsMessageDone(u8 *a, u8 *b);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_GetCont(void);
 extern u32 func_020362DC(void);
 extern u32 func_0203630C(void);
-extern void func_021B98C4(char *a);
+extern void MONOLITH_TOOL_LIST_HideMessage(char *a);
 extern void func_020061E4(u32);
-extern int func_021B9F2C(u8 *p, int i, int v);
-extern int func_02035C08(const void *);
-extern void func_021B7108(void *);
+extern int MONOLITH_TOOL_SetCursor(u8 *p, int i, int v);
+extern int TOUCHPANEL_HitTrg(const void *);
+extern void MONOLITH_TOOL_StartBlink(void *);
 extern void func_020355D8(u8 v);
-extern void func_021B9C7C(void *,void *);
-extern void func_021BA004(char *p);
-extern int func_021BA0CC(u8 *p, int d);
-extern void func_021BA11C(char *p);
-extern void func_021BA140(u8 *p);
-extern void func_021BA01C(void *a, u8 *p);
+extern void MONOLITH_TOOL_ProcessListInput(void *,void *);
+extern void MONOLITH_TOOL_ClearPrevHighlight(char *p);
+extern int MONOLITH_TOOL_ScrollBy(u8 *p, int d);
+extern void MONOLITH_TOOL_UpdateBgScroll(char *p);
+extern void MONOLITH_TOOL_UpdateRows(u8 *p);
+extern void MONOLITH_TOOL_ApplyCursorChange(void *a, u8 *p);
 extern void func_021B6B58(void **p, int v);
 extern u8 func_021B6C74(void *,int);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -115,7 +115,7 @@ extern void func_021B6C30(int *p, int flag, int index);
 extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 extern int INTRUDE_COMM_SendPairMessage(int,...);
-extern void func_021B9818(char *a, char *b, u32 c);
+extern void MONOLITH_TOOL_LIST_ShowFormattedMessage(char *a, char *b, u32 c);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
@@ -124,60 +124,60 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int func_02005F38(void);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
 struct Rec1B0;
 extern void func_0200BF08(struct Rec1B0 *p, u32 v);
-extern u8 func_02012B58(const struct BigObj *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern void GAME_COMM_PushPairMessage(u32,u32,u32);
-extern int func_021B7114(void *);
-extern void func_021B9C30(u8 *);
+extern int MONOLITH_TOOL_IsBlinking(void *);
+extern void MONOLITH_TOOL_UpdateScrollArrows(u8 *);
 extern const u32 d_021BAAFC[];
 extern const u32 d_021BABFC[];
 #define W(k) (*(u32 *)(o+(k)))
 #define C(k) (*(u32 *)(c+(k)))
 #define CP(k) ((u8 *)C(k))
-int func_021B9070(int unused,int *state,u8 *c,u8 *o)
+int MONOLITH_TOOL_LIST_Main(int unused,int *state,u8 *c,u8 *o)
 {
     u32 initial,handle,mask,save;
     int active,result,off;
     unsigned short flip;
-    initial=func_02158344(func_02012138((const struct Ctx *)*(u32 *)CP(0)));
+    initial=INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)*(u32 *)CP(0)));
     func_021B6C7C((int *)c,1); func_021B6C7C((int *)c,3);
-    func_021B9BD8((char *)o); func_021B9BAC(CP(4),(u32)o);
+    MONOLITH_TOOL_UpdateMarker((char *)o); MONOLITH_TOOL_UpdateBackButton(CP(4),(u32)o);
     handle=*(u32 *)(CP(4)+8);
     if (o[0x28c]!=0 && func_0201C6C4((struct PrintSys *)handle,(void *)((u32)func_02045770((struct Descriptor *)W(0x288))))==0) {
-        func_02045334((struct Descriptor *)W(0x288)); o[0x28c]=0;
+        BMP_WIN_TransferChars((struct Descriptor *)W(0x288)); o[0x28c]=0;
     }
     if (c[0x2e]==1 && *state==4) return 1;
     switch (*state) {
     case 0: *state=1; break;
-    case 1: func_021B9798((char *)o,(char *)CP(4),0x25); ++*state; break;
+    case 1: MONOLITH_TOOL_LIST_ShowMessage((char *)o,(char *)CP(4),0x25); ++*state; break;
     case 2:
-        if (func_021B98B4(CP(4),o)==1 && (func_02035C60()!=0 || (func_020362DC()&3))) {
-            func_021B98C4((char *)o); func_020061E4(0x547);
-            if (func_02035C60()==0) func_021B9F2C(o,1,0);
-            else func_021B9F2C(o,0xffff,0);
+        if (MONOLITH_TOOL_LIST_IsMessageDone(CP(4),o)==1 && (TOUCHPANEL_GetTrg()!=0 || (func_020362DC()&3))) {
+            MONOLITH_TOOL_LIST_HideMessage((char *)o); func_020061E4(0x547);
+            if (TOUCHPANEL_GetTrg()==0) MONOLITH_TOOL_SetCursor(o,1,0);
+            else MONOLITH_TOOL_SetCursor(o,0xffff,0);
             ++*state;
         } break;
     case 3:
-        if (func_02035C38()==0 && !(func_0203630C()&3)) *state=4;
+        if (TOUCHPANEL_GetCont()==0 && !(func_0203630C()&3)) *state=4;
         break;
     case 4:
-        mask=func_020362DC(); active=func_02035C08(d_021BAAFC);
+        mask=func_020362DC(); active=TOUCHPANEL_HitTrg(d_021BAAFC);
         if (active==0 || (mask&2)) {
-            func_021B7108(o+0x298);
+            MONOLITH_TOOL_StartBlink(o+0x298);
             if (active==0) func_020355D8(TRUE);
             else func_020355D8(FALSE);
             func_020061E4(0x551); *state=17; break;
         }
-        func_021B9C7C(c,o); func_021BA004((char *)o);
+        MONOLITH_TOOL_ProcessListInput(c,o); MONOLITH_TOOL_ClearPrevHighlight((char *)o);
         off=0x2e0;
-        if (func_021BA0CC(o,W(off)+W(off+4))==1) {
-            func_021BA11C((char *)o); func_021BA140(o); W(off+16)=1;
+        if (MONOLITH_TOOL_ScrollBy(o,W(off)+W(off+4))==1) {
+            MONOLITH_TOOL_UpdateBgScroll((char *)o); MONOLITH_TOOL_UpdateRows(o); W(off+16)=1;
         }
-        func_021BA01C(c,o);
+        MONOLITH_TOOL_ApplyCursorChange(c,o);
         if (W(0x2f4)==0xffff) { CP(8)[1]=0x30; }
         else {
             CP(8)[1]=*(u32 *)(o+(W(0x2f4)<<2)+0xec);
@@ -192,23 +192,23 @@ selected:
         break;
     case 5:
         if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
-            func_021B9798((char *)o,(char *)CP(4),0x20); ++*state;
+            MONOLITH_TOOL_LIST_ShowMessage((char *)o,(char *)CP(4),0x20); ++*state;
         } break;
     case 6:
-        if (func_021B98B4(CP(4),o)==1) {
+        if (MONOLITH_TOOL_LIST_IsMessageDone(CP(4),o)==1) {
             if (W(0x310)!=0) func_02034714((const char *)d_021BABFC,0,(const char *)d_021BABFC);
             W(0x310)=(u32)func_021B7194((int *)CP(4),(void *)W(0x30c),0x61); ++*state;
         } break;
     case 7:
         if (func_021B7204(C(4),4,(void *)W(0x310),&result)==1) {
-            func_021B71FC((void *)W(0x310)); W(0x310)=0; func_021B98C4((char *)o);
+            func_021B71FC((void *)W(0x310)); W(0x310)=0; MONOLITH_TOOL_LIST_HideMessage((char *)o);
             if (result==1) *state=8;
             else { W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3); *state=4; }
         } break;
     case 8:
         if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2) {
             func_0201F184((struct WordSet *)(*(u32 *)(CP(4)+0x10)),0,*(u32 *)(o+(W(0x300)<<2)+0xec));
-            func_021B9818((char *)o,(char *)CP(4),0x23); *state=9;
+            MONOLITH_TOOL_LIST_ShowFormattedMessage((char *)o,(char *)CP(4),0x23); *state=9;
         } break;
     case 9:
         if (initial==0) goto write10;
@@ -218,7 +218,7 @@ write10:
         *state=10;
         break;
     case 10:
-        if (func_021B98B4(CP(4),o)==1) { GFL_USE_FadeOutBgm(6); ++*state; }
+        if (MONOLITH_TOOL_LIST_IsMessageDone(CP(4),o)==1) { GFL_USE_FadeOutBgm(6); ++*state; }
         break;
     case 11:
         if (GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); ++*state; }
@@ -229,21 +229,21 @@ write10:
         break;
     case 14: if (GFL_USE_IsBgmFading()==0) *state=15; break;
     case 15:
-        if (func_02035C60()!=0 || (func_020362DC()&3)) {
-            func_021B98C4((char *)o);
-            func_0200BF08((struct Rec1B0 *)func_0200BE48(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
-            save=func_02012138((const struct Ctx *)*(u32 *)CP(0));
+        if (TOUCHPANEL_GetTrg()!=0 || (func_020362DC()&3)) {
+            MONOLITH_TOOL_LIST_HideMessage((char *)o);
+            func_0200BF08((struct Rec1B0 *)func_0200BE48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
+            save=GAMESYSTEM_GetGameComm((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
-            GAME_COMM_PushPairMessage(save,func_02012B58(func_020120F4((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
+            GAME_COMM_PushPairMessage(save,GAME_DATA_GetExitMode(GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
             W(0x300)=0xffff; func_021B6C30((int *)c,1,1); func_021B6B98(c,(int *)(o+8),1,0xff,3);
-            if (func_02035C60()!=0) *state=16;
+            if (TOUCHPANEL_GetTrg()!=0) *state=16;
             else *state=17;
         } break;
-    case 16: if (func_02035C38()==0) *state=17; break;
+    case 16: if (TOUCHPANEL_GetCont()==0) *state=17; break;
     case 17:
-        if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2 && func_021B7114(o+0x298)==0) {
+        if (func_021B6C74(c,1)!=2 && func_021B6C74(c,3)!=2 && MONOLITH_TOOL_IsBlinking(o+0x298)==0) {
             c[0x2c]=0; return 1;
         } break;
     }
-    func_021B9C30(o); return 0;
+    MONOLITH_TOOL_UpdateScrollArrows(o); return 0;
 }

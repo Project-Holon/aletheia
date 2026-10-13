@@ -1,5 +1,5 @@
 /*
- * function: func_021D8244
+ * function: BTL_CLIENT_SET_Add
  * address: 0x021D8244
  * packet: pkt_ov093_021D8244
  * region: ov093
@@ -13,4 +13,4 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct B { u32 count; u8 val[4]; };
-void func_021D8244(struct B *p, int n) { u32 i; for(i=0;i<4;i++) { if(p->val[i]==n) return; if(p->val[i]==4) { p->val[i]=n; ++p->count; return; } } }
+void BTL_CLIENT_SET_Add(struct B *p, int n) { u32 i; for(i=0;i<4;i++) { if(p->val[i]==n) return; if(p->val[i]==4) { p->val[i]=n; ++p->count; return; } } }

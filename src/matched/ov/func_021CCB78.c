@@ -1,5 +1,5 @@
 /*
- * function: func_021CCB78
+ * function: BTL_SERVER_CMD_ReadU24
  * address:  0x021CCB78
  * packet:   pkt_021CCB78
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021CCB78   0x021CCB78  thumb
+ *   BTL_SERVER_CMD_ReadU24   0x021CCB78  thumb
  */
 
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ typedef struct {
 } ByteStream;
 
 /* read a 24-bit big-endian value and advance the cursor */
-u32 func_021CCB78(ByteStream *s)
+u32 BTL_SERVER_CMD_ReadU24(ByteStream *s)
 {
     u32 pos = s->pos;
     u8 *p = (u8 *)s + pos;

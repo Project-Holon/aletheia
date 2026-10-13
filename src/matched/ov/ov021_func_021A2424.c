@@ -1,5 +1,5 @@
 /*
- * function: func_021A2424
+ * function: WEATHER_TASK_SaveCameraPos
  * address:  0x021A2424
  * packet:   pkt_ov021_021A2424
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218EC2C  0x0218EC2C  thumb  ov021
- *   func_02048B30  0x02048B30  arm
+ *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
+ *   G3D_CAMERA_GetUp  0x02048B30  arm
  */
 #include "../include/Obj02702.h"
 
@@ -24,15 +24,15 @@ typedef struct {
     int z;
 } Vec021A2424;
 
-u32 func_0218EC2C(u8 *p);
-void func_02048B30(u32 x, Vec021A2424 *out);
+u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
+void G3D_CAMERA_GetUp(u32 x, Vec021A2424 *out);
 
-void func_021A2424(u8 *p)
+void WEATHER_TASK_SaveCameraPos(u8 *p)
 {
     Vec021A2424 v;
 
     if (((struct Obj02702 *)p)->f14 != 0) {
-        func_02048B30(func_0218EC2C((u8 *)(((struct Obj02702 *)p)->f14)), &v);
+        G3D_CAMERA_GetUp(FIELD_CAMERA_GetG3dCamera((u8 *)(((struct Obj02702 *)p)->f14)), &v);
         *(Vec021A2424 *)(p + 0x68) = v;
     }
 }

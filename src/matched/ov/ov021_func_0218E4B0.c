@@ -1,5 +1,5 @@
 /*
- * function: func_0218E4B0
+ * function: FIELD_CAMERA_SolveFreeMode
  * address:  0x0218E4B0
  * packet:   pkt_ov021_0218E4B0
  * region:   ov021
@@ -12,8 +12,9 @@
  * Copies +0x24 to +0x3c and +0x48 to +0x54, updating the children after each.
  *
  * symbols:
- *   func_0218F1BC  0x0218F1BC  thumb  ov021
- *   func_0218F1DC  0x0218F1DC  thumb  ov021
+ *   FIELD_CAMERA_ApplyTargetArea  0x0218F1BC  thumb  ov021
+ *   FIELD_CAMERA_ApplyEyeArea  0x0218F1DC  thumb  ov021
+ *   FIELD_CAMERA_CalcOffsetPoint  0x0218E2B4  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -22,24 +23,24 @@ typedef unsigned short u16;
 typedef struct { int x, y, z; } V;
 
 typedef unsigned int   u32;
-extern void func_0218F1BC(u32 *a, u32 b);
-extern void func_0218F1DC(u32 *a, u32 b);
-extern void func_0218E2B4(V *a, V *out, int i, int j, int e);
+extern void FIELD_CAMERA_ApplyTargetArea(u32 *a, u32 b);
+extern void FIELD_CAMERA_ApplyEyeArea(u32 *a, u32 b);
+extern void FIELD_CAMERA_CalcOffsetPoint(V *a, V *out, int i, int j, int e);
 
-void func_0218E4B0(u8 *a)
+void FIELD_CAMERA_SolveFreeMode(u8 *a)
 {
     int i;
 
     *(V *)(a + 0x3C) = *(V *)(a + 0x24);
     if (a[0xE9] != 0) {
         for (i = 0; i < a[0xE8]; i++) {
-            func_0218F1DC((u32 *)(a + 0x88 + i * 0x18), (u32)(a + 0x3C));
+            FIELD_CAMERA_ApplyEyeArea((u32 *)(a + 0x88 + i * 0x18), (u32)(a + 0x3C));
         }
     }
     *(V *)(a + 0x54) = *(V *)(a + 0x48);
     if (a[0xE9] != 0) {
         for (i = 0; i < a[0xE8]; i++) {
-            func_0218F1BC((u32 *)(a + 0x88 + i * 0x18), (u32)(a + 0x54));
+            FIELD_CAMERA_ApplyTargetArea((u32 *)(a + 0x88 + i * 0x18), (u32)(a + 0x54));
         }
     }
 }

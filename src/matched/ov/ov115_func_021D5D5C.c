@@ -13,10 +13,10 @@
  * Template fields are initialized on reachable case0. Complete original
  * contexts/reference search: B10/5D5C-interface-proof.txt; body unchanged.
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02027778 0x02027778 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0207D658 0x0207D658 arm
  *   APP_TASKMENU_SetCursorPos 0x02027CFC thumb
  *   func_021D5FE8 0x021D5FE8 thumb ov115
@@ -35,12 +35,12 @@ typedef struct {
 } Template;
 struct MsgBank;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_02045808(struct U16Vec *vec);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0207D658(u32, int, int);
 extern void APP_TASKMENU_SetCursorPos(u8 *, int);
 extern void *func_021D5FE8(u8 *, int, int);
@@ -60,15 +60,15 @@ void *func_021D5D5C(u8 *p, int mode, int flag, int selected)
         }
         t.a = 13;
         t.b = 3;
-        ((struct Obj01535 *)q)->f4 = func_020457B0(100, ((struct Obj05321 *)p)->f4C);
-        func_02045CAC(((struct Obj05321 *)p)->f1C, 28, ((struct Obj01535 *)q)->f4);
+        ((struct Obj01535 *)q)->f4 = STRBUF_Create(100, ((struct Obj05321 *)p)->f4C);
+        MSGDATA_ReadString(((struct Obj05321 *)p)->f1C, 28, ((struct Obj01535 *)q)->f4);
         ((struct Obj01535 *)q)->f8 = 0x39e0;
-        ((struct Obj01535 *)q)->f10 = func_020457B0(100, ((struct Obj05321 *)p)->f4C);
-        func_02045CAC(((struct Obj05321 *)p)->f1C, 29, ((struct Obj01535 *)q)->f10);
+        ((struct Obj01535 *)q)->f10 = STRBUF_Create(100, ((struct Obj05321 *)p)->f4C);
+        MSGDATA_ReadString(((struct Obj05321 *)p)->f1C, 29, ((struct Obj01535 *)q)->f10);
         ((struct Obj01535 *)q)->f14 = 0x39e0;
-        ((struct Obj01535 *)q)->f20 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct Obj01535 *)q)->f1C);
-        func_02045808(((struct Obj01535 *)q)->f4);
-        func_02045808(((struct Obj01535 *)q)->f10);
+        ((struct Obj01535 *)q)->f20 = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct Obj01535 *)q)->f1C);
+        STRBUF_Delete(((struct Obj01535 *)q)->f4);
+        STRBUF_Delete(((struct Obj01535 *)q)->f10);
         if (flag != 0) func_0207D658(0x04001050, 17, -8);
         APP_TASKMENU_SetCursorPos(*(u8 * *)&((struct Obj01535 *)q)->f20, selected);
         break;

@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC948   0x021BC948  thumb ov093
+ *   BTL_SERVER_FLOW_CalcPokeSpeed   0x021BC948  thumb ov093
  *   func_021C81C8   0x021C81C8  thumb ov093
  *
- * tail-call thunk to func_021BC948
+ * tail-call thunk to BTL_SERVER_FLOW_CalcPokeSpeed
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern u16 func_021BC948(u8 *p, u8 *x, int flag);
+extern u16 BTL_SERVER_FLOW_CalcPokeSpeed(u8 *p, u8 *x, int flag);
 
 u16 func_021C81C8(u8 *p, u8 *x, int flag)
 {
-    return func_021BC948(p, x, flag);
+    return BTL_SERVER_FLOW_CalcPokeSpeed(p, x, flag);
 }

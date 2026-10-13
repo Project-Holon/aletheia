@@ -1,5 +1,5 @@
 /*
- * function: func_0219DC58
+ * function: FLDMMDL_RAIL_MOVE_AcDirU0
  * address:  0x0219DC58
  * packet:   pkt_0219DC58
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_0219DC34(its own argument 1, 0x0) and returns 0x1.
+ * Calls FLDMMDL_RAIL_MOVE_AcDirSet(its own argument 1, 0x0) and returns 0x1.
  *
  * symbols:
- *   func_0219DC34  0x0219DC34  thumb
+ *   FLDMMDL_RAIL_MOVE_AcDirSet  0x0219DC34  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern int func_0219DC34(u32 a, u32 b);
+extern int FLDMMDL_RAIL_MOVE_AcDirSet(u32 a, u32 b);
 
-u32 func_0219DC58(u32 a1)
+u32 FLDMMDL_RAIL_MOVE_AcDirU0(u32 a1)
 {
-    func_0219DC34(a1, 0x0);
+    FLDMMDL_RAIL_MOVE_AcDirSet(a1, 0x0);
 
     return 0x1;
 }

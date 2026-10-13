@@ -17,18 +17,20 @@
  * each arm reloads p[0] and the whole dispatch shifts.
  *
  * symbols:
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   FIELD_STATUS_CreateSubProcNoFadeEvent  0x02014728  thumb
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void *func_02014728(char *a0, int a1, int a2, int a3, int a4);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void *FIELD_STATUS_CreateSubProcNoFadeEvent(char *a0, int a1, int a2, int a3, int a4);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 u32 FIELD_STATUS_SubProcEvent(void *obj, u32 *mode, u32 *p)
 {
@@ -37,16 +39,16 @@ u32 FIELD_STATUS_SubProcEvent(void *obj, u32 *mode, u32 *p)
 
     switch (*mode) {
     case 0:
-        r = (void *)func_021BE8D4((void *)a0, p[1], 0, 0);
+        r = (void *)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)a0, p[1], 0, 0);
     tail:
-        func_02012374(obj, r);
+        GAME_EVENT_CallEvent(obj, r);
         (*mode)++;
         goto ret0;
     case 1:
-        r = (void *)func_02014728((char *)a0, p[1], p[2], p[3], p[4]);
+        r = (void *)FIELD_STATUS_CreateSubProcNoFadeEvent((char *)a0, p[1], p[2], p[3], p[4]);
         goto tail;
     case 2:
-        r = (void *)func_021BE92C((void *)a0, p[1], 0, 0, 1, 0, 0);
+        r = (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)a0, p[1], 0, 0, 1, 0, 0);
         goto tail;
     case 3:
         return 1;

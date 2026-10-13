@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * The narrowed scan key is a `u8` local assigned from the call, then passed:
- * the inline cast `(u8)func_021D775C(i + 6)` adds an `adds r1, r0` copy the
+ * the inline cast `(u8)BTL_EVENT_GetVar(i + 6)` adds an `adds r1, r0` copy the
  * image does not have.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   func_021E74C8  0x021E74C8  thumb  ov093
@@ -27,7 +27,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021E74C8(u16 k);
@@ -45,15 +45,15 @@ void func_021E7420(int a, int b, int c)
     u8 *p;
     u8 t;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         k = func_021D59B4(func_021C7CF4((int *)b, c), 0x10);
         if (func_021E74C8(k) == 0) {
-            n = func_021D775C(5);
+            n = BTL_EVENT_GetVar(5);
             for (i = 0; i < n; i++) {
-                t = func_021D775C(i + 6);
+                t = BTL_EVENT_GetVar(i + 6);
                 if (func_021D59B4(func_021C7CF4((int *)b, t), 0x10) != 0x36) {
                     p = func_021C88A4((char *)b, 0x1f, c);
-                    ((struct Obj07836 *)p)->f6 = func_021D775C(i + 6);
+                    ((struct Obj07836 *)p)->f6 = BTL_EVENT_GetVar(i + 6);
                     ((struct Obj07836 *)p)->f4 = k;
                     func_021C8838(p + 0xc, 2, 0x195);
                     func_021C8860((struct S *)(p + 0xc), ((struct Obj07836 *)p)->f6);

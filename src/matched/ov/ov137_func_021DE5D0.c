@@ -18,9 +18,9 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DE6EC 0x021DE6EC thumb ov137
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
 typedef unsigned char u8;
@@ -30,9 +30,9 @@ struct Obj;
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021DE6EC(u8 *,u8 *,int,int,int);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020061E4(u32);
 void func_021DE5D0(u8 *p)
@@ -46,11 +46,11 @@ void func_021DE5D0(u8 *p)
         case 1:
             a=func_02008550(*(void **)(p+i*8+0x138));
             b=func_02008554(*(void **)(p+i*8+0x138));
-            if (i==func_02039338()) {
-                func_0204B878(*(void **)(p+i*4+0x9c),4);
+            if (i==GFL_NET_SYSTEM_GetCurrentAid()) {
+                CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x9c),4);
             } else {
                 func_021DE6EC((u8 *)p,*(u8 **)(p+0x114),i,b,a);
-                func_0204B878(*(void **)(p+i*4+0x9c),4);
+                CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x9c),4);
             }
             func_0204B3DC(*(void **)(p+i*4+0x9c),1);
             *(u32 *)(p+i*4+0x160)=2;
@@ -58,11 +58,11 @@ void func_021DE5D0(u8 *p)
             break;
         case 2: break;
         case 3:
-            if(i==func_02039338()) {
+            if(i==GFL_NET_SYSTEM_GetCurrentAid()) {
                 func_02008550(*(void **)(p+i*8+0x138));
-                func_0204B878(*(void **)(p+i*4+0x9c),5);
+                CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x9c),5);
             } else {
-                func_0204B878(*(void **)(p+i*4+0x9c),5);
+                CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x9c),5);
             }
             *(u32 *)(p+i*4+0x160)=0;
             break;

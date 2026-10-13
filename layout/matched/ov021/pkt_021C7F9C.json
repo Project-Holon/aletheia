@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C7F9C",
+   "name": "FIELDSKILL_MAPEFF_Delete",
    "address": "0x021C7F9C",
    "kind": "game",
    "region": "ov021",

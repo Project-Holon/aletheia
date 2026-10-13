@@ -1,5 +1,5 @@
 /*
- * function: func_021F408C
+ * function: FIELD_FK_SOUND_ANIME_Delete
  * address:  0x021F408C
  * packet:   pkt_ov056_021F408C
  * region:   ov056
@@ -12,7 +12,7 @@
  *           the follower 0x021F40A0 is separately matched (pkt_021F40A0).
  *
  * symbols:
- *   func_02011558  0x02011558  thumb
+ *   ICA_ANIME_Delete  0x02011558  thumb
  *   sub_020307B0   0x020307B0  arm
  */
 
@@ -22,11 +22,11 @@ typedef unsigned int   u32;
 
 struct IcaAnime;
 
-extern void func_02011558(struct IcaAnime *p);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern u32 sub_020307B0(void *p);
 
-void func_021F408C(struct IcaAnime **pp)
+void FIELD_FK_SOUND_ANIME_Delete(struct IcaAnime **pp)
 {
-    func_02011558(*pp);
+    ICA_ANIME_Delete(*pp);
     sub_020307B0(pp);
 }

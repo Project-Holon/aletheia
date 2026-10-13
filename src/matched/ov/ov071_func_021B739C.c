@@ -1,5 +1,5 @@
 /*
- * function: func_021B739C
+ * function: MONOLITH_TOOL_SLOT_SELECT_Main
  * address: 0x021B739C
  * packet: pkt_ov071_021B739C
  * region: ov071
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * note final push 2026-10-05 G7L1: EXACT once the witness leaf 021B7A08 was matched; was MATCH, not
- *   EXACT, only because func_021B7A08 and three data symbols have no witness outside the extent.
+ *   EXACT, only because MONOLITH_TOOL_SLOT_SELECT_IsMessageDone and three data symbols have no witness outside the extent.
  *   Two changes from 32 B off:
  *   1 case 4 calls func_020355D8x, a second extern name for 0x020355D8 (listed in symbols). With
  *     one name, mwcc tail-merged case 4's `movs r0,#0; blx 20355d8; ...` into case 3's copy and
@@ -38,8 +38,8 @@
  *   (37 B), swapped declaration order of dst/src, indexed copy d->text[i] = src[i] (107 B, no
  *   strength reduction), no pragmas (644 B).
  *   Callees: matched definitions checked, return types and arity agree with the listing.
- *   func_021B7A08 (no witness) is the 12 B Thumb tail thunk at 0x021B7A08 inside the extent of
- *   func_021B79A0 (ldr r1,[r1,#8]; ldr r3,[pc,#4]; adds r0,#0x38; bx r3, target 0x02028485);
+ *   MONOLITH_TOOL_SLOT_SELECT_IsMessageDone (no witness) is the 12 B Thumb tail thunk at 0x021B7A08 inside the extent of
+ *   MONOLITH_TOOL_SLOT_SELECT_ShowMessage (ldr r1,[r1,#8]; ldr r3,[pc,#4]; adds r0,#0x38; bx r3, target 0x02028485);
  *   not filed. Its call is a wildcard in the diff.
  * note recoup 2026-10-05 P30R1: still 32 B (case 5 text copy colours). 23 compiles, no change:
  *   callees re-checked (no void/arity issue); per-function pragmas opt_propagation off (401 B),
@@ -50,33 +50,33 @@
  *   dst/src/r/i in four positions (32 each, no effect). The colour order dst r0 / f0 r1 / byte r2
  *   is stable under all source forms tried.
  * symbols:
- *   func_02012138 0x02012138 thumb
- *   func_02158344 0x02158344 thumb ov010
- *   func_020120F4 0x020120F4 thumb
- *   func_02158590 0x02158590 thumb ov010
- *   func_021B7AC4 0x021B7AC4 thumb ov071
- *   func_021B7AE8 0x021B7AE8 thumb ov071
- *   func_021B7BB4 0x021B7BB4 thumb ov071
- *   func_021B7BF0 0x021B7BF0 thumb ov071
- *   func_021B7BFC 0x021B7BFC thumb ov071
- *   func_021B79A0 0x021B79A0 thumb ov071
- *   func_021B7A08 0x021B7A08 thumb ov071
- *   func_021B7A14 0x021B7A14 thumb ov071
- *   func_02035C60 0x02035C60 arm
+ *   GAMESYSTEM_GetGameComm 0x02012138 thumb
+ *   INTRUDE_COMM_GetWorkIfRunning 0x02158344 thumb ov010
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   INTRUDE_COMM_HasUnlockFlags 0x02158590 thumb ov010
+ *   MONOLITH_TOOL_SLOT_SELECT_UpdateSlotIcons 0x021B7AC4 thumb ov071
+ *   MONOLITH_TOOL_SLOT_SELECT_MoveCursor 0x021B7AE8 thumb ov071
+ *   MONOLITH_TOOL_SLOT_SELECT_UpdateButtons 0x021B7BB4 thumb ov071
+ *   MONOLITH_TOOL_SLOT_SELECT_UpdateCursor 0x021B7BF0 thumb ov071
+ *   MONOLITH_TOOL_SLOT_SELECT_SetMode 0x021B7BFC thumb ov071
+ *   MONOLITH_TOOL_SLOT_SELECT_ShowMessage 0x021B79A0 thumb ov071
+ *   MONOLITH_TOOL_SLOT_SELECT_IsMessageDone 0x021B7A08 thumb ov071
+ *   MONOLITH_TOOL_SLOT_SELECT_HideMessage 0x021B7A14 thumb ov071
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020362DC 0x020362DC arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020355D8x 0x020355D8 arm
  *   func_020061E4 0x020061E4 thumb
- *   func_02175B14 0x02175B14 thumb ov011
- *   func_02175B4C 0x02175B4C thumb ov011
+ *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
+ *   INTRUDE_COMM_AcceptSession 0x02175B4C thumb ov011
  *   INTRUDE_COMM_TakeJoinReply 0x021761EC thumb ov011
  *   INTRUDE_CMD_SendJoinRequest 0x02173E2C thumb ov011
  *   func_021B6B98 0x021B6B98 thumb ov071
  *   func_021B6BEC 0x021B6BEC thumb ov071
  *   func_021B6C74 0x021B6C74 thumb ov071
- *   func_021B7108 0x021B7108 thumb ov071
- *   func_021B7114 0x021B7114 thumb ov071
+ *   MONOLITH_TOOL_StartBlink 0x021B7108 thumb ov071
+ *   MONOLITH_TOOL_IsBlinking 0x021B7114 thumb ov071
  *   d_021BA87C 0x021BA87C data a4
  *   d_021BA85C 0x021BA85C data a1
  *   d_021BA862 0x021BA862 data a1
@@ -89,39 +89,39 @@ typedef struct {u32 a[6];} Record;
 typedef struct {void **f0;u8 *f4;u8 *f8;u8 padc[0x20];u8 f2c,f2d,f2e;} C;
 typedef struct {u8 pad0[0x4c];Record rec;u16 text[10];u8 f78;u8 pad79[7];u8 f80,f81,f82,f83;} D;
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_02158344(int a0);
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_02158590(void *);
-extern void func_021B7AC4(void **p, void *q);
-extern void func_021B7AE8(void **p, int i);
-extern void func_021B7BB4(int *a, char *p);
-extern void func_021B7BF0(void *);
-extern void func_021B7BFC(int *a, char *p, unsigned char m);
-extern void func_021B79A0(void **p, int *c, int idx);
-extern int func_021B7A08(char *p, char *q);
-extern void func_021B7A14(void **p);
-extern int func_02035C60(void);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern int INTRUDE_COMM_HasUnlockFlags(void *);
+extern void MONOLITH_TOOL_SLOT_SELECT_UpdateSlotIcons(void **p, void *q);
+extern void MONOLITH_TOOL_SLOT_SELECT_MoveCursor(void **p, int i);
+extern void MONOLITH_TOOL_SLOT_SELECT_UpdateButtons(int *a, char *p);
+extern void MONOLITH_TOOL_SLOT_SELECT_UpdateCursor(void *);
+extern void MONOLITH_TOOL_SLOT_SELECT_SetMode(int *a, char *p, unsigned char m);
+extern void MONOLITH_TOOL_SLOT_SELECT_ShowMessage(void **p, int *c, int idx);
+extern int MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(char *p, char *q);
+extern void MONOLITH_TOOL_SLOT_SELECT_HideMessage(void **p);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_020362DC(void);
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_020355D8(int);
 extern void func_020355D8x(int);
 extern void func_020061E4(u32);
-extern int func_02175B14(u8 *);
-extern void func_02175B4C(u8 *,u8 *);
+extern int INTRUDE_COMM_IsSessionActive(u8 *);
+extern void INTRUDE_COMM_AcceptSession(u8 *,u8 *);
 extern u8 INTRUDE_COMM_TakeJoinReply(char *p);
 extern int INTRUDE_CMD_SendJoinRequest(char *a, int b);
 extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
 extern void func_021B6BEC(void *p, int *tbl, int n, int sel, int c);
 extern u8 func_021B6C74(void *,int);
-extern void func_021B7108(void *);
-extern int func_021B7114(void *);
+extern void MONOLITH_TOOL_StartBlink(void *);
+extern int MONOLITH_TOOL_IsBlinking(void *);
 extern const u32 d_021BA87C[];
 extern const u8 d_021BA85C[],d_021BA862[][4];
 extern const u32 d_021BAA4C[];
 #pragma opt_lifetimes off
 #pragma opt_common_subs off
-int func_021B739C(int a,int *state,C *c,D *d)
+int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
 {
  u16 *dst;
  u16 *src;
@@ -130,28 +130,28 @@ int func_021B739C(int a,int *state,C *c,D *d)
  u32 i;
  u8 next;
  const u8 *row;
- r=(u8 *)func_02158344(func_02012138(*c->f0));
- func_021B7AC4((void **)d,c); func_021B7AE8((void **)d,*c->f8);func_021B7BB4((int *)c,(char *)d);func_021B7BF0(d);
+ r=(u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(*c->f0));
+ MONOLITH_TOOL_SLOT_SELECT_UpdateSlotIcons((void **)d,c); MONOLITH_TOOL_SLOT_SELECT_MoveCursor((void **)d,*c->f8);MONOLITH_TOOL_SLOT_SELECT_UpdateButtons((int *)c,(char *)d);MONOLITH_TOOL_SLOT_SELECT_UpdateCursor(d);
  if(c->f2e==1 && *state==3) return 1;
  switch(*state) {
  case 0:
-  if(r!=0 && func_02175B14(r+0x1ac)==1) func_021B7BFC((int *)c,(char *)d,1);
+  if(r!=0 && INTRUDE_COMM_IsSessionActive(r+0x1ac)==1) MONOLITH_TOOL_SLOT_SELECT_SetMode((int *)c,(char *)d,1);
   *state=1;break;
  case 1:
-  if(func_02158590(func_020120F4(*c->f0))==0) func_021B79A0((void **)d,(int *)c->f4,0x16);
-  else func_021B79A0((void **)d,(int *)c->f4,0x12);
+  if(INTRUDE_COMM_HasUnlockFlags(GAMESYSTEM_GetGameData(*c->f0))==0) MONOLITH_TOOL_SLOT_SELECT_ShowMessage((void **)d,(int *)c->f4,0x16);
+  else MONOLITH_TOOL_SLOT_SELECT_ShowMessage((void **)d,(int *)c->f4,0x12);
   ++*state;break;
  case 2:
-  if(func_021B7A08((char *)c->f4,(char *)d)!=1) break;
-  if(func_02035C60()==0 && (func_020362DC()&3)==0) break;
-  func_021B7A14((void **)d);func_020061E4(0x547);
-  if(func_02035C60()!=0) {d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);}
+  if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)!=1) break;
+  if(TOUCHPANEL_GetTrg()==0 && (func_020362DC()&3)==0) break;
+  MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);func_020061E4(0x547);
+  if(TOUCHPANEL_GetTrg()!=0) {d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);}
   else {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);}
   if(d->f82==0) *state=3;else *state=4;
   break;
  case 3:
-  keys=func_020362DC();res=func_02035C08(d_021BA87C);
-  if(r!=0 && func_02175B14(r+0x1ac)==1) {func_021B7BFC((int *)c,(char *)d,1);d->f80=1;*state=4;break;}
+  keys=func_020362DC();res=TOUCHPANEL_HitTrg(d_021BA87C);
+  if(r!=0 && INTRUDE_COMM_IsSessionActive(r+0x1ac)==1) {MONOLITH_TOOL_SLOT_SELECT_SetMode((int *)c,(char *)d,1);d->f80=1;*state=4;break;}
   if(keys>0 && d->f83==1) {d->f83=0;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0,3);func_020061E4(0x548);break;}
   if(keys&0xf0) {
    next=0xff;
@@ -167,18 +167,18 @@ int func_021B739C(int a,int *state,C *c,D *d)
   if(res>=0 && res<6) {*c->f8=res;d->f83=1;func_021B6B98(c,(int *)((u8 *)d+0x2c),1,0xff,3);func_020061E4(0x548);break;}
   if(res==6 || (keys&1)) {
    func_020355D8(res==6);
-   if(func_02158590(func_020120F4(*c->f0))==0) {
+   if(INTRUDE_COMM_HasUnlockFlags(GAMESYSTEM_GetGameData(*c->f0))==0) {
     t=d_021BAA4C[*c->f8];
     if(t!=2 && t!=1) {*state=9;break;}
    }
    func_021B6BEC(c,(int *)((u8 *)d+0x2c),1,0,3);func_020061E4(0x736);*state=5;
   } else if(res==7 || (keys&2)) {
-   func_021B7108((u8 *)d+0x24);func_020355D8(res==7);func_020061E4(0x551);*state=11;
+   MONOLITH_TOOL_StartBlink((u8 *)d+0x24);func_020355D8(res==7);func_020061E4(0x551);*state=11;
   }
   break;
  case 4: {
   int keys4,res4;
-  keys4=func_020362DC();res4=func_02035C08(d_021BA87C);
+  keys4=func_020362DC();res4=TOUCHPANEL_HitTrg(d_021BA87C);
   if(res4==7 || (keys4&2)) {func_020355D8x(res4==7);func_020061E4(0x551);*state=11;}
   break;}
 
@@ -193,29 +193,29 @@ int func_021B739C(int a,int *state,C *c,D *d)
  case 6:
   if(r==0) {*state=3;break;}
   t=INTRUDE_COMM_TakeJoinReply((char *)(r+0x1ac));
-  if(t==1) {func_021B79A0((void **)d,(int *)c->f4,0x10);*state=7;}
-  else if(t==2) {func_021B79A0((void **)d,(int *)c->f4,0x11);*state=8;}
-  else if(t==3) {func_021B79A0((void **)d,(int *)c->f4,0x15);*state=8;}
-  else if(t==4) {func_021B79A0((void **)d,(int *)c->f4,0x14);*state=8;}
+  if(t==1) {MONOLITH_TOOL_SLOT_SELECT_ShowMessage((void **)d,(int *)c->f4,0x10);*state=7;}
+  else if(t==2) {MONOLITH_TOOL_SLOT_SELECT_ShowMessage((void **)d,(int *)c->f4,0x11);*state=8;}
+  else if(t==3) {MONOLITH_TOOL_SLOT_SELECT_ShowMessage((void **)d,(int *)c->f4,0x15);*state=8;}
+  else if(t==4) {MONOLITH_TOOL_SLOT_SELECT_ShowMessage((void **)d,(int *)c->f4,0x14);*state=8;}
   break;
  case 7:case 8:
-  if(func_021B7A08((char *)c->f4,(char *)d)!=1) break;
+  if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)!=1) break;
   if(*state==7) {
   } else if(*state==8) {
-   if(func_02035C60()==0 && !(func_020362DC()&3)) break;
+   if(TOUCHPANEL_GetTrg()==0 && !(func_020362DC()&3)) break;
   } else break;
-  if(*state==7 && r!=0 && func_02175B14(r+0x1ac)==0) break;
-  func_021B7A14((void **)d);func_020061E4(0x547);
-  if(*state==7) {if(r!=0) func_02175B4C(r,r+0x1ac);d->f81=1;*state=11;}
+  if(*state==7 && r!=0 && INTRUDE_COMM_IsSessionActive(r+0x1ac)==0) break;
+  MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);func_020061E4(0x547);
+  if(*state==7) {if(r!=0) INTRUDE_COMM_AcceptSession(r,r+0x1ac);d->f81=1;*state=11;}
   else *state=11;
   break;
- case 9:func_021B79A0((void **)d,(int *)c->f4,0x17);++*state;break;
+ case 9:MONOLITH_TOOL_SLOT_SELECT_ShowMessage((void **)d,(int *)c->f4,0x17);++*state;break;
  case 10:
-  if(func_021B7A08((char *)c->f4,(char *)d)==1 && (func_02035C60()!=0 || (func_020362DC()&3)!=0)) {func_021B7A14((void **)d);*state=3;}
+  if(MONOLITH_TOOL_SLOT_SELECT_IsMessageDone((char *)c->f4,(char *)d)==1 && (TOUCHPANEL_GetTrg()!=0 || (func_020362DC()&3)!=0)) {MONOLITH_TOOL_SLOT_SELECT_HideMessage((void **)d);*state=3;}
   break;
  case 11:
   if(func_021B6C74(c,3)==2) break;
-  if(func_021B7114((u8 *)d+0x24)!=0) break;
+  if(MONOLITH_TOOL_IsBlinking((u8 *)d+0x24)!=0) break;
   if(d->f81==1) c->f2c=4;else c->f2c=0;
   return 1;
  }

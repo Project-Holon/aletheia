@@ -1,5 +1,5 @@
 /*
- * function: func_021BB9B0
+ * function: TOWNMAP_GRH_TransferBgData
  * address:  0x021BB9B0
  * packet:   pkt_021BB9B0
  * region:   ov072
@@ -15,7 +15,7 @@
 
 void func_020419E4(void);
 
-void func_021BB9B0(void *a0)
+void TOWNMAP_GRH_TransferBgData(void *a0)
 {
     func_020419E4();
 }

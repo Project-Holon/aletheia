@@ -14,18 +14,18 @@
  *
  * symbols:
  *   d_021F2844     0x021F2844  data   ov093  a4
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C824C  0x021C824C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5B40  0x021D5B40  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   func_021C83DC  0x021C83DC  thumb  ov093
  *   data_021F2A78  0x021F2A78  data   a4
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_02018790  0x02018790  thumb
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
+ *   POKE_TOOL_GetHiddenPowerType  0x02018790  thumb
  *   POKE_TOOL_GetHiddenPowerPower  0x02018820  thumb
  *   d_021F2E18 0x021F2E18 data a4
- *   func_021D805C  0x021D805C  thumb  ov093
+ *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
@@ -44,16 +44,16 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern int func_021C824C(u8 *p, int v);
 extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5B40(struct QI *p);
-extern int func_021D76BC(int key, u32 val);
+extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void func_021C83DC(char *p, int x);
-extern void *func_021D5844(void *m);
-extern u32 func_02018790(void *p);
+extern void *BTL_POKEPARAM_GetMon(void *m);
+extern u32 POKE_TOOL_GetHiddenPowerType(void *p);
 extern u32 POKE_TOOL_GetHiddenPowerPower(void *p);
-extern u32 func_021D805C(void *p, u32 n);
+extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 void func_021E324C(int u, void *p, int key);
@@ -73,9 +73,9 @@ extern int d_021F2E18;
 void func_021E324C(int u, void *p, int key)
 {
     int two = 2;
-    if (key == func_021D775C(two)) {
+    if (key == BTL_EVENT_GetVar(two)) {
         if (func_021C824C(p, key) != 0) {
-            u16 x = (u16)(int)func_021D5B40(func_021C7CF4(p, key));
+            u16 x = (u16)(int)BTL_POKEPARAM_GetItem(func_021C7CF4(p, key));
             int v = 0;
             int r = 0;
             switch (x) {
@@ -84,7 +84,7 @@ void func_021E324C(int u, void *p, int key)
             case 0x76: v = 9; r = 3; break;
             case 0x77: v = 14; r = 4; break;
             }
-            func_021D76BC(0x16, v);
+            BTL_EVENT_OverwriteVar(0x16, v);
             func_021C83DC(p, r);
         }
     }
@@ -102,16 +102,16 @@ u8 *func_021E32C0(u32 *out)
 
 void func_021E32CC(int u, void *a, int b)
 {
-    if (b == func_021D775C(2))
-        func_021D76BC(0x16, func_02018790(func_021D5844(func_021C7CF4(a, b))));
+    if (b == BTL_EVENT_GetVar(2))
+        BTL_EVENT_OverwriteVar(0x16, POKE_TOOL_GetHiddenPowerType(BTL_POKEPARAM_GetMon(func_021C7CF4(a, b))));
 }
 
 
 
 void func_021E32F8(int u, void *a, int b)
 {
-    if (b == func_021D775C(3))
-        func_021D76BC(0x30, POKE_TOOL_GetHiddenPowerPower(func_021D5844(func_021C7CF4(a, b))));
+    if (b == BTL_EVENT_GetVar(3))
+        BTL_EVENT_OverwriteVar(0x30, POKE_TOOL_GetHiddenPowerPower(BTL_POKEPARAM_GetMon(func_021C7CF4(a, b))));
 }
 
 
@@ -127,16 +127,16 @@ void func_021E3330(int u, void *p, int key)
 {
     u16 x;
     int k;
-    if (key == func_021D775C(2)) {
+    if (key == BTL_EVENT_GetVar(2)) {
         if (func_021C824C(p, key) == 0) {
-            func_021D76BC(0x22, 0x1a);
+            BTL_EVENT_OverwriteVar(0x22, 0x1a);
             return;
         }
-        x = (u16)(int)func_021D5B40(func_021C7CF4(p, key));
+        x = (u16)(int)BTL_POKEPARAM_GetItem(func_021C7CF4(p, key));
         k = 11;
-        func_021D805C((void *)x, k);
-        if (x == 0 || func_021D805C((void *)x, k) == 0)
-            func_021D76BC(0x22, 0x1a);
+        BTL_CALC_GetMonParamWithHeap((void *)x, k);
+        if (x == 0 || BTL_CALC_GetMonParamWithHeap((void *)x, k) == 0)
+            BTL_EVENT_OverwriteVar(0x22, 0x1a);
     }
 }
 
@@ -144,16 +144,16 @@ void func_021E3330(int u, void *p, int key)
 
 void func_021E338C(int u, void *a, int b)
 {
-    if (b == func_021D775C(2))
-        func_021D76BC(0x16, func_021D805C((void *)((u16)(int)func_021D5B40(func_021C7CF4(a, b))), 0xc));
+    if (b == BTL_EVENT_GetVar(2))
+        BTL_EVENT_OverwriteVar(0x16, BTL_CALC_GetMonParamWithHeap((void *)((u16)(int)BTL_POKEPARAM_GetItem(func_021C7CF4(a, b))), 0xc));
 }
 
 
 
 void func_021E33BC(int u, void *a, int b)
 {
-    if (b == func_021D775C(3))
-        func_021D76BC(0x30, func_021D805C((void *)((u16)(int)func_021D5B40(func_021C7CF4(a, b))), 0xb));
+    if (b == BTL_EVENT_GetVar(3))
+        BTL_EVENT_OverwriteVar(0x30, BTL_CALC_GetMonParamWithHeap((void *)((u16)(int)BTL_POKEPARAM_GetItem(func_021C7CF4(a, b))), 0xb));
 }
 
 
@@ -162,7 +162,7 @@ void func_021E33EC(int u, int a, int b)
 {
     u8 *s;
 
-    if (b == func_021D775C(2)) {
+    if (b == BTL_EVENT_GetVar(2)) {
         s = func_021C88A4((char *)a, 0x23, b);
         ((struct Obj21473 *)s)->f4 = 1;
         func_021C88C8((void *)a, s);

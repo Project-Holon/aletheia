@@ -1,5 +1,5 @@
 /*
- * function: func_021A21B0
+ * function: WEATHER_TASK_GetPhase
  * address:  0x021A21B0
  * packet:   pkt_021A21B0
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021A273C with no argument change.
+ * Tail-call thunk: forwards to WEATHER_TASK_GetStagePhase with no argument change.
  *
  * symbols:
- *   func_021A273C  0x021A273C  thumb
+ *   WEATHER_TASK_GetStagePhase  0x021A273C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 func_021A273C(u8 *p);
+extern u8 WEATHER_TASK_GetStagePhase(u8 *p);
 
-int func_021A21B0(u8 *a0)
+int WEATHER_TASK_GetPhase(u8 *a0)
 {
-    return func_021A273C(a0);
+    return WEATHER_TASK_GetStagePhase(a0);
 }

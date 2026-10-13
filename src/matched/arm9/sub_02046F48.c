@@ -1,5 +1,5 @@
 /*
- * function: func_02046F48
+ * function: G3D_SYSTEM_GetResourceFile
  * address:  0x02046F48
  * packet:   pkt_02046EFC
  * region:   arm9
@@ -18,7 +18,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02046F48.c \
- *       --func func_02046F48 --addr 0x02046F48 --cc 1.1p1 --arm
+ *       --func G3D_SYSTEM_GetResourceFile --addr 0x02046F48 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -29,7 +29,7 @@ struct Tagged {
     void *buf;
 };
 
-void *func_02046F48(struct Tagged *p)
+void *G3D_SYSTEM_GetResourceFile(struct Tagged *p)
 {
     return p->buf;
 }

@@ -9,8 +9,8 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_0203D798  0x0203D798  arm
- *   func_0203996C  0x0203996C  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   func_02087C6C  0x02087C6C  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *
@@ -32,18 +32,18 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern void func_02087C6C(u8 *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 void GFL_NET_HANDLE_RecvNegotiation(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base)
 {
-  volatile u8 *r4 = func_0203D798();
+  volatile u8 *r4 = GFL_NET_GetInitParam();
   u8 *p;
   u8 *own;
-  own = (u8 *) func_0203996C(0xff);
+  own = (u8 *) GFL_NET_HANDLE_GetNetHandle(0xff);
   if (own != base)
     goto mismatch;
   p = *((u8 **) ((base + (idx * 4)) + 8));

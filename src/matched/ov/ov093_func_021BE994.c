@@ -1,5 +1,5 @@
 /*
- * function: func_021BE994
+ * function: BTL_SERVER_FLOW_NotifyMoveEnd
  * address: 0x021BE994
  * packet: pkt_ov093_021BE994
  * region: ov093
@@ -18,17 +18,17 @@
  * symbols:
  *   func_021CC8D8 0x021CC8D8 thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
- *   func_021BE9D0 0x021BE9D0 thumb ov093
+ *   BTL_SERVER_FLOW_DispatchMoveEndEvent 0x021BE9D0 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021CC8D8(void *,int);
 extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021BE9D0(u8 *,u8 *,u32,u32);
-void func_021BE994(u8 *p,u8 *a,u32 c,u32 d)
+extern void BTL_SERVER_FLOW_DispatchMoveEndEvent(u8 *,u8 *,u32,u32);
+void BTL_SERVER_FLOW_NotifyMoveEnd(u8 *p,u8 *a,u32 c,u32 d)
 {
     u32 old;
     old=func_021CC8D8(p+0x1d74,4017);
-    func_021BE9D0(p,a,c,d);
+    BTL_SERVER_FLOW_DispatchMoveEndEvent(p,a,c,d);
     func_021CC95C((u32 *)(p+0x1d74),old,4019);
 }

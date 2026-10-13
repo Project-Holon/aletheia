@@ -10,7 +10,7 @@
  * symbols:
  *   func_021BE9A4 0x021BE9A4 thumb ov203
  *   func_021BF9B8 0x021BF9B8 thumb ov203
- *   func_020310C4 0x020310C4 arm
+ *   TCBL_Main 0x020310C4 arm
  *   func_021BF924 0x021BF924 thumb ov203
  *   func_020307B0 0x020307B0 arm
  */
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct Tcbl;
 extern u32 func_021BE9A4(u32 id);
 extern void func_021BF9B8(unsigned a, unsigned b, char *p);
-extern void func_020310C4(struct Tcbl *p);
+extern void TCBL_Main(struct Tcbl *p);
 extern void func_021BF924(char *);
 extern u32 func_020307B0(void *p);
 void func_021BF810(char *p)
@@ -33,5 +33,5 @@ void func_021BF810(char *p)
         func_021BF9B8((unsigned int)p,owner,(char *)r);
     }
     ((struct Obj02250 *)p)->fC=1;
-    func_020310C4(((struct Obj02250 *)p)->f20);func_021BF924(p);func_020307B0(p);
+    TCBL_Main(((struct Obj02250 *)p)->f20);func_021BF924(p);func_020307B0(p);
 }

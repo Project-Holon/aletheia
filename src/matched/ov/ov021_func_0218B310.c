@@ -1,5 +1,5 @@
 /*
- * function: func_0218B310
+ * function: FIELD_EVENT_CHECK_IsRailFrontFree
  * address:  0x0218B310
  * packet:   pkt_ov021_0218B310
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0219E418  0x0219E418  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_RAIL_GetHitBitsDirNoAttr  0x0219E418  thumb  ov021
  */
 #include "../include/Obj19510.h"
 
-void *func_021A3074(unsigned char *p);
+void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 typedef unsigned int   u32;
-int func_0219E418(u32 a, u32 b);
+int FLDMMDL_RAIL_GetHitBitsDirNoAttr(u32 a, u32 b);
 
-int func_0218B310(void *a, unsigned char *s)
+int FIELD_EVENT_CHECK_IsRailFrontFree(void *a, unsigned char *s)
 {
-    if ((func_0219E418((u32)func_021A3074(a), ((struct Obj19510 *)s)->f24) & 3) == 0)
+    if ((FLDMMDL_RAIL_GetHitBitsDirNoAttr((u32)FIELD_PLAYER_GetMmdl(a), ((struct Obj19510 *)s)->f24) & 3) == 0)
         return 1;
     return 0;
 }

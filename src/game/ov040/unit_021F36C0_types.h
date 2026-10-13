@@ -51,31 +51,31 @@ typedef struct Gimmick40ModelPos {
 } Gimmick40ModelPos;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern FldExpObjCnt *func_02188D2C(struct FieldMap *fieldMap);
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern void *func_02189764(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void func_021897A0(struct FieldMap *fieldMap, int id);
-extern void *func_021897BC(struct FieldMap *fieldMap, int id);
-extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
-extern void *func_0200B3A4(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
+extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern void *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct GameSystem *func_020124E4(struct GameEvent *event);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
-extern void func_021BE310(FldExpObjCnt *expObj, G3dUtilSetup *setup, u16 unitIndex);
-extern void func_021BE418(FldExpObjCnt *expObj, u16 unitIndex);
-extern G3dObjectStatus *func_021BE480(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
-extern FldExpObjAnime *func_021BE674(FldExpObjCnt *expObj, int unitIndex, unsigned modelIndex, int animeIndex);
+extern void FLD_EXP_OBJ_AddUnit(FldExpObjCnt *expObj, G3dUtilSetup *setup, u16 unitIndex);
+extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
+extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
+extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, unsigned modelIndex, int animeIndex);
 extern void func_021BE6B0(FldExpObjAnime *anime, int paused);
-extern void func_021BE6B8(FldExpObjAnime *anime, int loop);
+extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
 extern int func_021BE6BC(FldExpObjAnime *anime);
-extern void func_021BE6CC(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int frame);
-extern void func_021BE700(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
+extern void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int frame);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
 extern int func_021BE748(FldExpObjAnime *anime);
 extern void func_021BE580(FldExpObjCnt *expObj);
 
-int func_021F381C(struct GameEvent *event, int *seq, void *work);
+int GIMMICK40_EventPlayAnime(struct GameEvent *event, int *seq, void *work);
 
 #endif

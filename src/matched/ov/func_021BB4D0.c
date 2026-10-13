@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B639C  0x021B639C  thumb  ov067
+ *   TOUCHBAR_Delete  0x021B639C  thumb  ov067
  *
  * Releases the pointer 0x9AC bytes into the block and clears the slot.
  */
@@ -24,14 +24,14 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021B639C(u8 *p);
+extern void TOUCHBAR_Delete(u8 *p);
 
 void func_021BB4D0(char *p)
 {
     void *q = ((struct Obj00008 *)p)->f9AC;
 
     if (q != 0) {
-        func_021B639C(q);
+        TOUCHBAR_Delete(q);
         ((struct Obj00008 *)p)->f9AC = 0;
     }
 }

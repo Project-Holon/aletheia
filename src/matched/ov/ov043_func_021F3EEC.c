@@ -1,5 +1,5 @@
 /*
- * function: func_021F3EEC
+ * function: GIMMICK43_IsInLiftZone
  * address:  0x021F3EEC
  * packet:   pkt_ov043_021F3EEC
  * region:   ov043
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf called only from func_021F3AC0. Each field gets its own
- * pool word (d_021F4480 + 0/8/4/C). The loads must be written in field
+ * Unlabelled leaf called only from GIMMICK43_LiftEventMain. Each field gets its own
+ * pool word (sGimmick43LiftZones + 0/8/4/C). The loads must be written in field
  * order x, y, w, h: loading w before y swaps the index and value registers
  * (17 bytes).
  *
  * symbols:
- *   d_021F4480  0x021F4480  data  ov043
+ *   sGimmick43LiftZones  0x021F4480  data  ov043
  */
 
 typedef unsigned char u8;
@@ -29,19 +29,19 @@ typedef struct {
     int b;
 } R;
 
-extern R d_021F4480[];
+extern R sGimmick43LiftZones[];
 
-int func_021F3EEC(u8 i, int x, int y)
+int GIMMICK43_IsInLiftZone(u8 i, int x, int y)
 {
     int x0;
     int y0;
     int w;
     int h;
 
-    x0 = d_021F4480[i].x;
-    y0 = d_021F4480[i].y;
-    w = d_021F4480[i].w;
-    h = d_021F4480[i].h;
+    x0 = sGimmick43LiftZones[i].x;
+    y0 = sGimmick43LiftZones[i].y;
+    w = sGimmick43LiftZones[i].w;
+    h = sGimmick43LiftZones[i].h;
     if (x0 <= x && x <= x0 + w - 1 && y0 <= y && y <= y0 + h - 1) {
         return 1;
     }

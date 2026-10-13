@@ -14,8 +14,8 @@
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
  *   func_021C1A80 0x021C1A80 arm ov172
  *   func_021BE004 0x021BE004 thumb ov172
- *   func_02012944 0x02012944 thumb
- *   func_02008494 0x02008494 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
+ *   MYSTATUS_Copy 0x02008494 thumb
  *   func_021BE100 0x021BE100 thumb ov172
  *   GFL_NET_LOWER_DATA_Init 0x0203E5F8 arm
  *   d_021C71F4 0x021C71F4 data a4
@@ -36,8 +36,8 @@ extern int func_021BE0D8(void *p);
 extern void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
 extern unsigned long func_021C1A80(unsigned long width, unsigned long height, unsigned long sampling, unsigned long option);
 extern u32 func_021BE004(void *p);
-extern u8 *func_02012944(void *p);
-extern void func_02008494(void *src, void *dst);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void MYSTATUS_Copy(void *src, void *dst);
 extern int func_021BE100(void);
 extern void GFL_NET_LOWER_DATA_Init(int a0, int a1);
 char *func_021B7BA8(void *p, u16 heap)
@@ -82,14 +82,14 @@ char *func_021B7BA8(void *p, u16 heap)
     ((struct Obj00386 *)q)->f3C8 = 1;
     ((struct Obj00386 *)q)->f3CC = 0;
     ((struct Obj00386 *)q)->f3D8 = 0xff;
-    func_02008494(func_02012944((void *)(*((u32 *)func_021BE004(p)))), q + 0xc);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)(*((u32 *)func_021BE004(p)))), q + 0xc);
     ((struct Obj00386 *)q)->f2C = 1;
     for (i = 0; i < 3; i++)
         for (j = 0; j < 6; j++)
             *(u8 *)(q + i * 6 + j + 0x2e) = 0xff;
     ((Flags *)(q + 0x2d))->b0 = func_021BE100();
     ((Flags *)(q + 0x2d))->b1 = 0;
-    func_02008494(func_02012944((void *)(*((u32 *)func_021BE004(p)))), q + 0x40);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)(*((u32 *)func_021BE004(p)))), q + 0x40);
     ((struct Obj00386 *)q)->f60 = func_021BE100();
     ((struct Obj00386 *)q)->f0 = 1;
     GFL_NET_LOWER_DATA_Init(heap, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_0217F380
+ * function: UNION_MSG_SelectMainMenu
  * address:  0x0217F380
  * packet:   pkt_ov019_0217F380
  * region:   ov019
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217F310  0x0217F310  thumb ov019
+ *   UNION_MSG_SelectMenu  0x0217F310  thumb ov019
  *
  * Unlabelled tail-call thunk (ldr r3 / bx r3, no push); called from
- * func_0217C2AC.
+ * UNION_ONESELF_TalkParentMain.
  */
 
 typedef unsigned int   u32;
-int func_0217F310(char *p, u32 a1);
+int UNION_MSG_SelectMenu(char *p, u32 a1);
 
-int func_0217F380(void *ctx, int a)
+int UNION_MSG_SelectMainMenu(void *ctx, int a)
 {
-    return func_0217F310(ctx, a);
+    return UNION_MSG_SelectMenu(ctx, a);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216E42C
+ * function: FLDMMDL_CheckEventFlagBit
  * address:  0x0216E42C
  * packet:   pkt_ov010_0216E42C
  * region:   ov010
@@ -12,12 +12,12 @@
  * Tail call thunk: forwards its arguments unchanged to 0x020142E8.
  *
  * symbols:
- *   func_020142E8  0x020142E8  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  */
 
-extern unsigned int func_020142E8(void *bitmap, int id);
+extern unsigned int ZONEDATA_CheckEventFlag(void *bitmap, int id);
 
-unsigned int func_0216E42C(void *bitmap, int id)
+unsigned int FLDMMDL_CheckEventFlagBit(void *bitmap, int id)
 {
-    return func_020142E8(bitmap, id);
+    return ZONEDATA_CheckEventFlag(bitmap, id);
 }

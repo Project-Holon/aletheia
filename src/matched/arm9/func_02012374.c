@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02012374
+ * function: GAME_EVENT_CallEvent
  * address:  0x02012374
  * packet:   pkt_02012304
  * region:   arm9
@@ -21,8 +21,8 @@
  * transfer is a plain `bx`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012374.c \
- *       --func func_02012374 --addr 0x02012374 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_CallEvent.c \
+ *       --func GAME_EVENT_CallEvent --addr 0x02012374 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ struct Evt {
 struct Ctx;
 extern void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v);
 
-void func_02012374(struct Evt *evt, struct Evt **out)
+void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out)
 {
     *out = evt;
     GAMESYSTEM_SetEvent(evt->unk_10, (u32)out);

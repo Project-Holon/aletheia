@@ -10,8 +10,8 @@
  * status: EXACT*
  * trailing: existing follower 021F6EEC in its own matched shard.
  * symbols:
- *   func_02050BE8 0x02050BE8 arm
+ *   PARTICLE_Main 0x02050BE8 arm
  */
 
-extern void func_02050BE8(void);
-void func_021F6EE4(char *p){func_02050BE8();}
+extern void PARTICLE_Main(void);
+void func_021F6EE4(char *p){PARTICLE_Main();}

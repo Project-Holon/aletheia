@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- * func_021B61FC 0x021B61FC thumb ov067
- * func_021B6200 0x021B6200 thumb ov067
+ * UI_SCENE_GetPhaseFrame 0x021B61FC thumb ov067
+ * UI_SCENE_AdvancePhaseFrame 0x021B6200 thumb ov067
  * func_021BA444 0x021BA444 thumb ov213
  * func_021BA650 0x021BA650 thumb ov213
  * func_021B9E50 0x021B9E50 thumb ov213
@@ -22,7 +22,7 @@
  * func_020061E4 0x020061E4 thumb
  * func_021BA68C 0x021BA68C thumb ov213
  * func_0204B3DC 0x0204B3DC arm
- * func_0204E720 0x0204E720 arm
+ * FADE_Start 0x0204E720 arm
  * func_021BA8E8 0x021BA8E8 thumb ov213
  * d0 0x021BB0D4 data a4
  * d1 0x021BB0E0 data ov213
@@ -36,8 +36,8 @@
 typedef unsigned int u32;
 struct V {int x,y,z;};
 extern const struct V d0,d1,d2,d3,d4,d5;
-extern u32 func_021B61FC(const unsigned char*);
-extern void func_021B6200(unsigned char*);
+extern u32 UI_SCENE_GetPhaseFrame(const unsigned char*);
+extern void UI_SCENE_AdvancePhaseFrame(unsigned char*);
 extern void func_021BA444(void*);
 extern void func_021BA650(char *p);
 extern int func_021B9E50(u32);
@@ -47,25 +47,25 @@ extern void func_020061E4(u32 a);
 struct Obj;
 extern void func_021BA68C(char *p, unsigned i, int kind);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204E720(u32,int,int,int);
+extern void FADE_Start(u32,int,int,int);
 extern int func_021BA8E8(char *p, int b, int c);
 int func_021B9B0C(unsigned char *state,unsigned char *p)
 {
     int stage,x,y,index;
     struct V v0,v1,v2,v3,v4,v5;
-    stage=func_021B61FC(state);
+    stage=UI_SCENE_GetPhaseFrame(state);
     func_021BA444(p);func_021BA650((char *)(p+0x498c));
     switch(stage){
     case 0:
         if(func_021B9E50(p[0x49c8]))func_021BA95C(p+0x24,1);
         else func_021BA95C(p+0x24,3);
         func_021BA81C(p+0x24,0xd);
-        func_021BA480(p);func_021B6200(state);break;
+        func_021BA480(p);UI_SCENE_AdvancePhaseFrame(state);break;
     case 1:
         if(func_021BA9D0(p+0x24)==0){
             if(((struct Obj01295 *)p)->f49CC==2)return 1;
             ((struct Obj01295 *)p)->f49D0=0;
-            func_021BA81C(p+0x24,0xc);func_021B6200(state);
+            func_021BA81C(p+0x24,0xc);UI_SCENE_AdvancePhaseFrame(state);
         }break;
     case 2:
         if(((struct Obj01295 *)p)->f49D0==15){
@@ -81,7 +81,7 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
         }else if(((struct Obj01295 *)p)->f49D0==54){
             index=((struct Obj01295 *)p)->f49CC!=1;
             func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
-        }else if(((struct Obj01295 *)p)->f49D0==120)func_0204E720(3,0,16,-3);
+        }else if(((struct Obj01295 *)p)->f49D0==120)FADE_Start(3,0,16,-3);
         else if(((struct Obj01295 *)p)->f49D0==128)return 1;
         if(((struct Obj01295 *)p)->f49D0%180==0){
             if(((struct Obj01295 *)p)->f49CC==1){x=-0x2800;y=0x2000;}

@@ -1,5 +1,5 @@
 /*
- * function: func_021A2F8C
+ * function: FIELD_PLAYER_SetRideEffect
  * address:  0x021A2F8C
  * packet:   pkt_ov021_021A2F8C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Tail-call thunk: the object's word at +0x4, second argument forwarded.
- * Unlabelled leaf; its only blocker-caller is func_021C10B4.
+ * Unlabelled leaf; its only blocker-caller is FIELD_PLAYER_GRID_EVENT_HopTask.
  *
  * symbols:
- *   func_021A3AD0  0x021A3AD0  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetRideEffect  0x021A3AD0  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A3AD0(u8 *p, u32 v);
+extern void FIELD_PLAYER_CORE_SetRideEffect(u8 *p, u32 v);
 
-void func_021A2F8C(u8 *p, u32 b)
+void FIELD_PLAYER_SetRideEffect(u8 *p, u32 b)
 {
-    func_021A3AD0((u8 *)(((struct Obj19763 *)p)->f4), b);
+    FIELD_PLAYER_CORE_SetRideEffect((u8 *)(((struct Obj19763 *)p)->f4), b);
 }

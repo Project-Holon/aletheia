@@ -1,5 +1,5 @@
 /*
- * function: func_021A9E64
+ * function: FIELD_ENCOUNT_PickWaterSlot
  * address:  0x021A9E64
  * packet:   pkt_ov021_021A9E64
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A9DC8  0x021A9DC8  thumb
+ *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_021A9DC8(void);
+extern u32 FIELD_ENCOUNT_RandPercent(void);
 
-int func_021A9E64(int a)
+int FIELD_ENCOUNT_PickWaterSlot(int a)
 {
-    u32 v = func_021A9DC8();
+    u32 v = FIELD_ENCOUNT_RandPercent();
     if (v < 60) {
         return 0;
     }

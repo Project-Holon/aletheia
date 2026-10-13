@@ -1,7 +1,7 @@
 /*
  * file:     bmp_menu.c
  * unit:     yes
- * function: func_0201F53C, func_0201F548, func_0201F554, func_0201F57C, func_0201F5BC, func_0201F5DC, func_0201F614, func_0201F628, func_0201F73C, func_0201F79C, func_0201F7A8, func_0201F81C, func_0201F868, func_0201F878, func_0201F898, BMP_MENUWORK_FindFreeEntry, func_0201F8F4, func_0201F91C, BMP_MENU_Create, BMP_MENU_Add, BMP_MENU_Delete, BMP_MENU_ProcessInput, BMP_MENU_MoveCursor, BMP_MENU_StepSelection, BMP_MENU_GetMaxItemWidth, BMP_MENU_DrawItems, BMP_MENU_DrawCursor, BMP_MENU_GetItemPixelPos, func_0201FDA0, func_0201FEBC, BMP_MENU_DeleteYesNo
+ * function: func_0201F53C, func_0201F548, func_0201F554, func_0201F57C, func_0201F5BC, func_0201F5DC, func_0201F614, func_0201F628, func_0201F73C, func_0201F79C, func_0201F7A8, BMP_MENUWORK_Create, BMP_MENUWORK_Delete, BMP_MENUWORK_AddMsgItem, BMP_MENUWORK_AddStrItem, BMP_MENUWORK_FindFreeEntry, BMP_MENUWORK_ReleaseItems, BMP_MENUWORK_CountItems, BMP_MENU_Create, BMP_MENU_Add, BMP_MENU_Delete, BMP_MENU_ProcessInput, BMP_MENU_MoveCursor, BMP_MENU_StepSelection, BMP_MENU_GetMaxItemWidth, BMP_MENU_DrawItems, BMP_MENU_DrawCursor, BMP_MENU_GetItemPixelPos, BMP_MENU_CreateYesNo, BMP_MENU_ProcessYesNo, BMP_MENU_DeleteYesNo
  * address:  0x0201F53C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,29 +28,31 @@
  *   sBmpMenuWorkFile     0x020A7374  data
  *   func_020307B0  0x020307B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045874  0x02045874  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Clone  0x02045874  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   sBmpMenuFile    0x020A7384  data
  *   BMP_CURSOR_Create   0x02020D18  thumb
  *   BMP_CURSOR_SetTileBitmap   0x02020DC8  thumb
  *   func_020362DC  0x020362DC  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043AF4  0x02043AF4  arm
+ *   BMP_FillRect  0x02043AF4  arm
  *   _s32_div_f  0x0209C0A4  arm
- *   func_02043B5C   0x02043B5C  arm
+ *   BMP_Clear   0x02043B5C  arm
  *   func_0201C6FC   0x0201C6FC  thumb
  *   BMP_CURSOR_Draw   0x02020D5C  thumb
  *   func_02045B38   0x02045B38  arm
- *   func_02045C04   0x02045C04  arm
+ *   MSGDATA_Delete   0x02045C04  arm
  *   MI_CpuFill8     0x02082BCC  arm
- *   func_020450F0   0x020450F0  arm
- *   func_0201D7EC   0x0201D7EC  thumb
+ *   BMP_WIN_Create   0x020450F0  arm
+ *   GF_FONT_Create   0x0201D7EC  thumb
  *   func_0201DC80   0x0201DC80  thumb
  *   func_0201C440   0x0201C440  thumb
- *   func_02045374   0x02045374  arm
- *   func_02045334   0x02045334  arm
+ *   BMP_WIN_MakeScreen   0x02045374  arm
+ *   BMP_WIN_TransferChars   0x02045334  arm
  *   BMP_CURSOR_Delete  0x02020D3C  thumb
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   GF_FONT_Delete  0x0201D83C  thumb
  */
 struct BmpWin;
 struct MsgBank;
@@ -141,33 +143,33 @@ extern void func_02041B6C(u32 bit);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_02045874(const struct U16Vec *src, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Clone(const struct U16Vec *src, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct BmpCursor *BMP_CURSOR_Create(u32 heap);
 extern void BMP_CURSOR_SetTileBitmap(struct BmpCursor *cursor, int heapId);
 extern void BMP_CURSOR_Delete(struct BmpCursor *p);
 extern u32  func_020362DC(void);
 extern void func_020061E4(u32 id);
 extern void *func_02045770(struct BmpWin *p);
-extern void func_02043AF4(void *bitmap, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(void *bitmap, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern s32 _s32_div_f(s32 num, s32 den);
 extern u32 func_0201D304(const void *str, struct GfFont *font, u32 flags);
-extern void func_02043B5C(void *bitmap, u8 value);
+extern void BMP_Clear(void *bitmap, u8 value);
 extern void func_0201C6FC(void *que, void *bitmap, u32 x, u32 y, const void *str, struct GfFont *font);
 extern void BMP_CURSOR_Draw(struct BmpCursor *c, u32 x, u32 y, PrintUtil *util, void *que, struct GfFont *font);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct MsgBank *bank);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern struct BmpWin *func_020450F0(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
-extern struct GfFont *func_0201D7EC(int fontKind, int flagA, int flagB, int flagC, u32 heapId);
+extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
+extern struct GfFont *GF_FONT_Create(int fontKind, int flagA, int flagB, int flagC, u32 heapId);
 extern u32 func_0201DC80(struct GfFont *p);
 extern void *func_0201C440(void *heapIdAsPtr);
-extern void func_02045374(struct BmpWin *cfg);
-extern void func_02045334(struct BmpWin *win);
-extern u32 func_0201C4E4(void *que);
+extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern u32 PRINTSYS_QUE_Main(void *que);
 extern void func_0201C6EC(void *que);
 extern void func_0201C4C0(void *que);
-extern u32 func_0201D83C(struct GfFont *font);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 func_020452E8(struct BmpWin *win);
 u8 func_0201F53C(int index);
 u8 func_0201F548(int index);
@@ -180,13 +182,13 @@ void func_0201F628(u16 bgId, u8 x, u8 y, u8 width, u8 height, u32 palette, u16 t
 void func_0201F73C(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);
 void func_0201F79C(struct BmpWin *desc, u32 commitMode, u32 tileBase, u32 palette);
 void func_0201F7A8(struct BmpWin *desc, u32 commitMode);
-BmpMenuWork *func_0201F81C(u32 count, u32 heapId);
-u32 func_0201F868(void *items);
-void func_0201F878(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId);
-void func_0201F898(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId);
+BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId);
+u32 BMP_MENUWORK_Delete(void *items);
+void BMP_MENUWORK_AddMsgItem(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId);
+void BMP_MENUWORK_AddStrItem(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId);
 BmpMenuWork *BMP_MENUWORK_FindFreeEntry(BmpMenuWork *items, u32 *outTerminatorValue);
-void func_0201F8F4(BmpMenuWork *items);
-u32 func_0201F91C(BmpMenuWork *items);
+void BMP_MENUWORK_ReleaseItems(BmpMenuWork *items);
+u32 BMP_MENUWORK_CountItems(BmpMenuWork *items);
 BmpMenu *BMP_MENU_Create(const BmpMenuHeader *header, u8 originX, u8 originY, u8 startPos, u16 heapId, u32 cancelMask);
 BmpMenu *BMP_MENU_Add(const BmpMenuHeader *header, u8 originX, u8 originY, u8 startPos, u16 heapId, u32 cancelMask);
 void BMP_MENU_Delete(BmpMenu *menu, u8 *outSelected);
@@ -197,8 +199,8 @@ u32 BMP_MENU_GetMaxItemWidth(BmpMenu *menu);
 void BMP_MENU_DrawItems(BmpMenu *menu);
 void BMP_MENU_DrawCursor(BmpMenu *menu);
 void BMP_MENU_GetItemPixelPos(BmpMenu *menu, u8 *outX, u8 *outY, u8 itemPos);
-BmpMenu *func_0201FDA0(const WinDat *winData, u16 tileBase, u8 palette, u8 startPos, u16 heapId);
-u32 func_0201FEBC(BmpMenu *menu);
+BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u8 startPos, u16 heapId);
+u32 BMP_MENU_ProcessYesNo(BmpMenu *menu);
 void BMP_MENU_DeleteYesNo(BmpMenu *menu);
 extern u8 sub_0209E8C8_Map[];
 extern u8 sub_0209E8CA_Map[];
@@ -584,10 +586,10 @@ void func_0201F7A8(struct BmpWin *desc, u32 commitMode)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F81C.c \
- *       --func func_0201F81C --addr 0x0201F81C --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_Create.c \
+ *       --func BMP_MENUWORK_Create --addr 0x0201F81C --thumb
  */
-BmpMenuWork *func_0201F81C(u32 count, u32 heapId)
+BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId)
 {
     BmpMenuWork *items;
     u32 idx;
@@ -621,12 +623,12 @@ BmpMenuWork *func_0201F81C(u32 count, u32 heapId)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F868.c \
- *       --func func_0201F868 --addr 0x0201F868 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_Delete.c \
+ *       --func BMP_MENUWORK_Delete --addr 0x0201F868 --cc 1.1p1 --thumb
  */
-u32 func_0201F868(void *items)
+u32 BMP_MENUWORK_Delete(void *items)
 {
-    func_0201F8F4(items);
+    BMP_MENUWORK_ReleaseItems(items);
     return func_020307B0(items);
 }
 
@@ -648,9 +650,9 @@ u32 func_0201F868(void *items)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F878.c  *       --func func_0201F878 --addr 0x0201F878 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_AddMsgItem.c  *       --func BMP_MENUWORK_AddMsgItem --addr 0x0201F878 --cc 1.1p1 --thumb
  */
-void func_0201F878(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId)
+void BMP_MENUWORK_AddMsgItem(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId)
 {
     BmpMenuWork *entry;
     u32          unused;
@@ -669,8 +671,8 @@ void func_0201F878(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 para
 
 /*
  * Claims a slot through BMP_MENUWORK_FindFreeEntry and, if one was free, fills it with the
- * handle func_02045874 returns and the caller's third argument.  Note the
- * argument roles are not the same as in the neighbouring func_0201F878: here
+ * handle STRBUF_Clone returns and the caller's third argument.  Note the
+ * argument roles are not the same as in the neighbouring BMP_MENUWORK_AddMsgItem: here
  * the builder takes the caller's *fourth* argument and the slot's tag word
  * comes from the third, the mirror of that function.  The tag word the
  * claim function writes back is never used here; it lands in the pushed r3
@@ -680,16 +682,16 @@ void func_0201F878(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 para
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F898.c  *       --func func_0201F898 --addr 0x0201F898 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_AddStrItem.c  *       --func BMP_MENUWORK_AddStrItem --addr 0x0201F898 --cc 1.1p1 --thumb
  */
-void func_0201F898(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId)
+void BMP_MENUWORK_AddStrItem(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId)
 {
     BmpMenuWork *entry;
     u32          unusedTerminator;
 
     entry = BMP_MENUWORK_FindFreeEntry(items, &unusedTerminator);
     if (entry != 0) {
-        entry->u.handle = func_02045874(src, heapId);
+        entry->u.handle = STRBUF_Clone(src, heapId);
         entry->value = param;
     }
 }
@@ -701,7 +703,7 @@ void func_0201F898(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 
 
 
 /*
- * Claims a slot in the same eight-byte-stride table func_0201F8F4 walks: it
+ * Claims a slot in the same eight-byte-stride table BMP_MENUWORK_ReleaseItems walks: it
  * scans for the first empty entry, gives up if the 0xFFFFFFFF terminator
  * arrives first, then runs on to the terminator record and hands its tag word
  * back through the out-parameter.  The empty slot is the return value, null on
@@ -709,7 +711,7 @@ void func_0201F898(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 
  *
  * Both loops read the word once per iteration and share the load between the
  * zero test and the terminator test, which is why this function needs no
- * union where func_0201F8F4 does: here both tests are u32.  The terminator
+ * union where BMP_MENUWORK_ReleaseItems does: here both tests are u32.  The terminator
  * constant is rematerialised with its own `movs`/`mvns` pair in each of the
  * two blocks that needs it rather than kept live across the first loop; see
  * docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md.
@@ -765,17 +767,17 @@ BmpMenuWork *BMP_MENUWORK_FindFreeEntry(BmpMenuWork *items, u32 *outTerminatorVa
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F8F4.c \
- *       --func func_0201F8F4 --addr 0x0201F8F4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_ReleaseItems.c \
+ *       --func BMP_MENUWORK_ReleaseItems --addr 0x0201F8F4 --cc 1.1p1 --thumb
  */
-void func_0201F8F4(BmpMenuWork *items)
+void BMP_MENUWORK_ReleaseItems(BmpMenuWork *items)
 {
     if (items->u.raw == 0xFFFFFFFF)
         return;
     do {
         if (items->u.handle == 0)
             return;
-        func_02045808(items->u.handle);
+        STRBUF_Delete(items->u.handle);
         items->u.raw = 0;
         items++;
     } while (items->u.raw != 0xFFFFFFFF);
@@ -802,10 +804,10 @@ void func_0201F8F4(BmpMenuWork *items)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F91C.c \
- *       --func func_0201F91C --addr 0x0201F91C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_CountItems.c \
+ *       --func BMP_MENUWORK_CountItems --addr 0x0201F91C --cc 1.1p1 --thumb
  */
-u32 func_0201F91C(BmpMenuWork *items)
+u32 BMP_MENUWORK_CountItems(BmpMenuWork *items)
 {
     u32 count;
 
@@ -978,7 +980,7 @@ u32 BMP_MENU_ProcessInput(BmpMenu *menu)
  * Commit a cursor move: remember where the cursor was, ask BMP_MENU_StepSelection to
  * step it, and on a refusal answer 0 without side effects.  On a move, redraw
  * from the old cell through BMP_MENU_GetItemPixelPos into an on-stack pair, repaint at
- * the new position with func_02043AF4 and play the sound id the caller passed
+ * the new position with BMP_FillRect and play the sound id the caller passed
  * in r2.
  *
  * Verified with:
@@ -996,7 +998,7 @@ int BMP_MENU_MoveCursor(BmpMenu *menu, u32 dir, u32 sfxId)
     }
 
     BMP_MENU_GetItemPixelPos(menu, &cellXY[1], &cellXY[0], oldSelected);
-    func_02043AF4(func_02045770(menu->header.win), cellXY[1], cellXY[0], menu->xPad,
+    BMP_FillRect(func_02045770(menu->header.win), cellXY[1], cellXY[0], menu->xPad,
                   menu->lineHeight, 0xff);
     BMP_MENU_DrawCursor(menu);
     func_020061E4(sfxId);
@@ -1139,7 +1141,7 @@ static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, con
  *    quotient in r0 and the remainder in r1: the "unexplained" r1 of the
  *    second call in BMP_MENU_GetItemPixelPos is `pos % itemsPerColumn`, not a register tie
  *    (docs/idioms/div-and-mod-are-two-calls.md).
- *  - header byte +0x0B is three UNSIGNED bitfields 4:2:2 (func_0201FDA0
+ *  - header byte +0x0B is three UNSIGNED bitfields 4:2:2 (BMP_MENU_CreateYesNo
  *    writes them with 0x0F / 0x30 / 0xC0 masks); an unsigned field gives the
  *    `lsrs` BMP_MENU_DrawCursor needs where a shift expression gave `asrs`.
  *  - the print call is an inline taking the util handle first, which is what
@@ -1156,7 +1158,7 @@ void BMP_MENU_DrawItems(BmpMenu *menu)
     u8 col, row;
     u8 x, colStep;
 
-    func_02043B5C(func_02045770(menu->header.win), 0xFF);
+    BMP_Clear(func_02045770(menu->header.win), 0xFF);
     x = menu->originX;
     colStep = menu->colWidth + menu->xPad * 2;
     for (col = 0; col < menu->header.numColumns; col++) {
@@ -1216,7 +1218,7 @@ static inline void PrintUtil_Init(PrintUtil *util, void *cell)
  * callee-stays-behind-a-spill-store.md is the same lever; with u16 heap
  * and the old u32 prototypes the body narrows at every call.
  */
-BmpMenu *func_0201FDA0(const WinDat *winData, u16 tileBase, u8 palette, u8 startPos, u16 heapId)
+BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u8 startPos, u16 heapId)
 {
     BmpMenuHeader header;
     struct MsgBank *yesNoText;
@@ -1224,21 +1226,21 @@ BmpMenu *func_0201FDA0(const WinDat *winData, u16 tileBase, u8 palette, u8 start
     BmpMenu *menu;
 
     yesNoText = func_02045B38(0, 2, 0xE9, heapId);
-    items = func_0201F81C(2, (int)(u16)heapId);
-    func_0201F878(items, yesNoText, 0, 0, heapId);
-    func_0201F878(items, yesNoText, 1, -2, heapId);
-    func_02045C04(yesNoText);
+    items = BMP_MENUWORK_Create(2, (int)(u16)heapId);
+    BMP_MENUWORK_AddMsgItem(items, yesNoText, 0, 0, heapId);
+    BMP_MENUWORK_AddMsgItem(items, yesNoText, 1, -2, heapId);
+    MSGDATA_Delete(yesNoText);
 
     MI_CpuFill8(&header, 0, sizeof(header));
     header.items = items;
-    header.win = func_020450F0(winData->bgFrame, winData->x, winData->y, 7, 4, winData->palette, 1);
+    header.win = BMP_WIN_Create(winData->bgFrame, winData->x, winData->y, 7, 4, winData->palette, 1);
     header.numColumns = 1;
     header.itemsPerColumn = 2;
     header.lineSpacing = 1;
     header.cursorMode = 0;
     header.wrap = 0;
     header.util = func_02030734(heapId, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
-    header.fontH = func_0201D7EC(0x17, 0, 0, 0, heapId);
+    header.fontH = GF_FONT_Create(0x17, 0, 0, 0, heapId);
     header.lineHeight = func_0201DC80(header.fontH);
     header.xPad = 10;
     PrintUtil_Init(header.util, header.win);
@@ -1246,10 +1248,10 @@ BmpMenu *func_0201FDA0(const WinDat *winData, u16 tileBase, u8 palette, u8 start
     header.committed = 0;
 
     menu = BMP_MENU_Add(&header, 0xE, 0, startPos, heapId, 2);
-    func_02045374(header.win);
+    BMP_WIN_MakeScreen(header.win);
     func_0201F73C(header.win, 0, tileBase, palette);
     func_020409B4(func_02045730(header.win));
-    func_02045334(header.win);
+    BMP_WIN_TransferChars(header.win);
     return menu;
 }
 
@@ -1258,16 +1260,16 @@ BmpMenu *func_0201FDA0(const WinDat *winData, u16 tileBase, u8 palette, u8 start
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0201FEBC.c \
- *       --func func_0201FEBC --addr 0x0201FEBC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/BMP_MENU_ProcessYesNo.c \
+ *       --func BMP_MENU_ProcessYesNo --addr 0x0201FEBC --cc 1.1p1 --thumb
  */
-u32 func_0201FEBC(BmpMenu *menu)
+u32 BMP_MENU_ProcessYesNo(BmpMenu *menu)
 {
     u32 result = BMP_MENU_ProcessInput(menu);
-    u32 printDone = func_0201C4E4(menu->header.que);
+    u32 printDone = PRINTSYS_QUE_Main(menu->header.que);
 
     if (menu->header.committed == 0 && printDone != 0) {
-        func_02045334(menu->header.win);
+        BMP_WIN_TransferChars(menu->header.win);
         menu->header.committed = 1;
     }
     if (result != 0xffffffff) {
@@ -1285,8 +1287,8 @@ void BMP_MENU_DeleteYesNo(BmpMenu *menu)
     func_0201C4C0(menu->header.que);
     func_020307B0(menu->header.util);
     func_0201F7A8(menu->header.win, 0);
-    func_0201D83C(menu->header.fontH);
-    func_0201F868(menu->header.items);
+    GF_FONT_Delete(menu->header.fontH);
+    BMP_MENUWORK_Delete(menu->header.items);
     func_020452E8(menu->header.win);
     BMP_MENU_Delete(menu, 0);
 }

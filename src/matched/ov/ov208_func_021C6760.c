@@ -18,7 +18,7 @@
  *   func_02035D20 0x02035D20 arm
  *   func_020355D8 0x020355D8 arm
  *   ov208_func_021BDC48 0x021BDC48 thumb ov208
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_0204B92C 0x0204B92C arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
@@ -36,7 +36,7 @@ extern u32 func_0203633C(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020355D8(int v);
 extern void ov208_func_021BDC48(void *scene, u32 on);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020061E4(u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
@@ -103,7 +103,7 @@ int ov208_func_021C6760(void *unused, u8 *p, int key)
             ov208_func_021BDC48(sys, 0);
             o = hit * 0x28;
             *(u32 *)(p + 0x614 + o) = 1;
-            func_0204B878((void *)*(u32 *)(p + 0x618 + o), *(u8 *)(p + 0x609 + o));
+            CLACT_SetActorAnimSeq((void *)*(u32 *)(p + 0x618 + o), *(u8 *)(p + 0x609 + o));
             func_020061E4(*(u32 *)(p + 0x610 + o));
             partner = 5;
             if (hit == 2)

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D7DC
+ * function: FLDMMDL_GetNowAttr
  * address:  0x0216D7DC
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D7DC.c \
- *       --func func_0216D7DC --addr 0x0216D7DC --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetNowAttr.c \
+ *       --func FLDMMDL_GetNowAttr --addr 0x0216D7DC --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17829.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_0216D7DC(void *p) { return ((struct Obj17829 *)p)->f74; }
+u32 FLDMMDL_GetNowAttr(void *p) { return ((struct Obj17829 *)p)->f74; }

@@ -39,13 +39,13 @@
  *   func_02205340  0x02205340  thumb  ov094
  *   func_022053DC  0x022053DC  thumb  ov094
  *   func_0220558C  0x0220558C  thumb  ov094
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045374  0x02045374  arm
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_022043AC  0x022043AC  thumb  ov094
  *   func_02203BC0  0x02203BC0  thumb  ov094
  *   func_02203C2C  0x02203C2C  thumb  ov094
@@ -183,14 +183,14 @@ extern void func_022050F0(char *s, struct Out *out, const struct Info *p);
 extern void func_02205340(struct Main *m, const int *c);
 extern void func_022053DC(char *);
 extern void func_0220558C(char *s, const int *b);
-extern void func_0201DD78(u32, u32, u32);
+extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02045374(struct Cfg *cfg);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 extern void func_022043AC(void *);
 extern void func_02203BC0(int a0, struct Ctx *c);
@@ -372,7 +372,7 @@ void func_0220270C(char *s, int mode, void *arg)
         case 1:
         case 2:
         case 3:
-            func_0201DD78(1, 2, 0);
+            GF_FONT_SetTextColor(1, 2, 0);
             w = func_02045EC0(S_PTR(0x5c), a->fc + 8);
             break;
         }
@@ -395,12 +395,12 @@ void func_0220270C(char *s, int mode, void *arg)
             else
                 func_02204960((struct Main *)s, 4, 0x100, 0, 2, 2, 2, 2);
             if (w != 0) {
-                func_0201C7A4((void *)S_INT(0x22c), 0x18, 0x38, w, (void *)S_INT(0x224));
-                func_02045808(w);
+                PRINTSYS_Print((void *)S_INT(0x22c), 0x18, 0x38, w, (void *)S_INT(0x224));
+                STRBUF_Delete(w);
             }
-            func_02045374(S_PTR(0x228));
+            BMP_WIN_MakeScreen(S_PTR(0x228));
             func_020409B4(6);
-            func_02045334(S_PTR(0x228));
+            BMP_WIN_TransferChars(S_PTR(0x228));
         }
         break;
     }

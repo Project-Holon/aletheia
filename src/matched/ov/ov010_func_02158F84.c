@@ -1,5 +1,5 @@
 /*
- * function: func_02158F84
+ * function: SCRIPT_WORK_GetMsgData
  * address:  0x02158F84
  * packet:   pkt_ov010_02158F84
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Reads the word field at +0x38 (getter of func_02158F80).
+ * Reads the word field at +0x38 (getter of SCRIPT_WORK_SetMsgData).
  *
  * symbols:
  *   (none)
@@ -19,7 +19,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-u32 func_02158F84(u8 *p)
+u32 SCRIPT_WORK_GetMsgData(u8 *p)
 {
     return ((struct Obj18753 *)p)->f38;
 }

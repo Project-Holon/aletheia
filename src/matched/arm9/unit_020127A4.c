@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020127A4, func_020127AC
+ * function: GAME_DATA_GetMyPlayerWork, GAME_DATA_GetBattleRecSlot
  * address:  0x020127A4
  * packet:   pkt_020124F4
  * region:   arm9
@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020127A4  0x020127A4  thumb
- *   func_020127AC  0x020127AC  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
  *
  * Two address-of-member accessors on the same save-data block, neither of
  * which saves lr, so neither carries a label
@@ -37,12 +37,12 @@ struct SaveBlock {
     u8 unk_1d4[1][0x10];
 };
 
-void *func_020127A4(struct SaveBlock *p)
+void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p)
 {
     return p->unk_114;
 }
 
-void *func_020127AC(struct SaveBlock *p, u32 idx)
+void *GAME_DATA_GetBattleRecSlot(struct SaveBlock *p, u32 idx)
 {
     return p->unk_1d4[idx];
 }

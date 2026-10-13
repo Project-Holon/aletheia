@@ -1,5 +1,5 @@
 /*
- * function: func_021D70C8
+ * function: BTL_EVENT_KeepFactorRunning
  * address: 0x021D70C8
  * packet: pkt_ov093_021D70C8
  * region: ov093
@@ -12,7 +12,7 @@
 #include "../include/Obj21249.h"
 typedef unsigned int u32;
 typedef struct { u32 pad[6]; u32 low:24, active:1, rest:7; } Node;
-void func_021D70C8(Node *p)
+void BTL_EVENT_KeepFactorRunning(Node *p)
 {
     if (p->active) ((struct Obj21249 *)p)->f18 |= 0x10000000;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D70A8
+ * function: BTL_EVENT_GetFactorKey
  * address:  0x021D70A8
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D70A8   0x021D70A8  thumb
+ *   BTL_EVENT_GetFactorKey   0x021D70A8  thumb
  *
  * Reads the u16 field at #0x38 of the argument and returns it.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021D70A8  ldrh r0,[r0,#0x38] */
 struct QQ { u8 pad[0x38]; u16 v; };
-u16 func_021D70A8(struct QQ *p) { return p->v; }
+u16 BTL_EVENT_GetFactorKey(struct QQ *p) { return p->v; }
 

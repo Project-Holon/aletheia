@@ -1,5 +1,5 @@
 /*
- * function: func_02194848
+ * function: TALKMSGWIN_SetupUpperBalloon
  * address:  0x02194848
  * packet:   pkt_ov021_02194848
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02194AC8  0x02194AC8  thumb  ov021
+ *   TALKMSGWIN_SetupEntry  0x02194AC8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -30,9 +30,9 @@ typedef struct {
     u32 f10;
 } Cfg;
 
-extern void func_02194AC8(u8 *p, u8 *e, u32 a, u32 b, u8 *s);
+extern void TALKMSGWIN_SetupEntry(u8 *p, u8 *e, u32 a, u32 b, u8 *s);
 
-void func_02194848(u8 *p, int i, u32 a, u32 b, u32 u, u32 v, u32 w, u32 x)
+void TALKMSGWIN_SetupUpperBalloon(u8 *p, int i, u32 a, u32 b, u32 u, u32 v, u32 w, u32 x)
 {
     Cfg s;
 
@@ -45,5 +45,5 @@ void func_02194848(u8 *p, int i, u32 a, u32 b, u32 u, u32 v, u32 w, u32 x)
     s.fc = 0x7FFF;
     s.fe = v;
     s.f10 = x;
-    func_02194AC8(p, p + 0x18 + i * 100, a, b, (u8 *)(&s));
+    TALKMSGWIN_SetupEntry(p, p + 0x18 + i * 100, a, b, (u8 *)(&s));
 }

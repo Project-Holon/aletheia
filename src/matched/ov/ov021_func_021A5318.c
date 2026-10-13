@@ -1,5 +1,5 @@
 /*
- * function: func_021A5318
+ * function: FIELD_PLAYER_GRID_HasFlag
  * address:  0x021A5318
  * packet:   pkt_ov021_021A5318
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-int func_021A5318(u32 *p, u32 m)
+int FIELD_PLAYER_GRID_HasFlag(u32 *p, u32 m)
 {
     if (p[2] & m)
         return 1;

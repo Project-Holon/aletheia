@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219BA6C",
+   "name": "FLDMMDL_MOVE_TurnToPlayer",
    "address": "0x0219BA6C",
    "kind": "game",
    "region": "ov021",

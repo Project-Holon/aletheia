@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * A plain range test on the raw id, called by sub_0201407C
+ * A plain range test on the raw id, called by ZONEDATA_CreateAreaData
  * (unit_02013ED8.c is a sibling file, not this one; the call there is
  * attested by this function's own definition living outside its range).
  *

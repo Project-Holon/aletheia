@@ -1,5 +1,5 @@
 /*
- * function: func_020249B0
+ * function: PMS_WORD_IsSameGroup
  * address:  0x020249B0
  * packet:   pkt_020249B0
  * region:   arm9
@@ -11,7 +11,7 @@
  *
  * Unlabelled arm9 leaf: true when a == b, or when the first of 13 halfword
  * groups that contains a also contains b. Filed as the relocation witness for
- * ov021 func_021D213C (wave A1).
+ * ov021 SCRCMD_CheckPmsWordPair (wave A1).
  *
  * symbols:
  *   g_pmsWordSimilarGroups  0x0209F7C8  data
@@ -27,7 +27,7 @@ typedef struct Group {
 
 extern const Group g_pmsWordSimilarGroups[13];
 
-int func_020249B0(u32 a, u16 b)
+int PMS_WORD_IsSameGroup(u32 a, u16 b)
 {
     u32 i;
     int j, k;

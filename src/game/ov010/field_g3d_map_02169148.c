@@ -1,7 +1,7 @@
 /*
  * file:     field_g3d_map_02169148.c
  * unit:     yes
- * function: func_02169148, func_0216928C, func_02169308, func_0216932C, func_02169354, func_0216937C, func_021693A0, func_021693B4, func_021693BC, func_021693C4, func_021693CC, func_021693D4, func_0216940C, func_02169444, func_02169470, func_021694D4, func_021694F8, func_021694FC, func_02169500, func_02169510, func_02169520, func_02169528, func_02169530, func_02169538, func_02169540, func_02169550, func_02169560, func_02169568, func_02169578, func_02169580, func_02169598, func_0216959C, func_021695BC, func_02169620, func_0216968C, func_02169710, func_021697E0, func_02169800, func_02169848, func_02169880, func_0216990C, func_02169928, func_02169998, func_021699A0, func_02169A14, func_02169A68, func_02169A88
+ * function: FIELD_G3D_MAP_Create, FIELD_G3D_MAP_Destroy, FIELD_G3D_MAP_Update, FIELD_G3D_MAP_WaitLoad, FIELD_G3D_MAP_DrawWithModels, FIELD_G3D_MAP_OpenArchive, FIELD_G3D_MAP_CloseArchive, FIELD_G3D_MAP_SetAltTextureRes, FIELD_G3D_MAP_ClearAltTextureRes, FIELD_G3D_MAP_SetPlacedModels, FIELD_G3D_MAP_ClearPlacedModels, FIELD_G3D_MAP_SetPlacement, FIELD_G3D_MAP_ClearPlacement, FIELD_G3D_MAP_GetPlacement, FIELD_G3D_MAP_StartLoad, FIELD_G3D_MAP_Unload, FIELD_G3D_MAP_SetVisible, FIELD_G3D_MAP_IsVisible, FIELD_G3D_MAP_SetPos, FIELD_G3D_MAP_GetPos, FIELD_G3D_MAP_GetActiveRef, FIELD_G3D_MAP_GetBuffer, FIELD_G3D_MAP_GetMemberIndex, FIELD_G3D_MAP_GetTotalBytes, FIELD_G3D_MAP_SetModelRes, FIELD_G3D_MAP_ClearModelRes, FIELD_G3D_MAP_GetModelRes, FIELD_G3D_MAP_ClearTextureRes, FIELD_G3D_MAP_GetTextureRes, FIELD_G3D_MAP_BindRenderObj, FIELD_G3D_MAP_GetRenderObj, FIELD_G3D_MAP_ResetLoadState, FIELD_G3D_MAP_BeginChunkedLoad, FIELD_G3D_MAP_ReadNextChunk, FIELD_G3D_MAP_Draw, FIELD_G3D_MAP_DrawPlacedModels, FIELD_G3D_MAP_CanQueryHits, FIELD_G3D_MAP_QueryHits, FIELD_G3D_MAP_QueryPlane, FIELD_G3D_MAP_ClearPlacements, FIELD_G3D_MAP_Reset, FIELD_G3D_MAP_InitRenderObj, FIELD_G3D_MAP_ClearRenderObjModel, FIELD_G3D_MAP_TestModelBox, FIELD_G3D_MAP_RunBoxTest, FIELD_G3D_MAP_PickTextureRes, FIELD_G3D_MAP_ReadWhole
  * address:  0x02169148
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -16,17 +16,17 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   sub_02030734   0x02030734  arm
- *   func_02046C94  0x02046C94  arm
+ *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   d_02172A40     0x02172A40  data
  *   g_020A8140     0x020A8140  data
  *   g_020A8148     0x020A8148  data
  *   d_020A814C     0x020A814C  data   a4
  *   d_020A8144     0x020A8144  data   a4
  *   func_020490F4 0x020490F4 arm
- *   func_02049238  0x02049238  arm
- *   func_0204944C  0x0204944C  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   func_02046C9C 0x02046C9C arm
- *   func_020493D4  0x020493D4  arm
+ *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   NNS_G3dGlbBaseTrans  0x0206A9DC  arm
  *   func_02082B60  0x02082B60  arm
@@ -39,22 +39,22 @@
  *   d_02148C08     0x02148C08  data   a4
  *   d_02148BCC     0x02148BCC  data   a4
  *   d_02172160     0x02172160  data   ov010  a4
- *   d_02148B98     0x02148B98  data   a4
- *   func_02047788  0x02047788  arm
- *   func_0204755C  0x0204755C  arm
+ *   gG3dBaseMtx43     0x02148B98  data   a4
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
+ *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   VEC_Add        0x0207C9D0  arm
  *   MTX_RotY33_    0x0207AF1C  thumb
  *   tbl_020A1B38   0x020A1B38  data
  *   func_0207CA00  0x0207CA00  arm
- *   func_02046F48  0x02046F48  arm
- *   func_0206E954  0x0206E954  arm
- *   func_0206E964  0x0206E964  arm
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
+ *   NNS_G3dGetMdlSet  0x0206E954  arm
+ *   NNS_G3dGetTex  0x0206E964  arm
  *   func_0206A2CC  0x0206A2CC  arm
  *   func_0206A4AC  0x0206A4AC  arm
  *   func_02069D14  0x02069D14  arm
  *   func_0206DB80  0x0206DB80  arm
  *   func_0207DEA4  0x0207DEA4  arm
- *   func_0204932C 0x0204932C arm
+ *   ARC_TOOL_ReadHandleMember 0x0204932C arm
  */
 #include "field_g3d_map_types.h"
 
@@ -78,12 +78,12 @@ typedef struct FieldG3dMapGlbState {
 
 extern u32 func_020307B0(void *p);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern int func_02046C94(void);
+extern int G3D_SYSTEM_GetResourceSize(void);
 extern ArcFile *func_020490F4(unsigned int id, unsigned int heapId);
-extern void func_02049238(ArcFile *archive);
-extern void func_0204944C(ArcFile *archive, u32 member, u32 offset, u32 size, void *dst);
+extern void ARC_TOOL_DeleteHandle(ArcFile *archive);
+extern void ARC_TOOL_ReadHandleMemberRange(ArcFile *archive, u32 member, u32 offset, u32 size, void *dst);
 extern void func_02046C9C(void *record, u32 mode, u32 value);
-extern u32 func_020493D4(ArcFile *archive, u32 member);
+extern u32 ARC_TOOL_GetHandleMemberSize(ArcFile *archive, u32 member);
 extern void ARC_TOOL_ReadHandle(ArcFile *archive, u32 size, void *dst);
 extern void NNS_G3dGlbBaseTrans(void *p);
 extern void func_02082B60(void *a, void *b);
@@ -91,67 +91,67 @@ extern void NNS_G3dGlbBaseScale(void *p);
 extern void func_0206A854(void);
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void G3D_SYSTEM_DrawRenderObj(FieldG3dMapRenderObj *renderObj);
-extern void *func_02047788(void *res);
-extern FieldG3dMapRenderObj *func_0204755C(void *res);
+extern void *G3D_SYSTEM_GetObjectRender(void *res);
+extern FieldG3dMapRenderObj *G3D_SYSTEM_GetRenderObj(void *res);
 extern void VEC_Add(const FieldG3dMapVec *a, const FieldG3dMapVec *b, FieldG3dMapVec *dst);
 extern void MTX_RotY33_(void *m, short sinv, short cosv);
 extern void func_0207CA00(const FieldG3dMapVec *pos, const FieldG3dMapVec *origin, FieldG3dMapVec *out);
-extern void *func_02046F48(void *handle);
-extern int func_0206E954(int p0);
-extern unsigned char *func_0206E964(unsigned char *p);
+extern void *G3D_SYSTEM_GetResourceFile(void *handle);
+extern int NNS_G3dGetMdlSet(int p0);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void func_0206A2CC(void *a, void *b);
 extern void func_0206A4AC(void *a, void *b);
 extern void func_02069D14(void *a, void *b);
 extern void func_0206DB80(void);
 extern int func_0207DEA4(int *result);
-extern void func_0204932C(ArcFile *archive, u32 member, void *dst);
-FieldG3dMap *func_02169148(const FieldG3dMapConfig *cfg, u32 heapId);
-void func_0216928C(FieldG3dMap *map);
-void func_02169308(FieldG3dMap *map);
-int func_0216932C(FieldG3dMap *map);
-int func_02169354(FieldG3dMap *map, int arg);
-void func_0216937C(FieldG3dMap *map, int archiveId, int heapId);
-void func_021693A0(FieldG3dMap *map);
-void func_021693B4(FieldG3dMap *map, void *textureRes);
-void func_021693BC(FieldG3dMap *map);
-void func_021693C4(FieldG3dMap *map, FieldG3dMapModelSet *placedModels);
-void func_021693CC(FieldG3dMap *map);
-void func_021693D4(FieldG3dMap *map, FieldG3dMapPlacement *src, u32 index);
-void func_0216940C(FieldG3dMap *map, u32 index);
-FieldG3dMapPlacement *func_02169444(FieldG3dMap *map, u32 index);
-void func_02169470(FieldG3dMap *map, u32 memberIndex);
-void func_021694D4(FieldG3dMap *map, int unused);
-void func_021694F8(FieldG3dMap *map, u16 visible);
-u16 func_021694FC(FieldG3dMap *map);
-void func_02169500(FieldG3dMap *map, const FieldG3dMapVec *pos);
-void func_02169510(FieldG3dMap *map, FieldG3dMapVec *dst);
-u16 *func_02169520(FieldG3dMap *map, u16 **out);
-void func_02169528(FieldG3dMap *map, u8 **out);
-void func_02169530(FieldG3dMap *map, u32 *out);
-void func_02169538(FieldG3dMap *map, u32 *out);
-void func_02169540(FieldG3dMap *map, u32 value);
-void func_02169550(FieldG3dMap *map);
-void *func_02169560(FieldG3dMap *map);
-void func_02169568(FieldG3dMap *map);
-void *func_02169578(FieldG3dMap *map);
-void func_02169580(FieldG3dMap *map);
-FieldG3dMapRenderObj *func_02169598(FieldG3dMap *map);
-void func_0216959C(FieldG3dMap *map);
-void func_021695BC(FieldG3dMap *map, u32 member);
-int func_02169620(FieldG3dMap *map);
-int func_0216968C(FieldG3dMap *map);
-void func_02169710(FieldG3dMap *map, int unused);
-int func_021697E0(FieldG3dMap *map);
-void func_02169800(FieldG3dMapHitList *out, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize);
-void func_02169848(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize);
-void func_02169880(FieldG3dMap *map);
-void func_0216990C(FieldG3dMap *map);
-void func_02169928(FieldG3dMapRenderObj *renderObj, void *modelRes, void *textureRes);
-FieldG3dMapRenderObj *func_02169998(FieldG3dMapRenderObj *renderObj, int unused);
-int func_021699A0(FieldG3dMapModel *model);
-u32 func_02169A14(const short *box);
-void *func_02169A68(FieldG3dMap *map);
-void func_02169A88(FieldG3dMap *map, u32 member);
+extern void ARC_TOOL_ReadHandleMember(ArcFile *archive, u32 member, void *dst);
+FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId);
+void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);
+void FIELD_G3D_MAP_Update(FieldG3dMap *map);
+int FIELD_G3D_MAP_WaitLoad(FieldG3dMap *map);
+int FIELD_G3D_MAP_DrawWithModels(FieldG3dMap *map, int arg);
+void FIELD_G3D_MAP_OpenArchive(FieldG3dMap *map, int archiveId, int heapId);
+void FIELD_G3D_MAP_CloseArchive(FieldG3dMap *map);
+void FIELD_G3D_MAP_SetAltTextureRes(FieldG3dMap *map, void *textureRes);
+void FIELD_G3D_MAP_ClearAltTextureRes(FieldG3dMap *map);
+void FIELD_G3D_MAP_SetPlacedModels(FieldG3dMap *map, FieldG3dMapModelSet *placedModels);
+void FIELD_G3D_MAP_ClearPlacedModels(FieldG3dMap *map);
+void FIELD_G3D_MAP_SetPlacement(FieldG3dMap *map, FieldG3dMapPlacement *src, u32 index);
+void FIELD_G3D_MAP_ClearPlacement(FieldG3dMap *map, u32 index);
+FieldG3dMapPlacement *FIELD_G3D_MAP_GetPlacement(FieldG3dMap *map, u32 index);
+void FIELD_G3D_MAP_StartLoad(FieldG3dMap *map, u32 memberIndex);
+void FIELD_G3D_MAP_Unload(FieldG3dMap *map, int unused);
+void FIELD_G3D_MAP_SetVisible(FieldG3dMap *map, u16 visible);
+u16 FIELD_G3D_MAP_IsVisible(FieldG3dMap *map);
+void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const FieldG3dMapVec *pos);
+void FIELD_G3D_MAP_GetPos(FieldG3dMap *map, FieldG3dMapVec *dst);
+u16 *FIELD_G3D_MAP_GetActiveRef(FieldG3dMap *map, u16 **out);
+void FIELD_G3D_MAP_GetBuffer(FieldG3dMap *map, u8 **out);
+void FIELD_G3D_MAP_GetMemberIndex(FieldG3dMap *map, u32 *out);
+void FIELD_G3D_MAP_GetTotalBytes(FieldG3dMap *map, u32 *out);
+void FIELD_G3D_MAP_SetModelRes(FieldG3dMap *map, u32 value);
+void FIELD_G3D_MAP_ClearModelRes(FieldG3dMap *map);
+void *FIELD_G3D_MAP_GetModelRes(FieldG3dMap *map);
+void FIELD_G3D_MAP_ClearTextureRes(FieldG3dMap *map);
+void *FIELD_G3D_MAP_GetTextureRes(FieldG3dMap *map);
+void FIELD_G3D_MAP_BindRenderObj(FieldG3dMap *map);
+FieldG3dMapRenderObj *FIELD_G3D_MAP_GetRenderObj(FieldG3dMap *map);
+void FIELD_G3D_MAP_ResetLoadState(FieldG3dMap *map);
+void FIELD_G3D_MAP_BeginChunkedLoad(FieldG3dMap *map, u32 member);
+int FIELD_G3D_MAP_ReadNextChunk(FieldG3dMap *map);
+int FIELD_G3D_MAP_Draw(FieldG3dMap *map);
+void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused);
+int FIELD_G3D_MAP_CanQueryHits(FieldG3dMap *map);
+void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize);
+void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize);
+void FIELD_G3D_MAP_ClearPlacements(FieldG3dMap *map);
+void FIELD_G3D_MAP_Reset(FieldG3dMap *map);
+void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes, void *textureRes);
+FieldG3dMapRenderObj *FIELD_G3D_MAP_ClearRenderObjModel(FieldG3dMapRenderObj *renderObj, int unused);
+int FIELD_G3D_MAP_TestModelBox(FieldG3dMapModel *model);
+u32 FIELD_G3D_MAP_RunBoxTest(const short *box);
+void *FIELD_G3D_MAP_PickTextureRes(FieldG3dMap *map);
+void FIELD_G3D_MAP_ReadWhole(FieldG3dMap *map, u32 member);
 
 extern const char d_02172A40[];
 extern u8 d_0217216C[];
@@ -159,7 +159,7 @@ extern u8 d_02172178[];
 extern u8 d_02148C08[];
 extern FieldG3dMapGlbState d_02148BCC;
 extern u8 d_02172160[];
-extern u8 d_02148B98[];
+extern u8 gG3dBaseMtx43[];
 extern short tbl_020A1B38[];
 extern u32 (*g_020A8140)(u32 size, u32 is4x4, u32 opt);
 extern u32 (*g_020A8148)(u32 size, u32 is4pltt, u32 opt);
@@ -172,13 +172,13 @@ extern void (*d_020A8144)(u32);
  * keys through the allocator hooks. Levers: the buffer size from cfg (not the
  * just-stored copy), and the render object model cleared through renderObjRef.
  */
-FieldG3dMap *func_02169148(const FieldG3dMapConfig *cfg, u32 heapId)
+FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId)
 {
     FieldG3dMap *map;
     u32 recordSize;
 
     map = sub_02030734(heapId, sizeof(FieldG3dMap), 1, d_02172A40, 0x6E);
-    recordSize = func_02046C94();
+    recordSize = G3D_SYSTEM_GetResourceSize();
     map->placementCountA = cfg->placementCountA;
     map->placementCountB = cfg->placementCountB;
     map->extraParam0 = cfg->extraParam0;
@@ -187,7 +187,7 @@ FieldG3dMap *func_02169148(const FieldG3dMapConfig *cfg, u32 heapId)
         map->placementsA = sub_02030734(heapId, cfg->placementCountA * 20, 1, d_02172A40, 0x77);
     if (map->placementCountB != 0)
         map->placementsB = sub_02030734(heapId, cfg->placementCountB * 20, 1, d_02172A40, 0x7A);
-    func_0216990C(map);
+    FIELD_G3D_MAP_Reset(map);
     map->typeTable = cfg->typeTable;
     map->bufferSize = cfg->bufferSize;
     map->buffer = sub_02030734(heapId, cfg->bufferSize, 1, d_02172A40, 0x86);
@@ -215,9 +215,9 @@ FieldG3dMap *func_02169148(const FieldG3dMapConfig *cfg, u32 heapId)
 }
 
 /* Destroy the map object: close the archive, free the VRAM keys and every buffer. */
-void func_0216928C(FieldG3dMap *map)
+void FIELD_G3D_MAP_Destroy(FieldG3dMap *map)
 {
-    func_021693A0(map);
+    FIELD_G3D_MAP_CloseArchive(map);
     if (map->texVramSize != 0) {
         d_020A814C(map->plttKey);
         d_020A8144(map->texKey);
@@ -237,7 +237,7 @@ void func_0216928C(FieldG3dMap *map)
  * active. Address arithmetic: the unsigned 32-bit index scaling and base
  * addition keep the original lsls/adds wraparound without an invented bound.
  */
-void func_02169308(FieldG3dMap *map)
+void FIELD_G3D_MAP_Update(FieldG3dMap *map)
 {
     FieldG3dMapUpdateFunc update;
 
@@ -249,84 +249,84 @@ void func_02169308(FieldG3dMap *map)
 }
 
 /* Run update steps in synchronous load mode until the object is no longer active. */
-int func_0216932C(FieldG3dMap *map)
+int FIELD_G3D_MAP_WaitLoad(FieldG3dMap *map)
 {
     u16 *activeRef;
 
     map->loadSync = 1;
     do {
-        func_02169308(map);
-        func_02169520(map, &activeRef);
+        FIELD_G3D_MAP_Update(map);
+        FIELD_G3D_MAP_GetActiveRef(map, &activeRef);
     } while (*activeRef != 0);
     map->loadSync = 0;
     return 0;
 }
 
 /* Draw the map model and, when it was drawn and has placed models, those models too. */
-int func_02169354(FieldG3dMap *map, int arg)
+int FIELD_G3D_MAP_DrawWithModels(FieldG3dMap *map, int arg)
 {
     int drawn;
 
     drawn = 0;
-    if (func_0216968C(map) == 1) {
+    if (FIELD_G3D_MAP_Draw(map) == 1) {
         if (map->placedModels != 0)
-            func_02169710(map, arg);
+            FIELD_G3D_MAP_DrawPlacedModels(map, arg);
         drawn = 1;
     }
     return drawn;
 }
 
 /* Reset the object, clear the render object model and open the archive. */
-void func_0216937C(FieldG3dMap *map, int archiveId, int heapId)
+void FIELD_G3D_MAP_OpenArchive(FieldG3dMap *map, int archiveId, int heapId)
 {
-    func_0216990C(map);
-    func_021693A0(map);
+    FIELD_G3D_MAP_Reset(map);
+    FIELD_G3D_MAP_CloseArchive(map);
     map->renderObjRef->model = 0;
     map->archive = func_020490F4(archiveId, heapId);
 }
 
 /* Close the archive if one is open. */
-void func_021693A0(FieldG3dMap *map)
+void FIELD_G3D_MAP_CloseArchive(FieldG3dMap *map)
 {
     if (map->archive != 0) {
-        func_02049238(map->archive);
+        ARC_TOOL_DeleteHandle(map->archive);
         map->archive = 0;
     }
 }
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from ov021 func_0218CEE4.
+ * called from ov021 FIELD_G3D_MAPPER_Setup.
  */
-void func_021693B4(FieldG3dMap *map, void *textureRes)
+void FIELD_G3D_MAP_SetAltTextureRes(FieldG3dMap *map, void *textureRes)
 {
     map->altTextureRes = textureRes;
 }
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from ov021 func_0218D05C.
+ * called from ov021 FIELD_G3D_MAPPER_ReleaseBlocks.
  */
-void func_021693BC(FieldG3dMap *map)
+void FIELD_G3D_MAP_ClearAltTextureRes(FieldG3dMap *map)
 {
     map->altTextureRes = 0;
 }
 
-void func_021693C4(FieldG3dMap *map, FieldG3dMapModelSet *placedModels)
+void FIELD_G3D_MAP_SetPlacedModels(FieldG3dMap *map, FieldG3dMapModelSet *placedModels)
 {
     map->placedModels = placedModels;
 }
 
-void func_021693CC(FieldG3dMap *map)
+void FIELD_G3D_MAP_ClearPlacedModels(FieldG3dMap *map)
 {
     map->placedModels = 0;
 }
 
 /*
- * Unlabelled leaf (blocker of ov021 func_0218C4A0).  Stores a 0x14-byte
+ * Unlabelled leaf (blocker of ov021 FIELD_BUILDMODEL_AddEntry).  Stores a 0x14-byte
  * placement (index, position, angle) into entry `index` of table A.
  */
-void func_021693D4(FieldG3dMap *map, FieldG3dMapPlacement *src, u32 index)
+void FIELD_G3D_MAP_SetPlacement(FieldG3dMap *map, FieldG3dMapPlacement *src, u32 index)
 {
     map->placementsA[index].modelIndex = src->modelIndex;
     map->placementsA[index].pos = src->pos;
@@ -334,7 +334,7 @@ void func_021693D4(FieldG3dMap *map, FieldG3dMapPlacement *src, u32 index)
 }
 
 /* Reset the 0x14-byte entry `index` of placement table A. */
-void func_0216940C(FieldG3dMap *map, u32 index)
+void FIELD_G3D_MAP_ClearPlacement(FieldG3dMap *map, u32 index)
 {
     FieldG3dMapPlacement *entry;
 
@@ -351,11 +351,11 @@ void func_0216940C(FieldG3dMap *map, u32 index)
 }
 
 /*
- * Unlabelled leaf (blocker of ov021 func_0218C4A0).  Returns entry `index` of
+ * Unlabelled leaf (blocker of ov021 FIELD_BUILDMODEL_AddEntry).  Returns entry `index` of
  * placement table A, or 0 if the index is out of range or the entry is unused
  * (model index -1).
  */
-FieldG3dMapPlacement *func_02169444(FieldG3dMap *map, u32 index)
+FieldG3dMapPlacement *FIELD_G3D_MAP_GetPlacement(FieldG3dMap *map, u32 index)
 {
     FieldG3dMapPlacement *entry;
 
@@ -388,19 +388,19 @@ static inline int FIELD_G3D_MAP_FindTypeIndex(const u16 *key, const FieldG3dMapT
  * them the table lands in r0 and the sentinel in r1 (tried: one temporary,
  * none).
  */
-void func_02169470(FieldG3dMap *map, u32 memberIndex)
+void FIELD_G3D_MAP_StartLoad(FieldG3dMap *map, u32 memberIndex)
 {
     u16 key;
     const FieldG3dMapType *typeTable;
     int typeIndex;
     const FieldG3dMapType *tableTmp;
 
-    func_02169998(map->renderObjRef, memberIndex);
-    func_02169550(map);
-    func_02169568(map);
-    func_02169880(map);
+    FIELD_G3D_MAP_ClearRenderObjModel(map->renderObjRef, memberIndex);
+    FIELD_G3D_MAP_ClearModelRes(map);
+    FIELD_G3D_MAP_ClearTextureRes(map);
+    FIELD_G3D_MAP_ClearPlacements(map);
     map->memberIndex = memberIndex;
-    func_0204944C(map->archive, memberIndex, 0, 2, &key);
+    ARC_TOOL_ReadHandleMemberRange(map->archive, memberIndex, 0, 2, &key);
     tableTmp = map->typeTable;
     typeTable = map->typeTable;
     typeIndex = FIELD_G3D_MAP_FindTypeIndex(&key, tableTmp);
@@ -410,40 +410,40 @@ void func_02169470(FieldG3dMap *map, u32 memberIndex)
 }
 
 /* Unload the current member: clear the render object, both resource records and the load state. */
-void func_021694D4(FieldG3dMap *map, int unused)
+void FIELD_G3D_MAP_Unload(FieldG3dMap *map, int unused)
 {
-    func_02169998(map->renderObjRef, unused);
-    func_02169550(map);
-    func_02169568(map);
-    func_0216959C(map);
-    func_0216990C(map);
+    FIELD_G3D_MAP_ClearRenderObjModel(map->renderObjRef, unused);
+    FIELD_G3D_MAP_ClearModelRes(map);
+    FIELD_G3D_MAP_ClearTextureRes(map);
+    FIELD_G3D_MAP_ResetLoadState(map);
+    FIELD_G3D_MAP_Reset(map);
 }
 
-void func_021694F8(FieldG3dMap *map, u16 visible)
+void FIELD_G3D_MAP_SetVisible(FieldG3dMap *map, u16 visible)
 {
     map->visible = visible;
 }
 
-u16 func_021694FC(FieldG3dMap *map)
+u16 FIELD_G3D_MAP_IsVisible(FieldG3dMap *map)
 {
     return map->visible;
 }
 
-void func_02169500(FieldG3dMap *map, const FieldG3dMapVec *pos)
+void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const FieldG3dMapVec *pos)
 {
     map->pos = *pos;
 }
 
 /*
- * Unlabelled leaf (blocker of ov021 func_0218C724).  Copies the position to dst.
+ * Unlabelled leaf (blocker of ov021 FIELD_BUILDMODEL_CreateNodeFromEntry).  Copies the position to dst.
  */
-void func_02169510(FieldG3dMap *map, FieldG3dMapVec *dst)
+void FIELD_G3D_MAP_GetPos(FieldG3dMap *map, FieldG3dMapVec *dst)
 {
     *dst = map->pos;
 }
 
 /* Store the address of the active flag in *out and return it. */
-u16 *func_02169520(FieldG3dMap *map, u16 **out)
+u16 *FIELD_G3D_MAP_GetActiveRef(FieldG3dMap *map, u16 **out)
 {
     u16 *activeRef;
 
@@ -453,70 +453,70 @@ u16 *func_02169520(FieldG3dMap *map, u16 **out)
 }
 
 /* Unlabelled leaf accessor: copies the data buffer pointer to *out. */
-void func_02169528(FieldG3dMap *map, u8 **out)
+void FIELD_G3D_MAP_GetBuffer(FieldG3dMap *map, u8 **out)
 {
     *out = map->buffer;
 }
 
 /* Unlabelled leaf accessor: copies the archive member index to *out. */
-void func_02169530(FieldG3dMap *map, u32 *out)
+void FIELD_G3D_MAP_GetMemberIndex(FieldG3dMap *map, u32 *out)
 {
     *out = map->memberIndex;
 }
 
 /* Unlabelled leaf accessor: copies the total size of the member to *out. */
-void func_02169538(FieldG3dMap *map, u32 *out)
+void FIELD_G3D_MAP_GetTotalBytes(FieldG3dMap *map, u32 *out)
 {
     *out = map->totalBytes;
 }
 
 /* Unlabelled leaf: tail call that fills the model resource record. */
-void func_02169540(FieldG3dMap *map, u32 value)
+void FIELD_G3D_MAP_SetModelRes(FieldG3dMap *map, u32 value)
 {
     func_02046C9C(map->modelRes, 1, value);
 }
 
 /* Empty the model resource record. */
-void func_02169550(FieldG3dMap *map)
+void FIELD_G3D_MAP_ClearModelRes(FieldG3dMap *map)
 {
     func_02046C9C(map->modelRes, 1, 0);
 }
 
 /* Unlabelled leaf accessor: returns the model resource record. */
-void *func_02169560(FieldG3dMap *map)
+void *FIELD_G3D_MAP_GetModelRes(FieldG3dMap *map)
 {
     return map->modelRes;
 }
 
 /* Empty the texture resource record. */
-void func_02169568(FieldG3dMap *map)
+void FIELD_G3D_MAP_ClearTextureRes(FieldG3dMap *map)
 {
     func_02046C9C(map->textureRes, 2, 0);
 }
 
 /* Unlabelled leaf: forwarding tail call to the texture resource picker. */
-void *func_02169578(FieldG3dMap *map)
+void *FIELD_G3D_MAP_GetTextureRes(FieldG3dMap *map)
 {
-    return func_02169A68(map);
+    return FIELD_G3D_MAP_PickTextureRes(map);
 }
 
 /* Bind the model and the picked texture resource to the render object. */
-void func_02169580(FieldG3dMap *map)
+void FIELD_G3D_MAP_BindRenderObj(FieldG3dMap *map)
 {
     void *textureRes;
 
-    textureRes = func_02169A68(map);
-    func_02169928(map->renderObjRef, map->modelRes, textureRes);
+    textureRes = FIELD_G3D_MAP_PickTextureRes(map);
+    FIELD_G3D_MAP_InitRenderObj(map->renderObjRef, map->modelRes, textureRes);
 }
 
 /* Unlabelled leaf accessor: returns the render object pointer. */
-FieldG3dMapRenderObj *func_02169598(FieldG3dMap *map)
+FieldG3dMapRenderObj *FIELD_G3D_MAP_GetRenderObj(FieldG3dMap *map)
 {
     return map->renderObjRef;
 }
 
 /* Clear the load progress fields. */
-void func_0216959C(FieldG3dMap *map)
+void FIELD_G3D_MAP_ResetLoadState(FieldG3dMap *map)
 {
     map->bufferOffset = 0;
     map->loadStageA = 0;
@@ -530,24 +530,24 @@ void func_0216959C(FieldG3dMap *map)
  * read the first chunk. lever: the archive length call takes the still-live
  * member argument.
  */
-void func_021695BC(FieldG3dMap *map, u32 member)
+void FIELD_G3D_MAP_BeginChunkedLoad(FieldG3dMap *map, u32 member)
 {
     u8 *dst;
 
     if (map->loadSync != 0) {
-        func_02169A88(map, member);
+        FIELD_G3D_MAP_ReadWhole(map, member);
         return;
     }
     dst = map->buffer + map->bufferOffset;
-    map->totalBytes = func_020493D4(map->archive, member);
+    map->totalBytes = ARC_TOOL_GetHandleMemberSize(map->archive, member);
     map->loadedBytes = 0;
-    func_0204944C(map->archive, member, 0, map->chunkSize, dst);
+    ARC_TOOL_ReadHandleMemberRange(map->archive, member, 0, map->chunkSize, dst);
     map->bufferOffset = map->bufferOffset + map->chunkSize;
     map->loadedBytes = map->loadedBytes + map->chunkSize;
 }
 
 /* Read the next chunk of the member; returns 1 while more chunks remain. */
-int func_02169620(FieldG3dMap *map)
+int FIELD_G3D_MAP_ReadNextChunk(FieldG3dMap *map)
 {
     u8 *buffer;
     u32 offset;
@@ -574,7 +574,7 @@ int func_02169620(FieldG3dMap *map)
 }
 
 /* Draw the map model at its position when it is visible and its box test passes; returns 1 if drawn. */
-int func_0216968C(FieldG3dMap *map)
+int FIELD_G3D_MAP_Draw(FieldG3dMap *map)
 {
     int drawn;
 
@@ -586,9 +586,9 @@ int func_0216968C(FieldG3dMap *map)
         NNS_G3dGlbBaseScale(d_02172160);
         func_0206A854();
         func_0206DDA4(0x15, 0, 0);
-        func_0206DDA4(0x17, d_02148B98, 0xc);
+        func_0206DDA4(0x17, gG3dBaseMtx43, 0xc);
         func_0206DDA4(0x1c, &map->pos, 3);
-        if (func_021699A0(map->renderObjRef->model) == 1) {
+        if (FIELD_G3D_MAP_TestModelBox(map->renderObjRef->model) == 1) {
             G3D_SYSTEM_DrawRenderObj(map->renderObjRef);
             drawn = 1;
         }
@@ -603,7 +603,7 @@ int func_0216968C(FieldG3dMap *map)
  * entry's angle translated by the map position plus the entry's position
  * (command 0x19, 4x3 multiply), box-tests the model and draws it.
  */
-void func_02169710(FieldG3dMap *map, int unused)
+void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused)
 {
     FieldG3dMapModelRes *modelRes = map->placedModels->res;
     u32 count = map->placedModels->count;
@@ -624,7 +624,7 @@ void func_02169710(FieldG3dMap *map, int unused)
         if (modelIndex == (u32)-1 || modelIndex >= count) {
             continue;
         }
-        renderObj = func_0204755C(func_02047788(modelRes[modelIndex].modelData));
+        renderObj = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(modelRes[modelIndex].modelData));
         model = renderObj->model;
         if (model == 0) {
             continue;
@@ -632,11 +632,11 @@ void func_02169710(FieldG3dMap *map, int unused)
         angleIndex = map->placementsA[i].angle >> 4;
         sinAngle = tbl_020A1B38[angleIndex * 2];
         cosAngle = tbl_020A1B38[angleIndex * 2 + 1];
-        func_0206DDA4(0x17, d_02148B98, 12);
+        func_0206DDA4(0x17, gG3dBaseMtx43, 12);
         VEC_Add(&map->pos, &map->placementsA[i].pos, &mtx.trans);
         MTX_RotY33_(&mtx, sinAngle, cosAngle);
         func_0206DDA4(0x19, &mtx, 12);
-        if (func_021699A0(model) == 1) {
+        if (FIELD_G3D_MAP_TestModelBox(model) == 1) {
             G3D_SYSTEM_DrawRenderObj(renderObj);
         }
     }
@@ -644,10 +644,10 @@ void func_02169710(FieldG3dMap *map, int unused)
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from ov021 func_0218DBD4.  Returns 1 if data is ready and the block
+ * called from ov021 FIELD_G3D_MAPPER_CheckSlotReady.  Returns 1 if data is ready and the block
  * type has a hit query callback.
  */
-int func_021697E0(FieldG3dMap *map)
+int FIELD_G3D_MAP_CanQueryHits(FieldG3dMap *map)
 {
     if (map->dataReady == 0
         || map->typeTable[map->typeIndex].queryHits == 0)
@@ -656,7 +656,7 @@ int func_021697E0(FieldG3dMap *map)
 }
 
 /* Query the hits of the block type at `pos` (relative to the map position). */
-void func_02169800(FieldG3dMapHitList *out, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize)
+void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize)
 {
     FieldG3dMapVec localPos;
     u32 height;
@@ -678,7 +678,7 @@ void func_02169800(FieldG3dMapHitList *out, FieldG3dMap *map, const FieldG3dMapV
  * output proof: func_0207CA00 stores localPos at 0207CA20/0207CA28; the
  * callback receives that initialized three-word vector, with original arity.
  */
-void func_02169848(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize)
+void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize)
 {
     FieldG3dMapVec localPos;
     FieldG3dMapQueryFunc query;
@@ -692,7 +692,7 @@ void func_02169848(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 
  * Reset both placement tables (model index -1, zero position and angle).
  * The second loop's final store goes through table A, as the bytes show.
  */
-void func_02169880(FieldG3dMap *map)
+void FIELD_G3D_MAP_ClearPlacements(FieldG3dMap *map)
 {
     int i;
     FieldG3dMapPlacement *entry;
@@ -716,7 +716,7 @@ void func_02169880(FieldG3dMap *map)
 }
 
 /* Reset visibility, position, member index and active flag, and clear the placement tables. */
-void func_0216990C(FieldG3dMap *map)
+void FIELD_G3D_MAP_Reset(FieldG3dMap *map)
 {
     map->visible = 0;
     map->pos.x = 0;
@@ -724,7 +724,7 @@ void func_0216990C(FieldG3dMap *map)
     map->pos.z = 0;
     map->active = 0;
     map->memberIndex = 0;
-    func_02169880(map);
+    FIELD_G3D_MAP_ClearPlacements(map);
 }
 
 /* Data pointer of entry `index` of the dictionary in `dict`, or 0 if out of range. */
@@ -739,7 +739,7 @@ static inline u32 *FIELD_G3D_MAP_GetDictData(FieldG3dMapDictBlock *dict, u32 ind
 }
 
 /* Initialize the render object from the model resource and bind the texture resource to it. */
-void func_02169928(FieldG3dMapRenderObj *renderObj, void *modelRes, void *textureRes)
+void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes, void *textureRes)
 {
     u8 *modelFile;
     u32 *entry;
@@ -747,16 +747,16 @@ void func_02169928(FieldG3dMapRenderObj *renderObj, void *modelRes, void *textur
     void *texture;
     void *textureFile;
 
-    model = func_02046F48(modelRes);
-    textureFile = func_02046F48(textureRes);
+    model = G3D_SYSTEM_GetResourceFile(modelRes);
+    textureFile = G3D_SYSTEM_GetResourceFile(textureRes);
     texture = 0;
-    modelFile = (u8 *)func_0206E954((int)model);
+    modelFile = (u8 *)NNS_G3dGetMdlSet((int)model);
     if (modelFile != 0 && (entry = FIELD_G3D_MAP_GetDictData((FieldG3dMapDictBlock *)modelFile, 0)) != 0)
         model = modelFile + *entry;
     else
         model = 0;
     if (textureFile != 0)
-        texture = func_0206E964(textureFile);
+        texture = NNS_G3dGetTex(textureFile);
     if (texture != 0) {
         func_0206A2CC(model, texture);
         func_0206A4AC(model, texture);
@@ -765,7 +765,7 @@ void func_02169928(FieldG3dMapRenderObj *renderObj, void *modelRes, void *textur
 }
 
 /* Clear the model of the render object; returns the render object. */
-FieldG3dMapRenderObj *func_02169998(FieldG3dMapRenderObj *renderObj, int unused)
+FieldG3dMapRenderObj *FIELD_G3D_MAP_ClearRenderObjModel(FieldG3dMapRenderObj *renderObj, int unused)
 {
     renderObj->model = 0;
     return renderObj;
@@ -775,7 +775,7 @@ FieldG3dMapRenderObj *func_02169998(FieldG3dMapRenderObj *renderObj, int unused)
  * Box test of the model bounding box (pipeline commands 0x11 push, 0x1b
  * scale, 0x12 pop around the test); returns 0 if the box is outside.
  */
-int func_021699A0(FieldG3dMapModel *model)
+int FIELD_G3D_MAP_TestModelBox(FieldG3dMapModel *model)
 {
     short box[6];
     u32 scale[3];
@@ -796,7 +796,7 @@ int func_021699A0(FieldG3dMapModel *model)
     scale[1] = scale[0];
     scale[2] = scale[0];
     func_0206DDA4(0x1b, scale, 3);
-    if (func_02169A14(box) == 0)
+    if (FIELD_G3D_MAP_RunBoxTest(box) == 0)
         visible = 0;
     one = 1;
     func_0206DDA4(0x12, &one, 1);
@@ -804,7 +804,7 @@ int func_021699A0(FieldG3dMapModel *model)
 }
 
 /* Run a box test of the 6 halfwords at `box` and wait for the result; returns it. */
-u32 func_02169A14(const short *box)
+u32 FIELD_G3D_MAP_RunBoxTest(const short *box)
 {
     int result;
     u32 polygonAttr;
@@ -827,11 +827,11 @@ u32 func_02169A14(const short *box)
  * Pick the texture resource record: the main one when it holds a resource,
  * else the alternate one if set, else the main one anyway.
  */
-void *func_02169A68(FieldG3dMap *map)
+void *FIELD_G3D_MAP_PickTextureRes(FieldG3dMap *map)
 {
     void *textureRes;
 
-    textureRes = func_02046F48(map->textureRes);
+    textureRes = G3D_SYSTEM_GetResourceFile(map->textureRes);
     if (textureRes == 0) {
         textureRes = map->altTextureRes;
         if (textureRes != 0)
@@ -841,14 +841,14 @@ void *func_02169A68(FieldG3dMap *map)
 }
 
 /* Read the whole member `member` into the buffer in one step. */
-void func_02169A88(FieldG3dMap *map, u32 member)
+void FIELD_G3D_MAP_ReadWhole(FieldG3dMap *map, u32 member)
 {
     void *dst;
     u32 size;
 
     dst = map->buffer;
-    size = func_020493D4(map->archive, member);
-    func_0204932C(map->archive, member, dst);
+    size = ARC_TOOL_GetHandleMemberSize(map->archive, member);
+    ARC_TOOL_ReadHandleMember(map->archive, member, dst);
     map->totalBytes = size;
     map->bufferOffset = size;
     map->loadedBytes = size;

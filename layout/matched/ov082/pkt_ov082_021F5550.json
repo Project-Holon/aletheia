@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F5550",
+   "name": "FLD_FACEUP_StartClose",
    "address": "0x021F5550",
    "kind": "game",
    "region": "ov082",

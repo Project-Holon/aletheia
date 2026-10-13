@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217AFC4",
+   "name": "INTRUDE_FIELD_FindRemotePlayerAhead",
    "address": "0x0217AFC4",
    "kind": "game",
    "region": "ov018",

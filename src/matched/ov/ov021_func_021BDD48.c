@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD48
+ * function: ENTRANCE_CAMERA_IsInstant
  * address:  0x021BDD48
  * packet:   pkt_ov021_021BDD48
  * region:   ov021
@@ -18,7 +18,7 @@ typedef struct Obj {
     void *f08;
 } Obj;
 
-int func_021BDD48(Obj *o)
+int ENTRANCE_CAMERA_IsInstant(Obj *o)
 {
     if (o->f08 == 0) {
         return 1;

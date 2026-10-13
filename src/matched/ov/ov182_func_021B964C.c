@@ -15,7 +15,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_0201D83C 0x0201D83C thumb
+ *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021B998C 0x021B998C thumb ov182
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
@@ -34,7 +34,7 @@ struct S020315D4;
 extern void func_02030EAC(struct Node *n);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021B998C(char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
@@ -49,7 +49,7 @@ int func_021B964C(void *task, int b, int c, char *p)
     func_02030EAC(((struct Obj06593 *)p)->f14);
     func_0201C6EC(((struct Obj06593 *)p)->fC);
     func_0201C4C0(((struct Obj06593 *)p)->fC);
-    func_0201D83C(((struct Obj06593 *)p)->f8);
+    GF_FONT_Delete(((struct Obj06593 *)p)->f8);
     func_021B998C(((struct Obj06593 *)p)->f4);
     func_020315D4(task);
     func_020306F0(0x88);

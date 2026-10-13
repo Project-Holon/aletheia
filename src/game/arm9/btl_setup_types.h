@@ -10,8 +10,8 @@
  * from what each constructor call creates and what each accessor is used
  * for, so the thin ones can still be refined.
  *
- * BattleSetupParam is the 0xF0-byte object that func_02013090 allocates
- * (anchor btl_setup.c) and the builders func_0201347C..BTL_SETUP_SetupCommRotation fill.
+ * BattleSetupParam is the 0xF0-byte object that BTL_SETUP_Create allocates
+ * (anchor btl_setup.c) and the builders BTL_SETUP_SetupWild..BTL_SETUP_SetupCommRotation fill.
  */
 
 /* A map position kept by the game data object (0x1C bytes). */
@@ -44,7 +44,7 @@ union RailLocation {
 
 /*
  * Status block of a player (0x20 bytes). GAME_DATA returns its address as
- * the player's status (func_02012944, func_02012950); the player work
+ * the player's status (GAME_DATA_GetMyStatus, GAME_DATA_GetPlayerStatus); the player work
  * constructor clears id, gender and romCode.
  */
 struct PlayerStatus {

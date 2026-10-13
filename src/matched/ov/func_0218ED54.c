@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED54
+ * function: FIELD_CAMERA_GetDistance
  * address:  0x0218ED54
  * packet:   pkt_0218EC2C
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0218ED54(u8 *p)
+u32 FIELD_CAMERA_GetDistance(u8 *p)
 {
     return ((struct Obj17913 *)p)->f7C;
 }

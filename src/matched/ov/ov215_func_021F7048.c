@@ -15,15 +15,15 @@
  *
  * symbols:
  *   func_02048A18    0x02048A18  arm
- *   func_02047910    0x02047910  arm
- *   func_020478B8    0x020478B8  arm
+ *   G3D_SYSTEM_LoopObjectAnimeFrame    0x02047910  arm
+ *   G3D_SYSTEM_IncObjectAnimeFrame    0x020478B8  arm
  */
 #include "../include/Obj01083.h"
 
 typedef unsigned short u16;
 
 extern void *func_02048A18(void *p, int v);
-extern int func_020478B8(void *p, int a, int b);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(void *p, int a, int b);
 
 void func_021F7048(char *p)
 {
@@ -32,20 +32,20 @@ void func_021F7048(char *p)
     int a, b;
 
     for (i = 0; i < ((struct Obj01083 *)p)->f50; i++) {
-        func_02047910(func_02048A18(((struct Obj01083 *)p)->f48,
+        G3D_SYSTEM_LoopObjectAnimeFrame(func_02048A18(((struct Obj01083 *)p)->f48,
                         *(u16 *)(*(char * *)&((struct Obj01083 *)p)->f54 + i * 0x44)), 0, 0x1000);
     }
     ((struct Obj01083 *)p)->f58 = ((struct Obj01083 *)p)->f58 + 1;
     q = func_02048A18(((struct Obj01083 *)p)->f48,
                       *(u16 *)(*(char * *)&((struct Obj01083 *)p)->f54 + ((struct Obj01083 *)p)->f4E * 0x44));
     if (((struct Obj01083 *)p)->f5C == 1) {
-        a = func_020478B8(q, 1, 0x5000);
-        b = func_020478B8(q, 2, 0x5000);
+        a = G3D_SYSTEM_IncObjectAnimeFrame(q, 1, 0x5000);
+        b = G3D_SYSTEM_IncObjectAnimeFrame(q, 2, 0x5000);
         if (a == 0 && b == 0)
             ((struct Obj01083 *)p)->f5C = 2;
     } else if (((struct Obj01083 *)p)->f5C == 3) {
-        a = func_020478B8(q, 1, -0x2000);
-        b = func_020478B8(q, 2, -0x2000);
+        a = G3D_SYSTEM_IncObjectAnimeFrame(q, 1, -0x2000);
+        b = G3D_SYSTEM_IncObjectAnimeFrame(q, 2, -0x2000);
         if (a == 0 && b == 0)
             ((struct Obj01083 *)p)->f5C = 0;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5798
+ * function: ENCEFF_StepCellGrid
  * address:  0x021F5798
  * packet:   pkt_ov077_021F5798
  * region:   ov077
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-int func_021F5798(u8 *p)
+int ENCEFF_StepCellGrid(u8 *p)
 {
     int i;
     int n;

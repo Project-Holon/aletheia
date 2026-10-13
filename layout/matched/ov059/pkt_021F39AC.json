@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F39AC",
+   "name": "SP_POKE_GIMMICK_Update",
    "address": "0x021F39AC",
    "kind": "game",
    "region": "ov059",

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D528
+ * function: FLDMMDL_SysGetG3dObjCont
  * address:  0x0216D528
  * packet:   pkt_0216D528
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-u32 func_0216D528(u8 *p)
+u32 FLDMMDL_SysGetG3dObjCont(u8 *p)
 {
 return ((struct Obj17783 *)p)->f28;
 }

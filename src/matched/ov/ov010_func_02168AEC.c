@@ -1,5 +1,5 @@
 /*
- * function: func_02168AEC
+ * function: FLD_BTL_INST_TOOL_LookupKeyValue
  * address:  0x02168AEC
  * packet:   pkt_02168AEC
  * region:   ov010
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern u16 g_0217208C[];
 extern u16 g_0217208E[];
 
-u16 func_02168AEC(u16 a0)
+u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 a0)
 {
     u32 i;
 

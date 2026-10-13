@@ -20,8 +20,8 @@
  *   func_021C8860  0x021C8860  thumb
  *   func_021C88A4  0x021C88A4  thumb
  *   func_021C88C8  0x021C88C8  thumb
- *   func_021D775C  0x021D775C  thumb
- *   func_021D7B74  0x021D7B74  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
  *   data_0689D740 0x0689D740 data a4
  *   func_06898DE0  0x06898DE0  thumb
  */
@@ -34,12 +34,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern int func_06898DE0(int a, u32 b);
-extern int func_021D775C(int a);
+extern int BTL_EVENT_GetVar(int a);
 extern int func_021B9A40(int a);
 extern int func_021C8234(int a, int b);
 extern u8 *func_021C88A4(int p, int n, int m);
 extern int func_021C7CF4(int a, int b);
-extern int func_021D7B74(int a, int b);
+extern int BTL_CALC_DivideMaxHpMin1(int a, int b);
 extern void func_021C8838(u8 *p, int n, int c);
 extern void func_021C8860(u8 *p, int v);
 extern void func_021C88C8(int p, u8 *q);
@@ -64,7 +64,7 @@ void func_068995B0(int a, int p, int x)
     int w;
     u8 *t;
 
-    v = func_021D775C(2);
+    v = BTL_EVENT_GetVar(2);
     if (x == func_021B9A40(v) && func_021C8234(p, v) == 0) {
         switch (func_06898DE0(a, x)) {
         default:
@@ -81,7 +81,7 @@ void func_068995B0(int a, int p, int x)
         t = func_021C88A4(p, 7, 0x1f);
         w = func_021C7CF4(p, v);
         t[6] = v;
-        ((struct Obj13633 *)t)->f4 = func_021D7B74(w, n);
+        ((struct Obj13633 *)t)->f4 = BTL_CALC_DivideMaxHpMin1(w, n);
         func_021C8838(t + 0xc, 2, 0x353);
         func_021C8860(t + 0xc, v);
         func_021C88C8(p, t);

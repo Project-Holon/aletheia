@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD8C
+ * function: BTL_SERVER_FLOW_StartAfterPokeChange
  * address: 0x021BBD8C
  * packet: pkt_ov093_021BBD8C
  * region: ov093
@@ -9,22 +9,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BB920 0x021BB920 thumb ov093
- *   func_021D74E4 0x021D74E4 thumb ov093
+ *   BTL_SERVER_ClearPokeChangeRequests 0x021BB920 thumb ov093
+ *   BTL_EVENT_ResetVarStackIfUsed 0x021D74E4 thumb ov093
  *   func_021BBF88 0x021BBF88 thumb ov093
  *   func_021BBF98 0x021BBF98 thumb ov093
- *   func_021BC610 0x021BC610 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021BDC98 0x021BDC98 thumb ov093
- *   func_021BD9D4 0x021BD9D4 thumb ov093
- *   func_021B8588 0x021B8588 thumb ov093
- *   func_021BCCE0 0x021BCCE0 thumb ov093
- *   func_021BDA00 0x021BDA00 thumb ov093
- *   func_021C5200 0x021C5200 thumb ov093
- *   func_021BC4DC 0x021BC4DC thumb ov093
- *   func_021C4614 0x021C4614 thumb ov093
- *   func_021BC2B0 0x021BC2B0 thumb ov093
- *   func_021C6158 0x021C6158 thumb ov093
+ *   BTL_SERVER_FLOW_BuildActionOrder 0x021BC610 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMemberChange 0x021BDC98 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMemberIn 0x021BD9D4 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
+ *   BTL_SERVER_FLOW_ProcAction 0x021BCCE0 thumb ov093
+ *   BTL_SERVER_FLOW_ProcAfterMemberIn 0x021BDA00 thumb ov093
+ *   BTL_SERVER_FLOW_ProcFaintRewards 0x021C5200 thumb ov093
+ *   BTL_SERVER_FLOW_CollectChangeRequests 0x021BC4DC thumb ov093
+ *   BTL_SERVER_FLOW_ProcTripleShift 0x021C4614 thumb ov093
+ *   BTL_SERVER_FLOW_CheckShowdown 0x021BC2B0 thumb ov093
+ *   BTL_SERVER_FLOW_ProcClientMemberChange 0x021C6158 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -34,24 +34,24 @@ typedef struct {
     u8 pad18[0x3e0 - 0x18]; u8 g3e0[0xee]; u8 g4ce[0x77c - 0x4ce];
     u8 init; u8 pad77d[5]; u8 n; u8 k; u8 pad784[0x5c]; E e[6];
 } S;
-extern void func_021BB920(u8 *);
-extern void func_021D74E4(void);
+extern void BTL_SERVER_ClearPokeChangeRequests(u8 *);
+extern void BTL_EVENT_ResetVarStackIfUsed(void);
 extern int func_021BBF88(u8 *, int);
 extern int func_021BBF98(u8 *, int);
-extern u8 func_021BC610(S *p, int a, E *q, int n);
-extern int func_021D5B68(void *p);
-extern void func_021BDC98(u8 *p, u8 *a, u8 v);
-extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, int c);
-extern u32 func_021B8588(void **p);
-extern void func_021BCCE0(S *p, E *e);
-extern int func_021BDA00(u8 *p);
-extern int func_021C5200(u8 *p);
-extern int func_021BC4DC(u8 *p, u8 *out);
-extern void func_021C4614(u8 *p);
-extern int func_021BC2B0(u8 *p);
-extern void func_021C6158(u8 *p, u8 *a);
+extern u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, int a, E *q, int n);
+extern int BTL_POKEPARAM_IsFainted(void *p);
+extern void BTL_SERVER_FLOW_ProcMemberChange(u8 *p, u8 *a, u8 v);
+extern void BTL_SERVER_FLOW_ProcMemberIn(u8 *p, u8 i, u8 a, u8 b, int c);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern void BTL_SERVER_FLOW_ProcAction(S *p, E *e);
+extern int BTL_SERVER_FLOW_ProcAfterMemberIn(u8 *p);
+extern int BTL_SERVER_FLOW_ProcFaintRewards(u8 *p);
+extern int BTL_SERVER_FLOW_CollectChangeRequests(u8 *p, u8 *out);
+extern void BTL_SERVER_FLOW_ProcTripleShift(u8 *p);
+extern int BTL_SERVER_FLOW_CheckShowdown(u8 *p);
+extern void BTL_SERVER_FLOW_ProcClientMemberChange(u8 *p, u8 *a);
 
-int func_021BBD8C(S *p, int a)
+int BTL_SERVER_FLOW_StartAfterPokeChange(S *p, int a)
 {
     int *q;
     u32 i;
@@ -63,45 +63,45 @@ int func_021BBD8C(S *p, int a)
     q[0] = 0;
     q[1] = 0;
     if (p->init == 0) {
-        func_021BB920(p->f0);
-        func_021D74E4();
+        BTL_SERVER_ClearPokeChangeRequests(p->f0);
+        BTL_EVENT_ResetVarStackIfUsed();
         saved = func_021BBF88(p->g3e0, 0);
-        p->n = func_021BC610(p, a, p->e, 6);
+        p->n = BTL_SERVER_FLOW_BuildActionOrder(p, a, p->e, 6);
         p->k = 0;
         for (i = 0; i < p->n; i++) {
             if (p->e[i].kind == 3 && p->e[i].z == 0) {
-                if (func_021D5B68((void *)p->e[i].a) == 0) {
-                    func_021BDC98((u8 *)p, (u8 *)p->e[i].a, p->e[i].y);
+                if (BTL_POKEPARAM_IsFainted((void *)p->e[i].a) == 0) {
+                    BTL_SERVER_FLOW_ProcMemberChange((u8 *)p, (u8 *)p->e[i].a, p->e[i].y);
                     p->e[i].f = 1;
                 }
             }
         }
         for (i = 0; i < p->n; i++) {
             if (p->e[i].kind == 3 && p->e[i].z == 0) {
-                if (func_021D5B68((void *)p->e[i].a) != 0) {
-                    func_021BD9D4((u8 *)p, p->e[i].d, p->e[i].x, p->e[i].y, 1);
+                if (BTL_POKEPARAM_IsFainted((void *)p->e[i].a) != 0) {
+                    BTL_SERVER_FLOW_ProcMemberIn((u8 *)p, p->e[i].d, p->e[i].x, p->e[i].y, 1);
                     p->e[i].f = 1;
                 }
             }
         }
-        if (func_021B8588(p->f4) == 3) {
+        if (BTL_MAIN_GetRule(p->f4) == 3) {
             for (i = 0; i < p->n; i++) {
                 if (p->e[i].kind == 6 && p->e[i].z == 0)
-                    func_021BCCE0(p, &p->e[i]);
+                    BTL_SERVER_FLOW_ProcAction(p, &p->e[i]);
             }
         }
         p->init = 1;
     }
-    func_021BDA00((u8 *)p);
-    func_021C5200((u8 *)p);
-    func_021BC4DC((u8 *)p, p->g4ce);
+    BTL_SERVER_FLOW_ProcAfterMemberIn((u8 *)p);
+    BTL_SERVER_FLOW_ProcFaintRewards((u8 *)p);
+    BTL_SERVER_FLOW_CollectChangeRequests((u8 *)p, p->g4ce);
     ret = 0;
     if (saved == func_021BBF98(p->g3e0, 0)) {
-        func_021C4614((u8 *)p);
+        BTL_SERVER_FLOW_ProcTripleShift((u8 *)p);
         return ret;
     }
-    if (func_021BC2B0((u8 *)p) == 0) {
-        func_021C6158((u8 *)p, p->g4ce);
+    if (BTL_SERVER_FLOW_CheckShowdown((u8 *)p) == 0) {
+        BTL_SERVER_FLOW_ProcClientMemberChange((u8 *)p, p->g4ce);
         return 2;
     }
     return 4;

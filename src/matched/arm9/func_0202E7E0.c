@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Witness leaf for ov093 func_021C4744 (tiny unlabelled arm9 leaf).
+ * Witness leaf for ov093 BTL_SERVER_FLOW_ProcPlayerSupportHeal (tiny unlabelled arm9 leaf).
  */
 
 typedef unsigned int u32;

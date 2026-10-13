@@ -1,7 +1,7 @@
 /*
  * file:     field_ground_anime.c
  * unit:     yes
- * function: func_021A7360, func_021A73C0, func_021A73DC, func_021A7404, func_021A7410, func_021A7418, func_021A7420, func_021A7484, func_021A74C0, func_021A74F4, func_021A7508, func_021A752C, func_021A753C, func_021A75B0, func_021A75BC, func_021A75DC, func_021A7620, func_021A7654, func_021A7678, func_021A77E8, func_021A7818, func_021A78DC, func_021A78EC, func_021A797C, func_021A79E4, func_021A7A28, func_021A7A34, func_021A7A40, func_021A7A88, func_021A7A8C, func_021A7A90, func_021A7AB0, func_021A7B08, func_021A7B10, func_021A7B20, func_021A7B88, func_021A7CE8, func_021A7E3C, func_021A7EB4, func_021A7F38, func_021A80FC, func_021A810C, func_021A811C, func_021A8140, func_021A8198, func_021A81DC, func_021A81EC, func_021A8200, func_021A8214, func_021A8234, func_021A8244, func_021A8268, func_021A8278, func_021A82A8, func_021A82D8, func_021A8324, func_021A834C
+ * function: FIELD_GROUND_ANIME_Create, FIELD_GROUND_ANIME_Delete, FIELD_GROUND_ANIME_Update, FIELD_GROUND_ANIME_GetAnmEntry, FIELD_GROUND_ANIME_BindAnm, FIELD_GROUND_ANIME_UnbindAnm, FIELD_GROUND_ANIME_AnmSetInit, FIELD_GROUND_ANIME_AnmSetFree, FIELD_GROUND_ANIME_AnmSetUpdate, FIELD_GROUND_ANIME_AnmSetGetEntry, FIELD_GROUND_ANIME_AnmEntryInit, FIELD_GROUND_ANIME_AnmEntryFree, FIELD_GROUND_ANIME_AnmEntryBind, FIELD_GROUND_ANIME_AnmEntryUnbind, FIELD_GROUND_ANIME_AnmEntryUpdate, FIELD_GROUND_ANIME_TexAnmSetInit, FIELD_GROUND_ANIME_TexAnmSetFree, FIELD_GROUND_ANIME_TexAnmSetUpdate, FIELD_GROUND_ANIME_TexAnmInit, FIELD_GROUND_ANIME_TexAnmFree, FIELD_GROUND_ANIME_TexAnmUpdate, FIELD_GROUND_ANIME_TexAnmIsActive, FIELD_GROUND_ANIME_GetModelTexVramOffset, FIELD_GROUND_ANIME_GetTexSize, FIELD_GROUND_ANIME_GetTexData, FIELD_GROUND_ANIME_GetTexAnmKeyData, FIELD_GROUND_ANIME_GetTexAnmFile, FIELD_GROUND_ANIME_KeyTableGetKey, FIELD_GROUND_ANIME_KeyTableGetGroupCount, FIELD_GROUND_ANIME_KeyTableGetDuration, FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame, FIELD_GROUND_ANIME_KeyTableUnpack, func_021A7B08, func_021A7B10, func_021A7B20, func_021A7B88, func_021A7CE8, func_021A7E3C, func_021A7EB4, func_021A7F38, func_021A80FC, func_021A810C, func_021A811C, func_021A8140, func_021A8198, func_021A81DC, func_021A81EC, func_021A8200, func_021A8214, func_021A8234, func_021A8244, func_021A8268, func_021A8278, func_021A82A8, func_021A82D8, func_021A8324, func_021A834C
  * address:  0x021A7360
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,78 +15,78 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   d_021DDF7C     0x021DDF7C  data  ov021  a1
+ *   _FieldGroundAnimeFileName     0x021DDF7C  data  ov021  a1
  *   func_020307B0  0x020307B0  arm
- *   func_0204A1BC  0x0204A1BC  arm
- *   func_0206E9A4  0x0206E9A4  arm
- *   func_02046F48  0x02046F48  arm
- *   func_0206E954  0x0206E954  arm
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm
+ *   NNS_G3dGetAnmByIdx  0x0206E9A4  arm
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
+ *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   func_02047250  0x02047250  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02069C74  0x02069C74  arm
  *   func_02069E88  0x02069E88  arm
  *   _s32_div_f  0x0209C0A4  arm
- *   func_02046C94  0x02046C94  arm
- *   func_02046CE0  0x02046CE0  arm
+ *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
+ *   G3D_SYSTEM_InitResourceByFile  0x02046CE0  arm
  *   func_02061CA4  0x02061CA4  arm
  *   func_0206E7EC  0x0206E7EC  arm
  *   func_0209C2B0  0x0209C2B0  arm
- *   d_021D8B08     0x021D8B08  data  a2
- *   d_021D8B00     0x021D8B00  data  a1
+ *   gTexDimensionTable     0x021D8B08  data  a2
+ *   gTexPixelsPerByteTable     0x021D8B00  data  a1
  *   func_021A811C  0x021A811C  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D4B4  0x0216D4B4  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02012A30  0x02012A30  thumb
  *   func_021A80FC  0x021A80FC  thumb  ov021
- *   func_021BDC94  0x021BDC94  thumb  ov021
+ *   ENTRANCE_CAMERA_Create  0x021BDC94  thumb  ov021
  *   func_021A810C  0x021A810C  thumb  ov021
  *   func_021A8214  0x021A8214  thumb  ov021
  *   func_021A7CE8  0x021A7CE8  thumb  ov021
  *   func_021A8268  0x021A8268  thumb  ov021
- *   func_02162370  0x02162370  thumb  ov010
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02185B88  0x02185B88  thumb  ov020
- *   func_0218F0F8  0x0218F0F8  thumb  ov021
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_021BDCC8  0x021BDCC8  thumb  ov021
- *   func_02029D7C  0x02029D7C  thumb
- *   func_021618E0  0x021618E0  thumb  ov010
- *   func_02012374  0x02012374  thumb
- *   func_021BDD40  0x021BDD40  thumb  ov021
- *   func_021BDD48  0x021BDD48  thumb  ov021
- *   func_021BDD20  0x021BDD20  thumb  ov021
- *   func_021C6E48  0x021C6E48  thumb  ov021
- *   func_021BDD34  0x021BDD34  thumb  ov021
- *   func_0218E160  0x0218E160  thumb  ov021
- *   func_021BDCB8  0x021BDCB8  thumb  ov021
+ *   EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange  0x02162370  thumb  ov010
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   EVENT_MAPCHANGE_SetPlayerVanish  0x02185B88  thumb  ov020
+ *   FIELD_CAMERA_HasDelay  0x0218F0F8  thumb  ov021
+ *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   ENTRANCE_CAMERA_Setup  0x021BDCC8  thumb  ov021
+ *   FIELD_SOUND_SYSTEM_PostFadeIn  0x02029D7C  thumb
+ *   EVENT_FIELD_PROCLINK_StartObjAnim  0x021618E0  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   ENTRANCE_CAMERA_IsActive  0x021BDD40  thumb  ov021
+ *   ENTRANCE_CAMERA_IsInstant  0x021BDD48  thumb  ov021
+ *   ENTRANCE_CAMERA_Start  0x021BDD20  thumb  ov021
+ *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
+ *   ENTRANCE_CAMERA_Restore  0x021BDD34  thumb  ov021
+ *   FIELD_CAMERA_ReloadSetting  0x0218E160  thumb  ov021
+ *   ENTRANCE_CAMERA_Delete  0x021BDCB8  thumb  ov021
  *   func_021A7B10  0x021A7B10  thumb  ov021
- *   func_02029D44  0x02029D44  thumb
+ *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021A3484  0x021A3484  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELD_PLAYER_GetMoveOffsetInDir  0x021A3484  thumb  ov021
  *   func_0207CEE4  0x0207CEE4  arm
- *   func_02163E58  0x02163E58  thumb  ov010
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_021BB480  0x021BB480  thumb  ov021
- *   func_021A36C8  0x021A36C8  thumb  ov021
- *   func_021B7D38  0x021B7D38  thumb  ov021
- *   func_02188C98  0x02188C98  thumb
- *   func_0218DC6C  0x0218DC6C  thumb
- *   func_0218C7D8  0x0218C7D8  thumb
- *   func_0218C860  0x0218C860  thumb
- *   func_0218C8D8  0x0218C8D8  thumb  ov021
- *   func_0218C88C  0x0218C88C  thumb
- *   func_0218C990  0x0218C990  thumb
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_021BE8D4  0x021BE8D4  thumb
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
+ *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb  ov021
+ *   FIELD_PLAYER_GetNogridLocationByDir  0x021A36C8  thumb  ov021
+ *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb
+ *   FIELD_BUILDMODEL_CreateNodeNearPos  0x0218C7D8  thumb
+ *   FIELD_BUILDMODEL_DeleteNode  0x0218C860  thumb
+ *   FIELD_BUILDMODEL_TryOpenNodeCurrentSlot  0x0218C8D8  thumb  ov021
+ *   FIELD_BUILDMODEL_PlayNodeSlot  0x0218C88C  thumb
+ *   FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry  0x0218C990  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  */
 
 typedef unsigned char u8;
@@ -321,67 +321,67 @@ typedef struct GroundAnimeWork {
 
 extern void *func_02030734(u16 heapId, u32 size, u32 one, char *file, u32 line);
 extern u32 func_020307B0(void *p);
-extern void *func_0204A1BC(u32 arcId, u32 memberId, u32 zero, u16 heapId);
-extern NNSG3dResAnm *func_0206E9A4(void *file, u32 idx);
-extern void *func_02046F48(void *resource);
-extern ModelSetRes *func_0206E954(void *file);
+extern void *ARC_UTIL_LoadMember(u32 arcId, u32 memberId, u32 zero, u16 heapId);
+extern NNSG3dResAnm *NNS_G3dGetAnmByIdx(void *file, u32 idx);
+extern void *G3D_SYSTEM_GetResourceFile(void *resource);
+extern ModelSetRes *NNS_G3dGetMdlSet(void *file);
 extern TexRes *func_02047250(void *resource);
 extern void func_02082BCC(void *p, u32 value, u32 size);
 extern void func_02069C74(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
 extern void func_02069E88(void *renderObj, NNSG3dAnmObj *anmObj);
-extern int func_02046C94(void);
-extern void func_02046CE0(void *out, void *file);
+extern int G3D_SYSTEM_GetResourceSize(void);
+extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern int func_0206E7EC(const Dict *dict, const void *name);
 extern u32 func_0209C2B0(u32 a, u32 b);
-extern void *func_0216D4B4(char *p);
-extern void *func_02188CB4(void *p);
-extern void *func_021A3074(unsigned char *p);
+extern void *FLDMMDL_FreeAcmd(char *p);
+extern void *FIELDMAP_GetFieldPlayer(void *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(void *task);
 extern void *func_02012A30(void *gameData);
-extern void *func_021BDC94(void *p);
-extern int func_02162370(int a);
+extern void *ENTRANCE_CAMERA_Create(void *p);
+extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int a);
 
-extern void *func_02188C58(void *fieldMap);
-extern void *func_02188D38(void *fieldMap);
-extern u16 func_02188C9C(void *fieldMap);
-extern void func_02185B88(void *fieldMap, u32 value);
-extern int func_0218F0F8(void *camera);
-extern void func_0218F0A8(void *camera);
-extern u32 func_0218F0E8(void *camera);
-extern void func_021BDCC8(void *entrance, int *param);
-extern void func_02029D7C(void *bgmInfo, void *gameData);
-extern void *func_021618E0(void *gameSystem, void *fieldMap);
-extern void func_02012374(void *gameEvent, void *subEvent);
-extern int func_021BDD40(void *entrance);
-extern int func_021BDD48(void *entrance);
-extern void func_021BDD20(void *entrance);
-extern int func_021C6E48(void *fieldProc);
-extern void func_021BDD34(void *entrance);
-extern int func_0218E160(void *camera);
-extern void func_021BDCB8(void *entrance);
-extern void func_02029D44(void *bgmInfo, void *gameData, u16 zoneId, u8 flag);
+extern void *FIELDMAP_GetCamera(void *fieldMap);
+extern void *FIELDMAP_GetTaskManager(void *fieldMap);
+extern u16 FIELDMAP_GetZoneId(void *fieldMap);
+extern void EVENT_MAPCHANGE_SetPlayerVanish(void *fieldMap, u32 value);
+extern int FIELD_CAMERA_HasDelay(void *camera);
+extern void FIELD_CAMERA_EndDelay(void *camera);
+extern u32 FIELD_CAMERA_IsDelayEnabled(void *camera);
+extern void ENTRANCE_CAMERA_Setup(void *entrance, int *param);
+extern void FIELD_SOUND_SYSTEM_PostFadeIn(void *bgmInfo, void *gameData);
+extern void *EVENT_FIELD_PROCLINK_StartObjAnim(void *gameSystem, void *fieldMap);
+extern void GAME_EVENT_CallEvent(void *gameEvent, void *subEvent);
+extern int ENTRANCE_CAMERA_IsActive(void *entrance);
+extern int ENTRANCE_CAMERA_IsInstant(void *entrance);
+extern void ENTRANCE_CAMERA_Start(void *entrance);
+extern int FIELD_TASK_MANAGER_IsEmpty(void *fieldProc);
+extern void ENTRANCE_CAMERA_Restore(void *entrance);
+extern int FIELD_CAMERA_ReloadSetting(void *camera);
+extern void ENTRANCE_CAMERA_Delete(void *entrance);
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(void *bgmInfo, void *gameData, u16 zoneId, u8 flag);
 extern void func_020061E4(u32 seId);
-extern u16 func_021A3050(void *player);
-extern void func_021A3038(void *player, VecFx32 *out);
-extern u32 func_02188CFC(void *fieldMap);
-extern void func_021A3484(void *player, int moveMode, VecFx32 *out);
+extern u16 FIELD_PLAYER_GetDirDisp(void *player);
+extern void FIELD_PLAYER_GetPos(void *player, VecFx32 *out);
+extern u32 FIELDMAP_GetMoveKind(void *fieldMap);
+extern void FIELD_PLAYER_GetMoveOffsetInDir(void *player, int moveMode, VecFx32 *out);
 extern void func_0207CEE4(int scale, VecFx32 *from, VecFx32 *to, VecFx32 *out);
-extern void func_02163E58(void *map, VecFx32 *pos, int *heightOut);
-extern void *func_02188C5C(void *fieldMap);
-extern void *func_021BB480(void *fieldMapSub);
-extern int func_021A36C8(void *player, u32 moveMode, void *buf);
-extern void func_021B7D38(void *rail, int *in, VecFx32 *out);
-extern void *func_02188C98(void *fieldMap);
-extern void *func_0218DC6C(void *mapper);
-extern void *func_0218C7D8(void *mapper, int mode, VecFx32 *pos);
-extern void func_0218C860(void *model);
-extern int func_0218C8D8(void *model);
-extern void func_0218C88C(void *model, int animIndex, int arg);
-extern int func_0218C990(void *model, u16 *seOut);
-extern void *func_021BE92C(void *gameSystem, void *fieldMap, int selector, int arg3, int arg4, u8 flagA, u8 flagB);
-extern void *func_021BE8D4(void *gameSystem, void *fieldMap, int selector, int arg3);
+extern void FLDMMDL_MOVE_GetMapHeight(void *map, VecFx32 *pos, int *heightOut);
+extern void *FIELDMAP_GetNogridMapper(void *fieldMap);
+extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *fieldMapSub);
+extern int FIELD_PLAYER_GetNogridLocationByDir(void *player, u32 moveMode, void *buf);
+extern void FIELD_RAIL_GetLocationPos(void *rail, int *in, VecFx32 *out);
+extern void *FIELDMAP_GetG3dMapper(void *fieldMap);
+extern void *FIELD_G3D_MAPPER_GetBuildModel(void *mapper);
+extern void *FIELD_BUILDMODEL_CreateNodeNearPos(void *mapper, int mode, VecFx32 *pos);
+extern void FIELD_BUILDMODEL_DeleteNode(void *model);
+extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(void *model);
+extern void FIELD_BUILDMODEL_PlayNodeSlot(void *model, int animIndex, int arg);
+extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(void *model, u16 *seOut);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, void *fieldMap, int selector, int arg3, int arg4, u8 flagA, u8 flagB);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, void *fieldMap, int selector, int arg3);
 int func_021A7CE8(void *task, int *state, GroundAnimeWork *work);
 void *func_021A7E3C(GroundAnimeArgs *args);
 void func_021A7EB4(GroundAnimeWork *work);
@@ -403,74 +403,74 @@ void func_021A82A8(GroundAnimeWork *work);
 void func_021A82D8(void *task, GroundAnimeWork *work);
 void func_021A8324(void *task, GroundAnimeWork *work);
 int func_021A834C(GroundAnimeWork *work);
-FieldGroundAnime *func_021A7360(const GroundAnimeDesc *desc, void *modelRes, u16 heapId);
-int func_021A73C0(FieldGroundAnime *ground);
-void func_021A73DC(FieldGroundAnime *ground);
-GroundAnmEntry *func_021A7404(FieldGroundAnime *ground, int index);
-int func_021A7410(u32 entry, u32 fileRes, u32 texRes, u32 renderObj);
-void func_021A7418(GroundAnmEntry *entry);
-void func_021A7420(GroundAnmSet *set, u32 arcId, u32 memberId, u32 count, u16 heapId);
-void func_021A7484(GroundAnmSet *set);
-void func_021A74C0(GroundAnmSet *set, u32 dt);
-GroundAnmEntry *func_021A74F4(GroundAnmSet *set, int index);
-void func_021A7508(GroundAnmEntry *entry, NNSG3dResAnm *pResAnm, u16 heapId);
-int func_021A752C(GroundAnmEntry *entry);
-u32 func_021A753C(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj);
-void func_021A75B0(GroundAnmEntry *entry);
-int func_021A75BC(GroundAnmEntry *entry, int frame);
-void func_021A75DC(GroundTexAnmSet *set, u32 arcId, u32 memberId, void *modelRes, u16 heapId);
-void func_021A7620(GroundTexAnmSet *set);
-void func_021A7654(GroundTexAnmSet *set, int dt);
-void func_021A7678(GroundTexAnm *anm, GroundTexAnmTable *table, u32 index, void *modelRes, u16 heapId);
-void func_021A77E8(GroundTexAnm *anm);
-void func_021A7818(GroundTexAnm *anm, s32 dt);
-int func_021A78DC(GroundTexAnm *anm);
-int func_021A78EC(void *modelRes, void *animRes, u32 animTexIdx);
-u32 func_021A797C(void *animRes, u32 texIdx);
-u8 *func_021A79E4(void *animRes, u32 texIdx);
-u32 func_021A7A28(GroundTexAnmTable *table, u32 index);
-u32 func_021A7A34(GroundTexAnmTable *table, u32 index);
-GroundTexKey func_021A7A40(const GroundKeyTable *table, u32 group, u32 frame);
-u32 func_021A7A88(GroundKeyTable *table);
-u32 func_021A7A8C(GroundKeyTable *table);
-u16 func_021A7A90(GroundKeyTable *table, int group);
-void func_021A7AB0(u32 *keyFile, GroundKeyTable *out);
+FieldGroundAnime *FIELD_GROUND_ANIME_Create(const GroundAnimeDesc *desc, void *modelRes, u16 heapId);
+int FIELD_GROUND_ANIME_Delete(FieldGroundAnime *ground);
+void FIELD_GROUND_ANIME_Update(FieldGroundAnime *ground);
+GroundAnmEntry *FIELD_GROUND_ANIME_GetAnmEntry(FieldGroundAnime *ground, int index);
+int FIELD_GROUND_ANIME_BindAnm(u32 entry, u32 fileRes, u32 texRes, u32 renderObj);
+void FIELD_GROUND_ANIME_UnbindAnm(GroundAnmEntry *entry);
+void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u32 count, u16 heapId);
+void FIELD_GROUND_ANIME_AnmSetFree(GroundAnmSet *set);
+void FIELD_GROUND_ANIME_AnmSetUpdate(GroundAnmSet *set, u32 dt);
+GroundAnmEntry *FIELD_GROUND_ANIME_AnmSetGetEntry(GroundAnmSet *set, int index);
+void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dResAnm *pResAnm, u16 heapId);
+int FIELD_GROUND_ANIME_AnmEntryFree(GroundAnmEntry *entry);
+u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj);
+void FIELD_GROUND_ANIME_AnmEntryUnbind(GroundAnmEntry *entry);
+int FIELD_GROUND_ANIME_AnmEntryUpdate(GroundAnmEntry *entry, int frame);
+void FIELD_GROUND_ANIME_TexAnmSetInit(GroundTexAnmSet *set, u32 arcId, u32 memberId, void *modelRes, u16 heapId);
+void FIELD_GROUND_ANIME_TexAnmSetFree(GroundTexAnmSet *set);
+void FIELD_GROUND_ANIME_TexAnmSetUpdate(GroundTexAnmSet *set, int dt);
+void FIELD_GROUND_ANIME_TexAnmInit(GroundTexAnm *anm, GroundTexAnmTable *table, u32 index, void *modelRes, u16 heapId);
+void FIELD_GROUND_ANIME_TexAnmFree(GroundTexAnm *anm);
+void FIELD_GROUND_ANIME_TexAnmUpdate(GroundTexAnm *anm, s32 dt);
+int FIELD_GROUND_ANIME_TexAnmIsActive(GroundTexAnm *anm);
+int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *modelRes, void *animRes, u32 animTexIdx);
+u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx);
+u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx);
+u32 FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index);
+u32 FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index);
+GroundTexKey FIELD_GROUND_ANIME_KeyTableGetKey(const GroundKeyTable *table, u32 group, u32 frame);
+u32 FIELD_GROUND_ANIME_KeyTableGetGroupCount(GroundKeyTable *table);
+u32 FIELD_GROUND_ANIME_KeyTableGetDuration(GroundKeyTable *table);
+u16 FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame(GroundKeyTable *table, int group);
+void FIELD_GROUND_ANIME_KeyTableUnpack(u32 *keyFile, GroundKeyTable *out);
 void func_021A7B08(void *fieldMap, VecFx32 *out);
 int func_021A7B10(void *a);
 void *func_021A7B20(GroundAnimeArgs *args);
 void func_021A7B88(GroundAnimeWork *w);
-extern char d_021DDF7C;
-extern const u16 d_021D8B08[];
-extern const u8 d_021D8B00[];
+extern char _FieldGroundAnimeFileName;
+extern const u16 gTexDimensionTable[];
+extern const u8 gTexPixelsPerByteTable[];
 
 /*
  * Addresses are Black-image addresses.
  */
-FieldGroundAnime *func_021A7360(const GroundAnimeDesc *desc, void *modelRes, u16 heapId)
+FieldGroundAnime *FIELD_GROUND_ANIME_Create(const GroundAnimeDesc *desc, void *modelRes, u16 heapId)
 {
     FieldGroundAnime *ground;
-    ground = func_02030734(heapId, 0x41c, 1, &d_021DDF7C, 0xd6);
+    ground = func_02030734(heapId, 0x41c, 1, &_FieldGroundAnimeFileName, 0xd6);
     if (desc->hasAnmSet != 0) {
         u32 count = desc->anmCount;
         u32 arcId = desc->anmArcId;
         u32 memberId = desc->anmMemberId;
-        func_021A7420(&ground->anmSet, arcId, memberId, count, heapId);
+        FIELD_GROUND_ANIME_AnmSetInit(&ground->anmSet, arcId, memberId, count, heapId);
     }
     if (desc->hasTexAnmSet != 0)
-        func_021A75DC(&ground->texAnmSet, desc->texAnmArcId, desc->texAnmMemberId, modelRes, heapId);
+        FIELD_GROUND_ANIME_TexAnmSetInit(&ground->texAnmSet, desc->texAnmArcId, desc->texAnmMemberId, modelRes, heapId);
     ground->playing = 1;
     ground->speed = 0x1000;
     return ground;
 }
 
-int func_021A73C0(FieldGroundAnime *ground)
+int FIELD_GROUND_ANIME_Delete(FieldGroundAnime *ground)
 {
-    func_021A7620(&ground->texAnmSet);
-    func_021A7484(&ground->anmSet);
+    FIELD_GROUND_ANIME_TexAnmSetFree(&ground->texAnmSet);
+    FIELD_GROUND_ANIME_AnmSetFree(&ground->anmSet);
     return func_020307B0(ground);
 }
 
-void func_021A73DC(FieldGroundAnime *ground)
+void FIELD_GROUND_ANIME_Update(FieldGroundAnime *ground)
 {
     u32 dt;
     if (ground->playing != 0) {
@@ -478,54 +478,54 @@ void func_021A73DC(FieldGroundAnime *ground)
     } else {
         dt = 0;
     }
-    func_021A74C0(&ground->anmSet, dt);
-    func_021A7654(&ground->texAnmSet, dt);
+    FIELD_GROUND_ANIME_AnmSetUpdate(&ground->anmSet, dt);
+    FIELD_GROUND_ANIME_TexAnmSetUpdate(&ground->texAnmSet, dt);
 }
 
 /*
- * Tail-call thunk: forwards the animation set of the ground animation to func_021A74F4.
+ * Tail-call thunk: forwards the animation set of the ground animation to FIELD_GROUND_ANIME_AnmSetGetEntry.
  *
  * Addresses are Black-image addresses.
  */
-GroundAnmEntry *func_021A7404(FieldGroundAnime *ground, int index)
+GroundAnmEntry *FIELD_GROUND_ANIME_GetAnmEntry(FieldGroundAnime *ground, int index)
 {
-    return func_021A74F4(&ground->anmSet, index);
+    return FIELD_GROUND_ANIME_AnmSetGetEntry(&ground->anmSet, index);
 }
 
-int func_021A7410(u32 entry, u32 fileRes, u32 texRes, u32 renderObj)
+int FIELD_GROUND_ANIME_BindAnm(u32 entry, u32 fileRes, u32 texRes, u32 renderObj)
 {
-    return func_021A753C((GroundAnmEntry *)entry, fileRes, texRes, renderObj);
+    return FIELD_GROUND_ANIME_AnmEntryBind((GroundAnmEntry *)entry, fileRes, texRes, renderObj);
 }
 
 /*
- * Tail-call thunk: forwards to func_021A75B0 with no argument change.
+ * Tail-call thunk: forwards to FIELD_GROUND_ANIME_AnmEntryUnbind with no argument change.
  *
  * Addresses are Black-image addresses.
  */
-void func_021A7418(GroundAnmEntry *entry)
+void FIELD_GROUND_ANIME_UnbindAnm(GroundAnmEntry *entry)
 {
-    func_021A75B0(entry);
+    FIELD_GROUND_ANIME_AnmEntryUnbind(entry);
 }
 
-void func_021A7420(GroundAnmSet *set, u32 arcId, u32 memberId, u32 count, u16 heapId)
+void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u32 count, u16 heapId)
 {
     u32 i;
     NNSG3dResAnm *pResAnm;
     i = 0;
-    set->file = func_0204A1BC(arcId, memberId, 0, heapId);
-    pResAnm = func_0206E9A4(set->file, 0);
-    set->entries = func_02030734(heapId, count * 12, 1, &d_021DDF7C, 0x196);
+    set->file = ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
+    pResAnm = NNS_G3dGetAnmByIdx(set->file, 0);
+    set->entries = func_02030734(heapId, count * 12, 1, &_FieldGroundAnimeFileName, 0x196);
     set->count = count;
     for (i = 0; i < set->count; i++)
-        func_021A7508(&set->entries[i], pResAnm, heapId);
+        FIELD_GROUND_ANIME_AnmEntryInit(&set->entries[i], pResAnm, heapId);
 }
 
-void func_021A7484(GroundAnmSet *set)
+void FIELD_GROUND_ANIME_AnmSetFree(GroundAnmSet *set)
 {
     u32 i;
     if (set->file != 0) {
         for (i = 0; i < set->count; i++) {
-            func_021A752C(&set->entries[i]);
+            FIELD_GROUND_ANIME_AnmEntryFree(&set->entries[i]);
         }
         func_020307B0(set->entries);
         set->entries = 0;
@@ -534,13 +534,13 @@ void func_021A7484(GroundAnmSet *set)
     }
 }
 
-void func_021A74C0(GroundAnmSet *set, u32 dt)
+void FIELD_GROUND_ANIME_AnmSetUpdate(GroundAnmSet *set, u32 dt)
 {
     u32 i;
     set->frame += dt;
     if (set->file != 0) {
         for (i = 0; i < set->count; i++)
-            set->frame = func_021A75BC(&set->entries[i], set->frame);
+            set->frame = FIELD_GROUND_ANIME_AnmEntryUpdate(&set->entries[i], set->frame);
     }
 }
 
@@ -549,20 +549,20 @@ void func_021A74C0(GroundAnmSet *set, u32 dt)
  *
  * Addresses are Black-image addresses.
  */
-GroundAnmEntry *func_021A74F4(GroundAnmSet *set, int index)
+GroundAnmEntry *FIELD_GROUND_ANIME_AnmSetGetEntry(GroundAnmSet *set, int index)
 {
     if (set->file != 0)
         return &set->entries[index];
     return 0;
 }
 
-void func_021A7508(GroundAnmEntry *entry, NNSG3dResAnm *pResAnm, u16 heapId)
+void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dResAnm *pResAnm, u16 heapId)
 {
-    entry->anmObj = func_02030734(heapId, 0x80, 1, &d_021DDF7C, 0x206);
+    entry->anmObj = func_02030734(heapId, 0x80, 1, &_FieldGroundAnimeFileName, 0x206);
     entry->pResAnm = pResAnm;
 }
 
-int func_021A752C(GroundAnmEntry *entry)
+int FIELD_GROUND_ANIME_AnmEntryFree(GroundAnmEntry *entry)
 {
     func_020307B0(entry->anmObj);
     entry->anmObj = 0;
@@ -589,10 +589,10 @@ static inline u32 ModelSetGetFirstModel(ModelSetRes *set)
 }
 
 /* Binds the entry's animation to a render object: init the animation object from model and texture, add it. */
-u32 func_021A753C(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj)
+u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj)
 {
     u32 pResMdl;
-    pResMdl = ModelSetGetFirstModel(func_0206E954(func_02046F48((void *)fileRes)));
+    pResMdl = ModelSetGetFirstModel(NNS_G3dGetMdlSet(G3D_SYSTEM_GetResourceFile((void *)fileRes)));
     if (texRes != 0)
         texRes = (u32)func_02047250((void *)texRes);
     else
@@ -609,13 +609,13 @@ u32 func_021A753C(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj)
  *
  * Addresses are Black-image addresses.
  */
-void func_021A75B0(GroundAnmEntry *entry)
+void FIELD_GROUND_ANIME_AnmEntryUnbind(GroundAnmEntry *entry)
 {
     entry->flags.word &= ~1;
 }
 
 /* Wraps the shared frame counter into the entry's frame range and stores it as the animation frame. */
-int func_021A75BC(GroundAnmEntry *entry, int frame)
+int FIELD_GROUND_ANIME_AnmEntryUpdate(GroundAnmEntry *entry, int frame)
 {
     NNSG3dAnmObj *anmObj;
     if (entry->flags.bits.bound) {
@@ -626,20 +626,20 @@ int func_021A75BC(GroundAnmEntry *entry, int frame)
     return frame;
 }
 
-void func_021A75DC(GroundTexAnmSet *set, u32 arcId, u32 memberId, void *modelRes, u16 heapId)
+void FIELD_GROUND_ANIME_TexAnmSetInit(GroundTexAnmSet *set, u32 arcId, u32 memberId, void *modelRes, u16 heapId)
 {
     u32 i;
-    set->table = func_0204A1BC(arcId, memberId, 0, heapId);
+    set->table = ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
     for (i = 0; i < set->table->count; i++)
-        func_021A7678(&set->anms[i], set->table, i, modelRes, heapId);
+        FIELD_GROUND_ANIME_TexAnmInit(&set->anms[i], set->table, i, modelRes, heapId);
 }
 
-void func_021A7620(GroundTexAnmSet *set)
+void FIELD_GROUND_ANIME_TexAnmSetFree(GroundTexAnmSet *set)
 {
     int i;
     for (i = 0; i < 16; i++) {
-        if (func_021A78DC(&set->anms[i])) {
-            func_021A77E8(&set->anms[i]);
+        if (FIELD_GROUND_ANIME_TexAnmIsActive(&set->anms[i])) {
+            FIELD_GROUND_ANIME_TexAnmFree(&set->anms[i]);
         }
     }
     if (set->table != 0) {
@@ -648,25 +648,25 @@ void func_021A7620(GroundTexAnmSet *set)
     }
 }
 
-void func_021A7654(GroundTexAnmSet *set, int dt)
+void FIELD_GROUND_ANIME_TexAnmSetUpdate(GroundTexAnmSet *set, int dt)
 {
     int i;
     for (i = 0; i < 16; i++) {
-        if (func_021A78DC(&set->anms[i])) {
-            func_021A7818(&set->anms[i], dt);
+        if (FIELD_GROUND_ANIME_TexAnmIsActive(&set->anms[i])) {
+            FIELD_GROUND_ANIME_TexAnmUpdate(&set->anms[i], dt);
         }
     }
 }
 
 /*
- * Initialiser for the texture animation func_021A7818 steps: allocates the
+ * Initialiser for the texture animation FIELD_GROUND_ANIME_TexAnmUpdate steps: allocates the
  * per-group arrays and seeds each group's current key and VRAM target.
  * The heap id is u16 in both this signature and func_02030734's: with u32
  * the stack-argument load drops from the first instruction to after the
  * register copies (docs/idioms/a-narrow-parameter-pins-its-home-store-to-
  * the-front-of-the-prologue.md, here for a load).
  */
-void func_021A7678(GroundTexAnm *anm, GroundTexAnmTable *table, u32 index, void *modelRes, u16 heapId)
+void FIELD_GROUND_ANIME_TexAnmInit(GroundTexAnm *anm, GroundTexAnmTable *table, u32 index, void *modelRes, u16 heapId)
 {
     u32 group;
     s32 frame;
@@ -675,32 +675,32 @@ void func_021A7678(GroundTexAnm *anm, GroundTexAnmTable *table, u32 index, void 
     GroundTexKey key;
 
     anm->modelRes = modelRes;
-    anm->keyData = (u32 *)func_021A7A28(table, index);
-    func_021A7AB0(anm->keyData, &anm->keyTable);
-    anm->animRes = func_02030734(heapId, func_02046C94(), 1, &d_021DDF7C, 0x2c9);
-    func_02046CE0(anm->animRes, (void *)func_021A7A34(table, index));
-    anm->groupCount = func_021A7A88(&anm->keyTable);
-    anm->curKeys = func_02030734(heapId, anm->groupCount * 2, 1, &d_021DDF7C, 0x2d4);
-    anm->vramOffsets = func_02030734(heapId, anm->groupCount * 4, 1, &d_021DDF7C, 0x2d5);
-    anm->texSizes = func_02030734(heapId, anm->groupCount * 4, 1, &d_021DDF7C, 0x2d6);
-    anm->times = func_02030734(heapId, anm->groupCount * 4, 1, &d_021DDF7C, 0x2d7);
+    anm->keyData = (u32 *)FIELD_GROUND_ANIME_GetTexAnmKeyData(table, index);
+    FIELD_GROUND_ANIME_KeyTableUnpack(anm->keyData, &anm->keyTable);
+    anm->animRes = func_02030734(heapId, G3D_SYSTEM_GetResourceSize(), 1, &_FieldGroundAnimeFileName, 0x2c9);
+    G3D_SYSTEM_InitResourceByFile(anm->animRes, (void *)FIELD_GROUND_ANIME_GetTexAnmFile(table, index));
+    anm->groupCount = FIELD_GROUND_ANIME_KeyTableGetGroupCount(&anm->keyTable);
+    anm->curKeys = func_02030734(heapId, anm->groupCount * 2, 1, &_FieldGroundAnimeFileName, 0x2d4);
+    anm->vramOffsets = func_02030734(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d5);
+    anm->texSizes = func_02030734(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d6);
+    anm->times = func_02030734(heapId, anm->groupCount * 4, 1, &_FieldGroundAnimeFileName, 0x2d7);
     for (group = 0; group < anm->groupCount; group++) {
-        anm->curKeys[group] = func_021A7A40(&anm->keyTable, group, 0);
-        lastKey = func_021A7A90(&anm->keyTable, group);
+        anm->curKeys[group] = FIELD_GROUND_ANIME_KeyTableGetKey(&anm->keyTable, group, 0);
+        lastKey = FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame(&anm->keyTable, group);
         minTexIndex = anm->curKeys[group].texIndex;
         for (frame = 0; frame < lastKey; frame++) {
-            key = func_021A7A40(&anm->keyTable, group, frame);
+            key = FIELD_GROUND_ANIME_KeyTableGetKey(&anm->keyTable, group, frame);
             if (minTexIndex > key.texIndex) {
                 minTexIndex = key.texIndex;
             }
         }
-        anm->vramOffsets[group] = func_021A78EC(modelRes, anm->animRes, minTexIndex);
-        anm->texSizes[group] = func_021A797C(anm->animRes, minTexIndex);
+        anm->vramOffsets[group] = FIELD_GROUND_ANIME_GetModelTexVramOffset(modelRes, anm->animRes, minTexIndex);
+        anm->texSizes[group] = FIELD_GROUND_ANIME_GetTexSize(anm->animRes, minTexIndex);
     }
     anm->needsFullUpload = 1;
 }
 
-void func_021A77E8(GroundTexAnm *anm)
+void FIELD_GROUND_ANIME_TexAnmFree(GroundTexAnm *anm)
 {
     if (anm->keyData != 0) {
         func_020307B0(anm->curKeys);
@@ -715,12 +715,12 @@ void func_021A77E8(GroundTexAnm *anm)
 
 /*
  * Addresses are Black-image addresses.
- * func_021A7A40 returns its two-byte GroundTexKey by value in r0 (see its matched
+ * FIELD_GROUND_ANIME_KeyTableGetKey returns its two-byte GroundTexKey by value in r0 (see its matched
  * file): the call result is spilled to a compiler temporary at sp+0x14 and
  * copied into key at sp+0x16, and every later use reads key. An inline unpack
  * of a u16 return forwards the copy and reads the temporary instead.
  */
-void func_021A7818(GroundTexAnm *anm, s32 dt)
+void FIELD_GROUND_ANIME_TexAnmUpdate(GroundTexAnm *anm, s32 dt)
 {
     s32 limit;
     u32 group;
@@ -728,15 +728,15 @@ void func_021A7818(GroundTexAnm *anm, s32 dt)
 
     if (anm->keyData == 0)
         return;
-    limit = func_021A7A8C(&anm->keyTable) << 12;
+    limit = FIELD_GROUND_ANIME_KeyTableGetDuration(&anm->keyTable) << 12;
     for (group = 0; group < anm->groupCount; group++) {
         anm->times[group] += dt;
         if (anm->times[group] >= limit) {
             anm->times[group] %= limit;
         } else if (anm->vramOffsets[group] != -1) {
-            key = func_021A7A40(&anm->keyTable, group, anm->times[group] >> 12);
+            key = FIELD_GROUND_ANIME_KeyTableGetKey(&anm->keyTable, group, anm->times[group] >> 12);
             if (key.texIndex != anm->curKeys[group].texIndex || anm->needsFullUpload)
-                func_02061CA4(0, anm->vramOffsets[group], (u32)func_021A79E4(anm->animRes, key.texIndex), anm->texSizes[group]);
+                func_02061CA4(0, anm->vramOffsets[group], (u32)FIELD_GROUND_ANIME_GetTexData(anm->animRes, key.texIndex), anm->texSizes[group]);
             anm->curKeys[group] = key;
         }
     }
@@ -746,7 +746,7 @@ void func_021A7818(GroundTexAnm *anm, s32 dt)
 /*
  * Addresses are Black-image addresses.
  */
-int func_021A78DC(GroundTexAnm *anm)
+int FIELD_GROUND_ANIME_TexAnmIsActive(GroundTexAnm *anm)
 {
     if (anm->keyData != 0) {
         return 1;
@@ -776,7 +776,7 @@ static inline void *DictGetNameByIdx(const Dict *dict, u32 idx)
  * Finds the model's texture with the same name as texture animTexIdx of the
  * animation file; returns its VRAM offset, or -1 when the model has none.
  */
-int func_021A78EC(void *modelRes, void *animRes, u32 animTexIdx)
+int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *modelRes, void *animRes, u32 animTexIdx)
 {
     TexRes *modelTex;
     TexRes *animTex;
@@ -800,7 +800,7 @@ int func_021A78EC(void *modelRes, void *animRes, u32 animTexIdx)
 }
 
 /* Byte size of texture texIdx: width * height divided by the pixels per byte of its format. */
-u32 func_021A797C(void *animRes, u32 texIdx)
+u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx)
 {
     TexRes *tex;
     u32 *texParam;
@@ -809,11 +809,11 @@ u32 func_021A797C(void *animRes, u32 texIdx)
     tex = func_02047250(animRes);
     texParam = tex ? DictGetByIdx(&tex->dict, texIdx) : 0;
     param = *texParam;
-    return func_0209C2B0(d_021D8B08[(param & 0x700000) >> 20] * d_021D8B08[(param & 0x3800000) >> 23], d_021D8B00[(param & 0x1C000000) >> 26]);
+    return func_0209C2B0(gTexDimensionTable[(param & 0x700000) >> 20] * gTexDimensionTable[(param & 0x3800000) >> 23], gTexPixelsPerByteTable[(param & 0x1C000000) >> 26]);
 }
 
 /* Texel data of texture texIdx. */
-u8 *func_021A79E4(void *animRes, u32 texIdx)
+u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx)
 {
     TexRes *tex;
     u32 *texParam;
@@ -824,13 +824,13 @@ u8 *func_021A79E4(void *animRes, u32 texIdx)
 }
 
 /* Key data of table entry index. */
-u32 func_021A7A28(GroundTexAnmTable *table, u32 index)
+u32 FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index)
 {
     return (u32)table + table->entries[index].keyDataOfs;
 }
 
 /* Texture animation file of table entry index. */
-u32 func_021A7A34(GroundTexAnmTable *table, u32 index)
+u32 FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index)
 {
     return (u32)table + table->entries[index].animResOfs;
 }
@@ -841,7 +841,7 @@ u32 func_021A7A34(GroundTexAnmTable *table, u32 index)
  * *(starts + group + 1) for the (starts + group)[1] address, and a const
  * GroundKeyTable pointer so the plttIndices load schedules above the first store.
  */
-GroundTexKey func_021A7A40(const GroundKeyTable *table, u32 group, u32 frame)
+GroundTexKey FIELD_GROUND_ANIME_KeyTableGetKey(const GroundKeyTable *table, u32 group, u32 frame)
 {
     GroundTexKey key;
     u8 *starts;
@@ -867,19 +867,19 @@ GroundTexKey func_021A7A40(const GroundKeyTable *table, u32 group, u32 frame)
 }
 
 /* Number of groups (animated texture slots) in the table. */
-u32 func_021A7A88(GroundKeyTable *table)
+u32 FIELD_GROUND_ANIME_KeyTableGetGroupCount(GroundKeyTable *table)
 {
     return table->groupCount;
 }
 
 /* Duration of the animation in frames. */
-u32 func_021A7A8C(GroundKeyTable *table)
+u32 FIELD_GROUND_ANIME_KeyTableGetDuration(GroundKeyTable *table)
 {
     return table->duration;
 }
 
 /* Frame number of the last key of the group. */
-u16 func_021A7A90(GroundKeyTable *table, int group)
+u16 FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame(GroundKeyTable *table, int group)
 {
     int end;
     if (group + 1 < table->groupCount) {
@@ -895,7 +895,7 @@ u16 func_021A7A90(GroundKeyTable *table, int group)
  * palette indices (u8), group count, group start keys (u8), duration. Each
  * array is padded to 4 bytes.
  */
-void func_021A7AB0(u32 *keyFile, GroundKeyTable *out)
+void FIELD_GROUND_ANIME_KeyTableUnpack(u32 *keyFile, GroundKeyTable *out)
 {
     u32 count;
     u32 p;
@@ -938,7 +938,7 @@ void func_021A7B08(void *fieldMap, VecFx32 *out)
 
 int func_021A7B10(void *a)
 {
-    return (int)func_0216D4B4(func_021A3074(func_02188CB4(a)));
+    return (int)FLDMMDL_FreeAcmd(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a)));
 }
 
 void *func_021A7B20(GroundAnimeArgs *args)
@@ -954,7 +954,7 @@ void *func_021A7B20(GroundAnimeArgs *args)
     w->frameCounter = 0;
     w->playerMoveMode = func_021A80FC(args->fieldMap);
     w->stepIndex = 0;
-    w->entrance = func_021BDC94(args->fieldMap);
+    w->entrance = ENTRANCE_CAMERA_Create(args->fieldMap);
     w->entranceParam = args->enterEntranceParam;
     w->isEnter = 1;
     w->isExit = 0;
@@ -1003,7 +1003,7 @@ void func_021A7B88(GroundAnimeWork *w)
             w->steps[8] = 8;
             return;
         }
-    } else if (func_02162370(args->enterEntranceParam) != 0) {
+    } else if (EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(args->enterEntranceParam) != 0) {
         w->steps[0] = 0;
         w->steps[1] = 1;
         w->steps[2] = 4;
@@ -1053,30 +1053,30 @@ int func_021A7CE8(void *task, int *state, GroundAnimeWork *work)
     fieldMap = args->fieldMap;
     gameData = args->gameData;
     bgmInfo = work->bgmInfo;
-    camera = func_02188C58(fieldMap);
-    fieldProc = func_02188D38(fieldMap);
-    func_02188C9C(fieldMap);
+    camera = FIELDMAP_GetCamera(fieldMap);
+    fieldProc = FIELDMAP_GetTaskManager(fieldMap);
+    FIELDMAP_GetZoneId(fieldMap);
 
     switch (*state) {
     case GROUND_A_LOCK_CAMERA:
-        func_02185B88(fieldMap, 1);
-        if (func_0218F0F8(camera) == 0) {
+        EVENT_MAPCHANGE_SetPlayerVanish(fieldMap, 1);
+        if (FIELD_CAMERA_HasDelay(camera) == 0) {
             *state = func_021A81EC(work);
             func_021A8200(work);
         } else {
-            func_0218F0A8(camera);
+            FIELD_CAMERA_EndDelay(camera);
             *state = GROUND_A_WAIT_CAMERA;
         }
         break;
     case GROUND_A_WAIT_CAMERA:
-        if (func_0218F0E8(camera) == 0) {
+        if (FIELD_CAMERA_IsDelayEnabled(camera) == 0) {
             *state = func_021A81EC(work);
             func_021A8200(work);
         }
         break;
     case GROUND_A_START_ENTRANCE:
-        func_021BDCC8(work->entrance, &work->entranceParam);
-        func_02029D7C(bgmInfo, gameData);
+        ENTRANCE_CAMERA_Setup(work->entrance, &work->entranceParam);
+        FIELD_SOUND_SYSTEM_PostFadeIn(bgmInfo, gameData);
         func_021A82D8(task, work);
         *state = func_021A81EC(work);
         func_021A8200(work);
@@ -1093,9 +1093,9 @@ int func_021A7CE8(void *task, int *state, GroundAnimeWork *work)
         }
         break;
     case GROUND_A_START_PLAYER_ANIM:
-        func_02185B88(fieldMap, 0);
-        func_02012374(task, func_021618E0(gameSystem, fieldMap));
-        if (func_021BDD40(work->entrance) != 0 && func_021BDD48(work->entrance) != 0) {
+        EVENT_MAPCHANGE_SetPlayerVanish(fieldMap, 0);
+        GAME_EVENT_CallEvent(task, EVENT_FIELD_PROCLINK_StartObjAnim(gameSystem, fieldMap));
+        if (ENTRANCE_CAMERA_IsActive(work->entrance) != 0 && ENTRANCE_CAMERA_IsInstant(work->entrance) != 0) {
             *state = GROUND_A_DELAY;
         } else {
             *state = func_021A81EC(work);
@@ -1114,7 +1114,7 @@ int func_021A7CE8(void *task, int *state, GroundAnimeWork *work)
         }
         break;
     case GROUND_A_FINISH_ENTRANCE:
-        func_021BDD20(work->entrance);
+        ENTRANCE_CAMERA_Start(work->entrance);
         *state = func_021A81EC(work);
         func_021A8200(work);
         break;
@@ -1128,10 +1128,10 @@ int func_021A7CE8(void *task, int *state, GroundAnimeWork *work)
         break;
     }
 
-    if (func_021A81DC(work) == GROUND_A_END && func_021C6E48(fieldProc) != 0) {
-        func_021BDD34(work->entrance);
-        func_0218E160(camera);
-        func_021BDCB8(work->entrance);
+    if (func_021A81DC(work) == GROUND_A_END && FIELD_TASK_MANAGER_IsEmpty(fieldProc) != 0) {
+        ENTRANCE_CAMERA_Restore(work->entrance);
+        FIELD_CAMERA_ReloadSetting(camera);
+        ENTRANCE_CAMERA_Delete(work->entrance);
         func_021A8234(work);
         return 1;
     }
@@ -1152,14 +1152,14 @@ void *func_021A7E3C(GroundAnimeArgs *args)
     work->frameCounter = 0;
     work->playerMoveMode = func_021A80FC(args->fieldMap);
     work->stepIndex = 0;
-    work->entrance = func_021BDC94(args->fieldMap);
+    work->entrance = ENTRANCE_CAMERA_Create(args->fieldMap);
     work->entranceParam = args->exitEntranceParam;
     work->isEnter = 0;
     work->isExit = 1;
     func_021A811C(args->fieldMap, &work->entryPos);
     func_021A8214(work);
     func_021A7EB4(work);
-    if (func_02162370(args->exitEntranceParam) != 0) {
+    if (EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(args->exitEntranceParam) != 0) {
         work->chainSteps = 1;
     } else {
         work->chainSteps = 0;
@@ -1209,11 +1209,11 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
     gameData = args->gameData;
     fieldMap = args->fieldMap;
     bgmInfo = work->bgmInfo;
-    fieldProc = func_02188D38(fieldMap);
+    fieldProc = FIELDMAP_GetTaskManager(fieldMap);
 
     switch (*state) {
     case GROUND_B_START_ENTRANCE:
-        func_021BDCC8(work->entrance, &work->entranceParam);
+        ENTRANCE_CAMERA_Setup(work->entrance, &work->entranceParam);
         *state = func_021A81EC(work);
         func_021A8200(work);
         if (work->chainSteps != 0) {
@@ -1221,7 +1221,7 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
         }
         break;
     case GROUND_B_FINISH_ENTRANCE:
-        func_021BDD20(work->entrance);
+        ENTRANCE_CAMERA_Start(work->entrance);
         *state = func_021A81EC(work);
         func_021A8200(work);
         if (work->chainSteps != 0) {
@@ -1237,10 +1237,10 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
         }
         break;
     case GROUND_B_WAIT_FIELD:
-        if (func_021C6E48(fieldProc) == 0) {
+        if (FIELD_TASK_MANAGER_IsEmpty(fieldProc) == 0) {
             break;
         }
-        if (func_021BDD40(work->entrance) != 0 && func_021BDD48(work->entrance) != 0) {
+        if (ENTRANCE_CAMERA_IsActive(work->entrance) != 0 && ENTRANCE_CAMERA_IsInstant(work->entrance) != 0) {
             *state = GROUND_B_DELAY;
         } else {
             *state = func_021A81EC(work);
@@ -1270,7 +1270,7 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
         break;
     case GROUND_B_START_PLAYER_ANIM:
         func_021A7B10(fieldMap);
-        func_02012374(task, func_021618E0(gameSystem, fieldMap));
+        GAME_EVENT_CallEvent(task, EVENT_FIELD_PROCLINK_StartObjAnim(gameSystem, fieldMap));
         *state = func_021A81EC(work);
         func_021A8200(work);
         if (work->chainSteps != 0) {
@@ -1278,7 +1278,7 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
         }
         break;
     case GROUND_B_REPLACE_BGM:
-        func_02029D44(bgmInfo, gameData, args->zoneId, args->bgmReplaceFlag);
+        FIELD_SOUND_SYSTEM_PostZoneBgmReplace(bgmInfo, gameData, args->zoneId, args->bgmReplaceFlag);
         args->finished = 1;
         *state = func_021A81EC(work);
         func_021A8200(work);
@@ -1292,8 +1292,8 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
         func_021A8200(work);
         break;
     case GROUND_B_END:
-        func_021BDD34(work->entrance);
-        func_021BDCB8(work->entrance);
+        ENTRANCE_CAMERA_Restore(work->entrance);
+        ENTRANCE_CAMERA_Delete(work->entrance);
         func_021A8234(work);
         return 1;
     }
@@ -1303,19 +1303,19 @@ int func_021A7F38(void *task, int *state, GroundAnimeWork *work)
 /* Movement mode of the player object (grid or rail), as a byte. */
 int func_021A80FC(void *fieldMap)
 {
-    return (u8)func_021A3050(func_02188CB4(fieldMap));
+    return (u8)FIELD_PLAYER_GetDirDisp(FIELDMAP_GetFieldPlayer(fieldMap));
 }
 
 /* Position of the player object. */
 void func_021A810C(void *fieldMap, VecFx32 *out)
 {
-    func_021A3038(func_02188CB4(fieldMap), out);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), out);
 }
 
 /* Position where the ground animation plays: rail maps and grid maps differ. */
 void func_021A811C(void *fieldMap, VecFx32 *out)
 {
-    if (func_02188CFC(fieldMap) == 1) {
+    if (FIELDMAP_GetMoveKind(fieldMap) == 1) {
         func_021A8198(fieldMap, out);
         return;
     }
@@ -1332,12 +1332,12 @@ void func_021A8140(void *fieldMap, VecFx32 *out)
     VecFx32 entryPos;
     int height;
 
-    player = func_02188CB4(fieldMap);
-    moveMode = func_021A3050(player);
-    func_021A3038(player, &playerPos);
-    func_021A3484(player, moveMode, &frontPos);
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
+    moveMode = FIELD_PLAYER_GetDirDisp(player);
+    FIELD_PLAYER_GetPos(player, &playerPos);
+    FIELD_PLAYER_GetMoveOffsetInDir(player, moveMode, &frontPos);
     func_0207CEE4(0x10000, &frontPos, &playerPos, &entryPos);
-    func_02163E58(func_021A3074(player), &entryPos, &height);
+    FLDMMDL_MOVE_GetMapHeight(FIELD_PLAYER_GetMmdl(player), &entryPos, &height);
     entryPos.y = height;
     *out = entryPos;
 }
@@ -1351,11 +1351,11 @@ void func_021A8198(void *fieldMap, VecFx32 *out)
     VecFx32 worldPos;
     int railPos[2];
 
-    player = func_02188CB4(fieldMap);
-    moveMode = func_021A3050(player);
-    rail = func_021BB480(func_02188C5C(fieldMap));
-    func_021A36C8(player, moveMode, railPos);
-    func_021B7D38(rail, railPos, &worldPos);
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
+    moveMode = FIELD_PLAYER_GetDirDisp(player);
+    rail = FIELD_NOGRID_MAPPER_GetRailMan(FIELDMAP_GetNogridMapper(fieldMap));
+    FIELD_PLAYER_GetNogridLocationByDir(player, moveMode, railPos);
+    FIELD_RAIL_GetLocationPos(rail, railPos, &worldPos);
     *out = worldPos;
 }
 
@@ -1381,13 +1381,13 @@ void func_021A8200(GroundAnimeWork *work)
 /* Creates the build model (door or ground object) at the entry position. */
 void func_021A8214(GroundAnimeWork *work)
 {
-    work->buildModel = func_0218C7D8(func_0218DC6C(func_02188C98(work->args->fieldMap)), 1, &work->entryPos);
+    work->buildModel = FIELD_BUILDMODEL_CreateNodeNearPos(FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->args->fieldMap)), 1, &work->entryPos);
 }
 
 void func_021A8234(GroundAnimeWork *work)
 {
     if (work->buildModel != 0) {
-        func_0218C860(work->buildModel);
+        FIELD_BUILDMODEL_DeleteNode(work->buildModel);
     }
 }
 
@@ -1397,7 +1397,7 @@ int func_021A8244(GroundAnimeWork *work)
     if (func_021A8268(work) == 0) {
         return 1;
     }
-    if (func_0218C8D8(work->buildModel) != 0) {
+    if (FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(work->buildModel) != 0) {
         return 1;
     }
     return 0;
@@ -1416,8 +1416,8 @@ void func_021A8278(GroundAnimeWork *work)
 {
     u16 seId;
     if (func_021A8268(work)) {
-        func_0218C88C(work->buildModel, 0, 0);
-        if (func_0218C990(work->buildModel, &seId)) {
+        FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 0, 0);
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
             func_020061E4(seId);
         }
     }
@@ -1428,8 +1428,8 @@ void func_021A82A8(GroundAnimeWork *work)
 {
     u16 seId;
     if (func_021A8268(work)) {
-        func_0218C88C(work->buildModel, 1, 0);
-        if (func_0218C990(work->buildModel, &seId)) {
+        FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 1, 0);
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
             func_020061E4(seId);
         }
     }
@@ -1443,11 +1443,11 @@ void func_021A82D8(void *task, GroundAnimeWork *work)
 
     args = work->args;
     if (args->useFixedSelector != 0) {
-        event = func_021BE92C(args->gameSystem, args->fieldMap, 3, 0, 0, args->enterWarpFlag, args->bgmReplaceFlag);
+        event = EVENT_FIELDMAP_CONTROL_StartFadeIn(args->gameSystem, args->fieldMap, 3, 0, 0, args->enterWarpFlag, args->bgmReplaceFlag);
     } else {
-        event = func_021BE92C(args->gameSystem, args->fieldMap, args->enterSelector, 0, 1, 0, 0);
+        event = EVENT_FIELDMAP_CONTROL_StartFadeIn(args->gameSystem, args->fieldMap, args->enterSelector, 0, 1, 0, 0);
     }
-    func_02012374(task, event);
+    GAME_EVENT_CallEvent(task, event);
 }
 
 /* Calls the exit event; a fixed selector overrides the caller's one. */
@@ -1456,11 +1456,11 @@ void func_021A8324(void *task, GroundAnimeWork *work)
     GroundAnimeArgs *args = work->args;
     void *event;
     if (args->useFixedSelector != 0) {
-        event = func_021BE8D4(args->gameSystem, args->fieldMap, 0, 0);
+        event = EVENT_FIELDMAP_CONTROL_StartFadeOut(args->gameSystem, args->fieldMap, 0, 0);
     } else {
-        event = func_021BE8D4(args->gameSystem, args->fieldMap, args->exitSelector, 0);
+        event = EVENT_FIELDMAP_CONTROL_StartFadeOut(args->gameSystem, args->fieldMap, args->exitSelector, 0);
     }
-    func_02012374(task, event);
+    GAME_EVENT_CallEvent(task, event);
 }
 
 /* 1 when the door sound still has to be played: no build model, selector is not 2. */

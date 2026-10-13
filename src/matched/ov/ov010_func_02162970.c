@@ -1,5 +1,5 @@
 /*
- * function: func_02162970
+ * function: EVENTDATA_SYSTEM_SearchBgEventScriptId
  * address:  0x02162970
  * packet:   pkt_ov010_02162970
  * region:   ov010
@@ -20,10 +20,10 @@
  * (`(u16)(type - 2) <= 1` gives `subs #2` instead).
  *
  * symbols:
- *   func_02162E48  0x02162E48  thumb  ov010
- *   func_02162E9C  0x02162E9C  thumb  ov010
- *   func_02164708  0x02164708  thumb  ov010
- *   func_020142E8  0x020142E8  thumb
+ *   EVENTDATA_SYSTEM_IsBgEventGridHit  0x02162E48  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsBgEventRailHit  0x02162E9C  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetHiddenItemFlag  0x02164708  thumb  ov010
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  */
 
 typedef unsigned char u8;
@@ -48,12 +48,12 @@ typedef struct TriggerSet {
 
 struct CellKey;
 struct VecFx32;
-extern int func_02162E48(struct Trigger *t, const struct VecFx32 *pos);
-extern int func_02162E9C(struct Trigger *t, const struct CellKey *k);
-extern u16 func_02164708(u16 id);
-extern u32 func_020142E8(void *bitmap, s32 id);
+extern int EVENTDATA_SYSTEM_IsBgEventGridHit(struct Trigger *t, const struct VecFx32 *pos);
+extern int EVENTDATA_SYSTEM_IsBgEventRailHit(struct Trigger *t, const struct CellKey *k);
+extern u16 EVENTDATA_SYSTEM_GetHiddenItemFlag(u16 id);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 
-u16 func_02162970(TriggerSet *set, void *flags, const void *where, u16 type)
+u16 EVENTDATA_SYSTEM_SearchBgEventScriptId(TriggerSet *set, void *flags, const void *where, u16 type)
 {
     Trigger *t;
     u16 i;
@@ -64,14 +64,14 @@ u16 func_02162970(TriggerSet *set, void *flags, const void *where, u16 type)
     count = set->count;
     for (i = 0; i < count; i++, t++) {
         if (t->mode == 0) {
-            if (!func_02162E48(t, where))
+            if (!EVENTDATA_SYSTEM_IsBgEventGridHit(t, where))
                 continue;
         } else {
-            if (!func_02162E9C(t, where))
+            if (!EVENTDATA_SYSTEM_IsBgEventRailHit(t, where))
                 continue;
         }
         if (t->kind2 == 2) {
-            if (func_020142E8(flags, func_02164708(t->id)) == 0)
+            if (ZONEDATA_CheckEventFlag(flags, EVENTDATA_SYSTEM_GetHiddenItemFlag(t->id)) == 0)
                 return t->id;
             continue;
         }

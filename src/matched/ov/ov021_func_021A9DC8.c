@@ -1,5 +1,5 @@
 /*
- * function: func_021A9DC8
+ * function: FIELD_ENCOUNT_RandPercent
  * address:  0x021A9DC8
  * packet:   pkt_ov021_021A9DC8
  * region:   ov021
@@ -26,7 +26,7 @@ typedef signed int     s32;
 extern u32 func_020056EC(u32 v);
 extern u32 func_0209C2B0(u32 a, u32 b);
 
-u32 func_021A9DC8(void)
+u32 FIELD_ENCOUNT_RandPercent(void)
 {
     return func_0209C2B0(func_020056EC(0xFFFF), 0x290);
 }

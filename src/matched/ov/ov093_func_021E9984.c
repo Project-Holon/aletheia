@@ -13,13 +13,13 @@
  *   func_021B8F38 0x021B8F38 thumb ov093
  *   func_021B8F7C 0x021B8F7C thumb ov093
  *   func_021B8FC0 0x021B8FC0 thumb ov093
- *   func_021B8588 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   func_021B99B8 0x021B99B8 thumb ov093
  *   func_021E9A68 0x021E9A68 thumb ov093
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_021F86E0 0x021F86E0 thumb ov094
- *   func_021B8748 0x021B8748 thumb ov093
- *   func_021B86B8 0x021B86B8 thumb ov093
+ *   BTL_MAIN_GetGameData 0x021B8748 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  */
 #include "../include/Obj00056.h"
 #include "../include/Obj00714.h"
@@ -31,13 +31,13 @@ extern int func_021B8F5C(char *p, int k);
 extern int func_021B8F38(unsigned char *p);
 extern int func_021B8F7C(u8 *, u32);
 extern unsigned char func_021B8FC0(unsigned char *p, unsigned int k);
-extern u32 func_021B8588(void **p);
+extern u32 BTL_MAIN_GetRule(void **p);
 extern int func_021B99B8(void *pp, unsigned int b);
 extern int func_021E9A68(void *);
 extern void *func_021F86D4(void);
 extern int func_021F86E0(void);
-extern u32 func_021B8748(void **p);
-extern void *func_021B86B8(void ***);
+extern u32 BTL_MAIN_GetGameData(void **p);
+extern void *BTL_MAIN_GetCompetitor(void ***);
 
 void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
 {
@@ -57,7 +57,7 @@ void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
         q[0x1c] = 0;
     }
     q[0x1f] = mode;
-    if (func_021B8588(((struct Obj00056 *)p)->f0) != 3) q[0x22] = func_021B99B8(((struct Obj00056 *)p)->f0, k);
+    if (BTL_MAIN_GetRule(((struct Obj00056 *)p)->f0) != 3) q[0x22] = func_021B99B8(((struct Obj00056 *)p)->f0, k);
     else q[0x22] = 3;
     switch (mode) {
     case 4:
@@ -70,14 +70,14 @@ void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
     q[0x4b] = 0;
     ((struct Obj00714 *)q)->f10 = ((struct Obj00056 *)p)->f184;
     ((struct Obj00714 *)q)->fC = ((struct Obj00056 *)p)->fB0;
-    ((struct Obj00714 *)q)->f14 = func_021B8588(((struct Obj00056 *)p)->f0);
+    ((struct Obj00714 *)q)->f14 = BTL_MAIN_GetRule(((struct Obj00056 *)p)->f0);
     ((struct Obj00714 *)q)->f44 = func_021E9A68(((struct Obj00056 *)p)->f180);
     ((struct Obj00714 *)q)->f28 = func_021F86D4();
     ((struct Obj00714 *)q)->f2C = (void *)func_021F86E0();
-    ((struct Obj00714 *)q)->f0 = (void *)func_021B8748(((struct Obj00056 *)p)->f0);
+    ((struct Obj00714 *)q)->f0 = (void *)BTL_MAIN_GetGameData(((struct Obj00056 *)p)->f0);
     ((struct Obj00714 *)q)->f30 = 0;
     zero = 0;
-    if ((int)func_021B86B8(*(void *** *)&((struct Obj00056 *)p)->f0) != 3) zero = 1;
+    if ((int)BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj00056 *)p)->f0) != 3) zero = 1;
     ((struct Obj00714 *)q)->f40 = zero;
     ((struct Obj00714 *)q)->f34 = 0;
     q[0x4c] = 0;

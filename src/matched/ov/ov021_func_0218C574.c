@@ -1,5 +1,5 @@
 /*
- * function: func_0218C574
+ * function: FIELD_BUILDMODEL_GetModelIndexOut
  * address:  0x0218C574
  * packet:   pkt_ov021_0218C574
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218BBD0  0x0218BBD0  thumb  ov021
+ *   FIELD_BUILDMODEL_GetModelIndex  0x0218BBD0  thumb  ov021
  */
 
 typedef struct {
@@ -18,9 +18,9 @@ typedef struct {
     int *d;
 } S;
 
-int func_0218BBD0(int a, int b);
+int FIELD_BUILDMODEL_GetModelIndex(int a, int b);
 
-void func_0218C574(int a, S *s, int b)
+void FIELD_BUILDMODEL_GetModelIndexOut(int a, S *s, int b)
 {
-    *s->d = func_0218BBD0(a, b);
+    *s->d = FIELD_BUILDMODEL_GetModelIndex(a, b);
 }

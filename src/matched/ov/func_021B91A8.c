@@ -1,5 +1,5 @@
 /*
- * function: func_021B91A8
+ * function: FIELD_RAIL_WORK_IsInUse
  * address:  0x021B91A8
  * packet:   pkt_021B91A8
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_021B91A8(u8 *p)
+u16 FIELD_RAIL_WORK_IsInUse(u8 *p)
 {
     return ((struct Obj18138 *)p)->f2;
 }

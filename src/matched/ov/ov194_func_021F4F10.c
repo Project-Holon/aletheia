@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  */
-extern unsigned short func_02045A98(void);
+extern unsigned short STRBUF_GetEosChar(void);
 int func_021F4F10(const unsigned short *a, const unsigned short *b)
 {
-    unsigned short sentinel = func_02045A98();
+    unsigned short sentinel = STRBUF_GetEosChar();
     int i;
     for (i = 0; i < 3; i++, a++, b++) {
         if (*a == 0x3000 && *b == sentinel) return 1;

@@ -17,7 +17,7 @@
  *
  * symbols:
  *   func_02034714  0x02034714  arm
- *   func_0203996C  0x0203996C  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_HANDLE_ResetHandle  0x02039658  arm
  *   GFL_NET_HANDLE_ClearTimingMask  0x0203971C  arm
  *   file_020A7A68  0x020A7A68  data
@@ -25,7 +25,7 @@
  *
  * Pushes a slot's identity into both halves of the table, reporting at line
  * 0x3BE (958) when the identity is the 0xFF sentinel.  Each half is
- * `record(func_0203996C(selector), id)` with the selector's result already in
+ * `record(GFL_NET_HANDLE_GetNetHandle(selector), id)` with the selector's result already in
  * r0, so the second call's first argument is the first call's return value
  * and no local is needed to hold it.
  *
@@ -41,7 +41,7 @@ typedef unsigned int u32;
 extern void func_02034714(const char *file, u32 line, const char *msg);
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern void GFL_NET_HANDLE_ResetHandle(struct Entry *e, u32 idx);
 extern void GFL_NET_HANDLE_ClearTimingMask(unsigned char *a, u32 b);
 extern const char file_020A7A68[];
@@ -51,6 +51,6 @@ void GFL_NET_HANDLE_RemoveHandle(u32 a0)
 {
     if (a0 == 0xFF)
         func_02034714(file_020A7A68, 0x3BE, file_020A7AB0);
-    GFL_NET_HANDLE_ResetHandle(func_0203996C(a0), a0);
-    GFL_NET_HANDLE_ClearTimingMask((unsigned char *)func_0203996C(0xFF), a0);
+    GFL_NET_HANDLE_ResetHandle(GFL_NET_HANDLE_GetNetHandle(a0), a0);
+    GFL_NET_HANDLE_ClearTimingMask((unsigned char *)GFL_NET_HANDLE_GetNetHandle(0xFF), a0);
 }

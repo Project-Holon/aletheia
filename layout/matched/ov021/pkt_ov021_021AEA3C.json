@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AEA3C",
+   "name": "SCRCMD_GetTrainerEyeObjId",
    "address": "0x021AEA3C",
    "kind": "game",
    "region": "ov021",

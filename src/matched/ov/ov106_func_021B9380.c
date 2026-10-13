@@ -9,26 +9,26 @@
  * status: EXACT*
  * extent: two bytes of alignment padding after the return.
  * symbols:
- *   func_02043B5C 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
+ *   BMP_Clear 0x02043B5C arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021B9414 0x021B9414 thumb ov106
- *   func_0201C724 0x0201C724 thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
 #include "../include/Obj03746.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 typedef unsigned int   u32;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021B9414(void *,int,int *);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021B9380(u8 *p,void *a,void *b,int c) {
  int xy[2];
- func_02043B5C(((struct Obj03746 *)p)->f0,((struct Obj03746 *)p)->f4&31);
- func_02045CAC(a,(u32)b,((struct Obj03746 *)p)->f18);
+ BMP_Clear(((struct Obj03746 *)p)->f0,((struct Obj03746 *)p)->f4&31);
+ MSGDATA_ReadString(a,(u32)b,((struct Obj03746 *)p)->f18);
  func_021B9414(p,c,xy);
- func_0201C724(((struct Obj03746 *)p)->f20,(u32)(((struct Obj03746 *)p)->f0),(short)xy[0],(short)xy[1],(u32)(((struct Obj03746 *)p)->f18),c,((struct Obj03746 *)p)->f4);
+ PRINTSYS_PrintQueColor(((struct Obj03746 *)p)->f20,(u32)(((struct Obj03746 *)p)->f0),(short)xy[0],(short)xy[1],(u32)(((struct Obj03746 *)p)->f18),c,((struct Obj03746 *)p)->f4);
  ((struct Obj03746 *)p)->f8=1;
 }

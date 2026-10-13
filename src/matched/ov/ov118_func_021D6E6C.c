@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BUTTON_MAN_GetUserData  0x02051A34  arm
- *   func_02011610  0x02011610  thumb
+ *   ICA_ANIME_GetTranslate  0x02011610  thumb
  *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *
  * Addresses are Black-image addresses.
@@ -29,7 +29,7 @@ typedef struct {
 extern int BUTTON_MAN_GetUserData(void *p);
 struct IcaAnime;
 struct Rec12;
-extern unsigned int func_02011610(struct IcaAnime *, struct Rec12 *);
+extern unsigned int ICA_ANIME_GetTranslate(struct IcaAnime *, struct Rec12 *);
 extern void BUTTON_MAN_SetEmitterPos(void *, Vec *);
 
 void func_021D6E6C(void *obj, int on)
@@ -45,7 +45,7 @@ void func_021D6E6C(void *obj, int on)
             v->x = 0;
             v->y = 0;
             v->z = 0;
-            func_02011610(((struct Obj22693 *)(*(char * *)&((struct Obj13882 *)w)->fC))->f98, (struct Rec12 *)v);
+            ICA_ANIME_GetTranslate(((struct Obj22693 *)(*(char * *)&((struct Obj13882 *)w)->fC))->f98, (struct Rec12 *)v);
             BUTTON_MAN_SetEmitterPos(obj, v);
         }
     }

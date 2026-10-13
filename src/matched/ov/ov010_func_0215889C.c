@@ -1,5 +1,5 @@
 /*
- * function: func_0215889C
+ * function: SCRIPT_SYS_ChangeNextEvent
  * address: 0x0215889C
  * packet: pkt_ov010_0215889C
  * region: ov010
@@ -8,14 +8,14 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * extent: 8-byte tail stub; existing labelled func_021588A4 follows.
+ * extent: 8-byte tail stub; existing labelled SCRIPT_SYS_SetNextEvent follows.
  * symbols:
- *   func_0201235C 0x0201235C thumb
+ *   GAME_EVENT_ChangeEvent 0x0201235C thumb
  */
 typedef unsigned int u32;
 struct S0201235C;
-extern void func_0201235C(struct S0201235C *o, u32 *out);
-void func_0215889C(void *p, u32 *out)
+extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
+void SCRIPT_SYS_ChangeNextEvent(void *p, u32 *out)
 {
-    func_0201235C(p, out);
+    GAME_EVENT_ChangeEvent(p, out);
 }

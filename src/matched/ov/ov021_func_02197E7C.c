@@ -1,5 +1,5 @@
 /*
- * function: func_02197E7C
+ * function: FLDMMDL_ACMD_ConvertCodeByDir
  * address:  0x02197E7C
  * packet:   pkt_ov021_02197E7C
  * region:   ov021
@@ -31,7 +31,7 @@ typedef signed char    s8;
 
 extern int *d_021D5D6C[];
 
-int func_02197E7C(int a, int b)
+int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b)
 {
     int i;
     int **p;

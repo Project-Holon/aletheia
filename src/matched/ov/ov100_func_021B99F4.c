@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CEAC 0x0203CEAC arm
+ *   GFL_NET_Exit 0x0203CEAC arm
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B99D4 0x021B99D4 thumb ov100
  */
 #include "../include/Obj22073.h"
-extern int func_0203CEAC(int);
+extern int GFL_NET_Exit(int);
 extern void func_021B95B8(unsigned char *,unsigned);
 extern void func_021B99D4(unsigned char *a);
 void func_021B99F4(unsigned a)
 {
  if(++((struct Obj22073 *)a)->fCAC>60) {
-  func_0203CEAC(0);
+  GFL_NET_Exit(0);
   func_021B95B8((unsigned char *)a,(unsigned)func_021B99D4);
  }
 }

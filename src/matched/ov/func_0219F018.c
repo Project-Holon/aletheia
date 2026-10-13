@@ -1,5 +1,5 @@
 /*
- * function: func_0219F018
+ * function: FIELD_RAIL_LOADER_GetSetting
  * address:  0x0219F018
  * packet:   pkt_0219F018
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_0219F018(u8 *p)
+u8 *FIELD_RAIL_LOADER_GetSetting(u8 *p)
 {
     return p + 0x8;
 }

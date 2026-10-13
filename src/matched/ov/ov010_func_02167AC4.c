@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_02167AC4, func_02167AF0, func_02167AF4
+ * function: BSUBWAY_COMM_GetBeaconData, BSUBWAY_COMM_GetBeaconSize, BSUBWAY_COMM_CheckConnectService
  * address: 0x02167AC4
  * packet: pkt_ov010_02167AC4
  * region: ov010
@@ -10,31 +10,31 @@
  * status: EXACT
  * Trailing unlabelled constant getter and equality predicate are included.
  * symbols:
- *   func_02012944 0x02012944 thumb
- *   func_02008494 0x02008494 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
+ *   MYSTATUS_Copy 0x02008494 thumb
  *   func_02087C6C 0x02087C6C arm
  */
 #include "../include/Obj19012.h"
 #include "../include/Obj19013.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *func_02012944(void *p);
-extern void func_02008494(void *, void *);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void MYSTATUS_Copy(void *, void *);
 extern void func_02087C6C(void *);
-void *func_02167AC4(u8 *p)
+void *BSUBWAY_COMM_GetBeaconData(u8 *p)
 {
     u8 *q;
     q = p + 0x6f4;
-    func_02008494(func_02012944(((struct Obj19012 *)p)->f6C), q);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus(((struct Obj19012 *)p)->f6C), q);
     func_02087C6C(q + 0x20);
     ((struct Obj19013 *)q)->f26 = 0x3a0b;
     return q;
 }
-int func_02167AF0(void)
+int BSUBWAY_COMM_GetBeaconSize(void)
 {
     return 0x28;
 }
-int func_02167AF4(int a, int b)
+int BSUBWAY_COMM_CheckConnectService(int a, int b)
 {
     if (a == b) return 1;
     return 0;

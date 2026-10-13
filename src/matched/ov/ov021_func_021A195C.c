@@ -1,5 +1,5 @@
 /*
- * function: func_021A195C
+ * function: FIELD_3DBG_SetTextureParams
  * address:  0x021A195C
  * packet:   pkt_ov021_021A195C
  * region:   ov021
@@ -15,8 +15,8 @@
  * address inlines, and the format read once into an int local.
  *
  * symbols:
- *   func_02047388  0x02047388  arm
- *   func_020473B8  0x020473B8  arm
+ *   G3D_SYSTEM_GetTexVramKey  0x02047388  arm
+ *   G3D_SYSTEM_GetPlttVramKey  0x020473B8  arm
  * Addresses are Black-image addresses.
  */
 
@@ -37,8 +37,8 @@ typedef struct {
 } Obj021A195C;
 
 struct Layer;
-u32 func_02047388(struct Layer *layer);
-u32 func_020473B8(struct Layer *layer);
+u32 G3D_SYSTEM_GetTexVramKey(struct Layer *layer);
+u32 G3D_SYSTEM_GetPlttVramKey(struct Layer *layer);
 
 typedef enum { GX_TEXFMT_NONE = 0, GX_TEXFMT_PLTT4 = 2 } GXTexFmt;
 typedef enum { GX_TEXGEN_NONE = 0, GX_TEXGEN_TEXCOORD = 1 } GXTexGen;
@@ -62,11 +62,11 @@ static inline void G3_TexPlttBase(u32 addr, GXTexFmt fmt)
 static inline u32 NNS_GfdGetTexKeyAddr(u32 key) { return (u32)((0x0000FFFF & key) << 3); }
 static inline u32 NNS_GfdGetPlttKeyAddr(u32 key) { return (u32)((0x0000FFFF & key) << 3); }
 
-void func_021A195C(Obj021A195C *p)
+void FIELD_3DBG_SetTextureParams(Obj021A195C *p)
 {
-    u32 texKey = func_02047388((struct Layer *)p->key);
+    u32 texKey = G3D_SYSTEM_GetTexVramKey((struct Layer *)p->key);
     int fmt = p->fmt;
 
     G3_TexImageParam(fmt, GX_TEXGEN_TEXCOORD, p->sizeS, p->sizeT, p->repeat, p->flip, p->pltt0, NNS_GfdGetTexKeyAddr(texKey));
-    G3_TexPlttBase(NNS_GfdGetPlttKeyAddr(func_020473B8((struct Layer *)p->key)), fmt);
+    G3_TexPlttBase(NNS_GfdGetPlttKeyAddr(G3D_SYSTEM_GetPlttVramKey((struct Layer *)p->key)), fmt);
 }

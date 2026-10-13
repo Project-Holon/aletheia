@@ -1,5 +1,5 @@
 /*
- * function: func_02047F4C
+ * function: G3D_UTIL_AddUnitLoaded
  * address:  0x02047F4C
  * packet:   pkt_02047E88
  * region:   arm9
@@ -20,11 +20,11 @@
  * {resIdx, resCount, objIdx, objCount}, and the u16 heap id at +0x216.  See
  * docs/families/g3d_util.h.
  *
- * Twin of func_02047E88 with the second callee G3D_UTIL_BuildUnitObjectsLoaded (the object
+ * Twin of G3D_UTIL_AddUnit with the second callee G3D_UTIL_BuildUnitObjectsLoaded (the object
  * builder that binds textures itself); same u16 prototype lever.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047F4C.c --func func_02047F4C --addr 0x02047F4C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_AddUnitLoaded.c --func G3D_UTIL_AddUnitLoaded --addr 0x02047F4C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -59,7 +59,7 @@ typedef struct {
 extern void G3D_UTIL_LoadUnitResources(Util *u, u16 idx, const Setup *s, u16 heapID);
 extern void G3D_UTIL_BuildUnitObjectsLoaded(Util *u, u16 idx, const Setup *s, u16 heapID);
 
-u16 func_02047F4C(Util *util, const Setup *setup)
+u16 G3D_UTIL_AddUnitLoaded(Util *util, const Setup *setup)
 {
     u16 resIdx = 0;
     u16 objIdx = 0;

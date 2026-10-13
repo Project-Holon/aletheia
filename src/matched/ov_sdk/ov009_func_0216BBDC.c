@@ -1,5 +1,5 @@
 /*
- * function: func_0216BBDC
+ * function: DWCi_GetGT2ConnectionByProfileID
  * address:  0x0216BBDC
  * packet:   pkt_ov009_021702A0
  * region:   ov009
@@ -21,7 +21,7 @@ extern int g_021AA8A0[];
 extern int gt2GetConnectionData(const int *p);
 extern int *DWCi_GetGT2ConnectionByIdx(int i);
 
-int *func_0216BBDC(int pid, int flag)
+int *DWCi_GetGT2ConnectionByProfileID(int pid, int flag)
 {
     int i;
 

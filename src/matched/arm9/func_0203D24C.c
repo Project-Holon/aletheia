@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *
  * TU: net.c.
  *
@@ -33,11 +33,11 @@ struct NetState {
     u16 unk_5e;
 };
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 
 void GFL_NET_SetTimeout(u16 a, u16 b)
 {
-    struct NetState *s = func_0203D798();
+    struct NetState *s = GFL_NET_GetInitParam();
 
     if (s != 0) {
         s->unk_5c = a;

@@ -24,7 +24,7 @@
  * over a file the caller already has; this one opens the archive, seeks the
  * member, reads its header and then decides: a resident bank allocates the
  * whole payload up front and calls MSGDATA_LoadBank to index it, a streamed bank
- * leaves `base` null and reads entries on demand in func_02045CAC.
+ * leaves `base` null and reads entries on demand in MSGDATA_ReadString.
  *
  * The allocation tags are 0x68 for the bank and 0x7b for the payload, both
  * passed as the fifth argument on the stack, with the same BSS provenance

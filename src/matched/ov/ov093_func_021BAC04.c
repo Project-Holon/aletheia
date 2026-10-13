@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC04
+ * function: BTL_SERVER_StepStart
  * address:  0x021BAC04
  * packet:   pkt_ov093_021BAC04
  * region:   ov093
@@ -10,65 +10,65 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB718  0x021BB718  thumb  ov093
- *   func_021BB798  0x021BB798  thumb  ov093
- *   func_021BB7D0  0x021BB7D0  thumb  ov093
- *   func_021B86B8  0x021B86B8  thumb  ov093
- *   func_021BBB60  0x021BBB60  thumb  ov093
- *   func_021BB5FC  0x021BB5FC  thumb  ov093
- *   func_021BABEC  0x021BABEC  thumb  ov093
- *   func_021BABF4  0x021BABF4  thumb  ov093
- *   func_021BB724  0x021BB724  thumb  ov093
- *   func_021BB280  0x021BB280  thumb  ov093
+ *   BTL_SERVER_SendCommand  0x021BB718  thumb  ov093
+ *   BTL_SERVER_AreRepliesReady  0x021BB798  thumb  ov093
+ *   BTL_SERVER_ClearReplies  0x021BB7D0  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
+ *   BTL_SERVER_FLOW_RunBattleStart  0x021BBB60  thumb  ov093
+ *   BTL_SERVER_SendSkipPacket  0x021BB5FC  thumb  ov093
+ *   BTL_SERVER_SetHandler  0x021BABEC  thumb  ov093
+ *   BTL_SERVER_GotoSelectCommands  0x021BABF4  thumb  ov093
+ *   BTL_SERVER_SendCommandData  0x021BB724  thumb  ov093
+ *   BTL_SERVER_StepSelectEnding  0x021BB280  thumb  ov093
  */
 #include "../include/Obj09946.h"
 
-extern void func_021BB718(int a, int b);
-extern int func_021BB798(unsigned char *p);
-extern void func_021BB7D0(const unsigned char *p);
-extern void *func_021B86B8(void ***);
-extern int func_021BBB60(unsigned char *p);
-extern int func_021BB5FC(unsigned char *p, int b);
-extern void func_021BABEC(int *p, void *f);
-extern void func_021BABF4(void *);
-extern void func_021BB724(unsigned char *p, int a, int b, int c);
+extern void BTL_SERVER_SendCommand(int a, int b);
+extern int BTL_SERVER_AreRepliesReady(unsigned char *p);
+extern void BTL_SERVER_ClearReplies(const unsigned char *p);
+extern void *BTL_MAIN_GetCompetitor(void ***);
+extern int BTL_SERVER_FLOW_RunBattleStart(unsigned char *p);
+extern int BTL_SERVER_SendSkipPacket(unsigned char *p, int b);
+extern void BTL_SERVER_SetHandler(int *p, void *f);
+extern void BTL_SERVER_GotoSelectCommands(void *);
+extern void BTL_SERVER_SendCommandData(unsigned char *p, int a, int b, int c);
 typedef unsigned char  u8;
-extern int func_021BB280(u8 *p);
+extern int BTL_SERVER_StepSelectEnding(u8 *p);
 
-int func_021BAC04(char *p, int *st)
+int BTL_SERVER_StepStart(char *p, int *st)
 {
     int *q;
 
     switch (*st) {
     case 0:
-        func_021BB718((int)p, 1);
+        BTL_SERVER_SendCommand((int)p, 1);
         (*st)++;
     case 1:
-        if (func_021BB798((unsigned char *)p)) {
-            func_021BB7D0((const unsigned char *)p);
-            if (func_021B86B8(*(void *** *)&((struct Obj09946 *)p)->fC) != (void *)4) {
-                func_021BB5FC((unsigned char *)p, func_021BBB60((unsigned char *)(((struct Obj09946 *)p)->f44)));
+        if (BTL_SERVER_AreRepliesReady((unsigned char *)p)) {
+            BTL_SERVER_ClearReplies((const unsigned char *)p);
+            if (BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj09946 *)p)->fC) != (void *)4) {
+                BTL_SERVER_SendSkipPacket((unsigned char *)p, BTL_SERVER_FLOW_RunBattleStart((unsigned char *)(((struct Obj09946 *)p)->f44)));
                 (*st)++;
             } else {
-                func_021BABEC((int *)p, (void *)func_021BB280);
+                BTL_SERVER_SetHandler((int *)p, (void *)BTL_SERVER_StepSelectEnding);
             }
         }
         break;
     case 2:
-        if (func_021BB798((unsigned char *)p)) {
-            func_021BB7D0((const unsigned char *)p);
+        if (BTL_SERVER_AreRepliesReady((unsigned char *)p)) {
+            BTL_SERVER_ClearReplies((const unsigned char *)p);
             (*st)++;
         }
         break;
     case 3:
         q = *(int * *)&((struct Obj09946 *)p)->fCB0;
-        func_021BB724((unsigned char *)p, 8, (int)(q + 2), *q);
+        BTL_SERVER_SendCommandData((unsigned char *)p, 8, (int)(q + 2), *q);
         (*st)++;
         break;
     case 4:
-        if (func_021BB798((unsigned char *)p)) {
-            func_021BB7D0((const unsigned char *)p);
-            func_021BABF4(p);
+        if (BTL_SERVER_AreRepliesReady((unsigned char *)p)) {
+            BTL_SERVER_ClearReplies((const unsigned char *)p);
+            BTL_SERVER_GotoSelectCommands(p);
         }
         break;
     }

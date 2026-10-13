@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C909C",
+   "name": "FLDEFF_D06DENKI_FollowFreezeLoop",
    "address": "0x021C909C",
    "kind": "game",
    "region": "ov021",

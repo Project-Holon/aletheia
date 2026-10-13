@@ -17,12 +17,12 @@
  *   func_02020F08 0x02020F08 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02020E60 0x02020E60 thumb
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204ABF0 0x0204ABF0 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   func_02020F0C 0x02020F0C thumb
  *   func_02020F10 0x02020F10 thumb
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj00315.h"
 #include "../include/Obj25015.h"
@@ -35,12 +35,12 @@ typedef unsigned int   u32;
 extern u16 func_0202F138(u32 i);
 extern unsigned func_02020F08(void),func_02020E60(unsigned,unsigned);
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
+extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
 typedef signed int     s32;
-extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
+extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_02020F0C(void),func_02020F10(void);
-extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
-extern void func_02049238(void *);
+extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_0220C0B4(char *p)
 {
     u16 item,i;
@@ -51,10 +51,10 @@ void func_0220C0B4(char *p)
     else {first=1;item=1;second=2;}
     arc=func_020490F4(func_02020F08(),(u16)((((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000));
     for(i=0;i<7;i++) {
-        *(int *)(p+i*4+0x544)=func_0204A6C8(arc,func_02020E60(item,first),0,1,((struct Obj25017 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-        *(int *)(p+i*4+0x568)=func_0204ABF0(arc,func_02020E60(item,second),1,(u16)(i*32),((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+        *(int *)(p+i*4+0x544)=CLACT_RegisterCharacter(arc,func_02020E60(item,first),0,1,((struct Obj25017 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+        *(int *)(p+i*4+0x568)=CLACT_RegisterPalette(arc,func_02020E60(item,second),1,(u16)(i*32),((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     }
     a=func_02020F0C();
-    ((struct Obj00315 *)p)->f58C=func_0204AF28(arc,a,func_02020F10(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
-    func_02049238(arc);
+    ((struct Obj00315 *)p)->f58C=CLACT_RegisterCellAnim(arc,a,func_02020F10(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    ARC_TOOL_DeleteHandle(arc);
 }

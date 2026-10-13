@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_GetSession   0x0203D788  arm
- *   func_0203D798   0x0203D798  arm
+ *   GFL_NET_GetInitParam   0x0203D798  arm
  *   GFL_NET_SYSTEM_RecvParentData   0x02038924  arm
  *   GFL_NET_SYSTEM_InitWork   0x02037288  arm
  *   g_020A7A20      0x020A7A20  data
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *GFL_NET_GetSession(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void  GFL_NET_SYSTEM_RecvParentData(void);
 extern int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 extern u8    g_020A7A20[];
@@ -36,7 +36,7 @@ extern u8    g_020A7A20[];
 void GFL_NET_SYSTEM_ConnectToParent(u32 a0, u32 a1, u16 a2, u32 a3)
 {
     char *b = GFL_NET_GetSession();
-    char *a = func_0203D798();
+    char *a = GFL_NET_GetInitParam();
     void (*f1)(void *);
     u32 flag;
     u16 val;
@@ -52,7 +52,7 @@ void GFL_NET_SYSTEM_ConnectToParent(u32 a0, u32 a1, u16 a2, u32 a3)
             flag = 0;
         }
 
-        a = func_0203D798();
+        a = GFL_NET_GetInitParam();
         val = ((struct Obj15931 *)a)->f56;
         GFL_NET_SYSTEM_InitWork(a2, val, flag);
 

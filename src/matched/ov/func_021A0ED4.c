@@ -1,5 +1,5 @@
 /*
- * function: func_021A0ED4
+ * function: FIELD_SUBSCREEN_IsIdle
  * address:  0x021A0ED4
  * packet:   pkt_021A0ED4
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A0ED4(u32 a)
+int FIELD_SUBSCREEN_IsIdle(u32 a)
 {
 if (((struct Obj17989 *)((u8 *)(a)))->f8 == 0) {
     return 1;

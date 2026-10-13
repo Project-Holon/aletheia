@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D9C
+ * function: ITEMMENU_ShowQuantityWindows
  * address: 0x021B7D9C
  * packet: pkt_ov070_021B7D9C
  * region: ov070
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BB1C4 0x021BB1C4 thumb ov070
- *   func_021BB260 0x021BB260 thumb ov070
+ *   ITEMMENU_LoadSellPalette 0x021BB1C4 thumb ov070
+ *   ITEMMENU_PrintQuantityPrice 0x021BB260 thumb ov070
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj00002.h"
 
 typedef unsigned char u8;
-extern void func_021BB1C4(void *p);
-extern void func_021BB260(u8 *p, int val);
+extern void ITEMMENU_LoadSellPalette(void *p);
+extern void ITEMMENU_PrintQuantityPrice(u8 *p, int val);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-void func_021B7D9C(u8 *p, int v) { ((struct Obj00002 *)p)->f7EC=v; func_021BB1C4(p); func_021BB260(p,((struct Obj00002 *)p)->f7F4); func_0204B3DC(((struct Obj00002 *)p)->f724,1); func_0204B3DC(((struct Obj00002 *)p)->f728,1); }
+void ITEMMENU_ShowQuantityWindows(u8 *p, int v) { ((struct Obj00002 *)p)->f7EC=v; ITEMMENU_LoadSellPalette(p); ITEMMENU_PrintQuantityPrice(p,((struct Obj00002 *)p)->f7F4); func_0204B3DC(((struct Obj00002 *)p)->f724,1); func_0204B3DC(((struct Obj00002 *)p)->f728,1); }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021642A4",
+   "name": "FLDMMDL_MOVE_GetDirTableValue",
    "address": "0x021642A4",
    "kind": "game",
    "region": "ov010",

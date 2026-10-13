@@ -1,5 +1,5 @@
 /*
- * function: func_0201C4E4
+ * function: PRINTSYS_QUE_Main
  * address:  0x0201C4E4
  * packet:   pkt_0201C4E4
  * region:   arm9
@@ -18,7 +18,7 @@
  * symbols:
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_020870D0  0x020870D0  arm
  *   PRINTSYS_PrintStep  0x0201C974  thumb
  *   func_0201D7C4  0x0201D7C4  thumb
@@ -72,7 +72,7 @@ struct PrintSys {
 
 extern void  GF_FONT_GetTextColor(u8 *r, u8 *g, u8 *b);
 extern u32   GF_FONT_IsTextColorDifferent(u32 r, u32 g, u32 b);
-extern void  func_0201DD78(u32 r, u32 g, u32 b);
+extern void  GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern u64   func_020870D0(void);
 struct PrintCtx;
 extern u16 *PRINTSYS_PrintStep(struct PrintCtx *c, u16 *p, u32 f);
@@ -87,7 +87,7 @@ static inline u16 Wrap(struct PrintSys *ps, u16 o)
     return r;
 }
 
-u32 func_0201C4E4(struct PrintSys *ps)
+u32 PRINTSYS_QUE_Main(struct PrintSys *ps)
 {
     u16 cap;
     u8  col[3];
@@ -122,7 +122,7 @@ u32 func_0201C4E4(struct PrintSys *ps)
     }
     if (go != 0) {
         if (GF_FONT_IsTextColorDifferent(r, g, b) != 0) {
-            func_0201DD78(r, g, b);
+            GF_FONT_SetTextColor(r, g, b);
         }
     }
     t0 = func_020870D0();
@@ -134,7 +134,7 @@ u32 func_0201C4E4(struct PrintSys *ps)
                 gg = (u8)((ps->unk10->unk0E >> 5) & 0x1F);
                 bb = (u8)(ps->unk10->unk0E & 0x1F);
                 if (GF_FONT_IsTextColorDifferent(rr, gg, bb) != 0) {
-                    func_0201DD78(rr, gg, bb);
+                    GF_FONT_SetTextColor(rr, gg, bb);
                 }
                 ps->unk10->kind = 2;
             }
@@ -156,7 +156,7 @@ u32 func_0201C4E4(struct PrintSys *ps)
             }
         } while (stop == 0 && ps->unk10 != 0);
     }
-    func_0201DD78((u8)((saved >> 10) & 0x1F), (u8)((saved >> 5) & 0x1F),
+    GF_FONT_SetTextColor((u8)((saved >> 10) & 0x1F), (u8)((saved >> 5) & 0x1F),
                   (u8)(saved & 0x1F));
     if (ps->unk10 != 0) {
         ps->unk02 = (u16)((u8 *)ps->unk14 - ((u8 *)ps + 0x18));

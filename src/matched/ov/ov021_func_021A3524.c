@@ -1,5 +1,5 @@
 /*
- * function: func_021A3524
+ * function: FIELD_PLAYER_CheckSurfEntryAttr
  * address:  0x021A3524
  * packet:   pkt_ov021_021A3524
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3098  0x021A3098  thumb  ov021
- *   func_021AB11C  0x021AB11C  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB310  0x021AB310  thumb  ov021
+ *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
+ *   MAP_ATTR_IsBlocked  0x021AB11C  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_IsWaterfall  0x021AB310  thumb  ov021
  */
 
 typedef unsigned char  u8;
-unsigned int func_021A3098(u8 *p);
+unsigned int FIELD_PLAYER_GetFormCode(u8 *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-int func_021AB11C(u32 attr);
-u16 func_021AB0F0(u32 attr);
-int func_021AB310(u16 id);
+int MAP_ATTR_IsBlocked(u32 attr);
+u16 MAP_ATTR_GetTerrainId(u32 attr);
+int MAP_ATTR_IsWaterfall(u16 id);
 
-int func_021A3524(u8 *a, int b, int c)
+int FIELD_PLAYER_CheckSurfEntryAttr(u8 *a, int b, int c)
 {
-    int r = func_021A3098(a);
+    int r = FIELD_PLAYER_GetFormCode(a);
 
-    if (func_021AB11C(b) != 0 || r != 2)
+    if (MAP_ATTR_IsBlocked(b) != 0 || r != 2)
         return 0;
-    return func_021AB310(func_021AB0F0(c));
+    return MAP_ATTR_IsWaterfall(MAP_ATTR_GetTerrainId(c));
 }

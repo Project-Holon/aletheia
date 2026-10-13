@@ -12,12 +12,12 @@
  * Function with no listing label, matched inside src/game/ov032/beacon_view.c and filed here.
  *
  * symbols:
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 
 struct PrintSys;
 typedef unsigned int   u32;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 u32 func_021F23F8(char *p);
 
 /*
@@ -37,5 +37,5 @@ u32 func_021F23F8(char *p);
  */
 u32 func_021F23F8(char *p)
 {
-    return func_0201C4E4(*(struct PrintSys **)(p + 0xB4));
+    return PRINTSYS_QUE_Main(*(struct PrintSys **)(p + 0xB4));
 }

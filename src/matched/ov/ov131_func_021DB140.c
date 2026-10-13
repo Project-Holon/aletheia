@@ -18,7 +18,7 @@
  *   Secondary record selector is an ldrb, 0..255, product <=6120. No menu
  *   domain, default output value, volatile or narrowed full-word result.
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020061E4 0x020061E4 thumb
  *   P_STA_SKILL_SetSlotAnim 0x021DBA78 thumb ov131
  *   P_STA_SKILL_SetCursor 0x021DB468 thumb ov131
@@ -26,13 +26,13 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   P_STA_SKILL_SetNewMoveHeld 0x021DB614 thumb ov131
  *   P_STA_SKILL_GetSlotTouchRect 0x021DBA14 thumb ov131
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   func_02017E88 0x02017E88 thumb
  *   func_0202F72C 0x0202F72C thumb
  *   P_STA_SKILL_GetSlotPos 0x021DBA54 thumb ov131
  *   func_0204B404 0x0204B404 arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   P_STA_SKILL_ShowCantForgetMsg 0x021DB688 thumb ov131
  */
 #include "../include/Obj00026.h"
@@ -44,7 +44,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020061E4(u32);
 extern void P_STA_SKILL_SetSlotAnim(u8 *,int);
 extern void P_STA_SKILL_SetCursor(u8 *,u8 *,u8,int);
@@ -52,14 +52,14 @@ extern void P_STA_SKILL_RefreshMoveDetail(u8 *,u8 *);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void P_STA_SKILL_SetNewMoveHeld(void *,u8 *,int);
 extern void P_STA_SKILL_GetSlotTouchRect(u8 *,u8 *);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern void *P_STATUS_GetPokePara(u8 *);
 extern int func_02017E88(void *,int,int);
 extern u32 func_0202F72C(void *a, u16 b, u16 c);
 struct Vec2;
 extern void P_STA_SKILL_GetSlotPos(unsigned char *p, unsigned short *o);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B9A0(struct Actor *);
+extern void CLACT_RestartActorAnim(struct Actor *);
 extern void P_STA_SKILL_ShowCantForgetMsg(u8 *,u8 *,int);
 
 void P_STA_SKILL_HandleTouchForget(u8 *a,u8 *b)
@@ -73,7 +73,7 @@ void P_STA_SKILL_HandleTouchForget(u8 *a,u8 *b)
             ((struct Obj00132 *)a)->f54=1;
             (*(u8 **)(a+8))[18]=1;
             ((struct Obj00132 *)a)->f50=2;
-            func_0204B878(((struct Obj00132 *)a)->f194,9);
+            CLACT_SetActorAnimSeq(((struct Obj00132 *)a)->f194,9);
             ((struct Obj00132 *)a)->f1A0=((struct Obj00132 *)a)->f194;
             func_020061E4(1361);
             return;
@@ -97,7 +97,7 @@ void P_STA_SKILL_HandleTouchForget(u8 *a,u8 *b)
     }
     for (i=0;i<5;i++) P_STA_SKILL_GetSlotTouchRect(b+176+i*24,touch[i]);
     touch[5][0]=255;
-    index=func_02035C08(touch[0]);
+    index=TOUCHPANEL_HitTrg(touch[0]);
     if (index==-1) return;
     if (((struct Obj00026 *)b)->f18==0) {
         if (index<4) {
@@ -125,7 +125,7 @@ void P_STA_SKILL_HandleTouchForget(u8 *a,u8 *b)
                 P_STA_SKILL_GetSlotPos(b+176+b[42]*24,(short unsigned int *)point);
                 func_0204B404(((struct Obj00026 *)b)->f9C,(const struct Vec2 *)point,0);
                 func_0204B3DC(((struct Obj00026 *)b)->f9C,1);
-                func_0204B9A0(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
+                CLACT_RestartActorAnim(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
                 P_STA_SKILL_SetNewMoveHeld(a,b,1);
                 func_020061E4(1356);
                 return;

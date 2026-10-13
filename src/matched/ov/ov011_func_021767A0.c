@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012B58  0x02012B58  thumb
- *   func_02158344  0x02158344  thumb  ov010
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02012B80  0x02012B80  thumb
+ *   GAME_DATA_GetIntrudeId  0x02012B80  thumb
  */
 
 typedef unsigned char  u8;
@@ -25,11 +25,11 @@ typedef struct {
 } Rec;
 
 struct BigObj;
-extern u8 func_02012B58(const struct BigObj *p);
-extern int func_02158344(int a0);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
-extern u8 func_02012B80(const struct BigObj *p);
+extern u8 GAME_DATA_GetIntrudeId(const struct BigObj *p);
 
 u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b)
 {
@@ -37,10 +37,10 @@ u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b)
     u8 y;
     Rec *r;
 
-    x = (int)func_02012B58(b);
-    r = (Rec *)func_02158344((int)a);
+    x = (int)GAME_DATA_GetExitMode(b);
+    r = (Rec *)INTRUDE_COMM_GetWorkIfRunning((int)a);
     if (func_0200FB24()) {
-        y = (int)func_02012B80(b);
+        y = (int)GAME_DATA_GetIntrudeId(b);
         if (y == x) {
             return 4;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_0219EBF4
+ * function: FLDMMDL_RAIL_WanderMoveBody
  * address:  0x0219EBF4
  * packet:   pkt_ov021_0219EBF4
  * region:   ov021
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0216DA50  0x0216DA50  thumb  ov010
- *   func_0216DA7C  0x0216DA7C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D438  0x0216D438  thumb  ov010
- *   func_02197EDC  0x02197EDC  thumb  ov021
- *   func_0219EA10  0x0219EA10  thumb  ov021
- *   func_0219EA24  0x0219EA24  thumb  ov021
- *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_0219E418  0x0219E418  thumb  ov021
- *   func_0219E2F4  0x0219E2F4  thumb  ov021
- *   func_0219E664  0x0219E664  thumb  ov021
- *   func_0219E9A8  0x0219E9A8  thumb  ov021
- *   func_0216DA44  0x0216DA44  thumb  ov010
- *   func_0219EA78  0x0219EA78  thumb  ov021
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb  ov010
+ *   FLDMMDL_OffMoveBitMoveEnd  0x0216DA7C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetLocalAcmd  0x0216D438  thumb  ov010
+ *   FLDMMDL_ACMD_Update  0x02197EDC  thumb  ov021
+ *   FLDMMDL_RAIL_GetRandomTableEntry  0x0219EA10  thumb  ov021
+ *   FLDMMDL_RAIL_GetRandomDirOfKind  0x0219EA24  thumb  ov021
+ *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
+ *   FLDMMDL_RAIL_GetHitBitsDirNoAttr  0x0219E418  thumb  ov021
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb  ov021
+ *   FLDMMDL_RAIL_GetLocationByDir  0x0219E664  thumb  ov021
+ *   FLDMMDL_RAIL_CheckOutsideHomeArea  0x0219E9A8  thumb  ov021
+ *   FLDMMDL_OnMoveBitMove  0x0216DA44  thumb  ov010
+ *   FLDMMDL_RAIL_StoreNowLocation  0x0219EA78  thumb  ov021
  *   d_021D84AC     0x021D84AC  data  ov021  a4
  * Addresses are Black-image addresses.
  */
@@ -47,43 +47,43 @@ typedef struct {
 
 extern u8 d_021D84AC[];
 
-extern void *func_0216D69C(void *p);
-extern void func_0216DA50(u8 *p);
-extern void func_0216DA7C(u8 *p);
-extern u16 func_0216D5F8(void *p);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D438(char *a0, int a1);
-extern u32 func_02197EDC(u8 *p);
-extern int func_0219EA10(u32 *a, int b);
-extern u32 func_0219EA24(u32, u32);
-extern void func_0216D60C(u32, u16);
-extern int func_0219E418(u32, u16);
-extern void func_0219E2F4(void *o, void *out);
-extern int func_0219E664(void *o, u32 k, void *buf);
-extern int func_0219E9A8(u32, u32, s32, u16 *);
-extern void func_0216DA44(u32);
-extern int func_0219EA78(E *, u32);
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern void FLDMMDL_OffMoveBitMove(u8 *p);
+extern void FLDMMDL_OffMoveBitMoveEnd(u8 *p);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetLocalAcmd(char *a0, int a1);
+extern u32 FLDMMDL_ACMD_Update(u8 *p);
+extern int FLDMMDL_RAIL_GetRandomTableEntry(u32 *a, int b);
+extern u32 FLDMMDL_RAIL_GetRandomDirOfKind(u32, u32);
+extern void FLDMMDL_SetDirAll(u32, u16);
+extern int FLDMMDL_RAIL_GetHitBitsDirNoAttr(u32, u16);
+extern void FLDMMDL_RAIL_GetNextLocation(void *o, void *out);
+extern int FLDMMDL_RAIL_GetLocationByDir(void *o, u32 k, void *buf);
+extern int FLDMMDL_RAIL_CheckOutsideHomeArea(u32, u32, s32, u16 *);
+extern void FLDMMDL_OnMoveBitMove(u32);
+extern int FLDMMDL_RAIL_StoreNowLocation(E *, u32);
 
-int func_0219EBF4(u32 o)
+int FLDMMDL_RAIL_WanderMoveBody(u32 o)
 {
     E *e;
     u32 k;
     u16 a[4];
     u16 b[4];
 
-    e = func_0216D69C((void *)o);
+    e = FLDMMDL_GetMoveProcWork((void *)o);
     switch (e->state) {
     case 0:
-        func_0216DA50((u8 *)o);
-        func_0216DA7C((u8 *)o);
-        func_0216D438((char *)o, (u16)((u32)func_02197E7C((u16)((u32)func_0216D5F8((void *)o)), (u32)0)));
+        FLDMMDL_OffMoveBitMove((u8 *)o);
+        FLDMMDL_OffMoveBitMoveEnd((u8 *)o);
+        FLDMMDL_SetLocalAcmd((char *)o, (u16)((u32)FLDMMDL_ACMD_ConvertCodeByDir((u16)((u32)FLDMMDL_GetDirDisp((void *)o)), (u32)0)));
         e->state++;
         break;
     case 1:
-        if (!func_02197EDC((u8 *)o)) {
+        if (!FLDMMDL_ACMD_Update((u8 *)o)) {
             break;
         }
-        e->cnt = func_0219EA10((u32 *)d_021D84AC, -1);
+        e->cnt = FLDMMDL_RAIL_GetRandomTableEntry((u32 *)d_021D84AC, -1);
         e->state++;
     case 2:
         e->cnt--;
@@ -92,31 +92,31 @@ int func_0219EBF4(u32 o)
         }
         e->state++;
     case 3:
-        k = func_0219EA24(e->hi, 9);
-        func_0216D60C(o, k);
-        if (func_0219E418(o, k)) {
+        k = FLDMMDL_RAIL_GetRandomDirOfKind(e->hi, 9);
+        FLDMMDL_SetDirAll(o, k);
+        if (FLDMMDL_RAIL_GetHitBitsDirNoAttr(o, k)) {
             e->state = 0;
             break;
         }
-        func_0219E2F4((void *)o, a);
-        func_0219E664((void *)o, (u16)k, b);
+        FLDMMDL_RAIL_GetNextLocation((void *)o, a);
+        FLDMMDL_RAIL_GetLocationByDir((void *)o, (u16)k, b);
         if (a[0] != b[0]) {
             e->state = 0;
             break;
         }
-        if (func_0219E9A8(o, e->f, e->e, b)) {
+        if (FLDMMDL_RAIL_CheckOutsideHomeArea(o, e->f, e->e, b)) {
             e->state = 0;
             break;
         }
-        func_0216D438((char *)o, (u16)((u32)func_02197E7C((u16)k, (u32)0xc)));
-        func_0216DA44(o);
+        FLDMMDL_SetLocalAcmd((char *)o, (u16)((u32)FLDMMDL_ACMD_ConvertCodeByDir((u16)k, (u32)0xc)));
+        FLDMMDL_OnMoveBitMove(o);
         e->state++;
     case 4:
-        if (func_02197EDC((u8 *)o)) {
-            func_0216DA50((u8 *)o);
+        if (FLDMMDL_ACMD_Update((u8 *)o)) {
+            FLDMMDL_OffMoveBitMove((u8 *)o);
             e->state = 0;
         }
         break;
     }
-    return func_0219EA78(e, o);
+    return FLDMMDL_RAIL_StoreNowLocation(e, o);
 }

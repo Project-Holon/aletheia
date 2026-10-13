@@ -1,5 +1,5 @@
 /*
- * function: func_021F0228
+ * function: REPORT_LoadBgGraphics
  * address:  0x021F0228
  * packet:   pkt_ov034_021F0228
  * region:   ov034
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F0228 0x021F0228 thumb
+ *   REPORT_LoadBgGraphics 0x021F0228 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02040EBC 0x02040EBC arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
@@ -25,9 +25,9 @@ typedef unsigned int   u32;
 extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_02049658(void *, int, int, int, int, int, int);
 extern void func_020498F4(void *, int, int, int, int, int, int);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021F0228(int a)
+void REPORT_LoadBgGraphics(int a)
 {
     void *h = func_020490F4(0xC4, a);
 
@@ -35,5 +35,5 @@ void func_021F0228(int a)
     func_02040EBC(4, 0);
     func_02049658(h, 1, 4, 0, 0, 1, a);
     func_020498F4(h, 0, 4, 0, 0, 1, a);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

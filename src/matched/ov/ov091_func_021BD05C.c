@@ -1,5 +1,5 @@
 /*
- * function: func_021BD05C
+ * function: PLIST_BATTLE_CreateTeamPanel
  * address: 0x021BD05C
  * packet: pkt_ov091_021BD05C
  * region: ov091
@@ -21,13 +21,13 @@
  *   func_02030734 0x02030734 arm
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
- *   func_021BD218 0x021BD218 thumb ov091
- *   func_020450F0 0x020450F0 arm
- *   func_020457B0 0x020457B0 arm
- *   func_02045924 0x02045924 arm
+ *   PLIST_BATTLE_CreateMiniCell 0x021BD218 thumb ov091
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_SetString 0x02045924 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   d_021BED48 0x021BED48 data ov091 a1
  */
 typedef unsigned char u8;
@@ -41,16 +41,16 @@ extern void *func_0201AB28(void *list, u32 i);
 struct Descriptor;
 struct Strbuf;
 struct U16Vec;
-extern u32 *func_021BD218(u8 *p, void *mon, s16 x, u16 y);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern u32 *PLIST_BATTLE_CreateMiniCell(u8 *p, void *mon, s16 x, u16 y);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern const char d_021BED48[];
 
-u32 *func_021BD05C(u8 *p, u32 *list, u8 x, u8 y, u8 w)
+u32 *PLIST_BATTLE_CreateTeamPanel(u8 *p, u32 *list, u8 x, u8 y, u8 w)
 {
     u32 *r;
     u8 n;
@@ -67,17 +67,17 @@ u32 *func_021BD05C(u8 *p, u32 *list, u8 x, u8 y, u8 w)
             u8 yy = y + (i / 2) * 6 + 4;
             int col = 4;
             if (par != 0) col = 0;
-            r[2 + i] = (u32)func_021BD218(p, func_0201AB28((void *)list[0], i), (u8)((u8)col + (xx << 3)), (u8)(yy << 3));
+            r[2 + i] = (u32)PLIST_BATTLE_CreateMiniCell(p, func_0201AB28((void *)list[0], i), (u8)((u8)col + (xx << 3)), (u8)(yy << 3));
         } else {
             r[2 + i] = 0;
         }
     }
     flag = 1;
-    r[1] = func_020450F0(4, (u8)(x + 1 + ((u32)w >> 1)), (u8)(y + 1), 10, 2, 0xe, flag);
-    bmp = (u32)func_020457B0(0x10, *(u16 *)p);
-    func_02045924((struct Strbuf *)bmp, (const u16 *)list[1]);
-    func_0201C724((void *)(*(u32 *)(p + 0x140)), (u32)func_02045770((struct Descriptor *)r[1]), 0, 0, bmp, *(u32 *)(p + 0x138), 0x3c40);
-    func_02045808((struct U16Vec *)bmp);
+    r[1] = BMP_WIN_Create(4, (u8)(x + 1 + ((u32)w >> 1)), (u8)(y + 1), 10, 2, 0xe, flag);
+    bmp = (u32)STRBUF_Create(0x10, *(u16 *)p);
+    STRBUF_SetString((struct Strbuf *)bmp, (const u16 *)list[1]);
+    PRINTSYS_PrintQueColor((void *)(*(u32 *)(p + 0x140)), (u32)func_02045770((struct Descriptor *)r[1]), 0, 0, bmp, *(u32 *)(p + 0x138), 0x3c40);
+    STRBUF_Delete((struct U16Vec *)bmp);
     r[0] = flag;
     return r;
 }

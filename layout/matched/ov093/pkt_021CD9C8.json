@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CD9C8",
+   "name": "BTL_CLIENT_IsRemote",
    "address": "0x021CD9C8",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CD9E0",
+   "name": "BTL_CLIENT_IsMainStepActive",
    "address": "0x021CD9E0",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021CE160",
+   "name": "BTL_CLIENT_RunSubFn",
    "address": "0x021CE160",
    "kind": "game",
    "region": "ov093",

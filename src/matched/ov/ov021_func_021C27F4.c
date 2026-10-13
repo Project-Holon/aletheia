@@ -1,5 +1,5 @@
 /*
- * function: func_021C27F4
+ * function: FLD3D_CI_PokemonExtraTask
  * address:  0x021C27F4
  * packet:   pkt_ov021_021C27F4
  * region:   ov021
@@ -12,9 +12,9 @@
  *   func_020124F0  0x020124F0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_021C2918  0x021C2918  thumb  ov021
- *   func_020437AC  0x020437AC  arm
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FLD3D_CI_LoadPokemonIconTexture  0x021C2918  thumb  ov021
+ *   BMP_Delete  0x020437AC  arm
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj01215.h"
@@ -26,25 +26,25 @@ struct Ctx;
 struct Obj;
 void *func_020124E8(struct Obj *p);
 void *func_020124E4(struct Obj *p);
-void *func_0201210C(const struct Ctx *p);
-void func_021C2918(struct Obj *p);
-void func_020437AC(struct Obj020437AC *p);
+void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+void FLD3D_CI_LoadPokemonIconTexture(struct Obj *p);
+void BMP_Delete(struct Obj020437AC *p);
 typedef unsigned int   u32;
 u32 func_020307B0(void *p);
 
-int func_021C27F4(int a, int *b)
+int FLD3D_CI_PokemonExtraTask(int a, int *b)
 {
     char *p;
 
     p = *(char **)func_020124E8(func_020124F0((struct Obj *)a));
-    func_0201210C(func_020124E4((struct Obj *)a));
+    GAMESYSTEM_GetFieldMap(func_020124E4((struct Obj *)a));
     switch (*b) {
     case 0:
-        func_021C2918((struct Obj *)((int)p));
+        FLD3D_CI_LoadPokemonIconTexture((struct Obj *)((int)p));
         (*b)++;
         break;
     case 1:
-        func_020437AC((struct Obj020437AC *)(*(int *)&((struct Obj01215 *)p)->f90));
+        BMP_Delete((struct Obj020437AC *)(*(int *)&((struct Obj01215 *)p)->f90));
         func_020307B0((void *)(*(int *)&((struct Obj01215 *)p)->f94));
         func_020307B0((void *)(*(int *)&((struct Obj01215 *)p)->f98));
         (*b)++;

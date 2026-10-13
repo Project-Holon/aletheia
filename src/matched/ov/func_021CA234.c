@@ -1,5 +1,5 @@
 /*
- * function: func_021CA234
+ * function: BSUBWAY_SCR_GetWinCount
  * address:  0x021CA234
  * packet:   pkt_021CA234
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_021CA234(u8 *p)
+u16 BSUBWAY_SCR_GetWinCount(u8 *p)
 {
     return ((struct Obj18345 *)p)->fE;
 }

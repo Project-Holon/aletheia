@@ -1,5 +1,5 @@
 /*
- * function: func_021BB718
+ * function: BTL_SERVER_SendCommand
  * address:  0x021BB718
  * packet:   pkt_021BB718
  * region:   ov093
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB724  0x021BB724  thumb  ov093
+ *   BTL_SERVER_SendCommandData  0x021BB724  thumb  ov093
  */
 
 typedef unsigned char  u8;
-void func_021BB724(u8 *p, int a, int b, int c);
+void BTL_SERVER_SendCommandData(u8 *p, int a, int b, int c);
 
-void func_021BB718(int a, int b)
+void BTL_SERVER_SendCommand(int a, int b)
 {
-    func_021BB724((u8 *)a, b, 0, 0);
+    BTL_SERVER_SendCommandData((u8 *)a, b, 0, 0);
 }

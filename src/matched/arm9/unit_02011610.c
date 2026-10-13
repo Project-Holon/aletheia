@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02011610, func_02011638, ICA_ANIME_GetScale
+ * function: ICA_ANIME_GetTranslate, ICA_ANIME_GetRotate, ICA_ANIME_GetScale
  * address:  0x02011610
  * packet:   pkt_020113F0
  * region:   arm9
@@ -16,8 +16,8 @@
  * parallel field pairs, each of which copies a twelve-byte record out of a
  * table indexed by the current frame.
  *
- *   func_02011610   guard +0x28, table +0x1C
- *   func_02011638   guard +0x2C, table +0x20
+ *   ICA_ANIME_GetTranslate   guard +0x28, table +0x1C
+ *   ICA_ANIME_GetRotate   guard +0x2C, table +0x20
  *   (0x02011660)    guard +0x30, table +0x24 - unlabelled in the listing
  *                   (no prologue: the function saves nothing), written here
  *                   as the third copy
@@ -60,7 +60,7 @@ struct IcaAnime {
     s32 f34;        /* +0x34 */
 };
 
-u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst)
+u32 ICA_ANIME_GetTranslate(struct IcaAnime *p, struct Rec12 *dst)
 {
     if (p->f28 != 0) {
         dst[0] = ((struct Rec12 *)p->f1c)[(p->f10 >> 12) - p->f14];
@@ -69,7 +69,7 @@ u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst)
     return 0;
 }
 
-u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst)
+u32 ICA_ANIME_GetRotate(struct IcaAnime *p, struct Rec12 *dst)
 {
     if (p->f2c != 0) {
         dst[0] = ((struct Rec12 *)p->f20)[(p->f10 >> 12) - p->f14];

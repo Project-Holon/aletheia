@@ -1,5 +1,5 @@
 /*
- * function: func_021EF3BC
+ * function: WEATHER_DIAMOND_DUST_Begin
  * address:  0x021EF3BC
  * packet:   pkt_ov025_021EF3BC
  * region:   ov025
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF3BC 0x021EF3BC thumb ov025
- *   func_021A21B8 0x021A21B8 thumb ov021
- *   func_021A21F8 0x021A21F8 thumb ov021
- *   func_021A22E0 0x021A22E0 thumb ov021
- *   func_021EF634 0x021EF634 thumb ov025
+ *   WEATHER_DIAMOND_DUST_Begin 0x021EF3BC thumb ov025
+ *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
+ *   WEATHER_TASK_SetupSpawner 0x021A21F8 thumb ov021
+ *   WEATHER_TASK_InitFog 0x021A22E0 thumb ov021
+ *   WEATHER_DIAMOND_DUST_SpawnParticles 0x021EF634 thumb ov025
  */
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern int *func_021A21B8(int *p);
-extern void func_021A21F8(u8 *p, int a, int b, int c, int d, int e, int f, int g, int h);
-extern void func_021A22E0(u32 *p, int a, int b, int c);
-extern void func_021EF634(int *a, int n, int idx);
+extern int *WEATHER_TASK_GetWorkBuffer(int *p);
+extern void WEATHER_TASK_SetupSpawner(u8 *p, int a, int b, int c, int d, int e, int f, int g, int h);
+extern void WEATHER_TASK_InitFog(u32 *p, int a, int b, int c);
+extern void WEATHER_DIAMOND_DUST_SpawnParticles(int *a, int n, int idx);
 
-int func_021EF3BC(int a, int b)
+int WEATHER_DIAMOND_DUST_Begin(int a, int b)
 {
     int *p;
 
-    p = func_021A21B8((int *)a);
-    func_021A21F8((u8 *)a, 2, 0x10, 0x14, 2, -2, 4, 2, (int)((void *)func_021EF634));
-    func_021A22E0((u32 *)a, 8, 0x7FFF, b);
+    p = WEATHER_TASK_GetWorkBuffer((int *)a);
+    WEATHER_TASK_SetupSpawner((u8 *)a, 2, 0x10, 0x14, 2, -2, 4, 2, (int)((void *)WEATHER_DIAMOND_DUST_SpawnParticles));
+    WEATHER_TASK_InitFog((u32 *)a, 8, 0x7FFF, b);
     *p = 0;
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02180980
+ * function: EVENT_COMM_COMMON_ChangeTalkPowerGiftTargetEvent
  * address: 0x02180980
  * packet: pkt_ov018_02180980
  * region: ov018
@@ -9,21 +9,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201232C 0x0201232C thumb
+ *   GAME_EVENT_Change 0x0201232C thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_02082D44 0x02082D44 arm
- *   func_021809A4 0x021809A4 thumb ov018
+ *   EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain 0x021809A4 thumb ov018
  */
 typedef unsigned int u32;
-extern void func_0201232C(char *p, int a1, int a2);
+extern void GAME_EVENT_Change(char *p, int a1, int a2);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(const void *, void *, u32);
-extern int func_021809A4(void *, int *, void *);
-void func_02180980(void *task, const void *src)
+extern int EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain(void *, int *, void *);
+void EVENT_COMM_COMMON_ChangeTalkPowerGiftTargetEvent(void *task, const void *src)
 {
     void *work;
-    func_0201232C(task, (int)func_021809A4, 0xA4);
+    GAME_EVENT_Change(task, (int)EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain, 0xA4);
     work = func_020124E8(task);
     func_02082D44(src, work, 0x98);
 }

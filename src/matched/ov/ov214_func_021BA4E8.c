@@ -13,8 +13,8 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -25,9 +25,9 @@ struct Descriptor; struct PrintSys;
 struct S { u8 pad[0x8C]; struct Descriptor *descriptors[2]; struct Descriptor *other1,*other2; u32 flags[2]; };
 extern void *func_02045770(struct Descriptor *);
 extern u32 func_0201C6C4(struct PrintSys *,void *);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Cfg;
-extern void func_02045374(struct Cfg *);
+extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(u32);
 void func_021BA4E8(void *unused,struct S *p)
@@ -38,8 +38,8 @@ void func_021BA4E8(void *unused,struct S *p)
         if (p->flags[i]==0) {
             if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj01588 *)p)->f10,func_02045770(p->descriptors[i]))==0) {
                 d=p->descriptors[i];
-                func_02045334(d);
-                func_02045374((struct Cfg *)d);
+                BMP_WIN_TransferChars(d);
+                BMP_WIN_MakeScreen((struct Cfg *)d);
                 func_02041B6C(func_02045730(d));
                 p->flags[i]=1;
             }
@@ -48,8 +48,8 @@ void func_021BA4E8(void *unused,struct S *p)
     if (((struct Obj01588 *)p)->fA4==0) {
         if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj01588 *)p)->f14,func_02045770(p->other1))==0) {
             d=p->other1;
-            func_02045334(d);
-            func_02045374((struct Cfg *)d);
+            BMP_WIN_TransferChars(d);
+            BMP_WIN_MakeScreen((struct Cfg *)d);
             func_02041B6C(func_02045730(d));
             ((struct Obj01588 *)p)->fA4=1;
         }
@@ -57,8 +57,8 @@ void func_021BA4E8(void *unused,struct S *p)
     if (((struct Obj01588 *)p)->fA8==0) {
         if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj01588 *)p)->f18,func_02045770(p->other2))==0) {
             d=p->other2;
-            func_02045334(d);
-            func_02045374((struct Cfg *)d);
+            BMP_WIN_TransferChars(d);
+            BMP_WIN_MakeScreen((struct Cfg *)d);
             func_02041B6C(func_02045730(d));
             ((struct Obj01588 *)p)->fA8=1;
         }

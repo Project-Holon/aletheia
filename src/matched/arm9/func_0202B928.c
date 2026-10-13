@@ -1,5 +1,5 @@
 /*
- * function: func_0202B928
+ * function: ISS_3DS_SYS_IsSourceActive
  * address:  0x0202B928
  * packet:   pkt_0202B928
  * region:   arm9
@@ -13,7 +13,7 @@
  * func_021C4D14 (wave A1, lane 13).
  */
 
-int func_0202B928(int a, int b)
+int ISS_3DS_SYS_IsSourceActive(int a, int b)
 {
     return *(int *)(a + b * 0x1c + 0x24);
 }

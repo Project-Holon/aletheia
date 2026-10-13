@@ -1,5 +1,5 @@
 /*
- * function: func_021A753C
+ * function: FIELD_GROUND_ANIME_AnmEntryBind
  * address:  0x021A753C
  * packet:   pkt_ov021_021A753C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046F48  0x02046F48  arm
- *   func_0206E954  0x0206E954  arm
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
+ *   NNS_G3dGetMdlSet  0x0206E954  arm
  *   func_02047250  0x02047250  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02069C74  0x02069C74  arm
@@ -28,8 +28,8 @@ typedef struct Res { u32 x0, x1; u8 a, cnt; u16 b, c, ofs; } Res;
 typedef struct Ctx { u32 flags; u32 *buf; u32 v; } Ctx;
 
 struct Tagged;
-extern void *func_02046F48(struct Tagged *p);
-extern int func_0206E954(int p0);
+extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern int NNS_G3dGetMdlSet(int p0);
 extern u32 func_02047250(u32 a);
 extern void func_02082BCC(u32 *p, u32 v, u32 n);
 extern void func_02069C74(u32 *a, u32 b, u32 c, u32 d);
@@ -54,10 +54,10 @@ static inline u32 res0(Res *x)
     return 0;
 }
 
-u32 func_021A753C(Ctx *s, u32 b, u32 c, u32 d)
+u32 FIELD_GROUND_ANIME_AnmEntryBind(Ctx *s, u32 b, u32 c, u32 d)
 {
     u32 r6;
-    r6 = res0((Res *)func_0206E954((u32)func_02046F48((struct Tagged *)b)));
+    r6 = res0((Res *)NNS_G3dGetMdlSet((u32)G3D_SYSTEM_GetResourceFile((struct Tagged *)b)));
     if (c != 0)
         c = func_02047250(c);
     else

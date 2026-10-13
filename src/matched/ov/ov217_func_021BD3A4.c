@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 300)), 300 to func_02025588.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 300)), 300 to BMP_OAM_DeleteSys.
  *
  * symbols:
- *   func_02025588  0x02025588  thumb
+ *   BMP_OAM_DeleteSys  0x02025588  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02025588(void *p);
+extern void BMP_OAM_DeleteSys(void *p);
 
 void func_021BD3A4(u8 *a0)
 {
-    func_02025588((void *)((u32)(((struct Obj25886 *)a0)->f12C)));
+    BMP_OAM_DeleteSys((void *)((u32)(((struct Obj25886 *)a0)->f12C)));
 }
 

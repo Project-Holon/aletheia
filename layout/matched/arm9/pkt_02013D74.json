@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02013D74",
+   "name": "ZONEDATA_IsZoneGroup118To13C",
    "address": "0x02013D74",
    "kind": "game",
    "region": "arm9",

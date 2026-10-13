@@ -1,5 +1,5 @@
 /*
- * function: func_02194760
+ * function: TALKMSGWIN_EndUpdate
  * address:  0x02194760
  * packet:   pkt_021945A0
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02194760(u32 a)
+void TALKMSGWIN_EndUpdate(u32 a)
 {
 }
 

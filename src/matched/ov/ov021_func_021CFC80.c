@@ -1,5 +1,5 @@
 /*
- * function: func_021CFC80
+ * function: SCRCMD_CollectPartnersByLanguage
  * address:  0x021CFC80
  * packet:   pkt_ov021_021CFC80
  * region:   ov021
@@ -43,7 +43,7 @@ extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02025C74(u32 x);
 
-void func_021CFC80(void *a, Out *out, u32 key, u32 b)
+void SCRCMD_CollectPartnersByLanguage(void *a, Out *out, u32 key, u32 b)
 {
     int i;
 

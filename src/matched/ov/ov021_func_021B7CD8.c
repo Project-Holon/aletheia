@@ -1,5 +1,5 @@
 /*
- * function: func_021B7CD8
+ * function: FIELD_RAIL_TryStepLocation
  * address:  0x021B7CD8
  * packet:   pkt_ov021_021B7CD8
  * region:   ov021
@@ -16,10 +16,10 @@
  * symbols:
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_021B7DC0  0x021B7DC0  thumb
- *   func_021B7DE0  0x021B7DE0  thumb
- *   func_021B7EE4  0x021B7EE4  thumb
- *   func_021B80E0  0x021B80E0  thumb
- *   func_021B810C  0x021B810C  thumb
+ *   FIELD_RAIL_WORK_IsLocationValid  0x021B7DE0  thumb
+ *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb
+ *   FIELD_RAIL_WORK_StartStep  0x021B80E0  thumb
+ *   FIELD_RAIL_WORK_UpdateStep  0x021B810C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -48,23 +48,23 @@ struct Cam {
 
 struct Mgr { u8 pad00[0x1C]; void *f1C; };
 
-extern void func_021B7EE4(void *p, const Rect4 *r);
-extern void func_021B80E0(void *p, int a, u8 key);
+extern void FIELD_RAIL_WORK_SetLocation(void *p, const Rect4 *r);
+extern void FIELD_RAIL_WORK_StartStep(void *p, int a, u8 key);
 struct Sub;
-extern void func_021B810C(struct Sub *o);
+extern void FIELD_RAIL_WORK_UpdateStep(struct Sub *o);
 extern void func_021B7DC0(void *p, Rect4 *out);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern u8 func_021B7DE0(void *p, Rect4 *r);
+extern u8 FIELD_RAIL_WORK_IsLocationValid(void *p, Rect4 *r);
 
-u8 func_021B7CD8(struct Mgr *m, const Rect4 *r, u8 key, Rect4 *out)
+u8 FIELD_RAIL_TryStepLocation(struct Mgr *m, const Rect4 *r, u8 key, Rect4 *out)
 {
     Rect4 old = *r;
 
-    func_021B7EE4(m->f1C, r);
-    func_021B80E0(m->f1C, 4, key);
-    func_021B810C(m->f1C);
+    FIELD_RAIL_WORK_SetLocation(m->f1C, r);
+    FIELD_RAIL_WORK_StartStep(m->f1C, 4, key);
+    FIELD_RAIL_WORK_UpdateStep(m->f1C);
     func_021B7DC0(m->f1C, out);
     if (func_0203EFC8((const u8 *)(&old), (const u8 *)out, 8) == 0)
         return 0;
-    return func_021B7DE0(m->f1C, out);
+    return FIELD_RAIL_WORK_IsLocationValid(m->f1C, out);
 }

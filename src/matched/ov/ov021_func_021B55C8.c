@@ -1,5 +1,5 @@
 /*
- * function: func_021B55C8
+ * function: SCRCMD_PROC_FLD_PollFieldRegionStart
  * address:  0x021B55C8
  * packet:   pkt_ov021_021B55C8
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_020124E4  0x020124E4  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_0218F818  0x0218F818  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   FIELD_CAMERA_PushState  0x0218F818  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -24,17 +24,17 @@ struct Ctx;
 
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C58(void *o);
-extern u32 func_0218F0E8(u8 *a);
-extern void func_0218F818(u8 *a);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetCamera(void *o);
+extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
+extern void FIELD_CAMERA_PushState(u8 *a);
 
-int func_021B55C8(void *a)
+int SCRCMD_PROC_FLD_PollFieldRegionStart(void *a)
 {
-    u8 *x = func_02188C58(func_0201210C(func_020124E4(a)));
+    u8 *x = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(func_020124E4(a)));
 
-    if (func_0218F0E8(x) == 0) {
-        func_0218F818(x);
+    if (FIELD_CAMERA_IsDelayEnabled(x) == 0) {
+        FIELD_CAMERA_PushState(x);
         return 1;
     }
     return 0;

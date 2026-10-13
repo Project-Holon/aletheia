@@ -22,7 +22,7 @@
  * named local, written before the second call: hx = in_range(x); return in_range(y) & hx.
  *
  * symbols:
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -33,7 +33,7 @@ typedef signed short s16;
 typedef struct PtS { s16 x, y; } PtS;
 
 struct Actor;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
 static inline int in_range(int v, int lo, int hi)
 {
@@ -44,7 +44,7 @@ int func_021FB4CC(u32 *p, int a1, int a2)
 {
     PtS pos;
     int hx;
-    func_0204B454((struct Actor *)p[0], &pos, (u16)p[4]);
+    CLACT_GetActorSurfacePos((struct Actor *)p[0], &pos, (u16)p[4]);
     hx = in_range(a1, pos.x, pos.x + p[5]);
     return in_range(a2, pos.y - 16, pos.y + 16) & hx;
 }

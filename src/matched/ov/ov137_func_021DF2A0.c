@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  */
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
-int func_021DF2A0(int *p) { func_02039C68((struct Link *)func_020399A8(),204,40); *p=32; return 0; }
+int func_021DF2A0(int *p) { func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),204,40); *p=32; return 0; }

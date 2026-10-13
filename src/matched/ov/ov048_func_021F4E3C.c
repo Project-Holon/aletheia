@@ -1,5 +1,5 @@
 /*
- * function: func_021F4E3C
+ * function: GIMMICK_OBJ_ELBOARD_CheckEntryGPower
  * address:  0x021F4E3C
  * packet:   pkt_021F4E3C
  * region:   ov048
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 GPOWER_GetSpecialPowerId(void);
 
-int func_021F4E3C(int *p)
+int GIMMICK_OBJ_ELBOARD_CheckEntryGPower(int *p)
 {
     if (p[0] == 0)
         return 1;

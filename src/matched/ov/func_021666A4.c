@@ -1,5 +1,5 @@
 /*
- * function: func_021666A4
+ * function: SYMBOL_MAP_DeleteLinkRecord
  * address:  0x021666A4
  * packet:   pkt_021666A4
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int func_020307B0();
 
-void func_021666A4(int a0)
+void SYMBOL_MAP_DeleteLinkRecord(int a0)
 {
     int t4;
 

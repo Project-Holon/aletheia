@@ -9,8 +9,8 @@
  * status: EXACT
  * prototype: 78EC forwards the live index in r1 to 7C14 and leaves its u32 result live.
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021B78EC 0x021B78EC thumb ov102
  *   func_0204B92C 0x0204B92C arm
  *   func_021B87FC 0x021B87FC thumb ov102
@@ -23,8 +23,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204E720(u32, int, int, int);
-extern int func_0204E804(void);
+extern void FADE_Start(u32, int, int, int);
+extern int FADE_IsActive(void);
 extern u32 func_021B78EC(void *, int);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -40,11 +40,11 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
         *state = 1;
         break;
     case 1:
-        func_0204E720(3, 16, 0, 0);
+        FADE_Start(3, 16, 0, 0);
         *state = 2;
         break;
     case 2:
-        if (func_0204E804() == 0) {
+        if (FADE_IsActive() == 0) {
             func_0204B92C((void *)func_021B78EC(p, 31), 1);
             func_021B87FC((int *)(p + 0xfc));
             GFL_USE_CancelChangeAndPlayBgm(0x52a, 0xffff);
@@ -58,11 +58,11 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
         if (((struct Obj22139 *)p)->f488 != 0) *state = 4;
         break;
     case 4:
-        func_0204E720(3, 0, 16, 0);
+        FADE_Start(3, 0, 16, 0);
         *state = 5;
         break;
     case 5:
-        if (func_0204E804() == 0) *state = 6;
+        if (FADE_IsActive() == 0) *state = 6;
         break;
     case 6:
         return 1;

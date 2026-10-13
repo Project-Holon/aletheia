@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BBE44",
-    "func_021BBE50",
-    "func_021BBE5C"
+    "PLIST_MENU_ButtonWinOpen",
+    "PLIST_MENU_ButtonWinClose",
+    "PLIST_MENU_ButtonWinSetActive"
+   ],
+   "addresses": [
+    "0x021BBE44",
+    "0x021BBE50",
+    "0x021BBE5C"
    ]
   }
  ]

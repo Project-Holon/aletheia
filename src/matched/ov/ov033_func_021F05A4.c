@@ -1,5 +1,5 @@
 /*
- * function: func_021F05A4
+ * function: DOWSING_UpdateDisplay
  * address:  0x021F05A4
  * packet:   pkt_ov033_021F05A4
  * region:   ov033
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0C44 0x021F0C44 thumb ov033
+ *   DOWSING_UpdateFade 0x021F0C44 thumb ov033
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
- *   d_021F0DC8 0x021F0DC8 data ov033 a4
+ *   sDowsingLevelTable 0x021F0DC8 data ov033 a4
  */
 #include "../include/Obj00323.h"
 
@@ -38,37 +38,37 @@ typedef struct {
     u16 y;
 } Pt;
 
-extern const Ent d_021F0DC8[];
+extern const Ent sDowsingLevelTable[];
 struct Obj;
-extern void func_021F0C44(char *p);
+extern void DOWSING_UpdateFade(char *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
-void func_021F05A4(char *p, int flag)
+void DOWSING_UpdateDisplay(char *p, int flag)
 {
     Pt pt;
 
-    func_021F0C44(p);
+    DOWSING_UpdateFade(p);
     if (flag == 0)
         return;
     if (((struct Obj00323 *)p)->f6C != ((struct Obj00323 *)p)->f68) {
         func_0204B3DC(((struct Obj00323 *)p)->f50,
                       (((struct Obj00323 *)p)->f68 == 8 || ((struct Obj00323 *)p)->f68 == 9) ? 0 : 1);
         func_0204B3DC(((struct Obj00323 *)p)->f5C, ((struct Obj00323 *)p)->f68 == 8);
-        pt.x = d_021F0DC8[*(int *)(p + 0x68)].x;
-        pt.y = d_021F0DC8[*(int *)(p + 0x68)].y;
+        pt.x = sDowsingLevelTable[*(int *)(p + 0x68)].x;
+        pt.y = sDowsingLevelTable[*(int *)(p + 0x68)].y;
         func_0204B404(((struct Obj00323 *)p)->f50, (const struct Vec2 *)(&pt), 1);
-        func_0204B878(((struct Obj00323 *)p)->f38, d_021F0DC8[*(int *)(p + 0x68)].a);
-        func_0204B878(((struct Obj00323 *)p)->f44, d_021F0DC8[*(int *)(p + 0x68)].b);
-        func_0204B878(((struct Obj00323 *)p)->f50, d_021F0DC8[*(int *)(p + 0x68)].c);
+        CLACT_SetActorAnimSeq(((struct Obj00323 *)p)->f38, sDowsingLevelTable[*(int *)(p + 0x68)].a);
+        CLACT_SetActorAnimSeq(((struct Obj00323 *)p)->f44, sDowsingLevelTable[*(int *)(p + 0x68)].b);
+        CLACT_SetActorAnimSeq(((struct Obj00323 *)p)->f50, sDowsingLevelTable[*(int *)(p + 0x68)].c);
         ((struct Obj00323 *)p)->f6C = ((struct Obj00323 *)p)->f68;
     }
     if (((struct Obj00323 *)p)->f68 == 8 && ((struct Obj00323 *)p)->fA4 != 0) {
-        func_0204B878(((struct Obj00323 *)p)->f5C, 0);
+        CLACT_SetActorAnimSeq(((struct Obj00323 *)p)->f5C, 0);
         func_0204B92C(((struct Obj00323 *)p)->f5C, 1);
         CLACT_SetActorAnimFrame(((struct Obj00323 *)p)->f5C, 0);
         ((struct Obj00323 *)p)->fA4 = 0;

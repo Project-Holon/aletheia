@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C44
+ * function: BSUBWAY_RECORD_LIST_CreateWindows
  * address:  0x021B9C44
  * packet:   pkt_ov069_021B9C44
  * region:   ov069
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045088  0x02045088  arm
- *   func_020450F0  0x020450F0  arm
+ *   BMP_WIN_Init  0x02045088  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
- *   d_021BA874  0x021BA874  data  a4
+ *   sWindowTemplates  0x021BA874  data  a4
  */
 
 typedef unsigned char u8;
@@ -37,39 +37,39 @@ typedef struct Obj {
     int a[8];
 } Obj;
 
-extern Ent *d_021BA874[];
+extern Ent *sWindowTemplates[];
 
-extern void func_02045088(u16 heapId);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_Init(u16 heapId);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Cfg;
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 
-void func_021B9C44(Obj *o)
+void BSUBWAY_RECORD_LIST_CreateWindows(Obj *o)
 {
     int i;
     int j;
     int h;
     Ent *e;
 
-    func_02045088(0x80);
+    BMP_WIN_Init(0x80);
     for (i = 0; i < 8; i++) {
-        e = d_021BA874[i];
-        o->a[i] = (int)func_020450F0((u8)e->f0, (int)e->f4, (int)e->f5, (int)e->f6, (int)e->f7, e->f8, (int)1);
-        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)o->a[i])), 0);
+        e = sWindowTemplates[i];
+        o->a[i] = (int)BMP_WIN_Create((u8)e->f0, (int)e->f4, (int)e->f5, (int)e->f6, (int)e->f7, e->f8, (int)1);
+        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)o->a[i])), 0);
         h = o->a[i];
-        func_02045334((struct Descriptor *)h);
-        func_02045374((struct Cfg *)h);
+        BMP_WIN_TransferChars((struct Descriptor *)h);
+        BMP_WIN_MakeScreen((struct Cfg *)h);
         func_020409B4(func_02045730((struct Descriptor *)h));
     }
     for (j = 0; j < 10; j++) {
-        o->b[j] = (int)func_020450F0((u8)1, (int)2, (int)1, (int)10, (int)2, 1, (int)1);
-        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)o->b[j])), 4);
+        o->b[j] = (int)BMP_WIN_Create((u8)1, (int)2, (int)1, (int)10, (int)2, 1, (int)1);
+        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)o->b[j])), 4);
     }
 }

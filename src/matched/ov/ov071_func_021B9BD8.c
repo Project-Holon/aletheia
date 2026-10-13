@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BD8
+ * function: MONOLITH_TOOL_UpdateMarker
  * address: 0x021B9BD8
  * packet: pkt_ov071_021B9BD8
  * region: ov071
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B70C4 0x021B70C4 thumb ov071
+ *   MONOLITH_TOOL_UpdateBlink 0x021B70C4 thumb ov071
  */
 
-extern void func_021B70C4(void *);
-void func_021B9BD8(char *p) { func_021B70C4(p + 0x298); }
+extern void MONOLITH_TOOL_UpdateBlink(void *);
+void MONOLITH_TOOL_UpdateMarker(char *p) { MONOLITH_TOOL_UpdateBlink(p + 0x298); }

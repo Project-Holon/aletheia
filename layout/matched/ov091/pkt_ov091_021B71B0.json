@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B71B0",
+   "name": "POKELIST_DeleteClactUnit",
    "address": "0x021B71B0",
    "kind": "game",
    "region": "ov091",

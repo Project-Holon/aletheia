@@ -1,5 +1,5 @@
 /*
- * function: func_02166834
+ * function: SYMBOL_MAP_GetSyncBlockHeader
  * address:  0x02166834
  * packet:   pkt_02166834
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02166834(int a0, int a1)
+int SYMBOL_MAP_GetSyncBlockHeader(int a0, int a1)
 {
 
     if (a1 == 0) goto loc_02166842;

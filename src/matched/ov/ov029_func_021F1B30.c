@@ -1,5 +1,5 @@
 /*
- * function: func_021F1B30
+ * function: C_GEAR_SetSplashActorsVisible
  * address: 0x021F1B30
  * packet: pkt_ov029_021F1B30
  * region: ov029
@@ -13,7 +13,7 @@
  */
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
-void func_021F1B30(char *p, int flag)
+void C_GEAR_SetSplashActorsVisible(char *p, int flag)
 {
     int i;
     for (i = 0; i < 18; i++)

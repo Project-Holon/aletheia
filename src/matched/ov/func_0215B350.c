@@ -1,5 +1,5 @@
 /*
- * function: func_0215B350
+ * function: SCRCMD_WORK_CmdResetEventFlagOffset
  * address:  0x0215B350
  * packet:   pkt_0215B350
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0201296C  0x0201296C  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_0215A500  0x0215A500  thumb  ov010
  */
 
@@ -20,13 +20,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
-extern u32 func_0201296C(const struct BigObj *p);
-extern unsigned int func_02159B10(void *, void *);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern int func_0215A500();
 
-int func_0215B350(int a0, int a1)
+int SCRCMD_WORK_CmdResetEventFlagOffset(int a0, int a1)
 {
     int t4;
     int t5;
@@ -36,14 +36,14 @@ int func_0215B350(int a0, int a1)
 t6 = a1 + 0;
 t5 = a0 + 0;
 a0 = t6 + 0;
-    v0 = func_0215A5E4((void *)a0);
+    v0 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0215B35C:
-    a0 = func_0201296C(v0);
+    a0 = GAME_DATA_GetEventWork(v0);
 loc_0215B360:
 t4 = a0 + 0;
 a0 = t5 + 0;
 a1 = t6 + 0;
-    a0 = func_02159B10((void *)a0, (void *)a1);
+    a0 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
 loc_0215B36A:
 a1 = a0 + 0;
 a0 = t4 + 0;

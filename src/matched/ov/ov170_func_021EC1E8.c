@@ -11,13 +11,13 @@
  *   func_020275E4 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02027618 0x02027618 thumb
- *   func_0204A6C8 0x0204A6C8 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_02027614 0x02027614 thumb
- *   func_0204ABF0 0x0204ABF0 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   func_0202761C 0x0202761C thumb
  *   func_02027620 0x02027620 thumb
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj02214.h"
 typedef unsigned short u16;
@@ -26,19 +26,19 @@ extern unsigned func_020275E4(void);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned func_02027618(void);
 typedef signed int     s32;
-extern s32 func_0204A6C8(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
 extern unsigned func_02027614(void);
-extern s32 func_0204ABF0(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
+extern s32 CLACT_RegisterPalette(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
 typedef unsigned int   u32;
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021EC1E8(char *p)
 {
     void *h = func_020490F4(func_020275E4(), 0x4C);
-    ((struct Obj02214 *)p)->fA0F8 = (void *)func_0204A6C8(h, func_02027618(), 0, 0, 0x4C);
-    ((struct Obj02214 *)p)->fA124 = (void *)func_0204ABF0(h, func_02027614(), 0, 0x100, 0x4C);
-    ((struct Obj02214 *)p)->fA154 = (void *)func_0204AF28(h, func_0202761C(2), func_02027620(2), 0x4C);
-    func_02049238(h);
+    ((struct Obj02214 *)p)->fA0F8 = (void *)CLACT_RegisterCharacter(h, func_02027618(), 0, 0, 0x4C);
+    ((struct Obj02214 *)p)->fA124 = (void *)CLACT_RegisterPalette(h, func_02027614(), 0, 0x100, 0x4C);
+    ((struct Obj02214 *)p)->fA154 = (void *)CLACT_RegisterCellAnim(h, func_0202761C(2), func_02027620(2), 0x4C);
+    ARC_TOOL_DeleteHandle(h);
 }

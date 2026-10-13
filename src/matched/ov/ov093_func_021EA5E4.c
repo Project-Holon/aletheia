@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045838  0x02045838  arm
+ *   STRBUF_Copy  0x02045838  arm
  */
 #include "../include/Obj21562.h"
 
 struct U16Vec;
-void func_02045838(struct U16Vec *dst, struct U16Vec *src);
+void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 
 void func_021EA5E4(unsigned char *p, void *src)
 {
-    func_02045838(((struct Obj21562 *)p)->fAC, src);
+    STRBUF_Copy(((struct Obj21562 *)p)->fAC, src);
 }

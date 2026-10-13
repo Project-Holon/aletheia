@@ -1,5 +1,5 @@
 /*
- * function: func_0218DEFC
+ * function: FIELD_G3D_MAPPER_InsertDrawOrder
  * address:  0x0218DEFC
  * packet:   pkt_ov021_0218DEFC
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02169598  0x02169598  thumb ov010
- *   func_021694FC  0x021694FC  thumb ov010
- *   func_02169538  0x02169538  thumb ov010
+ *   FIELD_G3D_MAP_GetRenderObj  0x02169598  thumb ov010
+ *   FIELD_G3D_MAP_IsVisible  0x021694FC  thumb ov010
+ *   FIELD_G3D_MAP_GetTotalBytes  0x02169538  thumb ov010
  */
 #include "../include/Obj02689.h"
 
@@ -20,11 +20,11 @@ typedef unsigned char  u8;
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_02169598(u8 *p);
-extern u16 func_021694FC(u8 *p);
-extern void func_02169538(unsigned char *a, int *out);
+extern u32 FIELD_G3D_MAP_GetRenderObj(u8 *p);
+extern u16 FIELD_G3D_MAP_IsVisible(u8 *p);
+extern void FIELD_G3D_MAP_GetTotalBytes(unsigned char *a, int *out);
 
-void func_0218DEFC(char *p, int o, int v)
+void FIELD_G3D_MAPPER_InsertDrawOrder(char *p, int o, int v)
 {
     int a;
     int b;
@@ -32,14 +32,14 @@ void func_0218DEFC(char *p, int o, int v)
     int c;
     int i;
 
-    if (func_02169598((u8 *)o) == 0)
+    if (FIELD_G3D_MAP_GetRenderObj((u8 *)o) == 0)
         return;
-    if (func_021694FC((u8 *)o) == 0)
+    if (FIELD_G3D_MAP_IsVisible((u8 *)o) == 0)
         return;
-    func_02169538((unsigned char *)o, &a);
+    FIELD_G3D_MAP_GetTotalBytes((unsigned char *)o, &a);
     t = ((struct Obj02689 *)p)->f48 - a;
     for (i = ((struct Obj02689 *)p)->f41; i > 0; i--) {
-        func_02169538((unsigned char *)(*(int *)(*(char * *)&((struct Obj02689 *)p)->f24 + *(u8 *)(((struct Obj02689 *)p)->f44 + i - 1) * 0x28)), &b);
+        FIELD_G3D_MAP_GetTotalBytes((unsigned char *)(*(int *)(*(char * *)&((struct Obj02689 *)p)->f24 + *(u8 *)(((struct Obj02689 *)p)->f44 + i - 1) * 0x28)), &b);
         c = ((struct Obj02689 *)p)->f48 - b;
         if (c >= 0 && t >= c)
             break;

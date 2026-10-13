@@ -1,5 +1,5 @@
 /*
- * function: func_021A4254
+ * function: FIELD_PLAYER_GRID_CanStartMove
  * address:  0x021A4254
  * packet:   pkt_ov021_021A4254
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  */
 
 typedef unsigned int u32;
 
-void *func_021A3960(unsigned char *p);
-int func_0216D3CC(int a0);
+void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+int FLDMMDL_CheckPossibleAcmd(int a0);
 typedef unsigned short u16;
-u16 func_0216D5F8(void *p);
+u16 FLDMMDL_GetDirDisp(void *p);
 
-int func_021A4254(u32 *p, u32 a)
+int FIELD_PLAYER_GRID_CanStartMove(u32 *p, u32 a)
 {
-    void *h = func_021A3960((unsigned char *)p[3]);
+    void *h = FIELD_PLAYER_CORE_GetMmdl((unsigned char *)p[3]);
 
-    if (func_0216D3CC((int)h) == 1)
+    if (FLDMMDL_CheckPossibleAcmd((int)h) == 1)
         return 1;
-    if (a != 9 && p[0] == 3 && a != func_0216D5F8(h))
+    if (a != 9 && p[0] == 3 && a != FLDMMDL_GetDirDisp(h))
         return 1;
     return 0;
 }

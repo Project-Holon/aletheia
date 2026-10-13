@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215CDB8",
+   "name": "SCRCMD_PROC_Ov037SetValueB",
    "address": "0x0215CDB8",
    "kind": "game",
    "region": "ov010",

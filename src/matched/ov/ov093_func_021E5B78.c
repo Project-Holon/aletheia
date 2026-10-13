@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7F24  0x021C7F24  thumb  ov093
  *   func_021C7F4C  0x021C7F4C  thumb  ov093
  *   func_021C8010  0x021C8010  thumb  ov093
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 struct Flag;
 extern int func_021C7F24(u8 *p, int i);
 extern int func_021C7F4C(struct Flag *p);
@@ -38,7 +38,7 @@ void func_021E5B78(int a, void *b, int c)
 {
     u8 *m;
 
-    if (c == func_021D775C(3) && func_021C7F24(b, c) != 0 && func_021C7F4C(b) != 0) {
+    if (c == BTL_EVENT_GetVar(3) && func_021C7F24(b, c) != 0 && func_021C7F4C(b) != 0) {
         m = (u8 *)func_021C88A4(b, 0x1e, c);
         ((struct Obj02791 *)m)->f4 = 4;
         m[8] = func_021C8010(b, c);

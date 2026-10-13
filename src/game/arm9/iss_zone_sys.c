@@ -31,6 +31,8 @@
  *   _f2s    0x0209C494  arm
  *   GFL_USE_SetBgmTrackParams  0x02005EE0  thumb
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -119,8 +121,8 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void *func_020490F4(u32 archiveId, u32 heapId);
 extern u16 func_0204961C(void *archive);
-extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
-extern void   func_02049238(void *archive);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+extern void   ARC_TOOL_DeleteHandle(void *archive);
 extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volume);
 extern float _ffltu(u32 v);
 extern float _fdiv(float a, float b);
@@ -549,7 +551,7 @@ void ISS_ZONE_SYS_Stop(struct IssZone *zone)
  * table is at +8 and the count byte at +4; the count stays a signed int
  * (the guard is `ble`).
  *
- * The five-argument read is the same call func_0204944C makes from its other
+ * The five-argument read is the same call ARC_TOOL_ReadHandleMemberRange makes from its other
  * sites; the buffer is its own stack word because the argument count already
  * spends r0-r3.
  */
@@ -564,10 +566,10 @@ void ISS_ZONE_SYS_LoadRecords(struct IssZone *zone, u32 heapId)
                                          (const void *)0x020A7748, 0xd2);
 
     for (i = 0; i < count; i++) {
-        func_0204944C(archive, (u32)i, 0, 8,
+        ARC_TOOL_ReadHandleMemberRange(archive, (u32)i, 0, 8,
                       (void *)((u32)zone->records + ((u32)i << 3)));
     }
-    func_02049238(archive);
+    ARC_TOOL_DeleteHandle(archive);
 }
 
 /*

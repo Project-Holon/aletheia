@@ -1,5 +1,5 @@
 /*
- * function: func_02185410
+ * function: EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate
  * address:  0x02185410
  * packet:   pkt_ov020_02185410
  * region:   ov020
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02162694  0x02162694  thumb  ov010
- *   func_021626E8  0x021626E8  thumb  ov010
- *   func_02184410  0x02184410  thumb  ov020
- *   func_02184CEC  0x02184CEC  thumb  ov020
+ *   EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly  0x02162694  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetConnectExitType  0x021626E8  thumb  ov010
+ *   EVENT_MAPCHANGE_EntranceCommEvent  0x02184410  thumb  ov020
+ *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
  */
 #include "../include/Obj00248.h"
 
@@ -29,23 +29,23 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-void *func_020120F4(const struct Ctx *p);
-int func_02162694(int a0, int a1, int a2);
-u8 func_021626E8(u8 *p);
-int func_02184410(int a, int *state, u8 *p);
-void func_02184CEC(void **o, void *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+int EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(int a0, int a1, int a2);
+u8 EVENTDATA_SYSTEM_GetConnectExitType(u8 *p);
+int EVENT_MAPCHANGE_EntranceCommEvent(int a, int *state, u8 *p);
+void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 
-void *func_02185410(void *p, int u, int a, int b)
+void *EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(void *p, int u, int a, int b)
 {
     void *r0v;
     char *r4;
 
-    func_020120F4(p);
-    r0v = func_020122C0(p, 0, func_02184410, 0x9c);
+    GAMESYSTEM_GetGameData(p);
+    r0v = func_020122C0(p, 0, EVENT_MAPCHANGE_EntranceCommEvent, 0x9c);
     r4 = func_020124E8(r0v);
-    func_02184CEC((void **)r4, p);
+    EVENT_MAPCHANGE_InitWork((void **)r4, p);
     ((struct Obj00248 *)r4)->f40 = 1;
-    func_02162694(a, (int)(r4 + 0x10), b);
-    ((struct Obj00248 *)r4)->f2C = func_021626E8((u8 *)a);
+    EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(a, (int)(r4 + 0x10), b);
+    ((struct Obj00248 *)r4)->f2C = EVENTDATA_SYSTEM_GetConnectExitType((u8 *)a);
     return r0v;
 }

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -27,11 +27,11 @@ typedef signed int     s32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 void func_021B9E3C(void *p, char *q)
 {
     q[0x30] = 3;
     q[0x31] = 0x20;
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj10664 *)q)->f2C)), 0);
+    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj10664 *)q)->f2C)), 0);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217D3AC.c
  * unit:     yes
- * function: func_0217D3AC, gsiLargeIntTimerExit, gsiLargeIntCompare, gsiLargeIntStripLeadingZeroes, gsiLargeIntAdd, gsiLargeIntSub, gsiLargeIntMult, func_0217D8E0, func_0217D904, gsiLargeIntSubDivide, func_0217DE94, gsLargeIntPowerMod, func_0217E504, gsiLargeIntInverseMod, gsLargeIntSetFromHexString, func_0217E934, gsLargeIntAddToMD5, gsLargeIntGetByteLength, gsiMemoryMalloc, gsiMemoryFree, gsiMemoryRealloc
+ * function: gsiLargeIntTimerEnter, gsiLargeIntTimerExit, gsiLargeIntCompare, gsiLargeIntStripLeadingZeroes, gsiLargeIntAdd, gsiLargeIntSub, gsiLargeIntMult, func_0217D8E0, gsiLargeIntDiv, gsiLargeIntSubDivide, func_0217DE94, gsLargeIntPowerMod, func_0217E504, gsiLargeIntInverseMod, gsLargeIntSetFromHexString, func_0217E934, gsLargeIntAddToMD5, gsLargeIntGetByteLength, gsiMemoryMalloc, gsiMemoryFree, gsiMemoryRealloc
  * address:  0x0217D3AC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   current_time_hires               0x0217f28c arm
  *   gTimers                          0x021ad064 data
- *   func_0217D3AC  0x0217D3AC  arm  ov009
+ *   gsiLargeIntTimerEnter  0x0217D3AC  arm  ov009
  *   func_02092344  0x02092344  arm
  *   gsiLargeIntTimerExit  0x0217D3F8  arm  ov009
  *   memcpy                         0x02092344  arm
@@ -61,7 +61,7 @@ typedef int gsi_i32;
 typedef unsigned char  u8;
 
 extern unsigned int current_time_hires(void);
-extern void func_0217D3AC(int id);
+extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
 extern void *func_02092344(void *dst, const void *src, u32 n);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
@@ -82,7 +82,7 @@ int gsiLargeIntCompare(const u32 *a, u32 n, const u32 *b, u32 m);
 int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen);
 int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout);
 gsi_bool func_0217D8E0(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder);
-int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder);
+int gsiLargeIntDiv(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder);
 int func_0217DE94(const gsLargeInt_t *lint, gsLargeInt_t *mod, gsLargeInt_t *dest);
 int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
 int func_0217E504(gsLargeInt_t *x, gsLargeInt_t *y, const gsLargeInt_t *m, unsigned int modPrime, gsLargeInt_t *dest);
@@ -196,7 +196,7 @@ int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, 
 
     i = 0;
     carry = 0;
-    func_0217D3AC(3);
+    gsiLargeIntTimerEnter(3);
     if (maxlen < length1 || maxlen < length2)
         return 0;
 
@@ -253,7 +253,7 @@ int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u3
     u32 shorter = (length1 < length2) ? length1 : length2;
     i = 0;
 
-    func_0217D3AC(4);
+    gsiLargeIntTimerEnter(4);
     for (; i < shorter; i++) {
         borrow = (u64)src2[i] - src1[i] - borrow;
         dest[i] = (u32)borrow;
@@ -298,7 +298,7 @@ static int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
     unsigned int digit;
 
     *lenout = 0;
-    func_0217D3AC(0);
+    gsiLargeIntTimerEnter(0);
 
     for (i = 0; i < length2; i++) {
         if (data2[i] == 0)
@@ -343,14 +343,14 @@ static int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
  */
 gsi_bool func_0217D8E0(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
-    return func_0217D904((unsigned int *)src1->mData, src1->mLength, (gsLargeInt_t *)divisor, dest, remainder);
+    return gsiLargeIntDiv((unsigned int *)src1->mData, src1->mLength, (gsLargeInt_t *)divisor, dest, remainder);
 }
 
 
 
 
 
-int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder)
+int gsiLargeIntDiv(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
     int result = 0;
     int divisorHighBit = 31;
@@ -368,7 +368,7 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
 
     int endLoop = 0;
 
-    func_0217D3AC(5);
+    gsiLargeIntTimerEnter(5);
 
     memset(scopy, 0, sizeof(scopy));
 
@@ -496,7 +496,7 @@ static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length,
     gsLargeInt_t temp;
     unsigned long long aboveBits;
 
-    func_0217D3AC(6);
+    gsiLargeIntTimerEnter(6);
 
     if (length <= dlen)
         aboveBits = src[length - 1];
@@ -560,7 +560,7 @@ int func_0217DE94(const gsLargeInt_t *lint, gsLargeInt_t *mod,
     unsigned int squareLen = 0;
 
     len = (int)lint->mLength;
-    func_0217D3AC(7);
+    gsiLargeIntTimerEnter(7);
     {
     unsigned int squareSums[128] = {0};
     unsigned int otherSums[128] = {0};
@@ -591,7 +591,7 @@ int func_0217DE94(const gsLargeInt_t *lint, gsLargeInt_t *mod,
 
     squareLen = (unsigned int)(len * 2);
     gsiLargeIntAdd(otherSums, squareLen, squareSums, squareLen, squareSums, &squareLen, 128);
-    result = func_0217D904(squareSums, squareLen, mod, 0, dest);
+    result = gsiLargeIntDiv(squareSums, squareLen, mod, 0, dest);
     gsiLargeIntTimerExit(7);
     return result;
     }

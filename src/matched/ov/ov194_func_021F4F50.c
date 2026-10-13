@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A1BC 0x0204A1BC arm
+ *   ARC_UTIL_LoadMember 0x0204A1BC arm
  */
 
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 
 int func_021F4F50(int a)
 {
-    return func_0204A1BC(0x77, 8, 0, a);
+    return ARC_UTIL_LoadMember(0x77, 8, 0, a);
 }

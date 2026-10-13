@@ -1,5 +1,5 @@
 /*
- * function: func_0218BCF4
+ * function: FIELD_BUILDMODEL_UpdateSeasonState
  * address:  0x0218BCF4
  * packet:   pkt_ov021_0218BCF4
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020113D8  0x020113D8  thumb
- *   d_021D3D50     0x021D3D50  data  a4
+ *   TIMEZONE_GetNowTimeZone  0x020113D8  thumb
+ *   gBuildModelSeasonAnimSlot     0x021D3D50  data  a4
  */
 
 typedef struct {
@@ -22,14 +22,14 @@ typedef struct {
     unsigned char id;
 } S;
 
-extern unsigned char d_021D3D50[];
+extern unsigned char gBuildModelSeasonAnimSlot[];
 typedef unsigned int   u32;
-u32 func_020113D8(u32 row);
+u32 TIMEZONE_GetNowTimeZone(u32 row);
 
-void func_0218BCF4(S *p)
+void FIELD_BUILDMODEL_UpdateSeasonState(S *p)
 {
     p->prev = p->cur;
-    p->cur = func_020113D8(p->id);
+    p->cur = TIMEZONE_GetNowTimeZone(p->id);
     p->changed = p->cur != p->prev;
-    p->val = d_021D3D50[p->cur];
+    p->val = gBuildModelSeasonAnimSlot[p->cur];
 }

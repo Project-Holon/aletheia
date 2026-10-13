@@ -1,5 +1,5 @@
 /*
- * function: func_0216FE04
+ * function: WAZA_OSHIE_UploadPalette
  * address: 0x0216FE04
  * packet: pkt_ov010_0216FE04
  * region: ov010
@@ -21,4 +21,4 @@ extern void func_0207FA0C(void);
 extern void func_020862F0(void *,u32);
 extern void func_0207FA40(void *,u32,u32);
 extern void func_0207FADC(void);
-void func_0216FE04(char *p,void *q) { u32 b,a; a=((struct Obj12410 *)p)->f10; b=(u16)((struct Obj12410 *)p)->f8*8; func_0207FA0C(); func_020862F0(q,32); func_0207FA40(q,a+b,32); func_0207FADC(); }
+void WAZA_OSHIE_UploadPalette(char *p,void *q) { u32 b,a; a=((struct Obj12410 *)p)->f10; b=(u16)((struct Obj12410 *)p)->f8*8; func_0207FA0C(); func_020862F0(q,32); func_0207FA40(q,a+b,32); func_0207FADC(); }

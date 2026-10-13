@@ -1,5 +1,5 @@
 /*
- * function: func_0216968C
+ * function: FIELD_G3D_MAP_Draw
  * address:  0x0216968C
  * packet:   pkt_ov010_0216968C
  * region:   ov010
@@ -15,14 +15,14 @@
  *   NNS_G3dGlbBaseScale  0x0206AA0C  arm
  *   func_0206A854  0x0206A854  arm
  *   func_0206DDA4  0x0206DDA4  arm
- *   func_021699A0  0x021699A0  thumb  ov010
+ *   FIELD_G3D_MAP_TestModelBox  0x021699A0  thumb  ov010
  *   G3D_SYSTEM_DrawRenderObj  0x02047C8C  arm
  *   d_0217216C     0x0217216C  data   ov010  a4
  *   d_02172178     0x02172178  data   ov010  a4
  *   d_02148C08     0x02148C08  data   a4
  *   d_02148BCC     0x02148BCC  data   a4
  *   d_02172160     0x02172160  data   ov010  a4
- *   d_02148B98     0x02148B98  data   a4
+ *   gG3dBaseMtx43     0x02148B98  data   a4
  */
 #include "../include/Obj03541.h"
 #include "../include/Obj19050.h"
@@ -38,7 +38,7 @@ extern void NNS_G3dGlbBaseScale(void *p);
 extern void func_0206A854(void);
 struct P02047C8C;
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern int func_021699A0(void *p);
+extern int FIELD_G3D_MAP_TestModelBox(void *p);
 extern void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p);
 extern u8 d_0217216C[];
 extern u8 d_02172178[];
@@ -48,9 +48,9 @@ extern struct {
     u32 f7c;
 } d_02148BCC;
 extern u8 d_02172160[];
-extern u8 d_02148B98[];
+extern u8 gG3dBaseMtx43[];
 
-int func_0216968C(u8 *p)
+int FIELD_G3D_MAP_Draw(u8 *p)
 {
     int r;
 
@@ -62,9 +62,9 @@ int func_0216968C(u8 *p)
         NNS_G3dGlbBaseScale(d_02172160);
         func_0206A854();
         func_0206DDA4(0x15, 0, 0);
-        func_0206DDA4(0x17, d_02148B98, 0xc);
+        func_0206DDA4(0x17, gG3dBaseMtx43, 0xc);
         func_0206DDA4(0x1c, p + 4, 3);
-        if (func_021699A0(((struct Obj19051 *)(*(u8 * *)&((struct Obj03541 *)p)->f2C))->f4) == 1) {
+        if (FIELD_G3D_MAP_TestModelBox(((struct Obj19051 *)(*(u8 * *)&((struct Obj03541 *)p)->f2C))->f4) == 1) {
             G3D_SYSTEM_DrawRenderObj(((struct Obj03541 *)p)->f2C);
             r = 1;
         }

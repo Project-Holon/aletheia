@@ -7,8 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   CLACT_DrawSystem  0x0204A600  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0204A600(void);
-void func_021BC64C(void *a0) { func_0204A600(); }
+extern void CLACT_DrawSystem(void);
+void func_021BC64C(void *a0) { CLACT_DrawSystem(); }

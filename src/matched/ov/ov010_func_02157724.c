@@ -1,5 +1,5 @@
 /*
- * function: func_02157724
+ * function: DELIVERY_BEACON_HasAllPieces
  * address: 0x02157724
  * packet: pkt_ov010_02157724
  * region: ov010
@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 typedef enum { INDEX_ZERO = 0 } Index;
-int func_02157724(u8 *p) { int i; Index n; n = p[0xd9]; if (n == 0) return 0; for (i = 0; i < n; i++) { if (n != p[i * 100 + 0xd9]) return 0; } return 1; }
+int DELIVERY_BEACON_HasAllPieces(u8 *p) { int i; Index n; n = p[0xd9]; if (n == 0) return 0; for (i = 0; i < n; i++) { if (n != p[i * 100 + 0xd9]) return 0; } return 1; }

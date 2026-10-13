@@ -1,5 +1,5 @@
 /*
- * function: func_021C30D4
+ * function: FLD3D_CI_DarkenCapturedScreen
  * address:  0x021C30D4
  * packet:   pkt_ov021_021C30D4
  * region:   ov021
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern int func_020808F4(void);
 extern void func_0207FDCC(int);
 
-void func_021C30D4(u32 unused)
+void FLD3D_CI_DarkenCapturedScreen(u32 unused)
 {
     int old = func_020808F4();
     u16 *p = (u16 *)0x06860000;

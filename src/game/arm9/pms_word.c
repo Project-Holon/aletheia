@@ -1,7 +1,7 @@
 /*
  * file:     pms_word.c
  * unit:     yes
- * function: PMS_WORD_Create, PMS_WORD_Delete, PMS_WORD_GetString, PMS_WORD_LoadString, PMS_WORD_MakeWordId, PMS_WORD_SplitWordId, PMS_WORD_GetSaveEntry, PMS_WORD_SetSaveEntry, PMS_WORD_GetSaveSize, PMS_WORD_InitSave, func_02024988, PMS_WORD_CheckFlag, func_020249A0, func_020249B0
+ * function: PMS_WORD_Create, PMS_WORD_Delete, PMS_WORD_GetString, PMS_WORD_LoadString, PMS_WORD_MakeWordId, PMS_WORD_SplitWordId, PMS_WORD_GetSaveEntry, PMS_WORD_SetSaveEntry, PMS_WORD_GetSaveSize, PMS_WORD_InitSave, PMS_WORD_GetSaveData, PMS_WORD_CheckFlag, PMS_WORD_SetFlag, PMS_WORD_IsSameGroup
  * address:  0x020247A8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,12 +18,12 @@
  *   MI_CpuCopy8   0x02082D44  arm
  *   func_020071CC  0x020071CC  thumb
  *   func_02045B38    0x02045B38  arm
- *   func_02045C04    0x02045C04  arm
+ *   MSGDATA_Delete    0x02045C04  arm
  *   g_pmsWordSourceFile   0x020A746C  data  a1
  *   g_pmsWordBankFileIds  0x0209F7AC  data
  *   g_pmsWordBankSizes    0x0209F792  data
  *   STRBUF_Clear    0x0204581C  arm
- *   func_02045CAC    0x02045CAC  arm
+ *   MSGDATA_ReadString    0x02045CAC  arm
  *   g_pmsWordDefaultFlagTable   0x0209F784  data  a1
  *   g_pmsWordSimilarGroups  0x0209F7C8  data
  */
@@ -58,9 +58,9 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void *func_020071CC(struct WinPanel020071CCCtrl *ctrl, u32 id);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct MsgBank *func_02045B38(int resident, int arcId, u32 fileId, u16 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void STRBUF_Clear(struct U16Vec *vec);
 struct PmsWordSys *PMS_WORD_Create(u32 heapId);
 void PMS_WORD_Delete(struct PmsWordSys *p);
@@ -72,10 +72,10 @@ void *PMS_WORD_GetSaveEntry(char *p, int idx);
 void PMS_WORD_SetSaveEntry(struct PmsWord *p, s32 idx, const void *src);
 u32 PMS_WORD_GetSaveSize(void);
 void PMS_WORD_InitSave(struct PmsWord *p);
-void *func_02024988(struct WinPanel020071CCCtrl *ctrl);
+void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl);
 int PMS_WORD_CheckFlag(const u32 *p, u32 idx);
-void func_020249A0(int *p, int bit);
-int func_020249B0(u32 a, u16 b);
+void PMS_WORD_SetFlag(int *p, int bit);
+int PMS_WORD_IsSameGroup(u32 a, u16 b);
 
 extern const char g_pmsWordSourceFile[];
 extern const u16 g_pmsWordBankFileIds[];
@@ -109,7 +109,7 @@ void PMS_WORD_Delete(struct PmsWordSys *p)
 {
     int i;
     for (i = 0; i < 0xd; i++)
-        func_02045C04((struct Rec *)p->msg[i]);
+        MSGDATA_Delete((struct Rec *)p->msg[i]);
     func_020307B0(p);
 }
 
@@ -117,7 +117,7 @@ void PMS_WORD_GetString(struct PmsWordSys *p, u32 id, void *dest)
 {
     u32 x, y;
     PMS_WORD_SplitWordId(id, &x, &y);
-    func_02045CAC((struct MsgBank *)p->msg[x], y, dest);
+    MSGDATA_ReadString((struct MsgBank *)p->msg[x], y, dest);
 }
 
 /*
@@ -139,8 +139,8 @@ void PMS_WORD_LoadString(u32 id, void *dest, u16 heap)
         PMS_WORD_SplitWordId(id, &bank, &entry);
         bank = g_pmsWordBankFileIds[bank];
         arc = func_02045B38(0, 2, bank, heap);
-        func_02045CAC(arc, entry, dest);
-        func_02045C04(arc);
+        MSGDATA_ReadString(arc, entry, dest);
+        MSGDATA_Delete(arc);
     } else {
         STRBUF_Clear(dest);
     }
@@ -233,20 +233,20 @@ void PMS_WORD_InitSave(struct PmsWord *p)
     }
     for (k = 0; k < 7; k++) {
         if (g_pmsWordDefaultFlagTable[k][0] == 2) {
-            func_020249A0((int *)p, g_pmsWordDefaultFlagTable[k][1]);
+            PMS_WORD_SetFlag((int *)p, g_pmsWordDefaultFlagTable[k][1]);
             return;
         }
     }
 }
 
-void *func_02024988(struct WinPanel020071CCCtrl *ctrl)
+void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl)
 {
     return func_020071CC(ctrl, 0x27);
 }
 
 int PMS_WORD_CheckFlag(const u32 *p, u32 idx){return (*p >> idx) & 1;}
 
-void func_020249A0(int *p, int bit)
+void PMS_WORD_SetFlag(int *p, int bit)
 {
     *p |= 1 << bit;
 }
@@ -254,9 +254,9 @@ void func_020249A0(int *p, int bit)
 /*
  * Unlabelled arm9 leaf: true when a == b, or when the first of 13 halfword
  * groups that contains a also contains b. Filed as the relocation witness for
- * ov021 func_021D213C (wave A1).
+ * ov021 SCRCMD_CheckPmsWordPair (wave A1).
  */
-int func_020249B0(u32 a, u16 b)
+int PMS_WORD_IsSameGroup(u32 a, u16 b)
 {
     u32 i;
     int j, k;

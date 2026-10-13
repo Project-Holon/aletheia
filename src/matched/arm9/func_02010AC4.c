@@ -49,7 +49,7 @@
  *   gNetSaveRetryProc     0x021D654C  data  ov115
  *   PROCSYS_PushGlobal  0x020312CC  arm
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *
  * The net_save.c save task's per-frame step (the task record of
  * sub_02010A5C; state word at +0x1D4): case 0 starts overlay 0x73's proc
@@ -73,7 +73,7 @@ extern u8 gNetSaveRetryProc[];
 
 extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern int  func_0203CD98(void);
+extern int  GFL_NET_GetRunState(void);
 
 int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
 {
@@ -107,7 +107,7 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
         ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     case 3:
-        if (func_0203CD98() == 0 || ((struct Obj00562 *)ctx)->f58 == 1) {
+        if (GFL_NET_GetRunState() == 0 || ((struct Obj00562 *)ctx)->f58 == 1) {
             ((struct Obj00562 *)ctx)->f14 = 1;
             ((struct Obj00562 *)ctx)->f1D4 = 0;
             break;

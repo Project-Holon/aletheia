@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6994  0x021B6994  thumb  ov093
+ *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
  */
 
 typedef unsigned int   u32;
 struct S;
-int func_021B6994(struct S **pp, u32 b);
+int BTL_MAIN_GetPositionsPerClient(struct S **pp, u32 b);
 
 int func_021B99B8(void *pp, unsigned int b)
 {
-    return func_021B6994(pp, b);
+    return BTL_MAIN_GetPositionsPerClient(pp, b);
 }

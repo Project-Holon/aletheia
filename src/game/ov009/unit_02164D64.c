@@ -1,7 +1,7 @@
 /*
  * file:     unit_02164D64.c
  * unit:     yes
- * function: WCM_Init, func_02164D74, WCM_Finish, WCM_GetWorkSize, WCM_StartupAsync, WCM_CleanupAsync, WCM_SearchAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync, WCM_TerminateAsync, WCM_GetPhase, func_021656D0, WCM_GetAllowedChannel, WCMi_GetSystemWork, WcmConfigure, WcmInitOption, WCMi_GetNextScanChannel, WCMi_Notify, WCMi_NotifyEx, WCMi_SetPhase, WCMi_ResetKeepAliveAlarm, func_02165B5C, WCMi_GetDefaultDeviceId
+ * function: WCM_Init, func_02164D74, WCM_Finish, WCM_GetWorkSize, WCM_StartupAsync, WCM_CleanupAsync, WCM_SearchAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync, WCM_TerminateAsync, WCM_GetPhase, WCM_UpdateOption, WCM_GetAllowedChannel, WCMi_GetSystemWork, WcmConfigure, WcmInitOption, WCMi_GetNextScanChannel, WCMi_Notify, WCMi_NotifyEx, WCMi_SetPhase, WCMi_ResetKeepAliveAlarm, func_02165B5C, WCMi_GetDefaultDeviceId
  * address:  0x02164D64
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -36,7 +36,7 @@
  *   WCMi_NwmifBeginSearchAsync        0x02731AF0 arm twl
  *   WCMi_SetPhase        0x02165A4C arm ov009
  *   WCMi_GetSystemWork        0x021657C8 arm ov009
- *   func_021656D0        0x021656D0 arm ov009
+ *   WCM_UpdateOption        0x021656D0 arm ov009
  *   func_02166B2C        0x02166B2C arm ov009
  *   WCMi_NwmifConnectAsync        0x02731BF8 arm twl
  *   func_02166BD8        0x02166BD8 arm ov009
@@ -123,7 +123,7 @@ long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);
 long WCM_DisconnectAsync(void);
 long WCM_TerminateAsync(void);
 long WCM_GetPhase(void);
-unsigned long func_021656D0(unsigned long option);
+unsigned long WCM_UpdateOption(unsigned long option);
 unsigned short WCM_GetAllowedChannel(void);
 WCMWork *WCMi_GetSystemWork(void);
 void WcmConfigure(WCMConfig *config, void (*notify)(void *));
@@ -514,7 +514,7 @@ long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option)
             MI_CpuFill8(&w->privacyDesc, 0, 0x54);
         }
         MI_CpuCopy8(bssDesc, w->bssDesc, 0xC0);
-        func_021656D0(option);
+        WCM_UpdateOption(option);
         break;
     case 8:
         OS_RestoreInterrupts(e);
@@ -668,7 +668,7 @@ long WCM_GetPhase(void)
 }
 
 
-unsigned long func_021656D0(unsigned long option)
+unsigned long WCM_UpdateOption(unsigned long option)
 {
     unsigned long e;
     unsigned long filter;

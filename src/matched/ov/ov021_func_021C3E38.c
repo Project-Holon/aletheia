@@ -1,5 +1,5 @@
 /*
- * function: func_021C3E38
+ * function: SODATEYA_SetBaseFriendship
  * address:  0x021C3E38
  * packet:   pkt_ov021_021C3E38
  * region:   ov021
@@ -20,7 +20,7 @@ struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *h);
 
-void func_021C3E38(u32 *p, u32 heap)
+void SODATEYA_SetBaseFriendship(u32 *p, u32 heap)
 {
     void *h = func_0201ADE4((u16)p[0], (u16)p[1], heap);
     u32 v = func_0201AE1C(h, 0x15);

@@ -14,7 +14,7 @@
  * store covers it and the byte before, both taken from the source pair
  * ending at the source pixel; otherwise the source pair starting at it.
  * Optional colour key (0xFFFF = none), compared against the source byte.
- * Reached from func_020439A0's kind == 2 arm (x, y, w, h u16; dx, dy s16;
+ * Reached from BMP_Blit's kind == 2 arm (x, y, w, h u16; dx, dy s16;
  * the key is ldrh'd, so u16 here).
  *
  * The same four levers as BMP_Blit4bppToVram, all measured:

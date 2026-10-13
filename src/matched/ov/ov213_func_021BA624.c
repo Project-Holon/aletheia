@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-void func_021BA624(char *p){int i;for(i=0;i<3;i++)func_0204B3B4(*(void **)((unsigned)p+i*4+24));for(i=0;i<2;i++)func_0204B3B4(*(void **)((unsigned)p+i*4+16));}
+extern void CLACT_DeleteActor(struct Obj *p);
+void func_021BA624(char *p){int i;for(i=0;i<3;i++)CLACT_DeleteActor(*(void **)((unsigned)p+i*4+24));for(i=0;i<2;i++)CLACT_DeleteActor(*(void **)((unsigned)p+i*4+16));}

@@ -1,5 +1,5 @@
 /*
- * function: func_02190708
+ * function: FIELD_MSGBG_CreateMsgWin
  * address:  0x02190708
  * packet:   pkt_ov021_02190708
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02190680  0x02190680  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgWinPalette  0x02190680  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -27,10 +27,10 @@ typedef struct Fx {
 } Fx;
 
 struct Obj;
-extern struct Obj *func_02190680(struct Fx *a, u32 b, u16 c, u16 d, u16 e, u16 f, u16 g);
+extern struct Obj *FIELD_MSGBG_CreateMsgWinPalette(struct Fx *a, u32 b, u16 c, u16 d, u16 e, u16 f, u16 g);
 
-void *func_02190708(Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e)
+void *FIELD_MSGBG_CreateMsgWin(Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e)
 {
     p->f06 = 0xE;
-    return func_02190680(p, a, b, c, d, e, p->f06);
+    return FIELD_MSGBG_CreateMsgWinPalette(p, a, b, c, d, e, p->f06);
 }

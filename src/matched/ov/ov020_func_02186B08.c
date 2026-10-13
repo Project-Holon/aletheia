@@ -1,5 +1,5 @@
 /*
- * function: func_02186B08
+ * function: FIELD_WFBC_DATA_LOCAL_IsPeopleListFull
  * address: 0x02186B08
  * packet: pkt_ov020_02186B08
  * region: ov020
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02161ECC 0x02161ECC thumb ov010
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
  */
 
-extern int func_02161ECC(char *p);
-int func_02186B08(char *p) { int i; for (i = 0; i < 10; i++) { if (func_02161ECC(p + i * 24) == 0) return 0; } return 1; }
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(char *p);
+int FIELD_WFBC_DATA_LOCAL_IsPeopleListFull(char *p) { int i; for (i = 0; i < 10; i++) { if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(p + i * 24) == 0) return 0; } return 1; }

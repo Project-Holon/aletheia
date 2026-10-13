@@ -12,15 +12,15 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_0201F81C 0x0201F81C thumb
- *   func_0201F878 0x0201F878 thumb
- *   func_0201FF30 0x0201FF30 thumb
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
+ *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   func_02020CF8 0x02020CF8 thumb
  *   func_02020D10 0x02020D10 thumb
  *   d_021E8DD4 0x021E8DD4 data a1
@@ -40,15 +40,15 @@ struct Obj;
 struct Slot;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,u32);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
-extern void *func_0201F81C(u32,u16);
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern void *func_0201FF30(Config *,u16,u16,u16);
+extern void *BMP_MENUWORK_Create(u32,u16);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern void *BMP_MENULIST_Create(Config *,u16,u16,u16);
 extern void func_02020CF8(struct Obj *p, int heap);
 extern void func_02020D10(u8 *p, u32 v);
 Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
@@ -61,17 +61,17 @@ Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
     func_02082BCC(out,0,28);
     out->mgr=p->x2;
     out->counter=p->kind;
-    out->win=(void *)func_020450F0((u8)p->a,(u8)x,(u8)y,(u8)width,height,p->b,1);
+    out->win=(void *)BMP_WIN_Create((u8)p->a,(u8)x,(u8)y,(u8)width,height,p->b,1);
     func_0201F73C(out->win,2,p->d,(u8)p->c);
     q=out->win;
-    func_02045334(q);
-    func_02045374(q);
+    BMP_WIN_TransferChars(q);
+    BMP_WIN_MakeScreen(q);
     func_020409B4(func_02045730(q));
     out->win2=out->win;
     out->flag=0;
-    out->entries=func_0201F81C(p->count,heap);
+    out->entries=BMP_MENUWORK_Create(p->count,heap);
     for(i=0;i<p->count;i++)
-        func_0201F878(out->entries,p->x0,p->items[i],i,(u16)heap);
+        BMP_MENUWORK_AddMsgItem(out->entries,p->x0,p->items[i],i,(u16)heap);
     cfg=d_021E8D68;
     cfg.word[0]=(u32)out->entries;
     *(u16 *)((u8 *)&cfg+0x10)=p->count;
@@ -81,7 +81,7 @@ Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u16 heap)
     cfg.word[10]=(u32)&out->win2;
     cfg.word[11]=p->x2;
     cfg.word[12]=p->x1;
-    out->menu=func_0201FF30(&cfg,0,p->pad,heap);
+    out->menu=BMP_MENULIST_Create(&cfg,0,p->pad,heap);
     func_02020CF8(out->menu,(u16)heap);
     if(p->enabled)
         func_02020D10(out->menu,0);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B72CC
+ * function: SCRCMD_POKEMON_FLD_AddTableValueToPoints
  * address:  0x021B72CC
  * packet:   pkt_ov021_021B72CC
  * region:   ov021
@@ -9,23 +9,23 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Same func_0204A298 lookup as func_021B70D8 / func_021B716C.  Here the
- * table byte d_021D99D0[idx] is loaded ahead of the `str r0,[sp]` that
+ * Same ARC_UTIL_LoadMemberWithSize lookup as SCRCMD_POKEMON_FLD_LookupTableValue / SCRCMD_POKEMON_FLD_CheckTableItemInBag.  Here the
+ * table byte sScrcmdTableFileIds[idx] is loaded ahead of the `str r0,[sp]` that
  * passes &cnt: that needs the table declared const, otherwise the load
  * may alias the stack store and is scheduled after it.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_020127A4  0x020127A4  thumb
- *   func_02012F08  0x02012F08  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C278  0x0200C278  thumb
- *   func_0204A298  0x0204A298  arm
+ *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   func_020307B0  0x020307B0  arm
- *   d_021D99D0     0x021D99D0  data   ov021  a1
+ *   sScrcmdTableFileIds     0x021D99D0  data   ov021  a1
  */
 
 typedef unsigned char  u8;
@@ -34,21 +34,21 @@ typedef unsigned int   u32;
 
 struct Ent { u32 k; u32 v; };
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Blk34;
-extern int func_02158F58(int a0);
-extern u16 func_02188C84(u8 *p);
-extern u32 func_02159B10(void *a, void *b);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct SaveBlock;
-extern void *func_020127A4(struct SaveBlock *p);
-extern void *func_02012F08(int *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C278(struct Blk34 *p, u32 v);
-extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
+extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern u32 func_020307B0(void *p);
-extern const u8 d_021D99D0[];
+extern const u8 sScrcmdTableFileIds[];
 
-int func_021B72CC(u32 a, u32 b)
+int SCRCMD_POKEMON_FLD_AddTableValueToPoints(u32 a, u32 b)
 {
     void *h;
     u32 v;
@@ -58,16 +58,16 @@ int func_021B72CC(u32 a, u32 b)
     u32 cnt;
     u32 i;
 
-    v = func_02188C84((u8 *)(((u32 *)func_02158F58((int)func_0215A5F4((void *)b)))[1]));
-    k = func_02159B10((void *)a, (void *)b);
-    idx = func_02159B10((void *)a, (void *)b);
-    h = func_0215A5E4((void *)b);
-    func_020127A4(h);
-    arr = (struct Ent *)func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
+    v = FIELDMAP_GetHeapId((u8 *)(((u32 *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)b)))[1]));
+    k = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    idx = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    h = SCRCMD_WORK_GetGameData((void *)b);
+    GAME_DATA_GetMyPlayerWork(h);
+    arr = (struct Ent *)ARC_UTIL_LoadMemberWithSize(0xd0, sScrcmdTableFileIds[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
     cnt >>= 3;
     for (i = 0; i < cnt; i++) {
         if (k == arr[i].k) {
-            func_0200C278(func_02012F08(h), arr[i].v);
+            func_0200C278(GAME_DATA_GetMiscSave(h), arr[i].v);
             break;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021914CC
+ * function: FIELD_MSGBG_TalkWinDrawCursor
  * address:  0x021914CC
  * packet:   pkt_ov021_021914CC
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045334  0x02045334  arm  arm9
+ *   BMP_WIN_TransferChars  0x02045334  arm  arm9
  *   func_02045770  0x02045770  arm  arm9
- *   func_021928C0  0x021928C0  thumb  ov021
- *   func_0219320C  0x0219320C  thumb  ov021
- *   func_02194990  0x02194990  thumb  ov021
+ *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
+ *   FIELD_MSGBG_KeyWaitGetAuto  0x0219320C  thumb  ov021
+ *   TALKMSGWIN_GetBmpWin  0x02194990  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -32,21 +32,21 @@ typedef struct S {
     u8 *f14;
 } S;
 
-extern u8 func_0219320C(u8 *p);
-extern u32 func_02194990(u32 a, u32 b);
+extern u8 FIELD_MSGBG_KeyWaitGetAuto(u8 *p);
+extern u32 TALKMSGWIN_GetBmpWin(u32 a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct Cur;
-extern void func_021928C0(struct Cur *c, u32 win, u32 col);
-extern void func_02045334(struct Descriptor *a);
+extern void FIELD_MSGBG_AnimateCursor(struct Cur *c, u32 win, u32 col);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
-void func_021914CC(S *s)
+void FIELD_MSGBG_TalkWinDrawCursor(S *s)
 {
     u32 x;
 
-    if (func_0219320C(s->f14 + 0x160) == 0) {
-        x = func_02194990(s->f08, s->f01);
-        func_021928C0((struct Cur *)s->sub, (u32)func_02045770((struct Descriptor *)x), 0xF);
-        func_02045334((struct Descriptor *)x);
+    if (FIELD_MSGBG_KeyWaitGetAuto(s->f14 + 0x160) == 0) {
+        x = TALKMSGWIN_GetBmpWin(s->f08, s->f01);
+        FIELD_MSGBG_AnimateCursor((struct Cur *)s->sub, (u32)func_02045770((struct Descriptor *)x), 0xF);
+        BMP_WIN_TransferChars((struct Descriptor *)x);
     }
 }

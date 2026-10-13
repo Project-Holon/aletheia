@@ -12,9 +12,9 @@
  * symbols:
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_021BAD08 0x021BAD08 thumb ov214
@@ -27,9 +27,9 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 extern void func_021BAD08(void*,char*);
@@ -39,14 +39,14 @@ void func_021BA6F0(void*obj,char*p)
     *(int *)&((struct Obj00202 *)p)->fAC=0;
     *(int *)&((struct Obj00202 *)p)->fB0=0;
     func_0201C6EC((struct PrintSys *)(((struct Obj00202 *)p)->f14));
-    func_02043B5C(func_02045770(*(void* *)&((struct Obj00202 *)p)->f94),0);
+    BMP_Clear(func_02045770(*(void* *)&((struct Obj00202 *)p)->f94),0);
     h=*(void* *)&((struct Obj00202 *)p)->f94;
-    func_02045334(h);func_02045374(h);func_02041B6C(func_02045730(h));
+    BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);func_02041B6C(func_02045730(h));
     ((struct Obj00202 *)p)->fA4=1;
     func_0201C6EC((struct PrintSys *)(((struct Obj00202 *)p)->f18));
-    func_02043B5C(func_02045770(*(void* *)&((struct Obj00202 *)p)->f98),0);
+    BMP_Clear(func_02045770(*(void* *)&((struct Obj00202 *)p)->f98),0);
     h=*(void* *)&((struct Obj00202 *)p)->f98;
-    func_02045334(h);func_02045374(h);func_02041B6C(func_02045730(h));
+    BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);func_02041B6C(func_02045730(h));
     ((struct Obj00202 *)p)->fA8=1;
     if(((struct Obj00202 *)p)->f3C)func_021BAD08(obj,p);
     ((struct Obj00202 *)p)->fBC=0;

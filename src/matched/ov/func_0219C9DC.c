@@ -1,5 +1,5 @@
 /*
- * function: func_0219C9DC
+ * function: FLDMMDL_BLACT_GetBbActSys
  * address:  0x0219C9DC
  * packet:   pkt_0219C9DC
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0219C9DC(u8 *p)
+u32 FLDMMDL_BLACT_GetBbActSys(u8 *p)
 {
     return ((struct Obj17968 *)p)->f4;
 }

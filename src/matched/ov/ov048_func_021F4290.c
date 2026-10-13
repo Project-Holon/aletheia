@@ -1,5 +1,5 @@
 /*
- * function: func_021F4290
+ * function: GIMMICK_OBJ_ELBOARD_AddWeekdayMessage
  * address:  0x021F4290
  * packet:   pkt_ov048_021F4290
  * region:   ov048
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02088864  0x02088864  arm
- *   func_021F3D38  0x021F3D38  thumb
+ *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb
  *   d_021F50C0     0x021F50C0  data  a4
  */
 
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 
 struct RTCDate;
 extern int func_02088864(struct RTCDate *date);
-extern void func_021F3D38(int *p, int unused, int b, int *c);
+extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
 extern struct T d_021F50C0;
 
-void func_021F4290(int *p)
+void GIMMICK_OBJ_ELBOARD_AddWeekdayMessage(int *p)
 {
     struct { u16 a; int b, c, d, e, f, g; } s;
     int buf[4];
@@ -47,5 +47,5 @@ void func_021F4290(int *p)
     s.d = 2;
     s.e = 0x26;
     s.g = 0;
-    func_021F3D38(p, (int)&s, 7, 0);
+    GIMMICK_OBJ_ELBOARD_AddMessage(p, (int)&s, 7, 0);
 }

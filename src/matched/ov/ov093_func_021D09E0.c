@@ -8,7 +8,7 @@
  * isa:      thumb
  * status:   EXACT*
  * pass 6 2026-10-06 P6L01: EXACT* (302 B code plus 2 B pad), also EXACT* under -lang c99. The
- * closing change is u16 type with func_021D799C declared (int, u16). The callee
+ * closing change is u16 type with BTL_CALC_GetTypeAffinityVsPair declared (int, u16). The callee
  * (ov093_func_021D799C.c) also matches EXACT with a u16 second parameter, so the prototype is consistent.
  * Why it closes (seen in a debugger capture of the post-RA scheduler of mwccarm): a word-sized spill of a
  * narrow variable gets the "narrow locals" alias set. With int type, the type store after the call
@@ -20,30 +20,30 @@
  *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
  *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
- *   func_021D57FC 0x021D57FC thumb ov093
+ *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
  *   func_021B9C00 0x021B9C00 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D5584 0x021D5584 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
- *   func_021D799C 0x021D799C thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
+ *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_021D57FC(void *);
+extern u16 BTL_POKEPARAM_GetTypePair(void *);
 struct QG;
 struct S2;
 struct UtilWork;
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D5B68(void *);
-extern u8 func_021D5448(struct QG *p);
-extern u8 func_021D5584(struct UtilWork *p, u32 i);
-extern u16 func_021D54C0(u8 *p, int i);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern u32 WAZA_TOOL_IsDamaging(void *);
 extern u8 WAZA_TOOL_GetType(void *);
 extern u16 WAZA_TOOL_GetPower(void *);
-extern int func_021D799C(int, u16);
+extern int BTL_CALC_GetTypeAffinityVsPair(int, u16);
 void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
 {
     u16 scores[6];
@@ -55,22 +55,22 @@ void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
     u16 power;
     u16 temp;
     u8 tempid;
-    type = func_021D57FC(target);
+    type = BTL_POKEPARAM_GetTypePair(target);
     for (i = 0; i < count; i++) {
         scores[i] = 0;
         mon = func_021B9C00(*(void **)(p + 0x118), order[i]);
-        if (!func_021D5B68(mon)) {
+        if (!BTL_POKEPARAM_IsFainted(mon)) {
             u8 n;
-            n = func_021D5448(mon);
+            n = BTL_POKEPARAM_GetMoveCount(mon);
             for (j = 0; j < n; j++) {
-                if (func_021D5584(mon, j)) {
-                    move = func_021D54C0(mon, j);
+                if (BTL_POKEPARAM_GetMovePPChecked(mon, j)) {
+                    move = BTL_POKEPARAM_GetMoveId(mon, j);
                     if (WAZA_TOOL_IsDamaging((void *)(u32)move)) {
                         int kind;
                         kind = WAZA_TOOL_GetType((void *)(u32)move);
                         power = WAZA_TOOL_GetPower((void *)(u32)move);
                         if (power < 10) power = 60;
-                        switch (func_021D799C(kind, type)) {
+                        switch (BTL_CALC_GetTypeAffinityVsPair(kind, type)) {
                         case 5: power *= 4; break;
                         case 4: power *= 2; break;
                         case 2: power /= 2; break;

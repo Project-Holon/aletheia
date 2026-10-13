@@ -11,7 +11,7 @@
  * symbols:
  *   func_021F5374 0x021F5374 thumb ov112
  *   func_021F4E6C 0x021F4E6C thumb ov112
- *   func_0204F720 0x0204F720 arm
+ *   BILLBOARD_SetElemVisible 0x0204F720 arm
  */
 #include "../include/Obj13845.h"
 #include "../include/Obj13846.h"
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021F5374(int *p, int b);
 extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
-extern void func_0204F720(void *p, u32 idx, u32 *flag);
+extern void BILLBOARD_SetElemVisible(void *p, u32 idx, u32 *flag);
 typedef struct { int pad[33]; int a; int pad2[17]; int b; } Slot;
 void func_021F80D4(char *p, char *q, int v) {
     int i;
@@ -29,5 +29,5 @@ void func_021F80D4(char *p, char *q, int v) {
         if (((Slot *)(q + i * 4))->a != 0 && ((Slot *)(q + i * 4))->b == 1)
             func_021F4E6C((u8 *)(((struct Obj13845 *)p)->f10), (u8 *)(((Slot *)(q + i * 4))->a), value);
     }
-    func_0204F720((void *)(((struct Obj13845 *)p)->f8), ((struct Obj13846 *)q)->f5C, (u32 *)(&v));
+    BILLBOARD_SetElemVisible((void *)(((struct Obj13845 *)p)->f8), ((struct Obj13846 *)q)->f5C, (u32 *)(&v));
 }

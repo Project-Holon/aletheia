@@ -17,7 +17,7 @@
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_02034714 0x02034714 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B688 0x0204B688 arm
  *   d_02200D5C 0x02200D5C data a4
@@ -37,7 +37,7 @@ extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern int func_021FC124(char *,int,Triple *);
 extern void func_021FD964(void *unused, int *state, u8 *p);
 extern void func_021FBE54(char *,unsigned,unsigned);
-extern int func_0204B294(unsigned,unsigned,unsigned,unsigned,Pair *,unsigned short,int);
+extern int CLACT_CreateActor(unsigned,unsigned,unsigned,unsigned,Pair *,unsigned short,int);
 struct Obj;
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -59,7 +59,7 @@ char *func_021FD760(unsigned owner,char *resources,int index,int heap)
     i=0;
     res=index;
     for(;i<12;i++) {
-        ((Handles *)p)->handles[i]=func_0204B294(owner,triple.y,triple.z,triple.x,&pair,res,heap);
+        ((Handles *)p)->handles[i]=CLACT_CreateActor(owner,triple.y,triple.z,triple.x,&pair,res,heap);
         func_0204B3DC((struct Obj *)((Handles *)p)->handles[i],0);
         func_0204B688((struct Actor *)(((Handles *)p)->handles[i]),1);
     }

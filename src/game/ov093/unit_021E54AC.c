@@ -15,20 +15,20 @@
  *
  * symbols:
  *   d_021F26B4     0x021F26B4  data   ov093  a4
- *   func_021E89C0  0x021E89C0  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
  *   func_021B9A50  0x021B9A50  thumb  ov093
  *   func_021E556C  0x021E556C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
 
-extern Word func_021E89C0(void);
+extern Word BTLV_CORE_MakeSlotKind1Empty(void);
 extern unsigned char func_021B9A50(unsigned int x);
 extern void func_021E556C(int a, int b, int c, int d, int e, int f, Word g, int h);
 
 void func_021E54AC(int a, int b, int c, int d)
 {
-    Word t = func_021E89C0();
+    Word t = BTLV_CORE_MakeSlotKind1Empty();
     int e = func_021B9A50(c);
     func_021E556C(a, b, c, d, e, 7, t, 0x98);
 }

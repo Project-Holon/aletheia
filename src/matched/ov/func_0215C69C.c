@@ -1,5 +1,5 @@
 /*
- * function: func_0215C69C
+ * function: SCRCMD_PROC_WaitOverlayProc
  * address:  0x0215C69C
  * packet:   pkt_0215C69C
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158FB8  0x02158FB8  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetUserWork  0x02158FB8  thumb  ov010
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02158FBC  0x02158FBC  thumb  ov010
+ *   SCRIPT_WORK_FreeUserWork  0x02158FBC  thumb  ov010
  */
 #include "../include/Obj00005.h"
 
@@ -23,15 +23,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct Ctx;
-extern u32 func_02158FB8(void *p);
+extern u32 SCRIPT_WORK_GetUserWork(void *p);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern u32 func_020307B0(void *p);
-extern int func_02158FBC();
+extern int SCRIPT_WORK_FreeUserWork();
 
-int func_0215C69C(int a0, int a1)
+int SCRCMD_PROC_WaitOverlayProc(int a0, int a1)
 {
     int t4;
     int t5;
@@ -39,13 +39,13 @@ int func_0215C69C(int a0, int a1)
 
 t4 = a1 + 0;
 a0 = t4 + 0;
-    t6 = func_0215A5DC((void *)a0);
+    t6 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0215C6A6:
 a0 = t4 + 0;
-    a0 = (int)func_0215A5F4((void *)a0); /* int-typed on purpose: pointer local changes codegen */
+    a0 = (int)SCRCMD_WORK_GetScriptWork((void *)a0); /* int-typed on purpose: pointer local changes codegen */
 loc_0215C6AE:
 t4 = a0 + 0;
-    a0 = func_02158FB8((void *)a0);
+    a0 = SCRIPT_WORK_GetUserWork((void *)a0);
 loc_0215C6B4:
 t5 = a0 + 0;
     a0 = GAMESYSTEM_GetProcStatus(t6);
@@ -74,7 +74,7 @@ loc_0215C6E0:
     func_020307B0((void *)a0);
 loc_0215C6E4:
 a0 = t4 + 0;
-    a0 = func_02158FBC(a0);
+    a0 = SCRIPT_WORK_FreeUserWork(a0);
 loc_0215C6EA:
 a0 = 1;
     return a0;}

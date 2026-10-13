@@ -1,5 +1,5 @@
 /*
- * function: func_021DF2E0
+ * function: BTL_HANDLER_ITEM_GetFistPlateHandlers
  * address: 0x021DF2E0
  * packet: pkt_ov093_021DF2E0
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F1494[];
-int *func_021DF2E0(int *p);
+int *BTL_HANDLER_ITEM_GetFistPlateHandlers(int *p);
 
-int *func_021DF2E0(int *p)
+int *BTL_HANDLER_ITEM_GetFistPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F1494;

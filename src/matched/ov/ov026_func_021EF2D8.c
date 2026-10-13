@@ -1,5 +1,5 @@
 /*
- * function: func_021EF2D8
+ * function: WEATHER_STORM_UpdateSlowSideDrop
  * address:  0x021EF2D8
  * packet:   pkt_ov026_021EF2D8
  * region:   ov026
@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A2640  0x021A2640  thumb  ov021
- *   func_021A26C4  0x021A26C4  thumb  ov021
- *   func_021A21E0  0x021A21E0  thumb  ov021
+ *   WEATHER_TASK_GetParticlePos  0x021A2640  thumb  ov021
+ *   WEATHER_TASK_SetParticlePos  0x021A26C4  thumb  ov021
+ *   WEATHER_TASK_RemoveParticle  0x021A21E0  thumb  ov021
  */
 
 typedef unsigned short u16;
 typedef signed short   s16;
 
 struct PtS;
-extern void func_021A2640(unsigned char *, struct PtS *);
-extern int func_021A26C4(unsigned int a, unsigned int b);
+extern void WEATHER_TASK_GetParticlePos(unsigned char *, struct PtS *);
+extern int WEATHER_TASK_SetParticlePos(unsigned int a, unsigned int b);
 typedef unsigned int   u32;
-extern void func_021A21E0(u32 *p);
+extern void WEATHER_TASK_RemoveParticle(u32 *p);
 
-void func_021EF2D8(int a, s16 *b, s16 *c)
+void WEATHER_STORM_UpdateSlowSideDrop(int a, s16 *b, s16 *c)
 {
     s16 v[2];
     int x;
@@ -39,14 +39,14 @@ void func_021EF2D8(int a, s16 *b, s16 *c)
         c[4] = x;
         c[5] = y;
     }
-    func_021A2640((unsigned char *)a, (struct PtS *)v);
+    WEATHER_TASK_GetParticlePos((unsigned char *)a, (struct PtS *)v);
     c[0] = c[0] + (s16)(c[2] + x);
     c[1] = c[1] + (s16)(c[3] + y);
     v[0] = c[0] / 8;
     v[1] = c[1] / 8;
     if (v[0] >= 256 || v[1] >= 192) {
-        func_021A21E0((u32 *)a);
+        WEATHER_TASK_RemoveParticle((u32 *)a);
         return;
     }
-    func_021A26C4(a, (unsigned int)v);
+    WEATHER_TASK_SetParticlePos(a, (unsigned int)v);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr save) in the ov012 listing: stores the byte at
- * +0x2832. Callee of ov031 func_021F00D4 (a blocker of its MATCH).
+ * +0x2832. Callee of ov031 UNION_SUBDISP_Update (a blocker of its MATCH).
  */
 
 typedef unsigned char u8;

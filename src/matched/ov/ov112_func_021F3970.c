@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_0207D534 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021F4300 0x021F4300 thumb ov112
@@ -26,7 +26,7 @@
 #include "../include/Obj22510.h"
 typedef unsigned char u8;
 extern u8 ov_abs_84[];
-extern unsigned func_020221A4(void);
+extern unsigned WIPE_SYS_EndCheck(void);
 typedef unsigned short u16;
 struct Node;
 struct S020315D4;
@@ -42,7 +42,7 @@ extern u32 func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 int func_021F3970(void *owner,void *arg,int flag,u8 *p) {
-    if (!func_020221A4()) return 0;
+    if (!WIPE_SYS_EndCheck()) return 0;
     func_0207D534((void *)0x0400006c,-16);
     func_0207D534((void *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);

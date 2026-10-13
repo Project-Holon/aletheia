@@ -21,23 +21,23 @@
  *   (all 10 bytes). No twin found. Header: status DIFF, 10 bytes.
  * recoup 2026-10-05 (lane R13): no loop counter here, so the ov013 021B0614 opt_lifetimes shape does not apply. Levers 1-2 no change
  *   (callee arities and widths already match matched callers). Lever 3/4/5: f8 block as nested if, store first, f5 = f5 | 0x80,
- *   byte temp, else-if with empty then, negated condition, f5 through a u8 pointer local: all 10 B. Pointer local for d_021B3C84
+ *   byte temp, else-if with empty then, negated condition, f5 through a u8 pointer local: all 10 B. Pointer local for gVctSendState
  *   (whole function 53 B, f8/f14 blocks only 362 B). Pragmas not repeated (header lists them). Residue unchanged: zero store
  *   scheduled before orr in the f8 block only.
  * final push 2026-10-05 G3L8 (32 compiles, 3 rounds): still DIFF 10 B. New facts: (1) scheduling off and peephole off do not change the
  *   order, so the f8 block is ordered before the scheduler (ldrb; str; orr; strb). (2) The order depends on the field offset of the reset
- *   store: fields at +0,+4,+8,+0xC of d_021B3C84 get the zero store between ldrb and orr; fields at +0x14,+0x18,+0x20,+0x24 keep source
+ *   store: fields at +0,+4,+8,+0xC of gVctSendState get the zero store between ldrb and orr; fields at +0x14,+0x18,+0x20,+0x24 keep source
  *   order; the f14 block is never wrong, also when written first. Removing the later f4/f10/f12 accesses does not change it. Tried without
  *   effect: else-if instead of &&, no && at all, raw-offset access, int f8, u32 w[4] array view, cast pointer view, early pointer local,
  *   f5 as ((u8 *)f)[5], Frame data[] start moved to +6, f as u32 arithmetic, Frame fr[2] view (changes the whole function), reversed
  *   && operand order, opt_dead_code / opt_strength_reduction / opt_loop_invariants off. No twin in the listings (orrne #0x80 hits in
  *   ov114, arm9 are stack or different shapes). Open idea: the original f8 store is not provably independent of the strb at f+5.
  * pass 2 2026-10-06 P2L22 (40 compiles, 3 rounds): still DIFF 10 B. New facts: the f8 store follows strb f5 only when mwcc
- *   cannot prove f and d_021B3C84+8 apart. f from an extern pointer or a pointer select (cond ? &d : &d + 0x460) gives the
+ *   cannot prove f and gVctSendState+8 apart. f from an extern pointer or a pointer select (cond ? &d : &d + 0x460) gives the
  *   right order but a second base and addeq (479 B). Integer forms (u32 cast, off local, if/else, inline helper, u8 *buf with
  *   opt_propagation off) keep the points-to. In a sized struct, accesses at +0x10 and up are treated as may-alias, below
  *   0x10 as independent (also for a separate global); int[]/struct[] views make f14 independent too (20 B).
- *   AdpcmState member at +0x10 with &d_021B3C84.st as the call argument also gives 10 B (pool word folds to 021B3C94).
+ *   AdpcmState member at +0x10 with &gVctSendState.st as the call argument also gives 10 B (pool word folds to 021B3C94).
  *   Notes: scratchpad wD9r/p2_P2L22/research.md.
  * pass 3 2026-10-06 P3L11 (38 compiles, 3 rounds): still DIFF 10 B. New facts: (1) one TU struct at 3C84 holding
  *   the ctx and the 42C0 frames/counters, with `Ctx42C0 *w = &big.w` for the 42C0 side, puts both reset blocks in
@@ -50,15 +50,15 @@
  *   Open lead: a frame pointer the ARM backend cannot trace, still emitted as add r8, r6, r0 from the shared pool.
  *   Notes: scratchpad wD9r/p3_P3L11/research.md.
  * pass 4 2026-10-06 P4L05: closed. The frame flag byte f5 and the two reset-request flags f8 and f14 of
- *   d_021B3C84 are volatile members. The request flags are set from other paths (021B0CD8 sets f8,
+ *   gVctSendState are volatile members. The request flags are set from other paths (021B0CD8 sets f8,
  *   021B0614 and 021B074C set f14) and f5 is the flag byte of the frame buffer that the wireless layer
  *   reads. Two volatile accesses keep their source order, so the f8 reset store stays after strb f5.
  *   Volatile on f8/f14 alone (P3L11 a1) or on f5 alone stays 10 B; both sides are needed.
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
- *   d_021B3C84  0x021B3C84  data  ov013  a4
+ *   gVctSendState  0x021B3C84  data  ov013  a4
  *   d_021B3C24  0x021B3C24  data  ov013  a4
- *   d_021B3C94  0x021B3C94  data  ov013  a4
+ *   gVctAudioStateAdpcm  0x021B3C94  data  ov013  a4
  *   gVctSession  0x021B60D8  data  ov013  a1
  *   VCT_DSP_HighPassFilter  0x021B3278  arm  ov013
  *   VCT_DSP_SuppressEchoWithReference  0x021B3604  arm  ov013
@@ -116,9 +116,9 @@ typedef struct {
 } Ctx3C84;
 
 extern struct Ctx42C0 d_021B42C0;
-extern Ctx3C84 d_021B3C84;
+extern Ctx3C84 gVctSendState;
 extern u32 d_021B3C24;
-extern u8 d_021B3C94[];
+extern u8 gVctAudioStateAdpcm[];
 extern u8 gVctSession;
 
 typedef struct AdpcmHdr { short pred; u8 index; u8 zero; } AdpcmHdr;
@@ -140,7 +140,7 @@ Frame *VCT_AUDIO_EncodeSendFrame(void)
     int mode;
     u32 diff;
 
-    mode = d_021B3C84.f1C;
+    mode = gVctSendState.f1C;
     diff = d_021B42C0.f8C4 - d_021B42C0.f8C0;
     if (diff > 1) {
         d_021B42C0.f8C0 = d_021B42C0.f8C4 - 1;
@@ -154,19 +154,19 @@ Frame *VCT_AUDIO_EncodeSendFrame(void)
     if (mode >= 2)
         p += 4;
 
-    x = VCT_DSP_HighPassFilter((short *)p, d_021B3C84.f24);
+    x = VCT_DSP_HighPassFilter((short *)p, gVctSendState.f24);
     reg_SQRTCNT = 0;
     reg_SQRT_PARAM = x;
     while (reg_SQRTCNT & 0x8000)
         ;
     sq = reg_SQRT_RESULT;
 
-    if (d_021B3C84.f18 != 0)
-        VCT_DSP_SuppressEchoWithReference((short *)p, d_021B3C84.f24, sq);
+    if (gVctSendState.f18 != 0)
+        VCT_DSP_SuppressEchoWithReference((short *)p, gVctSendState.f24, sq);
 
     f->f5 = mode;
     if (d_021B3C24 != 0) {
-        switch (d_021B3C84.f28 = VCT_DSP_UpdateVoiceGate(x, sq, 0)) {
+        switch (gVctSendState.f28 = VCT_DSP_UpdateVoiceGate(x, sq, 0)) {
         case 0:
             d_021B42C0.f8C0++;
             return 0;
@@ -178,29 +178,29 @@ Frame *VCT_AUDIO_EncodeSendFrame(void)
             break;
         }
     }
-    if (d_021B3C24 == 0 && d_021B3C84.f8 != 0) {
+    if (d_021B3C24 == 0 && gVctSendState.f8 != 0) {
         f->f5 |= 0x80;
-        d_021B3C84.f8 = 0;
+        gVctSendState.f8 = 0;
     }
-    if (d_021B3C84.f14 != 0) {
+    if (gVctSendState.f14 != 0) {
         f->f5 |= 0x80;
-        d_021B3C84.f14 = 0;
+        gVctSendState.f14 = 0;
     }
 
     if (mode >= 2) {
         if (f->f5 & 0x80) {
-            d_021B3C84.f10 = 0;
-            d_021B3C84.f12 = 0;
+            gVctSendState.f10 = 0;
+            gVctSendState.f12 = 0;
         }
-        VCT_ADPCM_EncodePacket((AdpcmHdr *)(p - 4), p, d_021B3C84.f24 >> 1, (AdpcmState *)d_021B3C94, mode);
+        VCT_ADPCM_EncodePacket((AdpcmHdr *)(p - 4), p, gVctSendState.f24 >> 1, (AdpcmState *)gVctAudioStateAdpcm, mode);
     } else if (mode == 1) {
-        VCT_AUDIO_EncodeMuLaw(p, (short *)p, d_021B3C84.f24 >> 1);
+        VCT_AUDIO_EncodeMuLaw(p, (short *)p, gVctSendState.f24 >> 1);
     } else if (mode == 0) {
-        VCT_AUDIO_ConvertPcm16ToPcm8(p, (short *)p, d_021B3C84.f24 >> 1);
+        VCT_AUDIO_ConvertPcm16ToPcm8(p, (short *)p, gVctSendState.f24 >> 1);
     }
 
-    d_021B42C0.f8CC = d_021B3C84.f4;
-    d_021B42C0.f8CC = d_021B3C84.f4 & ~(1 << gVctSession);
+    d_021B42C0.f8CC = gVctSendState.f4;
+    d_021B42C0.f8CC = gVctSendState.f4 & ~(1 << gVctSession);
     d_021B42C0.f8D4 = func_02080D24(d_021B42C0.f8CC) - 1;
     if (d_021B42C0.f8D4 > 7)
         return 0;

@@ -13,12 +13,12 @@
  *   func_021ED798 0x021ED798 thumb ov093
  *   func_021ED814 0x021ED814 thumb ov093
  *   func_021F7A28 0x021F7A28 thumb ov094
- *   func_021EB584 0x021EB584 thumb ov093
+ *   BTLV_SCU_StartBrightnessFade 0x021EB584 thumb ov093
  *   func_021F7EB4 0x021F7EB4 thumb ov094
- *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_021EE104 0x021EE104 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
+ *   BTLV_SCU_GetBallStates 0x021EE104 thumb ov093
  *   func_021F823C 0x021F823C thumb ov094
- *   func_021EEE24 0x021EEE24 thumb ov093
+ *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
  *   func_021ECEB8 0x021ECEB8 thumb ov093
  *   func_021ECF68 0x021ECF68 thumb ov093
  */
@@ -33,12 +33,12 @@ struct T;
 extern void func_021ED798(struct S *s);
 extern int func_021ED814(struct S *);
 extern void func_021F7A28(int, u32);
-extern void func_021EB584(int);
+extern void BTLV_SCU_StartBrightnessFade(int);
 extern int func_021F7EB4(void);
-extern void *func_021B86B8(void ***);
-extern void func_021EE104(u8 *p, u32 *out, u32 a, u32 b, u32 flag);
+extern void *BTL_MAIN_GetCompetitor(void ***);
+extern void BTLV_SCU_GetBallStates(u8 *p, u32 *out, u32 a, u32 b, u32 flag);
 extern void func_021F823C(u32 *);
-extern void func_021EEE24(u32, u16, u32, ...);
+extern void BTL_MSG_FormatArgs(u32, u16, u32, ...);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
 extern int func_021ECF68(struct T *p);
 int func_021EBFDC(u8 *p, int *state, u16 i)
@@ -56,17 +56,17 @@ int func_021EBFDC(u8 *p, int *state, u16 i)
     case 1:
         if (func_021ED814((struct S *)(p + 0x154))) {
             func_021F7A28(b[1], 0x237);
-            func_021EB584(2);
+            BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
-            if ((int)func_021B86B8(*(void *** *)&((struct Obj00027 *)p)->f134) != 3) msg = 7;
+            if ((int)BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj00027 *)p)->f134) != 3) msg = 7;
             else msg = 8;
-            func_021EE104(p, buf, i, 4, 1);
+            BTLV_SCU_GetBallStates(p, buf, i, 4, 1);
             func_021F823C(buf);
-            func_021EEE24(((struct Obj00027 *)p)->f34, msg, 1, i);
+            BTL_MSG_FormatArgs(((struct Obj00027 *)p)->f34, msg, 1, i);
             func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }

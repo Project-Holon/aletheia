@@ -10,7 +10,7 @@
  * note (2026-10-02): the P_STA_RIBBON_GetRowY call is inside the loop (its arg is i), so &d/&g is recomputed
  *   per group; hi/lo are enum locals so (0x19<<22)+(2<<16) is not folded.
  * symbols:
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   P_STA_RIBBON_GetRowY 0x021D9440 thumb ov131
  *   BMP_CreateFromVram 0x02043754 arm
@@ -28,7 +28,7 @@ struct Desc {u16 x,y,z;u8 kind,flag;};
 enum E {E_0};
 struct Grid {void *f0;u16 f4;s16 f6;u32 f8;u32 f12;u8 f16;u8 f17;u16 f18;u32 f20;};
 struct Obj;
-extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
+extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern s16 P_STA_RIBBON_GetRowY(u8 *,u32);
 struct Bmp;
@@ -43,7 +43,7 @@ void P_STA_RIBBON_CreateObjects(u8 *a,u8 *p)
     u32 base;
     u8 i;
     d.x=0;d.y=0;d.kind=10;d.flag=0;d.z=0;
-    ((struct Obj10514 *)p)->f54=func_0204B294((void *)((struct Obj04509 *)a)->f174,((struct Obj04509 *)a)->fF8,((struct Obj04509 *)a)->fC4,((struct Obj04509 *)a)->f12C,&d,0,((struct Obj04509 *)a)->f0);
+    ((struct Obj10514 *)p)->f54=CLACT_CreateActor((void *)((struct Obj04509 *)a)->f174,((struct Obj04509 *)a)->fF8,((struct Obj04509 *)a)->fC4,((struct Obj04509 *)a)->f12C,&d,0,((struct Obj04509 *)a)->f0);
     func_0204B3DC(((struct Obj10514 *)p)->f54,0);
     g.f4=8;
     g.f8=((struct Obj04509 *)a)->fB8;

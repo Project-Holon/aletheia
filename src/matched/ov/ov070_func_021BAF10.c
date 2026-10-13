@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF10
+ * function: ITEMMENU_HideSideWindows
  * address: 0x021BAF10
  * packet: pkt_ov070_021BAF10
  * region: ov070
@@ -15,4 +15,4 @@
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
-void func_021BAF10(char *p) { func_020452E8(((struct Obj09882 *)p)->f504); func_020452E8(((struct Obj09882 *)p)->f764); func_020452E8(((struct Obj09882 *)p)->f75C); }
+void ITEMMENU_HideSideWindows(char *p) { func_020452E8(((struct Obj09882 *)p)->f504); func_020452E8(((struct Obj09882 *)p)->f764); func_020452E8(((struct Obj09882 *)p)->f75C); }

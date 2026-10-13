@@ -1,5 +1,5 @@
 /*
- * function: func_0215A6DC
+ * function: SCRCMD_WORK_AddAnimeTask
  * address:  0x0215A6DC
  * packet:   pkt_ov010_0215A6DC
  * region:   ov010
@@ -16,7 +16,7 @@
  *   (none)
  */
 
-void func_0215A6DC(int *p, int v)
+void SCRCMD_WORK_AddAnimeTask(int *p, int v)
 {
     int i;
     int *e;

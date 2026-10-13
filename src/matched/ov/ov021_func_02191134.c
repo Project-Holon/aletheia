@@ -1,5 +1,5 @@
 /*
- * function: func_02191134
+ * function: FIELD_MSGBG_SysWinDrawCursor
  * address:  0x02191134
  * packet:   pkt_ov021_02191134
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045334  0x02045334  arm  arm9
+ *   BMP_WIN_TransferChars  0x02045334  arm  arm9
  *   func_02045770  0x02045770  arm  arm9
- *   func_021928C0  0x021928C0  thumb  ov021
- *   func_0219320C  0x0219320C  thumb  ov021
+ *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
+ *   FIELD_MSGBG_KeyWaitGetAuto  0x0219320C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -38,17 +38,17 @@ typedef struct P {
     Fx *f14;
 } P;
 
-extern u8 func_0219320C(u8 *p);
+extern u8 FIELD_MSGBG_KeyWaitGetAuto(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct Cur;
-extern void func_021928C0(struct Cur *c, u32 win, u32 col);
-extern void func_02045334(struct Descriptor *a);
+extern void FIELD_MSGBG_AnimateCursor(struct Cur *c, u32 win, u32 col);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
-void func_02191134(P *p)
+void FIELD_MSGBG_SysWinDrawCursor(P *p)
 {
-    if (func_0219320C((u8 *)p->f14 + 0x160) == 0) {
-        func_021928C0((struct Cur *)((u8 *)p + 0x18), (u32)func_02045770((struct Descriptor *)p->f00), 0xF);
-        func_02045334((struct Descriptor *)p->f00);
+    if (FIELD_MSGBG_KeyWaitGetAuto((u8 *)p->f14 + 0x160) == 0) {
+        FIELD_MSGBG_AnimateCursor((struct Cur *)((u8 *)p + 0x18), (u32)func_02045770((struct Descriptor *)p->f00), 0xF);
+        BMP_WIN_TransferChars((struct Descriptor *)p->f00);
     }
 }

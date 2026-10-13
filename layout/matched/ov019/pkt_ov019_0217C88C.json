@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217C88C",
+   "name": "UNION_ONESELF_BattleMenuMain",
    "address": "0x0217C88C",
    "kind": "game",
    "region": "ov019",

@@ -1,5 +1,5 @@
 /*
- * function: func_02184B34
+ * function: OEKAKI_ResetDisplay
  * address:  0x02184B34
  * packet:   pkt_ov023_02184B34
  * region:   ov023
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 void func_020403F4(u32 i);
 void func_0203F9B4(void);
 
-void func_02184B34(void)
+void OEKAKI_ResetDisplay(void)
 {
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);

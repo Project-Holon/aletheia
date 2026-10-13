@@ -34,11 +34,11 @@
  * at 0x0202E03E, which is the 82-against-84 the star records.
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_02035630  0x02035630  arm
- *   func_0204B954  0x0204B954  arm
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *
  * Verified with:
  *   python3 tools/match.py one --src src/matched/PMS_DRAW_CreateDecoActor.c \
@@ -60,14 +60,14 @@ struct Res {
 };
 
 struct Obj;
-extern struct Obj *func_0204B294(void *a, u32 b, u32 c, u32 d,
+extern struct Obj *CLACT_CreateActor(void *a, u32 b, u32 c, u32 d,
                                 const void *e, u16 f, u16 g);
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u8 func_02035630(void);
-extern void func_0204B954(struct Actor *a, u32 v);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 
 void *PMS_DRAW_CreateDecoActor(struct Res *r, u16 a)
 {
@@ -75,12 +75,12 @@ void *PMS_DRAW_CreateDecoActor(struct Res *r, u16 a)
     void *o;
     u32 one;
 
-    o = func_0204B294((void *)r->f00, r->f0c, r->f08, r->f10, &z, (u16)r->f04, a);
+    o = CLACT_CreateActor((void *)r->f00, r->f0c, r->f08, r->f10, &z, (u16)r->f04, a);
     func_0204B3DC(o, 0);
     one = 1;
     func_0204B92C(o, 1);
     if (func_02035630() == 0x1e) {
-        func_0204B954(o, one << 0xd);
+        CLACT_SetActorAutoAnimSpeed(o, one << 0xd);
     }
     return o;
 }

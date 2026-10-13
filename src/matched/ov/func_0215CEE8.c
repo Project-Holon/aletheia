@@ -1,5 +1,5 @@
 /*
- * function: func_0215CEE8
+ * function: SCRCMD_PROC_StopDaycareTimer
  * address:  0x0215CEE8
  * packet:   pkt_0215CEE8
  * region:   ov010
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D50  0x02188D50  thumb
- *   func_021C335C  0x021C335C  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetSodateya  0x02188D50  thumb
+ *   SODATEYA_DeclineEgg  0x021C335C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D50(void *a0);
-extern void func_021C335C(void **p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetSodateya(void *a0);
+extern void SODATEYA_DeclineEgg(void **p);
 
-int func_0215CEE8(int a0, int a1)
+int SCRCMD_PROC_StopDaycareTimer(int a0, int a1)
 {
     void *v0;
     void *v1;
 
 a0 = a1 + 0;
-    v0 = func_0215A5DC((void *)a0);
+    v0 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0215CEF0:
-    v1 = func_0201210C(v0);
+    v1 = GAMESYSTEM_GetFieldMap(v0);
 loc_0215CEF4:
-    func_021C335C((void **)func_02188D50(v1));
+    SODATEYA_DeclineEgg((void **)FIELDMAP_GetSodateya(v1));
 loc_0215CEF8:
 loc_0215CEFC:
 a0 = 0;

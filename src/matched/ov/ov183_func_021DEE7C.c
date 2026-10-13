@@ -63,7 +63,7 @@
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DF18C 0x021DF18C thumb ov183
  *   func_021FD170 0x021FD170 thumb ov186
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021FE784 0x021FE784 thumb ov186
@@ -90,7 +90,7 @@ extern void func_021FD170(char *p, char *q, void *text);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021DF18C(int *p, int *state, char *q);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_02035D20(u32 *,u32 *);
 extern void func_020061E4(u32),func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
@@ -152,7 +152,7 @@ void func_021DEE7C(int *task,u32 *state,char *p)
     case 3: {
         u32 x,y;
         struct Pair clicked;
-        if(func_02035C60()) {
+        if(TOUCHPANEL_GetTrg()) {
             func_02035D20(&x,&y);
             clicked.x=x; clicked.y=y;
             func_021FD860(*(int *)(p+0x20),1,&clicked);

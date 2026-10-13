@@ -1,5 +1,5 @@
 /*
- * function: func_021F39BC
+ * function: FIELD_GIMMICK_GATE_StartBoardAnime
  * address: 0x021F39BC
  * packet: pkt_ov048_021F39BC
  * region: ov048
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02188D2C 0x02188D2C thumb ov021
- *   func_021BE700 0x021BE700 thumb ov021
- *   d_021F50D2 0x021F50D2 data a2
+ *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled 0x021BE700 thumb ov021
+ *   gGateBoardAnimeTable 0x021F50D2 data a2
  */
 typedef unsigned short u16;
-extern int func_02188D2C(int *p);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern const u16 d_021F50D2[];
-void func_021F39BC(int *p) { func_021BE700((void *)func_02188D2C((int *)p[1]),1,0,d_021F50D2[((int *)p[7])[0x1d]],1); }
+extern int FIELDMAP_GetExpObj(int *p);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
+extern const u16 gGateBoardAnimeTable[];
+void FIELD_GIMMICK_GATE_StartBoardAnime(int *p) { FLD_EXP_OBJ_SetAnimeEnabled((void *)FIELDMAP_GetExpObj((int *)p[1]),1,0,gGateBoardAnimeTable[((int *)p[7])[0x1d]],1); }

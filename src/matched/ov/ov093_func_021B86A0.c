@@ -1,5 +1,5 @@
 /*
- * function: func_021B86A0
+ * function: BTL_MAIN_CheckFrontPos
  * address: 0x021B86A0
  * packet: pkt_ov093_021B86A0
  * region: ov093
@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: final two zero bytes are alignment padding before the next labelled function.
  * symbols:
- *   func_021B8670 0x021B8670 thumb ov093
+ *   BTL_MAIN_GetActivePosPerSide 0x021B8670 thumb ov093
  */
-extern unsigned int func_021B8670(unsigned int **);
-int func_021B86A0(unsigned int **p, unsigned int i) { if (i < func_021B8670(p)*2) return 1; return 0; }
+extern unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **);
+int BTL_MAIN_CheckFrontPos(unsigned int **p, unsigned int i) { if (i < BTL_MAIN_GetActivePosPerSide(p)*2) return 1; return 0; }

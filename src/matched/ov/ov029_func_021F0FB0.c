@@ -1,5 +1,5 @@
 /*
- * function: func_021F0FB0
+ * function: C_GEAR_StartFadeIn
  * address:  0x021F0FB0
  * packet:   pkt_ov029_021F0FB0
  * region:   ov029
@@ -22,7 +22,7 @@ typedef signed   short s16;
 extern u16 d_021F31B6[];
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
-void func_021F0FB0(char *p)
+void C_GEAR_StartFadeIn(char *p)
 {
     PALANM_RequestFade(((struct Obj00042 *)p)->f210, 8, 0xFFFF, 1, 0x10, 0,
                   d_021F31B6[((struct Obj00042 *)p)->f459], ((struct Obj00042 *)p)->f204);

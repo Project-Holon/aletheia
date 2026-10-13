@@ -1,5 +1,5 @@
 /*
- * function: func_02190A28
+ * function: FIELD_MSGBG_CreateMenuItemsFromTable
  * address:  0x02190A28
  * packet:   pkt_ov021_02190A28
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201F878  0x0201F878  thumb  arm9
- *   func_02190A20  0x02190A20  thumb  ov021
+ *   BMP_MENUWORK_AddMsgItem  0x0201F878  thumb  arm9
+ *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -25,17 +25,17 @@ typedef struct Pair {
     u32 b;
 } Pair;
 
-extern u32 func_02190A20(int n, u32 d);
+extern u32 FIELD_MSGBG_CreateMenuItems(int n, u32 d);
 struct Slot;
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 
-u32 func_02190A28(const Pair *arr, int n, u32 c, u16 d)
+u32 FIELD_MSGBG_CreateMenuItemsFromTable(const Pair *arr, int n, u32 c, u16 d)
 {
     u32 obj;
     int i;
 
-    obj = func_02190A20(n, d);
+    obj = FIELD_MSGBG_CreateMenuItems(n, d);
     for (i = 0; i < n; i++)
-        func_0201F878((struct Slot *)obj, c, arr[i].a, arr[i].b, d);
+        BMP_MENUWORK_AddMsgItem((struct Slot *)obj, c, arr[i].a, arr[i].b, d);
     return obj;
 }

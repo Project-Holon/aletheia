@@ -1,5 +1,5 @@
 /*
- * function: func_02158B3C
+ * function: SCRIPT_SYS_FindSpecialScript
  * address: 0x02158B3C
  * packet: pkt_ov010_02158B3C
  * region: ov010
@@ -10,7 +10,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-int func_02158B3C(const u8 *p, int key) {
+int SCRIPT_SYS_FindSpecialScript(const u8 *p, int key) {
     for (;;) {
         u16 v = p[0] + (p[1] << 8);
         if (v == 0) return 0xffff;

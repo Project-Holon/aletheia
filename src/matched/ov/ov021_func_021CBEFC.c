@@ -1,5 +1,5 @@
 /*
- * function: func_021CBEFC
+ * function: BSUBWAY_SCR_GetMonIv
  * address:  0x021CBEFC
  * packet:   pkt_ov021_021CBEFC
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_021CBEFC(u32 v)
+u8 BSUBWAY_SCR_GetMonIv(u32 v)
 {
     if (v < 100)
         return 3;

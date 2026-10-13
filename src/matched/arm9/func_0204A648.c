@@ -1,5 +1,5 @@
 /*
- * function: func_0204A648
+ * function: CLACT_VBlankSystem
  * address:  0x0204A648
  * packet:   pkt_0204A600
  * region:   arm9
@@ -27,8 +27,8 @@
  * this range), so this file is EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204A648.c \
- *       --func func_0204A648 --addr 0x0204A648 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_VBlankSystem.c \
+ *       --func CLACT_VBlankSystem --addr 0x0204A648 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -45,7 +45,7 @@ struct Table;
 extern void CLACT_ApplyOamManagers(struct Obj *o);
 extern void CLACT_ExecuteTransfers(struct Table *t);
 
-void func_0204A648(void)
+void CLACT_VBlankSystem(void)
 {
     if (g_ClactSystem == 0)
         return;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA37C
+ * function: OPTION_MENU_InitButtons
  * address:  0x021BA37C
  * packet:   pkt_ov068_021BA37C
  * region:   ov068
@@ -16,11 +16,11 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_021B62E0  0x021B62E0  thumb  ov067
- *   func_021BA6B8  0x021BA6B8  thumb  ov068
+ *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
+ *   OPTION_MENU_CreateButtonWindows  0x021BA6B8  thumb  ov068
  *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
- *   func_021B6598  0x021B6598  thumb  ov067
- *   d_021BB5D4     0x021BB5D4  data  a4
+ *   TOUCHBAR_SetButtonToggled  0x021B6598  thumb  ov067
+ *   gOptionMenuReturnButtonCells     0x021BB5D4  data  a4
  */
 #include "../include/Obj02762.h"
 
@@ -32,13 +32,13 @@ typedef struct { u32 w[16]; } Tbl;
 typedef struct { u32 w[8]; } Req;
 
 extern void func_02082BCC(void *p, u32 a, u32 b);
-extern u32  func_021B62E0(Req *r, u16 a);
-extern void func_021BA6B8(u8 *p, u32 arg);
+extern u32  TOUCHBAR_Create(Req *r, u16 a);
+extern void OPTION_MENU_CreateButtonWindows(u8 *p, u32 arg);
 extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
-extern void func_021B6598(unsigned char *p, unsigned int id, unsigned int v);
-extern Tbl  d_021BB5D4;
+extern void TOUCHBAR_SetButtonToggled(unsigned char *p, unsigned int id, unsigned int v);
+extern Tbl  gOptionMenuReturnButtonCells;
 
-void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3)
+void OPTION_MENU_InitButtons(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3)
 {
     Tbl t;
     Req r;
@@ -50,7 +50,7 @@ void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3
     ((struct Obj02762 *)p)->f18 = s0;
     ((struct Obj02762 *)p)->f4 = a3;
     ((struct Obj02762 *)p)->f3C = s2;
-    t = d_021BB5D4;
+    t = gOptionMenuReturnButtonCells;
     func_02082BCC(&r, 0, 0x20);
     r.w[0] = (u32)&t;
     r.w[1] = 2;
@@ -58,11 +58,11 @@ void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3
     r.w[5] = 8;
     r.w[7] = 1;
     r.w[6] = 2;
-    ((struct Obj02762 *)p)->f8 = func_021B62E0(&r, s3);
-    func_021BA6B8(p, s3);
+    ((struct Obj02762 *)p)->f8 = TOUCHBAR_Create(&r, s3);
+    OPTION_MENU_CreateButtonWindows(p, s3);
     if (GAME_DATA_CheckSaveFlag(((struct Obj02762 *)p)->f3C, 0x18) != 0) {
-        func_021B6598((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 1);
+        TOUCHBAR_SetButtonToggled((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 1);
     } else {
-        func_021B6598((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 0);
+        TOUCHBAR_SetButtonToggled((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 0);
     }
 }

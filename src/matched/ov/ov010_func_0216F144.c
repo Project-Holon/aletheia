@@ -1,5 +1,5 @@
 /*
- * function: func_0216F144
+ * function: TRCARD_SYS_InitMinimal
  * address: 0x0216F144
  * packet: pkt_ov010_0216F144
  * region: ov010
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  */
 
 typedef struct { int w[8]; } W;
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
-int func_0216F144(void *a,int b,int c) { W *w; func_0203064C(1,38,0x18000); w=func_0203159C(a,32,38); func_02082BCC(w,0,32); w->w[0]=38; w->w[6]=c; return 1; }
+int TRCARD_SYS_InitMinimal(void *a,int b,int c) { W *w; GFL_HEAP_CreateChildHeap(1,38,0x18000); w=PROCSYS_AllocProcWork(a,32,38); func_02082BCC(w,0,32); w->w[0]=38; w->w[6]=c; return 1; }

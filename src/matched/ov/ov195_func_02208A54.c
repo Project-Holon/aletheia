@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02047CFC 0x02047CFC arm
+ *   G3D_UTIL_Create 0x02047CFC arm
  */
 #include "../include/Obj00687.h"
 
-extern int func_02047CFC(int, int, int);
+extern int G3D_UTIL_Create(int, int, int);
 
 void func_02208A54(char *a)
 {
-    *(int *)&((struct Obj00687 *)a)->f14 = func_02047CFC(4, 1, ((struct Obj00687 *)a)->f0);
+    *(int *)&((struct Obj00687 *)a)->f14 = G3D_UTIL_Create(4, 1, ((struct Obj00687 *)a)->f0);
     ((struct Obj00687 *)a)->f1C = 0;
 }

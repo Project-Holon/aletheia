@@ -12,13 +12,13 @@
  *   func_021FC214 0x021FC214 thumb ov186
  *   d_021E3850 0x021E3850 data a4
  *   func_02045EC0 0x02045EC0 arm
- *   func_02043678 0x02043678 arm
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_020255A0 0x020255A0 thumb
- *   func_020257D0 0x020257D0 thumb
+ *   BMP_Create 0x02043678 arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_OAM_Create 0x020255A0 thumb
+ *   BMP_OAM_UploadChars 0x020257D0 thumb
  *   BMP_OAM_SetObjMode 0x0202597C thumb
- *   func_020437AC 0x020437AC arm
- *   func_02045808 0x02045808 arm
+ *   BMP_Delete 0x020437AC arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj03882.h"
 typedef unsigned char u8;
@@ -38,14 +38,14 @@ struct Obj;
 struct Obj020437AC;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 struct Param;
-extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
-extern void func_020257D0(struct Obj *o);
+extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
+extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void BMP_OAM_SetObjMode(u8 *g, u32 a);
-extern void func_020437AC(struct Obj020437AC *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void BMP_Delete(struct Obj020437AC *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021E111C(const Object *object,Index index,int x,int y)
 {
     char *p=(char *)object;
@@ -55,8 +55,8 @@ void func_021E111C(const Object *object,Index index,int x,int y)
     Descriptor desc;
     source=func_021FC214(*(char * *)&((struct Obj03882 *)p)->f344);
     source=(int)func_02045EC0((struct MsgBank *)source,d_021E3850[index]);
-    handle=(int)func_02043678(10,2,32,((struct Obj03882 *)p)->f34C);
-    func_0201C7A4((void *)handle,1,0,(void *)source,(void *)(((struct Obj03882 *)p)->f310));
+    handle=(int)BMP_Create(10,2,32,((struct Obj03882 *)p)->f34C);
+    PRINTSYS_Print((void *)handle,1,0,(void *)source,(void *)(((struct Obj03882 *)p)->f310));
     xx=((u8 *)(p+0x29a))[(index+22)*4];
     yy=((u8 *)(p+0x298))[(index+22)*4];
     desc.handle=(void *)handle;
@@ -73,11 +73,11 @@ void func_021E111C(const Object *object,Index index,int x,int y)
         struct Grid **slot;
         struct Grid *grid;
         slot=&out[index];
-        grid=func_020255A0(object->f300,(const struct Param *)(&desc));
+        grid=BMP_OAM_Create(object->f300,(const struct Param *)(&desc));
         *slot=grid;
-        func_020257D0((struct Obj *)((int)grid));
+        BMP_OAM_UploadChars((struct Obj *)((int)grid));
         BMP_OAM_SetObjMode((u8 *)((int)*slot),1);
     }
-    func_020437AC((struct Obj020437AC *)handle);
-    func_02045808((struct U16Vec *)source);
+    BMP_Delete((struct Obj020437AC *)handle);
+    STRBUF_Delete((struct U16Vec *)source);
 }

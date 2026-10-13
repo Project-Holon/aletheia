@@ -1,5 +1,5 @@
 /*
- * function: func_02189B04
+ * function: FIELDMAP_IsLoaderWaitZone
  * address:  0x02189B04
  * packet:   pkt_ov021_02189B04
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_02189B04(int x)
+int FIELDMAP_IsLoaderWaitZone(int x)
 {
     if (x == 0x3F)
         return 1;

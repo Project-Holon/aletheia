@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204AFD8  0x0204AFD8  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *
  * Release loop over the twelve pointers at +0x150, each paired with the block
  * at +0x118, with the slot cleared whether or not it was set; then two single
@@ -38,10 +38,10 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
 void func_021BBD80(char *s)
 {
@@ -50,12 +50,12 @@ void func_021BBD80(char *s)
     if (((struct Obj09193 *)s)->f150 != 0) {
         for (i = 0; i < 12; i++) {
             if (*(void **)(s + i * 4 + 0x150) != 0) {
-                func_0204B3B4(*(void **)(s + i * 4 + 0x150));
-                func_0204A8D4((u32)(*(void **)(s + i * 4 + 0x118)));
+                CLACT_DeleteActor(*(void **)(s + i * 4 + 0x150));
+                CLACT_ReleaseCharacter((u32)(*(void **)(s + i * 4 + 0x118)));
             }
             *(u32 *)(s + i * 4 + 0x150) = 0;
         }
-        func_0204ADA4((u32)(((struct Obj09193 *)s)->f148));
-        func_0204AFD8((u32)(((struct Obj09193 *)s)->f14C));
+        CLACT_ReleasePalette((u32)(((struct Obj09193 *)s)->f148));
+        CLACT_ReleaseCellAnim((u32)(((struct Obj09193 *)s)->f14C));
     }
 }

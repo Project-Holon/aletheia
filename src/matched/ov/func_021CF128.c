@@ -1,5 +1,5 @@
 /*
- * function: func_021CF128
+ * function: COMM_ENTRY_GetRosterSize
  * address:  0x021CF128
  * packet:   pkt_021CF128
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-u32 func_021CF128(void)
+u32 COMM_ENTRY_GetRosterSize(void)
 {
 return 132;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F0C44",
+   "name": "DOWSING_UpdateFade",
    "address": "0x021F0C44",
    "kind": "game",
    "region": "ov033",

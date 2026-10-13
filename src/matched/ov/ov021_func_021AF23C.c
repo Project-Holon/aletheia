@@ -1,5 +1,5 @@
 /*
- * function: func_021AF23C
+ * function: SCRCMD_IsMarkedSeBusy
  * address:  0x021AF23C
  * packet:   pkt_ov021_021AF23C
  * region:   ov021
@@ -12,7 +12,8 @@
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  *
  * symbols:
- *   func_02158F88  0x02158F88  thumb  ov010
+ *   SCRIPT_WORK_GetTrainerParam  0x02158F88  thumb  ov010
+ *   GFL_USE_IsSeSlotBusy  0x02006224  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -21,19 +22,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u8 *func_02158F88(void *p);
-extern int func_02006224(u32 a0);
+extern u8 *SCRIPT_WORK_GetTrainerParam(void *p);
+extern int GFL_USE_IsSeSlotBusy(u32 a0);
 
-int func_021AF23C(u32 a)
+int SCRCMD_IsMarkedSeBusy(u32 a)
 {
     int i;
     u8 *p;
 
-    p = func_02158F88((void *)a);
+    p = SCRIPT_WORK_GetTrainerParam((void *)a);
 
     for (i = 0; i < 5; i++) {
         if (*p & (1 << i)) {
-            if (func_02006224(i) == 1)
+            if (GFL_USE_IsSeSlotBusy(i) == 1)
                 return 1;
         }
     }

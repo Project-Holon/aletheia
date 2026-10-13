@@ -1,5 +1,5 @@
 /*
- * function: func_021B8870
+ * function: FIELD_RAIL_SETTING_GetCameraFunc
  * address:  0x021B8870
  * packet:   pkt_ov021_021B8870
  * region:   ov021
@@ -35,7 +35,7 @@ typedef struct {
     void **p28;
 } Table;
 
-void *func_021B8870(Table *t, u16 i)
+void *FIELD_RAIL_SETTING_GetCameraFunc(Table *t, u16 i)
 {
     if (t->n8 > i) {
         return t->p20[i];

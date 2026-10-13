@@ -1,5 +1,5 @@
 /*
- * function: func_021D8340
+ * function: BTL_ACTION_GetFightMove
  * address: 0x021D8340
  * packet: pkt_ov093_021D8340
  * region: ov093
@@ -12,4 +12,4 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-struct B { u32 kind:4; u32 sub:3; u32 id:16; u32 rest:9; }; u32 func_021D8340(struct B *p) { if(p->kind==1) return (u16)p->id; return 0; }
+struct B { u32 kind:4; u32 sub:3; u32 id:16; u32 rest:9; }; u32 BTL_ACTION_GetFightMove(struct B *p) { if(p->kind==1) return (u16)p->id; return 0; }

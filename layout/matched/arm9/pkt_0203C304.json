@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203CD98",
+   "name": "GFL_NET_GetRunState",
    "address": "0x0203CD98",
    "kind": "game",
    "region": "arm9",

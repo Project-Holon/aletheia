@@ -1,5 +1,5 @@
 /*
- * function: func_021B6DE4
+ * function: SCRCMD_POKEMON_FLD_GetDeliveryNpcId
  * address:  0x021B6DE4
  * packet:   pkt_ov021_021B6DE4
  * region:   ov021
@@ -10,29 +10,29 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B6E24  0x021B6E24  thumb ov021
- *   func_0216D588  0x0216D588  thumb ov010
- *   func_021B6E68  0x021B6E68  thumb ov021
+ *   SCRCMD_POKEMON_FLD_FindDeliveryMmdl  0x021B6E24  thumb ov021
+ *   FLDMMDL_GetObjId  0x0216D588  thumb ov010
+ *   SCRCMD_POKEMON_FLD_FindDeliveryNpcObjId  0x021B6E68  thumb ov021
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021B6E24(void *);
-extern u16 func_0216D588(void *);
-extern int func_021B6E68(int a);
+extern void *SCRCMD_POKEMON_FLD_FindDeliveryMmdl(void *);
+extern u16 FLDMMDL_GetObjId(void *);
+extern int SCRCMD_POKEMON_FLD_FindDeliveryNpcObjId(int a);
 
-u16 func_021B6DE4(void *a, void *b)
+u16 SCRCMD_POKEMON_FLD_GetDeliveryNpcId(void *a, void *b)
 {
     void *t;
     int r;
 
-    t = func_021B6E24(a);
+    t = SCRCMD_POKEMON_FLD_FindDeliveryMmdl(a);
     if (t != 0) {
-        return func_0216D588(t);
+        return FLDMMDL_GetObjId(t);
     }
-    r = func_021B6E68((int)b);
+    r = SCRCMD_POKEMON_FLD_FindDeliveryNpcObjId((int)b);
     if (r >= 0) {
         return r;
     }

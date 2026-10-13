@@ -1,5 +1,5 @@
 /*
- * function: func_0218FD88
+ * function: FIELD_CAMERA_LerpVec
  * address:  0x0218FD88
  * packet:   pkt_ov021_0218FD88
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218FDD4  0x0218FDD4  thumb
+ *   FIELD_CAMERA_LerpFx32  0x0218FDD4  thumb
  *
  * n and d are u16 (the caller passes u16 fields): with int parameters the
  * scheduler hoists the third call's pointer bumps above the store of out->y.
@@ -25,13 +25,13 @@ typedef signed int     s32;
 
 typedef struct { int x, y, z; } Vec3;
 
-extern int func_0218FDD4(int *p, int *q, int n, int d);
+extern int FIELD_CAMERA_LerpFx32(int *p, int *q, int n, int d);
 
-void func_0218FD88(Vec3 *p, Vec3 *q, u16 n, u16 d, Vec3 *out)
+void FIELD_CAMERA_LerpVec(Vec3 *p, Vec3 *q, u16 n, u16 d, Vec3 *out)
 {
     if (n == 0)
         *out = *q;
-    out->x = func_0218FDD4(&p->x, &q->x, n, d);
-    out->y = func_0218FDD4(&p->y, &q->y, n, d);
-    out->z = func_0218FDD4(&p->z, &q->z, n, d);
+    out->x = FIELD_CAMERA_LerpFx32(&p->x, &q->x, n, d);
+    out->y = FIELD_CAMERA_LerpFx32(&p->y, &q->y, n, d);
+    out->z = FIELD_CAMERA_LerpFx32(&p->z, &q->z, n, d);
 }

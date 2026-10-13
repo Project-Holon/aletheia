@@ -1,5 +1,5 @@
 /*
- * function: func_021B38E0
+ * function: SCRCMD_PROC_FLD_BuildItemListByBadges
  * address:  0x021B38E0
  * packet:   pkt_ov021_021B38E0
  * region:   ov021
@@ -16,16 +16,16 @@
  * last declared lowest) gives the image layout.
  *
  * symbols:
- *   func_021B38E0 0x021B38E0 thumb
+ *   SCRCMD_PROC_FLD_BuildItemListByBadges 0x021B38E0 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02021288 0x02021288 thumb
- *   func_0201F81C 0x0201F81C thumb
- *   func_021B385C 0x021B385C thumb ov021
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   SCRCMD_PROC_FLD_SetItemSlot 0x021B385C thumb ov021
  *   func_02020FE4 0x02020FE4 thumb
- *   func_0201102C 0x0201102C thumb
- *   func_021B3834 0x021B3834 thumb ov021
- *   func_0201F878 0x0201F878 thumb
- *   func_02045C04 0x02045C04 arm
+ *   GPOWER_ApplyShopPrice 0x0201102C thumb
+ *   SCRCMD_PROC_FLD_LoadItemRows 0x021B3834 thumb ov021
+ *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
+ *   MSGDATA_Delete 0x02045C04 arm
  *   d_021D946C 0x021D946C data
  *   d_021D95DE 0x021D95DE data
  *   d_021DE1A8 0x021DE1A8 data
@@ -41,20 +41,20 @@ struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_02021288(u32 id);
-extern void *func_0201F81C(int, int);
-extern void func_021B385C(char *p, int idx, int mode, int val, int arg);
+extern void *BMP_MENUWORK_Create(int, int);
+extern void SCRCMD_PROC_FLD_SetItemSlot(char *p, int idx, int mode, int val, int arg);
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
-extern u32 func_0201102C(u32 v);
+extern u32 GPOWER_ApplyShopPrice(u32 v);
 struct Slot;
-extern u32 func_021B3834(u8 *p, int n);
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 SCRCMD_PROC_FLD_LoadItemRows(u8 *p, int n);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern u8 d_021D946C[];
 extern u8 d_021D95DE[];
 extern u16 *d_021DE1A8[];
 
-void func_021B38E0(char *p, int a, int b, int c)
+void SCRCMD_PROC_FLD_BuildItemListByBadges(char *p, int a, int b, int c)
 {
     int n;
     void *q = func_02045B38(0, 2, 54, ((struct Obj00037 *)p)->f4);
@@ -75,16 +75,16 @@ void func_021B38E0(char *p, int a, int b, int c)
         off = idx * 4;
     }
     n = d_021D95DE[idx];
-    ((struct Obj00037 *)p)->f180 = func_0201F81C(n + 1, ((struct Obj00037 *)p)->f4);
+    ((struct Obj00037 *)p)->f180 = BMP_MENUWORK_Create(n + 1, ((struct Obj00037 *)p)->f4);
     for (k = 0; k < n; k++) {
         v = (*(u16 **)((char *)d_021DE1A8 + off))[k];
-        func_021B385C(p, k, ((struct Obj00037 *)p)->f162, v, (int)q);
+        SCRCMD_PROC_FLD_SetItemSlot(p, k, ((struct Obj00037 *)p)->f162, v, (int)q);
         e = p + k * 8;
         ((struct Obj12843 *)e)->f20 = v;
-        ((struct Obj12843 *)e)->f24 = func_0201102C(func_02020FE4((void *)v, 0, ((struct Obj00037 *)p)->f4));
+        ((struct Obj12843 *)e)->f24 = GPOWER_ApplyShopPrice(func_02020FE4((void *)v, 0, ((struct Obj00037 *)p)->f4));
     }
     ((struct Obj00037 *)p)->f160 = k;
-    func_021B3834((u8 *)(p + 32), ((struct Obj00037 *)p)->f160);
-    func_0201F878((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + k * 8), (u32)(((struct Obj00037 *)p)->f188), 11, -2, ((struct Obj00037 *)p)->f4);
-    func_02045C04(q);
+    SCRCMD_PROC_FLD_LoadItemRows((u8 *)(p + 32), ((struct Obj00037 *)p)->f160);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + k * 8), (u32)(((struct Obj00037 *)p)->f188), 11, -2, ((struct Obj00037 *)p)->f4);
+    MSGDATA_Delete(q);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EEC20  0x021EEC20  thumb  ov093
+ *   BTL_ADAPTER_GetRecvData  0x021EEC20  thumb  ov093
  *   func_021B8DE4  0x021B8DE4  thumb  ov093
  */
 #include "../include/Obj09995.h"
@@ -27,7 +27,7 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern int func_021EEC20(int, int *);
+extern int BTL_ADAPTER_GetRecvData(int, int *);
 extern u8 func_021B8DE4(char *p, int i);
 
 u8 func_021D0C78(BattleSeq *s, u8 *out)
@@ -37,7 +37,7 @@ u8 func_021D0C78(BattleSeq *s, u8 *out)
     u32 i;
     u32 cnt;
 
-    n = func_021EEC20(((struct Obj09995 *)s)->f50, &arr);
+    n = BTL_ADAPTER_GetRecvData(((struct Obj09995 *)s)->f50, &arr);
     i = 0;
     cnt = 0;
     for (; i < n; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_02185854
+ * function: OEKAKI_StepShowFinishMessage
  * address: 0x02185854
  * packet: pkt_ov023_02185854
  * region: ov023
@@ -10,21 +10,21 @@
  * status: EXACT*
  * extent: two zero padding bytes follow the return at 0x0218587C.
  * symbols:
- *   func_021857F4 0x021857F4 thumb ov023
- *   func_021861C4 0x021861C4 thumb ov023
- *   func_02186444 0x02186444 thumb ov023
- *   func_02185354 0x02185354 thumb ov023
+ *   OEKAKI_RegisterPlayerName 0x021857F4 thumb ov023
+ *   OEKAKI_PrintMessage 0x021861C4 thumb ov023
+ *   OEKAKI_SetNextScene 0x02186444 thumb ov023
+ *   OEKAKI_ApplyRemoteStrokes 0x02185354 thumb ov023
  */
 typedef unsigned char u8;
-extern void func_021857F4(char *, int, int);
-extern void func_021861C4(u8 *, unsigned int, int);
-extern void func_02186444(char *, unsigned int);
-extern void func_02185354(char *);
-int func_02185854(char *p, int a)
+extern void OEKAKI_RegisterPlayerName(char *, int, int);
+extern void OEKAKI_PrintMessage(u8 *, unsigned int, int);
+extern void OEKAKI_SetNextScene(char *, unsigned int);
+extern void OEKAKI_ApplyRemoteStrokes(char *);
+int OEKAKI_StepShowFinishMessage(char *p, int a)
 {
-    func_021857F4(p, 0, 0);
-    func_021861C4((u8 *)p, 3, 1);
-    func_02186444(p, 0x13);
-    func_02185354(p);
+    OEKAKI_RegisterPlayerName(p, 0, 0);
+    OEKAKI_PrintMessage((u8 *)p, 3, 1);
+    OEKAKI_SetNextScene(p, 0x13);
+    OEKAKI_ApplyRemoteStrokes(p);
     return a;
 }

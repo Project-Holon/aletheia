@@ -1,5 +1,5 @@
 /*
- * function: func_0219B45C
+ * function: FLDMMDL_MOVECODE_CheckByEventType
  * address:  0x0219B45C
  * packet:   pkt_ov021_0219B45C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D5A8  0x0216D5A8  thumb  ov010
- *   d_021D52CC  0x021D52CC  data  a4
+ *   FLDMMDL_GetEventType  0x0216D5A8  thumb  ov010
+ *   gMmdlEventTypeCheckProcs  0x021D52CC  data  a4
  */
 
 typedef unsigned char  u8;
@@ -20,10 +20,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef void (*Handler)(u32);
-extern u16 func_0216D5A8(u8 *p);
-extern Handler d_021D52CC[];
+extern u16 FLDMMDL_GetEventType(u8 *p);
+extern Handler gMmdlEventTypeCheckProcs[];
 
-void func_0219B45C(u32 a)
+void FLDMMDL_MOVECODE_CheckByEventType(u32 a)
 {
-    d_021D52CC[func_0216D5A8((u8 *)a)](a);
+    gMmdlEventTypeCheckProcs[FLDMMDL_GetEventType((u8 *)a)](a);
 }

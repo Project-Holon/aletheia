@@ -11,7 +11,7 @@
  *
  * symbols:
  *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   MCSS_TOOL_SetSpindaSpotHook  0x020172AC  thumb
  */
 typedef unsigned int u32;
@@ -23,7 +23,7 @@ typedef struct {
 
 struct Stats;
 extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void MCSS_TOOL_SetSpindaSpotHook(int a0, int a1);
 
 void func_022003EC(Work *w, void *p, int *a, int flags)
@@ -33,5 +33,5 @@ void func_022003EC(Work *w, void *p, int *a, int flags)
     if (flags & 1)
         v = 0;
     MCSS_TOOL_MakeAddWorkFromPP(p, (struct Stats *)a, v);
-    MCSS_TOOL_SetSpindaSpotHook((int)w->obj, func_02017E1C(p, 0, 0));
+    MCSS_TOOL_SetSpindaSpotHook((int)w->obj, POKE_TOOL_GetPartyValue(p, 0, 0));
 }

@@ -26,8 +26,8 @@
  *   func_021F110C 0x021F110C thumb ov107
  *   func_021F11F0 0x021F11F0 thumb ov107
  *   func_020056EC 0x020056EC thumb
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  */
 #include "../include/Obj01529.h"
 typedef unsigned char u8;
@@ -37,8 +37,8 @@ extern int func_021F10D4(void *),func_021F10DC(void *),func_021F10E4(void *),fun
 extern int func_021F10F4(void *),func_021F10FC(void *),func_021F1104(void *),func_021F110C(void *);
 extern int func_021F11F0(void *,u8,u32);
 extern u32 func_020056EC(u32);
-extern int func_02012DAC(int);
-extern int func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(u8 *);
 #define OBJ (*(void **)(p+0xc))
 #define MSG (*(void **)(p+0x68))
 #define TARGET (*(u8 **)(*(u8 **)(p+8)+4))
@@ -51,8 +51,8 @@ void func_021EFE40(u8 *p)
         }
         break;
     case 10: if(func_021F10F4(OBJ)==1) p[0x24]=11; break;
-    case 11: func_02012DAC((int)TARGET); p[0x24]=12; break;
-    case 12: if(func_02012DD0(TARGET)==1) p[0x24]=13; break;
+    case 11: GAME_DATA_SaveStart((int)TARGET); p[0x24]=12; break;
+    case 12: if(GAME_DATA_SaveMain(TARGET)==1) p[0x24]=13; break;
     case 13:
         if(func_021F10DC(OBJ)==1 && func_021F11F0(OBJ,2,func_020056EC(20)+10)==1) {
             p[0x24]=14; p[0x27]=0;
@@ -64,7 +64,7 @@ void func_021EFE40(u8 *p)
             if(p[0x27]>(u32)func_021F110C(OBJ)) p[0x24]=15;
         }
         break;
-    case 15: if(func_02012DD0(TARGET)==2) p[0x24]=16; break;
+    case 15: if(GAME_DATA_SaveMain(TARGET)==2) p[0x24]=16; break;
     case 16:
         if(func_021F10E4(OBJ)==1 && func_021F11F0(OBJ,3,0)==1) {
             p[0x24]=17; p[0x27]=0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021A0748
+ * function: FIELD_LIGHT_LoadTable
  * address:  0x021A0748
  * packet:   pkt_ov021_021A0748
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020490A8  0x020490A8  arm
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   _u32_div_f  0x0209C2B0  arm
- *   func_02048F4C  0x02048F4C  arm
- *   func_0207CDB8  0x0207CDB8  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
+ *   VEC_Fx16Normalize  0x0207CDB8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12699.h"
@@ -24,22 +24,22 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_020490A8(u32 b, u32 c);
-extern void func_02048F4C(void *a, u32 b, u32 c);
-extern void func_0207CDB8(void *a, void *b);
+extern u32 ARC_TOOL_GetMemberSize(u32 b, u32 c);
+extern void ARC_TOOL_ReadMember(void *a, u32 b, u32 c);
+extern void VEC_Fx16Normalize(void *a, void *b);
 
-void func_021A0748(u8 *a, u32 b, u32 c)
+void FIELD_LIGHT_LoadTable(u8 *a, u32 b, u32 c)
 {
     u32 i;
     s32 j;
     u8 *q;
 
-    ((struct Obj12699 *)a)->fC = func_020490A8(b, c) / 0x34;
-    func_02048F4C(a + 0x10, b, c);
+    ((struct Obj12699 *)a)->fC = ARC_TOOL_GetMemberSize(b, c) / 0x34;
+    ARC_TOOL_ReadMember(a + 0x10, b, c);
     for (i = 0; i < ((struct Obj12699 *)a)->fC; i++) {
         q = a + 0x20 + i * 0x34;
         for (j = 0; j < 4; j++) {
-            func_0207CDB8(q + j * 6, q + j * 6);
+            VEC_Fx16Normalize(q + j * 6, q + j * 6);
         }
     }
 }

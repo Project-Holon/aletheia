@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02164C04",
+   "name": "GAME_BEACON_SEARCH_OnSessionStarted",
    "address": "0x02164C04",
    "kind": "game",
    "region": "ov010",

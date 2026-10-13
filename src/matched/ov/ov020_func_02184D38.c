@@ -1,5 +1,5 @@
 /*
- * function: func_02184D38
+ * function: EVENT_MAPCHANGE_CreateWarpEvent
  * address:  0x02184D38
  * packet:   pkt_ov020_02184D38
  * region:   ov020
@@ -18,9 +18,9 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_020142A4  0x020142A4  thumb
- *   func_02014184  0x02014184  thumb
- *   func_02184CEC  0x02184CEC  thumb  ov020
- *   func_02184388  0x02184388  thumb  ov020
+ *   ZONEDATA_SetDirectLocation  0x02014184  thumb
+ *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
+ *   EVENT_MAPCHANGE_EntranceEvent  0x02184388  thumb  ov020
  */
 #include "../include/Obj00248.h"
 
@@ -33,19 +33,19 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-void func_02184CEC(void **o, void *p);
+void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 u32 func_020142A4(u32 idx);
-int func_02184388(int a, int *state, u8 *p);
-void func_02014184(void *o, int a, int s, int x, int y, int z);
+int EVENT_MAPCHANGE_EntranceEvent(int a, int *state, u8 *p);
+void ZONEDATA_SetDirectLocation(void *o, int a, int s, int x, int y, int z);
 
-void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t)
+void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const int *q, u16 s, int t)
 {
-    void *r0v = func_020122C0(p, 0, func_02184388, 0x9c);
+    void *r0v = func_020122C0(p, 0, EVENT_MAPCHANGE_EntranceEvent, 0x9c);
     char *r4 = func_020124E8(r0v);
 
-    func_02184CEC((void **)r4, p);
+    EVENT_MAPCHANGE_InitWork((void **)r4, p);
     s = func_020142A4(s);
-    func_02014184(r4 + 0x10, a, (s16)s, q[0], q[1], q[2]);
+    ZONEDATA_SetDirectLocation(r4 + 0x10, a, (s16)s, q[0], q[1], q[2]);
     ((struct Obj00248 *)r4)->f2C = 0;
     ((struct Obj00248 *)r4)->f40 = t;
     return r0v;

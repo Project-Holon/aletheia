@@ -1,5 +1,5 @@
 /*
- * function: func_021840A8
+ * function: UNION_APP_GetSettingSize
  * address: 0x021840A8
  * packet: pkt_ov022_021840A8
  * region: ov022
@@ -10,7 +10,7 @@
  * status: EXACT
  * Unlabelled size-return leaf. Extent follower 021840AC already filed separately.
  */
-unsigned int func_021840A8(unsigned int entry)
+unsigned int UNION_APP_GetSettingSize(unsigned int entry)
 {
     return 4;
 }

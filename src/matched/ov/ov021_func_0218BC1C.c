@@ -1,5 +1,5 @@
 /*
- * function: func_0218BC1C
+ * function: FIELD_BUILDMODEL_GetArchiveMemberIndex
  * address:  0x0218BC1C
  * packet:   pkt_ov021_0218BC1C
  * region:   ov021
@@ -11,10 +11,10 @@
  *
  * Value remap: x >= 0xd2 maps to x-0xd2, x in [2,0xd2) maps to (x-2)/4,
  * x < 2 maps to 0.  The unsigned range tests force `blo` while the division
- * stays signed.  Callee of func_0218B8AC.  EXACT* (follower 0x0218BC40).
+ * stays signed.  Callee of FIELD_BUILDMODEL_LoadArea.  EXACT* (follower 0x0218BC40).
  */
 
-unsigned short func_0218BC1C(int x)
+unsigned short FIELD_BUILDMODEL_GetArchiveMemberIndex(int x)
 {
     if ((unsigned)x >= 0xd2)
         return (unsigned short)(x - 0xd2);

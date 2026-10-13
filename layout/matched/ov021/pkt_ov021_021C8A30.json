@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C8A30",
+   "name": "FIELD_TILE_MOVE_StartSpinTask",
    "address": "0x021C8A30",
    "kind": "game",
    "region": "ov021",

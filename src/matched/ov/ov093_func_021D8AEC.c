@@ -1,5 +1,5 @@
 /*
- * function: func_021D8AEC
+ * function: BTL_CALC_BlockWeatherDamage
  * address: 0x021D8AEC
  * packet: pkt_ov093_021D8AEC
  * region: ov093
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
-extern int func_021D775C(int);
-extern int func_021D76BC(int,unsigned int);
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int,unsigned int);
 
-void func_021D8AEC(int a, int b, int c, int d, unsigned char e)
+void BTL_CALC_BlockWeatherDamage(int a, int b, int c, int d, unsigned char e)
 {
-    if(c==func_021D775C(2) && func_021D775C(0x32)>0 && e==func_021D775C(0x39)) func_021D76BC(0x41,1);
+    if(c==BTL_EVENT_GetVar(2) && BTL_EVENT_GetVar(0x32)>0 && e==BTL_EVENT_GetVar(0x39)) BTL_EVENT_OverwriteVar(0x41,1);
 }

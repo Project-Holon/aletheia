@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0204361C
+ * function: BG_SYS_ResetSubDisplay
  * address:  0x0204361C
  * packet:   pkt_0204361C
  * region:   arm9
@@ -39,19 +39,19 @@ extern u32 gVisiblePlane[2];
 
 extern void func_0207D46C(void);
 
-void func_0204361C(void)
+void BG_SYS_ResetSubDisplay(void)
 {
     func_0207D46C();
     *(volatile u32 *)0x04001000 |= 0x10000;
 }
 
-void func_0204363C(u32 swap)
+void BG_SYS_SetLcdSwap(u32 swap)
 {
     *(volatile u16 *)0x04000304 =
         (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
 }
 
-u32 func_02043658(void)
+u32 BG_SYS_GetMainVisiblePlanes(void)
 {
     return gVisiblePlane[1];
 }

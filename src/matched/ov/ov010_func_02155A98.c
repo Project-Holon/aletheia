@@ -1,5 +1,5 @@
 /*
- * function: func_02155A98
+ * function: MUSICAL_EVENT_Create
  * address:  0x02155A98
  * packet:   pkt_ov010_02155A98
  * region:   ov010
@@ -9,34 +9,34 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Creates the ov010 link sequence task (func_02155C0C over a Seq) and
+ * Creates the ov010 link sequence task (MUSICAL_EVENT_Main over a Seq) and
  * either starts the wireless exchange (state 11) or shuffles the four
  * member slots and deals locally (state 13). The owner back-pointer is
  * stored through s->link while the session is read through the
  * parameter: storing through the parameter enregisters it instead.
  *
  * symbols:
- *   func_02155C0C  0x02155C0C  thumb  ov010
- *   func_0216576C  0x0216576C  thumb  ov010
- *   func_02157028  0x02157028  thumb  ov010
+ *   MUSICAL_EVENT_Main  0x02155C0C  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
+ *   MUSICAL_PROGRAM_Create  0x02157028  thumb  ov010
  *   func_021F685C  0x021F685C  thumb  ov112
  *   func_021F68BC  0x021F68BC  thumb  ov112
  *   func_021FD904  0x021FD904  thumb  ov132
  *   func_021FC848  0x021FC848  thumb  ov132
- *   func_0203064C  0x0203064C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02012138  0x02012138  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   STRBUF_Create  0x020457B0  arm
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02045808  0x02045808  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_0200A7C8  0x0200A7C8  thumb
- *   func_02012944  0x02012944  thumb
- *   func_020185F0  0x020185F0  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   func_0200A81C  0x0200A81C  thumb
  *   func_02005728  0x02005728  thumb
  */
@@ -80,7 +80,7 @@ typedef struct Seq {
 
 typedef u32 (*TaskFn)(void *task, u32 *state, Seq *work);
 
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Big;
 struct BigObj;
 struct Deal;
@@ -90,52 +90,52 @@ struct Src;
 struct U16Vec;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02012934(const struct BigObj *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *func_0201AB28(void *list, u32 i);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_0216576C(void *p);
-extern void func_02045808(struct U16Vec *vec);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void GAME_BEACON_SEARCH_SetNamedEvent(void *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *GAME_DATA_GetSaveBlock2A(void *h);
 extern void *func_021F685C(u32 heap);
 extern int func_021FD904(int *p);
 extern u8 func_0200A7C8(struct Big *p);
 extern void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
-extern u8 *func_02012944(void *p);
-extern void *func_020185F0(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void *POKE_TOOL_Dummy(void *p);
 extern void func_021FC848(u8 *p, void *a, void *b, int unused, void *d, u16 heap);
 extern u16 func_0200A81C(struct Big *p);
 extern u32 func_02005728(u32 n);
-extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
-extern int func_02155C0C(void *evt, void *unused, struct Seq *s);
+extern struct Deal *MUSICAL_PROGRAM_Create(u32 heap, struct Src *src, u16 lim);
+extern int MUSICAL_EVENT_Main(void *evt, void *unused, struct Seq *s);
 
-void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link)
+void *MUSICAL_EVENT_Create(void *a, void *b, u8 c, u32 d, struct Link *link)
 {
     void *task;
     Seq *s;
     void *tmp;
 
-    func_0203064C(1, 0x802C, 0x42000);
-    task = func_020122C0(a, 0, func_02155C0C, sizeof(Seq));
+    GFL_HEAP_CreateChildHeap(1, 0x802C, 0x42000);
+    task = func_020122C0(a, 0, MUSICAL_EVENT_Main, sizeof(Seq));
     s = func_020124E8(task);
     s->f00 = a;
     s->f04 = b;
     s->f14 = d;
-    s->f1c = func_02012EBC(b);
-    s->f20 = (void *)func_02012138(a);
+    s->f1c = GAME_DATA_GetSaveControl(b);
+    s->f20 = (void *)GAMESYSTEM_GetGameComm(a);
     s->link = link;
     s->link->owner = s;
     s->f28 = link->sess;
     s->f50 = 0;
     s->f38 = 0;
-    tmp = func_020457B0(11, 4);
-    s->f18 = func_0201AB28(func_02012934(s->f04), c);
-    func_02017E1C(s->f18, 0x73, (u32)tmp);
-    func_0216576C(tmp);
-    func_02045808(tmp);
+    tmp = STRBUF_Create(11, 4);
+    s->f18 = func_0201AB28(GAME_DATA_GetMyParty(s->f04), c);
+    POKE_TOOL_GetPartyValue(s->f18, 0x73, (u32)tmp);
+    GAME_BEACON_SEARCH_SetNamedEvent(tmp);
+    STRBUF_Delete(tmp);
     s->f2c = 0;
     s->f30 = 0;
     s->f34 = 0;
@@ -146,7 +146,7 @@ void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link)
     if (s->f14 == 1) {
         s->state = 11;
         s->f10 = 0;
-        func_021FC848(s->f28, func_02012944(s->f04), func_020185F0(s->f18), (int)s->f20, s->f24, 4);
+        func_021FC848(s->f28, GAME_DATA_GetMyStatus(s->f04), POKE_TOOL_Dummy(s->f18), (int)s->f20, s->f24, 4);
     } else {
         u16 lim = func_0200A81C(s->f40);
         u8 i;
@@ -165,7 +165,7 @@ void *func_02155A98(void *a, void *b, u8 c, u32 d, struct Link *link)
             }
         }
         s->f4c = s->f44[0];
-        s->f38 = func_02157028(4, s->f24, lim);
+        s->f38 = MUSICAL_PROGRAM_Create(4, s->f24, lim);
         s->state = 13;
         s->f10 = 0;
     }

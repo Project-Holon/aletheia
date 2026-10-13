@@ -10,11 +10,12 @@
  * symbols:
  *   func_021C05B0 0x021C05B0 thumb ov110
  *   func_0203133C 0x0203133C arm
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x43 data
+ *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  */
 #include "../include/Obj06394.h"
 extern void func_021C05B0(char *p);
@@ -25,9 +26,9 @@ struct S020315D4;
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern unsigned int func_02045C04(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int handle);
@@ -37,8 +38,8 @@ int func_021C01E4(void *p, int a, int b, char *q) {
     func_0203133C(((struct Obj06394 *)q)->fAC);
     func_0201C6EC(((struct Obj06394 *)q)->f5C);
     func_0201C4C0(((struct Obj06394 *)q)->f5C);
-    func_02045C04(((struct Obj06394 *)q)->f60);
-    func_0201D83C(((struct Obj06394 *)q)->f58);
+    MSGDATA_Delete(((struct Obj06394 *)q)->f60);
+    GF_FONT_Delete(((struct Obj06394 *)q)->f58);
     func_020315D4(p);
     func_020306F0(0x51);
     func_02034A5C((int)ov067_id);

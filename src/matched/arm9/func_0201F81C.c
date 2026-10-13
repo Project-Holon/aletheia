@@ -1,5 +1,5 @@
 /*
- * function: func_0201F81C
+ * function: BMP_MENUWORK_Create
  * address:  0x0201F81C
  * packet:   pkt_0201F81C
  * region:   arm9
@@ -23,8 +23,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F81C.c \
- *       --func func_0201F81C --addr 0x0201F81C --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_Create.c \
+ *       --func BMP_MENUWORK_Create --addr 0x0201F81C --thumb
  */
 
 typedef unsigned char  u8;
@@ -39,7 +39,7 @@ typedef struct {
 extern char sBmpMenuWorkFile[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-BmpMenuWork *func_0201F81C(u32 n, u32 heap)
+BmpMenuWork *BMP_MENUWORK_Create(u32 n, u32 heap)
 {
     BmpMenuWork *p;
     u32 i;

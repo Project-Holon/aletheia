@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B965C",
+   "name": "STARTMENU_TitleDemoCheckInput",
    "address": "0x021B965C",
    "kind": "game",
    "region": "ov088",

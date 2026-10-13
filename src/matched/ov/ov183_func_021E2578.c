@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  *   func_021F9B9C 0x021F9B9C thumb ov186
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02025538 0x02025538 thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021E26B8 0x021E26B8 thumb ov183
  *   func_0201C440 0x0201C440 thumb
@@ -24,9 +24,9 @@ typedef unsigned int u32;
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
-extern void *func_02025538(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021E26B8(int *task, int *state, char *p);
 extern u32 func_0201C440(void *);
@@ -35,11 +35,11 @@ int func_021E2578(void *obj,int b,char *q)
 {
     char *p;
     int i;
-    p=func_0203159C(obj,0x54,func_021F9B9C(((struct Obj06614 *)q)->f10));
+    p=PROCSYS_AllocProcWork(obj,0x54,func_021F9B9C(((struct Obj06614 *)q)->f10));
     func_02082BCC(p,0,0x54);
     *(char * *)&((struct Obj03332 *)p)->f3C=q;
     ((struct Obj03332 *)p)->f38=func_021F9B9C(((struct Obj06614 *)q)->f10);
-    ((struct Obj03332 *)p)->f0=func_02025538(((struct Obj03332 *)p)->f38,((struct Obj06614 *)q)->f4);
+    ((struct Obj03332 *)p)->f0=BMP_OAM_CreateSys(((struct Obj03332 *)p)->f38,((struct Obj06614 *)q)->f4);
     ((struct Obj03332 *)p)->fC=func_021FD6D8((int)p,(int)func_021E26B8,((struct Obj03332 *)p)->f38);
     ((struct Obj03332 *)p)->f4=func_0201C440((void *)(unsigned int)((struct Obj03332 *)p)->f38);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x30)=func_021FD760((unsigned int)(((struct Obj06614 *)q)->f4),(char *)(((struct Obj06614 *)q)->f8),i,((struct Obj03332 *)p)->f38);

@@ -11,7 +11,7 @@
  *   func_021BA3A4 0x021BA3A4 thumb ov100
  *   func_021BA454 0x021BA454 thumb ov100
  *   func_021BA530 0x021BA530 thumb ov100
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_02009A34 0x02009A34 thumb
  *   d_021BB694 0x021BB694 data a4
  *   d_021BB690 0x021BB690 data a4
@@ -30,12 +30,12 @@ extern void func_021BA3A4(struct Word *,int),func_021BA454(int,int),func_021BA53
 typedef unsigned int   u32;
 struct BigObj;
 struct Sub020097BCObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 void func_021BA668(int a) {
  if(((struct Obj00060 *)a)->fCA0==1) {struct Word t=d_021BB694;func_021BA3A4(&t,a);return;}
  if(((struct Obj00060 *)a)->f24C==7) {
-  if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(**(int * *)&((struct Obj00060 *)a)->f244)))==32) {struct Word t=d_021BB690;func_021BA3A4(&t,a);return;}
+  if(func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetWifiList((const struct BigObj *)(**(int * *)&((struct Obj00060 *)a)->f244)))==32) {struct Word t=d_021BB690;func_021BA3A4(&t,a);return;}
   else {struct Word t=d_021BB670;func_021BA3A4(&t,a);func_021BA454(0x22,a);return;}
  }
  if(((struct Obj00060 *)a)->f24C==6) {struct Word t=d_021BB680;func_021BA3A4(&t,a);return;}

@@ -11,24 +11,24 @@
  *
  * symbols:
  *   func_021F36C0  0x021F36C0  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021BE310  0x021BE310  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
- *   func_021BE6B8  0x021BE6B8  thumb  ov021
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE748  0x021BE748  thumb  ov021
- *   func_021BE6CC  0x021BE6CC  thumb  ov021
- *   d_021F38D4     0x021F38D4  data  a4
- *   d_021F38EC     0x021F38EC  data  a4
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnit  0x021BE310  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnimeLastFrame  0x021BE748  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
+ *   gGimmick40ModelPos     0x021F38D4  data  a4
+ *   gGimmick40UnitSetup     0x021F38EC  data  a4
  */
 
 typedef unsigned int u32;
@@ -40,30 +40,30 @@ typedef struct {
     int c;
 } V3;
 
-extern V3 d_021F38D4;
-extern char d_021F38EC[];
+extern V3 gGimmick40ModelPos;
+extern char gGimmick40UnitSetup[];
 
 typedef unsigned short u16;
 struct Big;
 struct Ctx;
-extern int func_02188D2C(int *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern int *func_021897BC(char *p, int idx);
-extern void func_021BE310(u32 a, void *b, int c);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void FLD_EXP_OBJ_AddUnit(u32 a, void *b, int c);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern V3 *func_021BE480(u32 a, int b, int c);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B0(u8 *p, int v);
-extern void func_021BE6B8(u8 *p, int v);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern int func_021BE748(u32 a);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern V3 *FLD_EXP_OBJ_GetModelStatus(u32 a, int b, int c);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
+extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *p, int v);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
+extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
+extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 
 void func_021F36C0(u32 a)
 {
@@ -72,20 +72,20 @@ void func_021F36C0(u32 a)
     u8 *e;
     V3 v;
 
-    s = func_02188D2C((int *)a);
-    func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 4);
-    func_021897BC((char *)a, 1);
-    func_021BE310(s, d_021F38EC, 0);
-    q = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 3);
-    v.a = d_021F38D4.a;
+    s = FIELDMAP_GetExpObj((int *)a);
+    FIELDMAP_AllocCommonWork((unsigned char *)a, 1, FIELDMAP_GetHeapId((u8 *)a), 4);
+    FIELDMAP_GetCommonWork((char *)a, 1);
+    FLD_EXP_OBJ_AddUnit(s, gGimmick40UnitSetup, 0);
+    q = (u8 *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))), 3);
+    v.a = gGimmick40ModelPos.a;
     v.b = 0;
-    v.c = d_021F38D4.b;
-    *func_021BE480(s, 0, 0) = v;
-    e = func_021BE674((char *)s, 0, 0, 0);
-    func_021BE6B0(e, 1);
-    func_021BE6B8(e, 0);
+    v.c = gGimmick40ModelPos.b;
+    *FLD_EXP_OBJ_GetModelStatus(s, 0, 0) = v;
+    e = FLD_EXP_OBJ_GetAnime((char *)s, 0, 0, 0);
+    FLD_EXP_OBJ_SetAnimePaused(e, 1);
+    FLD_EXP_OBJ_SetAnimeLoop(e, 0);
     if (q[4] != 0) {
-        func_021BE700((void *)s, 0, 0, 0, 1);
-        func_021BE6CC(s, 0, 0, 0, func_021BE748((u32)e));
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 0, 0, 1);
+        FLD_EXP_OBJ_SetAnimeFrame(s, 0, 0, 0, FLD_EXP_OBJ_GetAnimeLastFrame((u32)e));
     }
 }

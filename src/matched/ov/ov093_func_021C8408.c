@@ -9,21 +9,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B86B8 0x021B86B8 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   func_021B8DDC 0x021B8DDC thumb ov093
  *   func_021B8FF4 0x021B8FF4 thumb ov093
- *   func_021BB914 0x021BB914 thumb ov093
+ *   BTL_SERVER_FinishMainCounter 0x021BB914 thumb ov093
  */
 #include "../include/Obj09974.h"
 typedef unsigned char u8;
-extern void *func_021B86B8(void ***);
+extern void *BTL_MAIN_GetCompetitor(void ***);
 typedef unsigned int   u32;
 extern u8 func_021B8DDC(u32 x);
 extern u8 func_021B8FF4(u8 *);
-extern void func_021BB914(int *);
+extern void BTL_SERVER_FinishMainCounter(int *);
 void func_021C8408(u8 *p, int a)
 {
-    unsigned int t = (unsigned int)func_021B86B8(*(void *** *)&((struct Obj09974 *)p)->f4);
+    unsigned int t = (unsigned int)BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj09974 *)p)->f4);
     int k = func_021B8DDC(a);
-    if (t <= 1 && k == func_021B8FF4(*(u8 * *)&((struct Obj09974 *)p)->f4)) func_021BB914(*(int * *)&((struct Obj09974 *)p)->f0);
+    if (t <= 1 && k == func_021B8FF4(*(u8 * *)&((struct Obj09974 *)p)->f4)) BTL_SERVER_FinishMainCounter(*(int * *)&((struct Obj09974 *)p)->f0);
 }

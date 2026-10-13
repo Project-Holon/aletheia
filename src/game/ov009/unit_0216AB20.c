@@ -1,7 +1,7 @@
 /*
  * file:     unit_0216AB20.c
  * unit:     yes
- * function: DWC_InitFriendsMatch, DWC_ShutdownFriendsMatch, DWC_ProcessFriendsMatch, DWC_LoginAsync, DWC_UpdateServersAsync, DWC_ConnectToAnybodyAsync, DWC_SetupGameServer, DWC_ConnectToGameServerAsync, DWC_SetConnectionClosedCallback, DWC_CloseAllConnectionsHard, DWC_CloseConnectionHardFromServer, DWC_GetNumConnectionHost, DWC_GetMyAID, DWC_GetAIDList, DWC_GetAIDBitmap, DWC_IsValidAID, DWC_GetState, DWC_GetServerAID, DWC_IsServerMyself, DWCi_GT2Startup, func_0216BAF4, DWCi_GetConnectionAID, DWCi_GT2GetConnectionListIdx, DWCi_ClearGT2ConnectionList, DWCi_GetGT2ConnectionByIdx, func_0216BBDC, DWCi_GetConnectionInfoByIdx, DWCi_IsValidAID, DWCi_SetState, DWCi_DeleteAID, DWCi_GetAIDBitmapFromList, func_0216BD04, func_0216BE00, DWCi_CloseConnectionHard, DWCi_LoginCallback, DWCi_UpdateServersCallback, DWCi_MatchedCallback, DWCi_GPErrorCallback, func_0216C0C4, DWCi_GT2ReceivedCallback, DWCi_GT2ClosedProcess, DWCi_GT2ClosedCallback, DWCi_GT2PingCallback, DWCi_GT2SocketErrorCallback, DWCi_CustomCommonInit, DWCi_GetServerOrSubServerAID, DWCi_IsGetAIDValid
+ * function: DWC_InitFriendsMatch, DWC_ShutdownFriendsMatch, DWC_ProcessFriendsMatch, DWC_LoginAsync, DWC_UpdateServersAsync, DWC_ConnectToAnybodyAsync, DWC_SetupGameServer, DWC_ConnectToGameServerAsync, DWC_SetConnectionClosedCallback, DWC_CloseAllConnectionsHard, DWC_CloseConnectionHardFromServer, DWC_GetNumConnectionHost, DWC_GetMyAID, DWC_GetAIDList, DWC_GetAIDBitmap, DWC_IsValidAID, DWC_GetState, DWC_GetServerAID, DWC_IsServerMyself, DWCi_GT2Startup, func_0216BAF4, DWCi_GetConnectionAID, DWCi_GT2GetConnectionListIdx, DWCi_ClearGT2ConnectionList, DWCi_GetGT2ConnectionByIdx, DWCi_GetGT2ConnectionByProfileID, DWCi_GetConnectionInfoByIdx, DWCi_IsValidAID, DWCi_SetState, DWCi_DeleteAID, DWCi_GetAIDBitmapFromList, func_0216BD04, func_0216BE00, DWCi_CloseConnectionHard, DWCi_LoginCallback, DWCi_UpdateServersCallback, DWCi_MatchedCallback, DWCi_GPErrorCallback, func_0216C0C4, DWCi_GT2ReceivedCallback, DWCi_GT2ClosedProcess, DWCi_GT2ClosedCallback, DWCi_GT2PingCallback, DWCi_GT2SocketErrorCallback, DWCi_CustomCommonInit, DWCi_GetServerOrSubServerAID, DWCi_IsGetAIDValid
  * address:  0x0216AB20
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -858,7 +858,7 @@ void **DWCi_GetGT2ConnectionByIdx(int i)
 /*
  * DWCi_GetGT2ConnectionByProfileID: the connection slot whose peer profile id matches, or null.
  */
-void **func_0216BBDC(int pid, int flag)
+void **DWCi_GetGT2ConnectionByProfileID(int pid, int flag)
 {
     int i;
 

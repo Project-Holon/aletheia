@@ -1,5 +1,5 @@
 /*
- * function: func_021A0FA0
+ * function: FIELD_SUBSCREEN_SetPanelResult
  * address:  0x021A0FA0
  * packet:   pkt_021A0FA0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Guarded store of the second argument at +0x10.
  *
  * symbols:
- *   func_021A0FA0  0x021A0FA0  thumb  ov021
+ *   FIELD_SUBSCREEN_SetPanelResult  0x021A0FA0  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021A0FA0(int *p, int v)
+void FIELD_SUBSCREEN_SetPanelResult(int *p, int v)
 {
     if (p == 0)
         return;

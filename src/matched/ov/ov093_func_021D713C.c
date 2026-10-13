@@ -1,5 +1,5 @@
 /*
- * function: func_021D713C
+ * function: BTL_EVENT_DispatchToFactors
  * address: 0x021D713C
  * packet: pkt_ov093_021D713C
  * region: ov093
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D7240 0x021D7240 thumb ov093
- *   func_021D7040 0x021D7040 thumb ov093
- *   g_021F3CB0 0x021F3CB0 data a4
+ *   BTL_EVENT_IsEventBlocked 0x021D7240 thumb ov093
+ *   BTL_EVENT_RemoveFactor 0x021D7040 thumb ov093
+ *   gBtlEventFactorList 0x021F3CB0 data a4
  */
 #include "../include/Obj13450.h"
 typedef unsigned char u8;
@@ -29,10 +29,10 @@ struct Node {
     u16 h38;
     u8 b3a, b3b;
 };
-extern struct { u32 tick; Node *head; } g_021F3CB0;
-extern int func_021D7240(void *, Node *, int);
-extern void func_021D7040(struct Node *n);
-void func_021D713C(void *a, int id, int kind, int check)
+extern struct { u32 tick; Node *head; } gBtlEventFactorList;
+extern int BTL_EVENT_IsEventBlocked(void *, Node *, int);
+extern void BTL_EVENT_RemoveFactor(struct Node *n);
+void BTL_EVENT_DispatchToFactors(void *a, int id, int kind, int check)
 {
     Node *n;
     Node *next;
@@ -42,13 +42,13 @@ void func_021D713C(void *a, int id, int kind, int check)
     int count;
     int tmp;
     u32 tmp1;
-    for (n = g_021F3CB0.head; n != 0; ) {
+    for (n = gBtlEventFactorList.head; n != 0; ) {
         next = n->next;
         if (n->b24 && !n->b28) goto advance;
         if (n->b25 || n->b30) goto advance;
         tmp = (kind != 7) && (n->kind != kind);
         if (tmp) goto advance;
-        if (n->low != 0 && n->low >= g_021F3CB0.tick) goto advance;
+        if (n->low != 0 && n->low >= gBtlEventFactorList.tick) goto advance;
         if (!n->b29) goto advance;
         if (id == 0x73 && !n->b26) goto advance;
         count = n->count;
@@ -57,7 +57,7 @@ void func_021D713C(void *a, int id, int kind, int check)
         for (; i < count; i++) {
             entry = (Entry *)&table[i];
             if (id != entry->id) continue;
-            if (check && func_021D7240(a, n, id)) break;
+            if (check && BTL_EVENT_IsEventBlocked(a, n, id)) break;
             n->b24 = 1;
             tmp1 = n->b3a;
             entry->callback(n, a, tmp1, n->pad1c);
@@ -65,7 +65,7 @@ void func_021D713C(void *a, int id, int kind, int check)
             else ((struct Obj13450 *)n)->f18 &= 0xfeffffff;
             if (n->b27) {
                 if (next != 0 && !next->b29) next = n->next;
-                func_021D7040(n);
+                BTL_EVENT_RemoveFactor(n);
             }
             break;
         }

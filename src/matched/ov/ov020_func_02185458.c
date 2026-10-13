@@ -1,5 +1,5 @@
 /*
- * function: func_02185458
+ * function: EVENT_MAPCHANGE_CreateWarpEventWithTransition
  * address:  0x02185458
  * packet:   pkt_ov020_02185458
  * region:   ov020
@@ -15,17 +15,17 @@
  * Leaf 0x02014184 (arm9, Thumb, EXACT with match.py one, the integrator's to file):
  *   typedef short s16;
  *   typedef struct { int f0; s16 h4, h6, h8, ha; int fc, f10, f14, f18; } Obj;
- *   void func_02014184(Obj *o, s16 a, s16 b, int c, int d, int e)
+ *   void ZONEDATA_SetDirectLocation(Obj *o, s16 a, s16 b, int c, int d, int e)
  *   { o->f0 = 1; o->h4 = a; o->h6 = -1; o->h8 = b; o->ha = 0; o->fc = 0;
  *     o->f10 = c; o->f14 = d; o->f18 = e; }
  *
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02014184  0x02014184  thumb
+ *   ZONEDATA_SetDirectLocation  0x02014184  thumb
  *   func_020142A4  0x020142A4  thumb
- *   func_02184504  0x02184504  thumb  ov020
- *   func_02184CEC  0x02184CEC  thumb  ov020
+ *   EVENT_MAPCHANGE_DetachedTailEvent  0x02184504  thumb  ov020
+ *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
  */
 
 typedef unsigned char  u8;
@@ -37,19 +37,19 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-void func_02014184(void *d, s16 a, s16 b, int c, int e, int f);
+void ZONEDATA_SetDirectLocation(void *d, s16 a, s16 b, int c, int e, int f);
 u32 func_020142A4(u32 idx);
-int func_02184504(int a, int *state, u8 *p);
-void func_02184CEC(void **o, void *p);
+int EVENT_MAPCHANGE_DetachedTailEvent(int a, int *state, u8 *p);
+void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 
-void *func_02185458(void *p, int u, int b, s16 a, const int *s, u16 x)
+void *EVENT_MAPCHANGE_CreateWarpEventWithTransition(void *p, int u, int b, s16 a, const int *s, u16 x)
 {
-    void *r0v = func_020122C0(p, 0, func_02184504, 0x9c);
+    void *r0v = func_020122C0(p, 0, EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
     char *r4 = func_020124E8(r0v);
 
-    func_02184CEC((void **)r4, p);
+    EVENT_MAPCHANGE_InitWork((void **)r4, p);
     x = func_020142A4(x);
-    func_02014184(r4 + 0x10, a, x, s[0], s[1], s[2]);
+    ZONEDATA_SetDirectLocation(r4 + 0x10, a, x, s[0], s[1], s[2]);
     *(int *)(r4 + 0x2c) = 0;
     *(u8 *)(r4 + 0x30) = b;
     return r0v;

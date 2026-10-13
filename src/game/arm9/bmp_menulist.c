@@ -1,7 +1,7 @@
 /*
  * file:     bmp_menulist.c
  * unit:     yes
- * function: func_0201FF30, func_020200CC, func_0202020C, func_02020234, BMP_MENULIST_SetColors, func_02020298, func_020202EC, func_020202FC, func_02020314, func_02020324, func_02020344, func_02020350, BMP_MENULIST_PrintItem, BMP_MENULIST_DrawItems, BMP_MENULIST_DrawCursor, BMP_MENULIST_EraseCursor, BMP_MENULIST_StepCursor, BMP_MENULIST_ScrollRows, BMP_MENULIST_MoveCursor, BMP_MENULIST_NotifyCursor, BMP_MENULIST_ShiftChars4bpp, BMP_MENULIST_ShiftChars8bpp, BMP_MENULIST_ShiftWindow, func_02020CF8, func_02020D0C, func_02020D10, BMP_CURSOR_Create, BMP_CURSOR_Delete, BMP_CURSOR_Draw, BMP_CURSOR_SetTileBitmap, FILE_UTIL_OpenById, FILE_UTIL_LoadRange, func_02020E60, func_02020F84, func_02020FB4, func_02020FE4, func_02021014, func_020210C8, func_02021288, func_020212B0, func_020212E4, func_0202130C, func_02021350, func_0202136C, func_0202138C, func_020213AC
+ * function: BMP_MENULIST_Create, BMP_MENULIST_Main, BMP_MENULIST_Delete, BMP_MENULIST_Redraw, BMP_MENULIST_SetColors, BMP_MENULIST_SetOverrideColors, BMP_MENULIST_GetListIndex, BMP_MENULIST_GetPos, BMP_MENULIST_GetCursorY, BMP_MENULIST_GetRowY, BMP_MENULIST_GetItemValue, BMP_MENULIST_GetAttr, BMP_MENULIST_PrintItem, BMP_MENULIST_DrawItems, BMP_MENULIST_DrawCursor, BMP_MENULIST_EraseCursor, BMP_MENULIST_StepCursor, BMP_MENULIST_ScrollRows, BMP_MENULIST_MoveCursor, BMP_MENULIST_NotifyCursor, BMP_MENULIST_ShiftChars4bpp, BMP_MENULIST_ShiftChars8bpp, BMP_MENULIST_ShiftWindow, BMP_MENULIST_ResetCursorTile, BMP_MENULIST_GetUserData, BMP_MENULIST_SetCancelDisabled, BMP_CURSOR_Create, BMP_CURSOR_Delete, BMP_CURSOR_Draw, BMP_CURSOR_SetTileBitmap, FILE_UTIL_OpenById, FILE_UTIL_LoadRange, func_02020E60, func_02020F84, func_02020FB4, func_02020FE4, func_02021014, func_020210C8, func_02021288, func_020212B0, func_020212E4, func_0202130C, func_02021350, func_0202136C, func_0202138C, func_020213AC
  * address:  0x0201FF30
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,23 +18,23 @@
  *   func_0203633C  0x0203633C  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_02045770  0x02045770  arm
- *   func_0201C724  0x0201C724  thumb
- *   func_0201C7D0  0x0201C7D0  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   func_02045738  0x02045738  arm
- *   func_02043AF4  0x02043AF4  arm
- *   func_020437DC  0x020437DC  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
- *   func_020437D4  0x020437D4  arm
- *   func_020437E4  0x020437E4  arm
+ *   BMP_FillRect  0x02043AF4  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_GetPixels  0x020437D4  arm
+ *   BMP_GetHeight  0x020437E4  arm
  *   func_02045730  0x02045730  arm
  *   func_0204169C  0x0204169C  arm
  *   BMP_CURSOR_FILE_NAME     0x020A73A0  data
- *   func_02045808  0x02045808  arm
- *   func_020437AC  0x020437AC  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   BMP_Delete  0x020437AC  arm
  *   func_020307B0  0x020307B0  arm
  *   func_0201C6FC  0x0201C6FC  thumb
- *   func_020439A0  0x020439A0  arm
+ *   BMP_Blit  0x020439A0  arm
  *   BMP_CURSOR_TileData     0x0209E8CC  data
  *   func_0200575C  0x0200575C  thumb
  *   func_020788AC  0x020788AC  arm
@@ -47,15 +47,16 @@
  *   func_02030734   0x02030734  arm
  *   func_0202F170       0x0202F170  thumb
  *   func_020490F4       0x020490F4  arm
- *   func_02049250       0x02049250  arm
- *   func_02048F60       0x02048F60  arm
+ *   ARC_TOOL_LoadHandleMember       0x02049250  arm
+ *   ARC_TOOL_LoadMember       0x02048F60  arm
  *   item_gfx_member     0x0209EB6C  data
  *   item_gfx_member_x   0x0209E9E8  data
  *   func_02045B38  0x02045B38  arm
- *   func_02045CAC  0x02045CAC  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   g_0209EAA0     0x0209EAA0  data
  *   g_0209E8EC     0x0209E8EC  data
+ *   BMP_CreateFromBuffer  0x020436FC  arm
  */
 #define COLOR(l, s, b) ((u16)((((l) & 0x1f) << 10) | (((s) & 0x1f) << 5) | ((b) & 0x1f)))
 #define MENULIST_SEPARATOR ((u32)-3)
@@ -254,26 +255,26 @@ struct ItemRecord {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Bmp *func_02045770(struct BmpWin *win);
-extern void func_02043B5C(struct Bmp *bmp, u8 color);
+extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern u32  func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_020061E4(u32 id);
 extern u32 func_020307B0(void *block);
-extern void func_0201C724(void *printer, struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
-extern void func_0201C7D0(struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
+extern void PRINTSYS_PrintQueColor(void *printer, struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
 extern u8 func_02045738(struct BmpWin *win);
-extern void func_02043AF4(struct Bmp *bmp, u32 x, u32 y, u32 w, u32 h, u32 color);
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern void func_02045334(struct BmpWin *win);
-extern void *func_020437D4(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u32 h, u32 color);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 func_02045730(struct BmpWin *win);
 extern u8 func_0204169C(int channel);
-extern void func_02045808(void *res);
-extern void func_020437AC(struct Bmp *bmp);
+extern void STRBUF_Delete(void *res);
+extern void BMP_Delete(struct Bmp *bmp);
 extern void func_0201C6FC(void *printer, struct Bmp *bmp, u32 x, u32 y, void *text, u32 param);
-extern void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 key);
-extern struct Bmp *func_020436FC(const void *pixels, u32 widthTiles, u32 heightTiles, u32 sizeBytes, u16 heap);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 key);
+extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 widthTiles, u32 heightTiles, u32 sizeBytes, u16 heap);
 extern void *func_0200575C(u32 archiveId);
 extern void  func_020788AC(struct FSFile *file);
 extern void  func_02078C18(struct FSFile *file, void *path);
@@ -283,23 +284,23 @@ extern u32   FS_ReadFile(struct FSFile *file, void *dst, u32 size);
 extern u32   FS_GetLength(struct FSFile *file);
 extern u32   func_0202F170(u32 item);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void *func_02048F60(u32 archiveId, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dst);
-extern u32 func_02045C04(struct MsgBank *bank);
-struct BmpMenuList *func_0201FF30(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
-s32 func_020200CC(struct BmpMenuList *menu);
-void func_0202020C(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
-void func_02020234(struct BmpMenuList *menu);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dst);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
+s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
+void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
+void BMP_MENULIST_Redraw(struct BmpMenuList *menu);
 void BMP_MENULIST_SetColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow);
-void func_02020298(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow);
-void func_020202EC(struct BmpMenuList *menu, u16 *outIndex);
-void func_020202FC(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
-u16 func_02020314(struct BmpMenuList *menu);
-u16 func_02020324(struct BmpMenuList *menu, u32 row);
-u32 func_02020344(struct BmpMenuList *menu, u32 index);
-u32 func_02020350(struct BmpMenuList *menu, u32 attr);
+void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow);
+void BMP_MENULIST_GetListIndex(struct BmpMenuList *menu, u16 *outIndex);
+void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
+u16 BMP_MENULIST_GetCursorY(struct BmpMenuList *menu);
+u16 BMP_MENULIST_GetRowY(struct BmpMenuList *menu, u32 row);
+u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index);
+u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr);
 void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u32 y, u32 queued);
 void BMP_MENULIST_DrawItems(struct BmpMenuList *menu, u16 item, u16 winRow, u16 numRows, u32 scrollFirst);
 void BMP_MENULIST_DrawCursor(struct BmpMenuList *menu);
@@ -311,9 +312,9 @@ void BMP_MENULIST_NotifyCursor(struct BmpMenuList *menu, void *arg);
 void BMP_MENULIST_ShiftChars4bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fillColor, u16 sizeBytes);
 void BMP_MENULIST_ShiftChars8bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fillColor, u16 sizeBytes);
 void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillColor, u16 tiles);
-void func_02020CF8(struct BmpMenuList *menu, int heap);
-u32 func_02020D0C(struct BmpMenuList *menu);
-void func_02020D10(struct BmpMenuList *menu, u32 disabled);
+void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap);
+u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
+void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
 struct MenuCursor *BMP_CURSOR_Create(u32 heap);
 void BMP_CURSOR_Delete(struct MenuCursor *cursor);
 void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, void *printer, u32 param);
@@ -355,7 +356,7 @@ extern const u16 g_0209E8EC[];
 
 
 
-struct BmpMenuList *func_0201FF30(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap)
+struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap)
 {
     struct BmpMenuList *menu;
 
@@ -386,7 +387,7 @@ struct BmpMenuList *func_0201FF30(struct MenuTemplate *menuTemplate, u16 scroll,
         t->win = menu->win;
         t->dirty = 0;
     }
-    func_02043B5C(func_02045770(menu->win), menu->bgColor);
+    BMP_Clear(func_02045770(menu->win), menu->bgColor);
     BMP_MENULIST_DrawItems(menu, menu->scroll, 0, menu->rows, 1);
     BMP_MENULIST_DrawCursor(menu);
     BMP_MENULIST_NotifyCursor(menu, (void *)1);
@@ -400,15 +401,15 @@ struct BmpMenuList *func_0201FF30(struct MenuTemplate *menuTemplate, u16 scroll,
 
 /*
  * The per-frame key handler of the menu-cursor object built by
- * func_0201FF30: same shape as BMP_MENU_ProcessInput one block down, over the wider
+ * BMP_MENULIST_Create: same shape as BMP_MENU_ProcessInput one block down, over the wider
  * struct that BMP_MENULIST_DrawCursor already spells out.  Sound ids 0x54C / 0x551 /
  * 0x548 sit in the trailing pool.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020200CC.c \
- *       --func func_020200CC --addr 0x020200CC --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENULIST_Main.c \
+ *       --func BMP_MENULIST_Main --addr 0x020200CC --thumb
  *
- * Closed in wave 13 from the 2026-09-21 note (docs/notes/func_020200CC.c.txt,
+ * Closed in wave 13 from the 2026-09-21 note (docs/notes/BMP_MENULIST_Main.c.txt,
  * 81 bytes out).  The note read the residue as an allocator choice (`tst`
  * versus a copy and `ands`); it was a misread of the image.  In the
  * lineGap == 2 arm the masks are derived from the 0x80 still live in r2:
@@ -418,7 +419,7 @@ struct BmpMenuList *func_0201FF30(struct MenuTemplate *menuTemplate, u16 scroll,
  * and the switch closes once case 0 and default share one arm.
  * BMP_MENULIST_MoveCursor's prototype is the EXACT one (u8 scalar parameters).
  */
-s32 func_020200CC(struct BmpMenuList *menu)
+s32 BMP_MENULIST_Main(struct BmpMenuList *menu)
 {
     u32 pressed = func_020362DC();
     u32 okBit = 1;
@@ -492,7 +493,7 @@ s32 func_020200CC(struct BmpMenuList *menu)
 
 
 
-void func_0202020C(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
+void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
 {
     if (outScroll != 0) {
         *outScroll = menu->scroll;
@@ -511,12 +512,12 @@ void func_0202020C(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02020234.c \
- *       --func func_02020234 --addr 0x02020234 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENULIST_Redraw.c \
+ *       --func BMP_MENULIST_Redraw --addr 0x02020234 --cc 1.1p1 --thumb
  */
-void func_02020234(struct BmpMenuList *menu)
+void BMP_MENULIST_Redraw(struct BmpMenuList *menu)
 {
-    func_02043B5C(func_02045770(menu->win), menu->bgColor);
+    BMP_Clear(func_02045770(menu->win), menu->bgColor);
     BMP_MENULIST_DrawItems(menu, menu->scroll, 0, menu->rows, 1);
     BMP_MENULIST_DrawCursor(menu);
 }
@@ -535,23 +536,23 @@ void func_02020234(struct BmpMenuList *menu)
  * The bmp_menulist.c attribute block 0x02020268..0x02020408, eight
  * functions of which only 0x02020268 was ever near a label.  The
  * worklist entry 0x020202CC (a "32-byte open function") is NOT a
- * function start: it is the middle of func_02020298 (the colour-override
+ * function start: it is the middle of BMP_MENULIST_SetOverrideColors (the colour-override
  * setter), seeded into layout/function_starts.txt from a pending header
  * that misnamed sub_02022AC4's tail-call target (the pool word there is
  * 0x020222CD; see docs/notes/pkt_02022940.c.txt, wave 11).  The 32 bytes
- * the worklist counted are func_02020298's last eight instructions.
+ * the worklist counted are BMP_MENULIST_SetOverrideColors's last eight instructions.
  *
  *   BMP_MENULIST_SetColors  set the three colour nibbles letterColor / bgColor / shadowColor
- *   func_02020298  set the override nibbles ovLetter / ovBg / ovShadow and the
- *                  override flag useOverride (func_0201FF30 seeds the same
+ *   BMP_MENULIST_SetOverrideColors  set the override nibbles ovLetter / ovBg / ovShadow and the
+ *                  override flag useOverride (BMP_MENULIST_Create seeds the same
  *                  three from letterColor / bgColor / shadowColor)
- *   func_020202EC  *out = scroll + row (list index of the cursor row)
- *   func_020202FC  optional out-pointers for scroll and row
- *   func_02020314  tail call to func_02020324 with the cursor row row
- *   func_02020324  pixel y of row n: originY + n * (u8)(rowH + lineGap),
+ *   BMP_MENULIST_GetListIndex  *out = scroll + row (list index of the cursor row)
+ *   BMP_MENULIST_GetPos  optional out-pointers for scroll and row
+ *   BMP_MENULIST_GetCursorY  tail call to BMP_MENULIST_GetRowY with the cursor row row
+ *   BMP_MENULIST_GetRowY  pixel y of row n: originY + n * (u8)(rowH + lineGap),
  *                  the expression unit_020206C0 inlines
- *   func_02020344  arr[n].value, the item's value word
- *   func_02020350  twenty-way attribute getter; case 4 has no arm and
+ *   BMP_MENULIST_GetItemValue  arr[n].value, the item's value word
+ *   BMP_MENULIST_GetAttr  twenty-way attribute getter; case 4 has no arm and
  *                  shares the default's -1
  */
 void BMP_MENULIST_SetColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow)
@@ -565,7 +566,7 @@ void BMP_MENULIST_SetColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shado
 
 
 
-void func_02020298(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow)
+void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow)
 {
     menu->ovLetter = letter;
     menu->ovBg = bg;
@@ -577,7 +578,7 @@ void func_02020298(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow)
 
 
 
-void func_020202EC(struct BmpMenuList *menu, u16 *outIndex)
+void BMP_MENULIST_GetListIndex(struct BmpMenuList *menu, u16 *outIndex)
 {
     *outIndex = menu->scroll + menu->row;
 }
@@ -586,7 +587,7 @@ void func_020202EC(struct BmpMenuList *menu, u16 *outIndex)
 
 
 
-void func_020202FC(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
+void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
 {
     if (outScroll != 0) {
         *outScroll = menu->scroll;
@@ -602,16 +603,16 @@ void func_020202FC(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow)
 
 
 
-u16 func_02020314(struct BmpMenuList *menu)
+u16 BMP_MENULIST_GetCursorY(struct BmpMenuList *menu)
 {
-    return func_02020324(menu, menu->row);
+    return BMP_MENULIST_GetRowY(menu, menu->row);
 }
 
 
 
 
 
-u16 func_02020324(struct BmpMenuList *menu, u32 row)
+u16 BMP_MENULIST_GetRowY(struct BmpMenuList *menu, u32 row)
 {
     return (u16)(menu->originY + row * (u8)(menu->rowH + menu->flags.lineGap));
 }
@@ -620,7 +621,7 @@ u16 func_02020324(struct BmpMenuList *menu, u32 row)
 
 
 
-u32 func_02020344(struct BmpMenuList *menu, u32 index)
+u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index)
 {
     return menu->items[index].value;
 }
@@ -629,7 +630,7 @@ u32 func_02020344(struct BmpMenuList *menu, u32 index)
 
 
 
-u32 func_02020350(struct BmpMenuList *menu, u32 attr)
+u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr)
 {
     switch (attr) {
     case 0:  return (u32)menu->onCursor;
@@ -666,9 +667,9 @@ u32 func_02020350(struct BmpMenuList *menu, u32 attr)
  *       --func BMP_MENULIST_PrintItem --addr 0x02020408 --thumb
  *
  * Print one item's text into the menu window.  useOverride selects the override
- * colours at +0x34/+0x35 (set by func_02020298) over the
- * list's own at +0x17/+0x18; sel picks func_0201C724 (which also marks the
- * target dirty) over func_0201C7D0.  Closed in wave 13; the 2026-09-21 note
+ * colours at +0x34/+0x35 (set by BMP_MENULIST_SetOverrideColors) over the
+ * list's own at +0x17/+0x18; sel picks PRINTSYS_PrintQueColor (which also marks the
+ * target dirty) over PRINTSYS_PrintColor.  Closed in wave 13; the 2026-09-21 note
  * (docs/notes/BMP_MENULIST_PrintItem.c.txt) had it at 314 of 338 bytes.
  *
  * The packed colour is a 5:5:5 triple built by a masking macro,
@@ -691,22 +692,22 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
         if (queued) {
             u32 printer = (u32)menu->printer;
             struct MenuTarget *target = menu->target;
-            func_0201C724((void *)printer, func_02045770(target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintQueColor((void *)printer, func_02045770(target->win), x, y, text, menu->textParam,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
             target->dirty = 1;
         } else {
-            func_0201C7D0(func_02045770(menu->target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintColor(func_02045770(menu->target->win), x, y, text, menu->textParam,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
         }
     } else {
         if (queued) {
             u32 printer = (u32)menu->printer;
             struct MenuTarget *target = menu->target;
-            func_0201C724((void *)printer, func_02045770(target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintQueColor((void *)printer, func_02045770(target->win), x, y, text, menu->textParam,
                           COLOR(menu->letterColor, menu->shadowColor, menu->bgColor));
             target->dirty = 1;
         } else {
-            func_0201C7D0(func_02045770(menu->target->win), x, y, text, menu->textParam,
+            PRINTSYS_PrintColor(func_02045770(menu->target->win), x, y, text, menu->textParam,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
         }
     }
@@ -723,7 +724,7 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
  *
  * Redraw n + 1 rows of the menu list from item `row`, starting at window
  * row `col`.  When flag is set and row > 0 the window is first scrolled by
- * one row: the band is cleared with func_02043AF4, the item above is
+ * one row: the band is cleared with BMP_FillRect, the item above is
  * redrawn and BMP_MENULIST_ShiftWindow moves the pixels.  Every item goes through the
  * optional per-item hook at +0x08 (obj, item value, y) and then
  * BMP_MENULIST_PrintItem at x = itemX, or sepX for a separator (value -3).
@@ -732,7 +733,7 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
  * 96 out).  That source misread three things, all fixed here from the image:
  * the hook's second argument inside the loop is the item's value word (still
  * live in r1 from the separator test), not 0; BMP_MENULIST_ShiftWindow's last argument
- * is (step*2/8) * (func_020437DC(bitmap) / 8), the bitmap's width in tiles,
+ * is (step*2/8) * (BMP_GetWidth(bitmap) / 8), the bitmap's width in tiles,
  * not step >> 3; and the x colour is an int (no truncation after the
  * ternary).  Then the permuter's type:l(step:u8->int) (the value is still
  * (u8)-truncated at its one assignment) swapped the last two stack slots.
@@ -754,7 +755,7 @@ void BMP_MENULIST_DrawItems(struct BmpMenuList *menu, u16 item, u16 winRow, u16 
         x = (menu->items[item - 1].value != MENULIST_SEPARATOR) ? menu->itemX : menu->sepX;
         bmp = func_02045770(menu->win);
         widthTiles = func_02045738(menu->win);
-        func_02043AF4(bmp, 0, 0, (u16)(widthTiles * 8),
+        BMP_FillRect(bmp, 0, 0, (u16)(widthTiles * 8),
                       (u16)(menu->originY + (winRow + 1) * rowStep * 2), menu->bgColor);
         y = (u8)(menu->originY + winRow * rowStep);
         if (menu->drawHook != 0)
@@ -762,7 +763,7 @@ void BMP_MENULIST_DrawItems(struct BmpMenuList *menu, u16 item, u16 winRow, u16 
         BMP_MENULIST_PrintItem(menu, menu->items[item - 1].text, x, y, 0);
         bg = menu->bgColor;
         BMP_MENULIST_ShiftWindow(menu->win, 0, rowStep, (u8)((bg << 4) | bg),
-                      (u16)((rowStep * 2 / 8) * (func_020437DC(func_02045770(menu->win)) / 8)));
+                      (u16)((rowStep * 2 / 8) * (BMP_GetWidth(func_02045770(menu->win)) / 8)));
     }
     end = (u16)(numRows + 1);
     for (i = 0; i < end; i++) {
@@ -821,7 +822,7 @@ void BMP_MENULIST_EraseCursor(struct BmpMenuList *menu, u32 row)
 {
     switch (menu->flags.cursorOff) {
     case 0:
-        func_02043AF4(func_02045770(menu->win),
+        BMP_FillRect(func_02045770(menu->win),
                       menu->cursorX,
                       (s16)(u16)(menu->originY + row * (u8)(menu->rowH + menu->flags.lineGap)),
                       menu->cursorW,
@@ -939,7 +940,7 @@ void BMP_MENULIST_ScrollRows(struct BmpMenuList *menu, u16 numRows, u32 fromBott
     u8 rowStep;
 
     if (numRows >= (int)menu->rows) {
-        func_02043B5C(func_02045770(menu->win), menu->bgColor);
+        BMP_Clear(func_02045770(menu->win), menu->bgColor);
         BMP_MENULIST_DrawItems(menu, menu->scroll, 0, menu->rows, 1);
         return;
     }
@@ -1016,7 +1017,7 @@ u32 BMP_MENULIST_MoveCursor(struct BmpMenuList *menu, u8 redraw, u8 steps, u8 di
             BMP_MENULIST_EraseCursor(menu, oldRow);
             BMP_MENULIST_DrawCursor(menu);
             BMP_MENULIST_NotifyCursor(menu, 0);
-            func_02045334(menu->win);
+            BMP_WIN_TransferChars(menu->win);
             break;
         case 2:
         case 3:
@@ -1057,12 +1058,12 @@ void BMP_MENULIST_ShiftChars4bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fi
     s32  lineIdx;
     u8  *pixels;
 
-    pixels = func_020437D4(bmp);
+    pixels = BMP_GetPixels(bmp);
     fillWord = (fillColor << 24) | (fillColor << 16) | (fillColor << 8) | fillColor;
-    widthTiles = (u32)func_020437DC(bmp) >> 3;
+    widthTiles = (u32)BMP_GetWidth(bmp) >> 3;
     length = sizeBytes;
     if (length == 0)
-        length = (widthTiles * ((u32)func_020437E4(bmp) >> 3)) << 5;
+        length = (widthTiles * ((u32)BMP_GetHeight(bmp) >> 3)) << 5;
 
     switch (dir) {
     case 0:
@@ -1120,12 +1121,12 @@ void BMP_MENULIST_ShiftChars8bpp(struct Bmp *bmp, u32 dir, u32 startTile, u32 fi
     s32  lineIdx;
     u8  *pixels;
 
-    pixels = func_020437D4(bmp);
+    pixels = BMP_GetPixels(bmp);
     fillWord = (fillColor << 24) | (fillColor << 16) | (fillColor << 8) | fillColor;
-    widthTiles = (u32)func_020437DC(bmp) >> 3;
+    widthTiles = (u32)BMP_GetWidth(bmp) >> 3;
     length = sizeBytes;
     if (length == 0)
-        length = (widthTiles * ((u32)func_020437E4(bmp) >> 3)) << 6;
+        length = (widthTiles * ((u32)BMP_GetHeight(bmp) >> 3)) << 6;
 
     switch (dir) {
     case 0:
@@ -1233,11 +1234,11 @@ void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillCo
 /*
  * A whole translation unit, matched as one byte range.
  *
- * func_02020D0C and func_02020D10 carry no label in the generated listing:
+ * BMP_MENULIST_GetUserData and BMP_MENULIST_SetCancelDisabled carry no label in the generated listing:
  * they are a two-instruction word getter and a two-instruction byte setter
  * with no register-saving prologue, so disasm.py's prologue sweep never
  * fires on them and the listing prints them as a run of data between
- * func_02020CF8 and BMP_CURSOR_Create
+ * BMP_MENULIST_ResetCursorTile and BMP_CURSOR_Create
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * BMP_CURSOR_Create is a debug-allocator constructor in the
@@ -1253,7 +1254,7 @@ void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillCo
  *   python tools/match.py tu --src src/matched/unit_02020CF8.c \
  *       --addr 0x02020CF8 --thumb
  */
-void func_02020CF8(struct BmpMenuList *menu, int heap)
+void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap)
 {
     BMP_CURSOR_SetTileBitmap(menu->cursor, heap);
     BMP_MENULIST_DrawCursor(menu);
@@ -1261,7 +1262,7 @@ void func_02020CF8(struct BmpMenuList *menu, int heap)
 
 
 
-u32 func_02020D0C(struct BmpMenuList *menu)
+u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu)
 {
     return menu->userData;
 }
@@ -1271,7 +1272,7 @@ u32 func_02020D0C(struct BmpMenuList *menu)
 
 
 
-void func_02020D10(struct BmpMenuList *menu, u32 disabled)
+void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled)
 {
     menu->noCancel = disabled;
 }
@@ -1307,10 +1308,10 @@ struct MenuCursor *BMP_CURSOR_Create(u32 heap)
 void BMP_CURSOR_Delete(struct MenuCursor *cursor)
 {
     if (cursor->aux != 0) {
-        func_02045808(cursor->aux);
+        STRBUF_Delete(cursor->aux);
     }
     if (cursor->tile != 0) {
-        func_020437AC(cursor->tile);
+        BMP_Delete(cursor->tile);
     }
     func_020307B0(cursor);
 }
@@ -1333,9 +1334,9 @@ void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget 
         func_0201C6FC(printer, func_02045770(target->win), (s16)x, (s16)y, cursor->aux, param);
         target->dirty = 1;
     } else if (cursor->tile != 0) {
-        func_020439A0(cursor->tile, func_02045770(target->win), 0, 0,
+        BMP_Blit(cursor->tile, func_02045770(target->win), 0, 0,
                       x + 2, y + 2, 8, 8, 0xf);
-        func_02045334(target->win);
+        BMP_WIN_TransferChars(target->win);
     }
 }
 
@@ -1344,7 +1345,7 @@ void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget 
 
 void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, int heap)
 {
-    cursor->tile = func_020436FC(BMP_CURSOR_TileData, 1, 1, 0x20, heap);
+    cursor->tile = BMP_CreateFromBuffer(BMP_CURSOR_TileData, 1, 1, 0x20, heap);
 }
 
 
@@ -1384,8 +1385,8 @@ void FILE_UTIL_OpenById(struct FSFile *file, u32 archiveId)
  * enclosing translation unit for both this function and FILE_UTIL_OpenById is
  * file_util.c.
  *
- * The only caller in the image is sub_0201407C, the a/0/1/3 record reader
- * (src/matched/sub_0201407C.c), which passes archiveId 13 with size 10:
+ * The only caller in the image is ZONEDATA_CreateAreaData, the a/0/1/3 record reader
+ * (src/matched/ZONEDATA_CreateAreaData.c), which passes archiveId 13 with size 10:
  * a/0/1/3 is a flat 2820-byte file, not a NARC, so it cannot go through
  * the member API at all.  See the "Archive readers traced by call graph"
  * section of docs/ASSETS.md.
@@ -1542,7 +1543,7 @@ void *func_02020F20(struct ArcFile *arc, u32 item, u32 heap)
         item = 0;
     }
 
-    return func_02049250(arc, item, heap);
+    return ARC_TOOL_LoadHandleMember(arc, item, heap);
 }
 
 
@@ -1556,11 +1557,11 @@ void *func_02020F34(u32 item, u32 which, u32 heap)
 
     switch (which) {
     case 0:
-        return func_02048F60(0x18, item, heap);
+        return ARC_TOOL_LoadMember(0x18, item, heap);
     case 1:
-        return func_02048F60(0x19, item_gfx_member[item].lo, heap);
+        return ARC_TOOL_LoadMember(0x19, item_gfx_member[item].lo, heap);
     case 2:
-        return func_02048F60(0x19, item_gfx_member[item].hi, heap);
+        return ARC_TOOL_LoadMember(0x19, item_gfx_member[item].hi, heap);
     }
 
     return 0;
@@ -1594,8 +1595,8 @@ void func_02020F84(void *dst, u32 entry, u32 heap)
         entry = 0;
     }
     bank = func_02045B38(0, 2, 0x36, heap);
-    func_02045CAC(bank, entry, dst);
-    func_02045C04(bank);
+    MSGDATA_ReadString(bank, entry, dst);
+    MSGDATA_Delete(bank);
 }
 
 
@@ -1626,8 +1627,8 @@ void func_02020FB4(void *dst, u32 entry, u32 heap)
         entry = 0;
     }
     bank = func_02045B38(0, 2, 0x35, heap);
-    func_02045CAC(bank, entry, dst);
-    func_02045C04(bank);
+    MSGDATA_ReadString(bank, entry, dst);
+    MSGDATA_Delete(bank);
 }
 
 

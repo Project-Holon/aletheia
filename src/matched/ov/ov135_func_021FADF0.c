@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_021FA9C8 0x021FA9C8 thumb ov135
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021F4FF4 0x021F4FF4 thumb ov135
  *   BGWINFRM_StartMove 0x0202CD64 thumb
  */
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern void func_021FA9C8(u8 *,int,int);
 struct Obj;
 struct WinMgr;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32,u32,u32);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-void func_021FADF0(u8 *p) {func_021FA9C8(p,4,32);func_0204B878(((struct Obj05415 *)p)->f8,18);func_021F4FF4(*(u32 *)&((struct Obj05415 *)p)->f8,144,40);BGWINFRM_StartMove(((struct Obj05415 *)p)->f18,0,-4,0,4);((struct Obj05415 *)p)->f48=1;((struct Obj05415 *)p)->f4C=7;((struct Obj05415 *)p)->f38=-1;}
+void func_021FADF0(u8 *p) {func_021FA9C8(p,4,32);CLACT_SetActorAnimSeq(((struct Obj05415 *)p)->f8,18);func_021F4FF4(*(u32 *)&((struct Obj05415 *)p)->f8,144,40);BGWINFRM_StartMove(((struct Obj05415 *)p)->f18,0,-4,0,4);((struct Obj05415 *)p)->f48=1;((struct Obj05415 *)p)->f4C=7;((struct Obj05415 *)p)->f38=-1;}

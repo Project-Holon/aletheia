@@ -1,5 +1,5 @@
 /*
- * function: func_021F48C0
+ * function: GIMMICK39_SampleJointTranslation
  * address:  0x021F48C0
  * packet:   pkt_ov039_021F48C0
  * region:   ov039
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F48C0  0x021F48C0  thumb
- *   func_021F4928  0x021F4928  thumb
+ *   GIMMICK39_SampleJointTranslation  0x021F48C0  thumb
+ *   GIMMICK39_SampleJointTrack  0x021F4928  thumb
  */
 
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_021F4928(int *out, int frame, const u32 *data, const u8 *base);
+extern void GIMMICK39_SampleJointTrack(int *out, int frame, const u32 *data, const u8 *base);
 
-void func_021F48C0(u8 *a, int idx, int x, int *out)
+void GIMMICK39_SampleJointTranslation(u8 *a, int idx, int x, int *out)
 {
     u16 off;
     u32 flags;
@@ -36,18 +36,18 @@ void func_021F48C0(u8 *a, int idx, int x, int *out)
         return;
     }
     if (!(flags & 8)) {
-        func_021F4928(&c, x, (const u32 *)p, a);
+        GIMMICK39_SampleJointTrack(&c, x, (const u32 *)p, a);
         p += 8;
         out[0] = c;
     }
     if (!(flags & 0x10)) {
-        func_021F4928(&b, x, (const u32 *)p, a);
+        GIMMICK39_SampleJointTrack(&b, x, (const u32 *)p, a);
         p += 8;
         out[1] = b;
     }
     if (flags & 0x20) {
         return;
     }
-    func_021F4928(&d, x, (const u32 *)p, a);
+    GIMMICK39_SampleJointTrack(&d, x, (const u32 *)p, a);
     out[2] = d;
 }

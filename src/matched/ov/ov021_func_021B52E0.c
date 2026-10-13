@@ -1,5 +1,5 @@
 /*
- * function: func_021B52E0
+ * function: SCRCMD_PROC_FLD_ReleaseFieldRegionTask
  * address:  0x021B52E0
  * packet:   pkt_ov021_021B52E0
  * region:   ov021
@@ -10,22 +10,22 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_021B52A4  0x021B52A4  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   SCRCMD_PROC_FLD_ReleaseFieldRegion  0x021B52A4  thumb  ov021
  */
 
 typedef unsigned int u32;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C58(void *p);
-extern int func_021B52A4(void *a, u32 b);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetCamera(void *p);
+extern int SCRCMD_PROC_FLD_ReleaseFieldRegion(void *a, u32 b);
 
-int func_021B52E0(void **p)
+int SCRCMD_PROC_FLD_ReleaseFieldRegionTask(void **p)
 {
-    void *w = func_0201210C(p[0]);
+    void *w = GAMESYSTEM_GetFieldMap(p[0]);
 
-    func_021B52A4(w, (u32)func_02188C58(w));
+    SCRCMD_PROC_FLD_ReleaseFieldRegion(w, (u32)FIELDMAP_GetCamera(w));
     return 1;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C031C",
+   "name": "BTL_SERVER_FLOW_CheckParalysisFail",
    "address": "0x021C031C",
    "kind": "game",
    "region": "ov093",

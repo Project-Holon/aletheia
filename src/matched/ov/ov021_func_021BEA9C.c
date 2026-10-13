@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA9C
+ * function: EVENT_FIELDMAP_CONTROL_LookupExitEffect
  * address:  0x021BEA9C
  * packet:   pkt_ov021_021BEA9C
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   d_021D9F60  0x021D9F60  data
+ *   gExitEffectTable  0x021D9F60  data
  * Addresses are Black-image addresses.
  */
 
@@ -19,11 +19,11 @@ typedef struct {
     u32 v[6][6];
 } Table;
 
-extern const Table d_021D9F60;
+extern const Table gExitEffectTable;
 
-u32 func_021BEA9C(int row, int col)
+u32 EVENT_FIELDMAP_CONTROL_LookupExitEffect(int row, int col)
 {
-    Table t = d_021D9F60;
+    Table t = gExitEffectTable;
 
     return t.v[row][col];
 }

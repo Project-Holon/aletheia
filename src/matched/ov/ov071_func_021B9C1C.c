@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C1C
+ * function: MONOLITH_TOOL_DeleteScrollArrows
  * address: 0x021B9C1C
  * packet: pkt_ov071_021B9C1C
  * region: ov071
@@ -14,4 +14,4 @@
 #include "../include/Obj13185.h"
 
 extern void func_021B7168(void *);
-void func_021B9C1C(char *p) { func_021B7168(((struct Obj13185 *)p)->f18); func_021B7168(((struct Obj13185 *)p)->f1C); }
+void MONOLITH_TOOL_DeleteScrollArrows(char *p) { func_021B7168(((struct Obj13185 *)p)->f18); func_021B7168(((struct Obj13185 *)p)->f1C); }

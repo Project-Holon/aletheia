@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C05D4",
+   "name": "HEIGHT_EX_CreateTable",
    "address": "0x021C05D4",
    "kind": "game",
    "region": "ov021",

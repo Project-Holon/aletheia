@@ -1,5 +1,5 @@
 /*
- * function: func_021C82C4
+ * function: FLD_WIPE_3DOBJ_MapChangeEventMain
  * address:  0x021C82C4
  * packet:   pkt_ov021_021C82C4
  * region:   ov021
@@ -9,51 +9,51 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Task callback armed by func_021C8268 (0x30-byte context). Case 8 is an
- * if/else with func_02012374 written in both arms (its `beq` over `b`);
- * spelled as `if (v == 0) v = ...; func_02012374(a, v);` the call merges
+ * Task callback armed by FLD_WIPE_3DOBJ_CreateMapChangeEvent (0x30-byte context). Case 8 is an
+ * if/else with GAME_EVENT_CallEvent written in both arms (its `beq` over `b`);
+ * spelled as `if (v == 0) v = ...; GAME_EVENT_CallEvent(a, v);` the call merges
  * with case 3's and every `(*st)++` moves off case 0's copy.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02189A00  0x02189A00  thumb  ov021
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_0218F1AC  0x0218F1AC  thumb  ov021
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_021BB260  0x021BB260  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_0218F818  0x0218F818  thumb  ov021
- *   func_0218F848  0x0218F848  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0218F900  0x0218F900  thumb  ov021
- *   func_0218FE50  0x0218FE50  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_021C1CB0  0x021C1CB0  thumb  ov021
- *   func_02012374  0x02012374  thumb
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
- *   func_0218F878  0x0218F878  thumb  ov021
- *   func_021BEA30  0x021BEA30  thumb  ov021
- *   func_021854CC  0x021854CC  thumb  ov020
- *   func_02188D20  0x02188D20  thumb  ov021
- *   func_021BC5BC  0x021BC5BC  thumb  ov021
- *   func_02043658  0x02043658  arm
- *   func_02188DA0  0x02188DA0  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetFld3dCi  0x02189A00  thumb  ov021
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
+ *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   FIELD_NOGRID_MAPPER_SetActive  0x021BB260  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_CAMERA_PushState  0x0218F818  thumb  ov021
+ *   FIELD_CAMERA_PushStateConstrained  0x0218F848  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_CAMERA_StartMove  0x0218F900  thumb  ov021
+ *   FIELD_CAMERA_IsMoving  0x0218FE50  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   FLD3D_CI_StartSequence  0x021C1CB0  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   FIELD_CAMERA_PopState  0x0218F878  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent  0x021BEA30  thumb  ov021
+ *   EVENT_MAPCHANGE_CreateWarpEventToLocation  0x021854CC  thumb  ov020
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
+ *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
+ *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
+ *   FIELDMAP_SetBgMode  0x02188DA0  thumb  ov021
  *   func_02043534  0x02043534  arm
- *   func_02188DB0  0x02188DB0  thumb  ov021
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
- *   func_021C85CC  0x021C85CC  thumb  ov021
- *   func_021BC578  0x021BC578  thumb  ov021
- *   func_0218F9C4  0x0218F9C4  thumb  ov021
- *   func_0218EC30  0x0218EC30  thumb  ov021
- *   func_0218F05C  0x0218F05C  thumb  ov021
+ *   FLD_WIPE_3DOBJ_FadeOutEventMain  0x021C85CC  thumb  ov021
+ *   FIELD_PLACE_NAME_ShowForZone  0x021BC578  thumb  ov021
+ *   FIELD_CAMERA_StartMoveToSaved  0x0218F9C4  thumb  ov021
+ *   FIELD_CAMERA_SetTraceTarget  0x0218EC30  thumb  ov021
+ *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -92,50 +92,50 @@ typedef struct TaskCtx {
 } Ctx;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Desc;
 struct Evt;
-extern void *func_02188C58(void *p);
-extern void *func_02189A00(u8 *p);
-extern u32 func_02188C5C(u8 *p);
-extern void func_0218F1AC(u8 *p, u32 v);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern void func_021BB260(u32 a, u32 b);
-extern void func_0218EC54(u8 *p);
-extern void func_0218F818(u8 *a);
-extern void func_0218F848(u8 *a);
+extern void *FIELDMAP_GetCamera(void *p);
+extern void *FIELDMAP_GetFld3dCi(u8 *p);
+extern u32 FIELDMAP_GetNogridMapper(u8 *p);
+extern void FIELD_CAMERA_SetAreasEnabled(u8 *p, u32 v);
+extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
+extern void FIELD_CAMERA_EndDelay(u8 *a);
+extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
+extern void FIELD_NOGRID_MAPPER_SetActive(u32 a, u32 b);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern void FIELD_CAMERA_PushState(u8 *a);
+extern void FIELD_CAMERA_PushStateConstrained(u8 *a);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3038(u8 *a, VecFx32 *out);
-extern void func_0218F900(u8 *a, void *p, int n);
-extern int func_0218FE50(u8 *a);
-extern void *func_02188C7C(u8 *p);
-extern void func_0216D9A0(void *map);
-extern int func_021C1CB0(int a, char *b, int c);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern u32 *func_0216D9E4(void *c);
-extern void *func_021A3074(u8 *p);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-extern void func_0218F878(u8 *a);
-extern u32 func_021BEA30(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_021854CC(void *p, u32 u, u16 u2, void *src, u16 h);
-extern u32 func_02188D20(u8 *p);
-extern int func_021BC5BC(u8 *a);
-extern u32 func_02043658(void);
-extern void func_02188DA0(void);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void FIELD_PLAYER_GetPos(u8 *a, VecFx32 *out);
+extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
+extern int FIELD_CAMERA_IsMoving(u8 *a);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern void FLDMMDL_SysPauseMove(void *map);
+extern int FLD3D_CI_StartSequence(int a, char *b, int c);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern u32 *FLDMMDL_SysResumeMove(void *c);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
+extern void FIELD_CAMERA_PopState(u8 *a);
+extern u32 EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(u32 a, u32 b, u32 c, u32 d);
+extern u32 EVENT_MAPCHANGE_CreateWarpEventToLocation(void *p, u32 u, u16 u2, void *src, u16 h);
+extern u32 FIELDMAP_GetPlaceName(u8 *p);
+extern int FIELD_PLACE_NAME_Cancel(u8 *a);
+extern u32 BG_SYS_GetMainVisiblePlanes(void);
+extern void FIELDMAP_SetBgMode(void);
 extern void func_02043534(u32 planes);
-extern void func_02188DB0(u8 *a);
-extern void func_0216D5E0(int a0, int a1);
+extern void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021C85CC(void *task, int *state);
-extern void func_021BC578(void *p, int v);
-extern void func_0218F9C4(u8 *p, u8 *src, u16 v);
-extern void func_0218EC30(u32 a, u32 b);
-extern void func_0218F05C(unsigned char *a);
+extern int FLD_WIPE_3DOBJ_FadeOutEventMain(void *task, int *state);
+extern void FIELD_PLACE_NAME_ShowForZone(void *p, int v);
+extern void FIELD_CAMERA_StartMoveToSaved(u8 *p, u8 *src, u16 v);
+extern void FIELD_CAMERA_SetTraceTarget(u32 a, u32 b);
+extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 
-int func_021C82C4(u32 a, int *st, Ctx *c)
+int FLD_WIPE_3DOBJ_MapChangeEventMain(u32 a, int *st, Ctx *c)
 {
     void *sys;
     u32 h;
@@ -150,24 +150,24 @@ int func_021C82C4(u32 a, int *st, Ctx *c)
     VecFx32 v2;
     Buf24 buf;
 
-    sys = func_0201210C(c->w0);
-    h = (u32)func_02188C58(sys);
-    y = func_02189A00(sys);
-    x = func_02188C5C(sys);
+    sys = GAMESYSTEM_GetFieldMap(c->w0);
+    h = (u32)FIELDMAP_GetCamera(sys);
+    y = FIELDMAP_GetFld3dCi(sys);
+    x = FIELDMAP_GetNogridMapper(sys);
     switch (*st) {
     case 0:
-        func_0218F1AC((u8 *)h, 0);
-        c->f04 = func_0218EC5C((u8 *)h);
-        func_0218F0A8((u8 *)h);
+        FIELD_CAMERA_SetAreasEnabled((u8 *)h, 0);
+        c->f04 = FIELD_CAMERA_GetTraceTarget((u8 *)h);
+        FIELD_CAMERA_EndDelay((u8 *)h);
         (*st)++;
         break;
     case 1:
-        if (c->f04 != 0 && func_0218F0E8((u8 *)h) != 0)
+        if (c->f04 != 0 && FIELD_CAMERA_IsDelayEnabled((u8 *)h) != 0)
             break;
-        func_021BB260(x, 0);
-        func_0218EC54((u8 *)h);
-        func_0218F818((u8 *)h);
-        func_021A3038(func_02188CB4(sys), &v1);
+        FIELD_NOGRID_MAPPER_SetActive(x, 0);
+        FIELD_CAMERA_StopTargetTrace((u8 *)h);
+        FIELD_CAMERA_PushState((u8 *)h);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(sys), &v1);
         p1.h24 = 0x25d8;
         p1.h26 = 0;
         p1.f28 = 0xed000;
@@ -182,42 +182,42 @@ int func_021C82C4(u32 a, int *st, Ctx *c)
         p1.buf.w[3] = 1;
         p1.buf.w[4] = 1;
         p1.buf.w[5] = 1;
-        func_0218F900((u8 *)h, &p1, 10);
+        FIELD_CAMERA_StartMove((u8 *)h, &p1, 10);
         (*st)++;
     case 2:
-        if (func_0218FE50((u8 *)h) != 0)
+        if (FIELD_CAMERA_IsMoving((u8 *)h) != 0)
             break;
-        func_0216D9A0(func_02188C7C(sys));
-        v = (u32)func_021C1CB0((u32)c->w0, y, (u8)c->f28);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(sys));
+        v = (u32)FLD3D_CI_StartSequence((u32)c->w0, y, (u8)c->f28);
         if (v != 0)
-            func_02012374((struct Evt *)a, (struct Evt **)v);
+            GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)v);
         (*st)++;
         break;
     case 3:
-        func_0216D9E4(func_02188C7C(sys));
-        func_0216DAC8(func_021A3074(func_02188CB4(sys)), 1);
-        func_0218F878((u8 *)h);
-        func_02012374((struct Evt *)a, (struct Evt **)func_021BEA30((u32)c->w0, (u32)sys, 0, 0));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(sys));
+        FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(sys)), 1);
+        FIELD_CAMERA_PopState((u8 *)h);
+        GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent((u32)c->w0, (u32)sys, 0, 0));
         (*st)++;
         break;
     case 4:
-        func_02012374((struct Evt *)a, (struct Evt **)func_021854CC(c->w0, (u32)sys, c->f08, c->f0c, 1));
+        GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)EVENT_MAPCHANGE_CreateWarpEventToLocation(c->w0, (u32)sys, c->f08, c->f0c, 1));
         (*st)++;
         break;
     case 5:
-        func_021BC5BC((u8 *)func_02188D20(sys));
-        c->f04 = func_0218EC5C((u8 *)h);
-        func_0218F0A8((u8 *)h);
+        FIELD_PLACE_NAME_Cancel((u8 *)FIELDMAP_GetPlaceName(sys));
+        c->f04 = FIELD_CAMERA_GetTraceTarget((u8 *)h);
+        FIELD_CAMERA_EndDelay((u8 *)h);
         (*st)++;
         break;
     case 6:
-        if (c->f04 != 0 && func_0218F0E8((u8 *)h) != 0)
+        if (c->f04 != 0 && FIELD_CAMERA_IsDelayEnabled((u8 *)h) != 0)
             break;
-        func_021BB260(x, 0);
-        func_0218EC54((u8 *)h);
-        func_0218F848((u8 *)h);
-        func_0218F1AC((u8 *)h, 0);
-        func_021A3038(func_02188CB4(sys), &v2);
+        FIELD_NOGRID_MAPPER_SetActive(x, 0);
+        FIELD_CAMERA_StopTargetTrace((u8 *)h);
+        FIELD_CAMERA_PushStateConstrained((u8 *)h);
+        FIELD_CAMERA_SetAreasEnabled((u8 *)h, 0);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(sys), &v2);
         p2.h24 = 0x25d8;
         p2.h26 = 0;
         p2.f28 = 0xed000;
@@ -232,51 +232,51 @@ int func_021C82C4(u32 a, int *st, Ctx *c)
         p2.buf.w[3] = 1;
         p2.buf.w[4] = 1;
         p2.buf.w[5] = 1;
-        func_0218F900((u8 *)h, &p2, 1);
+        FIELD_CAMERA_StartMove((u8 *)h, &p2, 1);
         (*st)++;
     case 7:
-        if (func_0218FE50((u8 *)h) != 0)
+        if (FIELD_CAMERA_IsMoving((u8 *)h) != 0)
             break;
-        func_0216DAC8(func_021A3074(func_02188CB4(sys)), 1);
-        t = (void *)func_02043658();
-        func_02188DA0();
+        FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(sys)), 1);
+        t = (void *)BG_SYS_GetMainVisiblePlanes();
+        FIELDMAP_SetBgMode();
         func_02043534((u32)t);
-        func_02188DB0(sys);
+        FIELDMAP_ResetBgAffineShowMsg(sys);
         (*st)++;
         break;
     case 8:
-        func_0216D9A0(func_02188C7C(sys));
-        v = (u32)func_021C1CB0((u32)c->w0, y, (u8)c->f2c);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(sys));
+        v = (u32)FLD3D_CI_StartSequence((u32)c->w0, y, (u8)c->f2c);
         if (v != 0) {
-            func_02012374((struct Evt *)a, (struct Evt **)v);
+            GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)v);
         } else {
-            o = func_021A3074(func_02188CB4(sys));
-            func_0216DAC8(o, 0);
-            func_0216D5E0((u32)o, (u32)1);
-            func_02012374((struct Evt *)a, (struct Evt **)func_020122C0(c->w0, (void *)a, func_021C85CC, 0));
+            o = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(sys));
+            FLDMMDL_SetStatusBitVanish(o, 0);
+            FLDMMDL_SetDirDispCheckPause((u32)o, (u32)1);
+            GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)func_020122C0(c->w0, (void *)a, FLD_WIPE_3DOBJ_FadeOutEventMain, 0));
         }
         (*st)++;
         break;
     case 9:
-        func_0216D9E4(func_02188C7C(sys));
-        func_021BC578((void *)func_02188D20(sys), c->f08);
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(sys));
+        FIELD_PLACE_NAME_ShowForZone((void *)FIELDMAP_GetPlaceName(sys), c->f08);
         buf.w[0] = 1;
         buf.w[1] = 1;
         buf.w[2] = 0;
         buf.w[3] = 1;
         buf.w[4] = 1;
         buf.w[5] = 1;
-        func_0218F9C4((u8 *)h, (u8 *)(&buf), 10);
+        FIELD_CAMERA_StartMoveToSaved((u8 *)h, (u8 *)(&buf), 10);
         (*st)++;
     case 10:
-        if (func_0218FE50((u8 *)h) != 0)
+        if (FIELD_CAMERA_IsMoving((u8 *)h) != 0)
             break;
         if (c->f04 != 0)
-            func_0218EC30(h, c->f04);
-        func_0218F05C((unsigned char *)h);
-        func_021BB260(x, 1);
-        func_0218F878((u8 *)h);
-        func_0218F1AC((u8 *)h, 1);
+            FIELD_CAMERA_SetTraceTarget(h, c->f04);
+        FIELD_CAMERA_RestartDelay((unsigned char *)h);
+        FIELD_NOGRID_MAPPER_SetActive(x, 1);
+        FIELD_CAMERA_PopState((u8 *)h);
+        FIELD_CAMERA_SetAreasEnabled((u8 *)h, 1);
         return 1;
     }
     return 0;

@@ -12,13 +12,13 @@
  * sdk:      gsiLargeIntSub (libdwcgscommon.TWL.HYB.a(gslargeint.o))
  *
  * symbols:
- *   func_0217D3AC  0x0217D3AC  arm  ov009
+ *   gsiLargeIntTimerEnter  0x0217D3AC  arm  ov009
  *   gsiLargeIntTimerExit  0x0217D3F8  arm  ov009
  */
 
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern void func_0217D3AC(int id);
+extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
 
 int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout)
@@ -28,7 +28,7 @@ int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u3
     u32 shorter = (length1 < length2) ? length1 : length2;
     i = 0;
 
-    func_0217D3AC(4);
+    gsiLargeIntTimerEnter(4);
     for (; i < shorter; i++) {
         borrow = (u64)src2[i] - src1[i] - borrow;
         dest[i] = (u32)borrow;

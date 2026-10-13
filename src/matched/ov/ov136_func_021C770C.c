@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020362DC                0x020362DC  arm
  *   d_021C7E14 0x021C7E14 data a4
  */
@@ -18,11 +18,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 d_021C7E14[];
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern u32 func_020362DC(void);
 int func_021C770C(u8 *a0)
 {
-    if (func_02035C08(d_021C7E14) != -1) {
+    if (TOUCHPANEL_HitTrg(d_021C7E14) != -1) {
         return 1;
     }
     if ((func_020362DC() & 3) != 0) {

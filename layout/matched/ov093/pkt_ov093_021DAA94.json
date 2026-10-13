@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DAA94",
-    "func_021DAAB4"
+    "BTL_ABILITY_DrySkinAbsorbWater",
+    "BTL_ABILITY_GetDrySkinHandlers"
+   ],
+   "addresses": [
+    "0x021DAA94",
+    "0x021DAAB4"
    ],
    "evidence": {
     "sole-ref": [

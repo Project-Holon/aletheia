@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A78
+ * function: SCRCMD_POKEMON_FLD_GetMysteryEntryCount
  * address:  0x021B6A78
  * packet:   pkt_ov021_021B6A78
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb ov010
- *   func_02159AE8  0x02159AE8  thumb ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200A8A0  0x0200A8A0  thumb
  *   func_0200A8AC  0x0200A8AC  thumb
  */
@@ -21,22 +21,22 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5E4(void *a0);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 typedef signed int     s32;
 struct Big;
 struct Rec;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200A8A0(void *);
 extern s32 func_0200A8AC(struct Rec *r);
 
-int func_021B6A78(void *a, void *b)
+int SCRCMD_POKEMON_FLD_GetMysteryEntryCount(void *a, void *b)
 {
     void *t;
     u16 *p;
 
-    t = func_0215A5E4(b);
-    p = func_02159AE8(a, b);
-    *p = func_0200A8AC(func_0200A8A0(func_02012EBC(t)));
+    t = SCRCMD_WORK_GetGameData(b);
+    p = SCRIPT_WORK_ReadWorkPointer(a, b);
+    *p = func_0200A8AC(func_0200A8A0(GAME_DATA_GetSaveControl(t)));
     return 0;
 }

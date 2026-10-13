@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6590",
+   "name": "SCRCMD_POKEMON_FLD_GetRandomBagPocketValue",
    "address": "0x021B6590",
    "kind": "game",
    "region": "ov021",

@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   func_020056BC 0x020056BC thumb
- *   func_0202EE30 0x0202EE30 thumb
+ *   TIME_ICON_Create 0x0202EE30 thumb
  */
 #include "../include/Obj10344.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020056BC(void);
-extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
-void func_021D8190(u8 *p) { *(u8 * *)&((struct Obj10344 *)p)->f98C=func_0202EE30((void *)func_020056BC(),((struct Obj10344 *)p)->f97C,15,16,((struct Obj10344 *)p)->f4); }
+extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+void func_021D8190(u8 *p) { *(u8 * *)&((struct Obj10344 *)p)->f98C=TIME_ICON_Create((void *)func_020056BC(),((struct Obj10344 *)p)->f97C,15,16,((struct Obj10344 *)p)->f4); }

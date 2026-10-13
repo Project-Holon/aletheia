@@ -1,5 +1,5 @@
 /*
- * function: func_0217E934
+ * function: gsLargeIntReverseBytes
  * address:  0x0217E934
  * packet:   pkt_02155168
  * region:   ov009
@@ -16,7 +16,7 @@
 
  */
 
-int func_0217E934(char *p)
+int gsLargeIntReverseBytes(char *p)
 {
     int n = *(int *)p;
     char *a = p + 4;

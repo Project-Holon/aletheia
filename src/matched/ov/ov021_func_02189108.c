@@ -1,5 +1,5 @@
 /*
- * function: func_02189108
+ * function: FIELDMAP_VBlankTask
  * address:  0x02189108
  * packet:   pkt_ov021_02189108
  * region:   ov021
@@ -11,28 +11,28 @@
  *
  * symbols:
  *   func_02005C8C  0x02005C8C  thumb
- *   func_0216CD78  0x0216CD78  thumb  ov010
- *   func_021C6470  0x021C6470  thumb  ov021
- *   func_0204A648  0x0204A648  arm
- *   func_021D31AC  0x021D31AC  thumb  ov021
+ *   FLDMMDL_UpdateSysBlAct  0x0216CD78  thumb  ov010
+ *   FIELD_G3DOBJ_Update  0x021C6470  thumb  ov021
+ *   CLACT_VBlankSystem  0x0204A648  arm
+ *   FLD_VREQ_VBlank  0x021D31AC  thumb  ov021
  */
 #include "../include/Obj04980.h"
 
 int func_02005C8C(void);
-int func_0216CD78(int a0);
-void func_021C6470(int h);
-void func_0204A648(void);
-void func_021D31AC(int h);
+int FLDMMDL_UpdateSysBlAct(int a0);
+void FIELD_G3DOBJ_Update(int h);
+void CLACT_VBlankSystem(void);
+void FLD_VREQ_VBlank(int h);
 
-void func_02189108(int unused, unsigned char *p)
+void FIELDMAP_VBlankTask(int unused, unsigned char *p)
 {
     if (func_02005C8C() == 0) {
         if (((struct Obj04980 *)p)->f38 != 0)
-            func_0216CD78(((struct Obj04980 *)p)->f38);
+            FLDMMDL_UpdateSysBlAct(((struct Obj04980 *)p)->f38);
         if (((struct Obj04980 *)p)->f130 != 0)
-            func_021C6470(((struct Obj04980 *)p)->f130);
+            FIELD_G3DOBJ_Update(((struct Obj04980 *)p)->f130);
     }
-    func_0204A648();
+    CLACT_VBlankSystem();
     if (((struct Obj04980 *)p)->f14C != 0)
-        func_021D31AC(((struct Obj04980 *)p)->f14C);
+        FLD_VREQ_VBlank(((struct Obj04980 *)p)->f14C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0E4
+ * function: TOWNMAP_ApplyScroll
  * address:  0x021BB0E4
  * packet:   pkt_ov072_021BB0E4
  * region:   ov072
@@ -37,7 +37,7 @@ extern void func_02041EE4(u32, u32, u32);
 extern void func_02041FB0(u32, u32, u16);
 extern void func_02041F6C(u32, u32, u32);
 
-void func_021BB0E4(W *p, const int *v)
+void TOWNMAP_ApplyScroll(W *p, const int *v)
 {
     p->f20 = (v[0] > p->f8) ? p->f8 : ((v[0] < p->f6) ? p->f6 : v[0]);
     p->f24 = (v[1] > p->fA) ? p->fA : ((v[1] < p->f4) ? p->f4 : v[1]);

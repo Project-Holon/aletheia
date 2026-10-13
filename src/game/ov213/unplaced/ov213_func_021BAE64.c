@@ -10,11 +10,11 @@
  * status: EXACT
  * leaf: parent-cleared sole ov213 blocker of func_021BAC88; eight-byte tail stub.
  * symbols:
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_02047970(void);
-void func_021BAE64(void *unused) { func_02047970(); }
+extern void G3D_SYSTEM_DrawEnd(void);
+void func_021BAE64(void *unused) { G3D_SYSTEM_DrawEnd(); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021902A4
+ * function: FIELD_MSGBG_LoadWindowGraphics
  * address:  0x021902A4
  * packet:   pkt_02190270
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_02192FA4 with no argument change.
+ * Tail-call thunk: forwards to FIELD_MSGBG_LoadWindowGraphicsAll with no argument change.
  *
  * symbols:
- *   func_02192FA4  0x02192FA4  thumb
+ *   FIELD_MSGBG_LoadWindowGraphicsAll  0x02192FA4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02192FA4(int a, int b);
+extern void FIELD_MSGBG_LoadWindowGraphicsAll(int a, int b);
 
-void func_021902A4(u32 a0, u32 a1)
+void FIELD_MSGBG_LoadWindowGraphics(u32 a0, u32 a1)
 {
-    func_02192FA4(a0, a1);
+    FIELD_MSGBG_LoadWindowGraphicsAll(a0, a1);
 }

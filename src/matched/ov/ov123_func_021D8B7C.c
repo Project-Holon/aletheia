@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * lever: func_02012F2C leaves its return in r0 for func_02008DF0.
+ * lever: GAME_DATA_GetTrainerRecord leaves its return in r0 for func_02008DF0.
  * symbols:
  *   func_0203F4E4 0x0203F4E4 arm
  *   func_020093D8 0x020093D8 thumb
@@ -15,6 +15,8 @@
  *   func_020093F0 0x020093F0 thumb
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8B0C 0x021D8B0C thumb ov123
+ *   GAME_DATA_SaveStart  0x02012DAC  thumb  arm9
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb  arm9
  */
 #include "../include/Obj05369.h"
 typedef unsigned int u32;
@@ -28,9 +30,9 @@ extern u32 func_020093D8(const struct Sub02009210Obj *obj);
 extern void func_02009428(struct Sub02009210Obj *obj, int value);
 extern void func_020093F0(struct Sub02009210Obj *obj, int value);
 struct Sub02008C20Obj;
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern int func_02012DAC(int a0);
+extern int GAME_DATA_SaveStart(int a0);
 typedef unsigned char  u8;
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8B0C(char *p);
@@ -47,8 +49,8 @@ void func_021D8B7C(char *p)
         func_020093F0(q,126);
     }
     ((struct Obj05369 *)p)->f70=50;
-    func_02008DF0(func_02012F2C(((struct Obj05369 *)p)->f2C),119);
+    func_02008DF0(GAME_DATA_GetTrainerRecord(((struct Obj05369 *)p)->f2C),119);
     p[0xad]=1;
-    func_02012DAC((int)(((struct Obj05369 *)p)->f2C));
+    GAME_DATA_SaveStart((int)(((struct Obj05369 *)p)->f2C));
     func_021D6EE0((u8 *)p,(int)func_021D8B0C,0x914);
 }

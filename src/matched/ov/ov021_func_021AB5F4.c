@@ -1,5 +1,5 @@
 /*
- * function: func_021AB5F4
+ * function: FLD_SCENEAREA_Create
  * address:  0x021AB5F4
  * packet:   pkt_ov021_021AB5F4
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   d_021DDFC8  0x021DDFC8  data  a4
+ *   gFldSceneAreaFileName  0x021DDFC8  data  a4
  */
 
 typedef unsigned short u16;
@@ -26,11 +26,11 @@ typedef struct {
 } S;
 
 extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *file, u16 line);
-extern char d_021DDFC8[];
+extern char gFldSceneAreaFileName[];
 
-S *func_021AB5F4(int heap, int a, int b)
+S *FLD_SCENEAREA_Create(int heap, int a, int b)
 {
-    S *p = func_02030734((u16)heap, 0x20, 1, d_021DDFC8, 0x51);
+    S *p = func_02030734((u16)heap, 0x20, 1, gFldSceneAreaFileName, 0x51);
     p->f0 = a;
     p->f4 = b;
     p->f14 = -1;

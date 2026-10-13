@@ -1,5 +1,5 @@
 /*
- * function: func_0216CE6C
+ * function: FLDMMDL_AddMmdlParam
  * address:  0x0216CE6C
  * packet:   pkt_ov010_0216CE6C
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_0216CE60  0x0216CE60  thumb  ov010
+ *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -36,9 +36,9 @@ typedef struct {
 } Big;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void *func_0216CE60(void *o, Big *b, u32 c);
+extern void *FLDMMDL_AddMmdl(void *o, Big *b, u32 c);
 
-void *func_0216CE6C(void *o, u32 f, u32 g, u32 d, In3 in, u32 x)
+void *FLDMMDL_AddMmdlParam(void *o, u32 f, u32 g, u32 d, In3 in, u32 x)
 {
     Big s;
     In3 *ip = &in;
@@ -54,5 +54,5 @@ void *func_0216CE6C(void *o, u32 f, u32 g, u32 d, In3 in, u32 x)
     w = &s.w;
     w->f = f;
     w->g = g;
-    return func_0216CE60(o, &s, x);
+    return FLDMMDL_AddMmdl(o, &s, x);
 }

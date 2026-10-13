@@ -1,5 +1,5 @@
 /*
- * function: func_0215F9EC
+ * function: SCRCMD_NETWORK_SetupMiscSave
  * address:  0x0215F9EC
  * packet:   pkt_0215F9EC
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012F08  0x02012F08  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C3B8  0x0200C3B8  thumb
  */
 #include "../include/Obj17707.h"
@@ -19,16 +19,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02012F08(int *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern int func_0200C3B8();
 
-int func_0215F9EC(int a0)
+int SCRCMD_NETWORK_SetupMiscSave(int a0)
 {
     int a1;
     void *p;
 
 a0 = ((struct Obj17707 *)a0)->f4;
-    p = func_02012F08((int *)a0);
+    p = GAME_DATA_GetMiscSave((int *)a0);
 loc_0215F9F4:
 a1 = 0x5a;
 a1 = a1 << 4;

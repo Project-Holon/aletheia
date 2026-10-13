@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_021F8078  0x021F8078  thumb
  *   func_021F91A0  0x021F91A0  thumb
  *   tbl_02202EB0   0x02202EB0  data
@@ -26,7 +26,7 @@ extern const u32 tbl_02202EB0[];
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u16 func_021F8078(int mode, u16 color);
 extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 
@@ -41,6 +41,6 @@ void func_021F8098(void *win, void *bank, int mode, int force, u32 x, int y, u16
         } else {
             func_021F91A0(win, (u32)str, 0, x, y, func_021F8078(mode, color), (u32)g);
         }
-        func_02045808(str);
+        STRBUF_Delete(str);
     }
 }

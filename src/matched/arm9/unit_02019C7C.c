@@ -24,10 +24,10 @@
  * can attest it and the stub cannot be matched from either side.
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_02018584  0x02018584  thumb
- *   func_020185C4  0x020185C4  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   POKE_TOOL_GetExpForLevel  0x02018584  thumb
+ *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   func_02019C54  0x02019C54  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  */
@@ -36,10 +36,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32  func_02018584(u16 a, u16 b, u16 v);
-extern void func_020185C4(void *p);
+extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 v);
+extern void POKE_TOOL_RecalcParam(void *p);
 struct Personal;
 extern void *func_02019C54(u32 a, u32 b);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
@@ -63,11 +63,11 @@ u32 func_02019C90(u16 a, u16 b, u32 k)
 
 void func_02019CA0(void *p, u32 v)
 {
-    u32 a = func_02017E1C(p, 5, 0);
-    u32 b = func_02017E1C(p, 0x6F, 0);
+    u32 a = POKE_TOOL_GetPartyValue(p, 5, 0);
+    u32 b = POKE_TOOL_GetPartyValue(p, 0x6F, 0);
 
-    func_02017E40(p, 8, func_02018584((u16)a, (u16)b, (u16)v));
-    func_020185C4(p);
+    POKE_TOOL_SetPartyValue(p, 8, POKE_TOOL_GetExpForLevel((u16)a, (u16)b, (u16)v));
+    POKE_TOOL_RecalcParam(p);
 }
 
 void func_02019CE0(const struct RecDC *src, struct RecDC *dest)

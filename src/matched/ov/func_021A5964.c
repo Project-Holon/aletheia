@@ -1,5 +1,5 @@
 /*
- * function: func_021A5964
+ * function: FIELD_PLAYER_NOGRID_ClearRailWork
  * address:  0x021A5964
  * packet:   pkt_021A5964
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021A5964(u32 *p)
+void FIELD_PLAYER_NOGRID_ClearRailWork(u32 *p)
 {
     p[8] = 0;
 }

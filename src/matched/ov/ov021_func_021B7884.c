@@ -1,5 +1,5 @@
 /*
- * function: func_021B7884
+ * function: FIELD_RAIL_Create
  * address:  0x021B7884
  * packet:   pkt_ov021_021B7884
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_021B9164  0x021B9164  thumb
- *   g_021DE2A0     0x021DE2A0  data  a1
+ *   FIELD_RAIL_WORK_Init  0x021B9164  thumb
+ *   sRailFileName     0x021DE2A0  data  a1
  * Addresses are Black-image addresses.
  */
 
@@ -34,27 +34,27 @@ struct Obj {
     char f20[4];
 };
 
-extern const char g_021DE2A0[];
+extern const char sRailFileName[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021B9164(struct Elem *e, void *p, struct Obj *o);
+extern void FIELD_RAIL_WORK_Init(struct Elem *e, void *p, struct Obj *o);
 
-struct Obj *func_021B7884(u16 heap, u32 n, int a2)
+struct Obj *FIELD_RAIL_Create(u16 heap, u32 n, int a2)
 {
     u32 i;
     struct Obj *o;
 
-    o = func_02030734(heap, 0x74, 1, g_021DE2A0, 302);
+    o = func_02030734(heap, 0x74, 1, sRailFileName, 302);
     o->f0 = heap;
     o->f2 = 0;
     o->f4 = 1;
     o->f10 = a2;
     o->f14 = 0;
-    o->f8 = func_02030734(heap, 0x7c * n, 1, g_021DE2A0, 311);
+    o->f8 = func_02030734(heap, 0x7c * n, 1, sRailFileName, 311);
     o->fC = n;
     for (i = 0; i < n; i++)
-        func_021B9164(&o->f8[i], o->f20, o);
-    o->f1C = func_02030734(heap, 0x7c, 1, g_021DE2A0, 319);
-    func_021B9164(o->f1C, o->f20, o);
+        FIELD_RAIL_WORK_Init(&o->f8[i], o->f20, o);
+    o->f1C = func_02030734(heap, 0x7c, 1, sRailFileName, 319);
+    FIELD_RAIL_WORK_Init(o->f1C, o->f20, o);
     o->f1C->f2 = 1;
     return o;
 }

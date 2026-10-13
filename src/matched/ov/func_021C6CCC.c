@@ -1,5 +1,5 @@
 /*
- * function: func_021C6CCC
+ * function: FIELD_TASK_GetWork
  * address:  0x021C6CCC
  * packet:   pkt_021C6CCC
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021C6CCC(u8 *p)
+u32 FIELD_TASK_GetWork(u8 *p)
 {
     return ((struct Obj18314 *)p)->f4;
 }

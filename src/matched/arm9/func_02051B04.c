@@ -1,5 +1,5 @@
 /*
- * function: func_02051B04
+ * function: BUTTON_MAN_GetResourceType
  * address:  0x02051B04
  * packet:   pkt_02051B04
  * region:   arm9
@@ -18,7 +18,7 @@
 
 typedef unsigned short u16;
 
-u16 func_02051B04(void *res)
+u16 BUTTON_MAN_GetResourceType(void *res)
 {
     return ((struct Obj16194 *)res)->f8;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0202C110
+ * function: ISS_SWITCH_SYS_ResetSwitch
  * address:  0x0202C110
  * packet:   pkt_0202C110
  * region:   arm9
@@ -19,15 +19,15 @@
  *   sub_0202C2DC  0x0202C2DC  thumb
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C110.c \
- *       --func func_0202C110 --addr 0x0202C110 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_ResetSwitch.c \
+ *       --func ISS_SWITCH_SYS_ResetSwitch --addr 0x0202C110 --thumb --cc 1.1p1
  */
 
 typedef unsigned int u32;
 
 extern void sub_0202C2DC(void *p);
 
-void func_0202C110(void *p)
+void ISS_SWITCH_SYS_ResetSwitch(void *p)
 {
     sub_0202C2DC(p);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ACCAC",
+   "name": "FLDEFF_NAMIPOKE_Exit",
    "address": "0x021ACCAC",
    "kind": "game",
    "region": "ov021",

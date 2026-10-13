@@ -1,5 +1,5 @@
 /*
- * function: func_021DA150
+ * function: HAND_TOKUSEI_TraceOnMemberIn
  * address: 0x021DA150
  * packet: pkt_ov093_021DA150
  * region: ov093
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021C7D00 0x021C7D00 thumb ov093
  *   func_021C7F68 0x021C7F68 thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021DA2D0 0x021DA2D0 thumb ov093
  *   func_021DA2E0 0x021DA2E0 thumb ov093
- *   func_021D78AC 0x021D78AC thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_CALC_Random 0x021D78AC thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021B9A24 0x021B9A24 thumb ov093
  *   func_021B9A6C 0x021B9A6C thumb ov093
  *   func_021C8010 0x021C8010 thumb ov093
@@ -30,15 +30,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern u16 func_021C7D00(void *, int);
 extern u8 func_021C7F68(int *p, int b, u8 *out);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021DA2D0(u16);
 extern int func_021DA2E0(u16);
-extern u32 func_021D78AC(u32);
-extern u8 func_021D5440(u8 *p);
+extern u32 BTL_CALC_Random(u32);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021B9A24(u32 a, u32 b);
 extern int func_021B9A6C(int a, u32 b);
 extern int func_021C8010(u8 *p, unsigned int v);
@@ -48,7 +48,7 @@ extern void func_021C8838(void *, int, int);
 struct S;
 extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C88C8(void *, void *);
-void func_021DA150(int a, void *b, int c, int *d)
+void HAND_TOKUSEI_TraceOnMemberIn(int a, void *b, int c, int *d)
 {
     u8 buf[3];
     u8 selected[3];
@@ -62,7 +62,7 @@ void func_021DA150(int a, void *b, int c, int *d)
     void *q;
     int candidate;
     u8 *p;
-    active = func_021D775C(2);
+    active = BTL_EVENT_GetVar(2);
     chosen = 31;
     move = 0;
     if (active == c) {
@@ -72,10 +72,10 @@ void func_021DA150(int a, void *b, int c, int *d)
             if (!func_021DA2D0((u16)func_021D59B4(func_021C7CF4(b, buf[i]), 16))) selected[count++] = buf[i];
         }
         if (count != 0) {
-            choice = count == 1 ? 0 : func_021D78AC(count);
+            choice = count == 1 ? 0 : BTL_CALC_Random(count);
             q = func_021C7CF4(b, selected[choice]);
             move = func_021D59B4(q, 16);
-            chosen = func_021D5440(q);
+            chosen = BTL_POKEPARAM_GetPokeId(q);
         } else {
             *d = 1;
         }

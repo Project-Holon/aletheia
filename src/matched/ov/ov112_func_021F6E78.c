@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
 typedef unsigned char u8;
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 typedef struct { u16 x; u16 y; u16 z; u8 a; u8 b; } Pos;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 u8 *func_021F6E78(u8 *p, int v)
 {
@@ -35,7 +35,7 @@ u8 *func_021F6E78(u8 *p, int v)
     pos.z = 0;
     pos.a = 0;
     pos.b = 2;
-    o = func_0204B294(*(void **)(p + 0xa8), *(u32 *)(p + 0xb0), *(u32 *)(p + 0xac), *(u32 *)(p + 0xb4), &pos, 0, *(u16 *)p);
+    o = CLACT_CreateActor(*(void **)(p + 0xa8), *(u32 *)(p + 0xb0), *(u32 *)(p + 0xac), *(u32 *)(p + 0xb4), &pos, 0, *(u16 *)p);
     *(struct Obj **)(q + 0x1c) = o;
     func_0204B3DC(o, 1);
     return q;

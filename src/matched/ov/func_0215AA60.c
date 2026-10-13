@@ -1,5 +1,5 @@
 /*
- * function: func_0215AA60
+ * function: SCRCMD_WORK_CmdToggleConfigFlag
  * address:  0x0215AA60
  * packet:   pkt_0215AA60
  * region:   ov010
@@ -11,8 +11,8 @@
  * blocked:  listing 48 compiled 46
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
  *   CONFIG_SetAppliedFlag  0x020083EC  thumb
@@ -24,22 +24,22 @@ typedef unsigned int u32;
 
 struct Big;
 struct Sub02008700Obj;
-extern void *func_0215A5E4(void *a0);
-extern void *func_02012EBC(struct Big *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int CONFIG_GetAppliedFlag(unsigned short *p);
 extern int CONFIG_SetAppliedFlag();
 
-int func_0215AA60(int a0, int a1)
+int SCRCMD_WORK_CmdToggleConfigFlag(int a0, int a1)
 {
     void *p;
     struct Sub02008700Obj *t4;
     void *v0;
 
 a0 = a1 + 0;
-    v0 = func_0215A5E4((void *)a0);
+    v0 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0215AA68:
-    p = func_02012EBC((struct Big *)v0);
+    p = GAME_DATA_GetSaveControl((struct Big *)v0);
 loc_0215AA6C:
     t4 = func_0200873C(p);
 loc_0215AA70:

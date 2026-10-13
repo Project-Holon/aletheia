@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02167658",
+   "name": "COMM_PLAYER_Del",
    "address": "0x02167658",
    "kind": "game",
    "region": "ov010",

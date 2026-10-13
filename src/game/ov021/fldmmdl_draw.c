@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl_draw.c
  * unit:     yes
- * function: func_0219F058, func_0219F0B0, func_0219F0F8, func_0219F114, func_0219F128, func_0219F17C, func_0219F188, func_0219F22C, func_0219F248, func_0219F25C, func_0219F2B0, func_0219F354, func_0219F3F0, func_0219F484, func_0219F490, func_0219F52C, func_0219F5C8, func_0219F5D4, func_0219F628, func_0219F634, func_0219F750, func_0219F7CC, func_0219F870, func_0219F8C8, func_0219F8E0, func_0219F8F4, func_0219F990, func_0219FAB4, func_0219FADC, func_0219FB20, func_0219FB2C, func_0219FB48, func_0219FB5C, func_0219FC5C, func_0219FC68, func_0219FCC0, func_0219FD1C, func_0219FD94, func_0219FE20, func_0219FE64, func_0219FE9C, func_0219FEB0, func_0219FFBC, func_0219FFD4, func_021A000C, func_021A006C, func_021A0084, func_021A00E0, func_021A00F4, func_021A00FC
+ * function: FLDMMDL_DRAW_GetBlactAnime, FLDMMDL_DRAW_SetBlactAnime, FLDMMDL_DRAW_InitDirAnime, FLDMMDL_DRAW_DeleteDirAnime, FLDMMDL_DRAW_DrawDirAnime, FLDMMDL_DRAW_GetBlactIdDirAnime, FLDMMDL_DRAW_DrawDirAnimeMoving, FLDMMDL_DRAW_InitDirAnimeB, FLDMMDL_DRAW_DeleteDirAnimeB, FLDMMDL_DRAW_DrawDirAnimeB, FLDMMDL_DRAW_DrawDirAnimeSized, FLDMMDL_DRAW_DrawWalkAnime, FLDMMDL_DRAW_DrawWalkAnimeB, FLDMMDL_DRAW_GetBlactIdWalkAnime, FLDMMDL_DRAW_DrawTwoFrame, FLDMMDL_DRAW_DrawThreeFrame, FLDMMDL_DRAW_SetState, FLDMMDL_DRAW_RotateByCamera, FLDMMDL_DRAW_GetFrameOffsetZero, FLDMMDL_DRAW_DrawBillboardOffset, FLDMMDL_DRAW_DrawStatic, FLDMMDL_DRAW_GetFrameGroup, FLDMMDL_DRAW_DrawPositionOnly, FLDMMDL_DRAW_InitFixedState, FLDMMDL_DRAW_DeleteFixedState, FLDMMDL_DRAW_DrawWalking, FLDMMDL_DRAW_UpdateWalkOffset, FLDMMDL_DRAW_ShiftOffsetByDir, FLDMMDL_DRAW_CheckStepFrame, FLDMMDL_DRAW_GetBlactIdFixedState, FLDMMDL_DRAW_InitDirAnimeC, FLDMMDL_DRAW_DeleteDirAnimeC, FLDMMDL_DRAW_DrawMultiPattern, FLDMMDL_DRAW_GetBlactIdMultiPattern, FLDMMDL_DRAW_GetBlactAnimeTypeA, FLDMMDL_DRAW_GetBlactAnimeTypeB, FLDMMDL_DRAW_DrawTwoPattern, FLDMMDL_DRAW_DrawThreePattern, FLDMMDL_DRAW_CheckBlactReady, FLDMMDL_DRAW_ResetBlactAnime, FLDMMDL_DRAW_InitDirState, FLDMMDL_DRAW_UpdateDirAnime, FLDMMDL_DRAW_AddHeightOffset, FLDMMDL_DRAW_GetDirIndex, FLDMMDL_DRAW_UpdateBlactFlags, FLDMMDL_DRAW_InitBlactId, FLDMMDL_DRAW_DrawEffect, FLDMMDL_DRAW_DeleteEffect, FLDMMDL_DRAW_DeleteEffectAlias, FLDMMDL_DRAW_InitEffectAlias
  * address:  0x0219F058
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -19,22 +19,22 @@
  * objects. File name inferred from the fldmmdl module prefix.
  *
  * symbols:
- *   func_0216E3C4  0x0216E3C4  thumb  ov010
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
- *   func_0216D910  0x0216D910  thumb  ov010
- *   func_0219C9DC  0x0219C9DC  thumb  ov021
- *   func_02050848  0x02050848  arm
- *   func_02050880  0x02050880  arm
- *   func_0205082C  0x0205082C  arm
- *   func_0205085C  0x0205085C  arm
- *   func_0216D6D8  0x0216D6D8  thumb  ov010
- *   func_0219C814  0x0219C814  thumb  ov021
- *   func_0219C8D4  0x0219C8D4  thumb  ov021
- *   func_02197CCC  0x02197CCC  thumb  ov021
- *   func_02050080  0x02050080  arm
- *   func_0204F638  0x0204F638  arm
- *   func_0216D678  0x0216D678  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
+ *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_GetBlActCont  0x0216D910  thumb  ov010
+ *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
+ *   BILLBOARD_ACT_GetEntryList  0x02050848  arm
+ *   BILLBOARD_ACT_GetEntryCursor  0x02050880  arm
+ *   BILLBOARD_ACT_SetEntryList  0x0205082C  arm
+ *   BILLBOARD_ACT_SetEntryCursor  0x0205085C  arm
+ *   FLDMMDL_InitDrawProcWork  0x0216D6D8  thumb  ov010
+ *   FLDMMDL_BLACT_AddActorMmdlOrReserve  0x0219C814  thumb  ov021
+ *   FLDMMDL_BLACT_DeleteActorMmdl  0x0219C8D4  thumb  ov021
+ *   FLDMMDL_ACMD_GetDrawPos  0x02197CCC  thumb  ov021
+ *   BILLBOARD_ACT_GetBoard  0x02050080  arm
+ *   BILLBOARD_SetElemPos  0x0204F638  arm
+ *   FLDMMDL_GetDrawStatus  0x0216D678  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
  *   func_02048AE8  0x02048AE8  arm
  *   func_02048B0C  0x02048B0C  arm
  *   func_02048B30  0x02048B30  arm
@@ -42,42 +42,42 @@
  *   func_02082B60  0x02082B60  arm
  *   func_0207B0A4  0x0207B0A4  arm
  *   func_0207B51C  0x0207B51C  arm
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D534  0x0216D534  thumb  ov010
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218EC2C  0x0218EC2C  thumb  ov021
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysGetFieldMap  0x0216D534  thumb  ov010
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   func_0207C9D0  0x0207C9D0  arm
- *   d_021D854C     0x021D854C  data  ov021  a4
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D8B0  0x0216D8B0  thumb  ov010
- *   func_02197C9C  0x02197C9C  thumb  ov021
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D590  0x0216D590  thumb  ov010
- *   func_0216D588  0x0216D588  thumb  ov010
- *   func_02188CBC  0x02188CBC  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3080  0x021A3080  thumb  ov021
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
+ *   gMmdlDrawBillboardShift     0x021D854C  data  ov021  a4
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetDrawOffset  0x0216D8B0  thumb  ov010
+ *   FLDMMDL_ACMD_CheckAnimePaused  0x02197C9C  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetZoneId  0x0216D590  thumb  ov010
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
+ *   FIELDMAP_IsFieldPlayerCreated  0x02188CBC  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetStepKind  0x021A3080  thumb  ov021
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
  *   func_02013D9C  0x02013D9C  thumb
- *   func_020508EC  0x020508EC  arm
- *   func_0216D7A8  0x0216D7A8  thumb  ov010
+ *   BILLBOARD_ACT_GetEntryLastCommand  0x020508EC  arm
+ *   FLDMMDL_CallDrawGetProc  0x0216D7A8  thumb  ov010
  *   func_02082BCC  0x02082BCC  arm
- *   data_021D8548  0x021D8548  data  ov021  a1
- *   func_02189A78  0x02189A78  thumb  ov021
- *   func_0216D538  0x0216D538  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
- *   func_0219D738  0x0219D738  thumb  ov021
- *   func_021642D4  0x021642D4  thumb  ov010
- *   func_020507A0  0x020507A0  arm
- *   func_020507F0  0x020507F0  arm
- *   func_0216DAB4  0x0216DAB4  thumb  ov010
- *   func_0219C648  0x0219C648  thumb  ov021
- *   func_0219D634  0x0219D634  thumb  ov021
- *   func_0219D49C  0x0219D49C  thumb  ov021
- *   func_021C6664  0x021C6664  thumb  ov021
- *   func_021C6678  0x021C6678  thumb  ov021
- *   func_021C66EC  0x021C66EC  thumb  ov021
- *   func_0219D680  0x0219D680  thumb  ov021
+ *   gMmdlDrawRestFrames  0x021D8548  data  ov021  a1
+ *   FIELDMAP_GetCameraPitchScale  0x02189A78  thumb  ov021
+ *   FLDMMDL_SysGetAreaId  0x0216D538  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
+ *   FLDMMDL_RAIL_MOVE_GetDirByAngle  0x0219D738  thumb  ov021
+ *   FLDMMDL_MOVE_GetRelativeDirCode  0x021642D4  thumb  ov010
+ *   BILLBOARD_ACT_SetEntryFlags  0x020507A0  arm
+ *   BILLBOARD_ACT_SetEntryEnabled  0x020507F0  arm
+ *   FLDMMDL_CheckStatusBitVanish  0x0216DAB4  thumb  ov010
+ *   FLDMMDL_BLACT_GetEntryHookFlag  0x0219C648  thumb  ov021
+ *   FLDMMDL_G3DOBJ_AddObj  0x0219D634  thumb  ov021
+ *   FLDMMDL_G3DOBJ_GetObjCtrl  0x0219D49C  thumb  ov021
+ *   FIELD_G3DOBJ_SetObjectTrans  0x021C6664  thumb  ov021
+ *   FIELD_G3DOBJ_SetObjectHidden  0x021C6678  thumb  ov021
+ *   FIELD_G3DOBJ_LoopAnimeFrame  0x021C66EC  thumb  ov021
+ *   FLDMMDL_G3DOBJ_DelObj  0x0219D680  thumb  ov021
  */
 #include "fldmmdl_blact_types.h"
 
@@ -96,7 +96,7 @@ typedef struct MmdlDirAnimeState {
 } MmdlDirAnimeState;
 
 /* Draw procedure work of a moving model (8 bytes, 12 for the walk variant),
- * allocated with func_0216D6D8 and read back with func_0216D6F0. */
+ * allocated with FLDMMDL_InitDrawProcWork and read back with FLDMMDL_GetDrawProcWork. */
 typedef struct MmdlDrawWork {
     u16 blactId;                 /* billboard actor slot, 0xFFFF = none */
     u8 state;
@@ -105,27 +105,27 @@ typedef struct MmdlDrawWork {
     u32 extra;
 } MmdlDrawWork;
 
-/* Frame groups to rest in after a turn (data_021D8548). */
+/* Frame groups to rest in after a turn (gMmdlDrawRestFrames). */
 typedef struct MmdlRestFrames {
     u8 frames[4];
 } MmdlRestFrames;
 
-extern MmdlObjCodeParam *func_0216E3C4(Mmdl *mmdl);
-extern MmdlDrawWork *func_0216D6F0(Mmdl *mmdl);
-extern BlactSys *func_0216D910(Mmdl *mmdl);
-extern struct BbActSys *func_0219C9DC(BlactSys *cont);
-extern u16 func_02050848(struct BbActSys *sys, int entryIndex);
-extern u16 func_02050880(struct BbActSys *sys, int entryIndex);
-extern void func_0205082C(struct BbActSys *sys, int entryIndex, u32 listIndex);
-extern void func_0205085C(struct BbActSys *sys, int entryIndex, u32 cursor);
-extern void *func_0216D6D8(Mmdl *mmdl, int size);
-extern int func_0219C814(Mmdl *mmdl, u16 *outBlactId);
-extern void func_0219C8D4(Mmdl *mmdl, u32 blactId);
-extern void func_02197CCC(Mmdl *mmdl, VecFx32 *out);
-extern struct BbBoard *func_02050080(struct BbActSys *sys);
-extern void func_0204F638(struct BbBoard *board, int elem, VecFx32 *pos);
-extern u16 func_0216D678(Mmdl *mmdl);
-extern u16 func_0216D598(Mmdl *mmdl);
+extern MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(Mmdl *mmdl);
+extern MmdlDrawWork *FLDMMDL_GetDrawProcWork(Mmdl *mmdl);
+extern BlactSys *FLDMMDL_GetBlActCont(Mmdl *mmdl);
+extern struct BbActSys *FLDMMDL_BLACT_GetBbActSys(BlactSys *cont);
+extern u16 BILLBOARD_ACT_GetEntryList(struct BbActSys *sys, int entryIndex);
+extern u16 BILLBOARD_ACT_GetEntryCursor(struct BbActSys *sys, int entryIndex);
+extern void BILLBOARD_ACT_SetEntryList(struct BbActSys *sys, int entryIndex, u32 listIndex);
+extern void BILLBOARD_ACT_SetEntryCursor(struct BbActSys *sys, int entryIndex, u32 cursor);
+extern void *FLDMMDL_InitDrawProcWork(Mmdl *mmdl, int size);
+extern int FLDMMDL_BLACT_AddActorMmdlOrReserve(Mmdl *mmdl, u16 *outBlactId);
+extern void FLDMMDL_BLACT_DeleteActorMmdl(Mmdl *mmdl, u32 blactId);
+extern void FLDMMDL_ACMD_GetDrawPos(Mmdl *mmdl, VecFx32 *out);
+extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *sys);
+extern void BILLBOARD_SetElemPos(struct BbBoard *board, int elem, VecFx32 *pos);
+extern u16 FLDMMDL_GetDrawStatus(Mmdl *mmdl);
+extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B0C(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
@@ -133,68 +133,68 @@ extern void func_0207BCA0(VecFx32 *camPos, VecFx32 *camUp, VecFx32 *camTarget, s
 extern void func_02082B60(s32 *mtx43, s32 *outMtx33);
 extern void func_0207B0A4(s32 *mtx33, s32 *outMtx33);
 extern void func_0207B51C(VecFx32 *vec, s32 *mtx33, VecFx32 *out);
-extern MmdlSys *func_0216D67C(Mmdl *mmdl);
-extern struct FieldMap *func_0216D534(MmdlSys *sys);
-extern struct FieldCamera *func_02188C58(struct FieldMap *fieldMap);
-extern struct G3dCamera *func_0218EC2C(struct FieldCamera *camera);
+extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
+extern struct FieldMap *FLDMMDL_SysGetFieldMap(MmdlSys *sys);
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
 extern void func_0207C9D0(VecFx32 *a, VecFx32 *b, VecFx32 *out);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-extern void func_0216D8B0(Mmdl *mmdl, VecFx32 *out);
-extern s32 func_02197C9C(Mmdl *mmdl);
-extern int func_0216D83C(Mmdl *mmdl);
-extern u16 func_0216D590(Mmdl *mmdl);
-extern u16 func_0216D588(Mmdl *mmdl);
-extern int func_02188CBC(struct FieldMap *fieldMap);
-extern void *func_02188CB4(struct FieldMap *fieldMap);
-extern u32 func_021A3080(void *obj);
-extern void func_0216D8C0(Mmdl *mmdl, VecFx32 *offset);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+extern void FLDMMDL_GetDrawOffset(Mmdl *mmdl, VecFx32 *out);
+extern s32 FLDMMDL_ACMD_CheckAnimePaused(Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern u16 FLDMMDL_GetZoneId(Mmdl *mmdl);
+extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
+extern int FIELDMAP_IsFieldPlayerCreated(struct FieldMap *fieldMap);
+extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+extern u32 FIELD_PLAYER_GetStepKind(void *obj);
+extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
 extern u32 func_02013D9C(u32 zoneId);
-extern int func_0216D7A8(Mmdl *mmdl, unsigned int kind);
-extern u32 func_020508EC(struct BbActSys *sys, int entryIndex, u16 *outLastCommand);
+extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, unsigned int kind);
+extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *sys, int entryIndex, u16 *outLastCommand);
 extern u32 func_02082BCC(void *p, u32 value, u32 size);
-extern int func_02189A78(struct FieldMap *fieldMap);
-extern u32 func_0216D538(MmdlSys *sys);
-extern int func_0216D55C(Mmdl *mmdl, int bits);
-extern u32 func_0219D738(Mmdl *mmdl, int angle);
-extern u8 func_021642D4(int tableIndex, int offset);
-extern int func_0219C648(Mmdl *mmdl);
-extern int func_0216DAB4(Mmdl *mmdl);
-extern void func_020507F0(struct BbActSys *sys, int entryIndex, u32 enabled);
-extern int func_020507A0(struct BbActSys *sys, int entryIndex, u32 flags);
-extern u32 func_0219D634(Mmdl *mmdl);
-extern struct FieldG3dObjCtrl *func_0219D49C(Mmdl *mmdl);
-extern void func_021C6664(struct FieldG3dObjCtrl *ctrl, int objIdx, VecFx32 *pos);
-extern void func_021C6678(struct FieldG3dObjCtrl *ctrl, int objIdx, int hidden);
-extern int func_021C66EC(struct FieldG3dObjCtrl *ctrl, int objIdx, int speed);
-extern void func_0219D680(Mmdl *mmdl, u32 objIdx);
+extern int FIELDMAP_GetCameraPitchScale(struct FieldMap *fieldMap);
+extern u32 FLDMMDL_SysGetAreaId(MmdlSys *sys);
+extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bits);
+extern u32 FLDMMDL_RAIL_MOVE_GetDirByAngle(Mmdl *mmdl, int angle);
+extern u8 FLDMMDL_MOVE_GetRelativeDirCode(int tableIndex, int offset);
+extern int FLDMMDL_BLACT_GetEntryHookFlag(Mmdl *mmdl);
+extern int FLDMMDL_CheckStatusBitVanish(Mmdl *mmdl);
+extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, int entryIndex, u32 enabled);
+extern int BILLBOARD_ACT_SetEntryFlags(struct BbActSys *sys, int entryIndex, u32 flags);
+extern u32 FLDMMDL_G3DOBJ_AddObj(Mmdl *mmdl);
+extern struct FieldG3dObjCtrl *FLDMMDL_G3DOBJ_GetObjCtrl(Mmdl *mmdl);
+extern void FIELD_G3DOBJ_SetObjectTrans(struct FieldG3dObjCtrl *ctrl, int objIdx, VecFx32 *pos);
+extern void FIELD_G3DOBJ_SetObjectHidden(struct FieldG3dObjCtrl *ctrl, int objIdx, int hidden);
+extern int FIELD_G3DOBJ_LoopAnimeFrame(struct FieldG3dObjCtrl *ctrl, int objIdx, int speed);
+extern void FLDMMDL_G3DOBJ_DelObj(Mmdl *mmdl, u32 objIdx);
 
-void func_0219F5D4(struct G3dCamera *camera, VecFx32 *vec, VecFx32 *out);
-int func_0219F628(Mmdl *mmdl, u32 listIndex, u32 cursor, VecFx32 *out);
-void func_0219F990(Mmdl *mmdl, MmdlDrawWork *work, u8 dir);
-void func_0219FAB4(Mmdl *mmdl, u32 dir, MmdlObjCodeParam *param, VecFx32 *offset);
-int func_0219FADC(MmdlDrawWork *work, int dir, MmdlObjCodeParam *param);
-int func_0219FE9C(MmdlDirAnimeState *state);
-void func_0219FEB0(MmdlDirAnimeState *state, Mmdl *mmdl, struct BbActSys *bbActSys, u16 blactId);
-void func_0219FFBC(Mmdl *mmdl, VecFx32 *pos);
-u32 func_0219FFD4(Mmdl *mmdl);
-void func_021A000C(Mmdl *mmdl, struct BbActSys *bbActSys, u32 blactId, u32 isUpdated, u32 checkMode);
-void func_021A006C(Mmdl *mmdl);
-void func_021A00E0(Mmdl *mmdl);
-extern const VecFx32 d_021D854C;
-extern const MmdlRestFrames data_021D8548;
+void FLDMMDL_DRAW_RotateByCamera(struct G3dCamera *camera, VecFx32 *vec, VecFx32 *out);
+int FLDMMDL_DRAW_GetFrameOffsetZero(Mmdl *mmdl, u32 listIndex, u32 cursor, VecFx32 *out);
+void FLDMMDL_DRAW_UpdateWalkOffset(Mmdl *mmdl, MmdlDrawWork *work, u8 dir);
+void FLDMMDL_DRAW_ShiftOffsetByDir(Mmdl *mmdl, u32 dir, MmdlObjCodeParam *param, VecFx32 *offset);
+int FLDMMDL_DRAW_CheckStepFrame(MmdlDrawWork *work, int dir, MmdlObjCodeParam *param);
+int FLDMMDL_DRAW_InitDirState(MmdlDirAnimeState *state);
+void FLDMMDL_DRAW_UpdateDirAnime(MmdlDirAnimeState *state, Mmdl *mmdl, struct BbActSys *bbActSys, u16 blactId);
+void FLDMMDL_DRAW_AddHeightOffset(Mmdl *mmdl, VecFx32 *pos);
+u32 FLDMMDL_DRAW_GetDirIndex(Mmdl *mmdl);
+void FLDMMDL_DRAW_UpdateBlactFlags(Mmdl *mmdl, struct BbActSys *bbActSys, u32 blactId, u32 isUpdated, u32 checkMode);
+void FLDMMDL_DRAW_InitBlactId(Mmdl *mmdl);
+void FLDMMDL_DRAW_DeleteEffect(Mmdl *mmdl);
+extern const VecFx32 gMmdlDrawBillboardShift;
+extern const MmdlRestFrames gMmdlDrawRestFrames;
 
 /* Reads the animation list index and cursor of the billboard actor of a model
  * (0 and 0 when the model is not a billboard or has no actor). */
-void func_0219F058(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
+void FLDMMDL_DRAW_GetBlactAnime(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
 {
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
-    if (func_0216E3C4(mmdl)->drawType == 1) {
-        work = func_0216D6F0(mmdl);
+    if (FLDMMDL_GetObjCodeParam(mmdl)->drawType == 1) {
+        work = FLDMMDL_GetDrawProcWork(mmdl);
         if (work->blactId != 0xFFFF) {
-            bbActSys = func_0219C9DC(func_0216D910(mmdl));
-            *outAnime = func_02050848(bbActSys, work->blactId);
-            *outFrame = func_02050880(bbActSys, work->blactId);
+            bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+            *outAnime = BILLBOARD_ACT_GetEntryList(bbActSys, work->blactId);
+            *outFrame = BILLBOARD_ACT_GetEntryCursor(bbActSys, work->blactId);
         } else {
             *outAnime = 0;
             *outFrame = 0;
@@ -205,57 +205,57 @@ void func_0219F058(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
     }
 }
 
-void func_0219F0B0(Mmdl *mmdl, u32 listIndex, u32 cursor)
+void FLDMMDL_DRAW_SetBlactAnime(Mmdl *mmdl, u32 listIndex, u32 cursor)
 {
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
-    if (func_0216E3C4(mmdl)->drawType == 1) {
-        work = func_0216D6F0(mmdl);
+    if (FLDMMDL_GetObjCodeParam(mmdl)->drawType == 1) {
+        work = FLDMMDL_GetDrawProcWork(mmdl);
         if (work->blactId != 0xFFFF) {
-            bbActSys = func_0219C9DC(func_0216D910(mmdl));
-            func_0205082C(bbActSys, work->blactId, listIndex);
-            func_0205085C(bbActSys, work->blactId, cursor);
+            bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, listIndex);
+            BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, cursor);
         }
     }
 }
 
 /* Draw procedure init: reserves the work and registers the billboard actor. */
-void func_0219F0F8(Mmdl *mmdl)
+void FLDMMDL_DRAW_InitDirAnime(Mmdl *mmdl)
 {
-    MmdlDrawWork *work = func_0216D6D8(mmdl, 8);
-    func_0219FE9C(&work->dirAnime);
-    func_0219C814(mmdl, &work->blactId);
+    MmdlDrawWork *work = FLDMMDL_InitDrawProcWork(mmdl, 8);
+    FLDMMDL_DRAW_InitDirState(&work->dirAnime);
+    FLDMMDL_BLACT_AddActorMmdlOrReserve(mmdl, &work->blactId);
 }
 
 /* Draw procedure remove: releases the billboard actor. */
-void func_0219F114(Mmdl *mmdl, u32 kind)
+void FLDMMDL_DRAW_DeleteDirAnime(Mmdl *mmdl, u32 kind)
 {
-    func_0219C8D4(mmdl, func_0216D6F0(mmdl)->blactId);
+    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
 }
 
 /* Draw procedure draw: direction and animation state, then the position. */
-void func_0219F128(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawDirAnime(Mmdl *mmdl)
 {
     VecFx32 drawPos;
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        func_0219FEB0(&work->dirAnime, mmdl, bbActSys, work->blactId);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        FLDMMDL_DRAW_UpdateDirAnime(&work->dirAnime, mmdl, bbActSys, work->blactId);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
 /* Draw procedure getParam: the billboard actor id. */
-int func_0219F17C(Mmdl *mmdl, u32 kind)
+int FLDMMDL_DRAW_GetBlactIdDirAnime(Mmdl *mmdl, u32 kind)
 {
-    return func_0216D6F0(mmdl)->blactId;
+    return FLDMMDL_GetDrawProcWork(mmdl)->blactId;
 }
 
-void func_0219F188(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawDirAnimeMoving(Mmdl *mmdl)
 {
     VecFx32 drawPos;
     MmdlDrawWork *work;
@@ -264,57 +264,57 @@ void func_0219F188(Mmdl *mmdl)
     u32 dirIndex;
     u32 anime;
     isUpdated = 0;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        dirIndex = func_0219FFD4(mmdl);
-        anime = func_0216D678(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        dirIndex = FLDMMDL_DRAW_GetDirIndex(mmdl);
+        anime = FLDMMDL_GetDrawStatus(mmdl);
         if (work->dirAnime.dir != dirIndex) {
             work->dirAnime.dir = dirIndex;
             work->dirAnime.anime = anime;
-            func_0205082C(bbActSys, work->blactId, dirIndex);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, dirIndex);
             isUpdated = 1;
         } else if (work->dirAnime.anime != anime) {
-            func_0205082C(bbActSys, work->blactId, dirIndex);
-            func_0205085C(bbActSys, work->blactId, isUpdated);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, dirIndex);
+            BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, isUpdated);
             work->dirAnime.anime = anime;
         }
-        func_021A000C(mmdl, bbActSys, work->blactId, isUpdated, 0);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 0);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
-void func_0219F22C(Mmdl *mmdl)
+void FLDMMDL_DRAW_InitDirAnimeB(Mmdl *mmdl)
 {
-    MmdlDrawWork *work = func_0216D6D8(mmdl, 8);
-    func_0219FE9C(&work->dirAnime);
-    func_0219C814(mmdl, &work->blactId);
+    MmdlDrawWork *work = FLDMMDL_InitDrawProcWork(mmdl, 8);
+    FLDMMDL_DRAW_InitDirState(&work->dirAnime);
+    FLDMMDL_BLACT_AddActorMmdlOrReserve(mmdl, &work->blactId);
 }
 
-void func_0219F248(Mmdl *mmdl, u32 kind)
+void FLDMMDL_DRAW_DeleteDirAnimeB(Mmdl *mmdl, u32 kind)
 {
-    func_0219C8D4(mmdl, func_0216D6F0(mmdl)->blactId);
+    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
 }
 
-void func_0219F25C(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawDirAnimeB(Mmdl *mmdl)
 {
     VecFx32 drawPos;
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        func_0219FEB0(&work->dirAnime, mmdl, bbActSys, work->blactId);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        FLDMMDL_DRAW_UpdateDirAnime(&work->dirAnime, mmdl, bbActSys, work->blactId);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
 /* Direction frames at an offset that depends on the draw procedure number. */
-void func_0219F2B0(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawDirAnimeSized(Mmdl *mmdl)
 {
     VecFx32 drawPos;
     MmdlDrawWork *work;
@@ -326,14 +326,14 @@ void func_0219F2B0(Mmdl *mmdl)
     u32 frame;
     isUpdated = 0;
     isSpecialCode = 0;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        dirIndex = func_0219FFD4(mmdl);
-        if (func_0216D598(mmdl) == 0xCC) {
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        dirIndex = FLDMMDL_DRAW_GetDirIndex(mmdl);
+        if (FLDMMDL_GetObjCode(mmdl) == 0xCC) {
             isSpecialCode = 1;
         }
-        frameBase = func_0216E3C4(mmdl)->drawProcNo;
+        frameBase = FLDMMDL_GetObjCodeParam(mmdl)->drawProcNo;
         if (frameBase == 0xF) {
             frameBase = 4;
         } else if (frameBase == 5) {
@@ -344,18 +344,18 @@ void func_0219F2B0(Mmdl *mmdl)
         frame = (u16)(frameBase + dirIndex);
         if (work->dirAnime.dir != dirIndex) {
             work->dirAnime.dir = dirIndex;
-            func_0205082C(bbActSys, work->blactId, frame);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, frame);
             isUpdated = 1;
         }
-        func_021A000C(mmdl, bbActSys, work->blactId, isUpdated, isSpecialCode);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, isSpecialCode);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
 /* Walk animations (anime 10 and up) use list index anime + 30; lower ones use the direction state machine. */
-void func_0219F354(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawWalkAnime(Mmdl *mmdl)
 {
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
@@ -364,128 +364,128 @@ void func_0219F354(Mmdl *mmdl)
     u8 isUpdated;
     VecFx32 drawPos;
 
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        anime = func_0216D678(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        anime = FLDMMDL_GetDrawStatus(mmdl);
         if (anime >= 10) {
             isUpdated = 0;
-            dirIndex = func_0219FFD4(mmdl);
+            dirIndex = FLDMMDL_DRAW_GetDirIndex(mmdl);
             if (anime != work->dirAnime.anime) {
                 isUpdated = 1;
                 work->dirAnime.dir = dirIndex;
                 work->dirAnime.anime = anime;
                 work->dirAnime.frame = 0;
-                func_0205082C(bbActSys, work->blactId, (u16)(anime + 30));
+                BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, (u16)(anime + 30));
             }
-            func_021A000C(mmdl, bbActSys, work->blactId, isUpdated, 0);
+            FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 0);
         } else {
-            func_0219FEB0(&work->dirAnime, mmdl, bbActSys, work->blactId);
+            FLDMMDL_DRAW_UpdateDirAnime(&work->dirAnime, mmdl, bbActSys, work->blactId);
         }
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
-/* Like func_0219F354, but the update flag is always set. */
-void func_0219F3F0(Mmdl *mmdl)
+/* Like FLDMMDL_DRAW_DrawWalkAnime, but the update flag is always set. */
+void FLDMMDL_DRAW_DrawWalkAnimeB(Mmdl *mmdl)
 {
     VecFx32 drawPos;
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
     u32 anime;
     u32 dirIndex;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        anime = func_0216D678(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        anime = FLDMMDL_GetDrawStatus(mmdl);
         if (anime >= 10) {
-            dirIndex = func_0219FFD4(mmdl);
+            dirIndex = FLDMMDL_DRAW_GetDirIndex(mmdl);
             if (anime != work->dirAnime.anime) {
                 work->dirAnime.dir = dirIndex;
                 work->dirAnime.anime = anime;
                 work->dirAnime.frame = 0;
-                func_0205082C(bbActSys, work->blactId, (u16)(anime + 0x1e));
+                BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, (u16)(anime + 0x1e));
             }
-            func_021A000C(mmdl, bbActSys, work->blactId, 1, 0);
+            FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 1, 0);
         } else {
-            func_0219FEB0(&work->dirAnime, mmdl, bbActSys, work->blactId);
+            FLDMMDL_DRAW_UpdateDirAnime(&work->dirAnime, mmdl, bbActSys, work->blactId);
         }
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
-int func_0219F484(Mmdl *mmdl, u32 kind)
+int FLDMMDL_DRAW_GetBlactIdWalkAnime(Mmdl *mmdl, u32 kind)
 {
-    return func_0216D6F0(mmdl)->blactId;
+    return FLDMMDL_GetDrawProcWork(mmdl)->blactId;
 }
 
 /* Two-frame model: anime 0 or 1 selects the list index; larger values fall back to 0. */
-void func_0219F490(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawTwoFrame(Mmdl *mmdl)
 {
     VecFx32 drawPos;
     MmdlDrawWork *work;
     u32 anime;
     struct BbActSys *bbActSys;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        anime = func_0216D678(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        anime = FLDMMDL_GetDrawStatus(mmdl);
         if (work->dirAnime.anime >= 2) {
             work->dirAnime.anime = 0;
-            func_0205082C(bbActSys, work->blactId, work->dirAnime.anime);
-            func_0205085C(bbActSys, work->blactId, 0);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, work->dirAnime.anime);
+            BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
         }
         if (anime < 2 && work->dirAnime.anime != anime) {
             work->dirAnime.anime = anime;
-            func_0205082C(bbActSys, work->blactId, work->dirAnime.anime);
-            func_0205085C(bbActSys, work->blactId, 0);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, work->dirAnime.anime);
+            BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
         }
-        func_021A000C(mmdl, bbActSys, work->blactId, 0, 0);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 0, 0);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
-/* Three-frame model: same as func_0219F490 with anime 0 to 2. */
-void func_0219F52C(Mmdl *mmdl)
+/* Three-frame model: same as FLDMMDL_DRAW_DrawTwoFrame with anime 0 to 2. */
+void FLDMMDL_DRAW_DrawThreeFrame(Mmdl *mmdl)
 {
     VecFx32 drawPos;
     MmdlDrawWork *work;
     u32 anime;
     struct BbActSys *bbActSys;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        anime = func_0216D678(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        anime = FLDMMDL_GetDrawStatus(mmdl);
         if (work->dirAnime.anime >= 3) {
             work->dirAnime.anime = 0;
-            func_0205082C(bbActSys, work->blactId, work->dirAnime.anime);
-            func_0205085C(bbActSys, work->blactId, 0);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, work->dirAnime.anime);
+            BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
         }
         if (anime < 3 && work->dirAnime.anime != anime) {
             work->dirAnime.anime = anime;
-            func_0205082C(bbActSys, work->blactId, work->dirAnime.anime);
-            func_0205085C(bbActSys, work->blactId, 0);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, work->dirAnime.anime);
+            BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
         }
-        func_021A000C(mmdl, bbActSys, work->blactId, 0, 0);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 0, 0);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
-void func_0219F5C8(Mmdl *mmdl, int state)
+void FLDMMDL_DRAW_SetState(Mmdl *mmdl, int state)
 {
-    func_0216D6F0(mmdl)->state = state;
+    FLDMMDL_GetDrawProcWork(mmdl)->state = state;
 }
 
 /* Rotates vec by the inverse of the view rotation of the camera, into out. */
-void func_0219F5D4(struct G3dCamera *camera, VecFx32 *vec, VecFx32 *out)
+void FLDMMDL_DRAW_RotateByCamera(struct G3dCamera *camera, VecFx32 *vec, VecFx32 *out)
 {
     VecFx32 camPos;
     VecFx32 camUp;
@@ -502,7 +502,7 @@ void func_0219F5D4(struct G3dCamera *camera, VecFx32 *vec, VecFx32 *out)
 }
 
 /* Draw procedure frame offset: none. */
-int func_0219F628(Mmdl *mmdl, u32 listIndex, u32 cursor, VecFx32 *out)
+int FLDMMDL_DRAW_GetFrameOffsetZero(Mmdl *mmdl, u32 listIndex, u32 cursor, VecFx32 *out)
 {
     out->x = 0;
     out->y = 0;
@@ -511,7 +511,7 @@ int func_0219F628(Mmdl *mmdl, u32 listIndex, u32 cursor, VecFx32 *out)
 }
 
 /* Billboard with an offset per frame: rotated by the camera (state 0) or fixed. */
-void func_0219F634(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawBillboardOffset(Mmdl *mmdl)
 {
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
@@ -525,73 +525,73 @@ void func_0219F634(Mmdl *mmdl)
     u32 curListIndex;
 
     isUpdated = 0;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId == 0xFFFF) {
         return;
     }
-    bbActSys = func_0219C9DC(func_0216D910(mmdl));
-    dirIndex = func_0219FFD4(mmdl);
-    anime = func_0216D678(mmdl);
+    bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+    dirIndex = FLDMMDL_DRAW_GetDirIndex(mmdl);
+    anime = FLDMMDL_GetDrawStatus(mmdl);
     listIndex = dirIndex + anime * 4;
     if (dirIndex != work->dirAnime.dir || work->dirAnime.anime != anime) {
         work->dirAnime.dir = dirIndex;
         isUpdated = 1;
         work->dirAnime.anime = anime;
-        func_0205082C(bbActSys, work->blactId, listIndex);
-        func_0205085C(bbActSys, work->blactId, 0);
+        BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, listIndex);
+        BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
     }
-    func_021A000C(mmdl, bbActSys, work->blactId, isUpdated, 1);
-    func_02197CCC(mmdl, &pos);
-    func_0219FFBC(mmdl, &pos);
-    curListIndex = func_02050848(bbActSys, work->blactId);
-    func_0219F628(mmdl, curListIndex, func_02050880(bbActSys, work->blactId), &frameOffset);
+    FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 1);
+    FLDMMDL_ACMD_GetDrawPos(mmdl, &pos);
+    FLDMMDL_DRAW_AddHeightOffset(mmdl, &pos);
+    curListIndex = BILLBOARD_ACT_GetEntryList(bbActSys, work->blactId);
+    FLDMMDL_DRAW_GetFrameOffsetZero(mmdl, curListIndex, BILLBOARD_ACT_GetEntryCursor(bbActSys, work->blactId), &frameOffset);
     pos.x += frameOffset.x;
     pos.y += frameOffset.y;
     pos.z += frameOffset.z;
     if (work->state == 0) {
-        rotated = d_021D854C;
-        func_0219F5D4(func_0218EC2C(func_02188C58(func_0216D534(func_0216D67C(mmdl)))), &rotated, &rotated);
+        rotated = gMmdlDrawBillboardShift;
+        FLDMMDL_DRAW_RotateByCamera(FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)))), &rotated, &rotated);
         func_0207C9D0(&pos, &rotated, &pos);
     } else {
         pos.y -= 0xC000;
         pos.z += 0x8000;
     }
-    func_0204F638(func_02050080(bbActSys), work->blactId, &pos);
+    BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &pos);
 }
 
 /* Static model: direction frame only. */
-void func_0219F750(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawStatic(Mmdl *mmdl)
 {
     MmdlDrawWork *work;
     VecFx32 drawPos;
     struct BbActSys *bbActSys;
     u32 dirIndex;
 
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        dirIndex = func_0219FFD4(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        dirIndex = FLDMMDL_DRAW_GetDirIndex(mmdl);
         if (work->dirAnime.dir != dirIndex) {
-            func_0205082C(bbActSys, work->blactId, dirIndex);
-            func_0205085C(bbActSys, work->blactId, 0);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, dirIndex);
+            BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
             work->dirAnime.dir = dirIndex;
         }
-        func_021A000C(mmdl, bbActSys, work->blactId, 0, 0);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 0, 0);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
 /* Maps an animation command index to one of 13 groups; rewinds the cursor when the actor is in another group. */
-int func_0219F7CC(Mmdl *mmdl, u32 command)
+int FLDMMDL_DRAW_GetFrameGroup(Mmdl *mmdl, u32 command)
 {
     u32 group;
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
     u32 curGroup;
 
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId == 0xFFFF) {
         return 0;
     }
@@ -613,45 +613,45 @@ int func_0219F7CC(Mmdl *mmdl, u32 command)
     } else {
         group = 12;
     }
-    bbActSys = func_0219C9DC(func_0216D910(mmdl));
-    curGroup = func_02050880(bbActSys, work->blactId);
+    bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+    curGroup = BILLBOARD_ACT_GetEntryCursor(bbActSys, work->blactId);
     if (curGroup != group) {
-        func_0205085C(bbActSys, work->blactId, 0);
+        BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
     }
     return 1;
 }
 
 /* Position update only, no animation change. */
-void func_0219F870(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawPositionOnly(Mmdl *mmdl)
 {
     MmdlDrawWork *work;
     VecFx32 drawPos;
     struct BbActSys *bbActSys;
 
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        func_021A000C(mmdl, bbActSys, work->blactId, 0, 0);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 0, 0);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
-void func_0219F8C8(Mmdl *mmdl)
+void FLDMMDL_DRAW_InitFixedState(Mmdl *mmdl)
 {
-    MmdlDrawWork *work = func_0216D6D8(mmdl, 8);
+    MmdlDrawWork *work = FLDMMDL_InitDrawProcWork(mmdl, 8);
     work->state = 9;
-    func_0219C814(mmdl, &work->blactId);
+    FLDMMDL_BLACT_AddActorMmdlOrReserve(mmdl, &work->blactId);
 }
 
-void func_0219F8E0(Mmdl *mmdl, u32 kind)
+void FLDMMDL_DRAW_DeleteFixedState(Mmdl *mmdl, u32 kind)
 {
-    func_0219C8D4(mmdl, func_0216D6F0(mmdl)->blactId);
+    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
 }
 
-/* Walking model: the state follows the direction; func_0219F990 moves the draw offset. */
-void func_0219F8F4(Mmdl *mmdl)
+/* Walking model: the state follows the direction; FLDMMDL_DRAW_UpdateWalkOffset moves the draw offset. */
+void FLDMMDL_DRAW_DrawWalking(Mmdl *mmdl)
 {
     MmdlDrawWork *work;
     u8 isUpdated;
@@ -660,35 +660,35 @@ void func_0219F8F4(Mmdl *mmdl)
     VecFx32 drawPos;
     s32 offsetBuf[3]; /* read through a VecFx32 pointer: the bytes need the address in a register */
 
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
         isUpdated = 0;
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        dir = func_0216D5F8(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        dir = FLDMMDL_GetDirDisp(mmdl);
         if (dir != work->state) {
             isUpdated = 1;
             work->state = dir;
             work->counter = 0;
             work->extra = 0;
-            func_0205082C(bbActSys, work->blactId, work->state);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, work->state);
             {
                 VecFx32 *clear = (VecFx32 *)offsetBuf;
                 clear->x = 0;
                 clear->y = 0;
                 clear->z = 0;
-                func_0216D8B0(mmdl, clear);
+                FLDMMDL_GetDrawOffset(mmdl, clear);
             }
         }
-        func_0219F990(mmdl, work, dir);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
-        func_021A000C(mmdl, bbActSys, work->blactId, isUpdated, 0);
+        FLDMMDL_DRAW_UpdateWalkOffset(mmdl, work, dir);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 0);
     }
 }
 
 /* Bobbing and sideways offset of a walking model, written to the draw offset of the model. */
-void func_0219F990(Mmdl *mmdl, MmdlDrawWork *work, u8 dir)
+void FLDMMDL_DRAW_UpdateWalkOffset(Mmdl *mmdl, MmdlDrawWork *work, u8 dir)
 {
     VecFx32 offset;
     VecFx32 curOffset;
@@ -705,28 +705,28 @@ void func_0219F990(Mmdl *mmdl, MmdlDrawWork *work, u8 dir)
     void *mapObj;
 
     canBob = 1;
-    param = func_0216E3C4(mmdl);
+    param = FLDMMDL_GetObjCodeParam(mmdl);
     isPlayer = 0;
     offset.x = 0;
     offset.y = 0;
     offset.z = 0;
-    isAnimePaused = func_02197C9C(mmdl);
-    func_0216D8B0(mmdl, &curOffset);
-    gridX = func_0216D83C(mmdl);
-    zoneId = func_0216D590(mmdl);
-    objId = func_0216D588(mmdl);
+    isAnimePaused = FLDMMDL_ACMD_CheckAnimePaused(mmdl);
+    FLDMMDL_GetDrawOffset(mmdl, &curOffset);
+    gridX = FLDMMDL_GetGridNowX(mmdl);
+    zoneId = FLDMMDL_GetZoneId(mmdl);
+    objId = FLDMMDL_GetObjId(mmdl);
     if (objId == 0xff)
         isPlayer = canBob;
     isHidden = (objId == 0xfc) ? 1 : 0;
     if (isPlayer != 0) {
-        fieldMap = func_0216D534(func_0216D67C(mmdl));
-        if (func_02188CBC(fieldMap) != 0 && (mapObj = func_02188CB4(fieldMap)) != 0) {
-            canBob = func_021A3080(mapObj) != 0;
+        fieldMap = FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl));
+        if (FIELDMAP_IsFieldPlayerCreated(fieldMap) != 0 && (mapObj = FIELDMAP_GetFieldPlayer(fieldMap)) != 0) {
+            canBob = FIELD_PLAYER_GetStepKind(mapObj) != 0;
         }
     }
     if (isAnimePaused != 0 || (curOffset.y > 0x1800 && param->drawProcNo != 11)) {
         offset.y = curOffset.y;
-    } else if (func_0219FADC(work, dir, param) == 0 && canBob != 0) {
+    } else if (FLDMMDL_DRAW_CheckStepFrame(work, dir, param) == 0 && canBob != 0) {
         offset.y = offset.y + 0x1800;
     }
     if (func_02013D9C(zoneId) != 0 && isPlayer == 0) {
@@ -737,18 +737,18 @@ void func_0219F990(Mmdl *mmdl, MmdlDrawWork *work, u8 dir)
             offset.z = offset.z + 0x219a;
         offset.z = offset.z - 0x2000;
     }
-    func_0219FAB4(mmdl, dir, param, &offset);
+    FLDMMDL_DRAW_ShiftOffsetByDir(mmdl, dir, param, &offset);
     if (isHidden) {
         offset.x = 0;
         offset.y = 0;
         offset.z = 0;
     }
-    func_0216D8C0(mmdl, &offset);
+    FLDMMDL_SetDrawOffset(mmdl, &offset);
     work->counter++;
 }
 
 /* Shifts the x offset by 0x2000 for directions 2 and 3 of a model with size class 0. */
-void func_0219FAB4(Mmdl *mmdl, u32 dir, MmdlObjCodeParam *param, VecFx32 *offset)
+void FLDMMDL_DRAW_ShiftOffsetByDir(Mmdl *mmdl, u32 dir, MmdlObjCodeParam *param, VecFx32 *offset)
 {
     if (param->mdlSize == 0) {
         switch (dir) {
@@ -763,7 +763,7 @@ void func_0219FAB4(Mmdl *mmdl, u32 dir, MmdlObjCodeParam *param, VecFx32 *offset
 }
 
 /* Advances the 20-frame step counter; true while the model is in a lifted step phase. */
-int func_0219FADC(MmdlDrawWork *work, int dir, MmdlObjCodeParam *param)
+int FLDMMDL_DRAW_CheckStepFrame(MmdlDrawWork *work, int dir, MmdlObjCodeParam *param)
 {
     int phase = work->counter % 20;
     u8 drawProcNo = param->drawProcNo;
@@ -783,25 +783,25 @@ int func_0219FADC(MmdlDrawWork *work, int dir, MmdlObjCodeParam *param)
     return 0;
 }
 
-int func_0219FB20(Mmdl *mmdl, u32 kind)
+int FLDMMDL_DRAW_GetBlactIdFixedState(Mmdl *mmdl, u32 kind)
 {
-    return func_0216D6F0(mmdl)->blactId;
+    return FLDMMDL_GetDrawProcWork(mmdl)->blactId;
 }
 
-void func_0219FB2C(Mmdl *mmdl)
+void FLDMMDL_DRAW_InitDirAnimeC(Mmdl *mmdl)
 {
-    MmdlDrawWork *work = func_0216D6D8(mmdl, 8);
-    func_0219FE9C(&work->dirAnime);
-    func_0219C814(mmdl, &work->blactId);
+    MmdlDrawWork *work = FLDMMDL_InitDrawProcWork(mmdl, 8);
+    FLDMMDL_DRAW_InitDirState(&work->dirAnime);
+    FLDMMDL_BLACT_AddActorMmdlOrReserve(mmdl, &work->blactId);
 }
 
-void func_0219FB48(Mmdl *mmdl, u32 kind)
+void FLDMMDL_DRAW_DeleteDirAnimeC(Mmdl *mmdl, u32 kind)
 {
-    func_0219C8D4(mmdl, func_0216D6F0(mmdl)->blactId);
+    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
 }
 
 /* Models with several animation patterns, chosen by object code (0xD3 to 0xD6, 0x79). */
-void func_0219FB5C(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawMultiPattern(Mmdl *mmdl)
 {
     VecFx32 drawPos;
     u32 isUpdated;
@@ -813,12 +813,12 @@ void func_0219FB5C(Mmdl *mmdl)
     u32 frame;
 
     isUpdated = 0;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId == 0xFFFF)
         return;
-    bbActSys = func_0219C9DC(func_0216D910(mmdl));
-    objCode = func_0216D598(mmdl);
-    anime = func_0216D678(mmdl);
+    bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+    objCode = FLDMMDL_GetObjCode(mmdl);
+    anime = FLDMMDL_GetDrawStatus(mmdl);
     if (objCode == 0xd3 || objCode == 0xd5 || objCode == 0x79) {
         frame = 0;
         if (anime == work->dirAnime.anime)
@@ -835,10 +835,10 @@ void func_0219FB5C(Mmdl *mmdl)
             break;
         }
         work->dirAnime.anime = anime;
-        func_0205082C(bbActSys, work->blactId, frame);
+        BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, frame);
         isUpdated = 1;
     } else if (objCode == 0xd4 || objCode == 0xd6) {
-        dirIndex = func_0219FFD4(mmdl);
+        dirIndex = FLDMMDL_DRAW_GetDirIndex(mmdl);
         frame = 0;
         if (anime < 10) {
             if (dirIndex == work->dirAnime.dir && anime == work->dirAnime.anime)
@@ -861,41 +861,41 @@ void func_0219FB5C(Mmdl *mmdl)
             }
         }
         work->dirAnime.anime = anime;
-        func_0205082C(bbActSys, work->blactId, frame);
+        BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, frame);
         isUpdated = 1;
     } else {
         if (anime == work->dirAnime.anime)
             goto draw;
         work->dirAnime.anime = anime;
-        func_0205082C(bbActSys, work->blactId, isUpdated);
+        BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, isUpdated);
         isUpdated = 1;
     }
 draw:
-    func_021A000C(mmdl, bbActSys, work->blactId, isUpdated, 1);
-    func_02197CCC(mmdl, &drawPos);
-    func_0219FFBC(mmdl, &drawPos);
-    func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+    FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 1);
+    FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+    FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+    BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
 }
 
-int func_0219FC5C(Mmdl *mmdl, u32 kind)
+int FLDMMDL_DRAW_GetBlactIdMultiPattern(Mmdl *mmdl, u32 kind)
 {
-    return func_0216D6F0(mmdl)->blactId;
+    return FLDMMDL_GetDrawProcWork(mmdl)->blactId;
 }
 
 /* Reads list index and cursor for object codes 0xD3 and 0xD5; other codes report 0 and 0. Returns 0 without an actor. */
-int func_0219FC68(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
+int FLDMMDL_DRAW_GetBlactAnimeTypeA(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
 {
     u32 objCode;
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
 
-    objCode = func_0216D598(mmdl);
+    objCode = FLDMMDL_GetObjCode(mmdl);
     if (objCode == 0xD3 || objCode == 0xD5) {
-        work = func_0216D6F0(mmdl);
+        work = FLDMMDL_GetDrawProcWork(mmdl);
         if (work->blactId != 0xFFFF) {
-            bbActSys = func_0219C9DC(func_0216D910(mmdl));
-            *outAnime = func_02050848(bbActSys, work->blactId);
-            *outFrame = func_02050880(bbActSys, work->blactId);
+            bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+            *outAnime = BILLBOARD_ACT_GetEntryList(bbActSys, work->blactId);
+            *outFrame = BILLBOARD_ACT_GetEntryCursor(bbActSys, work->blactId);
             return 1;
         }
         return 0;
@@ -905,18 +905,18 @@ int func_0219FC68(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
     return 1;
 }
 
-/* Same as func_0219FC68 for object codes 0xDD and 0xDE. */
-int func_0219FCC0(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
+/* Same as FLDMMDL_DRAW_GetBlactAnimeTypeA for object codes 0xDD and 0xDE. */
+int FLDMMDL_DRAW_GetBlactAnimeTypeB(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
 {
     MmdlDrawWork *work;
     struct BbActSys *bbActSys;
 
-    if ((u16)(func_0216D598(mmdl) + 0xFF23) <= 1) {
-        work = func_0216D6F0(mmdl);
+    if ((u16)(FLDMMDL_GetObjCode(mmdl) + 0xFF23) <= 1) {
+        work = FLDMMDL_GetDrawProcWork(mmdl);
         if (work->blactId != 0xFFFF) {
-            bbActSys = func_0219C9DC(func_0216D910(mmdl));
-            *outAnime = func_02050848(bbActSys, work->blactId);
-            *outFrame = func_02050880(bbActSys, work->blactId);
+            bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+            *outAnime = BILLBOARD_ACT_GetEntryList(bbActSys, work->blactId);
+            *outFrame = BILLBOARD_ACT_GetEntryCursor(bbActSys, work->blactId);
             return 1;
         }
         return 0;
@@ -927,7 +927,7 @@ int func_0219FCC0(Mmdl *mmdl, u16 *outAnime, u16 *outFrame)
 }
 
 /* Two-pattern model: list index follows anime 0 or 1. */
-void func_0219FD1C(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawTwoPattern(Mmdl *mmdl)
 {
     u32 isUpdated;
     MmdlDrawWork *work;
@@ -936,24 +936,24 @@ void func_0219FD1C(Mmdl *mmdl)
     u32 anime;
 
     isUpdated = 0;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        anime = func_0216D678(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        anime = FLDMMDL_GetDrawStatus(mmdl);
         if (anime != work->dirAnime.anime && anime < 2) {
             work->dirAnime.anime = anime;
-            func_0205082C(bbActSys, work->blactId, anime);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, anime);
             isUpdated = 1;
         }
-        func_021A000C(mmdl, bbActSys, work->blactId, isUpdated, 0);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 0);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
 /* Three-pattern model: anime 10 to 12 select list index 1 to 3. */
-void func_0219FD94(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawThreePattern(Mmdl *mmdl)
 {
     MmdlDrawWork *work;
     VecFx32 drawPos;
@@ -962,10 +962,10 @@ void func_0219FD94(Mmdl *mmdl)
     u32 frameOrUpdated; /* list index while switching, then the update flag */
 
     frameOrUpdated = 0;
-    work = func_0216D6F0(mmdl);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
     if (work->blactId != 0xFFFF) {
-        bbActSys = func_0219C9DC(func_0216D910(mmdl));
-        anime = func_0216D678(mmdl);
+        bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
+        anime = FLDMMDL_GetDrawStatus(mmdl);
         if (anime != work->dirAnime.anime) {
             switch (anime) {
             case 10: frameOrUpdated = 1; break;
@@ -973,28 +973,28 @@ void func_0219FD94(Mmdl *mmdl)
             case 12: frameOrUpdated = 3; break;
             }
             work->dirAnime.anime = anime;
-            func_0205082C(bbActSys, work->blactId, frameOrUpdated);
+            BILLBOARD_ACT_SetEntryList(bbActSys, work->blactId, frameOrUpdated);
             frameOrUpdated = 1;
         }
-        func_021A000C(mmdl, bbActSys, work->blactId, frameOrUpdated, 0);
-        func_02197CCC(mmdl, &drawPos);
-        func_0219FFBC(mmdl, &drawPos);
-        func_0204F638(func_02050080(bbActSys), work->blactId, &drawPos);
+        FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, frameOrUpdated, 0);
+        FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+        FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
+        BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
 }
 
 /* Object code 0x7B: true when the model has no actor entry or the last command of the entry is in range. */
-u32 func_0219FE20(Mmdl *mmdl, u32 kind)
+u32 FLDMMDL_DRAW_CheckBlactReady(Mmdl *mmdl, u32 kind)
 {
     u32 blactId;
     u16 lastCommand;
 
-    if (func_0216D598(mmdl) != 0x7B) {
+    if (FLDMMDL_GetObjCode(mmdl) != 0x7B) {
         return 1;
     }
-    blactId = (u16)func_0216D7A8(mmdl, 0);
+    blactId = (u16)FLDMMDL_CallDrawGetProc(mmdl, 0);
     if (blactId != 0xFFFF) {
-        if (func_020508EC(func_0219C9DC(func_0216D910(mmdl)), blactId, &lastCommand) == 1) {
+        if (BILLBOARD_ACT_GetEntryLastCommand(FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl)), blactId, &lastCommand) == 1) {
             return 1;
         }
     }
@@ -1002,21 +1002,21 @@ u32 func_0219FE20(Mmdl *mmdl, u32 kind)
 }
 
 /* Object code 0x7B: rewinds the animation cursor of the actor. */
-void func_0219FE64(Mmdl *mmdl)
+void FLDMMDL_DRAW_ResetBlactAnime(Mmdl *mmdl)
 {
     u16 blactId;
     u16 zero;
-    if (func_0216D598(mmdl) == 0x7B) {
+    if (FLDMMDL_GetObjCode(mmdl) == 0x7B) {
         zero = 0;
-        blactId = func_0216D7A8(mmdl, 0);
+        blactId = FLDMMDL_CallDrawGetProc(mmdl, 0);
         if (blactId != 0xFFFF) {
-            func_0205085C(func_0219C9DC(func_0216D910(mmdl)), blactId, zero);
+            BILLBOARD_ACT_SetEntryCursor(FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl)), blactId, zero);
         }
     }
 }
 
 /* Clears the direction state and sets the direction to 8 (none). */
-int func_0219FE9C(MmdlDirAnimeState *state)
+int FLDMMDL_DRAW_InitDirState(MmdlDirAnimeState *state)
 {
     func_02082BCC(state, 0, 4);
     state->dir = 8;
@@ -1025,7 +1025,7 @@ int func_0219FE9C(MmdlDirAnimeState *state)
 
 /* Direction and animation state machine of billboard models: picks the list index (dir + anime * 4)
  * and blends turns through a rest frame group. */
-void func_0219FEB0(MmdlDirAnimeState *state, Mmdl *mmdl, struct BbActSys *bbActSys, u16 blactId)
+void FLDMMDL_DRAW_UpdateDirAnime(MmdlDirAnimeState *state, Mmdl *mmdl, struct BbActSys *bbActSys, u16 blactId)
 {
     MmdlRestFrames restFrames;
     u32 isUpdated;
@@ -1034,8 +1034,8 @@ void func_0219FEB0(MmdlDirAnimeState *state, Mmdl *mmdl, struct BbActSys *bbActS
     u32 anime;
 
     isUpdated = 0;
-    dirIndex = func_0219FFD4(mmdl);
-    anime = func_0216D678(mmdl);
+    dirIndex = FLDMMDL_DRAW_GetDirIndex(mmdl);
+    anime = FLDMMDL_GetDrawStatus(mmdl);
     listIndex = dirIndex + anime * 4;
     if (state->wait != 0 && anime == state->anime)
         state->wait = isUpdated;
@@ -1044,12 +1044,12 @@ void func_0219FEB0(MmdlDirAnimeState *state, Mmdl *mmdl, struct BbActSys *bbActS
         state->anime = anime;
         state->dir = dirIndex;
         state->frame = 0;
-        func_0205082C(bbActSys, blactId, listIndex);
+        BILLBOARD_ACT_SetEntryList(bbActSys, blactId, listIndex);
     } else if (anime != state->anime) {
         isUpdated = 1;
         if (anime == 0) {
             if (state->anime == 0) {
-                func_0205082C(bbActSys, blactId, listIndex);
+                BILLBOARD_ACT_SetEntryList(bbActSys, blactId, listIndex);
                 state->anime = anime;
                 state->wait = 0;
             } else {
@@ -1058,101 +1058,101 @@ void func_0219FEB0(MmdlDirAnimeState *state, Mmdl *mmdl, struct BbActSys *bbActS
                     isUpdated = 0;
                     goto update;
                 }
-                restFrames = data_021D8548;
-                state->frame = func_02050880(bbActSys, blactId);
+                restFrames = gMmdlDrawRestFrames;
+                state->frame = BILLBOARD_ACT_GetEntryCursor(bbActSys, blactId);
                 if (state->frame >= 4)
                     state->frame = 0;
                 state->frame = restFrames.frames[state->frame];
-                func_0205082C(bbActSys, blactId, listIndex);
+                BILLBOARD_ACT_SetEntryList(bbActSys, blactId, listIndex);
                 state->anime = anime;
                 state->wait = 0;
             }
         } else {
             if (state->anime != 0) {
-                state->frame = func_02050880(bbActSys, blactId);
+                state->frame = BILLBOARD_ACT_GetEntryCursor(bbActSys, blactId);
                 state->frame = (state->frame >= 2) ? 0 : 2;
             }
-            func_0205082C(bbActSys, blactId, listIndex);
-            func_0205085C(bbActSys, blactId, state->frame);
+            BILLBOARD_ACT_SetEntryList(bbActSys, blactId, listIndex);
+            BILLBOARD_ACT_SetEntryCursor(bbActSys, blactId, state->frame);
             state->anime = anime;
             state->wait = 0;
         }
     }
 update:
-    func_021A000C(mmdl, bbActSys, blactId, isUpdated, 0);
+    FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, blactId, isUpdated, 0);
 }
 
 /* Adds the height offset of the field map to the draw position. */
-void func_0219FFBC(Mmdl *mmdl, VecFx32 *pos)
+void FLDMMDL_DRAW_AddHeightOffset(Mmdl *mmdl, VecFx32 *pos)
 {
-    pos->y += func_02189A78(func_0216D534(func_0216D67C(mmdl)));
+    pos->y += FIELDMAP_GetCameraPitchScale(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
 }
 
 /* Display direction as a table index. The matched bytes leave the result of the
  * called function in r0 and have no return statement. */
-u32 func_0219FFD4(Mmdl *mmdl){
-    u32 viewAngle = func_0216D538(func_0216D67C(mmdl));
-    u32 dirDisp = func_0216D5F8(mmdl);
-    if (func_0216D55C(mmdl, 0x2000))
-        func_0219D738(mmdl, viewAngle);
+u32 FLDMMDL_DRAW_GetDirIndex(Mmdl *mmdl){
+    u32 viewAngle = FLDMMDL_SysGetAreaId(FLDMMDL_GetMmdlSys(mmdl));
+    u32 dirDisp = FLDMMDL_GetDirDisp(mmdl);
+    if (FLDMMDL_CheckStatusBit(mmdl, 0x2000))
+        FLDMMDL_RAIL_MOVE_GetDirByAngle(mmdl, viewAngle);
     else
-        func_021642D4(dirDisp, viewAngle);
+        FLDMMDL_MOVE_GetRelativeDirCode(dirDisp, viewAngle);
 }
 
 /* Sets animation enable and visibility of the actor from the state of the model. */
-void func_021A000C(Mmdl *mmdl, struct BbActSys *bbActSys, u32 blactId, u32 isUpdated, u32 checkMode)
+void FLDMMDL_DRAW_UpdateBlactFlags(Mmdl *mmdl, struct BbActSys *bbActSys, u32 blactId, u32 isUpdated, u32 checkMode)
 {
     u32 enable;
     u32 entryHookFlag;
 
     enable = 1;
-    entryHookFlag = func_0219C648(mmdl);
+    entryHookFlag = FLDMMDL_BLACT_GetEntryHookFlag(mmdl);
     if (isUpdated == 0) {
         if (checkMode == 1) {
-            if (entryHookFlag == 1 && func_0216D55C(mmdl, 0x10) != 0) enable = 0;
+            if (entryHookFlag == 1 && FLDMMDL_CheckStatusBit(mmdl, 0x10) != 0) enable = 0;
         } else {
-            if (entryHookFlag == 1 && func_02197C9C(mmdl) == 1) enable = 0;
+            if (entryHookFlag == 1 && FLDMMDL_ACMD_CheckAnimePaused(mmdl) == 1) enable = 0;
         }
     }
-    func_020507F0(bbActSys, blactId, enable);
+    BILLBOARD_ACT_SetEntryEnabled(bbActSys, blactId, enable);
     enable = 1;
-    if (func_0216DAB4(mmdl) == 1) enable = 0;
-    func_020507A0(bbActSys, blactId, enable);
+    if (FLDMMDL_CheckStatusBitVanish(mmdl) == 1) enable = 0;
+    BILLBOARD_ACT_SetEntryFlags(bbActSys, blactId, enable);
 }
 
 /* G3D object draw procedure init. */
-void func_021A006C(Mmdl *mmdl)
+void FLDMMDL_DRAW_InitBlactId(Mmdl *mmdl)
 {
-    MmdlDrawWork *work = func_0216D6D8(mmdl, 2);
-    work->blactId = func_0219D634(mmdl);
+    MmdlDrawWork *work = FLDMMDL_InitDrawProcWork(mmdl, 2);
+    work->blactId = FLDMMDL_G3DOBJ_AddObj(mmdl);
 }
 
 /* G3D object draw procedure draw: position, visibility and animation step. */
-void func_021A0084(Mmdl *mmdl)
+void FLDMMDL_DRAW_DrawEffect(Mmdl *mmdl)
 {
     u32 hidden;
     struct FieldG3dObjCtrl *g3dObjCtrl;
     VecFx32 drawPos;
     MmdlDrawWork *work;
 
-    work = func_0216D6F0(mmdl);
-    g3dObjCtrl = func_0219D49C(mmdl);
-    func_02197CCC(mmdl, &drawPos);
-    func_021C6664(g3dObjCtrl, work->blactId, &drawPos);
+    work = FLDMMDL_GetDrawProcWork(mmdl);
+    g3dObjCtrl = FLDMMDL_G3DOBJ_GetObjCtrl(mmdl);
+    FLDMMDL_ACMD_GetDrawPos(mmdl, &drawPos);
+    FIELD_G3DOBJ_SetObjectTrans(g3dObjCtrl, work->blactId, &drawPos);
     hidden = 0;
-    if (func_0216DAB4(mmdl) == 1) hidden = 1;
-    func_021C6678(g3dObjCtrl, work->blactId, hidden);
-    if (func_02197C9C(mmdl) == 0) {
-        func_021C66EC(g3dObjCtrl, work->blactId, 0x1000);
+    if (FLDMMDL_CheckStatusBitVanish(mmdl) == 1) hidden = 1;
+    FIELD_G3DOBJ_SetObjectHidden(g3dObjCtrl, work->blactId, hidden);
+    if (FLDMMDL_ACMD_CheckAnimePaused(mmdl) == 0) {
+        FIELD_G3DOBJ_LoopAnimeFrame(g3dObjCtrl, work->blactId, 0x1000);
     }
 }
 
 /* G3D object draw procedure remove. */
-void func_021A00E0(Mmdl *mmdl)
+void FLDMMDL_DRAW_DeleteEffect(Mmdl *mmdl)
 {
-    func_0219D680(mmdl, func_0216D6F0(mmdl)->blactId);
+    FLDMMDL_G3DOBJ_DelObj(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
 }
 
-void func_021A00F4(Mmdl *mmdl) { func_021A00E0(mmdl); }
+void FLDMMDL_DRAW_DeleteEffectAlias(Mmdl *mmdl) { FLDMMDL_DRAW_DeleteEffect(mmdl); }
 
-void func_021A00FC(Mmdl *mmdl) { func_021A006C(mmdl); }
+void FLDMMDL_DRAW_InitEffectAlias(Mmdl *mmdl) { FLDMMDL_DRAW_InitBlactId(mmdl); }

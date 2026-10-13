@@ -10,7 +10,7 @@
  * symbols:
  *   func_02045768 0x02045768 arm
  *   func_02041090 0x02041090 arm
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj06685.h"
 typedef unsigned char u8;
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Descriptor;
 extern u16 func_02045768(struct Descriptor *p);
 extern void func_02041090(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
-extern void func_02045334(struct Descriptor *p);
+extern void BMP_WIN_TransferChars(struct Descriptor *p);
 void func_021C3A24(u16 *heap,u8 *p,int key)
 {
     u16 tile;
@@ -39,5 +39,5 @@ void func_021C3A24(u16 *heap,u8 *p,int key)
     }
     func_02041090(3,((struct Obj06685 *)p)->f14,1,2,31,15);
     ((struct Obj06685 *)p)->f1C=1;
-    func_02045334(*(struct Descriptor * *)&((struct Obj06685 *)p)->f20);
+    BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct Obj06685 *)p)->f20);
 }

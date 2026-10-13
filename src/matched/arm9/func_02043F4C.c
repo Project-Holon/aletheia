@@ -11,7 +11,7 @@
  *
  * bmp.c blit worker, 8bpp tiled source onto an 8bpp tiled destination,
  * byte stores, optional colour key (0xFFFF = none).  Reached from the blit
- * dispatcher func_020439A0's first arm (kind != 2), which passes all nine
+ * dispatcher BMP_Blit's first arm (kind != 2), which passes all nine
  * arguments wide; the key is ldrh'd off the stack here, so it is u16 on
  * this side.
  *

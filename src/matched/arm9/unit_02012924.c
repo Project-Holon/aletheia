@@ -8,19 +8,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GAME_DATA_GetMapMatrix, func_0201292C, func_02012934, func_0201293C,
- *           func_02012944, func_02012950, GAME_DATA_GetBagCursor, func_02012964,
- *           func_0201296C, func_02012974, GAME_DATA_GetMusicalWork, func_02012984,
- *           GAME_DATA_SetSeason, func_02012994, GAME_DATA_SetSubscreenMode, func_020129AC,
- *           func_020129B8, func_020129C4, func_020129D0, func_020129DC,
- *           func_020129F0, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, func_02012A30,
- *           func_02012A38, func_02012A44, GAME_DATA_SetFieldMode, func_02012A54,
- *           GAME_DATA_InitPlayerWork, func_02012A90, func_02012AA0, func_02012AA4,
- *           func_02012AB8, func_02012ABC, func_02012AC0, func_02012AC4,
- *           func_02012AC8, func_02012ACC, func_02012AD0
+ * function: GAME_DATA_GetMapMatrix, GAME_DATA_GetMyItem, GAME_DATA_GetMyParty, GAME_DATA_GetBoxManager,
+ *           GAME_DATA_GetMyStatus, GAME_DATA_GetPlayerStatus, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
+ *           GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason,
+ *           GAME_DATA_SetSeason, GAME_DATA_GetSubscreenMode, GAME_DATA_SetSubscreenMode, GAME_DATA_GetSubscreenType,
+ *           GAME_DATA_SetSubscreenType, GAME_DATA_GetFrameRate, GAME_DATA_SetFrameRate, GAME_DATA_SetWalkCountEnable,
+ *           GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo,
+ *           GAME_DATA_GetFieldGimmick, GAME_DATA_GetFieldMode, GAME_DATA_SetFieldMode, GAME_DATA_GetItemUseWork,
+ *           GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRailLocation,
+ *           GAME_DATA_GetPlayerRailLocation, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId,
+ *           GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection
  *
  * symbols:
- *   func_020127A4         0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork         0x020127A4  thumb
  *
  * 432 bytes, 0x02012924..0x02012AD4, 39 functions, only nine of which carry a
  * label in the generated listing: the rest are leaf accessors that save no lr
@@ -34,12 +34,12 @@
  *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
  *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
  *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record func_02012950 indexes, and GAME_DATA_InitPlayerWork
+ *  - Rec44 is the 0x44-byte record GAME_DATA_GetPlayerStatus indexes, and GAME_DATA_InitPlayerWork
  *    onwards are its constructor and accessors.  GAME_DATA_InitPlayerWork is the
  *    constructor: its store order is the source's statement order, and the
  *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
  *    are what make +0x10 a union of a four-halfword view (the one
- *    func_02012AA4 copies whole) and a five-field view.
+ *    GAME_DATA_SetPlayerRailLocation copies whole) and a five-field view.
  *
  * GAME_DATA_IncWalkCount is a post-increment and not an assignment:
  * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
@@ -47,7 +47,7 @@
  * otherwise the same eighteen instructions.  See
  * docs/idioms/post-increment-of-a-field-spends-a-copy.md.
  *
- * The file stops at 0x02012AD4 because func_02012AD4 cannot be attested; see
+ * The file stops at 0x02012AD4 because GAME_DATA_SetPlayerDirectionType cannot be attested; see
  * the header of src/matched/unit_02012AE4.c for that near miss.
  *
  * Addresses are Black-image addresses.  Nothing here reads a version flag or
@@ -63,7 +63,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u8 *func_020127A4(void *p);
+extern u8 *GAME_DATA_GetMyPlayerWork(void *p);
 
 struct Vec12 {
     u32 x;
@@ -151,27 +151,27 @@ u32 GAME_DATA_GetMapMatrix(const struct BigObj *p)
     return p->unk18C;
 }
 
-void *func_0201292C(const struct BigObj *p)
+void *GAME_DATA_GetMyItem(const struct BigObj *p)
 {
     return p->unk190;
 }
 
-void *func_02012934(const struct BigObj *p)
+void *GAME_DATA_GetMyParty(const struct BigObj *p)
 {
     return p->unk194;
 }
 
-u32 func_0201293C(const struct BigObj *p)
+u32 GAME_DATA_GetBoxManager(const struct BigObj *p)
 {
     return p->unk19C;
 }
 
-u8 *func_02012944(void *p)
+u8 *GAME_DATA_GetMyStatus(void *p)
 {
-    return func_020127A4(p) + 0x20;
+    return GAME_DATA_GetMyPlayerWork(p) + 0x20;
 }
 
-struct Rec44 *func_02012950(struct Sub24 *p, u32 i)
+struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i)
 {
     return &p->unk24[i];
 }
@@ -181,17 +181,17 @@ u32 GAME_DATA_GetBagCursor(const struct BigObj *p)
     return p->unk1A4;
 }
 
-u32 func_02012964(const struct BigObj *p)
+u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p)
 {
     return p->unk1A8;
 }
 
-u32 func_0201296C(const struct BigObj *p)
+u32 GAME_DATA_GetEventWork(const struct BigObj *p)
 {
     return p->unk1AC;
 }
 
-u32 func_02012974(const struct BigObj *p)
+u32 GAME_DATA_GetFieldWork(const struct BigObj *p)
 {
     return p->unk1B0;
 }
@@ -201,7 +201,7 @@ u32 GAME_DATA_GetMusicalWork(const struct BigObj *p)
     return p->unk690;
 }
 
-u8 func_02012984(const struct BigObj *p)
+u8 GAME_DATA_GetSeason(const struct BigObj *p)
 {
     return p->unk1C4;
 }
@@ -211,7 +211,7 @@ void GAME_DATA_SetSeason(struct BigObj *p, u8 v)
     p->unk1C4 = v;
 }
 
-u8 func_02012994(const struct BigObj *p)
+u8 GAME_DATA_GetSubscreenMode(const struct BigObj *p)
 {
     return p->unk1C5;
 }
@@ -221,27 +221,27 @@ void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v)
     p->unk1C5 = v;
 }
 
-u8 func_020129AC(const struct BigObj *p)
+u8 GAME_DATA_GetSubscreenType(const struct BigObj *p)
 {
     return p->unk1C6;
 }
 
-void func_020129B8(struct BigObj *p, u32 v)
+void GAME_DATA_SetSubscreenType(struct BigObj *p, u32 v)
 {
     p->unk1C6 = v;
 }
 
-u8 func_020129C4(const struct BigObj *p)
+u8 GAME_DATA_GetFrameRate(const struct BigObj *p)
 {
     return p->unk1C7;
 }
 
-void func_020129D0(struct BigObj *p, u8 v)
+void GAME_DATA_SetFrameRate(struct BigObj *p, u8 v)
 {
     p->unk1C7 = v;
 }
 
-void func_020129DC(struct BigObj *p, u8 v)
+void GAME_DATA_SetWalkCountEnable(struct BigObj *p, u8 v)
 {
     p->unk1C9 = v;
     if (v != 0) {
@@ -249,7 +249,7 @@ void func_020129DC(struct BigObj *p, u8 v)
     }
 }
 
-void func_020129F0(struct BigObj *p)
+void GAME_DATA_ResetWalkCount(struct BigObj *p)
 {
     p->unk1C8 = 0;
 }
@@ -267,17 +267,17 @@ u8 GAME_DATA_IsWalkCountEnabled(const struct BigObj *p)
     return p->unk1C9;
 }
 
-u32 func_02012A30(const struct BigObj *p)
+u32 GAME_DATA_GetBgmInfo(const struct BigObj *p)
 {
     return p->unk1B4;
 }
 
-u32 func_02012A38(const struct BigObj *p)
+u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p)
 {
     return p->unk5E4;
 }
 
-u32 func_02012A44(const struct BigObj *p)
+u32 GAME_DATA_GetFieldMode(const struct BigObj *p)
 {
     return p->unk1BC;
 }
@@ -287,7 +287,7 @@ void GAME_DATA_SetFieldMode(struct BigObj *p, u32 v)
     p->unk1BC = v;
 }
 
-u32 func_02012A54(const struct BigObj *p)
+u32 GAME_DATA_GetItemUseWork(const struct BigObj *p)
 {
     return p->unk68C;
 }
@@ -311,53 +311,53 @@ void GAME_DATA_InitPlayerWork(struct Rec44 *p)
     p->unk1C = 0xFFFF;
 }
 
-void func_02012A90(struct Rec44 *p, const struct Vec12 *src)
+void GAME_DATA_SetPlayerPosition(struct Rec44 *p, const struct Vec12 *src)
 {
     p->unk04 = *src;
 }
 
-struct Vec12 *func_02012AA0(struct Rec44 *p)
+struct Vec12 *GAME_DATA_GetPlayerPosition(struct Rec44 *p)
 {
     return &p->unk04;
 }
 
-void func_02012AA4(struct Rec44 *p, const struct H4 *src)
+void GAME_DATA_SetPlayerRailLocation(struct Rec44 *p, const struct H4 *src)
 {
     p->unk10.all = *src;
 }
 
-struct H4 *func_02012AB8(struct Rec44 *p)
+struct H4 *GAME_DATA_GetPlayerRailLocation(struct Rec44 *p)
 {
     return &p->unk10.all;
 }
 
-void func_02012ABC(struct Rec44 *p, u8 v)
+void GAME_DATA_SetPlayerMoveForm(struct Rec44 *p, u8 v)
 {
     p->unk1B = v;
 }
 
-u8 func_02012AC0(const struct Rec44 *p)
+u8 GAME_DATA_GetPlayerMoveForm(const struct Rec44 *p)
 {
     return p->unk1B;
 }
 
-struct Rec44 *func_02012AC4(struct Rec44 *p, u16 v)
+struct Rec44 *GAME_DATA_SetPlayerZoneId(struct Rec44 *p, u16 v)
 {
     p->unk00 = v;
     return p;
 }
 
-u16 func_02012AC8(const struct Rec44 *p)
+u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p)
 {
     return p->unk00;
 }
 
-void func_02012ACC(struct Rec44 *p, int v)
+void GAME_DATA_SetPlayerDirection(struct Rec44 *p, int v)
 {
     p->unk18 = v;
 }
 
-u16 func_02012AD0(const struct Rec44 *p)
+u16 GAME_DATA_GetPlayerDirection(const struct Rec44 *p)
 {
     return p->unk18;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AF958
+ * function: SCRCMD_BufferPartyMonSpeciesName
  * address:  0x021AF958
  * packet:   pkt_ov021_021AF958
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02012934  0x02012934  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0201EE84  0x0201EE84  thumb
  * Addresses are Black-image addresses.
@@ -29,26 +29,26 @@ typedef struct {
     u8 *cur;
 } Script;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02158F74(void *p);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct BigObj;
 struct WordSet;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *func_0201AB28(void *, u32);
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 
-int func_021AF958(Script *a, u32 b)
+int SCRCMD_BufferPartyMonSpeciesName(Script *a, u32 b)
 {
-    void *c = func_0215A5F4((void *)b);
-    void *d = func_0215A5E4((void *)b);
-    u32 x = (u32)func_02158F74(c);
+    void *c = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *d = SCRCMD_WORK_GetGameData((void *)b);
+    u32 x = (u32)SCRIPT_WORK_GetWordSet(c);
     u8 *p = a->cur;
     u32 v = *p;
     u32 e;
     a->cur = p + 1;
-    e = func_02159B10(a, (void *)b);
-    func_0201EE84((void *)x, v, func_0201AB28(func_02012934((void *)d), e));
+    e = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
+    func_0201EE84((void *)x, v, func_0201AB28(GAME_DATA_GetMyParty((void *)d), e));
     return 0;
 }

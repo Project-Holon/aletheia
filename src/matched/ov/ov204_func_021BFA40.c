@@ -11,9 +11,9 @@
  * symbols:
  *   func_0207D63C 0x0207D63C arm
  *   func_02048A18 0x02048A18 arm
- *   func_020478B8 0x020478B8 arm
- *   func_020477D4 0x020477D4 arm
- *   func_020477A4 0x020477A4 arm
+ *   G3D_SYSTEM_IncObjectAnimeFrame 0x020478B8 arm
+ *   G3D_SYSTEM_DisableObjectAnime 0x020477D4 arm
+ *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   func_021BFBC8 0x021BFBC8 thumb ov204
  */
 #include "../include/Obj06676.h"
@@ -25,9 +25,9 @@ struct Owner;
 extern void func_020061E4(u32 a);
 typedef unsigned char  u8;
 extern u32 func_02048A18(u8 *a0, int i);
-extern int func_020478B8(void *, int, int);
-extern int func_020477D4(struct Owner *owner, u32 index);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(void *, int, int);
+extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern void func_021BFBC8(char *, unsigned int);
 
 int func_021BFA40(char *p)
@@ -41,15 +41,15 @@ int func_021BFA40(char *p)
     case 1:
     {
         void *obj = (void *)func_02048A18(((struct Obj06676 *)p)->f8, ((struct Obj06676 *)p)->f10);
-        int a = func_020478B8(obj, 3, 4096);
-        int b = func_020478B8(obj, 4, 4096);
+        int a = G3D_SYSTEM_IncObjectAnimeFrame(obj, 3, 4096);
+        int b = G3D_SYSTEM_IncObjectAnimeFrame(obj, 4, 4096);
         if (a == 0 && b == 0)
         {
-            func_020477D4(obj, 3);
-            func_020477D4(obj, 4);
-            func_020477A4(obj, 0);
-            func_020477A4(obj, 1);
-            func_020477A4(obj, 2);
+            G3D_SYSTEM_DisableObjectAnime(obj, 3);
+            G3D_SYSTEM_DisableObjectAnime(obj, 4);
+            G3D_SYSTEM_EnableObjectAnime(obj, 0);
+            G3D_SYSTEM_EnableObjectAnime(obj, 1);
+            G3D_SYSTEM_EnableObjectAnime(obj, 2);
             func_021BFBC8(p, 60);
             ++((struct Obj06676 *)p)->f24;
         }

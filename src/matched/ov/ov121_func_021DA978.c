@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043B5C  0x02043B5C  arm
- *   func_020257D0  0x020257D0  thumb
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_OAM_UploadChars  0x020257D0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,12 +21,12 @@ typedef unsigned short u16;
 
 typedef unsigned char  u8;
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Obj;
-extern void func_020257D0(struct Obj *o);
+extern void BMP_OAM_UploadChars(struct Obj *o);
 
 void func_021DA978(char *p)
 {
-    func_02043B5C((struct CharBuf *)(((struct Obj10415 *)p)->f0), (unsigned char)(((struct Obj10415 *)p)->f4 & 0x1f));
-    func_020257D0(((struct Obj10415 *)p)->f1C);
+    BMP_Clear((struct CharBuf *)(((struct Obj10415 *)p)->f0), (unsigned char)(((struct Obj10415 *)p)->f4 & 0x1f));
+    BMP_OAM_UploadChars(((struct Obj10415 *)p)->f1C);
 }

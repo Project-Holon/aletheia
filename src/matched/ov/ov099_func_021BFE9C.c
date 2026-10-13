@@ -10,19 +10,19 @@
  * status: EXACT
  * symbols:
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  */
 #include "../include/Obj00008.h"
 extern int func_021BA928(void *);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 int func_021BFE9C(char *p,int ret) {
  if (!func_021BA928(p)) return ret;
  if (--((struct Obj00008 *)p)->f1E0<0) {
-  func_02039C68((struct Link *)func_020399A8(),18,10);
+  func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,10);
   ((struct Obj00008 *)p)->f1CC=147;
  }
  return ret;

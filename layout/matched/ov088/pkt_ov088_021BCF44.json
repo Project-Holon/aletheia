@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCF44",
+   "name": "STARTMENU_SaveEraseClearVram",
    "address": "0x021BCF44",
    "kind": "game",
    "region": "ov088",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02165254",
+   "name": "GAME_BEACON_SEARCH_SetBattleBigFourStart",
    "address": "0x02165254",
    "kind": "game",
    "region": "ov010",

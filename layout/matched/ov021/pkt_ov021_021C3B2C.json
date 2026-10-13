@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C3B2C",
+   "name": "SODATEYA_ApplyIncenseBabyRule",
    "address": "0x021C3B2C",
    "kind": "game",
    "region": "ov021",

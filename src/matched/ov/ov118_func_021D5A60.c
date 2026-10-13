@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_021DC720  0x021DC720  thumb
- *   func_0204A5AC  0x0204A5AC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
  *   func_021E3E40  0x021E3E40  thumb
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   func_02030734  0x02030734  arm
  *   func_021E5284  0x021E5284  thumb
  *   func_021E3208  0x021E3208  thumb
@@ -27,7 +27,7 @@
  *   func_021DFA60  0x021DFA60  thumb ov119
  *   func_021D8E84  0x021D8E84  thumb
  *   func_021D5B74  0x021D5B74  thumb
- *   func_020435F4  0x020435F4  arm
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   d_021D82A4  0x021D82A4  data
  *
  * Addresses are Black-image addresses.
@@ -39,10 +39,10 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern void func_021DC720(void *p);
-extern void func_0204A5AC(void);
+extern void CLACT_ExitSystem(void);
 extern void func_021E3E40(void *p);
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021E5284(void *p, int a);
 extern void func_021E3208(void *p, int a);
@@ -56,7 +56,7 @@ extern void func_021D56E4(u8 *p, u32 v);
 extern void func_021DFA60(u32 a);
 extern void func_021D8E84(void *p, int next);
 extern void func_021D5B74(u8 *p);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern const char d_021D82A4[];
 
 #define HEAP (*(u16 *)(p + 0x5F4))
@@ -66,9 +66,9 @@ extern const char d_021D82A4[];
 void func_021D5A60(u8 *p)
 {
     func_021DC720(p);
-    func_0204A5AC();
+    CLACT_ExitSystem();
     func_021E3E40(p);
-    ((struct Obj13878 *)p)->f9C4 = (int)func_0204B100(3, 0, HEAP);
+    ((struct Obj13878 *)p)->f9C4 = (int)CLACT_CreateUnit(3, 0, HEAP);
     WORK = func_02030734(HEAP, 0xBC, 1, d_021D82A4, 0xA8);
     *(u16 *)(WORK + 0xBA) = HEAP;
     func_021E5284(p, 0);
@@ -88,5 +88,5 @@ void func_021D5A60(u8 *p)
     func_021D56E4(p, 0x2B5);
     func_021DFA60(((struct Obj13878 *)p)->fF2C);
     func_021D8E84(p, (int)func_021D5B74);
-    func_020435F4(0x18);
+    BG_SYS_SetSubVisiblePlanes(0x18);
 }

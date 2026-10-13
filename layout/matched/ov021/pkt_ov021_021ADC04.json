@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ADC04",
+   "name": "FLDEFF_ENCOUNT_PlaySound",
    "address": "0x021ADC04",
    "kind": "game",
    "region": "ov021",

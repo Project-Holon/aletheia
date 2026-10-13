@@ -1,5 +1,5 @@
 /*
- * function: func_021B20B0
+ * function: VCT_SESSION_SendGroupCommand
  * address: 0x021B20B0
  * packet: pkt_ov013_021B20B0
  * region: ov013
@@ -17,7 +17,7 @@
 
 extern struct Sess gVctSession;
 extern int VCT_SESSION_SendCommand(int, int);
-int func_021B20B0(int a, int b)
+int VCT_SESSION_SendGroupCommand(int a, int b)
 {
     if (((int *)&gVctSession)[4] == 2) return -3;
     return VCT_SESSION_SendCommand(a,b);

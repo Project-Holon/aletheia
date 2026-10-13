@@ -11,7 +11,7 @@
  *
  * Sentinel resolver for the dual-screen text cluster: 0xFFFF in the caller's
  * value means "use the object's own default", which lives in the u16 at
- * +0x150, the same sentinel colour slot func_0202223C and WIPE_SetMstBrightColor read.
+ * +0x150, the same sentinel colour slot WIPE_SetBrightnessFadeOut and WIPE_SetMstBrightColor read.
  * Any other value passes through untouched, which is what fixes the return
  * type as u32 rather than u16: the pass-through arm carries no truncation.
  *

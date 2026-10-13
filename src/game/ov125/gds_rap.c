@@ -19,7 +19,7 @@
  *   func_02030734 0x02030734 arm
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_021D8598 0x021D8598 arm ov125
  *   func_02034714 0x02034714 arm
  *   ov114_id 0x00000072 data
@@ -29,8 +29,8 @@
  *   func_021B99B8 0x021B99B8 thumb ov114
  *   func_021B9838 0x021B9838 thumb ov114
  *   func_021D85B4 0x021D85B4 arm ov125
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02034A5C 0x02034A5C arm
  *   BATTLE_REC_GetWork 0x0200B910 thumb
@@ -63,8 +63,8 @@
  *   BATTLE_REC_GetBody  0x0200B91C  thumb
  *   BATTLE_REC_SetBodyCrc  0x0200BA44  thumb
  *   func_02012944  0x02012944  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   d_020A7370  0x020A7370  data
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   gSpeciesNameBank  0x020A7370  data
  *   func_021D85DC 0x021D85DC arm ov125
  *   func_021D85E8 0x021D85E8 arm ov125
  *   BATTLE_REC_DecodeWork 0x0200B490 thumb
@@ -78,8 +78,8 @@
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   BATTLE_REC_Clear 0x0200B448 thumb
- *   func_02012E4C 0x02012E4C thumb
- *   func_02012E7C 0x02012E7C thumb
+ *   GAME_DATA_PartSaveStart 0x02012E4C thumb
+ *   GAME_DATA_PartSaveMain 0x02012E7C thumb
  *   func_020072A4 0x020072A4 thumb
  *   d_021D9E40 0x021D9E40 data a4
  *   d_021DA040 0x021DA040 data a4
@@ -173,15 +173,15 @@ extern int func_021D8600(int);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern int func_021D8598(void *, const char *, int);
 extern void func_02034714(const char *, u32, const char *);
 extern void func_021B99B8(u8 *p);
 extern void func_021B9838(u8 *p);
 extern void func_021D85B4(void);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int func_0201ED04(struct WordSet *p);
-extern unsigned int func_02045C04(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 extern void func_02034A5C(int);
 extern void BATTLE_REC_GetModeLayout(u16, int *, int *);
@@ -213,7 +213,7 @@ extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u8 *BATTLE_REC_GetBody(void);
 extern void BATTLE_REC_SetBodyCrc(struct RecC4 *p);
 extern u8 *func_02012944(void *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern int func_021D85DC(void);
 extern void BATTLE_REC_DecodeWork(void);
@@ -227,8 +227,8 @@ extern u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u
 extern unsigned int SAVE_CONTROL_LoadExtraSave(struct Ctrl *,unsigned int,unsigned char);
 extern void *func_020073D8(void *,unsigned int,unsigned int);
 extern void BATTLE_REC_Clear(void *);
-extern void func_02012E4C(unsigned char *,unsigned int);
-extern int func_02012E7C(char *,int);
+extern void GAME_DATA_PartSaveStart(unsigned char *,unsigned int);
+extern int GAME_DATA_PartSaveMain(char *,int);
 extern void func_020072A4(struct Sub020072A4Ctrl *,unsigned int);
 int func_021D6660(char *p, char *a);
 void func_021D6770(char *p);
@@ -276,7 +276,7 @@ extern const char d_021D8D00[];
 extern const char d_021D8D0C[];
 extern char d_021D8D28[];
 extern const u16 d_021D8C80[][2];
-extern void *d_020A7370;
+extern void *gSpeciesNameBank;
 extern char d_021D8D2C[];
 extern struct BattleRec *d_0214616C;
 
@@ -297,7 +297,7 @@ int func_021D6660(char *p, char *a)
     func_02082BCC(*(void **)(p + 0x3AC), 0, func_021D8600(-1));
     *(int *)(p + 0x3E4) = (int)func_02045B38(0, 2, 0xE8, *(u16 *)(a + 4));
     *(int *)(p + 0x3E8) = (int)func_0201EC64(*(u16 *)(a + 4));
-    *(int *)(p + 0x3EC) = (int)func_020457B0(0x100, *(u16 *)(a + 4));
+    *(int *)(p + 0x3EC) = (int)STRBUF_Create(0x100, *(u16 *)(a + 4));
     *(u32 *)(p + 4) = *(u32 *)a;
     p[8] = 0x15;
     p[9] = 2;
@@ -317,9 +317,9 @@ void func_021D6770(char *p)
     }
     func_021D85B4();
     ((struct Obj03805 *)p)->f3B4 = 0;
-    func_02045808(((struct Obj03805 *)p)->f3EC);
+    STRBUF_Delete(((struct Obj03805 *)p)->f3EC);
     func_0201ED04(((struct Obj03805 *)p)->f3E8);
-    func_02045C04(((struct Obj03805 *)p)->f3E4);
+    MSGDATA_Delete(((struct Obj03805 *)p)->f3E4);
     func_020307B0(((struct Obj03805 *)p)->f3AC);
     func_02034A5C((int)ov114_id);
 }
@@ -532,7 +532,7 @@ int func_021D6B40(u8 *p, int *done)
                                 break;
                             {
                                 char *e = base2 + 0xd00 + idx * 0x2a4 + sub * 0x70;
-                                MSGDATA_ReadUnits(d_020A7370, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
+                                MSGDATA_ReadUnits(gSpeciesNameBank, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
                             }
                             W(0x5a0) = 1;
                         }
@@ -559,7 +559,7 @@ int func_021D6B40(u8 *p, int *done)
             }
             return 0;
         case 2:
-            func_02012EBC((struct Big *)W(0));
+            GAME_DATA_GetSaveControl((struct Big *)W(0));
             func_021D75C0();
             B(0x402)++;
             break;
@@ -949,11 +949,11 @@ int func_021D7630(void *a, int x, u16 *state, u16 *b, u16 c)
 
 
 
-void func_021D76A8(unsigned char *p,unsigned char heap,unsigned int id) {void *s=func_02012EBC((struct Big *)p); SAVE_CONTROL_LoadExtraSave(s,id,heap); BATTLE_REC_Clear(func_020073D8(s,id,0)); func_02012E4C(p,id);}
+void func_021D76A8(unsigned char *p,unsigned char heap,unsigned int id) {void *s=GAME_DATA_GetSaveControl((struct Big *)p); SAVE_CONTROL_LoadExtraSave(s,id,heap); BATTLE_REC_Clear(func_020073D8(s,id,0)); GAME_DATA_PartSaveStart(p,id);}
 
 
 
-int func_021D76D8(char *p,int id) {void *s=func_02012EBC((struct Big *)p); int r=func_02012E7C(p,id); if(r==2 || r==3) func_020072A4(s,id); return r;}
+int func_021D76D8(char *p,int id) {void *s=GAME_DATA_GetSaveControl((struct Big *)p); int r=GAME_DATA_PartSaveMain(p,id); if(r==2 || r==3) func_020072A4(s,id); return r;}
 
 
 

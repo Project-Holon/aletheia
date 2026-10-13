@@ -1,5 +1,5 @@
 /*
- * function: func_021DB9AC
+ * function: BTL_TOKUSEI_GetMagicGuardHandlers
  * address: 0x021DB9AC
  * packet: pkt_ov093_021DB9AC
  * region: ov093
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F06F8 0x021F06F8 data a4
+ *   gMagicGuardHandlers 0x021F06F8 data a4
  */
-extern int d_021F06F8;
-int *func_021DB9AC(int *p) { *p=1; return &d_021F06F8; }
+extern int gMagicGuardHandlers;
+int *BTL_TOKUSEI_GetMagicGuardHandlers(int *p) { *p=1; return &gMagicGuardHandlers; }

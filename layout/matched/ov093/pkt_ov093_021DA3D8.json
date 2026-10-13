@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DA3D8",
-    "func_021DA51C"
+    "HAND_TOKUSEI_ForewarnOnMemberIn",
+    "HAND_TOKUSEI_AddForewarn"
+   ],
+   "addresses": [
+    "0x021DA3D8",
+    "0x021DA51C"
    ],
    "evidence": {
     "sole-ref": [

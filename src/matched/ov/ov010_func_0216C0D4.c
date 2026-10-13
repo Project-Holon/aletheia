@@ -1,5 +1,5 @@
 /*
- * function: func_0216C0D4
+ * function: NAMEIN_SETUP_CopyName
  * address:  0x0216C0D4
  * packet:   pkt_ov010_0216C0D4
  * region:   ov010
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045838  0x02045838  arm
+ *   STRBUF_Copy  0x02045838  arm
  */
 
 struct U16Vec;
-extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
+extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 
-void func_0216C0D4(int *p, int a1)
+void NAMEIN_SETUP_CopyName(int *p, int a1)
 {
-    func_02045838((struct U16Vec *)a1, (struct U16Vec *)p[8]);
+    STRBUF_Copy((struct U16Vec *)a1, (struct U16Vec *)p[8]);
 }

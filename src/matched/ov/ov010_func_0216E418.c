@@ -1,5 +1,5 @@
 /*
- * function: func_0216E418
+ * function: FLDMMDL_HeaderIsEventIdNone
  * address: 0x0216E418
  * packet: pkt_ov010_0216E418
  * region: ov010
@@ -12,4 +12,4 @@
 #include "../include/Obj19137.h"
 
 typedef unsigned short u16;
-int func_0216E418(void *a) { if (((struct Obj19137 *)a)->fA==65535) return 1; return 0; }
+int FLDMMDL_HeaderIsEventIdNone(void *a) { if (((struct Obj19137 *)a)->fA==65535) return 1; return 0; }

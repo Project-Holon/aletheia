@@ -12,6 +12,8 @@
  * symbols:
  *   _pNetState     0x021469DC  data
  *   GFL_NET_WM_ICON_EasyEnd  0x020370C8  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   GFL_NET_WM_ICON_SetDefaultPos  0x020371AC  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -25,8 +27,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void func_020371AC(unsigned short a, unsigned int b);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+extern void GFL_NET_WM_ICON_SetDefaultPos(unsigned short a, unsigned int b);
 extern void GFL_NET_WM_ICON_EasyEnd(void);
 extern int func_0200F17C(u32 sel);
 extern void func_0200F234(u32 a);
@@ -43,9 +45,9 @@ void GFL_NET_SetupHeaps(u32 a, u32 b, u32 c, u32 d)
 
     if (c != d) {
         *(u16 *)0x021469E0 = (u16)d;
-        func_0203064C(c, d, 0x9E80);
+        GFL_HEAP_CreateChildHeap(c, d, 0x9E80);
     }
 
-    func_020371AC(0, 0);
+    GFL_NET_WM_ICON_SetDefaultPos(0, 0);
     GFL_NET_WM_ICON_EasyEnd();
 }

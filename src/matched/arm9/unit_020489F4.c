@@ -20,7 +20,7 @@
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  They were
  * read out of the bytes.  The worklist's own function list for pkt_02048330
  * stops at the labelled bodies, so these four are the 48-byte hole between
- * G3D_UTIL_FreeUnitObjects and func_02048A24 - the range is contiguous and this unit
+ * G3D_UTIL_FreeUnitObjects and G3D_CAMERA_Create - the range is contiguous and this unit
  * reproduces all of it.
  *
  * Three of the four instructions in the first pair are the same in both:

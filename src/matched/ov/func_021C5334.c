@@ -1,5 +1,5 @@
 /*
- * function: func_021C5334
+ * function: SHORTCUT_MENU_RunPrint
  * address:  0x021C5334
  * packet:   pkt_021C5334
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0201C4E4  0x0201C4E4  thumb
- *   func_021C56F8  0x021C56F8  thumb  ov021
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   SHORTCUT_MENU_FinishPrint  0x021C56F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18304.h"
@@ -24,12 +24,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern int func_021C56F8(int *a);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern int SHORTCUT_MENU_FinishPrint(int *a);
 
-int func_021C5334(u32 a)
+int SHORTCUT_MENU_RunPrint(u32 a)
 {
-func_0201C4E4((struct PrintSys *)(((struct Obj18304 *)((u8 *)(a)))->f6C));
-return func_021C56F8((int *)a);
+PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj18304 *)((u8 *)(a)))->f6C));
+return SHORTCUT_MENU_FinishPrint((int *)a);
 }
 

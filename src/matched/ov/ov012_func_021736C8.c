@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr save) in the ov012 listing; callee of ov031
- * func_021F00D4 (a blocker of its MATCH). Same +0x2830 block as
- * func_021736A0.
+ * UNION_SUBDISP_Update (a blocker of its MATCH). Same +0x2830 block as
+ * UNION_COMM_SetChatPms.
  */
 #include "../include/Obj09360.h"
 

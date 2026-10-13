@@ -12,7 +12,7 @@
  *   GAME_DATA_GetSaveBlock2A 0x02012F44 thumb
  *   func_020173EC 0x020173EC thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
- *   func_02008468 0x02008468 thumb
+ *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0200A81C 0x0200A81C thumb
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 extern void *GAME_DATA_GetSaveBlock2A(void *);
 extern u32 func_020173EC(void);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
-extern int func_02008468(void);
+extern int MYSTATUS_GetSize(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,u8,u32);
 struct Big;
@@ -58,21 +58,21 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   W(row,0x64)=0;W(row,0x68)=0;W(row,0x6C)=0;
   row[0x70]=10;row[0x71]=10;
   P(row,0x7C)=func_02030734(((struct Obj02195 *)p)->f0,func_020173EC()+0x7C,0,d_021FDE5C,0x20E);
-  size1=func_02008468();
+  size1=MYSTATUS_GetSize();
   P(row,0x8C)=func_02030734(((struct Obj02195 *)p)->f0,(size1+4)+POKE_TOOL_GetBoxParamSize(),0,d_021FDE5C,0x20F);
   clear8(P(row,0x7C),func_020173EC()+0x7C);
-  size2=func_02008468();
+  size2=MYSTATUS_GetSize();
   clear8(P(row,0x8C),(size2+4)+POKE_TOOL_GetBoxParamSize());
   P(row,0x80)=P(row,0x8C);
   P(row,0x84)=P(row,0x8C)+4;
-  P(row,0x88)=P(row,0x8C)+4+func_02008468();
+  P(row,0x88)=P(row,0x8C)+4+MYSTATUS_GetSize();
   for(j=0;j<2;j++) row[0x73+j]=0xFF;
  }
  ((struct Obj02195 *)p)->f12C=func_0200A81C(data);
  ((struct Obj02195 *)p)->f130=a;((struct Obj02195 *)p)->f134=b;
  W(p,0x138)=0;W(p,0x124)=0;
  P(p,0x128)=func_02030734(((struct Obj02195 *)p)->f0,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);
- size1=func_02008468();
+ size1=MYSTATUS_GetSize();
  P(p,0x13C)=func_02030734(((struct Obj02195 *)p)->f0,((size1+4)+POKE_TOOL_GetBoxParamSize())*4,0,d_021FDE5C,0x222);
  p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;
  p[0x14C]=0;W(p,0x150)=0;

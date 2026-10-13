@@ -12,7 +12,7 @@
  * lever: descriptor assignments in member order fix constant scheduling; coordinates are u8, height u32 with logical shift and no outgoing truncation.
  * abi: E88B0 height widened from its narrow body spelling because original stores the full computed register into the outgoing slot.
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_0200B1D4 0x0200B1D4 thumb
@@ -31,7 +31,7 @@ typedef struct {
     u16 f2c,f2e;
 } Menu;
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *);
 struct Rec160;
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
@@ -57,7 +57,7 @@ void func_0217B7D8(int *p, int index)
     int layout;
     u8 x,y,width;
     u32 height;
-    base=func_0200B358((void *)func_02012EBC(((struct Obj01762 *)p)->f30));
+    base=func_0200B358((void *)GAME_DATA_GetSaveControl(((struct Obj01762 *)p)->f30));
     func_02082BCC(&rec,0,48);
     rec.f00=((struct Obj01762 *)p)->f20;
     rec.f04=((struct Obj01762 *)p)->f1C;

@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two zero alignment bytes follow the return.
  * symbols:
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_020452E8 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -17,16 +17,16 @@
 typedef unsigned int   u32;
 struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 void func_021D9918(char *p)
 {
     if (((struct Obj03273 *)p)->f40) {
         func_0201F7A8(((struct Obj03273 *)p)->f40,2);
-        func_020456F8(((struct Obj03273 *)p)->f40);
+        BMP_WIN_ClearScreen(((struct Obj03273 *)p)->f40);
         func_0201F7A8(((struct Obj03273 *)p)->f44,2);
-        func_020456F8(((struct Obj03273 *)p)->f44);
+        BMP_WIN_ClearScreen(((struct Obj03273 *)p)->f44);
         func_020452E8(((struct Obj03273 *)p)->f40);
         func_020452E8(((struct Obj03273 *)p)->f44);
         func_02041B6C(5);

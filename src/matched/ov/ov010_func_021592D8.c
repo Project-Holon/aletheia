@@ -1,5 +1,5 @@
 /*
- * function: func_021592D8
+ * function: SCRIPT_WORK_CmdLoadRegValue
  * address: 0x021592D8
  * packet: pkt_ov010_021592D8
  * region: ov010
@@ -23,7 +23,7 @@ static inline u8 rd8_021592D8(Ctx_021592D8 *c)
     return v;
 }
 
-int func_021592D8(Ctx_021592D8 *c)
+int SCRIPT_WORK_CmdLoadRegValue(Ctx_021592D8 *c)
 {
     u8 a = rd8_021592D8(c);
     u8 b = rd8_021592D8(c);

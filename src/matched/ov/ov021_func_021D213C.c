@@ -1,5 +1,5 @@
 /*
- * function: func_021D213C
+ * function: SCRCMD_CheckPmsWordPair
  * address:  0x021D213C
  * packet:   pkt_ov021_021D213C
  * region:   ov021
@@ -12,28 +12,28 @@
  * Callee witnesses filed in wave A1 (witness lane).
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_020249B0  0x020249B0  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   PMS_WORD_IsSameGroup  0x020249B0  thumb
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern unsigned int func_02159B10(void *a, void *b);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_020249B0(u32 a, u16 b);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern int PMS_WORD_IsSameGroup(u32 a, u16 b);
 
-int func_021D213C(u32 a, u32 b)
+int SCRCMD_CheckPmsWordPair(u32 a, u32 b)
 {
     u32 base, s, r7, r4;
     u16 *p;
 
-    r4 = func_02159B10((void *)a, (void *)b);
-    s = func_02159B10((void *)a, (void *)b);
-    r7 = func_02159B10((void *)a, (void *)b);
-    p = func_02159AE8((void *)a, (void *)b);
+    r4 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    s = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    r7 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    p = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     switch (r4) {
     case 1:
         base = 0x5C0;
@@ -47,7 +47,7 @@ int func_021D213C(u32 a, u32 b)
         *p = 0;
         return 0;
     }
-    if (func_020249B0(base, s & 0x7FF) && func_020249B0(r4, r7 & 0x7FF)) {
+    if (PMS_WORD_IsSameGroup(base, s & 0x7FF) && PMS_WORD_IsSameGroup(r4, r7 & 0x7FF)) {
         *p = 1;
     } else {
         *p = 0;

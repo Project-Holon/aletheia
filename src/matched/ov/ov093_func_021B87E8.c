@@ -1,5 +1,5 @@
 /*
- * function: func_021B87E8
+ * function: BTL_MAIN_DecodeMessageCodeBasic
  * address:  0x021B87E8
  * packet:   pkt_ov093_021B87E8
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8C50  0x021B8C50  thumb  ov093
+ *   BTL_MAIN_GetEnemyLanePosFromWork  0x021B8C50  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 func_021B8C50(char **p, u32 v, int k);
+extern u8 BTL_MAIN_GetEnemyLanePosFromWork(char **p, u32 v, int k);
 
-u8 func_021B87E8(void *p, u32 k, u32 v, u8 *out)
+u8 BTL_MAIN_DecodeMessageCodeBasic(void *p, u32 k, u32 v, u8 *out)
 {
     switch (k) {
     case 0:
@@ -29,7 +29,7 @@ u8 func_021B87E8(void *p, u32 k, u32 v, u8 *out)
     case 1:
     case 2:
     case 6:
-        *out = func_021B8C50(p, v, 0);
+        *out = BTL_MAIN_GetEnemyLanePosFromWork(p, v, 0);
         break;
     case 3:
         *out = v;

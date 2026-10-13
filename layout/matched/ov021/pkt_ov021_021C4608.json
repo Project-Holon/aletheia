@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4608",
+   "name": "SCRCMD_PLAYER_GRID_EVENT_WaitB",
    "address": "0x021C4608",
    "kind": "game",
    "region": "ov021",

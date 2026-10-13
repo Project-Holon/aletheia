@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216F900",
+   "name": "TRCARD_SYS_SetRecordFlag36",
    "address": "0x0216F900",
    "kind": "game",
    "region": "ov010",

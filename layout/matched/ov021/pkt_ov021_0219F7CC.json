@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219F7CC",
+   "name": "FLDMMDL_DRAW_GetFrameGroup",
    "address": "0x0219F7CC",
    "kind": "game",
    "region": "ov021",

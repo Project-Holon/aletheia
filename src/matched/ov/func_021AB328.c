@@ -1,5 +1,5 @@
 /*
- * function: func_021AB328
+ * function: MAP_ATTR_IsDeepSnow
  * address:  0x021AB328
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-BOOL func_021AB328(int id)
+BOOL MAP_ATTR_IsDeepSnow(int id)
 {
     if (id == 0xf) {
         return 1;

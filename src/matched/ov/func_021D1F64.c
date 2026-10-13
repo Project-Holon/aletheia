@@ -1,5 +1,5 @@
 /*
- * function: func_021D1F64
+ * function: EVENT_PERAP_RECORD_ResumeMmdls
  * address:  0x021D1F64
  * packet:   pkt_021D1F64
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18378.h"
@@ -25,12 +25,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 *func_0216D9E4(void *c);
-extern void *func_02188C7C(unsigned char *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 *FLDMMDL_SysResumeMove(void *c);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 
-int func_021D1F64(u32 a)
+int EVENT_PERAP_RECORD_ResumeMmdls(u32 a)
 {
-return (int)func_0216D9E4(func_02188C7C(func_0201210C((const struct Ctx *)((struct Obj18378 *)((u8 *)(a)))->f4)));
+return (int)FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap((const struct Ctx *)((struct Obj18378 *)((u8 *)(a)))->f4)));
 }
 

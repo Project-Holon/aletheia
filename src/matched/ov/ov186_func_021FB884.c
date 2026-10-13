@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC74 0x0201EC74 thumb
  *   func_021FC148 0x021FC148 thumb ov186
@@ -24,7 +24,7 @@ extern void func_02082BCC(void *,int,int);
 typedef unsigned int   u32;
 struct GfFont;
 struct MsgBank;
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201EC74(unsigned,unsigned,unsigned);
 extern void func_021FC148(char *,unsigned,unsigned);
@@ -36,7 +36,7 @@ void *func_021FB884(unsigned mode,unsigned flag,unsigned heap)
     p->flag=flag;
     if(p->flag){p->mode=mode;if(p->mode==1)p->mode=0;}
     else p->mode=1;
-    p->a=func_0201D7EC(0x17,0,0,0,heap);
+    p->a=GF_FONT_Create(0x17,0,0,0,heap);
     p->b=func_02045B38(0,2,5,heap);
     p->c=func_0201EC74(8,0x40,heap);
     func_021FC148((char *)p,0,heap);

@@ -19,20 +19,20 @@
  *           resolves.
  *
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_CheckError  0x0203D880  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
  *   GFL_NET_STATE_GetErrorMode  0x0203C990  arm
  *   GFL_NET_ClearBeaconCallbacks  0x0203D864  arm
  *   func_0200FAAC  0x0200FAAC  thumb
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
  *   DWC_RAP_GetErrorMessageClass  0x02156460  thumb  ov009
  *
  * A gated status update: bails out early if the module-wide object at
- * 0x0214617C already has its +0x2c flag set, or if func_0203CD98 does not
+ * 0x0214617C already has its +0x2c flag set, or if GFL_NET_GetRunState does not
  * report state 1, or if none of three link-state probes says yes. Once
- * past the gate it re-derives a status byte from func_0203D798's returned
+ * past the gate it re-derives a status byte from GFL_NET_GetInitParam's returned
  * object at offset +0x65 (only 1, 2 or 6 continue), then compares a field
  * of the object GFL_NET_STATE_GetError returns against two small windows and stores
  * a fixed error code into the global's +0x60 for either, falling through
@@ -55,13 +55,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern u32  GFL_NET_CheckError(void);
 extern int GFL_NET_SYSTEM_IsError(void);
 extern u32  GFL_NET_STATE_GetErrorMode(void);
 extern void GFL_NET_ClearBeaconCallbacks(void);
 extern void func_0200FAAC(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_STATE_GetError(void);
 extern int DWC_RAP_GetErrorMessageClass(int err, int kind);
 
@@ -72,7 +72,7 @@ void GFL_NET_ERR_CheckNetError(void)
     if (g[0x2c / 4] != 0) {
         return;
     }
-    if (func_0203CD98() != 1) {
+    if (GFL_NET_GetRunState() != 1) {
         return;
     }
     if (GFL_NET_CheckError() == 0 && GFL_NET_SYSTEM_IsError() == 0 && GFL_NET_STATE_GetErrorMode() == 0) {
@@ -83,7 +83,7 @@ void GFL_NET_ERR_CheckNetError(void)
     func_0200FAAC();
 
     {
-        u8 *p = func_0203D798();
+        u8 *p = GFL_NET_GetInitParam();
         u8 v = p[0x65];
         if (v != 1 && v != 2 && v != 6) {
             return;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218E124
+ * function: FIELD_CAMERA_EnterMode
  * address:  0x0218E124
  * packet:   pkt_ov021_0218E124
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DDA0C  0x021DDA0C  data  ov021  a4
+ *   gFieldCameraEnterModeFuncs  0x021DDA0C  data  ov021  a4
  */
 #include "../include/Obj19556.h"
 
@@ -22,10 +22,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 typedef void (*StateFunc)(void *a);
-extern StateFunc d_021DDA0C[];
+extern StateFunc gFieldCameraEnterModeFuncs[];
 
-void func_0218E124(u8 *a, u32 s)
+void FIELD_CAMERA_EnterMode(u8 *a, u32 s)
 {
     ((struct Obj19556 *)a)->f14 = s;
-    d_021DDA0C[s](a);
+    gFieldCameraEnterModeFuncs[s](a);
 }

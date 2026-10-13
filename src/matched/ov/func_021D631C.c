@@ -1,5 +1,5 @@
 /*
- * function: func_021D631C
+ * function: BTL_POKEPARAM_GetSickTurn
  * address:  0x021D631C
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D631C   0x021D631C  thumb
+ *   BTL_POKEPARAM_GetSickTurn   0x021D631C  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: adds r0, r0, r1; adds r0, #0xac; ldrb r0, [r0]; bx lr.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D631C  adds r0,r0,r1; adds r0,#0xac; ldrb r0,[r0] */
-u8 func_021D631C(u8 *p, int i) { return *(u8 *)(p + i + 0xac); }
+u8 BTL_POKEPARAM_GetSickTurn(u8 *p, int i) { return *(u8 *)(p + i + 0xac); }
 

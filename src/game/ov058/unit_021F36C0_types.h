@@ -77,9 +77,9 @@ typedef struct Gimmick58Work {
 } Gimmick58Work;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern FldExpObjCnt *func_02188D2C(struct FieldMap *fieldMap);
-extern G3dObjectStatus *func_021BE480(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
+extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
 extern void func_021BE4A4(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int cullDraw);
 extern void func_0207AF1C(MtxFx33 *matrix, s32 sin, s32 cos);
 

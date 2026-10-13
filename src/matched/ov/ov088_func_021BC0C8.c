@@ -1,5 +1,5 @@
 /*
- * function: func_021BC0C8
+ * function: STARTMENU_RefreshSaveStatus
  * address:  0x021BC0C8
  * packet:   pkt_ov088_021BC0C8
  * region:   ov088
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Sub020071E4Ctrl;
 extern u32 func_020071E8(const struct Sub020071E4Ctrl *ctrl);
 
-int func_021BC0C8(char *p)
+int STARTMENU_RefreshSaveStatus(char *p)
 {
     int r = func_020071E8(((struct Obj06203 *)p)->f0);
     ((struct Obj06203 *)p)->f148 = r;

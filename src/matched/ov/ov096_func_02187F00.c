@@ -44,8 +44,8 @@
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
  *   func_02020F14 0x02020F14 thumb
- *   func_021B8588 0x021B8588 thumb ov093
- *   func_021B86B8 0x021B86B8 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   VM_Create 0x0201121C thumb
  *   VM_Init 0x0201126C thumb
  *   WAZA_TOOL_IsCacheCreated 0x0201C408 thumb
@@ -63,8 +63,8 @@ struct ScriptVmParams;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02020F14(u16 heap);
-extern u32 func_021B8588(void **p);
-extern void *func_021B86B8(void ***p);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 extern void VM_Init(struct ScriptVm *vm, void *user);
 extern u32 WAZA_TOOL_IsCacheCreated(void);
@@ -85,8 +85,8 @@ void *func_02187F00(void **a, u32 b, u32 c, u32 d, u16 heap)
     *(void ***)(p + 0xB0) = a;
     *(u32 *)(p + 0xB4) = b;
     *(u32 *)(p + 0xB8) = c;
-    *(u32 *)(p + 0x98) = func_021B8588(a);
-    *(void **)(p + 0x9C) = func_021B86B8((void ***)a);
+    *(u32 *)(p + 0x98) = BTL_MAIN_GetRule(a);
+    *(void **)(p + 0x9C) = BTL_MAIN_GetCompetitor((void ***)a);
     v = VM_Create(heap, (const struct ScriptVmParams *)D_0218A574);
     VM_Init(v, p);
     if (WAZA_TOOL_IsCacheCreated() == 0)

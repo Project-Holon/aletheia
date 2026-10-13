@@ -1,5 +1,5 @@
 /*
- * function: func_021A87A8
+ * function: FIELD_MENU_UpdateActorsForScroll
  * address:  0x021A87A8
  * packet:   pkt_ov021_021A87A8
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B09C  0x0204B09C  arm
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_SetSurfacePos  0x0204B09C  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
 
@@ -42,15 +42,15 @@ typedef struct {
     int f124;
 } S;
 
-extern void func_0204B09C(int a, int b, P *c);
+extern void CLACT_SetSurfacePos(int a, int b, P *c);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 extern void func_0204B3DC(struct Obj *h, unsigned int v);
 
-void func_021A87A8(S *s)
+void FIELD_MENU_UpdateActorsForScroll(S *s)
 {
     P v;
     P p4;
@@ -59,10 +59,10 @@ void func_021A87A8(S *s)
 
     v.x = 0;
     v.y = -s->hfc;
-    func_0204B09C(s->f120, 0, &v);
+    CLACT_SetSurfacePos(s->f120, 0, &v);
     for (i = 0; i < 7; i++) {
         if (s->e[i].f10 != 0 && s->e[i].f0 != 7) {
-            func_0204B454((struct Actor *)s->e[i].f10, (struct PtS *)&p4, 0);
+            CLACT_GetActorSurfacePos((struct Actor *)s->e[i].f10, (struct PtS *)&p4, 0);
             if (p4.y < 0xd0) {
                 func_0204B3DC((struct Obj *)s->e[i].f10, 1);
             } else {
@@ -70,7 +70,7 @@ void func_021A87A8(S *s)
             }
         }
     }
-    func_0204B454((struct Actor *)s->f124, (struct PtS *)&p0, 0);
+    CLACT_GetActorSurfacePos((struct Actor *)s->f124, (struct PtS *)&p0, 0);
     if (s->f2c != 0 && p0.y < 0xd6) {
         func_0204B3DC((struct Obj *)s->f124, 1);
     } else {

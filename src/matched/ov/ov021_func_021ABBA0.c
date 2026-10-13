@@ -1,5 +1,5 @@
 /*
- * function: func_021ABBA0
+ * function: FLD_SCENEAREA_LOADER_GetStripProgress
  * address:  0x021ABBA0
  * packet:   pkt_ov021_021ABBA0
  * region:   ov021
@@ -15,7 +15,7 @@
 typedef unsigned short u16;
 typedef struct { int x; int y; int z; } V;
 
-void func_021ABBA0(u16 *r, V *v, int *o1, int *o2)
+void FLD_SCENEAREA_LOADER_GetStripProgress(u16 *r, V *v, int *o1, int *o2)
 {
     V t = *v;
 

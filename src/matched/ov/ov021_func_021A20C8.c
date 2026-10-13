@@ -1,5 +1,5 @@
 /*
- * function: func_021A20C8
+ * function: WEATHER_TASK_ForceEnd
  * address:  0x021A20C8
  * packet:   pkt_ov021_021A20C8
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A2724  0x021A2724  thumb  ov021
- *   func_021A2924  0x021A2924  thumb  ov021
- *   func_021A28A0  0x021A28A0  thumb  ov021
- *   func_021A284C  0x021A284C  thumb  ov021
- *   func_021A26D8  0x021A26D8  thumb  ov021
+ *   WEATHER_TASK_CallStageFunc  0x021A2724  thumb  ov021
+ *   WEATHER_TASK_FreeParticles  0x021A2924  thumb  ov021
+ *   WEATHER_TASK_FreeBillboards  0x021A28A0  thumb  ov021
+ *   WEATHER_TASK_UnloadResources  0x021A284C  thumb  ov021
+ *   WEATHER_TASK_Reset  0x021A26D8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -29,24 +29,24 @@ typedef struct O {
     u8  f26;
 } O;
 
-extern void func_021A2724(O *p, u32 v, int z);
-extern void func_021A2924(O *p);
-extern void func_021A28A0(O *p);
-extern void func_021A284C(O *p);
-extern void func_021A26D8(int *p);
+extern void WEATHER_TASK_CallStageFunc(O *p, u32 v, int z);
+extern void WEATHER_TASK_FreeParticles(O *p);
+extern void WEATHER_TASK_FreeBillboards(O *p);
+extern void WEATHER_TASK_UnloadResources(O *p);
+extern void WEATHER_TASK_Reset(int *p);
 
-void func_021A20C8(O *p)
+void WEATHER_TASK_ForceEnd(O *p)
 {
     if (p->f26 == 0) {
         return;
     }
     if (p->f26 <= 0xb) {
-        func_021A2724(p, p->f20[0x11], 0);
+        WEATHER_TASK_CallStageFunc(p, p->f20[0x11], 0);
     }
     if (p->f26 <= 0xc) {
-        func_021A2924(p);
-        func_021A28A0(p);
-        func_021A284C(p);
+        WEATHER_TASK_FreeParticles(p);
+        WEATHER_TASK_FreeBillboards(p);
+        WEATHER_TASK_UnloadResources(p);
     }
-    func_021A26D8((int *)p);
+    WEATHER_TASK_Reset((int *)p);
 }

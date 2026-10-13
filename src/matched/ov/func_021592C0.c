@@ -1,5 +1,5 @@
 /*
- * function: func_021592C0
+ * function: SCRIPT_WORK_CmdDebugStack
  * address:  0x021592C0
  * packet:   pkt_021592C0
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   VM_PopStack  0x02011398  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -20,9 +20,9 @@ typedef unsigned int u32;
 
 struct Ring;
 extern u32 VM_PopStack(struct Ring *r);
-extern unsigned int func_02159B10(void *, void *);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 
-int func_021592C0(int a0, int a1)
+int SCRIPT_WORK_CmdDebugStack(int a0, int a1)
 {
     int t4;
     int t5;
@@ -33,7 +33,7 @@ t4 = a1 + 0;
 loc_021592CA:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_02159B10((void *)a0, (void *)a1);
+    a0 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
 loc_021592D2:
 a0 = 0;
     return a0;}

@@ -33,7 +33,7 @@
  *   func_021BEDEC  0x021BEDEC  thumb  ov217
  *   func_021BE490  0x021BE490  thumb  ov217
  *   func_021BE4A4  0x021BE4A4  thumb  ov217
- *   func_0204A600  0x0204A600  arm
+ *   CLACT_DrawSystem  0x0204A600  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -56,7 +56,7 @@ extern void func_021BE36C(u32 a0);
 extern void func_021BE384(u8 *a0);
 extern void func_021BF6D4(char *p);
 extern void func_021BF710(void *p);
-extern void func_0204A600(void *h);
+extern void CLACT_DrawSystem(void *h);
 extern void func_021BED9C(char *p);
 extern void func_021C20C4(void *h);
 extern void func_021BF600(u8 *a0);
@@ -87,7 +87,7 @@ void func_021BD62C(unsigned char *p)
     func_021BF6D4((char *)p);
     func_021BF710(p);
     if (((struct Obj00021 *)p)->f3C4 != 0) {
-        func_0204A600(((struct Obj00021 *)p)->f3C4);
+        CLACT_DrawSystem(((struct Obj00021 *)p)->f3C4);
         func_021BED9C((char *)p);
         func_021C20C4(((struct Obj00021 *)p)->f2D0);
         func_021BF600(p);

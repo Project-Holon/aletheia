@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: hardware read/write at 021DB2AA/021DB2AE
  * symbols:
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_021E5D84 0x021E5D84 thumb ov119
  *   func_021E1098 0x021E1098 thumb ov119
  *   func_021DF7AC 0x021DF7AC thumb ov119
@@ -21,7 +21,7 @@
  *   func_021DB278 0x021DB278 thumb ov119
  */
 typedef unsigned int   u32;
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_021E5D84(char *p);
 extern void func_021E1098(char *p);
 extern void func_021DF7AC(void *,int);
@@ -33,7 +33,7 @@ extern void func_021D8E84(void *,int);
 extern void func_021DB278(void *);
 void func_021DB290(void *p)
 {
-    func_020435F4(0x1a);
+    BG_SYS_SetSubVisiblePlanes(0x1a);
     func_021E5D84(p);
     func_021E1098(p);
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;

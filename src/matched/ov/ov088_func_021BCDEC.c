@@ -1,5 +1,5 @@
 /*
- * function: func_021BCDEC
+ * function: STARTMENU_SaveEraseStepFirstConfirm
  * address:  0x021BCDEC
  * packet:   pkt_ov088_021BCDEC
  * region:   ov088
@@ -12,21 +12,21 @@
  * EXACT*: the extent runs two bytes long (trailing padding pair).
  *
  * symbols:
- *   func_0201FEBC  0x0201FEBC  thumb
- *   func_021BD118  0x021BD118  thumb  ov088
- *   func_021BD23C  0x021BD23C  thumb  ov088
+ *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
+ *   STARTMENU_SaveEraseStartMessage  0x021BD118  thumb  ov088
+ *   STARTMENU_SaveEraseStartFadeOut  0x021BD23C  thumb  ov088
  */
 #include "../include/Obj00578.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_0201FEBC(u8 *p);
-extern void func_021BD118(int *p, u32 mode);
-extern void func_021BD23C(void);
+extern u32 BMP_MENU_ProcessYesNo(u8 *p);
+extern void STARTMENU_SaveEraseStartMessage(int *p, u32 mode);
+extern void STARTMENU_SaveEraseStartFadeOut(void);
 
-void func_021BCDEC(void *p, int *st)
+void STARTMENU_SaveEraseStepFirstConfirm(void *p, int *st)
 {
-    int r = func_0201FEBC(((struct Obj00578 *)p)->f20);
+    int r = BMP_MENU_ProcessYesNo(((struct Obj00578 *)p)->f20);
 
     if (r == 0)
         goto a;
@@ -34,10 +34,10 @@ void func_021BCDEC(void *p, int *st)
         goto b;
     return;
 a:
-    func_021BD118(p, 1);
+    STARTMENU_SaveEraseStartMessage(p, 1);
     *st = 4;
     return;
 b:
-    func_021BD23C();
+    STARTMENU_SaveEraseStartFadeOut();
     *st = 7;
 }

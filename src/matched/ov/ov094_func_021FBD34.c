@@ -12,14 +12,14 @@
  * Script command: stores one argument at 0x23c of the state.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  */
 #include "../include/Obj21675.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 
 void func_021FBD34(void *a, char *s)
 {
-    ((struct Obj21675 *)s)->f23C = func_0201134C(a);
+    ((struct Obj21675 *)s)->f23C = VM_GetU32(a);
 }

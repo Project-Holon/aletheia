@@ -1,5 +1,5 @@
 /*
- * function: func_0216D88C
+ * function: FLDMMDL_GetPos
  * address:  0x0216D88C
  * packet:   pkt_ov010_0216D88C
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Copy an actor's position out (the getter of func_0216D89C).
+ * Copy an actor's position out (the getter of FLDMMDL_SetPos).
  */
 
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ typedef struct Actor {
     VecFx32 pos;        /* 0x44 */
 } Actor;
 
-void func_0216D88C(const Actor *a, VecFx32 *out)
+void FLDMMDL_GetPos(const Actor *a, VecFx32 *out)
 {
     *out = a->pos;
 }

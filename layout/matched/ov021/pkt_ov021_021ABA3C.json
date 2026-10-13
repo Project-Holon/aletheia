@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ABA3C",
+   "name": "FLD_SCENEAREA_LOADER_CheckStrip",
    "address": "0x021ABA3C",
    "kind": "game",
    "region": "ov021",

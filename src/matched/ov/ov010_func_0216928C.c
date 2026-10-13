@@ -1,5 +1,5 @@
 /*
- * function: func_0216928C
+ * function: FIELD_G3D_MAP_Destroy
  * address:  0x0216928C
  * packet:   pkt_ov010_0216928C
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021693A0  0x021693A0  thumb  ov010
+ *   FIELD_G3D_MAP_CloseArchive  0x021693A0  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  *   d_020A814C     0x020A814C  data   a4
  *   d_020A8144     0x020A8144  data   a4
@@ -20,16 +20,16 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021693A0(int a0);
+extern void FIELD_G3D_MAP_CloseArchive(int a0);
 extern u32 func_020307B0(void *p);
 extern void (*d_020A814C)(u32);
 extern void (*d_020A8144)(u32);
 
 #define F(o) (*(u32 *)((char *)p + (o)))
 
-void func_0216928C(void *p)
+void FIELD_G3D_MAP_Destroy(void *p)
 {
-    func_021693A0((int)p);
+    FIELD_G3D_MAP_CloseArchive((int)p);
     if (F(0x20) != 0) {
         d_020A814C(F(0x90));
         d_020A8144(F(0x8c));

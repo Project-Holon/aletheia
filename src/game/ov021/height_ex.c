@@ -1,7 +1,7 @@
 /*
  * file:     height_ex.c
  * unit:     yes
- * function: func_021C0598, func_021C05D4, func_021C0628, func_021C0674, func_021C0688, func_021C068C, func_021C06A8, func_021C06B4, func_021C06C0
+ * function: HEIGHT_EX_IsPointInArea, HEIGHT_EX_CreateTable, HEIGHT_EX_SetArea, HEIGHT_EX_FreeTable, HEIGHT_EX_GetAreaCount, HEIGHT_EX_IsPointInAreaAt, HEIGHT_EX_GetAreaHeight, HEIGHT_EX_GetAreaAttr, HEIGHT_EX_SetAreaHeight
  * address:  0x021C0598
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   sub_02030734  0x02030734  arm
- *   d_021DE3A0  0x021DE3A0  data  ov021  a1
+ *   gFileHeightEx  0x021DE3A0  data  ov021  a1
  */
 #include "height_ex_types.h"
 
@@ -26,22 +26,22 @@ typedef unsigned int   u32;
 extern void *sub_02030734(u32 heapId, u32 size, int align, const char *file, unsigned short line);
 extern u32 func_020307B0(void *block);
 
-int func_021C0598(int x, int z, const HeightExArea *area, int areaIndex);
-HeightExTable *func_021C05D4(u32 count, u32 heapId);
-void func_021C0628(int index, int x, int z, int width, int depth, int height, int attr, HeightExTable *table);
-void func_021C0674(HeightExTable *table);
-int func_021C0688(const HeightExTable *table);
-int func_021C068C(int x, int z, const HeightExTable *table, u8 index);
-int func_021C06A8(u8 index, const HeightExTable *table);
-int func_021C06B4(u8 index, const HeightExTable *table);
-void func_021C06C0(u8 index, int height, HeightExTable *table);
+int HEIGHT_EX_IsPointInArea(int x, int z, const HeightExArea *area, int areaIndex);
+HeightExTable *HEIGHT_EX_CreateTable(u32 count, u32 heapId);
+void HEIGHT_EX_SetArea(int index, int x, int z, int width, int depth, int height, int attr, HeightExTable *table);
+void HEIGHT_EX_FreeTable(HeightExTable *table);
+int HEIGHT_EX_GetAreaCount(const HeightExTable *table);
+int HEIGHT_EX_IsPointInAreaAt(int x, int z, const HeightExTable *table, u8 index);
+int HEIGHT_EX_GetAreaHeight(u8 index, const HeightExTable *table);
+int HEIGHT_EX_GetAreaAttr(u8 index, const HeightExTable *table);
+void HEIGHT_EX_SetAreaHeight(u8 index, int height, HeightExTable *table);
 
-extern u8 d_021DE3A0[];
+extern u8 gFileHeightEx[];
 
 /*
  * Point-in-rectangle test against an active area. The index is not read.
  */
-int func_021C0598(int x, int z, const HeightExArea *area, int areaIndex)
+int HEIGHT_EX_IsPointInArea(int x, int z, const HeightExArea *area, int areaIndex)
 {
     int left, top, right, bottom;
 
@@ -56,14 +56,14 @@ int func_021C0598(int x, int z, const HeightExArea *area, int areaIndex)
     return 0;
 }
 
-HeightExTable *func_021C05D4(u32 count, u32 heapId)
+HeightExTable *HEIGHT_EX_CreateTable(u32 count, u32 heapId)
 {
     u8 i;
     HeightExTable *table;
 
     i = 0;
-    table = (HeightExTable *)sub_02030734(heapId, 8, 0, (const char *)d_021DE3A0, 0x5a);
-    table->areas = (HeightExArea *)sub_02030734(heapId, count * sizeof(HeightExArea), 0, (const char *)d_021DE3A0, 0x5b);
+    table = (HeightExTable *)sub_02030734(heapId, 8, 0, (const char *)gFileHeightEx, 0x5a);
+    table->areas = (HeightExArea *)sub_02030734(heapId, count * sizeof(HeightExArea), 0, (const char *)gFileHeightEx, 0x5b);
     table->count = count;
     for (i = 0; i < count; i++) {
         table->areas[i].active = 0;
@@ -74,7 +74,7 @@ HeightExTable *func_021C05D4(u32 count, u32 heapId)
 /*
  * Fills area index when it is in range and not yet active.
  */
-void func_021C0628(int index, int x, int z, int width, int depth, int height, int attr, HeightExTable *table)
+void HEIGHT_EX_SetArea(int index, int x, int z, int width, int depth, int height, int attr, HeightExTable *table)
 {
     if (index < table->count && table->areas[index].active == 0) {
         table->areas[index].x = x;
@@ -90,36 +90,36 @@ void func_021C0628(int index, int x, int z, int width, int depth, int height, in
 /*
  * Frees the areas array, then the table.
  */
-void func_021C0674(HeightExTable *table)
+void HEIGHT_EX_FreeTable(HeightExTable *table)
 {
     func_020307B0(table->areas);
     func_020307B0(table);
 }
 
-int func_021C0688(const HeightExTable *table)
+int HEIGHT_EX_GetAreaCount(const HeightExTable *table)
 {
     return table->count;
 }
 
-int func_021C068C(int x, int z, const HeightExTable *table, u8 index)
+int HEIGHT_EX_IsPointInAreaAt(int x, int z, const HeightExTable *table, u8 index)
 {
-    if (func_021C0598(x, z, &table->areas[index], index) != 0) {
+    if (HEIGHT_EX_IsPointInArea(x, z, &table->areas[index], index) != 0) {
         return 1;
     }
     return 0;
 }
 
-int func_021C06A8(u8 index, const HeightExTable *table)
+int HEIGHT_EX_GetAreaHeight(u8 index, const HeightExTable *table)
 {
     return table->areas[index].height;
 }
 
-int func_021C06B4(u8 index, const HeightExTable *table)
+int HEIGHT_EX_GetAreaAttr(u8 index, const HeightExTable *table)
 {
     return table->areas[index].attr;
 }
 
-void func_021C06C0(u8 index, int height, HeightExTable *table)
+void HEIGHT_EX_SetAreaHeight(u8 index, int height, HeightExTable *table)
 {
     table->areas[index].height = height;
 }

@@ -14,7 +14,7 @@
  *   file_020A7A68  0x020A7A68  data
  *   msg_020A7A7C   0x020A7A7C  data
  *   GFL_NET_HANDLE_CreateHandle  0x02039764  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02030734  0x02030734  arm
  *   func_02034714  0x02034714  arm
  *
@@ -67,7 +67,7 @@ extern const char msg_020A7A7C[];
 
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_CreateHandle(u32 idx);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 
@@ -76,7 +76,7 @@ void GFL_NET_HANDLE_InitWork(void)
     int i;
     u8 *p;
 
-    p = func_0203D798();
+    p = GFL_NET_GetInitParam();
     for (i = 0; i < 8; i++) {
         GFL_NET_HANDLE_CreateHandle(i);
     }

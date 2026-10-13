@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02192FEC",
+   "name": "FIELD_MSGBG_LoadWindowGraphicsStepFn",
    "address": "0x02192FEC",
    "kind": "game",
    "region": "ov021",

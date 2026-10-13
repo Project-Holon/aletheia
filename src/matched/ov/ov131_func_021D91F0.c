@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020437D4 0x020437D4 arm
+ *   BMP_GetPixels 0x020437D4 arm
  *   func_02082D44 0x02082D44 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0201DD78 0x0201DD78 thumb
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_0201DD68 0x0201DD68 thumb
- *   func_02045808 0x02045808 arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
  */
@@ -35,17 +35,17 @@ struct Bmp;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082D44(const void *,void *,u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201DD78(u32,u32,u32);
-extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_0201DD68(void);
-extern void func_02045808(struct U16Vec *vec);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
+extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
+extern void GF_FONT_SetDefaultTextColor(void);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void P_STA_OAM_TransferBitmap(u8 *p);
 void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
@@ -59,19 +59,19 @@ void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
     record=p+0x138+((struct Obj06484 *)entry)->f0*8;
     if (((struct Obj10518 *)record)->f0!=1) return;
     pixels=*(u8 * *)&((struct Obj23153 *)(*(u8 * *)&((struct Obj10517 *)p)->f48))->f14;
-    source=func_020437D4(((struct Obj06484 *)entry)->fC);
+    source=BMP_GetPixels(((struct Obj06484 *)entry)->fC);
     if (((struct Obj06484 *)entry)->f0==p[0x59]) pixels+=0x660;
     func_02082D44(pixels,source,0x660);
     text=func_02045EC0(((struct Obj10517 *)p)->f50,record[5]+160);
-    buffer=func_020457B0(32,((struct Obj10516 *)a)->f0);
+    buffer=STRBUF_Create(32,((struct Obj10516 *)a)->f0);
     object=func_0201EC64(((struct Obj10516 *)a)->f0);
     func_0201EFA4(object,0,record[6],2,2,1);
     func_0201F250(object,buffer,text);
-    func_0201DD78(1,2,0);
-    func_0201C7A4(((struct Obj06484 *)entry)->fC,10,6,buffer,((struct Obj10516 *)a)->f80);
-    func_0201DD68();
-    func_02045808(text);
-    func_02045808(buffer);
+    GF_FONT_SetTextColor(1,2,0);
+    PRINTSYS_Print(((struct Obj06484 *)entry)->fC,10,6,buffer,((struct Obj10516 *)a)->f80);
+    GF_FONT_SetDefaultTextColor();
+    STRBUF_Delete(text);
+    STRBUF_Delete(buffer);
     func_0201ED04(object);
     P_STA_OAM_TransferBitmap(((struct Obj06484 *)entry)->f10);
 }

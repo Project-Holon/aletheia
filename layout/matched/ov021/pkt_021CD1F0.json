@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CD1F0",
+   "name": "FIELD_BBD_COLOR_Delete",
    "address": "0x021CD1F0",
    "kind": "game",
    "region": "ov021",

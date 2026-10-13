@@ -16,7 +16,7 @@
  *   func_021F2150 0x021F2150 thumb ov194
  *   func_021F4DDC 0x021F4DDC thumb ov194
  *   func_021F4E98 0x021F4E98 thumb ov194
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  */
 #include "../include/Obj01574.h"
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ extern u16 func_021F4ED8(const char *p, const u16 *b);
 extern int func_021F2190(char *,u16),func_021F2150(u8 *);
 extern void func_021F4DDC(const char *p, int i, u16 *dst, u32 n, u8 *count);
 extern int func_021F4E98(char *,int,u16 *,unsigned,u8 *);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 int func_021F23FC(u8 *p,int direction)
 {
  Group group;
@@ -49,7 +49,7 @@ int func_021F23FC(u8 *p,int direction)
    for(i=0;i<group.count;i++){
     *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=*((u16 *)((char *)&group+2)+i);
     ((struct Obj01574 *)p)->f20+=1;
-    *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=func_02045A98();
+    *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=STRBUF_GetEosChar();
    }
    return 1;
   }

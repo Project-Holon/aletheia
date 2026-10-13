@@ -1,5 +1,5 @@
 /*
- * function: func_021B913C
+ * function: ITEMMENU_ResetDisplayLayers
  * address: 0x021B913C
  * packet: pkt_ov070_021B913C
  * region: ov070
@@ -13,7 +13,7 @@
  */
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-void func_021B913C(void)
+void ITEMMENU_ResetDisplayLayers(void)
 {
     func_02040588(0, 1);
     func_02040588(1, 1);

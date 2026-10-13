@@ -1,5 +1,5 @@
 /*
- * function: func_021856CC
+ * function: OEKAKI_StepWaitQuitMessage
  * address:  0x021856CC
  * packet:   pkt_021856CC
  * region:   ov023
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02185354  0x02185354  thumb  ov023
- *   func_02186444  0x02186444  thumb  ov023
- *   func_021862B0  0x021862B0  thumb  ov023
+ *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
+ *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
+ *   OEKAKI_IsMessageDone  0x021862B0  thumb  ov023
  */
 #include "../include/Obj20350.h"
 
-extern void func_02185354(char *p);
+extern void OEKAKI_ApplyRemoteStrokes(char *p);
 typedef unsigned int   u32;
-extern void func_02186444(char *p, u32 v);
-extern int  func_021862B0(char *p);
+extern void OEKAKI_SetNextScene(char *p, u32 v);
+extern int  OEKAKI_IsMessageDone(char *p);
 
-int func_021856CC(char *p, int a1)
+int OEKAKI_StepWaitQuitMessage(char *p, int a1)
 {
-    if (func_021862B0(p)) {
+    if (OEKAKI_IsMessageDone(p)) {
         ((struct Obj20350 *)p)->f1A4 = 0;
-        func_02186444(p, 0xe);
+        OEKAKI_SetNextScene(p, 0xe);
     }
-    func_02185354(p);
+    OEKAKI_ApplyRemoteStrokes(p);
     return a1;
 }

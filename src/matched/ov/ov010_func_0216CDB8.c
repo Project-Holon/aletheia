@@ -1,5 +1,5 @@
 /*
- * function: func_0216CDB8
+ * function: FLDMMDL_SetAreaIdRef
  * address:  0x0216CDB8
  * packet:   pkt_ov010_0216CDB8
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * Unlabelled thumb leaf (store, then tail call through a pool word), the
- * sole blocker of ov021 func_02189204 (lane S26).
+ * sole blocker of ov021 FIELDMAP_SetupMmdlSys (lane S26).
  * symbols:
- *   func_0216D95C  0x0216D95C  thumb  ov010
+ *   FLDMMDL_SysSetDrawInit  0x0216D95C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19116.h"
@@ -20,10 +20,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0216D95C(unsigned int *p, unsigned int v, int a2);
+extern void FLDMMDL_SysSetDrawInit(unsigned int *p, unsigned int v, int a2);
 
-void func_0216CDB8(u8 *p, u32 v, int a2)
+void FLDMMDL_SetAreaIdRef(u8 *p, u32 v, int a2)
 {
     ((struct Obj19116 *)p)->f40 = v;
-    func_0216D95C((unsigned int *)p, 1, a2);
+    FLDMMDL_SysSetDrawInit((unsigned int *)p, 1, a2);
 }

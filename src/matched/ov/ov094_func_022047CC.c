@@ -10,17 +10,18 @@
  *
  * symbols:
  *   func_0220687C  0x0220687C  thumb  ov094
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  */
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void func_0220687C(char *p, void *q);
 
 void func_022047CC(void *a, void **s)
 {
     int i;
     for (i = 0; i < 6; i++) {
-        if (s[i + 2] != 0 && func_0204B98C(s[i + 2]) != 0)
+        if (s[i + 2] != 0 && CLACT_IsActorAnimActive(s[i + 2]) != 0)
             return;
     }
     func_0220687C(s[0], a);

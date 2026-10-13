@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201C4C0  0x0201C4C0  thumb
  *   func_0201ED04  0x0201ED04  thumb
- *   func_0201D83C  0x0201D83C  thumb
- *   func_02045C04  0x02045C04  arm
+ *   GF_FONT_Delete  0x0201D83C  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00085.h"
@@ -29,17 +29,17 @@ struct PrintSys;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 GF_FONT_Delete(void *ptr);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
 u32 func_021BC99C(u8 *p)
 {
-    func_02045808((struct U16Vec *)(((struct Obj00085 *)p)->f1D8));
+    STRBUF_Delete((struct U16Vec *)(((struct Obj00085 *)p)->f1D8));
     func_0201C4C0((struct PrintSys *)(((struct Obj00085 *)p)->f1DC));
     func_0201ED04((struct WordSet *)(((struct Obj00085 *)p)->f1D4));
-    func_0201D83C((void *)(((struct Obj00085 *)p)->f1CC));
-    return func_02045C04((struct Rec *)(((struct Obj00085 *)p)->f1D0));
+    GF_FONT_Delete((void *)(((struct Obj00085 *)p)->f1CC));
+    return MSGDATA_Delete((struct Rec *)(((struct Obj00085 *)p)->f1D0));
 }

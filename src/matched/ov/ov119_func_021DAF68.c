@@ -11,8 +11,8 @@
  *   func_021E12AC 0x021E12AC thumb ov119
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   func_021D9C00 0x021D9C00 thumb ov119
  */
 typedef unsigned char u8;
@@ -22,17 +22,17 @@ extern int func_021E12AC(char *p);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_021D9C00(char *p);
 void func_021DAF68(void *p) {
- unsigned id=(unsigned)func_020399A8();
+ unsigned id=(unsigned)GFL_NET_HANDLE_GetCurrentHandle();
  u8 b;
  if(func_021E12AC(p)) {
   if(func_021D8A24(p)) {
    b=2;
-   if(func_0203D3A8((void *)id,0xc0f,1,(u32)(&b))) func_021D8E84(p,(int)func_021D9C00);
+   if(GFL_NET_SendToHandle((void *)id,0xc0f,1,(u32)(&b))) func_021D8E84(p,(int)func_021D9C00);
   } else { func_021D8E84(p,(int)func_021D9C00); }
  }
 }

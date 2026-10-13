@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02157818",
+   "name": "DELIVERY_BEACON_DecodePieces",
    "address": "0x02157818",
    "kind": "game",
    "region": "ov010",

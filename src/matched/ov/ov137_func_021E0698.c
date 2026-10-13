@@ -10,8 +10,8 @@
  * lever: Position setter before scale setter keeps zero in r0 and scale in r1.
  * symbols:
  *   func_02048A18 0x02048A18 arm
- *   func_020520FC 0x020520FC arm
- *   func_02047A60 0x02047A60 arm
+ *   BUTTON_MAN_MakeRotMtxXYZ 0x020520FC arm
+ *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  */
 #include "../include/Obj14235.h"
 typedef unsigned char u8;
@@ -23,8 +23,8 @@ typedef unsigned int   u32;
 struct Arg;
 extern u32 func_02048A18(u8 *a0, int i);
 struct Mtx33;
-extern void func_020520FC(int ax, int ay, int az, struct Mtx33 *dst);
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, struct Mtx33 *dst);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 static inline void VecSet(Vec *v,int x,int y,int z)
 {
     v->x=x;
@@ -38,6 +38,6 @@ void func_021E0698(u8 *p)
     object = (void *)func_02048A18(((struct Obj14235 *)p)->fAF4,(u16)(((struct Obj14235 *)p)->fDA4));
     VecSet(&t.pos,0,0,0);
     VecSet(&t.scale,4096,4096,4096);
-    func_020520FC(0,0,0,(struct Mtx33 *)&t.rot);
-    func_02047A60(object,(struct Arg *)(&t));
+    BUTTON_MAN_MakeRotMtxXYZ(0,0,0,(struct Mtx33 *)&t.rot);
+    G3D_SYSTEM_DrawObject(object,(struct Arg *)(&t));
 }

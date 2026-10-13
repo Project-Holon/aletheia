@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B709C 0x021B709C thumb ov067
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   YESNO_MENU_Delete 0x021B709C thumb ov067
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  */
 #include "../include/Obj04595.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Rec;
-extern void func_021B709C(u8 *);
+extern void YESNO_MENU_Delete(u8 *);
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
-void func_02205580(void *unused,char *p) {func_021B709C(*(u8 * *)&((struct Obj04595 *)p)->f9C);*(u32 *)&((struct Obj04595 *)p)->f9C=0;if(((struct Obj04595 *)p)->f94)func_02045808((struct U16Vec *)(((struct Obj04595 *)p)->f94));if(((struct Obj04595 *)p)->f98)func_02045808((struct U16Vec *)(((struct Obj04595 *)p)->f98));func_02045C04(*(struct Rec * *)&((struct Obj04595 *)p)->f90);}
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+void func_02205580(void *unused,char *p) {YESNO_MENU_Delete(*(u8 * *)&((struct Obj04595 *)p)->f9C);*(u32 *)&((struct Obj04595 *)p)->f9C=0;if(((struct Obj04595 *)p)->f94)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f94));if(((struct Obj04595 *)p)->f98)STRBUF_Delete((struct U16Vec *)(((struct Obj04595 *)p)->f98));MSGDATA_Delete(*(struct Rec * *)&((struct Obj04595 *)p)->f90);}

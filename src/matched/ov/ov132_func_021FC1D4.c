@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F9DD4 0x021F9DD4 thumb ov132
  *   func_021F6E78 0x021F6E78 thumb ov112
  *   func_021F6F14 0x021F6F14 thumb ov112
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_021F9DD4(void *);
 extern u8 *func_021F6E78(u8 *p, int v);
 extern void func_021F6F14(void *a, char *p, u16 b, u8 c);
@@ -34,8 +34,8 @@ int func_021FC1D4(int a,char **p)
     u32 x,y;
     void *r,*s;
     q=p[0];
-    x=func_0201134C((struct Cursor *)p[1]);
-    y=func_0201134C((struct Cursor *)p[1]);
+    x=VM_GetU32((struct Cursor *)p[1]);
+    y=VM_GetU32((struct Cursor *)p[1]);
     r=func_021F9DD4(((struct Obj10562 *)q)->f34);
     s=func_021F6E78(r,1);
     func_021F6F14(r,s,0x3ff,0x10);

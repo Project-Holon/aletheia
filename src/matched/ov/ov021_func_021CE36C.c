@@ -1,5 +1,5 @@
 /*
- * function: func_021CE36C
+ * function: COMM_ENTRY_MENU_AdvanceMemberStates
  * address:  0x021CE36C
  * packet:   pkt_ov021_021CE36C
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CE3E8  0x021CE3E8  thumb  ov021
+ *   COMM_ENTRY_MENU_LatchRequest  0x021CE3E8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char u8;
 
-extern int func_021CE3E8(u8 *p, u8 *e);
+extern int COMM_ENTRY_MENU_LatchRequest(u8 *p, u8 *e);
 
-void func_021CE36C(u8 *p)
+void COMM_ENTRY_MENU_AdvanceMemberStates(u8 *p)
 {
     u8 *e;
     u8 j;
@@ -35,7 +35,7 @@ void func_021CE36C(u8 *p)
             }
             break;
         case 2:
-            if (func_021CE3E8(p, e) == 1) {
+            if (COMM_ENTRY_MENU_LatchRequest(p, e) == 1) {
                 e[0x20] = 3;
             }
             break;

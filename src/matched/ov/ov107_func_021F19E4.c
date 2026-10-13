@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201FDA0  0x0201FDA0  thumb
+ *   BMP_MENU_CreateYesNo  0x0201FDA0  thumb
  */
 
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
     void *f50;
 } Ov107Ctx;
 
-void *func_0201FDA0(Ov107Win *win, int base, int pal, int pos, int heap);
+void *BMP_MENU_CreateYesNo(Ov107Win *win, int base, int pal, int pos, int heap);
 
 void func_021F19E4(Ov107Ctx *p)
 {
@@ -39,5 +39,5 @@ void func_021F19E4(Ov107Ctx *p)
     p->win.f02 = 0xD;
     p->win.f03 = 0xE;
     p->win.f04 = 0;
-    p->f50 = func_0201FDA0(&p->win, 1, 0xD, 0, p->f00);
+    p->f50 = BMP_MENU_CreateYesNo(&p->win, 1, 0xD, 0, p->f00);
 }

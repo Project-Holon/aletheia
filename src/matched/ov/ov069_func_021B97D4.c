@@ -1,5 +1,5 @@
 /*
- * function: func_021B97D4
+ * function: BSUBWAY_RECORD_LIST_SetupVramBanks
  * address: 0x021B97D4
  * packet: pkt_ov069_021B97D4
  * region: ov069
@@ -10,13 +10,13 @@
  * status: EXACT
  * volatile: 0x021B97E0 reads and 0x021B97E4 writes hardware 0x04000304.
  * symbols:
- *   func_020433E0 0x020433E0 arm
- *   d_021BA620 0x021BA620 data a4
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
+ *   sRecordListVramBanks 0x021BA620 data a4
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
-extern const u32 d_021BA620[];
-void func_021B97D4(void) { func_020433E0((const struct DispVram *)d_021BA620); *(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000); }
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
+extern const u32 sRecordListVramBanks[];
+void BSUBWAY_RECORD_LIST_SetupVramBanks(void) { BG_SYS_SetVramBanks((const struct DispVram *)sRecordListVramBanks); *(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000); }

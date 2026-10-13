@@ -1,5 +1,5 @@
 /*
- * function: func_021CD9F4
+ * function: BTL_CLIENT_AddPoints
  * address: 0x021CD9F4
  * packet: pkt_ov093_021CD9F4
  * region: ov093
@@ -14,4 +14,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021CD9F4(u8 *p,u8 n) { p[0x1ab]+=n; if(p[0x1ab]>14) p[0x1ab]=14; }
+void BTL_CLIENT_AddPoints(u8 *p,u8 n) { p[0x1ab]+=n; if(p[0x1ab]>14) p[0x1ab]=14; }

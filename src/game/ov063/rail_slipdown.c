@@ -13,18 +13,18 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A2F6C  0x021A2F6C  thumb  ov021
- *   func_0216DB4C  0x0216DB4C  thumb  ov010
- *   func_0216DC98  0x0216DC98  thumb  ov010
- *   func_0216DAE0  0x0216DAE0  thumb  ov010
- *   func_0216DAF8  0x0216DAF8  thumb  ov010
- *   func_02188D30  0x02188D30  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
+ *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_ResetMoveWork  0x021A2F6C  thumb  ov021
+ *   FLDMMDL_SetStatusBitHeightGetOff  0x0216DB4C  thumb  ov010
+ *   FLDMMDL_SetStatusBitAttrGetOff  0x0216DC98  thumb  ov010
+ *   FLDMMDL_SetStatusBitFellowHit  0x0216DAE0  thumb  ov010
+ *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
+ *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
  *   func_021F377C  0x021F377C  thumb  ov063
@@ -35,18 +35,18 @@
 #include "../ov021/fldmmdl_rail_types.h"
 #include "rail_slipdown_types.h"
 
-extern u16 func_02188C84(void *fieldMap);
-extern struct FieldNogridMapper *func_02188C5C(void *fieldMap);
-extern struct RailWork *func_0219E348(struct Mmdl *mmdl);
-extern struct FieldEffectSys *func_02188CD0(void *fieldMap);
-extern struct FieldCamera *func_02188C58(void *fieldMap);
-extern struct FieldPlayer *func_02188CB4(void *fieldMap);
-extern void func_021A2F6C(struct FieldPlayer *player);
-extern int func_0216DB4C(struct Mmdl *mmdl, int value);
-extern int func_0216DC98(struct Mmdl *mmdl, int value);
-extern void func_0216DAE0(struct Mmdl *mmdl, unsigned int value);
-extern void func_0216DAF8(struct Mmdl *mmdl);
-extern void *func_02188D30(void *fieldMap);
+extern u16 FIELDMAP_GetHeapId(void *fieldMap);
+extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(void *fieldMap);
+extern struct RailWork *FLDMMDL_RAIL_GetRailWork(struct Mmdl *mmdl);
+extern struct FieldEffectSys *FIELDMAP_GetEffect(void *fieldMap);
+extern struct FieldCamera *FIELDMAP_GetCamera(void *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(void *fieldMap);
+extern void FIELD_PLAYER_ResetMoveWork(struct FieldPlayer *player);
+extern int FLDMMDL_SetStatusBitHeightGetOff(struct Mmdl *mmdl, int value);
+extern int FLDMMDL_SetStatusBitAttrGetOff(struct Mmdl *mmdl, int value);
+extern void FLDMMDL_SetStatusBitFellowHit(struct Mmdl *mmdl, unsigned int value);
+extern void FLDMMDL_OnMoveBitMovePause(struct Mmdl *mmdl);
+extern void *FIELDMAP_GetTcblSys(void *fieldMap);
 extern RailSlipdown *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct TcbTask *func_02030DA8(void *tcblSys, void (*func)(void *tcb, RailSlipdown *slipdown), RailSlipdown *arg, u32 priority);
 extern void func_021F377C(void *tcb, RailSlipdown *slipdown);
@@ -61,23 +61,23 @@ RailSlipdown *func_021F36C0(void *gameSystem, void *fieldMap, struct Mmdl *mmdl,
 {
     RailSlipdown *slipdown;
 
-    slipdown = func_02030734(func_02188C84(fieldMap), 0x84, 1, d_021F3D80, 0x80);
-    slipdown->nogridMapper = func_02188C5C(fieldMap);
+    slipdown = func_02030734(FIELDMAP_GetHeapId(fieldMap), 0x84, 1, d_021F3D80, 0x80);
+    slipdown->nogridMapper = FIELDMAP_GetNogridMapper(fieldMap);
     slipdown->mmdl = mmdl;
-    slipdown->railWork = func_0219E348(mmdl);
-    slipdown->effectSys = func_02188CD0(fieldMap);
-    slipdown->camera = func_02188C58(fieldMap);
+    slipdown->railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
+    slipdown->effectSys = FIELDMAP_GetEffect(fieldMap);
+    slipdown->camera = FIELDMAP_GetCamera(fieldMap);
     if (isPlayer != 0) {
-        slipdown->player = func_02188CB4(fieldMap);
-        func_021A2F6C(slipdown->player);
+        slipdown->player = FIELDMAP_GetFieldPlayer(fieldMap);
+        FIELD_PLAYER_ResetMoveWork(slipdown->player);
     } else {
         slipdown->player = 0;
     }
-    func_0216DB4C(slipdown->mmdl, 1);
-    func_0216DC98(slipdown->mmdl, 1);
-    func_0216DAE0(slipdown->mmdl, 0);
-    func_0216DAF8(slipdown->mmdl);
-    slipdown->task = func_02030DA8(func_02188D30(fieldMap), func_021F377C, slipdown, 0);
+    FLDMMDL_SetStatusBitHeightGetOff(slipdown->mmdl, 1);
+    FLDMMDL_SetStatusBitAttrGetOff(slipdown->mmdl, 1);
+    FLDMMDL_SetStatusBitFellowHit(slipdown->mmdl, 0);
+    FLDMMDL_OnMoveBitMovePause(slipdown->mmdl);
+    slipdown->task = func_02030DA8(FIELDMAP_GetTcblSys(fieldMap), func_021F377C, slipdown, 0);
     return slipdown;
 }
 

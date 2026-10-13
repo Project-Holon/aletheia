@@ -1,7 +1,7 @@
 /*
  * file:     net_command.c
  * unit:     yes
- * function: GFL_NET_COMMAND_Init, GFL_NET_COMMAND_Exit, func_0203A574, func_0203A5E4, GFL_NET_COMMAND_GetHeaderSize, GFL_NET_COMMAND_GetCommandTable, GFL_NET_COMMAND_GetRecvFunc, GFL_NET_COMMAND_GetCommandWork, GFL_NET_COMMAND_GetSizeFunc, GFL_NET_COMMAND_CallCommand, GFL_NET_COMMAND_IsCommandValid, GFL_NET_COMMAND_IsHugeCommand, GFL_NET_COMMAND_GetHugeBuffer, GFL_NET_COMMAND_NoProc, GFL_NET_COMMAND_RecvHugeData, GFL_NET_COMMAND_RecvHugeBuffer, GFL_NET_COMMAND_SetSendSlot, GFL_NET_COMMAND_SendNextSlot, GFL_NET_COMMAND_Main
+ * function: GFL_NET_COMMAND_Init, GFL_NET_COMMAND_Exit, GFL_NET_COMMAND_AddCommandTable, GFL_NET_COMMAND_DeleteCommandTable, GFL_NET_COMMAND_GetHeaderSize, GFL_NET_COMMAND_GetCommandTable, GFL_NET_COMMAND_GetRecvFunc, GFL_NET_COMMAND_GetCommandWork, GFL_NET_COMMAND_GetSizeFunc, GFL_NET_COMMAND_CallCommand, GFL_NET_COMMAND_IsCommandValid, GFL_NET_COMMAND_IsHugeCommand, GFL_NET_COMMAND_GetHugeBuffer, GFL_NET_COMMAND_NoProc, GFL_NET_COMMAND_RecvHugeData, GFL_NET_COMMAND_RecvHugeBuffer, GFL_NET_COMMAND_SetSendSlot, GFL_NET_COMMAND_SendNextSlot, GFL_NET_COMMAND_Main
  * address:  0x0203A494
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,11 +28,11 @@
  *   g_020387A0     0x020387A0  data
  *   g_020A7A20      0x020A7A20  data
  *   func_020307B0   0x020307B0  arm
- *   func_02039338   0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_SYSTEM_GetChildBitmap   0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
  *   lbl_020A7A20    0x020A7A20  data
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   d_020A7A24     0x020A7A24  data
  *   d_020A7A50     0x020A7A50  data
@@ -41,7 +41,7 @@
  *   g_020A7A50     0x020A7A50  data
  *   str_020A7A50   0x020A7A50  data
  *   GFL_NET_SYSTEM_IsSendEnable  0x02039594  arm
- *   func_0203996C   0x0203996C  arm
+ *   GFL_NET_HANDLE_GetNetHandle   0x0203996C  arm
  *   func_02082D44  0x02082D44  arm
  *   _pNetState     0x021469DC  data
  *   str_020A7A68   0x020A7A68  data
@@ -96,18 +96,18 @@
  *   GFL_NET_QUEUE_IsCommandQueued 0x02036B98 arm
  *   GFL_NET_WM_ICON_EasyEnd 0x020370C8 arm
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
- *   func_0203CEAC 0x0203CEAC arm
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   GFL_NET_IsHandleReady 0x0203D394 arm
- *   func_0203D3A8 0x0203D3A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
- *   func_0203D4D0 0x0203D4D0 arm
- *   func_0203D650 0x0203D650 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
+ *   GFL_NET_SendDataMask 0x0203D4D0 arm
+ *   GFL_NET_GetUserArg 0x0203D650 arm
  *   GFL_NET_GetMaxConnectNum 0x0203D680 arm
  *   GFL_NET_GetChildSendSize 0x0203D6BC arm
  *   GFL_NET_CallDeviceReadyFunc 0x0203D700 arm
  *   GFL_NET_GetSession 0x0203D788 arm
- *   func_0203D798 0x0203D798 arm
+ *   GFL_NET_GetInitParam 0x0203D798 arm
  *   GFL_NET_IRC_WIRELESS_IsActive 0x0203DA4C arm
  *   GFL_NET_IRC_WIRELESS_AddMacAddress 0x0203DAC4 arm
  *   GFL_NET_SYSTEM_InitWork  0x02037288  arm
@@ -116,6 +116,7 @@
  *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   GFL_NET_HANDLE_RecvNegotiation  0x0203A020  arm
  *   GFL_NET_STATE_Idle  0x0203C00C  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  */
 
 typedef unsigned char u8;
@@ -139,17 +140,17 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern u32 func_020307B0(void *p);
 
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 
 extern int  GFL_NET_SYSTEM_IsError(void);
 
-extern GFLNetHandle *func_020399A8(void);
+extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
-extern GFLNetHandle *func_0203996C(s32 idx);
+extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
 extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
@@ -165,7 +166,7 @@ int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 
 int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 isQueued, u32 handleId, u32 destMask, u32 isChunk);
 
-u16 func_02039338(void);
+u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 int GFL_NET_SYSTEM_GetChildBitmap(void);
 
@@ -185,11 +186,11 @@ int GFL_NET_SYSTEM_ClampNetId(int slot);
 
 int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *a);
 
-GFLNetHandle *func_0203996C(s32 idx);
+GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-GFLNetHandle *func_020399A8(void);
+GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-u32 func_020399B8(u8 *p);
+u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 
 void GFL_NET_HANDLE_RecvNegotiation(u32 idx, u32 a1, const u8 *a2, u32 a3, u8 *base);
 
@@ -197,9 +198,9 @@ void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userDa
 
 void GFL_NET_COMMAND_Exit(void);
 
-void func_0203A574(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
+void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
 
-void func_0203A5E4(u32 groupKey);
+void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey);
 
 u32 GFL_NET_COMMAND_GetHeaderSize(u32 destMask);
 
@@ -233,7 +234,7 @@ void GFL_NET_COMMAND_Main(void);
 
 void GFL_NET_STATE_Idle(void);
 
-GFLNetSession *func_0203D798(void);
+GFLNetSession *GFL_NET_GetInitParam(void);
 
 extern struct NetSysWork *_pNetSys;
 
@@ -257,7 +258,7 @@ extern char  g_020A7B78[];
 /*
  * Lazy-init wrapper: the 0x22c-byte context at _pCommandWork is allocated on
  * first use with the debug allocator (heap 0, size 0x22c, flags 1, line
- * 0x96), the delegate func_0203A574 is called, arg3 is published at +8 of
+ * 0x96), the delegate GFL_NET_COMMAND_AddCommandTable is called, arg3 is published at +8 of
  * the state object in g_020A7AE8, and the 8-byte run at +0x220 plus the byte
  * at +0x228 are cleared.
  *
@@ -280,7 +281,7 @@ void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userDa
     if (_pCommandWork == 0) {
         _pCommandWork = func_02030734(0, 0x22c, 1, g_020A7AF8, 0x96);
     }
-    func_0203A574(groupKey, commandList, listNum, userData);
+    GFL_NET_COMMAND_AddCommandTable(groupKey, commandList, listNum, userData);
     g_020A7AE8.userData = userData;
     for (memberIdx = 0; memberIdx < 8; memberIdx++) {
         _pCommandWork->memberState[memberIdx] = 0;
@@ -353,7 +354,7 @@ void GFL_NET_COMMAND_Exit(void)
 
 
 
-void func_0203A574(u32 groupKey, u32 commandList, u32 listNum, u32 userData)
+void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData)
 {
     struct NetCommandTable *tables = _pCommandWork->commandTables;
     int tableIdx;
@@ -399,7 +400,7 @@ void func_0203A574(u32 groupKey, u32 commandList, u32 listNum, u32 userData)
 
 
 
-void func_0203A5E4(u32 groupKey)
+void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey)
 {
     struct NetCommandTable *tables = _pCommandWork->commandTables;
     int tableIdx;
@@ -445,7 +446,7 @@ void func_0203A5E4(u32 groupKey)
 
 /*
  * Bit test against a channel mask: 0xFF is always live, otherwise the bit of
- * the argument named by the index func_02039338() reports decides, and a zero
+ * the argument named by the index GFL_NET_SYSTEM_GetCurrentAid() reports decides, and a zero
  * index falls back to the 0x80 bit.  `1 << f()` is emitted as the shifted
  * register of a `tst`, and each success path is the conditional
  * `movne r0, #1` / `popne` pair, so the source is the return chain above a
@@ -461,9 +462,9 @@ u32 GFL_NET_COMMAND_GetHeaderSize(u32 destMask)
 {
     if (destMask == 0xFF)
         return 1;
-    if (destMask & (1 << func_02039338()))
+    if (destMask & (1 << GFL_NET_SYSTEM_GetCurrentAid()))
         return 1;
-    if (func_02039338() == 0 && (destMask & 0x80) != 0)
+    if (GFL_NET_SYSTEM_GetCurrentAid() == 0 && (destMask & 0x80) != 0)
         return 1;
     return 0;
 }
@@ -713,7 +714,7 @@ void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size,
         return;
     }
     accepted = 1;
-    if (func_020399B8((u8 *)handle) == 0) {
+    if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)handle) == 0) {
         if (command >= 0x11) {
             accepted = 0;
         }
@@ -911,7 +912,7 @@ void GFL_NET_COMMAND_NoProc(void)
 
 /*
  * One slot of a network table: index 0xff aliases to slot 8, the incoming
- * tag must match func_020399A8(), and the entry is swept copy-then-count.
+ * tag must match GFL_NET_HANDLE_GetCurrentHandle(), and the entry is swept copy-then-count.
  * The global pointer at 0x021469D8 is re-read after every call, so the C
  * dereferences it afresh in each statement rather than keeping a local.
  *
@@ -931,7 +932,7 @@ void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int
     if (netId == 0xff) {
         slotIdx = 8;
     }
-    if (handle != (u32)func_020399A8()) {
+    if (handle != (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
         return;
     }
     if (_pCommandWork->aNetHugeRecv[slotIdx].used == 0) {
@@ -1007,7 +1008,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
     slotIdx = netId;
     if (netId == 0xff)
         slotIdx = 8;
-    if (handle != (int)func_020399A8())
+    if (handle != (int)GFL_NET_HANDLE_GetCurrentHandle())
         return;
     if (GFL_NET_COMMAND_GetHugeBuffer(*((u16 *)(header + 6)), netId, *((u32 *)header)) == 0)
         return;
@@ -1086,7 +1087,7 @@ u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 total
     int slotIdx;
     int chunkLimit;
 
-    session = func_0203D798();
+    session = GFL_NET_GetInitParam();
     work = _pCommandWork;
     firstState = &work->sendSlots[0].state.raw;
     for (slotIdx = 0; slotIdx < 5; slotIdx++) {

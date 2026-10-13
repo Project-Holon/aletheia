@@ -13,8 +13,8 @@
  * search: R3 first permuter300 spent; then-emitted macro-free baseline909 agreed one. Size-first best1568/1050 was worse and rejected; extent still includes the already matched 8-byte stub despite compiling only main. Search not repeated in W76.
  * retry: Wave59 R3: 4 fixed-flag runs plus permuter300; single retry completed.
  * extent: 021EEEAC already matched separately by pkt_ov107_021EEEAC; file only main, no duplicate unit/stub. Unowned EEEB4 begins after handed1568 bytes.
- * note 2026-10-05 (P18L6): extent is 1560 B (not 98 B); the lane size was a label gap. Re-read: the 913 B residue is mostly branch-range fixup shape. Original default `bhi` shares the `beq L; b tail` stub after case 3; compiled emits `bls; b` at the dispatch (+4 B) and `bne island` in case 3. Case blocks from case 19 on are also ordered differently (cases 20..33 tail region). Tried: case 3 written `if(r!=1) break; return 1;` (913, unchanged); explicit `default: break;` (913, unchanged). Callee check: matched ov107 func_021F1060 returns a pointer (p->f0C) while this draft compares its result with ints and ov029 declares it int, a conflict not resolved; func_021F15B0 is matched void but its result feeds func_0204A600 (already noted). Not repeated: permuter, size-first. Status stays DIFF.
- * note recoup 2026-10-05 P30R10: DIFF -> MATCH, 1560/1560 bytes, all code bytes equal; only relocation witnesses missing (callees 021F1008 and 021F1010 are Thumb veneers, 021F1040, 021F1050, 021F1064 and 021EFE3C are small ov107 leaves with no matched file). The old 913-byte residue was branch-island layout caused by real source differences, found by comparing mnemonic streams: (1) cases 25 and 26 sit after case 29 in the original block order (24, 27, 28, 29, 25, 26, 30); (2) case 27 jumps into the failure block tail: `if(f11F0(O,18,0)!=1)break;goto fail_tail;` with `fail_tail:` before `func_021F1028(O);W(32)=28;` (the `==1 goto` form leaves a dead `b`); (3) case 17 second arm had an extra func_021F1704(M,7,..) call in the draft, removed (cross-jumping hid it); (4) the three constant ternaries `W(32)=p[40]==0?a:b` (cases 1, 11, 29) are if/else with a store in each arm; (5) case 9 calls func_0203D34C(0,H(0)) and func_0203D34C(1,H(0)) in each arm; (6) case 23 keeps the func_02007774 result in a `u16 cnt` local (a (u16) cast at the call gave an extra adds). Tried without effect: explicit default after case 3 (913), all six per-function pragmas (913 each), `p[40]!=0` argument, u16 third parameter on func_021F11F0, u16 return type on func_02007774 (drops the truncation). Also MATCH with --lang c. Next: file ov107 witnesses for 021F1040 (p->f04==5), 021F1050 (p->f04<6), 021EFE3C (empty void), 021F1064 (flag clear) and veneers 021F1008/021F1010 via integrator label seeding.
+ * note 2026-10-05 (P18L6): extent is 1560 B (not 98 B); the lane size was a label gap. Re-read: the 913 B residue is mostly branch-range fixup shape. Original default `bhi` shares the `beq L; b tail` stub after case 3; compiled emits `bls; b` at the dispatch (+4 B) and `bne island` in case 3. Case blocks from case 19 on are also ordered differently (cases 20..33 tail region). Tried: case 3 written `if(r!=1) break; return 1;` (913, unchanged); explicit `default: break;` (913, unchanged). Callee check: matched ov107 func_021F1060 returns a pointer (p->f0C) while this draft compares its result with ints and ov029 declares it int, a conflict not resolved; func_021F15B0 is matched void but its result feeds CLACT_DrawSystem (already noted). Not repeated: permuter, size-first. Status stays DIFF.
+ * note recoup 2026-10-05 P30R10: DIFF -> MATCH, 1560/1560 bytes, all code bytes equal; only relocation witnesses missing (callees 021F1008 and 021F1010 are Thumb veneers, 021F1040, 021F1050, 021F1064 and 021EFE3C are small ov107 leaves with no matched file). The old 913-byte residue was branch-island layout caused by real source differences, found by comparing mnemonic streams: (1) cases 25 and 26 sit after case 29 in the original block order (24, 27, 28, 29, 25, 26, 30); (2) case 27 jumps into the failure block tail: `if(f11F0(O,18,0)!=1)break;goto fail_tail;` with `fail_tail:` before `func_021F1028(O);W(32)=28;` (the `==1 goto` form leaves a dead `b`); (3) case 17 second arm had an extra func_021F1704(M,7,..) call in the draft, removed (cross-jumping hid it); (4) the three constant ternaries `W(32)=p[40]==0?a:b` (cases 1, 11, 29) are if/else with a store in each arm; (5) case 9 calls GFL_NET_RestartWithDefaultTimeout(0,H(0)) and GFL_NET_RestartWithDefaultTimeout(1,H(0)) in each arm; (6) case 23 keeps the func_02007774 result in a `u16 cnt` local (a (u16) cast at the call gave an extra adds). Tried without effect: explicit default after case 3 (913), all six per-function pragmas (913 each), `p[40]!=0` argument, u16 third parameter on func_021F11F0, u16 return type on func_02007774 (drops the truncation). Also MATCH with --lang c. Next: file ov107 witnesses for 021F1040 (p->f04==5), 021F1050 (p->f04<6), 021EFE3C (empty void), 021F1064 (flag clear) and veneers 021F1008/021F1010 via integrator label seeding.
  * symbols:
  *   func_021F0E6C 0x021F0E6C thumb ov107
  *   func_021EFC1C 0x021EFC1C thumb ov107
@@ -51,7 +51,7 @@
  *   func_021EFE40 0x021EFE40 thumb ov107
  *   func_021EFE3C 0x021EFE3C thumb ov107
  *   func_021EFFB0 0x021EFFB0 thumb ov107
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020461E4 0x020461E4 arm
  *   func_020788AC 0x020788AC arm
  *   func_02078C18 0x02078C18 arm
@@ -61,20 +61,20 @@
  *   func_02078A80 0x02078A80 arm
  *   func_02034714 0x02034714 arm
  *   func_02030734 0x02030734 arm
- *   func_0204A600 0x0204A600 arm
- *   func_0204A648 0x0204A648 arm
- *   func_02012E40 0x02012E40 thumb
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   GAME_DATA_IsSaving 0x02012E40 thumb
  *   GAME_DATA_SaveCancel 0x02012E08 thumb
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_0202EB44 0x0202EB44 thumb
  *   func_02012FFC 0x02012FFC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_0200C184 0x0200C184 thumb
  *   func_0200575C 0x0200575C thumb
- *   func_02012F2C 0x02012F2C thumb
+ *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008DF0 0x02008DF0 thumb
- *   func_0201293C 0x0201293C thumb
+ *   GAME_DATA_GetBoxManager 0x0201293C thumb
  *   func_02007774 0x02007774 thumb
  *   d_021F6E08 0x021F6E08 data a4
  *   d_021F6E0C 0x021F6E0C data a4
@@ -89,7 +89,7 @@ typedef struct File {
  u8 reserved1[16]; u8 arg[24];
 } File;
 extern void func_021F0E6C(void *),func_021EFC1C(u8 *,int);
-extern u8 func_02012E40(const u8 *);
+extern u8 GAME_DATA_IsSaving(const u8 *);
 typedef signed int     s32;
 struct BigObj;
 struct Bits;
@@ -97,11 +97,11 @@ struct Blk34;
 struct FSFile;
 struct Sub02008C20Obj;
 extern void GAME_DATA_SaveCancel(char *p);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern u32 func_020221A4(void);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 WIPE_SYS_EndCheck(void);
 extern int func_0202EB44(void);
 extern signed char func_02012FFC(void);
-extern void GFL_USE_FadeOutBgm(u32),func_0203D34C(u32,u32);
+extern void GFL_USE_FadeOutBgm(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void func_021F1628(void *,int);
 extern void func_021F1704(void *,int,int);
 extern void func_021F1A58(char *p, int a);
@@ -130,8 +130,8 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021F1174(int a, int b, int c);
 extern void func_021F1184(void *);
-extern void *func_02012F2C(int *p);
-extern u32 func_0201293C(const struct BigObj *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern int func_02007774(void *);
 extern int func_021F11BC(void *);
@@ -144,8 +144,8 @@ extern void func_021F0FE8(void *);
 extern int func_021F1040(int *p);
 extern int func_021F1010(void *);
 extern void *func_021F15B0(void *);
-extern void func_0204A600(void *);
-extern void func_0204A648(void);
+extern void CLACT_DrawSystem(void *);
+extern void CLACT_VBlankSystem(void);
 #define P(k) (*(void **)(p+(k)))
 #define W(k) (*(u32 *)(p+(k)))
 #define H(k) (*(u16 *)(p+(k)))
@@ -168,22 +168,22 @@ int func_021EE894(u8 *p) {
  u32 result;
  func_021F0E6C(O);
  if(W(16)==1 && W(32)!=2 && W(32)!=3) {
-  W(24)=func_02012E40(SAVE);
+  W(24)=GAME_DATA_IsSaving(SAVE);
   if(W(24)==1)GAME_DATA_SaveCancel(SAVE);
   W(32)=2;func_021EFC1C(p,3);
  }
  switch(PHASE) {
- case 0:func_0202208C(0,1,1,0,6,1,H(0));W(32)=1;break;
+ case 0:WIPE_SYS_Start(0,1,1,0,6,1,H(0));W(32)=1;break;
  case 1:
-  if(func_020221A4()==1) {
+  if(WIPE_SYS_EndCheck()==1) {
    if(func_0202EB44()==1){if(p[40]==0)W(32)=7;else W(32)=4;}
    else {func_021F1628(M,5);func_021F1A58(M,func_02012FFC());func_021F1B24(M,1);W(32)=33;}
   }break;
  case 2:
-  if(*(u8 *)P(8)==0)func_0202208C(0,0,0,0,6,1,H(0));
-  else {func_0202208C(0,0,0,32767,6,1,H(0));GFL_USE_FadeOutBgm(6);}
+  if(*(u8 *)P(8)==0)WIPE_SYS_Start(0,0,0,0,6,1,H(0));
+  else {WIPE_SYS_Start(0,0,0,32767,6,1,H(0));GFL_USE_FadeOutBgm(6);}
   W(32)=3;break;
- case 3:if(func_020221A4()==1)return 1;break;
+ case 3:if(WIPE_SYS_EndCheck()==1)return 1;break;
  case 4:func_021F1628(M,5);func_021F1704(M,43,func_02012FFC());W(32)=5;break;
  case 5:if(func_021F1B14(M)==1){func_021F19E4(M,0);W(32)=6;}break;
  case 6:
@@ -194,7 +194,7 @@ int func_021EE894(u8 *p) {
  case 8:if(func_021EF79C(p)==1)W(32)=9;break;
  case 9:
   func_021EF74C(p);
-  if(W(48)==1){W(32)=10;H(42)=0;func_021F0EFC(O);if(p[40]==0)func_0203D34C(0,H(0));else func_0203D34C(1,H(0));}
+  if(W(48)==1){W(32)=10;H(42)=0;func_021F0EFC(O);if(p[40]==0)GFL_NET_RestartWithDefaultTimeout(0,H(0));else GFL_NET_RestartWithDefaultTimeout(1,H(0));}
   else W(32)=2;break;
  case 10:if(func_021F1008(O)==1){W(32)=11;func_021F1018(O);}break;
  case 11:
@@ -219,8 +219,8 @@ int func_021EE894(u8 *p) {
  case 16:
   if(func_021F1060(O)==4){func_021F1184(O);func_021F1704(M,4,func_02012FFC());W(32)=17;}break;
  case 17:
-  if(func_021F1060(O)==5){func_02008DF0(func_02012F2C(SAVE),120);H(58)++;W(32)=18;}
-  else if(func_021F1060(O)==8){func_02008DF0(func_02012F2C(SAVE),120);H(58)++;func_021EFC1C(p,2);W(32)=23;}
+  if(func_021F1060(O)==5){func_02008DF0(GAME_DATA_GetTrainerRecord(SAVE),120);H(58)++;W(32)=18;}
+  else if(func_021F1060(O)==8){func_02008DF0(GAME_DATA_GetTrainerRecord(SAVE),120);H(58)++;func_021EFC1C(p,2);W(32)=23;}
   break;
  case 18:if(func_021F11BC(O)==1 && func_021F11F0(O,0,0)==1)W(32)=19;break;
  case 19:
@@ -240,7 +240,7 @@ fail_tail:func_021F1028(O);W(32)=28;
   if(p[40]==0){func_021F1704(M,7,func_02012FFC());W(32)=23;}
   else {func_021F1704(M,39,func_02012FFC());func_021F1B24(M,1);W(32)=27;}break;
  case 23:
-  if(func_021F1B14(M)==1) {u16 cnt=func_02007774((void *)func_0201293C(SAVE));if(func_021F11F0(O,5,cnt)==1){func_021F1704(M,11,func_02012FFC());W(32)=24;}}break;
+  if(func_021F1B14(M)==1) {u16 cnt=func_02007774((void *)GAME_DATA_GetBoxManager(SAVE));if(func_021F11F0(O,5,cnt)==1){func_021F1704(M,11,func_02012FFC());W(32)=24;}}break;
  case 24:
   if(func_021F1060(O)==2){func_021F1064(O);W(32)=14;}
   else if(func_021F1060(O)==9 || func_021F1060(O)==10){
@@ -258,5 +258,5 @@ fail_tail:func_021F1028(O);W(32)=28;
  case 32:func_021EFFB0(p);break;
  case 33:if(func_021F1B14(M)==1)W(32)=2;break;
  }
- func_0204A600(func_021F15B0(M));return 0;
+ CLACT_DrawSystem(func_021F15B0(M));return 0;
 }

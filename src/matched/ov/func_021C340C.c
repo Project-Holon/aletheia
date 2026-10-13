@@ -1,5 +1,5 @@
 /*
- * function: func_021C340C
+ * function: SODATEYA_GetPokemonCount
  * address:  0x021C340C
  * packet:   pkt_021C340C
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0200BCB8(u32, u32, u32, u32);
 
-int func_021C340C(u32 a, u32 b, u32 c, u32 d)
+int SODATEYA_GetPokemonCount(u32 a, u32 b, u32 c, u32 d)
 {
 return ((func_0200BCB8(((struct Obj18301 *)((u8 *)(a)))->f8, b, c, d) << 24) >> 24);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02173408
+ * function: UNION_COMM_ClearBeaconPcs
  * address:  0x02173408
  * packet:   pkt_ov012_02173408
  * region:   ov012
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * note:     unlabelled leaf (prints as .word in ov012.s); called from
- *           ov019 func_0217E904.
+ *           ov019 UNION_ONESELF_ColosseumExitMain.
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 
 void func_02082BCC(void *p, int v, int n);
 
-void func_02173408(u8 *w)
+void UNION_COMM_ClearBeaconPcs(u8 *w)
 {
     func_02082BCC(w + 0x2910, 0, 0x578);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA6C
+ * function: FIELD_PLACE_NAME_ClearForceShowRequest
  * address:  0x021BCA6C
  * packet:   pkt_021BCA6C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u8 *func_021BCA6C(u8 *p)
+u8 *FIELD_PLACE_NAME_ClearForceShowRequest(u8 *p)
 {
     ((struct Obj18196 *)p)->f4C = 0;
     return p;

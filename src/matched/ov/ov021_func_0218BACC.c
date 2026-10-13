@@ -1,5 +1,5 @@
 /*
- * function: func_0218BACC
+ * function: FIELD_BUILDMODEL_GetNodeHandle
  * address:  0x0218BACC
  * packet:   pkt_ov021_0218BACC
  * region:   ov021
@@ -15,7 +15,7 @@ typedef struct {
     void *arr[7];
 } S;
 
-unsigned short func_0218BACC(S *p, void *v)
+unsigned short FIELD_BUILDMODEL_GetNodeHandle(S *p, void *v)
 {
     int i;
     if (v == 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_0215DF6C
+ * function: SCRCMD_MUSICAL_FreeProcArgs
  * address:  0x0215DF6C
  * packet:   pkt_ov010_0215DF6C
  * region:   ov010
@@ -14,4 +14,4 @@
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_0215DF6C(void **p) { func_020307B0(*p); }
+void SCRCMD_MUSICAL_FreeProcArgs(void **p) { func_020307B0(*p); }

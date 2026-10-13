@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02184114",
+   "name": "UNION_APP_Close",
    "address": "0x02184114",
    "kind": "game",
    "region": "ov022",

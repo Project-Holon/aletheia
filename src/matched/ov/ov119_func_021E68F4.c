@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
@@ -22,7 +22,7 @@ typedef struct { short x,y; } Pt;
 typedef struct { Pt pos[6]; } Table;
 extern const Table d_021E7DEC;
 struct Obj;
-extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p,unsigned int v);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 typedef unsigned int   u32;
@@ -36,7 +36,7 @@ void func_021E68F4(int p, int i) {
     } else {
         if(!((struct Obj00001 *)p)->fFD4) {
             c.x=64;c.y=48;c.z=23;c.a=0;c.b=1;
-            ((struct Obj00001 *)p)->fFD4=(int)func_0204B294((void *)((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f894,((struct Obj00001 *)p)->f880,((struct Obj00001 *)p)->f8B0,&c,1,((struct Obj00001 *)p)->f5F4);
+            ((struct Obj00001 *)p)->fFD4=(int)CLACT_CreateActor((void *)((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f894,((struct Obj00001 *)p)->f880,((struct Obj00001 *)p)->f8B0,&c,1,((struct Obj00001 *)p)->f5F4);
         }
         func_0204B92C((struct Obj *)((struct Obj00001 *)p)->fFD4,1);
         func_0204B3DC((struct Obj *)((struct Obj00001 *)p)->fFD4,1);

@@ -1,7 +1,7 @@
 /*
  * file:     shortcut_menu.c
  * unit:     yes
- * function: func_021C4F7C, func_021C51A0, func_021C5224, func_021C5334, func_021C5348, func_021C536C, func_021C5380, func_021C5394, func_021C53A0, func_021C5424, func_021C5440, func_021C54C8, func_021C553C, func_021C56F8, func_021C5768, func_021C576C, func_021C577C, func_021C5880, func_021C58CC, func_021C59A8, func_021C59BC, func_021C59F8
+ * function: SHORTCUT_MENU_Create, SHORTCUT_MENU_Delete, SHORTCUT_MENU_Main, SHORTCUT_MENU_RunPrint, SHORTCUT_MENU_Start, SHORTCUT_MENU_RequestClose, SHORTCUT_MENU_IsWaitingInput, SHORTCUT_MENU_GetResult, SHORTCUT_MENU_InitList, SHORTCUT_MENU_FreeList, SHORTCUT_MENU_OnKeyUp, SHORTCUT_MENU_OnKeyDown, SHORTCUT_MENU_UpdateInput, SHORTCUT_MENU_FinishPrint, SHORTCUT_MENU_GetSelection, SHORTCUT_MENU_ListMoveCallback, SHORTCUT_MENU_UpdateCursorBg, SHORTCUT_MENU_ClampListWindow, SHORTCUT_MENU_CreateList, SHORTCUT_MENU_DeleteList, SHORTCUT_MENU_ScrollStep, SHORTCUT_MENU_SetActorsY
  * address:  0x021C4F7C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -20,49 +20,49 @@
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_020414AC  0x020414AC  arm
  *   func_02040C14  0x02040C14  arm
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   func_020490F4  0x020490F4  arm
  *   func_02049B68  0x02049B68  arm
- *   func_0204ABF0  0x0204ABF0  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204AF28  0x0204AF28  arm
+ *   CLACT_RegisterPalette  0x0204ABF0  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_020413B0  0x020413B0  arm
- *   func_02049238  0x02049238  arm
- *   func_0204B294  0x0204B294  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_02045B38  0x02045B38  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201C450  0x0201C450  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200C40C  0x0200C40C  thumb
  *   func_02041B6C  0x02041B6C  arm
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040618  0x02040618  arm
  *   func_02040588  0x02040588  arm
- *   d_021DE498     0x021DE498  data  ov021  a1
- *   d_021DAA60     0x021DAA60  data  a4
- *   d_021DAA54     0x021DAA54  data  a4
- *   func_0204B3B4  0x0204B3B4  arm
+ *   gShortcutMenuFileName     0x021DE498  data  ov021  a1
+ *   gShortcutMenuBgTemplate     0x021DAA60  data  a4
+ *   gShortcutMenuActorX     0x021DAA54  data  a4
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
- *   func_0201D83C  0x0201D83C  thumb
- *   func_02045C04  0x02045C04  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204B1CC  0x0204B1CC  arm
+ *   GF_FONT_Delete  0x0201D83C  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   func_02040DA8  0x02040DA8  arm
  *   func_020403F4  0x020403F4  arm
  *   func_020061E4 0x020061E4 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
- *   func_0201C4E4  0x0201C4E4  thumb
- *   func_020450F0  0x020450F0  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   func_020452E8  0x020452E8  arm
@@ -73,7 +73,7 @@
  *   func_02020350 0x02020350 thumb
  *   func_0203633C 0x0203633C arm
  *   func_020362DC 0x020362DC arm
- *   func_020200CC 0x020200CC thumb
+ *   BMP_MENULIST_Main 0x020200CC thumb
  *   func_02020344 0x02020344 thumb
  *   func_0200C480 0x0200C480 thumb
  *   func_02045770  0x02045770  arm
@@ -81,14 +81,15 @@
  *   func_02020314 0x02020314 thumb
  *   func_0200C468 0x0200C468 thumb
  *   func_0200C464 0x0200C464 thumb
- *   func_0201F81C 0x0201F81C thumb
- *   func_0201F878 0x0201F878 thumb
- *   func_0201FF30 0x0201FF30 thumb
- *   d_021DAA80    0x021DAA80 data  a4
- *   func_0202020C  0x0202020C  thumb
- *   func_0201F868  0x0201F868  thumb
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
+ *   BMP_MENULIST_Create 0x0201FF30 thumb
+ *   gShortcutMenuListTemplate    0x021DAA80 data  a4
+ *   BMP_MENULIST_Delete  0x0202020C  thumb
+ *   BMP_MENUWORK_Delete  0x0201F868  thumb
  *   abs_id_C2      0x000000C2  data
  *   ov171_id       0x000000AB  data  a1
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
  */
 #include "field_effect_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -250,46 +251,46 @@ extern u32 func_02082BCC(void *p, int v, int n);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(int);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern s32_021C4F7C func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32_021C4F7C func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32_021C4F7C func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32_021C4F7C CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+extern s32_021C4F7C CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32_021C4F7C CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_02049238(void *);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B92C(struct Obj *obj, unsigned int v);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C450(u16 n, u32 heap);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C40C(void *sys);
 extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 GF_FONT_Delete(void *ptr);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void func_020061E4(u32 se);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_02030EAC(struct Node *n);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern unsigned char func_02045730(struct Descriptor *d);
 extern void func_020409B4(unsigned int index);
 extern u32 func_020452E8(struct Descriptor *d);
@@ -300,7 +301,7 @@ extern void func_020355D8(u8 v);
 extern void func_020202EC(struct Obj *obj, u16 *out);
 extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
-extern s32 func_020200CC(struct Obj *o);
+extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern u32 func_02020344(struct Obj *obj, u32 n);
 extern u8 func_0200C480(u8 *a, int id, u8 pos);
 extern void *func_02045770(struct Descriptor *p);
@@ -308,40 +309,40 @@ extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern u16 func_02020314(struct Obj *obj);
 extern u16 func_0200C468(const u8 *a);
 extern u8 func_0200C464(const u8 *a, u32 i);
-extern void *func_0201F81C(int n, u32 heap);
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
-extern u32 func_0201F868(void *p);
-extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void *BMP_MENUWORK_Create(int n, u32 heap);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
+extern u32 BMP_MENUWORK_Delete(void *p);
+extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 /* Retain the mode used to store f59 for the helper's second argument. */
-ShortcutMenu *func_021C4F7C(void *gameSystem, int mode, const u16 *savedState, u16 textHeapId, u16 heapId);
-void func_021C51A0(ShortcutMenu *menu);
-void func_021C5224(ShortcutMenu *menu);
-int func_021C5334(ShortcutMenu *menu);
-void func_021C5348(ShortcutMenu *menu);
-void func_021C536C(ShortcutMenu *menu);
-int func_021C5380(ShortcutMenu *menu);
-u32 func_021C5394(ShortcutMenu *menu, u32 *outValue);
-void func_021C53A0(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct Obj **actors, u16 heapId);
-int func_021C5424(ShortcutMenu *menu, u16 *savedState);
-void func_021C5440(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *done);
-void func_021C54C8(ShortcutMenu *menu, int cursor, int itemCount, int *done);
-void func_021C553C(ShortcutMenu *menu);
-int func_021C56F8(ShortcutMenu *menu);
-int func_021C5768(ShortcutMenu *menu);
-void func_021C576C(void *list);
-void func_021C577C(void *list, int unused0, int unused1);
-void func_021C5880(u16 *scroll, u16 *cursor, u16 itemCount);
-void func_021C58CC(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId);
-int func_021C59A8(ShortcutMenu *menu, u16 *outScroll, u16 *outCursor);
-void func_021C59BC(void *task, ShortcutMenu *menu);
-void func_021C59F8(ShortcutMenu *menu, int offsetY);
-extern char d_021DE498[];
-extern const u32 d_021DAA60[];
-extern const u32 d_021DAA54[];
-extern const ShortcutListTemplate d_021DAA80;
+ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedState, u16 textHeapId, u16 heapId);
+void SHORTCUT_MENU_Delete(ShortcutMenu *menu);
+void SHORTCUT_MENU_Main(ShortcutMenu *menu);
+int SHORTCUT_MENU_RunPrint(ShortcutMenu *menu);
+void SHORTCUT_MENU_Start(ShortcutMenu *menu);
+void SHORTCUT_MENU_RequestClose(ShortcutMenu *menu);
+int SHORTCUT_MENU_IsWaitingInput(ShortcutMenu *menu);
+u32 SHORTCUT_MENU_GetResult(ShortcutMenu *menu, u32 *outValue);
+void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct Obj **actors, u16 heapId);
+int SHORTCUT_MENU_FreeList(ShortcutMenu *menu, u16 *savedState);
+void SHORTCUT_MENU_OnKeyUp(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *done);
+void SHORTCUT_MENU_OnKeyDown(ShortcutMenu *menu, int cursor, int itemCount, int *done);
+void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu);
+int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu);
+int SHORTCUT_MENU_GetSelection(ShortcutMenu *menu);
+void SHORTCUT_MENU_ListMoveCallback(void *list);
+void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1);
+void SHORTCUT_MENU_ClampListWindow(u16 *scroll, u16 *cursor, u16 itemCount);
+void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId);
+int SHORTCUT_MENU_DeleteList(ShortcutMenu *menu, u16 *outScroll, u16 *outCursor);
+void SHORTCUT_MENU_ScrollStep(void *task, ShortcutMenu *menu);
+void SHORTCUT_MENU_SetActorsY(ShortcutMenu *menu, int offsetY);
+extern char gShortcutMenuFileName[];
+extern const u32 gShortcutMenuBgTemplate[];
+extern const u32 gShortcutMenuActorX[];
+extern const ShortcutListTemplate gShortcutMenuListTemplate;
 extern unsigned char abs_id_C2[];
 extern char ov171_id[];
 /*
@@ -353,7 +354,7 @@ extern char ov171_id[];
  * written once before the loop, and the element address is spelled
  * menu + i * 4 + 0x58 (r6 = menu + i*4 shared with the table index).
  */
-ShortcutMenu *func_021C4F7C(void *gameSystem, int mode, const u16 *savedState, u16 textHeapId, u16 heapId)
+ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedState, u16 textHeapId, u16 heapId)
 {
     ShortcutActorPos pos;
     int tileBase;
@@ -362,41 +363,41 @@ ShortcutMenu *func_021C4F7C(void *gameSystem, int mode, const u16 *savedState, u
     int i;
 
     i = 0;
-    menu = func_02030734(heapId, 0x88, 0, d_021DE498, 0xFC);
+    menu = func_02030734(heapId, 0x88, 0, gShortcutMenuFileName, 0xFC);
     func_02082BCC(menu, 0, 0x88);
     menu->resultKind = 0;
     menu->resultValue = 25;
     menu->savedState = savedState;
-    func_0203FCA0(1, (const struct BgTemplate *)d_021DAA60, 0);
+    func_0203FCA0(1, (const struct BgTemplate *)gShortcutMenuBgTemplate, 0);
     func_020414AC(1);
     func_02040C14(1, 0, 1, 0);
-    menu->actorBank = func_0204B100(8, 0, heapId);
+    menu->actorBank = CLACT_CreateUnit(8, 0, heapId);
     tileBase = 0x80;
     resArchive = func_020490F4(0x80, heapId);
     func_02049B68(resArchive, 0, 0, tileBase + 0xE0, 0x40, heapId);
-    menu->charResId = func_0204ABF0(resArchive, 4, 0, 0x40, heapId);
-    menu->palResId = func_0204A6C8(resArchive, 3, 0, 0, heapId);
-    menu->cellResId = func_0204AF28(resArchive, 2, 1, heapId);
+    menu->charResId = CLACT_RegisterPalette(resArchive, 4, 0, 0x40, heapId);
+    menu->palResId = CLACT_RegisterCharacter(resArchive, 3, 0, 0, heapId);
+    menu->cellResId = CLACT_RegisterCellAnim(resArchive, 2, 1, heapId);
     tileBase += 0xC0;
     func_02049B68(resArchive, 6, 0, tileBase, 0x20, heapId);
     func_02049658(resArchive, 5, 1, 0, 0, 0, heapId);
     func_020498F4(resArchive, 7, 1, 0, 0, 0, heapId);
     func_020413B0(1, 0, 11, 32, 1, 10);
-    func_02049238(resArchive);
+    ARC_TOOL_DeleteHandle(resArchive);
     func_02082BCC(&pos, 0, 8);
     pos.y = 0x60;
     for (i = 0; i < 3; i++) {
         pos.z = i;
-        pos.x = d_021DAA54[i];
-        menu->actors[i] = func_0204B294(menu->actorBank, menu->palResId, menu->charResId, menu->cellResId, &pos, 0, heapId);
+        pos.x = gShortcutMenuActorX[i];
+        menu->actors[i] = CLACT_CreateActor(menu->actorBank, menu->palResId, menu->charResId, menu->cellResId, &pos, 0, heapId);
         func_0204B3DC(menu->actors[i], 0);
         func_0204B92C(menu->actors[i], 1);
     }
     menu->ownedMsgBank = func_02045B38(0, 2, 0xAD, heapId);
-    menu->ownedFont = func_0201D7EC(0x17, 0, 0, 0, textHeapId);
+    menu->ownedFont = GF_FONT_Create(0x17, 0, 0, 0, textHeapId);
     menu->ownedPrintSys = func_0201C450(0x1000, heapId);
-    func_021C53A0(menu, menu->savedState, menu->ownedMsgBank, menu->ownedFont,
-        menu->ownedPrintSys, func_0200C40C(func_02012EBC(gameSystem)), menu->actors, textHeapId);
+    SHORTCUT_MENU_InitList(menu, menu->savedState, menu->ownedMsgBank, menu->ownedFont,
+        menu->ownedPrintSys, func_0200C40C(GAME_DATA_GetSaveControl(gameSystem)), menu->actors, textHeapId);
     func_02041B6C(1);
     func_0207D63C(0x04000050, 2, 1, 12, 4);
     switch (mode) {
@@ -414,35 +415,35 @@ ShortcutMenu *func_021C4F7C(void *gameSystem, int mode, const u16 *savedState, u
     return menu;
 }
 
-void func_021C51A0(ShortcutMenu *menu)
+void SHORTCUT_MENU_Delete(ShortcutMenu *menu)
 {
     int i = 0;
 
     *(volatile u16 *)0x04000050 = 0;
     func_02040588(1, 0);
-    func_021C5424(menu, (u16 *)menu->savedState);
+    SHORTCUT_MENU_FreeList(menu, (u16 *)menu->savedState);
     for (i = 0; i < 3; i++) {
-        func_0204B3B4(menu->actors[i]);
+        CLACT_DeleteActor(menu->actors[i]);
     }
     func_0201C6EC(menu->ownedPrintSys);
     func_0201C4C0(menu->ownedPrintSys);
-    func_0201D83C(menu->ownedFont);
-    func_02045C04((struct Rec *)menu->ownedMsgBank);
-    func_0204ADA4(menu->charResId);
-    func_0204A8D4(menu->palResId);
-    func_0204AFD8(menu->cellResId);
-    func_0204B1CC(menu->actorBank);
+    GF_FONT_Delete(menu->ownedFont);
+    MSGDATA_Delete((struct Rec *)menu->ownedMsgBank);
+    CLACT_ReleasePalette(menu->charResId);
+    CLACT_ReleaseCharacter(menu->palResId);
+    CLACT_ReleaseCellAnim(menu->cellResId);
+    CLACT_DeleteUnit(menu->actorBank);
     func_02040DA8(1, 1, 0);
     func_020403F4(1);
     func_020307B0(menu);
 }
 
-void func_021C5224(ShortcutMenu *menu)
+void SHORTCUT_MENU_Main(ShortcutMenu *menu)
 {
     int selection;
     int i;
 
-    if (func_021C5334(menu) == 0) {
+    if (SHORTCUT_MENU_RunPrint(menu) == 0) {
         return;
     }
     switch (menu->state) {
@@ -452,7 +453,7 @@ void func_021C5224(ShortcutMenu *menu)
         func_020061E4(0x54C);
         menu->scrollFrame = 0;
         menu->scrollDone = 0;
-        menu->scrollTask = func_020056A0((void *)func_021C59BC, menu, 0);
+        menu->scrollTask = func_020056A0((void *)SHORTCUT_MENU_ScrollStep, menu, 0);
         menu->state = 2;
         break;
     case 2:
@@ -462,8 +463,8 @@ void func_021C5224(ShortcutMenu *menu)
         }
         break;
     case 3:
-        func_021C553C(menu);
-        selection = func_021C5768(menu);
+        SHORTCUT_MENU_UpdateInput(menu);
+        selection = SHORTCUT_MENU_GetSelection(menu);
         switch (selection) {
         case -1:
             menu->resultKind = 0;
@@ -493,16 +494,16 @@ void func_021C5224(ShortcutMenu *menu)
     }
 }
 
-int func_021C5334(ShortcutMenu *menu)
+int SHORTCUT_MENU_RunPrint(ShortcutMenu *menu)
 {
-    func_0201C4E4(menu->ownedPrintSys);
-    return func_021C56F8(menu);
+    PRINTSYS_QUE_Main(menu->ownedPrintSys);
+    return SHORTCUT_MENU_FinishPrint(menu);
 }
 
 /*
  * Starts the fade sequence once (state 0 to 1).
  */
-void func_021C5348(ShortcutMenu *menu)
+void SHORTCUT_MENU_Start(ShortcutMenu *menu)
 {
     if (menu->state == 0) {
         menu->resultKind = 0;
@@ -515,7 +516,7 @@ void func_021C5348(ShortcutMenu *menu)
 /*
  * Advances the sequence from state 3 to 4 (EXACT*: pad).
  */
-void func_021C536C(ShortcutMenu *menu)
+void SHORTCUT_MENU_RequestClose(ShortcutMenu *menu)
 {
     if (menu->state == 3)
         menu->state = 4;
@@ -524,7 +525,7 @@ void func_021C536C(ShortcutMenu *menu)
 /*
  * Returns 1 in states 2 and 5.
  */
-int func_021C5380(ShortcutMenu *menu)
+int SHORTCUT_MENU_IsWaitingInput(ShortcutMenu *menu)
 {
     int waiting = 1;
 
@@ -536,14 +537,14 @@ int func_021C5380(ShortcutMenu *menu)
 /*
  * Returns the result word and optionally its argument.
  */
-u32 func_021C5394(ShortcutMenu *menu, u32 *outValue)
+u32 SHORTCUT_MENU_GetResult(ShortcutMenu *menu, u32 *outValue)
 {
     if (outValue != 0)
         *outValue = menu->resultValue;
     return menu->resultKind;
 }
 
-void func_021C53A0(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct Obj **actors, u16 heapId)
+void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct Obj **actors, u16 heapId)
 {
     int i = 0;
     struct Descriptor *window;
@@ -557,14 +558,14 @@ void func_021C53A0(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *ms
     for (i = 0; i < 3; i++) {
         menu->listActors[i] = actors[i];
     }
-    window = (struct Descriptor *)func_020450F0(1, 1, 0xc, 0x1e, 0xc, 0xb, 1);
+    window = (struct Descriptor *)BMP_WIN_Create(1, 1, 0xc, 0x1e, 0xc, 0xb, 1);
     menu->window = window;
-    func_02045334(window);
-    func_02045374((struct Cfg *)window);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen((struct Cfg *)window);
     func_020409B4(func_02045730(window));
     menu->printWindow = menu->window;
     menu->printBusy = 0;
-    func_021C58CC(menu, savedState[0], savedState[1], heapId);
+    SHORTCUT_MENU_CreateList(menu, savedState[0], savedState[1], heapId);
 }
 
 /*
@@ -572,9 +573,9 @@ void func_021C53A0(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *ms
  *
  * Addresses are Black-image addresses.
  */
-int func_021C5424(ShortcutMenu *menu, u16 *savedState)
+int SHORTCUT_MENU_FreeList(ShortcutMenu *menu, u16 *savedState)
 {
-    func_021C59A8(menu, savedState, savedState + 1);
+    SHORTCUT_MENU_DeleteList(menu, savedState, savedState + 1);
     func_020452E8(menu->window);
     return func_02082BCC(menu, 0, 76);
 }
@@ -584,7 +585,7 @@ int func_021C5424(ShortcutMenu *menu, u16 *savedState)
  * the cursor line. Load-bearing: int-typed line count (stops (c-1)-(n-1)
  * folding) and the u16 local for the line index.
  */
-void func_021C5440(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *done)
+void SHORTCUT_MENU_OnKeyUp(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *done)
 {
     int lastIndex;
     u16 cursorIndex;
@@ -592,8 +593,8 @@ void func_021C5440(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *done)
 
     if (cursor == 0) {
         lastIndex = func_02020350(menu->list, 3);
-        func_021C59A8(menu, 0, 0);
-        func_021C58CC(menu, (itemCount - 1) - (lastIndex - 1), lastIndex - 1, menu->heapId);
+        SHORTCUT_MENU_DeleteList(menu, 0, 0);
+        SHORTCUT_MENU_CreateList(menu, (itemCount - 1) - (lastIndex - 1), lastIndex - 1, menu->heapId);
         if (menu->moveMode == 1)
             menu->cursorWrapped = 1;
         func_020061E4(0x548);
@@ -601,13 +602,13 @@ void func_021C5440(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *done)
     } else if (menu->cursorWrapped == 1 && menu->moveMode == 1) {
         func_020202FC(menu->list, 0, &cursorIndex);
         row = func_02020324(menu->list, cursorIndex) >> 3;
-        func_021C59F8(menu, (row + 0xC) * 8);
+        SHORTCUT_MENU_SetActorsY(menu, (row + 0xC) * 8);
         menu->cursorWrapped = 0;
         *done = 1;
     }
 }
 
-void func_021C54C8(ShortcutMenu *menu, int cursor, int itemCount, int *done)
+void SHORTCUT_MENU_OnKeyDown(ShortcutMenu *menu, int cursor, int itemCount, int *done)
 {
     u16 cursorIndex;
     u16 row;
@@ -616,12 +617,12 @@ void func_021C54C8(ShortcutMenu *menu, int cursor, int itemCount, int *done)
         if (menu->moveMode == 1) {
             func_020202FC(menu->list, 0, &cursorIndex);
             row = func_02020324(menu->list, (u16)(cursorIndex + 1)) >> 3;
-            func_021C59F8(menu, (row + 0xc) << 3);
+            SHORTCUT_MENU_SetActorsY(menu, (row + 0xc) << 3);
             menu->cursorWrapped ^= 1;
         }
         if (menu->cursorWrapped == 0) {
-            func_021C59A8(menu, 0, 0);
-            func_021C58CC(menu, 0, 0, menu->heapId);
+            SHORTCUT_MENU_DeleteList(menu, 0, 0);
+            SHORTCUT_MENU_CreateList(menu, 0, 0, menu->heapId);
         }
         func_020061E4(0x548);
         *done = 1;
@@ -630,7 +631,7 @@ void func_021C54C8(ShortcutMenu *menu, int cursor, int itemCount, int *done)
     menu->cursorWrapped = 0;
 }
 
-void func_021C553C(ShortcutMenu *menu)
+void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
 {
     int wrapped;
     u16 pickCursor[2];
@@ -648,12 +649,12 @@ void func_021C553C(ShortcutMenu *menu)
     func_020202EC(menu->list, &pickCursor[1]);
     itemCount = func_02020350(menu->list, 2);
     if (func_0203633C() & 0x40) {
-        func_021C5440(menu, pickCursor[1], itemCount, (u32 *)&wrapped);
+        SHORTCUT_MENU_OnKeyUp(menu, pickCursor[1], itemCount, (u32 *)&wrapped);
     } else if (func_0203633C() & 0x80) {
-        func_021C54C8(menu, pickCursor[1], itemCount, &wrapped);
+        SHORTCUT_MENU_OnKeyDown(menu, pickCursor[1], itemCount, &wrapped);
     }
     if (wrapped == 0) {
-        selection = func_020200CC(menu->list);
+        selection = BMP_MENULIST_Main(menu->list);
     }
     if (selection == -1) {
         if (func_020362DC() & 0x400) {
@@ -682,11 +683,11 @@ void func_021C553C(ShortcutMenu *menu)
             } else {
                 selection = func_0200C480(menu->menuData, selection, moveCursor[0]);
             }
-            func_021C59A8(menu, &listWindow[0], &listWindow[1]);
+            SHORTCUT_MENU_DeleteList(menu, &listWindow[0], &listWindow[1]);
             if (moveCursor[0] - 1 == selection) {
                 listWindow[1]--;
             }
-            func_021C58CC(menu, listWindow[0], listWindow[1], menu->heapId);
+            SHORTCUT_MENU_CreateList(menu, listWindow[0], listWindow[1], menu->heapId);
             toggleMode = 1;
         }
     }
@@ -701,7 +702,7 @@ void func_021C553C(ShortcutMenu *menu)
             for (i = 0; i < 3; i++) {
                 func_0204B3DC(menu->listActors[i], 0);
             }
-            func_021C577C(menu->list, 0, 0);
+            SHORTCUT_MENU_UpdateCursorBg(menu->list, 0, 0);
             return;
         }
         if (menu->moveMode == 1) {
@@ -711,7 +712,7 @@ void func_021C553C(ShortcutMenu *menu)
     }
 }
 
-int func_021C56F8(ShortcutMenu *menu)
+int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu)
 {
     struct PrintSys *printSys = menu->printSys;
     int i;
@@ -719,7 +720,7 @@ int func_021C56F8(ShortcutMenu *menu)
 
     if (menu->printBusy != 0) {
         if (func_0201C6C4(printSys, (void *)((int)func_02045770(menu->printWindow))) == 0) {
-            func_02045334(menu->printWindow);
+            BMP_WIN_TransferChars(menu->printWindow);
             menu->printBusy = 0;
         }
     }
@@ -729,7 +730,7 @@ int func_021C56F8(ShortcutMenu *menu)
     }
     if (finished != 0) {
         if (menu->redrawBg != 0) {
-            func_021C577C(menu->list, 0, 0);
+            SHORTCUT_MENU_UpdateCursorBg(menu->list, 0, 0);
             menu->redrawBg = 0;
         }
         if (menu->showActors != 0) {
@@ -743,10 +744,10 @@ int func_021C56F8(ShortcutMenu *menu)
 }
 
 /*
- * Unlabelled leaf (no lr save): returns the selection func_021C553C
- * stores at +0x18. Called from func_021C5224.
+ * Unlabelled leaf (no lr save): returns the selection SHORTCUT_MENU_UpdateInput
+ * stores at +0x18. Called from SHORTCUT_MENU_Main.
  */
-int func_021C5768(ShortcutMenu *menu)
+int SHORTCUT_MENU_GetSelection(ShortcutMenu *menu)
 {
     return menu->selection;
 }
@@ -755,12 +756,12 @@ int func_021C5768(ShortcutMenu *menu)
  * Raises the redraw flag on the menu stored as the list's user pointer
  * (EXACT*: pad).
  */
-void func_021C576C(void *list)
+void SHORTCUT_MENU_ListMoveCallback(void *list)
 {
     *(u32 *)(func_02020350(list, 0x13) + 0x44) = 1;
 }
 
-void func_021C577C(void *list, int unused0, int unused1)
+void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
 {
     u16 listPos[2];
     ShortcutMenu *menu;
@@ -793,13 +794,13 @@ void func_021C577C(void *list, int unused0, int unused1)
     if (menu->cursorWrapped == 1) {
         row = func_02020350(menu->list, 3);
         row = func_02020324(menu->list, row) >> 3;
-        func_021C59F8(menu, (row + 12) << 3);
+        SHORTCUT_MENU_SetActorsY(menu, (row + 12) << 3);
     } else {
-        func_021C59F8(menu, (cursorRow + 12) << 3);
+        SHORTCUT_MENU_SetActorsY(menu, (cursorRow + 12) << 3);
     }
 }
 
-void func_021C5880(u16 *scroll, u16 *cursor, u16 itemCount)
+void SHORTCUT_MENU_ClampListWindow(u16 *scroll, u16 *cursor, u16 itemCount)
 {
     int total = *scroll + *cursor;
 
@@ -824,17 +825,17 @@ void func_021C5880(u16 *scroll, u16 *cursor, u16 itemCount)
     }
 }
 
-void func_021C58CC(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId)
+void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId)
 {
     ShortcutListTemplate tmpl;
     u32 itemCount;
     u32 i;
 
     itemCount = func_0200C468(menu->menuData);
-    menu->listItems = func_0201F81C(itemCount, heapId);
+    menu->listItems = BMP_MENUWORK_Create(itemCount, heapId);
     for (i = 0; i < itemCount; i++) {
         u8 entryId = func_0200C464(menu->menuData, (u8)i);
-        func_0201F878(menu->listItems, (u32)menu->msgBank, (int)entryId, (int)entryId, heapId);
+        BMP_MENUWORK_AddMsgItem(menu->listItems, (u32)menu->msgBank, (int)entryId, (int)entryId, heapId);
     }
     while (cursor + scroll >= itemCount) {
         if (cursor != 0) {
@@ -843,11 +844,11 @@ void func_021C58CC(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId)
             scroll--;
         }
     }
-    func_021C5880(&scroll, &cursor, itemCount);
-    tmpl = d_021DAA80;
+    SHORTCUT_MENU_ClampListWindow(&scroll, &cursor, itemCount);
+    tmpl = gShortcutMenuListTemplate;
     tmpl.items = menu->listItems;
     tmpl.totalItems = itemCount;
-    tmpl.moveCursorFunc = (void *)func_021C576C;
+    tmpl.moveCursorFunc = (void *)SHORTCUT_MENU_ListMoveCallback;
     tmpl.printFunc = 0;
     tmpl.window = menu->window;
     tmpl.cbParam = menu;
@@ -855,7 +856,7 @@ void func_021C58CC(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId)
     tmpl.windowRef = &menu->printWindow;
     tmpl.printSys = menu->printSys;
     tmpl.font = menu->font;
-    menu->list = func_0201FF30((struct Src *)(&tmpl), scroll, cursor, heapId);
+    menu->list = BMP_MENULIST_Create((struct Src *)(&tmpl), scroll, cursor, heapId);
 }
 
 /*
@@ -863,16 +864,16 @@ void func_021C58CC(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 heapId)
  *
  * Addresses are Black-image addresses.
  */
-int func_021C59A8(ShortcutMenu *menu, u16 *outScroll, u16 *outCursor)
+int SHORTCUT_MENU_DeleteList(ShortcutMenu *menu, u16 *outScroll, u16 *outCursor)
 {
-    func_0202020C(menu->list, outScroll, outCursor);
-    return func_0201F868(menu->listItems);
+    BMP_MENULIST_Delete(menu->list, outScroll, outCursor);
+    return BMP_MENUWORK_Delete(menu->listItems);
 }
 
 /*
  * Scroll step: slides the BG by 0xC0/4 per frame and flags the end after 4.
  */
-void func_021C59BC(void *task, ShortcutMenu *menu)
+void SHORTCUT_MENU_ScrollStep(void *task, ShortcutMenu *menu)
 {
     u16 frame = menu->scrollFrame;
     int offset = frame * 0xC0 / 4 - 0xC0;
@@ -889,7 +890,7 @@ void func_021C59BC(void *task, ShortcutMenu *menu)
  * Sets the y offset of the three sprite handles (EXACT*: pad). The split i =
  * 0; y = v; ordering is what schedules the zero before the sign extension.
  */
-void func_021C59F8(ShortcutMenu *menu, int offsetY)
+void SHORTCUT_MENU_SetActorsY(ShortcutMenu *menu, int offsetY)
 {
     s16 y;
     int i;
@@ -898,7 +899,7 @@ void func_021C59F8(ShortcutMenu *menu, int offsetY)
     i = 0;
     y = offsetY;
     for (; i < 3; i++) {
-        func_0204B454((struct Actor *)menu->listActors[i], (struct PtS *)&offset, 0);
+        CLACT_GetActorSurfacePos((struct Actor *)menu->listActors[i], (struct PtS *)&offset, 0);
         offset.y = y;
         func_0204B404(menu->listActors[i], (const struct Vec2 *)(&offset), 0);
     }

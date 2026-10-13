@@ -1,5 +1,5 @@
 /*
- * function: func_021990D4
+ * function: FLDMMDL_ACMD_BounceMove
  * address:  0x021990D4
  * packet:   pkt_ov021_021990D4
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   d_021D4C1C     0x021D4C1C  data   a4
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -25,11 +25,11 @@ typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
 typedef struct { int w[10]; } T40;
 extern T40 d_021D4C1C;
-extern void *func_0216D6D4(void *p);
-extern void func_0216D8C0(u32, Vec *);
-extern u32 func_0216D7CC(u32);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern void FLDMMDL_SetDrawOffset(u32, Vec *);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-int func_021990D4(u32 a)
+int FLDMMDL_ACMD_BounceMove(u32 a)
 {
     Vec v = { 0, 0, 0 };
     T40 t;
@@ -37,16 +37,16 @@ int func_021990D4(u32 a)
     int i;
 
     t = d_021D4C1C;
-    p = func_0216D6D4((void *)a);
+    p = FLDMMDL_GetMoveCmdWork((void *)a);
     i = p[0];
     if (i >= 10) {
         i = 9;
     }
     v.y = t.w[i];
-    func_0216D8C0(a, &v);
+    FLDMMDL_SetDrawOffset(a, &v);
     p[0] = p[0] + 1;
     if (p[0] >= 20) {
-        func_0216D7CC(a);
+        FLDMMDL_IncAcmdSeq(a);
     }
     return 0;
 }

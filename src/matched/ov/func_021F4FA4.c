@@ -14,6 +14,7 @@
  *
  * symbols:
  *   func_020056BC  0x020056BC  thumb
+ *   TIME_ICON_Create  0x0202EE30  thumb  arm9
  *
  *
  * Start a frame with the 0x48-byte object held at +0xd40 and keep the result at +0xdf8.
@@ -27,10 +28,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020056BC(void);
-extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 
 void func_021F4FA4(u8 *p)
 {
-    ((struct Obj12194 *)p)->fDF8 = (u32)func_0202EE30((void *)func_020056BC(), (void *)(((struct Obj12194 *)p)->fD40),
+    ((struct Obj12194 *)p)->fDF8 = (u32)TIME_ICON_Create((void *)func_020056BC(), (void *)(((struct Obj12194 *)p)->fD40),
                                         0xf, 0x10, 0x48);
 }

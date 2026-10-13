@@ -1,5 +1,5 @@
 /*
- * function: func_02169A68
+ * function: FIELD_G3D_MAP_PickTextureRes
  * address:  0x02169A68
  * packet:   pkt_02169A68
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046F48  0x02046F48  arm
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  */
 #include "../include/Obj02337.h"
 
@@ -20,9 +20,9 @@ typedef unsigned int u32;
 
 struct Tagged;
 
-extern void *func_02046F48(struct Tagged *p);
+extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
 
-void *func_02169A68(int a0)
+void *FIELD_G3D_MAP_PickTextureRes(int a0)
 {
     int t4;
     void *p;
@@ -30,7 +30,7 @@ void *func_02169A68(int a0)
 t4 = a0 + 0;
 a0 = a0 + 0x88;
 a0 = *(int *)&((struct Obj02337 *)((char *)a0))->f0;
-    p = func_02046F48((struct Tagged *)a0);
+    p = G3D_SYSTEM_GetResourceFile((struct Tagged *)a0);
 loc_02169A74:
     if (p != 0) goto loc_02169A82;
 loc_02169A78:

@@ -1,5 +1,5 @@
 /*
- * function: func_0217EE90
+ * function: UNION_MSG_RegisterPartnerWords
  * address:  0x0217EE90
  * packet:   pkt_ov019_0217EE90
  * region:   ov019
@@ -13,15 +13,15 @@
  *   func_02034714  0x02034714  arm
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02045924  0x02045924  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetString  0x02045924  arm
  *   func_0201EE0C  0x0201EE0C  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201F02C  0x0201F02C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201F048  0x0201F048  thumb
  *   func_0201F094  0x0201F094  thumb
- *   func_0217EFE0  0x0217EFE0  thumb  ov019
+ *   UNION_MSG_SetGreetingWordFlag  0x0217EFE0  thumb  ov019
  *   d_021807F8     0x021807F8  data  a1
  */
 
@@ -70,18 +70,18 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u16  *func_020084F4(u32 a);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
-extern void func_0217EFE0(int a, unsigned int n);
+extern void UNION_MSG_SetGreetingWordFlag(int a, unsigned int n);
 extern const char d_021807F8[];
 
-void func_0217EE90(Self *self)
+void UNION_MSG_RegisterPartnerWords(Self *self)
 {
     void *t;
     void *s;
@@ -110,10 +110,10 @@ void func_0217EE90(Self *self)
         flag = (int)func_02008550((const struct Sub0200852CObj *)x);
     }
 
-    s = func_020457B0(0x20, 0x41);
-    func_02045924(s, buf);
+    s = STRBUF_Create(0x20, 0x41);
+    STRBUF_SetString(s, buf);
     func_0201EE0C(self->win2804, 0, s, flag, 1, kind);
-    func_02045808(s);
+    STRBUF_Delete(s);
     func_0201F02C(self->win2804, 1, (void *)x);
 
     switch (kind) {
@@ -128,12 +128,12 @@ void func_0217EE90(Self *self)
     }
     t = func_02045EC0(self->msg2808, id);
     func_0201EE0C(self->win2804, 2, t, flag, 1, kind);
-    func_02045808(t);
+    STRBUF_Delete(t);
 
     if (sub->rec != 0 && sub->rec->f26 != 0) {
         func_0201F048(self->win2804, 3, sub->rec->f26);
         if (sub->rec->f27 != 0)
             func_0201F094(self->win2804, 4, sub->rec->f26, sub->rec->f27);
     }
-    func_0217EFE0(self->sys->f8, kind);
+    UNION_MSG_SetGreetingWordFlag(self->sys->f8, kind);
 }

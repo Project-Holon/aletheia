@@ -1,5 +1,5 @@
 /*
- * function: func_021B6588
+ * function: MONOLITH_TOOL_FreePalAnm
  * address: 0x021B6588
  * packet: pkt_ov071_021B6588
  * region: ov071
@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020215A0 0x020215A0 thumb
- *   func_02021540 0x02021540 thumb
+ *   PALANM_FreeSlotBuffers 0x020215A0 thumb
+ *   PALANM_Delete 0x02021540 thumb
  */
 typedef unsigned int u32;
 struct PalAnmSlot;
-extern void func_020215A0(struct PalAnmSlot *, u32);
-extern u32 func_02021540(void *a0);
-void func_021B6588(struct PalAnmSlot **p)
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *, u32);
+extern u32 PALANM_Delete(void *a0);
+void MONOLITH_TOOL_FreePalAnm(struct PalAnmSlot **p)
 {
-    func_020215A0(*p, 2);
-    func_020215A0(*p, 3);
-    func_020215A0(*p, 0);
-    func_020215A0(*p, 1);
-    func_02021540(*p);
+    PALANM_FreeSlotBuffers(*p, 2);
+    PALANM_FreeSlotBuffers(*p, 3);
+    PALANM_FreeSlotBuffers(*p, 0);
+    PALANM_FreeSlotBuffers(*p, 1);
+    PALANM_Delete(*p);
 }

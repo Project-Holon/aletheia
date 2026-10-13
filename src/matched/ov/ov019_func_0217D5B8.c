@@ -1,5 +1,5 @@
 /*
- * function: func_0217D5B8
+ * function: UNION_ONESELF_AppMain
  * address:  0x0217D5B8
  * packet:   pkt_ov019_0217D5B8
  * region:   ov019
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217BB04  0x0217BB04  thumb  ov019
- *   func_020399A8  0x020399A8  arm
+ *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0217F1EC  0x0217F1EC  thumb  ov019
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   func_02030734  0x02030734  arm
- *   func_02012934  0x02012934  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02012F2C  0x02012F2C  thumb
- *   func_0217422C  0x0217422C  thumb  ov012
- *   func_02174268  0x02174268  thumb  ov012
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
+ *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
  *   func_020307B0  0x020307B0  arm
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0217B8E4  0x0217B8E4  thumb  ov019
- *   func_02172D50  0x02172D50  thumb  ov012
- *   func_02172D68  0x02172D68  thumb  ov012
- *   func_02173D38  0x02173D38  thumb  ov012
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
+ *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
+ *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
+ *   UNION_COMMAND_SendAppEntry  0x02173D38  thumb  ov012
  *   func_0217EE10  0x0217EE10  thumb  ov019
  *   func_0217EDEC  0x0217EDEC  thumb  ov019
  *   func_0217EE1C  0x0217EE1C  thumb  ov019
  *   func_0217EDF8  0x0217EDF8  thumb  ov019
- *   func_0217F210  0x0217F210  thumb  ov019
- *   func_02172D20  0x02172D20  thumb  ov012
- *   func_021734A8  0x021734A8  thumb  ov012
+ *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
+ *   UNION_COMM_RequestRestart  0x02172D20  thumb  ov012
+ *   UNION_COMM_SetSituationParam  0x021734A8  thumb  ov012
  *   d_021807E8     0x021807E8  data  a4
  */
 #include "../include/Obj00033.h"
@@ -57,41 +57,41 @@ typedef struct {
     u8 b1 : 1;
 } Obj;
 
-extern int func_0217BB04(char *p);
+extern int UNION_ONESELF_CheckNetError(char *p);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_0217F1EC(u8 *p);
+extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 struct Big;
-extern void *func_02012EBC(struct Big *p);
-extern void *func_02012F2C(int *p);
-extern void func_0217422C(u8 *p, int a, int b);
-extern int func_02174268(u8 *a);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
+extern void UNION_MAIN_RequestScene(u8 *p, int a, int b);
+extern int UNION_MAIN_IsScenePending(u8 *a);
 extern u32 func_020307B0(void *p);
 extern u32 func_0200FB24(void);
-extern int func_0217B8E4(char *p, int v);
-extern void func_02172D50(u8 *a);
-extern int func_02172D68(u8 *a);
-extern u32 func_02173D38(u8 *p);
+extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
+extern void UNION_COMM_RequestStart(u8 *a);
+extern int UNION_COMM_IsResetting(u8 *a);
+extern u32 UNION_COMMAND_SendAppEntry(u8 *p);
 extern u16 func_0217EE10(int i);
 extern u16 func_0217EDEC(int i);
 extern u16 func_0217EE1C(int i);
 extern u16 func_0217EDF8(int i);
-extern void func_0217F210(u8 *p, u8 *a, u32 b);
-extern void func_02172D20(u8 *a);
-extern void func_021734A8(u8 *self, u32 id, u32 v);
+extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
+extern void UNION_COMM_RequestRestart(u8 *a);
+extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
 extern u8 d_021807E8[];
 
-int func_0217D5B8(u8 *a, Obj *b, u8 *c, u8 *d)
+int UNION_ONESELF_AppMain(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     int *p;
-    if (*d != 4 && *d != 5 && *d != 8 && func_0217BB04((char *)a) == 1)
+    if (*d != 4 && *d != 5 && *d != 8 && UNION_ONESELF_CheckNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -101,74 +101,74 @@ int func_0217D5B8(u8 *a, Obj *b, u8 *c, u8 *d)
             (*d)++;
         break;
     case 1:
-        func_02039C68((struct Link *)func_020399A8(), 8, 0x14);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14);
         (*d)++;
         break;
     case 2:
-        if (func_02039CB4((struct Link *)func_020399A8(), 8, 0x14) == 1)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 8, 0x14) == 1)
             (*d)++;
         break;
     case 3:
-        if (func_0217F1EC(a) == 1) {
+        if (UNION_MSG_CheckTalkPrintEnd(a) == 1) {
             if (b->f01 == 0xe) {
                 p = func_02030734(0x41, 8, 1, (const char *)d_021807E8, 0xB9A);
                 p[1] = (*(int **)a)[2];
                 *(int * *)&((struct Obj00033 *)a)->f3558 = p;
-                func_0217422C(a, 3, (int)p);
+                UNION_MAIN_RequestScene(a, 3, (int)p);
             } else {
                 p = func_02030734(0x41, 0x18, 1, (const char *)d_021807E8, 0xBA2);
                 p[1] = (*(int **)a)[2];
-                p[2] = (int)func_02012934((void *)(*(int **)a)[2]);
-                p[3] = (int)func_02012EBC((struct Big *)((*(int **)a)[2]));
-                p[4] = (int)func_02012F2C((int *)((*(int **)a)[2]));
+                p[2] = (int)GAME_DATA_GetMyParty((void *)(*(int **)a)[2]);
+                p[3] = (int)GAME_DATA_GetSaveControl((struct Big *)((*(int **)a)[2]));
+                p[4] = (int)GAME_DATA_GetTrainerRecord((int *)((*(int **)a)[2]));
                 *(int * *)&((struct Obj00033 *)a)->f3558 = p;
-                func_0217422C(a, 4, (int)p);
+                UNION_MAIN_RequestScene(a, 4, (int)p);
             }
             (*d)++;
         }
         break;
     case 4:
-        if (func_02174268(a) == 0) {
+        if (UNION_MAIN_IsScenePending(a) == 0) {
             func_020307B0(*(int * *)&((struct Obj00033 *)a)->f3558);
             *(int * *)&((struct Obj00033 *)a)->f3558 = 0;
             if (func_0200FB24() != 0) {
-                func_0217B8E4((char *)a, 1);
+                UNION_ONESELF_SetNextPlayCategory((char *)a, 1);
                 return 1;
             }
-            func_02172D50(a);
+            UNION_COMM_RequestStart(a);
             (*d)++;
         }
         break;
     case 5:
-        if (func_02172D68(a) == 0)
+        if (UNION_COMM_IsResetting(a) == 0)
             return 1;
         break;
     case 6:
-        if (func_02173D38(a) == 1)
+        if (UNION_COMMAND_SendAppEntry(a) == 1)
             (*d)++;
         break;
     case 7:
         switch (a[0x282B]) {
         case 1:
             if (b->f01 == 0xe)
-                func_0217F210(a, c, func_0217EE10(b->f14->b3));
+                UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE10(b->f14->b3));
             else
-                func_0217F210(a, c, func_0217EDEC(b->f14->b3));
+                UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EDEC(b->f14->b3));
             *d = 3;
             break;
         case 2:
             if (b->f01 == 0xe)
-                func_0217F210(a, c, func_0217EE1C(b->f14->b3));
+                UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE1C(b->f14->b3));
             else
-                func_0217F210(a, c, func_0217EDF8(b->f14->b3));
-            func_02172D20(a);
+                UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EDF8(b->f14->b3));
+            UNION_COMM_RequestRestart(a);
             *d = 8;
             break;
         }
         break;
     case 8:
-        if (func_0217F1EC(a) == 1 && func_02172D68(a) == 0) {
-            func_021734A8(a, 3, 0);
+        if (UNION_MSG_CheckTalkPrintEnd(a) == 1 && UNION_COMM_IsResetting(a) == 0) {
+            UNION_COMM_SetSituationParam(a, 3, 0);
             return 1;
         }
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_02164F90
+ * function: GAME_BEACON_SEARCH_OnConnected
  * address: 0x02164F90
  * packet: pkt_ov010_02164F90
  * region: ov010
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned char u8;
-int func_02164F90(int a, int b, u8 *c);
+int GAME_BEACON_SEARCH_OnConnected(int a, int b, u8 *c);
 
-int func_02164F90(int a, int b, u8 *c)
+int GAME_BEACON_SEARCH_OnConnected(int a, int b, u8 *c)
 {
     c[8] = 1;
     return 1;

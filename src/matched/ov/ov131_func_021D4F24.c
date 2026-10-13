@@ -13,9 +13,9 @@
  *   P_STA_SKILL_Exit 0x021D9A04 thumb ov131
  *   P_STA_INFO_FreeResources 0x021D7BF0 thumb ov131
  *   P_STA_SUB_Exit 0x021D6808 thumb ov131
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 #include "../include/Obj08143.h"
 typedef unsigned char u8;
@@ -25,9 +25,9 @@ extern void P_STA_SKILL_Exit(u8 *a, u8 *p);
 extern void P_STA_INFO_FreeResources(void *a, unsigned char *p);
 extern void P_STA_SUB_Exit(void *,void *);
 typedef unsigned int   u32;
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 void P_STATUS_DeleteObjResource(char *p)
 {
     u8 i;
@@ -35,8 +35,8 @@ void P_STATUS_DeleteObjResource(char *p)
     P_STA_SKILL_Exit((u8 *)p,((struct Obj08143 *)p)->f90);
     P_STA_INFO_FreeResources(p,((struct Obj08143 *)p)->f8C);
     P_STA_SUB_Exit(p,((struct Obj08143 *)p)->f88);
-    for(i=0;i<=11;i++) func_0204ADA4((u32)(*(void **)(p+i*4+0x98)));
-    for(i=12;i<=24;i++) func_0204A8D4((u32)(*(void **)(p+i*4+0x98)));
-    for(i=25;i<=37;i++) func_0204AFD8((u32)(*(void **)(p+i*4+0x98)));
-    for(i=0;i<17;i++) func_0204A8D4((u32)(*(void **)(p+i*4+0x130)));
+    for(i=0;i<=11;i++) CLACT_ReleasePalette((u32)(*(void **)(p+i*4+0x98)));
+    for(i=12;i<=24;i++) CLACT_ReleaseCharacter((u32)(*(void **)(p+i*4+0x98)));
+    for(i=25;i<=37;i++) CLACT_ReleaseCellAnim((u32)(*(void **)(p+i*4+0x98)));
+    for(i=0;i<17;i++) CLACT_ReleaseCharacter((u32)(*(void **)(p+i*4+0x130)));
 }

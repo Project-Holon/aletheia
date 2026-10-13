@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_0203D378  0x0203D378  arm
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_02012B4C  0x02012B4C  thumb
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GAME_DATA_SetEnterMode  0x02012B4C  thumb
  *   INTRUDE_COMM_SendMemberCount  0x02173758  thumb  ov011
  *   INTRUDE_COMM_UpdateSeasonState  0x02174AE0  thumb  ov011
  *   INTRUDE_COMM_UpdateRequest  0x0217546C  thumb  ov011
@@ -30,10 +30,10 @@
  *   INTRUDE_COMM_UpdateQueuedRequest  0x02174DF4  thumb  ov011
  *   INTRUDE_COMM_UpdateSelfRecord  0x021752DC  thumb  ov011
  *   INTRUDE_COMM_SendPeerStatus  0x02173984  thumb  ov011
- *   func_02012E40  0x02012E40  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
- *   func_021756D0  0x021756D0  thumb  ov011
+ *   INTRUDE_COMM_IsValidProfileCode  0x021756D0  thumb  ov011
  *   func_0200BE84  0x0200BE84  thumb
  *
  * Addresses are Black-image addresses.
@@ -53,9 +53,9 @@ typedef struct {
 struct Big;
 struct BigObj;
 extern u32 func_02026478(void *obj);
-extern u32 func_0203D378(void);
-extern int func_0203D1B4(void);
-extern void func_02012B4C(struct BigObj *p, u8 v);
+extern u32 GFL_NET_IsParentAid(void);
+extern int GFL_NET_GetNegotiationNum(void);
+extern void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v);
 extern int INTRUDE_COMM_SendMemberCount(int a, int b, ...);
 extern void INTRUDE_COMM_UpdateSeasonState(u8 *);
 extern void INTRUDE_COMM_UpdateRequest(u8 *);
@@ -72,10 +72,10 @@ extern void INTRUDE_COMM_UpdatePageRequests(u8 *);
 extern void INTRUDE_COMM_UpdateQueuedRequest(u8 *);
 extern int INTRUDE_COMM_UpdateSelfRecord(u8 *);
 extern int INTRUDE_COMM_SendPeerStatus(char *p, int b);
-extern u8 func_02012E40(const u8 *o);
-extern void *func_02012EBC(struct Big *p);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u16 *func_0200BE48(void *sys);
-extern int func_021756D0(u32 x);
+extern int INTRUDE_COMM_IsValidProfileCode(u32 x);
 extern void func_0200BE84(void *, u8 *);
 
 void func_02174978(u8 *s)
@@ -85,12 +85,12 @@ void func_02174978(u8 *s)
     void *w;
 
     h = func_02026478((void *)(((struct Obj00269 *)s)->f4));
-    if (func_0203D378() == 1) {
-        n = func_0203D1B4();
+    if (GFL_NET_IsParentAid() == 1) {
+        n = GFL_NET_GetNegotiationNum();
         if (n > s[0x902]) {
             s[0x902] = n;
             s[0x903] = 1;
-            func_02012B4C((struct BigObj *)h, s[0x902]);
+            GAME_DATA_SetEnterMode((struct BigObj *)h, s[0x902]);
         }
     }
     if (s[0x903] == 1 && INTRUDE_COMM_SendMemberCount((int)s, s[0x902]) == 1) {
@@ -121,9 +121,9 @@ void func_02174978(u8 *s)
     if (s[0x900] == 1 && ((Bits *)(s + 0x904))->b1 == 0 && INTRUDE_COMM_SendPeerStatus((char *)s, (int)(s + 0x70)) == 1) {
         s[0x900] = 0;
     }
-    if (func_02012E40((const u8 *)h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {
-        w = func_0200BE48(func_02012EBC((struct Big *)h));
-        if (func_021756D0(((struct Obj00269 *)s)->f8F4) == 0) {
+    if (GAME_DATA_IsSaving((const u8 *)h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {
+        w = func_0200BE48(GAME_DATA_GetSaveControl((struct Big *)h));
+        if (INTRUDE_COMM_IsValidProfileCode(((struct Obj00269 *)s)->f8F4) == 0) {
             ((struct Obj00269 *)s)->f8F4 = 0x11;
         }
         func_0200BE84(w, s + 0x8e4);

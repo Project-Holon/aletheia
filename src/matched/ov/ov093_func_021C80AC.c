@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  */
 #include "../include/Obj13340.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 
 int func_021C80AC(u8 *p, int key)
 {
@@ -27,7 +27,7 @@ int func_021C80AC(u8 *p, int key)
     total = 0;
     for (i = 0; i < p[0x782]; i++) {
         u8 *e = p + i * 16;
-        if (key != func_021D5440(*(u8 * *)&((struct Obj13340 *)e)->f7E0)) {
+        if (key != BTL_POKEPARAM_GetPokeId(*(u8 * *)&((struct Obj13340 *)e)->f7E0)) {
             total++;
             if (e[0x7ed] != 0) {
                 flagged++;

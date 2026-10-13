@@ -13,12 +13,12 @@
  * a tail call through a pool word, the sole blocker of ov020 func_02183DE4.
  *
  * symbols:
- *   func_0215E364  0x0215E364  thumb  ov010
+ *   MOVE_POKEMON_MoveActiveEntries  0x0215E364  thumb  ov010
  */
 
-void func_0215E364(void *a);
+void MOVE_POKEMON_MoveActiveEntries(void *a);
 
 void func_02164474(int a, int b)
 {
-    func_0215E364((void *)a);
+    MOVE_POKEMON_MoveActiveEntries((void *)a);
 }

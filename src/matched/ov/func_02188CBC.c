@@ -1,5 +1,5 @@
 /*
- * function: func_02188CBC
+ * function: FIELDMAP_IsFieldPlayerCreated
  * address:  0x02188CBC
  * packet:   pkt_02188CBC
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_02188CBC(u32 a)
+int FIELDMAP_IsFieldPlayerCreated(u32 a)
 {
 if (*(u32 *)((u8 *)((a + 140))) != 0) {
     return 1;

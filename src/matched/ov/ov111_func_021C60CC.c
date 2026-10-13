@@ -12,9 +12,9 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_02045924  0x02045924  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   STRBUF_SetString  0x02045924  arm
  *   func_021C6C38  0x021C6C38  thumb  ov111
  *   func_021C6B5C  0x021C6B5C  thumb  ov111
  *   func_021C61EC  0x021C61EC  thumb  ov111
@@ -72,9 +72,9 @@ struct Obj0202DC98;
 struct PmsDraw;
 struct Strbuf;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void func_021C6C38(Work *p, void *a, int x, int dx, int y, void *s);
 extern void func_021C6B5C(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u32 mode, int idx);
 extern void func_021C61EC(Work *p, int k, int flush);
@@ -90,13 +90,13 @@ void func_021C60CC(Work *p, void **bg, const Info *info)
     void *s;
 
     for (i = 0; i < 5; i++) {
-        func_02043B5C(func_02045770(bg[i]), 0);
+        BMP_Clear(func_02045770(bg[i]), 0);
         if (i != 3 || (i == 3 && info->f4_2)) {
-            func_0201C7A4(func_02045770(bg[i]), 0, 0, p->f322C[i], p->f31FC);
+            PRINTSYS_Print(func_02045770(bg[i]), 0, 0, p->f322C[i], p->f31FC);
         }
     }
     s = p->f3214;
-    func_02045924(p->f3210, info->name);
+    STRBUF_SetString(p->f3210, info->name);
     func_021C6C38(p, bg[0], 0x88, 8, 0, p->f3210);
     if (info->f4_2) {
         func_021C6B5C(p, bg[3], 0x88, 8, 0, s, info->f24, 1, 0);

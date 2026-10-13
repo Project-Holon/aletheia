@@ -1,5 +1,5 @@
 /*
- * function: func_0216E464
+ * function: FLDMMDL_MoveInitProcDummy
  * address:  0x0216E464
  * packet:   pkt_0216E464
  * region:   ov010
@@ -15,6 +15,6 @@
  *   (none)
  */
 
-void func_0216E464(void)
+void FLDMMDL_MoveInitProcDummy(void)
 {
 }

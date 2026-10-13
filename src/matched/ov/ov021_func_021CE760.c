@@ -1,5 +1,5 @@
 /*
- * function: func_021CE760
+ * function: COMM_ENTRY_MENU_GetAcceptedMask
  * address:  0x021CE760
  * packet:   pkt_ov021_021CE760
  * region:   ov021
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u32 func_021CE760(u8 *p)
+u32 COMM_ENTRY_MENU_GetAcceptedMask(u8 *p)
 {
     u32 mask = 0;
     int i;

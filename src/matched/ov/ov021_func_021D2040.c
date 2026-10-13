@@ -1,5 +1,5 @@
 /*
- * function: func_021D2040
+ * function: EVENT_PERAP_RECORD_HopPokeIcon
  * address:  0x021D2040
  * packet:   pkt_ov021_021D2040
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  * Addresses are Black-image addresses.
  */
@@ -29,12 +29,12 @@ typedef struct {
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-int func_021D2040(u8 *w)
+int EVENT_PERAP_RECORD_HopPokeIcon(u8 *w)
 {
     Pt pt;
 
@@ -48,7 +48,7 @@ int func_021D2040(u8 *w)
             return 0;
         }
     }
-    func_0204B454((struct Actor *)((struct Obj02103 *)w)->f3C, (struct PtS *)&pt, 0);
+    CLACT_GetActorSurfacePos((struct Actor *)((struct Obj02103 *)w)->f3C, (struct PtS *)&pt, 0);
     pt.y = pt.y - ((struct Obj02103 *)w)->f4D;
     func_0204B404((struct Obj *)(((struct Obj02103 *)w)->f3C), (const struct Vec2 *)(&pt), 0);
     ((struct Obj02103 *)w)->f4D = ((struct Obj02103 *)w)->f4D - 1;

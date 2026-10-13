@@ -1,5 +1,5 @@
 /*
- * function: func_021A0F90
+ * function: FIELD_SUBSCREEN_GetMode
  * address:  0x021A0F90
  * packet:   pkt_021A0F90
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A0F90(u8 *p)
+u32 FIELD_SUBSCREEN_GetMode(u8 *p)
 {
     return ((struct Obj17990 *)p)->f0;
 }

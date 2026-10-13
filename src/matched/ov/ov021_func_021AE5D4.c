@@ -1,5 +1,5 @@
 /*
- * function: func_021AE5D4
+ * function: EVENT_TRAINER_EYE_StepDelay
  * address: 0x021AE5D4
  * packet: pkt_ov021_021AE5D4
  * region: ov021
@@ -26,7 +26,7 @@ typedef struct IwaTask {
     int cnt;
 } IwaTask;
 
-int func_021AE5D4(IwaTask *w)
+int EVENT_TRAINER_EYE_StepDelay(IwaTask *w)
 {
     w->cnt++;
     if (w->cnt >= 30) {

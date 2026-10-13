@@ -1,5 +1,5 @@
 /*
- * function: func_0201A090
+ * function: POKE_REGULATION_CheckParty
  * address:  0x0201A090
  * packet:   pkt_0201A090
  * region:   arm9
@@ -15,7 +15,7 @@
  *   func_0201AA18   0x0201AA18  thumb
  *   func_0201AB28   0x0201AB28  thumb
  *   POKE_REGULATION_CheckPokemonFlags   0x02019FD0  thumb
- *   func_02017E1C   0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_REGULATION_FindValidOrder   0x0201A59C  thumb
  *
  * poke_tool.c (wave 13): the party legality check against a rule set.
@@ -26,7 +26,7 @@
  * error codes 4/2/3/7, a failing member check gives 5, and when nothing
  * failed POKE_REGULATION_FindValidOrder decides between 0 and 1.
  *
- * WHAT CLOSED IT (docs/notes/func_0201A090.c.txt: 478 against 476, err
+ * WHAT CLOSED IT (docs/notes/POKE_REGULATION_CheckParty.c.txt: 478 against 476, err
  * spilled to sp+8 with a six-register push): the arrays are indexed plainly,
  * `species[i]` -- the note's invented `j = i * 2; species[j >> 1]` was the
  * source of the `lsls/bics` fixups; the compiler itself CSEs `i * 2` into
@@ -49,10 +49,10 @@ extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern u32   func_0201AA18(void *party);
 extern void *func_0201AB28(void *p, u32 idx);
 extern int   POKE_REGULATION_CheckPokemonFlags(void *rules, void *mon, u32 *mask);
-extern u32   func_02017E1C(void *mon, u32 id, u32 v);
+extern u32   POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 
-int func_0201A090(void *rules, void *party, u32 *mask)
+int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask)
 {
     u16 species[6];
     u16 item[6];
@@ -83,11 +83,11 @@ int func_0201A090(void *rules, void *party, u32 *mask)
         mon = func_0201AB28(party, i);
         if (POKE_REGULATION_CheckPokemonFlags(rules, mon, mask) == 0)
             err = 5;
-        if (func_02017E1C(mon, 0x4c, 0) == 0) {
-            species[i] = func_02017E1C(mon, 5, 0);
-            item[i] = func_02017E1C(mon, 6, 0);
-            form[i] = func_02017E1C(mon, 0x6f, 0);
-            n += func_02017E1C(mon, 0x9e, 0);
+        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {
+            species[i] = POKE_TOOL_GetPartyValue(mon, 5, 0);
+            item[i] = POKE_TOOL_GetPartyValue(mon, 6, 0);
+            form[i] = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+            n += POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
         }
     }
     if ((int)func_0200AE54(rules, 7) == 0 && total > 1) {

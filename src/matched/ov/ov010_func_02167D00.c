@@ -1,5 +1,5 @@
 /*
- * function: func_02167D00
+ * function: BSUBWAY_COMM_IsRecvEnd
  * address:  0x02167D00
  * packet:   pkt_ov010_02167D00
  * region:   ov010
@@ -28,7 +28,7 @@ typedef struct Obj {
 
 extern u32 func_0200FB24(void);
 
-int func_02167D00(Obj *o, u16 *out)
+int BSUBWAY_COMM_IsRecvEnd(Obj *o, u16 *out)
 {
     int want;
 

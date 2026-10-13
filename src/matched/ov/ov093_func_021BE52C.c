@@ -1,5 +1,5 @@
 /*
- * function: func_021BE52C
+ * function: BTL_SERVER_FLOW_PushMoveQueue
  * address: 0x021BE52C
  * packet: pkt_ov093_021BE52C
  * region: ov093
@@ -11,7 +11,7 @@
  * evidence: Each byte store may alias p[0], so reread the index.
  */
 typedef unsigned char u8;
-void func_021BE52C(u8 *p, int a, int b, int c)
+void BTL_SERVER_FLOW_PushMoveQueue(u8 *p, int a, int b, int c)
 {
     if (p[0] < 6) {
         (p + p[0])[1] = a;

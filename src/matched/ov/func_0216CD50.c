@@ -1,5 +1,5 @@
 /*
- * function: func_0216CD50
+ * function: FLDMMDL_DeleteSysProc
  * address:  0x0216CD50
  * packet:   pkt_0216CD50
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02197C4C  0x02197C4C  thumb
- *   func_0216CD30  0x0216CD30  thumb  ov010
+ *   FLDMMDL_ACMD_DeleteDrawSys  0x02197C4C  thumb
+ *   FLDMMDL_ReleaseSysProc  0x0216CD30  thumb  ov010
  */
 #include "../include/Obj17770.h"
 
@@ -19,19 +19,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02197C4C();
-extern int func_0216CD30();
+extern int FLDMMDL_ACMD_DeleteDrawSys();
+extern int FLDMMDL_ReleaseSysProc();
 
-int func_0216CD50(int a0)
+int FLDMMDL_DeleteSysProc(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_02197C4C(a0);
+    a0 = FLDMMDL_ACMD_DeleteDrawSys(a0);
 loc_0216CD58:
 a0 = 0;
 ((struct Obj17770 *)t4)->f40 = a0;
 a0 = t4 + 0;
-    a0 = func_0216CD30(a0);
+    a0 = FLDMMDL_ReleaseSysProc(a0);
 loc_0216CD62:
     return a0;}

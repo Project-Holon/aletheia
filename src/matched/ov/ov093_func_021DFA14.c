@@ -1,5 +1,5 @@
 /*
- * function: func_021DFA14
+ * function: BTL_HANDLER_ITEM_GetIronBallHandlers
  * address: 0x021DFA14
  * packet: pkt_ov093_021DFA14
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF9C8.c and filed here.
  *
  * symbols:
- *   d_021F166C 0x021F166C data ov093 a4
+ *   gBtlHandlerItemIronBallHandlers 0x021F166C data ov093 a4
  */
 
-int *func_021DFA14(int *p);
-extern int d_021F166C[];
+int *BTL_HANDLER_ITEM_GetIronBallHandlers(int *p);
+extern int gBtlHandlerItemIronBallHandlers[];
 
-int *func_021DFA14(int *p)
+int *BTL_HANDLER_ITEM_GetIronBallHandlers(int *p)
 {
     *p = 2;
-    return d_021F166C;
+    return gBtlHandlerItemIronBallHandlers;
 }

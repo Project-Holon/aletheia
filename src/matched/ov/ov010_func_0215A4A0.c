@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf (blocker of ov021 func_021AEBB0).
+ * Unlabelled leaf (blocker of ov021 SCRCMD_GetTrainerMessageIds).
  *
  * symbols:
  * Addresses are Black-image addresses.

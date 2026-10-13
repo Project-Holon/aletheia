@@ -1,5 +1,5 @@
 /*
- * function: func_021BBA64
+ * function: STARTMENU_DrawFrameBox
  * address:  0x021BBA64
  * packet:   pkt_ov088_021BBA64
  * region:   ov088
@@ -32,7 +32,7 @@ extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5,
                           u32 a6);
 extern void func_02041B6C(u32);
 
-void func_021BBA64(u8 x, u8 y, u8 w, u8 h, u8 bg)
+void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg)
 {
     u32 layer = *(u32 *)&bg;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD484
+ * function: PLACE_NAME_LETTER_ComputeAcceleration
  * address:  0x021BD484
  * packet:   pkt_ov021_021BD484
  * region:   ov021
@@ -42,7 +42,7 @@ typedef struct {
     Sub s;
 } Obj;
 
-void func_021BD484(Obj *obj)
+void PLACE_NAME_LETTER_ComputeAcceleration(Obj *obj)
 {
     float dx;
     float dy;

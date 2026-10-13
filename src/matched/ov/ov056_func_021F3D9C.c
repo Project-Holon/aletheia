@@ -1,5 +1,5 @@
 /*
- * function: func_021F3D9C
+ * function: FIELD_FK_DEMO_DeleteSoundAnime
  * address:  0x021F3D9C
  * packet:   pkt_ov056_021F3D9C
  * region:   ov056
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021F408C  0x021F408C  thumb  ov056
+ *   FIELD_FK_SOUND_ANIME_Delete  0x021F408C  thumb  ov056
  *   func_02082BCC  0x02082BCC  arm
  */
 typedef unsigned int u32;
 
 struct IcaAnime;
-extern void func_021F408C(struct IcaAnime **pp);
+extern void FIELD_FK_SOUND_ANIME_Delete(struct IcaAnime **pp);
 extern void func_02082BCC(void *p, int c, u32 n);
 
-void func_021F3D9C(void *o)
+void FIELD_FK_DEMO_DeleteSoundAnime(void *o)
 {
     if (*(void **)o != 0) {
-        func_021F408C(*(void **)o);
+        FIELD_FK_SOUND_ANIME_Delete(*(void **)o);
     }
     func_02082BCC(o, 0, 4);
 }

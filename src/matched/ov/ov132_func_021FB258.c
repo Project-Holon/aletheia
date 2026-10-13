@@ -9,7 +9,7 @@
  * status: EXACT*
  * note: inferred extent ends with two zero padding bytes before the next labelled function.
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132
  *   func_021F9DA0 0x021F9DA0 thumb ov132
  *   func_021F9DA4 0x021F9DA4 thumb ov132
@@ -19,7 +19,7 @@
 #include "../include/Obj14102.h"
 typedef unsigned char u8;
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 extern int func_021FB1F4(char *, int);
 typedef unsigned int   u32;
 extern void *func_021F9DA0(char *p);
@@ -33,8 +33,8 @@ int func_021FB258(int unused, char *p)
     char *ctx;
     u8 i;
     obj = *(char * *)&((struct Obj10549 *)p)->f0;
-    mask = func_021FB1F4(p, func_0201134C(((struct Obj10549 *)p)->f4));
-    value = func_0201134C(((struct Obj10549 *)p)->f4);
+    mask = func_021FB1F4(p, VM_GetU32(((struct Obj10549 *)p)->f4));
+    value = VM_GetU32(((struct Obj10549 *)p)->f4);
     ctx = func_021F9DA0(((struct Obj14102 *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {

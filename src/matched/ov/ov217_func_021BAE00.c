@@ -24,7 +24,7 @@
  *   func_021BC06C 0x021BC06C thumb ov217
  *   func_021BC428 0x021BC428 thumb ov217
  *   func_020362DC 0x020362DC arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   func_020061E4 0x020061E4 thumb
@@ -32,7 +32,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
 extern void func_020061E4(u32);
@@ -54,10 +54,10 @@ extern int func_021BC428(void *);
 void func_021BAE00(u8 *p)
 {
     u32 keys=func_020362DC();
-    int sel=func_02035C08(p+0x64);
+    int sel=TOUCHPANEL_HitTrg(p+0x64);
     int flag;
     u32 a,b;
-    flag=func_02035C08(func_021C09B8(*(void **)p));
+    flag=TOUCHPANEL_HitTrg(func_021C09B8(*(void **)p));
     TOUCHPANEL_GetPointCont(&a,&b);
     if(func_021BC6D0(p)!=0 || flag==0) {
         func_020061E4(0x551);
@@ -97,7 +97,7 @@ void func_021BAE00(u8 *p)
             }
         }
     } else {
-        if(TOUCHPANEL_HitCont(p+0x90)==0 || func_02035C08(p+0x90)==0) {
+        if(TOUCHPANEL_HitCont(p+0x90)==0 || TOUCHPANEL_HitTrg(p+0x90)==0) {
             if(func_021BC428(p)==1) {
                 func_021BB91C(p);
                 func_021BB910(p,4);

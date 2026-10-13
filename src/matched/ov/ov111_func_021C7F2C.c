@@ -15,7 +15,7 @@
  *   func_021C7908  0x021C7908  thumb
  *   func_021C7EF8  0x021C7EF8  thumb
  *   func_021C8078  0x021C8078  thumb
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_020355D8  0x020355D8  arm
  *   d_021C88B4  0x021C88B4  data
  *
@@ -102,7 +102,7 @@ extern void func_021C7B20(Work *p, int mode, int idx);
 extern void func_021C7908(Work *p);
 extern int func_021C7EF8(int v);
 extern void func_021C8078(Work *p);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020355D8(u8 v);
 extern const int d_021C88B4[8];
 
@@ -152,7 +152,7 @@ void func_021C7F2C(Work *p, int sel, int flag)
         p->state = 2;
         p->f110 = sel;
         func_020061E4(0x54C);
-        func_0204B878(p->f4C, 0xC);
+        CLACT_SetActorAnimSeq(p->f4C, 0xC);
         return;
     case 17:
         func_021C8078(p);
@@ -161,13 +161,13 @@ void func_021C7F2C(Work *p, int sel, int flag)
         func_020061E4(0x556);
         p->state = 2;
         p->f110 = sel;
-        func_0204B878(p->f54, 8);
+        CLACT_SetActorAnimSeq(p->f54, 8);
         return;
     case 19:
         func_020061E4(0x551);
         p->state = 2;
         p->f110 = sel;
-        func_0204B878(p->f50, 9);
+        CLACT_SetActorAnimSeq(p->f50, 9);
         if (flag) {
             func_020355D8(0);
         } else {

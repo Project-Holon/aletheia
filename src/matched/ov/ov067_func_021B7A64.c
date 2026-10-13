@@ -1,5 +1,5 @@
 /*
- * function: func_021B7A64
+ * function: FRAME_LIST_UpdateInit
  * address:  0x021B7A64
  * packet:   pkt_ov067_021B7A64
  * region:   ov067
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7B7C  0x021B7B7C  thumb  ov067
- *   func_021B7BE0  0x021B7BE0  thumb  ov067
+ *   FRAME_LIST_ClampScroll  0x021B7B7C  thumb  ov067
+ *   FRAME_LIST_Redraw  0x021B7BE0  thumb  ov067
  *   func_0201C6B4  0x0201C6B4  thumb
- *   func_021B9344  0x021B9344  thumb  ov067
+ *   FRAME_LIST_UpdateWindows  0x021B9344  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -27,18 +27,18 @@ typedef struct S {
     u16 f4e;
 } S;
 
-extern void func_021B7B7C(S *p);
-extern void func_021B7BE0(struct S *p, int a1);
+extern void FRAME_LIST_ClampScroll(S *p);
+extern void FRAME_LIST_Redraw(struct S *p, int a1);
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern void func_021B9344(S *p);
+extern void FRAME_LIST_UpdateWindows(S *p);
 
-int func_021B7A64(S *p)
+int FRAME_LIST_UpdateInit(S *p)
 {
     switch (p->f4e) {
     case 0:
-        func_021B7B7C(p);
-        func_021B7BE0(p, 0);
+        FRAME_LIST_ClampScroll(p);
+        FRAME_LIST_Redraw(p, 0);
         p->f4e = p->f4e + 1;
         break;
     case 1:
@@ -48,6 +48,6 @@ int func_021B7A64(S *p)
         }
         break;
     }
-    func_021B9344(p);
+    FRAME_LIST_UpdateWindows(p);
     return 1;
 }

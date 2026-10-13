@@ -1,5 +1,5 @@
 /*
- * function: func_021D9864
+ * function: BTL_TOKUSEI_RainDish_HealInRain
  * address: 0x021D9864
  * packet: pkt_ov093_021D9864
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D93D8.c and filed here.
  *
  * symbols:
- *   func_021D9880 0x021D9880 thumb
+ *   BTL_TOKUSEI_HealInWeather 0x021D9880 thumb
  */
 
-void func_021D9864(int a, void *b, int c);
-void func_021D9880(void *a, int b, int c);
+void BTL_TOKUSEI_RainDish_HealInRain(int a, void *b, int c);
+void BTL_TOKUSEI_HealInWeather(void *a, int b, int c);
 
-void func_021D9864(int a, void *b, int c)
+void BTL_TOKUSEI_RainDish_HealInRain(int a, void *b, int c)
 {
-    func_021D9880(b, c, 2);
+    BTL_TOKUSEI_HealInWeather(b, c, 2);
 }

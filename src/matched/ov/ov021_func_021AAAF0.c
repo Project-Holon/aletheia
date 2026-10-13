@@ -1,5 +1,5 @@
 /*
- * function: func_021AAAF0
+ * function: EFFECT_ENCOUNT_SetEffectPaused
  * address:  0x021AAAF0
  * packet:   pkt_ov021_021AAAF0
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
- *   func_021ADB4C  0x021ADB4C  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
+ *   FLDEFF_ENCOUNT_SetPaused  0x021ADB4C  thumb
  */
 
 typedef unsigned char u8;
@@ -37,16 +37,16 @@ typedef struct {
 } S;
 
 struct BigObj;
-extern unsigned int func_02012A38(const struct BigObj *p);
+extern unsigned int GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 
 typedef unsigned int   u32;
-extern void func_021ADB4C(u32 a, int v);
+extern void FLDEFF_ENCOUNT_SetPaused(u32 a, int v);
 
-void func_021AAAF0(S *s, int b)
+void EFFECT_ENCOUNT_SetEffectPaused(S *s, int b)
 {
-    T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
+    T *t = (T *)GAME_DATA_GetFieldGimmick((const struct BigObj *)s->f8);
     D *d = s->f10;
     if (t->lo && d->f5b4 != 0) {
-        func_021ADB4C(d->f5b4, b);
+        FLDEFF_ENCOUNT_SetPaused(d->f5b4, b);
     }
 }

@@ -13,10 +13,10 @@
  *   ov067_id 0x00000043 data a1
  *   func_02034AC4 0x02034AC4 arm
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D534 0x0207D534 arm
- *   func_0204363C 0x0204363C arm
- *   func_0203D34C 0x0203D34C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_021BC6C4 0x021BC6C4 thumb ov209
  *   func_021BC370 0x021BC370 thumb ov209
  *   func_021BC388 0x021BC388 thumb ov209
@@ -40,11 +40,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char ov067_id[];
 extern void func_02043534(u32);
-extern void func_020435F4(u32);
+extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern int func_02034AC4(int);
-extern void func_0204363C(u32);
-extern void func_0203D34C(u32, u32);
+extern void BG_SYS_SetLcdSwap(u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern void func_021BC370(void);
 extern void func_021BC388(void);
 extern void func_021BC574(void);
@@ -66,12 +66,12 @@ int func_021BCC94(char *p)
 {
     func_02034AC4((int)ov067_id);
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_0204363C(0);
+    BG_SYS_SetLcdSwap(0);
     func_021BC6C4(p);
     func_021BC370();
     func_021BC388();
@@ -83,7 +83,7 @@ int func_021BCC94(char *p)
     func_021BC9A8((struct Context *)p);
     if (((struct Obj25546 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f8 == 0) func_021BD628(p);
     else func_021BD704(p);
-    func_0203D34C(1, 0x6B);
+    GFL_NET_RestartWithDefaultTimeout(1, 0x6B);
     func_021BC7B8();
     func_021BC7D0();
     func_021BC8B4(p);

@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Resolved by the func_021B63D0 label in ov067 (thumb); cross-overlay target.
+ * Resolved by the TOUCHBAR_Update label in ov067 (thumb); cross-overlay target.
  *
  * symbols:
- *   func_021B63D0  0x021B63D0  thumb  ov067
+ *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -23,5 +23,5 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct S;
-extern void func_021B63D0(struct S *p);
-void func_021C0AC0(void *a0) { func_021B63D0(a0); }
+extern void TOUCHBAR_Update(struct S *p);
+void func_021C0AC0(void *a0) { TOUCHBAR_Update(a0); }

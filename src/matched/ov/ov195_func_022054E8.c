@@ -16,9 +16,9 @@
  * symbols:
  *   func_0201F73C  0x0201F73C  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
@@ -29,9 +29,9 @@ struct Descriptor;
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
@@ -42,10 +42,10 @@ void func_022054E8(int a, int *p, int flag)
         int *q;
 
         func_0201F73C((void *)p[0x1b], 0, (unsigned short)p[0x1d], 2);
-        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)p[0x1b])), 0xf);
+        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)p[0x1b])), 0xf);
         q = (int *)p[0x1b];
-        func_02045334((struct Descriptor *)q);
-        func_02045374((struct Cfg *)((int)q));
+        BMP_WIN_TransferChars((struct Descriptor *)q);
+        BMP_WIN_MakeScreen((struct Cfg *)((int)q));
         func_020409B4(func_02045730((struct Descriptor *)((int)q)));
     } else {
         p[0x22] = 2;

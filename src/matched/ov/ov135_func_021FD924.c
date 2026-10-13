@@ -27,7 +27,7 @@
  *   func_021F8154  0x021F8154  thumb
  *   func_021F8010  0x021F8010  thumb
  *   func_021FF50C  0x021FF50C  thumb
- *   func_0202208C  0x0202208C  thumb
+ *   WIPE_SYS_Start  0x0202208C  thumb
  */
 
 typedef signed char s8;
@@ -129,7 +129,7 @@ extern int func_021F886C(int key, int val, int which);
 extern void func_021F8154(void *win, void *bank, int idx, u32 e, u32 y, u16 color, int alt, void *g);
 extern void func_021F8010(void *win, void *bank, void *bank2, u32 index, u32 y, u32 x, u16 color, void *g);
 extern void func_021FF50C(void *p);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int func_021FD924(Work *p)
 {
@@ -164,7 +164,7 @@ int func_021FD924(Work *p)
     func_021F8010(p->win2[1], p->msg, p->bank, p->fF84, 0, 0, 0x3C40, p->fFA0);
     p->vblank = func_021FF50C;
     if (p->kind == 0xd) {
-        func_0202208C((void *)3, 1, 1, 0, 6, 1, 0x48);
+        WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
     }
     p->f28 = 0;
     return 1;

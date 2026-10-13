@@ -1,5 +1,5 @@
 /*
- * function: func_021F3AF8
+ * function: GIMMICK64_ArcEffectEvent
  * address:  0x021F3AF8
  * packet:   pkt_ov064_021F3AF8
  * region:   ov064
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -42,12 +42,12 @@ typedef struct {
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern int func_021BE480(char *p, unsigned i, int j);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
 
-int func_021F3AF8(void *task)
+int GIMMICK64_ArcEffectEvent(void *task)
 {
     V3 v;
     W *w;
@@ -58,9 +58,9 @@ int func_021F3AF8(void *task)
     int a;
     int d;
 
-    sys = func_0201210C(func_020124E4(task));
-    s = func_02188D2C(sys);
-    w = (W *)func_021897BC((char *)sys, 1);
+    sys = GAMESYSTEM_GetFieldMap(func_020124E4(task));
+    s = FIELDMAP_GetExpObj(sys);
+    w = (W *)FIELDMAP_GetCommonWork((char *)sys, 1);
     w->h36++;
     a = w->f18;
     n = w->h36;
@@ -76,7 +76,7 @@ int func_021F3AF8(void *task)
     if (n >= (m + 1) / 2)
         n = m - n;
     v.b += w->f30 * n / m;
-    *(V3 *)func_021BE480((char *)s, 0, 1) = v;
+    *(V3 *)FLD_EXP_OBJ_GetModelStatus((char *)s, 0, 1) = v;
     if (w->h36 >= w->h34)
         return 1;
     return 0;

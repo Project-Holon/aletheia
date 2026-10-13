@@ -1,7 +1,7 @@
 /*
  * file:     unit_021B6100.c
  * unit:     yes
- * function: func_021B6100, func_021B6108, func_021B6114, func_021B6184, func_021B61C4, func_021B61E8
+ * function: PLIST_COMM_Start, PLIST_COMM_End, PLIST_COMM_Update, PLIST_COMM_SendStatus, PLIST_COMM_OnStatusReceived, PLIST_COMM_StartSync
  * address:  0x021B6100
  * region:   ov090
  * compiler: dsi/1.1p1
@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203A5E4 0x0203A5E4 arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203A574  0x0203A574  arm
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   func_0200FB24  0x0200FB24  thumb
- *   d_021B6228     0x021B6228  data  a4
- *   func_0203D3F8  0x0203D3F8  arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   gPartyListCommandTable     0x021B6228  data  a4
+ *   GFL_NET_SendData  0x0203D3F8  arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  */
 struct NetHandle;
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ typedef unsigned short u16;
 typedef struct PartyListCommWork {
     u8 unusedHead[0x62];
     u8 syncStep;          /* 0: request sync 1, 1: wait for it and register the command table, 2: running */
-    u8 commFinished;      /* set on a network error, read by func_021B61FC as "stop waiting" */
+    u8 commFinished;      /* set on a network error, read by PLIST_COMM_IsSyncDoneOrFinished as "stop waiting" */
     u8 unusedMid[0x30];
     u8 receivedCount;     /* incremented by every status message with status 0 */
 } PartyListCommWork;
@@ -49,23 +49,23 @@ typedef struct PartyListStatusMsg {
     u8 status;
 } PartyListStatusMsg;
 
-extern void func_0203A5E4(u32 commandBase);
-extern struct NetHandle *func_020399A8(void);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32 commandBase);
+extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_02039C68(struct NetHandle *handle, u32 syncNo, u32 syncGroup);
 extern u32 func_02039CB4(struct NetHandle *handle, u32 syncNo, u32 syncGroup);
-extern void func_0203A574(u32 commandBase, const void *commandTable, u32 commandCount, void *work);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 commandBase, const void *commandTable, u32 commandCount, void *work);
 extern u32 func_0200FB24(void);
-extern u32 func_0203D3F8(struct NetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 c, u32 d, u32 e);
-extern u32 func_0203D1A4(struct NetHandle *handle);
-void func_021B6100(PartyListCommWork *work);
-void func_021B6108(void *unused);
-void func_021B6114(PartyListCommWork *work);
-u32 func_021B6184(PartyListCommWork *work, u8 status, u16 selection);
-void func_021B61C4(int netId, int size, u8 *data, PartyListCommWork *work);
-void func_021B61E8(void *work, int syncNo);
-extern u8 d_021B6228[];
+extern u32 GFL_NET_SendData(struct NetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 c, u32 d, u32 e);
+extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
+void PLIST_COMM_Start(PartyListCommWork *work);
+void PLIST_COMM_End(void *unused);
+void PLIST_COMM_Update(PartyListCommWork *work);
+u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection);
+void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWork *work);
+void PLIST_COMM_StartSync(void *work, int syncNo);
+extern u8 gPartyListCommandTable[];
 
-void func_021B6100(PartyListCommWork *work)
+void PLIST_COMM_Start(PartyListCommWork *work)
 {
     work->syncStep = 0;
 }
@@ -73,22 +73,22 @@ void func_021B6100(PartyListCommWork *work)
 /*
  * Leaf of ov178 021E54CC; caller unloads overlay 90 immediately after call.
  */
-void func_021B6108(void *unused)
+void PLIST_COMM_End(void *unused)
 {
-    func_0203A5E4(0x2D00);
+    GFL_NET_COMMAND_DeleteCommandTable(0x2D00);
 }
 
 
-void func_021B6114(PartyListCommWork *work)
+void PLIST_COMM_Update(PartyListCommWork *work)
 {
     switch (work->syncStep) {
     case 0:
-        func_02039C68(func_020399A8(), 1, 0x2d);
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x2d);
         work->syncStep = 1;
         break;
     case 1:
-        if (func_02039CB4(func_020399A8(), 1, 0x2d) == 1) {
-            func_0203A574(0x2d00, d_021B6228, 1, work);
+        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x2d) == 1) {
+            GFL_NET_COMMAND_AddCommandTable(0x2d00, gPartyListCommandTable, 1, work);
             work->syncStep = 2;
         }
         break;
@@ -100,29 +100,29 @@ void func_021B6114(PartyListCommWork *work)
 }
 
 
-u32 func_021B6184(PartyListCommWork *work, u8 status, u16 selection)
+u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection)
 {
     PartyListStatusMsg msg;
     struct NetHandle *handle;
 
-    handle = func_020399A8();
+    handle = GFL_NET_HANDLE_GetCurrentHandle();
     msg.status = status;
     msg.selection = selection;
     if (work->syncStep != 2)
         return 0;
-    return func_0203D3F8(handle, 0xff, 0x2d00, 4, &msg, 1, 0, 0);
+    return GFL_NET_SendData(handle, 0xff, 0x2d00, 4, &msg, 1, 0, 0);
 }
 
 /* Command callback for 0x2d00: counts the status messages whose status is 0. */
-void func_021B61C4(int netId, int size, u8 *data, PartyListCommWork *work)
+void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWork *work)
 {
-    func_0203D1A4(func_020399A8());
+    GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
     if (data[2] == 0)
         work->receivedCount++;
 }
 
 
-void func_021B61E8(void *work, int syncNo)
+void PLIST_COMM_StartSync(void *work, int syncNo)
 {
-    func_02039C68(func_020399A8(), syncNo, 45);
+    func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), syncNo, 45);
 }

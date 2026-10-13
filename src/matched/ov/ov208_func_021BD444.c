@@ -20,13 +20,13 @@
  *   func_0202762C        0x0202762C  thumb
  *   ov208_func_021BD574  0x021BD574  thumb
  *   func_02027614        0x02027614  thumb
- *   func_0204AC18        0x0204AC18  arm
+ *   CLACT_RegisterPaletteEx        0x0204AC18  arm
  *   func_02027618        0x02027618  thumb
- *   func_0204A6C8        0x0204A6C8  arm
+ *   CLACT_RegisterCharacter        0x0204A6C8  arm
  *   func_0202761C        0x0202761C  thumb
  *   func_02027620        0x02027620  thumb
- *   func_0204AF28        0x0204AF28  arm
- *   func_02049238        0x02049238  arm
+ *   CLACT_RegisterCellAnim        0x0204AF28  arm
+ *   ARC_TOOL_DeleteHandle        0x02049238  arm
  *
  * The heap word reaches 0x021BD574 untruncated, so this file declares that
  * callee's last parameter u32 (the callee itself reads it with ldrh).
@@ -55,14 +55,14 @@ extern u32  func_0202762C(void);
 extern void ov208_func_021BD574(void *a0, u32 a1, u32 channel, u32 add, u8 a4, u8 a5, u8 a6,
                                 u8 a7, u8 x, u8 y, u8 w, u8 h, u8 pal, u32 a13, u32 heap);
 extern u32  func_02027614(void);
-extern u32  func_0204AC18(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32  CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern u32  func_02027618(void);
-extern u32  func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u32 flags);
+extern u32  CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u32 flags);
 extern u32  func_0202761C(u32 a);
 extern u32  func_02027620(u32 a);
 typedef signed int     s32;
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *h);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *h);
 
 void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
                          u32 kind, u8 pal, u8 objPal, u32 skip, u32 heap)
@@ -78,8 +78,8 @@ void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 pal
         ov208_func_021BD574(h, func_0202762C(), p->fc, (u16)p->f10, 0, 0x15, 0x20, 0x18,
                             0, 0x15, 0x20, 3, pal, 0, heap);
     }
-    p->f0 = func_0204AC18(h, func_02027614(), objChannel, (u16)(objPal << 5), 0, 3, heap);
-    p->f4 = func_0204A6C8(h, func_02027618(), 0, objChannel, heap);
-    p->f8 = func_0204AF28(h, func_0202761C(kind), func_02027620(kind), heap);
-    func_02049238(h);
+    p->f0 = CLACT_RegisterPaletteEx(h, func_02027614(), objChannel, (u16)(objPal << 5), 0, 3, heap);
+    p->f4 = CLACT_RegisterCharacter(h, func_02027618(), 0, objChannel, heap);
+    p->f8 = CLACT_RegisterCellAnim(h, func_0202761C(kind), func_02027620(kind), heap);
+    ARC_TOOL_DeleteHandle(h);
 }

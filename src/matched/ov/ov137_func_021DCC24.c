@@ -9,10 +9,10 @@
  * status: EXACT
  * volatile: packet byte +2 is read at 0x021DCC42 and again at 0x021DCC50.
  * symbols:
- * func_02039338 0x02039338 arm
+ * GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  * func_021DCAFC 0x021DCAFC thumb ov137
- * func_021841A4 0x021841A4 thumb ov022
- * func_021841A0 0x021841A0 thumb ov022
+ * UNION_APP_GetMemberCount 0x021841A4 thumb ov022
+ * UNION_APP_GetJoinedBits 0x021841A0 thumb ov022
  * func_02080D24 0x02080D24 arm
  * func_021DCBC4 0x021DCBC4 thumb ov137
  * func_021DE08C 0x021DE08C thumb ov137
@@ -25,10 +25,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Packet {u8 a,b; volatile u8 c; u8 d;};
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void *func_021DCAFC(u8 *p);
-extern int func_021841A4(unsigned char *p);
-extern unsigned char func_021841A0(unsigned char *p);
+extern int UNION_APP_GetMemberCount(unsigned char *p);
+extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 extern u32 func_02080D24(int);
 extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
 extern void func_021DE08C(char *,int,int);
@@ -36,13 +36,13 @@ void func_021DCC24(int a,int b,u8 *c,u8 *p)
 {
     struct Packet s;
     if(a!=0) {
-        if(func_02039338()!=0) return;
+        if(GFL_NET_SYSTEM_GetCurrentAid()!=0) return;
         s=*(struct Packet *)c;
         s.a=a; s.b=((struct Obj03839 *)p)->f2C;
         switch(((struct Packet *)c)->c) {
         case 0:
-            if(((struct Obj03839 *)p)->f2C!=func_021841A4(func_021DCAFC(p)) ||
-               ((struct Obj03839 *)p)->f2C!=func_02080D24(func_021841A0(func_021DCAFC(p)))) s.d=0;
+            if(((struct Obj03839 *)p)->f2C!=UNION_APP_GetMemberCount(func_021DCAFC(p)) ||
+               ((struct Obj03839 *)p)->f2C!=func_02080D24(UNION_APP_GetJoinedBits(func_021DCAFC(p)))) s.d=0;
             else { ((struct Obj03839 *)p)->f30|=1<<a; s.d=1; }
             break;
         case 1: break;
@@ -52,7 +52,7 @@ void func_021DCC24(int a,int b,u8 *c,u8 *p)
         switch(c[2]) {
         case 0:
             a=c[0];
-            if(a!=func_02039338()) return;
+            if(a!=GFL_NET_SYSTEM_GetCurrentAid()) return;
             if(c[3]==0) func_021DE08C(*(char * *)&((struct Obj23674 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,8,a);
             else { ((struct Obj03839 *)p)->f38=c[1]; func_021DE08C(*(char * *)&((struct Obj23675 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,7,a); }
             break;

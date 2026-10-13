@@ -1,5 +1,5 @@
 /*
- * function: func_021D62A8
+ * function: BTL_POKEPARAM_GetMajorStatusIndex
  * address:  0x021D62A8
  * packet:   pkt_ov093_021D62A8
  * region:   ov093
@@ -15,7 +15,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Slot { u32 a : 3; u32 rest : 29; };
 struct Unk021D62A8 { u8 pad[0x1C]; struct Slot e[6]; };
-int func_021D62A8(struct Unk021D62A8 *p)
+int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p)
 {
     u32 i;
     for (i = 1; i < 6; i++) {

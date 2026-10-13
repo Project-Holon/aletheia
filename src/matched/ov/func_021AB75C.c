@@ -1,5 +1,5 @@
 /*
- * function: func_021AB75C
+ * function: FLD_SCENEAREA_SetEnabled
  * address:  0x021AB75C
  * packet:   pkt_021AB75C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021AB75C(u8 *p, u32 v)
+void FLD_SCENEAREA_SetEnabled(u8 *p, u32 v)
 {
     ((struct Obj18074 *)p)->f18 = v;
 }

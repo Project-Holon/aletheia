@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D9558",
-    "func_021D956C",
-    "func_021D957C",
-    "func_021D958C"
+    "BTL_TOKUSEI_ConfusionGuard_ShowBlockedMessage",
+    "BTL_TOKUSEI_ConfusionGuard_CureOnEntry",
+    "BTL_TOKUSEI_ConfusionGuard_CureOnPeriodicCheck",
+    "BTL_TOKUSEI_GetConfusionGuardHandlers"
+   ],
+   "addresses": [
+    "0x021D9558",
+    "0x021D956C",
+    "0x021D957C",
+    "0x021D958C"
    ],
    "evidence": {
     "sole-ref": [

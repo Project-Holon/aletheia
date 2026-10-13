@@ -1,5 +1,5 @@
 /*
- * function: func_02174F34
+ * function: COLOSSEUM_SendFinish
  * address: 0x02174F34
  * packet: pkt_ov012_02174F34
  * region: ov012
@@ -10,12 +10,12 @@
  * status: EXACT
  * Caller consumes 020399A8's live r0 despite its filed void return.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-int func_02174F34(void) { return func_0203D3A8(func_020399A8(), 0x150d, 0, 0); }
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
+int COLOSSEUM_SendFinish(void) { return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x150d, 0, 0); }

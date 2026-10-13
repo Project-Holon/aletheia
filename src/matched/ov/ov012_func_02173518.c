@@ -1,5 +1,5 @@
 /*
- * function: func_02173518
+ * function: UNION_COMM_ClearPartnerSelects
  * address:  0x02173518
  * packet:   pkt_02173518
  * region:   ov012
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-void func_02173518(unsigned char *p)
+void UNION_COMM_ClearPartnerSelects(unsigned char *p)
 {
     p[0x19] = 0xff;
     p[0x1b] = 0xff;

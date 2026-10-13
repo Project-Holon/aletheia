@@ -1,5 +1,5 @@
 /*
- * function: func_021A01C4
+ * function: FIELD_FOG_SetColorRgb
  * address:  0x021A01C4
  * packet:   pkt_021A01C4
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A01C4(u32 a, u32 b)
+int FIELD_FOG_SetColorRgb(u32 a, u32 b)
 {
 ((struct Obj12080 *)((u8 *)(a)))->f8 = b;
 ((struct Obj12080 *)((u8 *)(a)))->f40 = 1;

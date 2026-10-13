@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Callback passed to func_021D7320 by func_021E0818 (pool word 0x021E0901).
+ * Callback passed to BTL_EVENT_SetFactorSkipCheck by func_021E0818 (pool word 0x021E0901).
  * Not a worklist entry; filed as the witness for that relocation.
  *
  */

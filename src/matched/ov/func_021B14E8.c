@@ -1,5 +1,5 @@
 /*
- * function: func_021B14E8
+ * function: SCRCMD_MSGWIN_CleanupSpWin
  * address:  0x021B14E8
  * packet:   pkt_021B14E8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021B13F8  0x021B13F8  thumb  ov021
+ *   SCRCMD_MSGWIN_CloseSpWin  0x021B13F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18095.h"
@@ -21,10 +21,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021B13F8(u32 v);
+extern void SCRCMD_MSGWIN_CloseSpWin(u32 v);
 
-int func_021B14E8(u8 *p)
+int SCRCMD_MSGWIN_CleanupSpWin(u8 *p)
 {
-    func_021B13F8(((struct Obj18095 *)p)->f4);
+    SCRCMD_MSGWIN_CloseSpWin(((struct Obj18095 *)p)->f4);
     return 1;
 }

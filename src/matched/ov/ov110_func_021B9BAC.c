@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   func_021BCA84 0x021BCA84 thumb ov110
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021BADE8 0x021BADE8 thumb ov110
  */
 #include "../include/Obj03239.h"
 struct PrintSys;
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 extern void func_021BCA84(unsigned char *);
-extern unsigned int func_0201C4E4(struct PrintSys *);
+extern unsigned int PRINTSYS_QUE_Main(struct PrintSys *);
 extern void func_021BADE8(unsigned char *);
-void func_021B9BAC(int a,unsigned char *b) { func_0204A600(); if(((struct Obj03239 *)b)->f64) func_021BCA84(((struct Obj03239 *)b)->f64); if(((struct Obj03239 *)b)->f7C) { func_0201C4E4(*(struct PrintSys * *)&((struct Obj03239 *)b)->f7C); func_021BADE8(b); } }
+void func_021B9BAC(int a,unsigned char *b) { CLACT_DrawSystem(); if(((struct Obj03239 *)b)->f64) func_021BCA84(((struct Obj03239 *)b)->f64); if(((struct Obj03239 *)b)->f7C) { PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj03239 *)b)->f7C); func_021BADE8(b); } }

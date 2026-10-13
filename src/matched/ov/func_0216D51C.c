@@ -1,5 +1,5 @@
 /*
- * function: func_0216D51C
+ * function: FLDMMDL_SysSetBlActCont
  * address:  0x0216D51C
  * packet:   pkt_0216D51C
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-void func_0216D51C(u8 *p, u32 v)
+void FLDMMDL_SysSetBlActCont(u8 *p, u32 v)
 {
     ((struct Obj17781 *)p)->f24 = v;
 }

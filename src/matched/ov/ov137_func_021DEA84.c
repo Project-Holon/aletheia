@@ -8,20 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
+ *   TIME_ICON_Create  0x0202EE30  thumb  arm9
  */
 #include "../include/Obj08214.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
-extern u16 func_02039338(void);
-extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u32 WIPE_SYS_EndCheck(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 int func_021DEA84(u8 *p)
 {
-    if (func_020221A4()) {
-        ((struct Obj08214 *)p)->f0 = func_02039338() == 0 ? 2 : 8;
-        ((struct Obj08214 *)p)->fDA8 = func_0202EE30(((struct Obj08214 *)p)->fD98, ((struct Obj08214 *)p)->fCF0, 15, 16, 114);
+    if (WIPE_SYS_EndCheck()) {
+        ((struct Obj08214 *)p)->f0 = GFL_NET_SYSTEM_GetCurrentAid() == 0 ? 2 : 8;
+        ((struct Obj08214 *)p)->fDA8 = TIME_ICON_Create(((struct Obj08214 *)p)->fD98, ((struct Obj08214 *)p)->fCF0, 15, 16, 114);
         return 1;
     }
     return 0;

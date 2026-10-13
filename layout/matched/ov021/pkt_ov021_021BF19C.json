@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF19C",
+   "name": "EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5",
    "address": "0x021BF19C",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_0218C530
+ * function: FIELD_BUILDMODEL_GetEntryModelId
  * address:  0x0218C530
  * packet:   pkt_0218C530
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-u8 func_0218C530(int a)
+u8 FIELD_BUILDMODEL_GetEntryModelId(int a)
 {
 if (*(u32 *)((u8 *)(((struct Obj09173 *)((u8 *)(a)))->fC)) == (~0)) {
     return ((((struct Obj09173 *)((u8 *)(a)))->f4 << 24) >> 24);

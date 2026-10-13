@@ -1,5 +1,5 @@
 /*
- * function: func_0216075C
+ * function: EVENT_SHORTCUT_MENU_CreateProcEvent
  * address:  0x0216075C
  * packet:   pkt_ov010_0216075C
  * region:   ov010
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Creates the 0x74-byte task that runs func_021607E0 and initialises it
+ * Creates the 0x74-byte task that runs EVENT_SHORTCUT_MENU_ProcEventMain and initialises it
  * from the owner.
  *
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02160A28  0x02160A28  thumb  ov010
+ *   EVENT_SHORTCUT_MENU_InitHooks  0x02160A28  thumb  ov010
  *   func_02164480  0x02164480  thumb  ov010
- *   func_0215E840  0x0215E840  thumb  ov010
- *   func_021607E0  0x021607E0  thumb  ov010
+ *   MOVE_POKEMON_InitSkillInfo  0x0215E840  thumb  ov010
+ *   EVENT_SHORTCUT_MENU_ProcEventMain  0x021607E0  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -67,17 +67,17 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 struct Flags;
 struct Info;
 struct Rect;
-extern void func_02160A28(struct Rect *r, u32 tag, u32 x, u32 y, u32 w, u32 h);
+extern void EVENT_SHORTCUT_MENU_InitHooks(struct Rect *r, u32 tag, u32 x, u32 y, u32 w, u32 h);
 extern void func_02164480(struct Flags *f, void *a, void *b);
-extern void func_0215E840(void *field, struct Info *out);
-extern int func_021607E0(void *evt, u32 *state, struct Task *t);
+extern void MOVE_POKEMON_InitSkillInfo(void *field, struct Info *out);
+extern int EVENT_SHORTCUT_MENU_ProcEventMain(void *evt, u32 *state, struct Task *t);
 
-void *func_0216075C(Owner *o, u16 id)
+void *EVENT_SHORTCUT_MENU_CreateProcEvent(Owner *o, u16 id)
 {
     void *h;
     Task *t;
 
-    h = func_020122C0(o->f00, o->f08, func_021607E0, sizeof(Task));
+    h = func_020122C0(o->f00, o->f08, EVENT_SHORTCUT_MENU_ProcEventMain, sizeof(Task));
     t = func_020124E8(h);
     MI_CpuFill8(t, 0, sizeof(Task));
     t->id = id;
@@ -90,8 +90,8 @@ void *func_0216075C(Owner *o, u16 id)
     t->f60 = 0;
     t->f62 = 0;
     t->f68 = 0;
-    func_02160A28((struct Rect *)t->rect, (u32)t->owner, t->owner->f14, t->owner->f18, t->owner->f1c, t->owner->f20);
+    EVENT_SHORTCUT_MENU_InitHooks((struct Rect *)t->rect, (u32)t->owner, t->owner->f14, t->owner->f18, t->owner->f1c, t->owner->f20);
     func_02164480((struct Flags *)t->flags, t->owner->f00, t->owner->f04);
-    func_0215E840(t->owner->f04, (struct Info *)t->info);
+    MOVE_POKEMON_InitSkillInfo(t->owner->f04, (struct Info *)t->info);
     return h;
 }

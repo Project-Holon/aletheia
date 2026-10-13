@@ -1,5 +1,5 @@
 /*
- * function: func_021AB490
+ * function: MAP_ATTR_IsSlopeXB
  * address: 0x021AB490
  * packet: pkt_ov021_021AB490
  * region: ov021
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov021/field_effect_p01.c and filed here.
  */
 
-int func_021AB490(int id);
+int MAP_ATTR_IsSlopeXB(int id);
 
-int func_021AB490(int id)
+int MAP_ATTR_IsSlopeXB(int id)
 {
     if (id == 0x52 || id == 0x56 || id == 0x58)
         return 1;

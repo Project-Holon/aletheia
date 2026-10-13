@@ -24,7 +24,7 @@
  *   func_021FD854 0x021FD854 thumb ov186
  *   func_021FD1BC 0x021FD1BC thumb ov186
  *   func_02035D20 0x02035D20 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 #include "../include/Obj00363.h"
 #include "../include/Obj00731.h"
@@ -44,7 +44,7 @@ extern void func_021F9BA0(unsigned *ctx);
 extern int func_021FC830(u8 *p);
 extern void func_021FD854(char *p);
 extern void func_021FD1BC(void *);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 int func_021DD440(void *unused,u32 *state,char *q,char *p)
 {
  int x,y,i;
@@ -80,7 +80,7 @@ int func_021DD440(void *unused,u32 *state,char *q,char *p)
  }
  for(i=0;i<4;i++) if(*(void **)(p+i*4+0x24)) func_021FC830(*(void **)(p+i*4+0x24));
  for(i=0;i<16;i++) if(*(void **)(p+i*4+0x34)) func_021FC830(*(void **)(p+i*4+0x34));
- func_0201C4E4(((struct Obj00731 *)p)->f4);
+ PRINTSYS_QUE_Main(((struct Obj00731 *)p)->f4);
  if(((struct Obj00731 *)p)->f1C)func_021FD1BC(((struct Obj00731 *)p)->f1C);
  func_021FD854(((struct Obj00731 *)p)->f74);
  return 0;

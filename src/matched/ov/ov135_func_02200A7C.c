@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_022028C8 0x022028C8 thumb ov135
  */
 typedef unsigned char u8;
@@ -19,6 +19,6 @@ typedef unsigned int u32;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_022028C8(void *,u8,void *,u32,u32,u32,u16,void *);
-void func_02200A7C(void *p,void *bank,u32 b,u32 id,u32 fifth,void *out,u16 se) { void *s=func_02045EC0(bank,id); func_022028C8(p,b,s,0,0,0,se,out); func_02045808(s); }
+void func_02200A7C(void *p,void *bank,u32 b,u32 id,u32 fifth,void *out,u16 se) { void *s=func_02045EC0(bank,id); func_022028C8(p,b,s,0,0,0,se,out); STRBUF_Delete(s); }

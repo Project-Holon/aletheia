@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
@@ -20,10 +20,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 struct QQ;
 struct S;
-extern u16 func_021D70A8(struct QQ *p);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, u32 val);
 
@@ -33,13 +33,13 @@ void func_021E1354(void *a, void *unused, int id)
     u8 k;
     int v;
 
-    if (id != func_021D775C(3))
+    if (id != BTL_EVENT_GetVar(3))
         return;
-    if (func_021D775C(0x1d) != 8)
+    if (BTL_EVENT_GetVar(0x1d) != 8)
         return;
-    p = (void *)func_021D775C(0x3f);
-    k = func_021D775C(4);
-    switch (func_021D70A8(a)) {
+    p = (void *)BTL_EVENT_GetVar(0x3f);
+    k = BTL_EVENT_GetVar(4);
+    switch (BTL_EVENT_GetFactorKey(a)) {
     case 0x23:
         v = 0x32a;
         break;

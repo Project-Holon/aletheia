@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
+ *   STRBUF_Delete  0x02045808  arm  arm9
  *
  * lane O46
  */
@@ -19,11 +21,11 @@
 struct TaskMenuState;
 struct U16Vec;
 typedef unsigned int   u32;
-extern u32 func_02027FD8(struct TaskMenuState *s);
-extern void func_02045808(struct U16Vec *vec);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021DCF30(char *p)
 {
-    func_02027FD8((struct TaskMenuState *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x19C)));
-    func_02045808((struct U16Vec *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x190)));
-    func_02045808((struct U16Vec *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x184)));
+    APP_TASKMENU_RES_Delete((struct TaskMenuState *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x19C)));
+    STRBUF_Delete((struct U16Vec *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x190)));
+    STRBUF_Delete((struct U16Vec *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x184)));
 }

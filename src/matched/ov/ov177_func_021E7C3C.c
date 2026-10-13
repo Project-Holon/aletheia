@@ -11,13 +11,13 @@
  *   func_021E7CF0 0x021E7CF0 thumb ov177
  *   func_021E5978 0x021E5978 thumb ov177
  *   func_02082BCC 0x02082BCC arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  */
 #include "../include/Obj03326.h"
 extern unsigned func_021E7CF0(unsigned,unsigned,unsigned);
 extern int func_021E5978(int *p, int i);
 extern void func_02082BCC(void *,int,int);
-extern void *func_0204B294(void *,int,int,int,short *,int,unsigned);
+extern void *CLACT_CreateActor(void *,int,int,int,short *,int,unsigned);
 void func_021E7C3C(char *p,char *q,void *x,void *data,unsigned heap)
 {
  unsigned i,n;
@@ -29,6 +29,6 @@ void func_021E7C3C(char *p,char *q,void *x,void *data,unsigned heap)
  int a,c,d;
  b[0]+=0x10;b[2]=i+2;
  a=func_021E5978(data,2);c=func_021E5978(data,0);d=func_021E5978(data,4);
- *(void **)(p+i*4+0x68)=func_0204B294(x,a,c,d,b,0,heap);
+ *(void **)(p+i*4+0x68)=CLACT_CreateActor(x,a,c,d,b,0,heap);
  }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AE890
+ * function: EVENT_TRAINER_EYE_IsTrainerDefeated
  * address:  0x021AE890
  * packet:   pkt_021AE890
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_021AE884  0x021AE884  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   EVENT_TRAINER_EYE_GetTrainerId  0x021AE884  thumb  ov021
  *   func_0215A4D8  0x0215A4D8  thumb  ov010
  * Addresses are Black-image addresses.
  */
@@ -27,14 +27,14 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201296C(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned func_0215A4D8(void *a, unsigned b);
-extern void *func_02188C80(void *p);
-extern int func_021AE884(u32 a);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern int EVENT_TRAINER_EYE_GetTrainerId(u32 a);
 
-int func_021AE890(u32 a, u32 b)
+int EVENT_TRAINER_EYE_IsTrainerDefeated(u32 a, u32 b)
 {
-return func_0215A4D8((void *)func_0201296C(func_020120F4((const struct Ctx *)func_02188C80((void *)a))), func_021AE884(b));
+return func_0215A4D8((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem((void *)a))), EVENT_TRAINER_EYE_GetTrainerId(b));
 }
 

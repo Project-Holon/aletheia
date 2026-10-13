@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_020185C4
+ * function: POKE_TOOL_RecalcParam
  *
  * 0x020185C4..0x020185F0, 44 bytes, one function.
  *
@@ -33,7 +33,7 @@
  * symbols:
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   POKE_TOOL_CalcParam  0x02018A7C  thumb
  */
@@ -43,15 +43,15 @@ typedef unsigned int u32;
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32  POKE_TOOL_CalcLevel(void *p);
 extern void POKE_TOOL_CalcParam(void *p);
 
-void func_020185C4(void *p)
+void POKE_TOOL_RecalcParam(void *p)
 {
     u32 f = POKE_TOOL_DecodePartyParam(p);
 
-    func_02017E40(p, 0x9E, POKE_TOOL_CalcLevel(p));
+    POKE_TOOL_SetPartyValue(p, 0x9E, POKE_TOOL_CalcLevel(p));
     POKE_TOOL_CalcParam(p);
     POKE_TOOL_EncodePartyParam(p, f);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021756D0
+ * function: INTRUDE_COMM_IsValidProfileCode
  * address: 0x021756D0
  * packet: pkt_ov011_021756D0
  * region: ov011
@@ -16,7 +16,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 gIntrudeCommValidProfileCodes[];
-int func_021756D0(u32 x)
+int INTRUDE_COMM_IsValidProfileCode(u32 x)
 {
     u32 i;
     for (i = 0; (i < 0x1c) ? 1 : 0; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3F70
+ * function: GIMMICK41_TurnRingDirection
  * address:  0x021F3F70
  * packet:   pkt_ov041_021F3F70
  * region:   ov041
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F3F70  0x021F3F70  thumb
+ *   GIMMICK41_TurnRingDirection  0x021F3F70  thumb
  *   d_021F4080     0x021F4080  data  a1
  */
 
@@ -22,7 +22,7 @@ typedef struct {
 
 extern T4 d_021F4080;
 
-int func_021F3F70(int a, int b)
+int GIMMICK41_TurnRingDirection(int a, int b)
 {
     T4 t = d_021F4080;
     u8 i;

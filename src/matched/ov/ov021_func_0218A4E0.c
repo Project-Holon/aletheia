@@ -1,5 +1,5 @@
 /*
- * function: func_0218A4E0
+ * function: FIELD_EVENT_CHECK_InitInput
  * address:  0x0218A4E0
  * packet:   pkt_ov021_0218A4E0
  * region:   ov021
@@ -15,21 +15,21 @@
  * registered item on Y, no-input, step, surf and push flags).
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012844  0x02012844  thumb
- *   func_02188C9C  0x02188C9C  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A2FE4  0x021A2FE4  thumb
- *   func_021A3080  0x021A3080  thumb
- *   func_021A308C  0x021A308C  thumb
- *   func_021A3074  0x021A3074  thumb
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D888  0x0216D888  thumb  ov010
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_UpdateStepPhase  0x021A2FE4  thumb
+ *   FIELD_PLAYER_GetStepKind  0x021A3080  thumb
+ *   FIELD_PLAYER_GetStepPhase  0x021A308C  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
  *   func_02012B38  0x02012B38  thumb
  *   func_02014478  0x02014478  thumb
- *   func_021A30C8  0x021A30C8  thumb
- *   func_021A3584  0x021A3584  thumb
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
+ *   FIELD_PLAYER_GetGridMoveState  0x021A3584  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -71,38 +71,38 @@ struct FieldInput {
 };
 
 extern void func_02082BCC(void *p, int v, u32 n);
-extern u16 func_02188C84(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct BigObj;
 struct Ctx;
 struct Sub02014444Obj;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012844(const struct BigObj *p);
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A2FE4(u32 *p);
-extern u32 func_021A3080(u8 *p);
-extern u32 func_021A308C(u8 *p);
-extern void *func_021A3074(u8 *p);
-extern u16 func_0216D5F8(void *p);
-extern void *func_0216D888(void *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void FIELD_PLAYER_UpdateStepPhase(u32 *p);
+extern u32 FIELD_PLAYER_GetStepKind(u8 *p);
+extern u32 FIELD_PLAYER_GetStepPhase(u8 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void *FLDMMDL_GetPosPtr(void *p);
 extern void *func_02012B38(const struct BigObj *p);
 extern u16 func_02014478(struct Sub02014444Obj *o);
-extern u32 func_021A30C8(void **ctx);
-extern int func_021A3584(void *v);
+extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
+extern int FIELD_PLAYER_GetGridMoveState(void *v);
 
-void func_0218A4E0(struct FieldInput *p, void *sys, struct Obj00020 *pos)
+void FIELD_EVENT_CHECK_InitInput(struct FieldInput *p, void *sys, struct Obj00020 *pos)
 {
     void *obj;
 
     func_02082BCC(p, 0, 0x40);
-    p->f0 = func_02188C84((u8 *)pos);
+    p->f0 = FIELDMAP_GetHeapId((u8 *)pos);
     p->sys = sys;
     p->f8 = func_020120F4(sys);
     p->fC = (void *)func_02012844(p->f8);
-    p->f10 = func_02188C9C((u8 *)pos);
+    p->f10 = FIELDMAP_GetZoneId((u8 *)pos);
     p->trg = func_020362DC();
     p->cont = func_0203630C();
     p->dir = 9;
@@ -115,15 +115,15 @@ void func_0218A4E0(struct FieldInput *p, void *sys, struct Obj00020 *pos)
     else if (p->cont & 0x10)
         p->dir = 3;
     p->pos = (u8 *)pos;
-    p->f18 = func_02188CB4(pos);
-    func_021A2FE4(p->f18);
-    p->f20 = func_021A3080(p->f18);
-    p->f1C = func_021A308C(p->f18);
-    obj = func_021A3074(p->f18);
-    p->f24 = func_0216D5F8(obj);
-    p->f34 = (u32)func_0216D888(obj);
+    p->f18 = FIELDMAP_GetFieldPlayer(pos);
+    FIELD_PLAYER_UpdateStepPhase(p->f18);
+    p->f20 = FIELD_PLAYER_GetStepKind(p->f18);
+    p->f1C = FIELD_PLAYER_GetStepPhase(p->f18);
+    obj = FIELD_PLAYER_GetMmdl(p->f18);
+    p->f24 = FLDMMDL_GetDirDisp(obj);
+    p->f34 = (u32)FLDMMDL_GetPosPtr(obj);
     p->f26 = func_02014478(func_02012B38(p->f8));
-    p->f38 = func_021A30C8(p->f18);
+    p->f38 = FIELD_PLAYER_GetNowAttribute(p->f18);
 
     if (p->f1C == 3 || p->f1C == 0) {
         u8 n;
@@ -143,7 +143,7 @@ void func_0218A4E0(struct FieldInput *p, void *sys, struct Obj00020 *pos)
     p->b9 = 0;
     if (p->f20 == 1)
         p->b2 = (p->f1C == 3) ? 1 : 0;
-    if (func_021A3584(p->f18))
+    if (FIELD_PLAYER_GetGridMoveState(p->f18))
         p->b9 = 1;
     p->b3 = (p->f1C == 3) ? 1 : 0;
     p->b4 = 0;

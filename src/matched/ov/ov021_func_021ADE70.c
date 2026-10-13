@@ -1,5 +1,5 @@
 /*
- * function: func_021ADE70
+ * function: FLDEFF_IWAKUDAKI_Update
  * address:  0x021ADE70
  * packet:   pkt_ov021_021ADE70
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -21,18 +22,18 @@ typedef signed char    s8;
 
 typedef struct Q { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q;
 
-extern int func_020478B8(void *a, int idx, int amount);
-extern void func_021AC154(u32 a);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
+extern void FIELD_EFFECT_DeleteObject(u32 a);
 
-void func_021ADE70(u32 a, Q *q)
+void FLDEFF_IWAKUDAKI_Update(u32 a, Q *q)
 {
     int done = 1;
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (func_020478B8((void *)q->f4, (u16)i, (u32)0x1000) == 1)
+        if (G3D_SYSTEM_IncObjectAnimeFrame((void *)q->f4, (u16)i, (u32)0x1000) == 1)
             done = 0;
     }
     if (done)
-        func_021AC154(a);
+        FIELD_EFFECT_DeleteObject(a);
 }

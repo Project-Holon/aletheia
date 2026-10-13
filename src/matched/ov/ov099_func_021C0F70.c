@@ -33,7 +33,7 @@
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   func_021BA7D8 0x021BA7D8 thumb ov099
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
- *   func_0203D7BC 0x0203D7BC arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  */
 extern int func_021BA928(void *);
 extern int func_021B97F4(char *);
@@ -52,7 +52,7 @@ extern unsigned char func_021BDD48(char *, void *);
 extern void func_021BA8EC(char *);
 extern void func_021BA7D8(void *p);
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 a0);
 int func_021C0F70(char *p, int ret)
 {
     void *selection;
@@ -82,7 +82,7 @@ int func_021C0F70(char *p, int ret)
         func_021BA7D8(p);
         *(int *)(p + 0x1e0) = 30;
         GFL_NET_SetAutoExit(1);
-        func_0203D7BC(1);
+        GFL_NET_SetLoginOption(1);
     }
     return ret;
 }

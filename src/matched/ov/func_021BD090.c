@@ -1,5 +1,5 @@
 /*
- * function: func_021BD090
+ * function: FIELD_PLACE_NAME_GetHeapId
  * address:  0x021BD090
  * packet:   pkt_021BCA74
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_021BD090(u8 *p)
+u16 FIELD_PLACE_NAME_GetHeapId(u8 *p)
 {
     return ((struct Obj18206 *)p)->fC;
 }

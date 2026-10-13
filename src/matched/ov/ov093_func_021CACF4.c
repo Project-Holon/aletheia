@@ -14,13 +14,13 @@
  *   n and j. n declared u32 (was unsigned long) gives the original slots. Callee
  *   func_021B8D8C is declared int as in its matched definition (same bytes).
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
  *   func_021B99E0 0x021B99E0 thumb ov093
  *   func_021CAA24 0x021CAA24 thumb ov093
  *   func_021B98A4 0x021B98A4 thumb ov093
- *   func_021D78AC 0x021D78AC thumb ov093
- *   func_021B8C38 0x021B8C38 thumb ov093
+ *   BTL_CALC_Random 0x021D78AC thumb ov093
+ *   BTL_MAIN_GetOwnLanePos 0x021B8C38 thumb ov093
  *   func_021CB174 0x021CB174 thumb ov093
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021CB1D4 0x021CB1D4 thumb ov093
@@ -41,14 +41,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Record { u16 n0, n1; u8 ids[6]; };
-extern u8 func_021D5440(u8 *);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern int func_021B8D8C(void *, void *, u32);
 struct Unk021EFD70;
 extern struct Unk021EFD70 *func_021B99E0(int i);
 extern int func_021CAA24(u8 *, u8 *, int, int, int);
 extern u8 *func_021B98A4(void *, int);
-extern u32 func_021D78AC(u32);
-extern u8 func_021B8C38(u32, u32);
+extern u32 BTL_CALC_Random(u32);
+extern u8 BTL_MAIN_GetOwnLanePos(u32, u32);
 extern void *func_021CB174(u8 *, u32, int);
 extern u8 *func_021B9934(char *, int);
 extern u8 func_021CB1D4(u8 *, u8 *, u8 *, u32);
@@ -67,7 +67,7 @@ extern void func_021CAFC8(void *, void *);
 int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, long id, void *out)
 {
     u32 i, count;
-    u32 n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a));
+    u32 n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), BTL_POKEPARAM_GetPokeId(a));
     u8 *b = (u8 *)func_021B99E0(n);
     int key = func_021CAA24((u8 *)p, q, (int)a, n, move);
     u8 selected;
@@ -79,7 +79,7 @@ int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, long id, void *out)
         b = func_021B98A4(*(void **)(p + 8), key);
         break;
     case 9:
-        selected = func_021D78AC(*(u16 *)b);
+        selected = BTL_CALC_Random(*(u16 *)b);
         b = func_021B98A4(*(void **)(p + 8), ((struct Record *)b)->ids[selected]);
         break;
     case 5:
@@ -105,7 +105,7 @@ int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, long id, void *out)
     case 8:
         func_021CAF48(out, a);
         for (i = 0; i < 3; i++) {
-            selected = func_021B8C38(n, (u8)i);
+            selected = BTL_MAIN_GetOwnLanePos(n, (u8)i);
             if (selected != n) func_021CAF58(out, func_021B98A4(*(void **)(p + 8), selected));
         }
         func_021CAF68(out, func_021CB174((u8 *)p, n, 0));
@@ -132,7 +132,7 @@ int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, long id, void *out)
         return 0;
     }
     if (b) {
-        selected = func_021CB1D4((u8 *)p, a, q, func_021D5440(b));
+        selected = func_021CB1D4((u8 *)p, a, q, BTL_POKEPARAM_GetPokeId(b));
         if (selected != 31) b = (u8 *)func_021B9934(*(char **)(p + 8), selected);
         func_021CAFC8(out, b);
         return 1;

@@ -11,7 +11,7 @@
  * Register request in a free slot, restarting clock/counters for the first type-2 request.
  * 2026-10-05: EXACT with opt_lifetimes off (the first loop counter otherwise gets r2 instead of sharing r5 with the second loop). Plain i = 0 in the second loop.
  * symbols:
- *   d_021B3C84     0x021B3C84  data  ov013  a4
+ *   gVctSendState     0x021B3C84  data  ov013  a4
  *   gVctMembers     0x021B3CB0  data  ov013  a4
  *   d_021B3CBC     0x021B3CBC  data  ov013  a4
  *   d_021B42C0     0x021B42C0  data  ov013  a4
@@ -62,7 +62,7 @@ typedef struct {
     int fC;
 } Req;
 
-extern Ctx3C84 d_021B3C84;
+extern Ctx3C84 gVctSendState;
 extern Req *gVctMembers[3];
 extern Slot d_021B3CBC[3];
 extern struct Ctx42C0 d_021B42C0;
@@ -80,7 +80,7 @@ int VCT_SESSION_AddMember(Req *p)
     if (p == 0) {
         return 0;
     }
-    if (d_021B3C84.f20 == 3) {
+    if (gVctSendState.f20 == 3) {
         return 0;
     }
     if (p->fC != 2 && p->fC != 3) {
@@ -97,19 +97,19 @@ int VCT_SESSION_AddMember(Req *p)
             break;
         }
     }
-    d_021B3C84.f20++;
-    d_021B3C84.f4 |= p->f8;
+    gVctSendState.f20++;
+    gVctSendState.f4 |= p->f8;
     VCT_AUDIO_InitReceiveSource((char *)&d_021B3CBC[i], i, p->f5);
     VCT_AUDIO_ClearReadyQueue(i);
     if (p->fC != 2) {
         return 1;
     }
-    if (d_021B3C84.f20 == 1) {
+    if (gVctSendState.f20 == 1) {
         VCT_DSP_ResetVoiceGate();
-        d_021B3C84.f0 = func_02087170();
-        d_021B3C84.f10 = 0;
-        d_021B3C84.f12 = 0;
-        d_021B3C84.f14 = 1;
+        gVctSendState.f0 = func_02087170();
+        gVctSendState.f10 = 0;
+        gVctSendState.f12 = 0;
+        gVctSendState.f14 = 1;
         d_021B42C0.f8C0 = 0;
         d_021B42C0.f8C4 = 0;
         d_021B42C0.f8CC = 0;

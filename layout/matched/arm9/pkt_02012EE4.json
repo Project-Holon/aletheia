@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02012EE4",
+   "name": "GAME_DATA_SetCurrentEvent",
    "address": "0x02012EE4",
    "kind": "game",
    "region": "arm9",

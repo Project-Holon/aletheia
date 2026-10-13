@@ -1,5 +1,5 @@
 /*
- * function: func_02164F98
+ * function: GAME_BEACON_SEARCH_DummyCallback
  * address: 0x02164F98
  * packet: pkt_ov010_02164F98
  * region: ov010
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/ov010/game_beacon_search.c and filed here.
  */
 
-void func_02164F98(void);
+void GAME_BEACON_SEARCH_DummyCallback(void);
 
-void func_02164F98(void)
+void GAME_BEACON_SEARCH_DummyCallback(void)
 {
 }

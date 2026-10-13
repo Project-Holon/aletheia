@@ -1,5 +1,5 @@
 /*
- * function: func_0215AA24
+ * function: SCRCMD_WORK_SaveScriptState
  * address:  0x0215AA24
  * packet:   pkt_0215AA24
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215909C  0x0215909C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_BackupLocalWork  0x0215909C  thumb  ov010
  */
 #include "../include/Obj00005.h"
 
@@ -19,19 +19,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215909C(u8 *a);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_BackupLocalWork(u8 *a);
 
-void *func_0215AA24(int a0)
+void *SCRCMD_WORK_SaveScriptState(int a0)
 {
     int t4;
     void *p;
     void *v0;
 
 t4 = a0 + 0;
-    v0 = func_0215A5F4((void *)a0);
+    v0 = SCRCMD_WORK_GetScriptWork((void *)a0);
 loc_0215AA2C:
-    p = func_0215909C((u8 *)v0);
+    p = SCRIPT_WORK_BackupLocalWork((u8 *)v0);
 loc_0215AA30:
 ((struct Obj00005 *)t4)->f1C = p;
     return p;}

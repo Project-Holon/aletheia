@@ -1,5 +1,5 @@
 /*
- * function: func_021BB36C
+ * function: FIELD_NOGRID_MAPPER_Main
  * address:  0x021BB36C
  * packet:   pkt_ov021_021BB36C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B79E4  0x021B79E4  thumb  ov021
- *   func_021B79F0  0x021B79F0  thumb  ov021
+ *   FIELD_RAIL_Update  0x021B79E4  thumb  ov021
+ *   FIELD_RAIL_UpdateCamera  0x021B79F0  thumb  ov021
  */
 
 typedef struct {
@@ -21,13 +21,13 @@ typedef struct {
 } Obj;
 
 struct Obj;
-extern void func_021B79E4(unsigned short *p);
-extern int func_021B79F0(struct Obj *o, int flag);
+extern void FIELD_RAIL_Update(unsigned short *p);
+extern int FIELD_RAIL_UpdateCamera(struct Obj *o, int flag);
 
-void func_021BB36C(Obj *p)
+void FIELD_NOGRID_MAPPER_Main(Obj *p)
 {
-    func_021B79E4(p->f0);
+    FIELD_RAIL_Update(p->f0);
     if (p->f14 == 0) {
-        func_021B79F0(p->f0, 0);
+        FIELD_RAIL_UpdateCamera(p->f0, 0);
     }
 }

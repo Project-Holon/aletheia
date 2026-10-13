@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219D184",
+   "name": "FLDMMDL_BLACT_CancelReservedActor",
    "address": "0x0219D184",
    "kind": "game",
    "region": "ov021",

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020289B8
+ * function: FIELD_SOUND_SYSTEM_IsBusy
  * address:  0x020289B8
  * packet:   pkt_0202878C
  * region:   arm9
@@ -20,7 +20,7 @@
  *   FIELD_SOUND_SYSTEM_HasPendingRequest  0x02028DB8  thumb
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/func_020289B8.c  *       --addr 0x020289B8 --thumb
+ *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_IsBusy.c  *       --addr 0x020289B8 --thumb
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ struct Sys {
 
 extern int FIELD_SOUND_SYSTEM_HasPendingRequest(void *obj);
 
-u32 func_020289B8(struct Sys *s)
+u32 FIELD_SOUND_SYSTEM_IsBusy(struct Sys *s)
 {
     if (FIELD_SOUND_SYSTEM_HasPendingRequest(s) == 0 && s->unk1C == 0) {
         return 0;

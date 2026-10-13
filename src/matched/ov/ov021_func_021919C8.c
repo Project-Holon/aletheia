@@ -1,5 +1,5 @@
 /*
- * function: func_021919C8
+ * function: FIELD_MSGBG_SubMsgWinMain
  * address:  0x021919C8
  * packet:   pkt_ov021_021919C8
  * region:   ov021
@@ -13,8 +13,8 @@
  *   func_0201CE30  0x0201CE30  thumb  arm9
  *   func_020362DC  0x020362DC  arm  arm9
  *   func_0203630C  0x0203630C  arm  arm9
- *   func_02194974  0x02194974  thumb  ov021
- *   func_02194984  0x02194984  thumb  ov021
+ *   TALKMSGWIN_IsShown  0x02194974  thumb  ov021
+ *   TALKMSGWIN_GetPrintStream  0x02194984  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -32,19 +32,19 @@ typedef struct Q {
     void *f14;
 } Q;
 
-extern int func_02194974(u8 *p, int i);
-extern u32 func_02194984(u32 a, u32 b);
+extern int TALKMSGWIN_IsShown(u8 *p, int i);
+extern u32 TALKMSGWIN_GetPrintStream(u32 a, u32 b);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern u32 func_0201CE30(void *p);
 
-int func_021919C8(Q *q)
+int FIELD_MSGBG_SubMsgWinMain(Q *q)
 {
-    if (func_02194974((u8 *)q->f0c, (int)q->f08) == 0)
+    if (TALKMSGWIN_IsShown((u8 *)q->f0c, (int)q->f08) == 0)
         return 0;
     func_020362DC();
     func_0203630C();
-    switch (func_0201CE30((void *)func_02194984(q->f0c, (u32)q->f08))) {
+    switch (func_0201CE30((void *)TALKMSGWIN_GetPrintStream(q->f0c, (u32)q->f08))) {
     case 0:
     case 1:
         break;

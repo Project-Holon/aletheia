@@ -13,7 +13,7 @@
  * symbols:
  *   func_0200C40C  0x0200C40C  thumb
  *   func_0200C418  0x0200C418  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *
  * One function, 24 bytes, because the function immediately after it is a near
  * miss and the one after that is src/matched/unit_02012C0C.c.
@@ -46,9 +46,9 @@ extern void *func_0200C40C(void *p);
 typedef unsigned char  u8;
 extern void func_0200C418(u8 *a, u32 id, u32 on);
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b)
 {
-    func_0200C418(func_0200C40C(func_02012EBC(p)), a, b);
+    func_0200C418(func_0200C40C(GAME_DATA_GetSaveControl(p)), a, b);
 }

@@ -14,12 +14,12 @@
  *   g_02146A50     0x02146A50  data
  *   str_020A7E70   0x020A7E70  data
  *   func_02030734  0x02030734  arm
- *   func_02043678  0x02043678  arm
+ *   BMP_Create  0x02043678  arm
  *
  * The constructor shared by BMP_WIN_Create and BMP_WIN_CreateAt: build the
  * sixteen-byte descriptor for one BG layer on the subsystem heap recorded by
  * BMP_WIN_Init, fill in its geometry, and attach the tile buffer
- * func_02043678 hands back.
+ * BMP_Create hands back.
  *
  *   +0x00  u16  two bitfields: a 15-bit tag set to 0x7fb2, and the 8bpp
  *               flag in bit 15
@@ -42,7 +42,7 @@
  * The width parameter is u8, not u32: assigning a u32 to the two u8 width
  * fields makes the compiler materialise `(u8)width` once with `and #0xff`
  * and store that register twice, where the original stores the incoming
- * register directly.  Same for the width argument of func_02043678.
+ * register directly.  Same for the width argument of BMP_Create.
  *
  * The 0xffff8000 mask is materialised as `sub r0, fp, #0x8000` off the
  * register already holding the allocator's zero third argument, the
@@ -78,7 +78,7 @@ extern const char str_020A7E70[];
 
 struct Bmp;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
 struct BgLayer *BMP_WIN_Alloc(u32 layer, u32 screenBase, u32 charBase,
                              u8 width, u8 height, u8 palette, u32 charOffset,
@@ -101,6 +101,6 @@ struct BgLayer *BMP_WIN_Alloc(u32 layer, u32 screenBase, u32 charBase,
     o->charOffset = charOffset;
     o->is8bpp = is8bpp;
 
-    o->tiles = func_02043678(width, height, tileSize, *g_02146A50);
+    o->tiles = BMP_Create(width, height, tileSize, *g_02146A50);
     return o;
 }

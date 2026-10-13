@@ -1,5 +1,5 @@
 /*
- * function: func_021C8CF0
+ * function: FIELD_TILE_MOVE_IsSlideTile
  * address:  0x021C8CF0
  * packet:   pkt_021C8CF0
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021C8BC4 with no argument change.
+ * Tail-call thunk: forwards to FIELD_TILE_MOVE_HasSlideEntry with no argument change.
  *
  * symbols:
- *   func_021C8BC4  0x021C8BC4  thumb
+ *   FIELD_TILE_MOVE_HasSlideEntry  0x021C8BC4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021C8BC4(u32 a);
+extern int FIELD_TILE_MOVE_HasSlideEntry(u32 a);
 
-int func_021C8CF0(u32 a)
+int FIELD_TILE_MOVE_IsSlideTile(u32 a)
 {
-    return func_021C8BC4(a);
+    return FIELD_TILE_MOVE_HasSlideEntry(a);
 }

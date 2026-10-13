@@ -14,12 +14,12 @@
  *
  * symbols:
  *   func_0689D098  0x0689D098  thumb
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C812C  0x021C812C  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   func_021C8138  0x021C8138  thumb  ov093
- *   func_021E8860  0x021E8860  thumb  ov093
- *   func_021E8940  0x021E8940  thumb  ov093
+ *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
  *   func_021B9A40  0x021B9A40  thumb  ov093
  *   func_021E556C  0x021E556C  thumb  ov093
  *   func_021E3C5C  0x021E3C5C  thumb  ov093
@@ -36,13 +36,13 @@ typedef unsigned int u32;
 
 typedef struct Word { u32 v; } Word;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern u8 *func_021C812C(u8 *p);
-extern u16 func_021D70A8(struct QQ *p);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern u16 func_021C8138(struct Q7 *p);
 extern u32 func_0689D098(int a, int b, int c);
-extern void func_021E8860(int n);
-extern Word func_021E8940(int v);
+extern void BTLV_CORE_EventScaleDamage(int n);
+extern Word BTLV_CORE_MakeSlotKind2Index(int v);
 extern unsigned char func_021B9A40(unsigned int x);
 extern void func_021E556C(int a, int b, int c, int d, int e, int f, Word g, int h);
 extern void func_021E3C5C(void *a, int b, int c);
@@ -58,11 +58,11 @@ void func_021E7DB0(void *a, void *b, int c)
 {
     int x;
     u16 y;
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         x = (int)func_021C812C((u8 *)((int)b));
-        y = func_021D70A8(a);
+        y = BTL_EVENT_GetFactorKey(a);
         if (func_0689D098(x, y, func_021C8138(b)) > 1)
-            func_021E8860(2);
+            BTLV_CORE_EventScaleDamage(2);
     }
 }
 
@@ -76,7 +76,7 @@ int *func_021E7E00(int *p)
 
 void func_021E7E0C(int a, int b, int c, int d)
 {
-    Word t = func_021E8940(1);
+    Word t = BTLV_CORE_MakeSlotKind2Index(1);
     int e = func_021B9A40(c);
     func_021E556C(a, b, c, d, e, 10, t, 0xa2);
     func_021E3C5C((void *)b, c, 1);

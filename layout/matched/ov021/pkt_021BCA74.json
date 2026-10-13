@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCA74",
+   "name": "FIELD_PLACE_NAME_GetZoneChangeRequest",
    "address": "0x021BCA74",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BCA88",
+   "name": "FIELD_PLACE_NAME_GetForceShowRequest",
    "address": "0x021BCA88",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD090",
+   "name": "FIELD_PLACE_NAME_GetHeapId",
    "address": "0x021BD090",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD094",
+   "name": "FIELD_PLACE_NAME_GetArcHandle",
    "address": "0x021BD094",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD0A4",
+   "name": "FIELD_PLACE_NAME_GetState",
    "address": "0x021BD0A4",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD0C0",
+   "name": "FIELD_PLACE_NAME_GetStep",
    "address": "0x021BD0C0",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BD118",
+   "name": "FIELD_PLACE_NAME_GetZoneId",
    "address": "0x021BD118",
    "kind": "game",
    "region": "ov021",
@@ -91,7 +91,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BD134",
+   "name": "FIELD_PLACE_NAME_GetMessage",
    "address": "0x021BD134",
    "kind": "game",
    "region": "ov021",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD138",
+   "name": "FIELD_PLACE_NAME_GetMessageLength",
    "address": "0x021BD138",
    "kind": "game",
    "region": "ov021",
@@ -115,7 +115,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BD2C0",
+   "name": "PLACE_NAME_LETTER_GetFont",
    "address": "0x021BD2C0",
    "kind": "game",
    "region": "ov021",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD2C8",
+   "name": "PLACE_NAME_LETTER_GetChar",
    "address": "0x021BD2C8",
    "kind": "game",
    "region": "ov021",
@@ -139,7 +139,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BD2D8",
+   "name": "PLACE_NAME_LETTER_GetActive",
    "address": "0x021BD2D8",
    "kind": "game",
    "region": "ov021",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD304",
+   "name": "PLACE_NAME_LETTER_GetMotion",
    "address": "0x021BD304",
    "kind": "game",
    "region": "ov021",

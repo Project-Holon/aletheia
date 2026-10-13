@@ -1,5 +1,5 @@
 /*
- * function: func_0219DF9C
+ * function: FLDMMDL_RAIL_MOVE_AcStayWalkD2F0
  * address:  0x0219DF9C
  * packet:   pkt_0219DF9C
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_0219DE64(its own argument 1, 0x1, 0x2, 0x5) and returns 0x1.
+ * Calls FLDMMDL_RAIL_MOVE_AcStayWalkSet(its own argument 1, 0x1, 0x2, 0x5) and returns 0x1.
  *
  * symbols:
- *   func_0219DE64  0x0219DE64  thumb
+ *   FLDMMDL_RAIL_MOVE_AcStayWalkSet  0x0219DE64  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_0219DE64(u32 a, u32 b, u16 c, u16 d);
+extern void FLDMMDL_RAIL_MOVE_AcStayWalkSet(u32 a, u32 b, u16 c, u16 d);
 
-u32 func_0219DF9C(u32 a1)
+u32 FLDMMDL_RAIL_MOVE_AcStayWalkD2F0(u32 a1)
 {
-    func_0219DE64(a1, 0x1, 0x2, 0x5);
+    FLDMMDL_RAIL_MOVE_AcStayWalkSet(a1, 0x1, 0x2, 0x5);
 
     return 0x1;
 }

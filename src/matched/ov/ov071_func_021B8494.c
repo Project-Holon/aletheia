@@ -1,5 +1,5 @@
 /*
- * function: func_021B8494
+ * function: MONOLITH_TOOL_SUMMARY_Create
  * address:  0x021B8494
  * packet:   pkt_ov071_021B8494
  * region:   ov071
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203159C  0x0203159C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_021B8650  0x021B8650  thumb  ov071
  *   func_021B86BC  0x021B86BC  thumb  ov071
@@ -18,7 +18,7 @@
  *   func_021B8764  0x021B8764  thumb  ov071
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02040588  0x02040588  arm
  *   func_020434DC  0x020434DC  arm
  */
@@ -40,9 +40,9 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct PrintSys;
 struct Obj0203159C;
-int func_021B8494(struct Obj0203159C *a, int *b, C *c, u8 *d)
+int MONOLITH_TOOL_SUMMARY_Create(struct Obj0203159C *a, int *b, C *c, u8 *d)
 {
-    extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+    extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
     extern void func_02082BCC(void *, int, int);
     extern void func_021B8650(void);
     extern void func_021B86BC(char *p);
@@ -50,7 +50,7 @@ int func_021B8494(struct Obj0203159C *a, int *b, C *c, u8 *d)
     extern void func_021B8764(void *p, char *q);
     extern void *func_02045770(struct Descriptor *p);
     extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-    extern void func_02045334(struct Descriptor *d);
+    extern void BMP_WIN_TransferChars(struct Descriptor *d);
     extern void func_02040588(unsigned char which, unsigned char enable);
     extern void func_020434DC(u32 mask, u32 enable);
     u8 *m;
@@ -59,7 +59,7 @@ int func_021B8494(struct Obj0203159C *a, int *b, C *c, u8 *d)
 
     switch (*b) {
     case 0:
-        m = func_0203159C(a, 0x28, 0x61);
+        m = PROCSYS_AllocProcWork(a, 0x28, 0x61);
         func_02082BCC(m, 0, 0x28);
         func_021B8650();
         func_021B86BC((char *)c->f4);
@@ -75,7 +75,7 @@ int func_021B8494(struct Obj0203159C *a, int *b, C *c, u8 *d)
             u8 *s = d + i * 8;
             if (s[0xc] != 0) {
                 if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06186 *)s)->f8))) == 0) {
-                    func_02045334(((struct Obj06186 *)s)->f8);
+                    BMP_WIN_TransferChars(((struct Obj06186 *)s)->f8);
                     s[0xc] = 0;
                 }
             }

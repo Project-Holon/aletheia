@@ -1,5 +1,5 @@
 /*
- * function: func_021899F0
+ * function: FIELDMAP_GetDrawMode
  * address:  0x021899F0
  * packet:   pkt_ov021_021899F0
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf getter: the word at +0x12C (func_021899F8 is its setter).
+ * Unlabelled leaf getter: the word at +0x12C (FIELDMAP_SetDrawMode is its setter).
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19501.h"
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-u32 func_021899F0(u8 *p)
+u32 FIELDMAP_GetDrawMode(u8 *p)
 {
     return ((struct Obj19501 *)p)->f12C;
 }

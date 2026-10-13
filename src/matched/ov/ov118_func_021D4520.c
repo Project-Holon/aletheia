@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021D4544  0x021D4544  thumb  ov118
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern void func_021D8E84(void *p, int next);
@@ -30,7 +30,7 @@ extern void func_021D4544(u8 *p);
 
 void func_021D4520(u8 *p)
 {
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x11, 8) != 0) {
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
         func_021D8E84(p, (int)func_021D4544);
     }
 }

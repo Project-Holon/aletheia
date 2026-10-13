@@ -10,43 +10,43 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204E804 0x0204E804 arm
- *   func_0204E720 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
  *   func_020362DC 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   func_02035D20 0x02035D20 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021B9A44 0x021B9A44 thumb ov224
  */
 #include "../include/Obj14799.h"
 
 typedef unsigned int u32;
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 extern u32 func_020362DC(void);
 typedef unsigned char  u8;
 struct PrintSys;
 typedef signed int     s32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void func_020355D8(u8 v);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021B9A44(void *);
 int func_021B9788(void *a,unsigned *state,int b,char *p)
 {
     int x,y,flag;
     switch(*state) {
     case 0: *state=1; break;
-    case 1: if(!func_0204E804()) *state=2; break;
+    case 1: if(!FADE_IsActive()) *state=2; break;
     case 2:
         flag=0;
         if(func_020362DC()&3) { func_020355D8(0); flag=1; }
         else if(func_02035D20((u32 *)(&x),(u32 *)(&y))) { func_020355D8(1); flag=1; }
-        if(flag) { *state=3; func_0204E720(3,0,16,0); }
+        if(flag) { *state=3; FADE_Start(3,0,16,0); }
         break;
-    case 3: if(!func_0204E804()) *state=4; break;
+    case 3: if(!FADE_IsActive()) *state=4; break;
     case 4: return 1;
     }
-    func_0201C4E4(((struct Obj14799 *)p)->f10); func_021B9A44(((struct Obj14799 *)p)->f8);
+    PRINTSYS_QUE_Main(((struct Obj14799 *)p)->f10); func_021B9A44(((struct Obj14799 *)p)->f8);
     return 0;
 }
 void func_021B9820(void) {}

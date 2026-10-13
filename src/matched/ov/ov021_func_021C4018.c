@@ -1,5 +1,5 @@
 /*
- * function: func_021C4018
+ * function: SODATEYA_SetOtId
  * address:  0x021C4018
  * packet:   pkt_021C4018
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct Sub0200852CObj;
 u32 func_02008530(const struct Sub0200852CObj *obj);
 
-void func_021C4018(int a, char *p)
+void SODATEYA_SetOtId(int a, char *p)
 {
     ((struct Obj20193 *)p)->f30 = func_02008530((const struct Sub0200852CObj *)a);
 }

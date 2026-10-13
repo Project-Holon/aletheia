@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021F0F74  0x021F0F74  thumb
- *   func_02165CE8  0x02165CE8  thumb  ov010
- *   func_0204A9D0  0x0204A9D0  arm
+ *   GAME_BEACON_ACCESSOR_GetTrainerAppearance  0x02165CE8  thumb  ov010
+ *   CLACT_TransferCharacter  0x0204A9D0  arm
  *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_021F3541     0x021F3541  data  ov032  a1
  */
@@ -25,8 +25,8 @@ typedef unsigned int u32;
 struct PalAnmSlot;
 struct S;
 struct Sub0204A9D0;
-extern u8 func_02165CE8(struct S *p);
-extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
+extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct S *p);
+extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u8 d_021F3541[];
 
@@ -34,8 +34,8 @@ void func_021F0F74(char *p, u8 *q, void *r)
 {
     int x;
 
-    x = func_02165CE8((struct S *)r);
-    func_0204A9D0(*(int *)(((struct Obj00007 *)p)->f158 + q[0] * 4), (struct Sub0204A9D0 *)(*(int *)(p + x * 8 + 0x338)));
+    x = GAME_BEACON_ACCESSOR_GetTrainerAppearance((struct S *)r);
+    CLACT_TransferCharacter(*(int *)(((struct Obj00007 *)p)->f158 + q[0] * 4), (struct Sub0204A9D0 *)(*(int *)(p + x * 8 + 0x338)));
     PALANM_CopyToSlot((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)p)->fAC),
                   (const void *)(*(int *)&((struct Obj00007 *)p)->f3BC + ((d_021F3541[x] & 0xf) << 5)), 3,
                   (u16)((q[0] + 9) << 4), 0x20);

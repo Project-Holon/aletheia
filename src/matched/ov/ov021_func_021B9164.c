@@ -1,5 +1,5 @@
 /*
- * function: func_021B9164
+ * function: FIELD_RAIL_WORK_Init
  * address:  0x021B9164
  * packet:   pkt_ov021_021B9164
  * region:   ov021
@@ -50,7 +50,7 @@ typedef struct {
 
 typedef enum { MODE_0, MODE_1, MODE_2 } Mode;
 
-void func_021B9164(Obj *o, Src *s, u8 *b)
+void FIELD_RAIL_WORK_Init(Obj *o, Src *s, u8 *b)
 {
     Mode m = MODE_2;
     o->x24 = s;

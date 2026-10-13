@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3938",
+   "name": "GIMMICK45_SetSwitchModelPose",
    "address": "0x021F3938",
    "kind": "game",
    "region": "ov045",

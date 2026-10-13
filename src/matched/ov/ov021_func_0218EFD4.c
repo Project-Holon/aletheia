@@ -1,5 +1,5 @@
 /*
- * function: func_0218EFD4
+ * function: FIELD_CAMERA_DeleteDelay
  * address:  0x0218EFD4
  * packet:   pkt_ov021_0218EFD4
  * region:   ov021
@@ -22,7 +22,7 @@ typedef signed int     s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_0218EFD4(u8 *a)
+void FIELD_CAMERA_DeleteDelay(u8 *a)
 {
     if (*(u8 * *)&((struct Obj04202 *)a)->fEC != 0) {
         func_020307B0(((struct Obj19566 *)(*(u8 * *)&((struct Obj04202 *)a)->fEC))->f20);

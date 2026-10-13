@@ -1,5 +1,5 @@
 /*
- * function: func_021902AC
+ * function: FIELD_MSGBG_LoadWindowGraphicsStep
  * address:  0x021902AC
  * packet:   pkt_ov021_021902AC
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02192FEC  0x02192FEC  thumb  ov021
+ *   FIELD_MSGBG_LoadWindowGraphicsStepFn  0x02192FEC  thumb  ov021
  *
- * Unlabelled tail-call forwarder, called from func_021BEF8C.
+ * Unlabelled tail-call forwarder, called from EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn.
  */
 
 typedef unsigned short u16;
 
-extern void func_02192FEC(int a, int b, int c);
+extern void FIELD_MSGBG_LoadWindowGraphicsStepFn(int a, int b, int c);
 
-void func_021902AC(u16 *p, int v)
+void FIELD_MSGBG_LoadWindowGraphicsStep(u16 *p, int v)
 {
-    func_02192FEC(p[1], p[0], v);
+    FIELD_MSGBG_LoadWindowGraphicsStepFn(p[1], p[0], v);
 }

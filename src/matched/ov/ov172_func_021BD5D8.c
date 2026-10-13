@@ -11,26 +11,26 @@
  * 2026-10-05: EXACT once the contested ov172 token is dropped from the d_021C70x0 data lines.
  *
  * symbols:
- *   func_0204361C  0x0204361C  arm
+ *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
- *   func_0202223C  0x0202223C  thumb
+ *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetWndMask  0x02022224  thumb
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   func_0203F8F4  0x0203F8F4  arm
- *   func_02045088  0x02045088  arm
+ *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_021BD820  0x021BD820  thumb  ov172
  *   func_0207E008  0x0207E008  arm
  *   func_0207E100  0x0207E100  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02040588  0x02040588  arm
- *   func_0204A48C  0x0204A48C  arm
+ *   CLACT_InitSystem  0x0204A48C  arm
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
- *   func_0204B100  0x0204B100  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
- *   d_020A1448     0x020A1448  data  a4
+ *   gClActorInitParam     0x020A1448  data  a4
  *   d_021C7050     0x021C7050  data  a4
  *   d_021C7060     0x021C7060  data  a4
  *   d_021C7080     0x021C7080  data  a4
@@ -49,28 +49,28 @@ struct Bank;
 struct DispConfig;
 struct BgTemplate;
 
-extern void func_0204361C(void);
+extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0202223C(u32 a, u32 b);
+extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 struct Cfg;
 struct DispVram;
 extern u32 WIPE_ResetWndMask(void *win);
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203F8F4(u16 heap);
-extern void func_02045088(u16 heap);
+extern void BMP_WIN_Init(u16 heap);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021BD820(const struct BgTemplate *tmpl, u32 bgId, u32 type);
 extern void *func_0207E008(void);
 extern void *func_0207E100(void);
 extern void func_02082BCC(void *p, int c, u32 n);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32 a, u32 b);
-extern void func_02043598(u32 mask, u32 enable);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern const Cfg7 d_020A1448;
+extern const Cfg7 gClActorInitParam;
 extern u8 d_021C7050[];
 extern u8 d_021C7060[];
 extern u8 d_021C7080[];
@@ -111,21 +111,21 @@ void func_021BD5D8(u8 *p)
     struct Bank *bank;
     Cfg7 cfg;
 
-    func_0204361C();
+    BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= 0xFFFFE0FF;
     *(volatile u32 *)0x04001000 &= 0xFFFFE0FF;
-    func_0202223C(0, 0);
-    func_0202223C(1, 0);
+    WIPE_SetBrightnessFadeOut(0, 0);
+    WIPE_SetBrightnessFadeOut(1, 0);
     WIPE_ResetWndMask(0);
     WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u16 *)0x04000304 |= 0x8000;
-    func_020433E0((const struct DispVram *)d_021C7120);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021C7120);
     func_0203F8F4(*(u16 *)p);
-    func_02045088(*(u16 *)p);
+    BMP_WIN_Init(*(u16 *)p);
     func_0203FC28((struct DispConfig *)d_021C7050);
     func_021BD820((const struct BgTemplate *)d_021C70A0, 0, 0);
     func_021BD820((const struct BgTemplate *)d_021C7100, 1, 0);
@@ -143,11 +143,11 @@ void func_021BD5D8(u8 *p)
     func_02040588(2, 1);
     mode = 3;
     func_02040588(mode, 1);
-    cfg = d_020A1448;
-    func_0204A48C((const struct Cfg *)(&cfg), (u32)d_021C7120, *(u16 *)p);
+    cfg = gClActorInitParam;
+    CLACT_InitSystem((const struct Cfg *)(&cfg), (u32)d_021C7120, *(u16 *)p);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
-    bank = func_0204B100(0x40, 0, *(u16 *)p);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
+    bank = CLACT_CreateUnit(0x40, 0, *(u16 *)p);
     *(struct Bank **)(p + 0x1AC) = bank;
     CLACT_SetUnitDefaultRenderer(bank);
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFFF1FFF) | (mode << 13);

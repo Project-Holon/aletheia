@@ -1,5 +1,5 @@
 /*
- * function: func_021B9938
+ * function: TOWNMAP_ProcClear
  * address:  0x021B9938
  * packet:   pkt_021B9938
  * region:   ov072
@@ -15,7 +15,7 @@
 
 void func_02082BCC(void *p, int v, int n);
 
-void func_021B9938(void *p)
+void TOWNMAP_ProcClear(void *p)
 {
     func_02082BCC(p, 0, 0x10);
 }

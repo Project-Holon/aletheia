@@ -1,5 +1,5 @@
 /*
- * function: func_0217AE38
+ * function: UNION_CHARA_SetNextAction
  * address:  0x0217AE38
  * packet:   pkt_0217AE38
  * region:   ov019
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-int func_0217AE38(char *p, char v)
+int UNION_CHARA_SetNextAction(char *p, char v)
 {
     p[9] = v;
     return 1;

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DEA1C",
-    "func_021DEA4C"
+    "BTL_HANDLER_ITEM_Choice_ReleaseMoveLock",
+    "BTL_HANDLER_ITEM_GetFocusSashHandlers"
+   ],
+   "addresses": [
+    "0x021DEA1C",
+    "0x021DEA4C"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,5 +1,5 @@
 /*
- * function: func_02156954
+ * function: MUSICAL_EVENT_GetMaxScore
  * address:  0x02156954
  * packet:   pkt_ov010_02156954
  * region:   ov010
@@ -32,7 +32,7 @@ typedef struct Work {
     Party *party;       /* 0x30 */
 } Work;
 
-u16 func_02156954(Work *w)
+u16 MUSICAL_EVENT_GetMaxScore(Work *w)
 {
     u16 max = 0;
     u8 i;

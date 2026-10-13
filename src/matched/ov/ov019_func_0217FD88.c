@@ -1,5 +1,5 @@
 /*
- * function: func_0217FD88
+ * function: UNION_EFF_GetFreeIconObj
  * address:  0x0217FD88
  * packet:   pkt_ov019_0217FD88
  * region:   ov019
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0217FCA4  0x0217FCA4  thumb  ov019
+ *   UNION_EFF_DeleteIconObj  0x0217FCA4  thumb  ov019
  */
 #include "../include/Obj04188.h"
 
@@ -18,9 +18,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
-extern void func_0217FCA4(u32 *p);
+extern void UNION_EFF_DeleteIconObj(u32 *p);
 
-u8 *func_0217FD88(u8 *base)
+u8 *UNION_EFF_GetFreeIconObj(u8 *base)
 {
     int i;
     int best = 0;
@@ -34,6 +34,6 @@ u8 *func_0217FD88(u8 *base)
             best = i;
     }
     e = base + best * 20;
-    func_0217FCA4((u32 *)e);
+    UNION_EFF_DeleteIconObj((u32 *)e);
     return e;
 }

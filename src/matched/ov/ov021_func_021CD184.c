@@ -1,5 +1,5 @@
 /*
- * function: func_021CD184
+ * function: PARTY_SELECT_LIST_ShowParty
  * address:  0x021CD184
  * packet:   pkt_ov021_021CD184
  * region:   ov021
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Selector 0 or 1 path of func_021CCF60: applies the +4 or +8 entry, then refreshes the two per-selector views.
+ * Selector 0 or 1 path of PARTY_SELECT_LIST_MenuMoveCallback: applies the +4 or +8 entry, then refreshes the two per-selector views.
  *
  * symbols:
- *   func_021CD050  0x021CD050  thumb  ov021
- *   func_021CCBE0  0x021CCBE0  thumb  ov021
- *   func_021CCE48  0x021CCE48  thumb  ov021
+ *   PARTY_SELECT_LIST_PrintPartyNames  0x021CD050  thumb  ov021
+ *   PARTY_SELECT_LIST_SetMonIconsVisible  0x021CCBE0  thumb  ov021
+ *   PARTY_SELECT_LIST_SetStatusIconsVisible  0x021CCE48  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -26,14 +26,14 @@ typedef struct {
     void *f8;
 } Obj;
 
-extern void func_021CD050(Obj *o, void *e);
+extern void PARTY_SELECT_LIST_PrintPartyNames(Obj *o, void *e);
 typedef unsigned char  u8;
-extern void func_021CCBE0(u8 *s, int flag);
-extern void func_021CCE48(u8 *s, int flag);
+extern void PARTY_SELECT_LIST_SetMonIconsVisible(u8 *s, int flag);
+extern void PARTY_SELECT_LIST_SetStatusIconsVisible(u8 *s, int flag);
 
-void func_021CD184(Obj *o, u32 sel)
+void PARTY_SELECT_LIST_ShowParty(Obj *o, u32 sel)
 {
-    func_021CD050(o, sel == 0 ? o->f4 : o->f8);
-    func_021CCBE0((u8 *)o, sel);
-    func_021CCE48((u8 *)o, sel);
+    PARTY_SELECT_LIST_PrintPartyNames(o, sel == 0 ? o->f4 : o->f8);
+    PARTY_SELECT_LIST_SetMonIconsVisible((u8 *)o, sel);
+    PARTY_SELECT_LIST_SetStatusIconsVisible((u8 *)o, sel);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F5620.c
  * unit:     yes
- * function: func_021F5620, func_021F5744, func_021F5798, func_021F57F8
+ * function: ENCEFF_StartCellGrid, ENCEFF_CellGridEventMain, ENCEFF_StepCellGrid, ENCEFF_UpdateCellGrid
  * address:  0x021F5620
  * region:   ov077
  * compiler: dsi/1.1p1
@@ -13,17 +13,17 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02189A08  0x02189A08  thumb  ov021
- *   func_021CF52C  0x021CF52C  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
+ *   ENCEFF_AllocWork  0x021CF52C  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E4  0x020124E4  thumb
- *   func_021CF560  0x021CF560  thumb  ov021
- *   func_0204E720  0x0204E720  arm
- *   func_0204E804  0x0204E804  arm
- *   func_021CF51C 0x021CF51C thumb ov021
- *   func_0207DD24 0x0207DD24 arm
- *   func_021F52D8 0x021F52D8 thumb ov075
+ *   ENCEFF_GetWork  0x021CF560  thumb  ov021
+ *   FADE_Start  0x0204E720  arm
+ *   FADE_IsActive  0x0204E804  arm
+ *   ENCEFF_GetEffect 0x021CF51C thumb ov021
+ *   G3X_SetClearColor 0x0207DD24 arm
+ *   ENCEFF_DrawScreenTexEffect 0x021F52D8 thumb ov075
  */
 #include "enceff_base_types.h"
 #include "enceff_grid_types.h"
@@ -32,18 +32,18 @@ struct Desc;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern struct GameSystem *func_020124E4(struct GameEvent *event);
-extern void func_0204E720(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
-extern int func_0204E804(void);
-extern struct GameEvent *func_021CF51C(struct EncEffWork *eff);
-extern void func_0207DD24(u16 color, int alpha, int depth, int polygonId, int clearImage);
-extern void func_021F52D8(struct GameEvent *effect);
-void *func_021F5620(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
-int func_021F5744(struct GameEvent *event, int *state);
-int func_021F5798(EncEffGridWork *work);
-void func_021F57F8(struct EncEffWork *eff);
+extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
+extern int FADE_IsActive(void);
+extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
+extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int clearImage);
+extern void ENCEFF_DrawScreenTexEffect(struct GameEvent *effect);
+void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
+int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state);
+int ENCEFF_StepCellGrid(EncEffGridWork *work);
+void ENCEFF_UpdateCellGrid(struct EncEffWork *eff);
 
 
-void *func_021F5620(void *gameSystem, const EncEffGridParam *param, int useSubScreen)
+void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen)
 {
     EncEffGridWork *work;
     void *event;
@@ -60,8 +60,8 @@ void *func_021F5620(void *gameSystem, const EncEffGridParam *param, int useSubSc
     int col;
     int row;
 
-    work = func_021CF52C(func_02189A08(func_0201210C(gameSystem)), sizeof(EncEffGridWork), 0x50);
-    event = func_020122C0(gameSystem, 0, func_021F5744, 0);
+    work = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffGridWork), 0x50);
+    event = func_020122C0(gameSystem, 0, ENCEFF_CellGridEventMain, 0);
     cellWidth = param->cellWidth;
     cellHeight = param->cellHeight;
     pixelWidth = cellWidth * 8;
@@ -104,20 +104,20 @@ void *func_021F5620(void *gameSystem, const EncEffGridParam *param, int useSubSc
 /*
  * Addresses are Black-image addresses.
  */
-int func_021F5744(struct GameEvent *event, int *state)
+int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state)
 {
     EncEffGridWork *work;
 
-    work = func_021CF560(func_02189A08(func_0201210C(func_020124E4(event))));
+    work = ENCEFF_GetWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(func_020124E4(event))));
     switch (*state) {
     case 0:
-        if (func_021F5798(work) == 0)
+        if (ENCEFF_StepCellGrid(work) == 0)
             break;
-        func_0204E720(work->fadeScreens, 0, 0x10, 0);
+        FADE_Start(work->fadeScreens, 0, 0x10, 0);
         (*state)++;
         break;
     case 1:
-        if (func_0204E804() == 0)
+        if (FADE_IsActive() == 0)
             return 1;
         break;
     }
@@ -125,7 +125,7 @@ int func_021F5744(struct GameEvent *event, int *state)
 }
 
 
-int func_021F5798(EncEffGridWork *work)
+int ENCEFF_StepCellGrid(EncEffGridWork *work)
 {
     int i;
     int cellCount;
@@ -157,11 +157,11 @@ int func_021F5798(EncEffGridWork *work)
 }
 
 /*
- * 2026-10-05: EXACT now that ov021 func_021CF51C is filed; no source change.
+ * 2026-10-05: EXACT now that ov021 ENCEFF_GetEffect is filed; no source change.
  */
-void func_021F57F8(struct EncEffWork *eff) {
-    struct GameEvent *effect = func_021CF51C(eff);
-    EncEffGridWork *work = func_021CF560(eff);
-    func_0207DD24(work->clearColor,31,0x7FFF,0,0);
-    func_021F52D8(effect);
+void ENCEFF_UpdateCellGrid(struct EncEffWork *eff) {
+    struct GameEvent *effect = ENCEFF_GetEffect(eff);
+    EncEffGridWork *work = ENCEFF_GetWork(eff);
+    G3X_SetClearColor(work->clearColor,31,0x7FFF,0,0);
+    ENCEFF_DrawScreenTexEffect(effect);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5B94
+ * function: ENCEFF_UpdateGridSpreadCell
  * address:  0x021F5B94
  * packet:   pkt_ov081_021F5B94
  * region:   ov081
@@ -13,7 +13,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021F5B94(int *o)
+int ENCEFF_UpdateGridSpreadCell(int *o)
 {
     if (o[0] < 0x100000) {
         int a = o[0];

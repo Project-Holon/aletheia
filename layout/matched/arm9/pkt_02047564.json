@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02047564",
+   "name": "G3D_SYSTEM_CreateAnime",
    "address": "0x02047564",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204762C",
+   "name": "G3D_SYSTEM_DeleteAnime",
    "address": "0x0204762C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047738",
+   "name": "G3D_SYSTEM_DeleteObject",
    "address": "0x02047738",
    "kind": "game",
    "region": "arm9",

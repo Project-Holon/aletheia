@@ -1,5 +1,5 @@
 /*
- * function: func_02197DAC
+ * function: FLDMMDL_ACMD_ListDelete
  * address:  0x02197DAC
  * packet:   pkt_ov021_02197DAC
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
- *   func_0216D480  0x0216D480  thumb  ov010
+ *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  * Addresses are Black-image addresses.
@@ -24,18 +24,18 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
-extern int func_0216D480(char *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern int FLDMMDL_EndAcmd(char *p);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_02197DAC(void *a)
+void FLDMMDL_ACMD_ListDelete(void *a)
 {
     u32 *p;
 
-    p = (u32 *)func_02030EE8(a);
-    func_0216D480((char *)p[3]);
+    p = (u32 *)TCBL_IsDeletePending(a);
+    FLDMMDL_EndAcmd((char *)p[3]);
     func_020307B0(p);
     func_02030EAC(a);
 }

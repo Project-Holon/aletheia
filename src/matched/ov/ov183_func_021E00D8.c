@@ -12,9 +12,9 @@
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FB964 0x021FB964 thumb ov186
- *   func_0201F81C 0x0201F81C thumb
- *   func_0201F898 0x0201F898 thumb
- *   func_020457B0 0x020457B0 arm
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02012944 0x02012944 thumb
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
@@ -24,7 +24,7 @@
  *   func_0201F048 0x0201F048 thumb
  *   func_0201F094 0x0201F094 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021FC8C8 0x021FC8C8 thumb ov186
  *   func_02082BCC 0x02082BCC arm
  *   func_021FC124 0x021FC124 thumb ov186
@@ -51,9 +51,9 @@ struct WordSet;
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern Slot *func_0201F81C(u32,u32);
-extern void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern Slot *BMP_MENUWORK_Create(u32,u32);
+extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u8 *func_02012944(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
@@ -63,7 +63,7 @@ extern u8 func_02025B64(u32);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_021FC8C8(Config *,u32);
 extern void func_02082BCC(void *,u32,u32);
 extern int func_021FC124(int,int,Triple *);
@@ -79,7 +79,7 @@ int func_021E00D8(char *p,char *q)
     first=func_021FC20C(*(char * *)&((struct Obj03330 *)q)->f8);
     second=func_021FC214(*(char * *)&((struct Obj03330 *)q)->f8);
     func_021FB964((void *)(*(int *)&((struct Obj03330 *)q)->f8),28,((struct Obj02231 *)p)->f54);
-    text=func_020457B0(128,((struct Obj02231 *)p)->f54);
+    text=STRBUF_Create(128,((struct Obj02231 *)p)->f54);
     v=func_02012944(((struct Obj03330 *)q)->f10);
     a=func_0200856C(v);b=func_02008570(v);
     ws=func_021FC21C(*(char * *)&((struct Obj03330 *)q)->f8);
@@ -87,10 +87,10 @@ int func_021E00D8(char *p,char *q)
     if(!func_02025B64(a))func_0201F048((void *)ws,0,a);
     else func_0201F094((void *)ws,0,a,b);
     func_0201F250((void *)ws,text,data);
-    func_02045808(data);
-    *(Slot * *)&((struct Obj02231 *)p)->f14=func_0201F81C(1,((struct Obj02231 *)p)->f54);
-    func_0201F898(*(Slot * *)&((struct Obj02231 *)p)->f14,(u32)text,0,((struct Obj02231 *)p)->f54);
-    func_02045808(text);
+    STRBUF_Delete(data);
+    *(Slot * *)&((struct Obj02231 *)p)->f14=BMP_MENUWORK_Create(1,((struct Obj02231 *)p)->f54);
+    BMP_MENUWORK_AddStrItem(*(Slot * *)&((struct Obj02231 *)p)->f14,(u32)text,0,((struct Obj02231 *)p)->f54);
+    STRBUF_Delete(text);
     cfg=d_021E3780;
     cfg.words[0]=*(u32 *)&((struct Obj02231 *)p)->f14;cfg.words[1]=1;
     cfg.words[5]=*(u32 *)&((struct Obj03330 *)q)->f8;cfg.words[6]=((struct Obj03330 *)q)->f4;

@@ -10,7 +10,7 @@
  * status: EXACT
  * Caller evidence: 021B74B4 leaves its forwarded return in r0, read here; 02005E50 is the matched zero-argument GFL_USE_IsBgmFading.
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_020061E4 0x020061E4 thumb
@@ -27,7 +27,7 @@
  *   func_021B6984 0x021B6984 thumb ov180
  *   func_021B7F38 0x021B7F38 thumb ov180
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_021B723C 0x021B723C thumb ov180
  */
@@ -35,9 +35,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void),func_020061E4(u32),GFL_USE_FadeOutBgm(u32),MCSS_ResetAnmStopFlag(void *);
 extern int func_021B7268(char *,int);
@@ -50,7 +50,7 @@ extern void func_021B7C60(char *p, int index, unsigned value);
 extern void func_021B692C(char *),func_021B699C(char *,int),func_021B69F8(char *),func_021B6984(char *),func_021B7F38(char *);
 int func_021B6FAC(char *p) {
     int ready;
-    if(((struct Obj00242 *)p)->f9198==1 && func_020221A4()==1 && GFL_USE_IsBgmFading()==0) { GFL_USE_CancelChangeAndStopBgm();return 9; }
+    if(((struct Obj00242 *)p)->f9198==1 && WIPE_SYS_EndCheck()==1 && GFL_USE_IsBgmFading()==0) { GFL_USE_CancelChangeAndStopBgm();return 9; }
     switch(((struct Obj00242 *)p)->f9190) {
     case 0: ++((struct Obj00242 *)p)->f9190;return func_021B7268(p,32);
     case 1: func_020061E4(0x79D);++((struct Obj00242 *)p)->f9190;break;
@@ -78,7 +78,7 @@ int func_021B6FAC(char *p) {
         }break;
     }
     if(((struct Obj00242 *)p)->f9190>=6)func_021B7F38(p);
-    if(((struct Obj00242 *)p)->f9190>=8 && ((struct Obj00242 *)p)->f9198==0 && ((func_020362DC()&3)!=0 || func_02035C60()==1)){
+    if(((struct Obj00242 *)p)->f9190>=8 && ((struct Obj00242 *)p)->f9198==0 && ((func_020362DC()&3)!=0 || TOUCHPANEL_GetTrg()==1)){
         ((struct Obj00242 *)p)->f9198=1;GFL_USE_FadeOutBgm(220);func_021B723C(p,9,188);
     }
     return 8;

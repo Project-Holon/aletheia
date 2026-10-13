@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B86C8  0x021B86C8  thumb  ov093
- *   func_021B8B9C  0x021B8B9C  thumb  ov093
+ *   BTL_MAIN_IsMultiMode  0x021B86C8  thumb  ov093
+ *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
  *   func_021B969C  0x021B969C  thumb  ov093
  *   func_021B985C  0x021B985C  thumb  ov093
  */
@@ -20,16 +20,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021B86C8(unsigned char **p);
-extern int func_021B8B9C(u8 *p, u32 k);
+extern int BTL_MAIN_IsMultiMode(unsigned char **p);
+extern int BTL_MAIN_IsClientUsed(u8 *p, u32 k);
 extern void func_021B969C(char *a, char *b, int k, int flag);
 extern int func_021B985C(char *p, int i);
 
 int func_021B8F7C(u8 *p, u32 k)
 {
-    if (func_021B86C8((unsigned char **)p)) {
+    if (BTL_MAIN_IsMultiMode((unsigned char **)p)) {
         k = (u8)((k + 2) & 3);
-        if (func_021B8B9C(p, k)) {
+        if (BTL_MAIN_IsClientUsed(p, k)) {
             func_021B969C((char *)(p + 0xc8), (char *)p, k, 0);
             return func_021B985C((char *)(p + 0xc8), k);
         }

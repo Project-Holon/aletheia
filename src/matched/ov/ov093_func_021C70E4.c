@@ -1,5 +1,5 @@
 /*
- * function: func_021C70E4
+ * function: BTL_SERVER_FLOW_PushEffectAnim
  * address:  0x021C70E4
  * packet:   pkt_ov093_021C70E4
  * region:   ov093
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021CD568  0x021CD568  thumb  ov093
- *   func_021CD4B0  0x021CD4B0  thumb  ov093
+ *   BTL_SERVER_CMD_FillReserved  0x021CD568  thumb  ov093
+ *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021CD568(u8 *w, u16 v, u32 id, ...);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void BTL_SERVER_CMD_FillReserved(u8 *w, u16 v, u32 id, ...);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 
-void func_021C70E4(u8 *p, int a, int b, int c, int e, u32 f)
+void BTL_SERVER_FLOW_PushEffectAnim(u8 *p, int a, int b, int c, int e, u32 f)
 {
     int m;
     if (c != 6) {
@@ -31,15 +31,15 @@ void func_021C70E4(u8 *p, int a, int b, int c, int e, u32 f)
     }
     if (e) {
         switch (m) {
-        case 0: func_021CD568(*(u8 * *)&((struct Obj00003 *)p)->fC, f, 0x4c, a); return;
-        case 1: func_021CD568(*(u8 * *)&((struct Obj00003 *)p)->fC, f, 0x4d, b, a); return;
-        case 2: func_021CD568(*(u8 * *)&((struct Obj00003 *)p)->fC, f, 0x4e, b, c, a); return;
+        case 0: BTL_SERVER_CMD_FillReserved(*(u8 * *)&((struct Obj00003 *)p)->fC, f, 0x4c, a); return;
+        case 1: BTL_SERVER_CMD_FillReserved(*(u8 * *)&((struct Obj00003 *)p)->fC, f, 0x4d, b, a); return;
+        case 2: BTL_SERVER_CMD_FillReserved(*(u8 * *)&((struct Obj00003 *)p)->fC, f, 0x4e, b, c, a); return;
         }
     } else {
         switch (m) {
-        case 0: func_021CD4B0(*(u8 * *)&((struct Obj00003 *)p)->fC, 0x4c, a); return;
-        case 1: func_021CD4B0(*(u8 * *)&((struct Obj00003 *)p)->fC, 0x4d, b, a); return;
-        case 2: func_021CD4B0(*(u8 * *)&((struct Obj00003 *)p)->fC, 0x4e, b, c, a); return;
+        case 0: BTL_SERVER_CMD_Push(*(u8 * *)&((struct Obj00003 *)p)->fC, 0x4c, a); return;
+        case 1: BTL_SERVER_CMD_Push(*(u8 * *)&((struct Obj00003 *)p)->fC, 0x4d, b, a); return;
+        case 2: BTL_SERVER_CMD_Push(*(u8 * *)&((struct Obj00003 *)p)->fC, 0x4e, b, c, a); return;
         }
     }
 }

@@ -17,6 +17,8 @@
  *   func_020092F8 0x020092F8 thumb
  *   func_020093D4 0x020093D4 thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  */
 #include "../include/Obj01736.h"
 typedef unsigned short u16;
@@ -28,11 +30,11 @@ struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u32 func_020307B0(void *p);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_02009290(struct Sub02009210Obj *obj);
 extern void func_02082D44(void *,void *,int);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_02019CA0(void *p, u32 v);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 struct Sub02007454Entry;
@@ -52,11 +54,11 @@ void func_021D7224(char *p)
         ((struct Obj01736 *)p)->fC=0;
     }
     if (func_020076D0(((struct Obj01736 *)p)->f24,(int *)(p+0x48),(int *)(p+0x4c))) {
-        q=func_02030734(((struct Obj01736 *)p)->f0,func_020173EC(),1,d_021DAB78,0x245);
-        size=func_020173EC();
+        q=func_02030734(((struct Obj01736 *)p)->f0,POKE_TOOL_GetPartyParamSize(),1,d_021DAB78,0x245);
+        size=POKE_TOOL_GetPartyParamSize();
         func_02082D44(func_02009290(g),q,size);
         if (((struct Obj01736 *)p)->f6C) {
-            n=func_02017E1C(q,158,0);
+            n=POKE_TOOL_GetPartyValue(q,158,0);
             if (n==100) ((struct Obj01736 *)p)->f6C=0;
             if (n+((struct Obj01736 *)p)->f6C>100) {
                 ((struct Obj01736 *)p)->f6C=100-n;

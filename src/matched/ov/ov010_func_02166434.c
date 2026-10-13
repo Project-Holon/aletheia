@@ -1,5 +1,5 @@
 /*
- * function: func_02166434
+ * function: SYMBOL_MAP_GetSelection
  * address:  0x02166434
  * packet:   pkt_ov010_02166434
  * region:   ov010
@@ -14,14 +14,14 @@
  * from the two ov010 accessors when INTRUDE_COMM_GetPartnerSlot answers 4.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E0B0  0x0200E0B0  thumb
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   func_021673C4  0x021673C4  thumb  ov010
  *   func_021673A8  0x021673A8  thumb  ov010
- *   func_02158344  0x02158344  thumb  ov010
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetPartnerRecord  0x02176880  thumb  ov011
  */
 
@@ -31,14 +31,14 @@ typedef unsigned int u32;
 
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E0B0(void *p);
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b);
 extern u8 func_021673C4(u8 *p);
 extern u8 func_021673A8(u8 *p);
-extern int func_02158344(int a0);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 struct Rec {
     u8 pad[0x50];
     u32 : 6;
@@ -48,22 +48,22 @@ struct Rec {
 
 extern u8 *INTRUDE_COMM_GetPartnerRecord(u8 *p);
 
-int func_02166434(void *a, u32 *out0, u32 *out1)
+int SYMBOL_MAP_GetSelection(void *a, u32 *out0, u32 *out1)
 {
     void *t;
     u8 *sav;
     void *r;
     struct Rec *rec;
 
-    t = func_020120F4(a);
-    sav = func_0200E0B0(func_02012EBC(t));
-    r = (void *)func_02012138(a);
+    t = GAMESYSTEM_GetGameData(a);
+    sav = func_0200E0B0(GAME_DATA_GetSaveControl(t));
+    r = (void *)GAMESYSTEM_GetGameComm(a);
     if (INTRUDE_COMM_GetPartnerSlot(r, t) == 4) {
         *out0 = func_021673C4(sav);
         *out1 = func_021673A8(sav);
         return 1;
     }
-    r = (void *)func_02158344((int)r);
+    r = (void *)INTRUDE_COMM_GetWorkIfRunning((int)r);
     if (r == 0) {
         *out0 = 0;
         *out1 = 0;

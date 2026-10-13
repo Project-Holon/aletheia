@@ -1,5 +1,5 @@
 /*
- * function: func_021821B0
+ * function: EVENT_COMM_COMMON_CreateOfferAnswerEvent
  * address:  0x021821B0
  * packet:   pkt_ov018_021821B0
  * region:   ov018
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_020122C0  0x020122C0  thumb
- *   func_02182214  0x02182214  thumb  ov018
+ *   EVENT_COMM_COMMON_OfferAnswerEventMain  0x02182214  thumb  ov018
  *   func_020124E8  0x020124E8  thumb
  *   func_020084F8  0x020084F8  thumb
- *   func_0217F2B4  0x0217F2B4  thumb  ov018
+ *   EVENT_COMM_COMMON_InitMsgBox  0x0217F2B4  thumb  ov018
  */
 
 typedef unsigned char u8;
@@ -44,15 +44,15 @@ typedef struct {
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void func_02182214();
+extern void EVENT_COMM_COMMON_OfferAnswerEventMain();
 extern void *func_020124E8(struct Obj *p);
 extern u32 func_020084F8(void *dst, u32 value, u32 size);
-extern void func_0217F2B4(Task *, void *);
+extern void EVENT_COMM_COMMON_InitMsgBox(Task *, void *);
 
-void *func_021821B0(void *a, Src *b)
+void *EVENT_COMM_COMMON_CreateOfferAnswerEvent(void *a, Src *b)
 {
     void *s;
     void *t;
@@ -60,15 +60,15 @@ void *func_021821B0(void *a, Src *b)
     u16 *q;
     void *t0;
 
-    t0 = func_020120F4(a);
+    t0 = GAMESYSTEM_GetGameData(a);
     q = &b->f14;
-    s = func_02012944(t0);
-    t = func_020122C0(a, 0, func_02182214, 0x54);
+    s = GAME_DATA_GetMyStatus(t0);
+    t = func_020122C0(a, 0, EVENT_COMM_COMMON_OfferAnswerEventMain, 0x54);
     p = func_020124E8(t);
     func_020084F8(s, (u32)p->f30, 8);
     p->f40 = q[1];
     p->f42 = q[0];
     p->f44 = b->f28;
-    func_0217F2B4(p, a);
+    EVENT_COMM_COMMON_InitMsgBox(p, a);
     return t;
 }

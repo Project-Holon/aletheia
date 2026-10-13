@@ -12,7 +12,7 @@
  * symbols:
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -20,7 +20,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 int func_021B9634(void *a)
 {
@@ -29,7 +29,7 @@ int func_021B9634(void *a)
 
     for (i = func_0201AA18(a) - 1; i >= 0; i--) {
         e = func_0201AB28(a, i);
-        if (func_02017E1C(e, 0x4c, 0) == 0 && func_02017E1C(e, 0xa0, 0) != 0)
+        if (POKE_TOOL_GetPartyValue(e, 0x4c, 0) == 0 && POKE_TOOL_GetPartyValue(e, 0xa0, 0) != 0)
             return i;
     }
     return -1;

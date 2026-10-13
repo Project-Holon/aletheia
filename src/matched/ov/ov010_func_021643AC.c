@@ -7,32 +7,32 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * interface: func_02188C9C reads the u16 field at +0xD8;
- * func_0215E428 forwards its second argument to func_0200D45C,
+ * interface: FIELDMAP_GetZoneId reads the u16 field at +0xD8;
+ * MOVE_POKEMON_SetCommonArea forwards its second argument to func_0200D45C,
  * whose matched ARM9 body takes u16 and stores only that halfword.
  * The legacy ov010_func_021643E8 declaration uses a pointer for this ID.
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200D418 0x0200D418 thumb
- *   func_02188C9C 0x02188C9C thumb ov021
- *   func_0215E428 0x0215E428 thumb ov010
- *   func_0215E3A0 0x0215E3A0 thumb ov010
- *   func_0201296C 0x0201296C thumb
- *   func_0201433C 0x0201433C thumb
- *   func_0215E33C 0x0215E33C thumb ov010
+ *   FIELDMAP_GetZoneId 0x02188C9C thumb ov021
+ *   MOVE_POKEMON_SetCommonArea 0x0215E428 thumb ov010
+ *   MOVE_POKEMON_MoveActiveEntriesChecked 0x0215E3A0 thumb ov010
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
+ *   ZONEDATA_ResetEventFlag 0x0201433C thumb
+ *   FIELD_ENCOUNT_ST_GetEffectEncount 0x0215E33C thumb ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200D418(void *);
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 typedef unsigned int   u32;
 struct BigObj;
-extern void func_0215E428(int a0, int a1);
-extern void func_0215E3A0(void *);
-extern u32 func_0201296C(const struct BigObj *p);
-extern void func_0201433C(char *, int);
-extern int func_0215E33C(int a0);
-void func_021643AC(void *a, void *b) { void *p=func_0200D418(func_02012EBC(a)); func_0215E428((int)p,func_02188C9C(b)); func_0215E3A0(a); func_0201433C((char *)func_0201296C(a),0x964); func_0215E33C((int)b); }
+extern void MOVE_POKEMON_SetCommonArea(int a0, int a1);
+extern void MOVE_POKEMON_MoveActiveEntriesChecked(void *);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void ZONEDATA_ResetEventFlag(char *, int);
+extern int FIELD_ENCOUNT_ST_GetEffectEncount(int a0);
+void func_021643AC(void *a, void *b) { void *p=func_0200D418(GAME_DATA_GetSaveControl(a)); MOVE_POKEMON_SetCommonArea((int)p,FIELDMAP_GetZoneId(b)); MOVE_POKEMON_MoveActiveEntriesChecked(a); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(a),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)b); }

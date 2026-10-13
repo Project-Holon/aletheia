@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02045770   0x02045770  arm
- *   func_02043B5C   0x02043B5C  arm
- *   func_020439A0   0x020439A0  arm
- *   func_02045334   0x02045334  arm
+ *   BMP_Clear   0x02043B5C  arm
+ *   BMP_Blit   0x020439A0  arm
+ *   BMP_WIN_TransferChars   0x02045334  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -30,9 +30,9 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct Bmp;
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_02045334(struct Descriptor *a);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
 
 void TIME_ICON_Update(u8 *p)
 {
@@ -40,10 +40,10 @@ void TIME_ICON_Update(u8 *p)
         return;
 
     if (((struct Obj01310 *)p)->f13 == 0) {
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01310 *)p)->f8)), ((struct Obj01310 *)p)->f12);
-        func_020439A0((struct Bmp *)(((struct Obj01310 *)p)->fC), (struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj01310 *)p)->f8)), 0,
+        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01310 *)p)->f8)), ((struct Obj01310 *)p)->f12);
+        BMP_Blit((struct Bmp *)(((struct Obj01310 *)p)->fC), (struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj01310 *)p)->f8)), 0,
                       (u32)((struct Obj01310 *)p)->f15 << 4, 0, 0, 0x10, 0x10, 0);
-        func_02045334((struct Descriptor *)((struct Obj01310 *)p)->f8);
+        BMP_WIN_TransferChars((struct Descriptor *)((struct Obj01310 *)p)->f8);
 
         ((struct Obj01310 *)p)->f13 = ((struct Obj01310 *)p)->f14;
         ((struct Obj01310 *)p)->f15 = ((struct Obj01310 *)p)->f15 + 1;

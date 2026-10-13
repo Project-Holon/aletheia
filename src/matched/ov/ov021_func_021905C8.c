@@ -1,5 +1,5 @@
 /*
- * function: func_021905C8
+ * function: FIELD_MSGBG_MsgPrintPrintStrColorFont
  * address:  0x021905C8
  * packet:   pkt_ov021_021905C8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C724  0x0201C724  thumb  arm9
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  *   func_02045770  0x02045770  arm  arm9
  * Addresses are Black-image addresses.
  */
@@ -34,13 +34,13 @@ typedef struct Slot {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void func_021905C8(Slot *s, int x, int y, u32 z, u16 w, u32 v)
+void FIELD_MSGBG_MsgPrintPrintStrColorFont(Slot *s, int x, int y, u32 z, u16 w, u32 v)
 {
     u32 t;
 
     t = s->f0c;
-    func_0201C724((void *)t, (u32)func_02045770((struct Descriptor *)s->f1c), (s16)x, (s16)y, z, v, w);
+    PRINTSYS_PrintQueColor((void *)t, (u32)func_02045770((struct Descriptor *)s->f1c), (s16)x, (s16)y, z, v, w);
     s->f20 = 1;
 }

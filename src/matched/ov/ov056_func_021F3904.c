@@ -1,5 +1,5 @@
 /*
- * function: func_021F3904
+ * function: FIELD_FK_DEMO_StartBuildAnime
  * address: 0x021F3904
  * packet: pkt_ov056_021F3904
  * region: ov056
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0218C88C 0x0218C88C thumb ov021
+ *   FIELD_BUILDMODEL_PlayNodeSlot 0x0218C88C thumb ov021
  */
-extern void func_0218C88C(unsigned char *,int,int);
-void func_021F3904(unsigned char **p) { if (*p) func_0218C88C(*p,0,0); }
+extern void FIELD_BUILDMODEL_PlayNodeSlot(unsigned char *,int,int);
+void FIELD_FK_DEMO_StartBuildAnime(unsigned char **p) { if (*p) FIELD_BUILDMODEL_PlayNodeSlot(*p,0,0); }

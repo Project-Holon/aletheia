@@ -1,5 +1,5 @@
 /*
- * function: func_021B9278
+ * function: FIELD_RAIL_LINE_GetLength
  * address:  0x021B9278
  * packet:   pkt_021B9278
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021B9278(u32 a)
+int FIELD_RAIL_LINE_GetLength(u32 a)
 {
 return (((struct Obj18139 *)((u8 *)(a)))->f14 << 4);
 }

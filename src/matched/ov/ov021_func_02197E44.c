@@ -1,5 +1,5 @@
 /*
- * function: func_02197E44
+ * function: FLDMMDL_ACMD_ListStateNext
  * address: 0x02197E44
  * packet: pkt_ov021_02197E44
  * region: ov021
@@ -22,9 +22,9 @@ typedef struct IrcTask {
     u16 *data;
 } IrcTask;
 
-int func_02197E44(IrcTask *w);
+int FLDMMDL_ACMD_ListStateNext(IrcTask *w);
 
-int func_02197E44(IrcTask *w)
+int FLDMMDL_ACMD_ListStateNext(IrcTask *w)
 {
     u16 *p = w->data;
     int i = ++w->idx;

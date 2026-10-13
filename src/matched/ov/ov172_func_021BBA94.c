@@ -26,12 +26,12 @@
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_020450F0  0x020450F0  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02041EE4  0x02041EE4  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_02030734  0x02030734  arm
  *   d_021C7234     0x021C7234  data
  */
@@ -59,16 +59,16 @@ extern void func_021BD134(void *ctx, char *st, u32 msgId);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(u32 a);
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *o, unsigned int k);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_0204B878(struct Obj *, u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 d_021C7234[];
 
-#define MK(c, p, a1, a2, a3, sp) func_0204B294((void *)func_021BE024(c), func_021BE018(c, a1), func_021BE018(c, a2), func_021BE018(c, a3), &d, sp, v)
+#define MK(c, p, a1, a2, a3, sp) CLACT_CreateActor((void *)func_021BE024(c), func_021BE018(c, a1), func_021BE018(c, a2), func_021BE018(c, a3), &d, sp, v)
 
 void func_021BBA94(void *a0, u8 *p)
 {
@@ -160,10 +160,10 @@ void func_021BBA94(void *a0, u8 *p)
         *(u32 *)(slot + 0x40) = 0;
         *(u32 *)(slot + 0x44) = 0;
         *(u8 *)(slot + 0x58) = 0xff;
-        *(u32 *)(slot + 0x54) = func_020450F0(6, 3, (u8)(k * 4 + 1), 0x19, 2, 0xa, 1);
+        *(u32 *)(slot + 0x54) = BMP_WIN_Create(6, 3, (u8)(k * 4 + 1), 0x19, 2, 0xa, 1);
     }
-    *(u32 *)(p + 0x2c) = func_020450F0(4, 1, 0x15, 0x15, 2, 0xa, 1);
-    *(u32 *)(p + 0x30) = func_020450F0(4, 2, 9, 0x1c, 2, 0xa, 1);
+    *(u32 *)(p + 0x2c) = BMP_WIN_Create(4, 1, 0x15, 0x15, 2, 0xa, 1);
+    *(u32 *)(p + 0x30) = BMP_WIN_Create(4, 2, 9, 0x1c, 2, 0xa, 1);
     z = 0;
     *(u32 *)(p + 0x38) = z;
     *(u16 *)(p + 0x36) = z;
@@ -186,7 +186,7 @@ void func_021BBA94(void *a0, u8 *p)
     *(u16 *)(p + 0x34) = 0;
     func_02041EE4(6, 3, 0);
     if ((u32)(*(u32 *)(o + 4) - 2) <= 1 && func_021BE0EC(a0) == 0) {
-        func_0204B878((struct Obj *)*(u32 *)(p + 0x400), 0xf);
+        CLACT_SetActorAnimSeq((struct Obj *)*(u32 *)(p + 0x400), 0xf);
         func_021BD134(a0, (char *)p, 0x18);
         *(u32 *)(p + 0x38) = 1;
         *(u32 *)(p + 0x18) = 3;

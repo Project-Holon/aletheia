@@ -1,7 +1,7 @@
 /*
  * file:     sound_obj.c
  * unit:     yes
- * function: func_021C4D14, func_021C4D7C, func_021C4DA8, func_021C4DC0, func_021C4DE4, func_021C4E08, func_021C4E20, func_021C4E34, func_021C4E6C
+ * function: SOUND_OBJ_Create, SOUND_OBJ_CreateNoSource, SOUND_OBJ_Delete, SOUND_OBJ_SetAnime, SOUND_OBJ_AdvanceAnime, SOUND_OBJ_SetAnimeFrame, SOUND_OBJ_GetAnimeFrame, SOUND_OBJ_ApplyPosition, SOUND_OBJ_ApplyRotation
  * address:  0x021C4D14
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,22 +15,26 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_02012134  0x02012134  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   func_0202B57C  0x0202B57C  thumb
  *   func_02030734  0x02030734  arm
- *   func_0202B928  0x0202B928  thumb
- *   func_0202B920  0x0202B920  thumb
- *   d_021DE48C     0x021DE48C  data  a4
- *   func_02011558  0x02011558  thumb
- *   func_0201160C  0x0201160C  thumb
- *   func_0202B934  0x0202B934  thumb
- *   func_02011638  0x02011638  thumb
+ *   ISS_3DS_SYS_IsSourceActive  0x0202B928  thumb
+ *   ISS_3DS_SYS_StartSource  0x0202B920  thumb
+ *   gSoundObjFileName     0x021DE48C  data  a4
+ *   ICA_ANIME_Delete  0x02011558  thumb
+ *   ICA_ANIME_GetFrame  0x0201160C  thumb
+ *   ISS_3DS_SYS_SetSourcePos  0x0202B934  thumb
+ *   ICA_ANIME_GetRotate  0x02011638  thumb
  *   func_0207ADC4  0x0207ADC4  arm
- *   func_020520FC  0x020520FC  arm
+ *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
  *   abs_id_C2      0x000000C2  data
  *   ov171_id       0x000000AB  data  a1
+ *   ICA_ANIME_CreateStream  0x02011510  thumb  arm9
+ *   ICA_ANIME_IncFrameLoop  0x02011590  thumb  arm9
+ *   ICA_ANIME_SetFrame  0x020115EC  thumb  arm9
+ *   ICA_ANIME_GetTranslate  0x02011610  thumb  arm9
  */
 #include "field_effect_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -123,61 +127,61 @@ typedef struct BbActRec {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02188C80(void *p);
-extern u32 func_02012134(u32 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
 extern u32 func_0202B57C(void *obj);
-extern int func_0202B928(int a, int b);
-extern void func_0202B920(void *m, int i, int a, int b);
-extern void func_02011558(struct IcaAnime *p);
-extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
-extern u32 func_02011590(struct IcaAnime *p, s32 v);
-extern void func_020115EC(struct IcaAnime *p, s32 v);
-extern u32 func_0201160C(struct IcaAnime *p);
-extern u32 func_02011610(struct IcaAnime *t, VecFx32 *out);
-extern void func_0202B934(u32 a, u32 b, VecFx32 *pos);
-extern u32 func_02011638(struct IcaAnime *ctx, VecFx32 *out);
+extern int ISS_3DS_SYS_IsSourceActive(int a, int b);
+extern void ISS_3DS_SYS_StartSource(void *m, int i, int a, int b);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
+extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
+extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
+extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
+extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
+extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *t, VecFx32 *out);
+extern void ISS_3DS_SYS_SetSourcePos(u32 a, u32 b, VecFx32 *pos);
+extern u32 ICA_ANIME_GetRotate(struct IcaAnime *ctx, VecFx32 *out);
 extern void func_0207ADC4(void *p);
-extern void func_020520FC(int h, int s, int v, struct Mtx33 *out);
+extern void BUTTON_MAN_MakeRotMtxXYZ(int h, int s, int v, struct Mtx33 *out);
 /* Retain the mode used to store f59 for the helper's second argument. */
-SoundObj *func_021C4D14(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1);
-SoundObj *func_021C4D7C(FieldMap *fieldMap, SoundObjTarget *target);
-int func_021C4DA8(SoundObj *obj);
-void func_021C4DC0(SoundObj *obj, u32 arg0, u32 arg1, u32 arg2);
-u32 func_021C4DE4(SoundObj *obj, s32 deltaFrame);
-void func_021C4E08(SoundObj *obj, s32 frame);
-u32 func_021C4E20(SoundObj *obj);
-void func_021C4E34(SoundObj *obj);
-void func_021C4E6C(SoundObj *obj);
-extern char d_021DE48C[];
+SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1);
+SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, SoundObjTarget *target);
+int SOUND_OBJ_Delete(SoundObj *obj);
+void SOUND_OBJ_SetAnime(SoundObj *obj, u32 arg0, u32 arg1, u32 arg2);
+u32 SOUND_OBJ_AdvanceAnime(SoundObj *obj, s32 deltaFrame);
+void SOUND_OBJ_SetAnimeFrame(SoundObj *obj, s32 frame);
+u32 SOUND_OBJ_GetAnimeFrame(SoundObj *obj);
+void SOUND_OBJ_ApplyPosition(SoundObj *obj);
+void SOUND_OBJ_ApplyRotation(SoundObj *obj);
+extern char gSoundObjFileName[];
 extern unsigned char abs_id_C2[];
 extern char ov171_id[];
 /* Sound object (sound_obj.c): a 3D sound source, optionally moved by an ICA animation. */
-SoundObj *func_021C4D14(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1)
+SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1)
 {
-    int heapId = func_02188C84((u8 *)fieldMap);
+    int heapId = FIELDMAP_GetHeapId((u8 *)fieldMap);
     void *iss3dsSys;
     SoundObj *obj;
 
-    iss3dsSys = (void *)func_0202B57C((void *)func_02012134((u32 *)func_02188C80((void *)fieldMap)));
-    obj = func_02030734(heapId, 0x18, 0, d_021DE48C, 0x3c);
+    iss3dsSys = (void *)func_0202B57C((void *)GAMESYSTEM_GetIssSystem((u32 *)FIELDMAP_GetGameSystem((void *)fieldMap)));
+    obj = func_02030734(heapId, 0x18, 0, gSoundObjFileName, 0x3c);
     obj->heapId = heapId;
     obj->fieldMap = fieldMap;
     obj->iss3dsSys = iss3dsSys;
     obj->sourceId = sourceId;
     obj->anime = 0;
     obj->target = (SoundObjTarget *)pos;
-    if (func_0202B928((int)iss3dsSys, sourceId) == 0) {
-        func_0202B920(iss3dsSys, sourceId, startArg0, startArg1);
+    if (ISS_3DS_SYS_IsSourceActive((int)iss3dsSys, sourceId) == 0) {
+        ISS_3DS_SYS_StartSource(iss3dsSys, sourceId, startArg0, startArg1);
     }
     return obj;
 }
 
 /* Sound object without a sound source, only the animated target. */
-SoundObj *func_021C4D7C(FieldMap *fieldMap, SoundObjTarget *target)
+SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, SoundObjTarget *target)
 {
-    u32 heapId = func_02188C84((u8 *)fieldMap);
-    SoundObj *obj = func_02030734(heapId, 0x18, 0, d_021DE48C, 0x61);
+    u32 heapId = FIELDMAP_GetHeapId((u8 *)fieldMap);
+    SoundObj *obj = func_02030734(heapId, 0x18, 0, gSoundObjFileName, 0x61);
 
     obj->heapId = heapId;
     obj->fieldMap = fieldMap;
@@ -187,50 +191,50 @@ SoundObj *func_021C4D7C(FieldMap *fieldMap, SoundObjTarget *target)
     return obj;
 }
 
-int func_021C4DA8(SoundObj *obj)
+int SOUND_OBJ_Delete(SoundObj *obj)
 {
     if (obj->anime != 0) {
-        func_02011558((struct IcaAnime *)obj->anime);
+        ICA_ANIME_Delete((struct IcaAnime *)obj->anime);
     }
     return func_020307B0(obj);
 }
 
 /* Restarts the animation with a new stream. */
-void func_021C4DC0(SoundObj *obj, u32 arg0, u32 arg1, u32 arg2)
+void SOUND_OBJ_SetAnime(SoundObj *obj, u32 arg0, u32 arg1, u32 arg2)
 {
     if (obj->anime != 0)
-        func_02011558((struct IcaAnime *)obj->anime);
-    obj->anime = func_02011510(obj->heapId, arg0, arg1, arg2);
+        ICA_ANIME_Delete((struct IcaAnime *)obj->anime);
+    obj->anime = ICA_ANIME_CreateStream(obj->heapId, arg0, arg1, arg2);
 }
 
 /* Advances the animation by deltaFrame, then applies position and rotation. Returns the frame result. */
-u32 func_021C4DE4(SoundObj *obj, s32 deltaFrame)
+u32 SOUND_OBJ_AdvanceAnime(SoundObj *obj, s32 deltaFrame)
 {
     u32 result;
 
     if (obj->anime == 0)
         return 0;
-    result = func_02011590((struct IcaAnime *)obj->anime, deltaFrame);
-    func_021C4E34(obj);
-    func_021C4E6C(obj);
+    result = ICA_ANIME_IncFrameLoop((struct IcaAnime *)obj->anime, deltaFrame);
+    SOUND_OBJ_ApplyPosition(obj);
+    SOUND_OBJ_ApplyRotation(obj);
     return result;
 }
 
 /* Sets the animation frame and applies the position. */
-void func_021C4E08(SoundObj *obj, s32 frame)
+void SOUND_OBJ_SetAnimeFrame(SoundObj *obj, s32 frame)
 {
     if (obj->anime != 0) {
-        func_020115EC((struct IcaAnime *)obj->anime, frame);
-        func_021C4E34(obj);
+        ICA_ANIME_SetFrame((struct IcaAnime *)obj->anime, frame);
+        SOUND_OBJ_ApplyPosition(obj);
     }
 }
 
 /* Returns the animation frame, 0 without an animation. */
-u32 func_021C4E20(SoundObj *obj)
+u32 SOUND_OBJ_GetAnimeFrame(SoundObj *obj)
 {
     if (obj->anime == 0)
         return 0;
-    return func_0201160C((struct IcaAnime *)obj->anime);
+    return ICA_ANIME_GetFrame((struct IcaAnime *)obj->anime);
 }
 
 static inline void V3_Set(VecFx32 *dst, int x, int y, int z)
@@ -241,14 +245,14 @@ static inline void V3_Set(VecFx32 *dst, int x, int y, int z)
 }
 
 /* Copies the animated position into the target and moves the sound source there. */
-void func_021C4E34(SoundObj *obj)
+void SOUND_OBJ_ApplyPosition(SoundObj *obj)
 {
     VecFx32 pos;
 
-    if (obj->anime != 0 && func_02011610((struct IcaAnime *)obj->anime, (VecFx32 *)&pos) == 1) {
+    if (obj->anime != 0 && ICA_ANIME_GetTranslate((struct IcaAnime *)obj->anime, (VecFx32 *)&pos) == 1) {
         V3_Set(&obj->target->pos, pos.x, pos.y, pos.z);
         if (obj->iss3dsSys != 0)
-            func_0202B934((u32)obj->iss3dsSys, obj->sourceId, &pos);
+            ISS_3DS_SYS_SetSourcePos((u32)obj->iss3dsSys, obj->sourceId, &pos);
     }
 }
 
@@ -256,7 +260,7 @@ void func_021C4E34(SoundObj *obj)
  * Builds the rotation matrix of the target from the animated rotation: three
  * 4.12 angles in degrees, wrapped into [0,360), rescaled to 0..65535.
  */
-void func_021C4E6C(SoundObj *obj)
+void SOUND_OBJ_ApplyRotation(SoundObj *obj)
 {
     s32 rotation[3];
     u16 rotX;
@@ -269,7 +273,7 @@ void func_021C4E6C(SoundObj *obj)
     if (obj->anime == 0) {
         return;
     }
-    if (func_02011638((struct IcaAnime *)obj->anime, (VecFx32 *)rotation) != 1) {
+    if (ICA_ANIME_GetRotate((struct IcaAnime *)obj->anime, (VecFx32 *)rotation) != 1) {
         return;
     }
 
@@ -291,5 +295,5 @@ void func_021C4E6C(SoundObj *obj)
     rotY = (u16)(u32)(65535.0f * (degY / 360.0f));
     rotZ = (u16)(u32)(65535.0f * (degZ / 360.0f));
     func_0207ADC4(&obj->target->rotate);
-    func_020520FC(rotX, rotY, rotZ, (struct Mtx33 *)&obj->target->rotate);
+    BUTTON_MAN_MakeRotMtxXYZ(rotX, rotY, rotZ, (struct Mtx33 *)&obj->target->rotate);
 }

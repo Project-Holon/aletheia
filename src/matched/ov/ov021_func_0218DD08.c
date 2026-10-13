@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD08
+ * function: FIELD_G3D_MAPPER_SlotResGetWfbc
  * address:  0x0218DD08
  * packet:   pkt_ov021_0218DD08
  * region:   ov021
@@ -18,7 +18,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-int func_0218DD08(u8 *p)
+int FIELD_G3D_MAPPER_SlotResGetWfbc(u8 *p)
 {
     return ((struct Obj19552 *)p)->f8;
 }

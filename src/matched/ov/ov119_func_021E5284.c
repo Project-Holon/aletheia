@@ -21,7 +21,7 @@
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02040618 0x02040618 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021E7E24 0x021E7E24 data a4
  *   d_021E7F44 0x021E7F44 data a4
  */
@@ -37,7 +37,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02040618(u32,u32,u32),func_02049238(void *);
+extern void func_02040618(u32,u32,u32),ARC_TOOL_DeleteHandle(void *);
 void func_021E5284(char *p,int mode)
 {
  BgTemplate a,b;
@@ -50,12 +50,12 @@ void func_021E5284(char *p,int mode)
   func_02049B68(v,5,6,0x6000,0,((struct Obj02829 *)p)->f5F4);
   func_02049658((void *)((u32)v),4,7,0,0,0,((struct Obj02829 *)p)->f5F4);
   func_020498F4((void *)((u32)v),6,7,0,0,0,((struct Obj02829 *)p)->f5F4);
-  func_02040618(7,0,0);func_02049238(v);
+  func_02040618(7,0,0);ARC_TOOL_DeleteHandle(v);
  } else {
   v=func_020490F4(0x68,((struct Obj02829 *)p)->f5F4);
   func_02049B68(v,1,6,0x6000,0,((struct Obj02829 *)p)->f5F4);
   func_02049658((void *)((u32)v),0,7,0,0,0,((struct Obj02829 *)p)->f5F4);
   func_020498F4((void *)((u32)v),2,7,0,0,0,((struct Obj02829 *)p)->f5F4);
-  func_02040618(7,0,0);func_02049238(v);
+  func_02040618(7,0,0);ARC_TOOL_DeleteHandle(v);
  }
 }

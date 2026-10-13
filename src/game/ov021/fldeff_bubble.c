@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_bubble.c
  * unit:     yes
- * function: func_021D05D8, func_021D0610, func_021D0634, func_021D0648, func_021D06E0, func_021D072C, func_021D074C, func_021D0750, func_021D07D8, func_021D07FC, func_021D0824, func_021D08B0, func_021D08BC, func_021D08D8, func_021D0914
+ * function: FLDEFF_BUBBLE_Start, FLDEFF_BUBBLE_CreateRes, FLDEFF_BUBBLE_DeleteRes, FLDEFF_BUBBLE_LoadResources, FLDEFF_BUBBLE_FreeResources, FLDEFF_BUBBLE_Init, FLDEFF_BUBBLE_Exit, FLDEFF_BUBBLE_Update, FLDEFF_BUBBLE_Draw, FLDEFF_BUBBLE_FindFreeBubble, FLDEFF_BUBBLE_SpawnBubble, FLDEFF_BUBBLE_ClearBubble, FLDEFF_BUBBLE_UpdateBubble, FLDEFF_BUBBLE_DrawBubble, FLDEFF_BUBBLE_GetFacingVector
  * address:  0x021D05D8
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -20,41 +20,41 @@
  *   abs_id_4b      0x0000004B  data
  *   abs_id_4d      0x0000004D  data
  *   abs_id_39      0x00000039  data
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_02046E24  0x02046E24  arm
- *   func_02046FF8  0x02046FF8  arm
- *   func_02047400  0x02047400  arm
- *   func_02047504  0x02047504  arm
- *   func_020470D0  0x020470D0  arm
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   func_02046EFC  0x02046EFC  arm
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   func_020477A4  0x020477A4  arm
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
- *   func_0204762C  0x0204762C  arm
- *   func_02047738  0x02047738  arm
- *   func_02047AC8  0x02047AC8  arm
- *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   d_021DB968     0x021DB968  data  ov021  a4
  *   d_021DE664     0x021DE664  data  ov021  a4
- *   func_02046F50  0x02046F50  arm
+ *   G3D_SYSTEM_CheckResourceType  0x02046F50  arm
  *   d_021DB95C     0x021DB95C  data  a4
  *   d_021DB950     0x021DB950  data  ov021  a4
  *   d_021DB954     0x021DB954  data  ov021  a4
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_02047888  0x02047888  arm
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   G3D_SYSTEM_GetObjectAnimeFrameMax  0x02047888  arm
  *   d_021DE628     0x021DE628  data  ov021  a4
- *   func_0204784C  0x0204784C  arm
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_0219E784  0x0219E784  thumb  ov021
- *   func_0207CDB8  0x0207CDB8  arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
+ *   VEC_Fx16Normalize  0x0207CDB8  arm
  *   func_0201A954  0x0201A954  thumb
- *   func_02168AEC  0x02168AEC  thumb  ov010
+ *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
  */
 #include "../ov010/fldmmdl_types.h"
 #include "field_effect_types.h"
@@ -99,7 +99,7 @@ typedef struct G3dObjectStatus {
 /* Bytes cleared when a bubble ends (sizeof(BubbleParticle)). */
 #define BUBBLE_CLEAR_SIZE 20
 
-/* Resources of the bubble effect (allocated 0x20 bytes by func_021D0610). */
+/* Resources of the bubble effect (allocated 0x20 bytes by FLDEFF_BUBBLE_CreateRes). */
 typedef struct BubbleRes {
     FieldEffectSys *fieldEffect;               /* 0x00 */
     G3dResource *res[BUBBLE_RES_COUNT];        /* 0x04 model file and animation files */
@@ -134,49 +134,49 @@ typedef struct BubbleWork {
 extern void func_02082BCC(void *dst, u32 value, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
-extern ArcHandle *func_021ABE24(FieldEffectSys *fieldEffect);
-extern G3dResource *func_02046E24(ArcHandle *arc, u32 fileId);
-extern u32 func_02046F50(G3dResource *res, u32 kind);
-extern int func_02046FF8(G3dResource *res);
-extern int func_020470D0(G3dResource *res);
+extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
+extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind);
+extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
+extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern void func_02046EFC(G3dResource *res);
-extern G3dRender *func_02047400(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *func_02047564(G3dRender *render, const G3dResource *anmRes, int anmIdx);
-extern G3dObject *func_0204767C(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 func_020477A4(G3dObject *obj, u32 anmIdx);
-extern void func_0204762C(G3dAnime *anime);
-extern void func_02047738(G3dObject *obj);
-extern void func_02047504(G3dRender *render);
-extern int func_02047888(G3dObject *obj, int anmIdx, int *out);
-extern u32 func_0204784C(G3dObject *obj, u16 anmIdx, s32 *frame);
-extern int func_02047AC8(G3dObject *obj, G3dObjectStatus *status);
-extern void *func_021ABEA0(FieldEffectSys *fieldEffect, u32 effectId);
-extern void func_021ABFA8(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
-extern void *func_021AC1AC(FieldEffectObj *effect);
-extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *out);
-extern int func_0216D3CC(Mmdl *mmdl);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-extern int func_0216D55C(Mmdl *mmdl, int bits);
-extern int func_021641E8(int dir);
-extern int func_021641F8(int dir);
-extern void func_0219E784(Mmdl *mmdl, u32 dir, s16 *out);
-extern void func_0207CDB8(s16 *in, s16 *out);
+extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
+extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
+extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
+extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
+extern int G3D_SYSTEM_GetObjectAnimeFrameMax(G3dObject *obj, int anmIdx, int *out);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, s32 *frame);
+extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
+extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
+extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
+extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bits);
+extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
+extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
+extern void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *out);
+extern void VEC_Fx16Normalize(s16 *in, s16 *out);
 
-void func_021D05D8(Mmdl *mmdl, FieldEffectSys *fieldEffect);
-BubbleRes *func_021D0610(FieldEffectSys *fieldEffect, u32 heapId);
-void func_021D0634(FieldEffectSys *fieldEffect, BubbleRes *res);
-void func_021D0648(BubbleRes *res);
-void func_021D06E0(BubbleRes *res);
-void func_021D072C(FieldEffectObj *effect, BubbleWork *work);
-void func_021D074C(void);
-void func_021D0750(FieldEffectObj *effect, BubbleWork *work);
-void func_021D07D8(FieldEffectObj *effect, BubbleWork *work);
-BubbleParticle *func_021D07FC(BubbleWork *work);
-void func_021D0824(BubbleParticle *bubble, Mmdl *mmdl);
-void func_021D08B0(BubbleParticle *bubble);
-void func_021D08BC(BubbleParticle *bubble, int endFrame);
-void func_021D08D8(BubbleParticle *bubble, G3dObject *object);
-int func_021D0914(Mmdl *mmdl, s16 *dirVec);
+void FLDEFF_BUBBLE_Start(Mmdl *mmdl, FieldEffectSys *fieldEffect);
+BubbleRes *FLDEFF_BUBBLE_CreateRes(FieldEffectSys *fieldEffect, u32 heapId);
+void FLDEFF_BUBBLE_DeleteRes(FieldEffectSys *fieldEffect, BubbleRes *res);
+void FLDEFF_BUBBLE_LoadResources(BubbleRes *res);
+void FLDEFF_BUBBLE_FreeResources(BubbleRes *res);
+void FLDEFF_BUBBLE_Init(FieldEffectObj *effect, BubbleWork *work);
+void FLDEFF_BUBBLE_Exit(void);
+void FLDEFF_BUBBLE_Update(FieldEffectObj *effect, BubbleWork *work);
+void FLDEFF_BUBBLE_Draw(FieldEffectObj *effect, BubbleWork *work);
+BubbleParticle *FLDEFF_BUBBLE_FindFreeBubble(BubbleWork *work);
+void FLDEFF_BUBBLE_SpawnBubble(BubbleParticle *bubble, Mmdl *mmdl);
+void FLDEFF_BUBBLE_ClearBubble(BubbleParticle *bubble);
+void FLDEFF_BUBBLE_UpdateBubble(BubbleParticle *bubble, int endFrame);
+void FLDEFF_BUBBLE_DrawBubble(BubbleParticle *bubble, G3dObject *object);
+int FLDEFF_BUBBLE_GetFacingVector(Mmdl *mmdl, s16 *dirVec);
 
 extern const FieldEffectObjFuncs d_021DB968;           /* bubble effect callbacks */
 extern char d_021DE664[];                              /* source file name for the heap allocator */
@@ -190,94 +190,94 @@ extern G3dObjectStatus d_021DE628;                     /* draw status shared by 
 /* ------------------------------------------------------------------ */
 
 /* Starts the effect at the model position. */
-void func_021D05D8(Mmdl *mmdl, FieldEffectSys *fieldEffect)
+void FLDEFF_BUBBLE_Start(Mmdl *mmdl, FieldEffectSys *fieldEffect)
 {
     BubbleStartParam param;
     VecFx32 pos;
 
-    param.res = func_021ABEA0(fieldEffect, FLDEFF_ID_BUBBLE);
+    param.res = FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_BUBBLE);
     param.mmdl = mmdl;
-    func_0216D88C(mmdl, &pos);
-    func_021ABFA8(fieldEffect, &d_021DB968, &pos, 0, &param, 0);
+    FLDMMDL_GetPos(mmdl, &pos);
+    FIELD_EFFECT_AddObject(fieldEffect, &d_021DB968, &pos, 0, &param, 0);
 }
 
 /* Loads the resources of the bubble effect. */
-BubbleRes *func_021D0610(FieldEffectSys *fieldEffect, u32 heapId)
+BubbleRes *FLDEFF_BUBBLE_CreateRes(FieldEffectSys *fieldEffect, u32 heapId)
 {
     BubbleRes *res = func_02030734(heapId, 0x20, 1, d_021DE664, 0xd5);
 
     res->fieldEffect = fieldEffect;
-    func_021D0648(res);
+    FLDEFF_BUBBLE_LoadResources(res);
     return res;
 }
 
-void func_021D0634(FieldEffectSys *fieldEffect, BubbleRes *res)
+void FLDEFF_BUBBLE_DeleteRes(FieldEffectSys *fieldEffect, BubbleRes *res)
 {
-    func_021D06E0(res);
+    FLDEFF_BUBBLE_FreeResources(res);
     func_020307B0(res);
 }
 
-void func_021D0648(BubbleRes *res)
+void FLDEFF_BUBBLE_LoadResources(BubbleRes *res)
 {
     ArcHandle *arc;
     int i;
 
-    arc = func_021ABE24(res->fieldEffect);
+    arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     for (i = 0; i < BUBBLE_RES_COUNT; i++) {
-        res->res[i] = func_02046E24(arc, d_021DB95C[i]);
-        if (func_02046F50(res->res[i], 2)) {
-            func_02046FF8(res->res[i]);
+        res->res[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, d_021DB95C[i]);
+        if (G3D_SYSTEM_CheckResourceType(res->res[i], 2)) {
+            G3D_SYSTEM_TransVramTexture(res->res[i]);
         }
     }
-    res->render = func_02047400(res->res[d_021DB950], 0, res->res[d_021DB950]);
+    res->render = G3D_SYSTEM_CreateRender(res->res[d_021DB950], 0, res->res[d_021DB950]);
     for (i = 0; i < BUBBLE_ANIME_COUNT; i++) {
-        res->anime[i] = func_02047564(res->render, res->res[d_021DB954[i]], 0);
+        res->anime[i] = G3D_SYSTEM_CreateAnime(res->render, res->res[d_021DB954[i]], 0);
     }
-    res->object = func_0204767C(res->render, res->anime, BUBBLE_ANIME_COUNT);
+    res->object = G3D_SYSTEM_CreateObject(res->render, res->anime, BUBBLE_ANIME_COUNT);
     for (i = 0; i < BUBBLE_ANIME_COUNT; i++) {
-        func_020477A4(res->object, (u16)i);
+        G3D_SYSTEM_EnableObjectAnime(res->object, (u16)i);
     }
 }
 
-void func_021D06E0(BubbleRes *res)
+void FLDEFF_BUBBLE_FreeResources(BubbleRes *res)
 {
     int i;
 
-    func_02047738(res->object);
+    G3D_SYSTEM_DeleteObject(res->object);
     for (i = 0; i < BUBBLE_ANIME_COUNT; i++) {
-        func_0204762C(res->anime[i]);
+        G3D_SYSTEM_DeleteAnime(res->anime[i]);
     }
-    func_02047504(res->render);
+    G3D_SYSTEM_DeleteRender(res->render);
     for (i = 0; i < BUBBLE_RES_COUNT; i++) {
-        if (func_02046F50(res->res[i], 2)) {
-            func_020470D0(res->res[i]);
+        if (G3D_SYSTEM_CheckResourceType(res->res[i], 2)) {
+            G3D_SYSTEM_FreeVramTexture(res->res[i]);
         }
         func_02046EFC(res->res[i]);
     }
 }
 
 /* Effect init. */
-void func_021D072C(FieldEffectObj *effect, BubbleWork *work)
+void FLDEFF_BUBBLE_Init(FieldEffectObj *effect, BubbleWork *work)
 {
-    BubbleStartParam *param = func_021AC1AC(effect);
+    BubbleStartParam *param = FIELD_EFFECT_GetObjectParam(effect);
 
     work->param = *param;
     work->idleTimer = BUBBLE_SPAWN_INTERVAL;
-    work->lastMoveState = func_0216D3CC(work->param.mmdl);
+    work->lastMoveState = FLDMMDL_CheckPossibleAcmd(work->param.mmdl);
     work->moveCount = BUBBLE_SPAWN_STEPS;
 }
 
 /* Effect exit (nothing to release). */
-void func_021D074C(void) {}
+void FLDEFF_BUBBLE_Exit(void) {}
 
 /*
  * Effect update: starts a bubble every BUBBLE_SPAWN_INTERVAL frames and every
  * BUBBLE_SPAWN_STEPS changes of the move state, then ages all bubbles.
  *
- * func_02047888 (arm9 ARM leaf) is filed as src/matched/arm9/func_02047888.c
+ * G3D_SYSTEM_GetObjectAnimeFrameMax (arm9 ARM leaf) is filed as src/matched/arm9/G3D_SYSTEM_GetObjectAnimeFrameMax.c
  * to give the witness.  EXACT*: the listing extent includes 2 pad bytes.
  */
-void func_021D0750(FieldEffectObj *effect, BubbleWork *work)
+void FLDEFF_BUBBLE_Update(FieldEffectObj *effect, BubbleWork *work)
 {
     int endFrame;
     int i;
@@ -285,41 +285,41 @@ void func_021D0750(FieldEffectObj *effect, BubbleWork *work)
 
     work->idleTimer++;
     if (work->idleTimer >= BUBBLE_SPAWN_INTERVAL) {
-        bubble = func_021D07FC(work);
+        bubble = FLDEFF_BUBBLE_FindFreeBubble(work);
         if (bubble) {
-            func_021D0824(bubble, work->param.mmdl);
+            FLDEFF_BUBBLE_SpawnBubble(bubble, work->param.mmdl);
         }
         work->idleTimer = 0;
     }
-    if (work->lastMoveState != func_0216D3CC(work->param.mmdl)) {
+    if (work->lastMoveState != FLDMMDL_CheckPossibleAcmd(work->param.mmdl)) {
         work->moveCount++;
         if (work->moveCount >= BUBBLE_SPAWN_STEPS) {
-            bubble = func_021D07FC(work);
+            bubble = FLDEFF_BUBBLE_FindFreeBubble(work);
             if (bubble) {
-                func_021D0824(bubble, work->param.mmdl);
+                FLDEFF_BUBBLE_SpawnBubble(bubble, work->param.mmdl);
             }
             work->moveCount = 0;
         }
-        work->lastMoveState = func_0216D3CC(work->param.mmdl);
+        work->lastMoveState = FLDMMDL_CheckPossibleAcmd(work->param.mmdl);
     }
-    func_02047888(work->param.res->object, 0, &endFrame);
+    G3D_SYSTEM_GetObjectAnimeFrameMax(work->param.res->object, 0, &endFrame);
     for (i = 0; i < BUBBLE_MAX; i++) {
-        func_021D08BC(&work->bubbles[i], endFrame);
+        FLDEFF_BUBBLE_UpdateBubble(&work->bubbles[i], endFrame);
     }
 }
 
 /* Effect draw. */
-void func_021D07D8(FieldEffectObj *effect, BubbleWork *work)
+void FLDEFF_BUBBLE_Draw(FieldEffectObj *effect, BubbleWork *work)
 {
     int i;
 
     for (i = 0; i < BUBBLE_MAX; i++) {
-        func_021D08D8(&work->bubbles[i], work->param.res->object);
+        FLDEFF_BUBBLE_DrawBubble(&work->bubbles[i], work->param.res->object);
     }
 }
 
 /* Returns an unused bubble slot, or 0. */
-BubbleParticle *func_021D07FC(BubbleWork *work)
+BubbleParticle *FLDEFF_BUBBLE_FindFreeBubble(BubbleWork *work)
 {
     int i;
 
@@ -332,15 +332,15 @@ BubbleParticle *func_021D07FC(BubbleWork *work)
 }
 
 /* Starts a bubble above the model, in front of its facing. */
-void func_021D0824(BubbleParticle *bubble, Mmdl *mmdl)
+void FLDEFF_BUBBLE_SpawnBubble(BubbleParticle *bubble, Mmdl *mmdl)
 {
     s16 dirVec[3];
     int distance;
 
     bubble->active = 1;
     bubble->age = 0;
-    func_0216D88C(mmdl, &bubble->pos);
-    if (func_021D0914(mmdl, dirVec) == 0) {
+    FLDMMDL_GetPos(mmdl, &bubble->pos);
+    if (FLDEFF_BUBBLE_GetFacingVector(mmdl, dirVec) == 0) {
         distance = BUBBLE_FACING_DISTANCE_ALT;
     } else {
         distance = BUBBLE_FACING_DISTANCE;
@@ -355,52 +355,52 @@ void func_021D0824(BubbleParticle *bubble, Mmdl *mmdl)
  *
  * Addresses are Black-image addresses.
  */
-void func_021D08B0(BubbleParticle *bubble)
+void FLDEFF_BUBBLE_ClearBubble(BubbleParticle *bubble)
 {
     func_02082BCC(bubble, 0, BUBBLE_CLEAR_SIZE);
 }
 
 /* Ages a bubble and ends it when the animation is over. */
-void func_021D08BC(BubbleParticle *bubble, int endFrame)
+void FLDEFF_BUBBLE_UpdateBubble(BubbleParticle *bubble, int endFrame)
 {
     if (bubble->active != 0) {
         bubble->age += BUBBLE_AGE_STEP;
         if (bubble->age > endFrame) {
-            func_021D08B0(bubble);
+            FLDEFF_BUBBLE_ClearBubble(bubble);
         }
     }
 }
 
 /* Draws a bubble at its position with the animations at its age. */
-void func_021D08D8(BubbleParticle *bubble, G3dObject *object)
+void FLDEFF_BUBBLE_DrawBubble(BubbleParticle *bubble, G3dObject *object)
 {
     int i;
 
     if (bubble->active != 0) {
         d_021DE628.trans = bubble->pos;
         for (i = 0; i < BUBBLE_ANIME_COUNT; i++) {
-            func_0204784C(object, (u16)i, &bubble->age);
+            G3D_SYSTEM_SetObjectAnimeFrame(object, (u16)i, &bubble->age);
         }
-        func_02047AC8(object, &d_021DE628);
+        G3D_SYSTEM_DrawObjectCulling(object, &d_021DE628);
     }
 }
 
 /* Writes the unit vector of the facing of the model; returns the facing. */
-int func_021D0914(Mmdl *mmdl, s16 *dirVec)
+int FLDEFF_BUBBLE_GetFacingVector(Mmdl *mmdl, s16 *dirVec)
 {
     int facing;
 
-    facing = func_0216D5F8(mmdl);
-    if (func_0216D55C(mmdl, 0x1000 * 2) == 0) {
+    facing = FLDMMDL_GetDirDisp(mmdl);
+    if (FLDMMDL_CheckStatusBit(mmdl, 0x1000 * 2) == 0) {
         dirVec[1] = 0;
-        dirVec[0] = func_021641E8(facing);
-        dirVec[2] = func_021641F8(facing);
+        dirVec[0] = FLDMMDL_MOVE_GetDirAddGridX(facing);
+        dirVec[2] = FLDMMDL_MOVE_GetDirAddGridZ(facing);
         dirVec[0] = dirVec[0] << 16;
         dirVec[2] = dirVec[2] << 16;
     } else {
-        func_0219E784(mmdl, facing, dirVec);
+        FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, facing, dirVec);
         dirVec[1] = 0;
     }
-    func_0207CDB8(dirVec, dirVec);
+    VEC_Fx16Normalize(dirVec, dirVec);
     return facing;
 }

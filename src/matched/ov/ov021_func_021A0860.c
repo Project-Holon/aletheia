@@ -1,5 +1,5 @@
 /*
- * function: func_021A0860
+ * function: FIELD_LIGHT_EvalColorLerp
  * address:  0x021A0860
  * packet:   pkt_ov021_021A0860
  * region:   ov021
@@ -30,7 +30,7 @@ typedef struct {
 
 #define GX_RGB(r, g, b) ((u16)(((r) << 0) | ((g) << 5) | ((b) << 10)))
 
-u16 func_021A0860(Lerp021A0860 *c, int t, int n)
+u16 FIELD_LIGHT_EvalColorLerp(Lerp021A0860 *c, int t, int n)
 {
     s16 r = (s16)(c[0].delta * t / n);
     s16 g, b;

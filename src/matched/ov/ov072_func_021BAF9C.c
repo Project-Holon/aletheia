@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF9C
+ * function: TOWNMAP_ClearScroll
  * address:  0x021BAF9C
  * packet:   pkt_021BAF9C
  * region:   ov072
@@ -15,7 +15,7 @@
 
 void func_02082BCC(void *p, int v, int n);
 
-void func_021BAF9C(void *p)
+void TOWNMAP_ClearScroll(void *p)
 {
     func_02082BCC(p, 0, 0x38);
 }

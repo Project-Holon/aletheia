@@ -12,13 +12,13 @@
  * symbols:
  * func_0201C6EC 0x0201C6EC thumb
  * func_0201C4C0 0x0201C4C0 thumb
- * func_0202F038 0x0202F038 thumb
+ * TIME_ICON_Delete 0x0202F038 thumb
  * func_02030DA4 0x02030DA4 arm
  * func_020307B0 0x020307B0 arm
- * func_02047E54 0x02047E54 arm
- * func_02046788 0x02046788 arm
+ * G3D_UTIL_Delete 0x02047E54 arm
+ * G3D_SYSTEM_Exit 0x02046788 arm
  * func_02030EAC 0x02030EAC arm
- * func_02049238 0x02049238 arm
+ * ARC_TOOL_DeleteHandle 0x02049238 arm
  * func_020315D4 0x020315D4 arm
  * func_020306F0 0x020306F0 arm
  * func_020351A0 0x020351A0 arm
@@ -39,15 +39,15 @@ struct PrintSys;
 struct S020315D4;
 extern void func_0201C6EC(struct PrintSys *);
 extern void func_0201C4C0(struct PrintSys *);
-extern void func_0202F038(u8 *);
+extern void TIME_ICON_Delete(u8 *);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
 struct Node;
 struct Rec;
-extern void func_02047E54(struct Rec *p);
-extern void func_02046788(void);
+extern void G3D_UTIL_Delete(struct Rec *p);
+extern void G3D_SYSTEM_Exit(void);
 extern void func_02030EAC(struct Node *n);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32);
 extern int func_020351A0(u32);
@@ -65,7 +65,7 @@ int func_021DE960(struct S020315D4 *a, int b, int c, u8 *p)
 {
     func_0201C6EC(*(struct PrintSys **)(p + 0xD38));
     func_0201C4C0(*(struct PrintSys **)(p + 0xD38));
-    if (*(u8 **)(p + 0xDA8) != 0) func_0202F038(*(u8 **)(p + 0xDA8));
+    if (*(u8 **)(p + 0xDA8) != 0) TIME_ICON_Delete(*(u8 **)(p + 0xDA8));
     func_021E0E1C(p);
     func_021E0F54(p);
     func_021E1080(p);
@@ -77,11 +77,11 @@ int func_021DE960(struct S020315D4 *a, int b, int c, u8 *p)
     func_021E0678((char *)p);
     func_021E0554(p);
     func_021E073C((char *)p);
-    func_02047E54(*(void **)(p + 0xAF4));
-    func_02046788();
+    G3D_UTIL_Delete(*(void **)(p + 0xAF4));
+    G3D_SYSTEM_Exit();
     func_021DF83C((char *)p);
     func_02030EAC(*(void **)(p + 0xD9C));
-    func_02049238(*(void **)(p + 0xD58));
+    ARC_TOOL_DeleteHandle(*(void **)(p + 0xD58));
     func_020315D4(a);
     func_020306F0(0x72);
     func_020351A0(8);

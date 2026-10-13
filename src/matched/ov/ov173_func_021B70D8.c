@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_021B6FDC 0x021B6FDC thumb ov173
@@ -26,9 +26,9 @@ struct Cfg;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern void func_021B6FDC(char *, u8, u8);
@@ -37,12 +37,12 @@ void func_021B70D8(char *p)
 {
     u32 i;
     void *q;
-    func_02043B5C(func_02045770(((struct Obj00837 *)p)->f30), 0);
+    BMP_Clear(func_02045770(((struct Obj00837 *)p)->f30), 0);
     for (i = 0; i < 4; i++)
         func_021B6FDC(p, ((struct Obj24161 *)(*(char * *)&((struct Obj00837 *)p)->f0))->f16, i);
     q = ((struct Obj00837 *)p)->f30;
-    func_02045334(q);
-    func_02045374(q);
+    BMP_WIN_TransferChars(q);
+    BMP_WIN_MakeScreen(q);
     func_02041B6C(func_02045730(q));
     func_02041B6C(7);
     func_021B7968(p);

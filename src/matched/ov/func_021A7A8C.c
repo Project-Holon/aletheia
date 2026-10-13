@@ -1,5 +1,5 @@
 /*
- * function: func_021A7A8C
+ * function: FIELD_GROUND_ANIME_KeyTableGetDuration
  * address:  0x021A7A8C
  * packet:   pkt_021A7A88
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A7A8C(u8 *p)
+u32 FIELD_GROUND_ANIME_KeyTableGetDuration(u8 *p)
 {
     return ((struct Obj18067 *)p)->f18;
 }

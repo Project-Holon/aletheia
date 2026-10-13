@@ -11,10 +11,10 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0201134C 0x0201134C thumb
- *   func_020515CC 0x020515CC arm
+ *   VM_GetU32 0x0201134C thumb
+ *   PARTICLE_StartEffectWithCallback 0x020515CC arm
  *   PARTICLE_InitCamera 0x02051648 arm
- *   func_02051788 0x02051788 arm
+ *   BUTTON_MAN_GetBlock 0x02051788 arm
  *   func_021FE38C 0x021FE38C thumb ov094
  *   func_021FD1A8 0x021FD1A8 thumb ov094
  *   func_021FD9F0 0x021FD9F0 thumb ov094
@@ -36,10 +36,10 @@ extern const Vec d_02209E10, d_02209DB4;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
-extern int func_020515CC(int *p, int a, int b, int c);
+extern u32 VM_GetU32(struct Cursor *p);
+extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 extern void PARTICLE_InitCamera(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);
-extern int func_02051788(char *p);
+extern int BUTTON_MAN_GetBlock(char *p);
 extern u32 func_021FE38C(char *, u32);
 extern int func_021FD1A8(char *, int);
 extern void func_021FD9F0(void *p);
@@ -55,29 +55,29 @@ int func_021FDFA0(void *a, char *s, int mode)
     int y;
     int flags;
 
-    idx = func_021FD1A8(s, func_021FE38C(s, func_0201134C(a)));
-    x = func_0201134C(a);
+    idx = func_021FD1A8(s, func_021FE38C(s, VM_GetU32(a)));
+    x = VM_GetU32(a);
     flags = 0;
     *(int **)(s + 0x1f4 + ((struct Obj00325 *)s)->f234 * 4) = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x40, 0, d_0220AE68, 0x1c79);
     p = *(int **)(s + 0x1f4 + ((struct Obj00325 *)s)->f234 * 4);
     ((struct Obj00325 *)s)->f234 += 1;
-    p[0] = func_0201134C(a);
-    p[4] = func_0201134C(a);
-    p[5] = func_0201134C(a);
-    y = func_0201134C(a);
+    p[0] = VM_GetU32(a);
+    p[4] = VM_GetU32(a);
+    p[5] = VM_GetU32(a);
+    y = VM_GetU32(a);
     p[6] = 0;
-    p[9] = p[8] = func_0201134C(a);
+    p[9] = p[8] = VM_GetU32(a);
     p[10] = 0;
-    p[11] = func_0201134C(a);
-    p[12] = func_0201134C(a);
+    p[11] = VM_GetU32(a);
+    p[12] = VM_GetU32(a);
     p[13] = 0;
-    p[14] = func_0201134C(a);
+    p[14] = VM_GetU32(a);
     p[7] = _s32_div_f(0x10000, p[8]);
     p[15] = mode;
     if (idx == 16)
         goto end;
     if (mode == 1) {
-        if (func_02051788(*(void **)(s + 0xc + idx * 4)) == 0) {
+        if (BUTTON_MAN_GetBlock(*(void **)(s + 0xc + idx * 4)) == 0) {
             Desc desc;
             Vec zero = {0, 0, 0};
             Vec v1;
@@ -116,7 +116,7 @@ int func_021FDFA0(void *a, char *s, int mode)
     if (flags & 1)
         p[6] = 0x8000;
     p[2] += y;
-    if (func_020515CC(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD9F0, (int)p) == -1)
+    if (PARTICLE_StartEffectWithCallback(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD9F0, (int)p) == -1)
         func_020307B0(p);
 end:
     return ((struct Obj00325 *)s)->f23C;

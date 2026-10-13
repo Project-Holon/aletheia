@@ -1,5 +1,5 @@
 /*
- * function: func_021F2F60
+ * function: C_GEAR_PanelEventMain
  * address:  0x021F2F60
  * packet:   pkt_ov029_021F2F60
  * region:   ov029
@@ -14,38 +14,38 @@
  *
  * Byte-correct; two sites stay wildcarded:
  *   +0130 ABS32 abs_id_124 (0x7C): a pooled overlay id (ov124, whose
- *     0x021D4D40 table is the next argument) passed as func_02014808's
- *     third argument; func_02014808 is not in OVERLAY_ID_CONSUMERS and no
+ *     0x021D4D40 table is the next argument) passed as FIELD_STATUS_CreateSubProcCallbackEvent's
+ *     third argument; FIELD_STATUS_CreateSubProcCallbackEvent is not in OVERLAY_ID_CONSUMERS and no
  *     other pool word holds 0x7C, so no evidence class resolves it.
  *   +0124 ABS32 EVENT_GSYNC_Entry (ov000): an unlabelled tail-call stub
  *     (`ldr r3,[pc,#0]; bx r3` -> EVENT_GSYNC_Create, 00 4b 18 47 at 0x02154668
  *     in ov000.s).  Not filed, since it is not the only blocker: C
  *     `void *EVENT_GSYNC_Entry(void *p) { return EVENT_GSYNC_Create(p); }`.
- *   abs_id_0 resolves through the func_020124AC overlay-id consumer.
+ *   abs_id_0 resolves through the GAME_EVENT_CreateOverlayEvent overlay-id consumer.
  *
  * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Open: ABS32 EVENT_GSYNC_Entry, an ov000 Thumb veneer (`ldr r3,[pc]; bx r3`), so no C witness is possible;
  * ov001 and ov006 also overlap that address.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_021F009C  0x021F009C  thumb  ov029
- *   func_021F2C78  0x021F2C78  thumb  ov029
- *   func_021F2C10  0x021F2C10  thumb  ov029
- *   func_020124AC  0x020124AC  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   C_GEAR_StepRipple  0x021F009C  thumb  ov029
+ *   C_GEAR_StepFadeIcon  0x021F2C78  thumb  ov029
+ *   C_GEAR_StepIconAnim  0x021F2C10  thumb  ov029
+ *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   EVENT_GSYNC_Entry  0x02154668  thumb  ov000
  *   abs_id_0       0x00000000  data
  *   func_021559E4  0x021559E4  thumb  ov010
- *   func_0215FBF4  0x0215FBF4  thumb  ov010
- *   func_02167044  0x02167044  thumb  ov010
+ *   SCRCMD_NETWORK_CreateWifiProcEvent  0x0215FBF4  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_CreateTopTask  0x02167044  thumb  ov010
  *   func_021945A4  0x021945A4  thumb  ov021
  *   func_02030734  0x02030734  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02014808  0x02014808  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
  *   abs_id_124     0x0000007C  data
  *   d_021D4D40     0x021D4D40  data  ov124  a4
- *   func_021D297C  0x021D297C  thumb  ov021
- *   func_0201235C  0x0201235C  thumb
+ *   FIELD_SUBSCREEN_CreateAnimTask  0x021D297C  thumb  ov021
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   d_021F3554     0x021F3554  data  a4
  * 2026-10-05 (wD8 lane06): re-run, still MATCH. Only blocker: ABS32 EVENT_GSYNC_Entry, an ov000 Thumb veneer
  * (`ldr r3,[pc]; bx r3`), so no C witness; ov000/ov001/ov006 overlap it. Needs a seeded label in ov000.
@@ -68,24 +68,24 @@ extern int d_021F3554;
 struct Ctx;
 struct Desc;
 struct S0201235C;
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_021F009C(u8 *p);
-extern int func_021F2C78(char *p);
-extern int func_021F2C10(char *p);
-extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int C_GEAR_StepRipple(u8 *p);
+extern int C_GEAR_StepFadeIcon(char *p);
+extern int C_GEAR_StepIconAnim(char *p);
+extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern void *EVENT_GSYNC_Entry(void *p);
 extern void *func_021559E4(void *a, int b, void *c, int d);
-extern struct Desc *func_0215FBF4(int a0, int a1, struct Desc *a2, int a3);
-extern void *func_02167044(void *a, void *b);
+extern struct Desc *SCRCMD_NETWORK_CreateWifiProcEvent(int a0, int a1, struct Desc *a2, int a3);
+extern void *EVENT_RESEARCH_RADAR_CreateTopTask(void *a, void *b);
 extern void *func_021945A4(void *a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
-extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
-extern void *func_021D297C(void *a);
-extern void func_0201235C(struct S0201235C *o, u32 *out);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern void *FIELD_SUBSCREEN_CreateAnimTask(void *a);
+extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 
-int func_021F2F60(void *a, int unused, Req *q)
+int C_GEAR_PanelEventMain(void *a, int unused, Req *q)
 {
     char *p;
     int h;
@@ -95,20 +95,20 @@ int func_021F2F60(void *a, int unused, Req *q)
 
     p = q->p;
     ok = 0;
-    h = (int)func_0201210C((const struct Ctx *)(*(int *)(p + 0x1c)));
+    h = (int)GAMESYSTEM_GetFieldMap((const struct Ctx *)(*(int *)(p + 0x1c)));
     switch (q->kind) {
     case 1:
     case 5:
     case 6:
-        ok = func_021F009C((u8 *)q->p);
+        ok = C_GEAR_StepRipple((u8 *)q->p);
         break;
     case 7:
     case 11:
-        ok = func_021F2C78(q->p);
+        ok = C_GEAR_StepFadeIcon(q->p);
         break;
     case 12:
     case 13:
-        ok = func_021F2C10(q->p);
+        ok = C_GEAR_StepIconAnim(q->p);
         break;
     }
     if (ok == 0)
@@ -116,30 +116,30 @@ int func_021F2F60(void *a, int unused, Req *q)
 
     switch (q->kind) {
     case 6:
-        x = func_020124AC((void *)(*(int *)(p + 0x1c)), (u32)abs_id_0, (void *)EVENT_GSYNC_Entry, h);
+        x = GAME_EVENT_CreateOverlayEvent((void *)(*(int *)(p + 0x1c)), (u32)abs_id_0, (void *)EVENT_GSYNC_Entry, h);
         break;
     case 1:
         x = func_021559E4((void *)(*(int *)(p + 0x1c)), h, 0, 1);
         break;
     case 5:
-        x = func_0215FBF4(*(int *)(p + 0x1c), h, 0, 1);
+        x = SCRCMD_NETWORK_CreateWifiProcEvent(*(int *)(p + 0x1c), h, 0, 1);
         break;
     case 11:
-        x = func_02167044((void *)(*(int *)(p + 0x1c)), (void *)h);
+        x = EVENT_RESEARCH_RADAR_CreateTopTask((void *)(*(int *)(p + 0x1c)), (void *)h);
         break;
     case 7:
         x = func_021945A4((void *)(*(int *)(p + 0x1c)), h, 4);
         break;
     case 12:
         buf = func_02030734(4, 8, 1, (const char *)(&d_021F3554), 0x14B7);
-        buf[0] = (int)func_02012944(func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c))));
+        buf[0] = (int)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData((const struct Ctx *)(*(int *)(p + 0x1c))));
         buf[1] = *(int *)(p + 0x1c);
-        x = func_02014808((char *)(*(int *)(p + 0x1c)), h, (int)abs_id_124, (int)(&d_021D4D40), (int)buf, 0, (int)buf);
+        x = FIELD_STATUS_CreateSubProcCallbackEvent((char *)(*(int *)(p + 0x1c)), h, (int)abs_id_124, (int)(&d_021D4D40), (int)buf, 0, (int)buf);
         break;
     case 13:
-        x = func_021D297C((void *)(*(int *)(p + 0x1c)));
+        x = FIELD_SUBSCREEN_CreateAnimTask((void *)(*(int *)(p + 0x1c)));
         break;
     }
-    func_0201235C(a, x);
+    GAME_EVENT_ChangeEvent(a, x);
     return 0;
 }

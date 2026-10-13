@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_0201C724  0x0201C724  thumb
- *   func_0201C7D0  0x0201C7D0  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BMP_MENULIST_PrintItem.c \
  *       --func BMP_MENULIST_PrintItem --addr 0x02020408 --thumb
  *
  * Print one item's text into the menu window.  f38top selects the override
- * colours at +0x34/+0x35 (set by unit_02020268's func_02020298) over the
- * list's own at +0x17/+0x18; sel picks func_0201C724 (which also marks the
- * target dirty) over func_0201C7D0.  Closed in wave 13; the 2026-09-21 note
+ * colours at +0x34/+0x35 (set by unit_02020268's BMP_MENULIST_SetOverrideColors) over the
+ * list's own at +0x17/+0x18; sel picks PRINTSYS_PrintQueColor (which also marks the
+ * target dirty) over PRINTSYS_PrintColor.  Closed in wave 13; the 2026-09-21 note
  * (docs/notes/BMP_MENULIST_PrintItem.c.txt) had it at 314 of 338 bytes.
  *
  * The packed colour is a 5:5:5 triple built by a masking macro,
@@ -79,8 +79,8 @@ struct Obj {
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *win);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0201C7D0(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintColor(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 
 void BMP_MENULIST_PrintItem(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel)
 {
@@ -90,22 +90,22 @@ void BMP_MENULIST_PrintItem(struct Obj *obj, const void *text, u32 x, u32 y, u32
         if (sel) {
             u32 a = obj->f2C;
             struct Target *t = obj->f28;
-            func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
+            PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
             t->dirty = 1;
         } else {
-            func_0201C7D0((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
+            PRINTSYS_PrintColor((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
         }
     } else {
         if (sel) {
             u32 a = obj->f2C;
             struct Target *t = obj->f28;
-            func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
+            PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)t->win), x, y, (u32)text, obj->f30,
                           COLOR(obj->f17hi, obj->f18hi, obj->f18lo));
             t->dirty = 1;
         } else {
-            func_0201C7D0((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
+            PRINTSYS_PrintColor((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
         }
     }

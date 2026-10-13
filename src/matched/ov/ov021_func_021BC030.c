@@ -1,5 +1,5 @@
 /*
- * function: func_021BC030
+ * function: FLDEFF_REFLECT_DeleteTask
  * address:  0x021BC030
  * packet:   pkt_ov021_021BC030
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0219C98C  0x0219C98C  thumb  ov021
+ *   FLDMMDL_BLACT_DeleteActorPos  0x0219C98C  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef struct {
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void func_0219C98C(u32 a, u16 *b);
+extern void FLDMMDL_BLACT_DeleteActorPos(u32 a, u16 *b);
 
-void func_021BC030(int a0, Obj *p)
+void FLDEFF_REFLECT_DeleteTask(int a0, Obj *p)
 {
     if (p->b10) {
         p->b10 = 0;
-        func_0219C98C((u32)p->f20, (u16 *)p->f28);
+        FLDMMDL_BLACT_DeleteActorPos((u32)p->f20, (u16 *)p->f28);
     }
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020477A4
+ * function: G3D_SYSTEM_EnableObjectAnime
  * address:  0x020477A4
  * packet:   pkt_02047260
  * region:   arm9
@@ -23,8 +23,8 @@
  * scheduling them together is what puts the slot's load in the middle.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020477A4.c \
- *       --func func_020477A4 --addr 0x020477A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_EnableObjectAnime.c \
+ *       --func G3D_SYSTEM_EnableObjectAnime --addr 0x020477A4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -47,7 +47,7 @@ struct G3dSys {
 
 extern void func_02069E88(void *a, void *b);
 
-u32 func_020477A4(struct G3dSys *sys, u32 idx)
+u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx)
 {
     struct G3dSlot *slot = sys->slots[idx];
 

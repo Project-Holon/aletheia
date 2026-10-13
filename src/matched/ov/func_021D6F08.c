@@ -1,5 +1,5 @@
 /*
- * function: func_021D6F08
+ * function: BTL_EVENT_DebugPrintFactorList
  * address:  0x021D6F08
  * packet:   pkt_021D6F08
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D6F08   0x021D6F08  thumb ov093
+ *   BTL_EVENT_DebugPrintFactorList   0x021D6F08  thumb ov093
  *
  * empty function: bx lr
  */
@@ -22,6 +22,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021D6F08(void)
+void BTL_EVENT_DebugPrintFactorList(void)
 {
 }

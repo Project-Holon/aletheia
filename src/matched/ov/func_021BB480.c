@@ -1,5 +1,5 @@
 /*
- * function: func_021BB480
+ * function: FIELD_NOGRID_MAPPER_GetRailMan
  * address:  0x021BB480
  * packet:   pkt_021BB480
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_021BB480(void *p)
+void *FIELD_NOGRID_MAPPER_GetRailMan(void *p)
 {
     return ((struct Obj18171 *)p)->f0;
 }

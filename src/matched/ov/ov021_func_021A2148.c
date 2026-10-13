@@ -1,5 +1,5 @@
 /*
- * function: func_021A2148
+ * function: WEATHER_TASK_GetCameraState
  * address:  0x021A2148
  * packet:   pkt_ov021_021A2148
  * region:   ov021
@@ -13,13 +13,13 @@
  * for lane S30 (callee of ov028 functions).
  *
  * symbols:
- *   func_0218E188 0x0218E188 thumb ov021
+ *   FIELD_CAMERA_GetSettingId 0x0218E188 thumb ov021
  */
 #include "../include/Obj19729.h"
 
-int func_0218E188(unsigned char *o);
+int FIELD_CAMERA_GetSettingId(unsigned char *o);
 
-int func_021A2148(unsigned char *o)
+int WEATHER_TASK_GetCameraState(unsigned char *o)
 {
-    return func_0218E188((unsigned char *)(((struct Obj19729 *)o)->f14));
+    return FIELD_CAMERA_GetSettingId((unsigned char *)(((struct Obj19729 *)o)->f14));
 }

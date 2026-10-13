@@ -1,5 +1,5 @@
 /*
- * function: func_021A3810
+ * function: FIELD_PLAYER_CORE_Delete
  * address:  0x021A3810
  * packet:   pkt_021A3810
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021A3810(u32 a0)
+void FIELD_PLAYER_CORE_Delete(u32 a0)
 {
     func_020307B0((void *)a0);
 }

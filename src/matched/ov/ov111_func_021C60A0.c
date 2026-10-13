@@ -12,7 +12,7 @@
  * symbols:
  *   func_0201C4C0  0x0201C4C0  thumb
  *   func_020452E8  0x020452E8  arm
- *   func_020450C8  0x020450C8  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -32,7 +32,7 @@ struct PrintSys;
 extern void func_0201C4C0(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 
 void func_021C60A0(Work *p)
 {
@@ -42,5 +42,5 @@ void func_021C60A0(Work *p)
     for (i = 0; i < 8; i++) {
         func_020452E8(p->bg[i]);
     }
-    func_020450C8();
+    BMP_WIN_Exit();
 }

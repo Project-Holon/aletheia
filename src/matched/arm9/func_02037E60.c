@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
  *   GFL_NET_SYSTEM_SendCallback  0x02038A48  arm
  *   GFL_NET_SYSTEM_RecvChildData  0x020387A0  arm
@@ -44,7 +44,7 @@ struct State {
 
 extern void *GFL_NET_GetSession(void);
 extern u32           GFL_NET_GetChildSendSize(void);
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32           GFL_NET_SYSTEM_IsConnectMember(u32 a);
 extern int GFL_NET_SYSTEM_SendCallback(int a);
 typedef signed int     s32;
@@ -61,13 +61,13 @@ void GFL_NET_SYSTEM_SendParentData(void)
     r = c->f340->f70();
     if (r == 0)
         return;
-    r = func_02039338();
+    r = GFL_NET_SYSTEM_GetCurrentAid();
     r = GFL_NET_SYSTEM_IsConnectMember(r);
     if (r == 0)
         return;
     if (g_020A7A20[1] != 0)
         return;
-    if (func_02039338() != 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
         r = c->f340->f64(_pNetSys->f0, v, 0, GFL_NET_SYSTEM_SendCallback);
         if (r == 0)
             return;

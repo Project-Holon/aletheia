@@ -1,5 +1,5 @@
 /*
- * function: func_021F00C4
+ * function: NO_GEAR_Step
  * address: 0x021F00C4
  * packet: pkt_ov030_021F00C4
  * region: ov030
@@ -10,9 +10,9 @@
  * status: EXACT
  * extent: empty callback bx lr, two-byte alignment then separate constructor
  * starts 0x021F00C8; callback alone is reproduced.
- * interface: func_021F0058 installs this callback and func_021F00F8 invokes
+ * interface: NO_GEAR_Init installs this callback and NO_GEAR_Update invokes
  * it with its object pointer in r0. Empty body does not read that context.
  */
-void func_021F00C4(void *unused)
+void NO_GEAR_Step(void *unused)
 {
 }

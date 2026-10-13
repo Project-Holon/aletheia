@@ -12,10 +12,10 @@
  *   func_0200FB24  0x0200FB24  thumb
  *   UNION_COMMAND_SendConnectSync  0x021739CC  thumb  ov012
  *   func_02080D24  0x02080D24  arm
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_0203D378  0x0203D378  arm
- *   func_02172D38  0x02172D38  thumb  ov012
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
  */
 
 typedef unsigned char u8;
@@ -36,10 +36,10 @@ typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern int UNION_COMMAND_SendConnectSync(void);
 extern int func_02080D24(u8 a);
-extern int func_0203D1B4(void);
-extern void func_0203D7BC(u8 a0);
-extern u32 func_0203D378(void);
-extern void func_02172D38(u8 *p);
+extern int GFL_NET_GetNegotiationNum(void);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern u32 GFL_NET_IsParentAid(void);
+extern void UNION_COMM_RequestShutdown(u8 *p);
 
 void UNION_COMM_UpdateConnectSync(Work *w)
 {
@@ -58,19 +58,19 @@ void UNION_COMM_UpdateConnectSync(Work *w)
         }
         break;
     case 1:
-        if (func_02080D24(s->f5E) >= func_0203D1B4()) {
-            func_0203D7BC(0);
+        if (func_02080D24(s->f5E) >= GFL_NET_GetNegotiationNum()) {
+            GFL_NET_SetLoginOption(0);
             s->step++;
         }
         break;
     case 2:
-        if (func_0203D378() == 1) {
-            if (func_0203D1B4() <= 1) {
-                func_02172D38((u8 *)w);
+        if (GFL_NET_IsParentAid() == 1) {
+            if (GFL_NET_GetNegotiationNum() <= 1) {
+                UNION_COMM_RequestShutdown((u8 *)w);
                 s->step++;
             }
         } else {
-            func_02172D38((u8 *)w);
+            UNION_COMM_RequestShutdown((u8 *)w);
             s->step++;
         }
         break;

@@ -1,7 +1,7 @@
 /*
  * file:     move_pokemon.c
  * unit:     yes
- * function: func_0215EC54, func_0215EC6C, func_0215EC80, func_0215EC94, func_0215ECBC, func_0215ED8C, func_0215EDA0, func_0215EDD0, func_0215EE24, func_0215EE38, func_0215EE68, func_0215EEBC, func_0215EED0, func_0215EEF8, func_0215EF2C, func_0215EF40, func_0215EF60, func_0215EFCC, func_0215EFF4, func_0215F060, func_0215F088, func_0215F0B8, func_0215F0E8, func_0215F104, func_0215F118
+ * function: MOVE_POKEMON_StartSkillOnTarget, MOVE_POKEMON_CheckWaterfall, MOVE_POKEMON_CheckFlash, MOVE_POKEMON_CreateFlashEvent, MOVE_POKEMON_FlashEventMain, MOVE_POKEMON_CheckDig, MOVE_POKEMON_CreateDigEvent, MOVE_POKEMON_DigEventMain, MOVE_POKEMON_CheckTeleport, MOVE_POKEMON_CreateTeleportEvent, MOVE_POKEMON_TeleportEventMain, MOVE_POKEMON_CheckMilkDrink, MOVE_POKEMON_CreateMilkDrinkEvent, MOVE_POKEMON_MilkDrinkEventMain, MOVE_POKEMON_CheckSweetScent, MOVE_POKEMON_StartSweetScent, MOVE_POKEMON_SweetScentEventMain, MOVE_POKEMON_CreateSweetScentEvent, MOVE_POKEMON_SoftBoiledEventMain, MOVE_POKEMON_CreateSoftBoiledEvent, MOVE_POKEMON_GetSkillCheckFunc, MOVE_POKEMON_GetSkillEventFunc, MOVE_POKEMON_InitSkillWork, MOVE_POKEMON_IsSkillUsable, MOVE_POKEMON_IsInSkillArea
  * address:  0x0215EC54
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -17,37 +17,37 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02165534  0x02165534  thumb  ov010
- *   func_021C8268  0x021C8268  thumb
+ *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
+ *   FLD_WIPE_3DOBJ_CreateMapChangeEvent  0x021C8268  thumb
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_02012B38  0x02012B38  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02189A10  0x02189A10  thumb  ov021
- *   func_021C7FBC  0x021C7FBC  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02158780  0x02158780  thumb  ov010
- *   func_02159058  0x02159058  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetMapEff  0x02189A10  thumb  ov021
+ *   FIELDSKILL_MAPEFF_GetFlash  0x021C7FBC  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
+ *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
  *   func_02014468  0x02014468  thumb
  *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
- *   func_021C7E50  0x021C7E50  thumb  ov021
+ *   FIELD_FLASH_SetPendingCommand  0x021C7E50  thumb  ov021
  *   func_02014470  0x02014470  thumb
  *   func_0201446C  0x0201446C  thumb
- *   func_021C7E54  0x021C7E54  thumb  ov021
- *   func_02184EEC  0x02184EEC  thumb  ov020
- *   func_0201235C  0x0201235C  thumb
- *   func_02184F40  0x02184F40  thumb  ov020
- *   func_021587B0 0x021587B0 thumb ov010
- *   func_021D1C24   0x021D1C24  thumb
+ *   FIELD_FLASH_GetState  0x021C7E54  thumb  ov021
+ *   EVENT_MAPCHANGE_CreateEscapeRopeEvent  0x02184EEC  thumb  ov020
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
+ *   EVENT_MAPCHANGE_CreateSituationWarpEvent  0x02184F40  thumb  ov020
+ *   SCRIPT_SYS_ChangeScriptEvent 0x021587B0 thumb ov010
+ *   EVENT_PERAP_RECORD_Create   0x021D1C24  thumb
  *   func_02013FFC 0x02013FFC thumb
  *   d_02171258 0x02171258 data a4
  *   d_02171200 0x02171200 data a4
  *   d_02171254 0x02171254 data a4
  *   d_021711FC 0x021711FC data a4
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020142E8  0x020142E8  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  */
 struct GameSystem;
 struct GameData;
@@ -100,60 +100,60 @@ typedef struct Area {
 } Area;
 
 
-extern int func_02165534(u32 seId);
-extern int func_021C8268(struct GameSystem *gameSystem, u32 fieldPlayer, u32 targetParam);
+extern int GAME_BEACON_SEARCH_SetCountValue(u32 seId);
+extern int FLD_WIPE_3DOBJ_CreateMapChangeEvent(struct GameSystem *gameSystem, u32 fieldPlayer, u32 targetParam);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, void *func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
-extern u32 func_0201296C(struct GameData *gameData);
-extern struct FieldStatus *func_02012B38(struct GameData *gameData);
-extern void *func_0201210C(struct GameSystem *gameSystem);
-extern void *func_02189A10(void *fieldMap);
-extern void *func_021C7FBC(void *p);
-extern u16 func_02188C84(void *fieldMap);
-extern void *func_02158780(struct GameEvent *event, u32 msgId, u32 b, u32 c, u32 d);
-extern int func_02159058(int a, int b, int c, int d, u16 e);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern u32 GAME_DATA_GetEventWork(struct GameData *gameData);
+extern struct FieldStatus *GAME_DATA_GetMoveModelSys(struct GameData *gameData);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *FIELDMAP_GetMapEff(void *fieldMap);
+extern void *FIELDSKILL_MAPEFF_GetFlash(void *p);
+extern u16 FIELDMAP_GetHeapId(void *fieldMap);
+extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u32 msgId, u32 b, u32 c, u32 d);
+extern int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
 extern u8 func_02014468(struct FieldStatus *fieldStatus);
 extern void FIELD_STATUS_SetFlashActive(struct FieldStatus *fieldStatus, u8 on);
-extern void func_021C7E50(void *mapEffect, u16 mode);
+extern void FIELD_FLASH_SetPendingCommand(void *mapEffect, u16 mode);
 extern u16 func_02014470(struct FieldStatus *fieldStatus);
 extern void func_0201446C(struct FieldStatus *fieldStatus, u32 mask);
-extern u16 func_021C7E54(void *mapEffect);
-extern struct GameEvent *func_02184EEC(struct GameSystem *gameSystem);
-extern void func_0201235C(struct GameEvent *event, struct GameEvent *next);
-extern struct GameEvent *func_02184F40(struct GameSystem *gameSystem);
-extern int func_021587B0(int event, int msgId, int c, int d);
-extern void func_021D1C24(struct GameSystem *gameSystem, u32 fieldPlayer, unsigned partySlot);
+extern u16 FIELD_FLASH_GetState(void *mapEffect);
+extern struct GameEvent *EVENT_MAPCHANGE_CreateEscapeRopeEvent(struct GameSystem *gameSystem);
+extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
+extern struct GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(struct GameSystem *gameSystem);
+extern int SCRIPT_SYS_ChangeScriptEvent(int event, int msgId, int c, int d);
+extern void EVENT_PERAP_RECORD_Create(struct GameSystem *gameSystem, u32 fieldPlayer, unsigned partySlot);
 extern u32 func_02013FFC(u32 zoneId);
-extern void *func_02188C80(void *field);
-extern u32 func_020142E8(void *eventWork, int flag);
+extern void *FIELDMAP_GetGameSystem(void *field);
+extern u32 ZONEDATA_CheckEventFlag(void *eventWork, int flag);
 
 
-int func_0215EC54(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused);
-int func_0215EC6C(const FieldSkillCheck *check);
-int func_0215EC80(const FieldSkillCheck *check);
-struct GameEvent *func_0215EC94(const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int func_0215ECBC(struct GameEvent *event, int *seq, FieldSkillWork *work);
-int func_0215ED8C(const FieldSkillCheck *check);
-struct GameEvent *func_0215EDA0(const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int func_0215EDD0(struct GameEvent *event, int *seq, FieldSkillWork *work);
-int func_0215EE24(const FieldSkillCheck *check);
-struct GameEvent *func_0215EE38(const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int func_0215EE68(struct GameEvent *event, int *seq, FieldSkillWork *work);
-int func_0215EEBC(const FieldSkillCheck *check);
-struct GameEvent *func_0215EED0(const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int func_0215EEF8(struct GameEvent *event, int *seq, FieldSkillWork *work);
-int func_0215EF2C(const FieldSkillCheck *check);
-void func_0215EF40(const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int func_0215EF60(struct GameEvent *event, int *seq, FieldSkillWork *work);
-struct GameEvent *func_0215EFCC(const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int func_0215EFF4(struct GameEvent *event, int *seq, FieldSkillWork *work);
-struct GameEvent *func_0215F060(const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int func_0215F088(const FieldSkillCheck *check, int skill);
-int func_0215F0B8(const FieldSkillCheck *check, int skill);
-void func_0215F0E8(FieldSkillWork *work, const FieldSkillTarget *target, const FieldSkillContext *ctx);
-int func_0215F104(const FieldSkillCheck *check, int skill);
-int func_0215F118(const Area *a, u16 x, u16 z, u32 flag, void *field);
+int MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused);
+int MOVE_POKEMON_CheckWaterfall(const FieldSkillCheck *check);
+int MOVE_POKEMON_CheckFlash(const FieldSkillCheck *check);
+struct GameEvent *MOVE_POKEMON_CreateFlashEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+int MOVE_POKEMON_FlashEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
+int MOVE_POKEMON_CheckDig(const FieldSkillCheck *check);
+struct GameEvent *MOVE_POKEMON_CreateDigEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+int MOVE_POKEMON_DigEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
+int MOVE_POKEMON_CheckTeleport(const FieldSkillCheck *check);
+struct GameEvent *MOVE_POKEMON_CreateTeleportEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+int MOVE_POKEMON_TeleportEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
+int MOVE_POKEMON_CheckMilkDrink(const FieldSkillCheck *check);
+struct GameEvent *MOVE_POKEMON_CreateMilkDrinkEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+int MOVE_POKEMON_MilkDrinkEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
+int MOVE_POKEMON_CheckSweetScent(const FieldSkillCheck *check);
+void MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+int MOVE_POKEMON_SweetScentEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
+struct GameEvent *MOVE_POKEMON_CreateSweetScentEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+int MOVE_POKEMON_SoftBoiledEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work);
+struct GameEvent *MOVE_POKEMON_CreateSoftBoiledEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx);
+int MOVE_POKEMON_GetSkillCheckFunc(const FieldSkillCheck *check, int skill);
+int MOVE_POKEMON_GetSkillEventFunc(const FieldSkillCheck *check, int skill);
+void MOVE_POKEMON_InitSkillWork(FieldSkillWork *work, const FieldSkillTarget *target, const FieldSkillContext *ctx);
+int MOVE_POKEMON_IsSkillUsable(const FieldSkillCheck *check, int skill);
+int MOVE_POKEMON_IsInSkillArea(const Area *a, u16 x, u16 z, u32 flag, void *field);
 
 
 /* Skill function tables, 11 rows of { create function, check function }:
@@ -165,28 +165,28 @@ extern int d_02171254[];
 extern int d_021711FC[];
 
 
-int func_0215EC54(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused)
+int MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused)
 {
-    func_02165534(0x13);
-    return func_021C8268(ctx->gameSystem, ctx->fieldPlayer, target->targetParam);
+    GAME_BEACON_SEARCH_SetCountValue(0x13);
+    return FLD_WIPE_3DOBJ_CreateMapChangeEvent(ctx->gameSystem, ctx->fieldPlayer, target->targetParam);
 }
 
-int func_0215EC6C(const FieldSkillCheck *check)
+int MOVE_POKEMON_CheckWaterfall(const FieldSkillCheck *check)
 {
-    return func_0215F104(check, 4) != 0 ? FALSE : TRUE;
+    return MOVE_POKEMON_IsSkillUsable(check, 4) != 0 ? FALSE : TRUE;
 }
 
-int func_0215EC80(const FieldSkillCheck *check)
+int MOVE_POKEMON_CheckFlash(const FieldSkillCheck *check)
 {
-    return func_0215F104(check, 5) != 0 ? FALSE : TRUE;
+    return MOVE_POKEMON_IsSkillUsable(check, 5) != 0 ? FALSE : TRUE;
 }
 
-struct GameEvent *func_0215EC94(const FieldSkillTarget *target, const FieldSkillContext *ctx)
+struct GameEvent *MOVE_POKEMON_CreateFlashEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
     struct GameEvent *event;
 
-    event = func_020122C0(ctx->gameSystem, 0, (void *)func_0215ECBC, 20);
-    func_0215F0E8(func_020124E8(event), target, ctx);
+    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_FlashEventMain, 20);
+    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
 
@@ -195,7 +195,7 @@ struct GameEvent *func_0215EC94(const FieldSkillTarget *target, const FieldSkill
  * for an object to go idle then starts sound 0x94, state 2 waits for a
  * status of 3. Returns 1 when finished.
  */
-int func_0215ECBC(struct GameEvent *event, int *seq, FieldSkillWork *work)
+int MOVE_POKEMON_FlashEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
 {
     struct GameData *gameData;
     struct FieldStatus *fieldStatus;
@@ -205,24 +205,24 @@ int func_0215ECBC(struct GameEvent *event, int *seq, FieldSkillWork *work)
     struct FieldStatus *status;
     u16 partySlot;
 
-    gameData = func_020120F4(work->gameSystem);
-    func_0201296C(gameData);
-    fieldStatus = func_02012B38(gameData);
-    mapEffect = func_021C7FBC(func_02189A10(func_0201210C(work->gameSystem)));
-    windowParam = func_02188C84(func_0201210C(work->gameSystem));
+    gameData = GAMESYSTEM_GetGameData(work->gameSystem);
+    GAME_DATA_GetEventWork(gameData);
+    fieldStatus = GAME_DATA_GetMoveModelSys(gameData);
+    mapEffect = FIELDSKILL_MAPEFF_GetFlash(FIELDMAP_GetMapEff(GAMESYSTEM_GetFieldMap(work->gameSystem)));
+    windowParam = FIELDMAP_GetHeapId(GAMESYSTEM_GetFieldMap(work->gameSystem));
     switch (*seq) {
     case 0:
         partySlot = work->target.partySlot;
-        msg = func_02158780(event, 0x2718, 0, 0, windowParam);
-        func_02159058((int)msg, partySlot, 0, 0, 0);
+        msg = SCRIPT_SYS_CallScriptEvent(event, 0x2718, 0, 0, windowParam);
+        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
         (*seq)++;
         break;
     case 1:
         if (func_02014468(fieldStatus) == 0) {
-            status = func_02012B38(gameData);
+            status = GAME_DATA_GetMoveModelSys(gameData);
             FIELD_STATUS_SetFlashActive(fieldStatus, 1);
-            func_02165534(0x94);
-            func_021C7E50(mapEffect, 1);
+            GAME_BEACON_SEARCH_SetCountValue(0x94);
+            FIELD_FLASH_SetPendingCommand(mapEffect, 1);
             func_0201446C(status, (func_02014470(status) & ~1) | 2);
         } else {
             return 1;
@@ -230,7 +230,7 @@ int func_0215ECBC(struct GameEvent *event, int *seq, FieldSkillWork *work)
         (*seq)++;
         break;
     case 2:
-        if (func_021C7E54(mapEffect) == 3) {
+        if (FIELD_FLASH_GetState(mapEffect) == 3) {
             return 1;
         }
         break;
@@ -238,22 +238,22 @@ int func_0215ECBC(struct GameEvent *event, int *seq, FieldSkillWork *work)
     return 0;
 }
 
-int func_0215ED8C(const FieldSkillCheck *check)
+int MOVE_POKEMON_CheckDig(const FieldSkillCheck *check)
 {
-    return func_0215F104(check, 7) != 0 ? FALSE : TRUE;
+    return MOVE_POKEMON_IsSkillUsable(check, 7) != 0 ? FALSE : TRUE;
 }
 
-struct GameEvent *func_0215EDA0(const FieldSkillTarget *target, const FieldSkillContext *ctx)
+struct GameEvent *MOVE_POKEMON_CreateDigEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
     struct GameEvent *event;
 
-    func_02165534(91);
-    event = func_020122C0(ctx->gameSystem, 0, (void *)func_0215EDD0, 20);
-    func_0215F0E8(func_020124E8(event), target, ctx);
+    GAME_BEACON_SEARCH_SetCountValue(91);
+    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_DigEventMain, 20);
+    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
 
-int func_0215EDD0(struct GameEvent *event, int *seq, FieldSkillWork *work)
+int MOVE_POKEMON_DigEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
 {
     u32 partySlot;
     void *msg;
@@ -261,12 +261,12 @@ int func_0215EDD0(struct GameEvent *event, int *seq, FieldSkillWork *work)
     switch (*seq) {
     case 0:
         partySlot = work->target.partySlot;
-        msg = (void *)func_02158780(event, 0x271a, 0, 0, 0x15);
-        func_02159058((int)msg, partySlot, 0, 0, 0);
+        msg = (void *)SCRIPT_SYS_CallScriptEvent(event, 0x271a, 0, 0, 0x15);
+        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
         *seq = *seq + 1;
         break;
     case 1:
-        func_0201235C(event, func_02184EEC(work->gameSystem));
+        GAME_EVENT_ChangeEvent(event, EVENT_MAPCHANGE_CreateEscapeRopeEvent(work->gameSystem));
         break;
     }
     return 0;
@@ -275,22 +275,22 @@ int func_0215EDD0(struct GameEvent *event, int *seq, FieldSkillWork *work)
 /*
  * lever: Enum constants preserve the zero-first return arm; int constants fold to the opposite polarity.
  */
-int func_0215EE24(const FieldSkillCheck *check)
+int MOVE_POKEMON_CheckTeleport(const FieldSkillCheck *check)
 {
-    return func_0215F104(check, 6) != 0 ? FALSE : TRUE;
+    return MOVE_POKEMON_IsSkillUsable(check, 6) != 0 ? FALSE : TRUE;
 }
 
-struct GameEvent *func_0215EE38(const FieldSkillTarget *target, const FieldSkillContext *ctx)
+struct GameEvent *MOVE_POKEMON_CreateTeleportEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
     struct GameEvent *event;
 
-    func_02165534(100);
-    event = func_020122C0(ctx->gameSystem, 0, (void *)func_0215EE68, 20);
-    func_0215F0E8(func_020124E8(event), target, ctx);
+    GAME_BEACON_SEARCH_SetCountValue(100);
+    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_TeleportEventMain, 20);
+    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
 
-int func_0215EE68(struct GameEvent *event, int *seq, FieldSkillWork *work)
+int MOVE_POKEMON_TeleportEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
 {
     u32 partySlot;
     void *msg;
@@ -298,28 +298,28 @@ int func_0215EE68(struct GameEvent *event, int *seq, FieldSkillWork *work)
     switch (*seq) {
     case 0:
         partySlot = work->target.partySlot;
-        msg = (void *)func_02158780(event, 0x2719, 0, 0, 0x15);
-        func_02159058((int)msg, partySlot, 0, 0, 0);
+        msg = (void *)SCRIPT_SYS_CallScriptEvent(event, 0x2719, 0, 0, 0x15);
+        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
         *seq = *seq + 1;
         break;
     case 1:
-        func_0201235C(event, func_02184F40(work->gameSystem));
+        GAME_EVENT_ChangeEvent(event, EVENT_MAPCHANGE_CreateSituationWarpEvent(work->gameSystem));
         break;
     }
     return 0;
 }
 
-int func_0215EEBC(const FieldSkillCheck *check)
+int MOVE_POKEMON_CheckMilkDrink(const FieldSkillCheck *check)
 {
-    return func_0215F104(check, 10) != 0 ? FALSE : TRUE;
+    return MOVE_POKEMON_IsSkillUsable(check, 10) != 0 ? FALSE : TRUE;
 }
 
-struct GameEvent *func_0215EED0(const FieldSkillTarget *target, const FieldSkillContext *ctx)
+struct GameEvent *MOVE_POKEMON_CreateMilkDrinkEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
     struct GameEvent *event;
 
-    event = func_020122C0(ctx->gameSystem, 0, (void *)func_0215EEF8, 20);
-    func_0215F0E8(func_020124E8(event), target, ctx);
+    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_MilkDrinkEventMain, 20);
+    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
 
@@ -327,110 +327,110 @@ struct GameEvent *func_0215EED0(const FieldSkillTarget *target, const FieldSkill
  * lever: Context +8 word and +12 halfword match neighboring callback layout; named call result preserves the early halfword lifetime.
  * interface: 021587B0 returns its final ldr r0,[r4] at 021587DC, read by this caller; 02159058 uses its own int,int,int,int,u16 prototype.
  */
-int func_0215EEF8(struct GameEvent *event, int *seq, FieldSkillWork *work)
+int MOVE_POKEMON_MilkDrinkEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
 {
     int partySlot;
     int msg;
 
-    func_0201296C(func_020120F4(work->gameSystem));
+    GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem));
     partySlot = work->target.partySlot;
-    msg = func_021587B0((int)event, 0x271c, 0, 0);
-    func_02159058(msg, partySlot, 0, 0, 0);
+    msg = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x271c, 0, 0);
+    SCRIPT_WORK_SetParams(msg, partySlot, 0, 0, 0);
     return 0;
 }
 
-int func_0215EF2C(const FieldSkillCheck *check)
+int MOVE_POKEMON_CheckSweetScent(const FieldSkillCheck *check)
 {
-    return func_0215F104(check, 9) != 0 ? FALSE : TRUE;
+    return MOVE_POKEMON_IsSkillUsable(check, 9) != 0 ? FALSE : TRUE;
 }
 
 /*
  * Play the skill sound, then hand the game system, the field player and
  * the party slot to the ov021 sweet scent start.
  */
-void func_0215EF40(const FieldSkillTarget *target, const FieldSkillContext *ctx)
+void MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
-    func_02165534(0x1C0);
-    func_021D1C24(ctx->gameSystem, ctx->fieldPlayer, (u8)target->partySlot);
+    GAME_BEACON_SEARCH_SetCountValue(0x1C0);
+    EVENT_PERAP_RECORD_Create(ctx->gameSystem, ctx->fieldPlayer, (u8)target->partySlot);
 }
 
-int func_0215EF60(struct GameEvent *event, int *seq, FieldSkillWork *work)
-{
-    u32 partySlot;
-    u32 windowParam;
-    void *msg;
-
-    func_0201296C(func_020120F4(work->gameSystem));
-    windowParam = func_02188C84(func_0201210C(work->gameSystem));
-    switch (*seq) {
-    case 0:
-        partySlot = work->target.partySlot;
-        msg = func_02158780(event, 0x271e, 0, 0, windowParam);
-        func_02159058((int)msg, partySlot, 0, 0, 0);
-        *seq = *seq + 1;
-        break;
-    case 1:
-        func_021587B0((int)event, 0x28e3, 0, 0);
-        break;
-    }
-    return 0;
-}
-
-struct GameEvent *func_0215EFCC(const FieldSkillTarget *target, const FieldSkillContext *ctx)
-{
-    struct GameEvent *event;
-
-    event = func_020122C0(ctx->gameSystem, 0, (void *)func_0215EF60, 20);
-    func_0215F0E8(func_020124E8(event), target, ctx);
-    return event;
-}
-
-int func_0215EFF4(struct GameEvent *event, int *seq, FieldSkillWork *work)
+int MOVE_POKEMON_SweetScentEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
 {
     u32 partySlot;
     u32 windowParam;
     void *msg;
 
-    func_0201296C(func_020120F4(work->gameSystem));
-    windowParam = func_02188C84(func_0201210C(work->gameSystem));
+    GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem));
+    windowParam = FIELDMAP_GetHeapId(GAMESYSTEM_GetFieldMap(work->gameSystem));
     switch (*seq) {
     case 0:
         partySlot = work->target.partySlot;
-        msg = func_02158780(event, 0x271d, 0, 0, windowParam);
-        func_02159058((int)msg, partySlot, 0, 0, 0);
+        msg = SCRIPT_SYS_CallScriptEvent(event, 0x271e, 0, 0, windowParam);
+        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
         *seq = *seq + 1;
         break;
     case 1:
-        func_021587B0((int)event, 0x28e2, 0, 0);
+        SCRIPT_SYS_ChangeScriptEvent((int)event, 0x28e3, 0, 0);
         break;
     }
     return 0;
 }
 
-struct GameEvent *func_0215F060(const FieldSkillTarget *target, const FieldSkillContext *ctx)
+struct GameEvent *MOVE_POKEMON_CreateSweetScentEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
     struct GameEvent *event;
 
-    event = func_020122C0(ctx->gameSystem, 0, (void *)func_0215EFF4, 20);
-    func_0215F0E8(func_020124E8(event), target, ctx);
+    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SweetScentEventMain, 20);
+    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
     return event;
 }
 
-int func_0215F088(const FieldSkillCheck *check, int skill)
+int MOVE_POKEMON_SoftBoiledEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
+{
+    u32 partySlot;
+    u32 windowParam;
+    void *msg;
+
+    GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem));
+    windowParam = FIELDMAP_GetHeapId(GAMESYSTEM_GetFieldMap(work->gameSystem));
+    switch (*seq) {
+    case 0:
+        partySlot = work->target.partySlot;
+        msg = SCRIPT_SYS_CallScriptEvent(event, 0x271d, 0, 0, windowParam);
+        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
+        *seq = *seq + 1;
+        break;
+    case 1:
+        SCRIPT_SYS_ChangeScriptEvent((int)event, 0x28e2, 0, 0);
+        break;
+    }
+    return 0;
+}
+
+struct GameEvent *MOVE_POKEMON_CreateSoftBoiledEvent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
+{
+    struct GameEvent *event;
+
+    event = func_020122C0(ctx->gameSystem, 0, (void *)MOVE_POKEMON_SoftBoiledEventMain, 20);
+    MOVE_POKEMON_InitSkillWork(func_020124E8(event), target, ctx);
+    return event;
+}
+
+int MOVE_POKEMON_GetSkillCheckFunc(const FieldSkillCheck *check, int skill)
 {
     if (skill >= 11) return 0;
     if (func_02013FFC(check->zoneId)) return *(int *)((u32)d_02171258 + ((u32)skill << 3));
     return *(int *)((u32)d_02171200 + ((u32)skill << 3));
 }
 
-int func_0215F0B8(const FieldSkillCheck *check, int skill)
+int MOVE_POKEMON_GetSkillEventFunc(const FieldSkillCheck *check, int skill)
 {
     if (skill >= 11) return 0;
     if (func_02013FFC(check->zoneId)) return *(int *)((u32)d_02171254 + ((u32)skill << 3));
     return *(int *)((u32)d_021711FC + ((u32)skill << 3));
 }
 
-void func_0215F0E8(FieldSkillWork *work, const FieldSkillTarget *target, const FieldSkillContext *ctx)
+void MOVE_POKEMON_InitSkillWork(FieldSkillWork *work, const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
     work->magic = 0x19740205;
     work->fieldMap = ctx->fieldMap;
@@ -438,7 +438,7 @@ void func_0215F0E8(FieldSkillWork *work, const FieldSkillTarget *target, const F
     work->gameSystem = ctx->gameSystem;
 }
 
-int func_0215F104(const FieldSkillCheck *check, int skill)
+int MOVE_POKEMON_IsSkillUsable(const FieldSkillCheck *check, int skill)
 {
     if ((check->usableMask & (1 << skill)) != 0)
         return 1;
@@ -449,12 +449,12 @@ int func_0215F104(const FieldSkillCheck *check, int skill)
  * Inside test of (x, z) against an Area's half extents, refused when the
  * flag is already set in the field's save block.
  */
-int func_0215F118(const Area *a, u16 x, u16 z, u32 flag, void *field)
+int MOVE_POKEMON_IsInSkillArea(const Area *a, u16 x, u16 z, u32 flag, void *field)
 {
     int dx;
     int dz;
 
-    if (func_020142E8((void *)func_0201296C(func_020120F4(func_02188C80(field))), flag) != 0)
+    if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(field))), flag) != 0)
         return 0;
     dx = a->x - x;
     dz = a->z - z;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DAE04
+ * function: BTL_ABILITY_DampBlockExplosion
  * address: 0x021DAE04
  * packet: pkt_ov093_021DAE04
  * region: ov093
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
-extern int func_021D775C(int);
-extern int func_021D76BC(int,unsigned int);
-void func_021DAE04(int a, int b, int c, int *d) { unsigned short k; k = func_021D775C(18); *d = 0; if (k == 153 || k == 120) { if (func_021D775C(34) == 0) { *d = func_021D76BC(34,19); d[1] = k; } } }
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int,unsigned int);
+void BTL_ABILITY_DampBlockExplosion(int a, int b, int c, int *d) { unsigned short k; k = BTL_EVENT_GetVar(18); *d = 0; if (k == 153 || k == 120) { if (BTL_EVENT_GetVar(34) == 0) { *d = BTL_EVENT_OverwriteVar(34,19); d[1] = k; } } }

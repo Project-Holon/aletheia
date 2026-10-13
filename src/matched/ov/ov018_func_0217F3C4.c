@@ -1,5 +1,5 @@
 /*
- * function: func_0217F3C4
+ * function: EVENT_COMM_COMMON_PrintMsg
  * address:  0x0217F3C4
  * packet:   pkt_ov018_0217F3C4
  * region:   ov018
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   func_0217F3A4  0x0217F3A4  thumb
+ *   EVENT_COMM_COMMON_PrintText  0x0217F3A4  thumb
  */
 
 typedef struct {
@@ -33,13 +33,13 @@ typedef struct {
 typedef unsigned int   u32;
 struct MsgBank;
 struct WordSet;
-void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_0217F3A4(Ov018Obj *p, void *a);
+void EVENT_COMM_COMMON_PrintText(Ov018Obj *p, void *a);
 
-void func_0217F3C4(Ov018Obj *p, int a)
+void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a)
 {
-    func_02045CAC(p->f0C, a, p->f08);
+    MSGDATA_ReadString(p->f0C, a, p->f08);
     func_0201F250(p->f00, p->f04, p->f08);
-    func_0217F3A4(p, p->f04);
+    EVENT_COMM_COMMON_PrintText(p, p->f04);
 }

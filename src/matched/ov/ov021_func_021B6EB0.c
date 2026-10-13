@@ -1,5 +1,5 @@
 /*
- * function: func_021B6EB0
+ * function: SCRCMD_POKEMON_FLD_IsLibertyPassGift
  * address:  0x021B6EB0
  * packet:   pkt_ov021_021B6EB0
  * region:   ov021
@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021B6EB0(u32 *o, int k)
+int SCRCMD_POKEMON_FLD_IsLibertyPassGift(u32 *o, int k)
 {
     if (k != 2) {
         return 0;

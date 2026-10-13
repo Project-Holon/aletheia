@@ -12,7 +12,7 @@
  * symbols:
  *   gVctSession  0x021B60D8  data  ov013  a4
  *   VCT_SESSION_HandleUnknownProtocolPacket  0x021B2D54  arm  ov013
- *   func_021B2AA0  0x021B2AA0  arm  ov013
+ *   VCT_SESSION_HandlePairedPacket  0x021B2AA0  arm  ov013
  *   VCT_SESSION_HandleSharedPacket  0x021B2BE0  arm  ov013
  */
 
@@ -28,7 +28,7 @@ extern Ctx gVctSession;
 struct Event;
 struct Pkt;
 extern int VCT_SESSION_HandleUnknownProtocolPacket(u8 *p, int *out);
-extern int func_021B2AA0(struct Pkt *pkt, struct Event *ev);
+extern int VCT_SESSION_HandlePairedPacket(struct Pkt *pkt, struct Event *ev);
 extern int VCT_SESSION_HandleSharedPacket(struct Pkt *pkt, struct Event *ev);
 
 int VCT_SESSION_HandlePacket(int a, u8 *p, int len, int x)
@@ -40,6 +40,6 @@ int VCT_SESSION_HandlePacket(int a, u8 *p, int len, int x)
     if (p[5] != 0x10)
         return VCT_SESSION_HandleUnknownProtocolPacket(p, (int *)x);
     if (gVctSession.fC == 0)
-        return func_021B2AA0((struct Pkt *)p, (struct Event *)x);
+        return VCT_SESSION_HandlePairedPacket((struct Pkt *)p, (struct Event *)x);
     return VCT_SESSION_HandleSharedPacket((struct Pkt *)p, (struct Event *)x);
 }

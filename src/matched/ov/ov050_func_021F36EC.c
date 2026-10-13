@@ -10,12 +10,12 @@
  * status: EXACT*
  * note: two-byte alignment padding at 0x021F3706 follows the return.
  * symbols:
- *   func_021897BC 0x021897BC thumb ov021
- *   func_021F3894 0x021F3894 thumb ov050
- *   func_021897A0 0x021897A0 thumb ov021
+ *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
+ *   GIMMICK50_ExitExtra 0x021F3894 thumb ov050
+ *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  */
 
-extern int *func_021897BC(char *, int);
-extern void func_021F3894(int *, char *);
-extern void func_021897A0(unsigned char *, int);
-void func_021F36EC(char *p) { func_021F3894(func_021897BC(p,1),p); func_021897A0((unsigned char *)p,1); }
+extern int *FIELDMAP_GetCommonWork(char *, int);
+extern void GIMMICK50_ExitExtra(int *, char *);
+extern void FIELDMAP_FreeCommonWork(unsigned char *, int);
+void func_021F36EC(char *p) { GIMMICK50_ExitExtra(FIELDMAP_GetCommonWork(p,1),p); FIELDMAP_FreeCommonWork((unsigned char *)p,1); }

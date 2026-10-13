@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * True when the state word at +0 is 9 (done). Region ov063: its caller ov021
- * func_021C4788 frees the handle through ov063 func_021F3758 (EXACT, the
+ * FIELD_OV063_TaskUpdate frees the handle through ov063 func_021F3758 (EXACT, the
  * function immediately before this one) and then unloads overlay 0x3F (ov063);
  * ov063 holds this Thumb leaf at the address, and the state machine right after
  * it (0x021F377C) switches on the same word with 9 as its last case. ov061's

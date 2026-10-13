@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02028148  0x02028148  thumb
+ *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
  *   func_02041B6C  0x02041B6C  arm
  *
  * Addresses are Black-image addresses.
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02028148(u8 *p);
+extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void func_02041B6C(u32 bit);
 
 void func_021D8648(u8 *p)
 {
-    func_02028148(((struct Obj10403 *)p)->fC4);
+    APP_TASKMENU_WIN_Delete(((struct Obj10403 *)p)->fC4);
     func_02041B6C(5);
     *(u32 *)&((struct Obj10403 *)p)->fC4 = 0;
 }

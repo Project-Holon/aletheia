@@ -17,18 +17,20 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0201A954  0x0201A954  thumb
  *   func_0201A98C  0x0201A98C  thumb
- *   func_020173EC  0x020173EC  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_0202A3AC  0x0202A3AC  thumb
  *   func_0202A3BC  0x0202A3BC  thumb
  *   func_0202A3CC  0x0202A3CC  thumb
  *   func_0202A994  0x0202A994  thumb
  *   func_0202A9F4  0x0202A9F4  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_020181F4  0x020181F4  thumb
+ *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   POKE_TOOL_SetMoveSlot  0x020181F4  thumb
  *   _ll_mul        0x0209C054  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *
  * tr_tool.c: build a trainer's party.  Loads the trainer record (0x14
  * bytes) and its party table (up to 6 entries) from the archive, then per
@@ -49,7 +51,7 @@
  *    register);
  *  - the random draw's (u64)(u32) product by 0x10000 is what leaves the
  *    `lsls rX, zero, #16; orrs` pair and the hoisted zero;
- *  - case 3 passes the species to func_02017588 as a fresh table read.
+ *  - case 3 passes the species to POKE_TOOL_SetupPartyParamEx as a fresh table read.
  */
 
 typedef unsigned char      u8;
@@ -80,15 +82,15 @@ struct Party;
 struct PartyMon;
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern u32   func_020173EC(void);
+extern u32   POKE_TOOL_GetPartyParamSize(void);
 extern void func_0202A3AC(void *a0, void *a1);
 extern void func_0202A3BC(void *a0, void *a1);
 extern u8    func_0202A3CC(u32 cls);
 extern void  func_0202A994(u32 species, u32 form, int abil, u32 *gender, u16 heap);
 extern void  func_0202A9F4(u32 id, void *mon, u32 form, u32 abil);
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void  func_02017E40(void *mon, u32 id, u32 val);
-extern void func_020181F4(void *p, u16 move, u32 slot);
+extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
+extern void  POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 val);
+extern void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot);
 
 struct Tmp {
     u8   f00;
@@ -112,8 +114,8 @@ struct Out {
 
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02045C04(struct MsgBank *rec);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern u32 MSGDATA_Delete(struct MsgBank *rec);
 extern void  func_02082A60(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
 void func_0202A440(u32 id, struct Out *out, u16 heap);
@@ -137,8 +139,8 @@ void func_0202A440(u32 id, struct Out *out, u16 heap)
     out->f08 = t->f0c;
 
     bank = func_02045B38(0, 2, 0xbe, heap);
-    func_02045CAC(bank, id, (void *)out->f14);
-    func_02045C04(bank);
+    MSGDATA_ReadString(bank, id, (void *)out->f14);
+    MSGDATA_Delete(bank);
 
     func_02082A60(t->f04, &out->f0c, 8);
     PMSI_PARAM_ClearSentence(&out->f18);
@@ -167,7 +169,7 @@ void func_0202A440(u32 id, struct Out *out, u16 heap)
  *    register);
  *  - the random draw's (u64)(u32) product by 0x10000 is what leaves the
  *    `lsls rX, zero, #16; orrs` pair and the hoisted zero;
- *  - case 3 passes the species to func_02017588 as a fresh table read.
+ *  - case 3 passes the species to POKE_TOOL_SetupPartyParamEx as a fresh table read.
  */
 void func_0202A4B4(u32 trid, void *party, u16 heap)
 {
@@ -186,7 +188,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
     h = (heap & 0x7FFF) | 0x8000;
     td = func_02030734(h, 0x14, 0, g_020A76DC, 387);
     tp = func_02030734(h, 0x6C, 0, g_020A76DC, 388);
-    mon = func_02030734(h, func_020173EC(), 0, g_020A76DC, 389);
+    mon = func_02030734(h, POKE_TOOL_GetPartyParamSize(), 0, g_020A76DC, 389);
     func_0202A3AC((void *)trid, td);
     func_0202A3BC((void *)trid, tp);
     if (func_0202A3CC(td->cls) == 1) {
@@ -214,7 +216,7 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
             }
             pid = (pid << 8) + gender;
             iv = (u8)(dv * 31 / 255);
-            func_02017588(mon, species, level, 0xFFFFFFFF00000000ULL,
+            POKE_TOOL_SetupPartyParamEx(mon, species, level, 0xFFFFFFFF00000000ULL,
                           (iv & 31) | ((iv & 31) << 5) | ((iv & 31) << 10) | ((iv & 31) << 15) | ((iv & 31) << 20) | ((iv & 31) << 25),
                           pid);
             func_0202A9F4(trid, mon, ((TrMon0 *)tp)[i].form, ((TrMon0 *)tp)[i].abil);
@@ -240,11 +242,11 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
             }
             pid = (pid << 8) + gender;
             iv = (u8)(dv * 31 / 255);
-            func_02017588(mon, species, level, 0xFFFFFFFF00000000ULL,
+            POKE_TOOL_SetupPartyParamEx(mon, species, level, 0xFFFFFFFF00000000ULL,
                           (iv & 31) | ((iv & 31) << 5) | ((iv & 31) << 10) | ((iv & 31) << 15) | ((iv & 31) << 20) | ((iv & 31) << 25),
                           pid);
             for (j = 0; j < 4; j++) {
-                func_020181F4(mon, ((TrMon1 *)tp)[i].moves[j], (u8)j);
+                POKE_TOOL_SetMoveSlot(mon, ((TrMon1 *)tp)[i].moves[j], (u8)j);
             }
             func_0202A9F4(trid, mon, ((TrMon1 *)tp)[i].form, ((TrMon1 *)tp)[i].abil);
             func_0201A98C(party, mon);
@@ -269,10 +271,10 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
             }
             pid = (pid << 8) + gender;
             iv = (u8)(dv * 31 / 255);
-            func_02017588(mon, species, level, 0xFFFFFFFF00000000ULL,
+            POKE_TOOL_SetupPartyParamEx(mon, species, level, 0xFFFFFFFF00000000ULL,
                           (iv & 31) | ((iv & 31) << 5) | ((iv & 31) << 10) | ((iv & 31) << 15) | ((iv & 31) << 20) | ((iv & 31) << 25),
                           pid);
-            func_02017E40(mon, 6, ((TrMon2 *)tp)[i].item);
+            POKE_TOOL_SetPartyValue(mon, 6, ((TrMon2 *)tp)[i].item);
             func_0202A9F4(trid, mon, ((TrMon2 *)tp)[i].form, ((TrMon2 *)tp)[i].abil);
             func_0201A98C(party, mon);
         }
@@ -296,12 +298,12 @@ void func_0202A4B4(u32 trid, void *party, u16 heap)
             }
             pid = (pid << 8) + gender;
             iv = (u8)(dv * 31 / 255);
-            func_02017588(mon, ((TrMon3 *)tp)[i].species, level, 0xFFFFFFFF00000000ULL,
+            POKE_TOOL_SetupPartyParamEx(mon, ((TrMon3 *)tp)[i].species, level, 0xFFFFFFFF00000000ULL,
                           (iv & 31) | ((iv & 31) << 5) | ((iv & 31) << 10) | ((iv & 31) << 15) | ((iv & 31) << 20) | ((iv & 31) << 25),
                           pid);
-            func_02017E40(mon, 6, ((TrMon3 *)tp)[i].item);
+            POKE_TOOL_SetPartyValue(mon, 6, ((TrMon3 *)tp)[i].item);
             for (j = 0; j < 4; j++) {
-                func_020181F4(mon, ((TrMon3 *)tp)[i].moves[j], (u8)j);
+                POKE_TOOL_SetMoveSlot(mon, ((TrMon3 *)tp)[i].moves[j], (u8)j);
             }
             func_0202A9F4(trid, mon, ((TrMon3 *)tp)[i].form, ((TrMon3 *)tp)[i].abil);
             func_0201A98C(party, mon);

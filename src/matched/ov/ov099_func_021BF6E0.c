@@ -17,7 +17,7 @@
  *   func_021BF03C 0x021BF03C thumb ov099
  *   func_0200616C 0x0200616C thumb
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
- *   func_0203D7BC 0x0203D7BC arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_021BF068 0x021BF068 thumb ov099
  *   DWC_RAP_GetCanceledPeerIndex 0x02156BA8 thumb ov009
  *   func_021BA874 0x021BA874 thumb ov099
@@ -46,7 +46,7 @@ extern void func_021B9B54(char *);
 extern int func_021BF03C(char *);
 extern void func_0200616C(void *arg, int i);
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 a0);
 extern int func_021BF068(char *);
 extern int DWC_RAP_GetCanceledPeerIndex(void);
 extern void func_021BA874(char *,int);
@@ -78,7 +78,7 @@ int func_021BF6E0(char *p,int ret)
     if(func_021BF03C(p) && ((struct Obj00901 *)p)->f1F0!=-1){
         func_0200616C((void *)0x806,0);
         GFL_NET_SetAutoExit(1);
-        func_0203D7BC(1);
+        GFL_NET_SetLoginOption(1);
         ((struct Obj00901 *)p)->f1CC=40;
         return ret;
     }

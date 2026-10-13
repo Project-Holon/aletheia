@@ -1,5 +1,5 @@
 /*
- * function: func_021B7994
+ * function: MONOLITH_TOOL_SLOT_SELECT_FreeMsgWindow
  * address:  0x021B7994
  * packet:   pkt_ov071_021B7994
  * region:   ov071
@@ -18,7 +18,7 @@
 
 struct Descriptor;
 typedef unsigned int   u32;
-void func_021B7994(void *p)
+void MONOLITH_TOOL_SLOT_SELECT_FreeMsgWindow(void *p)
 {
     u32 func_020452E8(struct Descriptor *d);
     func_020452E8(((struct Obj20695 *)p)->f0);

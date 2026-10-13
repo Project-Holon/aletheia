@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -31,15 +31,15 @@ typedef struct {
     int slot[8];
 } Work;
 struct Obj;
-extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
+extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 extern void func_0204B92C(struct Obj *,unsigned int);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void func_021E67E0(Work *p, int z, int i) {
     Create c;
     c.x=i*206+8; c.y=160; c.z=4; c.a=1; c.b=0;
     if (!p->slot[i*2]) {
-        p->slot[i*2]=(int)func_0204B294((void *)p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
+        p->slot[i*2]=(int)CLACT_CreateActor((void *)p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
         func_0204B92C((struct Obj *)p->slot[i*2],1);
         func_0204B3DC((struct Obj *)p->slot[i*2],1);
     } else {
@@ -47,10 +47,10 @@ void func_021E67E0(Work *p, int z, int i) {
     }
     if (!p->slot[i*2+1]) {
         c.a=0; c.z=z;
-        p->slot[i*2+1]=(int)func_0204B294((void *)p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
+        p->slot[i*2+1]=(int)CLACT_CreateActor((void *)p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
         func_0204B92C((struct Obj *)p->slot[i*2+1],1);
         func_0204B3DC((struct Obj *)p->slot[i*2+1],1);
     } else {
-        func_0204B878((struct Obj *)p->slot[i*2+1],z);
+        CLACT_SetActorAnimSeq((struct Obj *)p->slot[i*2+1],z);
     }
 }

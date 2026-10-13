@@ -14,7 +14,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020275E4 0x020275E4 thumb
  *   func_02027628 0x02027628 thumb
  *   func_02027624 0x02027624 thumb
@@ -31,7 +31,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020275E4(void);
 extern u32 func_02027628(void);
 extern u32 func_02027624(void);
@@ -53,14 +53,14 @@ void func_021BC574(void)
     func_020498F4(arc,62,3,0,0,0,107);
     func_020498F4(arc,69,5,0,0,0,107);
     func_020498F4(arc,63,7,0,0,0,107);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     arc=func_020490F4(func_020275E4(),107);
     func_02049740(arc,func_02027628(),1,0,0,107);
     func_02049B68(arc,func_02027624(),0,448,32,107);
     func_020498F4(arc,func_0202762C(),1,0,0,0,107);
     func_020413B0(1,0,21,32,3,14);
     func_02041B6C(1);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     func_02049B40(23,5,0,480,32,107);
     func_02049B40(23,5,4,480,32,107);
 }

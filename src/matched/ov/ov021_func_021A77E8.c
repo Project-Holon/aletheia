@@ -1,5 +1,5 @@
 /*
- * function: func_021A77E8
+ * function: FIELD_GROUND_ANIME_TexAnmFree
  * address:  0x021A77E8
  * packet:   pkt_ov021_021A77E8
  * region:   ov021
@@ -28,7 +28,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021A77E8(E *e)
+void FIELD_GROUND_ANIME_TexAnmFree(E *e)
 {
     if (e->f1c != 0) {
         func_020307B0(e->f4);

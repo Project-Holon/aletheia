@@ -1,5 +1,5 @@
 /*
- * function: func_021ACDC4
+ * function: FLDEFF_NAMIPOKE_UpdateGrid
  * address:  0x021ACDC4
  * packet:   pkt_ov021_021ACDC4
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ACCB0  0x021ACCB0  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216D8E0  0x0216D8E0  thumb  ov010
- *   func_0216D8D0  0x0216D8D0  thumb  ov010
- *   func_02197CCC  0x02197CCC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C66EC  0x021C66EC  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021ACC04  0x021ACC04  thumb  ov021
- *   func_021ACBE4  0x021ACBE4  thumb  ov021
+ *   FLDEFF_NAMIPOKE_PlaceObjects  0x021ACCB0  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_SetDrawOffsetOutside  0x0216D8E0  thumb  ov010
+ *   FLDMMDL_GetDrawOffsetOutside  0x0216D8D0  thumb  ov010
+ *   FLDMMDL_ACMD_GetDrawPos  0x02197CCC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_LoopAnimeFrame  0x021C66EC  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDEFF_NAMIPOKE_GetWakeLength  0x021ACC04  thumb  ov021
+ *   FLDEFF_NAMIPOKE_GetWakeScale  0x021ACBE4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -59,23 +59,23 @@ typedef struct B {
     Inner in;
 } B;
 
-extern void func_021ACCB0(u32 a, B *b);
-extern u16 func_0216D5F8(void *p);
-extern u16 func_0216D598(void *p);
-extern void func_0216D8E0(u32 a, V3 *v);
-extern void func_0216D8D0(u8 *p, u8 *q);
-extern void func_02197CCC(u8 *p, s32 *out);
-extern void func_021AC1CC(u32 a, V3 *v);
-extern u32 func_021ABE18(u8 *p);
-extern int func_021C66EC(u32 *a, int idx, int v);
+extern void FLDEFF_NAMIPOKE_PlaceObjects(u32 a, B *b);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern void FLDMMDL_SetDrawOffsetOutside(u32 a, V3 *v);
+extern void FLDMMDL_GetDrawOffsetOutside(u8 *p, u8 *q);
+extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, s32 *out);
+extern void FIELD_EFFECT_SetObjectPos(u32 a, V3 *v);
+extern u32 FIELD_EFFECT_GetFieldMapData(u8 *p);
+extern int FIELD_G3DOBJ_LoopAnimeFrame(u32 *a, int idx, int v);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *v);
 struct E;
-extern int func_021ACC04(struct E *a, struct E *b, u32 mode);
-extern s32 func_021ACBE4(s32 d);
+extern int FLDEFF_NAMIPOKE_GetWakeLength(struct E *a, struct E *b, u32 mode);
+extern s32 FLDEFF_NAMIPOKE_GetWakeScale(s32 d);
 
-void func_021ACDC4(u32 a, B *b)
+void FLDEFF_NAMIPOKE_UpdateGrid(u32 a, B *b)
 {
     V3 v = {0, 0, 0};
     V3 w;
@@ -85,10 +85,10 @@ void func_021ACDC4(u32 a, B *b)
     u16 k;
 
     if (b->f9 == 0) {
-        func_021ACCB0(a, b);
+        FLDEFF_NAMIPOKE_PlaceObjects(a, b);
         return;
     }
-    b->fc = func_0216D5F8((void *)b->f20);
+    b->fc = FLDMMDL_GetDirDisp((void *)b->f20);
     if (b->f9 == 1) {
         b->f10 += b->f14;
         if (b->f10 >= 0x4000) {
@@ -101,20 +101,20 @@ void func_021ACDC4(u32 a, B *b)
         v.x = 0;
         v.y = b->f10 + 0x1000;
         v.z = 0x5000;
-        k = func_0216D598((void *)b->f20);
+        k = FLDMMDL_GetObjCode((void *)b->f20);
         if (k == 0xA0 || k == 0xA1)
             v.y = b->f10 + 0x8000;
-        func_0216D8E0(b->f20, &v);
+        FLDMMDL_SetDrawOffsetOutside(b->f20, &v);
     } else if (b->f9 == 2) {
-        func_0216D8D0((u8 *)b->f20, (u8 *)(&v));
+        FLDMMDL_GetDrawOffsetOutside((u8 *)b->f20, (u8 *)(&v));
     }
-    func_02197CCC((u8 *)b->f20, (s32 *)(&w));
+    FLDMMDL_ACMD_GetDrawPos((u8 *)b->f20, (s32 *)(&w));
     w.x -= v.x;
     w.y -= v.y;
     w.z -= v.z;
     if (b->f9 != 2)
         w.y += b->f10 - 0x1000;
-    func_021AC1CC(a, &w);
+    FIELD_EFFECT_SetObjectPos(a, &w);
     if (b->f9 == 2 || b->fa == 1) {
         in = &b->in;
         in->b = 9;
@@ -122,8 +122,8 @@ void func_021ACDC4(u32 a, B *b)
             in->a = 1;
     } else {
         in = &b->in;
-        func_021C66EC((u32 *)func_021ABE18((u8 *)(*b->f1c)), in->c, 0x1000);
-        func_0216D88C((const struct Actor *)b->f20, (struct VecFx32 *)&u);
+        FIELD_G3DOBJ_LoopAnimeFrame((u32 *)FIELD_EFFECT_GetFieldMapData((u8 *)(*b->f1c)), in->c, 0x1000);
+        FLDMMDL_GetPos((const struct Actor *)b->f20, (struct VecFx32 *)&u);
         if (b->fc != in->b) {
             in->b = b->fc;
             in->p4 = u;
@@ -151,7 +151,7 @@ void func_021ACDC4(u32 a, B *b)
                 break;
             }
         }
-        d = func_021ACC04((struct E *)(&u), (struct E *)(&in->p4), in->b);
+        d = FLDEFF_NAMIPOKE_GetWakeLength((struct E *)(&u), (struct E *)(&in->p4), in->b);
         if (d >= 0x40000) {
             switch (in->b) {
             case 0:
@@ -168,7 +168,7 @@ void func_021ACDC4(u32 a, B *b)
                 break;
             }
         }
-        d = func_021ACBE4(d);
+        d = FLDEFF_NAMIPOKE_GetWakeScale(d);
         if (d < 0x28) {
             in->a = 1;
         } else {
@@ -179,5 +179,5 @@ void func_021ACDC4(u32 a, B *b)
         }
         in->p10 = u;
     }
-    func_021ACCB0(a, b);
+    FLDEFF_NAMIPOKE_PlaceObjects(a, b);
 }

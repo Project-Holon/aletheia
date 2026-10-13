@@ -1,5 +1,5 @@
 /*
- * function: func_0215D504
+ * function: SCRCMD_MUSICAL_GetValue
  * address:  0x0215D504
  * packet:   pkt_ov010_0215D504
  * region:   ov010
@@ -13,29 +13,29 @@
  * argument word and a result slot, and store the answer of the query
  * (save-data counters 0..15, link-result queries 30..39) into the slot.
  *
- * Closed once the tool accepted the sole-ref witnesses of func_021569A4
- * and func_021569EC. Levers: the per-case
+ * Closed once the tool accepted the sole-ref witnesses of MUSICAL_EVENT_GetBestAppealCategory
+ * and MUSICAL_EVENT_GetPortraitClass. Levers: the per-case
  * best/second locals at function scope in declaration order with op
  * declared last (sets the stack slots), max initialised before best,
  * case 10 loops over its own block-local j, case 7 tests == 0 first.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_021568E0  0x021568E0  thumb  ov010
- *   func_02156954  0x02156954  thumb  ov010
- *   func_02156978  0x02156978  thumb  ov010
- *   func_02156934  0x02156934  thumb  ov010
- *   func_021568E8  0x021568E8  thumb  ov010
- *   func_02156908  0x02156908  thumb  ov010
- *   func_0215699C  0x0215699C  thumb  ov010
- *   func_021569A4  0x021569A4  thumb  ov010
- *   func_021569EC  0x021569EC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   MUSICAL_EVENT_GetLocalSlot  0x021568E0  thumb  ov010
+ *   MUSICAL_EVENT_GetMaxScore  0x02156954  thumb  ov010
+ *   MUSICAL_EVENT_GetMinScore  0x02156978  thumb  ov010
+ *   MUSICAL_EVENT_GetScoreCapped  0x02156934  thumb  ov010
+ *   MUSICAL_EVENT_GetPlayerOfSlot  0x021568E8  thumb  ov010
+ *   MUSICAL_EVENT_GetProgramBestCategory  0x02156908  thumb  ov010
+ *   MUSICAL_EVENT_GetSlotOfRank  0x0215699C  thumb  ov010
+ *   MUSICAL_EVENT_GetBestAppealCategory  0x021569A4  thumb  ov010
+ *   MUSICAL_EVENT_GetPortraitClass  0x021569EC  thumb  ov010
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0200A628  0x0200A628  thumb
@@ -71,26 +71,26 @@ typedef struct Flags {
     u32 pad1 : 11;
 } Flags;
 
-extern void *func_0215A5F4(void *vm);
-extern unsigned int func_02159B10(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetScriptWork(void *vm);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 struct Big;
 struct BigObj;
 struct Work;
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_0215A5E4(void *vm);
-extern u8 func_021568E0(struct Work *w);
-extern u16 func_02156954(struct Work *w);
-extern u16 func_02156978(struct Work *w);
-extern u8 func_02156934(struct Work *w, u8 idx);
-extern int func_021568E8(int a0, u8 a1);
-extern u8 func_02156908(struct Work *w);
-extern u8 func_0215699C(struct Work *w, u8 i);
-extern u8 func_021569A4(struct Work *w, u8 idx);
-extern u8 func_021569EC(struct Work *w, u8 j);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *vm);
+extern u8 MUSICAL_EVENT_GetLocalSlot(struct Work *w);
+extern u16 MUSICAL_EVENT_GetMaxScore(struct Work *w);
+extern u16 MUSICAL_EVENT_GetMinScore(struct Work *w);
+extern u8 MUSICAL_EVENT_GetScoreCapped(struct Work *w, u8 idx);
+extern int MUSICAL_EVENT_GetPlayerOfSlot(int a0, u8 a1);
+extern u8 MUSICAL_EVENT_GetProgramBestCategory(struct Work *w);
+extern u8 MUSICAL_EVENT_GetSlotOfRank(struct Work *w, u8 i);
+extern u8 MUSICAL_EVENT_GetBestAppealCategory(struct Work *w, u8 idx);
+extern u8 MUSICAL_EVENT_GetPortraitClass(struct Work *w, u8 j);
 extern void *GAME_DATA_GetSaveBlock2A(void *h);
 struct Big;
 extern int GAME_DATA_GetExternalWork(char *base);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA18(void *list);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u8 *func_0200A628(struct Big *p);
@@ -105,7 +105,7 @@ extern void func_0200A7D4(struct Big *p, u8 value);
 extern u8 func_0200A7E0(struct Big *p);
 extern int func_021F6744(void *p);
 
-int func_0215D504(Ctx *c, void *vm)
+int SCRCMD_MUSICAL_GetValue(Ctx *c, void *vm)
 {
     u32 arg;
     u16 *dst;
@@ -123,12 +123,12 @@ int func_0215D504(Ctx *c, void *vm)
     void *list;
     u8 op;
 
-    func_0215A5F4(vm);
+    SCRCMD_WORK_GetScriptWork(vm);
     op = *c->pc;
     c->pc++;
-    arg = func_02159B10(c, vm);
-    dst = func_02159AE8(c, vm);
-    h = func_0215A5E4(vm);
+    arg = SCRIPT_WORK_ReadWorkValue(c, vm);
+    dst = SCRIPT_WORK_ReadWorkPointer(c, vm);
+    h = SCRCMD_WORK_GetGameData(vm);
     sv = GAME_DATA_GetSaveBlock2A(h);
     w = 0;
     if (op >= 30) {
@@ -245,7 +245,7 @@ int func_0215D504(Ctx *c, void *vm)
         u8 count = 0;
         u8 n;
 
-        list = func_02012934(h);
+        list = GAME_DATA_GetMyParty(h);
         n = func_0201AA18(list);
 
         for (i = 0; i < n; i++) {
@@ -256,7 +256,7 @@ int func_0215D504(Ctx *c, void *vm)
         break;
     }
     case 12:
-        if ((u32)func_021F6744(func_0201AB28(func_02012934(h), (int)arg)) == 1)
+        if ((u32)func_021F6744(func_0201AB28(GAME_DATA_GetMyParty(h), (int)arg)) == 1)
             *dst = 1;
         else
             *dst = 0;
@@ -284,31 +284,31 @@ int func_0215D504(Ctx *c, void *vm)
             *dst = 0;
         break;
     case 30:
-        *dst = func_021568E0(w);
+        *dst = MUSICAL_EVENT_GetLocalSlot(w);
         break;
     case 31:
-        *dst = func_02156954(w);
+        *dst = MUSICAL_EVENT_GetMaxScore(w);
         break;
     case 32:
-        *dst = func_02156978(w);
+        *dst = MUSICAL_EVENT_GetMinScore(w);
         break;
     case 33:
-        *dst = func_02156934(w, arg);
+        *dst = MUSICAL_EVENT_GetScoreCapped(w, arg);
         break;
     case 35:
-        *dst = func_021568E8((int)w, arg);
+        *dst = MUSICAL_EVENT_GetPlayerOfSlot((int)w, arg);
         break;
     case 36:
-        *dst = func_02156908(w);
+        *dst = MUSICAL_EVENT_GetProgramBestCategory(w);
         break;
     case 37:
-        *dst = func_0215699C(w, arg);
+        *dst = MUSICAL_EVENT_GetSlotOfRank(w, arg);
         break;
     case 38:
-        *dst = func_021569A4(w, arg);
+        *dst = MUSICAL_EVENT_GetBestAppealCategory(w, arg);
         break;
     case 39:
-        *dst = func_021569EC(w, arg);
+        *dst = MUSICAL_EVENT_GetPortraitClass(w, arg);
         break;
     }
     return 0;

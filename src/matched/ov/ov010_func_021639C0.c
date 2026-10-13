@@ -1,5 +1,5 @@
 /*
- * function: func_021639C0
+ * function: FLDMMDL_MOVE_HitCheckMoveDir
  * address:  0x021639C0
  * packet:   pkt_ov010_021639C0
  * region:   ov010
@@ -10,30 +10,30 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_02163994  0x02163994  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb  ov010
  */
 
 typedef short s16;
 
-extern int func_0216D83C(void *p);
-extern int func_021641E8(int a);
-extern int func_0216D854(void *p);
-extern int func_0216D86C(void *p);
-extern int func_021641F8(int a);
-extern void func_02163994();
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_MOVE_GetDirAddGridX(int a);
+extern int FLDMMDL_GetGridNowY(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern int FLDMMDL_MOVE_GetDirAddGridZ(int a);
+extern void FLDMMDL_MOVE_HitCheckMoveCurrent();
 
-void func_021639C0(int a, int b)
+void FLDMMDL_MOVE_HitCheckMoveDir(int a, int b)
 {
     s16 x, z;
     int y;
 
-    x = func_0216D83C((void *)a) + func_021641E8(b);
-    y = func_0216D854((void *)a);
-    z = func_0216D86C((void *)a) + func_021641F8(b);
-    func_02163994(a, x, y, z, b);
+    x = FLDMMDL_GetGridNowX((void *)a) + FLDMMDL_MOVE_GetDirAddGridX(b);
+    y = FLDMMDL_GetGridNowY((void *)a);
+    z = FLDMMDL_GetGridNowZ((void *)a) + FLDMMDL_MOVE_GetDirAddGridZ(b);
+    FLDMMDL_MOVE_HitCheckMoveCurrent(a, x, y, z, b);
 }

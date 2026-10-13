@@ -1,5 +1,5 @@
 /*
- * function: func_02161950
+ * function: EVENT_FIELD_PROCLINK_ClearAnimNode
  * address: 0x02161950
  * packet: pkt_ov010_02161950
  * region: ov010
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_02161950(char *p)
+void EVENT_FIELD_PROCLINK_ClearAnimNode(char *p)
 {
     int i = 0;
     int zero = i;

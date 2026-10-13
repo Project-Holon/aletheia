@@ -15,9 +15,9 @@
  * symbols:
  *   func_06898080  0x06898080  thumb
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
- *   func_021EF83C 0x021EF83C thumb ov093
- *   func_021E8A98 0x021E8A98 thumb ov093
- *   func_021E8AC8 0x021E8AC8 thumb ov093
+ *   BTL_FIELD_ResetSlot 0x021EF83C thumb ov093
+ *   BTLV_CORE_GetSlotPosition 0x021E8A98 thumb ov093
+ *   BTLV_CORE_SetSlotPosition 0x021E8AC8 thumb ov093
  */
 union Slot;
 typedef unsigned char u8;
@@ -40,9 +40,9 @@ typedef struct {
 
 void *func_021EFCE4(char *arg0, int arg1);
 extern void func_06898080(u32);
-extern void func_021EF83C(char *, u32);
-extern u32 func_021E8A98(Slot);
-extern void func_021E8AC8(union Slot *p, u8 v);
+extern void BTL_FIELD_ResetSlot(char *, u32);
+extern u32 BTLV_CORE_GetSlotPosition(Slot);
+extern void BTLV_CORE_SetSlotPosition(union Slot *p, u8 v);
 int func_021EFAD8(char *a, u32 b, u32 c);
 void func_021EFB34(S *a, u32 v);
 
@@ -93,9 +93,9 @@ void func_021EFB34(S *a, u32 v)
                 a->z128[i] = a->z128[i] - 1;
                 if (a->z128[i] == 0) {
                     if (a->t[i]) { func_06898080(a->t[i]); a->t[i] = 0; }
-                    func_021EF83C((char *)a, i);
+                    BTL_FIELD_ResetSlot((char *)a, i);
                 } else {
-                    if (v == func_021E8A98(a->c[i])) func_021E8AC8((union Slot *)(&a->c[i]), a->w[i][0]);
+                    if (v == BTLV_CORE_GetSlotPosition(a->c[i])) BTLV_CORE_SetSlotPosition((union Slot *)(&a->c[i]), a->w[i][0]);
                 }
             }
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A7418
+ * function: FIELD_GROUND_ANIME_UnbindAnm
  * address:  0x021A7418
  * packet:   pkt_021A7418
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021A75B0 with no argument change.
+ * Tail-call thunk: forwards to FIELD_GROUND_ANIME_AnmEntryUnbind with no argument change.
  *
  * symbols:
- *   func_021A75B0  0x021A75B0  thumb  ov021
+ *   FIELD_GROUND_ANIME_AnmEntryUnbind  0x021A75B0  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A75B0(u32 *p);
+extern void FIELD_GROUND_ANIME_AnmEntryUnbind(u32 *p);
 
-void func_021A7418(void *p)
+void FIELD_GROUND_ANIME_UnbindAnm(void *p)
 {
-    func_021A75B0(p);
+    FIELD_GROUND_ANIME_AnmEntryUnbind(p);
 }

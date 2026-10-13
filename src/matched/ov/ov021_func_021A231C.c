@@ -1,5 +1,5 @@
 /*
- * function: func_021A231C
+ * function: WEATHER_TASK_DisableFog
  * address:  0x021A231C
  * packet:   pkt_ov021_021A231C
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A01A4  0x021A01A4  thumb  ov021
+ *   FIELD_FOG_SetFlag  0x021A01A4  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-int func_021A01A4(u32 a, u32 b);
+int FIELD_FOG_SetFlag(u32 a, u32 b);
 
-void func_021A231C(u32 *p, int x)
+void WEATHER_TASK_DisableFog(u32 *p, int x)
 {
     if (x == 1)
-        func_021A01A4(p[1], 0);
+        FIELD_FOG_SetFlag(p[1], 0);
 }

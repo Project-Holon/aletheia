@@ -1,5 +1,5 @@
 /*
- * function: func_021B85EC
+ * function: BTL_MAIN_CheckEventOverlayAllowed
  * address:  0x021B85EC
  * packet:   pkt_ov093_021B85EC
  * region:   ov093
@@ -27,7 +27,7 @@ extern void func_02034A5C(int id);
 extern int func_021809D8(void);
 extern int func_021BA1A8(char **p, int m);
 
-int func_021B85EC(u32 **p)
+int BTL_MAIN_CheckEventOverlayAllowed(u32 **p)
 {
     int r;
     if (**p <= 1) {

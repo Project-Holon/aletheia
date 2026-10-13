@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2B0
+ * function: SAVE_CONTROL_INTR_Start
  * address:  0x021BD2B0
  * packet:   pkt_ov088_021BD2B0
  * region:   ov088
@@ -39,7 +39,7 @@ u8 func_02007218(const struct Sub020071E4Ctrl *ctrl);
 void func_02007214(struct Sub020071E4Ctrl *ctrl, u8 v);
 void func_0200721C(struct Sub020071E4Ctrl *ctrl, u8 v);
 
-void func_021BD2B0(St *p)
+void SAVE_CONTROL_INTR_Start(St *p)
 {
     if (p->s7 != 1) {
         SAVE_CONTROL_StartSave((int)p->h);

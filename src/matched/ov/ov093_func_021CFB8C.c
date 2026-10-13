@@ -10,11 +10,11 @@
  * status: EXACT*
  * extent: follower 0x021CFBA4 already has its own matched source/shard.
  * symbols:
- *   func_021D5814 0x021D5814 thumb ov093
+ *   BTL_POKEPARAM_HasType 0x021D5814 thumb ov093
  */
-extern int func_021D5814(void *, int);
+extern int BTL_POKEPARAM_HasType(void *, int);
 int func_021CFB8C(void *p, void *q)
 {
-    if (func_021D5814(q, 8)) return 1;
+    if (BTL_POKEPARAM_HasType(q, 8)) return 1;
     return 0;
 }

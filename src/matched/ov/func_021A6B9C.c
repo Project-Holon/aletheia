@@ -1,5 +1,5 @@
 /*
- * function: func_021A6B9C
+ * function: FIELD_PLAYER_NOGRID_EnableInputHold
  * address:  0x021A6B9C
  * packet:   pkt_021A6B9C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_021A6B9C(u8 *a)
+void FIELD_PLAYER_NOGRID_EnableInputHold(u8 *a)
 {
     *a = (1 | (*a & ~1));
 }

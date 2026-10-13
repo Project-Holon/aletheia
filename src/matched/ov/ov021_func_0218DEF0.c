@@ -1,5 +1,5 @@
 /*
- * function: func_0218DEF0
+ * function: FIELD_G3D_MAPPER_StampFrame
  * address:  0x0218DEF0
  * packet:   pkt_0218DEF0
  * region:   ov021
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-void func_0218DEF0(char *p)
+void FIELD_G3D_MAPPER_StampFrame(char *p)
 {
     ((struct Obj19554 *)p)->f50 = *(u32 *)0x02FFFC3C;
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data   a4
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0217731C  0x0217731C  thumb  ov014
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_02082D44  0x02082D44  arm
@@ -35,7 +35,7 @@ typedef struct W {
 } W;
 
 extern W *g_pWhPipeWork;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern int func_0217731C(u8 *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -47,7 +47,7 @@ int func_021773E0(u8 *p)
     int i;
     W *base = g_pWhPipeWork;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (func_0217731C(p) == 0)
         return 0;
     for (i = 0; i < 16; i++) {

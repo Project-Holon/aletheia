@@ -1,5 +1,5 @@
 /*
- * function: func_0219F8F4
+ * function: FLDMMDL_DRAW_DrawWalking
  * address:  0x0219F8F4
  * packet:   pkt_ov021_0219F8F4
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
- *   func_0216D910  0x0216D910  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D8B0  0x0216D8B0  thumb  ov010
- *   func_0219C9DC  0x0219C9DC  thumb  ov021
- *   func_0219F990  0x0219F990  thumb  ov021
- *   func_0219FFBC  0x0219FFBC  thumb  ov021
- *   func_02197CCC  0x02197CCC  thumb  ov021
- *   func_021A000C  0x021A000C  thumb  ov021
- *   func_0205082C  0x0205082C  arm
- *   func_02050080  0x02050080  arm
- *   func_0204F638  0x0204F638  arm
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_GetBlActCont  0x0216D910  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetDrawOffset  0x0216D8B0  thumb  ov010
+ *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
+ *   FLDMMDL_DRAW_UpdateWalkOffset  0x0219F990  thumb  ov021
+ *   FLDMMDL_DRAW_AddHeightOffset  0x0219FFBC  thumb  ov021
+ *   FLDMMDL_ACMD_GetDrawPos  0x02197CCC  thumb  ov021
+ *   FLDMMDL_DRAW_UpdateBlactFlags  0x021A000C  thumb  ov021
+ *   BILLBOARD_ACT_SetEntryList  0x0205082C  arm
+ *   BILLBOARD_ACT_GetBoard  0x02050080  arm
+ *   BILLBOARD_SetElemPos  0x0204F638  arm
  * Addresses are Black-image addresses.
  */
 
@@ -42,21 +42,21 @@ typedef struct {
 } St;
 
 typedef signed int     s32;
-extern void *func_0216D6F0(void *p);
-extern int func_0216D910(int a0);
+extern void *FLDMMDL_GetDrawProcWork(void *p);
+extern int FLDMMDL_GetBlActCont(int a0);
 struct Trip;
-extern u16 func_0216D5F8(void *p);
-extern void func_0216D8B0(u8 *p, u8 *q);
-extern u32 func_0219C9DC(u8 *p);
-extern void func_0219F990(u32 a, u8 *p, u8 b);
-extern void func_0219FFBC(u32, u32 *);
-extern void func_02197CCC(u8 *p, s32 *out);
-extern void func_021A000C(u32, u32, u32, u32, u32);
-extern void func_0205082C(void *p, int idx, u32 h);
-extern u32 func_02050080(u32 *p);
-extern void func_0204F638(u8 *a0, int i, struct Trip *src);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void FLDMMDL_GetDrawOffset(u8 *p, u8 *q);
+extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *p);
+extern void FLDMMDL_DRAW_UpdateWalkOffset(u32 a, u8 *p, u8 b);
+extern void FLDMMDL_DRAW_AddHeightOffset(u32, u32 *);
+extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, s32 *out);
+extern void FLDMMDL_DRAW_UpdateBlactFlags(u32, u32, u32, u32, u32);
+extern void BILLBOARD_ACT_SetEntryList(void *p, int idx, u32 h);
+extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
+extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 
-void func_0219F8F4(u32 a)
+void FLDMMDL_DRAW_DrawWalking(u32 a)
 {
     St *p;
     u8 flag;
@@ -65,29 +65,29 @@ void func_0219F8F4(u32 a)
     u32 buf[3];
     u32 v[3];
 
-    p = func_0216D6F0((void *)a);
+    p = FLDMMDL_GetDrawProcWork((void *)a);
     if (p->id != 0xFFFF) {
         flag = 0;
-        h = func_0219C9DC((u8 *)func_0216D910(a));
-        n = func_0216D5F8((void *)a);
+        h = FLDMMDL_BLACT_GetBbActSys((u8 *)FLDMMDL_GetBlActCont(a));
+        n = FLDMMDL_GetDirDisp((void *)a);
         if (n != p->f2) {
             flag = 1;
             p->f2 = n;
             p->f3 = 0;
             p->f8 = 0;
-            func_0205082C((void *)h, p->id, p->f2);
+            BILLBOARD_ACT_SetEntryList((void *)h, p->id, p->f2);
             {
                 V3 *pv = (V3 *)v;
                 pv->x = 0;
                 pv->y = 0;
                 pv->z = 0;
-                func_0216D8B0((u8 *)a, (u8 *)pv);
+                FLDMMDL_GetDrawOffset((u8 *)a, (u8 *)pv);
             }
         }
-        func_0219F990(a, (u8 *)p, n);
-        func_02197CCC((u8 *)a, (s32 *)buf);
-        func_0219FFBC(a, buf);
-        func_0204F638((u8 *)func_02050080((u32 *)h), p->id, (struct Trip *)buf);
-        func_021A000C(a, h, p->id, flag, 0);
+        FLDMMDL_DRAW_UpdateWalkOffset(a, (u8 *)p, n);
+        FLDMMDL_ACMD_GetDrawPos((u8 *)a, (s32 *)buf);
+        FLDMMDL_DRAW_AddHeightOffset(a, buf);
+        BILLBOARD_SetElemPos((u8 *)BILLBOARD_ACT_GetBoard((u32 *)h), p->id, (struct Trip *)buf);
+        FLDMMDL_DRAW_UpdateBlactFlags(a, h, p->id, flag, 0);
     }
 }

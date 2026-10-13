@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B61FC",
+   "name": "PLIST_COMM_IsSyncDoneOrFinished",
    "address": "0x021B61FC",
    "kind": "game",
    "region": "ov090",

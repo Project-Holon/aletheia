@@ -1,5 +1,5 @@
 /*
- * function: func_021DB7DC
+ * function: BTL_TOKUSEI_GetKlutzHandlers
  * address: 0x021DB7DC
  * packet: pkt_ov093_021DB7DC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DB650.c and filed here.
  *
  * symbols:
- *   d_021F0D9C 0x021F0D9C data ov093 a4
+ *   gKlutzHandlers 0x021F0D9C data ov093 a4
  */
 
-int *func_021DB7DC(int *p);
-extern int d_021F0D9C[];
+int *BTL_TOKUSEI_GetKlutzHandlers(int *p);
+extern int gKlutzHandlers[];
 
-int *func_021DB7DC(int *p)
+int *BTL_TOKUSEI_GetKlutzHandlers(int *p)
 {
     *p = 7;
-    return d_021F0D9C;
+    return gKlutzHandlers;
 }

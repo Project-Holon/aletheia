@@ -1,5 +1,5 @@
 /*
- * function: func_021F0728
+ * function: C_GEAR_UpdateTabPalettes
  * address:  0x021F0728
  * packet:   pkt_ov029_021F0728
  * region:   ov029
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0728  0x021F0728  thumb  ov029
- *   func_021F07AC  0x021F07AC  thumb  ov029
- *   func_021F07EC  0x021F07EC  thumb  ov029
- *   func_021F0824  0x021F0824  thumb  ov029
- *   func_021F0858  0x021F0858  thumb  ov029
- *   func_021F088C  0x021F088C  thumb  ov029
+ *   C_GEAR_UpdateTabPalettes  0x021F0728  thumb  ov029
+ *   C_GEAR_UpdateTabPaletteKind3  0x021F07AC  thumb  ov029
+ *   C_GEAR_UpdateTabPaletteKind1  0x021F07EC  thumb  ov029
+ *   C_GEAR_UpdateTabPaletteKind2  0x021F0824  thumb  ov029
+ *   C_GEAR_UpdateTabPaletteKind0  0x021F0858  thumb  ov029
+ *   C_GEAR_UpdateTabPaletteKind4  0x021F088C  thumb  ov029
  */
 
 typedef unsigned char u8;
@@ -25,13 +25,13 @@ struct E {
 };
 
 typedef unsigned short u16;
-extern void func_021F07AC(u8 *p, int i, u16 *e);
-extern void func_021F07EC(void *p, int i, unsigned short *q);
-extern void func_021F0824(void *p, int i, unsigned short *q);
-extern void func_021F0858(void *p, int i, unsigned short *q);
-extern void func_021F088C(void *p, int i, unsigned short *q);
+extern void C_GEAR_UpdateTabPaletteKind3(u8 *p, int i, u16 *e);
+extern void C_GEAR_UpdateTabPaletteKind1(void *p, int i, unsigned short *q);
+extern void C_GEAR_UpdateTabPaletteKind2(void *p, int i, unsigned short *q);
+extern void C_GEAR_UpdateTabPaletteKind0(void *p, int i, unsigned short *q);
+extern void C_GEAR_UpdateTabPaletteKind4(void *p, int i, unsigned short *q);
 
-void func_021F0728(u8 *p)
+void C_GEAR_UpdateTabPalettes(u8 *p)
 {
     struct E *q = (struct E *)(p + 0x418);
     int i;
@@ -41,19 +41,19 @@ void func_021F0728(u8 *p)
 
         switch (c) {
         case 3:
-            func_021F07AC(p, i, (u16 *)(&q[c]));
+            C_GEAR_UpdateTabPaletteKind3(p, i, (u16 *)(&q[c]));
             break;
         case 1:
-            func_021F07EC(p, i, (short unsigned int *)(&q[c]));
+            C_GEAR_UpdateTabPaletteKind1(p, i, (short unsigned int *)(&q[c]));
             break;
         case 2:
-            func_021F0824(p, i, (short unsigned int *)(&q[c]));
+            C_GEAR_UpdateTabPaletteKind2(p, i, (short unsigned int *)(&q[c]));
             break;
         case 0:
-            func_021F0858(p, i, (short unsigned int *)(&q[c]));
+            C_GEAR_UpdateTabPaletteKind0(p, i, (short unsigned int *)(&q[c]));
             break;
         case 4:
-            func_021F088C(p, i, (short unsigned int *)(&q[c]));
+            C_GEAR_UpdateTabPaletteKind4(p, i, (short unsigned int *)(&q[c]));
             break;
         }
     }

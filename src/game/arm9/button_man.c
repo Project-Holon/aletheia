@@ -1,7 +1,7 @@
 /*
  * file:     button_man.c
  * unit:     yes
- * function: func_02051788, BUTTON_MAN_GetPos, BUTTON_MAN_SetPos, BUTTON_MAN_GetRot, BUTTON_MAN_GetScaleX, BUTTON_MAN_SetScaleX, BUTTON_MAN_GetScaleY, BUTTON_MAN_SetScaleY, BUTTON_MAN_GetOffsetX, BUTTON_MAN_SetOffsetX, BUTTON_MAN_GetOffsetY, BUTTON_MAN_SetOffsetY, BUTTON_MAN_GetAngle, BUTTON_MAN_GetAlpha, BUTTON_MAN_SetEmitterPos, BUTTON_MAN_SetRot, BUTTON_MAN_SetAngle, BUTTON_MAN_SetAlpha, BUTTON_MAN_FindRowData, BUTTON_MAN_SetRow2, BUTTON_MAN_SetRow3Half, BUTTON_MAN_SetRow5, BUTTON_MAN_SetCallback, BUTTON_MAN_SetUserData, BUTTON_MAN_GetUserData, BUTTON_MAN_Func1A3C, BUTTON_MAN_AppendList0, BUTTON_MAN_Func1AA0, BUTTON_MAN_AppendList1, func_02051B04, BUTTON_MAN_CallHandlerById, func_02051B84, BUTTON_MAN_ClearSlot, func_02051C6C, func_02051C88, BUTTON_MAN_SlotHandlerIdle, BUTTON_MAN_SlotHandlerPressed, BUTTON_MAN_SlotSetKind, func_02051E74, BUTTON_MAN_InitSphere, BUTTON_MAN_SegmentSphereTest, BUTTON_MAN_InitSegment, func_020520A4, func_020520FC, func_020521BC, BUTTON_MAN_ConvertUcs2ToSjis, BUTTON_MAN_Ucs2CharToSjis
+ * function: BUTTON_MAN_GetBlock, BUTTON_MAN_GetPos, BUTTON_MAN_SetPos, BUTTON_MAN_GetRot, BUTTON_MAN_GetScaleX, BUTTON_MAN_SetScaleX, BUTTON_MAN_GetScaleY, BUTTON_MAN_SetScaleY, BUTTON_MAN_GetOffsetX, BUTTON_MAN_SetOffsetX, BUTTON_MAN_GetOffsetY, BUTTON_MAN_SetOffsetY, BUTTON_MAN_GetAngle, BUTTON_MAN_GetAlpha, BUTTON_MAN_SetEmitterPos, BUTTON_MAN_SetRot, BUTTON_MAN_SetAngle, BUTTON_MAN_SetAlpha, BUTTON_MAN_FindRowData, BUTTON_MAN_SetRow2, BUTTON_MAN_SetRow3Half, BUTTON_MAN_SetRow5, BUTTON_MAN_SetCallback, BUTTON_MAN_SetUserData, BUTTON_MAN_GetUserData, BUTTON_MAN_Func1A3C, BUTTON_MAN_AppendList0, BUTTON_MAN_Func1AA0, BUTTON_MAN_AppendList1, BUTTON_MAN_GetResourceType, BUTTON_MAN_CallHandlerById, BUTTON_MAN_Create, BUTTON_MAN_ClearSlot, BUTTON_MAN_Delete, BUTTON_MAN_UpdateSlots, BUTTON_MAN_SlotHandlerIdle, BUTTON_MAN_SlotHandlerPressed, BUTTON_MAN_SlotSetKind, BUTTON_MAN_RotScaleMtx22, BUTTON_MAN_InitSphere, BUTTON_MAN_SegmentSphereTest, BUTTON_MAN_InitSegment, BUTTON_MAN_ScaleVec, BUTTON_MAN_MakeRotMtxXYZ, BUTTON_MAN_MakeLookAtMtx, BUTTON_MAN_ConvertUcs2ToSjis, BUTTON_MAN_Ucs2CharToSjis
  * address:  0x02051788
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * Own object: the button_man.c __FILE__ string (layout/file_anchors.txt, pool
- * of func_02051B84).  Builds EXACT with 1.1p1 and dsi/1.2, DIFF with
+ * of BUTTON_MAN_Create).  Builds EXACT with 1.1p1 and dsi/1.2, DIFF with
  * ../1.2/sp2 (the compiler of unit_020524C8.c next to it) and with
  * -proc arm7tdmi (the flags of unit_0205841C.c).
  *
@@ -39,10 +39,10 @@
  *   func_020307B0   0x020307B0  arm
  *   g_020A7FCC      0x020A7FCC  data
  *   g_020A15E8    0x020A15E8  data
- *   func_02035C38 0x02035C38  arm
+ *   TOUCHPANEL_GetCont 0x02035C38  arm
  *   TOUCHPANEL_HitCont 0x02035BA4  arm
- *   func_02035C08 0x02035C08  arm
- *   func_02035C60 0x02035C60  arm
+ *   TOUCHPANEL_HitTrg 0x02035C08  arm
+ *   TOUCHPANEL_GetTrg 0x02035C60  arm
  *   MTX_Rot22_       0x0207AD64  thumb
  *   MTX_ScaleApply22 0x0207AD70  arm
  *   FX_Inv    0x0207C778  arm
@@ -58,7 +58,7 @@
  *   MTX_RotZ33_      0x0207AF38  thumb
  *   MTX_Concat33     0x0207B388  arm
  *   FX_Atan2Idx    0x0207CFB8  arm
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -189,10 +189,10 @@ extern void *func_0207E2F0(void);
 extern void *func_0207E388(void);
 extern void *func_02030734(u16 id, u32 size, u32 flags, void *file, u32 line);
 extern u32 func_020307B0(void *p);
-extern s32 func_02035C38(void);
+extern s32 TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_HitCont(const void *p);
-extern int func_02035C08(const void *p);
-extern s32 func_02035C60(void);
+extern int TOUCHPANEL_HitTrg(const void *p);
+extern s32 TOUCHPANEL_GetTrg(void);
 extern void MTX_Rot22_(Mtx22 *mtx, s32 sinVal, s32 cosVal);
 extern void MTX_ScaleApply22(const Mtx22 *src, Mtx22 *dst, s32 x, s32 y);
 extern long FX_Inv(long v);
@@ -207,7 +207,7 @@ extern void MTX_RotY33_(Mtx33 *m, s16 sinv, s16 cosv);
 extern void MTX_RotZ33_(Mtx33 *m, s16 sinv, s16 cosv);
 extern void MTX_Concat33(const Mtx33 *a, const Mtx33 *b, Mtx33 *dst);
 extern int  FX_Atan2Idx(int y, int x);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 
 extern struct SysCtx *g_pParticleMan;
 extern char g_020A7FCC[];
@@ -216,7 +216,7 @@ extern u32 (*g_020A8140)(u32 a, u32 b, u32 c);
 extern u32 (*g_020A8148)(u32 a, u32 b, u32 c);
 extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
 
-int func_02051788(struct Obj3D *p);
+int BUTTON_MAN_GetBlock(struct Obj3D *p);
 void BUTTON_MAN_GetPos(struct Obj3D *p, Vec3 *out);
 void BUTTON_MAN_SetPos(struct Obj3D *p, const Vec3 *v);
 void BUTTON_MAN_GetRot(struct Obj3D *p, Vec3U16 *out);
@@ -245,29 +245,29 @@ unsigned int BUTTON_MAN_Func1A3C(int a0, int a1, int a2, int a3);
 u32 BUTTON_MAN_AppendList0(u32 a, u32 b);
 int BUTTON_MAN_Func1AA0(int a, int b);
 u32 BUTTON_MAN_AppendList1(u32 a, u32 b);
-u16 func_02051B04(void *res);
+u16 BUTTON_MAN_GetResourceType(void *res);
 int BUTTON_MAN_CallHandlerById(int i);
-struct ButtonMan *func_02051B84(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap);
+struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap);
 void BUTTON_MAN_ClearSlot(struct Slot *slot);
-void func_02051C6C(struct ButtonMan *bm);
-s32 func_02051C88(struct ButtonMan *c);
+void BUTTON_MAN_Delete(struct ButtonMan *bm);
+s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
 int BUTTON_MAN_SlotHandlerIdle(struct Slot *p, int a, int b);
 int BUTTON_MAN_SlotHandlerPressed(struct Slot *p, u32 x);
 void BUTTON_MAN_SlotSetKind(struct Slot *p, int a);
-void func_02051E74(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode);
+void BUTTON_MAN_RotScaleMtx22(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode);
 void BUTTON_MAN_InitSphere(Sphere *dst, Vec3 *src, unsigned radius);
 u32 BUTTON_MAN_SegmentSphereTest(Seg *seg, Sphere *b, HitInfo *out);
 void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v);
-void func_020520A4(const Vec3 *v, int s, Vec3 *dst);
-void func_020520FC(int ax, int ay, int az, Mtx33 *dst);
-void func_020521BC(const Vec3 *v, Mtx33 *dst);
+void BUTTON_MAN_ScaleVec(const Vec3 *v, int s, Vec3 *dst);
+void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst);
+void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst);
 void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n);
 int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop);
 
 /*
  * Returns the word at offset 0x20. Filed as the witness for ov094 func_021FA458.
  */
-int func_02051788(struct Obj3D *p)
+int BUTTON_MAN_GetBlock(struct Obj3D *p)
 {
     return (int)p->blk;
 }
@@ -647,7 +647,7 @@ u32 BUTTON_MAN_AppendList1(u32 a, u32 b)
  *
  * Addresses are Black-image addresses.
  */
-u16 func_02051B04(void *res)
+u16 BUTTON_MAN_GetResourceType(void *res)
 {
     return ((u16 *)res)[4];
 }
@@ -683,7 +683,7 @@ int BUTTON_MAN_CallHandlerById(int i)
     return 0;
 }
 
-struct ButtonMan *func_02051B84(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap)
+struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap)
 {
     struct ButtonMan *r;
     int i = 0;
@@ -723,10 +723,10 @@ void BUTTON_MAN_ClearSlot(struct Slot *slot)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02051C6C.c \
- *       --func func_02051C6C --addr 0x02051C6C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_Delete.c \
+ *       --func BUTTON_MAN_Delete --addr 0x02051C6C --cc 1.1p1 --arm
  */
-void func_02051C6C(struct ButtonMan *bm)
+void BUTTON_MAN_Delete(struct ButtonMan *bm)
 {
     func_020307B0(bm->slots);
     func_020307B0(bm);
@@ -747,7 +747,7 @@ void func_02051C6C(struct ButtonMan *bm)
  * `long i, j` in 0x02048744).  The unsigned compare against the s32 slot
  * indices is kept, which is what holds the fourth 1 in fp.
  */
-s32 func_02051C88(struct ButtonMan *c)
+s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c)
 {
     s32 a;
     s32 b;
@@ -756,11 +756,11 @@ s32 func_02051C88(struct ButtonMan *c)
     unsigned long i;
 
     a = 0;
-    h = func_02035C38();
+    h = TOUCHPANEL_GetCont();
     if (h != 0) {
         a = TOUCHPANEL_HitCont(c->rects);
-        b = func_02035C08(c->rects);
-        sel = func_02035C60();
+        b = TOUCHPANEL_HitTrg(c->rects);
+        sel = TOUCHPANEL_GetTrg();
 
         for (i = 0; i < c->n; i++) {
             if (c->slots[i].state != 0) {
@@ -854,7 +854,7 @@ void BUTTON_MAN_SlotSetKind(struct Slot *p, int a)
  * register residue) and the table as the extern data symbol; the old
  * "label wall" on MTX_Rot22_/MTX_ScaleApply22 is now carried by the sdk class.
  */
-void func_02051E74(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode)
+void BUTTON_MAN_RotScaleMtx22(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode)
 {
     if (mode == 1)
         ang = (u16)((ang * 0xFFFF) >> 8);
@@ -900,7 +900,7 @@ u32 BUTTON_MAN_SegmentSphereTest(Seg *seg, Sphere *b, HitInfo *out)
 
     t = FX_Div(VEC_DotProduct(&sd, &bc), VEC_DotProduct(&sd, &sd));
     if (t >= 0 && t <= 0x1000) {
-        func_020520A4(&sd, t, &sd);
+        BUTTON_MAN_ScaleVec(&sd, t, &sd);
         VEC_Subtract(&sd, &bc, &tmp);
         d = VEC_Mag(&tmp);
         lim = b->r + seg->radius;
@@ -958,10 +958,10 @@ void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020520A4.c \
- *       --func func_020520A4 --addr 0x020520A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_ScaleVec.c \
+ *       --func BUTTON_MAN_ScaleVec --addr 0x020520A4 --cc 1.1p1 --arm
  */
-void func_020520A4(const Vec3 *v, int s, Vec3 *dst)
+void BUTTON_MAN_ScaleVec(const Vec3 *v, int s, Vec3 *dst)
 {
     dst->x = (int)((((s64)v->x * s) + 0x800) >> 12);
     dst->y = (int)((((s64)v->y * s) + 0x800) >> 12);
@@ -988,12 +988,12 @@ void func_020520A4(const Vec3 *v, int s, Vec3 *dst)
  * `mov` bytes at +00A4/+00A8, the only residue the whole function had.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020520FC.c \
- *       --func func_020520FC --addr 0x020520FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_MakeRotMtxXYZ.c \
+ *       --func BUTTON_MAN_MakeRotMtxXYZ --addr 0x020520FC --cc 1.1p1 --arm
  *
  * Addresses are Black-image addresses.
  */
-void func_020520FC(int ax, int ay, int az, Mtx33 *dst)
+void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst)
 {
     Mtx33 tmp;
     int i;
@@ -1025,7 +1025,7 @@ void func_020520FC(int ax, int ay, int az, Mtx33 *dst)
  *
  * Both angle indices feed the shared interleaved sin/cos halfword table at
  * 0x020A1B38 (see src/matched/func_0203F684.c) at i = angle >> 4, sin at
- * tbl[2*i] and cos at tbl[2*i+1], exactly as in func_020520FC next door.
+ * tbl[2*i] and cos at tbl[2*i+1], exactly as in BUTTON_MAN_MakeRotMtxXYZ next door.
  *
  * Declaration order is the whole difference between 184 correct bytes and four
  * wrong ones: the frame lays `flat` at sp+0x48, `mx` at sp+0x24 and `my` at
@@ -1036,12 +1036,12 @@ void func_020520FC(int ax, int ay, int az, Mtx33 *dst)
  * immediates and the `str r1, [sp, #0x4c]` offset.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020521BC.c \
- *       --func func_020521BC --addr 0x020521BC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_MakeLookAtMtx.c \
+ *       --func BUTTON_MAN_MakeLookAtMtx --addr 0x020521BC --cc 1.1p1 --arm
  *
  * Addresses are Black-image addresses.
  */
-void func_020521BC(const Vec3 *v, Mtx33 *dst)
+void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst)
 {
     Vec3         flat;
     Mtx33        mx;
@@ -1125,7 +1125,7 @@ void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n)
 
 /*
  * The per-character encoder behind BUTTON_MAN_ConvertUcs2ToSjis: one UCS-2 code unit to
- * Shift-JIS.  The terminator (func_02045A98's value) writes a NUL and raises
+ * Shift-JIS.  The terminator (STRBUF_GetEosChar's value) writes a NUL and raises
  * *stop; printable ASCII is copied; hiragana, both katakana runs and the
  * full-width A-Z, a-z and 0-9 are offset into their Shift-JIS rows and
  * written high byte first; the long-vowel mark, U+8140 (passed through as the
@@ -1143,7 +1143,7 @@ int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop)
     u16 c = *src;
     u16 v;
 
-    if (c == func_02045A98()) {
+    if (c == STRBUF_GetEosChar()) {
         *dst = 0;
         if (stop != 0)
             *stop = 1;

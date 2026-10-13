@@ -1,5 +1,5 @@
 /*
- * function: func_02162E9C
+ * function: EVENTDATA_SYSTEM_IsBgEventRailHit
  * address:  0x02162E9C
  * packet:   pkt_ov010_02162E9C
  * region:   ov010
@@ -37,7 +37,7 @@ typedef struct CellKey {
     u16 b;              /* 0x06 */
 } CellKey;
 
-int func_02162E9C(Trigger *t, const CellKey *k)
+int EVENTDATA_SYSTEM_IsBgEventRailHit(Trigger *t, const CellKey *k)
 {
     TrigCell *c;
 

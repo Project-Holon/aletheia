@@ -1,5 +1,5 @@
 /*
- * function: func_0203D010
+ * function: GFL_NET_BeaconScanStart
  * address:  0x0203D010
  * packet:   pkt_0203DC70
  * region:   arm9
@@ -19,7 +19,7 @@
 
 extern void GFL_NET_STATE_BeaconScan(void);
 
-void func_0203D010(void)
+void GFL_NET_BeaconScanStart(void)
 {
     GFL_NET_STATE_BeaconScan();
 }

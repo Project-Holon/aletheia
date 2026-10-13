@@ -1,5 +1,5 @@
 /*
- * function: func_020257C4
+ * function: BMP_OAM_GetEnabled
  * address:  0x020257C4
  * packet:   pkt_020257C4
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 
-int func_020257C4(const int *p)
+int BMP_OAM_GetEnabled(const int *p)
 {
     return func_0204B3F4((struct Obj *)p[1]);
 }

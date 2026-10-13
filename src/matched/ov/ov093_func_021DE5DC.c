@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021DE5DC, func_021DE614
+ * function: BTL_HANDLER_ITEM_StickRaiseCriticalRankFarfetchd, BTL_HANDLER_ITEM_GetZoomLensHandlers
  * address:  0x021DE5DC
  * packet:   pkt_ov093_021DE5DC
  * region:   ov093
@@ -11,37 +11,37 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5444  0x021D5444  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
- *   d_021F13D4     0x021F13D4  data   ov093  a4
+ *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
+ *   gZoomLensHandlerTable     0x021F13D4  data   ov093  a4
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int k);
+extern int BTL_EVENT_GetVar(int k);
 extern void *func_021C7CF4(int *p, int i);
 struct QF;
-extern u16 func_021D5444(struct QF *p);
-extern int func_021D76BC(int key, u32 val);
-extern int d_021F13D4;
+extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
+extern int gZoomLensHandlerTable;
 
-void func_021DE5DC(int u, int a, int b)
+void BTL_HANDLER_ITEM_StickRaiseCriticalRankFarfetchd(int u, int a, int b)
 {
     u8 v;
-    if (b == func_021D775C(3)) {
-        if (func_021D5444(func_021C7CF4((int *)a, b)) == 0x53) {
-            v = func_021D775C(0x2c);
-            func_021D76BC(0x2c, (u8)(v + 2));
+    if (b == BTL_EVENT_GetVar(3)) {
+        if (BTL_POKEPARAM_GetSpecies(func_021C7CF4((int *)a, b)) == 0x53) {
+            v = BTL_EVENT_GetVar(0x2c);
+            BTL_EVENT_OverwriteVar(0x2c, (u8)(v + 2));
         }
     }
 }
 
-int *func_021DE614(int *p)
+int *BTL_HANDLER_ITEM_GetZoomLensHandlers(int *p)
 {
     *p = 1;
-    return &d_021F13D4;
+    return &gZoomLensHandlerTable;
 }

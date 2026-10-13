@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B60CC  0x021B60CC  data  a4
+ *   gVctState  0x021B60CC  data  a4
  *   func_020870D0  0x020870D0  arm
  *   VCT_AUDIO_ReceiveFrame  0x021B0F38  arm  ov013
  *   VCT_SESSION_HandlePacket  0x021B2488  arm  ov013
@@ -30,7 +30,7 @@ typedef struct {
     u8  type;
 } Hdr;
 
-extern int  d_021B60CC[];
+extern int  gVctState[];
 extern u64  func_020870D0(void);
 extern int VCT_AUDIO_ReceiveFrame(int a0, Hdr *h, int a2, u64 t);
 extern int VCT_SESSION_HandlePacket(int a, u8 *p, int len, int x);
@@ -44,13 +44,13 @@ int VCT_ParseFrame(int a0, Hdr *h, int a2, int *a3)
         return 0;
     if (h->magic != 0x5F564354)
         return 2;
-    if (d_021B60CC[7] == 0 || d_021B60CC[2] == 0)
+    if (gVctState[7] == 0 || gVctState[2] == 0)
         return 0;
     a3[0] = 0;
     a3[1] = 0;
     t = func_020870D0();
     if ((h->type & 0xf0) == 0x40) {
-        d_021B60CC[1]++;
+        gVctState[1]++;
         VCT_AUDIO_ReceiveFrame(a0, h, a2, t);
         return 0;
     }

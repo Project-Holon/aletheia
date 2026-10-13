@@ -1,5 +1,5 @@
 /*
- * function: func_021BB914
+ * function: BTL_SERVER_FinishMainCounter
  * address:  0x021BB914
  * packet:   pkt_021BB914
  * region:   ov093
@@ -23,7 +23,7 @@
 
 void func_021B9234(unsigned char *p);
 
-void func_021BB914(int *p)
+void BTL_SERVER_FinishMainCounter(int *p)
 {
     func_021B9234((unsigned char *)p[3]);
 }

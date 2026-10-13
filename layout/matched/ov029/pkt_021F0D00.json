@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F0D00",
-    "func_021F0D08",
-    "func_021F0D10"
+    "C_GEAR_ClearTabTimerCount",
+    "C_GEAR_GetTabTimerCount",
+    "C_GEAR_SetTabTimerRunning"
+   ],
+   "addresses": [
+    "0x021F0D00",
+    "0x021F0D08",
+    "0x021F0D10"
    ]
   }
  ]

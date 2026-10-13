@@ -1,5 +1,5 @@
 /*
- * function: func_021BF8D4
+ * function: BTL_SERVER_FLOW_RemoveMissedTargets
  * address:  0x021BF8D4
  * packet:   pkt_ov093_021BF8D4
  * region:   ov093
@@ -16,9 +16,9 @@
  *   func_021BF974  0x021BF974  thumb  ov093
  *   func_021BF984  0x021BF984  thumb  ov093
  *   func_021BF994  0x021BF994  thumb  ov093
- *   func_021BF9A4  0x021BF9A4  thumb  ov093
- *   func_021BFA60  0x021BFA60  thumb  ov093
- *   func_021C572C  0x021C572C  thumb  ov093
+ *   BTL_SERVER_FLOW_CheckMoveAvoidEvent  0x021BF9A4  thumb  ov093
+ *   BTL_SERVER_FLOW_RollMoveAccuracy  0x021BFA60  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMoveBlockedMessage  0x021C572C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -28,12 +28,12 @@ extern void func_021BF964(int d);
 extern u8 *func_021BF974(int d);
 extern void func_021BF984(int d, u8 *x);
 extern u8 *func_021BF994(int d);
-extern int func_021BF9A4(u8 *p, u8 *a, u8 *b, u16 *c);
+extern int BTL_SERVER_FLOW_CheckMoveAvoidEvent(u8 *p, u8 *a, u8 *b, u16 *c);
 struct Q;
-extern int func_021BFA60(u8 *p, u8 *a, u8 *b, struct Q *q);
-extern void func_021C572C(u8 *p, u8 *x, u32 v);
+extern int BTL_SERVER_FLOW_RollMoveAccuracy(u8 *p, u8 *a, u8 *b, struct Q *q);
+extern void BTL_SERVER_FLOW_PushMoveBlockedMessage(u8 *p, u8 *x, u32 v);
 
-void func_021BF8D4(u8 *p, u16 *b, u8 *c, int d)
+void BTL_SERVER_FLOW_RemoveMissedTargets(u8 *p, u16 *b, u8 *c, int d)
 {
     u8 *x;
     if (func_021BF944(d) == 1 && func_021BF954(d, 0) == c)
@@ -41,9 +41,9 @@ void func_021BF8D4(u8 *p, u16 *b, u8 *c, int d)
     func_021BF964(d);
     x = func_021BF974(d);
     while (x != 0) {
-        if (func_021BF9A4(p, c, x, b) == 0 && func_021BFA60(p, c, x, (struct Q *)b) == 0) {
+        if (BTL_SERVER_FLOW_CheckMoveAvoidEvent(p, c, x, b) == 0 && BTL_SERVER_FLOW_RollMoveAccuracy(p, c, x, (struct Q *)b) == 0) {
             func_021BF984(d, x);
-            func_021C572C(p, x, *b);
+            BTL_SERVER_FLOW_PushMoveBlockedMessage(p, x, *b);
         }
         x = func_021BF994(d);
     }

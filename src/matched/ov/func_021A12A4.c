@@ -1,5 +1,5 @@
 /*
- * function: func_021A12A4
+ * function: FIELD_SUBSCREEN_GetMenuSelectedButton
  * address:  0x021A12A4
  * packet:   pkt_021A12A4
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A0F90  0x021A0F90  thumb  ov021
- *   func_021A8E10  0x021A8E10  thumb  ov021
+ *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
+ *   FIELD_MENU_GetSelectedButtonId  0x021A8E10  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17993.h"
@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021A0F90(u8 *p);
-extern u32 func_021A8E10(u32);
+extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
+extern u32 FIELD_MENU_GetSelectedButtonId(u32);
 
-u32 func_021A12A4(void *a)
+u32 FIELD_SUBSCREEN_GetMenuSelectedButton(void *a)
 {
-if (func_021A0F90((u8 *)a) != 1) {
+if (FIELD_SUBSCREEN_GetMode((u8 *)a) != 1) {
     return 0;
 }
-return func_021A8E10(((struct Obj17993 *)((u8 *)(a)))->f20);
+return FIELD_MENU_GetSelectedButtonId(((struct Obj17993 *)((u8 *)(a)))->f20);
 }
 

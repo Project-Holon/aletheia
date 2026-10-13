@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   _pCommandWork     0x021469D8  data
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_COMMAND_GetHugeBuffer  0x0203A81C  arm
  *   func_02034714  0x02034714  arm
  *   sNet3730       0x020A7AF8  data
@@ -38,7 +38,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern struct Entry *_pCommandWork;
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_COMMAND_GetHugeBuffer(u32 a0, u32 a1, u32 a2);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char sNet3730[];
@@ -51,7 +51,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int a0, int a1, const u8 *a2, int a3, int a4
   i = a0;
   if (a0 == 0xff)
     i = 8;
-  if (a4 != (int)func_020399A8())
+  if (a4 != (int)GFL_NET_HANDLE_GetCurrentHandle())
     return;
   if (GFL_NET_COMMAND_GetHugeBuffer(*((u16 *) (a2 + 6)), a0, *((u32 *) a2)) == 0)
     return;

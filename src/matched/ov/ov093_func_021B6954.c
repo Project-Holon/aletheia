@@ -1,5 +1,5 @@
 /*
- * function: func_021B6954
+ * function: BTL_MAIN_InitTrainerSlot
  * address:  0x021B6954
  * packet:   pkt_ov093_021B6954
  * region:   ov093
@@ -24,7 +24,7 @@ struct B;
 extern void func_021B9E7C(struct A *p, struct B *src);
 extern void func_021B9E38(char *p, int a, int b);
 
-void func_021B6954(int a, int b)
+void BTL_MAIN_InitTrainerSlot(int a, int b)
 {
     char *p = (char *)a;
     int base = ((struct Obj06216 *)p)->f0;

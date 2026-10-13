@@ -1,5 +1,5 @@
 /*
- * function: func_021C5BD0
+ * function: SCRCMD_CreateSubProcEvent
  * address:  0x021C5BD0
  * packet:   pkt_ov021_021C5BD0
  * region:   ov021
@@ -9,10 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Spawns the func_021C5C08 task with a 0x14-byte work area.
+ * Spawns the SCRCMD_SubProcEventMain task with a 0x14-byte work area.
  *
  * symbols:
- *   func_021C5C08  0x021C5C08  thumb  ov021
+ *   SCRCMD_SubProcEventMain  0x021C5C08  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb  arm9
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb  arm9
  */
 
 typedef unsigned short u16;
@@ -32,19 +34,19 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
-void func_021C5C08(void);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void SCRCMD_SubProcEventMain(void);
 
-void *func_021C5BD0(void *a, u32 b, u32 c)
+void *SCRCMD_CreateSubProcEvent(void *a, u32 b, u32 c)
 {
-    void *t = func_020122C0(a, 0, func_021C5C08, 0x14);
+    void *t = func_020122C0(a, 0, SCRCMD_SubProcEventMain, 0x14);
     W *w = func_020124E8(t);
 
     w->owner = a;
-    w->f4 = func_0201210C(a);
+    w->f4 = GAMESYSTEM_GetFieldMap(a);
     w->f10 = c;
-    w->f8 = (u32)func_020120F4(a);
+    w->f8 = (u32)GAMESYSTEM_GetGameData(a);
     w->hC = b;
     return t;
 }

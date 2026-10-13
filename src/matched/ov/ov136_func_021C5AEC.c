@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02027778 0x02027778 thumb
- *   func_02027858 0x02027858 thumb
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  */
 #include "../include/Obj10602.h"
 #include "../include/Obj23522.h"
@@ -22,9 +22,9 @@ typedef unsigned int u32;
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 x,y,w,h; } Template;
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 struct TaskMenu;
-extern void func_02027858(struct TaskMenu *m);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 void func_021C5AEC(u8 *p)
 {
     Template t;
@@ -36,9 +36,9 @@ void func_021C5AEC(u8 *p)
     t.y = 12;
     t.w = 12;
     t.h = 3;
-    ((struct Obj23523 *)(*(u8 * *)&((struct Obj10602 *)p)->f8))->f310 = func_02027778((struct TaskMenuTmpl *)(&t), ((struct Obj23522 *)(*(u8 * *)&((struct Obj10602 *)p)->f8))->f30C);
+    ((struct Obj23523 *)(*(u8 * *)&((struct Obj10602 *)p)->f8))->f310 = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct Obj23522 *)(*(u8 * *)&((struct Obj10602 *)p)->f8))->f30C);
 }
 void func_021C5B30(u8 *p)
 {
-    func_02027858(((struct Obj23525 *)(*(u8 * *)&((struct Obj23524 *)p)->f8))->f310);
+    APP_TASKMENU_CloseMenu(((struct Obj23525 *)(*(u8 * *)&((struct Obj23524 *)p)->f8))->f310);
 }

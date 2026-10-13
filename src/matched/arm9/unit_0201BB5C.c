@@ -14,8 +14,8 @@
  * The nibble-table twin of src/matched/unit_0201BA68.c: the same egg and
  * alternate-form index arithmetic, indexing a packed table of two four bit
  * values per entry instead of an archive.  POKE_TOOL_GetIconPalette unpacks the four
- * inputs out of a Pokemon record, bracketed by the func_02017DBC /
- * func_02017DE4 pair, and hands them over.
+ * inputs out of a Pokemon record, bracketed by the POKE_TOOL_DecodeBoxParam /
+ * POKE_TOOL_EncodeBoxParam pair, and hands them over.
  *
  * The index is the same logical number unit_0201BA68.c computes, one step
  * short of it: there the answer is `n * 2 + 7`, a member of archive 7, here it
@@ -61,6 +61,8 @@
  *
  * symbols:
  *   _IconPaletteTable  0x0209E474  data
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  *
  * Verified with
  *   python tools/match.py tu --src src/pending/unit_0201BB5C.c \
@@ -73,8 +75,8 @@ typedef unsigned int   u32;
 typedef int            s32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *mon, u32 id, u32 v);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 
@@ -115,11 +117,11 @@ u32 POKE_TOOL_GetIconPalette(void *mon)
     u32 gender;
     u32 isEgg;
 
-    save = func_02017DBC(mon);
+    save = POKE_TOOL_DecodeBoxParam(mon);
     species = func_02017E88(mon, 5, 0);
     form = func_02017E88(mon, 0x6F, 0);
     gender = func_02017E88(mon, 0x6E, 0);
     isEgg = func_02017E88(mon, 0x4C, 0);
-    func_02017DE4(mon, save);
+    POKE_TOOL_EncodeBoxParam(mon, save);
     return POKE_TOOL_CalcIconPalette(species, form, gender, isEgg);
 }

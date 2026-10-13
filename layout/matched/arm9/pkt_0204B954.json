@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204B954",
+   "name": "CLACT_SetActorAutoAnimSpeed",
    "address": "0x0204B954",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204B98C",
+   "name": "CLACT_IsActorAnimActive",
    "address": "0x0204B98C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204B9A0",
+   "name": "CLACT_RestartActorAnim",
    "address": "0x0204B9A0",
    "kind": "game",
    "region": "arm9",
@@ -85,7 +85,7 @@
    ]
   },
   {
-   "name": "func_0204BA20",
+   "name": "CLACT_SetActorVisible",
    "address": "0x0204BA20",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_0218F0A8
+ * function: FIELD_CAMERA_EndDelay
  * address:  0x0218F0A8
  * packet:   pkt_ov021_0218F0A8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218F050  0x0218F050  thumb
+ *   FIELD_CAMERA_StopDelayLog  0x0218F050  thumb
  */
 #include "../include/Obj00612.h"
 #include "../include/Obj01653.h"
@@ -22,14 +22,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_0218F050(u32 a);
+extern int FIELD_CAMERA_StopDelayLog(u32 a);
 
-void func_0218F0A8(u8 *a)
+void FIELD_CAMERA_EndDelay(u8 *a)
 {
     u8 *p = *(u8 * *)&((struct Obj01653 *)a)->fEC;
     if (p != 0) {
         if (((struct Obj00612 *)p)->f10 == 0 && *(u32 *)&((struct Obj00612 *)p)->f8 == *(u32 *)&((struct Obj00612 *)p)->fC && *(u32 *)&((struct Obj00612 *)p)->f4 == 0)
-            func_0218F050((u32)p);
+            FIELD_CAMERA_StopDelayLog((u32)p);
         else
             ((struct Obj00612 *)p)->f2C = 1;
     }

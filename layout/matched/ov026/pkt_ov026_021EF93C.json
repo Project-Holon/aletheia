@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EF93C",
+   "name": "WEATHER_STORM_ResetThunderTimer",
    "address": "0x021EF93C",
    "kind": "game",
    "region": "ov026",

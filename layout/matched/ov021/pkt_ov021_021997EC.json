@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021997EC",
+   "name": "FLDMMDL_ACMD_DashStepDownFaceUp4F",
    "address": "0x021997EC",
    "kind": "game",
    "region": "ov021",

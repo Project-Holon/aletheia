@@ -1,5 +1,5 @@
 /*
- * function: func_021A6750
+ * function: FIELD_PLAYER_NOGRID_ClearSpinA
  * address:  0x021A6750
  * packet:   pkt_021A6708
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: pins the second argument to 8.
  *
  * symbols:
- *   func_021A66EC  0x021A66EC  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_ClearFlags  0x021A66EC  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A66EC(u32 *p, u32 v);
+extern void FIELD_PLAYER_NOGRID_ClearFlags(u32 *p, u32 v);
 
-void func_021A6750(void *a)
+void FIELD_PLAYER_NOGRID_ClearSpinA(void *a)
 {
-    func_021A66EC(a, 8);
+    FIELD_PLAYER_NOGRID_ClearFlags(a, 8);
 }

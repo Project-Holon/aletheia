@@ -1,5 +1,5 @@
 /*
- * function: func_020127F0
+ * function: GAME_DATA_GetMysteryRecvFlagB
  * address:  0x020127F0
  * packet:   pkt_020127E0
  * region:   arm9
@@ -11,4 +11,4 @@
  */
 #include "../include/Obj15628.h"
 
-int func_020127F0(int a0){ int t0, t1; t0 = func_0200A864((int)((struct Obj15628 *)((char *)(a0)))->f0); t1 = func_0200A898((int)t0); return t1; }
+int GAME_DATA_GetMysteryRecvFlagB(int a0){ int t0, t1; t0 = func_0200A864((int)((struct Obj15628 *)((char *)(a0)))->f0); t1 = func_0200A898((int)t0); return t1; }

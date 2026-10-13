@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE80
+ * function: STARTMENU_SaveEraseStepErase
  * address:  0x021BCE80
  * packet:   pkt_ov088_021BCE80
  * region:   ov088
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD188  0x021BD188  thumb  ov088
- *   func_0202EE30  0x0202EE30  thumb
+ *   STARTMENU_SaveEraseUpdateMessage  0x021BD188  thumb  ov088
+ *   TIME_ICON_Create  0x0202EE30  thumb
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02005654  0x02005654  thumb
- *   func_021BCE70  0x021BCE70  thumb  ov088
+ *   STARTMENU_SaveEraseUpdateTimeIcon  0x021BCE70  thumb  ov088
  *   func_020070A4  0x020070A4  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_021DFF18  0x021DFF18  thumb  ov228
@@ -38,18 +38,18 @@ typedef unsigned int u32;
 extern u8 *d_021BDA20;
 extern char ov228_id[];
 
-extern int func_021BD188(char *p);
+extern int STARTMENU_SaveEraseUpdateMessage(char *p);
 typedef signed int     s32;
 struct Ctrl;
 struct Descriptor;
 struct Sub02007084Ctrl;
 struct Sub020071E4Ctrl;
 struct Sub020072A4Ctrl;
-extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern int func_02005654(int a, int b);
-extern void func_021BCE70(void);
+extern void STARTMENU_SaveEraseUpdateTimeIcon(void);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern int func_02034AC4(s32 handle);
 extern void func_021DFF18(u32 heap);
@@ -61,15 +61,15 @@ extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void func_0200566C(void);
 extern void func_02087BCC(u32 parameter);
 
-void func_021BCE80(u8 *p, int *a1)
+void STARTMENU_SaveEraseStepErase(u8 *p, int *a1)
 {
     void *r;
     u32 i;
 
-    if (func_021BD188((char *)p) == 0) {
-        d_021BDA20 = func_0202EE30(0, ((struct Obj00578 *)p)->f1C, 0xf, 0x10, 0x81);
+    if (STARTMENU_SaveEraseUpdateMessage((char *)p) == 0) {
+        d_021BDA20 = TIME_ICON_Create(0, ((struct Obj00578 *)p)->f1C, 0xf, 0x10, 0x81);
         func_020409B4(func_02045730(((struct Obj00578 *)p)->f1C));
-        func_02005654((int)func_021BCE70, 0);
+        func_02005654((int)STARTMENU_SaveEraseUpdateTimeIcon, 0);
         r = func_020070A4();
         func_02034AC4((u32)ov228_id);
         func_021DFF18(0x81);

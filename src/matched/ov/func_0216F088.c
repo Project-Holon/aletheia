@@ -1,5 +1,5 @@
 /*
- * function: func_0216F088
+ * function: TRCARD_SYS_RunChildProc
  * address:  0x0216F088
  * packet:   pkt_0216F088
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern unsigned int PROCSYS_Main(void *p);
 extern int func_0203133C();
 
-int func_0216F088(int a0)
+int TRCARD_SYS_RunChildProc(int a0)
 {
     int t4;
 

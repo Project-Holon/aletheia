@@ -1,5 +1,5 @@
 /*
- * function: func_021AD7B4
+ * function: FLDEFF_ENCOUNT_Create
  * address:  0x021AD7B4
  * packet:   pkt_ov021_021AD7B4
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DE0E8  0x021DE0E8  data
- *   func_021AD7E4  0x021AD7E4  thumb  ov021
+ *   sFldeffEncountFileName  0x021DE0E8  data
+ *   FLDEFF_ENCOUNT_LoadKind  0x021AD7E4  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -23,15 +23,15 @@ typedef signed char    s8;
 typedef struct P { u32 f0; } P;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021AD7E4(int *a, u32 b);
-extern char d_021DE0E8[];
+extern void FLDEFF_ENCOUNT_LoadKind(int *a, u32 b);
+extern char sFldeffEncountFileName[];
 
-P *func_021AD7B4(u32 a, int heap, u32 c)
+P *FLDEFF_ENCOUNT_Create(u32 a, int heap, u32 c)
 {
     P *p;
 
-    p = (P *)func_02030734(heap, 0x98, 1, d_021DE0E8, 0x11e);
+    p = (P *)func_02030734(heap, 0x98, 1, sFldeffEncountFileName, 0x11e);
     p->f0 = a;
-    func_021AD7E4((int *)p, c);
+    FLDEFF_ENCOUNT_LoadKind((int *)p, c);
     return p;
 }

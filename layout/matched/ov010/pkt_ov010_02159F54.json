@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02159F54",
+   "name": "MAP_REPLACE_CheckFlag",
    "address": "0x02159F54",
    "kind": "game",
    "region": "ov010",

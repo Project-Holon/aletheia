@@ -1,5 +1,5 @@
 /*
- * function: func_021F30EC
+ * function: C_GEAR_AreActorSlotsIdle
  * address: 0x021F30EC
  * packet: pkt_ov029_021F30EC
  * region: ov029
@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  */
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 struct Slot { void *object; int a; int b; };
 struct Obj { char pad[0x3c]; struct Slot slots[20]; };
-int func_021F30EC(struct Obj *p)
+int C_GEAR_AreActorSlotsIdle(struct Obj *p)
 {
     int result = 1;
     int i;
     for (i = 0; i < 20; i++) {
         if (p->slots[i].object) {
-            if (func_0204B98C(p->slots[i].object)) {
+            if (CLACT_IsActorAnimActive(p->slots[i].object)) {
                 result = 0;
                 break;
             }

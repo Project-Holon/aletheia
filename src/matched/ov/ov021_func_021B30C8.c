@@ -1,5 +1,5 @@
 /*
- * function: func_021B30C8
+ * function: SCRCMD_SHOP_PrepareFieldCamera
  * address:  0x021B30C8
  * packet:   pkt_ov021_021B30C8
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218F1B4  0x0218F1B4  thumb
- *   func_0218F1AC  0x0218F1AC  thumb
- *   func_0218F848  0x0218F848  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A3050  0x021A3050  thumb
- *   func_0218ECE4  0x0218ECE4  thumb
- *   func_0218ECB4  0x0218ECB4  thumb
- *   func_0218EC54  0x0218EC54  thumb
- *   func_0218F918  0x0218F918  thumb
+ *   FIELD_CAMERA_GetAreasEnabled  0x0218F1B4  thumb
+ *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb
+ *   FIELD_CAMERA_PushStateConstrained  0x0218F848  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb
+ *   FIELD_CAMERA_GetEyeRaw  0x0218ECE4  thumb
+ *   FIELD_CAMERA_GetTargetRaw  0x0218ECB4  thumb
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb
+ *   FIELD_CAMERA_StartMoveConstrained  0x0218F918  thumb
  *   d_021D9708     0x021D9708  data
  */
 
@@ -38,31 +38,31 @@ typedef struct {
     s32 f;
 } Param;
 
-extern u8 func_0218F1B4(u8 *p);
-extern void func_0218F1AC(u8 *p, u32 v);
-extern void func_0218F848(u8 *a);
+extern u8 FIELD_CAMERA_GetAreasEnabled(u8 *p);
+extern void FIELD_CAMERA_SetAreasEnabled(u8 *p, u32 v);
+extern void FIELD_CAMERA_PushStateConstrained(u8 *a);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_021A3050(u8 *p);
-extern void func_0218ECE4(void *h, Vec3 *out);
-extern void func_0218ECB4(void *h, Vec3 *out);
-extern void func_0218EC54(u8 *p);
-extern void func_0218F918(void *h, Param *p, int n);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
+extern void FIELD_CAMERA_GetEyeRaw(void *h, Vec3 *out);
+extern void FIELD_CAMERA_GetTargetRaw(void *h, Vec3 *out);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern void FIELD_CAMERA_StartMoveConstrained(void *h, Param *p, int n);
 
 extern Vec3 d_021D9708[];
 
-void func_021B30C8(u32 *p, u32 b, void *h)
+void SCRCMD_SHOP_PrepareFieldCamera(u32 *p, u32 b, void *h)
 {
     Param s;
     int i;
 
-    p[1] = func_0218F1B4(h);
-    func_0218F1AC(h, 0);
-    func_0218F848(h);
-    i = func_021A3050(func_02188CB4((void *)b));
-    func_0218ECE4(h, &s.a);
-    func_0218ECB4(h, &s.b);
-    func_0218EC54(h);
+    p[1] = FIELD_CAMERA_GetAreasEnabled(h);
+    FIELD_CAMERA_SetAreasEnabled(h, 0);
+    FIELD_CAMERA_PushStateConstrained(h);
+    i = FIELD_PLAYER_GetDirDisp(FIELDMAP_GetFieldPlayer((void *)b));
+    FIELD_CAMERA_GetEyeRaw(h, &s.a);
+    FIELD_CAMERA_GetTargetRaw(h, &s.b);
+    FIELD_CAMERA_StopTargetTrace(h);
     s.b.x += d_021D9708[i].x;
     s.b.y += d_021D9708[i].y;
     s.b.z += d_021D9708[i].z;
@@ -72,5 +72,5 @@ void func_021B30C8(u32 *p, u32 b, void *h)
     s.e[3] = 0;
     s.e[4] = 0;
     s.f = 1;
-    func_0218F918(h, &s, 10);
+    FIELD_CAMERA_StartMoveConstrained(h, &s, 10);
 }

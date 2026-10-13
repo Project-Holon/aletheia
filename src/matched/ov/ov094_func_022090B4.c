@@ -11,7 +11,7 @@
  *   interchange the movs and str at +002C/+002E.
  * symbols:
  *   func_0204B404 0x0204B404 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0200616C 0x0200616C thumb
  *   func_021F89BC 0x021F89BC thumb ov094
  */
@@ -26,7 +26,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0200616C(void *, int);
 extern void func_021F89BC(void *);
 void func_022090B4(void *task, Context *c)
@@ -56,7 +56,7 @@ void func_022090B4(void *task, Context *c)
                 }
                 func_0204B404(c->owner->entries[i].h, (const struct Vec2 *)(&c->owner->entries[i].pos), 0);
                 if (c->owner->entries[i].step == 0) {
-                    func_0204B878(c->owner->entries[i].h, c->owner->entries[i].frame);
+                    CLACT_SetActorAnimSeq(c->owner->entries[i].h, c->owner->entries[i].frame);
                     switch (c->owner->entries[i].frame) {
                     case 9: sound = 0x572; break;
                     case 10:

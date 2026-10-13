@@ -1,5 +1,5 @@
 /*
- * function: func_021B2D34
+ * function: SCRCMD_SCREENEFFECTS_CreateBuildModelNode
  * address:  0x021B2D34
  * packet:   pkt_ov021_021B2D34
  * region:   ov021
@@ -10,42 +10,42 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_0218DC6C  0x0218DC6C  thumb  ov021
- *   func_0218C7D8  0x0218C7D8  thumb  ov021
- *   func_0218BACC  0x0218BACC  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
+ *   FIELD_BUILDMODEL_CreateNodeNearPos  0x0218C7D8  thumb  ov021
+ *   FIELD_BUILDMODEL_GetNodeHandle  0x0218BACC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
-extern unsigned short *func_02159AE8(void *a0, void *a1);
-extern unsigned int func_02159B10(void *, void *);
-extern void *func_0215A5DC(void *a0);
+extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188C98(u8 *p);
-extern u32 func_0218DC6C(u8 *p);
-extern int func_0218C7D8(void *p, int b, int c);
-extern int func_0218BACC(int a, int b);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p);
+extern int FIELD_BUILDMODEL_CreateNodeNearPos(void *p, int b, int c);
+extern int FIELD_BUILDMODEL_GetNodeHandle(int a, int b);
 
-int func_021B2D34(int a, int b)
+int SCRCMD_SCREENEFFECTS_CreateBuildModelNode(int a, int b)
 {
-    unsigned short *out = func_02159AE8((void *)a, (void *)b);
-    int f = func_02159B10((void *)a, (void *)b);
-    int x = func_02159B10((void *)a, (void *)b);
-    int y = func_02159B10((void *)a, (void *)b);
+    unsigned short *out = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    int f = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int y = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     int h;
     int buf[3];
 
-    h = func_0218DC6C((u8 *)func_02188C98(func_0201210C(func_0215A5DC((void *)b))));
+    h = FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))));
     buf[0] = x << 16;
     buf[1] = 0;
     buf[2] = y << 16;
-    *out = func_0218BACC(h, func_0218C7D8((void *)h, f, (int)buf));
+    *out = FIELD_BUILDMODEL_GetNodeHandle(h, FIELD_BUILDMODEL_CreateNodeNearPos((void *)h, f, (int)buf));
     return 0;
 }

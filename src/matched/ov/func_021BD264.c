@@ -1,5 +1,5 @@
 /*
- * function: func_021BD264
+ * function: PLACE_NAME_LETTER_DeleteBmp
  * address:  0x021BD264
  * packet:   pkt_021BD264
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Delete  0x020437AC  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj06054.h"
@@ -22,13 +22,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 struct Obj020437AC;
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 
-void func_021BD264(u8 *p)
+void PLACE_NAME_LETTER_DeleteBmp(u8 *p)
 {
     u32 v = ((struct Obj06054 *)p)->f8;
     if (v != 0) {
-        func_020437AC((struct Obj020437AC *)v);
+        BMP_Delete((struct Obj020437AC *)v);
         ((struct Obj06054 *)p)->f8 = 0;
     }
 }

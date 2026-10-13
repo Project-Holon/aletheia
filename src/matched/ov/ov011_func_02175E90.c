@@ -1,5 +1,5 @@
 /*
- * function: func_02175E90
+ * function: INTRUDE_COMM_HasResultReward
  * address: 0x02175E90
  * packet: pkt_ov011_02175E90
  * region: ov011
@@ -10,15 +10,15 @@
  * status: EXACT
  * interface: DE4 source declares one argument; original E90 visibly sets r1, preserved here.
  * symbols:
- *   func_02175DA8 0x02175DA8 thumb ov011
- *   func_02175DE4 0x02175DE4 thumb ov011
+ *   INTRUDE_COMM_HasResult 0x02175DA8 thumb ov011
+ *   INTRUDE_COMM_GetResultCount 0x02175DE4 thumb ov011
  */
 typedef unsigned char u8;
-extern int func_02175DA8(u8 *);
-extern int func_02175DE4(void *p, u8 *a1);
-int func_02175E90(void *p, u8 *q)
+extern int INTRUDE_COMM_HasResult(u8 *);
+extern int INTRUDE_COMM_GetResultCount(void *p, u8 *a1);
+int INTRUDE_COMM_HasResultReward(void *p, u8 *q)
 {
-    if (func_02175DA8(q) == 0) return 0;
-    if (func_02175DE4(p, q) > 0) return 1;
+    if (INTRUDE_COMM_HasResult(q) == 0) return 0;
+    if (INTRUDE_COMM_GetResultCount(p, q) > 0) return 1;
     return 0;
 }

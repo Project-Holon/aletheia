@@ -1,5 +1,5 @@
 /*
- * function: func_0219FE20
+ * function: FLDMMDL_DRAW_CheckBlactReady
  * address:  0x0219FE20
  * packet:   pkt_ov021_0219FE20
  * region:   ov021
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocked at MATCH: func_020508EC (0x020508EC) is an unlabelled arm9 leaf
+ * Blocked at MATCH: BILLBOARD_ACT_GetEntryLastCommand (0x020508EC) is an unlabelled arm9 leaf
  * (the integrator's, inside a labelled arm9 function) with no witness outside this range.
  * Leaf C for the arm9 owner:
- *   u32 func_020508EC(u8 *p, int i, u16 *out) reads a u16 at record+0x1C, stores it, returns a range test; see the pending ov021 files that already name it
+ *   u32 BILLBOARD_ACT_GetEntryLastCommand(u8 *p, int i, u16 *out) reads a u16 at record+0x1C, stores it, returns a range test; see the pending ov021 files that already name it
  *
  * symbols:
- *   func_020508EC  0x020508EC  arm
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216D7A8  0x0216D7A8  thumb  ov010
- *   func_0216D910  0x0216D910  thumb  ov010
- *   func_0219C9DC  0x0219C9DC  thumb  ov021
+ *   BILLBOARD_ACT_GetEntryLastCommand  0x020508EC  arm
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_CallDrawGetProc  0x0216D7A8  thumb  ov010
+ *   FLDMMDL_GetBlActCont  0x0216D910  thumb  ov010
+ *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -28,23 +28,23 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u16 func_0216D598(void *p);
-extern int func_0216D7A8(void *p, unsigned int v);
-extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u8 *p);
-extern u32 func_020508EC(u8 *p, int i, u16 *out);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern int FLDMMDL_CallDrawGetProc(void *p, unsigned int v);
+extern int FLDMMDL_GetBlActCont(int a0);
+extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *p);
+extern u32 BILLBOARD_ACT_GetEntryLastCommand(u8 *p, int i, u16 *out);
 
-u32 func_0219FE20(u32 a, u32 a1, u32 a2, u32 a3)
+u32 FLDMMDL_DRAW_CheckBlactReady(u32 a, u32 a1, u32 a2, u32 a3)
 {
     u32 t;
     u16 out;
 
-    if (func_0216D598((void *)a) != 0x7B) {
+    if (FLDMMDL_GetObjCode((void *)a) != 0x7B) {
         return 1;
     }
-    t = (u16)func_0216D7A8((void *)a, 0);
+    t = (u16)FLDMMDL_CallDrawGetProc((void *)a, 0);
     if (t != 0xFFFF) {
-        if (func_020508EC((u8 *)func_0219C9DC((u8 *)func_0216D910(a)), t, &out) == 1) {
+        if (BILLBOARD_ACT_GetEntryLastCommand((u8 *)FLDMMDL_BLACT_GetBbActSys((u8 *)FLDMMDL_GetBlActCont(a)), t, &out) == 1) {
             return 1;
         }
     }

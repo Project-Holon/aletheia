@@ -59,7 +59,7 @@
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
  *
  * symbols:
- *   func_0204A39C  0x0204A39C  arm
+ *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   _pPersonalArc     0x0214652C  data
  *
  * Verified with:
@@ -78,7 +78,7 @@ u32 POKE_PERSONAL_IsPlaceholderAbility(u32 v)
     return 0;
 }
 
-extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
+extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern void *_pPersonalArc;
 
 u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut)
@@ -90,7 +90,7 @@ u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut)
     u16 i;
 
     count = 0;
-    tab = func_0204A39C(_pPersonalArc, 0x29C, 0, heap, &len);
+    tab = ARC_UTIL_LoadHandleMemberWithSize(_pPersonalArc, 0x29C, 0, heap, &len);
     n = (u16)(len >> 1);
     if (countOut != 0) {
         for (i = 0; i < n; i++) {

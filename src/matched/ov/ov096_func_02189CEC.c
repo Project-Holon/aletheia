@@ -14,7 +14,7 @@
  * return-field stubs after the lead function (function_starts seeds).
  * The unit ends at 0x02189D48, where the next function starts.
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
  *   func_021D59B4  0x021D59B4  thumb  ov093
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_021D59B4(u8 *p, int k);
@@ -43,8 +43,8 @@ int func_02189CEC(struct Cursor *a, int b) {
     u8 s;
     u8 *t;
     int x;
-    r6 = func_0201134C(a);
-    r4 = func_0201134C(a);
+    r6 = VM_GetU32(a);
+    r4 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, r6);
     t = func_0218A2FC((u8 *)b, s);
     x = func_021D59B4(t, r4);

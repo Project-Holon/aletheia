@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF5E8  0x021EF5E8  thumb  ov093
+ *   BTL_MSG_BuildItemUse  0x021EF5E8  thumb  ov093
  *   func_021EA730  0x021EA730  thumb  ov093
  */
 #include "../include/Obj01899.h"
@@ -18,11 +18,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021EF5E8(u32 a, u8 b, u16 c);
+extern void BTL_MSG_BuildItemUse(u32 a, u8 b, u16 c);
 extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 
 void func_021EA6F4(void *p, u8 b, u16 c)
 {
-    func_021EF5E8(*(u32 *)&((struct Obj01899 *)p)->fAC, b, c);
+    BTL_MSG_BuildItemUse(*(u32 *)&((struct Obj01899 *)p)->fAC, b, c);
     func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }

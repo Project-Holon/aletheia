@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021EE23C, func_021EE25C, func_021EE264
+ * function: BTLV_SCU_ClearWaitWindow, BTLV_SCU_GetWaitState, BTLV_SCU_StartBallWindowOpen
  * address:  0x021EE23C
  * packet:   pkt_ov093_021EE23C
  * region:   ov093
@@ -11,11 +11,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
- *   func_0204E720  0x0204E720  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   FADE_Start  0x0204E720  arm
  *   func_021EB318  0x021EB318  thumb  ov093
- *   func_021EE3E8  0x021EE3E8  thumb  ov093
+ *   BTLV_SCU_StepBallWindowOpen  0x021EE3E8  thumb  ov093
  */
 #include "../include/Obj06295.h"
 
@@ -41,33 +41,33 @@ struct O {
 };
 
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 typedef signed int     s32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern u32 func_021EB318(void);
 struct C;
-extern int func_021EE3E8(int *st, struct C *c);
+extern int BTLV_SCU_StepBallWindowOpen(int *st, struct C *c);
 
-void func_021EE23C(struct Q *q)
+void BTLV_SCU_ClearWaitWindow(struct Q *q)
 {
-    func_02043B5C((struct CharBuf *)q->f04, 12);
-    func_02045334((struct Descriptor *)q->f00);
-    func_0204E720(1, 16, 0, -3);
+    BMP_Clear((struct CharBuf *)q->f04, 12);
+    BMP_WIN_TransferChars((struct Descriptor *)q->f00);
+    FADE_Start(1, 16, 0, -3);
 }
 
-int func_021EE25C(void)
+int BTLV_SCU_GetWaitState(void)
 {
     return func_021EB318();
 }
 
-void func_021EE264(char *o, int a, struct T *src)
+void BTLV_SCU_StartBallWindowOpen(char *o, int a, struct T *src)
 {
     ((struct Obj06295 *)o)->f16C = a;
     *(struct T *)(o + 0x170) = *src;
     ((struct O *)o)->fe0 = 0;
-    ((struct O *)o)->fe4 = (int (*)(void *, void *))func_021EE3E8;
+    ((struct O *)o)->fe4 = (int (*)(void *, void *))BTLV_SCU_StepBallWindowOpen;
     ((struct O *)o)->fe8 = o;
     ((struct O *)o)->fec = 0;
 }

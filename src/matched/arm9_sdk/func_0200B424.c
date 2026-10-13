@@ -1,5 +1,5 @@
 /*
- * function: func_0200B424
+ * function: BATTLE_REC_FreeWork
  * address:  0x0200B424
  * packet:   pkt_0200B424
  * region:   arm9
@@ -21,7 +21,7 @@ typedef void *NNSFndHeapHandle;
 extern void NNS_FndDestroyExpHeap(NNSFndHeapHandle heap);
 extern NNSFndHeapHandle Heap;
 
-void func_0200B424(void)
+void BATTLE_REC_FreeWork(void)
 {
     NNS_FndDestroyExpHeap(Heap);
     Heap = 0;

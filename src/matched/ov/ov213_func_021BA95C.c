@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_021BA9AC 0x021BA9AC thumb ov213
- *   func_02047E88 0x02047E88 arm
+ *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   func_02048A18 0x02048A18 arm
- *   func_0204779C 0x0204779C arm
- *   func_020477A4 0x020477A4 arm
+ *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
+ *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
  *   d_021BB0F8 0x021BB0F8 data a4
  * width: 477A4 index u16: original narrows at 021BA994-021BA998.
  */
@@ -25,18 +25,18 @@ extern const Setup d_021BB0F8[];
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021BA9AC(char *p);
-extern u16 func_02047E88(Util *util, const Setup *setup);
+extern u16 G3D_UTIL_AddUnit(Util *util, const Setup *setup);
 extern u32 func_02048A18(u8 *a0, int i);
-extern int func_0204779C(int *p);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 void func_021BA95C(unsigned char *p, int index)
 {
     int *object;
     int i, count;
     if (p[15]) func_021BA9AC((char *)p);
-    ((struct Obj02551 *)p)->fC=func_02047E88(*(Util * *)&((struct Obj02551 *)p)->f8, &d_021BB0F8[index]);
+    ((struct Obj02551 *)p)->fC=G3D_UTIL_AddUnit(*(Util * *)&((struct Obj02551 *)p)->f8, &d_021BB0F8[index]);
     p[15]=1;
     object=(int *)func_02048A18((u8 *)(*(Util * *)&((struct Obj02551 *)p)->f8), ((struct Obj02551 *)p)->fC);
-    count=func_0204779C(object);
-    for(i=0;i<count;i++) func_020477A4((struct G3dSys *)object,(u16)i);
+    count=G3D_SYSTEM_GetObjectAnimeCount(object);
+    for(i=0;i<count;i++) G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)object,(u16)i);
 }

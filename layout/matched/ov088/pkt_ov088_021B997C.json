@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B997C",
+   "name": "STARTMENU_CaptureInit",
    "address": "0x021B997C",
    "kind": "game",
    "region": "ov088",

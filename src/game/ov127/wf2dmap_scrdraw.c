@@ -17,7 +17,7 @@
  *   ARC_UTIL_LoadPaletteDataFromArchive 0x02049EB4 arm
  *   d_021C6144 0x021C6144 data a1
  *   func_020307B0  0x020307B0  arm
- *   func_0204B09C 0x0204B09C arm
+ *   CLACT_SetSurfacePos 0x0204B09C arm
  *   d_021C60C4 0x021C60C4 data a4
  *   func_020403F4 0x020403F4 arm
  *   func_0203FCA0 0x0203FCA0 arm
@@ -50,7 +50,7 @@ typedef signed char s8;
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_020307B0(void *p);
-extern void func_0204B09C(void *,int,void *);
+extern void CLACT_SetSurfacePos(void *,int,void *);
 extern void func_020403F4(u32 i);
 extern void func_0203FCA0(u8,void *,int);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -116,8 +116,8 @@ void func_021C5A60(char *p,void *q)
     x=func_021C59EC(q);
     pos.x=x;
     pos.y=y;
-    if(*(int *)(p+16)==0) func_0204B09C(*(void **)p,0,&pos);
-    else { pos.y+=192; func_0204B09C(*(void **)p,1,&pos); }
+    if(*(int *)(p+16)==0) CLACT_SetSurfacePos(*(void **)p,0,&pos);
+    else { pos.y+=192; CLACT_SetSurfacePos(*(void **)p,1,&pos); }
     func_021C5B0C(p,x,y);
 }
 

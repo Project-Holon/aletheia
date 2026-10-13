@@ -1,5 +1,5 @@
 /*
- * function: func_021C88AC
+ * function: PLEASURE_BOAT_ScrCmdAddTime
  * address:  0x021C88AC
  * packet:   pkt_021C88AC
  * region:   ov021
@@ -12,14 +12,14 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012ED0  0x02012ED0  thumb
- *   func_02011330  0x02011330  thumb
- *   func_021C86E8  0x021C86E8  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventState  0x02012ED0  thumb
+ *   VM_GetU16  0x02011330  thumb
+ *   PLEASURE_BOAT_AdvanceTime  0x021C86E8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18340.h"
@@ -32,20 +32,20 @@ typedef signed char    s8;
 struct Big;
 struct Ctx;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern void *func_020120F4(const struct Ctx *p);
+extern u16 VM_GetU16(struct Stream *s);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u8 *func_02012ED0(struct Big *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
-extern void *func_02188C80(void *p);
-extern u32 func_021C86E8(u32, u32, u32);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u8 *GAME_DATA_GetEventState(struct Big *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern u32 PLEASURE_BOAT_AdvanceTime(u32, u32, u32);
 
-int func_021C88AC(u32 a, u32 b, u32 c, u32 d)
+int PLEASURE_BOAT_ScrCmdAddTime(u32 a, u32 b, u32 c, u32 d)
 {
-func_0215A5F4((void *)b);
-func_021C86E8(((struct Obj18340 *)((u8 *)(func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)b))))))))->f0, func_02011330((struct Stream *)a), func_02011330((struct Stream *)a));
+SCRCMD_WORK_GetScriptWork((void *)b);
+PLEASURE_BOAT_AdvanceTime(((struct Obj18340 *)((u8 *)(GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))))))))->f0, VM_GetU16((struct Stream *)a), VM_GetU16((struct Stream *)a));
 return 0;
 }
 

@@ -12,22 +12,22 @@
  * single-lever: explicit BG0CNT assignment preserves bics rather than narrowing a compound mask; alpha enable clears only overflow bits before setting bit 3.
  * symbols:
  *   func_020434DC 0x020434DC arm
- *   func_0207DC44 0x0207DC44 arm
- *   func_0207DD24 0x0207DD24 arm
+ *   G3X_SetFog 0x0207DC44 arm
+ *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
- *   func_02046BE0 0x02046BE0 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   d_021BAED8 0x021BAED8 data a2
  */
 typedef enum { FogMode0 = 0 } FogMode;
 typedef enum { FogSlope0 = 0 } FogSlope;
 extern const unsigned short d_021BAED8[];
 extern void func_020434DC(unsigned, unsigned);
-extern void func_0207DC44(int, FogMode, FogSlope, int);
-extern void func_0207DD24(unsigned short, int, int, int, int);
+extern void G3X_SetFog(int, FogMode, FogSlope, int);
+extern void G3X_SetClearColor(unsigned short, int, int, int, int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
-extern void func_02046BE0(unsigned, unsigned);
+extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 void func_021BA7A4(void)
 {
     unsigned i;
@@ -38,10 +38,10 @@ void func_021BA7A4(void)
     *(volatile unsigned short *)0x04000060 &= ~(4 | 0x3000);
     *(volatile unsigned short *)0x04000060 = (*(volatile unsigned short *)0x04000060 & ~0x3000) | 8;
     *(volatile unsigned short *)0x04000060 &= ~(0x20 | 0x3000);
-    func_0207DC44(0, 0, 0, 0);
-    func_0207DD24(0, 0, 0x7fff, 63, 0);
+    G3X_SetFog(0, 0, 0, 0);
+    G3X_SetClearColor(0, 0, 0x7fff, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
     for (i = 0; i < 4; i++)
         G3D_SYSTEM_SetLight((unsigned char)i, &d_021BAED8[i * 4]);
-    func_02046BE0(0, 0);
+    G3D_SYSTEM_SetSwapBuffersMode(0, 0);
 }

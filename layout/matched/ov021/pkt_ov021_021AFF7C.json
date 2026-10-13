@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AFF7C",
+   "name": "SCRCMD_WarpToRailLocation",
    "address": "0x021AFF7C",
    "kind": "game",
    "region": "ov021",

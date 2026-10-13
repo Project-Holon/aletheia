@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C1AEC",
+   "name": "FLD_PARTICLE_Exit",
    "address": "0x021C1AEC",
    "kind": "game",
    "region": "ov021",

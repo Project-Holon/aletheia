@@ -1,5 +1,5 @@
 /*
- * function: func_02046CE0
+ * function: G3D_SYSTEM_InitResourceByFile
  * address:  0x02046CE0
  * packet:   pkt_02046CE0
  * region:   arm9
@@ -15,7 +15,7 @@
  * result code at +02, and the tag pointer itself at +04.  The tag is one
  * of the little-endian ASCII magics; the five audio-ish containers
  * (BVA0/BMA0/BCA0/BTA0/BTP0) all report 4, BMD0 reports 1 or 2 depending
- * on func_0206E964, BTX0 reports 3, anything else 0.
+ * on NNS_G3dGetTex, BTX0 reports 3, anything else 0.
  *
  * Shape notes:
  *  - The case bodies are laid out in *source* order, not value order.  The
@@ -31,11 +31,11 @@
  *    select.
  *
  * symbols:
- *   func_0206E964      0x0206E964  arm
+ *   NNS_G3dGetTex      0x0206E964  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02046CE0.c \
- *       --func func_02046CE0 --addr 0x02046CE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_InitResourceByFile.c \
+ *       --func G3D_SYSTEM_InitResourceByFile --addr 0x02046CE0 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -47,13 +47,13 @@ struct S02046CE0 {
     u32 *tag;
 };
 
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
-void func_02046CE0(struct S02046CE0 *out, u32 *tag)
+void G3D_SYSTEM_InitResourceByFile(struct S02046CE0 *out, u32 *tag)
 {
     switch (*tag) {
     case 0x30444D42:
-        if (func_0206E964((unsigned char *)tag) == 0) {
+        if (NNS_G3dGetTex((unsigned char *)tag) == 0) {
             out->result = 2;
         } else {
             out->result = 1;

@@ -13,6 +13,7 @@
  *   _pNetState     0x021469DC  data
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  *   GFL_NET_STATE_ChangeoverStopChildDevice  0x0203BCE0  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -31,12 +32,12 @@ extern struct Sys *_pNetState;
 
 struct NetState;
 extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void GFL_NET_STATE_ChangeoverStopChildDevice(u8 *p);
 
 void GFL_NET_STATE_ChangeoverChildMain(u8 *p)
 {
-    if (func_02039338() != 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
         GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u8 *)_pNetState), (void *)0x0203B758, 0, 0x383);
         return;
     }

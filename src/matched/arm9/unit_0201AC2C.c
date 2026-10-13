@@ -18,10 +18,11 @@
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *
  * Nine functions over a 0xDC-byte-record array container (the same array
  * POKEPARTY_GetMember, in unit_0201AB28.c, indexes), all going through
- * func_02017E1C, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
+ * POKE_TOOL_GetPartyValue, a getter keyed by a small id constant (0x4C, 0xA0, 5), that
  * this file leaves as an unresolved extern because its own definition is
  * still open elsewhere in the image.
  *
@@ -55,7 +56,7 @@
  * src/matched/unit_0200E884.c) with a literal id of 0x1A.
  *
  * POKEPARTY_IsBattleReady and POKEPARTY_IsNotEgg are both single-guard wrappers around
- * func_02017E1C.  POKEPARTY_IsBattleReady's `a != 1 && b != 0` failing to `return 0` is
+ * POKE_TOOL_GetPartyValue.  POKEPARTY_IsBattleReady's `a != 1 && b != 0` failing to `return 0` is
  * the guard-chain-shares-one-exit-block shape
  * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md)
  * applied to a genuine conjunction rather than the more common early-return
@@ -81,7 +82,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 struct Rec534 {
     u32 unk000[0x14D];
@@ -105,7 +106,7 @@ u32 POKEPARTY_HasSpecies(struct Rec *p, u32 target)
     for (i = 0; i < p->unk04; i++) {
         void *entry = &p->unk08[i * 0xDC];
 
-        if (func_02017E1C(entry, 5, 0) == target) {
+        if (POKE_TOOL_GetPartyValue(entry, 5, 0) == target) {
             break;
         }
     }
@@ -126,8 +127,8 @@ u32 POKEPARTY_GetAliveNonEggCount(void *p)
     for (i = 0; i < n; i++) {
         void *entry = POKEPARTY_GetMember(p, i);
 
-        if (func_02017E1C(entry, 0xA0, 0)) {
-            if (!func_02017E1C(entry, 0x4C, 0)) {
+        if (POKE_TOOL_GetPartyValue(entry, 0xA0, 0)) {
+            if (!POKE_TOOL_GetPartyValue(entry, 0x4C, 0)) {
                 count++;
             }
         }
@@ -164,8 +165,8 @@ void *POKEPARTY_GetSaveData(void *sys)
 
 u32 POKEPARTY_IsBattleReady(void *p)
 {
-    u32 a = func_02017E1C(p, 0x4C, 0);
-    u32 b = func_02017E1C(p, 0xA0, 0);
+    u32 a = POKE_TOOL_GetPartyValue(p, 0x4C, 0);
+    u32 b = POKE_TOOL_GetPartyValue(p, 0xA0, 0);
 
     if (a != 1 && b != 0) {
         return 1;
@@ -177,7 +178,7 @@ u32 POKEPARTY_IsNotEgg(void *p)
 {
     u32 r = 0;
 
-    if (func_02017E1C(p, 0x4C, 0) != 1) {
+    if (POKE_TOOL_GetPartyValue(p, 0x4C, 0) != 1) {
         r = 1;
     }
     return r;

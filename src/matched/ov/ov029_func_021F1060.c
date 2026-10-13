@@ -1,5 +1,5 @@
 /*
- * function: func_021F1060
+ * function: C_GEAR_StepIntroTiles
  * address:  0x021F1060
  * packet:   pkt_ov029_021F1060
  * region:   ov029
@@ -14,14 +14,14 @@
  * a-two-word-const-table-copied-to-the-stack-is-a-pair-assignment.md.
  *
  * symbols:
- *   func_021F1060  0x021F1060  thumb  ov029
- *   func_021F0B00  0x021F0B00  thumb  ov029
- *   func_021F0A68  0x021F0A68  thumb  ov029
- *   func_021F0A38  0x021F0A38  thumb  ov029
- *   func_021F2B9C  0x021F2B9C  thumb  ov029
- *   func_021F0FB0  0x021F0FB0  thumb  ov029
- *   func_021F1A44  0x021F1A44  thumb  ov029
- *   func_021F1000  0x021F1000  thumb  ov029
+ *   C_GEAR_StepIntroTiles  0x021F1060  thumb  ov029
+ *   C_GEAR_StartTileFlash  0x021F0B00  thumb  ov029
+ *   C_GEAR_IsAnyTileFlashing  0x021F0A68  thumb  ov029
+ *   C_GEAR_StepTiles  0x021F0A38  thumb  ov029
+ *   C_GEAR_GetCellKind  0x021F2B9C  thumb  ov029
+ *   C_GEAR_StartFadeIn  0x021F0FB0  thumb  ov029
+ *   C_GEAR_SetTileMarkersVisible  0x021F1A44  thumb  ov029
+ *   C_GEAR_GetFadeRequestBits  0x021F1000  thumb  ov029
  *   d_021F331C     0x021F331C  data  a4
  *   d_021F3410     0x021F3410  data  a4
  *   d_021F31D4     0x021F31D4  data  a2
@@ -36,16 +36,16 @@ typedef struct { u8 key, row, col, v; } Ent;
 extern const Pair d_021F331C;
 extern const Ent d_021F3410[];
 extern const u16 d_021F31D4[];
-extern void func_021F0B00(void *q, void *p, u8 a, int b, int c, u16 d);
-extern int func_021F0A68(char *p);
+extern void C_GEAR_StartTileFlash(void *q, void *p, u8 a, int b, int c, u16 d);
+extern int C_GEAR_IsAnyTileFlashing(char *p);
 typedef unsigned int   u32;
-extern void func_021F0A38(unsigned char *p);
-extern u32 func_021F2B9C(u8 *p, int row, int col);
-extern void func_021F0FB0(char *p);
-extern void func_021F1A44(char *p, int flag);
-extern int func_021F1000(char *p);
+extern void C_GEAR_StepTiles(unsigned char *p);
+extern u32 C_GEAR_GetCellKind(u8 *p, int row, int col);
+extern void C_GEAR_StartFadeIn(char *p);
+extern void C_GEAR_SetTileMarkersVisible(char *p, int flag);
+extern int C_GEAR_GetFadeRequestBits(char *p);
 
-int func_021F1060(u8 *p)
+int C_GEAR_StepIntroTiles(u8 *p)
 {
     Pair t = d_021F331C;
     int i, j, n;
@@ -60,12 +60,12 @@ int func_021F1060(u8 *p)
         for (i = 0; i < 9; i++) {
             n = ((int *)&t)[i % 2];
             for (j = 0; j < n; j++)
-                func_021F0B00(p + 0x2D0 + i * 0x20 + j * 8, p, 4, 1, 4, 2);
+                C_GEAR_StartTileFlash(p + 0x2D0 + i * 0x20 + j * 8, p, 4, 1, 4, 2);
         }
         p[0x455]++;
         break;
     case 1:
-        if (func_021F0A68((char *)p) == 0)
+        if (C_GEAR_IsAnyTileFlashing((char *)p) == 0)
             p[0x455]++;
         break;
     case 2:
@@ -74,22 +74,22 @@ int func_021F1060(u8 *p)
             if (p[0x456] == d_021F3410[k].key) {
                 col = e->col;
                 row = e->row;
-                v = func_021F2B9C(p, row, col);
-                func_021F0B00(p + 0x2D0 + row * 0x20 + col * 8, p, d_021F31D4[v], 2, v, e->v);
+                v = C_GEAR_GetCellKind(p, row, col);
+                C_GEAR_StartTileFlash(p + 0x2D0 + row * 0x20 + col * 8, p, d_021F31D4[v], 2, v, e->v);
             }
         }
         if (p[0x456] >= 4) {
-            func_021F0FB0((char *)p);
-            func_021F1A44((char *)p, 1);
+            C_GEAR_StartFadeIn((char *)p);
+            C_GEAR_SetTileMarkersVisible((char *)p, 1);
             p[0x455]++;
         }
         p[0x456]++;
         break;
     case 3:
-        if (func_021F0A68((char *)p) == 0 && func_021F1000((char *)p) == 0)
+        if (C_GEAR_IsAnyTileFlashing((char *)p) == 0 && C_GEAR_GetFadeRequestBits((char *)p) == 0)
             return 1;
         break;
     }
-    func_021F0A38(p);
+    C_GEAR_StepTiles(p);
     return 0;
 }

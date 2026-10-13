@@ -1,5 +1,5 @@
 /*
- * function: func_0215FF34
+ * function: EVENT_SHORTCUT_MENU_HasShortcuts
  * address:  0x0215FF34
  * packet:   pkt_0215FF34
  * region:   ov010
@@ -13,8 +13,8 @@
  * success.
  *
  * symbols:
- *   func_020120F4   0x020120F4  thumb
- *   func_02012EBC   0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData   0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
  *   func_0200C404   0x0200C404  thumb
  *   func_0200C468   0x0200C468  thumb
  */
@@ -25,14 +25,14 @@ typedef unsigned int u32;
 
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C404(void *sys);
 extern u16 func_0200C468(const u8 *a);
 
-int func_0215FF34(void *sys)
+int EVENT_SHORTCUT_MENU_HasShortcuts(void *sys)
 {
-    if (func_0200C468(func_0200C404(func_02012EBC(func_020120F4(sys)))) != 0)
+    if (func_0200C468(func_0200C404(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(sys)))) != 0)
         return 1;
 
     return 0;

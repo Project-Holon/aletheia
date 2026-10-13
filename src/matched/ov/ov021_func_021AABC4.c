@@ -1,5 +1,5 @@
 /*
- * function: func_021AABC4
+ * function: EFFECT_ENCOUNT_CountStep
  * address:  0x021AABC4
  * packet:   pkt_ov021_021AABC4
  * region:   ov021
@@ -25,7 +25,7 @@ typedef struct {
     u32 fc;
 } S;
 
-int func_021AABC4(S *s, D *d)
+int EFFECT_ENCOUNT_CountStep(S *s, D *d)
 {
     u32 *c = &s->fc;
     if (*c < 0xffffffff) {

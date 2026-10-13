@@ -1,5 +1,5 @@
 /*
- * function: func_02163C9C
+ * function: FLDMMDL_MOVE_HitCheckMoveLimit
  * address:  0x02163C9C
  * packet:   pkt_ov010_02163C9C
  * region:   ov010
@@ -10,36 +10,36 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D7E8  0x0216D7E8  thumb
- *   func_0216D660  0x0216D660  thumb
- *   func_0216D7F8  0x0216D7F8  thumb
- *   func_0216D66C  0x0216D66C  thumb
+ *   FLDMMDL_GetGridInitX  0x0216D7E8  thumb
+ *   FLDMMDL_GetMoveLimitX  0x0216D660  thumb
+ *   FLDMMDL_GetGridInitZ  0x0216D7F8  thumb
+ *   FLDMMDL_GetMoveLimitZ  0x0216D66C  thumb
  */
 
 typedef short s16;
 
-extern int func_0216D7E8(void *p);
-extern int func_0216D660(void *p);
-extern int func_0216D7F8(void *p);
-extern int func_0216D66C(void *p);
+extern int FLDMMDL_GetGridInitX(void *p);
+extern int FLDMMDL_GetMoveLimitX(void *p);
+extern int FLDMMDL_GetGridInitZ(void *p);
+extern int FLDMMDL_GetMoveLimitZ(void *p);
 
-int func_02163C9C(int a, int b, int c)
+int FLDMMDL_MOVE_HitCheckMoveLimit(int a, int b, int c)
 {
     int base;
     int d;
     int hi;
     int lo;
 
-    base = func_0216D7E8((void *)a);
-    d = func_0216D660((void *)a);
+    base = FLDMMDL_GetGridInitX((void *)a);
+    d = FLDMMDL_GetMoveLimitX((void *)a);
     if (d != -1) {
         hi = (s16)(base + d);
         lo = (s16)(base - d);
         if (lo > b || hi < b)
             return 1;
     }
-    base = func_0216D7F8((void *)a);
-    d = func_0216D66C((void *)a);
+    base = FLDMMDL_GetGridInitZ((void *)a);
+    d = FLDMMDL_GetMoveLimitZ((void *)a);
     if (d != -1) {
         hi = (s16)(base + d);
         lo = (s16)(base - d);

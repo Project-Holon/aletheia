@@ -1,7 +1,7 @@
 /*
  * file:     pdw_postman.c
  * unit:     yes
- * function: func_021B7400, func_021B7494, func_021B74CC, func_021B7574, func_021B7640, func_021B76B4, func_021B76F8, func_021B7740, func_021B7794, func_021B77E4, func_021B7834, func_021B785C, func_021B7864
+ * function: PDW_POSTMAN_CreateListWin, PDW_POSTMAN_DeleteListWin, PDW_POSTMAN_PrintListWin, PDW_POSTMAN_ListEvent, PDW_POSTMAN_CreateReceivableList, PDW_POSTMAN_ReceiveItems, PDW_POSTMAN_CountUnreceivable, PDW_POSTMAN_GetUnreceivableItem, PDW_POSTMAN_CreateListEvent, PDW_POSTMAN_GetMysteryCard, PDW_POSTMAN_FindMysteryCard, PDW_POSTMAN_SetMysteryReceived, PDW_POSTMAN_GetMysteryGiftType
  * address:  0x021B7400
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -13,51 +13,51 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02045B38  0x02045B38  arm
  *   func_0201EC64  0x0201EC64  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02190708  0x02190708  thumb  ov021
- *   d_021DE288     0x021DE288  data   ov021  a1
- *   func_02190788  0x02190788  thumb  ov021
- *   func_02190728  0x02190728  thumb  ov021
+ *   STRBUF_Create  0x020457B0  arm
+ *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
+ *   sPdwPostmanFileName     0x021DE288  data   ov021  a1
+ *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   func_020409B4  0x020409B4  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02045CAC  0x02045CAC  arm
- *   func_02190758  0x02190758  thumb  ov021
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   FIELD_MSGBG_MsgWinPrintStr  0x02190758  thumb  ov021
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_021907C0  0x021907C0  thumb  ov021
+ *   FIELD_MSGBG_GetMsgWinBmpWin  0x021907C0  thumb  ov021
  *   func_02045730  0x02045730  arm
- *   func_02192788  0x02192788  thumb  ov021
- *   func_0219077C  0x0219077C  thumb  ov021
+ *   FIELD_MSGBG_CreateCursor  0x02192788  thumb  ov021
+ *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
  *   func_02045770  0x02045770  arm
- *   func_021928C0  0x021928C0  thumb  ov021
- *   func_02045334  0x02045334  arm
+ *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020362DC  0x020362DC  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_021927B0  0x021927B0  thumb  ov021
- *   func_0201292C  0x0201292C  thumb
+ *   FIELD_MSGBG_DeleteCursor  0x021927B0  thumb  ov021
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02009310  0x02009310  thumb
  *   func_02009330  0x02009330  thumb
  *   func_02007E3C  0x02007E3C  thumb
  *   func_02007E50  0x02007E50  thumb
  *   func_02009364  0x02009364  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009448  0x02009448  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_0200A0E4  0x0200A0E4  thumb
- *   func_0200A104  0x0200A104  thumb
- *   func_0200A000  0x0200A000  thumb
- *   func_0200A13C  0x0200A13C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   MYSTERY_DATA_IsCardExist  0x0200A0E4  thumb
+ *   MYSTERY_DATA_IsCardReceived  0x0200A104  thumb
+ *   MYSTERY_DATA_GetCard  0x0200A000  thumb
+ *   MYSTERY_DATA_SetCardReceived  0x0200A13C  thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -125,118 +125,118 @@ typedef struct PdwPostmanEventWork {
 #define PDW_POSTMAN_LINE_HEIGHT  14
 #define PDW_POSTMAN_MYSTERY_SLOTS 12
 
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern struct FieldMsgBg *func_02188C54(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct MsgBank *msgData);
-extern void func_02045CAC(struct MsgBank *msgData, u32 strId, struct StrBuf *dest);
+extern u32 MSGDATA_Delete(struct MsgBank *msgData);
+extern void MSGDATA_ReadString(struct MsgBank *msgData, u32 strId, struct StrBuf *dest);
 extern struct WordSet *func_0201EC64(u32 heapId);
 extern u32 func_0201ED04(struct WordSet *wordSet);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 bufId, u32 number, u32 digits, u32 dispType, u32 code);
 extern void func_0201F250(struct WordSet *wordSet, struct StrBuf *dest, struct StrBuf *src);
-extern struct StrBuf *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct StrBuf *strBuf);
+extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct StrBuf *strBuf);
 extern u8 func_02045730(struct BmpWin *bmpWin);
 extern struct Bitmap *func_02045770(struct BmpWin *bmpWin);
-extern void func_02045334(struct BmpWin *bmpWin);
+extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
 extern void func_020409B4(u32 bgFrame);
-extern struct FieldMsgWin *func_02190708(struct FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height);
-extern int func_02190728(struct FieldMsgWin *msgWin);
-extern void func_02190758(struct FieldMsgWin *msgWin, int x, u16 y, struct StrBuf *str);
-extern int func_0219077C(struct FieldMsgWin *msgWin);
-extern void func_02190788(struct FieldMsgWin *msgWin);
-extern struct BmpWin *func_021907C0(struct FieldMsgWin *msgWin);
-extern struct FieldMsgCursor *func_02192788(struct FieldMsgBg *msgBg);
-extern void func_021927B0(struct FieldMsgCursor *cursor);
-extern void func_021928C0(struct FieldMsgCursor *cursor, struct Bitmap *bmp, u32 color);
+extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height);
+extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
+extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, int x, u16 y, struct StrBuf *str);
+extern int FIELD_MSGBG_IsMsgWinTransDone(struct FieldMsgWin *msgWin);
+extern void FIELD_MSGBG_ClearMsgWin(struct FieldMsgWin *msgWin);
+extern struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(struct FieldMsgWin *msgWin);
+extern struct FieldMsgCursor *FIELD_MSGBG_CreateCursor(struct FieldMsgBg *msgBg);
+extern void FIELD_MSGBG_DeleteCursor(struct FieldMsgCursor *cursor);
+extern void FIELD_MSGBG_AnimateCursor(struct FieldMsgCursor *cursor, struct Bitmap *bmp, u32 color);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 seNo);
-extern struct MyItem *func_0201292C(const struct GameData *gameData);
+extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
 extern u16 func_02009310(const struct PdwPostmanSave *save, int slot);
 extern u8 func_02009330(const struct PdwPostmanSave *save, int slot);
 extern void func_02009364(struct PdwPostmanSave *save, int slot);
 extern int func_02007E3C(struct MyItem *bag, u32 itemId, u32 count, u32 heapId);
 extern int func_02007E50(struct MyItem *bag, int itemId, int count, int heapId);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
-extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct PdwPostmanSave *func_02009448(struct SaveControl *save);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern u32 func_0200A0E4(struct MysteryData *data, u32 slot);
-extern int func_0200A104(struct MysteryData *data, unsigned int slot);
-extern int func_0200A000(struct MysteryData *data, int slot, MysteryCard *card);
-extern void func_0200A13C(struct MysteryData *data, u32 slot);
+extern u32 MYSTERY_DATA_IsCardExist(struct MysteryData *data, u32 slot);
+extern int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, unsigned int slot);
+extern int MYSTERY_DATA_GetCard(struct MysteryData *data, int slot, MysteryCard *card);
+extern void MYSTERY_DATA_SetCardReceived(struct MysteryData *data, u32 slot);
 
-PdwPostmanListWin *func_021B7400(struct FieldMap *fieldMap, PdwPostmanItem *items, int itemCount);
-int func_021B7494(PdwPostmanListWin *listWin);
-void func_021B74CC(PdwPostmanListWin *listWin);
-int func_021B7574(struct GameEvent *event, int *seq, void *eventWork);
-PdwPostmanItem *func_021B7640(struct GameData *gameData, u32 heapId, struct PdwPostmanSave *save, int *outCount);
-void func_021B76B4(struct GameData *gameData, int heapId, struct PdwPostmanSave *save);
-int func_021B76F8(struct GameData *gameData, int heapId, struct PdwPostmanSave *save);
-u32 func_021B7740(struct GameData *gameData, int heapId, struct PdwPostmanSave *save, int index);
-struct GameEvent *func_021B7794(struct GameSystem *gameSystem);
-MysteryCard *func_021B77E4(struct MysteryData *data, int slot, MysteryCard *card);
-MysteryCard *func_021B7834(struct MysteryData *data, int *outSlot, MysteryCard *card);
-void func_021B785C(struct MysteryData *data, u32 slot);
-u8 func_021B7864(struct MysteryData *data);
+PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostmanItem *items, int itemCount);
+int PDW_POSTMAN_DeleteListWin(PdwPostmanListWin *listWin);
+void PDW_POSTMAN_PrintListWin(PdwPostmanListWin *listWin);
+int PDW_POSTMAN_ListEvent(struct GameEvent *event, int *seq, void *eventWork);
+PdwPostmanItem *PDW_POSTMAN_CreateReceivableList(struct GameData *gameData, u32 heapId, struct PdwPostmanSave *save, int *outCount);
+void PDW_POSTMAN_ReceiveItems(struct GameData *gameData, int heapId, struct PdwPostmanSave *save);
+int PDW_POSTMAN_CountUnreceivable(struct GameData *gameData, int heapId, struct PdwPostmanSave *save);
+u32 PDW_POSTMAN_GetUnreceivableItem(struct GameData *gameData, int heapId, struct PdwPostmanSave *save, int index);
+struct GameEvent *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSystem);
+MysteryCard *PDW_POSTMAN_GetMysteryCard(struct MysteryData *data, int slot, MysteryCard *card);
+MysteryCard *PDW_POSTMAN_FindMysteryCard(struct MysteryData *data, int *outSlot, MysteryCard *card);
+void PDW_POSTMAN_SetMysteryReceived(struct MysteryData *data, u32 slot);
+u8 PDW_POSTMAN_GetMysteryGiftType(struct MysteryData *data);
 
-extern const char d_021DE288[];
+extern const char sPdwPostmanFileName[];
 
-PdwPostmanListWin *func_021B7400(struct FieldMap *fieldMap, PdwPostmanItem *items, int itemCount)
+PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostmanItem *items, int itemCount)
 {
     u32 heapId;
     PdwPostmanListWin *listWin;
     int height;
 
-    heapId = func_02188C84(fieldMap);
-    listWin = func_02030734(heapId, sizeof(PdwPostmanListWin), 1, d_021DE288, 0x73);
+    heapId = FIELDMAP_GetHeapId(fieldMap);
+    listWin = func_02030734(heapId, sizeof(PdwPostmanListWin), 1, sPdwPostmanFileName, 0x73);
     listWin->heapId = heapId;
     listWin->fieldMap = fieldMap;
     listWin->items = items;
     listWin->itemCount = itemCount;
     listWin->msgData = func_02045B38(0, 3, 0x13B, heapId);
     listWin->wordSet = func_0201EC64(heapId);
-    listWin->strBuf = func_020457B0(0x80, heapId);
-    listWin->expandBuf = func_020457B0(0x80, heapId);
+    listWin->strBuf = STRBUF_Create(0x80, heapId);
+    listWin->expandBuf = STRBUF_Create(0x80, heapId);
     height = (itemCount * PDW_POSTMAN_LINE_HEIGHT + 7) & ~7;
-    listWin->msgWin = func_02190708(func_02188C54(fieldMap), listWin->msgData, 1, 1, 0x15, (u16)(height / 8));
+    listWin->msgWin = FIELD_MSGBG_CreateMsgWin(FIELDMAP_GetMsgBg(fieldMap), listWin->msgData, 1, 1, 0x15, (u16)(height / 8));
     return listWin;
 }
 
 /* Addresses are Black-image addresses. */
-int func_021B7494(PdwPostmanListWin *listWin)
+int PDW_POSTMAN_DeleteListWin(PdwPostmanListWin *listWin)
 {
-    func_02190788(listWin->msgWin);
-    func_02190728(listWin->msgWin);
+    FIELD_MSGBG_ClearMsgWin(listWin->msgWin);
+    FIELD_MSGBG_DeleteMsgWin(listWin->msgWin);
     func_020409B4(1);
-    func_02045808(listWin->strBuf);
-    func_02045808(listWin->expandBuf);
+    STRBUF_Delete(listWin->strBuf);
+    STRBUF_Delete(listWin->expandBuf);
     func_0201ED04(listWin->wordSet);
-    func_02045C04(listWin->msgData);
+    MSGDATA_Delete(listWin->msgData);
     return func_020307B0(listWin);
 }
 
 /* Print one line per gift: the item name, then its quantity. */
-void func_021B74CC(PdwPostmanListWin *listWin)
+void PDW_POSTMAN_PrintListWin(PdwPostmanListWin *listWin)
 {
     struct MsgBank *itemNames;
     int i;
 
     itemNames = func_02045B38(0, 2, 0x36, (u16)((listWin->heapId & 0x7fff) | 0x8000));
     for (i = 0; i < listWin->itemCount; i++) {
-        func_02045CAC(itemNames, listWin->items[i].itemId, listWin->strBuf);
-        func_02190758(listWin->msgWin, 0, i * PDW_POSTMAN_LINE_HEIGHT, listWin->strBuf);
-        func_02045CAC(listWin->msgData, 5, listWin->strBuf);
+        MSGDATA_ReadString(itemNames, listWin->items[i].itemId, listWin->strBuf);
+        FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0, i * PDW_POSTMAN_LINE_HEIGHT, listWin->strBuf);
+        MSGDATA_ReadString(listWin->msgData, 5, listWin->strBuf);
         func_0201EFA4(listWin->wordSet, 0, listWin->items[i].count, 2, 1, 1);
         func_0201F250(listWin->wordSet, listWin->expandBuf, listWin->strBuf);
-        func_02190758(listWin->msgWin, 0x6c, i * PDW_POSTMAN_LINE_HEIGHT, listWin->expandBuf);
+        FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0x6c, i * PDW_POSTMAN_LINE_HEIGHT, listWin->expandBuf);
     }
-    func_02045C04(itemNames);
-    func_020409B4(func_02045730(func_021907C0(listWin->msgWin)));
+    MSGDATA_Delete(itemNames);
+    func_020409B4(func_02045730(FIELD_MSGBG_GetMsgWinBmpWin(listWin->msgWin)));
 }
 
 /*
@@ -244,7 +244,7 @@ void func_021B74CC(PdwPostmanListWin *listWin)
  * button on each page.
  * Addresses are Black-image addresses.
  */
-int func_021B7574(struct GameEvent *event, int *seq, void *eventWork)
+int PDW_POSTMAN_ListEvent(struct GameEvent *event, int *seq, void *eventWork)
 {
     PdwPostmanEventWork *work = eventWork;
     u16 count;
@@ -256,28 +256,28 @@ int func_021B7574(struct GameEvent *event, int *seq, void *eventWork)
         if (count > PDW_POSTMAN_PAGE_ITEMS) {
             count = PDW_POSTMAN_PAGE_ITEMS;
         }
-        work->listWin = func_021B7400(work->fieldMap, work->items + work->pageTop, count);
-        func_021B74CC(work->listWin);
-        work->listWin->cursor = func_02192788(func_02188C54(work->fieldMap));
+        work->listWin = PDW_POSTMAN_CreateListWin(work->fieldMap, work->items + work->pageTop, count);
+        PDW_POSTMAN_PrintListWin(work->listWin);
+        work->listWin->cursor = FIELD_MSGBG_CreateCursor(FIELDMAP_GetMsgBg(work->fieldMap));
         (*seq)++;
         break;
     case 1:
-        if (func_0219077C(work->listWin->msgWin) == 1) {
+        if (FIELD_MSGBG_IsMsgWinTransDone(work->listWin->msgWin) == 1) {
             (*seq)++;
         }
         break;
     case 2:
-        bmpWin = func_021907C0(work->listWin->msgWin);
-        func_021928C0(work->listWin->cursor, func_02045770(bmpWin), 15);
-        func_02045334(bmpWin);
+        bmpWin = FIELD_MSGBG_GetMsgWinBmpWin(work->listWin->msgWin);
+        FIELD_MSGBG_AnimateCursor(work->listWin->cursor, func_02045770(bmpWin), 15);
+        BMP_WIN_TransferChars(bmpWin);
         if (func_020362DC() & 1) {
             func_020061E4(0x547);
             (*seq)++;
         }
         break;
     case 3:
-        func_021927B0(work->listWin->cursor);
-        func_021B7494(work->listWin);
+        FIELD_MSGBG_DeleteCursor(work->listWin->cursor);
+        PDW_POSTMAN_DeleteListWin(work->listWin);
         (*seq)++;
         break;
     case 4:
@@ -293,7 +293,7 @@ int func_021B7574(struct GameEvent *event, int *seq, void *eventWork)
 }
 
 /* List the gifts that fit in the bag; the count goes to outCount. */
-PdwPostmanItem *func_021B7640(struct GameData *gameData, u32 heapId, struct PdwPostmanSave *save, int *outCount)
+PdwPostmanItem *PDW_POSTMAN_CreateReceivableList(struct GameData *gameData, u32 heapId, struct PdwPostmanSave *save, int *outCount)
 {
     PdwPostmanItem *items;
     struct MyItem *bag;
@@ -302,8 +302,8 @@ PdwPostmanItem *func_021B7640(struct GameData *gameData, u32 heapId, struct PdwP
     u16 itemId;
     u16 itemCount;
 
-    bag = func_0201292C(gameData);
-    items = func_02030734(heapId, sizeof(PdwPostmanItem) * PDW_POSTMAN_ITEM_MAX, 1, d_021DE288, 0x14d);
+    bag = GAME_DATA_GetMyItem(gameData);
+    items = func_02030734(heapId, sizeof(PdwPostmanItem) * PDW_POSTMAN_ITEM_MAX, 1, sPdwPostmanFileName, 0x14d);
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
@@ -320,9 +320,9 @@ PdwPostmanItem *func_021B7640(struct GameData *gameData, u32 heapId, struct PdwP
 }
 
 /* Put every gift that fits into the bag and clear its slot. */
-void func_021B76B4(struct GameData *gameData, int heapId, struct PdwPostmanSave *save)
+void PDW_POSTMAN_ReceiveItems(struct GameData *gameData, int heapId, struct PdwPostmanSave *save)
 {
-    struct MyItem *bag = func_0201292C(gameData);
+    struct MyItem *bag = GAME_DATA_GetMyItem(gameData);
     u32 i;
 
     for (i = 0; i < PDW_POSTMAN_ITEM_MAX; i++) {
@@ -339,7 +339,7 @@ void func_021B76B4(struct GameData *gameData, int heapId, struct PdwPostmanSave 
  * Count the gifts that do not fit in the bag.
  * Addresses are Black-image addresses.
  */
-int func_021B76F8(struct GameData *gameData, int heapId, struct PdwPostmanSave *save)
+int PDW_POSTMAN_CountUnreceivable(struct GameData *gameData, int heapId, struct PdwPostmanSave *save)
 {
     struct MyItem *bag;
     u32 i;
@@ -347,7 +347,7 @@ int func_021B76F8(struct GameData *gameData, int heapId, struct PdwPostmanSave *
     u32 itemId;
     int itemCount;
 
-    bag = func_0201292C(gameData);
+    bag = GAME_DATA_GetMyItem(gameData);
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
@@ -362,7 +362,7 @@ int func_021B76F8(struct GameData *gameData, int heapId, struct PdwPostmanSave *
 }
 
 /* Item id of the index-th gift that does not fit in the bag, 0 when none. */
-u32 func_021B7740(struct GameData *gameData, int heapId, struct PdwPostmanSave *save, int index)
+u32 PDW_POSTMAN_GetUnreceivableItem(struct GameData *gameData, int heapId, struct PdwPostmanSave *save, int index)
 {
     struct MyItem *bag;
     int i;
@@ -370,7 +370,7 @@ u32 func_021B7740(struct GameData *gameData, int heapId, struct PdwPostmanSave *
     u32 itemId;
     int itemCount;
 
-    bag = func_0201292C(gameData);
+    bag = GAME_DATA_GetMyItem(gameData);
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
@@ -388,33 +388,33 @@ u32 func_021B7740(struct GameData *gameData, int heapId, struct PdwPostmanSave *
 }
 
 /* Create the gift list event for the gifts that fit in the bag. */
-struct GameEvent *func_021B7794(struct GameSystem *gameSystem)
+struct GameEvent *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSystem)
 {
     struct GameData *gameData;
     struct PdwPostmanSave *save;
     struct GameEvent *event;
     PdwPostmanEventWork *work;
 
-    gameData = func_020120F4(gameSystem);
-    save = func_02009448(func_02012EBC(gameData));
-    event = func_020122C0(gameSystem, 0, func_021B7574, sizeof(PdwPostmanEventWork));
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    save = func_02009448(GAME_DATA_GetSaveControl(gameData));
+    event = func_020122C0(gameSystem, 0, PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
     work = func_020124E8(event);
-    work->fieldMap = func_0201210C(gameSystem);
+    work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->pageTop = 0;
-    work->items = func_021B7640(gameData, func_02188C84(work->fieldMap), save, (int *)&work->itemCount);
+    work->items = PDW_POSTMAN_CreateReceivableList(gameData, FIELDMAP_GetHeapId(work->fieldMap), save, (int *)&work->itemCount);
     return event;
 }
 
 /* The mystery gift card of the slot when it waits for delivery (gift type 1..3). */
-MysteryCard *func_021B77E4(struct MysteryData *data, int slot, MysteryCard *card)
+MysteryCard *PDW_POSTMAN_GetMysteryCard(struct MysteryData *data, int slot, MysteryCard *card)
 {
     u8 giftType;
 
-    if (func_0200A0E4(data, slot) == 0)
+    if (MYSTERY_DATA_IsCardExist(data, slot) == 0)
         return 0;
-    if (func_0200A104(data, slot) == 1)
+    if (MYSTERY_DATA_IsCardReceived(data, slot) == 1)
         return 0;
-    if (func_0200A000(data, slot, card) == 0)
+    if (MYSTERY_DATA_GetCard(data, slot, card) == 0)
         return 0;
     giftType = card->giftType;
     if (giftType == 0)
@@ -425,12 +425,12 @@ MysteryCard *func_021B77E4(struct MysteryData *data, int slot, MysteryCard *card
 }
 
 /* First mystery gift waiting for delivery; its slot goes to outSlot. */
-MysteryCard *func_021B7834(struct MysteryData *data, int *outSlot, MysteryCard *card)
+MysteryCard *PDW_POSTMAN_FindMysteryCard(struct MysteryData *data, int *outSlot, MysteryCard *card)
 {
     int i;
 
     for (i = 0; i < PDW_POSTMAN_MYSTERY_SLOTS; i++) {
-        if (func_021B77E4(data, i, card)) {
+        if (PDW_POSTMAN_GetMysteryCard(data, i, card)) {
             *outSlot = i;
             return card;
         }
@@ -439,19 +439,19 @@ MysteryCard *func_021B7834(struct MysteryData *data, int *outSlot, MysteryCard *
 }
 
 /* Mark the mystery gift of the slot as delivered. */
-void func_021B785C(struct MysteryData *data, u32 slot)
+void PDW_POSTMAN_SetMysteryReceived(struct MysteryData *data, u32 slot)
 {
-    func_0200A13C(data, slot);
+    MYSTERY_DATA_SetCardReceived(data, slot);
 }
 
 /* Gift type of the first mystery gift waiting for delivery, 0 when none. */
-u8 func_021B7864(struct MysteryData *data)
+u8 PDW_POSTMAN_GetMysteryGiftType(struct MysteryData *data)
 {
     int slot;
     MysteryCard card;
     MysteryCard *found;
 
-    found = func_021B7834(data, &slot, &card);
+    found = PDW_POSTMAN_FindMysteryCard(data, &slot, &card);
     if (found == 0) {
         return 0;
     }

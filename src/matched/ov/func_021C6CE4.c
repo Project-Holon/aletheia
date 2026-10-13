@@ -1,5 +1,5 @@
 /*
- * function: func_021C6CE4
+ * function: FIELD_TASK_SetRunning
  * address:  0x021C6CE4
  * packet:   pkt_021C6CE4
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 
 
 
-void func_021C6CE4(u32 *p)
+void FIELD_TASK_SetRunning(u32 *p)
 {
     *p = 1;
 }

@@ -10,7 +10,7 @@
  * note: Extent ends with two-byte zero alignment padding.
  * symbols:
  *   func_02011324 0x02011324 thumb
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  *   VM_Delete 0x02011264 thumb
  *   WAZA_TOOL_IsCacheCreated 0x0201C408 thumb
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020307B0(void *p);
 extern void VM_Delete(void *);
 extern u32 WAZA_TOOL_IsCacheCreated(void);
@@ -32,8 +32,8 @@ void func_02188080(void *a)
 {
     u8 *p;
     p = func_02011324(a);
-    func_02049238(((struct Obj13649 *)p)->fA4);
-    func_02049238(((struct Obj13649 *)p)->fA8);
+    ARC_TOOL_DeleteHandle(((struct Obj13649 *)p)->fA4);
+    ARC_TOOL_DeleteHandle(((struct Obj13649 *)p)->fA8);
     func_020307B0(p);
     VM_Delete(a);
     if (WAZA_TOOL_IsCacheCreated() == 1) WAZA_TOOL_DeleteCache();

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4DE4
+ * function: SOUND_OBJ_AdvanceAnime
  * address:  0x021C4DE4
  * packet:   pkt_ov021_021C4DE4
  * region:   ov021
@@ -12,8 +12,9 @@
  * Finishes the record's task and tears the record down.
  *
  * symbols:
- *   func_021C4E34  0x021C4E34  thumb  ov021
- *   func_021C4E6C  0x021C4E6C  thumb  ov021
+ *   SOUND_OBJ_ApplyPosition  0x021C4E34  thumb  ov021
+ *   SOUND_OBJ_ApplyRotation  0x021C4E6C  thumb  ov021
+ *   ICA_ANIME_IncFrameLoop  0x02011590  thumb  arm9
  */
 
 typedef unsigned short u16;
@@ -31,18 +32,18 @@ typedef struct {
 } R;
 
 struct IcaAnime;
-extern u32 func_02011590(struct IcaAnime *p, s32 v);
-extern void func_021C4E34(R *r);
-extern void func_021C4E6C(char *p);
+extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
+extern void SOUND_OBJ_ApplyPosition(R *r);
+extern void SOUND_OBJ_ApplyRotation(char *p);
 
-u32 func_021C4DE4(R *r, s32 dv)
+u32 SOUND_OBJ_AdvanceAnime(R *r, s32 dv)
 {
     u32 v;
 
     if (r->task == 0)
         return 0;
-    v = func_02011590((struct IcaAnime *)r->task, dv);
-    func_021C4E34(r);
-    func_021C4E6C((char *)r);
+    v = ICA_ANIME_IncFrameLoop((struct IcaAnime *)r->task, dv);
+    SOUND_OBJ_ApplyPosition(r);
+    SOUND_OBJ_ApplyRotation((char *)r);
     return v;
 }

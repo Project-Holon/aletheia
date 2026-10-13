@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DAAEC, func_021DAB0C, func_021DAB18
+ * function: BTL_ABILITY_VoltAbsorbAbsorbElectric, BTL_ABILITY_GetVoltAbsorbHandlers, BTL_ABILITY_GetMotorDriveHandlers
  * address: 0x021DAAEC
  * packet: pkt_ov093_021DAAEC
  * region: ov093
@@ -10,29 +10,29 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0798 0x021F0798 data a4
- *   func_021DA8A8 0x021DA8A8 thumb ov093
- *   func_021DA8DC 0x021DA8DC thumb ov093
+ *   gMotorDriveHandlerTable 0x021F0798 data a4
+ *   BTL_ABILITY_AbsorbCheckMoveType 0x021DA8A8 thumb ov093
+ *   BTL_ABILITY_AbsorbRecoverHp 0x021DA8DC thumb ov093
  * extent: includes store-and-return followers 021DAB0C, 021DAB18.
  */
-extern unsigned char d_021F0798[];
-extern int func_021DA8A8(int, int, int);
-extern void func_021DA8DC(int, int, int);
+extern unsigned char gMotorDriveHandlerTable[];
+extern int BTL_ABILITY_AbsorbCheckMoveType(int, int, int);
+extern void BTL_ABILITY_AbsorbRecoverHp(int, int, int);
 
-void func_021DAAEC(int a, int b, int c)
+void BTL_ABILITY_VoltAbsorbAbsorbElectric(int a, int b, int c)
 {
-    if (func_021DA8A8(b, c, 12))
-        func_021DA8DC(b, c, 4);
+    if (BTL_ABILITY_AbsorbCheckMoveType(b, c, 12))
+        BTL_ABILITY_AbsorbRecoverHp(b, c, 4);
 }
 
-void *func_021DAB0C(int *p)
+void *BTL_ABILITY_GetVoltAbsorbHandlers(int *p)
 {
     *p = 1;
-    return d_021F0798 + 8;
+    return gMotorDriveHandlerTable + 8;
 }
 
-void *func_021DAB18(int *p)
+void *BTL_ABILITY_GetMotorDriveHandlers(int *p)
 {
     *p = 1;
-    return d_021F0798;
+    return gMotorDriveHandlerTable;
 }

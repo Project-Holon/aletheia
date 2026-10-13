@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021D69A0, func_021D69AC
+ * function: BTL_POKEPARAM_SetCounter, BTL_POKEPARAM_GetCounter
  * address:  0x021D69A0
  * packet:   pkt_ov093_021D69A0
  * region:   ov093
@@ -11,14 +11,14 @@
  * status:   EXACT
  */
 
-void func_021D69A0(unsigned char *base, int idx, unsigned char val)
+void BTL_POKEPARAM_SetCounter(unsigned char *base, int idx, unsigned char val)
 {
     unsigned char *p = base + idx;
 
     p[0x157] = val;
 }
 
-unsigned char func_021D69AC(unsigned char *base, int idx)
+unsigned char BTL_POKEPARAM_GetCounter(unsigned char *base, int idx)
 {
     unsigned char *p = base + idx;
 

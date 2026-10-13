@@ -1,5 +1,5 @@
 /*
- * function: func_02047E88
+ * function: G3D_UTIL_AddUnit
  * address:  0x02047E88
  * packet:   pkt_02047E88
  * region:   arm9
@@ -29,7 +29,7 @@
  * explicit (u16) cast does not reproduce.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047E88.c --func func_02047E88 --addr 0x02047E88 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_AddUnit.c --func G3D_UTIL_AddUnit --addr 0x02047E88 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -64,7 +64,7 @@ typedef struct {
 extern void G3D_UTIL_LoadUnitResources(Util *u, u16 idx, const Setup *s, u16 heapID);
 extern void G3D_UTIL_BuildUnitObjects(Util *u, u16 idx, const Setup *s, u16 heapID);
 
-u16 func_02047E88(Util *util, const Setup *setup)
+u16 G3D_UTIL_AddUnit(Util *util, const Setup *setup)
 {
     u16 resIdx = 0;
     u16 objIdx = 0;

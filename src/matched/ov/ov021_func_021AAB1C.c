@@ -1,5 +1,5 @@
 /*
- * function: func_021AAB1C
+ * function: EFFECT_ENCOUNT_SetEffectFlag
  * address:  0x021AAB1C
  * packet:   pkt_ov021_021AAB1C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
- *   func_021ADB5C  0x021ADB5C  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
+ *   FLDEFF_ENCOUNT_SetDrawHidden  0x021ADB5C  thumb
  */
 
 typedef unsigned char u8;
@@ -38,15 +38,15 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_02012A38(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 
-extern void func_021ADB5C(int a, int b);
+extern void FLDEFF_ENCOUNT_SetDrawHidden(int a, int b);
 
-void func_021AAB1C(S *s, int b)
+void EFFECT_ENCOUNT_SetEffectFlag(S *s, int b)
 {
-    T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
+    T *t = (T *)GAME_DATA_GetFieldGimmick((const struct BigObj *)s->f8);
     D *d = s->f10;
     if (t->lo && d->f5b4 != 0) {
-        func_021ADB5C(d->f5b4, b);
+        FLDEFF_ENCOUNT_SetDrawHidden(d->f5b4, b);
     }
 }

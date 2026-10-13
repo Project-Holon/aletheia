@@ -1,5 +1,5 @@
 /*
- * function: func_021916E0
+ * function: FIELD_MSGBG_PlainWinMain
  * address:  0x021916E0
  * packet:   pkt_ov021_021916E0
  * region:   ov021
@@ -12,15 +12,15 @@
  * symbols:
  *   func_020362DC  0x020362DC  arm
  *   func_0203630C  0x0203630C  arm
- *   func_02190D5C  0x02190D5C  thumb  ov021
+ *   FIELD_MSGBG_MsgStreamMain  0x02190D5C  thumb  ov021
  *   func_0201CE30  0x0201CE30  thumb
  *   func_02040618  0x02040618  arm
- *   func_021927F8  0x021927F8  thumb  ov021
- *   func_021927FC  0x021927FC  thumb  ov021
- *   func_021928C0  0x021928C0  thumb  ov021
- *   func_0219320C  0x0219320C  thumb  ov021
+ *   FIELD_MSGBG_IsCursorDrawn  0x021927F8  thumb  ov021
+ *   FIELD_MSGBG_ClearCursor  0x021927FC  thumb  ov021
+ *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
+ *   FIELD_MSGBG_KeyWaitGetAuto  0x0219320C  thumb  ov021
  *   func_02045770  0x02045770  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00005.h"
@@ -32,24 +32,24 @@ typedef signed short   s16;
 
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern int func_02190D5C(u32 *p);
+extern int FIELD_MSGBG_MsgStreamMain(u32 *p);
 extern u32 func_0201CE30(void *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern u8 func_021927F8(u8 *p);
+extern u8 FIELD_MSGBG_IsCursorDrawn(u8 *p);
 struct Cur;
-extern void func_021927FC(struct Cur *c, u32 win, u32 col);
-extern void func_021928C0(struct Cur *c, u32 win, u32 col);
-extern u8 func_0219320C(u8 *p);
+extern void FIELD_MSGBG_ClearCursor(struct Cur *c, u32 win, u32 col);
+extern void FIELD_MSGBG_AnimateCursor(struct Cur *c, u32 win, u32 col);
+extern u8 FIELD_MSGBG_KeyWaitGetAuto(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-u32 func_021916E0(u32 *a)
+u32 FIELD_MSGBG_PlainWinMain(u32 *a)
 {
     u32 r;
     func_020362DC();
     func_0203630C();
-    r = func_02190D5C((u32 *)a[7]);
+    r = FIELD_MSGBG_MsgStreamMain((u32 *)a[7]);
     a[9] = func_0201CE30((void *)(*(u32 *)(a[7] + 4)));
     func_02040618(1, 3, ((struct Obj00005 *)a)->f28);
     if (((struct Obj00005 *)a)->f28 < 0) {
@@ -61,15 +61,15 @@ u32 func_021916E0(u32 *a)
     ((struct Obj00005 *)a)->f28 = -((struct Obj00005 *)a)->f28;
     switch (r) {
     case 0:
-        if (func_021927F8((u8 *)a) == 1) {
-            func_021927FC((struct Cur *)a, (u32)func_02045770((struct Descriptor *)a[6]), 15);
-            func_02045334((struct Descriptor *)a[6]);
+        if (FIELD_MSGBG_IsCursorDrawn((u8 *)a) == 1) {
+            FIELD_MSGBG_ClearCursor((struct Cur *)a, (u32)func_02045770((struct Descriptor *)a[6]), 15);
+            BMP_WIN_TransferChars((struct Descriptor *)a[6]);
         }
         break;
     case 1:
-        if (func_0219320C((u8 *)(a[3] + 0x160)) == 0) {
-            func_021928C0((struct Cur *)a, (u32)func_02045770((struct Descriptor *)a[6]), 15);
-            func_02045334((struct Descriptor *)a[6]);
+        if (FIELD_MSGBG_KeyWaitGetAuto((u8 *)(a[3] + 0x160)) == 0) {
+            FIELD_MSGBG_AnimateCursor((struct Cur *)a, (u32)func_02045770((struct Descriptor *)a[6]), 15);
+            BMP_WIN_TransferChars((struct Descriptor *)a[6]);
         }
         break;
     case 2:

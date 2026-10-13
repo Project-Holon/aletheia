@@ -1,5 +1,5 @@
 /*
- * function: func_0215FBF4
+ * function: SCRCMD_NETWORK_CreateWifiProcEvent
  * address:  0x0215FBF4
  * packet:   pkt_ov010_0215FBF4
  * region:   ov010
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CCC  0x02188CCC  thumb  ov021
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   func_0201232C  0x0201232C  thumb
+ *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_0215FA54  0x0215FA54  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   SCRCMD_NETWORK_WifiProcEventMain  0x0215FA54  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -24,18 +24,18 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Obj;
-extern u32 func_02188CCC(u8 *p);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
 struct Desc;
 struct Ctx;
 struct Big;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void func_0201232C(char *p, int a1, int a2);
+extern void GAME_EVENT_Change(char *p, int a1, int a2);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Work;
-extern int func_0215FA54(void *evt, u32 *state, struct Work *w);
+extern int SCRCMD_NETWORK_WifiProcEventMain(void *evt, u32 *state, struct Work *w);
 
 /* record behind the descriptor: owner, its context, the context's head */
 struct Rec {
@@ -44,21 +44,21 @@ struct Rec {
     void *head;
 };
 
-struct Desc *func_0215FBF4(int a0, int a1, struct Desc *a2, int a3)
+struct Desc *SCRCMD_NETWORK_CreateWifiProcEvent(int a0, int a1, struct Desc *a2, int a3)
 {
     struct Rec *p;
     void *ctx;
 
-    func_02188CCC((u8 *)a1);
+    FIELDMAP_GetSubscreen((u8 *)a1);
     if (a3 != 0) {
-        a2 = func_020122C0((void *)a0, 0, (void *)func_0215FA54, 0x34);
+        a2 = func_020122C0((void *)a0, 0, (void *)SCRCMD_NETWORK_WifiProcEventMain, 0x34);
     } else {
-        func_0201232C((char *)a2, (int)func_0215FA54, 0x34);
+        GAME_EVENT_Change((char *)a2, (int)SCRCMD_NETWORK_WifiProcEventMain, 0x34);
     }
     p = (struct Rec *)func_020124E8((struct Obj *)a2);
-    ctx = func_020120F4((const struct Ctx *)a0);
+    ctx = GAMESYSTEM_GetGameData((const struct Ctx *)a0);
     p->ctx = ctx;
-    p->head = func_02012EBC((struct Big *)ctx);
+    p->head = GAME_DATA_GetSaveControl((struct Big *)ctx);
     p->owner = a0;
     return a2;
 }

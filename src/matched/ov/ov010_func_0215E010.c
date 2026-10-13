@@ -1,5 +1,5 @@
 /*
- * function: func_0215E010
+ * function: SCRCMD_MUSICAL_WaitEntryMenuChild
  * address:  0x0215E010
  * packet:   pkt_ov010_0215E010
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
- *   func_021CD688  0x021CD688  thumb  ov021
+ *   COMM_ENTRY_MENU_Main  0x021CD688  thumb  ov021
  *   func_021FC804  0x021FC804  thumb  ov132
- *   func_021CD5A4  0x021CD5A4  thumb  ov021
+ *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -30,23 +30,23 @@ struct W {
     u16 *f30;
 };
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *p);
 extern int GAME_DATA_GetExternalWork(char *base);
-extern u32 func_021CD688(u8 *p);
+extern u32 COMM_ENTRY_MENU_Main(u8 *p);
 extern void func_021FC804(char *p);
-extern u32 func_021CD5A4(u32 *p);
+extern u32 COMM_ENTRY_MENU_Delete(u32 *p);
 
-int func_0215E010(void *a, void *b)
+int SCRCMD_MUSICAL_WaitEntryMenuChild(void *a, void *b)
 {
     struct W *w;
     int r;
     int v;
 
-    func_0215A5F4(b);
-    w = (struct W *)GAME_DATA_GetExternalWork(func_0215A5E4(b));
+    SCRCMD_WORK_GetScriptWork(b);
+    w = (struct W *)GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(b));
     r = 0;
-    switch (func_021CD688(w->f8)) {
+    switch (COMM_ENTRY_MENU_Main(w->f8)) {
     case 1:
         *w->f30 = 3;
         func_021FC804(w->f4);
@@ -64,7 +64,7 @@ int func_0215E010(void *a, void *b)
         break;
     }
     if (r == 1) {
-        func_021CD5A4(w->f8);
+        COMM_ENTRY_MENU_Delete(w->f8);
         w->f8 = 0;
     }
     return r;

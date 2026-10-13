@@ -1,5 +1,5 @@
 /*
- * function: func_021A3E54
+ * function: FIELD_PLAYER_CORE_FormStepSurf
  * address:  0x021A3E54
  * packet:   pkt_ov021_021A3E54
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_021A3AD8  0x021A3AD8  thumb  ov021
- *   func_021A398C  0x021A398C  thumb  ov021
- *   func_021A3190  0x021A3190  thumb  ov021
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A3980  0x021A3980  thumb  ov021
- *   func_021A4114  0x021A4114  thumb  ov021
- *   func_021A3AD4  0x021A3AD4  thumb  ov021
- *   func_021A3AD0  0x021A3AD0  thumb  ov021
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021ACB38  0x021ACB38  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FIELD_PLAYER_CORE_ChangeModel  0x021A3AD8  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetSex  0x021A398C  thumb  ov021
+ *   FIELD_PLAYER_GetFormObjCode  0x021A3190  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetFormCode  0x021A3980  thumb  ov021
+ *   FIELD_PLAYER_CORE_PostZoneBgmChange  0x021A4114  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetRideEffect  0x021A3AD4  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetRideEffect  0x021A3AD0  thumb  ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDEFF_NAMIPOKE_Start  0x021ACB38  thumb  ov021
  */
 #include "../include/Obj12732.h"
 
@@ -31,24 +31,24 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021A3960(u8 *p);
-extern u16 func_0216D598(void *p);
-extern void func_021A3AD8(u8 *p, int a);
-extern u32 func_021A398C(u8 *);
-extern u16 func_021A3190(int, int);
-extern u32 func_021A3974(u8 *p);
-extern void func_021A3980(u8 *p, u32 a1);
-extern void func_021A4114(u32 *p);
-extern u32 func_021A3AD4(u8 *);
-extern void func_021A3AD0(u8 *, u32);
-extern u32 func_02188CD0(u8 *p);
-extern u16 func_0216D5F8(void *p);
+extern void *FIELD_PLAYER_CORE_GetMmdl(u8 *p);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern void FIELD_PLAYER_CORE_ChangeModel(u8 *p, int a);
+extern u32 FIELD_PLAYER_CORE_GetSex(u8 *);
+extern u16 FIELD_PLAYER_GetFormObjCode(int, int);
+extern u32 FIELD_PLAYER_CORE_GetFormCode(u8 *p);
+extern void FIELD_PLAYER_CORE_SetFormCode(u8 *p, u32 a1);
+extern void FIELD_PLAYER_CORE_PostZoneBgmChange(u32 *p);
+extern u32 FIELD_PLAYER_CORE_GetRideEffect(u8 *);
+extern void FIELD_PLAYER_CORE_SetRideEffect(u8 *, u32);
+extern u32 FIELDMAP_GetEffect(u8 *p);
+extern u16 FLDMMDL_GetDirDisp(void *p);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern u32 func_021ACB38(u32, u32, u32 *, void *, int);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern u32 FLDEFF_NAMIPOKE_Start(u32, u32, u32 *, void *, int);
 
-int func_021A3E54(u8 *p)
+int FIELD_PLAYER_CORE_FormStepSurf(u8 *p)
 {
     u32 buf[3];
     u32 a;
@@ -56,21 +56,21 @@ int func_021A3E54(u8 *p)
     u32 c;
     u32 d;
 
-    a = func_021A398C(p);
-    b = func_021A3960(p);
-    a = func_021A3190(a, 2);
-    if (a != func_0216D598(b)) {
-        func_021A3AD8(p, a);
+    a = FIELD_PLAYER_CORE_GetSex(p);
+    b = FIELD_PLAYER_CORE_GetMmdl(p);
+    a = FIELD_PLAYER_GetFormObjCode(a, 2);
+    if (a != FLDMMDL_GetObjCode(b)) {
+        FIELD_PLAYER_CORE_ChangeModel(p, a);
     }
-    if (func_021A3974(p) != 2) {
-        func_021A3980(p, 2);
+    if (FIELD_PLAYER_CORE_GetFormCode(p) != 2) {
+        FIELD_PLAYER_CORE_SetFormCode(p, 2);
     }
-    func_021A4114((u32 *)p);
-    if (func_021A3AD4(p) == 0) {
-        c = func_02188CD0((u8 *)(((struct Obj12732 *)p)->f8));
-        d = func_0216D5F8(b);
-        func_0216D88C(b, (struct VecFx32 *)buf);
-        func_021A3AD0(p, func_021ACB38(c, d, buf, b, 1));
+    FIELD_PLAYER_CORE_PostZoneBgmChange((u32 *)p);
+    if (FIELD_PLAYER_CORE_GetRideEffect(p) == 0) {
+        c = FIELDMAP_GetEffect((u8 *)(((struct Obj12732 *)p)->f8));
+        d = FLDMMDL_GetDirDisp(b);
+        FLDMMDL_GetPos(b, (struct VecFx32 *)buf);
+        FIELD_PLAYER_CORE_SetRideEffect(p, FLDEFF_NAMIPOKE_Start(c, d, buf, b, 1));
     }
     ((struct Obj12732 *)p)->f32 = 1;
     return 0;

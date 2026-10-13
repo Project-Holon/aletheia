@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02030734      0x02030734  arm
- *   func_020436FC      0x020436FC  arm
+ *   BMP_CreateFromBuffer      0x020436FC  arm
  *   app_keycursor_File 0x020A74F0  data
  */
 
@@ -25,7 +25,7 @@ extern const char app_keycursor_File[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Bmp;
-extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
 struct KeyCursor {
     u32 *item;    /* 0x00 */
@@ -48,7 +48,7 @@ struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap,
     k->id = id;
     k->live = live;
     k->flip = flip;
-    k->item = (u32 *)func_020436FC(pixels, 2, 2, 0x20, heap);
+    k->item = (u32 *)BMP_CreateFromBuffer(pixels, 2, 2, 0x20, heap);
 
     return k;
 }

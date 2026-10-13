@@ -1,5 +1,5 @@
 /*
- * function: func_021BC730
+ * function: FIELD_PLACE_NAME_CreateClactRenderer
  * address:  0x021BC730
  * packet:   pkt_ov021_021BC730
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D9B78     0x021D9B78  data  a4
+ *   gFieldPlaceNameRendererParam     0x021D9B78  data  a4
+ *   CLACT_CreateRenderer  0x0204B034  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -22,14 +23,14 @@ typedef struct {
     void *f38;
 } Obj;
 
-extern int d_021D9B78;
+extern int gFieldPlaceNameRendererParam;
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
-extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
+extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 
-void func_021BC730(Obj *p)
+void FIELD_PLACE_NAME_CreateClactRenderer(Obj *p)
 {
-    p->f38 = func_0204B034((u8 *)(&d_021D9B78), 1, p->hC);
+    p->f38 = CLACT_CreateRenderer((u8 *)(&gFieldPlaceNameRendererParam), 1, p->hC);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     townmap.c
  * unit:     yes
- * function: func_021B95A0, func_021B9858, func_021B98F8, func_021B991C, func_021B9938, func_021B9944, func_021B9958, func_021B995C, func_021B9964, func_021B996C, func_021B99AC, func_021B99E8, func_021B9E38, func_021B9F20, func_021B9F50, func_021BA028, func_021BA040, func_021BA04C, func_021BA0D8, func_021BA0E4, func_021BA3BC, func_021BA3CC, func_021BA3E8, func_021BA3EC, func_021BA3F4, func_021BA450, func_021BA488, func_021BA48C, func_021BA490, func_021BA570, func_021BA5AC, func_021BA5B0, func_021BA638, func_021BA69C, func_021BA6A8, func_021BA6C8, func_021BA710, func_021BA774, func_021BA7A4, func_021BA7D4, func_021BA7F8, func_021BA834, func_021BA86C, func_021BAA14, func_021BAA30, func_021BAA90, func_021BACB0, func_021BAD10, func_021BAD84, func_021BADBC, func_021BADF4, func_021BAE44, func_021BAE9C, func_021BAF24, func_021BAF3C, func_021BAF74, func_021BAF9C, func_021BAFA8, func_021BB0B4, func_021BB0DC, func_021BB0E0, func_021BB0E4, func_021BB190, func_021BB19C, func_021BB1BC, func_021BB204, func_021BB220, func_021BB3D0
+ * function: TOWNMAP_Create, TOWNMAP_Destroy, TOWNMAP_Update, TOWNMAP_ProcInit, TOWNMAP_ProcClear, TOWNMAP_ProcRun, TOWNMAP_ProcIsFinished, TOWNMAP_ProcSetStep, TOWNMAP_ProcFinish, TOWNMAP_StepFadeIn, TOWNMAP_StepFadeOut, TOWNMAP_StepBrowse, TOWNMAP_BackButtonInit, TOWNMAP_BackButtonFree, TOWNMAP_BackButtonUpdate, TOWNMAP_BackButtonGetPressed, TOWNMAP_BackButtonIsHeld, TOWNMAP_CursorInit, TOWNMAP_CursorClear, TOWNMAP_CursorUpdate, TOWNMAP_CursorGetPos, TOWNMAP_CursorSetPos, TOWNMAP_CursorIsPressed, TOWNMAP_CursorGetHeldKeys, TOWNMAP_CursorSetHoverTown, TOWNMAP_CursorMoveHoverSprite, TOWNMAP_CursorGetHoverTown, TOWNMAP_CursorSetSnapToTown, TOWNMAP_MapInit, TOWNMAP_MapFree, TOWNMAP_MapUpdate, TOWNMAP_MapSetZoom, TOWNMAP_MapSetScroll, TOWNMAP_MapGetScroll, TOWNMAP_MapAddScroll, TOWNMAP_MapFindTownUnderCursor, TOWNMAP_MapFindNearestTown, TOWNMAP_TownGetField, TOWNMAP_MapHighlightTown, TOWNMAP_MapClearHighlight, TOWNMAP_MapFindTownById, TOWNMAP_TownIsRevealed, TOWNMAP_TownInit, TOWNMAP_TownFree, TOWNMAP_TownSetShown, TOWNMAP_TownHitTest, TOWNMAP_TownTestNear, TOWNMAP_TownSetScale, TOWNMAP_TownSetScroll, TOWNMAP_TownSetFrame, TOWNMAP_TownHighlight, TOWNMAP_TownUnhighlight, TOWNMAP_MarkerInit, TOWNMAP_DeleteMarker, TOWNMAP_UpdateMarkerPosition, TOWNMAP_InitScroll, TOWNMAP_ClearScroll, TOWNMAP_StepScrollZoom, TOWNMAP_StartScrollZoom, func_021BB0DC, func_021BB0E0, TOWNMAP_ApplyScroll, TOWNMAP_GetScrollPosition, TOWNMAP_MoveScroll, TOWNMAP_InitSelection, TOWNMAP_ExitSelection, TOWNMAP_DrawSelection, TOWNMAP_ClearSelection
  * address:  0x021B95A0
  * region:   ov072
  * compiler: dsi/1.1p1
@@ -15,150 +15,150 @@
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
  *   ov067_id       0x00000043  data
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_020120F4  0x020120F4  thumb
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_0201DD68  0x0201DD68  thumb
  *   func_02040618  0x02040618  arm
- *   func_0203CD98  0x0203CD98  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_020056A0  0x020056A0  thumb
  *   func_02030EAC  0x02030EAC  arm
- *   func_02045C04  0x02045C04  arm
- *   func_0201D83C  0x0201D83C  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   GF_FONT_Delete  0x0201D83C  thumb
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_0204E720  0x0204E720  arm
- *   func_0204E804  0x0204E804  arm
+ *   FADE_Start  0x0204E720  arm
+ *   FADE_IsActive  0x0204E804  arm
  *   func_020355C4 0x020355C4 arm
  *   d_021BBB78 0x021BBB78 data ov072 a4
  *   func_020490F4  0x020490F4  arm
- *   func_0204AC18  0x0204AC18  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204AF28  0x0204AF28  arm
- *   func_02049238  0x02049238  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   CLACT_StopActorAnim  0x0204B974  arm
- *   func_021B62E0  0x021B62E0  thumb  ov067
- *   func_021B6520  0x021B6520  thumb  ov067
+ *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
+ *   TOUCHBAR_SetAllButtonsPriority  0x021B6520  thumb  ov067
  *   d_021BBB8C     0x021BBB8C  data  a4
- *   func_021B639C 0x021B639C thumb ov067
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_021B63D0  0x021B63D0  thumb  ov067
- *   func_0204B454  0x0204B454  arm
+ *   TOUCHBAR_Delete 0x021B639C thumb ov067
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_02035D20  0x02035D20  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020362DC  0x020362DC  arm
- *   func_0204B98C  0x0204B98C  arm
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_StartActorAnim  0x0204B95C  arm
- *   func_021B6448 0x021B6448 thumb ov067
- *   func_021B6498  0x021B6498  thumb  ov067
+ *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
+ *   TOUCHBAR_IsBusy  0x021B6498  thumb  ov067
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B84C  0x0204B84C  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_0203630C  0x0203630C  arm
  *   VEC_Subtract   0x0207CA00  arm
  *   VEC_Mag        0x0207CBD0  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_020520A4  0x020520A4  arm
- *   func_0204B9A0  0x0204B9A0  arm
+ *   BUTTON_MAN_ScaleVec  0x020520A4  arm
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   func_02030734  0x02030734  arm
  *   d_021BBD60     0x021BBD60  data  ov072
  *   func_020307B0 0x020307B0 arm
- *   func_02166C7C 0x02166C7C thumb ov010
- *   func_02166CD0  0x02166CD0  thumb  ov010
+ *   SYMBOL_MAP_ResolveZoneId 0x02166C7C thumb ov010
+ *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb  ov010
  *   CLACT_SetActorAffineMode  0x0204B570  arm
  *   BUTTON_MAN_InitSphere  0x02051F1C  arm
  *   BUTTON_MAN_InitSegment  0x0205207C  arm
  *   BUTTON_MAN_SegmentSphereTest  0x02051F34  arm
  *   CLACT_SetActorScale  0x0204B5AC  arm
  *   func_020419E4  0x020419E4  arm
- *   func_021BAF24  0x021BAF24  thumb
- *   func_021BAF3C  0x021BAF3C  thumb
- *   func_021BAF74  0x021BAF74  thumb
- *   func_021BAF9C  0x021BAF9C  thumb
- *   func_021BAFA8  0x021BAFA8  thumb
- *   func_021BB0B4  0x021BB0B4  thumb
+ *   TOWNMAP_DeleteMarker  0x021BAF24  thumb
+ *   TOWNMAP_UpdateMarkerPosition  0x021BAF3C  thumb
+ *   TOWNMAP_InitScroll  0x021BAF74  thumb
+ *   TOWNMAP_ClearScroll  0x021BAF9C  thumb
+ *   TOWNMAP_StepScrollZoom  0x021BAFA8  thumb
+ *   TOWNMAP_StartScrollZoom  0x021BB0B4  thumb
  *   func_021BB0DC  0x021BB0DC  thumb
  *   func_021BB0E0  0x021BB0E0  thumb
- *   func_021BB0E4  0x021BB0E4  thumb
- *   func_021BB190  0x021BB190  thumb
- *   func_021BB19C  0x021BB19C  thumb
- *   func_021BB1BC  0x021BB1BC  thumb
- *   func_021BB204  0x021BB204  thumb
- *   func_021BB220  0x021BB220  thumb
- *   func_021BB3D0  0x021BB3D0  thumb
- *   func_021BB3E8  0x021BB3E8  thumb
- *   func_021BB42C  0x021BB42C  thumb
- *   func_021BB448  0x021BB448  thumb
- *   func_021BB49C  0x021BB49C  thumb
- *   func_021BB4B4  0x021BB4B4  thumb
- *   func_021BB534  0x021BB534  thumb
- *   func_021BB548  0x021BB548  thumb
- *   func_021BB5AC  0x021BB5AC  thumb
- *   func_021BB5B4  0x021BB5B4  thumb
- *   func_021BB5D4  0x021BB5D4  thumb
- *   func_021BB5E0  0x021BB5E0  thumb
- *   func_021BB5EC  0x021BB5EC  thumb
- *   func_021BB6AC  0x021BB6AC  thumb
- *   func_021BB6DC  0x021BB6DC  thumb
- *   func_021BB6E4  0x021BB6E4  thumb
- *   func_021BB6E8  0x021BB6E8  thumb
- *   func_021BB738  0x021BB738  thumb
- *   func_021BB758  0x021BB758  thumb
- *   func_021BB764  0x021BB764  thumb
- *   func_021BB778  0x021BB778  thumb
- *   func_021BB784  0x021BB784  thumb
- *   func_021BB790  0x021BB790  thumb
- *   func_021BB7BC  0x021BB7BC  thumb
- *   func_021BB80C  0x021BB80C  thumb
- *   func_021BB820  0x021BB820  thumb
- *   func_021BB968  0x021BB968  thumb
- *   func_021BB9B0  0x021BB9B0  thumb
- *   func_021BB9B8  0x021BB9B8  thumb
- *   func_021BBAB4  0x021BBAB4  thumb
- *   func_021BBAFC  0x021BBAFC  thumb
- *   func_021BBB04  0x021BBB04  thumb
- *   func_021BBB0C  0x021BBB0C  thumb
- *   func_021BBB14  0x021BBB14  thumb
- *   func_021BBB1C  0x021BBB1C  thumb
- *   func_021BBB24  0x021BBB24  thumb
- *   func_021BBB34  0x021BBB34  thumb
- *   func_021BBB3C  0x021BBB3C  thumb
+ *   TOWNMAP_ApplyScroll  0x021BB0E4  thumb
+ *   TOWNMAP_GetScrollPosition  0x021BB190  thumb
+ *   TOWNMAP_MoveScroll  0x021BB19C  thumb
+ *   TOWNMAP_InitSelection  0x021BB1BC  thumb
+ *   TOWNMAP_ExitSelection  0x021BB204  thumb
+ *   TOWNMAP_DrawSelection  0x021BB220  thumb
+ *   TOWNMAP_ClearSelection  0x021BB3D0  thumb
+ *   TOWNMAP_GRH_InitTextBox  0x021BB3E8  thumb
+ *   TOWNMAP_GRH_ExitTextBox  0x021BB42C  thumb
+ *   TOWNMAP_GRH_PrintTextBoxMessage  0x021BB448  thumb
+ *   TOWNMAP_GRH_ClearTextBox  0x021BB49C  thumb
+ *   TOWNMAP_GRH_InitLabel  0x021BB4B4  thumb
+ *   TOWNMAP_GRH_ExitLabel  0x021BB534  thumb
+ *   TOWNMAP_GRH_UpdateLabel  0x021BB548  thumb
+ *   TOWNMAP_GRH_SetLabelTown  0x021BB5AC  thumb
+ *   TOWNMAP_GRH_SetLabelVisible  0x021BB5B4  thumb
+ *   TOWNMAP_GRH_InitTouch  0x021BB5D4  thumb
+ *   TOWNMAP_GRH_ClearTouch  0x021BB5E0  thumb
+ *   TOWNMAP_GRH_UpdateTouch  0x021BB5EC  thumb
+ *   TOWNMAP_GRH_GetTouchDrag  0x021BB6AC  thumb
+ *   TOWNMAP_GRH_RestartTouchDrag  0x021BB6DC  thumb
+ *   TOWNMAP_GRH_EmptyTask  0x021BB6E4  thumb
+ *   TOWNMAP_GRH_Create  0x021BB6E8  thumb
+ *   TOWNMAP_GRH_Delete  0x021BB738  thumb
+ *   TOWNMAP_GRH_DrawSprites  0x021BB758  thumb
+ *   TOWNMAP_GRH_GetBgId  0x021BB764  thumb
+ *   TOWNMAP_GRH_GetHandle  0x021BB778  thumb
+ *   TOWNMAP_GRH_GetActor  0x021BB784  thumb
+ *   TOWNMAP_GRH_GetResourceIds  0x021BB790  thumb
+ *   TOWNMAP_GRH_ResetDisplay  0x021BB7BC  thumb
+ *   TOWNMAP_GRH_UpdateTask  0x021BB80C  thumb
+ *   TOWNMAP_GRH_InitBgLayers  0x021BB820  thumb
+ *   TOWNMAP_GRH_ExitBgLayers  0x021BB968  thumb
+ *   TOWNMAP_GRH_TransferBgData  0x021BB9B0  thumb
+ *   TOWNMAP_GRH_InitSprites  0x021BB9B8  thumb
+ *   TOWNMAP_GRH_ExitSprites  0x021BBAB4  thumb
+ *   TOWNMAP_GRH_DrawClactSystem  0x021BBAFC  thumb
+ *   TOWNMAP_GRH_VBlankSprites  0x021BBB04  thumb
+ *   TOWNMAP_GRH_GetSpriteActor  0x021BBB0C  thumb
+ *   TOWNMAP_GRH_GetSpriteHandle  0x021BBB14  thumb
+ *   TOWNMAP_GRH_GetSpriteResourceId  0x021BBB1C  thumb
+ *   TOWNMAP_GRH_LoadTownInfo  0x021BBB24  thumb
+ *   TOWNMAP_GRH_FreeTownInfo  0x021BBB34  thumb
+ *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb
  *   func_02041EE4  0x02041EE4  arm
  *   func_02041FB0  0x02041FB0  arm
  *   func_02041F6C  0x02041F6C  arm
  *   func_02045738  0x02045738  arm
  *   func_0201D304  0x0201D304  thumb
- *   func_021BA5B0  0x021BA5B0  thumb
- *   func_021BA834  0x021BA834  thumb
- *   func_020450F0  0x020450F0  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02045808 0x02045808 arm
+ *   TOWNMAP_MapSetZoom  0x021BA5B0  thumb
+ *   TOWNMAP_TownIsRevealed  0x021BA834  thumb
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020452E8 0x020452E8 arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_02013E4C  0x02013E4C  thumb
  *   func_02045CAC  0x02045CAC  arm
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_020456F8 0x020456F8 arm
- *   func_021BA774  0x021BA774  thumb
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
+ *   TOWNMAP_TownGetField  0x021BA774  thumb
  */
 #include "townmap_types.h"
 
@@ -244,179 +244,179 @@ struct V { int x; int y; int z; };
 typedef struct { u32 w[8]; } BgTemplate;
 
 extern int func_02034AC4(s32 handle);
-extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_0203159C(struct HeapTask *obj, u32 size, u32 heap);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+extern void *PROCSYS_AllocProcWork(struct HeapTask *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_0201DD78(u32 a, u32 b, u32 c);
+extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void func_0201DD68(void);
 extern void func_02040618(u32 a, u32 b, u32 c);
-extern int func_0203CD98(void);
-extern void func_0203D34C(u32 a, u32 b);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern u32 func_020056A0(void (*cb)(void *, void *), void *arg, int pri);
 extern void func_02030EAC(struct Node *n);
-extern u32 func_02045C04(struct Rec *rec);
-extern u32 func_0201D83C(void *ptr);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 extern void func_02034A5C(s32 handle);
-void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-int func_0204E804(void);
+void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+int FADE_IsActive(void);
 extern void func_020061E4(u32);
 extern u8 func_020355C4(void);
 extern void *func_020490F4(u32 id, u32 heap);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *);
-extern struct Actor *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern u32 CLACT_RegisterCharacter(void *arc, u32 id, u32 a, u32 b, u32 heap);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern struct Actor *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B92C(struct Actor *p, u32 v);
 extern void CLACT_StopActorAnim(struct Actor *a);
-extern u32 func_021B62E0(ButtonManRequest *r, int heap);
-extern void func_021B6520(u8 *p, u32 v);
-extern void func_021B639C(unsigned char *);
-extern void func_0204B3B4(struct Actor *p);
-extern void func_0204AFD8(unsigned);
-extern void func_0204A8D4(unsigned);
-extern void func_0204ADA4(unsigned);
-extern void func_021B63D0(void *buttons);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern u32 TOUCHBAR_Create(ButtonManRequest *r, int heap);
+extern void TOUCHBAR_SetAllButtonsPriority(u8 *p, u32 v);
+extern void TOUCHBAR_Delete(unsigned char *);
+extern void CLACT_DeleteActor(struct Actor *p);
+extern void CLACT_ReleaseCellAnim(unsigned);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleasePalette(unsigned);
+extern void TOUCHBAR_Update(void *buttons);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u16 CLACT_GetActorAnimSeq(struct Actor *p);
-extern void func_0204B878(struct Actor *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
 extern void CLACT_StartActorAnim(struct Actor *a);
-extern int func_021B6448(unsigned char *);
-int func_021B6498(unsigned char *p);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(unsigned char *);
+int TOUCHBAR_IsBusy(unsigned char *p);
 extern void func_0204B404(struct Actor *p, const struct Vec2 *delta, unsigned int which);
 extern void func_0204B3DC(struct Actor *p, u32 v);
-extern void func_0204B84C(int obj, int v);
+extern void CLACT_SetActorBgPriority(int obj, int v);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern unsigned int func_0203630C(void);
 extern void VEC_Subtract(const struct Vec3 *a, const struct Vec3 *b, struct Vec3 *d);
 extern int VEC_Mag(const struct Vec3 *v);
 extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
-extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
-extern void func_0204B9A0(struct Actor *a);
+extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *d);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern u32 func_02166C7C(void *a, u32 b);
-extern int func_02166CD0(void *a, u32 msg);
+extern u32 SYMBOL_MAP_ResolveZoneId(void *a, u32 b);
+extern int SYMBOL_MAP_CheckEventFlag(void *a, u32 msg);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void BUTTON_MAN_InitSphere(struct Ball *dst, struct Vec *src, unsigned radius);
 extern void BUTTON_MAN_InitSegment(char *p, struct S12 *q, struct S12 *r, u32 v);
 extern u32 BUTTON_MAN_SegmentSphereTest(struct Seg *seg, struct Ball *b, struct Out *out);
 extern void CLACT_SetActorScale(struct Actor *dst, struct Pair *src);
 void func_020419E4(void);
-int func_021B95A0(void *taskArg, void *unused, TownMapArgs *args);
-int func_021B9858(void *taskArg, int unusedA, int unusedB, TownMapWork *work);
-int func_021B98F8(int taskArg, int unusedA, int unusedB, TownMapWork *work);
-void func_021B991C(TownMapProc *proc, TownMapWork *work, TownMapStepFunc step);
-void func_021B9938(TownMapProc *proc);
-void func_021B9944(TownMapProc *proc);
-int func_021B9958(TownMapProc *proc);
-void func_021B995C(TownMapProc *proc, TownMapStepFunc step);
-void func_021B9964(TownMapProc *proc);
-void func_021B996C(TownMapProc *proc, int *state);
-void func_021B99AC(TownMapProc *proc, int *state);
-int func_021B99E8(TownMapProc *proc,int *unusedState,TownMapWork *work);
-void func_021B9E38(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId);
-void func_021B9F20(TownMapButtonBar *bar);
-void func_021B9F50(TownMapButtonBar *bar, void *scroll);
-int func_021BA028(TownMapButtonBar *bar);
-int func_021BA040(TownMapButtonBar *bar);
-void func_021BA04C(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, int heapId);
-void func_021BA0D8(TownMapCursor *cursor);
-void func_021BA0E4(TownMapCursor *cursor, TownMapMap *map);
-void func_021BA3BC(TownMapCursor *cursor, TownMapPoint *pos);
-void func_021BA3CC(TownMapCursor *cursor, const TownMapPoint *pos);
-int func_021BA3E8(TownMapCursor *cursor);
-int func_021BA3EC(TownMapCursor *cursor);
-void func_021BA3F4(TownMapCursor *cursor, TownMapTown *town, const TownMapPoint *scroll);
-void func_021BA450(TownMapCursor *cursor, const TownMapPoint *scroll);
-TownMapTown *func_021BA488(TownMapCursor *cursor);
-void func_021BA48C(TownMapCursor *cursor, int snapToTown);
-void func_021BA490(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, TownMapGfx *gfx, u32 gameData, u16 heapId, int pickMode);
-void func_021BA570(TownMapMap *map);
-void func_021BA5AC(TownMapMap *map);
-void func_021BA5B0(TownMapMap *map, u32 scale, const TownMapPoint *center);
-void func_021BA638(TownMapMap *map, const TownMapPoint *scroll);
-void func_021BA69C(TownMapMap *map, TownMapPoint *scroll);
-void func_021BA6A8(TownMapMap *map, const TownMapPoint *delta);
-TownMapTown *func_021BA6C8(TownMapMap *map, TownMapCursor *cursor);
-TownMapTown *func_021BA710(TownMapMap *map, TownMapCursor *cursor);
-int func_021BA774(TownMapTown *town, int field);
-void func_021BA7A4(TownMapMap *map, TownMapTown *selected);
-void func_021BA7D4(TownMapMap *map);
-TownMapTown *func_021BA7F8(TownMapMap *map, u32 townId, int townSubId);
-int func_021BA834(TownMapTown *town);
-void func_021BA86C(TownMapTown *town, int mapInfo, int townIndex, int clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode);
-void func_021BAA14(TownMapTown *town);
-void func_021BAA30(TownMapTown *town, int shown);
-u32 func_021BAA90(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll);
-int func_021BACB0(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll, u32 *distSq);
-void func_021BAD10(TownMapTown *town, int scale, const TownMapPoint *center);
-void func_021BAD84(TownMapTown *town, const TownMapPoint *scroll);
-void func_021BADBC(TownMapTown *town, int frame);
-void func_021BADF4(TownMapTown *town);
-void func_021BAE44(TownMapTown *town);
-void func_021BAE9C(TownMapMarker *marker, TownMapTown *town, int clactSet, int plttRes, int cellRes, int charRes, u16 heapId);
-void func_021BAF24(TownMapMarker *marker);
-void func_021BAF3C(TownMapMarker *marker, const TownMapPoint *scroll);
-void func_021BAF74(TownMapScroll *scroll, u32 bgIdA, u32 bgIdB, int heapId);
-void func_021BAF9C(TownMapScroll *scroll);
-void func_021BAFA8(TownMapScroll *scroll, TownMapMap *map);
-void func_021BB0B4(TownMapScroll *scroll, int scaleTo, const TownMapPoint *from, const TownMapPoint *to);
+int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args);
+int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work);
+int TOWNMAP_Update(int taskArg, int unusedA, int unusedB, TownMapWork *work);
+void TOWNMAP_ProcInit(TownMapProc *proc, TownMapWork *work, TownMapStepFunc step);
+void TOWNMAP_ProcClear(TownMapProc *proc);
+void TOWNMAP_ProcRun(TownMapProc *proc);
+int TOWNMAP_ProcIsFinished(TownMapProc *proc);
+void TOWNMAP_ProcSetStep(TownMapProc *proc, TownMapStepFunc step);
+void TOWNMAP_ProcFinish(TownMapProc *proc);
+void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state);
+void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state);
+int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work);
+void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId);
+void TOWNMAP_BackButtonFree(TownMapButtonBar *bar);
+void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll);
+int TOWNMAP_BackButtonGetPressed(TownMapButtonBar *bar);
+int TOWNMAP_BackButtonIsHeld(TownMapButtonBar *bar);
+void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, int heapId);
+void TOWNMAP_CursorClear(TownMapCursor *cursor);
+void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map);
+void TOWNMAP_CursorGetPos(TownMapCursor *cursor, TownMapPoint *pos);
+void TOWNMAP_CursorSetPos(TownMapCursor *cursor, const TownMapPoint *pos);
+int TOWNMAP_CursorIsPressed(TownMapCursor *cursor);
+int TOWNMAP_CursorGetHeldKeys(TownMapCursor *cursor);
+void TOWNMAP_CursorSetHoverTown(TownMapCursor *cursor, TownMapTown *town, const TownMapPoint *scroll);
+void TOWNMAP_CursorMoveHoverSprite(TownMapCursor *cursor, const TownMapPoint *scroll);
+TownMapTown *TOWNMAP_CursorGetHoverTown(TownMapCursor *cursor);
+void TOWNMAP_CursorSetSnapToTown(TownMapCursor *cursor, int snapToTown);
+void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, TownMapGfx *gfx, u32 gameData, u16 heapId, int pickMode);
+void TOWNMAP_MapFree(TownMapMap *map);
+void TOWNMAP_MapUpdate(TownMapMap *map);
+void TOWNMAP_MapSetZoom(TownMapMap *map, u32 scale, const TownMapPoint *center);
+void TOWNMAP_MapSetScroll(TownMapMap *map, const TownMapPoint *scroll);
+void TOWNMAP_MapGetScroll(TownMapMap *map, TownMapPoint *scroll);
+void TOWNMAP_MapAddScroll(TownMapMap *map, const TownMapPoint *delta);
+TownMapTown *TOWNMAP_MapFindTownUnderCursor(TownMapMap *map, TownMapCursor *cursor);
+TownMapTown *TOWNMAP_MapFindNearestTown(TownMapMap *map, TownMapCursor *cursor);
+int TOWNMAP_TownGetField(TownMapTown *town, int field);
+void TOWNMAP_MapHighlightTown(TownMapMap *map, TownMapTown *selected);
+void TOWNMAP_MapClearHighlight(TownMapMap *map);
+TownMapTown *TOWNMAP_MapFindTownById(TownMapMap *map, u32 townId, int townSubId);
+int TOWNMAP_TownIsRevealed(TownMapTown *town);
+void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode);
+void TOWNMAP_TownFree(TownMapTown *town);
+void TOWNMAP_TownSetShown(TownMapTown *town, int shown);
+u32 TOWNMAP_TownHitTest(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll);
+int TOWNMAP_TownTestNear(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll, u32 *distSq);
+void TOWNMAP_TownSetScale(TownMapTown *town, int scale, const TownMapPoint *center);
+void TOWNMAP_TownSetScroll(TownMapTown *town, const TownMapPoint *scroll);
+void TOWNMAP_TownSetFrame(TownMapTown *town, int frame);
+void TOWNMAP_TownHighlight(TownMapTown *town);
+void TOWNMAP_TownUnhighlight(TownMapTown *town);
+void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, int clactSet, int plttRes, int cellRes, int charRes, u16 heapId);
+void TOWNMAP_DeleteMarker(TownMapMarker *marker);
+void TOWNMAP_UpdateMarkerPosition(TownMapMarker *marker, const TownMapPoint *scroll);
+void TOWNMAP_InitScroll(TownMapScroll *scroll, u32 bgIdA, u32 bgIdB, int heapId);
+void TOWNMAP_ClearScroll(TownMapScroll *scroll);
+void TOWNMAP_StepScrollZoom(TownMapScroll *scroll, TownMapMap *map);
+void TOWNMAP_StartScrollZoom(TownMapScroll *scroll, int scaleTo, const TownMapPoint *from, const TownMapPoint *to);
 int func_021BB0DC(TownMapScroll *scroll);
 int func_021BB0E0(TownMapScroll *scroll);
-void func_021BB0E4(TownMapScroll *scroll, const TownMapPoint *pos);
-void func_021BB190(TownMapScroll *scroll, TownMapPoint *out);
-void func_021BB19C(TownMapScroll *scroll, const TownMapPoint *delta);
-void func_021BB1BC(TownMapSelection *sel, int bgId, void *font, struct MsgBank *nameMsg, struct MsgBank *detailMsg, u16 heapId);
-void func_021BB204(TownMapSelection *sel);
-void func_021BB220(TownMapSelection *sel, TownMapTown *town);
-void func_021BB3D0(TownMapSelection *sel);
-void func_021BB3E8(TownMapTextBox *box, int bgId, void *font, void *msg, u8 x, u8 y, u8 width, u8 height, u16 heapId);
-void func_021BB42C(TownMapTextBox *box);
-void func_021BB448(TownMapTextBox *box, u32 msgId, int x, int y);
-void func_021BB49C(TownMapTextBox *box);
-void func_021BB4B4(TownMapLabel *label, int bgId, void *font, void *msg, struct ClactActor *marker, u16 heapId);
-void func_021BB534(TownMapLabel *label);
-void func_021BB548(TownMapLabel *label);
-void func_021BB5AC(TownMapLabel *label, TownMapTown *town);
-void func_021BB5B4(TownMapLabel *label, u32 visible);
-void func_021BB5D4(TownMapTouch *touch, int heapId);
-void func_021BB5E0(TownMapTouch *touch);
-void func_021BB5EC(TownMapTouch *touch);
-int func_021BB6AC(TownMapTouch *touch, TownMapVec *delta, u32 *dragState);
-void func_021BB6DC(TownMapTouch *touch);
-void func_021BB6E4(void *task, void *arg);
-TownMapGfx *func_021BB6E8(u16 heapId);
-void func_021BB738(TownMapGfx *gfx);
-void func_021BB758(TownMapGfx *gfx);
-u8 func_021BB764(TownMapGfx *gfx, u32 i);
-unsigned int func_021BB778(TownMapGfx *gfx, int n);
-struct ClactActor *func_021BB784(TownMapGfx *gfx, int n);
-void func_021BB790(TownMapGfx *gfx, int *charId, int *cellId, int *palId);
-void func_021BB7BC(void);
-void func_021BB80C(void *task, void *gfx);
-void func_021BB820(TownMapGfx *gfx, u16 heapId);
-void func_021BB968(TownMapGfx *gfx);
-void func_021BB9B0(TownMapGfx *gfx);
-void func_021BB9B8(TownMapSprites *sprites, const struct DispVram *banks, u16 heapId);
-void func_021BBAB4(TownMapSprites *sprites);
-void func_021BBAFC(int arg);
-void func_021BBB04(TownMapSprites *sprites);
-struct ClactActor *func_021BBB0C(TownMapSprites *sprites, int n);
-unsigned int func_021BBB14(TownMapSprites *sprites, int n);
-int func_021BBB1C(TownMapSprites *sprites, int i);
-int func_021BBB24(int a);
-void func_021BBB34(void *p);
-unsigned short func_021BBB3C(char *p, int a, int b);
+void TOWNMAP_ApplyScroll(TownMapScroll *scroll, const TownMapPoint *pos);
+void TOWNMAP_GetScrollPosition(TownMapScroll *scroll, TownMapPoint *out);
+void TOWNMAP_MoveScroll(TownMapScroll *scroll, const TownMapPoint *delta);
+void TOWNMAP_InitSelection(TownMapSelection *sel, int bgId, void *font, struct MsgBank *nameMsg, struct MsgBank *detailMsg, u16 heapId);
+void TOWNMAP_ExitSelection(TownMapSelection *sel);
+void TOWNMAP_DrawSelection(TownMapSelection *sel, TownMapTown *town);
+void TOWNMAP_ClearSelection(TownMapSelection *sel);
+void TOWNMAP_GRH_InitTextBox(TownMapTextBox *box, int bgId, void *font, void *msg, u8 x, u8 y, u8 width, u8 height, u16 heapId);
+void TOWNMAP_GRH_ExitTextBox(TownMapTextBox *box);
+void TOWNMAP_GRH_PrintTextBoxMessage(TownMapTextBox *box, u32 msgId, int x, int y);
+void TOWNMAP_GRH_ClearTextBox(TownMapTextBox *box);
+void TOWNMAP_GRH_InitLabel(TownMapLabel *label, int bgId, void *font, void *msg, struct ClactActor *marker, u16 heapId);
+void TOWNMAP_GRH_ExitLabel(TownMapLabel *label);
+void TOWNMAP_GRH_UpdateLabel(TownMapLabel *label);
+void TOWNMAP_GRH_SetLabelTown(TownMapLabel *label, TownMapTown *town);
+void TOWNMAP_GRH_SetLabelVisible(TownMapLabel *label, u32 visible);
+void TOWNMAP_GRH_InitTouch(TownMapTouch *touch, int heapId);
+void TOWNMAP_GRH_ClearTouch(TownMapTouch *touch);
+void TOWNMAP_GRH_UpdateTouch(TownMapTouch *touch);
+int TOWNMAP_GRH_GetTouchDrag(TownMapTouch *touch, TownMapVec *delta, u32 *dragState);
+void TOWNMAP_GRH_RestartTouchDrag(TownMapTouch *touch);
+void TOWNMAP_GRH_EmptyTask(void *task, void *arg);
+TownMapGfx *TOWNMAP_GRH_Create(u16 heapId);
+void TOWNMAP_GRH_Delete(TownMapGfx *gfx);
+void TOWNMAP_GRH_DrawSprites(TownMapGfx *gfx);
+u8 TOWNMAP_GRH_GetBgId(TownMapGfx *gfx, u32 i);
+unsigned int TOWNMAP_GRH_GetHandle(TownMapGfx *gfx, int n);
+struct ClactActor *TOWNMAP_GRH_GetActor(TownMapGfx *gfx, int n);
+void TOWNMAP_GRH_GetResourceIds(TownMapGfx *gfx, int *charId, int *cellId, int *palId);
+void TOWNMAP_GRH_ResetDisplay(void);
+void TOWNMAP_GRH_UpdateTask(void *task, void *gfx);
+void TOWNMAP_GRH_InitBgLayers(TownMapGfx *gfx, u16 heapId);
+void TOWNMAP_GRH_ExitBgLayers(TownMapGfx *gfx);
+void TOWNMAP_GRH_TransferBgData(TownMapGfx *gfx);
+void TOWNMAP_GRH_InitSprites(TownMapSprites *sprites, const struct DispVram *banks, u16 heapId);
+void TOWNMAP_GRH_ExitSprites(TownMapSprites *sprites);
+void TOWNMAP_GRH_DrawClactSystem(int arg);
+void TOWNMAP_GRH_VBlankSprites(TownMapSprites *sprites);
+struct ClactActor *TOWNMAP_GRH_GetSpriteActor(TownMapSprites *sprites, int n);
+unsigned int TOWNMAP_GRH_GetSpriteHandle(TownMapSprites *sprites, int n);
+int TOWNMAP_GRH_GetSpriteResourceId(TownMapSprites *sprites, int i);
+int TOWNMAP_GRH_LoadTownInfo(int a);
+void TOWNMAP_GRH_FreeTownInfo(void *p);
+unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
 extern char ov067_id[];
 extern const TownMapPoint d_021BBB78;
 extern ButtonTable d_021BBB8C;
@@ -424,28 +424,28 @@ extern char d_021BBD60[];
 extern void func_02041EE4(u32 bgId, u32 which, u32 value);
 extern void func_02041FB0(u32 bgId, u32 which, u16 value);
 extern void func_02041F6C(u32 bgId, u32 which, u32 value);
-extern struct BmpWin *func_020450F0(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 baseTile);
-extern struct StrBuf *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct StrBuf *text);
+extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 baseTile);
+extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct StrBuf *text);
 extern u32 func_020452E8(struct BmpWin *win);
 extern struct Bitmap *func_02045770(struct BmpWin *win);
-extern void func_02043B5C(struct Bitmap *bitmap, u8 value);
+extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
 extern u32 func_02013E4C(u32 townId);
 extern void func_02045CAC(struct MsgBank *msg, u32 index, struct StrBuf *dest);
 extern u8 func_02045738(struct BmpWin *win);
 extern u32 func_0201D304(struct StrBuf *text, void *font, u32 spacing);
-extern void func_0201C7A4(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
-extern void func_02045334(struct BmpWin *win);
-extern void func_02045374(struct BmpWin *win);
+extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 func_02045730(struct BmpWin *win);
 extern void func_02041B6C(u32 bgBit);
-extern void func_020456F8(struct BmpWin *win);
-extern void func_021BA5B0(TownMapMap *map, u32 scale, const TownMapPoint *pos);
-extern int func_021BA774(TownMapTown *town, int field);
-extern int func_021BA834(TownMapTown *town);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
+extern void TOWNMAP_MapSetZoom(TownMapMap *map, u32 scale, const TownMapPoint *pos);
+extern int TOWNMAP_TownGetField(TownMapTown *town, int field);
+extern int TOWNMAP_TownIsRevealed(TownMapTown *town);
 
 
-int func_021B95A0(void *taskArg, void *unused, TownMapArgs *args)
+int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
 {
     TownMapPoint pt;
     TownMapPoint org;
@@ -455,76 +455,76 @@ int func_021B95A0(void *taskArg, void *unused, TownMapArgs *args)
     TownMapTown *town;
 
     func_02034AC4((u32)ov067_id);
-    func_0203064C(1, 0x44, 0x60000);
-    work = func_0203159C(taskArg, 0x144, 0x44);
+    GFL_HEAP_CreateChildHeap(1, 0x44, 0x60000);
+    work = PROCSYS_AllocProcWork(taskArg, 0x144, 0x44);
     func_02082BCC(work, 0, 0x144);
     work->args = args;
     pickMode = work->args->mode == 2;
-    work->fontSystem = func_0201D7EC(0x17, 0, 0, 0, 0x44);
+    work->fontSystem = GF_FONT_Create(0x17, 0, 0, 0, 0x44);
     work->nameMsg = func_02045B38(0, 2, 0x59, 0x44);
     work->detailMsg = func_02045B38(0, 2, 0xb9, 0x44);
-    work->gfx = func_021BB6E8(0x44);
-    work->mapInfo = func_021BBB24(0x44);
-    func_021B991C(&work->proc, work, (TownMapStepFunc)func_021B996C);
+    work->gfx = TOWNMAP_GRH_Create(0x44);
+    work->mapInfo = TOWNMAP_GRH_LoadTownInfo(0x44);
+    TOWNMAP_ProcInit(&work->proc, work, (TownMapStepFunc)TOWNMAP_StepFadeIn);
     ctx = (u32)func_020120F4((const struct Ctx *)work->args->gameCtx);
     if (work->args->mode != 1) {
-        func_021BB3E8(&work->panel, func_021BB764(work->gfx, 1), work->fontSystem, work->detailMsg, 0, 0x15, 0x18, 3, 0x44);
-        func_0201DD78(0xf, 1, 0);
-        func_021BB448(&work->panel, 0, 0x10, 0);
+        TOWNMAP_GRH_InitTextBox(&work->panel, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->detailMsg, 0, 0x15, 0x18, 3, 0x44);
+        GF_FONT_SetTextColor(0xf, 1, 0);
+        TOWNMAP_GRH_PrintTextBoxMessage(&work->panel, 0, 0x10, 0);
         func_0201DD68();
     }
-    func_021B9E38(&work->buttonBar, work->args->mode, func_021BB778(work->gfx, 0), func_021BB764(work->gfx, 0), 0xf, 8, ctx, 0x44);
-    func_021BB4B4(&work->label, func_021BB764(work->gfx, 1), work->fontSystem, work->nameMsg, func_021BB784(work->gfx, 0), 0x44);
-    func_02040618(func_021BB764(work->gfx, 1), 3, -4);
-    func_021BA490(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)func_020120F4((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
-    func_021BA04C(&work->cursor, (void *)func_021BB784(work->gfx, 1), (void *)func_021BB784(work->gfx, 2), 0x44);
-    town = func_021BA7F8(&work->map, args->townId, args->townSubId);
+    TOWNMAP_BackButtonInit(&work->buttonBar, work->args->mode, TOWNMAP_GRH_GetHandle(work->gfx, 0), TOWNMAP_GRH_GetBgId(work->gfx, 0), 0xf, 8, ctx, 0x44);
+    TOWNMAP_GRH_InitLabel(&work->label, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->nameMsg, TOWNMAP_GRH_GetActor(work->gfx, 0), 0x44);
+    func_02040618(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
+    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)func_020120F4((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
+    TOWNMAP_CursorInit(&work->cursor, (void *)TOWNMAP_GRH_GetActor(work->gfx, 1), (void *)TOWNMAP_GRH_GetActor(work->gfx, 2), 0x44);
+    town = TOWNMAP_MapFindTownById(&work->map, args->townId, args->townSubId);
     if (town != 0) {
-        pt.x = func_021BA774(town, 4);
-        pt.y = func_021BA774(town, 5);
+        pt.x = TOWNMAP_TownGetField(town, 4);
+        pt.y = TOWNMAP_TownGetField(town, 5);
     } else {
         pt.x = 0x80;
         pt.y = 0x60;
     }
-    func_021BA3CC(&work->cursor, &pt);
-    func_021BAF74(&work->scroll, func_021BB764(work->gfx, 3), func_021BB764(work->gfx, 2), 0x44);
-    func_021BB1BC(&work->selection, func_021BB764(work->gfx, 5), work->fontSystem, work->nameMsg, work->detailMsg, 0x44);
-    func_021BB5D4(&work->touch, 0x44);
-    town = func_021BA6C8(&work->map, &work->cursor);
+    TOWNMAP_CursorSetPos(&work->cursor, &pt);
+    TOWNMAP_InitScroll(&work->scroll, TOWNMAP_GRH_GetBgId(work->gfx, 3), TOWNMAP_GRH_GetBgId(work->gfx, 2), 0x44);
+    TOWNMAP_InitSelection(&work->selection, TOWNMAP_GRH_GetBgId(work->gfx, 5), work->fontSystem, work->nameMsg, work->detailMsg, 0x44);
+    TOWNMAP_GRH_InitTouch(&work->touch, 0x44);
+    town = TOWNMAP_MapFindTownUnderCursor(&work->map, &work->cursor);
     if (town != 0) {
-        func_021BB5AC(&work->label, town);
-        func_021BB220(&work->selection, town);
+        TOWNMAP_GRH_SetLabelTown(&work->label, town);
+        TOWNMAP_DrawSelection(&work->selection, town);
         work->hoverTown = town;
-        func_021BA69C(&work->map, &org);
-        func_021BA3F4(&work->cursor, town, &org);
+        TOWNMAP_MapGetScroll(&work->map, &org);
+        TOWNMAP_CursorSetHoverTown(&work->cursor, town, &org);
     }
-    if (func_0203CD98()) {
-        func_0203D34C(1, 0x44);
+    if (GFL_NET_GetRunState()) {
+        GFL_NET_RestartWithDefaultTimeout(1, 0x44);
     }
-    work->vblankTask = func_020056A0(func_021BB6E4, work, 0);
+    work->vblankTask = func_020056A0(TOWNMAP_GRH_EmptyTask, work, 0);
     return 1;
 }
 
 
-int func_021B9858(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
+int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
 {
     func_02030EAC((struct Node *)work->vblankTask);
-    func_021BB5E0(&work->touch);
-    func_021BB204(&work->selection);
-    func_021BAF9C(&work->scroll);
-    func_021BA570(&work->map);
-    func_021BA0D8(&work->cursor);
-    func_021BB534(&work->label);
+    TOWNMAP_GRH_ClearTouch(&work->touch);
+    TOWNMAP_ExitSelection(&work->selection);
+    TOWNMAP_ClearScroll(&work->scroll);
+    TOWNMAP_MapFree(&work->map);
+    TOWNMAP_CursorClear(&work->cursor);
+    TOWNMAP_GRH_ExitLabel(&work->label);
     if (work->args->mode != 1) {
-        func_021BB42C(&work->panel);
+        TOWNMAP_GRH_ExitTextBox(&work->panel);
     }
-    func_021B9F20(&work->buttonBar);
-    func_021B9938(&work->proc);
-    func_021BBB34((void *)work->mapInfo);
-    func_021BB738(work->gfx);
-    func_02045C04((struct Rec *)work->detailMsg);
-    func_02045C04((struct Rec *)work->nameMsg);
-    func_0201D83C(work->fontSystem);
+    TOWNMAP_BackButtonFree(&work->buttonBar);
+    TOWNMAP_ProcClear(&work->proc);
+    TOWNMAP_GRH_FreeTownInfo((void *)work->mapInfo);
+    TOWNMAP_GRH_Delete(work->gfx);
+    MSGDATA_Delete((struct Rec *)work->detailMsg);
+    MSGDATA_Delete((struct Rec *)work->nameMsg);
+    GF_FONT_Delete(work->fontSystem);
     func_020315D4(taskArg);
     func_020306F0(0x44);
     func_02034A5C((u32)ov067_id);
@@ -532,65 +532,65 @@ int func_021B9858(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
 }
 
 
-int func_021B98F8(int taskArg, int unusedA, int unusedB, TownMapWork *work) {
-    func_021B9944(&work->proc);
-    func_021BB758(work->gfx);
-    return func_021B9958(&work->proc) != 0;
+int TOWNMAP_Update(int taskArg, int unusedA, int unusedB, TownMapWork *work) {
+    TOWNMAP_ProcRun(&work->proc);
+    TOWNMAP_GRH_DrawSprites(work->gfx);
+    return TOWNMAP_ProcIsFinished(&work->proc) != 0;
 }
 
 
-void func_021B991C(TownMapProc *proc, TownMapWork *work, TownMapStepFunc step)
+void TOWNMAP_ProcInit(TownMapProc *proc, TownMapWork *work, TownMapStepFunc step)
 {
     func_02082BCC(proc, 0, 16);
     proc->arg = work;
-    func_021B995C(proc, step);
+    TOWNMAP_ProcSetStep(proc, step);
 }
 
 
-void func_021B9938(TownMapProc *proc)
+void TOWNMAP_ProcClear(TownMapProc *proc)
 {
     func_02082BCC(proc, 0, 0x10);
 }
 
 
-void func_021B9944(TownMapProc *proc) {
+void TOWNMAP_ProcRun(TownMapProc *proc) {
     if (proc->finished == 0) proc->call(proc, &proc->stepState, proc->arg);
 }
 
 
-int func_021B9958(TownMapProc *proc)
+int TOWNMAP_ProcIsFinished(TownMapProc *proc)
 {
     return proc->finished;
 }
 
 
-void func_021B995C(TownMapProc *proc, TownMapStepFunc step)
+void TOWNMAP_ProcSetStep(TownMapProc *proc, TownMapStepFunc step)
 {
     proc->call = step;
     proc->stepState = 0;
 }
 
 
-void func_021B9964(TownMapProc *proc)
+void TOWNMAP_ProcFinish(TownMapProc *proc)
 {
     proc->finished = 1;
 }
 
 
-void func_021B996C(TownMapProc *proc, int *state)
+void TOWNMAP_StepFadeIn(TownMapProc *proc, int *state)
 {
     switch (state[0]) {
     case 0:
-        func_0204E720(3, 0x10, 0, 0);
+        FADE_Start(3, 0x10, 0, 0);
         state[0] = 1;
         break;
     case 1:
-        if (func_0204E804() == 0) {
+        if (FADE_IsActive() == 0) {
             state[0] = 2;
         }
         break;
     case 2:
-        func_021B995C(proc, (TownMapStepFunc)func_021B99E8);
+        TOWNMAP_ProcSetStep(proc, (TownMapStepFunc)TOWNMAP_StepBrowse);
         break;
     }
 }
@@ -599,16 +599,16 @@ void func_021B996C(TownMapProc *proc, int *state)
 /*
  * note: trailing two-byte alignment padding.
  */
-void func_021B99AC(TownMapProc *proc, int *state) {
+void TOWNMAP_StepFadeOut(TownMapProc *proc, int *state) {
     switch (*state) {
-    case 0: func_0204E720(3,0,16,0); *state = 1; break;
-    case 1: if (func_0204E804() == 0) *state = 2; break;
-    case 2: func_021B9964(proc); break;
+    case 0: FADE_Start(3,0,16,0); *state = 1; break;
+    case 1: if (FADE_IsActive() == 0) *state = 2; break;
+    case 2: TOWNMAP_ProcFinish(proc); break;
     }
 }
 
 
-int func_021B99E8(TownMapProc *proc,int *unusedState,TownMapWork *work)
+int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
 {
     u8 moved;
     TownMapTown *hovered;
@@ -616,91 +616,91 @@ int func_021B99E8(TownMapProc *proc,int *unusedState,TownMapWork *work)
     TownMapTown *under;
     int pressed;
     moved=0;
-    if (func_021BA040(&work->buttonBar) == 0) {
+    if (TOWNMAP_BackButtonIsHeld(&work->buttonBar) == 0) {
         if (work->zooming!=0 && func_021BB0E0(&work->scroll)==0) {
             TownMapVec touchDelta;
             TownMapPoint pos,delta={0,0};
             u32 touchOut;
             TownMapPoint scrollBefore,scrollAfter;
-            func_021BA3BC(&work->cursor,&pos);
-            keys=func_021BA3EC(&work->cursor);
+            TOWNMAP_CursorGetPos(&work->cursor,&pos);
+            keys=TOWNMAP_CursorGetHeldKeys(&work->cursor);
             if (pos.y<16 && (keys&0x40)) { delta.y-=4; moved=1; }
             if (pos.y<=168 && pos.y>136 && (keys&0x80)) { delta.y+=4; moved=1; }
             if (pos.x<16 && (keys&0x20)) { delta.x-=4; moved=1; }
             if (pos.x>240 && (keys&0x10)) { delta.x+=4; moved=1; }
-            if (func_021BB0E0(&work->scroll)==0 && func_021BB6AC(&work->touch,&touchDelta,&touchOut)) {
+            if (func_021BB0E0(&work->scroll)==0 && TOWNMAP_GRH_GetTouchDrag(&work->touch,&touchDelta,&touchOut)) {
                 delta.x=-(int)(((s64)touchDelta.x*4096+2048)>>12)>>12;
                 delta.y=-(int)(((s64)touchDelta.y*4096+2048)>>12)>>12;
-                func_021BB6DC(&work->touch); moved=1;
+                TOWNMAP_GRH_RestartTouchDrag(&work->touch); moved=1;
             }
             if (moved != 0) {
-                func_021BA69C(&work->map,&scrollBefore);
-                func_021BB19C(&work->scroll,&delta);
+                TOWNMAP_MapGetScroll(&work->map,&scrollBefore);
+                TOWNMAP_MoveScroll(&work->scroll,&delta);
                 delta.x*=-1; delta.y*=-1;
-                func_021BA6A8(&work->map,&delta);
-                func_021BA69C(&work->map,&scrollAfter);
-                func_021BA450(&work->cursor,&scrollAfter);
+                TOWNMAP_MapAddScroll(&work->map,&delta);
+                TOWNMAP_MapGetScroll(&work->map,&scrollAfter);
+                TOWNMAP_CursorMoveHoverSprite(&work->cursor,&scrollAfter);
             }
         }
         if (moved==0 && func_021BB0E0(&work->scroll)==0) {
             if (work->args->mode==0 || work->args->mode==2) {
-                hovered=func_021BA488(&work->cursor);
-                under=func_021BA6C8(&work->map, &work->cursor);
-                if (hovered!=0 && hovered==under && func_021BA3E8(&work->cursor)!=0 && func_021BA774(hovered,12)!=0) {
+                hovered=TOWNMAP_CursorGetHoverTown(&work->cursor);
+                under=TOWNMAP_MapFindTownUnderCursor(&work->map, &work->cursor);
+                if (hovered!=0 && hovered==under && TOWNMAP_CursorIsPressed(&work->cursor)!=0 && TOWNMAP_TownGetField(hovered,12)!=0) {
                     work->args->result=2;
-                    work->args->townId=func_021BA774(hovered,0);
-                    work->args->pickedX=func_021BA774(hovered,13);
-                    work->args->pickedY=func_021BA774(hovered,14);
-                    func_020061E4(0x54c); func_021B995C(proc,(TownMapStepFunc)func_021B99AC);
+                    work->args->townId=TOWNMAP_TownGetField(hovered,0);
+                    work->args->pickedX=TOWNMAP_TownGetField(hovered,13);
+                    work->args->pickedY=TOWNMAP_TownGetField(hovered,14);
+                    func_020061E4(0x54c); TOWNMAP_ProcSetStep(proc,(TownMapStepFunc)TOWNMAP_StepFadeOut);
                 }
             }
-            if (func_020355C4()==0) pressed=1; else pressed=func_021BA3E8(&work->cursor);
+            if (func_020355C4()==0) pressed=1; else pressed=TOWNMAP_CursorIsPressed(&work->cursor);
             if (pressed != 0) {
-                hovered=func_021BA6C8(&work->map, &work->cursor);
+                hovered=TOWNMAP_MapFindTownUnderCursor(&work->map, &work->cursor);
                 if (hovered!=work->hoverTown && hovered!=0) {
                     TownMapPoint scrollNow;
                     func_020061E4(0x548);
-                    func_021BB220(&work->selection, hovered); func_021BA7A4(&work->map,hovered);
-                    work->hoverTown=hovered; func_021BA69C(&work->map,&scrollNow);
-                    func_021BA3F4(&work->cursor,hovered,&scrollNow);
-                    if (work->zooming==0) func_021BB5AC(&work->label,hovered);
+                    TOWNMAP_DrawSelection(&work->selection, hovered); TOWNMAP_MapHighlightTown(&work->map,hovered);
+                    work->hoverTown=hovered; TOWNMAP_MapGetScroll(&work->map,&scrollNow);
+                    TOWNMAP_CursorSetHoverTown(&work->cursor,hovered,&scrollNow);
+                    if (work->zooming==0) TOWNMAP_GRH_SetLabelTown(&work->label,hovered);
                 } else if (hovered==0 && work->hoverTown!=0) {
-                    func_021BB3D0(&work->selection); func_021BB5B4(&work->label,0); func_021BA7D4(&work->map);
-                    func_021BA3F4(&work->cursor,0,0); work->hoverTown=0;
+                    TOWNMAP_ClearSelection(&work->selection); TOWNMAP_GRH_SetLabelVisible(&work->label,0); TOWNMAP_MapClearHighlight(&work->map);
+                    TOWNMAP_CursorSetHoverTown(&work->cursor,0,0); work->hoverTown=0;
                 }
             }
         }
-        if (work->zooming!=0) func_021BB5B4(&work->label,0);
-        func_021BA48C(&work->cursor,moved ? 0 : 1);
+        if (work->zooming!=0) TOWNMAP_GRH_SetLabelVisible(&work->label,0);
+        TOWNMAP_CursorSetSnapToTown(&work->cursor,moved ? 0 : 1);
     }
-    func_021B9F50(&work->buttonBar,&work->scroll);
-    if (func_021BB0E0(&work->scroll)==0) func_021BA0E4(&work->cursor,&work->map);
-    func_021BA5AC(&work->map); func_021BAFA8(&work->scroll,&work->map);
-    func_021BB548(&work->label); func_021BB5EC(&work->touch);
-    switch (func_021BA028(&work->buttonBar)) {
+    TOWNMAP_BackButtonUpdate(&work->buttonBar,&work->scroll);
+    if (func_021BB0E0(&work->scroll)==0) TOWNMAP_CursorUpdate(&work->cursor,&work->map);
+    TOWNMAP_MapUpdate(&work->map); TOWNMAP_StepScrollZoom(&work->scroll,&work->map);
+    TOWNMAP_GRH_UpdateLabel(&work->label); TOWNMAP_GRH_UpdateTouch(&work->touch);
+    switch (TOWNMAP_BackButtonGetPressed(&work->buttonBar)) {
     case 0:
-        work->args->result=1; func_021B995C(proc,(TownMapStepFunc)func_021B99AC); break;
+        work->args->result=1; TOWNMAP_ProcSetStep(proc,(TownMapStepFunc)TOWNMAP_StepFadeOut); break;
     case 1:
-        work->args->result=0; func_021B995C(proc,(TownMapStepFunc)func_021B99AC); break;
+        work->args->result=0; TOWNMAP_ProcSetStep(proc,(TownMapStepFunc)TOWNMAP_StepFadeOut); break;
     case 7:
         if (work->zooming==0 && func_021BB0E0(&work->scroll)==0) {
             TownMapPoint cursorPos;
-            func_021BA3BC(&work->cursor,&cursorPos);
-            func_021BB0B4(&work->scroll,8192,&d_021BBB78,&cursorPos);
+            TOWNMAP_CursorGetPos(&work->cursor,&cursorPos);
+            TOWNMAP_StartScrollZoom(&work->scroll,8192,&d_021BBB78,&cursorPos);
             func_020061E4(0x648);
             if (work->hoverTown!=0) {
-                func_021BB3D0(&work->selection); func_021BB5B4(&work->label,0); func_021BA7D4(&work->map);
-                func_021BA3F4(&work->cursor,0,0); work->hoverTown=0;
+                TOWNMAP_ClearSelection(&work->selection); TOWNMAP_GRH_SetLabelVisible(&work->label,0); TOWNMAP_MapClearHighlight(&work->map);
+                TOWNMAP_CursorSetHoverTown(&work->cursor,0,0); work->hoverTown=0;
             }
             work->zooming=1;
         } else if (work->zooming==1 && func_021BB0E0(&work->scroll)==0) {
             TownMapPoint zoomCenter;
-            func_021BB190(&work->scroll,&zoomCenter); zoomCenter.x+=128; zoomCenter.y+=96;
-            func_021BB0B4(&work->scroll,4096,&zoomCenter,&d_021BBB78);
+            TOWNMAP_GetScrollPosition(&work->scroll,&zoomCenter); zoomCenter.x+=128; zoomCenter.y+=96;
+            TOWNMAP_StartScrollZoom(&work->scroll,4096,&zoomCenter,&d_021BBB78);
             func_020061E4(0x649);
             if (work->hoverTown!=0) {
-                func_021BB3D0(&work->selection); func_021BB5B4(&work->label,0); func_021BA7D4(&work->map);
-                func_021BA3F4(&work->cursor,0,0); work->hoverTown=0;
+                TOWNMAP_ClearSelection(&work->selection); TOWNMAP_GRH_SetLabelVisible(&work->label,0); TOWNMAP_MapClearHighlight(&work->map);
+                TOWNMAP_CursorSetHoverTown(&work->cursor,0,0); work->hoverTown=0;
             }
             work->zooming=0;
         }
@@ -710,7 +710,7 @@ int func_021B99E8(TownMapProc *proc,int *unusedState,TownMapWork *work)
 }
 
 
-void func_021B9E38(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId)
+void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId)
 {
     ButtonManRequest req;
     ButtonTable table;
@@ -720,15 +720,15 @@ void func_021B9E38(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLay
     func_02082BCC(bar, 0, 0x20);
     bar->ctx = ctx;
     archive = func_020490F4(0x55, heapId);
-    bar->charRes = func_0204AC18(archive, 2, 0, 0, 0, 4, heapId);
-    bar->plttRes = (s32)func_0204A6C8(archive, 8, 0, 0, (u32)heapId);
-    bar->cellRes = func_0204AF28(archive, 0xc, 0x13, heapId);
-    func_02049238(archive);
+    bar->charRes = CLACT_RegisterPaletteEx(archive, 2, 0, 0, 0, 4, heapId);
+    bar->plttRes = (s32)CLACT_RegisterCharacter(archive, 8, 0, 0, (u32)heapId);
+    bar->cellRes = CLACT_RegisterCellAnim(archive, 0xc, 0x13, heapId);
+    ARC_TOOL_DeleteHandle(archive);
     func_02082BCC(&init, 0, 8);
     init.x = 0xa8;
     init.y = 0xa8;
     init.animSeq = 7;
-    bar->sprite = func_0204B294((void *)clactSet, bar->plttRes, bar->charRes, bar->cellRes, &init, 0, heapId);
+    bar->sprite = CLACT_CreateActor((void *)clactSet, bar->plttRes, bar->charRes, bar->cellRes, &init, 0, heapId);
     func_0204B92C((struct Actor *)bar->sprite, 1);
     CLACT_StopActorAnim((struct Actor *)bar->sprite);
     table = d_021BBB8C;
@@ -740,42 +740,42 @@ void func_021B9E38(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLay
     req.palette = palette;
     req.tileBase = tileBase + 4;
     req.kind = 2;
-    bar->buttonMan = func_021B62E0(&req, heapId);
-    func_021B6520((u8 *)bar->buttonMan, 10);
+    bar->buttonMan = TOUCHBAR_Create(&req, heapId);
+    TOUCHBAR_SetAllButtonsPriority((u8 *)bar->buttonMan, 10);
 }
 
 
-void func_021B9F20(TownMapButtonBar *bar)
+void TOWNMAP_BackButtonFree(TownMapButtonBar *bar)
 {
-    func_021B639C((unsigned char *)bar->buttonMan);
-    func_0204B3B4((struct Actor *)bar->sprite);
-    func_0204AFD8(bar->cellRes);
-    func_0204A8D4(bar->plttRes);
-    func_0204ADA4(bar->charRes);
+    TOUCHBAR_Delete((unsigned char *)bar->buttonMan);
+    CLACT_DeleteActor((struct Actor *)bar->sprite);
+    CLACT_ReleaseCellAnim(bar->cellRes);
+    CLACT_ReleaseCharacter(bar->plttRes);
+    CLACT_ReleasePalette(bar->charRes);
     func_02082BCC(bar, 0, 32);
 }
 
 
 /*
  * EXACT*: the unlabelled follower at 0x021BA028 (push {r4,lr}; getter
- * over func_021B6448) is outside the handed 216-byte extent.
+ * over TOUCHBAR_GetPressedButtonIdIfDone) is outside the handed 216-byte extent.
  * Lever: each sprite-animation pick written as if/else of two calls
- * (tail-merged, h load hoisted over the bne), and func_0204B878's second
+ * (tail-merged, h load hoisted over the bne), and CLACT_SetActorAnimSeq's second
  * parameter int here (no truncation before the blx).
  */
-void func_021B9F50(TownMapButtonBar *bar, void *scroll)
+void TOWNMAP_BackButtonUpdate(TownMapButtonBar *bar, void *scroll)
 {
     u32 touchX;
     u32 touchY;
     ScreenPos spritePos;
     int hit;
 
-    func_021B63D0((void *)bar->buttonMan);
+    TOUCHBAR_Update((void *)bar->buttonMan);
     bar->pressed = -1;
     switch (bar->animState) {
     case 0:
         hit = 0;
-        func_0204B454((void *)bar->sprite, (struct PtS *)&spritePos, 0);
+        CLACT_GetActorSurfacePos((void *)bar->sprite, (struct PtS *)&spritePos, 0);
         if (func_02035D20(&touchX, &touchY)) {
             if (touchX - spritePos.x <= 0x18 && touchY - spritePos.y <= 0x18) {
                 hit = 1;
@@ -785,22 +785,22 @@ void func_021B9F50(TownMapButtonBar *bar, void *scroll)
             func_020355D8(hit);
             hit = 1;
         }
-        if (hit && func_0204B98C((void *)bar->sprite) == 0 && func_021BB0E0(scroll) == 0) {
+        if (hit && CLACT_IsActorAnimActive((void *)bar->sprite) == 0 && func_021BB0E0(scroll) == 0) {
             if (CLACT_GetActorAnimSeq((void *)bar->sprite) == 7)
-                func_0204B878((void *)bar->sprite, 9);
+                CLACT_SetActorAnimSeq((void *)bar->sprite, 9);
             else
-                func_0204B878((void *)bar->sprite, 10);
+                CLACT_SetActorAnimSeq((void *)bar->sprite, 10);
             CLACT_StartActorAnim((void *)bar->sprite);
             bar->pressed = 7;
             bar->animState = 1;
         }
         break;
     case 1:
-        if (func_0204B98C((void *)bar->sprite) == 0) {
+        if (CLACT_IsActorAnimActive((void *)bar->sprite) == 0) {
             if (CLACT_GetActorAnimSeq((void *)bar->sprite) == 9)
-                func_0204B878((void *)bar->sprite, 8);
+                CLACT_SetActorAnimSeq((void *)bar->sprite, 8);
             else
-                func_0204B878((void *)bar->sprite, 7);
+                CLACT_SetActorAnimSeq((void *)bar->sprite, 7);
             bar->animState = 0;
         }
         break;
@@ -808,21 +808,21 @@ void func_021B9F50(TownMapButtonBar *bar, void *scroll)
 }
 
 
-int func_021BA028(TownMapButtonBar *bar) {
+int TOWNMAP_BackButtonGetPressed(TownMapButtonBar *bar) {
     int pressed;
-    pressed = func_021B6448((unsigned char *)bar->buttonMan);
+    pressed = TOUCHBAR_GetPressedButtonIdIfDone((unsigned char *)bar->buttonMan);
     if (pressed == -1) pressed = bar->pressed;
     return pressed;
 }
 
 
-int func_021BA040(TownMapButtonBar *bar)
+int TOWNMAP_BackButtonIsHeld(TownMapButtonBar *bar)
 {
-    return func_021B6498((unsigned char *)bar->buttonMan);
+    return TOUCHBAR_IsBusy((unsigned char *)bar->buttonMan);
 }
 
 
-void func_021BA04C(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, int heapId)
+void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, int heapId)
 {
     int zero = 0;
     int one;
@@ -837,9 +837,9 @@ void func_021BA04C(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, 
     func_0204B3DC(cursor->arrowSprite, 1);
     one = 1;
     func_0204B3DC(cursor->hoverSprite, 0);
-    func_0204B84C((int)cursor->arrowSprite, 0);
+    CLACT_SetActorBgPriority((int)cursor->arrowSprite, 0);
     CLACT_SetActorDrawPriority(cursor->arrowSprite, 0);
-    func_0204B84C((int)cursor->hoverSprite, 2);
+    CLACT_SetActorBgPriority((int)cursor->hoverSprite, 2);
     CLACT_SetActorDrawPriority(cursor->hoverSprite, 3);
     func_0204B92C(cursor->hoverSprite, 1);
     if (func_020355C4() == 0) {
@@ -850,13 +850,13 @@ void func_021BA04C(TownMapCursor *cursor, void *arrowSprite, void *hoverSprite, 
 }
 
 
-void func_021BA0D8(TownMapCursor *cursor)
+void TOWNMAP_CursorClear(TownMapCursor *cursor)
 {
     func_02082BCC(cursor, 0, 0x18);
 }
 
 
-void func_021BA0E4(TownMapCursor *cursor, TownMapMap *map)
+void TOWNMAP_CursorUpdate(TownMapCursor *cursor, TownMapMap *map)
 {
     struct Vec3 keyDir = { 0, 0, 0 };
     struct Vec3 pull = { 0, 0, 0 };
@@ -893,10 +893,10 @@ void func_021BA0E4(TownMapCursor *cursor, TownMapMap *map)
         keyDir.x += 0x1000;
         moved = 1;
     }
-    if (cursor->snapToTown != 0 && func_020355C4() == 0 && (town = func_021BA710(map, cursor)) != 0) {
-        func_021BA69C(map, &scroll);
-        townPos.x = FX_F32_TO_FX32(scroll.x + func_021BA774(town, 4));
-        townPos.y = FX_F32_TO_FX32(scroll.y + func_021BA774(town, 5));
+    if (cursor->snapToTown != 0 && func_020355C4() == 0 && (town = TOWNMAP_MapFindNearestTown(map, cursor)) != 0) {
+        TOWNMAP_MapGetScroll(map, &scroll);
+        townPos.x = FX_F32_TO_FX32(scroll.x + TOWNMAP_TownGetField(town, 4));
+        townPos.y = FX_F32_TO_FX32(scroll.y + TOWNMAP_TownGetField(town, 5));
         townPos.z = 0;
         cursorPos.x = FX_F32_TO_FX32(cursor->x);
         cursorPos.y = FX_F32_TO_FX32(cursor->y);
@@ -904,7 +904,7 @@ void func_021BA0E4(TownMapCursor *cursor, TownMapMap *map)
         VEC_Subtract(&townPos, &cursorPos, &pull);
         if (VEC_Mag(&pull) > 0x1000) {
             VEC_Normalize(&pull, &pull);
-            func_020520A4(&pull, 0x1000, &pull);
+            BUTTON_MAN_ScaleVec(&pull, 0x1000, &pull);
         }
         moved = 1;
     }
@@ -955,32 +955,32 @@ void func_021BA0E4(TownMapCursor *cursor, TownMapMap *map)
 }
 
 
-void func_021BA3BC(TownMapCursor *cursor, TownMapPoint *pos) {
+void TOWNMAP_CursorGetPos(TownMapCursor *cursor, TownMapPoint *pos) {
     pos->x = cursor->x;
     pos->y = cursor->y;
 }
 
 
-void func_021BA3CC(TownMapCursor *cursor, const TownMapPoint *pos) {
+void TOWNMAP_CursorSetPos(TownMapCursor *cursor, const TownMapPoint *pos) {
     cursor->x = pos->x;
     cursor->y = pos->y;
     func_0204B404(cursor->arrowSprite, (const struct Vec2 *)&cursor->x, 0);
 }
 
 
-int func_021BA3E8(TownMapCursor *cursor)
+int TOWNMAP_CursorIsPressed(TownMapCursor *cursor)
 {
     return cursor->pressed;
 }
 
 
-int func_021BA3EC(TownMapCursor *cursor)
+int TOWNMAP_CursorGetHeldKeys(TownMapCursor *cursor)
 {
     return func_0203630C();
 }
 
 
-void func_021BA3F4(TownMapCursor *cursor, TownMapTown *town, const TownMapPoint *scroll)
+void TOWNMAP_CursorSetHoverTown(TownMapCursor *cursor, TownMapTown *town, const TownMapPoint *scroll)
 {
     ScreenPos pos;
 
@@ -990,41 +990,41 @@ void func_021BA3F4(TownMapCursor *cursor, TownMapTown *town, const TownMapPoint 
         return;
     }
     if (cursor->hoverTown != town) {
-        pos.x = scroll->x + func_021BA774(town, 4);
-        pos.y = scroll->y + func_021BA774(town, 5);
+        pos.x = scroll->x + TOWNMAP_TownGetField(town, 4);
+        pos.y = scroll->y + TOWNMAP_TownGetField(town, 5);
         func_0204B404((struct Actor *)cursor->hoverSprite, (const struct Vec2 *)(&pos), 0);
         func_0204B3DC((struct Actor *)cursor->hoverSprite, 1);
-        func_0204B9A0((struct Actor *)cursor->hoverSprite);
+        CLACT_RestartActorAnim((struct Actor *)cursor->hoverSprite);
         cursor->hoverTown = town;
     }
 }
 
 
-void func_021BA450(TownMapCursor *cursor, const TownMapPoint *scroll)
+void TOWNMAP_CursorMoveHoverSprite(TownMapCursor *cursor, const TownMapPoint *scroll)
 {
     ScreenPos pos;
 
     if (cursor->hoverTown) {
-        pos.x = scroll->x + func_021BA774(cursor->hoverTown, 4);
-        pos.y = scroll->y + func_021BA774(cursor->hoverTown, 5);
+        pos.x = scroll->x + TOWNMAP_TownGetField(cursor->hoverTown, 4);
+        pos.y = scroll->y + TOWNMAP_TownGetField(cursor->hoverTown, 5);
         func_0204B404((struct Actor *)cursor->hoverSprite, (const struct Vec2 *)(&pos), 0);
     }
 }
 
 
-TownMapTown *func_021BA488(TownMapCursor *cursor)
+TownMapTown *TOWNMAP_CursorGetHoverTown(TownMapCursor *cursor)
 {
     return cursor->hoverTown;
 }
 
 
-void func_021BA48C(TownMapCursor *cursor, int snapToTown)
+void TOWNMAP_CursorSetSnapToTown(TownMapCursor *cursor, int snapToTown)
 {
     cursor->snapToTown = snapToTown;
 }
 
 
-void func_021BA490(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, TownMapGfx *gfx, u32 gameData, u16 heapId, int pickMode)
+void TOWNMAP_MapInit(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, TownMapGfx *gfx, u32 gameData, u16 heapId, int pickMode)
 {
     u32 i;
     u32 clactSet;
@@ -1033,34 +1033,34 @@ void func_021BA490(TownMapMap *map, u16 townId, u16 townSubId, int mapInfo, Town
     TownMapTown *startTown;
 
     i = 0;
-    clactSet = func_021BB778(gfx, 0);
+    clactSet = TOWNMAP_GRH_GetHandle(gfx, 0);
     func_02082BCC(map, 0, 0x28);
     map->townCount = 0x3d;
     map->gameData = (void *)gameData;
     map->towns = func_02030734(heapId, map->townCount * 0x44, 0, d_021BBD60, 0x8C5);
     func_02082BCC(map->towns, 0, map->townCount * 0x44);
-    func_021BB790(gfx, &markerBank0, &markerBank1, &markerBank2);
+    TOWNMAP_GRH_GetResourceIds(gfx, &markerBank0, &markerBank1, &markerBank2);
     for (; i < map->townCount; i++) {
-        func_021BA86C(&map->towns[i], mapInfo, i, clactSet, markerBank0, markerBank1, markerBank2, (void *)gameData, heapId, pickMode);
+        TOWNMAP_TownInit(&map->towns[i], mapInfo, i, clactSet, markerBank0, markerBank1, markerBank2, (void *)gameData, heapId, pickMode);
     }
-    startTown = func_021BA7F8(map, townId, townSubId);
-    func_021BB790(gfx, &linkBank0, &linkBank1, &linkBank2);
-    func_021BAE9C(&map->marker, startTown, clactSet, linkBank0, linkBank1, linkBank2, heapId);
+    startTown = TOWNMAP_MapFindTownById(map, townId, townSubId);
+    TOWNMAP_GRH_GetResourceIds(gfx, &linkBank0, &linkBank1, &linkBank2);
+    TOWNMAP_MarkerInit(&map->marker, startTown, clactSet, linkBank0, linkBank1, linkBank2, heapId);
     map->minScrollY = 0;
     map->minScrollX = 0;
     map->maxScrollX = 0;
     map->maxScrollY = 0;
-    func_021BA7D4(map);
+    TOWNMAP_MapClearHighlight(map);
 }
 
 
-void func_021BA570(TownMapMap *map)
+void TOWNMAP_MapFree(TownMapMap *map)
 {
     u32 i;
 
-    func_021BAF24(&map->marker);
+    TOWNMAP_DeleteMarker(&map->marker);
     for (i = 0; i < map->townCount; i++)
-        func_021BAA14(&map->towns[i]);
+        TOWNMAP_TownFree(&map->towns[i]);
     func_020307B0(map->towns);
     func_02082BCC(map, 0, 40);
 }
@@ -1070,12 +1070,12 @@ void func_021BA570(TownMapMap *map)
  * note:     listing extent (4) runs 2 bytes past the compiled function (2);
  *           trailing alignment padding, no byte difference.
  */
-void func_021BA5AC(TownMapMap *map)
+void TOWNMAP_MapUpdate(TownMapMap *map)
 {
 }
 
 
-void func_021BA5B0(TownMapMap *map, u32 scale, const TownMapPoint *center)
+void TOWNMAP_MapSetZoom(TownMapMap *map, u32 scale, const TownMapPoint *center)
 {
     u32 i;
     TownMapPoint negated;
@@ -1093,16 +1093,16 @@ void func_021BA5B0(TownMapMap *map, u32 scale, const TownMapPoint *center)
     }
     negated.x = -center->x;
     negated.y = -center->y;
-    func_021BA638(map, &negated);
+    TOWNMAP_MapSetScroll(map, &negated);
     for (i = 0; i < map->townCount; i++) {
-        func_021BAD10(&map->towns[i], scale, &d_021BBB78);
-        func_021BAD84(&map->towns[i], (TownMapPoint *)&map->scrollX);
+        TOWNMAP_TownSetScale(&map->towns[i], scale, &d_021BBB78);
+        TOWNMAP_TownSetScroll(&map->towns[i], (TownMapPoint *)&map->scrollX);
     }
-    func_021BAF3C(&map->marker, (const TownMapPoint *)&map->scrollX);
+    TOWNMAP_UpdateMarkerPosition(&map->marker, (const TownMapPoint *)&map->scrollX);
 }
 
 
-void func_021BA638(TownMapMap *map, const TownMapPoint *scroll)
+void TOWNMAP_MapSetScroll(TownMapMap *map, const TownMapPoint *scroll)
 {
     u32 i;
     int x;
@@ -1125,9 +1125,9 @@ void func_021BA638(TownMapMap *map, const TownMapPoint *scroll)
     }
     map->scrollY = y;
     for (i = 0; i < map->townCount; i++) {
-        func_021BAD84(&map->towns[i], (TownMapPoint *)&map->scrollX);
+        TOWNMAP_TownSetScroll(&map->towns[i], (TownMapPoint *)&map->scrollX);
     }
-    func_021BAF3C(&map->marker, (const TownMapPoint *)&map->scrollX);
+    TOWNMAP_UpdateMarkerPosition(&map->marker, (const TownMapPoint *)&map->scrollX);
 }
 
 
@@ -1137,28 +1137,28 @@ void func_021BA638(TownMapMap *map, const TownMapPoint *scroll)
  *           at a nonzero offset is a struct assignment (hoists both loads and
  *           allocates r2/r0); two locals let the stores reorder and diff.
  */
-void func_021BA69C(TownMapMap *map, TownMapPoint *scroll)
+void TOWNMAP_MapGetScroll(TownMapMap *map, TownMapPoint *scroll)
 {
     *scroll = *(TownMapPoint *)&map->scrollX;
 }
 
 
-void func_021BA6A8(TownMapMap *map, const TownMapPoint *delta)
+void TOWNMAP_MapAddScroll(TownMapMap *map, const TownMapPoint *delta)
 {
     map->scrollX = delta->x + map->scrollX;
     map->scrollY = map->scrollY + delta->y;
-    func_021BA638(map, (TownMapPoint *)&map->scrollX);
+    TOWNMAP_MapSetScroll(map, (TownMapPoint *)&map->scrollX);
 }
 
 
-TownMapTown *func_021BA6C8(TownMapMap *map, TownMapCursor *cursor)
+TownMapTown *TOWNMAP_MapFindTownUnderCursor(TownMapMap *map, TownMapCursor *cursor)
 {
     TownMapPoint pos;
     u32 i;
 
-    func_021BA3BC(cursor, &pos);
+    TOWNMAP_CursorGetPos(cursor, &pos);
     for (i = 0; i < map->townCount; i++) {
-        if (func_021BAA90(&map->towns[i], &pos, (TownMapPoint *)&map->scrollX) != 0) {
+        if (TOWNMAP_TownHitTest(&map->towns[i], &pos, (TownMapPoint *)&map->scrollX) != 0) {
             return &map->towns[i];
         }
     }
@@ -1166,7 +1166,7 @@ TownMapTown *func_021BA6C8(TownMapMap *map, TownMapCursor *cursor)
 }
 
 
-TownMapTown *func_021BA710(TownMapMap *map, TownMapCursor *cursor)
+TownMapTown *TOWNMAP_MapFindNearestTown(TownMapMap *map, TownMapCursor *cursor)
 {
     TownMapPoint pos;
     u32 i;
@@ -1174,11 +1174,11 @@ TownMapTown *func_021BA710(TownMapMap *map, TownMapCursor *cursor)
     u32 dist;
     int bestIndex;
 
-    func_021BA3BC(cursor, &pos);
+    TOWNMAP_CursorGetPos(cursor, &pos);
     bestIndex = -1;
     bestDist = -1;
     for (i = 0; i < map->townCount; i++) {
-        if (func_021BACB0(&map->towns[i], &pos, (TownMapPoint *)&map->scrollX, &dist) != 0 && bestDist > dist) {
+        if (TOWNMAP_TownTestNear(&map->towns[i], &pos, (TownMapPoint *)&map->scrollX, &dist) != 0 && bestDist > dist) {
             bestIndex = i;
             bestDist = dist;
         }
@@ -1193,14 +1193,14 @@ TownMapTown *func_021BA710(TownMapMap *map, TownMapCursor *cursor)
 /*
  * call width: r1 is explicitly narrowed before the call, so extern takes u16.
  */
-int func_021BA774(TownMapTown *town, int field) {
+int TOWNMAP_TownGetField(TownMapTown *town, int field) {
  if (field>=2 && field<=10) return town->values[field-2];
  if (field==12) return town->selectable;
- return func_021BBB3C(town->info,(u16)(town->index),field);
+ return TOWNMAP_GRH_GetTownInfoValue(town->info,(u16)(town->index),field);
 }
 
 
-void func_021BA7A4(TownMapMap *map, TownMapTown *selected)
+void TOWNMAP_MapHighlightTown(TownMapMap *map, TownMapTown *selected)
 {
     u32 i;
     TownMapTown *town;
@@ -1208,50 +1208,50 @@ void func_021BA7A4(TownMapMap *map, TownMapTown *selected)
     for (i = 0; i < map->townCount; i++) {
         town = &map->towns[i];
         if (town == selected)
-            func_021BADF4(town);
+            TOWNMAP_TownHighlight(town);
         else
-            func_021BAE44(town);
+            TOWNMAP_TownUnhighlight(town);
     }
 }
 
 
-void func_021BA7D4(TownMapMap *map)
+void TOWNMAP_MapClearHighlight(TownMapMap *map)
 {
     u32 i;
 
     for (i = 0; i < map->townCount; i++)
-        func_021BAE44(&map->towns[i]);
+        TOWNMAP_TownUnhighlight(&map->towns[i]);
 }
 
 
-TownMapTown *func_021BA7F8(TownMapMap *map, u32 townId, int townSubId)
+TownMapTown *TOWNMAP_MapFindTownById(TownMapMap *map, u32 townId, int townSubId)
 {
     u32 i;
     u32 zoneId;
     TownMapTown *town;
 
-    zoneId = func_02166C7C(map->gameData, townId);
+    zoneId = SYMBOL_MAP_ResolveZoneId(map->gameData, townId);
     for (i = 0; i < map->townCount; i++) {
         town = &map->towns[i];
-        if (zoneId == func_021BA774(town, 0))
+        if (zoneId == TOWNMAP_TownGetField(town, 0))
             return town;
     }
     return 0;
 }
 
 
-int func_021BA834(TownMapTown *town)
+int TOWNMAP_TownIsRevealed(TownMapTown *town)
 {
     int flag;
 
-    flag = func_021BBB3C(town->info, (u16)(town->index), 15);
+    flag = TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)(town->index), 15);
     if ((flag != 65535 && town->visited != 0 && town->locked == 0) || flag == 65535)
         return 1;
     return 0;
 }
 
 
-void func_021BA86C(TownMapTown *town, int mapInfo, int townIndex, int clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode)
+void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSet, int plttRes, int cellRes, int charRes, void *gameData, u16 heapId, int pickMode)
 {
     SpriteInit init;
     u32 flag;
@@ -1261,27 +1261,27 @@ void func_021BA86C(TownMapTown *town, int mapInfo, int townIndex, int clactSet, 
     town->scale = 0x1000;
     town->info = (char *)mapInfo;
     town->index = townIndex;
-    flag = func_021BBB3C((char *)mapInfo, (u16)townIndex, 15);
+    flag = TOWNMAP_GRH_GetTownInfoValue((char *)mapInfo, (u16)townIndex, 15);
     if (flag != 0xFFFF)
-        town->visited = func_02166CD0(gameData, flag);
+        town->visited = SYMBOL_MAP_CheckEventFlag(gameData, flag);
     else
         town->visited = 0;
     if (pickMode)
         town->visited = 1;
     for (i = 0; i < 9; i++)
-        town->values[i] = func_021BBB3C(town->info, (u16)town->index, i + 2);
+        town->values[i] = TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, i + 2);
     if (pickMode)
         town->selectable = 1;
     else
-        town->selectable = town->visited && func_021BBB3C(town->info, (u16)town->index, 12);
-    flag = func_021BBB3C(town->info, (u16)town->index, 16);
+        town->selectable = town->visited && TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, 12);
+    flag = TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, 16);
     if (flag != 0xFFFF)
-        town->locked = func_02166CD0(gameData, flag) == 0;
+        town->locked = SYMBOL_MAP_CheckEventFlag(gameData, flag) == 0;
     else
         town->locked = 0;
     if (pickMode)
         town->locked = 0;
-    switch (func_021BA774(town, 11)) {
+    switch (TOWNMAP_TownGetField(town, 11)) {
     case 0:
         town->frameNormal = 2;
         town->frameHighlight = 1;
@@ -1310,28 +1310,28 @@ void func_021BA86C(TownMapTown *town, int mapInfo, int townIndex, int clactSet, 
             town->frameHighlight = 0x10;
         break;
     }
-    if (func_021BA774(town, 11) != 1) {
+    if (TOWNMAP_TownGetField(town, 11) != 1) {
         func_02082BCC(&init, 0, 8);
-        init.x = func_021BA774(town, 2);
-        init.y = func_021BA774(town, 3);
-        town->sprite = func_0204B294((void *)clactSet, plttRes, charRes, cellRes, &init, 0, heapId);
+        init.x = TOWNMAP_TownGetField(town, 2);
+        init.y = TOWNMAP_TownGetField(town, 3);
+        town->sprite = CLACT_CreateActor((void *)clactSet, plttRes, charRes, cellRes, &init, 0, heapId);
         CLACT_SetActorAffineMode((struct Actor *)town->sprite, 2);
-        func_0204B84C((int)town->sprite, 2);
+        CLACT_SetActorBgPriority((int)town->sprite, 2);
         CLACT_SetActorDrawPriority((struct Node *)town->sprite, 4);
     }
-    func_021BAE44(town);
+    TOWNMAP_TownUnhighlight(town);
 }
 
 
-void func_021BAA14(TownMapTown *town)
+void TOWNMAP_TownFree(TownMapTown *town)
 {
     if (town->sprite)
-        func_0204B3B4((struct Actor *)town->sprite);
+        CLACT_DeleteActor((struct Actor *)town->sprite);
     func_02082BCC(town, 0, 0x44);
 }
 
 
-void func_021BAA30(TownMapTown *town, int shown)
+void TOWNMAP_TownSetShown(TownMapTown *town, int shown)
 {
     if (town->sprite == 0 || town->frameShown == 0xff) {
         return;
@@ -1340,8 +1340,8 @@ void func_021BAA30(TownMapTown *town, int shown)
         func_0204B3DC((struct Actor *)town->sprite, 0);
         return;
     }
-    if (func_021BA774(town, 11) == 4 || func_021BA774(town, 11) == 5) {
-        func_021BADBC(town, town->frameHighlight);
+    if (TOWNMAP_TownGetField(town, 11) == 4 || TOWNMAP_TownGetField(town, 11) == 5) {
+        TOWNMAP_TownSetFrame(town, town->frameHighlight);
         func_0204B3DC((struct Actor *)town->sprite, 1);
     } else {
         func_0204B3DC((struct Actor *)town->sprite, shown);
@@ -1349,7 +1349,7 @@ void func_021BAA30(TownMapTown *town, int shown)
 }
 
 
-u32 func_021BAA90(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll)
+u32 TOWNMAP_TownHitTest(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll)
 {
     struct Ball ball;
     struct Seg seg;
@@ -1360,20 +1360,20 @@ u32 func_021BAA90(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint
     v0.y = FX_F32_TO_FX32(pos->y);
     v0.z = 0;
     BUTTON_MAN_InitSphere(&ball, (struct Vec *)(&v0), 0);
-    v0.x = FX_F32_TO_FX32(scroll->x + func_021BA774(town, 6));
-    v0.y = FX_F32_TO_FX32(scroll->y + func_021BA774(town, 7));
+    v0.x = FX_F32_TO_FX32(scroll->x + TOWNMAP_TownGetField(town, 6));
+    v0.y = FX_F32_TO_FX32(scroll->y + TOWNMAP_TownGetField(town, 7));
     v0.z = 0;
-    v1.x = FX_F32_TO_FX32(scroll->x + func_021BA774(town, 8));
-    v1.y = FX_F32_TO_FX32(scroll->y + func_021BA774(town, 9));
+    v1.x = FX_F32_TO_FX32(scroll->x + TOWNMAP_TownGetField(town, 8));
+    v1.y = FX_F32_TO_FX32(scroll->y + TOWNMAP_TownGetField(town, 9));
     v1.z = 0;
-    BUTTON_MAN_InitSegment((char *)(&seg), (struct S12 *)(&v0), (struct S12 *)(&v1), FX_F32_TO_FX32(func_021BA774(town, 10)));
+    BUTTON_MAN_InitSegment((char *)(&seg), (struct S12 *)(&v0), (struct S12 *)(&v1), FX_F32_TO_FX32(TOWNMAP_TownGetField(town, 10)));
     if (town->locked != 0)
         return 0;
     return BUTTON_MAN_SegmentSphereTest(&seg, &ball, 0);
 }
 
 
-int func_021BACB0(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll, u32 *distSq)
+int TOWNMAP_TownTestNear(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint *scroll, u32 *distSq)
 {
     int x;
     int y;
@@ -1382,8 +1382,8 @@ int func_021BACB0(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint
     int scale;
     int limit;
 
-    x = scroll->x + func_021BA774(town, 4);
-    y = scroll->y + func_021BA774(town, 5);
+    x = scroll->x + TOWNMAP_TownGetField(town, 4);
+    y = scroll->y + TOWNMAP_TownGetField(town, 5);
     dx = x - pos->x;
     dx = dx * dx;
     dy = y - pos->y;
@@ -1406,7 +1406,7 @@ int func_021BACB0(TownMapTown *town, const TownMapPoint *pos, const TownMapPoint
 }
 
 
-void func_021BAD10(TownMapTown *town, int scale, const TownMapPoint *center)
+void TOWNMAP_TownSetScale(TownMapTown *town, int scale, const TownMapPoint *center)
 {
     int i;
     int base;
@@ -1419,11 +1419,11 @@ void func_021BAD10(TownMapTown *town, int scale, const TownMapPoint *center)
         } else {
             base = center->y;
         }
-        d = func_021BBB3C(town->info, (u16)town->index, i + 2) - base;
+        d = TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, i + 2) - base;
         d = d * scale >> 12;
         town->values[i] = d + base;
     }
-    town->values[8] = scale * func_021BBB3C(town->info, (u16)town->index, 10) >> 12;
+    town->values[8] = scale * TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, 10) >> 12;
     town->scale = scale;
     if (town->sprite != 0) {
         scaleXY[0] = scale;
@@ -1433,24 +1433,24 @@ void func_021BAD10(TownMapTown *town, int scale, const TownMapPoint *center)
 }
 
 
-void func_021BAD84(TownMapTown *town, const TownMapPoint *scroll)
+void TOWNMAP_TownSetScroll(TownMapTown *town, const TownMapPoint *scroll)
 {
     ScreenPos pos;
 
-    pos.x = scroll->x + func_021BA774(town, 2);
-    pos.y = scroll->y + func_021BA774(town, 3);
+    pos.x = scroll->x + TOWNMAP_TownGetField(town, 2);
+    pos.y = scroll->y + TOWNMAP_TownGetField(town, 3);
     if (town->sprite)
         func_0204B404((struct Actor *)town->sprite, (const struct Vec2 *)(&pos), 0);
 }
 
 
-void func_021BADBC(TownMapTown *town, int frame)
+void TOWNMAP_TownSetFrame(TownMapTown *town, int frame)
 {
     town->frameShown = frame;
     if (town->frameShown != 255) {
         if (town->sprite) {
             func_0204B3DC((struct Actor *)town->sprite, 1);
-            func_0204B878((struct Actor *)(town->sprite), town->frameShown);
+            CLACT_SetActorAnimSeq((struct Actor *)(town->sprite), town->frameShown);
         }
     } else {
         if (town->sprite)
@@ -1459,32 +1459,32 @@ void func_021BADBC(TownMapTown *town, int frame)
 }
 
 
-void func_021BADF4(TownMapTown *town)
+void TOWNMAP_TownHighlight(TownMapTown *town)
 {
     int special;
 
     special = 0;
-    if (func_021BA774(town, 11) == 4 || func_021BA774(town, 11) == 5) {
+    if (TOWNMAP_TownGetField(town, 11) == 4 || TOWNMAP_TownGetField(town, 11) == 5) {
         special = 1;
         if (town->locked != 0) {
             special = 0;
         }
     }
     if (town->visited != 0 || special != 0) {
-        func_021BAA30(town, 1);
-        func_021BADBC(town, town->frameNormal);
+        TOWNMAP_TownSetShown(town, 1);
+        TOWNMAP_TownSetFrame(town, town->frameNormal);
     } else {
-        func_021BAA30(town, 0);
+        TOWNMAP_TownSetShown(town, 0);
     }
 }
 
 
-void func_021BAE44(TownMapTown *town)
+void TOWNMAP_TownUnhighlight(TownMapTown *town)
 {
     int special;
 
     special = 0;
-    if (func_021BA774(town, 11) == 4 || func_021BA774(town, 11) == 5) {
+    if (TOWNMAP_TownGetField(town, 11) == 4 || TOWNMAP_TownGetField(town, 11) == 5) {
         special = 1;
         if (town->locked != 0) {
             special = 0;
@@ -1492,16 +1492,16 @@ void func_021BAE44(TownMapTown *town)
     }
     if (town->visited != 0 || special != 0) {
         if (town->sprite != 0) {
-            func_021BAA30(town, 1);
-            func_021BADBC(town, town->frameHighlight);
+            TOWNMAP_TownSetShown(town, 1);
+            TOWNMAP_TownSetFrame(town, town->frameHighlight);
         }
     } else {
-        func_021BAA30(town, 0);
+        TOWNMAP_TownSetShown(town, 0);
     }
 }
 
 
-void func_021BAE9C(TownMapMarker *marker, TownMapTown *town, int clactSet, int plttRes, int cellRes, int charRes, u16 heapId)
+void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, int clactSet, int plttRes, int cellRes, int charRes, u16 heapId)
 {
     SpriteInit init;
 
@@ -1509,13 +1509,13 @@ void func_021BAE9C(TownMapMarker *marker, TownMapTown *town, int clactSet, int p
     marker->town = town;
     func_02082BCC(&init, 0, 8);
     if (town != 0) {
-        init.x = func_021BA774(town, 2);
-        init.y = func_021BA774(town, 3);
+        init.x = TOWNMAP_TownGetField(town, 2);
+        init.y = TOWNMAP_TownGetField(town, 3);
     }
-    marker->sprite = func_0204B294((void *)clactSet, plttRes, charRes, cellRes, &init, 0, heapId);
-    func_0204B84C((int)marker->sprite, 2);
+    marker->sprite = CLACT_CreateActor((void *)clactSet, plttRes, charRes, cellRes, &init, 0, heapId);
+    CLACT_SetActorBgPriority((int)marker->sprite, 2);
     CLACT_SetActorDrawPriority((struct Node *)marker->sprite, 2);
-    func_0204B878((struct Actor *)marker->sprite, 6);
+    CLACT_SetActorAnimSeq((struct Actor *)marker->sprite, 6);
     func_0204B92C((struct Actor *)marker->sprite, 1);
     if (town == 0) {
         func_0204B3DC((struct Actor *)marker->sprite, 0);
@@ -1523,25 +1523,25 @@ void func_021BAE9C(TownMapMarker *marker, TownMapTown *town, int clactSet, int p
 }
 
 /* Marker actor of a town. */
-void func_021BAF24(TownMapMarker *marker)
+void TOWNMAP_DeleteMarker(TownMapMarker *marker)
 {
-    func_0204B3B4((struct Actor *)marker->sprite);
+    CLACT_DeleteActor((struct Actor *)marker->sprite);
     func_02082BCC(marker, 0, sizeof(TownMapMarker));
 }
 
-void func_021BAF3C(TownMapMarker *marker, const TownMapPoint *scroll)
+void TOWNMAP_UpdateMarkerPosition(TownMapMarker *marker, const TownMapPoint *scroll)
 {
     ScreenPos pos;
 
     if (marker->town != 0) {
-        pos.x = scroll->x + func_021BA774(marker->town, 2);
-        pos.y = scroll->y + func_021BA774(marker->town, 3);
+        pos.x = scroll->x + TOWNMAP_TownGetField(marker->town, 2);
+        pos.y = scroll->y + TOWNMAP_TownGetField(marker->town, 3);
     }
     func_0204B404((struct Actor *)marker->sprite, (const struct Vec2 *)&pos, 0);
 }
 
 /* Scroll and zoom of the map layers. */
-void func_021BAF74(TownMapScroll *scroll, u32 bgIdA, u32 bgIdB, int heapId)
+void TOWNMAP_InitScroll(TownMapScroll *scroll, u32 bgIdA, u32 bgIdB, int heapId)
 {
     u16 zero = 0;
 
@@ -1555,12 +1555,12 @@ void func_021BAF74(TownMapScroll *scroll, u32 bgIdA, u32 bgIdB, int heapId)
     scroll->maxY = zero;
 }
 
-void func_021BAF9C(TownMapScroll *scroll)
+void TOWNMAP_ClearScroll(TownMapScroll *scroll)
 {
     func_02082BCC(scroll, 0, sizeof(TownMapScroll));
 }
 
-void func_021BAFA8(TownMapScroll *scroll, TownMapMap *map)
+void TOWNMAP_StepScrollZoom(TownMapScroll *scroll, TownMapMap *map)
 {
     int dy;
     int dx;
@@ -1604,14 +1604,14 @@ void func_021BAFA8(TownMapScroll *scroll, TownMapMap *map)
         }
         scroll->zoomDone = 1;
     }
-    func_021BA5B0(map, scroll->scale, &scroll->pos);
-    func_021BB0E4(scroll, &scroll->pos);
+    TOWNMAP_MapSetZoom(map, scroll->scale, &scroll->pos);
+    TOWNMAP_ApplyScroll(scroll, &scroll->pos);
 }
 
 /* stand-in: an enum typed local keeps the flag in a register across the load of from->x, as the original does. */
 typedef enum { ZOOM_OFF, ZOOM_ON } ZoomFlag;
 
-void func_021BB0B4(TownMapScroll *scroll, int scaleTo, const TownMapPoint *from, const TownMapPoint *to)
+void TOWNMAP_StartScrollZoom(TownMapScroll *scroll, int scaleTo, const TownMapPoint *from, const TownMapPoint *to)
 {
     int x;
     ZoomFlag one;
@@ -1637,7 +1637,7 @@ int func_021BB0E0(TownMapScroll *scroll)
     return scroll->zooming;
 }
 
-void func_021BB0E4(TownMapScroll *scroll, const TownMapPoint *pos)
+void TOWNMAP_ApplyScroll(TownMapScroll *scroll, const TownMapPoint *pos)
 {
     scroll->pos.x = (pos->x > scroll->maxX) ? scroll->maxX : ((pos->x < scroll->minX) ? scroll->minX : pos->x);
     scroll->pos.y = (pos->y > scroll->maxY) ? scroll->maxY : ((pos->y < scroll->minY) ? scroll->minY : pos->y);
@@ -1656,37 +1656,37 @@ void func_021BB0E4(TownMapScroll *scroll, const TownMapPoint *pos)
     func_02041F6C(scroll->bgId[1], 6, scroll->scale);
 }
 
-void func_021BB190(TownMapScroll *scroll, TownMapPoint *out)
+void TOWNMAP_GetScrollPosition(TownMapScroll *scroll, TownMapPoint *out)
 {
     *out = scroll->pos;
 }
 
-void func_021BB19C(TownMapScroll *scroll, const TownMapPoint *delta)
+void TOWNMAP_MoveScroll(TownMapScroll *scroll, const TownMapPoint *delta)
 {
     scroll->pos.x = delta->x + scroll->pos.x;
     scroll->pos.y += delta->y;
-    func_021BB0E4(scroll, &scroll->pos);
+    TOWNMAP_ApplyScroll(scroll, &scroll->pos);
 }
 
 /* Town description shown on the bottom screen. */
-void func_021BB1BC(TownMapSelection *sel, int bgId, void *font, struct MsgBank *nameMsg, struct MsgBank *detailMsg, u16 heapId)
+void TOWNMAP_InitSelection(TownMapSelection *sel, int bgId, void *font, struct MsgBank *nameMsg, struct MsgBank *detailMsg, u16 heapId)
 {
     func_02082BCC(sel, 0, sizeof(TownMapSelection));
     sel->box.font = font;
     sel->detailMsg = detailMsg;
     sel->box.msg = nameMsg;
-    sel->box.win = func_020450F0(bgId, 0, 0, 0x20, 0x18, 0xe, 0);
-    sel->box.text = func_020457B0(0xff, heapId);
+    sel->box.win = BMP_WIN_Create(bgId, 0, 0, 0x20, 0x18, 0xe, 0);
+    sel->box.text = STRBUF_Create(0xff, heapId);
 }
 
-void func_021BB204(TownMapSelection *sel)
+void TOWNMAP_ExitSelection(TownMapSelection *sel)
 {
-    func_02045808(sel->box.text);
+    STRBUF_Delete(sel->box.text);
     func_020452E8(sel->box.win);
     func_02082BCC(sel, 0, sizeof(TownMapSelection));
 }
 
-void func_021BB220(TownMapSelection *sel, TownMapTown *town)
+void TOWNMAP_DrawSelection(TownMapSelection *sel, TownMapTown *town)
 {
     struct Bitmap *bitmap;
     struct BmpWin *win;
@@ -1695,61 +1695,61 @@ void func_021BB220(TownMapSelection *sel, TownMapTown *town)
     u16 msgId;
 
     bitmap = func_02045770(sel->box.win);
-    func_02043B5C(bitmap, 0);
+    BMP_Clear(bitmap, 0);
     if (town != 0) {
-        func_02045CAC(sel->box.msg, func_02013E4C((u16)func_021BA774(town, 0)), sel->box.text);
+        func_02045CAC(sel->box.msg, func_02013E4C((u16)TOWNMAP_TownGetField(town, 0)), sel->box.text);
         centerX = ((u32)func_02045738(sel->box.win) << 3) / 2;
         halfWidth = func_0201D304(sel->box.text, sel->box.font, 0) >> 1;
         centerX = centerX - halfWidth;
-        func_0201C7A4(bitmap, centerX, 0x30, sel->box.text, sel->box.font);
-        msgId = func_021BA774(town, 0x11);
+        PRINTSYS_Print(bitmap, centerX, 0x30, sel->box.text, sel->box.font);
+        msgId = TOWNMAP_TownGetField(town, 0x11);
         if (msgId != 0xFFFF) {
             func_02045CAC(sel->detailMsg, msgId, sel->box.text);
-            func_0201C7A4(bitmap, 0x1c, 0x50, sel->box.text, sel->box.font);
+            PRINTSYS_Print(bitmap, 0x1c, 0x50, sel->box.text, sel->box.font);
         }
-        if (func_021BA834(town)) {
-            msgId = func_021BA774(town, 0x12);
+        if (TOWNMAP_TownIsRevealed(town)) {
+            msgId = TOWNMAP_TownGetField(town, 0x12);
             if (msgId != 0xFFFF) {
                 func_02045CAC(sel->detailMsg, msgId, sel->box.text);
-                func_0201C7A4(bitmap, 0x10, 0x80, sel->box.text, sel->box.font);
+                PRINTSYS_Print(bitmap, 0x10, 0x80, sel->box.text, sel->box.font);
             }
-            msgId = func_021BA774(town, 0x13);
+            msgId = TOWNMAP_TownGetField(town, 0x13);
             if (msgId != 0xFFFF) {
                 func_02045CAC(sel->detailMsg, msgId, sel->box.text);
-                func_0201C7A4(bitmap, 0x10, 0x90, sel->box.text, sel->box.font);
+                PRINTSYS_Print(bitmap, 0x10, 0x90, sel->box.text, sel->box.font);
             }
-            msgId = func_021BA774(town, 0x14);
+            msgId = TOWNMAP_TownGetField(town, 0x14);
             if (msgId != 0xFFFF) {
                 func_02045CAC(sel->detailMsg, msgId, sel->box.text);
-                func_0201C7A4(bitmap, 0x10, 0xa0, sel->box.text, sel->box.font);
+                PRINTSYS_Print(bitmap, 0x10, 0xa0, sel->box.text, sel->box.font);
             }
-            msgId = func_021BA774(town, 0x15);
+            msgId = TOWNMAP_TownGetField(town, 0x15);
             if (msgId != 0xFFFF) {
                 func_02045CAC(sel->detailMsg, msgId, sel->box.text);
-                func_0201C7A4(bitmap, 0x88, 0x80, sel->box.text, sel->box.font);
+                PRINTSYS_Print(bitmap, 0x88, 0x80, sel->box.text, sel->box.font);
             }
-            msgId = func_021BA774(town, 0x16);
+            msgId = TOWNMAP_TownGetField(town, 0x16);
             if (msgId != 0xFFFF) {
                 func_02045CAC(sel->detailMsg, msgId, sel->box.text);
-                func_0201C7A4(bitmap, 0x88, 0x90, sel->box.text, sel->box.font);
+                PRINTSYS_Print(bitmap, 0x88, 0x90, sel->box.text, sel->box.font);
             }
-            msgId = func_021BA774(town, 0x17);
+            msgId = TOWNMAP_TownGetField(town, 0x17);
             if (msgId != 0xFFFF) {
                 func_02045CAC(sel->detailMsg, msgId, sel->box.text);
-                func_0201C7A4(bitmap, 0x88, 0xa0, sel->box.text, sel->box.font);
+                PRINTSYS_Print(bitmap, 0x88, 0xa0, sel->box.text, sel->box.font);
             }
         }
     }
     win = sel->box.win;
-    func_02045334(win);
-    func_02045374(win);
+    BMP_WIN_TransferChars(win);
+    BMP_WIN_MakeScreen(win);
     func_02041B6C(func_02045730(win));
 }
 
-void func_021BB3D0(TownMapSelection *sel)
+void TOWNMAP_ClearSelection(TownMapSelection *sel)
 {
     struct BmpWin *win = sel->box.win;
 
-    func_020456F8(win);
+    BMP_WIN_ClearScreen(win);
     func_02041B6C(func_02045730(win));
 }

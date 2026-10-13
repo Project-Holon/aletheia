@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 02045CAC at +0036 lacks a code-start witness; integrator-owned unit_02045C44.c omits func_02045CAC from function:. Required singleton TU finds no viable cut. No overlay leaves filed while ARM9 blocked.
+ * blocker: ARM9 02045CAC at +0036 lacks a code-start witness; integrator-owned unit_02045C44.c omits MSGDATA_ReadString from function:. Required singleton TU finds no viable cut. No overlay leaves filed while ARM9 blocked.
  * lever: distinct outer buffer and block-scoped first/second buffers settle the eight-byte r4/r6 swap.
  * blocker-C: 02045CAC verified EXACT, 344B, scratch arm9-blocker.log;
  * copied unchanged from unit_02045C44.c, using dsi/1.1p1 -O4,p --arm.
@@ -38,7 +38,7 @@
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -75,15 +75,15 @@
  * }
 
  * symbols:
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
+ *   BMP_Clear 0x02043B5C arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_02184D30 0x02184D30 thumb ov219
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0218532C 0x0218532C thumb ov219
  *   func_02185C84 0x02185C84 thumb ov219
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  * prototype: caller narrows allocation heap to u16 immediately before each call.
  */
 typedef unsigned char u8;
@@ -91,40 +91,40 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct U16Vec;struct Descriptor;struct CharBuf;struct MsgBank;struct Record;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(struct CharBuf *,u8);
-extern void func_02045CAC(struct MsgBank *,u32,void *);
+extern void BMP_Clear(struct CharBuf *,u8);
+extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void func_02184D30(char *,struct Record *,struct Descriptor *,void *,u8,u8);
-extern void func_02045808(struct U16Vec *);
+extern void STRBUF_Delete(struct U16Vec *);
 extern int func_0218532C(char *,u32 *);
 extern int func_02185C84(u32,u32,void *,void *,u32);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 void func_0218544C(char *p)
 {
     struct U16Vec *buffer;
     u32 selected;
     if(*(u32 *)(p+0xC350)==0) {
-        buffer=func_020457B0(1024,(u16)(*(u32 *)p));
-        func_02043B5C(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
-        func_02045CAC(*(struct MsgBank **)(p+0xC070),15,buffer);
+        buffer=STRBUF_Create(1024,(u16)(*(u32 *)p));
+        BMP_Clear(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
+        MSGDATA_ReadString(*(struct MsgBank **)(p+0xC070),15,buffer);
         func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),buffer,0,0);
-        func_02045808(buffer);
+        STRBUF_Delete(buffer);
     } else {
         struct U16Vec *first,*second;
         if(func_0218532C(p,&selected)) {
-            first=func_020457B0(64,(u16)(*(u32 *)p));
-            second=func_020457B0(64,(u16)(*(u32 *)p));
-            func_02043B5C(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
+            first=STRBUF_Create(64,(u16)(*(u32 *)p));
+            second=STRBUF_Create(64,(u16)(*(u32 *)p));
+            BMP_Clear(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
             func_02185C84(*(u16 *)(p+selected*48+66),*(u16 *)(p+selected*48+68),first,second,*(u32 *)p);
             if(*(u16 *)(p+selected*48+68)!=0)
                 func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),second,0,16);
             func_02184D30(p,(struct Record *)(p+0xC020),*(struct Descriptor **)(p+0xC01C),first,0,0);
-            func_02045808(second);
-            func_02045808(first);
+            STRBUF_Delete(second);
+            STRBUF_Delete(first);
             *(int *)(p+0xC2F4)=*(s16 *)(p+selected*48+24);
             *(int *)(p+0xC2F8)=*(s16 *)(p+selected*48+26);
         } else *(u32 *)(p+0xC350)=0;
     }
-    func_02045334(*(struct Descriptor **)(p+0xC01C));
+    BMP_WIN_TransferChars(*(struct Descriptor **)(p+0xC01C));
 }

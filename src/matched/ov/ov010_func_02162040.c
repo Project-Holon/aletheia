@@ -1,5 +1,5 @@
 /*
- * function: func_02162040
+ * function: EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk
  * address: 0x02162040
  * packet: pkt_ov010_02162040
  * region: ov010
@@ -11,10 +11,10 @@
  * The full target body overwrites r1/r2 with 0/8 before use; neither
  * caller nor thunk supplies those legacy trailing parameters.
  * symbols:
- *   func_02162358 0x02162358 thumb ov010
+ *   EVENT_FIELD_PROCLINK_ClearReturnPendingSlot 0x02162358 thumb ov010
  */
-extern void func_02162358(int a0);
-void func_02162040(char *p)
+extern void EVENT_FIELD_PROCLINK_ClearReturnPendingSlot(int a0);
+void EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk(char *p)
 {
-    func_02162358((int)p);
+    EVENT_FIELD_PROCLINK_ClearReturnPendingSlot((int)p);
 }

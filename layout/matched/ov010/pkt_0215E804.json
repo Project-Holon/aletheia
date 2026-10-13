@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215E804",
+   "name": "MOVE_POKEMON_FindEntryBySpecies",
    "address": "0x0215E804",
    "kind": "game",
    "region": "ov010",

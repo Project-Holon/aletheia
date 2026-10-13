@@ -1,5 +1,5 @@
 /*
- * function: func_021D4394
+ * function: BTL_NET_FindNetIdByClient
  * address:  0x021D4394
  * packet:   pkt_ov093_021D4394
  * region:   ov093
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf (no push), filed as the blocker of func_021D4B58.
+ * Unlabelled leaf (no push), filed as the blocker of BTL_NET_SendServerCmd.
  *
  * symbols:
- *   d_021F3B88     0x021F3B88  data  ov093
+ *   gBtlNet     0x021F3B88  data  ov093
  */
 
 typedef unsigned char u8;
@@ -24,14 +24,14 @@ struct S {
     u8 f11[4];
 };
 
-extern struct S *d_021F3B88;
+extern struct S *gBtlNet;
 
-u8 func_021D4394(u32 a)
+u8 BTL_NET_FindNetIdByClient(u32 a)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (a == d_021F3B88->f11[i]) {
+        if (a == gBtlNet->f11[i]) {
             return (u8)i;
         }
     }

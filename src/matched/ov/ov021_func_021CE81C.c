@@ -1,5 +1,5 @@
 /*
- * function: func_021CE81C
+ * function: COMM_ENTRY_MENU_CloseWindows
  * address:  0x021CE81C
  * packet:   pkt_ov021_021CE81C
  * region:   ov021
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02190490  0x02190490  thumb  ov021
- *   func_02190728  0x02190728  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_ClearPrintQue  0x02190490  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02188C54(u8 *p);
-extern int func_02190728(void *a);
-extern void func_02190490(u8 *p);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern int FIELD_MSGBG_DeleteMsgWin(void *a);
+extern void FIELD_MSGBG_ClearPrintQue(u8 *p);
 
-void func_021CE81C(u32 *p)
+void COMM_ENTRY_MENU_CloseWindows(u32 *p)
 {
-    u32 h = func_02188C54((u8 *)p[0]);
+    u32 h = FIELDMAP_GetMsgBg((u8 *)p[0]);
 
     if (p[4] != 0) {
-        func_02190728((void *)p[4]);
+        FIELD_MSGBG_DeleteMsgWin((void *)p[4]);
         p[4] = 0;
     }
     if (p[3] != 0) {
-        func_02190728((void *)p[3]);
+        FIELD_MSGBG_DeleteMsgWin((void *)p[3]);
         p[3] = 0;
     }
-    func_02190490((u8 *)h);
+    FIELD_MSGBG_ClearPrintQue((u8 *)h);
 }

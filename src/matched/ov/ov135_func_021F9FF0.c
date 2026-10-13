@@ -18,7 +18,7 @@
  *   func_0203633C  0x0203633C  arm
  *   func_021F9F58  0x021F9F58  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021F9A1C  0x021F9A1C  thumb
  *   func_021F9F00  0x021F9F00  thumb
  *   tbl_02203220   0x02203220  data  a1
@@ -53,7 +53,7 @@ extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_021F9F58(Menu *m, int dir);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021F9A1C(void *p, int mode);
 extern int func_021F9F00(Menu *m, int key);
 
@@ -90,9 +90,9 @@ int func_021F9FF0(Menu *m)
         func_020061E4(0x548);
         func_021F4FF4(m->cursor, tbl_02203220[m->cur].x, tbl_02203220[m->cur].y);
         if (m->cur == 4) {
-            func_0204B878((struct Obj *)m->cursor, 5);
+            CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
         } else {
-            func_0204B878((struct Obj *)m->cursor, 6);
+            CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 6);
         }
     }
     r = func_021F9A1C(m, 0);
@@ -100,10 +100,10 @@ int func_021F9FF0(Menu *m)
         if ((u32)r < 5) {
             func_021F4FF4(m->cursor, tbl_02203220[r].x, tbl_02203220[r].y);
             if (r == 4) {
-                func_0204B878((struct Obj *)m->cursor, 5);
+                CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
             } else {
                 m->cur = r;
-                func_0204B878((struct Obj *)m->cursor, 6);
+                CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 6);
             }
         }
         r = func_021F9F00(m, r);
@@ -118,7 +118,7 @@ int func_021F9FF0(Menu *m)
     }
     if (func_020362DC() & 2) {
         func_021F4FF4(m->cursor, 0xC0, 0x88);
-        func_0204B878((struct Obj *)m->cursor, 5);
+        CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 5);
         func_020061E4(0x551);
         return -2;
     }

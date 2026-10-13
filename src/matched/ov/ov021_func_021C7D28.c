@@ -1,5 +1,5 @@
 /*
- * function: func_021C7D28
+ * function: FIELD_TASK_CreateRepeatPlayerEffect
  * address:  0x021C7D28
  * packet:   pkt_ov021_021C7D28
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021C6C70  0x021C6C70  thumb  ov021
- *   func_021C6CCC  0x021C6CCC  thumb  ov021
- *   func_021C7D78  0x021C7D78  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_TASK_Create  0x021C6C70  thumb  ov021
+ *   FIELD_TASK_GetWork  0x021C6CCC  thumb  ov021
+ *   FIELD_TASK_UpdateRepeatPlayerEffect  0x021C7D78  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -34,29 +34,29 @@ typedef struct {
 } Obj;
 
 typedef unsigned int   u32;
-extern u16 func_02188C84(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u32 func_02188CD0(u8 *p);
-extern void *func_021A3074(unsigned char *p);
-extern int func_021C6C70(int, int, int (*)(Obj *));
-extern u32 func_021C6CCC(u8 *p);
-extern int func_021C7D78(Obj *);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u32 FIELDMAP_GetEffect(u8 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern int FIELD_TASK_Create(int, int, int (*)(Obj *));
+extern u32 FIELD_TASK_GetWork(u8 *p);
+extern int FIELD_TASK_UpdateRepeatPlayerEffect(Obj *);
 
-int func_021C7D28(int a, int b, u16 c, u16 d)
+int FIELD_TASK_CreateRepeatPlayerEffect(int a, int b, u16 c, u16 d)
 {
     int w;
     void *s;
     int h;
     Obj *o;
 
-    w = func_02188C84((u8 *)a);
-    s = func_02188CB4((void *)a);
-    h = func_021C6C70(w, 0x14, func_021C7D78);
-    o = (Obj *)func_021C6CCC((u8 *)h);
+    w = FIELDMAP_GetHeapId((u8 *)a);
+    s = FIELDMAP_GetFieldPlayer((void *)a);
+    h = FIELD_TASK_Create(w, 0x14, FIELD_TASK_UpdateRepeatPlayerEffect);
+    o = (Obj *)FIELD_TASK_GetWork((u8 *)h);
     o->f0 = a;
-    o->f4 = func_02188CD0((u8 *)a);
-    o->f8 = func_021A3074((void *)s);
+    o->f4 = FIELDMAP_GetEffect((u8 *)a);
+    o->f8 = FIELD_PLAYER_GetMmdl((void *)s);
     o->fC = 0;
     o->fE = 0;
     o->f10 = c;

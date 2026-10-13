@@ -10,6 +10,8 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   d_021C7F04 0x021C7F04 data a1
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb  arm9
+ *   GAME_DATA_GetMyParty  0x02012934  thumb  arm9
  */
 #include "../include/Obj03837.h"
 #include "../include/Obj06531.h"
@@ -19,14 +21,14 @@ typedef unsigned int u32;
 extern const char d_021C7F04[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *func_0200CA1C(void *a);
 void func_021C7430(u8 *p, int a, u16 b, u16 c)
 {
     u8 *q = func_02030734(0x65, 0x98, 1, d_021C7F04, 0x529);
-    ((struct Obj03837 *)q)->f0 = func_02012934(**(void ** *)&((struct Obj06531 *)p)->f4);
-    ((struct Obj03837 *)q)->f4 = func_0201292C(**(void ** *)&((struct Obj06531 *)p)->f4);
+    ((struct Obj03837 *)q)->f0 = GAME_DATA_GetMyParty(**(void ** *)&((struct Obj06531 *)p)->f4);
+    ((struct Obj03837 *)q)->f4 = GAME_DATA_GetMyItem(**(void ** *)&((struct Obj06531 *)p)->f4);
     ((struct Obj03837 *)q)->f8 = ((struct Obj06531 *)p)->f0;
     ((struct Obj03837 *)q)->f38 = 0;
     ((struct Obj03837 *)q)->f34 = a;

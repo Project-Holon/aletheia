@@ -13,15 +13,15 @@
  * the sole blocker of ov020 func_0218562C.
  *
  * symbols:
- *   func_0215E34C  0x0215E34C  thumb  ov010
+ *   FIELD_ENCOUNT_ST_ResetGimmickState  0x0215E34C  thumb  ov010
  *
- * Every ov020 caller passes a second argument (r1), but func_0215E34C
+ * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
 
-extern int func_0215E34C(int a0);
+extern int FIELD_ENCOUNT_ST_ResetGimmickState(int a0);
 
 int func_0216446C(int a, int b)
 {
-    return func_0215E34C(a);
+    return FIELD_ENCOUNT_ST_ResetGimmickState(a);
 }

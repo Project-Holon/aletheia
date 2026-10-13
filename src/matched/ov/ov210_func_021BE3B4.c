@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_020452E8 0x020452E8 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  */
 
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 
 void func_021BE3B4(char *p)
 {
@@ -26,5 +26,5 @@ void func_021BE3B4(char *p)
     {
         func_020452E8(*(void **)(p + 0x14c + i * 8));
     }
-    func_020450C8();
+    BMP_WIN_Exit();
 }

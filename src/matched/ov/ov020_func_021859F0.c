@@ -1,5 +1,5 @@
 /*
- * function: func_021859F0
+ * function: EVENT_MAPCHANGE_DeleteAllMmdl
  * address:  0x021859F0
  * packet:   pkt_021859F0
  * region:   ov020
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02012964  0x02012964  thumb
- *   func_0216CF6C  0x0216CF6C  thumb
+ *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
+ *   FLDMMDL_DeleteAllMmdl  0x0216CF6C  thumb
  */
 
 typedef unsigned int   u32;
 struct BigObj;
-u32 func_02012964(const struct BigObj *p);
-void func_0216CF6C(int x);
+u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
+void FLDMMDL_DeleteAllMmdl(int x);
 
-void func_021859F0(int a)
+void EVENT_MAPCHANGE_DeleteAllMmdl(int a)
 {
-    func_0216CF6C(func_02012964((const struct BigObj *)a));
+    FLDMMDL_DeleteAllMmdl(GAME_DATA_GetOccupyInfo((const struct BigObj *)a));
 }

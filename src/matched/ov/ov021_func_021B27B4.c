@@ -1,5 +1,5 @@
 /*
- * function: func_021B27B4
+ * function: SCRCMD_GIMMICK46_CallSecondEvent
  * address:  0x021B27B4
  * packet:   pkt_ov021_021B27B4
  * region:   ov021
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_021F3AD0  0x021F3AD0  thumb  ov046
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   GIMMICK46_StartLeverEvent  0x021F3AD0  thumb  ov046
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern unsigned int func_02159B10(void *a, void *b);
-extern int func_021F3AD0(void *a, int b, int c);
-extern void func_0215897C(void *vm, void *task);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern int GIMMICK46_StartLeverEvent(void *a, int b, int c);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B27B4(int a, int b)
+int SCRCMD_GIMMICK46_CallSecondEvent(int a, int b)
 {
-    void *x = func_0215A5F4((void *)b);
-    void *y = func_0215A5DC((void *)b);
-    int p = (int)func_02159B10((void *)a, (void *)b);
-    int q = (int)func_02159B10((void *)a, (void *)b);
-    int r = func_021F3AD0(y, p, q);
+    void *x = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *y = SCRCMD_WORK_GetGameSystem((void *)b);
+    int p = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int q = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int r = GIMMICK46_StartLeverEvent(y, p, q);
 
     if (r == 0) {
         return 1;
     }
-    func_0215897C(x, (void *)r);
+    SCRIPT_SYS_CallEvent(x, (void *)r);
     return 1;
 }

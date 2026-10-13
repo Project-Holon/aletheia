@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F2C
+ * function: MONOLITH_TOOL_SetCursor
  * address:  0x021B9F2C
  * packet:   pkt_ov071_021B9F2C
  * region:   ov071
@@ -13,7 +13,7 @@
 
 typedef unsigned char u8;
 
-int func_021B9F2C(u8 *p, int i, int v)
+int MONOLITH_TOOL_SetCursor(u8 *p, int i, int v)
 {
     int old;
 

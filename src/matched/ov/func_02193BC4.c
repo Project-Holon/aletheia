@@ -1,5 +1,5 @@
 /*
- * function: func_02193BC4
+ * function: FIELD_WFBC_ClearPeopleArrivalFlag
  * address:  0x02193BC4
  * packet:   pkt_02193BC4
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_02186764 (0x02186764) is a matched manifest entry, so the `matched`
+ * FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag (0x02186764) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02193EB4  0x02193EB4  thumb  ov021
- *   func_02193EFC  0x02193EFC  thumb  ov021
- *   func_02186764  0x02186764  thumb
- *   func_02193EE8  0x02193EE8  thumb  ov021
+ *   FIELD_WFBC_LoadSaveData  0x02193EB4  thumb  ov021
+ *   FIELD_WFBC_FindPeople  0x02193EFC  thumb  ov021
+ *   FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag  0x02186764  thumb
+ *   FIELD_WFBC_StoreSaveData  0x02193EE8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -29,16 +29,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02186764(u8 *);
+extern void FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(u8 *);
 struct V;
-extern void func_02193EB4(struct V *v);
-extern void func_02193EE8(struct V *v);
-extern u8 *func_02193EFC(void *, u32);
+extern void FIELD_WFBC_LoadSaveData(struct V *v);
+extern void FIELD_WFBC_StoreSaveData(struct V *v);
+extern u8 *FIELD_WFBC_FindPeople(void *, u32);
 
-void func_02193BC4(void *a, u32 b)
+void FIELD_WFBC_ClearPeopleArrivalFlag(void *a, u32 b)
 {
-func_02193EB4(a);
-func_02186764((func_02193EFC(a, b) + 52));
-func_02193EE8(a);
+FIELD_WFBC_LoadSaveData(a);
+FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag((FIELD_WFBC_FindPeople(a, b) + 52));
+FIELD_WFBC_StoreSaveData(a);
 }
 

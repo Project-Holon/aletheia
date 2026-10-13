@@ -1,5 +1,5 @@
 /*
- * function: func_02159DC8
+ * function: MAP_REPLACE_GetRecordCount
  * address:  0x02159DC8
  * packet:   pkt_02159DC8
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02159DC8.c \
- *       --func func_02159DC8 --addr 0x02159DC8 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MAP_REPLACE_GetRecordCount.c \
+ *       --func MAP_REPLACE_GetRecordCount --addr 0x02159DC8 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17651.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_02159DC8(void *p) { return ((struct Obj17651 *)p)->f8; }
+u32 MAP_REPLACE_GetRecordCount(void *p) { return ((struct Obj17651 *)p)->f8; }

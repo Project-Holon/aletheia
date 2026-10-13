@@ -12,16 +12,17 @@
  * symbols:
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
- *   func_0204A48C 0x0204A48C arm
+ *   CLACT_InitSystem 0x0204A48C arm
  *   func_020434DC 0x020434DC arm
  *   d_021F816C 0x021F816C data a4
  *   d_021F815C 0x021F815C data a4
- *   d_020A1448 0x020A1448 data a4
+ *   gClActorInitParam 0x020A1448 data a4
  *   WIPE_ResetWndMask  0x02022224  thumb  arm9
+ *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb  arm9
  */
 #include "../include/Obj10296.h"
 typedef unsigned char u8;
@@ -29,33 +30,33 @@ typedef unsigned short u16;
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 typedef unsigned int   u32;
-extern void func_0202223C(u32 a, u32 color);
+extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 struct Cfg;
 extern u32 WIPE_ResetWndMask(void *win);
 struct DispConfig;
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203F8F4(u16);
-extern void func_02045088(u16);
+extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void func_020434DC(u32 mask, u32 enable);
-extern char d_021F816C[],d_021F815C[],d_020A1448[];
+extern char d_021F816C[],d_021F815C[],gClActorInitParam[];
 void func_021F3A54(u8 *p)
 {
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     *(volatile unsigned *)0x04000000 &= 0xffffe0ff;
     *(volatile unsigned *)0x04001000 &= 0xffffe0ff;
-    func_0202223C(0,0);
-    func_0202223C(1,0);
+    WIPE_SetBrightnessFadeOut(0,0);
+    WIPE_SetBrightnessFadeOut(1,0);
     WIPE_ResetWndMask(0);
     WIPE_ResetWndMask((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
-    func_020433E0((const struct DispVram *)d_021F816C);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021F816C);
     func_0203F8F4(((struct Obj10296 *)p)->f0);
-    func_02045088(((struct Obj10296 *)p)->f0);
+    BMP_WIN_Init(((struct Obj10296 *)p)->f0);
     func_0203FC28((struct DispConfig *)d_021F815C);
-    func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021F816C,((struct Obj10296 *)p)->f0);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021F816C,((struct Obj10296 *)p)->f0);
     func_020434DC(16,1);
 }

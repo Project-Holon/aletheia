@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02021518
+ * function: PALANM_Create
  * address:  0x02021518
  * packet:   pkt_02021444
  * region:   arm9
@@ -36,8 +36,8 @@
  * palanm.c anchor in layout/file_anchors.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02021518.c \
- *       --func func_02021518 --addr 0x02021518 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_Create.c \
+ *       --func PALANM_Create --addr 0x02021518 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -48,7 +48,7 @@ extern const char sPalAnmFileName[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dest, u32 data, u32 size);
 
-void *func_02021518(u32 heap)
+void *PALANM_Create(u32 heap)
 {
     void *p = func_02030734((u16)heap, 0x120, 0, sPalAnmFileName, 88);
     MI_CpuFill8(p, 0, 0x120);

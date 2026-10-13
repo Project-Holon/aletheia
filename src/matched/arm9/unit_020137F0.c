@@ -14,7 +14,7 @@
  *   BTL_SETUP_SetupComm     0x02013528  thumb
   *
  *
- * The shortest member of the family: no func_0203D1A4 call, and the two stack
+ * The shortest member of the family: no GFL_NET_GetHandleNetID call, and the two stack
  * arguments the caller passes (a byte at +0x00 and a halfword at +0x04 of the
  * caller's stack block) are forwarded as the seventh and eighth arguments.
 

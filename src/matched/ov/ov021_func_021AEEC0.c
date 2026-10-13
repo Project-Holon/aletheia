@@ -1,5 +1,5 @@
 /*
- * function: func_021AEEC0
+ * function: SCRCMD_IsBgmPlaying
  * address:  0x021AEEC0
  * packet:   pkt_ov021_021AEEC0
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   VM_GetU16  0x02011330  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -20,13 +21,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern u16 VM_GetU16(struct Stream *s);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern int func_02005F38(void);
 
-int func_021AEEC0(u32 a, u32 b)
+int SCRCMD_IsBgmPlaying(u32 a, u32 b)
 {
-    func_02011330((struct Stream *)a);
-    *func_02159AE8((void *)a, (void *)b) = func_02005F38();
+    VM_GetU16((struct Stream *)a);
+    *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = func_02005F38();
     return 0;
 }

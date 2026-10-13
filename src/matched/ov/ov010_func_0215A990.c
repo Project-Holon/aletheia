@@ -1,5 +1,5 @@
 /*
- * function: func_0215A990
+ * function: SCRCMD_WORK_WaitMenuOrCancel
  * address: 0x0215A990
  * packet: pkt_ov010_0215A990
  * region: ov010
@@ -9,25 +9,25 @@
  * status: EXACT
  * lever: result declared before pointer gives original r4/result, r5/base.
  * symbols:
- *   func_0215A954 0x0215A954 thumb ov010
+ *   SCRCMD_WORK_WaitMenu 0x0215A954 thumb ov010
  *   func_020362DC 0x020362DC arm
- *   func_0215A920 0x0215A920 thumb ov010
+ *   SCRCMD_WORK_DeleteMenu 0x0215A920 thumb ov010
  */
 #include "../include/Obj04148.h"
 #include "../include/Obj12286.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0215A954(u8 *);
+extern int SCRCMD_WORK_WaitMenu(u8 *);
 extern u32 func_020362DC(void);
-extern int func_0215A920(int a0);
-int func_0215A990(u8 *a) {
+extern int SCRCMD_WORK_DeleteMenu(int a0);
+int SCRCMD_WORK_WaitMenuOrCancel(u8 *a) {
  int v;
  u8 *p;
  p = *(u8 * *)&((struct Obj12286 *)a)->f20 + 52;
- v = func_0215A954(a);
+ v = SCRCMD_WORK_WaitMenu(a);
  if (v == 0 && (func_020362DC() & 1024)) {
- func_0215A920((int)p);
+ SCRCMD_WORK_DeleteMenu((int)p);
  **(u16 * *)&((struct Obj04148 *)p)->f8 = 65533;
  v = 1;
  }

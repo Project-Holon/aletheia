@@ -15,13 +15,14 @@
  * reports nothing produced.
  *
  * symbols:
+ *   gsLargeIntReverseBytes  0x0217E934  arm
  */
 
 typedef unsigned int u32;
 
 extern void *func_020923B0(void *p, int c, u32 n);
 extern int func_021837A4(void *stream, char *matchtag, unsigned char *valueOut, int maxLen, int *lenOut);
-extern int func_0217E934(char *p);
+extern int gsLargeIntReverseBytes(char *p);
 
 int func_02183E50(void *a, int b, int *c)
 {
@@ -37,7 +38,7 @@ int func_02183E50(void *a, int b, int *c)
     if (n & 3)
         c[0] = k + 1;
 
-    if (func_0217E934((char *)c) == 0)
+    if (gsLargeIntReverseBytes((char *)c) == 0)
         return 0;
     return 1;
 }

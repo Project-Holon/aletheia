@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB24
+ * function: TOWNMAP_GRH_LoadTownInfo
  * address: 0x021BBB24
  * packet: pkt_ov072_021BBB24
  * region: ov072
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A1BC 0x0204A1BC arm
+ *   ARC_UTIL_LoadMember 0x0204A1BC arm
  */
-extern int func_0204A1BC(int,int,int,int);
-int func_021BBB24(int a) { return func_0204A1BC(0x56,0,0,a); }
+extern int ARC_UTIL_LoadMember(int,int,int,int);
+int TOWNMAP_GRH_LoadTownInfo(int a) { return ARC_UTIL_LoadMember(0x56,0,0,a); }

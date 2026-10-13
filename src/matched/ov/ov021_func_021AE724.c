@@ -1,5 +1,5 @@
 /*
- * function: func_021AE724
+ * function: EVENT_TRAINER_EYE_StepDone
  * address: 0x021AE724
  * packet: pkt_ov021_021AE724
  * region: ov021
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned int   u32;
-int func_021AE724(u32 *p);
+int EVENT_TRAINER_EYE_StepDone(u32 *p);
 
-int func_021AE724(u32 *p) { p[1] = 1; return 0; }
+int EVENT_TRAINER_EYE_StepDone(u32 *p) { p[1] = 1; return 0; }

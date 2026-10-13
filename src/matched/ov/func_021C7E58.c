@@ -1,5 +1,5 @@
 /*
- * function: func_021C7E58
+ * function: FIELD_FLASH_InitTween
  * address:  0x021C7E58
  * packet:   pkt_021C7E58
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02082BCC();
 
-void func_021C7E58(u32 a)
+void FIELD_FLASH_InitTween(u32 a)
 {
     func_02082BCC(a, 0, 24);
 }

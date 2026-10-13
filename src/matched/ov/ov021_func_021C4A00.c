@@ -1,5 +1,5 @@
 /*
- * function: func_021C4A00
+ * function: FLDEFF_SPLASH_UnloadBoardImage
  * address:  0x021C4A00
  * packet:   pkt_ov021_021C4A00
  * region:   ov021
@@ -10,6 +10,9 @@
  * status:   EXACT
  *
  * Sets flag 1 on the field object (tail call).
+ *
+ * symbols:
+ *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -22,9 +25,9 @@ typedef struct {
 } S;
 
 struct BbActSys;
-extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
+extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count);
 
-void func_021C4A00(S *s)
+void FLDEFF_SPLASH_UnloadBoardImage(S *s)
 {
-    func_02050278((struct BbActSys *)s->obj, s->id, 1);
+    BILLBOARD_ACT_DeleteSlots((struct BbActSys *)s->obj, s->id, 1);
 }

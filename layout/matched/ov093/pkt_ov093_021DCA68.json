@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DCA68",
-    "func_021DCA8C"
+    "BTL_ABILITY_SapSipperAbsorbGrass",
+    "BTL_ABILITY_GetSapSipperHandlers"
+   ],
+   "addresses": [
+    "0x021DCA68",
+    "0x021DCA8C"
    ],
    "evidence": {
     "sole-ref": [

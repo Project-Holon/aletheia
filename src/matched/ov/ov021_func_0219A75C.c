@@ -1,5 +1,5 @@
 /*
- * function: func_0219A75C
+ * function: FLDMMDL_MOVECODE_MoveSwing
  * address:  0x0219A75C
  * packet:   pkt_ov021_0219A75C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   d_021D4DB8  0x021D4DB8  data  a4
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   gMmdlSwingSteps  0x021D4DB8  data  a4
  */
 
 typedef unsigned char  u8;
@@ -20,12 +20,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef int (*Step)(u32, u8 *);
-extern void *func_0216D69C(void *p);
-extern Step d_021D4DB8[];
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern Step gMmdlSwingSteps[];
 
-void func_0219A75C(u32 a)
+void FLDMMDL_MOVECODE_MoveSwing(u32 a)
 {
-    u8 *p = func_0216D69C((void *)a);
-    while (d_021D4DB8[(s8)p[2]](a, p) == 1) {
+    u8 *p = FLDMMDL_GetMoveProcWork((void *)a);
+    while (gMmdlSwingSteps[(s8)p[2]](a, p) == 1) {
     }
 }

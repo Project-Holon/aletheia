@@ -15,6 +15,7 @@
  *
  * symbols:
  *   GFL_USE_StepBgmLoad  0x020063B4  thumb
+ *   GFL_NET_SetDeviceModeIfRunning  0x0203D12C  arm
  */
 #include "../include/Obj00164.h"
 
@@ -23,13 +24,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
-extern void func_0203D12C(int a);
+extern void GFL_NET_SetDeviceModeIfRunning(int a);
 
 u32 FIELD_SOUND_SYSTEM_StepBgmLoading(u8 *p)
 {
     u32 r = GFL_USE_StepBgmLoad((u8 *)(((struct Obj00164 *)p)->f10), (u32 *)((u32)(p + 0x14)), 0);
 
-    func_0203D12C(2);
+    GFL_NET_SetDeviceModeIfRunning(2);
     if (r != 0) {
         ((struct Obj00164 *)p)->f8 = ((struct Obj00164 *)p)->f10;
         ((struct Obj00164 *)p)->f10 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_020141DC
+ * function: ZONEDATA_GetLocationPosType
  * address:  0x020141DC
  * packet:   pkt_020141DC
  * region:   arm9
@@ -18,7 +18,7 @@ typedef struct Rec020141DC {
     int fC;
 } Rec020141DC;
 
-int func_020141DC(const Rec020141DC *p)
+int ZONEDATA_GetLocationPosType(const Rec020141DC *p)
 {
     return p->fC;
 }

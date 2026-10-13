@@ -1,5 +1,5 @@
 /*
- * function: func_0219C630
+ * function: FLDMMDL_BLACT_IsReservePending
  * address:  0x0219C630
  * packet:   pkt_0219C630
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D520  0x0216D520  thumb  ov010
- *   func_0219CCF0  0x0219CCF0  thumb  ov021
+ *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
+ *   FLDMMDL_BLACT_CheckReserveLeft  0x0219CCF0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D520(void *p);
-extern int func_0219CCF0(u8 *s);
+extern u32 FLDMMDL_SysGetBlActCont(void *p);
+extern int FLDMMDL_BLACT_CheckReserveLeft(u8 *s);
 
-int func_0219C630(void *p)
+int FLDMMDL_BLACT_IsReservePending(void *p)
 {
-if (func_0219CCF0((u8 *)func_0216D520(p)) == 1) {
+if (FLDMMDL_BLACT_CheckReserveLeft((u8 *)FLDMMDL_SysGetBlActCont(p)) == 1) {
     return 1;
 }
 return 0;

@@ -11,11 +11,11 @@
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045738 0x02045738 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045770 0x02045770 arm
  *   func_0201D304 0x0201D304 thumb
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  */
@@ -40,12 +40,12 @@ struct StrObj;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u8 func_02045738(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_0220CDF0(u8 *p,int index)
@@ -61,33 +61,33 @@ void func_0220CDF0(u8 *p,int index)
     elem=p+4+func_022110D4(p,index)*0x4C;
     text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x26);
     context=((struct Obj00509 *)p)->f1EAC;
-    func_0201C724(context,(u32)func_02045770(((struct Obj00509 *)p)->f1FD8),0,0,(u32)text,((struct Obj25156 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x3DC0);
+    PRINTSYS_PrintQueColor(context,(u32)func_02045770(((struct Obj00509 *)p)->f1FD8),0,0,(u32)text,((struct Obj25156 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x3DC0);
     ((struct Obj00509 *)p)->f1FDC=1;
-    func_02045808(text);
+    STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x29);
     width=func_0201D304(text,((struct Obj25157 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0);
     x=((func_02045738(((struct Obj00509 *)p)->f1F90)<<3)-width)>>1;
     secondContext=((struct Obj00509 *)p)->f1EAC;
-    func_0201C724(secondContext,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)x,0,(u32)text,((struct Obj25158 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
+    PRINTSYS_PrintQueColor(secondContext,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)x,0,(u32)text,((struct Obj25158 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
     ((struct Obj00509 *)p)->f1F94=1;
-    func_02045808(text);
+    STRBUF_Delete(text);
     text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x27);
-    buf=func_020457B0(8,((struct Obj25159 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->f10);
+    buf=STRBUF_Create(8,((struct Obj25159 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->f10);
     func_0201EFA4(((struct Obj00509 *)p)->f1EA4,0,((struct Obj14557 *)elem)->f10,3,0,1);
     func_0201F250(((struct Obj00509 *)p)->f1EA4,buf,text);
     otherWidth=func_0201D304(buf,((struct Obj25160 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0);
     context=((struct Obj00509 *)p)->f1EAC;
-    func_0201C724(context,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)(x-otherWidth),0,(u32)buf,((struct Obj25161 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
+    PRINTSYS_PrintQueColor(context,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)(x-otherWidth),0,(u32)buf,((struct Obj25161 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
     ((struct Obj00509 *)p)->f1F94=1;
-    func_02045808(text);
-    func_02045808(buf);
+    STRBUF_Delete(text);
+    STRBUF_Delete(buf);
     text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x28);
-    buf=func_020457B0(8,((struct Obj25162 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->f10);
+    buf=STRBUF_Create(8,((struct Obj25162 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->f10);
     func_0201EFA4(((struct Obj00509 *)p)->f1EA4,0,((struct Obj14557 *)elem)->f12,3,0,1);
     func_0201F250(((struct Obj00509 *)p)->f1EA4,buf,text);
     context=((struct Obj00509 *)p)->f1EAC;
-    func_0201C724(context,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)(x+width),0,(u32)buf,((struct Obj25163 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
+    PRINTSYS_PrintQueColor(context,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)(x+width),0,(u32)buf,((struct Obj25163 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
     ((struct Obj00509 *)p)->f1F94=1;
-    func_02045808(text);
-    func_02045808(buf);
+    STRBUF_Delete(text);
+    STRBUF_Delete(buf);
 }

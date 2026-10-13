@@ -1,5 +1,5 @@
 /*
- * function: func_021AB3B0
+ * function: MAP_ATTR_IsFishableWater
  * address:  0x021AB3B0
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -21,7 +21,7 @@ typedef int BOOL;
 
 
 
-BOOL func_021AB3B0(u16 id)
+BOOL MAP_ATTR_IsFishableWater(u16 id)
 {
     if (id == 0x3d || id == 0x3e || id == 0x3f || id == 0x42 || id == 0x43) {
         return 1;

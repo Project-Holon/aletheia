@@ -10,35 +10,35 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, unsigned int a);
 typedef unsigned int   u32;
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E3D38(int u, int v, int c, int *w)
 {
     int p;
 
-    if (c == func_021D775C(2)) {
-        p = func_021D775C(0x3f);
+    if (c == BTL_EVENT_GetVar(2)) {
+        p = BTL_EVENT_GetVar(0x3f);
         switch (w[0]) {
         case 1:
             func_021C8838((void *)p, 2, 0x2e9);
             func_021C8860((struct S *)p, c);
-            func_021D76BC(0x51, 1);
+            BTL_EVENT_OverwriteVar(0x51, 1);
             break;
         case 2:
             func_021C8838((void *)p, 2, 0x2ec);
             func_021C8860((struct S *)p, c);
-            func_021D76BC(0x51, 1);
+            BTL_EVENT_OverwriteVar(0x51, 1);
             break;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F385C
+ * function: GIMMICK65_StartEffect
  * address:  0x021F385C
  * packet:   pkt_ov065_021F385C
  * region:   ov065
@@ -10,34 +10,34 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021BE4B4  0x021BE4B4  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  */
 
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern void func_021BE4B4(char *p, int i, int j, int v);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B0(unsigned char *p, int v);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 
-void func_021F385C(int a)
+void GIMMICK65_StartEffect(int a)
 {
     int i;
     int s;
     int *w;
 
-    s = func_02188D2C((int *)a);
-    w = func_021897BC((char *)a, 1);
+    s = FIELDMAP_GetExpObj((int *)a);
+    w = FIELDMAP_GetCommonWork((char *)a, 1);
     w[0] = 1;
-    func_021BE4B4((char *)s, 0, 0, 0);
+    FLD_EXP_OBJ_SetModelHidden((char *)s, 0, 0, 0);
     for (i = 0; i < 2; i++)
-        func_021BE6B0(func_021BE674((char *)s, 0, (int)0, (unsigned short)i), 0);
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((char *)s, 0, (int)0, (unsigned short)i), 0);
     if (w[1] != 0)
         func_020061E4(0x7F7);
     else

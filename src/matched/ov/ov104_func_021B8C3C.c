@@ -14,7 +14,7 @@
  * symbols:
  *   func_020056EC 0x020056EC thumb
  *   func_0207CA00 0x0207CA00 arm
- *   func_0207CCA4 0x0207CCA4 arm
+ *   VEC_Normalize 0x0207CCA4 arm
  *   func_021B8E8C 0x021B8E8C thumb ov104
  *   func_021B8DA4 0x021B8DA4 thumb ov104
  *   g_020A1B38 0x020A1B38 data a2
@@ -27,7 +27,7 @@ typedef struct { int x,y,z; } Vec;
 typedef struct { int x,y; } Point;
 extern u32 func_020056EC(u32);
 extern void func_0207CA00(const Vec *,const Vec *,Vec *);
-extern void func_0207CCA4(const Vec *,Vec *);
+extern void VEC_Normalize(const Vec *,Vec *);
 extern u32 func_021B8E8C(u8 *);
 extern void func_021B8DA4(u8 *,const Point *,const Point *,int,u32);
 extern const s16 g_020A1B38[];
@@ -52,7 +52,7 @@ void func_021B8C3C(u8 *p, const void *a, int color)
                 random.y=SHIFT(end.y,12);
                 random.z=0;
                 func_0207CA00(&random,&origin,&delta);
-                func_0207CCA4(&delta,&delta);
+                VEC_Normalize(&delta,&delta);
                 rawY=delta.y;
                 end.x=SHIFT(delta.x,8)>>12;
                 end.y=SHIFT(rawY,8)>>12;

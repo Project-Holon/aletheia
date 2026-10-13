@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021EF884 0x021EF884 thumb ov093
+ *   BTL_FIELD_GetCountdownValue 0x021EF884 thumb ov093
  */
 #include "../include/Obj13656.h"
-extern int func_021EF884(void);
-int func_0218905C(int a, unsigned char *b) { ((struct Obj13656 *)b)->f38=func_021EF884(); return ((struct Obj13656 *)b)->fC4; }
+extern int BTL_FIELD_GetCountdownValue(void);
+int func_0218905C(int a, unsigned char *b) { ((struct Obj13656 *)b)->f38=BTL_FIELD_GetCountdownValue(); return ((struct Obj13656 *)b)->fC4; }

@@ -10,18 +10,18 @@
  * lever: initialize the reusable heap offset; assign enum VRAM in each
  *   copy arm; split addr = base; addr = addr + off and add buf.w[1] last.
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02043678 0x02043678 arm
- *   func_02043B5C 0x02043B5C arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   BMP_Create 0x02043678 arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_0201F35C 0x0201F35C thumb
  *   GF_FONT_GetTextColor 0x0201DE00 thumb
- *   func_0201DD78 0x0201DD78 thumb
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_020437D4 0x020437D4 arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_GetPixels 0x020437D4 arm
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   func_02082A60 0x02082A60 arm
- *   func_02045808 0x02045808 arm
- *   func_020437AC 0x020437AC arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   BMP_Delete 0x020437AC arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,22 +33,22 @@ typedef struct { char p0[8]; void *f8; char pc[0x43c]; u16 heap; } O;
 struct Bmp;
 struct Struct36;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct Bmp;
 struct CharBuf;
 struct Obj020437AC;
 struct U16Vec;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F35C(void *, int, u32, u32, u32);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
-extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_020437AC(struct Obj020437AC *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_Delete(struct Obj020437AC *p);
 void func_02208550(O *o, E *e)
 {
     void *v, *bmp;
@@ -58,15 +58,15 @@ void func_02208550(O *o, E *e)
     u32 off = 0x448;
     int addr;
     enum { VRAM = 0x06400000 } base;
-    v = func_020457B0(4, (u16)((*(u16 *)((char *)o + off) & 0x7fff) | 0x8000));
-    bmp = func_02043678(3, 2, 32, (u16)((*(u16 *)((char *)o + off) & 0x7fff) | 0x8000));
-    func_02043B5C(bmp, 0);
+    v = STRBUF_Create(4, (u16)((*(u16 *)((char *)o + off) & 0x7fff) | 0x8000));
+    bmp = BMP_Create(3, 2, 32, (u16)((*(u16 *)((char *)o + off) & 0x7fff) | 0x8000));
+    BMP_Clear(bmp, 0);
     func_0201F35C(v, e->f6c, 3, 0, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
-    func_0201DD78(1, 4, 0);
-    func_0201C7A4(bmp, 0, 5, v, o->f8);
-    func_0201DD78(c[2], c[1], c[0]);
-    pixels = func_020437D4(bmp);
+    GF_FONT_SetTextColor(1, 4, 0);
+    PRINTSYS_Print(bmp, 0, 5, v, o->f8);
+    GF_FONT_SetTextColor(c[2], c[1], c[0]);
+    pixels = BMP_GetPixels(bmp);
     CLACT_GetActorImageProxy(e->f0, (struct Struct36 *)(&buf));
     if (e->f44 != 0) {
         base = VRAM;
@@ -83,6 +83,6 @@ void func_02208550(O *o, E *e)
         func_02082A60(pixels, (void *)(addr + buf.w[1]), 0x60);
         func_02082A60(pixels + 0x60, (void *)(base + 0x560 + buf.w[1]), 0x60);
     }
-    func_02045808(v);
-    func_020437AC(bmp);
+    STRBUF_Delete(v);
+    BMP_Delete(bmp);
 }

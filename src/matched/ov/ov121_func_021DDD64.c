@@ -22,16 +22,16 @@
  *   func_021DBF9C 0x021DBF9C thumb ov121
  *   func_021DBF70 0x021DBF70 thumb ov121
  *   func_021DC024 0x021DC024 thumb ov121
- *   func_02049F78 0x02049F78 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02049E74 0x02049E74 arm
+ *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204ADEC 0x0204ADEC arm
+ *   CLACT_TransferPalette 0x0204ADEC arm
  *   func_02082A48 0x02082A48 arm
  *   CLACT_SetActorRotation 0x0204B5F4 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
@@ -48,18 +48,18 @@ extern int func_021DBF9C(void *);
 extern u32 func_021DBF70(void *);
 extern int func_021DC024(void *);
 struct Obj;
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *,void *,int);
 extern u32 func_020307B0(void *p);
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B404(void *,const Point *,u16);
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204ADEC(u32,void *,u32);
+extern void CLACT_TransferPalette(u32,void *,u32);
 extern void func_02082A48(u32,void *,u32);
 extern void CLACT_SetActorRotation(struct Actor *actor, u16 value);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
@@ -81,21 +81,21 @@ void MYSTERY_ALBUM_SetupIcons(char *p,char *q,u16 heap)
     u32 offset;
     int i;
     arc=func_021DBF10(p,heap);
-    allocation=func_02049F78(arc,(int)func_021DBF40(p),(u32)(&res),(u16)(*(u16 *)(p+0x118)));
+    allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,(int)func_021DBF40(p),(u32)(&res),(u16)(*(u16 *)(p+0x118)));
     offset=*(u32 *)(q+0xb0)*32;
     func_02082D44(*(void **)((char *)res+12),palette(offset,*(u32 *)(q+0x98)),96);
     func_020307B0(allocation);
-    allocation2=func_02049E74(arc,(int)func_021DBF9C(p),(int)0,(u32)(&res2),*(u16 *)(p+0x118));
+    allocation2=ARC_UTIL_LoadScreenDataFromHandle(arc,(int)func_021DBF9C(p),(int)0,(u32)(&res2),*(u16 *)(p+0x118));
     CLACT_TransferCharacterPart(*(int *)(q+8),*(void **)((char *)res2+20),512,0,*(int *)(q+0x98));
     func_020307B0(allocation2);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     pt.x=216; pt.y=22;
     if (func_021DC024(p)==2) {pt.x+=4;pt.y+=8;}
     func_0204B6F4(*(void **)(q+28),(u8)func_021DBF70(p),0);
     func_0204B404(*(void **)(q+28),&pt,*(u32 *)(q+0x98));
     func_0204B3DC(*(void **)(q+28),1);
     if (func_021DC024(p)==1) {
-        func_0204ADEC(*(u32 *)(q+16),*(void **)(*(char **)(p+0x140)+12),1);
+        CLACT_TransferPalette(*(u32 *)(q+16),*(void **)(*(char **)(p+0x140)+12),1);
         func_02082D44(*(void **)(*(char **)(p+0x140)+12),q+0x64,32);
         func_02082A48(0,q+0x44,32);
         CLACT_TransferCharacterPart(*(int *)(q+20),*(void **)(*(char **)(p+0x138)+20),0x1200,0,*(int *)(q+0x98));

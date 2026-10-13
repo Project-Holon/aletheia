@@ -1,5 +1,5 @@
 /*
- * function: func_0217D890
+ * function: INTRUDE_SUBDISP_BmpWinSetup
  * address:  0x0217D890
  * packet:   pkt_ov018_0217D890
  * region:   ov018
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020450F0  0x020450F0  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(unsigned int);
 
@@ -36,23 +36,23 @@ typedef struct {
     char d;
 } S;
 
-void func_0217D890(S *p)
+void INTRUDE_SUBDISP_BmpWinSetup(S *p)
 {
     int r;
     int r2;
     char z;
 
     z = 0;
-    r = func_020450F0(6, 0, 0, 0x20, 2, 14, 1);
+    r = BMP_WIN_Create(6, 0, 0, 0x20, 2, 14, 1);
     p->a = r;
     p->b = z;
-    func_02045334((struct Descriptor *)r);
-    func_02045374((struct Cfg *)r);
+    BMP_WIN_TransferChars((struct Descriptor *)r);
+    BMP_WIN_MakeScreen((struct Cfg *)r);
     func_020409B4(func_02045730((struct Descriptor *)r));
-    r2 = func_020450F0(6, 1, 0x12, 0x1e, 4, 14, 1);
+    r2 = BMP_WIN_Create(6, 1, 0x12, 0x1e, 4, 14, 1);
     p->c = r2;
     p->d = z;
-    func_02045334((struct Descriptor *)r2);
-    func_02045374((struct Cfg *)r2);
+    BMP_WIN_TransferChars((struct Descriptor *)r2);
+    BMP_WIN_MakeScreen((struct Cfg *)r2);
     func_020409B4(func_02045730((struct Descriptor *)r2));
 }

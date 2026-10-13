@@ -1,5 +1,5 @@
 /*
- * function: func_021D7C70
+ * function: BTL_CALC_MakeSickContFromSpec
  * address:  0x021D7C70
  * packet:   pkt_ov093_021D7C70
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021E899C  0x021E899C  thumb  ov093
- *   func_021D7B8C  0x021D7B8C  thumb  ov093
- *   func_021E8940  0x021E8940  thumb  ov093
- *   func_021E89F8  0x021E89F8  thumb  ov093
- *   func_021E8A28  0x021E8A28  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind3  0x021E899C  thumb  ov093
+ *   BTL_CALC_RandRange  0x021D7B8C  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind1  0x021E89F8  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind4  0x021E8A28  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -28,33 +28,33 @@ typedef signed int s32;
 typedef struct { u32 v; } Word;
 struct Sel { u16 kind : 4; u16 lo : 6; u16 hi : 6; };
 
-extern u8 func_021D5440(u8 *p);
-extern Word func_021E899C(u32 a);
-extern u32 func_021D7B8C(u32 lo, u32 hi);
-extern Word func_021E8940(u8 a);
-extern Word func_021E89F8(u8 a, u32 b);
-extern Word func_021E8A28(u32 a, u8 b);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern Word BTLV_CORE_MakeSlotKind3(u32 a);
+extern u32 BTL_CALC_RandRange(u32 lo, u32 hi);
+extern Word BTLV_CORE_MakeSlotKind2Index(u8 a);
+extern Word BTLV_CORE_MakeSlotKind1(u8 a, u32 b);
+extern Word BTLV_CORE_MakeSlotKind4(u32 a, u8 b);
 
-void func_021D7C70(struct Sel s, int m, Word *out)
+void BTL_CALC_MakeSickContFromSpec(struct Sel s, int m, Word *out)
 {
     u8 x;
     u8 y;
 
     switch (s.kind) {
     case 3:
-        *out = func_021E899C(func_021D5440((u8 *)m));
+        *out = BTLV_CORE_MakeSlotKind3(BTL_POKEPARAM_GetPokeId((u8 *)m));
         break;
     case 2:
-        y = func_021D7B8C(s.lo, s.hi);
-        *out = func_021E8940(y);
+        y = BTL_CALC_RandRange(s.lo, s.hi);
+        *out = BTLV_CORE_MakeSlotKind2Index(y);
         break;
     case 1:
-        *out = func_021E89F8(s.hi, s.lo);
+        *out = BTLV_CORE_MakeSlotKind1(s.hi, s.lo);
         break;
     case 4:
-        x = func_021D5440((u8 *)m);
-        y = func_021D7B8C(s.lo, s.hi);
-        *out = func_021E8A28(x, y);
+        x = BTL_POKEPARAM_GetPokeId((u8 *)m);
+        y = BTL_CALC_RandRange(s.lo, s.hi);
+        *out = BTLV_CORE_MakeSlotKind4(x, y);
         break;
     case 0:
     default:

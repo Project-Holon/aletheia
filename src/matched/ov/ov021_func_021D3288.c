@@ -1,5 +1,5 @@
 /*
- * function: func_021D3288
+ * function: FLD_VREQ_SetMainBlendAlphaEv
  * address:  0x021D3288
  * packet:   pkt_ov021_021D3288
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled 10-byte leaf (movs/strh/str/str/bx lr) between labelled code;
- * called from func_021C622C.
+ * called from SWEET_SCENT_FadeMain.
  */
 
 typedef unsigned short u16;
@@ -22,7 +22,7 @@ typedef struct {
     int f8;
 } Rec;
 
-void func_021D3288(Rec *p, int a, int b)
+void FLD_VREQ_SetMainBlendAlphaEv(Rec *p, int a, int b)
 {
     p->f0 = 5;
     p->f4 = a;

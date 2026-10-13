@@ -12,9 +12,9 @@
  * the guard uses r1 only when that input is explicitly forwarded.
  * symbols:
  *   UNION_MAIN_IsFieldReady  0x02173840  thumb  ov012
- *   func_02174268  0x02174268  thumb  ov012
- *   func_02167590  0x02167590  thumb  ov010
- *   func_0216786C  0x0216786C  thumb  ov010
+ *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   COMM_PLAYER_Update  0x02167590  thumb  ov010
+ *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb  ov010
  *   COLOSSEUM_SendPackage  0x02174C90  thumb  ov012
  *   func_0217FF78  0x0217FF78  thumb  ov019
  *   COLOSSEUM_FlushChoiceReplies  0x02175110  thumb  ov012
@@ -42,11 +42,11 @@ typedef struct {
 } Work;
 
 extern int UNION_MAIN_IsFieldReady(u8 *w);
-extern int func_02174268(u8 *p);
+extern int UNION_MAIN_IsScenePending(u8 *p);
 struct Report;
 struct Work;
-extern void func_02167590(void *a, struct Work *w);
-extern int func_0216786C(struct Work *w, struct Report *out);
+extern void COMM_PLAYER_Update(void *a, struct Work *w);
+extern int COMM_PLAYER_UpdateMyPackage(struct Work *w, struct Report *out);
 typedef unsigned int   u32;
 extern u32 COLOSSEUM_SendPackage(u32 a);
 extern void func_0217FF78(u32 *p);
@@ -57,10 +57,10 @@ void UNION_COMM_UpdateColosseum(Work *w)
 {
     if (w->q != 0 && ((Sub *)((u8 *)w->q + 0xC8))->flag) {
     if (UNION_MAIN_IsFieldReady((u8 *)w) == 1) {
-        if (func_02174268((u8 *)w) == 0) {
-            func_02167590((void *)w->head->f0c, (struct Work *)w->q->f0);
+        if (UNION_MAIN_IsScenePending((u8 *)w) == 0) {
+            COMM_PLAYER_Update((void *)w->head->f0c, (struct Work *)w->q->f0);
             if (w->q->f16F == 0) {
-                if (func_0216786C((struct Work *)w->q->f0, (struct Report *)((u8 *)w->q + 4)) == 1) {
+                if (COMM_PLAYER_UpdateMyPackage((struct Work *)w->q->f0, (struct Report *)((u8 *)w->q + 4)) == 1) {
                     w->q->f16F = 1;
                 }
             }

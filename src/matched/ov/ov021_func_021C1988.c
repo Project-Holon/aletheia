@@ -1,5 +1,5 @@
 /*
- * function: func_021C1988
+ * function: FIELD_PLAYER_GRID_EVENT_RunStateTable
  * address:  0x021C1988
  * packet:   pkt_ov021_021C1988
  * region:   ov021
@@ -12,7 +12,7 @@
  * Runs the state table until a state returns other than 1.
  *
  * symbols:
- *   func_021C16AC  0x021C16AC  thumb  ov021
+ *   FIELD_PLAYER_GRID_EVENT_UpdateJumpDown  0x021C16AC  thumb  ov021
  *   d_021DA128     0x021DA128  data  ov021
  */
 
@@ -22,14 +22,14 @@ typedef short s16;
 typedef int (*Fn)(u16 *s);
 
 extern Fn d_021DA128[];
-extern void func_021C16AC(u8 *p);
+extern void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(u8 *p);
 
-void func_021C1988(void *a, u16 *s)
+void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *a, u16 *s)
 {
     if (s[0] != 0) {
         while (d_021DA128[(s16)s[1]](s) == 1)
             ;
     } else {
-        func_021C16AC((u8 *)s);
+        FIELD_PLAYER_GRID_EVENT_UpdateJumpDown((u8 *)s);
     }
 }

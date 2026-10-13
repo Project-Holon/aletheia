@@ -1,5 +1,5 @@
 /*
- * function: func_021D25E8
+ * function: SCRCMD_POKE_ICON_ShowWindow
  * address:  0x021D25E8
  * packet:   pkt_021D25E8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_0201F7A8(u32 v, u32 a);
 
-void func_021D25E8(u32 *p)
+void SCRCMD_POKE_ICON_ShowWindow(u32 *p)
 {
     func_0201F7A8(p[0], 1);
 }

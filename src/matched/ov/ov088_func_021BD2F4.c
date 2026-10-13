@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2F4
+ * function: SAVE_CONTROL_INTR_Update
  * address:  0x021BD2F4
  * packet:   pkt_ov088_021BD2F4
  * region:   ov088
@@ -35,7 +35,7 @@ extern u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p);
 extern void func_02007214(void *, u32);
 extern void func_0200721C(void *, u32);
 
-u32 func_021BD2F4(St *p)
+u32 SAVE_CONTROL_INTR_Update(St *p)
 {
     u32 r;
 

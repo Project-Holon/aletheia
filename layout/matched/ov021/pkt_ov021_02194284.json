@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02194284",
+   "name": "FIELD_COMM_ACTOR_CTRL_Create",
    "address": "0x02194284",
    "kind": "game",
    "region": "ov021",

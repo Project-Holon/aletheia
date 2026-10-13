@@ -1,5 +1,5 @@
 /*
- * function: func_021EF4D0
+ * function: WEATHER_STORM_UpdateFastSideStreak
  * address:  0x021EF4D0
  * packet:   pkt_ov026_021EF4D0
  * region:   ov026
@@ -15,9 +15,9 @@
  *   EXACT* = 186 bytes compiled vs a 188-byte listing extent (2 bytes of padding).
  *
  * symbols:
- *   func_021A2640  0x021A2640  thumb  ov021
- *   func_021A21E0  0x021A21E0  thumb  ov021
- *   func_021A26C4  0x021A26C4  thumb  ov021
+ *   WEATHER_TASK_GetParticlePos  0x021A2640  thumb  ov021
+ *   WEATHER_TASK_RemoveParticle  0x021A21E0  thumb  ov021
+ *   WEATHER_TASK_SetParticlePos  0x021A26C4  thumb  ov021
  */
 
 typedef short s16;
@@ -25,14 +25,14 @@ struct PtS { s16 x; s16 y; };
 struct B { char pad[0x16]; s16 vx; s16 vy; };
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021A2640(u8 *a, struct PtS *b);
-extern void func_021A21E0(u32 *p);
-extern int func_021A26C4(u32 a, u32 b);
-void func_021EF4D0(void *a, const struct B *b, s16 *c)
+extern void WEATHER_TASK_GetParticlePos(u8 *a, struct PtS *b);
+extern void WEATHER_TASK_RemoveParticle(u32 *p);
+extern int WEATHER_TASK_SetParticlePos(u32 a, u32 b);
+void WEATHER_STORM_UpdateFastSideStreak(void *a, const struct B *b, s16 *c)
 {
     struct PtS pt;
     s16 vx;
-    func_021A2640(a, &pt);
+    WEATHER_TASK_GetParticlePos(a, &pt);
     vx = b->vx;
     if (vx != 0) {
         c[0] = c[0] + (s16)(c[2] + vx);
@@ -48,8 +48,8 @@ void func_021EF4D0(void *a, const struct B *b, s16 *c)
         pt.y = c[1] / 8;
     }
     if (pt.x >= 0x100 || pt.y >= 0xc0) {
-        func_021A21E0(a);
+        WEATHER_TASK_RemoveParticle(a);
     } else {
-        func_021A26C4((u32)a, (u32)(&pt));
+        WEATHER_TASK_SetParticlePos((u32)a, (u32)(&pt));
     }
 }

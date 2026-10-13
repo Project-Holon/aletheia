@@ -1,5 +1,5 @@
 /*
- * function: func_021A3364
+ * function: FIELD_PLAYER_GetPosInDir
  * address:  0x021A3364
  * packet:   pkt_ov021_021A3364
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021A330C  0x021A330C  thumb  ov021
- *   func_02164280  0x02164280  thumb  ov010
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_021BB480  0x021BB480  thumb  ov021
- *   func_0219E2F4  0x0219E2F4  thumb  ov021
- *   func_021B7D38  0x021B7D38  thumb  ov021
- *   func_0219E784  0x0219E784  thumb  ov021
- *   func_021B7C38  0x021B7C38  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELD_PLAYER_GetGridPosInDir  0x021A330C  thumb  ov021
+ *   FLDMMDL_MOVE_GridToVectorPos  0x02164280  thumb  ov010
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
+ *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb  ov021
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb  ov021
+ *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb  ov021
+ *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
+ *   FIELD_RAIL_GetUnitScale  0x021B7C38  thumb  ov021
  *   _ll_mul        0x0209C054  arm
  * Addresses are Black-image addresses.
  */
@@ -29,18 +29,18 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_021A3960(unsigned char *p);
-extern u32 func_02188CFC(u8 *p);
-extern void func_021A330C(unsigned char **a, u32 b, s16 *c, s16 *d, s16 *e);
-extern void func_02164280(int x, int y, int *p);
-extern u32 func_02188C5C(u8 *p);
-extern void *func_021BB480(void *p);
-extern void func_0219E2F4(void *o, void *out);
-extern void func_021B7D38(u32, s16 *, int *);
-extern void func_0219E784(u32 o, u32 idx, s16 *v);
-extern int func_021B7C38(u8 *o);
+extern void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+extern u32 FIELDMAP_GetMoveKind(u8 *p);
+extern void FIELD_PLAYER_GetGridPosInDir(unsigned char **a, u32 b, s16 *c, s16 *d, s16 *e);
+extern void FLDMMDL_MOVE_GridToVectorPos(int x, int y, int *p);
+extern u32 FIELDMAP_GetNogridMapper(u8 *p);
+extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *p);
+extern void FLDMMDL_RAIL_GetNextLocation(void *o, void *out);
+extern void FIELD_RAIL_GetLocationPos(u32, s16 *, int *);
+extern void FLDMMDL_RAIL_GetDrawOffsetByDir(u32 o, u32 idx, s16 *v);
+extern int FIELD_RAIL_GetUnitScale(u8 *o);
 
-void func_021A3364(u32 *a, int b, int *out)
+void FIELD_PLAYER_GetPosInDir(u32 *a, int b, int *out)
 {
     int v[3];
     s16 d[3];
@@ -52,18 +52,18 @@ void func_021A3364(u32 *a, int b, int *out)
     u32 h;
     int m;
 
-    e = func_021A3960((void *)a[1]);
-    if (func_02188CFC((u8 *)a[0]) == 0) {
-        func_021A330C((unsigned char **)a, b, &z, &y, &x);
-        func_02164280(z, x, out);
+    e = FIELD_PLAYER_CORE_GetMmdl((void *)a[1]);
+    if (FIELDMAP_GetMoveKind((u8 *)a[0]) == 0) {
+        FIELD_PLAYER_GetGridPosInDir((unsigned char **)a, b, &z, &y, &x);
+        FLDMMDL_MOVE_GridToVectorPos(z, x, out);
         out[1] = y << 16;
         return;
     }
-    h = (u32)func_021BB480((void *)func_02188C5C((u8 *)a[0]));
-    func_0219E2F4(e, r);
-    func_021B7D38(h, r, v);
-    func_0219E784((u32)e, b, d);
-    m = func_021B7C38((u8 *)h);
+    h = (u32)FIELD_NOGRID_MAPPER_GetRailMan((void *)FIELDMAP_GetNogridMapper((u8 *)a[0]));
+    FLDMMDL_RAIL_GetNextLocation(e, r);
+    FIELD_RAIL_GetLocationPos(h, r, v);
+    FLDMMDL_RAIL_GetDrawOffsetByDir((u32)e, b, d);
+    m = FIELD_RAIL_GetUnitScale((u8 *)h);
     out[0] = v[0] + (int)(((long long)d[0] * m + 0x800) >> 12);
     out[1] = v[1] + (int)(((long long)d[1] * m + 0x800) >> 12);
     out[2] = v[2] + (int)(((long long)d[2] * m + 0x800) >> 12);

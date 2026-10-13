@@ -1,5 +1,5 @@
 /*
- * function: func_021F2984
+ * function: C_GEAR_Destroy
  * address: 0x021F2984
  * packet: pkt_ov029_021F2984
  * region: ov029
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F26E0 0x021F26E0 thumb ov029
+ *   C_GEAR_Cleanup 0x021F26E0 thumb ov029
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_021F26E0(char *p);
+extern void C_GEAR_Cleanup(char *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021F2984(char *p)
+void C_GEAR_Destroy(char *p)
 {
-    func_021F26E0(p);
+    C_GEAR_Cleanup(p);
     func_020307B0((void *)((int)p));
 }

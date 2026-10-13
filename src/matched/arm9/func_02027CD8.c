@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02027CD8
+ * function: APP_TASKMENU_SetDisableKey
  * address:  0x02027CD8
  * packet:   pkt_02027A24
  * region:   arm9
@@ -15,4 +15,4 @@
  */
 #include "../include/Obj00059.h"
 
-int func_02027CD8(int a0, int a1){ int t0, t1; *(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f10 = (int)a1; if ((unsigned int)(a1) == (unsigned int)(1)) { t0 = func_020355D8((int)1); t1 = APP_TASKMENU_SetWinActive((int)*(int *)(((char *)(*(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f18) + ((int)((*(unsigned char *)&((struct Obj00059 *)((char *)((a0 + 0))))->f0 << 2)) << 0))), (int)*(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f34, (int)0); } else {  return a0; } }
+int APP_TASKMENU_SetDisableKey(int a0, int a1){ int t0, t1; *(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f10 = (int)a1; if ((unsigned int)(a1) == (unsigned int)(1)) { t0 = func_020355D8((int)1); t1 = APP_TASKMENU_SetWinActive((int)*(int *)(((char *)(*(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f18) + ((int)((*(unsigned char *)&((struct Obj00059 *)((char *)((a0 + 0))))->f0 << 2)) << 0))), (int)*(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f34, (int)0); } else {  return a0; } }

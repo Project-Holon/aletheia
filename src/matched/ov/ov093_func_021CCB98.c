@@ -1,5 +1,5 @@
 /*
- * function: func_021CCB98
+ * function: BTL_SERVER_CMD_WriteU32
  * address:  0x021CCB98
  * packet:   pkt_ov093_021CCB98
  * region:   ov093
@@ -25,7 +25,7 @@ typedef struct {
 extern char data_021F3A84[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_021CCB98(Buf *w, u32 v)
+void BTL_SERVER_CMD_WriteU32(Buf *w, u32 v)
 {
     if (w->wpos >= 0xBB5) {
         func_02034714(data_021F3A84, 0, data_021F3A84);

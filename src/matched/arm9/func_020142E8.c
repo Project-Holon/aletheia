@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020142E8
+ * function: ZONEDATA_CheckEventFlag
  * address:  0x020142E8
  * packet:   pkt_020142E8
  * region:   arm9
@@ -34,8 +34,8 @@
  * label.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020142E8.c \
- *       --func func_020142E8 --addr 0x020142E8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZONEDATA_CheckEventFlag.c \
+ *       --func ZONEDATA_CheckEventFlag --addr 0x020142E8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ typedef unsigned int  u32;
 
 extern u8 *ZONEDATA_GetEventFlagAddress(void *bitmap, s32 id);
 
-u32 func_020142E8(void *bitmap, s32 id)
+u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id)
 {
     u8 *byte = ZONEDATA_GetEventFlagAddress(bitmap, id);
 

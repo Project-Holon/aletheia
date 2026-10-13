@@ -120,7 +120,7 @@
     "PM_VOICE_GetDataSize",
     "PM_VOICE_GetSampleRate",
     "PM_VOICE_StopSlot",
-    "sub_02006BD0",
+    "PM_VOICE_IsActive",
     "PM_VOICE_ReverseBytes",
     "PM_VOICE_GetCryIndex"
    ],

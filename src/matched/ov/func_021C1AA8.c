@@ -1,5 +1,5 @@
 /*
- * function: func_021C1AA8
+ * function: FLD_PARTICLE_StartEmitter
  * address:  0x021C1AA8
  * packet:   pkt_021C1AA8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02051230  0x02051230  arm
+ *   PARTICLE_SetupSystem  0x02051230  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18282.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02051230(u32, u32, u32, u32);
+extern u32 PARTICLE_SetupSystem(u32, u32, u32, u32);
 
-int func_021C1AA8(u32 a, u32 b, u32 c, u32 d)
+int FLD_PARTICLE_StartEmitter(u32 a, u32 b, u32 c, u32 d)
 {
-return func_02051230(((struct Obj18282 *)((u8 *)(a)))->fC, b, c, d);
+return PARTICLE_SetupSystem(((struct Obj18282 *)((u8 *)(a)))->fC, b, c, d);
 }
 

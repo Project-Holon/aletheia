@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201C440  0x0201C440  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_0201EC64  0x0201EC64  thumb
@@ -32,7 +32,7 @@ struct MsgBank;
 struct WordSet;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
@@ -53,7 +53,7 @@ Ctx *func_02202974(u32 a, u32 b, u32 c, u32 heap)
     ctx = func_02030734(heap, 0x74, 0, (const char *)g_02203F5C, 0x1DD);
     func_02082BCC(ctx, 0, 0x74);
     ctx->heap = heap;
-    ctx->font = func_0201D7EC(0x17, 3, 0, 0, heap);
+    ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
     ctx->msg = (void *)func_0201C440((void *)heap);
     ctx->bank = func_02045B38(0, 2, 0xD0, heap);
     ctx->words = func_0201EC64(heap);

@@ -17,9 +17,9 @@
  * func_06898020 walks.
  *
  * symbols:
- *   func_021D7040  0x021D7040  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  *   d_0689D638     0x0689D638  data   ov095  a4
  *   d_0689D630     0x0689D630  data   ov095  a4
  *   d_0689D640     0x0689D640  data   ov095  a4
@@ -33,13 +33,13 @@ extern u8 d_0689D638[];
 extern u8 d_0689D630[];
 extern u8 d_0689D640[];
 struct Node;
-extern void func_021D7040(struct Node *n);
-extern int func_021D76BC(int key, u32 val);
-extern void func_021D7704(int key, int m);
+extern void BTL_EVENT_RemoveFactor(struct Node *n);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
+extern void BTL_EVENT_MultiplyVar(int key, int m);
 
 void func_06898080(void *n)
 {
-    func_021D7040(n);
+    BTL_EVENT_RemoveFactor(n);
 }
 
 u8 *func_06898088(u32 *p)
@@ -60,7 +60,7 @@ u8 *func_06898098(u32 *p)
 
 void func_068980A4(void)
 {
-    func_021D76BC(0x4a, 1);
+    BTL_EVENT_OverwriteVar(0x4a, 1);
 }
 
 u8 *func_068980B0(u32 *p)
@@ -71,5 +71,5 @@ u8 *func_068980B0(u32 *p)
 
 void func_068980BC(void)
 {
-    func_021D7704(0x35, 0x1ab8);
+    BTL_EVENT_MultiplyVar(0x35, 0x1ab8);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD94C",
+   "name": "EVENT_ENTRANCE_IN_ReplaceBgm",
    "address": "0x021BD94C",
    "kind": "game",
    "region": "ov021",

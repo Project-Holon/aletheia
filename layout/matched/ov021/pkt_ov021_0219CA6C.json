@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219CA6C",
+   "name": "FLDMMDL_BLACT_RemoveResIndex",
    "address": "0x0219CA6C",
    "kind": "game",
    "region": "ov021",

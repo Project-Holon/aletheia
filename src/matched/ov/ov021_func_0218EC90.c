@@ -1,5 +1,5 @@
 /*
- * function: func_0218EC90
+ * function: FIELD_CAMERA_SetTarget
  * address:  0x0218EC90
  * packet:   pkt_ov021_0218EC90
  * region:   ov021
@@ -19,7 +19,7 @@ typedef signed int     s32;
 
 typedef struct { u32 a, b, c; } Vec3;
 
-void func_0218EC90(u8 *a, const Vec3 *p)
+void FIELD_CAMERA_SetTarget(u8 *a, const Vec3 *p)
 {
     *(Vec3 *)(a + 0x48) = *p;
     *(Vec3 *)(a + 0x6c) = *p;

@@ -95,18 +95,18 @@ typedef struct {
 } BtlAbilityChangeCmd;
 
 /* Services of the poke parameter, event factors and server flow that these handlers use. */
-extern u16 func_021D5444(struct BtlPokeParam *bpp);
-extern int func_021D5B68(struct BtlPokeParam *bpp);
-extern u8 func_021D70AC(struct BtlEventFactor *factor);
-extern void func_021D7320(struct BtlEventFactor *factor, BtlEventSkipCheck skipCheck);
-extern void func_021D7324(struct BtlEventFactor *factor);
+extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
+extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *bpp);
+extern u8 BTL_EVENT_GetFactorPokeId(struct BtlEventFactor *factor);
+extern void BTL_EVENT_SetFactorSkipCheck(struct BtlEventFactor *factor, BtlEventSkipCheck skipCheck);
+extern void BTL_EVENT_ClearFactorSkipCheck(struct BtlEventFactor *factor);
 extern u8 func_021B9A40(u32 pokeId);
 extern int func_021B9A24(u32 pokeIdA, u32 pokeIdB);
 extern int func_021C83D4(struct BtlSvFlow *flow);
 extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
-extern int func_021DA8A8(struct BtlSvFlow *flow, int pokeId, int moveType);
-extern void func_021DA96C(struct BtlSvFlow *flow, int pokeId, u32 statId, int amount);
-extern void func_021E8744(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-extern void func_021E8798(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+extern int BTL_ABILITY_AbsorbCheckMoveType(struct BtlSvFlow *flow, int pokeId, int moveType);
+extern void BTL_ABILITY_AbsorbRaiseStat(struct BtlSvFlow *flow, int pokeId, u32 statId, int amount);
+extern void BTLV_CORE_EventRedirectMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+extern void BTLV_CORE_EventCounterMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
 
 #endif

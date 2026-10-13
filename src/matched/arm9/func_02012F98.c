@@ -1,5 +1,5 @@
 /*
- * function: func_02012F98
+ * function: GAME_DATA_GetBoxSave
  * address:  0x02012F98
  * packet:   pkt_02012F98
  * region:   arm9
@@ -12,7 +12,7 @@
  * Unlabelled leaf: tail-calls func_02007B44(*(void **)p).
  *
  * symbols:
- *   func_02012F98  0x02012F98  thumb
+ *   GAME_DATA_GetBoxSave  0x02012F98  thumb
  *   func_02007B44  0x02007B44  thumb
  */
 #include "../include/Obj00054.h"
@@ -20,7 +20,7 @@
 struct Sub02007AC8Entry;
 extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 
-struct Sub02007AC8Entry *func_02012F98(void *p)
+struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p)
 {
     return func_02007B44(((struct Obj00054 *)p)->f0);
 }

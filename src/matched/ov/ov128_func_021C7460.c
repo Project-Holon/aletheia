@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   d_021CA58A 0x021CA58A data a1
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021CA154 0x021CA154 thumb ov128
  *   func_021CA184 0x021CA184 thumb ov128
@@ -17,7 +17,7 @@
  */
 typedef unsigned char u8;
 extern const char d_021CA58A[];
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void func_021CA154(u8 *,int);
@@ -26,7 +26,7 @@ extern void func_020355D8(u8 v);
 int func_021C7460(int *p,int *q,u8 *ctx)
 {
     int v;
-    v=func_02035C08(d_021CA58A);
+    v=TOUCHPANEL_HitTrg(d_021CA58A);
     if(v!=-1) {
         if(v==3) {
             func_020061E4(1361);

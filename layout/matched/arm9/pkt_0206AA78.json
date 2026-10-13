@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0206AA8C",
+   "name": "NNS_G3dGlbMaterialColorDiffAmb",
    "address": "0x0206AA8C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0206AAB0",
+   "name": "NNS_G3dGlbMaterialColorSpecEmi",
    "address": "0x0206AAB0",
    "kind": "game",
    "region": "arm9",

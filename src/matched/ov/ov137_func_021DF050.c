@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 int func_021DF050(u8 *p)
 {
-    func_02039338();
+    GFL_NET_SYSTEM_GetCurrentAid();
     ((struct Obj23754 *)p)->f0 = 0x1b;
     return 0;
 }

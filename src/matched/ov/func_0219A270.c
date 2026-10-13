@@ -1,5 +1,5 @@
 /*
- * function: func_0219A270
+ * function: FLDMMDL_MOVECODE_InitWalkRandomSet13
  * address:  0x0219A270
  * packet:   pkt_0219A270
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Calls func_0219A290(its own argument 1, 0xc, 0xd, 0x0) and returns nothing.
+ * Calls FLDMMDL_MOVECODE_InitWalkRandom(its own argument 1, 0xc, 0xd, 0x0) and returns nothing.
  *
  * symbols:
- *   func_0219A290  0x0219A290  thumb
+ *   FLDMMDL_MOVECODE_InitWalkRandom  0x0219A290  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_0219A290(u32 a1, u32 a2, u32 a3, u32 a4);
+extern void FLDMMDL_MOVECODE_InitWalkRandom(u32 a1, u32 a2, u32 a3, u32 a4);
 
-void func_0219A270(u32 a1)
+void FLDMMDL_MOVECODE_InitWalkRandomSet13(u32 a1)
 {
-    func_0219A290(a1, 0xc, 0xd, 0x0);
+    FLDMMDL_MOVECODE_InitWalkRandom(a1, 0xc, 0xd, 0x0);
 }
 

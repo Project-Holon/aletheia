@@ -1,5 +1,5 @@
 /*
- * function: func_021DF304
+ * function: BTL_HANDLER_ITEM_GetSkyPlateHandlers
  * address: 0x021DF304
  * packet: pkt_ov093_021DF304
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F1594[];
-int *func_021DF304(int *p);
+int *BTL_HANDLER_ITEM_GetSkyPlateHandlers(int *p);
 
-int *func_021DF304(int *p)
+int *BTL_HANDLER_ITEM_GetSkyPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F1594;

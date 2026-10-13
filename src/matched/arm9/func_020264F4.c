@@ -1,5 +1,5 @@
 /*
- * function: func_020264F4
+ * function: GAME_COMM_ClearPlayerStatus
  * address:  0x020264F4
  * packet:   pkt_020264B4
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned int  u32;
 
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 
-void func_020264F4(u8 *p)
+void GAME_COMM_ClearPlayerStatus(u8 *p)
 {
     MI_CpuFill8(p + 0x24, 0, 0x18);
 }

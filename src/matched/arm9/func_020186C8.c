@@ -1,5 +1,5 @@
 /*
- * function: func_020186C8
+ * function: POKE_TOOL_CreatePersonalRnd
  * address:  0x020186C8
  * packet:   pkt_0201862C
  * region:   arm9
@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_020056EC  0x020056EC  thumb
- *   func_02017ED8  0x02017ED8  thumb
+ *   POKE_TOOL_CheckShiny  0x02017ED8  thumb
  *   POKE_TOOL_GetGenderRatioClass  0x020185F8  thumb
  *   func_0201AF6C  0x0201AF6C  thumb
  *
  * Build a personality value for trainer id a0: a3 selects the gender
  * handling (2 = fully random), a5 the shininess (1 = force shiny through
- * the id key, 0 = force NOT shiny by flipping bit 28 when func_02017ED8
+ * the id key, 0 = force NOT shiny by flipping bit 28 when POKE_TOOL_CheckShiny
  * says shiny, 2 = leave), and bit 16 is forced to a4 (read as a word, so
  * a4 is int-sized).  Wave 11, 2026-09-23.
  *
@@ -34,11 +34,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_020056EC(u32 range);
-extern u32 func_02017ED8(u32 a0, u32 a1);
+extern u32 POKE_TOOL_CheckShiny(u32 a0, u32 a1);
 extern u32 POKE_TOOL_GetGenderRatioClass(int a0, int a1, int a2);
 extern u32 func_0201AF6C(u32 v);
 
-u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5)
+u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5)
 {
     u32 v;
 
@@ -70,7 +70,7 @@ u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5)
         }
         break;
     case 0:
-        if (func_02017ED8(a0, v) == 1) {
+        if (POKE_TOOL_CheckShiny(a0, v) == 1) {
             v ^= 0x10000000u;
         }
     case 2:

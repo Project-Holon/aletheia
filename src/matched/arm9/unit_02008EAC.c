@@ -14,9 +14,9 @@
  * function: MAIL_Init
  *
  * symbols:
- *   unk_0209DF0C   0x0209DF0C  data
- *   unk_0209DF08   0x0209DF08  data
- *   func_02045A98  0x02045A98  arm
+ *   GAME_LANGUAGE_Code   0x0209DF0C  data
+ *   GAME_VERSION_Code   0x0209DF08  data
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   MIi_CpuClear16 0x02082A48  arm
  *
@@ -46,10 +46,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern const u8 unk_0209DF0C;
-extern const u8 unk_0209DF08;
+extern const u8 GAME_LANGUAGE_Code;
+extern const u8 GAME_VERSION_Code;
 
-extern u16  func_02045A98(void);
+extern u16  STRBUF_GetEosChar(void);
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
 
 static inline void MI_CpuFill16(void *dest, u16 data, u32 size)
@@ -84,10 +84,10 @@ void MAIL_Init(struct Sub02008EACObj *obj)
 
     obj->unk00 = 0;
     obj->unk04 = 0;
-    obj->unk05 = unk_0209DF0C;
-    obj->unk06 = unk_0209DF08;
+    obj->unk05 = GAME_LANGUAGE_Code;
+    obj->unk06 = GAME_VERSION_Code;
     obj->unk07 = 0xFF;
-    MI_CpuFill16(obj->unk08, func_02045A98(), sizeof(obj->unk08));
+    MI_CpuFill16(obj->unk08, STRBUF_GetEosChar(), sizeof(obj->unk08));
     obj->unk1E = 0xFFFF;
     for (i = 0; i < 3; i++) {
         PMSI_PARAM_ClearSentence(&obj->unk20[i]);

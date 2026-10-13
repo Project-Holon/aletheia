@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021EE23C 0x021EE23C thumb ov093
- *   func_021EE25C 0x021EE25C thumb ov093
+ *   BTLV_SCU_ClearWaitWindow 0x021EE23C thumb ov093
+ *   BTLV_SCU_GetWaitState 0x021EE25C thumb ov093
  */
 #include "../include/Obj21577.h"
 #include "../include/Obj21578.h"
 typedef unsigned char u8;
 struct Q;
-extern void func_021EE23C(struct Q *q);
-extern int func_021EE25C(void *);
+extern void BTLV_SCU_ClearWaitWindow(struct Q *q);
+extern int BTLV_SCU_GetWaitState(void *);
 void func_021EAE24(u8 *p)
 {
-    func_021EE23C(((struct Obj21577 *)p)->f17C);
+    BTLV_SCU_ClearWaitWindow(((struct Obj21577 *)p)->f17C);
 }
 int func_021EAE34(u8 *p)
 {
-    return func_021EE25C(((struct Obj21578 *)p)->f17C);
+    return BTLV_SCU_GetWaitState(((struct Obj21578 *)p)->f17C);
 }

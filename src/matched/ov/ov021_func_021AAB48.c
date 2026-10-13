@@ -1,5 +1,5 @@
 /*
- * function: func_021AAB48
+ * function: EFFECT_ENCOUNT_GetItemId
  * address:  0x021AAB48
  * packet:   pkt_021AAB48
  * region:   ov021
@@ -14,7 +14,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021AAB48(char *p)
+u16 EFFECT_ENCOUNT_GetItemId(char *p)
 {
     return ((struct Obj19849 *)(*(char * *)&((struct Obj19848 *)p)->f10))->f5BC;
 }

@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02027778 0x02027778 thumb
- *   func_02027CD8 0x02027CD8 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   APP_TASKMENU_SetDisableKey 0x02027CD8 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021B967C 0x021B967C thumb ov100
  */
 #include "../include/Obj00060.h"
@@ -24,11 +24,11 @@ struct MsgBank;
 struct TaskMenu;
 struct TaskMenuTmpl;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern int func_02027CD8(int a0, int a1);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern int APP_TASKMENU_SetDisableKey(int a0, int a1);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021B967C(int,int);
 void func_021BA1D0(int a) {
  struct Template t;
@@ -38,20 +38,20 @@ void func_021BA1D0(int a) {
  t.ptr=a+0xcc8;
  t.flag=1;
  t.x=32; t.y=13; t.z=13; t.w=3;
- v=(int)func_020457B0(100,t.heap);
+ v=(int)STRBUF_Create(100,t.heap);
  ((struct Obj00060 *)a)->fCC8=v;
- func_02045CAC((struct MsgBank *)(((struct Obj00060 *)a)->f288),26,(void *)v);
+ MSGDATA_ReadString((struct MsgBank *)(((struct Obj00060 *)a)->f288),26,(void *)v);
  ((struct Obj00060 *)a)->fCCC=0x39e3;
- v=(int)func_020457B0(100,((struct Obj00060 *)a)->f278);
+ v=(int)STRBUF_Create(100,((struct Obj00060 *)a)->f278);
  ((struct Obj00060 *)a)->fCD4=v;
- func_02045CAC((struct MsgBank *)(((struct Obj00060 *)a)->f288),27,(void *)v);
+ MSGDATA_ReadString((struct MsgBank *)(((struct Obj00060 *)a)->f288),27,(void *)v);
  ((struct Obj00060 *)a)->fCD8=0x39e3;
  ((struct Obj00060 *)a)->fCD0=0;
  ((struct Obj00060 *)a)->fCDC=0;
- v=(int)func_02027778((struct TaskMenuTmpl *)(&t),(void *)(((struct Obj00060 *)a)->fCC4));
+ v=(int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t),(void *)(((struct Obj00060 *)a)->fCC4));
  ((struct Obj00060 *)a)->fCC0=v;
- switch(((struct Obj00060 *)a)->f24C) {case 9: case 10: case 11: break; default: func_02027CD8(v,1); break;}
- func_02045808((struct U16Vec *)(((struct Obj00060 *)a)->fCC8));
- func_02045808((struct U16Vec *)(((struct Obj00060 *)a)->fCD4));
+ switch(((struct Obj00060 *)a)->f24C) {case 9: case 10: case 11: break; default: APP_TASKMENU_SetDisableKey(v,1); break;}
+ STRBUF_Delete((struct U16Vec *)(((struct Obj00060 *)a)->fCC8));
+ STRBUF_Delete((struct U16Vec *)(((struct Obj00060 *)a)->fCD4));
  func_021B967C(a,1);
 }

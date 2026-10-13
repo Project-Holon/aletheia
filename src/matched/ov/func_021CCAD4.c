@@ -1,5 +1,5 @@
 /*
- * function: func_021CCAD4
+ * function: BTL_SERVER_CMD_ReadU8
  * address:  0x021CCAD4
  * packet:   pkt_021CC95C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CCAD4   0x021CCAD4  thumb
+ *   BTL_SERVER_CMD_ReadU8   0x021CCAD4  thumb
  *
  * Leaf with no calls and no pool; 6 instructions, 12 bytes: ldr r2, [r0, #4]; adds r1, r2, #1; str r1, [r0, #4]; adds r0, r0, r2; ldrb r0, [r0, #8]; bx lr.
  */
@@ -25,7 +25,7 @@ typedef signed int s32;
 
 /* 021CCAD4  ldr r2,[r0,#4]; adds r1,r2,#1; str r1,[r0,#4]; adds r0,r0,r2;
  *           ldrb r0,[r0,#8] */
-u8 func_021CCAD4(u8 *p)
+u8 BTL_SERVER_CMD_ReadU8(u8 *p)
 {
     u32 off = ((struct Obj01891 *)p)->f4;
     ((struct Obj01891 *)p)->f4 = off + 1;

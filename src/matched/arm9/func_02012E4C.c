@@ -1,5 +1,5 @@
 /*
- * function: func_02012E4C
+ * function: GAME_DATA_PartSaveStart
  * address:  0x02012E4C
  * packet:   pkt_02012E4C
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02012E4C.c \
- *       --func func_02012E4C --addr 0x02012E4C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_PartSaveStart.c \
+ *       --func GAME_DATA_PartSaveStart --addr 0x02012E4C --cc 1.1p1 --thumb
  *
  * symbols:
  *   SAVE_CONTROL_BeginExtraSaveWrite  0x02007374  thumb
@@ -32,7 +32,7 @@ extern void WIH_DWC_PauseTimers(void);
 extern void func_0203516C(int mode);
 extern void SAVE_CONTROL_BeginExtraSaveWrite(char *a0, u32 a1);
 
-void func_02012E4C(u8 *p, u32 id)
+void GAME_DATA_PartSaveStart(u8 *p, u32 id)
 {
     func_02034F84(0x80);
     GAME_DATA_WriteToSave(p);

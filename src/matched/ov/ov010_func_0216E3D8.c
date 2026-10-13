@@ -1,5 +1,5 @@
 /*
- * function: func_0216E3D8
+ * function: FLDMMDL_GetEventWorkObjCode
  * address: 0x0216E3D8
  * packet: pkt_ov010_0216E3D8
  * region: ov010
@@ -14,4 +14,4 @@
 
 typedef unsigned short u16;
 extern unsigned int func_020143CC(unsigned int, unsigned int);
-unsigned int func_0216E3D8(unsigned int a, unsigned int id) { if (id>=162 && id<=177) { if(a==0) id=10; else id=*(u16 *)func_020143CC(a,(u16)(id+0x3f7e)); } return id; }
+unsigned int FLDMMDL_GetEventWorkObjCode(unsigned int a, unsigned int id) { if (id>=162 && id<=177) { if(a==0) id=10; else id=*(u16 *)func_020143CC(a,(u16)(id+0x3f7e)); } return id; }

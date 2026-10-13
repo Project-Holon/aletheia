@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202D060
+ * function: POKEGRA_GetArcID
  * address:  0x0202D060
  * packet:   pkt_0202CC70
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0202D060(void){ return 4; }
+int POKEGRA_GetArcID(void){ return 4; }

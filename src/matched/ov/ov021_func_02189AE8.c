@@ -1,5 +1,5 @@
 /*
- * function: func_02189AE8
+ * function: FIELDMAP_IsMmdlDrawEnabled
  * address:  0x02189AE8
  * packet:   pkt_ov021_02189AE8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Leaf: 0 for id 0x3f, else 0 when func_02013CE0() reports 1, else 1.
- * Callee of func_02189204.  EXACT* because the unlabelled follower
+ * Callee of FIELDMAP_SetupMmdlSys.  EXACT* because the unlabelled follower
  * (0x02189B04) has no seed; no byte differs.
  *
  * symbols:
@@ -20,7 +20,7 @@
 typedef unsigned int   u32;
 extern u32 func_02013CE0(u32 id);
 
-int func_02189AE8(int a)
+int FIELDMAP_IsMmdlDrawEnabled(int a)
 {
     if (a == 0x3f)
         return 0;

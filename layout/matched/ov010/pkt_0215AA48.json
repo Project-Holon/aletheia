@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215AA48",
+   "name": "SCRCMD_WORK_SetChildScriptIndex",
    "address": "0x0215AA48",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215AA4C",
+   "name": "SCRCMD_WORK_GetChildScriptIndex",
    "address": "0x0215AA4C",
    "kind": "game",
    "region": "ov010",

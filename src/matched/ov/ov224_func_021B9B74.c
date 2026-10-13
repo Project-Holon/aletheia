@@ -7,8 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0204A648(void);
-void func_021B9B74(void *a0) { func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void func_021B9B74(void *a0) { CLACT_VBlankSystem(); }

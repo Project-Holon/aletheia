@@ -15,11 +15,11 @@
  *   func_0201AA18  0x0201AA18  thumb
  *   POKEPARTY_Init  0x0201A948  thumb
  *   func_021B9BF0  0x021B9BF0  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D6B84  0x021D6B84  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_WriteBackToParam  0x021D6B84  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201A98C  0x0201A98C  thumb
- *   func_021D67D0  0x021D67D0  thumb  ov093
+ *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
  *   func_0201AC2C  0x0201AC2C  thumb
  *   data_021EFCF0  0x021EFCF0  data  ov093
  */
@@ -40,11 +40,11 @@ struct Rec534;
 extern u32 func_0201AA18(void *p);
 extern void POKEPARTY_Init(struct Party *p);
 extern u32 func_021B9BF0(struct S2 *p, u32 i);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D6B84(void *m, int k);
-extern void *func_021D5844(void *m);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_POKEPARAM_WriteBackToParam(void *m, int k);
+extern void *BTL_POKEPARAM_GetMon(void *m);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern int func_021D67D0(struct R3 *p);
+extern int BTL_POKEPARAM_IsLevelUpPending(struct R3 *p);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 
 void func_021B97A0(char *a, char *b, int k)
@@ -65,10 +65,10 @@ void func_021B97A0(char *a, char *b, int k)
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
             m = (void *)func_021B9BF0((struct S2 *)g, (u8)j);
-            if (t + i == func_021D5440(m)) {
-                func_021D6B84(m, 1);
-                func_0201A98C(((struct Obj07747 *)b)->f2B8, func_021D5844(m));
-                if (func_021D67D0(m) != 0)
+            if (t + i == BTL_POKEPARAM_GetPokeId(m)) {
+                BTL_POKEPARAM_WriteBackToParam(m, 1);
+                func_0201A98C(((struct Obj07747 *)b)->f2B8, BTL_POKEPARAM_GetMon(m));
+                if (BTL_POKEPARAM_IsLevelUpPending(m) != 0)
                     *(u8 *)(*(char * *)&((struct Obj07747 *)b)->f0 + i + 0xc2) = 1;
                 break;
             }

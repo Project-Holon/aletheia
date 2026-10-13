@@ -1,5 +1,5 @@
 /*
- * function: func_0216D730
+ * function: FLDMMDL_CallMoveRecoverProc
  * address:  0x0216D730
  * packet:   pkt_0216D730
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0216D730(void *a0)
+void FLDMMDL_CallMoveRecoverProc(void *a0)
 {
     void (*fn)(void *) = *(void (**)(void *))((char *)((struct Obj12058 *)a0)->f8C + 0x10);
 

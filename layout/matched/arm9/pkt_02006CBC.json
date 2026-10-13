@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02006CBC",
+   "name": "SND_MIC_Init",
    "address": "0x02006CBC",
    "kind": "game",
    "region": "arm9",

@@ -10,13 +10,13 @@
  * status: EXACT
  * symbols:
  *   func_021D95F0 0x021D95F0 thumb ov123
- *   func_02012DAC 0x02012DAC thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
  *   func_021DA034 0x021DA034 thumb ov123
  *   func_021DA0B8 0x021DA0B8 thumb ov123
  */
 #include "../include/Obj10456.h"
 extern int func_021D95F0(char *);
-extern int func_02012DAC(int);
+extern int GAME_DATA_SaveStart(int);
 extern void func_021DA034(char *,int,int);
 extern void func_021DA0B8(char *p);
-void func_021DA0E4(char *p) { if(func_021D95F0(*(char * *)&((struct Obj10456 *)p)->f10)) { ((struct Obj10456 *)p)->f6C=1; func_02012DAC(((struct Obj10456 *)p)->f20); func_021DA034(p,(int)func_021DA0B8,0x109); } }
+void func_021DA0E4(char *p) { if(func_021D95F0(*(char * *)&((struct Obj10456 *)p)->f10)) { ((struct Obj10456 *)p)->f6C=1; GAME_DATA_SaveStart(((struct Obj10456 *)p)->f20); func_021DA034(p,(int)func_021DA0B8,0x109); } }

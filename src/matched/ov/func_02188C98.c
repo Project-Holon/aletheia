@@ -1,5 +1,5 @@
 /*
- * function: func_02188C98
+ * function: FIELDMAP_GetG3dMapper
  * address:  0x02188C98
  * packet:   pkt_02188C54
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02188C98(u8 *p)
+u32 FIELDMAP_GetG3dMapper(u8 *p)
 {
     return ((struct Obj17865 *)p)->f48;
 }

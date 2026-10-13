@@ -12,9 +12,9 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
- *   func_0204361C 0x0204361C arm
+ *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
@@ -32,9 +32,9 @@ extern const struct DispVram d_021F55D0;
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
-extern void func_020433E0(const struct DispVram *);
+extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void func_0204363C(unsigned);
-extern void func_0204361C(void);
+extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
@@ -58,9 +58,9 @@ unsigned char *func_021F4AE4(unsigned swap, unsigned short heap)
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0(&d_021F55D0);
+    BG_SYS_SetVramBanks(&d_021F55D0);
     func_0204363C(swap);
-    func_0204361C();
+    BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();

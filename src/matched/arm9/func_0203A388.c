@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02034714  0x02034714  arm
- *   func_0203996C  0x0203996C  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
@@ -35,7 +35,7 @@
  * the note read it as.  r3 is a dead fourth argument, the table-handler shape
  * this family uses throughout (GFL_NET_HANDLE_RecvNegotiationReturn, GFL_NET_HANDLE_RecvTimingSync, GFL_NET_HANDLE_RecvRemoveHandle).
  * Written with four parameters the compiler has to keep the receiver in a
- * register across func_0203D798, which costs r8, an extra callee-saved and a
+ * register across GFL_NET_GetInitParam, which costs r8, an extra callee-saved and a
  * spill slot: 172 bytes against 156.  With the fifth parameter the body is
  * size-exact and two bytes out, both of them trivial:
  *
@@ -61,9 +61,9 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *file, u32 line, const char *msg);
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
@@ -80,12 +80,12 @@ void GFL_NET_HANDLE_RecvInfoData(int id, u32 len, const void *src, u32 a3, void 
     u8 *g;
     struct Slot *s;
 
-    g = func_0203D798();
+    g = GFL_NET_GetInitParam();
     if (GFL_NET_HANDLE_GetNetHandleID(obj) == 0xff)
         return;
     if (id >= 9)
         func_02034714(file_020A7A68, 0x3D1, file_020A7ACC);
-    s = (struct Slot *)func_0203996C(id);
+    s = (struct Slot *)GFL_NET_HANDLE_GetNetHandle(id);
     if (s->buf != 0)
         func_020307B0(s->buf);
     s->buf = func_02030734(((struct Obj15954 *)g)->f56, len, 1, file_020A7A68, 0x3D8);

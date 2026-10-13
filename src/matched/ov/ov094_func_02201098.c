@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   func_021F935C  0x021F935C  thumb  ov094
  *
  *
@@ -57,12 +57,12 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern int func_021F935C(int x);
 
 void func_02201098(void *h)
 {
-    Ctx *c = (Ctx *)func_02030EE8(h);
+    Ctx *c = (Ctx *)TCBL_IsDeletePending(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= func_021F935C(((struct Obj06318 *)c)->f4) ^ 0xFFFFFFFF;

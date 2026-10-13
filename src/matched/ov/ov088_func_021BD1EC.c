@@ -1,5 +1,5 @@
 /*
- * function: func_021BD1EC
+ * function: STARTMENU_SaveEraseOpenYesNo
  * address:  0x021BD1EC
  * packet:   pkt_ov088_021BD1EC
  * region:   ov088
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201FDA0  0x0201FDA0  thumb
+ *   BMP_MENU_CreateYesNo  0x0201FDA0  thumb
  */
 #include "../include/Obj00578.h"
 
@@ -22,9 +22,9 @@ typedef struct {
     unsigned short e;
 } Rect6;
 
-extern void *func_0201FDA0(Rect6 *, int, int, int, int);
+extern void *BMP_MENU_CreateYesNo(Rect6 *, int, int, int, int);
 
-void func_021BD1EC(unsigned char *p)
+void STARTMENU_SaveEraseOpenYesNo(unsigned char *p)
 {
     Rect6 r;
     r.a = 0;
@@ -32,5 +32,5 @@ void func_021BD1EC(unsigned char *p)
     r.c = 0x0D;
     r.d = 0x0F;
     r.e = 0;
-    ((struct Obj00578 *)p)->f20 = func_0201FDA0(&r, 1, 0x0E, 1, 0x81);
+    ((struct Obj00578 *)p)->f20 = BMP_MENU_CreateYesNo(&r, 1, 0x0E, 1, 0x81);
 }

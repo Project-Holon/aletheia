@@ -1,5 +1,5 @@
 /*
- * function: func_02167B34
+ * function: BSUBWAY_COMM_CheckTimingSync
  * address:  0x02167B34
  * packet:   pkt_02167B34
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_CheckTimingSync  0x0203D5A0  arm
  */
 
@@ -20,17 +20,17 @@ typedef unsigned int u32;
 
 struct Entry;
 
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_CheckTimingSync();
 
-int func_02167B34(int a0)
+int BSUBWAY_COMM_CheckTimingSync(int a0)
 {
     int a1;
     int t4;
     struct Entry *e;
 
 t4 = a0 + 0;
-    e = func_020399A8();
+    e = GFL_NET_HANDLE_GetCurrentHandle();
 loc_02167B3C:
 a1 = t4 + 0;
     a0 = GFL_NET_CheckTimingSync(e, a1);

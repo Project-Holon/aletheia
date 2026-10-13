@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C87B8",
+   "name": "PLEASURE_BOAT_GetPassengerExtra",
    "address": "0x021C87B8",
    "kind": "game",
    "region": "ov021",

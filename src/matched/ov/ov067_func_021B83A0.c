@@ -1,5 +1,5 @@
 /*
- * function: func_021B83A0
+ * function: FRAME_LIST_UpdateHoldStage
  * address:  0x021B83A0
  * packet:   pkt_ov067_021B83A0
  * region:   ov067
@@ -21,7 +21,7 @@ typedef struct S {
     u8 idx;
 } S;
 
-void func_021B83A0(S *p)
+void FRAME_LIST_UpdateHoldStage(S *p)
 {
     u8 v;
     if (p->cnt < 20) {

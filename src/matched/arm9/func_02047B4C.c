@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047788  0x02047788  arm
- *   func_0204755C  0x0204755C  arm
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
+ *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   func_0206DDA4  0x0206DDA4  arm
  *   G3D_SYSTEM_BoxTest  0x02047C04  arm
  *
@@ -53,8 +53,8 @@ struct Block {
     s16 f0a;
 };
 
-extern int func_02047788(int *p);
-extern int func_0204755C(int *p);
+extern int G3D_SYSTEM_GetObjectRender(int *p);
+extern int G3D_SYSTEM_GetRenderObj(int *p);
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern int           G3D_SYSTEM_BoxTest(void *p);
 
@@ -68,7 +68,7 @@ int G3D_SYSTEM_CheckObjectCulling(void *a0)
     int ret;
 
     ret = 1;
-    p = (char *)((struct Owner *)func_0204755C((int *)func_02047788(a0)))->rec;
+    p = (char *)((struct Owner *)G3D_SYSTEM_GetRenderObj((int *)G3D_SYSTEM_GetObjectRender(a0)))->rec;
     r = (struct Rec *)(p != 0 ? p + 0x14 : 0);
 
     blk.f00 = r->f18;

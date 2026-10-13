@@ -1,5 +1,5 @@
 /*
- * function: func_021BBEF4
+ * function: FLDEFF_FOOTMARK_DeleteTask
  * address:  0x021BBEF4
  * packet:   pkt_ov021_021BBEF4
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -25,14 +28,14 @@ typedef struct Obj {
 
 typedef unsigned int   u32;
 struct BbActSys;
-extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
+extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
 
-void func_021BBEF4(int a0, Obj *p)
+void FLDEFF_FOOTMARK_DeleteTask(int a0, Obj *p)
 {
     int h = p->head->h4;
     u16 i = p->h8;
 
     if (i != 0xFFFF) {
-        func_02050468((struct BbActSys *)h, i, 1);
+        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)h, i, 1);
     }
 }

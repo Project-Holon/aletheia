@@ -1,5 +1,5 @@
 /*
- * function: func_021D14C4
+ * function: FIELD_G3D_MAPPER_GetTilePlane
  * address:  0x021D14C4
  * packet:   pkt_ov021_021D14C4
  * region:   ov021
@@ -101,7 +101,7 @@ static inline void VecSet021D14C4(Plane021D14C4 *p, int x, int y, int z)
     p->z = z;
 }
 
-void func_021D14C4(Plane021D14C4 *out, int idx, Map021D14C4 *map, VecFx32_021D14C4 *pos, fx32 size, fx32 base)
+void FIELD_G3D_MAPPER_GetTilePlane(Plane021D14C4 *out, int idx, Map021D14C4 *map, VecFx32_021D14C4 *pos, fx32 size, fx32 base)
 {
     fx32 half = size / 2;
     fx32 z = pos->z + half;

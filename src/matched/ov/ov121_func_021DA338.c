@@ -12,10 +12,10 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02045770 0x02045770 arm
- *   func_020437DC 0x020437DC arm
- *   func_020437E4 0x020437E4 arm
+ *   BMP_GetWidth 0x020437DC arm
+ *   BMP_GetHeight 0x020437E4 arm
  *   BMP_GetTileBytes 0x02043994 arm
- *   func_02043678 0x02043678 arm
+ *   BMP_Create 0x02043678 arm
  *   d_021DFBA0 0x021DFBA0 data a4
  */
 #include "../include/Obj13952.h"
@@ -29,10 +29,10 @@ struct Descriptor;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern void *func_02045770(struct Descriptor *p);
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 BMP_GetTileBytes(struct Bmp *b);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 void *func_021DA338(char *p,u16 heap)
 {
     u32 i;
@@ -43,10 +43,10 @@ void *func_021DA338(char *p,u16 heap)
     ((struct Obj13953 *)out)->f0=heap;
     for(i=0;i<((struct Obj13952 *)p)->f4;i++) {
         void *win=func_02045770(*(void **)(*(char **)(p+16+i*4)+12));
-        u32 x=func_020437DC(win);
-        u32 y=func_020437E4(win);
+        u32 x=BMP_GetWidth(win);
+        u32 y=BMP_GetHeight(win);
         u32 type=BMP_GetTileBytes(win);
-        *(void **)(out+i*4+8)=func_02043678(x/8,y/8,type,heap);
+        *(void **)(out+i*4+8)=BMP_Create(x/8,y/8,type,heap);
     }
     return out;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021677E4",
+   "name": "COMM_PLAYER_CheckOccupy",
    "address": "0x021677E4",
    "kind": "game",
    "region": "ov010",

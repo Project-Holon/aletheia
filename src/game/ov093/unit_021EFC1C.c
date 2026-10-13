@@ -14,13 +14,13 @@
  *
  * symbols:
  *   func_06898080  0x06898080  thumb
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   func_021B9940  0x021B9940  thumb  ov093
- *   func_021D5750  0x021D5750  thumb  ov093
+ *   BTL_POKEPARAM_HasMove  0x021D5750  thumb  ov093
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
- *   func_021E8AFC  0x021E8AFC  thumb  ov093
- *   func_021EF83C  0x021EF83C  thumb  ov093
+ *   BTLV_CORE_GetSlotLow  0x021E8AFC  thumb  ov093
+ *   BTL_FIELD_ResetSlot  0x021EF83C  thumb  ov093
  */
 #include "../../matched/include/Obj06299.h"
 
@@ -38,14 +38,14 @@ typedef struct {
 
 typedef struct { u32 v; } Slot;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021B9A24(u8 a, u8 b);
 extern u8 *func_021B9940(char *p, u8 i);
-extern int func_021D5750(u8 *p, u16 id);
+extern int BTL_POKEPARAM_HasMove(u8 *p, u16 id);
 void *func_021EFCE4(char *a, int b);
-extern u8 func_021E8AFC(Slot s);
+extern u8 BTLV_CORE_GetSlotLow(Slot s);
 extern void func_06898080(u32 a);
-extern void func_021EF83C(char *a, u32 b);
+extern void BTL_FIELD_ResetSlot(char *a, u32 b);
 int func_021EFC1C(S *a, char *x, void *m, u16 y);
 void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg);
 
@@ -57,12 +57,12 @@ int func_021EFC1C(S *a, char *x, void *m, u16 y)
     u32 i;
     u32 n;
 
-    mon = func_021D5440(m);
+    mon = BTL_POKEPARAM_GetPokeId(m);
     n = a->count;
     for (i = 0; i < n; i++) {
         c = a->id[i];
         if (func_021B9A24(mon, c) == 0) {
-            if (func_021D5750(func_021B9940(x, c), y) != 0)
+            if (BTL_POKEPARAM_HasMove(func_021B9940(x, c), y) != 0)
                 return 1;
         }
     }
@@ -71,7 +71,7 @@ int func_021EFC1C(S *a, char *x, void *m, u16 y)
 
 
 /*
- * Lever: func_021E8AFC takes a one-word struct by value (its own file spells
+ * Lever: BTLV_CORE_GetSlotLow takes a one-word struct by value (its own file spells
  * it as a union); the `adds r0,r5,#0 ; adds r0,#0x28 ; ldr r0,[r0]` argument
  * setup is that struct copy, not a plain u32 load.
  */
@@ -86,7 +86,7 @@ void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg)
         if (func_021EFCE4(a, k) == 0)
             continue;
         e = a + k * 4;
-        lim = func_021E8AFC(*(Slot *)(e + 0x28));
+        lim = BTLV_CORE_GetSlotLow(*(Slot *)(e + 0x28));
         if (lim == 0)
             continue;
         ((struct Obj06299 *)e)->f48 += 1;
@@ -96,7 +96,7 @@ void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg)
             func_06898080(((struct Obj06299 *)e)->f8);
             ((struct Obj06299 *)e)->f8 = 0;
         }
-        func_021EF83C(a, k);
+        BTL_FIELD_ResetSlot(a, k);
         if (cb != 0)
             cb(k, arg);
     }

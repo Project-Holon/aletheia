@@ -10,6 +10,9 @@
  * status:   EXACT
  *
  * symbols:
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
+ *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   (none)
  *
  * Calls 0x0204AFD8 on +0x138, 0x0204ADA4 on +0x134 and 0x02049238 on +0x128 of the second argument.
@@ -17,13 +20,13 @@
 #include "../include/Obj09213.h"
 
 typedef unsigned int   u32;
-extern void func_0204AFD8(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_02049238(int);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void ARC_TOOL_DeleteHandle(int);
 
 void func_021C533C(void *a, char *q)
 {
-    func_0204AFD8(((struct Obj09213 *)q)->f138);
-    func_0204ADA4(((struct Obj09213 *)q)->f134);
-    func_02049238(((struct Obj09213 *)q)->f128);
+    CLACT_ReleaseCellAnim(((struct Obj09213 *)q)->f138);
+    CLACT_ReleasePalette(((struct Obj09213 *)q)->f134);
+    ARC_TOOL_DeleteHandle(((struct Obj09213 *)q)->f128);
 }

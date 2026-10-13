@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC0AC",
+   "name": "STARTMENU_BeginSelectAnim",
    "address": "0x021BC0AC",
    "kind": "game",
    "region": "ov088",

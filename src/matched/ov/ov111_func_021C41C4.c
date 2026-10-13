@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201EC64  0x0201EC64  thumb
  *
@@ -44,10 +44,10 @@ struct GfFont;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct WordSet *func_0201EC64(u32 heap);
 
@@ -55,13 +55,13 @@ void func_021C41C4(Work *p)
 {
     int i;
 
-    p->f31FC = func_0201D7EC(0x17, 0, 0, 0, p->heap);
+    p->f31FC = GF_FONT_Create(0x17, 0, 0, 0, p->heap);
     p->f3200 = func_02045B38(0, 2, 0xBB, p->heap);
-    p->f3208 = func_020457B0(4, p->heap);
-    p->f3210 = func_020457B0(0x20, p->heap);
-    p->f3214 = func_020457B0(0x21, p->heap);
-    p->f320C = func_020457B0(5, p->heap);
-    func_02045CAC(p->f3200, 0x17, p->f320C);
+    p->f3208 = STRBUF_Create(4, p->heap);
+    p->f3210 = STRBUF_Create(0x20, p->heap);
+    p->f3214 = STRBUF_Create(0x21, p->heap);
+    p->f320C = STRBUF_Create(5, p->heap);
+    MSGDATA_ReadString(p->f3200, 0x17, p->f320C);
     for (i = 0; i < 3; i++) {
         p->f3218[i] = func_02045EC0(p->f3200, i + 0x1A);
     }

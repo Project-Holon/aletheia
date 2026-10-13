@@ -14,11 +14,12 @@
  *   func_021F4E98 0x021F4E98 thumb ov135
  *   func_020355C4 0x020355C4 arm
  *   func_0204B3DC 0x0204B3DC arm
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  */
 #include "../include/Obj00018.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void func_021F663C(u8 *, u32, u32, u32, u32, u32);
 extern void func_021F4E98(u8 *, u32, u32);
 extern u8 func_020355C4(void);
@@ -27,7 +28,7 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 int func_021F5A18(u8 *p)
 {
     int index;
-    if (func_020221A4()) {
+    if (WIPE_SYS_EndCheck()) {
         if (((struct Obj00018 *)p)->f20 == 5) {
             index = 0x15;
         } else if (((struct Obj00018 *)p)->f20 == 6) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BFA5C",
+   "name": "EVENT_APPEAR_OnScoreboardEndAlt",
    "address": "0x021BFA5C",
    "kind": "game",
    "region": "ov021",

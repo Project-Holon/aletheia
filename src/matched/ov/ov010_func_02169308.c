@@ -1,5 +1,5 @@
 /*
- * function: func_02169308
+ * function: FIELD_G3D_MAP_Update
  * address: 0x02169308
  * packet: pkt_ov010_02169308
  * region: ov010
@@ -18,4 +18,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef void (*Cb)(u8 *, u32);
-void func_02169308(u8 *p) { Cb cb; if (((struct Obj04162 *)p)->fB0) { cb = *(Cb *)(((struct Obj04162 *)p)->f28+((struct Obj04162 *)p)->f18*16u+4u); if(cb) cb(p,((struct Obj04162 *)p)->fD8); } }
+void FIELD_G3D_MAP_Update(u8 *p) { Cb cb; if (((struct Obj04162 *)p)->fB0) { cb = *(Cb *)(((struct Obj04162 *)p)->f28+((struct Obj04162 *)p)->f18*16u+4u); if(cb) cb(p,((struct Obj04162 *)p)->fD8); } }

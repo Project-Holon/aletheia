@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02161D64  0x02161D64  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_CheckZoneFlag  0x02161D64  thumb  ov010
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GAME_DATA_TakeUnionInfo.c \
@@ -24,10 +24,10 @@ typedef signed short s16;
 typedef signed char s8;
 
 extern void func_02082D44(void *dst, const void *src, u32 n);
-extern int func_02161D64(int a0);
+extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0);
 
 void GAME_DATA_TakeUnionInfo(u8 *obj, void *dst)
 {
     func_02082D44(dst, obj + 0x214, 0x1e8);
-    func_02161D64((int)(obj + 0x214));
+    EVENT_FIELD_PROCLINK_CheckZoneFlag((int)(obj + 0x214));
 }

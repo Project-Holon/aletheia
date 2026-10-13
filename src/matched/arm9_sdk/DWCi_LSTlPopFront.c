@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206E964 0x0206E964 arm
+ *   NNS_G3dGetTex 0x0206E964 arm
  */
 
 struct DwcList { unsigned int f0; unsigned char *f4; };
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
 unsigned char *DWCi_LSTlPopFront(struct DwcList *list)
 {
-    return func_0206E964(list->f4);
+    return NNS_G3dGetTex(list->f4);
 }

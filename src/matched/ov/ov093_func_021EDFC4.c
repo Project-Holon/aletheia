@@ -9,7 +9,7 @@
  * status: EXACT
  * volatile: 021EE030,021EE050,021EE05E,021EE08E,021EE0AE,021EE0BC reread counters after stores; 021EDFFC,021EE0D2 hardware registers.
  * symbols:
- *   func_020437D4 0x020437D4 arm
+ *   BMP_GetPixels 0x020437D4 arm
  *   func_02040B1C 0x02040B1C arm
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb  arm9
  */
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bmp;
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_020061E4(u32 a);
 extern int GFL_USE_IsSeqPlaying(u32 a);
@@ -56,7 +56,7 @@ int func_021EDFC4(u8 *p)
         }
         break;
     case 2:
-        func_02040B1C(p[0xb], func_020437D4(((struct Obj00623 *)p)->f4), 0x900, ((struct Obj00623 *)p)->f1C);
+        func_02040B1C(p[0xb], BMP_GetPixels(((struct Obj00623 *)p)->f4), 0x900, ((struct Obj00623 *)p)->f1C);
         p[0xd]++;
         break;
     case 3:

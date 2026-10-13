@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B878  0x0204B878  arm
- *   func_0204B84C  0x0204B84C  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   func_020355C4  0x020355C4  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   tbl_02203D38   0x02203D38  data  a1
  */
 
@@ -69,14 +69,14 @@ extern const SelTbl tbl_02203D38;
 
 extern void func_02082BCC(void *p, int v, int n);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B84C(void *o, int v);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorBgPriority(void *o, int v);
 extern u8 func_020355C4(void);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 void func_021FDDA8(Obj *p)
 {
@@ -85,10 +85,10 @@ void func_021FDDA8(Obj *p)
     func_02082BCC(&pos, 0, sizeof(pos));
     pos.x = tbl_02203D38.cur[0].x;
     pos.y = tbl_02203D38.cur[0].y;
-    p->cursor = func_0204B294(p->res, (u32)p->set2, (u32)p->set[1], (u32)p->set3, &pos, 0, 0x48);
+    p->cursor = CLACT_CreateActor(p->res, (u32)p->set2, (u32)p->set[1], (u32)p->set3, &pos, 0, 0x48);
     func_0204B92C(p->cursor, 1);
-    func_0204B878(p->cursor, tbl_02203D38.cur[0].anim);
-    func_0204B84C(p->cursor, 1);
+    CLACT_SetActorAnimSeq(p->cursor, tbl_02203D38.cur[0].anim);
+    CLACT_SetActorBgPriority(p->cursor, 1);
     if (func_020355C4() == 1) {
         func_0204B3DC(p->cursor, 0);
     } else {
@@ -96,17 +96,17 @@ void func_021FDDA8(Obj *p)
     }
     pos.x = 0xA0;
     pos.y = 0x20;
-    p->mark = func_0204B294(p->res, (u32)p->set2, (u32)p->set[1], (u32)p->set3, &pos, 0, 0x48);
-    func_0204B878(p->mark, 4);
+    p->mark = CLACT_CreateActor(p->res, (u32)p->set2, (u32)p->set[1], (u32)p->set3, &pos, 0, 0x48);
+    CLACT_SetActorAnimSeq(p->mark, 4);
     func_0204B3DC(p->mark, 0);
     pos.x = 0xE4;
     pos.y = 0x75;
-    p->btn[0] = func_0204B294(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
-    func_0204B878(p->btn[0], 0x26);
+    p->btn[0] = CLACT_CreateActor(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
+    CLACT_SetActorAnimSeq(p->btn[0], 0x26);
     func_0204B3DC(p->btn[0], 0);
     pos.x = 0x8C;
-    p->btn[1] = func_0204B294(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
-    func_0204B878(p->btn[1], 0x27);
+    p->btn[1] = CLACT_CreateActor(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
+    CLACT_SetActorAnimSeq(p->btn[1], 0x27);
     func_0204B3DC(p->btn[1], 0);
-    func_0203D34C(0, 0x48);
+    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
 }

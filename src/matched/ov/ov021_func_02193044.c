@@ -1,5 +1,5 @@
 /*
- * function: func_02193044
+ * function: FIELD_MSGBG_SetBlend
  * address:  0x02193044
  * packet:   pkt_ov021_02193044
  * region:   ov021
@@ -21,7 +21,7 @@ typedef short          s16;
 
 extern void func_0207D63C(void *reg, u32 a, u32 b, u32 c, u32 d);
 
-void func_02193044(u32 v)
+void FIELD_MSGBG_SetBlend(u32 v)
 {
     if (v == 1)
         func_0207D63C((void *)0x04000050, 4, 0x1B, 0x10, 4);

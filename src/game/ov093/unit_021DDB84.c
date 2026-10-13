@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DDB84.c
- * function: func_021DDB84, func_021DDB98
+ * function: BTL_ITEM_WeakenDamagePoison, BTL_ITEM_GetWeakenDamageGroundHandlers
  * address:  0x021DDB84
  * packet:   pkt_021D8684
  * region:   ov093
@@ -11,27 +11,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   d_021F17CC     0x021F17CC  data   ov093  a4
- *   func_021DDB84   0x021DDB84  thumb
- *   func_021DDCD8   0x021DDCD8  thumb
- * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #3; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl func_021DDCD8; add sp, #8; pop {r4, pc}.
+ *   gBtlItemWeakenDamageGroundHandlers     0x021F17CC  data   ov093  a4
+ *   BTL_ITEM_WeakenDamagePoison   0x021DDB84  thumb
+ *   BTL_HANDLER_ITEM_WeakenHitOfType   0x021DDCD8  thumb
+ * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #3; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl BTL_HANDLER_ITEM_WeakenHitOfType; add sp, #8; pop {r4, pc}.
  */
 #include "unit_021DD588_types.h"
 
-extern int func_021DDCD8(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int moveType, int ignoreAffinity);
+extern int BTL_HANDLER_ITEM_WeakenHitOfType(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int moveType, int ignoreAffinity);
 
-extern int d_021F17CC[];
+extern int gBtlItemWeakenDamageGroundHandlers[];
 
-void func_021DDB84(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
-int *func_021DDB98(int *handlerCount);
+void BTL_ITEM_WeakenDamagePoison(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+int *BTL_ITEM_GetWeakenDamageGroundHandlers(int *handlerCount);
 
-void func_021DDB84(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void BTL_ITEM_WeakenDamagePoison(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    func_021DDCD8(factor, server, pokeId, work, POKETYPE_POISON, 0);
+    BTL_HANDLER_ITEM_WeakenHitOfType(factor, server, pokeId, work, POKETYPE_POISON, 0);
 }
 
-int *func_021DDB98(int *handlerCount)
+int *BTL_ITEM_GetWeakenDamageGroundHandlers(int *handlerCount)
 {
     *handlerCount = 2;
-    return d_021F17CC;
+    return gBtlItemWeakenDamageGroundHandlers;
 }

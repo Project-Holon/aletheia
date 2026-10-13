@@ -1,5 +1,5 @@
 /*
- * function: func_02161850
+ * function: EVENT_FIELD_PROCLINK_ObjAnimEventMain
  * address:  0x02161850
  * packet:   pkt_ov010_02161850
  * region:   ov010
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02161938  0x02161938  thumb  ov010
- *   func_02197D3C  0x02197D3C  thumb  ov021
- *   func_02161964  0x02161964  thumb  ov010
- *   func_02161984  0x02161984  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   EVENT_FIELD_PROCLINK_InitAnimNode  0x02161938  thumb  ov010
+ *   FLDMMDL_ACMD_ListCreate  0x02197D3C  thumb  ov021
+ *   EVENT_FIELD_PROCLINK_IsAnimNodeDone  0x02161964  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_UpdateAnimNode  0x02161984  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -30,27 +30,27 @@ typedef struct Obj {
     void *f10;          /* 0x10 */
 } Obj;
 
-extern void *func_02188C7C(u8 *p);
-extern void *func_02161938(void *a, u32 b);
-extern void *func_02197D3C(void *a, void *b);
-extern int func_02161964(int a0, int a1);
-extern int func_02161984(int a0);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern void *EVENT_FIELD_PROCLINK_InitAnimNode(void *a, u32 b);
+extern void *FLDMMDL_ACMD_ListCreate(void *a, void *b);
+extern int EVENT_FIELD_PROCLINK_IsAnimNodeDone(int a0, int a1);
+extern int EVENT_FIELD_PROCLINK_UpdateAnimNode(int a0);
 
-int func_02161850(void *a0, int *state, Obj *o)
+int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *a0, int *state, Obj *o)
 {
     void *t;
 
-    t = func_02188C7C(o->f04);
+    t = FIELDMAP_GetMmdlSys(o->f04);
     switch (*state) {
     case 0:
-        t = func_02161938(t, o->f0c);
+        t = EVENT_FIELD_PROCLINK_InitAnimNode(t, o->f0c);
         if (t == 0)
             return 1;
-        func_02161964((int)o, (int)func_02197D3C(t, o->f10));
+        EVENT_FIELD_PROCLINK_IsAnimNodeDone((int)o, (int)FLDMMDL_ACMD_ListCreate(t, o->f10));
         *state = *state + 1;
         break;
     case 1:
-        if (func_02161984((int)o) == 0)
+        if (EVENT_FIELD_PROCLINK_UpdateAnimNode((int)o) == 0)
             return 1;
         break;
     }

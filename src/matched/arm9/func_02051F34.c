@@ -14,7 +14,7 @@
  *   VEC_Mag         0x0207CBD0  arm
  *   VEC_Normalize   0x0207CCA4  arm
  *   FX_Div          0x0207C768  arm
- *   func_020520A4   0x020520A4  arm
+ *   BUTTON_MAN_ScaleVec   0x020520A4  arm
  *
  * Segment-versus-sphere test: project the ball's centre onto the segment
  * p0 -> dir (t = FX_Div(dot(d, c - p0), dot(d, d)), d = dir - p0); on the
@@ -55,7 +55,7 @@ extern int  VEC_DotProduct(const struct Vec3 *a, const struct Vec3 *b);
 extern int  VEC_Mag(const struct Vec3 *v);
 extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
 extern int  FX_Div(int a, int b);
-extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
+extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *d);
 
 u32 BUTTON_MAN_SegmentSphereTest(struct Seg *seg, struct Ball *b, struct Out *out)
 {
@@ -73,7 +73,7 @@ u32 BUTTON_MAN_SegmentSphereTest(struct Seg *seg, struct Ball *b, struct Out *ou
 
     t = FX_Div(VEC_DotProduct(&sd, &bc), VEC_DotProduct(&sd, &sd));
     if (t >= 0 && t <= 0x1000) {
-        func_020520A4(&sd, t, &sd);
+        BUTTON_MAN_ScaleVec(&sd, t, &sd);
         VEC_Subtract(&sd, &bc, &tmp);
         d = VEC_Mag(&tmp);
         lim = b->r + seg->pad18;

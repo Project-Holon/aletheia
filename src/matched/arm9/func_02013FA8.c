@@ -1,5 +1,5 @@
 /*
- * function: func_02013FA8
+ * function: ZONEDATA_GetSecondSpecialKind
  * address:  0x02013FA8
  * packet:   pkt_02013FA8
  * region:   arm9
@@ -25,7 +25,7 @@ extern struct Ent0209DFC8 _ZoneSecondSpecialKindTable[];
 typedef unsigned short u16;
 extern u16 ZONEDATA_GetChangedZoneId(u32 key);
 
-int func_02013FA8(u16 key)
+int ZONEDATA_GetSecondSpecialKind(u16 key)
 {
     u32 v = ZONEDATA_GetChangedZoneId(key);
     u32 i;

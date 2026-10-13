@@ -1,5 +1,5 @@
 /*
- * function: func_021576B8
+ * function: DELIVERY_BEACON_SetStep
  * address:  0x021576B8
  * packet:   pkt_021576B8
  * region:   ov010
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021576B8(char *a0, int a1)
+void DELIVERY_BEACON_SetStep(char *a0, int a1)
 {
     ((struct Obj18736 *)a0)->f31BC = a1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A84BC
+ * function: FIELD_MENU_Delete
  * address:  0x021A84BC
  * packet:   pkt_ov021_021A84BC
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A926C  0x021A926C  thumb  ov021
- *   func_021A84A8  0x021A84A8  thumb  ov021
+ *   FIELD_MENU_DeleteItem  0x021A926C  thumb  ov021
+ *   FIELD_MENU_NotifyParentOnExit  0x021A84A8  thumb  ov021
  *   func_02030EAC  0x02030EAC  arm
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204B084  0x0204B084  arm
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_DeleteRenderer  0x0204B084  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   func_02040618  0x02040618  arm
  *   func_020403F4  0x020403F4  arm
  *   func_0201C6EC  0x0201C6EC  thumb
@@ -57,44 +57,44 @@ typedef struct Obj {
     void *f130;
 } Obj;
 
-extern void func_021A926C(Obj *p, Item *it);
-extern void func_021A84A8(Obj *p);
+extern void FIELD_MENU_DeleteItem(Obj *p, Item *it);
+extern void FIELD_MENU_NotifyParentOnExit(Obj *p);
 typedef unsigned int   u32;
 struct Bank;
 struct Node;
 struct PrintSys;
 extern void func_02030EAC(struct Node *n);
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204B084(void *p);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204AFD8(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteRenderer(void *p);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020403F4(u32 i);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_020307B0(void *p);
 
-void func_021A84BC(Obj *p)
+void FIELD_MENU_Delete(Obj *p)
 {
     u8 i;
 
     for (i = 0; i < 7; i++) {
-        func_021A926C(p, &p->items[i]);
+        FIELD_MENU_DeleteItem(p, &p->items[i]);
     }
-    func_021A84A8(p);
+    FIELD_MENU_NotifyParentOnExit(p);
     func_02030EAC(p->f130);
-    func_0204B3B4(p->f128);
-    func_0204B3B4(p->f124);
-    func_0204B084(p->f120);
-    func_0204B1CC(p->f11C);
-    func_0204AFD8((u32)p->f10C);
-    func_0204A8D4((u32)p->f108);
-    func_0204ADA4((u32)p->f104);
-    func_0204AFD8((u32)p->f118);
-    func_0204A8D4((u32)p->f114);
-    func_0204ADA4((u32)p->f110);
+    CLACT_DeleteActor(p->f128);
+    CLACT_DeleteActor(p->f124);
+    CLACT_DeleteRenderer(p->f120);
+    CLACT_DeleteUnit(p->f11C);
+    CLACT_ReleaseCellAnim((u32)p->f10C);
+    CLACT_ReleaseCharacter((u32)p->f108);
+    CLACT_ReleasePalette((u32)p->f104);
+    CLACT_ReleaseCellAnim((u32)p->f118);
+    CLACT_ReleaseCharacter((u32)p->f114);
+    CLACT_ReleasePalette((u32)p->f110);
     func_02040618(6, 3, 0);
     func_020403F4(7);
     func_020403F4(5);

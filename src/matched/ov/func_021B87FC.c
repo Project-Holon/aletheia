@@ -1,5 +1,5 @@
 /*
- * function: func_021B87FC
+ * function: FIELD_RAIL_SETTING_GetLine
  * address:  0x021B87FC
  * packet:   pkt_021B87FC
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_021B87FC(u8 *p, u32 idx)
+u8 *FIELD_RAIL_SETTING_GetLine(u8 *p, u32 idx)
 {
     if (((struct Obj02659 *)p)->f2 > idx)
         return *(u8 * *)&((struct Obj02659 *)p)->f14 + idx * 0x48;

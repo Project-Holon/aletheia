@@ -23,7 +23,7 @@
  *   g_pWhPipeWork  0x021797A4  data   a4
  *   sFileNetWhPipe 0x02179780  data   a1
  *   func_02030734  0x02030734  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0208F1B4  0x0208F1B4  arm
  *   func_021790E4  0x021790E4  thumb  ov014
  *   func_02178E1C  0x02178E1C  thumb  ov014
@@ -37,7 +37,7 @@
  *   func_02179498  0x02179498  thumb  ov014
  *   DWCi_MOV_WH_StateInEndKeyShare  0x0217945C  thumb  ov014
  *   func_020307B0 0x020307B0 arm
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_02088234  0x02088234  arm
  *   NET_WHPIPE_SetBeaconGameInfo  0x02177D58  thumb  ov014
  *   sEmptyString   0x02179790  data   a4
@@ -64,7 +64,7 @@ extern void NET_WHPIPE_SetAcceptChild(int a);
 extern int NET_WHPIPE_StartAutoSearch(void);
 extern void NET_WHPIPE_StartJoinLock(int a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u16 func_0208F1B4(void);
 extern int func_021790E4(u32 heap, int a, int b);
 extern void func_02178E1C(u32 v);
@@ -78,7 +78,7 @@ extern int DWCi_MOV_WH_StartScan(u32 a, u16 *b, u32 c);
 extern int func_02179498(void);
 extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 extern u32 func_020307B0(void *p);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_02088234(void);
 extern void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -212,8 +212,8 @@ int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
     WhPipeNetInit *init;
     WhPipeWork *work;
 
-    func_0203D798();
-    init = func_0203D798();
+    GFL_NET_GetInitParam();
+    init = GFL_NET_GetInitParam();
     if (g_pWhPipeWork != 0)
         return 0;
     work = func_02030734(heapId, 0xCF8, 1, sFileNetWhPipe, 0xed);
@@ -252,7 +252,7 @@ void NET_WHPIPE_SetEventCallback(int (*callback)(int a, int b, int c))
 int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry)
 {
     WhPipeWork *work = g_pWhPipeWork;
-    WhPipeNetInit *init = func_0203D798();
+    WhPipeNetInit *init = GFL_NET_GetInitParam();
     WhPipeBeacon *beacon;
     int gameKind;
     u16 ggid;
@@ -292,7 +292,7 @@ int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry)
     int i;
     WhPipeWork *work = g_pWhPipeWork;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (NET_WHPIPE_IsBeaconAcceptable(entry) == 0)
         return 0;
     for (i = 0; i < WHPIPE_ENTRY_MAX; i++) {
@@ -319,7 +319,7 @@ int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry)
 int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags)
 {
     WhPipeWork *work = g_pWhPipeWork;
-    WhPipeNetInit *init = func_0203D798();
+    WhPipeNetInit *init = GFL_NET_GetInitParam();
     int gameKind = init->gameKind;
     u16 ggid = init->ggid;
     WhPipeBeacon *beacon = &entry->beacon;
@@ -500,10 +500,10 @@ void NET_WHPIPE_PublishBeacon(void)
     WhPipeBeaconSizeFunc getSize;
     int size;
 
-    if (func_0203CD98() == 0)
+    if (GFL_NET_GetRunState() == 0)
         return;
     work = g_pWhPipeWork;
-    init = func_0203D798();
+    init = GFL_NET_GetInitParam();
     getSize = init->getBeaconSize;
     if (getSize == 0)
         return;
@@ -527,7 +527,7 @@ void NET_WHPIPE_RefreshBeacon(void)
 {
     WhPipeWork *work = g_pWhPipeWork;
     WhPipeBeacon *beacon = &work->beacon;
-    WhPipeNetInit *init = func_0203D798();
+    WhPipeNetInit *init = GFL_NET_GetInitParam();
     WhPipeBeaconSizeFunc getSize = init->getBeaconSize;
     int size;
 

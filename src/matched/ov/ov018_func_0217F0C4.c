@@ -1,5 +1,5 @@
 /*
- * function: func_0217F0C4
+ * function: INTRUDE_SUBDISP_StartTownBlink
  * address: 0x0217F0C4
  * packet: pkt_ov018_0217F0C4
  * region: ov018
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-void func_0217F0C4(u8 *p)
+void INTRUDE_SUBDISP_StartTownBlink(u8 *p)
 {
     int i;
     p[0x115] = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021ABFC0
+ * function: FIELD_EFFECT_ExitObjectSystem
  * address:  0x021ABFC0
  * packet:   pkt_ov021_021ABFC0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC03C  0x021AC03C  thumb
+ *   FIELD_EFFECT_DeleteObjectMgr  0x021AC03C  thumb
  *   func_02030DA4  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
  */
@@ -29,15 +29,15 @@ typedef struct {
     int f20;
 } T;
 
-extern void func_021AC03C(int a);
+extern void FIELD_EFFECT_DeleteObjectMgr(int a);
 extern void func_02030DA4(int a);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021ABFC0(T *t)
+void FIELD_EFFECT_ExitObjectSystem(T *t)
 {
     if (t->f20 != 0) {
-        func_021AC03C(t->f20);
+        FIELD_EFFECT_DeleteObjectMgr(t->f20);
         func_02030DA4(t->f1c);
         func_020307B0(t->f18);
     }

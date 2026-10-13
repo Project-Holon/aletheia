@@ -1,5 +1,5 @@
 /*
- * function: func_021EEB00
+ * function: BTL_ADAPTER_SetSendData
  * address:  0x021EEB00
  * packet:   pkt_ov093_021EEB00
  * region:   ov093
@@ -33,7 +33,7 @@ typedef struct {
 
 extern void func_02082D44(const void *, void *, int);
 
-void func_021EEB00(W *p, u16 a, const void *src, u16 n)
+void BTL_ADAPTER_SetSendData(W *p, u16 a, const void *src, u16 n)
 {
     p->mode = 1;
     p->f0f = a;

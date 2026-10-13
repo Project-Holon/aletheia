@@ -1,5 +1,5 @@
 /*
- * function: func_021BB6A8
+ * function: BTL_SERVER_CollectReplies
  * address:  0x021BB6A8
  * packet:   pkt_ov093_021BB6A8
  * region:   ov093
@@ -16,8 +16,8 @@
  *   (51 bytes); indexed `s[j]` gave `ldr r6,[r2,r4]` (1 byte). Same shape in both lang c99 and c.
  *
  * symbols:
- *   func_021BB830  0x021BB830  thumb  ov093
- *   func_021EEB64  0x021EEB64  thumb  ov093
+ *   BTL_SERVER_IsClientSlotUsed  0x021BB830  thumb  ov093
+ *   BTL_ADAPTER_GetSendBuffer  0x021EEB64  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -33,11 +33,11 @@ typedef struct {
     u8 c[4];
 } P;
 
-extern int func_021BB830(u8 *);
+extern int BTL_SERVER_IsClientSlotUsed(u8 *);
 struct QW;
-extern u32 func_021EEB64(struct QW *p, u32 *out);
+extern u32 BTL_ADAPTER_GetSendBuffer(struct QW *p, u32 *out);
 
-void func_021BB6A8(P *p)
+void BTL_SERVER_CollectReplies(P *p)
 {
     u32 i;
     u32 j;
@@ -49,8 +49,8 @@ void func_021BB6A8(P *p)
     for (i = 0; i < 4; i++) {
         e = &p->e[i];
         p->c[i] = 0;
-        if (func_021BB830((u8 *)e) != 0) {
-            s = (W *)func_021EEB64((void *)e->h, &n);
+        if (BTL_SERVER_IsClientSlotUsed((u8 *)e) != 0) {
+            s = (W *)BTL_ADAPTER_GetSendBuffer((void *)e->h, &n);
             cnt = n >> 2;
             for (j = 0; j < cnt; j++) {
                 p->d[i].v[j] = *s++;

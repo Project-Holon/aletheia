@@ -1,5 +1,5 @@
 /*
- * function: func_021A954C
+ * function: FIELD_ENCOUNT_CreateZoneWildMons
  * address:  0x021A954C
  * packet:   pkt_ov021_021A954C
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  *
  * symbols:
- *   func_021A9508  0x021A9508  thumb
- *   func_021A9A5C  0x021A9A5C  thumb
+ *   FIELD_ENCOUNT_CreateWildMons  0x021A9508  thumb
+ *   FIELD_ENCOUNT_LoadSlots  0x021A9A5C  thumb
  *   MIi_CpuClear32  0x02082A7C  arm
  * Addresses are Black-image addresses.
  */
@@ -29,14 +29,14 @@ struct Spec { u16 id : 11; u16 lvl : 5; u8 lo; u8 hi; };
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 struct Slot14;
 struct Unit;
-extern u8 func_021A9A5C(u8 *a0, struct Unit *u, u16 id, struct Spec *spec);
-extern int func_021A9508(u8 *u, void *arg, struct Slot14 *slots);
+extern u8 FIELD_ENCOUNT_LoadSlots(u8 *a0, struct Unit *u, u16 id, struct Spec *spec);
+extern int FIELD_ENCOUNT_CreateWildMons(u8 *u, void *arg, struct Slot14 *slots);
 
-int func_021A954C(void *a0, void *u, u16 id, void *slots)
+int FIELD_ENCOUNT_CreateZoneWildMons(void *a0, void *u, u16 id, void *slots)
 {
     struct Spec specs[12];
 
     MIi_CpuClear32(0, specs, sizeof(specs));
-    func_021A9A5C(a0, u, id, specs);
-    return func_021A9508(u, specs, slots);
+    FIELD_ENCOUNT_LoadSlots(a0, u, id, specs);
+    return FIELD_ENCOUNT_CreateWildMons(u, specs, slots);
 }

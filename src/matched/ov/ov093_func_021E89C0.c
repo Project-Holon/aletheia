@@ -1,5 +1,5 @@
 /*
- * function: func_021E89C0
+ * function: BTLV_CORE_MakeSlotKind1Empty
  * address:  0x021E89C0
  * packet:   pkt_ov093_021E89C0
  * region:   ov093
@@ -13,7 +13,7 @@ typedef unsigned int u32;
 
 struct S { unsigned a:3; unsigned b:29; };
 
-int func_021E89C0(void)
+int BTLV_CORE_MakeSlotKind1Empty(void)
 {
     struct S s = {0};
 

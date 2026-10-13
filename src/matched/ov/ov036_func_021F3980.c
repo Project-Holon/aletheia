@@ -1,5 +1,5 @@
 /*
- * function: func_021F3980
+ * function: DAILY_LAYOUT_DealCells
  * address:  0x021F3980
  * packet:   pkt_ov036_021F3980
  * region:   ov036
@@ -18,12 +18,12 @@
  *
  * symbols:
  *   func_020056EC  0x020056EC  thumb
- *   func_021F3934  0x021F3934  thumb  ov036
- *   func_021F394C  0x021F394C  thumb  ov036
- *   func_021F395C  0x021F395C  thumb  ov036
- *   d_021F3A7C     0x021F3A7C  data  a1
- *   d_021F3A82     0x021F3A82  data  a1
- *   d_021F3A90     0x021F3A90  data  a1
+ *   DAILY_LAYOUT_FindPoolCell  0x021F3934  thumb  ov036
+ *   DAILY_LAYOUT_GetPoolCell  0x021F394C  thumb  ov036
+ *   DAILY_LAYOUT_RemovePoolCell  0x021F395C  thumb  ov036
+ *   gDailyLayoutAnchorCells     0x021F3A7C  data  a1
+ *   gDailyLayoutCompanionCellsA     0x021F3A82  data  a1
+ *   gDailyLayoutCompanionCellsB     0x021F3A90  data  a1
  *   d_021F3AD4     0x021F3AD4  data  a4
  */
 
@@ -35,18 +35,18 @@ typedef struct {
     int b;
 } P8;
 
-extern u8 d_021F3A7C[];
-extern u8 d_021F3A82[];
-extern u8 d_021F3A90[];
+extern u8 gDailyLayoutAnchorCells[];
+extern u8 gDailyLayoutCompanionCellsA[];
+extern u8 gDailyLayoutCompanionCellsB[];
 extern P8 d_021F3AD4[];
 
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
-extern int func_021F3934(u8 *p, int v);
-extern int func_021F394C(u8 *p, int idx);
-extern int func_021F395C(u8 *p, int idx);
+extern int DAILY_LAYOUT_FindPoolCell(u8 *p, int v);
+extern int DAILY_LAYOUT_GetPoolCell(u8 *p, int idx);
+extern int DAILY_LAYOUT_RemovePoolCell(u8 *p, int idx);
 
-int func_021F3980(u8 *p)
+int DAILY_LAYOUT_DealCells(u8 *p)
 {
     int a;
     int b;
@@ -61,8 +61,8 @@ int func_021F3980(u8 *p)
     a = 0;
     b = 0;
     idx = func_020056EC(6);
-    v = d_021F3A7C[idx];
-    if (func_021F395C(p, func_021F3934(p, v)) == 0)
+    v = gDailyLayoutAnchorCells[idx];
+    if (DAILY_LAYOUT_RemovePoolCell(p, DAILY_LAYOUT_FindPoolCell(p, v)) == 0)
         return a;
     (p + 0xf)[p[0x1e]] = v;
     p[0x1e]++;
@@ -74,10 +74,10 @@ int func_021F3980(u8 *p)
         b = 1;
     if (b == 0 || a == 0) {
         if (b == 0)
-            v = d_021F3A82[func_020056EC(7)];
+            v = gDailyLayoutCompanionCellsA[func_020056EC(7)];
         else
-            v = d_021F3A90[func_020056EC(8)];
-        if (func_021F395C(p, func_021F3934(p, v)) == 0)
+            v = gDailyLayoutCompanionCellsB[func_020056EC(8)];
+        if (DAILY_LAYOUT_RemovePoolCell(p, DAILY_LAYOUT_FindPoolCell(p, v)) == 0)
             return 0;
         cnt--;
         (p + 0xf)[p[0x1e]] = v;
@@ -85,10 +85,10 @@ int func_021F3980(u8 *p)
     }
     for (i = 0; i < cnt; i++) {
         r = func_020056EC(cnt - i);
-        x = func_021F394C(p, r);
+        x = DAILY_LAYOUT_GetPoolCell(p, r);
         if (x < 0)
             return 0;
-        if (func_021F395C(p, r) == 0)
+        if (DAILY_LAYOUT_RemovePoolCell(p, r) == 0)
             return 0;
         (p + 0xf)[p[0x1e]] = x;
         p[0x1e]++;

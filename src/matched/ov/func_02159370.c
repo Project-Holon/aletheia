@@ -1,5 +1,5 @@
 /*
- * function: func_02159370
+ * function: SCRIPT_WORK_CmdCompareRegConst
  * address:  0x02159370
  * packet:   pkt_02159370
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215932C  0x0215932C  thumb  ov010
+ *   SCRIPT_WORK_CompareValues  0x0215932C  thumb  ov010
  */
 #include "../include/Obj05851.h"
 #include "../include/Obj12031.h"
@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215932C();
+extern int SCRIPT_WORK_CompareValues();
 
-int func_02159370(int a0, int a1, int a2, int a3)
+int SCRIPT_WORK_CmdCompareRegConst(int a0, int a1, int a2, int a3)
 {
     int t4;
 
@@ -38,7 +38,7 @@ a0 = a0 << 0x18;
 a2 = a2 + 1;
 a0 = (unsigned)a0 >> 0x18;
 ((struct Obj05851 *)t4)->f14 = a2;
-    a0 = func_0215932C(a0, a1, a2, a3);
+    a0 = SCRIPT_WORK_CompareValues(a0, a1, a2, a3);
 loc_02159390:
 ((struct Obj05851 *)t4)->fE = a0;
 a0 = 0;

@@ -37,11 +37,11 @@ struct G3dMapper;
 /* Most tiles the scan of a push looks ahead. */
 #define GIMMICK_D06_SLIDE_SCAN_MAX 32
 
-/* Bits of the move failure mask of func_02163994 (collision test of an object against a cell). */
+/* Bits of the move failure mask of FLDMMDL_MOVE_HitCheckMoveCurrent (collision test of an object against a cell). */
 #define GIMMICK_D06_MOVE_FAIL_IGNORED 0x01      /* not a reason to stop the slide */
 #define GIMMICK_D06_MOVE_FAIL_TERRAIN 0x02      /* the terrain of the cell blocks */
 
-/* Animation command bases of the objects (see func_02197E7C: a base plus the direction). */
+/* Animation command bases of the objects (see FLDMMDL_ACMD_ConvertCodeByDir: a base plus the direction). */
 #define GIMMICK_D06_ACMD_SLIDE_FAST 0x08        /* more than four tiles left */
 #define GIMMICK_D06_ACMD_SLIDE_MID  0x0C        /* three or four tiles left */
 #define GIMMICK_D06_ACMD_SLIDE_SLOW 0x10        /* one or two tiles left */
@@ -102,19 +102,19 @@ typedef struct GimmickD06SlideEvent {
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
-extern GimmickD06Save *func_0200B3A4(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern struct FieldEffectSys *func_02188CD0(struct FieldMap *fieldMap);
-extern u16 func_02188C9C(struct FieldMap *fieldMap);
-extern struct MmdlSys *func_02188C7C(struct FieldMap *fieldMap);
-extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
-extern struct G3dMapper *func_02188C98(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern GimmickD06Save *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+extern struct G3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *memory);
-extern void func_021ABE30(struct FieldEffectSys *effects, int *effectIds, int count);
+extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *effects, int *effectIds, int count);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
@@ -122,42 +122,42 @@ extern void func_02082C60(void *dst, int data, int size);
 extern void func_020061E4(u32 seId);
 
 /* Map objects (ov010). */
-extern int func_0216DD1C(struct MmdlSys *mmdlSys, struct Mmdl **mmdlOut, u32 *iterator);
-extern u16 func_0216D588(struct Mmdl *mmdl);
-extern struct Mmdl *func_0216DDC0(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, u32 flag);
-extern struct Mmdl *func_0216CE6C(struct MmdlSys *mmdlSys, short gridX, short gridZ, u16 dir, u16 objId,
+extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *mmdlSys, struct Mmdl **mmdlOut, u32 *iterator);
+extern u16 FLDMMDL_GetObjId(struct Mmdl *mmdl);
+extern struct Mmdl *FLDMMDL_SysSearchGridPos(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, u32 flag);
+extern struct Mmdl *FLDMMDL_AddMmdlParam(struct MmdlSys *mmdlSys, short gridX, short gridZ, u16 dir, u16 objId,
                                   u16 objCode, u16 moveCode, int zoneId);
-extern int func_0216D3CC(struct Mmdl *mmdl);
-extern void func_0216D410(struct Mmdl *mmdl, int acmd);
-extern int func_0216D454(struct Mmdl *mmdl);
-extern int func_0216D480(struct Mmdl *mmdl);
-extern void func_0216D88C(const struct Mmdl *mmdl, VecFx32 *pos);
-extern int func_0216D83C(const struct Mmdl *mmdl);
-extern int func_0216D854(struct Mmdl *mmdl);
-extern int func_0216D86C(const struct Mmdl *mmdl);
-extern u32 func_0216D8AC(struct Mmdl *mmdl);
-extern void func_02164208(int dir, VecFx32 *pos, int amount);
-extern void func_02164240(int dir, short *gridX, short *gridZ, short amount);
-extern void func_02164280(int gridX, int gridZ, VecFx32 *out);
-extern int func_02163994(struct Mmdl *mmdl, int x, int y, int z, u32 dir);
-extern int func_02197E7C(int dir, int acmdBase);
+extern int FLDMMDL_CheckPossibleAcmd(struct Mmdl *mmdl);
+extern void FLDMMDL_SetAcmd(struct Mmdl *mmdl, int acmd);
+extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
+extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
+extern void FLDMMDL_GetPos(const struct Mmdl *mmdl, VecFx32 *pos);
+extern int FLDMMDL_GetGridNowX(const struct Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowY(struct Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowZ(const struct Mmdl *mmdl);
+extern u32 FLDMMDL_GetPosY(struct Mmdl *mmdl);
+extern void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *pos, int amount);
+extern void FLDMMDL_MOVE_AddDirGrid(int dir, short *gridX, short *gridZ, short amount);
+extern void FLDMMDL_MOVE_GridToVectorPos(int gridX, int gridZ, VecFx32 *out);
+extern int FLDMMDL_MOVE_HitCheckMoveCurrent(struct Mmdl *mmdl, int x, int y, int z, u32 dir);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int acmdBase);
 
 /* Player and map attributes. */
-extern void func_021A3038(struct FieldPlayer *player, VecFx32 *outPos);
-extern struct Mmdl *func_021A3074(struct FieldPlayer *player);
-extern int func_021AB0D4(struct G3dMapper *mapper, const VecFx32 *pos);
-extern int func_021AB0F0(int attr);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *outPos);
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern int MAP_ATTR_GetAt(struct G3dMapper *mapper, const VecFx32 *pos);
+extern int MAP_ATTR_GetTerrainId(int attr);
 extern int func_021AB3F8(int terrainId);
 
 /* The d06denki effect (ov021). */
-extern struct FieldEffectObj *func_021C9064(struct FieldEffectSys *effects, const VecFx32 *pos, struct Mmdl *mmdl);
-extern struct FieldEffectObj *func_021C9258(struct FieldEffectSys *effects, const VecFx32 *pos);
-extern void func_021C928C(struct FieldEffectObj *effect);
-extern void func_021C909C(struct FieldEffectObj *effect);
-extern void func_021C90AC(struct FieldEffectObj *effect);
-extern int func_021C90D0(struct FieldEffectObj *effect);
+extern struct FieldEffectObj *FLDEFF_D06DENKI_StartFollow(struct FieldEffectSys *effects, const VecFx32 *pos, struct Mmdl *mmdl);
+extern struct FieldEffectObj *FLDEFF_D06DENKI_StartPulse(struct FieldEffectSys *effects, const VecFx32 *pos);
+extern void FLDEFF_D06DENKI_PulseTrigger(struct FieldEffectObj *effect);
+extern void FLDEFF_D06DENKI_FollowFreezeLoop(struct FieldEffectObj *effect);
+extern void FLDEFF_D06DENKI_FollowStartEnding(struct FieldEffectObj *effect);
+extern int FLDEFF_D06DENKI_FollowIsEnded(struct FieldEffectObj *effect);
 
 /* Defined in unplaced/ov051_func_021F3D94.c. */
-extern int func_021F3D94(int zoneId);
+extern int FIELD_GIMMICK_D06_GetGimmickId(int zoneId);
 
 #endif

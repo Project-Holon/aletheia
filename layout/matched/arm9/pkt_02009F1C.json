@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0200A000",
+   "name": "MYSTERY_DATA_GetCard",
    "address": "0x0200A000",
    "kind": "game",
    "region": "arm9",

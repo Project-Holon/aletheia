@@ -10,6 +10,9 @@
  * status:   EXACT
  *
  * symbols:
+ *   GF_FONT_Delete  0x0201D83C  thumb  arm9
+ *   APP_KEYCURSOR_Delete  0x02028604  thumb  arm9
+ *   TCBL_Destroy  0x02031140  arm  arm9
  *
 
  *
@@ -22,19 +25,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern int func_02028604(int a0);
+extern int APP_KEYCURSOR_Delete(int a0);
 struct PrintSys;
 struct S02031140;
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
-extern void func_02031140(struct S02031140 *p);
+extern u32 GF_FONT_Delete(void *ptr);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_02082BCC(u32 p, u32 v, u32 n);
 
 void func_02202744(u8 *p)
 {
-    func_02028604(((struct Obj07257 *)p)->f138);
+    APP_KEYCURSOR_Delete(((struct Obj07257 *)p)->f138);
     func_0201C4C0((struct PrintSys *)(((struct Obj07257 *)p)->fC));
-    func_0201D83C((void *)(((struct Obj07257 *)p)->f0));
-    func_02031140((struct S02031140 *)(((struct Obj07257 *)p)->f4));
+    GF_FONT_Delete((void *)(((struct Obj07257 *)p)->f0));
+    TCBL_Destroy((struct S02031140 *)(((struct Obj07257 *)p)->f4));
     func_02082BCC((u32)p, 0, 0x13c);
 }

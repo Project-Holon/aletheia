@@ -1,5 +1,5 @@
 /*
- * function: func_02175B4C
+ * function: INTRUDE_COMM_AcceptSession
  * address:  0x02175B4C
  * packet:   pkt_ov011_02175B4C
  * region:   ov011
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02175B14  0x02175B14  thumb  ov011
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -22,11 +22,11 @@ typedef struct Fl {
     u8 hi : 4;
 } Fl;
 
-extern int func_02175B14(u8 *p);
+extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 
-void func_02175B4C(u8 *a, u8 *b)
+void INTRUDE_COMM_AcceptSession(u8 *a, u8 *b)
 {
-    if (func_02175B14(b) == 1) {
+    if (INTRUDE_COMM_IsSessionActive(b) == 1) {
         ((Fl *)(b + 0x1a5))->x = 1;
         ((Fl *)(b + 0x1a5))->y = 0;
         a[0x8a] |= 0x20;

@@ -12,14 +12,14 @@
  * symbols:
  *   sDefaultViewVec      0x020A159C  data
  *   g_renderState      0x02148B4C  data
- *   g_02148B98      0x02148B98  data
+ *   g_renderStateDrawParams      0x02148B98  data
  *   g_renderStateIdentityMtx      0x02148C08  data
  *   G3D_SYSTEM_GetProjection   0x020467EC  arm
  *   G3D_SYSTEM_SetProjection   0x02046858  arm
- *   func_02046AFC   0x02046AFC  arm
+ *   G3D_SYSTEM_GetLookAt   0x02046AFC  arm
  *   G3D_SYSTEM_SetLookAt   0x02046B40  arm
- *   func_020479D8   0x020479D8  arm
- *   func_02048AD0   0x02048AD0  arm
+ *   G3D_SYSTEM_ApplyLookAt   0x020479D8  arm
+ *   G3D_CAMERA_Reset   0x02048AD0  arm
  *   func_020526A8   0x020526A8  arm
  *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
  *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
@@ -71,17 +71,17 @@ typedef struct {
 
 extern VecFx32  sDefaultViewVec;
 extern u32      g_renderState[];
-extern u32      g_02148B98[];
+extern u32      g_renderStateDrawParams[];
 extern u32      g_renderStateIdentityMtx[];
 
 extern void G3D_SYSTEM_GetProjection(int p0);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
-extern void func_02046AFC(u8 *dst);
+extern void G3D_SYSTEM_GetLookAt(u8 *dst);
 extern void G3D_SYSTEM_SetLookAt(u8 *a0);
-extern void func_020479D8(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 struct Head;
 struct Light;
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_020526A8(struct Head *h, u32 a);
 extern void NNS_G3dGlbBaseTrans(void *p);
 extern void NNS_G3dGlbBaseScale(VecFx32 *p);
@@ -96,7 +96,7 @@ void PARTICLE_DrawSystem(u8 *a0)
 
     if (((struct Obj06994 *)a0)->f20 != 0) {
         G3D_SYSTEM_GetProjection((int)(&b));
-        func_02046AFC((u8 *)(&g));
+        G3D_SYSTEM_GetLookAt((u8 *)(&g));
         {
             VecFx32  v = sDefaultViewVec;
             MtxFx33  m;
@@ -107,15 +107,15 @@ void PARTICLE_DrawSystem(u8 *a0)
             g_renderState[63] = g_renderState[63] & ~0xa4u;
             NNS_G3dGlbBaseScale(&v);
         }
-        func_02048AD0((struct Light *)(((struct Obj06994 *)a0)->f20));
-        func_020479D8();
+        G3D_CAMERA_Reset((struct Light *)(((struct Obj06994 *)a0)->f20));
+        G3D_SYSTEM_ApplyLookAt();
         func_0206DB80();
     }
-    func_020526A8((struct Head *)(((struct Obj06994 *)a0)->f0), (u32)g_02148B98);
+    func_020526A8((struct Head *)(((struct Obj06994 *)a0)->f0), (u32)g_renderStateDrawParams);
     if (((struct Obj06994 *)a0)->f20 == 0)
         return;
     G3D_SYSTEM_SetProjection((const u32 *)(&b));
     G3D_SYSTEM_SetLookAt((u8 *)(&g));
-    func_020479D8();
+    G3D_SYSTEM_ApplyLookAt();
     func_0206DB80();
 }

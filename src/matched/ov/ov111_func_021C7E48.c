@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   func_020362DC  0x020362DC  arm
@@ -98,7 +98,7 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern int func_02035C08(const void *rects);
+extern int TOUCHPANEL_HitTrg(const void *rects);
 extern int TOUCHPANEL_HitCont(const void *rects);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_020362DC(void);
@@ -119,9 +119,9 @@ int func_021C7E48(Work *p)
     int a;
     int c;
 
-    ret = func_02035C08(d_021C898C);
+    ret = TOUCHPANEL_HitTrg(d_021C898C);
     a = TOUCHPANEL_HitCont(d_021C898C);
-    b = func_02035C08(d_021C8808);
+    b = TOUCHPANEL_HitTrg(d_021C8808);
     c = TOUCHPANEL_HitCont(d_021C8808);
     TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));
     if (func_020362DC() & 2) {

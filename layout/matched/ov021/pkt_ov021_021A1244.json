@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov021_func_021A1244",
+   "name": "FIELD_SUBSCREEN_ExitMenu",
    "address": "0x021A1244",
    "kind": "game",
    "region": "ov021",

@@ -21,11 +21,11 @@
  *   func_021DCDD8  0x021DCDD8  thumb  ov170
  *   func_021DCB48  0x021DCB48  thumb  ov170
  *   KEY_SetRepeatSpeed  0x02036270  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
  *   func_02043534  0x02043534  arm
- *   func_020435F4  0x020435F4  arm
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   ov067_id       0x00000043  data
  */
@@ -45,11 +45,11 @@ extern void func_021DCE80(char *p);
 extern void func_021DCDD8(int *p);
 extern void func_021DCB48(void *p);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
-extern void func_02049238(u32 a);
+extern void ARC_TOOL_DeleteHandle(u32 a);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(unsigned int a);
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_02034A5C(int a);
 extern u8 ov067_id[];
 
@@ -66,14 +66,14 @@ int func_021E1F90(u8 *p)
     func_021DCDD8((int *)p);
     func_021DCB48(p);
     KEY_SetRepeatSpeed(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x4c), *(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x50));
-    func_02049238(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x1b0));
+    ARC_TOOL_DeleteHandle(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x1b0));
     func_020307B0(((struct Obj00000 *)p)->f2C);
     func_020306F0(0x4c);
     *(u32 *)&((struct Obj00000 *)p)->f2C = 0;
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     func_02034A5C((int)ov067_id);
     return *(u32 *)&((struct Obj00000 *)p)->f28;
 }

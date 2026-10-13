@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  *   func_0217B00C 0x0217B00C thumb ov176
@@ -20,8 +20,8 @@
 #include "../include/Obj24402.h"
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021E8AA0(int *p, int v);
 extern void func_0217B00C(void *);
@@ -33,10 +33,10 @@ void func_0217B064(void *a,int *state,char *p)
     switch(*state){
     case 0:
         if(((struct Obj24402 *)(*(char * *)&((struct Obj24401 *)p)->f28))->f8==0){GFL_USE_FadeOutBgm(6);mode=12;}else mode=3;
-        func_0204E720(mode,0,16,0);
+        FADE_Start(mode,0,16,0);
         *state=1;
         break;
-    case 1: if(!func_0204E804()) *state=2; break;
+    case 1: if(!FADE_IsActive()) *state=2; break;
     case 2: func_021E8AA0(a,(int)func_0217B00C); break;
     default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
     }

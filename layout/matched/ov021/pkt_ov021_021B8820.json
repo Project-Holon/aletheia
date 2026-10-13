@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8820",
+   "name": "FIELD_RAIL_SETTING_GetCamera",
    "address": "0x021B8820",
    "kind": "game",
    "region": "ov021",

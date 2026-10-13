@@ -23,7 +23,7 @@
  * extent: handed2340 ends at 0220818C before pop02208190; pools through022081A0; next genuine022081A4. Full extent2364 proved by explicit show.
  * symbols:
  *   func_0207B640 0x0207B640 thumb
- *   func_0207BC08 0x0207BC08 arm
+ *   MTX_MultVec43 0x0207BC08 arm
  *   func_0207C7E8 0x0207C7E8 arm
  *   func_02208410 0x02208410 thumb ov195
  *   _ll_mul 0x0209C054 arm
@@ -37,7 +37,7 @@ typedef long fx32;
 typedef struct {fx32 x,y,z;} Vec;
 typedef struct {fx32 a[12];} Matrix;
 extern void func_0207B640(Matrix *,fx32,fx32);
-extern void func_0207BC08(const Vec *,const Matrix *,Vec *);
+extern void MTX_MultVec43(const Vec *,const Matrix *,Vec *);
 extern fx32 func_0207C7E8(fx32);
 extern int func_02208410(char *,u16);
 extern const s16 FX_SinCosTable_[];
@@ -81,7 +81,7 @@ void func_02207868(char *p,u16 heap)
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
             func_0207B640(&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source1.x=Q(0x50);source1.y=0;source1.z=0;
-            func_0207BC08(&source1,&m1,&goal);goal.y=Q(0x54);
+            MTX_MultVec43(&source1,&m1,&goal);goal.y=Q(0x54);
             if(Q(0x64)==0){
                 if(first||second){Q(0x30)=0;Q(0x64)=1;if(first)first=0;else second=0;}
                 done=0;
@@ -120,7 +120,7 @@ void func_02207868(char *p,u16 heap)
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
             func_0207B640(&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source2.x=Q(0x50);source2.y=0;source2.z=0;
-            func_0207BC08(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
+            MTX_MultVec43(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
         }
         if(func_02208410(p,heap)&&G(0x70)>=30){
             j=H(0x5a);i=H(0x5c);
@@ -146,14 +146,14 @@ void func_02207868(char *p,u16 heap)
                 else{
                     func_0207B640(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source3.x=Q(0x50);source3.y=0;source3.z=0;
-                    func_0207BC08(&source3,&m3,&V(0x68));Q(0x6c)=Q(0x54);
+                    MTX_MultVec43(&source3,&m3,&V(0x68));Q(0x6c)=Q(0x54);
                 }
                 done3=0;
             }else if(Q(0x64)==3){
                 if(Q(0x30)==0){
                     func_0207B640(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source4.x=Q(0x50);source4.y=0;source4.z=0;
-                    func_0207BC08(&source4,&m4,&V(0x68));Q(0x6c)=Q(0x54);
+                    MTX_MultVec43(&source4,&m4,&V(0x68));Q(0x6c)=Q(0x54);
                     vx=sub(Q(0x68),Q(0x74));vy=sub(Q(0x6c),Q(0x78));vz=sub(Q(0x70),Q(0x7c));
                     horiz1=mul(vx,vx)+mul(vz,vz);vert1=(int)(((long long)vy*vy+2048)>>12);
                     if(horiz1>4096){inv=func_0207C7E8(horiz1);nx=mul(vx,inv);nz=mul(vz,inv);}

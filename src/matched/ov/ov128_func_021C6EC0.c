@@ -39,11 +39,11 @@
  *   func_021CA084 0x021CA084 thumb ov128
  *   func_021C7694 0x021C7694 thumb ov128
  *   func_021CA19C 0x021CA19C thumb ov128
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   BLINK_PALANM_Update 0x0202EA40 thumb
- *   func_0204B98C 0x0204B98C arm
- *   func_0200846C 0x0200846C thumb
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
+ *   MYSTATUS_Create 0x0200846C thumb
  *   func_020084E4 0x020084E4 thumb
  *   func_0201F02C 0x0201F02C thumb
  *   func_020307B0 0x020307B0 arm
@@ -76,13 +76,13 @@ extern int func_021C6460(char *p, void *q, u32 arg);
 extern int func_021CA084(int *p);
 extern void func_021C7694(u8 *p, void *ctx);
 extern void func_021CA19C(unsigned *p);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern u32 func_020221A4(void);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern u32 WIPE_SYS_EndCheck(void);
 typedef signed int     s32;
 struct Row;
 extern s32 BLINK_PALANM_Update(struct Row *p);
-extern u32 func_0204B98C(struct Actor *a);
-extern void *func_0200846C(int);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+extern void *MYSTATUS_Create(int);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern u32 func_020307B0(void *p);
@@ -98,11 +98,11 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
     case 0:
         func_021C6EA0(p,q,ctx,52);
         func_021C72E4(p,(int *)q,ctx);
-        func_0202208C(0,1,1,0,6,1,heap);
+        WIPE_SYS_Start(0,1,1,0,6,1,heap);
         q[8]=1;
         break;
     case 1:
-        if(func_020221A4()!=0) q[8]=3;
+        if(WIPE_SYS_EndCheck()!=0) q[8]=3;
         break;
     case 2:
         func_021C6EA0(p,q,ctx,52);
@@ -121,9 +121,9 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
         break;
     case 4:
         if(*(u32 *)p==3) {
-            if(func_0204B98C(*(void **)(ctx+0x164))==1) break;
+            if(CLACT_IsActorAnimActive(*(void **)(ctx+0x164))==1) break;
         } else if(*(u32 *)p==4) {
-            if(func_0204B98C(*(void **)(ctx+0x168))==1) break;
+            if(CLACT_IsActorAnimActive(*(void **)(ctx+0x168))==1) break;
         } else {
             if(func_021CA1E0((char *)p)==1) break;
         }
@@ -143,11 +143,11 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
         }
         break;
     case 5:
-        func_0202208C(0,0,0,0,6,1,heap);
+        WIPE_SYS_Start(0,0,0,0,6,1,heap);
         q[8]++;
         break;
     case 6:
-        if(func_020221A4()==1) {
+        if(WIPE_SYS_EndCheck()==1) {
             func_021C7138(p,q,ctx);
             return 1;
         }
@@ -155,12 +155,12 @@ int func_021C6EC0(u8 *p, u8 *q, u8 *ctx, int heap)
     case 7:
         func_021C6EA0(p,q,ctx,52);
         func_021C72E4(p,(int *)q,ctx);
-        func_0202208C(0,1,1,0,6,1,heap);
+        WIPE_SYS_Start(0,1,1,0,6,1,heap);
         q[8]=8;
         break;
     case 8:
-        if(func_020221A4()!=0) {
-            text=func_0200846C(heap);
+        if(WIPE_SYS_EndCheck()!=0) {
+            text=MYSTATUS_Create(heap);
             func_020084E4(text,*(void **)(q+0x58));
             func_0201F02C(*(void **)ctx,0,text);
             func_020307B0(text);

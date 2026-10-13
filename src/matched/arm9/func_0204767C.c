@@ -1,5 +1,5 @@
 /*
- * function: func_0204767C
+ * function: G3D_SYSTEM_CreateObject
  * address:  0x0204767C
  * packet:   pkt_0204767C
  * region:   arm9
@@ -21,8 +21,8 @@
  * constant (0x75b and 0x765).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204767C.c \
- *       --func func_0204767C --addr 0x0204767C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_CreateObject.c \
+ *       --func G3D_SYSTEM_CreateObject --addr 0x0204767C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -47,7 +47,7 @@ struct Desc {
     u16 count;
 };
 
-void *func_0204767C(u32 a0, u32 *a1, int a2)
+void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2)
 {
     struct Desc *d;
     int i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5394
+ * function: SHORTCUT_MENU_GetResult
  * address:  0x021C5394
  * packet:   pkt_ov021_021C5394
  * region:   ov021
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u32 func_021C5394(u8 *p, u32 *out)
+u32 SHORTCUT_MENU_GetResult(u8 *p, u32 *out)
 {
     if (out != 0)
         *out = ((struct Obj12942 *)p)->f78;

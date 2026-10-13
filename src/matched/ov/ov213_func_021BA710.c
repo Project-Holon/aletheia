@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6284 0x021B6284 thumb ov067
+ *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  */
-extern void func_021B6284(unsigned int *p);
-void func_021BA710(char *p){func_021B6284((unsigned int *)(p+8));}
+extern void UI_SCENE_FreeActorGfx(unsigned int *p);
+void func_021BA710(char *p){UI_SCENE_FreeActorGfx((unsigned int *)(p+8));}

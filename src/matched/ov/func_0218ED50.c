@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED50
+ * function: FIELD_CAMERA_GetViewYawPtr
  * address:  0x0218ED50
  * packet:   pkt_0218EC2C
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_0218ED50(u8 *p)
+u8 *FIELD_CAMERA_GetViewYawPtr(u8 *p)
 {
     return p + 0x82;
 }

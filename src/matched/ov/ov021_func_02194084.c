@@ -1,5 +1,5 @@
 /*
- * function: func_02194084
+ * function: FIELD_WFBC_BLOCK_InitRand
  * address:  0x02194084
  * packet:   pkt_ov021_02194084
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02161ECC  0x02161ECC  thumb  ov010
- *   func_02186818  0x02186818  thumb  ov020
- *   func_0218682C  0x0218682C  thumb  ov020
- *   func_02186278  0x02186278  thumb  ov020
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_LoadNpcData  0x02186818  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetNpcRecord  0x0218682C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
  * Addresses are Black-image addresses.
  */
 
@@ -35,12 +35,12 @@ typedef struct {
     u32 x1c;
     u32 x20;
 } Out;
-extern int func_02161ECC(Item *);
-extern void func_02186818(u32 *p, u32 member);
-extern char *func_0218682C(char *p);
-extern int func_02186278(char *p, int which);
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(Item *);
+extern void FIELD_WFBC_DATA_LOCAL_LoadNpcData(u32 *p, u32 member);
+extern char *FIELD_WFBC_DATA_LOCAL_GetNpcRecord(char *p);
+extern int FIELD_WFBC_DATA_LOCAL_CountPeople(char *p, int which);
 
-void func_02194084(Out *o, In *in, u32 c)
+void FIELD_WFBC_BLOCK_InitRand(Out *o, In *in, u32 c)
 {
     int sum;
     int cnt;
@@ -49,13 +49,13 @@ void func_02194084(Out *o, In *in, u32 c)
     sum = 0;
     cnt = 0;
     for (i = 0; i < 10; i++) {
-        if (func_02161ECC(&in->items[i]) != 0) {
-            func_02186818((u32 *)c, in->items[i].x1);
-            sum += *(u16 *)(func_0218682C((char *)c) + 0x2E);
+        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&in->items[i]) != 0) {
+            FIELD_WFBC_DATA_LOCAL_LoadNpcData((u32 *)c, in->items[i].x1);
+            sum += *(u16 *)(FIELD_WFBC_DATA_LOCAL_GetNpcRecord((char *)c) + 0x2E);
             cnt += in->items[i].x1;
         }
     }
-    o->x1c = func_02186278((char *)in, 0);
+    o->x1c = FIELD_WFBC_DATA_LOCAL_CountPeople((char *)in, 0);
     o->seed = in->x4;
     o->mul = 0x5D588B656C078965ULL;
     o->add = 0x269EC3;

@@ -1,5 +1,5 @@
 /*
- * function: func_021904A8
+ * function: FIELD_MSGBG_GetPrintQue
  * address:  0x021904A8
  * packet:   pkt_ov021_021904A8
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-u32 func_021904A8(u32 *p)
+u32 FIELD_MSGBG_GetPrintQue(u32 *p)
 {
     return p[3];
 }

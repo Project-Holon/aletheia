@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   PALANM_Create  0x02021518  thumb  arm9
+ *   PALANM_AllocSlotBuffers  0x0202155C  thumb  arm9
  *
  * Allocate 76 bytes, keep the handle, then configure it.
  */
@@ -19,14 +21,14 @@
 
 typedef unsigned int   u32;
 struct PalAnmSlot;
-extern void *func_02021518(u32 heap);
-extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void *PALANM_Create(u32 heap);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
 void func_021DCDB8(char *p)
 {
-    int v = (int)func_02021518(0x4c);
+    int v = (int)PALANM_Create(0x4c);
 
     ((struct Obj18439 *)(*(char * *)&((struct Obj12146 *)p)->f2C))->f6C = v;
-    func_0202155C((struct PalAnmSlot *)(((struct Obj18440 *)(*(char * *)&((struct Obj12146 *)p)->f2C))->f6C), 0, 0x200, 0x4c);
+    PALANM_AllocSlotBuffers((struct PalAnmSlot *)(((struct Obj18440 *)(*(char * *)&((struct Obj12146 *)p)->f2C))->f6C), 0, 0x200, 0x4c);
 }
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218571C",
+   "name": "EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent",
    "address": "0x0218571C",
    "kind": "game",
    "region": "ov020",

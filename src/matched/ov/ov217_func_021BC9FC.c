@@ -12,7 +12,7 @@
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_02040588 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   d_021C30C0 0x021C30C0 data a4 ov217
  *   d_021C3110 0x021C3110 data a4 ov217
  *   d_021C3130 0x021C3130 data a4 ov217
@@ -33,7 +33,7 @@ extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
-extern void func_02045088(u16);
+extern void BMP_WIN_Init(u16);
 void func_021BC9FC(char *p)
 {
     func_0203FC28(&d_021C30C0);
@@ -52,5 +52,5 @@ void func_021BC9FC(char *p)
     func_02040588(3, 1);
     func_0207D63C(0x04001050, 2, 1, 16, 5);
     func_0207D63C(0x04000050, 4, 2, 16, 5);
-    func_02045088(((struct Obj25880 *)p)->f8);
+    BMP_WIN_Init(((struct Obj25880 *)p)->f8);
 }

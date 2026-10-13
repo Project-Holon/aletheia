@@ -13,8 +13,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02040E78 0x02040E78 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02045768 0x02045768 arm
  *   func_02041090 0x02041090 arm
  *   func_020409B4 0x020409B4 arm
@@ -31,8 +31,8 @@ extern void func_02040E78(u32,void*,u32,u32);
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u16 func_02045768(struct Descriptor *p);
 extern void func_02041090(u32,u32,u32,u32,u8,u8);
 extern void func_020409B4(u32);
@@ -51,8 +51,8 @@ void func_021B9C1C(char *p)
  buf[3]=0;
  func_02040E78(2,buf,32,480);
  func_020307B0(buf);
- func_02043B5C(func_02045770(*(void* *)&((struct Obj06725 *)p)->f20),3);
- func_02045334(*(void* *)&((struct Obj06725 *)p)->f20);
+ BMP_Clear(func_02045770(*(void* *)&((struct Obj06725 *)p)->f20),3);
+ BMP_WIN_TransferChars(*(void* *)&((struct Obj06725 *)p)->f20);
  tiles=func_02030734(((struct Obj06725 *)p)->f0,1536,1,d_021BA378,0x3ec);
  tile=func_02045768(*(void* *)&((struct Obj06725 *)p)->f20)|0xf000;
  for(y=0;y<24;y++) for(x=0;x<32;x++) {tiles[index]=tile;index++;}

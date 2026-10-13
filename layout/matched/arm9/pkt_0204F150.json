@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204F214",
+   "name": "BILLBOARD_ReleaseImageVram",
    "address": "0x0204F214",
    "kind": "game",
    "region": "arm9",

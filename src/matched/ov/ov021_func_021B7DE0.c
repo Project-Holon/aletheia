@@ -1,5 +1,5 @@
 /*
- * function: func_021B7DE0
+ * function: FIELD_RAIL_WORK_IsLocationValid
  * address:  0x021B7DE0
  * packet:   pkt_ov021_021B7DE0
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * Three things together give the early multiply, the spilled offset and
- * the `adds r0,r3,#0` copy: func_021B9278 takes the table as a third
- * argument (as in func_021B7EE4), base is assigned before off, and the
+ * the `adds r0,r3,#0` copy: FIELD_RAIL_LINE_GetLength takes the table as a third
+ * argument (as in FIELD_RAIL_WORK_SetLocation), base is assigned before off, and the
  * first call adds a zero-valued local to off.
  *
  * symbols:
- *   func_021B9278  0x021B9278  thumb ov021
- *   func_021B9280  0x021B9280  thumb ov021
+ *   FIELD_RAIL_LINE_GetLength  0x021B9278  thumb ov021
+ *   FIELD_RAIL_LINE_GetWidthAt  0x021B9280  thumb ov021
  */
 
 typedef unsigned char  u8;
@@ -46,10 +46,10 @@ typedef struct {
     Tbl *x24;
 } Obj;
 
-extern int func_021B9278(u8 *, void *, Tbl *);
-extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
+extern int FIELD_RAIL_LINE_GetLength(u8 *, void *, Tbl *);
+extern int FIELD_RAIL_LINE_GetWidthAt(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
 
-int func_021B7DE0(Obj *o, Arg *a)
+int FIELD_RAIL_WORK_IsLocationValid(Obj *o, Arg *a)
 {
     Tbl *t;
     u8 *base;
@@ -75,8 +75,8 @@ int func_021B7DE0(Obj *o, Arg *a)
         x = a->h6 << 4;
         y = a->h4 << 4;
 
-        v = func_021B9278(base + (off + pad), o->x1c, t);
-        w = func_021B9280(base + off, x, v, (u8 *)o->x24);
+        v = FIELD_RAIL_LINE_GetLength(base + (off + pad), o->x1c, t);
+        w = FIELD_RAIL_LINE_GetWidthAt(base + off, x, v, (u8 *)o->x24);
         if (-w > y || y > w) {
             return 0;
         }

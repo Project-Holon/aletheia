@@ -22,7 +22,7 @@
  * the table, or a matched neighbour that pools the same address.
  *   func_0207E24C  0x0207E24C  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_0204A1BC  0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
  *   func_020862F0  0x020862F0  arm
  *   func_02082A60  0x02082A60  arm
@@ -69,7 +69,7 @@ extern void *func_0207DFB4(void);
 extern void func_02082A7C(u32 val, void *dst, u32 n);
 typedef signed int     s32;
 struct NitroFileHeader;
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_020862F0(void *p, u32 n);
 extern void func_02082A60(void *dst, const void *src, u32 n);
@@ -90,7 +90,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     func_02082A7C(0, func_0207E24C(), 0x4000);
 
     id = g0209DEA0[a0].f0;
-    h = (void *)func_0204A1BC(id, g0209DEA0[a0].f2, 0, 1);
+    h = (void *)ARC_UTIL_LoadMember(id, g0209DEA0[a0].f2, 0, 1);
     if (func_02062A4C(h, (void **)(&r0p)) != 0) {
         u32 n;
         void *src;
@@ -101,7 +101,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     }
     func_020307B0(h);
 
-    h = (void *)func_0204A1BC(id, g0209DEA0[a0].f4, 0, 1);
+    h = (void *)ARC_UTIL_LoadMember(id, g0209DEA0[a0].f4, 0, 1);
     if (func_02062B30(h, (void **)(&r1p)) != 0) {
         u32 n;
         void *src;
@@ -112,7 +112,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     }
     func_020307B0(h);
 
-    h = (void *)func_0204A1BC(id, g0209DEA0[a0].f6, 0, 1);
+    h = (void *)ARC_UTIL_LoadMember(id, g0209DEA0[a0].f6, 0, 1);
     func_02062AD4(h, (void **)(&sp0));
     if (func_02062A98(h, (void **)(&r2p)) != 0) {
         func_020862F0(r2p->ptr, 0x20);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A14
+ * function: STARTMENU_CaptureSetBlend
  * address:  0x021B9A14
  * packet:   pkt_021B9A14
  * region:   ov088
@@ -12,7 +12,7 @@
  *           trailing alignment padding, no byte difference.
  */
 
-void func_021B9A14(unsigned short *p, unsigned short a, unsigned short b)
+void STARTMENU_CaptureSetBlend(unsigned short *p, unsigned short a, unsigned short b)
 {
     p[4] = a;
     p[5] = b;

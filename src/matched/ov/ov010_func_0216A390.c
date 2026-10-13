@@ -1,5 +1,5 @@
 /*
- * function: func_0216A390
+ * function: FORMCHANGE_RevertShayminAndRegister
  * address:  0x0216A390
  * packet:   pkt_ov010_0216A390
  * region:   ov010
@@ -13,8 +13,8 @@
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017988  0x02017988  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
  */
 
@@ -26,11 +26,11 @@ extern void *func_0200CA1C(void *a);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 struct Blk37;
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017988(void *p, u32 a);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 
-void func_0216A390(int a0, int a1)
+void FORMCHANGE_RevertShayminAndRegister(int a0, int a1)
 {
     int found;
     int n;
@@ -45,10 +45,10 @@ void func_0216A390(int a0, int a1)
     n = func_0201AA18((void *)a1);
     for (i = 0; i < n; i++) {
         e = func_0201AB28((void *)a1, i);
-        v = func_02017E1C(e, 5, 0);
-        w = func_02017E1C(e, 0x6f, 0);
+        v = POKE_TOOL_GetPartyValue(e, 5, 0);
+        w = POKE_TOOL_GetPartyValue(e, 0x6f, 0);
         if (v == 0x1EC && w == 1) {
-            func_02017988(e, 0);
+            POKE_TOOL_ChangeForm(e, 0);
             if (found == 0) {
                 func_0200CFA0(l4, e);
                 found = 1;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9C04",
+   "name": "OPTION_MENU_CreateLabelWindows",
    "address": "0x021B9C04",
    "kind": "game",
    "region": "ov068",

@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_0204A648(void);
-void func_021BADBC(void *a0){func_0204A648();}
+extern void CLACT_VBlankSystem(void);
+void func_021BADBC(void *a0){CLACT_VBlankSystem();}
 void *func_021BADC4(void **p){return *p;}

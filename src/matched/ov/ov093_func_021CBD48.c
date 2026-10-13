@@ -12,11 +12,11 @@
  * census reports zero witnesses and no viable partition. The trailing
  * 16 bytes are that veneer, not compiled C.
  * symbols:
- *   func_021D5814 0x021D5814 thumb ov093
+ *   BTL_POKEPARAM_HasType 0x021D5814 thumb ov093
  *   func_021BA1A8 0x021BA1A8 thumb ov093
- *   func_021B8714 0x021B8714 thumb ov093
+ *   BTL_MAIN_GetFieldSituation 0x021B8714 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021B8724 0x021B8724 thumb ov093
+ *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
  *   func_021CBE98 0x021CBE98 thumb ov093
  *   _fflt 0x0209BDBC arm
@@ -27,11 +27,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021D5814(void *,int);
+extern int BTL_POKEPARAM_HasType(void *,int);
 extern int func_021BA1A8(char **p, int m);
-extern char *func_021B8714(char **);
+extern char *BTL_MAIN_GetFieldSituation(char **);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021B8724(char *p, void *m);
+extern int BTL_MAIN_CheckZukanSeen(char *p, void *m);
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 extern int func_021CBE98(u16);
 int func_021CBD48(u8 *p, void *unused, void *q, int k)
@@ -44,11 +44,11 @@ int func_021CBD48(u8 *p, void *unused, void *q, int k)
     case 3: return 0x1800;
     case 2: return 0x2000;
     case 6:
-        if (func_021D5814(q,10) || func_021D5814(q,6)) return 0x3000;
+        if (BTL_POKEPARAM_HasType(q,10) || BTL_POKEPARAM_HasType(q,6)) return 0x3000;
         break;
     case 7:
         if (func_021BA1A8(*(void **)(p+4),1)) return 0x3800;
-        if (*(int *)(func_021B8714(*(char ***)(p+4))+4) == 6) return 0x3800;
+        if (*(int *)(BTL_MAIN_GetFieldSituation(*(char ***)(p+4))+4) == 6) return 0x3800;
         break;
     case 8:
         n = func_021D59B4(q,15);
@@ -61,14 +61,14 @@ int func_021CBD48(u8 *p, void *unused, void *q, int k)
         }
         break;
     case 9:
-        if (func_021B8724(*(void **)(p+4),q)) return 0x3000;
+        if (BTL_MAIN_CheckZukanSeen(*(void **)(p+4),q)) return 0x3000;
         break;
     case 10:
         value = *(int *)(p+0x10)*0x4cd+0x1000;
         if (value > 0x4000) value = 0x4000;
         return value;
     case 13:
-        p = (u8 *)func_021B8714(*(char ***)(p+4));
+        p = (u8 *)BTL_MAIN_GetFieldSituation(*(char ***)(p+4));
         flag = TIMEZONE_GetTimeZoneOfHour(p[9],p[12]);
         if ((unsigned)(*(int *)p - 4) <= 1) return 0x3800;
         if (func_021CBE98(*(int *)p)) {

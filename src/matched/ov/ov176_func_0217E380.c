@@ -10,41 +10,41 @@
  * status: EXACT
  * extent: two alignment bytes follow func_0217E40C
  * symbols:
- *   func_02157E78 0x02157E78 thumb ov010
- *   func_02157E34 0x02157E34 thumb ov010
- *   func_02157E6C 0x02157E6C thumb ov010
- *   func_02157E8C 0x02157E8C thumb ov010
- *   func_0203D210 0x0203D210 arm
+ *   DELIVERY_IRC_Main 0x02157E78 thumb ov010
+ *   DELIVERY_IRC_Start 0x02157E34 thumb ov010
+ *   DELIVERY_IRC_GetResult 0x02157E6C thumb ov010
+ *   DELIVERY_IRC_Delete 0x02157E8C thumb ov010
+ *   GFL_NET_IsIdle 0x0203D210 arm
  */
 #include "../include/Obj01957.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_02157E78(u8 *p);
-extern int func_02157E34(void *p);
-extern unsigned char func_02157E6C(char *p);
-extern int func_02157E8C(void *a0);
-extern u32 func_0203D210(void);
+extern void DELIVERY_IRC_Main(u8 *p);
+extern int DELIVERY_IRC_Start(void *p);
+extern unsigned char DELIVERY_IRC_GetResult(char *p);
+extern int DELIVERY_IRC_Delete(void *a0);
+extern u32 GFL_NET_IsIdle(void);
 int func_0217E380(char *p)
 {
     if (((struct Obj01957 *)p)->f1018)
-        func_02157E78(((struct Obj01957 *)p)->f1018);
+        DELIVERY_IRC_Main(((struct Obj01957 *)p)->f1018);
     switch (((struct Obj01957 *)p)->f0) {
     case 0:
-        func_02157E34(((struct Obj01957 *)p)->f1018);
+        DELIVERY_IRC_Start(((struct Obj01957 *)p)->f1018);
         (((struct Obj01957 *)p)->f0)++;
         break;
     case 1:
-        ((struct Obj01957 *)p)->f101C = func_02157E6C(((struct Obj01957 *)p)->f1018);
+        ((struct Obj01957 *)p)->f101C = DELIVERY_IRC_GetResult(((struct Obj01957 *)p)->f1018);
         if (((struct Obj01957 *)p)->f101C)
             (((struct Obj01957 *)p)->f0)++;
         break;
     case 2:
-        func_02157E8C((void *)(((struct Obj01957 *)p)->f1018));
+        DELIVERY_IRC_Delete((void *)(((struct Obj01957 *)p)->f1018));
         ((struct Obj01957 *)p)->f1018 = 0;
         (((struct Obj01957 *)p)->f0)++;
         break;
     case 3:
-        if (func_0203D210()) {
+        if (GFL_NET_IsIdle()) {
             switch (((struct Obj01957 *)p)->f101C) {
             case 1: return 1;
             case 3: return 3;

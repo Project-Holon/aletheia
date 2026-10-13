@@ -18,7 +18,7 @@
  *   sub_020307B0   0x020307B0  arm
  *
  * Claims the first busy cell (bit 31 of +0x3c) of the singleton's table at
- * +0x104, like its sibling func_0204A6C8, but builds a fresh character
+ * +0x104, like its sibling CLACT_RegisterCharacter, but builds a fresh character
  * record: the 0x18-byte template at 0x020A1430 is copied to the stack, the
  * DISPCNT OBJ-mapping bits and the size patched in, and the sixth word
  * holds a scratch block from sub_02030734 (clact.c, line 0x3c8) that is

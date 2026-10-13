@@ -1,5 +1,5 @@
 /*
- * function: func_02166734
+ * function: SYMBOL_MAP_ScrCmdGetEventStateValue
  * address:  0x02166734
  * packet:   pkt_ov010_02166734
  * region:   ov010
@@ -22,18 +22,18 @@
  *   (a/p colours swapped, direct branches). An inline switch helper is the
  *   same DIFF21.
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb ov010
- *   func_0215A5DC  0x0215A5DC  thumb ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012ED0  0x02012ED0  thumb
- *   func_02159B10  0x02159B10  thumb ov010
- *   func_02011330  0x02011330  thumb
- *   func_02159AE8  0x02159AE8  thumb ov010
- *   func_02166658  0x02166658  thumb ov010
- *   func_021C87A0  0x021C87A0  thumb ov021
- *   func_021C87AC  0x021C87AC  thumb ov021
- *   func_021C87B8  0x021C87B8  thumb ov021
- *   func_021C87C8  0x021C87C8  thumb ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventState  0x02012ED0  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb ov010
+ *   VM_GetU16  0x02011330  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb ov010
+ *   SYMBOL_MAP_GetEventStateEntryValue  0x02166658  thumb ov010
+ *   PLEASURE_BOAT_GetPassengerParam  0x021C87A0  thumb ov021
+ *   PLEASURE_BOAT_GetPassengerType  0x021C87AC  thumb ov021
+ *   PLEASURE_BOAT_GetPassengerExtra  0x021C87B8  thumb ov021
+ *   PLEASURE_BOAT_GetPassengerOccupied  0x021C87C8  thumb ov021
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,47 +42,47 @@ struct Ctx;
 struct Big;
 struct Stream;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012ED0(struct Big *p);
-extern u32 func_02159B10(void *, void *);
-extern u16 func_02011330(struct Stream *s);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02166658(void *p, u32 i);
-extern u32 func_021C87A0(void *p, u32 i);
-extern u32 func_021C87AC(void *p, u32 i);
-extern u32 func_021C87B8(void *p, u32 i, u32 j);
-extern u32 func_021C87C8(void *p, u32 i);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetEventState(struct Big *p);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern u16 VM_GetU16(struct Stream *s);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u32 SYMBOL_MAP_GetEventStateEntryValue(void *p, u32 i);
+extern u32 PLEASURE_BOAT_GetPassengerParam(void *p, u32 i);
+extern u32 PLEASURE_BOAT_GetPassengerType(void *p, u32 i);
+extern u32 PLEASURE_BOAT_GetPassengerExtra(void *p, u32 i, u32 j);
+extern u32 PLEASURE_BOAT_GetPassengerOccupied(void *p, u32 i);
 
-int func_02166734(void *a, void *b)
+int SYMBOL_MAP_ScrCmdGetEventStateValue(void *a, void *b)
 {
     u8 *p;
     u32 x;
     u16 k;
     u32 y;
 
-    func_0215A5F4(b);
-    p = func_02012ED0((struct Big *)func_020120F4((const struct Ctx *)func_0215A5DC(b)));
-    x = func_02159B10(a, b);
-    k = func_02011330((struct Stream *)a);
-    y = func_02159B10(a, b);
-    a = func_02159AE8(a, b);
+    SCRCMD_WORK_GetScriptWork(b);
+    p = GAME_DATA_GetEventState((struct Big *)GAMESYSTEM_GetGameData((const struct Ctx *)SCRCMD_WORK_GetGameSystem(b)));
+    x = SCRIPT_WORK_ReadWorkValue(a, b);
+    k = VM_GetU16((struct Stream *)a);
+    y = SCRIPT_WORK_ReadWorkValue(a, b);
+    a = SCRIPT_WORK_ReadWorkPointer(a, b);
     switch (k) {
     case 4:
-        *(u16 *)a = func_02166658(*(void **)p, x);
+        *(u16 *)a = SYMBOL_MAP_GetEventStateEntryValue(*(void **)p, x);
         break;
     case 5:
-        *(u16 *)a = func_021C87A0(*(void **)p, x);
+        *(u16 *)a = PLEASURE_BOAT_GetPassengerParam(*(void **)p, x);
         break;
     case 6:
-        *(u16 *)a = func_021C87AC(*(void **)p, x);
+        *(u16 *)a = PLEASURE_BOAT_GetPassengerType(*(void **)p, x);
         break;
     case 7:
-        *(u16 *)a = func_021C87B8(*(void **)p, x, y);
+        *(u16 *)a = PLEASURE_BOAT_GetPassengerExtra(*(void **)p, x, y);
         break;
     case 8:
-        if (func_021C87C8(*(void **)p, x) != 0)
+        if (PLEASURE_BOAT_GetPassengerOccupied(*(void **)p, x) != 0)
             *(u16 *)a = 1;
         else
             *(u16 *)a = 0;

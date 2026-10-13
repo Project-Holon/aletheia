@@ -1,5 +1,5 @@
 /*
- * function: func_021B97FC
+ * function: FIELD_RAIL_SETTING_GetLineIndex
  * address:  0x021B97FC
  * packet:   pkt_ov021_021B97FC
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * 2026-10-02: the per-iteration reload of the count (ldrh in the loop) that
  * kept the earlier draft at DIFF comes from a volatile count field; every
- * non-volatile spelling hoists it like func_021B97D0.
+ * non-volatile spelling hoists it like FIELD_RAIL_SETTING_GetPointIndex.
  */
 
 typedef unsigned short u16;
@@ -27,7 +27,7 @@ typedef struct {
     E48 *f14;
 } Obj;
 
-int func_021B97FC(Obj *p, E48 *e)
+int FIELD_RAIL_SETTING_GetLineIndex(Obj *p, E48 *e)
 {
     int i;
 

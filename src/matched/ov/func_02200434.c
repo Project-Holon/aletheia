@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   STRBUF_Delete  0x02045808  arm  arm9
  *
 
  * Release the two +0xb88/+0xb8c handles.
@@ -21,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
 void func_02200434(u8 *p)
 {
-    func_02045808((struct U16Vec *)(((struct Obj12227 *)p)->fB88));
-    func_02045808((struct U16Vec *)(((struct Obj12227 *)p)->fB8C));
+    STRBUF_Delete((struct U16Vec *)(((struct Obj12227 *)p)->fB88));
+    STRBUF_Delete((struct U16Vec *)(((struct Obj12227 *)p)->fB8C));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02012FD8
+ * function: GAME_DATA_GetSaveBlock43
  * address:  0x02012FD8
  * packet:   pkt_02012FD8
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
-void *func_02012FD8(void **p)
+void *GAME_DATA_GetSaveBlock43(void **p)
 {
     return func_020071CC(*p, 0x43);
 }

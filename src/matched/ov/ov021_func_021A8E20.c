@@ -1,5 +1,5 @@
 /*
- * function: func_021A8E20
+ * function: FIELD_MENU_SelectButton
  * address:  0x021A8E20
  * packet:   pkt_ov021_021A8E20
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   func_021A9080  0x021A9080  thumb  ov021
+ *   FIELD_MENU_PlaceCursor  0x021A9080  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -40,9 +40,9 @@ struct W {
     struct Slot slots[7];
 };
 
-extern void func_021A9080(struct W *w, u32 a, u32 b);
+extern void FIELD_MENU_PlaceCursor(struct W *w, u32 a, u32 b);
 
-void func_021A8E20(struct W *w, u32 v)
+void FIELD_MENU_SelectButton(struct W *w, u32 v)
 {
     u8 i;
     struct Slot *s;
@@ -52,7 +52,7 @@ void func_021A8E20(struct W *w, u32 v)
             w->f1E = i % 2;
             w->f1F = i / 2;
             w->f24 = 1;
-            func_021A9080(w, s[w->f1E + w->f1F * 2].f14,
+            FIELD_MENU_PlaceCursor(w, s[w->f1E + w->f1F * 2].f14,
                           s[w->f1E + w->f1F * 2].f15);
         }
     }

@@ -29,16 +29,16 @@
  *   P_STA_SKILL_GetSlotPos 0x021DBA54 thumb ov131
  *   P_STA_SKILL_SetCursor 0x021DB468 thumb ov131
  *   P_STA_SKILL_SwapMoves 0x021DB508 thumb ov131
- *   func_02035C60 0x02035C60 arm
- *   func_02035C38 0x02035C38 arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   func_02017E88 0x02017E88 thumb
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  */
 #include "../include/Obj00026.h"
 #include "../include/Obj00132.h"
@@ -57,16 +57,16 @@ extern void *P_STATUS_GetPokePara(u8 *);
 extern void P_STA_SKILL_GetSlotPos(unsigned char *p, unsigned short *o);
 extern void P_STA_SKILL_SetCursor(u8 *,u8 *,u8,int);
 extern void P_STA_SKILL_SwapMoves(u8 *,u8 *,u32,u32);
-extern int func_02035C60(void);
-extern int func_02035C38(void);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_GetCont(void);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 func_02017E88(void *,u32,u32);
 extern void func_020061E4(u32);
-extern void func_0204B878(struct Obj *,u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
-extern void func_0204B9A0(struct Actor *);
+extern void CLACT_RestartActorAnim(struct Actor *);
 void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
 {
     u8 i;
@@ -77,7 +77,7 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
     struct Vec2 point1;
     if (((struct Obj00132 *)a)->f24==7 && ((struct Obj00132 *)a)->f44==0) {
         P_STATUS_SetInputEnable((char *)a,1);
-        func_0204B878(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
+        CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
         P_STA_SKILL_SetSlotAnim(b+176+b[41]*24,0);
         func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f98,0);
         P_STA_SKILL_PrintStatsPage(a,(int)b);
@@ -93,8 +93,8 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
     }
     for (i=0;i<5;i++) P_STA_SKILL_GetSlotTouchRect(b+176+i*24,touch[i]);
     touch[5][0]=255;
-    if (func_02035C60()==1) {
-        index=func_02035C08(touch[0]);
+    if (TOUCHPANEL_GetTrg()==1) {
+        index=TOUCHPANEL_HitTrg(touch[0]);
         if (index==-1) goto out;
         if (func_02017E88(P_STATUS_GetPokePara(a),index+54,0)==0) goto out;
         if (((struct Obj00132 *)a)->f44==1) P_STATUS_SetInputEnable((char *)a,0);
@@ -105,23 +105,23 @@ void P_STA_SKILL_HandleTouch(u8 *a,u8 *b)
                 P_STA_SKILL_GetSlotPos(b+176+index*24,(short unsigned int *)((u8 *)&point1));
                 func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,&point1,0);
                 func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,1);
-                if (index==0) func_0204B878(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,3);
-                else if (index==3) func_0204B878(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,4);
-                else func_0204B878(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,2);
+                if (index==0) CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,3);
+                else if (index==3) CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,4);
+                else CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00026 *)b)->fA0,2);
             }
             ((struct Obj00026 *)b)->f2C=((struct Obj00132 *)a)->f28;
             ((struct Obj00026 *)b)->f30=((struct Obj00132 *)a)->f2C;
             P_STA_SKILL_GetSlotPos(b+176+index*24,(short unsigned int *)((u8 *)&point2));
             func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,&point2,0);
             func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,1);
-            func_0204B9A0(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
+            CLACT_RestartActorAnim(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
         }
         a[28]=1;
         P_STA_SKILL_SetCursor(a,b,index,1);
         func_020061E4(1356);
         return;
     }
-    if (func_02035C38()==1) {
+    if (TOUCHPANEL_GetCont()==1) {
         if (((struct Obj00026 *)b)->f1C!=1) goto out;
         index=TOUCHPANEL_HitCont(touch[0]);
         if (((struct Obj00026 *)b)->f14==0) {

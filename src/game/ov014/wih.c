@@ -19,7 +19,7 @@
  *   g_021797A8 0x021797A8 data ov014 a4
  *   WM_SetParentParameter 0x0208F480 arm
  *   WM_StartParent  0x0208F644  arm
- *   func_0203D650  0x0203D650  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
  *   WM_Disconnect  0x0208F938  arm
  *   GFL_NET_HANDLE_RemoveHandle  0x0203A338  arm
  *   GFL_NET_HANDLE_RequestNegotiation  0x02039A2C  arm
@@ -288,7 +288,7 @@ void func_020862F0(void *p, u32 n);
 void func_02082D44(void *dst, void *src, u32 n);
 extern int WM_SetParentParameter(void *callback, void *parentParam);
 int WM_StartParent(void *callback);
-u32 func_0203D650(void);
+u32 GFL_NET_GetUserArg(void);
 extern int WM_Disconnect(void *callback, u16 aid);
 void GFL_NET_HANDLE_RemoveHandle(u32 aid);
 void GFL_NET_HANDLE_RequestNegotiation(int aid);
@@ -556,7 +556,7 @@ void func_02178204(WMStartParentCallback *arg)
         break;
     case 7:
         if (g_021797A8->judgeAcceptFunc != 0)
-            accepted = g_021797A8->judgeAcceptFunc(arg, func_0203D650());
+            accepted = g_021797A8->judgeAcceptFunc(arg, GFL_NET_GetUserArg());
         if (accepted == 0) {
             result = WM_Disconnect(0, arg->aid);
             if (result != 2) {
@@ -868,7 +868,7 @@ void DWCi_MOV_WH_StateOutStartScan(void *arg)
             MI_CpuCopy8(cb->bssDesc[i], &work->scanBssDesc, 0xC0);
             WIH_DWC_RequestAlertLevel((u8)cb->linkLevel[i]);
             if (g_021797A8->beaconFoundCallback != 0)
-                g_021797A8->beaconFoundCallback(&work->scanBssDesc, func_0203D650(),
+                g_021797A8->beaconFoundCallback(&work->scanBssDesc, GFL_NET_GetUserArg(),
                                                 cb->linkLevel[i]);
             if (WIH_IsMatchingParent(&work->scanBssDesc) != 0) {
                 if (g_021797A8->judgeScanFunc == 0)

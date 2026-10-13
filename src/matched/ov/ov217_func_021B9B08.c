@@ -18,7 +18,7 @@
  *   func_021BA1D4 0x021BA1D4 thumb ov217
  *   func_021BA41C 0x021BA41C thumb ov217
  *   func_021C09D0 0x021C09D0 thumb ov217
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   func_021BA374 0x021BA374 thumb ov217
  *   func_021BA158 0x021BA158 thumb ov217
  * A600's complete body uses globals, no entry r0 reader or forwarder.
@@ -34,7 +34,7 @@ extern int func_021B9B80(void *);
 extern void func_021BA1D4(unsigned);
 extern void func_021BA41C(int *);
 extern void func_021C09D0(unsigned);
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 extern void func_021BA374(void *);
 extern void func_021BA158(unsigned);
 void func_021B9B08(char *p)
@@ -50,7 +50,7 @@ void func_021B9B08(char *p)
     }
     if (func_021B9B80(p)==0) {
         func_021BA1D4((unsigned)p);func_021BA41C((int *)p);
-        func_021C09D0(*(unsigned *)&((struct Obj00511 *)p)->f0);func_0204A600();
+        func_021C09D0(*(unsigned *)&((struct Obj00511 *)p)->f0);CLACT_DrawSystem();
     }
     func_021BA374(p);func_021BA158((unsigned)p);
 }

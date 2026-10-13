@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021E8918",
+   "name": "BTLV_CORE_GetZeroMasked",
    "address": "0x021E8918",
    "kind": "game",
    "region": "ov093",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE21C",
+   "name": "BTLV_SCU_UpdateWaitMessage",
    "address": "0x021EE21C",
    "kind": "game",
    "region": "ov093",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EE25C",
+   "name": "BTLV_SCU_GetWaitState",
    "address": "0x021EE25C",
    "kind": "game",
    "region": "ov093",

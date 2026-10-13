@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_fld_battle.c
  * unit:     yes
- * function: func_021B5700, func_021B574C, func_021B57CC, func_021B5824, func_021B58B0, func_021B59B0
+ * function: SCRCMD_FLD_BATTLE_RegisterAllowedSpecies, SCRCMD_FLD_BATTLE_CheckPartyRegulation, SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames, SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList, SCRCMD_FLD_BATTLE_CreatePartyCheckTask, SCRCMD_FLD_BATTLE_PartyCheckTaskMain
  * address:  0x021B5700
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -13,35 +13,35 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5CC  0x0215A5CC  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201A354  0x0201A354  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CED4  0x0200CED4  thumb
  *   func_02030734  0x02030734  arm
- *   g_021DE248     0x021DE248  data  a1
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012934  0x02012934  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   sScrcmdFldBattleFileName     0x021DE248  data  a1
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02019ED4  0x02019ED4  thumb
- *   func_0201A090  0x0201A090  thumb
+ *   POKE_REGULATION_CheckParty  0x0201A090  thumb
  *   func_0200BAC8  0x0200BAC8  thumb
  *   func_0200BBA8  0x0200BBA8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021CC720  0x021CC720  thumb  ov021
- *   func_021CC810  0x021CC810  thumb  ov021
- *   func_021CC7B4  0x021CC7B4  thumb  ov021
+ *   PARTY_SELECT_LIST_Create  0x021CC720  thumb  ov021
+ *   PARTY_SELECT_LIST_Main  0x021CC810  thumb  ov021
+ *   PARTY_SELECT_LIST_Delete  0x021CC7B4  thumb  ov021
  */
 
 #include "../arm9/script_vm_types.h"
@@ -73,41 +73,41 @@ typedef struct PartyCheckTaskWork {
     u16 *result;                         /* 0x18 */
 } PartyCheckTaskWork;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02158F74(void *p);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u16 func_0215A5CC(void *a0);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0201A354(int a, int b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u16 SCRCMD_WORK_GetHeapId(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 func_020307B0(void *p);
-extern void func_0215897C(void *vm, void *task);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CED4(struct ZukanSave *p, u16 id);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020120F4(const struct GameSystem *p);
-extern void *func_0201210C(const struct GameSystem *p);
-extern void *func_02012934(const struct GameData *p);
-extern void *func_02012EBC(struct GameData *p);
+extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
+extern void *GAME_DATA_GetMyParty(const struct GameData *p);
+extern void *GAME_DATA_GetSaveControl(struct GameData *p);
 extern int func_02019ED4(void *rules, void *party);
-extern int func_0201A090(void *rules, void *party, u32 *mask);
+extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void *func_0200BAC8(void *);
 extern u32 func_0200BBA8(void *a);
 extern void *func_0200BAF4(int a0, int a1);
 extern struct FieldTask *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct FieldTask *p);
-extern struct PartySelectList *func_021CC720(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
-extern int func_021CC810(struct PartySelectList *p);
-extern u32 func_021CC7B4(struct PartySelectList *p, u32 *out);
-int func_021B5700(struct ScriptVm *vm, struct ScrcmdWork *work);
-int func_021B574C(struct ScriptVm *vm, struct ScrcmdWork *work);
-u16 func_021B57CC(void *gameData, void *wordSet, u32 regulationNo, int heapId);
-u16 *func_021B5824(u8 *regulation, void *gameData, u16 *count, int heapId);
-void *func_021B58B0(void *gameSystem, int isSubwayRules, void *rules, u16 *result, u16 heapId);
-int func_021B59B0(struct FieldTask *fieldTask, int *state, PartyCheckTaskWork *taskWork);
-extern const char g_021DE248[];
+extern struct PartySelectList *PARTY_SELECT_LIST_Create(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
+extern int PARTY_SELECT_LIST_Main(struct PartySelectList *p);
+extern u32 PARTY_SELECT_LIST_Delete(struct PartySelectList *p, u32 *out);
+int SCRCMD_FLD_BATTLE_RegisterAllowedSpecies(struct ScriptVm *vm, struct ScrcmdWork *work);
+int SCRCMD_FLD_BATTLE_CheckPartyRegulation(struct ScriptVm *vm, struct ScrcmdWork *work);
+u16 SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(void *gameData, void *wordSet, u32 regulationNo, int heapId);
+u16 *SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(u8 *regulation, void *gameData, u16 *count, int heapId);
+void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules, void *rules, u16 *result, u16 heapId);
+int SCRCMD_FLD_BATTLE_PartyCheckTaskMain(struct FieldTask *fieldTask, int *state, PartyCheckTaskWork *taskWork);
+extern const char sScrcmdFldBattleFileName[];
 
 
 
@@ -116,37 +116,37 @@ extern const char g_021DE248[];
  * and the player has seen in the word set; the count goes to the result
  * variable.
  */
-int func_021B5700(struct ScriptVm *vm, struct ScrcmdWork *work)
+int SCRCMD_FLD_BATTLE_RegisterAllowedSpecies(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    void *wordSet = func_0215A5F4(work);
-    void *gameData = func_0215A5E4(work);
+    void *wordSet = SCRCMD_WORK_GetScriptWork(work);
+    void *gameData = SCRCMD_WORK_GetGameData(work);
     unsigned int regulationNo;
     u16 *countOut;
 
-    wordSet = func_02158F74(wordSet);
-    regulationNo = func_02159B10(vm, work);
-    countOut = func_02159AE8(vm, work);
-    *countOut = func_021B57CC(gameData, wordSet, regulationNo, func_0215A5CC(work));
+    wordSet = SCRIPT_WORK_GetWordSet(wordSet);
+    regulationNo = SCRIPT_WORK_ReadWorkValue(vm, work);
+    countOut = SCRIPT_WORK_ReadWorkPointer(vm, work);
+    *countOut = SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(gameData, wordSet, regulationNo, SCRCMD_WORK_GetHeapId(work));
     return 0;
 }
 
 
 
 /*
- * func_0201A354 is filed as src/matched/arm9/func_0201A354.c (witness).
+ * POKE_REGULATION_Load is filed as src/matched/arm9/POKE_REGULATION_Load.c (witness).
  *
  * Script command: check the player party and the party in the battle record
  * against a regulation; starts the party select task when the check needs
  * the player to look at the result. Returns 1 while that task runs.
  */
-int func_021B574C(struct ScriptVm *vm, struct ScrcmdWork *work)
+int SCRCMD_FLD_BATTLE_CheckPartyRegulation(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    void *scriptWork = func_0215A5F4(work);
-    void *gameSystem = func_0215A5DC(work);
-    int regulationNo = func_02159B10(vm, work);
-    u16 *resultOut = func_02159AE8(vm, work);
-    u16 heapId = func_0215A5CC(work);
-    void *rules = func_0201A354(regulationNo, heapId);
+    void *scriptWork = SCRCMD_WORK_GetScriptWork(work);
+    void *gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    int regulationNo = SCRIPT_WORK_ReadWorkValue(vm, work);
+    u16 *resultOut = SCRIPT_WORK_ReadWorkPointer(vm, work);
+    u16 heapId = SCRCMD_WORK_GetHeapId(work);
+    void *rules = POKE_REGULATION_Load(regulationNo, heapId);
     int isSubwayRules = 1;
     u16 subwayIndex = regulationNo + 0xffec;
     void *task;
@@ -154,26 +154,26 @@ int func_021B574C(struct ScriptVm *vm, struct ScrcmdWork *work)
     if (subwayIndex > 2) {
         isSubwayRules = 0;
     }
-    task = func_021B58B0(gameSystem, isSubwayRules, rules, resultOut, heapId);
+    task = SCRCMD_FLD_BATTLE_CreatePartyCheckTask(gameSystem, isSubwayRules, rules, resultOut, heapId);
     func_020307B0(rules);
     if (task == 0) {
         return 0;
     }
-    func_0215897C(scriptWork, task);
+    SCRIPT_SYS_CallEvent(scriptWork, task);
     return 1;
 }
 
 
 
-u16 func_021B57CC(void *gameData, void *wordSet, u32 regulationNo, int heapId)
+u16 SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(void *gameData, void *wordSet, u32 regulationNo, int heapId)
 {
     u16 count = 0;
     u16 i = 0;
     void *regulation;
     u16 *speciesList;
 
-    regulation = func_0201A354(regulationNo, heapId);
-    speciesList = func_021B5824(regulation, gameData, &count, heapId);
+    regulation = POKE_REGULATION_Load(regulationNo, heapId);
+    speciesList = SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(regulation, gameData, &count, heapId);
     for (i = 0; i < count; i++) {
         func_0201EE60(wordSet, i, speciesList[i]);
     }
@@ -189,7 +189,7 @@ u16 func_021B57CC(void *gameData, void *wordSet, u32 regulationNo, int heapId)
  * player has in the Pokedex, at most 0x20. The result is a heap block of 0x40
  * bytes owned by the caller.
  */
-u16 *func_021B5824(u8 *regulation, void *gameData, u16 *count, int heapId)
+u16 *SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(u8 *regulation, void *gameData, u16 *count, int heapId)
 {
     int species = 0;
     void *zukan;
@@ -197,7 +197,7 @@ u16 *func_021B5824(u8 *regulation, void *gameData, u16 *count, int heapId)
 
     *count = 0;
     zukan = func_0200CA1C(gameData);
-    speciesList = func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x40, 1, g_021DE248, 0xac);
+    speciesList = func_02030734((u16)((heapId & 0x7fff) | 0x8000), 0x40, 1, sScrcmdFldBattleFileName, 0xac);
     for (species = 0; species < 0x28b; species++) {
         if (regulation[0xa + species / 8] & (1 << (species % 8))) {
             if (func_0200CED4(zukan, (u16)species)) {
@@ -222,7 +222,7 @@ u16 *func_021B5824(u8 *regulation, void *gameData, u16 *count, int heapId)
  *
  * Addresses are Black-image addresses.
  */
-void *func_021B58B0(void *gameSystem, int isSubwayRules, void *rules, u16 *result, u16 heapId)
+void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules, void *rules, u16 *result, u16 heapId)
 {
     u32 mask = 0;
     void *gameData;
@@ -236,22 +236,22 @@ void *func_021B58B0(void *gameSystem, int isSubwayRules, void *rules, u16 *resul
     u32 playerFlag;
     int tmp;
 
-    gameData = func_020120F4(gameSystem);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
     mask = 0;
-    playerParty = func_02012934(gameData);
+    playerParty = GAME_DATA_GetMyParty(gameData);
     if (isSubwayRules) {
         playerPartyInvalid = func_02019ED4(rules, playerParty);
     } else {
-        playerPartyInvalid = func_0201A090(rules, playerParty, &mask);
+        playerPartyInvalid = POKE_REGULATION_CheckParty(rules, playerParty, &mask);
     }
-    battleRec = func_0200BAC8(func_02012EBC(gameData));
+    battleRec = func_0200BAC8(GAME_DATA_GetSaveControl(gameData));
     if (func_0200BBA8(battleRec) == 1) {
         mask = 0;
         recordParty = func_0200BAF4((int)battleRec, heapId);
         if (isSubwayRules) {
             recordPartyInvalid = func_02019ED4(rules, recordParty);
         } else {
-            tmp = func_0201A090(rules, recordParty, &mask);
+            tmp = POKE_REGULATION_CheckParty(rules, recordParty, &mask);
             recordPartyInvalid = tmp;
         }
     } else {
@@ -269,11 +269,11 @@ void *func_021B58B0(void *gameSystem, int isSubwayRules, void *rules, u16 *resul
         *result = 3;
         return 0;
     }
-    task = func_020122C0(gameSystem, 0, (void *)func_021B59B0, 0x1c);
+    task = func_020122C0(gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
     playerFlag = 0;
     taskWork = func_020124E8(task);
     taskWork->gameSystem = gameSystem;
-    taskWork->fieldMap = func_0201210C(gameSystem);
+    taskWork->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     taskWork->result = result;
     taskWork->heapId = heapId;
     taskWork->playerParty = playerParty;
@@ -289,20 +289,20 @@ void *func_021B58B0(void *gameSystem, int isSubwayRules, void *rules, u16 *resul
 
 
 /* Field task function: opens the party select list, then stores its result. */
-int func_021B59B0(struct FieldTask *fieldTask, int *state, PartyCheckTaskWork *taskWork)
+int SCRCMD_FLD_BATTLE_PartyCheckTaskMain(struct FieldTask *fieldTask, int *state, PartyCheckTaskWork *taskWork)
 {
     int cancelled;
 
     switch (*state) {
     case 0:
-        taskWork->partySelect = func_021CC720((u32)taskWork->fieldMap, (u32)taskWork->playerParty,
+        taskWork->partySelect = PARTY_SELECT_LIST_Create((u32)taskWork->fieldMap, (u32)taskWork->playerParty,
                                               (u32)taskWork->recordParty, taskWork->playerPartyInvalid,
                                               taskWork->recordPartyInvalid, taskWork->heapId);
         (*state)++;
         break;
     case 1:
-        if (func_021CC810(taskWork->partySelect)) {
-            *taskWork->result = func_021CC7B4(taskWork->partySelect, (u32 *)(&cancelled));
+        if (PARTY_SELECT_LIST_Main(taskWork->partySelect)) {
+            *taskWork->result = PARTY_SELECT_LIST_Delete(taskWork->partySelect, (u32 *)(&cancelled));
             if (cancelled == 1) {
                 *taskWork->result = 3;
             }

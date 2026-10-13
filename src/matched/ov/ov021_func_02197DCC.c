@@ -1,5 +1,5 @@
 /*
- * function: func_02197DCC
+ * function: FLDMMDL_ACMD_ListTaskMain
  * address:  0x02197DCC
  * packet:   pkt_ov021_02197DCC
  * region:   ov021
@@ -31,7 +31,7 @@ typedef signed char    s8;
 
 extern int (*const d_021D4A50[])(int *);
 
-void func_02197DCC(void *a, int *b)
+void FLDMMDL_ACMD_ListTaskMain(void *a, int *b)
 {
     while (d_021D4A50[*b](b) == 1) {
     }

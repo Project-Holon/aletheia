@@ -1,5 +1,5 @@
 /*
- * function: func_021BB690
+ * function: ITEMMENU_MoveActorToPoint
  * address: 0x021BB690
  * packet: pkt_ov070_021BB690
  * region: ov070
@@ -10,20 +10,20 @@
  * status: EXACT
  * lever: expand q at the first call but retain q for the second call.
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   d_021BBBCC 0x021BBBCC data a4
  */
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern short d_021BBBCC[];
-int func_021BB690(const char *p)
+int ITEMMENU_MoveActorToPoint(const char *p)
 {
     unsigned i;
     short v[2];
@@ -32,7 +32,7 @@ int func_021BB690(const char *p)
     for (i = 0; i < 5; i++) {
         off = i * 4;
         q = p + off;
-        func_0204B454((struct Actor *)*((int *)((p + off) + 0x6AC)), (struct PtS *)v, 0xFFFF);
+        CLACT_GetActorSurfacePos((struct Actor *)*((int *)((p + off) + 0x6AC)), (struct PtS *)v, 0xFFFF);
         if (v[0] == *((short *)(((char *)d_021BBBCC) + off))) {
             return 0;
         }

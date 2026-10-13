@@ -12,9 +12,9 @@
  * symbols:
  *   func_021B6A00  0x021B6A00  thumb  ov098
  *   func_021B6A3C  0x021B6A3C  thumb  ov098
- *   func_0204E720  0x0204E720  arm
+ *   FADE_Start  0x0204E720  arm
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
- *   func_0204E804  0x0204E804  arm
+ *   FADE_IsActive  0x0204E804  arm
  */
 #include "../include/Obj03730.h"
 
@@ -23,9 +23,9 @@ extern void func_021B6A00(u8 *p, u8 *q);
 extern int func_021B6A3C(u8 *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void GFL_USE_FadeOutBgm(u32 a);
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 
 int func_021B6750(char *p)
 {
@@ -36,13 +36,13 @@ int func_021B6750(char *p)
         break;
     case 1:
         if (func_021B6A3C((u8 *)(((struct Obj03730 *)p)->f14)) != 0) {
-            func_0204E720(3, 0, 0x10, 2);
+            FADE_Start(3, 0, 0x10, 2);
             GFL_USE_FadeOutBgm(8);
             ((struct Obj03730 *)p)->f60 = ((struct Obj03730 *)p)->f60 + 1;
         }
         break;
     case 2:
-        if (func_0204E804() == 0)
+        if (FADE_IsActive() == 0)
             return 2;
         break;
     }

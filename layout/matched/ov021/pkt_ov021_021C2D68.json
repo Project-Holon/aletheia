@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C2D68",
+   "name": "FLD3D_CI_NameExtraTask",
    "address": "0x021C2D68",
    "kind": "game",
    "region": "ov021",

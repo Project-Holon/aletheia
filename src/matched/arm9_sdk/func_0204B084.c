@@ -1,5 +1,5 @@
 /*
- * function: func_0204B084
+ * function: CLACT_DeleteRenderer
  * address:  0x0204B084
  * packet:   pkt_0204B084
  * region:   arm9
@@ -19,7 +19,7 @@ struct OamState;
 extern void CLACT_ExitRenderer(struct OamState *p);
 extern u32 sub_020307B0(void *p);
 
-void func_0204B084(struct OamState *p)
+void CLACT_DeleteRenderer(struct OamState *p)
 {
     CLACT_ExitRenderer(p);
     sub_020307B0(p);

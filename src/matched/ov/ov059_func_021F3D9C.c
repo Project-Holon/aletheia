@@ -1,5 +1,5 @@
 /*
- * function: func_021F3D9C
+ * function: SP_POKE_GIMMICK_SwapNpcEventMain
  * address:  0x021F3D9C
  * packet:   pkt_ov059_021F3D9C
  * region:   ov059
@@ -8,29 +8,29 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     the task callback func_021F3CFC installs; the function is 180
+ * note:     the task callback SP_POKE_GIMMICK_StartSwapNpc installs; the function is 180
  *           bytes, the rest of the handed 772 is data.
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021BE6E8  0x021BE6E8  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_0216CF2C  0x0216CF2C  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012844  0x02012844  thumb
- *   func_02162744  0x02162744  thumb  ov010
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_02162740  0x02162740  thumb  ov010
- *   func_0216CEE4  0x0216CEE4  thumb  ov010
- *   func_0216DAF8  0x0216DAF8  thumb  ov010
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6BC  0x021BE6BC  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnimeFrame  0x021BE6E8  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventData  0x02012844  thumb
+ *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
+ *   FLDMMDL_AddMmdlHeaderById  0x0216CEE4  thumb  ov010
+ *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -48,26 +48,26 @@ struct Obj;
 struct Rec44;
 struct SaveBlock;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern int func_021BE6E8(int a, int b, int c, int d);
-extern void *func_02188C7C(u8 *p);
-extern void *func_0216DE94(void *map, u32 id);
-extern void func_0216CF2C(void *o);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012844(const struct BigObj *p);
-extern u16 func_02162744(u8 *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_02162740(u8 *p);
-extern void *func_0216CEE4(void *a, void *e, u32 b, int n, u32 c, u32 id);
-extern void func_0216DAF8(void *obj);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern int func_021BE6BC(int *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern int FLD_EXP_OBJ_GetAnimeFrame(int a, int b, int c, int d);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern void FLDMMDL_DeleteMmdl(void *o);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
+extern u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern u32 EVENTDATA_SYSTEM_GetNpcHeaders(u8 *p);
+extern void *FLDMMDL_AddMmdlHeaderById(void *a, void *e, u32 b, int n, u32 c, u32 id);
+extern void FLDMMDL_OnMoveBitMovePause(void *obj);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 
-int func_021F3D9C(void *a)
+int SP_POKE_GIMMICK_SwapNpcEventMain(void *a)
 {
     void *o;
     void *t;
@@ -85,27 +85,27 @@ int func_021F3D9C(void *a)
     int r;
 
     o = func_020124E4(a);
-    t = func_0201210C(o);
-    s = (void *)func_02188D2C(t);
-    w = (W *)func_021897BC(t, 1);
-    if (func_021BE6E8((int)s, 0, 2, 0) == 0xF000) {
+    t = GAMESYSTEM_GetFieldMap(o);
+    s = (void *)FIELDMAP_GetExpObj(t);
+    w = (W *)FIELDMAP_GetCommonWork(t, 1);
+    if (FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, 2, 0) == 0xF000) {
         x = w->p24[0];
         y = w->p24[1];
-        map = func_02188C7C(t);
-        func_0216CF2C(func_0216DE94(map, x));
-        v = func_020120F4(o);
-        m = (void *)func_02012844(v);
-        k = func_02162744(m);
-        b = func_02012AC8(func_020127A4(v));
+        map = FIELDMAP_GetMmdlSys(t);
+        FLDMMDL_DeleteMmdl(FLDMMDL_SysSearchObjId(map, x));
+        v = GAMESYSTEM_GetGameData(o);
+        m = (void *)GAME_DATA_GetEventData(v);
+        k = EVENTDATA_SYSTEM_GetNpcCount(m);
+        b = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(v));
         if (k != 0) {
-            c = func_0201296C(v);
-            e = func_0216CEE4(map, (void *)func_02162740(m), b, k, c, y);
+            c = GAME_DATA_GetEventWork(v);
+            e = FLDMMDL_AddMmdlHeaderById(map, (void *)EVENTDATA_SYSTEM_GetNpcHeaders(m), b, k, c, y);
             if (e != 0)
-                func_0216DAF8(e);
+                FLDMMDL_OnMoveBitMovePause(e);
         }
     }
     r = 0;
-    if (func_021BE6BC(func_021BE674(s, 0, 2, 0)) != 0)
+    if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(s, 0, 2, 0)) != 0)
         r = 1;
     return r;
 }

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F9DD4 0x021F9DD4 thumb ov132
  *   func_021F9DDC 0x021F9DDC thumb ov132
  *   func_021F6EF4 0x021F6EF4 thumb ov112
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_021F9DD4(void *);
 extern void *func_021F9DDC(void *,u8);
 typedef struct { int x,y,z; } Vec;
@@ -47,11 +47,11 @@ int func_021FC268(int unused,char *p)
     void *target;
     void *ctx;
     owner=*(char * *)&((struct Obj05404 *)p)->f0;
-    a=func_0201134C(((struct Obj05404 *)p)->f4);
-    b=func_0201134C(((struct Obj05404 *)p)->f4);
-    c=func_0201134C(((struct Obj05404 *)p)->f4);
-    d=func_0201134C(((struct Obj05404 *)p)->f4);
-    e=func_0201134C(((struct Obj05404 *)p)->f4);
+    a=VM_GetU32(((struct Obj05404 *)p)->f4);
+    b=VM_GetU32(((struct Obj05404 *)p)->f4);
+    c=VM_GetU32(((struct Obj05404 *)p)->f4);
+    d=VM_GetU32(((struct Obj05404 *)p)->f4);
+    e=VM_GetU32(((struct Obj05404 *)p)->f4);
     ctx=func_021F9DD4(((struct Obj08170 *)owner)->f34);
     target=func_021F9DDC(((struct Obj08170 *)owner)->f34,a);
     if (b==0) {

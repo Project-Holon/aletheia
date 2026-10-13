@@ -1,5 +1,5 @@
 /*
- * function: func_021BA31C
+ * function: OPTION_MENU_IsTextDone
  * address:  0x021BA31C
  * packet:   pkt_ov068_021BA31C
  * region:   ov068
@@ -16,7 +16,7 @@
  *   func_02028484  0x02028484  thumb
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02045770  0x02045770  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  */
 #include "../include/Obj03658.h"
 
@@ -30,9 +30,9 @@ extern s32 func_02028484(struct Blk *blk, void *h);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-int func_021BA31C(u8 *p)
+int OPTION_MENU_IsTextDone(u8 *p)
 {
     u32 t;
 
@@ -44,7 +44,7 @@ int func_021BA31C(u8 *p)
         t = ((struct Obj03658 *)p)->f24;
         if (p[0x20] != 0) {
             if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj03658 *)p)->f1C))) == 0) {
-                func_02045334((struct Descriptor *)((struct Obj03658 *)p)->f1C);
+                BMP_WIN_TransferChars((struct Descriptor *)((struct Obj03658 *)p)->f1C);
                 p[0x20] = 0;
             }
         }

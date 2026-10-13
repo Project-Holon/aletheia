@@ -1,5 +1,5 @@
 /*
- * function: func_021B6E0C
+ * function: SCRCMD_POKEMON_FLD_CheckDeliveryNpcLoaded
  * address:  0x021B6E0C
  * packet:   pkt_ov021_021B6E0C
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B6E24  0x021B6E24  thumb ov021
+ *   SCRCMD_POKEMON_FLD_FindDeliveryMmdl  0x021B6E24  thumb ov021
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021B6E24(void *);
+extern void *SCRCMD_POKEMON_FLD_FindDeliveryMmdl(void *);
 
-u16 func_021B6E0C(void *a)
+u16 SCRCMD_POKEMON_FLD_CheckDeliveryNpcLoaded(void *a)
 {
-    return func_021B6E24(a) != 0 ? 1 : 0;
+    return SCRCMD_POKEMON_FLD_FindDeliveryMmdl(a) != 0 ? 1 : 0;
 }

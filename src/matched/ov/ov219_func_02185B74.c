@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_02047964  0x02047964  arm
- *   func_02047970  0x02047970  arm
- *   func_020479D8  0x020479D8  arm
+ *   G3D_SYSTEM_DrawEnd  0x02047970  arm
+ *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   func_02048C58  0x02048C58  arm
  *   func_02048AD0  0x02048AD0  arm
  *   func_0207ADC4  0x0207ADC4  arm
- *   func_02047A60  0x02047A60  arm
+ *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  *   func_0207B388  0x0207B388  arm
  *   func_02185848  0x02185848  thumb  ov219
  */
@@ -27,15 +27,15 @@ typedef struct { V3 a; V3 b; } Pair;
 typedef struct { int m[9]; } M33;
 
 extern void func_02047964(void);
-extern void func_02047970(void);
-extern void func_020479D8(void);
+extern void G3D_SYSTEM_DrawEnd(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 struct Arg;
 struct Light;
 struct LightSlot;
 extern void func_02048C58(struct LightSlot *slots);
 extern void func_02048AD0(struct Light *l);
 extern void func_0207ADC4(M33 *);
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 extern void func_0207B388(const void *, const M33 *, M33 *);
 extern void func_02185848(M33 *, char *);
 
@@ -48,7 +48,7 @@ void func_02185B74(char *p)
         break;
     case 2:
         func_02047964();
-        func_02047970();
+        G3D_SYSTEM_DrawEnd();
         *(int *)(p + 0xC310) = 0;
         break;
     case 1: {
@@ -61,14 +61,14 @@ void func_02185B74(char *p)
         func_02048C58(*(void **)(p + 0xC370));
         func_02048AD0(*(void **)(p + 0xC36C));
         func_02047964();
-        func_020479D8();
+        G3D_SYSTEM_ApplyLookAt();
         s.a = *(V3 *)(p + 0xC2DC);
         func_0207ADC4(&m);
         s.b = *(V3 *)(p + 0xC300);
-        func_02047A60((void *)(*(u32 *)(p + 0xC3B8)), (struct Arg *)(&s));
+        G3D_SYSTEM_DrawObject((void *)(*(u32 *)(p + 0xC3B8)), (struct Arg *)(&s));
         s.b = *(V3 *)(p + 0xC2E8);
         func_02185848(&m, p + 0xC2F4);
-        func_02047A60((void *)(*(u32 *)(p + 0xC3A4)), (struct Arg *)(&s));
+        G3D_SYSTEM_DrawObject((void *)(*(u32 *)(p + 0xC3A4)), (struct Arg *)(&s));
         s2.a = *(V3 *)(p + 0xC2DC);
         s2.b = *(V3 *)(p + 0xC300);
         for (i = 0; i < *(u32 *)(p + 0x14); i++) {
@@ -76,9 +76,9 @@ void func_02185B74(char *p)
             func_0207B388(p + 0x1c + i * 0x30, &m, &m2);
             f = *(u16 *)(p + i * 0x30 + 0x40);
             if (f != 0)
-                func_02047A60((void *)(*(u32 *)(p + f * 4 + 0xC3A8)), (struct Arg *)(&s2));
+                G3D_SYSTEM_DrawObject((void *)(*(u32 *)(p + f * 4 + 0xC3A8)), (struct Arg *)(&s2));
         }
-        func_02047970();
+        G3D_SYSTEM_DrawEnd();
         break;
     }
     }

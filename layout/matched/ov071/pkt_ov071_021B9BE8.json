@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9BE8",
+   "name": "MONOLITH_TOOL_CreateScrollArrows",
    "address": "0x021B9BE8",
    "kind": "game",
    "region": "ov071",

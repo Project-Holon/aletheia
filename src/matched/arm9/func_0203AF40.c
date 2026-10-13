@@ -15,18 +15,18 @@
  *
  * 1. The r4/r5 swap was an artefact of that attempt's declaration order, not
  *    the real residue.  Declaring the two call results in source order
- *    (`s = GFL_NET_GetSession()` then `c = func_0203D798()`) puts them in r5/r0
+ *    (`s = GFL_NET_GetSession()` then `c = GFL_NET_GetInitParam()`) puts them in r5/r0
  *    exactly as the image does and the swap never appears.  That left a
  *    2-byte residue at +0x54/+0x58, not 10.
  *
  * 2. THE 2-BYTE RESIDUE: the image reloads the +0x2C callback into r1 and
  *    does `blx r1`, where the obvious C reloads into r0.  The tell is the
- *    `bl func_0203D650` immediately before it whose result looks discarded.
+ *    `bl GFL_NET_GetUserArg` immediately before it whose result looks discarded.
  *    It is not discarded -- it is the callback's ARGUMENT.  Spelling the
- *    field `void (*f2c)(u32)` and writing `p->f2c(func_0203D650())` pins r0
+ *    field `void (*f2c)(u32)` and writing `p->f2c(GFL_NET_GetUserArg())` pins r0
  *    to the argument, so the function pointer has to land in r1.  EXACT.
  *    This is the same shape src/pending/GFL_NET_STATE_ChangeoverParentConnectWait.c documents for its
- *    own callback ("takes func_0203D650's return value in r0, which is why
+ *    own callback ("takes GFL_NET_GetUserArg's return value in r0, which is why
  *    the function pointer is loaded into r1") -- a family idiom, not a
  *    one-off.
  *
@@ -45,9 +45,9 @@
  *
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_SYSTEM_ResetAll  0x02037D78  arm
- *   func_0203D650  0x0203D650  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  *   unk_0203C00C   0x0203C00C  arm
  *   _pNetState     0x021469DC  data
@@ -87,22 +87,22 @@ struct Rec {
 };
 
 extern void *GFL_NET_GetSession(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void GFL_NET_SYSTEM_ResetAll(void);
-extern u32  func_0203D650(void);
+extern u32  GFL_NET_GetUserArg(void);
 struct NetState;
 extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 
 void GFL_NET_STATE_DeviceInitialized(struct Rec *p)
 {
     struct Obj *s = GFL_NET_GetSession();
-    struct Cur *c = func_0203D798();
+    struct Cur *c = GFL_NET_GetInitParam();
 
     if (c->f65 != 1 && c->f65 != 2)
         s->f340->f04(c->f56, s, 0, s->f34c);
     GFL_NET_SYSTEM_ResetAll();
     if (p->f2c != 0) {
-        p->f2c(func_0203D650());
+        p->f2c(GFL_NET_GetUserArg());
         p->f2c = 0;
     }
     GFL_NET_STATE_ChangeStateDebug((struct NetState *)(*(u32 *)&_pNetState), (void *)unk_0203C00C, 0, 0x12f);

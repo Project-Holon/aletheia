@@ -1,5 +1,5 @@
 /*
- * function: func_021BA014
+ * function: STARTMENU_MenuExit
  * address:  0x021BA014
  * packet:   pkt_ov088_021BA014
  * region:   ov088
@@ -15,7 +15,7 @@
  *   GAME_BEACON_RegisterClearCallback  0x020274C8  thumb
  *   func_021BC114  0x021BC114  thumb  ov088
  *   func_021BC0FC  0x021BC0FC  thumb  ov088
- *   func_021BC0E4  0x021BC0E4  thumb  ov088
+ *   STARTMENU_ChangeToIntroProc  0x021BC0E4  thumb  ov088
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
  *   PROCSYS_ReplaceGlobal  0x020312F8  arm
@@ -46,7 +46,7 @@ extern void func_020306F0(unsigned int heap);
 extern void GAME_BEACON_RegisterClearCallback(void);
 extern void func_021BC114(void);
 extern void func_021BC0FC(void);
-extern void func_021BC0E4(void);
+extern void STARTMENU_ChangeToIntroProc(void);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
@@ -66,7 +66,7 @@ extern char ov168_id[];
 extern char ov107_id[];
 extern char ov088_id[];
 
-int func_021BA014(int a0, int a1, int a2, char *a3)
+int STARTMENU_MenuExit(int a0, int a1, int a2, char *a3)
 {
     u8 sel = ((struct Obj13231 *)a3)->f129;
     u8 flag = ((struct Obj13231 *)a3)->f12C;
@@ -84,7 +84,7 @@ int func_021BA014(int a0, int a1, int a2, char *a3)
         break;
     case 1:
         GAME_BEACON_RegisterClearCallback();
-        func_021BC0E4();
+        STARTMENU_ChangeToIntroProc();
         break;
     case 2:
         PROCSYS_ReplaceGlobal((int)ov121_id, (u32)d_021DF538, 0);

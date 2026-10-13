@@ -1,5 +1,5 @@
 /*
- * function: func_021C4E20
+ * function: SOUND_OBJ_GetAnimeFrame
  * address:  0x021C4E20
  * packet:   pkt_ov021_021C4E20
  * region:   ov021
@@ -12,7 +12,7 @@
  * Returns the task's status word, 0 without a task (EXACT*: pad).
  *
  * symbols:
- *   func_0201160C  0x0201160C  thumb
+ *   ICA_ANIME_GetFrame  0x0201160C  thumb
  */
 
 typedef unsigned short u16;
@@ -31,11 +31,11 @@ typedef struct {
 } R;
 
 struct Obj11245;
-extern u32 func_0201160C(struct Obj11245 *p);
+extern u32 ICA_ANIME_GetFrame(struct Obj11245 *p);
 
-u32 func_021C4E20(R *r)
+u32 SOUND_OBJ_GetAnimeFrame(R *r)
 {
     if (r->task == 0)
         return 0;
-    return func_0201160C((struct Obj11245 *)r->task);
+    return ICA_ANIME_GetFrame((struct Obj11245 *)r->task);
 }

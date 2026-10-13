@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02046DB8",
+   "name": "G3D_SYSTEM_CreateResourceArc",
    "address": "0x02046DB8",
    "kind": "game",
    "region": "arm9",

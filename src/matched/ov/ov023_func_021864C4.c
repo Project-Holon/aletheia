@@ -1,5 +1,5 @@
 /*
- * function: func_021864C4
+ * function: OEKAKI_MakeStroke
  * address:  0x021864C4
  * packet:   pkt_ov023_021864C4
  * region:   ov023
@@ -27,7 +27,7 @@ typedef struct {
     u8 hi : 2;
 } Rec;
 
-void func_021864C4(Rec *d, Ent *s, int a, int c)
+void OEKAKI_MakeStroke(Rec *d, Ent *s, int a, int c)
 {
     int i;
     Ent *e;

@@ -39,9 +39,9 @@
  *   KEY_SetTrg 0x020363B8 arm
  *   KEY_SetCont 0x020363D4 arm
  *   KEY_SetRepeat 0x020363F0 arm
- *   func_0203CEAC 0x0203CEAC arm
+ *   GFL_NET_Exit 0x0203CEAC arm
  *   GFL_NET_Main 0x0203CF5C arm
- *   func_0203D210 0x0203D210 arm
+ *   GFL_NET_IsIdle 0x0203D210 arm
  *   FADE_Update  0x0204E638  arm
  *   CARD_TryWaitBackupAsync  0x02076B8C  arm
  */
@@ -136,9 +136,9 @@ void KEY_ClearFrameRateWork(struct UiCtx *ui);
 int KEY_SetTrg(int inputObj, int a1, int a2);
 int KEY_SetCont(int inputObj, int a1, int a2);
 int KEY_SetRepeat(int inputObj, int a1, int a2);
-int func_0203CEAC(void (*hook)(u32));
+int GFL_NET_Exit(void (*hook)(u32));
 u32 GFL_NET_Main(void);
-u32 func_0203D210(void);
+u32 GFL_NET_IsIdle(void);
 extern UiState gUiState;
 
 
@@ -441,7 +441,7 @@ void UI_ServiceLidSleep(void)
 /*
  * The soft-reset trap: fade both screens to white, tear the UI down, then spin
  * forever pumping the main loop's per-frame work.  The loop never exits (the
- * image's tail is an unconditional `b` back to the func_0203D210 test), and
+ * image's tail is an unconditional `b` back to the GFL_NET_IsIdle test), and
  * the reset path inside it returns through OS_ResetSystem.
  *
  * Both master-brightness registers come off one pool word: 0x0400006C is the
@@ -462,10 +462,10 @@ void UI_SoftReset(u32 resetParam)
     ui = sub_02035224();
     GXx_SetMasterBrightness_(0x0400006C, 0x10);
     GXx_SetMasterBrightness_(0x0400006C + 0x1000, 0x10);
-    func_0203CEAC(0);
+    GFL_NET_Exit(0);
 
     while (1) {
-        if (func_0203D210() != 0 && CARD_TryWaitBackupAsync() != 0) {
+        if (GFL_NET_IsIdle() != 0 && CARD_TryWaitBackupAsync() != 0) {
             UI_SetBottomBackLight(ui->backlightState);
             OS_ResetSystem(resetParam);
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B93C0
+ * function: FRAME_LIST_CanScrollDown
  * address:  0x021B93C0
  * packet:   pkt_021B93C0
  * region:   ov067
@@ -19,7 +19,7 @@
 
 typedef unsigned short u16;
 
-int func_021B93C0(char *p)
+int FRAME_LIST_CanScrollDown(char *p)
 {
     return ((struct Obj13136 *)p)->f62 < ((struct Obj13136 *)p)->f64;
 }

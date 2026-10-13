@@ -1,5 +1,5 @@
 /*
- * function: func_021CD644
+ * function: BTL_SERVER_CMD_ReadU8Wrapper
  * address:  0x021CD644
  * packet:   pkt_021CD644
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CCAD4   0x021CCAD4  thumb ov093
- *   func_021CD644   0x021CD644  thumb ov093
+ *   BTL_SERVER_CMD_ReadU8   0x021CCAD4  thumb ov093
+ *   BTL_SERVER_CMD_ReadU8Wrapper   0x021CD644  thumb ov093
  *
- * tail-call thunk to func_021CCAD4
+ * tail-call thunk to BTL_SERVER_CMD_ReadU8
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern u8 func_021CCAD4(u8 *p);
+extern u8 BTL_SERVER_CMD_ReadU8(u8 *p);
 
-u8 func_021CD644(u8 *p)
+u8 BTL_SERVER_CMD_ReadU8Wrapper(u8 *p)
 {
-    return func_021CCAD4(p);
+    return BTL_SERVER_CMD_ReadU8(p);
 }

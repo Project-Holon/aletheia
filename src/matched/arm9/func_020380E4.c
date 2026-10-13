@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _pNetSys     0x021469D0  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   GFL_NET_RING_BUFF_Write  0x02036428  arm
@@ -40,7 +40,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern struct LinkState *_pNetSys;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_GetChildSendSize(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void GFL_NET_RING_BUFF_Write(u8 *p, u8 *q, u32 v);
@@ -50,7 +50,7 @@ u32 GFL_NET_SYSTEM_RecvData(u32 a0, u8 *rec, u32 len)
     int v;
     u32 n;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     GFL_NET_GetChildSendSize();
 
     if (rec[4] == 0xFF)

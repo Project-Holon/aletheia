@@ -1,5 +1,5 @@
 /*
- * function: func_0201347C
+ * function: BTL_SETUP_SetupWild
  * address:  0x0201347C
  * packet:   pkt_02013360
  * region:   arm9
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_020076D0   0x020076D0  thumb
- *   func_0201293C   0x0201293C  thumb
- *   func_020130C4   0x020130C4  thumb
- *   func_02013144   0x02013144  thumb
+ *   GAME_DATA_GetBoxManager   0x0201293C  thumb
+ *   BTL_SETUP_Clear   0x020130C4  thumb
+ *   BTL_SETUP_SetStatusFlag   0x02013144  thumb
  *   BTL_SETUP_SetPlayerParty   0x0201333C  thumb
  *   BTL_SETUP_InitCommon   0x02013360  thumb
  *   func_0201A920   0x0201A920  thumb
@@ -43,11 +43,11 @@
  * docs/notes/pkt_02013528.c.txt reached for BTL_SETUP_SetupDemo.
  *
  * (2) func_020076D0 takes THREE arguments, and its first is the return
- * value of the func_0201293C call immediately above it.  The original sets
+ * value of the GAME_DATA_GetBoxManager call immediately above it.  The original sets
  * only r1 and r2 (`add r1, sp, #4; add r2, sp, #0`) and leaves r0 holding
- * what func_0201293C returned.  Declaring it with two parameters puts the
+ * what GAME_DATA_GetBoxManager returned.  Declaring it with two parameters puts the
  * two pointers in r0/r1 and is a two-byte, two-instruction miss; declaring
- * func_0201293C as returning u32 and passing that result explicitly gives
+ * GAME_DATA_GetBoxManager as returning u32 and passing that result explicitly gives
  * the original bytes with no extra `adds`, because the value is already in
  * r0 and the compiler elides the copy.
  *
@@ -64,8 +64,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201347C.c \
- *       --func func_0201347C --addr 0x0201347C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupWild.c \
+ *       --func BTL_SETUP_SetupWild --addr 0x0201347C --cc 1.1p1 --thumb
  */
 #include "../include/Obj00155.h"
 
@@ -74,7 +74,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct BigObj;
-extern void func_020130C4(u8 *p);
+extern void BTL_SETUP_Clear(u8 *p);
 struct Party;
 struct Rec534;
 extern void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2);
@@ -83,11 +83,11 @@ extern struct Party *func_0201A920(u32 heap);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern u32  func_0201AA18(void *p);
 extern u32 func_0201AA14(void *p);
-extern u32 func_0201293C(const struct BigObj *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
-extern void func_02013144(char *p, int v);
+extern void BTL_SETUP_SetStatusFlag(char *p, int v);
 
-void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
+void BTL_SETUP_SetupWild(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
 {
     u32 x;
     u32 y;
@@ -95,7 +95,7 @@ void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
     u32 t;
     u32 u;
 
-    func_020130C4(a0);
+    BTL_SETUP_Clear(a0);
     BTL_SETUP_InitCommon(a0, a1, (const void *)a3);
     BTL_SETUP_SetPlayerParty((int)a0, (int)a1, a5);
     r = (u32)func_0201A920(a5);
@@ -109,10 +109,10 @@ void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
     if (t != func_0201AA14((void *)(((struct Obj00155 *)a0)->f24))) {
         return;
     }
-    u = func_0201293C(a1);
+    u = GAME_DATA_GetBoxManager(a1);
     x = 0;
     y = 0;
     if (func_020076D0((void *)u, (int *)(&x), (int *)(&y)) == 0) {
-        func_02013144((char *)a0, 0x40);
+        BTL_SETUP_SetStatusFlag((char *)a0, 0x40);
     }
 }

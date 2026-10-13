@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02162298",
+   "name": "EVENT_FIELD_PROCLINK_SetReturnPendingSlot",
    "address": "0x02162298",
    "kind": "game",
    "region": "ov010",

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021EA678  0x021EA678  thumb  ov093
  *   func_021EA710  0x021EA710  thumb  ov093
  */
@@ -24,7 +24,7 @@ typedef struct {
     void *win;            /* 0x54 */
 } Seq;
 
-extern u32 func_021CD9E0(u8 *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021EA678(char *p, u16 k, int *c);
 extern int func_021EA710(u32 *p);
 
@@ -32,7 +32,7 @@ int func_021D1E6C(Seq *s, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
-        if (func_021CD9E0((u8 *)s)) {
+        if (BTL_CLIENT_IsMainStepActive((u8 *)s)) {
             return 1;
         }
         func_021EA678(s->win, a[0], (int *)(a + 1));

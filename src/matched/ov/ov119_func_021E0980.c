@@ -16,9 +16,9 @@
  *   func_0200CDE0 0x0200CDE0 thumb
  *   func_020076A4 0x020076A4 thumb
  *   func_0201AB28 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021E0958 0x021E0958 thumb ov119
@@ -47,10 +47,10 @@ extern void *func_0200CA1C(void *);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern u8 func_020076A4(void *);
 extern void *func_0201AB28(void *p, u32 idx);
-extern unsigned func_02017E1C(void *,unsigned,unsigned);
+extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
 extern u32 func_0202136C(u16 v);
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
 extern void func_021D8E84(void *,int);
 extern void func_021E0958(char *p);
@@ -77,8 +77,8 @@ void func_021E0980(char *p)
     t=*(char * *)&((struct Obj01537 *)p)->f8;
     if(((struct Obj13908 *)t)->f28!=func_020076A4(((struct Obj01537 *)p)->f828)) {
         z=0;
-        if(func_0202136C(func_02017E1C(func_0201AB28(((struct Obj13908 *)t)->f1C,0),6,0))) {
-            func_02045CAC((struct MsgBank *)(((struct Obj01537 *)p)->f720),106,(void *)(((struct Obj01537 *)p)->f738));
+        if(func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28(((struct Obj13908 *)t)->f1C,0),6,0))) {
+            MSGDATA_ReadString((struct MsgBank *)(((struct Obj01537 *)p)->f720),106,(void *)(((struct Obj01537 *)p)->f738));
             func_021E1024(p);
             func_021D8E84(p,(int)func_021E0958);
             ((struct Obj01537 *)p)->fF2C=z;

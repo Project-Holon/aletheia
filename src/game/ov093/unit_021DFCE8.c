@@ -14,12 +14,12 @@
  *
  * symbols:
  *   func_0689C8EC  0x0689C8EC  thumb
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
- *   func_021E8BD0  0x021E8BD0  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
+ *   BTLV_CORE_SetSlotFlag  0x021E8BD0  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D5D14  0x021D5D14  thumb  ov093
- *   func_021DD044  0x021DD044  thumb  ov093
+ *   BTL_HANDLER_ITEM_PushUseItem  0x021DD044  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F173C     0x021F173C  data    a4
@@ -51,10 +51,10 @@
  *   d_021F188C     0x021F188C  data   ov093  a4
  *   d_021F19F4     0x021F19F4  data   ov093  a4
  *   WAZA_TOOL_IsDamaging  0x0201C314  thumb
- *   func_021D7098  0x021D7098  thumb  ov093
+ *   BTL_EVENT_IsFactorDead  0x021D7098  thumb  ov093
  *   func_021C7EC4  0x021C7EC4  thumb  ov093
- *   func_021D7090  0x021D7090  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_MarkFactorDead  0x021D7090  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   d_021F19C4     0x021F19C4  data   ov093  a4
  */
 #include "../../matched/include/Obj21422.h"
@@ -85,12 +85,12 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern int func_021D775C(int key);
-extern int func_021D76BC(int key, u32 val);
-extern void func_021E8BD0(union U *p, int v);
+extern int BTL_EVENT_GetVar(int key);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
+extern void BTLV_CORE_SetSlotFlag(union U *p, int v);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5D14(s8 *p, int i, int sign);
-extern void func_021DD044(void *a, void *b, int c);
+extern void BTL_HANDLER_ITEM_PushUseItem(void *a, void *b, int c);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern int func_021E85F8(int id);
@@ -103,10 +103,10 @@ extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(struct S *p, unsigned int v);
 extern int WAZA_TOOL_IsDamaging(u16 id);
 extern int func_0689C8EC(u16 id);
-extern int func_021D7098(u8 *p);
+extern int BTL_EVENT_IsFactorDead(u8 *p);
 extern u32 func_021C7EC4(u8 *p);
-extern void func_021D7090(u8 *p);
-extern u16 func_021D70A8(struct QQ *p);
+extern void BTL_EVENT_MarkFactorDead(u8 *p);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 void func_021DFCE8(int a, int b, int c);
 int *func_021DFD14(int *p);
 void func_021DFD20(int self, int q, int id);
@@ -224,11 +224,11 @@ void func_021DFCE8(int a, int b, int c)
 {
     int v;
 
-    if (c != func_021D775C(3))
+    if (c != BTL_EVENT_GetVar(3))
         return;
-    v = func_021D775C(30);
-    func_021E8BD0((union U *)(&v), 1);
-    func_021D76BC(30, v);
+    v = BTL_EVENT_GetVar(30);
+    BTLV_CORE_SetSlotFlag((union U *)(&v), 1);
+    BTL_EVENT_OverwriteVar(30, v);
 }
 
 
@@ -241,15 +241,15 @@ int *func_021DFD14(int *p)
 
 void func_021DFD20(int self, int q, int id)
 {
-    if (id != func_021D775C(4))
+    if (id != BTL_EVENT_GetVar(4))
         return;
-    if (func_021D775C(0x46) != 0)
+    if (BTL_EVENT_GetVar(0x46) != 0)
         return;
-    if (func_021D775C(0x16) != 10)
+    if (BTL_EVENT_GetVar(0x16) != 10)
         return;
     if (func_021D5D14(func_021C7CF4((int *)q, id), 3, 1) == 0)
         return;
-    func_021DD044((void *)self, (void *)q, id);
+    BTL_HANDLER_ITEM_PushUseItem((void *)self, (void *)q, id);
 }
 
 
@@ -257,7 +257,7 @@ void func_021DFD68(void *self, void *q, int id)
 {
     Rec *r;
 
-    if (id != func_021D775C(2))
+    if (id != BTL_EVENT_GetVar(2))
         return;
     r = (Rec *)func_021C88A4(q, 14, id);
     r->f0f = 1;
@@ -277,9 +277,9 @@ int *func_021DFD98(int *p)
 
 void func_021DFDA4(int a, int b, int c)
 {
-    if (c == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021D775C(0x16) == 0xc) {
+    if (c == BTL_EVENT_GetVar(4) && BTL_EVENT_GetVar(0x46) == 0 && BTL_EVENT_GetVar(0x16) == 0xc) {
         if (func_021D5D14(func_021C7CF4((int *)b, c), 1, 1) != 0) {
-            func_021DD044((void *)a, (void *)b, c);
+            BTL_HANDLER_ITEM_PushUseItem((void *)a, (void *)b, c);
         }
     }
 }
@@ -289,7 +289,7 @@ void func_021DFDEC(void *self, void *q, int id)
 {
     Rec *r;
 
-    if (id != func_021D775C(2))
+    if (id != BTL_EVENT_GetVar(2))
         return;
     r = (Rec *)func_021C88A4(q, 14, id);
     r->f0f = 1;
@@ -309,10 +309,10 @@ int *func_021DFE1C(int *p)
 
 void func_021DFE28(int a, void *b, int c)
 {
-    if (func_021E85F8(c) != 0 && func_021D775C(0x4d) == 0 && func_021C8374(b, c) == 0
+    if (func_021E85F8(c) != 0 && BTL_EVENT_GetVar(0x4d) == 0 && func_021C8374(b, c) == 0
         && func_021C83D4(b) == 0 && func_021C830C(b) == 0 && func_021C7F24(b, c) != 0
         && func_021C7F4C(b) != 0) {
-        func_021DD044((void *)a, (void *)((int)b), c);
+        BTL_HANDLER_ITEM_PushUseItem((void *)a, (void *)((int)b), c);
     }
 }
 
@@ -322,7 +322,7 @@ void func_021DFE88(int a, void *b, int c)
     char *p;
     char *q;
 
-    if (c == func_021D775C(2) && func_021C7F24(b, c) != 0) {
+    if (c == BTL_EVENT_GetVar(2) && func_021C7F24(b, c) != 0) {
         p = func_021C88A4(b, 4, c);
         func_021C8838(p + 4, 2, 0x19e);
         func_021C8860((struct S *)(p + 4), c);
@@ -606,15 +606,15 @@ void func_021E01D4(void *a, void *b, int c, int *d, u8 e)
     u16 t;
     char *p;
 
-    if (c == func_021D775C(3) && e == func_021D775C(0x16)) {
-        t = func_021D775C(0x12);
-        if (WAZA_TOOL_IsDamaging(t) != 0 && func_0689C8EC(t) == 0 && func_021D7098(a) == 0
+    if (c == BTL_EVENT_GetVar(3) && e == BTL_EVENT_GetVar(0x16)) {
+        t = BTL_EVENT_GetVar(0x12);
+        if (WAZA_TOOL_IsDamaging(t) != 0 && func_0689C8EC(t) == 0 && BTL_EVENT_IsFactorDead(a) == 0
             && func_021C7EC4(b) == 0) {
-            func_021D7090(a);
+            BTL_EVENT_MarkFactorDead(a);
             p = func_021C88A4(b, 0x23, c);
             func_021C8838(p + 8, 1, 0xb6);
-            func_021C8860((struct S *)(p + 8), func_021D70A8(a));
-            func_021C8860((struct S *)(p + 8), func_021D775C(0x12));
+            func_021C8860((struct S *)(p + 8), BTL_EVENT_GetFactorKey(a));
+            func_021C8860((struct S *)(p + 8), BTL_EVENT_GetVar(0x12));
             func_021C88C8(b, p);
             *d = 1;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216245C
+ * function: EVENTDATA_SYSTEM_DisableConnect
  * address:  0x0216245C
  * packet:   pkt_ov010_0216245C
  * region:   ov010
@@ -26,7 +26,7 @@ typedef struct {
     u8 rest[0x10];
 } Rec14;
 
-void func_0216245C(u8 *o, u16 idx)
+void EVENTDATA_SYSTEM_DisableConnect(u8 *o, u16 idx)
 {
     Rec14 *t = *(Rec14 * *)&((struct Obj12335 *)o)->f24;
 

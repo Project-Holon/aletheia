@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020515CC  0x020515CC  arm
+ *   PARTICLE_StartEffectWithCallback  0x020515CC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_020515CC(int *p, int a, int b, int c);
+extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 
 int func_021D6D6C(void **p, int x)
 {
-    return func_020515CC(*p, x, 0, (int)p);
+    return PARTICLE_StartEffectWithCallback(*p, x, 0, (int)p);
 }

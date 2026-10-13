@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02189BBC",
+   "name": "FIELDMAP_GetHeapSizeForMapType",
    "address": "0x02189BBC",
    "kind": "game",
    "region": "ov021",

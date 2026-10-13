@@ -1,5 +1,5 @@
 /*
- * function: func_021BE674
+ * function: FLD_EXP_OBJ_GetAnime
  * address:  0x021BE674
  * packet:   pkt_ov021_021BE674
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BE674  0x021BE674  thumb
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb
  */
 #include "../include/Obj12904.h"
 
 typedef unsigned short u16;
 
-void *func_021BE674(char *base, int i, unsigned int j, int k)
+void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k)
 {
     char *e = base + i * 16;
     struct S {

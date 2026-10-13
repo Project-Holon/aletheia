@@ -11,7 +11,7 @@
  *
  * symbols:
  *   G2_GetBG0ScrPtr   0x0207DF60  arm
- *   func_020437D4     0x020437D4  arm
+ *   BMP_GetPixels     0x020437D4  arm
  *   DC_FlushRange     0x020862F0  arm
  *   GXS_LoadBG0Char   0x0207EE68  arm
  *   OS_Terminate      0x02088234  arm
@@ -41,7 +41,7 @@ extern void *unk_021469AC;
 
 extern u16 *G2_GetBG0ScrPtr(void);
 struct Bmp;
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void DC_FlushRange(void *addr, u32 size);
 extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void OS_Terminate(void);
@@ -65,7 +65,7 @@ void sub_02034900(void)
         p += 0x20;
     }
 
-    src = func_020437D4(unk_021469AC);
+    src = BMP_GetPixels(unk_021469AC);
     DC_FlushRange(src, 0x2000);
     GXS_LoadBG0Char(src, 0, 0x2000);
     OS_Terminate();

@@ -1,5 +1,5 @@
 /*
- * function: func_021736E0
+ * function: INTRUDE_COMM_RecvShutdownRequest
  * address:  0x021736E0
  * packet:   pkt_021736E0
  * region:   ov011
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021736E0(int a, int b, int c, char *p)
+void INTRUDE_COMM_RecvShutdownRequest(int a, int b, int c, char *p)
 {
     p[0x8fa] = 1;
 }

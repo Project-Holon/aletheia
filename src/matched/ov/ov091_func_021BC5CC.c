@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5CC
+ * function: PLIST_MENU_ShowItemResult
  * address:  0x021BC5CC
  * packet:   pkt_ov091_021BC5CC
  * region:   ov091
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021BB97C  0x021BB97C  thumb  ov091
- *   func_021BB99C  0x021BB99C  thumb  ov091
- *   func_021BC1D0  0x021BC1D0  thumb  ov091
- *   func_021B9788  0x021B9788  thumb  ov091
- *   func_021BB98C  0x021BB98C  thumb  ov091
- *   func_021BC628  0x021BC628  thumb  ov091
- *   func_021B9E3C  0x021B9E3C  thumb  ov091
+ *   PLIST_MESSAGE_CreateWordSet  0x021BB97C  thumb  ov091
+ *   PLIST_MESSAGE_SetWordSetPokemon  0x021BB99C  thumb  ov091
+ *   PLIST_MENU_FindItemTarget  0x021BC1D0  thumb  ov091
+ *   POKELIST_ShowMessage  0x021B9788  thumb  ov091
+ *   PLIST_MESSAGE_DestroyWordSet  0x021BB98C  thumb  ov091
+ *   PLIST_MENU_SwitchToNextTarget  0x021BC628  thumb  ov091
+ *   POKELIST_EndMessageToExit  0x021B9E3C  thumb  ov091
  */
 #include "../include/Obj00009.h"
 
@@ -23,23 +23,23 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021BB97C(u16 *p, u32 s);
-extern void func_021BB99C(int, int, int, int);
-extern int func_021BC1D0(int);
-extern void func_021B9788(u8 *p, int a1, int a2, int a3);
-extern void func_021BB98C(void *p, u32 s);
-extern void func_021BC628(int);
-extern void func_021B9E3C(char *p);
+extern void PLIST_MESSAGE_CreateWordSet(u16 *p, u32 s);
+extern void PLIST_MESSAGE_SetWordSetPokemon(int, int, int, int);
+extern int PLIST_MENU_FindItemTarget(int);
+extern void POKELIST_ShowMessage(u8 *p, int a1, int a2, int a3);
+extern void PLIST_MESSAGE_DestroyWordSet(void *p, u32 s);
+extern void PLIST_MENU_SwitchToNextTarget(int);
+extern void POKELIST_EndMessageToExit(char *p);
 
-void func_021BC5CC(int p)
+void PLIST_MENU_ShowItemResult(int p)
 {
     *(int *)(*(int *)&((struct Obj00009 *)p)->f280 + 0x40) = 10;
-    func_021BB97C((u16 *)p, *(int *)&((struct Obj00009 *)p)->f150);
-    func_021BB99C(p, *(int *)&((struct Obj00009 *)p)->f150, 0, *(int *)&((struct Obj00009 *)p)->f38);
-    if (func_021BC1D0(p) != -1) {
-        func_021B9788((u8 *)p, 0x32, 1, (int)func_021BC628);
+    PLIST_MESSAGE_CreateWordSet((u16 *)p, *(int *)&((struct Obj00009 *)p)->f150);
+    PLIST_MESSAGE_SetWordSetPokemon(p, *(int *)&((struct Obj00009 *)p)->f150, 0, *(int *)&((struct Obj00009 *)p)->f38);
+    if (PLIST_MENU_FindItemTarget(p) != -1) {
+        POKELIST_ShowMessage((u8 *)p, 0x32, 1, (int)PLIST_MENU_SwitchToNextTarget);
     } else {
-        func_021B9788((u8 *)p, 0x32, 1, (int)func_021B9E3C);
+        POKELIST_ShowMessage((u8 *)p, 0x32, 1, (int)POKELIST_EndMessageToExit);
     }
-    func_021BB98C((void *)p, *(int *)&((struct Obj00009 *)p)->f150);
+    PLIST_MESSAGE_DestroyWordSet((void *)p, *(int *)&((struct Obj00009 *)p)->f150);
 }

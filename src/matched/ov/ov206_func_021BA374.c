@@ -13,11 +13,11 @@
  * symbols:
  *   func_021BBC9C 0x021BBC9C thumb ov206
  *   func_0207D658 0x0207D658 arm
- *   func_02006984 0x02006984 thumb
- *   func_0204B53C 0x0204B53C arm
- *   func_0204B528 0x0204B528 arm
+ *   PM_VOICE_Play 0x02006984 thumb
+ *   CLACT_GetActorPos 0x0204B53C arm
+ *   CLACT_SetActorPos 0x0204B528 arm
  *   func_021BAF7C 0x021BAF7C thumb ov206
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 #include "../include/Obj00316.h"
 typedef unsigned char u8;
@@ -29,13 +29,13 @@ typedef signed int     s32;
 struct S;
 extern s32 func_021BBC9C(struct S *p);
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern u32 func_02006984(u32, u32, u32, u32, u32, u32, u32, u32);
+extern u32 PM_VOICE_Play(u32, u32, u32, u32, u32, u32, u32, u32);
 struct Actor;
 struct PrintSys;
-extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
-extern void func_0204B528(struct Actor *actor, const struct Pt *src);
+extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
+extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 extern void func_021BAF7C(char *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 void func_021BA374(char *p)
 {
     if (((struct Obj00316 *)p)->f18 == 0) func_021BBC9C((struct S *)p);
@@ -58,7 +58,7 @@ void func_021BA374(char *p)
         if (((struct Obj00316 *)p)->f68 == 16) {
             *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
             func_0207D658((u32)((volatile u16 *)0x04000050), 0x10, 0);
-            func_02006984(((struct Obj00316 *)p)->fC, ((struct Obj00316 *)p)->fE, 0x40, 0, 0, 0, 0, 0);
+            PM_VOICE_Play(((struct Obj00316 *)p)->fC, ((struct Obj00316 *)p)->fE, 0x40, 0, 0, 0, 0, 0);
             ((struct Obj00316 *)p)->f54 = 3;
         }
         break;
@@ -71,22 +71,22 @@ void func_021BA374(char *p)
         int fx = 0;
         int fy = 0;
         void *obj = *(void **)(p + ((struct Obj00316 *)p)->fB4 * 4 + 0xac);
-        func_0204B53C(obj, &pt);
+        CLACT_GetActorPos(obj, &pt);
         pt.x += 1;
         pt.y += 1;
         if (pt.x > 0x80) { pt.x = 0x80; fx = 1; }
         if (pt.y > 0x48) { pt.y = 0x48; fy = 1; }
-        func_0204B528(*(void **)(p + ((struct Obj00316 *)p)->fB4 * 4 + 0xac), &pt);
+        CLACT_SetActorPos(*(void **)(p + ((struct Obj00316 *)p)->fB4 * 4 + 0xac), &pt);
         if (fx && fy) ((struct Obj00316 *)p)->f54 = 6;
         break;
     }
     case 5:
         if (((struct Obj00316 *)p)->f5C != 0) {
-            func_02006984(((struct Obj00316 *)p)->fC, ((struct Obj00316 *)p)->fE, 0x40, 0, 0, 0, 0, 0);
+            PM_VOICE_Play(((struct Obj00316 *)p)->fC, ((struct Obj00316 *)p)->fE, 0x40, 0, 0, 0, 0, 0);
             ((struct Obj00316 *)p)->f54 = 6;
         }
         break;
     }
     if (((struct Obj00316 *)p)->f18 == 0 || ((struct Obj00316 *)p)->f18 == 2) func_021BAF7C(p);
-    func_0201C4E4(((struct Obj00316 *)p)->f2C);
+    PRINTSYS_QUE_Main(((struct Obj00316 *)p)->f2C);
 }

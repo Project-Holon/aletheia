@@ -12,12 +12,12 @@
  * symbols:
  *   func_021C54FC 0x021C54FC thumb
  *   func_020419E4 0x020419E4 arm
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 extern void func_020419E4(void);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 void func_021C54FC(void)
 {
     func_020419E4();
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B58B0
+ * function: SCRCMD_FLD_BATTLE_CreatePartyCheckTask
  * address:  0x021B58B0
  * packet:   pkt_ov021_021B58B0
  * region:   ov021
@@ -16,19 +16,19 @@
  * task call is what puts its zero in r1.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012934  0x02012934  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02019ED4  0x02019ED4  thumb
- *   func_0201A090  0x0201A090  thumb
+ *   POKE_REGULATION_CheckParty  0x0201A090  thumb
  *   func_0200BAC8  0x0200BAC8  thumb
  *   func_0200BBA8  0x0200BBA8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_021B59B0  0x021B59B0  thumb  ov021
+ *   SCRCMD_FLD_BATTLE_PartyCheckTaskMain  0x021B59B0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj03600.h"
@@ -42,21 +42,21 @@ struct BigObj;
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern int func_02019ED4(void *ctx, void *q);
-extern int func_0201A090(void *rules, void *party, u32 *mask);
+extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void *func_0200BAC8(void *);
 extern u32 func_0200BBA8(void *a);
 extern void *func_0200BAF4(int a0, int a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern u32 func_020307B0(void *p);
-extern void func_021B59B0(void);
+extern void SCRCMD_FLD_BATTLE_PartyCheckTaskMain(void);
 
-void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)
+void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *sys, int flag, void *rules, u16 *out, u16 k)
 {
     u32 mask = 0;
     void *w;
@@ -69,22 +69,22 @@ void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)
     int r1;
     int tmp;
 
-    w = func_020120F4(sys);
+    w = GAMESYSTEM_GetGameData(sys);
     mask = 0;
-    party = func_02012934(w);
+    party = GAME_DATA_GetMyParty(w);
     if (flag) {
         r1 = func_02019ED4(rules, party);
     } else {
-        r1 = func_0201A090(rules, party, &mask);
+        r1 = POKE_REGULATION_CheckParty(rules, party, &mask);
     }
-    q = func_0200BAC8(func_02012EBC(w));
+    q = func_0200BAC8(GAME_DATA_GetSaveControl(w));
     if (func_0200BBA8(q) == 1) {
         mask = 0;
         w = func_0200BAF4((int)q, k);
         if (flag) {
             r2 = func_02019ED4(rules, w);
         } else {
-            tmp = func_0201A090(rules, w, &mask);
+            tmp = POKE_REGULATION_CheckParty(rules, w, &mask);
             r2 = tmp;
         }
     } else {
@@ -102,11 +102,11 @@ void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)
         *out = 3;
         return 0;
     }
-    task = func_020122C0(sys, 0, (void *)func_021B59B0, 0x1c);
+    task = func_020122C0(sys, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
     b = 0;
     e = func_020124E8(task);
     e[0] = (u32)sys;
-    e[1] = (u32)func_0201210C(sys);
+    e[1] = (u32)GAMESYSTEM_GetFieldMap(sys);
     e[6] = (u32)out;
     ((struct Obj03600 *)e)->f16 = k;
     e[3] = (u32)party;

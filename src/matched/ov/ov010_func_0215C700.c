@@ -1,5 +1,5 @@
 /*
- * function: func_0215C700
+ * function: SCRCMD_PROC_OnBagClosed
  * address: 0x0215C700
  * packet: pkt_ov010_0215C700
  * region: ov010
@@ -19,7 +19,7 @@ typedef struct Outputs { u16 *first; u16 *second; } Outputs;
 typedef struct Context { char pad[0x34]; u32 first; u32 second; } Context;
 typedef struct Pair { Context *context; Outputs *outputs; } Pair;
 extern u32 func_020307B0(void *p);
-void func_0215C700(Pair *p)
+void SCRCMD_PROC_OnBagClosed(Pair *p)
 {
     Context *c = p->context;
     Outputs *o = p->outputs;

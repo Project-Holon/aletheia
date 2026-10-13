@@ -1,5 +1,5 @@
 /*
- * function: func_0219F058
+ * function: FLDMMDL_DRAW_GetBlactAnime
  * address:  0x0219F058
  * packet:   pkt_ov021_0219F058
  * region:   ov021
@@ -11,41 +11,41 @@
  *
  * Leaf callees now filed; formerly MATCH. Leaf sources verified from a scratch
  * file (region arm9, --arm, dsi/1.1p1 -O4,p; typedefs u8/u16/u32):
- *   func_02050848:
- *   u16 func_02050848(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0xe); }
- *   func_02050880:
- *   u16 func_02050880(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0x10); }
+ *   BILLBOARD_ACT_GetEntryList:
+ *   u16 BILLBOARD_ACT_GetEntryList(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0xe); }
+ *   BILLBOARD_ACT_GetEntryCursor:
+ *   u16 BILLBOARD_ACT_GetEntryCursor(u8 *p, int i) { return *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0x10); }
  *
  * symbols:
- *   func_0216E3C4  0x0216E3C4  thumb  ov010
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
- *   func_0216D910  0x0216D910  thumb  ov010
- *   func_0219C9DC  0x0219C9DC  thumb  ov021
- *   func_02050848  0x02050848  arm
- *   func_02050880  0x02050880  arm
+ *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_GetBlActCont  0x0216D910  thumb  ov010
+ *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
+ *   BILLBOARD_ACT_GetEntryList  0x02050848  arm
+ *   BILLBOARD_ACT_GetEntryCursor  0x02050880  arm
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u8 *func_0216E3C4(u32);
-extern void *func_0216D6F0(void *p);
-extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u8 *p);
-extern u16 func_02050848(u8 *p, int i);
-extern u16 func_02050880(u8 *p, int i);
+extern u8 *FLDMMDL_GetObjCodeParam(u32);
+extern void *FLDMMDL_GetDrawProcWork(void *p);
+extern int FLDMMDL_GetBlActCont(int a0);
+extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *p);
+extern u16 BILLBOARD_ACT_GetEntryList(u8 *p, int i);
+extern u16 BILLBOARD_ACT_GetEntryCursor(u8 *p, int i);
 
-void func_0219F058(u32 a, u16 *o1, u16 *o2)
+void FLDMMDL_DRAW_GetBlactAnime(u32 a, u16 *o1, u16 *o2)
 {
     u16 *q;
     u32 r;
-    if (func_0216E3C4(a)[2] == 1) {
-        q = func_0216D6F0((void *)a);
+    if (FLDMMDL_GetObjCodeParam(a)[2] == 1) {
+        q = FLDMMDL_GetDrawProcWork((void *)a);
         if (*q != 0xFFFF) {
-            r = func_0219C9DC((u8 *)func_0216D910(a));
-            *o1 = func_02050848((u8 *)r, *q);
-            *o2 = func_02050880((u8 *)r, *q);
+            r = FLDMMDL_BLACT_GetBbActSys((u8 *)FLDMMDL_GetBlActCont(a));
+            *o1 = BILLBOARD_ACT_GetEntryList((u8 *)r, *q);
+            *o2 = BILLBOARD_ACT_GetEntryCursor((u8 *)r, *q);
         } else {
             *o1 = 0;
             *o2 = 0;

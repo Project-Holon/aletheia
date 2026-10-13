@@ -15,7 +15,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021BED94 0x021BED94 thumb
  *   func_021BF7AC 0x021BF7AC thumb
- *   func_02006148 0x02006148 thumb
+ *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   sub_0207C768 0x0207C768 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
@@ -35,7 +35,7 @@ extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void func_02082BCC(void *,u32,u32);
 extern void func_021BED94(struct TcblNode *p, char *q);
 extern int func_021BF7AC(char *p, int v);
-extern int func_02006148(u32);
+extern int GFL_USE_GetSeSlot(u32);
 extern u32 sub_0207C768(u32,u32);
 void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag)
 {
@@ -50,7 +50,7 @@ void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int 
     work->end=end;
     work->duration=func_021BF7AC((char *)owner,duration);
     if(flag == -1) work->target=flag;
-    else work->target=func_02006148(target);
+    else work->target=GFL_USE_GetSeSlot(target);
     if(start>0) a=0.5f+(float)(start<<12);
     else a=(float)(start<<12)-0.5f;
     work->current=(int)a;

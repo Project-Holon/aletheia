@@ -1,5 +1,5 @@
 /*
- * function: func_021C4078
+ * function: SODATEYA_RollRandomU32
  * address:  0x021C4078
  * packet:   pkt_021C4078
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02005728(int v);
 
-void func_021C4078(void)
+void SODATEYA_RollRandomU32(void)
 {
     func_02005728(-1);
 }

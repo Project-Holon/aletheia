@@ -1,5 +1,5 @@
 /*
- * function: func_0219E968
+ * function: FLDMMDL_RAIL_InitMoveWork
  * address:  0x0219E968
  * packet:   pkt_ov021_0219E968
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02164380  0x02164380  thumb  ov010
- *   func_0216D684  0x0216D684  thumb  ov010
- *   func_0219EA5C  0x0219EA5C  thumb  ov021
+ *   FLDMMDL_MOVE_GetRailMoveRequest  0x02164380  thumb  ov010
+ *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
+ *   FLDMMDL_RAIL_InitRailWork  0x0219EA5C  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
- *   func_0219E2C0  0x0219E2C0  thumb  ov021
+ *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,23 +23,23 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern int func_02164380(void *a, u16 *b);
-extern void *func_0216D684(u32, u32);
-extern int func_0219EA5C(void *a, u32 b);
+extern int FLDMMDL_MOVE_GetRailMoveRequest(void *a, u16 *b);
+extern void *FLDMMDL_InitMoveProcWork(u32, u32);
+extern int FLDMMDL_RAIL_InitRailWork(void *a, u32 b);
 extern void func_02082BCC(void *, int, int);
-extern void func_0219E2C0(void *a, void *r);
+extern void FLDMMDL_RAIL_SetLocation(void *a, void *r);
 
-void *func_0219E968(u32 a, u32 size)
+void *FLDMMDL_RAIL_InitMoveWork(u32 a, u32 size)
 {
     u8 buf[8];
-    int ok = func_02164380((void *)a, (u16 *)buf);
-    void *q = func_0216D684(a, size);
-    func_0219EA5C(q, a);
+    int ok = FLDMMDL_MOVE_GetRailMoveRequest((void *)a, (u16 *)buf);
+    void *q = FLDMMDL_InitMoveProcWork(a, size);
+    FLDMMDL_RAIL_InitRailWork(q, a);
     if (ok) {
-        func_0219E2C0((void *)a, buf);
+        FLDMMDL_RAIL_SetLocation((void *)a, buf);
     } else {
         func_02082BCC(buf, 0, 8);
-        func_0219E2C0((void *)a, buf);
+        FLDMMDL_RAIL_SetLocation((void *)a, buf);
     }
     return q;
 }

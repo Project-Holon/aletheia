@@ -1,5 +1,5 @@
 /*
- * function: func_021C9B24
+ * function: BSUBWAY_SCR_DeleteWork
  * address:  0x021C9B24
  * packet:   pkt_ov021_021C9B24
  * region:   ov021
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_020130B4  0x020130B4  thumb
+ *   BTL_SETUP_Delete  0x020130B4  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_020120F4  0x020120F4  thumb
- *   func_02012EE4  0x02012EE4  thumb
+ *   GAME_DATA_SetCurrentEvent  0x02012EE4  thumb
  */
 #include "../include/Obj05093.h"
 
@@ -24,12 +24,12 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 struct Ctx;
-extern int func_020130B4(int a0);
+extern int BTL_SETUP_Delete(int a0);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_020120F4(const struct Ctx *p);
-extern char *func_02012EE4(char *base, int v);
+extern char *GAME_DATA_SetCurrentEvent(char *base, int v);
 
-void func_021C9B24(u32 a, u8 *p)
+void BSUBWAY_SCR_DeleteWork(u32 a, u8 *p)
 {
     if (p != 0) {
         if (((struct Obj05093 *)p)->f7C8 != 0) {
@@ -37,11 +37,11 @@ void func_021C9B24(u32 a, u8 *p)
             ((struct Obj05093 *)p)->f7C8 = 0;
         }
         if (((struct Obj05093 *)p)->f7CC != 0) {
-            func_020130B4((int)(((struct Obj05093 *)p)->f7CC));
+            BTL_SETUP_Delete((int)(((struct Obj05093 *)p)->f7CC));
             ((struct Obj05093 *)p)->f7CC = 0;
         }
         func_02082BCC(p, 0, 0x7EC);
         func_020307B0(p);
     }
-    func_02012EE4(func_020120F4((const struct Ctx *)a), 0);
+    GAME_DATA_SetCurrentEvent(func_020120F4((const struct Ctx *)a), 0);
 }

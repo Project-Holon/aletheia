@@ -1,5 +1,5 @@
 /*
- * function: func_02157C48
+ * function: DELIVERY_IRC_StepSearchEntry
  * address:  0x02157C48
  * packet:   pkt_ov010_02157C48
  * region:   ov010
@@ -14,14 +14,14 @@
  *   hoisted bound/far-word allocation from r7/r6 to the original r6/r7.
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_02039C68  0x02039C68  arm
  *   func_0203F328  0x0203F328  arm
  *   func_020056EC  0x020056EC  thumb
- *   func_02157960  0x02157960  thumb
- *   func_02157AF0  0x02157AF0  thumb
- *   func_02157B88  0x02157B88  thumb
+ *   DELIVERY_IRC_SetStepAtLine  0x02157960  thumb
+ *   DELIVERY_IRC_StepSendData  0x02157AF0  thumb
+ *   DELIVERY_IRC_StepSendCrc  0x02157B88  thumb
  */
 #include "../include/Obj01831.h"
 
@@ -36,22 +36,22 @@ typedef struct Object {
 
 struct Entry;
 struct Link;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 func_02039CB4(struct Link *, u32, u32);
 extern void func_02039C68(struct Link *, u32, u32);
 extern void func_0203F328(u16 *, u32, u32);
 extern u32 func_020056EC(u32 range);
-extern void func_02157960(int, int, int);
-extern void func_02157AF0(int *);
-extern void func_02157B88(int *);
+extern void DELIVERY_IRC_SetStepAtLine(int, int, int);
+extern void DELIVERY_IRC_StepSendData(int *);
+extern void DELIVERY_IRC_StepSendCrc(int *);
 
-void func_02157C48(Object *p)
+void DELIVERY_IRC_StepSearchEntry(Object *p)
 {
     u8 *b = (u8 *)p;
     int *e;
     u32 i;
     unsigned long n;
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x17, (u8)p->f00) == 0)
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)p->f00) == 0)
         return;
     if (b[0x675] != 0) {
         e = 0;
@@ -65,7 +65,7 @@ void func_02157C48(Object *p)
                 break;
             }
         }
-        func_02157960((int)p, (int)func_02157B88, 0x188);
+        DELIVERY_IRC_SetStepAtLine((int)p, (int)DELIVERY_IRC_StepSendCrc, 0x188);
         if (b[0x676] == 1) {
             u32 t = func_020056EC(0);
             ((struct Obj01831 *)b)->f668 = t;
@@ -74,6 +74,6 @@ void func_02157C48(Object *p)
         }
         return;
     }
-    func_02039C68((struct Link *)func_020399A8(), 0x18, (u8)p->f00);
-    func_02157960((int)p, (int)func_02157AF0, 0x193);
+    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)p->f00);
+    DELIVERY_IRC_SetStepAtLine((int)p, (int)DELIVERY_IRC_StepSendData, 0x193);
 }

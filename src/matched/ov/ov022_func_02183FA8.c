@@ -1,5 +1,5 @@
 /*
- * function: func_02183FA8
+ * function: UNION_APP_AddEntryTarget
  * address: 0x02183FA8
  * packet: pkt_ov022_02183FA8
  * region: ov022
@@ -11,7 +11,7 @@
  * Unlabelled bit-set leaf; follower 02183FB8 is separate labelled code.
  */
 typedef unsigned char u8;
-void func_02183FA8(u8 *p, u8 index)
+void UNION_APP_AddEntryTarget(u8 *p, u8 index)
 {
     p[13] = p[13] | (u8)(1 << index);
 }

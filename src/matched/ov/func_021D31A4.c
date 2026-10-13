@@ -1,5 +1,5 @@
 /*
- * function: func_021D31A4
+ * function: FLD_VREQ_Delete
  * address:  0x021D31A4
  * packet:   pkt_021D31A4
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021D31A4(u32 a)
+void FLD_VREQ_Delete(u32 a)
 {
     func_020307B0((void *)a);
 }

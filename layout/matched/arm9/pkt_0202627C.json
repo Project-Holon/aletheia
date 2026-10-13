@@ -41,7 +41,7 @@
    }
   },
   {
-   "name": "func_020263B0",
+   "name": "GAME_COMM_CallKindNotify",
    "address": "0x020263B0",
    "kind": "game",
    "region": "arm9",

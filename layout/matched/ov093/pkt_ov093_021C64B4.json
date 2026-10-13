@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C64B4",
+   "name": "BTL_SERVER_FLOW_GetMoveParam",
    "address": "0x021C64B4",
    "kind": "game",
    "region": "ov093",

@@ -10,7 +10,7 @@
  * status: EXACT*
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039CB4  0x02039CB4  arm
  *
  * Feeds the block to the arm9 predicate at 0x020399A8 and hands that answer,
@@ -33,13 +33,13 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
 
 int func_021BDB08(char *p, int v)
 {
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x18, 0xA) == 0) {
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, 0xA) == 0) {
         return v;
     }
 

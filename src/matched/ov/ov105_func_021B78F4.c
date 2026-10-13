@@ -10,7 +10,7 @@
  * lever: contested89B8 hint dropped after original7A30 word confirmed.
  * symbols:
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -21,7 +21,7 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02040C14 0x02040C14 arm
  *   func_02049740 0x02049740 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021B8964 0x021B8964 data ov105 a4
  *   d_021B89B8 0x021B89B8 data a4
  *   d_021B8A08 0x021B8A08 data ov105 a4
@@ -29,7 +29,7 @@
  */
 typedef unsigned char u8;
 extern void func_0203F8F4(int);
-extern void func_02045088(int);
+extern void BMP_WIN_Init(int);
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 struct BgTemplate;
@@ -43,14 +43,14 @@ extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_020498F4(void *,int,int,int,int,int,int);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void *func_02049740(void *,int,int,int,int,int);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern const u8 d_021B8964[],d_021B8A08[];
 extern const int d_021B89B8[],d_021B8998[];
 void func_021B78F4(void **p,int heap)
 {
     int i,id;
     void *archive;
-    func_0203F8F4(heap); func_02045088(heap); func_0203FC28((struct DispConfig *)d_021B8964);
+    func_0203F8F4(heap); BMP_WIN_Init(heap); func_0203FC28((struct DispConfig *)d_021B8964);
     for(i=0;i<8;++i) {
         id=d_021B89B8[i];
         func_0203FCA0((u8)id,(const struct BgTemplate *)(d_021B8A08+i*32),(u8)d_021B8998[i]);
@@ -69,5 +69,5 @@ void func_021B78F4(void **p,int heap)
     func_020498F4(archive,14,1,0,0,0,heap);
     func_02040C14(5,0,1,0);
     *p=func_02049740(archive,49,5,0,0,heap);
-    func_02049238(archive);
+    ARC_TOOL_DeleteHandle(archive);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C483C
+ * function: FLDEFF_RIPPLE_RemoveActor
  * address:  0x021C483C
  * packet:   pkt_021C483C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call with two fields and a constant one.
  *
  * symbols:
- *   func_02050278  0x02050278  arm
+ *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct BbActSys;
-extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
+extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count);
 
-void func_021C483C(u8 *p)
+void FLDEFF_RIPPLE_RemoveActor(u8 *p)
 {
-    func_02050278((struct BbActSys *)(((struct Obj12131 *)p)->f4), ((struct Obj12131 *)p)->f8, 1);
+    BILLBOARD_ACT_DeleteSlots((struct BbActSys *)(((struct Obj12131 *)p)->f4), ((struct Obj12131 *)p)->f8, 1);
 }

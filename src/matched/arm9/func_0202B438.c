@@ -1,5 +1,5 @@
 /*
- * function: func_0202B438
+ * function: ISS_DUNGEON_SYS_HasRecord
  * address:  0x0202B438
  * packet:   pkt_0202B1F4
  * region:   arm9
@@ -13,8 +13,8 @@
  * given id, else 0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202B438.c \
- *       --func func_0202B438 --addr 0x0202B438 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_DUNGEON_SYS_HasRecord.c \
+ *       --func ISS_DUNGEON_SYS_HasRecord --addr 0x0202B438 --thumb --cc 1.1p1
  *
  * symbols:
  *   ISS_DUNGEON_SYS_FindRecord  0x0202B374  thumb
@@ -26,7 +26,7 @@ typedef unsigned int  u32;
 
 extern u8 *ISS_DUNGEON_SYS_FindRecord(u8 *p, u32 id);
 
-u32 func_0202B438(u8 *p, u32 id)
+u32 ISS_DUNGEON_SYS_HasRecord(u8 *p, u32 id)
 {
     u8 *q = *(u8 * *)&((struct Obj15837 *)p)->f14;
 

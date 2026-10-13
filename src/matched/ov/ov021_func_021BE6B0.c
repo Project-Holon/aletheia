@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6B0
+ * function: FLD_EXP_OBJ_SetAnimePaused
  * address:  0x021BE6B0
  * packet:   pkt_ov021_021BE6B0
  * region:   ov021
@@ -12,10 +12,10 @@
  * Unlabelled leaf: strb r1, [r0].
  *
  * symbols:
- *   func_021BE6B0  0x021BE6B0  thumb
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb
  */
 
-void func_021BE6B0(unsigned char *p, int v)
+void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v)
 {
     p[0] = v;
 }

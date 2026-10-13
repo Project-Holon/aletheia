@@ -17,8 +17,8 @@
  *   func_021F6EEC 0x021F6EEC thumb ov215
  *   func_020061E4 0x020061E4 thumb
  *   func_02006238 0x02006238 thumb
- *   func_02006224 0x02006224 thumb
- *   func_02006148 0x02006148 thumb
+ *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
+ *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   func_0200616C 0x0200616C thumb
  *   func_020061F8 0x020061F8 thumb
  *   func_021F6D58 0x021F6D58 thumb ov215
@@ -28,8 +28,8 @@
  *   func_021F6CC0 0x021F6CC0 thumb ov215
  *   func_021F6D90 0x021F6D90 thumb ov215
  *   func_021F7110 0x021F7110 thumb ov215
- *   func_02017E1C 0x02017E1C thumb
- *   func_02006984 0x02006984 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
+ *   PM_VOICE_Play 0x02006984 thumb
  *   func_02006650 0x02006650 thumb
  *   func_021F6D1C 0x021F6D1C thumb ov215
  *   MCSS_Main 0x02014C08 thumb
@@ -43,8 +43,8 @@ extern void func_021F6CCC(char *,unsigned,int);
 extern void func_021F6EEC(char *);
 extern void func_020061E4(u32);
 extern int func_02006238(void);
-extern int func_02006224(u32);
-extern int func_02006148(u32);
+extern int GFL_USE_IsSeSlotBusy(u32);
+extern int GFL_USE_GetSeSlot(u32);
 extern void func_0200616C(void *,int);
 extern void func_020061F8(int);
 extern void func_021F6D58(char *);
@@ -54,8 +54,8 @@ extern int func_021F7100(char *);
 extern void func_021F6CC0(char *);
 extern void func_021F6D90(char *);
 extern void func_021F7110(char *);
-extern u32 func_02017E1C(void *,u32,u32);
-extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern int func_02006650(void);
 extern void func_021F6D1C(char *);
 extern void MCSS_Main(char *);
@@ -91,7 +91,7 @@ void func_021F67E0(char *p)
             else if(W(24)==15)func_020061E4(1968);
             else if(W(24)==85)func_020061E4(1968);
             else if(W(24)==90)func_020061E4(1968);
-            if(W(28)&&!func_02006224(W(32))) {
+            if(W(28)&&!GFL_USE_IsSeSlotBusy(W(32))) {
                 W(28)=0;
                 if(W(24)>=150&&W(24)<309)W(36)=20;
                 else if(W(24)>309)W(36)=0;
@@ -99,12 +99,12 @@ void func_021F67E0(char *p)
             if(W(24)>=150&&W(24)<limit) {
                 if(!W(28)) {
                     if(!W(36)) {
-                        W(32)=func_02006148(1967);
+                        W(32)=GFL_USE_GetSeSlot(1967);
                         func_0200616C((void *)1967,W(32));
                         W(28)=1;
                     }else W(36)--;
                 }
-            }else if(W(24)==limit&&W(28)&&func_02006224(W(32))) {
+            }else if(W(24)==limit&&W(28)&&GFL_USE_IsSeSlotBusy(W(32))) {
                 func_020061F8(W(32));W(28)=0;
             }
         }
@@ -121,9 +121,9 @@ void func_021F67E0(char *p)
     case 7:
         if(++W(24)>=65) {
             W(12)=8;
-            a=func_02017E1C(((struct Obj01083 *)p)->f4,5,0);
-            b=func_02017E1C(((struct Obj01083 *)p)->f4,111,0);
-            func_02006984(a,b,64,0,0,0,0,0);
+            a=POKE_TOOL_GetPartyValue(((struct Obj01083 *)p)->f4,5,0);
+            b=POKE_TOOL_GetPartyValue(((struct Obj01083 *)p)->f4,111,0);
+            PM_VOICE_Play(a,b,64,0,0,0,0,0);
         }
         break;
     case 8:if(!func_02006650())W(12)=9;break;

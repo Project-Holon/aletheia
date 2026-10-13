@@ -1,5 +1,5 @@
 /*
- * function: func_021F0A04
+ * function: UNION_SUBDISP_MoveChatLine
  * address: 0x021F0A04
  * packet: pkt_ov031_021F0A04
  * region: ov031
@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT*
  * lever: enum byte-offset locals, product by 0xE0 then separate <<= 1, recover sequential source/destination scaling and entry copies; integer offsets and enum halfword indexes do not.
- * extent: 154 instruction bytes followed by two zero alignment bytes; func_021F0AA0 is separately matched.
+ * extent: 154 instruction bytes followed by two zero alignment bytes; UNION_SUBDISP_ScrollChatLines is separately matched.
  * symbols:
- *   func_021F0A04  0x021F0A04  thumb
+ *   UNION_SUBDISP_MoveChatLine  0x021F0A04  thumb
  *   func_0204162C  0x0204162C  arm
  *   func_02082D44  0x02082D44  arm
  *   func_02041B6C  0x02041B6C  arm
  *   PMS_DRAW_Copy  0x0202DD24  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043814  0x02043814  arm
- *   func_02045334  0x02045334  arm
- *   func_021BBC2C  0x021BBC2C  thumb  ov021
- *   func_021F07AC  0x021F07AC  thumb  ov031
+ *   BMP_CopyPixels  0x02043814  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
+ *   UNION_SUBDISP_DrawChatLine  0x021F07AC  thumb  ov031
  */
 
 typedef unsigned char  u8;
@@ -45,12 +45,12 @@ extern void func_02041B6C(u32 bit);
 extern void PMS_DRAW_Copy(struct PmsDraw *p, u32 i, u32 j);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
-extern void func_02045334(struct Descriptor *);
-extern u8 *func_021BBC2C(void *, int);
-extern void func_021F07AC(O *, u8 *, int);
+extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern u8 *UNION_CHAT_LOG_GetLine(void *, int);
+extern void UNION_SUBDISP_DrawChatLine(O *, u8 *, int);
 
-void func_021F0A04(O *o, int a, int b, void *c, int d)
+void UNION_SUBDISP_MoveChatLine(O *o, int a, int b, void *c, int d)
 {
     u16 *base;
     u16 *src;
@@ -72,9 +72,9 @@ void func_021F0A04(O *o, int a, int b, void *c, int d)
         return;
     }
     if (o->k[a] == 1 && o->k[b] == 1) {
-        func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)o->h[a])), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)o->h[b])));
-        func_02045334((struct Descriptor *)o->h[b]);
+        BMP_CopyPixels((struct Bmp *)((u32)func_02045770((struct Descriptor *)o->h[a])), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)o->h[b])));
+        BMP_WIN_TransferChars((struct Descriptor *)o->h[b]);
         return;
     }
-    func_021F07AC(o, func_021BBC2C(c, d - 2 + a), b);
+    UNION_SUBDISP_DrawChatLine(o, UNION_CHAT_LOG_GetLine(c, d - 2 + a), b);
 }

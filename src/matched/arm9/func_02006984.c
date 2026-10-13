@@ -1,5 +1,5 @@
 /*
- * function: func_02006984
+ * function: PM_VOICE_Play
  * address:  0x02006984
  * packet:   pkt_02006948
  * region:   arm9
@@ -26,8 +26,8 @@
  * class needs only that the callee has an EXACT entry of its own.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02006984.c \
- *       --func func_02006984 --addr 0x02006984 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PM_VOICE_Play.c \
+ *       --func PM_VOICE_Play --addr 0x02006984 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -38,7 +38,7 @@ extern void func_02085A38(u32 v);
 extern int PM_VOICE_Prepare(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
 extern int PM_VOICE_Start(u32 idx);
 
-u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3,
+u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3,
                   u32 a4, u32 a5, u32 a6, u32 a7)
 {
     u32 v;

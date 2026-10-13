@@ -1,5 +1,5 @@
 /*
- * function: func_021F020C
+ * function: C_GEAR_HitTestTile
  * address:  0x021F020C
  * packet:   pkt_ov029_021F020C
  * region:   ov029
@@ -13,8 +13,8 @@
  * struct copies of the tables (ldm r5,{r3,r5}).
  *
  * symbols:
- *   func_021F020C  0x021F020C  thumb  ov029
- *   func_021F2B9C  0x021F2B9C  thumb  ov029
+ *   C_GEAR_HitTestTile  0x021F020C  thumb  ov029
+ *   C_GEAR_GetCellKind  0x021F2B9C  thumb  ov029
  *   d_021F333C     0x021F333C  data  a4
  *   d_021F334C     0x021F334C  data  a4
  */
@@ -24,11 +24,11 @@ struct Pair {
     int b;
 };
 
-extern unsigned int func_021F2B9C(unsigned char *p, int a, int b);
+extern unsigned int C_GEAR_GetCellKind(unsigned char *p, int a, int b);
 extern struct Pair d_021F333C;
 extern struct Pair d_021F334C;
 
-int func_021F020C(const void *p, int a, int b, int *c, int *d)
+int C_GEAR_HitTestTile(const void *p, int a, int b, int *c, int *d)
 {
     int y;
     struct Pair lo;
@@ -49,7 +49,7 @@ int func_021F020C(const void *p, int a, int b, int *c, int *d)
     }
     y = b / 4;
     if (a < 9 && y < (&hi.a)[m]) {
-        ret = func_021F2B9C((unsigned char *)p, a, y);
+        ret = C_GEAR_GetCellKind((unsigned char *)p, a, y);
     }
     *c = a;
     *d = y;

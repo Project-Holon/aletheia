@@ -1,5 +1,5 @@
 /*
- * function: func_0203159C
+ * function: PROCSYS_AllocProcWork
  * address:  0x0203159C
  * packet:   pkt_020314F4
  * region:   arm9
@@ -22,8 +22,8 @@
  * pool word next to the __FILE__ pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203159C.c \
- *       --func func_0203159C --addr 0x0203159C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PROCSYS_AllocProcWork.c \
+ *       --func PROCSYS_AllocProcWork --addr 0x0203159C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -38,7 +38,7 @@ extern const char func_0203159C_File[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap)
+void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap)
 {
     obj->buffer = func_02030734(heap, size, 0, func_0203159C_File, 390);
     return obj->buffer;

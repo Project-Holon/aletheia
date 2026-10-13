@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B528  0x0204B528  arm
+ *   CLACT_SetActorPos  0x0204B528  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  */
 typedef struct {
@@ -25,7 +25,7 @@ typedef struct {
 
 struct Actor;
 struct Pt;
-extern void func_0204B528(struct Actor *actor, const struct Pt *src);
+extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 typedef unsigned int   u32;
 struct Node;
 struct Obj;
@@ -38,7 +38,7 @@ void func_021B9F90(Obj *o, Pos pos, int c)
 
     t.x = pos.x + 8;
     t.y = pos.y;
-    func_0204B528(o->f2c, (const struct Pt *)(&t));
+    CLACT_SetActorPos(o->f2c, (const struct Pt *)(&t));
     CLACT_SetActorDrawPriority(o->f2c, (unsigned char)c);
     func_0204B3DC(o->f2c, 1);
 }

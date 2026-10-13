@@ -1,5 +1,5 @@
 /*
- * function: func_021667E0
+ * function: SYMBOL_MAP_ScrCmdStartRecordTask
  * address: 0x021667E0
  * packet: pkt_ov010_021667E0
  * region: ov010
@@ -8,38 +8,38 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * The returned task remains live as func_0215897C's second argument.
+ * The returned task remains live as SCRIPT_SYS_CallEvent's second argument.
  * symbols:
- *   func_0215A5F4 0x0215A5F4 thumb ov010
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_020120F4 0x020120F4 thumb
- *   func_02012ED0 0x02012ED0 thumb
- *   func_02159AE8 0x02159AE8 thumb ov010
- *   func_0216666C 0x0216666C thumb ov010
- *   func_0215897C 0x0215897C thumb ov010
+ *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetEventState 0x02012ED0 thumb
+ *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
+ *   SYMBOL_MAP_CreateRecordTask 0x0216666C thumb ov010
+ *   SCRIPT_SYS_CallEvent 0x0215897C thumb ov010
  */
-extern void *func_0215A5F4(void *);
-extern void *func_0215A5DC(void *);
+extern void *SCRCMD_WORK_GetScriptWork(void *);
+extern void *SCRCMD_WORK_GetGameSystem(void *);
 typedef unsigned short u16;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned char  u8;
 struct Big;
-extern u8 *func_02012ED0(struct Big *p);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_0216666C(void *, void *, void *);
-extern void func_0215897C(void *, void *);
+extern u8 *GAME_DATA_GetEventState(struct Big *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern void *SYMBOL_MAP_CreateRecordTask(void *, void *, void *);
+extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int func_021667E0(void *a, void *b)
+int SYMBOL_MAP_ScrCmdStartRecordTask(void *a, void *b)
 {
-    void *x = func_0215A5F4(b);
-    void *y = func_0215A5DC(b);
+    void *x = SCRCMD_WORK_GetScriptWork(b);
+    void *y = SCRCMD_WORK_GetGameSystem(b);
     void **p;
     void *r;
-    p = (void **)func_02012ED0(func_020120F4(y));
-    r = func_0216666C(y, *p, func_02159AE8(a, b));
+    p = (void **)GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(y));
+    r = SYMBOL_MAP_CreateRecordTask(y, *p, SCRIPT_WORK_ReadWorkPointer(a, b));
     if (r == 0)
         return 1;
-    func_0215897C(x, r);
+    SCRIPT_SYS_CallEvent(x, r);
     return 1;
 }

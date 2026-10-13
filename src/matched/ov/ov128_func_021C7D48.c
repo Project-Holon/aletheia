@@ -10,12 +10,13 @@
  * symbols:
  *   func_021CA444 0x021CA444 thumb ov128
  *   func_021CA458 0x021CA458 thumb ov128
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_020452E8 0x020452E8 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021C4080 0x021C4080 thumb ov127
  *   func_021C3F80 0x021C3F80 thumb ov127
  *   func_021C88BC 0x021C88BC thumb ov128
+ *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb  arm9
  */
 #include "../include/Obj03281.h"
 typedef unsigned char u8;
@@ -25,11 +26,11 @@ struct Descriptor;
 struct Obj;
 struct TaskMenuState;
 struct U16Vec;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int func_020452E8(struct Descriptor *d);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned int   u32;
-extern u32 func_02027FD8(struct TaskMenuState *s);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void func_021C4080(u8 *p);
 extern void func_021C3F80(u8 *);
 extern void func_021C88BC(void *a0, void *a1);
@@ -39,19 +40,19 @@ void func_021C7D48(u8 *p, void *unused, u8 *a)
     int offset;
     func_021CA444((char *)a);
     func_021CA458((char *)a,a + 12);
-    func_0204B3B4(((struct Obj03281 *)p)->f1A4);
-    func_0204B3B4(((struct Obj03281 *)p)->f1A0);
+    CLACT_DeleteActor(((struct Obj03281 *)p)->f1A4);
+    CLACT_DeleteActor(((struct Obj03281 *)p)->f1A0);
     func_020452E8(((struct Obj03281 *)p)->f108);
-    func_02045808(((struct Obj03281 *)p)->f110);
-    func_02027FD8(((struct Obj03281 *)p)->f190);
-    func_02045808(((struct Obj03281 *)p)->f178);
-    func_02045808(((struct Obj03281 *)p)->f184);
+    STRBUF_Delete(((struct Obj03281 *)p)->f110);
+    APP_TASKMENU_RES_Delete(((struct Obj03281 *)p)->f190);
+    STRBUF_Delete(((struct Obj03281 *)p)->f178);
+    STRBUF_Delete(((struct Obj03281 *)p)->f184);
     offset=0x1a4;
     i=0;
     offset=0x118;
     for (; i < 4; i++) {
-        func_02045808(*(void **)(p + i * 12 + offset));
-        func_02045808(*(void **)(p + i * 12 + 0x148));
+        STRBUF_Delete(*(void **)(p + i * 12 + offset));
+        STRBUF_Delete(*(void **)(p + i * 12 + 0x148));
     }
     func_021C4080(((struct Obj03281 *)p)->f104);
     func_021C3F80(*(u8 * *)&((struct Obj03281 *)p)->f104);

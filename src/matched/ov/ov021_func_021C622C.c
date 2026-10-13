@@ -1,5 +1,5 @@
 /*
- * function: func_021C622C
+ * function: SWEET_SCENT_FadeMain
  * address:  0x021C622C
  * packet:   pkt_ov021_021C622C
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C62F0  0x021C62F0  thumb  ov021
- *   func_021C6368  0x021C6368  thumb  ov021
+ *   SWEET_SCENT_FadeSetup  0x021C62F0  thumb  ov021
+ *   SWEET_SCENT_FadeCleanup  0x021C6368  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_021D3288  0x021D3288  thumb  ov021
- *   func_021D325C  0x021D325C  thumb  ov021
- *   func_021D3244  0x021D3244  thumb  ov021
+ *   FLD_VREQ_SetMainBlendAlphaEv  0x021D3288  thumb  ov021
+ *   FLD_VREQ_SetMainBlendAlpha  0x021D325C  thumb  ov021
+ *   FLD_VREQ_SetBgVisible  0x021D3244  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -28,28 +28,28 @@ typedef struct {
     void *f4;
 } Ctx;
 
-extern void func_021C62F0(u8 *p);
-extern void func_021C6368(u8 *p);
+extern void SWEET_SCENT_FadeSetup(u8 *p);
+extern void SWEET_SCENT_FadeCleanup(u8 *p);
 typedef unsigned int   u32;
 struct St021D3244;
 struct St021D325C;
 extern void func_020061E4(u32 a);
-extern void func_021D3288(void *a, int b, int c);
-extern void func_021D325C(struct St021D325C *p, u32 a, u32 b, u32 c, u32 d);
-extern void func_021D3244(struct St021D3244 *p, int i, u8 v);
+extern void FLD_VREQ_SetMainBlendAlphaEv(void *a, int b, int c);
+extern void FLD_VREQ_SetMainBlendAlpha(struct St021D325C *p, u32 a, u32 b, u32 c, u32 d);
+extern void FLD_VREQ_SetBgVisible(struct St021D3244 *p, int i, u8 v);
 
-int func_021C622C(void *unused, int *st, Ctx *c)
+int SWEET_SCENT_FadeMain(void *unused, int *st, Ctx *c)
 {
     switch (*st) {
     case 0:
-        func_021C62F0((u8 *)c);
+        SWEET_SCENT_FadeSetup((u8 *)c);
         func_020061E4(0x683);
         *st = *st + 1;
         break;
     case 1:
         if (c->f3++ >= c->f2) {
             c->f1++;
-            func_021D3288(c->f4, c->f1, 0x10 - c->f1);
+            FLD_VREQ_SetMainBlendAlphaEv(c->f4, c->f1, 0x10 - c->f1);
             c->f3 = 0;
         }
         if (c->f1 >= 8) {
@@ -64,7 +64,7 @@ int func_021C622C(void *unused, int *st, Ctx *c)
     case 3:
         if (c->f3++ >= c->f2) {
             c->f1--;
-            func_021D3288(c->f4, c->f1, 0x10 - c->f1);
+            FLD_VREQ_SetMainBlendAlphaEv(c->f4, c->f1, 0x10 - c->f1);
             c->f3 = 0;
         }
         if (c->f1 == 0) {
@@ -72,12 +72,12 @@ int func_021C622C(void *unused, int *st, Ctx *c)
         }
         break;
     case 4:
-        func_021D325C(c->f4, 0, 0, 0, 0x1f);
-        func_021D3244(c->f4, c->f0, 0);
+        FLD_VREQ_SetMainBlendAlpha(c->f4, 0, 0, 0, 0x1f);
+        FLD_VREQ_SetBgVisible(c->f4, c->f0, 0);
         *st = *st + 1;
         break;
     default:
-        func_021C6368((u8 *)c);
+        SWEET_SCENT_FadeCleanup((u8 *)c);
         return 1;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02165960
+ * function: GAME_BEACON_ACCESSOR_TableAdd
  * address:  0x02165960
  * packet:   pkt_ov010_02165960
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Inserts a record into the 30-slot queue (see func_021658D4): reuses the
+ * Inserts a record into the 30-slot queue (see GAME_BEACON_ACCESSOR_TablePop): reuses the
  * first empty slot or the slot with the same f10; otherwise, when the
  * mode is 1, drops slot 0 by shifting everything down and appends.
  * Returns the slot used, or 30 when full and mode is not 1.
@@ -41,7 +41,7 @@ struct Queue {
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
-int func_02165960(struct Queue *q, struct Rec *rec, int tag, int mode)
+int GAME_BEACON_ACCESSOR_TableAdd(struct Queue *q, struct Rec *rec, int tag, int mode)
 {
     int i;
 

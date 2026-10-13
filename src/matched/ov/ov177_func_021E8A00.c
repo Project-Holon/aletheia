@@ -12,8 +12,8 @@
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
- *   func_020200CC  0x020200CC  thumb
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_MENULIST_Main  0x020200CC  thumb
  */
 
 typedef struct {
@@ -34,8 +34,8 @@ typedef unsigned int   u32;
 struct Obj;
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *);
-extern s32 func_020200CC(struct Obj *o);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern s32 BMP_MENULIST_Main(struct Obj *o);
 
 int func_021E8A00(S *p)
 {
@@ -44,11 +44,11 @@ int func_021E8A00(S *p)
 
     if (p->fc != 0) {
         if (func_0201C6C4((struct PrintSys *)r4, (void *)((int)func_02045770((struct Descriptor *)p->f8))) == 0) {
-            func_02045334((struct Descriptor *)p->f8);
+            BMP_WIN_TransferChars((struct Descriptor *)p->f8);
             p->fc = 0;
         }
     }
-    r = func_020200CC((struct Obj *)p->f10);
+    r = BMP_MENULIST_Main((struct Obj *)p->f10);
     if (r == -2) {
         r = p->f18;
     }

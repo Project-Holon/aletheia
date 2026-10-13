@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6CC
+ * function: PLIST_MENU_UpdateLevelUp
  * address: 0x021BC6CC
  * packet: pkt_ov091_021BC6CC
  * region: ov091
@@ -12,24 +12,24 @@
  * retry: declaring case0 flag before width swaps their spill slots into
  * the original order and closes all 1376 bytes; one wave59 retry run.
  * symbols:
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
- *   func_020457B0 0x020457B0 arm
- *   func_02043AF4 0x02043AF4 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   BMP_FillRect 0x02043AF4 arm
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
- *   func_020456F8 0x020456F8 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_020452E8 0x020452E8 arm
  *   func_0201F73C 0x0201F73C thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_0201C724 0x0201C724 thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
@@ -39,17 +39,17 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
  *   POKE_TOOL_GetLevelUpMove 0x02018328 thumb
- *   func_0201B2B0 0x0201B2B0 thumb
- *   func_021BB7A4 0x021BB7A4 thumb ov091
- *   func_021BB97C 0x021BB97C thumb ov091
- *   func_021BB99C 0x021BB99C thumb ov091
- *   func_021BB9CC 0x021BB9CC thumb ov091
- *   func_021B9788 0x021B9788 thumb ov091
- *   func_021BB98C 0x021BB98C thumb ov091
+ *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
+ *   PLIST_MESSAGE_CloseWindow 0x021BB7A4 thumb ov091
+ *   PLIST_MESSAGE_CreateWordSet 0x021BB97C thumb ov091
+ *   PLIST_MESSAGE_SetWordSetPokemon 0x021BB99C thumb ov091
+ *   PLIST_MESSAGE_SetWordSetMove 0x021BB9CC thumb ov091
+ *   POKELIST_ShowMessage 0x021B9788 thumb ov091
+ *   PLIST_MESSAGE_DestroyWordSet 0x021BB98C thumb ov091
  *   func_021B9EB0 0x021B9EB0 thumb ov091
  *   func_021BC6C0 0x021BC6C0 thumb ov091
  *   func_021B9E44 0x021B9E44 thumb ov091
- *   d_021BECE4 0x021BECE4 data ov091 a2
+ *   gPlistStatParamIds 0x021BECE4 data ov091 a2
  * BB9CC's last parameter is a full word here: result stays untruncated in r3.
  */
 typedef unsigned char u8;
@@ -65,20 +65,20 @@ struct PrintSys;
 struct StrObj;
 struct U16Vec;
 struct WordSet;
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern u32 func_02017E1C(void *p,u32 id,u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(u32,u32,s16,s16,u32,u32,u16);
-extern void func_02045808(struct U16Vec *vec);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void PRINTSYS_PrintQueColor(u32,u32,s16,s16,u32,u32,u16);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -86,29 +86,29 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201ED04(struct WordSet *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_020061E4(u32);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern u32 func_020452E8(struct Descriptor *d);
 extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
-extern void func_021BB7A4(void *p, u32 *s);
-extern void func_021BB97C(u16 *p, u32 s);
-extern void func_021BB99C(int a, int b, int c, int d);
-extern void func_021BB9CC(int a, int b, int c, int d);
-extern void func_021B9788(u8 *,int,int,int);
-extern void func_021BB98C(void *p, u32 s);
+extern void PLIST_MESSAGE_CloseWindow(void *p, u32 *s);
+extern void PLIST_MESSAGE_CreateWordSet(u16 *p, u32 s);
+extern void PLIST_MESSAGE_SetWordSetPokemon(int a, int b, int c, int d);
+extern void PLIST_MESSAGE_SetWordSetMove(int a, int b, int c, int d);
+extern void POKELIST_ShowMessage(u8 *,int,int,int);
+extern void PLIST_MESSAGE_DestroyWordSet(void *p, u32 s);
 extern void func_021B9EB0(u8 *p);
 extern void func_021BC6C0(char *p);
-extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern void func_021B9E44(u8 *);
-extern u16 d_021BECE4[];
+extern u16 gPlistStatParamIds[];
 #define W(k) (*(u32 *)(p+(k)))
 #define H(k) (*(u16 *)(p+(k)))
 #define S ((u8 *)W(0x280))
 #define T(k) (*(u32 *)(S+(k)))
-void func_021BC6CC(u8 *p)
+void PLIST_MENU_UpdateLevelUp(u8 *p)
 {
     u8 i,j,x;
     u32 q,result,off;
@@ -119,77 +119,77 @@ void func_021BC6CC(u8 *p)
         int y;
         u16 width;
         flag=0;
-        W(0x130)=func_020450F0(0,1,1,14,12,14,1);
+        W(0x130)=BMP_WIN_Create(0,1,1,14,12,14,1);
         func_0201F73C((void *)W(0x130),1,1,12);
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)W(0x130))),15);
-        q=W(0x130); func_02045334((struct Descriptor *)q); func_02045374((struct Cfg *)q); func_02041B6C(func_02045730((struct Descriptor *)q));
+        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)W(0x130))),15);
+        q=W(0x130); BMP_WIN_TransferChars((struct Descriptor *)q); BMP_WIN_MakeScreen((struct Cfg *)q); func_02041B6C(func_02045730((struct Descriptor *)q));
         for(i=0;i<6;i++) {
             off=i; off=off*2;
-            delta=func_02017E1C((void *)W(0x38),*(u16 *)((u8 *)d_021BECE4+off),0)-*(u16 *)(p+off+0x124);
+            delta=func_02017E1C((void *)W(0x38),*(u16 *)((u8 *)gPlistStatParamIds+off),0)-*(u16 *)(p+off+0x124);
             if(delta>=10) flag=1;
             buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),i+0x95); y=i<<4;
-            func_0201C724(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
-            func_02045808((struct U16Vec *)buf);
-            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)func_020457B0(0x20,H(0)); text=(u32)func_0201EC64(H(0));
+            PRINTSYS_PrintQueColor(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
+            STRBUF_Delete((struct U16Vec *)buf);
+            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)func_0201EC64(H(0));
             func_0201EFA4((struct WordSet *)text,0,delta,3,0,1); func_0201F250((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
-            func_0201C724(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)y,tmp,W(0x138),0x440);
-            func_02045808((struct U16Vec *)buf); func_02045808((struct U16Vec *)tmp); func_0201ED04((struct WordSet *)text);
+            PRINTSYS_PrintQueColor(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)y,tmp,W(0x138),0x440);
+            STRBUF_Delete((struct U16Vec *)buf); STRBUF_Delete((struct U16Vec *)tmp); func_0201ED04((struct WordSet *)text);
         }
         for(j=0;j<6;j++) {
             x=flag==1 ? 72 : 80;
             buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9b);
-            func_0201C724(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),x,(s16)(j<<4),buf,W(0x138),0x440);
-            func_02045808((struct U16Vec *)buf);
+            PRINTSYS_PrintQueColor(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),x,(s16)(j<<4),buf,W(0x138),0x440);
+            STRBUF_Delete((struct U16Vec *)buf);
         }
         p[0xe]=1; break;
     }
     case 1:
         if(func_0201C6C4((struct PrintSys *)W(0x140),(void *)((u32)func_02045770((struct Descriptor *)W(0x130))))==0) {
-            q=W(0x130); func_02045334((struct Descriptor *)q); func_02045374((struct Cfg *)q); func_02041B6C(func_02045730((struct Descriptor *)q)); p[0xe]=2;
+            q=W(0x130); BMP_WIN_TransferChars((struct Descriptor *)q); BMP_WIN_MakeScreen((struct Cfg *)q); func_02041B6C(func_02045730((struct Descriptor *)q)); p[0xe]=2;
         } break;
     case 2:
-        if((func_020362DC()&1)||(func_020362DC()&2)||func_02035C60()==1) { func_020061E4(0x547); p[0xe]=3; }
+        if((func_020362DC()&1)||(func_020362DC()&2)||TOUCHPANEL_GetTrg()==1) { func_020061E4(0x547); p[0xe]=3; }
         break;
     case 3: {
         u16 width;
         u32 delta,buf,tmp,text;
-        func_02043AF4((struct Bmp *)((u32)func_02045770((struct Descriptor *)W(0x130))),0x50,0,0x20,0x60,15);
+        BMP_FillRect((struct Bmp *)((u32)func_02045770((struct Descriptor *)W(0x130))),0x50,0,0x20,0x60,15);
         for(i=0;i<6;i++) {
-            delta=func_02017E1C((void *)W(0x38),d_021BECE4[i],0);
-            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)func_020457B0(0x20,H(0)); text=(u32)func_0201EC64(H(0));
+            delta=func_02017E1C((void *)W(0x38),gPlistStatParamIds[i],0);
+            buf=(u32)func_02045EC0((struct MsgBank *)W(0x134),0x9c); tmp=(u32)STRBUF_Create(0x20,H(0)); text=(u32)func_0201EC64(H(0));
             func_0201EFA4((struct WordSet *)text,0,delta,3,0,1); func_0201F250((struct WordSet *)text,(void *)tmp,(void *)buf);
             width=func_0201D304((struct StrObj *)tmp,W(0x138),0);
-            func_0201C724(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)(i<<4),tmp,W(0x138),0x440);
-            func_02045808((struct U16Vec *)buf); func_02045808((struct U16Vec *)tmp); func_0201ED04((struct WordSet *)text);
+            PRINTSYS_PrintQueColor(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)(i<<4),tmp,W(0x138),0x440);
+            STRBUF_Delete((struct U16Vec *)buf); STRBUF_Delete((struct U16Vec *)tmp); func_0201ED04((struct WordSet *)text);
         }
         p[0xe]=4; break;
     }
     case 4:
         if(func_0201C6C4((struct PrintSys *)W(0x140),(void *)((u32)func_02045770((struct Descriptor *)W(0x130))))==0) {
-            q=W(0x130); func_02045334((struct Descriptor *)q); func_02045374((struct Cfg *)q); func_02041B6C(func_02045730((struct Descriptor *)q)); p[0xe]=5;
+            q=W(0x130); BMP_WIN_TransferChars((struct Descriptor *)q); BMP_WIN_MakeScreen((struct Cfg *)q); func_02041B6C(func_02045730((struct Descriptor *)q)); p[0xe]=5;
         } break;
     case 5:
-        if((func_020362DC()&1)||(func_020362DC()&2)||func_02035C60()==1) {
-            p[0xe]=6; func_020061E4(0x547); func_020456F8((struct Descriptor *)W(0x130)); func_0201F7A8((void *)W(0x130),1); func_020452E8((struct Descriptor *)W(0x130)); W(0x130)=0;
+        if((func_020362DC()&1)||(func_020362DC()&2)||TOUCHPANEL_GetTrg()==1) {
+            p[0xe]=6; func_020061E4(0x547); BMP_WIN_ClearScreen((struct Descriptor *)W(0x130)); func_0201F7A8((void *)W(0x130),1); func_020452E8((struct Descriptor *)W(0x130)); W(0x130)=0;
         } break;
     case 6:
-        result=POKE_TOOL_GetLevelUpMove((void *)W(0x38),(u32 *)(S+0x50),H(0)); func_021BB7A4(p,(u32 *)W(0x150));
+        result=POKE_TOOL_GetLevelUpMove((void *)W(0x38),(u32 *)(S+0x50),H(0)); PLIST_MESSAGE_CloseWindow(p,(u32 *)W(0x150));
         if(result==0) { p[0xe]=7; return; }
         if(result==0xfffe) { p[0xe]=7; return; }
         if(result&0x8000) {
             *(u16 *)(S+0x46)=result-0x8000;
-            func_021BB97C((u16 *)p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
-            func_021BB9CC((int)p,W(0x150),1,*(u16 *)(S+0x46));
-            func_021B9788(p,0x20,0,(int)func_021B9EB0); func_021BB98C(p,W(0x150));
+            PLIST_MESSAGE_CreateWordSet((u16 *)p,W(0x150)); PLIST_MESSAGE_SetWordSetPokemon((int)p,W(0x150),0,W(0x38));
+            PLIST_MESSAGE_SetWordSetMove((int)p,W(0x150),1,*(u16 *)(S+0x46));
+            POKELIST_ShowMessage(p,0x20,0,(int)func_021B9EB0); PLIST_MESSAGE_DestroyWordSet(p,W(0x150));
         } else {
-            func_021BB97C((u16 *)p,W(0x150)); func_021BB99C((int)p,W(0x150),0,W(0x38));
-            func_021BB9CC((int)p,W(0x150),1,result);
-            func_021B9788(p,0x29,1,(int)func_021BC6C0); func_021BB98C(p,W(0x150));
+            PLIST_MESSAGE_CreateWordSet((u16 *)p,W(0x150)); PLIST_MESSAGE_SetWordSetPokemon((int)p,W(0x150),0,W(0x38));
+            PLIST_MESSAGE_SetWordSetMove((int)p,W(0x150),1,result);
+            POKELIST_ShowMessage(p,0x29,1,(int)func_021BC6C0); PLIST_MESSAGE_DestroyWordSet(p,W(0x150));
         } break;
     case 7:
         func_02017E1C((void *)W(0x38),5,0);
-        if(func_0201B2B0((void *)T(0),(void *)W(0x38),0,*(u16 *)(S+0x30),S[0x5f],0,H(0))!=0) {
+        if(SHINKA_CHECK_CheckEvolution((void *)T(0),(void *)W(0x38),0,*(u16 *)(S+0x30),S[0x5f],0,H(0))!=0) {
             p[0xc]=19; T(0x3c)=W(0x2c); T(0x40)=9;
         } else {
             T(0x34)=5; T(0x3c)=W(0x2c); T(0x40)=10; func_021B9E44(p);

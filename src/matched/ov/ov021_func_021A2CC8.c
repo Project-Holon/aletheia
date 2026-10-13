@@ -1,5 +1,5 @@
 /*
- * function: func_021A2CC8
+ * function: WEATHER_TASK_QueueFogChange
  * address:  0x021A2CC8
  * packet:   pkt_ov021_021A2CC8
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct {
     u32 value;
 } Obj021A2CC8;
 
-void func_021A2CC8(Obj021A2CC8 *p, u8 mode, u32 value, int n)
+void WEATHER_TASK_QueueFogChange(Obj021A2CC8 *p, u8 mode, u32 value, int n)
 {
     p->active = 1;
     p->mode = mode;

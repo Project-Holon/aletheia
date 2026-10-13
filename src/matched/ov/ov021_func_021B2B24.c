@@ -1,5 +1,5 @@
 /*
- * function: func_021B2B24
+ * function: SCRCMD_SCREENEFFECTS_StartDoorOpen
  * address:  0x021B2B24
  * packet:   pkt_ov021_021B2B24
  * region:   ov021
@@ -10,30 +10,30 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02158F50  0x02158F50  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021C978C  0x021C978C  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_GetEvent  0x02158F50  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   FIELD_DOOR_ANIME_StartOpen  0x021C978C  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02158F50(void *p);
-extern u32 func_021C978C(u32 a, u32 b, u32 c);
-extern void func_0215897C(void *vm, void *task);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *SCRIPT_WORK_GetEvent(void *p);
+extern u32 FIELD_DOOR_ANIME_StartOpen(u32 a, u32 b, u32 c);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B2B24(u32 a, u32 b)
+int SCRCMD_SCREENEFFECTS_StartDoorOpen(u32 a, u32 b)
 {
-    void *d = func_0215A5DC((void *)b);
-    void *s = func_0215A5F4((void *)b);
-    void *w = func_0201210C((void *)d);
+    void *d = SCRCMD_WORK_GetGameSystem((void *)b);
+    void *s = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *w = GAMESYSTEM_GetFieldMap((void *)d);
 
-    func_0215897C(s, (void *)func_021C978C((u32)func_02158F50((void *)s), (u32)d, (u32)w));
+    SCRIPT_SYS_CallEvent(s, (void *)FIELD_DOOR_ANIME_StartOpen((u32)SCRIPT_WORK_GetEvent((void *)s), (u32)d, (u32)w));
     return 1;
 }

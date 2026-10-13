@@ -1,5 +1,5 @@
 /*
- * function: func_021D0328
+ * function: FLDEFF_BTRAIN_Update
  * address:  0x021D0328
  * packet:   pkt_ov021_021D0328
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020478B8  0x020478B8  arm
+ *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  */
 
 typedef unsigned char u8;
@@ -27,13 +27,13 @@ typedef struct St021D0328 {
     u32 fC;
 } St021D0328;
 
-extern int func_020478B8(void *a, int idx, int amount);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
 
-void func_021D0328(void *unused, St021D0328 *p)
+void FLDEFF_BTRAIN_Update(void *unused, St021D0328 *p)
 {
     if (p->f2 != 4) {
         p->f3 = 0;
-        if (func_020478B8((void *)p->fC, p->f2, 0x1000) == 0) {
+        if (G3D_SYSTEM_IncObjectAnimeFrame((void *)p->fC, p->f2, 0x1000) == 0) {
             p->f3 = 1;
         }
     }

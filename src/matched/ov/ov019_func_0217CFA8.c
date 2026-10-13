@@ -1,5 +1,5 @@
 /*
- * function: func_0217CFA8
+ * function: UNION_ONESELF_TrainerCardMain
  * address:  0x0217CFA8
  * packet:   pkt_ov019_0217CFA8
  * region:   ov019
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217BB04  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
  *   func_02034714  0x02034714  arm
  *   func_02030734  0x02030734  arm
- *   func_0216F40C  0x0216F40C  thumb  ov010
+ *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb  ov010
  *   func_02082D44  0x02082D44  arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0217EE4C  0x0217EE4C  thumb  ov019
- *   func_0217F210  0x0217F210  thumb  ov019
- *   func_02173BB0  0x02173BB0  thumb  ov012
- *   func_0217F1EC  0x0217F1EC  thumb  ov019
- *   func_0216F7F4  0x0216F7F4  thumb  ov010
- *   func_0217422C  0x0217422C  thumb  ov012
- *   func_02174268  0x02174268  thumb  ov012
+ *   UNION_MSG_CheckLanguageVersion  0x0217EE4C  thumb  ov019
+ *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
+ *   UNION_COMMAND_SendTrainerCard  0x02173BB0  thumb  ov012
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
+ *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
+ *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
  *   func_020307B0  0x020307B0  arm
- *   func_0203D378  0x0203D378  arm
- *   func_0217B8E4  0x0217B8E4  thumb  ov019
- *   d_021807E4     0x021807E4  data  a4
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
+ *   gUnionEmptyString1     0x021807E4  data  a4
  *   d_021807E8     0x021807E8  data  a4
  */
 #include "../include/Obj00610.h"
@@ -44,95 +44,95 @@ typedef struct {
 
 typedef unsigned short u16;
 struct Profile;
-extern int func_0217BB04(char *p);
+extern int UNION_ONESELF_CheckNetError(char *p);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void func_0216F40C(struct Profile *out, void *save, int mode, int flag, volatile u16 heap);
+extern void TRCARD_SYS_BuildProfile(struct Profile *out, void *save, int mode, int flag, volatile u16 heap);
 extern void func_02082D44(void *a, void *b, int c);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
-extern int func_0217EE4C(int **p, int x, int y);
+extern int UNION_MSG_CheckLanguageVersion(int **p, int x, int y);
 typedef unsigned int   u32;
-extern void func_0217F210(u8 *p, u8 *a, u32 b);
-extern u32 func_02173BB0(unsigned char *p);
-extern u32 func_0217F1EC(u8 *p);
-extern void *func_0216F7F4(int a, void *b, int c);
-extern void func_0217422C(u8 *p, int a, int b);
-extern int func_02174268(u8 *a);
+extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
+extern u32 UNION_COMMAND_SendTrainerCard(unsigned char *p);
+extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
+extern void *TRCARD_SYS_CreateEditWork(int a, void *b, int c);
+extern void UNION_MAIN_RequestScene(u8 *p, int a, int b);
+extern int UNION_MAIN_IsScenePending(u8 *a);
 extern u32 func_020307B0(void *p);
-extern u32 func_0203D378(void);
-extern int func_0217B8E4(char *p, int v);
-extern u8 d_021807E4[];
+extern u32 GFL_NET_IsParentAid(void);
+extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
+extern u8 gUnionEmptyString1[];
 extern u8 d_021807E8[];
 
-int func_0217CFA8(u8 *a, Obj *b, u8 *c, u8 *d)
+int UNION_ONESELF_TrainerCardMain(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     u8 *q;
-    if (func_0217BB04((char *)a) == 1)
+    if (UNION_ONESELF_CheckNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
         if (((struct Obj00610 *)a)->f3540 != 0 || ((struct Obj00610 *)a)->f3544 != 0)
-            func_02034714((const char *)d_021807E4, 0, (const char *)d_021807E4);
+            func_02034714((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
         ((struct Obj00610 *)a)->f3540 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
         ((struct Obj00610 *)a)->f3544 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
-        func_0216F40C(((struct Obj00610 *)a)->f3540, (void *)((*(int **)a)[2]), 1, 0, 0x41);
+        TRCARD_SYS_BuildProfile(((struct Obj00610 *)a)->f3540, (void *)((*(int **)a)[2]), 1, 0, 0x41);
         func_02082D44(((struct Obj00610 *)a)->f3540, ((struct Obj00610 *)a)->f3544, 0x678);
-        func_02039C68((struct Link *)func_020399A8(), 3, 0x14);
-        func_0217F210(a, c, func_0217EE4C((int **)a, b->f14[0x26], b->f14[0x27]));
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14);
+        UNION_MSG_SetupPrintTalkMsg(a, c, UNION_MSG_CheckLanguageVersion((int **)a, b->f14[0x26], b->f14[0x27]));
         (*d)++;
         break;
     case 1:
-        if (func_02039CB4((struct Link *)func_020399A8(), 3, 0x14) == 1)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x14) == 1)
             (*d)++;
         break;
     case 2:
-        if (func_02173BB0(a) == 1)
+        if (UNION_COMMAND_SendTrainerCard(a) == 1)
             (*d)++;
         break;
     case 3:
-        if (b->f5d == 1 && func_0217F1EC(a) == 1) {
+        if (b->f5d == 1 && UNION_MSG_CheckTalkPrintEnd(a) == 1) {
             q = *(u8 * *)&((struct Obj00610 *)a)->f3544;
             q[4] |= 0x20;
-            ((struct Obj00610 *)a)->f353C = func_0216F7F4((*(int **)a)[2], ((struct Obj00610 *)a)->f3544, 0x41);
+            ((struct Obj00610 *)a)->f353C = TRCARD_SYS_CreateEditWork((*(int **)a)[2], ((struct Obj00610 *)a)->f3544, 0x41);
             (*d)++;
         }
         break;
     case 4:
-        func_02039C68((struct Link *)func_020399A8(), 4, 0x14);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14);
         (*d)++;
         break;
     case 5:
-        if (func_02039CB4((struct Link *)func_020399A8(), 4, 0x14) == 1)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x14) == 1)
             (*d)++;
         break;
     case 6:
-        func_0217422C(a, 1, (int)(((struct Obj00610 *)a)->f353C));
+        UNION_MAIN_RequestScene(a, 1, (int)(((struct Obj00610 *)a)->f353C));
         (*d)++;
         break;
     case 7:
-        if (func_02174268(a) == 0)
+        if (UNION_MAIN_IsScenePending(a) == 0)
             (*d)++;
         break;
     case 8:
-        func_0217F210(a, c, 0x10);
-        func_02039C68((struct Link *)func_020399A8(), 5, 0x14);
+        UNION_MSG_SetupPrintTalkMsg(a, c, 0x10);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14);
         (*d)++;
         break;
     case 9:
-        if (func_0217F1EC(a) != 0 && func_02039CB4((struct Link *)func_020399A8(), 5, 0x14) == 1) {
+        if (UNION_MSG_CheckTalkPrintEnd(a) != 0 && func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x14) == 1) {
             func_020307B0(((struct Obj00610 *)a)->f3540);
             func_020307B0(((struct Obj00610 *)a)->f3544);
             ((struct Obj00610 *)a)->f353C = 0;
             ((struct Obj00610 *)a)->f3540 = 0;
             ((struct Obj00610 *)a)->f3544 = 0;
-            if (func_0203D378() == 1)
-                func_0217B8E4((char *)a, 7);
+            if (GFL_NET_IsParentAid() == 1)
+                UNION_ONESELF_SetNextPlayCategory((char *)a, 7);
             else
-                func_0217B8E4((char *)a, 9);
+                UNION_ONESELF_SetNextPlayCategory((char *)a, 9);
             return 1;
         }
         break;

@@ -14,6 +14,7 @@
  * symbols:
  *   func_021BA3E0  0x021BA3E0  thumb  ov217
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -31,14 +32,14 @@ extern u32 CLACT_SetActorAnimFrame();
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 struct Actor;
-extern void func_0204B954(struct Actor *a, u32 v);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern u32 func_021BA3E0(void *p, u32 i);
 u32 func_021BA328(u32 a0)
 {
     u32 v1 = func_021BA3E0((void *)a0, 0);
     func_0204B3DC((struct Obj *)v1, 1);
     func_0204B92C((struct Obj *)v1, 1);
-    func_0204B954((struct Actor *)v1, 4096);
+    CLACT_SetActorAutoAnimSpeed((struct Actor *)v1, 4096);
     return CLACT_SetActorAnimFrame(v1, 0);
 }
 

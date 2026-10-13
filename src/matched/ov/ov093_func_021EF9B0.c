@@ -1,5 +1,5 @@
 /*
- * function: func_021EF9B0
+ * function: BTL_FIELD_GetCountdownCountIfSet
  * address:  0x021EF9B0
  * packet:   pkt_ov093_021EF9B0
  * region:   ov093
@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-int func_021EF9B0(u32 *p)
+int BTL_FIELD_GetCountdownCountIfSet(u32 *p)
 {
     if (p[0] != 0)
         return p[1];

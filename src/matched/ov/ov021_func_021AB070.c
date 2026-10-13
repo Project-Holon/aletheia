@@ -1,5 +1,5 @@
 /*
- * function: func_021AB070
+ * function: EFFECT_ENCOUNT_PickItemKind7
  * address:  0x021AB070
  * packet:   pkt_ov021_021AB070
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 func_02005728(u32 n);
 
-u16 func_021AB070(void)
+u16 EFFECT_ENCOUNT_PickItemKind7(void)
 {
     if ((u16)func_02005728(1000) < 900) {
         return (u16)(func_02005728(600) / 100) + 565;

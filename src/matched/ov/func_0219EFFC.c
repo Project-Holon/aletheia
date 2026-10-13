@@ -1,5 +1,5 @@
 /*
- * function: func_0219EFFC
+ * function: FIELD_RAIL_LOADER_Unload
  * address:  0x0219EFFC
  * packet:   pkt_0219EFFC
  * region:   ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_0219EF14  0x0219EF14  thumb  ov021
+ *   FIELD_RAIL_LOADER_InitSetting  0x0219EF14  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09178.h"
@@ -24,14 +24,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern u32 func_0219EF14(u32);
+extern u32 FIELD_RAIL_LOADER_InitSetting(u32);
 
-int func_0219EFFC(u32 a)
+int FIELD_RAIL_LOADER_Unload(u32 a)
 {
 if (((struct Obj09178 *)((u8 *)(a)))->f0 != 0) {
     func_020307B0((void *)(((struct Obj09178 *)((u8 *)(a)))->f0));
     ((struct Obj09178 *)((u8 *)(a)))->f0 = 0;
 }
-return func_0219EF14((a + 8));
+return FIELD_RAIL_LOADER_InitSetting((a + 8));
 }
 

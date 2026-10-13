@@ -1,5 +1,5 @@
 /*
- * function: func_0217B930
+ * function: INTRUDE_FIELD_IsAtAreaEdge
  * address: 0x0217B930
  * packet: pkt_ov018_0217B930
  * region: ov018
@@ -10,4 +10,4 @@
  * status: EXACT*
  * symbols:
  */
-int func_0217B930(int *p) { if (*p >= 0x348000 || *p <= 0xb8000) return 1; return 0; }
+int INTRUDE_FIELD_IsAtAreaEdge(int *p) { if (*p >= 0x348000 || *p <= 0xb8000) return 1; return 0; }

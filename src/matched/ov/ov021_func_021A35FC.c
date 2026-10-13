@@ -1,5 +1,5 @@
 /*
- * function: func_021A35FC
+ * function: FIELD_PLAYER_GetNowGridPos
  * address:  0x021A35FC
  * packet:   pkt_ov021_021A35FC
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_021A3960(unsigned char *p);
-int func_0216D83C(void *p);
-int func_0216D854(void *p);
-int func_0216D86C(void *p);
+void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+int FLDMMDL_GetGridNowX(void *p);
+int FLDMMDL_GetGridNowY(void *p);
+int FLDMMDL_GetGridNowZ(void *p);
 
-void func_021A35FC(unsigned char **p, u16 *a, u16 *b, u16 *c)
+void FIELD_PLAYER_GetNowGridPos(unsigned char **p, u16 *a, u16 *b, u16 *c)
 {
-    void *h = func_021A3960(p[1]);
+    void *h = FIELD_PLAYER_CORE_GetMmdl(p[1]);
 
-    *a = func_0216D83C(h);
-    *b = func_0216D854(h);
-    *c = func_0216D86C(h);
+    *a = FLDMMDL_GetGridNowX(h);
+    *b = FLDMMDL_GetGridNowY(h);
+    *c = FLDMMDL_GetGridNowZ(h);
 }

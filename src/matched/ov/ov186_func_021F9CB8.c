@@ -11,9 +11,9 @@
  *   func_02034714 0x02034714 arm
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02025538 0x02025538 thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_0201C440 0x0201C440 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021FB5E4 0x021FB5E4 thumb ov186
  *   func_021FB788 0x021FB788 thumb ov186
  *   func_021FB760 0x021FB760 thumb ov186
@@ -68,9 +68,9 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
 struct U16Vec;
-extern void *func_02025538(u32 a0, void *a1);
+extern void *BMP_OAM_CreateSys(u32 a0, void *a1);
 extern u32 func_0201C440(void *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_021FB5E4(int *ctx, int heap);
 extern unsigned func_021FB788(void *);
 extern unsigned short func_021FB760(void *, int);
@@ -103,7 +103,7 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
     p->f8 = b;
     p->heap = heap;
     p->f5c = (struct Set *)e;
-    p->f48 = func_02025538(heap, (void *)b);
+    p->f48 = BMP_OAM_CreateSys(heap, (void *)b);
     p->f4c = func_0201C440((void *)heap);
     p->f58 = f;
     p->f14 = 1;
@@ -130,7 +130,7 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
             func_02082BCC(buf, 0, 0x44);
             func_021FAC20(buf, q, b, p->f48, c, rec, p->f10, heap);
             func_021FA020((u8 *)p, (int)buf, 0);
-            func_02045808(rec);
+            STRBUF_Delete(rec);
         }
         for (i = 0; i < p->f3b; i++)
             func_021FAEC0(p->f3c + (p->f3b - i - 1) * 0x44, (unsigned short)i);
@@ -143,7 +143,7 @@ struct Obj *func_021F9CB8(int a, int b, int c, int d, int e, int f, u32 heap)
             void *q = func_021FB704(p->f44, a, (unsigned short)i);
             void *rec = func_021FB7D0(p->f44, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
             func_021FAC20(p->f40 + i * 0x44, q, b, p->f48, c, rec, p->f10, heap);
-            func_02045808(rec);
+            STRBUF_Delete(rec);
         }
         for (i = 0; i < p->f39; i++)
             func_021FAF08(p->f40 + i * 0x44, 0xe0);

@@ -21,7 +21,7 @@
  * parameter.  Only the FAT entry's start word is read; the end word is
  * never touched, which is the 4-byte read rather than 8.
  *
- * The bounds assertion is the same five-argument call func_02049250
+ * The bounds assertion is the same five-argument call ARC_TOOL_LoadHandleMember
  * uses: the count is already in r3 from the guard's own `cmp`, so only
  * the member reaches the stack
  * (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).

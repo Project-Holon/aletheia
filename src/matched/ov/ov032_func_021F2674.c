@@ -11,33 +11,33 @@
  *
  * symbols:
  *   func_021F2674 0x021F2674 thumb
- *   func_021F00C8 0x021F00C8 thumb ov032
- *   func_021F0078 0x021F0078 thumb ov032
- *   func_021EFF7C 0x021EFF7C thumb ov032
+ *   BEACON_VIEW_ShowViewFlagMessage 0x021F00C8 thumb ov032
+ *   BEACON_VIEW_CheckLeaveRequest 0x021F0078 thumb ov032
+ *   BEACON_VIEW_UpdateListTouch 0x021EFF7C thumb ov032
  *   func_021F0114 0x021F0114 thumb ov032
- *   func_021F0140 0x021F0140 thumb ov032
+ *   BEACON_VIEW_LoadNextRecord 0x021F0140 thumb ov032
  */
 #include "../include/Obj00188.h"
 
-extern int func_021F00C8(char *);
-extern int func_021F0078(char *);
+extern int BEACON_VIEW_ShowViewFlagMessage(char *);
+extern int BEACON_VIEW_CheckLeaveRequest(char *);
 typedef unsigned char  u8;
-extern int func_021EFF7C(u8 *p);
+extern int BEACON_VIEW_UpdateListTouch(u8 *p);
 extern int func_021F0114(u8 *p);
-extern int func_021F0140(u8 *p);
+extern int BEACON_VIEW_LoadNextRecord(u8 *p);
 
 int func_021F2674(char *p)
 {
     int r;
 
-    if (func_021F00C8(p)) {
+    if (BEACON_VIEW_ShowViewFlagMessage(p)) {
         ((struct Obj00188 *)p)->f74 = 90;
         return 2;
     }
-    if (func_021F0078(p)) {
+    if (BEACON_VIEW_CheckLeaveRequest(p)) {
         return 0;
     }
-    r = func_021EFF7C((u8 *)p);
+    r = BEACON_VIEW_UpdateListTouch((u8 *)p);
     if (r == 0) {
         if (((struct Obj00188 *)p)->f74 != 0) {
             ((struct Obj00188 *)p)->f74 = ((struct Obj00188 *)p)->f74 - 1;
@@ -47,7 +47,7 @@ int func_021F2674(char *p)
             ((struct Obj00188 *)p)->f74 = 90;
             return 2;
         }
-        if (func_021F0140((u8 *)p) == 0) {
+        if (BEACON_VIEW_LoadNextRecord((u8 *)p) == 0) {
             return 0;
         }
         ((struct Obj00188 *)p)->f74 = 90;

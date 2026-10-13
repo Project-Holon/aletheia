@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021E9728  0x021E9728  thumb  ov093
  *   func_021E96C4  0x021E96C4  thumb  ov093
  */
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct QU;
 extern void func_021E9728(struct QU *p, u32 v);
 extern int func_021E96C4(char *p, int *st);
@@ -26,7 +26,7 @@ extern int func_021E96C4(char *p, int *st);
 void func_021E98BC(char *p, u8 *a, int b)
 {
     *(u8 * *)&((struct Obj10105 *)p)->fBC = a;
-    ((struct Obj10105 *)p)->fC0 = func_021D5440(a);
+    ((struct Obj10105 *)p)->fC0 = BTL_POKEPARAM_GetPokeId(a);
     ((struct Obj10105 *)p)->fB8 = b;
     func_021E9728((struct QU *)p, (u32)func_021E96C4);
 }

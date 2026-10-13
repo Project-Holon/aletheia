@@ -1,5 +1,5 @@
 /*
- * function: func_021CEB04
+ * function: COMM_ENTRY_MENU_SetNameBuffer
  * address:  0x021CEB04
  * packet:   pkt_ov021_021CEB04
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern void func_02082D44(void *src, void *dst, int n);
 
-void func_021CEB04(u8 *p, void *src)
+void COMM_ENTRY_MENU_SetNameBuffer(u8 *p, void *src)
 {
     func_02082D44(src, p + 0x494, 0x84);
     p[0x518] = 1;

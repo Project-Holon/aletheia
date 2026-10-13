@@ -1,5 +1,5 @@
 /*
- * function: func_021BB000
+ * function: OPTION_MENU_StepSetting
  * address:  0x021BB000
  * packet:   pkt_ov068_021BB000
  * region:   ov068
@@ -13,12 +13,12 @@
  * pool entries in the original, so each is its own extern.
  *
  * symbols:
- *   d_021BB570     0x021BB570  data  a2
- *   d_021BB572     0x021BB572  data  a2
- *   d_021BB574     0x021BB574  data  a4
- *   d_021BB704     0x021BB704  data  a4
- *   d_021BB708     0x021BB708  data  a4
- *   func_021BAFA8  0x021BAFA8  thumb  ov068
+ *   gOptionMenuSettingRows     0x021BB570  data  a2
+ *   gOptionMenuSettingRowChoiceCount     0x021BB572  data  a2
+ *   gOptionMenuSettingRowChoices     0x021BB574  data  a4
+ *   gOptionMenuChoices     0x021BB704  data  a4
+ *   gOptionMenuChoiceValues     0x021BB708  data  a4
+ *   OPTION_MENU_WriteSettings  0x021BAFA8  thumb  ov068
  */
 
 #include "../include/G__anon_Entry.h"
@@ -40,14 +40,14 @@ typedef struct {
     u32 pad[4];
 } Ent;
 
-extern Tab d_021BB570[];
-extern u16 d_021BB572[];
-extern u8  d_021BB574[];
-extern struct _anon_Entry d_021BB704[];
-extern Ent d_021BB708[];
-extern void func_021BAFA8(u8 *p);
+extern Tab gOptionMenuSettingRows[];
+extern u16 gOptionMenuSettingRowChoiceCount[];
+extern u8  gOptionMenuSettingRowChoices[];
+extern struct _anon_Entry gOptionMenuChoices[];
+extern Ent gOptionMenuChoiceValues[];
+extern void OPTION_MENU_WriteSettings(u8 *p);
 
-void func_021BB000(u8 *p, int i, int delta)
+void OPTION_MENU_StepSetting(u8 *p, int i, int delta)
 {
     int j;
     int k;
@@ -58,31 +58,31 @@ void func_021BB000(u8 *p, int i, int delta)
     int t2;
     int v = -1;
 
-    n = *(u16 *)((u8 *)d_021BB572 + off);
+    n = *(u16 *)((u8 *)gOptionMenuSettingRowChoiceCount + off);
     j = 0;
     if (n > 0) {
         do {
             u8 cur;
             u32 f;
 
-            t = (Tab *)((u8 *)d_021BB570 + off);
+            t = (Tab *)((u8 *)gOptionMenuSettingRows + off);
             cur = p[i];
 
             v = t->list[j];
-            f = d_021BB704[v].value;
+            f = gOptionMenuChoices[v].value;
             if (f == cur) {
                 break;
             }
             j++;
         } while (j < t->cnt);
     }
-    t2 = (s8)(v - d_021BB574[(u32)i << 3]);
+    t2 = (s8)(v - gOptionMenuSettingRowChoices[(u32)i << 3]);
     t2 = (s8)(t2 + delta);
     idx = (s8)(t2 > n - 1 ? n - 1 : (t2 < 0 ? 0 : t2));
-    k = (d_021BB574 + off)[idx];
-    if (p[i] != d_021BB708[k].f0) {
-        p[i] = d_021BB708[k].f0;
+    k = (gOptionMenuSettingRowChoices + off)[idx];
+    if (p[i] != gOptionMenuChoiceValues[k].f0) {
+        p[i] = gOptionMenuChoiceValues[k].f0;
         p[5] = k;
-        func_021BAFA8(p);
+        OPTION_MENU_WriteSettings(p);
     }
 }

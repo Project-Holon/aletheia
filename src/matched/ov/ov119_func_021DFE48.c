@@ -11,7 +11,7 @@
  * symbols:
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021D8AA8 0x021D8AA8 thumb ov119
  *   func_021D8FA4 0x021D8FA4 thumb ov119
  *   func_0201EEF4 0x0201EEF4 thumb
@@ -32,7 +32,7 @@ struct MsgBank;
 struct WordSet;
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern int func_021D8AA8(void *);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *func_021D8FA4(void *,int);
@@ -52,10 +52,10 @@ void func_021DFE48(char *p)
     GFL_USE_CancelChangeAndPlayBgm(0x518,0xffff);
     GFL_USE_FadeInBgmFull(6);
     state=((struct Obj00985 *)p)->f118C;
-    if(state==7) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),153,(void *)(((struct Obj00985 *)p)->f73C));
-    else if(state==8) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),156,(void *)(((struct Obj00985 *)p)->f73C));
-    else if(((struct Obj00985 *)p)->f11EE) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),131,(void *)(((struct Obj00985 *)p)->f73C));
-    else func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),48,(void *)(((struct Obj00985 *)p)->f73C));
+    if(state==7) MSGDATA_ReadString((struct MsgBank *)(((struct Obj00985 *)p)->f720),153,(void *)(((struct Obj00985 *)p)->f73C));
+    else if(state==8) MSGDATA_ReadString((struct MsgBank *)(((struct Obj00985 *)p)->f720),156,(void *)(((struct Obj00985 *)p)->f73C));
+    else if(((struct Obj00985 *)p)->f11EE) MSGDATA_ReadString((struct MsgBank *)(((struct Obj00985 *)p)->f720),131,(void *)(((struct Obj00985 *)p)->f73C));
+    else MSGDATA_ReadString((struct MsgBank *)(((struct Obj00985 *)p)->f720),48,(void *)(((struct Obj00985 *)p)->f73C));
     if(func_021D8AA8(p)) mon=func_021D8FA4(p,0);
     else mon=func_021D8FA4(p,1);
     func_0201EEF4(((struct Obj00985 *)p)->f724,1,mon);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC024
+ * function: STARTMENU_OpenYesNoMenu
  * address:  0x021BC024
  * packet:   pkt_ov088_021BC024
  * region:   ov088
@@ -12,7 +12,7 @@
  *           trailing alignment padding, no byte difference.
  *
  * symbols:
- *   func_0201FDA0  0x0201FDA0  thumb
+ *   BMP_MENU_CreateYesNo  0x0201FDA0  thumb
  */
 #include "../include/Obj20823.h"
 
@@ -24,9 +24,9 @@ typedef struct Ov088Win {
     unsigned short f04;
 } Ov088Win;
 
-extern void *func_0201FDA0(Ov088Win *win, int base, int pal, int pos, int heap);
+extern void *BMP_MENU_CreateYesNo(Ov088Win *win, int base, int pal, int pos, int heap);
 
-void func_021BC024(char *p)
+void STARTMENU_OpenYesNoMenu(char *p)
 {
     Ov088Win win;
 
@@ -35,5 +35,5 @@ void func_021BC024(char *p)
     win.f02 = 0xD;
     win.f03 = 0xF;
     win.f04 = 0;
-    ((struct Obj20823 *)p)->f7C = func_0201FDA0(&win, 1, 0xE, 0, 0xB);
+    ((struct Obj20823 *)p)->f7C = BMP_MENU_CreateYesNo(&win, 1, 0xE, 0, 0xB);
 }

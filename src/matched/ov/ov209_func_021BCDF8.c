@@ -9,7 +9,7 @@
  * status: EXACT
  * note: int step schedules the p copy before movs r6,16; enum step swaps those instructions (DIFF4).
  * symbols:
- *   func_021B7A64 0x021B7A64 thumb ov067
+ *   FRAME_LIST_UpdateInit 0x021B7A64 thumb ov067
  *   func_021BE5D4 0x021BE5D4 thumb ov209
  *   func_021BE588 0x021BE588 thumb ov209
  *   func_021BE43C 0x021BE43C thumb ov209
@@ -24,7 +24,7 @@
 typedef struct S S;
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern int func_021B7A64(struct S *p);
+extern int FRAME_LIST_UpdateInit(struct S *p);
 extern void func_021BE5D4(char *, int);
 extern void func_021BE588(char *);
 extern void func_021BE43C(char *);
@@ -40,7 +40,7 @@ int func_021BCDF8(char *p)
     int step;
     switch (((struct Obj00088 *)p)->fC30) {
     case 0:
-        if (func_021B7A64(*(S * *)&((struct Obj00088 *)p)->fC2C) == 0) {
+        if (FRAME_LIST_UpdateInit(*(S * *)&((struct Obj00088 *)p)->fC2C) == 0) {
             func_021BE5D4(p, 0);
             func_021BE588(p);
             func_021BE43C(p);

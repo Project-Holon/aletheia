@@ -1,5 +1,5 @@
 /*
- * function: func_021DF328
+ * function: BTL_HANDLER_ITEM_GetStonePlateHandlers
  * address: 0x021DF328
  * packet: pkt_ov093_021DF328
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F1574[];
-int *func_021DF328(int *p);
+int *BTL_HANDLER_ITEM_GetStonePlateHandlers(int *p);
 
-int *func_021DF328(int *p)
+int *BTL_HANDLER_ITEM_GetStonePlateHandlers(int *p)
 {
     *p = 1;
     return d_021F1574;

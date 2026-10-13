@@ -1,5 +1,5 @@
 /*
- * function: func_0216D89C
+ * function: FLDMMDL_SetPos
  * address:  0x0216D89C
  * packet:   pkt_0216D89C
  * region:   ov010
@@ -20,8 +20,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D89C.c \
- *       --func func_0216D89C --addr 0x0216D89C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SetPos.c \
+ *       --func FLDMMDL_SetPos --addr 0x0216D89C --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ typedef signed short   s16;
 
 typedef struct { u32 a, b, c; } Triple;
 
-void func_0216D89C(void *p, const Triple *q)
+void FLDMMDL_SetPos(void *p, const Triple *q)
 {
     *(Triple *)((char *)p + 68) = *q;
 }

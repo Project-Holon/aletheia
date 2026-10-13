@@ -1,5 +1,5 @@
 /*
- * function: func_02162024
+ * function: EVENT_FIELD_PROCLINK_GetReturnResultSlot
  * address: 0x02162024
  * packet: pkt_ov010_02162024
  * region: ov010
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021622AC 0x021622AC thumb ov010
+ *   EVENT_FIELD_PROCLINK_GetReturnResultSlotSub 0x021622AC thumb ov010
  */
-extern int func_021622AC(char *, int, void *);
-int func_02162024(char *p, int index, void *out)
+extern int EVENT_FIELD_PROCLINK_GetReturnResultSlotSub(char *, int, void *);
+int EVENT_FIELD_PROCLINK_GetReturnResultSlot(char *p, int index, void *out)
 {
-    return func_021622AC(p, index, out);
+    return EVENT_FIELD_PROCLINK_GetReturnResultSlotSub(p, index, out);
 }

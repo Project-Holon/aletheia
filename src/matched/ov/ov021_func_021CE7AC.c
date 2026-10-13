@@ -1,5 +1,5 @@
 /*
- * function: func_021CE7AC
+ * function: COMM_ENTRY_MENU_OpenWindows
  * address:  0x021CE7AC
  * packet:   pkt_ov021_021CE7AC
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02190708  0x02190708  thumb  ov021
- *   func_02190740  0x02190740  thumb  ov021
- *   data_021DB498  0x021DB498  data   ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
+ *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
+ *   gCommEntryMsgTable  0x021DB498  data   ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj03619.h"
@@ -23,22 +23,22 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Fx;
-extern u32 func_02188C54(u8 *p);
-extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
-extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
-extern u8 data_021DB498[];
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern void *FIELD_MSGBG_CreateMsgWin(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
+extern int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d);
+extern u8 gCommEntryMsgTable[];
 
-void func_021CE7AC(u32 *p)
+void COMM_ENTRY_MENU_OpenWindows(u32 *p)
 {
     u32 h;
     int k;
 
-    h = func_02188C54((u8 *)p[0]);
+    h = FIELDMAP_GetMsgBg((u8 *)p[0]);
     k = 0x10;
     if (((struct Obj03619 *)p)->f51F) {
         k = 0xe;
     }
-    p[3] = (u32)func_02190708((struct Fx *)h, p[2], 2, 6, 0x12, k - 6);
-    p[4] = (u32)func_02190708((struct Fx *)h, p[2], 2, 1, 0x1c, 2);
-    func_02190740(p[4], 0, 0, *(u16 *)(data_021DB498 + ((struct Obj03619 *)p)->f520 * 12));
+    p[3] = (u32)FIELD_MSGBG_CreateMsgWin((struct Fx *)h, p[2], 2, 6, 0x12, k - 6);
+    p[4] = (u32)FIELD_MSGBG_CreateMsgWin((struct Fx *)h, p[2], 2, 1, 0x1c, 2);
+    FIELD_MSGBG_MsgWinPrintMsg(p[4], 0, 0, *(u16 *)(gCommEntryMsgTable + ((struct Obj03619 *)p)->f520 * 12));
 }

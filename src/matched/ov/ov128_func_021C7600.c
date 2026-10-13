@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_0203630C 0x0203630C arm
  *   func_020362DC 0x020362DC arm
  */
@@ -21,7 +21,7 @@ extern u32 func_0201CE30(void *p);
 extern void func_0201CE5C(struct Rec *p, s32 v);
 extern void func_0201CE38(void *);
 extern void func_0201CE48(struct Rec3 *p);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 a);
@@ -29,11 +29,11 @@ int func_021C7600(void *p, int *q)
 {
     switch (func_0201CE30(p)) {
     case 0:
-        if (func_02035C60() == 1 || (func_0203630C() & 3)) func_0201CE5C(p, 0);
+        if (TOUCHPANEL_GetTrg() == 1 || (func_0203630C() & 3)) func_0201CE5C(p, 0);
         *q = 0;
         break;
     case 1:
-        if (*q == 0 && (func_02035C60() == 1 || (func_020362DC() & 3))) {
+        if (*q == 0 && (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3))) {
             func_020061E4(0x547);
             func_0201CE38(p);
             *q = 1;

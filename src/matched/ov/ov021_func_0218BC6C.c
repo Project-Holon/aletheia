@@ -1,5 +1,5 @@
 /*
- * function: func_0218BC6C
+ * function: FIELD_BUILDMODEL_DeleteG3dResources
  * address:  0x0218BC6C
  * packet:   pkt_ov021_0218BC6C
  * region:   ov021
@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020470D0  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  */
 #include "../include/Obj01114.h"
 
 typedef unsigned int   u32;
 struct Tagged;
-int func_020470D0(u32 *p);
-void func_02046EFC(struct Tagged *p);
+int G3D_SYSTEM_FreeVramTexture(u32 *p);
+void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
-void func_0218BC6C(unsigned char *p)
+void FIELD_BUILDMODEL_DeleteG3dResources(unsigned char *p)
 {
     if (((struct Obj01114 *)p)->f1D0 != 0) {
-        func_020470D0(((struct Obj01114 *)p)->f1D0);
-        func_02046EFC(((struct Obj01114 *)p)->f1D0);
+        G3D_SYSTEM_FreeVramTexture(((struct Obj01114 *)p)->f1D0);
+        G3D_SYSTEM_DeleteResource(((struct Obj01114 *)p)->f1D0);
         ((struct Obj01114 *)p)->f1D0 = 0;
     }
 }

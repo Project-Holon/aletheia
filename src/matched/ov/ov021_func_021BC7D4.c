@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7D4
+ * function: FIELD_PLACE_NAME_CreateLetters
  * address:  0x021BC7D4
  * packet:   pkt_ov021_021BC7D4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD148  0x021BD148  thumb  ov021
+ *   PLACE_NAME_LETTER_Create  0x021BD148  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -25,13 +25,13 @@ typedef struct {
     void *f50[0x1E];
 } Obj;
 
-extern void *func_021BD148(int a0, int a1, int a2, int a3);
+extern void *PLACE_NAME_LETTER_Create(int a0, int a1, int a2, int a3);
 
-void func_021BC7D4(Obj *p)
+void FIELD_PLACE_NAME_CreateLetters(Obj *p)
 {
     int i;
 
     for (i = 0; i < 0x1E; i++) {
-        p->f50[i] = func_021BD148(p->hC, (int)p->f30, 0, (int)p->f2C);
+        p->f50[i] = PLACE_NAME_LETTER_Create(p->hC, (int)p->f30, 0, (int)p->f2C);
     }
 }

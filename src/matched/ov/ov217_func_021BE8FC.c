@@ -13,16 +13,16 @@
  * distinct function and gets its own shard.
  *
  * symbols:
- *   func_0204E720  0x0204E720  arm
+ *   FADE_Start  0x0204E720  arm
  *
  * Addresses are Black-image addresses.
  */
 
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 void func_021BE8FC(void)
 {
-    func_0204E720(3, 0x10, 0, 0);
+    FADE_Start(3, 0x10, 0, 0);
 }

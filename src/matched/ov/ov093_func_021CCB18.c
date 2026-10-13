@@ -1,5 +1,5 @@
 /*
- * function: func_021CCB18
+ * function: BTL_SERVER_CMD_ReadU16
  * address: 0x021CCB18
  * packet: pkt_ov093_021CCB18
  * region: ov093
@@ -22,7 +22,7 @@ typedef struct {
     u8 buf[3000];
 } Buf;
 
-u32 func_021CCB18(Buf *p)
+u32 BTL_SERVER_CMD_ReadU16(Buf *p)
 {
     const u8 *q;
     u16 v;

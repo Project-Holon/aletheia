@@ -17,7 +17,7 @@
  *   MCSS_Init  0x02014B08  thumb
  *   MCSS_SetTextureTransAdrs  0x02016020  thumb
  *   MCSS_SetOrthoMode  0x02015BF0  thumb
- *   func_0202D060  0x0202D060  thumb
+ *   POKEGRA_GetArcID  0x0202D060  thumb
  *   MCSS_OpenHandle  0x02014CB8  thumb
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
@@ -44,7 +44,7 @@ extern void *MCSS_Init(u32 id, void *heap);
 extern void MCSS_SetTextureTransAdrs(void *p, u32 v);
 extern void MCSS_SetOrthoMode(void *obj);
 struct Ctx;
-extern int func_0202D060(void);
+extern int POKEGRA_GetArcID(void);
 extern void MCSS_OpenHandle(struct Sub02014CB8Obj *o, u32 x);
 extern u32  func_02030CB0(u32 n);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
@@ -57,7 +57,7 @@ void ov208_func_021C4F78(u16 *heap, struct Ov208Menu *p)
     p->cam = (u32)MCSS_Init(4, (void *)(*heap));
     MCSS_SetTextureTransAdrs((void *)p->cam, 0);
     MCSS_SetOrthoMode((void *)p->cam);
-    MCSS_OpenHandle((struct Sub02014CB8Obj *)p->cam, func_0202D060());
+    MCSS_OpenHandle((struct Sub02014CB8Obj *)p->cam, POKEGRA_GetArcID());
     p->mem = func_02030734(*heap, func_02030CB0(4), 0, data_021C8E64, 0xa53);
     p->heap3d = func_02030CBC(4, p->mem);
     MCSS_SetTaskSystem((u8 *)p->cam, (u32)p->heap3d);

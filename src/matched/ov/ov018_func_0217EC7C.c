@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC7C
+ * function: INTRUDE_SUBDISP_UpdateTouch
  * address:  0x0217EC7C
  * packet:   pkt_ov018_0217EC7C
  * region:   ov018
@@ -9,33 +9,33 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CCC  0x02188CCC  thumb  ov021
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_02035D20  0x02035D20  arm
- *   func_021A0F94  0x021A0F94  thumb  ov021
- *   func_02012B58  0x02012B58  thumb
+ *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   func_0204B3F4  0x0204B3F4  arm
- *   func_0204B454  0x0204B454  arm
- *   func_0217BEA8  0x0217BEA8  thumb  ov018
- *   func_0217F284  0x0217F284  thumb  ov018
- *   func_0217EC44  0x0217EC44  thumb  ov018
- *   func_0217EC5C  0x0217EC5C  thumb  ov018
- *   func_02013DD0  0x02013DD0  thumb
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
+ *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
+ *   INTRUDE_SUBDISP_IsAlone  0x0217F284  thumb  ov018
+ *   INTRUDE_SUBDISP_SetTouchRect  0x0217EC44  thumb  ov018
+ *   INTRUDE_SUBDISP_IsInTouchRect  0x0217EC5C  thumb  ov018
+ *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_02013D5C  0x02013D5C  thumb
- *   func_020257C4  0x020257C4  thumb
+ *   BMP_OAM_GetEnabled  0x020257C4  thumb
  *   d_02176AA0     0x02176AA0  data  a4
  *
- * blocker:  byte-correct; the two THM_CALLs to func_02013DD0 (arm9) have no
+ * blocker:  byte-correct; the two THM_CALLs to ZONEDATA_IsZoneInTableDFC0 (arm9) have no
  *           witness: 0x02013DD0 is an unlabelled arm9 leaf inside
  *           func_02013D9C's listing extent, called only from here. Verified
  *           EXACT (match.py one --region arm9 --thumb) as:
  *             extern const int d_0209DFC0[];   (0x0209DFC0 data a4)
- *             int func_02013B10(int a0, const int *a1, int a2);
- *             int func_02013DD0(int a0)
- *             { return func_02013B10(a0, d_0209DFC0, 4); }
+ *             int ZONEDATA_IsZoneInTable(int a0, const int *a1, int a2);
+ *             int ZONEDATA_IsZoneInTableDFC0(int a0)
+ *             { return ZONEDATA_IsZoneInTable(a0, d_0209DFC0, 4); }
  *           Once that leaf is filed and in a shard, this file verifies EXACT.
  */
 
@@ -92,26 +92,26 @@ struct BigObj;
 struct Ctx;
 struct Obj;
 struct PtS;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188CCC(u8 *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern int func_021A0F94(u32 a);
-extern u8 func_02012B58(const struct BigObj *p);
+extern int FIELD_SUBSCREEN_GetPanelResult(u32 a);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern u32 func_0204B3F4(struct Obj *p);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern Mon *func_0217BEA8(int a0);
-extern int func_0217F284(u8 *p);
-extern void func_0217EC44(int x, int y, int w, int h, Rect *r);
-extern int func_0217EC5C(u32 x, u32 y, Rect *r);
-extern int func_02013DD0(int a0);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
+extern Mon *INTRUDE_FIELD_FindZonePos(int a0);
+extern int INTRUDE_SUBDISP_IsAlone(u8 *p);
+extern void INTRUDE_SUBDISP_SetTouchRect(int x, int y, int w, int h, Rect *r);
+extern int INTRUDE_SUBDISP_IsInTouchRect(u32 x, u32 y, Rect *r);
+extern int ZONEDATA_IsZoneInTableDFC0(int a0);
 extern void func_020061E4(u32 a);
 extern u32 func_02013D5C(u32 id);
-extern int func_020257C4(const int *p);
+extern int BMP_OAM_GetEnabled(const int *p);
 extern const Ent d_02176AA0[];
 
-void func_0217EC7C(Q *q, Obj *p, int id)
+void INTRUDE_SUBDISP_UpdateTouch(Q *q, Obj *p, int id)
 {
     Rect rect;
     u32 tx;
@@ -126,13 +126,13 @@ void func_0217EC7C(Q *q, Obj *p, int id)
     const Ent *e;
     Mon *m;
 
-    x = func_02188CCC(func_0201210C((const struct Ctx *)p->f00));
-    func_02012138((const struct Ctx *)p->f00);
-    h = (int)func_020120F4((const struct Ctx *)p->f00);
-    if (p->f112 != 0 || p->f106 == 1 || !func_02035D20(&tx, &ty) || func_021A0F94(x) != 0) {
+    x = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap((const struct Ctx *)p->f00));
+    GAMESYSTEM_GetGameComm((const struct Ctx *)p->f00);
+    h = (int)GAMESYSTEM_GetGameData((const struct Ctx *)p->f00);
+    if (p->f112 != 0 || p->f106 == 1 || !func_02035D20(&tx, &ty) || FIELD_SUBSCREEN_GetPanelResult(x) != 0) {
         return;
     }
-    sel = func_02012B58((const struct BigObj *)h);
+    sel = GAME_DATA_GetExitMode((const struct BigObj *)h);
     for (i = 0; i < 3; i++) {
         if (i == sel) {
             continue;
@@ -144,7 +144,7 @@ void func_0217EC7C(Q *q, Obj *p, int id)
         if (func_0204B3F4((struct Obj *)w) != 1) {
             continue;
         }
-        func_0204B454((struct Actor *)w, (struct PtS *)pt, 0);
+        CLACT_GetActorSurfacePos((struct Actor *)w, (struct PtS *)pt, 0);
         if (tx - 12 > pt[0] || tx + 12 < pt[0]) {
             continue;
         }
@@ -154,24 +154,24 @@ void func_0217EC7C(Q *q, Obj *p, int id)
         if (q == 0) {
             continue;
         }
-        if (func_0217BEA8(q->e[i].id) == 0) {
+        if (INTRUDE_FIELD_FindZonePos(q->e[i].id) == 0) {
             continue;
         }
         p->f169 = i;
         return;
     }
-    if (func_0217F284((u8 *)p) == 1) {
+    if (INTRUDE_SUBDISP_IsAlone((u8 *)p) == 1) {
         return;
     }
-    if (p->fD8 != func_02012B58((const struct BigObj *)h)) {
+    if (p->fD8 != GAME_DATA_GetExitMode((const struct BigObj *)h)) {
         for (i = 0; i < 8; i++) {
             e = &d_02176AA0[i];
-            func_0217EC44(e->x, e->y, 0x10, 0x10, &rect);
-            if (func_0217EC5C(tx, ty, &rect) != 1) {
+            INTRUDE_SUBDISP_SetTouchRect(e->x, e->y, 0x10, 0x10, &rect);
+            if (INTRUDE_SUBDISP_IsInTouchRect(tx, ty, &rect) != 1) {
                 continue;
             }
             a = e->a;
-            if (id == a || id == e->b || (func_02013DD0(id) == 1 && func_02013DD0(a) == 1)) {
+            if (id == a || id == e->b || (ZONEDATA_IsZoneInTableDFC0(id) == 1 && ZONEDATA_IsZoneInTableDFC0(a) == 1)) {
                 func_020061E4(0x557);
                 return;
             }
@@ -179,7 +179,7 @@ void func_0217EC7C(Q *q, Obj *p, int id)
                 p->f106 = 1;
                 p->f107 = 0;
             } else {
-                m = func_0217BEA8(a);
+                m = INTRUDE_FIELD_FindZonePos(a);
                 if (m == 0) {
                     continue;
                 }
@@ -190,9 +190,9 @@ void func_0217EC7C(Q *q, Obj *p, int id)
             return;
         }
     }
-    if (p->fD8 != func_02012B58((const struct BigObj *)h)) {
-        func_0217EC44(0x80, 0x5C, 0x10, 0x10, &rect);
-        if (func_0217EC5C(tx, ty, &rect) == 1) {
+    if (p->fD8 != GAME_DATA_GetExitMode((const struct BigObj *)h)) {
+        INTRUDE_SUBDISP_SetTouchRect(0x80, 0x5C, 0x10, 0x10, &rect);
+        if (INTRUDE_SUBDISP_IsInTouchRect(tx, ty, &rect) == 1) {
             if (func_02013D5C(id) == 1) {
                 func_020061E4(0x557);
                 return;
@@ -203,9 +203,9 @@ void func_0217EC7C(Q *q, Obj *p, int id)
             return;
         }
     }
-    if (p->f168 == 0 && func_020257C4((const int *)p->fC4) == 1) {
-        func_0217EC44(0xE0, 0x80, 0x1E, 0xC, &rect);
-        if (func_0217EC5C(tx, ty, &rect) == 1) {
+    if (p->f168 == 0 && BMP_OAM_GetEnabled((const int *)p->fC4) == 1) {
+        INTRUDE_SUBDISP_SetTouchRect(0xE0, 0x80, 0x1E, 0xC, &rect);
+        if (INTRUDE_SUBDISP_IsInTouchRect(tx, ty, &rect) == 1) {
             p->f168 = 1;
         }
     }

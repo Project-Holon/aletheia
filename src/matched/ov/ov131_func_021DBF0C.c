@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 typedef unsigned int   u32;
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 void P_STA_OAM_FreeCellRes(int *p) {
  int i;
  for (i = 0; i < 3; i++) {
   if (p[2 + i] != -1) {
-   func_0204AFD8(p[2 + i]);
+   CLACT_ReleaseCellAnim(p[2 + i]);
    p[2 + i] = -1;
   }
  }

@@ -12,7 +12,7 @@
  * symbols:
  *   d_021E3880 0x021E3880 data a2
  *   func_021E19EC 0x021E19EC thumb ov183
- *   func_02051B84 0x02051B84 arm
+ *   BUTTON_MAN_Create 0x02051B84 arm
  */
 #include "../include/Obj03331.h"
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ typedef struct {short a,b,c,d;} Row;
 typedef struct {Row row[12];} Table;
 extern const Table d_021E3880;
 extern void func_021E19EC(u32 idx, int arg, char *p);
-extern void *func_02051B84(u8 *,int,int,int);
+extern void *BUTTON_MAN_Create(u8 *,int,int,int);
 void func_021E1910(char *p) {
     int i;
     Table table;
@@ -35,5 +35,5 @@ void func_021E1910(char *p) {
         *(u8 *)(p+i*4+0x29B)=table.row[i-12].a+table.row[i-12].c;
     }
     ((struct Obj03331 *)p)->f2F8=255;
-    ((struct Obj03331 *)p)->f294=func_02051B84((u8 *)(p+0x298),(int)func_021E19EC,(int)p,((struct Obj03331 *)p)->f34C);
+    ((struct Obj03331 *)p)->f294=BUTTON_MAN_Create((u8 *)(p+0x298),(int)func_021E19EC,(int)p,((struct Obj03331 *)p)->f34C);
 }

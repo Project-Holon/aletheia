@@ -1,5 +1,5 @@
 /*
- * function: func_02164BC4
+ * function: GAME_BEACON_SEARCH_InitWait
  * address:  0x02164BC4
  * packet:   pkt_ov010_02164BC4
  * region:   ov010
@@ -13,9 +13,9 @@
  *
  * symbols:
  *   func_02030B50  0x02030B50  arm
- *   func_0203CBAC  0x0203CBAC  arm
- *   d_02171C30     0x02171C30  data  ov010  a4
- *   func_02164C04  0x02164C04  thumb ov010
+ *   GFL_NET_StartSession  0x0203CBAC  arm
+ *   GAME_BEACON_SEARCH_NetInit     0x02171C30  data  ov010  a4
+ *   GAME_BEACON_SEARCH_OnSessionStarted  0x02164C04  thumb ov010
  *
  * Addresses are Black-image addresses.
  */
@@ -26,16 +26,16 @@ typedef unsigned int   u32;
 
 struct Req;
 extern void func_02030B50(void *p);
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern u8 d_02171C30[];
-extern void func_02164C04(u8 *p);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern u8 GAME_BEACON_SEARCH_NetInit[];
+extern void GAME_BEACON_SEARCH_OnSessionStarted(u8 *p);
 
-int func_02164BC4(int *st, int unused, int *q)
+int GAME_BEACON_SEARCH_InitWait(int *st, int unused, int *q)
 {
     switch (*st) {
     case 0:
         func_02030B50((void *)12);
-        func_0203CBAC((struct Req *)d_02171C30, (u32)func_02164C04, (u32)q);
+        GFL_NET_StartSession((struct Req *)GAME_BEACON_SEARCH_NetInit, (u32)GAME_BEACON_SEARCH_OnSessionStarted, (u32)q);
         (*st)++;
         break;
     case 1:

@@ -10,8 +10,8 @@
  * volatile: hardware writes 021B63E8 and 021B63EC.
  * symbols:
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
- *   func_0204363C 0x0204363C arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_021B615C 0x021B615C thumb ov179
  *   func_021B616C 0x021B616C thumb ov179
  *   func_020490F4 0x020490F4 arm
@@ -25,8 +25,8 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
-extern void func_0204363C(u32 swap);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void func_021B615C(void);
 extern void func_021B616C(char *);
 extern void *func_020490F4(u32 id, u32 heap);
@@ -37,10 +37,10 @@ typedef struct {unsigned short value;char pad[10];} Entry;
 extern const Entry d_021B6A1C[];
 int func_021B63D4(char *p)
 {
- func_02043534(0);func_020435F4(0);
+ func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
- func_0204363C(1);func_021B615C();func_021B616C(p);
+ BG_SYS_SetLcdSwap(1);func_021B615C();func_021B616C(p);
  ((struct Obj14386 *)p)->f4=func_020490F4(d_021B6A1C[**(unsigned short **)p].value,0x7F);
  func_021B622C(p);func_021B624C((int *)p);func_021B6290(p,1,1,5);
  ((struct Obj14386 *)p)->f6058=1;

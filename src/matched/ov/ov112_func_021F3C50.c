@@ -18,10 +18,10 @@
  *   func_021F718C 0x021F718C thumb ov112
  *   func_021F6F8C 0x021F6F8C thumb ov112
  *   func_021F4280 0x021F4280 thumb ov112
- *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
 #include "../include/Obj02823.h"
 typedef unsigned char u8;
@@ -38,17 +38,17 @@ extern void func_021F51F4(void **p);
 extern void func_021F718C(char *p);
 extern void func_021F6F8C(u8 *p);
 extern void func_021F4280(u8 *);
-extern void func_02047964(void);
-extern void func_020479D8(void);
+extern void G3D_SYSTEM_DrawStart(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
-extern void func_02047970(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 void func_021F3C50(u8 *p)
 {
     func_021F7160((u8 *)(((struct Obj02823 *)p)->f2C));
     func_021F51E8(*(u8 * *)&((struct Obj02823 *)p)->f20);
     func_021F6CB0((char *)(((struct Obj02823 *)p)->f40));
-    func_02047964();
-    func_020479D8();
+    G3D_SYSTEM_DrawStart();
+    G3D_SYSTEM_ApplyLookAt();
     func_021F6E74(((struct Obj02823 *)p)->f40);
     func_021F75A0((u8 *)(((struct Obj02823 *)p)->f2C));
     func_021F51F4((void **)(*(u32 *)&((struct Obj02823 *)p)->f20));
@@ -56,5 +56,5 @@ void func_021F3C50(u8 *p)
     func_021F6F8C((u8 *)(((struct Obj02823 *)p)->f28));
     BILLBOARD_Draw((struct Board *)(((struct Obj02823 *)p)->f1C),(struct Camera *)(((struct Obj02823 *)p)->f18),0);
     func_021F4280(p);
-    func_02047970();
+    G3D_SYSTEM_DrawEnd();
 }

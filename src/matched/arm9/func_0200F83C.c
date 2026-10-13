@@ -14,12 +14,12 @@
  *   GFL_USE_StopAllSe        0x02006210  thumb
  *   GFL_NET_ERR_SaveDisplayAndDraw         0x0200FD38  thumb
  *   GX_VBlankIntr        0x0207D3E4  arm
- *   func_02037174        0x02037174  arm
+ *   GFL_NET_WM_ICON_EasyObjWindowOn        0x02037174  arm
  *   GFL_NET_WM_ICON_EasyGetEngine        0x02037200  arm
  *   func_0201034C        0x0201034C  thumb
  *   GFL_NET_ERR_UpdateNetwork         0x0200F824  thumb
  *   GFL_NET_ERR_RestoreDisplay         0x0200FEBC  thumb
- *   func_02037190        0x02037190  arm
+ *   GFL_NET_WM_ICON_EasyObjWindowOff        0x02037190  arm
  *   GXS_SetGraphicsMode  0x0207D518  arm
  *   gNetErrWork           0x0214617C  data
  *
@@ -70,12 +70,12 @@ extern u32  func_02010054(void);
 extern void GFL_USE_StopAllSe(void);
 extern void GFL_NET_ERR_SaveDisplayAndDraw(u32 a, u32 b);
 extern BOOL GX_VBlankIntr(BOOL on);
-extern void func_02037174(void);
+extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 extern u32 GFL_NET_WM_ICON_EasyGetEngine(void);
 extern int func_0201034C(void);
 extern void GFL_NET_ERR_UpdateNetwork(void);
 extern void GFL_NET_ERR_RestoreDisplay(BOOL a);
-extern void func_02037190(void);
+extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
 extern void GXS_SetGraphicsMode(u32 bgMode);
 extern u8   gNetErrWork[];
 
@@ -196,7 +196,7 @@ void GFL_NET_ERR_ShowSimpleScreen(void)
     GFL_USE_StopAllSe();
     GFL_NET_ERR_SaveDisplayAndDraw(0, 0);
     GX_VBlankIntr(1);
-    func_02037174();
+    GFL_NET_WM_ICON_EasyObjWindowOn();
     if (GFL_NET_WM_ICON_EasyGetEngine() == 1) {
         G2_SetWndOutsidePlane(2, 0);
         G2_SetWndOBJInsidePlane(0x10, 0);
@@ -217,7 +217,7 @@ void GFL_NET_ERR_ShowSimpleScreen(void)
         GFL_NET_ERR_UpdateNetwork();
     }
     GFL_NET_ERR_RestoreDisplay(*(u32 *)(gNetErrWork + 0x44) == 1);
-    func_02037190();
+    GFL_NET_WM_ICON_EasyObjWindowOff();
     if (GFL_NET_WM_ICON_EasyGetEngine() == 2) {
         GXS_SetGraphicsMode(dispCnt.bgMode);
         GXS_SetVisiblePlane(dispCnt.visiblePlane);

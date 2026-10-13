@@ -1,5 +1,5 @@
 /*
- * function: func_021DF930
+ * function: BTL_HANDLER_ITEM_RoseIncenseBoostPower
  * address:  0x021DF930
  * packet:   pkt_ov093_021DF930
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  *
  * symbols:
- *   func_021DF93C  0x021DF93C  thumb  ov093
+ *   BTL_HANDLER_ITEM_BoostMovePowerOfType  0x021DF93C  thumb  ov093
  */
 
-void func_021DF93C(int, int, int, int);
+void BTL_HANDLER_ITEM_BoostMovePowerOfType(int, int, int, int);
 
-void func_021DF930(int a, int b, int c)
+void BTL_HANDLER_ITEM_RoseIncenseBoostPower(int a, int b, int c)
 {
-    func_021DF93C(a, b, c, 0xb);
+    BTL_HANDLER_ITEM_BoostMovePowerOfType(a, b, c, 0xb);
 }

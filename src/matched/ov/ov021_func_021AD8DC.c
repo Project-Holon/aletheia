@@ -1,5 +1,5 @@
 /*
- * function: func_021AD8DC
+ * function: FLDEFF_ENCOUNT_LoadKind0Models
  * address:  0x021AD8DC
  * packet:   pkt_ov021_021AD8DC
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021ABE28  0x021ABE28  thumb  ov021
- *   func_021AD82C  0x021AD82C  thumb  ov021
- *   func_02046E24  0x02046E24  arm
- *   func_02046FF8  0x02046FF8  arm
+ *   FIELD_EFFECT_GetModelBaseOffset  0x021ABE28  thumb  ov021
+ *   FLDEFF_ENCOUNT_BuildDrawSet  0x021AD82C  thumb  ov021
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,26 +43,26 @@ typedef struct P {
 } P;
 
 typedef unsigned int   u32;
-extern u8 func_021ABE28(u8 *p);
+extern u8 FIELD_EFFECT_GetModelBaseOffset(u8 *p);
 struct A;
 struct B;
-extern void func_021AD82C(struct A *a, struct B *b, int c);
-extern void *func_02046E24(u32 a0, u32 a1);
-extern int func_02046FF8(int *self);
+extern void FLDEFF_ENCOUNT_BuildDrawSet(struct A *a, struct B *b, int c);
+extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
+extern int G3D_SYSTEM_TransVramTexture(int *self);
 
-void func_021AD8DC(P *a, Desc *d, int c)
+void FLDEFF_ENCOUNT_LoadKind0Models(P *a, Desc *d, int c)
 {
     int r7;
 
-    r7 = func_021ABE28((u8 *)a->f0);
-    func_02046FF8((int *)(a->f8 = (int)func_02046E24(c, d->h4 + r7)));
-    a->f18 = (int)func_02046E24(c, d->h6 + r7);
-    func_021AD82C((struct A *)((char *)a + 0x28), (struct B *)a, 0);
+    r7 = FIELD_EFFECT_GetModelBaseOffset((u8 *)a->f0);
+    G3D_SYSTEM_TransVramTexture((int *)(a->f8 = (int)G3D_SYSTEM_CreateResourceArcHandle(c, d->h4 + r7)));
+    a->f18 = (int)G3D_SYSTEM_CreateResourceArcHandle(c, d->h6 + r7);
+    FLDEFF_ENCOUNT_BuildDrawSet((struct A *)((char *)a + 0x28), (struct B *)a, 0);
     r7 += d->mid;
-    func_02046FF8((int *)(a->fc = (int)func_02046E24(c, d->h4 + r7)));
-    a->f1c = (int)func_02046E24(c, d->h6 + r7);
-    func_021AD82C((struct A *)((char *)a + 0x40), (struct B *)a, 1);
-    func_02046FF8((int *)(a->f10 = (int)func_02046E24(c, d->h4)));
-    a->f20 = (int)func_02046E24(c, d->h6);
-    func_021AD82C((struct A *)((char *)a + 0x58), (struct B *)a, 2);
+    G3D_SYSTEM_TransVramTexture((int *)(a->fc = (int)G3D_SYSTEM_CreateResourceArcHandle(c, d->h4 + r7)));
+    a->f1c = (int)G3D_SYSTEM_CreateResourceArcHandle(c, d->h6 + r7);
+    FLDEFF_ENCOUNT_BuildDrawSet((struct A *)((char *)a + 0x40), (struct B *)a, 1);
+    G3D_SYSTEM_TransVramTexture((int *)(a->f10 = (int)G3D_SYSTEM_CreateResourceArcHandle(c, d->h4)));
+    a->f20 = (int)G3D_SYSTEM_CreateResourceArcHandle(c, d->h6);
+    FLDEFF_ENCOUNT_BuildDrawSet((struct A *)((char *)a + 0x58), (struct B *)a, 2);
 }

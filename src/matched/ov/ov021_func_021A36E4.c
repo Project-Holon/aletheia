@@ -1,5 +1,5 @@
 /*
- * function: func_021A36E4
+ * function: FIELD_PLAYER_CORE_Create
  * address:  0x021A36E4
  * packet:   pkt_ov021_021A36E4
  * region:   ov021
@@ -11,21 +11,21 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_02012B34  0x02012B34  thumb
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A31A4  0x021A31A4  thumb  ov021
- *   func_0216CE60  0x0216CE60  thumb  ov010
- *   func_0216D844  0x0216D844  thumb  ov010
- *   func_0216D85C  0x0216D85C  thumb  ov010
- *   func_0216D874  0x0216D874  thumb  ov010
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_021A3998  0x021A3998  thumb  ov021
- *   func_0216DB80  0x0216DB80  thumb  ov010
- *   d_021DDEB8     0x021DDEB8  data  a1
- *   d_021D89A0     0x021D89A0  data  a4
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   GAME_DATA_GetPlayerPalaceZoneId  0x02012B34  thumb
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_GetObjCodeOfFormCode  0x021A31A4  thumb  ov021
+ *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
+ *   FLDMMDL_SetGridNowX  0x0216D844  thumb  ov010
+ *   FLDMMDL_SetGridNowY  0x0216D85C  thumb  ov010
+ *   FLDMMDL_SetGridNowZ  0x0216D874  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FIELD_PLAYER_CORE_ApplyFormCodeModel  0x021A3998  thumb  ov021
+ *   FLDMMDL_SetStatusBitZoneDeleteOff  0x0216DB80  thumb  ov010
+ *   gFieldPlayerCoreFileName     0x021DDEB8  data  a1
+ *   gFieldPlayerAvatarHeaderTemplate     0x021D89A0  data  a4
  */
 
 typedef unsigned char u8;
@@ -64,66 +64,66 @@ typedef struct {
     u16 f22;
 } Obj021A36E4;
 
-extern const char d_021DDEB8[];
-extern Tmpl021A36E4 d_021D89A0;
+extern const char gFieldPlayerCoreFileName[];
+extern Tmpl021A36E4 gFieldPlayerAvatarHeaderTemplate;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Rec44;
-extern void *func_02188C80(void *p);
-extern void *func_02188C7C(unsigned char *p);
-extern void *func_0216DE94(void *a, u32 b);
-extern u16 func_02012B34(const struct Rec44 *p);
-extern u32 func_021A3974(u8 *p);
-extern int func_021A31A4(int i, int v);
-extern void *func_0216CE60(void *a, Tmpl021A36E4 *b, int c);
-extern void func_0216D844(void *h, s16 v);
-extern void func_0216D85C(void *p, int v);
-extern void func_0216D874(int a0, int a1);
-extern void func_0216D89C(void *h, const Vec021A36E4 *v);
-extern int func_021A3998(u8 *a);
-extern void func_0216DB80(unsigned int *p, unsigned int v);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
+extern void *FLDMMDL_SysSearchObjId(void *a, u32 b);
+extern u16 GAME_DATA_GetPlayerPalaceZoneId(const struct Rec44 *p);
+extern u32 FIELD_PLAYER_CORE_GetFormCode(u8 *p);
+extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
+extern void *FLDMMDL_AddMmdl(void *a, Tmpl021A36E4 *b, int c);
+extern void FLDMMDL_SetGridNowX(void *h, s16 v);
+extern void FLDMMDL_SetGridNowY(void *p, int v);
+extern void FLDMMDL_SetGridNowZ(int a0, int a1);
+extern void FLDMMDL_SetPos(void *h, const Vec021A36E4 *v);
+extern int FIELD_PLAYER_CORE_ApplyFormCodeModel(u8 *a);
+extern void FLDMMDL_SetStatusBitZoneDeleteOff(unsigned int *p, unsigned int v);
 
-Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap)
+Obj021A36E4 *FIELD_PLAYER_CORE_Create(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap)
 {
     Obj021A36E4 *o;
     void *m;
     int k;
     void *h;
 
-    o = func_02030734(heap, 0x34, 1, d_021DDEB8, 0x97);
+    o = func_02030734(heap, 0x34, 1, gFieldPlayerCoreFileName, 0x97);
     o->fc = a;
     o->f8 = b;
-    o->f4 = (u32)func_02188C80((void *)b);
+    o->f4 = (u32)FIELDMAP_GetGameSystem((void *)b);
     o->f20 = 9;
     o->f22 = 9;
-    m = func_02188C7C((void *)b);
-    o->f1c = func_0216DE94(m, 0xff);
+    m = FIELDMAP_GetMmdlSys((void *)b);
+    o->f1c = FLDMMDL_SysSearchObjId(m, 0xff);
     o->f18 = d;
-    k = func_02012B34((const struct Rec44 *)o->fc);
+    k = GAME_DATA_GetPlayerPalaceZoneId((const struct Rec44 *)o->fc);
     h = o->f1c;
     if (h == 0) {
-        Tmpl021A36E4 t = d_021D89A0;
+        Tmpl021A36E4 t = gFieldPlayerAvatarHeaderTemplate;
         Pos021A36E4 *ps = &t.pos;
         ps->x = (pos->x >> 4) / 4096;
         ps->z = (pos->z >> 4) / 4096;
         ps->y = pos->y;
         if (k == 0xFFFF)
-            t.f2 = func_021A31A4(d, func_021A3974((u8 *)o));
+            t.f2 = FIELD_PLAYER_GetObjCodeOfFormCode(d, FIELD_PLAYER_CORE_GetFormCode((u8 *)o));
         else
             t.f2 = k;
-        o->f1c = func_0216CE60(m, &t, 0);
+        o->f1c = FLDMMDL_AddMmdl(m, &t, 0);
     } else {
         int y;
         int z;
         y = (pos->y >> 4) / 4096;
         z = (pos->z >> 4) / 4096;
-        func_0216D844(h, (pos->x >> 4) / 4096);
-        func_0216D85C(h, (s16)y);
-        func_0216D874((int)h, (s16)z);
-        func_0216D89C(h, pos);
+        FLDMMDL_SetGridNowX(h, (pos->x >> 4) / 4096);
+        FLDMMDL_SetGridNowY(h, (s16)y);
+        FLDMMDL_SetGridNowZ((int)h, (s16)z);
+        FLDMMDL_SetPos(h, pos);
         if (k == 0xFFFF)
-            func_021A3998((u8 *)o);
+            FIELD_PLAYER_CORE_ApplyFormCodeModel((u8 *)o);
     }
-    func_0216DB80(o->f1c, 1);
+    FLDMMDL_SetStatusBitZoneDeleteOff(o->f1c, 1);
     return o;
 }

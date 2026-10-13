@@ -1,5 +1,5 @@
 /*
- * function: func_02159C2C
+ * function: MAP_MATRIX_IsInRange
  * address:  0x02159C2C
  * packet:   pkt_02159C2C
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02159C2C(int a0, int a1, int a2, int a3)
+int MAP_MATRIX_IsInRange(int a0, int a1, int a2, int a3)
 {
 
     if (a2 < 0) goto loc_02159C44;

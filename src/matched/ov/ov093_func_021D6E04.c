@@ -1,5 +1,5 @@
 /*
- * function: func_021D6E04
+ * function: BTL_EVENT_GetClientPartyCount
  * address:  0x021D6E04
  * packet:   pkt_021D6E04
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-unsigned char func_021D6E04(unsigned char *p)
+unsigned char BTL_EVENT_GetClientPartyCount(unsigned char *p)
 {
     return p[0xd0];
 }

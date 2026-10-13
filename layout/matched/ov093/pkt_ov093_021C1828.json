@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C1828",
+   "name": "BTL_SERVER_FLOW_RecordDamageHit",
    "address": "0x021C1828",
    "kind": "game",
    "region": "ov093",

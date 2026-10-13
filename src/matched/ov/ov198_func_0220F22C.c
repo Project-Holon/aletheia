@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
 typedef unsigned char u8;
@@ -17,7 +17,7 @@ typedef struct {short x,y;} Pair;
 extern int func_022110D4(u8 *,int);
 struct Actor; struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -26,16 +26,16 @@ void func_0220F22C(u8 *p,int a,short delta)
 {
     int i=func_022110D4(p,a);
     Pair pair;
-    func_0204B454(*(void **)(p+0x1ebc+i*4),(struct PtS *)&pair,1);
+    CLACT_GetActorSurfacePos(*(void **)(p+0x1ebc+i*4),(struct PtS *)&pair,1);
     pair.x+=delta;
     func_0204B404(*(void **)(p+0x1ebc+i*4),(const struct Vec2 *)(&pair),1);
-    func_0204B454(*(void **)(p+0x1ed8+i*4),(struct PtS *)&pair,1);
+    CLACT_GetActorSurfacePos(*(void **)(p+0x1ed8+i*4),(struct PtS *)&pair,1);
     pair.x+=delta;
     func_0204B404(*(void **)(p+0x1ed8+i*4),(const struct Vec2 *)(&pair),1);
-    func_0204B454(*(void **)(p+0x1ef0+i*4),(struct PtS *)&pair,1);
+    CLACT_GetActorSurfacePos(*(void **)(p+0x1ef0+i*4),(struct PtS *)&pair,1);
     pair.x+=delta;
     func_0204B404(*(void **)(p+0x1ef0+i*4),(const struct Vec2 *)(&pair),1);
-    func_0204B454(*(void **)(p+0x1f08+i*4),(struct PtS *)&pair,1);
+    CLACT_GetActorSurfacePos(*(void **)(p+0x1f08+i*4),(struct PtS *)&pair,1);
     pair.x+=delta;
     func_0204B404(*(void **)(p+0x1f08+i*4),(const struct Vec2 *)(&pair),1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02167BCC
+ * function: BSUBWAY_COMM_SetSendPlayMode
  * address:  0x02167BCC
  * packet:   pkt_ov010_02167BCC
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 func_02167BFC.
+ * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 BSUBWAY_COMM_SetSendData.
  *
  * symbols:
  *   (none)
@@ -27,7 +27,7 @@ typedef struct Obj {
     u32 w668;
 } Obj;
 
-void func_02167BCC(Obj *o)
+void BSUBWAY_COMM_SetSendPlayMode(Obj *o)
 {
     o->w668 = o->b09;
 }

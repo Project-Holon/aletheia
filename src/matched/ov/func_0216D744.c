@@ -1,5 +1,5 @@
 /*
- * function: func_0216D744
+ * function: FLDMMDL_CallDrawInitProc
  * address:  0x0216D744
  * packet:   pkt_0216D744
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D744(int a0, int a1)
+int FLDMMDL_CallDrawInitProc(int a0, int a1)
 {
 
 a1 = a0 + 0;

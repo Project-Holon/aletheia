@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE70
+ * function: STARTMENU_SaveEraseUpdateTimeIcon
  * address:  0x021BCE70
  * packet:   pkt_ov088_021BCE70
  * region:   ov088
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * Unlabelled Thumb leaf (four instructions and two pool words) between
- * func_021BCE3C and func_021BCE80: loads the pointer held at 0x021BDA20 and
+ * STARTMENU_SaveEraseStepSecondConfirm and STARTMENU_SaveEraseStepErase: loads the pointer held at 0x021BDA20 and
  * tail-calls TIME_ICON_Update with it.  Its only reference is the callback
- * pointer 0x021BCE71 in func_021BCE80.
+ * pointer 0x021BCE71 in STARTMENU_SaveEraseStepErase.
  *
  * symbols:
  *   TIME_ICON_Update  0x0202F0B0  thumb
@@ -23,7 +23,7 @@ extern void *d_021BDA20;
 typedef unsigned char  u8;
 extern void TIME_ICON_Update(u8 *p);
 
-void func_021BCE70(void)
+void STARTMENU_SaveEraseUpdateTimeIcon(void)
 {
     TIME_ICON_Update(d_021BDA20);
 }

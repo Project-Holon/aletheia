@@ -1,5 +1,5 @@
 /*
- * function: func_0218CC34
+ * function: FIELD_G3D_MAPPER_StepBlocks
  * address:  0x0218CC34
  * packet:   pkt_ov021_0218CC34
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02169308  0x02169308  thumb  ov010
- *   func_0218DEF0  0x0218DEF0  thumb  ov021
+ *   FIELD_G3D_MAP_Update  0x02169308  thumb  ov010
+ *   FIELD_G3D_MAPPER_StampFrame  0x0218DEF0  thumb  ov021
  */
 
 typedef struct {
@@ -29,15 +29,15 @@ typedef struct {
 } S;
 
 typedef unsigned char  u8;
-void func_02169308(u8 *p);
-void func_0218DEF0(char *p);
+void FIELD_G3D_MAP_Update(u8 *p);
+void FIELD_G3D_MAPPER_StampFrame(char *p);
 
-void func_0218CC34(S *p)
+void FIELD_G3D_MAPPER_StepBlocks(S *p)
 {
     int i;
     if (p->f1C != 0) {
         for (i = 0; i < p->n; i++)
-            func_02169308((u8 *)p->f24[i].h);
-        func_0218DEF0((char *)p);
+            FIELD_G3D_MAP_Update((u8 *)p->f24[i].h);
+        FIELD_G3D_MAPPER_StampFrame((char *)p);
     }
 }

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 
 int func_021C6AD4(u8 *p)
 {
-    if (func_020221A4() == 1)
+    if (WIPE_SYS_EndCheck() == 1)
         return ((struct Obj23608 *)((u8 *)((struct Obj23607 *)p)->f8))->f308;
     return 2;
 }

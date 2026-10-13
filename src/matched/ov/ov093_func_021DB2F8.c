@@ -1,5 +1,5 @@
 /*
- * function: func_021DB2F8
+ * function: BTL_TOKUSEI_Forecast_ResetFormOnEvent6A
  * address: 0x021DB2F8
  * packet: pkt_ov093_021DB2F8
  * region: ov093
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021DB318 0x021DB318 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_TOKUSEI_Forecast_ResetForm 0x021DB318 thumb ov093
  */
-extern int func_021D775C(int);
-extern void func_021DB318(int,void *,int);
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_TOKUSEI_Forecast_ResetForm(int,void *,int);
 
-void func_021DB2F8(int a, void *b, int c)
+void BTL_TOKUSEI_Forecast_ResetFormOnEvent6A(int a, void *b, int c)
 {
-    if (c == func_021D775C(2)) func_021DB318(a, b, c);
+    if (c == BTL_EVENT_GetVar(2)) BTL_TOKUSEI_Forecast_ResetForm(a, b, c);
 }

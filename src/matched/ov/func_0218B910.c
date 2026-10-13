@@ -1,5 +1,5 @@
 /*
- * function: func_0218B910
+ * function: FIELD_BUILDMODEL_GetPlacementByTableId
  * address:  0x0218B910
  * packet:   pkt_0218B910
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0218BBD0  0x0218BBD0  thumb  ov021
- *   func_0218BBF4  0x0218BBF4  thumb  ov021
+ *   FIELD_BUILDMODEL_GetModelIndex  0x0218BBD0  thumb  ov021
+ *   FIELD_BUILDMODEL_GetOffsetTarget  0x0218BBF4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09453.h"
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0218BBD0(u32, u32);
-extern int func_0218BBF4(u32 a, u32 b);
+extern u32 FIELD_BUILDMODEL_GetModelIndex(u32, u32);
+extern int FIELD_BUILDMODEL_GetOffsetTarget(u32 a, u32 b);
 
-int func_0218B910(u32 a, u32 b)
+int FIELD_BUILDMODEL_GetPlacementByTableId(u32 a, u32 b)
 {
-return func_0218BBF4(((struct Obj09453 *)((u8 *)(a)))->f18, func_0218BBD0(a, b));
+return FIELD_BUILDMODEL_GetOffsetTarget(((struct Obj09453 *)((u8 *)(a)))->f18, FIELD_BUILDMODEL_GetModelIndex(a, b));
 }
 

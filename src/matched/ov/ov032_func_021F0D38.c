@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02028148 0x02028148 thumb
+ *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  */
-extern void func_02028148(unsigned char *);
-void func_021F0D38(char *p) { int i; for(i=0;i<3;i++) { func_02028148(*(unsigned char **)(p+i*16+0xc0)); *(unsigned *)(p+i*16+0xc0)=0; } }
+extern void APP_TASKMENU_WIN_Delete(unsigned char *);
+void func_021F0D38(char *p) { int i; for(i=0;i<3;i++) { APP_TASKMENU_WIN_Delete(*(unsigned char **)(p+i*16+0xc0)); *(unsigned *)(p+i*16+0xc0)=0; } }

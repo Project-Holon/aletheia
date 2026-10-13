@@ -11,16 +11,16 @@
  *
  * symbols:
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  */
 
 typedef unsigned int   u32;
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 void func_021DC910(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((const struct DispVram *)0x021DEB20);
+    BG_SYS_SetVramBanks((const struct DispVram *)0x021DEB20);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216E3C8
+ * function: FLDMMDL_GetObjCodeParamBlActRes
  * address:  0x0216E3C8
  * packet:   pkt_ov010_0216E3C8
  * region:   ov010
@@ -12,7 +12,7 @@
  * Unlabelled leaf: adds r0, #0x10; bx lr.
  */
 
-void *func_0216E3C8(void *p)
+void *FLDMMDL_GetObjCodeParamBlActRes(void *p)
 {
     return (char *)p + 0x10;
 }

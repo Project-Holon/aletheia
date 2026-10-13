@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA470",
+   "name": "BSUBWAY_RECORD_LIST_GetRowCountOnPage",
    "address": "0x021BA470",
    "kind": "game",
    "region": "ov069",

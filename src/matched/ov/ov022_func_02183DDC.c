@@ -1,5 +1,5 @@
 /*
- * function: func_02183DDC
+ * function: UNION_APP_ConfirmJoins
  * address:  0x02183DDC
  * packet:   pkt_ov022_02183DDC
  * region:   ov022
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 typedef void (*Cb)(int idx, u8 *ent, u32 arg);
 
-void func_02183DDC(u8 *s)
+void UNION_APP_ConfirmJoins(u8 *s)
 {
     int i;
     u32 m;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B78D4
+ * function: MONOLITH_TOOL_SLOT_SELECT_FreeBackgrounds
  * address: 0x021B78D4
  * packet: pkt_ov071_021B78D4
  * region: ov071
@@ -15,4 +15,4 @@
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 i);
-void func_021B78D4(void) { func_02040588(5,0); func_02040588(6,0); func_020403F4(5); func_020403F4(6); }
+void MONOLITH_TOOL_SLOT_SELECT_FreeBackgrounds(void) { func_02040588(5,0); func_02040588(6,0); func_020403F4(5); func_020403F4(6); }

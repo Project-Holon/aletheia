@@ -62,13 +62,14 @@
  *
  * symbols:
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u8  WAZA_TOOL_GetMaxPP(u32 move, u32 ppUp);
 
 u8 POKE_TOOL_IsPPRestorable(void *mon, u32 slot)
@@ -79,12 +80,12 @@ u8 POKE_TOOL_IsPPRestorable(void *mon, u32 slot)
     u32 r;
 
     r = 0;
-    move = (u16)func_02017E1C(mon, slot + 0x36, 0);
+    move = (u16)POKE_TOOL_GetPartyValue(mon, slot + 0x36, 0);
     if (move == 0) {
         return r;
     }
-    pp = (u8)func_02017E1C(mon, slot + 0x3A, 0);
-    ppUp = (u8)func_02017E1C(mon, slot + 0x3E, 0);
+    pp = (u8)POKE_TOOL_GetPartyValue(mon, slot + 0x3A, 0);
+    ppUp = (u8)POKE_TOOL_GetPartyValue(mon, slot + 0x3E, 0);
     if (pp < WAZA_TOOL_GetMaxPP(move, ppUp)) {
         r = 1;
     }

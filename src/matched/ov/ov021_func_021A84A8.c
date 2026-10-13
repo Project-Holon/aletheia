@@ -1,5 +1,5 @@
 /*
- * function: func_021A84A8
+ * function: FIELD_MENU_NotifyParentOnExit
  * address:  0x021A84A8
  * packet:   pkt_ov021_021A84A8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A0FB4  0x021A0FB4  thumb
+ *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb
  */
 
 typedef unsigned short u16;
@@ -25,11 +25,11 @@ typedef struct {
 } S;
 
 typedef unsigned int   u32;
-extern void func_021A0FB4(u32 *p, u32 a);
+extern void FIELD_SUBSCREEN_ResumeField(u32 *p, u32 a);
 
-void func_021A84A8(S *s)
+void FIELD_MENU_NotifyParentOnExit(S *s)
 {
     if (s->f28 == 1) {
-        func_021A0FB4((u32 *)s->f8, s->h0);
+        FIELD_SUBSCREEN_ResumeField((u32 *)s->f8, s->h0);
     }
 }

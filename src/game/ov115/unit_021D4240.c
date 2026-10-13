@@ -14,9 +14,9 @@
  *
  * symbols:
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
- *   func_020399A8 0x020399A8 arm
- *   func_02039338 0x02039338 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   d_021D6640 0x021D6640 data a4
  */
 #include "../../matched/include/Obj22580.h"
@@ -35,14 +35,14 @@ typedef signed char s8;
 typedef int s32;
 
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
-extern u32 func_020399A8(void);
-extern u16 func_02039338(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern u32 GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 int func_021D4240(u8 *p);
 void func_021D426C(u8 *p, u32 v);
 void func_021D4270(u32 a, u32 b, u32 c, u8 *p, u32 id);
 
-int func_021D4240(u8 *p) { if(func_020362DC()&3) return 1; if(*(int *)(((struct Obj22580 *)p)->f40+4) && func_02035C60()) return 1; return 0; }
+int func_021D4240(u8 *p) { if(func_020362DC()&3) return 1; if(*(int *)(((struct Obj22580 *)p)->f40+4) && TOUCHPANEL_GetTrg()) return 1; return 0; }
 
 
 void func_021D426C(u8 *p, u32 v) { ((struct Obj22581 *)p)->f0 = v; }
@@ -50,7 +50,7 @@ void func_021D426C(u8 *p, u32 v) { ((struct Obj22581 *)p)->f0 = v; }
 
 void func_021D4270(u32 a, u32 b, u32 c, u8 *p, u32 id)
 {
-    if (id == func_020399A8() && a != func_02039338()) {
+    if (id == GFL_NET_HANDLE_GetCurrentHandle() && a != GFL_NET_SYSTEM_GetCurrentAid()) {
         *(u32 *)(p + 0x1c) = 1;
     }
 }

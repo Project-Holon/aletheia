@@ -1,5 +1,5 @@
 /*
- * function: func_021B8F98
+ * function: ITEMMENU_InitDisplayBanks
  * address:  0x021B8F98
  * packet:   pkt_ov070_021B8F98
  * region:   ov070
@@ -68,7 +68,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_020414EC(u32 i);
 
-void func_021B8F98(void)
+void ITEMMENU_InitDisplayBanks(void)
 {
     BgTemplate t0;
     BgTemplate t1;

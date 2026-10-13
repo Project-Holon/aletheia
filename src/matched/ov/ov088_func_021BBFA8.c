@@ -1,5 +1,5 @@
 /*
- * function: func_021BBFA8
+ * function: STARTMENU_UpdateMessage
  * address:  0x021BBFA8
  * packet:   pkt_ov088_021BBFA8
  * region:   ov088
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020286C4  0x020286C4  thumb
+ *   APP_KEYCURSOR_Update  0x020286C4  thumb
  *   func_0201CE30  0x0201CE30  thumb
  *   func_0203630C  0x0203630C  arm
  *   func_0201CE5C  0x0201CE5C  thumb
@@ -27,7 +27,7 @@ typedef signed int     s32;
 struct Ctx;
 struct Rec;
 struct Rec3;
-extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern u32 func_0201CE30(void *p);
 extern unsigned int func_0203630C(void);
 extern void func_0201CE5C(struct Rec *p, s32 v);
@@ -36,11 +36,11 @@ extern void func_020061E4(u32);
 extern void func_0201CE38(void *);
 extern void func_0201CE48(struct Rec3 *p);
 
-int func_021BBFA8(char *p)
+int STARTMENU_UpdateMessage(char *p)
 {
     if (((struct Obj01887 *)p)->f6C == 0)
         return 0;
-    func_020286C4(((struct Obj01887 *)p)->f74, ((struct Obj01887 *)p)->f6C, ((struct Obj01887 *)p)->fE8);
+    APP_KEYCURSOR_Update(((struct Obj01887 *)p)->f74, ((struct Obj01887 *)p)->f6C, ((struct Obj01887 *)p)->fE8);
     switch (func_0201CE30(((struct Obj01887 *)p)->f6C)) {
     case 0:
         if (func_0203630C() & 3)

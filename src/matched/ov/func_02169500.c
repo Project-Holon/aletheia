@@ -1,5 +1,5 @@
 /*
- * function: func_02169500
+ * function: FIELD_G3D_MAP_SetPos
  * address:  0x02169500
  * packet:   pkt_02169500
  * region:   ov010
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef struct S12 { u32 a, b, c; } S12;
 
 
-void func_02169500(u8 *p, u8 *q)
+void FIELD_G3D_MAP_SetPos(u8 *p, u8 *q)
 {
     *(S12 *)(p + 0x4) = *(S12 *)q;
 }

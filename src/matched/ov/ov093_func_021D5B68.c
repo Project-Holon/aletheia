@@ -1,5 +1,5 @@
 /*
- * function: func_021D5B68
+ * function: BTL_POKEPARAM_IsFainted
  * address:  0x021D5B68
  * packet:   pkt_ov093_021D5B68
  * region:   ov093
@@ -18,7 +18,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D59B4(u8 *p, int k);
 
-int func_021D5B68(void *p)
+int BTL_POKEPARAM_IsFainted(void *p)
 {
     if (func_021D59B4(p, 13) == 0) return 1;
     return 0;

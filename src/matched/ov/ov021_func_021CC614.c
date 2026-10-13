@@ -1,5 +1,5 @@
 /*
- * function: func_021CC614
+ * function: SCRCMD_PALPARK_SetBeacon
  * address:  0x021CC614
  * packet:   pkt_ov021_021CC614
  * region:   ov021
@@ -9,86 +9,86 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * func_020120F4 takes the func_0215A5DC result as its argument (r0 still
+ * GAMESYSTEM_GetGameData takes the SCRCMD_WORK_GetGameSystem result as its argument (r0 still
  * holds it at the bl), as it does at every other caller; declaring it
  * void(void) was what shuffled the whole register assignment.
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0216530C  0x0216530C  thumb  ov010
- *   func_02165534  0x02165534  thumb  ov010
- *   func_021653C4  0x021653C4  thumb  ov010
- *   func_021656A0  0x021656A0  thumb  ov010
- *   func_021656D0  0x021656D0  thumb  ov010
- *   func_0216573C  0x0216573C  thumb  ov010
- *   func_02165604  0x02165604  thumb  ov010
- *   func_02165634  0x02165634  thumb  ov010
- *   func_0216566C  0x0216566C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetItemFound  0x0216530C  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetFieldEvent  0x021653C4  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetSimpleEventA  0x021656A0  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetByteValue  0x021656D0  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetSimpleEventC  0x0216573C  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetFacilityExit  0x02165604  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetWordValue  0x02165634  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetWordClear  0x0216566C  thumb  ov010
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern unsigned int func_02159B10(void *a, void *b);
-extern void *func_0215A5DC(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0215A5F4(void *p);
-extern void func_0216530C(void *a0);
-extern void func_02165534(void *a0);
-extern void func_021653C4(void);
-extern void func_021656A0(void);
-extern void func_021656D0(u8 a);
-extern void func_0216573C(void);
-extern void func_02165604(void);
-extern void func_02165634(void *a0);
-extern void func_0216566C(void);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void GAME_BEACON_SEARCH_SetItemFound(void *a0);
+extern void GAME_BEACON_SEARCH_SetCountValue(void *a0);
+extern void GAME_BEACON_SEARCH_SetFieldEvent(void);
+extern void GAME_BEACON_SEARCH_SetSimpleEventA(void);
+extern void GAME_BEACON_SEARCH_SetByteValue(u8 a);
+extern void GAME_BEACON_SEARCH_SetSimpleEventC(void);
+extern void GAME_BEACON_SEARCH_SetFacilityExit(void);
+extern void GAME_BEACON_SEARCH_SetWordValue(void *a0);
+extern void GAME_BEACON_SEARCH_SetWordClear(void);
 
-int func_021CC614(u32 a, u32 b)
+int SCRCMD_PALPARK_SetBeacon(u32 a, u32 b)
 {
     u32 sel;
     u32 v;
     void *t;
 
-    sel = func_02159B10((void *)a, (void *)b);
-    v = func_02159B10((void *)a, (void *)b);
-    t = func_0215A5DC((void *)b);
-    func_020120F4(t);
-    func_0201210C((void *)t);
-    func_0215A5F4((void *)b);
+    sel = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    v = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    t = SCRCMD_WORK_GetGameSystem((void *)b);
+    GAMESYSTEM_GetGameData(t);
+    GAMESYSTEM_GetFieldMap((void *)t);
+    SCRCMD_WORK_GetScriptWork((void *)b);
     switch (sel) {
     case 0:
-        func_0216530C((void *)v);
+        GAME_BEACON_SEARCH_SetItemFound((void *)v);
         break;
     case 1:
-        func_02165534((void *)v);
+        GAME_BEACON_SEARCH_SetCountValue((void *)v);
         break;
     case 2:
-        func_021653C4();
+        GAME_BEACON_SEARCH_SetFieldEvent();
         break;
     case 3:
-        func_021656A0();
+        GAME_BEACON_SEARCH_SetSimpleEventA();
         break;
     case 4:
-        func_021656D0(v);
+        GAME_BEACON_SEARCH_SetByteValue(v);
         break;
     case 5:
-        func_0216573C();
+        GAME_BEACON_SEARCH_SetSimpleEventC();
         break;
     case 6:
-        func_02165604();
+        GAME_BEACON_SEARCH_SetFacilityExit();
         break;
     case 7:
-        func_02165634((void *)v);
+        GAME_BEACON_SEARCH_SetWordValue((void *)v);
         break;
     case 8:
-        func_0216566C();
+        GAME_BEACON_SEARCH_SetWordClear();
         break;
     }
     return 0;

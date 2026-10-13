@@ -1,7 +1,7 @@
 /*
  * file:     mail.c
  * unit:     yes
- * function: sub_020089A8, sub_020089B0, sub_020089C0, sub_020089CC, func_02008A54, func_02008A7C, func_02008ACC, func_02008ADC, sub_02008AEC, func_02008AF0, func_02008B08, func_02008B14, func_02008B20, func_02008B4C, func_02008B78, func_02008B94, func_02008B98, func_02008B9C, func_02008BD0, func_02008BE0, func_02008C00, func_02008C20, func_02008C28, func_02008C58, func_02008C64, func_02008C94, func_02008CB4, func_02008CD4, func_02008CF8, func_02008D1C, func_02008D58, func_02008DAC, func_02008DF0, func_02008DFC, func_02008E30, func_02008E68, func_02008E78, func_02008E88, func_02008EAC, func_02008EF8, func_02008F08, func_02008F3C, func_02008F48, func_02008F80, func_02008F84, func_02008F88, func_02008F9C, func_02008FA0, func_02008FA4, func_02008FA8, func_02008FB0, func_02008FB4, func_02008FB8, func_02008FBC, func_02008FC0, func_02008FC4, func_02008FC8, func_02008FD8, func_02008FEC, func_02008FFC, func_02009004, func_02009020, func_0200902C, func_0200903C, func_02009050, func_02009074, func_020090A0, func_020090B0, func_020090B4, func_020090D8, func_020090E0, func_020090E8, func_020090F0, func_020090F8, func_02009108, func_0200910C, sub_02009110, sub_02009134
+ * function: sub_020089A8, sub_020089B0, sub_020089C0, sub_020089CC, func_02008A54, func_02008A7C, func_02008ACC, func_02008ADC, sub_02008AEC, func_02008AF0, func_02008B08, func_02008B14, func_02008B20, func_02008B4C, func_02008B78, func_02008B94, func_02008B98, func_02008B9C, func_02008BD0, func_02008BE0, func_02008C00, func_02008C20, func_02008C28, func_02008C58, func_02008C64, func_02008C94, func_02008CB4, func_02008CD4, func_02008CF8, func_02008D1C, func_02008D58, func_02008DAC, func_02008DF0, func_02008DFC, func_02008E30, func_02008E68, func_02008E78, func_02008E88, func_02008EAC, func_02008EF8, MAIL_Create, func_02008F3C, func_02008F48, func_02008F80, func_02008F84, func_02008F88, func_02008F9C, func_02008FA0, func_02008FA4, func_02008FA8, func_02008FB0, func_02008FB4, func_02008FB8, func_02008FBC, func_02008FC0, func_02008FC4, func_02008FC8, func_02008FD8, func_02008FEC, func_02008FFC, func_02009004, MAIL_FindEmptySlot, func_0200902C, func_0200903C, func_02009050, func_02009074, func_020090A0, func_020090B0, func_020090B4, func_020090D8, func_020090E0, func_020090E8, func_020090F0, func_020090F8, func_02009108, func_0200910C, sub_02009110, sub_02009134
  * address:  0x020089A8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,9 +31,9 @@
  *   RECORD_CeilingTable      0x0209DDB4  data
  *   MAIL_FileName      0x020A716C  data
  *   RECORD_FoldPairTable      0x0209DDA0  data
- *   unk_0209DF0C   0x0209DF0C  data
- *   unk_0209DF08   0x0209DF08  data
- *   func_02045A98  0x02045A98  arm
+ *   GAME_LANGUAGE_Code   0x0209DF0C  data
+ *   GAME_VERSION_Code   0x0209DF08  data
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   MIi_CpuClear16 0x02082A48  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -218,7 +218,7 @@ extern void sub_0203F49C(struct RTCDate *date, struct RTCTime *time);
 extern u32 sub_0203F2FC(const u8 *data, u32 length);
 extern void sub_0203F328(u16 *data, u32 size, u32 key);
 extern void sub_0203F37C(void *data, u32 size, u32 key);
-extern u16  func_02045A98(void);
+extern u16  STRBUF_GetEosChar(void);
 extern void PMSI_PARAM_ClearSentence(struct PmsData *pms);
 extern void sub_02024570(struct PmsData *dest, const struct PmsData *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site,
@@ -232,8 +232,8 @@ extern struct SaveControl *sub_02012EBC(struct GameData *gameData);
 extern unsigned char RECORD_CeilingRowTable[];
 extern int RECORD_CeilingTable[];
 extern struct CounterPair RECORD_FoldPairTable[5];
-extern const u8 unk_0209DF0C;
-extern const u8 unk_0209DF08;
+extern const u8 GAME_LANGUAGE_Code;
+extern const u8 GAME_VERSION_Code;
 extern char MAIL_FileName[];
 extern const u8 CGEAR_SAVE_DefaultPanels[0x24];
 
@@ -763,10 +763,10 @@ void MAIL_Init(struct Mail *mail)
 
     mail->writerId = 0;
     mail->gender = 0;
-    mail->language = unk_0209DF0C;
-    mail->version = unk_0209DF08;
+    mail->language = GAME_LANGUAGE_Code;
+    mail->version = GAME_VERSION_Code;
     mail->design = 0xFF;
-    MI_CpuFill16(mail->writerName, func_02045A98(), sizeof(mail->writerName));
+    MI_CpuFill16(mail->writerName, STRBUF_GetEosChar(), sizeof(mail->writerName));
     mail->messageId = 0xFFFF;
     for (i = 0; i < 3; i++) {
         PMSI_PARAM_ClearSentence(&mail->message[i]);
@@ -783,7 +783,7 @@ int MAIL_IsDesignValid(const struct Mail *mail)
     return 0;
 }
 
-struct Mail *func_02008F08(int heapId)
+struct Mail *MAIL_Create(int heapId)
 {
     struct Mail *mail = func_02030734((unsigned short)((heapId & 0x7fff) | 0x8000),
                                       sizeof(struct Mail), 0, MAIL_FileName, 0x87);
@@ -935,7 +935,7 @@ void MAIL_InitBox(struct Mail *box)
 }
 
 /* Index of the first empty letter in the box, or -1. */
-int func_02009020(struct Mail *box)
+int MAIL_FindEmptySlot(struct Mail *box)
 {
     return MAIL_FindEmptySlotInRange(box, MAIL_BOX_CAPACITY);
 }
@@ -965,7 +965,7 @@ void MAIL_SetSlot(struct Mail *box, u32 boxKind, int index,
 struct Mail *MAIL_CreateSlotCopy(struct Mail *box, u32 boxKind, int index, u32 heapId)
 {
     struct Mail *mail = MAIL_GetSlot(box, boxKind, index);
-    struct Mail *copy = func_02008F08(heapId);
+    struct Mail *copy = MAIL_Create(heapId);
 
     if (mail != 0) {
         MAIL_Copy(mail, copy);

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF7C4
+ * function: BTL_HANDLER_ITEM_GetSharpBeakHandlers
  * address: 0x021DF7C4
  * packet: pkt_ov093_021DF7C4
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF7B8.c and filed here.
  *
  * symbols:
- *   d_021F144C 0x021F144C data ov093 a4
+ *   gSharpBeakHandlers 0x021F144C data ov093 a4
  */
 
-extern int d_021F144C[];
-int *func_021DF7C4(int *p);
+extern int gSharpBeakHandlers[];
+int *BTL_HANDLER_ITEM_GetSharpBeakHandlers(int *p);
 
-int *func_021DF7C4(int *p)
+int *BTL_HANDLER_ITEM_GetSharpBeakHandlers(int *p)
 {
     *p = 1;
-    return d_021F144C;
+    return gSharpBeakHandlers;
 }

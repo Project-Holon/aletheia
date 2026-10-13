@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02012DAC
+ * function: GAME_DATA_SaveStart
  * address:  0x02012DAC
  * packet:   pkt_02012BF8
  * region:   arm9
@@ -17,4 +17,4 @@
  */
 #include "../include/Obj00054.h"
 
-int func_02012DAC(int a0){ int t0, t1, t2, t3; t0 = GAME_DATA_WriteToSave(a0); t1 = WIH_DWC_PauseTimers((int)t0); *(unsigned char *)(((char *)((a0 + 0)) + ((int)(0x1CE) << 0))) = (unsigned char)1; t2 = func_0203516C((int)2, (int)1); t3 = SAVE_CONTROL_StartSave((int)*(int *)&((struct Obj00054 *)((char *)((a0 + 0))))->f0); return t3; }
+int GAME_DATA_SaveStart(int a0){ int t0, t1, t2, t3; t0 = GAME_DATA_WriteToSave(a0); t1 = WIH_DWC_PauseTimers((int)t0); *(unsigned char *)(((char *)((a0 + 0)) + ((int)(0x1CE) << 0))) = (unsigned char)1; t2 = func_0203516C((int)2, (int)1); t3 = SAVE_CONTROL_StartSave((int)*(int *)&((struct Obj00054 *)((char *)((a0 + 0))))->f0); return t3; }

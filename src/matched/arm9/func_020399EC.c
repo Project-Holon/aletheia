@@ -11,7 +11,7 @@
  *
  * Count how many of the eight slots answer non-zero to the probe: when
  * GFL_NET_GetSession() is null the count is zero, otherwise every slot is asked
- * through func_0203996C(i) and func_020399B8(), and each non-zero answer bumps
+ * through GFL_NET_HANDLE_GetNetHandle(i) and GFL_NET_HANDLE_IsNegotiationDone(), and each non-zero answer bumps
  * the counter (the `addne r5, r5, #1` after the loop's `add r4, r4, #1`).
  *
  * The counter is left uninitialised at its declaration and assigned `0` in
@@ -26,8 +26,8 @@
  *
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203996C  0x0203996C  arm
- *   func_020399B8  0x020399B8  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_GetNegotiationNum.c \
@@ -39,8 +39,8 @@ typedef unsigned char  u8;
 extern void *GFL_NET_GetSession(void);
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
-extern u32 func_020399B8(u8 *p);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 
 int GFL_NET_HANDLE_GetNegotiationNum(void)
 {
@@ -50,7 +50,7 @@ int GFL_NET_HANDLE_GetNegotiationNum(void)
     if (GFL_NET_GetSession() != 0) {
         c = 0;
         for (i = 0; i < 8; i++) {
-            if (func_020399B8((u8 *)func_0203996C(i)) != 0)
+            if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)GFL_NET_HANDLE_GetNetHandle(i)) != 0)
                 c++;
         }
     } else {

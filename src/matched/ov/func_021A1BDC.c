@@ -1,5 +1,5 @@
 /*
- * function: func_021A1BDC
+ * function: WEATHER_RequestChange
  * address:  0x021A1BDC
  * packet:   pkt_021A1BDC
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021A1C34 with no argument change.
+ * Tail-call thunk: forwards to WEATHER_StartTransition with no argument change.
  *
  * symbols:
- *   func_021A1C34  0x021A1C34  thumb
+ *   WEATHER_StartTransition  0x021A1C34  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A1C34();
+extern void WEATHER_StartTransition();
 
-void func_021A1BDC(void)
+void WEATHER_RequestChange(void)
 {
-    func_021A1C34();
+    WEATHER_StartTransition();
 }

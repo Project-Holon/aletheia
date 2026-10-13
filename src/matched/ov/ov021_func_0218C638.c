@@ -1,5 +1,5 @@
 /*
- * function: func_0218C638
+ * function: FIELD_BUILDMODEL_GetFirstEntryInRect
  * address:  0x0218C638
  * packet:   pkt_ov021_0218C638
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218C584  0x0218C584  thumb  ov021
+ *   FIELD_BUILDMODEL_CollectEntriesInRect  0x0218C584  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  */
 
-int *func_0218C584(int a, int b, int c, int *out);
+int *FIELD_BUILDMODEL_CollectEntriesInRect(int a, int b, int c, int *out);
 typedef unsigned int   u32;
 u32 func_020307B0(void *p);
 
-int func_0218C638(int a, int b, int c)
+int FIELD_BUILDMODEL_GetFirstEntryInRect(int a, int b, int c)
 {
     int tmp;
-    int *r = func_0218C584(a, c, b, &tmp);
+    int *r = FIELD_BUILDMODEL_CollectEntriesInRect(a, c, b, &tmp);
     int v = *r;
     func_020307B0(r);
     return v;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8B7C",
+   "name": "ITEMMENU_TaskSelectItemFlash",
    "address": "0x021B8B7C",
    "kind": "game",
    "region": "ov070",

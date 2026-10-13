@@ -9,13 +9,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
 u16 *PRINTSYS_ProcColorTag(u16 *a0, u16 *a1)
 {
@@ -32,7 +35,7 @@ u16 *PRINTSYS_ProcColorTag(u16 *a0, u16 *a1)
     if (t == 0) {
         b = (u8)((a1[0] == 0xF000) ? a1[3] : 0);
         if (b == 0xFF) {
-            func_0201DD78((u8)((a0[7] >> 10) & 0x1F), (u8)((a0[7] >> 5) & 0x1F),
+            GF_FONT_SetTextColor((u8)((a0[7] >> 10) & 0x1F), (u8)((a0[7] >> 5) & 0x1F),
                           (u8)(a0[7] & 0x1F));
         } else {
             int x1;
@@ -41,7 +44,7 @@ u16 *PRINTSYS_ProcColorTag(u16 *a0, u16 *a1)
             m = (u8)(a0[6] & 0x1F);
             x2 = x + 2;
             x1 = x + 1;
-            func_0201DD78((u8)x1, (u8)x2, m);
+            GF_FONT_SetTextColor((u8)x1, (u8)x2, m);
             a0[7] = (u16)((((u8)x1 & 0x1F) << 10) | (((u8)x2 & 0x1F) << 5)
                           | (m & 0x1F));
         }

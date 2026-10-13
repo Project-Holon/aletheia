@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FC0
+ * function: OPTION_MENU_UpdateSprites
  * address:  0x021B9FC0
  * packet:   pkt_ov068_021B9FC0
  * region:   ov068
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
- *   func_0204A600  0x0204A600  arm
+ *   CLACT_DrawSystem  0x0204A600  arm
  */
 #include "../include/Obj09869.h"
 
@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 
-void func_021B9FC0(u8 *p)
+void OPTION_MENU_UpdateSprites(u8 *p)
 {
     int i;
     u16 t;
@@ -34,5 +34,5 @@ void func_021B9FC0(u8 *p)
     for (i = 2; i < 13; i++) {
         CLACT_SetActorAnimIndex(*(u32 *)(p + i * 4 + 0x18), (u16)(((struct Obj09869 *)p)->f50 / 12));
     }
-    func_0204A600();
+    CLACT_DrawSystem();
 }

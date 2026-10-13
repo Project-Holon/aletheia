@@ -1,5 +1,5 @@
 /*
- * function: func_021F1740
+ * function: C_GEAR_SetupSubScreenBlend
  * address: 0x021F1740
  * packet: pkt_ov029_021F1740
  * region: ov029
@@ -13,7 +13,7 @@
  */
 typedef unsigned int u32;
 extern void func_0207D63C(u32, int, int, int, int);
-void func_021F1740(void *p)
+void C_GEAR_SetupSubScreenBlend(void *p)
 {
     func_0207D63C(0x04001050, 2, 0x15, 9, 0x10);
 }

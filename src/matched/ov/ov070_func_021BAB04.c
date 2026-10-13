@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB04
+ * function: ITEMMENU_PrintMoveInfoText
  * address:  0x021BAB04
  * packet:   pkt_ov070_021BAB04
  * region:   ov070
@@ -31,12 +31,12 @@
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_02045770  0x02045770  arm
- *   func_02043AF4  0x02043AF4  arm
+ *   BMP_FillRect  0x02043AF4  arm
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_021BB6E0  0x021BB6E0  thumb  ov070
- *   func_021BB724  0x021BB724  thumb  ov070
+ *   ITEMMENU_PrintToWindow  0x021BB6E0  thumb  ov070
+ *   ITEMMENU_FlushWindowAt  0x021BB724  thumb  ov070
  */
 
 typedef unsigned char u8;
@@ -56,14 +56,14 @@ extern u32 func_0201BD28(u16 id, u32 field);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021BB6E0(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
-extern void func_021BB724(void **p);
+extern void ITEMMENU_PrintToWindow(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
+extern void ITEMMENU_FlushWindowAt(void **p);
 
-void func_021BAB04(u8 *p, int x)
+void ITEMMENU_PrintMoveInfoText(u8 *p, int x)
 {
     int a;
     int b;
@@ -77,29 +77,29 @@ void func_021BAB04(u8 *p, int x)
     a = (int)WAZA_TOOL_GetMaxPP(x, (int)0);
     b = (int)func_0201BD28(x, (int)3);
     c = (int)func_0201BD28(x, (int)4);
-    func_02043AF4(func_02045770((struct Descriptor *)(*(int *)win)), 0xB0, 0, 0x20, 0x28, 0);
-    func_02043AF4(func_02045770((struct Descriptor *)(*(int *)win)), 0xE8, 0, 0x18, 0x18, 0);
+    BMP_FillRect(func_02045770((struct Descriptor *)(*(int *)win)), 0xB0, 0, 0x20, 0x28, 0);
+    BMP_FillRect(func_02045770((struct Descriptor *)(*(int *)win)), 0xE8, 0, 0x18, 0x18, 0);
     if (b <= 1) {
         func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), (int)0x17, (void *)(*(int *)(p + 0x524)));
-        func_021BB6E0((int)p, (u32 *)win, (int)(*(int *)(p + 0x524)), 0xB0, 4, 0x3DC0);
+        ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x524)), 0xB0, 4, 0x3DC0);
     } else {
         func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), (int)0x5F, (void *)(*(int *)(p + 0x524)));
         func_0201EFA4((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)b, (int)3, (int)0, (int)1);
         func_0201F250((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
-        func_021BB6E0((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xB0, 4, 0x3DC0);
+        ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xB0, 4, 0x3DC0);
     }
     if (c == 0 || (int)WAZA_TOOL_IsAlwaysHit(x) == 1) {
         func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), (int)0x17, (void *)(*(int *)(p + 0x524)));
-        func_021BB6E0((int)p, (u32 *)win, (int)(*(int *)(p + 0x524)), 0xB0, 0x18, 0x3DC0);
+        ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x524)), 0xB0, 0x18, 0x3DC0);
     } else {
         func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), (int)0x5F, (void *)(*(int *)(p + 0x524)));
         func_0201EFA4((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)c, (int)3, (int)0, (int)1);
         func_0201F250((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
-        func_021BB6E0((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xB0, 0x18, 0x3DC0);
+        ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xB0, 0x18, 0x3DC0);
     }
     func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), (int)0x5E, (void *)(*(int *)(p + 0x524)));
     func_0201EFA4((struct WordSet *)(*(int *)(p + 0x520)), (int)0, (int)a, (int)2, (int)0, (int)1);
     func_0201F250((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
-    func_021BB6E0((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xE8, 4, 0x3DC0);
-    func_021BB724((void **)win);
+    ITEMMENU_PrintToWindow((int)p, (u32 *)win, (int)(*(int *)(p + 0x528)), 0xE8, 4, 0x3DC0);
+    ITEMMENU_FlushWindowAt((void **)win);
 }

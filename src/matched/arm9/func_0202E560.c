@@ -14,11 +14,11 @@
  *   SCREENTEX_WorkTemplate     0x020A033C  data
  *   screentex_File     0x020A77E0  data
  *   func_02030734  0x02030734  arm
- *   func_02046C94  0x02046C94  arm
+ *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   func_02046C9C  0x02046C9C  arm
  *   func_02069FD0  0x02069FD0  arm
  *   func_02069FF8  0x02069FF8  arm
- *   func_0206E964  0x0206E964  arm
+ *   NNS_G3dGetTex  0x0206E964  arm
  *   func_02080C44  0x02080C44  arm
  *   func_02082D44  0x02082D44  arm
  *
@@ -28,7 +28,7 @@
  * MI_CpuCopy8 (func_02082D44), binds it to the control block, then builds a
  * packed VRAM descriptor: bits of the bank word returned by func_02080C44
  * are folded into an accumulator under a fall-through switch on a1, and the
- * result is combined with the texture size from func_0206E964 /
+ * result is combined with the texture size from NNS_G3dGetTex /
  * func_02069FD0 before the final publish through func_02069FF8.
  *
  * BLOCKED: every concrete byte is correct; the single unresolved relocation
@@ -54,12 +54,12 @@ extern char SCREENTEX_WorkTemplate[];
 extern char screentex_File[];
 
 typedef unsigned short u16;
-extern int func_02046C94(void);
+extern int G3D_SYSTEM_GetResourceSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082D44(void *src, void *dst, u32 n);
 struct Rec;
 extern void func_02046C9C(struct Rec *rec, u32 mode, u32 value);
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern int func_02069FD0(int p);
 extern u16 func_02080C44(void);
 extern void func_02069FF8(char *p, int a, int b);
@@ -73,11 +73,11 @@ void *SCREENTEX_Create(u32 heap, u32 sel)
     u32 bank;
     u32 acc;
 
-    blk = func_02030734(heap, func_02046C94(), 0, screentex_File, 0x3b);
+    blk = func_02030734(heap, G3D_SYSTEM_GetResourceSize(), 0, screentex_File, 0x3b);
     buf = func_02030734(heap, 0x8c, 0, screentex_File, 0x3c);
     func_02082D44(SCREENTEX_WorkTemplate, buf, 0x8c);
     func_02046C9C(blk, 2, (u32)buf);
-    tex = func_0206E964(buf);
+    tex = NNS_G3dGetTex(buf);
     size = func_02069FD0((int)tex);
     bank = func_02080C44();
     acc = 0;

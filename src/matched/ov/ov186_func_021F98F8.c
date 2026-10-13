@@ -15,8 +15,8 @@
  *   before save, declaration order of tag and save, tag in the loop body, heap
  *   reassigned, u32 heap parameter, all six per-function pragmas: all 4 bytes off.
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
- *   func_02045808 0x02045808 arm
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_02082BCC 0x02082BCC arm
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
@@ -39,11 +39,11 @@ struct GdsProfile;
 struct ObjC4;
 struct RecGet;
 struct U16Vec;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct ObjC4 *BATTLE_REC_GetWork(void);
 extern u8 *BATTLE_REC_GetHeader(void);
 extern void *func_0200A5F8(void *);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_02082BCC(void *,int,unsigned);
 extern u32 BATTLE_REC_Load(void *,u16,u32 *,u32);
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
@@ -61,11 +61,11 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
     if(skip && *(int *)(p+0x54)) enabled=0;
     if(enabled) {
         u32 tag;
-        save=(u32)func_02012EBC(sys);
+        save=(u32)GAME_DATA_GetSaveControl(sys);
         if(*(int *)(p+0x54)) {
             for(i=0;i<4;i++) {
                 if(((Fields *)p)->handles[i]) {
-                    func_02045808(((Fields *)p)->handles[i]);
+                    STRBUF_Delete(((Fields *)p)->handles[i]);
                     ((Fields *)p)->handles[i]=0;
                 }
             }
@@ -83,7 +83,7 @@ void func_021F98F8(char *p, int skip, void *sys, int heap)
                 *(u64 *)((u32)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
             }
         }
-        *(u32 *)(p+0x50)=func_0200A630(func_0200A5F8(func_02012EBC(sys)));
+        *(u32 *)(p+0x50)=func_0200A630(func_0200A5F8(GAME_DATA_GetSaveControl(sys)));
         *(int *)(p+0x54)=1;
     }
 }

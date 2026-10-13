@@ -11,33 +11,33 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: BSUBWAY_SAVEDATA_SetHistory, func_0200DF40, func_0200DF4C, func_0200DF58,
- *           func_0200DF94, func_0200DFB4, BSUBWAY_SAVEDATA_InitStats
+ * function: BSUBWAY_SAVEDATA_SetHistory, BSUBWAY_SAVEDATA_GetHistoryTagA, BSUBWAY_SAVEDATA_GetHistoryTagB, BSUBWAY_SAVEDATA_AllocHistoryCopy,
+ *           BSUBWAY_SAVEDATA_CountHistoryEntries, BSUBWAY_SAVEDATA_GetHistoryEntryScore, BSUBWAY_SAVEDATA_InitStats
  *
  * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
  * label in the generated listing.
  *
  * alias: 0x020A71F8 spells "bsubway_savedata.c", the fifth original source
  * file name this project has recovered, attested by the `string` class off
- * the terminator of "gds_profile.c" at 0x020A71F5.  func_0200DF58 passes it
+ * the terminator of "gds_profile.c" at 0x020A71F5.  BSUBWAY_SAVEDATA_AllocHistoryCopy passes it
  * to the debug allocator at 0x02030734 with line 0x508.
  *
  * The second slot of the record whose first slot is
  * src/matched/unit_0200DE5C.c: a 0x3FC-byte payload at +0x794 behind a
  * present flag at +0xFF and two byte tags at +0x102 and +0x103.  0x3FC is
- * thirty entries of 0x22 bytes, which is what func_0200DF94 walks, so the
+ * thirty entries of 0x22 bytes, which is what BSUBWAY_SAVEDATA_CountHistoryEntries walks, so the
  * payload's element type is pinned by the stride rather than assumed.
  *
  * Three details are worth having.
  *
- *  - func_0200DF58 allocates a copy of the payload and returns it; the size
+ *  - BSUBWAY_SAVEDATA_AllocHistoryCopy allocates a copy of the payload and returns it; the size
  *    0x3FC is live in r6 across the allocation and is used again as the copy
  *    length, which is what writing it as `sizeof` at both sites gives.
- *  - in func_0200DF94 the loop index is declared **before** the counter even
+ *  - in BSUBWAY_SAVEDATA_CountHistoryEntries the loop index is declared **before** the counter even
  *    though the counter is the one assigned first in the output.  Declared
  *    the other way round the two swap registers and nothing else moves; see
  *    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- *  - func_0200DFB4 assembles a little-endian word out of four bytes and the
+ *  - BSUBWAY_SAVEDATA_GetHistoryEntryScore assembles a little-endian word out of four bytes and the
  *    compiler schedules the loads 0x16, 0x17, 0x14, 0x15, which is not the
  *    source order.  Every spelling tried, field by field or through an array,
  *    with or without casts on the operands, produces exactly these bytes, so
@@ -90,17 +90,17 @@ void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b)
     p->unkFF = 1;
 }
 
-int func_0200DF40(struct RecSlot *p)
+int BSUBWAY_SAVEDATA_GetHistoryTagA(struct RecSlot *p)
 {
     return p->unk103;
 }
 
-u8 func_0200DF4C(struct RecSlot *p)
+u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct RecSlot *p)
 {
     return p->unk102;
 }
 
-struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap)
+struct Buf3FC *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct RecSlot *p, u32 heap)
 {
     struct Buf3FC *copy = func_02030734(heap, sizeof(p->unk794), 1,
                                         sFileName_bsubway_savedata, 0x508);
@@ -109,7 +109,7 @@ struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap)
     return copy;
 }
 
-u32 func_0200DF94(struct Buf3FC *b)
+u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct Buf3FC *b)
 {
     s32 i;
     u32 n = 0;
@@ -122,7 +122,7 @@ u32 func_0200DF94(struct Buf3FC *b)
     return n;
 }
 
-u32 func_0200DFB4(struct SubEnt *e)
+u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct SubEnt *e)
 {
     return e->unk14[0] | (e->unk14[1] << 8) | (e->unk14[2] << 16)
            | (e->unk14[3] << 24);

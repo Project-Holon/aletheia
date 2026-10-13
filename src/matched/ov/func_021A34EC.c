@@ -1,5 +1,5 @@
 /*
- * function: func_021A34EC
+ * function: FIELD_PLAYER_GetFormSlot
  * address:  0x021A34EC
  * packet:   pkt_021A34EC
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A3A10  0x021A3A10  thumb
+ *   FIELD_PLAYER_CORE_GetFormSlot  0x021A3A10  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A3A10(u32 a);
+extern int FIELD_PLAYER_CORE_GetFormSlot(u32 a);
 
-int func_021A34EC(u8 *p)
+int FIELD_PLAYER_GetFormSlot(u8 *p)
 {
-    return func_021A3A10(((struct Obj18021 *)p)->f4);
+    return FIELD_PLAYER_CORE_GetFormSlot(((struct Obj18021 *)p)->f4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B10A4
+ * function: SCRCMD_MSGWIN_ClosePlainWin
  * address:  0x021B10A4
  * packet:   pkt_ov021_021B10A4
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B10A4  0x021B10A4  thumb
- *   func_02159190  0x02159190  thumb  ov010
- *   func_0215A61C  0x0215A61C  thumb  ov010
- *   func_021915B4  0x021915B4  thumb  ov021
- *   func_0215A614  0x0215A614  thumb  ov010
- *   func_02159168  0x02159168  thumb  ov010
+ *   SCRCMD_MSGWIN_ClosePlainWin  0x021B10A4  thumb
+ *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
+ *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
+ *   FIELD_MSGBG_DeletePlainWin  0x021915B4  thumb  ov021
+ *   SCRCMD_WORK_SetMsgWindow  0x0215A614  thumb  ov010
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  */
 
-extern int func_02159190(int);
-extern int func_0215A61C(int a0);
+extern int SCRIPT_WORK_CheckFlag(int);
+extern int SCRCMD_WORK_GetMsgWindow(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern int func_021915B4(void *a);
-extern void func_0215A614(u8 *p, u32 v);
-extern void func_02159168(int);
+extern int FIELD_MSGBG_DeletePlainWin(void *a);
+extern void SCRCMD_WORK_SetMsgWindow(u8 *p, u32 v);
+extern void SCRIPT_WORK_ResetCheckFlag(int);
 
-void func_021B10A4(void *p)
+void SCRCMD_MSGWIN_ClosePlainWin(void *p)
 {
     int n = 3;
-    if (func_02159190(3) != 0) {
-        func_021915B4((void *)func_0215A61C((int)p));
-        func_0215A614(p, 0);
-        func_02159168(n);
+    if (SCRIPT_WORK_CheckFlag(3) != 0) {
+        FIELD_MSGBG_DeletePlainWin((void *)SCRCMD_WORK_GetMsgWindow((int)p));
+        SCRCMD_WORK_SetMsgWindow(p, 0);
+        SCRIPT_WORK_ResetCheckFlag(n);
     }
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02047788
+ * function: G3D_SYSTEM_GetObjectRender
  * address:  0x02047788
  * packet:   pkt_02047260
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02047788(int *p){ return p[1]; }
+int G3D_SYSTEM_GetObjectRender(int *p){ return p[1]; }

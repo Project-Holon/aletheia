@@ -1,5 +1,5 @@
 /*
- * function: func_021D5150
+ * function: BTL_POKEPARAM_ResetBattleMoves
  * address:  0x021D5150
  * packet:   pkt_ov093_021D5150
  * region:   ov093
@@ -26,7 +26,7 @@ struct Work {
     u8 n140;
 };
 
-void func_021D5150(struct Work *p)
+void BTL_POKEPARAM_ResetBattleMoves(struct Work *p)
 {
     u32 i;
     p->n140 = 0;

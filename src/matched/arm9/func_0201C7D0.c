@@ -1,5 +1,5 @@
 /*
- * function: func_0201C7D0
+ * function: PRINTSYS_PrintColor
  * address:  0x0201C7D0
  * packet:   pkt_0201C7D0
  * region:   arm9
@@ -16,7 +16,7 @@
  *   PRINTSYS_SetJobColor   0x0201C8A4  thumb
  *   _PrintJobWork     0x0214655C  data
  *
- * A printsys entry point: the func_0201C7A4 body plus a
+ * A printsys entry point: the PRINTSYS_Print body plus a
  * PRINTSYS_SetJobColor(scratch, v) step between building the shared print request
  * in the static scratch and handing it to PRINTSYS_RunJob.  The leading
  * STRBUF_GetChars(s) call's result is unused.
@@ -49,7 +49,7 @@ extern void PRINTSYS_RunJob(u8 *a0, int a1);
 struct Rec2;
 extern void PRINTSYS_SetJobColor(struct Rec2 *p, u16 v);
 
-void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v)
+void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v)
 {
     u32 base;
 

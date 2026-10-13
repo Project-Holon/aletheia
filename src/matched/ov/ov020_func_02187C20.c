@@ -20,7 +20,7 @@
  *   func_02187D74  0x02187D74  thumb  ov020
  *   func_02187D54  0x02187D54  thumb  ov020
  *   func_02187D20  0x02187D20  thumb  ov020
- *   func_02188DB0  0x02188DB0  thumb  ov021
+ *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
  *   func_02187D94  0x02187D94  thumb  ov020
  */
 #include "../include/Obj01207.h"
@@ -40,7 +40,7 @@ int func_02187D40(char *p);
 int func_02187D74(char *p);
 int func_02187D54(char *p);
 u32 func_02187D20(char *p);
-void func_02188DB0(u8 *a);
+void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
 void func_02187D94(void *o);
 
 void func_02187C20(char *o, int *p, int st)
@@ -66,7 +66,7 @@ void func_02187C20(char *o, int *p, int st)
     case 4:
         ((struct Obj01207 *)o)->f1C = func_02187D54(o);
         if (func_02187D20(o) == 0 && ((struct Obj01207 *)o)->f15 == ((struct Obj01207 *)o)->f14) {
-            func_02188DB0((u8 *)(((struct Obj01207 *)o)->f4));
+            FIELDMAP_ResetBgAffineShowMsg((u8 *)(((struct Obj01207 *)o)->f4));
             func_02040588(3, 1);
             func_02187D94(o);
         }

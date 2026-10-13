@@ -1,5 +1,5 @@
 /*
- * function: func_021B7BF0
+ * function: MONOLITH_TOOL_SLOT_SELECT_UpdateCursor
  * address:  0x021B7BF0
  * packet:   pkt_ov071_021B7BF0
  * region:   ov071
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021B70C4((char *)p + 0x24).
+ * Tail call to MONOLITH_TOOL_UpdateBlink((char *)p + 0x24).
  *
  * symbols:
- *   func_021B70C4  0x021B70C4  thumb  ov071
+ *   MONOLITH_TOOL_UpdateBlink  0x021B70C4  thumb  ov071
  */
 
-void func_021B7BF0(void *p)
+void MONOLITH_TOOL_SLOT_SELECT_UpdateCursor(void *p)
 {
-    void func_021B70C4(void *);
-    func_021B70C4((char *)p + 0x24);
+    void MONOLITH_TOOL_UpdateBlink(void *);
+    MONOLITH_TOOL_UpdateBlink((char *)p + 0x24);
 }

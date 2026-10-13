@@ -1,5 +1,5 @@
 /*
- * function: func_021CE78C
+ * function: COMM_ENTRY_MENU_IsIdle
  * address:  0x021CE78C
  * packet:   pkt_021CE78C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02190EF0  0x02190EF0  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09217.h"
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02190EF0(u32 *p);
+extern u32 FIELD_MSGBG_SysWinMain(u32 *p);
 
-int func_021CE78C(u32 a)
+int COMM_ENTRY_MENU_IsIdle(u32 a)
 {
 if (*(u32 *)((u8 *)(a) + ((1 << 8))) == 0) {
-    if (func_02190EF0((u32 *)(((struct Obj09217 *)((u8 *)(a)))->f14)) == 1) {
+    if (FIELD_MSGBG_SysWinMain((u32 *)(((struct Obj09217 *)((u8 *)(a)))->f14)) == 1) {
         return 1;
     }
 }

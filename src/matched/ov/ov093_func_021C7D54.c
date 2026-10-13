@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD2B4  0x021BD2B4  thumb  ov093
- *   func_021BD34C  0x021BD34C  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_SERVER_FLOW_InitFieldPokeIter  0x021BD2B4  thumb  ov093
+ *   BTL_SERVER_FLOW_NextFieldPokeIter  0x021BD34C  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021BD2B4(u8 *it, u8 **q);
-extern int func_021BD34C(u8 *it, u8 **q, u8 **x);
-extern u8 func_021D5440(u8 *p);
+extern void BTL_SERVER_FLOW_InitFieldPokeIter(u8 *it, u8 **q);
+extern int BTL_SERVER_FLOW_NextFieldPokeIter(u8 *it, u8 **q, u8 **x);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021B9A24(u32 a, u32 b);
 
 u8 func_021C7D54(u8 *p, u8 *k, u8 *out)
@@ -28,10 +28,10 @@ u8 func_021C7D54(u8 *p, u8 *k, u8 *out)
     u32 it;
     u8 *x;
     u8 n = 0;
-    func_021BD2B4((u8 *)&it, (u8 **)p);
-    while (func_021BD34C((u8 *)&it, (u8 **)p, &x)) {
-        if (func_021B9A24((u32)k, func_021D5440(x)) == 0) {
-            out[n++] = func_021D5440(x);
+    BTL_SERVER_FLOW_InitFieldPokeIter((u8 *)&it, (u8 **)p);
+    while (BTL_SERVER_FLOW_NextFieldPokeIter((u8 *)&it, (u8 **)p, &x)) {
+        if (func_021B9A24((u32)k, BTL_POKEPARAM_GetPokeId(x)) == 0) {
+            out[n++] = BTL_POKEPARAM_GetPokeId(x);
         }
     }
     return n;

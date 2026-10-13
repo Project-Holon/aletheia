@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B17B4",
+   "name": "SCRCMD_FLDMMDL_GetPlayerGridPos",
    "address": "0x021B17B4",
    "kind": "game",
    "region": "ov021",

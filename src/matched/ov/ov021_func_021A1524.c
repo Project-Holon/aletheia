@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0058  0x021F0058  thumb  ov034
+ *   REPORT_PrepareSave  0x021F0058  thumb  ov034
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern void func_021F0058(char *p);
+extern void REPORT_PrepareSave(char *p);
 
 void func_021A1524(u32 *p)
 {
-    func_021F0058((char *)p[8]);
+    REPORT_PrepareSave((char *)p[8]);
 }

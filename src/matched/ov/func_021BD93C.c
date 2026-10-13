@@ -1,5 +1,5 @@
 /*
- * function: func_021BD93C
+ * function: EVENT_ENTRANCE_IN_GetPlayerForm
  * address:  0x021BD93C
  * packet:   pkt_021BD93C
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3098  0x021A3098  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18244.h"
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u32 func_021A3098(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u32 FIELD_PLAYER_GetFormCode(u8 *p);
 
-void func_021BD93C(u32 a, u32 b, u32 c, u32 d)
+void EVENT_ENTRANCE_IN_GetPlayerForm(u32 a, u32 b, u32 c, u32 d)
 {
-func_021A3098(func_02188CB4((struct Obj00020 *)(*(u32 *)((u8 *)(((struct Obj18244 *)((u8 *)(a)))->f8) + 12))));
+FIELD_PLAYER_GetFormCode(FIELDMAP_GetFieldPlayer((struct Obj00020 *)(*(u32 *)((u8 *)(((struct Obj18244 *)((u8 *)(a)))->f8) + 12))));
 }
 

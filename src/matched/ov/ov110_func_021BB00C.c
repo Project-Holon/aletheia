@@ -9,16 +9,16 @@
  * status: EXACT
  * lever: struct member keeps the far offset in-loop; array store uses i++.
  * symbols:
- *   func_02045A98 0x02045A98 arm
- *   func_02045924 0x02045924 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
+ *   STRBUF_SetString 0x02045924 arm
  *   func_021BB214 0x021BB214 thumb ov110
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 typedef unsigned int   u32;
 struct Strbuf;
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u16 func_021BB214(u32 i);
 typedef struct { u8 pad[0xad4]; u16 values[13]; } Input;
 void func_021BB00C(Input *p,void *q) {
@@ -27,9 +27,9 @@ void func_021BB00C(Input *p,void *q) {
     for(i=0;i<13;) {
         u16 x;
         x=p->values[i];
-        if(x==255) { a[i]=func_02045A98(); break; }
+        if(x==255) { a[i]=STRBUF_GetEosChar(); break; }
         a[i++]=func_021BB214(x);
     }
-    a[13]=func_02045A98();
-    func_02045924(q,a);
+    a[13]=STRBUF_GetEosChar();
+    STRBUF_SetString(q,a);
 }

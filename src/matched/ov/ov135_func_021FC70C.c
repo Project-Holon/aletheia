@@ -10,7 +10,7 @@
  * symbols:
  *   func_021F4E30 0x021F4E30 thumb ov135
  *   func_021F4E64 0x021F4E64 thumb ov135
- *   func_0201F868 0x0201F868 thumb
+ *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   func_0200ADB4 0x0200ADB4 thumb
  *   func_021F6DE8 0x021F6DE8 thumb ov135
  *   func_0201AA18 0x0201AA18 thumb
@@ -23,7 +23,7 @@
 #include "../include/Obj23409.h"
 extern unsigned int func_021F4E30(unsigned char *p);
 extern void func_021F4E64(unsigned char *p);
-extern unsigned int func_0201F868(void *p);
+extern unsigned int BMP_MENUWORK_Delete(void *p);
 extern void *func_0200ADB4(void *);
 extern int func_021F6DE8(unsigned int handle);
 typedef unsigned int   u32;
@@ -40,7 +40,7 @@ int func_021FC70C(char *p)
     r = func_021F4E30((unsigned char *)p);
     if (r == 1) {
         func_021F4E64((unsigned char *)p);
-        func_0201F868(((struct Obj00045 *)p)->fDE8);
+        BMP_MENUWORK_Delete(((struct Obj00045 *)p)->fDE8);
         q = func_0200ADB4(**(void ** *)&((struct Obj00045 *)p)->f0);
         if (func_021F6DE8((unsigned int)q) && func_0201AA18(((struct Obj23409 *)(*(char * *)&((struct Obj00045 *)p)->f0))->f8) == 6) {
             func_021FC810((u8 *)p, 0x2a, 1, 0, 0xf0f, q);
@@ -52,7 +52,7 @@ int func_021FC70C(char *p)
         func_021FCBF0(p);
     } else if (r == 2 || r == -2) {
         func_021F4E64((unsigned char *)p);
-        func_0201F868(((struct Obj00045 *)p)->fDE8);
+        BMP_MENUWORK_Delete(((struct Obj00045 *)p)->fDE8);
         *(int *)&((struct Obj00045 *)p)->f28 = 2;
         func_021F4EC0((u8 *)p, 1, 0);
         func_021FCBF0(p);

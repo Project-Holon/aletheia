@@ -1,5 +1,5 @@
 /*
- * function: func_0216FAA0
+ * function: WAZA_OSHIE_IsListEntryValid
  * address: 0x0216FAA0
  * packet: pkt_ov010_0216FAA0
  * region: ov010
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 typedef unsigned short u16;
-int func_0216FAA0(u16 *p) { if (*p != 0xffff) return 1; return 0; }
+int WAZA_OSHIE_IsListEntryValid(u16 *p) { if (*p != 0xffff) return 1; return 0; }

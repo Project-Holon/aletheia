@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021F9B9C 0x021F9B9C thumb ov186
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021E1DA8 0x021E1DA8 thumb ov183
@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021E1DA8(int,int *,char *);
@@ -43,7 +43,7 @@ int func_021E1C80(struct Obj0203159C *obj,int unused,char *arg)
     char *p;
     int i;
     Pair pair;
-    p=func_0203159C(obj,32,func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC)));
+    p=PROCSYS_AllocProcWork(obj,32,func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC)));
     func_02082BCC(p,0,32);
     *(char * *)&((struct Obj02232 *)p)->f18=arg;
     ((struct Obj02232 *)p)->f8=func_021F9B9C((struct Obj24810 *)(((struct Obj05482 *)arg)->fC));

@@ -17,13 +17,13 @@
  *
  * symbols:
  *   IRC_COMPATIBLE_FindHighestSetBit 0x021B7090 thumb ov101
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 IRC_COMPATIBLE_FindHighestSetBit(u32, u32);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 u32 IRC_COMPATIBLE_CalcNameSimilarity(u16 *p, u16 *q)
 {
     u32 a, b, bits1, bits2;
@@ -41,13 +41,13 @@ u32 IRC_COMPATIBLE_CalcNameSimilarity(u16 *p, u16 *q)
     for (;;) {
         if (bits1 == 0) {
             a = *++p;
-            if (a == func_02045A98()) break;
+            if (a == STRBUF_GetEosChar()) break;
             if (a >= lower1 && a <= 0x30f4) a -= 0x60;
             bits1 = IRC_COMPATIBLE_FindHighestSetBit(a, 8);
         }
         if (bits2 == 0) {
             b = *++q;
-            if (b == func_02045A98()) break;
+            if (b == STRBUF_GetEosChar()) break;
             if (b >= lower2 && b <= 0x30f4) b -= 0x60;
             bits2 = IRC_COMPATIBLE_FindHighestSetBit(b, 8);
         }

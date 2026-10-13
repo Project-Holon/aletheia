@@ -10,8 +10,8 @@
  * symbols:
  *   d_021C38F0 0x021C38F0 data a1
  *   d_021C395C 0x021C395C data a1
- *   func_02035C60 0x02035C60 arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_02035D20 0x02035D20 arm
  *   TOUCHPANEL_HitPoint 0x02035D40 arm
  *   PMSI_PARAM_HasInitialSentence 0x02024158 thumb
@@ -23,8 +23,8 @@ typedef unsigned char u8;
 typedef struct { u8 b[8]; } Box;
 extern const Box d_021C38F0;
 extern const Box d_021C395C;
-extern int func_02035C60(void);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_HitTrg(const void *p);
 struct Ctx;
 extern unsigned int func_02035D20(unsigned int *outA, unsigned int *outB);
 extern unsigned int TOUCHPANEL_HitPoint(struct Ctx *ctx, unsigned int a, unsigned int b);
@@ -36,8 +36,8 @@ int func_021BDAA4(u8 *p) {
  int x,y;
  Box box=d_021C38F0;
  int i,count,result;
- if(!func_02035C60()) return -1;
- result=func_02035C08(&d_021C395C);
+ if(!TOUCHPANEL_GetTrg()) return -1;
+ result=TOUCHPANEL_HitTrg(&d_021C395C);
  if(result!=-1) {
   if(PMSI_PARAM_HasInitialSentence((const u8 *)(((struct Obj10282 *)p)->f0))) { if((unsigned)(result-2)<=3) result=-1; return result; }
   return result;

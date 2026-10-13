@@ -1,5 +1,5 @@
 /*
- * function: func_021B87BC
+ * function: FIELD_RAIL_SETTING_Clear
  * address:  0x021B87BC
  * packet:   pkt_021B87BC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02082BCC();
 
-void func_021B87BC(u32 a)
+void FIELD_RAIL_SETTING_Clear(u32 a)
 {
     func_02082BCC(a, 0, 48);
 }

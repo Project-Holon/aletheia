@@ -1,5 +1,5 @@
 /*
- * function: func_021BC578
+ * function: FIELD_PLACE_NAME_ShowForZone
  * address:  0x021BC578
  * packet:   pkt_ov021_021BC578
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD120  0x021BD120  thumb  ov021
- *   func_021BD140  0x021BD140  thumb  ov021
- *   func_021BCBC8  0x021BCBC8  thumb  ov021
- *   func_021BCA64  0x021BCA64  thumb  ov021
+ *   FIELD_PLACE_NAME_SetZoneId  0x021BD120  thumb  ov021
+ *   FIELD_PLACE_NAME_HasWindow  0x021BD140  thumb  ov021
+ *   FIELD_PLACE_NAME_Interrupt  0x021BCBC8  thumb  ov021
+ *   FIELD_PLACE_NAME_RequestForceShow  0x021BCA64  thumb  ov021
  */
 
 typedef unsigned short u16;
 
-extern void func_021BD120(void *p, u16 v);
-extern int func_021BD140(u16 v);
+extern void FIELD_PLACE_NAME_SetZoneId(void *p, u16 v);
+extern int FIELD_PLACE_NAME_HasWindow(u16 v);
 typedef unsigned char  u8;
-extern void func_021BCBC8(char *p);
-extern void func_021BCA64(u8 *p);
+extern void FIELD_PLACE_NAME_Interrupt(char *p);
+extern void FIELD_PLACE_NAME_RequestForceShow(u8 *p);
 
-void func_021BC578(void *p, int v)
+void FIELD_PLACE_NAME_ShowForZone(void *p, int v)
 {
-    func_021BD120(p, (u16)v);
-    if (func_021BD140((u16)v)) {
-        func_021BCBC8(p);
-        func_021BCA64(p);
+    FIELD_PLACE_NAME_SetZoneId(p, (u16)v);
+    if (FIELD_PLACE_NAME_HasWindow((u16)v)) {
+        FIELD_PLACE_NAME_Interrupt(p);
+        FIELD_PLACE_NAME_RequestForceShow(p);
     }
 }

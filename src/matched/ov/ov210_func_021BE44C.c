@@ -11,8 +11,8 @@
  *        instead hoists p+offset and spills x in a larger frame.
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_021B6AE4 0x021B6AE4 thumb ov067
- *   func_02045808 0x02045808 arm
+ *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj00222.h"
 typedef unsigned char u8;
@@ -21,11 +21,11 @@ typedef unsigned u32;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *, u32);
-extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern void func_02045808(struct U16Vec *);
+extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void STRBUF_Delete(struct U16Vec *);
 void func_021BE44C(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode)
 {
     struct U16Vec *text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00222 *)p)->f1D0, message);
-    func_021B6AE4(p + 0x14c + slot * 8, (void *)(((struct Obj00222 *)p)->f1DC), x, y, (u32)text, ((struct Obj00222 *)p)->f1CC, color, mode);
-    func_02045808(text);
+    TOUCHBAR_PrintAligned(p + 0x14c + slot * 8, (void *)(((struct Obj00222 *)p)->f1DC), x, y, (u32)text, ((struct Obj00222 *)p)->f1CC, color, mode);
+    STRBUF_Delete(text);
 }

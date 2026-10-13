@@ -20,9 +20,9 @@
  *   func_0218A378 0x0218A378 thumb ov096
  *   func_0218A384 0x0218A384 thumb ov096
  *   func_021885BC 0x021885BC thumb ov096
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   func_021B9A6C 0x021B9A6C thumb ov093
  *   func_021B8DE4 0x021B8DE4 thumb ov093
  *   func_021B8CE8 0x021B8CE8 thumb ov093
@@ -63,9 +63,9 @@ extern int func_0218A378(Obj *, int, int);
 extern int func_0218A384(Obj *, int, int);
 extern void func_021885BC(int, u8 *);
 struct QG;
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(u8 *p, int i);
-extern int func_021D5B68(void *p);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
+extern int BTL_POKEPARAM_IsFainted(void *p);
 extern int func_021B9A6C(int, u32);
 extern u8 func_021B8DE4(char *p, int i);
 extern int func_021B8CE8(int, int, int);
@@ -108,7 +108,7 @@ int func_02188284(int a, Obj *b)
                 b->h24[b->opp] = -1;
                 goto next;
             }
-            if (b->opp == b->side || func_021D5B68(b->fc0) == 1) {
+            if (b->opp == b->side || BTL_POKEPARAM_IsFainted(b->fc0) == 1) {
                 b->s30[b->opp] = -1;
                 b->h24[b->opp] = -1;
                 goto next;
@@ -147,7 +147,7 @@ int func_02188284(int a, Obj *b)
         scores[0] = b->scores[0];
         ids[0] = 0;
         for (i = 1; i < 4; i++) {
-            if (i < func_021D5448((struct QG *)b->fbc)) {
+            if (i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc)) {
                 v = b->scores[i];
                 if (scores[0] == v) {
                     scores[n] = v;
@@ -187,9 +187,9 @@ int func_02188284(int a, Obj *b)
     }
     b->target = ids2[draw_below(n)];
     b->slot = b->s30[b->target];
-    if (func_0218A378(b, func_021D54C0(b->fbc, b->slot), 27) == 1 && !(b->target & 1))
+    if (func_0218A378(b, BTL_POKEPARAM_GetMoveId(b->fbc, b->slot), 27) == 1 && !(b->target & 1))
         b->target = b->side;
-    v = func_021D54C0(b->fbc, b->slot);
+    v = BTL_POKEPARAM_GetMoveId(b->fbc, b->slot);
     if (b->mode == 2 && func_021B9A6C(b->side, b->target) == 0 && func_0218A384(b, v, 11) == 0)
         b->target = (b->target & 1) + 2;
     return 0;

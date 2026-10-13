@@ -1,5 +1,5 @@
 /*
- * function: func_021656F8
+ * function: GAME_BEACON_SEARCH_SetInfoByteValue
  * address: 0x021656F8
  * packet: pkt_ov010_021656F8
  * region: ov010
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GAME_BEACON_ResetDetails(void *);
-void func_021656F8(u8 *p, u8 v) { ((struct Obj00121 *)p)->f30=0x2c; p[0x34]=v; GAME_BEACON_ResetDetails(p); }
+void GAME_BEACON_SEARCH_SetInfoByteValue(u8 *p, u8 v) { ((struct Obj00121 *)p)->f30=0x2c; p[0x34]=v; GAME_BEACON_ResetDetails(p); }

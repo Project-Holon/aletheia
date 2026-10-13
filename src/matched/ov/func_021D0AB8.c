@@ -14,7 +14,7 @@
  *
  * Unlabelled ov021 leaf hidden in a word run: stores the second argument at
  * +0x130 of the first.  Matched to supply the `matched` witness for the
- * pending ov010 caller func_0216A594.
+ * pending ov010 caller SCRCMD_TRIALHOUSE_SetRecordSource.
  */
 #include "../include/Obj18370.h"
 

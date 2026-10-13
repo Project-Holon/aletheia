@@ -1,5 +1,5 @@
 /*
- * function: func_021A9A5C
+ * function: FIELD_ENCOUNT_LoadSlots
  * address:  0x021A9A5C
  * packet:   pkt_ov021_021A9A5C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A99E4  0x021A99E4  thumb
+ *   FIELD_ENCOUNT_TrySwarmSlot  0x021A99E4  thumb
  * Addresses are Black-image addresses.
  *
  * Shape: n is a u8 (the return needs no truncation) and each case assigns
@@ -35,16 +35,16 @@ struct Unit {
     u8 f14;
 };
 
-extern int func_021A99E4(void *a0, struct Unit *u, u16 id, struct Spec *spec);
+extern int FIELD_ENCOUNT_TrySwarmSlot(void *a0, struct Unit *u, u16 id, struct Spec *spec);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-u8 func_021A9A5C(u8 *a0, struct Unit *u, u16 id, struct Spec *spec)
+u8 FIELD_ENCOUNT_LoadSlots(u8 *a0, struct Unit *u, u16 id, struct Spec *spec)
 {
     u8 n = 0;
     u32 mode = 0;
     u8 *src;
 
-    if (func_021A99E4(a0, u, id, spec) != 0)
+    if (FIELD_ENCOUNT_TrySwarmSlot(a0, u, id, spec) != 0)
         return u->f14;
     if (u->f08 >= 7)
         u->f08 = 0;

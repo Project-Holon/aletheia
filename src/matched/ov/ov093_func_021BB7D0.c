@@ -1,5 +1,5 @@
 /*
- * function: func_021BB7D0
+ * function: BTL_SERVER_ClearReplies
  * address: 0x021BB7D0
  * packet: pkt_ov093_021BB7D0
  * region: ov093
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BB830 0x021BB830 thumb ov093
- *   func_021EEB70 0x021EEB70 thumb ov093
+ *   BTL_SERVER_IsClientSlotUsed 0x021BB830 thumb ov093
+ *   BTL_ADAPTER_Cancel 0x021EEB70 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021BB830(u8 *);
-extern void func_021EEB70(u32);
-void func_021BB7D0(const u8 *p) {
+extern int BTL_SERVER_IsClientSlotUsed(u8 *);
+extern void BTL_ADAPTER_Cancel(u32);
+void BTL_SERVER_ClearReplies(const u8 *p) {
     int i;
     i = 0;
     for (; i < 4; i++) {
-        if (func_021BB830((u8 *)(p+20+i*12))) func_021EEB70(*(const u32 *)((p+i*12)+20));
+        if (BTL_SERVER_IsClientSlotUsed((u8 *)(p+20+i*12))) BTL_ADAPTER_Cancel(*(const u32 *)((p+i*12)+20));
     }
 }

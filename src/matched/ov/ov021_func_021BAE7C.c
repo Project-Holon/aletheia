@@ -1,5 +1,5 @@
 /*
- * function: func_021BAE7C
+ * function: FIELD_RAIL_ProjectOnSegment
  * address:  0x021BAE7C
  * packet:   pkt_ov021_021BAE7C
  * region:   ov021
@@ -55,7 +55,7 @@ static inline void VEC_Set(VecFx32 *v, fx32 x, fx32 y, fx32 z)
     v->z = z;
 }
 
-int func_021BAE7C(Obj *a, Obj *b, VecFx32 *c, VecFx32 *out, fx32 *t, VecFx32 *axis)
+int FIELD_RAIL_ProjectOnSegment(Obj *a, Obj *b, VecFx32 *c, VecFx32 *out, fx32 *t, VecFx32 *axis)
 {
     VecFx32 d1;
     VecFx32 d2;

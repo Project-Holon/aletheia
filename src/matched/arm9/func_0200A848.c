@@ -9,25 +9,25 @@
  * isa:      thumb
  * status:   EXACT
  * note:     wave 16: promoted.  02161EEC is the unlabelled ov010 leaf now
- *           matched in src/matched/func_02161EEC.c (shard ov010/pkt_02161EEC),
+ *           matched in src/matched/EVENT_FIELD_PROCLINK_InitIdList.c (shard ov010/pkt_02161EEC),
  *           which attests the call as `matched, overlay` under the ov010
  *           hint below; 02161F00 resolves as sole-ref/code (overlay).
  * symbols:
- *   func_02161D98    0x02161D98  thumb  ov010
- *   func_02161EEC    0x02161EEC  thumb  ov010
- *   func_02161F00    0x02161F00  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_InitEventdataSystem    0x02161D98  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_InitIdList    0x02161EEC  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_InitReturnHeader    0x02161F00  thumb  ov010
  */
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void func_02161D98(char *p);
-extern void func_02161EEC(u16 *p);
-extern void func_02161F00(void *p);
+extern void EVENT_FIELD_PROCLINK_InitEventdataSystem(char *p);
+extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *p);
+extern void EVENT_FIELD_PROCLINK_InitReturnHeader(void *p);
 
 void func_0200A848(void **a0)
 {
-    func_02161D98((char *)a0);
-    func_02161EEC((u16 *)&a0[0x7a]);
-    func_02161F00(&a0[0x7f]);
+    EVENT_FIELD_PROCLINK_InitEventdataSystem((char *)a0);
+    EVENT_FIELD_PROCLINK_InitIdList((u16 *)&a0[0x7a]);
+    EVENT_FIELD_PROCLINK_InitReturnHeader(&a0[0x7f]);
 }

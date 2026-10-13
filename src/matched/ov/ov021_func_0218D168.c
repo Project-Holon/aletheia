@@ -1,5 +1,5 @@
 /*
- * function: func_0218D168
+ * function: FIELD_G3D_MAPPER_GetFocusSlot
  * address:  0x0218D168
  * packet:   pkt_ov021_0218D168
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021694FC  0x021694FC  thumb ov010
- *   func_02169510  0x02169510  thumb ov010
+ *   FIELD_G3D_MAP_IsVisible  0x021694FC  thumb ov010
+ *   FIELD_G3D_MAP_GetPos  0x02169510  thumb ov010
  */
 #include "../include/Obj01846.h"
 
@@ -19,16 +19,16 @@ typedef unsigned short u16;
 
 typedef unsigned char  u8;
 struct V3;
-extern u16 func_021694FC(u8 *p);
-extern void func_02169510(u8 *src, struct V3 *dst);
+extern u16 FIELD_G3D_MAP_IsVisible(u8 *p);
+extern void FIELD_G3D_MAP_GetPos(u8 *src, struct V3 *dst);
 
-int func_0218D168(char *p)
+int FIELD_G3D_MAPPER_GetFocusSlot(char *p)
 {
     int v[3];
     unsigned int i;
 
     for (i = 0; i < ((struct Obj01846 *)p)->f2E; i++) {
-        if (func_021694FC((u8 *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28)))) {
+        if (FIELD_G3D_MAP_IsVisible((u8 *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28)))) {
             int h;
             int x;
             int z;
@@ -36,7 +36,7 @@ int func_0218D168(char *p)
             int x1;
             int z0;
             int z1;
-            func_02169510((u8 *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28)), (struct V3 *)v);
+            FIELD_G3D_MAP_GetPos((u8 *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28)), (struct V3 *)v);
             h = *(int *)&((struct Obj01846 *)p)->f4 / 2;
             x = v[0];
             z = v[2];

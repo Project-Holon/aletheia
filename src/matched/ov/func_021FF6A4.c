@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_021FFC18  0x021FFC18  thumb
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B84C  0x0204B84C  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_021FFAEC  0x021FFAEC  thumb
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_021F4EA0  0x021F4EA0  thumb
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   tbl_022038A2   0x022038A2  data  a2
  *
  * Create the screen's sprites after loading their graphics
@@ -78,18 +78,18 @@ typedef struct {
 extern const Pos tbl_022038A2[];
 
 extern void func_021FFC18(Obj *p);
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B84C(u32, int);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorBgPriority(u32, int);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_021FFAEC(u32 a, int b, int c);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_021F4EA0(u32 a, u32 b, u32 c);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
 void func_021FF6A4(Obj *p)
 {
@@ -103,33 +103,33 @@ void func_021FF6A4(Obj *p)
     s.c = 0;
     s.d = 0;
     s.e = 0;
-    p->spr[0] = (u32)func_0204B294((void *)p->res.f0, p->res.f1C, p->res.f20, p->res.f24, &s, 1, 0x48);
+    p->spr[0] = (u32)CLACT_CreateActor((void *)p->res.f0, p->res.f1C, p->res.f20, p->res.f24, &s, 1, 0x48);
     func_0204B92C((struct Obj *)p->spr[0], 1);
-    func_0204B84C(p->spr[0], 2);
-    func_0204B878((struct Obj *)p->spr[0], 3);
+    CLACT_SetActorBgPriority(p->spr[0], 2);
+    CLACT_SetActorAnimSeq((struct Obj *)p->spr[0], 3);
     func_0204B3DC((struct Obj *)p->spr[0], 1);
     for (i = 0; i < 7; i++) {
-        p->spr[i + 1] = (u32)func_0204B294((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
+        p->spr[i + 1] = (u32)CLACT_CreateActor((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
         func_0204B92C((struct Obj *)p->spr[i + 1], 1);
-        func_0204B878((struct Obj *)p->spr[i + 1], i * 4 + 0xE);
+        CLACT_SetActorAnimSeq((struct Obj *)p->spr[i + 1], i * 4 + 0xE);
         func_0204B3DC((struct Obj *)p->spr[i + 1], 0);
         func_021FFAEC(p->spr[i + 1], tbl_022038A2[i].x, tbl_022038A2[i].y);
-        func_0204B84C(p->spr[i + 1], 2);
+        CLACT_SetActorBgPriority(p->spr[i + 1], 2);
         func_0204B6F4((struct Obj *)p->spr[i + 1], (u8)(i + 2), 1);
     }
-    p->arrow = (u32)func_0204B294((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
+    p->arrow = (u32)CLACT_CreateActor((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
     func_0204B92C((struct Obj *)p->arrow, 1);
-    func_0204B878((struct Obj *)p->arrow, 0x2b);
+    CLACT_SetActorAnimSeq((struct Obj *)p->arrow, 0x2b);
     func_0204B3DC((struct Obj *)p->arrow, 0);
     func_021FFAEC(p->arrow, 0x80, 0x56);
-    func_0204B84C(p->arrow, 1);
-    p->page = (u32)func_0204B294((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
+    CLACT_SetActorBgPriority(p->arrow, 1);
+    p->page = (u32)CLACT_CreateActor((void *)p->res.f0, p->res.f10, p->res.f14, p->res.f18, &s, 1, 0x48);
     func_0204B92C((struct Obj *)p->page, 1);
-    func_0204B878((struct Obj *)p->page, 0x2a);
+    CLACT_SetActorAnimSeq((struct Obj *)p->page, 0x2a);
     func_021F4EA0(p->page, 0x37, p->pageNum + 0xa8);
     func_0204B3DC((struct Obj *)p->page, 0);
     for (i = 0; i < 8; i++) {
-        func_0204B454((struct Actor *)p->spr[i], (struct PtS *)&pos, 1);
+        CLACT_GetActorSurfacePos((struct Actor *)p->spr[i], (struct PtS *)&pos, 1);
         p->pos[i].x = pos.x;
         p->pos[i].y = pos.y;
     }

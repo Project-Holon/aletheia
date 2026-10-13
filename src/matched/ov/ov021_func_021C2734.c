@@ -1,5 +1,5 @@
 /*
- * function: func_021C2734
+ * function: FLD3D_CI_FreeSequence
  * address:  0x021C2734
  * packet:   pkt_ov021_021C2734
  * region:   ov021
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021C2734(void **p)
+void FLD3D_CI_FreeSequence(void **p)
 {
     if (p[2] != 0)
         func_020307B0(p[2]);

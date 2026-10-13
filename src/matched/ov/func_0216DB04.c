@@ -1,5 +1,5 @@
 /*
- * function: func_0216DB04
+ * function: FLDMMDL_OffMoveBitMovePause
  * address:  0x0216DB04
  * packet:   pkt_0216DA70
  * region:   ov010
@@ -11,31 +11,31 @@
  *
  *
  * symbols:
- *   func_0216D570  0x0216D570  thumb  ov010
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
 
  *
  * generated: lane O24 (ov010 leaf/wrapper sweep)
  *
  * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_0216D570, the shape of the arm9 copy.
+ * thunk into FLDMMDL_ClearMoveBit, the shape of the arm9 copy.
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
  *
  * Addresses are Black-image addresses.  --region ov010 is required: this
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216DB04.c \
- *       --func func_0216DB04 --addr 0x0216DB04 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_OffMoveBitMovePause.c \
+ *       --func FLDMMDL_OffMoveBitMovePause --addr 0x0216DB04 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern char *func_0216D570(char *p, u32 v);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
 
-char *func_0216DB04(void *a0)
+char *FLDMMDL_OffMoveBitMovePause(void *a0)
 {
 
-    return func_0216D570(a0, 8);
+    return FLDMMDL_ClearMoveBit(a0, 8);
 }

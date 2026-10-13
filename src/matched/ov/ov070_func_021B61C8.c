@@ -1,5 +1,5 @@
 /*
- * function: func_021B61C8
+ * function: ITEMMENU_GetItemCount
  * address: 0x021B61C8
  * packet: pkt_ov070_021B61C8
  * region: ov070
@@ -18,7 +18,7 @@ struct Item;
 extern unsigned int func_02007F7C(const struct Item *arr, unsigned int n);
 typedef unsigned int   u32;
 extern u32 func_02007FA0(u8 *base, u32 id);
-int func_021B61C8(u8 *p)
+int ITEMMENU_GetItemCount(u8 *p)
 {
     if (*(int *)&((struct Obj00002 *)p)->f81C) return func_02007F7C((const struct Item *)(p + 0x20), 0x136);
     return func_02007FA0(((struct Obj00002 *)p)->f18, ((struct Obj00002 *)p)->f80C);

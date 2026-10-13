@@ -22,7 +22,7 @@
  *   POKE_TOOL_RecoverBoxAllPP       0x020181A0  thumb
  *   func_02034714      0x02034714  arm
  *   func_02045B38      0x02045B38  arm
- *   func_02045C04      0x02045C04  arm
+ *   MSGDATA_Delete      0x02045C04  arm
  *   MSGDATA_ReadUnits      0x02045F5C  arm
  *
  * alias: this is where "box_savedata.c" starts.  The header of
@@ -113,7 +113,7 @@ extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_RecoverBoxAllPP(void *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
 void BOX_SAVEDATA_InitHeader(struct Sub02007454Header *h);
@@ -149,7 +149,7 @@ void BOX_SAVEDATA_InitHeader(struct Sub02007454Header *h)
         for (i = 0; i < 0x18; i++) {
             MSGDATA_ReadUnits(msg, i + 6, (u16 *)(&h->unk04[i]), 0x14);
         }
-        func_02045C04(msg);
+        MSGDATA_Delete(msg);
     }
     h->unk00 = 0;
     h->unk3DD = 8;

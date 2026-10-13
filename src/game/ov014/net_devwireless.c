@@ -17,7 +17,7 @@
  *   sDevWirelessWork 0x021797A0  data   a4
  *   sFileNetDevWireless 0x0217976C  data   a1
  *   func_02030734  0x02030734  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02177280  0x02177280  thumb  ov014
  *   func_02177AA8 0x02177AA8 thumb ov014
  *   func_0217796C 0x0217796C thumb ov014
@@ -39,7 +39,7 @@ typedef struct DevWirelessWork {
 } DevWirelessWork;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u8 *func_0203D798(void);
+extern u8 *GFL_NET_GetInitParam(void);
 extern int func_02177280(int a, int b, u32 c, int d);
 extern int func_02177AA8(void);
 extern void func_0217796C(u32);
@@ -82,7 +82,7 @@ int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userD
     forListening = 1;
     sDevWirelessWork = work;
     work->setupParam = setupParam;
-    if (func_0203D798()[0x65] != 5)
+    if (GFL_NET_GetInitParam()[0x65] != 5)
         forListening = 0;
     return func_02177280(heapId, wmParam, userData, forListening);
 }

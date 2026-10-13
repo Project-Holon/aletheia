@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_0204B3B4.  Address also resident in ov021;
+ * Tail call to CLACT_DeleteActor.  Address also resident in ov021;
  * region-qualified packet id.
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  */
 
 struct Obj;
 void func_021B7068(void *p)
 {
-    void func_0204B3B4(struct Obj *p);
-    func_0204B3B4(p);
+    void CLACT_DeleteActor(struct Obj *p);
+    CLACT_DeleteActor(p);
 }

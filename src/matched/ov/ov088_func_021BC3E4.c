@@ -1,5 +1,5 @@
 /*
- * function: func_021BC3E4
+ * function: STARTMENU_BattleFlagProcMain
  * address:  0x021BC3E4
  * packet:   pkt_ov088_021BC3E4
  * region:   ov088
@@ -21,7 +21,7 @@ struct Flags02008450;
 extern void CONFIG_SetBattleFlag(struct Flags02008450 *p, int on);
 extern char d_021BD830[];
 
-int func_021BC3E4(int a, int *st, int k, int *p)
+int STARTMENU_BattleFlagProcMain(int a, int *st, int k, int *p)
 {
     switch (*st) {
     case 0:

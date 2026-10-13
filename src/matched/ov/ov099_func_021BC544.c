@@ -12,11 +12,11 @@
  *
  * symbols:
  *   d_021C37DC     0x021C37DC  data  a4
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_021BA874  0x021BA874  thumb  ov099
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  *   func_021BC090  0x021BC090  thumb  ov099
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *
  * Unit of the lead function plus three unlabelled tail-call stubs
@@ -34,12 +34,12 @@ typedef struct { u32 a, b, c; } Tri;
 typedef enum { K242 = 0x242 } Off;
 
 extern const Tri d_021C37DC;
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void func_021BA874(char *p, int id);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(char *p);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
 
@@ -50,7 +50,7 @@ int func_021BC544(char *p, int v)
     Tri t = d_021C37DC;
     Off o;
 
-    if (func_0203D378() == 0) {
+    if (GFL_NET_IsParentAid() == 0) {
         o = K242;
         func_021BA874(p, *(u16 *)(p + o) - 1);
         func_021BAAB8(p, ((u32 *)&t)[((struct Obj06355 *)p)->f132C - 0x4b], 0);
@@ -58,7 +58,7 @@ int func_021BC544(char *p, int v)
     } else {
         func_021BAAB8(p, 0x4c, 0);
         func_021BC090(p);
-        func_02039C68((struct Link *)func_020399A8(), 0x1b, 0xa);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
         ((struct Obj06355 *)p)->f1CC = 0x49;
     }
     return v;

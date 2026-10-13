@@ -1,5 +1,5 @@
 /*
- * function: func_021AF294
+ * function: SCRCMD_PlaySe
  * address:  0x021AF294
  * packet:   pkt_ov021_021AF294
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AF1E8  0x021AF1E8  thumb  ov021
- *   func_021AF21C  0x021AF21C  thumb  ov021
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   SCRCMD_ClearFinishedSeSlots  0x021AF1E8  thumb  ov021
+ *   SCRCMD_MarkSeSlot  0x021AF21C  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -22,19 +22,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern unsigned int func_02159B10(void *a, void *b);
-extern void *func_0215A5F4(void *p);
-extern void func_021AF1E8(u32 a);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void SCRCMD_ClearFinishedSeSlots(u32 a);
 extern void func_020061E4(u32 a);
-extern void func_021AF21C(u32 a, u32 b);
+extern void SCRCMD_MarkSeSlot(u32 a, u32 b);
 
-int func_021AF294(u32 a, u32 b)
+int SCRCMD_PlaySe(u32 a, u32 b)
 {
-    u32 x = func_02159B10((void *)a, (void *)b);
-    void *y = func_0215A5F4((void *)b);
+    u32 x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    void *y = SCRCMD_WORK_GetScriptWork((void *)b);
 
-    func_021AF1E8((u32)y);
+    SCRCMD_ClearFinishedSeSlots((u32)y);
     func_020061E4(x);
-    func_021AF21C((u32)y, x);
+    SCRCMD_MarkSeSlot((u32)y, x);
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CE040
+ * function: BTL_CLIENT_ReturnTrue
  * address: 0x021CE040
  * packet: pkt_ov093_021CE040
  * region: ov093
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov093/btl_server_p117.c and filed here.
  */
 
-int func_021CE040(void);
+int BTL_CLIENT_ReturnTrue(void);
 
-int func_021CE040(void)
+int BTL_CLIENT_ReturnTrue(void)
 {
     return 1;
 }

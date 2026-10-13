@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   func_021FC734 0x021FC734 thumb ov186
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  *   func_020409B4 0x020409B4 arm
@@ -24,10 +24,10 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 extern void func_021FC734(u8 *p);
 extern void func_021FBDA4(int a, unsigned mode);
 extern void func_020409B4(u32 index);
@@ -40,13 +40,13 @@ void func_021DCE48(char *p,char *q)
             slot=p+i*4;
             if(((struct Obj02893 *)slot)->f80) {
                 func_0204B3DC(((struct Obj02893 *)slot)->f80,0);
-                func_0204B3B4(((struct Obj02893 *)slot)->f80);
+                CLACT_DeleteActor(((struct Obj02893 *)slot)->f80);
                 *(int *)&((struct Obj02893 *)slot)->f80=0;
             }
-            if(((struct Obj02893 *)slot)->f50!=-1) { func_0204A8D4(((struct Obj02893 *)slot)->f50); ((struct Obj02893 *)slot)->f50=-1; }
+            if(((struct Obj02893 *)slot)->f50!=-1) { CLACT_ReleaseCharacter(((struct Obj02893 *)slot)->f50); ((struct Obj02893 *)slot)->f50=-1; }
         }
-        if(((struct Obj00050 *)p)->f48!=-1) { func_0204ADA4(((struct Obj00050 *)p)->f48); ((struct Obj00050 *)p)->f48=-1; }
-        if(((struct Obj00050 *)p)->f4C!=-1) { func_0204AFD8(((struct Obj00050 *)p)->f4C); ((struct Obj00050 *)p)->f4C=-1; }
+        if(((struct Obj00050 *)p)->f48!=-1) { CLACT_ReleasePalette(((struct Obj00050 *)p)->f48); ((struct Obj00050 *)p)->f48=-1; }
+        if(((struct Obj00050 *)p)->f4C!=-1) { CLACT_ReleaseCellAnim(((struct Obj00050 *)p)->f4C); ((struct Obj00050 *)p)->f4C=-1; }
         for(i=0;i<5;i++) {
             slot=p+i*4;
             if(((struct Obj02893 *)slot)->f30) { func_021FC734(((struct Obj02893 *)slot)->f30); *(int *)&((struct Obj02893 *)slot)->f30=0; }

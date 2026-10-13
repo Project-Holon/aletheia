@@ -1,5 +1,5 @@
 /*
- * function: func_021596B4
+ * function: SCRIPT_WORK_CmdIfCall
  * address: 0x021596B4
  * packet: pkt_ov010_021596B4
  * region: ov010
@@ -13,22 +13,23 @@
  * symbols:
  *   d_021705DC 0x021705DC data ov010
  *   VM_Call  0x020113B4  thumb  arm9
+ *   VM_GetU32  0x0201134C  thumb  arm9
  */
 typedef unsigned char u8;
 struct P { int _0[3]; u8 _p[2]; u8 e; u8 _f[5]; u8 *cur; };
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 typedef unsigned int   u32;
 struct Ring;
 extern void VM_Call(struct Ring *r, u32 v);
 extern u8 d_021705DC[][3];
-int func_021596B4(struct P *p)
+int SCRIPT_WORK_CmdIfCall(struct P *p)
 {
     u8 *q = p->cur;
     u8 c = *q;
     int n;
     p->cur = q + 1;
-    n = func_0201134C((struct Cursor *)p);
+    n = VM_GetU32((struct Cursor *)p);
     if (d_021705DC[c][p->e] == 1)
         VM_Call((struct Ring *)p, (u32)(p->cur + n));
     return 0;

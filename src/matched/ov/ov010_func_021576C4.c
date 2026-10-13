@@ -1,5 +1,5 @@
 /*
- * function: func_021576C4
+ * function: DELIVERY_BEACON_SetStepAtLine
  * address:  0x021576C4
  * packet:   pkt_021576C4
  * region:   ov010
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021576B8  0x021576B8  thumb  ov010
+ *   DELIVERY_BEACON_SetStep  0x021576B8  thumb  ov010
  *
- * Unblocked by matching func_021576B8 (ov010, EXACT). The ABS32 site +0004 now
+ * Unblocked by matching DELIVERY_BEACON_SetStep (ov010, EXACT). The ABS32 site +0004 now
  * attests as `matched`.
  * The listing extent is now 8 bytes, so the verdict is plain EXACT.
  *
@@ -19,9 +19,9 @@
  * reads it, so the thunk takes it and drops it.
  */
 
-void func_021576B8(char *p, int v);
+void DELIVERY_BEACON_SetStep(char *p, int v);
 
-void func_021576C4(char *p, int v, int line)
+void DELIVERY_BEACON_SetStepAtLine(char *p, int v, int line)
 {
-    func_021576B8(p, v);
+    DELIVERY_BEACON_SetStep(p, v);
 }

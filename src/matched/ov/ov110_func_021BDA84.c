@@ -10,12 +10,12 @@
  * input: caller's incoming pointer in r0 is ignored; stub replaces it with the table.
  * symbols:
  *   d_021C3938 0x021C3938 data ov110 a1
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  */
 typedef unsigned char u8;
 extern u8 d_021C3938[];
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 int func_021BDA84(u8 *unused)
 {
-    return func_02035C08(d_021C3938);
+    return TOUCHPANEL_HitTrg(d_021C3938);
 }

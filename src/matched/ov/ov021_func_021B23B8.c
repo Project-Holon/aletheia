@@ -1,5 +1,5 @@
 /*
- * function: func_021B23B8
+ * function: SCRCMD_GIMMICK39_SetState
  * address:  0x021B23B8
  * packet:   pkt_ov021_021B23B8
  * region:   ov021
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011330  0x02011330  thumb
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021F4134  0x021F4134  thumb  ov039
+ *   VM_GetU16  0x02011330  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GIMMICK39_UnlockLaneFromScript  0x021F4134  thumb  ov039
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned short u16;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern void func_021F4134(void *p, u32 i);
+extern u16 VM_GetU16(struct Stream *s);
+extern void GIMMICK39_UnlockLaneFromScript(void *p, u32 i);
 
-int func_021B23B8(u32 a, u32 b)
+int SCRCMD_GIMMICK39_SetState(u32 a, u32 b)
 {
     void *d;
     u8 k;
 
-    func_0215A5F4((void *)b);
-    d = func_0215A5DC((void *)b);
-    k = func_02011330((struct Stream *)a);
-    func_021F4134(d, k);
+    SCRCMD_WORK_GetScriptWork((void *)b);
+    d = SCRCMD_WORK_GetGameSystem((void *)b);
+    k = VM_GetU16((struct Stream *)a);
+    GIMMICK39_UnlockLaneFromScript(d, k);
     return 0;
 }

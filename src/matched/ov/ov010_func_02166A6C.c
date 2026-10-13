@@ -1,5 +1,5 @@
 /*
- * function: func_02166A6C
+ * function: SYMBOL_MAP_UpdateBg2Scale
  * address:  0x02166A6C
  * packet:   pkt_ov010_02166A6C
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_02172BA4  0x02172BA4  data  ov010  a4
- *   d_021729FC  0x021729FC  data  ov010  a4
+ *   g_Bg2ScaleState  0x02172BA4  data  ov010  a4
+ *   g_Bg2ScaleStep  0x021729FC  data  ov010  a4
  *   func_0207AD58  0x0207AD58  thumb
  *   func_0207D59C  0x0207D59C  arm
  *   _fadd  0x0209C95C  arm
@@ -24,12 +24,12 @@
 
 typedef unsigned short u16;
 
-extern float d_02172BA4;
-extern float d_021729FC;
+extern float g_Bg2ScaleState;
+extern float g_Bg2ScaleStep;
 extern void func_0207AD58(void *dst, int a, int b);
 extern void func_0207D59C(void *reg, void *m, int a, int b, int c, int d);
 
-void func_02166A6C(void)
+void SYMBOL_MAP_UpdateBg2Scale(void)
 {
     int i;
     int m[4];
@@ -37,8 +37,8 @@ void func_02166A6C(void)
     float t;
     float z = 0.0f;
     if (*(volatile u16 *)0x04000004 & 1) {
-        x = d_02172BA4 + d_021729FC;
-        d_02172BA4 = x;
+        x = g_Bg2ScaleState + g_Bg2ScaleStep;
+        g_Bg2ScaleState = x;
         if (1.0f / x > z)
             t = 4096.0f * (1.0f / x) + 0.5f;
         else

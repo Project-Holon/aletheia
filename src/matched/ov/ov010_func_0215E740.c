@@ -1,5 +1,5 @@
 /*
- * function: func_0215E740
+ * function: MOVE_POKEMON_MoveToNeighbor
  * address: 0x0215E740
  * packet: pkt_ov010_0215E740
  * region: ov010
@@ -12,9 +12,9 @@
  * causing its immediate home reload; the selected byte remains u8.
  * symbols:
  *   func_0200D478 0x0200D478 thumb
- *   func_020113D8 0x020113D8 thumb
+ *   TIMEZONE_GetNowTimeZone 0x020113D8 thumb
  *   func_02005728 0x02005728 thumb
- *   func_0215E7DC 0x0215E7DC thumb ov010
+ *   MOVE_POKEMON_SetEntryLocation 0x0215E7DC thumb ov010
  *   d_021711A8 0x021711A8 data ov010 a2
  *   d_021711C6 0x021711C6 data ov010 a2
  */
@@ -26,10 +26,10 @@ extern struct Ent d_021711A8[];
 extern u16 d_021711C6[];
 struct Blk38;
 extern u8 func_0200D478(struct Blk38 *p, u32 i);
-extern u32 func_020113D8(u32 b);
+extern u32 TIMEZONE_GetNowTimeZone(u32 b);
 extern u32 func_02005728(u32 n);
-extern void func_0215E7DC(void *p, u32 i, u8 v, u32 n);
-void func_0215E740(void *a, u32 b, u16 c, int d)
+extern void MOVE_POKEMON_SetEntryLocation(void *p, u32 i, u8 v, u32 n);
+void MOVE_POKEMON_MoveToNeighbor(void *a, u32 b, u16 c, int d)
 {
     struct Ent *e;
     int s;
@@ -39,9 +39,9 @@ void func_0215E740(void *a, u32 b, u16 c, int d)
     int k;
     int i;
     s = func_0200D478(a, c);
-    e = &d_021711A8[(u16)func_020113D8(b)];
+    e = &d_021711A8[(u16)TIMEZONE_GetNowTimeZone(b)];
     if (s != 0x10 && func_02005728(100) < 20) {
-        func_0215E7DC(a, c, 0x10, 0xffff);
+        MOVE_POKEMON_SetEntryLocation(a, c, 0x10, 0xffff);
         return;
     }
     k = 0;
@@ -52,5 +52,5 @@ void func_0215E740(void *a, u32 b, u16 c, int d)
         }
     }
     w = buf[func_02005728(k)];
-    func_0215E7DC(a, c, w, w > 0x10 ? 0x13f : d_021711C6[w]);
+    MOVE_POKEMON_SetEntryLocation(a, c, w, w > 0x10 ? 0x13f : d_021711C6[w]);
 }

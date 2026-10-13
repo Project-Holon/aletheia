@@ -1,5 +1,5 @@
 /*
- * function: func_021DF334
+ * function: BTL_HANDLER_ITEM_GetSpookyPlateHandlers
  * address: 0x021DF334
  * packet: pkt_ov093_021DF334
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F1374[];
-int *func_021DF334(int *p);
+int *BTL_HANDLER_ITEM_GetSpookyPlateHandlers(int *p);
 
-int *func_021DF334(int *p)
+int *BTL_HANDLER_ITEM_GetSpookyPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F1374;

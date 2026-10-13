@@ -1,7 +1,7 @@
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
- * function: func_02043AF4
+ * function: BMP_FillRect
  * address:  0x02043AF4
  * packet:   pkt_0204384C
  * region:   arm9
@@ -43,7 +43,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/BMP_FillRect.c \
- *       --func func_02043AF4 --addr 0x02043AF4 --cc 1.1p1 --arm
+ *       --func BMP_FillRect --addr 0x02043AF4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -65,7 +65,7 @@ extern void BMP_FillRect4bppVram(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
 extern void BMP_FillRect8bppVram(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6);
 
-void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
+void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
 {
     if (b->unk0A != 2) {
         if (b->unk08 == 0x20) {

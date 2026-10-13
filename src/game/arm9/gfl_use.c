@@ -27,7 +27,7 @@
  *   OS_WaitIrq             0x0208459C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   _WorkerThread             0x020AA354  data
- *   func_020392B8  0x020392B8  arm
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_IsNetTypeBeacon  0x0203D26C  arm
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
@@ -135,6 +135,8 @@
  *   FADE_Update  0x0204E638  arm
  *   FADE_SetSpeed  0x0204E6F4  arm
  *   NNS_SndArcGetGroupInfo  0x02074518  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -230,7 +232,7 @@ extern BOOL OS_IsThreadTerminated(struct OSThread *thread);
 extern void OS_SleepThreadDirect(struct OSThread *thread, void *queue);
 extern void OS_WaitIrq(BOOL clear, u32 mask);
 extern void OS_WakeupThreadDirect(struct OSThread *thread);
-extern int func_020392B8(void);
+extern int GFL_NET_SYSTEM_GetConnectNum(void);
 extern u32 GFL_NET_IsNetTypeBeacon(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 extern void func_02082594(u32 mode);
@@ -298,8 +300,8 @@ extern u32   OS_CreateExtraHeap(u32 id);
 extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
 extern void GFL_HEAP_Init(u32 arenaTable, u32 arenaCount, u32 heapCount, u32 flags);
 extern void  func_02030BA4(u32 size);
-extern void  func_0203064C(u32 arenaId, u32 heapId, u32 size);
-extern void  func_02030678(void *block, u32 size, u32 heapId);
+extern void  GFL_HEAP_CreateChildHeap(u32 arenaId, u32 heapId, u32 size);
+extern void  GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 heapId);
 extern void  func_0203EF5C(u32 mode);
 extern void ARC_TOOL_SetTable(u32 table, u32 count);
 extern void func_02034E24(u32 heapId, u8 mode);
@@ -374,7 +376,7 @@ u32 GFL_USE_SetVBlankHook(void (*hook)(void *), void *hookArg);
 void GFL_USE_ClearVBlankHook(void);
 void GFL_USE_RunMainTasks(void);
 struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
-struct TcbList *sub_020056BC(void);
+struct TcbList *GFL_USE_GetMainTaskList(void);
 void GFL_USE_InitRandomState(struct GflRandom *rand);
 void GFL_USE_InitRandom(void);
 u32 GFL_USE_GetRandom(u32 range);
@@ -484,7 +486,7 @@ void NitroMain(void)
  */
 int GFL_USE_IsNetQuiet(void)
 {
-    if (func_020392B8() > 1)
+    if (GFL_NET_SYSTEM_GetConnectNum() > 1)
         return 0;
     if (GFL_NET_IsNetTypeBeacon() != 0)
         return 0;
@@ -806,12 +808,12 @@ void GFL_USE_InitSystem(void)
     }
 
     func_02030BA4(0x2000);
-    func_0203064C(1, 7, 0x25000);
+    GFL_HEAP_CreateChildHeap(1, 7, 0x25000);
 
     if (OS_IsRunOnTwl() == 0) {
-        func_02030678(_GflUse.extraHeapBlock, 0x3F00, 9);
+        GFL_HEAP_RegisterBlockHeap(_GflUse.extraHeapBlock, 0x3F00, 9);
     } else {
-        func_0203064C(1, 9, 0x3F00);
+        GFL_HEAP_CreateChildHeap(1, 9, 0x3F00);
     }
 
     func_0203EF5C(0);
@@ -966,7 +968,7 @@ void GFL_USE_RunMainTasks(void)
  * both come from the same expression.
  *
  * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and GFL_USE_InitRandomState is a tail call through a
+ * GFL_USE_GetMainTaskList is a two load getter and GFL_USE_InitRandomState is a tail call through a
  * pool word.  GFL_USE_InitRandomState is in this range rather than a range of its own
  * because GFL_USE_InitRandom is its only caller anywhere in the image, so the call
  * has to be the `local` class; splitting them leaves it with no witness at
@@ -1052,7 +1054,7 @@ struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *wo
 }
 
 
-struct TcbList *sub_020056BC(void)
+struct TcbList *GFL_USE_GetMainTaskList(void)
 {
     return _GflUse.runtime->mainTasks;
 }

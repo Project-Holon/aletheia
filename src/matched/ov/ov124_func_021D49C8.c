@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: the two-halfword delta is a struct assignment; field stores differ by 13 bytes.
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02061CA4 0x02061CA4 arm
  *   func_02030734 0x02030734 arm
@@ -36,7 +36,7 @@ extern const u32 d_021D4CF4[], d_021D4CA4[], d_021D4C04[];
 extern const char d_021D4D4C[];
 extern const Vec d_021D4BE0;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern int func_02061CA4(void *, u32, u32, int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
@@ -52,7 +52,7 @@ void func_021D49C8(char *p, u32 n)
     u16 *q;
     u8 i, j;
     Vec delta;
-    func_0204B878(((struct Obj00122 *)p)->f5C, d_021D4CF4[n]);
+    CLACT_SetActorAnimSeq(((struct Obj00122 *)p)->f5C, d_021D4CF4[n]);
     func_0204B3DC(((struct Obj00122 *)p)->f5C, 1);
     if (n <= 7) {
         func_02061CA4((void *)31, 320, (u32)(*(char * *)&((struct Obj22993 *)(*(char * *)&((struct Obj00122 *)p)->f48))->fC + d_021D4CA4[n] * 32), 32);

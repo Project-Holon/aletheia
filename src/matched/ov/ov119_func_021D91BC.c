@@ -11,19 +11,19 @@
  *  "if (a == ...) return;" whose branch to the epilogue is the next
  *  instruction, so the branch is dropped after allocation and the compare stays.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 void func_021D91BC(u32 a, u32 b, u32 c, u32 d, void *e)
 {
-    if (e == func_020399A8()) {
-        if (a == func_0203D1A4((struct Link *)func_020399A8()))
+    if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
+        if (a == GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle()))
             return;
     }
 }

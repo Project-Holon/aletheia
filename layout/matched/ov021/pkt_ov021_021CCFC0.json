@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CCFC0",
+   "name": "PARTY_SELECT_LIST_CreateTextWindow",
    "address": "0x021CCFC0",
    "kind": "game",
    "region": "ov021",

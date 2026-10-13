@@ -12,7 +12,7 @@
  * symbols:
  *   func_021D8AA8  0x021D8AA8  thumb  ov119
  *   func_021D8FA4  0x021D8FA4  thumb  ov119
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201ADE4  0x0201ADE4  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *   func_0201AE14  0x0201AE14  thumb
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 
 extern int func_021D8AA8(void *p);
 extern void *func_021D8FA4(void *p, int which);
-extern u32 func_02017E1C(void *mon, u32 id, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
 extern void *func_0201ADE4(unsigned int a, int b, unsigned int heap);
 struct Personal;
 struct Sub0200852CObj;
@@ -61,10 +61,10 @@ void func_021D6544(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
         }
     }
     mon = func_021D8FA4(p, which);
-    id = func_02017E1C(mon, 7, 0);
-    a = func_02017E1C(mon, 0xAB, 0);
-    b = func_02017E1C(mon, 0x6F, 0);
-    egg = func_02017E1C(mon, 0x4C, 0);
+    id = POKE_TOOL_GetPartyValue(mon, 7, 0);
+    a = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
+    b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+    egg = POKE_TOOL_GetPartyValue(mon, 0x4C, 0);
     if (egg == 0) {
         h = (u32)func_0201ADE4((u16)a, (u16)b, ((struct Obj22681 *)p)->f5F4);
         flag = func_0201AE1C((const struct Personal *)h, 0x10);

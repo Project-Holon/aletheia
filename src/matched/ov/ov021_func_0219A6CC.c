@@ -1,5 +1,5 @@
 /*
- * function: func_0219A6CC
+ * function: FLDMMDL_MOVECODE_SpinStepRotateDir
  * address:  0x0219A6CC
  * packet:   pkt_ov021_0219A6CC
  * region:   ov021
@@ -10,32 +10,32 @@
  * status:   EXACT*
  *
  * symbols:
- *   d_021D5024     0x021D5024  data  a4
- *   d_021D5038     0x021D5038  data  a4
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   gMmdlSpinDirsLeft     0x021D5024  data  a4
+ *   gMmdlSpinDirsRight     0x021D5038  data  a4
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  */
 
 typedef signed char s8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int v[5]; } Arr;
-extern const Arr d_021D5024;
-extern const Arr d_021D5038;
-extern u16 func_0216D5F8(void *p);
-extern void func_0216D5E0(int a0, int a1);
+extern const Arr gMmdlSpinDirsLeft;
+extern const Arr gMmdlSpinDirsRight;
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 
-int func_0219A6CC(u32 a, s8 *b)
+int FLDMMDL_MOVECODE_SpinStepRotateDir(u32 a, s8 *b)
 {
-    Arr ta = d_021D5024;
-    Arr tb = d_021D5038;
+    Arr ta = gMmdlSpinDirsLeft;
+    Arr tb = gMmdlSpinDirsRight;
     int *t;
     int i;
     int cur;
     t = ta.v;
     if (b[0] != 2)
         t = tb.v;
-    cur = func_0216D5F8((void *)a);
+    cur = FLDMMDL_GetDirDisp((void *)a);
     i = 0;
     if (t[0] != 9) {
         do {
@@ -47,7 +47,7 @@ int func_0219A6CC(u32 a, s8 *b)
     i++;
     if (t[i] == 9)
         i = 0;
-    func_0216D5E0((u32)a, (u16)t[i]);
+    FLDMMDL_SetDirDispCheckPause((u32)a, (u16)t[i]);
     b[2] = 0;
     return 1;
 }

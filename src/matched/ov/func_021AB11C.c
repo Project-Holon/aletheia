@@ -1,5 +1,5 @@
 /*
- * function: func_021AB11C
+ * function: MAP_ATTR_IsBlocked
  * address:  0x021AB11C
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT*
  *
  * The walk/collision test: a tile blocks movement when its attribute word
- * is absent (func_021AB100) or when bit 0 of the flag half is set.
+ * is absent (MAP_ATTR_IsPresent) or when bit 0 of the flag half is set.
  *
  * symbols:
- *   func_021AB0F8  0x021AB0F8  thumb
- *   func_021AB100  0x021AB100  thumb
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb
+ *   MAP_ATTR_IsPresent  0x021AB100  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-extern u16 func_021AB0F8(u32 attr);
-extern BOOL func_021AB100(u32 attr);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern BOOL MAP_ATTR_IsPresent(u32 attr);
 
 
-BOOL func_021AB11C(u32 attr)
+BOOL MAP_ATTR_IsBlocked(u32 attr)
 {
     u16 flags;
 
-    flags = func_021AB0F8(attr);
+    flags = MAP_ATTR_GetFlags(attr);
 
-    if (!func_021AB100(attr) || (flags & 1)) {
+    if (!MAP_ATTR_IsPresent(attr) || (flags & 1)) {
         return 1;
     }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5AE8
+ * function: ENCEFF_StepGridColumnFlip
  * address:  0x021F5AE8
  * packet:   pkt_ov080_021F5AE8
  * region:   ov080
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021F5AE8(u8 *w)
+void ENCEFF_StepGridColumnFlip(u8 *w)
 {
     int *c = (int *)(w + 0x3000);
 

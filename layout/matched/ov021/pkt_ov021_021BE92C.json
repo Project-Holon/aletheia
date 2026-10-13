@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE92C",
+   "name": "EVENT_FIELDMAP_CONTROL_StartFadeIn",
    "address": "0x021BE92C",
    "kind": "game",
    "region": "ov021",

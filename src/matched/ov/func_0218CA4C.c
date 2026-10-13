@@ -1,5 +1,5 @@
 /*
- * function: func_0218CA4C
+ * function: FIELD_G3D_MAPPER_Delete
  * address:  0x0218CA4C
  * packet:   pkt_0218CA4C
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021C0674  0x021C0674  thumb  ov021
- *   func_0218D05C  0x0218D05C  thumb  ov021
- *   func_021938D4  0x021938D4  thumb  ov021
- *   func_0218B7F8  0x0218B7F8  thumb  ov021
+ *   HEIGHT_EX_FreeTable  0x021C0674  thumb  ov021
+ *   FIELD_G3D_MAPPER_ReleaseBlocks  0x0218D05C  thumb  ov021
+ *   FIELD_WFBC_Delete  0x021938D4  thumb  ov021
+ *   FIELD_BUILDMODEL_Delete  0x0218B7F8  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -27,18 +27,18 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern void func_0218B7F8(char *p);
-extern void func_0218D05C(char *p);
-extern u32 func_021938D4(void *a);
-extern void func_021C0674(void **p);
+extern void FIELD_BUILDMODEL_Delete(char *p);
+extern void FIELD_G3D_MAPPER_ReleaseBlocks(char *p);
+extern u32 FIELD_WFBC_Delete(void *a);
+extern void HEIGHT_EX_FreeTable(void **p);
 
-int func_0218CA4C(void *a)
+int FIELD_G3D_MAPPER_Delete(void *a)
 {
-func_021C0674((void **)(((struct Obj05856 *)((u8 *)(a)))->f70));
-func_0218D05C((char *)a);
-func_021938D4((void *)(((struct Obj05856 *)((u8 *)(a)))->f6C));
+HEIGHT_EX_FreeTable((void **)(((struct Obj05856 *)((u8 *)(a)))->f70));
+FIELD_G3D_MAPPER_ReleaseBlocks((char *)a);
+FIELD_WFBC_Delete((void *)(((struct Obj05856 *)((u8 *)(a)))->f6C));
 if (((struct Obj05856 *)((u8 *)(a)))->f64 != 0) {
-    func_0218B7F8((char *)(((struct Obj05856 *)((u8 *)(a)))->f64));
+    FIELD_BUILDMODEL_Delete((char *)(((struct Obj05856 *)((u8 *)(a)))->f64));
     ((struct Obj05856 *)((u8 *)(a)))->f64 = 0;
 }
 return func_020307B0(a);

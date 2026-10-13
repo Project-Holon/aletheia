@@ -11,14 +11,14 @@
  * extent: Two bytes of alignment padding follow the 14-byte function.
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D5C30 0x021D5C30 thumb ov093
+ *   BTL_POKEPARAM_IsSemiInvulnerable 0x021D5C30 thumb ov093
  */
 #include "../include/Obj21118.h"
 typedef unsigned char u8;
 extern u8 *func_021B9934(char *p, int i);
 struct UtilWork;
-extern int func_021D5C30(struct UtilWork *p);
+extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
 int func_021C8338(unsigned char *p, int i)
 {
-    return func_021D5C30((struct UtilWork *)func_021B9934(*(char * *)&((struct Obj21118 *)p)->f8, i));
+    return BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)func_021B9934(*(char * *)&((struct Obj21118 *)p)->f8, i));
 }

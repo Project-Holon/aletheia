@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB368",
+   "name": "ITEMMENU_PocketToSortFlag",
    "address": "0x021BB368",
    "kind": "game",
    "region": "ov070",

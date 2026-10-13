@@ -1,5 +1,5 @@
 /*
- * function: func_0216E95C
+ * function: EVENT_BATTLE_CreateCatchTutorial
  * address:  0x0216E95C
  * packet:   pkt_ov010_0216E95C
  * region:   ov010
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * Set up the scripted catching-tutorial battle (Minccino Lv7 against
- * Patrat Lv2) and push func_0216EB98 as its task. First draft.
+ * Patrat Lv2) and push EVENT_BATTLE_ProcBattleTask as its task. First draft.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02013090  0x02013090  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   BTL_SETUP_Create  0x02013090  thumb
  *   func_0201A920  0x0201A920  thumb
- *   func_020173EC  0x020173EC  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
  *   POKE_TOOL_SetupPartyParam  0x0201756C  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   func_0201A98C  0x0201A98C  thumb
- *   func_021AA304  0x021AA304  thumb  ov021
+ *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb  ov021
  *   BTL_SETUP_SetupDemo  0x020135C0  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0216F02C  0x0216F02C  thumb  ov010
+ *   EVENT_BATTLE_InitTaskWork  0x0216F02C  thumb  ov010
  *   func_021CF5D8  0x021CF5D8  thumb
- *   func_0216EB98  0x0216EB98  thumb  ov010
+ *   EVENT_BATTLE_ProcBattleTask  0x0216EB98  thumb  ov010
  *   d_02172B54     0x02172B54  data
  */
 
@@ -64,26 +64,26 @@ struct Desc;
 struct Obj;
 struct Party;
 struct PartyMon;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02013090(u32 heap);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *BTL_SETUP_Create(u32 heap);
 extern void *func_0201A920(u16 heap);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void POKE_TOOL_SetupPartyParam(void *mon, u16 species, u16 level, u64 id);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 struct Info;
-extern void func_021AA304(struct Info *out, void *a1, void *a2);
+extern void FIELD_ENCOUNT_SetFieldSituation(struct Info *out, void *a1, void *a2);
 extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32 heap);
 extern u32 func_020307B0(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0216F02C(void **p, void *a, void *b);
+extern void EVENT_BATTLE_InitTaskWork(void **p, void *a, void *b);
 extern void func_021CF5D8(u16 species, u32 a, u32 b, u32 c, u32 *d, void *e);
-extern int func_0216EB98(void *evt, u32 *state, struct Work *w);
+extern int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, struct Work *w);
 extern const char d_02172B54[];
 
-void *func_0216E95C(void *sys, u32 arg, u32 heap)
+void *EVENT_BATTLE_CreateCatchTutorial(void *sys, u32 arg, u32 heap)
 {
     Loc loc;
     u16 h;
@@ -96,33 +96,33 @@ void *func_0216E95C(void *sys, u32 arg, u32 heap)
     Work *w;
 
     h = (heap & 0x7FFF) | 0x8000;
-    ctx = func_020120F4(sys);
-    bs = func_02013090(heap);
+    ctx = GAMESYSTEM_GetGameData(sys);
+    bs = BTL_SETUP_Create(heap);
     party1 = func_0201A920(h);
     party2 = func_0201A920(h);
-    mon = func_02030734(h, func_020173EC(), 1, d_02172B54, 0x1DA);
+    mon = func_02030734(h, POKE_TOOL_GetPartyParamSize(), 1, d_02172B54, 0x1DA);
     POKE_TOOL_SetupPartyParam(mon, 572, 7, 0);
-    func_02017E40(mon, 0x36, 1);
-    func_02017E40(mon, 0x37, 45);
-    func_02017E40(mon, 0x38, 0);
-    func_02017E40(mon, 0x39, 0);
+    POKE_TOOL_SetPartyValue(mon, 0x36, 1);
+    POKE_TOOL_SetPartyValue(mon, 0x37, 45);
+    POKE_TOOL_SetPartyValue(mon, 0x38, 0);
+    POKE_TOOL_SetPartyValue(mon, 0x39, 0);
     func_0201A98C(party1, mon);
     POKE_TOOL_SetupPartyParam(mon, 504, 2, 0);
-    func_02017E40(mon, 0x36, 33);
-    func_02017E40(mon, 0x37, 43);
-    func_02017E40(mon, 0x38, 0);
-    func_02017E40(mon, 0x39, 0);
+    POKE_TOOL_SetPartyValue(mon, 0x36, 33);
+    POKE_TOOL_SetPartyValue(mon, 0x37, 43);
+    POKE_TOOL_SetPartyValue(mon, 0x38, 0);
+    POKE_TOOL_SetPartyValue(mon, 0x39, 0);
     func_0201A98C(party2, mon);
-    func_021AA304((struct Info *)(&loc), ctx, (void *)arg);
+    FIELD_ENCOUNT_SetFieldSituation((struct Info *)(&loc), ctx, (void *)arg);
     loc.f04 = 5;
     loc.f00 = 0;
     BTL_SETUP_SetupDemo(bs, ctx, party1, party2, &loc, heap);
     func_020307B0(mon);
     func_020307B0(party2);
     func_020307B0(party1);
-    task = func_020122C0(sys, 0, func_0216EB98, 0x28);
+    task = func_020122C0(sys, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
     w = func_020124E8(task);
-    func_0216F02C((void **)w, sys, bs);
+    EVENT_BATTLE_InitTaskWork((void **)w, sys, bs);
     w->f14 = 1;
     func_021CF5D8(504, 5, 0, arg, &w->f24, w->f08->f18);
     w->f24 = 0;

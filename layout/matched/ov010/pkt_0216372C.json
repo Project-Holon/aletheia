@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216372C",
+   "name": "FLDMMDL_MOVE_AttrEffectShadowUpdate",
    "address": "0x0216372C",
    "kind": "game",
    "region": "ov010",

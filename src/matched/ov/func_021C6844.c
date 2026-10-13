@@ -1,5 +1,5 @@
 /*
- * function: func_021C6844
+ * function: FIELD_G3DOBJ_GetObjectRedrawFlag
  * address:  0x021C6844
  * packet:   pkt_021C6844
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C6844(int a, int b)
+int FIELD_G3DOBJ_GetObjectRedrawFlag(int a, int b)
 {
 return ((*(u32 *)((u8 *)(((struct Obj18312 *)((u8 *)(a)))->fC) + ((b * 104))) << 26) >> 31);
 }

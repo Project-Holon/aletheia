@@ -1,5 +1,5 @@
 /*
- * function: func_021BB5D4
+ * function: TOWNMAP_GRH_InitTouch
  * address:  0x021BB5D4
  * packet:   pkt_021BB5D4
  * region:   ov072
@@ -15,7 +15,7 @@
 
 void func_02082BCC(void *p, int v, int n);
 
-void func_021BB5D4(void *p, int heap)
+void TOWNMAP_GRH_InitTouch(void *p, int heap)
 {
     func_02082BCC(p, 0, 0x30);
 }

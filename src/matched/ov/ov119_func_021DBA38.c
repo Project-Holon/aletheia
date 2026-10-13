@@ -13,8 +13,8 @@
  *   func_021D8E80 0x021D8E80 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DBAF8 0x021DBAF8 thumb ov119
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  */
 typedef unsigned short u16;
 
@@ -25,8 +25,8 @@ extern void func_021D8E84(void *,int);
 typedef unsigned int   u32;
 struct Entry;
 extern void func_021DBAF8(char *p);
-extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 void func_021DBA38(void *p)
 {
     if (func_021D8A24(p)==0) {
@@ -35,6 +35,6 @@ void func_021DBA38(void *p)
         func_021D8E84(p,(int)func_021DBAF8);
         return;
     }
-    if (func_0203D3A8(func_020399A8(),0xc06,0,0)!=0)
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc06,0,0)!=0)
         func_021D8E84(p,(int)func_021DBAF8);
 }

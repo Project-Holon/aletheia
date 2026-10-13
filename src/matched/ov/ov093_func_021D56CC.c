@@ -1,5 +1,5 @@
 /*
- * function: func_021D56CC
+ * function: BTL_POKEPARAM_MarkMoveUsed
  * address:  0x021D56CC
  * packet:   pkt_ov093_021D56CC
  * region:   ov093
@@ -31,7 +31,7 @@ struct Work {
     u8 c143;
 };
 
-void func_021D56CC(struct Work *p, int i)
+void BTL_POKEPARAM_MarkMoveUsed(struct Work *p, int i)
 {
     struct Ent *e = &p->e[i];
     if (e->hi11 == 0) {

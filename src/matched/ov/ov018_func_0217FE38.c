@@ -1,5 +1,5 @@
 /*
- * function: func_0217FE38
+ * function: EVENT_COMM_COMMON_ExitCommonWork
  * address:  0x0217FE38
  * packet:   pkt_ov018_0217FE38
  * region:   ov018
@@ -10,13 +10,13 @@
  * status:   EXACT*
  * note:     the call to 0x02175368 attests through src/matched/ov011_func_02175368.c
  *           (seeded in function_starts.txt). The star is the two bytes of
- *           alignment padding before func_0217FE6C, not a byte difference.
+ *           alignment padding before EVENT_COMM_COMMON_TalkEventMain, not a byte difference.
  * symbols:
- *   func_0217F4C4  0x0217F4C4  thumb
- *   func_0217F318  0x0217F318  thumb
- *   func_02174E14  0x02174E14  thumb  ov011
- *   func_0217538C  0x0217538C  thumb  ov011
- *   func_02175368  0x02175368  thumb  ov011
+ *   EVENT_COMM_COMMON_DeleteChoice  0x0217F4C4  thumb
+ *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
+ *   INTRUDE_COMM_SetState  0x02174E14  thumb  ov011
+ *   INTRUDE_COMM_InitRequest  0x0217538C  thumb  ov011
+ *   INTRUDE_COMM_ClearNotice  0x02175368  thumb  ov011
  */
 
 typedef struct {
@@ -40,20 +40,20 @@ typedef struct {
     Ov018Obj obj;
 } Ov018Outer;
 
-void func_0217F4C4(Ov018Obj *p);
-void func_0217F318(Ov018Obj *p);
+void EVENT_COMM_COMMON_DeleteChoice(Ov018Obj *p);
+void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
 typedef unsigned char  u8;
-void func_02174E14(u8 *p, int a);
-void func_0217538C(u8 *p, int a);
-void func_02175368(char *p);
+void INTRUDE_COMM_SetState(u8 *p, int a);
+void INTRUDE_COMM_InitRequest(u8 *p, int a);
+void INTRUDE_COMM_ClearNotice(char *p);
 
-void func_0217FE38(void *v, Ov018Outer *c)
+void EVENT_COMM_COMMON_ExitCommonWork(void *v, Ov018Outer *c)
 {
-    func_0217F4C4(&c->obj);
-    func_0217F318(&c->obj);
+    EVENT_COMM_COMMON_DeleteChoice(&c->obj);
+    EVENT_COMM_COMMON_ExitMsgBox(&c->obj);
     if (v != 0) {
-        func_02174E14(v, 0);
-        func_0217538C(v, 4);
-        func_02175368(v);
+        INTRUDE_COMM_SetState(v, 0);
+        INTRUDE_COMM_InitRequest(v, 4);
+        INTRUDE_COMM_ClearNotice(v);
     }
 }

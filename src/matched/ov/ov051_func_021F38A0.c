@@ -1,5 +1,5 @@
 /*
- * function: func_021F38A0
+ * function: FIELD_GIMMICK_D06_Update
  * address:  0x021F38A0
  * packet:   pkt_021F38A0
  * region:   ov051
@@ -15,6 +15,6 @@
  *   (none)
  */
 
-void func_021F38A0(void)
+void FIELD_GIMMICK_D06_Update(void)
 {
 }

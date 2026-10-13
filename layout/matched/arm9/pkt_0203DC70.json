@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D000",
+   "name": "GFL_NET_ConnectMacAddressChild",
    "address": "0x0203D000",
    "kind": "sdk",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D010",
+   "name": "GFL_NET_BeaconScanStart",
    "address": "0x0203D010",
    "kind": "game",
    "region": "arm9",

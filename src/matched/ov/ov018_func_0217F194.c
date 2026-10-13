@@ -1,5 +1,5 @@
 /*
- * function: func_0217F194
+ * function: INTRUDE_SUBDISP_UpdateButtonBlink
  * address:  0x0217F194
  * packet:   pkt_ov018_0217F194
  * region:   ov018
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 struct Obj;
 void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
-void func_0217F194(Ov018Blink *p)
+void INTRUDE_SUBDISP_UpdateButtonBlink(Ov018Blink *p)
 {
     int t;
 

@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * Leaf blocking ov093 func_021EB870.
+ * Leaf blocking ov093 BTLV_SCU_ProcEntrySingleTrainer.
  * symbols:
  *   d_0220AF20 0x0220AF20 data ov094 a4
  *   func_02209068 0x02209068 thumb ov094

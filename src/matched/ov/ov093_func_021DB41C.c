@@ -1,5 +1,5 @@
 /*
- * function: func_021DB41C
+ * function: BTL_TOKUSEI_StormDrain_CheckRedirect
  * address: 0x021DB41C
  * packet: pkt_ov093_021DB41C
  * region: ov093
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DB4E8 0x021DB4E8 thumb ov093
+ *   BTL_TOKUSEI_CheckRedirectMoveType 0x021DB4E8 thumb ov093
  */
-extern int func_021DB4E8(int,int,int,int);
+extern int BTL_TOKUSEI_CheckRedirectMoveType(int,int,int,int);
 
-void func_021DB41C(int a, int b, int c, int *d)
+void BTL_TOKUSEI_StormDrain_CheckRedirect(int a, int b, int c, int *d)
 {
-    *d = func_021DB4E8(b, c, (int)d, 10);
+    *d = BTL_TOKUSEI_CheckRedirectMoveType(b, c, (int)d, 10);
 }

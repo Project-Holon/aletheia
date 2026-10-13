@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   PALANM_GetPairedCodeForFirst  0x0202142C  thumb
  *   func_0206DF3C  0x0206DF3C  arm
  *   func_021F8694  0x021F8694  thumb  ov094
@@ -37,7 +37,7 @@ typedef struct {
 } Pt;
 
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
 extern void func_0206DF3C(Pt *p, int *a, int *b);
 extern int func_021F8694(void);
@@ -49,12 +49,12 @@ extern int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16
 
 int func_021FC148(struct Cursor *a, State *s)
 {
-    int idx = func_0201134C(a);
-    int q = func_021FCF2C((int)a, func_0201134C(a));
-    int dx = func_0201134C(a);
-    int dy = func_0201134C(a);
-    int p5 = func_0201134C(a);
-    int p6 = func_0201134C(a);
+    int idx = VM_GetU32(a);
+    int q = func_021FCF2C((int)a, VM_GetU32(a));
+    int dx = VM_GetU32(a);
+    int dy = VM_GetU32(a);
+    int p5 = VM_GetU32(a);
+    int p6 = VM_GetU32(a);
     Pt pt;
     int o1;
     int o2;

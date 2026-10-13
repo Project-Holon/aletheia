@@ -9,16 +9,16 @@
  * status: EXACT
  * prototype: 02035C08 returns the r0 consumed by original after its forwarding call; matched 021D98AC documents full ARM9 forwarding proof.
  * symbols:
- *   func_021B63D0 0x021B63D0 thumb ov067
- *   func_021B6448 0x021B6448 thumb ov067
- *   func_021B6470 0x021B6470 thumb ov067
- *   func_021B6548 0x021B6548 thumb ov067
- *   func_02045CAC 0x02045CAC arm
+ *   TOUCHBAR_Update 0x021B63D0 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
+ *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021DD09C 0x021DD09C thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DE9E8 0x021DE9E8 thumb ov119
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   d_021E80C4 0x021E80C4 data a4
  *   func_020355D8 0x020355D8 arm
  *   func_020061E4 0x020061E4 thumb
@@ -33,15 +33,15 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct S S;
 struct MsgBank;
-extern void func_021B63D0(struct S *p);
-extern int func_021B6548(unsigned char *p, unsigned int id, int v);
-extern int func_021B6448(u8 *),func_021B6470(u8 *);
-extern void func_02045CAC(struct MsgBank *,unsigned,void *);
+extern void TOUCHBAR_Update(struct S *p);
+extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *),TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
+extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *);
 extern void func_021E1024(void *);
 extern void func_021DD09C(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DE9E8(void *);
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
 extern const char d_021E80C4[];
@@ -53,18 +53,18 @@ static inline int poll(void) { int v=func_020362DC(); if(v)func_020355D8(0); ret
 void func_021DEA24(char *p)
 {
     int idx,sentinel;
-    func_021B63D0(*(S * *)&((struct Obj00251 *)p)->f9C0);
-    if(func_021B6448(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==1) {
-        func_02045CAC(*(struct MsgBank * *)&((struct Obj00251 *)p)->f720,148,((struct Obj00251 *)p)->f738);
+    TOUCHBAR_Update(*(S * *)&((struct Obj00251 *)p)->f9C0);
+    if(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==1) {
+        MSGDATA_ReadString(*(struct MsgBank * *)&((struct Obj00251 *)p)->f720,148,((struct Obj00251 *)p)->f738);
         func_021E1024(p);
-        func_021B6548((unsigned char *)(*(int *)&((struct Obj00251 *)p)->f9C0),1,0);
+        TOUCHBAR_SetButtonEnabled((unsigned char *)(*(int *)&((struct Obj00251 *)p)->f9C0),1,0);
         func_021DD09C(p);
         func_021D8E84(p,(int)func_021DE9E8);
         return;
     }
     sentinel=-1;
-    if(func_021B6470(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==sentinel) {
-        idx=func_02035C08(d_021E80C4);
+    if(TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==sentinel) {
+        idx=TOUCHPANEL_HitTrg(d_021E80C4);
         if(idx!=sentinel) {
             func_020355D8(1);
             func_020061E4(0x548);

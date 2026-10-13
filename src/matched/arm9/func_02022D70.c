@@ -10,7 +10,7 @@
  *
  * Blocked: 02022D78 (thumb, from header) has no witness outside 02022D70..02022D78. Every concrete byte reproduces.
  * status:   EXACT
- * closed:   blocker func_020294C0.c is now a manifest entry (matched class)
+ * closed:   blocker FIELD_SOUND_SYSTEM_StartFadeInTask.c is now a manifest entry (matched class)
  * symbols:
  *   WIPE_SUB_FreeLineBuffers  0x02022D78  thumb
  *

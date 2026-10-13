@@ -1,5 +1,5 @@
 /*
- * function: func_021DB0DC
+ * function: BTL_ABILITY_RunAwayCheckEscape
  * address: 0x021DB0DC
  * packet: pkt_ov093_021DB0DC
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DA624_p02.c and filed here.
  *
  * symbols:
- *   func_021E8878 0x021E8878 thumb ov093
+ *   BTLV_CORE_EventSetFlagIfAttacker 0x021E8878 thumb ov093
  */
 
-void func_021E8878(int a, int b, int c, int d);
-void func_021DB0DC(int a, int b, int c, int d);
+void BTLV_CORE_EventSetFlagIfAttacker(int a, int b, int c, int d);
+void BTL_ABILITY_RunAwayCheckEscape(int a, int b, int c, int d);
 
-void func_021DB0DC(int a, int b, int c, int d)
+void BTL_ABILITY_RunAwayCheckEscape(int a, int b, int c, int d)
 {
-    func_021E8878(a, b, c, d);
+    BTLV_CORE_EventSetFlagIfAttacker(a, b, c, d);
 }

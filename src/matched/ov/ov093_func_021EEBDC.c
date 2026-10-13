@@ -1,5 +1,5 @@
 /*
- * function: func_021EEBDC
+ * function: BTL_ADAPTER_ClearRecvHeader
  * address:  0x021EEBDC
  * packet:   pkt_ov093_021EEBDC
  * region:   ov093
@@ -29,7 +29,7 @@ typedef struct {
     u8 d[1];
 } W;
 
-void func_021EEBDC(W *p)
+void BTL_ADAPTER_ClearRecvHeader(W *p)
 {
     p->h10 = 0;
     p->h12 = 4;

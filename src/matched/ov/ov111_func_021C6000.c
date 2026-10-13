@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045088  0x02045088  arm
- *   func_020450F0  0x020450F0  arm
+ *   BMP_WIN_Init  0x02045088  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_02040C14  0x02040C14  arm
  *   func_0201F5BC  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
@@ -40,10 +40,10 @@ typedef struct {
 typedef unsigned int   u32;
 struct CharBuf;
 struct Descriptor;
-extern void func_02045088(u16 heapId);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_Init(u16 heapId);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -56,10 +56,10 @@ void func_021C6000(Work *p)
     const u8 (*tbl)[6] = d_021C8773;
     u8 i;
 
-    func_02045088(p->heap);
+    BMP_WIN_Init(p->heap);
     for (i = 0; i < 8; i++) {
-        p->win[i] = (void *)func_020450F0(tbl[i][0], tbl[i][1], tbl[i][2], tbl[i][3], tbl[i][4], tbl[i][5], 1);
-        func_02043B5C(func_02045770(p->win[i]), 0);
+        p->win[i] = (void *)BMP_WIN_Create(tbl[i][0], tbl[i][1], tbl[i][2], tbl[i][3], tbl[i][4], tbl[i][5], 1);
+        BMP_Clear(func_02045770(p->win[i]), 0);
     }
     func_02040C14(7, 0, 1, 0);
     func_0201F5BC(4, 0x31, 0xD, p->f32D4, p->heap);

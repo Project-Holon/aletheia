@@ -1,5 +1,5 @@
 /*
- * function: func_020507A0
+ * function: BILLBOARD_ACT_SetEntryFlags
  * address:  0x020507A0
  * packet:   pkt_02050340
  * region:   arm9
@@ -24,21 +24,24 @@
  *
  * Reads element `idx` of a 40-byte record array hanging off p+24 and hands it,
  * together with p's own word at +4 and the caller's buffer address, to
- * func_0204F720.
+ * BILLBOARD_SetElemVisible.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020507A0.c \
- *       --func func_020507A0 --addr 0x020507A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_SetEntryFlags.c \
+ *       --func BILLBOARD_ACT_SetEntryFlags --addr 0x020507A0 --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   BILLBOARD_SetElemVisible  0x0204F720  arm
  */
 #include "../include/Obj11454.h"
 
 typedef unsigned int u32;
 
-extern int func_0204F720(u32 a, u32 b, void *buf);
+extern int BILLBOARD_SetElemVisible(u32 a, u32 b, void *buf);
 
-int func_020507A0(void *p, int idx, u32 x)
+int BILLBOARD_ACT_SetEntryFlags(void *p, int idx, u32 x)
 {
-    return func_0204F720(((struct Obj11454 *)p)->f4,
+    return BILLBOARD_SetElemVisible(((struct Obj11454 *)p)->f4,
                          *(u32 *)(((struct Obj11454 *)p)->f18 + idx * 40),
                          &x);
 }

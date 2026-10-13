@@ -1,5 +1,5 @@
 /*
- * function: func_021AE58C
+ * function: EVENT_TRAINER_EYE_StepWaitMark
  * address:  0x021AE58C
  * packet:   pkt_021AE58C
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021BB5C8  0x021BB5C8  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09182.h"
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021AC154(u32);
-extern int func_021BB5C8(u32 a);
+extern u32 FIELD_EFFECT_DeleteObject(u32);
+extern int FLDEFF_GYOE_IsFinished(u32 a);
 
-int func_021AE58C(u32 a, u32 b, u32 c, u32 d)
+int EVENT_TRAINER_EYE_StepWaitMark(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021BB5C8(((struct Obj09182 *)((u8 *)(a)))->f2C) == 1) {
-    func_021AC154(((struct Obj09182 *)((u8 *)(a)))->f2C);
+if (FLDEFF_GYOE_IsFinished(((struct Obj09182 *)((u8 *)(a)))->f2C) == 1) {
+    FIELD_EFFECT_DeleteObject(((struct Obj09182 *)((u8 *)(a)))->f2C);
     ((struct Obj09182 *)((u8 *)(a)))->f0 = 9;
 }
 return 0;

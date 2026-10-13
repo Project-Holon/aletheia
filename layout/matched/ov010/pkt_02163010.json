@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02163010",
+   "name": "FLDMMDL_MOVE_SetupMove",
    "address": "0x02163010",
    "kind": "game",
    "region": "ov010",

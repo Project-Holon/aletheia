@@ -15,7 +15,7 @@
  *   func_0207D4B0  0x0207D4B0  arm
  *   func_0207D534  0x0207D534  arm
  *   TEXTPRINT_Init  0x0204E130  arm
- *   func_02043678  0x02043678  arm
+ *   BMP_Create  0x02043678  arm
  *   BMP_Clear   0x02043B5C  arm
  *   unk_021469AC   0x021469AC  data
  *
@@ -100,7 +100,7 @@ struct CharBuf;
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void  TEXTPRINT_Init(u32 a);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 void sub_02034768(void)
@@ -135,7 +135,7 @@ void sub_02034768(void)
 
     TEXTPRINT_Init(0);
 
-    chars = func_02043678(0x20, 8, 0x20, 0);
+    chars = BMP_Create(0x20, 8, 0x20, 0);
     unk_021469AC.chars = chars;
     unk_021469AC.x = 0;
     unk_021469AC.y = 0;

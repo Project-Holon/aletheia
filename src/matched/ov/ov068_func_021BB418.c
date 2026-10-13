@@ -1,5 +1,5 @@
 /*
- * function: func_021BB418
+ * function: OPTION_MENU_StateDiscardPrompt
  * address:  0x021BB418
  * packet:   pkt_ov068_021BB418
  * region:   ov068
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA9E0  0x021BA9E0  thumb  ov068
- *   func_021BB0D0  0x021BB0D0  thumb  ov068
- *   func_021BAE90  0x021BAE90  thumb  ov068
+ *   OPTION_MENU_GetListSettings  0x021BA9E0  thumb  ov068
+ *   OPTION_MENU_GetTextWait  0x021BB0D0  thumb  ov068
+ *   OPTION_MENU_PrintDiscardPrompt  0x021BAE90  thumb  ov068
  *   func_02040588  0x02040588  arm
- *   func_021BAEBC  0x021BAEBC  thumb  ov068
- *   func_021BB138  0x021BB138  thumb  ov068
- *   func_021BB4A4  0x021BB4A4  thumb  ov068
- *   func_021BB4D4  0x021BB4D4  thumb  ov068
- *   func_021BAE28  0x021BAE28  thumb  ov068
+ *   OPTION_MENU_GetMessageBoxAnswer  0x021BAEBC  thumb  ov068
+ *   OPTION_MENU_SetRunnerCallback  0x021BB138  thumb  ov068
+ *   OPTION_MENU_StateKeepSaved  0x021BB4A4  thumb  ov068
+ *   OPTION_MENU_StateApply  0x021BB4D4  thumb  ov068
+ *   OPTION_MENU_UpdateMessageBox  0x021BAE28  thumb  ov068
  */
 
 typedef unsigned char  u8;
@@ -31,30 +31,30 @@ typedef struct {
     u32 c;
 } Blk;
 
-extern void func_021BA9E0(u8 *p, Blk *out);
-extern u32  func_021BB0D0(Blk *b);
-extern void func_021BAE90(void *p, u32 value);
+extern void OPTION_MENU_GetListSettings(u8 *p, Blk *out);
+extern u32  OPTION_MENU_GetTextWait(Blk *b);
+extern void OPTION_MENU_PrintDiscardPrompt(void *p, u32 value);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern u16  func_021BAEBC(u8 *p);
-extern void func_021BB138(void *p, int v);
-extern void func_021BB4A4(void *a, u32 b, u8 *p);
-extern void func_021BB4D4(void *a, u32 b, u8 *p);
-extern void func_021BAE28(u8 *p);
+extern u16  OPTION_MENU_GetMessageBoxAnswer(u8 *p);
+extern void OPTION_MENU_SetRunnerCallback(void *p, int v);
+extern void OPTION_MENU_StateKeepSaved(void *a, u32 b, u8 *p);
+extern void OPTION_MENU_StateApply(void *a, u32 b, u8 *p);
+extern void OPTION_MENU_UpdateMessageBox(u8 *p);
 
-void func_021BB418(void *a0, u32 *st, u8 *base)
+void OPTION_MENU_StateDiscardPrompt(void *a0, u32 *st, u8 *base)
 {
     Blk b;
     u16 r;
 
     switch (*st) {
     case 0:
-        func_021BA9E0(base + 0x148, &b);
-        func_021BAE90(base + 0x1d8, func_021BB0D0(&b));
+        OPTION_MENU_GetListSettings(base + 0x148, &b);
+        OPTION_MENU_PrintDiscardPrompt(base + 0x1d8, OPTION_MENU_GetTextWait(&b));
         func_02040588(4, 0);
         *st = 1;
         break;
     case 1:
-        r = func_021BAEBC(base + 0x1d8);
+        r = OPTION_MENU_GetMessageBoxAnswer(base + 0x1d8);
         switch (r) {
         case 1:
             *st = 2;
@@ -65,11 +65,11 @@ void func_021BB418(void *a0, u32 *st, u8 *base)
         }
         break;
     case 2:
-        func_021BB138(a0, (int)func_021BB4D4);
+        OPTION_MENU_SetRunnerCallback(a0, (int)OPTION_MENU_StateApply);
         break;
     case 3:
-        func_021BB138(a0, (int)func_021BB4A4);
+        OPTION_MENU_SetRunnerCallback(a0, (int)OPTION_MENU_StateKeepSaved);
         break;
     }
-    func_021BAE28(base + 0x1d8);
+    OPTION_MENU_UpdateMessageBox(base + 0x1d8);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB188
+ * function: RAIL_ATTR_IsSignBoard
  * address:  0x021BB188
  * packet:   pkt_ov021_021BB188
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-int func_021BB188(u16 a)
+int RAIL_ATTR_IsSignBoard(u16 a)
 {
     if ((u16)(a + 0xFF60) <= 1) {
         return 1;

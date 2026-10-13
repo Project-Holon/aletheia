@@ -1,5 +1,5 @@
 /*
- * function: func_02156914
+ * function: MUSICAL_EVENT_AllocTitleString
  * address:  0x02156914
  * packet:   pkt_02156914
  * region:   ov010
@@ -12,7 +12,7 @@
  * symbols:
  *   MSGDATA_CreateFromMemory  0x02045C44  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  */
 #include "../include/Obj12026.h"
 
@@ -24,9 +24,9 @@ struct MsgBank;
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Rec;
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
-void *func_02156914(int a0, int a1)
+void *MUSICAL_EVENT_AllocTitleString(int a0, int a1)
 {
     void *t4;
     struct MsgBank *t5;
@@ -38,6 +38,6 @@ loc_0215691E:
 a1 = 0;
     t4 = func_02045EC0(t5, a1);
 loc_02156926:
-    a0 = func_02045C04((struct Rec *)t5);
+    a0 = MSGDATA_Delete((struct Rec *)t5);
 loc_0215692E:
     return t4;}

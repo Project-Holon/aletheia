@@ -1,5 +1,5 @@
 /*
- * function: func_021D9064
+ * function: BTL_ABILITY_GetFlowerGiftHandlers
  * address: 0x021D9064
  * packet: pkt_ov093_021D9064
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D8D40.c and filed here.
  *
  * symbols:
- *   d_021F0E1C 0x021F0E1C data ov093 a4
+ *   gFlowerGiftHandlerTable 0x021F0E1C data ov093 a4
  */
 
-int *func_021D9064(int *p);
-extern int d_021F0E1C[];
+int *BTL_ABILITY_GetFlowerGiftHandlers(int *p);
+extern int gFlowerGiftHandlerTable[];
 
-int *func_021D9064(int *p)
+int *BTL_ABILITY_GetFlowerGiftHandlers(int *p)
 {
     *p = 11;
-    return d_021F0E1C;
+    return gFlowerGiftHandlerTable;
 }

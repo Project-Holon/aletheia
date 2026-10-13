@@ -1,5 +1,5 @@
 /*
- * function: func_021F5B44
+ * function: ENCEFF_UpdateGridColumnFlipCell
  * address:  0x021F5B44
  * packet:   pkt_ov080_021F5B44
  * region:   ov080
@@ -13,7 +13,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021F5B44(int *o)
+int ENCEFF_UpdateGridColumnFlipCell(int *o)
 {
     if (o[12] < 0x40) {
         o[7] += 0x200;

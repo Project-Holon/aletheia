@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02027A04  0x02027A04  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
-extern u8 func_02027A04(const u8 *p);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 
 int func_021BB508(int *p)
 {
-    return func_02027A04((const u8 *)p[0x99]) == 0;
+    return APP_TASKMENU_GetCursorPos((const u8 *)p[0x99]) == 0;
 }

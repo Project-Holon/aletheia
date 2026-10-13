@@ -1,5 +1,5 @@
 /*
- * function: func_021895DC
+ * function: FIELDMAP_ClearCtrlWork
  * address:  0x021895DC
  * packet:   pkt_021895DC
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021895DC(u32 a)
+int FIELDMAP_ClearCtrlWork(u32 a)
 {
 *(u32 *)((u8 *)(a) + ((67 << 2))) = 0;
 return a;

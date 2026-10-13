@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *
  * Guarded flag set: only when the caller's fifth argument (on the stack)
  * matches the tick from 0x020399A8 and the first argument does NOT match
@@ -22,15 +22,15 @@
 typedef unsigned long u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
 void func_021DB300(u32 a, u32 b, u32 c, char *d, u32 e)
 {
-    if (e != (u32)func_020399A8())
+    if (e != (u32)GFL_NET_HANDLE_GetCurrentHandle())
         return;
-    if (a == func_0203D1A4((struct Link *)((u32)func_020399A8())))
+    if (a == GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
     ((struct Obj24337 *)d)->f140 = 1;
 }

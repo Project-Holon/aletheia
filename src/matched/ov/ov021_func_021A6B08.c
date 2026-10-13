@@ -1,5 +1,5 @@
 /*
- * function: func_021A6B08
+ * function: FIELD_PLAYER_NOGRID_StartSpin
  * address:  0x021A6B08
  * packet:   pkt_ov021_021A6B08
  * region:   ov021
@@ -25,7 +25,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 
-void func_021A6B08(P *p, u8 v)
+void FIELD_PLAYER_NOGRID_StartSpin(P *p, u8 v)
 {
     if (p->b0 != 1 || v != p->b1) {
         func_020061E4(0x6d1);

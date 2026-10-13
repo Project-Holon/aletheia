@@ -9,21 +9,21 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   UNION_COMMAND_SendAppEntryRefused  0x02173D88  thumb  ov012
  *   UNION_COMMAND_SendAppEntryAccepted  0x02173DBC  thumb  ov012
  */
 
 typedef unsigned char u8;
 
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 typedef unsigned int   u32;
 extern int UNION_COMMAND_SendAppEntryRefused(u32 a);
 extern int UNION_COMMAND_SendAppEntryAccepted(int a);
 
 void UNION_COMM_SendEntryReplies(u8 *w)
 {
-    if (func_0203D1B4() > 1) {
+    if (GFL_NET_GetNegotiationNum() > 1) {
         if (w[0x282D] != 0 && UNION_COMMAND_SendAppEntryRefused(w[0x282D]) == 1) {
             w[0x282D] = 0;
         }

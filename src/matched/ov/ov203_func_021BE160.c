@@ -22,7 +22,7 @@
  *   func_021BE7A8 0x021BE7A8 thumb ov203
  *   FX_Div 0x0207C768 arm
  *   _ll_mul 0x0209C054 arm
- *   func_02048A24 0x02048A24 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_GetNearClipAlt 0x02048B9C arm
  *   G3D_CAMERA_GetFarClipAlt 0x02048BB0 arm
  *   func_021BE63C 0x021BE63C thumb ov203
@@ -39,15 +39,15 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  *   func_020115EC 0x020115EC thumb
- *   func_02047CFC 0x02047CFC arm
+ *   G3D_UTIL_Create 0x02047CFC arm
  *   func_021BE7F0 0x021BE7F0 thumb ov203
  *   func_021BE874 0x021BE874 thumb ov203
- *   func_02047E88 0x02047E88 arm
+ *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   func_021BE85C 0x021BE85C thumb ov203
  *   func_02048A18 0x02048A18 arm
- *   func_0204779C 0x0204779C arm
- *   func_020477A4 0x020477A4 arm
- *   func_0204784C 0x0204784C arm
+ *   G3D_SYSTEM_GetObjectAnimeCount 0x0204779C arm
+ *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  *   func_021BF7C0 0x021BF7C0 thumb ov203
  *   _s32_div_f 0x0209C0A4 arm
  *   FX_SinCosTable_ 0x020A1B38 data
@@ -102,7 +102,7 @@ struct Record;
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 extern u32 func_021BE7A8(u32 id);
 extern fx32 FX_Div(fx32, fx32);
-extern void *func_02048A24(int, int, int, int, int, int, int, int, VecFx32 *, VecFx32 *, VecFx32 *, int);
+extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, VecFx32 *, VecFx32 *, VecFx32 *, int);
 extern void G3D_CAMERA_GetNearClipAlt(struct Light *l, u32 *out);
 extern void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out);
 extern void func_021BE63C(struct Context *ctx, struct Config *cfg, const struct Record *record, u16 heap);
@@ -120,17 +120,17 @@ extern int _fsub(int, int);
 extern int _ffix(int);
 struct IcaAnime;
 extern void func_020115EC(struct IcaAnime *p, signed int v);
-extern u32 func_02047CFC(u16, u16, u32);
+extern u32 G3D_UTIL_Create(u16, u16, u32);
 extern void *func_021BE7F0(u32);
 extern void func_021BE874(char *ctx, const char *config, u8 type);
-extern u16 func_02047E88(u32, void *);
+extern u16 G3D_UTIL_AddUnit(u32, void *);
 extern void func_021BE85C(char *a);
 extern u32 func_02048A18(u8 *a0, int i);
-extern int func_0204779C(int *p);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 extern u32 func_021BF7C0(struct Ctx *, u32);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
@@ -177,7 +177,7 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
     d = 0x1000;
     right = FX_Div(FX_Mul(FX_Div(w, d), s), c);
     left = -FX_Div(FX_Mul(FX_Div(w, d), s), c);
-    ctx->f20 = func_02048A24(1, top, bottom, left, right, near, mid, far,
+    ctx->f20 = G3D_CAMERA_Create(1, top, bottom, left, right, near, mid, far,
                              &d_021BFCE0, &d_021BFCD4, &d_021BFCEC, heap);
     G3D_CAMERA_GetNearClipAlt(ctx->f20, &ctx->f24);
     G3D_CAMERA_GetFarClipAlt(ctx->f20, &ctx->f28);
@@ -204,24 +204,24 @@ struct Ctx *func_021BE160(void *owner, struct Cfg *cfg, u16 heap)
         r = _fsub(_ffltu(ctx->f7c << 12), 0x3f000000);
     func_020115EC((struct IcaAnime *)ctx->f18, _ffix(r));
     n = ctx->f2c * 6;
-    ctx->f1c = func_02047CFC((u16)n, (u16)n, heap);
+    ctx->f1c = G3D_UTIL_Create((u16)n, (u16)n, heap);
     e = func_021BE7F0(heap);
     for (i = 0; i < ctx->f2c; i++) {
         func_021BE874(e, (const char *)(&ctx->f78), i);
-        ctx->f70[i] = func_02047E88(ctx->f1c, e);
+        ctx->f70[i] = G3D_UTIL_AddUnit(ctx->f1c, e);
     }
     func_021BE85C(e);
     for (j = 0; j < ctx->f2c; j++) {
         h = func_02048A18((u8 *)ctx->f1c, (u16)ctx->f70[j]);
-        cnt = func_0204779C((int *)h);
+        cnt = G3D_SYSTEM_GetObjectAnimeCount((int *)h);
         for (k = 0; k < cnt; k++) {
             if (ctx->f7c)
                 r = _fadd(0x3f000000, _ffltu(ctx->f7c << 12));
             else
                 r = _fsub(_ffltu(ctx->f7c << 12), 0x3f000000);
             ang = _ffix(r);
-            func_020477A4((struct G3dSys *)h, (u16)k);
-            func_0204784C((struct AnmCtl *)h, k, &ang);
+            G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)h, (u16)k);
+            G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)h, k, &ang);
         }
     }
     ctx->f6c = func_021BF7C0(ctx, heap);

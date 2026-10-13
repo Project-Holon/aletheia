@@ -1,5 +1,5 @@
 /*
- * function: func_021C1198
+ * function: BTL_SERVER_FLOW_SetHitFlagsResultIf3
  * address:  0x021C1198
  * packet:   pkt_021C1198
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent 12, compiled 10, trailing padding)
  */
 
-void func_021C1198(unsigned char *p, int x)
+void BTL_SERVER_FLOW_SetHitFlagsResultIf3(unsigned char *p, int x)
 {
     if (p[5] == 3) {
         p[5] = x;

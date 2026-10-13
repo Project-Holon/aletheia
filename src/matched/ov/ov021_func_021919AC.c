@@ -1,5 +1,5 @@
 /*
- * function: func_021919AC
+ * function: FIELD_MSGBG_ExistsSubMsgWin
  * address:  0x021919AC
  * packet:   pkt_ov021_021919AC
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-int func_021919AC(u8 *p)
+int FIELD_MSGBG_ExistsSubMsgWin(u8 *p)
 {
     int i;
 

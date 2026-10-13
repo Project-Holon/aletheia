@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02025538",
+   "name": "BMP_OAM_CreateSys",
    "address": "0x02025538",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02025588",
+   "name": "BMP_OAM_DeleteSys",
    "address": "0x02025588",
    "kind": "game",
    "region": "arm9",

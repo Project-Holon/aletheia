@@ -1,5 +1,5 @@
 /*
- * function: func_021D1488
+ * function: FIELD_SAVEANIME_AnimTask
  * address:  0x021D1488
  * packet:   pkt_ov021_021D1488
  * region:   ov021
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocked: d_021DB990 ({u16 v; u16 dur;} step table, two pool words for
+ * Blocked: sFieldSaveAnimeSteps ({u16 v; u16 dur;} step table, two pool words for
  * +0 and +2) is contested: another overlay in the window starts an object at
  * 0x021DB990 and this function has no overlay_id site.
  *
  * symbols:
- *   d_021DB990     0x021DB990  data  a2
- *   func_021D1430  0x021D1430  thumb  ov021
+ *   sFieldSaveAnimeSteps     0x021DB990  data  a2
+ *   FIELD_SAVEANIME_DrawFrame  0x021D1430  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -33,13 +33,13 @@ typedef struct Anim021D1488 {
     u32 idx;
 } Anim021D1488;
 
-extern void func_021D1430(u8 *p, u32 n);
-extern Step021D1488 d_021DB990[];
+extern void FIELD_SAVEANIME_DrawFrame(u8 *p, u32 n);
+extern Step021D1488 sFieldSaveAnimeSteps[];
 
-void func_021D1488(void *task, Anim021D1488 *p)
+void FIELD_SAVEANIME_AnimTask(void *task, Anim021D1488 *p)
 {
     int c = p->cnt + 1;
-    u16 d = d_021DB990[p->idx].dur;
+    u16 d = sFieldSaveAnimeSteps[p->idx].dur;
 
     p->cnt = c;
     if (d <= c) {
@@ -48,6 +48,6 @@ void func_021D1488(void *task, Anim021D1488 *p)
             p->idx = 0;
             p->cnt = 0;
         }
-        func_021D1430((u8 *)p, d_021DB990[p->idx].v);
+        FIELD_SAVEANIME_DrawFrame((u8 *)p, sFieldSaveAnimeSteps[p->idx].v);
     }
 }

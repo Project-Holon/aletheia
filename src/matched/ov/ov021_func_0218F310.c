@@ -1,5 +1,5 @@
 /*
- * function: func_0218F310
+ * function: FIELD_CAMERA_AreaKeepInRing
  * address:  0x0218F310
  * packet:   pkt_ov021_0218F310
  * region:   ov021
@@ -25,7 +25,7 @@
  *   VEC_DotProduct   0x0207CA68  arm
  *   FX_AcosIdx       0x0207D184  arm
  *   _ll_mul          0x0209C054  arm
- *   d_021D3E38       0x021D3E38  data   a4
+ *   gFieldCameraRingRefVec       0x021D3E38  data   a4
  *   d_020A1B38       0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
@@ -50,10 +50,10 @@ extern void VEC_Normalize(V *a, V *o);
 extern void VEC_CrossProduct(V *a, V *b, V *o);
 extern int VEC_DotProduct(V *a, V *b);
 extern u16 FX_AcosIdx(int x);
-extern V d_021D3E38;
+extern V gFieldCameraRingRefVec;
 extern s16 d_020A1B38[];
 
-int func_0218F310(const Ring *a, V *b, V *out)
+int FIELD_CAMERA_AreaKeepInRing(const Ring *a, V *b, V *out)
 {
     V k;
     V c;
@@ -69,7 +69,7 @@ int func_0218F310(const Ring *a, V *b, V *out)
     int i;
     s16 s;
 
-    k = d_021D3E38;
+    k = gFieldCameraRingRefVec;
     c = *b;
     d = *b;
     out->x = b->x;

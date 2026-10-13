@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02167044",
+   "name": "EVENT_RESEARCH_RADAR_CreateTopTask",
    "address": "0x02167044",
    "kind": "game",
    "region": "ov010",

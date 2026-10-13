@@ -1,5 +1,5 @@
 /*
- * function: func_021661CC
+ * function: GAME_BEACON_ACCESSOR_IsPlayTimeInvalid
  * address:  0x021661CC
  * packet:   pkt_ov010_021661CC
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_021661CC(Rec *r)
+int GAME_BEACON_ACCESSOR_IsPlayTimeInvalid(Rec *r)
 {
     if (r->a > 999 || r->b > 59)
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8248
+ * function: FIELD_RAIL_GetUnitScaleRaw
  * address:  0x021B8248
  * packet:   pkt_021B8038
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021B8248(u8 *p)
+u32 FIELD_RAIL_GetUnitScaleRaw(u8 *p)
 {
     return ((struct Obj18108 *)p)->f4C;
 }

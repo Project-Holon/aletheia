@@ -13,7 +13,7 @@
  * function: CODEIN_PARAM_Delete
  *
  * symbols:
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  *
  * A destructor: release the one owned handle at offset 0x20, then free
@@ -35,12 +35,12 @@ struct Obj0202E54C {
 };
 
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
 void CODEIN_PARAM_Delete(struct Obj0202E54C *p)
 {
-    func_02045808(p->unk20);
+    STRBUF_Delete(p->unk20);
     func_020307B0(p);
 }

@@ -11,11 +11,14 @@
  *
  * Allocates a 0x18-byte node with the allocator entry point, zeroes its
  * first two words, stores the first argument at +8, and copies a 12-byte
- * record from func_02012AA0(first) into +0xc.
+ * record from GAME_DATA_GetPlayerPosition(first) into +0xc.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_Create.c \
  *       --func ISS_ROAD_SYS_Create --addr 0x0202B1AC --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  */
 
 typedef unsigned char u8;
@@ -34,7 +37,7 @@ typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Rec44;
 struct Vec12;
-extern struct Vec12 *func_02012AA0(struct Rec44 *p);
+extern struct Vec12 *GAME_DATA_GetPlayerPosition(struct Rec44 *p);
 
 struct Node *ISS_ROAD_SYS_Create(u32 a, u32 heapId)
 {
@@ -46,7 +49,7 @@ struct Node *ISS_ROAD_SYS_Create(u32 a, u32 heapId)
     p->f4 = 0;
     p->f8 = a;
 
-    s = (const Copy *)func_02012AA0((struct Rec44 *)a);
+    s = (const Copy *)GAME_DATA_GetPlayerPosition((struct Rec44 *)a);
     p->body = *s;
     return p;
 }

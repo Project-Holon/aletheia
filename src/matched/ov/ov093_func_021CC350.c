@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
@@ -29,10 +29,10 @@ typedef struct Rec {
     u8 f14;
 } Rec;
 
-extern int func_021D5B68(void *m);
+extern int BTL_POKEPARAM_IsFainted(void *m);
 struct Unk021D62A8;
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern u8 func_021D5440(u8 *p);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
@@ -41,8 +41,8 @@ int func_021CC350(void *a, void *m, int c, int d, u32 v)
     u8 id;
     Rec *r;
 
-    if (func_021D5B68(m) == 0 && func_021D62C4(m, v) != 0) {
-        id = func_021D5440(m);
+    if (BTL_POKEPARAM_IsFainted(m) == 0 && BTL_POKEPARAM_HasSick(m, v) != 0) {
+        id = BTL_POKEPARAM_GetPokeId(m);
         r = (Rec *)func_021C88A4(a, 11, id);
         r->f14 = 1;
         r->f08 = id;

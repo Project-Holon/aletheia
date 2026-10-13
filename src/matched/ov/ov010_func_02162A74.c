@@ -1,5 +1,5 @@
 /*
- * function: func_02162A74
+ * function: EVENTDATA_SYSTEM_SetBgEventGridPos
  * address: 0x02162A74
  * packet: pkt_ov010_02162A74
  * region: ov010
@@ -27,7 +27,7 @@ static inline void set(Rec *r, u32 a, u32 b, u16 d)
     p->f = d;
     p->g = b << 4;
 }
-void func_02162A74(const Ctx *c, u32 i, u32 a, u32 b, u16 d)
+void EVENTDATA_SYSTEM_SetBgEventGridPos(const Ctx *c, u32 i, u32 a, u32 b, u16 d)
 {
     Rec *r;
     if (c->n >= i && c->r != 0) {

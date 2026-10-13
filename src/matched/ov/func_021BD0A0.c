@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  *   (none)
  *
  * Tail call to the function at 0x0204A648: loads the pointer from the pool and branches through it.
@@ -18,9 +19,9 @@
  * undeclared here and resolved through the label class.
  */
 
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
 void func_021BD0A0(char *a0)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

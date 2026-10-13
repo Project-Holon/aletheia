@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021D9558, func_021D956C, func_021D957C, func_021D958C
+ * function: BTL_TOKUSEI_ConfusionGuard_ShowBlockedMessage, BTL_TOKUSEI_ConfusionGuard_CureOnEntry, BTL_TOKUSEI_ConfusionGuard_CureOnPeriodicCheck, BTL_TOKUSEI_GetConfusionGuardHandlers
  * address:  0x021D9558
  * packet:   pkt_ov093_021D9558
  * region:   ov093
@@ -11,35 +11,35 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D9670  0x021D9670  thumb
- *   func_021D96DC  0x021D96DC  thumb  ov093
- *   func_021D96FC  0x021D96FC  thumb  ov093
- *   d_021F0BB4     0x021F0BB4  data   ov093  a4
+ *   BTL_TOKUSEI_ShowSickGuardMessage  0x021D9670  thumb
+ *   BTL_TOKUSEI_CureSickIfOwner  0x021D96DC  thumb  ov093
+ *   BTL_TOKUSEI_CureSick  0x021D96FC  thumb  ov093
+ *   gConfusionGuardHandlers     0x021F0BB4  data   ov093  a4
  */
 
 typedef unsigned short u16;
-extern void func_021D9670(void *a, void *b, int c, int *d, u16 e);
-extern void func_021D96DC(int, int, int);
-extern void func_021D96FC(void *a, int b, int c);
-extern int d_021F0BB4[];
+extern void BTL_TOKUSEI_ShowSickGuardMessage(void *a, void *b, int c, int *d, u16 e);
+extern void BTL_TOKUSEI_CureSickIfOwner(int, int, int);
+extern void BTL_TOKUSEI_CureSick(void *a, int b, int c);
+extern int gConfusionGuardHandlers[];
 
-void func_021D9558(int a, int b, int c, int d)
+void BTL_TOKUSEI_ConfusionGuard_ShowBlockedMessage(int a, int b, int c, int d)
 {
-    func_021D9670((void *)a, (void *)b, c, (int *)d, 0x165);
+    BTL_TOKUSEI_ShowSickGuardMessage((void *)a, (void *)b, c, (int *)d, 0x165);
 }
 
-void func_021D956C(int a, int b, int c)
+void BTL_TOKUSEI_ConfusionGuard_CureOnEntry(int a, int b, int c)
 {
-    func_021D96DC(b, c, 6);
+    BTL_TOKUSEI_CureSickIfOwner(b, c, 6);
 }
 
-void func_021D957C(int a, int b, int c)
+void BTL_TOKUSEI_ConfusionGuard_CureOnPeriodicCheck(int a, int b, int c)
 {
-    func_021D96FC((void *)b, c, 6);
+    BTL_TOKUSEI_CureSick((void *)b, c, 6);
 }
 
-int *func_021D958C(int *p)
+int *BTL_TOKUSEI_GetConfusionGuardHandlers(int *p)
 {
     *p = 4;
-    return d_021F0BB4;
+    return gConfusionGuardHandlers;
 }

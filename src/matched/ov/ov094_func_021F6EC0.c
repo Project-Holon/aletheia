@@ -12,15 +12,15 @@
  * Releases the handle at word 1, then frees the object.
  *
  * symbols:
- *   func_02048AC4 0x02048AC4 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern unsigned int func_02048AC4(void *ptr);
+extern unsigned int G3D_CAMERA_Delete(void *ptr);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
 void func_021F6EC0(void **p)
 {
-    func_02048AC4(p[1]);
+    G3D_CAMERA_Delete(p[1]);
     func_020307B0(p);
 }

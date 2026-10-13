@@ -10,10 +10,10 @@
  * symbols:
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0203630C 0x0203630C arm
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_0201CE5C 0x0201CE5C thumb
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_0201CE38 0x0201CE38 thumb
  */
 #include "../include/Obj10940.h"
@@ -23,21 +23,21 @@ extern unsigned func_0201CE30(void *);
 extern unsigned int func_0203630C(void);
 typedef signed int     s32;
 struct Rec;
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern void func_0201CE5C(struct Rec *p, s32 v);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_0201CE38(void *);
 int func_021F6228(void *unused,char *p)
 {
     int result=0;
     switch(func_0201CE30(((struct Obj10940 *)p)->f50)) {
     case 0:
-        if((func_0203630C()&3)!=0 || func_02035C38()!=0)
+        if((func_0203630C()&3)!=0 || TOUCHPANEL_GetCont()!=0)
             func_0201CE5C(((struct Obj10940 *)p)->f50,0);
         break;
     case 1:
-        if((func_020362DC()&3)!=0 || func_02035C60()!=0)
+        if((func_020362DC()&3)!=0 || TOUCHPANEL_GetTrg()!=0)
             func_0201CE38(((struct Obj10940 *)p)->f50);
         break;
     case 2:

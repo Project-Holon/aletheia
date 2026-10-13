@@ -1,5 +1,5 @@
 /*
- * function: func_021A0CE4
+ * function: FIELD_LIGHT_FADE_IsActive
  * address:  0x021A0CE4
  * packet:   pkt_ov021_021A0CE4
  * region:   ov021
@@ -12,12 +12,12 @@
  * Unlabelled leaf (ldrh; nonzero test), filed for the ov026 lane.
  *
  * symbols:
- *   func_021A0CE4 0x021A0CE4 thumb ov021
+ *   FIELD_LIGHT_FADE_IsActive 0x021A0CE4 thumb ov021
  */
 
 typedef unsigned short u16;
 
-int func_021A0CE4(u16 *p)
+int FIELD_LIGHT_FADE_IsActive(u16 *p)
 {
     if (*p != 0) {
         return 1;

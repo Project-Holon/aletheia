@@ -1,5 +1,5 @@
 /*
- * function: func_021CFC4C
+ * function: SCRCMD_FillPartnerCandidates
  * address:  0x021CFC4C
  * packet:   pkt_ov021_021CFC4C
  * region:   ov021
@@ -12,10 +12,10 @@
  * symbols:
  *   func_02009470  0x02009470  thumb
  *   func_0200E878  0x0200E878  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02012F38  0x02012F38  thumb
- *   func_021CFC80  0x021CFC80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
+ *   SCRCMD_CollectPartnersByLanguage  0x021CFC80  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -24,21 +24,21 @@ typedef unsigned int u32;
 
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Sub02009470Obj;
-extern int func_02012F38(int base);
+extern int GAME_DATA_GetSaveSyncBlock(int base);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern int func_0200E878(u8 *p);
-extern int func_021CFC80(u32 a, u8 *b, int c, void *d);
+extern int SCRCMD_CollectPartnersByLanguage(u32 a, u8 *b, int c, void *d);
 
-int func_021CFC4C(void *a, int b, void *c)
+int SCRCMD_FillPartnerCandidates(void *a, int b, void *c)
 {
-    void *sys = func_020120F4(a);
-    u8 *sv = (u8 *)func_02012F38((int)sys);
+    void *sys = GAMESYSTEM_GetGameData(a);
+    u8 *sv = (u8 *)GAME_DATA_GetSaveSyncBlock((int)sys);
 
     if (b < 0xe9) {
-        return func_021CFC80((u32)func_02009470(func_02012EBC(sys)), sv, b, c);
+        return SCRCMD_CollectPartnersByLanguage((u32)func_02009470(GAME_DATA_GetSaveControl(sys)), sv, b, c);
     }
     return func_0200E878(sv);
 }

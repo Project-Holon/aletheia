@@ -1,5 +1,5 @@
 /*
- * function: func_021C3B8C
+ * function: BTL_SERVER_FLOW_CanChangeWeather
  * address: 0x021C3B8C
  * packet: pkt_ov093_021C3B8C
  * region: ov093
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021EF884 0x021EF884 thumb ov093
- *   func_021EF894 0x021EF894 thumb ov093
+ *   BTL_FIELD_GetCountdownValue 0x021EF884 thumb ov093
+ *   BTL_FIELD_GetCountdownCount 0x021EF894 thumb ov093
  */
 typedef unsigned int u32;
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
-extern int func_021EF884(void);
-extern int func_021EF894(void);
-BOOL func_021C3B8C(void *p, u32 a, u32 b)
+extern int BTL_FIELD_GetCountdownValue(void);
+extern int BTL_FIELD_GetCountdownCount(void);
+BOOL BTL_SERVER_FLOW_CanChangeWeather(void *p, u32 a, u32 b)
 {
     if (a >= 5) return FALSE;
-    if (a == func_021EF884() && (b != 255 || func_021EF894() == 255)) {
+    if (a == BTL_FIELD_GetCountdownValue() && (b != 255 || BTL_FIELD_GetCountdownCount() == 255)) {
         return FALSE;
     }
     return TRUE;

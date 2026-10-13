@@ -8,15 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_TOOL_SetBoxValue, func_02017E88, func_02017EAC, POKE_TOOL_IsBoxShiny,
- *           func_02017ED8, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender,
+ * function: POKE_TOOL_SetBoxValue, func_02017E88, POKE_TOOL_IsShiny, POKE_TOOL_IsBoxShiny,
+ *           POKE_TOOL_CheckShiny, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender,
  *           POKE_TOOL_GetStatusCondition, POKE_TOOL_SetStatusCondition, POKE_TOOL_SetDefaultMoves
  *
  * symbols:
- *   func_02017DBC  0x02017DBC  thumb
- *   func_02017DE4  0x02017DE4  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_SetBoxDefaultMoves  0x02017FB0  thumb
  *   POKE_TOOL_DecodeBoxBlock  0x02018D34  thumb
  *   POKE_TOOL_EncodeBoxBlock  0x02018D8C  thumb
@@ -29,11 +29,11 @@
  * to twelve byte pool-word tail calls at 0x02017EAC, 0x02017F00 and
  * 0x02017FA8, and the two twelve byte argument-setting thunks at 0x02017F90
  * and 0x02017F9C, all of them
- * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  func_02017EAC, POKE_TOOL_GetGender
+ * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  POKE_TOOL_IsShiny, POKE_TOOL_GetGender
  * and POKE_TOOL_SetDefaultMoves each tail call the function immediately after them, which
  * makes two of the three sites the `local` class.
  *
- * func_02017ED8 folds two words to sixteen bits and its four XOR operands have
+ * POKE_TOOL_CheckShiny folds two words to sixteen bits and its four XOR operands have
  * exactly one source order, which is not the order the `eors` appear in; see
  * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
  *
@@ -54,10 +54,10 @@ typedef unsigned int   u32;
 struct Mon;
 struct Personal;
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
-extern u32  func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
+extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32  POKE_TOOL_SetBoxDefaultMoves(void *p);
 extern u32 POKE_TOOL_DecodeBoxBlock(struct Sav *p);
 extern void POKE_TOOL_EncodeBoxBlock(struct Sav *p);
@@ -67,7 +67,7 @@ extern void *func_02019C54(u32 a, u32 b);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 
 u32 POKE_TOOL_IsBoxShiny(void *p);
-u32 func_02017ED8(u32 a, u32 b);
+u32 POKE_TOOL_CheckShiny(u32 a, u32 b);
 u8 POKE_TOOL_GetBoxGender(void *p);
 u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c);
 
@@ -89,7 +89,7 @@ u32 func_02017E88(void *p, u32 id, u32 v)
     return r;
 }
 
-u32 func_02017EAC(void *p)
+u32 POKE_TOOL_IsShiny(void *p)
 {
     return POKE_TOOL_IsBoxShiny(p);
 }
@@ -98,10 +98,10 @@ u32 POKE_TOOL_IsBoxShiny(void *p)
 {
     u32 a = func_02017E88(p, 7, 0);
 
-    return func_02017ED8(a, func_02017E88(p, 0, 0));
+    return POKE_TOOL_CheckShiny(a, func_02017E88(p, 0, 0));
 }
 
-u32 func_02017ED8(u32 a, u32 b)
+u32 POKE_TOOL_CheckShiny(u32 a, u32 b)
 {
     u32 x = ((a & 0xFFFF0000) >> 16) ^ (u16)a ^ ((b & 0xFFFF0000) >> 16) ^ (u16)b;
 
@@ -118,12 +118,12 @@ u8 POKE_TOOL_GetGender(void *p)
 
 u8 POKE_TOOL_GetBoxGender(void *p)
 {
-    u32 t = func_02017DBC(p);
+    u32 t = POKE_TOOL_DecodeBoxParam(p);
     u16 a = (u16)func_02017E88(p, 5, 0);
     u32 b = func_02017E88(p, 0x6F, 0);
     u32 c = func_02017E88(p, 0, 0);
 
-    func_02017DE4(p, t);
+    POKE_TOOL_EncodeBoxParam(p, t);
     return POKE_TOOL_CalcGender(a, (u16)b, c);
 }
 
@@ -150,12 +150,12 @@ u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c)
 
 u32 POKE_TOOL_GetStatusCondition(void *p)
 {
-    return func_02017E1C(p, 0x9D, 0);
+    return POKE_TOOL_GetPartyValue(p, 0x9D, 0);
 }
 
 void POKE_TOOL_SetStatusCondition(void *p, u32 v)
 {
-    func_02017E40(p, 0x9D, v);
+    POKE_TOOL_SetPartyValue(p, 0x9D, v);
 }
 
 u32 POKE_TOOL_SetDefaultMoves(void *p)

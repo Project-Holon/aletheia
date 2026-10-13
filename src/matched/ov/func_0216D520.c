@@ -1,5 +1,5 @@
 /*
- * function: func_0216D520
+ * function: FLDMMDL_SysGetBlActCont
  * address:  0x0216D520
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D520.c \
- *       --func func_0216D520 --addr 0x0216D520 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SysGetBlActCont.c \
+ *       --func FLDMMDL_SysGetBlActCont --addr 0x0216D520 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17782.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_0216D520(void *p) { return ((struct Obj17782 *)p)->f24; }
+u32 FLDMMDL_SysGetBlActCont(void *p) { return ((struct Obj17782 *)p)->f24; }

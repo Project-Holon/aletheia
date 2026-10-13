@@ -1,5 +1,5 @@
 /*
- * function: func_02012E7C
+ * function: GAME_DATA_PartSaveMain
  * address:  0x02012E7C
  * packet:   pkt_02012E7C
  * region:   arm9
@@ -25,7 +25,7 @@ extern int func_020351A0(u32 v);
 extern void WIH_DWC_ResumeTimers(void);
 extern void func_02034FB8(u32 a);
 
-int func_02012E7C(char *p, int a1)
+int GAME_DATA_PartSaveMain(char *p, int a1)
 {
     int r;
 

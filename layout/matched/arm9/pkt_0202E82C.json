@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202E82C",
+   "name": "COMM_PLAYER_SUPPORT_GetActiveRecord",
    "address": "0x0202E82C",
    "kind": "game",
    "region": "arm9",

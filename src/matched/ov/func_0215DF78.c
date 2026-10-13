@@ -1,5 +1,5 @@
 /*
- * function: func_0215DF78
+ * function: SCRCMD_MUSICAL_LinkProcCallback
  * address:  0x0215DF78
  * packet:   pkt_0215DF78
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012138  0x02012138  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_021FC81C  0x021FC81C  thumb
  */
 #include "../include/Obj00005.h"
@@ -22,13 +22,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int func_021FC81C();
 
-void func_0215DF78(int a0, int a1, int a2)
+void SCRCMD_MUSICAL_LinkProcCallback(int a0, int a1, int a2)
 {
     int t4;
     void *v0;
@@ -36,12 +36,12 @@ void func_0215DF78(int a0, int a1, int a2)
 
 t4 = a0 + 0;
 a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    v0 = func_0215A5DC((void *)a0);
+    v0 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0215DF82:
 a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
-    v1 = func_0215A5E4((void *)a0);
+    v1 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0215DF8A:
-    a0 = func_02012138(v0);
+    a0 = GAMESYSTEM_GetGameComm(v0);
 loc_0215DF90:
 a2 = *(int *)&((struct Obj00005 *)t4)->f4;
 a0 = ((struct Obj09156 *)a2)->f28;

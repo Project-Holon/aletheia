@@ -1,5 +1,5 @@
 /*
- * function: func_021AFA80
+ * function: SCRCMD_BufferNumber
  * address:  0x021AFA80
  * packet:   pkt_ov021_021AFA80
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_0201EFA4  0x0201EFA4  thumb
  * Addresses are Black-image addresses.
  */
@@ -26,21 +26,21 @@ typedef struct {
     u8 *cur;
 } Script;
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct WordSet;
-extern void *func_02158F74(void *p);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-int func_021AFA80(Script *a, u32 b)
+int SCRCMD_BufferNumber(Script *a, u32 b)
 {
-    u32 x = (u32)func_02158F74(func_0215A5F4((void *)b));
+    u32 x = (u32)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork((void *)b));
     u8 *p = a->cur;
     u32 v = *p;
     u32 e, f;
     a->cur = p + 1;
-    e = func_02159B10(a, (void *)b);
-    f = func_02159B10(a, (void *)b);
+    e = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
+    f = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
     func_0201EFA4((struct WordSet *)x, v, e, f, 0, 1);
     return 0;
 }

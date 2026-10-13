@@ -47,6 +47,17 @@
  *   func_021BD134  0x021BD134  thumb  ov172
  *   GFL_USE_StopAllSe  0x02006210  thumb  arm9
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
+ *   APP_TASKMENU_WIN_Delete  0x02028148  thumb  arm9
+ *   APP_TASKMENU_WIN_Update  0x02028178  thumb  arm9
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
+ *   BMP_WIN_Create  0x020450F0  arm  arm9
+ *   BMP_WIN_TransferChars  0x02045334  arm  arm9
+ *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
+ *   BMP_WIN_ClearScreen  0x020456F8  arm  arm9
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -86,29 +97,29 @@ extern void func_021BCE2C(void *c, char *p, char *r, u8 i);
 extern void func_021BD038(void *c, char *p);
 extern void func_021BD0C4(void *c, char *p, int msg);
 extern void func_021BD134(void *c, char *p, u32 msg);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern u32 func_020221A4(void);
-extern int func_02035C60(void);
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 WIPE_SYS_EndCheck(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-extern void func_02028148(u8 *p);
-extern void func_02028178(u8 *p);
+extern void APP_TASKMENU_WIN_Delete(u8 *p);
+extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void GFL_USE_StopAllSe(void);
 extern void func_020061E4(u32 id);
 extern void func_0200616C(void *arg, int i);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern u32 func_020452E8(struct Descriptor *d);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void *func_02045770(struct Descriptor *w);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 
@@ -135,13 +146,13 @@ int func_021BBF2C(void *a0, char *p)
     switch (W(8)) {
     case 0:
         if (func_021BE02C(a0) == 1)
-            func_0202208C((void *)0, 1, 1, 0, 6, 1, v);
+            WIPE_SYS_Start((void *)0, 1, 1, 0, 6, 1, v);
         else
-            func_0202208C((void *)4, 1, 1, 0, 6, 1, v);
+            WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, v);
         W(8) = 1;
         break;
     case 1:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             u32 *s = (u32 *)func_021BE004(a0);
             if (func_021BE0EC(a0) == 1)
                 W(8) = 11;
@@ -152,19 +163,19 @@ int func_021BBF2C(void *a0, char *p)
         }
         break;
     case 2:
-        func_0202208C((void *)4, 0, 0, 0, 6, 1, v);
+        WIPE_SYS_Start((void *)4, 0, 0, 0, 6, 1, v);
         func_021BE030(a0, 0);
         W(8) = 4;
         break;
     case 3:
         if (func_021B7590((int)a0, (char *)func_021BDFDC(a0)) == 1) {
-            func_0202208C((void *)0, 0, 0, 0, 6, 1, v);
+            WIPE_SYS_Start((void *)0, 0, 0, 0, 6, 1, v);
             func_021BE030(a0, 0);
             W(8) = 4;
         }
         break;
     case 4:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             if (W(0x18) == 0 || W(0x18) == 5)
                 return 4;
             return 1;
@@ -176,7 +187,7 @@ int func_021BBF2C(void *a0, char *p)
         break;
     case 6:
         if (W(0x18) == 0 || W(0x18) == 5) {
-            if (func_0204B98C((struct Actor *)OBJ) == 0) {
+            if (CLACT_IsActorAnimActive((struct Actor *)OBJ) == 0) {
                 func_021B7578((int)a0, (char *)func_021BDFDC(a0));
                 W(0x18) = 0;
                 W(8) = 3;
@@ -194,7 +205,7 @@ int func_021BBF2C(void *a0, char *p)
             W(8) = 7;
             H(0x34) = 0;
             H(0x36) = 0;
-            func_02028148((void *)W(0x1c));
+            APP_TASKMENU_WIN_Delete((void *)W(0x1c));
             W(0x1c) = 0;
         } else {
             t2 = func_021BDFE4(a0);
@@ -203,7 +214,7 @@ int func_021BBF2C(void *a0, char *p)
             W(0x38) = 1;
             H(0x36) = 0;
             func_021B80DC((int)a0, (char *)t2, 3);
-            func_02028148((void *)W(0x1c));
+            APP_TASKMENU_WIN_Delete((void *)W(0x1c));
             W(0x1c) = 0;
             ip = func_021B8B7C(a0, (u8 *)t2);
             for (i = 0; i < 3; i++) {
@@ -218,7 +229,7 @@ int func_021BBF2C(void *a0, char *p)
             ip[0x21] |= 2;
             func_021B8C14(a0, (u8 *)t2);
         }
-        func_0204B878(OBJ, 0xf);
+        CLACT_SetActorAnimSeq(OBJ, 0xf);
         break;
     case 7:
     case 8:
@@ -256,7 +267,7 @@ int func_021BBF2C(void *a0, char *p)
         }
         break;
     case 10:
-        if (func_02035C60() == 1) {
+        if (TOUCHPANEL_GetTrg() == 1) {
             if (((u32 *)func_021BE004(a0))[1] == 2) {
                 func_021B7578((int)a0, (char *)func_021BDFDC(a0));
                 W(0x18) = 0;
@@ -268,17 +279,17 @@ int func_021BBF2C(void *a0, char *p)
                 B(3) = 0xff;
                 func_0201F7A8((void *)W(0x30), 1);
                 d = (struct Descriptor *)W(0x30);
-                func_020456F8(d);
+                BMP_WIN_ClearScreen(d);
                 func_020409B4(func_02045730(d));
                 func_021BE34C(a0);
-                func_0204B878(OBJ, 1);
+                CLACT_SetActorAnimSeq(OBJ, 1);
                 W(0x18) = 4;
             }
         }
         break;
     case 11:
         func_020452E8((struct Descriptor *)W(0x2c));
-        W(0x2c) = func_020450F0(4, 2, 5, 0x1c, 0xe, 0xa, 1);
+        W(0x2c) = BMP_WIN_Create(4, 2, 5, 0x1c, 0xe, 0xa, 1);
         func_021BD0C4(a0, p, 0x29);
         W(8) = 12;
         break;
@@ -288,17 +299,17 @@ int func_021BBF2C(void *a0, char *p)
             W(0x28) = 1;
             func_020061E4(0x73e);
         }
-        if (func_02035C60() == 1 || func_021BE0D0(a0) == 1) {
+        if (TOUCHPANEL_GetTrg() == 1 || func_021BE0D0(a0) == 1) {
             func_020061E4(0x54c);
             func_0201F7A8((void *)W(0x2c), 1);
             d = (struct Descriptor *)W(0x2c);
-            func_020456F8(d);
+            BMP_WIN_ClearScreen(d);
             func_020409B4(func_02045730(d));
             func_020452E8((struct Descriptor *)W(0x2c));
-            W(0x2c) = func_020450F0(4, 1, 0x15, 0x15, 2, 0xa, 1);
+            W(0x2c) = BMP_WIN_Create(4, 1, 0x15, 0x15, 2, 0xa, 1);
             func_021BE0F0(a0);
             if (st[1] == 2 || st[1] == 3) {
-                func_0204B878(OBJ, 0xf);
+                CLACT_SetActorAnimSeq(OBJ, 0xf);
                 if (func_021BE054(a0) < 2)
                     func_021BD134(a0, p, 0x18);
                 W(0x38) = 1;
@@ -307,7 +318,7 @@ int func_021BBF2C(void *a0, char *p)
             } else {
                 W(8) = 5;
                 W(0x18) = 4;
-                func_0204B878(OBJ, 1);
+                CLACT_SetActorAnimSeq(OBJ, 1);
                 v = func_021BE00C(a0);
                 w = func_021BE010(a0);
                 func_02049658((void *)w, 0xb, 4, 0, 0x2800, 0, v);
@@ -325,8 +336,8 @@ int func_021BBF2C(void *a0, char *p)
                 struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
                 if (func_0201C6C4(ps, func_02045770(*(struct Descriptor **)(r + 0x54))) == 0) {
                     d = *(struct Descriptor **)(r + 0x54);
-                    func_02045334(d);
-                    func_02045374((struct Cfg *)d);
+                    BMP_WIN_TransferChars(d);
+                    BMP_WIN_MakeScreen((struct Cfg *)d);
                     func_02041B6C(func_02045730(d));
                     *(u32 *)(r + 0x44) = 0;
                 }
@@ -346,14 +357,14 @@ int func_021BBF2C(void *a0, char *p)
                 if (*(u32 *)(r + 0x1e4) == 1) {
                     q = p + 0x40 + *(u8 *)(r + 0x204) * 0x1c;
                     if (*(u32 *)(r + 0x1ec) == 1 && *(u8 *)(r + 0x203) < 4 && (B(3) == 0xff || B(3) == j))
-                        func_0204B878(*(struct Obj **)(q + 0xc), 0xa);
+                        CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0xc), 0xa);
                     else if (cnt == 3 || B(3) != 0xff || *(u8 *)(r + 0x203) == 4)
-                        func_0204B878(*(struct Obj **)(q + 0xc), 0xb);
+                        CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0xc), 0xb);
                     else
-                        func_0204B878(*(struct Obj **)(q + 0xc), 9);
+                        CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0xc), 9);
                     if (*(u32 *)(r + 0x1f4) == 1) {
                         *(u32 *)(r + 0x1f4) = 0;
-                        func_0204B878(*(struct Obj **)(q + 8), 0x22);
+                        CLACT_SetActorAnimSeq(*(struct Obj **)(q + 8), 0x22);
                     }
                 }
             }
@@ -363,8 +374,8 @@ int func_021BBF2C(void *a0, char *p)
     if (W(0x20) == 1) {
         struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
         if (func_0201C6C4(ps, func_02045770((struct Descriptor *)W(0x2c))) == 0) {
-            func_02045334((struct Descriptor *)W(0x2c));
-            func_02045374((struct Cfg *)W(0x2c));
+            BMP_WIN_TransferChars((struct Descriptor *)W(0x2c));
+            BMP_WIN_MakeScreen((struct Cfg *)W(0x2c));
             func_020409B4(4);
             W(0x20) = 0;
         }
@@ -372,8 +383,8 @@ int func_021BBF2C(void *a0, char *p)
     if (W(0x24) == 1) {
         struct PrintSys *ps = (struct PrintSys *)func_021BE044(a0);
         if (func_0201C6C4(ps, func_02045770((struct Descriptor *)W(0x30))) == 0) {
-            func_02045334((struct Descriptor *)W(0x30));
-            func_02045374((struct Cfg *)W(0x30));
+            BMP_WIN_TransferChars((struct Descriptor *)W(0x30));
+            BMP_WIN_MakeScreen((struct Cfg *)W(0x30));
             func_020409B4(4);
             W(0x24) = 0;
             if (W(0x38) == 1) {
@@ -383,6 +394,6 @@ int func_021BBF2C(void *a0, char *p)
         }
     }
     if (W(0x1c) != 0)
-        func_02028178((void *)W(0x1c));
+        APP_TASKMENU_WIN_Update((void *)W(0x1c));
     return 2;
 }

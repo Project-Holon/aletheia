@@ -1,5 +1,5 @@
 /*
- * function: func_021D0140
+ * function: FLDEFF_BTRAIN_Create
  * address:  0x021D0140
  * packet:   pkt_ov021_021D0140
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DE608     0x021DE608  data  ov021  a4
+ *   sFldeffBtrainFileName     0x021DE608  data  ov021  a4
  *   func_02030734  0x02030734  arm
  */
 
@@ -19,11 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char d_021DE608[];
+extern char sFldeffBtrainFileName[];
 
-void *func_021D0140(u32 v, u32 heap)
+void *FLDEFF_BTRAIN_Create(u32 v, u32 heap)
 {
-    u32 *p = func_02030734(heap, 0x54, 1, d_021DE608, 0x5f);
+    u32 *p = func_02030734(heap, 0x54, 1, sFldeffBtrainFileName, 0x5f);
 
     p[0] = v;
     return p;

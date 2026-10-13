@@ -1,5 +1,5 @@
 /*
- * function: func_021C67D8
+ * function: FIELD_G3DOBJ_SetObjectManualDraw
  * address:  0x021C67D8
  * packet:   pkt_ov021_021C67D8
  * region:   ov021
@@ -31,7 +31,7 @@ typedef struct {
 } Elem;
 typedef struct { u8 pad[0x2c]; } Item;
 typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item *f8; Elem *fC; } Mgr;
-void func_021C67D8(Mgr *m, int idx, int v)
+void FIELD_G3DOBJ_SetObjectManualDraw(Mgr *m, int idx, int v)
 {
     m->fC[idx].b4 = v;
 }

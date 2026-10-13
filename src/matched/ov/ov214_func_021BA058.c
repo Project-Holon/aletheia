@@ -9,12 +9,12 @@
  * status: EXACT*
  * Tail: two zero alignment bytes at 021BA072.
  * symbols:
- *   func_020310C4 0x020310C4 arm
+ *   TCBL_Main 0x020310C4 arm
  *   func_02035630 0x02035630 arm
  */
 #include "../include/Obj14699.h"
 struct Tcbl;
-extern void func_020310C4(struct Tcbl *);
+extern void TCBL_Main(struct Tcbl *);
 typedef unsigned char  u8;
 extern u8 func_02035630(void);
-void func_021BA058(int unused,char *p){func_020310C4(*(struct Tcbl * *)&((struct Obj14699 *)p)->f68);if(func_02035630()==30)func_020310C4(*(struct Tcbl * *)&((struct Obj14699 *)p)->f68);}
+void func_021BA058(int unused,char *p){TCBL_Main(*(struct Tcbl * *)&((struct Obj14699 *)p)->f68);if(func_02035630()==30)TCBL_Main(*(struct Tcbl * *)&((struct Obj14699 *)p)->f68);}

@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF24
+ * function: TOWNMAP_DeleteMarker
  * address: 0x021BAF24
  * packet: pkt_ov072_021BAF24
  * region: ov072
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_02082BCC 0x02082BCC arm
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
-void func_021BAF24(unsigned int *p) { func_0204B3B4((struct Obj *)(*p)); func_02082BCC(p,0,8); }
+void TOWNMAP_DeleteMarker(unsigned int *p) { CLACT_DeleteActor((struct Obj *)(*p)); func_02082BCC(p,0,8); }

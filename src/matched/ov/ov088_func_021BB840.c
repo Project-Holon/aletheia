@@ -1,5 +1,5 @@
 /*
- * function: func_021BB840
+ * function: STARTMENU_RowTileY
  * address:  0x021BB840
  * packet:   pkt_ov088_021BB840
  * region:   ov088
@@ -15,7 +15,7 @@
 
 typedef signed char s8;
 
-int func_021BB840(char *p, int y)
+int STARTMENU_RowTileY(char *p, int y)
 {
     return (s8)(y + ((struct Obj20820 *)p)->f130 / 8);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02159D68
+ * function: MAP_MATRIX_PosToBlock
  * address: 0x02159D68
  * packet: pkt_ov010_02159D68
  * region: ov010
@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two bytes of zero alignment padding at 0x02159D82.
  */
-int func_02159D68(int x)
+int MAP_MATRIX_PosToBlock(int x)
 {
     return x / 4096 / 16 / 32;
 }

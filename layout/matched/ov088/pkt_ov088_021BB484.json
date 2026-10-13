@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB484",
+   "name": "STARTMENU_StartBrightnessEffect",
    "address": "0x021BB484",
    "kind": "game",
    "region": "ov088",

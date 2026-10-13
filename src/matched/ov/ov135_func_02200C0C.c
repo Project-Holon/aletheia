@@ -16,7 +16,7 @@
  *   func_02200DD0 0x02200DD0 thumb ov135
  *   func_02200E48 0x02200E48 thumb ov135
  *   func_021FFD44 0x021FFD44 thumb ov135
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   func_021F9254 0x021F9254 thumb ov135
  */
 #include "../include/Obj10593.h"
@@ -30,6 +30,6 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02200DD0(u8 *);
 extern void func_02200E48(u8 *);
 extern void func_021FFD44(char *p);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021F9254(u8 *);
-int func_02200C0C(u8 *p) { func_02200EB0(p); func_02200CCC(); func_021FFFE8(p,0,0); if(((struct Obj10593 *)p)->f20==11) { func_02040588(4,0); func_02040588(6,0); } func_02200DD0(p); func_02200E48(p); func_021FFD44((char *)p); func_0202208C((void *)3,1,1,0,6,1,72); func_021F9254(p); ((struct Obj10593 *)p)->f28=0; ((struct Obj10593 *)p)->f12E4=0; return 1; }
+int func_02200C0C(u8 *p) { func_02200EB0(p); func_02200CCC(); func_021FFFE8(p,0,0); if(((struct Obj10593 *)p)->f20==11) { func_02040588(4,0); func_02040588(6,0); } func_02200DD0(p); func_02200E48(p); func_021FFD44((char *)p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); func_021F9254(p); ((struct Obj10593 *)p)->f28=0; ((struct Obj10593 *)p)->f12E4=0; return 1; }

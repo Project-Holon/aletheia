@@ -1,5 +1,5 @@
 /*
- * function: func_0216476C
+ * function: EVENTDATA_SYSTEM_GetHiddenItemTable
  * address:  0x0216476C
  * packet:   pkt_ov010_0216476C
  * region:   ov010
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   d_02171534 0x02171534 data ov010 a4
+ *   HiddenItemTable 0x02171534 data ov010 a4
  */
 
-extern char d_02171534[];
+extern char HiddenItemTable[];
 
-char *func_0216476C(unsigned short *n)
+char *EVENTDATA_SYSTEM_GetHiddenItemTable(unsigned short *n)
 {
     *n = 0xB1;
-    return d_02171534;
+    return HiddenItemTable;
 }

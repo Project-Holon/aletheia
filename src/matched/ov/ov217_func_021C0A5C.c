@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020120F4 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   func_021C0AD8 0x021C0AD8 thumb ov217
  *   func_021C0B0C 0x021C0B0C thumb ov217
  *   func_021C0B94 0x021C0B94 thumb ov217
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *);
 extern void func_021C0AD8(u32);
 extern void func_021C0B0C(u8 *);
 extern void func_021C0B94(u32);
@@ -38,7 +38,7 @@ void func_021C0A5C(u8 *p, const struct Ctx *ctx, u32 heap)
 {
     ((struct Obj00791 *)p)->f0 = heap;
     *(const struct Ctx * *)&((struct Obj00791 *)p)->f4 = ctx;
-    ((struct Obj00791 *)p)->f8 = func_020120F4(ctx);
+    ((struct Obj00791 *)p)->f8 = GAMESYSTEM_GetGameData(ctx);
     func_021C0AD8((u32)p);
     func_021C0B0C(p);
     func_021C0B94((u32)p);

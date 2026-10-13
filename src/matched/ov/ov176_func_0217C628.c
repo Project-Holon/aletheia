@@ -37,7 +37,7 @@
  *   func_0200B078 0x0200B078 thumb
  *   func_0200E994 0x0200E994 thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_0217E2C0 0x0217E2C0 thumb ov176
@@ -86,7 +86,7 @@ extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern u32 func_0200E994(void *base, void *key);
 extern void GFL_USE_StopAllSe(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *,u32,u32);
 extern u32 func_02039CB4(struct Link *,u32,u32);
@@ -137,8 +137,8 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
             *state=16;
         }else{func_021E7E0C(*(void ** *)&((struct Obj00241 *)p)->f1C,0);GFL_USE_StopAllSe();*state=21;}
         break;
-    case 16:func_02039C68((struct Link *)func_020399A8(),0x48,0x1f);*state=17;break;
-    case 17:if(func_02039CB4((struct Link *)func_020399A8(),0x48,0x1f))*state=18;break;
+    case 16:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f);*state=17;break;
+    case 17:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f))*state=18;break;
     case 18:if(func_0217E2C0((int)(((struct Obj00241 *)p)->fC),(int)((u32 *)(p+0x1d4))))*state=19;break;
     case 19:if(func_0217E2F8(((struct Obj00241 *)p)->fC,(u32 *)(p+0x1d8)))*state=20;break;
     case 20:
@@ -157,8 +157,8 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     case 31:if((((struct Obj00241 *)p)->f1CC)++>300){((struct Obj00241 *)p)->f1CC=0;*state=32;}break;
     case 32:func_02040588(0,1);func_0217CFE8(p,24,1);*state=40;func_021E8AB4((u32)sys,33);break;
     case 33:func_0217CFE8(p,35,2);*state=40;func_021E8AB4((u32)sys,34);break;
-    case 34:func_02039C68((struct Link *)func_020399A8(),0x47,0x1f);*state=35;break;
-    case 35:if(func_02039CB4((struct Link *)func_020399A8(),0x47,0x1f))*state=36;break;
+    case 34:func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f);*state=35;break;
+    case 35:if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f))*state=36;break;
     case 36:func_02040588(0,1);func_0217CFE8(p,38,2);*state=40;func_021E8AB4((u32)sys,37);break;
     case 37:
         if((((struct Obj00241 *)p)->f1CC)++>60){

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf hidden in a .word run; helper whose address is the
- * witness for the call in ov010 func_02156C4C.
+ * witness for the call in ov010 MUSICAL_DRESSUP_SYS_Main.
  */
 
 typedef unsigned char u8;

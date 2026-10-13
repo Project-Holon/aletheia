@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B5CC
+ * function: BATTLE_REC_CheckSaved
  *
  * 176 bytes, 0x0200B5CC..0x0200B67C, one function, which carries a label in
  * the generated listing.
@@ -29,6 +29,7 @@
  *   BATTLE_REC_IsMagicBroken  0x0200B888  thumb
  *   BATTLE_REC_IsValid  0x0200B8AC  thumb
  *   BATTLE_REC_Decode  0x0200B900  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  */
 
 typedef unsigned char  u8;
@@ -50,7 +51,7 @@ struct BattleRec {
 struct Ctrl;
 struct Sub020072A4Ctrl;
 struct Sub020073D8Ctrl;
-extern u32 func_020072CC(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size);
+extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void BATTLE_REC_Decode(void *a, u32 b, u32 c);
 extern u32  SAVE_CONTROL_LoadExtraSave(void *save, u32 id, u32 heap);
@@ -62,7 +63,7 @@ extern void BATTLE_REC_AllocWork(u32 heap);
 extern void *BATTLE_REC_Create(u32 heap);
 extern struct BattleRec *pBattleRec;
 
-u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)
+u32 BATTLE_REC_CheckSaved(void *a, u32 heap, u32 *dp, u32 id)
 {
     struct BattleRec *p;
     struct RecC4 *r;

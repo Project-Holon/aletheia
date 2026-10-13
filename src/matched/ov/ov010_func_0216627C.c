@@ -1,5 +1,5 @@
 /*
- * function: func_0216627C
+ * function: GAME_BEACON_ACCESSOR_IsDistributionSerialInvalid
  * address:  0x0216627C
  * packet:   pkt_ov010_0216627C
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_0216627C(Rec *r)
+int GAME_BEACON_ACCESSOR_IsDistributionSerialInvalid(Rec *r)
 {
     if (r->f38 >= 0x30)
         return 1;

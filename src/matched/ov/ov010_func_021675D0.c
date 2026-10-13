@@ -1,5 +1,5 @@
 /*
- * function: func_021675D0
+ * function: COMM_PLAYER_Add
  * address:  0x021675D0
  * packet:   pkt_ov010_021675D0
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02194300  0x02194300  thumb  ov021
+ *   FIELD_COMM_ACTOR_CTRL_AddActor  0x02194300  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -47,14 +47,14 @@ typedef struct Src {
     u16 f10;
 } Src;
 
-extern void func_02194300(u16 *a, int b, int c, u16 *d, int e, int f);
+extern void FIELD_COMM_ACTOR_CTRL_AddActor(u16 *a, int b, int c, u16 *d, int e, int f);
 
 static inline void cpy(Blk12 *d, Blk12 *s)
 {
     *d = *s;
 }
 
-void func_021675D0(Work *w, int idx, int a2, Src *src)
+void COMM_PLAYER_Add(Work *w, int idx, int a2, Src *src)
 {
     if (w->obj != 0 && w->e[idx].used != 1) {
         cpy(&w->e[idx].pos, &src->pos);
@@ -64,6 +64,6 @@ void func_021675D0(Work *w, int idx, int a2, Src *src)
         w->e[idx].pend = 0;
         w->e[idx].used = 1;
         w->e[idx].f18 = 0;
-        func_02194300(w->obj, idx, a2, &w->e[idx].f10, (int)(&w->e[idx]), (int)(&w->e[idx].f0c));
+        FIELD_COMM_ACTOR_CTRL_AddActor(w->obj, idx, a2, &w->e[idx].f10, (int)(&w->e[idx]), (int)(&w->e[idx].f0c));
     }
 }

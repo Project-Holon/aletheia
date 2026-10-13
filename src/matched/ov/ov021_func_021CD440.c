@@ -1,5 +1,5 @@
 /*
- * function: func_021CD440
+ * function: FIELD_GetPlayerAreaZoneId
  * address:  0x021CD440
  * packet:   pkt_ov021_021CD440
  * region:   ov021
@@ -10,38 +10,38 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021CD400  0x021CD400  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FIELD_GetAreaZoneId  0x021CD400  thumb  ov021
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
-extern u32 func_021CD400(u32 a, int b, int c);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern u32 FIELD_GetAreaZoneId(u32 a, int b, int c);
 
-int func_021CD440(void *a, u16 *out)
+int FIELD_GetPlayerAreaZoneId(void *a, u16 *out)
 {
     u16 x;
     void *o;
     u16 h;
     u16 w;
 
-    x = func_02188C9C(a);
-    o = func_021A3074(func_02188CB4(a));
-    h = func_0216D83C(o);
-    w = func_0216D86C(o);
-    *out = func_021CD400(x, h, w);
+    x = FIELDMAP_GetZoneId(a);
+    o = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a));
+    h = FLDMMDL_GetGridNowX(o);
+    w = FLDMMDL_GetGridNowZ(o);
+    *out = FIELD_GetAreaZoneId(x, h, w);
     if (*out != 0x1ab)
         return 1;
     *out = x;

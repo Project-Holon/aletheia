@@ -9,28 +9,28 @@
  * status: EXACT
  * symbols:
  *   d_021D4BE4 0x021D4BE4 data a1
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021D4940 0x021D4940 thumb ov124
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
- *   func_02012204 0x02012204 thumb
+ *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  */
 #include "../include/Obj00122.h"
 #include "../include/Obj22992.h"
 typedef unsigned char u8;
 typedef struct { u8 bytes[16]; } Table16;
 extern const Table16 d_021D4BE4;
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern void func_021D4940(char *,int);
 typedef unsigned int   u32;
 struct Ctx;
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_020061E4(u32 a);
-extern u32 func_02012204(const struct Ctx *p);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 void func_021D48A4(char *p)
 {
     Table16 table;
     table = d_021D4BE4;
-    switch (func_02035C08(&table)) {
+    switch (TOUCHPANEL_HitTrg(&table)) {
     case 0:
         if (((struct Obj00122 *)p)->f18 != 0) {
             (((struct Obj00122 *)p)->f18)--;
@@ -53,7 +53,7 @@ void func_021D48A4(char *p)
         func_020061E4(0x551);
         break;
     }
-    if (func_02012204(((struct Obj22992 *)(*(char * *)&((struct Obj00122 *)p)->f4))->f4) == 1) {
+    if (GAMESYSTEM_IsNetOffBySleep(((struct Obj22992 *)(*(char * *)&((struct Obj00122 *)p)->f4))->f4) == 1) {
         APP_TASKMENU_WIN_SetDecide(((struct Obj00122 *)p)->f40,1);
         *(int *)&((struct Obj00122 *)p)->f10 = 2;
     }

@@ -11,24 +11,24 @@ typedef struct WeatherZoneFogWork {
 } WeatherZoneFogWork;
 
 /* Weather task services (ov021 weather_task.c) used by the clear weather kind. */
-extern void *func_021A21B8(WeatherTaskSys *task);
-extern int func_021A2108(WeatherTaskSys *task, int arcId, int memberId);
-extern int func_021A2114(WeatherTaskSys *task, int arcId, unsigned int memberId);
-extern void func_021A2120(WeatherTaskSys *task, int phase);
-extern void func_021A22E0(WeatherTaskSys *task, int slope, int offset, int phase);
-extern void func_021A231C(WeatherTaskSys *task, int phase);
-extern void func_021A232C(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
-extern void func_021A2390(WeatherTaskSys *task, int endOffset, int frames, int mode);
-extern int func_021A23B0(WeatherTaskSys *task);
-extern int func_021A23D4(WeatherTaskSys *task);
-extern int func_021A23E8(WeatherTaskSys *task);
-extern int func_021A23F4(WeatherTaskSys *task);
-extern int func_021A2400(WeatherTaskSys *task);
-extern int func_021A240C(WeatherTaskSys *task);
-extern int func_021A2418(WeatherTaskSys *task);
+extern void *WEATHER_TASK_GetWorkBuffer(WeatherTaskSys *task);
+extern int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
+extern int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, unsigned int memberId);
+extern void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
+extern void WEATHER_TASK_InitFog(WeatherTaskSys *task, int slope, int offset, int phase);
+extern void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
+extern void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
+extern void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
+extern int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
+extern int WEATHER_TASK_IsZoneFogActive(WeatherTaskSys *task);
+extern int WEATHER_TASK_CheckZoneFogA(WeatherTaskSys *task);
+extern int WEATHER_TASK_CheckZoneFogB(WeatherTaskSys *task);
+extern int WEATHER_TASK_GetZoneFogC(WeatherTaskSys *task);
+extern int WEATHER_TASK_GetZoneFogD(WeatherTaskSys *task);
+extern int WEATHER_TASK_GetZoneFogE(WeatherTaskSys *task);
 
 /* Stages of the clear weather kind (WeatherKindDef callbacks: task, variant, heap id). */
-int func_021EE740(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_CLEAR_Begin(WeatherTaskSys *task, int variant, int heapId);
 int func_021EE788(WeatherTaskSys *task, int variant, int heapId);
 int func_021EE7F0(WeatherTaskSys *task, int variant, int heapId);
 int func_021EE838(WeatherTaskSys *task, int variant, int heapId);

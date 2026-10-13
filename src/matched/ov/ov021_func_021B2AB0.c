@@ -1,5 +1,5 @@
 /*
- * function: func_021B2AB0
+ * function: SCRCMD_SCREENEFFECTS_StartMapEffectEvent
  * address:  0x021B2AB0
  * packet:   pkt_ov021_021B2AB0
  * region:   ov021
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02158F50  0x02158F50  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021C0AA0  0x021C0AA0  thumb  ov021
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_GetEvent  0x02158F50  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   EVENT_RECOVERY_CreatePartyEvent  0x021C0AA0  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
-extern void *func_02158F50(void *p);
-extern void *func_021C0AA0(void *p, int a1);
-extern void func_0215897C(void *vm, void *task);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetEvent(void *p);
+extern void *EVENT_RECOVERY_CreatePartyEvent(void *p, int a1);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B2AB0(u32 a, u32 b)
+int SCRCMD_SCREENEFFECTS_StartMapEffectEvent(u32 a, u32 b)
 {
-    void *d = func_0215A5DC((void *)b);
-    void *s = func_0215A5F4((void *)b);
+    void *d = SCRCMD_WORK_GetGameSystem((void *)b);
+    void *s = SCRCMD_WORK_GetScriptWork((void *)b);
 
-    func_0215897C(s, func_021C0AA0(d, (int)func_02158F50((void *)s)));
+    SCRIPT_SYS_CallEvent(s, EVENT_RECOVERY_CreatePartyEvent(d, (int)SCRIPT_WORK_GetEvent((void *)s)));
     return 1;
 }

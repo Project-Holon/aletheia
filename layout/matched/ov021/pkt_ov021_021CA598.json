@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA598",
+   "name": "BSUBWAY_SCR_CmdDeleteWork",
    "address": "0x021CA598",
    "kind": "game",
    "region": "ov021",

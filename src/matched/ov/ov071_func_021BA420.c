@@ -1,5 +1,5 @@
 /*
- * function: func_021BA420
+ * function: MONOLITH_TOOL_LoadInfoPalette
  * address: 0x021BA420
  * packet: pkt_ov071_021BA420
  * region: ov071
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(unsigned);
-void func_021BA420(char *p) {
+void MONOLITH_TOOL_LoadInfoPalette(char *p) {
     func_020498F4((void *)(((struct Obj20764 *)p)->f30),13,2,0,0,1,0x61);
     func_020409B4(0); func_020409B4(2);
 }

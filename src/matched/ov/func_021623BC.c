@@ -1,5 +1,5 @@
 /*
- * function: func_021623BC
+ * function: EVENTDATA_SYSTEM_Delete
  * address:  0x021623BC
  * packet:   pkt_021623BC
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj09161.h"
@@ -19,22 +19,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02049238(void *arc);
+extern void ARC_TOOL_DeleteHandle(void *arc);
 extern int func_020307B0();
 
-int func_021623BC(int a0)
+int EVENTDATA_SYSTEM_Delete(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
 a0 = ((struct Obj09161 *)t4)->f4;
-    func_02049238((void *)a0);
+    ARC_TOOL_DeleteHandle((void *)a0);
 loc_021623C6:
 a0 = ((struct Obj09161 *)t4)->f8;
-    func_02049238((void *)a0);
+    ARC_TOOL_DeleteHandle((void *)a0);
 loc_021623CC:
 a0 = ((struct Obj09161 *)t4)->fC;
-    func_02049238((void *)a0);
+    ARC_TOOL_DeleteHandle((void *)a0);
 loc_021623D2:
 a0 = t4 + 0;
     a0 = func_020307B0(a0);

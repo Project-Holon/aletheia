@@ -10,8 +10,8 @@
  * ABI: 93D4 receives full entry index in r1 without caller-side truncation;
  *      widen its legacy s16 declaration. FA7C explicitly narrows r1 to u16.
  * symbols:
- *   func_021B93B8 0x021B93B8 thumb ov067
- *   func_021B93D4 0x021B93D4 thumb ov067
+ *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb ov067
+ *   FRAME_LIST_SetCursor 0x021B93D4 thumb ov067
  *   func_021BFA7C 0x021BFA7C thumb ov210
  *   func_021BF618 0x021BF618 thumb ov210
  */
@@ -20,13 +20,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct S;
-extern int func_021B93B8(char *);
-extern void func_021B93D4(struct S *, int);
+extern int FRAME_LIST_GetScrollPos(char *);
+extern void FRAME_LIST_SetCursor(struct S *, int);
 extern void func_021BFA7C(char *p, int i, int flag);
 extern void func_021BF618(char *p);
 void func_021BE290(u8 *p, int index)
 {
-    int sum = index + func_021B93B8(*(char * *)&((struct Obj10919 *)p)->f1E0);
+    int sum = index + FRAME_LIST_GetScrollPos(*(char * *)&((struct Obj10919 *)p)->f1E0);
     u8 *data = *(u8 * *)&((struct Obj25612 *)(*(u8 * *)&((struct Obj10919 *)p)->f0))->f8;
     if (data[6] == sum) {
         data[6] = 255;
@@ -35,6 +35,6 @@ void func_021BE290(u8 *p, int index)
         data[6] = sum;
         func_021BFA7C((char *)p, (u16)index, 1);
     }
-    func_021B93D4(*(struct S * *)&((struct Obj10919 *)p)->f1E0, index);
+    FRAME_LIST_SetCursor(*(struct S * *)&((struct Obj10919 *)p)->f1E0, index);
     func_021BF618((char *)p);
 }

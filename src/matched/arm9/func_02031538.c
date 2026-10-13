@@ -15,7 +15,7 @@
  *
  * Build a 0x20-byte object from the allocator and fill its tail with the
  * three parameters.  The allocator is three-parameter with the size second
- * (see func_0203159C), plus __FILE__/__LINE__; 0x162 does not fit an ARM
+ * (see PROCSYS_AllocProcWork), plus __FILE__/__LINE__; 0x162 does not fit an ARM
  * immediate so it costs its own pool word loaded early into ip.
  *
  * Verified with:

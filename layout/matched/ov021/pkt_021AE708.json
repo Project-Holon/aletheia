@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AE708",
+   "name": "EVENT_TRAINER_EYE_StepRelease",
    "address": "0x021AE708",
    "kind": "game",
    "region": "ov021",

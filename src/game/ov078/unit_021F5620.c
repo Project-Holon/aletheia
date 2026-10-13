@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F5620.c
  * unit:     yes
- * function: func_021F5620, func_021F565C, func_021F5698, func_021F5748, func_021F57D4, func_021F5800, func_021F5950
+ * function: ENCEFF_BuildRippleKind02, ENCEFF_BuildRippleKind36, ENCEFF_StartRipple, ENCEFF_RippleEventMain, ENCEFF_UpdateRipple, ENCEFF_DrawRipple, ENCEFF_StepRipple
  * address:  0x021F5620
  * region:   ov078
  * compiler: dsi/1.1p1
@@ -13,25 +13,25 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021F5BC8 0x021F5BC8 data a4
- *   func_02189A08 0x02189A08 thumb ov021
- *   func_021CF59C 0x021CF59C thumb ov021
- *   func_021F5260 0x021F5260 thumb ov075
- *   d_021F5BBC 0x021F5BBC data a4
- *   func_021F529C 0x021F529C thumb ov075
- *   func_021F5AFC 0x021F5AFC thumb ov078
- *   func_0201210C  0x0201210C  thumb
- *   func_021CF52C  0x021CF52C  thumb  ov021
+ *   gRippleCameraPos 0x021F5BC8 data a4
+ *   FIELDMAP_GetEncEff 0x02189A08 thumb ov021
+ *   ENCEFF_LoadOverlay4B 0x021CF59C thumb ov021
+ *   ENCEFF_StartScreenTexEffectFlash 0x021F5260 thumb ov075
+ *   gRippleBurstCameraPos 0x021F5BBC data a4
+ *   ENCEFF_StartScreenTexEffect 0x021F529C thumb ov075
+ *   ENCEFF_StartRippleBurst 0x021F5AFC thumb ov078
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   ENCEFF_AllocWork  0x021CF52C  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E4  0x020124E4  thumb
- *   func_021CF560  0x021CF560  thumb  ov021
- *   func_0204E720  0x0204E720  arm
- *   func_0204E804  0x0204E804  arm
- *   func_021CF51C 0x021CF51C thumb ov021
- *   func_0207DD24 0x0207DD24 arm
- *   func_021F52D8 0x021F52D8 thumb ov075
- *   d_021F5BB0     0x021F5BB0  data  a4
- *   d_021F5BD4     0x021F5BD4  data  a4
+ *   ENCEFF_GetWork  0x021CF560  thumb  ov021
+ *   FADE_Start  0x0204E720  arm
+ *   FADE_IsActive  0x0204E804  arm
+ *   ENCEFF_GetEffect 0x021CF51C thumb ov021
+ *   G3X_SetClearColor 0x0207DD24 arm
+ *   ENCEFF_DrawScreenTexEffect 0x021F52D8 thumb ov075
+ *   gRippleTranslate     0x021F5BB0  data  a4
+ *   gRippleScale     0x021F5BD4  data  a4
  */
 #include "../ov077/enceff_base_types.h"
 #include "../ov077/enceff_g3_inline.h"
@@ -43,51 +43,51 @@ struct EncEffWork;
 struct FieldMap;
 struct Desc;
 
-extern struct EncEffWork *func_02189A08(struct FieldMap *fieldMap);
-extern void func_021CF59C(struct EncEffWork *eff);
-extern void *func_021F5260(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
-extern void *func_021F529C(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
-extern void *func_021F5AFC(void *gameSystem);
-extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
-extern void *func_021CF52C(struct EncEffWork *eff, u32 size, u32 heapId);
+extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
+extern void ENCEFF_LoadOverlay4B(struct EncEffWork *eff);
+extern void *ENCEFF_StartScreenTexEffectFlash(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
+extern void *ENCEFF_StartScreenTexEffect(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
+extern void *ENCEFF_StartRippleBurst(void *gameSystem);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern struct GameSystem *func_020124E4(struct GameEvent *event);
-extern EncEffRipple *func_021CF560(struct EncEffWork *eff);
-extern void func_0204E720(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
-extern int func_0204E804(void);
-extern struct GameEvent *func_021CF51C(struct EncEffWork *eff);
-extern void func_0207DD24(u16 color, int alpha, int depth, int polygonId, int clearImage);
-extern void func_021F52D8(struct GameEvent *effect);
-void *func_021F5620(void *gameSystem, struct FieldMap *fieldMap);
-void *func_021F565C(void *gameSystem, struct FieldMap *fieldMap);
-void *func_021F5698(void *gameSystem);
-int func_021F5748(struct GameEvent *event, int *state);
-void func_021F57D4(struct EncEffWork *eff);
-void func_021F5800(EncEffRipple *ripple);
-int func_021F5950(EncEffRipple *ripple);
-extern const VecFx32 d_021F5BC8;
-extern const VecFx32 d_021F5BBC;
-extern const VecFx32 d_021F5BB0;
-extern const VecFx32 d_021F5BD4;
+extern EncEffRipple *ENCEFF_GetWork(struct EncEffWork *eff);
+extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
+extern int FADE_IsActive(void);
+extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
+extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int clearImage);
+extern void ENCEFF_DrawScreenTexEffect(struct GameEvent *effect);
+void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap);
+void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap);
+void *ENCEFF_StartRipple(void *gameSystem);
+int ENCEFF_RippleEventMain(struct GameEvent *event, int *state);
+void ENCEFF_UpdateRipple(struct EncEffWork *eff);
+void ENCEFF_DrawRipple(EncEffRipple *ripple);
+int ENCEFF_StepRipple(EncEffRipple *ripple);
+extern const VecFx32 gRippleCameraPos;
+extern const VecFx32 gRippleBurstCameraPos;
+extern const VecFx32 gRippleTranslate;
+extern const VecFx32 gRippleScale;
 
 
 
-void *func_021F5620(void *gameSystem, struct FieldMap *fieldMap) {
-    VecFx32 cameraPos = d_021F5BC8;
-    func_021CF59C(func_02189A08(fieldMap));
-    return func_021F5260(gameSystem, &cameraPos, func_021F5698, func_021F5800);
+void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap) {
+    VecFx32 cameraPos = gRippleCameraPos;
+    ENCEFF_LoadOverlay4B(FIELDMAP_GetEncEff(fieldMap));
+    return ENCEFF_StartScreenTexEffectFlash(gameSystem, &cameraPos, ENCEFF_StartRipple, ENCEFF_DrawRipple);
 }
 
 
 
 /*
  * note (2026-10-05, wD4 lane17): still MATCH, only the ov021 callee 021CF59C (12-byte thunk, no label) is unresolved. Nothing to change in the source.
- * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF59C (no label witness). It is a 12-byte ARM-style thunk inside the ov021_func_021CF580 extent (ldr r1,[pc]; ldr r3,[pc]; bx r3 with r1 = 0x4B, target func_021CF564): veneer-like, not C. Needs a label in layout.
+ * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF59C (no label witness). It is a 12-byte ARM-style thunk inside the ov021_func_021CF580 extent (ldr r1,[pc]; ldr r3,[pc]; bx r3 with r1 = 0x4B, target ENCEFF_LoadOverlay): veneer-like, not C. Needs a label in layout.
  */
-void *func_021F565C(void *gameSystem, struct FieldMap *fieldMap) {
-    VecFx32 cameraPos = d_021F5BBC;
-    func_021CF59C(func_02189A08(fieldMap));
-    return func_021F529C(gameSystem, &cameraPos, func_021F5AFC, func_021F5800);
+void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap) {
+    VecFx32 cameraPos = gRippleBurstCameraPos;
+    ENCEFF_LoadOverlay4B(FIELDMAP_GetEncEff(fieldMap));
+    return ENCEFF_StartScreenTexEffect(gameSystem, &cameraPos, ENCEFF_StartRippleBurst, ENCEFF_DrawRipple);
 }
 
 
@@ -96,14 +96,14 @@ void *func_021F565C(void *gameSystem, struct FieldMap *fieldMap) {
 /*
  * Addresses are Black-image addresses.
  */
-void *func_021F5698(void *gameSystem)
+void *ENCEFF_StartRipple(void *gameSystem)
 {
     EncEffRipple *ripple;
     void *event;
     int i;
 
-    ripple = func_021CF52C(func_02189A08(func_0201210C(gameSystem)), sizeof(EncEffRipple), 0x50);
-    event = func_020122C0(gameSystem, 0, func_021F5748, 0);
+    ripple = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
+    event = func_020122C0(gameSystem, 0, ENCEFF_RippleEventMain, 0);
     ripple->count = 7;
     ripple->wait = 0;
     ripple->period = 8;
@@ -125,20 +125,20 @@ void *func_021F5698(void *gameSystem)
 
 
 
-int func_021F5748(struct GameEvent *event, int *state)
+int ENCEFF_RippleEventMain(struct GameEvent *event, int *state)
 {
     EncEffRipple *ripple;
 
-    ripple = func_021CF560(func_02189A08(func_0201210C(func_020124E4(event))));
+    ripple = ENCEFF_GetWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(func_020124E4(event))));
     switch (*state) {
     case 0:
         if (ripple->startDelay != 0) {
             (ripple->startDelay)--;
         } else if (ripple->fadeStarted == 0) {
-            func_0204E720(ripple->fadeScreens, 0, 0x10, 0);
+            FADE_Start(ripple->fadeScreens, 0, 0x10, 0);
             ripple->fadeStarted = 1;
         }
-        if (func_021F5950(ripple) != 0) {
+        if (ENCEFF_StepRipple(ripple) != 0) {
             ripple->wait = 6;
             (*state)++;
         }
@@ -146,7 +146,7 @@ int func_021F5748(struct GameEvent *event, int *state)
     case 1:
         if (ripple->wait != 0) {
             (ripple->wait)--;
-        } else if (func_0204E804() == 0) {
+        } else if (FADE_IsActive() == 0) {
             return 1;
         }
         break;
@@ -159,10 +159,10 @@ int func_021F5748(struct GameEvent *event, int *state)
 /*
  * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF51C (no label witness). Filed src/matched/ov/ov021_func_021CF51C.c (EXACT, 4-byte accessor); it needs a manifest shard to count as a witness.
  */
-void func_021F57D4(struct EncEffWork *eff) {
-    struct GameEvent *effect = func_021CF51C(eff);
-    func_0207DD24(0x4210,31,0x7FFF,0,0);
-    func_021F52D8(effect);
+void ENCEFF_UpdateRipple(struct EncEffWork *eff) {
+    struct GameEvent *effect = ENCEFF_GetEffect(eff);
+    G3X_SetClearColor(0x4210,31,0x7FFF,0,0);
+    ENCEFF_DrawScreenTexEffect(effect);
 }
 
 
@@ -170,7 +170,7 @@ void func_021F57D4(struct EncEffWork *eff) {
 /*
  * volatile: G3 geometry FIFO registers 0x04000444-0x04000504, written by the SDK inlines (stores only)
  *
- * Draws the 33 x 25 vertex grid func_021F5698 / func_021F5AFC build as
+ * Draws the 33 x 25 vertex grid ENCEFF_StartRipple / ENCEFF_StartRippleBurst build as
  * quad strips.
  * Levers: the six vertex fields are loaded into locals before the stores
  * (inline loads give an 0x30 frame); j declared before the row pointer
@@ -181,7 +181,7 @@ void func_021F57D4(struct EncEffWork *eff) {
  *
  * Addresses are Black-image addresses.
  */
-void func_021F5800(EncEffRipple *ripple)
+void ENCEFF_DrawRipple(EncEffRipple *ripple)
 {
     VecFx32 translate;
     VecFx32 scale;
@@ -197,8 +197,8 @@ void func_021F5800(EncEffRipple *ripple)
     REG_SPE_EMI = 0x4210;
     REG_LIGHT_COLOR = 0x7FFF;
     REG_POLYGON_ATTR = 0x001F00C1;
-    translate = d_021F5BB0;
-    scale = d_021F5BD4;
+    translate = gRippleTranslate;
+    scale = gRippleScale;
     G3_Translate(translate.x, translate.y, translate.z);
     G3_Scale(scale.x, scale.y, scale.z);
     for (; j < RIPPLE_ROWS - 1; j++) {
@@ -226,9 +226,9 @@ void func_021F5800(EncEffRipple *ripple)
 
 
 /*
- * One step of the ripple over the 33 x 25 grid func_021F5698 /
- * func_021F5AFC allocate (0x19E0 bytes); the vertex list is drawn by
- * func_021F5800. Returns 1 when the effect is over.
+ * One step of the ripple over the 33 x 25 grid ENCEFF_StartRipple /
+ * ENCEFF_StartRippleBurst allocate (0x19E0 bytes); the vertex list is drawn by
+ * ENCEFF_DrawRipple. Returns 1 when the effect is over.
  * Levers: period/next are u16 (ldrh); each neighbour coordinate is a
  * temporary (x = col - 1, ...) so the +-1 is not folded into the load
  * offset; the element pointer p is a named local declared before col/row
@@ -236,7 +236,7 @@ void func_021F5800(EncEffRipple *ripple)
  *
  * Addresses are Black-image addresses.
  */
-int func_021F5950(EncEffRipple *ripple)
+int ENCEFF_StepRipple(EncEffRipple *ripple)
 {
     s16 height[RIPPLE_VERTEX_COUNT];
     int i;

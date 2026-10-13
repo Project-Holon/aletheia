@@ -1,5 +1,5 @@
 /*
- * function: func_0216D9E4
+ * function: FLDMMDL_SysResumeMove
  * address:  0x0216D9E4
  * packet:   pkt_ov010_0216D9E4
  * region:   ov010
@@ -9,29 +9,29 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Releases every record func_0216DD1C yields, then func_0216D4E4(c, 0x20).
+ * Releases every record FLDMMDL_SysSearchUseMmdl yields, then FLDMMDL_SysClearStatusBit(c, 0x20).
  *
  * symbols:
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0216DB04  0x0216DB04  thumb  ov010
- *   func_0216D4E4  0x0216D4E4  thumb  ov010
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_OffMoveBitMovePause  0x0216DB04  thumb  ov010
+ *   FLDMMDL_SysClearStatusBit  0x0216D4E4  thumb  ov010
  */
 
 typedef unsigned int u32;
 
 struct Ctx;
 struct Rec;
-extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
-extern char *func_0216DB04(void *a0);
-extern u32 *func_0216D4E4(u32 *p, u32 v);
+extern int FLDMMDL_SysSearchUseMmdl(struct Ctx *c, struct Rec **out, u32 *iter);
+extern char *FLDMMDL_OffMoveBitMovePause(void *a0);
+extern u32 *FLDMMDL_SysClearStatusBit(u32 *p, u32 v);
 
-u32 *func_0216D9E4(void *c)
+u32 *FLDMMDL_SysResumeMove(void *c)
 {
     u32 iter;
     void *r;
 
     iter = 0;
-    while (func_0216DD1C(c, (struct Rec **)(&r), &iter) == 1)
-        func_0216DB04(r);
-    return func_0216D4E4(c, 0x20);
+    while (FLDMMDL_SysSearchUseMmdl(c, (struct Rec **)(&r), &iter) == 1)
+        FLDMMDL_OffMoveBitMovePause(r);
+    return FLDMMDL_SysClearStatusBit(c, 0x20);
 }

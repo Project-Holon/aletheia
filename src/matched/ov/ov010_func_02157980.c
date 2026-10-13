@@ -1,5 +1,5 @@
 /*
- * function: func_02157980
+ * function: DELIVERY_IRC_RecvRequest
  * address: 0x02157980
  * packet: pkt_ov010_02157980
  * region: ov010
@@ -16,6 +16,6 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 a, b; } V;
 typedef struct { u8 pad[0x67c]; V v; } D_02157980;
-void func_02157980(int x, int y, const V *s, D_02157980 *d);
+void DELIVERY_IRC_RecvRequest(int x, int y, const V *s, D_02157980 *d);
 
-void func_02157980(int x, int y, const V *s, D_02157980 *d) { d->v = *s; }
+void DELIVERY_IRC_RecvRequest(int x, int y, const V *s, D_02157980 *d) { d->v = *s; }

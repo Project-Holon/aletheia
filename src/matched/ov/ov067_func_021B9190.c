@@ -1,5 +1,5 @@
 /*
- * function: func_021B9190
+ * function: FRAME_LIST_GetRowPosition
  * address: 0x021B9190
  * packet: pkt_ov067_021B9190
  * region: ov067
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
-signed char func_021B9190(const signed char *p, int step)
+signed char FRAME_LIST_GetRowPosition(const signed char *p, int step)
 {
     signed char value, delta;
     value = p[3];

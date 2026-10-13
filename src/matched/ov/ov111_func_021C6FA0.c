@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B878  0x0204B878  arm
- *   func_0204B9A0  0x0204B9A0  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *
  * Addresses are Black-image addresses.
@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
 typedef struct {
@@ -34,7 +34,7 @@ typedef struct {
 
 void func_021C6FA0(Work *p, int idx, u8 a, u8 b)
 {
-    func_0204B878(p->anim[idx], a);
-    func_0204B9A0(p->anim[idx]);
+    CLACT_SetActorAnimSeq(p->anim[idx], a);
+    CLACT_RestartActorAnim(p->anim[idx]);
     func_0204B3DC(p->anim[idx], b);
 }

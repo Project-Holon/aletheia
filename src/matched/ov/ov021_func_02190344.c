@@ -1,5 +1,5 @@
 /*
- * function: func_02190344
+ * function: FIELD_MSGBG_ReleaseBg
  * address:  0x02190344
  * packet:   pkt_ov021_02190344
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02194798  0x02194798  thumb
+ *   TALKMSGWIN_Delete  0x02194798  thumb
  */
 #include "../include/Obj04205.h"
 
@@ -21,14 +21,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02194798(unsigned char *a);
+extern void TALKMSGWIN_Delete(unsigned char *a);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 
-void func_02190344(u8 *a)
+void FIELD_MSGBG_ReleaseBg(u8 *a)
 {
     if (((struct Obj04205 *)a)->f15C != 0) {
-        func_02194798(((struct Obj04205 *)a)->f15C);
+        TALKMSGWIN_Delete(((struct Obj04205 *)a)->f15C);
         ((struct Obj04205 *)a)->f15C = 0;
     }
     if (((struct Obj04205 *)a)->f2 != 0xff) {

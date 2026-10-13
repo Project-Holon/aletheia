@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFB4C",
+   "name": "BTL_HANDLER_ITEM_AirBalloonEnterField",
    "address": "0x021DFB4C",
    "kind": "game",
    "region": "ov093",

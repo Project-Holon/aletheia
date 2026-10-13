@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218C040",
+   "name": "FIELD_BUILDMODEL_InitAnimSetAll",
    "address": "0x0218C040",
    "kind": "game",
    "region": "ov021",

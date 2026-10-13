@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EFEC0",
+   "name": "DOWSING_CreateSearch",
    "address": "0x021EFEC0",
    "kind": "game",
    "region": "ov033",

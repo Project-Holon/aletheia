@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7804",
+   "name": "ITEMMENU_TaskTossAskQuantity",
    "address": "0x021B7804",
    "kind": "game",
    "region": "ov070",

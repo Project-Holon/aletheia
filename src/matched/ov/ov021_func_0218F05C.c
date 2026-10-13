@@ -1,5 +1,5 @@
 /*
- * function: func_0218F05C
+ * function: FIELD_CAMERA_RestartDelay
  * address:  0x0218F05C
  * packet:   pkt_ov021_0218F05C
  * region:   ov021
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj01653.h"
 
-void func_0218F05C(unsigned char *a)
+void FIELD_CAMERA_RestartDelay(unsigned char *a)
 {
     int *p = *(int * *)&((struct Obj01653 *)a)->fEC;
     int i;

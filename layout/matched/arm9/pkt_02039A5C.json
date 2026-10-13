@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02039ACC",
+   "name": "GFL_NET_HANDLE_CheckNegotiation",
    "address": "0x02039ACC",
    "kind": "game",
    "region": "arm9",

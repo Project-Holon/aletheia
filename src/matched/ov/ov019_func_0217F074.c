@@ -1,5 +1,5 @@
 /*
- * function: func_0217F074
+ * function: UNION_MSG_CloseAllWindows
  * address: 0x0217F074
  * packet: pkt_ov019_0217F074
  * region: ov019
@@ -9,25 +9,25 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0217F7B8 0x0217F7B8 thumb ov019
- *   func_0217F624 0x0217F624 thumb ov019
- *   func_0217F24C 0x0217F24C thumb ov019
- *   func_0217F2F4 0x0217F2F4 thumb ov019
- *   func_0217F128 0x0217F128 thumb ov019
+ *   UNION_MSG_DeleteRegulationWindow 0x0217F7B8 thumb ov019
+ *   UNION_MSG_DeleteTitleWindow 0x0217F624 thumb ov019
+ *   UNION_MSG_DeleteYesNo 0x0217F24C thumb ov019
+ *   UNION_MSG_DeleteMenu 0x0217F2F4 thumb ov019
+ *   UNION_MSG_DeleteTalkWindow 0x0217F128 thumb ov019
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0217F7B8(char *p);
-extern void func_0217F624(char *p);
-extern void func_0217F24C(u8 *p);
-extern void func_0217F2F4(u8 *p);
-extern void func_0217F128(unsigned char *base);
-void func_0217F074(void *p)
+extern void UNION_MSG_DeleteRegulationWindow(char *p);
+extern void UNION_MSG_DeleteTitleWindow(char *p);
+extern void UNION_MSG_DeleteYesNo(u8 *p);
+extern void UNION_MSG_DeleteMenu(u8 *p);
+extern void UNION_MSG_DeleteTalkWindow(unsigned char *base);
+void UNION_MSG_CloseAllWindows(void *p)
 {
-    func_0217F7B8(p);
-    func_0217F624(p);
-    func_0217F24C(p);
-    func_0217F2F4(p);
-    func_0217F128(p);
+    UNION_MSG_DeleteRegulationWindow(p);
+    UNION_MSG_DeleteTitleWindow(p);
+    UNION_MSG_DeleteYesNo(p);
+    UNION_MSG_DeleteMenu(p);
+    UNION_MSG_DeleteTalkWindow(p);
 }

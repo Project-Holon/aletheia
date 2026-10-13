@@ -10,6 +10,8 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   APP_TASKMENU_WIN_ClearScreen  0x0202843C  thumb  arm9
+ *   PALANM_BlendChannel  0x02021FD8  thumb  arm9
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb  arm9
  */
 #include "../include/Obj00275.h"
 typedef unsigned char u8;
@@ -20,9 +22,9 @@ struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 struct Chan02021FD8;
-extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
 void func_021C48FC(u8 *p)
 {
@@ -41,8 +43,8 @@ void func_021C48FC(u8 *p)
     t.y = 6;
     t.w = 8;
     t.h = 3;
-    ((struct Obj00275 *)p)->f10C = func_02027778((struct TaskMenuTmpl *)(&t), ((struct Obj00275 *)p)->f108);
-    func_02021FD8(((struct Obj00275 *)p)->f38, 0, 0, 48, 10, 0);
+    ((struct Obj00275 *)p)->f10C = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct Obj00275 *)p)->f108);
+    PALANM_BlendChannel(((struct Obj00275 *)p)->f38, 0, 0, 48, 10, 0);
     APP_TASKMENU_WIN_ClearScreen(((struct Obj00275 *)p)->f128);
     APP_TASKMENU_WIN_ClearScreen(((struct Obj00275 *)p)->f12C);
 }

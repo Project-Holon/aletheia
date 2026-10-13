@@ -25,7 +25,7 @@
  * symbols:
  *   func_021BC3B4 0x021BC3B4 thumb
  *   func_021BC3B8 0x021BC3B8 thumb
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02040618 0x02040618 arm
  *   func_020414AC 0x020414AC arm
@@ -93,7 +93,7 @@ struct MsgBank;
 struct S;
 extern int func_021BC3B4(int *p);
 extern int func_021BC3B8(char *p);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020414AC(u8 a);
@@ -148,7 +148,7 @@ int func_021BEB18(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn
     switch (*state) {
     case 0:
         *state = 1;
-        p->font = func_0201D7EC(0x17, 0, 1, 0, h->heap);
+        p->font = GF_FONT_Create(0x17, 0, 1, 0, h->heap);
         p->msg0 = func_02045B38(1, 2, 0x104, h->heap);
         p->msg1 = func_02045B38(1, 2, 0xf5, h->heap);
         p->msg2 = func_02045B38(1, 2, 0x10c, h->heap);

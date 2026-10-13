@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_021F8A78  0x021F8A78  thumb  ov094
- *   func_021EE224  0x021EE224  thumb  ov093
+ *   BTLV_SCU_NoOp  0x021EE224  thumb  ov093
  */
 #include "../include/Obj21567.h"
 extern void func_021F8A78(void);
-extern void func_021EE224(char *p);
+extern void BTLV_SCU_NoOp(char *p);
 
 void func_021EA824(char *p)
 {
     func_021F8A78();
-    func_021EE224(*(char * *)&((struct Obj21567 *)p)->f17C);
+    BTLV_SCU_NoOp(*(char * *)&((struct Obj21567 *)p)->f17C);
 }

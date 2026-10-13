@@ -1,5 +1,5 @@
 /*
- * function: func_021B8AF4
+ * function: ITEMMENU_ReturnToBagMain
  * address: 0x021B8AF4
  * packet: pkt_ov070_021B8AF4
  * region: ov070
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6100 0x021B6100 thumb ov070
- *   func_021B7250 0x021B7250 thumb ov070
+ *   ITEMMENU_SetTask 0x021B6100 thumb ov070
+ *   ITEMMENU_TaskBagMain 0x021B7250 thumb ov070
  *   KEY_SetRepeatSpeed 0x02036270 arm
  */
 typedef unsigned int u32;
-extern void func_021B6100(char *p, int k);
-extern void func_021B7250(void *p);
+extern void ITEMMENU_SetTask(char *p, int k);
+extern void ITEMMENU_TaskBagMain(void *p);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
-void func_021B8AF4(void *p)
+void ITEMMENU_ReturnToBagMain(void *p)
 {
-    func_021B6100(p, (int)func_021B7250);
+    ITEMMENU_SetTask(p, (int)ITEMMENU_TaskBagMain);
     KEY_SetRepeatSpeed(3, 6);
 }

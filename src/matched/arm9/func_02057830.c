@@ -20,8 +20,8 @@
  *           --suggest-split has nothing to cut: the site's only witness is
  *           inside the range that needs it.
  * symbols:
- *   func_0207CAA4  0x0207CAA4  arm
- *   func_0207CDB8  0x0207CDB8  arm
+ *   VEC_Fx16DotProduct  0x0207CAA4  arm
+ *   VEC_Fx16Normalize  0x0207CDB8  arm
  *   g_020A7FEC     0x020A7FEC  data
  *
  * First transcription (wave r11 lane B), MATCH on the second variant: 648 of
@@ -76,8 +76,8 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
     return (fx32)(((fx64)a * b + 0x800) >> 12);
 }
 
-extern void func_0207CDB8(struct Vec16 *v, struct Vec16 *w);
-extern fx32 func_0207CAA4(const struct Vec16 *a, const struct Vec16 *b);
+extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
+extern fx32 VEC_Fx16DotProduct(const struct Vec16 *a, const struct Vec16 *b);
 extern const struct Vec16 g_020A7FEC;
 
 void func_02057830(struct Rig *m)
@@ -105,11 +105,11 @@ void func_02057830(struct Rig *m)
         v.z = 0x1000;
         break;
     default:
-        func_0207CDB8(&m->f50, &v);
+        VEC_Fx16Normalize(&m->f50, &v);
         break;
     }
 
-    d = func_0207CAA4(&a, &v);
+    d = VEC_Fx16DotProduct(&a, &v);
     if (d == 0x1000 || d == -0x1000) {
         a.x = 0x1000;
         a.y = 0;
@@ -123,6 +123,6 @@ void func_02057830(struct Rig *m)
     m->r1[1] = FX_Mul(v.z, m->r0[0]) - FX_Mul(v.x, m->r0[2]);
     m->r1[2] = FX_Mul(v.x, m->r0[1]) - FX_Mul(v.y, m->r0[0]);
 
-    func_0207CDB8((struct Vec16 *)(m->pad_00 + 0x84), (struct Vec16 *)(m->pad_00 + 0x84));
-    func_0207CDB8((struct Vec16 *)(m->pad_00 + 0x8a), (struct Vec16 *)(m->pad_00 + 0x8a));
+    VEC_Fx16Normalize((struct Vec16 *)(m->pad_00 + 0x84), (struct Vec16 *)(m->pad_00 + 0x84));
+    VEC_Fx16Normalize((struct Vec16 *)(m->pad_00 + 0x8a), (struct Vec16 *)(m->pad_00 + 0x8a));
 }

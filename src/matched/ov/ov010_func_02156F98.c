@@ -1,5 +1,5 @@
 /*
- * function: func_02156F98
+ * function: MUSICAL_STAGE_SYS_Delete
  * address:  0x02156F98
  * packet:   pkt_ov010_02156F98
  * region:   ov010
@@ -29,7 +29,7 @@ typedef struct Stage {
 
 extern u32 func_020307B0(void *p);
 
-void func_02156F98(Stage *s)
+void MUSICAL_STAGE_SYS_Delete(Stage *s)
 {
     u8 i;
 

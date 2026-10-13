@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02008494  0x02008494  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
  *   func_0200E6FC  0x0200E6FC  thumb
  *   func_021DC194  0x021DC194  thumb  ov175
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009CC0  0x02009CC0  thumb
  *   func_0200B078  0x0200B078  thumb
  *   func_0200B1C4  0x0200B1C4  thumb
@@ -46,23 +46,23 @@ struct Big;
 struct BigObj;
 struct Rec0200E6FC;
 struct Reg2;
-extern void *func_02012EBC(struct Big *p);
-extern u8 *func_02012944(void *p);
-extern void func_02008494(void *src, void *dst);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 func_021DC194(char *obj);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int func_02009CC0(void *a0);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern u16 func_0200B1C4(struct Reg2 *p);
 
 void func_021D9A9C(char *dst, char *obj)
 {
-    u32 st = (u32)func_02012EBC((struct Big *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav));
+    u32 st = (u32)GAME_DATA_GetSaveControl((struct Big *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav));
     u32 h;
 
-    func_02008494(func_02012944((void *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)), dst);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)), dst);
     func_0200E6FC(func_0200E6E8(st), 0, (struct Rec0200E6FC *)(dst + 0x38));
     {
         const struct Save *s = *(struct Save * *)&((struct Obj00013 *)obj)->f104;
@@ -71,7 +71,7 @@ void func_021D9A9C(char *dst, char *obj)
         ((struct Obj01067 *)dst)->f34 = s->blk[4];
     }
     ((struct Obj01067 *)dst)->f4C = func_021DC194((char *)(*(u32 *)&((struct Obj00013 *)obj)->f34));
-    ((struct Obj01067 *)dst)->f48 = func_02009CC0((void *)func_0201283C((const struct BigObj *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)));
+    ((struct Obj01067 *)dst)->f48 = func_02009CC0((void *)GAME_DATA_GetWifiList((const struct BigObj *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)));
     h = ((struct Obj00013 *)obj)->f108;
     ((struct Obj01067 *)dst)->f40 = func_0200B078((struct Reg2 *)h, 2);
     ((struct Obj01067 *)dst)->f50 = func_0200B1C4((struct Reg2 *)h);

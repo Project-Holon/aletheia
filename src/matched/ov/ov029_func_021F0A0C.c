@@ -1,5 +1,5 @@
 /*
- * function: func_021F0A0C
+ * function: C_GEAR_InitTiles
  * address: 0x021F0A0C
  * packet: pkt_ov029_021F0A0C
  * region: ov029
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021F0AC8 0x021F0AC8 thumb ov029
+ *   C_GEAR_InitTile 0x021F0AC8 thumb ov029
  */
-extern void func_021F0AC8(unsigned char *p, int a, int b);
-void func_021F0A0C(unsigned char *p)
+extern void C_GEAR_InitTile(unsigned char *p, int a, int b);
+void C_GEAR_InitTiles(unsigned char *p)
 {
     int i, j;
     unsigned char *base;
     i = 0;
     base = p + 0x2d0;
     for (; i < 9; i++) {
-        for (j = 0; j < 4; j++) func_021F0AC8(base + i * 32 + j * 8, i, j);
+        for (j = 0; j < 4; j++) C_GEAR_InitTile(base + i * 32 + j * 8, i, j);
     }
 }

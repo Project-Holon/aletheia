@@ -32,7 +32,7 @@
  *   func_021B6E0C  0x021B6E0C  thumb  ov071
  *   func_021B6E18  0x021B6E18  thumb  ov071
  *   PALANM_GetColor  0x02021F3C  thumb
- *   func_02021FD8  0x02021FD8  thumb
+ *   PALANM_BlendChannel  0x02021FD8  thumb
  *   func_021B6DB4  0x021B6DB4  thumb  ov071
  *   d_021BABE0     0x021BABE0  data  a1
   * note 2026-10-05 (D8 lane16): witness PALANM_GetColor filed as src/matched/arm9/PALANM_GetColor.c (EXACT); this file becomes EXACT once the integrator seeds that label/manifest. Body unchanged.
@@ -59,7 +59,7 @@ extern int func_021B6E00(unsigned int x);
 extern int func_021B6E0C(unsigned int x);
 extern int func_021B6E18(int);
 extern u16 PALANM_GetColor(int base, int idx, int which, u16 pos);
-extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void func_021B6DB4(int *p, int a, int idx);
 
 void func_021B6C7C(int *p, int idx)
@@ -94,7 +94,7 @@ void func_021B6C7C(int *p, int idx)
         }
         e->v = v;
         for (i = 0; i < n; i++) {
-            func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, v >> 8,
+            PALANM_BlendChannel((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, v >> 8,
                           PALANM_GetColor(*(int *)p[1], idx, 1, b + i));
         }
         break;
@@ -111,7 +111,7 @@ void func_021B6C7C(int *p, int idx)
                 }
             }
             for (i = 0; i < n; i++) {
-                func_02021FD8((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, e->v >> 8,
+                PALANM_BlendChannel((struct Chan02021FD8 *)(*(int *)p[1]), (int)idx, (u16)(a + i), (u16)1, e->v >> 8,
                               PALANM_GetColor(*(int *)p[1], idx, 1, b + i));
             }
         } else {

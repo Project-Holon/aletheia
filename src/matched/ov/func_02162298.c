@@ -1,5 +1,5 @@
 /*
- * function: func_02162298
+ * function: EVENT_FIELD_PROCLINK_SetReturnPendingSlot
  * address:  0x02162298
  * packet:   pkt_02162298
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02162298(int a0, int a1, int a2)
+int EVENT_FIELD_PROCLINK_SetReturnPendingSlot(int a0, int a1, int a2)
 {
     int a3;
 

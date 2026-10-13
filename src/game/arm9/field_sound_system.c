@@ -1,7 +1,7 @@
 /*
  * file:     field_sound_system.c
  * unit:     yes
- * function: FIELD_SOUND_SYSTEM_Create, FIELD_SOUND_SYSTEM_Delete, FIELD_SOUND_SYSTEM_GetQueueDepth, FIELD_SOUND_SYSTEM_GetFinalValue, FIELD_SOUND_SYSTEM_IsStateActive, func_020289B8, FIELD_SOUND_SYSTEM_CanAcceptRequest, FIELD_SOUND_SYSTEM_PostRequest, FIELD_SOUND_SYSTEM_Update, FIELD_SOUND_SYSTEM_Reset, func_02028A58, FIELD_SOUND_SYSTEM_StartRingtone, func_02028A70, func_02028A7C, func_02028ACC, FIELD_SOUND_SYSTEM_TransferSlot, func_02028B50, func_02028BA0, func_02028BDC, FIELD_SOUND_SYSTEM_IsKnownSoundId, FIELD_SOUND_SYSTEM_IsSoundRecordChainValid, FIELD_SOUND_SYSTEM_IsSoundIdPlayable, FIELD_SOUND_SYSTEM_Init, FIELD_SOUND_SYSTEM_DrainAndInit, FIELD_SOUND_SYSTEM_ProcessNextRequest, FIELD_SOUND_SYSTEM_GetReadSlot, FIELD_SOUND_SYSTEM_GetCurrentRequest, FIELD_SOUND_SYSTEM_HasPendingRequest, FIELD_SOUND_SYSTEM_CountRequestsOfKind, FIELD_SOUND_SYSTEM_EnqueueRequest, FIELD_SOUND_SYSTEM_IsRequestKindAccepted, FIELD_SOUND_SYSTEM_DequeueRequest, FIELD_SOUND_SYSTEM_ExecuteRequest, FIELD_SOUND_SYSTEM_SetMode1, FIELD_SOUND_SYSTEM_IsKindAllowedInState, FIELD_SOUND_SYSTEM_HandleModeState0, FIELD_SOUND_SYSTEM_HandleModeState1, FIELD_SOUND_SYSTEM_HandleModeState2, FIELD_SOUND_SYSTEM_HandleModeState3, FIELD_SOUND_SYSTEM_HandleModeState4, FIELD_SOUND_SYSTEM_HandleModeState5, FIELD_SOUND_SYSTEM_HandleModeState6, FIELD_SOUND_SYSTEM_HandleModeState7
+ * function: FIELD_SOUND_SYSTEM_Create, FIELD_SOUND_SYSTEM_Delete, FIELD_SOUND_SYSTEM_GetQueueDepth, FIELD_SOUND_SYSTEM_GetFinalValue, FIELD_SOUND_SYSTEM_IsStateActive, FIELD_SOUND_SYSTEM_IsBusy, FIELD_SOUND_SYSTEM_CanAcceptRequest, FIELD_SOUND_SYSTEM_PostRequest, FIELD_SOUND_SYSTEM_Update, FIELD_SOUND_SYSTEM_Reset, FIELD_SOUND_SYSTEM_FadeVolume, FIELD_SOUND_SYSTEM_StartRingtone, FIELD_SOUND_SYSTEM_StopRingtone, FIELD_SOUND_SYSTEM_ClaimSlot, FIELD_SOUND_SYSTEM_ClaimSlotWithOwner, FIELD_SOUND_SYSTEM_TransferSlot, FIELD_SOUND_SYSTEM_ReleaseSlot, FIELD_SOUND_SYSTEM_PauseSlots, FIELD_SOUND_SYSTEM_ResumeSlots, FIELD_SOUND_SYSTEM_IsKnownSoundId, FIELD_SOUND_SYSTEM_IsSoundRecordChainValid, FIELD_SOUND_SYSTEM_IsSoundIdPlayable, FIELD_SOUND_SYSTEM_Init, FIELD_SOUND_SYSTEM_DrainAndInit, FIELD_SOUND_SYSTEM_ProcessNextRequest, FIELD_SOUND_SYSTEM_GetReadSlot, FIELD_SOUND_SYSTEM_GetCurrentRequest, FIELD_SOUND_SYSTEM_HasPendingRequest, FIELD_SOUND_SYSTEM_CountRequestsOfKind, FIELD_SOUND_SYSTEM_EnqueueRequest, FIELD_SOUND_SYSTEM_IsRequestKindAccepted, FIELD_SOUND_SYSTEM_DequeueRequest, FIELD_SOUND_SYSTEM_ExecuteRequest, FIELD_SOUND_SYSTEM_SetMode1, FIELD_SOUND_SYSTEM_IsKindAllowedInState, FIELD_SOUND_SYSTEM_HandleModeState0, FIELD_SOUND_SYSTEM_HandleModeState1, FIELD_SOUND_SYSTEM_HandleModeState2, FIELD_SOUND_SYSTEM_HandleModeState3, FIELD_SOUND_SYSTEM_HandleModeState4, FIELD_SOUND_SYSTEM_HandleModeState5, FIELD_SOUND_SYSTEM_HandleModeState6, FIELD_SOUND_SYSTEM_HandleModeState7
  * address:  0x02028844
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -27,10 +27,10 @@
  *   PLAYER_VOLUME_FADER_SetTarget  0x02028794  thumb
  *   RINGTONE_SYS_Start  0x02029F54  thumb
  *   RINGTONE_SYS_Stop  0x02029F60  thumb
- *   func_02006148  0x02006148  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_021D21C0  0x021D21C0  thumb ov021
- *   func_021D21E0  0x021D21E0  thumb ov021
+ *   SCRCMD_FindRegisteredEntry  0x021D21C0  thumb ov021
+ *   SCRCMD_IsRegisteredEntryEnabled  0x021D21E0  thumb ov021
  *   func_020061F0  0x020061F0  thumb
  *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *   func_020061F8  0x020061F8  thumb
@@ -120,9 +120,9 @@ extern void PLAYER_VOLUME_FADER_Update(struct Fader *s);
 extern void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames);
 extern void RINGTONE_SYS_Start(void *p);
 extern void RINGTONE_SYS_Stop(void *p);
-extern int func_021D21C0(u32 id);
-extern int func_021D21E0(u32 id);
-extern int func_02006148(u32 a0);
+extern int SCRCMD_FindRegisteredEntry(u32 id);
+extern int SCRCMD_IsRegisteredEntryEnabled(u32 id);
+extern int GFL_USE_GetSeSlot(u32 a0);
 extern void func_020061E4(u32 id);
 extern void func_020061F0(u32 id, u32 who);
 extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
@@ -273,7 +273,7 @@ u32 FIELD_SOUND_SYSTEM_IsStateActive(FieldSoundSystem *s)
 }
 
 /* Busy: the queue helper says so or the mode is non zero. Written as a negated conjunction (its `return 0` is the block emitted first). */
-u32 func_020289B8(FieldSoundSystem *s)
+u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *s)
 {
     if (FIELD_SOUND_SYSTEM_HasPendingRequest(s) == 0 && s->mode == 0) {
         return 0;
@@ -326,7 +326,7 @@ void FIELD_SOUND_SYSTEM_Reset(FieldSoundSystem *s, void *desc)
     FIELD_SOUND_SYSTEM_DrainAndInit(s, desc);
 }
 
-void func_02028A58(FieldSoundSystem *s, u8 level, u16 frames)
+void FIELD_SOUND_SYSTEM_FadeVolume(FieldSoundSystem *s, u8 level, u16 frames)
 {
     PLAYER_VOLUME_FADER_SetTarget(s->volumeFader, level, frames);
 }
@@ -336,7 +336,7 @@ void FIELD_SOUND_SYSTEM_StartRingtone(FieldSoundSystem *s)
     RINGTONE_SYS_Start(s->ringtone);
 }
 
-void func_02028A70(FieldSoundSystem *s)
+void FIELD_SOUND_SYSTEM_StopRingtone(FieldSoundSystem *s)
 {
     RINGTONE_SYS_Stop(s->ringtone);
 }
@@ -348,16 +348,16 @@ void func_02028A70(FieldSoundSystem *s)
  */
 
 /* Claims a slot for a caller that gives no owner; marks the owner 0xFFFF. */
-void func_02028A7C(FieldSoundSystem *s, u32 soundId)
+void FIELD_SOUND_SYSTEM_ClaimSlot(FieldSoundSystem *s, u32 soundId)
 {
     u32 slotIndex;
 
-    if (func_021D21C0(soundId) == 0) {
+    if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
         func_020061E4(soundId);
         return;
     }
-    if (func_021D21E0(soundId) != 0) {
-        slotIndex = func_02006148(soundId) - 1;
+    if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
+        slotIndex = GFL_USE_GetSeSlot(soundId) - 1;
         s->slotSoundId[slotIndex] = soundId;
         s->slotOwner[slotIndex] = 0xFFFF;
     }
@@ -367,16 +367,16 @@ void func_02028A7C(FieldSoundSystem *s, u32 soundId)
 }
 
 /* The same claim with an owner supplied by the caller. */
-void func_02028ACC(FieldSoundSystem *s, u32 soundId, u32 owner)
+void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *s, u32 soundId, u32 owner)
 {
     u32 slotIndex;
 
-    if (func_021D21C0(soundId) == 0) {
+    if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
         func_020061E4(soundId);
         return;
     }
-    if (func_021D21E0(soundId) != 0) {
-        slotIndex = func_02006148(soundId) - 1;
+    if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
+        slotIndex = GFL_USE_GetSeSlot(soundId) - 1;
         s->slotSoundId[slotIndex] = soundId;
         s->slotOwner[slotIndex] = owner;
     }
@@ -390,7 +390,7 @@ void FIELD_SOUND_SYSTEM_TransferSlot(FieldSoundSystem *s, u32 soundId, u32 owner
 {
     int i;
 
-    if (func_021D21C0(soundId) != 0) {
+    if (SCRCMD_FindRegisteredEntry(soundId) != 0) {
         for (i = 0; i < 2; i++) {
             if (s->slotSoundId[i] == soundId) {
                 GFL_USE_SetSeSlotVolume(i + 1, owner);
@@ -402,16 +402,16 @@ void FIELD_SOUND_SYSTEM_TransferSlot(FieldSoundSystem *s, u32 soundId, u32 owner
 }
 
 /* Releases the slot that holds the sound. Both halfword cells are cleared through one scaled index (separate u16 pointers cost two bytes of frame). */
-void func_02028B50(FieldSoundSystem *s, int soundId)
+void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *s, int soundId)
 {
     u32 slotNumber;
 
-    slotNumber = func_02006148(soundId);
-    if (func_021D21C0(soundId) == 0) {
+    slotNumber = GFL_USE_GetSeSlot(soundId);
+    if (SCRCMD_FindRegisteredEntry(soundId) == 0) {
         func_020061F8(slotNumber);
         return;
     }
-    if (func_021D21E0(soundId) != 0) {
+    if (SCRCMD_IsRegisteredEntryEnabled(soundId) != 0) {
         if (soundId == s->slotSoundId[slotNumber - 1]) {
             s->slotSoundId[slotNumber - 1] = 0xffff;
             s->slotOwner[slotNumber - 1] = 0xffff;
@@ -421,7 +421,7 @@ void func_02028B50(FieldSoundSystem *s, int soundId)
 }
 
 /* Adds bits to the pause set; on the first bit, stops the sounds in both slots. */
-void func_02028BA0(FieldSoundSystem *s, u32 bits)
+void FIELD_SOUND_SYSTEM_PauseSlots(FieldSoundSystem *s, u32 bits)
 {
     int i;
 
@@ -436,7 +436,7 @@ void func_02028BA0(FieldSoundSystem *s, u32 bits)
 }
 
 /* Drops bits from the pause set; when the set empties, replays the two stored sounds. */
-void func_02028BDC(FieldSoundSystem *s, u32 bits)
+void FIELD_SOUND_SYSTEM_ResumeSlots(FieldSoundSystem *s, u32 bits)
 {
     int i;
 

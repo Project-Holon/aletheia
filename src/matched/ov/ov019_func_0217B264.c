@@ -1,5 +1,5 @@
 /*
- * function: func_0217B264
+ * function: UNION_CHARA_Main
  * address:  0x0217B264
  * packet:   pkt_ov019_0217B264
  * region:   ov019
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200ED48  0x0200ED48  thumb
  *   func_0201283C  0x0201283C  thumb
  *   func_02012964  0x02012964  thumb
- *   func_02188CE0  0x02188CE0  thumb  ov021
+ *   FIELDMAP_GetUnionEff  0x02188CE0  thumb  ov021
  *   memcmp         0x0203EFC8  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0217B054  0x0217B054  thumb  ov019
- *   func_0217B098  0x0217B098  thumb  ov019
- *   func_0217B1D0  0x0217B1D0  thumb  ov019
- *   func_0217B370  0x0217B370  thumb  ov019
- *   func_0217B3EC  0x0217B3EC  thumb  ov019
+ *   UNION_CHARA_DeleteSlot  0x0217B054  thumb  ov019
+ *   UNION_CHARA_AddBeaconMembers  0x0217B098  thumb  ov019
+ *   UNION_CHARA_FocusRequestedMember  0x0217B1D0  thumb  ov019
+ *   UNION_CHARA_RunAction  0x0217B370  thumb  ov019
+ *   UNION_CHARA_TickBeaconLife  0x0217B3EC  thumb  ov019
  *
  * Addresses are Black-image addresses.
  */
@@ -43,22 +43,22 @@ typedef struct Entry {
 
 struct Big;
 struct BigObj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200ED48(void *p);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02012964(const struct BigObj *p);
-extern u32 func_02188CE0(u8 *p);
+extern u32 FIELDMAP_GetUnionEff(u8 *p);
 extern int   memcmp(const void *a, const void *b, u32 n);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void  func_0217B054(u8 *w, Entry *e, void *p);
-extern void  func_0217B098(u8 *w, u32 a, u32 b, u32 c, Entry *e);
+extern void  UNION_CHARA_DeleteSlot(u8 *w, Entry *e, void *p);
+extern void  UNION_CHARA_AddBeaconMembers(u8 *w, u32 a, u32 b, u32 c, Entry *e);
 struct ent;
 struct obj;
-extern int func_0217B1D0(struct obj *o, struct ent *e);
-extern int func_0217B370(char *base, unsigned char *p, int r2);
-extern int func_0217B3EC(char *base, char *p);
+extern int UNION_CHARA_FocusRequestedMember(struct obj *o, struct ent *e);
+extern int UNION_CHARA_RunAction(char *base, unsigned char *p, int r2);
+extern int UNION_CHARA_TickBeaconLife(char *base, char *p);
 
-void func_0217B264(u8 *w, void *sys, void *q)
+void UNION_CHARA_Main(u8 *w, void *sys, void *q)
 {
     int i;
     int flag;
@@ -69,9 +69,9 @@ void func_0217B264(u8 *w, void *sys, void *q)
     u8 buf[6] = {0, 0, 0, 0, 0, 0};
 
     flag = 0;
-    a = (u32)func_0200ED48(func_02012EBC(sys));
+    a = (u32)func_0200ED48(GAME_DATA_GetSaveControl(sys));
     b = func_0201283C(sys);
-    c = func_02188CE0(q);
+    c = FIELDMAP_GetUnionEff(q);
     func_02012964(sys);
     if (memcmp(buf, w + 0x28A4, 6) != 0) {
         flag = 1;
@@ -83,10 +83,10 @@ void func_0217B264(u8 *w, void *sys, void *q)
             int j;
             void *p;
 
-            func_0217B3EC((char *)w, (char *)e);
-            func_0217B098(w, a, b, c, e);
+            UNION_CHARA_TickBeaconLife((char *)w, (char *)e);
+            UNION_CHARA_AddBeaconMembers(w, a, b, c, e);
             if (flag == 1) {
-                if (func_0217B1D0((struct obj *)w, (struct ent *)e) == 1) {
+                if (UNION_CHARA_FocusRequestedMember((struct obj *)w, (struct ent *)e) == 1) {
                     flag = 0;
                 }
             }
@@ -94,8 +94,8 @@ void func_0217B264(u8 *w, void *sys, void *q)
             for (j = 0; j < 5; j++) {
                 p = e->slots[j];
                 if (p != 0) {
-                    if (func_0217B370((char *)w, p, (int)q) == 0) {
-                        func_0217B054(w, e, p);
+                    if (UNION_CHARA_RunAction((char *)w, p, (int)q) == 0) {
+                        UNION_CHARA_DeleteSlot(w, e, p);
                         e->slots[j] = 0;
                         cnt++;
                     }

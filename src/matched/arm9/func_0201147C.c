@@ -1,5 +1,5 @@
 /*
- * function: func_0201147C
+ * function: ICA_ANIME_CreateWithStreamBuffer
  * address:  0x0201147C
  * packet:   pkt_02011428
  * region:   arm9
@@ -26,8 +26,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201147C.c \
- *       --func func_0201147C --addr 0x0201147C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_CreateWithStreamBuffer.c \
+ *       --func ICA_ANIME_CreateWithStreamBuffer --addr 0x0201147C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -54,7 +54,7 @@ extern void ICA_ANIME_LoadFrames(struct IcaAnime *s, s32 q);
 extern u8    _IcaAnimeFileName;
 
 
-void *func_0201147C(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
+void *ICA_ANIME_CreateWithStreamBuffer(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
 {
     struct IcaAnime *p = func_02030734(heap, 0x38, 0, (const char *)&_IcaAnimeFileName, 0x74);
 

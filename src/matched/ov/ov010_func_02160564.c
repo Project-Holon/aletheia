@@ -1,5 +1,5 @@
 /*
- * function: func_02160564
+ * function: EVENT_SHORTCUT_MENU_GetAvailBit
  * address:  0x02160564
  * packet:   pkt_ov010_02160564
  * region:   ov010
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled (inside func_0216025C's listing extent): translates a
+ * Unlabelled (inside EVENT_SHORTCUT_MENU_ReturnEvent's listing extent): translates a
  * connection state into a menu index; *err is set for unknown states.
  */
 
 typedef unsigned int u32;
 
-int func_02160564(u32 state, u32 *out, u32 *err)
+int EVENT_SHORTCUT_MENU_GetAvailBit(u32 state, u32 *out, u32 *err)
 {
     *err = 0;
     switch (state) {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A6708",
+   "name": "FIELD_PLAYER_NOGRID_SetForcedMove",
    "address": "0x021A6708",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6714",
+   "name": "FIELD_PLAYER_NOGRID_ClearForcedMove",
    "address": "0x021A6714",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6720",
+   "name": "FIELD_PLAYER_NOGRID_SetForcedMoveEnded",
    "address": "0x021A6720",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A672C",
+   "name": "FIELD_PLAYER_NOGRID_ClearForcedMoveEnded",
    "address": "0x021A672C",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6738",
+   "name": "FIELD_PLAYER_NOGRID_ClearPending",
    "address": "0x021A6738",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6744",
+   "name": "FIELD_PLAYER_NOGRID_SetSpinA",
    "address": "0x021A6744",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6750",
+   "name": "FIELD_PLAYER_NOGRID_ClearSpinA",
    "address": "0x021A6750",
    "kind": "game",
    "region": "ov021",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A675C",
+   "name": "FIELD_PLAYER_NOGRID_SetSpinB",
    "address": "0x021A675C",
    "kind": "game",
    "region": "ov021",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6768",
+   "name": "FIELD_PLAYER_NOGRID_ClearSpinB",
    "address": "0x021A6768",
    "kind": "game",
    "region": "ov021",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6774",
+   "name": "FIELD_PLAYER_NOGRID_SetFaceRight",
    "address": "0x021A6774",
    "kind": "game",
    "region": "ov021",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6780",
+   "name": "FIELD_PLAYER_NOGRID_ClearFaceRight",
    "address": "0x021A6780",
    "kind": "game",
    "region": "ov021",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A678C",
+   "name": "FIELD_PLAYER_NOGRID_SetInputHold",
    "address": "0x021A678C",
    "kind": "game",
    "region": "ov021",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A6798",
+   "name": "FIELD_PLAYER_NOGRID_ClearInputHold",
    "address": "0x021A6798",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021576CC
+ * function: DELIVERY_BEACON_StepIdle
  * address:  0x021576CC
  * packet:   pkt_ov010_021576CC
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * Unlabelled empty callback (bx lr) hidden in a .word run; witness for the
- * function pointer taken in func_021578A0.
+ * function pointer taken in DELIVERY_BEACON_Start.
  */
 
-void func_021576CC(void)
+void DELIVERY_BEACON_StepIdle(void)
 {
 }

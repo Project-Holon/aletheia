@@ -1,5 +1,5 @@
 /*
- * function: func_021B6E68
+ * function: SCRCMD_POKEMON_FLD_FindDeliveryNpcObjId
  * address:  0x021B6E68
  * packet:   pkt_ov021_021B6E68
  * region:   ov021
@@ -16,9 +16,9 @@
  * only the product live and loads ldrh r0,[r4,r3] as the original does.
  *
  * symbols:
- *   func_02012844  0x02012844  thumb
- *   func_02162740  0x02162740  thumb  ov010
- *   func_02162744  0x02162744  thumb  ov010
+ *   GAME_DATA_GetEventData  0x02012844  thumb
+ *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
  */
 
 typedef unsigned short u16;
@@ -28,20 +28,20 @@ struct Ent { u16 a; u16 b; u8 pad[0x20]; };
 
 typedef unsigned int   u32;
 struct BigObj;
-u32 func_02012844(const struct BigObj *p);
-u32 func_02162740(u8 *p);
-u16 func_02162744(u8 *p);
+u32 GAME_DATA_GetEventData(const struct BigObj *p);
+u32 EVENTDATA_SYSTEM_GetNpcHeaders(u8 *p);
+u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
 
-int func_021B6E68(int a)
+int SCRCMD_POKEMON_FLD_FindDeliveryNpcObjId(int a)
 {
     struct Ent *t;
     int n;
     int m;
     int i;
 
-    m = func_02012844((const struct BigObj *)a);
-    t = (struct Ent *)func_02162740((u8 *)m);
-    n = func_02162744((u8 *)m);
+    m = GAME_DATA_GetEventData((const struct BigObj *)a);
+    t = (struct Ent *)EVENTDATA_SYSTEM_GetNpcHeaders((u8 *)m);
+    n = EVENTDATA_SYSTEM_GetNpcCount((u8 *)m);
     if (t == 0 || n == 0) {
         return -1;
     }

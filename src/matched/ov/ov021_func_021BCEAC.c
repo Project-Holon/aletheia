@@ -1,5 +1,5 @@
 /*
- * function: func_021BCEAC
+ * function: FIELD_PLACE_NAME_DrawIdle
  * address:  0x021BCEAC
  * packet:   pkt_ov021_021BCEAC
  * region:   ov021
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (bx lr stub) filed as the blocker of func_021BC4F0.
+ * Unlabelled leaf (bx lr stub) filed as the blocker of FIELD_PLACE_NAME_Draw.
  */
 
-void func_021BCEAC(int a)
+void FIELD_PLACE_NAME_DrawIdle(int a)
 {
 }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F36C0.c
  * unit:     yes
- * function: func_021F36C0, func_021F37C4, func_021F37DC, func_021F385C, func_021F38BC
+ * function: GIMMICK65_Init, GIMMICK65_Exit, GIMMICK65_Update, GIMMICK65_StartEffect, GIMMICK65_CallWaitEvent
  * address:  0x021F36C0
  * region:   ov065
  * compiler: dsi/1.1p1
@@ -13,78 +13,78 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021F3918     0x021F3918  data  a4
- *   d_021F38F8     0x021F38F8  data  a4
- *   d_021F3970     0x021F3970  data  a4
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02012984  0x02012984  thumb
- *   func_020113D8  0x020113D8  thumb
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE4A4  0x021BE4A4  thumb  ov021
- *   func_021BE4B4  0x021BE4B4  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B8  0x021BE6B8  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE418 0x021BE418 thumb ov021
- *   func_021897A0 0x021897A0 thumb ov021
- *   func_021BE580  0x021BE580  thumb  ov021
- *   func_021BE6E8  0x021BE6E8  thumb  ov021
+ *   sGimmick65UnitDescNight     0x021F3918  data  a4
+ *   sGimmick65UnitDescDay     0x021F38F8  data  a4
+ *   sGimmick65EffectPosition     0x021F3970  data  a4
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   TIMEZONE_GetNowTimeZone  0x020113D8  thumb
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
+ *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
+ *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnimeFrame  0x021BE6E8  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_021BE6BC  0x021BE6BC  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  *   func_020122C0 0x020122C0 thumb
- *   func_021F38D0 0x021F38D0 thumb ov065
+ *   GIMMICK65_WaitEffectEventMain 0x021F38D0 thumb ov065
  */
 #include "unit_021F36C0_types.h"
 
 struct GameData;
 struct FieldSave;
 
-extern void *func_02188C80(void *fieldMap);
-extern void *func_020120F4(void *gameSystem);
-extern struct FieldSave *func_02012EC4(void *gameData);
-extern Gimmick65Save *func_0200B3A4(struct FieldSave *fieldSave, u32 blockId);
-extern void *func_02188D2C(void *fieldMap);
-extern u16 func_02188C84(u8 *fieldMap);
-extern void *func_02189764(unsigned char *fieldMap, int id, int a, int size);
-extern Gimmick65Work *func_021897BC(void *fieldMap, int id);
-extern u8 func_02012984(void *gameData);
-extern u32 func_020113D8(u32 season);
-extern void func_021BE760(void *expObj, void *unitDesc, int b);
-extern VecFx32 *func_021BE480(void *expObj, int unit, u16 model);
-extern void func_021BE4A4(void *expObj, int unit, int model, int visible);
-extern void func_021BE4B4(void *expObj, int unit, int model, int hidden);
-extern void *func_021BE674(void *expObj, int unit, unsigned int model, int animeIdx);
-extern void func_021BE6B8(unsigned char *anime, int loop);
-extern void func_021BE6B0(unsigned char *anime, int paused);
-extern void func_021BE700(void *expObj, int unit, u16 model, u16 animeIdx, int enabled);
-extern void func_021BE418(unsigned char *expObj, unsigned short unit);
-extern void func_021897A0(unsigned char *fieldMap, int id);
-extern void func_021BE580(int expObj);
-extern int func_021BE6E8(int expObj, int unit, int model, int animeIdx);
+extern void *FIELDMAP_GetGameSystem(void *fieldMap);
+extern void *GAMESYSTEM_GetGameData(void *gameSystem);
+extern struct FieldSave *GAME_DATA_GetFieldSave(void *gameData);
+extern Gimmick65Save *GIMMICK_WORK_GetSaveArea(struct FieldSave *fieldSave, u32 blockId);
+extern void *FIELDMAP_GetExpObj(void *fieldMap);
+extern u16 FIELDMAP_GetHeapId(u8 *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *fieldMap, int id, int a, int size);
+extern Gimmick65Work *FIELDMAP_GetCommonWork(void *fieldMap, int id);
+extern u8 GAME_DATA_GetSeason(void *gameData);
+extern u32 TIMEZONE_GetNowTimeZone(u32 season);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
+extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, int unit, u16 model);
+extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int visible);
+extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
+extern void *FLD_EXP_OBJ_GetAnime(void *expObj, int unit, unsigned int model, int animeIdx);
+extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *anime, int loop);
+extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *anime, int paused);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, u16 model, u16 animeIdx, int enabled);
+extern void FLD_EXP_OBJ_RemoveUnit(unsigned char *expObj, unsigned short unit);
+extern void FIELDMAP_FreeCommonWork(unsigned char *fieldMap, int id);
+extern void FLD_EXP_OBJ_UpdateAnimes(int expObj);
+extern int FLD_EXP_OBJ_GetAnimeFrame(int expObj, int unit, int model, int animeIdx);
 extern void func_020061E4(u32 seId);
-extern int func_021BE6BC(void *anime);
+extern int FLD_EXP_OBJ_IsAnimeStopped(void *anime);
 extern void *func_020122C0(void *owner, void *a, void *eventFunc, u32 size);
-extern int func_021F38D0(void *event);
-void func_021F36C0(void *fieldMap);
-void func_021F37C4(unsigned char *fieldMap);
-void func_021F37DC(int fieldMap);
-void func_021F385C(int fieldMap);
-void *func_021F38BC(void *gameSystem);
-extern char d_021F3918[];
-extern char d_021F38F8[];
-extern VecFx32 d_021F3970;
+extern int GIMMICK65_WaitEffectEventMain(void *event);
+void GIMMICK65_Init(void *fieldMap);
+void GIMMICK65_Exit(unsigned char *fieldMap);
+void GIMMICK65_Update(int fieldMap);
+void GIMMICK65_StartEffect(int fieldMap);
+void *GIMMICK65_CallWaitEvent(void *gameSystem);
+extern char sGimmick65UnitDescNight[];
+extern char sGimmick65UnitDescDay[];
+extern VecFx32 sGimmick65EffectPosition;
 
 
-void func_021F36C0(void *fieldMap)
+void GIMMICK65_Init(void *fieldMap)
 {
     void *gameData;
     Gimmick65Save *save;
@@ -93,72 +93,72 @@ void func_021F36C0(void *fieldMap)
     void *anime;
     void *expObj;
 
-    gameData = func_020120F4(func_02188C80(fieldMap));
-    save = func_0200B3A4(func_02012EC4(gameData), GIMMICK65_SAVE_BLOCK);
-    expObj = func_02188D2C(fieldMap);
-    func_02189764(fieldMap, 1, func_02188C84(fieldMap), sizeof(Gimmick65Work));
-    work = func_021897BC(fieldMap, 1);
+    gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), GIMMICK65_SAVE_BLOCK);
+    expObj = FIELDMAP_GetExpObj(fieldMap);
+    FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick65Work));
+    work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->isPlaying = 0;
-    if (func_020113D8(func_02012984(gameData)) - GIMMICK65_FIRST_NIGHT_TIME_ZONE <= 1) {
-        func_021BE760(expObj, d_021F3918, 0);
+    if (TIMEZONE_GetNowTimeZone(GAME_DATA_GetSeason(gameData)) - GIMMICK65_FIRST_NIGHT_TIME_ZONE <= 1) {
+        FLD_EXP_OBJ_AddUnitFromArchive(expObj, sGimmick65UnitDescNight, 0);
         work->isNight = 1;
     } else {
-        func_021BE760(expObj, d_021F38F8, 0);
+        FLD_EXP_OBJ_AddUnitFromArchive(expObj, sGimmick65UnitDescDay, 0);
         work->isNight = 0;
     }
-    *func_021BE480(expObj, 0, 0) = d_021F3970;
-    func_021BE4A4(expObj, 0, 0, 1);
-    func_021BE4B4(expObj, 0, 0, save->isEffectPending == 0);
+    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = sGimmick65EffectPosition;
+    FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, 0, 1);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, 0, save->isEffectPending == 0);
     for (i = 0; i < GIMMICK65_ANIME_COUNT; i++) {
-        anime = func_021BE674(expObj, 0, (u16)0, (u16)i);
-        func_021BE6B8(anime, 0);
-        func_021BE6B0(anime, 1);
-        func_021BE700(expObj, 0, 0, i, save->isEffectPending != 0);
+        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, (u16)0, (u16)i);
+        FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
+        FLD_EXP_OBJ_SetAnimePaused(anime, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, 0, i, save->isEffectPending != 0);
     }
 }
 
 
-void func_021F37C4(unsigned char *fieldMap)
+void GIMMICK65_Exit(unsigned char *fieldMap)
 {
-    func_021BE418(func_02188D2C(fieldMap), 0);
-    func_021897A0(fieldMap, 1);
+    FLD_EXP_OBJ_RemoveUnit(FIELDMAP_GetExpObj(fieldMap), 0);
+    FIELDMAP_FreeCommonWork(fieldMap, 1);
 }
 
 
-void func_021F37DC(int fieldMap)
+void GIMMICK65_Update(int fieldMap)
 {
     int expObj;
     Gimmick65Work *work;
 
-    expObj = (int)func_02188D2C((void *)fieldMap);
-    work = func_021897BC((void *)fieldMap, 1);
+    expObj = (int)FIELDMAP_GetExpObj((void *)fieldMap);
+    work = FIELDMAP_GetCommonWork((void *)fieldMap, 1);
     if (work->isPlaying != 0) {
-        func_021BE580(expObj);
+        FLD_EXP_OBJ_UpdateAnimes(expObj);
         if (work->isNight == 0) {
-            if (func_021BE6E8(expObj, 0, 0, 0) == GIMMICK65_PEAK_FRAME)
+            if (FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, 0, 0) == GIMMICK65_PEAK_FRAME)
                 func_020061E4(GIMMICK65_SE_DAY_PEAK);
         }
-        if (func_021BE6BC(func_021BE674((void *)expObj, 0, 0, 0)) != 0) {
-            func_021BE4B4((void *)expObj, 0, 0, 1);
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime((void *)expObj, 0, 0, 0)) != 0) {
+            FLD_EXP_OBJ_SetModelHidden((void *)expObj, 0, 0, 1);
             work->isPlaying = 0;
-            func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80((void *)fieldMap))), GIMMICK65_SAVE_BLOCK)->isEffectPending = 0;
+            GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)fieldMap))), GIMMICK65_SAVE_BLOCK)->isEffectPending = 0;
         }
     }
 }
 
 
-void func_021F385C(int fieldMap)
+void GIMMICK65_StartEffect(int fieldMap)
 {
     int i;
     int expObj;
     Gimmick65Work *work;
 
-    expObj = (int)func_02188D2C((void *)fieldMap);
-    work = func_021897BC((void *)fieldMap, 1);
+    expObj = (int)FIELDMAP_GetExpObj((void *)fieldMap);
+    work = FIELDMAP_GetCommonWork((void *)fieldMap, 1);
     work->isPlaying = 1;
-    func_021BE4B4((void *)expObj, 0, 0, 0);
+    FLD_EXP_OBJ_SetModelHidden((void *)expObj, 0, 0, 0);
     for (i = 0; i < GIMMICK65_ANIME_COUNT; i++)
-        func_021BE6B0(func_021BE674((void *)expObj, 0, 0, (unsigned short)i), 0);
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((void *)expObj, 0, 0, (unsigned short)i), 0);
     if (work->isNight != 0)
         func_020061E4(GIMMICK65_SE_START_NIGHT);
     else
@@ -166,7 +166,7 @@ void func_021F385C(int fieldMap)
 }
 
 
-void *func_021F38BC(void *gameSystem)
+void *GIMMICK65_CallWaitEvent(void *gameSystem)
 {
-    return func_020122C0(gameSystem, 0, (void *)func_021F38D0, 0);
+    return func_020122C0(gameSystem, 0, (void *)GIMMICK65_WaitEffectEventMain, 0);
 }

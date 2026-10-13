@@ -15,16 +15,16 @@
  * draw call so it loads ahead of the nested call.
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02175B14  0x02175B14  thumb  ov011
- *   func_02175B34  0x02175B34  thumb  ov011
+ *   BMP_Clear  0x02043B5C  arm
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
+ *   INTRUDE_COMM_GetActiveSessionRequest  0x02175B34  thumb  ov011
  *   func_02045EC0  0x02045EC0  arm
- *   func_021762D8  0x021762D8  thumb  ov011
+ *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
  *   func_0201F250  0x0201F250  thumb
  *   func_0201C6FC  0x0201C6FC  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   d_021BAA4C     0x021BAA4C  data  a4
  */
 
@@ -69,16 +69,16 @@ struct WordSet;
 struct PrintSys;
 void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
 {
-    extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+    extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
     extern void *func_02045770(struct Descriptor *p);
-    extern void func_02043B5C(struct CharBuf *buf, u8 value);
-    extern int func_02175B14(u8 *);
-    extern u8 *func_02175B34(u8 *p);
+    extern void BMP_Clear(struct CharBuf *buf, u8 value);
+    extern int INTRUDE_COMM_IsSessionActive(u8 *);
+    extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
     extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-    extern void func_021762D8(Obj *, void *, void *, int);
+    extern void INTRUDE_COMM_SetWordSetRequest(Obj *, void *, void *, int);
     extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
     extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-    extern void func_02045808(struct U16Vec *vec);
+    extern void STRBUF_Delete(struct U16Vec *vec);
     void *s;
     u8 *src;
     Obj *e;
@@ -87,11 +87,11 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     void *t1;
     void *w;
 
-    s = func_020457B0(0x100, 0x61);
-    func_02043B5C(func_02045770(d->h[0]), 0);
-    func_02043B5C(func_02045770(d->h[1]), 0);
-    if (v == 6 && r != 0 && func_02175B14(r + 0x1AC) == 1) {
-        e = (Obj *)func_02175B34(r + 0x1AC);
+    s = STRBUF_Create(0x100, 0x61);
+    BMP_Clear(func_02045770(d->h[0]), 0);
+    BMP_Clear(func_02045770(d->h[1]), 0);
+    if (v == 6 && r != 0 && INTRUDE_COMM_IsSessionActive(r + 0x1AC) == 1) {
+        e = (Obj *)INTRUDE_COMM_GetActiveSessionRequest(r + 0x1AC);
         src = (u8 *)e + 0x18;
     } else {
         if (v > 6) {
@@ -103,7 +103,7 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     y = e->b18;
     t0 = func_02045EC0(q->f1c, e->kind);
     t1 = func_02045EC0(q->f1c, y);
-    func_021762D8(e, src, q->f10, 0x61);
+    INTRUDE_COMM_SetWordSetRequest(e, src, q->f10, 0x61);
     func_0201F250(q->f10, s, t1);
     w = q->f8;
     func_0201C6FC(w, (u32)func_02045770(d->e[0].h), 0, 4, t0, (u32)q->fc);
@@ -111,7 +111,7 @@ void func_021B8798(u8 **c, Q *q, P *d, u8 *r, unsigned v)
     w = q->f8;
     func_0201C6FC(w, (u32)func_02045770(d->e[1].h), 0, 0, s, (u32)q->fc);
     d->e[1].on = 1;
-    func_02045808(t0);
-    func_02045808(t1);
-    func_02045808(s);
+    STRBUF_Delete(t0);
+    STRBUF_Delete(t1);
+    STRBUF_Delete(s);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217DE68
+ * function: INTRUDE_SUBDISP_UpdateTownActors
  * address:  0x0217DE68
  * packet:   pkt_ov018_0217DE68
  * region:   ov018
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0217F284  0x0217F284  thumb  ov018
- *   func_02012B58  0x02012B58  thumb
- *   func_02012B70  0x02012B70  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   INTRUDE_SUBDISP_IsAlone  0x0217F284  thumb  ov018
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_02082A60  0x02082A60  arm
- *   func_02021F64  0x02021F64  thumb
+ *   PALANM_BlendColors  0x02021F64  thumb
  */
 
 typedef unsigned char u8;
@@ -50,16 +50,16 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Ctx;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_0217F284(u8 *p);
-extern u8 func_02012B58(const struct BigObj *p);
-extern int func_02012B70(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern int INTRUDE_SUBDISP_IsAlone(u8 *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02082A60(const void *, void *, int);
-extern void func_02021F64(u16 *, u16 *, int, u8, u16);
+extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
-void func_0217DE68(Work *p)
+void INTRUDE_SUBDISP_UpdateTownActors(Work *p)
 {
     void *sys;
     int i;
@@ -67,13 +67,13 @@ void func_0217DE68(Work *p)
     int q;
     void *act;
 
-    sys = func_020120F4(p->f00);
-    if (func_0217F284((u8 *)p) == 1) {
+    sys = GAMESYSTEM_GetGameData(p->f00);
+    if (INTRUDE_SUBDISP_IsAlone((u8 *)p) == 1) {
         for (i = 0; i <= 7; i++) {
             func_0204B3DC(p->f5c[i], 0);
         }
         func_0204B3DC(p->f7c, 0);
-    } else if (p->fd8 == func_02012B58(sys) || func_02012B70(sys) == 0) {
+    } else if (p->fd8 == GAME_DATA_GetExitMode(sys) || GAME_DATA_GetIntrudeCount(sys) == 0) {
         for (i = 0; i <= 7; i++) {
             func_0204B3DC(p->f5c[i], 0);
         }
@@ -124,7 +124,7 @@ void func_0217DE68(Work *p)
         }
     }
     for (i = 0; i < 4; i++) {
-        func_02021F64(&p->f120[i], &p->f130[i], 1, p->f118 >> 8, p->f128[i]);
+        PALANM_BlendColors(&p->f120[i], &p->f130[i], 1, p->f118 >> 8, p->f128[i]);
     }
     p->f11c = 1;
 }

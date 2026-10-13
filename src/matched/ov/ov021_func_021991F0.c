@@ -1,5 +1,5 @@
 /*
- * function: func_021991F0
+ * function: FLDMMDL_ACMD_StepMove
  * address:  0x021991F0
  * packet:   pkt_ov021_021991F0
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_02163F8C  0x02163F8C  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_MOVE_AddVectorPos  0x02163F8C  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -24,26 +24,26 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D6D4(void *p);
-extern u32 func_02163F8C(u32, int *);
-extern void *func_0216D568(void *p, u32 v);
-extern int func_02163F10(int a0);
-extern void func_0216D674(void *p, u16 v);
-extern u32 func_0216D7CC(u32);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern u32 FLDMMDL_MOVE_AddVectorPos(u32, int *);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-int func_021991F0(u32 a)
+int FLDMMDL_ACMD_StepMove(u32 a)
 {
     int *p;
 
-    p = func_0216D6D4((void *)a);
-    func_02163F8C(a, p + 1);
+    p = FLDMMDL_GetMoveCmdWork((void *)a);
+    FLDMMDL_MOVE_AddVectorPos(a, p + 1);
     p[0] = p[0] - 1;
     if (p[0] > 0) {
         return 0;
     }
-    func_0216D568((void *)a, 1088);
-    func_02163F10(a);
-    func_0216D674((void *)a, 0);
-    func_0216D7CC(a);
+    FLDMMDL_SetMoveBit((void *)a, 1088);
+    FLDMMDL_MOVE_UpdateOldGridPos(a);
+    FLDMMDL_SetDrawStatus((void *)a, 0);
+    FLDMMDL_IncAcmdSeq(a);
     return 1;
 }

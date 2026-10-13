@@ -1,5 +1,5 @@
 /*
- * function: func_0216A440
+ * function: SCRCMD_TRIALHOUSE_SetBattleMode
  * address:  0x0216A440
  * packet:   pkt_0216A440
  * region:   ov010
@@ -11,12 +11,12 @@
  * blocked:  
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_021D0A74  0x021D0A74  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   TRIAL_HOUSE_SetBattleMode  0x021D0A74  thumb
  */
 #include "../include/Obj17756.h"
 
@@ -26,14 +26,14 @@ typedef unsigned int u32;
 
 struct Ctx;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetListCursor(void *base);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern int func_021D0A74();
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern int TRIAL_HOUSE_SetBattleMode();
 
-int func_0216A440(int a0, int a1)
+int SCRCMD_TRIALHOUSE_SetBattleMode(int a0, int a1)
 {    int t5;
     int t6;
     void *p;
@@ -44,22 +44,22 @@ int func_0216A440(int a0, int a1)
 t6 = a1 + 0;
 t5 = a0 + 0;
 a0 = t6 + 0;
-    v0 = func_0215A5F4((void *)a0);
+    v0 = SCRCMD_WORK_GetScriptWork((void *)a0);
 loc_0216A44C:
 a0 = t6 + 0;
-    v1 = func_0215A5DC((void *)a0);
+    v1 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0216A452:
-    p = func_020120F4((const struct Ctx *)v1);
+    p = GAMESYSTEM_GetGameData((const struct Ctx *)v1);
 loc_0216A456:
     v2 = GAME_DATA_GetListCursor(p);
 loc_0216A45A:
 a0 = t5 + 0;
 a1 = t6 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
+    a0 = (int)SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
 loc_0216A464:
 a1 = a0 + 0;
 a0 = ((struct Obj17756 *)((char *)v2))->f0;
-    a0 = func_021D0A74(a0, a1);
+    a0 = TRIAL_HOUSE_SetBattleMode(a0, a1);
 loc_0216A46C:
 a0 = 0;
     return a0;}

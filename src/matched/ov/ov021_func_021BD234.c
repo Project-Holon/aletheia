@@ -1,5 +1,5 @@
 /*
- * function: func_021BD234
+ * function: PLACE_NAME_LETTER_InitWork
  * address:  0x021BD234
  * packet:   pkt_ov021_021BD234
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   STRBUF_GetEosChar  0x02045A98  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -19,11 +22,11 @@ typedef struct {
 } Obj;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 
-void func_021BD234(Obj *p)
+void PLACE_NAME_LETTER_InitWork(Obj *p)
 {
     func_02082BCC(p, 0, 0x4C);
     p->f44 = 0;
-    p->h48 = func_02045A98();
+    p->h48 = STRBUF_GetEosChar();
 }

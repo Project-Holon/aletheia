@@ -1,5 +1,5 @@
 /*
- * function: func_021B7378
+ * function: YESNO_MENU_Update
  * address:  0x021B7378
  * packet:   pkt_ov067_021B7378
  * region:   ov067
@@ -18,7 +18,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   func_020355C4  0x020355C4  arm
- *   func_021B76C8  0x021B76C8  thumb  ov067
+ *   YESNO_MENU_GetButtonPos  0x021B76C8  thumb  ov067
  *   func_0204B404  0x0204B404  arm
  *   d_021B94C4     0x021B94C4  data  a1
  *   TOUCHPANEL_HitPoint  0x02035D40  arm
@@ -27,11 +27,11 @@
  *   d_021B94D0     0x021B94D0  data  a2
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_021B7718  0x021B7718  thumb  ov067
+ *   YESNO_MENU_CopyPalette  0x021B7718  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -83,7 +83,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 id);
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
-extern u8 func_021B76C8(u32 a, u32 b, u32 c);
+extern u8 YESNO_MENU_GetButtonPos(u32 a, u32 b, u32 c);
 struct Ctx;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -93,13 +93,13 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 extern void *func_02045770(struct Descriptor *p);
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern void func_021B7718(int which, int idx, void *data);
+extern void YESNO_MENU_CopyPalette(int which, int idx, void *data);
 
-void func_021B7378(S *p)
+void YESNO_MENU_Update(S *p)
 {
     Rect12 rect;
     u32 x;
@@ -154,8 +154,8 @@ void func_021B7378(S *p)
             }
             if (changed) {
                 for (i = 0; i < 4; i++) {
-                    pt[0] = func_021B76C8(p->fc0, i, 0);
-                    pt[1] = func_021B76C8(p->fc0, i, 1);
+                    pt[0] = YESNO_MENU_GetButtonPos(p->fc0, i, 0);
+                    pt[1] = YESNO_MENU_GetButtonPos(p->fc0, i, 1);
                     func_0204B404(p->fa0[i], (const struct Vec2 *)pt, (u16)p->f1c);
                 }
                 func_020061E4(0x548);
@@ -214,20 +214,20 @@ void func_021B7378(S *p)
     if (p->f98 != 0) {
         if (p->f90 == 0 && func_0201C6C4((struct PrintSys *)p->fc, (void *)((int)func_02045770(p->f88))) == 0) {
             o = p->f88;
-            func_02045334(o);
-            func_02045374(o);
+            BMP_WIN_TransferChars(o);
+            BMP_WIN_MakeScreen(o);
             func_02041B6C(func_02045730(o));
             p->f90 = 1;
         }
         if (p->f94 == 0 && func_0201C6C4((struct PrintSys *)p->fc, (void *)((int)func_02045770(p->f8c))) == 0) {
             o = p->f8c;
-            func_02045334(o);
-            func_02045374(o);
+            BMP_WIN_TransferChars(o);
+            BMP_WIN_MakeScreen(o);
             func_02041B6C(func_02045730(o));
             p->f94 = 1;
         }
     }
     if (update) {
-        func_021B7718((u32)p->f10, (u8)(p->f9c == 1 ? p->f16 : p->f17), p->f22[p->fc4]);
+        YESNO_MENU_CopyPalette((u32)p->f10, (u8)(p->f9c == 1 ? p->f16 : p->f17), p->f22[p->fc4]);
     }
 }

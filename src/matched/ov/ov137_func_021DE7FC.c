@@ -10,19 +10,19 @@
  * prototypes: 0203159C returns live allocated r0 here; 0203D7B0/BC receive visible r0=1.
  * symbols:
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02012934 0x02012934 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_021DF800 0x021DF800 thumb ov137
  *   func_020056A0 0x020056A0 thumb
  *   func_021DF7E8 0x021DF7E8 thumb ov137
- *   func_02047CFC 0x02047CFC arm
+ *   G3D_UTIL_Create 0x02047CFC arm
  *   func_021E0640 0x021E0640 thumb ov137
  *   func_021E06E0 0x021E06E0 thumb ov137
  *   func_021E04E0 0x021E04E0 thumb ov137
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
@@ -32,8 +32,8 @@
  *   func_021E11B4 0x021E11B4 thumb ov137
  *   func_021E13BC 0x021E13BC thumb ov137
  *   func_021E1488 0x021E1488 thumb ov137
- *   func_0202208C 0x0202208C thumb
- *   func_0203D7BC 0x0203D7BC arm
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   d_021E1FA0 0x021E1FA0 data a2
  *   d_021E22B8 0x021E22B8 data a1
  */
@@ -46,10 +46,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
-extern void func_0203064C(u32 src, u32 dst, u32 size);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
@@ -66,13 +66,13 @@ extern void func_021E13BC(char *p);
 extern void func_021E1488(char *p);
 extern void *func_020056A0(void (*)(int,void *),void *,u32);
 extern void func_021DF7E8(void *arg, char *p);
-extern void *func_02047CFC(u16,u16,u16);
+extern void *G3D_UTIL_Create(u16,u16,u16);
 struct Ctx;
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern const u16 d_021E1FA0[][5];
 extern const u8 d_021E22B8[];
 int func_021DE7FC(void *obj,int unused,u8 *q)
@@ -81,8 +81,8 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
     void *r;
     int i,n,player;
     GFL_NET_SetAutoExit(1);
-    func_0203064C(1,114,0x80000);
-    p=func_0203159C(obj,0xdac,114);
+    GFL_HEAP_CreateChildHeap(1,114,0x80000);
+    p=PROCSYS_AllocProcWork(obj,0xdac,114);
     i=0;
     func_02082BCC(p,0,0xdac);
     *(u8 * *)&((struct Obj08213 *)q)->f1C=p;
@@ -92,10 +92,10 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
     ((struct Obj02208 *)p)->fD58=func_020490F4(183,114);
     func_021DF800((char *)p);
     ((struct Obj02208 *)p)->fD9C=func_020056A0((void (*)(int,  void *))func_021DF7E8,p,1);
-    ((struct Obj02208 *)p)->fAF4=func_02047CFC(20,11,114);
+    ((struct Obj02208 *)p)->fAF4=G3D_UTIL_Create(20,11,114);
     func_021E0640(p);func_021E06E0((char *)p);func_021E04E0(p);
     n=0;
-    player=func_02039338();
+    player=GFL_NET_SYSTEM_GetCurrentAid();
     s=p+0xe0;
     q=*(u8 * *)&((struct Obj02208 *)p)->fD8;
     for(;i<5;i++) {
@@ -106,7 +106,7 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
     ((struct Obj02208 *)p)->fD94=r;
     ((struct Obj02208 *)p)->fD98=func_02030CBC(32,r);
     func_021E0DE8((char *)p);func_021E0F20((char *)p);func_021E104C((char *)p);func_021E11B4((char *)p);func_021E13BC((char *)p);func_021E1488((char *)p);
-    func_0202208C(0,1,1,0,8,1,114);
-    func_0203D7BC(1);
+    WIPE_SYS_Start(0,1,1,0,8,1,114);
+    GFL_NET_SetLoginOption(1);
     return 1;
 }

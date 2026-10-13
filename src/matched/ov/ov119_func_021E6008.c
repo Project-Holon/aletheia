@@ -14,8 +14,8 @@
  *   func_0202774C 0x0202774C thumb
  *   func_02027750 0x02027750 thumb
  *   func_02027754 0x02027754 thumb
- *   func_021B6208 0x021B6208 thumb ov067
- *   func_021B629C 0x021B629C thumb ov067
+ *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
+ *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   POKERUS_IsCured  0x0201B280  thumb  arm9
  */
 #include "../include/Obj00001.h"
@@ -32,8 +32,8 @@ extern int func_02027748(void);
 extern int func_0202774C(int);
 extern int func_02027750(int);
 extern int func_02027754(int);
-extern void func_021B6208(void *, In *, int, u16);
-extern int func_021B629C(void *, int, u8, u16, u8, u16);
+extern void UI_SCENE_LoadActorGfx(void *, In *, int, u16);
+extern int UI_SCENE_CreateActor(void *, int, u8, u16, u8, u16);
 void func_021E6008(char *p, int b, void *c)
 {
     char *q = p + 0x978;
@@ -52,6 +52,6 @@ void func_021E6008(char *p, int b, void *c)
     in.f14 = func_02027750(2);
     in.f18 = func_02027754(2);
     in.b1d = 0; in.b1e = 1;
-    func_021B6208(q, &in, ((struct Obj00001 *)p)->f9C4, ((struct Obj00001 *)p)->f5F4);
-    ((struct Obj08074 *)q)->f10 = func_021B629C(q, ((struct Obj00001 *)p)->f9C4, 108 + b * 128, 20, 13, ((struct Obj00001 *)p)->f5F4);
+    UI_SCENE_LoadActorGfx(q, &in, ((struct Obj00001 *)p)->f9C4, ((struct Obj00001 *)p)->f5F4);
+    ((struct Obj08074 *)q)->f10 = UI_SCENE_CreateActor(q, ((struct Obj00001 *)p)->f9C4, 108 + b * 128, 20, 13, ((struct Obj00001 *)p)->f5F4);
 }

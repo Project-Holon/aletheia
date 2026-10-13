@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B9944",
-    "func_021B9950",
-    "func_021B995C",
-    "func_021B9964"
+    "OPTION_MENU_GetScreenActor",
+    "OPTION_MENU_GetScreenActorUnit",
+    "OPTION_MENU_GetScreenWindow",
+    "OPTION_MENU_RestartScreenBlink"
+   ],
+   "addresses": [
+    "0x021B9944",
+    "0x021B9950",
+    "0x021B995C",
+    "0x021B9964"
    ]
   }
  ]

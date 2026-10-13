@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0C0
+ * function: FIELD_PLACE_NAME_GetStep
  * address:  0x021BD0C0
  * packet:   pkt_021BCA74
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_021BD0C0(u8 *p)
+u8 FIELD_PLACE_NAME_GetStep(u8 *p)
 {
     return ((struct Obj18210 *)p)->f40;
 }

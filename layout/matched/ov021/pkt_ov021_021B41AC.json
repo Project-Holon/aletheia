@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B41AC",
+   "name": "SCRCMD_PROC_FLD_PrintOwnedWindow",
    "address": "0x021B41AC",
    "kind": "game",
    "region": "ov021",

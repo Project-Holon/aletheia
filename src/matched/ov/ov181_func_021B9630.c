@@ -12,8 +12,8 @@
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
  *   func_02043534  0x02043534  arm
- *   func_020435F4  0x020435F4  arm
- *   func_0204363C  0x0204363C  arm
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   func_0207D534  0x0207D534  arm
  *   GFL_USE_PlayFanfare  0x02005DAC  thumb
  *   func_021B98F4  0x021B98F4  thumb  ov181
@@ -33,8 +33,8 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 extern int func_02034AC4(s32 handle);
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
-extern void func_0204363C(u32 swap);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void GFL_USE_PlayFanfare(void *arg);
 extern void func_021B98F4(void);
@@ -51,10 +51,10 @@ int func_021B9630(u8 *p)
 {
     func_02034AC4((int)ov067_id);
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    func_0204363C(1);
+    BG_SYS_SetLcdSwap(1);
     func_0207D534((void *)0x0400006c, -0x10);
     func_0207D534((void *)0x0400106c, -0x10);
     func_021B98F4();

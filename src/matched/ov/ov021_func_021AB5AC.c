@@ -1,5 +1,5 @@
 /*
- * function: func_021AB5AC
+ * function: MAP_ATTR_IsHopTransition
  * address:  0x021AB5AC
  * packet:   pkt_ov021_021AB5AC
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB0F0  0x021AB0F0  thumb
- *   func_021AB0F8  0x021AB0F8  thumb
- *   func_021AB11C  0x021AB11C  thumb
- *   func_021AB2E8  0x021AB2E8  thumb
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb
+ *   MAP_ATTR_IsBlocked  0x021AB11C  thumb
+ *   MAP_ATTR_IsLongHopEdge  0x021AB2E8  thumb
  */
 
-extern unsigned short func_021AB0F0(unsigned long attr);
-extern unsigned short func_021AB0F8(unsigned long attr);
-extern int func_021AB11C(unsigned long attr);
-extern int func_021AB2E8(int id);
+extern unsigned short MAP_ATTR_GetTerrainId(unsigned long attr);
+extern unsigned short MAP_ATTR_GetFlags(unsigned long attr);
+extern int MAP_ATTR_IsBlocked(unsigned long attr);
+extern int MAP_ATTR_IsLongHopEdge(int id);
 
-int func_021AB5AC(unsigned long a, unsigned long b)
+int MAP_ATTR_IsHopTransition(unsigned long a, unsigned long b)
 {
-    unsigned short lo = func_021AB0F8(b);
-    unsigned short hi = func_021AB0F0(b);
+    unsigned short lo = MAP_ATTR_GetFlags(b);
+    unsigned short hi = MAP_ATTR_GetTerrainId(b);
 
-    if (func_021AB11C(a))
+    if (MAP_ATTR_IsBlocked(a))
         return 0;
-    if (((lo & 2) && !func_021AB11C(b)) || func_021AB2E8(hi))
+    if (((lo & 2) && !MAP_ATTR_IsBlocked(b)) || MAP_ATTR_IsLongHopEdge(hi))
         return 1;
     return 0;
 }

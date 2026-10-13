@@ -1,5 +1,5 @@
 /*
- * function: func_021A3AA0
+ * function: FIELD_PLAYER_CORE_CheckAcmdPossible
  * address:  0x021A3AA0
  * packet:   pkt_021A3AA0
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0216D3CC(int a0);
-extern void *func_021A3960(u8 *p);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern void *FIELD_PLAYER_CORE_GetMmdl(u8 *p);
 
-int func_021A3AA0(u32 a)
+int FIELD_PLAYER_CORE_CheckAcmdPossible(u32 a)
 {
-if (func_0216D3CC((int)func_021A3960((u8 *)a)) == 1) {
+if (FLDMMDL_CheckPossibleAcmd((int)FIELD_PLAYER_CORE_GetMmdl((u8 *)a)) == 1) {
     return 1;
 }
 return 0;

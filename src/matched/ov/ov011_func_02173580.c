@@ -11,7 +11,7 @@
  *
  * Callback leaf: sets the state byte at 0x8FD to 10.  It saves nothing, so
  * disasm.py left it as .word data; its only reference is the function
- * pointer INTRUDE_COMM_Shutdown hands to func_0203CEAC, which is why it is filed
+ * pointer INTRUDE_COMM_Shutdown hands to GFL_NET_Exit, which is why it is filed
  * here, to give that pool word a matched witness.
  */
 

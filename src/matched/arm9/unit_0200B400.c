@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: BATTLE_REC_AllocWork, func_0200B424, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize
+ * function: BATTLE_REC_AllocWork, BATTLE_REC_FreeWork, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize
  *
  * 72 bytes, 0x0200B400..0x0200B448, 4 functions, three of which carry no
  * label in the generated listing: the last three save nothing or nothing but
@@ -58,7 +58,7 @@ void BATTLE_REC_AllocWork(u32 heap)
     pBattleRec = BATTLE_REC_Create(heap);
 }
 
-void func_0200B424(void)
+void BATTLE_REC_FreeWork(void)
 {
     func_020307B0(pBattleRec);
     pBattleRec = 0;

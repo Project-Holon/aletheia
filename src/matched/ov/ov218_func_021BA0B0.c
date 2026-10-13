@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021B61FC 0x021B61FC thumb ov067
- *   func_021B6200 0x021B6200 thumb ov067
+ *   UI_SCENE_GetPhaseFrame 0x021B61FC thumb ov067
+ *   UI_SCENE_AdvancePhaseFrame 0x021B6200 thumb ov067
  *   func_021B9924 0x021B9924 thumb ov218
  *   func_021B9B78 0x021B9B78 thumb ov218
  *   func_021B9C00 0x021B9C00 thumb ov218
  *   func_021B9C88 0x021B9C88 thumb ov218
  *   func_021B9898 0x021B9898 thumb ov218
- *   func_0204E804 0x0204E804 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   BRIGHTNESS_IsFinished 0x02024004 thumb
  *   func_0201F048 0x0201F048 thumb
  *   tbl_021BAC80 0x021BAC80 data ov218 a4
@@ -27,27 +27,27 @@ typedef unsigned int u32;
 struct MsgBank;
 struct TaskMenu;
 struct WordSet;
-extern unsigned func_021B61FC(const unsigned char *p);
-extern void func_021B6200(u8 *a);
+extern unsigned UI_SCENE_GetPhaseFrame(const unsigned char *p);
+extern void UI_SCENE_AdvancePhaseFrame(u8 *a);
 extern int func_021B9924(void);
 extern void func_021B9B78(char *p, u32 id);
 extern int func_021B9C00(char *p);
 extern u32 func_021B9C88(char *p);
 extern struct TaskMenu *func_021B9898(void *arg, struct MsgBank *bank, u32 heap);
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 extern int BRIGHTNESS_IsFinished(int a);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern int tbl_021BAC80[];
 u32 func_021BA0B0(u8 *a, u8 *b)
 {
-    switch (func_021B61FC(a)) {
+    switch (UI_SCENE_GetPhaseFrame(a)) {
     case 0:
         func_021B9924();
     tail:
-        func_021B6200(a);
+        UI_SCENE_AdvancePhaseFrame(a);
         break;
     case 1:
-        if (func_0204E804() == 1) break;
+        if (FADE_IsActive() == 1) break;
         if (BRIGHTNESS_IsFinished(1) == 0) break;
         func_0201F048((struct WordSet *)(*(u32 *)(*(u8 **)(b + 0x28) + 0x14)), 0, tbl_021BAC80[*(int *)(b + 0x30)]);
         func_021B9B78((char *)(*(u8 **)(b + 0x28)), 0xEA);

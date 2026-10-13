@@ -1,5 +1,5 @@
 /*
- * function: func_021DCBDC
+ * function: BTL_HANDLER_TOKUSEI_AddHeavyMetal
  * address: 0x021DCBDC
  * packet: pkt_ov093_021DCBDC
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCAE8.c and filed here.
  *
  * symbols:
- *   d_021F0680 0x021F0680 data ov093 a4
+ *   gHandlerTableHeavyMetal 0x021F0680 data ov093 a4
  */
 
-int *func_021DCBDC(int *p);
-extern int d_021F0680[];
+int *BTL_HANDLER_TOKUSEI_AddHeavyMetal(int *p);
+extern int gHandlerTableHeavyMetal[];
 
-int *func_021DCBDC(int *p)
+int *BTL_HANDLER_TOKUSEI_AddHeavyMetal(int *p)
 {
     *p = 1;
-    return d_021F0680;
+    return gHandlerTableHeavyMetal;
 }

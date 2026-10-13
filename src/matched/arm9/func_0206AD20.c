@@ -33,7 +33,7 @@
  *
  * symbols:
  *   g_renderState   0x02148B4C  data
- *   g_02148B54   0x02148B54  data
+ *   SCREENTEX_ProjectionMatrix   0x02148B54  data
  *   g_02148D0C   0x02148D0C  data
  *   func_0206AB18  0x0206AB18  arm
  */
@@ -41,14 +41,14 @@
 typedef unsigned int u32;
 
 extern u32 g_renderState[];
-extern u32 g_02148B54[];
+extern u32 SCREENTEX_ProjectionMatrix[];
 extern u32 g_02148D0C[];
 extern void func_0206AB18(u32 *a, u32 *b);
 
 u32 *func_0206AD20(void)
 {
     if ((g_renderState[0x3f] & 0x10) == 0) {
-        func_0206AB18(g_02148B54, g_02148D0C);
+        func_0206AB18(SCREENTEX_ProjectionMatrix, g_02148D0C);
         g_renderState[0x3f] |= 0x10;
     }
     return g_02148D0C;

@@ -1,5 +1,5 @@
 /*
- * function: func_0204762C
+ * function: G3D_SYSTEM_DeleteAnime
  * address:  0x0204762C
  * packet:   pkt_02047564
  * region:   arm9
@@ -14,14 +14,14 @@
  *   NNS_G3dFreeAnmObj   0x0206E388  arm
  *   func_020307B0   0x020307B0  arm
  *
- * The sibling of func_02047504 for the other record tag: 0x59D1 instead of
+ * The sibling of G3D_SYSTEM_DeleteRender for the other record tag: 0x59D1 instead of
  * 0x7A14 and NNS_G3dFreeAnmObj instead of NNS_G3dFreeRenderObj.  Everything else,
  * including the register allocation and the reuse of the pooled tag for the
  * decrement, is identical.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204762C.c \
- *       --func func_0204762C --addr 0x0204762C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_DeleteAnime.c \
+ *       --func G3D_SYSTEM_DeleteAnime --addr 0x0204762C --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -38,7 +38,7 @@ struct Obj02061330;
 extern void NNS_G3dFreeAnmObj(struct Obj02061330 *ctx, int field);
 extern u32 func_020307B0(void *p);
 
-void func_0204762C(struct Rec *p)
+void G3D_SYSTEM_DeleteAnime(struct Rec *p)
 {
     if (p == 0)
         return;

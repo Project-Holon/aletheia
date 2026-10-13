@@ -1,5 +1,5 @@
 /*
- * function: func_0219DC34
+ * function: FLDMMDL_RAIL_MOVE_AcDirSet
  * address:  0x0219DC34
  * packet:   pkt_0219DC34
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT*
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D7CC (0x0216D7CC) is a matched manifest entry, so the `matched`
+ * FLDMMDL_IncAcmdSeq (0x0216D7CC) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -29,16 +29,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_02163F10(int a0);
-extern void func_0216D5E0(int a0, int a1);
-extern void func_0216D674(void *p, u16 v);
-extern u32 func_0216D7CC(u32);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-int func_0219DC34(u32 a, u32 b)
+int FLDMMDL_RAIL_MOVE_AcDirSet(u32 a, u32 b)
 {
-func_0216D5E0(a, ((b << 16) >> 16));
-func_0216D674((void *)a, 0);
-func_02163F10(a);
-return func_0216D7CC(a);
+FLDMMDL_SetDirDispCheckPause(a, ((b << 16) >> 16));
+FLDMMDL_SetDrawStatus((void *)a, 0);
+FLDMMDL_MOVE_UpdateOldGridPos(a);
+return FLDMMDL_IncAcmdSeq(a);
 }
 

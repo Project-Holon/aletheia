@@ -1,5 +1,5 @@
 /*
- * function: func_0215E34C
+ * function: FIELD_ENCOUNT_ST_ResetGimmickState
  * address:  0x0215E34C
  * packet:   pkt_0215E34C
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  */
 #include "../include/Obj17697.h"
 
@@ -19,13 +19,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct BigObj;
-extern u32 func_02012A38(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 
-int func_0215E34C(int a0)
+int FIELD_ENCOUNT_ST_ResetGimmickState(int a0)
 {
     int a1;
 
-    a0 = func_02012A38((const struct BigObj *)a0);
+    a0 = GAME_DATA_GetFieldGimmick((const struct BigObj *)a0);
 loc_0215E352:
 a1 = 0;
 ((struct Obj17697 *)a0)->fC = a1;

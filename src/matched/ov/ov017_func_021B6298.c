@@ -21,7 +21,7 @@
  * symbols:
  *   func_0207E24C  0x0207E24C  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_0204A1BC  0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
  *   func_020862F0  0x020862F0  arm
  *   func_02082A60  0x02082A60  arm
@@ -54,7 +54,7 @@ typedef struct Pal {
 
 extern void *func_0207E24C(void);
 extern void func_02082A7C(u32 v, void *dst, u32 size);
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 struct NitroFileHeader;
 extern signed int func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_020862F0(void *p, u32 size);
@@ -82,21 +82,21 @@ void ERROR_SCREEN_LoadBackground(void)
 
     func_02082A7C(0, func_0207E24C(), 0x4000);
 
-    file = (void *)func_0204A1BC(0x16, 1, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
     if (func_02062A4C(file, (void **)(&chr))) {
         func_020862F0(chr->f14, chr->f10);
         Copy(chr->f14, func_0207E24C(), chr->f10);
     }
     func_020307B0(file);
 
-    file = (void *)func_0204A1BC(0x16, 2, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(0x16, 2, 0, 1);
     if (func_02062B30(file, (void **)(&scr))) {
         func_020862F0(scr->f0c, scr->f08);
         Copy(scr->f0c, func_0207DFB4(), scr->f08);
     }
     func_020307B0(file);
 
-    file = (void *)func_0204A1BC(0x16, 0, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(0x16, 0, 0, 1);
     func_02062AD4(file, &cmp);
     if (func_02062A98(file, (void **)(&pal))) {
         func_020862F0(pal->f0c, 0x20);

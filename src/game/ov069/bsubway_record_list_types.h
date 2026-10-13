@@ -2,7 +2,7 @@
 #define GAME_OV069_BSUBWAY_RECORD_LIST_TYPES_H
 
 /* ov069: Battle Subway Wi-Fi record list screen. It shows the record list
- * of the Battle Subway save block (func_0200DF58), ten entries per page,
+ * of the Battle Subway save block (BSUBWAY_SAVEDATA_AllocHistoryCopy), ten entries per page,
  * with a row cursor and previous/next page arrows. bsubway_record_list.c holds
  * the screen entry points (Init, Main, Exit) and the setup and teardown of
  * the work; the same file holds the page drawing and the input states. */

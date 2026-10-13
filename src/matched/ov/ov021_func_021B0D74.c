@@ -1,5 +1,5 @@
 /*
- * function: func_021B0D74
+ * function: SCRCMD_MSGWIN_CmdBalloonWinMsgTarget
  * address:  0x021B0D74
  * packet:   pkt_ov021_021B0D74
  * region:   ov021
@@ -10,40 +10,40 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B0D74  0x021B0D74  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F90  0x02158F90  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0216D588  0x0216D588  thumb  ov010
- *   func_021B0BAC  0x021B0BAC  thumb
- *   func_020113D0  0x020113D0  thumb
- *   func_021B0CEC  0x021B0CEC  thumb
+ *   SCRCMD_MSGWIN_CmdBalloonWinMsgTarget  0x021B0D74  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
+ *   SCRCMD_MSGWIN_OpenBalloonWinMsg  0x021B0BAC  thumb
+ *   VM_SetWait  0x020113D0  thumb
+ *   SCRCMD_MSGWIN_WaitBalloonWin  0x021B0CEC  thumb
  */
 
-extern void *func_0215A5F4(void *p);
-extern void *func_02158F90(void *);
-extern unsigned int func_02159B10(void *, void *);
-extern unsigned short func_0216D588(void *);
-extern int func_021B0BAC(int, int, int, int, int, int);
-extern void func_020113D0(char *p, int val);
-extern int func_021B0CEC(int, int);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetTargetObj(void *);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern unsigned short FLDMMDL_GetObjId(void *);
+extern int SCRCMD_MSGWIN_OpenBalloonWinMsg(int, int, int, int, int, int);
+extern void VM_SetWait(char *p, int val);
+extern int SCRCMD_MSGWIN_WaitBalloonWin(int, int);
 
-int func_021B0D74(int a, int b)
+int SCRCMD_MSGWIN_CmdBalloonWinMsgTarget(int a, int b)
 {
     void *o;
     int v0, v1, v2, v3;
     unsigned char f;
-    o = func_02158F90(func_0215A5F4((void *)b));
-    v0 = func_02159B10((void *)a, (void *)b);
-    v1 = func_02159B10((void *)a, (void *)b);
-    v2 = func_02159B10((void *)a, (void *)b);
-    v3 = func_02159B10((void *)a, (void *)b);
+    o = SCRIPT_WORK_GetTargetObj(SCRCMD_WORK_GetScriptWork((void *)b));
+    v0 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    v1 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    v2 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    v3 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     if (o == 0) {
         return 1;
     }
-    f = func_0216D588(o);
-    if (func_021B0BAC(b, f, v0, v1, v2, v3) == 1) {
-        func_020113D0((char *)a, (int)func_021B0CEC);
+    f = FLDMMDL_GetObjId(o);
+    if (SCRCMD_MSGWIN_OpenBalloonWinMsg(b, f, v0, v1, v2, v3) == 1) {
+        VM_SetWait((char *)a, (int)SCRCMD_MSGWIN_WaitBalloonWin);
         return 1;
     }
     return 0;

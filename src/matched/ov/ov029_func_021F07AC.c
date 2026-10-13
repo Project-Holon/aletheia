@@ -1,5 +1,5 @@
 /*
- * function: func_021F07AC
+ * function: C_GEAR_UpdateTabPaletteKind3
  * address:  0x021F07AC
  * packet:   pkt_ov029_021F07AC
  * region:   ov029
@@ -12,26 +12,26 @@
  *           table byte into v as its own statement keeps the argument copies after it.
  *
  * symbols:
- *   func_021F07AC  0x021F07AC  thumb  ov029
- *   func_021F0D08  0x021F0D08  thumb  ov029
- *   func_021F08BC  0x021F08BC  thumb  ov029
+ *   C_GEAR_UpdateTabPaletteKind3  0x021F07AC  thumb  ov029
+ *   C_GEAR_GetTabTimerCount  0x021F0D08  thumb  ov029
+ *   C_GEAR_BlendTabPalette  0x021F08BC  thumb  ov029
  *   d_021F3255     0x021F3255  data  ov029  a1
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern unsigned short func_021F0D08(unsigned short *p, int i);
+extern unsigned short C_GEAR_GetTabTimerCount(unsigned short *p, int i);
 struct W;
-extern void func_021F08BC(struct W *p, int i, int j, int k);
+extern void C_GEAR_BlendTabPalette(struct W *p, int i, int j, int k);
 extern u8 d_021F3255[];
 
-void func_021F07AC(u8 *p, int i, u16 *e)
+void C_GEAR_UpdateTabPaletteKind3(u8 *p, int i, u16 *e)
 {
-    unsigned int v = func_021F0D08(e, i);
+    unsigned int v = C_GEAR_GetTabTimerCount(e, i);
     if (v > 0x24 || v < 4) return;
     v = (u16)(v - 4);
     v = (unsigned)(((int)v % 8) * 28) >> 3;
     v = d_021F3255[v];
-    func_021F08BC((struct W *)p, i, v, 0x1f);
+    C_GEAR_BlendTabPalette((struct W *)p, i, v, 0x1f);
 }

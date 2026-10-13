@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AB760",
+   "name": "FLD_SCENEAREA_GetCamera",
    "address": "0x021AB760",
    "kind": "game",
    "region": "ov021",

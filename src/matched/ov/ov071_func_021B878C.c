@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021B6EEC((char *)p + 0x18).
+ * Tail call to MONOLITH_TOOL_FreeLabel((char *)p + 0x18).
  *
  * symbols:
- *   func_021B6EEC  0x021B6EEC  thumb  ov071
+ *   MONOLITH_TOOL_FreeLabel  0x021B6EEC  thumb  ov071
  */
 
 void func_021B878C(void *p)
 {
-    void func_021B6EEC(void **p);
-    func_021B6EEC((void **)((char *)p + 0x18));
+    void MONOLITH_TOOL_FreeLabel(void **p);
+    MONOLITH_TOOL_FreeLabel((void **)((char *)p + 0x18));
 }

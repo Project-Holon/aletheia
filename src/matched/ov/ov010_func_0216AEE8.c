@@ -1,5 +1,5 @@
 /*
- * function: func_0216AEE8
+ * function: SCRCMD_SYMBOL_GetTargetObjectKey
  * address: 0x0216AEE8
  * packet: pkt_ov010_0216AEE8
  * region: ov010
@@ -9,23 +9,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0215A5F4 0x0215A5F4 thumb ov010
- *   func_0215A5E4 0x0215A5E4 thumb ov010
- *   func_0215901C 0x0215901C thumb ov010
- *   func_0216AED0 0x0216AED0 thumb ov010
- *   func_0217C274 0x0217C274 thumb ov018
+ *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
+ *   SCRCMD_WORK_GetGameData 0x0215A5E4 thumb ov010
+ *   SCRIPT_WORK_GetWorkValue 0x0215901C thumb ov010
+ *   SCRCMD_SYMBOL_GetMmdl 0x0216AED0 thumb ov010
+ *   INTRUDE_FIELD_GetMmdlParamPair 0x0217C274 thumb ov018
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
-extern u32 func_0215901C(void *, void *, u32);
-extern void *func_0216AED0(void *p, u32 id);
-extern void func_0217C274(unsigned int *out, char *p);
-void func_0216AEE8(int vm, int *out)
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern u32 SCRIPT_WORK_GetWorkValue(void *, void *, u32);
+extern void *SCRCMD_SYMBOL_GetMmdl(void *p, u32 id);
+extern void INTRUDE_FIELD_GetMmdlParamPair(unsigned int *out, char *p);
+void SCRCMD_SYMBOL_GetTargetObjectKey(int vm, int *out)
 {
     void *ws;
-    ws = func_0215A5F4((void *)vm);
-    func_0217C274((unsigned int *)out, (char *)((int)func_0216AED0((void *)vm, func_0215901C(ws, func_0215A5E4((void *)vm), 0x8011))));
+    ws = SCRCMD_WORK_GetScriptWork((void *)vm);
+    INTRUDE_FIELD_GetMmdlParamPair((unsigned int *)out, (char *)((int)SCRCMD_SYMBOL_GetMmdl((void *)vm, SCRIPT_WORK_GetWorkValue(ws, SCRCMD_WORK_GetGameData((void *)vm), 0x8011))));
 }

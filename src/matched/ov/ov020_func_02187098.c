@@ -1,5 +1,5 @@
 /*
- * function: func_02187098
+ * function: FIELD_WFBC_DATA_LOCAL_ScrCmdCallPersonTalkEvent
  * address: 0x02187098
  * packet: pkt_ov020_02187098
  * region: ov020
@@ -9,24 +9,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0215A5F4 0x0215A5F4 thumb ov010
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_0201210C 0x0201210C thumb
- *   func_021870C4 0x021870C4 thumb ov020
- *   func_0215897C 0x0215897C thumb ov010
+ *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
+ *   FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent 0x021870C4 thumb ov020
+ *   SCRIPT_SYS_CallEvent 0x0215897C thumb ov010
  */
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *p);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_021870C4(void *a, void *b);
-extern void func_0215897C(void *vm, void *task);
-int func_02187098(void *unused, void *p)
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(void *a, void *b);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+int FIELD_WFBC_DATA_LOCAL_ScrCmdCallPersonTalkEvent(void *unused, void *p)
 {
     void *vm;
     void *obj;
-    vm = func_0215A5F4(p);
-    obj = func_0215A5DC(p);
-    func_0215897C(vm, func_021870C4(obj, func_0201210C(obj)));
+    vm = SCRCMD_WORK_GetScriptWork(p);
+    obj = SCRCMD_WORK_GetGameSystem(p);
+    SCRIPT_SYS_CallEvent(vm, FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(obj, GAMESYSTEM_GetFieldMap(obj)));
     return 1;
 }

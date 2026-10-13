@@ -9,25 +9,25 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * The u8 result of func_021D5440 and the u16 id parameter (the real types
+ * The u8 result of BTL_POKEPARAM_GetPokeId and the u16 id parameter (the real types
  * of the matched callees) set the prologue order: the y home store comes
  * before the x home store.
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   func_021B9940  0x021B9940  thumb  ov093
- *   func_021D5750  0x021D5750  thumb  ov093
+ *   BTL_POKEPARAM_HasMove  0x021D5750  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021B9A24(u8 a, u8 b);
 extern u8 *func_021B9940(char *p, u8 i);
-extern int func_021D5750(u8 *p, u16 id);
+extern int BTL_POKEPARAM_HasMove(u8 *p, u16 id);
 
 typedef struct {
     u8 pad00[0xB0];
@@ -42,12 +42,12 @@ int func_021EFC1C(S *a, char *x, void *m, u16 y)
     u32 i;
     u32 n;
 
-    mon = func_021D5440(m);
+    mon = BTL_POKEPARAM_GetPokeId(m);
     n = a->count;
     for (i = 0; i < n; i++) {
         c = a->id[i];
         if (func_021B9A24(mon, c) == 0) {
-            if (func_021D5750(func_021B9940(x, c), y) != 0)
+            if (BTL_POKEPARAM_HasMove(func_021B9940(x, c), y) != 0)
                 return 1;
         }
     }

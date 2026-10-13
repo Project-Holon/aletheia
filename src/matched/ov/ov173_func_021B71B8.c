@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201F868 0x0201F868 thumb
+ *   BMP_MENUWORK_Delete 0x0201F868 thumb
  */
 typedef unsigned int   u32;
-extern u32 func_0201F868(void *p);
+extern u32 BMP_MENUWORK_Delete(void *p);
 void func_021B71B8(char *p)
 {
-    func_0201F868(*(void **)(p + 0x58));
+    BMP_MENUWORK_Delete(*(void **)(p + 0x58));
 }

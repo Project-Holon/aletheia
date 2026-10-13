@@ -1,5 +1,5 @@
 /*
- * function: func_0200FB38
+ * function: GFL_NET_ERR_RequestScreen
  * address:  0x0200FB38
  * packet:   pkt_0200FB38
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern unsigned int gNetErrWork[];
 
-void func_0200FB38(void)
+void GFL_NET_ERR_RequestScreen(void)
 {
     if (gNetErrWork[11] == 1) {
         gNetErrWork[11] = 2;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217EEB4
+ * function: INTRUDE_SUBDISP_ReloadBgScreens
  * address:  0x0217EEB4
  * packet:   pkt_ov018_0217EEB4
  * region:   ov018
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_0204989C  0x0204989C  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0217F1E8  0x0217F1E8  thumb  ov018
- *   func_0217F240  0x0217F240  thumb  ov018
+ *   INTRUDE_SUBDISP_IsInfoActive  0x0217F1E8  thumb  ov018
+ *   INTRUDE_SUBDISP_DrawInfoPanel  0x0217F240  thumb  ov018
  */
 
 typedef unsigned char u8;
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
-extern int func_0217F1E8(u8 *p);
-extern void func_0217F240(u8 *p, int mode);
+extern int INTRUDE_SUBDISP_IsInfoActive(u8 *p);
+extern void INTRUDE_SUBDISP_DrawInfoPanel(u8 *p, int mode);
 
-void func_0217EEB4(int *p)
+void INTRUDE_SUBDISP_ReloadBgScreens(int *p)
 {
     int n;
 
@@ -47,11 +47,11 @@ void func_0217EEB4(int *p)
         }
     }
     if (n != 0) {
-        func_02045374((struct Cfg *)p[0x44 / 4]);
-        func_02045374((struct Cfg *)p[0x4c / 4]);
+        BMP_WIN_MakeScreen((struct Cfg *)p[0x44 / 4]);
+        BMP_WIN_MakeScreen((struct Cfg *)p[0x4c / 4]);
         func_02041B6C(6);
-        if (func_0217F1E8((u8 *)p) == 1) {
-            func_0217F240((u8 *)p, 1);
+        if (INTRUDE_SUBDISP_IsInfoActive((u8 *)p) == 1) {
+            INTRUDE_SUBDISP_DrawInfoPanel((u8 *)p, 1);
         }
     }
 }

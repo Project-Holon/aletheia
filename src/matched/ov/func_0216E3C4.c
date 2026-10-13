@@ -1,5 +1,5 @@
 /*
- * function: func_0216E3C4
+ * function: FLDMMDL_GetObjCodeParam
  * address:  0x0216E3C4
  * packet:   pkt_0216E3C4
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216E3C4.c \
- *       --func func_0216E3C4 --addr 0x0216E3C4 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetObjCodeParam.c \
+ *       --func FLDMMDL_GetObjCodeParam --addr 0x0216E3C4 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -26,4 +26,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void *func_0216E3C4(void *p) { return (char *)p + 228; }
+void *FLDMMDL_GetObjCodeParam(void *p) { return (char *)p + 228; }

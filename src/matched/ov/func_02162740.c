@@ -1,5 +1,5 @@
 /*
- * function: func_02162740
+ * function: EVENTDATA_SYSTEM_GetNpcHeaders
  * address:  0x02162740
  * packet:   pkt_02162740
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u32 func_02162740(u8 *p)
+u32 EVENTDATA_SYSTEM_GetNpcHeaders(u8 *p)
 {
     return ((struct Obj17716 *)p)->f20;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B991C
+ * function: TOWNMAP_ProcInit
  * address: 0x021B991C
  * packet: pkt_ov072_021B991C
  * region: ov072
@@ -10,12 +10,12 @@
  * status: EXACT
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_021B995C 0x021B995C thumb ov072
+ *   TOWNMAP_ProcSetStep 0x021B995C thumb ov072
  */
 extern void func_02082BCC(void *, int, int);
-extern void func_021B995C(int *, int);
-void func_021B991C(int *p, int a, int b) {
+extern void TOWNMAP_ProcSetStep(int *, int);
+void TOWNMAP_ProcInit(int *p, int a, int b) {
     func_02082BCC(p, 0, 16);
     p[3] = a;
-    func_021B995C(p, b);
+    TOWNMAP_ProcSetStep(p, b);
 }

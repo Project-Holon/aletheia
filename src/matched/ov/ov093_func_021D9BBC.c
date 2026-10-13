@@ -1,5 +1,5 @@
 /*
- * function: func_021D9BBC
+ * function: HAND_TOKUSEI_AddShellArmor
  * address: 0x021D9BBC
  * packet: pkt_ov093_021D9BBC
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F0868 0x021F0868 data ov093 a4
  */
 
-int *func_021D9BBC(int *p);
+int *HAND_TOKUSEI_AddShellArmor(int *p);
 extern int d_021F0868[];
 
-int *func_021D9BBC(int *p)
+int *HAND_TOKUSEI_AddShellArmor(int *p)
 {
     *p = 1;
     return d_021F0868;

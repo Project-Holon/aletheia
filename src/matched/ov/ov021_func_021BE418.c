@@ -1,5 +1,5 @@
 /*
- * function: func_021BE418
+ * function: FLD_EXP_OBJ_RemoveUnit
  * address:  0x021BE418
  * packet:   pkt_ov021_021BE418
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_020480E4  0x020480E4  arm
+ *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *
  * The listing extent (172) runs on into unlabelled leaves 0x021BE480,
  * 0x021BE4A4 and 0x021BE4B4; the function itself is 102 bytes.
@@ -31,9 +31,9 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 struct Ctx;
-extern void func_020480E4(struct Ctx *c, u32 i);
+extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 
-void func_021BE418(u8 *p, u16 i)
+void FLD_EXP_OBJ_RemoveUnit(u8 *p, u16 i)
 {
     u8 *slot = p;
     u16 k;
@@ -46,7 +46,7 @@ void func_021BE418(u8 *p, u16 i)
             func_020307B0(*(u8 **)(*(u8 * *)&((struct Obj12902 *)e)->f10 + k * 8 + 4));
         func_020307B0(*(void **)(p + 0x10 + (u32)i * 16));
         func_020307B0(*(void **)(p + 0xC + (u32)i * 16));
-        func_020480E4((struct Ctx *)(((struct Obj20141 *)p)->f4), *(u16 *)(p + 0x14 + (u32)i * 16));
+        G3D_UTIL_RemoveUnit((struct Ctx *)(((struct Obj20141 *)p)->f4), *(u16 *)(p + 0x14 + (u32)i * 16));
         *(u32 *)(slot + (i << 4)) = 0;
     }
 }

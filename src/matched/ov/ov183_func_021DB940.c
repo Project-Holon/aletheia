@@ -37,9 +37,9 @@
  *   func_021DBFB0 0x021DBFB0 thumb ov183
  *   func_021DC4FC 0x021DC4FC thumb ov183
  *   func_021DBC68 0x021DBC68 thumb ov183
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02025538 0x02025538 thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_0201C440 0x0201C440 thumb
  *   BATTLE_REC_GetHeader 0x0200B928 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
@@ -49,11 +49,11 @@ typedef unsigned int u32;
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 typedef unsigned char  u8;
 struct ObjC4;
-extern void * func_02025538(unsigned,void *);
+extern void * BMP_OAM_CreateSys(unsigned,void *);
 extern u32 func_0201C440(void *p);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern char *func_021FD760(unsigned,char *,int,int);
@@ -68,12 +68,12 @@ int func_021DB940(int *task,int *state,char *q)
 {
     char *p,*s;
     int i;
-    p=func_0203159C((struct Obj0203159C *)task,0xe8,func_021F9B9C((struct Obj24810 *)(*(char **)(q+0x14))));
+    p=PROCSYS_AllocProcWork((struct Obj0203159C *)task,0xe8,func_021F9B9C((struct Obj24810 *)(*(char **)(q+0x14))));
     func_02082BCC(p,0,0xe8);
     *(unsigned short *)(p+0xb4)=func_021F9B9C((struct Obj24810 *)(*(char **)(q+0x14)));
     *(int *)(p+0xb0)=0;
     *(char **)(p+0xd0)=q;
-    *(void **)p=func_02025538(*(unsigned short *)(p+0xb4),*(void **)(q+0x18));
+    *(void **)p=BMP_OAM_CreateSys(*(unsigned short *)(p+0xb4),*(void **)(q+0x18));
     *(void **)(p+4)=(void *)func_0201C440((void *)(*(unsigned short *)(p+0xb4)));
     *(void **)(p+8)=func_021FD6D8((int)p,0,*(unsigned short *)(p+0xb4));
     for(i=0;i<2;i++) *(char **)(p+i*4+0xc)=func_021FD760(*(unsigned *)(q+0x18),*(char **)(q+0x10),i,*(unsigned short *)(p+0xb4));

@@ -22,16 +22,16 @@
  *           over three unlabelled leaves, filed as src/matched/unit_02010848.c.
  *
  * symbols:
- *   func_0203CD98     0x0203CD98  arm
- *   func_0203D798     0x0203D798  arm
+ *   GFL_NET_GetRunState     0x0203CD98  arm
+ *   GFL_NET_GetInitParam     0x0203D798  arm
  *   OS_GetMacAddress  0x02087C6C  arm
- *   func_0203CF10     0x0203CF10  arm
+ *   GFL_NET_GetScanResult     0x0203CF10  arm
  *   func_02177B80     0x02177B80  thumb  ov014
  *   sub_0202E8D8      0x0202E8D8  thumb
  *
  * wih_dwc.c: find the first of 16 slots whose ov014 state is 0x20 and whose
- * func_0203CF10 record COMM_PLAYER_SUPPORT_FindPeerRecord accepts against (key, own MAC address);
- * -1 when none, or when func_0203CD98 reports the layer inactive.  The
+ * GFL_NET_GetScanResult record COMM_PLAYER_SUPPORT_FindPeerRecord accepts against (key, own MAC address);
+ * -1 when none, or when GFL_NET_GetRunState reports the layer inactive.  The
  * closing lever over docs/notes/pkt_020107CC.c.txt was the wrapping `if`
  * instead of an early return (the original's guard branches forward over
  * the whole body to the shared -1 exit) plus the two loop tests joined by &&.
@@ -45,11 +45,11 @@
 
 typedef unsigned char u8;
 
-extern int  func_0203CD98(void);
-extern void *func_0203D798(void);
+extern int  GFL_NET_GetRunState(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void OS_GetMacAddress(u8 *mac);
 typedef unsigned int   u32;
-extern u32 func_0203CF10(u32 a);
+extern u32 GFL_NET_GetScanResult(u32 a);
 extern u8 func_02177B80(int i);
 extern int sub_0202E8D8(char *a0, int a1, char *a2);
 
@@ -58,11 +58,11 @@ int WIH_DWC_FindSlotByKey(void *key)
     u8 mac[8];
     int i;
 
-    if (func_0203CD98() != 0) {
-        func_0203D798();
+    if (GFL_NET_GetRunState() != 0) {
+        GFL_NET_GetInitParam();
         OS_GetMacAddress(mac);
         for (i = 0; i < 0x10; i++) {
-            if (func_02177B80(i) == 0x20 && sub_0202E8D8((void *)func_0203CF10(i), (int)key, (char *)mac) != 0) {
+            if (func_02177B80(i) == 0x20 && sub_0202E8D8((void *)GFL_NET_GetScanResult(i), (int)key, (char *)mac) != 0) {
                 return i;
             }
         }

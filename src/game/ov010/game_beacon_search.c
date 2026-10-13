@@ -1,7 +1,7 @@
 /*
  * file:     game_beacon_search.c
  * unit:     yes
- * function: func_02164B38, func_02164B6C, func_02164BC4, func_02164C04, func_02164C20, func_02164C38, func_02164C64, func_02164D6C, func_02164E04, func_02164E8C, func_02164EB4, func_02164F88, func_02164F8C, func_02164F90, func_02164F98, func_02164F9C, func_02164FC4, func_02164FD0, func_0216505C, func_02165078, func_02165094, func_021650BC, func_021650CC, func_021650F4, func_02165104, func_0216512C, func_0216513C, func_02165164, func_02165174, func_0216519C, func_021651AC, func_021651D4, func_021651E4, func_0216520C, func_0216521C, func_02165244, func_02165254, func_0216527C, func_0216528C, func_021652B4, func_021652C4, func_021652EC, func_0216530C, func_02165334, func_02165344, func_02165368, func_02165374, func_021653B4, func_021653C4, func_021653E8, func_021653F4, func_02165418, func_02165424, func_0216544C, func_02165468, func_02165490, func_021654AC, func_021654D4, func_021654F0, func_02165518, func_02165534, func_0216555C, func_0216556C, func_02165590, func_0216559C, func_021655C4, func_021655D4, func_021655F8, func_02165604, func_02165628, func_02165634, func_0216565C, func_0216566C, func_02165690, func_021656A0, func_021656C4, func_021656D0, func_021656F8, func_0216570C, func_02165730, func_0216573C, func_02165760, func_0216576C, func_02165794, func_021657B0, func_021657D8, func_021657E8, func_02165814, func_02165844, func_0216586C, func_02165888, func_021658D4, func_02165940, func_02165960, func_021659F0, func_02165A10, func_02165AC4, func_02165B04, func_02165B10, func_02165B2C, func_02165B5C, func_02165C10, func_02165C34, func_02165C48, func_02165C50, func_02165C58, func_02165C5C, func_02165C60, func_02165C78, func_02165C90, func_02165CB4, func_02165CC0, func_02165CD8, func_02165CE4, func_02165CE8, func_02165D08, func_02165D10, func_02165D20, func_02165D28, func_02165D34, func_02165D40, func_02165D48, func_02165D50, func_02165D6C, func_02165D8C, func_02165DAC, func_02165DBC, func_02165DF0, func_02165E24, func_02165E34, func_02165E78, func_02165E8C, func_02165E9C, func_02165EAC, func_02165EBC, func_02165ECC, func_02165F30, func_02165F64, func_02165F74, func_02165F84, func_02165F94, func_02165FA4, func_02165FB4
+ * function: CALENDER_CreateTask, GAME_BEACON_SEARCH_Init, GAME_BEACON_SEARCH_InitWait, GAME_BEACON_SEARCH_OnSessionStarted, GAME_BEACON_SEARCH_Exit, func_02164C38, GAME_BEACON_SEARCH_Update, GAME_BEACON_SEARCH_PollScanResult, GAME_BEACON_SEARCH_PickBestScanResult, GAME_BEACON_SEARCH_GetBeaconData, GAME_BEACON_SEARCH_BuildBeaconHeader, GAME_BEACON_SEARCH_GetBeaconSize, GAME_BEACON_SEARCH_CompareBeacon, GAME_BEACON_SEARCH_OnConnected, GAME_BEACON_SEARCH_DummyCallback, GAME_BEACON_SEARCH_SelectBetterEntry, GAME_BEACON_SEARCH_SetStartDelay, GAME_BEACON_SEARCH_StartConnectEvent, GAME_BEACON_SEARCH_SetBattlePokeStart, GAME_BEACON_SEARCH_SetBattlePokeWin, GAME_BEACON_SEARCH_SetBattleWildPokeStart, GAME_BEACON_SEARCH_SetInfoBattleWildPokeStart, GAME_BEACON_SEARCH_SetBattleWildPokeWin, GAME_BEACON_SEARCH_SetInfoBattleWildPokeWin, GAME_BEACON_SEARCH_SetBattleSpecialPokeStart, GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeStart, GAME_BEACON_SEARCH_SetBattleSpecialPokeWin, GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin, GAME_BEACON_SEARCH_SetBattleTrainerStart, GAME_BEACON_SEARCH_SetInfoBattleTrainerStart, GAME_BEACON_SEARCH_SetBattleTrainerWin, GAME_BEACON_SEARCH_SetInfoBattleTrainerWin, GAME_BEACON_SEARCH_SetBattleLeaderStart, GAME_BEACON_SEARCH_SetInfoBattleLeaderStart, GAME_BEACON_SEARCH_SetBattleLeaderWin, GAME_BEACON_SEARCH_SetInfoBattleLeaderWin, GAME_BEACON_SEARCH_SetBattleBigFourStart, GAME_BEACON_SEARCH_SetInfoBattleBigFourStart, GAME_BEACON_SEARCH_SetBattleBigFourWin, GAME_BEACON_SEARCH_SetInfoBattleBigFourWin, GAME_BEACON_SEARCH_SetVersionAction, GAME_BEACON_SEARCH_SetInfoVersionAction, GAME_BEACON_SEARCH_SetItemFound, GAME_BEACON_SEARCH_SetInfoItemFound, GAME_BEACON_SEARCH_SetScriptEvent, GAME_BEACON_SEARCH_SetInfoScriptEvent, GAME_BEACON_SEARCH_SetPresetEvent, GAME_BEACON_SEARCH_SetInfoPresetEvent, GAME_BEACON_SEARCH_SetFieldEvent, GAME_BEACON_SEARCH_SetInfoFieldEvent, GAME_BEACON_SEARCH_SetPokeEvent, GAME_BEACON_SEARCH_SetInfoPokeEvent, GAME_BEACON_SEARCH_SetEventBattleNameA, GAME_BEACON_SEARCH_SetInfoEventBattleNameA, GAME_BEACON_SEARCH_SetEventBattleNameB, GAME_BEACON_SEARCH_SetInfoEventBattleNameB, GAME_BEACON_SEARCH_SetEventBattleNameC, GAME_BEACON_SEARCH_SetInfoEventBattleNameC, GAME_BEACON_SEARCH_SetEventBattleNameD, GAME_BEACON_SEARCH_SetInfoEventBattleNameD, GAME_BEACON_SEARCH_SetCountValue, GAME_BEACON_SEARCH_SetInfoCountValue, GAME_BEACON_SEARCH_SetSymbolMapEnter, GAME_BEACON_SEARCH_SetInfoSymbolMapEnter, GAME_BEACON_SEARCH_SetSymbolMapPoke, GAME_BEACON_SEARCH_SetInfoSymbolMapPoke, GAME_BEACON_SEARCH_SetFacilityEnter, GAME_BEACON_SEARCH_SetInfoFacilityEnter, GAME_BEACON_SEARCH_SetFacilityExit, GAME_BEACON_SEARCH_SetInfoFacilityExit, GAME_BEACON_SEARCH_SetWordValue, GAME_BEACON_SEARCH_SetInfoWordValue, GAME_BEACON_SEARCH_SetWordClear, GAME_BEACON_SEARCH_SetInfoWordClear, GAME_BEACON_SEARCH_SetSimpleEventA, GAME_BEACON_SEARCH_SetInfoSimpleEventA, GAME_BEACON_SEARCH_SetByteValue, GAME_BEACON_SEARCH_SetInfoByteValue, GAME_BEACON_SEARCH_SetSimpleEventB, GAME_BEACON_SEARCH_SetInfoSimpleEventB, GAME_BEACON_SEARCH_SetSimpleEventC, GAME_BEACON_SEARCH_SetInfoSimpleEventC, GAME_BEACON_SEARCH_SetNamedEvent, GAME_BEACON_SEARCH_SetInfoNamedEvent, GAME_BEACON_SEARCH_SetHalfwordValue, GAME_BEACON_SEARCH_SetInfoHalfwordValue, GAME_BEACON_SEARCH_SetThanks, GAME_BEACON_SEARCH_SetInfoThanks, GAME_BEACON_SEARCH_SetFreeText, GAME_BEACON_SEARCH_SetInfoFreeText, GAME_BEACON_ACCESSOR_TableAddNewLogs, GAME_BEACON_ACCESSOR_TablePop, GAME_BEACON_ACCESSOR_TableMarkLogsNew, GAME_BEACON_ACCESSOR_TableAdd, GAME_BEACON_ACCESSOR_TableGetRingIndex, GAME_BEACON_ACCESSOR_TableRingAdd, GAME_BEACON_ACCESSOR_TableRingGet, GAME_BEACON_ACCESSOR_TableGetCount, GAME_BEACON_ACCESSOR_AllocInfo, GAME_BEACON_ACCESSOR_AllocTable, GAME_BEACON_ACCESSOR_IsInfoInvalid, GAME_BEACON_ACCESSOR_IsDistributionAction, GAME_BEACON_ACCESSOR_GetPlayerName, GAME_BEACON_ACCESSOR_GetPmVersion, GAME_BEACON_ACCESSOR_GetLanguage, GAME_BEACON_ACCESSOR_GetNation, GAME_BEACON_ACCESSOR_GetArea, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst, GAME_BEACON_ACCESSOR_GetDetailsPms, GAME_BEACON_ACCESSOR_GetResearchTeamRank, GAME_BEACON_ACCESSOR_GetFavoriteColorRgb, GAME_BEACON_ACCESSOR_GetFavoriteColorIndex, GAME_BEACON_ACCESSOR_GetTrainerId, GAME_BEACON_ACCESSOR_GetTrainerAppearance, GAME_BEACON_ACCESSOR_GetSex, GAME_BEACON_ACCESSOR_GetPlayTime, GAME_BEACON_ACCESSOR_GetInfoVersion, GAME_BEACON_ACCESSOR_GetZoneId, GAME_BEACON_ACCESSOR_GetTownmapRootZoneId, GAME_BEACON_ACCESSOR_GetPassCount, GAME_BEACON_ACCESSOR_GetThanksCount, GAME_BEACON_ACCESSOR_GetGreeting, GAME_BEACON_ACCESSOR_GetThanksName, GAME_BEACON_ACCESSOR_GetFreeText, GAME_BEACON_ACCESSOR_GetDetailsType, GAME_BEACON_ACCESSOR_GetDetailsTrainerNo, GAME_BEACON_ACCESSOR_GetDetailsMonsNo, GAME_BEACON_ACCESSOR_GetActionNo, GAME_BEACON_ACCESSOR_GetActionMonsNo, GAME_BEACON_ACCESSOR_GetActionItemNo, GAME_BEACON_ACCESSOR_GetActionCountValue, GAME_BEACON_ACCESSOR_GetDistributionMonsNo, GAME_BEACON_ACCESSOR_GetDistributionItemNo, GAME_BEACON_ACCESSOR_GetDistributionSerial, GAME_BEACON_ACCESSOR_GetNickname, GAME_BEACON_ACCESSOR_GetActionTrainerNo, GAME_BEACON_ACCESSOR_GetPresetEventValue, GAME_BEACON_ACCESSOR_GetActionSpecialValue, GAME_BEACON_ACCESSOR_GetActionWordValue, GAME_BEACON_ACCESSOR_GetActionByteValue, GAME_BEACON_ACCESSOR_GetActionHalfwordValue, GAME_BEACON_ACCESSOR_GetActionCheckIndex
  * address:  0x02164B38
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -15,25 +15,25 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_02164A2C 0x02164A2C thumb ov010
+ *   CALENDER_OverlaySequenceEvent 0x02164A2C thumb ov010
  *   func_020120F4 0x020120F4 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02012138  0x02012138  thumb
  *   func_02030734  0x02030734  arm
  *   func_0202647C  0x0202647C  thumb
  *   func_0202648C  0x0202648C  thumb
- *   d_021729BC     0x021729BC  data  ov010  a1
+ *   GAME_BEACON_SEARCH_FileName     0x021729BC  data  ov010  a1
  *   func_02030B50  0x02030B50  arm
- *   func_0203CBAC  0x0203CBAC  arm
- *   d_02171C30     0x02171C30  data  ov010  a4
+ *   GFL_NET_StartSession  0x0203CBAC  arm
+ *   GAME_BEACON_SEARCH_NetInit     0x02171C30  data  ov010  a4
  *   func_02010360 0x02010360 thumb
  *   WIH_DWC_Delete 0x020103E4 thumb
- *   func_0203CEAC 0x0203CEAC arm
+ *   GFL_NET_Exit 0x0203CEAC arm
  *   func_020307B0 0x020307B0 arm
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FBA0 0x0200FBA0 thumb
- *   func_02012E40  0x02012E40  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
  *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
@@ -41,9 +41,9 @@
  *   func_02012B70  0x02012B70  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
- *   func_02158570  0x02158570  thumb  ov010
+ *   INTRUDE_COMM_IsListedId  0x02158570  thumb  ov010
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0202640C  0x0202640C  thumb
+ *   GAME_COMM_RequestExit  0x0202640C  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02177BF4  0x02177BF4  thumb  ov014
  *   func_02010498  0x02010498  thumb
@@ -51,18 +51,18 @@
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   GAME_BEACON_ReceiveInfo  0x02026A60  thumb
  *   NET_WHPIPE_GetEntryKind  0x02178098  thumb ov014
- *   func_0203CF10  0x0203CF10  arm
+ *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   GAME_BEACON_GetMyInfo 0x020267E4 thumb
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_02087E60  0x02087E60  arm
  *   func_02012944  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_02026454  0x02026454  thumb
- *   func_020263D8  0x020263D8  thumb
+ *   GAME_COMM_Start  0x020263D8  thumb
  *   GAME_BEACON_IsSpecialPokemon  0x0202708C  thumb
  *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
  *   GAME_BEACON_RequestSend   0x02026FB8  thumb
@@ -73,12 +73,12 @@
  *   GAME_BEACON_SetDetailsBattleTrainer   0x020273F8  thumb
  *   GAME_BEACON_SetDetailsBattleLeader   0x02027414  thumb
  *   GAME_BEACON_SetDetailsBattleBigFour   0x02027430  thumb
- *   d_02171CA0      0x02171CA0  data  ov010  a1
+ *   GAME_BEACON_SEARCH_PresetEventTable      0x02171CA0  data  ov010  a1
  *   GAME_BEACON_CopyStrbufCodes  0x020270AC  thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0200C20C 0x0200C20C thumb
  *   func_0201F41C 0x0201F41C thumb
- *   func_02045A38  0x02045A38  arm
+ *   STRBUF_ToChars  0x02045A38  arm
  *   func_0203F4CC 0x0203F4CC arm
  *   GAME_BEACON_GetNextNewLogIndex 0x02026CA0 thumb
  *   GAME_BEACON_GetLog 0x02026C1C thumb
@@ -87,14 +87,14 @@
  *   MIi_CpuCopy32  0x02082A90  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   _s32_div_f  0x0209C0A4  arm
- *   d_021729D4 0x021729D4 data a4
- *   d_02171CA8     0x02171CA8  data
- *   func_02045994  0x02045994  arm
+ *   GAME_BEACON_ACCESSOR_FileName 0x021729D4 data a4
+ *   GAME_BEACON_ACCESSOR_ActionCheckFuncs     0x02171CA8  data
+ *   STRBUF_SetStringN  0x02045994  arm
  *   func_0200E3A4  0x0200E3A4  thumb
  *   OSi_GetOwnerInfoExBuffer  0x02087D1C  arm
  *   STRBUF_Clear  0x0204581C  arm
- *   func_02045924  0x02045924  arm
- *   d_02171CE8  0x02171CE8  data  a1
+ *   STRBUF_SetString  0x02045924  arm
+ *   GAME_BEACON_ACCESSOR_ActionTable  0x02171CE8  data  a1
  */
 #include "../arm9/game_beacon_types.h"
 
@@ -159,7 +159,7 @@ typedef struct GameBeaconSearchTarget {
     u8 macAddress[6];           /* 0x03 */
 } GameBeaconSearchTarget;
 
-/* The search work, 0x84 bytes, made in func_02164B6C. */
+/* The search work, 0x84 bytes, made in GAME_BEACON_SEARCH_Init. */
 typedef struct GameBeaconSearchWork {
     struct GameData *gameData;          /* 0x00 */
     int state;                          /* 0x04: 0 stopped, 1 started, 2 scanning */
@@ -207,29 +207,29 @@ typedef int (*GameBeaconActionCheckFunc)(const GameBeaconInfo *info);
 
 /* Per-action attributes, 2 bytes. */
 typedef struct GameBeaconActionAttr {
-    u8 checkIndex;              /* index into d_02171CA8 */
+    u8 checkIndex;              /* index into GAME_BEACON_ACCESSOR_ActionCheckFuncs */
     u8 group;
 } GameBeaconActionAttr;
 
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, int (*func)(struct GameEvent *, u32 *, void *), u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern int func_02164A2C(struct GameEvent *event, u32 *seq, void *work);
+extern int CALENDER_OverlaySequenceEvent(struct GameEvent *event, u32 *seq, void *work);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct GameComm *func_02012138(const struct GameSystem *gameSystem);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0202647C(struct GameComm *gameComm);
 extern u32 func_0202648C(struct GameComm *gameComm);
 extern void func_02030B50(u32 heapId);
-extern void func_0203CBAC(const struct NetInitParam *init, void (*callback)(void *work), void *work);
+extern void GFL_NET_StartSession(const struct NetInitParam *init, void (*callback)(void *work), void *work);
 extern u8 *func_02010360(int index, u32 heapId);
 extern void WIH_DWC_Delete(u8 *wihDwc);
-extern int func_0203CEAC(void (*callback)(void *work));
+extern int GFL_NET_Exit(void (*callback)(void *work));
 extern u32 func_020307B0(void *memory);
 extern u32 func_0200FB24(void);
 extern void func_0200FBA0(void);
-extern u8 func_02012E40(const struct GameData *gameData);
-extern void func_02026400(struct GameComm *gameComm);
+extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
+extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern int func_02035390(void);
 extern int func_020353B0(void);
 extern void GAME_BEACON_SendIfRequested(void);
@@ -237,9 +237,9 @@ extern u32 GAME_COMM_GetNotifyFlag(struct GameComm *gameComm);
 extern int func_02012B70(const struct GameData *gameData);
 extern struct PlayerWork *func_020127A4(struct GameData *gameData);
 extern u16 func_02012AC8(const struct PlayerWork *playerWork);
-extern int func_02158570(u16 zoneId);
+extern int INTRUDE_COMM_IsListedId(u16 zoneId);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0202640C(struct GameComm *gameComm, void (*callback)(void *work, int cancel), void *work);
+extern void GAME_COMM_RequestExit(struct GameComm *gameComm, void (*callback)(void *work, int cancel), void *work);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void func_02177BF4(u32 index);
 extern void func_02010498(void);
@@ -247,18 +247,18 @@ extern void GFL_NET_EndDeviceWrapper(int mode);
 extern u8 *GFL_NET_GetScanResultMac(u32 index);
 extern int GAME_BEACON_ReceiveInfo(const GameBeaconInfo *info);
 extern u8 NET_WHPIPE_GetEntryKind(u8 index);
-extern void *func_0203CF10(u32 index);
+extern void *GFL_NET_GetScanResult(u32 index);
 extern void GAME_BEACON_GetMyInfo(GameBeaconInfo *info);
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_SYSTEM_CheckError(void);
 extern int OS_IsRunOnTwl(void);
 extern OwnerFlags *func_02087E60(void);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern u32 func_02008530(const struct MyStatus *myStatus);
 extern u32 GAMESYSTEM_CanStartAutoComm(const struct GameSystem *gameSystem);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern u32 func_02026454(struct GameComm *gameComm);
-extern void func_020263D8(struct GameComm *gameComm, u32 kind, void *work);
+extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, void *work);
 extern int GAME_BEACON_IsSpecialPokemon(u32 monsNo);
 extern u32 GAME_BEACON_CheckActionPriority(u32 action);
 extern void GAME_BEACON_RequestSend(GameBeaconRecord *record);
@@ -272,7 +272,7 @@ extern void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest);
 extern struct MyStatus *func_0200C0F0(struct SaveControl *saveControl);
 extern const u16 *func_0200C20C(const struct MyStatus *myStatus);
 extern void func_0201F41C(const u16 *src, u16 *dest, u32 length);
-extern void func_02045A38(const struct Strbuf *str, u16 *dest, u32 length);
+extern void STRBUF_ToChars(const struct Strbuf *str, u16 *dest, u32 length);
 extern void func_0203F4CC(struct RtcTime *time);
 extern int GAME_BEACON_GetNextNewLogIndex(int *cursor);
 extern GameBeaconRecord *GAME_BEACON_GetLog(int index);
@@ -280,201 +280,201 @@ extern void GAME_BEACON_ClearNewFlag(u32 index);
 extern int GAME_BEACON_SetNewFlagByTrainerId(const GameBeaconInfo *info);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern void func_02045994(struct Strbuf *str, const u16 *src, u32 length);
+extern void STRBUF_SetStringN(struct Strbuf *str, const u16 *src, u32 length);
 extern u32 func_0200E3A4(const u8 *bits, int id);
 extern const u16 *OSi_GetOwnerInfoExBuffer(void);
 extern void STRBUF_Clear(struct Strbuf *str);
-extern void func_02045924(struct Strbuf *str, const u16 *src);
-struct GameEvent *func_02164B38(struct GameSystem *gameSystem, void *unused, u8 mode);
-GameBeaconSearchWork *func_02164B6C(void *unused, struct GameSystem *gameSystem);
-int func_02164BC4(int *seq, void *unused, GameBeaconSearchWork *work);
-void func_02164C04(void *arg);
-int func_02164C20(void *unused0, void *unused1, GameBeaconSearchWork *work);
+extern void STRBUF_SetString(struct Strbuf *str, const u16 *src);
+struct GameEvent *CALENDER_CreateTask(struct GameSystem *gameSystem, void *unused, u8 mode);
+GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *gameSystem);
+int GAME_BEACON_SEARCH_InitWait(int *seq, void *unused, GameBeaconSearchWork *work);
+void GAME_BEACON_SEARCH_OnSessionStarted(void *arg);
+int GAME_BEACON_SEARCH_Exit(void *unused0, void *unused1, GameBeaconSearchWork *work);
 int func_02164C38(void *unused0, void *unused1, GameBeaconSearchWork *work);
-void func_02164C5C(void *arg);
-void func_02164C64(void *unused, struct GameSystem *gameSystem, GameBeaconSearchWork *work);
-GameBeaconSearchTarget *func_02164D6C(GameBeaconSearchWork *work, int *index);
-GameBeaconSearchBeacon *func_02164E04(GameBeaconSearchWork *work, int *index);
-GameBeaconSearchBeacon *func_02164E8C(GameBeaconSearchWork *work);
-void func_02164EB4(GameBeaconSearchBeacon *beacon, struct GameData *gameData);
-int func_02164F88(void);
-int func_02164F8C(void);
-int func_02164F90(void *unused0, void *unused1, GameBeaconSearchWork *work);
-void func_02164F98(void);
-GameBeaconSearchBeacon *func_02164F9C(GameBeaconSearchBeacon *beacon, GameBeaconSearchBeacon *best);
-void func_02164FC4(GameBeaconSearchWork *work);
-void func_02164FD0(void *arg, int cancel);
-void func_0216505C(u32 monsNo);
-void func_02165078(u32 monsNo);
-void func_02165094(u32 monsNo);
-void func_021650BC(GameBeaconInfo *info, u32 monsNo);
-void func_021650CC(u32 monsNo);
-void func_021650F4(GameBeaconInfo *info, u32 monsNo);
-void func_02165104(u32 monsNo);
-void func_0216512C(GameBeaconInfo *info, u32 monsNo);
-void func_0216513C(u32 monsNo);
-void func_02165164(GameBeaconInfo *info, u32 monsNo);
-void func_02165174(u32 trainerId);
-void func_0216519C(GameBeaconInfo *info, u32 trainerId);
-void func_021651AC(u32 trainerId);
-void func_021651D4(GameBeaconInfo *info, u32 trainerId);
-void func_021651E4(u32 trainerId);
-void func_0216520C(GameBeaconInfo *info, u32 trainerId);
-void func_0216521C(u32 trainerId);
-void func_02165244(GameBeaconInfo *info, u32 trainerId);
-void func_02165254(u32 trainerId);
-void func_0216527C(GameBeaconInfo *info, u32 trainerId);
-void func_0216528C(u32 trainerId);
-void func_021652B4(GameBeaconInfo *info, u32 trainerId);
-void func_021652C4(u32 version);
-void func_021652EC(GameBeaconInfo *info, u32 version);
-void func_0216530C(u32 itemNo);
-void func_02165334(GameBeaconInfo *info, u32 itemNo);
-void func_02165344(void);
-void func_02165368(GameBeaconInfo *info);
-void func_02165374(u32 eventId);
-void func_021653B4(GameBeaconInfo *info, u32 eventId);
-void func_021653C4(void);
-void func_021653E8(GameBeaconInfo *info);
-void func_021653F4(u16 monsNo);
-void func_02165418(GameBeaconInfo *info);
-void func_02165424(const struct Strbuf *name);
-void func_0216544C(GameBeaconInfo *info, const struct Strbuf *name);
-void func_02165468(const struct Strbuf *name);
-void func_02165490(GameBeaconInfo *info, const struct Strbuf *name);
-void func_021654AC(const struct Strbuf *name);
-void func_021654D4(GameBeaconInfo *info, const struct Strbuf *name);
-void func_021654F0(const struct Strbuf *name);
-void func_02165518(GameBeaconInfo *info, const struct Strbuf *name);
-void func_02165534(u32 count);
-void func_0216555C(GameBeaconInfo *info, u32 count);
-void func_0216556C(void);
-void func_02165590(GameBeaconInfo *info);
-void func_0216559C(u32 monsNo);
-void func_021655C4(GameBeaconInfo *info, u32 monsNo);
-void func_021655D4(void);
-void func_021655F8(GameBeaconInfo *info);
-void func_02165604(void);
-void func_02165628(GameBeaconInfo *info);
-void func_02165634(u32 value);
-void func_0216565C(GameBeaconInfo *info, u32 value);
-void func_0216566C(void);
-void func_02165690(GameBeaconInfo *info);
-void func_021656A0(void);
-void func_021656C4(GameBeaconInfo *info);
-void func_021656D0(u8 value);
-void func_021656F8(GameBeaconInfo *info, u8 value);
-void func_0216570C(void);
-void func_02165730(GameBeaconInfo *info);
-void func_0216573C(void);
-void func_02165760(GameBeaconInfo *info);
-void func_0216576C(const struct Strbuf *name);
-void func_02165794(GameBeaconInfo *info, const struct Strbuf *name);
-void func_021657B0(u16 value);
-void func_021657D8(GameBeaconInfo *info, u16 value);
-void func_021657E8(struct GameData *gameData, u16 trainerId);
-void func_02165814(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId);
-void func_02165844(const struct Strbuf *text);
-void func_0216586C(GameBeaconInfo *info, const struct Strbuf *text);
-int func_02165888(GameBeaconInfoTable *table);
-int func_021658D4(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime);
-void func_02165940(GameBeaconInfo *infoList);
-int func_02165960(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode);
-int func_021659F0(const GameBeaconInfoTable *table, int offset);
-int func_02165A10(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew);
-int func_02165AC4(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime, int offset);
-u8 func_02165B04(const GameBeaconInfoTable *table);
-GameBeaconInfo *func_02165B10(u32 heapId);
-GameBeaconInfoTable *func_02165B2C(u32 heapId);
-int func_02165B5C(const GameBeaconInfo *info);
-int func_02165C10(const GameBeaconInfo *info);
-void func_02165C34(const GameBeaconInfo *info, struct Strbuf *name);
-u32 func_02165C48(const GameBeaconInfo *info);
-u32 func_02165C50(const GameBeaconInfo *info);
-u8 func_02165C58(const GameBeaconInfo *info);
-u8 func_02165C5C(const GameBeaconInfo *info);
-u8 func_02165C60(const GameBeaconInfo *info);
-u8 func_02165C78(const GameBeaconInfo *info);
-void func_02165C90(const GameBeaconInfo *info, GameBeaconPms *pms);
-u8 func_02165CB4(const GameBeaconInfo *info);
-void func_02165CC0(u16 *rgb, const GameBeaconInfo *info);
-u8 func_02165CD8(const GameBeaconInfo *info);
-u16 func_02165CE4(const GameBeaconInfo *info);
-u8 func_02165CE8(const GameBeaconInfo *info);
-u8 func_02165D08(const GameBeaconInfo *info);
-void func_02165D10(const GameBeaconInfo *info, u16 *hours, u16 *minutes);
-u8 func_02165D20(const GameBeaconInfo *info);
-u16 func_02165D28(const GameBeaconInfo *info);
-u16 func_02165D34(const GameBeaconInfo *info);
-u32 func_02165D40(const GameBeaconInfo *info);
-u32 func_02165D48(const GameBeaconInfo *info);
-void func_02165D50(const GameBeaconInfo *info, struct Strbuf *greeting);
-void func_02165D6C(const GameBeaconInfo *info, struct Strbuf *name);
-void func_02165D8C(const GameBeaconInfo *info, struct Strbuf *text);
-unsigned func_02165DAC(const GameBeaconInfo *info);
-u16 func_02165DBC(const GameBeaconInfo *info);
-u16 func_02165DF0(const GameBeaconInfo *info);
-u16 func_02165E24(const GameBeaconInfo *info);
-u16 func_02165E34(const GameBeaconInfo *info);
-u16 func_02165E78(const GameBeaconInfo *info);
-u16 func_02165E8C(const GameBeaconInfo *info);
-u16 func_02165E9C(const GameBeaconInfo *info);
-u16 func_02165EAC(const GameBeaconInfo *info);
-u16 func_02165EBC(const GameBeaconInfo *info);
-void func_02165ECC(const GameBeaconInfo *info, struct Strbuf *nickname);
-u16 func_02165F30(const GameBeaconInfo *info);
-u32 func_02165F64(const GameBeaconInfo *info);
-u16 func_02165F74(const GameBeaconInfo *info);
-u32 func_02165F84(const GameBeaconInfo *info);
-u8 func_02165F94(const GameBeaconInfo *info);
-u16 func_02165FA4(const GameBeaconInfo *info);
-u8 func_02165FB4(u16 action);
-extern const char d_021729BC[];
-extern const struct NetInitParam d_02171C30;
+void GAME_BEACON_SEARCH_OnNetExit(void *arg);
+void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, GameBeaconSearchWork *work);
+GameBeaconSearchTarget *GAME_BEACON_SEARCH_PollScanResult(GameBeaconSearchWork *work, int *index);
+GameBeaconSearchBeacon *GAME_BEACON_SEARCH_PickBestScanResult(GameBeaconSearchWork *work, int *index);
+GameBeaconSearchBeacon *GAME_BEACON_SEARCH_GetBeaconData(GameBeaconSearchWork *work);
+void GAME_BEACON_SEARCH_BuildBeaconHeader(GameBeaconSearchBeacon *beacon, struct GameData *gameData);
+int GAME_BEACON_SEARCH_GetBeaconSize(void);
+int GAME_BEACON_SEARCH_CompareBeacon(void);
+int GAME_BEACON_SEARCH_OnConnected(void *unused0, void *unused1, GameBeaconSearchWork *work);
+void GAME_BEACON_SEARCH_DummyCallback(void);
+GameBeaconSearchBeacon *GAME_BEACON_SEARCH_SelectBetterEntry(GameBeaconSearchBeacon *beacon, GameBeaconSearchBeacon *best);
+void GAME_BEACON_SEARCH_SetStartDelay(GameBeaconSearchWork *work);
+void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel);
+void GAME_BEACON_SEARCH_SetBattlePokeStart(u32 monsNo);
+void GAME_BEACON_SEARCH_SetBattlePokeWin(u32 monsNo);
+void GAME_BEACON_SEARCH_SetBattleWildPokeStart(u32 monsNo);
+void GAME_BEACON_SEARCH_SetInfoBattleWildPokeStart(GameBeaconInfo *info, u32 monsNo);
+void GAME_BEACON_SEARCH_SetBattleWildPokeWin(u32 monsNo);
+void GAME_BEACON_SEARCH_SetInfoBattleWildPokeWin(GameBeaconInfo *info, u32 monsNo);
+void GAME_BEACON_SEARCH_SetBattleSpecialPokeStart(u32 monsNo);
+void GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeStart(GameBeaconInfo *info, u32 monsNo);
+void GAME_BEACON_SEARCH_SetBattleSpecialPokeWin(u32 monsNo);
+void GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin(GameBeaconInfo *info, u32 monsNo);
+void GAME_BEACON_SEARCH_SetBattleTrainerStart(u32 trainerId);
+void GAME_BEACON_SEARCH_SetInfoBattleTrainerStart(GameBeaconInfo *info, u32 trainerId);
+void GAME_BEACON_SEARCH_SetBattleTrainerWin(u32 trainerId);
+void GAME_BEACON_SEARCH_SetInfoBattleTrainerWin(GameBeaconInfo *info, u32 trainerId);
+void GAME_BEACON_SEARCH_SetBattleLeaderStart(u32 trainerId);
+void GAME_BEACON_SEARCH_SetInfoBattleLeaderStart(GameBeaconInfo *info, u32 trainerId);
+void GAME_BEACON_SEARCH_SetBattleLeaderWin(u32 trainerId);
+void GAME_BEACON_SEARCH_SetInfoBattleLeaderWin(GameBeaconInfo *info, u32 trainerId);
+void GAME_BEACON_SEARCH_SetBattleBigFourStart(u32 trainerId);
+void GAME_BEACON_SEARCH_SetInfoBattleBigFourStart(GameBeaconInfo *info, u32 trainerId);
+void GAME_BEACON_SEARCH_SetBattleBigFourWin(u32 trainerId);
+void GAME_BEACON_SEARCH_SetInfoBattleBigFourWin(GameBeaconInfo *info, u32 trainerId);
+void GAME_BEACON_SEARCH_SetVersionAction(u32 version);
+void GAME_BEACON_SEARCH_SetInfoVersionAction(GameBeaconInfo *info, u32 version);
+void GAME_BEACON_SEARCH_SetItemFound(u32 itemNo);
+void GAME_BEACON_SEARCH_SetInfoItemFound(GameBeaconInfo *info, u32 itemNo);
+void GAME_BEACON_SEARCH_SetScriptEvent(void);
+void GAME_BEACON_SEARCH_SetInfoScriptEvent(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetPresetEvent(u32 eventId);
+void GAME_BEACON_SEARCH_SetInfoPresetEvent(GameBeaconInfo *info, u32 eventId);
+void GAME_BEACON_SEARCH_SetFieldEvent(void);
+void GAME_BEACON_SEARCH_SetInfoFieldEvent(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetPokeEvent(u16 monsNo);
+void GAME_BEACON_SEARCH_SetInfoPokeEvent(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetEventBattleNameA(const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetInfoEventBattleNameA(GameBeaconInfo *info, const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetEventBattleNameB(const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetInfoEventBattleNameB(GameBeaconInfo *info, const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetEventBattleNameC(const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetInfoEventBattleNameC(GameBeaconInfo *info, const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetEventBattleNameD(const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetInfoEventBattleNameD(GameBeaconInfo *info, const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetCountValue(u32 count);
+void GAME_BEACON_SEARCH_SetInfoCountValue(GameBeaconInfo *info, u32 count);
+void GAME_BEACON_SEARCH_SetSymbolMapEnter(void);
+void GAME_BEACON_SEARCH_SetInfoSymbolMapEnter(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetSymbolMapPoke(u32 monsNo);
+void GAME_BEACON_SEARCH_SetInfoSymbolMapPoke(GameBeaconInfo *info, u32 monsNo);
+void GAME_BEACON_SEARCH_SetFacilityEnter(void);
+void GAME_BEACON_SEARCH_SetInfoFacilityEnter(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetFacilityExit(void);
+void GAME_BEACON_SEARCH_SetInfoFacilityExit(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetWordValue(u32 value);
+void GAME_BEACON_SEARCH_SetInfoWordValue(GameBeaconInfo *info, u32 value);
+void GAME_BEACON_SEARCH_SetWordClear(void);
+void GAME_BEACON_SEARCH_SetInfoWordClear(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetSimpleEventA(void);
+void GAME_BEACON_SEARCH_SetInfoSimpleEventA(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetByteValue(u8 value);
+void GAME_BEACON_SEARCH_SetInfoByteValue(GameBeaconInfo *info, u8 value);
+void GAME_BEACON_SEARCH_SetSimpleEventB(void);
+void GAME_BEACON_SEARCH_SetInfoSimpleEventB(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetSimpleEventC(void);
+void GAME_BEACON_SEARCH_SetInfoSimpleEventC(GameBeaconInfo *info);
+void GAME_BEACON_SEARCH_SetNamedEvent(const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetInfoNamedEvent(GameBeaconInfo *info, const struct Strbuf *name);
+void GAME_BEACON_SEARCH_SetHalfwordValue(u16 value);
+void GAME_BEACON_SEARCH_SetInfoHalfwordValue(GameBeaconInfo *info, u16 value);
+void GAME_BEACON_SEARCH_SetThanks(struct GameData *gameData, u16 trainerId);
+void GAME_BEACON_SEARCH_SetInfoThanks(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId);
+void GAME_BEACON_SEARCH_SetFreeText(const struct Strbuf *text);
+void GAME_BEACON_SEARCH_SetInfoFreeText(GameBeaconInfo *info, const struct Strbuf *text);
+int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table);
+int GAME_BEACON_ACCESSOR_TablePop(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime);
+void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfo *infoList);
+int GAME_BEACON_ACCESSOR_TableAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode);
+int GAME_BEACON_ACCESSOR_TableGetRingIndex(const GameBeaconInfoTable *table, int offset);
+int GAME_BEACON_ACCESSOR_TableRingAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew);
+int GAME_BEACON_ACCESSOR_TableRingGet(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime, int offset);
+u8 GAME_BEACON_ACCESSOR_TableGetCount(const GameBeaconInfoTable *table);
+GameBeaconInfo *GAME_BEACON_ACCESSOR_AllocInfo(u32 heapId);
+GameBeaconInfoTable *GAME_BEACON_ACCESSOR_AllocTable(u32 heapId);
+int GAME_BEACON_ACCESSOR_IsInfoInvalid(const GameBeaconInfo *info);
+int GAME_BEACON_ACCESSOR_IsDistributionAction(const GameBeaconInfo *info);
+void GAME_BEACON_ACCESSOR_GetPlayerName(const GameBeaconInfo *info, struct Strbuf *name);
+u32 GAME_BEACON_ACCESSOR_GetPmVersion(const GameBeaconInfo *info);
+u32 GAME_BEACON_ACCESSOR_GetLanguage(const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetNation(const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetArea(const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(const GameBeaconInfo *info);
+void GAME_BEACON_ACCESSOR_GetDetailsPms(const GameBeaconInfo *info, GameBeaconPms *pms);
+u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(const GameBeaconInfo *info);
+void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(u16 *rgb, const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetTrainerId(const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetSex(const GameBeaconInfo *info);
+void GAME_BEACON_ACCESSOR_GetPlayTime(const GameBeaconInfo *info, u16 *hours, u16 *minutes);
+u8 GAME_BEACON_ACCESSOR_GetInfoVersion(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetZoneId(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(const GameBeaconInfo *info);
+u32 GAME_BEACON_ACCESSOR_GetPassCount(const GameBeaconInfo *info);
+u32 GAME_BEACON_ACCESSOR_GetThanksCount(const GameBeaconInfo *info);
+void GAME_BEACON_ACCESSOR_GetGreeting(const GameBeaconInfo *info, struct Strbuf *greeting);
+void GAME_BEACON_ACCESSOR_GetThanksName(const GameBeaconInfo *info, struct Strbuf *name);
+void GAME_BEACON_ACCESSOR_GetFreeText(const GameBeaconInfo *info, struct Strbuf *text);
+unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetActionNo(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetActionMonsNo(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetActionItemNo(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetActionCountValue(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetDistributionMonsNo(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetDistributionItemNo(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(const GameBeaconInfo *info);
+void GAME_BEACON_ACCESSOR_GetNickname(const GameBeaconInfo *info, struct Strbuf *nickname);
+u16 GAME_BEACON_ACCESSOR_GetActionTrainerNo(const GameBeaconInfo *info);
+u32 GAME_BEACON_ACCESSOR_GetPresetEventValue(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetActionSpecialValue(const GameBeaconInfo *info);
+u32 GAME_BEACON_ACCESSOR_GetActionWordValue(const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetActionByteValue(const GameBeaconInfo *info);
+u16 GAME_BEACON_ACCESSOR_GetActionHalfwordValue(const GameBeaconInfo *info);
+u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 action);
+extern const char GAME_BEACON_SEARCH_FileName[];
+extern const struct NetInitParam GAME_BEACON_SEARCH_NetInit;
 extern GameBeaconWork *GAME_BEACON_Work;
-extern const u8 d_02171CA0[5];
-extern const char d_021729D4[];
-extern const GameBeaconActionCheckFunc d_02171CA8[];
-extern const GameBeaconActionAttr d_02171CE8[];
+extern const u8 GAME_BEACON_SEARCH_PresetEventTable[5];
+extern const char GAME_BEACON_ACCESSOR_FileName[];
+extern const GameBeaconActionCheckFunc GAME_BEACON_ACCESSOR_ActionCheckFuncs[];
+extern const GameBeaconActionAttr GAME_BEACON_ACCESSOR_ActionTable[];
 
 
 
 
 
-struct GameEvent *func_02164B38(struct GameSystem *gameSystem, void *unused, u8 mode)
+struct GameEvent *CALENDER_CreateTask(struct GameSystem *gameSystem, void *unused, u8 mode)
 {
-    struct GameEvent *event = func_020122C0(gameSystem, 0, func_02164A2C, sizeof(CalenderEventWork));
+    struct GameEvent *event = func_020122C0(gameSystem, 0, CALENDER_OverlaySequenceEvent, sizeof(CalenderEventWork));
     CalenderEventWork *work = func_020124E8(event);
     struct GameData *gameData = func_020120F4(gameSystem);
 
     work->gameData = gameData;
-    work->saveControl = func_02012EBC(gameData);
+    work->saveControl = GAME_DATA_GetSaveControl(gameData);
     work->gameSystem = gameSystem;
     work->mode = mode;
     return event;
 }
 
 /* Allocates and initialises the search work. */
-GameBeaconSearchWork *func_02164B6C(void *unused, struct GameSystem *gameSystem)
+GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *gameSystem)
 {
     struct GameData *gameData = func_020120F4(gameSystem);
     struct GameComm *gameComm = func_02012138(gameSystem);
-    GameBeaconSearchWork *work = func_02030734(5, sizeof(GameBeaconSearchWork), 1, d_021729BC, 0x9c);
+    GameBeaconSearchWork *work = func_02030734(5, sizeof(GameBeaconSearchWork), 1, GAME_BEACON_SEARCH_FileName, 0x9c);
 
     work->gameData = gameData;
     work->lastZoneId = 0x1ab;
     if (func_0202647C(gameComm) == 2 && func_0202648C(gameComm) == 5) {
-        func_02164FC4(work);
+        GAME_BEACON_SEARCH_SetStartDelay(work);
     }
     return work;
 }
 
-int func_02164BC4(int *seq, void *unused, GameBeaconSearchWork *work)
+int GAME_BEACON_SEARCH_InitWait(int *seq, void *unused, GameBeaconSearchWork *work)
 {
     switch (*seq) {
     case 0:
         func_02030B50(12);
-        func_0203CBAC(&d_02171C30, func_02164C04, work);
+        GFL_NET_StartSession(&GAME_BEACON_SEARCH_NetInit, GAME_BEACON_SEARCH_OnSessionStarted, work);
         (*seq)++;
         break;
     case 1:
@@ -486,7 +486,7 @@ int func_02164BC4(int *seq, void *unused, GameBeaconSearchWork *work)
     return 0;
 }
 
-void func_02164C04(void *arg)
+void GAME_BEACON_SEARCH_OnSessionStarted(void *arg)
 {
     GameBeaconSearchWork *work = arg;
 
@@ -494,10 +494,10 @@ void func_02164C04(void *arg)
     work->wihDwc = func_02010360(4, 0x8005);
 }
 
-int func_02164C20(void *unused0, void *unused1, GameBeaconSearchWork *work)
+int GAME_BEACON_SEARCH_Exit(void *unused0, void *unused1, GameBeaconSearchWork *work)
 {
     WIH_DWC_Delete(work->wihDwc);
-    func_0203CEAC(func_02164C5C);
+    GFL_NET_Exit(GAME_BEACON_SEARCH_OnNetExit);
     return 1;
 }
 
@@ -513,7 +513,7 @@ int func_02164C38(void *unused0, void *unused1, GameBeaconSearchWork *work)
     return 0;
 }
 
-void func_02164C5C(void *arg)
+void GAME_BEACON_SEARCH_OnNetExit(void *arg)
 {
     GameBeaconSearchWork *work = arg;
 
@@ -525,7 +525,7 @@ static inline int PAD_DetectFold(void)
     return (*(vu16 *)0x02FFFFA8 & 0x8000) >> 15;
 }
 
-void func_02164C64(void *unused, struct GameSystem *gameSystem, GameBeaconSearchWork *work)
+void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, GameBeaconSearchWork *work)
 {
     struct GameComm *gameComm;
     struct GameData *gameData;
@@ -537,31 +537,31 @@ void func_02164C64(void *unused, struct GameSystem *gameSystem, GameBeaconSearch
     gameComm = func_02012138(gameSystem);
     gameData = func_020120F4(gameSystem);
     index = 0;
-    if (func_02012E40(gameData) == 1)
+    if (GAME_DATA_IsSaving(gameData) == 1)
         return;
     if (func_0200FB24()) {
-        func_02026400(gameComm);
+        GAME_COMM_RequestExitNoCallback(gameComm);
         return;
     }
     if (func_02035390() == 1 && func_020353B0() == 1) {
-        func_02026400(gameComm);
+        GAME_COMM_RequestExitNoCallback(gameComm);
         return;
     }
     if (work->scanDelay != 0)
         work->scanDelay--;
     GAME_BEACON_SendIfRequested();
-    target = func_02164D6C(work, &index);
+    target = GAME_BEACON_SEARCH_PollScanResult(work, &index);
     if (target != 0) {
         if (target->beaconType == 2) {
             if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(gameComm) && !func_02012B70(gameData)) {
                 zoneId = func_02012AC8(func_020127A4(gameData));
                 if (zoneId != work->lastZoneId) {
                     work->lastZoneId = zoneId;
-                    if (func_02158570(zoneId) == 1) {
-                        request = func_02030734(0x8005, sizeof(GameBeaconConnectRequest), 1, d_021729BC, 0x154);
+                    if (INTRUDE_COMM_IsListedId(zoneId) == 1) {
+                        request = func_02030734(0x8005, sizeof(GameBeaconConnectRequest), 1, GAME_BEACON_SEARCH_FileName, 0x154);
                         request->gameSystem = gameSystem;
                         MI_CpuCopy8(target->macAddress, request->macAddress, 6);
-                        func_0202640C(gameComm, func_02164FD0, request);
+                        GAME_COMM_RequestExit(gameComm, GAME_BEACON_SEARCH_StartConnectEvent, request);
                         goto end; /* the connect path skips the target reset; bytes need the goto */
                     }
                 }
@@ -576,7 +576,7 @@ end:
     func_02010498();
 }
 
-GameBeaconSearchTarget *func_02164D6C(GameBeaconSearchWork *work, int *index)
+GameBeaconSearchTarget *GAME_BEACON_SEARCH_PollScanResult(GameBeaconSearchWork *work, int *index)
 {
     GameBeaconSearchBeacon *beacon;
     u8 *macAddress;
@@ -592,7 +592,7 @@ GameBeaconSearchTarget *func_02164D6C(GameBeaconSearchWork *work, int *index)
         return 0;
     }
     if (target->beaconType == 0) {
-        beacon = func_02164E04(work, index);
+        beacon = GAME_BEACON_SEARCH_PickBestScanResult(work, index);
         if (beacon != 0) {
             if (beacon->header.busy != 0) {
                 func_02177BF4(*index);
@@ -618,7 +618,7 @@ GameBeaconSearchTarget *func_02164D6C(GameBeaconSearchWork *work, int *index)
     return target;
 }
 
-GameBeaconSearchBeacon *func_02164E04(GameBeaconSearchWork *work, int *index)
+GameBeaconSearchBeacon *GAME_BEACON_SEARCH_PickBestScanResult(GameBeaconSearchWork *work, int *index)
 {
     int none = -1;
     int best = -1;
@@ -634,14 +634,14 @@ GameBeaconSearchBeacon *func_02164E04(GameBeaconSearchWork *work, int *index)
         if (scanState == 2 && work->scanDelay != 0) {
             continue;
         }
-        beacon = func_0203CF10(i);
+        beacon = GFL_NET_GetScanResult(i);
         if (beacon == 0) {
             continue;
         }
         if (beacon->header.memberNum < beacon->header.memberMax) {
             if (best == none) {
                 best = i;
-            } else if (func_02164F9C(beacon, func_0203CF10(best)) == beacon) {
+            } else if (GAME_BEACON_SEARCH_SelectBetterEntry(beacon, GFL_NET_GetScanResult(best)) == beacon) {
                 best = i;
             }
         } else {
@@ -650,27 +650,27 @@ GameBeaconSearchBeacon *func_02164E04(GameBeaconSearchWork *work, int *index)
     }
     if (best != -1) {
         *index = best;
-        return func_0203CF10(best);
+        return GFL_NET_GetScanResult(best);
     }
     return 0;
 }
 
-GameBeaconSearchBeacon *func_02164E8C(GameBeaconSearchWork *work)
+GameBeaconSearchBeacon *GAME_BEACON_SEARCH_GetBeaconData(GameBeaconSearchWork *work)
 {
-    func_02164EB4(&work->beacon, work->gameData);
+    GAME_BEACON_SEARCH_BuildBeaconHeader(&work->beacon, work->gameData);
     GAME_BEACON_GetMyInfo(&work->beacon.info);
     work->beacon.header.kind = 2;
     return &work->beacon;
 }
 
-void func_02164EB4(GameBeaconSearchBeacon *beacon, struct GameData *gameData)
+void GAME_BEACON_SEARCH_BuildBeaconHeader(GameBeaconSearchBeacon *beacon, struct GameData *gameData)
 {
     int wirelessOn;
     int lidClosed;
 
     MI_CpuFill8(beacon, 0, sizeof(GameBeaconSearchBeacon));
     beacon->header.beaconType = 3;
-    beacon->header.memberNum = func_0203D1B4();
+    beacon->header.memberNum = GFL_NET_GetNegotiationNum();
     beacon->header.memberMax = 3;
     beacon->header.busy = GFL_NET_SYSTEM_CheckError();
     beacon->header.kind = 0;
@@ -687,28 +687,28 @@ void func_02164EB4(GameBeaconSearchBeacon *beacon, struct GameData *gameData)
     }
 }
 
-int func_02164F88(void)
+int GAME_BEACON_SEARCH_GetBeaconSize(void)
 {
     return sizeof(GameBeaconSearchBeacon);
 }
 
-int func_02164F8C(void)
+int GAME_BEACON_SEARCH_CompareBeacon(void)
 {
     return 1;
 }
 
-int func_02164F90(void *unused0, void *unused1, GameBeaconSearchWork *work)
+int GAME_BEACON_SEARCH_OnConnected(void *unused0, void *unused1, GameBeaconSearchWork *work)
 {
     work->connected = 1;
     return 1;
 }
 
-void func_02164F98(void)
+void GAME_BEACON_SEARCH_DummyCallback(void)
 {
 }
 
 /* Of two scanned beacons, keep the one that has room and fewer members. */
-GameBeaconSearchBeacon *func_02164F9C(GameBeaconSearchBeacon *beacon, GameBeaconSearchBeacon *best)
+GameBeaconSearchBeacon *GAME_BEACON_SEARCH_SelectBetterEntry(GameBeaconSearchBeacon *beacon, GameBeaconSearchBeacon *best)
 {
     if (beacon->header.busy)
         return best;
@@ -717,16 +717,16 @@ GameBeaconSearchBeacon *func_02164F9C(GameBeaconSearchBeacon *beacon, GameBeacon
     return beacon;
 }
 
-void func_02164FC4(GameBeaconSearchWork *work)
+void GAME_BEACON_SEARCH_SetStartDelay(GameBeaconSearchWork *work)
 {
     work->scanDelay = 0x708;
 }
 
 /*
- * Connect callback of the request made in func_02164C64: when no other
+ * Connect callback of the request made in GAME_BEACON_SEARCH_Update: when no other
  * comm is running, it hands a 0x10-byte connect event to the comm system.
  */
-void func_02164FD0(void *arg, int cancel)
+void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel)
 {
     u8 macAddress[6];
     GameBeaconConnectRequest *request = arg;
@@ -738,12 +738,12 @@ void func_02164FD0(void *arg, int cancel)
     gameComm = func_02012138(gameSystem);
     func_020307B0(request);
     if (cancel == 0 && GAMESYSTEM_CanStartAutoComm(gameSystem) == 1 && GAME_COMM_GetNotifyFlag(gameComm) == 0
-        && func_0203CD98() == 0 && func_02026454(gameComm) == 0) {
-        event = func_02030734(5, sizeof(GameBeaconConnectEvent), 1, d_021729BC, 0x287);
+        && GFL_NET_GetRunState() == 0 && func_02026454(gameComm) == 0) {
+        event = func_02030734(5, sizeof(GameBeaconConnectEvent), 1, GAME_BEACON_SEARCH_FileName, 0x287);
         event->gameSystem = gameSystem;
         event->gameComm = func_02012138(gameSystem);
         MI_CpuCopy8(macAddress, event->macAddress, 6);
-        func_020263D8(gameComm, 2, event);
+        GAME_COMM_Start(gameComm, 2, event);
     }
 }
 /* ------------------------------------------------------------------ *
@@ -752,227 +752,227 @@ void func_02164FD0(void *arg, int cancel)
  * ------------------------------------------------------------------ */
 
 /* Battle start against a pokemon: special pokemon have their own action. */
-void func_0216505C(u32 monsNo)
+void GAME_BEACON_SEARCH_SetBattlePokeStart(u32 monsNo)
 {
     if (GAME_BEACON_IsSpecialPokemon(monsNo)) {
-        func_02165104(monsNo);
+        GAME_BEACON_SEARCH_SetBattleSpecialPokeStart(monsNo);
     } else {
-        func_02165094(monsNo);
+        GAME_BEACON_SEARCH_SetBattleWildPokeStart(monsNo);
     }
 }
 
-void func_02165078(u32 monsNo)
+void GAME_BEACON_SEARCH_SetBattlePokeWin(u32 monsNo)
 {
     if (GAME_BEACON_IsSpecialPokemon(monsNo)) {
-        func_0216513C(monsNo);
+        GAME_BEACON_SEARCH_SetBattleSpecialPokeWin(monsNo);
     } else {
-        func_021650CC(monsNo);
+        GAME_BEACON_SEARCH_SetBattleWildPokeWin(monsNo);
     }
 }
 
-void func_02165094(u32 monsNo)
+void GAME_BEACON_SEARCH_SetBattleWildPokeStart(u32 monsNo)
 {
     if (GAME_BEACON_CheckActionPriority(0x02)) {
-        func_021650BC(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_SEARCH_SetInfoBattleWildPokeStart(&GAME_BEACON_Work->own.info, monsNo);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021650BC(GameBeaconInfo *info, u32 monsNo)
+void GAME_BEACON_SEARCH_SetInfoBattleWildPokeStart(GameBeaconInfo *info, u32 monsNo)
 {
     info->action = 0x02;
     info->actionArg = monsNo;
     GAME_BEACON_SetDetailsBattleWildPoke(info, monsNo);
 }
 
-void func_021650CC(u32 monsNo)
+void GAME_BEACON_SEARCH_SetBattleWildPokeWin(u32 monsNo)
 {
     if (GAME_BEACON_CheckActionPriority(0x03)) {
-        func_021650F4(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_SEARCH_SetInfoBattleWildPokeWin(&GAME_BEACON_Work->own.info, monsNo);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021650F4(GameBeaconInfo *info, u32 monsNo)
+void GAME_BEACON_SEARCH_SetInfoBattleWildPokeWin(GameBeaconInfo *info, u32 monsNo)
 {
     info->action = 0x03;
     info->actionArg = monsNo;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165104(u32 monsNo)
+void GAME_BEACON_SEARCH_SetBattleSpecialPokeStart(u32 monsNo)
 {
     if (GAME_BEACON_CheckActionPriority(0x04)) {
-        func_0216512C(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeStart(&GAME_BEACON_Work->own.info, monsNo);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_0216512C(GameBeaconInfo *info, u32 monsNo)
+void GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeStart(GameBeaconInfo *info, u32 monsNo)
 {
     info->action = 0x04;
     info->actionArg = monsNo;
     GAME_BEACON_SetDetailsBattleSpecialPoke(info, monsNo);
 }
 
-void func_0216513C(u32 monsNo)
+void GAME_BEACON_SEARCH_SetBattleSpecialPokeWin(u32 monsNo)
 {
     if (GAME_BEACON_CheckActionPriority(0x05)) {
-        func_02165164(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin(&GAME_BEACON_Work->own.info, monsNo);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165164(GameBeaconInfo *info, u32 monsNo)
+void GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin(GameBeaconInfo *info, u32 monsNo)
 {
     info->action = 0x05;
     info->actionArg = monsNo;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165174(u32 trainerId)
+void GAME_BEACON_SEARCH_SetBattleTrainerStart(u32 trainerId)
 {
     if (GAME_BEACON_CheckActionPriority(0x06)) {
-        func_0216519C(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_SEARCH_SetInfoBattleTrainerStart(&GAME_BEACON_Work->own.info, trainerId);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_0216519C(GameBeaconInfo *info, u32 trainerId)
+void GAME_BEACON_SEARCH_SetInfoBattleTrainerStart(GameBeaconInfo *info, u32 trainerId)
 {
     info->action = 0x06;
     info->actionData.value = trainerId;
     GAME_BEACON_SetDetailsBattleTrainer(info, trainerId);
 }
 
-void func_021651AC(u32 trainerId)
+void GAME_BEACON_SEARCH_SetBattleTrainerWin(u32 trainerId)
 {
     if (GAME_BEACON_CheckActionPriority(0x07)) {
-        func_021651D4(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_SEARCH_SetInfoBattleTrainerWin(&GAME_BEACON_Work->own.info, trainerId);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021651D4(GameBeaconInfo *info, u32 trainerId)
+void GAME_BEACON_SEARCH_SetInfoBattleTrainerWin(GameBeaconInfo *info, u32 trainerId)
 {
     info->action = 0x07;
     info->actionData.value = trainerId;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021651E4(u32 trainerId)
+void GAME_BEACON_SEARCH_SetBattleLeaderStart(u32 trainerId)
 {
     if (GAME_BEACON_CheckActionPriority(0x08)) {
-        func_0216520C(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_SEARCH_SetInfoBattleLeaderStart(&GAME_BEACON_Work->own.info, trainerId);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_0216520C(GameBeaconInfo *info, u32 trainerId)
+void GAME_BEACON_SEARCH_SetInfoBattleLeaderStart(GameBeaconInfo *info, u32 trainerId)
 {
     info->action = 0x08;
     info->actionData.value = trainerId;
     GAME_BEACON_SetDetailsBattleLeader(info, trainerId);
 }
 
-void func_0216521C(u32 trainerId)
+void GAME_BEACON_SEARCH_SetBattleLeaderWin(u32 trainerId)
 {
     if (GAME_BEACON_CheckActionPriority(0x09)) {
-        func_02165244(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_SEARCH_SetInfoBattleLeaderWin(&GAME_BEACON_Work->own.info, trainerId);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165244(GameBeaconInfo *info, u32 trainerId)
+void GAME_BEACON_SEARCH_SetInfoBattleLeaderWin(GameBeaconInfo *info, u32 trainerId)
 {
     info->action = 0x09;
     info->actionData.value = trainerId;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165254(u32 trainerId)
+void GAME_BEACON_SEARCH_SetBattleBigFourStart(u32 trainerId)
 {
     if (GAME_BEACON_CheckActionPriority(0x0A)) {
-        func_0216527C(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_SEARCH_SetInfoBattleBigFourStart(&GAME_BEACON_Work->own.info, trainerId);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_0216527C(GameBeaconInfo *info, u32 trainerId)
+void GAME_BEACON_SEARCH_SetInfoBattleBigFourStart(GameBeaconInfo *info, u32 trainerId)
 {
     info->action = 0x0A;
     info->actionData.value = trainerId;
     GAME_BEACON_SetDetailsBattleBigFour(info, trainerId);
 }
 
-void func_0216528C(u32 trainerId)
+void GAME_BEACON_SEARCH_SetBattleBigFourWin(u32 trainerId)
 {
     if (GAME_BEACON_CheckActionPriority(0x0B)) {
-        func_021652B4(&GAME_BEACON_Work->own.info, trainerId);
+        GAME_BEACON_SEARCH_SetInfoBattleBigFourWin(&GAME_BEACON_Work->own.info, trainerId);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021652B4(GameBeaconInfo *info, u32 trainerId)
+void GAME_BEACON_SEARCH_SetInfoBattleBigFourWin(GameBeaconInfo *info, u32 trainerId)
 {
     info->action = 0x0B;
     info->actionData.value = trainerId;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021652C4(u32 version)
+void GAME_BEACON_SEARCH_SetVersionAction(u32 version)
 {
     if (GAME_BEACON_CheckActionPriority(0x12)) {
-        func_021652EC(&GAME_BEACON_Work->own.info, version);
+        GAME_BEACON_SEARCH_SetInfoVersionAction(&GAME_BEACON_Work->own.info, version);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021652EC(GameBeaconInfo *info, u32 version)
+void GAME_BEACON_SEARCH_SetInfoVersionAction(GameBeaconInfo *info, u32 version)
 {
     info->action = 0x12;
     info->infoVersion = (u8)version;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_0216530C(u32 itemNo)
+void GAME_BEACON_SEARCH_SetItemFound(u32 itemNo)
 {
     if (GAME_BEACON_CheckActionPriority(0x13)) {
-        func_02165334(&GAME_BEACON_Work->own.info, itemNo);
+        GAME_BEACON_SEARCH_SetInfoItemFound(&GAME_BEACON_Work->own.info, itemNo);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165334(GameBeaconInfo *info, u32 itemNo)
+void GAME_BEACON_SEARCH_SetInfoItemFound(GameBeaconInfo *info, u32 itemNo)
 {
     info->action = 0x13;
     info->actionData.value = itemNo;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165344(void)
+void GAME_BEACON_SEARCH_SetScriptEvent(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x15)) {
-        func_02165368(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoScriptEvent(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165368(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoScriptEvent(GameBeaconInfo *info)
 {
     info->action = 0x15;
     GAME_BEACON_ResetDetails(info);
 }
 
-/* Only the preset events of d_02171CA0 are sent. */
-void func_02165374(u32 eventId)
+/* Only the preset events of GAME_BEACON_SEARCH_PresetEventTable are sent. */
+void GAME_BEACON_SEARCH_SetPresetEvent(u32 eventId)
 {
     u32 i;
 
     if (GAME_BEACON_CheckActionPriority(0x16)) {
         for (i = 0; i < 5; i++) {
-            if (eventId == d_02171CA0[i]) {
-                func_021653B4(&GAME_BEACON_Work->own.info, eventId);
+            if (eventId == GAME_BEACON_SEARCH_PresetEventTable[i]) {
+                GAME_BEACON_SEARCH_SetInfoPresetEvent(&GAME_BEACON_Work->own.info, eventId);
                 GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
                 return;
             }
@@ -980,317 +980,317 @@ void func_02165374(u32 eventId)
     }
 }
 
-void func_021653B4(GameBeaconInfo *info, u32 eventId)
+void GAME_BEACON_SEARCH_SetInfoPresetEvent(GameBeaconInfo *info, u32 eventId)
 {
     info->action = 0x16;
     info->actionData.wordValue = eventId;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021653C4(void)
+void GAME_BEACON_SEARCH_SetFieldEvent(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x17)) {
-        func_021653E8(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoFieldEvent(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021653E8(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoFieldEvent(GameBeaconInfo *info)
 {
     info->action = 0x17;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021653F4(u16 monsNo)
+void GAME_BEACON_SEARCH_SetPokeEvent(u16 monsNo)
 {
     if (GAME_BEACON_CheckActionPriority(0x1E)) {
-        func_02165418(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoPokeEvent(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165418(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoPokeEvent(GameBeaconInfo *info)
 {
     info->action = 0x1E;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165424(const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetEventBattleNameA(const struct Strbuf *name)
 {
     if (GAME_BEACON_CheckActionPriority(0x1F)) {
-        func_0216544C(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_SEARCH_SetInfoEventBattleNameA(&GAME_BEACON_Work->own.info, name);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_0216544C(GameBeaconInfo *info, const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetInfoEventBattleNameA(GameBeaconInfo *info, const struct Strbuf *name)
 {
     info->action = 0x1F;
     GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165468(const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetEventBattleNameB(const struct Strbuf *name)
 {
     if (GAME_BEACON_CheckActionPriority(0x20)) {
-        func_02165490(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_SEARCH_SetInfoEventBattleNameB(&GAME_BEACON_Work->own.info, name);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165490(GameBeaconInfo *info, const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetInfoEventBattleNameB(GameBeaconInfo *info, const struct Strbuf *name)
 {
     info->action = 0x20;
     GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021654AC(const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetEventBattleNameC(const struct Strbuf *name)
 {
     if (GAME_BEACON_CheckActionPriority(0x21)) {
-        func_021654D4(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_SEARCH_SetInfoEventBattleNameC(&GAME_BEACON_Work->own.info, name);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021654D4(GameBeaconInfo *info, const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetInfoEventBattleNameC(GameBeaconInfo *info, const struct Strbuf *name)
 {
     info->action = 0x21;
     GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021654F0(const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetEventBattleNameD(const struct Strbuf *name)
 {
     if (GAME_BEACON_CheckActionPriority(0x22)) {
-        func_02165518(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_SEARCH_SetInfoEventBattleNameD(&GAME_BEACON_Work->own.info, name);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165518(GameBeaconInfo *info, const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetInfoEventBattleNameD(GameBeaconInfo *info, const struct Strbuf *name)
 {
     info->action = 0x22;
     GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165534(u32 count)
+void GAME_BEACON_SEARCH_SetCountValue(u32 count)
 {
     if (GAME_BEACON_CheckActionPriority(0x24)) {
-        func_0216555C(&GAME_BEACON_Work->own.info, count);
+        GAME_BEACON_SEARCH_SetInfoCountValue(&GAME_BEACON_Work->own.info, count);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_0216555C(GameBeaconInfo *info, u32 count)
+void GAME_BEACON_SEARCH_SetInfoCountValue(GameBeaconInfo *info, u32 count)
 {
     info->action = 0x24;
     info->actionData.value = count;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_0216556C(void)
+void GAME_BEACON_SEARCH_SetSymbolMapEnter(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x25)) {
-        func_02165590(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoSymbolMapEnter(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165590(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoSymbolMapEnter(GameBeaconInfo *info)
 {
     info->action = 0x25;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_0216559C(u32 monsNo)
+void GAME_BEACON_SEARCH_SetSymbolMapPoke(u32 monsNo)
 {
     if (GAME_BEACON_CheckActionPriority(0x26)) {
-        func_021655C4(&GAME_BEACON_Work->own.info, monsNo);
+        GAME_BEACON_SEARCH_SetInfoSymbolMapPoke(&GAME_BEACON_Work->own.info, monsNo);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021655C4(GameBeaconInfo *info, u32 monsNo)
+void GAME_BEACON_SEARCH_SetInfoSymbolMapPoke(GameBeaconInfo *info, u32 monsNo)
 {
     info->action = 0x26;
     info->actionArg = monsNo;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021655D4(void)
+void GAME_BEACON_SEARCH_SetFacilityEnter(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x27)) {
-        func_021655F8(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoFacilityEnter(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021655F8(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoFacilityEnter(GameBeaconInfo *info)
 {
     info->action = 0x27;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165604(void)
+void GAME_BEACON_SEARCH_SetFacilityExit(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x28)) {
-        func_02165628(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoFacilityExit(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165628(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoFacilityExit(GameBeaconInfo *info)
 {
     info->action = 0x28;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165634(u32 value)
+void GAME_BEACON_SEARCH_SetWordValue(u32 value)
 {
     if (GAME_BEACON_CheckActionPriority(0x29)) {
-        func_0216565C(&GAME_BEACON_Work->own.info, value);
+        GAME_BEACON_SEARCH_SetInfoWordValue(&GAME_BEACON_Work->own.info, value);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_0216565C(GameBeaconInfo *info, u32 value)
+void GAME_BEACON_SEARCH_SetInfoWordValue(GameBeaconInfo *info, u32 value)
 {
     info->action = 0x29;
     info->actionData.wordValue = value;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_0216566C(void)
+void GAME_BEACON_SEARCH_SetWordClear(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x2A)) {
-        func_02165690(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoWordClear(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165690(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoWordClear(GameBeaconInfo *info)
 {
     info->action = 0x2A;
     info->actionData.wordValue = 0;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021656A0(void)
+void GAME_BEACON_SEARCH_SetSimpleEventA(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x2B)) {
-        func_021656C4(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoSimpleEventA(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021656C4(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoSimpleEventA(GameBeaconInfo *info)
 {
     info->action = 0x2B;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021656D0(u8 value)
+void GAME_BEACON_SEARCH_SetByteValue(u8 value)
 {
     if (GAME_BEACON_CheckActionPriority(0x2C)) {
-        func_021656F8(&GAME_BEACON_Work->own.info, value);
+        GAME_BEACON_SEARCH_SetInfoByteValue(&GAME_BEACON_Work->own.info, value);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021656F8(GameBeaconInfo *info, u8 value)
+void GAME_BEACON_SEARCH_SetInfoByteValue(GameBeaconInfo *info, u8 value)
 {
     info->action = 0x2C;
     info->actionData.byteValue = value;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_0216570C(void)
+void GAME_BEACON_SEARCH_SetSimpleEventB(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x2D)) {
-        func_02165730(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoSimpleEventB(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165730(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoSimpleEventB(GameBeaconInfo *info)
 {
     info->action = 0x2D;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_0216573C(void)
+void GAME_BEACON_SEARCH_SetSimpleEventC(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x2E)) {
-        func_02165760(&GAME_BEACON_Work->own.info);
+        GAME_BEACON_SEARCH_SetInfoSimpleEventC(&GAME_BEACON_Work->own.info);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165760(GameBeaconInfo *info)
+void GAME_BEACON_SEARCH_SetInfoSimpleEventC(GameBeaconInfo *info)
 {
     info->action = 0x2E;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_0216576C(const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetNamedEvent(const struct Strbuf *name)
 {
     if (GAME_BEACON_CheckActionPriority(0x2F)) {
-        func_02165794(&GAME_BEACON_Work->own.info, name);
+        GAME_BEACON_SEARCH_SetInfoNamedEvent(&GAME_BEACON_Work->own.info, name);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165794(GameBeaconInfo *info, const struct Strbuf *name)
+void GAME_BEACON_SEARCH_SetInfoNamedEvent(GameBeaconInfo *info, const struct Strbuf *name)
 {
     info->action = 0x2F;
     GAME_BEACON_CopyStrbufCodes(name, info->actionData.nickname);
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021657B0(u16 value)
+void GAME_BEACON_SEARCH_SetHalfwordValue(u16 value)
 {
     if (GAME_BEACON_CheckActionPriority(0x30)) {
-        func_021657D8(&GAME_BEACON_Work->own.info, value);
+        GAME_BEACON_SEARCH_SetInfoHalfwordValue(&GAME_BEACON_Work->own.info, value);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_021657D8(GameBeaconInfo *info, u16 value)
+void GAME_BEACON_SEARCH_SetInfoHalfwordValue(GameBeaconInfo *info, u16 value)
 {
     info->action = 0x30;
     info->actionData.value = value;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_021657E8(struct GameData *gameData, u16 trainerId)
+void GAME_BEACON_SEARCH_SetThanks(struct GameData *gameData, u16 trainerId)
 {
     if (GAME_BEACON_CheckActionPriority(0x18)) {
-        func_02165814(&GAME_BEACON_Work->own.info, gameData, trainerId);
+        GAME_BEACON_SEARCH_SetInfoThanks(&GAME_BEACON_Work->own.info, gameData, trainerId);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_02165814(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId)
+void GAME_BEACON_SEARCH_SetInfoThanks(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId)
 {
-    func_0201F41C(func_0200C20C(func_0200C0F0(func_02012EBC(gameData))), info->actionData.text, 9);
+    func_0201F41C(func_0200C20C(func_0200C0F0(GAME_DATA_GetSaveControl(gameData))), info->actionData.text, 9);
     info->action = 0x18;
     info->actionData.special.targetTrainerId = trainerId;
     GAME_BEACON_ResetDetails(info);
 }
 
-void func_02165844(const struct Strbuf *text)
+void GAME_BEACON_SEARCH_SetFreeText(const struct Strbuf *text)
 {
     if (GAME_BEACON_CheckActionPriority(0x31)) {
-        func_0216586C(&GAME_BEACON_Work->own.info, text);
+        GAME_BEACON_SEARCH_SetInfoFreeText(&GAME_BEACON_Work->own.info, text);
         GAME_BEACON_RequestSend(&GAME_BEACON_Work->own);
     }
 }
 
-void func_0216586C(GameBeaconInfo *info, const struct Strbuf *text)
+void GAME_BEACON_SEARCH_SetInfoFreeText(GameBeaconInfo *info, const struct Strbuf *text)
 {
-    func_02045A38(text, info->actionData.text, 9);
+    STRBUF_ToChars(text, info->actionData.text, 9);
     info->action = 0x31;
     GAME_BEACON_ResetDetails(info);
 }
@@ -1300,7 +1300,7 @@ void func_0216586C(GameBeaconInfo *info, const struct Strbuf *text)
  * ------------------------------------------------------------------ */
 
 /* Moves the new beacon log entries into the table; returns how many. */
-int func_02165888(GameBeaconInfoTable *table)
+int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table)
 {
     struct RtcTime time;
     int cursor;
@@ -1318,7 +1318,7 @@ int func_02165888(GameBeaconInfoTable *table)
         if (logIndex == 30) {
             break;
         }
-        tableIndex = func_02165960(table, &GAME_BEACON_GetLog(logIndex)->info, receiveTime, 0);
+        tableIndex = GAME_BEACON_ACCESSOR_TableAdd(table, &GAME_BEACON_GetLog(logIndex)->info, receiveTime, 0);
         if (tableIndex == 30) {
             break;
         }
@@ -1329,7 +1329,7 @@ int func_02165888(GameBeaconInfoTable *table)
 }
 
 /* Pops the first entry: copies it out and shifts the rest down. */
-int func_021658D4(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime)
+int GAME_BEACON_ACCESSOR_TablePop(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime)
 {
     int i;
 
@@ -1346,7 +1346,7 @@ int func_021658D4(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receive
 }
 
 /* Hands every used entry back to the beacon log as new. */
-void func_02165940(GameBeaconInfo *infoList)
+void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfo *infoList)
 {
     int i;
 
@@ -1362,7 +1362,7 @@ void func_02165940(GameBeaconInfo *infoList)
  * trainer. When the table is full and mode is 1, the oldest entry is
  * dropped. Returns the entry used, or 30 when nothing was stored.
  */
-int func_02165960(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode)
+int GAME_BEACON_ACCESSOR_TableAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode)
 {
     int i;
 
@@ -1384,7 +1384,7 @@ int func_02165960(GameBeaconInfoTable *table, const GameBeaconInfo *info, int re
 }
 
 /* Ring use of the table: entry at a signed offset from the head. */
-int func_021659F0(const GameBeaconInfoTable *table, int offset)
+int GAME_BEACON_ACCESSOR_TableGetRingIndex(const GameBeaconInfoTable *table, int offset)
 {
     int head = table->head;
 
@@ -1397,7 +1397,7 @@ int func_021659F0(const GameBeaconInfoTable *table, int offset)
  * Ring insert: replaces the entry of the same trainer, else pushes a new
  * head. *isNew (optional) is 1 when a new entry was taken.
  */
-int func_02165A10(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew)
+int GAME_BEACON_ACCESSOR_TableRingAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew)
 {
     int i;
     int index;
@@ -1405,7 +1405,7 @@ int func_02165A10(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 re
     if (isNew)
         *isNew = 0;
     for (i = 0; i < 30; i++) {
-        index = func_021659F0(table, i);
+        index = GAME_BEACON_ACCESSOR_TableGetRingIndex(table, i);
         if (table->info[index].versionBit == 0)
             break;
         if (info->trainerId == table->info[index].trainerId) {
@@ -1416,7 +1416,7 @@ int func_02165A10(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 re
     }
     if (isNew)
         *isNew = 1;
-    index = func_021659F0(table, -1);
+    index = GAME_BEACON_ACCESSOR_TableGetRingIndex(table, -1);
     table->info[index] = *info;
     table->receiveTime[index] = receiveTime;
     table->head = index;
@@ -1425,9 +1425,9 @@ int func_02165A10(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 re
     return 0;
 }
 
-int func_02165AC4(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime, int offset)
+int GAME_BEACON_ACCESSOR_TableRingGet(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime, int offset)
 {
-    int index = func_021659F0(table, offset);
+    int index = GAME_BEACON_ACCESSOR_TableGetRingIndex(table, offset);
 
     if (table->info[index].versionBit == 0)
         return 0;
@@ -1436,19 +1436,19 @@ int func_02165AC4(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *r
     return 1;
 }
 
-u8 func_02165B04(const GameBeaconInfoTable *table)
+u8 GAME_BEACON_ACCESSOR_TableGetCount(const GameBeaconInfoTable *table)
 {
     return table->count;
 }
 
-GameBeaconInfo *func_02165B10(u32 heapId)
+GameBeaconInfo *GAME_BEACON_ACCESSOR_AllocInfo(u32 heapId)
 {
-    return func_02030734(heapId, sizeof(GameBeaconInfo), 1, d_021729D4, 0x1b3);
+    return func_02030734(heapId, sizeof(GameBeaconInfo), 1, GAME_BEACON_ACCESSOR_FileName, 0x1b3);
 }
 
-GameBeaconInfoTable *func_02165B2C(u32 heapId)
+GameBeaconInfoTable *GAME_BEACON_ACCESSOR_AllocTable(u32 heapId)
 {
-    GameBeaconInfoTable *table = func_02030734(heapId, sizeof(GameBeaconInfoTable), 1, d_021729D4, 0x1c1);
+    GameBeaconInfoTable *table = func_02030734(heapId, sizeof(GameBeaconInfoTable), 1, GAME_BEACON_ACCESSOR_FileName, 0x1c1);
 
     table->head = 0;
     table->count = 0;
@@ -1460,7 +1460,7 @@ GameBeaconInfoTable *func_02165B2C(u32 heapId)
  * ------------------------------------------------------------------ */
 
 /* Returns 1 when a field is out of range or the action check fails. */
-int func_02165B5C(const GameBeaconInfo *info)
+int GAME_BEACON_ACCESSOR_IsInfoInvalid(const GameBeaconInfo *info)
 {
     if (info->action == 0 || info->action >= 0x33)
         return 1;
@@ -1476,12 +1476,12 @@ int func_02165B5C(const GameBeaconInfo *info)
         return 1;
     if (info->thanksCount > 99999 || info->passCount > 99999)
         return 1;
-    if (d_02171CA8[func_02165FB4(info->action)](info) != 0)
+    if (GAME_BEACON_ACCESSOR_ActionCheckFuncs[GAME_BEACON_ACCESSOR_GetActionCheckIndex(info->action)](info) != 0)
         return 1;
     return 0;
 }
 
-int func_02165C10(const GameBeaconInfo *info)
+int GAME_BEACON_ACCESSOR_IsDistributionAction(const GameBeaconInfo *info)
 {
     switch (info->action) {
     case 0x19:
@@ -1493,33 +1493,33 @@ int func_02165C10(const GameBeaconInfo *info)
     return 0;
 }
 
-void func_02165C34(const GameBeaconInfo *info, struct Strbuf *name)
+void GAME_BEACON_ACCESSOR_GetPlayerName(const GameBeaconInfo *info, struct Strbuf *name)
 {
-    func_02045994(name, info->name, 8);
+    STRBUF_SetStringN(name, info->name, 8);
 }
 
-u32 func_02165C48(const GameBeaconInfo *info)
+u32 GAME_BEACON_ACCESSOR_GetPmVersion(const GameBeaconInfo *info)
 {
     return info->pmVersion;
 }
 
-u32 func_02165C50(const GameBeaconInfo *info)
+u32 GAME_BEACON_ACCESSOR_GetLanguage(const GameBeaconInfo *info)
 {
     return info->language;
 }
 
-u8 func_02165C58(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetNation(const GameBeaconInfo *info)
 {
     return info->nation;
 }
 
-u8 func_02165C5C(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetArea(const GameBeaconInfo *info)
 {
     return info->area;
 }
 
 /* Questionnaire answers: 0xFF when the question has no answer. */
-u8 func_02165C60(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(const GameBeaconInfo *info)
 {
     u32 answer = func_0200E3A4(info->questionnaire, 0x1a);
 
@@ -1528,7 +1528,7 @@ u8 func_02165C60(const GameBeaconInfo *info)
     return answer;
 }
 
-u8 func_02165C78(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(const GameBeaconInfo *info)
 {
     u32 answer = func_0200E3A4(info->questionnaire, 0x19);
 
@@ -1537,7 +1537,7 @@ u8 func_02165C78(const GameBeaconInfo *info)
     return answer;
 }
 
-void func_02165C90(const GameBeaconInfo *info, GameBeaconPms *pms)
+void GAME_BEACON_ACCESSOR_GetDetailsPms(const GameBeaconInfo *info, GameBeaconPms *pms)
 {
     pms->sentenceType = info->detailsPms.bits.pmsSentenceType;
     pms->sentenceId = info->detailsPms.bits.pmsSentenceId;
@@ -1545,13 +1545,13 @@ void func_02165C90(const GameBeaconInfo *info, GameBeaconPms *pms)
     pms->word[1] = info->pmsWord[1];
 }
 
-u8 func_02165CB4(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(const GameBeaconInfo *info)
 {
     return info->researchTeamRank;
 }
 
 /* The owner color table has 16 entries. */
-void func_02165CC0(u16 *rgb, const GameBeaconInfo *info)
+void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(u16 *rgb, const GameBeaconInfo *info)
 {
     int color = info->favoriteColor;
     const u16 *colorTable = OSi_GetOwnerInfoExBuffer();
@@ -1559,18 +1559,18 @@ void func_02165CC0(u16 *rgb, const GameBeaconInfo *info)
     *rgb = colorTable[color & 0xF];
 }
 
-u8 func_02165CD8(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(const GameBeaconInfo *info)
 {
     return info->favoriteColor;
 }
 
-u16 func_02165CE4(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetTrainerId(const GameBeaconInfo *info)
 {
     return info->trainerId;
 }
 
 /* Trainer appearance: the female ones follow the 8 male ones. */
-u8 func_02165CE8(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(const GameBeaconInfo *info)
 {
     if (info->sex == 0) {
         return info->trainerView;
@@ -1578,67 +1578,67 @@ u8 func_02165CE8(const GameBeaconInfo *info)
     return info->trainerView + 8;
 }
 
-u8 func_02165D08(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetSex(const GameBeaconInfo *info)
 {
     return info->sex;
 }
 
-void func_02165D10(const GameBeaconInfo *info, u16 *hours, u16 *minutes)
+void GAME_BEACON_ACCESSOR_GetPlayTime(const GameBeaconInfo *info, u16 *hours, u16 *minutes)
 {
     *hours = info->playHours;
     *minutes = info->playMinutes;
 }
 
-u8 func_02165D20(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetInfoVersion(const GameBeaconInfo *info)
 {
     return info->infoVersion;
 }
 
-u16 func_02165D28(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetZoneId(const GameBeaconInfo *info)
 {
     return info->zoneId;
 }
 
-u16 func_02165D34(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(const GameBeaconInfo *info)
 {
     return info->townmapRootZoneId;
 }
 
-u32 func_02165D40(const GameBeaconInfo *info)
+u32 GAME_BEACON_ACCESSOR_GetPassCount(const GameBeaconInfo *info)
 {
     return info->passCount;
 }
 
-u32 func_02165D48(const GameBeaconInfo *info)
+u32 GAME_BEACON_ACCESSOR_GetThanksCount(const GameBeaconInfo *info)
 {
     return info->thanksCount;
 }
 
-void func_02165D50(const GameBeaconInfo *info, struct Strbuf *greeting)
+void GAME_BEACON_ACCESSOR_GetGreeting(const GameBeaconInfo *info, struct Strbuf *greeting)
 {
     STRBUF_Clear(greeting);
-    func_02045994(greeting, info->greeting, 9);
+    STRBUF_SetStringN(greeting, info->greeting, 9);
 }
 
-void func_02165D6C(const GameBeaconInfo *info, struct Strbuf *name)
+void GAME_BEACON_ACCESSOR_GetThanksName(const GameBeaconInfo *info, struct Strbuf *name)
 {
     if (info->action != 0x18) {
         STRBUF_Clear(name);
     } else {
-        func_02045924(name, info->actionData.text);
+        STRBUF_SetString(name, info->actionData.text);
     }
 }
 
-void func_02165D8C(const GameBeaconInfo *info, struct Strbuf *text)
+void GAME_BEACON_ACCESSOR_GetFreeText(const GameBeaconInfo *info, struct Strbuf *text)
 {
     if (info->action != 0x31) {
         STRBUF_Clear(text);
     } else {
-        func_02045924(text, info->actionData.text);
+        STRBUF_SetString(text, info->actionData.text);
     }
 }
 
-unsigned func_02165DAC(const GameBeaconInfo *info)
+unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const GameBeaconInfo *info)
 {
     unsigned type = info->detailsPms.bits.detailsType;
 
@@ -1647,7 +1647,7 @@ unsigned func_02165DAC(const GameBeaconInfo *info)
     return type;
 }
 
-u16 func_02165DBC(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(const GameBeaconInfo *info)
 {
     unsigned type = info->detailsPms.bits.detailsType;
     unsigned trainerNo = info->detailsValue;
@@ -1664,7 +1664,7 @@ u16 func_02165DBC(const GameBeaconInfo *info)
     }
 }
 
-u16 func_02165DF0(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const GameBeaconInfo *info)
 {
     unsigned type = info->detailsPms.bits.detailsType;
     unsigned monsNo = info->detailsValue;
@@ -1680,7 +1680,7 @@ u16 func_02165DF0(const GameBeaconInfo *info)
     }
 }
 
-u16 func_02165E24(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetActionNo(const GameBeaconInfo *info)
 {
     u16 action = info->action;
 
@@ -1689,7 +1689,7 @@ u16 func_02165E24(const GameBeaconInfo *info)
     return action;
 }
 
-u16 func_02165E34(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetActionMonsNo(const GameBeaconInfo *info)
 {
     switch (info->action) {
     case 2:
@@ -1705,35 +1705,35 @@ u16 func_02165E34(const GameBeaconInfo *info)
     return 0x1F8;
 }
 
-u16 func_02165E78(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetActionItemNo(const GameBeaconInfo *info)
 {
     if (info->action == 0x13 || info->action == 0x23)
         return info->actionData.value;
     return 0x11;
 }
 
-u16 func_02165E8C(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetActionCountValue(const GameBeaconInfo *info)
 {
     if (info->action == 0x24)
         return info->actionData.value;
     return 1;
 }
 
-u16 func_02165E9C(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetDistributionMonsNo(const GameBeaconInfo *info)
 {
     if (info->action == 0x19)
         return info->actionData.special.monsNo;
     return 0x1F8;
 }
 
-u16 func_02165EAC(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetDistributionItemNo(const GameBeaconInfo *info)
 {
     if (info->action == 0x1A)
         return info->actionData.special.itemNo;
     return 0x11;
 }
 
-u16 func_02165EBC(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(const GameBeaconInfo *info)
 {
     if (info->action == 0x32)
         return info->actionData.special.serial;
@@ -1741,10 +1741,10 @@ u16 func_02165EBC(const GameBeaconInfo *info)
 }
 
 /* The case list has no effect; the original keeps it after the copy. */
-void func_02165ECC(const GameBeaconInfo *info, struct Strbuf *nickname)
+void GAME_BEACON_ACCESSOR_GetNickname(const GameBeaconInfo *info, struct Strbuf *nickname)
 {
     STRBUF_Clear(nickname);
-    func_02045994(nickname, info->actionData.nickname, 11);
+    STRBUF_SetStringN(nickname, info->actionData.nickname, 11);
     switch (info->action) {
     case 16:
     case 17:
@@ -1761,7 +1761,7 @@ void func_02165ECC(const GameBeaconInfo *info, struct Strbuf *nickname)
     }
 }
 
-u16 func_02165F30(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetActionTrainerNo(const GameBeaconInfo *info)
 {
     switch (info->action) {
     case 6:
@@ -1775,42 +1775,42 @@ u16 func_02165F30(const GameBeaconInfo *info)
     return 1;
 }
 
-u32 func_02165F64(const GameBeaconInfo *info)
+u32 GAME_BEACON_ACCESSOR_GetPresetEventValue(const GameBeaconInfo *info)
 {
     if (info->action == 0x16)
         return info->actionData.wordValue;
     return 1;
 }
 
-u16 func_02165F74(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetActionSpecialValue(const GameBeaconInfo *info)
 {
     if (info->action == 0x14)
         return info->actionData.value;
     return 1;
 }
 
-u32 func_02165F84(const GameBeaconInfo *info)
+u32 GAME_BEACON_ACCESSOR_GetActionWordValue(const GameBeaconInfo *info)
 {
     if (info->action == 0x29)
         return info->actionData.wordValue;
     return 1;
 }
 
-u8 func_02165F94(const GameBeaconInfo *info)
+u8 GAME_BEACON_ACCESSOR_GetActionByteValue(const GameBeaconInfo *info)
 {
     if (info->action == 0x2C)
         return info->actionData.byteValue;
     return 0;
 }
 
-u16 func_02165FA4(const GameBeaconInfo *info)
+u16 GAME_BEACON_ACCESSOR_GetActionHalfwordValue(const GameBeaconInfo *info)
 {
     if (info->action == 0x30)
         return info->actionData.value;
     return 0;
 }
 
-u8 func_02165FB4(u16 action)
+u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 action)
 {
-    return d_02171CE8[action].checkIndex;
+    return GAME_BEACON_ACCESSOR_ActionTable[action].checkIndex;
 }

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_021F2234  0x021F2234  thumb  ov032
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   BEACON_VIEW_Create  0x021F2234  thumb  ov032
  *   abs_id_20      0x00000020  data
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 
 extern unsigned char abs_id_20[];
 extern int func_02034AC4(int);
-extern void *func_02188C80(void *p);
-extern char *func_021F2234(u32 a0, u32 a1);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern char *BEACON_VIEW_Create(u32 a0, u32 a1);
 
 void func_021A1428(u32 *p)
 {
     func_02034AC4((int)abs_id_20);
-    p[8] = (u32)func_021F2234((u32)func_02188C80((void *)p[5]), (u32)p);
+    p[8] = (u32)BEACON_VIEW_Create((u32)FIELDMAP_GetGameSystem((void *)p[5]), (u32)p);
 }

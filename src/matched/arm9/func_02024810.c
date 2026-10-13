@@ -11,15 +11,16 @@
  *
  * symbols:
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
+ *   MSGDATA_ReadString  0x02045CAC  arm
  */
 
 extern int PMS_WORD_SplitWordId(unsigned int v, unsigned int *a1, unsigned int *a2);
 typedef unsigned int   u32;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 void PMS_WORD_GetString(char *p, int a1, int a2)
 {
     int x, y;
     PMS_WORD_SplitWordId(a1, (unsigned int *)(&x), (unsigned int *)(&y));
-    func_02045CAC((struct MsgBank *)(*(int *)(p + 4 + x * 4)), y, (void *)a2);
+    MSGDATA_ReadString((struct MsgBank *)(*(int *)(p + 4 + x * 4)), y, (void *)a2);
 }

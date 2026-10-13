@@ -15,9 +15,9 @@
  *   func_020498F4 0x020498F4 arm
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02049250 0x02049250 arm
+ *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   func_02062A98 0x02062A98 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0207D63C 0x0207D63C arm
  */
 #include "../include/Obj01591.h"
@@ -32,9 +32,9 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
-extern void *func_02049250(struct ArcFile *,u32,u32);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *,u32,u32);
 extern int func_02062A98(struct NitroFileHeader *,void **);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0207D63C(u32 *,u32,u32,int,int);
 void func_021BC1E4(char *p,u16 heap)
 {
@@ -56,10 +56,10 @@ void func_021BC1E4(char *p,u16 heap)
     func_020498F4(arc,17,2,0,2048,0,heap);
     func_02049658(arc,7,3,0,0,0,heap);
     func_020498F4(arc,16,3,0,2048,0,heap);
-    ((struct Obj01591 *)p)->f120=func_02049250(*(struct ArcFile * *)&((struct Obj01591 *)p)->f54,29,((struct Obj01591 *)p)->f0);
+    ((struct Obj01591 *)p)->f120=ARC_TOOL_LoadHandleMember(*(struct ArcFile * *)&((struct Obj01591 *)p)->f54,29,((struct Obj01591 *)p)->f0);
     func_02062A98(*(struct NitroFileHeader * *)&((struct Obj01591 *)p)->f120,(void **)(p+280));
     ((struct Obj01591 *)p)->f11C=((struct Obj25769 *)(*(char * *)&((struct Obj01591 *)p)->f118))->fC;
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     func_0207D63C((u32 *)0x04000050,2,30,11,5);
     func_0207D63C((u32 *)0x04001050,3,31,13,3);
 }

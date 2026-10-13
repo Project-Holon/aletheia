@@ -14,9 +14,9 @@
  *   func_02045EC0  0x02045EC0  arm
  *   sub_0201D304  0x0201D304  thumb
  *   func_02045770  0x02045770  arm
- *   func_020437DC  0x020437DC  arm
+ *   BMP_GetWidth  0x020437DC  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_021C0740  0x021C0740  thumb  ov208
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_021C0CC0  0x021C0CC0  thumb  ov208
@@ -40,9 +40,9 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021C0740(void *a0, u8 *st, void *a2, u8 i);
 struct Obj;
 extern void func_0204B3DC(struct Obj *a, unsigned int b);
@@ -63,11 +63,11 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
 
             msg = func_02045EC0(((struct Obj00081 *)st)->fC, 0x80);
             w = (u16)sub_0201D304(msg, ((struct Obj00081 *)st)->f4, 0);
-            h = func_020437DC((const struct Bmp *)((u32)func_02045770(((struct Obj00081 *)st)->f20)));
+            h = BMP_GetWidth((const struct Bmp *)((u32)func_02045770(((struct Obj00081 *)st)->f20)));
             t = (u32)func_02045770(((struct Obj00081 *)st)->f20);
             d = h - w;
             PRINTSYS_PrintQueColor(((struct Obj00081 *)st)->f40, t, (s16)(u16)(d / 2), 1, (u32)msg, ((struct Obj00081 *)st)->f4, 0x3c40);
-            func_02045808(msg);
+            STRBUF_Delete(msg);
             ((struct Obj00081 *)st)->f30 = 1;
             func_021C0740(a0, st, a2, 3);
             func_0204B3DC((struct Obj *)*(int *)&((struct Obj00081 *)st)->fC8, 1);

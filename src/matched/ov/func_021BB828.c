@@ -1,5 +1,5 @@
 /*
- * function: func_021BB828
+ * function: BTL_SERVER_ClearClient
  * address:  0x021BB828
  * packet:   pkt_021BB828
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BB828   0x021BB828  thumb ov093
+ *   BTL_SERVER_ClearClient   0x021BB828  thumb ov093
  *
  * store constant 0xff at #0xb
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021BB828(u8 *p)
+void BTL_SERVER_ClearClient(u8 *p)
 {
     *(u8 *)&p[0xb] = 0xff;
 }

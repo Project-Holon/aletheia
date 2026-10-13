@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A73DC",
+   "name": "FIELD_GROUND_ANIME_Update",
    "address": "0x021A73DC",
    "kind": "game",
    "region": "ov021",

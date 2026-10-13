@@ -1,5 +1,5 @@
 /*
- * function: func_021EF5D0
+ * function: WEATHER_DIAMOND_DUST_UpdateParticle
  * address:  0x021EF5D0
  * packet:   pkt_ov025_021EF5D0
  * region:   ov025
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF5D0 0x021EF5D0 thumb ov025
- *   func_021A2630 0x021A2630 thumb ov021
- *   func_021A2638 0x021A2638 thumb ov021
- *   func_021A2640 0x021A2640 thumb ov021
- *   func_021A21E0 0x021A21E0 thumb ov021
+ *   WEATHER_DIAMOND_DUST_UpdateParticle 0x021EF5D0 thumb ov025
+ *   WEATHER_TASK_GetParticleWork 0x021A2630 thumb ov021
+ *   WEATHER_TASK_GetParticleActor 0x021A2638 thumb ov021
+ *   WEATHER_TASK_GetParticlePos 0x021A2640 thumb ov021
+ *   WEATHER_TASK_RemoveParticle 0x021A21E0 thumb ov021
  *   _s32_div_f    0x0209C0A4 arm
  */
 
 typedef signed short s16;
 
 typedef unsigned int   u32;
-extern unsigned char *func_021A2630(unsigned char *o);
-extern unsigned int func_021A2638(unsigned char *o);
+extern unsigned char *WEATHER_TASK_GetParticleWork(unsigned char *o);
+extern unsigned int WEATHER_TASK_GetParticleActor(unsigned char *o);
 struct PtS;
-extern void func_021A2640(unsigned char *, struct PtS *);
-extern void func_021A21E0(u32 *p);
+extern void WEATHER_TASK_GetParticlePos(unsigned char *, struct PtS *);
+extern void WEATHER_TASK_RemoveParticle(u32 *p);
 
-void func_021EF5D0(int a)
+void WEATHER_DIAMOND_DUST_UpdateParticle(int a)
 {
     int *p;
     s16 v[2];
 
-    p = (int *)func_021A2630((unsigned char *)a);
-    func_021A2638((unsigned char *)a);
-    func_021A2640((unsigned char *)a, (struct PtS *)v);
+    p = (int *)WEATHER_TASK_GetParticleWork((unsigned char *)a);
+    WEATHER_TASK_GetParticleActor((unsigned char *)a);
+    WEATHER_TASK_GetParticlePos((unsigned char *)a, (struct PtS *)v);
     *p = *p + 1;
     if (*p % p[4] == 0) {
         v[0] = v[0] + (s16)p[2];
@@ -43,6 +43,6 @@ void func_021EF5D0(int a)
         v[1] = v[1] + (s16)p[3];
     }
     if (*p >= p[1]) {
-        func_021A21E0((u32 *)a);
+        WEATHER_TASK_RemoveParticle((u32 *)a);
     }
 }

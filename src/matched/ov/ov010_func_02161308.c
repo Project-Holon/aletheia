@@ -1,5 +1,5 @@
 /*
- * function: func_02161308
+ * function: EVENT_FIELD_PROCLINK_CreateConfigParam
  * address:  0x02161308
  * packet:   pkt_ov010_02161308
  * region:   ov010
@@ -13,8 +13,8 @@
  * also holds the unlabelled leaf at 0x02161340 (nonzero test of *r1).
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_02030734  0x02030734  arm
  *   d_02172978     0x02172978  data  a1
@@ -30,22 +30,22 @@ extern const char d_02172978[];
 struct Big;
 struct Ctx;
 struct Sub02008700Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-u32 *func_02161308(char *c)
+u32 *EVENT_FIELD_PROCLINK_CreateConfigParam(char *c)
 {
     u32 *r;
 
-    func_0200873C(func_02012EBC(func_020120F4(**(void ** *)&((struct Obj12327 *)c)->f18)));
+    func_0200873C(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(**(void ** *)&((struct Obj12327 *)c)->f18)));
     r = func_02030734(4, 8, 1, d_02172978, 0x705);
     r[1] = **(u32 * *)&((struct Obj12327 *)c)->f18;
     return r;
 }
 
-int func_02161340(int a0, int *a1)
+int EVENT_FIELD_PROCLINK_ReturnConfig(int a0, int *a1)
 {
     if (*a1 != 0)
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0217FB2C
+ * function: EVENT_COMM_COMMON_CmdCheckBattleRecState
  * address: 0x0217FB2C
  * packet: pkt_ov018_0217FB2C
  * region: ov018
@@ -9,30 +9,30 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02159AE8 0x02159AE8 thumb ov010
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_020120F4 0x020120F4 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BE48 0x0200BE48 thumb
  *   func_0200BF10 0x0200BF10 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u16 *func_02159AE8(void *, void *);
-extern void *func_0215A5DC(void *);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *, void *);
+extern void *SCRCMD_WORK_GetGameSystem(void *);
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u16 *func_0200BE48(void *);
 struct Rec1B0;
 extern u8 func_0200BF10(struct Rec1B0 *p);
-int func_0217FB2C(void *a, void *vm)
+int EVENT_COMM_COMMON_CmdCheckBattleRecState(void *a, void *vm)
 {
     u16 *out;
     int v;
-    out = func_02159AE8(a, vm);
-    if (func_0200BF10((struct Rec1B0 *)func_0200BE48(func_02012EBC(func_020120F4(func_0215A5DC(vm))))) != 0x30) {
+    out = SCRIPT_WORK_ReadWorkPointer(a, vm);
+    if (func_0200BF10((struct Rec1B0 *)func_0200BE48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(vm))))) != 0x30) {
         v = 1;
     } else {
         v = 0;

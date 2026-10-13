@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A0FA0",
+   "name": "FIELD_SUBSCREEN_SetPanelResult",
    "address": "0x021A0FA0",
    "kind": "game",
    "region": "ov021",

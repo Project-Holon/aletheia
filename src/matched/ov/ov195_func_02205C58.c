@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047964 0x02047964 arm
- *   func_02048AD0 0x02048AD0 arm
- *   func_020479D8 0x020479D8 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  */
 #include "../include/Obj24957.h"
 
-extern void func_02047964(void *);
-extern int func_02048AD0(int);
-extern void func_020479D8(int);
+extern void G3D_SYSTEM_DrawStart(void *);
+extern int G3D_CAMERA_Reset(int);
+extern void G3D_SYSTEM_ApplyLookAt(int);
 
 void func_02205C58(char *a)
 {
-    func_02047964(a);
-    func_020479D8(func_02048AD0(((struct Obj24957 *)a)->f0));
+    G3D_SYSTEM_DrawStart(a);
+    G3D_SYSTEM_ApplyLookAt(G3D_CAMERA_Reset(((struct Obj24957 *)a)->f0));
 }

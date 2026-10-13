@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DAAEC",
-    "func_021DAB0C",
-    "func_021DAB18"
+    "BTL_ABILITY_VoltAbsorbAbsorbElectric",
+    "BTL_ABILITY_GetVoltAbsorbHandlers",
+    "BTL_ABILITY_GetMotorDriveHandlers"
+   ],
+   "addresses": [
+    "0x021DAAEC",
+    "0x021DAB0C",
+    "0x021DAB18"
    ],
    "evidence": {
     "sole-ref": [

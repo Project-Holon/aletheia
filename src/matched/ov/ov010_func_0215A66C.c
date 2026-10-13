@@ -1,5 +1,5 @@
 /*
- * function: func_0215A66C
+ * function: SCRCMD_WORK_GetWindowKind
  * address:  0x0215A66C
  * packet:   pkt_ov010_0215A66C
  * region:   ov010
@@ -17,7 +17,7 @@
 
 typedef unsigned char u8;
 
-u8 func_0215A66C(u8 *p)
+u8 SCRCMD_WORK_GetWindowKind(u8 *p)
 {
     return (*(u8 **)(p + 0x20))[0x105];
 }

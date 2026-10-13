@@ -1,5 +1,5 @@
 /*
- * function: func_021D787C
+ * function: BTL_CALC_SetRngState
  * address: 0x021D787C
  * packet: pkt_ov093_021D787C
  * region: ov093
@@ -13,4 +13,4 @@
  */
 typedef struct { unsigned int v[6]; } Words;
 extern Words d_021F6368;
-void func_021D787C(const Words *p) { d_021F6368 = *p; }
+void BTL_CALC_SetRngState(const Words *p) { d_021F6368 = *p; }

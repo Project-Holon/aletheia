@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201160C",
+   "name": "ICA_ANIME_GetFrame",
    "address": "0x0201160C",
    "kind": "game",
    "region": "arm9",

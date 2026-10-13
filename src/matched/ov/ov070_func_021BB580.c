@@ -1,5 +1,5 @@
 /*
- * function: func_021BB580
+ * function: ITEMMENU_SetBackButtonAnim
  * address: 0x021BB580
  * packet: pkt_ov070_021BB580
  * region: ov070
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj13160.h"
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
-void func_021BB580(char *p, int v) { if (v == 1) func_0204B878(((struct Obj13160 *)p)->f720, 1); else func_0204B878(((struct Obj13160 *)p)->f720, 15); }
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+void ITEMMENU_SetBackButtonAnim(char *p, int v) { if (v == 1) CLACT_SetActorAnimSeq(((struct Obj13160 *)p)->f720, 1); else CLACT_SetActorAnimSeq(((struct Obj13160 *)p)->f720, 15); }

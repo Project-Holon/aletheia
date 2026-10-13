@@ -1,5 +1,5 @@
 /*
- * function: func_021DFB40
+ * function: BTL_HANDLER_ITEM_GetAirBalloonHandlers
  * address: 0x021DFB40
  * packet: pkt_ov093_021DFB40
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DFABC.c and filed here.
  *
  * symbols:
- *   d_021F1934 0x021F1934 data ov093 a4
+ *   gBtlHandlerItemAirBalloonHandlers 0x021F1934 data ov093 a4
  */
 
-int *func_021DFB40(int *p);
-extern int d_021F1934[];
+int *BTL_HANDLER_ITEM_GetAirBalloonHandlers(int *p);
+extern int gBtlHandlerItemAirBalloonHandlers[];
 
-int *func_021DFB40(int *p)
+int *BTL_HANDLER_ITEM_GetAirBalloonHandlers(int *p)
 {
     *p = 3;
-    return d_021F1934;
+    return gBtlHandlerItemAirBalloonHandlers;
 }

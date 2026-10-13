@@ -12,12 +12,12 @@
  *
  * symbols:
  *   g_ClactSystem     0x02146A74  data
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   CLACT_LoadCellAnimBanks  0x0204E074  arm
  *
  * Claim the first live slot of the 0x14-byte entry pool that lives at
  * +0x104 of the singleton behind 0x02146A74, build its two handles through
- * func_02049250 (same owner and same mode for both, second argument
+ * ARC_TOOL_LoadHandleMember (same owner and same mode for both, second argument
  * differing), publish the pair with CLACT_LoadCellAnimBanks and hand the slot index
  * back.
  *
@@ -74,7 +74,7 @@ struct Ctx {
 extern struct Ctx *g_ClactSystem;
 
 struct ArcFile;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern s32 CLACT_LoadCellAnimBanks(struct Pool *pool, s32 idx, void *a, void *b);
 
 s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode)
@@ -99,8 +99,8 @@ s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode)
 found:
     entry = &g_ClactSystem->pool.entries[idx];
 
-    entry->unk_00 = func_02049250(owner, first, mode);
-    entry->unk_04 = func_02049250(owner, second, mode);
+    entry->unk_00 = ARC_TOOL_LoadHandleMember(owner, first, mode);
+    entry->unk_04 = ARC_TOOL_LoadHandleMember(owner, second, mode);
 
     CLACT_LoadCellAnimBanks(&g_ClactSystem->pool, idx, entry->unk_00, entry->unk_04);
 

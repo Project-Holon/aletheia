@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7D4
+ * function: TOWNMAP_MapClearHighlight
  * address: 0x021BA7D4
  * packet: pkt_ov072_021BA7D4
  * region: ov072
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BAE44 0x021BAE44 thumb ov072
+ *   TOWNMAP_TownUnhighlight 0x021BAE44 thumb ov072
  */
 #include "../include/Obj13200.h"
 typedef unsigned int u32;
-extern void func_021BAE44(void *p);
-void func_021BA7D4(char *p) { u32 i; for(i=0;i<((struct Obj13200 *)p)->fC;i++) func_021BAE44((void *)(((struct Obj13200 *)p)->f8+i*0x44)); }
+extern void TOWNMAP_TownUnhighlight(void *p);
+void TOWNMAP_MapClearHighlight(char *p) { u32 i; for(i=0;i<((struct Obj13200 *)p)->fC;i++) TOWNMAP_TownUnhighlight((void *)(((struct Obj13200 *)p)->f8+i*0x44)); }

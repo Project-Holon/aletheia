@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6124",
+   "name": "SCRCMD_POKEMON_FLD_GetMonTutorMove",
    "address": "0x021B6124",
    "kind": "game",
    "region": "ov021",

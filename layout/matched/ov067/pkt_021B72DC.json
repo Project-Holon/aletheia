@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B72DC",
+   "name": "YESNO_MENU_Close",
    "address": "0x021B72DC",
    "kind": "game",
    "region": "ov067",

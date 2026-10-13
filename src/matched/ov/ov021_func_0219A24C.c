@@ -1,5 +1,5 @@
 /*
- * function: func_0219A24C
+ * function: FLDMMDL_MOVECODE_NoOp
  * address:  0x0219A24C
  * packet:   pkt_ov021_0219A24C
  * region:   ov021
@@ -14,6 +14,6 @@
  * symbols:
  */
 
-void func_0219A24C(void)
+void FLDMMDL_MOVECODE_NoOp(void)
 {
 }

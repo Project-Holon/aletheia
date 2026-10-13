@@ -1,5 +1,5 @@
 /*
- * function: func_02165AC4
+ * function: GAME_BEACON_ACCESSOR_TableRingGet
  * address:  0x02165AC4
  * packet:   pkt_ov010_02165AC4
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * Reads the record and tag at a ring offset from the head of the queue
- * (func_021659F0 maps the offset to a slot); returns 0 for an empty slot.
+ * (GAME_BEACON_ACCESSOR_TableGetRingIndex maps the offset to a slot); returns 0 for an empty slot.
  *
  * Follower 0x02165B04 (ldrb accessor of the count byte) is unlabelled.
  *
  * symbols:
- *   func_021659F0  0x021659F0  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_TableGetRingIndex  0x021659F0  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -37,11 +37,11 @@ struct Queue {
     u8 count;
 };
 
-extern int func_021659F0(u8 *q, int delta);
+extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
 
-int func_02165AC4(struct Queue *q, struct Rec *out, u16 *tag, int delta)
+int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *q, struct Rec *out, u16 *tag, int delta)
 {
-    int idx = func_021659F0((u8 *)q, delta);
+    int idx = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)q, delta);
 
     if (q->r[idx].f00 == 0)
         return 0;

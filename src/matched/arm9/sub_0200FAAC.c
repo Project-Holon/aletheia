@@ -14,10 +14,10 @@
  * object every sibling uses (literal x42), and the site resolves with it.
  *
  * symbols:
- *   func_0203CDBC  0x0203CDBC  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   GFL_NET_STATE_GetErrorMode  0x0203C990  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   sub_02010054   0x02010054  thumb
  *   g0214617C      0x0214617C  data
  */
@@ -31,10 +31,10 @@ struct Blk16_0200FAAC {
 };
 
 extern int   sub_02010054(void);
-extern int   func_0203CDBC(void);
+extern int   GFL_NET_IsSessionNull(void);
 extern u32 GFL_NET_STATE_GetErrorMode(void);
 extern u32 GFL_NET_STATE_GetError(void);
-extern u8   *func_0203D798(void);
+extern u8   *GFL_NET_GetInitParam(void);
 extern u8    g0214617C[];
 
 void GFL_NET_ERR_RecordError(void)
@@ -49,10 +49,10 @@ void GFL_NET_ERR_RecordError(void)
         return;
     }
     ((struct Obj03039 *)g)->f2C = 1;
-    if (func_0203CDBC() != 0) {
+    if (GFL_NET_IsSessionNull() != 0) {
         return;
     }
-    ((struct Obj03039 *)g)->f59 = func_0203D798()[0x65];
+    ((struct Obj03039 *)g)->f59 = GFL_NET_GetInitParam()[0x65];
     *(struct Blk16_0200FAAC *)(g + 0x48) = *(struct Blk16_0200FAAC *)GFL_NET_STATE_GetError();
     ((struct Obj03039 *)g)->f58 = (u8)GFL_NET_STATE_GetErrorMode();
     t = ((struct Obj03039 *)g)->f59;

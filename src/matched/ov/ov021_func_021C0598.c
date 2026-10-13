@@ -1,5 +1,5 @@
 /*
- * function: func_021C0598
+ * function: HEIGHT_EX_IsPointInArea
  * address:  0x021C0598
  * packet:   pkt_ov021_021C0598
  * region:   ov021
@@ -14,7 +14,7 @@
 
 typedef struct { int x, y, w, h, f10, active; } Rect;
 
-int func_021C0598(int x, int y, const Rect *r)
+int HEIGHT_EX_IsPointInArea(int x, int y, const Rect *r)
 {
     int l, t, rr, b;
 

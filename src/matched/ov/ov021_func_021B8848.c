@@ -1,5 +1,5 @@
 /*
- * function: func_021B8848
+ * function: FIELD_RAIL_SETTING_GetLinePos
  * address:  0x021B8848
  * packet:   pkt_ov021_021B8848
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D9A30     0x021D9A30  data  a4
+ *   gRailDefaultLinePos     0x021D9A30  data  a4
  */
 
 typedef unsigned char  u8;
@@ -38,9 +38,9 @@ typedef struct {
     void **p28;
 } Table;
 
-extern Elem d_021D9A30;
+extern Elem gRailDefaultLinePos;
 
-Elem *func_021B8848(Table *t, u16 i)
+Elem *FIELD_RAIL_SETTING_GetLinePos(Table *t, u16 i)
 {
     if (t->n6 > i) {
         return &t->p1c[i];
@@ -48,5 +48,5 @@ Elem *func_021B8848(Table *t, u16 i)
     if (i == 0xFFFF) {
         return 0;
     }
-    return &d_021D9A30;
+    return &gRailDefaultLinePos;
 }

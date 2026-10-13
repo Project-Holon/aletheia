@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_0203133C  0x0203133C  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct S020315D4;
 extern u32 func_0200FB24(void);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 struct S020314B8;
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
@@ -33,7 +33,7 @@ int EVENT_BATTLE_REC_SAVE_ProcExit(void *a0, int a1, char *a2, int *a3)
 {
     if (((struct Obj18645 *)a2)->f14 == 1) {
         if (func_0200FB24() != 0)
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
     }
     func_0203133C((struct S020314B8 *)*a3);
     func_020315D4(a0);

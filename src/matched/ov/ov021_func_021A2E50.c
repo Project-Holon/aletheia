@@ -1,5 +1,5 @@
 /*
- * function: func_021A2E50
+ * function: FIELD_PLAYER_Create
  * address:  0x021A2E50
  * packet:   pkt_ov021_021A2E50
  * region:   ov021
@@ -11,23 +11,23 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_021A36E4  0x021A36E4  thumb  ov021
- *   d_021DDEA8     0x021DDEA8  data  a4
+ *   FIELD_PLAYER_CORE_Create  0x021A36E4  thumb  ov021
+ *   gFieldPlayerFileName     0x021DDEA8  data  a4
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int d_021DDEA8;
+extern int gFieldPlayerFileName;
 
 void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
-u32 func_021A36E4(int a, u32 b, int c, int d, u16 heap);
+u32 FIELD_PLAYER_CORE_Create(int a, u32 b, int c, int d, u16 heap);
 
-u32 *func_021A2E50(int a, u32 b, int c, int d, u16 heap)
+u32 *FIELD_PLAYER_Create(int a, u32 b, int c, int d, u16 heap)
 {
-    u32 *o = (u32 *)func_02030734(heap, 0x10, 1, (const char *)&d_021DDEA8, 0x4C);
+    u32 *o = (u32 *)func_02030734(heap, 0x10, 1, (const char *)&gFieldPlayerFileName, 0x4C);
 
     o[0] = b;
-    o[1] = func_021A36E4(a, b, c, d, heap);
+    o[1] = FIELD_PLAYER_CORE_Create(a, b, c, d, heap);
     return o;
 }

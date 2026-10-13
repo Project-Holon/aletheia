@@ -1,5 +1,5 @@
 /*
- * function: func_021D82D0
+ * function: BTL_ACTION_SetFight
  * address:  0x021D82D0
  * packet:   pkt_ov093_021D82D0
  * region:   ov093
@@ -15,7 +15,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Unk021D82D0 { u32 kind : 4; u32 sub : 3; u32 id : 16; u32 rest : 9; };
 
-void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub)
+void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub)
 {
     struct Unk021D82D0 t = {0};
     t.kind = 1;

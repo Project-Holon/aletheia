@@ -1,5 +1,5 @@
 /*
- * function: func_0216F288
+ * function: TRCARD_SYS_StateStartCardProc
  * address: 0x0216F288
  * packet: pkt_ov010_0216F288
  * region: ov010
@@ -22,4 +22,4 @@ typedef unsigned short u16;
 extern void *PROCSYS_Create(int a0);
 extern void PROCSYS_Push(void *,int,void *,int);
 extern char d_021725FC[];
-int func_0216F288(int *p) { if(p[2]==0) p[2]=(int)PROCSYS_Create((u16)p[0]); PROCSYS_Push((void *)p[2],-1,d_021725FC,p[6]); return 2; }
+int TRCARD_SYS_StateStartCardProc(int *p) { if(p[2]==0) p[2]=(int)PROCSYS_Create((u16)p[0]); PROCSYS_Push((void *)p[2],-1,d_021725FC,p[6]); return 2; }

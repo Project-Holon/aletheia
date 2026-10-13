@@ -1,5 +1,5 @@
 /*
- * function: func_02157960
+ * function: DELIVERY_IRC_SetStepAtLine
  * address:  0x02157960
  * packet:   pkt_ov010_02157960
  * region:   ov010
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02157954  0x02157954  thumb ov010
+ *   DELIVERY_IRC_SetStep  0x02157954  thumb ov010
  */
 
 typedef unsigned char  u8;
-extern void func_02157954(u8 *p, int v, int a2);
+extern void DELIVERY_IRC_SetStep(u8 *p, int v, int a2);
 
-void func_02157960(int a, int b, int c)
+void DELIVERY_IRC_SetStepAtLine(int a, int b, int c)
 {
-    func_02157954((u8 *)a, b, c);
+    DELIVERY_IRC_SetStep((u8 *)a, b, c);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DCDF8
+ * function: BTL_HANDLER_TOKUSEI_IllusionBreakOnOwnerEvent
  * address: 0x021DCDF8
  * packet: pkt_ov093_021DCDF8
  * region: ov093
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021DCE48 0x021DCE48 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_HANDLER_TOKUSEI_IllusionBreak 0x021DCE48 thumb ov093
  */
-extern int func_021D775C(int);
-extern void func_021DCE48(int,unsigned char *,int);
-void func_021DCDF8(int a,unsigned char *b,int c) { if(c==func_021D775C(2)) func_021DCE48(a,b,c); }
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_HANDLER_TOKUSEI_IllusionBreak(int,unsigned char *,int);
+void BTL_HANDLER_TOKUSEI_IllusionBreakOnOwnerEvent(int a,unsigned char *b,int c) { if(c==BTL_EVENT_GetVar(2)) BTL_HANDLER_TOKUSEI_IllusionBreak(a,b,c); }

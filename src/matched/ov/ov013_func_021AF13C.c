@@ -12,7 +12,7 @@
  * symbols:
  *   gVctWork     0x021B3C80  data  ov013
  *   DWC_RAP_CleanupVchat  0x02156400  thumb  ov009
- *   func_021B20B0  0x021B20B0  arm  ov013
+ *   VCT_SESSION_SendGroupCommand  0x021B20B0  arm  ov013
  */
 
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ typedef struct Work {
 
 extern Work *gVctWork;
 extern void DWC_RAP_CleanupVchat(void);
-extern int func_021B20B0(int a, int b);
+extern int VCT_SESSION_SendGroupCommand(int a, int b);
 
 void VCT_MAIN_HangUp(void)
 {
@@ -35,12 +35,12 @@ void VCT_MAIN_HangUp(void)
         return;
     }
     if (gVctWork->f19AC == 1) {
-        if (func_021B20B0(gVctWork->f1A1C, 2)) {
+        if (VCT_SESSION_SendGroupCommand(gVctWork->f1A1C, 2)) {
             DWC_RAP_CleanupVchat();
             return;
         }
     }
-    if (func_021B20B0(gVctWork->f1A1C, 1)) {
+    if (VCT_SESSION_SendGroupCommand(gVctWork->f1A1C, 1)) {
         DWC_RAP_CleanupVchat();
     }
 }

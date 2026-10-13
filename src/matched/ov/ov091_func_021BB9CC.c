@@ -1,5 +1,5 @@
 /*
- * function: func_021BB9CC
+ * function: PLIST_MESSAGE_SetWordSetMove
  * address: 0x021BB9CC
  * packet: pkt_ov091_021BB9CC
  * region: ov091
@@ -15,4 +15,4 @@
 typedef unsigned int   u32;
 struct WordSet;
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
-void func_021BB9CC(int a,int b,int c,int d) {func_0201EF34((struct WordSet *)(((struct Obj20893 *)b)->f2C),c,d);}
+void PLIST_MESSAGE_SetWordSetMove(int a,int b,int c,int d) {func_0201EF34((struct WordSet *)(((struct Obj20893 *)b)->f2C),c,d);}

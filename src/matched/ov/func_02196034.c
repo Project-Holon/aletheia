@@ -1,5 +1,5 @@
 /*
- * function: func_02196034
+ * function: IRCBATTLEMENU_SetSeq
  * address:  0x02196034
  * packet:   pkt_02196034
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_02196030 with no argument change.
+ * Tail-call thunk: forwards to IRCBATTLEMENU_StoreSeqFunc with no argument change.
  *
  * symbols:
- *   func_02196030  0x02196030  thumb  ov021
+ *   IRCBATTLEMENU_StoreSeqFunc  0x02196030  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02196030();
+extern void IRCBATTLEMENU_StoreSeqFunc();
 
-void func_02196034(void)
+void IRCBATTLEMENU_SetSeq(void)
 {
-    func_02196030();
+    IRCBATTLEMENU_StoreSeqFunc();
 }

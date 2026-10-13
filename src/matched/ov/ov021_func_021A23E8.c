@@ -1,5 +1,5 @@
 /*
- * function: func_021A23E8
+ * function: WEATHER_TASK_CheckZoneFogA
  * address:  0x021A23E8
  * packet:   pkt_ov021_021A23E8
  * region:   ov021
@@ -12,13 +12,13 @@
  * Unlabelled tail-call stub, filed as a blocker of the ov024 lane S26.
  *
  * symbols:
- *   func_021A23E8  0x021A23E8  thumb  ov021
- *   func_021A0380  0x021A0380  thumb  ov021
+ *   WEATHER_TASK_CheckZoneFogA  0x021A23E8  thumb  ov021
+ *   FIELD_ZONEFOG_IsFog  0x021A0380  thumb  ov021
  */
 
-int func_021A0380(int *p);
+int FIELD_ZONEFOG_IsFog(int *p);
 
-int func_021A23E8(int *p)
+int WEATHER_TASK_CheckZoneFogA(int *p)
 {
-    return func_021A0380((int *)p[4]);
+    return FIELD_ZONEFOG_IsFog((int *)p[4]);
 }

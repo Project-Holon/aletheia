@@ -16,16 +16,16 @@
  *   func_0689C980  0x0689C980  thumb
  *   func_0689C990  0x0689C990  thumb
  *   d_021F2CF0  0x021F2CF0  data  a4
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D6E50  0x021D6E50  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_GetClientReservedChoice  0x021D6E50  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021B9A40 0x021B9A40 thumb ov093
- *   func_021E8940 0x021E8940 thumb ov093
+ *   BTLV_CORE_MakeSlotKind2Index 0x021E8940 thumb ov093
  *   func_021C8860 0x021C8860 thumb ov093
  *   func_021C7D34 0x021C7D34 thumb ov093
  *   func_021C80AC  0x021C80AC  thumb  ov093
@@ -46,16 +46,16 @@ typedef struct { u16 a; u16 b; int v; } Ent;
 
 typedef struct Word { u32 v; } Word;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D6E50(u8 *p, u8 *id, u16 *value);
-extern u16 func_021D70A8(struct QQ *p);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_GetClientReservedChoice(u8 *p, u8 *id, u16 *value);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern unsigned char func_021B9A40(unsigned int x);
-extern Word func_021E8940(int);
+extern Word BTLV_CORE_MakeSlotKind2Index(int);
 extern void func_021C8860(struct S *, u32);
 extern int func_021C7D34(char *p, int i);
 extern int func_021C80AC(u8 *p, int key);
@@ -107,10 +107,10 @@ void func_021E83CC(void *a, void *b, int c, int *d)
     int r;
     u8 k;
 
-    if (c == func_021D775C(3)) {
-        if (func_021D6E50(func_021C7CF4(b, c), &x, &y) != 0) {
-            r = func_021E8384(func_021D70A8(a), y);
-            k = func_021D775C(0x16);
+    if (c == BTL_EVENT_GetVar(3)) {
+        if (BTL_EVENT_GetClientReservedChoice(func_021C7CF4(b, c), &x, &y) != 0) {
+            r = func_021E8384(BTL_EVENT_GetFactorKey(a), y);
+            k = BTL_EVENT_GetVar(0x16);
             if (r != 0) {
                 d[1] = r;
                 d[0] = 1;
@@ -126,7 +126,7 @@ void func_021E83CC(void *a, void *b, int c, int *d)
                     k = 11;
                     break;
                 }
-                func_021D76BC(0x16, k);
+                BTL_EVENT_OverwriteVar(0x16, k);
             }
         }
     }
@@ -137,7 +137,7 @@ void func_021E8440(int a, void *b, int c, int *d)
 {
     u8 *m;
 
-    if (c == func_021D775C(3) && *d != 0) {
+    if (c == BTL_EVENT_GetVar(3) && *d != 0) {
         m = (u8 *)func_021C88A4(b, 4, c);
         func_021C8838(m + 4, 1, 0xbb);
         func_021C88C8(b, m);
@@ -147,15 +147,15 @@ void func_021E8440(int a, void *b, int c, int *d)
 
 void func_021E8478(int a, int b, int c, int *d)
 {
-    if (c == func_021D775C(2) && *d != 0)
-        func_021D76BC(0x51, 1);
+    if (c == BTL_EVENT_GetVar(2) && *d != 0)
+        BTL_EVENT_OverwriteVar(0x51, 1);
 }
 
 
 void func_021E8498(int a, int b, int c, int *d)
 {
-    if (c == func_021D775C(3) && *d != 0)
-        func_021D76BC(0x30, 0x96);
+    if (c == BTL_EVENT_GetVar(3) && *d != 0)
+        BTL_EVENT_OverwriteVar(0x30, 0x96);
 }
 
 
@@ -163,7 +163,7 @@ void func_021E84B8(int a, int b, int c, int *d)
 {
     int k;
 
-    if (c == func_021D775C(2)) {
+    if (c == BTL_EVENT_GetVar(2)) {
         if (d[0] != 0) {
             k = 0;
             switch (d[1]) {
@@ -177,7 +177,7 @@ void func_021E84B8(int a, int b, int c, int *d)
                 k = 0x208;
                 break;
             }
-            func_021D76BC(0x13, k);
+            BTL_EVENT_OverwriteVar(0x13, k);
         }
     }
 }
@@ -200,10 +200,10 @@ void func_021E84FC(int a, int b, int c, const int *d)
     u8 message;
     u8 mode;
     u8 *tmp1;
-    if (c == func_021D775C(3) && d[0] != 0) {
+    if (c == BTL_EVENT_GetVar(3) && d[0] != 0) {
         mode = 14;
         own = func_021B9A40(c);
-        other = func_021B9A40((u8)func_021D775C(6));
+        other = func_021B9A40((u8)BTL_EVENT_GetVar(6));
         code = 0;
         message = 0;
         target = 31;
@@ -220,21 +220,21 @@ void func_021E84FC(int a, int b, int c, const int *d)
             selected = other;
             mode = 12;
             code = 0x28e;
-            target = (u8)func_021D775C(6);
+            target = (u8)BTL_EVENT_GetVar(6);
             break;
         case 3:
             message = 0xac;
             selected = other;
             mode = 13;
             code = 0x28f;
-            target = (u8)func_021D775C(6);
+            target = (u8)BTL_EVENT_GetVar(6);
             break;
         }
         if (mode != 14) {
             p = func_021C88A4((char *)b, 25, c);
             ((struct Obj07838 *)p)->f4 = mode;
             p[12] = selected;
-            *(Word *)(p + 8) = func_021E8940(4);
+            *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind2Index(4);
             func_021C8838(p + 16, 1, message);
             func_021C8860((struct S *)(p + 16), selected);
             func_021C88C8((void *)b, p);
@@ -260,11 +260,11 @@ int func_021E85F8(int v)
     u32 i;
     u32 n;
 
-    n = func_021D775C(5);
+    n = BTL_EVENT_GetVar(5);
     i = 0;
     if (n != 0) {
         do {
-            if (v == func_021D775C(i + 6))
+            if (v == BTL_EVENT_GetVar(i + 6))
                 return 1;
             i++;
         } while (i < n);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA710
+ * function: TOWNMAP_MapFindNearestTown
  * address:  0x021BA710
  * packet:   pkt_ov072_021BA710
  * region:   ov072
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA3BC  0x021BA3BC  thumb  ov072
- *   func_021BACB0  0x021BACB0  thumb  ov072
+ *   TOWNMAP_CursorGetPos  0x021BA3BC  thumb  ov072
+ *   TOWNMAP_TownTestNear  0x021BACB0  thumb  ov072
  */
 
 typedef unsigned int u32;
@@ -24,10 +24,10 @@ typedef struct {
     int f10;
 } W;
 
-extern void func_021BA3BC(char *p, int *q);
-extern int func_021BACB0(char *a, int *b, int *c, u32 *d);
+extern void TOWNMAP_CursorGetPos(char *p, int *q);
+extern int TOWNMAP_TownTestNear(char *a, int *b, int *c, u32 *d);
 
-char *func_021BA710(W *p, int a)
+char *TOWNMAP_MapFindNearestTown(W *p, int a)
 {
     int pt[2];
     u32 i;
@@ -35,11 +35,11 @@ char *func_021BA710(W *p, int a)
     u32 d;
     int idx;
 
-    func_021BA3BC((char *)a, pt);
+    TOWNMAP_CursorGetPos((char *)a, pt);
     idx = -1;
     best = -1;
     for (i = 0; i < p->fc; i++) {
-        if (func_021BACB0(p->f8 + i * 0x44, pt, &p->f10, &d) != 0 && best > d) {
+        if (TOWNMAP_TownTestNear(p->f8 + i * 0x44, pt, &p->f10, &d) != 0 && best > d) {
             idx = i;
             best = d;
         }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_02195E60.c
  * unit:     yes
- * function: func_02195E60, gt2SetUnrecognizedMessageCallback, func_02195E70, gt2GetConnectionData
+ * function: func_02195E60, gt2SetUnrecognizedMessageCallback, gt2SetConnectionData, gt2GetConnectionData
  * address:  0x02195E60
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
 
 int func_02195E60(const GTI2Socket *socket);
 void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, void *callback);
-void func_02195E70(GTI2Connection *connection, void *data);
+void gt2SetConnectionData(GTI2Connection *connection, void *data);
 void *gt2GetConnectionData(const GTI2Connection *connection);
 
 /*
@@ -38,7 +38,7 @@ void gt2SetUnrecognizedMessageCallback(GTI2Socket *socket, void *callback)
 /*
  * Sets the user data of a connection.
  */
-void func_02195E70(GTI2Connection *connection, void *data)
+void gt2SetConnectionData(GTI2Connection *connection, void *data)
 {
     connection->data = data;
 }

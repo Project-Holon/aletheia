@@ -1,5 +1,5 @@
 /*
- * function: func_021B619C
+ * function: ITEMMENU_GetSellTotal
  * address: 0x021B619C
  * packet: pkt_ov070_021B619C
  * region: ov070
@@ -17,7 +17,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
-int func_021B619C(int a, int b, unsigned int id)
+int ITEMMENU_GetSellTotal(int a, int b, unsigned int id)
 {
     typedef enum { HALF_ZERO } Half;
     Half half;

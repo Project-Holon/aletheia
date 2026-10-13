@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F07F4",
+   "name": "DOWSING_CreateParts",
    "address": "0x021F07F4",
    "kind": "game",
    "region": "ov033",

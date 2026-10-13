@@ -1,5 +1,5 @@
 /*
- * function: func_0216736C
+ * function: QUESTIONNAIRE_GetFirstAnswerMessageOffset
  * address:  0x0216736C
  * packet:   pkt_02167358
  * region:   ov010
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 d_02171F5E[];
-u8 func_0216736C(u32 id)
+u8 QUESTIONNAIRE_GetFirstAnswerMessageOffset(u32 id)
 {
     if (id > 0x1d)
         return 0;

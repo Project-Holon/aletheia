@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   STRBUF_Delete  0x02045808  arm  arm9
  */
 #include "../include/Obj22372.h"
 
@@ -19,5 +22,5 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
-void func_021BC484(u8 *p) { func_02045808((struct U16Vec *)(((struct Obj22372 *)p)->f0)); }
+extern void STRBUF_Delete(struct U16Vec *vec);
+void func_021BC484(u8 *p) { STRBUF_Delete((struct U16Vec *)(((struct Obj22372 *)p)->f0)); }

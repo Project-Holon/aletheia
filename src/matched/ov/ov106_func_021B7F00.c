@@ -13,7 +13,7 @@
  *   func_0203FB44 0x0203FB44 arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_02082BCC 0x02082BCC arm
  */
@@ -29,7 +29,7 @@ extern u32 func_020452E8(struct Descriptor *d);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_02082BCC(void *,int,int);
 void func_021B7F00(u32 *p) {
@@ -40,6 +40,6 @@ void func_021B7F00(u32 *p) {
     func_02040DA8(5,1,0);
     func_02040DA8(1,1,0);
     for(i=0;i<8;i++)func_020403F4((u8)d_021B9524[i].bg);
-    func_020450C8();func_0203F9B4();
+    BMP_WIN_Exit();func_0203F9B4();
     func_02082BCC(p,0,16);
 }

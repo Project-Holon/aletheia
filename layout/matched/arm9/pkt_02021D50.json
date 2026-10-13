@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021FD8",
+   "name": "PALANM_BlendChannel",
    "address": "0x02021FD8",
    "kind": "game",
    "region": "arm9",

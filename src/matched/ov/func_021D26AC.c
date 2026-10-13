@@ -1,5 +1,5 @@
 /*
- * function: func_021D26AC
+ * function: SCRCMD_POKE_ICON_DeleteIcon
  * address:  0x021D26AC
  * packet:   pkt_021D26AC
  * region:   ov021
@@ -12,11 +12,11 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204B1CC  0x0204B1CC  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04899.h"
@@ -26,20 +26,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 struct Bank;
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
-int func_021D26AC(u32 *a)
+int SCRCMD_POKE_ICON_DeleteIcon(u32 *a)
 {
-func_0204B3B4((struct Obj *)(((struct Obj04899 *)((u8 *)(a)))->f8));
-func_0204A8D4(((struct Obj04899 *)((u8 *)(a)))->fC);
-func_0204ADA4(((struct Obj04899 *)((u8 *)(a)))->f10);
-func_0204AFD8(((struct Obj04899 *)((u8 *)(a)))->f14);
-return func_0204B1CC((struct Bank *)(((struct Obj04899 *)((u8 *)(a)))->f4));
+CLACT_DeleteActor((struct Obj *)(((struct Obj04899 *)((u8 *)(a)))->f8));
+CLACT_ReleaseCharacter(((struct Obj04899 *)((u8 *)(a)))->fC);
+CLACT_ReleasePalette(((struct Obj04899 *)((u8 *)(a)))->f10);
+CLACT_ReleaseCellAnim(((struct Obj04899 *)((u8 *)(a)))->f14);
+return CLACT_DeleteUnit((struct Bank *)(((struct Obj04899 *)((u8 *)(a)))->f4));
 }
 

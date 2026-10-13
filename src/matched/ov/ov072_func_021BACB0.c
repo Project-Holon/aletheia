@@ -1,5 +1,5 @@
 /*
- * function: func_021BACB0
+ * function: TOWNMAP_TownTestNear
  * address:  0x021BACB0
  * packet:   pkt_ov072_021BACB0
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA774  0x021BA774  thumb  ov072
+ *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
  */
 
 typedef unsigned int u32;
@@ -23,9 +23,9 @@ typedef struct {
     int f40;
 } W;
 
-extern int func_021BA774(char *p, int i);
+extern int TOWNMAP_TownGetField(char *p, int i);
 
-int func_021BACB0(W *p, int *c, int *o, u32 *out)
+int TOWNMAP_TownTestNear(W *p, int *c, int *o, u32 *out)
 {
     int x;
     int y;
@@ -34,8 +34,8 @@ int func_021BACB0(W *p, int *c, int *o, u32 *out)
     int a;
     int lim;
 
-    x = o[0] + func_021BA774((char *)p, 4);
-    y = o[1] + func_021BA774((char *)p, 5);
+    x = o[0] + TOWNMAP_TownGetField((char *)p, 4);
+    y = o[1] + TOWNMAP_TownGetField((char *)p, 5);
     dx = x - c[0];
     dx = dx * dx;
     dy = y - c[1];

@@ -1,5 +1,5 @@
 /*
- * function: func_021A48A4
+ * function: FIELD_PLAYER_GRID_GetHopFallResult
  * address:  0x021A48A4
  * packet:   pkt_021A48A4
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A56C0  0x021A56C0  thumb  ov021
- *   func_021A54B4  0x021A54B4  thumb  ov021
- *   func_021A53A4  0x021A53A4  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsAtGroundHeight  0x021A56C0  thumb  ov021
+ *   FIELD_PLAYER_GRID_FinishHop  0x021A54B4  thumb  ov021
+ *   FIELD_PLAYER_GRID_SetHopFlag  0x021A53A4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,15 +23,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021A53A4(u32 *p, int on);
-extern void func_021A54B4(u8 *p);
-extern u32 func_021A56C0(u32 *p, u32 a1, u32 a2, u32 a3);
+extern void FIELD_PLAYER_GRID_SetHopFlag(u32 *p, int on);
+extern void FIELD_PLAYER_GRID_FinishHop(u8 *p);
+extern u32 FIELD_PLAYER_GRID_IsAtGroundHeight(u32 *p, u32 a1, u32 a2, u32 a3);
 
-int func_021A48A4(u32 a, u32 b, u32 c, u32 d)
+int FIELD_PLAYER_GRID_GetHopFallResult(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021A56C0((u32 *)a, b, c, d) == 1) {
-    func_021A54B4((u8 *)a);
-    func_021A53A4((u32 *)a, 0);
+if (FIELD_PLAYER_GRID_IsAtGroundHeight((u32 *)a, b, c, d) == 1) {
+    FIELD_PLAYER_GRID_FinishHop((u8 *)a);
+    FIELD_PLAYER_GRID_SetHopFlag((u32 *)a, 0);
     return 1;
 }
 return 9;

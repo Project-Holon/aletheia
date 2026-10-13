@@ -16,8 +16,8 @@
  *   func_021BDEF0 0x021BDEF0 thumb ov172
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_021B8B68 0x021B8B68 thumb ov172
@@ -38,8 +38,8 @@ extern void func_021BDEF0(u8 *p, char *a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern u8 func_021B8B68(int unused, char *p);
@@ -80,8 +80,8 @@ void func_021BDD6C(u8 *p)
         if (!(p[0x1b5] & m)) continue;
         if (func_0201C6C4(((struct Obj02215 *)p)->f1D0, func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))) != 0) continue;
         w = *(u32 *)(p + i * 4 + 0x1b8);
-        func_02045334((struct Descriptor *)w);
-        func_02045374((struct Cfg *)w);
+        BMP_WIN_TransferChars((struct Descriptor *)w);
+        BMP_WIN_MakeScreen((struct Cfg *)w);
         func_02041B6C(func_02045730((struct Descriptor *)w));
         p[0x1b5] -= (u8)m;
         found = 1;

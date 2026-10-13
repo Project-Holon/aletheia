@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02006148 0x02006148 thumb
+ *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   func_020061F8 0x020061F8 thumb
  */
 
-extern int func_02006148(unsigned int);
+extern int GFL_USE_GetSeSlot(unsigned int);
 extern void func_020061F8(int);
 
 int func_021BE420(int a, int b, int *p)
 {
-    func_020061F8(func_02006148(*p));
+    func_020061F8(GFL_USE_GetSeSlot(*p));
     return 1;
 }

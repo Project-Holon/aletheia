@@ -1,5 +1,5 @@
 /*
- * function: func_021EEC20
+ * function: BTL_ADAPTER_GetRecvData
  * address:  0x021EEC20
  * packet:   pkt_ov093_021EEC20
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4C6C  0x021D4C6C  thumb  ov093
+ *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
  */
 #include "../include/Obj21628.h"
 
@@ -32,15 +32,15 @@ typedef struct {
     u8 d[1];
 } W;
 
-extern u16 func_021D4C6C(u8 **out);
+extern u16 BTL_NET_GetServerCmd(u8 **out);
 
-u16 func_021EEC20(W *p, u8 **out)
+u16 BTL_ADAPTER_GetRecvData(W *p, u8 **out)
 {
     u8 *q;
     u8 *r;
 
     if (p->hi != 0) {
-        func_021D4C6C(&q);
+        BTL_NET_GetServerCmd(&q);
         r = q;
         *out = r + 4;
         return ((struct Obj21628 *)r)->f2;

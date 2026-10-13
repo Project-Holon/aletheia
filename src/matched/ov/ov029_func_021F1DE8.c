@@ -1,5 +1,5 @@
 /*
- * function: func_021F1DE8
+ * function: C_GEAR_LoadGraphics
  * address:  0x021F1DE8
  * packet:   pkt_ov029_021F1DE8
  * region:   ov029
@@ -9,23 +9,23 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   func_020090F0  0x020090F0  thumb
- *   func_0204B100  0x0204B100  arm
- *   func_0204B034  0x0204B034  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   CLACT_CreateRenderer  0x0204B034  arm
  *   func_0204B258  0x0204B258  arm
- *   func_021F1458  0x021F1458  thumb  ov029
- *   func_021F1574  0x021F1574  thumb  ov029
- *   func_021F1950  0x021F1950  thumb  ov029
- *   func_021F1C0C  0x021F1C0C  thumb  ov029
- *   func_02051B84  0x02051B84  arm
- *   func_021F1010  0x021F1010  thumb  ov029
- *   func_021F1A64  0x021F1A64  thumb  ov029
- *   func_021F1A44  0x021F1A44  thumb  ov029
- *   func_021F13FC  0x021F13FC  thumb  ov029
- *   func_021F18F0  0x021F18F0  thumb  ov029
+ *   C_GEAR_LoadSkin  0x021F1458  thumb  ov029
+ *   C_GEAR_LoadSpriteResources  0x021F1574  thumb  ov029
+ *   C_GEAR_CreateHudActors  0x021F1950  thumb  ov029
+ *   C_GEAR_CreateBarActors  0x021F1C0C  thumb  ov029
+ *   BUTTON_MAN_Create  0x02051B84  arm
+ *   C_GEAR_DrawEmptyBoard  0x021F1010  thumb  ov029
+ *   C_GEAR_SetAllActorsVisible  0x021F1A64  thumb  ov029
+ *   C_GEAR_SetTileMarkersVisible  0x021F1A44  thumb  ov029
+ *   C_GEAR_DrawAllCells  0x021F13FC  thumb  ov029
+ *   C_GEAR_OnButtonEvent  0x021F18F0  thumb  ov029
  *   d_021F3214     0x021F3214  data  a4
  *   d_021F3272     0x021F3272  data  a2
  */
@@ -33,52 +33,52 @@
 
 struct Bank;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Obj;
 struct Sub0200852CObj;
 struct Sub020090B0Obj;
-extern unsigned char *func_02012944(void *p);
+extern unsigned char *GAME_DATA_GetMyStatus(void *p);
 extern unsigned char func_02008550(const struct Sub0200852CObj *obj);
 extern unsigned char func_020090F0(const struct Sub020090B0Obj *obj);
-extern struct Bank *func_0204B100(int count, unsigned char flag, u32 heapId);
-extern struct Obj *func_0204B034(unsigned char *a0, u32 a1, u32 heap);
+extern struct Bank *CLACT_CreateUnit(int count, unsigned char flag, u32 heapId);
+extern struct Obj *CLACT_CreateRenderer(unsigned char *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
-extern u32 func_021F1458(unsigned char *p, int a, int b, int c);
+extern u32 C_GEAR_LoadSkin(unsigned char *p, int a, int b, int c);
 typedef unsigned char  u8;
-extern void func_021F1574(char *p, int idx);
-extern void func_021F1950(char *p);
-extern void func_021F1C0C(char *p);
-extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
-extern void func_021F1010(void *);
-extern void func_021F1A64(char *p, int flag);
-extern void func_021F1A44(char *p, int flag);
-extern void func_021F13FC(void *);
-extern void func_021F18F0(int key, int flag, u8 *p);
+extern void C_GEAR_LoadSpriteResources(char *p, int idx);
+extern void C_GEAR_CreateHudActors(char *p);
+extern void C_GEAR_CreateBarActors(char *p);
+extern void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3);
+extern void C_GEAR_DrawEmptyBoard(void *);
+extern void C_GEAR_SetAllActorsVisible(char *p, int flag);
+extern void C_GEAR_SetTileMarkersVisible(char *p, int flag);
+extern void C_GEAR_DrawAllCells(void *);
+extern void C_GEAR_OnButtonEvent(int key, int flag, u8 *p);
 extern char d_021F3214[];
 extern char d_021F3272[];
 
-void func_021F1DE8(char *p, int flag)
+void C_GEAR_LoadGraphics(char *p, int flag)
 {
     int z;
 
-    ((struct Obj00106 *)p)->f459 = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)func_020120F4((const struct Ctx *)(((struct Obj00106 *)p)->f1C))));
+    ((struct Obj00106 *)p)->f459 = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj00106 *)p)->f1C))));
     ((struct Obj00106 *)p)->f458 = func_020090F0((const struct Sub020090B0Obj *)(((struct Obj00106 *)p)->f20));
     z = 0;
-    ((struct Obj00106 *)p)->f34 = (int)func_0204B100(0x44, 0, ((struct Obj00106 *)p)->fC);
-    ((struct Obj00106 *)p)->f38 = func_0204B034((unsigned char *)d_021F3214, 1, ((struct Obj00106 *)p)->fC);
+    ((struct Obj00106 *)p)->f34 = (int)CLACT_CreateUnit(0x44, 0, ((struct Obj00106 *)p)->fC);
+    ((struct Obj00106 *)p)->f38 = CLACT_CreateRenderer((unsigned char *)d_021F3214, 1, ((struct Obj00106 *)p)->fC);
     func_0204B258((struct Bank *)(((struct Obj00106 *)p)->f34), ((struct Obj00106 *)p)->f38);
-    func_021F1458((unsigned char *)p, ((struct Obj00106 *)p)->f459, ((struct Obj00106 *)p)->f458, 1);
-    func_021F1574(p, ((struct Obj00106 *)p)->f459);
-    func_021F1950(p);
-    func_021F1C0C(p);
-    ((struct Obj00106 *)p)->f10 = (int)func_02051B84((u8 *)d_021F3272, (int)((void *)func_021F18F0), (int)p, ((struct Obj00106 *)p)->fC);
+    C_GEAR_LoadSkin((unsigned char *)p, ((struct Obj00106 *)p)->f459, ((struct Obj00106 *)p)->f458, 1);
+    C_GEAR_LoadSpriteResources(p, ((struct Obj00106 *)p)->f459);
+    C_GEAR_CreateHudActors(p);
+    C_GEAR_CreateBarActors(p);
+    ((struct Obj00106 *)p)->f10 = (int)BUTTON_MAN_Create((u8 *)d_021F3272, (int)((void *)C_GEAR_OnButtonEvent), (int)p, ((struct Obj00106 *)p)->fC);
     if (flag) {
-        func_021F1010(p);
-        func_021F1A64(p, z);
+        C_GEAR_DrawEmptyBoard(p);
+        C_GEAR_SetAllActorsVisible(p, z);
     } else {
-        func_021F13FC(p);
-        func_021F1A64(p, 1);
-        func_021F1A44(p, 1);
+        C_GEAR_DrawAllCells(p);
+        C_GEAR_SetAllActorsVisible(p, 1);
+        C_GEAR_SetTileMarkersVisible(p, 1);
     }
 }

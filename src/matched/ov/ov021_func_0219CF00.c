@@ -1,5 +1,5 @@
 /*
- * function: func_0219CF00
+ * function: FLDMMDL_BLACT_FindReservedRes
  * address:  0x0219CF00
  * packet:   pkt_ov021_0219CF00
  * region:   ov021
@@ -13,7 +13,7 @@
 #include "../include/Obj09512.h"
 #include "../include/Obj12675.h"
 
-int func_0219CF00(int *t, unsigned int id, unsigned short *out)
+int FLDMMDL_BLACT_FindReservedRes(int *t, unsigned int id, unsigned short *out)
 {
     unsigned int i;
     unsigned char *p;

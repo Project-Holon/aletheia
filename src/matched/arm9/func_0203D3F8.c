@@ -1,5 +1,5 @@
 /*
- * function: func_0203D3F8
+ * function: GFL_NET_SendData
  * address:  0x0203D3F8
  * packet:   pkt_0203D3F8
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   g_020A7CA0     0x020A7CA0  data
  *   g_020A7CEC     0x020A7CEC  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_IsHandleReady  0x0203D394  arm
  *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   GFL_NET_SYSTEM_IsSendQueueEntry  0x02039468  arm
@@ -32,7 +32,7 @@ typedef unsigned int  u32;
 extern char g_020A7CA0[];
 extern char g_020A7CEC[];
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct NetEntry;
 extern u32 GFL_NET_IsHandleReady(struct NetEntry *e);
 struct Entry;
@@ -41,11 +41,11 @@ extern u32   GFL_NET_SYSTEM_IsSendQueueEntry(u32 a, u32 b);
 extern void  func_02034714(const char *file, u32 line, const char *msg);
 extern int GFL_NET_SYSTEM_SetSendQueue(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
-u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h)
+u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h)
 {
     u8 mask;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     mask = 0xff;
     if (GFL_NET_IsHandleReady((struct NetEntry *)entry) == 0 && c >= 0x11) {
         return 0;

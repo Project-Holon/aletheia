@@ -29,18 +29,19 @@
  * call whose pool word names 0x020271CC and which nothing else in the image
  * branches to or holds a pointer to, so the `label` and `literal` classes are
  * both empty and no cut helps.  It is now matched on its own, as are the
- * other two: src/matched/arm9/func_0200BAC8.c, func_0200BA58.c and
- * func_0200BA68.c. *
+ * other two: src/matched/arm9/func_0200BAC8.c, BATTLE_REC_LoadToolOverlay.c and
+ * BATTLE_REC_UnloadToolOverlay.c. *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02045B38  0x02045B38  arm
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   BATTLE_REC_Decode  0x0200B900  thumb
  *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   pBattleRec  0x0214616C  data
  *   BattleRecModeTable  0x0209DDCC  data
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb
  */
 
 typedef unsigned char  u8;
@@ -62,7 +63,7 @@ extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 
 extern void  BATTLE_REC_Decode(void *a, u32 b, u32 c);
@@ -76,7 +77,7 @@ extern u32   func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, u32 i);
 extern void *POKE_TOOL_GetBoxParam(void *a);
 extern u32   func_02017E88(void *e, u32 a, u32 b);
-extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void *func_0200BBEC(void *a, u32 b, u32 c);
 
 extern const u16 BattleRecModeTable[];
@@ -138,7 +139,7 @@ void func_0200BA80(struct Rec35C *p)
     h = func_02045B38(0, 2, 9, 1);
     if (h != 0) {
         MSGDATA_ReadUnits(h, 6, (u16 *)p->unk330, sizeof(p->unk330));
-        func_02045C04(h);
+        MSGDATA_Delete(h);
     }
 }
 

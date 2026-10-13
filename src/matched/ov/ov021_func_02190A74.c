@@ -1,5 +1,5 @@
 /*
- * function: func_02190A74
+ * function: FIELD_MSGBG_GetMenuItemsMaxWidth
  * address:  0x02190A74
  * packet:   pkt_ov021_02190A74
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 
-u32 func_02190A74(u32 *obj, u32 *tab, u32 *out, u32 key)
+u32 FIELD_MSGBG_GetMenuItemsMaxWidth(u32 *obj, u32 *tab, u32 *out, u32 key)
 {
     u32 k;
     u32 bestIdx;

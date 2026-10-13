@@ -1,5 +1,5 @@
 /*
- * function: func_021F0CEC
+ * function: UNION_SUBDISP_SetKnobFromScroll
  * address:  0x021F0CEC
  * packet:   pkt_ov031_021F0CEC
  * region:   ov031
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_021F0D58 is filed as a 12-byte tail stub (r0 = 0x8000, r1 kept); the
+ * UNION_SUBDISP_GetKnobStep is filed as a 12-byte tail stub (r0 = 0x8000, r1 kept); the
  * call sites pass (b, n), so it is declared with two arguments here.
  *
  * symbols:
- *   func_021F0CEC  0x021F0CEC  thumb
- *   func_021F0D40  0x021F0D40  thumb  ov031
- *   func_021F0D58  0x021F0D58  thumb  ov031
+ *   UNION_SUBDISP_SetKnobFromScroll  0x021F0CEC  thumb
+ *   UNION_SUBDISP_GetScrollRange  0x021F0D40  thumb  ov031
+ *   UNION_SUBDISP_GetKnobStep  0x021F0D58  thumb  ov031
  *   func_0204B404  0x0204B404  arm
  */
 #include "../include/Obj20409.h"
@@ -31,20 +31,20 @@ typedef struct {
     int n;
 } B;
 
-extern int func_021F0D40(B *);
-extern u32 func_021F0D58(void *unused, u32 d);
+extern int UNION_SUBDISP_GetScrollRange(B *);
+extern u32 UNION_SUBDISP_GetKnobStep(void *unused, u32 d);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021F0CEC(char *o, B *b)
+void UNION_SUBDISP_SetKnobFromScroll(char *o, B *b)
 {
     u16 t[2];
     int k;
     int c;
 
-    k = func_021F0D40(b);
-    c = func_021F0D58(b, k);
+    k = UNION_SUBDISP_GetScrollRange(b);
+    c = UNION_SUBDISP_GetKnobStep(b, k);
     if (b->a - b->n > 0x1B)
         b->n = b->a - 0x1B;
     t[1] = 0x9C - ((u32)((b->a - b->n) * c) >> 8);

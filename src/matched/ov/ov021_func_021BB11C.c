@@ -1,5 +1,5 @@
 /*
- * function: func_021BB11C
+ * function: RAIL_ATTR_Release
  * address:  0x021BB11C
  * packet:   pkt_ov021_021BB11C
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021BB11C(u32 *p)
+void RAIL_ATTR_Release(u32 *p)
 {
     if (p[0] != 0) {
         func_020307B0((void *)p[3]);

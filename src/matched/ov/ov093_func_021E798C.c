@@ -18,7 +18,7 @@
 int *func_021E798C(int *p);
 
 /*
- * func_021E8940 returns a one-word struct: that is the `push {r3,..}; sub sp, #4`
+ * BTLV_CORE_MakeSlotKind2Index returns a one-word struct: that is the `push {r3,..}; sub sp, #4`
  * frame word (docs/idioms/an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md).
  */
 extern int d_021F269C[];

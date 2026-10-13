@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02047804 0x02047804 arm
+ *   G3D_SYSTEM_ResetObjectAnimeFrame 0x02047804 arm
  */
 #include "../include/Obj10243.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct AnmCtl;
-extern u32 func_02047804(struct AnmCtl *c, u16 idx);
-void func_021B7F60(u8 *p,int n) {if(((struct Obj10243 *)p)->f58!=n) {func_02047804(((struct Obj10243 *)p)->f10,0); ((struct Obj10243 *)p)->f58=n;}}
+extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(struct AnmCtl *c, u16 idx);
+void func_021B7F60(u8 *p,int n) {if(((struct Obj10243 *)p)->f58!=n) {G3D_SYSTEM_ResetObjectAnimeFrame(((struct Obj10243 *)p)->f10,0); ((struct Obj10243 *)p)->f58=n;}}

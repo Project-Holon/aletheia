@@ -11,7 +11,7 @@
  *
  * Tail-call wrapper over GFL_NET_STATE_ChangeStateDebug (the object at 0x021469DC, the
  * callback GFL_NET_STATE_StartBeaconScan, 0, 0x1BC).  An unlabelled ARM leaf, filed as the
- * witness chain for func_0203D010 (state 10 of GFL_NET_IRC_WIRELESS_Main).
+ * witness chain for GFL_NET_BeaconScanStart (state 10 of GFL_NET_IRC_WIRELESS_Main).
  *
  * symbols:
  *   _pNetState     0x021469DC  data

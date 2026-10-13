@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Delete  0x020437AC  arm
  *
  * Addresses are Black-image addresses.
  */
 
 struct Obj020437AC;
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 
 void func_021C06AC(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        func_020437AC((struct Obj020437AC *)p[i + 0xEC]);
+        BMP_Delete((struct Obj020437AC *)p[i + 0xEC]);
 }

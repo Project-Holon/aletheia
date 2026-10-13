@@ -14,38 +14,38 @@
  * Lever: bind each comparison's call result before comparing, per existing cmp idiom.
  * Caller-visible return overrides the tail-forwarder's void declaration.
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_0218A160 0x0218A160 thumb ov096
  *   func_0218A378 0x0218A378 thumb ov096
  *   func_0218A0F4 0x0218A0F4 thumb ov096
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[0x4c]; u16 values[8]; u8 pad2[0xb0-0x5c]; int fb0, fb4, fb8; u8 *fbc; int fc0, fc4; } Obj;
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern int func_0218A378(Obj *, int, int);
 struct QG;
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 int func_021892F8(struct Cursor *a, Obj *b, int c)
 {
     int k, z, y, r, i, t;
     unsigned int value;
-    k = func_0201134C(a);
-    value = func_0201134C(a);
-    z = func_0201134C(a);
+    k = VM_GetU32(a);
+    value = VM_GetU32(a);
+    z = VM_GetU32(a);
     y = func_0218A160((u8 *)b, k);
     r = 0;
     switch (k) {
     case 1:
-        for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-            t = func_0218A378(b, (int)func_021D54C0(b->fbc, (u8)i), 28);
+        for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+            t = func_0218A378(b, (int)BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i), 28);
             if (t == value) {
                 r = 1;
                 break;

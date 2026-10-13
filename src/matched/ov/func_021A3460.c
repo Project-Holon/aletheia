@@ -1,5 +1,5 @@
 /*
- * function: func_021A3460
+ * function: FIELD_PLAYER_GetFrontGridPos
  * address:  0x021A3460
  * packet:   pkt_021A3460
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_021A330C  0x021A330C  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FIELD_PLAYER_GetGridPosInDir  0x021A330C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u16 func_0216D5F8(void *p);
-extern void *func_021A3074(u8 *p);
-extern u32 func_021A330C(u32, u32, u32, u32, u32);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern u32 FIELD_PLAYER_GetGridPosInDir(u32, u32, u32, u32, u32);
 
-int func_021A3460(u32 a, u32 b, u32 c, u32 d)
+int FIELD_PLAYER_GetFrontGridPos(u32 a, u32 b, u32 c, u32 d)
 {
-return func_021A330C(a, func_0216D5F8(func_021A3074((u8 *)a)), b, c, d);
+return FIELD_PLAYER_GetGridPosInDir(a, FLDMMDL_GetDirDisp(FIELD_PLAYER_GetMmdl((u8 *)a)), b, c, d);
 }
 

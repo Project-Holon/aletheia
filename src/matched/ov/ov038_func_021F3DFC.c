@@ -1,5 +1,5 @@
 /*
- * function: func_021F3DFC
+ * function: GIMMICK38_EventReturnDoor
  * address:  0x021F3DFC
  * packet:   pkt_ov038_021F3DFC
  * region:   ov038
@@ -13,18 +13,18 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021BE4B4  0x021BE4B4  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  *   GFL_USE_StopAllSe  0x02006210  thumb
- *   func_02197DA0  0x02197DA0  thumb  ov021
- *   func_02197DAC  0x02197DAC  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021A3044  0x021A3044  thumb  ov021
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE6CC  0x021BE6CC  thumb  ov021
+ *   FLDMMDL_ACMD_ListCheckEnd  0x02197DA0  thumb  ov021
+ *   FLDMMDL_ACMD_ListDelete  0x02197DAC  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  */
 #include "../include/Obj00881.h"
@@ -43,23 +43,23 @@ typedef struct {
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021BE4B4(char *p, int i, int j, int v);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void func_021BE6CC(int p, int i, int j, int k, int flag);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void FLD_EXP_OBJ_SetModelHidden(char *p, int i, int j, int v);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
+extern void FLD_EXP_OBJ_SetAnimeFrame(int p, int i, int j, int k, int flag);
 extern void func_020061E4(u32 se);
 extern void GFL_USE_StopAllSe(void);
-extern int func_02197DA0(u32 a);
-extern void func_02197DAC(void *a);
+extern int FLDMMDL_ACMD_ListCheckEnd(u32 a);
+extern void FLDMMDL_ACMD_ListDelete(void *a);
 struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_021A3044(u8 *p, void *v);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 
-int func_021F3DFC(int a0, int *a1)
+int GIMMICK38_EventReturnDoor(int a0, int *a1)
 {
     void *sys;
     int h;
@@ -71,10 +71,10 @@ int func_021F3DFC(int a0, int *a1)
     int d;
     V3 v;
 
-    sys = func_0201210C(func_020124E4((void *)a0));
-    h = func_02188D2C(sys);
-    s = (u8 *)func_021897BC(sys, 1);
-    q = func_02188CB4(sys);
+    sys = GAMESYSTEM_GetFieldMap(func_020124E4((void *)a0));
+    h = FIELDMAP_GetExpObj(sys);
+    s = (u8 *)FIELDMAP_GetCommonWork(sys, 1);
+    q = FIELDMAP_GetFieldPlayer(sys);
     k = 0;
     c = s[3] + 0x19;
     if (s[6] == 1)
@@ -85,8 +85,8 @@ int func_021F3DFC(int a0, int *a1)
         *a1 = *a1 + 1;
     case 1:
         if (((struct Obj00881 *)s)->f14 != 0) {
-            if (func_02197DA0(((struct Obj00881 *)s)->f14) == 1) {
-                func_02197DAC((void *)(((struct Obj00881 *)s)->f14));
+            if (FLDMMDL_ACMD_ListCheckEnd(((struct Obj00881 *)s)->f14) == 1) {
+                FLDMMDL_ACMD_ListDelete((void *)(((struct Obj00881 *)s)->f14));
                 ((struct Obj00881 *)s)->f14 = 0;
                 s[5] = 0;
                 *a1 = *a1 + 1;
@@ -99,7 +99,7 @@ int func_021F3DFC(int a0, int *a1)
             ((struct Obj00881 *)s)->f20 = 0;
         break;
     case 2:
-        func_021A3038(q, (struct VecFx32 *)&v);
+        FIELD_PLAYER_GetPos(q, (struct VecFx32 *)&v);
         done = 0;
         s[5]++;
         if (s[6] == 0) {
@@ -121,12 +121,12 @@ int func_021F3DFC(int a0, int *a1)
             func_020061E4(0x6C4);
             ((struct Obj00881 *)s)->f20 = 1;
         }
-        func_021BE6CC(h, 0, 0x22, k, d);
-        func_021A3044(q, &v);
+        FLD_EXP_OBJ_SetAnimeFrame(h, 0, 0x22, k, d);
+        FIELD_PLAYER_SetPos(q, &v);
         if (done) {
-            func_021BE700((void *)h, 0, 0x22, k, 0);
-            func_021BE4B4((char *)h, 0, 0x22, 1);
-            func_021BE4B4((char *)h, 0, c, 0);
+            FLD_EXP_OBJ_SetAnimeEnabled((void *)h, 0, 0x22, k, 0);
+            FLD_EXP_OBJ_SetModelHidden((char *)h, 0, 0x22, 1);
+            FLD_EXP_OBJ_SetModelHidden((char *)h, 0, c, 0);
             return 1;
         }
         break;

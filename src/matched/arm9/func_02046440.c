@@ -1,5 +1,5 @@
 /*
- * function: func_02046440
+ * function: G3D_SYSTEM_Init
  * address:  0x02046440
  * packet:   pkt_02046440
  * region:   arm9
@@ -31,7 +31,7 @@
  *   G3D_SYSTEM_SetProjection      0x02046858  arm
  *   G3D_SYSTEM_SetLight      0x02046A94  arm
  *   G3D_SYSTEM_SetLookAt      0x02046B40  arm
- *   func_02046BE0      0x02046BE0  arm
+ *   G3D_SYSTEM_SetSwapBuffersMode      0x02046BE0  arm
  *   G3D_SYSTEM_SetGlbFlushMode      0x02046C24  arm
  *   G3X_SetFog         0x0207DC44  arm
  *   G3X_SetClearColor  0x0207DD24  arm
@@ -104,12 +104,12 @@ extern void func_02062474(u32 a, u32 b, u32 c, u32 d);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetLookAt(u8 *a0);
-extern void  func_02046BE0(u32 a, u32 b);
+extern void  G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void  G3D_SYSTEM_SetGlbFlushMode(u32 mode);
 extern void  G3X_SetFog(BOOL enable, int mode, int slope, int offset);
 extern void  G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
 
-void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
+void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                    u16 fifoSize, s16 heap, void (*setup)(void))
 {
     struct Setup32 s32;
@@ -163,7 +163,7 @@ void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
 
     s36 = _DefaultLookAt;
     G3D_SYSTEM_SetLookAt((u8 *)(&s36));
-    func_02046BE0(0, 1);
+    G3D_SYSTEM_SetSwapBuffersMode(0, 1);
     G3D_SYSTEM_SetGlbFlushMode(0);
 
     if (setup != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2BC
+ * function: PLACE_NAME_LETTER_SetHeapId
  * address:  0x021BD2BC
  * packet:   pkt_021BD2BC
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021BD2BC(u8 *p, int v)
+void PLACE_NAME_LETTER_SetHeapId(u8 *p, int v)
 {
     ((struct Obj18218 *)p)->f0 = v;
 }

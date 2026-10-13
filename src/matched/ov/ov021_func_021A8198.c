@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_021BB480  0x021BB480  thumb  ov021
- *   func_021A36C8  0x021A36C8  thumb  ov021
- *   func_021B7D38  0x021B7D38  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
+ *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb  ov021
+ *   FIELD_PLAYER_GetNogridLocationByDir  0x021A36C8  thumb  ov021
+ *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb  ov021
  */
 
 typedef struct V {
@@ -28,12 +28,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_021A3050(u8 *p);
-extern u32 func_02188C5C(u8 *p);
-extern void *func_021BB480(void *p);
-extern int func_021A36C8(u8 *p, u32 k, void *buf);
-extern void func_021B7D38(void *p, int *in, V *out);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
+extern u32 FIELDMAP_GetNogridMapper(u8 *p);
+extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *p);
+extern int FIELD_PLAYER_GetNogridLocationByDir(u8 *p, u32 k, void *buf);
+extern void FIELD_RAIL_GetLocationPos(void *p, int *in, V *out);
 
 void func_021A8198(void *a, V *out)
 {
@@ -43,10 +43,10 @@ void func_021A8198(void *a, V *out)
     V res;
     int in[2];
 
-    ctx = func_02188CB4(a);
-    k = func_021A3050(ctx);
-    h = func_021BB480((void *)func_02188C5C(a));
-    func_021A36C8(ctx, k, in);
-    func_021B7D38(h, in, &res);
+    ctx = FIELDMAP_GetFieldPlayer(a);
+    k = FIELD_PLAYER_GetDirDisp(ctx);
+    h = FIELD_NOGRID_MAPPER_GetRailMan((void *)FIELDMAP_GetNogridMapper(a));
+    FIELD_PLAYER_GetNogridLocationByDir(ctx, k, in);
+    FIELD_RAIL_GetLocationPos(h, in, &res);
     *out = res;
 }

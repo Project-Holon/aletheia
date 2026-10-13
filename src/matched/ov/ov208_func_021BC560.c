@@ -11,9 +11,9 @@
  *   func_02030734 0x02030734 arm
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030CBC 0x02030CBC arm
- *   func_02021518 0x02021518 thumb
+ *   PALANM_Create 0x02021518 thumb
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
- *   func_0202155C 0x0202155C thumb
+ *   PALANM_AllocSlotBuffers 0x0202155C thumb
  *   d_021C8D98 0x021C8D98 data a1
  */
 typedef unsigned int u32;
@@ -26,21 +26,21 @@ struct Ctx;
 struct Obj02021EE4;
 struct PalAnmSlot;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
-extern void *func_02021518(u32);
+extern void *PALANM_Create(u32);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
-extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 PalFade *func_021BC560(u32 heap,u16 mask)
 {
     PalFade *p=func_02030734(heap,20,1,d_021C8D98,0x1e5);
     p->memory=func_02030734(heap,func_02030CB0(2),1,d_021C8D98,0x1e8);
     p->task=func_02030CBC(2,p->memory);
-    p->slots=func_02021518(heap);
+    p->slots=PALANM_Create(heap);
     PALANM_SetAutoTransfer(p->slots,1);
     p->mask=mask;
-    if(p->mask&1)func_0202155C(p->slots,0,0x1a0,heap);
-    if(p->mask&4)func_0202155C(p->slots,2,0x100,heap);
-    if(p->mask&2)func_0202155C(p->slots,1,0x1a0,heap);
-    if(p->mask&8)func_0202155C(p->slots,3,0x1c0,heap);
+    if(p->mask&1)PALANM_AllocSlotBuffers(p->slots,0,0x1a0,heap);
+    if(p->mask&4)PALANM_AllocSlotBuffers(p->slots,2,0x100,heap);
+    if(p->mask&2)PALANM_AllocSlotBuffers(p->slots,1,0x1a0,heap);
+    if(p->mask&8)PALANM_AllocSlotBuffers(p->slots,3,0x1c0,heap);
     p->mode=0;
     return p;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02009020
+ * function: MAIL_FindEmptySlot
  * address:  0x02009020
  * packet:   pkt_02009020
  * region:   arm9
@@ -25,7 +25,7 @@
 struct Sub02008F80Obj;
 extern int func_02009074(struct Sub02008F80Obj *arr, int n);
 
-void func_02009020(void *table)
+void MAIL_FindEmptySlot(void *table)
 {
     func_02009074(table, 0x14);
 }

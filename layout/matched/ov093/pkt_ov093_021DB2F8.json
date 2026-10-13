@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB2F8",
+   "name": "BTL_TOKUSEI_Forecast_ResetFormOnEvent6A",
    "address": "0x021DB2F8",
    "kind": "game",
    "region": "ov093",

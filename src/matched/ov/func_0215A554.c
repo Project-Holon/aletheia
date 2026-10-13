@@ -1,5 +1,5 @@
 /*
- * function: func_0215A554
+ * function: SCRCMD_WORK_DeleteCommon
  * address:  0x0215A554
  * packet:   pkt_0215A554
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0215A554.c \
- *       --func func_0215A554 --addr 0x0215A554 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRCMD_WORK_DeleteCommon.c \
+ *       --func SCRCMD_WORK_DeleteCommon --addr 0x0215A554 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_0215A554(void *a0, unsigned a1, unsigned a2, unsigned a3)
+void SCRCMD_WORK_DeleteCommon(void *a0, unsigned a1, unsigned a2, unsigned a3)
 {
 
     func_020307B0(a0);

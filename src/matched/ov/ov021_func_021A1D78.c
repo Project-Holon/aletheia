@@ -1,5 +1,5 @@
 /*
- * function: func_021A1D78
+ * function: WEATHER_GetTransitionMode
  * address:  0x021A1D78
  * packet:   pkt_ov021_021A1D78
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-int func_021A1D78(u16 a, u16 b)
+int WEATHER_GetTransitionMode(u16 a, u16 b)
 {
     int r = 0;
 

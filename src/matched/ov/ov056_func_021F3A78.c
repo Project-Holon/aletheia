@@ -1,5 +1,5 @@
 /*
- * function: func_021F3A78
+ * function: FIELD_FK_DEMO_StepCamera
  * address:  0x021F3A78
  * packet:   pkt_ov056_021F3A78
  * region:   ov056
@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
- * note:     twin of the head of func_021F40A0 (same clock read and clamp),
+ * note:     twin of the head of FIELD_FK_SOUND_ANIME_Step (same clock read and clamp),
  *           with the frame counter at +0x28. EXACT* = 54 bytes of code plus
- *           2 bytes of alignment padding before matched func_021F3AB0.
+ *           2 bytes of alignment padding before matched FIELD_FK_DEMO_ApplyCameraAnime.
  * symbols:
  *   ICA_ANIME_GetFrameNum  0x02011608  thumb
- *   func_020115EC  0x020115EC  thumb
- *   func_021F3AB0  0x021F3AB0  thumb  ov056
+ *   ICA_ANIME_SetFrame  0x020115EC  thumb
+ *   FIELD_FK_DEMO_ApplyCameraAnime  0x021F3AB0  thumb  ov056
  */
 
 typedef unsigned char  u8;
@@ -24,10 +24,10 @@ typedef signed int     s32;
 struct IcaAnime;
 struct Obj11244;
 extern u32 ICA_ANIME_GetFrameNum(struct Obj11244 *p);
-extern void func_020115EC(struct IcaAnime *p, s32 v);
-extern void func_021F3AB0(u32 *p);
+extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
+extern void FIELD_FK_DEMO_ApplyCameraAnime(u32 *p);
 
-int func_021F3A78(u8 *p)
+int FIELD_FK_DEMO_StepCamera(u8 *p)
 {
     int flag;
     s32 x = ICA_ANIME_GetFrameNum((struct Obj11244 *)(*(struct IcaAnime **)(p + 0x0))) << 12;
@@ -40,7 +40,7 @@ int func_021F3A78(u8 *p)
         flag = 0;
         *(s32 *)(p + 0x28) = y;
     }
-    func_020115EC(*(struct IcaAnime **)(p + 0x0), *(s32 *)(p + 0x28));
-    func_021F3AB0((u32 *)p);
+    ICA_ANIME_SetFrame(*(struct IcaAnime **)(p + 0x0), *(s32 *)(p + 0x28));
+    FIELD_FK_DEMO_ApplyCameraAnime((u32 *)p);
     return flag;
 }

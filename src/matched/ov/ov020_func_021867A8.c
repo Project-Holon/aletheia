@@ -1,5 +1,5 @@
 /*
- * function: func_021867A8
+ * function: FIELD_WFBC_DATA_LOCAL_HasParent
  * address:  0x021867A8
  * packet:   pkt_ov020_021867A8
  * region:   ov020
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf (saves nothing, so disasm.py prints it as .word data);
- * filed as the blocker of func_02186D48 (ov020).
+ * filed as the blocker of FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue (ov020).
  */
 
 typedef unsigned char  u8;
@@ -21,7 +21,7 @@ typedef struct {
     u8 hi : 4;
 } Nib;
 
-int func_021867A8(Nib *p)
+int FIELD_WFBC_DATA_LOCAL_HasParent(Nib *p)
 {
     return p->hi;
 }

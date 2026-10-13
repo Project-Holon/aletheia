@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AFC38",
+   "name": "SCRCMD_BufferSaveCounterA",
    "address": "0x021AFC38",
    "kind": "game",
    "region": "ov021",

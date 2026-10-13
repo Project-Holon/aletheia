@@ -1,5 +1,5 @@
 /*
- * function: func_021BB368
+ * function: BTL_SERVER_StepSendWildWin
  * address:  0x021BB368
  * packet:   pkt_ov093_021BB368
  * region:   ov093
@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB724  0x021BB724  thumb  ov093
- *   func_021BB798  0x021BB798  thumb  ov093
- *   func_021BB7D0  0x021BB7D0  thumb  ov093
- *   func_021BABEC  0x021BABEC  thumb  ov093
- *   func_021BB320  0x021BB320  thumb  ov093
+ *   BTL_SERVER_SendCommandData  0x021BB724  thumb  ov093
+ *   BTL_SERVER_AreRepliesReady  0x021BB798  thumb  ov093
+ *   BTL_SERVER_ClearReplies  0x021BB7D0  thumb  ov093
+ *   BTL_SERVER_SetHandler  0x021BABEC  thumb  ov093
+ *   BTL_SERVER_StepWaitEnd  0x021BB320  thumb  ov093
  */
 
 typedef unsigned char u8;
 
-extern void func_021BB724(u8 *p, int a, int b, int c);
-extern int func_021BB798(u8 *);
-extern void func_021BB7D0(const u8 *p);
-extern void func_021BABEC(int *p, void *f);
-extern int func_021BB320(u8 *, int *);
+extern void BTL_SERVER_SendCommandData(u8 *p, int a, int b, int c);
+extern int BTL_SERVER_AreRepliesReady(u8 *);
+extern void BTL_SERVER_ClearReplies(const u8 *p);
+extern void BTL_SERVER_SetHandler(int *p, void *f);
+extern int BTL_SERVER_StepWaitEnd(u8 *, int *);
 
-int func_021BB368(u8 *p, int *s)
+int BTL_SERVER_StepSendWildWin(u8 *p, int *s)
 {
     switch (*s) {
     case 0:
-        func_021BB724(p, 0xe, (int)(p + 0xa8), 4);
+        BTL_SERVER_SendCommandData(p, 0xe, (int)(p + 0xa8), 4);
         (*s)++;
         break;
     case 1:
-        if (func_021BB798(p) != 0) {
-            func_021BB7D0(p);
+        if (BTL_SERVER_AreRepliesReady(p) != 0) {
+            BTL_SERVER_ClearReplies(p);
             (*s)++;
         }
         break;
     case 2:
-        func_021BABEC((int *)p, (void *)func_021BB320);
+        BTL_SERVER_SetHandler((int *)p, (void *)BTL_SERVER_StepWaitEnd);
         break;
     }
     return 0;

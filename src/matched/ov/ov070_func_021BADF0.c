@@ -1,5 +1,5 @@
 /*
- * function: func_021BADF0
+ * function: ITEMMENU_IsMessageFinished
  * address:  0x021BADF0
  * packet:   pkt_ov070_021BADF0
  * region:   ov070
@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_0201CE30  0x0201CE30  thumb
- *   func_020286C4  0x020286C4  thumb
+ *   APP_KEYCURSOR_Update  0x020286C4  thumb
  *   func_0201CE48  0x0201CE48  thumb
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_0201CE38  0x0201CE38  thumb
  *   func_0203630C  0x0203630C  arm
- *   func_02035C38  0x02035C38  arm
+ *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   func_0201CE5C  0x0201CE5C  thumb
  */
 #include "../include/Obj00002.h"
@@ -30,23 +30,23 @@ struct Ctx;
 struct Rec;
 struct Rec3;
 extern u32 func_0201CE30(void *p);
-extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern void func_0201CE48(struct Rec3 *p);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_020061E4(u32 a);
 extern void func_0201CE38(void *p);
 extern unsigned int func_0203630C(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern void func_0201CE5C(struct Rec *p, s32 v);
 
-int func_021BADF0(int p)
+int ITEMMENU_IsMessageFinished(int p)
 {
     int r;
 
     if (((struct Obj00002 *)p)->f510 != 0) {
         r = func_0201CE30((void *)(((struct Obj00002 *)p)->f510));
-        func_020286C4((struct Ctx *)(((struct Obj00002 *)p)->f518), (void *)(((struct Obj00002 *)p)->f510), (void *)(((struct Obj00002 *)p)->f4FC));
+        APP_KEYCURSOR_Update((struct Ctx *)(((struct Obj00002 *)p)->f518), (void *)(((struct Obj00002 *)p)->f510), (void *)(((struct Obj00002 *)p)->f4FC));
         switch (r) {
         case 2:
             func_0201CE48((struct Rec3 *)(((struct Obj00002 *)p)->f510));
@@ -55,7 +55,7 @@ int func_021BADF0(int p)
             break;
         case 1:
             if (((struct Obj00002 *)p)->f514 == 0) {
-                if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
+                if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
                     func_020061E4(0x547);
                     func_0201CE38((void *)(((struct Obj00002 *)p)->f510));
                     ((struct Obj00002 *)p)->f514 = 1;
@@ -63,7 +63,7 @@ int func_021BADF0(int p)
             }
             break;
         case 0:
-            if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
+            if ((func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
                 func_0201CE5C((struct Rec *)(((struct Obj00002 *)p)->f510), 0);
             }
             ((struct Obj00002 *)p)->f514 = 0;

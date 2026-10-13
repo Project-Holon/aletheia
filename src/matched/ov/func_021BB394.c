@@ -1,5 +1,5 @@
 /*
- * function: func_021BB394
+ * function: FIELD_NOGRID_MAPPER_CreateRailWork
  * address:  0x021BB394
  * packet:   pkt_021BB394
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x0.
  *
  * symbols:
- *   func_021B7970  0x021B7970  thumb
+ *   FIELD_RAIL_ActivateFreeWork  0x021B7970  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021B7970();
+extern void FIELD_RAIL_ActivateFreeWork();
 
-void func_021BB394(u8 *p)
+void FIELD_NOGRID_MAPPER_CreateRailWork(u8 *p)
 {
-    func_021B7970(((struct Obj18166 *)p)->f0);
+    FIELD_RAIL_ActivateFreeWork(((struct Obj18166 *)p)->f0);
 }

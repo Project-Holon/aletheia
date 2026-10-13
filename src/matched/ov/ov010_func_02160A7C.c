@@ -1,5 +1,5 @@
 /*
- * function: func_02160A7C
+ * function: EVENT_SHORTCUT_MENU_CallExitHook
  * address:  0x02160A7C
  * packet:   pkt_ov010_02160A7C
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Runs the fn2 hook of the callback record func_02160A28 fills, or
+ * Runs the fn2 hook of the callback record EVENT_SHORTCUT_MENU_InitHooks fills, or
  * returns 1 when the hook is empty.
  */
 
@@ -25,7 +25,7 @@ typedef struct Callbacks {
     void *ctx;          /* 0x10 */
 } Callbacks;
 
-int func_02160A7C(Callbacks *c)
+int EVENT_SHORTCUT_MENU_CallExitHook(Callbacks *c)
 {
     if (c->fn2 != 0)
         return c->fn2(c->ctx, c->arg);

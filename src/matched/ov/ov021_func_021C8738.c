@@ -1,5 +1,5 @@
 /*
- * function: func_021C8738
+ * function: PLEASURE_BOAT_GetStat
  * address:  0x021C8738
  * packet:   pkt_ov021_021C8738
  * region:   ov021
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj06090.h"
 
-int func_021C8738(char *p, int k)
+int PLEASURE_BOAT_GetStat(char *p, int k)
 {
     int r;
     int i;

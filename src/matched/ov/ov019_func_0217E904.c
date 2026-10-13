@@ -1,5 +1,5 @@
 /*
- * function: func_0217E904
+ * function: UNION_ONESELF_ColosseumExitMain
  * address:  0x0217E904
  * packet:   pkt_ov019_0217E904
  * region:   ov019
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217F1EC  0x0217F1EC  thumb  ov019
- *   func_0217F210  0x0217F210  thumb  ov019
- *   func_0217F074  0x0217F074  thumb  ov019
- *   func_0217BAF0  0x0217BAF0  thumb  ov019
- *   func_0217FEB8  0x0217FEB8  thumb  ov019
- *   func_0217AE20  0x0217AE20  thumb  ov019
- *   func_02174F34  0x02174F34  thumb  ov012
- *   func_02172D68  0x02172D68  thumb  ov012
- *   func_02172D38  0x02172D38  thumb  ov012
- *   func_02172D50  0x02172D50  thumb  ov012
- *   func_02173408  0x02173408  thumb  ov012
- *   func_02173524  0x02173524  thumb  ov012
- *   func_0217422C  0x0217422C  thumb  ov012
- *   func_02174268  0x02174268  thumb  ov012
- *   func_0217505C  0x0217505C  thumb  ov012
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
+ *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
+ *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
+ *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
+ *   COLOSSEUM_CheckAllFinished  0x0217FEB8  thumb  ov019
+ *   UNION_CHARA_ClearTable  0x0217AE20  thumb  ov019
+ *   COLOSSEUM_SendFinish  0x02174F34  thumb  ov012
+ *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
+ *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
+ *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
+ *   UNION_COMM_ClearBeaconPcs  0x02173408  thumb  ov012
+ *   UNION_COMM_InitConnectInfo  0x02173524  thumb  ov012
+ *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02012124  0x02012124  thumb
- *   func_020399A8  0x020399A8  arm
+ *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_0203D378  0x0203D378  arm
- *   func_020392B8  0x020392B8  arm
- *   func_02039338  0x02039338  arm
- *   func_0203D1C0  0x0203D1C0  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  */
 #include "../include/Obj00033.h"
 
@@ -54,89 +54,89 @@ typedef struct {
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
-u32 func_0217F1EC(u8 *p);
-void func_0217F210(u8 *p, u8 *a, u32 b);
-void func_0217F074(void *p);
-void func_0217BAF0(char *p, int x, unsigned int v);
-int func_0217FEB8(u8 *p);
-void func_0217AE20(u8 *w);
-int func_02174F34(void);
-int func_02172D68(u8 *w);
-void func_02172D38(u8 *w);
-void func_02172D50(u8 *w);
-void func_02173408(u8 *w);
-void func_02173524(u8 *w, u8 *q);
-void func_0217422C(u8 *p, int a, int b);
-int func_02174268(u8 *w);
-void func_0217505C(int *p, int x);
+u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
+void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
+void UNION_MSG_CloseAllWindows(void *p);
+void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
+int COLOSSEUM_CheckAllFinished(u8 *p);
+void UNION_CHARA_ClearTable(u8 *w);
+int COLOSSEUM_SendFinish(void);
+int UNION_COMM_IsResetting(u8 *w);
+void UNION_COMM_RequestShutdown(u8 *w);
+void UNION_COMM_RequestStart(u8 *w);
+void UNION_COMM_ClearBeaconPcs(u8 *w);
+void UNION_COMM_InitConnectInfo(u8 *w, u8 *q);
+void UNION_MAIN_RequestScene(u8 *p, int a, int b);
+int UNION_MAIN_IsScenePending(u8 *w);
+void COLOSSEUM_Delete(int *p, int x);
 u32 func_0200FB24(void);
 struct Ctx;
-void func_02012124(struct Ctx *p, u32 v);
+void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v);
 struct Entry;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
-void func_0203D7BC(u8 a0);
-u32 func_0203D378(void);
-int func_020392B8(void);
-u16 func_02039338(void);
-u32 func_0203D1C0(u32 index);
+void GFL_NET_SetLoginOption(u8 a0);
+u32 GFL_NET_IsParentAid(void);
+int GFL_NET_SYSTEM_GetConnectNum(void);
+u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+u32 GFL_NET_IsConnectMember(u32 index);
 
-int func_0217E904(u8 *w, u8 *obj, u8 *a2, u8 *state)
+int UNION_ONESELF_ColosseumExitMain(u8 *w, u8 *obj, u8 *a2, u8 *state)
 {
     u8 *p;
     int m;
     int i;
 
     p = *(u8 * *)&((struct Obj00033 *)w)->f355C;
-    if (*state < 7 && func_0200FB24() != 0 && func_0217F1EC(w) == 1) {
-        func_0217BAF0((char *)w, (int)a2, (int)1);
+    if (*state < 7 && func_0200FB24() != 0 && UNION_MSG_CheckTalkPrintEnd(w) == 1) {
+        UNION_ONESELF_SetFieldBusy((char *)w, (int)a2, (int)1);
         *state = 7;
     }
     switch (*state) {
     case 0:
-        func_0217BAF0((char *)w, (int)a2, (int)1);
+        UNION_ONESELF_SetFieldBusy((char *)w, (int)a2, (int)1);
         if (p[0xde] == 2) {
-            if (func_0217F1EC(w) == 1)
+            if (UNION_MSG_CheckTalkPrintEnd(w) == 1)
                 *state = 6;
         } else {
-            func_0217F210(w, a2, 0x14c);
+            UNION_MSG_SetupPrintTalkMsg(w, a2, 0x14c);
             (*state)++;
         }
         break;
     case 1:
-        if (func_02174F34() == 1)
+        if (COLOSSEUM_SendFinish() == 1)
             (*state)++;
         break;
     case 2:
-        if (func_0217FEB8(p) == 1)
+        if (COLOSSEUM_CheckAllFinished(p) == 1)
             (*state)++;
         break;
     case 3:
-        if (func_0217F1EC(w) == 1)
+        if (UNION_MSG_CheckTalkPrintEnd(w) == 1)
             (*state)++;
         break;
     case 4:
-        func_02039C68((struct Link *)func_020399A8(), 0x13, 0x14);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14);
         (*state)++;
         break;
     case 5:
-        if (func_02039CB4((struct Link *)func_020399A8(), 0x13, 0x14) == 1) {
-            func_0203D7BC(0);
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x13, 0x14) == 1) {
+            GFL_NET_SetLoginOption(0);
             (*state)++;
         }
         break;
     case 6:
-        if (func_0203D378() == 1) {
+        if (GFL_NET_IsParentAid() == 1) {
             m = p[0x16e];
-            if (func_020392B8() <= 1) {
+            if (GFL_NET_SYSTEM_GetConnectNum() <= 1) {
                 (*state)++;
                 break;
             }
             for (i = 0; i < 5; i++) {
-                if (i != func_02039338() && ((1 << i) & m)) {
-                    if ((int)func_0203D1C0((u8)i) == 1)
+                if (i != GFL_NET_SYSTEM_GetCurrentAid() && ((1 << i) & m)) {
+                    if ((int)GFL_NET_IsConnectMember((u8)i) == 1)
                         break;
                 }
             }
@@ -147,40 +147,40 @@ int func_0217E904(u8 *w, u8 *obj, u8 *a2, u8 *state)
         }
         break;
     case 7:
-        if (((Bits *)(p + 0xc8))->b1 == 1 && func_02172D68(w) == 1)
+        if (((Bits *)(p + 0xc8))->b1 == 1 && UNION_COMM_IsResetting(w) == 1)
             return 0;
         if (func_0200FB24() != 0) {
-            func_0217F074(w);
-            func_02012124((struct Ctx *)((*(Sys * *)&((struct Obj00033 *)w)->f0)->fc), 1);
+            UNION_MSG_CloseAllWindows(w);
+            GAMESYSTEM_SetFieldMapState((struct Ctx *)((*(Sys * *)&((struct Obj00033 *)w)->f0)->fc), 1);
             return 0;
         }
-        func_02172D38(w);
+        UNION_COMM_RequestShutdown(w);
         (*state)++;
         break;
     case 8:
-        if (func_02172D68(w) == 0)
+        if (UNION_COMM_IsResetting(w) == 0)
             (*state)++;
         break;
     case 9:
         p[0xc9] = 1;
-        func_02173408(w);
-        func_0217AE20(w);
-        func_02173524(w, obj + 0x14);
-        func_0217422C(w, 0x19, 0);
+        UNION_COMM_ClearBeaconPcs(w);
+        UNION_CHARA_ClearTable(w);
+        UNION_COMM_InitConnectInfo(w, obj + 0x14);
+        UNION_MAIN_RequestScene(w, 0x19, 0);
         (*state)++;
         break;
     case 10:
-        if (func_02174268(w) == 0) {
+        if (UNION_MAIN_IsScenePending(w) == 0) {
             if (*(u8 **)(w + 0x355C) != 0) {
-                func_0217505C((int *)(*(u8 **)(w + 0x355C)), (*(Sys * *)&((struct Obj00033 *)w)->f0)->fc);
+                COLOSSEUM_Delete((int *)(*(u8 **)(w + 0x355C)), (*(Sys * *)&((struct Obj00033 *)w)->f0)->fc);
                 *(u8 **)(w + 0x355C) = 0;
             }
-            func_02172D50(w);
+            UNION_COMM_RequestStart(w);
             (*state)++;
         }
         break;
     case 11:
-        if (func_02172D68(w) == 0)
+        if (UNION_COMM_IsResetting(w) == 0)
             return 1;
         break;
     }

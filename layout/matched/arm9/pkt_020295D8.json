@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_PopAndWaitTask",
-    "func_02029620"
+    "FIELD_SOUND_SYSTEM_StartPopAndWaitTask"
    ],
    "addresses": [
     "0x020295D8",
@@ -99,7 +99,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_PushAndPlayTask",
-    "func_02029830"
+    "FIELD_SOUND_SYSTEM_StartPushAndPlayTask"
    ],
    "addresses": [
     "0x020297EC",
@@ -119,7 +119,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_ChangeTask",
-    "func_020298A0"
+    "FIELD_SOUND_SYSTEM_StartChangeTask"
    ],
    "addresses": [
     "0x02029868",
@@ -157,7 +157,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_FadeOutAndPlayTask",
-    "func_02029984"
+    "FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask"
    ],
    "addresses": [
     "0x02029938",
@@ -177,7 +177,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask",
-    "func_02029A04"
+    "FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask"
    ],
    "addresses": [
     "0x020299B8",
@@ -197,7 +197,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask",
-    "func_02029A74"
+    "FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask"
    ],
    "addresses": [
     "0x02029A3C",
@@ -217,7 +217,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_PushAndPlayWaitTask",
-    "func_02029AF4"
+    "FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask"
    ],
    "addresses": [
     "0x02029AA8",
@@ -293,7 +293,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_WaitSettledTask",
-    "func_02029C64"
+    "FIELD_SOUND_SYSTEM_StartWaitSettledTask"
    ],
    "addresses": [
     "0x02029C38",
@@ -332,7 +332,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02029CF0"
+    "FIELD_SOUND_SYSTEM_PostZoneBgmChange"
+   ],
+   "addresses": [
+    "0x02029CF0"
    ]
   }
  ]

@@ -14,7 +14,7 @@
  *   func_021B76C8 0x021B76C8 thumb ov173
  *   func_020275E4 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   d_021B85E0 0x021B85E0 data a4
  */
@@ -30,7 +30,7 @@ extern void func_021B76C8(char *,void *);
 extern u32 func_020275E4(void);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021B7A00(char *p,void *arg)
@@ -46,7 +46,7 @@ void func_021B7A00(char *p,void *arg)
         pos.z=d_021B85E0[i].z;
         pos.a=d_021B85E0[i].a;
         pos.b=d_021B85E0[i].h;
-        *(void **)(p+i*4+0x104)=func_0204B294((void *)((struct Obj00180 *)p)->f100,*(u32 *)(p+d_021B85E0[i].d*4+0x70),*(u32 *)(p+d_021B85E0[i].e*4+0x94),*(u32 *)(p+d_021B85E0[i].f*4+0xb8),&pos,d_021B85E0[i].c,79);
+        *(void **)(p+i*4+0x104)=CLACT_CreateActor((void *)((struct Obj00180 *)p)->f100,*(u32 *)(p+d_021B85E0[i].d*4+0x70),*(u32 *)(p+d_021B85E0[i].e*4+0x94),*(u32 *)(p+d_021B85E0[i].f*4+0xb8),&pos,d_021B85E0[i].c,79);
         func_0204B92C(*(void **)(p+i*4+0x104),0);
     }
     func_0204B92C(((struct Obj00180 *)p)->f138,1);

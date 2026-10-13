@@ -1,5 +1,5 @@
 /*
- * function: func_02188BE8
+ * function: FIELDMAP_IsReady
  * address:  0x02188BE8
  * packet:   pkt_02188BE8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_02188BE8(void *a)
+int FIELDMAP_IsReady(void *a)
 {
 if (((struct Obj17857 *)a)->fC0 == 1) {
     return 1;

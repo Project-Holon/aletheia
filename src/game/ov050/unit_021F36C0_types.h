@@ -20,19 +20,19 @@ typedef struct Gimmick50Work {
 } Gimmick50Work;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern void *func_02189764(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void *func_021897BC(struct FieldMap *fieldMap, int id);
-extern void func_021897A0(struct FieldMap *fieldMap, int id);
-extern FldExpObjCnt *func_02188D2C(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
+extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
+extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
 extern void func_021BE580(FldExpObjCnt *expObj);
-extern void func_021BE760(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
-extern G3dObjectStatus *func_021BE480(FldExpObjCnt *expObj, unsigned unitIndex, u16 modelIndex);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
+extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, u16 modelIndex);
 extern void func_021BE4B4(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int hidden);
 /* The model and animation indices are u16: the callers truncate them. */
-extern FldExpObjAnime *func_021BE674(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex);
-extern void func_021BE6B8(FldExpObjAnime *anime, int loop);
+extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex);
+extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
 extern int func_021BE6BC(FldExpObjAnime *anime);
-extern void func_021BE700(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int enable);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int enable);
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * function: func_0218BB64
+ * function: FIELD_BUILDMODEL_FreeModelArchive
  * address:  0x0218BB64
  * packet:   pkt_0218BB64
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 
-int func_0218BB64(char *a)
+int FIELD_BUILDMODEL_FreeModelArchive(char *a)
 {
 func_020307B0((void *)(((struct Obj01114 *)((u8 *)(a)))->f18));
 *(u16 *)((u8 *)(a) + ((107 << 2))) = 0;

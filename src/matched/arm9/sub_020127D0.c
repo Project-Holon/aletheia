@@ -13,7 +13,7 @@
  * constants 0x214 and 0x1E8 differ by 0x2c, so the compiler materialises the
  * larger one from a pool-free `movs`/`lsls` pair and derives the stride with
  * a `subs` (see docs/idioms/a-constant-pair-...).  Entry attested by the
- * pool word 0x020127D1 that func_020127C4 loads.
+ * pool word 0x020127D1 that GAME_DATA_GetSecondUnionInfo loads.
  *
  
  * Addresses are Black-image addresses.

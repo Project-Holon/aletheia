@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021869AC",
+   "name": "FIELD_WFBC_DATA_LOCAL_GetCounter",
    "address": "0x021869AC",
    "kind": "game",
    "region": "ov020",

@@ -1,5 +1,5 @@
 /*
- * function: func_021CDEE8
+ * function: BTL_CLIENT_HasMonParamDropped
  * address: 0x021CDEE8
  * packet: pkt_ov093_021CDEE8
  * region: ov093
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 extern void *func_021CDF1C(u8 *);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 _u32_div_f(u32,u32);
-u32 func_021CDEE8(u8 *p) { void *a; u32 now,old; a=func_021CDF1C(p); if(a) { now=func_021D59B4(a,13); old=((struct Obj04362 *)p)->f19C; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }
+u32 BTL_CLIENT_HasMonParamDropped(u8 *p) { void *a; u32 now,old; a=func_021CDF1C(p); if(a) { now=func_021D59B4(a,13); old=((struct Obj04362 *)p)->f19C; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }

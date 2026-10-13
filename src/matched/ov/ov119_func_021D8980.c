@@ -11,18 +11,18 @@
  *  unlabelled tail-call stub; seeded in layout/function_starts.txt and matched
  *  as src/matched/ov/ov067_func_021B65B4.c, so every call now resolves.
  * symbols:
- *   func_021B65B4 0x021B65B4 thumb ov067
+ *   TOUCHBAR_ResetAndEnableButton 0x021B65B4 thumb ov067
  *   func_021B6558 0x021B6558 thumb ov067
- *   func_021B6548 0x021B6548 thumb ov067
+ *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
  */
 #include "../include/Obj00001.h"
 typedef unsigned int u32;
-extern void func_021B65B4(u32 *p, u32 a1);
+extern void TOUCHBAR_ResetAndEnableButton(u32 *p, u32 a1);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
-extern int func_021B6548(unsigned char *p, unsigned int id, int v);
+extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 int func_021D8980(char *p)
 {
-    func_021B65B4(*(u32 * *)&((struct Obj00001 *)p)->f9C0, 1);
+    TOUCHBAR_ResetAndEnableButton(*(u32 * *)&((struct Obj00001 *)p)->f9C0, 1);
     func_021B6558((unsigned char *)(*(u32 * *)&((struct Obj00001 *)p)->f9C0), 1, 1);
-    return func_021B6548((unsigned char *)(*(u32 * *)&((struct Obj00001 *)p)->f9C0), 1, 1);
+    return TOUCHBAR_SetButtonEnabled((unsigned char *)(*(u32 * *)&((struct Obj00001 *)p)->f9C0), 1, 1);
 }

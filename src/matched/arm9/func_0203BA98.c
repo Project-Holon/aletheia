@@ -20,6 +20,7 @@
  *   GFL_NET_STATE_ChangeoverChildScan  0x0203B9D4  arm
  *   GFL_NET_STATE_ChangeChangeoverMode  0x0203BC58  arm
  *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  */
 
 #include "../include/G_Sys.h"
@@ -31,7 +32,7 @@ typedef unsigned long long u64;
 
 extern struct Sys *_pNetState;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern void GFL_NET_STATE_ChangeChangeoverMode(u8, u8, const void *);
 extern u32  GFL_NET_SYSTEM_ConnectDevice(u8);
@@ -44,7 +45,7 @@ extern void GFL_NET_SYSTEM_ConnectToParent(u32, u32, u16, u32);
 
 void GFL_NET_STATE_StartChangeover(u16 a0, u32 a1, u8 a2)
 {
-    u8 *s = func_0203D798();
+    u8 *s = GFL_NET_GetInitParam();
     u8 *p;
     u64 x, y, r;
     u32 delay = 30;

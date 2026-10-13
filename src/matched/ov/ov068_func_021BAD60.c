@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD60
+ * function: OPTION_MENU_InitMessageBox
  * address:  0x021BAD60
  * packet:   pkt_ov068_021BAD60
  * region:   ov068
@@ -12,7 +12,7 @@
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_021BA1C4  0x021BA1C4  thumb  ov068
+ *   OPTION_MENU_InitTextBox  0x021BA1C4  thumb  ov068
  */
 #include "../include/Obj02763.h"
 #include "../include/Obj09871.h"
@@ -24,16 +24,16 @@ typedef unsigned int   u32;
 extern void  func_02082BCC(void *p, u32 v, u32 n);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_021BA1C4(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2);
+extern void OPTION_MENU_InitTextBox(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2);
 
-void func_021BAD60(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u32 s2, u16 s3)
+void OPTION_MENU_InitMessageBox(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u32 s2, u16 s3)
 {
     int i;
 
     func_02082BCC(p, 0, 0x70);
     ((struct Obj02763 *)p)->f54 = 0;
     ((struct Obj02763 *)p)->f6C = s1;
-    func_021BA1C4(p, a, b, (u32)c, s0, s2, s3);
+    OPTION_MENU_InitTextBox(p, a, b, (u32)c, s0, s2, s3);
     for (i = 0; i < 2; i++) {
         u8 *e = p + i * 12;
 

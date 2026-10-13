@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DAAC0, func_021DAAE0
+ * function: BTL_ABILITY_WaterAbsorbAbsorbWater, BTL_ABILITY_GetWaterAbsorbHandlers
  * address: 0x021DAAC0
  * packet: pkt_ov093_021DAAC0
  * region: ov093
@@ -10,23 +10,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0730 0x021F0730 data a4
- *   func_021DA8A8 0x021DA8A8 thumb ov093
- *   func_021DA8DC 0x021DA8DC thumb ov093
+ *   gWaterAbsorbHandlerTable 0x021F0730 data a4
+ *   BTL_ABILITY_AbsorbCheckMoveType 0x021DA8A8 thumb ov093
+ *   BTL_ABILITY_AbsorbRecoverHp 0x021DA8DC thumb ov093
  * extent: includes store-and-return followers 021DAAE0.
  */
-extern unsigned char d_021F0730[];
-extern int func_021DA8A8(int, int, int);
-extern void func_021DA8DC(int, int, int);
+extern unsigned char gWaterAbsorbHandlerTable[];
+extern int BTL_ABILITY_AbsorbCheckMoveType(int, int, int);
+extern void BTL_ABILITY_AbsorbRecoverHp(int, int, int);
 
-void func_021DAAC0(int a, int b, int c)
+void BTL_ABILITY_WaterAbsorbAbsorbWater(int a, int b, int c)
 {
-    if (func_021DA8A8(b, c, 10))
-        func_021DA8DC(b, c, 4);
+    if (BTL_ABILITY_AbsorbCheckMoveType(b, c, 10))
+        BTL_ABILITY_AbsorbRecoverHp(b, c, 4);
 }
 
-void *func_021DAAE0(int *p)
+void *BTL_ABILITY_GetWaterAbsorbHandlers(int *p)
 {
     *p = 1;
-    return d_021F0730;
+    return gWaterAbsorbHandlerTable;
 }

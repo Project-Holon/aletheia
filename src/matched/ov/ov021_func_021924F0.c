@@ -1,5 +1,5 @@
 /*
- * function: func_021924F0
+ * function: FIELD_MSGBG_PrintLines
  * address:  0x021924F0
  * packet:   pkt_ov021_021924F0
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201DC80  0x0201DC80  thumb
- *   func_020458F8  0x020458F8  arm
- *   func_020457B0  0x020457B0  arm
+ *   GF_FONT_GetLineHeight  0x0201DC80  thumb
+ *   STRBUF_GetLength  0x020458F8  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201D37C  0x0201D37C  thumb
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_02045808  0x02045808  arm
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   STRBUF_Delete  0x02045808  arm
  * Addresses are Black-image addresses.
  */
 
@@ -26,24 +26,24 @@ typedef unsigned int   u32;
 struct Font;
 struct StrObj;
 struct U16Vec;
-extern u32 func_0201DC80(struct Font *p);
-extern u16 func_020458F8(struct U16Vec *vec);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u32 GF_FONT_GetLineHeight(struct Font *p);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021924F0(u16 a, u16 b, u32 c, u32 d, u32 e, u16 f)
+void FIELD_MSGBG_PrintLines(u16 a, u16 b, u32 c, u32 d, u32 e, u16 f)
 {
     int i;
     u32 h;
     int t;
 
-    t = func_0201DC80((struct Font *)d) + 2;
-    h = (u32)func_020457B0(func_020458F8((struct U16Vec *)e) + 1, f);
+    t = GF_FONT_GetLineHeight((struct Font *)d) + 2;
+    h = (u32)STRBUF_Create(STRBUF_GetLength((struct U16Vec *)e) + 1, f);
     for (i = 0; func_0201D37C((struct StrObj *)e, (struct StrObj *)h, i) == 1; i++) {
-        func_0201C7A4((void *)c, (s16)a, (s16)b, (void *)h, (void *)d);
+        PRINTSYS_Print((void *)c, (s16)a, (s16)b, (void *)h, (void *)d);
         b += (u16)t;
     }
-    func_02045808((struct U16Vec *)h);
+    STRBUF_Delete((struct U16Vec *)h);
 }

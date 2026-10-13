@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02048C58
+ * function: G3D_LIGHT_ApplySlots
  * address:  0x02048C58
  * packet:   pkt_02048AD0
  * region:   arm9
@@ -74,7 +74,7 @@ extern struct LightGlobal ARC_TOOL_gArchiveTable;
 
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 
-void func_02048C58(struct LightSlot *slots)
+void G3D_LIGHT_ApplySlots(struct LightSlot *slots)
 {
     int i;
 
@@ -88,7 +88,7 @@ void G3D_LIGHT_GetSlotColor(struct LightSlot *slots, u8 i, struct Rgb555 *out)
     *out = slots[i].col;
 }
 
-void func_02048CA4(struct LightSlot *slots, u32 i, struct Rgb555 *in)
+void G3D_LIGHT_SetSlotColor(struct LightSlot *slots, u32 i, struct Rgb555 *in)
 {
     slots[i].col = *in;
 }
@@ -98,7 +98,7 @@ void G3D_LIGHT_GetSlotFlags(struct LightSlot *slots, u8 i, u16 *out)
     *out = slots[i].unk06;
 }
 
-void func_02048CDC(struct LightSlot *slots, u32 i, u16 *in)
+void G3D_LIGHT_SetSlotFlags(struct LightSlot *slots, u32 i, u16 *in)
 {
     slots[i].unk06 = *in;
 }

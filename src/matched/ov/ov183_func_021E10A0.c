@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02025538  0x02025538  thumb
+ *   BMP_OAM_CreateSys  0x02025538  thumb
  */
 #include "../include/Obj00143.h"
 
-extern void *func_02025538(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 
 void func_021E10A0(char *p)
 {
     ((struct Obj00143 *)p)->f300 =
-        func_02025538(((struct Obj00143 *)p)->f34C, ((struct Obj00143 *)p)->f25C);
+        BMP_OAM_CreateSys(((struct Obj00143 *)p)->f34C, ((struct Obj00143 *)p)->f25C);
 }

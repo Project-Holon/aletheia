@@ -23,7 +23,7 @@
  *   func_0207AF38 0x0207AF38 thumb
  *   func_0207B51C 0x0207B51C arm
  *   func_0207CA00 0x0207CA00 arm
- *   func_0204F638 0x0204F638 arm
+ *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -49,7 +49,7 @@ extern void func_021F4E6C(u8 *, u8 *, u32);
 extern void func_0207AF38(Mtx *, int, int);
 extern void func_0207B51C(const Vec *, const Mtx *, Vec *);
 extern void func_0207CA00(const Vec *, const Vec *, Vec *);
-extern void func_0204F638(u8 *a0, int i, struct Trip *src);
+extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 
 #define E (*(u8 **)(q + off + 0x84))
 #define EA (*(u8 **)(q + off + 0xA8))
@@ -130,5 +130,5 @@ void func_021F732C(u8 *self, u8 *q)
     v3.x = *(int *)(q + 0x18) / 16;
     v3.y = (0xC0000 - *(int *)(q + 0x1C)) / 16;
     v3.z = 0x32;
-    func_0204F638(*(void **)(self + 8), *(u32 *)(q + 0x5C), (struct Trip *)(&v3));
+    BILLBOARD_SetElemPos(*(void **)(self + 8), *(u32 *)(q + 0x5C), (struct Trip *)(&v3));
 }

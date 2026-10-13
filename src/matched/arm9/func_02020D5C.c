@@ -18,8 +18,8 @@
  *
  * symbols:
  *   func_0201C6FC  0x0201C6FC  thumb
- *   func_020439A0  0x020439A0  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_Blit  0x020439A0  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02045770  0x02045770  arm
  */
 
@@ -43,8 +43,8 @@ struct PrintSys;
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 struct Bmp;
 struct Descriptor;
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void *func_02045770(struct Descriptor *p);
 
 void BMP_CURSOR_Draw(struct Desc *d, u32 x, u32 y, struct Handle *h,
@@ -54,8 +54,8 @@ void BMP_CURSOR_Draw(struct Desc *d, u32 x, u32 y, struct Handle *h,
         func_0201C6FC(dst, (u32)func_02045770(h->cell), (s16)x, (s16)y, d->f4, f);
         h->drawn = 1;
     } else if (d->f8 != 0) {
-        func_020439A0(d->f8, func_02045770(h->cell), 0, 0,
+        BMP_Blit(d->f8, func_02045770(h->cell), 0, 0,
                       x + 2, y + 2, 8, 8, 0xf);
-        func_02045334(h->cell);
+        BMP_WIN_TransferChars(h->cell);
     }
 }

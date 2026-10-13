@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02157938 0x02157938 thumb ov010
- *   func_0203D210 0x0203D210 arm
+ *   DELIVERY_BEACON_Delete 0x02157938 thumb ov010
+ *   GFL_NET_IsIdle 0x0203D210 arm
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE618 0x021DE618 thumb ov121
  */
 #include "../include/Obj22916.h"
-extern int func_02157938(void *a0);
-extern unsigned func_0203D210(void);
+extern int DELIVERY_BEACON_Delete(void *a0);
+extern unsigned GFL_NET_IsIdle(void);
 typedef unsigned int   u32;
 extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE618(void);
@@ -23,11 +23,11 @@ void func_021DE7BC(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_02157938((void *)(((struct Obj22916 *)p)->f798));
+        DELIVERY_BEACON_Delete((void *)(((struct Obj22916 *)p)->f798));
         *state = 1;
         break;
     case 1:
-        if (func_0203D210()) *state = 2;
+        if (GFL_NET_IsIdle()) *state = 2;
         break;
     case 2:
         func_021DEEA4(a, func_021DE618);

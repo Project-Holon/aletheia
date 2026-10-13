@@ -1,5 +1,5 @@
 /*
- * function: func_021594E0
+ * function: SCRIPT_WORK_CmdCompareStack
  * address:  0x021594E0
  * packet:   pkt_ov010_021594E0
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   VM_PopStack  0x02011398  thumb
- *   func_02011330  0x02011330  thumb
+ *   VM_GetU16  0x02011330  thumb
  *   VM_PushStack  0x0201137C  thumb
  */
 
@@ -21,15 +21,15 @@ typedef unsigned short u16;
 struct Ring;
 struct Stream;
 extern u32 VM_PopStack(struct Ring *r);
-extern u16 func_02011330(struct Stream *s);
+extern u16 VM_GetU16(struct Stream *s);
 extern void VM_PushStack(struct Ring *r, u32 v);
 
-int func_021594E0(int p)
+int SCRIPT_WORK_CmdCompareStack(int p)
 {
     u32 a = VM_PopStack((struct Ring *)p);
     u32 b = VM_PopStack((struct Ring *)p);
     int r;
-    switch (func_02011330((struct Stream *)p)) {
+    switch (VM_GetU16((struct Stream *)p)) {
     case 0: r = (b < a) ? 1 : 0; break;
     case 1: r = (b == a) ? 1 : 0; break;
     case 2: r = (b > a) ? 1 : 0; break;

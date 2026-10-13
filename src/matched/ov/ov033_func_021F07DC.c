@@ -1,5 +1,5 @@
 /*
- * function: func_021F07DC
+ * function: DOWSING_FreeBackground
  * address: 0x021F07DC
  * packet: pkt_ov033_021F07DC
  * region: ov033
@@ -14,4 +14,4 @@
 #include "../include/Obj20475.h"
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
-void func_021F07DC(char *p) { unsigned v = ((struct Obj20475 *)p)->f10; func_0203FB44(7, (unsigned short)v, (unsigned short)(v>>16)); }
+void DOWSING_FreeBackground(char *p) { unsigned v = ((struct Obj20475 *)p)->f10; func_0203FB44(7, (unsigned short)v, (unsigned short)(v>>16)); }

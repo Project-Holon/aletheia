@@ -1,5 +1,5 @@
 /*
- * function: func_021D4150
+ * function: BTL_NET_Init
  * address: 0x021D4150
  * packet: pkt_ov093_021D4150
  * region: ov093
@@ -10,12 +10,12 @@
  * lever: Separate loop counters; use the first counter's initialized zero
  * for f0d/f0e stores before entering that loop.
  * symbols:
- *   d_021F3B88 0x021F3B88 data ov093 a4
- *   d_021F3A98 0x021F3A98 data ov093 a4
+ *   gBtlNet 0x021F3B88 data ov093 a4
+ *   gBtlNetSourceName 0x021F3A98 data ov093 a4
  *   func_02030734 0x02030734 arm
- *   func_0203D1A4 0x0203D1A4 arm
- *   func_0203D1B4 0x0203D1B4 arm
- *   func_021D4AF4 0x021D4AF4 thumb ov093
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
+ *   BTL_NET_BeginSync 0x021D4AF4 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,42 +29,42 @@ struct S {
     u8 pad[0x3ae4 - 0x15];
     void *tblA[4], *tblB[4], *tblC[4], *f3b14, *f3b18;
 };
-extern struct S *d_021F3B88;
-extern u8 d_021F3A98[];
+extern struct S *gBtlNet;
+extern u8 gBtlNetSourceName[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
-extern int func_0203D1B4(void);
-extern void func_021D4AF4(int a);
-void func_021D4150(void *link, u16 mask, u16 heap)
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern int GFL_NET_GetNegotiationNum(void);
+extern void BTL_NET_BeginSync(int a);
+void BTL_NET_Init(void *link, u16 mask, u16 heap)
 {
     u32 count, i, j, k, limit;
     if (link) {
-        d_021F3B88 = func_02030734(heap, 0x3b2c, 1, (const char *)d_021F3A98, 0xd4);
-        d_021F3B88->link = link;
-        d_021F3B88->mask = mask;
-        d_021F3B88->heap = heap;
-        d_021F3B88->id = func_0203D1A4(link);
-        d_021F3B88->f07 = 0x28;
+        gBtlNet = func_02030734(heap, 0x3b2c, 1, (const char *)gBtlNetSourceName, 0xd4);
+        gBtlNet->link = link;
+        gBtlNet->mask = mask;
+        gBtlNet->heap = heap;
+        gBtlNet->id = GFL_NET_GetHandleNetID(link);
+        gBtlNet->f07 = 0x28;
         i = 0;
-        d_021F3B88->f0d = i;
-        d_021F3B88->f0e = i;
+        gBtlNet->f0d = i;
+        gBtlNet->f0e = i;
         count = 0;
         for (; i < 4; i++) if (mask & (1U << i)) count++;
-        limit = func_0203D1B4();
+        limit = GFL_NET_GetNegotiationNum();
         if (count > limit) count = limit;
-        d_021F3B88->count = count;
-        d_021F3B88->f0f = 0;
-        d_021F3B88->f10 = 0;
-        d_021F3B88->f0a = 0;
+        gBtlNet->count = count;
+        gBtlNet->f0f = 0;
+        gBtlNet->f10 = 0;
+        gBtlNet->f0a = 0;
         for (j = 0; j < 4; j++) {
-            d_021F3B88->tblA[j] = 0;
-            d_021F3B88->tblB[j] = 0;
-            d_021F3B88->states[j] = 4;
+            gBtlNet->tblA[j] = 0;
+            gBtlNet->tblB[j] = 0;
+            gBtlNet->states[j] = 4;
         }
-        for (k = 0; k < 4; k++) d_021F3B88->tblC[k] = 0;
-        d_021F3B88->f3b14 = 0;
-        d_021F3B88->f3b18 = 0;
-        func_021D4AF4(1);
-    } else d_021F3B88 = 0;
+        for (k = 0; k < 4; k++) gBtlNet->tblC[k] = 0;
+        gBtlNet->f3b14 = 0;
+        gBtlNet->f3b18 = 0;
+        BTL_NET_BeginSync(1);
+    } else gBtlNet = 0;
 }

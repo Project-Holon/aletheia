@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 struct QQ;
-extern u16 func_021D70A8(struct QQ *p);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 
 void func_021E1F44(void *u, int a, int b, int *p)
 {
-    if (b == func_021D775C(3)) {
-        if (func_021D775C(0x12) != func_021D70A8(u))
+    if (b == BTL_EVENT_GetVar(3)) {
+        if (BTL_EVENT_GetVar(0x12) != BTL_EVENT_GetFactorKey(u))
             *p = 2;
     }
 }

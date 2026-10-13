@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021982EC",
+   "name": "FLDMMDL_ACMD_WalkLeft16FFastAnime",
    "address": "0x021982EC",
    "kind": "game",
    "region": "ov021",

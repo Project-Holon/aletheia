@@ -1,7 +1,7 @@
 /*
  * file:     gf_font.c
  * unit:     yes
- * function: func_0201CEE0, func_0201D110, func_0201D26C, func_0201D2C8, func_0201D304, func_0201D33C, func_0201D37C, func_0201D42C, func_0201D478, func_0201D4BC, func_0201D528, func_0201D5C4, func_0201D5CC, func_0201D5F4, func_0201D60C, func_0201D658, func_0201D670, func_0201D688, func_0201D69C, func_0201D6B8, func_0201D6C4, func_0201D6D8, func_0201D768, func_0201D7C4, func_0201D7EC, func_0201D83C, GF_FONT_LoadResource, GF_FONT_FreeBuffers, GF_FONT_SetFormat, GF_FONT_InitPreloadedGlyphs, GF_FONT_InitStreamedGlyphs, GF_FONT_ExitFormat, GF_FONT_FreeGlyphData, GF_FONT_ExitStreamedGlyphs, GF_FONT_ReadGlyph, GF_FONT_GetGlyphIndex, GF_FONT_ReadPreloadedGlyph, GF_FONT_ReadStreamedGlyph, GF_FONT_DecodeGlyph, GF_FONT_GetCharWidth, func_0201DC80, GF_FONT_GetProportionalWidth, GF_FONT_GetFixedWidth, func_0201DD60, func_0201DD68, func_0201DD78, GF_FONT_GetTextColor, GF_FONT_IsTextColorDifferent, GF_FONT_DecodeGlyph8x8, GF_FONT_InitBitReader, func_0201E4D4, GF_FONT_DecodeGlyph8x16, GF_FONT_DecodeGlyph16x8, GF_FONT_DecodeGlyph16x16, func_0201EC64, func_0201EC74, func_0201ED04, func_0201ED50, func_0201ED64, func_0201ED84, func_0201EDD0, func_0201EE0C, func_0201EE60, func_0201EE84, func_0201EEA4, func_0201EEC4, func_0201EED4, func_0201EEF4, func_0201EF14, func_0201EF34, func_0201EF40, func_0201EF4C, func_0201EF5C, func_0201EF6C, func_0201EF8C, func_0201EF98, func_0201EFA4, func_0201EFC8, func_0201EFFC, func_0201F020, func_0201F02C, func_0201F048, func_0201F094, func_0201F0F8, func_0201F104, func_0201F124, func_0201F134, func_0201F140, func_0201F14C, func_0201F158, func_0201F164, func_0201F184, func_0201F198, func_0201F1B0, func_0201F1C8, func_0201F1E0, func_0201F230, func_0201F250, func_0201F31C, func_0201F344, func_0201F35C, func_0201F41C, func_0201F448, func_0201F47C, func_0201F4A0
+ * function: func_0201CEE0, func_0201D110, func_0201D26C, func_0201D2C8, func_0201D304, func_0201D33C, func_0201D37C, func_0201D42C, func_0201D478, func_0201D4BC, func_0201D528, func_0201D5C4, func_0201D5CC, func_0201D5F4, func_0201D60C, func_0201D658, func_0201D670, func_0201D688, func_0201D69C, func_0201D6B8, func_0201D6C4, func_0201D6D8, func_0201D768, func_0201D7C4, GF_FONT_Create, GF_FONT_Delete, GF_FONT_LoadResource, GF_FONT_FreeBuffers, GF_FONT_SetFormat, GF_FONT_InitPreloadedGlyphs, GF_FONT_InitStreamedGlyphs, GF_FONT_ExitFormat, GF_FONT_FreeGlyphData, GF_FONT_ExitStreamedGlyphs, GF_FONT_ReadGlyph, GF_FONT_GetGlyphIndex, GF_FONT_ReadPreloadedGlyph, GF_FONT_ReadStreamedGlyph, GF_FONT_DecodeGlyph, GF_FONT_GetCharWidth, func_0201DC80, GF_FONT_GetProportionalWidth, GF_FONT_GetFixedWidth, func_0201DD60, func_0201DD68, GF_FONT_SetTextColor, GF_FONT_GetTextColor, GF_FONT_IsTextColorDifferent, GF_FONT_DecodeGlyph8x8, GF_FONT_InitBitReader, func_0201E4D4, GF_FONT_DecodeGlyph8x16, GF_FONT_DecodeGlyph16x8, GF_FONT_DecodeGlyph16x16, func_0201EC64, func_0201EC74, func_0201ED04, func_0201ED50, func_0201ED64, func_0201ED84, func_0201EDD0, func_0201EE0C, func_0201EE60, func_0201EE84, func_0201EEA4, func_0201EEC4, func_0201EED4, func_0201EEF4, func_0201EF14, func_0201EF34, func_0201EF40, func_0201EF4C, func_0201EF5C, func_0201EF6C, func_0201EF8C, func_0201EF98, func_0201EFA4, func_0201EFC8, func_0201EFFC, func_0201F020, func_0201F02C, func_0201F048, func_0201F094, func_0201F0F8, func_0201F104, func_0201F124, func_0201F134, func_0201F140, func_0201F14C, func_0201F158, func_0201F164, func_0201F184, func_0201F198, func_0201F1B0, func_0201F1C8, func_0201F1E0, func_0201F230, func_0201F250, func_0201F31C, func_0201F344, func_0201F35C, func_0201F41C, func_0201F448, func_0201F47C, func_0201F4A0
  * address:  0x0201CEE0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
- *   func_020439A0  0x020439A0  arm
- *   func_02043AF4  0x02043AF4  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
+ *   BMP_Blit  0x020439A0  arm
+ *   BMP_FillRect  0x02043AF4  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   PRINTSYS_PrintStep  0x0201C974  thumb
  *   PRINTSYS_PrintStreamResetSpeed   0x0201CEB8  thumb
  *   func_02013020  0x02013020  thumb
@@ -37,7 +37,7 @@
  *   func_020307B0  0x020307B0  arm
  *   GF_FONT_GetProportionalWidth       0x0201DC88  thumb
  *   ARC_TOOL_GetHandleMemberOffsetOut       0x020494F4  arm
- *   func_020493D4       0x020493D4  arm
+ *   ARC_TOOL_GetHandleMemberSize       0x020493D4  arm
  *   sub_0204944C        0x0204944C  arm
  *   gFontFormatInitFuncs  0x0209E73C  data
  *   gFontFormatExitFuncs  0x0209E744  data
@@ -47,8 +47,8 @@
  *   gGlyphExpandTable   0x02146588  data
  *   gTopBitMasks   0x0209E74C  data
  *   gWordsetFileName  0x020A7364  data  a1
- *   func_020457B0   0x020457B0  arm
- *   unk_020A7370   0x020A7370  data
+ *   STRBUF_Create   0x020457B0  arm
+ *   gSpeciesNameBank   0x020A7370  data
  *   PMSI_PARAM_ValidateDecoValue  0x0202473C  thumb
  *   func_02025B94  0x02025B94  thumb
  *   _u32_div_f     0x0209C2B0  arm
@@ -60,6 +60,12 @@
  *   PMS_WORD_LoadString  0x02024838  thumb
  *   STRBUF_Append  0x02045AA8  arm
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   STRBUF_Copy  0x02045838  arm
+ *   STRBUF_GetLength  0x020458F8  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 struct Bmp;
 struct Descriptor;
@@ -272,12 +278,12 @@ struct GfFont {
 typedef void (*FormatInitFunc)(struct GfFont *font, u32 tilesWide, u32 tilesHigh, u32 heapId);
 typedef void (*FormatExitFunc)(struct GfFont *font);
 
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 transparentColor);
-extern void func_02043AF4(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 fillColor);
-extern void func_02043B5C(struct Bmp *bmp, u8 fillColor);
-extern void func_02045334(struct Descriptor *target);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 transparentColor);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 fillColor);
+extern void BMP_Clear(struct Bmp *bmp, u8 fillColor);
+extern void BMP_WIN_TransferChars(struct Descriptor *target);
 extern u16 *PRINTSYS_PrintStep(struct PrintCtx *ctx, u16 *cursor, u32 stopAtPause);
 extern void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
 extern signed char func_02013020(void);
@@ -286,7 +292,7 @@ extern void PRINTSYS_SplitWait(s32 speedSetting, u8 *waitAndGlyphs);
 extern u16 *STRBUF_GetChars(struct Strbuf *text);
 extern void STRBUF_Clear(struct Strbuf *text);
 extern void STRBUF_AppendChar(struct Strbuf *text, u16 value);
-extern u16 func_020458F8(struct Strbuf *text);
+extern u16 STRBUF_GetLength(struct Strbuf *text);
 extern void *memcpy(void *dst, const void *src, u32 n);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
@@ -294,18 +300,18 @@ extern struct ArcFile *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_020307B0(void *block);
 extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcFile *arc, u32 member, u32 *out);
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
-extern void func_02049238(struct ArcFile *arc);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern void ARC_TOOL_DeleteHandle(struct ArcFile *arc);
 extern void func_0204960C(struct ArcFile *arc, u32 offset);
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
-extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
 extern u32 func_02017E88(void *mon, u32 paramId, u32 arg);
-extern void func_02045808(struct Strbuf *text);
-extern void func_02045838(struct Strbuf *dst, struct Strbuf *src);
+extern void STRBUF_Delete(struct Strbuf *text);
+extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 extern struct MsgBank *func_02045B38(u32 isResident, u32 archiveId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct MsgBank *bank);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void func_02045CAC(struct MsgBank *bank, u32 entryIndex, struct Strbuf *dest);
 extern u32 PMSI_PARAM_ValidateWord(u16 *value, u32 mode, u32 flag);
 extern u32 PMSI_PARAM_ValidateDecoValue(u32 *value, u32 mode);
@@ -315,7 +321,7 @@ extern void MYSTATUS_NameToStrbuf(void *source, struct Strbuf *dest);
 extern u32 func_02025B94(u32 value);
 extern u32 func_0202A230(void *source, u32 index);
 extern void func_0200785C(void *save, u32 box, struct Strbuf *dest);
-extern u16  func_02045A98(void);
+extern u16  STRBUF_GetEosChar(void);
 extern u32 _u32_div_f(u32 dividend, u32 divisor);
 extern void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
 void func_0201CEE0(void *task, struct TextPrinter *printer);
@@ -342,8 +348,8 @@ u32 func_0201D6C4(const struct PrintQueue *queue);
 void func_0201D6D8(struct PrintQueue *queue, void *record, struct Strbuf *text);
 void *func_0201D768(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit);
 void *func_0201D7C4(struct PrintQueue *queue, void *record);
-struct GfFont *func_0201D7EC(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-u32 func_0201D83C(struct GfFont *font);
+struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+u32 GF_FONT_Delete(struct GfFont *font);
 void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32 heapId);
 void GF_FONT_FreeBuffers(struct GfFont *font);
 void GF_FONT_SetFormat(struct GfFont *font, u32 format, u32 heapId);
@@ -363,7 +369,7 @@ u32 GF_FONT_GetProportionalWidth(struct GfFont *font, u32 glyphIndex);
 u32 GF_FONT_GetFixedWidth(struct GfFont *font, u32 glyphIndex);
 void func_0201DD60(void);
 void func_0201DD68(void);
-void func_0201DD78(u32 red, u32 green, u32 blue);
+void GF_FONT_SetTextColor(u32 red, u32 green, u32 blue);
 void GF_FONT_GetTextColor(u8 *red, u8 *green, u8 *blue);
 u32 GF_FONT_IsTextColorDifferent(u32 red, u32 green, u32 blue);
 void GF_FONT_DecodeGlyph8x8(const u8 *src, u32 lastGroupBits, u16 *dst);
@@ -432,7 +438,7 @@ extern struct FontState gFontState;
 extern u16 gGlyphExpandTable[256];
 extern const u8         gTopBitMasks[];
 extern char gWordsetFileName[];
-extern void *unk_020A7370;
+extern void *gSpeciesNameBank;
 extern u16  gDigitGlyphsFullWidth[];
 extern u16  gDigitGlyphsHalfWidth[];
 extern u32  gPowersOfTen[];
@@ -462,7 +468,7 @@ static inline u32 TagGroupOrNone(u16 code, const u16 *tag)
 
 
 /*
- * The per-frame task callback that func_0201CD10 installs for a printsys
+ * The per-frame task callback that PRINTSYS_PrintStreamCallBack installs for a printsys
  * text record (the 0x50-byte object, struct PrintCtx at +0x34).  State 0
  * either scrolls the window up by at most four lines (flag bit 1) or, once
  * the wait counter at +0x1e is spent, prints up to glyphsPerTick/overrideGlyphs glyphs through
@@ -520,11 +526,11 @@ void func_0201CEE0(void *task, struct TextPrinter *printer)
                 if (printer->scrollPixels + 4 > 0x10)
                     step = 0x10 - printer->scrollPixels;
                 printer->scrollPixels += (u8)step;
-                width = func_020437DC(printer->bmp);
-                height = func_020437E4(printer->bmp) - step;
-                func_020439A0(printer->bmp, printer->bmp, 0, step, 0, 0, width, height, 0xFFFF);
-                func_02043AF4(printer->bmp, 0, (s16)height, width, step, printer->fillColor);
-                func_02045334(printer->updateTarget);
+                width = BMP_GetWidth(printer->bmp);
+                height = BMP_GetHeight(printer->bmp) - step;
+                BMP_Blit(printer->bmp, printer->bmp, 0, step, 0, 0, width, height, 0xFFFF);
+                BMP_FillRect(printer->bmp, 0, (s16)height, width, step, printer->fillColor);
+                BMP_WIN_TransferChars(printer->updateTarget);
                 return;
             }
             printer->ctx.penX = printer->ctx.originX;
@@ -575,7 +581,7 @@ void func_0201CEE0(void *task, struct TextPrinter *printer)
                             else
                                 printer->waitCounter = printer->waitFrames;
                         }
-                        func_02045334(printer->updateTarget);
+                        BMP_WIN_TransferChars(printer->updateTarget);
                         if (printer->callback != 0) {
                             printer->callbackResult = printer->callback(printer->callbackArg);
                             if (printer->callbackResult != 0)
@@ -601,7 +607,7 @@ void func_0201CEE0(void *task, struct TextPrinter *printer)
                 return;
             case 1:
             default:
-                func_02043B5C(printer->bmp, printer->fillColor);
+                BMP_Clear(printer->bmp, printer->fillColor);
                 printer->state = 0;
                 return;
             }
@@ -787,7 +793,7 @@ void sub_0201D110(struct TextPrinter *printer)
         printer->callbackArg = printer->initialCallbackArg;
         break;
     case 8:
-        func_02043B5C(printer->bmp, printer->fillColor);
+        BMP_Clear(printer->bmp, printer->fillColor);
         break;
     }
 
@@ -1442,7 +1448,7 @@ u16 *func_0201D688(u16 *tag)
  */
 u32 func_0201D69C(struct Strbuf *text)
 {
-    u32 bytes = (func_020458F8(text) + 1) * 2;
+    u32 bytes = (STRBUF_GetLength(text) + 1) * 2;
 
     while ((bytes & 3) != 0) {
         bytes++;
@@ -1666,7 +1672,7 @@ void *func_0201D7C4(struct PrintQueue *queue, void *record)
  * selector).  A null allocation returns straight out, which is why both calls
  * sit inside the one guard.
  *
- * Promoted 2026-09-21 from src/pending/func_0201D7EC.c with no change to the
+ * Promoted 2026-09-21 from src/pending/GF_FONT_Create.c with no change to the
  * C: both calls now resolve on the `matched` class from
  * src/matched/sub_0201D854.c and src/matched/sub_0201DA00.c, which were
  * MATCH-parked when this file was written.
@@ -1674,11 +1680,11 @@ void *func_0201D7C4(struct PrintQueue *queue, void *record)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201D7EC.c \
- *       --func func_0201D7EC --addr 0x0201D7EC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_Create.c \
+ *       --func GF_FONT_Create --addr 0x0201D7EC --cc 1.1p1 --thumb
  *   EXACT, 80 bytes, 5 relocation sites, all 5 resolved.
  */
-struct GfFont *func_0201D7EC(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId)
+struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId)
 {
     struct GfFont *font = func_02030734(heapId, 0x94, 0, gGfFontFileName, 0xC0);
 
@@ -1698,7 +1704,7 @@ struct GfFont *func_0201D7EC(int archiveId, int fileId, int format, int isFixedW
 
 
 
-u32 func_0201D83C(struct GfFont *font)
+u32 GF_FONT_Delete(struct GfFont *font)
 {
     GF_FONT_ExitFormat(font);
     GF_FONT_FreeBuffers(font);
@@ -1718,7 +1724,7 @@ u32 func_0201D83C(struct GfFont *font)
  *           this file's last unresolved site.  13 of 13 relocations resolve.
  *
  * gf_font.c's metrics and buffer initialiser, 372 bytes, the largest function
- * in the file and the one func_0201D7EC calls right after the allocation.  It
+ * in the file and the one GF_FONT_Create calls right after the allocation.  It
  * pulls five sections out of the font resource: the 0x14-byte header block at
  * +0x58, the glyph directory at +0x80, either the whole glyph body (preloaded,
  * into a buffer at +0x84) or nothing (streamed), the eight metric bytes at
@@ -1796,7 +1802,7 @@ void GF_FONT_LoadResource(struct GfFont *font, int fileId, u32 isFixedWidth, u32
     }
     font->glyphDataOffset = font->info.glyphBlockOffset + 8;
     font->scratch = func_02030734(heapId, font->glyph.cellSize, 0, gGfFontFileName, 266);
-    size = func_020493D4(font->arc, fileId) - font->info.mapBlockOffset;
+    size = ARC_TOOL_GetHandleMemberSize(font->arc, fileId) - font->info.mapBlockOffset;
     font->charMap = func_02030734(heapId, size, 0, gGfFontFileName, 271);
     sub_0204944C(font->arc, fileId, font->info.mapBlockOffset, size, font->charMap);
     font->missingGlyphIndex = 0;
@@ -1839,7 +1845,7 @@ void GF_FONT_FreeBuffers(struct GfFont *font)
         func_020307B0(font->charMap);
     }
     if (font->arc != 0) {
-        func_02049238(font->arc);
+        ARC_TOOL_DeleteHandle(font->arc);
     }
 }
 
@@ -1866,7 +1872,7 @@ void GF_FONT_FreeBuffers(struct GfFont *font)
  * twenty bytes of dispatch with nothing to cut away.  It needs a second
  * reference to the table, most likely from an overlay, to move.
  *
- * This is also what keeps func_0201D7EC, src/pending/sub_0201D7EC.c, out of
+ * This is also what keeps GF_FONT_Create, src/pending/sub_0201D7EC.c, out of
  * src/matched: its only witness for the call to this function would be having
  * it local in the same unit, and a unit that spans it inherits this same
  * unresolved table word.
@@ -1895,7 +1901,7 @@ void GF_FONT_InitPreloadedGlyphs(struct GfFont *font, u32 tilesWide, u32 tilesHi
     u32 size;
     GlyphDecodeFunc decode;
 
-    size = func_020493D4(font->arc, font->fileId) - font->glyphDataOffset;
+    size = ARC_TOOL_GetHandleMemberSize(font->arc, font->fileId) - font->glyphDataOffset;
     font->glyphData = func_02030734(heapId, size, 0, gGfFontFileName, 363);
     sub_0204944C(font->arc, font->fileId, font->glyphDataOffset, size, font->glyphData);
     font->readGlyph = GF_FONT_ReadPreloadedGlyph;
@@ -1977,7 +1983,7 @@ void GF_FONT_InitStreamedGlyphs(struct GfFont *font, int tilesWide, int tilesHig
  * from the other would be a claim that they are one object, and the image does
  * not say so.
  *
- * This is in turn what keeps func_0201D83C, src/pending/sub_0201D83C.c, out of
+ * This is in turn what keeps GF_FONT_Delete, src/pending/sub_0201D83C.c, out of
  * src/matched.
  *
  * Addresses are Black-image addresses.
@@ -2324,10 +2330,10 @@ u32 GF_FONT_GetProportionalWidth(struct GfFont *font, u32 glyphIndex)
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes, and neither carries
  * a label, because a tail call saves nothing and the prologue sweep never fires.
  * The chain is real: func_0201DD60 tail-calls func_0201DD68, which tail-calls
- * func_0201DD78 with three constants.  Writing it as one function that calls
- * func_0201DD78 directly loses eight bytes.
+ * GF_FONT_SetTextColor with three constants.  Writing it as one function that calls
+ * GF_FONT_SetTextColor directly loses eight bytes.
  *
- * func_0201DD78 itself, the 4x4x4x4 colour expansion at 0x0201DD78, is still
+ * GF_FONT_SetTextColor itself, the 4x4x4x4 colour expansion at 0x0201DD78, is still
  * open: the original keeps its two outer loop counters in ip and lr and spills
  * only the third, and no declaration order tried reproduces that split.
  *
@@ -2357,7 +2363,7 @@ void func_0201DD60(void)
 
 void func_0201DD68(void)
 {
-    func_0201DD78(1, 2, 0);
+    GF_FONT_SetTextColor(1, 2, 0);
 }
 
 
@@ -2395,9 +2401,9 @@ void func_0201DD68(void)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201DD78.c \
- *       --func func_0201DD78 --addr 0x0201DD78 --cc 1.1p1 --thumb
+ *       --func GF_FONT_SetTextColor --addr 0x0201DD78 --cc 1.1p1 --thumb
  */
-void func_0201DD78(u32 red, u32 green, u32 blue)
+void GF_FONT_SetTextColor(u32 red, u32 green, u32 blue)
 {
     u32 palette[4];
     s32 pixel0;
@@ -2433,7 +2439,7 @@ void func_0201DD78(u32 red, u32 green, u32 blue)
 
 /*
  * The current text colour, read back and compared.  gFontState is the three
- * bytes func_0201DD78 stores the last requested colour into.
+ * bytes GF_FONT_SetTextColor stores the last requested colour into.
  *
  * GF_FONT_IsTextColorDifferent returns 1 when the colour differs, and its shape is the
  * disjunction form rather than the conjunction: the first two comparisons branch
@@ -2514,7 +2520,7 @@ static inline u8 ReadBits(struct BitReader *reader, u8 count)
  * Sixteen 4-pixel groups of a compressed 2bpp 8x8 glyph.  Every even group is
  * a whole literal byte (read_bits of 8 bits) and every odd one is `n` bits
  * wide; each group's byte then indexes the 256-entry 2bpp->4bpp expansion
- * table at 0x02146588 that func_0201DD78 rebuilds (src/matched/sub_0201DD78.c),
+ * table at 0x02146588 that GF_FONT_SetTextColor rebuilds (src/matched/sub_0201DD78.c),
  * so the sixteen halfwords written to dst are the glyph in 4bpp.  `n` is the
  * caller's bit depth and is a runtime value, which is why the even and odd
  * reads are the same inlined reader with a constant and a variable count.
@@ -2523,7 +2529,7 @@ static inline u8 ReadBits(struct BitReader *reader, u8 count)
  * out-of-line copy of it that sits just past this function, inlined here
  * sixteen times; `static inline` is load-bearing, plain `static` compiles to
  * sixteen `bl`s and 260 bytes.  Its state is the second half of the global at
- * 0x02146578, whose first three bytes are the text colour func_0201DD78
+ * 0x02146578, whose first three bytes are the text colour GF_FONT_SetTextColor
  * stores and src/matched/unit_0201DE00.c reads back; that is why the inlined
  * field accesses sit at +4/+8/+12 rather than at +0/+4/+8 as they do in the
  * out-of-line call.
@@ -2946,7 +2952,7 @@ struct WordSet *func_0201EC64(u16 heapId)
  * calls with the default counts (8 slots, 0x20 bytes of string each).  It
  * allocates a 0x10-byte header and an array of `n` 0xc-byte WordSlot records
  * through the debug allocator func_02030734(heap, size, flag, file, line),
- * gives the header and every entry a string object from func_020457B0, and
+ * gives the header and every entry a string object from STRBUF_Create, and
  * returns 0 as soon as any allocation fails.
  *
  * The `__FILE__` argument is 0x020A7364, "wordset.c", and IS attestable by
@@ -2989,7 +2995,7 @@ struct WordSet *func_0201EC64(u16 heapId)
  *      baseline  DIFF   asm=855  bytes-out=14  size=144/144
  *      244       EXACT  asm=0    bytes-out=0   size=144/144
  *
- * func_020457B0 is ARM, not Thumb.
+ * STRBUF_Create is ARM, not Thumb.
  *
  * Addresses are Black-image addresses.  Nothing here reads a version flag or
  * a species table; the two counts are the caller's, not content constants.
@@ -3009,7 +3015,7 @@ struct WordSet *func_0201EC74(u32 slotCount, u32 textCapacity, u16 heapId)
     }
     words->slotCount = slotCount;
     words->heapId = heapId;
-    words->scratch = func_020457B0(textCapacity, heapId);
+    words->scratch = STRBUF_Create(textCapacity, heapId);
     if (words->scratch == 0) {
         goto fail;
     }
@@ -3019,7 +3025,7 @@ struct WordSet *func_0201EC74(u32 slotCount, u32 textCapacity, u16 heapId)
     }
     while (slot < slotCount) {
         func_0201ED50(&words->slots[slot].tag);
-        words->slots[slot].text = func_020457B0(textCapacity, heapId);
+        words->slots[slot].text = STRBUF_Create(textCapacity, heapId);
         if (words->slots[slot].text == 0) {
             break;
         }
@@ -3101,12 +3107,12 @@ u32 func_0201ED04(struct WordSet *words)
             if (words->slots[slot].text == 0) {
                 break;
             }
-            func_02045808(words->slots[slot].text);
+            STRBUF_Delete(words->slots[slot].text);
         }
         func_020307B0(words->slots);
     }
     if (words->scratch != 0) {
-        func_02045808(words->scratch);
+        STRBUF_Delete(words->scratch);
     }
     words->slotCount = 0;
     return func_020307B0(words);
@@ -3142,7 +3148,7 @@ void func_0201ED84(struct WordSet *words, u32 slot, struct Strbuf *src,
         } else {
             func_0201ED50(&words->slots[slot].tag);
         }
-        func_02045838(words->slots[slot].text, src);
+        STRBUF_Copy(words->slots[slot].text, src);
     }
 }
 
@@ -3156,7 +3162,7 @@ void func_0201EDD0(struct WordSet *words, u32 slot, u32 messageId, u32 entryInde
     if (bank != 0) {
         func_02045CAC(bank, entryIndex, words->scratch);
         func_0201ED84(words, slot, words->scratch, 0);
-        func_02045C04(bank);
+        MSGDATA_Delete(bank);
     }
 }
 
@@ -3178,7 +3184,7 @@ void func_0201EE0C(struct WordSet *words, u32 slot, struct Strbuf *src, u32 gram
 
 void func_0201EE60(struct WordSet *words, u32 slot, u16 speciesId)
 {
-    func_02045CAC(unk_020A7370, speciesId, words->scratch);
+    func_02045CAC(gSpeciesNameBank, speciesId, words->scratch);
     func_0201ED84(words, slot, words->scratch, 0);
 }
 
@@ -3403,7 +3409,7 @@ void func_0201F048(struct WordSet *words, u32 slot, u32 entryIndex)
         } else {
             func_0201ED64(words, slot);
         }
-        func_02045C04(bank);
+        MSGDATA_Delete(bank);
     }
 }
 
@@ -3441,10 +3447,10 @@ void func_0201F094(struct WordSet *words, u32 slot, u32 key, u32 entryIndex)
             if (entryIndex < func_02045F50(bank)) {
                 func_02045CAC(bank, entryIndex, words->scratch);
                 func_0201ED84(words, slot, words->scratch, 0);
-                func_02045C04(bank);
+                MSGDATA_Delete(bank);
                 return;
             }
-            func_02045C04(bank);
+            MSGDATA_Delete(bank);
         }
     }
     func_0201ED64(words, slot);
@@ -3603,7 +3609,7 @@ void func_0201F1E0(struct WordSet *words, u32 slot, u32 weekday)
     if (weekday <= 6 && bank != 0) {
         func_02045CAC(bank, weekday + 0x2B, words->scratch);
         func_0201ED84(words, slot, words->scratch, 0);
-        func_02045C04(bank);
+        MSGDATA_Delete(bank);
     }
 }
 
@@ -3681,7 +3687,7 @@ void func_0201F250(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src
 
     cursor = STRBUF_GetChars(src);
     STRBUF_Clear(dst);
-    terminator = func_02045A98();
+    terminator = STRBUF_GetEosChar();
     tagMarker = func_0201D5C4();
     while (cursor[0] != terminator) {
         if (cursor[0] == tagMarker) {
@@ -3743,7 +3749,7 @@ void func_0201F31C(struct WordSet *words)
 
 void func_0201F344(u16 heapId)
 {
-    unk_020A7370 = func_02045B38(0, 2, 0x46, heapId);
+    gSpeciesNameBank = func_02045B38(0, 2, 0x46, heapId);
 }
 
 
@@ -3835,7 +3841,7 @@ void func_0201F35C(struct Strbuf *text, s32 number, u32 topDigitIndex, u32 padMo
 /*
  * Two wide-string helpers.  func_0201F41C is a bounded copy that always
  * terminates the destination; func_0201F448 is an equality test.  Both read
- * the terminator character from func_02045A98 rather than from a constant,
+ * the terminator character from STRBUF_GetEosChar rather than from a constant,
  * and both hold it in a named local, which is what puts the call result in
  * the left slot of func_0201F41C's `cmp r0, r1`
  * (docs/idioms/cmp-operand-order-names-the-temporary.md).
@@ -3856,7 +3862,7 @@ void func_0201F35C(struct Strbuf *text, s32 number, u32 topDigitIndex, u32 padMo
  */
 void func_0201F41C(const u16 *src, u16 *dst, u32 maxLength)
 {
-    u16 terminator = func_02045A98();
+    u16 terminator = STRBUF_GetEosChar();
     u32 index;
 
     for (index = 0; index < maxLength; index++) {
@@ -3874,7 +3880,7 @@ void func_0201F41C(const u16 *src, u16 *dst, u32 maxLength)
 
 u32 func_0201F448(const u16 *left, const u16 *right)
 {
-    u16 terminator = func_02045A98();
+    u16 terminator = STRBUF_GetEosChar();
 
     while (*left != terminator) {
         if (*left != *right) {
@@ -3917,7 +3923,7 @@ u32 func_0201F448(const u16 *left, const u16 *right)
  */
 u32 func_0201F47C(struct Strbuf *text)
 {
-    if (func_020458F8(text) != 0 && *STRBUF_GetChars(text) == 0xF100) {
+    if (STRBUF_GetLength(text) != 0 && *STRBUF_GetChars(text) == 0xF100) {
         return 1;
     }
     return 0;

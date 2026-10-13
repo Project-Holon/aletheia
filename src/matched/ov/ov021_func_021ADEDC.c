@@ -1,5 +1,5 @@
 /*
- * function: func_021ADEDC
+ * function: FLDEFF_FISHING_Create
  * address:  0x021ADEDC
  * packet:   pkt_ov021_021ADEDC
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DE124  0x021DE124  data
- *   func_021ADF14  0x021ADF14  thumb  ov021
+ *   sFldeffFishingFileName  0x021DE124  data
+ *   FLDEFF_FISHING_LoadResources  0x021ADF14  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -23,15 +23,15 @@ typedef signed char    s8;
 typedef struct P { u32 f0; } P;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021ADF14(int *p);
-extern char d_021DE124[];
+extern void FLDEFF_FISHING_LoadResources(int *p);
+extern char sFldeffFishingFileName[];
 
-P *func_021ADEDC(u32 a, int heap)
+P *FLDEFF_FISHING_Create(u32 a, int heap)
 {
     P *p;
 
-    p = (P *)func_02030734(heap, 0x18, 1, d_021DE124, 0x60);
+    p = (P *)func_02030734(heap, 0x18, 1, sFldeffFishingFileName, 0x60);
     p->f0 = a;
-    func_021ADF14((int *)p);
+    FLDEFF_FISHING_LoadResources((int *)p);
     return p;
 }

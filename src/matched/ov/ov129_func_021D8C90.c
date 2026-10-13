@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_021D9E48 0x021D9E48 thumb ov129
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021DA158 0x021DA158 thumb ov129
  *   func_021DA320 0x021DA320 thumb ov129
  *   func_021D97CC 0x021D97CC thumb ov129
@@ -34,7 +34,7 @@ extern const int d_021DA830[], d_021DA84C[];
 extern void func_021D9E48(char *,int,int);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -42,7 +42,7 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021DA158(int x, int flag);
 extern void func_021DA320(char *);
 extern int func_021D97CC(u8 *p, int value);
@@ -62,7 +62,7 @@ int func_021D8C90(char *p)
         for(i=0;i<((struct Obj00361 *)p)->f23C;i++) {
             q=p+i*28;
             if(((struct Obj00411 *)q)->f18) {
-                func_0204B454(((struct Obj00411 *)q)->fC,(struct PtS *)&first,0);
+                CLACT_GetActorSurfacePos(((struct Obj00411 *)q)->fC,(struct PtS *)&first,0);
                 first.x+=((struct Obj00411 *)q)->f14;
                 first.y+=((struct Obj00411 *)q)->f16;
                 func_0204B404(((struct Obj00411 *)q)->fC,(const struct Vec2 *)(&first),0);
@@ -84,7 +84,7 @@ int func_021D8C90(char *p)
         for(i=0;i<2;i++) {
             q=p+i*28;
             if(((struct Obj00411 *)q)->f168) {
-                func_0204B454(((struct Obj00411 *)q)->f15C,(struct PtS *)&second,0);
+                CLACT_GetActorSurfacePos(((struct Obj00411 *)q)->f15C,(struct PtS *)&second,0);
                 second.x+=((struct Obj00411 *)q)->f164;
                 second.y+=((struct Obj00411 *)q)->f166;
                 func_0204B404(((struct Obj00411 *)q)->f15C,(const struct Vec2 *)(&second),0);
@@ -94,11 +94,11 @@ int func_021D8C90(char *p)
         if(((struct Obj00361 *)p)->f18==0) {
             for(i=((struct Obj00361 *)p)->f248;i<((struct Obj00361 *)p)->f24C;i++) {
                 q=p+i*28;
-                func_0204B878(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
+                CLACT_SetActorAnimSeq(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
             }
             for(i=((struct Obj00361 *)p)->f250;i<((struct Obj00361 *)p)->f254;i++) {
                 q=p+i*28;
-                func_0204B878(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
+                CLACT_SetActorAnimSeq(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
             }
             (((struct Obj00361 *)p)->f234)++;
         }

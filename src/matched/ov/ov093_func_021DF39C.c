@@ -1,5 +1,5 @@
 /*
- * function: func_021DF39C
+ * function: BTL_HANDLER_ITEM_SmokeBall_AllowEscape
  * address: 0x021DF39C
  * packet: pkt_ov093_021DF39C
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF370.c and filed here.
  *
  * symbols:
- *   func_021E8878 0x021E8878 thumb ov093
+ *   BTLV_CORE_EventSetFlagIfAttacker 0x021E8878 thumb ov093
  */
 
-void func_021E8878(int a, int b, int c, int d);
-void func_021DF39C(int a, int b, int c, int d);
+void BTLV_CORE_EventSetFlagIfAttacker(int a, int b, int c, int d);
+void BTL_HANDLER_ITEM_SmokeBall_AllowEscape(int a, int b, int c, int d);
 
-void func_021DF39C(int a, int b, int c, int d)
+void BTL_HANDLER_ITEM_SmokeBall_AllowEscape(int a, int b, int c, int d)
 {
-    func_021E8878(a, b, c, d);
+    BTLV_CORE_EventSetFlagIfAttacker(a, b, c, d);
 }

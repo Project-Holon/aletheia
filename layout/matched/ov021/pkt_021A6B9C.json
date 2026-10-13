@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A6B9C",
+   "name": "FIELD_PLAYER_NOGRID_EnableInputHold",
    "address": "0x021A6B9C",
    "kind": "game",
    "region": "ov021",

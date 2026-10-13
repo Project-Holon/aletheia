@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD0C
+ * function: FIELD_G3D_MAPPER_SlotResGetSlotIndex
  * address:  0x0218DD0C
  * packet:   pkt_ov021_0218DD0C
  * region:   ov021
@@ -18,7 +18,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-int func_0218DD0C(u8 *p)
+int FIELD_G3D_MAPPER_SlotResGetSlotIndex(u8 *p)
 {
     return ((struct Obj19553 *)p)->fC;
 }

@@ -14,13 +14,13 @@
  *   func_0220778C  0x0220778C  thumb  ov094
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   func_02208D24  0x02208D24  thumb  ov094
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204B1CC  0x0204B1CC  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02049238  0x02049238  arm
- *   func_02030EE8  0x02030EE8  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   func_02030EAC  0x02030EAC  arm
  */
 #include "../include/Obj00380.h"
@@ -38,15 +38,15 @@ extern void func_0220778C(char *p, int i);
 extern int GFL_USE_PopBgm(void);
 extern void func_02208D24(int a);
 struct Node;
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 struct Bank;
 struct S02030EE8;
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(u32 h);
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern void ARC_TOOL_DeleteHandle(u32 h);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern void func_02030EAC(struct Node *n);
 
 void func_02206E28(char *p)
@@ -63,15 +63,15 @@ void func_02206E28(char *p)
         func_02208D24(0);
     }
     for (j = 0; j < 6; j++)
-        func_0204ADA4(*(int *)(p + j * 4 + 0x18));
-    func_0204A8D4(((struct Obj00380 *)p)->f30);
-    func_0204AFD8(((struct Obj00380 *)p)->f34);
-    func_0204ADA4(((struct Obj00380 *)p)->f38);
-    func_0204ADA4(((struct Obj00380 *)p)->f3C);
-    func_0204B1CC((struct Bank *)(((struct Obj00380 *)p)->f0));
+        CLACT_ReleasePalette(*(int *)(p + j * 4 + 0x18));
+    CLACT_ReleaseCharacter(((struct Obj00380 *)p)->f30);
+    CLACT_ReleaseCellAnim(((struct Obj00380 *)p)->f34);
+    CLACT_ReleasePalette(((struct Obj00380 *)p)->f38);
+    CLACT_ReleasePalette(((struct Obj00380 *)p)->f3C);
+    CLACT_DeleteUnit((struct Bank *)(((struct Obj00380 *)p)->f0));
     func_020307B0(((struct Obj00380 *)p)->f10);
-    func_02049238(((struct Obj00380 *)p)->f4);
-    func_020307B0((void *)func_02030EE8(((struct Obj00380 *)p)->fC));
+    ARC_TOOL_DeleteHandle(((struct Obj00380 *)p)->f4);
+    func_020307B0((void *)TCBL_IsDeletePending(((struct Obj00380 *)p)->fC));
     func_02030EAC(((struct Obj00380 *)p)->fC);
     func_020307B0(p);
 }

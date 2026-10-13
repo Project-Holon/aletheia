@@ -1,5 +1,5 @@
 /*
- * function: func_021BBFF4
+ * function: FLDEFF_REFLECT_InitTask
  * address:  0x021BBFF4
  * packet:   pkt_ov021_021BBFF4
  * region:   ov021
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_0216E1A4  0x0216E1A4  thumb  ov010
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FLDMMDL_GetCheckInfo  0x0216E1A4  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -29,12 +29,12 @@ typedef struct {
     u32 f2C;
 } Obj;
 
-extern int func_021AC1AC(u32 a);
-extern int func_0216E1A4(int a0, int a1);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
+extern int FLDMMDL_GetCheckInfo(int a0, int a1);
 
-void func_021BBFF4(u32 a, Obj *o)
+void FLDEFF_REFLECT_InitTask(u32 a, Obj *o)
 {
-    u32 *p = (u32 *)func_021AC1AC(a);
+    u32 *p = (u32 *)FIELD_EFFECT_GetObjectParam(a);
 
     o->blk = *(Blk *)p;
     o->f0C = 0x40;
@@ -43,5 +43,5 @@ void func_021BBFF4(u32 a, Obj *o)
     if (o->blk.w[1] == 2) {
         o->f0C = 0;
     }
-    func_0216E1A4(p[2], (int)(&o->f2C));
+    FLDMMDL_GetCheckInfo(p[2], (int)(&o->f2C));
 }

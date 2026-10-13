@@ -1,5 +1,5 @@
 /*
- * function: func_021F3E84
+ * function: CROWD_LoadConfig
  * address:  0x021F3E84
  * packet:   pkt_ov055_021F3E84
  * region:   ov055
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_02049250  0x02049250  arm
- *   func_020493D4  0x020493D4  arm
- *   func_0204944C  0x0204944C  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 
 typedef unsigned short u16;
@@ -30,14 +30,14 @@ typedef struct S {
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 struct ArcFile;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 struct ArcFile;
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
-extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021F3E84(S *o, int b, int key, u16 c)
+void CROWD_LoadConfig(S *o, int b, int key, u16 c)
 {
     void *h;
     int *tbl;
@@ -47,18 +47,18 @@ void func_021F3E84(S *o, int b, int key, u16 c)
 
     m = (c & 0x7fff) | 0x8000;
     h = func_020490F4(0xba, m);
-    tbl = func_02049250(h, (int)5, (u16)m);
-    n = func_020493D4(h, 5) >> 2;
+    tbl = ARC_TOOL_LoadHandleMember(h, (int)5, (u16)m);
+    n = ARC_TOOL_GetHandleMemberSize(h, 5) >> 2;
     for (i = 0; i < n; i++) {
         if (key == tbl[i])
             break;
     }
-    func_0204944C(h, i, 0, 0x32, o);
+    ARC_TOOL_ReadHandleMemberRange(h, i, 0, 0x32, o);
     func_020307B0(tbl);
-    n = func_020493D4(h, 6);
-    o->f38 = (int)func_02049250(h, (int)6, (u16)c);
+    n = ARC_TOOL_GetHandleMemberSize(h, 6);
+    o->f38 = (int)ARC_TOOL_LoadHandleMember(h, (int)6, (u16)c);
     o->f3c = n >> 4;
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     for (j = 0; j < 2; j++)
         o->cnt[j] = 0;
 }

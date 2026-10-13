@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_021BA828  0x021BA828  thumb  ov099
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   func_021BA858  0x021BA858  thumb  ov099
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
@@ -22,24 +22,24 @@
  *   func_021BCC4C  0x021BCC4C  thumb  ov099
  *   func_021BDDF4  0x021BDDF4  thumb  ov099
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_021BCBBC  0x021BCBBC  thumb  ov099
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AC2C  0x0201AC2C  thumb
  *   func_021BBE7C  0x021BBE7C  thumb  ov099
  *   func_021BBD0C  0x021BBD0C  thumb  ov099
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
- *   func_020200CC 0x020200CC thumb
- *   func_020202FC 0x020202FC thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_MENULIST_Main 0x020200CC thumb
+ *   BMP_MENULIST_GetPos 0x020202FC thumb
  *   func_021BBA4C 0x021BBA4C thumb ov099
  *   func_021BBDD0 0x021BBDD0 thumb ov099
  *   func_021BCB70 0x021BCB70 thumb ov099
  *   func_021BC0C4 0x021BC0C4 thumb ov099
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  *   func_021BC090  0x021BC090  thumb  ov099
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4  0x02039CB4  arm
@@ -52,7 +52,7 @@
  *   func_021BC06C 0x021BC06C thumb ov099
  *   func_021BA874 0x021BA874 thumb ov099
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
- *   func_0203D7BC 0x0203D7BC arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  */
 #include "work_types.h"
 #include "../../matched/include/Obj22036.h"
@@ -129,7 +129,7 @@ typedef unsigned long  u32_021BD864;
 typedef unsigned int   u32_021BD888;
 
 extern void func_021BA828(char *p);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32_021BCF9C func_021BA858(char *p);
 extern void func_021BA8EC(char *p);
 extern void func_021BAAB8(char *p, int a, int b);
@@ -137,24 +137,24 @@ extern u32_021BCF9C func_020362DC(void);
 extern void func_021BCC4C(void *a);
 extern int func_021BDDF4(char *p);
 extern int func_021BA928();
-extern u32_021BD0F0 func_0203D378();
+extern u32_021BD0F0 GFL_NET_IsParentAid();
 extern int func_021BCBBC(int a, int b, int *out);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_021BBE7C(char *p);
 extern void func_021BBD0C(char *p, int a, int b);
 extern void *func_02045770(struct Descriptor *p);
 extern u32_021BD1A4 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
-extern s32_021BD15C func_020200CC(struct Obj *o);
-extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern s32_021BD15C BMP_MENULIST_Main(struct Obj *o);
+extern void BMP_MENULIST_GetPos(struct Obj *obj, u16 *a, u16 *b);
 extern void func_021BBA4C(char *p, void *x);
 extern void func_021BBDD0(void *pv, int flag);
 extern int func_021BCB70(void *rules, const struct BigObj *obj, u32_021BD1A4 *mask);
 extern void func_021BC0C4(char *p);
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int POKE_REGULATION_GetDataSize(void);
-extern u32_021BD318 func_0203D3F8(u32_021BD318 entry, u32_021BD318 sendID, u32_021BD318 c, u32_021BD318 d, u32_021BD318 e, u32_021BD318 f, u32_021BD318 g, u32_021BD318 h);
+extern u32_021BD318 GFL_NET_SendData(u32_021BD318 entry, u32_021BD318 sendID, u32_021BD318 c, u32_021BD318 d, u32_021BD318 e, u32_021BD318 f, u32_021BD318 g, u32_021BD318 h);
 extern void func_021BC090(char *p);
 extern void func_02039C68(struct Link *p, u32_021BD380 lo, u32_021BD380 hi);
 extern unsigned int func_02039CB4(struct Link *h, unsigned int a, unsigned int b);
@@ -166,7 +166,7 @@ extern void func_021BBEB4(struct O *p, int mask, u32_021BD4A8 a, int mode);
 extern void func_021BC06C(char *);
 extern void func_021BA874(void *, int);
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern int func_0203D7BC(int);
+extern int GFL_NET_SetLoginOption(int);
 int func_021BCF9C(char *p, int v);
 int func_021BCFB4(char *p, int v);
 int func_021BD014(char *p, int v);
@@ -235,7 +235,7 @@ int func_021BCFB4(char *p, int v)
 {
     int r;
 
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     r = func_021BA858(p);
     if (r == -1) {
         return v;
@@ -344,12 +344,12 @@ int func_021BD0F0(char *p, int v)
     int out;
 
     t = 0;
-    if (func_0203D378() == 0) {
+    if (GFL_NET_IsParentAid() == 0) {
         t = 1;
     }
     if (func_021BCBBC(((Ov099Work *)p)->f1348, ((Ov099Work *)p)->fCC, &out) != 0
         && ((Ov099Work *)p)->fCC == 0) {
-        func_0201AC2C(func_02012934(((Ov099Work *)p)->fC4),
+        func_0201AC2C(GAME_DATA_GetMyParty(((Ov099Work *)p)->fC4),
                       *(void **)((char *)((Ov099Work *)p)->f248 + t * 4 + 0x14));
         ((Ov099Work *)p)->f1CC = 0x67;
     } else {
@@ -374,7 +374,7 @@ int func_021BD15C(char *p, int v)
     }
     ((Ov099Work *)p)->f1354 = 2;
     func_021BBE7C(p);
-    func_021BBD0C(p, (int)func_02012934(((Ov099Work *)p)->fC4), ((Ov099Work *)p)->fCC);
+    func_021BBD0C(p, (int)GAME_DATA_GetMyParty(((Ov099Work *)p)->fC4), ((Ov099Work *)p)->fCC);
     ((Ov099Work *)p)->f1CC = 0x66;
     return v;
 }
@@ -399,23 +399,23 @@ int func_021BD1A4(char *p, int v)
     q = *(void **)(p + 0x1b8);
     if (*(u8 *)(p + 0x1b0) != 0) {
         if (func_0201C6C4(q, func_02045770(*(struct Descriptor **)(p + 0x1ac))) == 0) {
-            func_02045334(*(struct Descriptor **)(p + 0x1ac));
+            BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0x1ac));
             *(u8 *)(p + 0x1b0) = 0;
         }
     }
-    r = func_020200CC(*(void **)(p + 0xbc));
-    func_020202FC(*(void **)(p + 0xbc), &x[1], &x[0]);
+    r = BMP_MENULIST_Main(*(void **)(p + 0xbc));
+    BMP_MENULIST_GetPos(*(void **)(p + 0xbc), &x[1], &x[0]);
     if (x[0] != *(u8 *)(p + 0x1354)) {
         *(u8 *)(p + 0x1354) = x[0];
         if (x[0] == 0) {
-            func_021BBA4C(p, func_02012934(*(void **)(p + 0xc4)));
+            func_021BBA4C(p, GAME_DATA_GetMyParty(*(void **)(p + 0xc4)));
             func_021BBDD0(p, 1);
         } else {
             func_021BBA4C(p, *(void **)(p + 0xcc));
             func_021BBDD0(p, 0);
         }
     }
-    if (func_0203D378() == 0) {
+    if (GFL_NET_IsParentAid() == 0) {
         five = 1;
     }
     switch (r) {
@@ -430,7 +430,7 @@ int func_021BD1A4(char *p, int v)
             func_021BC0C4(p);
             return v;
         }
-        func_0201AC2C(func_02012934(*(void **)(p + 0xc4)), *(void **)(*(char **)(p + 0x248) + five * 4 + 0x14));
+        func_0201AC2C(GAME_DATA_GetMyParty(*(void **)(p + 0xc4)), *(void **)(*(char **)(p + 0x248) + five * 4 + 0x14));
         *(u32_021BD1A4 *)(p + 0x1cc) = 0x67;
         break;
     case 1:
@@ -462,11 +462,11 @@ int func_021BD318(char *p, int v)
     u32_021BD318 h;
 
     t = 0;
-    if (func_0203D378() == 0) {
+    if (GFL_NET_IsParentAid() == 0) {
         t = 1;
     }
-    h = (u32_021BD318)func_020399A8();
-    if (func_0203D3F8(h, 0xFF, 0xA07, POKE_REGULATION_GetDataSize(),
+    h = (u32_021BD318)GFL_NET_HANDLE_GetCurrentHandle();
+    if (GFL_NET_SendData(h, 0xFF, 0xA07, POKE_REGULATION_GetDataSize(),
                       *(u32_021BD318 *)((char *)((Ov099Work *)p)->f248 + t * 4 + 0x14), 0, 0, 1) != 0) {
         func_021BAAB8(p, 0x4C, 0);
         func_021BC090(p);
@@ -484,7 +484,7 @@ int func_021BD318(char *p, int v)
 int func_021BD380(char *p, int v)
 {
     if (func_021BA928(p) != 0) {
-        func_02039C68((struct Link *)func_020399A8(), 0x11, 10);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 10);
         ((Ov099Work *)p)->f1CC = 0x68;
     }
     return v;
@@ -503,7 +503,7 @@ int func_021BD3A8(char *p, int v)
     int b;
     int id;
 
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x11, 0xA) != 0) {
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0xA) != 0) {
         a = func_0200AE54((struct Reg *)(((Ov099Work *)p)->f1348), 2);
         b = func_0200AE54((struct Reg *)(((Ov099Work *)p)->f1348), 3);
         if (a == 3 && b == 3) {
@@ -630,12 +630,12 @@ int func_021BD584(char *p, int v)
     int t;
     t = func_021BA928(p);
     if (t == 0) return v;
-    if (func_0203D378() == 0) {
+    if (GFL_NET_IsParentAid() == 0) {
         func_021BA874(p, ((Ov099Work *)p)->f242 - 1);
         func_021BAAB8(p, 0x77, 0);
         ((Ov099Work *)p)->f1CC = 0x6f;
     } else {
-        func_02039C68((struct Link *)func_020399A8(), 0x1b, 10);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 10);
         ((Ov099Work *)p)->f1CC = 0x49;
     }
     return v;
@@ -663,7 +663,7 @@ int func_021BD5D8(char *p, int v)
 int func_021BD5FC(char *p, int ret)
 {
     int v;
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     v = func_021BA858(p);
     if (v == -1) return ret;
     if (v == 0) p[0x1353] = 0x44;
@@ -682,7 +682,7 @@ int func_021BD63C(char *p, int v)
 {
     int state;
     func_021BA928(p);
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x1a, 10) != 0) {
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1a, 10) != 0) {
         state = ((Ov099Work *)p)->f1357;
         if (state != 0) ((Ov099Work *)p)->f1CC = state;
         else ((Ov099Work *)p)->f1CC = 0x15;
@@ -699,7 +699,7 @@ int func_021BD63C(char *p, int v)
 int func_021BD678(char *p, int v)
 {
     func_021BA928(p);
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x1b, 10) != 0) {
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 10) != 0) {
         ((Ov099Work *)p)->f1CC = 0x48;
     }
     return v;
@@ -713,7 +713,7 @@ int func_021BD678(char *p, int v)
 int func_021BD6A0(char *p, int v)
 {
     func_021C18C8(p, 1, 2);
-    func_02039C68((struct Link *)func_020399A8(), 0x19, 10);
+    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 10);
     ((Ov099Work *)p)->f135C = 0;
     ((Ov099Work *)p)->f1CC = 0x9c;
     return v;
@@ -727,10 +727,10 @@ int func_021BD6A0(char *p, int v)
 int func_021BD6D0(char *p, int v)
 {
     int zero;
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x19, 10) == 0) return v;
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x19, 10) == 0) return v;
     zero = 0;
     GFL_NET_SetAutoExit(0);
-    if (func_0203D378(func_0203D7BC(0)) != 0) {
+    if (GFL_NET_IsParentAid(GFL_NET_SetLoginOption(0)) != 0) {
         func_021BAAB8(p, 0x7c, zero);
     } else {
         func_021BAAB8(p, 0x7d, zero);
@@ -748,7 +748,7 @@ int func_021BD71C(char *p, int v)
 {
     func_021C18C8(p, 1, 2);
     GFL_NET_SetAutoExit(0);
-    func_0203D7BC(0);
+    GFL_NET_SetLoginOption(0);
     ((Ov099Work *)p)->f1CC = 0xa9;
     return v;
 }
@@ -781,7 +781,7 @@ int func_021BD778(char *p, int v)
 {
     func_021C18C8(p, 1, 2);
     GFL_NET_SetAutoExit(0);
-    func_0203D7BC(0);
+    GFL_NET_SetLoginOption(0);
     ((Ov099Work *)p)->f1CC = 0x99;
     return v;
 }
@@ -819,7 +819,7 @@ int func_021BD7D4(u8 *p, int b)
 int func_021BD7E0(char *p, int v)
 {
     func_021C18C8(p, 1, 2);
-    if (func_0203D378() != 0) func_021BAAB8(p, 0x73, 0);
+    if (GFL_NET_IsParentAid() != 0) func_021BAAB8(p, 0x73, 0);
     else func_021BAAB8(p, 0x72, 0);
     ((Ov099Work *)p)->f1CC = 0x8e;
     return v;
@@ -831,7 +831,7 @@ int func_021BD814(char *p, int v)
 {
     int zero = 0;
     GFL_NET_SetAutoExit(zero);
-    func_0203D7BC(zero);
+    GFL_NET_SetLoginOption(zero);
     ((Ov099Work *)p)->f1E0 = zero;
     ((Ov099Work *)p)->f1CC = 0x91;
     return v;
@@ -878,7 +878,7 @@ int func_021BD864(char *p, int v)
 int func_021BD888(char *p, int v)
 {
     int t;
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     t = func_021BA858(p);
     if (t == -1) return v;
     if (t == 0) {

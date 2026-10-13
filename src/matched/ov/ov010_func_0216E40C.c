@@ -1,5 +1,5 @@
 /*
- * function: func_0216E40C
+ * function: FLDMMDL_GetDrawProcList
  * address:  0x0216E40C
  * packet:   pkt_0216E40C
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern u32 d_021D770C[];
 
-u32 func_0216E40C(int i)
+u32 FLDMMDL_GetDrawProcList(int i)
 {
     return d_021D770C[i];
 }

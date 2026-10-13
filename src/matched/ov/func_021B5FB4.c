@@ -1,5 +1,5 @@
 /*
- * function: func_021B5FB4
+ * function: SCRCMD_POKEMON_FLD_GetTutorFriendship
  * address:  0x021B5FB4
  * packet:   pkt_021B5FB4
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021B5FB4(u32 a)
+int SCRCMD_POKEMON_FLD_GetTutorFriendship(u32 a)
 {
 return 255;
 }

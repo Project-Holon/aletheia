@@ -1,5 +1,5 @@
 /*
- * function: func_021628E4
+ * function: EVENTDATA_SYSTEM_SearchRailPosEvent
  * address:  0x021628E4
  * packet:   pkt_ov010_021628E4
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02162FC8  0x02162FC8  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsPosEventRailHit  0x02162FC8  thumb  ov010
  *   func_020143CC  0x020143CC  thumb
  */
 
@@ -32,10 +32,10 @@ struct Ctx {
 };
 
 typedef unsigned int   u32;
-extern int func_02162FC8(char *p, u16 *v);
+extern int EVENTDATA_SYSTEM_IsPosEventRailHit(char *p, u16 *v);
 extern u32 func_020143CC(u32 a, u32 b);
 
-struct Rec *func_021628E4(struct Ctx *c, void *a, int key)
+struct Rec *EVENTDATA_SYSTEM_SearchRailPosEvent(struct Ctx *c, void *a, int key)
 {
     struct Rec *r = c->f28;
     u16 i;
@@ -44,7 +44,7 @@ struct Rec *func_021628E4(struct Ctx *c, void *a, int key)
     if (r != 0) {
         n = c->f18;
         for (i = 0; i < n; i++, r++) {
-            if (func_02162FC8((char *)r, (u16 *)key) != 0) {
+            if (EVENTDATA_SYSTEM_IsPosEventRailHit((char *)r, (u16 *)key) != 0) {
                 v = *((u16 *)func_020143CC((u32)a, r->f4));
                 if (v == r->f2)
                     return r;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218ECB4
+ * function: FIELD_CAMERA_GetTargetRaw
  * address:  0x0218ECB4
  * packet:   pkt_ov021_0218ECB4
  * region:   ov021
@@ -19,7 +19,7 @@ typedef signed int     s32;
 
 typedef struct { u32 a, b, c; } Vec3;
 
-void func_0218ECB4(u8 *a, Vec3 *out)
+void FIELD_CAMERA_GetTargetRaw(u8 *a, Vec3 *out)
 {
     *out = *(Vec3 *)(a + 0x48);
 }

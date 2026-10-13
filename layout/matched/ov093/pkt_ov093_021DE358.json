@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE358",
-    "func_021DE368"
+    "BTL_HANDLER_ITEM_MentalHerbUseWhenForced",
+    "BTL_HANDLER_ITEM_GetBrightPowderHandlers"
+   ],
+   "addresses": [
+    "0x021DE358",
+    "0x021DE368"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,5 +1,5 @@
 /*
- * function: func_0218BCE4
+ * function: FIELD_BUILDMODEL_InitSeason
  * address:  0x0218BCE4
  * packet:   pkt_0218BCE4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Stores a tag and a byte, then tail calls with the same operands.
  *
  * symbols:
- *   func_0218BCF4  0x0218BCF4  thumb  ov021
+ *   FIELD_BUILDMODEL_UpdateSeasonState  0x0218BCF4  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0218BCF4(u32 *p, u32 v, u32 tag);
+extern void FIELD_BUILDMODEL_UpdateSeasonState(u32 *p, u32 v, u32 tag);
 
-void func_0218BCE4(u32 *p, u8 v)
+void FIELD_BUILDMODEL_InitSeason(u32 *p, u8 v)
 {
     p[0] = 5;
     *((u8 *)p + 0xd) = v;
-    func_0218BCF4(p, v, 5);
+    FIELD_BUILDMODEL_UpdateSeasonState(p, v, 5);
 }

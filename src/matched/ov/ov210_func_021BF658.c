@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B93B8 0x021B93B8 thumb ov067
+ *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb ov067
  *   func_021BEDF0 0x021BEDF0 thumb ov210
  *   func_021BFB8C 0x021BFB8C thumb ov210
  */
 #include "../include/Obj25628.h"
-extern int func_021B93B8(char *);
+extern int FRAME_LIST_GetScrollPos(char *);
 extern void func_021BEDF0(int p, int i, int v);
 extern void func_021BFB8C(char *ctx, unsigned long slot, int y, int flag);
 void func_021BF658(char *p)
 {
-    short base = func_021B93B8(*(char * *)&((struct Obj25628 *)p)->f1E0);
+    short base = FRAME_LIST_GetScrollPos(*(char * *)&((struct Obj25628 *)p)->f1E0);
     short i;
     for (i = 0; i < 14; i++) {
         func_021BEDF0((int)p, i + 15, 0);

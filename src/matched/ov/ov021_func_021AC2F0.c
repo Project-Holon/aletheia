@@ -1,5 +1,5 @@
 /*
- * function: func_021AC2F0
+ * function: FLDEFF_SHADOW_Init
  * address:  0x021AC2F0
  * packet:   pkt_ov021_021AC2F0
  * region:   ov021
@@ -10,10 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_021AC178  0x021AC178  thumb  ov021
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_0216E1A4  0x0216E1A4  thumb  ov010
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FLDMMDL_GetCheckInfo  0x0216E1A4  thumb  ov010
+ *   BILLBOARD_SetElemPolyId  0x0204F6DC  arm  arm9
+ *   BILLBOARD_ACT_CreateEntries  0x02050340  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -50,22 +52,22 @@ typedef struct P {
 
 struct BbActDesc;
 struct BbActSys;
-extern int func_021AC1AC(u32 a);
-extern int func_0216E1A4(int a0, int a1);
-extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
-extern void func_021AC154(u32 a);
-extern void func_0204F6DC(u8 *a0, int i, u8 *px);
-extern void func_021AC178(u32 a);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
+extern int FLDMMDL_GetCheckInfo(int a0, int a1);
+extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
+extern void FIELD_EFFECT_DeleteObject(u32 a);
+extern void BILLBOARD_SetElemPolyId(u8 *a0, int i, u8 *px);
+extern void FIELD_EFFECT_UpdateObject(u32 a);
 
-void func_021AC2F0(u32 a, P *p)
+void FLDEFF_SHADOW_Init(u32 a, P *p)
 {
-    u32 *q = (u32 *)func_021AC1AC(a);
+    u32 *q = (u32 *)FIELD_EFFECT_GetObjectParam(a);
     Arg4 t;
     Desc s;
 
     p->sys = (Sys *)q[0];
     p->f8 = q[1];
-    func_0216E1A4(q[1], (int)p->fc);
+    FLDMMDL_GetCheckInfo(q[1], (int)p->fc);
     s.slot = 0;
     s.v12 = 0x1000;
     s.v14 = 0x1000;
@@ -79,12 +81,12 @@ void func_021AC2F0(u32 a, P *p)
     }
     s.f1c = 0;
     s.f20 = (u32)p;
-    p->f14 = func_02050340((struct BbActSys *)p->sys->f10, (u16)p->sys->f18, (const struct BbActDesc *)(&s), 1, 3);
+    p->f14 = BILLBOARD_ACT_CreateEntries((struct BbActSys *)p->sys->f10, (u16)p->sys->f18, (const struct BbActDesc *)(&s), 1, 3);
     if (p->f14 == 0xFFFF) {
-        func_021AC154(a);
+        FIELD_EFFECT_DeleteObject(a);
         return;
     }
     t.b0 = 2;
-    func_0204F6DC((u8 *)p->sys->f14, p->f14, (u8 *)(&t));
-    func_021AC178(a);
+    BILLBOARD_SetElemPolyId((u8 *)p->sys->f14, p->f14, (u8 *)(&t));
+    FIELD_EFFECT_UpdateObject(a);
 }

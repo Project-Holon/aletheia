@@ -1,5 +1,5 @@
 /*
- * function: func_020188AC
+ * function: POKE_TOOL_CheckTmCompat
  * address:  0x020188AC
  * packet:   pkt_020188AC
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern u32 POKE_TOOL_CheckBoxTmCompat(void *p, int v);
 
-u32 func_020188AC(void *p, int v)
+u32 POKE_TOOL_CheckTmCompat(void *p, int v)
 {
     return POKE_TOOL_CheckBoxTmCompat(p, v);
 }

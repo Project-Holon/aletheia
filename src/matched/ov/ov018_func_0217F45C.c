@@ -1,5 +1,5 @@
 /*
- * function: func_0217F45C
+ * function: EVENT_COMM_COMMON_DeleteListWindow
  * address:  0x0217F45C
  * packet:   pkt_ov018_0217F45C
  * region:   ov018
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02190728  0x02190728  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  */
 
 typedef struct {
@@ -29,12 +29,12 @@ typedef struct {
 } Ov018Obj;
 
 typedef unsigned int   u32;
-int func_02190728(void *a);
+int FIELD_MSGBG_DeleteMsgWin(void *a);
 
-void func_0217F45C(Ov018Obj *p)
+void EVENT_COMM_COMMON_DeleteListWindow(Ov018Obj *p)
 {
     if (p->f1C != 0) {
-        func_02190728((void *)p->f1C);
+        FIELD_MSGBG_DeleteMsgWin((void *)p->f1C);
         p->f1C = 0;
     }
 }

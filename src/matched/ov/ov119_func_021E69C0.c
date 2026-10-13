@@ -11,7 +11,7 @@
  * interface: 02040618 forwards legacy r3 only to 02042360, whose full body
  *            has three inputs and does not read it; caller supplies r0-r2.
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   func_02040618 0x02040618 arm
  */
@@ -20,7 +20,7 @@ typedef struct { short x,y; } Pt;
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
@@ -33,20 +33,20 @@ int func_021E69C0(char *p)
     if(((struct Obj05337 *)p)->f11DE<128) ((struct Obj05337 *)p)->f11DE+=4;
     else return 1;
     for(i=0;i<8;i++) {
-        func_0204B454(*(void **)(p+i*4+0x10cc),(struct PtS *)&a,1);
+        CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x10cc),(struct PtS *)&a,1);
         if(i/4) a.x+=4; else a.x-=4;
         func_0204B404(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1008)) {
-            func_0204B454(*(void **)(p+i*4+0x1008),(struct PtS *)&b,1);
+            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1008),(struct PtS *)&b,1);
             b.x-=4;
             func_0204B404(*(void **)(p+i*4+0x1008),(const struct Vec2 *)(&b),1);
         }
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1014)) {
-            func_0204B454(*(void **)(p+i*4+0x1014),(struct PtS *)&c,1);
+            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1014),(struct PtS *)&c,1);
             c.x+=4;
             func_0204B404(*(void **)(p+i*4+0x1014),(const struct Vec2 *)(&c),1);
         }

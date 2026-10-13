@@ -18,10 +18,10 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021DA3C0 0x021DA3C0 thumb ov121
  *   func_021DBEE4 0x021DBEE4 thumb ov121
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   func_021DAB50 0x021DAB50 thumb ov121
- *   func_02006984 0x02006984 thumb
- *   func_0204B454 0x0204B454 arm
+ *   PM_VOICE_Play 0x02006984 thumb
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_GetActorRotation 0x0204B5FC arm
  *   MYSTERY_ALBUM_PathAnimInit 0x021DE128 thumb ov121
  *   MYSTERY_ALBUM_PathAnimStep 0x021DE154 thumb ov121
@@ -31,12 +31,12 @@
  *   MYSTERY_ALBUM_SetBlendSub 0x021DDC44 arm ov121
  *   func_021DC064 0x021DC064 thumb ov121
  *   func_020490F4 0x020490F4 arm
- *   func_02049BDC 0x02049BDC arm
+ *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021DBF10 0x021DBF10 thumb ov121
  *   func_021DBF40 0x021DBF40 thumb ov121
  *   func_021DBF9C 0x021DBF9C thumb ov121
@@ -48,7 +48,7 @@
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204ADEC 0x0204ADEC arm
+ *   CLACT_TransferPalette 0x0204ADEC arm
  *   func_02082A48 0x02082A48 arm
  *   CLACT_SetActorRotation 0x0204B5F4 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
@@ -93,10 +93,10 @@ extern void func_02030EAC(struct Node *task);
 extern unsigned int func_020307B0(void *mem);
 extern void func_021DA3C0(void *cardView);
 extern void func_021DBEE4(u32 album);
-extern void func_0204B84C(void *actor,u8 animId);
+extern void CLACT_SetActorBgPriority(void *actor,u8 animId);
 extern void func_021DAB50(void *fadeLayer, u16 *out, u16 angle, int bank, const u16 *from, const u16 *to);
-extern u32 func_02006984(u32 soundId,u32 playerId,u32 volume,u32,u32,u32,u32,u32);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern u32 PM_VOICE_Play(u32 soundId,u32 playerId,u32 volume,u32,u32,u32,u32,u32);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern u16 CLACT_GetActorRotation(const struct Actor *actor);
 extern void MYSTERY_ALBUM_PathAnimInit(MysteryAlbumPathAnim *anim, u16 frameId, int x, int y);
 extern void func_0204B404(void *actor,const MysteryAlbumPoint16 *pos,u16 space);
@@ -146,7 +146,7 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album)
     else { setBlend=MYSTERY_ALBUM_SetBlendSub; fadeLayer=30; }
     switch(album->introPhase) {
     case 1:
-        func_0204B84C(ui->cursorActor,ui->introAnimId);
+        CLACT_SetActorBgPriority(ui->cursorActor,ui->introAnimId);
         album->introPhase=2;
         break;
     case 2:
@@ -163,8 +163,8 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album)
     case 3: album->introPhase=4; break;
     case 4:
         if(!album->skipSound)
-            album->soundHandle=func_02006984(album->soundId,album->soundPlayerId,64,0,0,0,0,0);
-        func_0204B454(ui->cursorActor,(struct PtS *)(&cursorStart),ui->screenId);
+            album->soundHandle=PM_VOICE_Play(album->soundId,album->soundPlayerId,64,0,0,0,0,0);
+        CLACT_GetActorSurfacePos(ui->cursorActor,(struct PtS *)(&cursorStart),ui->screenId);
         MYSTERY_ALBUM_PathAnimInit(&album->pathAnim,CLACT_GetActorRotation(ui->cursorActor),cursorStart.x,cursorStart.y);
         album->introPhase=5;
         break;
@@ -194,7 +194,7 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album)
         break;
     case 7: album->introPhase=8; break;
     case 8:
-        func_0204B84C(ui->cursorActor,ui->idleAnimId);
+        CLACT_SetActorBgPriority(ui->cursorActor,ui->idleAnimId);
         album->introPhase=0;
         break;
     }
@@ -237,12 +237,12 @@ struct Actor;
 
 extern int func_021DC064(void *album);
 extern void *func_020490F4(unsigned int arcId, unsigned int heapId);
-extern void func_02049BDC(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 palOffset, u32 size, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 palOffset, u32 size, u16 heapId);
 extern u32 func_02049658(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 x, u32 y, u16 heapId);
 extern void func_020498F4(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 x, u32 y, u16 heapId);
 extern void func_020413B0(u8 bgLayer, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 bgLayer);
-extern void func_02049238(void *arc);
+extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void *func_021DBF10(void *album,u16 heapId);
 extern u32 func_021DBF40(void *album);
 extern int func_021DBF9C(void *album);
@@ -255,12 +255,12 @@ extern void *func_02049E74(void *arc, u32 fileId, u32 compressed, u32 res, u16 h
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 extern void func_0204B6F4(struct Obj *actor, u32 animId, u32 flag);
 extern void func_0204B3DC(struct Obj *actor, u32 visible);
-extern void func_0204ADEC(u32,void *,u32);
+extern void CLACT_TransferPalette(u32,void *,u32);
 extern void func_02082A48(u32 value,void *dst,u32 size);
 extern void CLACT_SetActorRotation(struct Actor *actor, u16 frame);
 extern int CLACT_GetPaletteVramAddress(u32 paletteHandle, u32 screenId);
 extern void func_0207D63C(void *reg,int,int,int,int);
-extern void func_0204B84C(void *actor,u8 animId);
+extern void CLACT_SetActorBgPriority(void *actor,u8 animId);
 #pragma thumb off
 extern void MYSTERY_ALBUM_SetBlendMain(int eva,int evb);
 extern void MYSTERY_ALBUM_SetBlendSub(int eva,int evb);
@@ -309,12 +309,12 @@ void MYSTERY_ALBUM_LoadBgWithTilemap(const MysteryAlbumBgSetup *bgSetup,MysteryA
     if (bgSetup->bgLayer<=3) tilemapFile=27;
     imageId=func_021DC064(album);
     arc=func_020490F4(34,heapId);
-    func_02049BDC(arc,4,screenOffset,imageId*32,bgSetup->paletteNumber*32,32,heapId);
+    ARC_UTIL_UploadPaletteFromHandle(arc,4,screenOffset,imageId*32,bgSetup->paletteNumber*32,32,heapId);
     func_02049658(arc,13,bgSetup->bgLayer,0,0,0,heapId);
     func_020498F4(arc,(u16)tilemapFile,bgSetup->bgLayer,0,0,0,heapId);
     func_020413B0((u8)bgSetup->bgLayer,0,0,34,24,bgSetup->paletteNumber);
     func_020409B4((u8)bgSetup->bgLayer);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
 }
 
 
@@ -332,10 +332,10 @@ void MYSTERY_ALBUM_LoadBgPalette(MysteryAlbumBgSetup *bgSetup,MysteryAlbum *albu
     if (bgSetup->bgLayer>=4) screenOffset=4;
     imageId=func_021DC064(album);
     arc=func_020490F4(34,heapId);
-    func_02049BDC(arc,4,screenOffset,imageId*32,bgSetup->paletteNumber*32,32,heapId);
+    ARC_UTIL_UploadPaletteFromHandle(arc,4,screenOffset,imageId*32,bgSetup->paletteNumber*32,32,heapId);
     func_020413B0((u8)bgSetup->bgLayer,0,0,34,24,bgSetup->paletteNumber);
     func_020409B4((u8)bgSetup->bgLayer);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
 }
 
 
@@ -381,14 +381,14 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     iconGfxAlloc=func_02049E74(arc,(int)func_021DBF9C(album),(int)0,(u32)(&iconGfxRes),album->heapId);
     CLACT_TransferCharacterPart(ui->bgHandleA,*(void **)((char *)iconGfxRes+20),512,0,ui->screenId);
     func_020307B0(iconGfxAlloc);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     iconPos.x=216; iconPos.y=22;
     if (func_021DC024(album)==2) {iconPos.x+=4;iconPos.y+=8;}
     func_0204B6F4(ui->iconActor,(u8)func_021DBF70(album),0);
     func_0204B404(ui->iconActor, (const MysteryAlbumPoint16 *)&iconPos, ui->screenId);
     func_0204B3DC(ui->iconActor,1);
     if (func_021DC024(album)==1) {
-        func_0204ADEC(ui->paletteHandle,*(void **)((char *)album->paletteRes+12),1);
+        CLACT_TransferPalette(ui->paletteHandle,*(void **)((char *)album->paletteRes+12),1);
         func_02082D44(*(void **)((char *)album->paletteRes+12),ui->palImage,32);
         func_02082A48(0,ui->palBlack,32);
         CLACT_TransferCharacterPart(ui->bgHandleB,*(void **)((char *)album->bgDataRes+20),0x1200,0,ui->screenId);
@@ -421,7 +421,7 @@ void MYSTERY_ALBUM_ResetIntro(MysteryAlbum *album)
     if (func_021DC024(album)==1) {
         album->introPhase=0;
         album->introTick=0;
-        func_0204B84C(album->ui->cursorActor,album->ui->idleAnimId);
+        CLACT_SetActorBgPriority(album->ui->cursorActor,album->ui->idleAnimId);
         if (album->ui->isMainScreen) {
             paletteRam=(char *)(CLACT_GetPaletteVramAddress(album->ui->paletteHandle,album->ui->screenId)+0x05000200);
             setBlend=MYSTERY_ALBUM_SetBlendMain;

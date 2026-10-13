@@ -21,6 +21,8 @@
  *
  * symbols:
  *   func_0200ADF0_File  0x020A71B4  data
+ *   STRBUF_Create  0x020457B0  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *
  * alias: the original source file is named in the image.  The constructor at
  * 0x0200ADF0 passes 0x020A71B4 to the debug allocator at 0x02030734, and the
@@ -85,9 +87,9 @@ struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern const char func_0200ADF0_File[];
 
 struct Reg {
@@ -171,12 +173,12 @@ void func_0200AE18(struct Reg *p, void *dest)
     void *g = func_02045B38(0, 2, 0xA6, 1);
 
     func_02045CAC(g, ((struct Obj17006 *)p)->f0, dest);
-    func_02045C04(g);
+    MSGDATA_Delete(g);
 }
 
 void *func_0200AE3C(struct Reg *p, u32 heap)
 {
-    void *dest = func_020457B0(0x1A, heap);
+    void *dest = STRBUF_Create(0x1A, heap);
 
     func_0200AE18(p, dest);
     return dest;

@@ -1,5 +1,5 @@
 /*
- * function: func_0215A660
+ * function: SCRCMD_WORK_SetWindowState
  * address:  0x0215A660
  * packet:   pkt_ov010_0215A660
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Setter: byte at +0x104 of the object whose pointer sits at +0x20.
- * Unlabelled leaf (leaf of func_021B03E4).
+ * Unlabelled leaf (leaf of SCRCMD_MSGWIN_OpenInfoSysWin).
  *
  * symbols:
  *   (none)
@@ -20,7 +20,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-void func_0215A660(u8 *p, u32 v)
+void SCRCMD_WORK_SetWindowState(u8 *p, u32 v)
 {
     *((u8 *)((struct Obj18793 *)p)->f20 + 0x104) = v;
 }

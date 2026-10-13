@@ -34,8 +34,8 @@
  *   func_021BDFEC 0x021BDFEC thumb ov172
  *   func_021BA244 0x021BA244 thumb ov172
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -90,8 +90,8 @@ extern u32 func_021B8740(int a, int b, u8 c, u32 d);
 extern int func_021BDFEC(void *ctx);
 extern u32 func_021BA244(void *p);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 #pragma opt_propagation off
 void func_021B97AC(void *ctx, struct St *st)
@@ -162,8 +162,8 @@ void func_021B97AC(void *ctx, struct St *st)
             break;
         if (func_021B8740((int)ctx, id, 7, 0) == 1) {
             st->sub = 4;
-            func_02043B5C(func_02045770(st->f2c), 0);
-            func_02045334(st->f2c);
+            BMP_Clear(func_02045770(st->f2c), 0);
+            BMP_WIN_TransferChars(st->f2c);
             return;
         }
         break;

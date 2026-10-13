@@ -1,5 +1,5 @@
 /*
- * function: func_021B3568
+ * function: SCRCMD_PROC_FLD_PayPrice
  * address:  0x021B3568
  * packet:   pkt_ov021_021B3568
  * region:   ov021
@@ -29,7 +29,7 @@ extern void func_0200DA98(struct Blk1AC *p, u16 v);
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
-void func_021B3568(u8 *w, u32 b)
+void SCRCMD_PROC_FLD_PayPrice(u8 *w, u32 b)
 {
     if (w[0x163] == 0) {
         func_0200C29C((struct Blk34 *)(((struct Obj05049 *)w)->fC), b);

@@ -14,8 +14,8 @@
  * symbols:
  *   func_021F4F60 0x021F4F60 thumb ov112
  *   func_021F4AC8 0x021F4AC8 thumb ov112
- *   func_0204F638 0x0204F638 arm
- *   func_0204F684 0x0204F684 arm
+ *   BILLBOARD_SetElemPos 0x0204F638 arm
+ *   BILLBOARD_SetElemScale 0x0204F684 arm
  *   BILLBOARD_SetElemRotZ 0x0204F7C4 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
  */
@@ -35,8 +35,8 @@ struct Trip { u32 a,b,c; };
 struct Manager0204F684;
 extern void func_021F4F60(u8 *,Offset *);
 extern void func_021F4AC8(u8 *p, u8 *a, u8 *b);
-extern void func_0204F638(u8 *,int,struct Trip *);
-extern void func_0204F684(struct Manager0204F684 *,int,const s16 *,const s16 *);
+extern void BILLBOARD_SetElemPos(u8 *,int,struct Trip *);
+extern void BILLBOARD_SetElemScale(struct Manager0204F684 *,int,const s16 *,const s16 *);
 extern void BILLBOARD_SetElemRotZ(u8 *,int,u16 *);
 extern s16 FX_SinCosTable_[];
 void func_021F4990(Object *p)
@@ -62,11 +62,11 @@ void func_021F4990(Object *p)
             v.a=(e->x-x)/16;
             v.b=(0xC0000-(e->y-y))/16;
             v.c=e->z;
-            func_0204F638(p->board,e->index,&v);
+            BILLBOARD_SetElemPos(p->board,e->index,&v);
             func_021F4AC8((u8 *)e,&scale.y,&scale.x);
             scale.a=e->a*scale.y;
             scale.b=e->b*scale.x;
-            func_0204F684((struct Manager0204F684 *)p->board,e->index,&scale.a,&scale.b);
+            BILLBOARD_SetElemScale((struct Manager0204F684 *)p->board,e->index,&scale.a,&scale.b);
             BILLBOARD_SetElemRotZ(p->board,e->index,&e->angle);
             p->entries[i].flags.bits.dirty=0;
         }

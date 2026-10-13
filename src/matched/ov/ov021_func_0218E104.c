@@ -1,5 +1,5 @@
 /*
- * function: func_0218E104
+ * function: FIELD_CAMERA_Main
  * address:  0x0218E104
  * packet:   pkt_ov021_0218E104
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218E58C  0x0218E58C  thumb
+ *   FIELD_CAMERA_UpdateMode  0x0218E58C  thumb
  */
 #include "../include/Obj01653.h"
 
@@ -21,12 +21,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0218E58C(u8 *a, u32 b);
+extern void FIELD_CAMERA_UpdateMode(u8 *a, u32 b);
 
-void func_0218E104(u8 *a, u32 b)
+void FIELD_CAMERA_Main(u8 *a, u32 b)
 {
     void (*fp)(void *, u32) = *(void (**)(void *, u32))(a + 0x1ac);
     if (fp != 0)
         fp(a, ((struct Obj01653 *)a)->f1A8);
-    func_0218E58C(a, b);
+    FIELD_CAMERA_UpdateMode(a, b);
 }

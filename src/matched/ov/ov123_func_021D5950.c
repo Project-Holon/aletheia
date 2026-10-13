@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern int func_02045CAC(void *, int, void *);
+extern int MSGDATA_ReadString(void *, int, void *);
 
 int func_021D5950(u8 *p, int x)
 {
-    return func_02045CAC(((struct Obj13972 *)p)->f20, x, ((struct Obj13972 *)p)->f2C);
+    return MSGDATA_ReadString(((struct Obj13972 *)p)->f20, x, ((struct Obj13972 *)p)->f2C);
 }

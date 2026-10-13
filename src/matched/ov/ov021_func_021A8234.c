@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218C860  0x0218C860  thumb
+ *   FIELD_BUILDMODEL_DeleteNode  0x0218C860  thumb
  */
 
 typedef struct {
@@ -18,11 +18,11 @@ typedef struct {
     int f28;
 } S;
 
-extern void func_0218C860(int a);
+extern void FIELD_BUILDMODEL_DeleteNode(int a);
 
 void func_021A8234(S *s)
 {
     if (s->f28 != 0) {
-        func_0218C860(s->f28);
+        FIELD_BUILDMODEL_DeleteNode(s->f28);
     }
 }

@@ -96,88 +96,88 @@ typedef struct WeatherDiamondDustSparkle {
 } WeatherDiamondDustSparkle;
 
 /* Weather task services (ov021 weather_task.c). */
-extern void *func_021A21B8(WeatherTaskSys *task);
-extern void func_021A21F8(WeatherTaskSys *task, int count, int interval, int targetCount, int targetInterval, int intervalStep, int stepsPerCountChange, int countStep, WeatherSpawnFunc spawn);
-extern void func_021A22E0(WeatherTaskSys *task, int slope, int offset, int phase);
-extern void func_021A2424(WeatherTaskSys *task);
-extern int func_021A223C(WeatherTaskSys *task, int arg);
-extern void func_021A232C(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
-extern int func_021A2108(WeatherTaskSys *task, int arcId, int memberId);
-extern void func_021A25BC(WeatherTaskSys *task, u16 seId);
-extern int func_021A23B0(WeatherTaskSys *task);
-extern void func_021A244C(WeatherTaskSys *task, s32 *outX, s32 *outY);
-extern void func_021A2564(WeatherTaskSys *task, int dx, int dy);
-extern void func_021A2254(WeatherTaskSys *task, WeatherSpawnFunc spawn, int iterations, int growEvery, int growBy, int heapId);
-extern int func_021A2114(WeatherTaskSys *task, int arcId, u32 memberId);
-extern int func_021A2248(WeatherTaskSys *task, int arg);
-extern void func_021A2228(WeatherTaskSys *task, int targetCount, int targetInterval, int intervalStep, int countStep);
-extern void func_021A25CC(WeatherTaskSys *task);
-extern void func_021A2390(WeatherTaskSys *task, int endOffset, int frames, int mode);
-extern int func_021A21BC(WeatherTaskSys *task);
-extern void func_021A231C(WeatherTaskSys *task, int phase);
-extern void func_021A2120(WeatherTaskSys *task, int phase);
-extern u8 *func_021A2630(WeatherParticle *particle);
-extern Actor *func_021A2638(WeatherParticle *particle);
-extern void func_021A2640(WeatherParticle *particle, WeatherScreenPos *out);
-extern void func_021A2654(WeatherParticle *particle, const WeatherScreenPos *pos);
-extern int func_021A26C4(WeatherParticle *particle, const WeatherScreenPos *pos);
-extern void func_021A21E0(WeatherParticle *particle);
-extern WeatherParticle *func_021A21C8(WeatherTaskSys *task, int reserved);
-extern void func_021A2160(WeatherTaskSys *task, unsigned int value, int layer);
-extern void func_021A2190(WeatherTaskSys *task, unsigned int value, int layer);
-extern void func_021A21A0(WeatherTaskSys *task, unsigned int value, int layer);
+extern void *WEATHER_TASK_GetWorkBuffer(WeatherTaskSys *task);
+extern void WEATHER_TASK_SetupSpawner(WeatherTaskSys *task, int count, int interval, int targetCount, int targetInterval, int intervalStep, int stepsPerCountChange, int countStep, WeatherSpawnFunc spawn);
+extern void WEATHER_TASK_InitFog(WeatherTaskSys *task, int slope, int offset, int phase);
+extern void WEATHER_TASK_SaveCameraPos(WeatherTaskSys *task);
+extern int WEATHER_TASK_StepSpawner(WeatherTaskSys *task, int arg);
+extern void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
+extern int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
+extern void WEATHER_TASK_PlaySe(WeatherTaskSys *task, u16 seId);
+extern int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
+extern void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY);
+extern void WEATHER_TASK_ShiftParticles(WeatherTaskSys *task, int dx, int dy);
+extern void WEATHER_TASK_PrewarmParticles(WeatherTaskSys *task, WeatherSpawnFunc spawn, int iterations, int growEvery, int growBy, int heapId);
+extern int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId);
+extern int WEATHER_TASK_StepSpawnTimer(WeatherTaskSys *task, int arg);
+extern void WEATHER_TASK_RetargetSpawner(WeatherTaskSys *task, int targetCount, int targetInterval, int intervalStep, int countStep);
+extern void WEATHER_TASK_StopSe(WeatherTaskSys *task);
+extern void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
+extern int WEATHER_TASK_GetParticleCount(WeatherTaskSys *task);
+extern void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
+extern void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
+extern u8 *WEATHER_TASK_GetParticleWork(WeatherParticle *particle);
+extern Actor *WEATHER_TASK_GetParticleActor(WeatherParticle *particle);
+extern void WEATHER_TASK_GetParticlePos(WeatherParticle *particle, WeatherScreenPos *out);
+extern void WEATHER_TASK_SetParticlePosWrapped(WeatherParticle *particle, const WeatherScreenPos *pos);
+extern int WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherScreenPos *pos);
+extern void WEATHER_TASK_RemoveParticle(WeatherParticle *particle);
+extern WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
+extern void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardParam0C(WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardParam10(WeatherTaskSys *task, unsigned int value, int layer);
 
 /* Arm9 services. */
 extern u16 func_02014A10(u32 i);
 extern u32 func_020056EC(u32 range);
 extern void CLACT_SetActorAnimIndex(Actor *actor, int index);
 extern u16 CLACT_GetActorAnimSeqCount(Actor *actor);
-extern void func_0204B454(Actor *actor, WeatherScreenPos *out, u32 space);
+extern void CLACT_GetActorSurfacePos(Actor *actor, WeatherScreenPos *out, u32 space);
 extern void func_0204B404(Actor *actor, const WeatherScreenPos *pos, u32 space);
 
 /* Snow stages (begin, fade in, begin at once, run, stop spawning, fade out, finish). */
 int func_021EE740(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE798(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE810(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE888(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE8B0(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE8EC(WeatherTaskSys *task, int variant, int heapId);
-int func_021EE968(WeatherTaskSys *task, int variant, int heapId);
-void func_021EE980(WeatherParticle *particle);
-void func_021EEA34(WeatherTaskSys *task, s32 count, u32 heapId);
+int WEATHER_SNOW_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SNOW_BeginPlain(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SNOW_Run(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SNOW_EndParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SNOW_EndFade(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SNOW_EndFinish(WeatherTaskSys *task, int variant, int heapId);
+void WEATHER_SNOW_UpdateParticle(WeatherParticle *particle);
+void WEATHER_SNOW_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId);
 
 /* Blizzard stages. */
-int func_021EEB0C(WeatherTaskSys *task, int variant, int heapId);
-int func_021EEB74(WeatherTaskSys *task, int variant, int heapId);
-int func_021EEBE4(WeatherTaskSys *task, int variant, int heapId);
-int func_021EEC64(WeatherTaskSys *task, int variant, u16 heapId);
-int func_021EECB0(WeatherTaskSys *task, int variant, int heapId);
-int func_021EECEC(WeatherTaskSys *task, int variant, int heapId);
-int func_021EED58(WeatherTaskSys *task, int variant, int heapId);
-void func_021EED78(WeatherParticle *particle);
-void func_021EEE04(WeatherTaskSys *task, s32 count, u16 heapId);
-void func_021EEEE0(WeatherTaskSys *task, WeatherBlizzardWork *work);
+int WEATHER_BLIZZARD_Begin(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_BLIZZARD_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_BLIZZARD_BeginPlain(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_BLIZZARD_Run(WeatherTaskSys *task, int variant, u16 heapId);
+int WEATHER_BLIZZARD_EndParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_BLIZZARD_EndFade(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_BLIZZARD_EndFinish(WeatherTaskSys *task, int variant, int heapId);
+void WEATHER_BLIZZARD_UpdateParticle(WeatherParticle *particle);
+void WEATHER_BLIZZARD_SpawnParticles(WeatherTaskSys *task, s32 count, u16 heapId);
+void WEATHER_BLIZZARD_ScrollFogLayer(WeatherTaskSys *task, WeatherBlizzardWork *work);
 
 /* Downpour stages. */
-int func_021EEF94(WeatherTaskSys *task, int variant, int heapId);
-int func_021EEFF0(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF068(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF0D0(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF100(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF12C(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF1A4(WeatherTaskSys *task, int variant, int heapId);
-void func_021EF1C4(WeatherParticle *particle);
-void func_021EF2D4(WeatherTaskSys *task, s32 count, u32 heapId);
+int WEATHER_DOWNPOUR_Begin(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DOWNPOUR_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DOWNPOUR_BeginPlain(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DOWNPOUR_Run(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DOWNPOUR_EndParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DOWNPOUR_EndFade(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DOWNPOUR_EndFinish(WeatherTaskSys *task, int variant, int heapId);
+void WEATHER_DOWNPOUR_UpdateParticle(WeatherParticle *particle);
+void WEATHER_DOWNPOUR_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId);
 
 /* Diamond dust stages. */
-int func_021EF3BC(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF404(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF47C(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF4E4(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF514(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF538(WeatherTaskSys *task, int variant, int heapId);
-int func_021EF5B0(WeatherTaskSys *task, int variant, int heapId);
-void func_021EF5D0(WeatherParticle *particle);
-void func_021EF634(WeatherTaskSys *task, s32 count, u32 heapId);
+int WEATHER_DIAMOND_DUST_Begin(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DIAMOND_DUST_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DIAMOND_DUST_BeginPlain(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DIAMOND_DUST_Run(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DIAMOND_DUST_EndParticles(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DIAMOND_DUST_EndFade(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_DIAMOND_DUST_EndFinish(WeatherTaskSys *task, int variant, int heapId);
+void WEATHER_DIAMOND_DUST_UpdateParticle(WeatherParticle *particle);
+void WEATHER_DIAMOND_DUST_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId);
 
 #endif

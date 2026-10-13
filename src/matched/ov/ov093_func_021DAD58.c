@@ -1,5 +1,5 @@
 /*
- * function: func_021DAD58
+ * function: BTL_ABILITY_TruantStartLoafing
  * address: 0x021DAD58
  * packet: pkt_ov093_021DAD58
  * region: ov093
@@ -12,12 +12,12 @@
  * its own legacy file declares void and one parameter. Preserve this
  * caller's observed result and two-argument setup without editing callee.
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
- *   func_021D5BB0 0x021D5BB0 thumb ov093
+ *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  */
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 struct UtilWork;
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5BB0(struct UtilWork *,unsigned int);
-void func_021DAD58(int a, int *b, int c, int *d) { if (c == func_021D775C(2)) { if (func_021D5BB0(func_021C7CF4(b,c),0)) *d = 1; } }
+extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *,unsigned int);
+void BTL_ABILITY_TruantStartLoafing(int a, int *b, int c, int *d) { if (c == BTL_EVENT_GetVar(2)) { if (BTL_POKEPARAM_TestTurnFlag(func_021C7CF4(b,c),0)) *d = 1; } }

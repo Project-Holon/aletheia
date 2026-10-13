@@ -1,5 +1,5 @@
 /*
- * function: func_021EE9A4
+ * function: BTL_REC_MakeResetPacket
  * address:  0x021EE9A4
  * packet:   pkt_ov093_021EE9A4
  * region:   ov093
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 *func_021EE9A4(u8 *p, u32 *out)
+u8 *BTL_REC_MakeResetPacket(u8 *p, u32 *out)
 {
     p[4] = 0;
     p[5] = 0x30;

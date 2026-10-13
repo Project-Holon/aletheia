@@ -15,7 +15,7 @@
  *   func_02049B68   0x02049B68  arm
  *   GFL_NET_WM_ICON_GetCharOffset   0x02036F04  arm
  *   func_02049800   0x02049800  arm
- *   func_02049238   0x02049238  arm
+ *   ARC_TOOL_DeleteHandle   0x02049238  arm
  */
 
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a0, u32 a1, void *a2, int a3, int a4, int a5);
 extern int GFL_NET_WM_ICON_GetCharOffset(int a0);
 extern void func_02049800(void *a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
-extern void func_02049238(void *a0);
+extern void ARC_TOOL_DeleteHandle(void *a0);
 
 void GFL_NET_WM_ICON_LoadGraphics(int a0, int b, int c)
 {
@@ -53,5 +53,5 @@ void GFL_NET_WM_ICON_LoadGraphics(int a0, int b, int c)
     idx = (b == 0) ? 1 : 0;
     t2 = GFL_NET_WM_ICON_GetCharOffset(a0);
     func_02049800(v, t[idx], q, t2, 0, 0, c);
-    func_02049238(v);
+    ARC_TOOL_DeleteHandle(v);
 }

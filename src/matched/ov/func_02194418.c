@@ -1,5 +1,5 @@
 /*
- * function: func_02194418
+ * function: FIELD_COMM_ACTOR_DeleteActor
  * address:  0x02194418
  * packet:   pkt_02194418
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216CF2C  0x0216CF2C  thumb  ov010
+ *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   func_02082BCC  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
@@ -24,12 +24,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02082BCC(u32, u32, u32);
-extern int func_0216CF2C(int a0, int a1);
+extern int FLDMMDL_DeleteMmdl(int a0, int a1);
 
-int func_02194418(u32 a, int a1)
+int FIELD_COMM_ACTOR_DeleteActor(u32 a, int a1)
 {
 if (((struct Obj05859 *)((u8 *)(a)))->f4 == 0) {
-    func_0216CF2C(((struct Obj05859 *)((u8 *)(a)))->f8, a1);
+    FLDMMDL_DeleteMmdl(((struct Obj05859 *)((u8 *)(a)))->f8, a1);
 }
 return func_02082BCC(a, 0, 12);
 }

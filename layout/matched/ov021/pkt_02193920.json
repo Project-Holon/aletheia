@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02193920",
+   "name": "FIELD_WFBC_IsBackPeople",
    "address": "0x02193920",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02193AFC",
+   "name": "FIELD_WFBC_SetMmdlSys",
    "address": "0x02193AFC",
    "kind": "game",
    "region": "ov021",

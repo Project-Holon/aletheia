@@ -14,10 +14,10 @@
  *   func_02027758 0x02027758 thumb
  *   func_02027760 0x02027760 thumb
  *   func_02027764 0x02027764 thumb
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204ABF0 0x0204ABF0 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj00172.h"
 #include "../include/Obj25216.h"
@@ -31,20 +31,20 @@ extern int func_0202775C(int);
 extern int func_02027758(void);
 extern int func_02027760(int);
 extern int func_02027764(int);
-extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
-extern int func_0204ABF0(void *,unsigned,unsigned,unsigned,u16);
+extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
+extern int CLACT_RegisterPalette(void *,unsigned,unsigned,unsigned,u16);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_0220E5FC(char *p)
 {
     void *owner;
     int first;
     owner=func_020490F4(func_020275E4(),(u16)((((struct Obj25216 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000));
-    ((struct Obj00172 *)p)->f2508=func_0204A6C8(owner,func_0202775C(0),0,1,((struct Obj25217 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
-    ((struct Obj00172 *)p)->f2520=func_0204ABF0(owner,func_02027758(),1,0x120,((struct Obj25218 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+    ((struct Obj00172 *)p)->f2508=CLACT_RegisterCharacter(owner,func_0202775C(0),0,1,((struct Obj25217 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+    ((struct Obj00172 *)p)->f2520=CLACT_RegisterPalette(owner,func_02027758(),1,0x120,((struct Obj25218 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     first=func_02027760(0);
-    ((struct Obj00172 *)p)->f2538=func_0204AF28(owner,first,func_02027764(0),((struct Obj25219 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
-    func_02049238(owner);
+    ((struct Obj00172 *)p)->f2538=CLACT_RegisterCellAnim(owner,first,func_02027764(0),((struct Obj25219 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+    ARC_TOOL_DeleteHandle(owner);
 }

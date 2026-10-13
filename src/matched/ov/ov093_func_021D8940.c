@@ -1,5 +1,5 @@
 /*
- * function: func_021D8940
+ * function: BTL_CALC_SlowStartOnEnter
  * address: 0x021D8940
  * packet: pkt_ov093_021D8940
  * region: ov093
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D8974 0x021D8974 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_CALC_SlowStartBegin 0x021D8974 thumb ov093
  */
-extern int func_021D775C(int);
-extern void func_021D8974(void *, int, int, int *);
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_CALC_SlowStartBegin(void *, int, int, int *);
 
-void func_021D8940(void *a, int b, int c, int *d)
+void BTL_CALC_SlowStartOnEnter(void *a, int b, int c, int *d)
 {
-    if(c==func_021D775C(2)) func_021D8974(a,b,c,d);
+    if(c==BTL_EVENT_GetVar(2)) BTL_CALC_SlowStartBegin(a,b,c,d);
 }

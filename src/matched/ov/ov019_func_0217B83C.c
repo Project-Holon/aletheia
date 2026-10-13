@@ -1,5 +1,5 @@
 /*
- * function: func_0217B83C
+ * function: UNION_ONESELF_GetFieldTalkEvent
  * address:  0x0217B83C
  * packet:   pkt_ov019_0217B83C
  * region:   ov019
@@ -14,7 +14,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_0217B83C(void *sys, void *pos)
+int UNION_ONESELF_GetFieldTalkEvent(void *sys, void *pos)
 {
     return 0;
 }

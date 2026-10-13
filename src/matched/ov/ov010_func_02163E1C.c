@@ -1,5 +1,5 @@
 /*
- * function: func_02163E1C
+ * function: FLDMMDL_MOVE_GetMapAttrInfo
  * address: 0x02163E1C
  * packet: pkt_ov010_02163E1C
  * region: ov010
@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0216D67C 0x0216D67C thumb ov010
- *   func_0216D52C 0x0216D52C thumb ov010
- *   func_0218DAEC 0x0218DAEC thumb ov021
+ *   FLDMMDL_GetMmdlSys 0x0216D67C thumb ov010
+ *   FLDMMDL_SysGetG3dMapper 0x0216D52C thumb ov010
+ *   FIELD_G3D_MAPPER_QueryNearestHit 0x0218DAEC thumb ov021
  */
 
 typedef unsigned short u16;
 typedef struct { u16 a,b,c,d; int p,q; } E;
-extern void *func_0216D67C(void *);
+extern void *FLDMMDL_GetMmdlSys(void *);
 typedef unsigned int   u32;
-extern u32 func_0216D52C(void *p);
-extern int func_0218DAEC(char *, char *, E *);
-int func_02163E1C(void *a, char *b, E *c) { return func_0218DAEC((char *)func_0216D52C(func_0216D67C(a)),b,c); }
+extern u32 FLDMMDL_SysGetG3dMapper(void *p);
+extern int FIELD_G3D_MAPPER_QueryNearestHit(char *, char *, E *);
+int FLDMMDL_MOVE_GetMapAttrInfo(void *a, char *b, E *c) { return FIELD_G3D_MAPPER_QueryNearestHit((char *)FLDMMDL_SysGetG3dMapper(FLDMMDL_GetMmdlSys(a)),b,c); }

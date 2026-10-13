@@ -1,5 +1,5 @@
 /*
- * function: func_021D8510
+ * function: BTL_CALC_RemoveAbilityHandlers
  * address: 0x021D8510
  * packet: pkt_ov093_021D8510
  * region: ov093
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D732C 0x021D732C thumb ov093
- *   func_021D7040 0x021D7040 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_EVENT_FindFactor 0x021D732C thumb ov093
+ *   BTL_EVENT_RemoveFactor 0x021D7040 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct Node;
-extern struct Node *func_021D732C(int id, int sub);
-extern void func_021D7040(struct Node *n);
-void func_021D8510(void *p) { int n = func_021D5440(p); void *a; while ((a=func_021D732C(4,n)) != 0) { func_021D7040(a); } }
+extern struct Node *BTL_EVENT_FindFactor(int id, int sub);
+extern void BTL_EVENT_RemoveFactor(struct Node *n);
+void BTL_CALC_RemoveAbilityHandlers(void *p) { int n = BTL_POKEPARAM_GetPokeId(p); void *a; while ((a=BTL_EVENT_FindFactor(4,n)) != 0) { BTL_EVENT_RemoveFactor(a); } }

@@ -1,5 +1,5 @@
 /*
- * function: func_0207DD24
+ * function: G3X_SetClearColor
  * address:  0x0207DD24
  * packet:   pkt_0207DD24
  * region:   arm9
@@ -54,7 +54,7 @@ typedef union {
 #define REG_CLIPMTX_RESULT_0_ADDR 0x04000640
 #define REG_VECMTX_RESULT_0_ADDR  0x04000680
 
-void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, BOOL fog)
+void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog)
 {
     u32 val = (u32)(rgb | (alpha << 16) | (polygonID << 24));
 

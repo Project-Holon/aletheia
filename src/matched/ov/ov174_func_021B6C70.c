@@ -10,7 +10,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02005728 0x02005728 thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   func_021B7004 0x021B7004 thumb ov174
  *   func_021B6F3C 0x021B6F3C thumb ov174
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02005728(u32 range);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_021B7004(u8 *p, u8 *q);
@@ -45,7 +45,7 @@ char *func_021B6C70(char *p,int index)
     ((struct Obj01759 *)q)->f14=0;
     ((struct Obj01759 *)q)->f34=0;
     ((struct Obj01759 *)q)->f30=func_02005728(0x4b);
-    if(((struct Obj01759 *)q)->f2==0 && func_02008550((const struct Sub0200852CObj *)func_02012944(((struct Obj24205 *)(*(char * *)&((struct Obj01422 *)p)->f30))->f4))==1) ((struct Obj01759 *)q)->f2=5;
+    if(((struct Obj01759 *)q)->f2==0 && func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct Obj24205 *)(*(char * *)&((struct Obj01422 *)p)->f30))->f4))==1) ((struct Obj01759 *)q)->f2=5;
     func_021B7004((u8 *)p,(u8 *)q);
     func_021B6F3C(p,(u8 *)q);
     func_021B71B8((u8 *)p,(u8 *)q);

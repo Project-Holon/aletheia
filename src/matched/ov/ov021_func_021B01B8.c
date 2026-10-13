@@ -1,5 +1,5 @@
 /*
- * function: func_021B01B8
+ * function: SCRCMD_MSGWIN_CreateMenuEvent
  * address:  0x021B01B8
  * packet:   pkt_ov021_021B01B8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B015C  0x021B015C  thumb  ov021
+ *   SCRCMD_MSGWIN_MenuEventMain  0x021B015C  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -23,14 +23,14 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_021B015C(void);
+extern void SCRCMD_MSGWIN_MenuEventMain(void);
 
-u32 func_021B01B8(u32 a, u32 x, u32 y)
+u32 SCRCMD_MSGWIN_CreateMenuEvent(u32 a, u32 x, u32 y)
 {
     u32 h;
     u32 *p;
 
-    h = (u32)func_020122C0((void *)a, 0, func_021B015C, 8);
+    h = (u32)func_020122C0((void *)a, 0, SCRCMD_MSGWIN_MenuEventMain, 8);
     p = func_020124E8((struct Obj *)h);
     p[0] = x;
     p[1] = y;

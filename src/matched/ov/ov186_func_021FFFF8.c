@@ -12,9 +12,9 @@
  *   021FFFF8..022000D0. Singleton tu --suggest-split confirms no viable cut.
  *   Existing integrator-owned unit_02045C44.c function verified EXACT344 with
  *   read-only fixed-flag one (ARM9-45CAC.log). No ARM9 file/shard writes.
- *   Its function: header lists only MSGDATA_CreateFromMemory, omitting func_02045CAC.
+ *   Its function: header lists only MSGDATA_CreateFromMemory, omitting MSGDATA_ReadString.
  *   Verified C follows, using that unit's declarations:
- *   void func_02045CAC(struct MsgBank *bank, u32 index, void *dest) {
+ *   void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest) {
  *     u32 size; struct MsgEntry *e;
  *     if (index >= bank->file->count) { STRBUF_Clear(dest); return; }
  *     func_02046180(bank);
@@ -39,14 +39,14 @@
  * symbols:
  *   func_021FB964 0x021FB964 thumb ov186
  *   func_02034714 0x02034714 arm
- *   func_0201F81C 0x0201F81C thumb
- *   func_020457B0 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_0201F898 0x0201F898 thumb
- *   func_02045808 0x02045808 arm
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   STRBUF_Create 0x020457B0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021FC8C8 0x021FC8C8 thumb ov186
  *   d_02200DAC 0x02200DAC data
- *   d_020A7370 0x020A7370 data
+ *   gSpeciesNameBank 0x020A7370 data
  *   d_02200CA8 0x02200CA8 data
  */
 typedef unsigned short u16;
@@ -54,18 +54,18 @@ typedef unsigned int u32;
 typedef struct { const void *str; u32 param; } Slot;
 typedef struct { u32 v[10]; } Config;
 extern char d_02200DAC[];
-extern void *d_020A7370;
+extern void *gSpeciesNameBank;
 extern const Config d_02200CA8;
 struct Slot;
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
 struct MsgBank;
 struct U16Vec;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern Slot *func_0201F81C(u32,u32);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag);
-extern void func_02045808(struct U16Vec *vec);
+extern Slot *BMP_MENUWORK_Create(u32,u32);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_021FC8C8(Config *,u32);
 void func_021FFFF8(char *p)
 {
@@ -76,13 +76,13 @@ void func_021FFFF8(char *p)
     func_021FB964((void *)(*(int *)(p+0x28)),21,*(u16 *)(p+0x24));
     if (*(void **)(p+0x64)) func_02034714(d_02200DAC,0,d_02200DAC);
     if (*(void **)(p+0x68)) func_02034714(d_02200DAC,0,d_02200DAC);
-    *(Slot **)(p+0x64)=func_0201F81C(*(u32 *)(p+0x8c),*(u16 *)(p+0x24));
-    str=func_020457B0(11,*(u16 *)(p+0x24));
+    *(Slot **)(p+0x64)=BMP_MENUWORK_Create(*(u32 *)(p+0x8c),*(u16 *)(p+0x24));
+    str=STRBUF_Create(11,*(u16 *)(p+0x24));
     for(i=0;i<*(u32 *)(p+0x8c);i++) {
-        func_02045CAC(d_020A7370,(*(u16 **)(p+0x88))[i],str);
-        func_0201F898((struct Slot *)(*(Slot **)(p+0x64)+i),(u32)str,(*(u16 **)(p+0x88))[i],*(u16 *)(p+0x24));
+        MSGDATA_ReadString(gSpeciesNameBank,(*(u16 **)(p+0x88))[i],str);
+        BMP_MENUWORK_AddStrItem((struct Slot *)(*(Slot **)(p+0x64)+i),(u32)str,(*(u16 **)(p+0x88))[i],*(u16 *)(p+0x24));
     }
-    func_02045808(str);
+    STRBUF_Delete(str);
     cfg=d_02200CA8;
     cfg.v[0]=*(u32 *)(p+0x64);
     cfg.v[1]=*(u32 *)(p+0x8c);

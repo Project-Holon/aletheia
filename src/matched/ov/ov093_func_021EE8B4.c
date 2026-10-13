@@ -1,5 +1,5 @@
 /*
- * function: func_021EE8B4
+ * function: BTL_REC_InitPacket
  * address:  0x021EE8B4
  * packet:   pkt_ov093_021EE8B4
  * region:   ov093
@@ -27,7 +27,7 @@ typedef struct {
 
 extern void func_02082BCC(void *, int, int);
 
-void func_021EE8B4(B *p, int b)
+void BTL_REC_InitPacket(B *p, int b)
 {
     func_02082BCC(p, 0, 0x40);
     p->f = (u8)b;

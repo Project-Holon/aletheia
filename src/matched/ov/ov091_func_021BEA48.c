@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA48
+ * function: PLIST_DEMO_ApplyFriendshipItem
  * address:  0x021BEA48
  * packet:   pkt_021BEA48
  * region:   ov091
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 void NATSUKI_CalcUseItem(void *a0, int a1, u16 a2, u16 a3);
 
-int func_021BEA48(int a0, int a1, int a2, int a3, u16 a4, int a5)
+int PLIST_DEMO_ApplyFriendshipItem(int a0, int a1, int a2, int a3, u16 a4, int a5)
 {
     if (a1 == 0xff && a2 > 0)
         return 0;

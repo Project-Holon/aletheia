@@ -1,5 +1,5 @@
 /*
- * function: func_021897DC
+ * function: FIELDMAP_ReflectFog
  * address:  0x021897DC
  * packet:   pkt_021897DC
  * region:   ov021
@@ -12,11 +12,11 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A0170  0x021A0170  thumb  ov021
- *   func_021A0568  0x021A0568  thumb  ov021
- *   func_02048AD0  0x02048AD0  arm
- *   func_02048C58  0x02048C58  arm
- *   func_0218CC64  0x0218CC64  thumb  ov021
+ *   FIELD_FOG_Reflect  0x021A0170  thumb  ov021
+ *   FIELD_LIGHT_Reflect  0x021A0568  thumb  ov021
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
+ *   G3D_LIGHT_ApplySlots  0x02048C58  arm
+ *   FIELD_G3D_MAPPER_Draw  0x0218CC64  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04887.h"
@@ -28,18 +28,18 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Light;
 struct LightSlot;
-extern void func_02048AD0(struct Light *l);
-extern void func_02048C58(struct LightSlot *slots);
-extern u32 func_0218CC64(u32, u32, u32);
-extern void func_021A0170(u8 *p, u32 a1, u32 a2, u32 a3);
-extern void func_021A0568(u8 *p, int force);
+extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
+extern u32 FIELD_G3D_MAPPER_Draw(u32, u32, u32);
+extern void FIELD_FOG_Reflect(u8 *p, u32 a1, u32 a2, u32 a3);
+extern void FIELD_LIGHT_Reflect(u8 *p, int force);
 
-int func_021897DC(u32 a, u32 b, u32 c, u32 d)
+int FIELDMAP_ReflectFog(u32 a, u32 b, u32 c, u32 d)
 {
-func_021A0170((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f18), b, c, d);
-func_021A0568((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f14), 0);
-func_02048AD0((struct Light *)(*(u32 *)((u8 *)((a + 164)))));
-func_02048C58((struct LightSlot *)(*(u32 *)((u8 *)((a + 168)))));
-return func_0218CC64(((struct Obj04887 *)((u8 *)(a)))->f48, *(u32 *)((u8 *)((a + 164))), 0);
+FIELD_FOG_Reflect((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f18), b, c, d);
+FIELD_LIGHT_Reflect((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f14), 0);
+G3D_CAMERA_Reset((struct Light *)(*(u32 *)((u8 *)((a + 164)))));
+G3D_LIGHT_ApplySlots((struct LightSlot *)(*(u32 *)((u8 *)((a + 168)))));
+return FIELD_G3D_MAPPER_Draw(((struct Obj04887 *)((u8 *)(a)))->f48, *(u32 *)((u8 *)((a + 164))), 0);
 }
 

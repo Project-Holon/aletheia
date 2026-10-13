@@ -1,5 +1,5 @@
 /*
- * function: func_021A6C30
+ * function: FIELD_PLAYER_NOGRID_EndInputHoldFrame
  * address:  0x021A6C30
  * packet:   pkt_ov021_021A6C30
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct {
     int f4;
 } T;
 
-void func_021A6C30(T *t)
+void FIELD_PLAYER_NOGRID_EndInputHoldFrame(T *t)
 {
     if (t->b2) {
         t->b2 = 0;

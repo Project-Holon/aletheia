@@ -1,5 +1,5 @@
 /*
- * function: func_0218AB9C
+ * function: FIELD_EVENT_CHECK_UpdateWalkFriendship
  * address:  0x0218AB9C
  * packet:   pkt_ov021_0218AB9C
  * region:   ov021
@@ -9,15 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Bumps a 7-bit counter in the save block; when it wraps, calls func_0201B7EC
+ * Bumps a 7-bit counter in the save block; when it wraps, calls NATSUKI_CalcWalk
  * on every party member with the two coordinates read from the position
  * object.
  *
  * symbols:
  *   func_02008978  0x02008978  thumb
  *   func_02008980  0x02008980  thumb
- *   func_02188C9C  0x02188C9C  thumb
- *   func_02188C84  0x02188C84  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb  arm9
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   NATSUKI_CalcWalk  0x0201B7EC  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -29,20 +32,20 @@ typedef signed short   s16;
 struct Big;
 struct BigObj;
 struct Sub02008828Obj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u16 func_02008978(const struct Sub02008828Obj *obj);
 extern void func_02008980(struct Sub02008828Obj *obj, u16 value);
-extern void *func_02012934(const struct BigObj *p);
-extern u16 func_02188C9C(u8 *p);
-extern u16 func_02188C84(u8 *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_0201B7EC(void *mon, int a, int b);
+extern void NATSUKI_CalcWalk(void *mon, int a, int b);
 
-void func_0218AB9C(void *sys, u8 *pos)
+void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *sys, u8 *pos)
 {
-    void *save = func_02008854(func_02012EBC(sys));
+    void *save = func_02008854(GAME_DATA_GetSaveControl(sys));
     int wrapped = 0;
     u16 count = func_02008978(save) + 1;
 
@@ -52,16 +55,16 @@ void func_0218AB9C(void *sys, u8 *pos)
     }
     func_02008980(save, count);
     if (wrapped) {
-        void *party = func_02012934(sys);
+        void *party = GAME_DATA_GetMyParty(sys);
         int a;
         int b;
         int n;
         int i;
 
-        a = func_02188C9C(pos);
-        b = func_02188C84(pos);
+        a = FIELDMAP_GetZoneId(pos);
+        b = FIELDMAP_GetHeapId(pos);
         n = func_0201AA18(party);
         for (i = 0; i < n; i++)
-            func_0201B7EC(func_0201AB28(party, i), a, b);
+            NATSUKI_CalcWalk(func_0201AB28(party, i), a, b);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBF98",
+   "name": "STARTMENU_HideMessageWindow",
    "address": "0x021BBF98",
    "kind": "game",
    "region": "ov088",

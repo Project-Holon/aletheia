@@ -1,5 +1,5 @@
 /*
- * function: func_021F3934
+ * function: DAILY_LAYOUT_FindPoolCell
  * address: 0x021F3934
  * packet: pkt_ov036_021F3934
  * region: ov036
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-int func_021F3934(u8 *p, int v)
+int DAILY_LAYOUT_FindPoolCell(u8 *p, int v)
 {
     int i;
     for (i = 0; i < 15; i++) {

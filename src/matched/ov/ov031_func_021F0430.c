@@ -1,5 +1,5 @@
 /*
- * function: func_021F0430
+ * function: UNION_SUBDISP_CreateLineWindows
  * address:  0x021F0430
  * packet:   pkt_ov031_021F0430
  * region:   ov031
@@ -15,14 +15,14 @@
  * leaves room for only the first stack constant (7) to be hoisted.
  *
  * symbols:
- *   func_020450F0  0x020450F0  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
 struct Slot {
     u32 h;
@@ -37,12 +37,12 @@ struct Obj {
     struct Slot s[3];
 };
 
-void func_021F0430(struct Obj *p)
+void UNION_SUBDISP_CreateLineWindows(struct Obj *p)
 {
     int i;
 
     for (i = 0; i < 3; i++) {
-        p->a[i] = func_020450F0(5, 1, (u8)(i * 0x38 / 8), 0x1D, 7, 0xF, 1);
+        p->a[i] = BMP_WIN_Create(5, 1, (u8)(i * 0x38 / 8), 0x1D, 7, 0xF, 1);
         p->s[i].h = p->a[i];
         p->s[i].f = 0;
     }

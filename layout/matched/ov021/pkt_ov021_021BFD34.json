@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BFD34",
+   "name": "EVENT_DISAPPEAR_CreateWalkFall",
    "address": "0x021BFD34",
    "kind": "game",
    "region": "ov021",

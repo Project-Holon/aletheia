@@ -14,12 +14,12 @@
  *   func_0204960C  0x0204960C  arm
  *   ARC_TOOL_ReadHandle  0x020495F4  arm
  *   MSGDATA_DecryptUnits  0x02045E3C  arm
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *
  * msgdata.c: read string msgIndex into str (at most maxLen characters),
  * either from the resident bank (mode != 0) or by seeking the archive file,
  * then decode it in place (MSGDATA_DecryptUnits) and terminate it with the EOM
- * code (func_02045A98).
+ * code (STRBUF_GetEosChar).
  *
  * The 11-byte scheduling residue of docs/notes/pkt_02045F5C.c.txt was the
  * first test's polarity: written `mode == 0` with the file arm first, the
@@ -61,7 +61,7 @@ extern void func_0204960C(void *file, u32 pos);
 struct ArcFile;
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 extern u32  MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex);
-extern u16  func_02045A98(void);
+extern u16  STRBUF_GetEosChar(void);
 
 void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
 {
@@ -104,5 +104,5 @@ void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen)
     }
 
     len = MSGDATA_DecryptUnits(str, count, msgIndex);
-    str[len] = func_02045A98();
+    str[len] = STRBUF_GetEosChar();
 }

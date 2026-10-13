@@ -1,5 +1,5 @@
 /*
- * function: func_021C8000
+ * function: FIELDSKILL_MAPEFF_UpdateFlash
  * address:  0x021C8000
  * packet:   pkt_021C8000
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards the object's first word to func_021C7DFC.
+ * Tail-call thunk: forwards the object's first word to FIELD_FLASH_Update.
  *
  * symbols:
- *   func_021C7DFC  0x021C7DFC  thumb  ov021
+ *   FIELD_FLASH_Update  0x021C7DFC  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021C7DFC(u32 v);
+extern void FIELD_FLASH_Update(u32 v);
 
-void func_021C8000(u8 *p)
+void FIELDSKILL_MAPEFF_UpdateFlash(u8 *p)
 {
-    func_021C7DFC(((struct Obj18331 *)p)->f0);
+    FIELD_FLASH_Update(((struct Obj18331 *)p)->f0);
 }

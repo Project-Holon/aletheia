@@ -1,5 +1,5 @@
 /*
- * function: func_0216F174
+ * function: TRCARD_SYS_Main
  * address:  0x0216F174
  * packet:   pkt_ov010_0216F174
  * region:   ov010
@@ -10,46 +10,46 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216F244  0x0216F244  thumb  ov010
- *   func_0216F288  0x0216F288  thumb
- *   func_0216F2B4  0x0216F2B4  thumb
- *   func_0216F2E0  0x0216F2E0  thumb
- *   func_0216F31C  0x0216F31C  thumb
- *   func_0216F378  0x0216F378  thumb
- *   func_0216F3B0  0x0216F3B0  thumb
+ *   TRCARD_SYS_StateChooseScreen  0x0216F244  thumb  ov010
+ *   TRCARD_SYS_StateStartCardProc  0x0216F288  thumb
+ *   TRCARD_SYS_StateWaitCardProc  0x0216F2B4  thumb
+ *   TRCARD_SYS_StateStartEditProc  0x0216F2E0  thumb
+ *   TRCARD_SYS_StateWaitEditProc  0x0216F31C  thumb
+ *   TRCARD_SYS_StateStartBadgeProc  0x0216F378  thumb
+ *   TRCARD_SYS_StateWaitBadgeProc  0x0216F3B0  thumb
  */
 
-extern int func_0216F244(char *a, char *b);
-extern int func_0216F288(int *p);
-extern int func_0216F2B4(char *p);
-extern int func_0216F2E0(char *p);
-extern int func_0216F31C(char *a);
-extern int func_0216F378(char *p);
-extern int func_0216F3B0(char *p);
+extern int TRCARD_SYS_StateChooseScreen(char *a, char *b);
+extern int TRCARD_SYS_StateStartCardProc(int *p);
+extern int TRCARD_SYS_StateWaitCardProc(char *p);
+extern int TRCARD_SYS_StateStartEditProc(char *p);
+extern int TRCARD_SYS_StateWaitEditProc(char *a);
+extern int TRCARD_SYS_StateStartBadgeProc(char *p);
+extern int TRCARD_SYS_StateWaitBadgeProc(char *p);
 
-int func_0216F174(int a, int *b, int c, int d)
+int TRCARD_SYS_Main(int a, int *b, int c, int d)
 {
     switch (*b) {
     case 0:
-        *b = func_0216F244((char *)d, (char *)c);
+        *b = TRCARD_SYS_StateChooseScreen((char *)d, (char *)c);
         break;
     case 1:
-        *b = func_0216F288((int *)d);
+        *b = TRCARD_SYS_StateStartCardProc((int *)d);
         break;
     case 2:
-        *b = func_0216F2B4((char *)d);
+        *b = TRCARD_SYS_StateWaitCardProc((char *)d);
         break;
     case 3:
-        *b = func_0216F2E0((char *)d);
+        *b = TRCARD_SYS_StateStartEditProc((char *)d);
         break;
     case 4:
-        *b = func_0216F31C((char *)d);
+        *b = TRCARD_SYS_StateWaitEditProc((char *)d);
         break;
     case 5:
-        *b = func_0216F378((char *)d);
+        *b = TRCARD_SYS_StateStartBadgeProc((char *)d);
         break;
     case 6:
-        *b = func_0216F3B0((char *)d);
+        *b = TRCARD_SYS_StateWaitBadgeProc((char *)d);
         break;
     case 7:
     default:

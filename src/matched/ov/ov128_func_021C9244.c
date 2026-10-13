@@ -22,10 +22,10 @@
  *   func_021C98EC 0x021C98EC thumb ov128
  *   func_021C6438 0x021C6438 thumb ov128
  *   func_021C9730 0x021C9730 thumb ov128
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_021C987C 0x021C987C thumb ov128
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
 #include "../include/Obj00773.h"
 #include "../include/Obj10491.h"
@@ -46,10 +46,10 @@ extern void func_020061E4(u32 a);
 extern void func_021C98EC(char *p, u8 *q);
 extern void func_021C6438(u8 *,u8,u8);
 extern void func_021C9730(u8 *,void *,u8 *);
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void func_021C987C(u8 *,u8 *);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern u32 func_020221A4(void);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern u32 WIPE_SYS_EndCheck(void);
 int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
 {
     switch(q[8]) {
@@ -85,15 +85,15 @@ int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
         } else q[8]=2;
         break;
     case 7:
-        if(func_0204B98C(((struct Obj10491 *)r)->f164)!=1) {
+        if(CLACT_IsActorAnimActive(((struct Obj10491 *)r)->f164)!=1) {
             func_021C987C(p,r);
             func_021C6438(q,1,11);
             func_021C9730(p,q,r);
             return 1;
         } break;
-    case 8: if(func_0204B98C(((struct Obj10491 *)r)->f168)!=1)q[8]=9; break;
-    case 9: func_0202208C(0,0,0,0,6,1,heap);q[8]=10;break;
-    case 10: if(func_020221A4()) {
+    case 8: if(CLACT_IsActorAnimActive(((struct Obj10491 *)r)->f168)!=1)q[8]=9; break;
+    case 9: WIPE_SYS_Start(0,0,0,0,6,1,heap);q[8]=10;break;
+    case 10: if(WIPE_SYS_EndCheck()) {
         func_021C6438(q,6,0);func_021C9730(p,q,r);return 1;
         }break;
     }

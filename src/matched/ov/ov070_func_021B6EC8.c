@@ -1,5 +1,5 @@
 /*
- * function: func_021B6EC8
+ * function: ITEMMENU_FindUseRange
  * address:  0x021B6EC8
  * packet:   pkt_ov070_021B6EC8
  * region:   ov070
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf (push {r4,r5}, no lr) called twice by func_021B6EF8:
+ * Unlabelled leaf (push {r4,r5}, no lr) called twice by ITEMMENU_HandleActionMenuChoice:
  * finds the entry of the 8-entry range table at 0x021BB9C4 whose
  * [lo, lo + n) holds id, or -1.
  *
  * symbols:
- *   d_021BB9C4  0x021BB9C4  data  a4
+ *   gItemMenuUseRanges  0x021BB9C4  data  a4
  */
 
 typedef unsigned short u16;
@@ -26,15 +26,15 @@ typedef struct RangeEnt {
     void (*fn)(void *);
 } RangeEnt;
 
-extern const RangeEnt d_021BB9C4[8];
+extern const RangeEnt gItemMenuUseRanges[8];
 
-int func_021B6EC8(u16 id)
+int ITEMMENU_FindUseRange(u16 id)
 {
     u32 i;
     const RangeEnt *e;
 
     for (i = 0; i < 8; i++) {
-        e = &d_021BB9C4[i];
+        e = &gItemMenuUseRanges[i];
         if (id >= e->lo && id < e->lo + e->n)
             return i;
     }

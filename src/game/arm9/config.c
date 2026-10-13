@@ -1,7 +1,7 @@
 /*
  * file:     config.c
  * unit:     yes
- * function: func_020082DC, CONFIG_Create, CONFIG_Copy, CONFIG_Init, CONFIG_GetTextSpeed, CONFIG_SetTextSpeed, CONFIG_GetSoundMode, CONFIG_SetSoundMode, CONFIG_GetBattleScene, CONFIG_SetBattleScene, CONFIG_GetBattleStyle, CONFIG_SetBattleStyle, CONFIG_GetAppliedFlag, CONFIG_SetAppliedFlag, CONFIG_ApplyAppliedFlag, func_02008428, CONFIG_SetButtonMode, CONFIG_GetBattleFlag, CONFIG_SetBattleFlag, func_02008468, func_0200846C, func_02008494, func_020084A0, MYSTATUS_IsNameEmpty, MYSTATUS_CopyName, MYSTATUS_NameFromStrbuf, MYSTATUS_GetName, MYSTATUS_CopyNameChars, MYSTATUS_NameToStrbuf, MYSTATUS_CreateNameStrbuf, MYSTATUS_SetId, MYSTATUS_GetId, MYSTATUS_GetIdLow16, MYSTATUS_GetProfileId, MYSTATUS_SetProfileIdOnce, MYSTATUS_SetOutfitVariant, MYSTATUS_GetOutfitVariant, MYSTATUS_GetOutfit, MYSTATUS_SetOutfit, MYSTATUS_GetAvatarId, MYSTATUS_SetAvatarId, MYSTATUS_GetGender, MYSTATUS_SetGender, MYSTATUS_GetLanguage, MYSTATUS_GetVersion, MYSTATUS_SetLanguageAndVersion, PLAYTIME_Create, PLAYTIME_Init, PLAYTIME_AddSeconds, PLAYTIME_Copy, PLAYTIME_GetHours, PLAYTIME_GetMinutes, PLAYTIME_GetSeconds, PLAYTIME_SetStampNow, PLAYTIME_GetStampYear, PLAYTIME_GetStampMonth, PLAYTIME_GetStampDay, PLAYTIME_GetStampHour, PLAYTIME_GetStampMinute, PLAYTIME_GetStamp, PLAYTIME_SetStamp, SYSTEM_DATA_GetSize, SYSTEM_DATA_Init, SYSTEM_DATA_GetMyStatus, SYSTEM_DATA_GetConfig, SYSTEM_DATA_GetPlayTime, SYSTEM_DATA_IsActive, SYSTEM_DATA_SetActive, SYSTEM_DATA_ClearActive, SYSTEM_DATA_IsMarked, SYSTEM_DATA_SetMark, SYSTEM_DATA_ClearMark, SYSTEM_DATA_GetWordSlot, SYSTEM_DATA_SetMyStatus, SYSTEM_DATA_CopyMyStatus, PLAYER_LOCATION_GetSize, PLAYER_LOCATION_Init, PLAYER_LOCATION_Nop, PLAYER_LOCATION_GetLocationA, PLAYER_LOCATION_GetLocationB, PLAYER_LOCATION_GetShortData, PLAYER_LOCATION_GetData, PLAYER_LOCATION_SetRecordFromBuffer, PLAYER_LOCATION_CopyRecordToBuffer, PLAYER_LOCATION_CopyRecord, PLAYER_LOCATION_ReadStyleFrom, PLAYER_LOCATION_WriteStyleTo, PLAYER_LOCATION_SetFlagA, PLAYER_LOCATION_GetFlagA, PLAYER_LOCATION_SetFlagB, PLAYER_LOCATION_GetFlagB, PLAYER_LOCATION_SetCounter, PLAYER_LOCATION_GetCounter, PLAYER_LOCATION_GetValueA, PLAYER_LOCATION_SetValueA, PLAYER_LOCATION_SetValueB, PLAYER_LOCATION_GetValueB, PLAYER_LOCATION_GetZoneId, PLAYER_LOCATION_SetZoneId
+ * function: func_020082DC, CONFIG_Create, CONFIG_Copy, CONFIG_Init, CONFIG_GetTextSpeed, CONFIG_SetTextSpeed, CONFIG_GetSoundMode, CONFIG_SetSoundMode, CONFIG_GetBattleScene, CONFIG_SetBattleScene, CONFIG_GetBattleStyle, CONFIG_SetBattleStyle, CONFIG_GetAppliedFlag, CONFIG_SetAppliedFlag, CONFIG_ApplyAppliedFlag, CONFIG_GetButtonMode, CONFIG_SetButtonMode, CONFIG_GetBattleFlag, CONFIG_SetBattleFlag, MYSTATUS_GetSize, MYSTATUS_Create, MYSTATUS_Copy, MYSTATUS_Init, MYSTATUS_IsNameEmpty, MYSTATUS_CopyName, MYSTATUS_NameFromStrbuf, MYSTATUS_GetName, MYSTATUS_CopyNameChars, MYSTATUS_NameToStrbuf, MYSTATUS_CreateNameStrbuf, MYSTATUS_SetId, MYSTATUS_GetId, MYSTATUS_GetIdLow16, MYSTATUS_GetProfileId, MYSTATUS_SetProfileIdOnce, MYSTATUS_SetOutfitVariant, MYSTATUS_GetOutfitVariant, MYSTATUS_GetOutfit, MYSTATUS_SetOutfit, MYSTATUS_GetAvatarId, MYSTATUS_SetAvatarId, MYSTATUS_GetGender, MYSTATUS_SetGender, MYSTATUS_GetLanguage, MYSTATUS_GetVersion, MYSTATUS_SetLanguageAndVersion, PLAYTIME_Create, PLAYTIME_Init, PLAYTIME_AddSeconds, PLAYTIME_Copy, PLAYTIME_GetHours, PLAYTIME_GetMinutes, PLAYTIME_GetSeconds, PLAYTIME_SetStampNow, PLAYTIME_GetStampYear, PLAYTIME_GetStampMonth, PLAYTIME_GetStampDay, PLAYTIME_GetStampHour, PLAYTIME_GetStampMinute, PLAYTIME_GetStamp, PLAYTIME_SetStamp, SYSTEM_DATA_GetSize, SYSTEM_DATA_Init, SYSTEM_DATA_GetMyStatus, SYSTEM_DATA_GetConfig, SYSTEM_DATA_GetPlayTime, SYSTEM_DATA_IsActive, SYSTEM_DATA_SetActive, SYSTEM_DATA_ClearActive, SYSTEM_DATA_IsMarked, SYSTEM_DATA_SetMark, SYSTEM_DATA_ClearMark, SYSTEM_DATA_GetWordSlot, SYSTEM_DATA_SetMyStatus, SYSTEM_DATA_CopyMyStatus, PLAYER_LOCATION_GetSize, PLAYER_LOCATION_Init, PLAYER_LOCATION_Nop, PLAYER_LOCATION_GetLocationA, PLAYER_LOCATION_GetLocationB, PLAYER_LOCATION_GetShortData, PLAYER_LOCATION_GetData, PLAYER_LOCATION_SetRecordFromBuffer, PLAYER_LOCATION_CopyRecordToBuffer, PLAYER_LOCATION_CopyRecord, PLAYER_LOCATION_ReadStyleFrom, PLAYER_LOCATION_WriteStyleTo, PLAYER_LOCATION_SetFlagA, PLAYER_LOCATION_GetFlagA, PLAYER_LOCATION_SetFlagB, PLAYER_LOCATION_GetFlagB, PLAYER_LOCATION_SetCounter, PLAYER_LOCATION_GetCounter, PLAYER_LOCATION_GetValueA, PLAYER_LOCATION_SetValueA, PLAYER_LOCATION_SetValueB, PLAYER_LOCATION_GetValueB, PLAYER_LOCATION_GetZoneId, PLAYER_LOCATION_SetZoneId
  * address:  0x020082DC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -198,7 +198,7 @@ extern char mystatus_file_name[];
 extern const char playtime_file_name[];
 
 void CONFIG_Init(struct Config *config);
-void func_020084A0(struct MyStatus *mystatus);
+void MYSTATUS_Init(struct MyStatus *mystatus);
 void MYSTATUS_SetAvatarId(struct MyStatus *mystatus, u8 avatar_id);
 void MYSTATUS_NameToStrbuf(const u16 *name, struct Strbuf *buf);
 void PLAYTIME_Init(struct PlayTime *playtime);
@@ -309,7 +309,7 @@ u8 CONFIG_ApplyAppliedFlag(const struct Config *config)
 }
 
 
-int func_02008428(const struct Config *config)
+int CONFIG_GetButtonMode(const struct Config *config)
 {
     return config->button_mode;
 }
@@ -332,26 +332,26 @@ void CONFIG_SetBattleFlag(struct Config *config, int enabled)
     config->battle_flag = (u16)enabled;
 }
 
-int func_02008468(void)
+int MYSTATUS_GetSize(void)
 {
     return sizeof(struct MyStatus);
 }
 
-void *func_0200846C(int heap_id)
+void *MYSTATUS_Create(int heap_id)
 {
     struct MyStatus *mystatus = func_02030734((u16)heap_id, sizeof(struct MyStatus), 0, mystatus_file_name, 0x34);
-    func_020084A0(mystatus);
+    MYSTATUS_Init(mystatus);
     return mystatus;
 }
 
 
-void func_02008494(const struct MyStatus *src, struct MyStatus *dest)
+void MYSTATUS_Copy(const struct MyStatus *src, struct MyStatus *dest)
 {
     MI_CpuCopy8(src, dest, sizeof(struct MyStatus));
 }
 
 
-void func_020084A0(struct MyStatus *mystatus)
+void MYSTATUS_Init(struct MyStatus *mystatus)
 {
     MI_CpuFill8(mystatus, 0, sizeof(struct MyStatus));
     mystatus->gender = 2;
@@ -656,7 +656,7 @@ void SYSTEM_DATA_Init(struct SystemData *sys_data)
 {
     MIi_CpuClear32(0, sys_data, sizeof(struct SystemData));
     CONFIG_Init(&sys_data->config);
-    func_020084A0(&sys_data->mystatus);
+    MYSTATUS_Init(&sys_data->mystatus);
     PLAYTIME_Init(&sys_data->playtime);
     sys_data->active = 0;
 }

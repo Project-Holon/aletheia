@@ -1,5 +1,5 @@
 /*
- * function: func_0217C444
+ * function: UNION_ONESELF_TalkParentEnd
  * address:  0x0217C444
  * packet:   pkt_ov019_0217C444
  * region:   ov019
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0217F378  0x0217F378  thumb ov019
+ *   UNION_MSG_DeleteMainMenu  0x0217F378  thumb ov019
  */
 
-void func_0217F378(void *p);
+void UNION_MSG_DeleteMainMenu(void *p);
 
-int func_0217C444(void *p)
+int UNION_ONESELF_TalkParentEnd(void *p)
 {
-    func_0217F378(p);
+    UNION_MSG_DeleteMainMenu(p);
     return 1;
 }

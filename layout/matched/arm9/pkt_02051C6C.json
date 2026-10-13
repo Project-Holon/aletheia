@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02051C6C",
+   "name": "BUTTON_MAN_Delete",
    "address": "0x02051C6C",
    "kind": "game",
    "region": "arm9",

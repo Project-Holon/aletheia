@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020456F8  0x020456F8  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02041B6C  0x02041B6C  arm
  *
  * Addresses are Black-image addresses.
@@ -22,12 +22,12 @@ typedef unsigned int u32;
 
 struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 
 void func_021D5A60(char *p)
 {
     func_0201F7A8(((struct Obj13973 *)p)->f48, 2);
-    func_020456F8(((struct Obj13973 *)p)->f48);
+    BMP_WIN_ClearScreen(((struct Obj13973 *)p)->f48);
     func_02041B6C(6);
 }

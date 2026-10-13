@@ -1,5 +1,5 @@
 /*
- * function: func_021894E0
+ * function: FIELDMAP_AddZoneNpcs
  * address:  0x021894E0
  * packet:   pkt_ov021_021894E0
  * region:   ov021
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02162744  0x02162744  thumb  ov010
- *   func_0201296C  0x0201296C  thumb
- *   func_02162740  0x02162740  thumb  ov010
- *   func_0216CEAC  0x0216CEAC  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
+ *   FLDMMDL_AddMmdlHeaderList  0x0216CEAC  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
-u16 func_02162744(u8 *p);
-u32 func_0201296C(const struct BigObj *p);
-u32 func_02162740(u8 *p);
-void func_0216CEAC(u32 a, u8 *p, u32 b, u32 n, u32 c);
+u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
+u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+u32 EVENTDATA_SYSTEM_GetNpcHeaders(u8 *p);
+void FLDMMDL_AddMmdlHeaderList(u32 a, u8 *p, u32 b, u32 n, u32 c);
 
-void func_021894E0(int a, int b, int c, int d)
+void FIELDMAP_AddZoneNpcs(int a, int b, int c, int d)
 {
-    int r = func_02162744((u8 *)c);
+    int r = EVENTDATA_SYSTEM_GetNpcCount((u8 *)c);
     int y;
     if (r != 0) {
-        y = func_0201296C((const struct BigObj *)a);
-        func_0216CEAC(b, (u8 *)func_02162740((u8 *)c), d, r, y);
+        y = GAME_DATA_GetEventWork((const struct BigObj *)a);
+        FLDMMDL_AddMmdlHeaderList(b, (u8 *)EVENTDATA_SYSTEM_GetNpcHeaders((u8 *)c), d, r, y);
     }
 }

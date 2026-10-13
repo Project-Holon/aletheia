@@ -1,5 +1,5 @@
 /*
- * function: func_0219545C
+ * function: TALKMSGWIN_SaveCamera
  * address:  0x0219545C
  * packet:   pkt_0219545C
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02048AE8  0x02048AE8  arm
- *   func_02048B0C  0x02048B0C  arm
- *   func_02048B30  0x02048B30  arm
- *   func_02048B54  0x02048B54  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
+ *   G3D_CAMERA_GetTarget  0x02048B0C  arm
+ *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetScale  0x02048B54  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj07211.h"
@@ -25,16 +25,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02048AE8(u32, u32, u32, u32);
-extern u32 func_02048B0C(u32, u32);
-extern u32 func_02048B30(u32, u32);
-extern u32 func_02048B54(u32, u32);
+extern u32 G3D_CAMERA_GetEye(u32, u32, u32, u32);
+extern u32 G3D_CAMERA_GetTarget(u32, u32);
+extern u32 G3D_CAMERA_GetUp(u32, u32);
+extern u32 G3D_CAMERA_GetScale(u32, u32);
 
-int func_0219545C(u32 a, u32 b, u32 c, u32 d)
+int TALKMSGWIN_SaveCamera(u32 a, u32 b, u32 c, u32 d)
 {
-func_02048AE8(((struct Obj07211 *)((u8 *)(a)))->f4, (a + (202 << 4)), c, d);
-func_02048B0C(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 12)));
-func_02048B30(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 24)));
-return func_02048B54(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 36)));
+G3D_CAMERA_GetEye(((struct Obj07211 *)((u8 *)(a)))->f4, (a + (202 << 4)), c, d);
+G3D_CAMERA_GetTarget(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 12)));
+G3D_CAMERA_GetUp(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 24)));
+return G3D_CAMERA_GetScale(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 36)));
 }
 

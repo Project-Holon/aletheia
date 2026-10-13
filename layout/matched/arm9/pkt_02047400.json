@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02047400",
+   "name": "G3D_SYSTEM_CreateRender",
    "address": "0x02047400",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047504",
+   "name": "G3D_SYSTEM_DeleteRender",
    "address": "0x02047504",
    "kind": "game",
    "region": "arm9",

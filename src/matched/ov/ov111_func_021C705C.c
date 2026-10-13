@@ -13,7 +13,7 @@
  *   func_021C79A0  0x021C79A0  thumb
  *   func_021C7830  0x021C7830  thumb
  *   func_021C7970  0x021C7970  thumb
- *   func_0204A600  0x0204A600  arm
+ *   CLACT_DrawSystem  0x0204A600  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -65,7 +65,7 @@ typedef struct {
 extern int func_021C79A0(Work *p);
 extern void func_021C7830(Work *p);
 extern void func_021C7970(Work *p);
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 
 int func_021C705C(void *a, void *b, int c, Work *p)
 {
@@ -74,7 +74,7 @@ int func_021C705C(void *a, void *b, int c, Work *p)
     }
     func_021C7830(p);
     func_021C7970(p);
-    func_0204A600();
+    CLACT_DrawSystem();
     if (++p->f11C >= 0x100) {
         p->f11C = 0;
     }

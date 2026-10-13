@@ -1,5 +1,5 @@
 /*
- * function: func_021C7A7C
+ * function: FIELD_TASK_UpdateMmdlPosOffsetTween
  * address:  0x021C7A7C
  * packet:   pkt_ov021_021C7A7C
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C7940  0x021C7940  thumb  ov021
+ *   FIELD_TASK_CalcOffsetByProgress  0x021C7940  thumb  ov021
  *   func_0207C9D0  0x0207C9D0  arm
- *   func_0216D89C  0x0216D89C  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -31,11 +31,11 @@ typedef struct {
     int f28;
 } Obj;
 
-extern void func_021C7940(Vec *, u16, Vec *, u16);
+extern void FIELD_TASK_CalcOffsetByProgress(Vec *, u16, Vec *, u16);
 extern void func_0207C9D0(Vec *, Vec *, Vec *);
-extern void func_0216D89C(int, Vec *);
+extern void FLDMMDL_SetPos(int, Vec *);
 
-int func_021C7A7C(Obj *p)
+int FIELD_TASK_UpdateMmdlPosOffsetTween(Obj *p)
 {
     int h = p->f28;
     Vec v;
@@ -43,12 +43,12 @@ int func_021C7A7C(Obj *p)
     if (p->f0 == 0) {
         p->fC = p->fC + 1;
         if (p->f8 == 0) {
-            func_021C7940(&v, p->fC, &p->f10, p->fE);
+            FIELD_TASK_CalcOffsetByProgress(&v, p->fC, &p->f10, p->fE);
         } else if (p->f8 == 1) {
-            func_021C7940(&v, p->fE - p->fC, &p->f10, p->fE);
+            FIELD_TASK_CalcOffsetByProgress(&v, p->fE - p->fC, &p->f10, p->fE);
         }
         func_0207C9D0(&v, &p->f1C, &v);
-        func_0216D89C(h, &v);
+        FLDMMDL_SetPos(h, &v);
         if (p->fE <= p->fC) {
             return 1;
         }

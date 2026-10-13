@@ -1,5 +1,5 @@
 /*
- * function: func_021B8378
+ * function: FIELD_RAIL_RoundToGrid
  * address:  0x021B8378
  * packet:   pkt_ov021_021B8378
  * region:   ov021
@@ -14,7 +14,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021B8378(int x)
+int FIELD_RAIL_RoundToGrid(int x)
 {
     u32 ax = x < 0 ? -x : x;
 

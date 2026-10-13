@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD88
+ * function: STARTMENU_SaveEraseStepSetup
  * address:  0x021BCD88
  * packet:   pkt_ov088_021BCD88
  * region:   ov088
@@ -12,29 +12,29 @@
  * EXACT*: the extent runs two bytes long (trailing padding pair).
  *
  * symbols:
- *   func_021BCF44  0x021BCF44  thumb  ov088
- *   func_021BCF6C  0x021BCF6C  thumb  ov088
- *   func_021BCFEC  0x021BCFEC  thumb  ov088
- *   func_021BD078  0x021BD078  thumb  ov088
- *   func_021BD0F4  0x021BD0F4  thumb  ov088
- *   func_021BD21C  0x021BD21C  thumb  ov088
+ *   STARTMENU_SaveEraseClearVram  0x021BCF44  thumb  ov088
+ *   STARTMENU_SaveEraseSetupGraphics  0x021BCF6C  thumb  ov088
+ *   STARTMENU_SaveEraseAllocResources  0x021BCFEC  thumb  ov088
+ *   STARTMENU_SaveEraseCreateWindow  0x021BD078  thumb  ov088
+ *   STARTMENU_SaveEraseStartVblankTask  0x021BD0F4  thumb  ov088
+ *   STARTMENU_SaveEraseStartFadeIn  0x021BD21C  thumb  ov088
  */
 
-extern void func_021BCF44(void);
-extern void func_021BCF6C(void);
+extern void STARTMENU_SaveEraseClearVram(void);
+extern void STARTMENU_SaveEraseSetupGraphics(void);
 typedef unsigned char  u8;
-extern void func_021BCFEC(u8 *p);
-extern void func_021BD078(int *p);
-extern void func_021BD0F4(void **p);
-extern void func_021BD21C(void);
+extern void STARTMENU_SaveEraseAllocResources(u8 *p);
+extern void STARTMENU_SaveEraseCreateWindow(int *p);
+extern void STARTMENU_SaveEraseStartVblankTask(void **p);
+extern void STARTMENU_SaveEraseStartFadeIn(void);
 
-void func_021BCD88(void *p, int *st)
+void STARTMENU_SaveEraseStepSetup(void *p, int *st)
 {
-    func_021BCF44();
-    func_021BCF6C();
-    func_021BCFEC(p);
-    func_021BD078(p);
-    func_021BD0F4(p);
-    func_021BD21C();
+    STARTMENU_SaveEraseClearVram();
+    STARTMENU_SaveEraseSetupGraphics();
+    STARTMENU_SaveEraseAllocResources(p);
+    STARTMENU_SaveEraseCreateWindow(p);
+    STARTMENU_SaveEraseStartVblankTask(p);
+    STARTMENU_SaveEraseStartFadeIn();
     *st = 1;
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030EAC  0x02030EAC  arm
  *   func_021F4EFC  0x021F4EFC  thumb
- *   func_020450C8  0x020450C8  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
  */
 #include "../include/Obj05413.h"
@@ -29,7 +29,7 @@ typedef volatile unsigned int vu32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021F4EFC(u8 *p);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 
 void func_021F50EC(u8 *p)
@@ -41,7 +41,7 @@ void func_021F50EC(u8 *p)
     *(vu16 *)0x04000050 = 0;
     *(vu16 *)0x04001050 = 0;
     func_021F4EFC(p);
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     *(vu32 *)0x04000000 &= 0xFFFF1FFF;
     *(vu32 *)0x04001000 &= 0xFFFF1FFF;

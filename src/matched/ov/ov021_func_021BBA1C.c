@@ -1,5 +1,5 @@
 /*
- * function: func_021BBA1C
+ * function: FIELD_SUBPROC_End
  * address:  0x021BBA1C
  * packet:   pkt_ov021_021BBA1C
  * region:   ov021
@@ -25,7 +25,7 @@ void func_02030EAC(struct Node *n);
 void func_02034A5C(int a);
 void func_02082BCC(void *p, int v, int n);
 
-void func_021BBA1C(int *p)
+void FIELD_SUBPROC_End(int *p)
 {
     int *c;
 

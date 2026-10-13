@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AF448",
+   "name": "SCRCMD_StartWaitPokeVoice",
    "address": "0x021AF448",
    "kind": "game",
    "region": "ov021",

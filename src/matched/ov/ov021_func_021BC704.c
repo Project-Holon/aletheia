@@ -1,5 +1,5 @@
 /*
- * function: func_021BC704
+ * function: FIELD_PLACE_NAME_FreeBgChars
  * address:  0x021BC704
  * packet:   pkt_ov021_021BC704
  * region:   ov021
@@ -18,7 +18,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
-void func_021BC704(Obj *p)
+void FIELD_PLACE_NAME_FreeBgChars(Obj *p)
 {
     if (p->f28 != -1) {
         func_0203FB44(3, p->f28, 0x20);

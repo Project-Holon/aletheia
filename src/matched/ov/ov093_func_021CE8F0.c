@@ -19,17 +19,17 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_021B86B8 0x021B86B8 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   func_021B904C 0x021B904C thumb ov093
  *   func_021BA004 0x021BA004 thumb ov093
  *   func_021B9AEC 0x021B9AEC thumb ov093
  *   func_021B990C 0x021B990C thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   func_021B99B8 0x021B99B8 thumb ov093
  *   func_0202A298 0x0202A298 thumb
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D7B60 0x021D7B60 thumb ov093
- *   func_021D5B48 0x021D5B48 thumb ov093
+ *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
+ *   BTL_POKEPARAM_IsHpFull 0x021D5B48 thumb ov093
  *   func_021B9B94 0x021B9B94 thumb ov093
  *   func_021B9B98 0x021B9B98 thumb ov093
  *   d_021EFF78 0x021EFF78 data ov093 a2
@@ -45,18 +45,18 @@ static inline void init_offset(Off *value)
     *value = OFFSET;
     *value -= 0x88;
 }
-extern void *func_021B86B8(void ***);
+extern void *BTL_MAIN_GetCompetitor(void ***);
 struct Q1;
 extern u8 func_021B904C(u8 *p, int k);
 extern u16 func_021BA004(char *p, int i);
 extern char *func_021B9AEC(char *,int);
 extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
-extern int func_021D5B68(void *);
+extern int BTL_POKEPARAM_IsFainted(void *);
 extern int func_021B99B8(void *pp, unsigned int b);
 extern u32 func_0202A298(u32,u32,u32);
 extern int func_021D59B4(u8 *p, int k);
-extern u32 func_021D7B60(void *p, u32 b);
-extern int func_021D5B48(u8 *p);
+extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
+extern int BTL_POKEPARAM_IsHpFull(u8 *p);
 extern u8 func_021B9B94(struct Q1 *p);
 extern u8 func_021B9B98(u8 *p);
 extern const u16 d_021EFF78[4];
@@ -72,17 +72,17 @@ u32 func_021CE8F0(const u8 *p, u16 *out)
     u8 *mon;
     u8 *row;
     int skip,ok0,ok1,ok2,ok3,invalid;
-    if ((u32)func_021B86B8(*(void *** *)&((struct Obj03689 *)p)->f0) != 1) goto fail;
+    if ((u32)BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj03689 *)p)->f0) != 1) goto fail;
     id = func_021B904C(((struct Obj03689 *)p)->f0,0);
     k = func_021BA004(((struct Obj03689 *)p)->f0,id);
     if (!k) goto fail;
     entry = (u32)func_021B9AEC(*(char * *)&((struct Obj03689 *)p)->f4,id);
     mon = func_021B990C(((struct Obj03689 *)p)->f4,id,(u8)0);
-    if (func_021D5B68(mon)) {
+    if (BTL_POKEPARAM_IsFainted(mon)) {
         count = func_021B99B8(((struct Obj03689 *)p)->f0,id);
         for (i=1;i<count;i++) {
             mon = func_021B990C(((struct Obj03689 *)p)->f4,id,(u8)i);
-            if (!func_021D5B68(mon)) break;
+            if (!BTL_POKEPARAM_IsFainted(mon)) break;
         }
     }
     result = -1;
@@ -100,10 +100,10 @@ u32 func_021CE8F0(const u8 *p, u16 *out)
                 switch (key - 0x11) {
                 case 1:
                     a = func_021D59B4(mon,13);
-                    if ((u32)a <= func_021D7B60(mon,2)) { result = i; row[ok0] = 1; }
+                    if ((u32)a <= BTL_CALC_DivideMaxHp(mon,2)) { result = i; row[ok0] = 1; }
                     break;
                 case 0:
-                    if (!func_021D5B48(mon)) { result = i; row[ok1] = 1; }
+                    if (!BTL_POKEPARAM_IsHpFull(mon)) { result = i; row[ok1] = 1; }
                     break;
                 case 2:
                     if (func_021B9B94((void *)entry) > 1 && func_021B9B98((u8 *)entry) == 1) { result = i; row[ok2] = 1; }
@@ -111,7 +111,7 @@ u32 func_021CE8F0(const u8 *p, u16 *out)
                 case 3:
                     if (func_021B9B94((void *)entry) > 1 && func_021B9B98((u8 *)entry) == 1) {
                         b = func_021D59B4(mon,13);
-                        if ((u32)b <= func_021D7B60(mon,2)) { result = i; row[ok3] = 1; }
+                        if ((u32)b <= BTL_CALC_DivideMaxHp(mon,2)) { result = i; row[ok3] = 1; }
                     }
                     break;
                 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021576AC
+ * function: DELIVERY_BEACON_IsEqual
  * address: 0x021576AC
  * packet: pkt_ov010_021576AC
  * region: ov010
@@ -12,4 +12,4 @@
  * Function with no listing label, matched inside src/game/ov010/delivery_beacon.c and filed here.
  */
 
-int func_021576AC(int a, int b) { return a == b; }
+int DELIVERY_BEACON_IsEqual(int a, int b) { return a == b; }

@@ -9,18 +9,18 @@
  * status: EXACT
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D6C24 0x021D6C24 thumb ov093
- *   func_021D5C30 0x021D5C30 thumb ov093
+ *   BTL_POKEPARAM_IsIllusionActive 0x021D6C24 thumb ov093
+ *   BTL_POKEPARAM_IsSemiInvulnerable 0x021D5C30 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D6C50 0x021D6C50 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021C5A1C 0x021C5A1C thumb ov093
+ *   BTL_POKEPARAM_Transform 0x021D6C50 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_SERVER_FLOW_PushAbilityPopupIn 0x021C5A1C thumb ov093
  *   func_021E0434 0x021E0434 thumb ov093
- *   func_021D8510 0x021D8510 thumb ov093
- *   func_021D8484 0x021D8484 thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   BTL_CALC_RemoveAbilityHandlers 0x021D8510 thumb ov093
+ *   BTL_CALC_AddAbilityHandlers 0x021D8484 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  *   func_021C99A0 0x021C99A0 thumb ov093
- *   func_021C5A34 0x021C5A34 thumb ov093
+ *   BTL_SERVER_FLOW_PushAbilityPopupOut 0x021C5A34 thumb ov093
  *   func_021CC8D8 0x021CC8D8 thumb ov093
  *   func_021C7B7C 0x021C7B7C thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
@@ -34,19 +34,19 @@ extern u8 *func_021B9934(char *p, int i);
 struct Msg;
 struct R4;
 struct UtilWork;
-extern int func_021D6C24(struct R4 *p);
-extern int func_021D5C30(struct UtilWork *p);
+extern int BTL_POKEPARAM_IsIllusionActive(struct R4 *p);
+extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
 extern int func_021D59B4(u8 *p, int k);
 struct Unk021D6C50;
-extern int func_021D6C50(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
-extern u8 func_021D5440(u8 *p);
-extern void func_021C5A1C(u8 *p, u8 *a);
+extern int BTL_POKEPARAM_Transform(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_SERVER_FLOW_PushAbilityPopupIn(u8 *p, u8 *a);
 extern void func_021E0434(u8 *);
-extern void func_021D8510(void *p);
-extern void *func_021D8484(void *);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void BTL_CALC_RemoveAbilityHandlers(void *p);
+extern void *BTL_CALC_AddAbilityHandlers(void *);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 extern int func_021C99A0(void *w, const struct Msg *m);
-extern void func_021C5A34(u8 *p, u8 *a);
+extern void BTL_SERVER_FLOW_PushAbilityPopupOut(u8 *p, u8 *a);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021C7B7C(u8 *p, unsigned int i);
 extern void func_021CC95C(u32 *p, u32 v, int line);
@@ -57,18 +57,18 @@ int func_021CA47C(u8 *p, struct Cmd *q)
     u16 k;
     int x, y;
     u32 lock;
-    if (!func_021D6C24((struct R4 *)a) && !func_021D6C24((struct R4 *)b) && !func_021D5C30((struct UtilWork *)a)) {
+    if (!BTL_POKEPARAM_IsIllusionActive((struct R4 *)a) && !BTL_POKEPARAM_IsIllusionActive((struct R4 *)b) && !BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)a)) {
         k = func_021D59B4(a, 16);
-        if (func_021D6C50((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b)) {
-            x = func_021D5440(a);
-            y = func_021D5440(b);
-            if (q->flag) func_021C5A1C(p, a);
+        if (BTL_POKEPARAM_Transform((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b)) {
+            x = BTL_POKEPARAM_GetPokeId(a);
+            y = BTL_POKEPARAM_GetPokeId(b);
+            if (q->flag) BTL_SERVER_FLOW_PushAbilityPopupIn(p, a);
             func_021E0434(a);
-            func_021D8510(a);
-            func_021D8484(a);
-            func_021CD4B0(((struct Obj00003 *)p)->fC, 0x53, x, y);
+            BTL_CALC_RemoveAbilityHandlers(a);
+            BTL_CALC_AddAbilityHandlers(a);
+            BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x53, x, y);
             func_021C99A0(p, (const struct Msg *)((u8 *)q + 8));
-            if (q->flag) func_021C5A34(p, a);
+            if (q->flag) BTL_SERVER_FLOW_PushAbilityPopupOut(p, a);
             if (k != func_021D59B4(a, 17)) {
                 lock = func_021CC8D8(p + 0x1d74, 0x3f0a);
                 func_021C7B7C(p, x);

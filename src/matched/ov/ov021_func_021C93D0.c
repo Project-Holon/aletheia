@@ -1,5 +1,5 @@
 /*
- * function: func_021C93D0
+ * function: LAND_DATA_PATCH_Delete
  * address:  0x021C93D0
  * packet:   pkt_ov021_021C93D0
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-void func_021C93D0(void **q)
+void LAND_DATA_PATCH_Delete(void **q)
 {
     func_020307B0(q[0]);
     func_020307B0(q);

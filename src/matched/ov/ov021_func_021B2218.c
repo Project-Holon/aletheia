@@ -1,5 +1,5 @@
 /*
- * function: func_021B2218
+ * function: SCRCMD_FLDMMDL_StartMmdlSpinRise
  * address:  0x021B2218
  * packet:   pkt_ov021_021B2218
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188D38  0x02188D38  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_021C7878  0x021C7878  thumb  ov021
- *   func_021C7220  0x021C7220  thumb  ov021
- *   func_021C6DE0  0x021C6DE0  thumb  ov021
+ *   FIELD_TASK_CreateMmdlDrawOffsetTween  0x021C7878  thumb  ov021
+ *   FIELD_TASK_CreateMmdlSpinLinear  0x021C7220  thumb  ov021
+ *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -27,18 +27,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5EC(void *p);
-extern unsigned int func_02159B10(void *, void *);
-extern void *func_0216DE94(void *map, u32 id);
-extern int func_02158F58(int a0);
-extern u32 func_02188D38(u8 *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u32 FIELDMAP_GetTaskManager(u8 *p);
 extern void func_020061E4(u32);
-extern u32 func_021C7878(u32, u32, void *, u32);
-extern void *func_021C7220(u32 a, u16 b, int c, u32 d);
-extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
+extern u32 FIELD_TASK_CreateMmdlDrawOffsetTween(u32, u32, void *, u32);
+extern void *FIELD_TASK_CreateMmdlSpinLinear(u32 a, u16 b, int c, u32 d);
+extern void FIELD_TASK_MANAGER_AddTask(u8 *p, u32 *a, u32 b);
 
-int func_021B2218(u32 a, u32 b)
+int SCRCMD_FLDMMDL_StartMmdlSpinRise(u32 a, u32 b)
 {
     int v[3];
     void *t;
@@ -47,17 +47,17 @@ int func_021B2218(u32 a, u32 b)
     u32 g;
     u32 p;
 
-    t = func_0215A5F4((void *)b);
-    o = func_02159B10((void *)a, (void *)b);
-    o = (u32)func_0216DE94(func_0215A5EC((void *)b), o);
-    e = ((u32 *)func_02158F58((int)t))[1];
-    g = func_02188D38((u8 *)e);
+    t = SCRCMD_WORK_GetScriptWork((void *)b);
+    o = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    o = (u32)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo((void *)b), o);
+    e = ((u32 *)SCRIPT_WORK_ResetFieldParam((int)t))[1];
+    g = FIELDMAP_GetTaskManager((u8 *)e);
     func_020061E4(0x676);
     v[0] = 0;
     v[1] = 0x96 << 12;
     v[2] = 0;
-    p = func_021C7878(e, 0x18, v, o);
-    func_021C6DE0((u8 *)g, (u32 *)func_021C7220(e, 0x18, 3, o), 0);
-    func_021C6DE0((u8 *)g, (u32 *)p, 0);
+    p = FIELD_TASK_CreateMmdlDrawOffsetTween(e, 0x18, v, o);
+    FIELD_TASK_MANAGER_AddTask((u8 *)g, (u32 *)FIELD_TASK_CreateMmdlSpinLinear(e, 0x18, 3, o), 0);
+    FIELD_TASK_MANAGER_AddTask((u8 *)g, (u32 *)p, 0);
     return 0;
 }

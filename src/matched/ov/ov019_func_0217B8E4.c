@@ -1,5 +1,5 @@
 /*
- * function: func_0217B8E4
+ * function: UNION_ONESELF_SetNextPlayCategory
  * address:  0x0217B8E4
  * packet:   pkt_0217B8E4
  * region:   ov019
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0217B8E4(char *p, int v)
+int UNION_ONESELF_SetNextPlayCategory(char *p, int v)
 {
     p[0x28a1] = v;
     return 1;

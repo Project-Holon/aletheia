@@ -1,5 +1,5 @@
 /*
- * function: func_0217E2E0
+ * function: INTRUDE_SUBDISP_UpdateTownMarkPalette
  * address:  0x0217E2E0
  * packet:   pkt_ov018_0217E2E0
  * region:   ov018
@@ -11,7 +11,7 @@
  * symbols:
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_02082A60  0x02082A60  arm
- *   func_02021F64  0x02021F64  thumb
+ *   PALANM_BlendColors  0x02021F64  thumb
  */
 
 typedef unsigned char u8;
@@ -33,9 +33,9 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02082A60(const void *, void *, int);
-extern void func_02021F64(u16 *, u16 *, int, u8, u16);
+extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
-void func_0217E2E0(Work *p)
+void INTRUDE_SUBDISP_UpdateTownMarkPalette(Work *p)
 {
     int sel;
     int v;
@@ -51,7 +51,7 @@ void func_0217E2E0(Work *p)
         }
         if (p->f16a != sel) {
             func_02082A60((void *)(0x05000600 + (sel + 1) * 32), buf, 0x20);
-            func_02021F64(buf, buf, 0x10, 8, 0x7fff);
+            PALANM_BlendColors(buf, buf, 0x10, 8, 0x7fff);
             func_02082A60(buf, (void *)0x05000720, 0x20);
             p->f16a = sel;
         }

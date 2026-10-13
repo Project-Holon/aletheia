@@ -1,5 +1,5 @@
 /*
- * function: func_021F459C
+ * function: CROWD_ClearChatterSlot
  * address:  0x021F459C
  * packet:   pkt_ov055_021F459C
  * region:   ov055
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj05138.h"
 
-void func_021F459C(void *p)
+void CROWD_ClearChatterSlot(void *p)
 {
     ((struct Obj05138 *)p)->f6 = 0;
     ((struct Obj05138 *)p)->f0 = 0;

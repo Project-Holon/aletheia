@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A600  0x0204A600  arm
+ *   CLACT_DrawSystem  0x0204A600  arm
  */
 
-void func_0204A600(void);
+void CLACT_DrawSystem(void);
 
 void func_02201AF0(void *a0)
 {
-    func_0204A600();
+    CLACT_DrawSystem();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218BBD0
+ * function: FIELD_BUILDMODEL_GetModelIndex
  * address:  0x0218BBD0
  * packet:   pkt_ov021_0218BBD0
  * region:   ov021
@@ -16,7 +16,7 @@ typedef struct {
     unsigned short n;
 } S;
 
-int func_0218BBD0(S *p, unsigned int i)
+int FIELD_BUILDMODEL_GetModelIndex(S *p, unsigned int i)
 {
     unsigned char v;
     if (i >= 0x190)

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCFD8
+ * function: FIELD_PLACE_NAME_FreeWork
  * address:  0x021BCFD8
  * packet:   pkt_021BCFD8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021BCFD8(int a)
+void FIELD_PLACE_NAME_FreeWork(int a)
 {
     func_020307B0((void *)a);
 }

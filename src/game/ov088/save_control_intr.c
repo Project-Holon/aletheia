@@ -1,7 +1,7 @@
 /*
  * file:     save_control_intr.c
  * unit:     yes
- * function: func_021BD25C, func_021BD29C, func_021BD2B0, func_021BD2F4, func_021BD368, func_021BD374, func_021BD380, func_021BD39C, func_021BD3A0, func_021BD3B8
+ * function: SAVE_CONTROL_INTR_Create, SAVE_CONTROL_INTR_Delete, SAVE_CONTROL_INTR_Start, SAVE_CONTROL_INTR_Update, SAVE_CONTROL_INTR_Pause, SAVE_CONTROL_INTR_Resume, SAVE_CONTROL_INTR_IsPausedOrFinished, SAVE_CONTROL_INTR_NoOp, SAVE_CONTROL_INTR_IsFinished, SAVE_CONTROL_INTR_Cancel
  * address:  0x021BD25C
  * region:   ov088
  * compiler: dsi/1.1p1
@@ -65,7 +65,7 @@ typedef struct SaveControlIntr {
  * func_020351F8 (arm) resolves through the matched entry
  * src/matched/arm9/sub_020351F8.c.
  */
-void *func_021BD25C(int heapId, int saveControl)
+void *SAVE_CONTROL_INTR_Create(int heapId, int saveControl)
 {
     SaveControlIntr *intr = (SaveControlIntr *)func_02030734(heapId, 0x10, 1, (const char *)0x021BDA0C, 0x45);
     intr->saveControl = (void *)saveControl;
@@ -77,7 +77,7 @@ void *func_021BD25C(int heapId, int saveControl)
     return intr;
 }
 
-void func_021BD29C(void *p)
+void SAVE_CONTROL_INTR_Delete(void *p)
 {
     func_020351F8(0, 0);
     func_020307B0(p);
@@ -85,7 +85,7 @@ void func_021BD29C(void *p)
 
 
 
-void func_021BD2B0(SaveControlIntr *intr)
+void SAVE_CONTROL_INTR_Start(SaveControlIntr *intr)
 {
     if (intr->cancelled != 1) {
         SAVE_CONTROL_StartSave((int)intr->saveControl);
@@ -100,7 +100,7 @@ void func_021BD2B0(SaveControlIntr *intr)
     }
 }
 
-u32 func_021BD2F4(SaveControlIntr *intr)
+u32 SAVE_CONTROL_INTR_Update(SaveControlIntr *intr)
 {
     u32 status;
 
@@ -130,14 +130,14 @@ u32 func_021BD2F4(SaveControlIntr *intr)
     return 0;
 }
 
-void func_021BD368(SaveControlIntr *intr){if(intr->state!=3)intr->pauseRequested=1;}
+void SAVE_CONTROL_INTR_Pause(SaveControlIntr *intr){if(intr->state!=3)intr->pauseRequested=1;}
 /*
  * Unlabelled Thumb leaf in a .word run at ov088:021BD374.  The caller
  * func_021BE6E8 lives in ov204 (0x021BDA40..), which does not overlap ov088
  * (0x021B95A0..0x021BDA20), the only overlay in the window that its own
  * window does not overlap, so ov088 is the resident copy.
  */
-void func_021BD374(SaveControlIntr *intr)
+void SAVE_CONTROL_INTR_Resume(SaveControlIntr *intr)
 {
     if (intr->state != 3)
         intr->pauseRequested = 0;
@@ -145,7 +145,7 @@ void func_021BD374(SaveControlIntr *intr)
 
 
 
-int func_021BD380(SaveControlIntr *intr){if(intr->cancelled==1||intr->state==3)return 1;if(intr->state==2)return 1;return 0;}
+int SAVE_CONTROL_INTR_IsPausedOrFinished(SaveControlIntr *intr){if(intr->cancelled==1||intr->state==3)return 1;if(intr->state==2)return 1;return 0;}
 
 
 
@@ -154,7 +154,7 @@ int func_021BD380(SaveControlIntr *intr){if(intr->cancelled==1||intr->state==3)r
  * an empty function called as a no-op by func_021BE6F8.  ov088 is the only
  * overlay in the window not overlapping the caller's ov204.
  */
-void func_021BD39C(int a0)
+void SAVE_CONTROL_INTR_NoOp(int a0)
 {
 }
 
@@ -167,7 +167,7 @@ void func_021BD39C(int a0)
  * ov204:021BEF20 initializes it from input d+c. Matched ov088:021BD3B8
  * reads the same byte fields (7 and 4), confirming the region inference.
  */
-int func_021BD3A0(SaveControlIntr *intr)
+int SAVE_CONTROL_INTR_IsFinished(SaveControlIntr *intr)
 {
     if (intr->cancelled == 1)
         return 1;
@@ -177,7 +177,7 @@ int func_021BD3A0(SaveControlIntr *intr)
 }
 
 
-void func_021BD3B8(SaveControlIntr *intr)
+void SAVE_CONTROL_INTR_Cancel(SaveControlIntr *intr)
 {
     if (intr->cancelled == 0 && intr->state != 3) {
         SAVE_CONTROL_CancelSave(intr->saveControl);

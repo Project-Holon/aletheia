@@ -1,5 +1,5 @@
 /*
- * function: func_021B7DF4
+ * function: ITEMMENU_HandleQuantityInput
  * address:  0x021B7DF4
  * packet:   pkt_ov070_021B7DF4
  * region:   ov070
@@ -15,13 +15,13 @@
  * change. Returns whether any input was taken.
  *
  * symbols:
- *   func_021B61B8  0x021B61B8  thumb  ov070
- *   func_021B616C  0x021B616C  thumb  ov070
+ *   ITEMMENU_GetCursorIndex  0x021B61B8  thumb  ov070
+ *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
  *   func_0203633C  0x0203633C  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_0204B878  0x0204B878  arm
- *   func_021BB260  0x021BB260  thumb  ov070
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   ITEMMENU_PrintQuantityPrice  0x021BB260  thumb  ov070
  *   d_021BB960     0x021BB960  data  a1
  */
 
@@ -56,15 +56,15 @@ typedef struct HitTbl {
 
 extern HitTbl d_021BB960;
 
-extern int func_021B61B8(u8 *p);
-extern void *func_021B616C(u8 *p, int i);
+extern int ITEMMENU_GetCursorIndex(u8 *p);
+extern void *ITEMMENU_GetSlot(u8 *p, int i);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern unsigned int func_0203633C(void);
 extern void func_020061E4(unsigned int id);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021BB260(u8 *p, int val);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void ITEMMENU_PrintQuantityPrice(u8 *p, int val);
 
-int func_021B7DF4(Obj *o)
+int ITEMMENU_HandleQuantityInput(Obj *o)
 {
     HitTbl tbl;
     Item *e;
@@ -75,7 +75,7 @@ int func_021B7DF4(Obj *o)
 
     changed = 0;
     saved = o->num;
-    e = func_021B616C((u8 *)o, func_021B61B8((u8 *)o));
+    e = ITEMMENU_GetSlot((u8 *)o, ITEMMENU_GetCursorIndex((u8 *)o));
     tbl = d_021BB960;
     hit = TOUCHPANEL_HitCont(&tbl);
     if (hit != -1) {
@@ -128,10 +128,10 @@ int func_021B7DF4(Obj *o)
     if (o->num != saved) {
         func_020061E4(0x548);
         if (dir == 0)
-            func_0204B878((struct Obj *)o->winA, 0xB);
+            CLACT_SetActorAnimSeq((struct Obj *)o->winA, 0xB);
         else
-            func_0204B878((struct Obj *)o->winB, 0xA);
-        func_021BB260((u8 *)o, o->num);
+            CLACT_SetActorAnimSeq((struct Obj *)o->winB, 0xA);
+        ITEMMENU_PrintQuantityPrice((u8 *)o, o->num);
     }
     return changed;
 }

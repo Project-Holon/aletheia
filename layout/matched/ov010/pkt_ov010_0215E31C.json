@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0215E31C",
-    "func_0215E334"
+    "FIELD_ENCOUNT_ST_Create",
+    "FIELD_ENCOUNT_ST_Delete"
+   ],
+   "addresses": [
+    "0x0215E31C",
+    "0x0215E334"
    ]
   }
  ]

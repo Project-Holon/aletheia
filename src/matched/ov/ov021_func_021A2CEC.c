@@ -1,5 +1,5 @@
 /*
- * function: func_021A2CEC
+ * function: WEATHER_TASK_ClearFogChange
  * address:  0x021A2CEC
  * packet:   pkt_021A2CEC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021A2CEC(char *p)
+void WEATHER_TASK_ClearFogChange(char *p)
 {
     p[0x77c] = 0;
 }

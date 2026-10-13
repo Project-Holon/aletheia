@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GF_FONT_GetCharWidth, func_0201DC80
+ * function: GF_FONT_GetCharWidth, GF_FONT_GetLineHeight
  *
  * The gf_font.c width query and the accessor for the byte at +0x59.
  *
@@ -17,7 +17,7 @@
  * bytes whether the C declares a return value or not, so the return type is
  * fixed by the caller instead: func_0201D528 adds the result to a running width.
  *
- * func_0201DC80 has no label in the listing; it is three halfwords between two
+ * GF_FONT_GetLineHeight has no label in the listing; it is three halfwords between two
  * literal pools.
  *
  * Addresses are Black-image addresses.
@@ -71,7 +71,7 @@ u32 GF_FONT_GetCharWidth(struct Font *p, u16 ch)
     return ((u32 (*)(struct Font *, u32))p->unk6C)(p, GF_FONT_GetGlyphIndex(p, ch));
 }
 
-u32 func_0201DC80(struct Font *p)
+u32 GF_FONT_GetLineHeight(struct Font *p)
 {
     return p->unk58[1];
 }

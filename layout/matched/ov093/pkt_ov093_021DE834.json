@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE834",
-    "func_021DE86C"
+    "BTL_HANDLER_ITEM_QuickPowder_DoubleSpeed",
+    "BTL_HANDLER_ITEM_GetSoulDewHandlers"
+   ],
+   "addresses": [
+    "0x021DE834",
+    "0x021DE86C"
    ],
    "evidence": {
     "sole-ref": [

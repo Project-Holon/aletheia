@@ -12,6 +12,7 @@
  * symbols:
  *   func_021DFE00    0x021DFE00  thumb
  *   MYSTERY_DATA_IsMainSave  0x0200A350  thumb
+ *   GAME_DATA_SaveMain  0x02012DD0  thumb
  */
 #include "../include/Obj15587.h"
 
@@ -20,7 +21,7 @@ typedef unsigned char u8;
 struct Obj;
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern int  func_021DFE00(void *p);
-extern int func_02012DD0(u8 *p);
+extern int GAME_DATA_SaveMain(u8 *p);
 
 int MYSTERY_DATA_SaveMain(void *a0, int a1)
 {
@@ -29,5 +30,5 @@ int MYSTERY_DATA_SaveMain(void *a0, int a1)
             return 2;
         return 0;
     }
-    return func_02012DD0((u8 *)a1);
+    return GAME_DATA_SaveMain((u8 *)a1);
 }

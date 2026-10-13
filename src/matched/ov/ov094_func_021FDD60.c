@@ -15,7 +15,7 @@
  *   func_021F8710 0x021F8710 thumb ov094
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_020515CC 0x020515CC arm
+ *   PARTICLE_StartEffectWithCallback 0x020515CC arm
  *   func_021FD1CC 0x021FD1CC thumb ov094
  *   d_0220AE68 0x0220AE68 data ov094 a1
  */
@@ -42,7 +42,7 @@ extern int func_021FCD14(State *, int, int *);
 extern int func_021F8710(void);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
-extern int func_020515CC(int *, int, int, int);
+extern int PARTICLE_StartEffectWithCallback(int *, int, int, int);
 extern void func_021FD1CC(void *p);
 
 void func_021FDD60(State *s, Rec *r, int slot, int arg)
@@ -64,7 +64,7 @@ void func_021FDD60(State *s, Rec *r, int slot, int arg)
                 *p = *r;
                 p->v[1] = targets[i];
                 p->v[2] = targets[i];
-                if (func_020515CC(s->objects[slot], arg, (int)func_021FD1CC, (int)p) == -1)
+                if (PARTICLE_StartEffectWithCallback(s->objects[slot], arg, (int)func_021FD1CC, (int)p) == -1)
                     func_020307B0(p);
             }
         }
@@ -93,14 +93,14 @@ void func_021FDD60(State *s, Rec *r, int slot, int arg)
                 *p = *r;
                 p->v[1] = keys[i];
                 p->v[2] = keys[i];
-                if (func_020515CC(s->objects[slot], arg, (int)func_021FD1CC, (int)p) == -1)
+                if (PARTICLE_StartEffectWithCallback(s->objects[slot], arg, (int)func_021FD1CC, (int)p) == -1)
                     func_020307B0(p);
             }
         }
     } else {
         p = func_02030734((u16)((s->heap & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x1c56);
         *p = *r;
-        if (func_020515CC(s->objects[slot], arg, (int)func_021FD1CC, (int)p) == -1)
+        if (PARTICLE_StartEffectWithCallback(s->objects[slot], arg, (int)func_021FD1CC, (int)p) == -1)
             func_020307B0(p);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021869D0
+ * function: FIELD_WFBC_DATA_LOCAL_ReadValue
  * address:  0x021869D0
  * packet:   pkt_021869D0
  * region:   ov020
@@ -13,7 +13,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021869D0(char *p)
+u16 FIELD_WFBC_DATA_LOCAL_ReadValue(char *p)
 {
     return ((struct Obj19469 *)p)->f2;
 }

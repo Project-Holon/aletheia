@@ -1,5 +1,5 @@
 /*
- * function: func_02165D8C
+ * function: GAME_BEACON_ACCESSOR_GetFreeText
  * address:  0x02165D8C
  * packet:   pkt_02165D8C
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   STRBUF_Clear  0x0204581C  arm
- *   func_02045924  0x02045924  arm
+ *   STRBUF_SetString  0x02045924  arm
  */
 #include "../include/Obj17725.h"
 
@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int STRBUF_Clear();
-extern int func_02045924();
+extern int STRBUF_SetString();
 
-int func_02165D8C(int a0, int a1)
+int GAME_BEACON_ACCESSOR_GetFreeText(int a0, int a1)
 {
     int a2;
 
@@ -38,6 +38,6 @@ loc_02165D9E:
 a2 = a2 + 0x34;
 a0 = a1 + 0;
 a1 = a2 + 0;
-    a0 = func_02045924(a0, a1);
+    a0 = STRBUF_SetString(a0, a1);
 loc_02165DA8:
     return a0;}

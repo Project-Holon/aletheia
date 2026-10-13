@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02039338   0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   func_021E1604   0x021E1604  thumb  ov137
  *   func_021DCBC4   0x021DCBC4  thumb  ov137
  */
 #include "../include/Obj04542.h"
 
 typedef unsigned short u16;
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021E1604(char *, int);
 typedef unsigned int   u32;
 extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
@@ -31,7 +31,7 @@ void func_021E19C0(char *r4, int r5)
     } buf;
     int i;
 
-    if (func_02039338() != 0)
+    if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
         return;
     func_021E1604(r4, r5);
     buf.a = ((struct Obj04542 *)r4)->f11C;

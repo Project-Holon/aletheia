@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DD68C, func_021DD6A4
+ * function: BTL_ITEM_FlavorHealSpeedIfForcedUse, BTL_ITEM_GetFlavorHealSpAttackHandlers
  * address: 0x021DD68C
  * packet: pkt_ov093_021DD68C
  * region: ov093
@@ -10,14 +10,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DD7B8 0x021DD7B8 thumb ov093
- *   d_021F1C7C 0x021F1C7C data a4
+ *   BTL_ITEM_FlavorHeal 0x021DD7B8 thumb ov093
+ *   gBtlItemFlavorHealSpAttackHandlers 0x021F1C7C data a4
  */
 typedef unsigned char u8;
-extern void func_021DD7B8(int, u8 *, int, int *, int);
-void func_021DD68C(int a, u8 *b, int c, int *d)
+extern void BTL_ITEM_FlavorHeal(int, u8 *, int, int *, int);
+void BTL_ITEM_FlavorHealSpeedIfForcedUse(int a, u8 *b, int c, int *d)
 {
-    if (d[6] != 0) func_021DD7B8(a, b, c, d, 2);
+    if (d[6] != 0) BTL_ITEM_FlavorHeal(a, b, c, d, 2);
 }
-extern u8 d_021F1C7C[];
-void *func_021DD6A4(int *p) { *p = 5; return d_021F1C7C; }
+extern u8 gBtlItemFlavorHealSpAttackHandlers[];
+void *BTL_ITEM_GetFlavorHealSpAttackHandlers(int *p) { *p = 5; return gBtlItemFlavorHealSpAttackHandlers; }

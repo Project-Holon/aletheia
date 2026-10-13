@@ -1,5 +1,5 @@
 /*
- * function: func_021DF74C
+ * function: BTL_HANDLER_ITEM_GetBlackGlassesHandlers
  * address: 0x021DF74C
  * packet: pkt_ov093_021DF74C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF740.c and filed here.
  *
  * symbols:
- *   d_021F13B4 0x021F13B4 data ov093 a4
+ *   gBlackGlassesHandlers 0x021F13B4 data ov093 a4
  */
 
-extern int d_021F13B4[];
-int *func_021DF74C(int *p);
+extern int gBlackGlassesHandlers[];
+int *BTL_HANDLER_ITEM_GetBlackGlassesHandlers(int *p);
 
-int *func_021DF74C(int *p)
+int *BTL_HANDLER_ITEM_GetBlackGlassesHandlers(int *p)
 {
     *p = 1;
-    return d_021F13B4;
+    return gBlackGlassesHandlers;
 }

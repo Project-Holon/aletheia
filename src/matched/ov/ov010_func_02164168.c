@@ -1,5 +1,5 @@
 /*
- * function: func_02164168
+ * function: FLDMMDL_MOVE_IsNearPlayer
  * address:  0x02164168
  * packet:   pkt_ov010_02164168
  * region:   ov010
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb
- *   func_0216DEE0  0x0216DEE0  thumb
- *   func_0216D83C  0x0216D83C  thumb
- *   func_0216D86C  0x0216D86C  thumb
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb
  */
 
 typedef short s16;
 
-extern void *func_0216D67C(void *a0);
-extern void *func_0216DEE0(void *a0);
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_SysSearchPlayer(void *a0);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
 
-int func_02164168(int a)
+int FLDMMDL_MOVE_IsNearPlayer(int a)
 {
     int t;
     int tx;
@@ -35,12 +35,12 @@ int func_02164168(int a)
     s16 x1;
     s16 y1;
 
-    t = (int)func_0216DEE0(func_0216D67C((void *)a));
+    t = (int)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)a));
     if (t != 0) {
-        tx = func_0216D83C((void *)t);
-        ty = func_0216D86C((void *)t);
-        x = func_0216D83C((void *)a);
-        y = func_0216D86C((void *)a);
+        tx = FLDMMDL_GetGridNowX((void *)t);
+        ty = FLDMMDL_GetGridNowZ((void *)t);
+        x = FLDMMDL_GetGridNowX((void *)a);
+        y = FLDMMDL_GetGridNowZ((void *)a);
         x0 = x - 18;
         y0 = y - 18;
         x1 = x + 17;

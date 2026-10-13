@@ -1,5 +1,5 @@
 /*
- * function: func_021625CC
+ * function: EVENTDATA_SYSTEM_GetConnectData
  * address: 0x021625CC
  * packet: pkt_ov010_021625CC
  * region: ov010
@@ -10,4 +10,4 @@
  */
 #include "../include/Obj07293.h"
 typedef unsigned short u16;
-void *func_021625CC(char *p, unsigned i) { char *r=*(char * *)&((struct Obj07293 *)p)->f24; if(!r) return 0; if(i>=((struct Obj07293 *)p)->f16) return 0; return r+i*20; }
+void *EVENTDATA_SYSTEM_GetConnectData(char *p, unsigned i) { char *r=*(char * *)&((struct Obj07293 *)p)->f24; if(!r) return 0; if(i>=((struct Obj07293 *)p)->f16) return 0; return r+i*20; }

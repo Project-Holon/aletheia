@@ -1,5 +1,5 @@
 /*
- * function: func_0215C180
+ * function: SCRCMD_PROC_AddMonToBoxSimple
  * address:  0x0215C180
  * packet:   pkt_ov010_0215C180
  * region:   ov010
@@ -14,14 +14,14 @@
  * and stores the returned value through the destination.
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5CC  0x0215A5CC  thumb  ov010
- *   func_02012934  0x02012934  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215C4C8  0x0215C4C8  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_PROC_AddMonToBox  0x0215C4C8  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -41,17 +41,17 @@ typedef struct Spec {
     u32 f20;            /* 0x20 */
 } Spec;
 
-extern void *func_0215A5DC(void *vm);
-extern void *func_0215A5E4(void *vm);
-extern u16 func_0215A5CC(void *vm);
+extern void *SCRCMD_WORK_GetGameSystem(void *vm);
+extern void *SCRCMD_WORK_GetGameData(void *vm);
+extern u16 SCRCMD_WORK_GetHeapId(void *vm);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
-extern u16 *func_02159AE8(void *c, void *vm);
-extern u32 func_02159B10(void *c, void *vm);
-extern int func_0215C4C8(void *a, void *b);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *c, void *vm);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *c, void *vm);
+extern int SCRCMD_PROC_AddMonToBox(void *a, void *b);
 
-int func_0215C180(void *c, void *vm)
+int SCRCMD_PROC_AddMonToBoxSimple(void *c, void *vm)
 {
     void *sys;
     u16 v;
@@ -61,15 +61,15 @@ int func_0215C180(void *c, void *vm)
     u32 d;
     Spec s;
 
-    func_0215A5DC(vm);
-    sys = func_0215A5E4(vm);
-    v = func_0215A5CC(vm);
-    func_02012934(sys);
-    func_02012944(sys);
-    dst = func_02159AE8(c, vm);
-    a = func_02159B10(c, vm);
-    b = func_02159B10(c, vm);
-    d = func_02159B10(c, vm);
+    SCRCMD_WORK_GetGameSystem(vm);
+    sys = SCRCMD_WORK_GetGameData(vm);
+    v = SCRCMD_WORK_GetHeapId(vm);
+    GAME_DATA_GetMyParty(sys);
+    GAME_DATA_GetMyStatus(sys);
+    dst = SCRIPT_WORK_ReadWorkPointer(c, vm);
+    a = SCRIPT_WORK_ReadWorkValue(c, vm);
+    b = SCRIPT_WORK_ReadWorkValue(c, vm);
+    d = SCRIPT_WORK_ReadWorkValue(c, vm);
     s.f00 = v;
     s.f04 = a;
     s.f08 = b;
@@ -79,6 +79,6 @@ int func_0215C180(void *c, void *vm)
     s.f18 = 2;
     s.f1c = 2;
     s.f20 = 4;
-    *dst = func_0215C4C8(sys, &s);
+    *dst = SCRCMD_PROC_AddMonToBox(sys, &s);
     return 0;
 }

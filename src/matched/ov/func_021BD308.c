@@ -1,5 +1,5 @@
 /*
- * function: func_021BD308
+ * function: PLACE_NAME_LETTER_GetBmpRaw
  * address:  0x021BD308
  * packet:   pkt_021BD308
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BD308(u8 *p)
+int PLACE_NAME_LETTER_GetBmpRaw(u8 *p)
 {
     return ((struct Obj18228 *)p)->f8;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02197800
+ * function: IRCBATTLEMENU_SeqSaveYesNo
  * address:  0x02197800
  * packet:   pkt_ov021_02197800
  * region:   ov021
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020279E8  0x020279E8  thumb
- *   func_02027A04  0x02027A04  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_020071F0  0x020071F0  thumb
- *   func_02045CAC  0x02045CAC  arm
- *   func_02197644  0x02197644  thumb  ov021
- *   func_02196290  0x02196290  thumb  ov021
- *   func_02196228  0x02196228  thumb  ov021
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   IRCBATTLEMENU_PrintMessage  0x02197644  thumb  ov021
+ *   IRCBATTLEMENU_CreateTimeIcon  0x02196290  thumb  ov021
+ *   IRCBATTLEMENU_SetSubPaletteActive  0x02196228  thumb  ov021
  *   func_020414EC  0x020414EC  arm
- *   func_021962F4  0x021962F4  thumb  ov021
- *   func_02196034  0x02196034  thumb  ov021
- *   func_021977C0  0x021977C0  thumb  ov021
- *   func_02197798  0x02197798  thumb  ov021
- *   func_02196A4C  0x02196A4C  thumb  ov021
- *   func_02027858  0x02027858  thumb
+ *   IRCBATTLEMENU_DeleteMsgWin  0x021962F4  thumb  ov021
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_SeqWaitTouchExit  0x021977C0  thumb  ov021
+ *   IRCBATTLEMENU_SeqSaveStart  0x02197798  thumb  ov021
+ *   IRCBATTLEMENU_SeqUpdateTouchTop  0x02196A4C  thumb  ov021
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00094.h"
@@ -36,45 +36,45 @@ typedef unsigned int   u32;
 struct Big;
 struct MsgBank;
 struct TaskMenu;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
-extern void *func_02012EBC(struct Big *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 func_020071F0(void);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02197644(u8 *, u32);
-extern void func_02196290(u8 *);
-extern void func_02196228(u8 *p, int flag);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void IRCBATTLEMENU_PrintMessage(u8 *, u32);
+extern void IRCBATTLEMENU_CreateTimeIcon(u8 *);
+extern void IRCBATTLEMENU_SetSubPaletteActive(u8 *p, int flag);
 extern void func_020414EC(u32);
-extern void func_021962F4(u8 *);
-extern void func_02196034(u8 *, void (*)(), u32);
-extern void func_021977C0(u8 *a);
-extern void func_02197798(u8 *a);
-extern void func_02196A4C(u8 *a);
-extern void func_02027858(struct TaskMenu *m);
+extern void IRCBATTLEMENU_DeleteMsgWin(u8 *);
+extern void IRCBATTLEMENU_SetSeq(u8 *, void (*)(), u32);
+extern void IRCBATTLEMENU_SeqWaitTouchExit(u8 *a);
+extern void IRCBATTLEMENU_SeqSaveStart(u8 *a);
+extern void IRCBATTLEMENU_SeqUpdateTouchTop(u8 *a);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 
-void func_02197800(u8 *a)
+void IRCBATTLEMENU_SeqSaveYesNo(u8 *a)
 {
-    if (func_020279E8((struct TaskMenu *)(((struct Obj00094 *)a)->f2C0)) != 0) {
-        if (func_02027A04((const u8 *)(((struct Obj00094 *)a)->f2C0)) == 0) {
-            func_02012EBC((struct Big *)(((struct Obj00094 *)a)->f30));
+    if (APP_TASKMENU_IsFinish((struct TaskMenu *)(((struct Obj00094 *)a)->f2C0)) != 0) {
+        if (APP_TASKMENU_GetCursorPos((const u8 *)(((struct Obj00094 *)a)->f2C0)) == 0) {
+            GAME_DATA_GetSaveControl((struct Big *)(((struct Obj00094 *)a)->f30));
             if (func_020071F0() != 0) {
-                func_02045CAC((struct MsgBank *)(((struct Obj00094 *)a)->f28), 0x2d, (void *)(((struct Obj00094 *)a)->f38));
-                func_02197644(a, 0);
-                func_02196034(a, func_021977C0, 0x7b9);
+                MSGDATA_ReadString((struct MsgBank *)(((struct Obj00094 *)a)->f28), 0x2d, (void *)(((struct Obj00094 *)a)->f38));
+                IRCBATTLEMENU_PrintMessage(a, 0);
+                IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqWaitTouchExit, 0x7b9);
             } else {
-                func_02045CAC((struct MsgBank *)(((struct Obj00094 *)a)->f28), 0x1c, (void *)(((struct Obj00094 *)a)->f38));
-                func_02197644(a, 1);
-                func_02196290(a);
-                func_02196034(a, func_02197798, 0x7bf);
+                MSGDATA_ReadString((struct MsgBank *)(((struct Obj00094 *)a)->f28), 0x1c, (void *)(((struct Obj00094 *)a)->f38));
+                IRCBATTLEMENU_PrintMessage(a, 1);
+                IRCBATTLEMENU_CreateTimeIcon(a);
+                IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqSaveStart, 0x7bf);
             }
         } else {
-            func_02196228(a, 0);
+            IRCBATTLEMENU_SetSubPaletteActive(a, 0);
             func_020414EC(3);
-            func_021962F4(a);
+            IRCBATTLEMENU_DeleteMsgWin(a);
             ((struct Obj00094 *)a)->f8 = 12;
-            func_02196034(a, func_02196A4C, 0x7c7);
+            IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqUpdateTouchTop, 0x7c7);
         }
-        func_02027858((struct TaskMenu *)(((struct Obj00094 *)a)->f2C0));
+        APP_TASKMENU_CloseMenu((struct TaskMenu *)(((struct Obj00094 *)a)->f2C0));
         ((struct Obj00094 *)a)->f2C0 = 0;
     }
 }

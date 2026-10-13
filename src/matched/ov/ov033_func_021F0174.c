@@ -1,5 +1,5 @@
 /*
- * function: func_021F0174
+ * function: DOWSING_Update
  * address:  0x021F0174
  * packet:   pkt_ov033_021F0174
  * region:   ov033
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02024ABC 0x02024ABC thumb
- *   func_02188C80 0x02188C80 thumb ov021
- *   func_02159C48 0x02159C48 thumb ov010
- *   func_02159BD4 0x02159BD4 thumb ov010
- *   func_020120F8 0x020120F8 thumb
- *   func_02012AA0 0x02012AA0 thumb
- *   func_020120F4 0x020120F4 thumb
- *   func_02012974 0x02012974 thumb
+ *   INFOWIN_Update 0x02024ABC thumb
+ *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
+ *   MAP_MATRIX_IsInRangeByPos 0x02159C48 thumb ov010
+ *   MAP_MATRIX_GetZoneIdByPos 0x02159BD4 thumb ov010
+ *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
+ *   GAME_DATA_GetPlayerPosition 0x02012AA0 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetFieldWork 0x02012974 thumb
  *   func_02013E7C 0x02013E7C thumb
- *   func_02013D74 0x02013D74 thumb
- *   func_02006148 0x02006148 thumb
+ *   ZONEDATA_IsZoneGroup118To13C 0x02013D74 thumb
+ *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   func_0200616C 0x0200616C thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
- *   func_02006224 0x02006224 thumb
+ *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
  *   func_020061E4 0x020061E4 thumb
- *   func_021EFF40 0x021EFF40 thumb ov033
- *   func_021EFEEC 0x021EFEEC thumb ov033
- *   func_021EFF48 0x021EFF48 thumb ov033
- *   func_021F0AC4 0x021F0AC4 thumb ov033
- *   d_021F0DC8 0x021F0DC8 data ov033 a4
+ *   DOWSING_ResetSearch 0x021EFF40 thumb ov033
+ *   DOWSING_IsTargetAvailable 0x021EFEEC thumb ov033
+ *   DOWSING_FindNextTarget 0x021EFF48 thumb ov033
+ *   DOWSING_UpdateCloseButton 0x021F0AC4 thumb ov033
+ *   sDowsingLevelTable 0x021F0DC8 data ov033 a4
  */
 
 typedef unsigned char  u8;
@@ -98,32 +98,32 @@ typedef struct {
     void *fD0;
 } W;
 
-extern const Ent d_021F0DC8[];
+extern const Ent sDowsingLevelTable[];
 struct Ctx;
 struct BigObj;
-extern void func_02024ABC(void);
-extern void *func_02188C80(void *p);
+extern void INFOWIN_Update(void);
+extern void *FIELDMAP_GetGameSystem(void *p);
 struct Rec44;
 struct Vec12;
-extern u8 *func_020120F8(const struct Ctx *p);
-extern struct Vec12 *func_02012AA0(struct Rec44 *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012974(const struct BigObj *p);
-extern int func_02159C48(int a0, int a1, int a2);
-extern int func_02159BD4(int a0, int a1, int a2);
+extern u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
+extern struct Vec12 *GAME_DATA_GetPlayerPosition(struct Rec44 *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetFieldWork(const struct BigObj *p);
+extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
+extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
 extern u32 func_02013E7C(u32 id);
-extern int func_02013D74(u32 key);
-extern void func_021EFF40(char *p);
-extern int func_021EFEEC(char *p, int *q);
-extern int func_021EFF48(void *p, Rec *out, int mode);
-extern int func_02006148(u32 a0);
+extern int ZONEDATA_IsZoneGroup118To13C(u32 key);
+extern void DOWSING_ResetSearch(char *p);
+extern int DOWSING_IsTargetAvailable(char *p, int *q);
+extern int DOWSING_FindNextTarget(void *p, Rec *out, int mode);
+extern int GFL_USE_GetSeSlot(u32 a0);
 extern void func_0200616C(void *arg, int i);
 extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
-extern int func_02006224(u32 a0);
+extern int GFL_USE_IsSeSlotBusy(u32 a0);
 extern void func_020061E4(u32 se);
-extern void func_021F0AC4(W *p);
+extern void DOWSING_UpdateCloseButton(W *p);
 
-void func_021F0174(W *p, int on)
+void DOWSING_Update(W *p, int on)
 {
     Rec r[2];
     int snd;
@@ -159,7 +159,7 @@ void func_021F0174(W *p, int on)
         p->fC0 = 1;
     else
         p->fC0 = 2;
-    func_02024ABC();
+    INFOWIN_Update();
     if (on == 0)
         return;
     p->f64 = p->f68;
@@ -168,16 +168,16 @@ void func_021F0174(W *p, int on)
         p->cur.a = p->found.a;
     else if (p->cur.kind == 2)
         p->cur.b = p->found.b;
-    obj = func_02188C80((void *)p->f08);
-    pos = (Vec *)func_02012AA0((struct Rec44 *)func_020120F8(obj));
+    obj = FIELDMAP_GetGameSystem((void *)p->f08);
+    pos = (Vec *)GAME_DATA_GetPlayerPosition((struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(obj));
     gx = (pos->x >> 4) / 4096;
     gy = (pos->y >> 4) / 4096;
     gz = (pos->z >> 4) / 4096;
-    map = func_02012974(func_020120F4(obj));
+    map = GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData(obj));
     zone = 0xFFFF;
     flag = 0;
-    if (func_02159C48((int)map, pos->x, pos->z) == 1) {
-        zone = func_02159BD4((int)map, pos->x, pos->z);
+    if (MAP_MATRIX_IsInRangeByPos((int)map, pos->x, pos->z) == 1) {
+        zone = MAP_MATRIX_GetZoneIdByPos((int)map, pos->x, pos->z);
         flag = (int)func_02013E7C((u16)zone);
     }
     if (p->f94 == 0) {
@@ -194,7 +194,7 @@ void func_021F0174(W *p, int on)
         best = -1;
         r[0].kind = 0;
         if (p->fC8 != 0) {
-            func_021EFF40(p->fD0);
+            DOWSING_ResetSearch(p->fD0);
             p->fC8 = 0;
         }
         if (p->fCC != 0) {
@@ -206,7 +206,7 @@ void func_021F0174(W *p, int on)
         for (i = 0; i < n; i++) {
             if (i == 0) {
                 if (p->cur.kind != 0) {
-                    if (func_021EFEEC(p->fD0, (int *)(&p->cur))) {
+                    if (DOWSING_IsTargetAvailable(p->fD0, (int *)(&p->cur))) {
                         r[1].kind = p->cur.kind;
                         if (r[1].kind == 1)
                             r[1].a = p->cur.a;
@@ -219,7 +219,7 @@ void func_021F0174(W *p, int on)
                     }
                 }
             } else {
-                if ((p->fC8 = func_021EFF48(p->fD0, &r[1], 0) ? 0 : 1) != 0)
+                if ((p->fC8 = DOWSING_FindNextTarget(p->fD0, &r[1], 0) ? 0 : 1) != 0)
                     break;
             }
             if (zone == 0xFFFF)
@@ -231,7 +231,7 @@ void func_021F0174(W *p, int on)
                         continue;
                     if (flag == 0)
                         continue;
-                    if (func_02013D74(e->h4) != 0)
+                    if (ZONEDATA_IsZoneGroup118To13C(e->h4) != 0)
                         continue;
                 }
                 x = e->h6;
@@ -282,7 +282,7 @@ void func_021F0174(W *p, int on)
             start = 1;
             p->f9C = 1;
         } else if (p->hA0 == 6) {
-            if (func_02006224(p->f98) == 0)
+            if (GFL_USE_IsSeSlotBusy(p->f98) == 0)
                 p->hA0--;
         } else if (p->hA0 == 0) {
             start = 1;
@@ -290,7 +290,7 @@ void func_021F0174(W *p, int on)
             p->hA0--;
         }
         if (start) {
-            p->f98 = func_02006148(0x760);
+            p->f98 = GFL_USE_GetSeSlot(0x760);
             func_0200616C((void *)0x760, p->f98);
             GFL_USE_SetSeSlotParams(p->f98, -1, 0x180, -1);
             p->hA0 = 6;
@@ -327,8 +327,8 @@ void func_021F0174(W *p, int on)
             changed = 1;
     done:
         if (changed) {
-            h = func_02006148(0x760);
-            pan = ((int)d_021F0DC8[p->f68].pan - 8) * 16;
+            h = GFL_USE_GetSeSlot(0x760);
+            pan = ((int)sDowsingLevelTable[p->f68].pan - 8) * 16;
             if (pan < -127)
                 pan = -127;
             else if (pan > 127)
@@ -343,5 +343,5 @@ void func_021F0174(W *p, int on)
     p->f88 = gx;
     p->f8C = gy;
     p->f90 = gz;
-    func_021F0AC4(p);
+    DOWSING_UpdateCloseButton(p);
 }

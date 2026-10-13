@@ -11,20 +11,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F2D3C     0x021F2D3C  data  ov093  a4
  *   d_021F24C4     0x021F24C4  data  ov093  a4
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern u32 d_021F2D3C[];
 extern u8 d_021F24C4[];
 
@@ -35,8 +35,8 @@ void func_021E2DC0(int u, void *p, int k)
     int x;
     int sum;
     u32 v;
-    if (k == func_021D775C(3)) {
-        q = func_021C7CF4(p, (u8)func_021D775C(4));
+    if (k == BTL_EVENT_GetVar(3)) {
+        q = func_021C7CF4(p, (u8)BTL_EVENT_GetVar(4));
         sum = 0;
         for (i = 0; i < 7; i++) {
             x = func_021D59B4(q, d_021F2D3C[i]);
@@ -46,7 +46,7 @@ void func_021E2DC0(int u, void *p, int k)
         v = sum * 20 + 0x3c;
         if (v > 200)
             v = 200;
-        func_021D76BC(0x30, v);
+        BTL_EVENT_OverwriteVar(0x30, v);
     }
 }
 

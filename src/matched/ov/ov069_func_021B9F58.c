@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B9F58, func_021B9F68, func_021B9F6C
+ * function: BSUBWAY_RECORD_LIST_DeleteCursor, BSUBWAY_RECORD_LIST_CursorCallbackNop0, BSUBWAY_RECORD_LIST_CursorCallbackNop1
  * address: 0x021B9F58
  * packet: pkt_ov069_021B9F58
  * region: ov069
@@ -17,9 +17,9 @@
 #include "../include/Obj01132.h"
 typedef unsigned int   u32;
 extern u32 func_02025D14(void *a0);
-int func_021B9F58(char *p)
+int BSUBWAY_RECORD_LIST_DeleteCursor(char *p)
 {
     return func_02025D14(((struct Obj01132 *)p)->f14C);
 }
-void func_021B9F68(void) {}
-void func_021B9F6C(void) {}
+void BSUBWAY_RECORD_LIST_CursorCallbackNop0(void) {}
+void BSUBWAY_RECORD_LIST_CursorCallbackNop1(void) {}

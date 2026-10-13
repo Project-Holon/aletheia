@@ -1,5 +1,5 @@
 /*
- * function: func_02188CCC
+ * function: FIELDMAP_GetSubscreen
  * address:  0x02188CCC
  * packet:   pkt_02188C54
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02188CCC(u8 *p)
+u32 FIELDMAP_GetSubscreen(u8 *p)
 {
     return ((struct Obj17870 *)p)->f24;
 }

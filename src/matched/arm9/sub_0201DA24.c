@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201DA24_File  0x020A7358  data
- *   func_020493D4       0x020493D4  arm
+ *   ARC_TOOL_GetHandleMemberSize       0x020493D4  arm
  *   func_02030734       0x02030734  arm
  *   sub_0204944C        0x0204944C  arm
  *   GF_FONT_ReadPreloadedGlyph       0x0201DBBC  thumb
@@ -39,7 +39,7 @@ extern const char func_0201DA24_File[];
 
 typedef unsigned short u16;
 struct ArcFile;
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 
@@ -54,7 +54,7 @@ void GF_FONT_InitPreloadedGlyphs(struct Font *f, u32 a, u32 b, u8 heap)
     u32 size;
     u32 p;
 
-    size = func_020493D4(f->unk50, f->unk54) - f->unk8C;
+    size = ARC_TOOL_GetHandleMemberSize(f->unk50, f->unk54) - f->unk8C;
     f->unk0C = func_02030734(heap, size, 0, func_0201DA24_File, 363);
     sub_0204944C(f->unk50, f->unk54, f->unk8C, size, f->unk0C);
     f->unk04 = (u32)GF_FONT_ReadPreloadedGlyph;

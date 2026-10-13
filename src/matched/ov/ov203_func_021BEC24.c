@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   GFL_USE_GetSeSlot  0x02006148  thumb  arm9
  *
  * Former blocker (4 bytes): the image loads c[1] into r0 and materialises the -1
  * sentinel into r1 (`movs r1,#0; mvns r1,r1; cmp r0,r1`); mwcc inverts the
@@ -25,7 +26,7 @@
  * 0xFFFFFFFF literal. All keep the value in r1, sentinel in r0. No fix.
  * Fix 2026-10-05 (D9): func_020061F8 takes an
  * argument (its listing reads r0). The call after the join receives the
- * channel: c[1], or func_02006148(c[0]) when c[1] is -1. The value stays in
+ * channel: c[1], or GFL_USE_GetSeSlot(c[0]) when c[1] is -1. The value stays in
  * r0 because it is that argument. EXACT.
  */
 typedef unsigned char  u8;
@@ -33,14 +34,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_02006148(u32);
+extern int GFL_USE_GetSeSlot(u32);
 extern void func_020061F8(int);
 
 void func_021BEC24(u32 a, u32 b, int *c)
 {
     int ch = c[1];
     if (ch == -1) {
-        ch = func_02006148(c[0]);
+        ch = GFL_USE_GetSeSlot(c[0]);
     }
     func_020061F8(ch);
 }

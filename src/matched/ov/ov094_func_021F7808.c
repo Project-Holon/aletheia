@@ -11,8 +11,8 @@
  *   d_0220AF20 0x0220AF20 data ov094 a4
  *   PM_VOICE_FreeBuffers 0x020066E8 thumb
  *   func_021F8B6C 0x021F8B6C thumb ov094
- *   func_020215A0 0x020215A0 thumb
- *   func_02021540 0x02021540 thumb
+ *   PALANM_FreeSlotBuffers 0x020215A0 thumb
+ *   PALANM_Delete 0x02021540 thumb
  *   func_021FEB78 0x021FEB78 thumb ov094
  *   func_021F6898 0x021F6898 thumb ov094
  *   func_021F6CF0 0x021F6CF0 thumb ov094
@@ -21,7 +21,7 @@
  *   func_02206E28 0x02206E28 thumb ov094
  *   func_022092E8 0x022092E8 thumb ov094
  *   func_0220977C 0x0220977C thumb ov094
- *   func_02050ED4 0x02050ED4 arm
+ *   PARTICLE_ExitManager 0x02050ED4 arm
  *   func_021F94D8 0x021F94D8 thumb ov094
  *   func_02030EAC 0x02030EAC arm
  *   func_02030DA4 0x02030DA4 arm
@@ -34,8 +34,8 @@ typedef unsigned int   u32;
 struct Node;
 struct PalAnmSlot;
 struct Res;
-extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern u32 func_02021540(void *a0);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+extern u32 PALANM_Delete(void *a0);
 extern void func_021FEB78(void *);
 extern void func_021F6898(void *);
 extern void func_021F6CF0(void *);
@@ -44,7 +44,7 @@ extern void func_02201AC4(struct Res *r);
 extern void func_02206E28(char *p);
 extern void func_022092E8(void *);
 extern void func_0220977C(void *);
-extern void func_02050ED4(void);
+extern void PARTICLE_ExitManager(void);
 extern void func_021F94D8(void *);
 extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(void *);
@@ -56,11 +56,11 @@ void func_021F7808(void)
     if (d_0220AF20 != 0) {
         PM_VOICE_FreeBuffers();
         func_021F8B6C();
-        func_020215A0(FIELD(0x18c), 0);
-        func_020215A0(FIELD(0x18c), 1);
-        func_020215A0(FIELD(0x18c), 2);
-        func_020215A0(FIELD(0x18c), 3);
-        func_02021540(FIELD(0x18c));
+        PALANM_FreeSlotBuffers(FIELD(0x18c), 0);
+        PALANM_FreeSlotBuffers(FIELD(0x18c), 1);
+        PALANM_FreeSlotBuffers(FIELD(0x18c), 2);
+        PALANM_FreeSlotBuffers(FIELD(0x18c), 3);
+        PALANM_Delete(FIELD(0x18c));
         func_021FEB78(FIELD(0x190));
         func_021F6898(FIELD(0x194));
         func_021F6CF0(FIELD(0x198));
@@ -69,7 +69,7 @@ void func_021F7808(void)
         func_02206E28(FIELD(0x1a4));
         func_022092E8(FIELD(0x1b0));
         func_0220977C(FIELD(0x1b4));
-        func_02050ED4();
+        PARTICLE_ExitManager();
         func_021F94D8(FIELD(0x188));
         func_02030EAC(FIELD(0x1b8));
         func_02030DA4(FIELD(0));

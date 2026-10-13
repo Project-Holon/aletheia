@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 36)) to func_0204B3B4.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 36)) to CLACT_DeleteActor.
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -24,10 +24,10 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021C0C2C(u8 *a0)
 {
-    func_0204B3B4((struct Obj *)((u32)(((struct Obj25988 *)a0)->f24)));
+    CLACT_DeleteActor((struct Obj *)((u32)(((struct Obj25988 *)a0)->f24)));
 }
 

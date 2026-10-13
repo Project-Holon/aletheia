@@ -12,7 +12,7 @@
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B404  0x0204B404  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *
  * Places the three cursor sprites (+0x8, +0xc, +0x10) on list row idx relative to the scroll offset at +4: hidden when no row is selected (+0x18 == 0xff) or the row is off screen; the third sprite shows only when the selected entry's flag at +0x1f0 is set, animated from the row's cell at +0x50.
  */
@@ -33,7 +33,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *spr, unsigned int on);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void func_021BCE2C(void *ctx, char *list, char *cur, u8 idx)
 {
@@ -58,7 +58,7 @@ void func_021BCE2C(void *ctx, char *list, char *cur, u8 idx)
         pos.x = 0xc8;
         func_0204B404((struct Obj *)(((struct Obj01560 *)cur)->f10), (const struct Vec2 *)(&pos), 1);
         if (*(u32 *)(list + ((struct Obj01560 *)cur)->f18 * 0x24 + 0x1f0) == 1) {
-            func_0204B878((struct Obj *)(*(u32 *)(list + idx * 0x1c + 0x50)), 0x12);
+            CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(list + idx * 0x1c + 0x50)), 0x12);
             func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f10, 1);
         } else {
             func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f10, 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_0219BC48
+ * function: FLDMMDL_MOVE_UpdateFellowTracking
  * address:  0x0219BC48
  * packet:   pkt_ov021_0219BC48
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D590  0x0216D590  thumb  ov010
- *   func_021AE884  0x021AE884  thumb  ov021
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0219BCC0  0x0219BCC0  thumb  ov021
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_GetZoneId  0x0216D590  thumb  ov010
+ *   EVENT_TRAINER_EYE_GetTrainerId  0x021AE884  thumb  ov021
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_MOVE_StartFellowTracking  0x0219BCC0  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -23,13 +23,13 @@ typedef unsigned int  u32;
 typedef unsigned short u16;
 struct Ctx;
 struct Rec;
-extern void *func_0216D67C(void *a0);
-extern u16 func_0216D590(void *p);
-extern int func_021AE884(u32 a);
-extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
-extern int func_0219BCC0(int a, u8 *b, int c);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern u16 FLDMMDL_GetZoneId(void *p);
+extern int EVENT_TRAINER_EYE_GetTrainerId(u32 a);
+extern int FLDMMDL_SysSearchUseMmdl(struct Ctx *c, struct Rec **out, u32 *iter);
+extern int FLDMMDL_MOVE_StartFellowTracking(int a, u8 *b, int c);
 
-int func_0219BC48(int a, u8 *b)
+int FLDMMDL_MOVE_UpdateFellowTracking(int a, u8 *b)
 {
     u32 iter;
     int out;
@@ -37,14 +37,14 @@ int func_0219BC48(int a, u8 *b)
     int r6;
     int t;
 
-    t = (int)func_0216D67C((void *)a);
+    t = (int)FLDMMDL_GetMmdlSys((void *)a);
     iter = 0;
-    r7 = func_0216D590((void *)a);
-    r6 = func_021AE884(a);
-    while (func_0216DD1C((struct Ctx *)t, (struct Rec **)(&out), &iter) == 1) {
-        if (a != out && r7 == func_0216D590((void *)out) && r6 == func_021AE884(out)) {
+    r7 = FLDMMDL_GetZoneId((void *)a);
+    r6 = EVENT_TRAINER_EYE_GetTrainerId(a);
+    while (FLDMMDL_SysSearchUseMmdl((struct Ctx *)t, (struct Rec **)(&out), &iter) == 1) {
+        if (a != out && r7 == FLDMMDL_GetZoneId((void *)out) && r6 == EVENT_TRAINER_EYE_GetTrainerId(out)) {
             if (b[1] == 0) {
-                func_0219BCC0(a, b, out);
+                FLDMMDL_MOVE_StartFellowTracking(a, b, out);
             }
             return 1;
         }

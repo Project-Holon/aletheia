@@ -1,5 +1,5 @@
 /*
- * function: func_021BD988
+ * function: EVENT_ENTRANCE_IN_CallFadeOut
  * address:  0x021BD988
  * packet:   pkt_ov021_021BD988
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012374  0x02012374  thumb
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  */
 
 typedef struct {
@@ -31,11 +31,11 @@ typedef struct {
     Sub *f8;
 } Obj;
 
-extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-void func_021BD988(Obj *o, int b)
+void EVENT_ENTRANCE_IN_CallFadeOut(Obj *o, int b)
 {
     Sub *s = o->f8;
     int sel = s->f40;
@@ -43,8 +43,8 @@ void func_021BD988(Obj *o, int b)
     int c = s->fC;
 
     if (sel != 0) {
-        func_02012374((struct Evt *)b, (struct Evt **)func_021BE8D4(p, c, 0, 0));
+        GAME_EVENT_CallEvent((struct Evt *)b, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeOut(p, c, 0, 0));
     } else {
-        func_02012374((struct Evt *)b, (struct Evt **)func_021BE8D4(p, c, s->f38, 0));
+        GAME_EVENT_CallEvent((struct Evt *)b, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeOut(p, c, s->f38, 0));
     }
 }

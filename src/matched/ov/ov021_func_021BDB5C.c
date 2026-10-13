@@ -1,5 +1,5 @@
 /*
- * function: func_021BDB5C
+ * function: EVENT_ENTRANCE_OUT_RunCamera
  * address:  0x021BDB5C
  * packet:   pkt_ov021_021BDB5C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C58  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   func_021A7B20  0x021A7B20  thumb  ov021
- *   func_021BDC80  0x021BDC80  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   EVENT_ENTRANCE_OUT_ShowPlaceName  0x021BDC80  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -23,23 +23,23 @@ typedef unsigned int   u32;
 
 struct Args;
 struct Evt;
-extern void *func_02188C58(void *p);
+extern void *FIELDMAP_GetCamera(void *p);
 extern void *func_021A7B20(struct Args *a);
-extern void func_021BDC80(u32 *);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void EVENT_ENTRANCE_OUT_ShowPlaceName(u32 *);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-u32 func_021BDB5C(u32 a, int *st, u32 *ctx)
+u32 EVENT_ENTRANCE_OUT_RunCamera(u32 a, int *st, u32 *ctx)
 {
     u32 *p = (u32 *)ctx[0];
 
-    func_02188C58((void *)p[3]);
+    FIELDMAP_GetCamera((void *)p[3]);
     switch (*st) {
     case 0:
-        func_02012374((struct Evt *)a, func_021A7B20((struct Args *)((u32)p)));
+        GAME_EVENT_CallEvent((struct Evt *)a, func_021A7B20((struct Args *)((u32)p)));
         (*st)++;
         break;
     case 1:
-        func_021BDC80(ctx);
+        EVENT_ENTRANCE_OUT_ShowPlaceName(ctx);
         return 1;
     }
     return 0;

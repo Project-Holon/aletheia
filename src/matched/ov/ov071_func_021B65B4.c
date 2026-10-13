@@ -1,5 +1,5 @@
 /*
- * function: func_021B65B4
+ * function: MONOLITH_TOOL_InitBackgrounds
  * address:  0x021B65B4
  * packet:   pkt_ov071_021B65B4
  * region:   ov071
@@ -24,7 +24,7 @@ extern char d_021BA7B4;
 
 typedef unsigned int   u32;
 struct BgTemplate;
-void func_021B65B4(void)
+void MONOLITH_TOOL_InitBackgrounds(void)
 {
     void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
     void func_02041300(int, int, int, int, int, int, int);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *
  * Stores the caller's word at +0x14 and forwards its low byte to
@@ -23,13 +23,13 @@
 typedef unsigned long u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 
 void func_021D9ED4(char *obj, u32 v)
 {
     ((struct Obj14331 *)obj)->f14 = v;
-    func_02039C68((struct Link *)func_020399A8(), (unsigned char)((struct Obj14331 *)obj)->f14, 0x24);
+    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct Obj14331 *)obj)->f14, 0x24);
 }
 

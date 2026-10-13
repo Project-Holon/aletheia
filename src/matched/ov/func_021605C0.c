@@ -1,5 +1,5 @@
 /*
- * function: func_021605C0
+ * function: EVENT_SHORTCUT_MENU_OpenLink
  * address:  0x021605C0
  * packet:   pkt_021605C0
  * region:   ov010
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_02040588  0x02040588  arm
- *   func_02188C54  0x02188C54  thumb
- *   func_02190344  0x02190344  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb
+ *   FIELD_MSGBG_ReleaseBg  0x02190344  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetRtcWork  0x02012C0C  thumb
- *   func_021C4F7C  0x021C4F7C  thumb
+ *   SHORTCUT_MENU_Create  0x021C4F7C  thumb
  */
 #include "../include/Obj00020.h"
 
@@ -24,16 +24,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02040588();
-extern int func_02188C54();
-extern int func_02190344();
+extern int FIELDMAP_GetMsgBg();
+extern int FIELD_MSGBG_ReleaseBg();
 struct Ctx;
 struct BigObj;
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetRtcWork(struct BigObj *p);
-extern char *func_021C4F7C(void *a0, int mode, const unsigned short *a2, unsigned short a3, unsigned short heap);
+extern char *SHORTCUT_MENU_Create(void *a0, int mode, const unsigned short *a2, unsigned short a3, unsigned short heap);
 
-void func_021605C0(int a0, int a1)
+void EVENT_SHORTCUT_MENU_OpenLink(int a0, int a1)
 {
     int a2;
     int a3;
@@ -57,14 +57,14 @@ a1 = 0;
     a0 = func_02040588(a0, a1);
 loc_021605DC:
 a0 = *(int *)&((struct Obj00020 *)t4)->f8;
-    a0 = func_02188C54(a0);
+    a0 = FIELDMAP_GetMsgBg(a0);
 loc_021605E2:
     if (a0 == 0) goto loc_021605EA;
 loc_021605E6:
-    a0 = func_02190344(a0);
+    a0 = FIELD_MSGBG_ReleaseBg(a0);
 loc_021605EA:
 a0 = *(int *)&((struct Obj00020 *)t4)->f4;
-    t6 = func_020120F4((const struct Ctx *)a0);
+    t6 = GAMESYSTEM_GetGameData((const struct Ctx *)a0);
 loc_021605F0:
     name = GAME_DATA_GetRtcWork((struct BigObj *)t6);
 loc_021605F6:
@@ -72,7 +72,7 @@ a0 = 0x15;
     o4 = a0;
 a1 = t5 + 0;
 a3 = 0x50;
-    res = func_021C4F7C(t6, a1, (const unsigned short *)name, a3, o4);
+    res = SHORTCUT_MENU_Create(t6, a1, (const unsigned short *)name, a3, o4);
 loc_02160606:
 *(char * *)&((struct Obj00020 *)t4)->fC = res;
 loc_02160608:

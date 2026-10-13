@@ -1,5 +1,5 @@
 /*
- * function: func_021D93FC
+ * function: BTL_TOKUSEI_ParalysisGuard_CureOnPeriodicCheck
  * address: 0x021D93FC
  * packet: pkt_ov093_021D93FC
  * region: ov093
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D93D8.c and filed here.
  *
  * symbols:
- *   func_021D96FC 0x021D96FC thumb
+ *   BTL_TOKUSEI_CureSick 0x021D96FC thumb
  */
 
-void func_021D93FC(int a, void *b, int c);
-void func_021D96FC(void *a, int b, int c);
+void BTL_TOKUSEI_ParalysisGuard_CureOnPeriodicCheck(int a, void *b, int c);
+void BTL_TOKUSEI_CureSick(void *a, int b, int c);
 
-void func_021D93FC(int a, void *b, int c)
+void BTL_TOKUSEI_ParalysisGuard_CureOnPeriodicCheck(int a, void *b, int c)
 {
-    func_021D96FC(b, c, 1);
+    BTL_TOKUSEI_CureSick(b, c, 1);
 }

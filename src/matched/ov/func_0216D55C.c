@@ -1,5 +1,5 @@
 /*
- * function: func_0216D55C
+ * function: FLDMMDL_CheckStatusBit
  * address:  0x0216D55C
  * packet:   pkt_0216D55C
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D55C(int a0, int a1)
+int FLDMMDL_CheckStatusBit(int a0, int a1)
 {
 
 a0 = ((struct Obj17788 *)((char *)a0))->f0;

@@ -12,9 +12,9 @@
  * symbols:
  *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
  *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021BEC2C 0x021BEC2C thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_SERVER_FLOW_RecordSpecialMoveUse 0x021BEC2C thumb ov093
  *   func_021BFC08 0x021BFC08 thumb ov093
  *   func_021BEFEC 0x021BEFEC thumb ov093
  *   func_021BEFFC 0x021BEFFC thumb ov093
@@ -22,36 +22,36 @@
  *   func_021BF01C 0x021BF01C thumb ov093
  *   func_021BF02C 0x021BF02C thumb ov093
  *   func_021BF03C 0x021BF03C thumb ov093
- *   func_021CD4FC 0x021CD4FC thumb ov093
- *   func_021BD200 0x021BD200 thumb ov093
+ *   BTL_SERVER_CMD_Reserve 0x021CD4FC thumb ov093
+ *   BTL_SERVER_FLOW_SetupTurnState 0x021BD200 thumb ov093
  *   func_021CC8D8 0x021CC8D8 thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
- *   func_021C65A8 0x021C65A8 thumb ov093
- *   func_021BFBD0 0x021BFBD0 thumb ov093
- *   func_021BF04C 0x021BF04C thumb ov093
- *   func_021BF0E4 0x021BF0E4 thumb ov093
- *   func_021C5718 0x021C5718 thumb ov093
- *   func_021BF83C 0x021BF83C thumb ov093
+ *   BTL_SERVER_FLOW_QueryMoveExecuteEvent 0x021C65A8 thumb ov093
+ *   BTL_SERVER_FLOW_PushPendingHpRecovery 0x021BFBD0 thumb ov093
+ *   BTL_SERVER_FLOW_RemoveOutOfRangeTargets 0x021BF04C thumb ov093
+ *   BTL_SERVER_FLOW_RemoveSelfTarget 0x021BF0E4 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgStdFailed 0x021C5718 thumb ov093
+ *   BTL_SERVER_FLOW_RemoveImmuneTargets 0x021BF83C thumb ov093
  *   func_021CC8A0 0x021CC8A0 thumb ov093
- *   func_021BF168 0x021BF168 thumb ov093
- *   func_021BF3D8 0x021BF3D8 thumb ov093
- *   func_021BF4AC 0x021BF4AC thumb ov093
- *   func_021BF8D4 0x021BF8D4 thumb ov093
- *   func_021BF1B4 0x021BF1B4 thumb ov093
- *   func_021BF27C 0x021BF27C thumb ov093
- *   func_021C091C 0x021C091C thumb ov093
- *   func_021C2DC4 0x021C2DC4 thumb ov093
- *   func_021C2488 0x021C2488 thumb ov093
- *   func_021C3184 0x021C3184 thumb ov093
- *   func_021C3438 0x021C3438 thumb ov093
- *   func_021C376C 0x021C376C thumb ov093
- *   func_021C3274 0x021C3274 thumb ov093
- *   func_021C3AA8 0x021C3AA8 thumb ov093
- *   func_021C3D08 0x021C3D08 thumb ov093
- *   func_021C60EC 0x021C60EC thumb ov093
- *   func_021BF244 0x021BF244 thumb ov093
- *   func_021BF2B4 0x021BF2B4 thumb ov093
- *   func_021C4F64 0x021C4F64 thumb ov093
+ *   BTL_SERVER_FLOW_CheckAccuracyCheckRequired 0x021BF168 thumb ov093
+ *   BTL_SERVER_FLOW_ProcAccuracyCheck 0x021BF3D8 thumb ov093
+ *   BTL_SERVER_FLOW_ProcNoEffectChecks 0x021BF4AC thumb ov093
+ *   BTL_SERVER_FLOW_RemoveMissedTargets 0x021BF8D4 thumb ov093
+ *   BTL_SERVER_FLOW_RemoveSubstituteTargets 0x021BF1B4 thumb ov093
+ *   BTL_SERVER_FLOW_NotifyMoveFailed 0x021BF27C thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveHitTargets 0x021C091C thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveRankEffectAllTargets 0x021C2DC4 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveSickAllTargets 0x021C2488 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveRankAndSickAllTargets 0x021C3184 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveOhko 0x021C3438 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveForceSwitchAllTargets 0x021C376C thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveRecoverHpAllTargets 0x021C3274 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveWeather 0x021C3AA8 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveSpecialEffect 0x021C3D08 thumb ov093
+ *   BTL_SERVER_FLOW_SetContFlag 0x021C60EC thumb ov093
+ *   BTL_SERVER_FLOW_NotifyMoveSucceeded 0x021BF244 thumb ov093
+ *   BTL_SERVER_FLOW_NotifyMoveFinished 0x021BF2B4 thumb ov093
+ *   BTL_SERVER_FLOW_ProcFaintedPoke 0x021C4F64 thumb ov093
  *
  * Single action/filter pipeline, with flags initialized at EC74..EC7E.
  * All exit paths and switch table mappings retain their original results.
@@ -78,9 +78,9 @@ struct Rec { u32 value; u16 kind; u8 data, flag; };
 struct O { u32 pos; struct Rec r[120]; };
 extern u32 WAZA_TOOL_GetCategory(u16);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
-extern u8 func_021D5440(u8 *p);
-extern int func_021D5B68(void *);
-extern void func_021BEC2C(u8 *p, u8 *a, int c);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern void BTL_SERVER_FLOW_RecordSpecialMoveUse(u8 *p, u8 *a, int c);
 extern int func_021BFC08(u8 *, u8 *, u8 *, u16);
 extern void func_021BEFEC(void *);
 extern void func_021BEFFC(struct S *);
@@ -88,50 +88,50 @@ extern int func_021BF00C(struct S *);
 extern int func_021BF01C(struct S *);
 extern int func_021BF02C(struct S *);
 extern void func_021BF03C(struct O *);
-extern u32 func_021CD4FC(struct Buf *, u32);
+extern u32 BTL_SERVER_CMD_Reserve(struct Buf *, u32);
 struct Unk021BD200;
-extern void func_021BD200(struct Unk021BD200 *p, u8 *q, u8 *a, int t);
+extern void BTL_SERVER_FLOW_SetupTurnState(struct Unk021BD200 *p, u8 *q, u8 *a, int t);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(u32 *, u32, int);
-extern int func_021C65A8(u8 *, u8 *, u32, u8 *);
-extern void func_021BFBD0(u8 *, u32, u8 *, u32);
-extern void func_021BF04C(u8 *, u16 *, int, int);
-extern void func_021BF0E4(int, u8 *, int, u8 *, int);
-extern void func_021C5718(u8 *, u8 *, u32);
-extern void func_021BF83C(u8 *, u16 *, u8 *, int);
+extern int BTL_SERVER_FLOW_QueryMoveExecuteEvent(u8 *, u8 *, u32, u8 *);
+extern void BTL_SERVER_FLOW_PushPendingHpRecovery(u8 *, u32, u8 *, u32);
+extern void BTL_SERVER_FLOW_RemoveOutOfRangeTargets(u8 *, u16 *, int, int);
+extern void BTL_SERVER_FLOW_RemoveSelfTarget(int, u8 *, int, u8 *, int);
+extern void BTL_SERVER_FLOW_PushMsgStdFailed(u8 *, u8 *, u32);
+extern void BTL_SERVER_FLOW_RemoveImmuneTargets(u8 *, u16 *, u8 *, int);
 extern void func_021CC8A0(u32 *p);
-extern int func_021BF168(u8 *, u16 *, u8 *);
-extern void func_021BF3D8(u8 *, int, u8 *, int, void *);
-extern void func_021BF4AC(u8 *, u8 *, u8 *, void *, void *);
-extern void func_021BF8D4(u8 *, u16 *, u8 *, int);
-extern void func_021BF1B4(int, u16 *, int, int, int);
-extern void func_021BF27C(u8 *, u32, u32);
-extern void func_021C091C(u8 *, u8 *, u8 *, u8 *, u32, u32);
-extern void func_021C2DC4(u8 *, u32, u32, u32);
-extern void func_021C2488(u8 *, u16, u8 *, u32);
-extern void func_021C3184(u8 *, const u16 *, u32, u32);
-extern void func_021C3438(u8 *, u16 *, u8 *, u8 *);
-extern void func_021C376C(u8 *, u16, int, int);
-extern void func_021C3274(u8 *, u32, u32, u32);
-extern void func_021C3AA8(u8 *, u16 *, u8 *);
-extern void func_021C3D08(u8 *, u16 *, u8 *, u8 *);
-extern void func_021C60EC(u8 *p, u8 *a, u32 n);
-extern void func_021BF244(u8 *, u32, u32);
-extern void func_021BF2B4(u8 *, u32, u32);
-extern int func_021C4F64(u8 *, u8 *);
+extern int BTL_SERVER_FLOW_CheckAccuracyCheckRequired(u8 *, u16 *, u8 *);
+extern void BTL_SERVER_FLOW_ProcAccuracyCheck(u8 *, int, u8 *, int, void *);
+extern void BTL_SERVER_FLOW_ProcNoEffectChecks(u8 *, u8 *, u8 *, void *, void *);
+extern void BTL_SERVER_FLOW_RemoveMissedTargets(u8 *, u16 *, u8 *, int);
+extern void BTL_SERVER_FLOW_RemoveSubstituteTargets(int, u16 *, int, int, int);
+extern void BTL_SERVER_FLOW_NotifyMoveFailed(u8 *, u32, u32);
+extern void BTL_SERVER_FLOW_ProcMoveHitTargets(u8 *, u8 *, u8 *, u8 *, u32, u32);
+extern void BTL_SERVER_FLOW_ProcMoveRankEffectAllTargets(u8 *, u32, u32, u32);
+extern void BTL_SERVER_FLOW_ProcMoveSickAllTargets(u8 *, u16, u8 *, u32);
+extern void BTL_SERVER_FLOW_ProcMoveRankAndSickAllTargets(u8 *, const u16 *, u32, u32);
+extern void BTL_SERVER_FLOW_ProcMoveOhko(u8 *, u16 *, u8 *, u8 *);
+extern void BTL_SERVER_FLOW_ProcMoveForceSwitchAllTargets(u8 *, u16, int, int);
+extern void BTL_SERVER_FLOW_ProcMoveRecoverHpAllTargets(u8 *, u32, u32, u32);
+extern void BTL_SERVER_FLOW_ProcMoveWeather(u8 *, u16 *, u8 *);
+extern void BTL_SERVER_FLOW_ProcMoveSpecialEffect(u8 *, u16 *, u8 *, u8 *);
+extern void BTL_SERVER_FLOW_SetContFlag(u8 *p, u8 *a, u32 n);
+extern void BTL_SERVER_FLOW_NotifyMoveSucceeded(u8 *, u32, u32);
+extern void BTL_SERVER_FLOW_NotifyMoveFinished(u8 *, u32, u32);
+extern int BTL_SERVER_FLOW_ProcFaintedPoke(u8 *, u8 *);
 
 int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
 {
     u32 lock;
     u32 action = WAZA_TOOL_GetCategory(key);
-    u8 id = func_021D5440(a);
+    u8 id = BTL_POKEPARAM_GetPokeId(a);
     int active = 1;
     int execute = 0;
     int forced = 0;
     u32 pos;
     int result;
     struct State *s;
-    func_021BEC2C(p, a, key);
+    BTL_SERVER_FLOW_RecordSpecialMoveUse(p, a, key);
     if (WAZA_TOOL_GetFlag(key, 1)) {
         switch (func_021BFC08(p, a, d, key)) {
         case 0: break;
@@ -142,16 +142,16 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
         }
     }
     func_021BEFEC(((struct Obj00003 *)p)->f860);
-    pos = func_021CD4FC(*(struct Buf * *)&((struct Obj00003 *)p)->fC, 0x30);
-    func_021BD200((struct Unk021BD200 *)(*(struct State * *)&((struct Obj00003 *)p)->f4A8), p, a, (int)d);
+    pos = BTL_SERVER_CMD_Reserve(*(struct Buf * *)&((struct Obj00003 *)p)->fC, 0x30);
+    BTL_SERVER_FLOW_SetupTurnState((struct Unk021BD200 *)(*(struct State * *)&((struct Obj00003 *)p)->f4A8), p, a, (int)d);
     lock = func_021CC8D8(p + 0x1d74, 0x10a8);
-    result = func_021C65A8(p, a, key, d);
+    result = BTL_SERVER_FLOW_QueryMoveExecuteEvent(p, a, key, d);
     func_021CC95C((u32 *)(p + 0x1d74), lock, 0x10aa);
     if (result != 0) {
         s = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
         if (s->a == 0) s->a = 1;
         if (result == 2) {
-            func_021BFBD0(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
+            BTL_SERVER_FLOW_PushPendingHpRecovery(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
             return 1;
         }
     }
@@ -165,61 +165,61 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
         break;
     }
     func_021BEFFC((struct S *)d);
-    func_021BF04C(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (int)a, (int)d);
-    func_021BF0E4((int)p, a, (int)d, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, execute);
+    BTL_SERVER_FLOW_RemoveOutOfRangeTargets(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (int)a, (int)d);
+    BTL_SERVER_FLOW_RemoveSelfTarget((int)p, a, (int)d, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, execute);
     if (func_021BF00C((struct S *)d)) {
-        if (((struct Bits78A *)(p + 0x78a))->skip == 0) func_021C5718(p, a, key);
+        if (((struct Bits78A *)(p + 0x78a))->skip == 0) BTL_SERVER_FLOW_PushMsgStdFailed(p, a, key);
         active = 0;
     }
     if (active != 0) {
-        if (action != 9) func_021BF83C(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, (int)d);
+        if (action != 9) BTL_SERVER_FLOW_RemoveImmuneTargets(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, (int)d);
         func_021CC8A0((u32 *)(p + 0x1f88));
-        if (forced != 0 || func_021BF168(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a))
-            func_021BF3D8(p, *(int *)&((struct Obj00003 *)p)->f1AB0, a, (int)d, p + 0x1f88);
-        func_021BF4AC(p, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, a, d, p + 0x1f88);
-        if (action != 9) func_021BF8D4(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, (int)d);
+        if (forced != 0 || BTL_SERVER_FLOW_CheckAccuracyCheckRequired(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a))
+            BTL_SERVER_FLOW_ProcAccuracyCheck(p, *(int *)&((struct Obj00003 *)p)->f1AB0, a, (int)d, p + 0x1f88);
+        BTL_SERVER_FLOW_ProcNoEffectChecks(p, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, a, d, p + 0x1f88);
+        if (action != 9) BTL_SERVER_FLOW_RemoveMissedTargets(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, (int)d);
         if (func_021BF01C((struct S *)d)) {
-            func_021BF27C(p, id, key);
+            BTL_SERVER_FLOW_NotifyMoveFailed(p, id, key);
             active = 0;
         } else {
-            func_021BF1B4((int)p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (int)a, (int)d, forced);
+            BTL_SERVER_FLOW_RemoveSubstituteTargets((int)p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (int)a, (int)d, forced);
             if (func_021BF02C((struct S *)d)) {
-                func_021C5718(p, a, key);
-                func_021BF27C(p, id, key);
+                BTL_SERVER_FLOW_PushMsgStdFailed(p, a, key);
+                BTL_SERVER_FLOW_NotifyMoveFailed(p, id, key);
                 active = 0;
             }
         }
     }
     if (active != 0) {
         if (execute != 0) {
-            func_021C091C(p, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, a, d, (u32)(p + 0x1f88), 0);
+            BTL_SERVER_FLOW_ProcMoveHitTargets(p, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, a, d, (u32)(p + 0x1f88), 0);
         } else {
             switch (action) {
-            case 2: func_021C2DC4(p, *(u32 *)&((struct Obj00003 *)p)->f1AB0, (u32)a, (u32)d); break;
-            case 1: func_021C2488(p, key, a, (u32)d); break;
-            case 5: func_021C3184(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (u32)a, (u32)d); break;
-            case 9: func_021C3438(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, d); break;
-            case 12: func_021C376C(p, key, (int)a, (int)d); break;
-            case 3: func_021C3274(p, key, (u32)a, (u32)d); break;
-            case 10: func_021C3AA8(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a); break;
-            case 11: case 13: func_021C3D08(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, d); break;
+            case 2: BTL_SERVER_FLOW_ProcMoveRankEffectAllTargets(p, *(u32 *)&((struct Obj00003 *)p)->f1AB0, (u32)a, (u32)d); break;
+            case 1: BTL_SERVER_FLOW_ProcMoveSickAllTargets(p, key, a, (u32)d); break;
+            case 5: BTL_SERVER_FLOW_ProcMoveRankAndSickAllTargets(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (u32)a, (u32)d); break;
+            case 9: BTL_SERVER_FLOW_ProcMoveOhko(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, d); break;
+            case 12: BTL_SERVER_FLOW_ProcMoveForceSwitchAllTargets(p, key, (int)a, (int)d); break;
+            case 3: BTL_SERVER_FLOW_ProcMoveRecoverHpAllTargets(p, key, (u32)a, (u32)d); break;
+            case 10: BTL_SERVER_FLOW_ProcMoveWeather(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a); break;
+            case 11: case 13: BTL_SERVER_FLOW_ProcMoveSpecialEffect(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, d); break;
             }
         }
         s = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
         if (s->a != 0) {
-            if (s->b == 0) func_021BFBD0(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
+            if (s->b == 0) BTL_SERVER_FLOW_PushPendingHpRecovery(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
             func_021BF03C((struct O *)(p + 0x1c));
-            if (!func_021D5B68(a) && WAZA_TOOL_GetFlag(key, 2)) func_021C60EC(p, a, 12);
-            func_021BF244(p, id, key);
+            if (!BTL_POKEPARAM_IsFainted(a) && WAZA_TOOL_GetFlag(key, 2)) BTL_SERVER_FLOW_SetContFlag(p, a, 12);
+            BTL_SERVER_FLOW_NotifyMoveSucceeded(p, id, key);
         } else {
-            func_021BF27C(p, id, key);
+            BTL_SERVER_FLOW_NotifyMoveFailed(p, id, key);
             active = 0;
         }
     } else {
         s = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
-        if (s->a != 0) func_021BFBD0(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
+        if (s->a != 0) BTL_SERVER_FLOW_PushPendingHpRecovery(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
     }
-    func_021BF2B4(p, id, key);
-    func_021C4F64(p, a);
+    BTL_SERVER_FLOW_NotifyMoveFinished(p, id, key);
+    BTL_SERVER_FLOW_ProcFaintedPoke(p, a);
     return active;
 }

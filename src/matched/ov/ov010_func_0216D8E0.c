@@ -1,5 +1,5 @@
 /*
- * function: func_0216D8E0
+ * function: FLDMMDL_SetDrawOffsetOutside
  * address:  0x0216D8E0
  * packet:   pkt_ov010_0216D8E0
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr save): copies a 12-byte record into the object at
- * +0x5c.  Filed as the sole blocker of ov021 func_021A3DA0.
+ * +0x5c.  Filed as the sole blocker of ov021 FIELD_PLAYER_CORE_FormStepNormal.
  */
 
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ typedef struct {
     u32 c;
 } Rec12;
 
-void func_0216D8E0(u8 *p, Rec12 *src)
+void FLDMMDL_SetDrawOffsetOutside(u8 *p, Rec12 *src)
 {
     *(Rec12 *)(p + 0x5c) = *src;
 }

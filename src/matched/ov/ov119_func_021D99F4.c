@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_021D8FA4 0x021D8FA4 thumb ov119
  *   func_021E1D68 0x021E1D68 thumb ov119
  *   func_021D8B38 0x021D8B38 thumb ov119
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021D98AC 0x021D98AC thumb ov119
  */
 #include "../include/Obj03775.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void *func_021D8FA4(void *,int);
 extern void func_021E1D68(char *p, void *a);
 extern void func_021D8B38(char *p);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D8E84(void *,int);
 extern void func_021D98AC(char *p);
-void func_021D99F4(char *p) { if(func_020221A4()) { ((struct Obj03775 *)p)->f10A0=0; func_021E1D68(p,func_021D8FA4(p,0));func_021D8B38(p);func_0202208C((void *)3,1,1,0,6,1,((struct Obj03775 *)p)->f5F4);func_021D8E84(p,(int)func_021D98AC); } }
+void func_021D99F4(char *p) { if(WIPE_SYS_EndCheck()) { ((struct Obj03775 *)p)->f10A0=0; func_021E1D68(p,func_021D8FA4(p,0));func_021D8B38(p);WIPE_SYS_Start((void *)3,1,1,0,6,1,((struct Obj03775 *)p)->f5F4);func_021D8E84(p,(int)func_021D98AC); } }

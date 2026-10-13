@@ -1,5 +1,5 @@
 /*
- * function: func_021DABF4
+ * function: BTL_ABILITY_LevitateSetFlag
  * address: 0x021DABF4
  * packet: pkt_ov093_021DABF4
  * region: ov093
@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
-extern int func_021D775C(int);
-extern int func_021D76BC(int, unsigned int);
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int, unsigned int);
 
-void func_021DABF4(int a, int b, int c, int *d)
+void BTL_ABILITY_LevitateSetFlag(int a, int b, int c, int *d)
 {
     int k;
-    if (c == func_021D775C(2)) {
+    if (c == BTL_EVENT_GetVar(2)) {
         k = 0x51;
-        if (func_021D775C(k) == 0)
-            *d = func_021D76BC(k, 1);
+        if (BTL_EVENT_GetVar(k) == 0)
+            *d = BTL_EVENT_OverwriteVar(k, 1);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1758
+ * function: C_GEAR_HandleButton
  * address:  0x021F1758
  * packet:   pkt_ov029_021F1758
  * region:   ov029
@@ -14,22 +14,22 @@
  * func_021EFEC0 is the unlabelled ov029 leaf filed as ov029_func_021EFEC0.c.
  *
  * symbols:
- *   func_021F1758  0x021F1758  thumb  ov029
+ *   C_GEAR_HandleButton  0x021F1758  thumb  ov029
  *   func_020355D8  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   func_021F020C  0x021F020C  thumb  ov029
- *   func_021F0D80  0x021F0D80  thumb  ov029
+ *   C_GEAR_HitTestTile  0x021F020C  thumb  ov029
+ *   C_GEAR_CountCellsOfKind  0x021F0D80  thumb  ov029
  *   func_021EFEC0  0x021EFEC0  thumb  ov029
- *   func_021F2AEC  0x021F2AEC  thumb  ov029
+ *   C_GEAR_SetCellKind  0x021F2AEC  thumb  ov029
  *   func_020409B4  0x020409B4  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_021F2DA8  0x021F2DA8  thumb  ov029
- *   func_021F1910  0x021F1910  thumb  ov029
+ *   C_GEAR_IsAnyIndicatorShown  0x021F2DA8  thumb  ov029
+ *   C_GEAR_SetPaintModeIcon  0x021F1910  thumb  ov029
  *   func_0203FB44  0x0203FB44  arm
  *   func_020090E8  0x020090E8  thumb
- *   func_021F1458  0x021F1458  thumb  ov029
- *   func_021F13FC  0x021F13FC  thumb  ov029
- *   func_021F1A44  0x021F1A44  thumb  ov029
+ *   C_GEAR_LoadSkin  0x021F1458  thumb  ov029
+ *   C_GEAR_DrawAllCells  0x021F13FC  thumb  ov029
+ *   C_GEAR_SetTileMarkersVisible  0x021F1A44  thumb  ov029
  */
 #include "../include/Obj00042.h"
 
@@ -39,22 +39,22 @@ typedef unsigned int   u32;
 
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern int func_021F020C(const void *p, int a, int b, int *c, int *d);
-extern int func_021F0D80(void *p, int k);
+extern int C_GEAR_HitTestTile(const void *p, int a, int b, int *c, int *d);
+extern int C_GEAR_CountCellsOfKind(void *p, int k);
 extern int func_021EFEC0(int a, int b);
 struct Sub020090B0Obj;
-extern void func_021F2AEC(unsigned char *p, int a1, int a2, int a3, int k);
+extern void C_GEAR_SetCellKind(unsigned char *p, int a1, int a2, int a3, int k);
 extern void func_020409B4(u32 layer);
 extern void func_020061E4(u32 id);
-extern int func_021F2DA8(u8 *p);
-extern void func_021F1910(char *p, int on);
+extern int C_GEAR_IsAnyIndicatorShown(u8 *p);
+extern void C_GEAR_SetPaintModeIcon(char *p, int on);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020090E8(struct Sub020090B0Obj *obj, u8 value);
-extern u32 func_021F1458(u8 *p, int a, int b, int c);
-extern void func_021F13FC(void *p);
-extern void func_021F1A44(char *p, int flag);
+extern u32 C_GEAR_LoadSkin(u8 *p, int a, int b, int c);
+extern void C_GEAR_DrawAllCells(void *p);
+extern void C_GEAR_SetTileMarkersVisible(char *p, int flag);
 
-void func_021F1758(u8 *p, int key)
+void C_GEAR_HandleButton(u8 *p, int key)
 {
     int c;
     int d;
@@ -71,16 +71,16 @@ void func_021F1758(u8 *p, int key)
     switch (key) {
     case 0:
         (int)TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));
-        r = func_021F020C(p, x, y, &c, &d);
+        r = C_GEAR_HitTestTile(p, x, y, &c, &d);
         if (p[0x457] != 0) {
             ((struct Obj00042 *)p)->f2CC = x;
             ((struct Obj00042 *)p)->f2CE = y;
-            if ((func_021F0D80(p, r) > 1 || r == 4) && func_021EFEC0(c, d) != 0) {
-                func_021F2AEC((unsigned char *)p, *(int *)&((struct Obj00042 *)p)->f20, c, d, (r + 1) % 5);
+            if ((C_GEAR_CountCellsOfKind(p, r) > 1 || r == 4) && func_021EFEC0(c, d) != 0) {
+                C_GEAR_SetCellKind((unsigned char *)p, *(int *)&((struct Obj00042 *)p)->f20, c, d, (r + 1) % 5);
                 func_020409B4(4);
                 func_020061E4(0x628);
             }
-        } else if (func_021F2DA8(p) == 0) {
+        } else if (C_GEAR_IsAnyIndicatorShown(p) == 0) {
             p[0x452] = c;
             p[0x453] = d;
             switch (r) {
@@ -99,7 +99,7 @@ void func_021F1758(u8 *p, int key)
     case 1:
         func_020061E4(0x628);
         p[0x457] ^= 1;
-        func_021F1910((char *)p, p[0x457]);
+        C_GEAR_SetPaintModeIcon((char *)p, p[0x457]);
         break;
     case 2:
         ((struct Obj00042 *)p)->f214 = 0xC;
@@ -117,9 +117,9 @@ void func_021F1758(u8 *p, int key)
         p[0x458]++;
         p[0x458] = p[0x458] % 5;
         func_020090E8((struct Sub020090B0Obj *)(*(int *)&((struct Obj00042 *)p)->f20), p[0x458]);
-        func_021F1458(p, p[0x459], p[0x458], 0);
-        func_021F13FC(p);
-        func_021F1A44((char *)p, 1);
+        C_GEAR_LoadSkin(p, p[0x459], p[0x458], 0);
+        C_GEAR_DrawAllCells(p);
+        C_GEAR_SetTileMarkersVisible((char *)p, 1);
         break;
     case 6:
         ((struct Obj00042 *)p)->f214 = 0xD;

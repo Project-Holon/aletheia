@@ -1,5 +1,5 @@
 /*
- * function: func_0215A6B8
+ * function: SCRCMD_WORK_SetFadeParam
  * address:  0x0215A6B8
  * packet:   pkt_ov010_0215A6B8
  * region:   ov010
@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-void func_0215A6B8(u32 *a, u32 b)
+void SCRCMD_WORK_SetFadeParam(u32 *a, u32 b)
 {
     *(u32 *)(a[8] + 0x108) = b;
 }

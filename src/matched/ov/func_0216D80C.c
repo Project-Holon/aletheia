@@ -1,5 +1,5 @@
 /*
- * function: func_0216D80C
+ * function: FLDMMDL_SetGridOldX
  * address:  0x0216D80C
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D80C.c \
- *       --func func_0216D80C --addr 0x0216D80C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SetGridOldX.c \
+ *       --func FLDMMDL_SetGridOldX --addr 0x0216D80C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17838.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void func_0216D80C(void *p, u16 v) { ((struct Obj17838 *)p)->f36 = v; }
+void FLDMMDL_SetGridOldX(void *p, u16 v) { ((struct Obj17838 *)p)->f36 = v; }

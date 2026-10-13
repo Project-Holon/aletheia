@@ -103,7 +103,7 @@
    "status": "EXACT",
    "functions": [
     "GFL_USE_AddMainTask",
-    "sub_020056BC",
+    "GFL_USE_GetMainTaskList",
     "GFL_USE_InitRandomState",
     "GFL_USE_InitRandom",
     "GFL_USE_GetRandom",

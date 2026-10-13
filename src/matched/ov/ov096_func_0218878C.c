@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  */
 #include "../include/Obj07919.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *);
+extern u32 VM_GetU32(struct Cursor *);
 int func_0218878C(struct Cursor *a, u8 *b)
 {
     u32 value;
-    value = func_0201134C(a);
+    value = VM_GetU32(a);
     *(u32 *)((u32)b + 4 + b[1] * 4) += value;
     if (*(int *)((u32)b + 4 + b[1] * 4) < 0)
         *(int *)((u32)b + 4 + b[1] * 4) = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB46C",
+   "name": "PLIST_PLATE_UpdateLabelState",
    "address": "0x021BB46C",
    "kind": "game",
    "region": "ov091",

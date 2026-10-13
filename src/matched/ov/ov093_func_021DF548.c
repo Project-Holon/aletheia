@@ -1,5 +1,5 @@
 /*
- * function: func_021DF548
+ * function: BTL_HANDLER_ITEM_LightBallFlingParalyze
  * address:  0x021DF548
  * packet:   pkt_ov093_021DF548
  * region:   ov093
@@ -13,10 +13,10 @@
  * key 3), fill it (kind 1) and post it to the queue.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021D7D18  0x021D7D18  thumb  ov093
+ *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
  */
 
 typedef struct Word { unsigned int v; } Word;
@@ -29,22 +29,22 @@ typedef struct Rec {
     unsigned char id;
 } Rec;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
-extern Word func_021D7D18(int x);
+extern Word BTL_CALC_MakeDefaultSickCont(int x);
 
-void func_021DF548(void *self, void *q, int id)
+void BTL_HANDLER_ITEM_LightBallFlingParalyze(void *self, void *q, int id)
 {
     Rec *r;
     unsigned char tag;
 
-    if (id != func_021D775C(2))
+    if (id != BTL_EVENT_GetVar(2))
         return;
-    tag = func_021D775C(3);
+    tag = BTL_EVENT_GetVar(3);
     r = (Rec *)func_021C88A4(q, 12, tag);
     r->id = id;
     r->f04 = 1;
-    r->f08 = func_021D7D18(1);
+    r->f08 = BTL_CALC_MakeDefaultSickCont(1);
     func_021C88C8(q, r);
 }

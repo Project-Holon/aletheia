@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAE28",
+   "name": "OPTION_MENU_UpdateMessageBox",
    "address": "0x021BAE28",
    "kind": "game",
    "region": "ov068",

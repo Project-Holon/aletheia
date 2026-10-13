@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   d_021E792C 0x021E792C data
  */
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern const char d_021E792C[];
 int func_021E2A80(void *a0)
 {
-    if (func_02035C08(d_021E792C) == 0) return 1;
+    if (TOUCHPANEL_HitTrg(d_021E792C) == 0) return 1;
     return 0;
 }

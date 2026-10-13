@@ -11,11 +11,11 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_020457B0 0x020457B0 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
- *   func_0201C724 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
 #include "../include/Obj00004.h"
 typedef unsigned char u8;
@@ -30,24 +30,24 @@ struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_021B9C08(u8 *p, unsigned int index, void *object)
 {
     void *text = func_02045EC0(((struct Obj00004 *)p)->f18D8, index);
     void *copy;
     func_0201C6EC(((struct Obj00004 *)p)->f18E8);
-    func_02043B5C(func_02045770(((struct Obj00004 *)p)->f18EC), 15);
+    BMP_Clear(func_02045770(((struct Obj00004 *)p)->f18EC), 15);
     if (object) {
-        copy = func_020457B0(128, ((struct Obj00004 *)p)->f0);
+        copy = STRBUF_Create(128, ((struct Obj00004 *)p)->f0);
         func_0201F250(object, copy, text);
-        func_02045808(text);
+        STRBUF_Delete(text);
         text = copy;
     }
-    func_0201C724(((struct Obj00004 *)p)->f18E8, (u32)func_02045770(((struct Obj00004 *)p)->f18EC), 2, 2, (u32)text, (u32)(((struct Obj00004 *)p)->f18E4), 1088);
-    func_02045808(text);
+    PRINTSYS_PrintQueColor(((struct Obj00004 *)p)->f18E8, (u32)func_02045770(((struct Obj00004 *)p)->f18EC), 2, 2, (u32)text, (u32)(((struct Obj00004 *)p)->f18E4), 1088);
+    STRBUF_Delete(text);
     *(int *)&((struct Obj00004 *)p)->f18CC = 1;
 }

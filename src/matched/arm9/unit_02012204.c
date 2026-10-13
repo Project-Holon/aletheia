@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02012204, func_02012210
+ * function: GAMESYSTEM_IsNetOffBySleep, GAMESYSTEM_ClearNetOffBySleep
  *
  * The getter and the clearer of bit 0 of the byte at +0x33 of the same
  * 0x34-byte context record src/matched/unit_020120F0.c describes.  The
@@ -33,12 +33,12 @@ struct Ctx {
     u8 unk33_1 : 7;
 };
 
-u32 func_02012204(const struct Ctx *p)
+u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p)
 {
     return p->unk33_0;
 }
 
-void func_02012210(struct Ctx *p)
+void GAMESYSTEM_ClearNetOffBySleep(struct Ctx *p)
 {
     p->unk33_0 = 0;
 }

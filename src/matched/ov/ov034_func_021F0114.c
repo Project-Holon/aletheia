@@ -1,5 +1,5 @@
 /*
- * function: func_021F0114
+ * function: REPORT_InitBgs
  * address:  0x021F0114
  * packet:   pkt_ov034_021F0114
  * region:   ov034
@@ -16,8 +16,8 @@
  *   func_02040B94 0x02040B94 arm
  *   func_020409B4 0x020409B4 arm
  *   d_021F0AA0 0x021F0AA0 data ov034 a4
- *   d_021F0AC0 0x021F0AC0 data ov034 a4
- *   d_021F0AE0 0x021F0AE0 data a4
+ *   sReportBgTemplate5 0x021F0AC0 data ov034 a4
+ *   sReportBgTemplate4 0x021F0AE0 data a4
  */
 
 typedef unsigned char  u8;
@@ -48,17 +48,17 @@ extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_020409B4(u32 layer);
 
 extern struct BgTemplate d_021F0AA0;
-extern struct BgTemplate d_021F0AC0;
-extern struct BgTemplate d_021F0AE0;
+extern struct BgTemplate sReportBgTemplate5;
+extern struct BgTemplate sReportBgTemplate4;
 
-void func_021F0114(u32 heapId)
+void REPORT_InitBgs(u32 heapId)
 {
     func_02040588(4, 0);
     func_02040588(5, 0);
     func_02040588(6, 0);
     func_02040588(7, 0);
     {
-        struct BgTemplate t = d_021F0AE0;
+        struct BgTemplate t = sReportBgTemplate4;
 
         func_0203FCA0(4, &t, 0);
     }
@@ -66,7 +66,7 @@ void func_021F0114(u32 heapId)
     func_02040B94(4, 0x20, 0, heapId);
     func_020409B4(4);
     {
-        struct BgTemplate t = d_021F0AC0;
+        struct BgTemplate t = sReportBgTemplate5;
 
         func_0203FCA0(5, &t, 0);
     }

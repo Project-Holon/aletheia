@@ -1,5 +1,5 @@
 /*
- * function: func_021D47A4
+ * function: BTL_NET_GetParty
  * address:  0x021D47A4
  * packet:   pkt_ov093_021D47A4
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F3B88     0x021F3B88  data  ov093
- *   func_021D4394  0x021D4394  thumb ov093
+ *   gBtlNet     0x021F3B88  data  ov093
+ *   BTL_NET_FindNetIdByClient  0x021D4394  thumb ov093
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
  */
@@ -27,22 +27,22 @@ struct S {
     void *tblC[4];
 };
 
-extern struct S *d_021F3B88;
-extern u8 func_021D4394(u32 a);
+extern struct S *gBtlNet;
+extern u8 BTL_NET_FindNetIdByClient(u32 a);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 
-void *func_021D47A4(u8 a)
+void *BTL_NET_GetParty(u8 a)
 {
-    u32 idx = func_021D4394(a);
+    u32 idx = BTL_NET_FindNetIdByClient(a);
     void *p;
     u32 n;
     u32 i;
 
     if (idx != 0x28) {
-        return d_021F3B88->tblA[idx];
+        return gBtlNet->tblA[idx];
     }
-    p = d_021F3B88->tblC[a];
+    p = gBtlNet->tblC[a];
     if (p != 0) {
         n = func_0201AA18(p);
         for (i = 0; i < n; i++) {

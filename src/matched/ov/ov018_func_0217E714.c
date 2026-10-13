@@ -1,5 +1,5 @@
 /*
- * function: func_0217E714
+ * function: INTRUDE_SUBDISP_PrintInfoMessage
  * address:  0x0217E714
  * packet:   pkt_ov018_0217E714
  * region:   ov018
@@ -9,32 +9,32 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_02013D5C  0x02013D5C  thumb
  *   func_02013D9C  0x02013D9C  thumb
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201C724  0x0201C724  thumb
- *   func_02026608  0x02026608  thumb
- *   func_021585BC  0x021585BC  thumb  ov010
- *   func_021583EC  0x021583EC  thumb  ov010
- *   func_021762C0  0x021762C0  thumb  ov011
- *   func_021762D8  0x021762D8  thumb  ov011
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021D3554  0x021D3554  thumb  ov021
- *   func_0217BEA8  0x0217BEA8  thumb  ov018
- *   func_0217EC08  0x0217EC08  thumb  ov018
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
+ *   GAME_COMM_PopInfoMessage  0x02026608  thumb
+ *   INTRUDE_COMM_IsWarnedWithoutRequest  0x021585BC  thumb  ov010
+ *   GAME_DATA_GetMyStatusByNetId  0x021583EC  thumb  ov010
+ *   INTRUDE_COMM_SetWordSetMemberName  0x021762C0  thumb  ov011
+ *   INTRUDE_COMM_SetWordSetRequest  0x021762D8  thumb  ov011
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_PALACE_SYS_IsZoneFlagSet  0x021D3554  thumb  ov021
+ *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
+ *   INTRUDE_SUBDISP_IsZoneMatch  0x0217EC08  thumb  ov018
  */
 
 typedef unsigned char u8;
@@ -119,38 +119,38 @@ struct Descriptor;
 struct CharBuf;
 struct WordSet;
 struct MsgBank;
-u32 func_02012138(const struct Ctx *p);
-void *func_020120F4(const struct Ctx *p);
+u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
 struct VecFx32;
-u8 func_02012B58(const struct BigObj *p);
+u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 struct BigObj;
-int func_02012B70(const struct BigObj *p);
-void *func_0201210C(const struct Ctx *p);
+int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
+void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 u32 func_02013D5C(u32 id);
 u32 func_02013D9C(u32 id);
-int func_0203D1B4(void);
+int GFL_NET_GetNegotiationNum(void);
 void *func_02045770(struct Descriptor *a0);
-void func_02043B5C(struct CharBuf *buf, u8 value);
-void func_02045334(struct Descriptor *a0);
-void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+void BMP_Clear(struct CharBuf *buf, u8 value);
+void BMP_WIN_TransferChars(struct Descriptor *a0);
+void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0201F250(struct WordSet *ws, void *dst, void *src);
-void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-int func_02026608(u8 *p, u8 *out);
-int func_021585BC(int a0);
-int func_021583EC(void *a0, int a1);
-void func_021762C0(void *win, u32 slot, u8 *src, u16 heap);
-void func_021762D8(const void *obj, void *a1, void *a2, void *a3);
+void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+int GAME_COMM_PopInfoMessage(u8 *p, u8 *out);
+int INTRUDE_COMM_IsWarnedWithoutRequest(int a0);
+int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
+void INTRUDE_COMM_SetWordSetMemberName(void *win, u32 slot, u8 *src, u16 heap);
+void INTRUDE_COMM_SetWordSetRequest(const void *obj, void *a1, void *a2, void *a3);
 struct Obj00020;
-void *func_02188CB4(struct Obj00020 *p);
-void func_021A3038(u8 *p, struct VecFx32 *out);
-int func_021D3554(void *arg0, int arg1);
-Mon *func_0217BEA8(int a0);
-int func_0217EC08(u16 a, u16 b, u16 c);
+void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+void FIELD_PLAYER_GetPos(u8 *p, struct VecFx32 *out);
+int FIELD_PALACE_SYS_IsZoneFlagSet(void *arg0, int arg1);
+Mon *INTRUDE_FIELD_FindZonePos(int a0);
+int INTRUDE_SUBDISP_IsZoneMatch(u16 a, u16 b, u16 c);
 
-void func_0217E714(W *w, u8 *p, u16 q)
+void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
 {
     u32 sys;
     void *h;
@@ -168,21 +168,21 @@ void func_0217E714(W *w, u8 *p, u16 q)
     Buf b;
     Vec3 v;
 
-    sys = func_02012138((const struct Ctx *)w->f00);
-    h = func_020120F4((const struct Ctx *)w->f00);
+    sys = GAMESYSTEM_GetGameComm((const struct Ctx *)w->f00);
+    h = GAMESYSTEM_GetGameData((const struct Ctx *)w->f00);
     done = 0;
     if (w->f108 > 0) {
         w->f108--;
         if (w->f108 == 0 && p == 0) {
-            func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), done);
-            func_02045334((struct Descriptor *)w->f4C);
+            BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), done);
+            BMP_WIN_TransferChars((struct Descriptor *)w->f4C);
         }
         return;
     }
     prev = w->f10D;
     w->f10D = 0;
-    cur = func_02012B58(h);
-    if (p != 0 && func_0203D1B4() <= 1) {
+    cur = GAME_DATA_GetExitMode(h);
+    if (p != 0 && GFL_NET_GetNegotiationNum() <= 1) {
         off = 0x93A;
         n = p[off - 0x15];
         if (n != 0) {
@@ -195,46 +195,46 @@ void func_0217E714(W *w, u8 *p, u16 q)
                 func_0201EE0C((struct WordSet *)w->f24, i, *(void **)(p + i * 4 + off - 0x12),
                               p[i + off - 2], 1, p[i + off]);
             }
-            func_02045CAC((struct MsgBank *)w->f2C, msg, w->f38);
+            MSGDATA_ReadString((struct MsgBank *)w->f2C, msg, w->f38);
             func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
         } else {
-            func_02045CAC((struct MsgBank *)w->f2C, 0x33, w->f3C);
+            MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x33, w->f3C);
         }
         done = 1;
     }
-    if (done == 0 && p != 0 && func_0203D1B4() > 1 && func_021585BC((int)p) != 0) {
-        func_02045CAC((struct MsgBank *)w->f2C, 0x35, w->f3C);
+    if (done == 0 && p != 0 && GFL_NET_GetNegotiationNum() > 1 && INTRUDE_COMM_IsWarnedWithoutRequest((int)p) != 0) {
+        MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x35, w->f3C);
         done = 1;
     }
-    if (done == 0 && func_02012B70(h) == 0) {
+    if (done == 0 && GAME_DATA_GetIntrudeCount(h) == 0) {
         e = w->slots[cur].mon;
         if (e != 0) {
             for (i = 0; i < 3; i++) {
                 if (cur != i && w->slots[i].mon != 0
                     && e->x == w->slots[i].mon->x && e->y == w->slots[i].mon->y) {
-                    func_02045CAC((struct MsgBank *)w->f2C, 0x31, w->f3C);
+                    MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x31, w->f3C);
                     done = 1;
                     break;
                 }
             }
         }
         if (done == 0 && w->fE9 == 1) {
-            func_02045CAC((struct MsgBank *)w->f2C, 0x34, w->f3C);
+            MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x34, w->f3C);
             done = 1;
         }
         if (done == 0 && w->fEA == 1) {
-            func_02045CAC((struct MsgBank *)w->f2C, 0x32, w->f3C);
+            MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x32, w->f3C);
             done = 1;
         }
     }
-    if (done == 0 && p != 0 && w->f169 != 4 && func_021583EC(h, w->f169) != 0) {
-        t = (void *)func_021583EC(h, w->f169);
+    if (done == 0 && p != 0 && w->f169 != 4 && GAME_DATA_GetMyStatusByNetId(h, w->f169) != 0) {
+        t = (void *)GAME_DATA_GetMyStatusByNetId(h, w->f169);
         if (((Fld *)(p + w->f169 * 0x1C + 0xA2))->b == 2) {
             msg = 0x36;
         } else {
             msg = 0x28;
         }
-        func_02045CAC((struct MsgBank *)w->f2C, msg, w->f38);
+        MSGDATA_ReadString((struct MsgBank *)w->f2C, msg, w->f38);
         func_0201F02C((struct WordSet *)w->f24, 0, t);
         func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
         w->f169 = 4;
@@ -243,15 +243,15 @@ void func_0217E714(W *w, u8 *p, u16 q)
         if (w->fDC == 3 && p != 0 && w->fE4->a != 4) {
             u32 *ep;
             Mon *mm;
-            t = func_0201210C((const struct Ctx *)w->f00);
+            t = GAMESYSTEM_GetFieldMap((const struct Ctx *)w->f00);
             ep = (u32 *)(p + 0x8C + w->fE4->f28 * 0x1C);
-            func_021A3038(func_02188CB4(t), (struct VecFx32 *)(&v));
-            func_021762C0(w->f24, 0, w->fE4->f18, 0x70);
-            mm = func_0217BEA8(((u16 *)ep)[10]);
+            FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(t), (struct VecFx32 *)(&v));
+            INTRUDE_COMM_SetWordSetMemberName(w->f24, 0, w->fE4->f18, 0x70);
+            mm = INTRUDE_FIELD_FindZonePos(((u16 *)ep)[10]);
             if (w->fD8 == w->fE8 && mm != 0
-                && func_0217EC08(q, mm->id, mm->id2) == 1) {
+                && INTRUDE_SUBDISP_IsZoneMatch(q, mm->id, mm->id2) == 1) {
                 if (ep[0] == 1) {
-                    func_02045CAC((struct MsgBank *)w->f2C, 0x2F, w->f38);
+                    MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x2F, w->f38);
                     func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
                     done = 1;
                 } else {
@@ -270,35 +270,35 @@ void func_0217E714(W *w, u8 *p, u16 q)
                             msg = 0x2B;
                         }
                     }
-                    func_02045CAC((struct MsgBank *)w->f2C, msg, w->f38);
+                    MSGDATA_ReadString((struct MsgBank *)w->f2C, msg, w->f38);
                     func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
                     done = 1;
                 }
             } else {
-                m1 = func_0217BEA8(((u16 *)ep)[10]);
-                m2 = func_0217BEA8(q);
+                m1 = INTRUDE_FIELD_FindZonePos(((u16 *)ep)[10]);
+                m2 = INTRUDE_FIELD_FindZonePos(q);
                 if (m1 != 0 && m2 != 0 && m1->x == m2->x && m1->y == m2->y) {
-                    func_02045CAC((struct MsgBank *)w->f2C, 0x2F, w->f38);
+                    MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x2F, w->f38);
                     func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
                     done = 1;
                 }
             }
         }
-        if (done == 0 && func_02012B70(h) == 1) {
+        if (done == 0 && GAME_DATA_GetIntrudeCount(h) == 1) {
             w->f10D = 0;
             switch (w->fDC) {
             case 1:
-                func_02045CAC((struct MsgBank *)w->f2C, 0x21, w->f3C);
+                MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x21, w->f3C);
                 break;
             case 2:
-                func_02045CAC((struct MsgBank *)w->f2C, 0x22, w->f3C);
+                MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x22, w->f3C);
                 break;
             case 3:
                 if (w->f10E == 0) {
-                    func_02045CAC((struct MsgBank *)w->f2C, w->fE4->a + 0x37, w->f3C);
+                    MSGDATA_ReadString((struct MsgBank *)w->f2C, w->fE4->a + 0x37, w->f3C);
                 } else {
-                    func_02045CAC(w->f30, w->fE4->c, w->f38);
-                    func_021762D8(w->fE4, w->fE4->f18, w->f24, (void *)0x70);
+                    MSGDATA_ReadString(w->f30, w->fE4->c, w->f38);
+                    INTRUDE_COMM_SetWordSetRequest(w->fE4, w->fE4->f18, w->f24, (void *)0x70);
                     func_0201F250((struct WordSet *)w->f24, w->f3C, w->f38);
                 }
                 w->f10E ^= 1;
@@ -316,9 +316,9 @@ void func_0217E714(W *w, u8 *p, u16 q)
             done = 1;
         }
     } else {
-        if (func_02026608((u8 *)sys, (u8 *)(&b)) == 1) {
+        if (GAME_COMM_PopInfoMessage((u8 *)sys, (u8 *)(&b)) == 1) {
             w->f10D = 0;
-            func_02045CAC((struct MsgBank *)w->f2C, b.msg, w->f38);
+            MSGDATA_ReadString((struct MsgBank *)w->f2C, b.msg, w->f38);
             done = 1;
             for (i = 0; i < 2; i++) {
                 if (b.ptr[i] != 0) {
@@ -329,16 +329,16 @@ void func_0217E714(W *w, u8 *p, u16 q)
             done = 1;
         }
     }
-    if (done == 0 && func_02012B70(h) == 1 && func_02013D5C(q) == 0 && func_02013D9C(q) == 0
-        && func_021D3554(h, q) == 0) {
-        func_02045CAC((struct MsgBank *)w->f2C, 0x30, w->f3C);
+    if (done == 0 && GAME_DATA_GetIntrudeCount(h) == 1 && func_02013D5C(q) == 0 && func_02013D9C(q) == 0
+        && FIELD_PALACE_SYS_IsZoneFlagSet(h, q) == 0) {
+        MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x30, w->f3C);
         done = 1;
     }
     w->f169 = 4;
     if (done == 1) {
-        func_02043B5C((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), 0);
+        BMP_Clear((struct CharBuf *)func_02045770((struct Descriptor *)w->f4C), 0);
         n = w->f28;
-        func_0201C724((void *)n, (int)func_02045770((struct Descriptor *)w->f4C), 0, 0, (u32)w->f3C, w->f1C, 0x3C40);
+        PRINTSYS_PrintQueColor((void *)n, (int)func_02045770((struct Descriptor *)w->f4C), 0, 0, (u32)w->f3C, w->f1C, 0x3C40);
         w->f50 = 1;
         w->f108 = 0x5A;
     }

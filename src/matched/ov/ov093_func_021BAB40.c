@@ -1,5 +1,5 @@
 /*
- * function: func_021BAB40
+ * function: BTL_SERVER_Restart
  * address: 0x021BAB40
  * packet: pkt_ov093_021BAB40
  * region: ov093
@@ -9,21 +9,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BABEC 0x021BABEC thumb ov093
- *   func_021BAC04 0x021BAC04 thumb ov093
- *   func_021BB7FC 0x021BB7FC thumb ov093
- *   func_021BB9D0 0x021BB9D0 thumb ov093
+ *   BTL_SERVER_SetHandler 0x021BABEC thumb ov093
+ *   BTL_SERVER_StepStart 0x021BAC04 thumb ov093
+ *   BTL_SERVER_ResetClientCommands 0x021BB7FC thumb ov093
+ *   BTL_SERVER_FLOW_Reset 0x021BB9D0 thumb ov093
  */
 #include "../include/Obj21025.h"
 
-extern void func_021BABEC(int *p, void *f);
+extern void BTL_SERVER_SetHandler(int *p, void *f);
 typedef unsigned char  u8;
-extern int func_021BAC04(char *p, int *st);
-extern void func_021BB7FC(const u8 *p);
-extern void func_021BB9D0(u8 *p);
-void func_021BAB40(char *p)
+extern int BTL_SERVER_StepStart(char *p, int *st);
+extern void BTL_SERVER_ResetClientCommands(const u8 *p);
+extern void BTL_SERVER_FLOW_Reset(u8 *p);
+void BTL_SERVER_Restart(char *p)
 {
- func_021BABEC((int *)p, (void *)func_021BAC04);
- func_021BB7FC((const u8 *)p);
- func_021BB9D0(((struct Obj21025 *)p)->f44);
+ BTL_SERVER_SetHandler((int *)p, (void *)BTL_SERVER_StepStart);
+ BTL_SERVER_ResetClientCommands((const u8 *)p);
+ BTL_SERVER_FLOW_Reset(((struct Obj21025 *)p)->f44);
 }

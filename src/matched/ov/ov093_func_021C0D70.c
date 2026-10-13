@@ -1,5 +1,5 @@
 /*
- * function: func_021C0D70
+ * function: BTL_SERVER_FLOW_SumHitRecordDamage
  * address: 0x021C0D70
  * packet: pkt_ov093_021C0D70
  * region: ov093
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021C0D70(const u8 *q)
+u32 BTL_SERVER_FLOW_SumHitRecordDamage(const u8 *q)
 {
     u32 i;
     u32 sum = 0;

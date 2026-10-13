@@ -10,20 +10,20 @@
  * status: EXACT
  * symbols:
  *   g_02FFFC3C 0x02FFFC3C data a4
- *   func_021B6114 0x021B6114 thumb ov090
+ *   PLIST_COMM_Update 0x021B6114 thumb ov090
  *   func_02034AC4 0x02034AC4 arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_0201AB28 0x0201AB28 thumb
  *   func_0201A98C 0x0201A98C thumb
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   gPartyListProcData 0x021BED00 data a4 ov091
  *   gPokeStatusProcData 0x021DC800 data a4 ov131
@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 g_02FFFC3C;
-extern void func_021B6114(u8 *);
+extern void PLIST_COMM_Update(u8 *);
 extern int func_02034AC4(int);
 extern void PROCSYS_Push(void *, int, const void *, void *);
 extern u32 PROCSYS_Main(void *);
@@ -46,14 +46,14 @@ struct Entry;
 struct Party;
 struct PartyMon;
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int POKE_REGULATION_GetDataSize(void);
-extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
+extern u32 GFL_NET_SendData(u32, u32, u32, u32, u32, u32, u32, u32);
 struct Link;
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern u32 func_0200FB24(void);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern int DWC_RAPCOMMON_HandleNetError(int, int);
 extern const u32 gPartyListProcData[], gPokeStatusProcData[];
 extern const char ov91_id[], ov131_id[];
@@ -74,7 +74,7 @@ int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
             p[196] -= 60;
         }
     }
-    func_021B6114(p + 4);
+    PLIST_COMM_Update(p + 4);
     switch (((struct Obj00310 *)p)->f0) {
     case 0:
         func_02034AC4((int)ov91_id);
@@ -105,15 +105,15 @@ int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
         ((struct Obj00310 *)p)->f0 = 7;
         break;
     case 7:
-        ctx = func_020399A8();
+        ctx = GFL_NET_HANDLE_GetCurrentHandle();
         code = POKE_REGULATION_GetDataSize();
-        if (func_0203D3F8((u32)ctx, 255, 0x2f00, code, *(u32 *)&((struct Obj06506 *)q)->f1C, 0, 0, 1) != 0) {
-            func_02039C68((struct Link *)func_020399A8(), 20, 47);
+        if (GFL_NET_SendData((u32)ctx, 255, 0x2f00, code, *(u32 *)&((struct Obj06506 *)q)->f1C, 0, 0, 1) != 0) {
+            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47);
             ((struct Obj00310 *)p)->f0 = 8;
         }
         break;
     case 8:
-        if (func_02039CB4((struct Link *)func_020399A8(), 20, 47) != 0) return 1;
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47) != 0) return 1;
         break;
     case 3:
         func_02034AC4((int)ov131_id);
@@ -131,7 +131,7 @@ int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
         ((struct Obj00310 *)p)->f0 = 0;
         break;
     }
-    if (func_0203CD98() != 0 && ((struct Obj00310 *)p)->f0 != 1 && ((struct Obj00310 *)p)->f0 != 2 && ((struct Obj00310 *)p)->f0 != 4 && ((struct Obj00310 *)p)->f0 != 5) {
+    if (GFL_NET_GetRunState() != 0 && ((struct Obj00310 *)p)->f0 != 1 && ((struct Obj00310 *)p)->f0 != 2 && ((struct Obj00310 *)p)->f0 != 4 && ((struct Obj00310 *)p)->f0 != 5) {
         if (DWC_RAPCOMMON_HandleNetError(1, 1) != 0) {
             ((struct Obj06506 *)q)->f28 = 1;
             return 1;

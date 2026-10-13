@@ -1,5 +1,5 @@
 /*
- * function: func_02169710
+ * function: FIELD_G3D_MAP_DrawPlacedModels
  * address:  0x02169710
  * packet:   pkt_ov010_02169710
  * region:   ov010
@@ -11,21 +11,21 @@
  *
  * Draws each placed model of a list: for every 0x14-byte entry at +0x9C
  * (count u16 at +0xA4) whose index is valid in the resource table at +0x98,
- * loads the base matrix g_02148B98 (G3 cmd 0x17, MTX_LOAD_4x3), multiplies
+ * loads the base matrix g_renderStateDrawParams (G3 cmd 0x17, MTX_LOAD_4x3), multiplies
  * in a Y rotation by the entry's angle translated by obj+4 plus the entry's
  * position (cmd 0x19, MTX_MULT_4x3), and draws it.  The handed 240-byte
  * extent also holds an unlabelled 32-byte leaf at 0x021697E0.
  *
  * symbols:
- *   func_02047788  0x02047788  arm
- *   func_0204755C  0x0204755C  arm
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
+ *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   func_0206DDA4  0x0206DDA4  arm
  *   VEC_Add        0x0207C9D0  arm
  *   MTX_RotY33_    0x0207AF1C  thumb
- *   func_021699A0  0x021699A0  thumb  ov010
+ *   FIELD_G3D_MAP_TestModelBox  0x021699A0  thumb  ov010
  *   G3D_SYSTEM_DrawRenderObj  0x02047C8C  arm
  *   tbl_020A1B38   0x020A1B38  data
- *   g_02148B98     0x02148B98  data
+ *   g_renderStateDrawParams     0x02148B98  data
  */
 
 typedef unsigned short u16;
@@ -69,18 +69,18 @@ typedef struct Obj {
 } Obj;
 
 extern s16 tbl_020A1B38[];
-extern char g_02148B98[];
+extern char g_renderStateDrawParams[];
 
-extern int func_02047788(int *p);
-extern int func_0204755C(int *p);
+extern int G3D_SYSTEM_GetObjectRender(int *p);
+extern int G3D_SYSTEM_GetRenderObj(int *p);
 struct P02047C8C;
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void  VEC_Add(const Vec *a, const Vec *b, Vec *dst);
 extern void  MTX_RotY33_(void *m, s16 sinv, s16 cosv);
-extern int   func_021699A0(void *p);
+extern int   FIELD_G3D_MAP_TestModelBox(void *p);
 extern void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p);
 
-void func_02169710(Obj *obj)
+void FIELD_G3D_MAP_DrawPlacedModels(Obj *obj)
 {
     Res *tbl = obj->res->tbl;
     u32 count = obj->res->count;
@@ -101,7 +101,7 @@ void func_02169710(Obj *obj)
         if (idx == (u32)-1 || idx >= count) {
             continue;
         }
-        r = (void *)func_0204755C((int *)func_02047788(tbl[idx].f00));
+        r = (void *)G3D_SYSTEM_GetRenderObj((int *)G3D_SYSTEM_GetObjectRender(tbl[idx].f00));
         mdl = ((void **)r)[1];
         if (mdl == 0) {
             continue;
@@ -109,11 +109,11 @@ void func_02169710(Obj *obj)
         a = obj->ents[i].angle >> 4;
         s = tbl_020A1B38[a * 2];
         c = tbl_020A1B38[a * 2 + 1];
-        func_0206DDA4(0x17, g_02148B98, 12);
+        func_0206DDA4(0x17, g_renderStateDrawParams, 12);
         VEC_Add(&obj->pos, &obj->ents[i].pos, &m.t);
         MTX_RotY33_(&m, s, c);
         func_0206DDA4(0x19, &m, 12);
-        if (func_021699A0(mdl) == 1) {
+        if (FIELD_G3D_MAP_TestModelBox(mdl) == 1) {
             G3D_SYSTEM_DrawRenderObj(r);
         }
     }

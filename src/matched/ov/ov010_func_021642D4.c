@@ -1,5 +1,5 @@
 /*
- * function: func_021642D4
+ * function: FLDMMDL_MOVE_GetRelativeDirCode
  * address:  0x021642D4
  * packet:   pkt_ov010_021642D4
  * region:   ov010
@@ -36,7 +36,7 @@ extern u16 d_02171458[];
 extern u8 d_02171460[];
 extern Quad d_021714C0[];
 
-u8 func_021642D4(int i, int v)
+u8 FLDMMDL_MOVE_GetRelativeDirCode(int i, int v)
 {
     u32 s = (u16)(v + d_02171458[i]);
 

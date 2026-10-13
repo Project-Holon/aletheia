@@ -1,5 +1,5 @@
 /*
- * function: func_021880A4
+ * function: FIELDMAP_Delete
  * address:  0x021880A4
  * packet:   pkt_ov021_021880A4
  * region:   ov021
@@ -12,22 +12,22 @@
  * symbols:
  *   func_020140B4  0x020140B4  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02012110  0x02012110  thumb
- *   func_020371AC  0x020371AC  arm
+ *   GAMESYSTEM_SetFieldMap  0x02012110  thumb
+ *   GFL_NET_WM_ICON_SetDefaultPos  0x020371AC  arm
  */
 
 typedef unsigned int   u32;
 struct Ctx;
 u32 func_020140B4(void *a);
 u32 func_020307B0(void *p);
-void func_02012110(struct Ctx *p, void *v);
-void func_020371AC(unsigned short a, unsigned int b);
+void GAMESYSTEM_SetFieldMap(struct Ctx *p, void *v);
+void GFL_NET_WM_ICON_SetDefaultPos(unsigned short a, unsigned int b);
 
-void func_021880A4(int *p)
+void FIELDMAP_Delete(int *p)
 {
     int q = p[1];
     func_020140B4((void *)p[3]);
     func_020307B0(p);
-    func_02012110((void *)q, 0);
-    func_020371AC(0, 0);
+    GAMESYSTEM_SetFieldMap((void *)q, 0);
+    GFL_NET_WM_ICON_SetDefaultPos(0, 0);
 }

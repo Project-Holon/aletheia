@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_0201F73C 0x0201F73C thumb
  *
  * Clears a message window to colour 15 and draws its frame.
@@ -23,13 +23,13 @@ typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
 void func_021EBA30(unsigned char *p, void *win)
 {
-    func_02043B5C(func_02045770(win), 0xF);
+    BMP_Clear(func_02045770(win), 0xF);
     func_0201F73C(win, 2, (unsigned short)*(int *)(WORK(p) + 0x178), 10);
 }

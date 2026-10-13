@@ -1,5 +1,5 @@
 /*
- * function: func_021A3960
+ * function: FIELD_PLAYER_CORE_GetMmdl
  * address:  0x021A3960
  * packet:   pkt_021A36E0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_021A3960(u8 *p)
+void *FIELD_PLAYER_CORE_GetMmdl(u8 *p)
 {
     return ((struct Obj18036 *)p)->f1C;
 }

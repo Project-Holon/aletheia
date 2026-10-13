@@ -1,5 +1,5 @@
 /*
- * function: func_0218D570
+ * function: FIELD_G3D_MAPPER_LayoutLayers
  * address:  0x0218D570
  * packet:   pkt_ov021_0218D570
  * region:   ov021
@@ -21,8 +21,8 @@
  *   sub_0207C768   0x0207C768  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   _ll_mul        0x0209C054  arm
- *   func_0218DD80  0x0218DD80  thumb ov021
- *   func_0218DD9C  0x0218DD9C  thumb ov021
+ *   FIELD_G3D_MAPPER_SetCellGridIndex  0x0218DD80  thumb ov021
+ *   FIELD_G3D_MAPPER_SetCellPos  0x0218DD9C  thumb ov021
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -55,15 +55,15 @@ typedef struct Obj {
 } Obj;
 
 extern u32 sub_0207C768(u32 a, u32 b);
-extern void func_0218DD80(u8 *p, u32 v);
-extern Cell *func_0218DD9C(Cell *c, fx32 x, fx32 y, fx32 z);
+extern void FIELD_G3D_MAPPER_SetCellGridIndex(u8 *p, u32 v);
+extern Cell *FIELD_G3D_MAPPER_SetCellPos(Cell *c, fx32 x, fx32 y, fx32 z);
 
 static inline fx32 FX_MUL(fx32 a, fx32 b)
 {
     return (fx32)(((fx64)a * b + 0x800) >> 12);
 }
 
-void func_0218D570(Obj *p, Cam *cam, Cell *cells)
+void FIELD_G3D_MAPPER_LayoutLayers(Obj *p, Cam *cam, Cell *cells)
 {
     u32 layer;
     u32 total;
@@ -100,8 +100,8 @@ void func_0218D570(Obj *p, Cam *cam, Cell *cells)
         id = layer * total + row * w + col;
         if (id >= p->count)
             id = -1;
-        func_0218DD80((u8 *)(&cells[n]), id);
-        func_0218DD9C(&cells[n], half + FX_MUL(col << 12, size), y, half + FX_MUL(row << 12, size));
+        FIELD_G3D_MAPPER_SetCellGridIndex((u8 *)(&cells[n]), id);
+        FIELD_G3D_MAPPER_SetCellPos(&cells[n], half + FX_MUL(col << 12, size), y, half + FX_MUL(row << 12, size));
     }
     for (i = 0; i < total; i++, n++) {
         y = FX_MUL((layer + dir) << 12, height);
@@ -110,7 +110,7 @@ void func_0218D570(Obj *p, Cam *cam, Cell *cells)
         id = (layer + dir) * total + row * w + col;
         if (id >= p->count)
             id = -1;
-        func_0218DD80((u8 *)(&cells[n]), id);
-        func_0218DD9C(&cells[n], half + FX_MUL(col << 12, size), y, half + FX_MUL(row << 12, size));
+        FIELD_G3D_MAPPER_SetCellGridIndex((u8 *)(&cells[n]), id);
+        FIELD_G3D_MAPPER_SetCellPos(&cells[n], half + FX_MUL(col << 12, size), y, half + FX_MUL(row << 12, size));
     }
 }

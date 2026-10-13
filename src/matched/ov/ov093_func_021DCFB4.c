@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFB4
+ * function: BTL_HANDLER_ITEM_EnablePokeFactors
  * address: 0x021DCFB4
  * packet: pkt_ov093_021DCFB4
  * region: ov093
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D7438 0x021D7438 thumb ov093
- *   func_021DCF5C 0x021DCF5C thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_EVENT_EnablePokeFactors 0x021D7438 thumb ov093
+ *   BTL_HANDLER_ITEM_AddHeldItemFactor 0x021DCF5C thumb ov093
  */
 typedef unsigned char u8;
-extern u8 func_021D5440(u8 *p);
-extern int func_021D7438(int,int);
-extern void *func_021DCF5C(void *);
-void func_021DCFB4(void *p) { if(!func_021D7438(func_021D5440(p),5)) func_021DCF5C(p); }
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern int BTL_EVENT_EnablePokeFactors(int,int);
+extern void *BTL_HANDLER_ITEM_AddHeldItemFactor(void *);
+void BTL_HANDLER_ITEM_EnablePokeFactors(void *p) { if(!BTL_EVENT_EnablePokeFactors(BTL_POKEPARAM_GetPokeId(p),5)) BTL_HANDLER_ITEM_AddHeldItemFactor(p); }

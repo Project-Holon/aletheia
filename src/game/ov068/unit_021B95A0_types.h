@@ -33,7 +33,7 @@ struct TaskMenuWin;
 struct ReturnButton;
 struct Proc;
 
-/* Input command codes written by func_021BA03C. */
+/* Input command codes written by OPTION_MENU_ReadInput. */
 enum {
     OPTION_INPUT_NONE = 0,
     OPTION_INPUT_DRAG = 1,
@@ -98,7 +98,7 @@ typedef struct OptionMenuArgs {
     struct GameSystem *gameSystem;
 } OptionMenuArgs;
 
-/* One background layer setup row (table d_021BB614). */
+/* One background layer setup row (table gOptionMenuBgLayers). */
 typedef struct BgTemplate {
     u32 words[8];
 } BgTemplate;
@@ -119,7 +119,7 @@ typedef struct PaletteResource {
     u8 *colors;
 } PaletteResource;
 
-/* Window label table (d_021BB820). */
+/* Window label table (gOptionMenuLabels). */
 typedef struct OptionMenuLabel {
     u32 messageId;
     u8 x;
@@ -128,7 +128,7 @@ typedef struct OptionMenuLabel {
     u8 height;
 } OptionMenuLabel;
 
-/* One clickable choice (d_021BB704). */
+/* One clickable choice (gOptionMenuChoices). */
 typedef struct OptionMenuChoice {
     u32 settingIndex;
     u32 value;
@@ -140,7 +140,7 @@ typedef struct OptionMenuChoice {
     s16 rectHeight;
 } OptionMenuChoice;
 
-/* Choices of one setting row (d_021BB570 / d_021BB572 / d_021BB574). */
+/* Choices of one setting row (gOptionMenuSettingRows / gOptionMenuSettingRowChoiceCount / gOptionMenuSettingRowChoices). */
 typedef struct OptionMenuSettingRow {
     u16 descriptionId;
     u16 choiceCount;
@@ -254,7 +254,7 @@ typedef struct TaskMenuTemplate {
     u8 textColor;                   /* 0x13 */
 } TaskMenuTemplate;
 
-/* Table copied to the stack when the return button is created (d_021BB5D4). */
+/* Table copied to the stack when the return button is created (gOptionMenuReturnButtonCells). */
 typedef struct ReturnButtonCells {
     u32 words[16];
 } ReturnButtonCells;

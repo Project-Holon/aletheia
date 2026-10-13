@@ -1,5 +1,5 @@
 /*
- * function: func_0200BA58
+ * function: BATTLE_REC_LoadToolOverlay
  * address:  0x0200BA58
  * packet:   pkt_0200BA58
  * region:   arm9
@@ -26,7 +26,7 @@ extern char ov188_id[];
 typedef signed int     s32;
 extern int GF_OVERLAY_Load(s32 handle);
 
-void func_0200BA58(void)
+void BATTLE_REC_LoadToolOverlay(void)
 {
     GF_OVERLAY_Load((u32)ov188_id);
 }

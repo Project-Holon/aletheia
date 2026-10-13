@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201A090  0x0201A090  thumb
+ *   POKE_REGULATION_CheckParty  0x0201A090  thumb
  *
- * Returns 4 or whatever func_0201A090 answers, and writes 0 or -1 through
+ * Returns 4 or whatever POKE_REGULATION_CheckParty answers, and writes 0 or -1 through
  * the third argument.
  */
 
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_0201A090(void *rules, void *party, u32 *mask);
+extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 
 int func_021BCBBC(int a, int b, int *out)
 {
@@ -33,7 +33,7 @@ int func_021BCBBC(int a, int b, int *out)
     *out = 0;
 
     if (b != 0) {
-        r = func_0201A090((void *)a, (void *)b, (u32 *)out);
+        r = POKE_REGULATION_CheckParty((void *)a, (void *)b, (u32 *)out);
     } else {
         *out = -1;
     }

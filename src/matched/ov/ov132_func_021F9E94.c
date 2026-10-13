@@ -10,13 +10,13 @@
  * lever: the load uses p+index*0x4848+4, while the outgoing pointer uses p+4+index*0x4848; the latter keeps p+4 hoisted in r6. Using the load's grouping for both gave 49 concrete byte differences.
  * symbols:
  *   func_021F9F58 0x021F9F58 thumb ov132
- *   func_02050ED4 0x02050ED4 arm
+ *   PARTICLE_ExitManager 0x02050ED4 arm
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021F9F58(u8 *,u8 *);
-extern void func_02050ED4(void);
+extern void PARTICLE_ExitManager(void);
 extern u32 func_020307B0(void *p);
-void func_021F9E94(u8 *p) { u8 i; for(i=0;i<8;i++) { if(*(u32 *)(p+i*0x4848+4)==1) func_021F9F58(p,p+4+i*0x4848); } func_02050ED4(); func_020307B0(p); }
+void func_021F9E94(u8 *p) { u8 i; for(i=0;i<8;i++) { if(*(u32 *)(p+i*0x4848+4)==1) func_021F9F58(p,p+4+i*0x4848); } PARTICLE_ExitManager(); func_020307B0(p); }

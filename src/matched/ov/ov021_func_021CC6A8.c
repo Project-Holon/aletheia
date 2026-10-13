@@ -1,5 +1,5 @@
 /*
- * function: func_021CC6A8
+ * function: SCRCMD_PALPARK_CheckGPowerExpire
  * address:  0x021CC6A8
  * packet:   pkt_ov021_021CC6A8
  * region:   ov021
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Script command: stores the current value of func_02010F18 in one variable and whether it changes away from 0x30 after a func_02010F40 round trip in another.
+ * Script command: stores the current value of GPOWER_GetExpiringPowerId in one variable and whether it changes away from 0x30 after a GPOWER_ClearByPowerId round trip in another.
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02010F18  0x02010F18  thumb
- *   func_02010F7C  0x02010F7C  thumb
- *   func_02010F40  0x02010F40  thumb
- *   func_02010F8C  0x02010F8C  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   GPOWER_GetExpiringPowerId  0x02010F18  thumb
+ *   GPOWER_LoadPowerTable  0x02010F7C  thumb
+ *   GPOWER_ClearByPowerId  0x02010F40  thumb
+ *   GPOWER_FreePowerTable  0x02010F8C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -24,24 +24,24 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_02159AE8(void *vm, void *ctx);
-extern u8 func_02010F18(void);
-extern void *func_02010F7C(u32 heap);
-extern void func_02010F40(u16 v, void *p);
-extern void func_02010F8C(void *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *ctx);
+extern u8 GPOWER_GetExpiringPowerId(void);
+extern void *GPOWER_LoadPowerTable(u32 heap);
+extern void GPOWER_ClearByPowerId(u16 v, void *p);
+extern void GPOWER_FreePowerTable(void *p);
 
-int func_021CC6A8(void *vm, void *ctx)
+int SCRCMD_PALPARK_CheckGPowerExpire(void *vm, void *ctx)
 {
-    u16 *a = func_02159AE8(vm, ctx);
-    u16 *b = func_02159AE8(vm, ctx);
+    u16 *a = SCRIPT_WORK_ReadWorkPointer(vm, ctx);
+    u16 *b = SCRIPT_WORK_ReadWorkPointer(vm, ctx);
     void *p;
 
-    *a = func_02010F18();
+    *a = GPOWER_GetExpiringPowerId();
     if (*a != 0x30) {
-        p = func_02010F7C(0x8015);
-        func_02010F40(*a, p);
-        func_02010F8C(p);
-        *b = (func_02010F18() != 0x30) ? 1 : 0;
+        p = GPOWER_LoadPowerTable(0x8015);
+        GPOWER_ClearByPowerId(*a, p);
+        GPOWER_FreePowerTable(p);
+        *b = (GPOWER_GetExpiringPowerId() != 0x30) ? 1 : 0;
     } else {
         *b = 0;
     }

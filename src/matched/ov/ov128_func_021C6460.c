@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
  *   DWC_CreateFriendKey 0x0205994C arm
  *   func_02009A1C 0x02009A1C thumb
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 struct BigObj;
 struct Sub020097BCObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern struct Sub020097BCObj *func_02009860(struct Sub020097BCObj *obj);
 struct DWCstAccUserData;
 struct Sub020097BCFriend;
@@ -48,7 +48,7 @@ int func_021C6460(char *p,void *q,u32 arg)
     void *v;
     u64 old,id;
     int valid,result;
-    v=(void *)func_0201283C(((struct Obj23065 *)p)->f4);
+    v=(void *)GAME_DATA_GetWifiList(((struct Obj23065 *)p)->f4);
     old=DWC_CreateFriendKey((struct DWCstAccUserData *)func_02009860(v));
     for(i=0;i<32;i++) {
         if(func_02009A1C(v,i)==0) {

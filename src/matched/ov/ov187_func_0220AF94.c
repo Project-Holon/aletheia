@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045808   0x02045808  arm
+ *   STRBUF_Delete   0x02045808  arm
  *   func_020315D4   0x020315D4  arm
  *   func_020306F0   0x020306F0  arm
  *   func_0220B0CC   0x0220B0CC  thumb
- *   func_0200B424   0x0200B424  thumb
+ *   BATTLE_REC_FreeWork   0x0200B424  thumb
  *
  * Tear down the four table slots at p+0x1780 when p+0x17C4 is set, then
  *   release the channel.
@@ -23,12 +23,12 @@
 
 
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_0220B0CC(int *);
-extern void func_0200B424(void);
+extern void BATTLE_REC_FreeWork(void);
 
 int func_0220AF94(int a, int b, int c, char *p)
 {
@@ -37,11 +37,11 @@ int func_0220AF94(int a, int b, int c, char *p)
         for (i = 0; i < 4; i++) {
             int v = *(int *)(p + 0x1780 + i * 4);
             if (v != 0)
-                func_02045808((struct U16Vec *)v);
+                STRBUF_Delete((struct U16Vec *)v);
         }
     }
     func_0220B0CC((int *)p);
-    func_0200B424();
+    BATTLE_REC_FreeWork();
     func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x59);
     return 1;

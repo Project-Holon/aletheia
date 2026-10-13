@@ -1,5 +1,5 @@
 /*
- * function: func_021A8E10
+ * function: FIELD_MENU_GetSelectedButtonId
  * address:  0x021A8E10
  * packet:   pkt_ov021_021A8E10
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct {
     T *pf8;
 } S;
 
-int func_021A8E10(S *s)
+int FIELD_MENU_GetSelectedButtonId(S *s)
 {
     T *p = s->pf8;
     if (p == 0) {

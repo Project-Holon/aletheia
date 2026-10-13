@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021FCF2C 0x021FCF2C thumb ov094
  *   func_0207C768 0x0207C768 arm
  *   func_02030DA8 0x02030DA8 arm
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern char d_0220AE68[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FCF2C(int, int);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *func_02030DA8(void *, void (*)(void *, int *), int *, int);
@@ -49,19 +49,19 @@ int func_021FBAF8(void *a, char *s)
     float g;
     p = func_02030734((u16)((((struct Obj07880 *)s)->f238 & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0xf17);
     p[0] = (int)s;
-    p[1] = func_0201134C(a);
-    p[2] = func_0201134C(a);
+    p[1] = VM_GetU32(a);
+    p[2] = VM_GetU32(a);
     p[3] = 2;
-    x = func_021FCF2C((int)a, func_0201134C(a));
-    y = func_021FCF2C((int)a, func_0201134C(a));
+    x = func_021FCF2C((int)a, VM_GetU32(a));
+    y = func_021FCF2C((int)a, VM_GetU32(a));
     p[4] = (x & 1) ? 127 : -128;
     p[5] = (y & 1) ? 127 : -128;
-    p[8] = func_0201134C(a);
-    p[9] = func_0201134C(a);
+    p[8] = VM_GetU32(a);
+    p[9] = VM_GetU32(a);
     p[10] = p[9];
     p[11] = 0;
-    p[12] = func_0201134C(a);
-    p[13] = func_0201134C(a) * 2;
+    p[12] = VM_GetU32(a);
+    p[13] = VM_GetU32(a) * 2;
     if (p[2] == 1 && p[13] == 0) p[13] = 2;
     if (p[4] > 0) p[6] = _ffix(_fadd(0.5f, _fflt(p[4] << 12)));
     else p[6] = _ffix(_fsub(_fflt(p[4] << 12), 0.5f));

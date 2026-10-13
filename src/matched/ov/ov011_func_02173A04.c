@@ -1,5 +1,5 @@
 /*
- * function: func_02173A04
+ * function: INTRUDE_COMM_RecvRequest
  * address: 0x02173A04
  * packet: pkt_ov011_02173A04
  * region: ov011
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 typedef struct Rec { u32 words[14]; } Rec;
 int INTRUDE_COMM_TryStartRequest(u8 *p, int i, u8 v);
 
-void func_02173A04(int a, int b, Rec *c, u8 *d)
+void INTRUDE_COMM_RecvRequest(int a, int b, Rec *c, u8 *d)
 {
     if (INTRUDE_COMM_TryStartRequest(d, a, ((u8 *)c)[1]) == 1) *(Rec *)(d + 0x11c) = *c;
 }

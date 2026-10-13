@@ -15,7 +15,7 @@
  * symbols:
  *   func_021A8268  0x021A8268  thumb  ov021
  *   func_021A80FC  0x021A80FC  thumb  ov021
- *   func_02162370  0x02162370  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange  0x02162370  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -46,7 +46,7 @@ typedef struct Work {
 typedef unsigned int   u32;
 extern int func_021A8268(u32 a);
 extern int func_021A80FC(u32 a);
-extern int func_02162370(int a);
+extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int a);
 
 void func_021A7B88(Work *w)
 {
@@ -83,7 +83,7 @@ void func_021A7B88(Work *w)
             w->step[8] = 8;
             return;
         }
-    } else if (func_02162370((int)a->f14) != 0) {
+    } else if (EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange((int)a->f14) != 0) {
         w->step[0] = 0;
         w->step[1] = 1;
         w->step[2] = 4;

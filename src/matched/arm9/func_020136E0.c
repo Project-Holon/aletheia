@@ -1,5 +1,5 @@
 /*
- * function: func_020136E0
+ * function: BTL_SETUP_SetupTrainerTag
  * address:  0x020136E0
  * packet:   pkt_020136E0
  * region:   arm9
@@ -13,7 +13,7 @@
  *   BTL_SETUP_SetupTrainerBase  0x020134F4  thumb
  *   BTL_SETUP_SetTrainer  0x02013284  thumb
  *
- * The main variant of the three-slot setup (see func_02013734, the brief
+ * The main variant of the three-slot setup (see BTL_SETUP_SetupTrainerMulti, the brief
  * one): the first call is the four-register form of the same writer with
  * count 1, then two calls into BTL_SETUP_SetTrainer that each carry the source's
  * own stack arguments - a word and the halfword at +4 of the argument
@@ -23,8 +23,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020136E0.c \
- *       --func func_020136E0 --addr 0x020136E0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupTrainerTag.c \
+ *       --func BTL_SETUP_SetupTrainerTag --addr 0x020136E0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -40,7 +40,7 @@ extern void BTL_SETUP_SetupTrainerBase(u8 *p, u32 a1, u32 a2, u32 a3, u16 h);
 extern void BTL_SETUP_SetTrainer(struct Obj020136E0 *o, u32 a1, u32 n, u8 *dst,
                           u32 v, u16 a5);
 
-void func_020136E0(struct Obj020136E0 *o, u32 a1, u32 a2, u32 a3, u32 a4,
+void BTL_SETUP_SetupTrainerTag(struct Obj020136E0 *o, u32 a1, u32 a2, u32 a3, u32 a4,
                    u16 a5)
 {
     BTL_SETUP_SetupTrainerBase((u8 *)o, a1, 1, a2, a5);

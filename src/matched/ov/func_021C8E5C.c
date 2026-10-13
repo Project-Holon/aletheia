@@ -1,5 +1,5 @@
 /*
- * function: func_021C8E5C
+ * function: FIELD_TILE_MOVE_SlideStopLoopSe
  * address:  0x021C8E5C
  * packet:   pkt_021C8E5C
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern void func_020061F8(int i);
 
-void func_021C8E5C(int *p)
+void FIELD_TILE_MOVE_SlideStopLoopSe(int *p)
 {
     func_020061F8(((struct Obj18343 *)p)->f24);
 }

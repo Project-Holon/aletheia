@@ -1,5 +1,5 @@
 /*
- * function: func_021EFCD4
+ * function: WEATHER_LIGHTNING_GetFlashColor
  * address:  0x021EFCD4
  * packet:   pkt_ov026_021EFCD4
  * region:   ov026
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled Thumb leaf (saves no lr), called from func_021EF9D8's state 4.
+ * Unlabelled Thumb leaf (saves no lr), called from WEATHER_LIGHTNING_Update's state 4.
  * Reads the current entry's +0xC halfword (the entries are the 12-byte
- * records func_021EFBA4 fills from +8).
+ * records WEATHER_LIGHTNING_PickShortFlashes fills from +8).
  */
 
 typedef unsigned short u16;
@@ -34,7 +34,7 @@ typedef struct {
     Ent ent[4];
 } Obj;
 
-u16 func_021EFCD4(Obj *p)
+u16 WEATHER_LIGHTNING_GetFlashColor(Obj *p)
 {
     u16 v;
 

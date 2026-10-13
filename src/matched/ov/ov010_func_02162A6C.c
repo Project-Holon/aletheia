@@ -1,5 +1,5 @@
 /*
- * function: func_02162A6C
+ * function: EVENTDATA_SYSTEM_GetPosEventCenterPosThunk
  * address:  0x02162A6C
  * packet:   pkt_ov010_02162A6C
  * region:   ov010
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * Unlabelled leaf (tail-call thunk, a .word run in the ov010 listing) to
- * func_02162ECC.  Blocker of ov021 func_021AFDAC.
+ * EVENTDATA_SYSTEM_GetPosEventCenterPos.  Blocker of ov021 SCRCMD_WarpToPositionEvent.
  *
  * symbols:
- *   func_02162ECC  0x02162ECC  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetPosEventCenterPos  0x02162ECC  thumb  ov010
  */
 
-extern void func_02162ECC(const char *p, int *out);
+extern void EVENTDATA_SYSTEM_GetPosEventCenterPos(const char *p, int *out);
 
-void func_02162A6C(int a, int b)
+void EVENTDATA_SYSTEM_GetPosEventCenterPosThunk(int a, int b)
 {
-    func_02162ECC((const char *)a, (int *)b);
+    EVENTDATA_SYSTEM_GetPosEventCenterPos((const char *)a, (int *)b);
 }

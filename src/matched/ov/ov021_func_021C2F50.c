@@ -1,5 +1,5 @@
 /*
- * function: func_021C2F50
+ * function: FLD3D_CI_CopyName
  * address:  0x021C2F50
  * packet:   pkt_ov021_021C2F50
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern int func_0208CC78(const char *s);
 
-void func_021C2F50(char *dst, const char *src)
+void FLD3D_CI_CopyName(char *dst, const char *src)
 {
     int n = func_0208CC78(src);
     u8 i;

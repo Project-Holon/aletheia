@@ -1,5 +1,5 @@
 /*
- * function: func_021C1758
+ * function: BTL_SERVER_FLOW_RunDamageAftereffectEvent
  * address: 0x021C1758
  * packet: pkt_ov093_021C1758
  * region: ov093
@@ -9,26 +9,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
+ *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093
+ *   BTL_EVENT_DispatchEventChecked 0x021D70F0 thumb ov093
+ *   BTL_EVENT_PopVarFrame 0x021D7540 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021D74F8(int);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int, u32);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D7540(int);
+extern void BTL_EVENT_PushVarFrame(int);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_EVENT_SetVarReadOnly(int, u32);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
+extern void BTL_EVENT_PopVarFrame(int);
 
-void func_021C1758(u8 *p, u8 *q, int k)
+void BTL_SERVER_FLOW_RunDamageAftereffectEvent(u8 *p, u8 *q, int k)
 {
-    func_021D74F8(0x1a17);
-    func_021D75EC(2, func_021D5440(q));
-    func_021D70F0(p, 0x75);
-    func_021D7540(0x1a17 + 3);
+    BTL_EVENT_PushVarFrame(0x1a17);
+    BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(q));
+    BTL_EVENT_DispatchEventChecked(p, 0x75);
+    BTL_EVENT_PopVarFrame(0x1a17 + 3);
 }

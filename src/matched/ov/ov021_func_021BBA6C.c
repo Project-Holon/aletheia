@@ -1,5 +1,5 @@
 /*
- * function: func_021BBA6C
+ * function: FIELD_SUBPROC_GetWork
  * address:  0x021BBA6C
  * packet:   pkt_021BBA6C
  * region:   ov021
@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021BBA6C(const void *p)
+u32 FIELD_SUBPROC_GetWork(const void *p)
 {
     return ((struct Obj20098 *)p)->f10;
 }

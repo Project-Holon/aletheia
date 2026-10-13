@@ -1,5 +1,5 @@
 /*
- * function: func_0218B208
+ * function: FIELD_EVENT_CHECK_CheckWildEncount
  * address:  0x0218B208
  * packet:   pkt_ov021_0218B208
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * When bit 3 of the flag word is set, runs the object's interaction:
- * func_021AA248 with the map value when func_02013DD0 accepts field 0x10,
- * else func_021A9F40(obj, 0).
+ * FIELD_ENCOUNT_CheckWfbcEncount with the map value when ZONEDATA_IsZoneInTableDFC0 accepts field 0x10,
+ * else FIELD_ENCOUNT_CheckWildEncount(obj, 0).
  *
  * is an unlabelled Thumb veneer (ldr r1, [pc, #4]; ldr r3, [pc, #8]; movs r2,
  * #4; bx r3) with no witness; it closes once arm9 0x02013DD0 is labelled.
  *
  * symbols:
- *   func_02188CE8  0x02188CE8  thumb
- *   func_02013DD0  0x02013DD0  thumb
- *   func_02188C98  0x02188C98  thumb
- *   func_0218DC70  0x0218DC70  thumb
- *   func_021AA248  0x021AA248  thumb
- *   func_021A9F40  0x021A9F40  thumb
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb
+ *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   FIELD_G3D_MAPPER_GetWfbc  0x0218DC70  thumb
+ *   FIELD_ENCOUNT_CheckWfbcEncount  0x021AA248  thumb
+ *   FIELD_ENCOUNT_CheckWildEncount  0x021A9F40  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -47,21 +47,21 @@ struct FieldCtx {
     u32 b3 : 1;
 };
 
-extern u32 func_02188CE8(u8 *p);
+extern u32 FIELDMAP_GetEncount(u8 *p);
 struct Ctx;
-extern int func_02013DD0(int a0);
-extern u32 func_02188C98(u8 *p);
-extern void *func_0218DC70(u8 *p);
-extern int func_021AA248(struct Ctx *ctx, void *b);
-extern int func_021A9F40(struct Ctx *ctx, int mode);
+extern int ZONEDATA_IsZoneInTableDFC0(int a0);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern void *FIELD_G3D_MAPPER_GetWfbc(u8 *p);
+extern int FIELD_ENCOUNT_CheckWfbcEncount(struct Ctx *ctx, void *b);
+extern int FIELD_ENCOUNT_CheckWildEncount(struct Ctx *ctx, int mode);
 
-int func_0218B208(struct FieldCtx *p, void *unused, u8 *pos)
+int FIELD_EVENT_CHECK_CheckWildEncount(struct FieldCtx *p, void *unused, u8 *pos)
 {
-    void *obj = (void *)func_02188CE8(pos);
+    void *obj = (void *)FIELDMAP_GetEncount(pos);
 
     if (!p->b3)
         return 0;
-    if (func_02013DD0(p->f10))
-        return func_021AA248(obj, func_0218DC70((u8 *)func_02188C98(pos)));
-    return func_021A9F40(obj, 0);
+    if (ZONEDATA_IsZoneInTableDFC0(p->f10))
+        return FIELD_ENCOUNT_CheckWfbcEncount(obj, FIELD_G3D_MAPPER_GetWfbc((u8 *)FIELDMAP_GetG3dMapper(pos)));
+    return FIELD_ENCOUNT_CheckWildEncount(obj, 0);
 }

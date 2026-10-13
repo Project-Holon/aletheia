@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_020437AC 0x020437AC arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   BMP_Delete 0x020437AC arm
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj10254.h"
@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj020437AC;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(u32);
-extern void func_0204AFD8(u32);
-extern void func_020437AC(struct Obj020437AC *);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleaseCellAnim(u32);
+extern void BMP_Delete(struct Obj020437AC *);
 extern void func_02082BCC(void *,int,int);
-void func_021B89F4(u8 *p) { int i; for(i=0;i<2;i++) func_0204B3B4(*(void **)(p+8+i*4)); func_0204A8D4(((struct Obj10254 *)p)->f14); func_0204AFD8(((struct Obj10254 *)p)->f18); func_020437AC(*(struct Obj020437AC * *)&((struct Obj10254 *)p)->f4); func_02082BCC(p,0,32); }
+void func_021B89F4(u8 *p) { int i; for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)(p+8+i*4)); CLACT_ReleaseCharacter(((struct Obj10254 *)p)->f14); CLACT_ReleaseCellAnim(((struct Obj10254 *)p)->f18); BMP_Delete(*(struct Obj020437AC * *)&((struct Obj10254 *)p)->f4); func_02082BCC(p,0,32); }

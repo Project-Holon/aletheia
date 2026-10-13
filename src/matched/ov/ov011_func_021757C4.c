@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203D378  0x0203D378  arm
- *   func_02175B14  0x02175B14  thumb  ov011
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  *   INTRUDE_COMM_GetSessionElapsed  0x02175894  thumb  ov011
  *   func_02026478  0x02026478  thumb
- *   func_02012B58  0x02012B58  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   INTRUDE_COMM_PromoteRequestToResult  0x02175D34  thumb  ov011
  *   INTRUDE_COMM_SendProposalReplies  0x02176158  thumb  ov011
  *   INTRUDE_COMM_SendPendingReplies  0x02176194  thumb  ov011
@@ -49,12 +49,12 @@ typedef struct {
     u32 w4;
 } Ctx;
 
-extern u32 func_0203D378(void);
-extern int func_02175B14(u8 *p);
+extern u32 GFL_NET_IsParentAid(void);
+extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 extern int INTRUDE_COMM_GetSessionElapsed(u8 *p);
 struct BigObj;
 extern u32 func_02026478(void *obj);
-extern u8 func_02012B58(const struct BigObj *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern void INTRUDE_COMM_PromoteRequestToResult(Ctx *c, Work *w, int a);
 extern void INTRUDE_COMM_SendProposalReplies(int a, u8 *p);
 extern void INTRUDE_COMM_SendPendingReplies(Ctx *c, Work *w);
@@ -65,7 +65,7 @@ void INTRUDE_COMM_UpdateSession(Ctx *c, Work *w)
 {
     int x;
 
-    if (func_0203D378() == 1 && func_02175B14((u8 *)w) == 1) {
+    if (GFL_NET_IsParentAid() == 1 && INTRUDE_COMM_IsSessionActive((u8 *)w) == 1) {
         if (w->bD8 == 4) {
             if (w->hA8 != 0) {
                 if (w->b19C == 0 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hA8) {
@@ -74,7 +74,7 @@ void INTRUDE_COMM_UpdateSession(Ctx *c, Work *w)
             } else if (w->f1 == 1 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hAA) {
                 x = func_02026478((void *)c->w4);
                 if (w->bE3 == 0) {
-                    INTRUDE_COMM_PromoteRequestToResult(c, w, func_02012B58((const struct BigObj *)x));
+                    INTRUDE_COMM_PromoteRequestToResult(c, w, GAME_DATA_GetExitMode((const struct BigObj *)x));
                 }
             }
         } else if (w->f1 == 1 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hAA) {

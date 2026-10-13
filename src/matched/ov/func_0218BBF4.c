@@ -1,5 +1,5 @@
 /*
- * function: func_0218BBF4
+ * function: FIELD_BUILDMODEL_GetOffsetTarget
  * address:  0x0218BBF4
  * packet:   pkt_0218BBF4
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0218BBF4(u32 a, u32 b)
+int FIELD_BUILDMODEL_GetOffsetTarget(u32 a, u32 b)
 {
 return (a + *(u32 *)((u8 *)((a + (b << 2))) + 4));
 }

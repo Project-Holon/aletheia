@@ -1,5 +1,5 @@
 /*
- * function: func_0219BAE0
+ * function: FLDMMDL_MOVE_InitLookFellow
  * address:  0x0219BAE0
  * packet:   pkt_ov021_0219BAE0
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D684  0x0216D684  thumb  ov010
- *   func_0219BC48  0x0219BC48  thumb  ov021
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216DA50  0x0216DA50  thumb  ov010
+ *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateFellowTracking  0x0219BC48  thumb  ov021
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -21,16 +21,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u8 *func_0216D684(u32, u32);
-extern int func_0219BC48(int a, u8 *b);
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216DA50(u8 *p);
+extern u8 *FLDMMDL_InitMoveProcWork(u32, u32);
+extern int FLDMMDL_MOVE_UpdateFellowTracking(int a, u8 *b);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_OffMoveBitMove(u8 *p);
 
-void func_0219BAE0(u32 a)
+void FLDMMDL_MOVE_InitLookFellow(u32 a)
 {
-    u8 *p = func_0216D684(a, 12);
-    func_0219BC48(a, p);
-    func_0216D674((void *)a, 0);
-    func_0216DA50((u8 *)a);
+    u8 *p = FLDMMDL_InitMoveProcWork(a, 12);
+    FLDMMDL_MOVE_UpdateFellowTracking(a, p);
+    FLDMMDL_SetDrawStatus((void *)a, 0);
+    FLDMMDL_OffMoveBitMove((u8 *)a);
     p[1] = 0;
 }

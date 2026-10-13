@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021D90E8, func_021D910C
+ * function: BTL_ABILITY_TechnicianBoostWeakMove, BTL_ABILITY_GetTechnicianHandlers
  * address: 0x021D90E8
  * packet: pkt_ov093_021D90E8
  * region: ov093
@@ -10,15 +10,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D7704 0x021D7704 thumb ov093
- *   d_021F0608 0x021F0608 data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
+ *   gTechnicianHandlerTable 0x021F0608 data a4
  */
-extern int func_021D775C(int);
-extern void func_021D7704(int, int);
-extern unsigned int d_021F0608;
-void func_021D90E8(int a, int b, int c)
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_EVENT_MultiplyVar(int, int);
+extern unsigned int gTechnicianHandlerTable;
+void BTL_ABILITY_TechnicianBoostWeakMove(int a, int b, int c)
 {
-    if (c == func_021D775C(3) && (unsigned int)func_021D775C(0x30) <= 0x3c) func_021D7704(0x31, 0x30 << 7);
+    if (c == BTL_EVENT_GetVar(3) && (unsigned int)BTL_EVENT_GetVar(0x30) <= 0x3c) BTL_EVENT_MultiplyVar(0x31, 0x30 << 7);
 }
-void *func_021D910C(int *p) { *p = 1; return &d_021F0608; }
+void *BTL_ABILITY_GetTechnicianHandlers(int *p) { *p = 1; return &gTechnicianHandlerTable; }

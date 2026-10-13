@@ -11,42 +11,42 @@
  * Lever: u16 value/result locals plus result binding give the original cmp operand order.
  * Caller-visible return/second arguments override tail-forwarder declarations.
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_0218A160 0x0218A160 thumb ov096
  *   func_0218A2FC 0x0218A2FC thumb ov096
  *   func_0218A0F4 0x0218A0F4 thumb ov096
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[0x4c]; u16 values[8]; u8 pad2[0xb0-0x5c]; int fb0, fb4, fb8; u8 *fbc; int fc0, fc4; } Obj;
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 struct QG;
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
-extern int func_021D5B68(void *);
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(u8 *p, int i);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 int func_021891F4(struct Cursor *a, Obj *b, int c)
 {
     u16 value, t;
     int k, z, r, i;
     u8 *s;
     int y;
-    k = func_0201134C(a);
-    value = func_0201134C(a);
-    z = func_0201134C(a);
+    k = VM_GetU32(a);
+    value = VM_GetU32(a);
+    z = VM_GetU32(a);
     y = func_0218A160((u8 *)b, k);
     r = 0;
     switch (k) {
     case 1:
-        for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-            t = func_021D54C0(b->fbc, (u8)i);
+        for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+            t = BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i);
             if (t == value) {
                 r = 1;
                 break;
@@ -55,9 +55,9 @@ int func_021891F4(struct Cursor *a, Obj *b, int c)
         break;
     case 3:
         s = func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3));
-        if (func_021D5B68(s) == 0) {
-            for (i = 0; i < func_021D5448((struct QG *)s); i++) {
-                t = func_021D54C0(s, (u8)i);
+        if (BTL_POKEPARAM_IsFainted(s) == 0) {
+            for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)s); i++) {
+                t = BTL_POKEPARAM_GetMoveId(s, (u8)i);
                 if (t == value) {
                     r = 1;
                     break;

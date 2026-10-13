@@ -1,5 +1,5 @@
 /*
- * function: func_021AC154
+ * function: FIELD_EFFECT_DeleteObject
  * address:  0x021AC154
  * packet:   pkt_ov021_021AC154
  * region:   ov021
@@ -36,7 +36,7 @@ struct Obj {
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021AC154(Obj *o)
+void FIELD_EFFECT_DeleteObject(Obj *o)
 {
     if (o != 0) {
         o->exit(o, o->work);

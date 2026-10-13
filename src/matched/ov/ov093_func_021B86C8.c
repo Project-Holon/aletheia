@@ -1,5 +1,5 @@
 /*
- * function: func_021B86C8
+ * function: BTL_MAIN_IsMultiMode
  * address: 0x021B86C8
  * packet: pkt_ov093_021B86C8
  * region: ov093
@@ -9,4 +9,4 @@
  * status: EXACT*
  * extent: final two zero bytes are alignment padding before the next labelled function.
  */
-int func_021B86C8(unsigned char **p) { if ((*p)[0x22]) return 1; return 0; }
+int BTL_MAIN_IsMultiMode(unsigned char **p) { if ((*p)[0x22]) return 1; return 0; }

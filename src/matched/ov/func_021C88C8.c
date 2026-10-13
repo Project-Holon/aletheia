@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Unlabelled-record helper reached from the five ov093 packets that name it
- * (func_021DFABC / func_021E4A70 / func_021D85F4 / func_021E7388 /
- * func_021DF0C4).  Runs the battle-command dispatcher on (`a`, `b`), then
+ * (BTL_HANDLER_ITEM_RockyHelmetDamageReaction / func_021E4A70 / BTL_CALC_IntimidateOnEnter / func_021E7388 /
+ * BTL_HANDLER_ITEM_DestinyKnot_Infatuate).  Runs the battle-command dispatcher on (`a`, `b`), then
  * dispatches the same command through the record `a + 0x1D74`.
  *
  * symbols:

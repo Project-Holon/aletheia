@@ -1,5 +1,5 @@
 /*
- * function: func_021596E8
+ * function: SCRIPT_WORK_CmdSetProcAction
  * address:  0x021596E8
  * packet:   pkt_021596E8
  * region:   ov010
@@ -13,9 +13,9 @@
  * operands of the arm9 pair call.
  *
  * symbols:
- *   func_02011330   0x02011330  thumb
- *   func_0215A5E4   0x0215A5E4  thumb  ov010
- *   func_02012B38   0x02012B38  thumb
+ *   VM_GetU16   0x02011330  thumb
+ *   SCRCMD_WORK_GetGameData   0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetMoveModelSys   0x02012B38  thumb
  *   func_02014474   0x02014474  thumb
  */
 
@@ -24,17 +24,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern void *func_0215A5E4(void *a0);
+extern u16 VM_GetU16(struct Stream *s);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
-extern void *func_02012B38(const struct BigObj *p);
+extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern void func_02014474(void *, void *);
 
-int func_021596E8(void *a0, void *a1)
+int SCRIPT_WORK_CmdSetProcAction(void *a0, void *a1)
 {
-    void *v = (void *)func_02011330(a0);
+    void *v = (void *)VM_GetU16(a0);
 
-    func_02014474(func_02012B38(func_0215A5E4(a1)), v);
+    func_02014474(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(a1)), v);
 
     return 0;
 }

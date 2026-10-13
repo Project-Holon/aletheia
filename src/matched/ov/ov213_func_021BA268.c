@@ -11,7 +11,7 @@
  * lever: logical owner,a,b,c,zero field order restores stack-load scheduling; const owner and typed destination alone did not.
  * symbols:
  *   func_021B9EE4 0x021B9EE4 thumb ov213
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02008500 0x02008500 thumb
  *   func_02008550 0x02008550 thumb
  *   func_021BA200 0x021BA200 thumb ov213
@@ -25,7 +25,7 @@ struct C;
 extern void func_021B9EE4(struct C *p, void *owner, unsigned char kind, unsigned char index, void *a, void *parent, const unsigned char *types);
 typedef unsigned int   u32;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02008500(void *,void *);
 typedef unsigned char  u8;
 struct Sub0200852CObj;
@@ -43,7 +43,7 @@ void func_021BA268(Context *p,unsigned char kind,unsigned char index,const char 
     p->c=value;p->v50=0;
     p->kind=kind;p->index=index;
     func_021B9EE4((struct C *)p->sub,((struct Obj25698 *)owner)->f0,kind,index,a,b,(const unsigned char *)(owner+10));
-    p->v18=func_020457B0(16,116);
+    p->v18=STRBUF_Create(16,116);
     func_02008500(((struct Obj25699 *)(p->owner))->f4,p->v18);
     p->v14=func_02008550(((struct Obj25700 *)(p->owner))->f4);
     p->v1C=func_021BA200(kind,index);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B761C
+ * function: ITEMMENU_TaskStartRegisterResult
  * address: 0x021B761C
  * packet: pkt_ov070_021B761C
  * region: ov070
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BADF0 0x021BADF0 thumb ov070
- *   func_021B6100 0x021B6100 thumb ov070
- *   func_021B75A4 0x021B75A4 thumb ov070
+ *   ITEMMENU_IsMessageFinished 0x021BADF0 thumb ov070
+ *   ITEMMENU_SetTask 0x021B6100 thumb ov070
+ *   ITEMMENU_TaskRegisterResultMessage 0x021B75A4 thumb ov070
  *   func_020061E4 0x020061E4 thumb
  */
 
-extern int func_021BADF0(int p);
+extern int ITEMMENU_IsMessageFinished(int p);
 extern void func_020061E4(unsigned int id);
-extern void func_021B6100(char *p, int k);
+extern void ITEMMENU_SetTask(char *p, int k);
 struct Obj;
-extern void func_021B75A4(struct Obj *o);
-void func_021B761C(int p) { if (func_021BADF0(p)) { func_020061E4(0x55C); func_021B6100((void *)p,(int)((void *)func_021B75A4)); } }
+extern void ITEMMENU_TaskRegisterResultMessage(struct Obj *o);
+void ITEMMENU_TaskStartRegisterResult(int p) { if (ITEMMENU_IsMessageFinished(p)) { func_020061E4(0x55C); ITEMMENU_SetTask((void *)p,(int)((void *)ITEMMENU_TaskRegisterResultMessage)); } }

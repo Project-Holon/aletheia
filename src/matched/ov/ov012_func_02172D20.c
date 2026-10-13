@@ -1,5 +1,5 @@
 /*
- * function: func_02172D20
+ * function: UNION_COMM_RequestRestart
  * address:  0x02172D20
  * packet:   pkt_ov012_02172D20
  * region:   ov012
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from ov019 func_0217C074.
+ * called from ov019 UNION_ONESELF_ConnectChildMain.
  */
 
 typedef unsigned char u8;
 
-void func_02172D20(u8 *p)
+void UNION_COMM_RequestRestart(u8 *p)
 {
     if (p[0x3561] == 0) {
         p[0x3561] = 1;

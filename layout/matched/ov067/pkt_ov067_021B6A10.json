@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6A10",
+    "TOUCHBAR_SetButtonActorPriority",
     "func_021B6A1C"
+   ],
+   "addresses": [
+    "0x021B6A10",
+    "0x021B6A1C"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_021CA048
+ * function: BSUBWAY_SCR_ClearStateBits
  * address:  0x021CA048
  * packet:   pkt_021CA048
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021CA048(u32 a, u32 b)
+int BSUBWAY_SCR_ClearStateBits(u32 a, u32 b)
 {
 ((struct Obj07233 *)((u8 *)(a)))->fC = (((struct Obj07233 *)((u8 *)(a)))->fC & ~1);
 ((struct Obj07233 *)((u8 *)(a)))->fC = (((struct Obj07233 *)((u8 *)(a)))->fC & ~6);

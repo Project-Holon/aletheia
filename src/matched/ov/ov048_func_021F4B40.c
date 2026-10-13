@@ -1,5 +1,5 @@
 /*
- * function: func_021F4B40
+ * function: GIMMICK_OBJ_ELBOARD_DeleteLine
  * address: 0x021F4B40
  * packet: pkt_ov048_021F4B40
  * region: ov048
@@ -15,4 +15,4 @@
 extern void func_02187684(void *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021F4B40(int *p) { func_02187684((void *)p[3]); func_020307B0(p); }
+void GIMMICK_OBJ_ELBOARD_DeleteLine(int *p) { func_02187684((void *)p[3]); func_020307B0(p); }

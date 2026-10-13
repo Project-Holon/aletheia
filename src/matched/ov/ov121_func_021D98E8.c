@@ -11,8 +11,8 @@
  * status: EXACT
  * note: tail wrapper plus unlabelled getter follower; seed 021D98F0.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_0204A648(void);
-void func_021D98E8(void *a0) { func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void func_021D98E8(void *a0) { CLACT_VBlankSystem(); }
 unsigned func_021D98F0(unsigned *p) { return *p; }

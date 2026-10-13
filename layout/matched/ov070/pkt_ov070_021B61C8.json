@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B61C8",
+   "name": "ITEMMENU_GetItemCount",
    "address": "0x021B61C8",
    "kind": "game",
    "region": "ov070",

@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02050BE8 0x02050BE8 arm
+ *   PARTICLE_Main 0x02050BE8 arm
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_02050BE8(void);
-void func_02208A24(int a0){func_02050BE8();}
+extern void PARTICLE_Main(void);
+void func_02208A24(int a0){PARTICLE_Main();}

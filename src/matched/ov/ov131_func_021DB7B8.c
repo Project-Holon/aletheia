@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void P_STA_SKILL_DeleteSlotObjects(void *a, void *b, u8 *p)
 {
-    func_0204B3B4(((struct Obj10524 *)p)->f8);
-    func_0204B3B4(((struct Obj10524 *)p)->fC);
+    CLACT_DeleteActor(((struct Obj10524 *)p)->f8);
+    CLACT_DeleteActor(((struct Obj10524 *)p)->fC);
     ((struct Obj10524 *)p)->f0 = 0xff;
 }

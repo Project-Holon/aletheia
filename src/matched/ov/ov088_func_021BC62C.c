@@ -1,5 +1,5 @@
 /*
- * function: func_021BC62C
+ * function: STARTMENU_ConfigPromptSetupGraphics
  * address:  0x021BC62C
  * packet:   pkt_ov088_021BC62C
  * region:   ov088
@@ -12,16 +12,16 @@
  * symbols:
  *   func_0207D534  0x0207D534  arm
  *   func_02043534  0x02043534  arm
- *   func_020435F4  0x020435F4  arm
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_021BC734  0x021BC734  thumb  ov088
- *   func_02045088  0x02045088  arm
+ *   STARTMENU_InitBgLayer  0x021BC734  thumb  ov088
+ *   BMP_WIN_Init  0x02045088  arm
  *   func_02049B40  0x02049B40  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201F5BC  0x0201F5BC  thumb
- *   func_0204E720  0x0204E720  arm
+ *   FADE_Start  0x0204E720  arm
  *   d_021BD8B8     0x021BD8B8  data  ov088  a4
  *   d_021BD848     0x021BD848  data  a4
  *   d_021BD858     0x021BD858  data  a4
@@ -43,45 +43,45 @@ struct GfFont;
 extern void func_0207D534(volatile u16 *reg, int brightness);
 typedef signed int     s32;
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 struct DispConfig;
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203F8F4(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_021BC734(const void *p, int bg);
-extern void func_02045088(u16 heapId);
+extern void STARTMENU_InitBgLayer(const void *p, int bg);
+extern void BMP_WIN_Init(u16 heapId);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern char d_021BD8B8[];
 extern char d_021BD848[];
 extern char d_021BD858[];
 extern char d_021BD878[];
 extern char d_021BD898[];
 
-void func_021BC62C(char *p)
+void STARTMENU_ConfigPromptSetupGraphics(char *p)
 {
     func_0207D534((volatile u16 *)0x0400006C, -16);
     func_0207D534((volatile u16 *)0x0400106C, -16);
     func_02043534(0);
-    func_020435F4(0);
-    func_020433E0((const struct DispVram *)d_021BD8B8);
+    BG_SYS_SetSubVisiblePlanes(0);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021BD8B8);
     func_0203F8F4(0x39);
     func_0203FC28((struct DispConfig *)d_021BD848);
     *(u16 *)0x04000304 = (u16)(*(u16 *)0x04000304 & ~0x8000);
-    func_021BC734(d_021BD858, 3);
-    func_021BC734(d_021BD878, 1);
-    func_021BC734(d_021BD898, 5);
-    func_02045088(0x39);
+    STARTMENU_InitBgLayer(d_021BD858, 3);
+    STARTMENU_InitBgLayer(d_021BD878, 1);
+    STARTMENU_InitBgLayer(d_021BD898, 5);
+    BMP_WIN_Init(0x39);
     func_02049B40(0x17, 5, 0, 0, 0x20, 0x39);
     func_02049B40(0x17, 5, 4, 0, 0x20, 0x39);
-    ((struct Obj20830 *)p)->f8 = (u32)func_0201D7EC(0x17, 0, 0, 0, 0x39);
+    ((struct Obj20830 *)p)->f8 = (u32)GF_FONT_Create(0x17, 0, 0, 0, 0x39);
     func_0201F5BC(1, 1, 3, 0, 0x39);
     func_0201F5BC(1, 0x1f, 4, 0, 0x39);
     func_0201F5BC(5, 1, 1, 0, 0x39);
     *(u16 *)0x05000000 = 0x7D8C;
     *(u16 *)0x05000400 = 0x7D8C;
-    func_0204E720(3, 0x10, 0, 0);
+    FADE_Start(3, 0x10, 0, 0);
 }

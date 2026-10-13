@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02158F50",
+   "name": "SCRIPT_WORK_GetEvent",
    "address": "0x02158F50",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02158F54",
+   "name": "SCRIPT_WORK_GetGameSystem",
    "address": "0x02158F54",
    "kind": "game",
    "region": "ov010",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02158F6C",
+   "name": "SCRIPT_WORK_GetCmdWork",
    "address": "0x02158F6C",
    "kind": "game",
    "region": "ov010",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02158F74",
+   "name": "SCRIPT_WORK_GetWordSet",
    "address": "0x02158F74",
    "kind": "game",
    "region": "ov010",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02158FB4",
+   "name": "SCRIPT_WORK_GetUserWorkPtr",
    "address": "0x02158FB4",
    "kind": "game",
    "region": "ov010",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02158FB8",
+   "name": "SCRIPT_WORK_GetUserWork",
    "address": "0x02158FB8",
    "kind": "game",
    "region": "ov010",

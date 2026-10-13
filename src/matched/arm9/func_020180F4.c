@@ -1,5 +1,5 @@
 /*
- * function: func_020180F4
+ * function: POKE_TOOL_PushMove
  * address:  0x020180F4
  * packet:   pkt_020180F4
  * region:   arm9
@@ -21,13 +21,13 @@
  * stub has no other witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020180F4.c \
- *       --func func_020180F4 --addr 0x020180F4 --cc 1.1p1 --thumb --region arm9
+ *   python tools/match.py one --src src/matched/POKE_TOOL_PushMove.c \
+ *       --func POKE_TOOL_PushMove --addr 0x020180F4 --cc 1.1p1 --thumb --region arm9
  */
 
 extern void POKE_TOOL_PushBoxMove(void);
 
-void func_020180F4(void *p, int move)
+void POKE_TOOL_PushMove(void *p, int move)
 {
     POKE_TOOL_PushBoxMove();
 }

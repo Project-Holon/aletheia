@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050238",
+   "name": "BILLBOARD_ACT_AddSlot",
    "address": "0x02050238",
    "kind": "game",
    "region": "arm9",

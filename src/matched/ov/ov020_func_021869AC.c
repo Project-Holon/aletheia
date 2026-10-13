@@ -1,5 +1,5 @@
 /*
- * function: func_021869AC
+ * function: FIELD_WFBC_DATA_LOCAL_GetCounter
  * address:  0x021869AC
  * packet:   pkt_ov020_021869AC
  * region:   ov020
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * Unlabelled leaf (saves nothing, so disasm.py prints it as .word data);
- * filed as the blocker of func_02186D48 (ov020).
+ * filed as the blocker of FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue (ov020).
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-u16 func_021869AC(u16 *p)
+u16 FIELD_WFBC_DATA_LOCAL_GetCounter(u16 *p)
 {
     return p[0];
 }

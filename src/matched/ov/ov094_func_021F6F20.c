@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_021F7108 0x021F7108 thumb ov094
- *   func_02048AFC 0x02048AFC arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  */
 typedef struct {
     char pad[4];
@@ -25,13 +25,13 @@ typedef struct {
 } Obj;
 
 extern void func_021F7108(int *p, int a, int b, int *out, int *base);
-extern void func_02048AFC(void *, int *);
+extern void G3D_CAMERA_SetEye(void *, int *);
 struct Light;
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 
 void func_021F6F20(Obj *p, int a, int b)
 {
     func_021F7108((int *)p, a, b, p->m, p->v);
-    func_02048AFC(p->h, p->m);
-    func_02048AD0(p->h);
+    G3D_CAMERA_SetEye(p->h, p->m);
+    G3D_CAMERA_Reset(p->h);
 }

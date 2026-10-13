@@ -1,5 +1,5 @@
 /*
- * function: func_021A3220
+ * function: FIELD_PLAYER_SetObjCode
  * address:  0x021A3220
  * packet:   pkt_ov021_021A3220
  * region:   ov021
@@ -13,16 +13,16 @@
  * filed as a blocker of ov018 func_0217BCDC: tail call on the object's
  * word at +0x4, the second argument passing through in r1.
  * symbols:
- *   func_021A3938  0x021A3938  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetObjCode  0x021A3938  thumb  ov021
  */
 #include "../include/Obj19768.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021A3938(u32 a, u32 b);
+extern int FIELD_PLAYER_CORE_SetObjCode(u32 a, u32 b);
 
-void func_021A3220(u8 *p, u32 res)
+void FIELD_PLAYER_SetObjCode(u8 *p, u32 res)
 {
-    func_021A3938(((struct Obj19768 *)p)->f4, res);
+    FIELD_PLAYER_CORE_SetObjCode(((struct Obj19768 *)p)->f4, res);
 }

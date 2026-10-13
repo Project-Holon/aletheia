@@ -1,5 +1,5 @@
 /*
- * function: func_021A0F94
+ * function: FIELD_SUBSCREEN_GetPanelResult
  * address:  0x021A0F94
  * packet:   pkt_021A0F94
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A0F94(u32 a)
+int FIELD_SUBSCREEN_GetPanelResult(u32 a)
 {
 if (a != 0) {
     return ((struct Obj17991 *)((u8 *)(a)))->f10;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F54C0
+ * function: ENCEFF_ScreenCaptureTask
  * address: 0x021F54C0
  * packet: pkt_ov075_021F54C0
  * region: ov075
@@ -13,4 +13,4 @@
  */
 struct Node;
 extern void func_02030EAC(struct Node *n);
-void func_021F54C0(void *p,int *flag) { *(unsigned int *)0x04000064=0x81330010; func_02030EAC(p); if(flag) *flag=1; }
+void ENCEFF_ScreenCaptureTask(void *p,int *flag) { *(unsigned int *)0x04000064=0x81330010; func_02030EAC(p); if(flag) *flag=1; }

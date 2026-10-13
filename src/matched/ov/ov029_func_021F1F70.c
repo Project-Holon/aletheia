@@ -1,5 +1,5 @@
 /*
- * function: func_021F1F70
+ * function: C_GEAR_GetBatteryFrame
  * address: 0x021F1F70
  * packet: pkt_ov029_021F1F70
  * region: ov029
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 extern int UI_GetPowerState(void);
 extern const u8 d_021F3520[];
-u8 func_021F1F70(void)
+u8 C_GEAR_GetBatteryFrame(void)
 {
     return d_021F3520[UI_GetPowerState()];
 }

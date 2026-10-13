@@ -1,5 +1,5 @@
 /*
- * function: func_021B6AAC
+ * function: SCRCMD_POKEMON_FLD_NoopWarpEntry
  * address:  0x021B6AAC
  * packet:   pkt_021B6AAC
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021B6AAC(u16 *a0)
+void SCRCMD_POKEMON_FLD_NoopWarpEntry(u16 *a0)
 {
 }
 

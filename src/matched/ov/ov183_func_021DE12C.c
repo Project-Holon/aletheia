@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj10737.h"
 #include "../include/Obj24580.h"
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_02082BCC(void *, int, unsigned);
 void func_021DE12C(char *p)
 {
@@ -23,10 +23,10 @@ void func_021DE12C(char *p)
     for (i = 0; i < 4; i++) {
         char *slot = p + i * 4;
         if (((struct Obj10737 *)slot)->f4) {
-            func_0204B3B4(((struct Obj10737 *)slot)->f4);
+            CLACT_DeleteActor(((struct Obj10737 *)slot)->f4);
             ((struct Obj10737 *)slot)->f4 = 0;
         }
     }
-    func_0204B3B4(((struct Obj24580 *)p)->f0);
+    CLACT_DeleteActor(((struct Obj24580 *)p)->f0);
     func_02082BCC(p, 0, 20);
 }

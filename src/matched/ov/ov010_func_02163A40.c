@@ -1,5 +1,5 @@
 /*
- * function: func_02163A40
+ * function: FLDMMDL_MOVE_IsRectOverlap
  * address:  0x02163A40
  * packet:   pkt_ov010_02163A40
  * region:   ov010
@@ -21,7 +21,7 @@
  * Earlier 15 B residue (shared locals) was only the d1/lo2 register swap.
  */
 typedef short s16;
-int func_02163A40(s16 *a, s16 *b)
+int FLDMMDL_MOVE_IsRectOverlap(s16 *a, s16 *b)
 {
     {
         s16 d1, d2, lo1, hi1, lo2, hi2, big0, big1, sm0, sm1;

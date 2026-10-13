@@ -10,22 +10,22 @@
  * status: EXACT
  * symbols:
  *   func_021BBBD8 0x021BBBD8 thumb
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204ADA4 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  */
 #include "../include/Obj00173.h"
 struct S;
 extern void func_021BBBD8(struct S *p, int i);
 typedef unsigned int   u32;
-extern void func_0204AFD8(u32 i);
-extern void func_0204ADA4(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
 void func_021BBA7C(char *p)
 {
     unsigned char i;
     for (i = 0; i < 2; i++) {
         func_021BBBD8((struct S *)p, i);
     }
-    func_0204AFD8((u32)(((struct Obj00173 *)p)->f184));
-    func_0204AFD8((u32)(((struct Obj00173 *)p)->f180));
-    func_0204ADA4((u32)(((struct Obj00173 *)p)->f17C));
+    CLACT_ReleaseCellAnim((u32)(((struct Obj00173 *)p)->f184));
+    CLACT_ReleaseCellAnim((u32)(((struct Obj00173 *)p)->f180));
+    CLACT_ReleasePalette((u32)(((struct Obj00173 *)p)->f17C));
 }

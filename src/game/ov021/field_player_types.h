@@ -44,7 +44,7 @@ typedef struct FieldPlayerFormEntry {
     unsigned short formCode;
 } FieldPlayerFormEntry;
 
-/* One row of the form table per sex (data_021D890C). */
+/* One row of the form table per sex (gFieldPlayerFormTable). */
 typedef struct FieldPlayerFormRow {
     FieldPlayerFormEntry entries[FIELD_PLAYER_AVATAR_FORM_COUNT];
 } FieldPlayerFormRow;

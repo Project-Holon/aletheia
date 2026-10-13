@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2CC
+ * function: MONOLITH_TOOL_MainInfoScreen
  * address:  0x021BA2CC
  * packet:   pkt_ov071_021BA2CC
  * region:   ov071
@@ -12,9 +12,9 @@
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
- *   func_021BA528  0x021BA528  thumb  ov071
- *   func_021BA5D4  0x021BA5D4  thumb  ov071
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   MONOLITH_TOOL_DrawActiveEntry  0x021BA528  thumb  ov071
+ *   MONOLITH_TOOL_DrawSelectedEntry  0x021BA5D4  thumb  ov071
  */
 #include "../include/Obj06192.h"
 #include "../include/Obj09900.h"
@@ -27,11 +27,11 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
-extern void func_021BA528(u32 **a, u8 *b, u8 *c);
-extern void func_021BA5D4(void *a, void *b, void *c);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void MONOLITH_TOOL_DrawActiveEntry(u32 **a, u8 *b, u8 *c);
+extern void MONOLITH_TOOL_DrawSelectedEntry(void *a, void *b, void *c);
 
-int func_021BA2CC(int a, int *b, u8 *o, u8 *c)
+int MONOLITH_TOOL_MainInfoScreen(int a, int *b, u8 *o, u8 *c)
 {
     int i;
     u8 f[3];
@@ -46,7 +46,7 @@ int func_021BA2CC(int a, int *b, u8 *o, u8 *c)
         e = c + i * 8;
         if (e[0x10] != 0) {
             if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj06192 *)e)->fC))) == 0) {
-                func_02045334((struct Descriptor *)((struct Obj06192 *)e)->fC);
+                BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06192 *)e)->fC);
                 e[0x10] = 0;
             }
         }
@@ -54,11 +54,11 @@ int func_021BA2CC(int a, int *b, u8 *o, u8 *c)
     }
     if (*b == 0) {
         if ((*(u8 **)(o + 8))[3] == 1 && f[1] == 1) {
-            func_021BA528((u32 **)o, ((struct Obj09900 *)o)->f4, c);
+            MONOLITH_TOOL_DrawActiveEntry((u32 **)o, ((struct Obj09900 *)o)->f4, c);
             (*(u8 **)(o + 8))[3] = 0;
         }
         if ((*(u8 **)(o + 8))[1] != ((struct Obj13188 *)c)->f24 && f[2] == 1) {
-            func_021BA5D4(o, ((struct Obj09900 *)o)->f4, c);
+            MONOLITH_TOOL_DrawSelectedEntry(o, ((struct Obj09900 *)o)->f4, c);
             ((struct Obj13188 *)c)->f24 = (*(u8 **)(o + 8))[1];
         }
         return 0;

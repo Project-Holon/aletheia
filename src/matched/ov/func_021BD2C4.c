@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2C4
+ * function: PLACE_NAME_LETTER_SetFont
  * address:  0x021BD2C4
  * packet:   pkt_021BD2C4
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021BD2C4(u8 *p, u32 v)
+void PLACE_NAME_LETTER_SetFont(u8 *p, u32 v)
 {
     ((struct Obj18220 *)p)->f4 = v;
 }

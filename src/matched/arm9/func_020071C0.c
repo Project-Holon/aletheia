@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Thumb tail-call stub: loads p->field_0x10 and tail-calls BACKUP_SYSTEM_GetWrittenSize.
- * Witness leaf for ov034 func_021F09BC.
+ * Witness leaf for ov034 REPORT_UpdateSaveAnim.
  *
  * symbols:
  *   BACKUP_SYSTEM_GetWrittenSize 0x02031E68 arm

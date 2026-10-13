@@ -1,5 +1,5 @@
 /*
- * function: func_021848E0
+ * function: OEKAKI_SetupBgs
  * address:  0x021848E0
  * packet:   pkt_ov023_021848E0
  * region:   ov023
@@ -14,23 +14,23 @@
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_020414EC  0x020414EC  arm
  *   func_02040B94  0x02040B94  arm
- *   d_02186B3C     0x02186B3C  data  ov023  a4
- *   d_02186BCC     0x02186BCC  data  ov023  a4
- *   d_02186B6C     0x02186B6C  data  ov023  a4
- *   d_02186B8C     0x02186B8C  data  ov023  a4
- *   d_02186BAC     0x02186BAC  data  ov023  a4
- *   d_02186B4C     0x02186B4C  data  ov023  a4
+ *   gOekakiDispConfig     0x02186B3C  data  ov023  a4
+ *   gOekakiBgTemplate0     0x02186BCC  data  ov023  a4
+ *   gOekakiBgTemplate1     0x02186B6C  data  ov023  a4
+ *   gOekakiBgTemplate2     0x02186B8C  data  ov023  a4
+ *   gOekakiBgTemplate4     0x02186BAC  data  ov023  a4
+ *   gOekakiBgTemplate5     0x02186B4C  data  ov023  a4
  */
 
 typedef struct { int w[4]; } B16;
 typedef struct { int w[8]; } B32;
 
-extern const B16 d_02186B3C;
-extern const B32 d_02186BCC;
-extern const B32 d_02186B6C;
-extern const B32 d_02186B8C;
-extern const B32 d_02186BAC;
-extern const B32 d_02186B4C;
+extern const B16 gOekakiDispConfig;
+extern const B32 gOekakiBgTemplate0;
+extern const B32 gOekakiBgTemplate1;
+extern const B32 gOekakiBgTemplate2;
+extern const B32 gOekakiBgTemplate4;
+extern const B32 gOekakiBgTemplate5;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 struct BgTemplate;
@@ -41,7 +41,7 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 
-void func_021848E0(void)
+void OEKAKI_SetupBgs(void)
 {
     B16 t;
     B32 t0;
@@ -50,25 +50,25 @@ void func_021848E0(void)
     B32 t4;
     B32 t5;
 
-    t = d_02186B3C;
+    t = gOekakiDispConfig;
     func_0203FC28((struct DispConfig *)(&t));
 
-    t0 = d_02186BCC;
+    t0 = gOekakiBgTemplate0;
     func_0203FCA0(0, (const struct BgTemplate *)(&t0), 0);
     func_020414EC(0);
 
-    t1 = d_02186B6C;
+    t1 = gOekakiBgTemplate1;
     func_0203FCA0(1, (const struct BgTemplate *)(&t1), 0);
     func_020414EC(1);
 
-    t2 = d_02186B8C;
+    t2 = gOekakiBgTemplate2;
     func_0203FCA0(2, (const struct BgTemplate *)(&t2), 0);
 
-    t4 = d_02186BAC;
+    t4 = gOekakiBgTemplate4;
     func_0203FCA0(4, (const struct BgTemplate *)(&t4), 0);
     func_020414EC(4);
 
-    t5 = d_02186B4C;
+    t5 = gOekakiBgTemplate5;
     func_0203FCA0(5, (const struct BgTemplate *)(&t5), 0);
 
     func_02040B94(0, 0x20, 0, 0x28);

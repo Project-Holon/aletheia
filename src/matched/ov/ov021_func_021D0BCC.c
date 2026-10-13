@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02168AEC  0x02168AEC  thumb  ov010
+ *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
  *
- * Unblocked by matching func_02168AEC (ov010, EXACT): the +0008 ABS32 site now
+ * Unblocked by matching FLD_BTL_INST_TOOL_LookupKeyValue (ov010, EXACT): the +0008 ABS32 site now
  * attests as `matched`.
  */
 #include "../include/Obj20293.h"
 
 typedef unsigned short u16;
 
-u16 func_02168AEC(u16 a0);
+u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 a0);
 
 void func_021D0BCC(char *p)
 {
-    func_02168AEC(((struct Obj20293 *)p)->f4);
+    FLD_BTL_INST_TOOL_LookupKeyValue(((struct Obj20293 *)p)->f4);
 }

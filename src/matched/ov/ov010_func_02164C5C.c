@@ -1,5 +1,5 @@
 /*
- * function: func_02164C5C
+ * function: GAME_BEACON_SEARCH_OnNetExit
  * address:  0x02164C5C
  * packet:   pkt_02164C5C
  * region:   ov010
@@ -22,4 +22,4 @@ struct Obj18984 {
     unsigned int f4;
 };
 
-void func_02164C5C(u8 *p) { ((struct Obj18984 *)p)->f4=0; }
+void GAME_BEACON_SEARCH_OnNetExit(u8 *p) { ((struct Obj18984 *)p)->f4=0; }

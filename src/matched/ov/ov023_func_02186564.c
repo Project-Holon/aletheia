@@ -1,5 +1,5 @@
 /*
- * function: func_02186564
+ * function: OEKAKI_EnableDisplays
  * address:  0x02186564
  * packet:   pkt_ov023_02186564
  * region:   ov023
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   func_02040588  0x02040588  arm
  */
 
@@ -18,13 +18,13 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_02186564(void)
+void OEKAKI_EnableDisplays(void)
 {
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
     func_02040588(0, 1);
     func_02040588(1, 1);
     func_02040588(2, 1);

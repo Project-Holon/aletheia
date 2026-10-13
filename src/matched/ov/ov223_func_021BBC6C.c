@@ -9,26 +9,26 @@
  * status: EXACT
  * symbols:
  *   func_021B9914 0x021B9914 thumb ov223
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  * Preserve the original 9914 call's visible r1=258 and r2=frame inputs;
  * the full callee body reads only entry r0.
  */
 #include "../include/Obj01594.h"
 extern void func_021B9914(char *p);
-extern void func_0204E720(unsigned, int, int, int);
-extern int func_0204E804(void);
+extern void FADE_Start(unsigned, int, int, int);
+extern int FADE_IsActive(void);
 int func_021BBC6C(char *p, int *state)
 {
     if (((struct Obj01594 *)p)->f50 != 258)
         func_021B9914(p);
     switch (*state) {
     case 0:
-        func_0204E720(12, 0, 16, 3);
+        FADE_Start(12, 0, 16, 3);
         (*state)++;
         break;
     case 1:
-        if (func_0204E804() == 0) {
+        if (FADE_IsActive() == 0) {
             ((struct Obj01594 *)p)->f10 = 0;
             return 6;
         }

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DAB48, func_021DAB6C
+ * function: BTL_ABILITY_ScrappyIgnoreGhostImmunity, BTL_ABILITY_GetScrappyHandlers
  * address: 0x021DAB48
  * packet: pkt_ov093_021DAB48
  * region: ov093
@@ -10,23 +10,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0790 0x021F0790 data a4
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   gScrappyHandlerTable 0x021F0790 data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  * extent: includes store-and-return followers 021DAB6C.
  */
-extern unsigned char d_021F0790[];
-extern int func_021D775C(int);
-extern int func_021D76BC(int, unsigned int);
+extern unsigned char gScrappyHandlerTable[];
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int, unsigned int);
 
-void func_021DAB48(int a, int b, int c)
+void BTL_ABILITY_ScrappyIgnoreGhostImmunity(int a, int b, int c)
 {
-    if (c == func_021D775C(3) && func_021D775C(0x15) == 7)
-        func_021D76BC(0x4b, 1);
+    if (c == BTL_EVENT_GetVar(3) && BTL_EVENT_GetVar(0x15) == 7)
+        BTL_EVENT_OverwriteVar(0x4b, 1);
 }
 
-void *func_021DAB6C(int *p)
+void *BTL_ABILITY_GetScrappyHandlers(int *p)
 {
     *p = 1;
-    return d_021F0790;
+    return gScrappyHandlerTable;
 }

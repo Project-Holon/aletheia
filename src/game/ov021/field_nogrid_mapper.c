@@ -1,7 +1,7 @@
 /*
  * file:     field_nogrid_mapper.c
  * unit:     yes
- * function: func_021BB1F4, func_021BB240, func_021BB260, func_021BB278, func_021BB2F8, func_021BB348, func_021BB36C, func_021BB388, func_021BB394, func_021BB3A0, func_021BB3AC, func_021BB3B8, func_021BB3C4, func_021BB3D0, func_021BB3DC, func_021BB3E8, func_021BB480
+ * function: FIELD_NOGRID_MAPPER_Create, FIELD_NOGRID_MAPPER_Delete, FIELD_NOGRID_MAPPER_SetActive, FIELD_NOGRID_MAPPER_LoadData, FIELD_NOGRID_MAPPER_LoadDataFromArc, FIELD_NOGRID_MAPPER_ReleaseData, FIELD_NOGRID_MAPPER_Main, FIELD_NOGRID_MAPPER_UpdateCameraForced, FIELD_NOGRID_MAPPER_CreateRailWork, FIELD_NOGRID_MAPPER_DeleteRailWork, FIELD_NOGRID_MAPPER_BindCameraWork, FIELD_NOGRID_MAPPER_UnbindCameraWork, FIELD_NOGRID_MAPPER_GetAttribute, FIELD_NOGRID_MAPPER_SetCameraLocation, FIELD_NOGRID_MAPPER_SetLineEnable, FIELD_NOGRID_MAPPER_CalcZoneRailLocation, FIELD_NOGRID_MAPPER_GetRailMan
  * address:  0x021BB1F4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,42 +15,42 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_021B7884  0x021B7884  thumb  ov021
- *   func_0219EF44  0x0219EF44  thumb  ov021
+ *   FIELD_RAIL_Create  0x021B7884  thumb  ov021
+ *   FIELD_RAIL_LOADER_Create  0x0219EF44  thumb  ov021
  *   d_021DE2D0     0x021DE2D0  data  a4
- *   func_021B791C  0x021B791C  thumb  ov021
- *   func_0219EF6C  0x0219EF6C  thumb  ov021
- *   func_021AB75C  0x021AB75C  thumb  ov021
- *   func_02049030  0x02049030  arm
- *   func_0219EF7C  0x0219EF7C  thumb  ov021
- *   func_0219F018  0x0219F018  thumb  ov021
- *   func_021B7934  0x021B7934  thumb  ov021
- *   func_021AB840  0x021AB840  thumb  ov021
- *   func_021AB880  0x021AB880  thumb  ov021
- *   func_021AB884  0x021AB884  thumb  ov021
- *   func_021AB888  0x021AB888  thumb  ov021
- *   func_021AB634  0x021AB634  thumb  ov021
- *   func_020490A8  0x020490A8  arm
- *   func_02048F4C  0x02048F4C  arm
- *   func_021AB650  0x021AB650  thumb  ov021
- *   func_021B7954  0x021B7954  thumb  ov021
- *   func_0219EFFC  0x0219EFFC  thumb  ov021
- *   func_021AB868  0x021AB868  thumb  ov021
- *   func_021B79E4  0x021B79E4  thumb  ov021
- *   func_021B79F0  0x021B79F0  thumb  ov021
- *   func_021B7970  0x021B7970  thumb
- *   func_021B79AC  0x021B79AC  thumb
- *   func_021B79C4  0x021B79C4  thumb  ov021
- *   func_021B79CC  0x021B79CC  thumb  ov021
- *   func_021B7D68  0x021B7D68  thumb ov021
- *   func_021B7C04  0x021B7C04  thumb  ov021
- *   func_02013C9C  0x02013C9C  thumb
- *   func_021B7C58  0x021B7C58  thumb  ov021
- *   func_021BB088  0x021BB088  thumb  ov021
- *   func_021BB0A4  0x021BB0A4  thumb  ov021
- *   func_021BB0B4  0x021BB0B4  thumb  ov021
- *   func_021BB11C  0x021BB11C  thumb  ov021
- *   func_021BB13C  0x021BB13C  thumb  ov021
+ *   FIELD_RAIL_Delete  0x021B791C  thumb  ov021
+ *   FIELD_RAIL_LOADER_Delete  0x0219EF6C  thumb  ov021
+ *   FLD_SCENEAREA_SetEnabled  0x021AB75C  thumb  ov021
+ *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
+ *   FIELD_RAIL_LOADER_Load  0x0219EF7C  thumb  ov021
+ *   FIELD_RAIL_LOADER_GetSetting  0x0219F018  thumb  ov021
+ *   FIELD_RAIL_SetSetting  0x021B7934  thumb  ov021
+ *   FLD_SCENEAREA_LOADER_Load  0x021AB840  thumb  ov021
+ *   FLD_SCENEAREA_LOADER_GetRecs  0x021AB880  thumb  ov021
+ *   FLD_SCENEAREA_LOADER_GetRecCount  0x021AB884  thumb  ov021
+ *   FLD_SCENEAREA_LOADER_GetCallbacks  0x021AB888  thumb  ov021
+ *   FLD_SCENEAREA_SetData  0x021AB634  thumb  ov021
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
+ *   FLD_SCENEAREA_ClearData  0x021AB650  thumb  ov021
+ *   FIELD_RAIL_ClearSetting  0x021B7954  thumb  ov021
+ *   FIELD_RAIL_LOADER_Unload  0x0219EFFC  thumb  ov021
+ *   FLD_SCENEAREA_LOADER_Unload  0x021AB868  thumb  ov021
+ *   FIELD_RAIL_Update  0x021B79E4  thumb  ov021
+ *   FIELD_RAIL_UpdateCamera  0x021B79F0  thumb  ov021
+ *   FIELD_RAIL_ActivateFreeWork  0x021B7970  thumb
+ *   FIELD_RAIL_ReleaseWork  0x021B79AC  thumb
+ *   FIELD_RAIL_SetFocusWork  0x021B79C4  thumb  ov021
+ *   FIELD_RAIL_ClearFocusWork  0x021B79CC  thumb  ov021
+ *   FIELD_RAIL_UpdateCameraAtLocation  0x021B7D68  thumb ov021
+ *   FIELD_RAIL_SetLineEnable  0x021B7C04  thumb  ov021
+ *   ZONEDATA_GetSpecialKind  0x02013C9C  thumb
+ *   FIELD_RAIL_MakeLineLocation  0x021B7C58  thumb  ov021
+ *   RAIL_ATTR_Create  0x021BB088  thumb  ov021
+ *   RAIL_ATTR_Delete  0x021BB0A4  thumb  ov021
+ *   RAIL_ATTR_Load  0x021BB0B4  thumb  ov021
+ *   RAIL_ATTR_Release  0x021BB11C  thumb  ov021
+ *   RAIL_ATTR_GetAttribute  0x021BB13C  thumb  ov021
  */
 #include "fldmmdl_rail_types.h"
 
@@ -89,187 +89,187 @@ typedef struct FieldNogridMapperRes {
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
-extern RailManager *func_021B7884(u16 heapId, u32 workMax, int fieldCamera);
-extern FieldRailLoader *func_0219EF44(u32 heapId);
-extern RailAttr *func_021BB088(int heapId);
-extern void func_021BB0A4(RailAttr *attr);
-extern void func_021B791C(RailManager *railMan);
-extern void func_0219EF6C(FieldRailLoader *loader);
-extern void func_021AB75C(FldSceneArea *sceneArea, u32 active);
-extern u32 func_02049030(u32 arcId);
-extern void func_0219EF7C(FieldRailLoader *loader, u32 dataId, u32 heapId);
-extern FieldRailSetting *func_0219F018(FieldRailLoader *loader);
-extern int func_021B7934(RailManager *railMan, FieldRailSetting *setting);
-extern void func_021BB0B4(RailAttr *attr, u32 dataId, u32 heapId);
-extern void func_021AB840(FldSceneAreaLoader *loader, int arcIndex, u32 dataId, u16 heapId);
-extern u32 func_021AB880(FldSceneAreaLoader *loader);
-extern u32 func_021AB884(FldSceneAreaLoader *loader);
-extern u32 func_021AB888(FldSceneAreaLoader *loader);
-extern void func_021AB634(FldSceneArea *sceneArea, u32 data, u32 count, u32 funcTable);
-extern u32 func_020490A8(u32 arcId, u32 dataId);
-extern void func_02048F4C(void *dst, u32 arcId, u32 dataId);
-extern void func_021AB650(FldSceneArea *sceneArea);
-extern u32 func_021B7954(RailManager *railMan);
-extern int func_0219EFFC(FieldRailLoader *loader);
-extern u32 func_021AB868(FldSceneAreaLoader *loader);
-extern void func_021BB11C(RailAttr *attr);
-extern void func_021B79E4(RailManager *railMan);
-extern int func_021B79F0(RailManager *railMan, int force);
-extern void func_021B7970(RailManager *railMan);
-extern void func_021B79AC(RailManager *railMan, RailWork *work);
-extern void func_021B79C4(RailManager *railMan, RailWork *work);
-extern void func_021B79CC(RailManager *railMan);
-extern u32 func_021BB13C(RailAttr *attr, const RailLocation *location);
-extern void func_021B7D68(RailManager *railMan, const RailLocation *location);
-extern void func_021B7C04(RailManager *railMan, int lineIndex, int enable);
-extern int func_02013C9C(u16 zoneId);
-extern void func_021B7C58(RailManager *railMan, FieldRailSetting *setting, u32 railIndex, u32 lineGrid, u32 widthPos, RailLocation *outLocation);
+extern RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, int fieldCamera);
+extern FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId);
+extern RailAttr *RAIL_ATTR_Create(int heapId);
+extern void RAIL_ATTR_Delete(RailAttr *attr);
+extern void FIELD_RAIL_Delete(RailManager *railMan);
+extern void FIELD_RAIL_LOADER_Delete(FieldRailLoader *loader);
+extern void FLD_SCENEAREA_SetEnabled(FldSceneArea *sceneArea, u32 active);
+extern u32 ARC_TOOL_GetArchiveFileCount(u32 arcId);
+extern void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 dataId, u32 heapId);
+extern FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader);
+extern int FIELD_RAIL_SetSetting(RailManager *railMan, FieldRailSetting *setting);
+extern void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId);
+extern void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, u32 dataId, u16 heapId);
+extern u32 FLD_SCENEAREA_LOADER_GetRecs(FldSceneAreaLoader *loader);
+extern u32 FLD_SCENEAREA_LOADER_GetRecCount(FldSceneAreaLoader *loader);
+extern u32 FLD_SCENEAREA_LOADER_GetCallbacks(FldSceneAreaLoader *loader);
+extern void FLD_SCENEAREA_SetData(FldSceneArea *sceneArea, u32 data, u32 count, u32 funcTable);
+extern u32 ARC_TOOL_GetMemberSize(u32 arcId, u32 dataId);
+extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 dataId);
+extern void FLD_SCENEAREA_ClearData(FldSceneArea *sceneArea);
+extern u32 FIELD_RAIL_ClearSetting(RailManager *railMan);
+extern int FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader);
+extern u32 FLD_SCENEAREA_LOADER_Unload(FldSceneAreaLoader *loader);
+extern void RAIL_ATTR_Release(RailAttr *attr);
+extern void FIELD_RAIL_Update(RailManager *railMan);
+extern int FIELD_RAIL_UpdateCamera(RailManager *railMan, int force);
+extern void FIELD_RAIL_ActivateFreeWork(RailManager *railMan);
+extern void FIELD_RAIL_ReleaseWork(RailManager *railMan, RailWork *work);
+extern void FIELD_RAIL_SetFocusWork(RailManager *railMan, RailWork *work);
+extern void FIELD_RAIL_ClearFocusWork(RailManager *railMan);
+extern u32 RAIL_ATTR_GetAttribute(RailAttr *attr, const RailLocation *location);
+extern void FIELD_RAIL_UpdateCameraAtLocation(RailManager *railMan, const RailLocation *location);
+extern void FIELD_RAIL_SetLineEnable(RailManager *railMan, int lineIndex, int enable);
+extern int ZONEDATA_GetSpecialKind(u16 zoneId);
+extern void FIELD_RAIL_MakeLineLocation(RailManager *railMan, FieldRailSetting *setting, u32 railIndex, u32 lineGrid, u32 widthPos, RailLocation *outLocation);
 
-FieldNogridMapper *func_021BB1F4(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader);
-int func_021BB240(FieldNogridMapper *mapper);
-void func_021BB260(FieldNogridMapper *mapper, int active);
-void func_021BB278(FieldNogridMapper *mapper, const FieldNogridMapperRes *res, u32 heapId);
-void func_021BB2F8(FieldNogridMapper *mapper, u32 resId, u32 heapId);
-void func_021BB348(FieldNogridMapper *mapper);
-void func_021BB36C(FieldNogridMapper *mapper);
-int func_021BB388(FieldNogridMapper *mapper);
-void func_021BB394(FieldNogridMapper *mapper);
-void func_021BB3A0(FieldNogridMapper *mapper, RailWork *work);
-void func_021BB3AC(FieldNogridMapper *mapper, RailWork *work);
-void func_021BB3B8(FieldNogridMapper *mapper);
-u32 func_021BB3C4(FieldNogridMapper *mapper, const RailLocation *location);
-void func_021BB3D0(FieldNogridMapper *mapper, const RailLocation *location);
-void func_021BB3DC(FieldNogridMapper *mapper, int lineIndex, int enable);
-void func_021BB3E8(FieldNogridMapper *mapper, u32 zoneId, u16 railIndex, u16 lineGrid, u16 widthPos, RailLocation *outLocation, u16 heapId);
-RailManager *func_021BB480(FieldNogridMapper *mapper);
+FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader);
+int FIELD_NOGRID_MAPPER_Delete(FieldNogridMapper *mapper);
+void FIELD_NOGRID_MAPPER_SetActive(FieldNogridMapper *mapper, int active);
+void FIELD_NOGRID_MAPPER_LoadData(FieldNogridMapper *mapper, const FieldNogridMapperRes *res, u32 heapId);
+void FIELD_NOGRID_MAPPER_LoadDataFromArc(FieldNogridMapper *mapper, u32 resId, u32 heapId);
+void FIELD_NOGRID_MAPPER_ReleaseData(FieldNogridMapper *mapper);
+void FIELD_NOGRID_MAPPER_Main(FieldNogridMapper *mapper);
+int FIELD_NOGRID_MAPPER_UpdateCameraForced(FieldNogridMapper *mapper);
+void FIELD_NOGRID_MAPPER_CreateRailWork(FieldNogridMapper *mapper);
+void FIELD_NOGRID_MAPPER_DeleteRailWork(FieldNogridMapper *mapper, RailWork *work);
+void FIELD_NOGRID_MAPPER_BindCameraWork(FieldNogridMapper *mapper, RailWork *work);
+void FIELD_NOGRID_MAPPER_UnbindCameraWork(FieldNogridMapper *mapper);
+u32 FIELD_NOGRID_MAPPER_GetAttribute(FieldNogridMapper *mapper, const RailLocation *location);
+void FIELD_NOGRID_MAPPER_SetCameraLocation(FieldNogridMapper *mapper, const RailLocation *location);
+void FIELD_NOGRID_MAPPER_SetLineEnable(FieldNogridMapper *mapper, int lineIndex, int enable);
+void FIELD_NOGRID_MAPPER_CalcZoneRailLocation(FieldNogridMapper *mapper, u32 zoneId, u16 railIndex, u16 lineGrid, u16 widthPos, RailLocation *outLocation, u16 heapId);
+RailManager *FIELD_NOGRID_MAPPER_GetRailMan(FieldNogridMapper *mapper);
 
 extern int d_021DE2D0;
 
-FieldNogridMapper *func_021BB1F4(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader)
+FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader)
 {
     FieldNogridMapper *mapper = func_02030734((u16)heapId, sizeof(FieldNogridMapper), 1, (const char *)&d_021DE2D0, 0x47);
 
-    mapper->railMan = func_021B7884(heapId, RAIL_WORK_MAX, fieldCamera);
-    mapper->railLoader = func_0219EF44(heapId);
+    mapper->railMan = FIELD_RAIL_Create(heapId, RAIL_WORK_MAX, fieldCamera);
+    mapper->railLoader = FIELD_RAIL_LOADER_Create(heapId);
     mapper->sceneArea = sceneArea;
     mapper->sceneAreaLoader = sceneAreaLoader;
-    mapper->railAttr = func_021BB088(heapId);
+    mapper->railAttr = RAIL_ATTR_Create(heapId);
     return mapper;
 }
 
-int func_021BB240(FieldNogridMapper *mapper)
+int FIELD_NOGRID_MAPPER_Delete(FieldNogridMapper *mapper)
 {
-    func_021BB0A4(mapper->railAttr);
-    func_021B791C(mapper->railMan);
-    func_0219EF6C(mapper->railLoader);
+    RAIL_ATTR_Delete(mapper->railAttr);
+    FIELD_RAIL_Delete(mapper->railMan);
+    FIELD_RAIL_LOADER_Delete(mapper->railLoader);
     return func_020307B0(mapper);
 }
 
-void func_021BB260(FieldNogridMapper *mapper, int active)
+void FIELD_NOGRID_MAPPER_SetActive(FieldNogridMapper *mapper, int active)
 {
     if (active != 0) {
         mapper->inactive = 0;
     } else {
         mapper->inactive = 1;
     }
-    func_021AB75C(mapper->sceneArea, active);
+    FLD_SCENEAREA_SetEnabled(mapper->sceneArea, active);
 }
 
-void func_021BB278(FieldNogridMapper *mapper, const FieldNogridMapperRes *res, u32 heapId)
+void FIELD_NOGRID_MAPPER_LoadData(FieldNogridMapper *mapper, const FieldNogridMapperRes *res, u32 heapId)
 {
-    func_021BB348(mapper);
+    FIELD_NOGRID_MAPPER_ReleaseData(mapper);
     if (res->railDataId != NOGRID_MAPPER_RES_NONE) {
-        u32 railFileCount = func_02049030(RAIL_ARC_ID);
-        func_0219EF7C(mapper->railLoader, res->railDataId, heapId);
-        func_021B7934(mapper->railMan, func_0219F018(mapper->railLoader));
-        func_021BB0B4(mapper->railAttr, res->railDataId + (railFileCount >> 1), heapId);
+        u32 railFileCount = ARC_TOOL_GetArchiveFileCount(RAIL_ARC_ID);
+        FIELD_RAIL_LOADER_Load(mapper->railLoader, res->railDataId, heapId);
+        FIELD_RAIL_SetSetting(mapper->railMan, FIELD_RAIL_LOADER_GetSetting(mapper->railLoader));
+        RAIL_ATTR_Load(mapper->railAttr, res->railDataId + (railFileCount >> 1), heapId);
     }
     if (res->sceneAreaDataId != NOGRID_MAPPER_RES_NONE) {
         u32 data, count, funcTable;
-        func_021AB840(mapper->sceneAreaLoader, 0, res->sceneAreaDataId, heapId);
-        data = func_021AB880(mapper->sceneAreaLoader);
-        count = func_021AB884(mapper->sceneAreaLoader);
-        funcTable = func_021AB888(mapper->sceneAreaLoader);
-        func_021AB634(mapper->sceneArea, data, count, funcTable);
+        FLD_SCENEAREA_LOADER_Load(mapper->sceneAreaLoader, 0, res->sceneAreaDataId, heapId);
+        data = FLD_SCENEAREA_LOADER_GetRecs(mapper->sceneAreaLoader);
+        count = FLD_SCENEAREA_LOADER_GetRecCount(mapper->sceneAreaLoader);
+        funcTable = FLD_SCENEAREA_LOADER_GetCallbacks(mapper->sceneAreaLoader);
+        FLD_SCENEAREA_SetData(mapper->sceneArea, data, count, funcTable);
     }
 }
 
-void func_021BB2F8(FieldNogridMapper *mapper, u32 resId, u32 heapId)
+void FIELD_NOGRID_MAPPER_LoadDataFromArc(FieldNogridMapper *mapper, u32 resId, u32 heapId)
 {
-    int size = func_020490A8(NOGRID_MAPPER_RES_ARC_ID, resId);
+    int size = ARC_TOOL_GetMemberSize(NOGRID_MAPPER_RES_ARC_ID, resId);
     FieldNogridMapperRes *res = func_02030734((u16)(((u16)heapId & 0x7FFF) | 0x8000), size, 1, (const char *)&d_021DE2D0, 0xdd);
-    func_02048F4C(res, NOGRID_MAPPER_RES_ARC_ID, resId);
-    func_021BB278(mapper, res, heapId);
+    ARC_TOOL_ReadMember(res, NOGRID_MAPPER_RES_ARC_ID, resId);
+    FIELD_NOGRID_MAPPER_LoadData(mapper, res, heapId);
     func_020307B0(res);
 }
 
-void func_021BB348(FieldNogridMapper *mapper)
+void FIELD_NOGRID_MAPPER_ReleaseData(FieldNogridMapper *mapper)
 {
-    func_021AB650(mapper->sceneArea);
-    func_021B7954(mapper->railMan);
-    func_0219EFFC(mapper->railLoader);
-    func_021AB868(mapper->sceneAreaLoader);
-    func_021BB11C(mapper->railAttr);
+    FLD_SCENEAREA_ClearData(mapper->sceneArea);
+    FIELD_RAIL_ClearSetting(mapper->railMan);
+    FIELD_RAIL_LOADER_Unload(mapper->railLoader);
+    FLD_SCENEAREA_LOADER_Unload(mapper->sceneAreaLoader);
+    RAIL_ATTR_Release(mapper->railAttr);
 }
 
-void func_021BB36C(FieldNogridMapper *mapper)
+void FIELD_NOGRID_MAPPER_Main(FieldNogridMapper *mapper)
 {
-    func_021B79E4(mapper->railMan);
+    FIELD_RAIL_Update(mapper->railMan);
     if (mapper->inactive == 0) {
-        func_021B79F0(mapper->railMan, 0);
+        FIELD_RAIL_UpdateCamera(mapper->railMan, 0);
     }
 }
 
-int func_021BB388(FieldNogridMapper *mapper) { return func_021B79F0(mapper->railMan, 1); }
+int FIELD_NOGRID_MAPPER_UpdateCameraForced(FieldNogridMapper *mapper) { return FIELD_RAIL_UpdateCamera(mapper->railMan, 1); }
 
-void func_021BB394(FieldNogridMapper *mapper)
+void FIELD_NOGRID_MAPPER_CreateRailWork(FieldNogridMapper *mapper)
 {
-    func_021B7970(mapper->railMan);
+    FIELD_RAIL_ActivateFreeWork(mapper->railMan);
 }
 
-void func_021BB3A0(FieldNogridMapper *mapper, RailWork *work)
+void FIELD_NOGRID_MAPPER_DeleteRailWork(FieldNogridMapper *mapper, RailWork *work)
 {
-    func_021B79AC(mapper->railMan, work);
+    FIELD_RAIL_ReleaseWork(mapper->railMan, work);
 }
 
-void func_021BB3AC(FieldNogridMapper *mapper, RailWork *work)
+void FIELD_NOGRID_MAPPER_BindCameraWork(FieldNogridMapper *mapper, RailWork *work)
 {
-    func_021B79C4(mapper->railMan, work);
+    FIELD_RAIL_SetFocusWork(mapper->railMan, work);
 }
 
-void func_021BB3B8(FieldNogridMapper *mapper)
+void FIELD_NOGRID_MAPPER_UnbindCameraWork(FieldNogridMapper *mapper)
 {
-    func_021B79CC(mapper->railMan);
+    FIELD_RAIL_ClearFocusWork(mapper->railMan);
 }
 
-u32 func_021BB3C4(FieldNogridMapper *mapper, const RailLocation *location)
+u32 FIELD_NOGRID_MAPPER_GetAttribute(FieldNogridMapper *mapper, const RailLocation *location)
 {
-    return func_021BB13C(mapper->railAttr, location);
+    return RAIL_ATTR_GetAttribute(mapper->railAttr, location);
 }
 
-void func_021BB3D0(FieldNogridMapper *mapper, const RailLocation *location) { func_021B7D68(mapper->railMan, location); }
+void FIELD_NOGRID_MAPPER_SetCameraLocation(FieldNogridMapper *mapper, const RailLocation *location) { FIELD_RAIL_UpdateCameraAtLocation(mapper->railMan, location); }
 
-void func_021BB3DC(FieldNogridMapper *mapper, int lineIndex, int enable)
+void FIELD_NOGRID_MAPPER_SetLineEnable(FieldNogridMapper *mapper, int lineIndex, int enable)
 {
-    func_021B7C04(mapper->railMan, lineIndex, enable);
+    FIELD_RAIL_SetLineEnable(mapper->railMan, lineIndex, enable);
 }
 
-void func_021BB3E8(FieldNogridMapper *mapper, u32 zoneId, u16 railIndex, u16 lineGrid, u16 widthPos, RailLocation *outLocation, u16 heapId)
+void FIELD_NOGRID_MAPPER_CalcZoneRailLocation(FieldNogridMapper *mapper, u32 zoneId, u16 railIndex, u16 lineGrid, u16 widthPos, RailLocation *outLocation, u16 heapId)
 {
     u16 tempHeapId;
     FieldNogridMapperRes *res;
     FieldRailLoader *loader;
     tempHeapId = (heapId & 0x7FFF) | 0x8000;
-    res = func_02030734(tempHeapId, func_020490A8(NOGRID_MAPPER_RES_ARC_ID, func_02013C9C(zoneId)), 1, (const char *)&d_021DE2D0, 0x1c9);
-    func_02048F4C(res, NOGRID_MAPPER_RES_ARC_ID, func_02013C9C(zoneId));
-    loader = func_0219EF44(tempHeapId);
-    func_0219EF7C(loader, res->railDataId, tempHeapId);
-    func_021B7C58(mapper->railMan, func_0219F018(loader), railIndex, lineGrid, widthPos, outLocation);
-    func_0219EF6C(loader);
+    res = func_02030734(tempHeapId, ARC_TOOL_GetMemberSize(NOGRID_MAPPER_RES_ARC_ID, ZONEDATA_GetSpecialKind(zoneId)), 1, (const char *)&d_021DE2D0, 0x1c9);
+    ARC_TOOL_ReadMember(res, NOGRID_MAPPER_RES_ARC_ID, ZONEDATA_GetSpecialKind(zoneId));
+    loader = FIELD_RAIL_LOADER_Create(tempHeapId);
+    FIELD_RAIL_LOADER_Load(loader, res->railDataId, tempHeapId);
+    FIELD_RAIL_MakeLineLocation(mapper->railMan, FIELD_RAIL_LOADER_GetSetting(loader), railIndex, lineGrid, widthPos, outLocation);
+    FIELD_RAIL_LOADER_Delete(loader);
     func_020307B0(res);
 }
 
-RailManager *func_021BB480(FieldNogridMapper *mapper)
+RailManager *FIELD_NOGRID_MAPPER_GetRailMan(FieldNogridMapper *mapper)
 {
     return mapper->railMan;
 }

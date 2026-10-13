@@ -1,5 +1,5 @@
 /*
- * function: func_021B5DF8
+ * function: SCRCMD_POKEMON_FLD_GetPokedexRating
  * address:  0x021B5DF8
  * packet:   pkt_ov021_021B5DF8
  * region:   ov021
@@ -13,14 +13,14 @@
  * single *o2 store after the switch is what spills o2 (register pressure)
  * and gives o1 r4.
  *
- * Case 3 reads d_021D98DC and case 1 d_021D992C (pool words in that order);
+ * Case 3 reads gPokedexRatingTableKind3 and case 1 gPokedexRatingTableKind1 (pool words in that order);
  * the earlier draft had the two swapped, which only the relocation check saw.
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5CC  0x0215A5CC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   func_0200CF08  0x0200CF08  thumb
@@ -29,10 +29,10 @@
  *   func_0200D2C4  0x0200D2C4  thumb
  *   func_0200CF54  0x0200CF54  thumb
  *   func_0200D2B0  0x0200D2B0  thumb
- *   func_021B5DD0  0x021B5DD0  thumb  ov021
- *   d_021D98DC     0x021D98DC  data  a4
- *   d_021D9904     0x021D9904  data  a4
- *   d_021D992C     0x021D992C  data  a4
+ *   SCRCMD_POKEMON_FLD_LookupThreshold  0x021B5DD0  thumb  ov021
+ *   gPokedexRatingTableKind3     0x021D98DC  data  a4
+ *   gPokedexRatingTableKind2     0x021D9904  data  a4
+ *   gPokedexRatingTableKind1     0x021D992C  data  a4
  * Addresses are Black-image addresses.
  */
 
@@ -40,11 +40,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern unsigned int func_02159B10(void *a, void *b);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Blk37;
-extern u16 func_0215A5CC(void *a0);
-extern void *func_0215A5E4(void *a0);
+extern u16 SCRCMD_WORK_GetHeapId(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern u16 func_0200CF08(struct Blk37 *p, u32 heap);
@@ -53,12 +53,12 @@ extern u16 func_0200D0F8(struct Blk37 *p, u32 heap);
 extern int func_0200D2C4(void *p, unsigned int heap);
 extern u16 func_0200CF54(struct Blk37 *p, u32 heap);
 extern int func_0200D2B0(void *a0, int a1);
-extern u32 func_021B5DD0(u16 *t, u32 k);
-extern u16 d_021D98DC[];
-extern u16 d_021D9904[];
-extern u16 d_021D992C[];
+extern u32 SCRCMD_POKEMON_FLD_LookupThreshold(u16 *t, u32 k);
+extern u16 gPokedexRatingTableKind3[];
+extern u16 gPokedexRatingTableKind2[];
+extern u16 gPokedexRatingTableKind1[];
 
-int func_021B5DF8(u32 a, u32 b)
+int SCRCMD_POKEMON_FLD_GetPokedexRating(u32 a, u32 b)
 {
     u32 mode;
     u16 *o1;
@@ -67,11 +67,11 @@ int func_021B5DF8(u32 a, u32 b)
     u32 w;
     u32 x;
 
-    mode = func_02159B10((void *)a, (void *)b);
-    o1 = func_02159AE8((void *)a, (void *)b);
-    o2 = func_02159AE8((void *)a, (void *)b);
-    id = func_0215A5CC((void *)b);
-    w = (u32)func_0200CA1C(func_0215A5E4((void *)b));
+    mode = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    o1 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    o2 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    id = SCRCMD_WORK_GetHeapId((void *)b);
+    w = (u32)func_0200CA1C(SCRCMD_WORK_GetGameData((void *)b));
     func_0200CA38((struct Blk37 *)w);
     *o1 = 5;
     *o2 = 0;
@@ -81,21 +81,21 @@ int func_021B5DF8(u32 a, u32 b)
         if (func_0200D2B0((void *)w, id) == 1)
             *o1 = 0x1e;
         else
-            *o1 = func_021B5DD0(d_021D98DC, x);
+            *o1 = SCRCMD_POKEMON_FLD_LookupThreshold(gPokedexRatingTableKind3, x);
         break;
     case 2:
         x = func_0200D0F8((struct Blk37 *)w, id);
         if (func_0200D2C4((void *)w, id) == 1)
             *o1 = 0xd;
         else
-            *o1 = func_021B5DD0(d_021D9904, x);
+            *o1 = SCRCMD_POKEMON_FLD_LookupThreshold(gPokedexRatingTableKind2, x);
         break;
     case 1:
         x = func_0200CF08((struct Blk37 *)w, id);
         if (func_0200D298((void *)w) == 1)
             *o1 = 0x32;
         else
-            *o1 = func_021B5DD0(d_021D992C, x);
+            *o1 = SCRCMD_POKEMON_FLD_LookupThreshold(gPokedexRatingTableKind1, x);
         break;
     default:
         return 0;

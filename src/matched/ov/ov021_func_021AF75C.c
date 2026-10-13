@@ -1,5 +1,5 @@
 /*
- * function: func_021AF75C
+ * function: SCRCMD_BufferPlayerName
  * address:  0x021AF75C
  * packet:   pkt_ov021_021AF75C
  * region:   ov021
@@ -10,10 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -32,23 +33,23 @@ static inline u8 Ctx_ReadByte(Ctx *s)
     return v;
 }
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct WordSet;
-extern int func_02158F58(int a0);
-extern void *func_02158F74(void *p);
-extern u8 *func_02012944(void *p);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 
-int func_021AF75C(Ctx *s, u32 b)
+int SCRCMD_BufferPlayerName(Ctx *s, u32 b)
 {
-    void *x = func_0215A5F4((void *)b);
+    void *x = SCRCMD_WORK_GetScriptWork((void *)b);
     u32 y;
     u32 w;
 
-    func_02158F58((int)x);
-    y = (u32)func_02012944(func_0215A5E4((void *)b));
-    w = (u32)func_02158F74(x);
+    SCRIPT_WORK_ResetFieldParam((int)x);
+    y = (u32)GAME_DATA_GetMyStatus(SCRCMD_WORK_GetGameData((void *)b));
+    w = (u32)SCRIPT_WORK_GetWordSet(x);
     func_0201F02C((struct WordSet *)w, Ctx_ReadByte(s), (void *)y);
     return 0;
 }

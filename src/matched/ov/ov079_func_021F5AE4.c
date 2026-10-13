@@ -1,5 +1,5 @@
 /*
- * function: func_021F5AE4
+ * function: ENCEFF_StepBlockFlip
  * address:  0x021F5AE4
  * packet:   pkt_ov079_021F5AE4
  * region:   ov079
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021F5AE4(u8 *w)
+void ENCEFF_StepBlockFlip(u8 *w)
 {
     int *c = (int *)(w + 0x3000);
     int n = ((struct Obj13219 *)w)->f3008 * ((struct Obj13219 *)w)->f300A;

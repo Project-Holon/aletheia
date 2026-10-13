@@ -1,5 +1,5 @@
 /*
- * function: func_02165940
+ * function: GAME_BEACON_ACCESSOR_TableMarkLogsNew
  * address:  0x02165940
  * packet:   pkt_02165940
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 struct Rec;
 extern int GAME_BEACON_SetNewFlagByTrainerId(const struct Rec *r);
 
-void func_02165940(unsigned char *p)
+void GAME_BEACON_ACCESSOR_TableMarkLogsNew(unsigned char *p)
 {
     int i;
 

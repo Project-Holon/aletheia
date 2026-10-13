@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02158768  0x02158768  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -22,10 +22,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Desc;
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 
 int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
 {
-return (int)func_02158768(a, ((c << 16) >> 16), e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
+return (int)SCRIPT_SYS_CreateScriptEventSimple(a, ((c << 16) >> 16), e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
 }
 

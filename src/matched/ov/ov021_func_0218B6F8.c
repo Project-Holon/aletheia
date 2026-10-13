@@ -1,5 +1,5 @@
 /*
- * function: func_0218B6F8
+ * function: FIELD_EVENT_CHECK_IsLedgePathClear
  * address:  0x0218B6F8
  * packet:   pkt_ov021_0218B6F8
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3074  0x021A3074  thumb
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_02188C7C  0x02188C7C  thumb
- *   func_0216DDC0  0x0216DDC0  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
+ *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj07410.h"
@@ -25,27 +25,27 @@ typedef unsigned short u16;
 typedef signed short   s16;
 
 typedef unsigned char  u8;
-extern void *func_021A3074(u8 *p);
-extern int func_0216D83C(void *o);
-extern int func_0216D86C(void *o);
-extern int func_021641E8(u16 d);
-extern int func_021641F8(u16 d);
-extern void *func_02188C7C(u8 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern int FLDMMDL_GetGridNowX(void *o);
+extern int FLDMMDL_GetGridNowZ(void *o);
+extern int FLDMMDL_MOVE_GetDirAddGridX(u16 d);
+extern int FLDMMDL_MOVE_GetDirAddGridZ(u16 d);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
 typedef unsigned int   u32;
-extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
+extern void *FLDMMDL_SysSearchGridPos(u32 a, u32 b, u32 c, u32 d);
 
-int func_0218B6F8(char *p, void *q)
+int FIELD_EVENT_CHECK_IsLedgePathClear(char *p, void *q)
 {
-    void *o = func_021A3074(((struct Obj07410 *)p)->f18);
+    void *o = FIELD_PLAYER_GetMmdl(((struct Obj07410 *)p)->f18);
     u16 d = ((struct Obj07410 *)p)->f30;
-    int x = func_0216D83C(o);
-    int z = func_0216D86C(o);
+    int x = FLDMMDL_GetGridNowX(o);
+    int z = FLDMMDL_GetGridNowZ(o);
     int i;
 
     for (i = 0; i < 2; i++) {
-        x = (s16)(x + func_021641E8(d));
-        z = (s16)(z + func_021641F8(d));
-        if (func_0216DDC0((u32)func_02188C7C(q), x, z, 1))
+        x = (s16)(x + FLDMMDL_MOVE_GetDirAddGridX(d));
+        z = (s16)(z + FLDMMDL_MOVE_GetDirAddGridZ(d));
+        if (FLDMMDL_SysSearchGridPos((u32)FIELDMAP_GetMmdlSys(q), x, z, 1))
             return 0;
     }
     return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219BE60
+ * function: FLDMMDL_MOVE_DeleteHide
  * address:  0x0219BE60
  * packet:   pkt_ov021_0219BE60
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219BF48  0x0219BF48  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FLDMMDL_MOVE_GetHideEffect  0x0219BF48  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -19,13 +19,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0219BF48(u32 a);
-extern void func_021AC154(u32);
+extern int FLDMMDL_MOVE_GetHideEffect(u32 a);
+extern void FIELD_EFFECT_DeleteObject(u32);
 
-void func_0219BE60(u32 a)
+void FLDMMDL_MOVE_DeleteHide(u32 a)
 {
-    u32 r = func_0219BF48(a);
+    u32 r = FLDMMDL_MOVE_GetHideEffect(a);
     if (r != 0) {
-        func_021AC154(r);
+        FIELD_EFFECT_DeleteObject(r);
     }
 }

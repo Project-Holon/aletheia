@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3B8
+ * function: SAVE_CONTROL_INTR_Cancel
  * address:  0x021BD3B8
  * packet:   pkt_ov088_021BD3B8
  * region:   ov088
@@ -27,7 +27,7 @@ typedef struct {
 
 extern int SAVE_CONTROL_CancelSave(int a0);
 
-void func_021BD3B8(Req *r)
+void SAVE_CONTROL_INTR_Cancel(Req *r)
 {
     if (r->f7 == 0 && r->_4 != 3) {
         SAVE_CONTROL_CancelSave((int)r->p0);

@@ -1,5 +1,5 @@
 /*
- * function: func_0217B5DC
+ * function: INTRUDE_FIELD_CreateExitConfirmEvent
  * address: 0x0217B5DC
  * packet: pkt_ov018_0217B5DC
  * region: ov018
@@ -12,8 +12,8 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_02082BCC 0x02082BCC arm
- *   func_021A3074 0x021A3074 thumb ov021
- *   func_0217B600 0x0217B600 thumb ov018
+ *   FIELD_PLAYER_GetMmdl 0x021A3074 thumb ov021
+ *   INTRUDE_FIELD_EventExitConfirm 0x0217B600 thumb ov018
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -21,13 +21,13 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0217B600();
+extern void INTRUDE_FIELD_EventExitConfirm();
 extern void func_02082BCC(void *, int, int);
-extern void *func_021A3074(u8 *p);
-void *func_0217B5DC(void *a) {
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+void *INTRUDE_FIELD_CreateExitConfirmEvent(void *a) {
     void *t;
     u8 *p;
-    t = func_020122C0(a, 0, func_0217B600, 0x2c);
+    t = func_020122C0(a, 0, INTRUDE_FIELD_EventExitConfirm, 0x2c);
     p = func_020124E8(t);
     func_02082BCC(p, 0, 0x2c);
     return t;

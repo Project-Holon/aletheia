@@ -1,5 +1,5 @@
 /*
- * function: func_0219D3E4
+ * function: FLDMMDL_BLACT_GetAnimeTable
  * address:  0x0219D3E4
  * packet:   pkt_0219D3E4
  * region:   ov021
@@ -12,12 +12,12 @@
  * Indexes an array of 8-byte records based at 0x021D7F68.
  *
  * symbols:
- *   d_021D7F68  0x021D7F68  data  ov021
+ *   sBlactAnimeTable  0x021D7F68  data  ov021
  */
 
-extern char d_021D7F68[];
+extern char sBlactAnimeTable[];
 
-char *func_0219D3E4(int i)
+char *FLDMMDL_BLACT_GetAnimeTable(int i)
 {
-    return d_021D7F68 + i * 8;
+    return sBlactAnimeTable + i * 8;
 }

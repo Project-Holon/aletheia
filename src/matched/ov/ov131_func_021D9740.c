@@ -15,8 +15,8 @@
  *   P_STA_SKILL_UpdateInput 0x021DA958 thumb ov131
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   P_STA_SKILL_ApplyStatsScreen 0x021D9E44 thumb ov131
@@ -26,7 +26,7 @@
  *   P_STA_SKILL_SetCursor 0x021DB468 thumb ov131
  *   func_0204B3DC 0x0204B3DC arm
  *   P_STA_SKILL_UpdateSlot 0x021DB7D0 thumb ov131
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj00136.h"
 #include "../include/Obj00502.h"
@@ -40,8 +40,8 @@ struct Obj;
 struct PrintSys;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void P_STA_SKILL_ApplyStatsScreen(u8 *,u8 *);
@@ -51,7 +51,7 @@ extern void P_STA_SKILL_SetSlotAnim(u8 *,int);
 extern void P_STA_SKILL_SetCursor(u8 *,u8 *,u8,int);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void P_STA_SKILL_UpdateSlot(void *a0, void *a1, void *a2);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void P_STA_SKILL_Main(u8 *a,u8 *p)
 {
     u8 i;
@@ -69,8 +69,8 @@ void P_STA_SKILL_Main(u8 *a,u8 *p)
         if(ready==1) {
             for(i=0;i<=7;i++) {
                 cell=*(void **)((p+i*4)+0x5c);
-                func_02045334(cell);
-                func_02045374(cell);
+                BMP_WIN_TransferChars(cell);
+                BMP_WIN_MakeScreen(cell);
                 func_02041B6C(func_02045730(cell));
             }
             P_STA_SKILL_ApplyStatsScreen(a,p);
@@ -88,8 +88,8 @@ void P_STA_SKILL_Main(u8 *a,u8 *p)
         if(ready==1) {
             for(i=8;i<=11;i++) {
                 cell=*(void **)((p+i*4)+0x5c);
-                func_02045334(cell);
-                func_02045374(cell);
+                BMP_WIN_TransferChars(cell);
+                BMP_WIN_MakeScreen(cell);
                 func_02041B6C(func_02045730(cell));
             }
             P_STA_SKILL_ApplyMovesScreen(a,p);
@@ -99,8 +99,8 @@ void P_STA_SKILL_Main(u8 *a,u8 *p)
     if(((struct Obj00502 *)p)->fC==1) {
         if(func_0201C6C4(((struct Obj00136 *)a)->f84,func_02045770(((struct Obj00502 *)p)->f8C))==0) {
             cell=((struct Obj00502 *)p)->f8C;
-            func_02045334(cell);
-            func_02045374(cell);
+            BMP_WIN_TransferChars(cell);
+            BMP_WIN_MakeScreen(cell);
             func_02041B6C(func_02045730(cell));
             ((struct Obj00502 *)p)->fC=0;
         }
@@ -117,10 +117,10 @@ void P_STA_SKILL_Main(u8 *a,u8 *p)
     if(((struct Obj00502 *)p)->f20==1) {
         p[40]++;
         if((int)p[40]%8<4) {
-            if(((struct Obj00502 *)p)->f24==1) func_0204B878(*(void **)((p+p[41]*24)+0xb8),15);
+            if(((struct Obj00502 *)p)->f24==1) CLACT_SetActorAnimSeq(*(void **)((p+p[41]*24)+0xb8),15);
             else P_STA_SKILL_SetSlotAnim((p+0xb0)+p[41]*24,0);
         } else {
-            if(((struct Obj00502 *)p)->f24==1) func_0204B878(*(void **)((p+p[41]*24)+0xb8),16);
+            if(((struct Obj00502 *)p)->f24==1) CLACT_SetActorAnimSeq(*(void **)((p+p[41]*24)+0xb8),16);
             else P_STA_SKILL_SetSlotAnim((p+0xb0)+p[41]*24,1);
         }
         if(p[40]>16) ((struct Obj00136 *)a)->f50=2;

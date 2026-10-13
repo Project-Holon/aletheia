@@ -1,5 +1,5 @@
 /*
- * function: func_02159C68
+ * function: MAP_MATRIX_ApplyReplaceRecord
  * address:  0x02159C68
  * packet:   pkt_ov010_02159C68
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159E00  0x02159E00  thumb  ov010
- *   func_02159B94  0x02159B94  thumb  ov010
+ *   MAP_REPLACE_CheckRecord  0x02159E00  thumb  ov010
+ *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
  */
 #include "../include/Obj12278.h"
 
@@ -26,18 +26,18 @@ typedef struct Obj {
     u32 f10;
 } Obj;
 
-extern int func_02159E00(u8 *a, u32 *b, u32 *c);
-extern int func_02159B94(int a0, int a1, int a2, int a3);
+extern int MAP_REPLACE_CheckRecord(u8 *a, u32 *b, u32 *c);
+extern int MAP_MATRIX_Load(int a0, int a1, int a2, int a3);
 
-void func_02159C68(Obj *a, int b, int c)
+void MAP_MATRIX_ApplyReplaceRecord(Obj *a, int b, int c)
 {
     u32 v[2];
-    int r = func_02159E00((u8 *)b, &v[1], &v[0]);
+    int r = MAP_REPLACE_CheckRecord((u8 *)b, &v[1], &v[0]);
     switch (r) {
     case 0:
         break;
     case 2:
-        func_02159B94((int)a, (u16)v[0], a->f02, c);
+        MAP_MATRIX_Load((int)a, (u16)v[0], a->f02, c);
         return;
     case 1: {
         u32 i;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A3624",
+   "name": "FIELD_PLAYER_CheckGridMoving",
    "address": "0x021A3624",
    "kind": "game",
    "region": "ov021",

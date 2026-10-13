@@ -1,5 +1,5 @@
 /*
- * function: func_0217B4C4
+ * function: UNION_CHARA_ActionIdle
  * address:  0x0217B4C4
  * packet:   pkt_ov019_0217B4C4
  * region:   ov019
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0217AE38  0x0217AE38  thumb  ov019
- *   func_0217AED4  0x0217AED4  thumb  ov019
- *   func_0217AFB0  0x0217AFB0  thumb  ov019
- *   func_0217F060  0x0217F060  thumb  ov019
+ *   UNION_CHARA_SetNextAction  0x0217AE38  thumb  ov019
+ *   UNION_CHARA_MakeObjId  0x0217AED4  thumb  ov019
+ *   UNION_CHARA_GetMmdl  0x0217AFB0  thumb  ov019
+ *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
  *   func_0217F858  0x0217F858  thumb  ov019
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D5A0  0x0216D5A0  thumb  ov010
- *   func_0216E0E8  0x0216E0E8  thumb  ov010
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
+ *   FLDMMDL_ChangeMoveCode  0x0216E0E8  thumb  ov010
  *
  * Addresses are Black-image addresses.
  */
@@ -56,17 +56,17 @@ typedef struct Msg {
     u8     idx;
 } Msg;
 
-extern int func_0217AE38(char *p, char v);
-extern u16 func_0217AED4(u8 *a, u8 *b);
-extern void *func_0217AFB0(void **a, u8 *b, u8 *c);
-extern int func_0217F060(int i);
+extern int UNION_CHARA_SetNextAction(char *p, char v);
+extern u16 UNION_CHARA_MakeObjId(u8 *a, u8 *b);
+extern void *UNION_CHARA_GetMmdl(void **a, u8 *b, u8 *c);
+extern int UNION_MSG_GetCategoryTableValue(int i);
 extern int func_0217F858(int a);
-extern int func_0216D3CC(int a0);
-extern void func_0216D410(void *a0, u16 a1);
-extern u16 func_0216D5A0(void *p);
-extern int func_0216E0E8(int a0, int a1);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern void FLDMMDL_SetAcmd(void *a0, u16 a1);
+extern u16 FLDMMDL_GetMoveCode(void *p);
+extern int FLDMMDL_ChangeMoveCode(int a0, int a1);
 
-int func_0217B4C4(u8 *w, Msg *m)
+int UNION_CHARA_ActionIdle(u8 *w, Msg *m)
 {
     Entry *e;
     u8 *s;
@@ -77,34 +77,34 @@ int func_0217B4C4(u8 *w, Msg *m)
     s = w + 0x2830;
     e = m->e;
     if (e->h6C == 0) {
-        func_0217AE38((char *)m, 2);
+        UNION_CHARA_SetNextAction((char *)m, 2);
         return 1;
     }
     if (!e->recs[m->idx].valid || m->b4 != e->recs[m->idx].b6) {
-        func_0217AE38((char *)m, 2);
+        UNION_CHARA_SetNextAction((char *)m, 2);
         return 1;
     }
     t = func_0217F858(e->bB);
-    if (((struct Obj12518 *)s)->f58 == func_0217AED4((u8 *)m->e, (u8 *)m)) {
-        func_0217AE38((char *)m, 3);
+    if (((struct Obj12518 *)s)->f58 == UNION_CHARA_MakeObjId((u8 *)m->e, (u8 *)m)) {
+        UNION_CHARA_SetNextAction((char *)m, 3);
         return 1;
     }
     v = s[2];
     if (v != 0 && (v == t || (t == 0 && v == e->kind)) && m->idx == 0
-        && func_0217F060(e->bB) > e->n) {
-        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
-        if (func_0216D3CC((int)r) == 1) {
-            func_0216D410(r, 0x31);
+        && UNION_MSG_GetCategoryTableValue(e->bB) > e->n) {
+        r = UNION_CHARA_GetMmdl((void **)w, (u8 *)m->e, (u8 *)m);
+        if (FLDMMDL_CheckPossibleAcmd((int)r) == 1) {
+            FLDMMDL_SetAcmd(r, 0x31);
         }
     } else if (m->idx == 0 && e->n > 1) {
-        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
-        if (func_0216D5A0(r) == 2) {
-            func_0216E0E8((int)r, 0xF);
+        r = UNION_CHARA_GetMmdl((void **)w, (u8 *)m->e, (u8 *)m);
+        if (FLDMMDL_GetMoveCode(r) == 2) {
+            FLDMMDL_ChangeMoveCode((int)r, 0xF);
         }
     } else if (m->idx == 0 && e->n <= 1) {
-        r = func_0217AFB0((void **)w, (u8 *)m->e, (u8 *)m);
-        if (func_0216D5A0(r) == 0xF) {
-            func_0216E0E8((int)r, 2);
+        r = UNION_CHARA_GetMmdl((void **)w, (u8 *)m->e, (u8 *)m);
+        if (FLDMMDL_GetMoveCode(r) == 0xF) {
+            FLDMMDL_ChangeMoveCode((int)r, 2);
         }
     }
     return 0;

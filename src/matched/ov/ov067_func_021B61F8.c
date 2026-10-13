@@ -1,5 +1,5 @@
 /*
- * function: func_021B61F8
+ * function: UI_SCENE_SetNextScene
  * address: 0x021B61F8
  * packet: pkt_ov067_021B61F8
  * region: ov067
@@ -11,7 +11,7 @@
  * trailing: matched ov06761FC/6200 then labelled6208; no follower C or consolidation.
  */
 #include "../include/Obj20596.h"
-void func_021B61F8(unsigned char *task, int value)
+void UI_SCENE_SetNextScene(unsigned char *task, int value)
 {
     ((struct Obj20596 *)task)->fA = value;
 }

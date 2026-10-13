@@ -1,5 +1,5 @@
 /*
- * function: func_0217EFE0
+ * function: UNION_MSG_SetGreetingWordFlag
  * address:  0x0217EFE0
  * packet:   pkt_ov019_0217EFE0
  * region:   ov019
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02024988  0x02024988  thumb
- *   func_020249A0  0x020249A0  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   PMS_WORD_GetSaveData  0x02024988  thumb
+ *   PMS_WORD_SetFlag  0x020249A0  thumb
  *   d_0218044C     0x0218044C  data
  */
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
-extern void *func_02024988(int a0);
-extern void func_020249A0(int *p, int bit);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern void *PMS_WORD_GetSaveData(int a0);
+extern void PMS_WORD_SetFlag(int *p, int bit);
 extern int d_0218044C[];
 
-void func_0217EFE0(int a, unsigned int n)
+void UNION_MSG_SetGreetingWordFlag(int a, unsigned int n)
 {
     int r;
     unsigned short i;
-    r = (int)func_02024988((int)func_02012EBC((struct Big *)a));
+    r = (int)PMS_WORD_GetSaveData((int)GAME_DATA_GetSaveControl((struct Big *)a));
     i = n - 1;
     if (n >= 1 && n <= 8) {
         if (i < 8) {
-            func_020249A0((int *)r, d_0218044C[i]);
+            PMS_WORD_SetFlag((int *)r, d_0218044C[i]);
             return;
         }
-        func_020249A0((int *)r, 7);
+        PMS_WORD_SetFlag((int *)r, 7);
         return;
     }
-    func_020249A0((int *)r, 7);
+    PMS_WORD_SetFlag((int *)r, 7);
 }

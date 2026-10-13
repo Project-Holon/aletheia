@@ -12,15 +12,15 @@
  * 2026-10-01: byte-correct; tail-call target is an unlabelled ov034 Thumb function (listing reads it as ARM), no witness.
  *
  * symbols:
- *   func_021F0044  0x021F0044  thumb  ov034
+ *   REPORT_IsReady  0x021F0044  thumb  ov034
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern int func_021F0044(int *p);
+extern int REPORT_IsReady(int *p);
 
 int func_021A1518(u32 *p)
 {
-    return func_021F0044((int *)p[8]);
+    return REPORT_IsReady((int *)p[8]);
 }

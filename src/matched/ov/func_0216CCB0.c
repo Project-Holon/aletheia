@@ -1,5 +1,5 @@
 /*
- * function: func_0216CCB0
+ * function: FLDMMDL_DeleteSys
  * address:  0x0216CCB0
  * packet:   pkt_0216CCB0
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216E290  0x0216E290  thumb  ov010
+ *   FLDMMDL_CloseObjCodeArc  0x0216E290  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj12056.h"
@@ -19,15 +19,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216E290();
+extern int FLDMMDL_CloseObjCodeArc();
 extern int func_020307B0();
 
-int func_0216CCB0(int a0)
+int FLDMMDL_DeleteSys(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0216E290(a0);
+    a0 = FLDMMDL_CloseObjCodeArc(a0);
 loc_0216CCB8:
 a0 = ((struct Obj12056 *)t4)->f44;
     a0 = func_020307B0(a0);

@@ -1,5 +1,5 @@
 /*
- * function: func_0215E7DC
+ * function: MOVE_POKEMON_SetEntryLocation
  * address: 0x0215E7DC
  * packet: pkt_ov010_0215E7DC
  * region: ov010
@@ -19,7 +19,7 @@ struct GdsEnt;
 extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
 extern void func_0200D480(struct Blk38 *p, u32 i, u8 v);
 extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
-void func_0215E7DC(void *p,u32 i,u8 v,u32 n)
+void MOVE_POKEMON_SetEntryLocation(void *p,u32 i,u8 v,u32 n)
 {
  void *rec = func_0200D4AC(p,i);
  func_0200D480(p,i,v);

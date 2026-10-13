@@ -28,10 +28,10 @@
  *   P_STA_SKILL_SwapMoves 0x021DB508 thumb ov131
  *   P_STA_SKILL_StepCursor 0x021DB3F0 thumb ov131
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  */
 #include "../include/Obj00026.h"
 #include "../include/Obj00132.h"
@@ -52,10 +52,10 @@ extern void P_STA_SKILL_GetSlotPos(unsigned char *p, unsigned short *o);
 extern void P_STA_SKILL_SwapMoves(u8 *,u8 *,u32,u32);
 extern void P_STA_SKILL_StepCursor(u8 *,u8 *);
 extern void func_020061E4(u32);
-extern void func_0204B878(struct Obj *,u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
-extern void func_0204B9A0(struct Actor *);
+extern void CLACT_RestartActorAnim(struct Actor *);
 int P_STA_SKILL_HandleKeys(u8 *a,u8 *b)
 {
     struct Vec2 point;
@@ -72,7 +72,7 @@ int P_STA_SKILL_HandleKeys(u8 *a,u8 *b)
     } else {
         if (func_020362DC()==2 && ((struct Obj00026 *)b)->f14==0) {
             P_STATUS_SetInputEnable((char *)a,1);
-            func_0204B878(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
+            CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
             P_STA_SKILL_SetSlotAnim(b+176+b[41]*24,0);
             func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f98,0);
             P_STA_SKILL_PrintStatsPage(a,(int)b);
@@ -99,7 +99,7 @@ int P_STA_SKILL_HandleKeys(u8 *a,u8 *b)
                     P_STA_SKILL_GetSlotPos(b+176+b[42]*24,(short unsigned int *)((u8 *)&point));
                     func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,&point,0);
                     func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,1);
-                    func_0204B9A0(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
+                    CLACT_RestartActorAnim(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
                     func_020061E4(1356);
                 } else {
                     if (b[42]!=b[41]) {
@@ -117,7 +117,7 @@ int P_STA_SKILL_HandleKeys(u8 *a,u8 *b)
             if (func_020362DC()==2 && ((struct Obj00026 *)b)->f14==1) {
                 P_STA_SKILL_SetSlotAnim(b+176+b[42]*24,0);
                 P_STA_SKILL_SetCursor(a,b,b[41],0);
-                func_0204B878(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
+                CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
                 func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
                 ((struct Obj00026 *)b)->f14=0;
                 b[42]=5;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD5C
+ * function: FIELD_G3D_MAPPER_SlotResTestGroundAnime
  * address:  0x0218DD5C
  * packet:   pkt_0218DD5C
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 
 
-int func_0218DD5C(u32 *p)
+int FIELD_G3D_MAPPER_SlotResTestGroundAnime(u32 *p)
 {
     return *p != 0;
 }

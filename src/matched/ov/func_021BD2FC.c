@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2FC
+ * function: PLACE_NAME_LETTER_GetHeightRaw
  * address:  0x021BD2FC
  * packet:   pkt_021BD2FC
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_021BD2FC(u8 *p)
+u8 PLACE_NAME_LETTER_GetHeightRaw(u8 *p)
 {
     return ((struct Obj18227 *)p)->f41;
 }

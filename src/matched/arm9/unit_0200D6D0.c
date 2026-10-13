@@ -20,27 +20,27 @@
  * name is attested and why the range in front of this one is cut here.
  *
  * A fifteen-byte copy into a freshly allocated block: the same
- * func_020457B0 / func_02045994 pair func_0200D774 uses for the 0x28-byte
+ * STRBUF_Create / STRBUF_SetStringN pair func_0200D774 uses for the 0x28-byte
  * record.  The size is materialised twice, once as the allocation size and
  * once as the copy length, because both are caller-saved argument registers.
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Strbuf;
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
 void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
 {
-    void *h = func_020457B0(0xF, (u16)tag);
+    void *h = STRBUF_Create(0xF, (u16)tag);
 
-    func_02045994(h, src, 0xF);
+    STRBUF_SetStringN(h, src, 0xF);
     return h;
 }

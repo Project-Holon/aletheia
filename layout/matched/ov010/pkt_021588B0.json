@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021588B0",
+   "name": "SCRIPT_SYS_CallEndCallback",
    "address": "0x021588B0",
    "kind": "game",
    "region": "ov010",

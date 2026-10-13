@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C4E4  0x0201C4E4  thumb
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -44,20 +44,20 @@ typedef struct {
 
 struct Descriptor;
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 void func_021C7970(Work *p)
 {
     void *w;
 
-    func_0201C4E4(p->f14);
+    PRINTSYS_QUE_Main(p->f14);
     w = p->f14;
     if (p->f10) {
         if (func_0201C6C4(w, func_02045770(p->fC)) == 0) {
-            func_02045334(p->fC);
+            BMP_WIN_TransferChars(p->fC);
             p->f10 = 0;
         }
     }

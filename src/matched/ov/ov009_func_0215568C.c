@@ -29,7 +29,7 @@
  *   func_0203F004  0x0203F004  arm
  *   DWC_RAP_AllocRecvBuffer  0x02156C00  thumb  ov009
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
- *   func_0203D650  0x0203D650  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
  *   DWC_ConnectToAnybodyAsync  0x0216B284  arm
  *   func_02177138  0x02177138  arm
  *   func_02177160  0x02177160  arm
@@ -76,7 +76,7 @@ u32 func_02094530(char *dst, u32 n, ...);
 u32 func_0203F004(const u8 *s);
 void DWC_RAP_AllocRecvBuffer(u32 a);
 void DWC_RAP_SetState(int v);
-u32 func_0203D650(void);
+u32 GFL_NET_GetUserArg(void);
 int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 int func_02177138(int a, int b);
 int func_02177160(int a, int b);
@@ -113,10 +113,10 @@ int DWC_RAP_StartMatchWithKey(void *a0, int n, int a2)
     DWC_RAP_SetState(7);
     _pRapWork->n = n;
     if (DWC_ConnectToAnybodyAsync(2, n, _pRapWork->name, (Fn)DWC_RAP_OnMatched,
-                      (void *)func_0203D650(), DWC_RAP_OnNewClientNop,
-                      (void *)func_0203D650(), (Fn)DWC_RAP_EvalCallbackAccept,
-                      (void *)func_0203D650(), (Fn)DWC_RAP_AttemptCallback,
-                      &_pRapWork->w750, (void *)func_0203D650()) == 0)
+                      (void *)GFL_NET_GetUserArg(), DWC_RAP_OnNewClientNop,
+                      (void *)GFL_NET_GetUserArg(), (Fn)DWC_RAP_EvalCallbackAccept,
+                      (void *)GFL_NET_GetUserArg(), (Fn)DWC_RAP_AttemptCallback,
+                      &_pRapWork->w750, (void *)GFL_NET_GetUserArg()) == 0)
         return 0;
     _pRapWork->w75C = 0;
     func_02177138((int)((Fn)DWC_RAP_OnSendComplete), 0);

@@ -1,5 +1,5 @@
 /*
- * function: func_0215841C
+ * function: GAME_DATA_GetIntrudeIdByte
  * address:  0x0215841C
  * packet:   pkt_0215841C
  * region:   ov010
@@ -12,7 +12,7 @@
  * Byte out of the arm9 reader, zero-extended.
  *
  * symbols:
- *   func_02012B80   0x02012B80  thumb
+ *   GAME_DATA_GetIntrudeId   0x02012B80  thumb
  */
 
 typedef unsigned char u8;
@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct BigObj;
-extern u8 func_02012B80(const struct BigObj *p);
+extern u8 GAME_DATA_GetIntrudeId(const struct BigObj *p);
 
-u8 func_0215841C(void *p)
+u8 GAME_DATA_GetIntrudeIdByte(void *p)
 {
-    return (u8)(unsigned)func_02012B80(p);
+    return (u8)(unsigned)GAME_DATA_GetIntrudeId(p);
 }
 

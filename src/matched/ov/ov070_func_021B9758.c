@@ -1,5 +1,5 @@
 /*
- * function: func_021B9758
+ * function: ITEMMENU_ApplyBgPalettes
  * address:  0x021B9758
  * packet:   pkt_ov070_021B9758
  * region:   ov070
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
-void func_021B9758(char *p)
+void ITEMMENU_ApplyBgPalettes(char *p)
 {
     unsigned v;
     v = ((struct Obj06175 *)p)->f7FC;

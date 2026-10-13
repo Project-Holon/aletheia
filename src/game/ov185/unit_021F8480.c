@@ -16,11 +16,11 @@
  *   ov112_id 0x00000070 data
  *   func_02034AC4 0x02034AC4 arm
  *   func_021F9B9C 0x021F9B9C thumb ov186
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0201C440 0x0201C440 thumb
  *   func_021FC4DC 0x021FC4DC thumb ov186
- *   func_02025538 0x02025538 thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021FD760 0x021FD760 thumb ov186
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_02040588 0x02040588 arm
@@ -28,7 +28,7 @@
  *   func_021FD714 0x021FD714 thumb ov186
  *   func_021FC0C8 0x021FC0C8 thumb ov186
  *   func_021FD820 0x021FD820 thumb ov186
- *   func_02025588 0x02025588 thumb
+ *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
  *   func_02034A5C 0x02034A5C arm
@@ -37,7 +37,7 @@
  *   func_021FD71C 0x021FD71C thumb ov186
  *   func_021FD72C 0x021FD72C thumb ov186
  *   func_021FD854 0x021FD854 thumb ov186
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021FC830 0x021FC830 thumb ov186
  *   func_021FD6B0 0x021FD6B0 thumb ov186
  *   func_021FD1BC 0x021FD1BC thumb ov186
@@ -59,7 +59,7 @@
  *   func_021FF72C 0x021FF72C thumb ov186
  *   func_021FF660 0x021FF660 thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
@@ -154,11 +154,11 @@ typedef struct Triple {int a,b,c;} Triple;
 
 extern int func_02034AC4(s32 handle);
 extern unsigned func_021F9B9C(struct Obj24810 *p);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern u32 func_0201C440(void *);
 extern u32 func_021FC4DC(u8 *p);
-extern void *func_02025538(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
 extern void func_021FBE54(char *base, u32 idx, u32 area);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -166,7 +166,7 @@ extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021FD714(void *p);
 extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FD820(char *);
-extern void func_02025588(void *p);
+extern void BMP_OAM_DeleteSys(void *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_02034A5C(int);
@@ -175,7 +175,7 @@ extern void func_021F9C6C(char *);
 extern void func_021FD71C(u8 *p);
 extern int func_021FD72C(int *);
 extern void func_021FD854(char *);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern int func_021FC830(u8 *p);
 extern int func_021FD6B0(u8 *p);
 extern void func_021FD1BC(void *p);
@@ -195,7 +195,7 @@ extern int func_021F9048(char *p, unsigned x, unsigned y);
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *),func_021FF72C(char *,int *),func_021FF660(char *,int,int,int *);
 extern void func_021FD170(char *p, char *q, void *text);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_020061E4(u32 a);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
@@ -269,13 +269,13 @@ int func_021F8480(void *obj,int b,char *q)
     void *v;
     int i;
     func_02034AC4((int)ov112_id);
-    p=func_0203159C(obj,88,func_021F9B9C(((struct Obj02526 *)q)->f10));
+    p=PROCSYS_AllocProcWork(obj,88,func_021F9B9C(((struct Obj02526 *)q)->f10));
     func_02082BCC(p,0,88);
     *(char * *)&((struct Obj00278 *)p)->f34=q;
     ((struct Obj00278 *)p)->f30=func_021F9B9C(((struct Obj02526 *)q)->f10);
     ((struct Obj00278 *)p)->f2C=func_0201C440((void *)(unsigned int)((struct Obj00278 *)p)->f30);
     v=(void *)func_021FC4DC(((struct Obj02526 *)q)->f8);
-    ((struct Obj00278 *)p)->f28=func_02025538(((struct Obj00278 *)p)->f30,v);
+    ((struct Obj00278 *)p)->f28=BMP_OAM_CreateSys(((struct Obj00278 *)p)->f30,v);
     for (i=0;i<2;i++) *(void **)(p+i*4+56)=func_021FD760((unsigned int)v,(char *)(((struct Obj02526 *)q)->fC),i,((struct Obj00278 *)p)->f30);
     func_021FBE54((char *)(((struct Obj02526 *)q)->fC),6,((struct Obj00278 *)p)->f30);
     func_02040588(0,1);
@@ -306,7 +306,7 @@ int func_021F8518(int obj,int b,char *q,char *p)
     func_021F8F58(p,q);
     func_021FC0C8((char *)(*(int *)&((struct Obj04583 *)q)->fC),6);
     for (i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+56));
-    func_02025588((void *)(((struct Obj03337 *)p)->f28));
+    BMP_OAM_DeleteSys((void *)(((struct Obj03337 *)p)->f28));
     func_0201C4C0((struct PrintSys *)(((struct Obj03337 *)p)->f2C));
     func_020315D4((struct S020315D4 *)obj);
     func_02034A5C((int)ov112_id);
@@ -333,7 +333,7 @@ int func_021F8590(int a,int b,int c,char *p)
     func_021FD71C((u8 *)(*(char * *)&((struct Obj01966 *)p)->f24));
     if (func_021FD72C(*(int * *)&((struct Obj01966 *)p)->f24)) return 1;
     for (i=0;i<2;i++) func_021FD854(*(char **)(p+i*4+56));
-    func_0201C4E4((struct PrintSys *)(((struct Obj01966 *)p)->f2C));
+    PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj01966 *)p)->f2C));
     if (*(char * *)&((struct Obj01966 *)p)->f1C) func_021FC830((u8 *)(*(char * *)&((struct Obj01966 *)p)->f1C));
     if (*(char * *)&((struct Obj01966 *)p)->f10) func_021FD6B0((u8 *)(*(char * *)&((struct Obj01966 *)p)->f10));
     if (*(char * *)&((struct Obj01966 *)p)->f4) func_021FD1BC(*(char * *)&((struct Obj01966 *)p)->f4);
@@ -476,7 +476,7 @@ void func_021F8790(int *task,unsigned *state,char *p)
         }
         break;
     case 3:
-        if(func_02035C60()) {
+        if(TOUCHPANEL_GetTrg()) {
             func_02035D20((u32 *)(&x),(u32 *)(&y));
             pair.x=x;pair.y=y;
             func_021FD860(((struct Obj01276 *)p)->f3C, 1, (int *)&pair);

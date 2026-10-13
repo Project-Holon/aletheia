@@ -1,5 +1,5 @@
 /*
- * function: func_0217B3EC
+ * function: UNION_CHARA_TickBeaconLife
  * address:  0x0217B3EC
  * packet:   pkt_ov019_0217B3EC
  * region:   ov019
@@ -14,7 +14,7 @@
 
 typedef unsigned short u16;
 
-int func_0217B3EC(char *base, char *p)
+int UNION_CHARA_TickBeaconLife(char *base, char *p)
 {
     char *q = base + 0x2830;
     if (*(char * *)&((struct Obj07380 *)q)->f14 == p || *(char * *)&((struct Obj07380 *)q)->f18 == p ||

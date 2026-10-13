@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
- *   func_020439A0  0x020439A0  arm
- *   func_02043AF4  0x02043AF4  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
+ *   BMP_Blit  0x020439A0  arm
+ *   BMP_FillRect  0x02043AF4  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   PRINTSYS_PrintStep  0x0201C974  thumb
  *   PRINTSYS_PrintStreamResetSpeed   0x0201CEB8  thumb
  *   sub_0201D110   0x0201D110  thumb
  *
- * The per-frame task callback that func_0201CD10 installs for a printsys
+ * The per-frame task callback that PRINTSYS_PrintStreamCallBack installs for a printsys
  * text record (the 0x50-byte object, struct PrintCtx at +0x34).  State 0
  * either scrolls the window up by at most four lines (flag bit 1) or, once
  * the wait counter at +0x1e is spent, prints up to f1b/f1d glyphs through
@@ -106,13 +106,13 @@ struct Rec {
 
 struct Bmp;
 struct CharBuf;
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Descriptor;
-extern void  func_02045334(struct Descriptor *a);
+extern void  BMP_WIN_TransferChars(struct Descriptor *a);
 extern u16  *PRINTSYS_PrintStep(struct PrintCtx *c, u16 *p, u32 f);
 extern void  PRINTSYS_PrintStreamResetSpeed(struct Rec *p);
 extern void  sub_0201D110(struct Rec *p);
@@ -151,11 +151,11 @@ void func_0201CEE0(void *task, struct Rec *p)
                 if (p->scroll + 4 > 0x10)
                     k = 0x10 - p->scroll;
                 p->scroll += (u8)k;
-                w = func_020437DC((const struct Bmp *)p->win);
-                h = func_020437E4((const struct Bmp *)p->win) - k;
-                func_020439A0((struct Bmp *)p->win, (struct Bmp *)p->win, 0, k, 0, 0, w, h, 0xFFFF);
-                func_02043AF4((struct Bmp *)p->win, 0, (s16)h, w, k, p->color);
-                func_02045334((struct Descriptor *)p->f08);
+                w = BMP_GetWidth((const struct Bmp *)p->win);
+                h = BMP_GetHeight((const struct Bmp *)p->win) - k;
+                BMP_Blit((struct Bmp *)p->win, (struct Bmp *)p->win, 0, k, 0, 0, w, h, 0xFFFF);
+                BMP_FillRect((struct Bmp *)p->win, 0, (s16)h, w, k, p->color);
+                BMP_WIN_TransferChars((struct Descriptor *)p->f08);
                 return;
             }
             p->ctx.unk00 = p->ctx.unk04;
@@ -206,7 +206,7 @@ void func_0201CEE0(void *task, struct Rec *p)
                             else
                                 p->wait = p->f1a;
                         }
-                        func_02045334((struct Descriptor *)p->f08);
+                        BMP_WIN_TransferChars((struct Descriptor *)p->f08);
                         if (p->cb != 0) {
                             p->cbres = p->cb(p->cbarg);
                             if (p->cbres != 0)
@@ -232,7 +232,7 @@ void func_0201CEE0(void *task, struct Rec *p)
                 return;
             case 1:
             default:
-                func_02043B5C((struct CharBuf *)p->win, p->color);
+                BMP_Clear((struct CharBuf *)p->win, p->color);
                 p->state = 0;
                 return;
             }

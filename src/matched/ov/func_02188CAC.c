@@ -1,5 +1,5 @@
 /*
- * function: func_02188CAC
+ * function: FIELDMAP_SetCtrlWork
  * address:  0x02188CAC
  * packet:   pkt_02188C54
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02188CAC(u8 *p, u32 v)
+void FIELDMAP_SetCtrlWork(u8 *p, u32 v)
 {
     ((struct Obj17868 *)p)->f10C = v;
 }

@@ -30,11 +30,11 @@
  *
  * Near miss: sub_02013C70, sub_02013C80 and sub_02013C9C (0x02013C70 to
  * 0x02013CC8, 88 bytes) reproduce every concrete byte but cap at MATCH.
- * sub_02013C70 tail calls sub_02013B10 (defined in the neighbouring packet)
+ * sub_02013C70 tail calls ZONEDATA_IsZoneInTable (defined in the neighbouring packet)
  * through a pool word, and also holds a pointer to sub_02013C70_Table
  * (0x0209E010); sub_02013C9C searches sub_02013C9C_Table (0x0209E026).  All
  * three addresses are named in the image only inside this same 88-byte
- * range: the other five images of the sub_02013B10 pointer are themselves
+ * range: the other five images of the ZONEDATA_IsZoneInTable pointer are themselves
  * unlabelled leaf thunks (data words, not literal pools, in the same
  * function's neighbourhood further down this file), sub_02013C9C's only
  * caller anywhere is sub_02013C80 one function above it, and neither table

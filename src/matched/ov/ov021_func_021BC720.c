@@ -1,5 +1,5 @@
 /*
- * function: func_021BC720
+ * function: FIELD_PLACE_NAME_ClearWindow
  * address:  0x021BC720
  * packet:   pkt_ov021_021BC720
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BMP_Clear  0x02043B5C  arm  arm9
  */
 
 typedef struct {
@@ -19,9 +22,9 @@ typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-void func_021BC720(Obj *p)
+void FIELD_PLACE_NAME_ClearWindow(Obj *p)
 {
-    func_02043B5C(func_02045770(p->f24), 3);
+    BMP_Clear(func_02045770(p->f24), 3);
 }

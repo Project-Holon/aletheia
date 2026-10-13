@@ -25,14 +25,14 @@
  *   func_0217DC20 0x0217DC20 thumb ov176
  *   func_021E8AB4 0x021E8AB4 thumb ov177
  *   func_021E8AB8 0x021E8AB8 thumb ov177
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200BBD8 0x0200BBD8 thumb
  *   func_0200B110 0x0200B110 thumb
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  */
 typedef unsigned int u32;
 extern void func_0217DC28(int *);
@@ -56,15 +56,15 @@ extern void func_021E8AA0(int *, int);
 extern void func_0217DC20(int a);
 extern void func_021E8AB4(u32, u32);
 extern void func_021E8AB8(u32);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200BAC8(void *);
 struct Obj;
 extern void func_0200BBD8(struct Obj *p, int v);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
-extern int func_02012DAC(int a0);
-extern int func_02012DD0(u8 *p);
+extern int GAME_DATA_SaveStart(int a0);
+extern int GAME_DATA_SaveMain(u8 *p);
 void func_0217D4FC(int *a, int *state, int *p)
 {
     int result;
@@ -95,14 +95,14 @@ void func_0217D4FC(int *a, int *state, int *p)
         break;
     case 12: func_0217DFD0(p, 0x6B, 2); *state = 19; func_021E8AB4((u32)a, 13); break;
     case 13:
-        base = func_02012EBC((void *)p[12]);
+        base = GAME_DATA_GetSaveControl((void *)p[12]);
         record = func_0200B1D4(func_0200B358(base), p[5]);
         base = func_0200BAC8(base);
         func_0200BBD8(base, p[5] == 0 ? 1 : 2);
         func_0200B110(record, 10, 4); *state = 14; break;
-    case 14: func_02012DAC((int)((void *)p[12])); *state = 15; break;
+    case 14: GAME_DATA_SaveStart((int)((void *)p[12])); *state = 15; break;
     case 15:
-        result = func_02012DD0((void *)p[12]);
+        result = GAME_DATA_SaveMain((void *)p[12]);
         if (result == 2) *state = 16;
         else if (result == 3) *state = 16;
         break;

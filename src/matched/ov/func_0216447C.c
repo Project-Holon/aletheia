@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Empty function after the veneer run; the only Thumb code at this address
- * in any overlay window, called from ov021 func_021881D8.
+ * in any overlay window, called from ov021 FIELDMAP_SeqCreateSubsystems.
  *
  * Addresses are Black-image addresses.
  */

@@ -1,5 +1,5 @@
 /*
- * function: func_021AB37C
+ * function: MAP_ATTR_IsSandVariant
  * address:  0x021AB37C
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-BOOL func_021AB37C(u32 id)
+BOOL MAP_ATTR_IsSandVariant(u32 id)
 {
     if (id == 0xc || id == 0xb || id == 0x23) {
         return 1;

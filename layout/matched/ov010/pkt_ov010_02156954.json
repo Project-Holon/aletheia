@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02156954",
+   "name": "MUSICAL_EVENT_GetMaxScore",
    "address": "0x02156954",
    "kind": "game",
    "region": "ov010",

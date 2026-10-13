@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF20
+ * function: FIELD_PLACE_NAME_DrawLettersLand
  * address:  0x021BCF20
  * packet:   pkt_ov021_021BCF20
  * region:   ov021
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (bx lr stub) filed as the blocker of func_021BC4F0.
+ * Unlabelled leaf (bx lr stub) filed as the blocker of FIELD_PLACE_NAME_Draw.
  */
 
-void func_021BCF20(int a)
+void FIELD_PLACE_NAME_DrawLettersLand(int a)
 {
 }

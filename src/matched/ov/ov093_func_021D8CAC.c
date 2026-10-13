@@ -1,5 +1,5 @@
 /*
- * function: func_021D8CAC
+ * function: BTL_CALC_PinchBoostType
  * address:  0x021D8CAC
  * packet:   pkt_ov093_021D8CAC
  * region:   ov093
@@ -10,32 +10,32 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D7B60  0x021D7B60  thumb  ov093
+ *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern u32 func_021D7B60(void *p, u32 n);
+extern u32 BTL_CALC_DivideMaxHp(void *p, u32 n);
 extern int func_021D59B4(u8 *p, int k);
-extern void func_021D7704(int a, int b);
+extern void BTL_EVENT_MultiplyVar(int a, int b);
 
-void func_021D8CAC(int a, int b, int c)
+void BTL_CALC_PinchBoostType(int a, int b, int c)
 {
     void *p;
     u32 lim;
 
-    if (b == func_021D775C(3)) {
+    if (b == BTL_EVENT_GetVar(3)) {
         p = func_021C7CF4((int *)a, b);
-        lim = func_021D7B60(p, 3);
+        lim = BTL_CALC_DivideMaxHp(p, 3);
         if (func_021D59B4(p, 13) <= lim) {
-            if (c == func_021D775C(22))
-                func_021D7704(0x35, 3 << 11);
+            if (c == BTL_EVENT_GetVar(22))
+                BTL_EVENT_MultiplyVar(0x35, 3 << 11);
         }
     }
 }

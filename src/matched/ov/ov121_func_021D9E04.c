@@ -8,10 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02031140 0x02031140 arm
+ *   TCBL_Destroy 0x02031140 arm
  *   func_020452E8 0x020452E8 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020307B0 0x020307B0 arm
+ *   APP_KEYCURSOR_Delete  0x02028604  thumb  arm9
+ *   TIME_ICON_Delete  0x0202F038  thumb  arm9
  */
 #include "../include/Obj02180.h"
 typedef unsigned char u8;
@@ -21,12 +23,12 @@ struct Rec3;
 struct S02031140;
 struct U16Vec;
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_0202F038(u8 *);
-extern int func_02028604(int a0);
-extern void func_02031140(struct S02031140 *p);
+extern void TIME_ICON_Delete(u8 *);
+extern int APP_KEYCURSOR_Delete(int a0);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_0201F7A8(void *, u32);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 void func_021D9E04(u8 *p)
 {
@@ -35,13 +37,13 @@ void func_021D9E04(u8 *p)
         ((struct Obj02180 *)p)->f8 = 0;
     }
     if (((struct Obj02180 *)p)->f3C) {
-        func_0202F038(((struct Obj02180 *)p)->f3C);
+        TIME_ICON_Delete(((struct Obj02180 *)p)->f3C);
         ((struct Obj02180 *)p)->f3C = 0;
     }
-    if (((struct Obj02180 *)p)->f30) func_02028604((int)(((struct Obj02180 *)p)->f30));
-    func_02031140(((struct Obj02180 *)p)->fC);
+    if (((struct Obj02180 *)p)->f30) APP_KEYCURSOR_Delete((int)(((struct Obj02180 *)p)->f30));
+    TCBL_Destroy(((struct Obj02180 *)p)->fC);
     func_0201F7A8(((struct Obj02180 *)p)->f10, 0);
     func_020452E8(((struct Obj02180 *)p)->f10);
-    func_02045808(((struct Obj02180 *)p)->f14);
+    STRBUF_Delete(((struct Obj02180 *)p)->f14);
     func_020307B0(p);
 }

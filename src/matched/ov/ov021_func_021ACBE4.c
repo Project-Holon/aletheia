@@ -1,5 +1,5 @@
 /*
- * function: func_021ACBE4
+ * function: FLDEFF_NAMIPOKE_GetWakeScale
  * address:  0x021ACBE4
  * packet:   pkt_ov021_021ACBE4
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021ACBE4(int n)
+int FLDEFF_NAMIPOKE_GetWakeScale(int n)
 {
     if (n > 0x40000)
         n = 0x40000;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216279C
+ * function: EVENTDATA_SYSTEM_DirToPosEventType
  * address: 0x0216279C
  * packet: pkt_ov010_0216279C
  * region: ov010
@@ -9,6 +9,6 @@
  * status: EXACT
  */
 typedef unsigned short u16;
-u16 func_0216279C(int mode) {
+u16 EVENTDATA_SYSTEM_DirToPosEventType(int mode) {
     switch(mode) { case 0: return 1; case 1: return 2; case 2: return 3; case 3: return 4; default: return 0; }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD1CC",
+   "name": "PLACE_NAME_LETTER_Update",
    "address": "0x021BD1CC",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD1D4",
+   "name": "PLACE_NAME_LETTER_Start",
    "address": "0x021BD1D4",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD1DC",
+   "name": "PLACE_NAME_LETTER_GetBmp",
    "address": "0x021BD1DC",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD1E4",
+   "name": "PLACE_NAME_LETTER_SetVisible",
    "address": "0x021BD1E4",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BD22C",
+   "name": "PLACE_NAME_LETTER_FreeWork",
    "address": "0x021BD22C",
    "kind": "game",
    "region": "ov021",

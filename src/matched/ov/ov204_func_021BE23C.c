@@ -14,10 +14,10 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049EF4 0x02049EF4 arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   func_02082A60 0x02082A60 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj25339.h"
 #include "../include/Obj25341.h"
@@ -28,10 +28,10 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
-extern void *func_02049EF4(void *,u32,u32,void **,u16);
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
 extern void func_02082A60(const void *,void *,u32);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 int func_021BE23C(char *p,void *unused,int *state)
 {
     u16 heap;
@@ -46,11 +46,11 @@ int func_021BE23C(char *p,void *unused,int *state)
     func_020498F4(arc,3,3,0,0,0,heap);
     if (*state==1) {
         func_02049658(arc,12,2,0,0,0,heap);
-        buf=func_02049EF4(arc,14,0,(void **)&out,heap);
+        buf=ARC_UTIL_LoadPaletteDataFromHandle(arc,14,0,(void **)&out,heap);
         func_02082A60((char *)out+12,p+0xA8,4096);
         func_020307B0(buf);
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     return 1;
 }
 int func_021BE308(char *p,void *unused,u32 *r)

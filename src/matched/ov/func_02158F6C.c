@@ -1,5 +1,5 @@
 /*
- * function: func_02158F6C
+ * function: SCRIPT_WORK_GetCmdWork
  * address:  0x02158F6C
  * packet:   pkt_02158F50
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02158F6C.c \
- *       --func func_02158F6C --addr 0x02158F6C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRIPT_WORK_GetCmdWork.c \
+ *       --func SCRIPT_WORK_GetCmdWork --addr 0x02158F6C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17631.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_02158F6C(void *p) { return ((struct Obj17631 *)p)->f148; }
+u32 SCRIPT_WORK_GetCmdWork(void *p) { return ((struct Obj17631 *)p)->f148; }

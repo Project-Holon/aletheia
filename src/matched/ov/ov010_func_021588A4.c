@@ -1,5 +1,5 @@
 /*
- * function: func_021588A4
+ * function: SCRIPT_SYS_SetNextEvent
  * address: 0x021588A4
  * packet: pkt_ov010_021588A4
  * region: ov010
@@ -11,14 +11,14 @@
  * lever: Callback-field assignment before argument-field assignment hoists
  *        the callback pool load before both stores, preserving argument first.
  * symbols:
- *   func_0215889C 0x0215889C thumb ov010
+ *   SCRIPT_SYS_ChangeNextEvent 0x0215889C thumb ov010
  */
 #include "../include/Obj12271.h"
 typedef unsigned int u32;
-extern void func_0215889C(void *, u32 *);
-void func_021588A4(void *p, int a)
+extern void SCRIPT_SYS_ChangeNextEvent(void *, u32 *);
+void SCRIPT_SYS_SetNextEvent(void *p, int a)
 {
-    void (*callback)(void *, u32 *) = func_0215889C;
+    void (*callback)(void *, u32 *) = SCRIPT_SYS_ChangeNextEvent;
     *(void (**)(void *, u32 *))((u32)p + 0x10) = callback;
     ((struct Obj12271 *)((u32)p))->f14 = a;
 }

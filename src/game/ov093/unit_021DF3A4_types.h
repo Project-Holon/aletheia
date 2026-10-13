@@ -75,17 +75,17 @@ typedef struct {
 
 
 /* Services of the event factor and the item parameters. */
-extern u16 func_021D70A8(struct BtlEventFactor *factor);
-extern int func_021DCFF8(struct BtlEventFactor *factor, int paramId);
-extern int func_021DD008(struct BtlEventFactor *factor);
-extern u16 func_021D5444(struct BtlPokeParam *bpp);
+extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
+extern int BTL_HANDLER_ITEM_GetParam(struct BtlEventFactor *factor, int paramId);
+extern int BTL_HANDLER_ITEM_GetBoostRatio(struct BtlEventFactor *factor);
+extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
 extern void func_021C888C(BtlStrParam *strParam, u32 extraArg);
 extern void func_021C8408(struct BtlSvFlow *flow, int pokeId);
-extern int func_021E889C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
-extern union BtlSickCont func_021E8A58(void);
-extern union BtlSickCont func_021D7D18(int sickKind);
+extern int BTLV_CORE_EventTrySetFlagIfAttacker(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+extern union BtlSickCont BTLV_CORE_MakeSlotKind1Index15(void);
+extern union BtlSickCont BTL_CALC_MakeDefaultSickCont(int sickKind);
 
 /* The move power handler shared by all type boost items. */
-void func_021DF93C(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int moveType);
+void BTL_HANDLER_ITEM_BoostMovePowerOfType(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int moveType);
 
 #endif

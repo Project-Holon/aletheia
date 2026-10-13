@@ -16,8 +16,8 @@
  * header that asks for the double assignment is superseded.
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   WAZA_TOOL_GetMaxPP   0x0201C158  thumb
  *
  * pokeparty.c.  Restore PP to one move slot: read the move (0x36 + slot),
@@ -25,7 +25,7 @@
  * WAZA_TOOL_GetMaxPP for the slot's maximum, and if the slot is short either fill
  * it (amount 0x7F) or add `amount` and clamp at the maximum.
  *
- * The last register copy (`adds r2, r4, #0` ahead of func_02017E40, the new
+ * The last register copy (`adds r2, r4, #0` ahead of POKE_TOOL_SetPartyValue, the new
  * PP kept in r4 where the old one lived) is the compound assignment
  * `pp += (u8)amount`: the spelled-out `pp = (u8)(pp + (u8)amount)` starts a
  * new value that coalesces straight into the argument register (wave 15;
@@ -43,8 +43,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u8   WAZA_TOOL_GetMaxPP(u32 move, u32 ppUp);
 
 u32 POKE_TOOL_RestorePP(void *mon, u32 slot, u32 amount)
@@ -55,13 +55,13 @@ u32 POKE_TOOL_RestorePP(void *mon, u32 slot, u32 amount)
     u32 ppUp;
     u8  max;
 
-    move = (u16)func_02017E1C(mon, slot + 0x36, 0);
+    move = (u16)POKE_TOOL_GetPartyValue(mon, slot + 0x36, 0);
     if (move == 0) {
         return 0;
     }
     id = slot + 0x3A;
-    pp = (u8)func_02017E1C(mon, id, 0);
-    ppUp = func_02017E1C(mon, slot + 0x3E, 0);
+    pp = (u8)POKE_TOOL_GetPartyValue(mon, id, 0);
+    ppUp = POKE_TOOL_GetPartyValue(mon, slot + 0x3E, 0);
     max = WAZA_TOOL_GetMaxPP(move, (u8)ppUp);
     if (pp < max) {
         if (amount == 0x7F) {
@@ -72,7 +72,7 @@ u32 POKE_TOOL_RestorePP(void *mon, u32 slot, u32 amount)
                 pp = max;
             }
         }
-        func_02017E40(mon, id, pp);
+        POKE_TOOL_SetPartyValue(mon, id, pp);
         return 1;
     }
     return 0;

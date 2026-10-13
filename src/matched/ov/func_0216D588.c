@@ -1,5 +1,5 @@
 /*
- * function: func_0216D588
+ * function: FLDMMDL_GetObjId
  * address:  0x0216D588
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D588.c \
- *       --func func_0216D588 --addr 0x0216D588 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetObjId.c \
+ *       --func FLDMMDL_GetObjId --addr 0x0216D588 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17793.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u16 func_0216D588(void *p) { return ((struct Obj17793 *)p)->f8; }
+u16 FLDMMDL_GetObjId(void *p) { return ((struct Obj17793 *)p)->f8; }

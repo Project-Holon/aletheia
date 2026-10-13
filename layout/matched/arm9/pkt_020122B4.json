@@ -18,19 +18,34 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201283C",
-    "func_02012844",
-    "func_0201284C",
-    "func_02012854",
-    "func_02012870",
-    "func_02012878",
-    "func_02012894",
-    "func_0201289C",
-    "func_020128B8",
-    "func_020128C0",
-    "func_020128DC",
-    "func_020128E4",
-    "func_02012900"
+    "GAME_DATA_GetWifiList",
+    "GAME_DATA_GetEventData",
+    "GAME_DATA_GetStartLocation",
+    "GAME_DATA_SetStartLocation",
+    "GAME_DATA_GetEntranceLocation",
+    "GAME_DATA_SetEntranceLocation",
+    "GAME_DATA_GetSpecialLocation",
+    "GAME_DATA_SetSpecialLocation",
+    "GAME_DATA_GetEscapeLocation",
+    "GAME_DATA_SetEscapeLocation",
+    "GAME_DATA_GetWarpLocation",
+    "GAME_DATA_SetWarpLocation",
+    "GAME_DATA_SetWarpId"
+   ],
+   "addresses": [
+    "0x0201283C",
+    "0x02012844",
+    "0x0201284C",
+    "0x02012854",
+    "0x02012870",
+    "0x02012878",
+    "0x02012894",
+    "0x0201289C",
+    "0x020128B8",
+    "0x020128C0",
+    "0x020128DC",
+    "0x020128E4",
+    "0x02012900"
    ]
   },
   {
@@ -45,7 +60,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02012914"
+    "GAME_DATA_GetSituationWarpId"
+   ],
+   "addresses": [
+    "0x02012914"
    ]
   }
  ]

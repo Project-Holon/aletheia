@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020141A8",
+   "name": "ZONEDATA_SetDirectRailLocation",
    "address": "0x020141A8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02014204",
+   "name": "ZONEDATA_SetZoneStartLocation",
    "address": "0x02014204",
    "kind": "game",
    "region": "arm9",

@@ -12,7 +12,7 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   func_021FAC50  0x021FAC50  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  */
 
 typedef signed char s8;
@@ -25,12 +25,12 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_021FAC50(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
 void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g)
 {
     void *str = func_02045EC0(bank, index);
 
     func_021FAC50(mgr, win, str, x, color, g);
-    func_02045808(str);
+    STRBUF_Delete(str);
 }

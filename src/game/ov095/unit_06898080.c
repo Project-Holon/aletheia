@@ -13,10 +13,10 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb
- *   func_021D7040  0x021D7040  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  *   d_0689D638     0x0689D638  data   ov095  a4
  *   d_0689D630     0x0689D630  data   ov095  a4
  *   d_0689D640     0x0689D640  data   ov095  a4
@@ -28,10 +28,10 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern void func_021D7040(struct Node *n);
-extern int func_021D76BC();
-extern void func_021D7704(int key, int m);
-extern int func_021D775C(int key);
+extern void BTL_EVENT_RemoveFactor(struct Node *n);
+extern int BTL_EVENT_OverwriteVar();
+extern void BTL_EVENT_MultiplyVar(int key, int m);
+extern int BTL_EVENT_GetVar(int key);
 void func_06898080(void *n);
 u8 *func_06898088(u32 *p);
 void func_06898094(void);
@@ -54,7 +54,7 @@ extern u8 d_0689D640[];
  */
 void func_06898080(void *n)
 {
-    func_021D7040(n);
+    BTL_EVENT_RemoveFactor(n);
 }
 
 
@@ -79,7 +79,7 @@ u8 *func_06898098(u32 *p)
 
 void func_068980A4(void)
 {
-    func_021D76BC(0x4a, 1);
+    BTL_EVENT_OverwriteVar(0x4a, 1);
 }
 
 
@@ -92,11 +92,11 @@ u8 *func_068980B0(u32 *p)
 
 void func_068980BC(void)
 {
-    func_021D7704(0x35, 0x1ab8);
+    BTL_EVENT_MultiplyVar(0x35, 0x1ab8);
 }
 
 void func_068980CC(void)
 {
-    if (func_021D775C(0x16) == 4)
-        func_021D76BC(0x4b, 1);
+    if (BTL_EVENT_GetVar(0x16) == 4)
+        BTL_EVENT_OverwriteVar(0x4b, 1);
 }

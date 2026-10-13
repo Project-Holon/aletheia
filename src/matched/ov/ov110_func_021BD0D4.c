@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 #include "../include/Obj13787.h"
 typedef unsigned char u8;
@@ -20,13 +20,13 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(unsigned);
-extern void func_0204AFD8(unsigned);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleaseCellAnim(unsigned);
 void func_021BD0D4(u8 *p)
 {
     int i;
-    for(i=0;i<8;i++) func_0204B3B4(*(void **)(p+i*4+0x70));
-    func_0204A8D4(((struct Obj13787 *)p)->f14);
-    func_0204AFD8(((struct Obj13787 *)p)->f18);
+    for(i=0;i<8;i++) CLACT_DeleteActor(*(void **)(p+i*4+0x70));
+    CLACT_ReleaseCharacter(((struct Obj13787 *)p)->f14);
+    CLACT_ReleaseCellAnim(((struct Obj13787 *)p)->f18);
 }

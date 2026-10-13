@@ -13,7 +13,7 @@
  *           Verdict MATCH*: the listing's extent for the original is 32 bytes against 30 compiled.
  *
  * symbols:
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   ACTOR_TOOL_FreeRun  0x020253D4  thumb
  *   ACTOR_TOOL_GetCharBlock  0x02025508  thumb
  */
@@ -26,12 +26,12 @@ typedef unsigned int   u32;
 extern unsigned int ACTOR_TOOL_GetCharBlock(int a0, int a1, int a2);
 struct ActorTool;
 extern void ACTOR_TOOL_FreeRun(struct ActorTool *p, u32 i, u32 bank);
-extern void func_0204ADA4(u32 a0);
+extern void CLACT_ReleasePalette(u32 a0);
 
 void ACTOR_TOOL_FreeChar(u32 a0, u32 a1, u32 a2)
 {
     u32 v = ACTOR_TOOL_GetCharBlock(a0, a1, a2);
 
     ACTOR_TOOL_FreeRun((struct ActorTool *)a0, v, a2);
-    func_0204ADA4(a1);
+    CLACT_ReleasePalette(a1);
 }

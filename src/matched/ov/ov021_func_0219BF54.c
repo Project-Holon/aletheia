@@ -1,5 +1,5 @@
 /*
- * function: func_0219BF54
+ * function: FLDMMDL_MOVE_SetHideNoEffect
  * address:  0x0219BF54
  * packet:   pkt_0219BF54
  * region:   ov021
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb
  */
 
-void *func_0216D69C(void);
+void *FLDMMDL_GetMoveProcWork(void);
 
-void func_0219BF54(int a0)
+void FLDMMDL_MOVE_SetHideNoEffect(int a0)
 {
-    char *p = func_0216D69C();
+    char *p = FLDMMDL_GetMoveProcWork();
 
     p[2] = 1;
 }

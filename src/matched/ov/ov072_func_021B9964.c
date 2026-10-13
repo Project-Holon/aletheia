@@ -1,5 +1,5 @@
 /*
- * function: func_021B9964
+ * function: TOWNMAP_ProcFinish
  * address:  0x021B9964
  * packet:   pkt_021B9964
  * region:   ov072
@@ -12,7 +12,7 @@
  *           trailing alignment padding, no byte difference.
  */
 
-void func_021B9964(int *p)
+void TOWNMAP_ProcFinish(int *p)
 {
     p[1] = 1;
 }

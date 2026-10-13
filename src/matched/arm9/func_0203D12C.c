@@ -1,5 +1,5 @@
 /*
- * function: func_0203D12C
+ * function: GFL_NET_SetDeviceModeIfRunning
  * address:  0x0203D12C
  * packet:   pkt_0203D12C
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_SYSTEM_SetDeviceMode  0x02037A44  arm
  *
  * EXACT*, not EXACT: the inferred extent runs on to 0x0203D17C because the
@@ -27,16 +27,16 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D12C.c \
- *       --func func_0203D12C --addr 0x0203D12C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SetDeviceModeIfRunning.c \
+ *       --func GFL_NET_SetDeviceModeIfRunning --addr 0x0203D12C --cc 1.1p1 --arm
  */
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_SYSTEM_SetDeviceMode(int a);
 
-void func_0203D12C(int a)
+void GFL_NET_SetDeviceModeIfRunning(int a)
 {
-    if (func_0203CD98() == 0)
+    if (GFL_NET_GetRunState() == 0)
         return;
 
     GFL_NET_SYSTEM_SetDeviceMode(a);

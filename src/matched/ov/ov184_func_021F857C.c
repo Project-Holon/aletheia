@@ -13,7 +13,7 @@
  *   func_021FD71C 0x021FD71C thumb ov186
  *   func_021FD72C 0x021FD72C thumb ov186
  *   func_021FD854 0x021FD854 thumb ov186
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021FD1BC 0x021FD1BC thumb ov186
  *   func_021F3C50 0x021F3C50 thumb ov112
  */
@@ -28,7 +28,7 @@ extern int func_021FD72C(int *);
 extern void func_021FD854(char *);
 typedef unsigned int   u32;
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021FD1BC(void *p);
 extern void func_021F3C50(u8 *p);
 int func_021F857C(int a,int b,int c,char *p)
@@ -41,7 +41,7 @@ int func_021F857C(int a,int b,int c,char *p)
     func_021FD71C((u8 *)(*(char * *)&((struct Obj03336 *)p)->fC));
     if (func_021FD72C(*(int * *)&((struct Obj03336 *)p)->fC)) return 1;
     for (i=0;i<2;i++) func_021FD854(*(char **)(p+i*4+20));
-    func_0201C4E4((struct PrintSys *)(((struct Obj03336 *)p)->f20));
+    PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj03336 *)p)->f20));
     if (*(char * *)&((struct Obj03336 *)p)->f10) func_021FD1BC(*(char * *)&((struct Obj03336 *)p)->f10);
     if (*(char * *)&((struct Obj03336 *)p)->f0) func_021F3C50((u8 *)(*(char * *)&((struct Obj03336 *)p)->f0));
     return 0;

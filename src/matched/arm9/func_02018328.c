@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201ADD0  0x0201ADD0  thumb
- *   func_0201808C  0x0201808C  thumb
+ *   POKE_TOOL_AddMove  0x0201808C  thumb
  *   func_020307B0  0x020307B0  arm
  *   sPokeToolFile  0x020A72E4  data
  *
  * Level-up learnset scan: load the species/form learnset (func_0201ADD0) into
  * a 0x68-byte heap block (poke_tool.c line 0x644), then walk it from *idx
  * until the {0xFFFF, 0xFFFF} terminator.  For an entry at the record's
- * level, try to teach it (func_0201808C): 0xFFFF (no free slot) answers the
+ * level, try to teach it (POKE_TOOL_AddMove): 0xFFFF (no free slot) answers the
  * move with bit 15 set, 0xFFFE (already known) keeps scanning, anything else
  * is returned; *idx is left one past the entry.  Wave 11, 2026-09-23.
  *
@@ -46,9 +46,9 @@ typedef unsigned int   u32;
 struct Learn { u16 move; u16 level; };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32   func_02017E1C(void *p, u32 id, u32 v);
+extern u32   POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void  func_0201ADD0(u32 species, int form, void *dest);
-extern u16   func_0201808C(void *p, u16 move);
+extern u16   POKE_TOOL_AddMove(void *p, u16 move);
 extern u32 func_020307B0(void *p);
 extern u8    sPokeToolFile;
 
@@ -74,16 +74,16 @@ u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap)
     struct Learn cur;
 
     tbl = func_02030734((u16)((heap & 0x7fff) | 0x8000), 0x68, 0, (const char *)&sPokeToolFile, 0x644);
-    species = func_02017E1C(p, 5, 0);
-    form = func_02017E1C(p, 0x6f, 0);
-    level = func_02017E1C(p, 0x9e, 0);
+    species = POKE_TOOL_GetPartyValue(p, 5, 0);
+    form = POKE_TOOL_GetPartyValue(p, 0x6f, 0);
+    level = POKE_TOOL_GetPartyValue(p, 0x9e, 0);
     func_0201ADD0(species, (u16)form, tbl);
 
     while (cur = tbl[*idx], t = cur, !Learn_IsEnd(&t)) {
         e = cur;
         if (level == e.level) {
             d = cur;
-            ret = func_0201808C(p, d.move);
+            ret = POKE_TOOL_AddMove(p, d.move);
             if (ret == 0xFFFF) {
                 f = tbl[*idx];
                 ret = f.move | 0x8000;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D9C
+ * function: BTL_POKEPARAM_DamageSubstitute
  * address: 0x021D6D9C
  * packet: pkt_ov093_021D6D9C
  * region: ov093
@@ -13,7 +13,7 @@
 #include "../include/Obj07801.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-int func_021D6D9C(u8 *p, u16 *value)
+int BTL_POKEPARAM_DamageSubstitute(u8 *p, u16 *value)
 {
     u16 requested;
     requested = *value;

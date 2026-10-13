@@ -1,5 +1,5 @@
 /*
- * function: func_021AB7C0
+ * function: FLD_SCENEAREA_RunAction
  * address:  0x021AB7C0
  * packet:   pkt_ov021_021AB7C0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB780  0x021AB780  thumb
+ *   FLD_SCENEAREA_HasAction  0x021AB780  thumb
  */
 
 typedef void (*Fn)(int a, int b, int c);
@@ -21,11 +21,11 @@ typedef struct {
 } S;
 
 typedef unsigned int   u32;
-extern int func_021AB780(u32 a, u32 b);
+extern int FLD_SCENEAREA_HasAction(u32 a, u32 b);
 
-void func_021AB7C0(S *s, int i, int a, int b, int c)
+void FLD_SCENEAREA_RunAction(S *s, int i, int a, int b, int c)
 {
-    if (func_021AB780((u32)s, i)) {
+    if (FLD_SCENEAREA_HasAction((u32)s, i)) {
         s->f4[i](a, b, c);
     }
 }

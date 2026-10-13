@@ -1,5 +1,5 @@
 /*
- * function: func_02195E54
+ * function: TALKMSGWIN_DrawFrameByType
  * address:  0x02195E54
  * packet:   pkt_ov021_02195E54
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021955EC  0x021955EC  thumb  ov021
- *   func_02195938  0x02195938  thumb  ov021
+ *   TALKMSGWIN_DrawSimpleFrame  0x021955EC  thumb  ov021
+ *   TALKMSGWIN_DrawCorneredFrame  0x02195938  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,17 +22,17 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 struct FrameStyle;
-extern void func_021955EC(struct FrameStyle *style, void *win, int deco);
-extern void func_02195938(struct FrameStyle *style, void *win, int deco);
+extern void TALKMSGWIN_DrawSimpleFrame(struct FrameStyle *style, void *win, int deco);
+extern void TALKMSGWIN_DrawCorneredFrame(struct FrameStyle *style, void *win, int deco);
 
-void func_02195E54(u32 a, u32 b, u8 c, u32 d)
+void TALKMSGWIN_DrawFrameByType(u32 a, u32 b, u8 c, u32 d)
 {
     switch (c) {
     case 0:
-        func_021955EC((struct FrameStyle *)a, (void *)b, d);
+        TALKMSGWIN_DrawSimpleFrame((struct FrameStyle *)a, (void *)b, d);
         break;
     case 1:
-        func_02195938((struct FrameStyle *)a, (void *)b, d);
+        TALKMSGWIN_DrawCorneredFrame((struct FrameStyle *)a, (void *)b, d);
         break;
     }
 }

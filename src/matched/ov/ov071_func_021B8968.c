@@ -1,5 +1,5 @@
 /*
- * function: func_021B8968
+ * function: MONOLITH_TOOL_STATS_Update
  * address:  0x021B8968
  * packet:   pkt_ov071_021B8968
  * region:   ov071
@@ -17,14 +17,14 @@
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_021B8EDC  0x021B8EDC  thumb  ov071
  *   func_020362DC  0x020362DC  arm
- *   func_02035C08  0x02035C08  arm
- *   func_021B7108  0x021B7108  thumb  ov071
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
+ *   MONOLITH_TOOL_StartBlink  0x021B7108  thumb  ov071
  *   func_020355D8  0x020355D8  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_021B7114  0x021B7114  thumb  ov071
+ *   MONOLITH_TOOL_IsBlinking  0x021B7114  thumb  ov071
  *   d_021BAAA4     0x021BAAA4  data  a4
  */
 #include "../include/Obj07702.h"
@@ -50,18 +50,18 @@ extern char d_021BAAA4[];
 
 struct Descriptor;
 struct PrintSys;
-int func_021B8968(int a, int *b, C *c, u8 *d)
+int MONOLITH_TOOL_STATS_Update(int a, int *b, C *c, u8 *d)
 {
     extern void *func_02045770(struct Descriptor *p);
     extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-    extern void func_02045334(struct Descriptor *d);
+    extern void BMP_WIN_TransferChars(struct Descriptor *d);
     extern void func_021B8EDC(void *);
     extern u32 func_020362DC(void);
-    extern int func_02035C08(const void *p);
-    extern void func_021B7108(void *);
+    extern int TOUCHPANEL_HitTrg(const void *p);
+    extern void MONOLITH_TOOL_StartBlink(void *);
     extern void func_020355D8(u8 v);
     extern void func_020061E4(unsigned int);
-    extern int func_021B7114(void *p);
+    extern int MONOLITH_TOOL_IsBlinking(void *p);
     int i;
     int t;
 
@@ -73,7 +73,7 @@ int func_021B8968(int a, int *b, C *c, u8 *d)
         u8 *s = d + i * 8;
         if (s[0x1c] != 0) {
             if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj07702 *)s)->f18))) == 0) {
-                func_02045334(((struct Obj07702 *)s)->f18);
+                BMP_WIN_TransferChars(((struct Obj07702 *)s)->f18);
                 s[0x1c] = 0;
             }
         }
@@ -82,8 +82,8 @@ int func_021B8968(int a, int *b, C *c, u8 *d)
     switch (*b) {
     case 0:
         t = func_020362DC();
-        if (func_02035C08(d_021BAAA4) != -1 || (t & 2) != 0) {
-            func_021B7108(d + 0x48);
+        if (TOUCHPANEL_HitTrg(d_021BAAA4) != -1 || (t & 2) != 0) {
+            MONOLITH_TOOL_StartBlink(d + 0x48);
             if (t & 2) {
                 func_020355D8(0);
             } else {
@@ -94,7 +94,7 @@ int func_021B8968(int a, int *b, C *c, u8 *d)
         }
         break;
     case 1:
-        if (func_021B7114(d + 0x48) == 0) {
+        if (MONOLITH_TOOL_IsBlinking(d + 0x48) == 0) {
             c->f2c = 0;
             return 1;
         }

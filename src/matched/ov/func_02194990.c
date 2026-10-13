@@ -1,5 +1,5 @@
 /*
- * function: func_02194990
+ * function: TALKMSGWIN_GetBmpWin
  * address:  0x02194990
  * packet:   pkt_02194990
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-u32 func_02194990(u32 a, u32 b)
+u32 TALKMSGWIN_GetBmpWin(u32 a, u32 b)
 {
 return *(u32 *)((u8 *)((a + (b * 100))) + 36);
 }

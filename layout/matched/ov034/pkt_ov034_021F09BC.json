@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F09BC",
+   "name": "REPORT_UpdateSaveAnim",
    "address": "0x021F09BC",
    "kind": "game",
    "region": "ov034",

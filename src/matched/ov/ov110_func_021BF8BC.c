@@ -10,8 +10,8 @@
  * status: EXACT*
  * note: two trailing zero alignment bytes.
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_02045808 0x02045808 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -21,14 +21,14 @@ struct Obj;
 struct U16Vec;
 struct Descriptor;
 typedef unsigned int   u32;
-extern void func_0204B3B4(struct Obj *);
-extern void func_02045808(struct U16Vec *);
+extern void CLACT_DeleteActor(struct Obj *);
+extern void STRBUF_Delete(struct U16Vec *);
 extern u32 func_020452E8(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
 void func_021BF8BC(u8 *p) {
-    if(*(struct Obj * *)&((struct Obj03755 *)p)->f14) func_0204B3B4(*(struct Obj * *)&((struct Obj03755 *)p)->f14);
-    if(*(struct Obj * *)&((struct Obj03755 *)p)->f1C) func_0204B3B4(*(struct Obj * *)&((struct Obj03755 *)p)->f1C);
-    if(*(struct U16Vec * *)&((struct Obj03755 *)p)->f48) func_02045808(*(struct U16Vec * *)&((struct Obj03755 *)p)->f48);
+    if(*(struct Obj * *)&((struct Obj03755 *)p)->f14) CLACT_DeleteActor(*(struct Obj * *)&((struct Obj03755 *)p)->f14);
+    if(*(struct Obj * *)&((struct Obj03755 *)p)->f1C) CLACT_DeleteActor(*(struct Obj * *)&((struct Obj03755 *)p)->f1C);
+    if(*(struct U16Vec * *)&((struct Obj03755 *)p)->f48) STRBUF_Delete(*(struct U16Vec * *)&((struct Obj03755 *)p)->f48);
     func_020452E8(*(struct Descriptor * *)&((struct Obj03755 *)p)->f10);
     func_020452E8(*(struct Descriptor * *)&((struct Obj03755 *)p)->fC);
     func_020307B0(p);

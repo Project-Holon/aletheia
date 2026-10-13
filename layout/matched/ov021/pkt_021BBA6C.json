@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBA6C",
+   "name": "FIELD_SUBPROC_GetWork",
    "address": "0x021BBA6C",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BBFB0",
+   "name": "FLDEFF_REFLECT_InitResource",
    "address": "0x021BBFB0",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021BBFB4",
+   "name": "FLDEFF_REFLECT_DeleteResource",
    "address": "0x021BBFB4",
    "kind": "game",
    "region": "ov021",

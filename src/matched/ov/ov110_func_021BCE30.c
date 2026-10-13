@@ -10,12 +10,12 @@
  * status: EXACT*
  * Extent ends in two-byte alignment padding at 0x021BCE46.
  * symbols:
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  */
 #include "../include/Obj06390.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
-int func_021BCE30(char *p) { if (func_0204B98C(((struct Obj06390 *)p)->f8C)==0) return 1; return 0; }
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+int func_021BCE30(char *p) { if (CLACT_IsActorAnimActive(((struct Obj06390 *)p)->f8C)==0) return 1; return 0; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021762C0
+ * function: INTRUDE_COMM_SetWordSetMemberName
  * address: 0x021762C0
  * packet: pkt_ov011_021762C0
  * region: ov011
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 bit : 1; } Flag;
 extern void INTRUDE_COMM_SetWordSetPlayerName(void *win, u32 slot, void *src, u32 size, u16 heap, u32 a);
-void func_021762C0(void *win, u32 slot, u8 *src, u16 heap)
+void INTRUDE_COMM_SetWordSetMemberName(void *win, u32 slot, u8 *src, u16 heap)
 {
     INTRUDE_COMM_SetWordSetPlayerName(win, slot, src, 8, heap, ((Flag *)(src + 0x11))->bit);
 }

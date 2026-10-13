@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C8288  0x021C8288  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern int func_021C8288(u8 *p);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E6164(u8 *p, void *a, int b)
 {
     int v;
-    if (b != func_021D775C(2))
+    if (b != BTL_EVENT_GetVar(2))
         return;
     switch (func_021C8288(a)) {
     case 1:
@@ -38,5 +38,5 @@ void func_021E6164(u8 *p, void *a, int b)
         v = 2 << 10;
         break;
     }
-    func_021D76BC(0x35, v);
+    BTL_EVENT_OverwriteVar(0x35, v);
 }

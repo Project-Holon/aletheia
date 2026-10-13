@@ -1,5 +1,5 @@
 /*
- * function: func_021EEFE0
+ * function: BTL_MSG_ExpandTags
  * address: 0x021EEFE0
  * packet: pkt_ov093_021EEFE0
  * region: ov093
@@ -11,7 +11,7 @@
  * A u8 kind local narrows before argument setup; const values schedules
  * the index shift ahead of the last outgoing argument store.
  * symbols:
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   func_0201D5C4 0x0201D5C4 thumb
  *   func_0201D5CC 0x0201D5CC thumb
@@ -24,11 +24,11 @@
  *   func_0201EF34 0x0201EF34 thumb
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201F020 0x0201F020 thumb
- *   func_021EED00 0x021EED00 thumb ov093
- *   func_021EED24 0x021EED24 thumb ov093
- *   func_021EED48 0x021EED48 thumb ov093
- *   func_021EED6C 0x021EED6C thumb ov093
- *   func_021EED90 0x021EED90 thumb ov093
+ *   BTL_MSG_SetPokeName 0x021EED00 thumb ov093
+ *   BTL_MSG_SetPokeSpecies 0x021EED24 thumb ov093
+ *   BTL_MSG_SetPokeNickname 0x021EED48 thumb ov093
+ *   BTL_MSG_SetClientValue 0x021EED6C thumb ov093
+ *   BTL_MSG_SetClientName 0x021EED90 thumb ov093
  *   d_021F63D8 0x021F63D8 data ov093 a4
  */
 
@@ -38,7 +38,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern struct H d_021F63D8;
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 struct U16Vec;
 struct WordSet;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
@@ -53,13 +53,13 @@ extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F020(struct WordSet *p, u32 i, u32 v);
-extern void func_021EED00(u8 a, u32 b);
-extern void func_021EED24(u8 a, u32 b);
-extern void func_021EED48(u8 a, u8 b);
-extern void func_021EED6C(void *w, u8 i, u8 a);
-extern void func_021EED90(void *w, u8 i, u8 a);
+extern void BTL_MSG_SetPokeName(u8 a, u32 b);
+extern void BTL_MSG_SetPokeSpecies(u8 a, u32 b);
+extern void BTL_MSG_SetPokeNickname(u8 a, u8 b);
+extern void BTL_MSG_SetClientValue(void *w, u8 i, u8 a);
+extern void BTL_MSG_SetClientName(void *w, u8 i, u8 a);
 
-void func_021EEFE0(void *s, const u32 *values, void *w)
+void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
 {
     u16 end;
     u32 tag;
@@ -70,7 +70,7 @@ void func_021EEFE0(void *s, const u32 *values, void *w)
     u32 index;
     u8 group;
     u8 kind;
-    end = func_02045A98();
+    end = STRBUF_GetEosChar();
     tag = func_0201D5C4();
     for (i = 0; i < 8; i++)
         removed[i] = 0;
@@ -103,22 +103,22 @@ void func_021EEFE0(void *s, const u32 *values, void *w)
                 } else {
                     switch (func_0201D658(p)) {
                     case 14:
-                        func_021EED6C(w, slot, values[index]);
+                        BTL_MSG_SetClientValue(w, slot, values[index]);
                         break;
                     case 0:
-                        func_021EED90(w, slot, values[index]);
+                        BTL_MSG_SetClientName(w, slot, values[index]);
                         break;
                     case 2:
                         if (d_021F63D8.f1a == 0)
-                            func_021EED00(values[index], slot);
+                            BTL_MSG_SetPokeName(values[index], slot);
                         else
-                            func_021EED24(values[index], slot);
+                            BTL_MSG_SetPokeSpecies(values[index], slot);
                         break;
                     case 12:
-                        func_021EED24(values[index], slot);
+                        BTL_MSG_SetPokeSpecies(values[index], slot);
                         break;
                     case 1:
-                        func_021EED48(values[index], slot);
+                        BTL_MSG_SetPokeNickname(values[index], slot);
                         break;
                     case 3:
                         func_0201F020(w, slot, values[index]);

@@ -14,7 +14,7 @@
  *
  * Unlabelled ov132 leaf hidden in a .word run: returns the word at +0x48.
  * Matched to supply the `matched` witness for the pending ov010 caller
- * func_02155F24.
+ * MUSICAL_EVENT_CreateLocalPerformer.
  */
 #include "../include/Obj23300.h"
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021B93A4
+ * function: FRAME_LIST_GetSelectedIndex
  * address: 0x021B93A4
  * packet: pkt_ov067_021B93A4
  * region: ov067
@@ -12,7 +12,7 @@
  * ov209 021BCC94 and unloaded by 021BCD48. Following code starts at 021B93B0.
  */
 #include "../include/Obj13135.h"
-int func_021B93A4(char *p)
+int FRAME_LIST_GetSelectedIndex(char *p)
 {
     return ((struct Obj13135 *)p)->f5C + ((struct Obj13135 *)p)->f62;
 }

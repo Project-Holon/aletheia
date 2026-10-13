@@ -21,7 +21,7 @@
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock   0x020071CC  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_020173EC  0x020173EC  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
@@ -78,7 +78,7 @@ typedef signed int     s32;
 struct Big;
 struct Sub020071CCCtrl;
 extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 func_020173EC(void);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
@@ -121,7 +121,7 @@ struct Sub02009210Obj *sub_02009210(void *sys)
 
 struct Sub02009210Obj *sub_0200921C(void *p)
 {
-    return sub_02009210(func_02012EBC(p));
+    return sub_02009210(GAME_DATA_GetSaveControl(p));
 }
 
 u32 sub_02009228(void)

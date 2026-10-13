@@ -14,7 +14,7 @@
  *
  * symbols:
  *   func_021D6F0C  0x021D6F0C  thumb
- *   func_021D70DC  0x021D70DC  thumb
+ *   BTL_EVENT_SetFactorWork  0x021D70DC  thumb
  *   g_0689E7E0 0x0689E7E0 data a4
  *   func_02082BCC 0x02082BCC arm
  *   d_0689D780 0x0689D780 data ov095 a4
@@ -35,7 +35,7 @@ typedef struct { u32 x; } S;
 
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_021D6F0C(int id, u16 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16);
-extern void func_021D70DC(void *p, int i, u32 v);
+extern void BTL_EVENT_SetFactorWork(void *p, int i, u32 v);
 void func_06898BFC(void);
 void *func_06898C10(u8 a, int b, S c);
 extern Row g_0689E7E0[2];
@@ -57,7 +57,7 @@ void *func_06898C10(u8 a, int b, S c)
                 void *r;
                 int x = d_0689D780[k].fn(&v);
                 r = func_021D6F0C(2, b, 2, 0, a, x, v);
-                func_021D70DC(r, 6, c.x);
+                BTL_EVENT_SetFactorWork(r, 6, c.x);
                 p->en = 1;
                 p->n = 0;
                 p->f = c.x;

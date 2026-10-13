@@ -14,7 +14,7 @@
  *   func_021C4F80  0x021C4F80  thumb  ov111
  *   func_02040618  0x02040618  arm
  *   func_020419E4  0x020419E4  arm
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -35,7 +35,7 @@ extern void func_021C5B34(Work *p);
 extern void func_021C4F80(Work *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020419E4(void);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
 void func_021C581C(void *task, Work *p)
 {
@@ -51,5 +51,5 @@ void func_021C581C(void *task, Work *p)
         func_021C4F80(p);
     }
     func_020419E4();
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

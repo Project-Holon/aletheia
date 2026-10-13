@@ -14,8 +14,8 @@
  *   func_021BE054 0x021BE054 thumb ov172
  *   func_021B9C1C 0x021B9C1C thumb ov172
  *   func_021BE11C 0x021BE11C thumb ov172
- *   func_0204B98C 0x0204B98C arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj08259.h"
 typedef unsigned char u8;
@@ -29,8 +29,8 @@ extern u32 func_021BE11C(u8 *p);
 struct Actor;
 struct Obj;
 typedef unsigned short u16;
-extern u32 func_0204B98C(struct Actor *);
-extern void func_0204B878(struct Obj *, u16);
+extern u32 CLACT_IsActorAnimActive(struct Actor *);
+extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 void func_021B9C9C(void *p, char *q)
 {
     if (func_021B80E4((int)p, (char *)func_021BDFE4(p)) == 5) {
@@ -42,6 +42,6 @@ void func_021B9C9C(void *p, char *q)
     }
     ((struct Obj08259 *)q)->f80 = (void *)func_021BE11C(p);
     ((struct Obj08259 *)q)->f0 = 10;
-    if (func_0204B98C(((struct Obj08259 *)q)->f98) == 0)
-        func_0204B878(((struct Obj08259 *)q)->f98, 15);
+    if (CLACT_IsActorAnimActive(((struct Obj08259 *)q)->f98) == 0)
+        CLACT_SetActorAnimSeq(((struct Obj08259 *)q)->f98, 15);
 }

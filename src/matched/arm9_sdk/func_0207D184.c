@@ -1,5 +1,5 @@
 /*
- * function: func_0207D184
+ * function: FX_AcosIdx
  * address:  0x0207D184
  * packet:   pkt_0207D184
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 extern const fx16 FX_SinCosTable_[];
 
-u16 func_0207D184(fx32 x)
+u16 FX_AcosIdx(fx32 x)
 {
     int left, right, mid;
     fx16 value;

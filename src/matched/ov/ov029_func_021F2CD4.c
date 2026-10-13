@@ -1,5 +1,5 @@
 /*
- * function: func_021F2CD4
+ * function: C_GEAR_NoOp
  * address:  0x021F2CD4
  * packet:   pkt_ov029_021F2CD4
  * region:   ov029
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * Unlabelled empty callback (bx lr), printed as a pool word; its only
- * referrer is the pool word in func_021F29D8, which it blocks.
+ * referrer is the pool word in C_GEAR_HandleCommand, which it blocks.
  */
 
-void func_021F2CD4(void)
+void C_GEAR_NoOp(void)
 {
 }

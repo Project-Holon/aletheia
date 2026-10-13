@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFA4
+ * function: BTL_HANDLER_ITEM_DisablePokeFactors
  * address: 0x021DCFA4
  * packet: pkt_ov093_021DCFA4
  * region: ov093
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D7404 0x021D7404 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_EVENT_DisablePokeFactors 0x021D7404 thumb ov093
  */
 typedef unsigned char u8;
-extern u8 func_021D5440(u8 *p);
-extern void func_021D7404(unsigned int,int);
-void func_021DCFA4(void *p) { func_021D7404(func_021D5440(p),5); }
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_EVENT_DisablePokeFactors(unsigned int,int);
+void BTL_HANDLER_ITEM_DisablePokeFactors(void *p) { BTL_EVENT_DisablePokeFactors(BTL_POKEPARAM_GetPokeId(p),5); }

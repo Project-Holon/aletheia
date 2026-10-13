@@ -1,7 +1,7 @@
 /*
  * file:     unit_0207B598.c
  * unit:     yes
- * function: func_0207B598, func_0207B5C0, MTX_Scale43_, func_0207B60C, func_0207B640, func_0207B65C, func_0207B67C, func_0207B9F0, func_0207BC08, func_0207BCA0
+ * function: func_0207B598, func_0207B5C0, MTX_Scale43_, func_0207B60C, func_0207B640, MTX_RotAxis43, func_0207B67C, func_0207B9F0, MTX_MultVec43, func_0207BCA0
  * address:  0x0207B598
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -139,7 +139,7 @@ extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
 void MTX_RotAxis43(void *m, void *v);
 int MTX_Inverse43(const MtxFx43 *pSrc, MtxFx43 *pDst);
 void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);
-void func_0207BC08(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
+void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
 void func_0207BCA0(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
 
 void MTX_RotAxis43(void *m, void *v)
@@ -281,7 +281,7 @@ void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab)
 /*
  * sdk:      MTX_MultVec43 (libfx.TWL.HYB.a fx_mtx43.o)
  */
-void func_0207BC08(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst)
+void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst)
 {
     fx32 x = vec->x;
     fx32 y = vec->y;

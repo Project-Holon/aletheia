@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
- *   func_02051C88  0x02051C88  arm
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   func_021D4C4C  0x021D4C4C  thumb
  *
  * Addresses are Black-image addresses.
@@ -20,15 +20,15 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 typedef signed int     s32;
 struct Ctx;
-extern s32 func_02051C88(struct Ctx *c);
+extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 extern void func_021D4C4C(char *);
 
 void func_021D4CA0(char *p)
 {
-    if (func_020221A4() != 0)
-        func_02051C88(((struct Obj05360 *)p)->f20);
+    if (WIPE_SYS_EndCheck() != 0)
+        BUTTON_MAN_UpdateSlots(((struct Obj05360 *)p)->f20);
     func_021D4C4C(p);
 }

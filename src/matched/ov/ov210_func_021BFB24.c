@@ -9,15 +9,15 @@
  * status: EXACT*
  * trailing: 2-byte zero alignment padding at 021BFB8A before owned 021BFB8C.
  * symbols:
- *   func_021B93B8 0x021B93B8 thumb ov067
+ *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb ov067
  *   func_021BFA14 0x021BFA14 thumb ov210
  */
 #include "../include/Obj25631.h"
-extern int func_021B93B8(char *);
+extern int FRAME_LIST_GetScrollPos(char *);
 extern void func_021BFA14(char *p, int y, int flag);
 void func_021BFB24(char *ctx)
 {
-    unsigned center = func_021B93B8(*(char * *)&((struct Obj25631 *)ctx)->f1E0);
+    unsigned center = FRAME_LIST_GetScrollPos(*(char * *)&((struct Obj25631 *)ctx)->f1E0);
     int index = (*(unsigned char ***)(ctx))[2][6];
     signed short lower = index - 4;
     signed short upper = index + 4;

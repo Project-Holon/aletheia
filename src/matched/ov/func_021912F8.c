@@ -1,5 +1,5 @@
 /*
- * function: func_021912F8
+ * function: FIELD_MSGBG_WaitTalkWinClose
  * address:  0x021912F8
  * packet:   pkt_021912F8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02194960  0x02194960  thumb  ov021
+ *   TALKMSGWIN_IsFree  0x02194960  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02082BCC(u32, u32, u32);
-extern u32 func_02194960(u32, u32, u32, u32);
+extern u32 TALKMSGWIN_IsFree(u32, u32, u32, u32);
 
-int func_021912F8(u32 a, u32 b, u32 c, u32 d)
+int FIELD_MSGBG_WaitTalkWinClose(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02194960(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8, *(u8 *)((u8 *)(a) + 1), c, d) != 0) {
+if (TALKMSGWIN_IsFree(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8, *(u8 *)((u8 *)(a) + 1), c, d) != 0) {
     func_02082BCC(a, 0, 52);
     return 1;
 }

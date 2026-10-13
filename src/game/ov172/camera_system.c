@@ -43,9 +43,9 @@
  *   MI_Camera_NDmaRecvAsync  0x0272FE54  arm
  *   func_02034FB8 0x02034FB8 arm
  *   func_020307B0 0x020307B0 arm
- *   func_020490A8 0x020490A8 arm
+ *   ARC_TOOL_GetMemberSize 0x020490A8 arm
  *   GFL_NET_AllocAligned 0x0203D7C8 arm
- *   func_02048F4C 0x02048F4C arm
+ *   ARC_TOOL_ReadMember 0x02048F4C arm
  *   func_020862F0 0x020862F0 arm
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   CAMERA_SizeToWidthCore  0x02702364  arm
@@ -139,9 +139,9 @@ void DSPi_OpenStaticComponentG711Core(void *);
 int DSPi_LoadG711Core(void *, int, int);
 extern void func_02034FB8(u32 v);
 extern u32 func_020307B0(void *p);
-extern u32 func_020490A8(u32 a, u32 b);
+extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 extern void func_020862F0(void *, u32);
 extern void GFL_NET_FreeAligned(void *p);
 extern u32 CAMERA_I2CSizeExCore(u32 a, u32 b, u32 c);
@@ -369,10 +369,10 @@ void func_021B657C(Camera *obj, int mode)
     if (mode != 1) which = 1;
     func_021B65C4(p);
     which = (u16)which;
-    size = func_020490A8(0xD4, which);
+    size = ARC_TOOL_GetMemberSize(0xD4, which);
     p->bufSize = size;
     p->buf = GFL_NET_AllocAligned(p->heapId, size, d_021C71C0, 0x13B);
-    func_02048F4C(p->buf, 0xD4, which);
+    ARC_TOOL_ReadMember(p->buf, 0xD4, which);
     func_020862F0(p->buf, p->bufSize);
 }
 

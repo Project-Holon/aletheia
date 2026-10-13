@@ -1,5 +1,5 @@
 /*
- * function: func_0216DFAC
+ * function: FLDMMDL_DeleteMoveTcb
  * address:  0x0216DFAC
  * packet:   pkt_0216DFAC
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int func_02030EAC();
 
-int func_0216DFAC(int a0)
+int FLDMMDL_DeleteMoveTcb(int a0)
 {
     int t4;
 

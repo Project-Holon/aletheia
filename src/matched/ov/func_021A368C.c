@@ -1,5 +1,5 @@
 /*
- * function: func_021A368C
+ * function: FIELD_PLAYER_ResetNogrid
  * address:  0x021A368C
  * packet:   pkt_021A368C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0xc.
  *
  * symbols:
- *   func_021A5964  0x021A5964  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_ClearRailWork  0x021A5964  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A5964(u32 *p);
+extern void FIELD_PLAYER_NOGRID_ClearRailWork(u32 *p);
 
-void func_021A368C(u8 *p)
+void FIELD_PLAYER_ResetNogrid(u8 *p)
 {
-    func_021A5964((u32 *)(((struct Obj18025 *)p)->fC));
+    FIELD_PLAYER_NOGRID_ClearRailWork((u32 *)(((struct Obj18025 *)p)->fC));
 }

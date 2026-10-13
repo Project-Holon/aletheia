@@ -1,5 +1,5 @@
 /*
- * function: func_021B70F4
+ * function: YESNO_MENU_Start
  * address:  0x021B70F4
  * packet:   pkt_ov067_021B70F4
  * region:   ov067
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B76C8  0x021B76C8  thumb  ov067
+ *   YESNO_MENU_GetButtonPos  0x021B76C8  thumb  ov067
  *   func_0204B404  0x0204B404  arm
- *   func_021B7718  0x021B7718  thumb  ov067
+ *   YESNO_MENU_CopyPalette  0x021B7718  thumb  ov067
  *   func_02040588  0x02040588  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_0201D304  0x0201D304  thumb
- *   func_0201C724  0x0201C724  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020355C4  0x020355C4  arm
@@ -63,9 +63,9 @@ typedef struct {
     u16 y;
 } Pt;
 
-extern u8 func_021B76C8(u32 a, u32 b, u32 c);
+extern u8 YESNO_MENU_GetButtonPos(u32 a, u32 b, u32 c);
 extern void func_0204B404(int h, Pt *pt, u16 v);
-extern void func_021B7718(int which, int idx, void *data);
+extern void YESNO_MENU_CopyPalette(int which, int idx, void *data);
 extern void func_02040588(unsigned char which, unsigned char enable);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -73,12 +73,12 @@ struct Cfg;
 struct CharBuf;
 struct PrintSys;
 struct StrObj;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern u8 func_020355C4(void);
@@ -87,7 +87,7 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 
-void func_021B70F4(struct S *s, u32 a1, u32 a2)
+void YESNO_MENU_Start(struct S *s, u32 a1, u32 a2)
 {
     Pt pt;
     u8 i;
@@ -98,33 +98,33 @@ void func_021B70F4(struct S *s, u32 a1, u32 a2)
     s->f9c = 2;
     s->fC0 = 0;
     for (i = 0; i < 4; i++) {
-        pt.x = func_021B76C8(s->fC0, i, 0);
-        pt.y = func_021B76C8(s->fC0, i, 1);
+        pt.x = YESNO_MENU_GetButtonPos(s->fC0, i, 0);
+        pt.y = YESNO_MENU_GetButtonPos(s->fC0, i, 1);
         func_0204B404(s->arrA0[i], &pt, s->f1C);
     }
-    func_021B7718(s->f10, s->f16, s->f22);
-    func_021B7718(s->f10, s->f17, s->f22);
+    YESNO_MENU_CopyPalette(s->f10, s->f16, s->f22);
+    YESNO_MENU_CopyPalette(s->f10, s->f17, s->f22);
     func_02040588(s->f14, 1);
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f88)), 0);
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f8c)), 0);
+    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f88)), 0);
+    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)s->f8c)), 0);
     t = func_0201D304((struct StrObj *)a1, s->f8, 0);
-    func_0201C724((void *)s->fC, (int)func_02045770((struct Descriptor *)s->f88), (s16)((u16)((0x100 - t) / 2)), (s16)0x10, a1, s->f8, 0x3c40);
+    PRINTSYS_PrintQueColor((void *)s->fC, (int)func_02045770((struct Descriptor *)s->f88), (s16)((u16)((0x100 - t) / 2)), (s16)0x10, a1, s->f8, 0x3c40);
     t = func_0201D304((struct StrObj *)a2, s->f8, 0);
-    func_0201C724((void *)s->fC, (int)func_02045770((struct Descriptor *)s->f8c), (s16)((u16)((0x100 - t) / 2)), (s16)0x10, a2, s->f8, 0x3c40);
+    PRINTSYS_PrintQueColor((void *)s->fC, (int)func_02045770((struct Descriptor *)s->f8c), (s16)((u16)((0x100 - t) / 2)), (s16)0x10, a2, s->f8, 0x3c40);
     s->f90 = 0;
     s->f94 = 0;
     func_02040588(s->f18, 1);
     if (s->f90 == 0 && func_0201C6C4((struct PrintSys *)s->fC, (void *)((int)func_02045770((struct Descriptor *)s->f88))) == 0) {
         p = s->f88;
-        func_02045334((struct Descriptor *)p);
-        func_02045374((struct Cfg *)p);
+        BMP_WIN_TransferChars((struct Descriptor *)p);
+        BMP_WIN_MakeScreen((struct Cfg *)p);
         func_02041B6C(func_02045730((struct Descriptor *)p));
         s->f90 = 1;
     }
     if (s->f94 == 0 && func_0201C6C4((struct PrintSys *)s->fC, (void *)((int)func_02045770((struct Descriptor *)s->f8c))) == 0) {
         p = s->f8c;
-        func_02045334((struct Descriptor *)p);
-        func_02045374((struct Cfg *)p);
+        BMP_WIN_TransferChars((struct Descriptor *)p);
+        BMP_WIN_MakeScreen((struct Cfg *)p);
         func_02041B6C(func_02045730((struct Descriptor *)p));
         s->f94 = 1;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021754B4
+ * function: INTRUDE_COMM_GetActiveRequestTarget
  * address: 0x021754B4
  * packet: pkt_ov011_021754B4
  * region: ov011
@@ -12,7 +12,7 @@
 #include "../include/Obj07331.h"
 typedef unsigned char u8;
 typedef struct { u8 low : 4; u8 flag : 1; u8 high : 3; } Flags;
-int func_021754B4(u8 *p, int *out)
+int INTRUDE_COMM_GetActiveRequestTarget(u8 *p, int *out)
 {
     int value;
     if (p == 0 || ((struct Obj07331 *)p)->f8 == 0) return 0;

@@ -12,7 +12,7 @@
  *   keeps the zero arm first and joins the one arm with the initial path.
  * symbols:
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_021C65A8 0x021C65A8 thumb ov136
  *   func_021C660C 0x021C660C thumb ov136
@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u8 d_021C7BBC[];
 extern void func_020434DC(u32, u32);
-extern void func_02043598(u32, u32);
+extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void func_021C6738(u8 *);
 extern void func_021C65A8(u8 *);
 extern void func_021C67D4(u8 *);
@@ -49,7 +49,7 @@ void func_021C64A8(u8 *p)
     int k;
     u8 *q;
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
     for (i = 0; i < 8; i++) {
         *(u32 *)(*(u8 **)(p + 8) + i * 4 + 0x210) = 0;
         *(u32 *)(*(u8 **)(p + 8) + i * 4 + 0x230) = 0;

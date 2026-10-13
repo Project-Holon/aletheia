@@ -1,5 +1,5 @@
 /*
- * function: func_021A6A8C
+ * function: FIELD_PLAYER_NOGRID_ForcedSlideFaceRight
  * address:  0x021A6A8C
  * packet:   pkt_ov021_021A6A8C
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A6908  0x021A6908  thumb
- *   func_021A6774  0x021A6774  thumb
+ *   FIELD_PLAYER_NOGRID_ForcedSlide  0x021A6908  thumb
+ *   FIELD_PLAYER_NOGRID_SetFaceRight  0x021A6774  thumb
  */
 
 typedef struct S S;
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_021A6908(u8 *p, u32 a1);
-extern void func_021A6774(void *a);
+extern u32 FIELD_PLAYER_NOGRID_ForcedSlide(u8 *p, u32 a1);
+extern void FIELD_PLAYER_NOGRID_SetFaceRight(void *a);
 
-int func_021A6A8C(S *a, int b, int c)
+int FIELD_PLAYER_NOGRID_ForcedSlideFaceRight(S *a, int b, int c)
 {
-    int r = func_021A6908((u8 *)a, b);
-    func_021A6774(a);
+    int r = FIELD_PLAYER_NOGRID_ForcedSlide((u8 *)a, b);
+    FIELD_PLAYER_NOGRID_SetFaceRight(a);
     return r;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F38D0
+ * function: GIMMICK65_WaitEffectEventMain
  * address:  0x021F38D0
  * packet:   pkt_021F38D0
  * region:   ov065
@@ -14,23 +14,23 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_021897BC  0x021897BC  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb
  */
 
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int *func_021897BC(char *, int);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int *FIELDMAP_GetCommonWork(char *, int);
 
-int func_021F38D0(void *task)
+int GIMMICK65_WaitEffectEventMain(void *task)
 {
     void *a;
     int r;
-    a = func_0201210C(func_020124E4(task));
+    a = GAMESYSTEM_GetFieldMap(func_020124E4(task));
     r = 1;
-    if (*func_021897BC(a, 1) != 0)
+    if (*FIELDMAP_GetCommonWork(a, 1) != 0)
         r = 0;
     return r;
 }

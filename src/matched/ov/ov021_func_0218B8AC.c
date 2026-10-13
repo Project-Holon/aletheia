@@ -1,5 +1,5 @@
 /*
- * function: func_0218B8AC
+ * function: FIELD_BUILDMODEL_LoadArea
  * address:  0x0218B8AC
  * packet:   pkt_ov021_0218B8AC
  * region:   ov021
@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_02013B38  0x02013B38  thumb
- *   func_0218BC1C  0x0218BC1C  thumb
+ *   FIELD_BUILDMODEL_GetArchiveMemberIndex  0x0218BC1C  thumb
  *   func_020140D8  0x020140D8  thumb
- *   func_0218BB0C  0x0218BB0C  thumb
- *   func_0218BC40  0x0218BC40  thumb
- *   func_0218BB78  0x0218BB78  thumb
- *   func_0218BD28  0x0218BD28  thumb
- *   func_0218BDD8  0x0218BDD8  thumb
+ *   FIELD_BUILDMODEL_LoadModelArchive  0x0218BB0C  thumb
+ *   FIELD_BUILDMODEL_CreateG3dResources  0x0218BC40  thumb
+ *   FIELD_BUILDMODEL_BuildTableIndex  0x0218BB78  thumb
+ *   FIELD_BUILDMODEL_CreateModels  0x0218BD28  thumb
+ *   FIELD_BUILDMODEL_CreateAnimSets  0x0218BDD8  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -27,22 +27,22 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sub020140BCObj;
 extern u32 func_02013B38(u32 id);
-extern unsigned short func_0218BC1C(int x);
+extern unsigned short FIELD_BUILDMODEL_GetArchiveMemberIndex(int x);
 extern u8 func_020140D8(struct Sub020140BCObj *p);
-extern void func_0218BB0C(u8 *s, u16 a, u32 n);
-extern void func_0218BC40(unsigned char *p, int a, int b, int c);
-extern void func_0218BB78(u8 *s, int k);
-extern void func_0218BD28(char *p, int c);
-extern void func_0218BDD8(u8 *s, u32 *out);
+extern void FIELD_BUILDMODEL_LoadModelArchive(u8 *s, u16 a, u32 n);
+extern void FIELD_BUILDMODEL_CreateG3dResources(unsigned char *p, int a, int b, int c);
+extern void FIELD_BUILDMODEL_BuildTableIndex(u8 *s, int k);
+extern void FIELD_BUILDMODEL_CreateModels(char *p, int c);
+extern void FIELD_BUILDMODEL_CreateAnimSets(u8 *s, u32 *out);
 
-void func_0218B8AC(char *p, int a, int b, int c)
+void FIELD_BUILDMODEL_LoadArea(char *p, int a, int b, int c)
 {
     void *s;
     int k1;
     int k2;
     int k3;
 
-    s = (void *)func_0218BC1C(func_02013B38(a));
+    s = (void *)FIELD_BUILDMODEL_GetArchiveMemberIndex(func_02013B38(a));
     if (func_020140D8((struct Sub020140BCObj *)b)) {
         k1 = 0xE5;
         k2 = 0xB0;
@@ -52,9 +52,9 @@ void func_0218B8AC(char *p, int a, int b, int c)
         k2 = 0xB1;
         k3 = 0x14;
     }
-    func_0218BB0C((u8 *)p, k1, (u32)s);
-    func_0218BC40((unsigned char *)p, (u16)k2, (int)s, c);
-    func_0218BB78((u8 *)p, k3);
-    func_0218BD28(p, c);
-    func_0218BDD8((u8 *)p, (u32 *)(p + 0x1B0));
+    FIELD_BUILDMODEL_LoadModelArchive((u8 *)p, k1, (u32)s);
+    FIELD_BUILDMODEL_CreateG3dResources((unsigned char *)p, (u16)k2, (int)s, c);
+    FIELD_BUILDMODEL_BuildTableIndex((u8 *)p, k3);
+    FIELD_BUILDMODEL_CreateModels(p, c);
+    FIELD_BUILDMODEL_CreateAnimSets((u8 *)p, (u32 *)(p + 0x1B0));
 }

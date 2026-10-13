@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD20
+ * function: ENTRANCE_CAMERA_Start
  * address:  0x021BDD20
  * packet:   pkt_ov021_021BDD20
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE1C4  0x021BE1C4  thumb  ov021
- *   func_0218FF00  0x0218FF00  thumb  ov021
+ *   ENTRANCE_CAMERA_IsPhaseActive  0x021BE1C4  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Start  0x0218FF00  thumb  ov021
  */
 
 typedef struct {
@@ -20,12 +20,12 @@ typedef struct {
 } Obj;
 
 typedef unsigned int   u32;
-extern int func_021BE1C4(u32 a);
-extern int func_0218FF00(u32 a);
+extern int ENTRANCE_CAMERA_IsPhaseActive(u32 a);
+extern int FIELD_CAMERA_ANIME_Start(u32 a);
 
-void func_021BDD20(Obj *p)
+void ENTRANCE_CAMERA_Start(Obj *p)
 {
-    if (func_021BE1C4((u32)p)) {
-        func_0218FF00((u32)p->f54);
+    if (ENTRANCE_CAMERA_IsPhaseActive((u32)p)) {
+        FIELD_CAMERA_ANIME_Start((u32)p->f54);
     }
 }

@@ -12,10 +12,10 @@
  *   func_021C87B0 0x021C87B0 thumb ov093
  *   func_021C87C0 0x021C87C0 thumb ov093
  *   func_021C87D0 0x021C87D0 thumb ov093
- *   func_021C87E0 0x021C87E0 thumb ov093
+ *   PLEASURE_BOAT_GetTimeEvent 0x021C87E0 thumb ov093
  *   func_021C87F0 0x021C87F0 thumb ov093
  *   func_021C8800 0x021C8800 thumb ov093
- *   func_021BD1E0 0x021BD1E0 thumb ov093
+ *   BTL_SERVER_FLOW_InitTurnState 0x021BD1E0 thumb ov093
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj00294.h"
@@ -31,10 +31,10 @@ extern void func_021C87A0(void *);
 extern void func_021C87B0(void *);
 extern void func_021C87C0(void *);
 extern void func_021C87D0(void *);
-extern void func_021C87E0(void *);
+extern void PLEASURE_BOAT_GetTimeEvent(void *);
 extern void func_021C87F0(void *);
 extern void func_021C8800(void *);
-extern void func_021BD1E0(struct Unk021BD1E0 *);
+extern void BTL_SERVER_FLOW_InitTurnState(struct Unk021BD1E0 *);
 extern void func_02082BCC(void *, int, u32);
 
 void func_021C85D4(u8 *p, int index, int clear)
@@ -63,10 +63,10 @@ void func_021C85D4(u8 *p, int index, int clear)
         func_021C87B0(((struct Obj00294 *)p)->f854);
         func_021C87C0(((struct Obj00294 *)p)->f858);
         func_021C87D0(((struct Obj00294 *)p)->f85C);
-        func_021C87E0(((struct Obj00294 *)p)->f860);
+        PLEASURE_BOAT_GetTimeEvent(((struct Obj00294 *)p)->f860);
         func_021C87F0(((struct Obj00294 *)p)->f864);
         func_021C8800(((struct Obj00294 *)p)->f868);
-        func_021BD1E0(*(struct Unk021BD1E0 * *)&((struct Obj00294 *)p)->f4A8);
+        BTL_SERVER_FLOW_InitTurnState(*(struct Unk021BD1E0 * *)&((struct Obj00294 *)p)->f4A8);
         func_02082BCC(((struct Obj00294 *)p)->f1AB0, 0, 0x14);
         func_02082BCC(((struct Obj00294 *)p)->f1AB4, 0, 0x14);
         func_02082BCC(((struct Obj00294 *)p)->f4B4, 0, 6);

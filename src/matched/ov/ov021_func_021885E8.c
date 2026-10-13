@@ -1,5 +1,5 @@
 /*
- * function: func_021885E8
+ * function: FIELDMAP_SeqStart
  * address:  0x021885E8
  * packet:   pkt_ov021_021885E8
  * region:   ov021
@@ -10,38 +10,38 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218CA78  0x0218CA78  thumb  ov021
- *   func_0216CD64  0x0216CD64  thumb  ov010
- *   func_0219C624  0x0219C624  thumb  ov021
- *   func_0219C630  0x0219C630  thumb  ov021
- *   func_021A1B50  0x021A1B50  thumb  ov021
- *   func_021A1AF4  0x021A1AF4  thumb  ov021
- *   func_02189004  0x02189004  thumb  ov021
- *   func_02189084  0x02189084  thumb  ov021
- *   func_021890AC  0x021890AC  thumb  ov021
- *   func_0204A600  0x0204A600  arm
- *   func_021903E0  0x021903E0  thumb  ov021
- *   func_021ABE04  0x021ABE04  thumb  ov021
- *   func_021BB948  0x021BB948  thumb  ov021
- *   func_02012B38  0x02012B38  thumb
+ *   FIELD_G3D_MAPPER_UpdateBlocking  0x0218CA78  thumb  ov021
+ *   FLDMMDL_UpdateSysProc  0x0216CD64  thumb  ov010
+ *   FLDMMDL_BLACT_RegisterLoadedRes  0x0219C624  thumb  ov021
+ *   FLDMMDL_BLACT_IsReservePending  0x0219C630  thumb  ov021
+ *   WEATHER_IsTaskActive  0x021A1B50  thumb  ov021
+ *   WEATHER_Update  0x021A1AF4  thumb  ov021
+ *   FIELDMAP_UpdateG3d  0x02189004  thumb  ov021
+ *   FIELDMAP_DrawStart  0x02189084  thumb  ov021
+ *   FIELDMAP_DrawEnd  0x021890AC  thumb  ov021
+ *   CLACT_DrawSystem  0x0204A600  arm
+ *   FIELD_MSGBG_Main  0x021903E0  thumb  ov021
+ *   FIELD_EFFECT_Update  0x021ABE04  thumb  ov021
+ *   FIELD_SUBPROC_MGR_RunUpdate  0x021BB948  thumb  ov021
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   func_02014460  0x02014460  thumb
- *   func_02189B04  0x02189B04  thumb  ov021
+ *   FIELDMAP_IsLoaderWaitZone  0x02189B04  thumb  ov021
  *   func_02005C64  0x02005C64  thumb
  *   func_02014458  0x02014458  thumb
- *   func_02158AC8  0x02158AC8  thumb  ov010
+ *   SCRIPT_SYS_RunFieldInitScript  0x02158AC8  thumb  ov010
  *   func_02014454  0x02014454  thumb
- *   func_02158AD4  0x02158AD4  thumb  ov010
+ *   SCRIPT_SYS_RunFieldRecoverScript  0x02158AD4  thumb  ov010
  *   func_0201445C  0x0201445C  thumb
  *   func_02013CC8  0x02013CC8  thumb
  *   func_02013CE0  0x02013CE0  thumb
- *   func_02188CF0  0x02188CF0  thumb  ov021
+ *   FIELDMAP_GetCtrlType  0x02188CF0  thumb  ov021
  *   func_0201209C  0x0201209C  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_020129DC  0x020129DC  thumb
- *   func_0218A0E4  0x0218A0E4  thumb  ov021
- *   func_0218A240  0x0218A240  thumb  ov021
- *   func_0218A4BC  0x0218A4BC  thumb  ov021
- *   func_0218A074  0x0218A074  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_SetWalkCountEnable  0x020129DC  thumb
+ *   FIELD_EVENT_CHECK_CheckCommEvents  0x0218A0E4  thumb  ov021
+ *   FIELD_EVENT_CHECK_RunRail  0x0218A240  thumb  ov021
+ *   FIELD_EVENT_CHECK_Run  0x0218A4BC  thumb  ov021
+ *   FIELD_EVENT_CHECK_RunGrid  0x0218A074  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00611.h"
@@ -52,87 +52,87 @@ typedef unsigned int   u32;
 
 struct BigObj;
 struct Obj;
-extern void func_0218CA78(char *p);
-extern int func_0216CD64(int a0);
-extern int func_0219C624(void *p);
-extern int func_0219C630(void *p);
-extern int func_021A1B50(u32 a);
-extern void func_021A1AF4(u8 *p, int x);
-extern void func_02189004(u8 *p);
-extern void func_02189084(u8 *p);
-extern void func_021890AC(u8 *p);
-extern void func_0204A600(void);
-extern void func_021903E0(struct Obj *o);
-extern void func_021ABE04(u32 a);
-extern void func_021BB948(u8 *p);
-extern void *func_02012B38(const struct BigObj *p);
+extern void FIELD_G3D_MAPPER_UpdateBlocking(char *p);
+extern int FLDMMDL_UpdateSysProc(int a0);
+extern int FLDMMDL_BLACT_RegisterLoadedRes(void *p);
+extern int FLDMMDL_BLACT_IsReservePending(void *p);
+extern int WEATHER_IsTaskActive(u32 a);
+extern void WEATHER_Update(u8 *p, int x);
+extern void FIELDMAP_UpdateG3d(u8 *p);
+extern void FIELDMAP_DrawStart(u8 *p);
+extern void FIELDMAP_DrawEnd(u8 *p);
+extern void CLACT_DrawSystem(void);
+extern void FIELD_MSGBG_Main(struct Obj *o);
+extern void FIELD_EFFECT_Update(u32 a);
+extern void FIELD_SUBPROC_MGR_RunUpdate(u8 *p);
+extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 struct Ctx;
 struct Sub02014444Obj;
 extern u8 func_02014460(struct Sub02014444Obj *o);
-extern int func_02189B04(int x);
+extern int FIELDMAP_IsLoaderWaitZone(int x);
 extern int func_02005C64(void);
 extern u8 func_02014458(struct Sub02014444Obj *o);
-extern void func_02158AC8(int a, int b);
+extern void SCRIPT_SYS_RunFieldInitScript(int a, int b);
 extern void func_02014454(struct Sub02014444Obj *o, u8 v);
-extern void func_02158AD4(int a, int b);
+extern void SCRIPT_SYS_RunFieldRecoverScript(int a, int b);
 extern void func_0201445C(struct Sub02014444Obj *o, u8 v);
 extern u32 func_02013CC8(u32 id);
 extern u32 func_02013CE0(u32 id);
-extern int func_02188CF0(u32 a);
+extern int FIELDMAP_GetCtrlType(u32 a);
 extern void func_0201209C(void *o, u32 v1, u32 v2);
-extern void *func_020120F4(const struct Ctx *p);
-extern void func_020129DC(struct BigObj *p, u8 v);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void GAME_DATA_SetWalkCountEnable(struct BigObj *p, u8 v);
 struct Obj00020;
-extern int func_0218A0E4(void *sys, struct Obj00020 *pos);
-extern int func_0218A240(void *p, struct Obj00020 *pos);
-extern int func_0218A4BC(u32 a, u32 b, u32 c, u32 d);
-extern int func_0218A074(void *a, int b);
+extern int FIELD_EVENT_CHECK_CheckCommEvents(void *sys, struct Obj00020 *pos);
+extern int FIELD_EVENT_CHECK_RunRail(void *p, struct Obj00020 *pos);
+extern int FIELD_EVENT_CHECK_Run(u32 a, u32 b, u32 c, u32 d);
+extern int FIELD_EVENT_CHECK_RunGrid(void *a, int b);
 
-int func_021885E8(void *a, u8 *p)
+int FIELDMAP_SeqStart(void *a, u8 *p)
 {
     switch (p[0xC8]) {
     case 0:
-        func_0218CA78((char *)(((struct Obj00611 *)p)->f48));
+        FIELD_G3D_MAPPER_UpdateBlocking((char *)(((struct Obj00611 *)p)->f48));
         if (((struct Obj00611 *)p)->f38 != 0) {
             do {
-                func_0216CD64(((struct Obj00611 *)p)->f38);
-                func_0219C624((void *)(((struct Obj00611 *)p)->f38));
-            } while (func_0219C630((void *)(((struct Obj00611 *)p)->f38)) == 1);
+                FLDMMDL_UpdateSysProc(((struct Obj00611 *)p)->f38);
+                FLDMMDL_BLACT_RegisterLoadedRes((void *)(((struct Obj00611 *)p)->f38));
+            } while (FLDMMDL_BLACT_IsReservePending((void *)(((struct Obj00611 *)p)->f38)) == 1);
         }
-        while (func_021A1B50(((struct Obj00611 *)p)->f20) != 0)
-            func_021A1AF4((u8 *)(((struct Obj00611 *)p)->f20), 0x92);
-        func_02189004(p);
-        func_02189084(p);
-        func_021890AC(p);
-        func_0204A600();
+        while (WEATHER_IsTaskActive(((struct Obj00611 *)p)->f20) != 0)
+            WEATHER_Update((u8 *)(((struct Obj00611 *)p)->f20), 0x92);
+        FIELDMAP_UpdateG3d(p);
+        FIELDMAP_DrawStart(p);
+        FIELDMAP_DrawEnd(p);
+        CLACT_DrawSystem();
         if (((struct Obj00611 *)p)->f28 != 0)
-            func_021903E0((struct Obj *)(((struct Obj00611 *)p)->f28));
-        func_021ABE04(((struct Obj00611 *)p)->f94);
-        func_021BB948((u8 *)(((struct Obj00611 *)p)->fBC));
+            FIELD_MSGBG_Main((struct Obj *)(((struct Obj00611 *)p)->f28));
+        FIELD_EFFECT_Update(((struct Obj00611 *)p)->f94);
+        FIELD_SUBPROC_MGR_RunUpdate((u8 *)(((struct Obj00611 *)p)->fBC));
         p[0xC8]++;
     case 1:
-        if (func_02014460(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8))) == 1
-            && func_02189B04(((struct Obj00611 *)p)->fD0) == 1
+        if (func_02014460(GAME_DATA_GetMoveModelSys((const struct BigObj *)(((struct Obj00611 *)p)->f8))) == 1
+            && FIELDMAP_IsLoaderWaitZone(((struct Obj00611 *)p)->fD0) == 1
             && func_02005C64() != 0)
             return 0;
-        if (func_02014458(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8))) != 0) {
-            func_02158AC8(((struct Obj00611 *)p)->f4, ((struct Obj00611 *)p)->f0);
-            func_02014454(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
+        if (func_02014458(GAME_DATA_GetMoveModelSys((const struct BigObj *)(((struct Obj00611 *)p)->f8))) != 0) {
+            SCRIPT_SYS_RunFieldInitScript(((struct Obj00611 *)p)->f4, ((struct Obj00611 *)p)->f0);
+            func_02014454(GAME_DATA_GetMoveModelSys((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
         } else {
-            func_02158AD4(((struct Obj00611 *)p)->f4, ((struct Obj00611 *)p)->f0);
+            SCRIPT_SYS_RunFieldRecoverScript(((struct Obj00611 *)p)->f4, ((struct Obj00611 *)p)->f0);
         }
-        func_0201445C(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
-        func_0218CA78((char *)(((struct Obj00611 *)p)->f48));
+        func_0201445C(GAME_DATA_GetMoveModelSys((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
+        FIELD_G3D_MAPPER_UpdateBlocking((char *)(((struct Obj00611 *)p)->f48));
         if (func_02013CC8(((struct Obj00611 *)p)->fD0) == 1 || func_02013CE0(((struct Obj00611 *)p)->fD0) == 1)
-            func_0201209C(a, (u32)func_0218A0E4, (u32)p);
-        else if (func_02188CF0((u32)p) == 1)
-            func_0201209C(a, (u32)func_0218A240, (u32)p);
-        else if (func_02188CF0((u32)p) == 2)
-            func_0201209C(a, (u32)func_0218A4BC, (u32)p);
+            func_0201209C(a, (u32)FIELD_EVENT_CHECK_CheckCommEvents, (u32)p);
+        else if (FIELDMAP_GetCtrlType((u32)p) == 1)
+            func_0201209C(a, (u32)FIELD_EVENT_CHECK_RunRail, (u32)p);
+        else if (FIELDMAP_GetCtrlType((u32)p) == 2)
+            func_0201209C(a, (u32)FIELD_EVENT_CHECK_Run, (u32)p);
         else
-            func_0201209C(a, (u32)func_0218A074, (u32)p);
+            func_0201209C(a, (u32)FIELD_EVENT_CHECK_RunGrid, (u32)p);
         ((struct Obj00611 *)p)->fC0 = 1;
-        func_020129DC(func_020120F4(a), 1);
+        GAME_DATA_SetWalkCountEnable(GAMESYSTEM_GetGameData(a), 1);
         break;
     }
     return 1;

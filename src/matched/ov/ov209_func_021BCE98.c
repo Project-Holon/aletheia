@@ -11,15 +11,15 @@
  * ov067 region follows the paired loader path 021BCC94/021BCD48.
  * 021B93D4's value is full width here: original subtract feeds r1 without narrowing.
  * symbols:
- *   func_021B7AB0 0x021B7AB0 thumb ov067
+ *   FRAME_LIST_Update 0x021B7AB0 thumb ov067
  *   func_021BE5D4 0x021BE5D4 thumb ov209
  *   func_021BD890 0x021BD890 thumb ov209
  *   func_021BD2C4 0x021BD2C4 thumb ov209
  *   func_021BE4A8 0x021BE4A8 thumb ov209
  *   func_021BE658 0x021BE658 thumb ov209
- *   func_021B93A4 0x021B93A4 thumb ov067
- *   func_021B93B8 0x021B93B8 thumb ov067
- *   func_021B93D4 0x021B93D4 thumb ov067
+ *   FRAME_LIST_GetSelectedIndex 0x021B93A4 thumb ov067
+ *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb ov067
+ *   FRAME_LIST_SetCursor 0x021B93D4 thumb ov067
  *   func_021BD2F4 0x021BD2F4 thumb ov209
  *   func_021BD340 0x021BD340 thumb ov209
  *   func_021BD314 0x021BD314 thumb ov209
@@ -39,15 +39,15 @@ struct Input {u32 a;void *save;u32 b,c,state;};
 struct Context {struct Input *in;u8 pad4[0x10];u32 state;u8 pad18[0xc24-0x18];u16 flags;u8 padc26[6];void *list;};
 struct Blk37;
 struct S;
-extern int func_021B7AB0(struct S *p);
+extern int FRAME_LIST_Update(struct S *p);
 extern void func_021BE5D4(char *p, int flag);
 extern void func_021BD890(char *p, int idx, int value);
 extern int func_021BD2C4(char *p, int a, int b, int c);
 extern void func_021BE4A8(char *p);
 extern int func_021BE658(void *ctx_);
-extern int func_021B93A4(char *p);
-extern int func_021B93B8(char *p);
-extern void func_021B93D4(struct S *s, int v);
+extern int FRAME_LIST_GetSelectedIndex(char *p);
+extern int FRAME_LIST_GetScrollPos(char *p);
+extern void FRAME_LIST_SetCursor(struct S *s, int v);
 extern int func_021BD2F4(char *p, int i);
 extern int func_021BD340(char *a, int arg);
 extern void func_021BD314(char *p, int i);
@@ -65,7 +65,7 @@ int func_021BCE98(struct Context *p)
     int selected;
     u32 action;
     u8 old;
-    switch(func_021B7AB0(p->list)){
+    switch(FRAME_LIST_Update(p->list)){
     case -12: break;
     case -11:case -10:case -9:case -8:
         func_021BE5D4((char *)p,0);break;
@@ -85,36 +85,36 @@ int func_021BCE98(struct Context *p)
         action=func_021BE658(p);
         switch(action){
         case 0:
-            selected=func_021B93A4(p->list);
+            selected=FRAME_LIST_GetSelectedIndex(p->list);
             if(func_021BD2F4((char *)p,selected)==1){func_020061E4(1356);return func_021BD340((char *)p,selected);}
             func_020355D8(old);break;
         case 1:case 2:case 3:case 4:case 5:case 6:case 7:
-            selected=action+func_021B93B8(p->list)-1;
+            selected=action+FRAME_LIST_GetScrollPos(p->list)-1;
             if(func_021BD2F4((char *)p,selected)==1){
-                func_020061E4(1356);func_021B93D4(p->list,action-1);return func_021BD340((char *)p,selected);
+                func_020061E4(1356);FRAME_LIST_SetCursor(p->list,action-1);return func_021BD340((char *)p,selected);
             }break;
         case 8:
             func_020061E4(1356);p->in->state=4;
-            func_021BD314((char *)p,func_021B93A4(p->list));return func_021BD2C4((char *)p,9,4,8);
+            func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,9,4,8);
         case 9:
             func_020061E4(1356);
             if(func_0200CA70(p->in->save)==1)func_0200CA5C(p->in->save,0);else func_0200CA5C(p->in->save,1);
             p->in->state=2;
-            func_021BD314((char *)p,func_021B93A4(p->list));return func_021BD2C4((char *)p,8,5,8);
+            func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,8,5,8);
         case 10:func_020061E4(1606);func_021BD354((char *)p);break;
         case 11:
             func_020061E4(1366);p->in->state=1;
-            func_021BD314((char *)p,func_021B93A4(p->list));return func_021BD2C4((char *)p,4,8,8);
+            func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,4,8,8);
         case 12:
             func_020061E4(1361);p->in->state=0;
-            func_021BD314((char *)p,func_021B93A4(p->list));return func_021BD2C4((char *)p,3,9,8);
+            func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,3,9,8);
         case 13:
             func_020061E4(1361);p->in->state=0;
-            func_021BD314((char *)p,func_021B93A4(p->list));return func_021BD2C4((char *)p,3,9,8);
+            func_021BD314((char *)p,FRAME_LIST_GetSelectedIndex(p->list));return func_021BD2C4((char *)p,3,9,8);
         }
         break;
     default:
-        selected=func_021B93A4(p->list);func_021BE5D4((char *)p,0);
+        selected=FRAME_LIST_GetSelectedIndex(p->list);func_021BE5D4((char *)p,0);
         if(func_021BD2F4((char *)p,selected)==1){func_020061E4(1356);return func_021BD340((char *)p,selected);}
         break;
     }

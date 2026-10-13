@@ -12,7 +12,7 @@
  *   func_021B7360 0x021B7360 thumb ov174
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   d_021B7380 0x021B7380 data a1
  */
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ extern unsigned func_021B7360(unsigned char *p);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern const u8 d_021B7380[][2];
 void func_021B6704(u8 *p, int index)
 {
@@ -40,5 +40,5 @@ void func_021B6704(u8 *p, int index)
     point[1] = y;
     func_0204B404(*((void **) (p + 84)), (const struct Vec2 *)point, 0);
     func_0204B3DC(*((void **) (p + 84)), 1);
-    func_0204B9A0(*((void **) (p + 84)));
+    CLACT_RestartActorAnim(*((void **) (p + 84)));
 }

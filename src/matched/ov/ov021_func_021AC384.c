@@ -1,5 +1,5 @@
 /*
- * function: func_021AC384
+ * function: FLDEFF_SHADOW_Exit
  * address:  0x021AC384
  * packet:   pkt_ov021_021AC384
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -20,10 +23,10 @@ typedef struct H { u32 f0, f4, f8, fc, f10; } H;
 typedef struct W { u32 f0; H *h; u32 f8, fc, f10; u32 f14; } W;
 
 struct BbActSys;
-extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
+extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
 
-void func_021AC384(u32 a, W *w)
+void FLDEFF_SHADOW_Exit(u32 a, W *w)
 {
     if (w->f14 != 0xFFFF)
-        func_02050468((struct BbActSys *)w->h->f10, (u16)w->f14, 1);
+        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)w->h->f10, (u16)w->f14, 1);
 }

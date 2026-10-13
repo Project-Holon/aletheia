@@ -1,7 +1,7 @@
 /*
  * file:     union_msg.c
  * unit:     yes
- * function: func_0217EC04, func_0217EC1C, func_0217EC28, func_0217EC34, func_0217EC40, func_0217EC54, func_0217EC68, func_0217EC78, func_0217EC88, func_0217EC94, func_0217ECA0, func_0217ECAC, func_0217ECB8, func_0217ECD0, func_0217ECE8, func_0217ED04, func_0217ED10, func_0217ED2C, func_0217ED48, func_0217ED64, func_0217ED80, func_0217ED8C, func_0217ED98, func_0217EDA4, func_0217EDB0, func_0217EDBC, func_0217EDC8, func_0217EDD4, func_0217EDE0, func_0217EDEC, func_0217EDF8, func_0217EE04, func_0217EE10, func_0217EE1C, func_0217EE28, func_0217EE34, func_0217EE40, func_0217EE4C, func_0217EE90, func_0217EFE0, func_0217F020, func_0217F044, func_0217F060, func_0217F074, func_0217F098, func_0217F128, func_0217F188, func_0217F1EC, func_0217F210, func_0217F22C, func_0217F24C, func_0217F268, func_0217F2A8, func_0217F2F4, func_0217F310, func_0217F360, func_0217F378, func_0217F380, func_0217F388, func_0217F4AC, func_0217F4B4, func_0217F5E0, func_0217F624, func_0217F640, func_0217F794, func_0217F7B8, func_0217F7E4, func_0217F858, func_0217F894
+ * function: func_0217EC04, func_0217EC1C, func_0217EC28, func_0217EC34, func_0217EC40, func_0217EC54, func_0217EC68, func_0217EC78, func_0217EC88, func_0217EC94, func_0217ECA0, func_0217ECAC, func_0217ECB8, func_0217ECD0, func_0217ECE8, func_0217ED04, func_0217ED10, func_0217ED2C, func_0217ED48, func_0217ED64, func_0217ED80, func_0217ED8C, func_0217ED98, func_0217EDA4, func_0217EDB0, func_0217EDBC, func_0217EDC8, func_0217EDD4, func_0217EDE0, func_0217EDEC, func_0217EDF8, func_0217EE04, func_0217EE10, func_0217EE1C, func_0217EE28, func_0217EE34, func_0217EE40, UNION_MSG_CheckLanguageVersion, UNION_MSG_RegisterPartnerWords, UNION_MSG_SetGreetingWordFlag, UNION_MSG_CreateWordSet, UNION_MSG_DeleteWordSet, UNION_MSG_GetCategoryTableValue, UNION_MSG_CloseAllWindows, UNION_MSG_SetupTalkWindow, UNION_MSG_DeleteTalkWindow, UNION_MSG_PrintTalkMsg, UNION_MSG_CheckTalkPrintEnd, UNION_MSG_SetupPrintTalkMsg, UNION_MSG_SetupYesNo, UNION_MSG_DeleteYesNo, UNION_MSG_SelectYesNo, UNION_MSG_SetupMenu, UNION_MSG_DeleteMenu, UNION_MSG_SelectMenu, UNION_MSG_SetupMainMenu, UNION_MSG_DeleteMainMenu, UNION_MSG_SelectMainMenu, UNION_MSG_SetupSubMenu, UNION_MSG_DeleteSubMenu, UNION_MSG_SelectSubMenu, UNION_MSG_SetupTitleWindow, UNION_MSG_DeleteTitleWindow, UNION_MSG_SetupRegulationWindow, UNION_MSG_CheckRegulationPrintEnd, UNION_MSG_DeleteRegulationWindow, func_0217F7E4, func_0217F858, func_0217F894
  * address:  0x0217EC04
  * region:   ov019
  * compiler: dsi/1.1p1
@@ -14,13 +14,13 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02034714  0x02034714  arm
  *   func_02082D44  0x02082D44  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_020084F4  0x020084F4  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   d_0218031C 0x0218031C data a2
@@ -63,38 +63,38 @@
  *   d_021802FC  0x021802FC  data a2
  *   func_0200856C  0x0200856C  thumb
  *   func_02008570  0x02008570  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02045924  0x02045924  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetString  0x02045924  arm
  *   func_0201EE0C  0x0201EE0C  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_0201F048  0x0201F048  thumb
  *   func_0201F094  0x0201F094  thumb
  *   d_021807F8     0x021807F8  data  a1
- *   func_02024988  0x02024988  thumb
- *   func_020249A0  0x020249A0  thumb
+ *   PMS_WORD_GetSaveData  0x02024988  thumb
+ *   PMS_WORD_SetFlag  0x020249A0  thumb
  *   d_0218044C     0x0218044C  data
  *   func_0201EC74 0x0201EC74 thumb
  *   func_0201ED04 0x0201ED04 thumb
  *   d_021806AC 0x021806AC data a1
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_021904B0  0x021904B0  thumb  ov021
- *   func_02191558  0x02191558  thumb  ov021
- *   func_021915EC  0x021915EC  thumb  ov021
- *   func_0219160C  0x0219160C  thumb  ov021
- *   func_021915B4  0x021915B4  thumb  ov021
- *   func_021904C8  0x021904C8  thumb  ov021
- *   func_02045CAC  0x02045CAC  arm
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
+ *   FIELD_MSGBG_CreatePlainWin  0x02191558  thumb  ov021
+ *   FIELD_MSGBG_ClearPlainWin  0x021915EC  thumb  ov021
+ *   FIELD_MSGBG_OpenPlainWin  0x0219160C  thumb  ov021
+ *   FIELD_MSGBG_DeletePlainWin  0x021915B4  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   func_021916A8  0x021916A8  thumb  ov021
- *   func_021916E0 0x021916E0 thumb ov021
- *   func_02190BE4 0x02190BE4 thumb ov021
- *   func_021909BC 0x021909BC thumb ov021
- *   func_02190C78  0x02190C78  thumb  ov021
- *   func_02190A28  0x02190A28  thumb  ov021
- *   func_02190988  0x02190988  thumb  ov021
- *   func_0219049C  0x0219049C  thumb  ov021
- *   func_021909E4  0x021909E4  thumb  ov021
+ *   FIELD_MSGBG_PlainWinPrintStream  0x021916A8  thumb  ov021
+ *   FIELD_MSGBG_PlainWinMain 0x021916E0 thumb ov021
+ *   FIELD_MSGBG_CreateYesNoMenu 0x02190BE4 thumb ov021
+ *   FIELD_MSGBG_DeleteMenuFunc 0x021909BC thumb ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuItemsFromTable  0x02190A28  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuFuncWork  0x02190988  thumb  ov021
+ *   FIELD_MSGBG_IsPrintQueFinished  0x0219049C  thumb  ov021
+ *   FIELD_MSGBG_MenuFuncMain  0x021909E4  thumb  ov021
  *   d_0218042C 0x0218042C data a4
  *   d_021804DC 0x021804DC data a4
  *   d_0218046C     0x0218046C  data  a4
@@ -103,29 +103,29 @@
  *   d_0218050C     0x0218050C  data  a4
  *   d_021804B4     0x021804B4  data  a4
  *   d_021803A0     0x021803A0  data  ov019  a1
- *   func_0219161C  0x0219161C  thumb  ov021
- *   func_0201A4D4  0x0201A4D4  thumb
+ *   FIELD_MSGBG_PlainWinPrintMsg  0x0219161C  thumb  ov021
+ *   POKE_REGULATION_CreateText  0x0201A4D4  thumb
  *   func_0200AE3C  0x0200AE3C  thumb
- *   func_02191648  0x02191648  thumb  ov021
- *   func_02191674  0x02191674  thumb  ov021
- *   func_021904A8 0x021904A8 thumb ov021
+ *   FIELD_MSGBG_PlainWinPrintStr  0x02191648  thumb  ov021
+ *   FIELD_MSGBG_PlainWinPrintStrColor  0x02191674  thumb  ov021
+ *   FIELD_MSGBG_GetPrintQue 0x021904A8 thumb ov021
  *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0201A570 0x0201A570 thumb
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F8  0x020120F8  thumb
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_02012AD0  0x02012AD0  thumb
+ *   POKE_REGULATION_DeleteText 0x0201A570 thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   GAME_DATA_GetPlayerDirection  0x02012AD0  thumb
  *   d_02180718     0x02180718  data   ov019 a4
  *   func_02009D50 0x02009D50 thumb
- *   sub_020490F4   0x020490F4  arm
+ *   ARC_TOOL_CreateHandle   0x020490F4  arm
  *   sub_02034714   0x02034714  arm
  *   MTX_Identity33_  0x0207ADC4  arm
- *   func_0217C2AC  0x0217C2AC  thumb  ov019
- *   func_0217C5A8  0x0217C5A8  thumb  ov019
- *   func_0217C88C  0x0217C88C  thumb  ov019
- *   func_0217CEB8  0x0217CEB8  thumb  ov019
- *   func_0217D7A4  0x0217D7A4  thumb  ov019
- *   func_0217D890  0x0217D890  thumb  ov019
+ *   UNION_ONESELF_TalkParentMain  0x0217C2AC  thumb  ov019
+ *   UNION_ONESELF_TalkChildMain  0x0217C5A8  thumb  ov019
+ *   UNION_ONESELF_BattleMenuMain  0x0217C88C  thumb  ov019
+ *   UNION_ONESELF_TalkPlayingChildMain  0x0217CEB8  thumb  ov019
+ *   UNION_ONESELF_ColosseumEnterParentMain  0x0217D7A4  thumb  ov019
+ *   UNION_ONESELF_ColosseumEnterChildMain  0x0217D890  thumb  ov019
  */
 #include "../../matched/include/Obj19442.h"
 
@@ -191,59 +191,59 @@ struct Bits_0217DC94 { u8 pad[7]; unsigned char low:3; unsigned char kind:1; uns
 
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
-extern void *func_02012EBC(void *p);
+extern void *GAME_DATA_GetSaveControl(void *p);
 extern u32 func_020307B0(void *p);
 void func_02034714(const void *expr, u32 line, const void *file);
 extern void func_02082D44(const void *a, void *b, int c);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const void *obj);
-extern void *func_02188CB4(void *p);
+extern void *FIELDMAP_GetFieldPlayer(void *p);
 const void *func_020084F4(const void *p);
 void func_0201F02C(void *p, u32 i, void *a);
 extern u32 func_020056EC(u32 v);
 extern u8 func_0200856C(const void *obj);
 extern u8 func_02008570(const void *obj);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045924(void *o, const void *src);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetString(void *o, const void *src);
 extern void func_0201EE0C(void *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_02045808(void *vec);
+extern void STRBUF_Delete(void *vec);
 extern void *func_02045EC0(void *bank, u32 index);
 extern void func_0201F048(void *p, u32 i, u32 n);
 extern void func_0201F094(void *p, u32 i, u32 a, u32 n);
-extern void *func_02024988(int a0);
-extern void func_020249A0(void *p, int bit);
+extern void *PMS_WORD_GetSaveData(int a0);
+extern void PMS_WORD_SetFlag(void *p, int bit);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern u32 func_0201ED04(void *p);
-extern unsigned int func_02188C54(void *p);
-extern int func_021904B0(u32 a, u32 b);
-extern struct R *func_02191558(void *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g);
-extern void func_021915EC(void *r);
-extern void func_0219160C(void *p);
-extern int func_021915B4(void *a);
-extern u32 func_021904C8(void *a0);
-extern void func_02045CAC(void *bank, u32 index, void *dest);
+extern unsigned int FIELDMAP_GetMsgBg(void *p);
+extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
+extern struct R *FIELD_MSGBG_CreatePlainWin(void *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g);
+extern void FIELD_MSGBG_ClearPlainWin(void *r);
+extern void FIELD_MSGBG_OpenPlainWin(void *p);
+extern int FIELD_MSGBG_DeletePlainWin(void *a);
+extern u32 FIELD_MSGBG_DeleteMsgData(void *a0);
+extern void MSGDATA_ReadString(void *bank, u32 index, void *dest);
 extern void func_0201F250(void *ws, void *dst, void *src);
-extern void func_021916A8(void *r, u32 b, u16 c, u32 d);
-extern u32 func_021916E0(void *p);
-extern u32 *func_02190BE4(void *a, u32 b);
-extern int func_021909BC(void *a);
-extern int func_02190C78(void *h);
-extern u32 func_02190A28(const void *arr, int n, u32 c, u16 d);
-extern struct Handle *func_02190988(void *a, const void *b, u32 c, u32 d, u32 x, u16 y, u16 z, u32 w);
-extern int func_0219049C(void *p);
-extern int func_021909E4(void *h);
-extern void func_0219161C(void *r, int b, int c, u32 d);
-extern u8 *func_0201A4D4(void *a0, u32 a1, u16 a2, u32 a3);
+extern void FIELD_MSGBG_PlainWinPrintStream(void *r, u32 b, u16 c, u32 d);
+extern u32 FIELD_MSGBG_PlainWinMain(void *p);
+extern u32 *FIELD_MSGBG_CreateYesNoMenu(void *a, u32 b);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
+extern int FIELD_MSGBG_YesNoMenuMain(void *h);
+extern u32 FIELD_MSGBG_CreateMenuItemsFromTable(const void *arr, int n, u32 c, u16 d);
+extern struct Handle *FIELD_MSGBG_CreateMenuFuncWork(void *a, const void *b, u32 c, u32 d, u32 x, u16 y, u16 z, u32 w);
+extern int FIELD_MSGBG_IsPrintQueFinished(void *p);
+extern int FIELD_MSGBG_MenuFuncMain(void *h);
+extern void FIELD_MSGBG_PlainWinPrintMsg(void *r, int b, int c, u32 d);
+extern u8 *POKE_REGULATION_CreateText(void *a0, u32 a1, u16 a2, u32 a3);
 extern void *func_0200AE3C(void *p, u32 heap);
-extern void func_02191648(void *r, int b, int c, u32 d);
-extern void  func_02191674(void *a, int b, u16 c, u32 d, int e);
-extern u32 func_021904A8(void *p);
+extern void FIELD_MSGBG_PlainWinPrintStr(void *r, int b, int c, u32 d);
+extern void  FIELD_MSGBG_PlainWinPrintStrColor(void *a, int b, u16 c, u32 d, int e);
+extern u32 FIELD_MSGBG_GetPrintQue(void *p);
 extern u32 func_0201C6B4(const void *p);
-extern void func_0201A570(void *p);
-extern void *func_02188C80(void *p);
-extern u8 *func_020120F8(const void *p);
-extern void func_021A3038(void *a, void *v);
-extern u16 func_02012AD0(const void *p);
+extern void POKE_REGULATION_DeleteText(void *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern u8 *GAMESYSTEM_GetMyPlayerWork(const void *p);
+extern void FIELD_PLAYER_GetPos(void *a, void *v);
+extern u16 GAME_DATA_GetPlayerDirection(const void *p);
 extern int func_02009D50(void *obj, const void *unused, u32 id, u32 kind, void *out);
 u16 func_0217EC04(void ***ctx);
 u16 func_0217EC1C(int i);
@@ -282,35 +282,35 @@ u16 func_0217EE1C(int i);
 u16 func_0217EE28(int i);
 u16 func_0217EE34(int i);
 u16 func_0217EE40(int i);
-int func_0217EE4C(UnionRoomWork *unisys, int language, int version);
-void func_0217EE90(UnionRoomWork *unisys);
-void func_0217EFE0(int gameData, unsigned int language);
-void func_0217F020(UnionRoomWork *unisys);
-void func_0217F044(UnionRoomWork *unisys);
-int func_0217F060(int i);
-void func_0217F074(UnionRoomWork *unisys);
-void func_0217F098(UnionRoomWork *unisys, u8 *fieldmap);
-void func_0217F128(UnionRoomWork *unisys);
-void func_0217F188(UnionRoomWork *unisys, u32 msgId);
-u32 func_0217F1EC(UnionRoomWork *unisys);
-void func_0217F210(UnionRoomWork *unisys, u8 *fieldmap, u32 msgId);
-void func_0217F22C(UnionRoomWork *unisys, u32 fieldmap);
-void func_0217F24C(UnionRoomWork *unisys);
-int func_0217F268(UnionRoomWork *unisys, u32 *isYes);
-void func_0217F2A8(UnionRoomWork *unisys, u32 fieldmap, u32 listData, u32 listCount, u32 menuHeader);
-void func_0217F2F4(UnionRoomWork *unisys);
-int func_0217F310(UnionRoomWork *unisys, u32 fieldmap);
-void func_0217F360(UnionRoomWork *unisys, u32 fieldmap);
-void func_0217F378(UnionRoomWork *unisys);
-int func_0217F380(UnionRoomWork *unisys, int fieldmap);
-void func_0217F388(UnionRoomWork *unisys, int fieldmap, int kind, u8 *arg);
-void func_0217F4AC(UnionRoomWork *unisys);
-int func_0217F4B4(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, u32 fieldmap);
-void func_0217F5E0(UnionRoomWork *unisys, u32 fieldmap);
-void func_0217F624(UnionRoomWork *unisys);
-void func_0217F640(UnionRoomWork *unisys, u32 fieldmap, u32 failMask, int mode, int titleKind);
-u32 func_0217F794(UnionRoomWork *unisys, u32 fieldmap);
-void func_0217F7B8(UnionRoomWork *unisys);
+int UNION_MSG_CheckLanguageVersion(UnionRoomWork *unisys, int language, int version);
+void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys);
+void UNION_MSG_SetGreetingWordFlag(int gameData, unsigned int language);
+void UNION_MSG_CreateWordSet(UnionRoomWork *unisys);
+void UNION_MSG_DeleteWordSet(UnionRoomWork *unisys);
+int UNION_MSG_GetCategoryTableValue(int i);
+void UNION_MSG_CloseAllWindows(UnionRoomWork *unisys);
+void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldmap);
+void UNION_MSG_DeleteTalkWindow(UnionRoomWork *unisys);
+void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 msgId);
+u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys);
+void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, u8 *fieldmap, u32 msgId);
+void UNION_MSG_SetupYesNo(UnionRoomWork *unisys, u32 fieldmap);
+void UNION_MSG_DeleteYesNo(UnionRoomWork *unisys);
+int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *isYes);
+void UNION_MSG_SetupMenu(UnionRoomWork *unisys, u32 fieldmap, u32 listData, u32 listCount, u32 menuHeader);
+void UNION_MSG_DeleteMenu(UnionRoomWork *unisys);
+int UNION_MSG_SelectMenu(UnionRoomWork *unisys, u32 fieldmap);
+void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, u32 fieldmap);
+void UNION_MSG_DeleteMainMenu(UnionRoomWork *unisys);
+int UNION_MSG_SelectMainMenu(UnionRoomWork *unisys, int fieldmap);
+void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldmap, int kind, u8 *arg);
+void UNION_MSG_DeleteSubMenu(UnionRoomWork *unisys);
+int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, u32 fieldmap);
+void UNION_MSG_SetupTitleWindow(UnionRoomWork *unisys, u32 fieldmap);
+void UNION_MSG_DeleteTitleWindow(UnionRoomWork *unisys);
+void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, u32 fieldmap, u32 failMask, int mode, int titleKind);
+u32 UNION_MSG_CheckRegulationPrintEnd(UnionRoomWork *unisys, u32 fieldmap);
+void UNION_MSG_DeleteRegulationWindow(UnionRoomWork *unisys);
 int func_0217F7E4(u32 arg);
 int func_0217F858(int a);
 int func_0217F894(void *p,char *q);
@@ -373,7 +373,7 @@ u16 func_0217EC04(void ***ctx)
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from func_0217C2AC.
+ * called from UNION_ONESELF_TalkParentMain.
  */
 u16 func_0217EC1C(int i)
 {
@@ -389,7 +389,7 @@ u16 func_0217EC28(int i)
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from func_0217C5A8.
+ * called from UNION_ONESELF_TalkChildMain.
  */
 u16 func_0217EC34(int i)
 {
@@ -423,7 +423,7 @@ u16 func_0217EC78(int i)
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from func_0217C2AC and func_0217C88C.
+ * called from UNION_ONESELF_TalkParentMain and UNION_ONESELF_BattleMenuMain.
  */
 u16 func_0217EC88(int i)
 {
@@ -433,7 +433,7 @@ u16 func_0217EC88(int i)
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from func_0217D7A4 / func_0217D890.
+ * called from UNION_ONESELF_ColosseumEnterParentMain / UNION_ONESELF_ColosseumEnterChildMain.
  */
 u16 func_0217EC94(int i)
 {
@@ -476,7 +476,7 @@ u16 func_0217ECE8(int i)
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from func_0217CEB8.
+ * called from UNION_ONESELF_TalkPlayingChildMain.
  */
 u16 func_0217ED04(int i)
 {
@@ -608,7 +608,7 @@ u16 func_0217EE28(int i)
 
 /*
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from func_0217D890.
+ * called from UNION_ONESELF_ColosseumEnterChildMain.
  */
 u16 func_0217EE34(int i)
 {
@@ -622,9 +622,9 @@ u16 func_0217EE40(int i)
 }
 
 
-int func_0217EE4C(UnionRoomWork *unisys, int language, int version)
+int UNION_MSG_CheckLanguageVersion(UnionRoomWork *unisys, int language, int version)
 {
-    int myStatus = (int)func_02012944((void *)unisys->parent->gameData);
+    int myStatus = (int)GAME_DATA_GetMyStatus((void *)unisys->parent->gameData);
     int myLanguage = func_0200856C((const struct Sub0200852CObj *)myStatus);
     int myVersion = func_02008570((const struct Sub0200852CObj *)myStatus);
 
@@ -641,7 +641,7 @@ int func_0217EE4C(UnionRoomWork *unisys, int language, int version)
 }
 
 
-void func_0217EE90(UnionRoomWork *unisys)
+void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
 {
     void *greetingStr;
     void *nameStr;
@@ -669,10 +669,10 @@ void func_0217EE90(UnionRoomWork *unisys)
         language = 2;
         sex = (int)func_02008550((const struct Sub0200852CObj *)myStatus);
     }
-    nameStr = func_020457B0(0x20, UNION_HEAP_ID);
-    func_02045924(nameStr, nameChars);
+    nameStr = STRBUF_Create(0x20, UNION_HEAP_ID);
+    STRBUF_SetString(nameStr, nameChars);
     func_0201EE0C(unisys->msgWork.wordSet, 0, nameStr, sex, 1, language);
-    func_02045808(nameStr);
+    STRBUF_Delete(nameStr);
     func_0201F02C(unisys->msgWork.wordSet, 1, (void *)myStatus);
 
     switch (language) {
@@ -687,46 +687,46 @@ void func_0217EE90(UnionRoomWork *unisys)
     }
     greetingStr = func_02045EC0(unisys->msgWork.msgData, greetingMsgId);
     func_0201EE0C(unisys->msgWork.wordSet, 2, greetingStr, sex, 1, language);
-    func_02045808(greetingStr);
+    STRBUF_Delete(greetingStr);
 
     if (situation->connect.talkParam != 0 && situation->connect.talkParam->nation != 0) {
         func_0201F048(unisys->msgWork.wordSet, 3, situation->connect.talkParam->nation);
         if (situation->connect.talkParam->area != 0)
             func_0201F094(unisys->msgWork.wordSet, 4, situation->connect.talkParam->nation, situation->connect.talkParam->area);
     }
-    func_0217EFE0((int)unisys->parent->gameData, language);
+    UNION_MSG_SetGreetingWordFlag((int)unisys->parent->gameData, language);
 }
 
 
-void func_0217EFE0(int gameData, unsigned int language)
+void UNION_MSG_SetGreetingWordFlag(int gameData, unsigned int language)
 {
     int pmsWordSave;
     unsigned short langIndex;
 
-    pmsWordSave = (int)func_02024988((int)func_02012EBC((struct Big *)gameData));
+    pmsWordSave = (int)PMS_WORD_GetSaveData((int)GAME_DATA_GetSaveControl((struct Big *)gameData));
     langIndex = language - 1;
     if (language >= 1 && language <= 8) {
         if (langIndex < 8) {
-            func_020249A0((int *)pmsWordSave, d_0218044C[langIndex]);
+            PMS_WORD_SetFlag((int *)pmsWordSave, d_0218044C[langIndex]);
             return;
         }
-        func_020249A0((int *)pmsWordSave, 7);
+        PMS_WORD_SetFlag((int *)pmsWordSave, 7);
         return;
     }
-    func_020249A0((int *)pmsWordSave, 7);
+    PMS_WORD_SetFlag((int *)pmsWordSave, 7);
 }
 
 
-void func_0217F020(UnionRoomWork *unisys)
+void UNION_MSG_CreateWordSet(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.wordSet == 0) {
         unisys->msgWork.wordSet = func_0201EC74(5, 0x40, UNION_HEAP_ID);
-        func_0217EE90(unisys);
+        UNION_MSG_RegisterPartnerWords(unisys);
     }
 }
 
 
-void func_0217F044(UnionRoomWork *unisys)
+void UNION_MSG_DeleteWordSet(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.wordSet != 0) {
         func_0201ED04(unisys->msgWork.wordSet);
@@ -735,115 +735,115 @@ void func_0217F044(UnionRoomWork *unisys)
 }
 
 
-int func_0217F060(int i)
+int UNION_MSG_GetCategoryTableValue(int i)
 {
     if (i >= 27) return 0;
     return d_021806AC[i][0];
 }
 
 
-void func_0217F074(UnionRoomWork *unisys)
+void UNION_MSG_CloseAllWindows(UnionRoomWork *unisys)
 {
-    func_0217F7B8(unisys);
-    func_0217F624(unisys);
-    func_0217F24C(unisys);
-    func_0217F2F4(unisys);
-    func_0217F128(unisys);
+    UNION_MSG_DeleteRegulationWindow(unisys);
+    UNION_MSG_DeleteTitleWindow(unisys);
+    UNION_MSG_DeleteYesNo(unisys);
+    UNION_MSG_DeleteMenu(unisys);
+    UNION_MSG_DeleteTalkWindow(unisys);
 }
 
 
-void func_0217F098(UnionRoomWork *unisys, u8 *fieldmap)
+void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldmap)
 {
     int fieldMsgBg;
 
     if (unisys->msgWork.talkWin == 0) {
         if (unisys->msgWork.msgData != 0)
             func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
-        fieldMsgBg = func_02188C54(fieldmap);
-        unisys->msgWork.msgData = (struct MsgBank *)func_021904B0(fieldMsgBg, 200);
-        unisys->msgWork.strTemp = (struct Strbuf *)func_020457B0(0x100, UNION_HEAP_ID);
-        unisys->msgWork.strExpand = (struct Strbuf *)func_020457B0(0x100, UNION_HEAP_ID);
-        func_0217F020(unisys);
-        unisys->msgWork.talkWin = func_02191558((struct Fx *)fieldMsgBg, (u32)unisys->msgWork.msgData, 0, 1, 0x13, 0x1e, 4);
+        fieldMsgBg = FIELDMAP_GetMsgBg(fieldmap);
+        unisys->msgWork.msgData = (struct MsgBank *)FIELD_MSGBG_CreateMsgData(fieldMsgBg, 200);
+        unisys->msgWork.strTemp = (struct Strbuf *)STRBUF_Create(0x100, UNION_HEAP_ID);
+        unisys->msgWork.strExpand = (struct Strbuf *)STRBUF_Create(0x100, UNION_HEAP_ID);
+        UNION_MSG_CreateWordSet(unisys);
+        unisys->msgWork.talkWin = FIELD_MSGBG_CreatePlainWin((struct Fx *)fieldMsgBg, (u32)unisys->msgWork.msgData, 0, 1, 0x13, 0x1e, 4);
     } else {
-        func_021915EC(unisys->msgWork.talkWin);
+        FIELD_MSGBG_ClearPlainWin(unisys->msgWork.talkWin);
     }
 }
 
 
-void func_0217F128(UnionRoomWork *unisys)
+void UNION_MSG_DeleteTalkWindow(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.talkWin != 0) {
-        func_0219160C(unisys->msgWork.talkWin);
-        func_021915B4(unisys->msgWork.talkWin);
+        FIELD_MSGBG_OpenPlainWin(unisys->msgWork.talkWin);
+        FIELD_MSGBG_DeletePlainWin(unisys->msgWork.talkWin);
         unisys->msgWork.talkWin = 0;
         unisys->msgTalkPrinting = 0;
-        func_02045808(unisys->msgWork.strTemp);
-        func_02045808(unisys->msgWork.strExpand);
+        STRBUF_Delete(unisys->msgWork.strTemp);
+        STRBUF_Delete(unisys->msgWork.strExpand);
         unisys->msgWork.strTemp = 0;
         unisys->msgWork.strExpand = 0;
     }
     if (unisys->msgWork.msgData != 0) {
-        func_0217F044(unisys);
-        func_021904C8(unisys->msgWork.msgData);
+        UNION_MSG_DeleteWordSet(unisys);
+        FIELD_MSGBG_DeleteMsgData(unisys->msgWork.msgData);
         unisys->msgWork.msgData = 0;
     }
 }
 
 
-void func_0217F188(UnionRoomWork *unisys, u32 msgId)
+void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 msgId)
 {
     if (unisys->msgWork.talkWin == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    func_02045CAC(unisys->msgWork.msgData, msgId, unisys->msgWork.strTemp);
+    MSGDATA_ReadString(unisys->msgWork.msgData, msgId, unisys->msgWork.strTemp);
     func_0201F250(unisys->msgWork.wordSet, unisys->msgWork.strExpand, unisys->msgWork.strTemp);
-    func_021916A8(unisys->msgWork.talkWin, 0, 0, (u32)unisys->msgWork.strExpand);
+    FIELD_MSGBG_PlainWinPrintStream(unisys->msgWork.talkWin, 0, 0, (u32)unisys->msgWork.strExpand);
     unisys->msgTalkPrinting = 1;
 }
 
 
-u32 func_0217F1EC(UnionRoomWork *unisys)
+u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.talkWin == 0 || unisys->msgTalkPrinting == 0)
         return 1;
-    return func_021916E0(unisys->msgWork.talkWin);
+    return FIELD_MSGBG_PlainWinMain(unisys->msgWork.talkWin);
 }
 
 
-void func_0217F210(UnionRoomWork *unisys, u8 *fieldmap, u32 msgId)
+void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, u8 *fieldmap, u32 msgId)
 {
-    func_0217F098(unisys, fieldmap);
-    func_0217EE90(unisys);
-    func_0217F188(unisys, msgId);
+    UNION_MSG_SetupTalkWindow(unisys, fieldmap);
+    UNION_MSG_RegisterPartnerWords(unisys);
+    UNION_MSG_PrintTalkMsg(unisys, msgId);
 }
 
 
-void func_0217F22C(UnionRoomWork *unisys, u32 fieldmap)
+void UNION_MSG_SetupYesNo(UnionRoomWork *unisys, u32 fieldmap)
 {
     if (unisys->msgWork.yesNo == 0) {
-        unisys->msgWork.yesNo = func_02190BE4((u16 *)func_02188C54((u8 *)fieldmap), 0);
+        unisys->msgWork.yesNo = FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg((u8 *)fieldmap), 0);
     }
 }
 
 
-void func_0217F24C(UnionRoomWork *unisys)
+void UNION_MSG_DeleteYesNo(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.yesNo != 0) {
-        func_021909BC(unisys->msgWork.yesNo);
+        FIELD_MSGBG_DeleteMenuFunc(unisys->msgWork.yesNo);
         unisys->msgWork.yesNo = 0;
     }
 }
 
 
-int func_0217F268(UnionRoomWork *unisys, u32 *isYes)
+int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *isYes)
 {
     int result;
 
     if (unisys->msgWork.yesNo == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    result = func_02190C78(unisys->msgWork.yesNo);
+    result = FIELD_MSGBG_YesNoMenuMain(unisys->msgWork.yesNo);
     if (result == 2) {
         return 0;
     }
@@ -852,66 +852,66 @@ int func_0217F268(UnionRoomWork *unisys, u32 *isYes)
 }
 
 
-void func_0217F2A8(UnionRoomWork *unisys, u32 fieldmap, u32 listData, u32 listCount, u32 menuHeader)
+void UNION_MSG_SetupMenu(UnionRoomWork *unisys, u32 fieldmap, u32 listData, u32 listCount, u32 menuHeader)
 {
-    u32 fieldMsgBg = func_02188C54((u8 *)fieldmap);
+    u32 fieldMsgBg = FIELDMAP_GetMsgBg((u8 *)fieldmap);
 
     if (unisys->msgWork.menu == 0) {
-        u32 menuList = func_02190A28((const struct Pair *)listData, listCount, (u32)unisys->msgWork.msgData, UNION_HEAP_ID);
-        unisys->msgWork.menu = func_02190988((u16 *)fieldMsgBg, (const u8 *)menuHeader, menuList, 0, 0, 0, 0, 1);
+        u32 menuList = FIELD_MSGBG_CreateMenuItemsFromTable((const struct Pair *)listData, listCount, (u32)unisys->msgWork.msgData, UNION_HEAP_ID);
+        unisys->msgWork.menu = FIELD_MSGBG_CreateMenuFuncWork((u16 *)fieldMsgBg, (const u8 *)menuHeader, menuList, 0, 0, 0, 0, 1);
     }
 }
 
 
-void func_0217F2F4(UnionRoomWork *unisys)
+void UNION_MSG_DeleteMenu(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.menu != 0) {
-        func_021909BC(unisys->msgWork.menu);
+        FIELD_MSGBG_DeleteMenuFunc(unisys->msgWork.menu);
         unisys->msgWork.menu = 0;
     }
 }
 
 
-int func_0217F310(UnionRoomWork *unisys, u32 fieldmap)
+int UNION_MSG_SelectMenu(UnionRoomWork *unisys, u32 fieldmap)
 {
-    u32 fieldMsgBg = func_02188C54((u8 *)fieldmap);
+    u32 fieldMsgBg = FIELDMAP_GetMsgBg((u8 *)fieldmap);
 
     if (fieldMsgBg == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    if (fieldMsgBg != 0 && func_0219049C((u8 *)fieldMsgBg) == 0) {
+    if (fieldMsgBg != 0 && FIELD_MSGBG_IsPrintQueFinished((u8 *)fieldMsgBg) == 0) {
         return -1;
     }
     if (unisys->msgWork.menu == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    return func_021909E4(unisys->msgWork.menu);
+    return FIELD_MSGBG_MenuFuncMain(unisys->msgWork.menu);
 }
 
 
-void func_0217F360(UnionRoomWork *unisys, u32 fieldmap)
+void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, u32 fieldmap)
 {
-    func_0217F2A8(unisys, fieldmap, (u32)d_021804DC, 6, (u32)d_0218042C);
+    UNION_MSG_SetupMenu(unisys, fieldmap, (u32)d_021804DC, 6, (u32)d_0218042C);
 }
 
 
-void func_0217F378(UnionRoomWork *unisys)
+void UNION_MSG_DeleteMainMenu(UnionRoomWork *unisys)
 {
-    func_0217F2F4(unisys);
+    UNION_MSG_DeleteMenu(unisys);
 }
 
 
 /*
  * Unlabelled tail-call thunk (ldr r3 / bx r3, no push); called from
- * func_0217C2AC.
+ * UNION_ONESELF_TalkParentMain.
  */
-int func_0217F380(UnionRoomWork *unisys, int fieldmap)
+int UNION_MSG_SelectMainMenu(UnionRoomWork *unisys, int fieldmap)
 {
-    return func_0217F310(unisys, fieldmap);
+    return UNION_MSG_SelectMenu(unisys, fieldmap);
 }
 
 
-void func_0217F388(UnionRoomWork *unisys, int fieldmap, int kind, u8 *arg)
+void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldmap, int kind, u8 *arg)
 {
     Tmpl t;
     u8 v;
@@ -934,28 +934,28 @@ void func_0217F388(UnionRoomWork *unisys, int fieldmap, int kind, u8 *arg)
         obj[0] = arg[0] + 0xff;
         obj[2] = arg[1] + 0x104;
         obj[4] = arg[2] + 0x106;
-        func_0217F2A8(unisys, fieldmap, (u32)obj, v, (u32)(&t));
+        UNION_MSG_SetupMenu(unisys, fieldmap, (u32)obj, v, (u32)(&t));
         func_020307B0(obj);
     } else if (kind == 5) {
         obj = func_02030734(0x41, 0x28, 1, d_021807FC, 0x657);
         func_02082D44(d_021804B4, obj, 0x28);
         obj[0] = arg[1] + 0x104;
         obj[2] = arg[2] + 0x106;
-        func_0217F2A8(unisys, fieldmap, (u32)obj, v, (u32)(&t));
+        UNION_MSG_SetupMenu(unisys, fieldmap, (u32)obj, v, (u32)(&t));
         func_020307B0(obj);
     } else {
-        func_0217F2A8(unisys, fieldmap, (u32)d_021805A4[kind].p, v, (u32)(&t));
+        UNION_MSG_SetupMenu(unisys, fieldmap, (u32)d_021805A4[kind].p, v, (u32)(&t));
     }
 }
 
 
 /*
  * Unlabelled tail-call thunk (ldr r3 / bx r3, no push); called from
- * func_0217C88C.
+ * UNION_ONESELF_BattleMenuMain.
  */
-void func_0217F4AC(UnionRoomWork *unisys)
+void UNION_MSG_DeleteSubMenu(UnionRoomWork *unisys)
 {
-    func_0217F2F4(unisys);
+    UNION_MSG_DeleteMenu(unisys);
 }
 
 
@@ -968,7 +968,7 @@ void func_0217F4AC(UnionRoomWork *unisys)
  *   for the pair-pointer load (indexed) and the count byte (+4). Struct-index forms and the
  *   un-pragma'd forms propagate the address into each use (two pool words) or hoist the pool load.
  */
-int func_0217F4B4(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, u32 fieldmap)
+int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, u32 fieldmap)
 {
     u32 key;
     u32 i;
@@ -976,7 +976,7 @@ int func_0217F4B4(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, u32 fieldm
 
     *hit = 0;
     *flag = 0;
-    key = func_0217F310(unisys, fieldmap);
+    key = UNION_MSG_SelectMenu(unisys, fieldmap);
     switch (key) {
     case (u32)-1:
         return key;
@@ -1058,20 +1058,20 @@ int func_0217F4B4(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, u32 fieldm
 #pragma opt_propagation reset
 
 
-void func_0217F5E0(UnionRoomWork *unisys, u32 fieldmap)
+void UNION_MSG_SetupTitleWindow(UnionRoomWork *unisys, u32 fieldmap)
 {
     if (unisys->msgWork.infoWin == 0) {
-        u32 infoWin = (u32)func_02191558((struct Fx *)func_02188C54((u8 *)fieldmap), (u32)unisys->msgWork.msgData, 0, 1, 1, 0x1e, 2);
+        u32 infoWin = (u32)FIELD_MSGBG_CreatePlainWin((struct Fx *)FIELDMAP_GetMsgBg((u8 *)fieldmap), (u32)unisys->msgWork.msgData, 0, 1, 1, 0x1e, 2);
         unisys->msgWork.infoWin = (void *)infoWin;
-        func_0219161C((struct R *)infoWin, 0, 0, 0x103);
+        FIELD_MSGBG_PlainWinPrintMsg((struct R *)infoWin, 0, 0, 0x103);
     }
 }
 
 
-void func_0217F624(UnionRoomWork *unisys)
+void UNION_MSG_DeleteTitleWindow(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.infoWin) {
-        func_021915B4(unisys->msgWork.infoWin);
+        FIELD_MSGBG_DeletePlainWin(unisys->msgWork.infoWin);
         unisys->msgWork.infoWin = 0;
     }
 }
@@ -1085,9 +1085,9 @@ void func_0217F624(UnionRoomWork *unisys)
  * graph: self r5, h and pal r7, flag and tile temps r6 as in the original.
  * EXACT under --lang c99 and --lang c.
  */
-void func_0217F640(UnionRoomWork *unisys, u32 fieldmap, u32 failMask, int mode, int titleKind)
+void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, u32 fieldmap, u32 failMask, int mode, int titleKind)
 {
-    u32 fieldMsgBg = func_02188C54((u8 *)fieldmap);
+    u32 fieldMsgBg = FIELDMAP_GetMsgBg((u8 *)fieldmap);
     void *title;
     long i;
     int flag;
@@ -1102,16 +1102,16 @@ void func_0217F640(UnionRoomWork *unisys, u32 fieldmap, u32 failMask, int mode, 
     flag = 1;
     if (mode != 1)
         flag = 0;
-    unisys->msgWork.infoWin = func_02191558((struct Fx *)fieldMsgBg, (u32)unisys->msgWork.msgData, 0, 1, 1, 0x1a, 0x10);
-    unisys->regulationText = (UnionRegulationText *)func_0201A4D4(unisys->regulation, (u32)unisys->msgWork.wordSet, UNION_HEAP_ID, flag);
-    func_0217EE90(unisys);
+    unisys->msgWork.infoWin = FIELD_MSGBG_CreatePlainWin((struct Fx *)fieldMsgBg, (u32)unisys->msgWork.msgData, 0, 1, 1, 0x1a, 0x10);
+    unisys->regulationText = (UnionRegulationText *)POKE_REGULATION_CreateText(unisys->regulation, (u32)unisys->msgWork.wordSet, UNION_HEAP_ID, flag);
+    UNION_MSG_RegisterPartnerWords(unisys);
 
     if (titleKind == 0) {
         title = func_0200AE3C(unisys->regulation, UNION_HEAP_ID);
-        func_02191648(unisys->msgWork.infoWin, 0, 0, (u32)title);
-        func_02045808(title);
+        FIELD_MSGBG_PlainWinPrintStr(unisys->msgWork.infoWin, 0, 0, (u32)title);
+        STRBUF_Delete(title);
     } else {
-        func_0219161C(unisys->msgWork.infoWin, 0, 0, titleKind == 1 ? 0x14f : 0x150);
+        FIELD_MSGBG_PlainWinPrintMsg(unisys->msgWork.infoWin, 0, 0, titleKind == 1 ? 0x14f : 0x150);
     }
 
     for (i = 0; i < 6; i++) {
@@ -1121,15 +1121,15 @@ void func_0217F640(UnionRoomWork *unisys, u32 fieldmap, u32 failMask, int mode, 
         } else {
             pal = 0x440;
         }
-        func_02191674(unisys->msgWork.infoWin, 0, (i * 2 + 4) * 8, (u32)unisys->regulationText->label[i], pal);
-        func_02191674(unisys->msgWork.infoWin, 0x70, (i * 2 + 4) * 8, (u32)unisys->regulationText->value[i], pal);
+        FIELD_MSGBG_PlainWinPrintStrColor(unisys->msgWork.infoWin, 0, (i * 2 + 4) * 8, (u32)unisys->regulationText->label[i], pal);
+        FIELD_MSGBG_PlainWinPrintStrColor(unisys->msgWork.infoWin, 0x70, (i * 2 + 4) * 8, (u32)unisys->regulationText->value[i], pal);
     }
 }
 
 
-u32 func_0217F794(UnionRoomWork *unisys, u32 fieldmap)
+u32 UNION_MSG_CheckRegulationPrintEnd(UnionRoomWork *unisys, u32 fieldmap)
 {
-    u32 printQue = func_021904A8((u32 *)func_02188C54((u8 *)fieldmap));
+    u32 printQue = FIELD_MSGBG_GetPrintQue((u32 *)FIELDMAP_GetMsgBg((u8 *)fieldmap));
 
     if (unisys->regulationText == 0)
         return 1;
@@ -1137,12 +1137,12 @@ u32 func_0217F794(UnionRoomWork *unisys, u32 fieldmap)
 }
 
 
-void func_0217F7B8(UnionRoomWork *unisys)
+void UNION_MSG_DeleteRegulationWindow(UnionRoomWork *unisys)
 {
     if (unisys->regulationText) {
-        func_021915B4(unisys->msgWork.infoWin);
+        FIELD_MSGBG_DeletePlainWin(unisys->msgWork.infoWin);
         unisys->msgWork.infoWin = 0;
-        func_0201A570(unisys->regulationText);
+        POKE_REGULATION_DeleteText(unisys->regulationText);
         unisys->regulationText = 0;
     }
 }
@@ -1156,12 +1156,12 @@ int func_0217F7E4(u32 arg)
     u32 i;
     int x, z;
 
-    h5 = func_02188CB4((void *)arg);
-    r4 = (u32)func_020120F8((const struct Ctx_0217DC94 *)func_02188C80((void *)arg));
-    func_021A3038(h5, (struct VecFx32 *)v);
+    h5 = FIELDMAP_GetFieldPlayer((void *)arg);
+    r4 = (u32)GAMESYSTEM_GetMyPlayerWork((const struct Ctx_0217DC94 *)FIELDMAP_GetGameSystem((void *)arg));
+    FIELD_PLAYER_GetPos(h5, (struct VecFx32 *)v);
     v[0] = (v[0] >> 4) / 4096;
     v[2] = (v[2] >> 4) / 4096;
-    func_02012AD0((const struct Rec44 *)r4);
+    GAME_DATA_GetPlayerDirection((const struct Rec44 *)r4);
     x = v[0];
     z = v[2];
     for (i = 0; i < 1; i++) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2E8
+ * function: PLACE_NAME_LETTER_GetIntY
  * address:  0x021BD2E8
  * packet:   pkt_021BD2E8
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call thunk on the word at +0x14; callee of func_021BD204.
+ * Unlabelled tail-call thunk on the word at +0x14; callee of PLACE_NAME_LETTER_GetY.
  *
  * symbols:
  *   func_0209C494  0x0209C494  arm
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern void func_0209C494(u32 v);
 
-void func_021BD2E8(u32 *p)
+void PLACE_NAME_LETTER_GetIntY(u32 *p)
 {
     func_0209C494(p[5]);
 }

@@ -39,7 +39,7 @@
  * callee-saved register across both calls, which is four bytes short.  What
  * the original keeps alive across the calls is the *product*, and only two
  * differently associated address expressions produce that.  And the second
- * getter's result is not bound to a local: `a - func_02017E1C(...)` puts the
+ * getter's result is not bound to a local: `a - POKE_TOOL_GetPartyValue(...)` puts the
  * `subs` at the call, where the original has it, while a named `b` sinks it
  * past the copy loop (the mirror of
  * docs/idioms/cmp-operand-order-names-the-temporary.md).
@@ -53,6 +53,7 @@
  *   pokeparty_File  0x020A7304  data
  *   POKEPARTY_GetSlotFlag  0x0201ACC4  thumb
  *   POKEPARTY_SetSlotFlag  0x0201ACDC  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201AB48.c \
@@ -72,7 +73,7 @@ struct Party {
     struct PartyMon mon[6];
 };
 
-extern u32  func_02017E1C(void *entry, u32 id, u32 v);
+extern u32  POKE_TOOL_GetPartyValue(void *entry, u32 id, u32 v);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
@@ -83,8 +84,8 @@ extern const char pokeparty_File[];
 
 void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src)
 {
-    u32 a = func_02017E1C(&p->mon[idx], 0xA9, 0);
-    u32 d = a - func_02017E1C((void *)src, 0xA9, 0);
+    u32 a = POKE_TOOL_GetPartyValue(&p->mon[idx], 0xA9, 0);
+    u32 d = a - POKE_TOOL_GetPartyValue((void *)src, 0xA9, 0);
 
     *(struct PartyMon *)((u8 *)p + idx * sizeof(struct PartyMon) + 8) = *src;
     p->count += d;

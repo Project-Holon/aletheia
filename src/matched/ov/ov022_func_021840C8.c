@@ -1,5 +1,5 @@
 /*
- * function: func_021840C8
+ * function: UNION_APP_IsClosed
  * address:  0x021840C8
  * packet:   pkt_ov022_021840C8
  * region:   ov022
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 
-int func_021840C8(u8 *p)
+int UNION_APP_IsClosed(u8 *p)
 {
     if (p == 0)
         return 0;

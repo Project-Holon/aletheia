@@ -1,5 +1,5 @@
 /*
- * function: func_021A26D8
+ * function: WEATHER_TASK_Reset
  * address:  0x021A26D8
  * packet:   pkt_ov021_021A26D8
  * region:   ov021
@@ -15,7 +15,7 @@
 
 void func_02082BCC(void *p, int v, int n);
 
-void func_021A26D8(int *p)
+void WEATHER_TASK_Reset(int *p)
 {
     int f0;
     int f4;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B92F0
+ * function: FRAME_LIST_SetCursorHighlight
  * address:  0x021B92F0
  * packet:   pkt_ov067_021B92F0
  * region:   ov067
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B9280  0x021B9280  thumb
+ *   FRAME_LIST_SetRowPalette  0x021B9280  thumb
  *   func_020355C4  0x020355C4  arm
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  */
@@ -45,17 +45,17 @@ struct S {
     s16 f62;
 };
 
-extern void func_021B9280(u8 *p, int a, u32 b);
+extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
 struct CodeIn;
 extern u8 func_020355C4(void);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 
-void func_021B92F0(struct S *p, u32 a1, u32 a2)
+void FRAME_LIST_SetCursorHighlight(struct S *p, u32 a1, u32 a2)
 {
     if (a2 < p->f5e)
-        func_021B9280((u8 *)p, a2, (u16)(p->f40[p->f28[p->f62 + a2].a]->v >> 12));
+        FRAME_LIST_SetRowPalette((u8 *)p, a2, (u16)(p->f40[p->f28[p->f62 + a2].a]->v >> 12));
     if (a1 < p->f5e && func_020355C4() == 0) {
         BLINK_PALANM_ResetPhase(p->f30);
-        func_021B9280((u8 *)p, a1, p->f11);
+        FRAME_LIST_SetRowPalette((u8 *)p, a1, p->f11);
     }
 }

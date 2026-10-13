@@ -1,5 +1,5 @@
 /*
- * function: func_021B69D8
+ * function: TOUCHBAR_SetButtonToggle
  * address:  0x021B69D8
  * packet:   pkt_ov067_021B69D8
  * region:   ov067
@@ -10,9 +10,10 @@
  * status:   EXACT
  *
  * Stores +0x2A (flag set) or +0x26 (flag clear) into the word at +8, then
- * passes the object at +0 and the low halfword of +8 to func_0204B878.
+ * passes the object at +0 and the low halfword of +8 to CLACT_SetActorAnimSeq.
  *
  * symbols:
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   (none)
  */
 typedef unsigned short u16;
@@ -27,13 +28,13 @@ struct S {
     u16 f28;
     u16 f2a;
 };
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021B69D8(struct S *p, u32 v)
+void TOUCHBAR_SetButtonToggle(struct S *p, u32 v)
 {
     if (v != 0)
         p->f8 = p->f2a;
     else
         p->f8 = p->f26;
-    func_0204B878(p->f0, (u16)p->f8);
+    CLACT_SetActorAnimSeq(p->f0, (u16)p->f8);
 }

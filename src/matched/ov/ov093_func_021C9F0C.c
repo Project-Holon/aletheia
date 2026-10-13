@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021CD4B0  0x021CD4B0  thumb  ov093
- *   func_021D5734  0x021D5734  thumb  ov093
+ *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
+ *   BTL_POKEPARAM_ReplaceMove  0x021D5734  thumb  ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -30,13 +30,13 @@ struct Cmd {
 };
 
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern void func_021D5734(u8 *p, u8 i, u16 a, u8 b, u32 c);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
+extern void BTL_POKEPARAM_ReplaceMove(u8 *p, u8 i, u16 a, u8 b, u32 c);
 
 int func_021C9F0C(u8 *w, const struct Cmd *c)
 {
     u8 *r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, c->b4);
-    func_021CD4B0(((struct Obj00003 *)w)->fC, 0x1F, c->b4, c->b5, c->b6, c->b7, c->h8);
-    func_021D5734(r, c->b5, c->h8, c->b6, c->b7);
+    BTL_SERVER_CMD_Push(((struct Obj00003 *)w)->fC, 0x1F, c->b4, c->b5, c->b6, c->b7, c->h8);
+    BTL_POKEPARAM_ReplaceMove(r, c->b5, c->h8, c->b6, c->b7);
     return 1;
 }

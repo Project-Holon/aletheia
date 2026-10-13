@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED5C
+ * function: FIELD_CAMERA_GetVectorAngles
  * address:  0x0218ED5C
  * packet:   pkt_0218ED5C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0218E610  0x0218E610  thumb  ov021
+ *   FIELD_CAMERA_CalcAngles  0x0218E610  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0218E610(u32, u32, u32, u32);
+extern u32 FIELD_CAMERA_CalcAngles(u32, u32, u32, u32);
 
-int func_0218ED5C(u32 a, u32 b, u32 c, u32 d)
+int FIELD_CAMERA_GetVectorAngles(u32 a, u32 b, u32 c, u32 d)
 {
-return func_0218E610(a, b, c, d);
+return FIELD_CAMERA_CalcAngles(a, b, c, d);
 }
 

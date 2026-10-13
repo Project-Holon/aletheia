@@ -25,7 +25,7 @@
    ]
   },
   {
-   "name": "func_02045C04",
+   "name": "MSGDATA_Delete",
    "address": "0x02045C04",
    "kind": "game",
    "region": "arm9",

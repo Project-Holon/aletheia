@@ -1,5 +1,5 @@
 /*
- * function: func_0217BA48
+ * function: UNION_ONESELF_CheckMyParty
  * address: 0x0217BA48
  * packet: pkt_ov019_0217BA48
  * region: ov019
@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012934 0x02012934 thumb
- *   func_0201A090 0x0201A090 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
+ *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  */
 #include "../include/Obj09409.h"
 #include "../include/Obj19403.h"
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
-extern int func_0201A090(void *, void *, unsigned int *);
-int func_0217BA48(char *p, unsigned int *mask)
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern int POKE_REGULATION_CheckParty(void *, void *, unsigned int *);
+int UNION_ONESELF_CheckMyParty(char *p, unsigned int *mask)
 {
     void *party;
     *mask = 0;
-    party = func_02012934(((struct Obj19403 *)(*(char * *)&((struct Obj09409 *)p)->f0))->f8);
-    return func_0201A090(((struct Obj09409 *)p)->f352C, party, mask);
+    party = GAME_DATA_GetMyParty(((struct Obj19403 *)(*(char * *)&((struct Obj09409 *)p)->f0))->f8);
+    return POKE_REGULATION_CheckParty(((struct Obj09409 *)p)->f352C, party, mask);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0217AFE4
+ * function: UNION_CHARA_AddSlot
  * address:  0x0217AFE4
  * packet:   pkt_ov019_0217AFE4
  * region:   ov019
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217AED4  0x0217AED4  thumb  ov019
- *   func_0217AE40  0x0217AE40  thumb  ov019
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
+ *   UNION_CHARA_MakeObjId  0x0217AED4  thumb  ov019
+ *   UNION_CHARA_AddMmdl  0x0217AE40  thumb  ov019
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  *   func_02034714  0x02034714  arm
- *   d_021807E0     0x021807E0  data  ov019  a1
+ *   gUnionEmptyString0     0x021807E0  data  ov019  a1
  */
 #include "../include/Obj19390.h"
 
@@ -33,14 +33,14 @@ typedef struct {
 } Src;
 
 typedef unsigned short u16;
-extern u16 func_0217AED4(u8 *a, u8 *b);
-extern int func_0217AE40(void *a, int b, u16 c, int d);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
+extern u16 UNION_CHARA_MakeObjId(u8 *a, u8 *b);
+extern int UNION_CHARA_AddMmdl(void *a, int b, u16 c, int d);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern const char d_021807E0[];
+extern const char gUnionEmptyString0[];
 
-Ent *func_0217AFE4(char *a, int b, Src *c, int d, int e, int *f)
+Ent *UNION_CHARA_AddSlot(char *a, int b, Src *c, int d, int e, int *f)
 {
     Ent *p;
     int i;
@@ -54,14 +54,14 @@ Ent *func_0217AFE4(char *a, int b, Src *c, int d, int e, int *f)
             p->f5 = c->f7;
             p->f6 = d;
             p->f7 = 1;
-            r = func_0217AED4((u8 *)b, (u8 *)p);
-            r = func_0217AE40(a, ((int *)((struct Obj19390 *)a)->f0)[2], c->f6, r);
+            r = UNION_CHARA_MakeObjId((u8 *)b, (u8 *)p);
+            r = UNION_CHARA_AddMmdl(a, ((int *)((struct Obj19390 *)a)->f0)[2], c->f6, r);
             if (e == 0)
-                func_0216DAC8((unsigned int *)r, 1);
+                FLDMMDL_SetStatusBitVanish((unsigned int *)r, 1);
             *f = r;
             return p;
         }
     }
-    func_02034714(d_021807E0, 0, d_021807E0);
+    func_02034714(gUnionEmptyString0, 0, gUnionEmptyString0);
     return 0;
 }

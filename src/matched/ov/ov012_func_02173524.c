@@ -1,5 +1,5 @@
 /*
- * function: func_02173524
+ * function: UNION_COMM_InitConnectInfo
  * address:  0x02173524
  * packet:   pkt_ov012_02173524
  * region:   ov012
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_02173518  0x02173518  thumb  ov012
+ *   UNION_COMM_ClearPartnerSelects  0x02173518  thumb  ov012
  *   func_02087C6C  0x02087C6C  arm
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
@@ -33,18 +33,18 @@ typedef struct {
 } Work;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void func_02173518(u8 *p);
+extern void UNION_COMM_ClearPartnerSelects(u8 *p);
 extern void func_02087C6C(void *p);
 struct Sub0200852CObj;
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
-void func_02173524(Work *w, u8 *p)
+void UNION_COMM_InitConnectInfo(Work *w, u8 *p)
 {
     Rec *r;
 
     func_02082BCC(p, 0, 0x4c);
-    func_02173518(p);
+    UNION_COMM_ClearPartnerSelects(p);
     r = (Rec *)(p + 0x1c);
     func_02087C6C(r);
     r->f6 = func_02008554(w->head->f0);

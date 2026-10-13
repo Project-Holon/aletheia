@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217B044",
+   "name": "INTRUDE_FIELD_CreateEdgeBlockTask",
    "address": "0x0217B044",
    "kind": "game",
    "region": "ov018",

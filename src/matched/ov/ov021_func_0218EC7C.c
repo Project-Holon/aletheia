@@ -1,5 +1,5 @@
 /*
- * function: func_0218EC7C
+ * function: FIELD_CAMERA_SetG3dRoll
  * address:  0x0218EC7C
  * packet:   pkt_ov021_0218EC7C
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   G3D_CAMERA_SetRoll  0x02048B6C  arm  arm9
  */
 #include "../include/Obj19563.h"
 
@@ -19,9 +22,9 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Light;
-extern void func_02048B6C(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
 
-void func_0218EC7C(u8 *a, u32 first, ...)
+void FIELD_CAMERA_SetG3dRoll(u8 *a, u32 first, ...)
 {
-    func_02048B6C((struct Light *)(((struct Obj19563 *)a)->fC), &first);
+    G3D_CAMERA_SetRoll((struct Light *)(((struct Obj19563 *)a)->fC), &first);
 }

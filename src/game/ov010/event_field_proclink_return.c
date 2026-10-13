@@ -1,7 +1,7 @@
 /*
  * file:     event_field_proclink_return.c
  * unit:     yes
- * function: func_02161E60, func_02161E78, func_02161E84, func_02161ECC, func_02161EEC, func_02161F00, func_02161F14, func_02161F54, func_02161F68, func_02161F74, func_02161F90, func_02161FEC, func_02161FF0, func_02162008, func_02162024, func_0216202C, func_02162038, func_02162040, func_02162048, func_0216208C, func_0216209C, func_021620A0, func_021620B0, func_0216210C, func_02162120, func_02162198, func_021621C0, func_021621E8, func_0216220C, func_02162230, func_02162254, func_02162278, func_02162298, func_021622AC, func_021622D8, func_021622F4, func_0216230C, func_02162330, func_02162358, func_02162370
+ * function: EVENT_FIELD_PROCLINK_CompactReturnList, EVENT_FIELD_PROCLINK_ClearReturnEntry, EVENT_FIELD_PROCLINK_IsReturnEntryAllowed, EVENT_FIELD_PROCLINK_IsReturnEntryValid, EVENT_FIELD_PROCLINK_InitIdList, EVENT_FIELD_PROCLINK_InitReturnHeader, EVENT_FIELD_PROCLINK_GetReturnInfo, EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid, EVENT_FIELD_PROCLINK_ClearReturnSlots, EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline, EVENT_FIELD_PROCLINK_ApplyReturnEntry, EVENT_FIELD_PROCLINK_SetReturnLinkId, EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline, EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline, EVENT_FIELD_PROCLINK_GetReturnResultSlot, EVENT_FIELD_PROCLINK_GetReturnPendingSlot, EVENT_FIELD_PROCLINK_ClearReturnResultSlot, EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk, EVENT_FIELD_PROCLINK_RequestReturn, EVENT_FIELD_PROCLINK_HasReturnDefaultSlot, EVENT_FIELD_PROCLINK_GetReturnDefaultSlotType, EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending, EVENT_FIELD_PROCLINK_CompactEntryList, EVENT_FIELD_PROCLINK_IsNetConnected, EVENT_FIELD_PROCLINK_RunReturnSlots, EVENT_FIELD_PROCLINK_HandlerCheckEntryGrid, EVENT_FIELD_PROCLINK_HandlerCheckEntryRail, EVENT_FIELD_PROCLINK_HandlerRemoveEntry, EVENT_FIELD_PROCLINK_SetReturnSlotDefault, EVENT_FIELD_PROCLINK_SetReturnSlot, EVENT_FIELD_PROCLINK_GetReturnSlot, EVENT_FIELD_PROCLINK_SetReturnResultSlot, EVENT_FIELD_PROCLINK_SetReturnPendingSlot, EVENT_FIELD_PROCLINK_GetReturnResultSlotSub, EVENT_FIELD_PROCLINK_GetReturnPendingSlotSub, EVENT_FIELD_PROCLINK_ClearReturnDefaultSlot, EVENT_FIELD_PROCLINK_ClearReturnSlot, EVENT_FIELD_PROCLINK_ClearReturnResultSlotSub, EVENT_FIELD_PROCLINK_ClearReturnPendingSlot, EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange
  * address:  0x02161E60
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -14,13 +14,13 @@
  * Return-slot and proclink table code; continues the ov010 event_field_proclink.c unit (the functions before the eventdata_system.c anchor at 0x0216237C).
  *
  * symbols:
- *   func_02045A98  0x02045A98  arm
- *   func_021867C4  0x021867C4  thumb ov023
- *   func_0218682C  0x0218682C  thumb
- *   func_02186804  0x02186804  thumb
- *   func_02039338  0x02039338  arm
- *   func_02161DC4  0x02161DC4  thumb
- *   func_02186520  0x02186520  thumb
+ *   STRBUF_GetEosChar  0x02045A98  arm
+ *   OEKAKI_SendPendingCommand  0x021867C4  thumb ov023
+ *   FIELD_WFBC_DATA_LOCAL_GetNpcRecord  0x0218682C  thumb
+ *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   EVENT_FIELD_PROCLINK_GetEventdataEntry  0x02161DC4  thumb
+ *   FIELD_WFBC_DATA_LOCAL_InsertPersonForCity  0x02186520  thumb
  *   d_0217144C     0x0217144C  data  ov010  a4
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_0200FB24  0x0200FB24  thumb
@@ -47,7 +47,7 @@ typedef struct ProcLinkEntry {
     u8 idFilter : 4;    /*       nonzero: only the ids below may use it */
     u8 age;             /* 0x01: usable while below 30 */
     u8 value;           /* 0x02: usable while at most 100 */
-    u8 kind;            /* 0x03: 7 when set by func_02161F90 */
+    u8 kind;            /* 0x03: 7 when set by EVENT_FIELD_PROCLINK_ApplyReturnEntry */
     u16 allowedIds[8];  /* 0x04 */
 } ProcLinkEntry;
 
@@ -82,65 +82,65 @@ struct EventSlots {
     EventSlot resultSlot[3]; /* 0x30 */
 };
 
-extern u16 func_02045A98(void);
-extern int func_021867C4(int, int);
-extern u16 *func_0218682C(int h);
-extern void func_02186804(int);
-extern u16 func_02039338(void);
-extern ProcLinkEntry *func_02161DC4(ProcLinkSys *procLink, int linkId, unsigned mode);
-extern void func_02186520(ProcLinkRequest *request, int arg, ProcLinkEntry *entry);
+extern u16 STRBUF_GetEosChar(void);
+extern int OEKAKI_SendPendingCommand(int, int);
+extern u16 *FIELD_WFBC_DATA_LOCAL_GetNpcRecord(int h);
+extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(int);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(ProcLinkSys *procLink, int linkId, unsigned mode);
+extern void FIELD_WFBC_DATA_LOCAL_InsertPersonForCity(ProcLinkRequest *request, int arg, ProcLinkEntry *entry);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u32 func_0200FB24(void);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-void func_02161E60(ProcLinkSys *procLink, int listIndex);
-void func_02161E78(ProcLinkEntry *entry);
-int func_02161E84(ProcLinkEntry *entry);
-int func_02161ECC(ProcLinkEntry *entry);
-void func_02161EEC(u16 *buf);
-void func_02161F00(ProcLinkRequest *request);
-void func_02161F14(u16 *result, ProcLinkRequest *request, int variant);
-void func_02161F54(EventSlots *slots);
-void func_02161F68(EventSlots *slots);
-void func_02161F74(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
-void func_02161F90(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant);
-void func_02161FEC(EventSlots *slots, u16 pendingKey);
-void func_02161FF0(EventSlots *slots, EventSlot *slot);
-void func_02162008(EventSlots *slots, int index, EventSlot *slot);
-int func_02162024(EventSlots *slots, int index, EventSlot *result);
-int func_0216202C(EventSlots *slots, EventSlot *result, u8 *pendingKey);
-void func_02162038(EventSlots *slots, int index);
-void func_02162040(EventSlots *slots);
-void func_02162048(EventSlots *slots, int entryId, int handlerIndex);
-int func_0216208C(EventSlots *slots, int unused);
-u16 func_0216209C(EventSlots *slots);
-void func_021620A0(EventSlots *slots);
-void func_021620B0(char *entries);
-int func_0216210C(int unused);
-void func_02162120(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
-int func_02162198(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
-int func_021621C0(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
-int func_021621E8(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot);
-void func_0216220C(EventSlots *slots, EventSlot *slot);
-void func_02162230(EventSlots *slots, int index, EventSlot *slot);
-int func_02162254(EventSlots *slots, u16 index, EventSlot *out);
-void func_02162278(EventSlots *slots, int index, u16 entryId, u16 handlerType);
-void func_02162298(EventSlots *slots, int entryId, int handlerType);
-int func_021622AC(EventSlots *slots, int index, EventSlot *out);
-int func_021622D8(EventSlots *slots, EventSlot *out);
-void func_021622F4(EventSlots *slots);
-void func_0216230C(EventSlots *slots, unsigned index);
-void func_02162330(EventSlots *slots, unsigned index);
-void func_02162358(EventSlots *slots);
-int func_02162370(int value);
+void EVENT_FIELD_PROCLINK_CompactReturnList(ProcLinkSys *procLink, int listIndex);
+void EVENT_FIELD_PROCLINK_ClearReturnEntry(ProcLinkEntry *entry);
+int EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(ProcLinkEntry *entry);
+int EVENT_FIELD_PROCLINK_IsReturnEntryValid(ProcLinkEntry *entry);
+void EVENT_FIELD_PROCLINK_InitIdList(u16 *buf);
+void EVENT_FIELD_PROCLINK_InitReturnHeader(ProcLinkRequest *request);
+void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *result, ProcLinkRequest *request, int variant);
+void EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(EventSlots *slots);
+void EVENT_FIELD_PROCLINK_ClearReturnSlots(EventSlots *slots);
+void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
+void EVENT_FIELD_PROCLINK_ApplyReturnEntry(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant);
+void EVENT_FIELD_PROCLINK_SetReturnLinkId(EventSlots *slots, u16 pendingKey);
+void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(EventSlots *slots, EventSlot *slot);
+void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(EventSlots *slots, int index, EventSlot *slot);
+int EVENT_FIELD_PROCLINK_GetReturnResultSlot(EventSlots *slots, int index, EventSlot *result);
+int EVENT_FIELD_PROCLINK_GetReturnPendingSlot(EventSlots *slots, EventSlot *result, u8 *pendingKey);
+void EVENT_FIELD_PROCLINK_ClearReturnResultSlot(EventSlots *slots, int index);
+void EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk(EventSlots *slots);
+void EVENT_FIELD_PROCLINK_RequestReturn(EventSlots *slots, int entryId, int handlerIndex);
+int EVENT_FIELD_PROCLINK_HasReturnDefaultSlot(EventSlots *slots, int unused);
+u16 EVENT_FIELD_PROCLINK_GetReturnDefaultSlotType(EventSlots *slots);
+void EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(EventSlots *slots);
+void EVENT_FIELD_PROCLINK_CompactEntryList(char *entries);
+int EVENT_FIELD_PROCLINK_IsNetConnected(int unused);
+void EVENT_FIELD_PROCLINK_RunReturnSlots(EventSlots *slots, ProcLinkSys *procLink, int slotMask);
+int EVENT_FIELD_PROCLINK_HandlerCheckEntryGrid(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
+int EVENT_FIELD_PROCLINK_HandlerCheckEntryRail(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result);
+int EVENT_FIELD_PROCLINK_HandlerRemoveEntry(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot);
+void EVENT_FIELD_PROCLINK_SetReturnSlotDefault(EventSlots *slots, EventSlot *slot);
+void EVENT_FIELD_PROCLINK_SetReturnSlot(EventSlots *slots, int index, EventSlot *slot);
+int EVENT_FIELD_PROCLINK_GetReturnSlot(EventSlots *slots, u16 index, EventSlot *out);
+void EVENT_FIELD_PROCLINK_SetReturnResultSlot(EventSlots *slots, int index, u16 entryId, u16 handlerType);
+void EVENT_FIELD_PROCLINK_SetReturnPendingSlot(EventSlots *slots, int entryId, int handlerType);
+int EVENT_FIELD_PROCLINK_GetReturnResultSlotSub(EventSlots *slots, int index, EventSlot *out);
+int EVENT_FIELD_PROCLINK_GetReturnPendingSlotSub(EventSlots *slots, EventSlot *out);
+void EVENT_FIELD_PROCLINK_ClearReturnDefaultSlot(EventSlots *slots);
+void EVENT_FIELD_PROCLINK_ClearReturnSlot(EventSlots *slots, unsigned index);
+void EVENT_FIELD_PROCLINK_ClearReturnResultSlotSub(EventSlots *slots, unsigned index);
+void EVENT_FIELD_PROCLINK_ClearReturnPendingSlot(EventSlots *slots);
+int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int value);
 extern int d_0217144C[];
 extern ReturnHandlerFn d_02172990[];
 
-void func_02161E60(ProcLinkSys *procLink, int listIndex)
+void EVENT_FIELD_PROCLINK_CompactReturnList(ProcLinkSys *procLink, int listIndex)
 {
     if (listIndex == 0)
-        func_021620B0((char *)procLink + 8);
+        EVENT_FIELD_PROCLINK_CompactEntryList((char *)procLink + 8);
     else
-        func_021620B0((char *)procLink + 0xf8);
+        EVENT_FIELD_PROCLINK_CompactEntryList((char *)procLink + 0xf8);
 }
 
 /*
@@ -153,18 +153,18 @@ void func_02161E60(ProcLinkSys *procLink, int listIndex)
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02161E78.c \
- *       --func func_02161E78 --addr 0x02161E78 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/EVENT_FIELD_PROCLINK_ClearReturnEntry.c \
+ *       --func EVENT_FIELD_PROCLINK_ClearReturnEntry --addr 0x02161E78 --region ov010 --cc dsi/1.1p1 --thumb
  */
-void func_02161E78(ProcLinkEntry *entry)
+void EVENT_FIELD_PROCLINK_ClearReturnEntry(ProcLinkEntry *entry)
 {
 
     MI_CpuFill8(entry, 0, 24);
 }
 
-int func_02161E84(ProcLinkEntry *entry)
+int EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(ProcLinkEntry *entry)
 {
-    int curId = func_02045A98();
+    int curId = STRBUF_GetEosChar();
     int i;
     int found;
     if (entry->age >= 30) return 0;
@@ -179,10 +179,10 @@ int func_02161E84(ProcLinkEntry *entry)
     return 1;
 }
 
-int func_02161ECC(ProcLinkEntry *entry)
+int EVENT_FIELD_PROCLINK_IsReturnEntryValid(ProcLinkEntry *entry)
 {
     if (entry->active == 0) return 0;
-    if (func_02161E84(entry) != 0) return 1;
+    if (EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(entry) != 0) return 1;
     return 0;
 }
 
@@ -190,70 +190,70 @@ int func_02161ECC(ProcLinkEntry *entry)
  * Fills ten halfwords with 0xFFFF.  A leaf with no lr-saving prologue,
  * called only from arm9 (func_0200A848), so the listing emits it as data.
  */
-void func_02161EEC(u16 *buf)
+void EVENT_FIELD_PROCLINK_InitIdList(u16 *buf)
 {
     int i;
     for (i = 0; i < 10; i++)
         buf[i] = 0xffff;
 }
 
-void func_02161F00(ProcLinkRequest *request)
+void EVENT_FIELD_PROCLINK_InitReturnHeader(ProcLinkRequest *request)
 {
     MI_CpuFill8(request, 0, 4);
     request->mode = 10;
 }
 
-void func_02161F14(u16 *result, ProcLinkRequest *request, int variant)
+void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *result, ProcLinkRequest *request, int variant)
 {
     int handle;
     u16 *record;
     if (request->mode == 1) {
-        handle = func_021867C4(request->linkId, (u16)((variant & 0x7FFF) | 0x8000));
-        record = func_0218682C(handle);
+        handle = OEKAKI_SendPendingCommand(request->linkId, (u16)((variant & 0x7FFF) | 0x8000));
+        record = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(handle);
         result[0] = record[0x24 / 2];
         result[1] = record[8 / 2];
-        func_02186804(handle);
+        FIELD_WFBC_DATA_LOCAL_CloseNpcData(handle);
     } else {
         result[0] = 0;
         result[1] = 10;
     }
 }
 
-void func_02161F54(EventSlots *slots)
+void EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(EventSlots *slots)
 {
     MI_CpuFill8(slots, 0, 0x48);
-    slots->key = func_02039338();
+    slots->key = GFL_NET_SYSTEM_GetCurrentAid();
 }
 
-void func_02161F68(EventSlots *slots)
+void EVENT_FIELD_PROCLINK_ClearReturnSlots(EventSlots *slots)
 {
     MI_CpuFill8(slots, 0, 0x48);
 }
 
-void func_02161F74(EventSlots *slots, ProcLinkSys *procLink, int slotMask)
+void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(EventSlots *slots, ProcLinkSys *procLink, int slotMask)
 {
-    if (func_0216210C((int)slots) == 0)
-        func_02162120(slots, procLink, slotMask);
+    if (EVENT_FIELD_PROCLINK_IsNetConnected((int)slots) == 0)
+        EVENT_FIELD_PROCLINK_RunReturnSlots(slots, procLink, slotMask);
 }
 
-void func_02161F90(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant)
+void EVENT_FIELD_PROCLINK_ApplyReturnEntry(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, int arg, u16 linkId, u16 variant)
 {
     ProcLinkEntry *entry;
     int handle;
     u16 *record;
 
-    entry = func_02161DC4(procLink, linkId, 1);
-    handle = (int)func_021867C4(linkId, variant);
-    record = func_0218682C(handle);
+    entry = EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, linkId, 1);
+    handle = (int)OEKAKI_SendPendingCommand(linkId, variant);
+    record = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(handle);
     if (request->mode == 0)
         entry->value = record[3];
     else
         entry->value = record[2];
     entry->kind = 7;
-    func_02186804(handle);
-    func_02186520(request, arg, entry);
-    func_02161E78(entry);
-    func_02161E60(procLink, 1);
+    FIELD_WFBC_DATA_LOCAL_CloseNpcData(handle);
+    FIELD_WFBC_DATA_LOCAL_InsertPersonForCity(request, arg, entry);
+    EVENT_FIELD_PROCLINK_ClearReturnEntry(entry);
+    EVENT_FIELD_PROCLINK_CompactReturnList(procLink, 1);
 }
 
 /*
@@ -262,55 +262,55 @@ void func_02161F90(int unused, ProcLinkRequest *request, ProcLinkSys *procLink, 
 /*
  * Unlabelled leaf, four bytes: strh r1, [r0, #4]; bx lr.
  */
-void func_02161FEC(EventSlots *slots, u16 pendingKey)
+void EVENT_FIELD_PROCLINK_SetReturnLinkId(EventSlots *slots, u16 pendingKey)
 {
     slots->pendingKey = pendingKey;
 }
 
-void func_02161FF0(EventSlots *slots, EventSlot *slot)
+void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(EventSlots *slots, EventSlot *slot)
 {
-    if (func_0216210C((int)slots) == 0)
-        func_0216220C(slots, slot);
+    if (EVENT_FIELD_PROCLINK_IsNetConnected((int)slots) == 0)
+        EVENT_FIELD_PROCLINK_SetReturnSlotDefault(slots, slot);
 }
 
-void func_02162008(EventSlots *slots, int index, EventSlot *slot)
+void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(EventSlots *slots, int index, EventSlot *slot)
 {
-    if (func_0216210C((int)slots) == 0)
-        func_02162230(slots, index, slot);
+    if (EVENT_FIELD_PROCLINK_IsNetConnected((int)slots) == 0)
+        EVENT_FIELD_PROCLINK_SetReturnSlot(slots, index, slot);
 }
 
-int func_02162024(EventSlots *slots, int index, EventSlot *result)
+int EVENT_FIELD_PROCLINK_GetReturnResultSlot(EventSlots *slots, int index, EventSlot *result)
 {
-    return func_021622AC(slots, index, result);
+    return EVENT_FIELD_PROCLINK_GetReturnResultSlotSub(slots, index, result);
 }
 
-int func_0216202C(EventSlots *slots, EventSlot *result, u8 *pendingKey)
+int EVENT_FIELD_PROCLINK_GetReturnPendingSlot(EventSlots *slots, EventSlot *result, u8 *pendingKey)
 {
     *pendingKey = slots->pendingKey;
-    return func_021622D8(slots, result);
+    return EVENT_FIELD_PROCLINK_GetReturnPendingSlotSub(slots, result);
 }
 
-void func_02162038(EventSlots *slots, int index)
+void EVENT_FIELD_PROCLINK_ClearReturnResultSlot(EventSlots *slots, int index)
 {
-    func_02162330(slots, index);
+    EVENT_FIELD_PROCLINK_ClearReturnResultSlotSub(slots, index);
 }
 
 /*
  * The full target body overwrites r1/r2 with 0/8 before use; neither
  * caller nor thunk supplies those legacy trailing parameters.
  */
-void func_02162040(EventSlots *slots)
+void EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk(EventSlots *slots)
 {
-    func_02162358(slots);
+    EVENT_FIELD_PROCLINK_ClearReturnPendingSlot(slots);
 }
 
-void func_02162048(EventSlots *slots, int entryId, int handlerIndex)
+void EVENT_FIELD_PROCLINK_RequestReturn(EventSlots *slots, int entryId, int handlerIndex)
 {
     EventSlot slot;
     int handlerType;
 
-    if (func_0216210C((int)slots) == 0) {
-        func_02162298(slots, entryId, handlerIndex);
+    if (EVENT_FIELD_PROCLINK_IsNetConnected((int)slots) == 0) {
+        EVENT_FIELD_PROCLINK_SetReturnPendingSlot(slots, entryId, handlerIndex);
         return;
     }
     handlerType = d_0217144C[handlerIndex];
@@ -318,30 +318,30 @@ void func_02162048(EventSlots *slots, int entryId, int handlerIndex)
         slot.key = slots->key;
         slot.entryId = entryId;
         slot.handlerType = handlerType;
-        func_0216220C(slots, &slot);
+        EVENT_FIELD_PROCLINK_SetReturnSlotDefault(slots, &slot);
     }
 }
 
 /*
  * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
- * called from ov020 func_021871F8.
+ * called from ov020 FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain.
  */
-int func_0216208C(EventSlots *slots, int unused)
+int EVENT_FIELD_PROCLINK_HasReturnDefaultSlot(EventSlots *slots, int unused)
 {
     if (slots->flags & 8)
         return 1;
     return 0;
 }
 
-u16 func_0216209C(EventSlots *slots)
+u16 EVENT_FIELD_PROCLINK_GetReturnDefaultSlotType(EventSlots *slots)
 {
     return slots->defaultSlot.handlerType;
 }
 
-void func_021620A0(EventSlots *slots)
+void EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(EventSlots *slots)
 {
-    func_02162358(slots);
-    func_021622F4(slots);
+    EVENT_FIELD_PROCLINK_ClearReturnPendingSlot(slots);
+    EVENT_FIELD_PROCLINK_ClearReturnDefaultSlot(slots);
 }
 
 #pragma opt_propagation off
@@ -354,7 +354,7 @@ void func_021620A0(EventSlots *slots)
  * named counter i (sp+0 under sp+4), as in the image. With one base name the offset was a back-end
  * spill temporary above i (7 B, 92/92); without the pragma dst folds into p (7 B).
  */
-void func_021620B0(char *entries)
+void EVENT_FIELD_PROCLINK_CompactEntryList(char *entries)
 {
     int i;
     int j;
@@ -363,11 +363,11 @@ void func_021620B0(char *entries)
     dst = entries;
     i = 0;
     do {
-        if (func_02161ECC((ProcLinkEntry *)(entries + i * 0x18)) == 0) {
+        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((ProcLinkEntry *)(entries + i * 0x18)) == 0) {
             for (j = i + 1; j < 10; j++) {
-                if (func_02161ECC((ProcLinkEntry *)(entries + j * 0x18)) != 0) {
+                if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((ProcLinkEntry *)(entries + j * 0x18)) != 0) {
                     MI_CpuCopy8(entries + j * 0x18, dst + i * 0x18, 0x18);
-                    func_02161E78((ProcLinkEntry *)(entries + j * 0x18));
+                    EVENT_FIELD_PROCLINK_ClearReturnEntry((ProcLinkEntry *)(entries + j * 0x18));
                     break;
                 }
             }
@@ -378,14 +378,14 @@ void func_021620B0(char *entries)
 
 #pragma opt_propagation reset
 
-int func_0216210C(int unused)
+int EVENT_FIELD_PROCLINK_IsNetConnected(int unused)
 {
     if (func_0200FB24() == 0)
         return 0;
     return 1;
 }
 
-void func_02162120(EventSlots *slots, ProcLinkSys *procLink, int slotMask)
+void EVENT_FIELD_PROCLINK_RunReturnSlots(EventSlots *slots, ProcLinkSys *procLink, int slotMask)
 {
     EventSlot result;
     EventSlot slot;
@@ -394,47 +394,47 @@ void func_02162120(EventSlots *slots, ProcLinkSys *procLink, int slotMask)
 
     for (i = 0; i < 3; i++) {
         if ((slotMask & (1 << i)) == 0) {
-            func_0216230C(slots, (u16)i);
-        } else if (func_02162254(slots, i, &slot) != 0) {
+            EVENT_FIELD_PROCLINK_ClearReturnSlot(slots, (u16)i);
+        } else if (EVENT_FIELD_PROCLINK_GetReturnSlot(slots, i, &slot) != 0) {
             handled = d_02172990[slot.handlerType](slots, procLink, &slot, &result);
-            func_0216230C(slots, (u16)i);
+            EVENT_FIELD_PROCLINK_ClearReturnSlot(slots, (u16)i);
             if (handled != 0)
-                func_02162278(slots, (u16)i, result.entryId, result.handlerType);
+                EVENT_FIELD_PROCLINK_SetReturnResultSlot(slots, (u16)i, result.entryId, result.handlerType);
         }
     }
 }
 
-int func_02162198(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result)
+int EVENT_FIELD_PROCLINK_HandlerCheckEntryGrid(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result)
 {
     result->key = slot->key;
     result->entryId = slot->entryId;
-    if (func_02161DC4(procLink, slot->entryId, 1) != 0) result->handlerType = 0;
+    if (EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, slot->entryId, 1) != 0) result->handlerType = 0;
     else result->handlerType = 1;
     return 1;
 }
 
-int func_021621C0(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result)
+int EVENT_FIELD_PROCLINK_HandlerCheckEntryRail(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot, EventSlot *result)
 {
     result->key = slot->key;
     result->entryId = slot->entryId;
-    if (func_02161DC4(procLink, slot->entryId, 1) != 0) result->handlerType = 2;
+    if (EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, slot->entryId, 1) != 0) result->handlerType = 2;
     else result->handlerType = 3;
     return 1;
 }
 
-int func_021621E8(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot)
+int EVENT_FIELD_PROCLINK_HandlerRemoveEntry(EventSlots *slots, ProcLinkSys *procLink, const EventSlot *slot)
 {
     ProcLinkEntry *entry;
 
-    entry = func_02161DC4(procLink, slot->entryId, 1);
+    entry = EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, slot->entryId, 1);
     if (entry != 0) {
-        func_02161E78(entry);
-        func_02161E60(procLink, 1);
+        EVENT_FIELD_PROCLINK_ClearReturnEntry(entry);
+        EVENT_FIELD_PROCLINK_CompactReturnList(procLink, 1);
     }
     return 0;
 }
 
-void func_0216220C(EventSlots *slots, EventSlot *slot)
+void EVENT_FIELD_PROCLINK_SetReturnSlotDefault(EventSlots *slots, EventSlot *slot)
 {
     if (slot->key == slots->key) {
         MI_CpuCopy8(slot, &slots->defaultSlot, 8);
@@ -448,13 +448,13 @@ void func_0216220C(EventSlots *slots, EventSlot *slot)
  *           index-th eight-byte slot after an 8-byte head, then bit index of
  *           the u16 at +2 is set.
  */
-void func_02162230(EventSlots *slots, int index, EventSlot *slot)
+void EVENT_FIELD_PROCLINK_SetReturnSlot(EventSlots *slots, int index, EventSlot *slot)
 {
     MI_CpuCopy8(slot, &slots->slot[index], 8);
     slots->flags = (u16)(slots->flags | (1 << index));
 }
 
-int func_02162254(EventSlots *slots, u16 index, EventSlot *out)
+int EVENT_FIELD_PROCLINK_GetReturnSlot(EventSlots *slots, u16 index, EventSlot *out)
 {
     int result = 0;
     if (slots->flags & (1 << index)) {
@@ -464,7 +464,7 @@ int func_02162254(EventSlots *slots, u16 index, EventSlot *out)
     return result;
 }
 
-void func_02162278(EventSlots *slots, int index, u16 entryId, u16 handlerType)
+void EVENT_FIELD_PROCLINK_SetReturnResultSlot(EventSlots *slots, int index, u16 entryId, u16 handlerType)
 {
     slots->resultSlot[index].key = index;
     slots->resultSlot[index].entryId = entryId;
@@ -472,7 +472,7 @@ void func_02162278(EventSlots *slots, int index, u16 entryId, u16 handlerType)
     slots->flags = (u16)(slots->flags | (1 << (index + 5)));
 }
 
-void func_02162298(EventSlots *slots, int entryId, int handlerType)
+void EVENT_FIELD_PROCLINK_SetReturnPendingSlot(EventSlots *slots, int entryId, int handlerType)
 {
     int pendingKey;
     int flags;
@@ -485,7 +485,7 @@ void func_02162298(EventSlots *slots, int entryId, int handlerType)
     slots->flags = flags | 0x10;
 }
 
-int func_021622AC(EventSlots *slots, int index, EventSlot *out)
+int EVENT_FIELD_PROCLINK_GetReturnResultSlotSub(EventSlots *slots, int index, EventSlot *out)
 {
     int result = 0;
     if (slots->flags & (1 << (index + 5))) {
@@ -495,7 +495,7 @@ int func_021622AC(EventSlots *slots, int index, EventSlot *out)
     return result;
 }
 
-int func_021622D8(EventSlots *slots, EventSlot *out)
+int EVENT_FIELD_PROCLINK_GetReturnPendingSlotSub(EventSlots *slots, EventSlot *out)
 {
     int result = 0;
     if (slots->flags & 16) {
@@ -505,7 +505,7 @@ int func_021622D8(EventSlots *slots, EventSlot *out)
     return result;
 }
 
-void func_021622F4(EventSlots *slots)
+void EVENT_FIELD_PROCLINK_ClearReturnDefaultSlot(EventSlots *slots)
 {
     MI_CpuFill8(&slots->defaultSlot, 0, 8);
     slots->flags = slots->flags & ~8;
@@ -519,7 +519,7 @@ void func_021622F4(EventSlots *slots)
  *   with 02161F54. The clear spans offsets 8..31; the mask reads offset 2.
  *   Thus primary shift counts 0..2 are defined; no arbitrary-u32 domain claim.
  */
-void func_0216230C(EventSlots *slots, unsigned index) { MI_CpuFill8(&slots->slot[index],0,8); slots->flags = slots->flags & ~(1<<index); }
+void EVENT_FIELD_PROCLINK_ClearReturnSlot(EventSlots *slots, unsigned index) { MI_CpuFill8(&slots->slot[index],0,8); slots->flags = slots->flags & ~(1<<index); }
 
 /*
  * domain: Primary ov011 call 02174C8C reaches this through thunk 02162038.
@@ -530,9 +530,9 @@ void func_0216230C(EventSlots *slots, unsigned index) { MI_CpuFill8(&slots->slot
  *   Clears cover offsets 0x30..0x47; mask halfword offset 2 is initialized.
  *   No arbitrary-u32 domain claim: all primary arithmetic stays in range.
  */
-void func_02162330(EventSlots *slots, unsigned index) { MI_CpuFill8(&slots->resultSlot[index],0,8); slots->flags = slots->flags & ~(1<<(index+5)); }
+void EVENT_FIELD_PROCLINK_ClearReturnResultSlotSub(EventSlots *slots, unsigned index) { MI_CpuFill8(&slots->resultSlot[index],0,8); slots->flags = slots->flags & ~(1<<(index+5)); }
 
-void func_02162358(EventSlots *slots)
+void EVENT_FIELD_PROCLINK_ClearReturnPendingSlot(EventSlots *slots)
 {
     MI_CpuFill8(&slots->pendingSlot, 0, 8);
     slots->flags = slots->flags & ~0x10;
@@ -543,7 +543,7 @@ void func_02162358(EventSlots *slots)
  *
  * Addresses are Black-image addresses.
  */
-int func_02162370(int value)
+int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int value)
 {
     return value >= 7;
 }

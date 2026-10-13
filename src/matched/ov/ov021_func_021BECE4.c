@@ -1,5 +1,5 @@
 /*
- * function: func_021BECE4
+ * function: EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6
  * address:  0x021BECE4
  * packet:   pkt_ov021_021BECE4
  * region:   ov021
@@ -12,8 +12,8 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021BF3BC  0x021BF3BC  thumb  ov021
- *   func_021BEA6C  0x021BEA6C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeInEffect6  0x021BF3BC  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_GetFadeKind  0x021BEA6C  thumb  ov021
  */
 
 typedef struct {
@@ -28,16 +28,16 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern int func_021BF3BC(int a, int *s, int *q);
-extern int func_021BEA6C(int a);
+extern int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(int a, int *s, int *q);
+extern int EVENT_FIELDMAP_CONTROL_GetFadeKind(int a);
 
-void *func_021BECE4(int a, int b)
+void *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(int a, int b)
 {
-    void *t = func_020122C0((void *)a, 0, func_021BF3BC, 0x2c);
+    void *t = func_020122C0((void *)a, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect6, 0x2c);
     Work *w = func_020124E8(t);
     w->f0 = a;
     w->f4 = b;
     w->f8 = 6;
-    w->fC = func_021BEA6C(6);
+    w->fC = EVENT_FIELDMAP_CONTROL_GetFadeKind(6);
     return t;
 }

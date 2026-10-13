@@ -1,5 +1,5 @@
 /*
- * function: func_021BBE84
+ * function: FLDEFF_FOOTMARK_InitTask
  * address:  0x021BBE84
  * packet:   pkt_ov021_021BBE84
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_02050340  0x02050340  arm
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   BILLBOARD_ACT_CreateEntries  0x02050340  arm
  */
 typedef unsigned short u16;
 typedef signed char s8;
@@ -54,16 +54,16 @@ typedef struct Desc2 {
 typedef unsigned int   u32;
 struct BbActDesc;
 struct BbActSys;
-extern int func_021AC1AC(u32 a);
-extern void func_021AC1B8(int a, Desc2 *d);
-extern void func_021AC154(int a);
-extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
+extern void FIELD_EFFECT_GetObjectPos(int a, Desc2 *d);
+extern void FIELD_EFFECT_DeleteObject(int a);
+extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 
-void func_021BBE84(int a0, Res *r)
+void FLDEFF_FOOTMARK_InitTask(int a0, Res *r)
 {
     Desc2 d2;
     Desc1 d1;
-    Src *s = (Src *)func_021AC1AC(a0);
+    Src *s = (Src *)FIELD_EFFECT_GetObjectParam(a0);
 
     *(Src *)r = *s;
     r->h0e = 0x1f;
@@ -75,9 +75,9 @@ void func_021BBE84(int a0, Res *r)
     d1.f = 1;
     d2.a = 0;
     d2.b = r;
-    func_021AC1B8(a0, &d2);
-    r->h8 = func_02050340(r->head->h4, 0, (const struct BbActDesc *)(&d1), 1, 3);
+    FIELD_EFFECT_GetObjectPos(a0, &d2);
+    r->h8 = BILLBOARD_ACT_CreateEntries(r->head->h4, 0, (const struct BbActDesc *)(&d1), 1, 3);
     if (r->h8 == 0xFFFF) {
-        func_021AC154(a0);
+        FIELD_EFFECT_DeleteObject(a0);
     }
 }

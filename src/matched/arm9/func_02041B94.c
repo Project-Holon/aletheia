@@ -12,7 +12,7 @@
  * symbols:
  *   g_02146A44     0x02146A44  data
  *   GFL_NET_SetIrcParams  0x0203D814  arm
- *   func_02051E74  0x02051E74  arm
+ *   BUTTON_MAN_RotScaleMtx22  0x02051E74  arm
  *   func_0207D59C  0x0207D59C  arm
  *
  * The per-frame scroll/affine flush for the whole BG system: eight
@@ -29,7 +29,7 @@
  *
  * Layers 2, 3, 6 and 7 are affine-capable and first read the record's +0x1c
  * flag: zero takes the same plain path, non-zero builds a 16-byte matrix on
- * the stack with func_02051E74 and hands it to func_0207D59C along with the
+ * the stack with BUTTON_MAN_RotScaleMtx22 and hands it to func_0207D59C along with the
  * layer's affine register block.
  *
  * THREE DECLARATIONS CARRY THE FUNCTION, all three established by this pass
@@ -98,7 +98,7 @@ struct Mtx { u32 w[4]; };
 extern struct BgSys *g_02146A44;
 extern void GFL_NET_SetIrcParams(u32 x, u32 y);
 struct Mtx22;
-extern void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
+extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void func_0207D59C(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
 
 #define W(a) (*(volatile u32 *)(a))
@@ -124,7 +124,7 @@ void func_02041B94(void)
                           | (hm & (SLOT(2).scroll_y << 16));
         } else {
             struct Mtx t;
-            func_02051E74((struct Mtx22 *)(&t), SLOT(2).aff_20,
+            BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&t), SLOT(2).aff_20,
                           (const void *)SLOT(2).aff_24,
                           (const void *)SLOT(2).aff_28, 2);
             func_0207D59C((void *)0x04000020, &t,
@@ -138,7 +138,7 @@ void func_02041B94(void)
                           | (hm & (SLOT(3).scroll_y << 16));
         } else {
             struct Mtx t;
-            func_02051E74((struct Mtx22 *)(&t), SLOT(3).aff_20,
+            BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&t), SLOT(3).aff_20,
                           (const void *)SLOT(3).aff_24,
                           (const void *)SLOT(3).aff_28, 2);
             func_0207D59C((void *)0x04000030, &t,
@@ -160,7 +160,7 @@ void func_02041B94(void)
                           | (hm & (SLOT(6).scroll_y << 16));
         } else {
             struct Mtx t;
-            func_02051E74((struct Mtx22 *)(&t), SLOT(6).aff_20,
+            BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&t), SLOT(6).aff_20,
                           (const void *)SLOT(6).aff_24,
                           (const void *)SLOT(6).aff_28, 2);
             func_0207D59C((void *)0x04001020, &t,
@@ -174,7 +174,7 @@ void func_02041B94(void)
                           | (hm & (SLOT(7).scroll_y << 16));
         } else {
             struct Mtx t;
-            func_02051E74((struct Mtx22 *)(&t), SLOT(7).aff_20,
+            BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&t), SLOT(7).aff_20,
                           (const void *)SLOT(7).aff_24,
                           (const void *)SLOT(7).aff_28, 2);
             func_0207D59C((void *)0x04001030, &t,

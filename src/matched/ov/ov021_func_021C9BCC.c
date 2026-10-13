@@ -1,5 +1,5 @@
 /*
- * function: func_021C9BCC
+ * function: BSUBWAY_SCR_SaveRestPlayData
  * address:  0x021C9BCC
  * packet:   pkt_ov021_021C9BCC
  * region:   ov021
@@ -33,7 +33,7 @@ struct Blk3C;
 extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
 extern void func_0200D868(struct Blk3C *p, u32 v);
 
-void func_021C9BCC(u8 *p)
+void BSUBWAY_SCR_SaveRestPlayData(u8 *p)
 {
     u8 v = p[9];
 

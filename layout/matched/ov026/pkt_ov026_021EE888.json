@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EE888",
+   "name": "WEATHER_RAIN_Run",
    "address": "0x021EE888",
    "kind": "game",
    "region": "ov026",

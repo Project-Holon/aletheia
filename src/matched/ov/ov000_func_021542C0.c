@@ -1,5 +1,5 @@
 /*
- * function: func_021542C0
+ * function: EVENT_GSYNC_Main
  * address:  0x021542C0
  * packet:   pkt_ov000_021542C0
  * region:   ov000
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Stage machine on *mode (25 states), same family as ov003 func_021542C0.
+ * Stage machine on *mode (25 states), same family as ov003 EVENT_GSYNC_Main.
  * Pooled small words 0x7B/0x10/0x73/0xAA are linker overlay ids
  * (ov123/ov016/ov115/ov170) handed with a table in that overlay's window.
  * 0x04000208 (IME) and 0x04000304 (POWCNT) are cast hardware constants.
@@ -19,8 +19,8 @@
  *
  * Blocker (MATCH, every concrete byte right, 59 of 60 sites resolved): the
  * pool word 0x000000AA (ov170_id, +0x394) has no witness.  It is the id
- * argument (r1) of func_02012444, which is not in OVERLAY_ID_CONSUMERS;
- * func_02012444 (EXACT, arm9) stores its r1 as item[0], and its state
+ * argument (r1) of GAME_EVENT_CallProc, which is not in OVERLAY_ID_CONSUMERS;
+ * GAME_EVENT_CallProc (EXACT, arm9) stores its r1 as item[0], and its state
  * machine GAME_EVENT_CallProcSeq (EXACT) passes item[0] to GAMESYSTEM_CallProc's id
  * parameter, so adding 0x02012444 with register 1 to OVERLAY_ID_CONSUMERS
  * in tools/match.py would resolve it as `overlay_id` (integrator's call).
@@ -28,9 +28,9 @@
  *
  * symbols:
  *   func_0201210C  0x0201210C  thumb
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -45,7 +45,7 @@
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009448  0x02009448  thumb
  *   func_02009304  0x02009304  thumb
  *   func_0201293C  0x0201293C  thumb
@@ -54,11 +54,11 @@
  *   func_02012944  0x02012944  thumb
  *   func_020079A0  0x020079A0  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_02012444  0x02012444  thumb
+ *   GAME_EVENT_CallProc  0x02012444  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
- *   func_020121CC  0x020121CC  thumb
+ *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   ov123_id       0x0000007B  data   a1
  *   ov016_id       0x00000010  data   a1
  *   ov115_id       0x00000073  data   a1
@@ -86,9 +86,9 @@ struct Sub02008700Obj;
 struct Sub02009210Obj;
 struct Sub02009448Obj;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void  func_02082BCC(void *p, int c, int n);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
@@ -103,7 +103,7 @@ extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u8 func_02009304(const struct Sub02009210Obj *obj);
 extern u32 func_0201293C(const struct BigObj *p);
@@ -112,11 +112,11 @@ extern void *func_0201292C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern int func_020079A0(void *save);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u32 func_0200FB24(void);
-extern void  func_0200FB38(void);
+extern void  GFL_NET_ERR_RequestScreen(void);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern u32 func_020121CC(struct IcaAnime *p);
+extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
 extern char ov123_id[];
 extern char ov016_id[];
@@ -133,7 +133,7 @@ extern char d_021EF78C[];
 #define H(o)  (*(u16 *)(args + (o)))
 #define B(o)  (*(u8 *)(args + (o)))
 
-u32 func_021542C0(void *obj, u32 *mode, char *args)
+u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
 {
     u32 h = F(0x0);
     u32 v = (u32)func_0201210C((const struct Ctx *)h);
@@ -141,11 +141,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
 
     switch (*mode) {
     case 0:
-        func_02012374(obj, (struct Evt **)func_021BE8D4((void *)h, v, 0, 0));
+        GAME_EVENT_CallEvent(obj, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)h, v, 0, 0));
         (*mode)++;
         break;
     case 1:
-        func_02012374(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, v));
+        GAME_EVENT_CallEvent(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, v));
         F(0x2c8) = 0;
         *mode = 2;
         break;
@@ -195,11 +195,11 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         *mode = 2;
         break;
     case 10:
-        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)h));
+        GAME_EVENT_CallEvent(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)h));
         (*mode)++;
         break;
     case 11:
-        func_02012374(obj, (struct Evt **)func_021BE92C((void *)h, v, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(obj, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)h, v, 0, 0, 1, 0, 0));
         (*mode)++;
         break;
     case 12:
@@ -214,7 +214,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
     case 13:
         return 1;
     case 16:
-        r = func_02009304((const struct Sub02009210Obj *)func_02009448(func_02012EBC(func_020120F4((const struct Ctx *)h))));
+        r = func_02009304((const struct Sub02009210Obj *)func_02009448(GAME_DATA_GetSaveControl(func_020120F4((const struct Ctx *)h))));
         if (func_020079A0((void *)func_0201293C(func_020120F4((const struct Ctx *)h))) == 0 && r == 0) {
             F(0x1c8) = 4;
             *mode = 19;
@@ -273,16 +273,16 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         F(0x2a4) = (u32)func_02012934((const struct BigObj *)F(0x29c));
         F(0x2a8) = (u32)func_0201292C((const struct BigObj *)F(0x29c));
         F(0x2ac) = (u32)func_02012944((void *)F(0x29c));
-        F(0x2b4) = (u32)func_0200873C(func_02012EBC((struct Big *)F(0x29c)));
+        F(0x2b4) = (u32)func_0200873C(GAME_DATA_GetSaveControl((struct Big *)F(0x29c)));
         F(0x2bc) = (u32)(args + 0x1d8);
         F(0x2b8) = 0;
         F(0x2c0) = 5;
-        func_02012444(obj, (u32)ov170_id, (u32)d_021EF78C, (u32)(args + 0x29c));
+        GAME_EVENT_CallProc(obj, (u32)ov170_id, (u32)d_021EF78C, (u32)(args + 0x29c));
         (*mode)++;
         break;
     case 22:
         if (func_0200FB24()) {
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             GFL_NET_ERR_ShowScreen(0);
             F(0x26c) = 1;
             *mode = 17;
@@ -312,7 +312,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         break;
     case 24:
         if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
-            func_020121CC((struct IcaAnime *)h);
+            GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)h);
             *(vu16 *)0x04000304 |= 0x8000;
             F(0x2c8) = 0;
             *mode = 2;

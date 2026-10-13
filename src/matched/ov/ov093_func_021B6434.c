@@ -1,5 +1,5 @@
 /*
- * function: func_021B6434
+ * function: BTL_MAIN_ProcMain
  * address:  0x021B6434
  * packet:   pkt_ov093_021B6434
  * region:   ov093
@@ -15,7 +15,7 @@
  *   func_021BA6C0  0x021BA6C0  thumb  ov093
  *   func_021BA878  0x021BA878  thumb  ov093
  *   func_021BA2E4  0x021BA2E4  thumb  ov093
- *   func_021B64CC  0x021B64CC  thumb  ov093
+ *   BTL_MAIN_IsRecordPlaybackDone  0x021B64CC  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -45,9 +45,9 @@ extern int func_021BA54C(char *p);
 extern void func_021BA6C0(char *p);
 extern void func_021BA878(u8 *p);
 extern void func_021BA2E4(char *p);
-extern int func_021B64CC(u8 *p);
+extern int BTL_MAIN_IsRecordPlaybackDone(u8 *p);
 
-int func_021B6434(int a0, int a1, int a2, struct S *s)
+int BTL_MAIN_ProcMain(int a0, int a1, int a2, struct S *s)
 {
     u32 t;
     u32 r;
@@ -71,7 +71,7 @@ int func_021B6434(int a0, int a1, int a2, struct S *s)
                 break;
             }
         } else {
-            r = func_021B64CC((u8 *)s);
+            r = BTL_MAIN_IsRecordPlaybackDone((u8 *)s);
             s->f00->fc1_1 = r;
         }
         return 1;

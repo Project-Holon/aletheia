@@ -1,5 +1,5 @@
 /*
- * function: func_021BC838
+ * function: FIELD_PLACE_NAME_ResetSpawnCounts
  * address:  0x021BC838
  * packet:   pkt_ov021_021BC838
  * region:   ov021
@@ -12,7 +12,7 @@
  * Unlabelled leaf: clears bytes +0x148 and +0x14B.
  */
 
-void func_021BC838(char *p)
+void FIELD_PLACE_NAME_ResetSpawnCounts(char *p)
 {
     p[0x148] = 0;
     p[0x14b] = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DD570
+ * function: BTL_HANDLER_ITEM_AddBerryJuice
  * address: 0x021DD570
  * packet: pkt_ov093_021DD570
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCAE8.c and filed here.
  *
  * symbols:
- *   d_021F1AA4 0x021F1AA4 data ov093 a4
+ *   gHandlerTableBerryJuice 0x021F1AA4 data ov093 a4
  */
 
-int *func_021DD570(int *p);
-extern int d_021F1AA4[];
+int *BTL_HANDLER_ITEM_AddBerryJuice(int *p);
+extern int gHandlerTableBerryJuice[];
 
-int *func_021DD570(int *p)
+int *BTL_HANDLER_ITEM_AddBerryJuice(int *p)
 {
     *p = 4;
-    return d_021F1AA4;
+    return gHandlerTableBerryJuice;
 }

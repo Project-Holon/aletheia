@@ -59,7 +59,7 @@
    "status": "EXACT",
    "functions": [
     "POKE_TOOL_GetBoxParamSize",
-    "func_020173EC"
+    "POKE_TOOL_GetPartyParamSize"
    ],
    "addresses": [
     "0x020173E8",

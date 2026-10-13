@@ -1,5 +1,5 @@
 /*
- * function: func_021BA454
+ * function: POKELIST_OnMailItemChoice
  * address:  0x021BA454
  * packet:   pkt_ov091_021BA454
  * region:   ov091
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB7A4  0x021BB7A4  thumb  ov091
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_021BA65C  0x021BA65C  thumb  ov091
- *   func_021BA688  0x021BA688  thumb  ov091
- *   func_021B9788  0x021B9788  thumb  ov091
- *   func_021BB2C0  0x021BB2C0  thumb  ov091
- *   func_021B7B98  0x021B7B98  thumb  ov091
- *   func_021B9E20  0x021B9E20  thumb  ov091
+ *   PLIST_MESSAGE_CloseWindow  0x021BB7A4  thumb  ov091
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   POKELIST_CheckBagItem  0x021BA65C  thumb  ov091
+ *   POKELIST_ReturnBagItem  0x021BA688  thumb  ov091
+ *   POKELIST_ShowMessage  0x021B9788  thumb  ov091
+ *   PLIST_PLATE_Redraw  0x021BB2C0  thumb  ov091
+ *   POKELIST_SetupModeScreen  0x021B7B98  thumb  ov091
+ *   POKELIST_EndMessageToList  0x021B9E20  thumb  ov091
  */
 #include "../include/Obj00009.h"
 
@@ -26,33 +26,33 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021BB7A4(void *p, u32 *s);
-extern u32 func_02017E1C(void *obj, u32 key, u32 off);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_021BA65C(u8 *p, u16 id);
-extern u32 func_021BA688(u8 *p, u16 id);
-extern void func_021B9788(u8 *p, int a1, int a2, int a3);
-extern void func_021BB2C0(u8 *a, u8 *s);
-extern void func_021B7B98(u8 *a);
-extern void func_021B9E20(u8 *p);
+extern void PLIST_MESSAGE_CloseWindow(void *p, u32 *s);
+extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKELIST_CheckBagItem(u8 *p, u16 id);
+extern u32 POKELIST_ReturnBagItem(u8 *p, u16 id);
+extern void POKELIST_ShowMessage(u8 *p, int a1, int a2, int a3);
+extern void PLIST_PLATE_Redraw(u8 *a, u8 *s);
+extern void POKELIST_SetupModeScreen(u8 *a);
+extern void POKELIST_EndMessageToList(u8 *p);
 
-void func_021BA454(u8 *a, int k)
+void POKELIST_OnMailItemChoice(u8 *a, int k)
 {
-    func_021BB7A4(a, (u32 *)(*(int *)&((struct Obj00009 *)a)->f150));
+    PLIST_MESSAGE_CloseWindow(a, (u32 *)(*(int *)&((struct Obj00009 *)a)->f150));
     if (k == 0xe) {
-        int v = func_02017E1C((void *)*(int *)&((struct Obj00009 *)a)->f38, 6, 0);
+        int v = POKE_TOOL_GetPartyValue((void *)*(int *)&((struct Obj00009 *)a)->f38, 6, 0);
 
-        if (func_021BA65C(a, v) == 0x3e7) {
-            func_021B9788(a, 0x3f, 1, (int)func_021B9E20);
+        if (POKELIST_CheckBagItem(a, v) == 0x3e7) {
+            POKELIST_ShowMessage(a, 0x3f, 1, (int)POKELIST_EndMessageToList);
             return;
         }
-        func_021BA688(a, v);
-        func_02017E40((void *)(*(int *)&((struct Obj00009 *)a)->f38), 6, 0);
-        func_021BB2C0(a, (u8 *)(*(int *)(a + ((struct Obj00009 *)a)->f2C * 4 + 0x160)));
-        func_021B9788(a, 0x1f, 1, (int)func_021B9E20);
+        POKELIST_ReturnBagItem(a, v);
+        POKE_TOOL_SetPartyValue((void *)(*(int *)&((struct Obj00009 *)a)->f38), 6, 0);
+        PLIST_PLATE_Redraw(a, (u8 *)(*(int *)(a + ((struct Obj00009 *)a)->f2C * 4 + 0x160)));
+        POKELIST_ShowMessage(a, 0x1f, 1, (int)POKELIST_EndMessageToList);
     } else {
-        func_021BB7A4(a, (u32 *)(*(int *)&((struct Obj00009 *)a)->f150));
+        PLIST_MESSAGE_CloseWindow(a, (u32 *)(*(int *)&((struct Obj00009 *)a)->f150));
         a[0xc] = 2;
-        func_021B7B98(a);
+        POKELIST_SetupModeScreen(a);
     }
 }

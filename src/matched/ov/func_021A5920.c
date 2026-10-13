@@ -1,5 +1,5 @@
 /*
- * function: func_021A5920
+ * function: FIELD_PLAYER_NOGRID_Delete
  * address:  0x021A5920
  * packet:   pkt_021A5920
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021A5920(void *a0)
+void FIELD_PLAYER_NOGRID_Delete(void *a0)
 {
     func_020307B0(a0);
 }

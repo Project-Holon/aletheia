@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021CF220, func_021CF27C
+ * function: COMM_ENTRY_SendJoinAccept, COMM_ENTRY_RecvJoinRedirect
  * address:  0x021CF220
  * packet:   pkt_ov021_021CF220
  * region:   ov021
@@ -10,14 +10,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_021CF27C (unlabelled) is a tail-call stub into func_021CF110.
+ * COMM_ENTRY_RecvJoinRedirect (unlabelled) is a tail-call stub into COMM_ENTRY_StoreJoinReply.
  *
  * symbols:
- *   func_0203996C  0x0203996C  arm
- *   func_02008468  0x02008468  thumb
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3F8  0x0203D3F8  arm
- *   func_021CF110  0x021CF110  thumb  ov021
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
+ *   MYSTATUS_GetSize  0x02008468  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
+ *   COMM_ENTRY_StoreJoinReply  0x021CF110  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -27,27 +27,27 @@ typedef unsigned int   u32;
 
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
-extern int func_02008468(void);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+extern int MYSTATUS_GetSize(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void func_021CF110(u8 *p, u32 v, void *a);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern void COMM_ENTRY_StoreJoinReply(u8 *p, u32 v, void *a);
 
-void func_021CF220(u32 a, u32 flag, u32 c)
+void COMM_ENTRY_SendJoinAccept(u32 a, u32 flag, u32 c)
 {
     u32 h;
 
     if (flag == 1) {
-        h = (u32)func_0203996C(0xff);
-        func_0203D3F8(h, a, 0x2701, func_02008468(), c, 0, 0, 0);
+        h = (u32)GFL_NET_HANDLE_GetNetHandle(0xff);
+        GFL_NET_SendData(h, a, 0x2701, MYSTATUS_GetSize(), c, 0, 0, 0);
     } else {
-        h = (u32)func_020399A8();
-        func_0203D3F8(h, a, 0x2701, func_02008468(), c, 0, 0, 0);
+        h = (u32)GFL_NET_HANDLE_GetCurrentHandle();
+        GFL_NET_SendData(h, a, 0x2701, MYSTATUS_GetSize(), c, 0, 0, 0);
     }
 }
 
-void func_021CF27C(u32 a, u32 b, u32 c, u32 d)
+void COMM_ENTRY_RecvJoinRedirect(u32 a, u32 b, u32 c, u32 d)
 {
-    func_021CF110((u8 *)d, 2, (void *)c);
+    COMM_ENTRY_StoreJoinReply((u8 *)d, 2, (void *)c);
 }

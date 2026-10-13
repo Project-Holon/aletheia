@@ -14,16 +14,16 @@
  * pooled 0x74 (116), a linker overlay id; the third lies in ov116.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   ov116_id       0x00000074  data   a1
  *   d_021D83A4     0x021D83A4  data   ov116  a4
  */
@@ -33,18 +33,18 @@ typedef unsigned short u16;
 
 struct Ctx;
 struct Evt;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32   func_02012138(const struct Ctx *a0);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32   GAMESYSTEM_GetGameComm(const struct Ctx *a0);
 typedef unsigned char  u8;
 struct IcaAnime;
 extern u32 func_02026454(void *obj);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 extern char ov116_id[];
 extern char d_021D83A4[];
@@ -52,19 +52,19 @@ extern char d_021D83A4[];
 u32 EVENT_BSUBWAY_COMM_EventMain(void *obj, u32 *mode, u32 *args)
 {
     u32 h = args[1];
-    void *x = func_0201210C((void *)h);
+    void *x = GAMESYSTEM_GetFieldMap((void *)h);
 
     switch (*mode) {
     case 0:
-        if (func_02026454((void *)((int)func_02012138((const struct Ctx *)h))) == 0)
+        if (func_02026454((void *)((int)GAMESYSTEM_GetGameComm((const struct Ctx *)h))) == 0)
             (*mode)++;
         break;
     case 1:
-        func_02012374(obj, (struct Evt **)func_021BE8D4((void *)h, (int)x, 0, 0));
+        GAME_EVENT_CallEvent(obj, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)h, (int)x, 0, 0));
         (*mode)++;
         break;
     case 2:
-        func_02012374(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, (int)x));
+        GAME_EVENT_CallEvent(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, (int)x));
         (*mode)++;
         break;
     case 3:
@@ -81,11 +81,11 @@ u32 EVENT_BSUBWAY_COMM_EventMain(void *obj, u32 *mode, u32 *args)
         }
         break;
     case 5:
-        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)h));
+        GAME_EVENT_CallEvent(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)h));
         (*mode)++;
         break;
     case 6:
-        func_02012374(obj, (struct Evt **)func_021BE92C((void *)h, (int)x, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(obj, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)h, (int)x, 0, 0, 1, 0, 0));
         (*mode)++;
         break;
     case 7:

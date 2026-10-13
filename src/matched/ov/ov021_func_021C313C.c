@@ -1,5 +1,5 @@
 /*
- * function: func_021C313C
+ * function: FLD3D_CI_InitEventWork
  * address:  0x021C313C
  * packet:   pkt_ov021_021C313C
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 
 extern void func_02082BCC(void *, unsigned, unsigned);
 
-void func_021C313C(u32 a, u32 *p)
+void FLD3D_CI_InitEventWork(u32 a, u32 *p)
 {
     func_02082BCC(p, 0, 0x40);
     p[0] = a;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA50
+ * function: BTL_SERVER_FLOW_FindNextActionByPokeId
  * address:  0x021BCA50
  * packet:   pkt_ov093_021BCA50
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -18,9 +18,9 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct { u8 *a; u32 b, c, d; } E;
 typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[4]; } S;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 
-E *func_021BCA50(S *p, E *cur, u32 x)
+E *BTL_SERVER_FLOW_FindNextActionByPokeId(S *p, E *cur, u32 x)
 {
     u32 i;
     for (i = 0; i < p->n; i++) {
@@ -30,7 +30,7 @@ E *func_021BCA50(S *p, E *cur, u32 x)
         }
     }
     for (; i < p->n; i++) {
-        if (x == func_021D5440(p->e[i].a))
+        if (x == BTL_POKEPARAM_GetPokeId(p->e[i].a))
             return &p->e[i];
     }
     return 0;

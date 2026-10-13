@@ -1,5 +1,5 @@
 /*
- * function: func_021B86B8
+ * function: ITEMMENU_Init
  * address:  0x021B86B8
  * packet:   pkt_ov070_021B86B8
  * region:   ov070
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   KEY_GetRepeatSpeed  0x02036370  arm
  *   func_02045B38  0x02045B38  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02051B84  0x02051B84  arm
- *   func_0203101C  0x0203101C  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   BUTTON_MAN_Create  0x02051B84  arm
+ *   TCBL_Create  0x0203101C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_020355C4  0x020355C4  arm
  *   func_0200816C  0x0200816C  thumb
  *   func_02008284  0x02008284  thumb
@@ -28,24 +28,24 @@
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201C450  0x0201C450  thumb
  *   func_02028590  0x02028590  thumb
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_020056A0  0x020056A0  thumb
- *   func_02027F60  0x02027F60  thumb
- *   func_021B9280  0x021B9280  thumb  ov070
- *   func_021B9BDC  0x021B9BDC  thumb  ov070
- *   func_021B9EF4  0x021B9EF4  thumb  ov070
- *   func_021BA8C0  0x021BA8C0  thumb  ov070
+ *   APP_TASKMENU_RES_Create  0x02027F60  thumb
+ *   ITEMMENU_SetupGraphics  0x021B9280  thumb  ov070
+ *   ITEMMENU_InitWindows  0x021B9BDC  thumb  ov070
+ *   ITEMMENU_LoadPocketGraphics  0x021B9EF4  thumb  ov070
+ *   ITEMMENU_CreateTabActors  0x021BA8C0  thumb  ov070
  *   func_021B6120  0x021B6120  thumb  ov070
- *   func_021BA028  0x021BA028  thumb  ov070
- *   func_021B8B24  0x021B8B24  thumb  ov070
- *   func_021B8E48  0x021B8E48  thumb  ov070
- *   func_021BAE98  0x021BAE98  thumb  ov070
- *   func_021B80C4  0x021B80C4  thumb  ov070
- *   func_021B913C  0x021B913C  thumb  ov070
+ *   ITEMMENU_CreateCursorActors  0x021BA028  thumb  ov070
+ *   ITEMMENU_CreateBlinkPalAnm  0x021B8B24  thumb  ov070
+ *   ITEMMENU_AllocPalAnmSlots  0x021B8E48  thumb  ov070
+ *   ITEMMENU_PrintPocketName  0x021BAE98  thumb  ov070
+ *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
+ *   ITEMMENU_ResetDisplayLayers  0x021B913C  thumb  ov070
  *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B83B8  0x021B83B8  thumb  ov070
- *   func_021B8600  0x021B8600  thumb  ov070
- *   func_021B8640  0x021B8640  thumb  ov070
+ *   ITEMMENU_HandleTouchTarget  0x021B83B8  thumb  ov070
+ *   ITEMMENU_VBlankCallback  0x021B8600  thumb  ov070
+ *   ITEMMENU_TaskStartFadeIn  0x021B8640  thumb  ov070
  *   d_021BBA04     0x021BBA04  data  a4
  */
 
@@ -84,18 +84,18 @@ typedef struct Work {
     u8 pad85C[0x86C - 0x85C];
     int f86C, f870;
 } Work;
-extern void func_0203064C(); extern void *func_0203159C(); extern void func_02082BCC(); extern void KEY_GetRepeatSpeed();
+extern void GFL_HEAP_CreateChildHeap(); extern void *PROCSYS_AllocProcWork(); extern void func_02082BCC(); extern void KEY_GetRepeatSpeed();
 extern void func_0200816C(); extern int func_02008284(struct MyItemSave *p); extern void func_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b); extern int func_02007FA0(); extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
-extern int func_02045B38(); extern int func_020457B0(); extern int func_0201EC64(); extern int func_0201C450();
-extern int func_02028590(); extern int func_0201D7EC(); extern int func_02051B84(); extern int func_020056A0(); extern int func_0203101C();
-extern int func_02027F60(); extern void func_0203D34C(); extern int func_020355C4();
-extern void func_021B9280(), func_021B9BDC(), func_021B9EF4(), func_021BA8C0(), func_021B6120(), func_021BA028(), func_021B8B24(), func_021B8E48(), func_021BAE98(), func_021B80C4(), func_021B913C(), func_021B6100();
-extern void func_021B83B8(), func_021B8600(), func_021B8640(); extern char d_021BBA04[];
-int func_021B86B8(void *proc, int st, Args *a)
+extern int func_02045B38(); extern int STRBUF_Create(); extern int func_0201EC64(); extern int func_0201C450();
+extern int func_02028590(); extern int GF_FONT_Create(); extern int BUTTON_MAN_Create(); extern int func_020056A0(); extern int TCBL_Create();
+extern int APP_TASKMENU_RES_Create(); extern void GFL_NET_RestartWithDefaultTimeout(); extern int func_020355C4();
+extern void ITEMMENU_SetupGraphics(), ITEMMENU_InitWindows(), ITEMMENU_LoadPocketGraphics(), ITEMMENU_CreateTabActors(), func_021B6120(), ITEMMENU_CreateCursorActors(), ITEMMENU_CreateBlinkPalAnm(), ITEMMENU_AllocPalAnmSlots(), ITEMMENU_PrintPocketName(), ITEMMENU_SetCursorActive(), ITEMMENU_ResetDisplayLayers(), func_021B6100();
+extern void ITEMMENU_HandleTouchTarget(), ITEMMENU_VBlankCallback(), ITEMMENU_TaskStartFadeIn(); extern char d_021BBA04[];
+int ITEMMENU_Init(void *proc, int st, Args *a)
 {
     Work *o; u16 i; s16 scr, cur;
-    func_0203064C(1, 0xe, 0x34000);
-    o = func_0203159C(proc, 0x874, 0xe);
+    GFL_HEAP_CreateChildHeap(1, 0xe, 0x34000);
+    o = PROCSYS_AllocProcWork(proc, 0x874, 0xe);
     func_02082BCC(o, 0, 0x874);
     KEY_GetRepeatSpeed(&o->f86C, &o->f870);
     o->f544 = 0xe;
@@ -120,23 +120,23 @@ int func_021B86B8(void *proc, int st, Args *a)
         func_02008288(o->f14, i, scr, cur);
     }
     o->f51C = func_02045B38(0, 2, 3, o->f544);
-    o->f524 = func_020457B0(0xc8, o->f544);
-    o->f528 = func_020457B0(0xc8, o->f544);
-    o->f52C = func_020457B0(0x40, o->f544);
+    o->f524 = STRBUF_Create(0xc8, o->f544);
+    o->f528 = STRBUF_Create(0xc8, o->f544);
+    o->f52C = STRBUF_Create(0x40, o->f544);
     o->f520 = func_0201EC64(o->f544);
     o->f50C = func_0201C450(0x40 << 6, o->f544);
     o->f518 = func_02028590(0xf, 1, 1, o->f544);
-    o->f530 = func_0201D7EC(0x17, 0, 0, 0, o->f544);
-    func_021B9280(o); func_021B9BDC(o); func_021B9EF4(o); func_021BA8C0(o); func_021B6120(o); func_021BA028(o);
-    o->f694 = func_02051B84(d_021BBA04, func_021B83B8, o, o->f544);
-    func_021B8B24(o); func_021B8E48(o);
-    o->f698 = func_020056A0(func_021B8600, o, 0);
-    o->f730 = func_0203101C(o->f544, o->f544, 1, 0);
-    func_021BAE98(o);
-    o->f7E0 = func_02027F60(3, 9, o->f530, o->f50C, o->f544);
-    func_0203D34C(1, o->f544);
-    func_021B80C4(o, func_020355C4() ? 0 : 1);
-    func_021B913C();
-    func_021B6100(o, func_021B8640);
+    o->f530 = GF_FONT_Create(0x17, 0, 0, 0, o->f544);
+    ITEMMENU_SetupGraphics(o); ITEMMENU_InitWindows(o); ITEMMENU_LoadPocketGraphics(o); ITEMMENU_CreateTabActors(o); func_021B6120(o); ITEMMENU_CreateCursorActors(o);
+    o->f694 = BUTTON_MAN_Create(d_021BBA04, ITEMMENU_HandleTouchTarget, o, o->f544);
+    ITEMMENU_CreateBlinkPalAnm(o); ITEMMENU_AllocPalAnmSlots(o);
+    o->f698 = func_020056A0(ITEMMENU_VBlankCallback, o, 0);
+    o->f730 = TCBL_Create(o->f544, o->f544, 1, 0);
+    ITEMMENU_PrintPocketName(o);
+    o->f7E0 = APP_TASKMENU_RES_Create(3, 9, o->f530, o->f50C, o->f544);
+    GFL_NET_RestartWithDefaultTimeout(1, o->f544);
+    ITEMMENU_SetCursorActive(o, func_020355C4() ? 0 : 1);
+    ITEMMENU_ResetDisplayLayers();
+    func_021B6100(o, ITEMMENU_TaskStartFadeIn);
     return 1;
 }

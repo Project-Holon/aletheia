@@ -12,11 +12,12 @@
  * True when the object has a session and its state index is in range.
  *
  * symbols:
+ *   GFL_NET_GetRunState  0x0203CD98  arm  arm9
  *   (none)
  */
 #include "../include/Obj00001.h"
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 
 int func_021D8A24(void *p)
 {
@@ -27,6 +28,6 @@ int func_021D8A24(void *p)
     v = ((struct Obj00001 *)p)->f118C;
     if (v >= 4)
         return 0;
-    return func_0203CD98() != 0;
+    return GFL_NET_GetRunState() != 0;
 }
 

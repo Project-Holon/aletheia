@@ -1,5 +1,5 @@
 /*
- * function: func_02047CFC
+ * function: G3D_UTIL_Create
  * address:  0x02047CFC
  * packet:   pkt_02047CFC
  * region:   arm9
@@ -27,7 +27,7 @@
  * compiler CSEs the second half's constants and the frame loses a register.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047CFC.c --func func_02047CFC --addr 0x02047CFC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_Create.c --func G3D_UTIL_Create --addr 0x02047CFC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -62,7 +62,7 @@ typedef struct {
 extern const char g3d_util_file[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-Util *func_02047CFC(u16 resCount, u16 objCount, u16 heapID)
+Util *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID)
 {
     Util *util;
     int i;

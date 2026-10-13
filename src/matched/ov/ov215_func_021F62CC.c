@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201FEBC 0x0201FEBC thumb
+ *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  */
 #include "../include/Obj08425.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned func_0201FEBC(u8 *);
+extern unsigned BMP_MENU_ProcessYesNo(u8 *);
 void func_021F62CC(void *unused, char *p)
 {
     unsigned result;
@@ -22,7 +22,7 @@ void func_021F62CC(void *unused, char *p)
     case 0:
         break;
     case 1:
-        result = func_0201FEBC(*(u8 * *)&((struct Obj08425 *)p)->f78);
+        result = BMP_MENU_ProcessYesNo(*(u8 * *)&((struct Obj08425 *)p)->f78);
         if (result != 0xffffffff) {
             if (result == 0) flag = 1;
             else flag = 0;

@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
 #include "../include/Obj10499.h"
 
-extern void func_0202208C(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
-extern unsigned func_020221A4(void);
+extern void WIPE_SYS_Start(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
+extern unsigned WIPE_SYS_EndCheck(void);
 int func_021D8B98(char *p)  {
     switch(((struct Obj10499 *)p)->f234)  {
-        case 0: func_0202208C(0,0,0,0,6,1,50);
+        case 0: WIPE_SYS_Start(0,0,0,0,6,1,50);
         ((struct Obj10499 *)p)->f234+=1;
         break;
-        case 1: if(func_020221A4()==1) ((struct Obj10499 *)p)->f234+=1;
+        case 1: if(WIPE_SYS_EndCheck()==1) ((struct Obj10499 *)p)->f234+=1;
         break;
         default: return 1;
     }

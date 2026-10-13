@@ -1,5 +1,5 @@
 /*
- * function: func_02164FD0
+ * function: GAME_BEACON_SEARCH_StartConnectEvent
  * address:  0x02164FD0
  * packet:   pkt_ov010_02164FD0
  * region:   ov010
@@ -14,15 +14,15 @@
  *
  * symbols:
  *   func_02082D44  0x02082D44  arm
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_020307B0  0x020307B0  arm
  *   GAMESYSTEM_CanStartAutoComm  0x02012164  thumb
  *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_02026454  0x02026454  thumb
  *   func_02030734  0x02030734  arm
- *   func_020263D8  0x020263D8  thumb
- *   d_021729BC     0x021729BC  data  ov010  a1
+ *   GAME_COMM_Start  0x020263D8  thumb
+ *   GAME_BEACON_SEARCH_FileName     0x021729BC  data  ov010  a1
  *
  * Addresses are Black-image addresses.
  */
@@ -35,33 +35,33 @@ typedef unsigned int   u32;
 
 extern void  func_02082D44(void *src, void *dst, int n);
 struct Ctx;
-extern u32   func_02012138(const struct Ctx *p);
+extern u32   GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u32 func_020307B0(void *p);
 struct Comm;
 struct IcaAnime;
 extern u32 GAMESYSTEM_CanStartAutoComm(struct IcaAnime *p);
 extern u32 GAME_COMM_GetNotifyFlag(void *obj);
-extern int   func_0203CD98(void);
+extern int   GFL_NET_GetRunState(void);
 extern u32 func_02026454(void *obj);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
-extern const char d_021729BC[];
+extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
+extern const char GAME_BEACON_SEARCH_FileName[];
 
-void func_02164FD0(u8 *obj, int flag)
+void GAME_BEACON_SEARCH_StartConnectEvent(u8 *obj, int flag)
 {
     u8 buf[6];
     u32 o = ((struct Obj18989 *)obj)->f0;
     u32 w;
     u8 *p;
     func_02082D44(obj + 4, buf, 6);
-    w = func_02012138((const struct Ctx *)o);
+    w = GAMESYSTEM_GetGameComm((const struct Ctx *)o);
     func_020307B0(obj);
     if (flag == 0 && GAMESYSTEM_CanStartAutoComm((struct IcaAnime *)o) == 1 && GAME_COMM_GetNotifyFlag((void *)w) == 0
-        && func_0203CD98() == 0 && func_02026454((void *)w) == 0) {
-        p = func_02030734(5, 0x10, 1, d_021729BC, 0x287);
+        && GFL_NET_GetRunState() == 0 && func_02026454((void *)w) == 0) {
+        p = func_02030734(5, 0x10, 1, GAME_BEACON_SEARCH_FileName, 0x287);
         ((struct Obj12364 *)p)->f0 = o;
-        ((struct Obj12364 *)p)->f4 = func_02012138((const struct Ctx *)o);
+        ((struct Obj12364 *)p)->f4 = GAMESYSTEM_GetGameComm((const struct Ctx *)o);
         func_02082D44(buf, p + 8, 6);
-        func_020263D8((struct Comm *)w, 2, (u32)p);
+        GAME_COMM_Start((struct Comm *)w, 2, (u32)p);
     }
 }

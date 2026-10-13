@@ -36,7 +36,7 @@
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -74,7 +74,7 @@
  * symbols:
  *   func_021D4D40 0x021D4D40 thumb ov123
  *   func_02041570 0x02041570 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021D4FAC 0x021D4FAC thumb ov123
  *   func_021D4244 0x021D4244 thumb ov123
  *   func_021D50F8 0x021D50F8 thumb ov123
@@ -85,8 +85,8 @@ typedef unsigned int u32;
 extern void func_021D4D40(char *,int);
 struct MsgBank;
 extern void func_02041570(int channel, u16 val);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D4FAC(char *);
 extern void func_021D4244(char *,void *,int);
 extern void func_021D50F8(char *);
-void func_021D4FB8(char *p) { func_021D4D40(p,1); func_02041570(5,0); func_02045CAC(*(void **)(p+36),3,*(void **)(p+56)); func_021D4FAC(p); func_021D4244(p,func_021D50F8,0x4d0); }
+void func_021D4FB8(char *p) { func_021D4D40(p,1); func_02041570(5,0); MSGDATA_ReadString(*(void **)(p+36),3,*(void **)(p+56)); func_021D4FAC(p); func_021D4244(p,func_021D50F8,0x4d0); }

@@ -14,7 +14,7 @@
  * func_0206C524 (BB) with its own static command block at 0x020A8370: after
  * the translation row and row lengths it builds the upper 3x3 of the block's
  * matrix from the clip matrix's second row (row0 = (m._11, -m._10, 0),
- * row1 = m row 1, both VEC_Normalize'd by func_0207CCA4, row2 = their
+ * row1 = m row 1, both VEC_Normalize'd by VEC_Normalize, row2 = their
  * VEC_CrossProduct, func_0207CAE8).
  *
  * Levers: a third pointer local for the block's matrix (loaded into r7 in the
@@ -35,7 +35,7 @@
  *   func_0207BE14  0x0207BE14  arm
  *   func_0207CBD0  0x0207CBD0  arm
  *   func_02082AA8  0x02082AA8  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CAE8  0x0207CAE8  arm
  */
 
@@ -87,7 +87,7 @@ extern u32 *func_0206AAD4(void);
 extern void func_0207B5C0(const MtxFx43 *src, MtxFx44 *dst);
 extern void func_0207BE14(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
 extern fx32 func_0207CBD0(const VecFx32 *v);
-extern void func_0207CCA4(const VecFx32 *src, VecFx32 *dst);
+extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
 extern void func_0207CAE8(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 extern void func_02082AA8(const void *src, volatile void *dst, u32 n);
 
@@ -181,8 +181,8 @@ void func_0206C82C(RS *rs, u32 opt)
             mtx->_02 = 0;
             mtx->_01 = -m._10;
             mtx->_00 = m._11;
-            func_0207CCA4((VecFx32 *)&mtx->_00, (VecFx32 *)&mtx->_00);
-            func_0207CCA4((VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_10);
+            VEC_Normalize((VecFx32 *)&mtx->_00, (VecFx32 *)&mtx->_00);
+            VEC_Normalize((VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_10);
             func_0207CAE8((VecFx32 *)&mtx->_00, (VecFx32 *)&mtx->_10, (VecFx32 *)&mtx->_20);
 
             if (g_renderState.flag & 1) {

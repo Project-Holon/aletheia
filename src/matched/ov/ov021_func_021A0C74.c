@@ -1,5 +1,5 @@
 /*
- * function: func_021A0C74
+ * function: FIELD_LIGHT_FADE_Update
  * address:  0x021A0C74
  * packet:   pkt_ov021_021A0C74
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A0A50  0x021A0A50  thumb  ov021
- *   func_021A0B34  0x021A0B34  thumb  ov021
- *   func_021A0980  0x021A0980  thumb  ov021
+ *   FIELD_LIGHT_BeginColorBlend  0x021A0A50  thumb  ov021
+ *   FIELD_LIGHT_IsBlending  0x021A0B34  thumb  ov021
+ *   FIELD_LIGHT_BeginBlend  0x021A0980  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,27 +22,27 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_021A0A50(u8 *a, u8 *b, u32 c, u32 d);
-extern int func_021A0B34(u32 a);
-extern void func_021A0980(u8 *a, u8 *b, u8 *c, u32 d);
+extern void FIELD_LIGHT_BeginColorBlend(u8 *a, u8 *b, u32 c, u32 d);
+extern int FIELD_LIGHT_IsBlending(u32 a);
+extern void FIELD_LIGHT_BeginBlend(u8 *a, u8 *b, u8 *c, u32 d);
 
-s32 func_021A0C74(u16 *a, void *b, void *c, void *d)
+s32 FIELD_LIGHT_FADE_Update(u16 *a, void *b, void *c, void *d)
 {
     switch (a[0]) {
     case 1:
-        func_021A0A50(b, c, a[3], a[1]);
+        FIELD_LIGHT_BeginColorBlend(b, c, a[3], a[1]);
         a[0] = 2;
         break;
     case 2:
-        if (func_021A0B34((u32)b) == 0) {
+        if (FIELD_LIGHT_IsBlending((u32)b) == 0) {
             if (a[2] != 0xFFFF) {
-                func_021A0980(b, c, d, a[2]);
+                FIELD_LIGHT_BeginBlend(b, c, d, a[2]);
             }
             a[0] = 3;
         }
         break;
     case 3:
-        if (func_021A0B34((u32)b) == 0) {
+        if (FIELD_LIGHT_IsBlending((u32)b) == 0) {
             a[0] = 0;
         }
         break;

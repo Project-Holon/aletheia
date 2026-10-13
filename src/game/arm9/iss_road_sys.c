@@ -16,6 +16,7 @@
  *   func_020307B0  0x020307B0  arm
  *   ISS_ROAD_SYS_UpdateVolume  0x0202B230  thumb
  *   ISS_ROAD_SYS_ApplyVolume  0x0202B2BC  thumb
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  */
 
 struct PlayerWork;
@@ -38,7 +39,7 @@ typedef struct IssRoadSys {
 typedef unsigned short u16;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct PlayerPosition *func_02012AA0(struct PlayerWork *player);
+extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 extern u32 func_020307B0(void *p);
 extern void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road);
 extern void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road);
@@ -72,7 +73,7 @@ IssRoadSys *ISS_ROAD_SYS_Create(u32 player, u32 heapId)
     road->volume = 0;
     road->player = (struct PlayerWork *)player;
 
-    position = (const PlayerPosition *)func_02012AA0((struct PlayerWork *)player);
+    position = (const PlayerPosition *)GAME_DATA_GetPlayerPosition((struct PlayerWork *)player);
     road->lastPosition = *position;
     return road;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9828
+ * function: FIELD_RAIL_IntersectSegmentPlane
  * address:  0x021B9828
  * packet:   pkt_ov021_021B9828
  * region:   ov021
@@ -45,7 +45,7 @@ static inline void VEC_Set(V *v, int x, int y, int z)
     v->z = z;
 }
 
-int func_021B9828(V *a, V *b, V *c, V *d, V *e, V *out)
+int FIELD_RAIL_IntersectSegmentPlane(V *a, V *b, V *c, V *d, V *e, V *out)
 {
     V n;
     V s;

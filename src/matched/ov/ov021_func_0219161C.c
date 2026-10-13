@@ -1,5 +1,5 @@
 /*
- * function: func_0219161C
+ * function: FIELD_MSGBG_PlainWinPrintMsg
  * address:  0x0219161C
  * packet:   pkt_ov021_0219161C
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021904EC  0x021904EC  thumb  ov021
- *   func_02190538  0x02190538  thumb  ov021
- *   func_02190550  0x02190550  thumb  ov021
+ *   FIELD_MSGBG_AddMsgPrint  0x021904EC  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgPrint  0x02190538  thumb  ov021
+ *   FIELD_MSGBG_MsgPrintPrintMsg  0x02190550  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -43,14 +43,14 @@ typedef struct R {
 } R;
 
 struct Slot;
-extern void func_02190538(struct Slot *s);
-extern struct Slot *func_021904EC(u32 *p, u32 a, u32 b);
-extern void func_02190550(struct Slot *s, int x, int y, u32 z);
+extern void FIELD_MSGBG_DeleteMsgPrint(struct Slot *s);
+extern struct Slot *FIELD_MSGBG_AddMsgPrint(u32 *p, u32 a, u32 b);
+extern void FIELD_MSGBG_MsgPrintPrintMsg(struct Slot *s, int x, int y, u32 z);
 
-void func_0219161C(R *r, int b, int c, u32 d)
+void FIELD_MSGBG_PlainWinPrintMsg(R *r, int b, int c, u32 d)
 {
     if (r->f20 != 0)
-        func_02190538(r->f20);
-    r->f20 = func_021904EC((u32 *)r->f0c, r->f14, r->f18);
-    func_02190550(r->f20, b, c, d);
+        FIELD_MSGBG_DeleteMsgPrint(r->f20);
+    r->f20 = FIELD_MSGBG_AddMsgPrint((u32 *)r->f0c, r->f14, r->f18);
+    FIELD_MSGBG_MsgPrintPrintMsg(r->f20, b, c, d);
 }

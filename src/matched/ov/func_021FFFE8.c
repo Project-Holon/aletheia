@@ -18,6 +18,9 @@
  *   g_02203924  0x02203924  data  ov135
  *   g_02203964  0x02203964  data  ov135
  *   g_022039E4  0x022039E4  data  ov135
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm  arm9
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm  arm9
+ *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm  arm9
  *
  * One-shot bring-up of layers 4..7 gated on the field at p+0x12e0: the
  * layer-4 clear, the layer-6 clear only when the second argument is zero,
@@ -55,10 +58,10 @@ struct BgTemplate {
     u32 unk_1c;
 };
 
-extern u32 func_02043668(void);
+extern u32 BG_SYS_GetSubVisiblePlanes(void);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_020435F4(u32 a);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubVisiblePlanes(u32 a);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);

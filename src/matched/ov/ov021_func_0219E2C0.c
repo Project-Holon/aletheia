@@ -1,5 +1,5 @@
 /*
- * function: func_0219E2C0
+ * function: FLDMMDL_RAIL_SetLocation
  * address:  0x0219E2C0
  * packet:   pkt_ov021_0219E2C0
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_021B7EE4  0x021B7EE4  thumb  ov021
- *   func_0219EAD8  0x0219EAD8  thumb  ov021
- *   func_021B8028  0x021B8028  thumb  ov021
- *   func_0216D89C  0x0216D89C  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb  ov021
+ *   FLDMMDL_RAIL_StoreLocation  0x0219EAD8  thumb  ov021
+ *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb  ov021
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -23,18 +23,18 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void *func_0216D69C(void *);
-extern void func_021B7EE4(void *p, void *r);
-extern void func_0219EAD8(void *p, void *r);
-extern void func_021B8028(void *p, void *out);
-extern void func_0216D89C(void *, void *);
+extern void *FLDMMDL_GetMoveProcWork(void *);
+extern void FIELD_RAIL_WORK_SetLocation(void *p, void *r);
+extern void FLDMMDL_RAIL_StoreLocation(void *p, void *r);
+extern void FIELD_RAIL_WORK_GetPos(void *p, void *out);
+extern void FLDMMDL_SetPos(void *, void *);
 
-void func_0219E2C0(void *a, void *r)
+void FLDMMDL_RAIL_SetLocation(void *a, void *r)
 {
-    void **p = func_0216D69C(a);
+    void **p = FLDMMDL_GetMoveProcWork(a);
     u8 buf[12];
-    func_021B7EE4(*p, r);
-    func_0219EAD8(p, r);
-    func_021B8028(*p, buf);
-    func_0216D89C(a, buf);
+    FIELD_RAIL_WORK_SetLocation(*p, r);
+    FLDMMDL_RAIL_StoreLocation(p, r);
+    FIELD_RAIL_WORK_GetPos(*p, buf);
+    FLDMMDL_SetPos(a, buf);
 }

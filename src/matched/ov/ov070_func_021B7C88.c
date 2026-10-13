@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C88
+ * function: ITEMMENU_TaskWaitMessageDismiss
  * address:  0x021B7C88
  * packet:   pkt_ov070_021B7C88
  * region:   ov070
@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BADF0  0x021BADF0  thumb  ov070
+ *   ITEMMENU_IsMessageFinished  0x021BADF0  thumb  ov070
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
- *   func_021B80C4  0x021B80C4  thumb  ov070
- *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B7CD0  0x021B7CD0  thumb  ov070
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
+ *   ITEMMENU_TaskReturnToListFromQuantity  0x021B7CD0  thumb  ov070
  */
 
 typedef unsigned int u32;
 
 typedef struct Obj Obj;
 
-extern int func_021BADF0(int p);
+extern int ITEMMENU_IsMessageFinished(int p);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
-extern void func_021B80C4(struct Obj *o, int flag);
-extern void func_021B6100(char *p, int k);
-extern void func_021B7CD0(struct Obj *o);
+extern int TOUCHPANEL_GetTrg(void);
+extern void ITEMMENU_SetCursorActive(struct Obj *o, int flag);
+extern void ITEMMENU_SetTask(char *p, int k);
+extern void ITEMMENU_TaskReturnToListFromQuantity(struct Obj *o);
 
-void func_021B7C88(Obj *o)
+void ITEMMENU_TaskWaitMessageDismiss(Obj *o)
 {
-    if (func_021BADF0((int)o) == 0)
+    if (ITEMMENU_IsMessageFinished((int)o) == 0)
         return;
     if (func_020362DC() & 3) {
-        func_021B80C4(o, 1);
-        func_021B6100((char *)o, (int)((void *)func_021B7CD0));
+        ITEMMENU_SetCursorActive(o, 1);
+        ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskReturnToListFromQuantity));
         return;
     }
-    if (func_02035C60() != 0) {
-        func_021B80C4(o, 0);
-        func_021B6100((char *)o, (int)((void *)func_021B7CD0));
+    if (TOUCHPANEL_GetTrg() != 0) {
+        ITEMMENU_SetCursorActive(o, 0);
+        ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskReturnToListFromQuantity));
     }
 }

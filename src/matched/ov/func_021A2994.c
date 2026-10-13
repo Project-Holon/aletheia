@@ -1,5 +1,5 @@
 /*
- * function: func_021A2994
+ * function: WEATHER_TASK_FreeArchive
  * address:  0x021A2994
  * packet:   pkt_021A2994
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12085.h"
@@ -21,13 +21,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_02049238(u32 v);
+extern void ARC_TOOL_DeleteHandle(u32 v);
 
-void func_021A2994(u8 *p)
+void WEATHER_TASK_FreeArchive(u8 *p)
 {
     u32 v = ((struct Obj12085 *)p)->f10;
     if (v != 0) {
-        func_02049238(v);
+        ARC_TOOL_DeleteHandle(v);
         ((struct Obj12085 *)p)->f10 = 0;
     }
 }

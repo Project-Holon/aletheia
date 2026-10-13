@@ -11,17 +11,17 @@
  * symbols:
  *   func_021C8348 0x021C8348 thumb ov093
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D62C4 0x021D62C4 thumb ov093
+ *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
 struct Unk021D62A8;
 extern int func_021C8348(u8 *, int);
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D62C4(struct Unk021D62A8 *, int);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *, int);
 int func_021C8374(u8 *p, int i)
 {
     if (func_021C8348(p, i)) return 1;
-    if (func_021D62C4((struct Unk021D62A8 *)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 33)) return 1;
+    if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 33)) return 1;
     return 0;
 }

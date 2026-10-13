@@ -12,7 +12,7 @@
  * symbols:
  *   P_STA_RIBBON_GetRowY  0x021D9440  thumb ov131
  *   P_STA_RIBBON_GetRowOwnedIndex  0x021D9428  thumb ov131
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef struct {
 
 extern s16 P_STA_RIBBON_GetRowY(u8 *p, u32 target);
 extern u32 P_STA_RIBBON_GetRowOwnedIndex(u8 *p, u32 target);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 
 int P_STA_RIBBON_GetTouchedRow(void *unused, u8 *p)
 {
@@ -58,5 +58,5 @@ int P_STA_RIBBON_GetTouchedRow(void *unused, u8 *p)
             r[i].x = 0xfd;
     }
     r[10].x = 0xff;
-    return func_02035C08(r);
+    return TOUCHPANEL_HitTrg(r);
 }

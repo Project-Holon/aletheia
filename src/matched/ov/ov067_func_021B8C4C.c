@@ -1,5 +1,5 @@
 /*
- * function: func_021B8C4C
+ * function: FRAME_LIST_StepRowDrag
  * address:  0x021B8C4C
  * packet:   pkt_ov067_021B8C4C
  * region:   ov067
@@ -12,8 +12,8 @@
  * symbols:
  *   func_0201C6B4  0x0201C6B4  thumb
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
- *   func_021B8EA0  0x021B8EA0  thumb  ov067
- *   func_021B8DF0  0x021B8DF0  thumb  ov067
+ *   FRAME_LIST_StartFlick  0x021B8EA0  thumb  ov067
+ *   FRAME_LIST_StartJump  0x021B8DF0  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -55,10 +55,10 @@ struct S {
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int TOUCHPANEL_HitCont(const void *p);
-extern int func_021B8EA0(struct S *s);
-extern int func_021B8DF0(struct S *s, int a1);
+extern int FRAME_LIST_StartFlick(struct S *s);
+extern int FRAME_LIST_StartJump(struct S *s, int a1);
 
-int func_021B8C4C(struct S *s)
+int FRAME_LIST_StepRowDrag(struct S *s)
 {
     int r;
 
@@ -71,7 +71,7 @@ int func_021B8C4C(struct S *s)
             if (s->f8c != -1 && s->f90 != -1) {
                 s->f85 = s->f90 - s->f8c;
                 s->f86 = 0;
-                if (func_021B8EA0(s) == 1)
+                if (FRAME_LIST_StartFlick(s) == 1)
                     break;
             }
             s->f70 = 0;
@@ -82,7 +82,7 @@ int func_021B8C4C(struct S *s)
             if (s->f8c != -1 && s->f90 != -1) {
                 s->f85 = s->f90 - s->f8c;
                 s->f86 = 0;
-                if (func_021B8EA0(s) == 1)
+                if (FRAME_LIST_StartFlick(s) == 1)
                     break;
             }
             s->f70 = 0;
@@ -101,16 +101,16 @@ int func_021B8C4C(struct S *s)
     case 1:
         if (r == -1) {
             s->f84 = 0;
-            return func_021B8EA0(s);
+            return FRAME_LIST_StartFlick(s);
         }
         if (s->f1c[r].f4 != 0) {
             s->f84 = 0;
-            return func_021B8EA0(s);
+            return FRAME_LIST_StartFlick(s);
         }
         if (s->f86 == 5) {
             s->f86 = 0;
             s->f84 = 0;
-            if (func_021B8DF0(s, r) == 1)
+            if (FRAME_LIST_StartJump(s, r) == 1)
                 s->f86_5 = 1;
         } else {
             s->f88 = r;

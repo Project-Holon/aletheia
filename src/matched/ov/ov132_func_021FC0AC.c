@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F9DC4 0x021F9DC4 thumb ov132
  *   func_02030734 0x02030734 arm
  *   func_021FADA0 0x021FADA0 thumb ov132
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_021F9DC4(void *,u8);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_021FADA0(char *,u32,u32,u32);
@@ -35,16 +35,16 @@ int func_021FC0AC(int unused,char *p)
     void *target;
     u32 j,i,h,g,f,e,d,c,b,a;
     owner=*(char * *)&((struct Obj02486 *)p)->f0;
-    a=func_0201134C(((struct Obj02486 *)p)->f4);
-    b=func_0201134C(((struct Obj02486 *)p)->f4);
-    c=func_0201134C(((struct Obj02486 *)p)->f4);
-    d=func_0201134C(((struct Obj02486 *)p)->f4);
-    e=func_0201134C(((struct Obj02486 *)p)->f4);
-    f=func_0201134C(((struct Obj02486 *)p)->f4);
-    g=func_0201134C(((struct Obj02486 *)p)->f4);
-    h=func_0201134C(((struct Obj02486 *)p)->f4);
-    i=func_0201134C(((struct Obj02486 *)p)->f4);
-    j=func_0201134C(((struct Obj02486 *)p)->f4);
+    a=VM_GetU32(((struct Obj02486 *)p)->f4);
+    b=VM_GetU32(((struct Obj02486 *)p)->f4);
+    c=VM_GetU32(((struct Obj02486 *)p)->f4);
+    d=VM_GetU32(((struct Obj02486 *)p)->f4);
+    e=VM_GetU32(((struct Obj02486 *)p)->f4);
+    f=VM_GetU32(((struct Obj02486 *)p)->f4);
+    g=VM_GetU32(((struct Obj02486 *)p)->f4);
+    h=VM_GetU32(((struct Obj02486 *)p)->f4);
+    i=VM_GetU32(((struct Obj02486 *)p)->f4);
+    j=VM_GetU32(((struct Obj02486 *)p)->f4);
     target=func_021F9DC4(((struct Obj10560 *)owner)->f34,a);
     q=func_02030734(((struct Obj10560 *)owner)->f0,56,0,d_021FDD00,0x691);
     *(char * *)&((struct Obj01741 *)q)->f30=owner;

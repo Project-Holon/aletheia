@@ -1,5 +1,5 @@
 /*
- * function: func_02161EEC
+ * function: EVENT_FIELD_PROCLINK_InitIdList
  * address:  0x02161EEC
  * packet:   pkt_02161EEC
  * region:   ov010
@@ -15,7 +15,7 @@
 
 typedef unsigned short u16;
 
-void func_02161EEC(u16 *buf)
+void EVENT_FIELD_PROCLINK_InitIdList(u16 *buf)
 {
     int i;
     for (i = 0; i < 10; i++)

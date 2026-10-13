@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EED6C",
+   "name": "BTL_MSG_SetClientValue",
    "address": "0x021EED6C",
    "kind": "game",
    "region": "ov093",

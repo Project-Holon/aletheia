@@ -1,5 +1,5 @@
 /*
- * function: func_02199D4C
+ * function: FLDMMDL_ACMD_Dash2FMove
  * address:  0x02199D4C
  * packet:   pkt_ov021_02199D4C
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_02163FC0  0x02163FC0  thumb  ov010
- *   func_02164010  0x02164010  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_MOVE_AddDirVectorPos  0x02163FC0  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -23,24 +23,24 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D6D4(void *p);
-extern void func_02163FC0(int a, int dir, int amt);
-extern int func_02164010(int a);
-extern int func_02163F10(int a0);
-extern u32 func_0216D7CC(u32);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern void FLDMMDL_MOVE_AddDirVectorPos(int a, int dir, int amt);
+extern int FLDMMDL_MOVE_UpdateHeight(int a);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-int func_02199D4C(u32 a)
+int FLDMMDL_ACMD_Dash2FMove(u32 a)
 {
     s16 *p;
 
-    p = func_0216D6D4((void *)a);
-    func_02163FC0(a, (u16)((u32 *)p)[1], ((u32 *)p)[2]);
-    func_02164010(a);
+    p = FLDMMDL_GetMoveCmdWork((void *)a);
+    FLDMMDL_MOVE_AddDirVectorPos(a, (u16)((u32 *)p)[1], ((u32 *)p)[2]);
+    FLDMMDL_MOVE_UpdateHeight(a);
     p[1] = p[1] - 1;
     if (p[1] > 0) {
         return 0;
     }
-    func_02163F10(a);
-    func_0216D7CC(a);
+    FLDMMDL_MOVE_UpdateOldGridPos(a);
+    FLDMMDL_IncAcmdSeq(a);
     return 1;
 }

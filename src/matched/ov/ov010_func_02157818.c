@@ -1,5 +1,5 @@
 /*
- * function: func_02157818
+ * function: DELIVERY_BEACON_DecodePieces
  * address:  0x02157818
  * packet:   pkt_ov010_02157818
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern void func_0203F328(u16 *p, u32 size, u32 seed);
 extern void func_02082D44(void *, void *, u32);
 
-void func_02157818(u8 *p)
+void DELIVERY_BEACON_DecodePieces(u8 *p)
 {
     u8 *base;
     int i;

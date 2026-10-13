@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021A21B8 0x021A21B8 thumb ov021
- *   func_021A231C 0x021A231C thumb ov021
- *   func_021A2120 0x021A2120 thumb ov021
+ *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
+ *   WEATHER_TASK_DisableFog 0x021A231C thumb ov021
+ *   WEATHER_TASK_ResetLight 0x021A2120 thumb ov021
  */
 
 typedef unsigned int u32;
-extern int *func_021A21B8(int *);
-extern void func_021A231C(u32 *, int);
-extern void func_021A2120(u32 *, int);
+extern int *WEATHER_TASK_GetWorkBuffer(int *);
+extern void WEATHER_TASK_DisableFog(u32 *, int);
+extern void WEATHER_TASK_ResetLight(u32 *, int);
 int func_021EE970(u32 *a, int b)
 {
-    func_021A21B8((int *)a);
-    func_021A231C(a, b);
-    func_021A2120(a, b);
+    WEATHER_TASK_GetWorkBuffer((int *)a);
+    WEATHER_TASK_DisableFog(a, b);
+    WEATHER_TASK_ResetLight(a, b);
     return 1;
 }

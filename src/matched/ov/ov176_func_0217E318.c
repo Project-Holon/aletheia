@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   d_0209DF0C 0x0209DF0C data a1
+ *   GAME_LANGUAGE_Code 0x0209DF0C data a1
  *   func_02034714 0x02034714 arm
  *   d_0217E64C 0x0217E64C data a1
- *   func_02157DD8 0x02157DD8 thumb ov010
+ *   DELIVERY_IRC_Create 0x02157DD8 thumb ov010
  */
 #include "../include/Obj08287.h"
 typedef struct {
@@ -23,12 +23,12 @@ typedef struct {
     unsigned last;
 } Config;
 extern void func_02082BCC(void *, int, unsigned);
-extern unsigned char d_0209DF0C;
+extern unsigned char GAME_LANGUAGE_Code;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E64C[];
 typedef unsigned char  u8;
-extern void *func_02157DD8(u8 *p);
+extern void *DELIVERY_IRC_Create(u8 *p);
 void func_0217E318(char *p, unsigned value)
 {
     Config config;
@@ -38,11 +38,11 @@ void func_0217E318(char *p, unsigned value)
     config.value = value;
     config.b = 0;
     config.heap = ((struct Obj08287 *)p)->f4;
-    config.byte = d_0209DF0C;
+    config.byte = GAME_LANGUAGE_Code;
     config.flags = 0x200000;
     config.last = 1;
     if (((struct Obj08287 *)p)->f1018)
         func_02034714(d_0217E64C, 0, d_0217E64C);
-    ((struct Obj08287 *)p)->f1018 = func_02157DD8((u8 *)(&config));
+    ((struct Obj08287 *)p)->f1018 = DELIVERY_IRC_Create((u8 *)(&config));
     ((struct Obj08287 *)p)->f0 = 0;
 }

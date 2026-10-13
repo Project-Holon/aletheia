@@ -1,7 +1,7 @@
 /*
  * file:     field_menu.c
  * unit:     yes
- * function: func_021A836C, func_021A84A8, func_021A84BC, func_021A8588, func_021A85B4, func_021A87A8, func_021A8840, func_021A8874, func_021A8AFC, func_021A8B18, func_021A8B84, func_021A8BB8, func_021A8D40, func_021A8DD8, func_021A8E10, func_021A8E20, func_021A8E78, func_021A8E80, func_021A8EEC, func_021A8FFC, func_021A9080, func_021A90A4, func_021A90E0, func_021A9154, func_021A926C, func_021A9294, func_021A92A4
+ * function: FIELD_MENU_Create, FIELD_MENU_NotifyParentOnExit, FIELD_MENU_Delete, FIELD_MENU_ShowBgLayers, FIELD_MENU_Update, FIELD_MENU_UpdateActorsForScroll, FIELD_MENU_ApplyBgScroll, FIELD_MENU_LoadGraphics, FIELD_MENU_LoadFrameBg, FIELD_MENU_GetLayoutType, FIELD_MENU_CountLayoutButtons, FIELD_MENU_CreateItems, FIELD_MENU_ColorTask, FIELD_MENU_SetScrolledOut, FIELD_MENU_GetSelectedButtonId, FIELD_MENU_SelectButton, FIELD_MENU_GetSlotIndex, FIELD_MENU_MoveCursor, FIELD_MENU_HandleKeys, FIELD_MENU_HandleTouch, FIELD_MENU_PlaceCursor, FIELD_MENU_StartLeave, FIELD_MENU_UpdateSelection, FIELD_MENU_CreateItem, FIELD_MENU_DeleteItem, FIELD_MENU_ShowItemWindow, FIELD_MENU_LoadScreen
  * address:  0x021A836C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -17,39 +17,39 @@
  * symbols:
  *   func_020061E4  0x020061E4  thumb
  *   func_02030734  0x02030734  arm
- *   d_021DDF94     0x021DDF94  data  ov021  a1
- *   func_02188C80  0x02188C80  thumb  ov021
+ *   gFieldMenuFileName     0x021DDF94  data  ov021  a1
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   func_020120F4  0x020120F4  thumb
  *   func_020120F8  0x020120F8  thumb
  *   func_02012AC8  0x02012AC8  thumb
  *   func_0201296C  0x0201296C  thumb
  *   func_02012944  0x02012944  thumb
- *   func_02188C54  0x02188C54  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_020355C4  0x020355C4  arm
  *   func_020056A0  0x020056A0  thumb
- *   func_021A8D40  0x021A8D40  thumb  ov021
+ *   FIELD_MENU_ColorTask  0x021A8D40  thumb  ov021
  *   func_0201C440  0x0201C440  thumb
  *   func_020490F4  0x020490F4  arm
- *   func_021A8B18  0x021A8B18  thumb  ov021
- *   func_021A8874  0x021A8874  thumb  ov021
- *   func_021A8BB8  0x021A8BB8  thumb  ov021
- *   func_02049238  0x02049238  arm
+ *   FIELD_MENU_GetLayoutType  0x021A8B18  thumb  ov021
+ *   FIELD_MENU_LoadGraphics  0x021A8874  thumb  ov021
+ *   FIELD_MENU_CreateItems  0x021A8BB8  thumb  ov021
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02040588  0x02040588  arm
- *   func_021A90E0  0x021A90E0  thumb  ov021
- *   func_021A8DD8  0x021A8DD8  thumb  ov021
+ *   FIELD_MENU_UpdateSelection  0x021A90E0  thumb  ov021
+ *   FIELD_MENU_SetScrolledOut  0x021A8DD8  thumb  ov021
  *   func_020129C4  0x020129C4  thumb
- *   func_021A8E20  0x021A8E20  thumb  ov021
+ *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0203D34C  0x0203D34C  arm
- *   func_021A0FB4  0x021A0FB4  thumb
- *   func_021A926C  0x021A926C  thumb  ov021
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb
+ *   FIELD_MENU_DeleteItem  0x021A926C  thumb  ov021
  *   func_02030EAC  0x02030EAC  arm
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204B084  0x0204B084  arm
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_DeleteRenderer  0x0204B084  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   func_02040618  0x02040618  arm
  *   func_020403F4  0x020403F4  arm
  *   func_0201C6EC  0x0201C6EC  thumb
@@ -57,85 +57,85 @@
  *   func_020307B0  0x020307B0  arm
  *   func_020409B4  0x020409B4  arm
  *   func_0201C6B4  0x0201C6B4  thumb
- *   func_021A12D4  0x021A12D4  thumb  ov021
- *   func_021A9294  0x021A9294  thumb  ov021
- *   func_021A87A8  0x021A87A8  thumb  ov021
- *   func_020221A4  0x020221A4  thumb
- *   func_021A8EEC  0x021A8EEC  thumb  ov021
- *   func_021A8FFC  0x021A8FFC  thumb  ov021
- *   func_0204B98C  0x0204B98C  arm
- *   func_021A9080  0x021A9080  thumb  ov021
- *   func_0204B878  0x0204B878  arm
- *   func_021A0FA0  0x021A0FA0  thumb  ov021
- *   func_0201C4E4  0x0201C4E4  thumb
- *   func_0204B09C  0x0204B09C  arm
- *   func_0204B454  0x0204B454  arm
+ *   FIELD_SUBSCREEN_LoadBackdrop  0x021A12D4  thumb  ov021
+ *   FIELD_MENU_ShowItemWindow  0x021A9294  thumb  ov021
+ *   FIELD_MENU_UpdateActorsForScroll  0x021A87A8  thumb  ov021
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   FIELD_MENU_HandleKeys  0x021A8EEC  thumb  ov021
+ *   FIELD_MENU_HandleTouch  0x021A8FFC  thumb  ov021
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
+ *   FIELD_MENU_PlaceCursor  0x021A9080  thumb  ov021
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   FIELD_SUBSCREEN_SetPanelResult  0x021A0FA0  thumb  ov021
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   CLACT_SetSurfacePos  0x0204B09C  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_02041EE4  0x02041EE4  arm
  *   func_0207D534  0x0207D534  arm
- *   d_021D8BBC     0x021D8BBC  data  a4
- *   d_021D8B5C     0x021D8B5C  data  a4
- *   d_021D8B7C     0x021D8B7C  data  a4
- *   d_021D8B44     0x021D8B44  data  a4
- *   d_021D8C1C     0x021D8C1C  data  a4
+ *   gFieldMenuBgTemplate5     0x021D8BBC  data  a4
+ *   gFieldMenuBgTemplate6     0x021D8B5C  data  a4
+ *   gFieldMenuBgTemplate7     0x021D8B7C  data  a4
+ *   gFieldMenuScreenIds     0x021D8B44  data  a4
+ *   gFieldMenuSurfaceRect     0x021D8C1C  data  a4
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_020414EC  0x020414EC  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
- *   func_0204AC18  0x0204AC18  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204AF28  0x0204AF28  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   func_020275E4  0x020275E4  thumb
  *   func_02027614  0x02027614  thumb
  *   func_02027618  0x02027618  thumb
  *   func_0202761C  0x0202761C  thumb
  *   func_02027620  0x02027620  thumb
- *   func_0204B100  0x0204B100  arm
- *   func_0204B034  0x0204B034  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   CLACT_CreateRenderer  0x0204B034  arm
  *   func_0204B258  0x0204B258  arm
- *   func_0204B294  0x0204B294  arm
- *   func_0204B954  0x0204B954  arm
+ *   CLACT_CreateActor  0x0204B294  arm
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B84C  0x0204B84C  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   func_02013CC8  0x02013CC8  thumb
  *   func_02013CE0  0x02013CE0  thumb
  *   func_02013D20  0x02013D20  thumb
  *   func_02012B70  0x02012B70  thumb
- *   func_020142E8  0x020142E8  thumb
- *   d_021D8D24  0x021D8D24  data  a4
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
+ *   gFieldMenuLayouts  0x021D8D24  data  a4
  *   func_02045B38  0x02045B38  arm
- *   d_021D8C0C     0x021D8C0C  data  ov021  a2
- *   func_020457B0  0x020457B0  arm
+ *   gFieldMenuDefaultName     0x021D8C0C  data  ov021  a2
+ *   STRBUF_Create  0x020457B0  arm
  *   func_020084BC  0x020084BC  thumb
  *   func_020084F4  0x020084F4  thumb
- *   func_02045924  0x02045924  arm
- *   d_021D8B34     0x021D8B34  data  a2
+ *   STRBUF_SetString  0x02045924  arm
+ *   gFieldMenuMsgIds     0x021D8B34  data  a2
  *   func_02045EC0  0x02045EC0  arm
- *   d_021D8CAC     0x021D8CAC  data  ov021  a4
+ *   gFieldMenuIconRes     0x021D8CAC  data  ov021  a4
  *   func_02008550  0x02008550  thumb
- *   d_021D8B18     0x021D8B18  data  ov021  a1
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
+ *   gFieldMenuWindowPos     0x021D8B18  data  ov021  a1
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_0203F684  0x0203F684  arm
  *   func_0207E5D0  0x0207E5D0  arm
- *   d_021D8C4C     0x021D8C4C  data  ov021  a1
- *   d_021D8B26     0x021D8B26  data  ov021  a1
- *   d_021D8B27     0x021D8B27  data  ov021  a1
+ *   gFieldMenuCursorMoves     0x021D8C4C  data  ov021  a1
+ *   gFieldMenuSlotCol     0x021D8B26  data  ov021  a1
+ *   gFieldMenuSlotRow     0x021D8B27  data  ov021  a1
  *   func_020362DC  0x020362DC  arm
  *   func_0203633C  0x0203633C  arm
  *   func_020355D8  0x020355D8  arm
- *   func_02035C08  0x02035C08  arm
- *   d_021D8C2C     0x021D8C2C  data  ov021  a1
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
+ *   gFieldMenuTouchTable     0x021D8C2C  data  ov021  a1
  *   func_0204B404  0x0204B404  arm
- *   func_021904AC  0x021904AC  thumb  ov021
- *   func_020450F0  0x020450F0  arm
- *   func_02045374  0x02045374  arm
+ *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_0201C724  0x0201C724  thumb
- *   func_0204B324  0x0204B324  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
+ *   CLACT_CreateAffineActor  0x0204B324  arm
  *   func_020452E8  0x020452E8  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02027624  0x02027624  thumb
  *   func_02027628  0x02027628  thumb
  *   func_0202762C  0x0202762C  thumb
@@ -265,7 +265,7 @@ typedef struct FieldMenuScreenPos {
     s16 y;
 } FieldMenuScreenPos;
 
-/* Position and display flags for an actor added by func_0204B294. */
+/* Position and display flags for an actor added by CLACT_CreateActor. */
 typedef struct FieldMenuActorPos {
     s16 x;
     s16 y;
@@ -274,7 +274,7 @@ typedef struct FieldMenuActorPos {
     u8 palOffset;
 } FieldMenuActorPos;
 
-/* Setup record for an actor added by func_0204B324. */
+/* Setup record for an actor added by CLACT_CreateAffineActor. */
 typedef struct FieldMenuActorSetup {
     u16 x;
     u16 y;
@@ -297,14 +297,14 @@ typedef struct FieldMenuSurfaceRect {
     u32 height;
 } FieldMenuSurfaceRect;
 
-/* Ids of the icon resources of one button (d_021D8CAC, per button id). */
+/* Ids of the icon resources of one button (gFieldMenuIconRes, per button id). */
 typedef struct FieldMenuIconRes {
     int charId;
     int cellId;
     int animId;
 } FieldMenuIconRes;
 
-/* Tile position of the text window of one slot (d_021D8B18, per slot). */
+/* Tile position of the text window of one slot (gFieldMenuWindowPos, per slot). */
 typedef struct FieldMenuWindowPos {
     u8 tileX;
     u8 tileY;
@@ -315,7 +315,7 @@ typedef struct FieldMenuName {
     u16 chars[7];
 } FieldMenuName;
 
-/* Touch rectangles of the seven slots for func_02035C08. */
+/* Touch rectangles of the seven slots for TOUCHPANEL_HitTrg. */
 typedef struct FieldMenuTouchTable {
     u8 rects[32];
 } FieldMenuTouchTable;
@@ -347,30 +347,30 @@ struct BgTemplate;
 struct BigObj;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern void *func_02188C80(void *fieldMap);
+extern void *FIELDMAP_GetGameSystem(void *fieldMap);
 extern void *func_020120F4(void *gameSystem);
 extern void *func_020120F8(void *gameSystem);
 extern u16 func_02012AC8(void *playerWork);
 extern void *func_0201296C(void *gameData);
 extern void *func_02012944(void *gameData);
-extern u32 func_02188C54(void *fieldMap);
+extern u32 FIELDMAP_GetMsgBg(void *fieldMap);
 extern u8 func_020355C4(void);
 extern void *func_020056A0(void *callback, void *work, int priority);
 extern void *func_0201C440(u32 heapId);
 extern void *func_020490F4(u32 arcId, u32 heapId);
-extern void func_02049238(void *arcHandle);
+extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern u32 func_02040588(u8 layer, u8 visible);
 extern u8 func_020129C4(void *gameData);
 extern void func_0204B3DC(void *actor, u32 drawEnable);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_021A0FB4(void *parent, u32 heapId);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void FIELD_SUBSCREEN_ResumeField(void *parent, u32 heapId);
 extern void func_02030EAC(void *tcb);
-extern void func_0204B3B4(void *actor);
-extern void func_0204B084(void *surface);
-extern u32 func_0204B1CC(void *unit);
-extern void func_0204AFD8(void *cellRes);
-extern void func_0204A8D4(void *charRes);
-extern void func_0204ADA4(void *palRes);
+extern void CLACT_DeleteActor(void *actor);
+extern void CLACT_DeleteRenderer(void *surface);
+extern u32 CLACT_DeleteUnit(void *unit);
+extern void CLACT_ReleaseCellAnim(void *cellRes);
+extern void CLACT_ReleaseCharacter(void *charRes);
+extern void CLACT_ReleasePalette(void *palRes);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020403F4(u32 layer);
 extern void func_0201C6EC(void *printQue);
@@ -378,14 +378,14 @@ extern void func_0201C4C0(void *printQue);
 extern u32 func_020307B0(void *p);
 extern void func_020409B4(u32 layer);
 extern u32 func_0201C6B4(void *printQue);
-extern void func_021A12D4(void *parent, u32 heapId);
-extern u32 func_020221A4(void);
-extern u32 func_0204B98C(void *actor);
-extern void func_0204B878(void *actor, u16 animSeq);
-extern void func_021A0FA0(void *parent, int mode);
-extern u32 func_0201C4E4(void *printQue);
-extern void func_0204B09C(void *surface, int a, FieldMenuScreenPos *offset);
-extern void func_0204B454(void *actor, FieldMenuScreenPos *out, u16 space);
+extern void FIELD_SUBSCREEN_LoadBackdrop(void *parent, u32 heapId);
+extern u32 WIPE_SYS_EndCheck(void);
+extern u32 CLACT_IsActorAnimActive(void *actor);
+extern void CLACT_SetActorAnimSeq(void *actor, u16 animSeq);
+extern void FIELD_SUBSCREEN_SetPanelResult(void *parent, int mode);
+extern u32 PRINTSYS_QUE_Main(void *printQue);
+extern void CLACT_SetSurfacePos(void *surface, int a, FieldMenuScreenPos *offset);
+extern void CLACT_GetActorSurfacePos(void *actor, FieldMenuScreenPos *out, u16 space);
 extern void func_02041EE4(u32 layer, u32 type, u32 value);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *template, u32 type);
@@ -393,51 +393,51 @@ extern void func_020414EC(u32 layer);
 extern void func_02049B68(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 heapId);
 extern void func_02049658(void *arcHandle, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heapId);
 extern void func_020498F4(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void *func_0204AC18(void *arcHandle, u32 b, u32 c, u32 d, u16 e, u16 f, u16 heapId);
-extern void *func_0204A6C8(void *arcHandle, u32 b, u32 c, u32 d, u16 heapId);
-extern void *func_0204AF28(void *arcHandle, u32 first, u32 second, u32 heapId);
+extern void *CLACT_RegisterPaletteEx(void *arcHandle, u32 b, u32 c, u32 d, u16 e, u16 f, u16 heapId);
+extern void *CLACT_RegisterCharacter(void *arcHandle, u32 b, u32 c, u32 d, u16 heapId);
+extern void *CLACT_RegisterCellAnim(void *arcHandle, u32 first, u32 second, u32 heapId);
 extern u32 func_020275E4(void);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern void *func_0204B100(int count, u8 flag, u32 heapId);
-extern void *func_0204B034(FieldMenuSurfaceRect *rect, u32 a1, u32 heapId);
+extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern void *CLACT_CreateRenderer(FieldMenuSurfaceRect *rect, u32 a1, u32 heapId);
 extern void func_0204B258(void *unit, void *surface);
-extern void *func_0204B294(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorPos *pos, u16 space, u16 heapId);
-extern void func_0204B954(void *actor, u32 scale);
+extern void *CLACT_CreateActor(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorPos *pos, u16 space, u16 heapId);
+extern void CLACT_SetActorAutoAnimSpeed(void *actor, u32 scale);
 extern void func_0204B92C(void *actor, u32 value);
-extern void func_0204B84C(void *actor, int value);
+extern void CLACT_SetActorBgPriority(void *actor, int value);
 extern u32 func_02013CC8(u32 zoneId);
 extern u32 func_02013CE0(u16 zoneId);
 extern u32 func_02013D20(u16 zoneId);
 extern int func_02012B70(void *gameData);
-extern u32 func_020142E8(void *eventWork, s32 flagId);
+extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_020457B0(u32 capacity, u32 heapId);
+extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern int func_020084BC(const void *myStatus);
 extern const void *func_020084F4(const void *myStatus);
-extern void func_02045924(void *strbuf, const void *src);
+extern void STRBUF_SetString(void *strbuf, const void *src);
 extern void *func_02045EC0(void *msgBank, u32 index);
 extern u8 func_02008550(const void *myStatus);
-extern void func_02045808(void *strbuf);
-extern u32 func_02045C04(void *msgBank);
+extern void STRBUF_Delete(void *strbuf);
+extern u32 MSGDATA_Delete(void *msgBank);
 extern short func_0203F684(unsigned short x);
 extern void func_0207E5D0(void *src, u32 off, u32 n);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_020355D8(u8 v);
-extern int func_02035C08(const void *touchTable);
+extern int TOUCHPANEL_HitTrg(const void *touchTable);
 extern void func_0204B404(void *actor, const FieldMenuScreenPos *delta, u32 which);
-extern u32 func_021904AC(u32 mapInfo);
-extern void *func_020450F0(u32 layer, u32 x, u32 y, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045374(void *bmpWin);
+extern u32 FIELD_MSGBG_GetFont(u32 mapInfo);
+extern void *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_MakeScreen(void *bmpWin);
 extern void *func_02045770(void *bmpWin);
-extern void func_02043B5C(void *buf, u8 value);
-extern void func_0201C724(void *printQue, void *buf, u32 b, u32 c, void *text, u32 e, u16 f);
-extern void *func_0204B324(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorSetup *setup, u16 space, u16 heapId);
+extern void BMP_Clear(void *buf, u8 value);
+extern void PRINTSYS_PrintQueColor(void *printQue, void *buf, u32 b, u32 c, void *text, u32 e, u16 f);
+extern void *CLACT_CreateAffineActor(void *unit, void *charRes, void *palRes, void *cellRes, const FieldMenuActorSetup *setup, u16 space, u16 heapId);
 extern unsigned int func_020452E8(void *bmpWin);
-extern void func_02045334(void *bmpWin);
+extern void BMP_WIN_TransferChars(void *bmpWin);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
@@ -445,54 +445,54 @@ extern void *func_02049EF4(void *arcHandle, u32 a, u32 b, void **out, u32 heapId
 extern void func_020410D0(u32 layer, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u8 layer);
 
-extern const struct BgTemplate d_021D8BBC;
-extern const struct BgTemplate d_021D8B5C;
-extern const struct BgTemplate d_021D8B7C;
-extern const u32 d_021D8B44[];
-extern const FieldMenuSurfaceRect d_021D8C1C;
-extern const int d_021D8D24[][FIELD_MENU_ITEM_MAX];
-extern const FieldMenuName d_021D8C0C;
-extern const u16 d_021D8B34[];
-extern const FieldMenuIconRes d_021D8CAC[];
-extern const FieldMenuWindowPos d_021D8B18[];
-extern u8 d_021D8C4C[][8][4];
-extern u8 d_021D8B26[];
-extern u8 d_021D8B27[];
-extern FieldMenuTouchTable d_021D8C2C;
-extern char d_021DDF94[];
+extern const struct BgTemplate gFieldMenuBgTemplate5;
+extern const struct BgTemplate gFieldMenuBgTemplate6;
+extern const struct BgTemplate gFieldMenuBgTemplate7;
+extern const u32 gFieldMenuScreenIds[];
+extern const FieldMenuSurfaceRect gFieldMenuSurfaceRect;
+extern const int gFieldMenuLayouts[][FIELD_MENU_ITEM_MAX];
+extern const FieldMenuName gFieldMenuDefaultName;
+extern const u16 gFieldMenuMsgIds[];
+extern const FieldMenuIconRes gFieldMenuIconRes[];
+extern const FieldMenuWindowPos gFieldMenuWindowPos[];
+extern u8 gFieldMenuCursorMoves[][8][4];
+extern u8 gFieldMenuSlotCol[];
+extern u8 gFieldMenuSlotRow[];
+extern FieldMenuTouchTable gFieldMenuTouchTable;
+extern char gFieldMenuFileName[];
 
-FieldMenu *func_021A836C(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, int slideIn);
-void func_021A84A8(FieldMenu *menu);
-void func_021A84BC(FieldMenu *menu);
-int func_021A8588(void);
-u32 func_021A85B4(FieldMenu *menu);
-void func_021A87A8(FieldMenu *menu);
-void func_021A8840(FieldMenu *menu);
-void func_021A8874(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo);
-void func_021A8AFC(int heapId, int hideFrame);
-u32 func_021A8B18(void *gameData, void *eventWork, u32 zoneId);
-int func_021A8B84(int layoutType);
-void func_021A8BB8(FieldMenu *menu, void *arcHandle, int layoutType);
-void func_021A8D40(void *taskHandle, FieldMenu *menu);
-void func_021A8DD8(FieldMenu *menu);
-int func_021A8E10(FieldMenu *menu);
-void func_021A8E20(FieldMenu *menu, u32 buttonId);
-int func_021A8E78(u32 col, u32 row);
-u32 func_021A8E80(FieldMenu *menu, u32 dir);
-void func_021A8EEC(FieldMenu *menu);
-void func_021A8FFC(FieldMenu *menu);
-void func_021A9080(FieldMenu *menu, s16 x, s16 y);
-void func_021A90A4(FieldMenu *menu, int back);
-void func_021A90E0(FieldMenu *menu);
-void func_021A9154(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit *init);
-void func_021A926C(FieldMenu *menu, FieldMenuItem *item);
-void func_021A9294(FieldMenu *menu, FieldMenuItem *item);
-void func_021A92A4(u32 heapId, u32 layer);
+FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, int slideIn);
+void FIELD_MENU_NotifyParentOnExit(FieldMenu *menu);
+void FIELD_MENU_Delete(FieldMenu *menu);
+int FIELD_MENU_ShowBgLayers(void);
+u32 FIELD_MENU_Update(FieldMenu *menu);
+void FIELD_MENU_UpdateActorsForScroll(FieldMenu *menu);
+void FIELD_MENU_ApplyBgScroll(FieldMenu *menu);
+void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo);
+void FIELD_MENU_LoadFrameBg(int heapId, int hideFrame);
+u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId);
+int FIELD_MENU_CountLayoutButtons(int layoutType);
+void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType);
+void FIELD_MENU_ColorTask(void *taskHandle, FieldMenu *menu);
+void FIELD_MENU_SetScrolledOut(FieldMenu *menu);
+int FIELD_MENU_GetSelectedButtonId(FieldMenu *menu);
+void FIELD_MENU_SelectButton(FieldMenu *menu, u32 buttonId);
+int FIELD_MENU_GetSlotIndex(u32 col, u32 row);
+u32 FIELD_MENU_MoveCursor(FieldMenu *menu, u32 dir);
+void FIELD_MENU_HandleKeys(FieldMenu *menu);
+void FIELD_MENU_HandleTouch(FieldMenu *menu);
+void FIELD_MENU_PlaceCursor(FieldMenu *menu, s16 x, s16 y);
+void FIELD_MENU_StartLeave(FieldMenu *menu, int back);
+void FIELD_MENU_UpdateSelection(FieldMenu *menu);
+void FIELD_MENU_CreateItem(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit *init);
+void FIELD_MENU_DeleteItem(FieldMenu *menu, FieldMenuItem *item);
+void FIELD_MENU_ShowItemWindow(FieldMenu *menu, FieldMenuItem *item);
+void FIELD_MENU_LoadScreen(u32 heapId, u32 layer);
 
 /*
  * 0x021DDF94 is the "field_menu.c" file-name string; 0x134 is its line.
  */
-FieldMenu *func_021A836C(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, int slideIn)
+FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, int slideIn)
 {
     FieldMenu *menu;
     void *gameSystem;
@@ -500,8 +500,8 @@ FieldMenu *func_021A836C(u16 heapId, u16 subHeapId, void *parent, void *fieldMap
     void *arcHandle;
     u32 layoutType;
 
-    menu = func_02030734(heapId, 0x138, 0, d_021DDF94, 0x134);
-    gameSystem = func_02188C80(fieldMap);
+    menu = func_02030734(heapId, 0x138, 0, gFieldMenuFileName, 0x134);
+    gameSystem = FIELDMAP_GetGameSystem(fieldMap);
     gameData = func_020120F4(gameSystem);
     menu->heapId = heapId;
     menu->subHeapId = subHeapId;
@@ -511,30 +511,30 @@ FieldMenu *func_021A836C(u16 heapId, u16 subHeapId, void *parent, void *fieldMap
     menu->zoneId = func_02012AC8(func_020120F8(gameSystem));
     menu->eventWork = func_0201296C(gameData);
     menu->myStatus = func_02012944(gameData);
-    menu->mapInfo = func_02188C54(fieldMap);
+    menu->mapInfo = FIELDMAP_GetMsgBg(fieldMap);
     menu->cursorCol = 0;
     menu->cursorRow = 0;
     menu->cursorDirty = menu->keyCursorActive = func_020355C4() ^ 1;
     menu->selectedItem = 0;
-    menu->colorTask = func_020056A0(func_021A8D40, menu, 0);
+    menu->colorTask = func_020056A0(FIELD_MENU_ColorTask, menu, 0);
     menu->printQue = func_0201C440(menu->heapId);
     menu->scrollDirty = 0;
     menu->scrollY = 0;
     arcHandle = func_020490F4(0x47, menu->subHeapId);
-    layoutType = func_021A8B18(gameData, menu->eventWork, menu->zoneId);
+    layoutType = FIELD_MENU_GetLayoutType(gameData, menu->eventWork, menu->zoneId);
     menu->layoutType = layoutType;
-    func_021A8874(menu, arcHandle, layoutType, menu->mapInfo);
-    func_021A8BB8(menu, arcHandle, layoutType);
-    func_02049238(arcHandle);
+    FIELD_MENU_LoadGraphics(menu, arcHandle, layoutType, menu->mapInfo);
+    FIELD_MENU_CreateItems(menu, arcHandle, layoutType);
+    ARC_TOOL_DeleteHandle(arcHandle);
     func_02040588(1, 1);
     if (slideIn == 1) {
         menu->cursorCol = 0;
         menu->cursorRow = 0;
         menu->cursorDirty = 1;
-        func_021A90E0(menu);
-        func_021A8DD8(menu);
+        FIELD_MENU_UpdateSelection(menu);
+        FIELD_MENU_SetScrolledOut(menu);
     } else {
-        func_021A8E20(menu, func_020129C4(gameData));
+        FIELD_MENU_SelectButton(menu, func_020129C4(gameData));
         menu->cursorDirty = 1;
         if (menu->keyCursorActive != 0) {
             func_0204B3DC(menu->cursorActor, 1);
@@ -542,37 +542,37 @@ FieldMenu *func_021A836C(u16 heapId, u16 subHeapId, void *parent, void *fieldMap
             func_0204B3DC(menu->cursorActor, 0);
         }
     }
-    func_0203D34C(0, menu->subHeapId);
+    GFL_NET_RestartWithDefaultTimeout(0, menu->subHeapId);
     return menu;
 }
 
 /* Tells the parent the menu is leaving when the player asked to close it. */
-void func_021A84A8(FieldMenu *menu)
+void FIELD_MENU_NotifyParentOnExit(FieldMenu *menu)
 {
     if (menu->exitRequested == 1) {
-        func_021A0FB4(menu->parent, menu->heapId);
+        FIELD_SUBSCREEN_ResumeField(menu->parent, menu->heapId);
     }
 }
 
-void func_021A84BC(FieldMenu *menu)
+void FIELD_MENU_Delete(FieldMenu *menu)
 {
     u8 i;
 
     for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
-        func_021A926C(menu, &menu->items[i]);
+        FIELD_MENU_DeleteItem(menu, &menu->items[i]);
     }
-    func_021A84A8(menu);
+    FIELD_MENU_NotifyParentOnExit(menu);
     func_02030EAC(menu->colorTask);
-    func_0204B3B4(menu->backActor);
-    func_0204B3B4(menu->cursorActor);
-    func_0204B084(menu->clactSurface);
-    func_0204B1CC(menu->clactUnit);
-    func_0204AFD8(menu->cellRes);
-    func_0204A8D4(menu->charRes);
-    func_0204ADA4(menu->palRes);
-    func_0204AFD8(menu->cellResB);
-    func_0204A8D4(menu->charResB);
-    func_0204ADA4(menu->palResB);
+    CLACT_DeleteActor(menu->backActor);
+    CLACT_DeleteActor(menu->cursorActor);
+    CLACT_DeleteRenderer(menu->clactSurface);
+    CLACT_DeleteUnit(menu->clactUnit);
+    CLACT_ReleaseCellAnim(menu->cellRes);
+    CLACT_ReleaseCharacter(menu->charRes);
+    CLACT_ReleasePalette(menu->palRes);
+    CLACT_ReleaseCellAnim(menu->cellResB);
+    CLACT_ReleaseCharacter(menu->charResB);
+    CLACT_ReleasePalette(menu->palResB);
     func_02040618(6, 3, 0);
     func_020403F4(7);
     func_020403F4(5);
@@ -583,7 +583,7 @@ void func_021A84BC(FieldMenu *menu)
 }
 
 /* Shows the menu BG layers again after a slide or a wipe. */
-int func_021A8588(void)
+int FIELD_MENU_ShowBgLayers(void)
 {
     func_020409B4(6);
     func_02040588(4, 1);
@@ -593,7 +593,7 @@ int func_021A8588(void)
 }
 
 /* Per-frame update; returns the print queue state for the parent's main. */
-u32 func_021A85B4(FieldMenu *menu)
+u32 FIELD_MENU_Update(FieldMenu *menu)
 {
     u8 i;
     s16 scrollY;
@@ -602,16 +602,16 @@ u32 func_021A85B4(FieldMenu *menu)
     switch (menu->state) {
     case FIELD_MENU_STATE_WAIT_PRINT:
         if (func_0201C6B4(menu->printQue) == 1) {
-            func_021A12D4(menu->parent, menu->subHeapId);
+            FIELD_SUBSCREEN_LoadBackdrop(menu->parent, menu->subHeapId);
             for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
-                func_021A9294(menu, &menu->items[i]);
+                FIELD_MENU_ShowItemWindow(menu, &menu->items[i]);
             }
             if (menu->scrollY != 0) {
                 func_020061E4(SE_FIELD_MENU_SLIDE_IN);
                 menu->state = FIELD_MENU_STATE_SLIDE_IN;
             } else {
                 menu->state = FIELD_MENU_STATE_WAIT_WIPE;
-                func_021A8588();
+                FIELD_MENU_ShowBgLayers();
             }
         }
         break;
@@ -620,26 +620,26 @@ u32 func_021A85B4(FieldMenu *menu)
         if (scrollY < FIELD_MENU_SCROLL_STEP) {
             menu->scrollY = 0;
             menu->state = FIELD_MENU_STATE_IDLE;
-            func_021A8588();
+            FIELD_MENU_ShowBgLayers();
         } else {
             menu->scrollY = scrollY - FIELD_MENU_SCROLL_STEP;
-            func_021A87A8(menu);
+            FIELD_MENU_UpdateActorsForScroll(menu);
         }
         menu->scrollDirty = 1;
         break;
     case FIELD_MENU_STATE_WAIT_WIPE:
-        if (func_020221A4() == 1) {
-            func_021A12D4(menu->parent, menu->subHeapId);
+        if (WIPE_SYS_EndCheck() == 1) {
+            FIELD_SUBSCREEN_LoadBackdrop(menu->parent, menu->subHeapId);
             menu->state = FIELD_MENU_STATE_IDLE;
         }
         break;
     case FIELD_MENU_STATE_IDLE:
-        func_021A8EEC(menu);
-        func_021A8FFC(menu);
-        func_021A90E0(menu);
+        FIELD_MENU_HandleKeys(menu);
+        FIELD_MENU_HandleTouch(menu);
+        FIELD_MENU_UpdateSelection(menu);
         break;
     case FIELD_MENU_STATE_BACK_ANIM:
-        if (func_0204B98C(menu->backActor) != 0) {
+        if (CLACT_IsActorAnimActive(menu->backActor) != 0) {
             break;
         }
         menu->state = FIELD_MENU_STATE_DECIDE;
@@ -661,8 +661,8 @@ u32 func_021A85B4(FieldMenu *menu)
             item = menu->selectedItem;
             if (item->actor != 0) {
                 menu->pressFrames = 0;
-                func_021A9080(menu, item->cursorX, item->cursorY);
-                func_0204B878(menu->cursorActor, 1);
+                FIELD_MENU_PlaceCursor(menu, item->cursorX, item->cursorY);
+                CLACT_SetActorAnimSeq(menu->cursorActor, 1);
                 func_0204B3DC(menu->cursorActor, 1);
                 menu->state = FIELD_MENU_STATE_PRESS_ANIM;
                 func_020061E4(SE_FIELD_MENU_PRESS);
@@ -673,16 +673,16 @@ u32 func_021A85B4(FieldMenu *menu)
         break;
     case FIELD_MENU_STATE_PRESS_ANIM:
         menu->pressFrames++;
-        if (func_0204B98C(menu->cursorActor) == 0) {
+        if (CLACT_IsActorAnimActive(menu->cursorActor) == 0) {
             menu->state = FIELD_MENU_STATE_NOTIFY_SELECT;
         }
         break;
     case FIELD_MENU_STATE_NOTIFY_CLOSE:
-        func_021A0FA0(menu->parent, FIELD_MENU_NEXT_CLOSE);
+        FIELD_SUBSCREEN_SetPanelResult(menu->parent, FIELD_MENU_NEXT_CLOSE);
         menu->state = FIELD_MENU_STATE_DONE;
         break;
     case FIELD_MENU_STATE_NOTIFY_SELECT:
-        func_021A0FA0(menu->parent, FIELD_MENU_NEXT_SELECT);
+        FIELD_SUBSCREEN_SetPanelResult(menu->parent, FIELD_MENU_NEXT_SELECT);
         menu->state = FIELD_MENU_STATE_DONE;
         break;
     case FIELD_MENU_STATE_SLIDE_OUT:
@@ -691,19 +691,19 @@ u32 func_021A85B4(FieldMenu *menu)
             menu->state = FIELD_MENU_STATE_NOTIFY_CLOSE;
         } else {
             menu->scrollY += FIELD_MENU_SCROLL_STEP;
-            func_021A87A8(menu);
+            FIELD_MENU_UpdateActorsForScroll(menu);
         }
         menu->scrollDirty = 1;
         break;
     }
-    return func_0201C4E4(menu->printQue);
+    return PRINTSYS_QUE_Main(menu->printQue);
 }
 
 /*
  * Moves the icon surface to the current scroll and hides the icons and the
  * cursor that have slid below the visible part of the screen.
  */
-void func_021A87A8(FieldMenu *menu)
+void FIELD_MENU_UpdateActorsForScroll(FieldMenu *menu)
 {
     FieldMenuScreenPos surfaceOffset;
     FieldMenuScreenPos iconPos;
@@ -712,10 +712,10 @@ void func_021A87A8(FieldMenu *menu)
 
     surfaceOffset.x = 0;
     surfaceOffset.y = -menu->scrollY;
-    func_0204B09C(menu->clactSurface, 0, &surfaceOffset);
+    CLACT_SetSurfacePos(menu->clactSurface, 0, &surfaceOffset);
     for (i = 0; i < FIELD_MENU_ITEM_MAX; i++) {
         if (menu->items[i].actor != 0 && menu->items[i].buttonId != FIELD_MENU_BUTTON_EMPTY) {
-            func_0204B454(menu->items[i].actor, &iconPos, 0);
+            CLACT_GetActorSurfacePos(menu->items[i].actor, &iconPos, 0);
             if (iconPos.y < FIELD_MENU_ICON_CULL_Y) {
                 func_0204B3DC(menu->items[i].actor, 1);
             } else {
@@ -723,7 +723,7 @@ void func_021A87A8(FieldMenu *menu)
             }
         }
     }
-    func_0204B454(menu->cursorActor, &cursorPos, 0);
+    CLACT_GetActorSurfacePos(menu->cursorActor, &cursorPos, 0);
     if (menu->keyCursorActive != 0 && cursorPos.y < FIELD_MENU_CURSOR_CULL_Y) {
         func_0204B3DC(menu->cursorActor, 1);
     } else {
@@ -732,7 +732,7 @@ void func_021A87A8(FieldMenu *menu)
 }
 
 /* Applies the scroll to the BG layers 5 and 6 when it changed. */
-void func_021A8840(FieldMenu *menu)
+void FIELD_MENU_ApplyBgScroll(FieldMenu *menu)
 {
     if (menu->scrollDirty == 1) {
         func_02041EE4(5, 3, -menu->scrollY);
@@ -745,7 +745,7 @@ void func_021A8840(FieldMenu *menu)
  * Sets up the BG layers 5 to 7, loads the screen, palette, icon and cursor
  * resources and creates the cursor and back button actors.
  */
-void func_021A8874(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo)
+void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo)
 {
     void *commonArc;
     u32 cellId;
@@ -753,56 +753,56 @@ void func_021A8874(FieldMenu *menu, void *arcHandle, int layoutType, u32 mapInfo
     FieldMenuSurfaceRect surfaceRect;
 
     func_0207D534((volatile u16 *)0x0400106C, -16);
-    func_0203FCA0(5, &d_021D8BBC, 0);
+    func_0203FCA0(5, &gFieldMenuBgTemplate5, 0);
     func_02040588(5, 1);
     func_020414EC(5);
-    func_0203FCA0(6, &d_021D8B5C, 0);
+    func_0203FCA0(6, &gFieldMenuBgTemplate6, 0);
     func_02040588(6, 1);
     func_020414EC(6);
-    func_0203FCA0(7, &d_021D8B7C, 0);
+    func_0203FCA0(7, &gFieldMenuBgTemplate7, 0);
     func_02040588(7, 1);
     func_020414EC(7);
     func_02040618(6, 3, -FIELD_MENU_LAYER6_OFFSET);
     func_02049B68(arcHandle, 0, 4, 0, 0, menu->subHeapId);
     func_02049658(arcHandle, 2, 5, 0, 0, 0, menu->subHeapId);
-    func_020498F4(arcHandle, d_021D8B44[layoutType], 5, 0, 0, 0, menu->subHeapId);
+    func_020498F4(arcHandle, gFieldMenuScreenIds[layoutType], 5, 0, 0, 0, menu->subHeapId);
     func_020498F4(arcHandle, 0xE, 7, 0, 0, 0, menu->subHeapId);
-    menu->palRes = func_0204AC18(arcHandle, 1, 1, 0, 0, 0xB, menu->heapId);
-    menu->charRes = func_0204A6C8(arcHandle, 0xD, 0, 1, menu->heapId);
-    menu->cellRes = func_0204AF28(arcHandle, 0x1C, 0x26, menu->heapId);
+    menu->palRes = CLACT_RegisterPaletteEx(arcHandle, 1, 1, 0, 0, 0xB, menu->heapId);
+    menu->charRes = CLACT_RegisterCharacter(arcHandle, 0xD, 0, 1, menu->heapId);
+    menu->cellRes = CLACT_RegisterCellAnim(arcHandle, 0x1C, 0x26, menu->heapId);
     commonArc = func_020490F4(func_020275E4(), menu->subHeapId);
-    menu->palResB = func_0204AC18(commonArc, func_02027614(), 1, 0x160, 0, 2, menu->heapId);
-    menu->charResB = func_0204A6C8(commonArc, func_02027618(), 0, 1, menu->heapId);
+    menu->palResB = CLACT_RegisterPaletteEx(commonArc, func_02027614(), 1, 0x160, 0, 2, menu->heapId);
+    menu->charResB = CLACT_RegisterCharacter(commonArc, func_02027618(), 0, 1, menu->heapId);
     cellId = func_0202761C(0);
-    menu->cellResB = func_0204AF28(commonArc, cellId, func_02027620(0), menu->heapId);
-    func_02049238(commonArc);
+    menu->cellResB = CLACT_RegisterCellAnim(commonArc, cellId, func_02027620(0), menu->heapId);
+    ARC_TOOL_DeleteHandle(commonArc);
     func_020409B4(5);
-    menu->clactUnit = func_0204B100(8, 0, menu->heapId);
-    surfaceRect = d_021D8C1C;
-    menu->clactSurface = func_0204B034(&surfaceRect, 1, menu->heapId);
+    menu->clactUnit = CLACT_CreateUnit(8, 0, menu->heapId);
+    surfaceRect = gFieldMenuSurfaceRect;
+    menu->clactSurface = CLACT_CreateRenderer(&surfaceRect, 1, menu->heapId);
     func_0204B258(menu->clactUnit, menu->clactSurface);
     pos.x = 0x40;
     pos.y = 0x2C;
     pos.z = 0;
     pos.flip = 0;
     pos.palOffset = 0;
-    menu->cursorActor = func_0204B294(menu->clactUnit, menu->charRes, menu->palRes, menu->cellRes, &pos, 0, menu->heapId);
-    func_0204B954(menu->cursorActor, 0x1000);
+    menu->cursorActor = CLACT_CreateActor(menu->clactUnit, menu->charRes, menu->palRes, menu->cellRes, &pos, 0, menu->heapId);
+    CLACT_SetActorAutoAnimSpeed(menu->cursorActor, 0x1000);
     func_0204B92C(menu->cursorActor, 1);
-    func_0204B84C(menu->cursorActor, 2);
+    CLACT_SetActorBgPriority(menu->cursorActor, 2);
     pos.x = 0xE0;
     pos.y = 0xA8;
-    menu->backActor = func_0204B294(menu->clactUnit, menu->charResB, menu->palResB, menu->cellResB, &pos, 0, menu->heapId);
-    func_0204B954(menu->backActor, 0x1000);
+    menu->backActor = CLACT_CreateActor(menu->clactUnit, menu->charResB, menu->palResB, menu->cellResB, &pos, 0, menu->heapId);
+    CLACT_SetActorAutoAnimSpeed(menu->backActor, 0x1000);
     func_0204B92C(menu->backActor, 1);
     func_0204B3DC(menu->backActor, 1);
-    func_0204B954(menu->backActor, 0x2000);
+    CLACT_SetActorAutoAnimSpeed(menu->backActor, 0x2000);
 }
 
 /* Loads the frame screen into the given layer; hideFrame turns layer 4 off. */
-void func_021A8AFC(int heapId, int hideFrame)
+void FIELD_MENU_LoadFrameBg(int heapId, int hideFrame)
 {
-    func_021A92A4(heapId, 4);
+    FIELD_MENU_LoadScreen(heapId, 4);
     if (hideFrame != 0) {
         func_02040588(4, 0);
     }
@@ -813,7 +813,7 @@ void func_021A8AFC(int heapId, int hideFrame)
  * zones, 4 and 5 for the two special states, then 3 and 2 until the two
  * event flags are set; 0 is the full layout.
  */
-u32 func_021A8B18(void *gameData, void *eventWork, u32 zoneId)
+u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId)
 {
     u32 layoutType = 0;
 
@@ -823,24 +823,24 @@ u32 func_021A8B18(void *gameData, void *eventWork, u32 zoneId)
         layoutType = 4;
     } else if (func_02012B70(gameData)) {
         layoutType = 5;
-    } else if (!func_020142E8(eventWork, 0x961)) {
+    } else if (!ZONEDATA_CheckEventFlag(eventWork, 0x961)) {
         layoutType = 3;
-    } else if (!func_020142E8(eventWork, 0x962)) {
+    } else if (!ZONEDATA_CheckEventFlag(eventWork, 0x962)) {
         layoutType = 2;
     }
     return layoutType;
 }
 
 /* Counts the slots of a layout that hold a button. */
-int func_021A8B84(int layoutType)
+int FIELD_MENU_CountLayoutButtons(int layoutType)
 {
     int i;
     int count;
 
     i = 0;
     count = 0;
-    for (; d_021D8D24[layoutType][i] != 0; i++) {
-        if (d_021D8D24[layoutType][i] != FIELD_MENU_BUTTON_EMPTY) {
+    for (; gFieldMenuLayouts[layoutType][i] != 0; i++) {
+        if (gFieldMenuLayouts[layoutType][i] != FIELD_MENU_BUTTON_EMPTY) {
             count++;
         }
     }
@@ -848,7 +848,7 @@ int func_021A8B84(int layoutType)
 }
 
 /* Builds the seven slots of the layout from the button table and the message bank. */
-void func_021A8BB8(FieldMenu *menu, void *arcHandle, int layoutType)
+void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
 {
     void *msgBank;
     u8 i;
@@ -864,20 +864,20 @@ void func_021A8BB8(FieldMenu *menu, void *arcHandle, int layoutType)
         menu->items[i].inUse = 0;
     }
     j = 0;
-    layoutRow = d_021D8D24[layoutType];
-    defaultName = d_021D8C0C;
+    layoutRow = gFieldMenuLayouts[layoutType];
+    defaultName = gFieldMenuDefaultName;
     for (; j < FIELD_MENU_ITEM_MAX; j++) {
         buttonId = layoutRow[j];
         if (buttonId == FIELD_MENU_BUTTON_PLAYER) {
-            init.text = func_020457B0(0x10, menu->subHeapId);
+            init.text = STRBUF_Create(0x10, menu->subHeapId);
             if (func_020084BC(menu->myStatus) == 0) {
-                func_02045924(init.text, func_020084F4(menu->myStatus));
+                STRBUF_SetString(init.text, func_020084F4(menu->myStatus));
             } else {
                 nameBuf = defaultName;
-                func_02045924(init.text, nameBuf.chars);
+                STRBUF_SetString(init.text, nameBuf.chars);
             }
         } else {
-            init.text = func_02045EC0(msgBank, d_021D8B34[buttonId]);
+            init.text = func_02045EC0(msgBank, gFieldMenuMsgIds[buttonId]);
         }
         init.buttonId = buttonId;
         if (j != FIELD_MENU_ITEM_BACK) {
@@ -886,9 +886,9 @@ void func_021A8BB8(FieldMenu *menu, void *arcHandle, int layoutType)
             init.iconX = init.cursorX - 0x20;
             init.iconY = init.cursorY;
             init.arcHandle = arcHandle;
-            init.charId = d_021D8CAC[buttonId].charId;
-            init.cellId = d_021D8CAC[buttonId].cellId;
-            init.animId = d_021D8CAC[buttonId].animId;
+            init.charId = gFieldMenuIconRes[buttonId].charId;
+            init.cellId = gFieldMenuIconRes[buttonId].cellId;
+            init.animId = gFieldMenuIconRes[buttonId].animId;
             if (buttonId == 3 && func_02008550(menu->myStatus) == 1) {
                 init.charId = 7;
                 init.cellId = 0x16;
@@ -909,16 +909,16 @@ void func_021A8BB8(FieldMenu *menu, void *arcHandle, int layoutType)
             init.cellId = 0;
             init.animId = 0;
         }
-        init.winTileX = d_021D8B18[j].tileX;
-        init.winTileY = d_021D8B18[j].tileY;
-        func_021A9154(menu, &menu->items[j], &init);
-        func_02045808(init.text);
+        init.winTileX = gFieldMenuWindowPos[j].tileX;
+        init.winTileY = gFieldMenuWindowPos[j].tileY;
+        FIELD_MENU_CreateItem(menu, &menu->items[j], &init);
+        STRBUF_Delete(init.text);
     }
-    func_02045C04(msgBank);
+    MSGDATA_Delete(msgBank);
 }
 
 /* Task proc: cycles two palette colors of the menu with a sine of the phase counter. */
-void func_021A8D40(void *taskHandle, FieldMenu *menu)
+void FIELD_MENU_ColorTask(void *taskHandle, FieldMenu *menu)
 {
     s32 wave = func_0203F684((u16)menu->colorPhase) + 0x1000;
     u16 colors[2];
@@ -932,7 +932,7 @@ void func_021A8D40(void *taskHandle, FieldMenu *menu)
 }
 
 /* Puts the menu in its fully scrolled-out state. */
-void func_021A8DD8(FieldMenu *menu)
+void FIELD_MENU_SetScrolledOut(FieldMenu *menu)
 {
     FieldMenuScreenPos offset;
 
@@ -941,11 +941,11 @@ void func_021A8DD8(FieldMenu *menu)
     func_02040618(6, 3, -(FIELD_MENU_SCROLL_HIDDEN + FIELD_MENU_LAYER6_OFFSET));
     offset.x = 0;
     offset.y = FIELD_MENU_SCROLL_HIDDEN;
-    func_0204B09C(menu->clactSurface, 0, &offset);
+    CLACT_SetSurfacePos(menu->clactSurface, 0, &offset);
 }
 
 /* Returns the button id of the selected slot, or 0 when none is selected. */
-int func_021A8E10(FieldMenu *menu)
+int FIELD_MENU_GetSelectedButtonId(FieldMenu *menu)
 {
     FieldMenuItem *item = menu->selectedItem;
 
@@ -956,7 +956,7 @@ int func_021A8E10(FieldMenu *menu)
 }
 
 /* Moves the cursor to the slot that holds the given button. */
-void func_021A8E20(FieldMenu *menu, u32 buttonId)
+void FIELD_MENU_SelectButton(FieldMenu *menu, u32 buttonId)
 {
     u8 i;
     FieldMenuItem *items;
@@ -966,13 +966,13 @@ void func_021A8E20(FieldMenu *menu, u32 buttonId)
             menu->cursorCol = i % 2;
             menu->cursorRow = i / 2;
             menu->cursorDirty = 1;
-            func_021A9080(menu, items[menu->cursorCol + menu->cursorRow * 2].cursorX, items[menu->cursorCol + menu->cursorRow * 2].cursorY);
+            FIELD_MENU_PlaceCursor(menu, items[menu->cursorCol + menu->cursorRow * 2].cursorX, items[menu->cursorCol + menu->cursorRow * 2].cursorY);
         }
     }
 }
 
 /* Slot index of a cursor position: two columns per row. */
-int func_021A8E78(u32 col, u32 row)
+int FIELD_MENU_GetSlotIndex(u32 col, u32 row)
 {
     return (col + (row << 1));
 }
@@ -981,10 +981,10 @@ int func_021A8E78(u32 col, u32 row)
  * Moves the cursor one step in a direction (0 up, 1 down, 2 left, 3 right)
  * using the transition tables of the layout; returns 1 when it moved.
  */
-u32 func_021A8E80(FieldMenu *menu, u32 dir)
+u32 FIELD_MENU_MoveCursor(FieldMenu *menu, u32 dir)
 {
-    u32 index = func_021A8E78(menu->cursorCol, menu->cursorRow);
-    u32 target = d_021D8C4C[func_021A8B84(menu->layoutType) - 4][index][dir];
+    u32 index = FIELD_MENU_GetSlotIndex(menu->cursorCol, menu->cursorRow);
+    u32 target = gFieldMenuCursorMoves[FIELD_MENU_CountLayoutButtons(menu->layoutType) - 4][index][dir];
 
     if (index != target) {
         if (target == 0xFF) {
@@ -996,16 +996,16 @@ u32 func_021A8E80(FieldMenu *menu, u32 dir)
             return 1;
         }
         if (target != FIELD_MENU_ITEM_BACK) {
-            menu->cursorCol = d_021D8B26[target * 2];
+            menu->cursorCol = gFieldMenuSlotCol[target * 2];
         }
-        menu->cursorRow = d_021D8B27[target * 2];
+        menu->cursorRow = gFieldMenuSlotRow[target * 2];
         return 1;
     }
     return 0;
 }
 
 /* Key input: moves the cursor, or selects the slot under it, or closes the menu. */
-void func_021A8EEC(FieldMenu *menu)
+void FIELD_MENU_HandleKeys(FieldMenu *menu)
 {
     u32 pressed;
     u32 repeated;
@@ -1014,7 +1014,7 @@ void func_021A8EEC(FieldMenu *menu)
     repeated = func_0203633C();
     if (menu->keyCursorActive == 0 && (pressed | repeated) != 0) {
         if ((pressed & FIELD_MENU_PAD_B) || (pressed & FIELD_MENU_PAD_X)) {
-            func_021A90A4(menu, 1);
+            FIELD_MENU_StartLeave(menu, 1);
             return;
         }
         func_020061E4(SE_FIELD_MENU_MOVE);
@@ -1025,40 +1025,40 @@ void func_021A8EEC(FieldMenu *menu)
         return;
     }
     if (repeated & FIELD_MENU_PAD_UP) {
-        if (func_021A8E80(menu, 0) != 0) {
+        if (FIELD_MENU_MoveCursor(menu, 0) != 0) {
             menu->cursorDirty = 1;
             func_020061E4(SE_FIELD_MENU_MOVE);
         }
     } else if (repeated & FIELD_MENU_PAD_DOWN) {
-        if (func_021A8E80(menu, 1) != 0) {
+        if (FIELD_MENU_MoveCursor(menu, 1) != 0) {
             menu->cursorDirty = 1;
             func_020061E4(SE_FIELD_MENU_MOVE);
         }
     } else if (repeated & FIELD_MENU_PAD_LEFT) {
-        if (func_021A8E80(menu, 2) != 0) {
+        if (FIELD_MENU_MoveCursor(menu, 2) != 0) {
             menu->cursorDirty = 1;
             func_020061E4(SE_FIELD_MENU_MOVE);
         }
     } else if (repeated & FIELD_MENU_PAD_RIGHT) {
-        if (func_021A8E80(menu, 3) != 0) {
+        if (FIELD_MENU_MoveCursor(menu, 3) != 0) {
             menu->cursorDirty = 1;
             func_020061E4(SE_FIELD_MENU_MOVE);
         }
     } else if ((pressed & FIELD_MENU_PAD_B) || (pressed & FIELD_MENU_PAD_X)) {
-        func_021A90A4(menu, 1);
+        FIELD_MENU_StartLeave(menu, 1);
     } else if (pressed & FIELD_MENU_PAD_A) {
-        if (menu->items[func_021A8E78(menu->cursorCol, menu->cursorRow)].buttonId != FIELD_MENU_BUTTON_EMPTY) {
-            func_021A90A4(menu, 0);
+        if (menu->items[FIELD_MENU_GetSlotIndex(menu->cursorCol, menu->cursorRow)].buttonId != FIELD_MENU_BUTTON_EMPTY) {
+            FIELD_MENU_StartLeave(menu, 0);
             func_020355D8(0);
         }
     }
 }
 
 /* Touch input: a tap on a slot moves the cursor there and selects it. */
-void func_021A8FFC(FieldMenu *menu)
+void FIELD_MENU_HandleTouch(FieldMenu *menu)
 {
-    FieldMenuTouchTable touchTable = d_021D8C2C;
-    int hitSlot = func_02035C08(&touchTable);
+    FieldMenuTouchTable touchTable = gFieldMenuTouchTable;
+    int hitSlot = TOUCHPANEL_HitTrg(&touchTable);
     u32 zero;
 
     if (hitSlot != -1 && menu->items[hitSlot].buttonId != FIELD_MENU_BUTTON_EMPTY) {
@@ -1068,17 +1068,17 @@ void func_021A8FFC(FieldMenu *menu)
         menu->keyCursorActive = zero;
         func_0204B3DC(menu->cursorActor, 0);
         if (hitSlot == FIELD_MENU_ITEM_BACK) {
-            func_021A90A4(menu, 1);
+            FIELD_MENU_StartLeave(menu, 1);
             return;
         }
         menu->cursorDirty = 1;
-        func_021A90A4(menu, zero);
+        FIELD_MENU_StartLeave(menu, zero);
         func_020355D8(1);
     }
 }
 
 /* Moves the cursor actor to a position and restarts the color phase. */
-void func_021A9080(FieldMenu *menu, s16 x, s16 y)
+void FIELD_MENU_PlaceCursor(FieldMenu *menu, s16 x, s16 y)
 {
     FieldMenuScreenPos pos;
 
@@ -1089,57 +1089,57 @@ void func_021A9080(FieldMenu *menu, s16 x, s16 y)
 }
 
 /* Starts leaving the menu: back = 1 plays the back button, else the slot is chosen. */
-void func_021A90A4(FieldMenu *menu, int back)
+void FIELD_MENU_StartLeave(FieldMenu *menu, int back)
 {
     if (back == 1) {
         menu->exitRequested = 1;
         menu->state = FIELD_MENU_STATE_BACK_ANIM;
-        func_0204B878(menu->backActor, 8);
+        CLACT_SetActorAnimSeq(menu->backActor, 8);
     } else {
         menu->exitRequested = 0;
         menu->state = FIELD_MENU_STATE_DECIDE;
-        menu->chosenButton = menu->items[func_021A8E78(menu->cursorCol, menu->cursorRow)].buttonId;
+        menu->chosenButton = menu->items[FIELD_MENU_GetSlotIndex(menu->cursorCol, menu->cursorRow)].buttonId;
     }
 }
 
 /* Applies a cursor move: selects the new slot and swaps the highlighted icon animation. */
-void func_021A90E0(FieldMenu *menu)
+void FIELD_MENU_UpdateSelection(FieldMenu *menu)
 {
     FieldMenuItem *previous;
 
     if (menu->cursorDirty == 1) {
         previous = menu->selectedItem;
         menu->selectedItem = &menu->items[menu->cursorCol + menu->cursorRow * 2];
-        func_0204B878(menu->cursorActor, 0);
-        func_021A9080(menu, menu->selectedItem->cursorX, menu->selectedItem->cursorY);
+        CLACT_SetActorAnimSeq(menu->cursorActor, 0);
+        FIELD_MENU_PlaceCursor(menu, menu->selectedItem->cursorX, menu->selectedItem->cursorY);
         if (menu->selectedItem->actor != 0 && menu->keyCursorActive == 1) {
-            func_0204B878(menu->selectedItem->actor, 1);
+            CLACT_SetActorAnimSeq(menu->selectedItem->actor, 1);
         }
         if (previous != 0 && previous->actor != 0) {
-            func_0204B878(previous->actor, 0);
+            CLACT_SetActorAnimSeq(previous->actor, 0);
         }
         menu->cursorDirty = 0;
     }
 }
 
 /* Creates one slot: its text window, icon resources and icon actor. */
-void func_021A9154(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit *init)
+void FIELD_MENU_CreateItem(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit *init)
 {
     FieldMenuActorSetup setup;
     u32 textColor;
 
-    textColor = func_021904AC(func_02188C54(menu->fieldMap));
+    textColor = FIELD_MSGBG_GetFont(FIELDMAP_GetMsgBg(menu->fieldMap));
     item->inUse = 1;
     item->buttonId = init->buttonId;
     item->cursorX = init->cursorX;
     item->cursorY = init->cursorY;
-    item->bmpWin = func_020450F0(6, init->winTileX, init->winTileY, 8, 2, 0xD, 1);
-    func_02045374(item->bmpWin);
-    func_02043B5C(func_02045770(item->bmpWin), 0);
-    func_0201C724(menu->printQue, func_02045770(item->bmpWin), 2, 1, init->text, textColor, 0x440);
+    item->bmpWin = BMP_WIN_Create(6, init->winTileX, init->winTileY, 8, 2, 0xD, 1);
+    BMP_WIN_MakeScreen(item->bmpWin);
+    BMP_Clear(func_02045770(item->bmpWin), 0);
+    PRINTSYS_PrintQueColor(menu->printQue, func_02045770(item->bmpWin), 2, 1, init->text, textColor, 0x440);
     if (init->arcHandle != 0) {
-        item->charRes = func_0204A6C8(init->arcHandle, init->charId, 0, 1, menu->heapId);
-        item->cellRes = func_0204AF28(init->arcHandle, init->cellId, init->animId, menu->heapId);
+        item->charRes = CLACT_RegisterCharacter(init->arcHandle, init->charId, 0, 1, menu->heapId);
+        item->cellRes = CLACT_RegisterCellAnim(init->arcHandle, init->cellId, init->animId, menu->heapId);
         setup.x = init->iconX;
         setup.y = init->iconY;
         setup.z = 0;
@@ -1151,10 +1151,10 @@ void func_021A9154(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit
         setup.scaleY = 0x1000;
         setup.rotation = 0;
         setup.drawArea = 2;
-        item->actor = func_0204B324(menu->clactUnit, item->charRes, menu->palRes, item->cellRes, &setup, 0, menu->heapId);
-        func_0204B954(item->actor, 0x1000);
+        item->actor = CLACT_CreateAffineActor(menu->clactUnit, item->charRes, menu->palRes, item->cellRes, &setup, 0, menu->heapId);
+        CLACT_SetActorAutoAnimSpeed(item->actor, 0x1000);
         func_0204B92C(item->actor, 1);
-        func_0204B878(item->actor, 0);
+        CLACT_SetActorAnimSeq(item->actor, 0);
         if (item->buttonId == FIELD_MENU_BUTTON_EMPTY) {
             func_0204B3DC(item->actor, 0);
         } else {
@@ -1166,35 +1166,35 @@ void func_021A9154(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit
 }
 
 /* Frees the window and the icon resources of one slot. */
-void func_021A926C(FieldMenu *menu, FieldMenuItem *item)
+void FIELD_MENU_DeleteItem(FieldMenu *menu, FieldMenuItem *item)
 {
     if (item->inUse == 1) {
         func_020452E8(item->bmpWin);
         if (item->actor != 0) {
-            func_0204B3B4(item->actor);
-            func_0204AFD8(item->cellRes);
-            func_0204A8D4(item->charRes);
+            CLACT_DeleteActor(item->actor);
+            CLACT_ReleaseCellAnim(item->cellRes);
+            CLACT_ReleaseCharacter(item->charRes);
         }
     }
 }
 
 /* Pushes the slot window to the screen once its text is printed. */
-void func_021A9294(FieldMenu *menu, FieldMenuItem *item)
+void FIELD_MENU_ShowItemWindow(FieldMenu *menu, FieldMenuItem *item)
 {
     if (item->inUse == 1) {
-        func_02045334(item->bmpWin);
+        BMP_WIN_TransferChars(item->bmpWin);
     }
 }
 
 /*
  * Loads the frame screen file and writes it to a BG layer with palette 3 and
  * tile base 0x80.
- * 0x021A8E14 is not a function: it lies inside func_021A8E10 (bytes
+ * 0x021A8E14 is not a function: it lies inside FIELD_MENU_GetSelectedButtonId (bytes
  * 0x021A8E10..0x021A8E1F), the listing has no label there and nothing calls it.
  * The old src/matched func_021A8E14 (an SDK signature hit on EL_GetLibSize)
- * matched the tail of func_021A8E10.
+ * matched the tail of FIELD_MENU_GetSelectedButtonId.
  */
-void func_021A92A4(u32 heapId, u32 layer)
+void FIELD_MENU_LoadScreen(u32 heapId, u32 layer)
 {
     FieldMenuScreenData *screen;
     void *screenBuf;
@@ -1206,7 +1206,7 @@ void func_021A92A4(u32 heapId, u32 layer)
     func_02049B68(arcHandle, func_02027624(), 4, 0x60, 0x20, heapId);
     func_02049658(arcHandle, func_02027628(), layer, 0x80, 0, 0, heapId);
     screenBuf = func_02049EF4(arcHandle, func_0202762C(), 0, (void **)&screen, heapId);
-    func_02049238(arcHandle);
+    ARC_TOOL_DeleteHandle(arcHandle);
     tiles = screen->tiles;
     for (i = 0; i < 0x300; i++) {
         tiles[i] = (tiles[i] + 0x80) | 0x3000;

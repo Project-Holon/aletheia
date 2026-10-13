@@ -1,5 +1,5 @@
 /*
- * function: func_0215CCE8
+ * function: SCRCMD_PROC_CallMenuProc
  * address:  0x0215CCE8
  * packet:   pkt_ov010_0215CCE8
  * region:   ov010
@@ -13,12 +13,12 @@
  * matched in pkt_ov003_021543BC and attests as matched.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_020124AC  0x020124AC  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   EVENT_MENUPROC_Entry  0x021543BC  thumb  ov003
  *   ov003_id       0x00000003  data
  */
@@ -27,25 +27,25 @@ typedef unsigned int u32;
 
 typedef struct { u32 a; u32 b; } Arg;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_0201210C(const struct Ctx *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Desc;
-extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
-extern void func_0215897C(void *, void *);
+extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
+extern void SCRIPT_SYS_CallEvent(void *, void *);
 extern void EVENT_MENUPROC_Entry(void);
 extern char ov003_id[];
 
-int func_0215CCE8(void *a, void *b)
+int SCRCMD_PROC_CallMenuProc(void *a, void *b)
 {
     Arg arg;
-    void *t = func_0215A5F4(b);
-    void *h = func_0215A5DC(b);
-    u32 k = !func_02159B10(a, b) ? 1 : 2;
-    arg.a = (u32)func_0201210C(h);
+    void *t = SCRCMD_WORK_GetScriptWork(b);
+    void *h = SCRCMD_WORK_GetGameSystem(b);
+    u32 k = !SCRIPT_WORK_ReadWorkValue(a, b) ? 1 : 2;
+    arg.a = (u32)GAMESYSTEM_GetFieldMap(h);
     arg.b = k;
-    func_0215897C(t, func_020124AC(h, (u32)ov003_id, (void *)EVENT_MENUPROC_Entry, (u32)(&arg)));
+    SCRIPT_SYS_CallEvent(t, GAME_EVENT_CreateOverlayEvent(h, (u32)ov003_id, (void *)EVENT_MENUPROC_Entry, (u32)(&arg)));
     return 1;
 }

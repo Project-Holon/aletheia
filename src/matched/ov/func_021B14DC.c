@@ -1,5 +1,5 @@
 /*
- * function: func_021B14DC
+ * function: SCRCMD_MSGWIN_CmdCloseSpWin
  * address:  0x021B14DC
  * packet:   pkt_021B14DC
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021B13F8  0x021B13F8  thumb  ov021
+ *   SCRCMD_MSGWIN_CloseSpWin  0x021B13F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021B13F8(u32 a);
+extern void SCRCMD_MSGWIN_CloseSpWin(u32 a);
 
-int func_021B14DC(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_MSGWIN_CmdCloseSpWin(u32 a, u32 b, u32 c, u32 d)
 {
-func_021B13F8(b);
+SCRCMD_MSGWIN_CloseSpWin(b);
 return 0;
 }
 

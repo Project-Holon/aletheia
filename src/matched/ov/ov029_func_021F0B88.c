@@ -1,5 +1,5 @@
 /*
- * function: func_021F0B88
+ * function: C_GEAR_StepTileFlash
  * address:  0x021F0B88
  * packet:   pkt_ov029_021F0B88
  * region:   ov029
@@ -12,7 +12,7 @@
  * symbols:
  *   _s32_div_f     0x0209C0A4  arm
  *   _u32_div_f     0x0209C2B0  arm
- *   func_021F0C00  0x021F0C00  thumb  ov029
+ *   C_GEAR_SetTileFlashStep  0x021F0C00  thumb  ov029
  */
 
 typedef unsigned char  u8;
@@ -28,9 +28,9 @@ typedef struct {
     u8  f7;
 } Ent;
 
-extern void func_021F0C00(Ent *p, int t);
+extern void C_GEAR_SetTileFlashStep(Ent *p, int t);
 
-void func_021F0B88(Ent *p)
+void C_GEAR_StepTileFlash(Ent *p)
 {
     unsigned int q;
     int t;
@@ -49,6 +49,6 @@ void func_021F0B88(Ent *p)
                 t = 1;
         }
         if (t)
-            func_021F0C00(p, q);
+            C_GEAR_SetTileFlashStep(p, q);
     }
 }

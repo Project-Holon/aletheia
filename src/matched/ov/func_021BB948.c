@@ -1,5 +1,5 @@
 /*
- * function: func_021BB948
+ * function: FIELD_SUBPROC_MGR_RunUpdate
  * address:  0x021BB948
  * packet:   pkt_021BB948
  * region:   ov021
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void func_02030D28(struct Ctx *c);
 
-void func_021BB948(u8 *p)
+void FIELD_SUBPROC_MGR_RunUpdate(u8 *p)
 {
     func_02030D28((struct Ctx *)(((struct Obj18174 *)p)->f10));
 }

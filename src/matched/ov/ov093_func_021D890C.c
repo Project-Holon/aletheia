@@ -1,5 +1,5 @@
 /*
- * function: func_021D890C
+ * function: BTL_CALC_SlowStartHalveAttack
  * address: 0x021D890C
  * packet: pkt_ov093_021D890C
  * region: ov093
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
- *   func_021D7704 0x021D7704 thumb ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
  */
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern int WAZA_TOOL_GetDamageType(int a);
-extern void func_021D7704(int,int);
+extern void BTL_EVENT_MultiplyVar(int,int);
 
-void func_021D890C(int a, int b, int c, int *d)
+void BTL_CALC_SlowStartHalveAttack(int a, int b, int c, int *d)
 {
-    if(c==func_021D775C(3) && d[3]!=0 && WAZA_TOOL_GetDamageType((unsigned short)func_021D775C(0x12))==1) func_021D7704(0x35,0x800);
+    if(c==BTL_EVENT_GetVar(3) && d[3]!=0 && WAZA_TOOL_GetDamageType((unsigned short)BTL_EVENT_GetVar(0x12))==1) BTL_EVENT_MultiplyVar(0x35,0x800);
 }

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * note:     2026-10-05 wave P19 lane 6: tiny unlabelled leaf filed as the
- *           witness for the call in ov010 func_0216EB98 (moves word 0 of the
+ *           witness for the call in ov010 EVENT_BATTLE_ProcBattleTask (moves word 0 of the
  *           block into word 2 and clears word 0).
  * symbols:
  */

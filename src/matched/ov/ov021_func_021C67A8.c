@@ -1,5 +1,5 @@
 /*
- * function: func_021C67A8
+ * function: FIELD_G3DOBJ_GetAnimeFrame
  * address:  0x021C67A8
  * packet:   pkt_ov021_021C67A8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047828  0x02047828  arm
+ *   G3D_SYSTEM_GetObjectAnimeFrame  0x02047828  arm
  */
 
 typedef unsigned char u8;
@@ -35,13 +35,13 @@ typedef struct { u8 pad[0x2c]; } Item;
 typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; Item *f8; Elem *fC; } Mgr;
 typedef signed int     s32;
 struct AnmCtl;
-extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
-int func_021C67A8(Mgr *m, int idx, int i)
+extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
+int FIELD_G3DOBJ_GetAnimeFrame(Mgr *m, int idx, int i)
 {
     int r = 0;
     Elem *e = &m->fC[idx];
     if (e->k == 1) {
-        if ((int)func_02047828((struct AnmCtl *)e->f44, (u16)i, &r) == 0)
+        if ((int)G3D_SYSTEM_GetObjectAnimeFrame((struct AnmCtl *)e->f44, (u16)i, &r) == 0)
             r = 0;
     }
     return r;

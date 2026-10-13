@@ -1,5 +1,5 @@
 /*
- * function: func_021BE518
+ * function: BTL_SERVER_FLOW_InitMoveQueue
  * address:  0x021BE518
  * packet:   pkt_ov093_021BE518
  * region:   ov093
@@ -14,7 +14,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Unk021BE518 { u8 f0; u8 f1[6]; };
-void func_021BE518(struct Unk021BE518 *p)
+void BTL_SERVER_FLOW_InitMoveQueue(struct Unk021BE518 *p)
 {
     u32 i;
     p->f0 = 0;

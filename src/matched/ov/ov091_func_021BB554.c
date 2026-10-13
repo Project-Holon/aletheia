@@ -1,5 +1,5 @@
 /*
- * function: func_021BB554
+ * function: PLIST_PLATE_GetHpBarColor
  * address: 0x021BB554
  * packet: pkt_ov091_021BB554
  * region: ov091
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202D034 0x0202D034 thumb
  */
 #include "../include/Obj03680.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern int func_0202D034(u32 a, u32 b);
-int func_021BB554(u32 p) { return func_0202D034(((struct Obj03680 *)p)->f6,func_02017E1C(((struct Obj03680 *)p)->f0,0xa1,0)); }
+int PLIST_PLATE_GetHpBarColor(u32 p) { return func_0202D034(((struct Obj03680 *)p)->f6,POKE_TOOL_GetPartyValue(((struct Obj03680 *)p)->f0,0xa1,0)); }

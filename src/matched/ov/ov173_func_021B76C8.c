@@ -14,25 +14,25 @@
  *   func_020275E4 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02027618 0x02027618 thumb
- *   func_0204A6C8 0x0204A6C8 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   func_020275F8 0x020275F8 thumb
  *   func_02027614 0x02027614 thumb
- *   func_0204AC18 0x0204AC18 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   func_020275E8 0x020275E8 thumb
- *   func_0204ABF0 0x0204ABF0 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   func_0202761C 0x0202761C thumb
  *   func_02027620 0x02027620 thumb
- *   func_0204AF28 0x0204AF28 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   func_020275FC 0x020275FC thumb
  *   func_02027600 0x02027600 thumb
- *   func_02049238 0x02049238 arm
- *   func_0202D7C8 0x0202D7C8 thumb
- *   func_020185F0 0x020185F0 thumb
- *   func_02017DBC 0x02017DBC thumb
- *   func_0202D934 0x0202D934 thumb
- *   func_0202D8D0 0x0202D8D0 thumb
- *   func_0202D9A4 0x0202D9A4 thumb
- *   func_02017DE4 0x02017DE4 thumb
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   POKEGRA_OpenHandle 0x0202D7C8 thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
+ *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
+ *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
+ *   POKEGRA_RegisterCellAnimPP 0x0202D9A4 thumb
+ *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  */
 #include "../include/Obj01267.h"
 typedef unsigned short u16;
@@ -40,26 +40,26 @@ typedef unsigned int u32;
 extern u32 func_020275E4(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02027618(void);
-extern int func_0204A6C8(void *,u32,u32,u32,u16);
+extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern u32 func_020275F8(u32);
 extern u32 func_02027614(void);
-extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
+extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 extern u32 func_020275E8(void);
-extern int func_0204ABF0(void *,u32,u32,u32,u16);
+extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern int func_0204AF28(void *,u32,u32,u32);
+extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern u32 func_020275FC(u32);
 extern u32 func_02027600(u32);
-extern void func_02049238(void *);
-extern int func_0202D7C8(int);
-extern void *func_020185F0(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern int POKEGRA_OpenHandle(int);
+extern void *POKE_TOOL_Dummy(void *);
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern int func_0202D934(int,void *,int,int,u16);
-extern int func_0202D8D0(int,void *,int,int,u16,u16);
-extern u32 func_0202D9A4(u32,u32,u32,u32,u16);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
+extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
+extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 void func_021B76C8(char *p,void *other)
 {
     void *bank;
@@ -69,29 +69,29 @@ void func_021B76C8(char *p,void *other)
     void *mon;
     u32 save;
     bank=func_020490F4(func_020275E4(),79);
-    ((struct Obj01267 *)p)->f70=func_0204A6C8(bank,func_02027618(),0,1,79);
-    ((struct Obj01267 *)p)->f74=func_0204A6C8(other,17,0,1,79);
-    ((struct Obj01267 *)p)->f78=func_0204A6C8(other,26,0,1,79);
-    for(i=4;i<8;i++) *(int *)(p+i*4+0x70)=func_0204A6C8(bank,func_020275F8(0),0,0,79);
-    ((struct Obj01267 *)p)->f7C=func_0204A6C8(other,23,0,1,79);
-    ((struct Obj01267 *)p)->f94=func_0204AC18(bank,func_02027614(),1,0,0,4,79);
-    ((struct Obj01267 *)p)->f98=func_0204AC18(other,5,1,128,0,1,79);
-    ((struct Obj01267 *)p)->f9C=func_0204AC18(bank,func_020275E8(),1,192,0,3,79);
-    ((struct Obj01267 *)p)->fA0=func_0204ABF0(bank,func_020275E8(),0,0,79);
+    ((struct Obj01267 *)p)->f70=CLACT_RegisterCharacter(bank,func_02027618(),0,1,79);
+    ((struct Obj01267 *)p)->f74=CLACT_RegisterCharacter(other,17,0,1,79);
+    ((struct Obj01267 *)p)->f78=CLACT_RegisterCharacter(other,26,0,1,79);
+    for(i=4;i<8;i++) *(int *)(p+i*4+0x70)=CLACT_RegisterCharacter(bank,func_020275F8(0),0,0,79);
+    ((struct Obj01267 *)p)->f7C=CLACT_RegisterCharacter(other,23,0,1,79);
+    ((struct Obj01267 *)p)->f94=CLACT_RegisterPaletteEx(bank,func_02027614(),1,0,0,4,79);
+    ((struct Obj01267 *)p)->f98=CLACT_RegisterPaletteEx(other,5,1,128,0,1,79);
+    ((struct Obj01267 *)p)->f9C=CLACT_RegisterPaletteEx(bank,func_020275E8(),1,192,0,3,79);
+    ((struct Obj01267 *)p)->fA0=CLACT_RegisterPalette(bank,func_020275E8(),0,0,79);
     first=func_0202761C(1);
-    ((struct Obj01267 *)p)->fB8=func_0204AF28(bank,first,func_02027620(1),79);
-    ((struct Obj01267 *)p)->fBC=func_0204AF28(other,7,8,79);
+    ((struct Obj01267 *)p)->fB8=CLACT_RegisterCellAnim(bank,first,func_02027620(1),79);
+    ((struct Obj01267 *)p)->fBC=CLACT_RegisterCellAnim(other,7,8,79);
     first=func_020275FC(1);
-    ((struct Obj01267 *)p)->fC0=func_0204AF28(bank,first,func_02027600(1),79);
-    ((struct Obj01267 *)p)->fC4=func_0204AF28(other,24,25,79);
-    ((struct Obj01267 *)p)->fC8=func_0204AF28(other,27,28,79);
-    func_02049238(bank);
-    second=func_0202D7C8(79);
-    mon=func_020185F0(**(void ** *)&((struct Obj01267 *)p)->f0);
-    save=func_02017DBC(mon);
-    ((struct Obj01267 *)p)->f90=func_0202D934(second,mon,0,0,79);
-    ((struct Obj01267 *)p)->fA4=func_0202D8D0(second,mon,0,0,128,79);
-    ((struct Obj01267 *)p)->fCC=func_0202D9A4((u32)mon,0,1,0,79);
-    func_02017DE4(mon,save);
-    func_02049238((void *)second);
+    ((struct Obj01267 *)p)->fC0=CLACT_RegisterCellAnim(bank,first,func_02027600(1),79);
+    ((struct Obj01267 *)p)->fC4=CLACT_RegisterCellAnim(other,24,25,79);
+    ((struct Obj01267 *)p)->fC8=CLACT_RegisterCellAnim(other,27,28,79);
+    ARC_TOOL_DeleteHandle(bank);
+    second=POKEGRA_OpenHandle(79);
+    mon=POKE_TOOL_Dummy(**(void ** *)&((struct Obj01267 *)p)->f0);
+    save=POKE_TOOL_DecodeBoxParam(mon);
+    ((struct Obj01267 *)p)->f90=POKEGRA_RegisterCgrPP(second,mon,0,0,79);
+    ((struct Obj01267 *)p)->fA4=POKEGRA_RegisterPalettePP(second,mon,0,0,128,79);
+    ((struct Obj01267 *)p)->fCC=POKEGRA_RegisterCellAnimPP((u32)mon,0,1,0,79);
+    POKE_TOOL_EncodeBoxParam(mon,save);
+    ARC_TOOL_DeleteHandle((void *)second);
 }

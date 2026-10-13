@@ -9,18 +9,18 @@
  * status: EXACT
  * symbols:
  *   func_021D8A24 0x021D8A24 thumb ov119
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  */
 extern int func_021D8A24(void *p);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 void func_021D8F60(void *p,int idx,int x) {
  unsigned v=func_021D8A24(p);
  if(v==0) { *(int *)((char *)p+idx*4+0x5e4)=x; return; }
- if(func_0203D1A4((struct Link *)((unsigned)func_020399A8()))==0) { *(int *)((char *)p+idx*4+0x5e4)=x; return; }
+ if(GFL_NET_GetHandleNetID((struct Link *)((unsigned)GFL_NET_HANDLE_GetCurrentHandle()))==0) { *(int *)((char *)p+idx*4+0x5e4)=x; return; }
  *(int *)((char *)p+(1-idx)*4+0x5e4)=x;
 }

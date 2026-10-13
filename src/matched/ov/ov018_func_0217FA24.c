@@ -1,5 +1,5 @@
 /*
- * function: func_0217FA24
+ * function: EVENT_COMM_COMMON_CreateReturnPalaceEvent
  * address: 0x0217FA24
  * packet: pkt_ov018_0217FA24
  * region: ov018
@@ -10,13 +10,13 @@
  * status: EXACT
  * symbols:
  *   func_020122C0 0x020122C0 thumb
- *   func_0217FA38 0x0217FA38 thumb ov018
+ *   EVENT_COMM_COMMON_ReturnPalaceEventMain 0x0217FA38 thumb ov018
  */
 typedef unsigned int u32;
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_0217FA38(void *a, int *state);
-void *func_0217FA24(void *owner)
+extern int EVENT_COMM_COMMON_ReturnPalaceEventMain(void *a, int *state);
+void *EVENT_COMM_COMMON_CreateReturnPalaceEvent(void *owner)
 {
-    return func_020122C0(owner, 0, func_0217FA38, 0);
+    return func_020122C0(owner, 0, EVENT_COMM_COMMON_ReturnPalaceEventMain, 0);
 }

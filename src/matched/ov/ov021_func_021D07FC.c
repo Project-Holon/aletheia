@@ -1,5 +1,5 @@
 /*
- * function: func_021D07FC
+ * function: FLDEFF_BUBBLE_FindFreeBubble
  * address:  0x021D07FC
  * packet:   pkt_ov021_021D07FC
  * region:   ov021
@@ -32,7 +32,7 @@ typedef struct S {
     Row rows[6];
 } S;
 
-Row *func_021D07FC(S *s)
+Row *FLDEFF_BUBBLE_FindFreeBubble(S *s)
 {
     int i;
 

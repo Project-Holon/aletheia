@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021D9340, func_021D9360
+ * function: BTL_ABILITY_HalveResidualDamage, BTL_ABILITY_GetHalveResidualDamageHandlers
  * address: 0x021D9340
  * packet: pkt_ov093_021D9340
  * region: ov093
@@ -10,15 +10,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
- *   d_021F06B8 0x021F06B8 data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
+ *   gHalveResidualDamageHandlerTable 0x021F06B8 data a4
  */
-extern int func_021D775C(int);
-extern int func_021D76BC(int, unsigned int);
-extern unsigned int d_021F06B8;
-void func_021D9340(int a, int b, int c)
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int, unsigned int);
+extern unsigned int gHalveResidualDamageHandlerTable;
+void BTL_ABILITY_HalveResidualDamage(int a, int b, int c)
 {
-    if (c == func_021D775C(2)) func_021D76BC(0x20, func_021D775C(0x20) << 1);
+    if (c == BTL_EVENT_GetVar(2)) BTL_EVENT_OverwriteVar(0x20, BTL_EVENT_GetVar(0x20) << 1);
 }
-void *func_021D9360(int *p) { *p = 1; return &d_021F06B8; }
+void *BTL_ABILITY_GetHalveResidualDamageHandlers(int *p) { *p = 1; return &gHalveResidualDamageHandlerTable; }

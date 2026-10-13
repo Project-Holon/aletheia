@@ -13,7 +13,7 @@
  *   func_02045740  0x02045740  arm
  *   func_02045738  0x02045738  arm
  *   func_02045770  0x02045770  arm
- *   func_020437D4  0x020437D4  arm
+ *   BMP_GetPixels  0x020437D4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *
  * app_taskmenu.c: paints a window frame into the BG's tilemap.  Walks the
@@ -56,7 +56,7 @@ extern u8 func_02045740(struct Descriptor *p);
 extern u8 func_02045738(struct Descriptor *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *bg);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
 
 void APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *cfg, u32 style)
@@ -83,7 +83,7 @@ void APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *cfg, u32 style)
             goto nextrow;
         }
         for (;;) {
-        dst = (u32)func_020437D4((const struct Bmp *)((u32)func_02045770((struct Descriptor *)bg)));
+        dst = (u32)BMP_GetPixels((const struct Bmp *)((u32)func_02045770((struct Descriptor *)bg)));
         rowbase = (x + y * func_02045738((struct Descriptor *)bg)) << 5;
         if (y == 0 && x == 0) {
             src = cfg->f04->f14;

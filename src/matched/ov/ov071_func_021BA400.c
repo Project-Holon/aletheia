@@ -1,5 +1,5 @@
 /*
- * function: func_021BA400
+ * function: MONOLITH_TOOL_HideInfoBgs
  * address: 0x021BA400
  * packet: pkt_ov071_021BA400
  * region: ov071
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(unsigned);
-void func_021BA400(void) {
+void MONOLITH_TOOL_HideInfoBgs(void) {
     func_02040588(0, 0); func_02040588(2, 0);
     func_020403F4(0); func_020403F4(2);
 }

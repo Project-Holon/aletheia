@@ -1,5 +1,5 @@
 /*
- * function: func_021A4CA8
+ * function: FIELD_PLAYER_GRID_ApplyMoveResult
  * address:  0x021A4CA8
  * packet:   pkt_ov021_021A4CA8
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A4CF4  0x021A4CF4  thumb  ov021
- *   func_021A4FA8  0x021A4FA8  thumb  ov021
- *   func_021A5148  0x021A5148  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_GRID_ApplyMoveResultOnFoot  0x021A4CF4  thumb  ov021
+ *   FIELD_PLAYER_GRID_ApplyMoveResultOnCycle  0x021A4FA8  thumb  ov021
+ *   FIELD_PLAYER_GRID_ApplyMoveResultOnSurf  0x021A5148  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00262.h"
@@ -22,23 +22,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A3974(u8 *p);
-extern void func_021A4CF4(u32, u32, u32);
-extern void func_021A4FA8(u32, u32, u32);
-extern void func_021A5148(u32, u32, u32);
+extern u32 FIELD_PLAYER_CORE_GetFormCode(u8 *p);
+extern void FIELD_PLAYER_GRID_ApplyMoveResultOnFoot(u32, u32, u32);
+extern void FIELD_PLAYER_GRID_ApplyMoveResultOnCycle(u32, u32, u32);
+extern void FIELD_PLAYER_GRID_ApplyMoveResultOnSurf(u32, u32, u32);
 
-void func_021A4CA8(u32 a, u32 b, u32 c)
+void FIELD_PLAYER_GRID_ApplyMoveResult(u32 a, u32 b, u32 c)
 {
-    switch (func_021A3974((u8 *)(*(u32 *)&((struct Obj00262 *)a)->fC))) {
+    switch (FIELD_PLAYER_CORE_GetFormCode((u8 *)(*(u32 *)&((struct Obj00262 *)a)->fC))) {
     case 0:
-        func_021A4CF4(a, b, c);
+        FIELD_PLAYER_GRID_ApplyMoveResultOnFoot(a, b, c);
         return;
     case 1:
-        func_021A4FA8(a, b, c);
+        FIELD_PLAYER_GRID_ApplyMoveResultOnCycle(a, b, c);
         return;
     case 2:
     case 3:
-        func_021A5148(a, b, c);
+        FIELD_PLAYER_GRID_ApplyMoveResultOnSurf(a, b, c);
         break;
     }
 }

@@ -11,9 +11,9 @@
  * Lever: case 2 falls into default; an empty case 2 break adds four bytes.
  * Caller-visible return overrides tail-forwarders; 0201127C keeps visible r1.
  * symbols:
- *   func_021D5584 0x021D5584 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
- *   func_021D5448 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   func_021B9A6C 0x021B9A6C thumb ov093
  *   func_0218A494 0x0218A494 thumb ov096
  *   func_0218A528 0x0218A528 thumb ov096
@@ -29,11 +29,11 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { u8 state, index; u16 move; int scores[4]; u8 p14[0x28]; u32 mask, all; u8 flags, entry, slot, target; u8 p48[0x4c]; u8 side, opp; u8 p96[2]; int mode; u8 p9c[0x10]; void *script; int fb0, fb4, fb8; u8 *fbc; int fc0, fc4; u8 pc8[8]; u64 tick; } Obj;
 struct UtilWork;
-extern u8 func_021D5584(struct UtilWork *p, u32 i);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 struct QG;
 struct ScriptVm;
-extern u8 func_021D5448(struct QG *p);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern int func_021B9A6C(int, u32);
 extern void *func_0218A494(u8 *);
 extern void func_0218A528(u8 *);
@@ -47,10 +47,10 @@ void func_021885BC(int a, Obj *b)
     while (b->state != 2 && !(b->flags & 16)) {
         switch (b->state) {
         case 0:
-            if (func_021D5584((struct UtilWork *)b->fbc, b->index) == 0) {
+            if (BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)b->fbc, b->index) == 0) {
                 b->move = 0;
             } else {
-                b->move = func_021D54C0(b->fbc, b->index);
+                b->move = BTL_POKEPARAM_GetMoveId(b->fbc, b->index);
                 b->script = func_0218A494((u8 *)b);
                 VM_Start((struct ScriptVm *)a, b->script);
             }
@@ -78,7 +78,7 @@ void func_021885BC(int a, Obj *b)
             }
             if (b->flags & 1) {
                 b->index++;
-                if (b->index < func_021D5448((struct QG *)b->fbc) && !(b->flags & 8))
+                if (b->index < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc) && !(b->flags & 8))
                     b->state = 0;
                 else
                     b->state++;

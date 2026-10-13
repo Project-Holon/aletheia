@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02194A00",
+   "name": "TALKMSGWIN_AddFrameWindow",
    "address": "0x02194A00",
    "kind": "game",
    "region": "ov021",

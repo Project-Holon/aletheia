@@ -1,5 +1,5 @@
 /*
- * function: func_021F05E8
+ * function: BEACON_VIEW_SetArrowAnim
  * address:  0x021F05E8
  * packet:   pkt_ov032_021F05E8
  * region:   ov032
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern void func_021F0DF4(void *p, unsigned short v);
 
-void func_021F05E8(u8 *p, int a, u32 b)
+void BEACON_VIEW_SetArrowAnim(u8 *p, int a, u32 b)
 {
     u8 m;
 

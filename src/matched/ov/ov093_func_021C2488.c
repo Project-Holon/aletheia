@@ -1,5 +1,5 @@
 /*
- * function: func_021C2488
+ * function: BTL_SERVER_FLOW_ProcMoveSickAllTargets
  * address: 0x021C2488
  * packet: pkt_ov093_021C2488
  * region: ov093
@@ -10,13 +10,13 @@
  * symbols:
  *   sub_0201BD28 0x0201BD28 thumb
  *   WAZA_TOOL_GetSickCont 0x0201BF58 thumb
- *   func_021D7C70 0x021D7C70 thumb ov093
+ *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
  *   func_021C2564 0x021C2564 thumb ov093
  *   func_021C2574 0x021C2574 thumb ov093
  *   func_021C2584 0x021C2584 thumb ov093
  *   func_021C2594 0x021C2594 thumb ov093
- *   func_021C25A4 0x021C25A4 thumb ov093
- *   func_021C5718 0x021C5718 thumb ov093
+ *   BTL_SERVER_FLOW_ProcMoveSickOnTarget 0x021C25A4 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgStdFailed 0x021C5718 thumb ov093
  */
 #include "../include/Obj21083.h"
 typedef unsigned char u8;
@@ -28,14 +28,14 @@ typedef struct { u8 pad[5]; u8 f:1; } BF;
 typedef struct { u8 pad[0x78a]; u8 low:4; u8 f:1; } State;
 extern u32 sub_0201BD28(u16, u32);
 extern W WAZA_TOOL_GetSickCont(u16);
-extern void func_021D7C70(W, u32, Word *);
+extern void BTL_CALC_MakeSickContFromSpec(W, u32, Word *);
 extern u32 func_021C2564(u32);
 extern void func_021C2574(u32);
 extern u32 func_021C2584(u32);
 extern u32 func_021C2594(u32);
-extern int func_021C25A4(u8 *, u32, u32, u32, u32, Word, u32);
-extern void func_021C5718(u8 *, u8 *, u32);
-void func_021C2488(u8 *p, u16 id, u8 *a, u32 c)
+extern int BTL_SERVER_FLOW_ProcMoveSickOnTarget(u8 *, u32, u32, u32, u32, Word, u32);
+extern void BTL_SERVER_FLOW_PushMsgStdFailed(u8 *, u8 *, u32);
+void BTL_SERVER_FLOW_ProcMoveSickAllTargets(u8 *p, u16 id, u8 *a, u32 c)
 {
     u32 s;
     W w;
@@ -48,15 +48,15 @@ void func_021C2488(u8 *p, u16 id, u8 *a, u32 c)
     if (func_021C2564(c)) {
         func_021C2574(c);
         for (t = func_021C2584(c); t; t = func_021C2594(c)) {
-            func_021D7C70(w, (u32)a, &out);
-            if (func_021C25A4(p, (u32)a, t, id, s, out, 1)) {
+            BTL_CALC_MakeSickContFromSpec(w, (u32)a, &out);
+            if (BTL_SERVER_FLOW_ProcMoveSickOnTarget(p, (u32)a, t, id, s, out, 1)) {
                 BF *flag = *(BF * *)&((struct Obj21083 *)p)->f4A8;
                 if (!flag->f) flag->f = 1;
                 got = 1;
             }
         }
-        if (!got && !((State *)p)->f) func_021C5718(p, a, id);
+        if (!got && !((State *)p)->f) BTL_SERVER_FLOW_PushMsgStdFailed(p, a, id);
     } else {
-        func_021C5718(p, a, id);
+        BTL_SERVER_FLOW_PushMsgStdFailed(p, a, id);
     }
 }

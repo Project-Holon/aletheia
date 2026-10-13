@@ -1,5 +1,5 @@
 /*
- * function: func_0215E724
+ * function: MOVE_POKEMON_GetEntryIndexBySpecies
  * address: 0x0215E724
  * packet: pkt_ov010_0215E724
  * region: ov010
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-int func_0215E724(int species)
+int MOVE_POKEMON_GetEntryIndexBySpecies(int species)
 {
     switch(species) {
     case 642: return 0;

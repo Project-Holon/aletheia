@@ -10,7 +10,7 @@
  * symbols:
  *   func_02030EAC 0x02030EAC arm
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020306F0 0x020306F0 arm
  *   func_021C5AA8 0x021C5AA8 thumb ov136
@@ -39,7 +39,7 @@ extern void func_021C5F44(u8 *p);
 extern void func_021C5714(void *);
 extern void func_021C5BE0(u8 *p);
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32);
 u32 func_021C6A5C(u8 *p)
@@ -60,7 +60,7 @@ u32 func_021C6A5C(u8 *p)
     *(u16 *)0x04000050 = 0;
     *(u16 *)0x04001050 = 0;
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     func_020307B0(((struct Obj04536 *)p)->f8);
     ((struct Obj04536 *)p)->f8 = 0;
     func_020306F0(102);

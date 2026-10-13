@@ -1,5 +1,5 @@
 /*
- * function: func_021F39A8
+ * function: FIELD_GIMMICK_GATE_FreeBoardRecord
  * address: 0x021F39A8
  * packet: pkt_ov048_021F39A8
  * region: ov048
@@ -13,4 +13,4 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021F39A8(void **p) { if (p[7]) { func_020307B0(p[7]); p[7] = 0; } }
+void FIELD_GIMMICK_GATE_FreeBoardRecord(void **p) { if (p[7]) { func_020307B0(p[7]); p[7] = 0; } }

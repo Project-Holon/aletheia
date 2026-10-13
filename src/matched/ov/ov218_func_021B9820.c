@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_021B62E0 0x021B62E0 thumb ov067
+ *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   func_021B64F8 0x021B64F8 thumb ov067
- *   func_021B6568 0x021B6568 thumb ov067
+ *   TOUCHBAR_SetButtonSound 0x021B6568 thumb ov067
  *   d_021BAC20 0x021BAC20 data a4
  */
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef struct { u32 words[24]; } Table;
 typedef struct R R;
 extern const Table d_021BAC20;
 extern void func_02082BCC(void *, u32, u32);
-extern R *func_021B62E0(A *, int);
+extern R *TOUCHBAR_Create(A *, int);
 extern void func_021B64F8(u8 *, u32);
-extern void func_021B6568(unsigned char *p, unsigned int id, int v);
+extern void TOUCHBAR_SetButtonSound(unsigned char *p, unsigned int id, int v);
 R *func_021B9820(int heap, int id)
 {
     Table table = d_021BAC20;
@@ -38,9 +38,9 @@ R *func_021B9820(int heap, int id)
     config.f10 = 13;
     config.f14 = 0;
     config.f18 = 0;
-    p = func_021B62E0(&config, id);
+    p = TOUCHBAR_Create(&config, id);
     func_021B64F8((u8 *)p, 1);
-    func_021B6568((unsigned char *)p, 4, 0);
-    func_021B6568((unsigned char *)p, 5, 0);
+    TOUCHBAR_SetButtonSound((unsigned char *)p, 4, 0);
+    TOUCHBAR_SetButtonSound((unsigned char *)p, 5, 0);
     return p;
 }

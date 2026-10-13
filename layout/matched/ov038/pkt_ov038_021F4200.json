@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F4200",
+   "name": "GIMMICK38_EventPressSwitch",
    "address": "0x021F4200",
    "kind": "game",
    "region": "ov038",

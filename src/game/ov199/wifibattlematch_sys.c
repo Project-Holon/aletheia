@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_02034714 0x02034714 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
  *   GAME_DATA_Create 0x020124F4 thumb
@@ -23,13 +23,13 @@
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   func_02012934 0x02012934 thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
  *   func_020307B0 0x020307B0 arm
  *   d_02213D00 0x02213D00 data a1 ov199
  *   d_02213C58 0x02213C58 data a4 ov199
- *   func_0200B424 0x0200B424 thumb
+ *   BATTLE_REC_FreeWork 0x0200B424 thumb
  *   GAME_DATA_Delete 0x02012704 thumb
  *   func_02087BCC 0x02087BCC arm
  *   func_020315D4 0x020315D4 arm
@@ -43,20 +43,20 @@
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA04 0x0200EA04 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
- *   func_0201A354 0x0201A354 thumb
+ *   POKE_REGULATION_Load 0x0201A354 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200B358 0x0200B358 thumb
  *   func_0201AC2C 0x0201AC2C thumb
- *   func_0201A2A8 0x0201A2A8 thumb
+ *   POKE_REGULATION_AdjustPartyLevels 0x0201A2A8 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   ov093_id 0x0000005D data
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
- *   func_02012F2C 0x02012F2C thumb
+ *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   BTL_SETUP_SetupCommSingle 0x02013790 thumb
  *   BTL_SETUP_SetupCommDouble 0x020137C0 thumb
  *   BTL_SETUP_SetupCommTriple 0x02013864 thumb
@@ -66,11 +66,11 @@
  *   BTL_SETUP_SetParty 0x02013128 thumb
  *   BTL_SETUP_ApplyRegulation 0x02013160 thumb
  *   BTL_SETUP_AllocRecordBuffer 0x02013980 thumb
- *   func_0200BA58 0x0200BA58 thumb
+ *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
  *   func_021EEE78 0x021EEE78 thumb ov188
- *   func_0200BA68 0x0200BA68 thumb
+ *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
  *   BTL_SETUP_FreeSlots 0x020130DC thumb
- *   func_0200BA38 0x0200BA38 thumb
+ *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
  *   func_021EEEA8 0x021EEEA8 thumb ov188
  *   BTL_SETUP_ClearWithSlots 0x02013930 thumb
  *   func_0200853C 0x0200853C thumb
@@ -83,8 +83,9 @@
  *   PROCSYS_Main 0x02031330 arm
  *   PROCSYS_Push 0x02031348 arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   func_0203A5E4 0x0203A5E4 arm
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   BTL_SETUP_InitWithSlots  0x020138C4  thumb  arm9
+ *   BTL_SETUP_Clear  0x020130C4  thumb  arm9
  */
 #include "../../matched/include/Obj01177.h"
 #include "../../matched/include/Obj25291.h"
@@ -256,8 +257,8 @@ typedef struct S {
 typedef unsigned int   u32_02213850;
 
 extern void func_02034714(const char *expr, u32_02212560 line, const char *file);
-extern void func_0203064C(unsigned, unsigned, unsigned);
-extern void *func_0203159C(struct Obj0203159C *obj, u32_02212560 size, u32_02212560 heap);
+extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32_02212560 size, u32_02212560 heap);
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_02082D44(const void *, void *, unsigned);
 extern void *GAME_DATA_Create(u16);
@@ -265,11 +266,11 @@ extern struct Party *func_0201A920(u32_02212560 heap);
 extern void BATTLE_REC_AllocWork(unsigned);
 extern void *func_02012934(const struct BigObj *p);
 extern int POKE_REGULATION_GetDataSize(void);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern void *func_0200BAF4(int a0, int a1);
 extern u32_02212560 func_020307B0(void *p);
-extern void func_0200B424(void);
+extern void BATTLE_REC_FreeWork(void);
 extern void GAME_DATA_Delete(u8 *p);
 extern void func_02087BCC(u32_0221268C parameter);
 extern void func_020315D4(struct S020315D4 *p);
@@ -282,19 +283,19 @@ extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
 extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
 extern void POKEPARTY_Init(struct Party *p);
-extern void *func_0201A354(int, int);
+extern void *POKE_REGULATION_Load(int, int);
 extern void *func_0200AE14(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32_02212988 index);
 extern void *func_0200B358(void *);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern void func_0201A2A8(void *, void *);
+extern void POKE_REGULATION_AdjustPartyLevels(void *, void *);
 extern void *func_020084F4(void *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void BATTLE_REC_ClearWork(void);
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(int);
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void BTL_SETUP_SetupCommSingle(void *, void *, int, int, u32_02212AF8);
 extern void BTL_SETUP_SetupCommDouble(void *, void *, int, int, u32_02212AF8);
 extern void BTL_SETUP_SetupCommTriple(void *, void *, int, int, u32_02212AF8);
@@ -304,12 +305,12 @@ extern s32 func_0200B078(struct Reg2 *p, u32_02212AF8 id);
 extern void BTL_SETUP_SetParty(void *, void *, int);
 extern void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32_02212AF8 a2);
 extern void BTL_SETUP_AllocRecordBuffer(struct ZoneData *o, u32_02212AF8 heap);
-extern void func_0200BA58(void);
+extern void BATTLE_REC_LoadToolOverlay(void);
 extern void func_021EEE78(void *);
-extern void func_0200BA68(void);
+extern void BATTLE_REC_UnloadToolOverlay(void);
 extern void BTL_SETUP_FreeSlots(void *);
-extern unsigned func_0200BA38(unsigned);
-extern void func_020130C4(u8 *p);
+extern unsigned BATTLE_REC_IsVersionSupported(unsigned);
+extern void BTL_SETUP_Clear(u8 *p);
 extern void BTL_SETUP_InitWithSlots(char *, void *, int);
 extern void func_021EEEA8(void *p, u32_022132C4 c);
 extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
@@ -323,7 +324,7 @@ extern void func_0203133C(struct S020314B8 *p);
 extern int PROCSYS_Main(int);
 extern int PROCSYS_Push(int, int, int, int);
 extern void GFL_USE_FadeOutBgm(unsigned);
-extern void func_0203A5E4(u32_02213850 key);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32_02213850 key);
 int func_02212560(void *a, int unused, u8 *arg);
 int func_0221268C(void *sys, int unused, void *data, char *p);
 int func_022126F4(int unused,int *state,int unused2,char *p);
@@ -380,8 +381,8 @@ int func_02212560(void *a, int unused, u8 *arg)
     case 0: kind = 1; break;
     default: func_02034714(d_02213D00, 0, d_02213D00); break;
     }
-    func_0203064C(kind, 0x56, 0x8000);
-    p = func_0203159C(a, 0x8b0, 0x56);
+    GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
+    p = PROCSYS_AllocProcWork(a, 0x8b0, 0x56);
     func_02082BCC(p, 0, 0x8b0);
     func_02082D44(arg, p + 4, 0x14);
     ((struct Obj01177 *)p)->f20 = 0;
@@ -414,7 +415,7 @@ int func_02212560(void *a, int unused, u8 *arg)
         func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         break;
     case 1:
-        v = func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj01177 *)p)->f4)), 0x8056);
+        v = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj01177 *)p)->f4)), 0x8056);
         func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         func_020307B0(v);
         break;
@@ -426,7 +427,7 @@ int func_0221268C(void *sys, int unused, void *data, char *p)
 {
     func_0221372C(((struct Obj03352 *)p)->f18);
     func_022133D0((u8 *)p);
-    func_0200B424();
+    BATTLE_REC_FreeWork();
     func_020307B0(((struct Obj03352 *)p)->f3C);
     func_020307B0(((struct Obj03352 *)p)->f38);
     func_020307B0(((struct Obj03352 *)p)->f34);
@@ -527,7 +528,7 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
     p[14] = (int)(ctx + 0x778);
     p[16] = (int)(ctx + 0x8ac);
     {
-        void *q = func_02012EBC(((struct Obj06657 *)ctx)->f4);
+        void *q = GAME_DATA_GetSaveControl(((struct Obj06657 *)ctx)->f4);
         p[4] = func_0200EA04((int)func_0200E9F4(q));
     }
     if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
@@ -579,22 +580,22 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
         case 4: id = 19; break;
         default: func_02034714(d_02213D00, 0, d_02213D00); break;
         }
-        ((struct Obj02537 *)out)->f0 = func_0201A354(id, heap);
+        ((struct Obj02537 *)out)->f0 = POKE_REGULATION_Load(id, heap);
     } else if (((struct Obj01078 *)p)->f1C == 0) {
-        ((struct Obj02537 *)out)->f0 = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj01078 *)p)->f4)), 0));
+        ((struct Obj02537 *)out)->f0 = func_0200AE14(func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj01078 *)p)->f4)), 0));
     } else if (((struct Obj01078 *)p)->f1C == 1) {
-        ((struct Obj02537 *)out)->f0 = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj01078 *)p)->f4)), 1));
+        ((struct Obj02537 *)out)->f0 = func_0200AE14(func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj01078 *)p)->f4)), 1));
     } else {
         func_02034714(d_02213D00, 0, d_02213D00);
     }
     ((struct Obj02537 *)out)->f1C = ((struct Obj01078 *)p)->f30;
     ((struct Obj02537 *)out)->f14 = ((struct Obj01078 *)p)->f4;
     func_0201AC2C((const struct Rec534 *)(*(u8 * *)&((struct Obj01078 *)p)->f28 + 0xd4), ((struct Obj01078 *)p)->f38);
-    func_0201A2A8(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f38);
+    POKE_REGULATION_AdjustPartyLevels(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f38);
     ((struct Obj02537 *)out)->f4 = ((struct Obj01078 *)p)->f38;
     row = *(u8 * *)&((struct Obj01078 *)p)->f2C;
     func_0201AC2C((const struct Rec534 *)(row + 0xd4), ((struct Obj01078 *)p)->f3C);
-    func_0201A2A8(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f3C);
+    POKE_REGULATION_AdjustPartyLevels(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f3C);
     ((struct Obj02537 *)out)->f8 = func_020084F4(row);
     ((struct Obj02537 *)out)->f10 = ((struct Obj01078 *)p)->f3C;
     out[0xc] = func_02008550((const struct Sub0200852CObj *)row);
@@ -635,7 +636,7 @@ struct Out *func_02212AF8(int unused, u32_02212AF8 heap, struct In *p)
     int id;
     int a;
     int flag = 0;
-    sys = func_0200B358(func_02012EBC(p->f4));
+    sys = func_0200B358(GAME_DATA_GetSaveControl(p->f4));
     out = func_02030734(heap, 0x10, 0, d_02213D04, 0x3e0);
     func_02082BCC(out, 0, 0x10);
     out->f0 = p->f4;
@@ -643,7 +644,7 @@ struct Out *func_02212AF8(int unused, u32_02212AF8 heap, struct In *p)
     func_02082BCC((u8 *)p + 0x1b4, 0, 0x18);
     out->f8 = func_02030734(heap, 0x58, 0, d_02213D04, 0x3eb);
     func_02082BCC(out->f8, 0, 0x58);
-    out->f8->f54 = func_02012F2C(p->f4);
+    out->f8->f54 = GAME_DATA_GetTrainerRecord(p->f4);
     out->f8->f50 = 0;
     {
         struct R8 *r = out->f8;
@@ -664,31 +665,31 @@ struct Out *func_02212AF8(int unused, u32_02212AF8 heap, struct In *p)
     if (p->f1c == 2 || p->f1c == 3) {
         id = 16;
         switch (p->f8) {
-        case 0: default: id = 15; BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: id = 17; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: id = 18; BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 4: id = 19; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: default: id = 15; BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: id = 17; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: id = 18; BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 4: id = 19; BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
-        v = func_0201A354(id, heap);
+        v = POKE_REGULATION_Load(id, heap);
         flag = 1;
     } else if (p->f1c == 0) {
         v = func_0200AE14(func_0200B1D4(sys, 0));
         switch (func_0200AE54(v, 0x15)) {
-        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else if (p->f1c == 1) {
         v = func_0200AE14(func_0200B1D4(sys, 1));
         switch (func_0200AE54(v, 0x15)) {
-        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
-        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)func_020399A8(), 2, heap); break;
+        case 0: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 1: BTL_SETUP_SetupCommDouble(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 2: BTL_SETUP_SetupCommTriple(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        case 3: BTL_SETUP_SetupCommRotation(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
+        default: BTL_SETUP_SetupCommSingle(out->f4, p->f4, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else {
         func_02034714(d_02213D00, flag, d_02213D00);
@@ -751,16 +752,16 @@ int func_02212E74(void *manager, u8 *arg, u8 *p)
     func_022135CC(*(u8 * *)&((struct Obj03909 *)arg)->f4, &bytes.b, &bytes.c);
     p[0x1bc] = bytes.c;
     func_02213684(*(u8 * *)&((struct Obj03909 *)arg)->f4, &bytes.a, p + 0x1bd);
-    func_0200BA58();
+    BATTLE_REC_LoadToolOverlay();
     func_021EEE78(((struct Obj03909 *)arg)->f4);
-    func_0200BA68();
+    BATTLE_REC_UnloadToolOverlay();
     if (((struct Obj01007 *)p)->f1C == 0) {
-        rules = func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj01007 *)p)->f4)),0);
+        rules = func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj01007 *)p)->f4)),0);
         reg = func_0200AE14(rules);
         setting = func_0200B078(rules,2);
         if (state == 0) func_022133E4(p + 0x1d0,((struct Obj01007 *)p)->f30,((struct Obj01007 *)p)->f34,((struct Obj01007 *)p)->f2C,reg,setting,record,p + 0x1b4,0);
     } else if (((struct Obj01007 *)p)->f1C == 2) {
-        created = func_0201A354(((struct Obj01007 *)p)->f8 + 0xf,0x56);
+        created = POKE_REGULATION_Load(((struct Obj01007 *)p)->f8 + 0xf,0x56);
         if (state == 0) func_022133E4(p + 0x1d0,((struct Obj01007 *)p)->f30,((struct Obj01007 *)p)->f34,((struct Obj01007 *)p)->f2C,created,0,record,p + 0x1b4,2);
         func_020307B0(created);
     }
@@ -874,7 +875,7 @@ unsigned *func_02213134(int unused, unsigned heap, u8 *p)
         if (((struct Obj02248 *)p)->f1C == 0) index = zero;
         else if (((struct Obj02248 *)p)->f1C == 1) index = 1;
         else func_02034714(d_02213D00, zero, d_02213D00);
-        reg = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj02248 *)p)->f4)), index));
+        reg = func_0200AE14(func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj02248 *)p)->f4)), index));
         a = func_0200AE54(reg, 0xd);
         b = func_0200AE54(reg, 0x15);
         if (a >= 2) a = 1;
@@ -896,7 +897,7 @@ unsigned *func_02213134(int unused, unsigned heap, u8 *p)
         }
         out[3] = flag;
     }
-    if (func_0200BA38((u8)((struct Obj25295 *)(*(u8 * *)&((struct Obj02248 *)p)->f2C))->f44) != 0) out[1] = 1;
+    if (BATTLE_REC_IsVersionSupported((u8)((struct Obj25295 *)(*(u8 * *)&((struct Obj02248 *)p)->f2C))->f44) != 0) out[1] = 1;
     else out[1] = 0;
     return out;
 }
@@ -953,20 +954,20 @@ int func_02213278(char *a, void *work, char *p)
  * extern const char ov188_id[];
  * extern void func_02034AC4(const void *);
  * extern void func_02034A5C(const void *);
- * void func_0200BA58(void) { func_02034AC4(ov188_id); }
- * void func_0200BA68(void) { func_02034A5C(ov188_id); }
+ * void BATTLE_REC_LoadToolOverlay(void) { func_02034AC4(ov188_id); }
+ * void BATTLE_REC_UnloadToolOverlay(void) { func_02034A5C(ov188_id); }
  */
 void *func_022132C4(void *unused, int heap, char *p)
 {
     char *work = func_02030734(heap, 0xf0, 0, d_02213D04, 0x6f4);
     func_02082BCC(work, 0, 0xf0);
     func_02034AC4((s32)ov093_id);
-    func_020130C4((u8 *)work);
+    BTL_SETUP_Clear((u8 *)work);
     BTL_SETUP_InitWithSlots(work, *(void **)(p + 4), heap);
     func_02034A5C((s32)ov093_id);
-    func_0200BA58();
+    BATTLE_REC_LoadToolOverlay();
     func_021EEEA8(work, heap);
-    func_0200BA68();
+    BATTLE_REC_UnloadToolOverlay();
     func_02034AC4((s32)ov093_id);
     GFL_USE_CancelChangeAndStopBgm();
     GFL_USE_CancelChangeAndPlayBgm(*(unsigned short *)(work + 0x18), 0xffff);
@@ -1205,7 +1206,7 @@ void func_02213808(char *p, int value)
  */
 void func_0221380C(unsigned char *p){p[0x19]=255;}
 
-int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;func_0203064C(1,88,336);r=func_0203159C(p,16,88);func_02082BCC(r,0,16);((struct Obj25303 *)q)->fC=0;((struct Obj25304 *)r)->f0=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}
+int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;GFL_HEAP_CreateChildHeap(1,88,336);r=PROCSYS_AllocProcWork(p,16,88);func_02082BCC(r,0,16);((struct Obj25303 *)q)->fC=0;((struct Obj25304 *)r)->f0=PROCSYS_Create(88);GFL_USE_FadeOutBgm(16);return 1;}
 
 int func_02213850(void *a, void *b, void *c, char *work)
 {
@@ -1214,7 +1215,7 @@ int func_02213850(void *a, void *b, void *c, char *work)
         ((struct Obj06662 *)work)->f8 = 0;
     }
     if (((struct Obj06662 *)work)->fC) {
-        func_0203A5E4(0x100);
+        GFL_NET_COMMAND_DeleteCommandTable(0x100);
         ((struct Obj06662 *)work)->fC = 0;
     }
     func_0203133C(((struct Obj06662 *)work)->f0);

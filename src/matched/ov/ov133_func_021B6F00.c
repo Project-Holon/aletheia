@@ -24,20 +24,20 @@
  *   func_021F4E6C 0x021F4E6C thumb ov112
  *   func_021F4EB4 0x021F4EB4 thumb ov112
  *   func_021F4DE0 0x021F4DE0 thumb ov112
- *   func_02046FF8 0x02046FF8 arm
- *   func_02047388 0x02047388 arm
- *   func_020473B8 0x020473B8 arm
+ *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
+ *   G3D_SYSTEM_GetTexVramKey 0x02047388 arm
+ *   G3D_SYSTEM_GetPlttVramKey 0x020473B8 arm
  *   G3D_SYSTEM_GetPlttDataAddr 0x020473EC arm
- *   func_02046F48 0x02046F48 arm
- *   func_02047250 0x02047250 arm
+ *   G3D_SYSTEM_GetResourceFile 0x02046F48 arm
+ *   G3D_SYSTEM_GetResourceTex 0x02047250 arm
  *   NNS_G3dPlttSetPlttKey 0x0206A124 arm
  *   NNS_G3dPlttLoad 0x0206A12C arm
  *   func_020862F0 0x020862F0 arm
  *   func_0204EDD0 0x0204EDD0 arm
- *   func_0204F044 0x0204F044 arm
+ *   BILLBOARD_AddImageFromVramKeys 0x0204F044 arm
  *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
  *   BILLBOARD_AddElem 0x0204F428 arm
- *   func_0204F720 0x0204F720 arm
+ *   BILLBOARD_SetElemVisible 0x0204F720 arm
  *   func_021B9028 0x021B9028 thumb ov133
  *   func_021BA0CC 0x021BA0CC thumb ov133
  *   func_021BA19C 0x021BA19C thumb ov133
@@ -76,20 +76,20 @@ extern u8 *func_021F4C1C(u8 *, int, u32, Vec *);
 extern void func_021F4E6C(u8 *, u8 *, u32);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4DE0(char *p, char *e, void *a2);
-extern int func_02046FF8(int *self);
-extern u32 func_02047388(struct Layer *layer);
-extern u32 func_020473B8(struct Layer *layer);
+extern int G3D_SYSTEM_TransVramTexture(int *self);
+extern u32 G3D_SYSTEM_GetTexVramKey(struct Layer *layer);
+extern u32 G3D_SYSTEM_GetPlttVramKey(struct Layer *layer);
 extern int G3D_SYSTEM_GetPlttDataAddr(int a0);
-extern void *func_02046F48(struct Tagged *p);
-extern void *func_02047250(void *);
+extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern void *G3D_SYSTEM_GetResourceTex(void *);
 extern void NNS_G3dPlttSetPlttKey(int *p, int v);
 extern void NNS_G3dPlttLoad(void *, u32);
 extern void func_020862F0(void *, u32);
 extern void func_0204EDD0(int, u16 *, u16 *);
-extern int func_0204F044(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
+extern int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
 extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
-extern void func_0204F720(void *, u32, u32 *);
+extern void BILLBOARD_SetElemVisible(void *, u32, u32 *);
 extern void func_021B9028(u8 *, int, u16);
 extern u8 *func_021BA0CC(u16, int);
 struct Object;
@@ -147,14 +147,14 @@ void func_021B6F00(u8 *p)
 
     for (i = 0; i < *(u16 *)(p + 0xa8); i++) {
         h = func_021F4B3C(*(u16 *)(p + i * 0x14 + 0xac));
-        func_02046FF8(h);
-        w = func_02047388(h);
-        hgt = func_020473B8(h);
+        G3D_SYSTEM_TransVramTexture(h);
+        w = G3D_SYSTEM_GetTexVramKey(h);
+        hgt = G3D_SYSTEM_GetPlttVramKey(h);
         sz = ((hgt & 0xFFFF0000) >> 16) << 3;
         vram = d_020A8148(sz, 0, 0);
         flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + i * 0x14 + 0xac)));
         func_0204EDD0(flags, &sizes[1], &sizes[0]);
-        *(u32 *)(p + i * 0x14 + 0xb0) = func_0204F044(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
+        *(u32 *)(p + i * 0x14 + 0xb0) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
         pal = (u16 *)G3D_SYSTEM_GetPlttDataAddr((int)h);
         n = sz >> 1;
         for (k = 0; k < n; k++) {
@@ -164,12 +164,12 @@ void func_021B6F00(u8 *p)
             u32 g = (u32)(u8)((c & 0x3E0) >> 5) >> 3;
             pal[k] = r | (g << 5) | (b << 10);
         }
-        buf = func_02046F48(h);
-        res = func_02047250(h);
+        buf = G3D_SYSTEM_GetResourceFile(h);
+        res = G3D_SYSTEM_GetResourceTex(h);
         NNS_G3dPlttSetPlttKey(res, vram);
         func_020862F0(buf, *(u32 *)(buf + 8));
         NNS_G3dPlttLoad(res, 1);
-        *(u32 *)(p + i * 0x14 + 0xb4) = func_0204F044(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
+        *(u32 *)(p + i * 0x14 + 0xb4) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
         func_021F4B4C(h);
     }
 
@@ -192,9 +192,9 @@ void func_021B6F00(u8 *p)
     flags = func_021F4F70((int *)func_021F4F54(table, *(u16 *)(p + 0x50)));
     func_0204EDD0(flags, &dims[1], &dims[0]);
     h = func_021F4B3C(*(u16 *)(p + 0x50));
-    func_02046FF8(h);
-    w = func_02047388(h);
-    *(u32 *)(p + 0x54) = func_0204F044(*(void **)(p + 0x188c), w, func_020473B8(h), 0, flags, dims[1], dims[0]);
+    G3D_SYSTEM_TransVramTexture(h);
+    w = G3D_SYSTEM_GetTexVramKey(h);
+    *(u32 *)(p + 0x54) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, G3D_SYSTEM_GetPlttVramKey(h), 0, flags, dims[1], dims[0]);
     *(u8 **)(p + 0x4c) = func_021F4C1C(*(u8 **)(p + 0x1884), *(u16 *)(p + 0x50), *(u32 *)(p + 0x54), &v2);
     func_021F4E6C(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), 0);
     func_021F4EB4((u32)(*(u8 **)(p + 0x1884)), (u32)(*(u8 **)(p + 0x4c)), 0x1000, 0x1000);
@@ -207,7 +207,7 @@ void func_021B6F00(u8 *p)
         Vec v3 = {0, 0, 0};
         n = BILLBOARD_AddElem(*(void **)(p + 0x188c), *(u32 *)(p + 0x58), 0x1000, 0x1000, (struct Vec3 *)(&v3), 0x1f, 0, 0);
         *(u32 *)(p + k * 4 + 0x5c) = n;
-        func_0204F720(*(void **)(p + 0x188c), n, d_021BA3E0);
+        BILLBOARD_SetElemVisible(*(void **)(p + 0x188c), n, d_021BA3E0);
     }
 
     *(u16 *)(p + 0x94) = 0;

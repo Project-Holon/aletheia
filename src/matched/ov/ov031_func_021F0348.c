@@ -1,5 +1,5 @@
 /*
- * function: func_021F0348
+ * function: UNION_SUBDISP_ExitBgs
  * address: 0x021F0348
  * packet: pkt_ov031_021F0348
  * region: ov031
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(unsigned int);
-void func_021F0348(void *p)
+void UNION_SUBDISP_ExitBgs(void *p)
 {
     func_02040588(5, 0);
     func_02040588(6, 0);

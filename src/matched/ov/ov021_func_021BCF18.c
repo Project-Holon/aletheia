@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF18
+ * function: FIELD_PLACE_NAME_DrawFadeInWait
  * address:  0x021BCF18
  * packet:   pkt_ov021_021BCF18
  * region:   ov021
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (bx lr stub) filed as the blocker of func_021BC4F0.
+ * Unlabelled leaf (bx lr stub) filed as the blocker of FIELD_PLACE_NAME_Draw.
  */
 
-void func_021BCF18(int a)
+void FIELD_PLACE_NAME_DrawFadeInWait(int a)
 {
 }

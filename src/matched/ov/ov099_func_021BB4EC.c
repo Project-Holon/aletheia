@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_02049238  0x02049238  arm
- *   func_02049990  0x02049990  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  */
 typedef struct {
     char pad[0x9a8];
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void func_02049238(void *o);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void ARC_TOOL_DeleteHandle(void *o);
 
 void func_021BB4EC(Work *w)
 {
     void *o = func_020490F4(0x21, 0x21);
 
-    func_02049990(o, 0x16, 4, 0, (unsigned short)w->f9a8, 0, 0, 0x21);
-    func_02049238(o);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(o, 0x16, 4, 0, (unsigned short)w->f9a8, 0, 0, 0x21);
+    ARC_TOOL_DeleteHandle(o);
 }

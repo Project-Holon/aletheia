@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DAC
+ * function: ITEMMENU_CheckTouchRelease
  * address: 0x021B8DAC
  * packet: pkt_ov070_021B8DAC
  * region: ov070
@@ -11,18 +11,18 @@
  * Return-observed exception: 02035C08's legacy definition says void,
  * but the original retains its r0 result in r4 and returns it.
  * symbols:
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
  *   d_021BB978 0x021BB978 data a4
  */
 extern const char d_021BB978[];
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
-int func_021B8DAC(void)
+int ITEMMENU_CheckTouchRelease(void)
 {
     int result;
-    result = func_02035C08(d_021BB978);
+    result = TOUCHPANEL_HitTrg(d_021BB978);
     if (result != -1)
         func_020355D8(1);
     return result;

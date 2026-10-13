@@ -14,21 +14,21 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02158590  0x02158590  thumb  ov010
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
  *   func_02030734  0x02030734  arm
  *   str_02177000   0x02177000  data  ov011  a1
- *   func_02167518  0x02167518  thumb  ov010
- *   func_0217538C  0x0217538C  thumb  ov011
+ *   COMM_PLAYER_Create  0x02167518  thumb  ov010
+ *   INTRUDE_COMM_InitRequest  0x0217538C  thumb  ov011
  *   INTRUDE_COMM_InitSession  0x0217576C  thumb  ov011
  *   INTRUDE_COMM_InitBeacon  0x02173590  thumb  ov011
- *   func_02161F54  0x02161F54  thumb  ov010
- *   func_020457B0  0x020457B0  arm
- *   func_02012B64  0x02012B64  thumb
- *   func_02012B8C  0x02012B8C  thumb
- *   func_02012B4C  0x02012B4C  thumb
- *   func_02012950  0x02012950  thumb
- *   func_02008494  0x02008494  thumb
+ *   EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid  0x02161F54  thumb  ov010
+ *   STRBUF_Create  0x020457B0  arm
+ *   GAME_DATA_SetExitMode  0x02012B64  thumb
+ *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
+ *   GAME_DATA_SetEnterMode  0x02012B4C  thumb
+ *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *
  * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =func_02082D44; movs r2, #0x20; bx r3") that the
  * prologue sweep misses; its start is seeded in layout/function_starts.txt
@@ -67,20 +67,20 @@ struct BigObj;
 struct Rec44;
 struct Sub24;
 struct U16Vec;
-extern u8 *func_02012944(void *p);
-extern int   func_02158590(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern int   INTRUDE_COMM_HasUnlockFlags(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02167518(int a, void *b, u16 heap, int c);
-extern void func_0217538C(u8 *p, int a);
+extern void *COMM_PLAYER_Create(int a, void *b, u16 heap, int c);
+extern void INTRUDE_COMM_InitRequest(u8 *p, int a);
 extern void INTRUDE_COMM_InitSession(u8 *p);
 extern void  INTRUDE_COMM_InitBeacon(void *a, void *b, u32 c);
-extern int func_02161F54(int a0);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02012B64(struct BigObj *p, u8 v);
-extern void func_02012B8C(struct BigObj *p, u32 v);
-extern void func_02012B4C(struct BigObj *p, u8 v);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-extern void  func_02008494(void *a, void *b);
+extern int EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(int a0);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void GAME_DATA_SetExitMode(struct BigObj *p, u8 v);
+extern void GAME_DATA_SetIntrudeId(struct BigObj *p, u32 v);
+extern void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v);
+extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern void  MYSTATUS_Copy(void *a, void *b);
 
 Work *INTRUDE_COMM_Create(void *unused, Param *p)
 {
@@ -92,30 +92,30 @@ Work *INTRUDE_COMM_Create(void *unused, Param *p)
     u8 j;
 
     sv = (void *)func_02026478(p->field04);
-    bag = func_02012944(sv);
+    bag = GAME_DATA_GetMyStatus(sv);
     mode = 3;
-    if (p->field0e == 1 && func_02158590(sv) == 0) {
+    if (p->field0e == 1 && INTRUDE_COMM_HasUnlockFlags(sv) == 0) {
         mode = 2;
     }
     w = func_02030734(5, sizeof(Work), 1, str_02177000, 0x9a);
     w->field000 = p->field00;
     w->field004 = p->field04;
     w->field8fd = 1;
-    w->field008 = func_02167518(3, (void *)p->field00, 5, 0);
+    w->field008 = COMM_PLAYER_Create(3, (void *)p->field00, 5, 0);
     w->field902 = 1;
     w->field901 = 1;
-    func_0217538C((u8 *)w, 4);
+    INTRUDE_COMM_InitRequest((u8 *)w, 4);
     INTRUDE_COMM_InitSession((u8 *)w + 0x1ac);
     INTRUDE_COMM_InitBeacon(sv, (u8 *)w + 0xc, mode);
-    func_02161F54((int)((u8 *)w + 0x35c));
+    EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid((int)((u8 *)w + 0x35c));
     for (i = 0; i < 2; i++) {
-        w->field928[i] = func_020457B0(8, 5);
+        w->field928[i] = STRBUF_Create(8, 5);
     }
-    func_02012B64(sv, 0);
-    func_02012B8C(sv, 0);
-    func_02012B4C(sv, 1);
+    GAME_DATA_SetExitMode(sv, 0);
+    GAME_DATA_SetIntrudeId(sv, 0);
+    GAME_DATA_SetEnterMode(sv, 1);
     for (j = 0; j < 3; j++) {
-        func_02008494(bag, func_02012950(sv, j));
+        MYSTATUS_Copy(bag, GAME_DATA_GetPlayerStatus(sv, j));
     }
     return w;
 }

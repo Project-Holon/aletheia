@@ -1,5 +1,5 @@
 /*
- * function: func_021DD320
+ * function: BTL_HANDLER_ITEM_LeppaBerryOnForcedUse
  * address: 0x021DD320
  * packet: pkt_ov093_021DD320
  * region: ov093
@@ -10,11 +10,11 @@
  * status: EXACT*
  * extent: trailing two-byte alignment padding.
  * symbols:
- *   func_021DD39C 0x021DD39C thumb ov093
+ *   BTL_HANDLER_ITEM_PushRecoverPp 0x021DD39C thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021DD39C(int, void *, u8, int, int);
-void func_021DD320(int a, void *b, u8 c, int *d)
+extern int BTL_HANDLER_ITEM_PushRecoverPp(int, void *, u8, int, int);
+void BTL_HANDLER_ITEM_LeppaBerryOnForcedUse(int a, void *b, u8 c, int *d)
 {
-    if (d[6] != 0) func_021DD39C(a, b, c, (int)d, 1);
+    if (d[6] != 0) BTL_HANDLER_ITEM_PushRecoverPp(a, b, c, (int)d, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A3238
+ * function: FIELD_PLAYER_CheckFormModel
  * address:  0x021A3238
  * packet:   pkt_021A3238
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A3A20  0x021A3A20  thumb
+ *   FIELD_PLAYER_CORE_CheckFormModel  0x021A3A20  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A3A20(u32 a);
+extern int FIELD_PLAYER_CORE_CheckFormModel(u32 a);
 
-int func_021A3238(u8 *p)
+int FIELD_PLAYER_CheckFormModel(u8 *p)
 {
-    return func_021A3A20(((struct Obj18019 *)p)->f4);
+    return FIELD_PLAYER_CORE_CheckFormModel(((struct Obj18019 *)p)->f4);
 }

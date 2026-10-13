@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * note:     wave 17 (overlay_id class): EXACT. The pooled overlay-id site
- *           ov021_id (21) resolves as `overlay_id` (a layout overlay index,
+ *           SDK_OVERLAY_ov021_ID (21) resolves as `overlay_id` (a layout overlay index,
  *           loaded by a pc-relative load of this function, reaching the id
  *           register of a known overlay loader), which was the last blocker.
  * evidence: FieldMapProcData lies in the windows of ov021 (data) and ov114 (bss),
  *           so the ov021 hint needs outside support.  The same call passes
- *           ov021_id (0x15, attested `overlay_id`) and this pointer to the
+ *           SDK_OVERLAY_ov021_ID (0x15, attested `overlay_id`) and this pointer to the
  *           proc system: GAMESYSTEM_CallProc -> PROCSYS_Push -> PROCSYS_PushInternal ->
  *           PROCSYS_NewProc stores the id at Proc+4 and the pointer at Proc+0
  *           (ProcData), and PROCSYS_StepProc loads overlay Proc+4
@@ -27,7 +27,7 @@
  *
  * symbols:
  *   GAMESYSTEM_CallProc     0x020120B4  thumb
- *   ov021_id          0x00000015  data
+ *   SDK_OVERLAY_ov021_ID          0x00000015  data
  *   FieldMapProcData       0x021D359C  data  ov021
  *
  * Four arguments, and the first is the same object twice: the pool words are
@@ -50,11 +50,11 @@ struct IcaAnime {
     u32 f8;
 };
 
-extern u8 ov021_id[];
+extern u8 SDK_OVERLAY_ov021_ID[];
 extern u8 FieldMapProcData;
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *ov, void *p2);
 
 void GAMESYSTEM_CallFieldProc(struct IcaAnime *p)
 {
-    GAMESYSTEM_CallProc(p, (u32)ov021_id, &FieldMapProcData, p);
+    GAMESYSTEM_CallProc(p, (u32)SDK_OVERLAY_ov021_ID, &FieldMapProcData, p);
 }

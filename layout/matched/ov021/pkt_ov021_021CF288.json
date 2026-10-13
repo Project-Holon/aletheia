@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021CF288",
-    "func_021CF2E4"
+    "COMM_ENTRY_SendJoinRedirect",
+    "COMM_ENTRY_RecvSessionLock"
+   ],
+   "addresses": [
+    "0x021CF288",
+    "0x021CF2E4"
    ]
   }
  ]

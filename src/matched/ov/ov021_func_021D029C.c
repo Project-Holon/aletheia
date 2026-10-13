@@ -1,5 +1,5 @@
 /*
- * function: func_021D029C
+ * function: FLDEFF_BTRAIN_Init
  * address:  0x021D029C
  * packet:   pkt_ov021_021D029C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
- *   func_020477D4  0x020477D4  arm
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
+ *   G3D_SYSTEM_DisableObjectAnime  0x020477D4  arm
  */
 
 typedef unsigned char u8;
@@ -42,14 +42,14 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Owner;
-extern int func_021AC1AC(u32 a);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
 struct G3dOwner;
 struct G3dRec;
-extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
-extern int func_020477D4(struct Owner *owner, u32 index);
+extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
+extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
 
-void func_021D029C(void *p, Dst *d)
+void FLDEFF_BTRAIN_Init(void *p, Dst *d)
 {
     Src *s;
     Tbl *tbl;
@@ -57,14 +57,14 @@ void func_021D029C(void *p, Dst *d)
     int j;
     int i;
 
-    s = (Src *)func_021AC1AC((u32)p);
+    s = (Src *)FIELD_EFFECT_GetObjectParam((u32)p);
     d->src = *s;
     tbl = d->src.tbl;
     cnt = d->src.cnt;
     for (i = 0; i < 4; i++)
-        d->sub[i] = (int)func_02047564((struct G3dOwner *)tbl->a34[cnt], (const struct G3dOwner *)tbl->a24[i], 0);
+        d->sub[i] = (int)G3D_SYSTEM_CreateAnime((struct G3dOwner *)tbl->a34[cnt], (const struct G3dOwner *)tbl->a24[i], 0);
     d->f2 = 4;
-    d->obj = (int)func_0204767C((int)tbl->a34[cnt], (u32 *)d->sub, 4);
+    d->obj = (int)G3D_SYSTEM_CreateObject((int)tbl->a34[cnt], (u32 *)d->sub, 4);
     for (j = 0; j < 4; j++)
-        func_020477D4((struct Owner *)d->obj, (u16)j);
+        G3D_SYSTEM_DisableObjectAnime((struct Owner *)d->obj, (u16)j);
 }

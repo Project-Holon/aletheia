@@ -1,7 +1,7 @@
 /*
  * file:     map_matrix.c
  * unit:     yes
- * function: func_02159B48, func_02159B94, func_02159BBC, func_02159BC4, func_02159BD4, func_02159BF4, func_02159BF8, func_02159BFC, func_02159C00, func_02159C20, func_02159C2C, func_02159C48, func_02159C68, func_02159CC4, func_02159D04, func_02159D68
+ * function: MAP_MATRIX_Create, MAP_MATRIX_Load, MAP_MATRIX_Delete, MAP_MATRIX_GetZoneId, MAP_MATRIX_GetZoneIdByPos, MAP_MATRIX_GetWidth, MAP_MATRIX_GetHeight, MAP_MATRIX_GetCount, func_02159C00, MAP_MATRIX_GetMapGrid, MAP_MATRIX_IsInRange, MAP_MATRIX_IsInRangeByPos, MAP_MATRIX_ApplyReplaceRecord, MAP_MATRIX_ApplyReplace, MAP_MATRIX_SetupFromFile, MAP_MATRIX_PosToBlock
  * address:  0x02159B48
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -16,20 +16,20 @@
  *   func_02030734  0x02030734  arm
  *   func_02082A7C  0x02082A7C  arm
  *   d_021728AC  0x021728AC  data
- *   func_02048F60  0x02048F60  arm
- *   func_02159D04  0x02159D04  thumb  ov010
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
+ *   MAP_MATRIX_SetupFromFile  0x02159D04  thumb  ov010
  *   func_020307B0  0x020307B0  arm
- *   func_02159D68  0x02159D68  thumb  ov010
- *   func_02159C2C  0x02159C2C  thumb  ov010
- *   func_02159B94  0x02159B94  thumb  ov010
+ *   MAP_MATRIX_PosToBlock  0x02159D68  thumb  ov010
+ *   MAP_MATRIX_IsInRange  0x02159C2C  thumb  ov010
+ *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
  *   func_02082A48  0x02082A48  arm
  *   func_02082A90  0x02082A90  arm
- *   func_02159CC4  0x02159CC4  thumb  ov010
- *   func_02159D84  0x02159D84  thumb  ov010
- *   func_02159DC8  0x02159DC8  thumb  ov010
- *   func_02159DCC  0x02159DCC  thumb  ov010
- *   func_02159DEC  0x02159DEC  thumb  ov010
- *   func_02159E00  0x02159E00  thumb  ov010
+ *   MAP_MATRIX_ApplyReplace  0x02159CC4  thumb  ov010
+ *   MAP_REPLACE_Create  0x02159D84  thumb  ov010
+ *   MAP_REPLACE_GetRecordCount  0x02159DC8  thumb  ov010
+ *   MAP_REPLACE_LoadRecord  0x02159DCC  thumb  ov010
+ *   MAP_REPLACE_Delete  0x02159DEC  thumb  ov010
+ *   MAP_REPLACE_CheckRecord  0x02159E00  thumb  ov010
  */
 typedef unsigned char u8;
 
@@ -39,7 +39,7 @@ typedef unsigned short u16;
 
 /*
  * Runtime map matrix (0x152C bytes, a/0/0/9 sub-file decoded by
- * func_02159D04).  zoneGrid holds one zone id per block, mapGrid one
+ * MAP_MATRIX_SetupFromFile).  zoneGrid holds one zone id per block, mapGrid one
  * a/0/0/8 map-model index per block; both are row-major over width.
  */
 struct MapMatrix {
@@ -68,25 +68,25 @@ struct MapReplace;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082A7C(int, void *, int);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-void func_02159D04(struct MapMatrix *matrix, const struct MatrixFile *file, u32 matrixId, u16 zoneId);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
+void MAP_MATRIX_SetupFromFile(struct MapMatrix *matrix, const struct MatrixFile *file, u32 matrixId, u16 zoneId);
 extern u32 func_020307B0(void *p);
-extern int func_02159D68(int pos);
-u16 func_02159BC4(const struct MapMatrix *matrix, u32 x, u32 z);
-int func_02159B94(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId);
-int func_02159C2C(const struct MapMatrix *matrix, int x, int z);
+extern int MAP_MATRIX_PosToBlock(int pos);
+u16 MAP_MATRIX_GetZoneId(const struct MapMatrix *matrix, u32 x, u32 z);
+int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId);
+int MAP_MATRIX_IsInRange(const struct MapMatrix *matrix, int x, int z);
 extern void func_02082A48(u32 value, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
-struct MapReplace *func_02159D84(int heapId, int gameSystem);
-u32 func_02159DC8(struct MapReplace *replace);
-u32 func_02159DCC(struct MapReplace *replace, int index);
-int func_02159DEC(struct MapReplace *replace);
-int func_02159E00(struct MapReplace *replace, u32 *oldId, u32 *newId);
-void func_02159C68(struct MapMatrix *matrix, struct MapReplace *replace, int heapId);
+struct MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem);
+u32 MAP_REPLACE_GetRecordCount(struct MapReplace *replace);
+u32 MAP_REPLACE_LoadRecord(struct MapReplace *replace, int index);
+int MAP_REPLACE_Delete(struct MapReplace *replace);
+int MAP_REPLACE_CheckRecord(struct MapReplace *replace, u32 *oldId, u32 *newId);
+void MAP_MATRIX_ApplyReplaceRecord(struct MapMatrix *matrix, struct MapReplace *replace, int heapId);
 extern const char d_021728AC[];
 
 
-struct MapMatrix *func_02159B48(int heapId)
+struct MapMatrix *MAP_MATRIX_Create(int heapId)
 {
     struct MapMatrix *matrix = func_02030734(heapId, sizeof(struct MapMatrix), 1, d_021728AC, 0x4b);
     matrix->heapId = heapId;
@@ -97,10 +97,10 @@ struct MapMatrix *func_02159B48(int heapId)
 
 
 
-int func_02159B94(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId)
+int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId)
 {
-    void *file = func_02048F60(9, matrixId, heapId);
-    func_02159D04(matrix, file, matrixId, zoneId);
+    void *file = ARC_TOOL_LoadMember(9, matrixId, heapId);
+    MAP_MATRIX_SetupFromFile(matrix, file, matrixId, zoneId);
     return func_020307B0(file);
 }
 
@@ -112,7 +112,7 @@ int func_02159B94(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId
  * VM_Delete.  Unlabelled in the listing (no prologue, called only from
  * arm9), so it is emitted as data words.
  */
-void func_02159BBC(struct MapMatrix *matrix)
+void MAP_MATRIX_Delete(struct MapMatrix *matrix)
 {
     func_020307B0(matrix);
 }
@@ -126,30 +126,30 @@ void func_02159BBC(struct MapMatrix *matrix)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02159BC4.c \
- *       --func func_02159BC4 --addr 0x02159BC4 --region ov010 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MAP_MATRIX_GetZoneId.c \
+ *       --func MAP_MATRIX_GetZoneId --addr 0x02159BC4 --region ov010 --cc 1.1p1 --thumb
  */
-u16 func_02159BC4(const struct MapMatrix *matrix, u32 x, u32 z)
+u16 MAP_MATRIX_GetZoneId(const struct MapMatrix *matrix, u32 x, u32 z)
 {
     return matrix->zoneGrid[x + z * matrix->width];
 }
 
 
 /* Zone id at a world position: both coordinates go through the block conversion. */
-int func_02159BD4(const struct MapMatrix *matrix, int posX, int posZ)
+int MAP_MATRIX_GetZoneIdByPos(const struct MapMatrix *matrix, int posX, int posZ)
 {
-    int blockX = func_02159D68(posX);
-    int blockZ = func_02159D68(posZ);
-    return func_02159BC4(matrix, blockX, blockZ);
+    int blockX = MAP_MATRIX_PosToBlock(posX);
+    int blockZ = MAP_MATRIX_PosToBlock(posZ);
+    return MAP_MATRIX_GetZoneId(matrix, blockX, blockZ);
 }
 
 
 
 /*
  * Unlabelled leaf accessor (prints as .word): returns the width.
- * Sole blocker of ov021 func_02189B30's MATCH.
+ * Sole blocker of ov021 FIELDMAP_SetupMapperParam's MATCH.
  */
-unsigned short func_02159BF4(const struct MapMatrix *matrix)
+unsigned short MAP_MATRIX_GetWidth(const struct MapMatrix *matrix)
 {
     return matrix->width;
 }
@@ -158,9 +158,9 @@ unsigned short func_02159BF4(const struct MapMatrix *matrix)
 
 /*
  * Unlabelled leaf accessor (prints as .word): returns the height.
- * Sole blocker of ov021 func_02189B30's MATCH.
+ * Sole blocker of ov021 FIELDMAP_SetupMapperParam's MATCH.
  */
-unsigned short func_02159BF8(const struct MapMatrix *matrix)
+unsigned short MAP_MATRIX_GetHeight(const struct MapMatrix *matrix)
 {
     return matrix->height;
 }
@@ -169,9 +169,9 @@ unsigned short func_02159BF8(const struct MapMatrix *matrix)
 
 /*
  * Unlabelled leaf accessor (prints as .word): returns the block count.
- * Sole blocker of ov021 func_02189B30's MATCH.
+ * Sole blocker of ov021 FIELDMAP_SetupMapperParam's MATCH.
  */
-int func_02159BFC(const struct MapMatrix *matrix)
+int MAP_MATRIX_GetCount(const struct MapMatrix *matrix)
 {
     return matrix->count;
 }
@@ -193,10 +193,10 @@ int func_02159BFC(const struct MapMatrix *matrix)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02159C00.c \
- *       --func sub_02159C00 --addr 0x02159C00 --region ov010 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MAP_MATRIX_SetSize.c \
+ *       --func MAP_MATRIX_SetSize --addr 0x02159C00 --region ov010 --cc 1.1p1 --thumb
  */
-void sub_02159C00(struct MapMatrix *matrix, u32 width, u32 height)
+void MAP_MATRIX_SetSize(struct MapMatrix *matrix, u32 width, u32 height)
 {
     u32 count = width * height;
 
@@ -208,7 +208,7 @@ void sub_02159C00(struct MapMatrix *matrix, u32 width, u32 height)
 }
 
 
-u32 *func_02159C20(struct MapMatrix *matrix)
+u32 *MAP_MATRIX_GetMapGrid(struct MapMatrix *matrix)
 {
     return matrix->mapGrid;
 }
@@ -217,7 +217,7 @@ u32 *func_02159C20(struct MapMatrix *matrix)
 
 
 
-int func_02159C2C(const struct MapMatrix *matrix, int x, int z)
+int MAP_MATRIX_IsInRange(const struct MapMatrix *matrix, int x, int z)
 {
     if (z >= 0 && z < matrix->height && x >= 0 && x < matrix->width)
         return 1;
@@ -231,11 +231,11 @@ int func_02159C2C(const struct MapMatrix *matrix, int x, int z)
 
 
 
-int func_02159C48(const struct MapMatrix *matrix, int posX, int posZ)
+int MAP_MATRIX_IsInRangeByPos(const struct MapMatrix *matrix, int posX, int posZ)
 {
-    int blockX = func_02159D68(posX);
-    int blockZ = func_02159D68(posZ);
-    return func_02159C2C(matrix, blockX, blockZ);
+    int blockX = MAP_MATRIX_PosToBlock(posX);
+    int blockZ = MAP_MATRIX_PosToBlock(posZ);
+    return MAP_MATRIX_IsInRange(matrix, blockX, blockZ);
 }
 
 
@@ -249,16 +249,16 @@ int func_02159C48(const struct MapMatrix *matrix, int posX, int posZ)
  * Apply the loaded replace record: kind 2 reloads the whole matrix from
  * the new matrix id, kind 1 swaps every map index equal to the old id.
  */
-void func_02159C68(struct MapMatrix *matrix, struct MapReplace *replace, int heapId)
+void MAP_MATRIX_ApplyReplaceRecord(struct MapMatrix *matrix, struct MapReplace *replace, int heapId)
 {
     u32 oldId;
     u32 newId;
-    int kind = func_02159E00(replace, &oldId, &newId);
+    int kind = MAP_REPLACE_CheckRecord(replace, &oldId, &newId);
     switch (kind) {
     case 0:
         break;
     case 2:
-        func_02159B94(matrix, (u16)newId, matrix->zoneId, heapId);
+        MAP_MATRIX_Load(matrix, (u16)newId, matrix->zoneId, heapId);
         return;
     case 1: {
         u32 i;
@@ -278,17 +278,17 @@ void func_02159C68(struct MapMatrix *matrix, struct MapReplace *replace, int hea
 
 
 
-void func_02159CC4(struct MapMatrix *matrix, int gameSystem, int heapId)
+void MAP_MATRIX_ApplyReplace(struct MapMatrix *matrix, int gameSystem, int heapId)
 {
-    struct MapReplace *replace = func_02159D84(heapId, gameSystem);
-    int recordCount = func_02159DC8(replace);
+    struct MapReplace *replace = MAP_REPLACE_Create(heapId, gameSystem);
+    int recordCount = MAP_REPLACE_GetRecordCount(replace);
     int i;
     for (i = 0; i < recordCount; i++) {
-        u32 recordMatrixId = func_02159DCC(replace, i);
+        u32 recordMatrixId = MAP_REPLACE_LoadRecord(replace, i);
         if (recordMatrixId == matrix->matrixId)
-            func_02159C68(matrix, replace, heapId);
+            MAP_MATRIX_ApplyReplaceRecord(matrix, replace, heapId);
     }
-    func_02159DEC(replace);
+    MAP_REPLACE_Delete(replace);
 }
 
 
@@ -307,7 +307,7 @@ void func_02159CC4(struct MapMatrix *matrix, int gameSystem, int heapId)
  * matrixId store).  That gives the parameter the earliest birth, so it takes
  * r7 (the later-born cells and pool take r6 and r4).  EXACT in c99 and c.
  */
-void func_02159D04(struct MapMatrix *matrix, const struct MatrixFile *file,
+void MAP_MATRIX_SetupFromFile(struct MapMatrix *matrix, const struct MatrixFile *file,
                    u32 matrixId, u16 zoneId)
 {
     u32 count;
@@ -343,7 +343,7 @@ void func_02159D04(struct MapMatrix *matrix, const struct MatrixFile *file,
  *
  * extent: two bytes of zero alignment padding at 0x02159D82.
  */
-int func_02159D68(int pos)
+int MAP_MATRIX_PosToBlock(int pos)
 {
     return pos / 4096 / 16 / 32;
 }

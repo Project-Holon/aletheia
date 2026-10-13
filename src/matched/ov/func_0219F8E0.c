@@ -1,5 +1,5 @@
 /*
- * function: func_0219F8E0
+ * function: FLDMMDL_DRAW_DeleteFixedState
  * address:  0x0219F8E0
  * packet:   pkt_0219F8E0
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
- *   func_0219C8D4  0x0219C8D4  thumb  ov021
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_BLACT_DeleteActorMmdl  0x0219C8D4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17981.h"
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D6F0(void *p);
-extern u32 func_0219C8D4(u32, u32);
+extern void *FLDMMDL_GetDrawProcWork(void *p);
+extern u32 FLDMMDL_BLACT_DeleteActorMmdl(u32, u32);
 
-int func_0219F8E0(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_DRAW_DeleteFixedState(u32 a, u32 b, u32 c, u32 d)
 {
-return func_0219C8D4(a, ((struct Obj17981 *)((u8 *)(func_0216D6F0((void *)a))))->f0);
+return FLDMMDL_BLACT_DeleteActorMmdl(a, ((struct Obj17981 *)((u8 *)(FLDMMDL_GetDrawProcWork((void *)a))))->f0);
 }
 

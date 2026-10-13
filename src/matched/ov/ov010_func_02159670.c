@@ -1,5 +1,5 @@
 /*
- * function: func_02159670
+ * function: SCRIPT_WORK_CmdIfJump
  * address:  0x02159670
  * packet:   pkt_ov010_02159670
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   VM_PopStack  0x02011398  thumb
  *   VM_Jump  0x020113B0  thumb
  *   d_021705DC     0x021705DC  data  ov010
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 struct P { int _0[3]; u8 _p[2]; u8 e; u8 _f[5]; u8 *cur; };
 
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 struct Ring;
 extern unsigned int VM_PopStack(struct Ring *r);
 typedef unsigned int   u32;
@@ -29,13 +29,13 @@ struct Cur;
 extern void VM_Jump(struct Cur *c, u32 v);
 extern u8 d_021705DC[][3];
 
-int func_02159670(struct P *p)
+int SCRIPT_WORK_CmdIfJump(struct P *p)
 {
     u8 *q = p->cur;
     u8 c = *q;
     int n;
     p->cur = q + 1;
-    n = func_0201134C((struct Cursor *)p);
+    n = VM_GetU32((struct Cursor *)p);
     if (c == 0xFF) {
         if (VM_PopStack((struct Ring *)p) == 1)
             goto end;

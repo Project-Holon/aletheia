@@ -1,5 +1,5 @@
 /*
- * function: func_021569EC
+ * function: MUSICAL_EVENT_GetPortraitClass
  * address:  0x021569EC
  * packet:   pkt_ov010_021569EC
  * region:   ov010
@@ -15,9 +15,9 @@
  * Byte-correct. Blocker: 0x021FCE28 (ov132) has no func_ label.
  *
  * symbols:
- *   func_021568E8  0x021568E8  thumb  ov010
- *   func_021568A8  0x021568A8  thumb  ov010
- *   func_02157374  0x02157374  thumb  ov010
+ *   MUSICAL_EVENT_GetPlayerOfSlot  0x021568E8  thumb  ov010
+ *   MUSICAL_EVENT_CountNpcSlotsBelow  0x021568A8  thumb  ov010
+ *   MUSICAL_PROGRAM_GetNpcPortraitClass  0x02157374  thumb  ov010
  *   func_021FCE28  0x021FCE28  thumb  ov132
  *   func_02008550  0x02008550  thumb
  */
@@ -39,17 +39,17 @@ typedef struct Work {
     u8 f4c;             /* 0x4C */
 } Work;
 
-extern u8 func_021568E8(Work *w, u8 j);
-extern u8 func_021568A8(Work *w, u8 n);
+extern u8 MUSICAL_EVENT_GetPlayerOfSlot(Work *w, u8 j);
+extern u8 MUSICAL_EVENT_CountNpcSlotsBelow(Work *w, u8 n);
 struct Deal;
 struct Sub0200852CObj;
-extern u8 func_02157374(struct Deal *d, u8 i);
+extern u8 MUSICAL_PROGRAM_GetNpcPortraitClass(struct Deal *d, u8 i);
 extern int func_021FCE28(char *p, u32 index);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
-u8 func_021569EC(Work *w, u8 j)
+u8 MUSICAL_EVENT_GetPortraitClass(Work *w, u8 j)
 {
-    u8 k = func_021568E8(w, j);
+    u8 k = MUSICAL_EVENT_GetPlayerOfSlot(w, j);
     void *p;
 
     if (j == w->f4c)
@@ -62,5 +62,5 @@ u8 func_021569EC(Work *w, u8 j)
             return 4;
         }
     }
-    return func_02157374(w->f38, func_021568A8(w, k));
+    return MUSICAL_PROGRAM_GetNpcPortraitClass(w->f38, MUSICAL_EVENT_CountNpcSlotsBelow(w, k));
 }

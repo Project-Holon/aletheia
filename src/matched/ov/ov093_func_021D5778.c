@@ -1,5 +1,5 @@
 /*
- * function: func_021D5778
+ * function: BTL_POKEPARAM_FindMoveSlot
  * address:  0x021D5778
  * packet:   pkt_ov093_021D5778
  * region:   ov093
@@ -45,7 +45,7 @@ struct UtilWork {
     u8 f157[5];
 };
 
-u8 func_021D5778(struct UtilWork *p, u16 id)
+u8 BTL_POKEPARAM_FindMoveSlot(struct UtilWork *p, u16 id)
 {
     u32 i;
     if (id != 0) {

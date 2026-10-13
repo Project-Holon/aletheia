@@ -1,5 +1,5 @@
 /*
- * function: func_021B835C
+ * function: FIELD_RAIL_WORK_GetLinePos
  * address:  0x021B835C
  * packet:   pkt_021B835C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call with two object fields.
  *
  * symbols:
- *   func_021B8848  0x021B8848  thumb  ov021
+ *   FIELD_RAIL_SETTING_GetLinePos  0x021B8848  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021B8848(u32 a, u32 b);
+extern void FIELD_RAIL_SETTING_GetLinePos(u32 a, u32 b);
 
-void func_021B835C(u8 *p)
+void FIELD_RAIL_WORK_GetLinePos(u8 *p)
 {
-    func_021B8848(*(u32 *)&((struct Obj00454 *)p)->f24, *(u32 *)(*(u32 *)&((struct Obj00454 *)p)->f4 + 0xc));
+    FIELD_RAIL_SETTING_GetLinePos(*(u32 *)&((struct Obj00454 *)p)->f24, *(u32 *)(*(u32 *)&((struct Obj00454 *)p)->f4 + 0xc));
 }

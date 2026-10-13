@@ -1,5 +1,5 @@
 /*
- * function: func_021853F0
+ * function: OEKAKI_StepEnterDraw
  * address: 0x021853F0
  * packet: pkt_ov023_021853F0
  * region: ov023
@@ -10,22 +10,22 @@
  * status: EXACT
  * volatile: hardware halfword store at 0x021853F8 to 0x04000050.
  * symbols:
- *   func_02186304 0x02186304 thumb ov023
- *   func_02186444 0x02186444 thumb ov023
- *   func_02185354 0x02185354 thumb ov023
+ *   OEKAKI_NotifyHostSync 0x02186304 thumb ov023
+ *   OEKAKI_SetNextScene 0x02186444 thumb ov023
+ *   OEKAKI_ApplyRemoteStrokes 0x02185354 thumb ov023
  */
 #include "../include/Obj20348.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02186304(char *p, int a);
-extern void func_02186444(char *p, u32 v);
-extern void func_02185354(char *p);
-int func_021853F0(char *p, int result)
+extern void OEKAKI_NotifyHostSync(char *p, int a);
+extern void OEKAKI_SetNextScene(char *p, u32 v);
+extern void OEKAKI_ApplyRemoteStrokes(char *p);
+int OEKAKI_StepEnterDraw(char *p, int result)
 {
     *(volatile u16 *)0x04000050 = 0;
-    func_02186304(p, 1);
-    func_02186444(p, 4);
-    func_02185354(p);
+    OEKAKI_NotifyHostSync(p, 1);
+    OEKAKI_SetNextScene(p, 4);
+    OEKAKI_ApplyRemoteStrokes(p);
     ((struct Obj20348 *)p)->f9E7C = 0;
     return result;
 }

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02047970  0x02047970  arm
+ *   G3D_SYSTEM_DrawEnd  0x02047970  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02047970(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 
 void func_021D9994(void **p)
 {
     if (p[1])
-        func_02047970();
+        G3D_SYSTEM_DrawEnd();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EE9E4
+ * function: BTL_REC_NextRecord
  * address:  0x021EE9E4
  * packet:   pkt_ov093_021EE9E4
  * region:   ov093
@@ -16,7 +16,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern void func_02082D44(const void *src, void *dst, int n);
 
-int func_021EE9E4(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst)
+int BTL_REC_NextRecord(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst)
 {
     u8 h;
     int len;

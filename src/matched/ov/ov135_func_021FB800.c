@@ -26,6 +26,7 @@
  *   BGWINFRM_SetFrameDataArc  0x0202CAE4  thumb  arm9
  *   BGWINFRM_PutFrame  0x0202CB4C  thumb  arm9
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb  arm9
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  */
 
 typedef signed char s8;
@@ -80,7 +81,7 @@ extern int func_021FC008(void *p, u32 a);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
@@ -108,7 +109,7 @@ int func_021FB800(Obj *p)
     }
     func_021FBEB8(p->mgr, p->bank, p->strs[14], 0x4A, p->g);
     BGWINFRM_PutFrame(p->mgr, 0, 0x10, 0);
-    func_0204B878((struct Obj *)p->cursor, 4);
+    CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 4);
     if (p->start < 0) {
         p->pos = 0;
     } else {

@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D5D14  0x021D5D14  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   func_021C88B4  0x021C88B4  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
@@ -22,10 +22,10 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5D14(s8 *p, int i, int sign);
-extern int func_021D5B68(void *m);
+extern int BTL_POKEPARAM_IsFainted(void *m);
 extern void func_021C88B4(void *a, int k, int b);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
@@ -35,13 +35,13 @@ void func_021DBE6C(int u, void *a, u32 b)
     u8 *e;
     void *m;
     int ok;
-    if (b != func_021D775C(4)) {
+    if (b != BTL_EVENT_GetVar(4)) {
         return;
     }
-    if (func_021D775C(0x1a) != 1) {
+    if (BTL_EVENT_GetVar(0x1a) != 1) {
         return;
     }
-    if (func_021D775C(0x46) != 0) {
+    if (BTL_EVENT_GetVar(0x46) != 0) {
         return;
     }
     m = func_021C7CF4((int *)((int)a), b);
@@ -52,7 +52,7 @@ void func_021DBE6C(int u, void *a, u32 b)
     if (ok == 0) {
         return;
     }
-    if (func_021D5B68(m) != 0) {
+    if (BTL_POKEPARAM_IsFainted(m) != 0) {
         return;
     }
     func_021C88B4(a, 2, b);

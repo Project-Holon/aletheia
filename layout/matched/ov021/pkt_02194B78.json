@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02194950",
+   "name": "TALKMSGWIN_Close",
    "address": "0x02194950",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02194B78",
+   "name": "TALKMSGWIN_RequestClose",
    "address": "0x02194B78",
    "kind": "game",
    "region": "ov021",

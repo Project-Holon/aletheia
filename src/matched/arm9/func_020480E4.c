@@ -1,5 +1,5 @@
 /*
- * function: func_020480E4
+ * function: G3D_UTIL_RemoveUnit
  * address:  0x020480E4
  * packet:   pkt_02047E88
  * region:   arm9
@@ -30,8 +30,8 @@
  * pool word 0x0000ffff and is loaded once for all four stores.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_020480E4.c \
- *       --func func_020480E4 --addr 0x020480E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/G3D_UTIL_RemoveUnit.c \
+ *       --func G3D_UTIL_RemoveUnit --addr 0x020480E4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -54,7 +54,7 @@ extern void G3D_UTIL_FreeUnitObjects(struct Ctx *c, u32 i);
 struct Owner;
 extern void G3D_UTIL_FreeUnitResources(struct Owner *owner, u32 index);
 
-void func_020480E4(struct Ctx *c, u32 i)
+void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i)
 {
     G3D_UTIL_FreeUnitObjects(c, i);
     G3D_UTIL_FreeUnitResources((struct Owner *)c, i);

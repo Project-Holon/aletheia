@@ -1,5 +1,5 @@
 /*
- * function: func_0219F5C8
+ * function: FLDMMDL_DRAW_SetState
  * address:  0x0219F5C8
  * packet:   pkt_0219F5C8
  * region:   ov021
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0216D6F0  0x0216D6F0  thumb
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb
  */
 
 typedef unsigned char u8;
 
-void *func_0216D6F0(void);
+void *FLDMMDL_GetDrawProcWork(void);
 
-void func_0219F5C8(void *a, int v)
+void FLDMMDL_DRAW_SetState(void *a, int v)
 {
-    ((char *)func_0216D6F0())[2] = v;
+    ((char *)FLDMMDL_GetDrawProcWork())[2] = v;
 }

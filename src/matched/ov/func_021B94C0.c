@@ -1,5 +1,5 @@
 /*
- * function: func_021B94C0
+ * function: FIELD_RAIL_CLOSED_Contains
  * address:  0x021B94C0
  * packet:   pkt_021B94C0
  * region:   ov021
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-int func_021B94C0(u16 *p, u16 v)
+int FIELD_RAIL_CLOSED_Contains(u16 *p, u16 v)
 {
     int i;
     for (i = 0; i < 0x12; i++)

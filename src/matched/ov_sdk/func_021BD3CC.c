@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_021BD3CC 0x021BD3CC arm
- *   func_021DA04C 0x021DA04C data
+ *   HAND_TOKUSEI_SynchronizeOnSickAdded 0x021DA04C data
  *
  * Table lookup through the function-pointer table at 0x021DA04C.
  * Addresses are Black-image addresses.
  */
 
 extern unsigned char func_021C0EC8(void);
-extern int func_021DA04C[];
+extern int HAND_TOKUSEI_SynchronizeOnSickAdded[];
 
 int func_021BD3CC(void)
 {
-    return func_021DA04C[func_021C0EC8()];
+    return HAND_TOKUSEI_SynchronizeOnSickAdded[func_021C0EC8()];
 }

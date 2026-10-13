@@ -8,30 +8,30 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02157E78 0x02157E78 thumb ov010
- *   func_02157E8C 0x02157E8C thumb ov010
- *   func_0203D210 0x0203D210 arm
+ *   DELIVERY_IRC_Main 0x02157E78 thumb ov010
+ *   DELIVERY_IRC_Delete 0x02157E8C thumb ov010
+ *   GFL_NET_IsIdle 0x0203D210 arm
  */
 #include "../include/Obj04563.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_02157E78(u8 *p);
-extern int func_02157E8C(void *a0);
-extern u32 func_0203D210(void);
+extern void DELIVERY_IRC_Main(u8 *p);
+extern int DELIVERY_IRC_Delete(void *a0);
+extern u32 GFL_NET_IsIdle(void);
 int func_0217E414(char *p)
 {
     if (((struct Obj04563 *)p)->f1018)
-        func_02157E78(((struct Obj04563 *)p)->f1018);
+        DELIVERY_IRC_Main(((struct Obj04563 *)p)->f1018);
     switch (((struct Obj04563 *)p)->f0) {
     case 0:
         if (((struct Obj04563 *)p)->f1018) {
-            func_02157E8C((void *)(((struct Obj04563 *)p)->f1018));
+            DELIVERY_IRC_Delete((void *)(((struct Obj04563 *)p)->f1018));
             ((struct Obj04563 *)p)->f1018 = 0;
         }
         (((struct Obj04563 *)p)->f0)++;
         break;
     case 1:
-        if (func_0203D210())
+        if (GFL_NET_IsIdle())
             return 1;
         break;
     }

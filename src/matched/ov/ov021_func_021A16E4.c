@@ -1,5 +1,5 @@
 /*
- * function: func_021A16E4
+ * function: FIELD_3DBG_SetBillboardScaleX
  * address:  0x021A16E4
  * packet:   pkt_ov021_021A16E4
  * region:   ov021
@@ -12,11 +12,11 @@
  * Unlabelled leaf (str r1,[r0,#0x14]; bx lr), filed for the ov026 lane.
  *
  * symbols:
- *   func_021A16E4 0x021A16E4 thumb ov021
+ *   FIELD_3DBG_SetBillboardScaleX 0x021A16E4 thumb ov021
  */
 #include "../include/Obj19722.h"
 
-void func_021A16E4(unsigned char *p, unsigned int v)
+void FIELD_3DBG_SetBillboardScaleX(unsigned char *p, unsigned int v)
 {
     ((struct Obj19722 *)p)->f14 = v;
 }

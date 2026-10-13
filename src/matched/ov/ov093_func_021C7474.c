@@ -16,41 +16,41 @@
  *   u32 WAZA_TOOL_GetDamageType(u16 id) { return sub_0201BD28(id, 2); }
  * symbols:
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D75A8 0x021D75A8 thumb ov093
- *   func_021D7630 0x021D7630 thumb ov093
+ *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
+ *   BTL_EVENT_PopVarFrame 0x021D7540 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093
+ *   BTL_EVENT_SetVar 0x021D75A8 thumb ov093
+ *   BTL_EVENT_SetVarOnce 0x021D7630 thumb ov093
  *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021D58A8 0x021D58A8 thumb ov093
- *   func_021D5AD8 0x021D5AD8 thumb ov093
+ *   BTL_POKEPARAM_GetStatForCrit 0x021D5AD8 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021C2AB0 0x021C2AB0 thumb ov093
- *   func_021D5814 0x021D5814 thumb ov093
- *   func_021D7674 0x021D7674 thumb ov093
- *   func_021D7B10 0x021D7B10 thumb ov093
+ *   BTL_SERVER_FLOW_GetEffectiveWeather 0x021C2AB0 thumb ov093
+ *   BTL_POKEPARAM_HasType 0x021D5814 thumb ov093
+ *   BTL_EVENT_SetVarRanged 0x021D7674 thumb ov093
+ *   BTL_CALC_MulRatio 0x021D7B10 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int WAZA_TOOL_GetDamageType(int a);
-extern void func_021D74F8(int);
-extern void func_021D7540(int);
-extern u8 func_021D5440(u8 *);
-extern void func_021D75EC(int, u32);
-extern void func_021D75A8(int, u32);
-extern void func_021D7630(int, u32);
+extern void BTL_EVENT_PushVarFrame(int);
+extern void BTL_EVENT_PopVarFrame(int);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
+extern void BTL_EVENT_SetVarReadOnly(int, u32);
+extern void BTL_EVENT_SetVar(int, u32);
+extern void BTL_EVENT_SetVarOnce(int, u32);
 extern void func_021D70F0(void *a, int id);
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern int func_021D58A8(u8 *, int);
-extern int func_021D5AD8(u8 *, int);
+extern int BTL_POKEPARAM_GetStatForCrit(u8 *, int);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021C2AB0(u8 *);
-extern int func_021D5814(void *, int);
-extern void func_021D7674(int, u32, u32, u32);
-extern u32 func_021D7B10(u32 a, u32 b);
+extern int BTL_SERVER_FLOW_GetEffectiveWeather(u8 *);
+extern int BTL_POKEPARAM_HasType(void *, int);
+extern void BTL_EVENT_SetVarRanged(int, u32, u32, u32);
+extern u32 BTL_CALC_MulRatio(u32 a, u32 b);
 
 u16 func_021C7474(u8 *p, u8 *a, u8 *b, u8 *c, u32 flag)
 {
@@ -63,37 +63,37 @@ u16 func_021C7474(u8 *p, u8 *a, u8 *b, u8 *c, u32 flag)
     k = 11;
     if (mode != 2) k = 9;
     field = *(u32 *)(c + 8);
-    func_021D74F8(12595);
-    func_021D75EC(3, func_021D5440(a));
-    func_021D75EC(4, func_021D5440(b));
-    func_021D75EC(0x3c, k);
-    func_021D75A8(0x3d, 0);
-    func_021D7630(0x51, 0);
+    BTL_EVENT_PushVarFrame(12595);
+    BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));
+    BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(b));
+    BTL_EVENT_SetVarReadOnly(0x3c, k);
+    BTL_EVENT_SetVar(0x3d, 0);
+    BTL_EVENT_SetVarOnce(0x51, 0);
     func_021D70F0(p, 0x3a);
-    if (func_021D775C(0x3d) & 1) {
+    if (BTL_EVENT_GetVar(0x3d) & 1) {
         if (k == 9) k = 11;
         else k = 9;
         if (k == 9) field = 1;
         else field = 2;
     }
-    other = func_021D775C(0x51);
-    func_021D7540(12610);
+    other = BTL_EVENT_GetVar(0x51);
+    BTL_EVENT_PopVarFrame(12610);
     if (other) value = func_021D58A8(b, k);
-    else if (flag) value = func_021D5AD8(b, k);
+    else if (flag) value = BTL_POKEPARAM_GetStatForCrit(b, k);
     else value = func_021D59B4(b, k);
-    if (func_021C2AB0(p) == 4 && func_021D5814(b, 5) && k == 11)
-        value = func_021D7B10(value, 6 << 10);
-    func_021D74F8(12631);
-    func_021D75EC(3, func_021D5440(a));
-    func_021D75EC(4, func_021D5440(b));
-    func_021D75EC(0x12, *(u16 *)c);
-    func_021D75EC(0x16, c[6]);
-    func_021D75EC(0x1a, field);
-    func_021D75A8(0x34, value);
-    func_021D7674(0x35, 4 << 10, 410, 4 << 15);
+    if (BTL_SERVER_FLOW_GetEffectiveWeather(p) == 4 && BTL_POKEPARAM_HasType(b, 5) && k == 11)
+        value = BTL_CALC_MulRatio(value, 6 << 10);
+    BTL_EVENT_PushVarFrame(12631);
+    BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));
+    BTL_EVENT_SetVarReadOnly(4, BTL_POKEPARAM_GetPokeId(b));
+    BTL_EVENT_SetVarReadOnly(0x12, *(u16 *)c);
+    BTL_EVENT_SetVarReadOnly(0x16, c[6]);
+    BTL_EVENT_SetVarReadOnly(0x1a, field);
+    BTL_EVENT_SetVar(0x34, value);
+    BTL_EVENT_SetVarRanged(0x35, 4 << 10, 410, 4 << 15);
     func_021D70F0(p, 0x3c);
-    value = func_021D775C(0x34);
-    scale = func_021D775C(0x35);
-    func_021D7540(12642);
-    return func_021D7B10(value, scale);
+    value = BTL_EVENT_GetVar(0x34);
+    scale = BTL_EVENT_GetVar(0x35);
+    BTL_EVENT_PopVarFrame(12642);
+    return BTL_CALC_MulRatio(value, scale);
 }

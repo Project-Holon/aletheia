@@ -11,12 +11,12 @@
  * closed:   blocker FIELD_SOUND_SYSTEM_FadeInTask.c is now a manifest entry (matched class)
  *
  * Three-state stepper, kind 3 variant: state 0 emits the descriptor and
- * advances, state 1 advances only once func_020289B8 reports the channel is
+ * advances, state 1 advances only once FIELD_SOUND_SYSTEM_IsBusy reports the channel is
  * idle, state 2 reports done.
  *
  * symbols:
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
- *   func_020289B8  0x020289B8  thumb
+ *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/FIELD_SOUND_SYSTEM_PushTask.c \
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 
 struct Sys;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
-extern u32 func_020289B8(struct Sys *s);
+extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct Sys *s);
 
 int FIELD_SOUND_SYSTEM_PushTask(u32 unused, u32 *state, u8 *cfg)
 {
@@ -42,7 +42,7 @@ int FIELD_SOUND_SYSTEM_PushTask(u32 unused, u32 *state, u8 *cfg)
         (*state)++;
         break;
     case 1:
-        if (func_020289B8((struct Sys *)v) == 0) {
+        if (FIELD_SOUND_SYSTEM_IsBusy((struct Sys *)v) == 0) {
             (*state)++;
         }
         break;

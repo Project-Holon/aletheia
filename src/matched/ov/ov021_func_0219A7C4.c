@@ -1,5 +1,5 @@
 /*
- * function: func_0219A7C4
+ * function: FLDMMDL_MOVECODE_SwingStepWaitInterval
  * address: 0x0219A7C4
  * packet: pkt_ov021_0219A7C4
  * region: ov021
@@ -13,6 +13,6 @@
  */
 
 typedef unsigned char  u8;
-int func_0219A7C4(int a, u8 *p);
+int FLDMMDL_MOVECODE_SwingStepWaitInterval(int a, u8 *p);
 
-int func_0219A7C4(int a, u8 *p) { int v = *(int *)(p + 4) + 1; *(int *)(p + 4) = v; if (v < 0x18) return 0; p[2] = 3; return 1; }
+int FLDMMDL_MOVECODE_SwingStepWaitInterval(int a, u8 *p) { int v = *(int *)(p + 4) + 1; *(int *)(p + 4) = v; if (v < 0x18) return 0; p[2] = 3; return 1; }

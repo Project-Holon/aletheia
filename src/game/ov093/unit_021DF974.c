@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DF974.c
- * function: func_021DF974, func_021DF9BC
+ * function: BTL_HANDLER_ITEM_LustrousOrbMovePower, BTL_HANDLER_ITEM_GetAdamantOrbHandlers
  * address:  0x021DF974
  * packet:   pkt_ov093_021DF974
  * region:   ov093
@@ -11,34 +11,34 @@
  * status:   EXACT*
  *
  * symbols:
- *   d_021F157C     0x021F157C  data   ov093  a4
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   gBtlHandlerItemAdamantOrbHandlers     0x021F157C  data   ov093  a4
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5444  0x021D5444  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
- *   func_021DD008  0x021DD008  thumb  ov093
+ *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
+ *   BTL_HANDLER_ITEM_GetBoostRatio  0x021DD008  thumb  ov093
  */
 #include "unit_021DF974_types.h"
 
-extern BtlEventHandler d_021F157C[];
+extern BtlEventHandler gBtlHandlerItemAdamantOrbHandlers[];
 
 /* Lustrous Orb: Palkia's Dragon and Water moves get the item's power ratio. */
-void func_021DF974(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+void BTL_HANDLER_ITEM_LustrousOrbMovePower(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
     u8 moveType;
 
-    if (pokeId != func_021D775C(BTL_EVAR_ATTACKER_ID))
+    if (pokeId != BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))
         return;
-    if (func_021D5444(func_021C7CF4(flow, pokeId)) != SPECIES_PALKIA)
+    if (BTL_POKEPARAM_GetSpecies(func_021C7CF4(flow, pokeId)) != SPECIES_PALKIA)
         return;
-    moveType = func_021D775C(BTL_EVAR_MOVE_TYPE);
+    moveType = BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE);
     if (moveType == POKETYPE_DRAGON || moveType == POKETYPE_WATER)
-        func_021D7704(BTL_EVAR_MOVE_POWER_RATIO, func_021DD008(factor));
+        BTL_EVENT_MultiplyVar(BTL_EVAR_MOVE_POWER_RATIO, BTL_HANDLER_ITEM_GetBoostRatio(factor));
 }
 
 /* Adamant Orb handler table: one handler, move power. */
-BtlEventHandler *func_021DF9BC(int *handlerCount)
+BtlEventHandler *BTL_HANDLER_ITEM_GetAdamantOrbHandlers(int *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F157C;
+    return gBtlHandlerItemAdamantOrbHandlers;
 }

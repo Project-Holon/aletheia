@@ -10,16 +10,16 @@
  * extent: two zero padding bytes at 0x021D9CA2.
  * lever: the two-coordinate copy in case 0 is a Pair assignment.
  * symbols:
- *   func_020437DC 0x020437DC arm
- *   func_020437E4 0x020437E4 arm
+ *   BMP_GetWidth 0x020437DC arm
+ *   BMP_GetHeight 0x020437E4 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int x; int y; } Pair;
 struct Bmp;
 struct StrObj;
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 void func_021D9BE8(u32 mode, const Pair *in, const void *bitmap, void *obj, int a, Pair *out)
@@ -31,21 +31,21 @@ void func_021D9BE8(u32 mode, const Pair *in, const void *bitmap, void *obj, int 
         *out = *in;
         return;
     case 1:
-        x = (u32)func_020437DC(bitmap) / 2;
-        y = (u32)func_020437E4(bitmap) / 2;
+        x = (u32)BMP_GetWidth(bitmap) / 2;
+        y = (u32)BMP_GetHeight(bitmap) / 2;
         x -= func_0201D304(obj, a, 0) / 2;
         y -= func_0201D42C(obj, (void *)a) / 2;
         out->x = x + in->x;
         out->y = y + in->y;
         return;
     case 2:
-        y = (u32)func_020437E4(bitmap) / 2;
+        y = (u32)BMP_GetHeight(bitmap) / 2;
         y -= func_0201D42C(obj, (void *)a) / 2;
         out->x = in->x;
         out->y = y + in->y;
         return;
     case 3:
-        x = func_020437DC(bitmap);
+        x = BMP_GetWidth(bitmap);
         x -= func_0201D304(obj, a, 0);
         if (x < 0) x = 0;
         out->x = x + in->x;

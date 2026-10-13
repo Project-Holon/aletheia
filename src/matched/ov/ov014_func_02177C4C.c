@@ -12,7 +12,7 @@
  *   g_pWhPipeWork     0x021797A4  data   a4
  *   g_ParentConnectModes     0x0217967C  data   a2
  *   func_02178E4C  0x02178E4C  thumb  ov014
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02179024  0x02179024  thumb  ov014
  *   func_0208F1B4  0x0208F1B4  arm
  *   func_0217778C  0x0217778C  thumb  ov014
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern struct W *g_pWhPipeWork;
 extern u16 g_ParentConnectModes[2];
 extern int func_02178E4C(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u16 func_02179024(void);
 extern u16 func_0208F1B4(void);
 extern void func_0217778C(void);
@@ -47,7 +47,7 @@ void NET_WHPIPE_TaskConnectParent(u8 *p)
     buf[0] = g_ParentConnectModes[0];
     buf[1] = g_ParentConnectModes[1];
     if (mode == 7) {
-        st = func_0203D798();
+        st = GFL_NET_GetInitParam();
         p[0xCEA] = 0;
         p[0xCEF] = 0;
         p[0xCE9] = 0;

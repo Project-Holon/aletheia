@@ -1,5 +1,5 @@
 /*
- * function: func_0204F684
+ * function: BILLBOARD_SetElemScale
  * address:  0x0204F684
  * packet:   pkt_0204F684
  * region:   arm9
@@ -24,7 +24,7 @@ struct Manager0204F684 {
     struct Item0204F684 *items;
 };
 
-void func_0204F684(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14)
+void BILLBOARD_SetElemScale(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14)
 {
     mgr->items[idx].field_12 = *p12;
     mgr->items[idx].field_14 = *p14;

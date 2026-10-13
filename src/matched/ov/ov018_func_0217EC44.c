@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC44
+ * function: INTRUDE_SUBDISP_SetTouchRect
  * address: 0x0217EC44
  * packet: pkt_ov018_0217EC44
  * region: ov018
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef struct { int l, t, r, b; } Rect;
-void func_0217EC44(int x, int y, int w, int h, Rect *r)
+void INTRUDE_SUBDISP_SetTouchRect(int x, int y, int w, int h, Rect *r)
 {
     r->t = y - h;
     r->b = y + h;

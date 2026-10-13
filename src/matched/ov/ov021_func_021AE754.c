@@ -1,5 +1,5 @@
 /*
- * function: func_021AE754
+ * function: EVENT_TRAINER_EYE_UpdatePairEvent
  * address:  0x021AE754
  * packet:   pkt_ov021_021AE754
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AE72C  0x021AE72C  thumb  ov021
+ *   EVENT_TRAINER_EYE_Run  0x021AE72C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -18,19 +18,19 @@
 typedef unsigned int u32;
 
 struct S;
-extern int func_021AE72C(struct S *s);
+extern int EVENT_TRAINER_EYE_Run(struct S *s);
 extern u32 func_020307B0(void *p);
 
-int func_021AE754(u32 a, u32 b, u32 *c)
+int EVENT_TRAINER_EYE_UpdatePairEvent(u32 a, u32 b, u32 *c)
 {
     if (c[0] != 0) {
-        if (func_021AE72C((struct S *)c[0]) == 1) {
+        if (EVENT_TRAINER_EYE_Run((struct S *)c[0]) == 1) {
             func_020307B0((void *)c[0]);
             c[0] = 0;
         }
     }
     if (c[1] != 0) {
-        if (func_021AE72C((struct S *)c[1]) == 1) {
+        if (EVENT_TRAINER_EYE_Run((struct S *)c[1]) == 1) {
             func_020307B0((void *)c[1]);
             c[1] = 0;
         }

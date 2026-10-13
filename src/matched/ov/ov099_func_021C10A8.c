@@ -16,12 +16,13 @@
  *   func_021BDD48 0x021BDD48 thumb ov099
  *   func_021C27E0 0x021C27E0 thumb ov099
  *   func_021BA7D8 0x021BA7D8 thumb ov099
+ *   GFL_USE_IsSeSlotBusy  0x02006224  thumb  arm9
  */
 #include "../include/Obj03735.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern int func_02006224(u32 a0);
+extern int GFL_USE_IsSeSlotBusy(u32 a0);
 extern int DWC_RAP_GetTargetFriendIndex(void);
 extern unsigned char func_021C23C0(void *a);
 extern int func_021C23B8(int i);
@@ -34,7 +35,7 @@ int func_021C10A8(char *p, int ret)
 {
     int zero = 0;
     void *s;
-    if (func_02006224(0) != 0) return ret;
+    if (GFL_USE_IsSeSlotBusy(0) != 0) return ret;
     if (func_021C23C0((void *)DWC_RAP_GetTargetFriendIndex()) == 0) {
         func_021BA874(p, ((struct Obj03735 *)p)->f1F0);
         func_021BAAB8(p, 15, zero);

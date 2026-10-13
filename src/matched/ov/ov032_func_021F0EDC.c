@@ -13,8 +13,8 @@
  *   func_021F0EDC  0x021F0EDC  thumb
  *   func_021F0EA4  0x021F0EA4  thumb  ov032
  *   func_021F0ED0  0x021F0ED0  thumb  ov032
- *   func_02043B5C  0x02043B5C  arm
- *   func_020257D0  0x020257D0  thumb
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_OAM_UploadChars  0x020257D0  thumb
  *   STRBUF_Clear  0x0204581C  arm
  *   TCBL_DeleteTask  0x02031194  arm
  */
@@ -28,8 +28,8 @@ struct CharBuf;
 struct Obj;
 struct TcblNode;
 struct U16Vec;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_020257D0(struct Obj *o);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
@@ -39,8 +39,8 @@ void func_021F0EDC(char *p)
 
     func_021F0EA4(p, 0);
     func_021F0ED0(p, 0);
-    func_02043B5C((struct CharBuf *)(((struct Obj00225 *)p)->f1C), 0);
-    func_020257D0((struct Obj *)(*(int *)&((struct Obj00225 *)p)->f18));
+    BMP_Clear((struct CharBuf *)(((struct Obj00225 *)p)->f1C), 0);
+    BMP_OAM_UploadChars((struct Obj *)(*(int *)&((struct Obj00225 *)p)->f18));
     STRBUF_Clear((struct U16Vec *)(*(int *)&((struct Obj00225 *)p)->f24));
     STRBUF_Clear((struct U16Vec *)(*(int *)&((struct Obj00225 *)p)->f20));
     ((struct Obj00225 *)p)->f1 = 0xff;

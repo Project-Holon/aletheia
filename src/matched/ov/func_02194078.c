@@ -1,5 +1,5 @@
 /*
- * function: func_02194078
+ * function: FIELD_WFBC_BLOCK_ClearRand
  * address:  0x02194078
  * packet:   pkt_02194078
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02082BCC();
 
-void func_02194078(u32 a)
+void FIELD_WFBC_BLOCK_ClearRand(u32 a)
 {
     func_02082BCC(a, 0, 36);
 }

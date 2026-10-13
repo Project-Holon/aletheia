@@ -1,5 +1,5 @@
 /*
- * function: func_0219A058
+ * function: FLDMMDL_ACMD_DrawReadyWaitStop
  * address:  0x0219A058
  * packet:   pkt_0219A058
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D7CC (0x0216D7CC) is a matched manifest entry, so the `matched`
+ * FLDMMDL_IncAcmdSeq (0x0216D7CC) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0219FE20  0x0219FE20  thumb  ov021
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_DRAW_CheckBlactReady  0x0219FE20  thumb  ov021
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -28,15 +28,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0216D674(void *p, u16 v);
-extern u32 func_0216D7CC(u32);
-extern u32 func_0219FE20(u32, u32, u32, u32);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
+extern u32 FLDMMDL_DRAW_CheckBlactReady(u32, u32, u32, u32);
 
-int func_0219A058(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_ACMD_DrawReadyWaitStop(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0219FE20(a, b, c, d) == 1) {
-    func_0216D674((void *)a, 0);
-    func_0216D7CC(a);
+if (FLDMMDL_DRAW_CheckBlactReady(a, b, c, d) == 1) {
+    FLDMMDL_SetDrawStatus((void *)a, 0);
+    FLDMMDL_IncAcmdSeq(a);
     return 1;
 }
 return 0;

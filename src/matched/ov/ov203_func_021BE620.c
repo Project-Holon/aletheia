@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201160C 0x0201160C thumb
+ *   ICA_ANIME_GetFrame 0x0201160C thumb
  */
 #include "../include/Obj25315.h"
 typedef unsigned char u8;
@@ -18,5 +18,5 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 struct Obj11245;
-extern u32 func_0201160C(struct Obj11245 *p);
-int func_021BE620(char *p) { return func_0201160C(((struct Obj25315 *)p)->f18); }
+extern u32 ICA_ANIME_GetFrame(struct Obj11245 *p);
+int func_021BE620(char *p) { return ICA_ANIME_GetFrame(((struct Obj25315 *)p)->f18); }

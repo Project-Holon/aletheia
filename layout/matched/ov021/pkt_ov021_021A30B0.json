@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A30B0",
+   "name": "FIELD_PLAYER_GetSex",
    "address": "0x021A30B0",
    "kind": "game",
    "region": "ov021",

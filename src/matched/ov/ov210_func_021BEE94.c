@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BC3E8 0x021BC3E8 thumb ov210
- *   func_0204A48C 0x0204A48C arm
+ *   CLACT_InitSystem 0x0204A48C arm
  *   d_021C0990 0x021C0990 data a4 ov210
  */
 
@@ -21,11 +21,11 @@ extern const Tbl d_021C0990;
 
 struct Cfg;
 extern void *func_021BC3E8(void);
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 
 void func_021BEE94(void)
 {
     Tbl tbl = d_021C0990;
 
-    func_0204A48C((const struct Cfg *)(&tbl), (u32)func_021BC3E8(), 0x7b);
+    CLACT_InitSystem((const struct Cfg *)(&tbl), (u32)func_021BC3E8(), 0x7b);
 }

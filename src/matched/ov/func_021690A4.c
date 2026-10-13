@@ -1,5 +1,5 @@
 /*
- * function: func_021690A4
+ * function: FIELD_CLOCK_GetDate
  * address:  0x021690A4
  * packet:   pkt_021690A4
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008B14  0x02008B14  thumb
  */
 
@@ -21,16 +21,16 @@ typedef unsigned int u32;
 struct Big;
 struct Sub02008AECSession;
 
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
 
-void *func_021690A4(int a0)
+void *FIELD_CLOCK_GetDate(int a0)
 {
     void *big;
     struct Sub02008AECSession *s;
 
 
-    big = func_02012EBC((struct Big *)a0);
+    big = GAME_DATA_GetSaveControl((struct Big *)a0);
 loc_021690AA:
     s = func_02008B14(big);
 loc_021690AE:

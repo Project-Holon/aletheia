@@ -18,7 +18,7 @@
  * symbols:
  *   func_020362DC 0x020362DC arm
  *   func_0203633C 0x0203633C arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020061E4 0x020061E4 thumb
  *   P_STATUS_SetInputEnable 0x021D5A9C thumb ov131
@@ -39,7 +39,7 @@ typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern unsigned int func_0203633C(void);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020061E4(u32 a);
 extern void P_STATUS_SetInputEnable(char *p, int a);
@@ -57,7 +57,7 @@ int P_STA_RIBBON_UpdateKeys(u8 *a,u8 *p)
     int position;
     if(func_020362DC()==2) {
         P_STATUS_SetInputEnable((char *)a,1);
-        func_0204B878(((struct Obj00136 *)a)->f194,9);
+        CLACT_SetActorAnimSeq(((struct Obj00136 *)a)->f194,9);
         func_0204B3DC(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;
         p[0x59]=255;

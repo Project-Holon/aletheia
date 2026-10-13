@@ -1,5 +1,5 @@
 /*
- * function: func_021650BC
+ * function: GAME_BEACON_SEARCH_SetInfoBattleWildPokeStart
  * address:  0x021650BC
  * packet:   pkt_021650BC
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_SetDetailsBattleWildPoke(void *, unsigned);
 
-void func_021650BC(void *a0, unsigned a1)
+void GAME_BEACON_SEARCH_SetInfoBattleWildPokeStart(void *a0, unsigned a1)
 {
     ((struct Obj12050 *)a0)->f30 = 0x2;
     ((struct Obj12050 *)a0)->f32 = a1;

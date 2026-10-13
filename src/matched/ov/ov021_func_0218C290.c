@@ -1,5 +1,5 @@
 /*
- * function: func_0218C290
+ * function: FIELD_BUILDMODEL_StartGroupLoop
  * address:  0x0218C290
  * packet:   pkt_ov021_0218C290
  * region:   ov021
@@ -12,9 +12,9 @@
  * Starts a group of slots and marks them state 1.
  *
  * symbols:
- *   func_0218BCAC  0x0218BCAC  thumb  ov021
- *   func_020477A4  0x020477A4  arm
- *   func_02047804  0x02047804  arm
+ *   FIELD_BUILDMODEL_GetModelAnimDefs  0x0218BCAC  thumb  ov021
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
+ *   G3D_SYSTEM_ResetObjectAnimeFrame  0x02047804  arm
  * Addresses are Black-image addresses.
  */
 
@@ -22,21 +22,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_0218BCAC(u8 *p);
+extern u8 *FIELD_BUILDMODEL_GetModelAnimDefs(u8 *p);
 struct G3dSys;
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 struct AnmCtl;
-extern u32 func_02047804(struct AnmCtl *c, u16 idx);
+extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(struct AnmCtl *c, u16 idx);
 
-void func_0218C290(u32 *st, int n)
+void FIELD_BUILDMODEL_StartGroupLoop(u32 *st, int n)
 {
-    u8 *q = func_0218BCAC(*(u8 **)st[1]);
+    u8 *q = FIELD_BUILDMODEL_GetModelAnimDefs(*(u8 **)st[1]);
     int base = q[2] * n;
     int i;
 
     for (i = 0; i < q[2]; i++) {
-        func_020477A4((struct G3dSys *)st[0], (u16)(base + i));
-        func_02047804((struct AnmCtl *)st[0], base + i);
+        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)st[0], (u16)(base + i));
+        G3D_SYSTEM_ResetObjectAnimeFrame((struct AnmCtl *)st[0], base + i);
         (st + base)[2 + i] = 1;
     }
 }

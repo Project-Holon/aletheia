@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D9418",
-    "func_021D9440",
-    "func_021D9450"
+    "BTL_TOKUSEI_SleepGuard_CheckAdd",
+    "BTL_TOKUSEI_SleepGuard_CureOnEntry",
+    "BTL_TOKUSEI_SleepGuard_CureOnPeriodicCheck"
+   ],
+   "addresses": [
+    "0x021D9418",
+    "0x021D9440",
+    "0x021D9450"
    ]
   }
  ]

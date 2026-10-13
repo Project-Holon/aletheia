@@ -1,5 +1,5 @@
 /*
- * function: func_0216D5AC
+ * function: FLDMMDL_SetEventFlag
  * address:  0x0216D5AC
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D5AC.c \
- *       --func func_0216D5AC --addr 0x0216D5AC --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SetEventFlag.c \
+ *       --func FLDMMDL_SetEventFlag --addr 0x0216D5AC --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17802.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void func_0216D5AC(void *p, u16 v) { ((struct Obj17802 *)p)->f12 = v; }
+void FLDMMDL_SetEventFlag(void *p, u16 v) { ((struct Obj17802 *)p)->f12 = v; }

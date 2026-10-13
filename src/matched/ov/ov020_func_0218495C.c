@@ -1,5 +1,5 @@
 /*
- * function: func_0218495C
+ * function: EVENT_MAPCHANGE_ResetPlayerFormEvent
  * address:  0x0218495C
  * packet:   pkt_ov020_0218495C
  * region:   ov020
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012374  0x02012374  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02029D44  0x02029D44  thumb
- *   func_02029D7C  0x02029D7C  thumb
- *   func_02161824  0x02161824  thumb  ov010
- *   func_02184360  0x02184360  thumb  ov020
- *   func_02188D20  0x02188D20  thumb  ov021
- *   func_021BC550  0x021BC550  thumb  ov021
- *   func_020127A4  0x020127A4  thumb
- *   func_02012B2C  0x02012B2C  thumb
- *   func_021BF61C  0x021BF61C  thumb  ov021
- *   func_021BFDD0  0x021BFDD0  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb
+ *   FIELD_SOUND_SYSTEM_PostFadeIn  0x02029D7C  thumb
+ *   EVENT_FIELD_PROCLINK_CreateAnimEvent  0x02161824  thumb  ov010
+ *   EVENT_MAPCHANGE_CreateChangeFieldEvent  0x02184360  thumb  ov020
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
+ *   FIELD_PLACE_NAME_OnZoneChange  0x021BC550  thumb  ov021
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_SetPlayerObjectCode  0x02012B2C  thumb
+ *   EVENT_APPEAR_CreateSpinZoomSmoke  0x021BF61C  thumb  ov021
+ *   EVENT_DISAPPEAR_CreateSpinFade  0x021BFDD0  thumb  ov021
  */
 #include "../include/Obj04977.h"
 
@@ -30,24 +30,24 @@ typedef unsigned short u16;
 typedef short s16;
 
 struct BigObj;
-extern unsigned int func_02012A30(const struct BigObj *a);
+extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *a);
 struct Evt;
 struct SaveBlock;
-extern void *func_02161824(void *a, void *b);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *EVENT_FIELD_PROCLINK_CreateAnimEvent(void *a, void *b);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 typedef unsigned int   u32;
-extern void func_02029D44(u32 a, u32 b, u16 c, u8 d);
-extern void func_02029D7C(int a, int b);
-extern void *func_02184360(u8 *p, int value);
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(u32 a, u32 b, u16 c, u8 d);
+extern void FIELD_SOUND_SYSTEM_PostFadeIn(int a, int b);
+extern void *EVENT_MAPCHANGE_CreateChangeFieldEvent(u8 *p, int value);
 struct Rec44;
-extern u32 func_02188D20(u8 *p);
-extern void func_021BC550(void *p, int v);
-extern void *func_020127A4(struct SaveBlock *p);
-extern void func_02012B2C(struct Rec44 *p, u32 v);
-extern void *func_021BF61C(int a, int b, int c);
-extern void *func_021BFDD0(int a0, void *p, int a2, int a3);
+extern u32 FIELDMAP_GetPlaceName(u8 *p);
+extern void FIELD_PLACE_NAME_OnZoneChange(void *p, int v);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern void GAME_DATA_SetPlayerObjectCode(struct Rec44 *p, u32 v);
+extern void *EVENT_APPEAR_CreateSpinZoomSmoke(int a, int b, int c);
+extern void *EVENT_DISAPPEAR_CreateSpinFade(int a0, void *p, int a2, int a3);
 
-int func_0218495C(int ctx, int *state, u8 *p)
+int EVENT_MAPCHANGE_ResetPlayerFormEvent(int ctx, int *state, u8 *p)
 {
     int v;
     int x;
@@ -57,33 +57,33 @@ int func_0218495C(int ctx, int *state, u8 *p)
     x = ((struct Obj04977 *)p)->f0;
     y = ((struct Obj04977 *)p)->f4;
     z = ((struct Obj04977 *)p)->f8;
-    v = func_02012A30((const struct BigObj *)y);
+    v = GAME_DATA_GetBgmInfo((const struct BigObj *)y);
 
     switch (*state) {
     case 0:
-        func_02012374((struct Evt *)ctx, func_02161824((void *)x, (void *)z));
+        GAME_EVENT_CallEvent((struct Evt *)ctx, EVENT_FIELD_PROCLINK_CreateAnimEvent((void *)x, (void *)z));
         (*state)++;
         break;
     case 1:
-        func_02012374((struct Evt *)ctx, func_021BFDD0(ctx, (void *)x, z, 1));
+        GAME_EVENT_CallEvent((struct Evt *)ctx, EVENT_DISAPPEAR_CreateSpinFade(ctx, (void *)x, z, 1));
         (*state)++;
         break;
     case 2:
-        func_02012B2C((struct Rec44 *)((int)func_020127A4((struct SaveBlock *)y)), 0);
-        func_02029D44(v, y, ((struct Obj04977 *)p)->f14, (u8)((struct Obj04977 *)p)->f4A);
-        func_02029D7C(v, y);
+        GAME_DATA_SetPlayerObjectCode((struct Rec44 *)((int)GAME_DATA_GetMyPlayerWork((struct SaveBlock *)y)), 0);
+        FIELD_SOUND_SYSTEM_PostZoneBgmReplace(v, y, ((struct Obj04977 *)p)->f14, (u8)((struct Obj04977 *)p)->f4A);
+        FIELD_SOUND_SYSTEM_PostFadeIn(v, y);
         (*state)++;
         break;
     case 3:
-        func_02012374((struct Evt *)ctx, func_02184360(p, 3));
+        GAME_EVENT_CallEvent((struct Evt *)ctx, EVENT_MAPCHANGE_CreateChangeFieldEvent(p, 3));
         (*state)++;
         break;
     case 4:
-        func_02012374((struct Evt *)ctx, func_021BF61C(ctx, x, z));
+        GAME_EVENT_CallEvent((struct Evt *)ctx, EVENT_APPEAR_CreateSpinZoomSmoke(ctx, x, z));
         (*state)++;
         break;
     case 5:
-        func_021BC550((void *)func_02188D20((u8 *)z), *(s16 *)&((struct Obj04977 *)p)->f14);
+        FIELD_PLACE_NAME_OnZoneChange((void *)FIELDMAP_GetPlaceName((u8 *)z), *(s16 *)&((struct Obj04977 *)p)->f14);
         return 1;
     }
     return 0;

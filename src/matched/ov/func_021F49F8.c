@@ -11,18 +11,18 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0204A48C  0x0204A48C  arm
- *   func_0204B100  0x0204B100  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204ABF0  0x0204ABF0  arm
- *   func_0204AF28  0x0204AF28  arm
- *   func_02049238  0x02049238  arm
- *   func_02049F34  0x02049F34  arm
+ *   CLACT_InitSystem  0x0204A48C  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterPalette  0x0204ABF0  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOBJPltt 0x0207E51C  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02008550  0x02008550  thumb
- *   func_0204AC18  0x0204AC18  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   d_02202BE0     0x02202BE0  data
  *
  * Load the screen's OBJ resources: the archive-0x60 cell, character,
@@ -73,20 +73,20 @@ extern u8 d_02202BE0[];
 extern void *func_020490F4(u32 id, u32 heap);
 struct Cfg;
 struct Sub0200852CObj;
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 typedef signed int     s32;
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *h);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *h);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void DC_FlushRange(void *p, u32 size);
 extern void GX_LoadOBJPltt(const void *src, u32 offset, u32 size);
 extern u32 func_020307B0(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
 void func_021F49F8(Obj *p, u32 mode)
 {
@@ -101,19 +101,19 @@ void func_021F49F8(Obj *p, u32 mode)
     u32 chr;
 
     arc = func_020490F4(0x60, 0x48);
-    func_0204A48C((const struct Cfg *)d_02202BE0, mode, 0x48);
-    p->res.f0 = (u32)func_0204B100(0x60, 0, 0x48);
-    p->res.f4 = func_0204A6C8(arc, 0x11, 1, 0, 0x48);
-    p->res.f8 = func_0204ABF0(arc, 8, 0, 0, 0x48);
-    p->res.fC = func_0204AF28(arc, 0x12, 0x13, 0x48);
-    p->res.f28 = func_0204A6C8(arc, 0x27, 1, 0, 0x48);
-    p->res.f30 = func_0204AF28(arc, 0x28, 0x29, 0x48);
-    p->res.f10 = func_0204A6C8(arc, 0x24, 1, 1, 0x48);
-    p->res.f14 = func_0204ABF0(arc, 7, 1, 0, 0x48);
-    p->res.f18 = func_0204AF28(arc, 0x25, 0x26, 0x48);
-    func_02049238(arc);
+    CLACT_InitSystem((const struct Cfg *)d_02202BE0, mode, 0x48);
+    p->res.f0 = (u32)CLACT_CreateUnit(0x60, 0, 0x48);
+    p->res.f4 = CLACT_RegisterCharacter(arc, 0x11, 1, 0, 0x48);
+    p->res.f8 = CLACT_RegisterPalette(arc, 8, 0, 0, 0x48);
+    p->res.fC = CLACT_RegisterCellAnim(arc, 0x12, 0x13, 0x48);
+    p->res.f28 = CLACT_RegisterCharacter(arc, 0x27, 1, 0, 0x48);
+    p->res.f30 = CLACT_RegisterCellAnim(arc, 0x28, 0x29, 0x48);
+    p->res.f10 = CLACT_RegisterCharacter(arc, 0x24, 1, 1, 0x48);
+    p->res.f14 = CLACT_RegisterPalette(arc, 7, 1, 0, 0x48);
+    p->res.f18 = CLACT_RegisterCellAnim(arc, 0x25, 0x26, 0x48);
+    ARC_TOOL_DeleteHandle(arc);
 
-    buf = func_02049F34(7, 0, (u32)(&pd), 0x48);
+    buf = ARC_UTIL_LoadPaletteBlockFromArchive(7, 0, (u32)(&pd), 0x48);
     DC_FlushRange(pd->data, 0x60);
     GX_LoadOBJPltt(pd->data, 0xA0, 0x60);
     d = pd->data;
@@ -137,8 +137,8 @@ void func_021F49F8(Obj *p, u32 mode)
         pal = 4;
     }
     arc = func_020490F4(0x1f, 0x48);
-    p->res.f1C = func_0204A6C8(arc, chr, 0, 1, 0x48);
-    p->res.f20 = func_0204AC18(arc, pal, 1, 0, 0, 1, 0x48);
-    p->res.f24 = func_0204AF28(arc, cell, anm, 0x48);
-    func_02049238(arc);
+    p->res.f1C = CLACT_RegisterCharacter(arc, chr, 0, 1, 0x48);
+    p->res.f20 = CLACT_RegisterPaletteEx(arc, pal, 1, 0, 0, 1, 0x48);
+    p->res.f24 = CLACT_RegisterCellAnim(arc, cell, anm, 0x48);
+    ARC_TOOL_DeleteHandle(arc);
 }

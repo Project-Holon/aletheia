@@ -1,5 +1,5 @@
 /*
- * function: func_02166E50
+ * function: SYMBOL_MAP_PmsInputTaskMain
  * address:  0x02166E50
  * packet:   pkt_ov010_02166E50
  * region:   ov010
@@ -15,7 +15,7 @@
  * at +0x04/+0x08 and flags +0x0C, then frees the work.
  *
  * Byte-correct (lane B5, run 1).  7 of 14 sites unresolved, no C change helps:
- *   - ov110_id 0x6E: overlay_id refuses, func_02012444 is not in
+ *   - ov110_id 0x6E: overlay_id refuses, GAME_EVENT_CallProc is not in
  *     OVERLAY_ID_CONSUMERS (it stores a1 in a descriptor for the state
  *     machine GAME_EVENT_CallProcSeq rather than passing it straight to a loader).
  *   - d_021C39B8: with the ov110 token the hint is "contested" and no
@@ -29,14 +29,14 @@
  *
  * symbols:
  *   func_020124E8  0x020124E8  thumb
- *   func_02012444  0x02012444  thumb
+ *   GAME_EVENT_CallProc  0x02012444  thumb
  *   PMSI_PARAM_CheckCanceled  0x0202411C  thumb
  *   PMSI_PARAM_GetWords  0x02024128  thumb
  *   PMSI_PARAM_GetWord  0x02024124  thumb
  *   PMSI_PARAM_GetSentence  0x02024134  thumb
  *   func_020124E4  0x020124E4  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E6F0  0x0200E6F0  thumb
  *   func_0200E714  0x0200E714  thumb
  *   PMSI_PARAM_Delete  0x020240FC  thumb
@@ -75,14 +75,14 @@ struct Ctx;
 struct Obj;
 struct Rec0200E714;
 extern void *func_020124E8(struct Obj *p);
-extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern int PMSI_PARAM_CheckCanceled(unsigned char *p);
 extern void  PMSI_PARAM_GetWords(void *t, Res4 *out);
 extern unsigned int PMSI_PARAM_GetWord(unsigned short *p);
 extern void PMSI_PARAM_GetSentence(char *a, void *b);
 extern void *func_020124E4(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E6F0(u32 a);
 extern void func_0200E714(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src);
 extern void  PMSI_PARAM_Delete(void *t);
@@ -90,7 +90,7 @@ extern void  PMSI_PARAM_Delete(void *t);
 extern char ov110_id[];
 extern char d_021C39B8[];
 
-u32 func_02166E50(void *obj, u32 *mode)
+u32 SYMBOL_MAP_PmsInputTaskMain(void *obj, u32 *mode)
 {
     Work *w = func_020124E8(obj);
     void *t = w->task;
@@ -104,7 +104,7 @@ u32 func_02166E50(void *obj, u32 *mode)
         if (t == 0) {
             return 1;
         }
-        func_02012444(obj, (u32)ov110_id, (u32)d_021C39B8, (u32)t);
+        GAME_EVENT_CallProc(obj, (u32)ov110_id, (u32)d_021C39B8, (u32)t);
         (*mode)++;
         break;
     case 1:
@@ -121,7 +121,7 @@ u32 func_02166E50(void *obj, u32 *mode)
             } else {
                 PMSI_PARAM_GetSentence(t, &r8);
                 if (w->f18 != 0) {
-                    func_0200E714(func_0200E6F0((u32)func_02012EBC(func_020120F4(func_020124E4(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
+                    func_0200E714(func_0200E6F0((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(func_020124E4(obj)))), w->f14, (struct Rec0200E714 *)(&r8));
                 }
                 *w->out0 = r8.a;
                 v = r8.b;

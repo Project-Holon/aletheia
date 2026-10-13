@@ -23,7 +23,7 @@
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
  *   PMS_DRAW_SetPrintColor 0x0202DE64 thumb
  *   PMS_DRAW_SetFollowBgScroll 0x0202DE68 thumb
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_021BC5C4 0x021BC5C4 thumb ov216
  *   func_021BC614 0x021BC614 thumb ov216
  *   func_0204B688 0x0204B688 arm
@@ -39,7 +39,7 @@ extern struct PmsDraw *PMS_DRAW_Create(u32,u32,u32,u32,u8,u8,u16);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *,u8);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *,u16);
 extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *,u32);
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void func_021BC5C4(struct Window *,u8,u8,u32,u8,u8,u8);
 extern void *func_021BC614(void *,void *,void *,short,short,u8,u8,u8,u16);
 extern void func_0204B688(struct Actor *,u32);
@@ -58,7 +58,7 @@ void func_021BC70C(char *p)
         layer=i+4;
         q=p+348+i*128;
         q[126]=(u8)layer;
-        *(u32 *)(q+112)=func_020450F0((u8)layer,2,15,28,4,i,1);
+        *(u32 *)(q+112)=BMP_WIN_Create((u8)layer,2,15,28,4,i,1);
         for(j=0;j<4;j++)func_021BC5C4((struct Window *)(q+j*16),layer,i,2,j*2+1,19,2);
         func_021BC5C4((struct Window *)(q+64),layer,i,2,9,19,2);
         func_021BC5C4((struct Window *)(q+80),layer,i,3,11,28,4);

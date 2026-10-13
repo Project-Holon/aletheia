@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046FF8   0x02046FF8  arm
- *   func_02047388   0x02047388  arm
- *   func_020473B8   0x020473B8  arm
+ *   G3D_SYSTEM_TransVramTexture   0x02046FF8  arm
+ *   G3D_SYSTEM_GetTexVramKey   0x02047388  arm
+ *   G3D_SYSTEM_GetPlttVramKey   0x020473B8  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BILLBOARD_BindImageResource.c \
@@ -24,9 +24,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Layer;
-extern int func_02046FF8(int *self);
-extern u32 func_02047388(struct Layer *layer);
-extern u32 func_020473B8(struct Layer *layer);
+extern int G3D_SYSTEM_TransVramTexture(int *self);
+extern u32 G3D_SYSTEM_GetTexVramKey(struct Layer *layer);
+extern u32 G3D_SYSTEM_GetPlttVramKey(struct Layer *layer);
 
 struct Struct_0204EE64 {
     u32 heapId;
@@ -43,14 +43,14 @@ void BILLBOARD_BindImageResource(struct Struct_0204EE64 *p, u32 heapId)
     u32 res;
 
     p->heapId = heapId;
-    if (func_02046FF8((int *)heapId) == 0) {
+    if (G3D_SYSTEM_TransVramTexture((int *)heapId) == 0) {
         p->offC = 0;
         p->off10 = 0;
         return;
     }
 
-    p->off20 = func_02047388((struct Layer *)heapId);
-    res = func_020473B8((struct Layer *)heapId);
+    p->off20 = G3D_SYSTEM_GetTexVramKey((struct Layer *)heapId);
+    res = G3D_SYSTEM_GetPlttVramKey((struct Layer *)heapId);
 
     p->off24 = res;
     p->offC = (u32)(p->off20 << 16) >> 13;

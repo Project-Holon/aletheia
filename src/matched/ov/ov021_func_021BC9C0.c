@@ -1,5 +1,5 @@
 /*
- * function: func_021BC9C0
+ * function: FIELD_PLACE_NAME_ResetBlitCount
  * address:  0x021BC9C0
  * packet:   pkt_ov021_021BC9C0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Unlabelled leaf: clears byte +0x14A.
  */
 
-void func_021BC9C0(char *p)
+void FIELD_PLACE_NAME_ResetBlitCount(char *p)
 {
     p[0x14a] = 0;
 }

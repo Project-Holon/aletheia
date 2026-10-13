@@ -1,5 +1,5 @@
 /*
- * function: func_021C452C
+ * function: SODATEYA_GetAbilitySlot
  * address:  0x021C452C
  * packet:   pkt_ov021_021C452C
  * region:   ov021
@@ -22,7 +22,7 @@ struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
 
-u8 func_021C452C(u32 a, u32 b, u32 c, u32 d)
+u8 SODATEYA_GetAbilitySlot(u32 a, u32 b, u32 c, u32 d)
 {
     u32 s[3];
     u32 x = (u32)func_0201ADE4(a, b, d);

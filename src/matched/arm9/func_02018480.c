@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Eight byte thunk (pool word and bx) that forwards both arguments to
- * POKE_TOOL_IsBoxOwnedByPlayer. Witness for the ov093 caller func_021BCFAC.
+ * POKE_TOOL_IsBoxOwnedByPlayer. Witness for the ov093 caller BTL_SERVER_FLOW_CheckDisobedience.
  *
  * symbols:
  *   POKE_TOOL_IsOwnedByPlayer  0x02018480  thumb

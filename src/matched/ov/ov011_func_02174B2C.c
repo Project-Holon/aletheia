@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D1C0  0x0203D1C0  arm
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  *   INTRUDE_COMM_SendRecordRequest  0x021737A8  thumb ov011
  */
 
 typedef unsigned int   u32;
-u32 func_0203D1C0(u32 index);
+u32 GFL_NET_IsConnectMember(u32 index);
 int INTRUDE_COMM_SendRecordRequest(void);
 
 void INTRUDE_COMM_UpdateMemberJoin(unsigned char *p)
@@ -27,7 +27,7 @@ void INTRUDE_COMM_UpdateMemberJoin(unsigned char *p)
         return;
     }
     for (i = 0; i < p[0x902]; i++) {
-        if ((int)func_0203D1C0((unsigned char)i) == 1 && !(p[0x8FB] & (1 << i))) {
+        if ((int)GFL_NET_IsConnectMember((unsigned char)i) == 1 && !(p[0x8FB] & (1 << i))) {
             INTRUDE_COMM_SendRecordRequest();
             p[0x8FF] = 30;
             return;

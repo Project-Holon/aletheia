@@ -1,5 +1,5 @@
 /*
- * function: func_02180ED4
+ * function: EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain
  * address:  0x02180ED4
  * packet:   pkt_ov018_02180ED4
  * region:   ov018
@@ -10,19 +10,19 @@
  * status:   EXACT
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_0201F02C  0x0201F02C  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0201F184  0x0201F184  thumb
- *   func_0217F3C4  0x0217F3C4  thumb
- *   func_0217F40C  0x0217F40C  thumb
- *   func_0217F318  0x0217F318  thumb
- *   func_020124AC  0x020124AC  thumb
- *   func_02012374  0x02012374  thumb
- *   func_0217FE38  0x0217FE38  thumb
- *   func_021F5260  0x021F5260  thumb  ov083
+ *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
+ *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
+ *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
+ *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb
+ *   GPOWER_EVENT_CreateActivateEvent  0x021F5260  thumb  ov083
  *   ov083_id       0x00000053  data
  *   d_02183890     0x02183890  data  a2
  */
@@ -72,54 +72,54 @@ struct Evt;
 struct Obj;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
-u32 func_02012138(const struct Ctx *p);
-int func_02158344(int a0);
+u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+int INTRUDE_COMM_GetWorkIfRunning(int a0);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void *func_020120F4(const struct Ctx *p);
-u8 *func_02012944(void *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+u8 *GAME_DATA_GetMyStatus(void *p);
 void func_0201F184(struct WordSet *p, u32 i, s32 v);
-void func_0217F3C4(Ov018Obj *p, int a);
-int func_0217F40C(Ov018Obj *p);
-void func_0217F318(Ov018Obj *p);
+void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
+int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
+void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
 struct Desc;
-struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
-void func_02012374(struct Evt *evt, struct Evt **out);
-void func_0217FE38(int v, Ov018Outer *c);
-void *func_021F5260(void *a0, int *a1);
+struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
+void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+void EVENT_COMM_COMMON_ExitCommonWork(int v, Ov018Outer *c);
+void *GPOWER_EVENT_CreateActivateEvent(void *a0, int *a1);
 
-int func_02180ED4(void *a, int *state, Ov018Outer *c)
+int EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain(void *a, int *state, Ov018Outer *c)
 {
     void *sub;
     int v;
     Args args;
 
     sub = func_020124E4(a);
-    v = func_02158344((int)((void *)func_02012138(sub)));
+    v = INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(sub)));
     switch (*state) {
     case 0:
         func_0201F02C(c->obj.f00, 0, c->f78);
-        func_0201F02C(c->obj.f00, 1, func_02012944(func_020120F4(sub)));
+        func_0201F02C(c->obj.f00, 1, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(sub)));
         func_0201F184(c->obj.f00, 2, c->f58);
-        func_0217F3C4(&c->obj, d_02183890[c->f42]);
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, d_02183890[c->f42]);
         (*state)++;
         break;
     case 1:
-        if (func_0217F40C(&c->obj) == 1) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
             (*state)++;
         }
         break;
     case 2:
-        func_0217F318(&c->obj);
+        EVENT_COMM_COMMON_ExitMsgBox(&c->obj);
         args.a = c->f58;
         args.zero = 0;
-        func_02012374(a, (struct Evt **)func_020124AC(sub, (u32)ov083_id, (u32 (*)(void *, u32))func_021F5260, (u32)(&args)));
+        GAME_EVENT_CallEvent(a, (struct Evt **)GAME_EVENT_CreateOverlayEvent(sub, (u32)ov083_id, (u32 (*)(void *, u32))GPOWER_EVENT_CreateActivateEvent, (u32)(&args)));
         (*state)++;
         break;
     case 3:
         *state = 4;
         break;
     case 4:
-        func_0217FE38(v, c);
+        EVENT_COMM_COMMON_ExitCommonWork(v, c);
         return 1;
     }
     return 0;

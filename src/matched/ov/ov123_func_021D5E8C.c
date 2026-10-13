@@ -10,13 +10,13 @@
  * symbols:
  *   func_021D63E4 0x021D63E4 thumb ov123
  *   func_020307B0 0x020307B0 arm
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   func_02030EAC 0x02030EAC arm
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_02040DA8 0x02040DA8 arm
  *   func_020403F4 0x020403F4 arm
  *   func_02040588 0x02040588 arm
@@ -34,13 +34,13 @@ typedef unsigned int   u32;
 struct Bank;
 struct Node;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 extern void func_02030EAC(struct Node *n);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -51,16 +51,16 @@ void func_021D5E8C(u8 *p)
     Counter i;
     func_021D63E4(p);
     func_020307B0(((struct Obj04499 *)p)->f1C);
-    func_0204B3B4(((struct Obj04499 *)p)->fB4);
-    func_0204B3B4(((struct Obj04499 *)p)->fB8);
+    CLACT_DeleteActor(((struct Obj04499 *)p)->fB4);
+    CLACT_DeleteActor(((struct Obj04499 *)p)->fB8);
     i=0;
-    do { if(*(void **)(p+i*4+0x20)) func_0204ADA4((u32)(*(void **)(p+i*4+0x20))); i++; } while(i<6);
-    for(;i<13;i++) if(*(void **)(p+i*4+0x20)) func_0204A8D4((u32)(*(void **)(p+i*4+0x20)));
-    for(;i<20;i++) if(*(void **)(p+i*4+0x20)) func_0204AFD8((u32)(*(void **)(p+i*4+0x20)));
+    do { if(*(void **)(p+i*4+0x20)) CLACT_ReleasePalette((u32)(*(void **)(p+i*4+0x20))); i++; } while(i<6);
+    for(;i<13;i++) if(*(void **)(p+i*4+0x20)) CLACT_ReleaseCharacter((u32)(*(void **)(p+i*4+0x20)));
+    for(;i<20;i++) if(*(void **)(p+i*4+0x20)) CLACT_ReleaseCellAnim((u32)(*(void **)(p+i*4+0x20)));
     if(((struct Obj04499 *)p)->f14) func_02030EAC(((struct Obj04499 *)p)->f14);
     func_02030EAC(((struct Obj04499 *)p)->f10);
-    func_0204B1CC(((struct Obj04499 *)p)->fC);
-    func_0204A5AC();
+    CLACT_DeleteUnit(((struct Obj04499 *)p)->fC);
+    CLACT_ExitSystem();
     func_02040DA8(1,1,0); func_02040DA8(6,1,0);
     func_020403F4(5); func_020403F4(4);
     func_02040588(5,0); func_0203F9B4(); func_020307B0(p);

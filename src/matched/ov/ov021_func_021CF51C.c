@@ -1,5 +1,5 @@
 /*
- * function: func_021CF51C
+ * function: ENCEFF_GetEffect
  * address:  0x021CF51C
  * packet:   pkt_ov021_021CF51C
  * region:   ov021
@@ -17,4 +17,4 @@
 
 typedef unsigned int u32;
 
-u32 func_021CF51C(u32 *p) { return *p; }
+u32 ENCEFF_GetEffect(u32 *p) { return *p; }

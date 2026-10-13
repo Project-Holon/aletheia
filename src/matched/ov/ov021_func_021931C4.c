@@ -1,5 +1,5 @@
 /*
- * function: func_021931C4
+ * function: FIELD_MSGBG_RemoveSubMsgWin
  * address:  0x021931C4
  * packet:   pkt_ov021_021931C4
  * region:   ov021
@@ -21,7 +21,7 @@ typedef struct E {
     u32 f04;
 } E;
 
-E *func_021931C4(u8 *p, u32 v)
+E *FIELD_MSGBG_RemoveSubMsgWin(u8 *p, u32 v)
 {
     int i;
     E *e;

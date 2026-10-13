@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3F8
+ * function: BTL_SERVER_StepSendCommResult
  * address:  0x021BB3F8
  * packet:   pkt_ov093_021BB3F8
  * region:   ov093
@@ -10,27 +10,27 @@
  * status:   EXACT* (extent 68, compiled 66, trailing padding)
  *
  * symbols:
- *   func_021BB724  0x021BB724  thumb  ov093
- *   func_021BB798  0x021BB798  thumb  ov093
- *   func_021BB7D0  0x021BB7D0  thumb  ov093
+ *   BTL_SERVER_SendCommandData  0x021BB724  thumb  ov093
+ *   BTL_SERVER_AreRepliesReady  0x021BB798  thumb  ov093
+ *   BTL_SERVER_ClearReplies  0x021BB7D0  thumb  ov093
  */
 
 typedef unsigned char u8;
 
-extern void func_021BB724(u8 *p, int a, int b, int c);
-extern int func_021BB798(u8 *);
-extern void func_021BB7D0(const u8 *p);
+extern void BTL_SERVER_SendCommandData(u8 *p, int a, int b, int c);
+extern int BTL_SERVER_AreRepliesReady(u8 *);
+extern void BTL_SERVER_ClearReplies(const u8 *p);
 
-int func_021BB3F8(u8 *p, int *s)
+int BTL_SERVER_StepSendCommResult(u8 *p, int *s)
 {
     switch (*s) {
     case 0:
-        func_021BB724(p, 0xd, (int)(p + 0xa8), 4);
+        BTL_SERVER_SendCommandData(p, 0xd, (int)(p + 0xa8), 4);
         (*s)++;
         break;
     case 1:
-        if (func_021BB798(p) != 0) {
-            func_021BB7D0(p);
+        if (BTL_SERVER_AreRepliesReady(p) != 0) {
+            BTL_SERVER_ClearReplies(p);
             (*s)++;
         }
         break;

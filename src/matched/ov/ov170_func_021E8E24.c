@@ -11,7 +11,7 @@
  * status: EXACT
  * symbols:
  *   func_021ED55C 0x021ED55C thumb ov170
- *   func_020216D4 0x020216D4 thumb
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_020056BC 0x020056BC thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   func_021DED58 0x021DED58 thumb ov170
@@ -27,7 +27,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern void func_021ED55C(char **p, int flag);
 struct PalAnmSlot;
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020056BC(void);
 extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void func_021DED58(char *, int);
@@ -41,7 +41,7 @@ int func_021E8E24(char *p)
     switch (S) {
     case 0:
         func_021ED55C((char **)p, 0);
-        func_020216D4(*(void **)(W + 0x6c), 0, 0, 0x200);
+        PALANM_CopyHwPaletteToSlot(*(void **)(W + 0x6c), 0, 0, 0x200);
         PALANM_RequestFade(*(void **)(W + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
         ((struct Obj00000 *)p)->f28 = 0x66;
         S++;

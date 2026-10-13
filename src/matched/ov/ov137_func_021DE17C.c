@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_021DCF50 0x021DCF50 thumb ov137
- *   func_02184180 0x02184180 thumb ov022
+ *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
  *   func_0201F02C 0x0201F02C thumb
- *   func_021841A4 0x021841A4 thumb ov022
- *   func_02039338 0x02039338 arm
+ *   UNION_APP_GetMemberCount 0x021841A4 thumb ov022
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  */
 #include "../include/Obj02868.h"
 #include "../include/Obj23729.h"
@@ -25,26 +25,26 @@ extern void *func_021DCF50(u8 *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct WordSet;
-extern char *func_02184180(unsigned char *p, int i);
+extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern int func_021841A4(unsigned char *p);
-extern u16 func_02039338(void);
+extern int UNION_APP_GetMemberCount(unsigned char *p);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 void func_021DE17C(char *p, int command, int player) {
     void *target;
     if (((struct Obj02868 *)p)->f118 == 3) {
         switch (command) {
         case 1:
-            target = func_02184180(func_021DCF50((u8 *)p), player);
+            target = UNION_APP_GetMemberEntry(func_021DCF50((u8 *)p), player);
             if (target != 0)
                 func_0201F02C(((struct Obj02868 *)p)->f3C, 0, target);
             ((struct Obj02868 *)p)->f118 = command;
-            ((struct Obj23729 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = func_021841A4(func_021DCF50((u8 *)p));
+            ((struct Obj23729 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = UNION_APP_GetMemberCount(func_021DCF50((u8 *)p));
             ((struct Obj23730 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 = 0;
             return;
         case 19:
-            func_0201F02C(((struct Obj02868 *)p)->f3C, 0, func_02184180(func_021DCF50((u8 *)p), player));
-            if (player != func_02039338()) {
-                if (func_02039338() == 0)
+            func_0201F02C(((struct Obj02868 *)p)->f3C, 0, UNION_APP_GetMemberEntry(func_021DCF50((u8 *)p), player));
+            if (player != GFL_NET_SYSTEM_GetCurrentAid()) {
+                if (GFL_NET_SYSTEM_GetCurrentAid() == 0)
                     ((struct Obj23731 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 &= player ^ 0xffff;
                 ((struct Obj02868 *)p)->f118 = command;
             }
@@ -53,7 +53,7 @@ void func_021DE17C(char *p, int command, int player) {
     } else {
         if (command == 1) {
             ((struct Obj23732 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 = 0;
-            ((struct Obj23733 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = func_021841A4(func_021DCF50((u8 *)p));
+            ((struct Obj23733 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = UNION_APP_GetMemberCount(func_021DCF50((u8 *)p));
         }
     }
 }

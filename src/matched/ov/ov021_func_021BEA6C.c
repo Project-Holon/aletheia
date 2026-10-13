@@ -1,5 +1,5 @@
 /*
- * function: func_021BEA6C
+ * function: EVENT_FIELDMAP_CONTROL_GetFadeKind
  * address:  0x021BEA6C
  * packet:   pkt_ov021_021BEA6C
  * region:   ov021
@@ -12,7 +12,7 @@
  * symbols:
  */
 
-int func_021BEA6C(int x)
+int EVENT_FIELDMAP_CONTROL_GetFadeKind(int x)
 {
     switch (x) {
     case 0:

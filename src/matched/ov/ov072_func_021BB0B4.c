@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0B4
+ * function: TOWNMAP_StartScrollZoom
  * address: 0x021BB0B4
  * packet: pkt_ov072_021BB0B4
  * region: ov072
@@ -16,5 +16,5 @@ typedef unsigned int u32;
 typedef struct { int x,y; } Vec;
 typedef struct { unsigned short f00,n; short f04,f06,f08,f0a; int done,active,cur,to,from; Vec pos,dst,src; } Anim;
 typedef enum { OFF, ON } Flag;
-void func_021BB0B4(Anim *p,int v,const Vec *a,const Vec *b) { int x; Flag one; p->to=v; p->from=p->cur; one=ON; x=a->x; p->active=one; p->src.x=x-0x80; p->src.y=a->y-0x60; p->dst.x=b->x-0x80; p->dst.y=b->y-0x60; }
+void TOWNMAP_StartScrollZoom(Anim *p,int v,const Vec *a,const Vec *b) { int x; Flag one; p->to=v; p->from=p->cur; one=ON; x=a->x; p->active=one; p->src.x=x-0x80; p->src.y=a->y-0x60; p->dst.x=b->x-0x80; p->dst.y=b->y-0x60; }
 

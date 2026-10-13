@@ -1,5 +1,5 @@
 /*
- * function: func_02165ECC
+ * function: GAME_BEACON_ACCESSOR_GetNickname
  * address:  0x02165ECC
  * packet:   pkt_ov010_02165ECC
  * region:   ov010
@@ -22,7 +22,7 @@
  *
  * symbols:
  *   STRBUF_Clear  0x0204581C  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ typedef short s16;
 struct Strbuf;
 struct U16Vec;
 extern void STRBUF_Clear(struct U16Vec *vec);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
 typedef struct Rec {
     u8 pad00[0x30];
@@ -43,10 +43,10 @@ typedef struct Rec {
     u16 text[11];       /* 0x34 */
 } Rec;
 
-void func_02165ECC(Rec *r, void *buf)
+void GAME_BEACON_ACCESSOR_GetNickname(Rec *r, void *buf)
 {
     STRBUF_Clear(buf);
-    func_02045994(buf, r->text, 11);
+    STRBUF_SetStringN(buf, r->text, 11);
     switch (r->type) {
     case 16:
     case 17:

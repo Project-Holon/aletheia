@@ -1,5 +1,5 @@
 /*
- * function: func_021DB274
+ * function: BTL_TOKUSEI_Forecast_ApplyWeatherFormOnEntry
  * address: 0x021DB274
  * packet: pkt_ov093_021DB274
  * region: ov093
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021DB254 0x021DB254 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_TOKUSEI_Forecast_ApplyWeatherForm 0x021DB254 thumb ov093
  */
-extern int func_021D775C(int);
-extern void func_021DB254(int,void *,int,int *);
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_TOKUSEI_Forecast_ApplyWeatherForm(int,void *,int,int *);
 
-void func_021DB274(int a, void *b, int c, int *d)
+void BTL_TOKUSEI_Forecast_ApplyWeatherFormOnEntry(int a, void *b, int c, int *d)
 {
-    if (c == func_021D775C(2)) func_021DB254(a, b, c, d);
+    if (c == BTL_EVENT_GetVar(2)) BTL_TOKUSEI_Forecast_ApplyWeatherForm(a, b, c, d);
 }

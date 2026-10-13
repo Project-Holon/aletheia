@@ -1,5 +1,5 @@
 /*
- * function: func_02196A4C
+ * function: IRCBATTLEMENU_SeqUpdateTouchTop
  * address:  0x02196A4C
  * packet:   pkt_ov021_02196A4C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
- *   func_02051C88  0x02051C88  arm
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19634.h"
@@ -22,14 +22,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 typedef signed int     s32;
 struct Ctx;
-extern s32 func_02051C88(struct Ctx *c);
+extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 
-void func_02196A4C(u8 *a)
+void IRCBATTLEMENU_SeqUpdateTouchTop(u8 *a)
 {
-    if (func_020221A4() != 0) {
-        func_02051C88((struct Ctx *)(((struct Obj19634 *)a)->f24));
+    if (WIPE_SYS_EndCheck() != 0) {
+        BUTTON_MAN_UpdateSlots((struct Ctx *)(((struct Obj19634 *)a)->f24));
     }
 }

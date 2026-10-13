@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_0203D7BC",
+   "name": "GFL_NET_SetLoginOption",
    "address": "0x0203D7BC",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_0215F9C4
+ * function: SCRCMD_NETWORK_GetCommExitKind
  * address:  0x0215F9C4
  * packet:   pkt_0215F9C4
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 GPOWER_GetSpecialPowerId(void);
 
-int func_0215F9C4(void)
+int SCRCMD_NETWORK_GetCommExitKind(void)
 {
     int a0;
 

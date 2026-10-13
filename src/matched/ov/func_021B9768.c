@@ -1,5 +1,5 @@
 /*
- * function: func_021B9768
+ * function: FIELD_RAIL_DebugPrintPos
  * address:  0x021B9768
  * packet:   pkt_021B91A8
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021B9768(void *a, void *b)
+void FIELD_RAIL_DebugPrintPos(void *a, void *b)
 {
 }
 

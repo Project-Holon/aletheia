@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219B4FC",
+   "name": "FLDMMDL_MOVECODE_NoOpHook",
    "address": "0x0219B4FC",
    "kind": "game",
    "region": "ov021",

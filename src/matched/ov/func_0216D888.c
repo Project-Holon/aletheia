@@ -1,5 +1,5 @@
 /*
- * function: func_0216D888
+ * function: FLDMMDL_GetPosPtr
  * address:  0x0216D888
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D888.c \
- *       --func func_0216D888 --addr 0x0216D888 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetPosPtr.c \
+ *       --func FLDMMDL_GetPosPtr --addr 0x0216D888 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -26,4 +26,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void *func_0216D888(void *p) { return (char *)p + 68; }
+void *FLDMMDL_GetPosPtr(void *p) { return (char *)p + 68; }

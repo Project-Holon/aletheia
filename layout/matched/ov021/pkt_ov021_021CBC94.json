@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CBC94",
+   "name": "BSUBWAY_SCR_GetRegulationNo",
    "address": "0x021CBC94",
    "kind": "game",
    "region": "ov021",

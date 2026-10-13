@@ -1,5 +1,5 @@
 /*
- * function: func_0218AECC
+ * function: FIELD_EVENT_CHECK_IsConnectExitDir
  * address:  0x0218AECC
  * packet:   pkt_0218AECC
  * region:   ov021
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021626B8  0x021626B8  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsConnectExitDir  0x021626B8  thumb  ov010
  *
- * Unblocked by matching func_021626B8 (ov010, EXACT): the +0004 ABS32 site now
+ * Unblocked by matching EVENTDATA_SYSTEM_IsConnectExitDir (ov010, EXACT): the +0004 ABS32 site now
  * attests as `matched`.
  */
 
-int func_021626B8(char *a0, int a1);
+int EVENTDATA_SYSTEM_IsConnectExitDir(char *a0, int a1);
 
-int func_0218AECC(char *a0, int a1)
+int FIELD_EVENT_CHECK_IsConnectExitDir(char *a0, int a1)
 {
-    return func_021626B8(a0, a1);
+    return EVENTDATA_SYSTEM_IsConnectExitDir(a0, a1);
 }

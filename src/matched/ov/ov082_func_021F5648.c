@@ -1,5 +1,5 @@
 /*
- * function: func_021F5648
+ * function: FLD_FACEUP_Release
  * address:  0x021F5648
  * packet:   pkt_ov082_021F5648
  * region:   ov082
@@ -10,15 +10,15 @@
  * status:   EXACT
  * volatile: BG3CNT 0x0400000E read-modify-written by the SDK inline G2_SetBG3ControlText; BLDCNT 0x04000050 store
  * symbols:
- *   func_02188D20  0x02188D20  thumb  ov021
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   func_020414AC  0x020414AC  arm
- *   func_021BC5D4  0x021BC5D4  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_021904D0  0x021904D0  thumb  ov021
- *   func_021F56E4  0x021F56E4  thumb  ov082
- *   func_021F56FC  0x021F56FC  thumb  ov082
+ *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_RequestSysFrame  0x021904D0  thumb  ov021
+ *   FLD_FACEUP_RestoreBgPriorities  0x021F56E4  thumb  ov082
+ *   FLD_FACEUP_RestoreVisiblePlanes  0x021F56FC  thumb  ov082
  *   func_020307B0  0x020307B0  arm
- *   func_02189A60  0x02189A60  thumb  ov021
+ *   FIELDMAP_GetFaceUpWorkPtr  0x02189A60  thumb  ov021
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -35,15 +35,15 @@ typedef struct {
 } Cfg;
 
 typedef unsigned char  u8;
-extern u32 func_02188D20(u8 *p);
+extern u32 FIELDMAP_GetPlaceName(u8 *p);
 extern void func_020414AC(int a);
-extern void func_021BC5D4(u8 *p);
-extern u32 func_02188C54(u8 *p);
-extern void func_021904D0(u8 *p);
-extern void func_021F56E4(u8 *p);
-extern void func_021F56FC(int *p);
+extern void FIELD_PLACE_NAME_RestoreWindow(u8 *p);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
+extern void FLD_FACEUP_RestoreBgPriorities(u8 *p);
+extern void FLD_FACEUP_RestoreVisiblePlanes(int *p);
 extern u32 func_020307B0(void *p);
-extern u32 *func_02189A60(int a);
+extern u32 *FIELDMAP_GetFaceUpWorkPtr(int a);
 
 #define reg_G2_BG3CNT  (*(volatile u16 *)0x0400000E)
 #define reg_G2_BLDCNT  (*(volatile u16 *)0x04000050)
@@ -60,17 +60,17 @@ static inline void G2_SetBG3ControlText(GXBGScrSizeText screenSize, GXBGColorMod
                           (colorMode << 7) | (screenBase << 8) | (charBase << 2));
 }
 
-void func_021F5648(int a0, Cfg *p)
+void FLD_FACEUP_Release(int a0, Cfg *p)
 {
-    int t = func_02188D20((u8 *)a0);
+    int t = FIELDMAP_GetPlaceName((u8 *)a0);
 
     func_020414AC(2);
     G2_SetBG3ControlText(p->d, p->c, p->b, p->a);
-    func_021BC5D4((u8 *)t);
-    func_021904D0((u8 *)func_02188C54((u8 *)a0));
+    FIELD_PLACE_NAME_RestoreWindow((u8 *)t);
+    FIELD_MSGBG_RequestSysFrame((u8 *)FIELDMAP_GetMsgBg((u8 *)a0));
     reg_G2_BLDCNT = 0;
-    func_021F56E4((u8 *)p);
-    func_021F56FC((int *)p);
+    FLD_FACEUP_RestoreBgPriorities((u8 *)p);
+    FLD_FACEUP_RestoreVisiblePlanes((int *)p);
     func_020307B0(p);
-    *func_02189A60(a0) = 0;
+    *FIELDMAP_GetFaceUpWorkPtr(a0) = 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02183F88
+ * function: UNION_APP_AddSettingTarget
  * address:  0x02183F88
  * packet:   pkt_ov022_02183F88
  * region:   ov022
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_02183F88(u8 *p, u8 a)
+void UNION_APP_AddSettingTarget(u8 *p, u8 a)
 {
     p[0xC] |= (u8)(1 << a);
 }

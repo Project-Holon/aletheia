@@ -1,5 +1,5 @@
 /*
- * function: func_021B80BC
+ * function: ITEMMENU_RefreshInputGuard
  * address:  0x021B80BC
  * packet:   pkt_ov070_021B80BC
  * region:   ov070
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_021BB5A4.
+ * Tail call to ITEMMENU_UpdateInputGuardAnim.
  *
  * symbols:
- *   func_021BB5A4  0x021BB5A4  thumb  ov070
+ *   ITEMMENU_UpdateInputGuardAnim  0x021BB5A4  thumb  ov070
  */
 
-void func_021B80BC(void *p)
+void ITEMMENU_RefreshInputGuard(void *p)
 {
-    void func_021BB5A4(char *p);
-    func_021BB5A4(p);
+    void ITEMMENU_UpdateInputGuardAnim(char *p);
+    ITEMMENU_UpdateInputGuardAnim(p);
 }

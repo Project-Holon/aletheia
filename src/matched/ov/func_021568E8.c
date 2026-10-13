@@ -1,5 +1,5 @@
 /*
- * function: func_021568E8
+ * function: MUSICAL_EVENT_GetPlayerOfSlot
  * address:  0x021568E8
  * packet:   pkt_021568E8
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_021568E8(int a0, u8 a1)
+int MUSICAL_EVENT_GetPlayerOfSlot(int a0, u8 a1)
 {
     int a2;
     int a3;

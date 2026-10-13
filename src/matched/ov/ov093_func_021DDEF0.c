@@ -1,5 +1,5 @@
 /*
- * function: func_021DDEF0
+ * function: BTL_HANDLER_ITEM_GetCustapBerryHandlers
  * address: 0x021DDEF0
  * packet: pkt_ov093_021DDEF0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DDCA4.c and filed here.
  *
  * symbols:
- *   d_021F15EC 0x021F15EC data ov093 a4
+ *   gCustapBerryHandlerTable 0x021F15EC data ov093 a4
  */
 
-int *func_021DDEF0(int *p);
-extern int d_021F15EC[];
+int *BTL_HANDLER_ITEM_GetCustapBerryHandlers(int *p);
+extern int gCustapBerryHandlerTable[];
 
-int *func_021DDEF0(int *p)
+int *BTL_HANDLER_ITEM_GetCustapBerryHandlers(int *p)
 {
     *p = 2;
-    return d_021F15EC;
+    return gCustapBerryHandlerTable;
 }

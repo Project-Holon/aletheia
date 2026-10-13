@@ -1,5 +1,5 @@
 /*
- * function: func_021BA004
+ * function: MONOLITH_TOOL_ClearPrevHighlight
  * address: 0x021BA004
  * packet: pkt_ov071_021BA004
  * region: ov071
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B9FF8 0x021B9FF8 thumb ov071
+ *   MONOLITH_TOOL_ClearRowHighlight 0x021B9FF8 thumb ov071
  */
 #include "../include/Obj00044.h"
 
-extern void func_021B9FF8(void *, int);
-void func_021BA004(char *p) { if (((struct Obj00044 *)p)->f304 == 1) func_021B9FF8(p, ((struct Obj00044 *)p)->f2F8); }
+extern void MONOLITH_TOOL_ClearRowHighlight(void *, int);
+void MONOLITH_TOOL_ClearPrevHighlight(char *p) { if (((struct Obj00044 *)p)->f304 == 1) MONOLITH_TOOL_ClearRowHighlight(p, ((struct Obj00044 *)p)->f2F8); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A0338
+ * function: FIELD_ZONEFOG_SetUp
  * address:  0x021A0338
  * packet:   pkt_ov021_021A0338
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-void func_021A0338(u8 *p, u32 id, u32 c, u8 d)
+void FIELD_ZONEFOG_SetUp(u8 *p, u32 id, u32 c, u8 d)
 {
     if (id != 0x0FFFFFFF) {
         p[0] = 1;

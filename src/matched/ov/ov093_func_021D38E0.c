@@ -1,5 +1,5 @@
 /*
- * function: func_021D38E0
+ * function: BTL_CLIENT_CmdSetSick
  * address: 0x021D38E0
  * packet: pkt_ov093_021D38E0
  * region: ov093
@@ -13,21 +13,21 @@
  * c+2 compiled 30 bytes with the wrong frame and redundant address add.
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D6034 0x021D6034 thumb ov093
+ *   BTL_POKEPARAM_SetSickCont 0x021D6034 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
 typedef struct { int x; } S;
-extern void func_021D6034(u8 *, int, S);
-int func_021D38E0(u32 *a, int b, u32 *c)
+extern void BTL_POKEPARAM_SetSickCont(u8 *, int, S);
+int BTL_CLIENT_CmdSetSick(u32 *a, int b, u32 *c)
 {
     u8 *m;
     S s;
 
     m = func_021B9934((char *)a[1], (u8)c[0]);
     s.x = c[2];
-    func_021D6034(m, c[1], s);
+    BTL_POKEPARAM_SetSickCont(m, c[1], s);
     return 1;
 }

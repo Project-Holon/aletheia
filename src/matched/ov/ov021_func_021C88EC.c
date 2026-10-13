@@ -1,5 +1,5 @@
 /*
- * function: func_021C88EC
+ * function: PLEASURE_BOAT_ScrCmdSetPassengerInfo
  * address:  0x021C88EC
  * packet:   pkt_ov021_021C88EC
  * region:   ov021
@@ -10,40 +10,40 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012ED0  0x02012ED0  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02011330  0x02011330  thumb
- *   func_021C87D4  0x021C87D4  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventState  0x02012ED0  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   VM_GetU16  0x02011330  thumb
+ *   PLEASURE_BOAT_SetPassengerOccupied  0x021C87D4  thumb  ov021
  */
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
 struct Big;
-extern void *func_020120F4(const struct Ctx *p);
-extern unsigned char *func_02012ED0(struct Big *p);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern unsigned char *GAME_DATA_GetEventState(struct Big *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 typedef unsigned short u16;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern void func_021C87D4(char *p, int i, int v);
+extern u16 VM_GetU16(struct Stream *s);
+extern void PLEASURE_BOAT_SetPassengerOccupied(char *p, int i, int v);
 
-int func_021C88EC(int a, int b)
+int PLEASURE_BOAT_ScrCmdSetPassengerInfo(int a, int b)
 {
     int *r7;
     int sp;
     int r5;
     int v;
 
-    func_0215A5F4((void *)b);
-    r7 = (int *)func_02012ED0(func_020120F4(func_0215A5DC((void *)b)));
-    sp = (int)func_02159B10((void *)a, (void *)b);
-    r5 = func_02011330((struct Stream *)a);
-    func_02011330((struct Stream *)a);
-    v = (int)func_02159B10((void *)a, (void *)b);
+    SCRCMD_WORK_GetScriptWork((void *)b);
+    r7 = (int *)GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem((void *)b)));
+    sp = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    r5 = VM_GetU16((struct Stream *)a);
+    VM_GetU16((struct Stream *)a);
+    v = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     switch (r5) {
     case 0:
     case 1:
@@ -55,7 +55,7 @@ int func_021C88EC(int a, int b)
     case 7:
         break;
     case 8:
-        func_021C87D4((char *)(*r7), sp, v == 1);
+        PLEASURE_BOAT_SetPassengerOccupied((char *)(*r7), sp, v == 1);
         break;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD7C
+ * function: ENTRANCE_CAMERA_InitWork
  * address:  0x021BDD7C
  * packet:   pkt_ov021_021BDD7C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188C58  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  */
 
 typedef struct {
@@ -21,12 +21,12 @@ typedef struct {
 } Obj;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02188C58(void *a);
+extern void *FIELDMAP_GetCamera(void *a);
 
-void func_021BDD7C(Obj *p, void *a)
+void ENTRANCE_CAMERA_InitWork(Obj *p, void *a)
 {
     func_02082BCC(p, 0, 0x70);
     p->f0 = a;
-    p->f4 = func_02188C58(a);
+    p->f4 = FIELDMAP_GetCamera(a);
     p->f64 = 0;
 }

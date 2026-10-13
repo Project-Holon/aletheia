@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021B88F8  0x021B88F8  thumb  ov102
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_02082BCC(int a, int b, int c);
-extern void func_0204B878(int p, int a);
+extern void CLACT_SetActorAnimSeq(int p, int a);
 struct Obj;
 struct Vec2;
 extern void func_021B88F8(int *p);
@@ -46,7 +46,7 @@ void func_021B8810(int a0, int b, int c, int a3)
 
     func_02082BCC(a0, 0, 0x1c);
     ((struct Obj04424 *)a0)->f18 = b;
-    func_0204B878(((struct Obj04424 *)a0)->f18, c != 0 ? 0xd : 0xc);
+    CLACT_SetActorAnimSeq(((struct Obj04424 *)a0)->f18, c != 0 ? 0xd : 0xc);
     func_021B88F8((int *)a0);
     tmp[0] = (u16)((struct Obj04424 *)a0)->f8;
     tmp[1] = (u16)((struct Obj04424 *)a0)->fC;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218F7D0
+ * function: FIELD_CAMERA_TakeViewConstrained
  * address:  0x0218F7D0
  * packet:   pkt_ov021_0218F7D0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218F18C  0x0218F18C  thumb  ov021
+ *   FIELD_CAMERA_GetTarget  0x0218F18C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02371.h"
@@ -22,12 +22,12 @@ typedef unsigned int   u32;
 
 typedef struct { u32 a, b, c; } V3;
 
-extern void func_0218F18C(u8 *s, u8 *d);
+extern void FIELD_CAMERA_GetTarget(u8 *s, u8 *d);
 
-void func_0218F7D0(u8 *s, u8 *d)
+void FIELD_CAMERA_TakeViewConstrained(u8 *s, u8 *d)
 {
     *(V3 *)(d + 0) = *(V3 *)(s + 0x24);
-    func_0218F18C(s, d + 0xc);
+    FIELD_CAMERA_GetTarget(s, d + 0xc);
     ((struct Obj07420 *)d)->f24 = ((struct Obj02371 *)s)->f78;
     ((struct Obj07420 *)d)->f26 = ((struct Obj02371 *)s)->f7A;
     ((struct Obj07420 *)d)->f28 = ((struct Obj02371 *)s)->f7C;

@@ -1,5 +1,5 @@
 /*
- * function: func_021A2A84
+ * function: WEATHER_TASK_InitSpawner
  * address:  0x021A2A84
  * packet:   pkt_021A2A84
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A2A84(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u32 e2, u32 e3, u32 e4, u32 e5)
+int WEATHER_TASK_InitSpawner(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1, u32 e2, u32 e3, u32 e4, u32 e5)
 {
 ((struct Obj02344 *)((u8 *)(a)))->f0 = b;
 ((struct Obj02344 *)((u8 *)(a)))->f6 = 0;

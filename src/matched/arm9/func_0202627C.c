@@ -14,7 +14,7 @@
  *
  * game_comm.c: the per-frame request state machine.  The request kind
  * (+5) selects a 0x1C-byte record of callbacks in the table at 0x0209FB5C
- * (func_02026388 and func_020263B0 read its words at +0x14 and +0x18); the
+ * (func_02026388 and GAME_COMM_CallKindNotify read its words at +0x14 and +0x18); the
  * state byte of the 8-byte sub-object at +0xC is the dense switch.
  *
  * Closed 2026-09-24 (wave 21, lane E) after the DIFF 10 recorded in

@@ -1,5 +1,5 @@
 /*
- * function: func_021CEE00
+ * function: COMM_ENTRY_TickParentTimeouts
  * address:  0x021CEE00
  * packet:   pkt_ov021_021CEE00
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CEF08  0x021CEF08  thumb  ov021
+ *   COMM_ENTRY_ClearParentSlot  0x021CEF08  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09739.h"
@@ -20,9 +20,9 @@ typedef short          s16;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021CEF08(u8 *p, int i);
+extern void COMM_ENTRY_ClearParentSlot(u8 *p, int i);
 
-void func_021CEE00(u8 *p)
+void COMM_ENTRY_TickParentTimeouts(u8 *p)
 {
     u8 *q = p + 0x13c;
     int i;
@@ -33,7 +33,7 @@ void func_021CEE00(u8 *p)
         if (e[0x2e] == 1) {
             ((struct Obj09739 *)e)->f30 -= 1;
             if (((struct Obj09739 *)e)->f30 <= 0) {
-                func_021CEF08(p, i);
+                COMM_ENTRY_ClearParentSlot(p, i);
                 q[0x2d1] = 1;
             }
         }

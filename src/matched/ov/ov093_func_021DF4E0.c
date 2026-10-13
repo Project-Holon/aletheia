@@ -1,5 +1,5 @@
 /*
- * function: func_021DF4E0
+ * function: BTL_HANDLER_ITEM_ExtendWeatherTurns
  * address:  0x021DF4E0
  * packet:   pkt_ov093_021DF4E0
  * region:   ov093
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021DCFF8  0x021DCFF8  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_HANDLER_ITEM_GetParam  0x021DCFF8  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 typedef unsigned char u8;
-extern int func_021D775C(int);
-extern int func_021DCFF8(int a, int b);
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_HANDLER_ITEM_GetParam(int a, int b);
 typedef unsigned int   u32;
-extern int func_021D76BC(int key, u32 val);
-void func_021DF4E0(void *a, int b, int c, int d)
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
+void BTL_HANDLER_ITEM_ExtendWeatherTurns(void *a, int b, int c, int d)
 {
-    if (c == func_021D775C(3) && d == func_021D775C(0x39))
-        func_021D76BC(0x24, func_021DCFF8((int)a, 2));
+    if (c == BTL_EVENT_GetVar(3) && d == BTL_EVENT_GetVar(0x39))
+        BTL_EVENT_OverwriteVar(0x24, BTL_HANDLER_ITEM_GetParam((int)a, 2));
 }

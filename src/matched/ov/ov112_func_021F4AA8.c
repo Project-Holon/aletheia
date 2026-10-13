@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02049030 0x02049030 arm
+ *   ARC_TOOL_GetArchiveFileCount 0x02049030 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02049030(u32 a);
+extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 u16 func_021F4AA8(int i)
 {
-    u32 n = (u16)func_02049030(45) - 2;
+    u32 n = (u16)ARC_TOOL_GetArchiveFileCount(45) - 2;
     if (i >= (int)n) return 100;
     return (u16)i;
 }

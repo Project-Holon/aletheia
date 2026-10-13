@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ABC5C",
+   "name": "FLD_SCENEAREA_LOADER_ApplyStripTarget",
    "address": "0x021ABC5C",
    "kind": "game",
    "region": "ov021",

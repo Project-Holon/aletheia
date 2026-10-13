@@ -9,22 +9,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F05E8 0x021F05E8 thumb ov032
- *   func_021F0668 0x021F0668 thumb ov032
+ *   BEACON_VIEW_SetArrowAnim 0x021F05E8 thumb ov032
+ *   BEACON_VIEW_IsArrowAnimActive 0x021F0668 thumb ov032
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021F05E8(u8 *, int, u32);
-extern int func_021F0668(char *p, int i);
+extern void BEACON_VIEW_SetArrowAnim(u8 *, int, u32);
+extern int BEACON_VIEW_IsArrowAnimActive(char *p, int i);
 int func_021F25D4(u8 *p, int *st)
 {
     switch (st[0]) {
     case 0:
-        func_021F05E8(p, st[6], 1);
+        BEACON_VIEW_SetArrowAnim(p, st[6], 1);
         st[0]++;
         return 0;
     case 1:
-        if (func_021F0668((char *)p, st[6]) != 0)
+        if (BEACON_VIEW_IsArrowAnimActive((char *)p, st[6]) != 0)
             return 0;
         break;
     }

@@ -12,7 +12,7 @@
  *   func_02040588 0x02040588 arm
  *   func_02040618 0x02040618 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_020452E8 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -23,7 +23,7 @@ extern void func_02040618(u32 layer, u32 a, u32 b);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Descriptor;
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
@@ -37,7 +37,7 @@ void func_021E5D84(char *p)
     if (((struct Obj00001 *)p)->fF18) func_0204B3DC((struct Obj *)((struct Obj00001 *)p)->fF18, 1);
     for (i = 0; i < 26; i++) {
         if (*(int *)(p + i * 4 + 0x750)) {
-            func_020456F8((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
+            BMP_WIN_ClearScreen((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
             func_0201F7A8((void *)(*(int *)(p + i * 4 + 0x750)), 2);
             func_020452E8((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));
             *(int *)(p + i * 4 + 0x750) = 0;

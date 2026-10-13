@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A3968",
+   "name": "FIELD_PLAYER_CORE_GetStepKind",
    "address": "0x021A3968",
    "kind": "game",
    "region": "ov021",

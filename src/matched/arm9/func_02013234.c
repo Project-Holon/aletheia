@@ -12,6 +12,7 @@
  * symbols:
  *   sZonedataFile  0x020A729C  data
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
+ *   STRBUF_Create  0x020457B0  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BTL_SETUP_CreateTrainerData.c \
@@ -33,7 +34,7 @@ struct Obj {
 
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void  PMSI_PARAM_ClearSentence(void *p);
 extern u8    sZonedataFile;
 
@@ -42,7 +43,7 @@ void *BTL_SETUP_CreateTrainerData(u32 heap)
     struct Obj *p;
 
     p = func_02030734(heap, 0x28, 1, (const char *)&sZonedataFile, 0xef);
-    p->unk14 = func_020457B0(0x10, heap);
+    p->unk14 = STRBUF_Create(0x10, heap);
     p->unk00 = 0;
     PMSI_PARAM_ClearSentence(&p->pad18[0]);
     PMSI_PARAM_ClearSentence(&p->pad18[8]);

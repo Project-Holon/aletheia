@@ -1,5 +1,5 @@
 /*
- * function: func_021DEBA8
+ * function: BTL_HANDLER_ITEM_GetExpertBeltHandlers
  * address: 0x021DEBA8
  * packet: pkt_ov093_021DEBA8
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F150C[];
-int *func_021DEBA8(int *p);
+int *BTL_HANDLER_ITEM_GetExpertBeltHandlers(int *p);
 
-int *func_021DEBA8(int *p)
+int *BTL_HANDLER_ITEM_GetExpertBeltHandlers(int *p)
 {
     *p = 1;
     return d_021F150C;

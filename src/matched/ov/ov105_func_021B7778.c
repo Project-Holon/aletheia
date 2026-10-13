@@ -11,8 +11,8 @@
  * prototype: 7C94 tail-forwards u32 from own matched 0201C4E4;
  * caller tests r0. The owner's void declaration stays untouched.
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021B7C94 0x021B7C94 thumb ov105
  *   func_021B7DAC 0x021B7DAC thumb ov105
  *   func_021B78BC 0x021B78BC thumb ov105
@@ -26,8 +26,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Obj { u8 pad[0x78]; int busy; u8 pad7c[6]; u16 counter; } Obj;
-extern void func_0204E720(u32,int,int,int);
-extern int func_0204E804(void);
+extern void FADE_Start(u32,int,int,int);
+extern int FADE_IsActive(void);
 extern u32 func_021B7C94(u8 *);
 extern int func_021B7DAC(u8 *,u8 *);
 extern void func_021B78BC(u8 *),func_021B85A4(u8 *);
@@ -38,14 +38,14 @@ int func_021B7778(void *a,u32 *state,void *b,u8 *p)
     Obj *object;
     switch(*state) {
     case 0: *state=1; break;
-    case 1: func_0204E720(3,16,0,0); *state=2; break;
-    case 2: if(!func_0204E804()) *state=3; break;
+    case 1: FADE_Start(3,16,0,0); *state=2; break;
+    case 2: if(!FADE_IsActive()) *state=3; break;
     case 3:
         (*(void (**)(u8 *,u16 *))(p+0x18c))(p,(u16 *)(p+0x190));
         if(((struct Obj10249 *)p)->f194) *state=4;
         break;
-    case 4: func_0204E720(3,0,16,0); *state=5; break;
-    case 5: if(!func_0204E804()) *state=6; break;
+    case 4: FADE_Start(3,0,16,0); *state=5; break;
+    case 5: if(!FADE_IsActive()) *state=6; break;
     case 6: return 1;
     }
     if(func_021B7C94(p+0xb0)) {

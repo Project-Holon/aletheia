@@ -1,5 +1,5 @@
 /*
- * function: func_0216C270
+ * function: NAMEIN_SETUP_StepLandAnim
  * address:  0x0216C270
  * packet:   pkt_ov010_0216C270
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011590  0x02011590  thumb
+ *   ICA_ANIME_IncFrameLoop  0x02011590  thumb
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef struct Work {
 
 typedef signed int     s32;
 struct IcaAnime;
-extern u32 func_02011590(struct IcaAnime *p, s32 v);
+extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
 
-int func_0216C270(Work *w)
+int NAMEIN_SETUP_StepLandAnim(Work *w)
 {
-    return func_02011590(w->anim, 0x1000);
+    return ICA_ANIME_IncFrameLoop(w->anim, 0x1000);
 }

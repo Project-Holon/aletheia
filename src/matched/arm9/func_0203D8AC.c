@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Runs func_020371AC(0, 0) and GFL_NET_RestartByNetType.
+ * Runs GFL_NET_WM_ICON_SetDefaultPos(0, 0) and GFL_NET_RestartByNetType.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_RestartNoTimeout.c \
@@ -17,13 +17,14 @@
  *
  * symbols:
  *   GFL_NET_RestartByNetType  0x0203D2CC  arm
+ *   GFL_NET_WM_ICON_SetDefaultPos  0x020371AC  arm
  */
 
-extern void func_020371AC(unsigned short a, unsigned int b);
+extern void GFL_NET_WM_ICON_SetDefaultPos(unsigned short a, unsigned int b);
 extern void GFL_NET_RestartByNetType(void);
 
 void GFL_NET_RestartNoTimeout(void)
 {
-    func_020371AC(0, 0);
+    GFL_NET_WM_ICON_SetDefaultPos(0, 0);
     GFL_NET_RestartByNetType();
 }

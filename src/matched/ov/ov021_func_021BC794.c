@@ -1,5 +1,5 @@
 /*
- * function: func_021BC794
+ * function: FIELD_PLACE_NAME_CreateClactUnit
  * address:  0x021BC794
  * packet:   pkt_ov021_021BC794
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD090  0x021BD090  thumb  ov021
+ *   FIELD_PLACE_NAME_GetHeapId  0x021BD090  thumb  ov021
+ *   CLACT_CreateUnit  0x0204B100  arm  arm9
  */
 
 typedef struct {
@@ -19,15 +20,15 @@ typedef struct {
 } Obj;
 
 typedef unsigned short u16;
-extern u16 func_021BD090(unsigned char *p);
+extern u16 FIELD_PLACE_NAME_GetHeapId(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 
-void func_021BC794(Obj *p)
+void FIELD_PLACE_NAME_CreateClactUnit(Obj *p)
 {
-    p->f34 = func_0204B100(0x1E, 1, func_021BD090((unsigned char *)p));
+    p->f34 = CLACT_CreateUnit(0x1E, 1, FIELD_PLACE_NAME_GetHeapId((unsigned char *)p));
     func_0204B22C(p->f34, 1);
 }

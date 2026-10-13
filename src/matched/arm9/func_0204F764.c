@@ -1,5 +1,5 @@
 /*
- * function: func_0204F764
+ * function: BILLBOARD_SetElemFlipS
  * address:  0x0204F764
  * packet:   pkt_0204F684
  * region:   arm9
@@ -29,7 +29,7 @@ struct Rec {
     u16 hi  : 5;
 };
 
-void func_0204F764(void *p, u32 idx, u32 *val)
+void BILLBOARD_SetElemFlipS(void *p, u32 idx, u32 *val)
 {
     struct Rec *r = (struct Rec *)(*(u8 * *)&((struct Obj08866 *)p)->f8 + idx * 0x1c + 0x18);
 

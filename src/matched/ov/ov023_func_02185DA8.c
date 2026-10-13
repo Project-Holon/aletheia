@@ -1,5 +1,5 @@
 /*
- * function: func_02185DA8
+ * function: OEKAKI_StoreLastPoints
  * address:  0x02185DA8
  * packet:   pkt_ov023_02185DA8
  * region:   ov023
@@ -24,7 +24,7 @@ struct o4 {
     unsigned short n;
 };
 
-void func_02185DA8(struct e6 *e, struct o4 *o)
+void OEKAKI_StoreLastPoints(struct e6 *e, struct o4 *o)
 {
     int i;
 

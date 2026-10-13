@@ -1,5 +1,5 @@
 /*
- * function: func_021A1B38
+ * function: WEATHER_Draw
  * address:  0x021A1B38
  * packet:   pkt_ov021_021A1B38
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A15F4  0x021A15F4  thumb  ov021
+ *   FIELD_3DBG_DrawBillboard  0x021A15F4  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-void func_021A15F4(u32 x);
+void FIELD_3DBG_DrawBillboard(u32 x);
 
-void func_021A1B38(u32 *p)
+void WEATHER_Draw(u32 *p)
 {
     int i;
 
     if (p != 0) {
         for (i = 0; i < 2; i++)
-            func_021A15F4(p[i]);
+            FIELD_3DBG_DrawBillboard(p[i]);
     }
 }

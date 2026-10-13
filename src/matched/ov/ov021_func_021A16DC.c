@@ -1,5 +1,5 @@
 /*
- * function: func_021A16DC
+ * function: FIELD_3DBG_SetBillboardTexOffsetX
  * address:  0x021A16DC
  * packet:   pkt_ov021_021A16DC
  * region:   ov021
@@ -12,11 +12,11 @@
  * Unlabelled leaf (str r1,[r0,#0xc]; bx lr), filed for the ov026 lane.
  *
  * symbols:
- *   func_021A16DC 0x021A16DC thumb ov021
+ *   FIELD_3DBG_SetBillboardTexOffsetX 0x021A16DC thumb ov021
  */
 #include "../include/Obj19720.h"
 
-void func_021A16DC(unsigned char *p, unsigned int v)
+void FIELD_3DBG_SetBillboardTexOffsetX(unsigned char *p, unsigned int v)
 {
     ((struct Obj19720 *)p)->fC = v;
 }

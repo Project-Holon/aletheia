@@ -1,5 +1,5 @@
 /*
- * function: func_021C34C4
+ * function: SODATEYA_GetCompatibility
  * address:  0x021C34C4
  * packet:   pkt_ov021_021C34C4
  * region:   ov021
@@ -14,7 +14,7 @@
  * symbols:
  *   func_0200BCB8  0x0200BCB8  thumb
  *   func_0200BC2C  0x0200BC2C  thumb
- *   func_021C36EC  0x021C36EC  thumb  ov021
+ *   SODATEYA_CalcCompatibility  0x021C36EC  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -22,14 +22,14 @@ typedef unsigned char u8;
 extern void *func_0200BC2C(void *e, int i);
 extern int func_0200BCB8(void *e);
 typedef unsigned int   u32;
-extern int func_021C36EC(u32 a, u32 b);
+extern int SODATEYA_CalcCompatibility(u32 a, u32 b);
 
-u8 func_021C34C4(void **p)
+u8 SODATEYA_GetCompatibility(void **p)
 {
     void *a;
 
     if (func_0200BCB8(p[2]) < 2)
         return 0;
     a = func_0200BC2C(p[2], 0);
-    return func_021C36EC((u32)a, (u32)func_0200BC2C(p[2], 1));
+    return SODATEYA_CalcCompatibility((u32)a, (u32)func_0200BC2C(p[2], 1));
 }

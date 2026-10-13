@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD2B0 0x021BD2B0 thumb
+ *   SAVE_CONTROL_INTR_Start 0x021BD2B0 thumb
  */
 #include "../include/Obj25360.h"
 
-extern void func_021BD2B0(int);
+extern void SAVE_CONTROL_INTR_Start(int);
 
 int func_021BE6A4(char *a)
 {
-    func_021BD2B0(((struct Obj25360 *)a)->fA4);
+    SAVE_CONTROL_INTR_Start(((struct Obj25360 *)a)->fA4);
     return 1;
 }

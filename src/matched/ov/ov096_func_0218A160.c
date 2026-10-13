@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8C38  0x021B8C38  thumb  ov093
+ *   BTL_MAIN_GetOwnLanePos  0x021B8C38  thumb  ov093
  */
 #include "../include/Obj00067.h"
 
@@ -21,7 +21,7 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u8 func_021B8C38(u32 flags, u32 v);
+extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
 
 u8 func_0218A160(u8 *p, int k)
 {
@@ -45,7 +45,7 @@ u8 func_0218A160(u8 *p, int k)
                 v = v + 1;
             else
                 v = 1;
-            return func_021B8C38(p[0x94], (u8)v);
+            return BTL_MAIN_GetOwnLanePos(p[0x94], (u8)v);
         }
         break;
     case 2:
@@ -61,7 +61,7 @@ u8 func_0218A160(u8 *p, int k)
                 v = v + 1;
             else
                 v = 1;
-            return func_021B8C38(p[0x95], (u8)v);
+            return BTL_MAIN_GetOwnLanePos(p[0x95], (u8)v);
         }
         break;
     }

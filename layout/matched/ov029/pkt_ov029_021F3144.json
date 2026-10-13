@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3144",
+   "name": "C_GEAR_SetPowerState",
    "address": "0x021F3144",
    "kind": "game",
    "region": "ov029",

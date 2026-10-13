@@ -10,10 +10,10 @@
  * leaf: sole blocker of owned ov123 021D9958; parent ownership audit passed.
  * extent: 8-byte tailcall stub; next labelled function 021D9D3C follows.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 void func_021D9D34(void)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

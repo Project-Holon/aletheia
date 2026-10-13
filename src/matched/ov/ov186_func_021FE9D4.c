@@ -16,7 +16,7 @@
  *   func_0209C0A4 0x0209C0A4 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 #include "../include/Obj01285.h"
 typedef unsigned int u32;
@@ -26,7 +26,7 @@ extern int FADE_GetSpeed(void);
 extern int func_0209C0A4(int,int);
 extern u32 _u32_div_f(u32,u32);
 extern void func_020434DC(u32,u32);
-extern void func_02043598(u32,u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 int func_021FE9D4(char *p,int *state)
 {
     switch(*state) {
@@ -54,8 +54,8 @@ int func_021FE9D4(char *p,int *state)
         }
         if(((struct Obj01285 *)p)->f4&2) {
             *(volatile u16 *)0x04001052=b|(a<<8);
-            if(b==0){func_02043598(1,0);func_02043598(2,0);}
-            else{func_02043598(1,1);func_02043598(2,1);}
+            if(b==0){BG_SYS_SetSubPlaneVisible(1,0);BG_SYS_SetSubPlaneVisible(2,0);}
+            else{BG_SYS_SetSubPlaneVisible(1,1);BG_SYS_SetSubPlaneVisible(2,1);}
         }
         if((((struct Obj01285 *)p)->f10)++ >= ((struct Obj01285 *)p)->f14)*state=2;
         break;

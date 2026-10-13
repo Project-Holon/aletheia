@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B40
+ * function: GIMMICK53_UpdateSlideSe
  * address:  0x021F3B40
  * packet:   pkt_ov053_021F3B40
  * region:   ov053
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Called from func_021F3778 with (&work->slideSe, camera, func_02188CB4(fieldMap)).
+ * Called from GIMMICK53_Update with (&work->slideSe, camera, FIELDMAP_GetFieldPlayer(fieldMap)).
  * Two spellings carry it:
  *   - the state range test is `(u16)(o->state + 0xffff) <= 1` (the image
  *     adds a pooled 0xFFFF); `(u16)(o->state - 1)` gives subs #1, and a
@@ -21,13 +21,13 @@
  * plus data that follows it.
  *
  * symbols:
- *   func_02006148  0x02006148  thumb
- *   func_02006224  0x02006224  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
+ *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
  *   func_020061F8  0x020061F8  thumb
  *   GFL_USE_SetSeSlotVolume  0x020062BC  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_0218ECE4  0x0218ECE4  thumb  ov021
- *   func_021A34EC  0x021A34EC  thumb  ov021
+ *   FIELD_CAMERA_GetEyeRaw  0x0218ECE4  thumb  ov021
+ *   FIELD_PLAYER_GetFormSlot  0x021A34EC  thumb  ov021
  */
 
 /*
@@ -63,21 +63,21 @@ typedef struct SlideSe {
     u8 reserved8E[2];
 } SlideSe;
 
-extern int func_02006148(u32 seId);
-extern int func_02006224(u32 slot);
+extern int GFL_USE_GetSeSlot(u32 seId);
+extern int GFL_USE_IsSeSlotBusy(u32 slot);
 extern void func_020061F8(int slot);
 extern void GFL_USE_SetSeSlotVolume(int slot, u32 volume);
 extern void func_020061E4(u32 seId);
-extern void func_0218ECE4(struct FieldCamera *camera, VecFx32 *eye);
-extern int func_021A34EC(struct FieldPlayer *fieldPlayer);
+extern void FIELD_CAMERA_GetEyeRaw(struct FieldCamera *camera, VecFx32 *eye);
+extern int FIELD_PLAYER_GetFormSlot(struct FieldPlayer *fieldPlayer);
 
 /*
  * Plays and fades a sound effect while the camera slides down. The effect
  * starts when the camera crosses one of two lines in z and its height fell
  * by 0x64000 over the last frames; which line and effect depends on the
- * player (func_021A34EC). It fades out when the camera stops past 0x718000.
+ * player (FIELD_PLAYER_GetFormSlot). It fades out when the camera stops past 0x718000.
  */
-void func_021F3B40(SlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer)
+void GIMMICK53_UpdateSlideSe(SlideSe *slideSe, struct FieldCamera *camera, struct FieldPlayer *fieldPlayer)
 {
     VecFx32 eye;
     int zDelta;
@@ -87,21 +87,21 @@ void func_021F3B40(SlideSe *slideSe, struct FieldCamera *camera, struct FieldPla
     u32 seId;
 
     if ((u16)(slideSe->state + 0xffff) <= 1) {
-        if (func_02006224(func_02006148(0x7eb)) == 0) {
+        if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x7eb)) == 0) {
             slideSe->state = SLIDE_IDLE;
         }
         if (slideSe->state == SLIDE_FADING) {
             slideSe->volume -= 16;
             volume = slideSe->volume;
             if (volume < 0) {
-                func_020061F8(func_02006148(slideSe->seId));
+                func_020061F8(GFL_USE_GetSeSlot(slideSe->seId));
                 slideSe->state = SLIDE_IDLE;
             } else {
-                GFL_USE_SetSeSlotVolume(func_02006148(slideSe->seId), volume);
+                GFL_USE_SetSeSlotVolume(GFL_USE_GetSeSlot(slideSe->seId), volume);
             }
         }
     }
-    func_0218ECE4(camera, &eye);
+    FIELD_CAMERA_GetEyeRaw(camera, &eye);
     zDelta = slideSe->prevZ;
     zDelta = eye.z - zDelta;
     if (zDelta < 0) {
@@ -126,7 +126,7 @@ void func_021F3B40(SlideSe *slideSe, struct FieldCamera *camera, struct FieldPla
         }
     }
     if (slideSe->count > 0) {
-        if (func_021A34EC(fieldPlayer) == 0) {
+        if (FIELD_PLAYER_GetFormSlot(fieldPlayer) == 0) {
             lineZ = 0x75c000;
             seId = 0x7ed;
         } else {

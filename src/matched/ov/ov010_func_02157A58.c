@@ -1,5 +1,5 @@
 /*
- * function: func_02157A58
+ * function: DELIVERY_IRC_StepExitChild
  * address: 0x02157A58
  * packet: pkt_ov010_02157A58
  * region: ov010
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CEAC 0x0203CEAC arm
- *   func_02157960 0x02157960 thumb ov010
- *   func_021579B0 0x021579B0 thumb ov010
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   DELIVERY_IRC_SetStepAtLine 0x02157960 thumb ov010
+ *   DELIVERY_IRC_StepFinish 0x021579B0 thumb ov010
  */
-extern int func_0203CEAC(int);
-extern void func_02157960(int, int, int);
+extern int GFL_NET_Exit(int);
+extern void DELIVERY_IRC_SetStepAtLine(int, int, int);
 typedef unsigned char  u8;
-extern void func_021579B0(u8 *p);
-void func_02157A58(int p) { func_0203CEAC(0); func_02157960(p, (int)func_021579B0, 0x10a); }
+extern void DELIVERY_IRC_StepFinish(u8 *p);
+void DELIVERY_IRC_StepExitChild(int p) { GFL_NET_Exit(0); DELIVERY_IRC_SetStepAtLine(p, (int)DELIVERY_IRC_StepFinish, 0x10a); }

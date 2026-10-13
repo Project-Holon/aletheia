@@ -1,5 +1,5 @@
 /*
- * function: func_02169510
+ * function: FIELD_G3D_MAP_GetPos
  * address:  0x02169510
  * packet:   pkt_ov010_02169510
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (blocker of ov021 func_0218C724).  Copies the 12 bytes
+ * Unlabelled leaf (blocker of ov021 FIELD_BUILDMODEL_CreateNodeFromEntry).  Copies the 12 bytes
  * at src+4 to dst.
  */
 
@@ -21,7 +21,7 @@ typedef struct V3 {
     u32 a, b, c;
 } V3;
 
-void func_02169510(u8 *src, V3 *dst)
+void FIELD_G3D_MAP_GetPos(u8 *src, V3 *dst)
 {
     *dst = *(V3 *)(src + 4);
 }

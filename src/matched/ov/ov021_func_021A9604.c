@@ -1,5 +1,5 @@
 /*
- * function: func_021A9604
+ * function: FIELD_ENCOUNT_PickWfbcMon
  * address:  0x021A9604
  * packet:   pkt_ov021_021A9604
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  *
  * symbols:
- *   func_0219390C  0x0219390C  thumb  ov021
- *   func_02193C00  0x02193C00  thumb  ov021
+ *   FIELD_WFBC_GetPeople  0x0219390C  thumb  ov021
+ *   FIELD_WFBC_PEOPLE_GetNpcRecord  0x02193C00  thumb  ov021
  *   func_020056EC  0x020056EC  thumb
  *   func_02082BCC  0x02082BCC  arm
  * Addresses are Black-image addresses.
@@ -36,12 +36,12 @@ struct Out {
     u8 f07;
 };
 
-extern void *func_0219390C(void *a, u32 b);
-extern u8 *func_02193C00(int a);
+extern void *FIELD_WFBC_GetPeople(void *a, u32 b);
+extern u8 *FIELD_WFBC_PEOPLE_GetNpcRecord(int a);
 extern u32 func_020056EC(u32 v);
 extern void func_02082BCC(void *p, int v, int n);
 
-u32 func_021A9604(int obj, struct Sel *sel, struct Out *out)
+u32 FIELD_ENCOUNT_PickWfbcMon(int obj, struct Sel *sel, struct Out *out)
 {
     u32 k;
     u32 sum;
@@ -65,17 +65,17 @@ u32 func_021A9604(int obj, struct Sel *sel, struct Out *out)
     }
     sum = 0;
     for (i = 0; i < 30; i++) {
-        p = (int)func_0219390C((void *)obj, i);
+        p = (int)FIELD_WFBC_GetPeople((void *)obj, i);
         if (p) {
-            sum += func_02193C00(p)[k + 0x14];
+            sum += FIELD_WFBC_PEOPLE_GetNpcRecord(p)[k + 0x14];
         }
     }
     r = func_020056EC(sum);
     sum = 0;
     for (i = 0; i < 30; i++) {
-        p = (int)func_0219390C((void *)obj, i);
+        p = (int)FIELD_WFBC_GetPeople((void *)obj, i);
         if (p) {
-            q = func_02193C00(p);
+            q = FIELD_WFBC_PEOPLE_GetNpcRecord(p);
             sum += q[k + 0x14];
             if (r < sum) {
                 func_02082BCC(out, 0, 0x14);

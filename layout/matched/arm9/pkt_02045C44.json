@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "MSGDATA_CreateFromMemory",
-    "func_02045CAC"
+    "MSGDATA_ReadString"
    ],
    "addresses": [
     "0x02045C44",

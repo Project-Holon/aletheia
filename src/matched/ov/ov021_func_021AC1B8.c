@@ -1,5 +1,5 @@
 /*
- * function: func_021AC1B8
+ * function: FIELD_EFFECT_GetObjectPos
  * address:  0x021AC1B8
  * packet:   pkt_ov021_021AC1B8
  * region:   ov021
@@ -33,7 +33,7 @@ struct Obj {
     void *fd0;
 };
 
-void func_021AC1B8(Obj *o, V3 *out)
+void FIELD_EFFECT_GetObjectPos(Obj *o, V3 *out)
 {
     if (o != 0)
         *out = o->pos;

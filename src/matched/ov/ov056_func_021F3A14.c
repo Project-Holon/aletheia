@@ -1,5 +1,5 @@
 /*
- * function: func_021F3A14
+ * function: FIELD_FK_DEMO_ExitCamera
  * address:  0x021F3A14
  * packet:   pkt_ov056_021F3A14
  * region:   ov056
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218EC60  0x0218EC60  thumb  ov021
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218EC90  0x0218EC90  thumb  ov021
- *   func_0218ECD4  0x0218ECD4  thumb  ov021
- *   func_0218E13C  0x0218E13C  thumb  ov021
- *   func_0218F1AC  0x0218F1AC  thumb  ov021
- *   func_0218ED14  0x0218ED14  thumb  ov021
- *   func_0218E17C  0x0218E17C  thumb  ov021
- *   func_0218F05C  0x0218F05C  thumb  ov021
- *   func_02048AC4  0x02048AC4  arm
- *   func_02011558  0x02011558  thumb
+ *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb  ov021
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
+ *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb  ov021
+ *   FIELD_CAMERA_SetG3dUp  0x0218ED14  thumb  ov021
+ *   FIELD_CAMERA_SetSetting  0x0218E17C  thumb  ov021
+ *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
+ *   G3D_CAMERA_Delete  0x02048AC4  arm
+ *   ICA_ANIME_Delete  0x02011558  thumb
  *   func_02082BCC  0x02082BCC  arm
  */
 #include "../include/Obj01680.h"
@@ -29,31 +29,31 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0218EC60(u32 a);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218EC90(u32 a, u32 b);
-extern void func_0218ECD4(u32 a, u32 b);
+extern int FIELD_CAMERA_ResumeTargetTrace(u32 a);
+extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
+extern void FIELD_CAMERA_SetTarget(u32 a, u32 b);
+extern void FIELD_CAMERA_SetTargetShift(u32 a, u32 b);
 struct IcaAnime;
-extern void func_0218E13C(u8 *a, u32 s);
-extern void func_0218F1AC(u8 *p, u32 v);
-extern void func_0218ED14(u8 *p, u32 q);
-extern void func_0218E17C(u32 *p, u32 v);
-extern void func_0218F05C(u8 *a);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02011558(struct IcaAnime *p);
+extern void FIELD_CAMERA_SetMode(u8 *a, u32 s);
+extern void FIELD_CAMERA_SetAreasEnabled(u8 *p, u32 v);
+extern void FIELD_CAMERA_SetG3dUp(u8 *p, u32 q);
+extern void FIELD_CAMERA_SetSetting(u32 *p, u32 v);
+extern void FIELD_CAMERA_RestartDelay(u8 *a);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern void func_02082BCC(void *, unsigned, unsigned);
 
-void func_021F3A14(u8 *p)
+void FIELD_FK_DEMO_ExitCamera(u8 *p)
 {
-    func_0218EC60(*(u32 *)&((struct Obj01680 *)p)->f8);
-    func_0218EC90(*(u32 *)&((struct Obj01680 *)p)->f8, func_0218EC5C(*(u8 * *)&((struct Obj01680 *)p)->f8));
-    func_0218ECD4(*(u32 *)&((struct Obj01680 *)p)->f8, (u32)(p + 0x10));
-    func_0218E13C((u8 *)(*(u32 *)&((struct Obj01680 *)p)->f8), ((struct Obj01680 *)p)->fC);
-    func_0218F1AC(*(u8 * *)&((struct Obj01680 *)p)->f8, ((struct Obj01680 *)p)->fE);
-    func_0218ED14((u8 *)(*(u32 *)&((struct Obj01680 *)p)->f8), (u32)(p + 0x1c));
-    func_0218E17C(*(u32 * *)&((struct Obj01680 *)p)->f8, ((struct Obj01680 *)p)->f2C);
-    func_0218F05C(*(u8 * *)&((struct Obj01680 *)p)->f8);
-    func_02048AC4((void *)(((struct Obj01680 *)p)->f4));
-    func_02011558((struct IcaAnime *)(((struct Obj01680 *)p)->f0));
+    FIELD_CAMERA_ResumeTargetTrace(*(u32 *)&((struct Obj01680 *)p)->f8);
+    FIELD_CAMERA_SetTarget(*(u32 *)&((struct Obj01680 *)p)->f8, FIELD_CAMERA_GetTraceTarget(*(u8 * *)&((struct Obj01680 *)p)->f8));
+    FIELD_CAMERA_SetTargetShift(*(u32 *)&((struct Obj01680 *)p)->f8, (u32)(p + 0x10));
+    FIELD_CAMERA_SetMode((u8 *)(*(u32 *)&((struct Obj01680 *)p)->f8), ((struct Obj01680 *)p)->fC);
+    FIELD_CAMERA_SetAreasEnabled(*(u8 * *)&((struct Obj01680 *)p)->f8, ((struct Obj01680 *)p)->fE);
+    FIELD_CAMERA_SetG3dUp((u8 *)(*(u32 *)&((struct Obj01680 *)p)->f8), (u32)(p + 0x1c));
+    FIELD_CAMERA_SetSetting(*(u32 * *)&((struct Obj01680 *)p)->f8, ((struct Obj01680 *)p)->f2C);
+    FIELD_CAMERA_RestartDelay(*(u8 * *)&((struct Obj01680 *)p)->f8);
+    G3D_CAMERA_Delete((void *)(((struct Obj01680 *)p)->f4));
+    ICA_ANIME_Delete((struct IcaAnime *)(((struct Obj01680 *)p)->f0));
     func_02082BCC(p, 0, 0x30);
 }

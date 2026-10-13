@@ -1,5 +1,5 @@
 /*
- * function: func_020173F0
+ * function: POKE_TOOL_Create
  * address:  0x020173F0
  * packet:   pkt_020173F0
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020173EC  0x020173EC  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_02030734  0x02030734  arm
  *   POKE_TOOL_SetupPartyParam  0x0201756C  thumb
  *   sPokeToolFile  0x020A72E4  data
@@ -28,14 +28,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned long long u64;
 
-extern u32   func_020173EC(void);
+extern u32   POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  POKE_TOOL_SetupPartyParam(void *v, u16 s, u16 l, u64 id);
 extern u8    sPokeToolFile;
 
-void *func_020173F0(u16 species, u16 level, u64 id, u16 heap)
+void *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap)
 {
-    void *v = func_02030734(heap, func_020173EC(), 1, (const char *)&sPokeToolFile, 0xa0);
+    void *v = func_02030734(heap, POKE_TOOL_GetPartyParamSize(), 1, (const char *)&sPokeToolFile, 0xa0);
     if (v != 0) {
         POKE_TOOL_SetupPartyParam(v, species, level, id);
     }

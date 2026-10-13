@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202EE30",
+   "name": "TIME_ICON_Create",
    "address": "0x0202EE30",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202EE8C",
+   "name": "TIME_ICON_CreateNode",
    "address": "0x0202EE8C",
    "kind": "game",
    "region": "arm9",

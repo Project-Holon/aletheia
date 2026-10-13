@@ -1,5 +1,5 @@
 /*
- * function: func_021C4E6C
+ * function: SOUND_OBJ_ApplyRotation
  * address:  0x021C4E6C
  * packet:   pkt_ov021_021C4E6C
  * region:   ov021
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Same HSV-to-RGB shape as arm9 func_02011B8C: three 4.12 channels from
- * func_02011638, wrapped into [0,360), rescaled to 0..65535, handed to
- * func_020520FC.
+ * Same HSV-to-RGB shape as arm9 ICA_ANIME_SetCameraStatus: three 4.12 channels from
+ * ICA_ANIME_GetRotate, wrapped into [0,360), rescaled to 0..65535, handed to
+ * BUTTON_MAN_MakeRotMtxXYZ.
  *
  * symbols:
  *   _fdiv          0x0209CE10  arm
@@ -20,9 +20,9 @@
  *   _fls           0x0209BC74  arm
  *   _fmul          0x0209C77C  arm
  *   _fadd          0x0209C95C  arm
- *   func_02011638  0x02011638  thumb
+ *   ICA_ANIME_GetRotate  0x02011638  thumb
  *   func_0207ADC4  0x0207ADC4  arm
- *   func_020520FC  0x020520FC  arm
+ *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
  */
 #include "../include/Obj01666.h"
 
@@ -32,12 +32,12 @@ typedef int            s32;
 
 struct IcaAnime;
 struct Rec12;
-extern u32 func_02011638(struct IcaAnime *ctx, struct Rec12 *hsv);
+extern u32 ICA_ANIME_GetRotate(struct IcaAnime *ctx, struct Rec12 *hsv);
 extern void func_0207ADC4(void *p);
 struct Mtx33;
-extern void func_020520FC(int h, int s, int v, struct Mtx33 *out);
+extern void BUTTON_MAN_MakeRotMtxXYZ(int h, int s, int v, struct Mtx33 *out);
 
-void func_021C4E6C(char *p)
+void SOUND_OBJ_ApplyRotation(char *p)
 {
     s32 hsv[3];
     u16 ch;
@@ -50,7 +50,7 @@ void func_021C4E6C(char *p)
     if (((struct Obj01666 *)p)->f10 == 0) {
         return;
     }
-    if (func_02011638(((struct Obj01666 *)p)->f10, (struct Rec12 *)hsv) != 1) {
+    if (ICA_ANIME_GetRotate(((struct Obj01666 *)p)->f10, (struct Rec12 *)hsv) != 1) {
         return;
     }
 
@@ -72,5 +72,5 @@ void func_021C4E6C(char *p)
     cs = (u16)(u32)(65535.0f * (s / 360.0f));
     cv = (u16)(u32)(65535.0f * (v / 360.0f));
     func_0207ADC4(*(char * *)&((struct Obj01666 *)p)->f14 + 0x18);
-    func_020520FC(ch, cs, cv, (struct Mtx33 *)(*(char * *)&((struct Obj01666 *)p)->f14 + 0x18));
+    BUTTON_MAN_MakeRotMtxXYZ(ch, cs, cv, (struct Mtx33 *)(*(char * *)&((struct Obj01666 *)p)->f14 + 0x18));
 }

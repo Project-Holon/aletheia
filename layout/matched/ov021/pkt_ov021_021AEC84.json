@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AEC84",
+   "name": "SCRCMD_FadeInField",
    "address": "0x021AEC84",
    "kind": "game",
    "region": "ov021",

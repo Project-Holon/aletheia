@@ -14,22 +14,22 @@
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021B9BD0 0x021B9BD0 thumb ov133
  *   func_021B9F24 0x021B9F24 thumb ov133
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   func_020452E8 0x020452E8 arm
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_021B7498 0x021B7498 thumb ov133
  *   func_021F5330 0x021F5330 thumb ov112
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_02030EAC 0x02030EAC arm
  *   func_0204ED24 0x0204ED24 arm
- *   func_02048AC4 0x02048AC4 arm
- *   func_02046788 0x02046788 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -43,22 +43,22 @@ extern void func_0200A6F8(struct Big *);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021B9BD0(unsigned char *p);
 extern void func_021B9F24(unsigned char *p);
-extern void func_0204B3B4(struct Obj *);
-extern void func_0204ADA4(u32);
-extern void func_0204A8D4(u32);
-extern void func_0204AFD8(u32);
+extern void CLACT_DeleteActor(struct Obj *);
+extern void CLACT_ReleasePalette(u32);
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleaseCellAnim(u32);
 extern u32 func_020452E8(struct Descriptor *d);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 extern void func_021B7498(u8 *p);
 extern void func_021F5330(int,int);
 extern void func_021F51B0(int a);
 extern void func_02030EAC(struct Node *);
 extern void func_0204ED24(void *);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02046788(void);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(void);
 extern void func_020403F4(u32);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern u32 func_020307B0(void *p);
 void func_021B6294(char *p)
@@ -69,25 +69,25 @@ void func_021B6294(char *p)
     GFL_USE_CancelChangeAndStopBgm();
     func_021B9BD0((unsigned char *)p);
     func_021B9F24((unsigned char *)p);
-    func_0204B3B4(*(struct Obj * *)&((struct Obj01941 *)p)->f184C);
-    func_0204B3B4(*(struct Obj * *)&((struct Obj01941 *)p)->f1850);
-    func_0204B3B4(*(struct Obj * *)&((struct Obj01941 *)p)->f1854);
-    for(i=0;i<=2;i++) func_0204ADA4(*(u32 *)(p+0x1858+i*4));
-    for(i=3;i<=5;i++) func_0204A8D4(*(u32 *)(p+0x1858+i*4));
-    for(i=6;i<=8;i++) func_0204AFD8(*(u32 *)(p+0x1858+i*4));
+    CLACT_DeleteActor(*(struct Obj * *)&((struct Obj01941 *)p)->f184C);
+    CLACT_DeleteActor(*(struct Obj * *)&((struct Obj01941 *)p)->f1850);
+    CLACT_DeleteActor(*(struct Obj * *)&((struct Obj01941 *)p)->f1854);
+    for(i=0;i<=2;i++) CLACT_ReleasePalette(*(u32 *)(p+0x1858+i*4));
+    for(i=3;i<=5;i++) CLACT_ReleaseCharacter(*(u32 *)(p+0x1858+i*4));
+    for(i=6;i<=8;i++) CLACT_ReleaseCellAnim(*(u32 *)(p+0x1858+i*4));
     if(*(struct Descriptor * *)&((struct Obj01941 *)p)->f18EC) func_020452E8(*(struct Descriptor * *)&((struct Obj01941 *)p)->f18EC);
-    func_0204B1CC(*(struct Bank * *)&((struct Obj01941 *)p)->f1848);
-    func_0204A5AC();
+    CLACT_DeleteUnit(*(struct Bank * *)&((struct Obj01941 *)p)->f1848);
+    CLACT_ExitSystem();
     func_021B7498((u8 *)p);
     func_021F5330(*(int *)&((struct Obj01941 *)p)->f187C,((struct Obj01941 *)p)->f1880);
     func_021F51B0(((struct Obj01941 *)p)->f187C);
     func_02030EAC(*(struct Node * *)&((struct Obj01941 *)p)->f8);
     func_0204ED24(((struct Obj01941 *)p)->f188C);
-    func_02048AC4(((struct Obj01941 *)p)->f1888);
-    func_02046788();
+    G3D_CAMERA_Delete(((struct Obj01941 *)p)->f1888);
+    G3D_SYSTEM_Exit();
     func_020403F4(0);func_020403F4(1);func_020403F4(2);func_020403F4(3);
     func_020403F4(4);func_020403F4(6);func_020403F4(5);func_020403F4(7);
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     func_020307B0(p);
 }

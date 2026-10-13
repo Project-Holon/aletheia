@@ -1,7 +1,7 @@
 /*
  * file:     bsubway_scr.c
  * unit:     yes
- * function: func_021C9924, func_021C9934, func_021C9B24, func_021C9B78, func_021C9BCC, func_021C9C54, func_021C9CAC, func_021C9D30, func_021C9D70, func_021C9DB0, func_021C9E8C, func_021C9F44, func_021C9FD0, func_021C9FFC, func_021CA048, func_021CA05C, func_021CA150, func_021CA164, func_021CA1E4, func_021CA210, func_021CA234, func_021CA238, func_021CA23C, func_021CA250, func_021CA258, func_021CA270, func_021CA2A4, func_021CA2CC, func_021CA2DC, func_021CA338, func_021CA3B4, func_021CA4C0, func_021CA544, func_021CA57C, func_021CA598, func_021CA5C4, func_021CB6DC, func_021CB700, func_021CB754, func_021CB7E8, func_021CB86C, func_021CB8AC, func_021CB914, func_021CB934, func_021CB9BC, func_021CB9E4, func_021CBBA0, func_021CBBAC, func_021CBBD0, func_021CBC14, func_021CBC94, func_021CBCC4, func_021CBD08, func_021CBD84, func_021CBD90, func_021CBED8, func_021CBEFC, func_021CBF38, func_021CBF98
+ * function: BSUBWAY_SCR_ClearWorkPtr, BSUBWAY_SCR_CreateWork, BSUBWAY_SCR_DeleteWork, BSUBWAY_SCR_ChangeCommMultiMode, BSUBWAY_SCR_SaveRestPlayData, BSUBWAY_SCR_LoadMembers, BSUBWAY_SCR_SavePlayDataMembers, BSUBWAY_SCR_ResetPlayMode, BSUBWAY_SCR_SetLoseScore, BSUBWAY_SCR_AddBattlePoint, BSUBWAY_SCR_DrawTrainerNos, BSUBWAY_SCR_SetSelectedMembers, BSUBWAY_SCR_IsWinMax, BSUBWAY_SCR_SetClearScore, BSUBWAY_SCR_ClearStateBits, BSUBWAY_SCR_CreateRoundTrainers, BSUBWAY_SCR_GetTrainerObjCode, BSUBWAY_SCR_UpdateStageRank, BSUBWAY_SCR_LoadPartyCopy, BSUBWAY_SCR_GetParty, BSUBWAY_SCR_GetWinCount, BSUBWAY_SCR_SetWinCount, BSUBWAY_SCR_IncWinCount, BSUBWAY_SCR_ClearWinCount, BSUBWAY_SCR_SetWinCountFromRound, BSUBWAY_SCR_GetMemberNum, BSUBWAY_SCR_IsTrainerNoUsed, BSUBWAY_SCR_GetStageNo, BSUBWAY_SCR_SaveRecordParty, BSUBWAY_SCR_CreatePartners, BSUBWAY_SCR_PackBattleMon, BSUBWAY_SCR_SaveMemberParty, BSUBWAY_SCR_CmdCreateWork, BSUBWAY_SCR_CmdClearWorkPtr, BSUBWAY_SCR_CmdDeleteWork, BSUBWAY_SCR_CmdTool, func_021CB6DC, func_021CB700, func_021CB754, func_021CB7E8, func_021CB86C, func_021CB8AC, func_021CB914, func_021CB934, func_021CB9BC, func_021CB9E4, func_021CBBA0, func_021CBBAC, func_021CBBD0, func_021CBC14, BSUBWAY_SCR_GetRegulationNo, BSUBWAY_SCR_GetTrainNo, func_021CBD08, func_021CBD84, BSUBWAY_SCR_DrawTrainerNo, BSUBWAY_SCR_CreateTrainer, BSUBWAY_SCR_GetMonIv, BSUBWAY_SCR_CreatePartnerMons, func_021CBF98
  * address:  0x021C9924
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -16,22 +16,22 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   func_02011330  0x02011330  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02012EE4  0x02012EE4  thumb
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   GAME_DATA_SetCurrentEvent  0x02012EE4  thumb
  *   func_02012944  0x02012944  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   d_021DE58C     0x021DE58C  data  ov021
  *   func_02008550  0x02008550  thumb
  *   func_020071CC  0x020071CC  thumb
@@ -45,7 +45,7 @@
  *   func_020127A4  0x020127A4  thumb
  *   func_0200DA54  0x0200DA54  thumb
  *   func_0200DB80  0x0200DB80  thumb
- *   func_020130B4  0x020130B4  thumb
+ *   BTL_SETUP_Delete  0x020130B4  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
@@ -57,7 +57,7 @@
  *   d_021DACDC     0x021DACDC  data  a1
  *   func_0200DB60  0x0200DB60  thumb
  *   func_0200DEA8  0x0200DEA8  thumb
- *   func_02168AEC  0x02168AEC  thumb  ov010
+ *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
  *   func_0200DBA0  0x0200DBA0  thumb
  *   func_0200DBF0  0x0200DBF0  thumb
  *   func_0200DC0C  0x0200DC0C  thumb
@@ -69,20 +69,20 @@
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_0200DC94  0x0200DC94  thumb
  *   func_0200DC50  0x0200DC50  thumb
- *   func_02158F54  0x02158F54  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02012ED8  0x02012ED8  thumb
+ *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   GAME_DATA_GetCurrentEvent  0x02012ED8  thumb
  *   data_021DAD24  0x021DAD24  data
  *   data_021DAD36  0x021DAD36  data
  *   data_021DAD70  0x021DAD70  data
  *   data_021DAD88  0x021DAD88  data
  *   data_021DADAC  0x021DADAC  data
  *   data_021DAE50  0x021DAE50  data
- *   func_0200B424  0x0200B424  thumb
- *   func_0200B5CC  0x0200B5CC  thumb
- *   func_0200BA38  0x0200BA38  thumb
- *   func_0200BA58  0x0200BA58  thumb
- *   func_0200BA68  0x0200BA68  thumb
+ *   BATTLE_REC_FreeWork  0x0200B424  thumb
+ *   BATTLE_REC_CheckSaved  0x0200B5CC  thumb
+ *   BATTLE_REC_IsVersionSupported  0x0200BA38  thumb
+ *   BATTLE_REC_LoadToolOverlay  0x0200BA58  thumb
+ *   BATTLE_REC_UnloadToolOverlay  0x0200BA68  thumb
  *   func_0200BBA8  0x0200BBA8  thumb
  *   func_0200D87C  0x0200D87C  thumb
  *   func_0200D9E8  0x0200D9E8  thumb
@@ -91,89 +91,89 @@
  *   func_0200DE5C  0x0200DE5C  thumb
  *   func_0200DE64  0x0200DE64  thumb
  *   func_0200DE94  0x0200DE94  thumb
- *   func_0200DF40  0x0200DF40  thumb
- *   func_0200DF4C  0x0200DF4C  thumb
- *   func_0200DF58  0x0200DF58  thumb
- *   func_0200DF94  0x0200DF94  thumb
+ *   BSUBWAY_SAVEDATA_GetHistoryTagA  0x0200DF40  thumb
+ *   BSUBWAY_SAVEDATA_GetHistoryTagB  0x0200DF4C  thumb
+ *   BSUBWAY_SAVEDATA_AllocHistoryCopy  0x0200DF58  thumb
+ *   BSUBWAY_SAVEDATA_CountHistoryEntries  0x0200DF94  thumb
  *   func_0200ED48  0x0200ED48  thumb
  *   func_0200ED54  0x0200ED54  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0200FB38  0x0200FB38  thumb
- *   func_020113D0  0x020113D0  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
+ *   VM_SetWait  0x020113D0  thumb
  *   func_02012124  0x02012124  thumb
- *   func_02012134  0x02012134  thumb
- *   func_020124AC  0x020124AC  thumb
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
+ *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   func_0201289C  0x0201289C  thumb
  *   ov007_id       0x00000007  data  a1
  *   ov100_id       0x00000064  data  a1
  *   ov214_id       0x000000D6  data  a1
  *   func_0201296C  0x0201296C  thumb
- *   func_02014184  0x02014184  thumb
- *   func_02014314  0x02014314  thumb
- *   func_0201433C  0x0201433C  thumb
- *   func_02014808  0x02014808  thumb
+ *   ZONEDATA_SetDirectLocation  0x02014184  thumb
+ *   ZONEDATA_SetEventFlag  0x02014314  thumb
+ *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
+ *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
  *   func_02019ED4  0x02019ED4  thumb
- *   func_0201A354  0x0201A354  thumb
+ *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_0201AA18  0x0201AA18  thumb
- *   func_0202B578  0x0202B578  thumb
- *   func_0202C0D0  0x0202C0D0  thumb
- *   func_02039338  0x02039338  arm
+ *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
+ *   ISS_SWITCH_SYS_SwitchOn  0x0202C0D0  thumb
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   func_02087BCC  0x02087BCC  arm
- *   func_021542C0  0x021542C0  thumb  ov007
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02158FE0  0x02158FE0  thumb  ov010
- *   func_02167AB0  0x02167AB0  thumb  ov010
- *   func_02167B00  0x02167B00  thumb  ov010
- *   func_02167B24  0x02167B24  thumb  ov010
- *   func_02167BFC  0x02167BFC  thumb  ov010
- *   func_02167CF4  0x02167CF4  thumb  ov010
- *   func_0216C538  0x0216C538  thumb  ov010
- *   func_0216C640  0x0216C640  thumb  ov010
- *   func_0216C6E8  0x0216C6E8  thumb  ov010
- *   func_0216C860  0x0216C860  thumb  ov010
- *   func_0216CB48  0x0216CB48  thumb  ov010
- *   func_0216D63C  0x0216D63C  thumb  ov010
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
- *   func_0216DAF8  0x0216DAF8  thumb  ov010
- *   func_0216DB4C  0x0216DB4C  thumb  ov010
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_0216E014  0x0216E014  thumb  ov010
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021A30B0  0x021A30B0  thumb  ov021
- *   func_021A3190  0x021A3190  thumb  ov021
- *   func_021A31A4  0x021A31A4  thumb  ov021
+ *   EVENT_BSUBWAY_COMM_Start  0x021542C0  thumb  ov007
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_GetWorkPtr  0x02158FE0  thumb  ov010
+ *   BSUBWAY_COMM_NetInit  0x02167AB0  thumb  ov010
+ *   BSUBWAY_COMM_AddCommandTable  0x02167B00  thumb  ov010
+ *   BSUBWAY_COMM_StartTimingSync  0x02167B24  thumb  ov010
+ *   BSUBWAY_COMM_SetSendData  0x02167BFC  thumb  ov010
+ *   BSUBWAY_COMM_SetRecvMode  0x02167CF4  thumb  ov010
+ *   NAMEIN_SETUP_StartPartyPickEvent  0x0216C538  thumb  ov010
+ *   NAMEIN_SETUP_StartEncounterScene  0x0216C640  thumb  ov010
+ *   NAMEIN_SETUP_StartNameBalloonFromRecord  0x0216C6E8  thumb  ov010
+ *   NAMEIN_SETUP_StartHistoryScreenEvent  0x0216C860  thumb  ov010
+ *   NAMEIN_SETUP_StartNameBalloonFromHistory  0x0216CB48  thumb  ov010
+ *   FLDMMDL_GetParam  0x0216D63C  thumb  ov010
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
+ *   FLDMMDL_SetStatusBitHeightGetOff  0x0216DB4C  thumb  ov010
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   FIELD_PLAYER_GetSex  0x021A30B0  thumb  ov021
+ *   FIELD_PLAYER_GetFormObjCode  0x021A3190  thumb  ov021
+ *   FIELD_PLAYER_GetObjCodeOfFormCode  0x021A31A4  thumb  ov021
  *   data_021BB474  0x021BB474  data  ov214
  *   data_021BB6A4  0x021BB6A4  data  ov100
- *   func_021CD48C  0x021CD48C  thumb  ov021
- *   func_021D024C  0x021D024C  thumb  ov021
- *   func_021D028C  0x021D028C  thumb  ov021
+ *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
+ *   FLDEFF_BTRAIN_SetAnime  0x021D024C  thumb  ov021
+ *   FLDEFF_BTRAIN_SetHidden  0x021D028C  thumb  ov021
  *   func_021EEE78  0x021EEE78  thumb  ov188
- *   func_021F37C0  0x021F37C0  thumb  ov052
- *   func_021F380C  0x021F380C  thumb  ov052
- *   func_021F388C  0x021F388C  thumb  ov052
- *   func_02167CB4  0x02167CB4  thumb  ov010
- *   func_02167B34  0x02167B34  thumb  ov010
- *   func_021CD688  0x021CD688  thumb  ov021
- *   func_021CD5A4  0x021CD5A4  thumb  ov021
- *   func_02167D00  0x02167D00  thumb  ov010
- *   func_0203D378  0x0203D378  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_02167B18  0x02167B18  thumb  ov010
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203CDBC  0x0203CDBC  arm
- *   func_0215A684  0x0215A684  thumb  ov010
- *   func_0215A690  0x0215A690  thumb  ov010
- *   func_02188C54  0x02188C54  thumb
- *   func_02190BE4  0x02190BE4  thumb
- *   func_02190C78  0x02190C78  thumb
- *   func_021909BC  0x021909BC  thumb
- *   func_0200DFB4  0x0200DFB4  thumb
- *   func_0216CE6C  0x0216CE6C  thumb  ov010
- *   func_0216D620  0x0216D620  thumb  ov010
- *   func_0216D5B4  0x0216D5B4  thumb  ov010
+ *   FIELD_GIMMICK_BSUBWAY_StartTrain  0x021F37C0  thumb  ov052
+ *   FIELD_GIMMICK_BSUBWAY_GetTrainEffect  0x021F380C  thumb  ov052
+ *   FIELD_GIMMICK_BSUBWAY_HaltTrainSway  0x021F388C  thumb  ov052
+ *   BSUBWAY_COMM_SendData  0x02167CB4  thumb  ov010
+ *   BSUBWAY_COMM_CheckTimingSync  0x02167B34  thumb  ov010
+ *   COMM_ENTRY_MENU_Main  0x021CD688  thumb  ov021
+ *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb  ov021
+ *   BSUBWAY_COMM_IsRecvEnd  0x02167D00  thumb  ov010
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   BSUBWAY_COMM_DeleteCommandTable  0x02167B18  thumb  ov010
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
+ *   SCRCMD_WORK_SetWaitCount  0x0215A684  thumb  ov010
+ *   SCRCMD_WORK_CountDownWait  0x0215A690  thumb  ov010
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb
+ *   BSUBWAY_SAVEDATA_GetHistoryEntryScore  0x0200DFB4  thumb
+ *   FLDMMDL_AddMmdlParam  0x0216CE6C  thumb  ov010
+ *   FLDMMDL_SetParam  0x0216D620  thumb  ov010
+ *   FLDMMDL_SetEventId  0x0216D5B4  thumb  ov010
  *   d_021DADD0     0x021DADD0  data  a2
  *   d_021DAD48     0x021DAD48  data  a2
  *   d_021DAD5C     0x021DAD5C  data  a2
@@ -184,14 +184,14 @@
  *   func_0201A920  0x0201A920  thumb
  *   func_0201A954  0x0201A954  thumb
  *   func_0201A98C  0x0201A98C  thumb
- *   func_021681C8  0x021681C8  thumb  ov010
+ *   FLD_BTL_INST_TOOL_CreateBtlSetup  0x021681C8  thumb  ov010
  *   d_021DB3D0  0x021DB3D0  data
  *   d_021DB3D8  0x021DB3D8  data
  *   d_021DB3E4  0x021DB3E4  data
  *   d_021DB3F4  0x021DB3F4  data
- *   func_02168878  0x02168878  thumb  ov010
- *   func_021688BC  0x021688BC  thumb  ov010
- *   func_021684E8  0x021684E8  thumb  ov010
+ *   FLD_BTL_INST_TOOL_CreateTrainer  0x02168878  thumb  ov010
+ *   FLD_BTL_INST_TOOL_InitTrainerHeader  0x021688BC  thumb  ov010
+ *   FLD_BTL_INST_TOOL_BuildBattleMon  0x021684E8  thumb  ov010
  *   func_020056EC  0x020056EC  thumb
  */
 
@@ -315,24 +315,24 @@ typedef struct TrainerNoRange {
 } TrainerNoRange;
 
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *func_0201210C(const struct GameSystem *p);
 extern void *func_020120F4(const struct GameSystem *p);
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern u16 func_02011330(struct ScriptStream *s);
-extern u16 func_02159B10(void *a, void *b);
+extern u16 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern struct Task *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Task *p);
-extern void *func_02188CB4(struct FieldMap *p);
-extern u16 func_0216D5F8(void *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern void func_0216D5E0(int a, int b);
+extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern void FLDMMDL_SetDirDispCheckPause(int a, int b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_0216D88C(const struct MapObj *a, struct VecFx32 *v);
-extern void *func_02012EE4(GameData *gameData, BsubwayScrWork *work);
+extern void FLDMMDL_GetPos(const struct MapObj *a, struct VecFx32 *v);
+extern void *GAME_DATA_SetCurrentEvent(GameData *gameData, BsubwayScrWork *work);
 extern u8 *func_02012944(void *p);
-extern void *func_02012EBC(struct GameData *p);
+extern void *GAME_DATA_GetSaveControl(struct GameData *p);
 extern u8 func_02008550(const struct MyStatus *obj);
 extern void *func_020071CC(struct SaveControl *ctrl, u32 id);
 extern void func_0200D868(struct BsubwayPlayData *p, u32 v);
@@ -345,7 +345,7 @@ extern u32 func_0200D884(struct BsubwayPlayData *p, u32 id, void *out);
 extern void *func_020127A4(void *p);
 extern u16 func_0200DA54(struct BsubwayPlayData *p);
 extern u16 func_0200DB80(struct BsubwayScoreData *p, u32 i);
-extern int func_020130B4(int a0);
+extern int BTL_SETUP_Delete(int a0);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *m, u32 id, u32 v);
@@ -356,7 +356,7 @@ extern u8 func_0200DC08(struct BsubwayScoreData *p);
 extern void func_0200DA80(struct BsubwayScoreData *p, s32 v);
 extern void func_0200DB60(struct BsubwayScoreData *p, u32 i);
 extern void func_0200DEA8(u32 h, u8 *list, u8 n, u16 id);
-extern u16 func_02168AEC(u16 a0);
+extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 a0);
 extern u32 func_0200DBA0(struct BsubwayScoreData *p, s32 i, u32 op);
 extern void func_0200DBF0(struct BsubwayScoreData *p);
 extern u8 func_0200DC0C(struct BsubwayScoreData *p, u32 kind);
@@ -367,145 +367,145 @@ extern void *func_02012934(const struct GameData *p);
 extern int func_0209C0A4(int a, int b);
 extern void func_0200DC94(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
 extern void func_0200DC50(struct BsubwayScoreData *p, u32 which, const void *src);
-extern int func_02158F58(int a0);
-extern void *func_02158F54(void *p);
-extern void *func_02012ED8(struct GameData *p);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern void *SCRIPT_WORK_GetGameSystem(void *p);
+extern void *GAME_DATA_GetCurrentEvent(struct GameData *p);
 extern u32 func_0201296C(const struct GameData *p);
-extern u16 *func_02158FE0(void *a, void *b, unsigned int id);
-extern void func_0215897C(void *h, void *task);
+extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
+extern void SCRIPT_SYS_CallEvent(void *h, void *task);
 extern void func_02087BCC(u32 a);
 extern u32 func_0200D87C(struct BsubwayPlayData *p);
-extern u16 func_021A3050(u8 *p);
-extern u16 func_02188C9C(u8 *p);
-extern void func_02014184(ReturnLocation *out, u32 id, s16 n, u32 a, u32 b, u32 c);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern void ZONEDATA_SetDirectLocation(ReturnLocation *out, u32 id, s16 n, u32 a, u32 b, u32 c);
 extern void func_0201289C(struct GameData *p, const struct ReturnLocation *src);
-extern void func_02014314(char *a0, int a1);
-extern void func_0201433C(char *a0, int a1);
-extern u32 func_021A30B0(u8 *p);
-extern u16 func_021A3190(int i, int j);
-extern void *func_02188C7C(unsigned char *p);
-extern void *func_0216DE94(void *a, u32 id);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-extern void func_021F37C0(void *a, int b, int c);
-extern int func_021F380C(int a);
-extern void func_021D024C(void *o, u32 v);
-extern void func_021D028C(void *o, u32 v);
-extern void func_0216E014(void *a, int *p, int b);
-extern int func_0216DB4C(void *a0, int a1);
-extern int func_021A31A4(int i, int v);
+extern void ZONEDATA_SetEventFlag(char *a0, int a1);
+extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
+extern u32 FIELD_PLAYER_GetSex(u8 *p);
+extern u16 FIELD_PLAYER_GetFormObjCode(int i, int j);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
+extern void *FLDMMDL_SysSearchObjId(void *a, u32 id);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
+extern void FIELD_GIMMICK_BSUBWAY_StartTrain(void *a, int b, int c);
+extern int FIELD_GIMMICK_BSUBWAY_GetTrainEffect(int a);
+extern void FLDEFF_BTRAIN_SetAnime(void *o, u32 v);
+extern void FLDEFF_BTRAIN_SetHidden(void *o, u32 v);
+extern void FLDMMDL_InitPosition(void *a, int *p, int b);
+extern int FLDMMDL_SetStatusBitHeightGetOff(void *a0, int a1);
+extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
 extern u32 func_0200BBA8(void *a);
-extern void func_0216DAF8(void *o);
-extern int func_0216D63C(char *a0, int a1);
-extern void *func_0216CB48(u32 x, u32 v, u32 id);
-extern struct BsubwayWifiRecordList *func_0200DF58(struct BsubwayWifiData *p, u32 heap);
-extern u32 func_0200DF94(struct BsubwayWifiRecordList *b);
-extern struct Task *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
-extern int func_021542C0(int x, struct Ov007ProcParam *p);
+extern void FLDMMDL_OnMoveBitMovePause(void *o);
+extern int FLDMMDL_GetParam(char *a0, int a1);
+extern void *NAMEIN_SETUP_StartNameBalloonFromHistory(u32 x, u32 v, u32 id);
+extern struct BsubwayWifiRecordList *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwayWifiData *p, u32 heap);
+extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct BsubwayWifiRecordList *b);
+extern struct Task *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
+extern int EVENT_BSUBWAY_COMM_Start(int x, struct Ov007ProcParam *p);
 extern u8 func_0200DE94(struct BsubwayWifiData *p);
 extern u8 func_0200DE5C(struct BsubwayWifiData *p);
 extern u8 func_0200DE64(struct BsubwayWifiData *p);
-extern void *func_0216C860(void *a);
-extern int func_0200DF40(struct BsubwayWifiData *p);
-extern u8 func_0200DF4C(struct BsubwayWifiData *p);
-extern void *func_0216C538(struct PartySelectParam *c, void *sys, u8 useOwn);
-extern void *func_0216C640(BsubwayScrWork *work, u32 gameSystem, void *fieldMap);
-extern void *func_0216C6E8(BsubwayScrWork *work, void *gameSystem, u32 idx, u16 id, u8 dir);
-extern u32 func_02012134(u32 *p);
-extern u32 func_0202B578(u32 *p);
-extern void func_0202C0D0(u8 *p, u32 a);
-extern void *func_0201A354(int a, int b);
+extern void *NAMEIN_SETUP_StartHistoryScreenEvent(void *a);
+extern int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwayWifiData *p);
+extern u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwayWifiData *p);
+extern void *NAMEIN_SETUP_StartPartyPickEvent(struct PartySelectParam *c, void *sys, u8 useOwn);
+extern void *NAMEIN_SETUP_StartEncounterScene(BsubwayScrWork *work, u32 gameSystem, void *fieldMap);
+extern void *NAMEIN_SETUP_StartNameBalloonFromRecord(BsubwayScrWork *work, void *gameSystem, u32 idx, u16 id, u8 dir);
+extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
+extern u32 ISS_SYS_GetSwitchSys(u32 *p);
+extern void ISS_SWITCH_SYS_SwitchOn(u8 *p, u32 a);
+extern void *POKE_REGULATION_Load(int a, int b);
 extern int func_02019ED4(void *ctx, void *q);
-extern u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id);
-extern void func_0200BA58(void);
+extern u32 BATTLE_REC_CheckSaved(void *a, u32 heap, u32 *dp, u32 id);
+extern void BATTLE_REC_LoadToolOverlay(void);
 extern void func_021EEE78(void *p);
-extern void func_0200BA68(void);
-extern void func_020113D0(char *p, int val);
-extern void func_0200B424(void);
-extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
-extern void func_021F388C(int a);
+extern void BATTLE_REC_UnloadToolOverlay(void);
+extern void VM_SetWait(char *p, int val);
+extern void BATTLE_REC_FreeWork(void);
+extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(int a);
 extern u32 func_0201AA18(void *party);
 extern void func_0200D9E8(struct BsubwayPlayData *p, s32 a, s32 b, s32 c);
 extern void func_0200DA28(struct BsubwayPlayData *p);
 extern void func_0200DB30(struct BsubwayScoreData *p, u32 i);
-extern void func_02167B00(u32 a);
-extern void func_02167AB0(void *p);
-extern int func_02167B24(int a0);
-extern u32 func_021CD48C(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void func_02167BFC(BsubwayScrWork *work, u32 cmd, u32 arg);
-extern void func_02167CF4(BsubwayScrWork *work, u8 v);
-extern u16 func_02039338(void);
+extern void BSUBWAY_COMM_AddCommandTable(u32 a);
+extern void BSUBWAY_COMM_NetInit(void *p);
+extern int BSUBWAY_COMM_StartTimingSync(int a0);
+extern u32 COMM_ENTRY_MENU_Create(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern void BSUBWAY_COMM_SetSendData(BsubwayScrWork *work, u32 cmd, u32 arg);
+extern void BSUBWAY_COMM_SetRecvMode(BsubwayScrWork *work, u8 v);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_0200ED54(struct GdsProfileSave *l, u32 val);
 extern void *func_0200ED48(void *p);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_02012124(struct GameSystem *p, u32 v);
 extern u32 func_0200FB24(void);
-extern u32 func_0200BA38(u32 v);
-extern int func_02167CB4(BsubwayScrWork *work);
-extern int func_02167B34(int a0);
-extern u32 func_021CD688(u8 *p);
-extern u32 func_021CD5A4(u32 *p);
-extern int func_02167D00(BsubwayScrWork *work, u16 *out);
-extern u32 func_0203D378(void);
-extern void func_0203D7BC(u8 a0);
-extern void func_02167B18(void *p);
-extern int func_0203D1B4(void);
-extern int func_0203CEAC(int a0);
-extern int func_0203CDBC(void);
-extern void func_0215A684(int *p, unsigned short v);
-extern int func_0215A690(char *a0);
-extern u32 func_02188C54(u8 *p);
-extern u32 *func_02190BE4(u16 *a, u32 b);
-extern int func_02190C78(struct ScreenHandle *h);
-extern int func_021909BC(void *a);
-extern u32 func_0200DFB4(struct WifiRecordEntry *e);
-extern void *func_0216CE6C(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
-extern int func_0216D620(int a0, int a1, int a2);
-extern void func_0216D5B4(void *h, u16 v);
+extern u32 BATTLE_REC_IsVersionSupported(u32 v);
+extern int BSUBWAY_COMM_SendData(BsubwayScrWork *work);
+extern int BSUBWAY_COMM_CheckTimingSync(int a0);
+extern u32 COMM_ENTRY_MENU_Main(u8 *p);
+extern u32 COMM_ENTRY_MENU_Delete(u32 *p);
+extern int BSUBWAY_COMM_IsRecvEnd(BsubwayScrWork *work, u16 *out);
+extern u32 GFL_NET_IsParentAid(void);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern void BSUBWAY_COMM_DeleteCommandTable(void *p);
+extern int GFL_NET_GetNegotiationNum(void);
+extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_IsSessionNull(void);
+extern void SCRCMD_WORK_SetWaitCount(int *p, unsigned short v);
+extern int SCRCMD_WORK_CountDownWait(char *a0);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
+extern int FIELD_MSGBG_YesNoMenuMain(struct ScreenHandle *h);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
+extern u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct WifiRecordEntry *e);
+extern void *FLDMMDL_AddMmdlParam(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
+extern int FLDMMDL_SetParam(int a0, int a1, int a2);
+extern void FLDMMDL_SetEventId(void *h, u16 v);
 extern u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern struct BattleSystem *func_021681C8(void *gameSystem, void *party, u32 playMode, BtlInstTrainer *trainers, BtlInstTrainer *partner, int memberNum);
-extern u8 func_02168878(BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
-extern void *func_021688BC(BtlInstTrainer *trainer, int trainerNo, u16 heapId);
-extern u32 func_021684E8(struct BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
+extern struct BattleSystem *FLD_BTL_INST_TOOL_CreateBtlSetup(void *gameSystem, void *party, u32 playMode, BtlInstTrainer *trainers, BtlInstTrainer *partner, int memberNum);
+extern u8 FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
+extern void *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int trainerNo, u16 heapId);
+extern u32 FLD_BTL_INST_TOOL_BuildBattleMon(struct BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
 extern u32 func_020056EC(u32 max);
-int func_021C9924(GameSystem *gameSystem);
-BsubwayScrWork *func_021C9934(GameSystem *gameSystem, int resume, u32 playMode);
-void func_021C9B24(GameSystem *gameSystem, BsubwayScrWork *work);
-void func_021C9B78(BsubwayScrWork *work);
-void func_021C9BCC(BsubwayScrWork *work);
-void func_021C9C54(BsubwayScrWork *work, u32 unused);
-void func_021C9CAC(BsubwayScrWork *work);
-u32 func_021C9D30(const struct GameSystem *gameSystem);
-void func_021C9D70(u32 unused, BsubwayScrWork *work);
-u32 func_021C9DB0(BsubwayScrWork *work);
-void func_021C9E8C(BsubwayScrWork *work);
-u32 func_021C9F44(BsubwayScrWork *work, u32 unused);
-int func_021C9FD0(BsubwayScrWork *work);
-void func_021C9FFC(BsubwayScrWork *work, u32 unused);
-int func_021CA048(BsubwayScrWork *work, u32 unused);
-void func_021CA05C(BsubwayScrWork *work);
-u32 func_021CA150(BsubwayScrWork *work, int i);
-int func_021CA164(void *scoreData, int unused, int mode);
-void func_021CA1E4(BsubwayScrWork *work);
-void *func_021CA210(BsubwayScrWork *work);
-u16 func_021CA234(BsubwayScrWork *work);
-void func_021CA238(BsubwayScrWork *work, u16 winCount);
-void func_021CA23C(BsubwayScrWork *work);
-int func_021CA250(BsubwayScrWork *work);
-void func_021CA258(BsubwayScrWork *work, u32 stage, u32 round);
-int func_021CA270(u16 playMode);
-int func_021CA2A4(const u16 *list, u16 value, u16 count);
-u16 func_021CA2CC(u16 winCount);
-void func_021CA2DC(BsubwayScrWork *work, u32 saveControl, int unused, u16 winCount);
-void func_021CA338(BsubwayScrWork *work, u8 isAltRom);
-void func_021CA3B4(BattleMon *mon, u32 pokeParam);
-void func_021CA4C0(BsubwayScrWork *work, u32 unused, int slot);
-int func_021CA544(u32 script, u32 scriptCtx);
-int func_021CA57C(u32 script, u32 scriptCtx);
-int func_021CA598(u32 script, u32 scriptCtx);
-int func_021CA5C4(void *scriptCtx, u32 script);
+int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem);
+BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode);
+void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work);
+void BSUBWAY_SCR_ChangeCommMultiMode(BsubwayScrWork *work);
+void BSUBWAY_SCR_SaveRestPlayData(BsubwayScrWork *work);
+void BSUBWAY_SCR_LoadMembers(BsubwayScrWork *work, u32 unused);
+void BSUBWAY_SCR_SavePlayDataMembers(BsubwayScrWork *work);
+u32 BSUBWAY_SCR_ResetPlayMode(const struct GameSystem *gameSystem);
+void BSUBWAY_SCR_SetLoseScore(u32 unused, BsubwayScrWork *work);
+u32 BSUBWAY_SCR_AddBattlePoint(BsubwayScrWork *work);
+void BSUBWAY_SCR_DrawTrainerNos(BsubwayScrWork *work);
+u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, u32 unused);
+int BSUBWAY_SCR_IsWinMax(BsubwayScrWork *work);
+void BSUBWAY_SCR_SetClearScore(BsubwayScrWork *work, u32 unused);
+int BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, u32 unused);
+void BSUBWAY_SCR_CreateRoundTrainers(BsubwayScrWork *work);
+u32 BSUBWAY_SCR_GetTrainerObjCode(BsubwayScrWork *work, int i);
+int BSUBWAY_SCR_UpdateStageRank(void *scoreData, int unused, int mode);
+void BSUBWAY_SCR_LoadPartyCopy(BsubwayScrWork *work);
+void *BSUBWAY_SCR_GetParty(BsubwayScrWork *work);
+u16 BSUBWAY_SCR_GetWinCount(BsubwayScrWork *work);
+void BSUBWAY_SCR_SetWinCount(BsubwayScrWork *work, u16 winCount);
+void BSUBWAY_SCR_IncWinCount(BsubwayScrWork *work);
+int BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work);
+void BSUBWAY_SCR_SetWinCountFromRound(BsubwayScrWork *work, u32 stage, u32 round);
+int BSUBWAY_SCR_GetMemberNum(u16 playMode);
+int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *list, u16 value, u16 count);
+u16 BSUBWAY_SCR_GetStageNo(u16 winCount);
+void BSUBWAY_SCR_SaveRecordParty(BsubwayScrWork *work, u32 saveControl, int unused, u16 winCount);
+void BSUBWAY_SCR_CreatePartners(BsubwayScrWork *work, u8 isAltRom);
+void BSUBWAY_SCR_PackBattleMon(BattleMon *mon, u32 pokeParam);
+void BSUBWAY_SCR_SaveMemberParty(BsubwayScrWork *work, u32 unused, int slot);
+int BSUBWAY_SCR_CmdCreateWork(u32 script, u32 scriptCtx);
+int BSUBWAY_SCR_CmdClearWorkPtr(u32 script, u32 scriptCtx);
+int BSUBWAY_SCR_CmdDeleteWork(u32 script, u32 scriptCtx);
+int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script);
 int func_021CB6DC(void *task, void *script);
 int func_021CB700(u32 unused, u32 script);
 int func_021CB754(u32 unused, u32 script);
@@ -520,14 +520,14 @@ u32 func_021CBBA0(u32 mapObj);
 u32 func_021CBBAC(BsubwayScrWork *work, u32 idx);
 void func_021CBBD0(BsubwayScrWork *work, u32 idx, u16 *infoFirst, u16 *infoSecond, u16 *infoThird);
 int func_021CBC14(u32 unused, u32 script);
-int func_021CBC94(u32 playMode);
-int func_021CBCC4(void *fieldMap);
+int BSUBWAY_SCR_GetRegulationNo(u32 playMode);
+int BSUBWAY_SCR_GetTrainNo(void *fieldMap);
 u32 func_021CBD08(BsubwayScrWork *work, int gameSystem);
 void *func_021CBD84(void *work);
-u16 func_021CBD90(BsubwayScrWork *work, u32 round, u32 stage, u32 line, u8 alt);
-u8 func_021CBED8(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
-u8 func_021CBEFC(u32 trainerNo);
-void func_021CBF38(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, int useItem, BtlInstDraw *draw, u16 heapId);
+u16 BSUBWAY_SCR_DrawTrainerNo(BsubwayScrWork *work, u32 round, u32 stage, u32 line, u8 alt);
+u8 BSUBWAY_SCR_CreateTrainer(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
+u8 BSUBWAY_SCR_GetMonIv(u32 trainerNo);
+void BSUBWAY_SCR_CreatePartnerMons(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, int useItem, BtlInstDraw *draw, u16 heapId);
 u16 func_021CBF98(void *unused);
 extern const char d_021DE58C[];
 extern const u8 d_021DACDC[7][10];
@@ -560,7 +560,7 @@ extern const TrainerNoRange d_021DB3F4[];
 
 
 /*
- * Blocking site: the bl to func_02012EE4 at +0008 of this function.
+ * Blocking site: the bl to GAME_DATA_SetCurrentEvent at +0008 of this function.
  *
  * no listing carries scoreData func_ label at this address -- disasm.py classified the bytes as data in every overlay whose window holds it -- and the only branches to it are these ov021 call sites, so the `label` class has no traced entry point to read and scoreData region hint cannot invent one.  Filing scoreData source for the TARGET (rule 10) would attest every caller that needs it, with no change here.
  *
@@ -568,9 +568,9 @@ extern const TrainerNoRange d_021DB3F4[];
  *
  * Addresses are Black-image addresses.
  */
-int func_021C9924(GameSystem *gameSystem)
+int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem)
 {
-    return (int)func_02012EE4(func_020120F4(gameSystem), 0);
+    return (int)GAME_DATA_SetCurrentEvent(func_020120F4(gameSystem), 0);
 }
 
 
@@ -578,7 +578,7 @@ int func_021C9924(GameSystem *gameSystem)
 
 
 
-BsubwayScrWork *func_021C9934(GameSystem *gameSystem, int resume, u32 playMode)
+BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode)
 {
     GameData *gameData;
     void *myStatus;
@@ -592,7 +592,7 @@ BsubwayScrWork *func_021C9934(GameSystem *gameSystem, int resume, u32 playMode)
 
     gameData = func_020120F4(gameSystem);
     myStatus = func_02012944(gameData);
-    saveControl = func_02012EBC(gameData);
+    saveControl = GAME_DATA_GetSaveControl(gameData);
     work = func_02030734(4, 0x7EC, 1, d_021DE58C, 0x5f);
     work->heapId = 4;
     work->magic = 0x12345678;
@@ -602,10 +602,10 @@ BsubwayScrWork *func_021C9934(GameSystem *gameSystem, int resume, u32 playMode)
     work->scoreData = func_020071CC(saveControl, 0x3a);
     work->wifiData = func_020071CC(saveControl, 0x3b);
     func_0200D868(work->playData, 0);
-    func_02012EE4(gameData, work);
+    GAME_DATA_SetCurrentEvent(gameData, work);
     if (resume == 0) {
         work->playMode = playMode;
-        work->memberNum = func_021CA270(work->playMode);
+        work->memberNum = BSUBWAY_SCR_GetMemberNum(work->playMode);
         for (i = 0; i < 4; i++)
             work->memberIndex[i] = 0xff;
         for (i = 0; i < 14; i++)
@@ -613,14 +613,14 @@ BsubwayScrWork *func_021C9934(GameSystem *gameSystem, int resume, u32 playMode)
         func_0200D85C(work->playData);
         func_0200DA14(work->playData);
         if (func_0200DB44(work->scoreData, work->playMode) == 1)
-            func_021CA238(work, func_0200DAC4(work->scoreData, work->playMode));
+            BSUBWAY_SCR_SetWinCount(work, func_0200DAC4(work->scoreData, work->playMode));
         saveByte = work->playMode;
         func_0200D914(work->playData, 0, &saveByte);
     } else {
         work->playMode = func_0200D884(work->playData, 0, 0);
-        work->memberNum = func_021CA270(work->playMode);
+        work->memberNum = BSUBWAY_SCR_GetMemberNum(work->playMode);
         if (func_0200D884(work->playData, 10, 0) != 0)
-            func_021CA1E4(work);
+            BSUBWAY_SCR_LoadPartyCopy(work);
         func_0200D884(work->playData, 5, work->memberIndex);
         func_0200D884(work->playData, 8, work->trainerNo);
         if (work->playMode == 2 || work->playMode == 7) {
@@ -630,12 +630,12 @@ BsubwayScrWork *func_021C9934(GameSystem *gameSystem, int resume, u32 playMode)
             if (func_02008550((const struct MyStatus *)((u8 *)func_020127A4(gameData) + 0x20)) != 0)
                 trainerBase -= 3;
             i = work->stateBits.partnerNo;
-            func_021CBF38(work, &work->partners[i], trainerBase + i, func_0200D884(work->playData, 7, 0), &work->partnerDraws[i], work->heapId);
+            BSUBWAY_SCR_CreatePartnerMons(work, &work->partners[i], trainerBase + i, func_0200D884(work->playData, 7, 0), &work->partnerDraws[i], work->heapId);
         }
         mode = work->playMode;
         if (func_0200DB44(work->scoreData, mode) == 1) {
             round = func_0200DA54(work->playData);
-            func_021CA258(work, func_0200DB80(work->scoreData, mode), round);
+            BSUBWAY_SCR_SetWinCountFromRound(work, func_0200DB80(work->scoreData, mode), round);
         }
     }
     return work;
@@ -646,7 +646,7 @@ BsubwayScrWork *func_021C9934(GameSystem *gameSystem, int resume, u32 playMode)
 
 
 
-void func_021C9B24(GameSystem *gameSystem, BsubwayScrWork *work)
+void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
 {
     if (work != 0) {
         if (work->partyCopy != 0) {
@@ -654,13 +654,13 @@ void func_021C9B24(GameSystem *gameSystem, BsubwayScrWork *work)
             work->partyCopy = 0;
         }
         if (work->btlSetup != 0) {
-            func_020130B4((int)(work->btlSetup));
+            BTL_SETUP_Delete((int)(work->btlSetup));
             work->btlSetup = 0;
         }
         func_02082BCC(work, 0, 0x7EC);
         func_020307B0(work);
     }
-    func_02012EE4(func_020120F4(gameSystem), 0);
+    GAME_DATA_SetCurrentEvent(func_020120F4(gameSystem), 0);
 }
 
 
@@ -673,7 +673,7 @@ void func_021C9B24(GameSystem *gameSystem, BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C9B78(BsubwayScrWork *work)
+void BSUBWAY_SCR_ChangeCommMultiMode(BsubwayScrWork *work)
 {
     u8 commMode;
 
@@ -684,9 +684,9 @@ void func_021C9B78(BsubwayScrWork *work)
     work->playMode = commMode;
     func_0200D914(work->playData, 0, &commMode);
     if (func_0200DB44(work->scoreData, work->playMode) == 1)
-        func_021CA238(work, func_0200DAC4(work->scoreData, work->playMode));
+        BSUBWAY_SCR_SetWinCount(work, func_0200DAC4(work->scoreData, work->playMode));
     else
-        func_021CA250(work);
+        BSUBWAY_SCR_ClearWinCount(work);
 }
 
 
@@ -699,7 +699,7 @@ void func_021C9B78(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C9BCC(BsubwayScrWork *work)
+void BSUBWAY_SCR_SaveRestPlayData(BsubwayScrWork *work)
 {
     u8 saveByte = work->playMode;
 
@@ -725,15 +725,15 @@ void func_021C9BCC(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C9C54(BsubwayScrWork *work, u32 unused)
+void BSUBWAY_SCR_LoadMembers(BsubwayScrWork *work, u32 unused)
 {
     void *party;
     int i;
     u32 mon;
 
-    work->memberNum = func_021CA270(work->playMode);
+    work->memberNum = BSUBWAY_SCR_GetMemberNum(work->playMode);
     func_0200D884(work->playData, 5, work->memberIndex);
-    party = func_021CA210(work);
+    party = BSUBWAY_SCR_GetParty(work);
     for (i = 0; i < work->memberNum; i++) {
         mon = (u32)func_0201AB28(party, work->memberIndex[i]);
         work->memberMonsNo[i] = func_02017E1C((void *)mon, 5, 0);
@@ -751,7 +751,7 @@ void func_021C9C54(BsubwayScrWork *work, u32 unused)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C9CAC(BsubwayScrWork *work)
+void BSUBWAY_SCR_SavePlayDataMembers(BsubwayScrWork *work)
 {
     u8 saveByte = work->playMode;
 
@@ -777,9 +777,9 @@ void func_021C9CAC(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-u32 func_021C9D30(const struct GameSystem *gameSystem)
+u32 BSUBWAY_SCR_ResetPlayMode(const struct GameSystem *gameSystem)
 {
-    u32 saveControl = (u32)func_02012EBC((struct GameData *)func_020120F4(gameSystem));
+    u32 saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)func_020120F4(gameSystem));
     u32 playData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x39);
     u32 scoreData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3a);
     u8 playMode = func_0200D884((struct BsubwayPlayData *)playData, 0, 0);
@@ -799,7 +799,7 @@ u32 func_021C9D30(const struct GameSystem *gameSystem)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C9D70(u32 unused, BsubwayScrWork *work)
+void BSUBWAY_SCR_SetLoseScore(u32 unused, BsubwayScrWork *work)
 {
     u16 winCount = work->winCount;
     u8 playMode = work->playMode;
@@ -807,7 +807,7 @@ void func_021C9D70(u32 unused, BsubwayScrWork *work)
 
     func_0200DB08((struct BsubwayScoreData *)scoreData, playMode, winCount);
     func_0200DAEC((struct BsubwayScoreData *)scoreData, playMode, winCount);
-    func_021CA2DC(work, (u32)func_02012EBC(work->gameData), 1, winCount);
+    BSUBWAY_SCR_SaveRecordParty(work, (u32)GAME_DATA_GetSaveControl(work->gameData), 1, winCount);
     func_0200DB1C(work->scoreData, playMode);
     func_0200DA14(work->playData);
 }
@@ -823,7 +823,7 @@ void func_021C9D70(u32 unused, BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-u32 func_021C9DB0(BsubwayScrWork *work)
+u32 BSUBWAY_SCR_AddBattlePoint(BsubwayScrWork *work)
 {
     int points;
     int row;
@@ -913,10 +913,10 @@ u32 func_021C9DB0(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C9E8C(BsubwayScrWork *work)
+void BSUBWAY_SCR_DrawTrainerNos(BsubwayScrWork *work)
 {
     u8 playMode = work->playMode;
-    u16 stage = func_021CA2CC(func_021CA234(work));
+    u16 stage = BSUBWAY_SCR_GetStageNo(BSUBWAY_SCR_GetWinCount(work));
     int i;
     u16 trainerNo;
 
@@ -925,15 +925,15 @@ void func_021C9E8C(BsubwayScrWork *work)
             stage = work->partnerStage;
         for (i = 0; i < 14; i++) {
             do {
-                trainerNo = func_021CBD90(work, stage, (u8)(i / 2), playMode, (u8)(i & 1));
-            } while (func_021CA2A4(work->trainerNo, trainerNo, i));
+                trainerNo = BSUBWAY_SCR_DrawTrainerNo(work, stage, (u8)(i / 2), playMode, (u8)(i & 1));
+            } while (BSUBWAY_SCR_IsTrainerNoUsed(work->trainerNo, trainerNo, i));
             work->trainerNo[i] = trainerNo;
         }
     } else {
         for (i = 0; i < 7; i++) {
             do {
-                trainerNo = func_021CBD90(work, stage, (u8)i, work->playMode, 0);
-            } while (func_021CA2A4(work->trainerNo, trainerNo, i));
+                trainerNo = BSUBWAY_SCR_DrawTrainerNo(work, stage, (u8)i, work->playMode, 0);
+            } while (BSUBWAY_SCR_IsTrainerNoUsed(work->trainerNo, trainerNo, i));
             work->trainerNo[i] = trainerNo;
         }
     }
@@ -949,7 +949,7 @@ void func_021C9E8C(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-u32 func_021C9F44(BsubwayScrWork *work, u32 unused)
+u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, u32 unused)
 {
     void *party;
     u16 i;
@@ -957,7 +957,7 @@ u32 func_021C9F44(BsubwayScrWork *work, u32 unused)
 
     if (work->selectCancel != 0 || work->selectMode == 7 || work->selectMode == 8)
         return 0;
-    party = func_021CA210(work);
+    party = BSUBWAY_SCR_GetParty(work);
     for (i = 0; i < work->memberNum; i++) {
         if (work->selectPos[i] - 1 >= 6)
             work->selectPos[i] = 1;
@@ -979,7 +979,7 @@ u32 func_021C9F44(BsubwayScrWork *work, u32 unused)
  *
  * Addresses are Black-image addresses.
  */
-int func_021C9FD0(BsubwayScrWork *work)
+int BSUBWAY_SCR_IsWinMax(BsubwayScrWork *work)
 {
     if (work->stateBits.winMaxReached == 0) {
         if (func_0200DA54(work->playData) < 7)
@@ -999,15 +999,15 @@ int func_021C9FD0(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_021C9FFC(BsubwayScrWork *work, u32 unused)
+void BSUBWAY_SCR_SetClearScore(BsubwayScrWork *work, u32 unused)
 {
     u8 playMode = work->playMode;
-    u16 winCount = func_021CA234(work);
+    u16 winCount = BSUBWAY_SCR_GetWinCount(work);
 
     func_0200DB08(work->scoreData, playMode, winCount);
     func_0200DAEC(work->scoreData, playMode, func_0200DAC4(work->scoreData, playMode));
     func_0200DB60(work->scoreData, playMode);
-    func_021CA2DC(work, (u32)func_02012EBC(work->gameData), 1, winCount);
+    BSUBWAY_SCR_SaveRecordParty(work, (u32)GAME_DATA_GetSaveControl(work->gameData), 1, winCount);
     func_0200DA14(work->playData);
 }
 
@@ -1016,7 +1016,7 @@ void func_021C9FFC(BsubwayScrWork *work, u32 unused)
 
 
 
-int func_021CA048(BsubwayScrWork *work, u32 unused)
+int BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, u32 unused)
 {
     work->stateBits.winMaxReached = 0;
     work->stateBits.fixedBpMode = 0;
@@ -1033,7 +1033,7 @@ int func_021CA048(BsubwayScrWork *work, u32 unused)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CA05C(BsubwayScrWork *work)
+void BSUBWAY_SCR_CreateRoundTrainers(BsubwayScrWork *work)
 {
     u32 round = func_0200DA54(work->playData);
     int i;
@@ -1051,15 +1051,15 @@ void func_021CA05C(BsubwayScrWork *work)
     case 8:
         i = 0;
         j = round * 2;
-        func_021CBED8(work, &work->trainers[0], work->trainerNo[j], work->memberNum, 0, 0, 0, work->heapId);
+        BSUBWAY_SCR_CreateTrainer(work, &work->trainers[0], work->trainerNo[j], work->memberNum, 0, 0, 0, work->heapId);
         for (; i < work->memberNum; i++) {
             monsNo[i] = work->trainers[0].mons[i].species;
             itemNo[i] = work->trainers[0].mons[i].item;
         }
-        func_021CBED8(work, &work->trainers[1], work->trainerNo[j + 1], work->memberNum, (u16 *)monsNo, (u16 *)itemNo, 0, work->heapId);
+        BSUBWAY_SCR_CreateTrainer(work, &work->trainers[1], work->trainerNo[j + 1], work->memberNum, (u16 *)monsNo, (u16 *)itemNo, 0, work->heapId);
         return;
     }
-    func_021CBED8(work, &work->trainers[0], work->trainerNo[round], work->memberNum, 0, 0, 0, work->heapId);
+    BSUBWAY_SCR_CreateTrainer(work, &work->trainers[0], work->trainerNo[round], work->memberNum, 0, 0, 0, work->heapId);
 }
 
 
@@ -1072,9 +1072,9 @@ void func_021CA05C(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-u32 func_021CA150(BsubwayScrWork *work, int i)
+u32 BSUBWAY_SCR_GetTrainerObjCode(BsubwayScrWork *work, int i)
 {
-    return func_02168AEC(work->trainers[i].trainerType);
+    return FLD_BTL_INST_TOOL_LookupKeyValue(work->trainers[i].trainerType);
 }
 
 
@@ -1087,7 +1087,7 @@ u32 func_021CA150(BsubwayScrWork *work, int i)
  *
  * Addresses are Black-image addresses.
  */
-int func_021CA164(void *scoreData, int unused, int mode)
+int BSUBWAY_SCR_UpdateStageRank(void *scoreData, int unused, int mode)
 {
     u8 rank = (int)func_0200DC08(scoreData);
     u32 streak;
@@ -1126,11 +1126,11 @@ int func_021CA164(void *scoreData, int unused, int mode)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CA1E4(BsubwayScrWork *work)
+void BSUBWAY_SCR_LoadPartyCopy(BsubwayScrWork *work)
 {
     if (work->partyCopy != 0)
         func_020307B0(work->partyCopy);
-    work->partyCopy = func_0200BAF4((int)func_0200BAC8(func_02012EBC(work->gameData)), 4);
+    work->partyCopy = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(work->gameData)), 4);
 }
 
 
@@ -1143,7 +1143,7 @@ void func_021CA1E4(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void *func_021CA210(BsubwayScrWork *work)
+void *BSUBWAY_SCR_GetParty(BsubwayScrWork *work)
 {
     if (func_0200D884(work->playData, 10, 0) == 0)
         return func_02012934(work->gameData);
@@ -1158,7 +1158,7 @@ void *func_021CA210(BsubwayScrWork *work)
 /*
  * Returns winCount.
  */
-u16 func_021CA234(BsubwayScrWork *work)
+u16 BSUBWAY_SCR_GetWinCount(BsubwayScrWork *work)
 {
     return work->winCount;
 }
@@ -1173,7 +1173,7 @@ u16 func_021CA234(BsubwayScrWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CA238(BsubwayScrWork *work, u16 winCount)
+void BSUBWAY_SCR_SetWinCount(BsubwayScrWork *work, u16 winCount)
 {
     work->winCount = winCount;
 }
@@ -1187,7 +1187,7 @@ void func_021CA238(BsubwayScrWork *work, u16 winCount)
  * Saturating increment of winCount.
  * Addresses are Black-image addresses.
  */
-void func_021CA23C(BsubwayScrWork *work)
+void BSUBWAY_SCR_IncWinCount(BsubwayScrWork *work)
 {
     u16 winCount = work->winCount;
 
@@ -1200,7 +1200,7 @@ void func_021CA23C(BsubwayScrWork *work)
 
 
 
-int func_021CA250(BsubwayScrWork *work)
+int BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work)
 {
     work->winCount = 0;
     return (int)work;
@@ -1210,7 +1210,7 @@ int func_021CA250(BsubwayScrWork *work)
 
 
 
-void func_021CA258(BsubwayScrWork *work, u32 stage, u32 round)
+void BSUBWAY_SCR_SetWinCountFromRound(BsubwayScrWork *work, u32 stage, u32 round)
 {
     u32 winCount = stage * 7;
 
@@ -1225,7 +1225,7 @@ void func_021CA258(BsubwayScrWork *work, u32 stage, u32 round)
 
 
 
-int func_021CA270(u16 playMode)
+int BSUBWAY_SCR_GetMemberNum(u16 playMode)
 {
     switch (playMode) {
     case 0:
@@ -1253,7 +1253,7 @@ int func_021CA270(u16 playMode)
  * Linear search of a halfword array.
  * Addresses are Black-image addresses.
  */
-int func_021CA2A4(const u16 *list, u16 value, u16 count)
+int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *list, u16 value, u16 count)
 {
     u16 i;
 
@@ -1269,7 +1269,7 @@ int func_021CA2A4(const u16 *list, u16 value, u16 count)
 
 
 
-u16 func_021CA2CC(u16 winCount)
+u16 BSUBWAY_SCR_GetStageNo(u16 winCount)
 {
     return (u16)func_0209C0A4(winCount, 7);
 }
@@ -1279,18 +1279,18 @@ u16 func_021CA2CC(u16 winCount)
 
 
 
-void func_021CA2DC(BsubwayScrWork *work, u32 saveControl, int unused, u16 winCount)
+void BSUBWAY_SCR_SaveRecordParty(BsubwayScrWork *work, u32 saveControl, int unused, u16 winCount)
 {
     u8 saveByte;
 
     switch (work->playMode) {
     case 0:
-        func_021CA4C0(work, saveControl, 0);
+        BSUBWAY_SCR_SaveMemberParty(work, saveControl, 0);
         break;
     case 1:
         break;
     case 4:
-        func_021CA4C0(work, saveControl, 1);
+        BSUBWAY_SCR_SaveMemberParty(work, saveControl, 1);
         saveByte = work->playMode;
         func_0200D914(work->playData, 0, &saveByte);
         saveByte = func_0200DA54(work->playData) + 1;
@@ -1310,7 +1310,7 @@ void func_021CA2DC(BsubwayScrWork *work, u32 saveControl, int unused, u16 winCou
  *
  * Addresses are Black-image addresses.
  */
-void func_021CA338(BsubwayScrWork *work, u8 isAltRom)
+void BSUBWAY_SCR_CreatePartners(BsubwayScrWork *work, u8 isAltRom)
 {
     int trainerBase = 300;
     int i;
@@ -1318,7 +1318,7 @@ void func_021CA338(BsubwayScrWork *work, u8 isAltRom)
     if (isAltRom)
         trainerBase += 3;
     for (i = 0; i < 3; i++)
-        work->partnerResult[i] = func_021CBED8(work, &work->partners[i], trainerBase + i, work->memberNum,
+        work->partnerResult[i] = BSUBWAY_SCR_CreateTrainer(work, &work->partners[i], trainerBase + i, work->memberNum,
                                                work->memberMonsNo, work->memberItemNo,
                                                &work->partnerDraws[i], work->heapId);
 }
@@ -1333,7 +1333,7 @@ void func_021CA338(BsubwayScrWork *work, u8 isAltRom)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CA3B4(BattleMon *mon, u32 pokeParam)
+void BSUBWAY_SCR_PackBattleMon(BattleMon *mon, u32 pokeParam)
 {
     int i;
 
@@ -1364,7 +1364,7 @@ void func_021CA3B4(BattleMon *mon, u32 pokeParam)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CA4C0(BsubwayScrWork *work, u32 unused, int slot)
+void BSUBWAY_SCR_SaveMemberParty(BsubwayScrWork *work, u32 unused, int slot)
 {
     BattleMon *buf;
     int i;
@@ -1373,9 +1373,9 @@ void func_021CA4C0(BsubwayScrWork *work, u32 unused, int slot)
     i = 0;
     buf = func_02030734((u16)(((u16)work->heapId & 0x7fff) | 0x8000), 0xb4, 0, d_021DE58C, 0x89a);
     func_02082BCC(buf, 0, 0xb4);
-    party = func_021CA210(work);
+    party = BSUBWAY_SCR_GetParty(work);
     for (; i < 3; i++)
-        func_021CA3B4(&buf[i], (u32)func_0201AB28(party, work->memberIndex[i]));
+        BSUBWAY_SCR_PackBattleMon(&buf[i], (u32)func_0201AB28(party, work->memberIndex[i]));
     func_0200DC50(work->scoreData, slot, buf);
     func_02082BCC(buf, 0, 0xb4);
     func_020307B0(buf);
@@ -1384,41 +1384,41 @@ void func_021CA4C0(BsubwayScrWork *work, u32 unused, int slot)
 
 
 
-int func_021CA544(u32 script, u32 scriptCtx)
+int BSUBWAY_SCR_CmdCreateWork(u32 script, u32 scriptCtx)
 {
-    void *scriptWork = func_0215A5F4((void *)scriptCtx);
+    void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
     u32 gameSystem, resume;
 
-    func_02158F58((int)scriptWork);
-    gameSystem = (u32)func_02158F54(scriptWork);
+    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
     resume = func_02011330((struct ScriptStream *)script);
-    func_021C9934((GameSystem *)gameSystem, resume, func_02159B10((void *)script, (void *)scriptCtx));
+    BSUBWAY_SCR_CreateWork((GameSystem *)gameSystem, resume, SCRIPT_WORK_ReadWorkValue((void *)script, (void *)scriptCtx));
     return 0;
 }
 
 
 
 
-int func_021CA57C(u32 script, u32 scriptCtx)
+int BSUBWAY_SCR_CmdClearWorkPtr(u32 script, u32 scriptCtx)
 {
-    void *scriptWork = func_0215A5F4((void *)scriptCtx);
+    void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
 
-    func_02158F58((int)scriptWork);
-    func_021C9924(func_02158F54(scriptWork));
+    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    BSUBWAY_SCR_ClearWorkPtr(SCRIPT_WORK_GetGameSystem(scriptWork));
     return 0;
 }
 
 
 
 
-int func_021CA598(u32 script, u32 scriptCtx)
+int BSUBWAY_SCR_CmdDeleteWork(u32 script, u32 scriptCtx)
 {
-    void *scriptWork = func_0215A5F4((void *)scriptCtx);
+    void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
     u32 gameSystem;
 
-    func_02158F58((int)scriptWork);
-    gameSystem = (u32)func_02158F54(scriptWork);
-    func_021C9B24((GameSystem *)gameSystem, func_02012ED8(func_020120F4((const struct GameSystem *)gameSystem)));
+    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
+    BSUBWAY_SCR_DeleteWork((GameSystem *)gameSystem, GAME_DATA_GetCurrentEvent(func_020120F4((const struct GameSystem *)gameSystem)));
     return 0;
 }
 
@@ -1447,14 +1447,14 @@ int func_021CA598(u32 script, u32 scriptCtx)
  *   still scheduled into the argument stores); the two SET_RETURN_LOCATION table cases read the table
  *   row through a pointer and pass its three words as separate arguments.
  *
- * Witnesses (closed 2026-10-02, gA2): func_021542C0 (ov007), func_02167AB0
- *   and func_02167CF4 (ov010) were seeded in layout/function_starts.txt and
+ * Witnesses (closed 2026-10-02, gA2): EVENT_BSUBWAY_COMM_Start (ov007), BSUBWAY_COMM_NetInit
+ *   and BSUBWAY_COMM_SetRecvMode (ov010) were seeded in layout/function_starts.txt and
  *   filed EXACT; data_021BB474 (ov214) and data_021BB6A4 (ov100) are
  *   hand-declared proc tables in layout/data_objects.txt, and
  *   attest_xwin_loaded() no longer counts ov021's own start at 0x021BB474
  *   as a third-overlay contest.
  */
-int func_021CA5C4(void *scriptCtx, u32 script)
+int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
 {
     VecFx32 playerPos;
     ReturnLocation playerLocation;
@@ -1487,30 +1487,30 @@ int func_021CA5C4(void *scriptCtx, u32 script)
     u16 cmd;
 
     startedTask = 0;
-    scriptWork = func_0215A5F4((void *)script);
-    func_02158F58((int)scriptWork);
-    gameSystem = (u32)func_02158F54(scriptWork);
+    scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
+    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
     gameData = (u32)func_020120F4((const struct GameSystem *)gameSystem);
-    saveControl = (u32)func_02012EBC((struct GameData *)gameData);
+    saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)gameData);
     eventFlags = func_0201296C((const struct GameData *)gameData);
-    work = func_02012ED8((struct GameData *)gameData);
+    work = GAME_DATA_GetCurrentEvent((struct GameData *)gameData);
     playData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x39);
     playMode = func_0200D884((struct BsubwayPlayData *)playData, 0, 0);
     scoreData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3a);
     wifiData = (u32)func_020071CC((struct SaveControl *)saveControl, 0x3b);
     fieldMap = func_0201210C((void *)gameSystem);
     cmd = func_02011330(scriptCtx);
-    arg1 = func_02159B10(scriptCtx, (void *)script);
-    arg2 = func_02159B10(scriptCtx, (void *)script);
+    arg1 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
+    arg2 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
     resultWorkId = func_02011330(scriptCtx);
-    resultDst = func_02158FE0(scriptWork, (void *)gameData, resultWorkId);
+    resultDst = SCRIPT_WORK_GetWorkPtr(scriptWork, (void *)gameData, resultWorkId);
 
     if (work == NULL && cmd >= 300)
         return startedTask;
 
     switch (cmd) {
     case BSUBWAY_SCR_CMD_GET_TRAIN_INDEX:
-        *resultDst = func_021CBCC4(fieldMap);
+        *resultDst = BSUBWAY_SCR_GetTrainNo(fieldMap);
         break;
     case BSUBWAY_SCR_CMD_RESET_SYSTEM:
         func_02087BCC(0);
@@ -1522,10 +1522,10 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         *resultDst = func_0200D87C((struct BsubwayPlayData *)playData);
         break;
     case BSUBWAY_SCR_CMD_SET_RETURN_LOCATION_AT_PLAYER: {
-        void *playerObj = func_02188CB4((void *)fieldMap);
-        u32 dirIndex = func_021A3050(playerObj);
+        void *playerObj = FIELDMAP_GetFieldPlayer((void *)fieldMap);
+        u32 dirIndex = FIELD_PLAYER_GetDirDisp(playerObj);
         int dirCode;
-        func_021A3038(playerObj, (struct VecFx32 *)&playerPos);
+        FIELD_PLAYER_GetPos(playerObj, (struct VecFx32 *)&playerPos);
         switch (dirIndex) {
         case 0:
             dirCode = 1;
@@ -1543,13 +1543,13 @@ int func_021CA5C4(void *scriptCtx, u32 script)
             dirCode = 0;
             break;
         }
-        func_02014184(&playerLocation, func_02188C9C(fieldMap), dirCode, playerPos.x, playerPos.y, playerPos.z);
+        ZONEDATA_SetDirectLocation(&playerLocation, FIELDMAP_GetZoneId(fieldMap), dirCode, playerPos.x, playerPos.y, playerPos.z);
         func_0201289C((struct GameData *)gameData, (const struct ReturnLocation *)(&playerLocation));
-        func_02014314((char *)eventFlags, 0x966);
+        ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
         break;
     }
     case BSUBWAY_SCR_CMD_CLEAR_RETURN_LOCATION_FLAG:
-        func_0201433C((char *)eventFlags, 0x966);
+        ZONEDATA_ResetEventFlag((char *)eventFlags, 0x966);
         break;
     case BSUBWAY_SCR_CMD_GET_RECORD_WIN_COUNT:
         *resultDst = func_0200DAC4((struct BsubwayScoreData *)scoreData, arg1);
@@ -1557,15 +1557,15 @@ int func_021CA5C4(void *scriptCtx, u32 script)
             *resultDst = 9999;
         break;
     case BSUBWAY_SCR_CMD_BEGIN_PLAY_GET_MODE:
-        *resultDst = func_021C9D30((const struct GameSystem *)gameSystem);
+        *resultDst = BSUBWAY_SCR_ResetPlayMode((const struct GameSystem *)gameSystem);
         break;
     case BSUBWAY_SCR_CMD_GET_PLAYER_LOOK:
-        *resultDst = func_021A3190(func_021A30B0(func_02188CB4((void *)fieldMap)), 0);
+        *resultDst = FIELD_PLAYER_GetFormObjCode(FIELD_PLAYER_GetSex(FIELDMAP_GetFieldPlayer((void *)fieldMap)), 0);
         break;
     case BSUBWAY_SCR_CMD_SET_NPC_DIRECTION: {
-        void *npcObj = func_0216DE94(func_02188C7C((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
         if (npcObj != 0)
-            func_0216DAC8(npcObj, arg2);
+            FLDMMDL_SetStatusBitVanish(npcObj, arg2);
         break;
     }
     case BSUBWAY_SCR_CMD_GET_NEXT_ROUND_FROM_SAVE:
@@ -1592,13 +1592,13 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         func_0200DBA0((struct BsubwayScoreData *)scoreData, 10, 1);
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_SIGN_TABLE:
-        func_021F37C0(fieldMap, data_021DAD88[arg1], (int)(&data_021DAD70[arg2]));
+        FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, data_021DAD88[arg1], (int)(&data_021DAD70[arg2]));
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_DOOR_STATE:
-        func_021D024C((void *)func_021F380C((int)fieldMap), arg1);
+        FLDEFF_BTRAIN_SetAnime((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), arg1);
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_DOOR_STATE_OTHER:
-        func_021D028C((void *)func_021F380C((int)fieldMap), arg1);
+        FLDEFF_BTRAIN_SetHidden((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), arg1);
         break;
     case BSUBWAY_SCR_CMD_GET_SAVED_PLAY_MODE:
         *resultDst = func_0200D884((struct BsubwayPlayData *)playData, 0, 0);
@@ -1622,51 +1622,51 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_SET_NPC_HEIGHT_AND_LOCK: {
         u32 height = arg2 << 16;
-        void *npcObj = func_0216DE94(func_02188C7C((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
         if (npcObj != 0) {
-            func_0216D88C(npcObj, &npcPos);
+            FLDMMDL_GetPos(npcObj, &npcPos);
             npcPos.y = height;
-            func_0216E014(npcObj, (int *)(&npcPos), func_0216D5F8(npcObj));
-            func_0216DB4C(npcObj, 1);
+            FLDMMDL_InitPosition(npcObj, (int *)(&npcPos), FLDMMDL_GetDirDisp(npcObj));
+            FLDMMDL_SetStatusBitHeightGetOff(npcObj, 1);
         }
         break;
     }
     case BSUBWAY_SCR_CMD_UNLOCK_NPC: {
-        void *npcObj = func_0216DE94(func_02188C7C((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
         if (npcObj != 0)
-            func_0216DB4C(npcObj, 0);
+            FLDMMDL_SetStatusBitHeightGetOff(npcObj, 0);
         break;
     }
     case BSUBWAY_SCR_CMD_IS_NPC_PRESENT: {
-        void *npcObj = func_0216DE94(func_02188C7C((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
         *resultDst = 0;
         if (npcObj != 0)
             *resultDst = 1;
         break;
     }
     case BSUBWAY_SCR_CMD_GET_NPC_TRAIN_STATE: {
-        void *npcObj = func_0216DE94(func_02188C7C((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
         *resultDst = 0;
         if (npcObj != 0)
             *resultDst = func_021CBBA0((u32)npcObj);
         break;
     }
     case BSUBWAY_SCR_CMD_GET_RANK:
-        *resultDst = func_021CA164((void *)scoreData, gameSystem, 0);
+        *resultDst = BSUBWAY_SCR_UpdateStageRank((void *)scoreData, gameSystem, 0);
         if ((s16)*resultDst <= 0)
             *resultDst = 1;
         break;
     case BSUBWAY_SCR_CMD_LOWER_RANK:
-        *resultDst = func_021CA164((void *)scoreData, gameSystem, 3);
+        *resultDst = BSUBWAY_SCR_UpdateStageRank((void *)scoreData, gameSystem, 3);
         break;
     case BSUBWAY_SCR_CMD_RAISE_RANK:
-        *resultDst = func_021CA164((void *)scoreData, gameSystem, 4);
+        *resultDst = BSUBWAY_SCR_UpdateStageRank((void *)scoreData, gameSystem, 4);
         break;
     case BSUBWAY_SCR_CMD_GET_SCORE_ROUND_VALUE:
         *resultDst = func_0200DB80((struct BsubwayScoreData *)scoreData, arg1);
         break;
     case BSUBWAY_SCR_CMD_GET_PARTNER_LOOK:
-        *resultDst = func_021A31A4(func_02008550((const struct MyStatus *)((u8 *)func_020127A4((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
+        *resultDst = FIELD_PLAYER_GetObjCodeOfFormCode(func_02008550((const struct MyStatus *)((u8 *)func_020127A4((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
         break;
     case BSUBWAY_SCR_CMD_IS_BATTLE_REC_SAVED: {
         u32 recordSys = (u32)func_0200BAC8((void *)saveControl);
@@ -1679,49 +1679,49 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         *resultDst = 0;
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_SIGN_DEFAULT:
-        func_021F37C0(fieldMap, 7, (int)data_021DAD70);
+        FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, 7, (int)data_021DAD70);
         break;
     case BSUBWAY_SCR_CMD_SET_NPC_ANIMATION: {
-        void *npcObj = func_0216DE94(func_02188C7C((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
         if (npcObj != 0)
-            func_0216D5E0((int)npcObj, arg2);
+            FLDMMDL_SetDirDispCheckPause((int)npcObj, arg2);
         break;
     }
     case BSUBWAY_SCR_CMD_RESET_NPC_ANIMATION: {
-        void *npcObj = func_0216DE94(func_02188C7C((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
         if (npcObj != 0)
-            func_0216DAF8(npcObj);
+            FLDMMDL_OnMoveBitMovePause(npcObj);
         break;
     }
     case BSUBWAY_SCR_CMD_START_NPC_TASK:
-        func_0215897C(scriptWork, func_0216CB48(gameSystem, func_0216D63C(func_0216DE94(func_02188C7C((void *)fieldMap), arg1), 0), arg1));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromHistory(gameSystem, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0), arg1));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_MODE_CLEARED:
         *resultDst = func_0200DB44((struct BsubwayScoreData *)scoreData, arg1);
         break;
     case BSUBWAY_SCR_CMD_IS_NPC_AVAILABLE: {
-        u32 npcIndex = func_0216D63C(func_0216DE94(func_02188C7C((void *)fieldMap), arg1), 0);
+        u32 npcIndex = FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0);
         *resultDst = 0;
         if (func_021CBBAC(work, npcIndex) == 1)
             *resultDst = 1;
         break;
     }
     case BSUBWAY_SCR_CMD_GET_NPC_INFO_FIRST:
-        func_021CBBD0(work, func_0216D63C(func_0216DE94(func_02188C7C((void *)fieldMap), arg1), 0), &firstA, &firstB, &firstC);
+        func_021CBBD0(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0), &firstA, &firstB, &firstC);
         *resultDst = firstA;
         break;
     case BSUBWAY_SCR_CMD_GET_NPC_INFO_SECOND:
-        func_021CBBD0(work, func_0216D63C(func_0216DE94(func_02188C7C((void *)fieldMap), arg1), 0), &secondA, &secondB, &secondC);
+        func_021CBBD0(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0), &secondA, &secondB, &secondC);
         *resultDst = secondB;
         break;
     case BSUBWAY_SCR_CMD_GET_NPC_INFO_THIRD:
-        func_021CBBD0(work, func_0216D63C(func_0216DE94(func_02188C7C((void *)fieldMap), arg1), 0), &thirdA, &thirdB, &thirdC);
+        func_021CBBD0(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0), &thirdA, &thirdB, &thirdC);
         *resultDst = thirdC;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_RECORD_COUNT: {
-        void *recordList = func_0200DF58((struct BsubwayWifiData *)wifiData, 4);
-        *resultDst = func_0200DF94(recordList);
+        void *recordList = BSUBWAY_SAVEDATA_AllocHistoryCopy((struct BsubwayWifiData *)wifiData, 4);
+        *resultDst = BSUBWAY_SAVEDATA_CountHistoryEntries(recordList);
         func_020307B0(recordList);
         break;
     }
@@ -1729,16 +1729,16 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         u32 cancelFlag = 0;
         if (arg1 == 1)
             cancelFlag = 1;
-        func_0215897C(scriptWork, func_021CB9BC((void *)gameSystem, script, (u32)resultDst, cancelFlag));
+        SCRIPT_SYS_CallEvent(scriptWork, func_021CB9BC((void *)gameSystem, script, (u32)resultDst, cancelFlag));
         startedTask = 1;
         break;
     }
     case BSUBWAY_SCR_CMD_SET_RETURN_LOCATION_FROM_TABLE: {
-        u16 tableIndex = func_021CBCC4(fieldMap);
+        u16 tableIndex = BSUBWAY_SCR_GetTrainNo(fieldMap);
         const VecFx32 *pos = &data_021DAE50[tableIndex];
-        func_02014184(&tableLocation, data_021DADAC[tableIndex], 4, pos->x, pos->y, pos->z);
+        ZONEDATA_SetDirectLocation(&tableLocation, data_021DADAC[tableIndex], 4, pos->x, pos->y, pos->z);
         func_0201289C((struct GameData *)gameData, (const struct ReturnLocation *)(&tableLocation));
-        func_02014314((char *)eventFlags, 0x966);
+        ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
         break;
     }
     case BSUBWAY_SCR_CMD_SET_SCORE_FLAG_FIRST:
@@ -1753,19 +1753,19 @@ int func_021CA5C4(void *scriptCtx, u32 script)
     case BSUBWAY_SCR_CMD_START_OV007_PROC_A:
         procParam.mode = 0;
         procParam.result = resultDst;
-        func_0215897C(scriptWork, func_020124AC((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))func_021542C0, (u32)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (u32)(&procParam)));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_OV007_PROC_B:
         startedTask = 1;
         procParam.mode = 1;
         procParam.result = resultDst;
-        func_0215897C(scriptWork, func_020124AC((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))func_021542C0, (u32)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (u32)(&procParam)));
         break;
     case BSUBWAY_SCR_CMD_START_OV007_PROC_C:
         procParam.mode = 2;
         procParam.result = resultDst;
-        func_0215897C(scriptWork, func_020124AC((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))func_021542C0, (u32)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (u32)(&procParam)));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_101:
@@ -1785,14 +1785,14 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         *resultDst = func_0200DE64((struct BsubwayWifiData *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_START_PARTY_TASK:
-        func_0215897C(scriptWork, func_0216C860((void *)gameSystem));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartHistoryScreenEvent((void *)gameSystem));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_103:
-        *resultDst = func_0200DF40((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetHistoryTagA((struct BsubwayWifiData *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_102:
-        *resultDst = func_0200DF4C((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetHistoryTagB((struct BsubwayWifiData *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_RESULT_FALSE_B:
         *resultDst = 0;
@@ -1807,47 +1807,47 @@ int func_021CA5C4(void *scriptCtx, u32 script)
     case BSUBWAY_SCR_CMD_SET_RETURN_LOCATION_FROM_MODE:
         if (playMode < 9) {
             const VecFx32 *pos = &data_021DAE50[playMode];
-            func_02014184(&modeLocation, data_021DADAC[playMode], 4, pos->x, pos->y, pos->z);
+            ZONEDATA_SetDirectLocation(&modeLocation, data_021DADAC[playMode], 4, pos->x, pos->y, pos->z);
             func_0201289C((struct GameData *)gameData, (const struct ReturnLocation *)(&modeLocation));
-            func_02014314((char *)eventFlags, 0x966);
+            ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
         }
         break;
     case BSUBWAY_SCR_CMD_START_PARTY_SELECT:
         {
             u8 useOwnParty = func_0200D884((struct BsubwayPlayData *)playData, 10, 0);
-            func_0215897C(scriptWork, func_0216C538((struct PartySelectParam *)work, (void *)gameSystem, useOwnParty));
+            SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartPartyPickEvent((struct PartySelectParam *)work, (void *)gameSystem, useOwnParty));
         }
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_SET_SELECTED_MEMBERS:
-        *resultDst = func_021C9F44(work, gameSystem);
+        *resultDst = BSUBWAY_SCR_SetSelectedMembers(work, gameSystem);
         break;
     case BSUBWAY_SCR_CMD_RESULT_FALSE_D:
         *resultDst = 0;
         break;
     case BSUBWAY_SCR_CMD_IS_WIN_MAX:
-        if (func_021C9FD0(work) == 1)
+        if (BSUBWAY_SCR_IsWinMax(work) == 1)
             *resultDst = 1;
         else
             *resultDst = 0;
         break;
     case BSUBWAY_SCR_CMD_SET_LOSE_SCORE:
-        func_021C9D70(gameSystem, work);
+        BSUBWAY_SCR_SetLoseScore(gameSystem, work);
         break;
     case BSUBWAY_SCR_CMD_SET_CLEAR_SCORE:
-        func_021C9FFC(work, gameSystem);
+        BSUBWAY_SCR_SetClearScore(work, gameSystem);
         break;
     case BSUBWAY_SCR_CMD_SAVE_REST_PLAY_DATA:
-        func_021C9BCC(work);
+        BSUBWAY_SCR_SaveRestPlayData(work);
         break;
     case BSUBWAY_SCR_CMD_CREATE_ROUND_TRAINERS:
-        func_021CA05C(work);
+        BSUBWAY_SCR_CreateRoundTrainers(work);
         break;
     case BSUBWAY_SCR_CMD_GET_TRAINER_OBJ_CODE:
-        *resultDst = func_021CA150(work, arg1);
+        *resultDst = BSUBWAY_SCR_GetTrainerObjCode(work, arg1);
         break;
     case BSUBWAY_SCR_CMD_START_ENCOUNTER_TASK:
-        func_0215897C(scriptWork, func_0216C640(work, gameSystem, fieldMap));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartEncounterScene(work, gameSystem, fieldMap));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_PLAY_MODE:
@@ -1860,7 +1860,7 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         *resultDst = work->stateBits.fixedBpMode;
         break;
     case BSUBWAY_SCR_CMD_GET_BATTLE_POINTS:
-        *resultDst = func_021C9DB0(work);
+        *resultDst = BSUBWAY_SCR_AddBattlePoint(work);
         break;
     case BSUBWAY_SCR_CMD_SET_PARTNER_NO:
         work->stateBits.partnerNo = arg1;
@@ -1869,7 +1869,7 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         *resultDst = work->stateBits.partnerNo;
         break;
     case BSUBWAY_SCR_CMD_DRAW_TRAINER_NOS:
-        func_021C9E8C(work);
+        BSUBWAY_SCR_DrawTrainerNos(work);
         break;
     case BSUBWAY_SCR_CMD_GET_MEMBER_INDEX:
         *resultDst = work->memberIndex[arg1];
@@ -1879,21 +1879,21 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         func_02082BCC(work->recvBuf, 0, 0x46);
         break;
     case BSUBWAY_SCR_CMD_START_PARTNER_TASK_A:
-        func_0215897C(scriptWork, func_0216C6E8(work, (void *)gameSystem, arg1, arg2, 5));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, arg1, arg2, 5));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_SAVE_PLAY_DATA_MEMBERS:
-        func_021C9CAC(work);
+        BSUBWAY_SCR_SavePlayDataMembers(work);
         break;
     case BSUBWAY_SCR_CMD_LOAD_MEMBERS:
-        func_021C9C54(work, gameSystem);
+        BSUBWAY_SCR_LoadMembers(work, gameSystem);
         break;
     case BSUBWAY_SCR_CMD_SET_PLAY_DATA_BYTE_10:
         byte10 = arg1;
         func_0200D914((struct BsubwayPlayData *)playData, 10, &byte10);
         break;
     case BSUBWAY_SCR_CMD_CHANGE_COMM_MULTI_MODE:
-        func_021C9B78(work);
+        BSUBWAY_SCR_ChangeCommMultiMode(work);
         break;
     case BSUBWAY_SCR_CMD_IS_UPPER_PLAY_MODE:
         if (playMode - 5 <= 3)
@@ -1902,7 +1902,7 @@ int func_021CA5C4(void *scriptCtx, u32 script)
             *resultDst = 0;
         break;
     case BSUBWAY_SCR_CMD_SPAWN_FIELD_OBJECTS:
-        func_021CB9E4(work, (void *)gameData, func_02188C7C((void *)fieldMap), fieldMap);
+        func_021CB9E4(work, (void *)gameData, FIELDMAP_GetMmdlSys((void *)fieldMap), fieldMap);
         break;
     case BSUBWAY_SCR_CMD_SET_STATE_FLAG8:
         work->stateBits.flag8 = arg1;
@@ -1921,23 +1921,23 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_CLEAR_STATE_BITS:
-        func_021CA048(work, gameSystem);
+        BSUBWAY_SCR_ClearStateBits(work, gameSystem);
         break;
     case BSUBWAY_SCR_CMD_SET_PROGRESS_RECORDS: {
         BsubwayRecordNo recordNo = 0;
         u16 playRound = func_0200DA54((struct BsubwayPlayData *)playData);
         if (playRound != 0) {
-            void *trainerCard = (void *)func_0202B578((u32 *)func_02012134((u32 *)gameSystem));
+            void *trainerCard = (void *)ISS_SYS_GetSwitchSys((u32 *)GAMESYSTEM_GetIssSystem((u32 *)gameSystem));
             playRound = recordNo + playRound + 1;
             for (; recordNo < playRound; recordNo++) {
                 if (recordNo < 9 && recordNo != 0)
-                    func_0202C0D0(trainerCard, recordNo);
+                    ISS_SWITCH_SYS_SwitchOn(trainerCard, recordNo);
             }
         }
         break;
     }
     case BSUBWAY_SCR_CMD_CREATE_PARTNERS:
-        func_021CA338(work, func_02008550((const struct MyStatus *)((u8 *)func_020127A4((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0);
+        BSUBWAY_SCR_CreatePartners(work, func_02008550((const struct MyStatus *)((u8 *)func_020127A4((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0);
         break;
     case BSUBWAY_SCR_CMD_GET_MEMBER_MONS_NO:
         *resultDst = work->memberMonsNo[arg1];
@@ -1956,7 +1956,7 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         u32 checkResult;
         *resultDst = 0;
         partySource = func_0200D884((struct BsubwayPlayData *)playData, 10, 0);
-        regulation = func_0201A354(func_021CBC94(playMode), 4);
+        regulation = POKE_REGULATION_Load(BSUBWAY_SCR_GetRegulationNo(playMode), 4);
         if (partySource == 1) {
             recordParty = func_0200BAF4((u32)func_0200BAC8((void *)saveControl), 4);
             checkedParty = recordParty;
@@ -1972,18 +1972,18 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_LOAD_PARTY_COPY:
-        func_021CA1E4(work);
+        BSUBWAY_SCR_LoadPartyCopy(work);
         break;
     case BSUBWAY_SCR_CMD_GET_REGULATION_NO:
-        *resultDst = func_021CBC94(playMode);
+        *resultDst = BSUBWAY_SCR_GetRegulationNo(playMode);
         break;
     case BSUBWAY_SCR_CMD_GET_MEMBER_NUM:
-        *resultDst = func_021CA270(playMode);
+        *resultDst = BSUBWAY_SCR_GetMemberNum(playMode);
         break;
     case BSUBWAY_SCR_CMD_CHECK_BATTLE_REC_SLOT:
         if (work->stateBits.btlRecState == 0) {
             work->stateBits.btlRecState = 1;
-            if (func_0200B5CC((void *)saveControl, 4, &recordSlot, 0) == 1)
+            if (BATTLE_REC_CheckSaved((void *)saveControl, 4, &recordSlot, 0) == 1)
                 work->stateBits.btlRecState = 2;
         }
         break;
@@ -1994,22 +1994,22 @@ int func_021CA5C4(void *scriptCtx, u32 script)
             *resultDst = 1;
         break;
     case BSUBWAY_SCR_CMD_SAVE_BATTLE_REC_FROM_SETUP:
-        func_0200BA58();
+        BATTLE_REC_LoadToolOverlay();
         func_021EEE78((void *)work->btlSetup);
-        func_0200BA68();
+        BATTLE_REC_UnloadToolOverlay();
         break;
     case BSUBWAY_SCR_CMD_START_RESULT_MESSAGE:
         work->msgState = 0;
         work->msgSubState = 0;
         work->msgNumber = arg1;
-        func_020113D0(scriptCtx, (int)func_021CBC14);
+        VM_SetWait(scriptCtx, (int)func_021CBC14);
         work->stateBits.btlRecState = 2;
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_FREE_BATTLE_SETUP:
         if (work->btlSetup != 0) {
-            func_0200B424();
-            func_020130B4((int)work->btlSetup);
+            BATTLE_REC_FreeWork();
+            BTL_SETUP_Delete((int)work->btlSetup);
             work->btlSetup = 0;
         }
         break;
@@ -2020,10 +2020,10 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         work->btlRecProcParam.recordNo = 0;
         work->btlRecProcParam.subwayFlag = 1;
         work->btlRecProcParam.category = data_021DAD24[playMode];
-        work->btlRecProcParam.winCount = func_021CA234(work);
+        work->btlRecProcParam.winCount = BSUBWAY_SCR_GetWinCount(work);
         if (work->btlRecProcParam.winCount > 9999)
             work->btlRecProcParam.winCount = 9999;
-        func_0215897C(scriptWork, func_02014808((char *)gameSystem, (int)fieldMap, (u32)ov214_id, (int)data_021BB474, (int)&work->btlRecProcParam, 0, 0));
+        SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcCallbackEvent((char *)gameSystem, (int)fieldMap, (u32)ov214_id, (int)data_021BB474, (int)&work->btlRecProcParam, 0, 0));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_COMMIT_MODE_CLEAR:
@@ -2031,7 +2031,7 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         func_0200DB1C((struct BsubwayScoreData *)scoreData, playMode);
         break;
     case BSUBWAY_SCR_CMD_RELEASE_TRAIN_SIGN:
-        func_021F388C((int)fieldMap);
+        FIELD_GIMMICK_BSUBWAY_HaltTrainSway((int)fieldMap);
         break;
     case BSUBWAY_SCR_CMD_GET_TRAINER_NO: {
         u32 playRound = func_0200DA54((struct BsubwayPlayData *)playData);
@@ -2054,7 +2054,7 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_START_PARTNER_TASK_B:
-        func_0215897C(scriptWork, func_0216C6E8(work, (void *)gameSystem, arg1, arg2, 6));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, arg1, arg2, 6));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_ADD_BATTLE_TALLY: {
@@ -2092,13 +2092,13 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_NEXT_ROUND_GET_WIN_COUNT:
         func_0200DA28((struct BsubwayPlayData *)playData);
-        func_021CA23C(work);
-        *resultDst = func_021CA234(work);
+        BSUBWAY_SCR_IncWinCount(work);
+        *resultDst = BSUBWAY_SCR_GetWinCount(work);
         if (*resultDst > 9999)
             *resultDst = 9999;
         break;
     case BSUBWAY_SCR_CMD_GET_WIN_COUNT:
-        *resultDst = func_021CA234(work);
+        *resultDst = BSUBWAY_SCR_GetWinCount(work);
         if (*resultDst > 9999)
             *resultDst = 9999;
         break;
@@ -2106,57 +2106,57 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         if (func_0200DB44((struct BsubwayScoreData *)scoreData, playMode) == 0) {
             func_0200DB30((struct BsubwayScoreData *)scoreData, playMode);
             func_0200DA14((struct BsubwayPlayData *)playData);
-            func_021CA250(work);
+            BSUBWAY_SCR_ClearWinCount(work);
         }
         break;
     case BSUBWAY_SCR_CMD_START_COMM_SESSION:
         if (work->stateBits.commMode == 1)
-            func_02167B00((u32)work);
+            BSUBWAY_COMM_AddCommandTable((u32)work);
         else
-            func_02167AB0(work);
+            BSUBWAY_COMM_NetInit(work);
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CLOSE_TASK:
-        func_0215897C(scriptWork, func_021CB914((void *)gameSystem, (u32)work));
+        SCRIPT_SYS_CallEvent(scriptWork, func_021CB914((void *)gameSystem, (u32)work));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_TIMING_SYNC:
         work->timingNo = arg1;
         work->resultWorkId = resultWorkId;
-        func_02167B24(work->timingNo);
-        func_020113D0(scriptCtx, (int)func_021CB700);
+        BSUBWAY_COMM_StartTimingSync(work->timingNo);
+        VM_SetWait(scriptCtx, (int)func_021CB700);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CHECK_A:
         work->commResultDst = resultDst;
-        work->commTask = (void *)func_021CD48C((u32)func_02012944((void *)gameData), fieldMap, 2, 2, 4, 0, 2, 0);
-        func_020113D0(scriptCtx, (int)func_021CB754);
+        work->commTask = (void *)COMM_ENTRY_MENU_Create((u32)func_02012944((void *)gameData), fieldMap, 2, 2, 4, 0, 2, 0);
+        VM_SetWait(scriptCtx, (int)func_021CB754);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CHECK_B:
         work->commResultDst = resultDst;
-        work->commTask = (void *)func_021CD48C((u32)func_02012944((void *)gameData), fieldMap, 2, 2, 4, 1, 2, 0);
+        work->commTask = (void *)COMM_ENTRY_MENU_Create((u32)func_02012944((void *)gameData), fieldMap, 2, 2, 4, 1, 2, 0);
         startedTask = 1;
-        func_020113D0(scriptCtx, (int)func_021CB7E8);
+        VM_SetWait(scriptCtx, (int)func_021CB7E8);
         break;
     case BSUBWAY_SCR_CMD_SEND_COMM_COMMAND:
-        func_02167BFC(work, arg1, arg2);
-        func_020113D0(scriptCtx, (int)func_021CB6DC);
+        BSUBWAY_COMM_SetSendData(work, arg1, arg2);
+        VM_SetWait(scriptCtx, (int)func_021CB6DC);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_RECEIVE:
-        func_02167CF4(work, arg1);
+        BSUBWAY_COMM_SetRecvMode(work, arg1);
         work->resultWorkId = resultWorkId;
-        func_020113D0(scriptCtx, (int)func_021CB86C);
+        VM_SetWait(scriptCtx, (int)func_021CB86C);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_COMM_PLAYER_ID:
-        *resultDst = func_02039338();
+        *resultDst = GFL_NET_SYSTEM_GetCurrentAid();
         break;
     case BSUBWAY_SCR_CMD_START_WIFI_PROC:
         func_02082BCC(&work->wifiProcParam, 0, 0x24);
         work->wifiProcParam.gameData = (GameData *)gameData;
         work->wifiProcParam.result = 11;
-        func_0215897C(scriptWork, func_02014808((char *)gameSystem, (int)fieldMap, (u32)ov100_id, (int)data_021BB6A4, (int)&work->wifiProcParam, 0, 0));
+        SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcCallbackEvent((char *)gameSystem, (int)fieldMap, (u32)ov100_id, (int)data_021BB6A4, (int)&work->wifiProcParam, 0, 0));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_PROC_RESULT:
@@ -2179,13 +2179,13 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         func_0200ED54(func_0200ED48((void *)saveControl), work->partnerMyStatus.id);
         break;
     case BSUBWAY_SCR_CMD_GET_LOOK_FIRST:
-        *resultDst = func_021A3190(func_02039338() == 0 ? func_021A30B0(func_02188CB4((void *)fieldMap)) : work->partnerMyStatus.outfitVariant, 0);
+        *resultDst = FIELD_PLAYER_GetFormObjCode(GFL_NET_SYSTEM_GetCurrentAid() == 0 ? FIELD_PLAYER_GetSex(FIELDMAP_GetFieldPlayer((void *)fieldMap)) : work->partnerMyStatus.outfitVariant, 0);
         break;
     case BSUBWAY_SCR_CMD_GET_LOOK_SECOND:
-        *resultDst = func_021A3190(func_02039338() == 0 ? work->partnerMyStatus.outfitVariant : func_021A30B0(func_02188CB4((void *)fieldMap)), 0);
+        *resultDst = FIELD_PLAYER_GetFormObjCode(GFL_NET_SYSTEM_GetCurrentAid() == 0 ? work->partnerMyStatus.outfitVariant : FIELD_PLAYER_GetSex(FIELDMAP_GetFieldPlayer((void *)fieldMap)), 0);
         break;
     case BSUBWAY_SCR_CMD_CLEAR_SYSTEM_FLAG:
-        func_0200FB38();
+        GFL_NET_ERR_RequestScreen();
         break;
     case BSUBWAY_SCR_CMD_SET_SYSTEM_MODE:
         func_02012124((struct GameSystem *)gameSystem, 1);
@@ -2199,7 +2199,7 @@ int func_021CA5C4(void *scriptCtx, u32 script)
         BtlSetup *setup;
         *resultDst = 0;
         setup = work->btlSetup;
-        if (setup != NULL && func_0200BA38(setup->recordMode) == 1)
+        if (setup != NULL && BATTLE_REC_IsVersionSupported(setup->recordMode) == 1)
             *resultDst = 1;
         break;
     }
@@ -2220,7 +2220,7 @@ int func_021CA5C4(void *scriptCtx, u32 script)
  */
 int func_021CB6DC(void *task, void *script)
 {
-    if (func_02167CB4(func_02012ED8(func_020120F4(func_02158F54(func_0215A5F4(script))))) == 1)
+    if (BSUBWAY_COMM_SendData(GAME_DATA_GetCurrentEvent(func_020120F4(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(script))))) == 1)
         return 1;
     return 0;
 }
@@ -2236,15 +2236,15 @@ int func_021CB700(u32 unused, u32 script)
     void *scriptWork;
     u16 *resultDst;
 
-    scriptWork = func_0215A5F4((void *)script);
-    gameData = func_020120F4(func_02158F54(scriptWork));
-    work = func_02012ED8(gameData);
-    resultDst = func_02158FE0(scriptWork, gameData, work->resultWorkId);
+    scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
+    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(scriptWork));
+    work = GAME_DATA_GetCurrentEvent(gameData);
+    resultDst = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, work->resultWorkId);
     if (func_0200FB24() != 0) {
         *resultDst = 0;
         return 1;
     }
-    if (func_02167B34(work->timingNo) == 1) {
+    if (BSUBWAY_COMM_CheckTimingSync(work->timingNo) == 1) {
         *resultDst = 1;
         return 1;
     }
@@ -2263,18 +2263,18 @@ int func_021CB754(u32 unused, u32 script)
     int commResult;
     u32 zero;
 
-    scriptWork = func_0215A5F4((void *)script);
-    func_02158F58((int)scriptWork);
-    gameData = func_020120F4(func_02158F54(scriptWork));
-    saveControl = func_02012EBC(gameData);
+    scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
+    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(scriptWork));
+    saveControl = GAME_DATA_GetSaveControl(gameData);
     func_0201296C(gameData);
-    work = func_02012ED8(gameData);
+    work = GAME_DATA_GetCurrentEvent(gameData);
     zero = 0;
     func_0200D884(func_020071CC(saveControl, 0x39), 0, 0);
     func_020071CC(saveControl, 0x3A);
-    commResult = func_021CD688((u8 *)work->commTask);
+    commResult = COMM_ENTRY_MENU_Main((u8 *)work->commTask);
     if (commResult != 0) {
-        func_021CD5A4((u32 *)work->commTask);
+        COMM_ENTRY_MENU_Delete((u32 *)work->commTask);
         work->commTask = (void *)zero;
         switch (commResult) {
         case 1:
@@ -2304,18 +2304,18 @@ int func_021CB7E8(u32 unused, u32 script)
     int commResult;
     u32 zero;
 
-    scriptWork = func_0215A5F4((void *)script);
-    func_02158F58((int)scriptWork);
-    gameData = func_020120F4(func_02158F54(scriptWork));
-    saveControl = func_02012EBC(gameData);
+    scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
+    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(scriptWork));
+    saveControl = GAME_DATA_GetSaveControl(gameData);
     func_0201296C(gameData);
-    work = func_02012ED8(gameData);
+    work = GAME_DATA_GetCurrentEvent(gameData);
     zero = 0;
     func_0200D884(func_020071CC(saveControl, 0x39), 0, 0);
     func_020071CC(saveControl, 0x3A);
-    commResult = func_021CD688((u8 *)work->commTask);
+    commResult = COMM_ENTRY_MENU_Main((u8 *)work->commTask);
     if (commResult != 0) {
-        func_021CD5A4((u32 *)work->commTask);
+        COMM_ENTRY_MENU_Delete((u32 *)work->commTask);
         work->commTask = (void *)zero;
         switch (commResult) {
         case 1:
@@ -2341,11 +2341,11 @@ int func_021CB86C(u32 unused, u32 script)
     BsubwayScrWork *work;
     u16 *resultDst;
 
-    scriptWork = func_0215A5F4((void *)script);
-    gameData = func_020120F4(func_02158F54(scriptWork));
-    work = func_02012ED8(gameData);
-    resultDst = func_02158FE0(scriptWork, gameData, work->resultWorkId);
-    if (func_02167D00(work, resultDst) == 1)
+    scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
+    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(scriptWork));
+    work = GAME_DATA_GetCurrentEvent(gameData);
+    resultDst = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, work->resultWorkId);
+    if (BSUBWAY_COMM_IsRecvEnd(work, resultDst) == 1)
         return 1;
     return 0;
 }
@@ -2358,7 +2358,7 @@ int func_021CB86C(u32 unused, u32 script)
  * Task step: closes the message window, optionally resumes the field, then waits for the save to finish.
  *
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
- * The caller leaves the owner pointer in r0 for func_02167B18, so the extern
+ * The caller leaves the owner pointer in r0 for BSUBWAY_COMM_DeleteCommandTable, so the extern
  * keeps one (ignored) parameter.
  *
  * Addresses are Black-image addresses.
@@ -2367,25 +2367,25 @@ int func_021CB8AC(void *task, int *state, BsubwayScrWork **work)
 {
     switch (*state) {
     case 0:
-        if (func_0203D378() == 1)
-            func_0203D7BC(0);
+        if (GFL_NET_IsParentAid() == 1)
+            GFL_NET_SetLoginOption(0);
         if ((*work)->stateBits.commMode == 1)
-            func_02167B18(*work);
+            BSUBWAY_COMM_DeleteCommandTable(*work);
         (*state)++;
         break;
     case 1:
-        if (func_0203D378() == 1) {
-            if (func_0203D1B4() <= 1) {
-                func_0203CEAC(0);
+        if (GFL_NET_IsParentAid() == 1) {
+            if (GFL_NET_GetNegotiationNum() <= 1) {
+                GFL_NET_Exit(0);
                 (*state)++;
             }
         } else {
-            func_0203CEAC(0);
+            GFL_NET_Exit(0);
             (*state)++;
         }
         break;
     case 2:
-        if (func_0203CDBC() == 1)
+        if (GFL_NET_IsSessionNull() == 1)
             return 1;
         break;
     }
@@ -2419,19 +2419,19 @@ void *func_021CB914(void *gameSystem, u32 script)
  */
 int func_021CB934(void *task, int *state, ScreenTaskWork *taskWork)
 {
-    func_0215A5F4(taskWork->script);
+    SCRCMD_WORK_GetScriptWork(taskWork->script);
     switch (*state) {
     case 0:
-        func_0215A684(taskWork->script, 8);
+        SCRCMD_WORK_SetWaitCount(taskWork->script, 8);
         (*state)++;
     case 1:
-        if (func_0215A690(taskWork->script) == 1) {
-            taskWork->screen = (u32)func_02190BE4((u16 *)func_02188C54(func_0201210C(func_0215A5DC(taskWork->script))), taskWork->arg);
+        if (SCRCMD_WORK_CountDownWait(taskWork->script) == 1) {
+            taskWork->screen = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg(func_0201210C(SCRCMD_WORK_GetGameSystem(taskWork->script))), taskWork->arg);
             (*state)++;
         }
         break;
     case 2:
-        switch (func_02190C78((struct ScreenHandle *)taskWork->screen)) {
+        switch (FIELD_MSGBG_YesNoMenuMain((struct ScreenHandle *)taskWork->screen)) {
         case 0:
             *taskWork->result = 0;
             (*state)++;
@@ -2445,7 +2445,7 @@ int func_021CB934(void *task, int *state, ScreenTaskWork *taskWork)
         }
         break;
     case 3:
-        func_021909BC((void *)taskWork->screen);
+        FIELD_MSGBG_DeleteMenuFunc((void *)taskWork->screen);
         return 1;
     }
     return 0;
@@ -2495,24 +2495,24 @@ void func_021CB9E4(BsubwayScrWork *work, void *gameData, void *fieldMmdlSys, voi
     const SpawnEntry *spawnEntry;
 
     i = 0;
-    zoneId = func_02188C9C(fieldMap);
+    zoneId = FIELDMAP_GetZoneId(fieldMap);
     objId = 0x80;
     playMode = work->playMode;
     if (playMode == 4) {
         spawnPos = d_021DADD0;
-        recordList = (u8 *)func_0200DF58(func_020071CC(func_02012EBC(gameData), 0x3B), (int)4);
-        recordCount = func_0200DF94((struct BsubwayWifiRecordList *)recordList);
+        recordList = (u8 *)BSUBWAY_SAVEDATA_AllocHistoryCopy(func_020071CC(GAME_DATA_GetSaveControl(gameData), 0x3B), (int)4);
+        recordCount = BSUBWAY_SAVEDATA_CountHistoryEntries((struct BsubwayWifiRecordList *)recordList);
         if (recordCount != 0) {
             recordEntry = recordList + (recordCount - 1) * 0x22;
             while (recordCount != 0 && i < 5) {
-                u32 lookIndex = func_0200DFB4((struct WifiRecordEntry *)recordEntry) % 10;
+                u32 lookIndex = BSUBWAY_SAVEDATA_GetHistoryEntryScore((struct WifiRecordEntry *)recordEntry) % 10;
                 if (((WifiRecordFlags *)(recordEntry + 0x20))->lookSet == 0)
                     objCode = d_021DAD48[lookIndex];
                 else
                     objCode = d_021DAD5C[lookIndex];
-                mapObj = func_0216CE6C(fieldMmdlSys, spawnPos->x, spawnPos->y, i % 4, objId, objCode, 2, zoneId);
-                func_0216D620((int)mapObj, (u16)(recordCount - 1), 0);
-                func_0216D5B4(mapObj, 5);
+                mapObj = FLDMMDL_AddMmdlParam(fieldMmdlSys, spawnPos->x, spawnPos->y, i % 4, objId, objCode, 2, zoneId);
+                FLDMMDL_SetParam((int)mapObj, (u16)(recordCount - 1), 0);
+                FLDMMDL_SetEventId(mapObj, 5);
                 recordEntry -= 0x22;
                 i++;
                 objId++;
@@ -2541,10 +2541,10 @@ void func_021CB9E4(BsubwayScrWork *work, void *gameData, void *fieldMmdlSys, voi
     }
     while (spawnEntry->objCode != 0xFFFF) {
         if (threshold == d_021DADF8[spawnEntry->thresholdNo - 1]) {
-            mapObj = func_0216CE6C(fieldMmdlSys, spawnEntry->x, spawnEntry->y, i % 4, objId, spawnEntry->objCode, 2, zoneId);
-            func_0216D620((int)mapObj, (u16)i, 0);
-            func_0216D620((int)mapObj, (u16)spawnEntry->param, 1);
-            func_0216D5B4(mapObj, 5);
+            mapObj = FLDMMDL_AddMmdlParam(fieldMmdlSys, spawnEntry->x, spawnEntry->y, i % 4, objId, spawnEntry->objCode, 2, zoneId);
+            FLDMMDL_SetParam((int)mapObj, (u16)i, 0);
+            FLDMMDL_SetParam((int)mapObj, (u16)spawnEntry->param, 1);
+            FLDMMDL_SetEventId(mapObj, 5);
             if (objId < 0xFF)
                 objId++;
         }
@@ -2564,7 +2564,7 @@ void func_021CB9E4(BsubwayScrWork *work, void *gameData, void *fieldMmdlSys, voi
  */
 u32 func_021CBBA0(u32 mapObj)
 {
-    return func_0216D63C((char *)mapObj, 1);
+    return FLDMMDL_GetParam((char *)mapObj, 1);
 }
 
 
@@ -2634,8 +2634,8 @@ int func_021CBC14(u32 unused, u32 script)
     int number;
     int messageResult;
 
-    gameData = func_020120F4(func_02158F54(func_0215A5F4((void *)script)));
-    work = func_02012ED8(gameData);
+    gameData = func_020120F4(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork((void *)script)));
+    work = GAME_DATA_GetCurrentEvent(gameData);
     messageId = 20;
     number = work->msgNumber;
     switch (work->playMode) {
@@ -2670,7 +2670,7 @@ int func_021CBC14(u32 unused, u32 script)
  * Maps a kind 0..8 to the message id 20, 21 or 22.
  * Addresses are Black-image addresses.
  */
-int func_021CBC94(u32 playMode)
+int BSUBWAY_SCR_GetRegulationNo(u32 playMode)
 {
     int id = 20;
 
@@ -2702,9 +2702,9 @@ int func_021CBC94(u32 playMode)
  *
  * Addresses are Black-image addresses.
  */
-int func_021CBCC4(void *fieldMap)
+int BSUBWAY_SCR_GetTrainNo(void *fieldMap)
 {
-    u16 zoneId = func_02188C9C(fieldMap);
+    u16 zoneId = FIELDMAP_GetZoneId(fieldMap);
     int trainIndex = 0;
 
     switch (zoneId) {
@@ -2745,14 +2745,14 @@ int func_021CBCC4(void *fieldMap)
 u32 func_021CBD08(BsubwayScrWork *work, int gameSystem)
 {
     void *partyList = func_0201A920(0x8004);
-    void *party = func_021CA210(work);
+    void *party = BSUBWAY_SCR_GetParty(work);
     int i;
     u32 result;
 
     func_0201A954(partyList, work->memberNum);
     for (i = 0; i < work->memberNum; i++)
         func_0201A98C(partyList, func_0201AB28(party, work->memberIndex[i]));
-    result = (u32)func_021681C8((void *)gameSystem, partyList, work->playMode, work->trainers, &work->partners[work->stateBits.partnerNo], work->memberNum);
+    result = (u32)FLD_BTL_INST_TOOL_CreateBtlSetup((void *)gameSystem, partyList, work->playMode, work->trainers, &work->partners[work->stateBits.partnerNo], work->memberNum);
     func_020307B0(partyList);
     return result;
 }
@@ -2763,7 +2763,7 @@ u32 func_021CBD08(BsubwayScrWork *work, int gameSystem)
 /*
  * Unlabelled leaf in ov021 (printed as a `.word` run at 0x021CBD84); the
  * matching byte at 0x021CBD8C is the pool word 0x0000074C.  Six-byte
- * accessor reached from ov010's func_0216CAD4 across the overlay pair.
+ * accessor reached from ov010's NAMEIN_SETUP_StartEncounterTransition across the overlay pair.
  */
 void *func_021CBD84(void *work)
 {
@@ -2799,7 +2799,7 @@ static inline u16 RandInRange(BsubwayScrWork *work, u32 tbl, u32 round)
  *
  * Addresses are Black-image addresses.
  */
-u16 func_021CBD90(BsubwayScrWork *work, u32 round, u32 stage, u32 line, u8 alt)
+u16 BSUBWAY_SCR_DrawTrainerNo(BsubwayScrWork *work, u32 round, u32 stage, u32 line, u8 alt)
 {
     int super;
     int boss;
@@ -2896,9 +2896,9 @@ done:
  *
  * Addresses are Black-image addresses.
  */
-u8 func_021CBED8(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId)
+u8 BSUBWAY_SCR_CreateTrainer(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId)
 {
-    return func_02168878(trainer, trainerNo, memberNum, monsNo, itemNo, draw, heapId);
+    return FLD_BTL_INST_TOOL_CreateTrainer(trainer, trainerNo, memberNum, monsNo, itemNo, draw, heapId);
 }
 
 
@@ -2909,7 +2909,7 @@ u8 func_021CBED8(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, u
  * Maps a value to a bracket 3..31 in steps of 20.
  * Addresses are Black-image addresses.
  */
-u8 func_021CBEFC(u32 trainerNo)
+u8 BSUBWAY_SCR_GetMonIv(u32 trainerNo)
 {
     if (trainerNo < 100)
         return 3;
@@ -2937,16 +2937,16 @@ u8 func_021CBEFC(u32 trainerNo)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CBF38(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, int useItem, BtlInstDraw *draw, u16 heapId)
+void BSUBWAY_SCR_CreatePartnerMons(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, int useItem, BtlInstDraw *draw, u16 heapId)
 {
     u8 iv;
     void *trainerData;
     int i;
 
-    trainerData = func_021688BC(trainer, trainerNo, heapId);
-    iv = func_021CBEFC(trainerNo);
+    trainerData = FLD_BTL_INST_TOOL_InitTrainerHeader(trainer, trainerNo, heapId);
+    iv = BSUBWAY_SCR_GetMonIv(trainerNo);
     for (i = 0; i < 2; i++)
-        func_021684E8(&trainer->mons[i], draw->ids[i], draw->otId, draw->pids[i], iv, i, useItem, heapId);
+        FLD_BTL_INST_TOOL_BuildBattleMon(&trainer->mons[i], draw->ids[i], draw->otId, draw->pids[i], iv, i, useItem, heapId);
     func_020307B0(trainerData);
 }
 

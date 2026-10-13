@@ -23,7 +23,7 @@
  *
  * symbols:
  *   memcpy  0x02092344  arm
- *   func_0217E934  0x0217E934  arm  ov009
+ *   gsLargeIntReverseBytes  0x0217E934  arm  ov009
  *   func_0217E078  0x0217E078  arm  ov009
  *   func_020923F0  0x020923F0  arm
  *   @13305  0x021A19E8  data
@@ -44,7 +44,7 @@ typedef struct {
     gsLargeInt_t exponent;
 } gsCryptRSAKey;
 
-extern int func_0217E934(gsLargeInt_t *lint);
+extern int gsLargeIntReverseBytes(gsLargeInt_t *lint);
 extern int func_0217E078(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
 extern int func_020923F0(const void *, const void *, u32);
 
@@ -70,9 +70,9 @@ int func_0217CF5C(const gsCryptRSAKey *publicKey, const u8 *hash, u32 hashLen, c
         return -1;
     lintRSASignature.mLength = sigLen / sizeof(u32);
     memcpy(lintRSASignature.mData, sig, sigLen);
-    func_0217E934(&lintRSASignature);
+    gsLargeIntReverseBytes(&lintRSASignature);
     func_0217E078(&lintRSASignature, (gsLargeInt_t *)&publicKey->exponent, (gsLargeInt_t *)&publicKey->modulus, &lintRSASignature);
-    func_0217E934(&lintRSASignature);
+    gsLargeIntReverseBytes(&lintRSASignature);
     if (packet[0] != 0 || packet[1] != 1)
         return -2;
     for (i = 2; i < 128; i++) {

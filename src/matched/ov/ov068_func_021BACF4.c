@@ -1,5 +1,5 @@
 /*
- * function: func_021BACF4
+ * function: OPTION_MENU_ApplySoundMode
  * address:  0x021BACF4
  * packet:   pkt_021BACF4
  * region:   ov068
@@ -19,7 +19,7 @@ typedef unsigned int  u32;
 
 extern void GFL_USE_SetStereoOutput(u32 a);
 
-void func_021BACF4(u8 *p, u32 a, u32 b)
+void OPTION_MENU_ApplySoundMode(u8 *p, u32 a, u32 b)
 {
     if (((struct Obj20645 *)p)->f4 == 3 || b == 1) {
         if (a == 0) {

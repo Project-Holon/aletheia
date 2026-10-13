@@ -1,5 +1,5 @@
 /*
- * function: func_021A5458
+ * function: FIELD_PLAYER_GRID_CheckForcedMoveTile
  * address:  0x021A5458
  * packet:   pkt_ov021_021A5458
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D7DC  0x0216D7DC  thumb  ov010
- *   func_021A5318  0x021A5318  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB348  0x021AB348  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_GetNowAttr  0x0216D7DC  thumb  ov010
+ *   FIELD_PLAYER_GRID_HasFlag  0x021A5318  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_IsForcedSlide  0x021AB348  thumb  ov021
  */
 #include "../include/Obj19803.h"
 
 typedef unsigned int u32;
 
-void *func_021A3960(unsigned char *p);
+void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
 typedef unsigned short u16;
-u32 func_0216D7DC(void *p);
-int func_021A5318(u32 *p, u32 m);
-u16 func_021AB0F0(u32 attr);
-int func_021AB348(u32 id);
+u32 FLDMMDL_GetNowAttr(void *p);
+int FIELD_PLAYER_GRID_HasFlag(u32 *p, u32 m);
+u16 MAP_ATTR_GetTerrainId(u32 attr);
+int MAP_ATTR_IsForcedSlide(u32 id);
 
-int func_021A5458(u32 *p)
+int FIELD_PLAYER_GRID_CheckForcedMoveTile(u32 *p)
 {
-    int x = func_0216D7DC(func_021A3960(*(unsigned char * *)&((struct Obj19803 *)p)->fC));
+    int x = FLDMMDL_GetNowAttr(FIELD_PLAYER_CORE_GetMmdl(*(unsigned char * *)&((struct Obj19803 *)p)->fC));
 
-    if (func_021A5318(p, 2) == 0 && func_021AB348(func_021AB0F0(x)) == 1)
+    if (FIELD_PLAYER_GRID_HasFlag(p, 2) == 0 && MAP_ATTR_IsForcedSlide(MAP_ATTR_GetTerrainId(x)) == 1)
         return 1;
     return 0;
 }

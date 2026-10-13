@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02030734  0x02030734  arm
  *   _pSetupParam     0x021A8260  data  ov009  a4
  *   _sNetDevwifiFile     0x021A1C4C  data  ov009  a1
@@ -54,7 +54,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_02094530  0x02094530  arm
  *   func_0203F004  0x0203F004  arm
- *   func_0203D650  0x0203D650  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
  *   DWC_ConnectToAnybodyAsync  0x0216B284  arm
  *   func_02177138  0x02177138  arm
  *   func_02177160  0x02177160  arm
@@ -120,11 +120,11 @@
  *   DWC_CreateUserData  0x020596FC  arm
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_NET_ERR_RaiseFatal  0x0200FB4C  thumb
  *   func_0200F7C0  0x0200F7C0  thumb
  *   func_0200FAAC  0x0200FAAC  thumb
@@ -174,7 +174,7 @@ u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc);
 void func_02082BCC(void *dst, int value, int size);
 u32 func_02094530(char *dst, u32 format, ...);
 u32 func_0203F004(const u8 *str);
-u32 func_0203D650(void);
+u32 GFL_NET_GetUserArg(void);
 int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 int func_02177138(int callback, int param);
 int func_02177160(int callback, int param);
@@ -234,11 +234,11 @@ extern int func_02059718(struct DWCstAccUserData *userdata);
 extern void DWC_CreateUserData(void *userdata);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern u32 func_0200FB24(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FBA0(void);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 extern void func_0200F7C0(u32 value);
 extern void func_0200FAAC(void);
@@ -444,7 +444,7 @@ int GFL_NET_DEVWIFI_Setup(int heapId, int param)
 
     if (_pSetupParam != 0)
         return 0;
-    netInit = func_0203D798();
+    netInit = GFL_NET_GetInitParam();
     DWC_RAPCOMMON_CreateHeap(netInit->wifiHeapId, netInit->heapSize);
     _pSetupParam = func_02030734(heapId, 8, 1, _sNetDevwifiFile, 0xba);
     *_pSetupParam = param;
@@ -1355,7 +1355,7 @@ int DWC_RAP_CreateWork(int userData, int friendList)
     GFLNetInitializeStruct *netInit;
     int slot;
 
-    netInit = func_0203D798();
+    netInit = GFL_NET_GetInitParam();
     if (_pRapWork != 0)
         func_02034714(_sAssertEmpty, 0, _sAssertEmpty);
     _pRapWork = GFL_NET_AllocAligned(netInit->heapId, sizeof(DwcRapWork), _sDwcRapFile, 302);
@@ -1413,7 +1413,7 @@ int DWC_RAP_CreateWork(int userData, int friendList)
 void DWC_RAP_DestroyWork(void)
 {
     if (_pRapWork) {
-        func_0203D798();
+        GFL_NET_GetInitParam();
         DWC_RAP_FreeRecvBuffers();
         GFL_NET_FreeAligned(_pRapWork);
         _pRapWork = 0;
@@ -1458,7 +1458,7 @@ int DWC_RAP_StepLogin(void)
 
     switch (_pRapWork->state) {
     case DWC_RAP_STATE_START:
-        func_0203D798();
+        GFL_NET_GetInitParam();
         func_0205C6AC(_pRapWork->inetWork, 2, 1, 0x14);
         func_0205C758();
         DWC_RAP_SetState(DWC_RAP_STATE_WAIT_INET);
@@ -1685,10 +1685,10 @@ int DWC_RAP_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, i
     DWC_RAP_SetState(DWC_RAP_STATE_MATCHING);
     _pRapWork->maxPlayers = maxPlayers;
     if (DWC_ConnectToAnybodyAsync(2, maxPlayers, _pRapWork->matchFilter, (VoidFunc)DWC_RAP_OnMatched,
-                      (void *)func_0203D650(), DWC_RAP_OnNewClientNop,
-                      (void *)func_0203D650(), (VoidFunc)DWC_RAP_EvalCallbackAccept,
-                      (void *)func_0203D650(), (VoidFunc)DWC_RAP_AttemptCallback,
-                      &_pRapWork->connectionUserData, (void *)func_0203D650()) == 0)
+                      (void *)GFL_NET_GetUserArg(), DWC_RAP_OnNewClientNop,
+                      (void *)GFL_NET_GetUserArg(), (VoidFunc)DWC_RAP_EvalCallbackAccept,
+                      (void *)GFL_NET_GetUserArg(), (VoidFunc)DWC_RAP_AttemptCallback,
+                      &_pRapWork->connectionUserData, (void *)GFL_NET_GetUserArg()) == 0)
         return 0;
     _pRapWork->connectMode = 0;
     func_02177138((int)((VoidFunc)DWC_RAP_OnSendComplete), 0);
@@ -1855,7 +1855,7 @@ int DWC_RAP_RunStateMachine(int cancelRequest)
         DWC_RAP_EndCancel();
         break;
     case DWC_RAP_STATE_CONNECTED: {
-        GFLNetInitializeStruct *netInit = func_0203D798();
+        GFLNetInitializeStruct *netInit = GFL_NET_GetInitParam();
         if (_pRapWork->vchatEnabled != 0)
             DWC_RAP_StartVchat((void *)netInit->heapId);
         _pRapWork->vchatLocalOn = 0;
@@ -2139,7 +2139,7 @@ void DWC_RAP_OnFriendDeleted(int deletedIndex, int srcIndex)
 {
     int slot;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     for (slot = 0; slot < 0x20; slot++) {
         if (_pRapWork->deletedFriendIndex[slot] == -1) {
             _pRapWork->deletedFriendIndex[slot] = deletedIndex;
@@ -2742,11 +2742,11 @@ void DWC_RAP_StartVchat(void *heapId)
 
 
 /*
- * Halfword at +0x56 of the block func_0203D798 returns, passed on.
+ * Halfword at +0x56 of the block GFL_NET_GetInitParam returns, passed on.
  */
 void DWC_RAP_StartVchatDefaultHeap(int unused)
 {
-    DWC_RAP_StartVchat((void *)func_0203D798()->heapId);
+    DWC_RAP_StartVchat((void *)GFL_NET_GetInitParam()->heapId);
 }
 
 
@@ -3113,14 +3113,14 @@ int DWC_RAP_StartFriendMatch(int friendIndex, int maxPlayers, int limitToTwo)
         entryCount = 2;
     _pRapWork->connectPending = 1;
     if (friendIndex < 0) {
-        started = DWC_SetupGameServer(2, entryCount, DWC_RAP_OnFriendServerMatched, (void *)func_0203D650(), DWC_RAP_OnNewClient,
-                          (void *)func_0203D650(), DWC_RAP_AttemptCallback, &_pRapWork->connectionUserData,
-                          (void *)func_0203D650());
+        started = DWC_SetupGameServer(2, entryCount, DWC_RAP_OnFriendServerMatched, (void *)GFL_NET_GetUserArg(), DWC_RAP_OnNewClient,
+                          (void *)GFL_NET_GetUserArg(), DWC_RAP_AttemptCallback, &_pRapWork->connectionUserData,
+                          (void *)GFL_NET_GetUserArg());
         _pRapWork->connectMode = 1;
     } else {
         started = DWC_ConnectToGameServerAsync(2, friendIndex, DWC_RAP_OnFriendClientMatched, 0, DWC_RAP_OnNewClient,
-                          func_0203D650(), DWC_RAP_AttemptCallback, &_pRapWork->connectionUserData,
-                          func_0203D650());
+                          GFL_NET_GetUserArg(), DWC_RAP_AttemptCallback, &_pRapWork->connectionUserData,
+                          GFL_NET_GetUserArg());
         _pRapWork->connectMode = 2;
     }
     if (started == 0) {
@@ -3172,7 +3172,7 @@ void DWC_RAP_OnFriendServerMatched(int error, int cancel, int self, int isServer
                 reject = 1;
             }
             if (_pRapWork->acceptFriendFunc != 0) {
-                if (_pRapWork->acceptFriendFunc(peerIndex, func_0203D650()) == 0) {
+                if (_pRapWork->acceptFriendFunc(peerIndex, GFL_NET_GetUserArg()) == 0) {
                     reject = 1;
                 }
             }
@@ -3338,7 +3338,7 @@ void DWC_RAP_FreeRecvBuffer(u32 aid)
 
 void DWC_RAP_AllocRecvBuffer(u32 aid)
 {
-    GFLNetInitializeStruct *netInit = func_0203D798();
+    GFLNetInitializeStruct *netInit = GFL_NET_GetInitParam();
     DWC_RAP_FreeRecvBuffer(aid);
     if (_pRapWork->recvBuffer[aid] == 0) {
         u32 bufSize = 0x1000;
@@ -3442,10 +3442,10 @@ void DWC_RAP_FlushDeletedFriends(void)
 
     for (slot = 0; slot < 32; slot++) {
         if (_pRapWork->deletedFriendIndex[slot] != -1) {
-            GFLNetInitializeStruct *netInit = func_0203D798();
+            GFLNetInitializeStruct *netInit = GFL_NET_GetInitParam();
             if (netInit->deleteFriendFunc != 0) {
                 DwcRapWork *entry = (DwcRapWork *)((int *)_pRapWork + slot);
-                u32 userArg = func_0203D650();
+                u32 userArg = GFL_NET_GetUserArg();
                 netInit->deleteFriendFunc(entry->deletedFriendIndex[0], entry->deletedFriendSrcIndex[0], userArg);
             }
             _pRapWork->deletedFriendIndex[slot] = -1;
@@ -3794,7 +3794,7 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
     NetErrorInfo *errorInfo;
     int gameCode;
 
-    if (func_0203CD98() != 0) {
+    if (GFL_NET_GetRunState() != 0) {
         errorInfo = (NetErrorInfo *)GFL_NET_STATE_GetError();
         if (func_0200FB24() != 0) {
             switch (errorInfo->errorType) {
@@ -3812,11 +3812,11 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
             case 3:
             case 4:
             case 5:
-                func_0200FB38();
+                GFL_NET_ERR_RequestScreen();
                 GFL_NET_ERR_RaiseFatal(13);
                 return 2;
             case 6:
-                func_0200FB38();
+                GFL_NET_ERR_RequestScreen();
                 return 2;
             case 7:
                 func_0200F7C0(15);
@@ -3846,12 +3846,12 @@ int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError)
                 func_0200FBA0();
                 return 1;
             }
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             GFL_NET_ERR_RaiseFatal(13);
             return 2;
         }
         if (gameCode == DWC_RAP_RESULT_FATAL || gameCode == 0x3F7) {
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             GFL_NET_ERR_RaiseFatal(13);
             return 2;
         }

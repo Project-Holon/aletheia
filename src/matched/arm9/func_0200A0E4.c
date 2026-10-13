@@ -1,5 +1,5 @@
 /*
- * function: func_0200A0E4
+ * function: MYSTERY_DATA_IsCardExist
  * address:  0x0200A0E4
  * packet:   pkt_02009EDC
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200A0E4.c \\
- *       --func func_0200A0E4 --addr 0x0200A0E4 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MYSTERY_DATA_IsCardExist.c \\
+ *       --func MYSTERY_DATA_IsCardExist --addr 0x0200A0E4 --thumb --cc 1.1p1
  *
  * symbols:
  *   MYSTERY_DATA_CheckCardExist  0x02009F50  thumb
@@ -27,7 +27,7 @@ extern void MYSTERY_DATA_Decrypt(struct Obj *p);
 extern int MYSTERY_DATA_CheckCardExist(char *p, unsigned int idx);
 extern void MYSTERY_DATA_Encrypt(struct Obj *p);
 
-u32 func_0200A0E4(u8 *p, u32 a)
+u32 MYSTERY_DATA_IsCardExist(u8 *p, u32 a)
 {
     u32 r;
 

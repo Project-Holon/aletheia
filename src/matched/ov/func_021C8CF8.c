@@ -1,5 +1,5 @@
 /*
- * function: func_021C8CF8
+ * function: FIELD_TILE_MOVE_GetSlideStepAcmd
  * address:  0x021C8CF8
  * packet:   pkt_021C8CF8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C8CF8(u32 a)
+int FIELD_TILE_MOVE_GetSlideStepAcmd(u32 a)
 {
 if (((struct Obj12135 *)((u8 *)(a)))->f10 != 0) {
     return *(u16 *)((u8 *)(((struct Obj12135 *)((u8 *)(a)))->f10) + 2);

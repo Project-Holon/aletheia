@@ -23,6 +23,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201D9C8.c \
  *       --addr 0x0201D9C8 --thumb
+ *
+ * symbols:
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 
 typedef unsigned char  u8;
@@ -60,7 +63,7 @@ struct Font {
 };
 
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *p);
+extern void ARC_TOOL_DeleteHandle(void *p);
 
 void GF_FONT_FreeBuffers(struct Font *p)
 {
@@ -74,6 +77,6 @@ void GF_FONT_FreeBuffers(struct Font *p)
         func_020307B0(p->unk88);
     }
     if (p->unk50 != 0) {
-        func_02049238(p->unk50);
+        ARC_TOOL_DeleteHandle(p->unk50);
     }
 }

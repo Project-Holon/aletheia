@@ -1,7 +1,7 @@
 /*
  * file:     trcard_sys.c
  * unit:     yes
- * function: func_0216F088, func_0216F0AC, func_0216F144, func_0216F174, func_0216F1E0, func_0216F228, func_0216F244, func_0216F288, func_0216F2B4, func_0216F2E0, func_0216F31C, func_0216F378, func_0216F3B0, func_0216F3D4, func_0216F40C, func_0216F7BC, func_0216F7F4, func_0216F830, func_0216F8B8, func_0216F8C8, func_0216F8DC, func_0216F900
+ * function: TRCARD_SYS_RunChildProc, TRCARD_SYS_Init, TRCARD_SYS_InitMinimal, TRCARD_SYS_Main, TRCARD_SYS_Exit, TRCARD_SYS_ExitMinimal, TRCARD_SYS_StateChooseScreen, TRCARD_SYS_StateStartCardProc, TRCARD_SYS_StateWaitCardProc, TRCARD_SYS_StateStartEditProc, TRCARD_SYS_StateWaitEditProc, TRCARD_SYS_StateStartBadgeProc, TRCARD_SYS_StateWaitBadgeProc, TRCARD_SYS_SumCappedRecords, TRCARD_SYS_BuildProfile, TRCARD_SYS_CreateViewWork, TRCARD_SYS_CreateEditWork, TRCARD_SYS_CountStars, TRCARD_SYS_ScrCmdSetRecordFlag36, TRCARD_SYS_ScrCmdStartFieldProc, TRCARD_SYS_ScrCmdRunScriptTask, TRCARD_SYS_SetRecordFlag36
  * address:  0x0216F088
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -21,8 +21,8 @@
  *   func_020307B0  0x020307B0  arm
  *   PROCSYS_Main  0x02031330  arm
  *   func_0203133C  0x0203133C  arm
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   d_02172B64     0x02172B64  data  ov010
  *   func_02012944  0x02012944  thumb
@@ -33,10 +33,10 @@
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Push 0x02031348 arm
  *   d_021725FC 0x021725FC data a4
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   gPmsInputProcData 0x021C39D4 data ov110 a4
  *   ov110_id 0x0000006E data a1
- *   func_0216F088  0x0216F088  thumb  ov010
+ *   TRCARD_SYS_RunChildProc  0x0216F088  thumb  ov010
  *   func_0200E6F0  0x0200E6F0  thumb
  *   func_0200E714  0x0200E714  thumb
  *   GAME_BEACON_SetPms  0x0202715C  thumb
@@ -44,7 +44,7 @@
  *   func_02008DFC  0x02008DFC  thumb
  *   d_02172620     0x02172620  data  a2
  *   func_020089C0  0x020089C0  thumb
- *   func_02012F08  0x02012F08  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_02008B14  0x02008B14  thumb
  *   func_02008C58  0x02008C58  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
@@ -54,7 +54,7 @@
  *   func_02008530  0x02008530  thumb
  *   func_0200C274  0x0200C274  thumb
  *   func_0200C234  0x0200C234  thumb
- *   func_02012FCC  0x02012FCC  thumb
+ *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
  *   func_02008A0C  0x02008A0C  thumb
@@ -62,10 +62,10 @@
  *   func_0200E6FC  0x0200E6FC  thumb
  *   func_0200C1DC  0x0200C1DC  thumb
  *   func_0200BE48  0x0200BE48  thumb
- *   func_02010F7C  0x02010F7C  thumb
+ *   GPOWER_LoadPowerTable  0x02010F7C  thumb
  *   func_0200BF54  0x0200BF54  thumb
- *   func_020127B8  0x020127B8  thumb
- *   func_02010F8C  0x02010F8C  thumb
+ *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
+ *   GPOWER_FreePowerTable  0x02010F8C  thumb
  *   func_0200C184  0x0200C184  thumb
  *   func_02008EA0  0x02008EA0  thumb
  *   func_02008E78  0x02008E78  thumb
@@ -73,15 +73,15 @@
  *   func_020090E0  0x020090E0  thumb
  *   func_0200BF94  0x0200BF94  thumb
  *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_0200D0AC  0x0200D0AC  thumb
  *   func_020089D0  0x020089D0  thumb
  *   func_020089CC  0x020089CC  thumb
- *   func_0216FEAC  0x0216FEAC  thumb  ov010
+ *   TOWN_MAP_SPOT_CountVisited  0x0216FEAC  thumb  ov010
  *   MIi_CpuCopy16  0x02082A60  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   RTC_ConvertSecondToDateTime  0x020891E0  arm
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   GAME_DATA_GetSaveBlock3A  0x02012EF0  thumb
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_0200D298  0x0200D298  thumb
@@ -89,12 +89,12 @@
  *   func_0200A73C  0x0200A73C  thumb
  *   func_0200BDF8  0x0200BDF8  thumb
  *   func_0200BDFC  0x0200BDFC  thumb
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_021F385C  0x021F385C  thumb  ov059
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021F38BC  0x021F38BC  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02012EC4 0x02012EC4 thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SP_POKE_GIMMICK_UpdatePairB  0x021F385C  thumb  ov059
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GIMMICK65_CallWaitEvent  0x021F38BC  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
  *   func_0200B3A4 0x0200B3A4 thumb
  */
 
@@ -214,8 +214,8 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 
 extern u32 func_020307B0(void *p);
 extern unsigned int PROCSYS_Main(void *p);
 extern int func_0203133C();
-extern void func_0203064C(unsigned int a, unsigned int b, unsigned int c);
-extern void *func_0203159C(struct ProcSys *obj, u32 size, u32 heapId);
+extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
+extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, u32 size, u32 heapId);
 extern void func_02082BCC(void *p, int v, int n);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008554(const struct MyStatus *obj);
@@ -224,22 +224,22 @@ extern void func_020315D4(struct ProcSys *p);
 extern void func_020306F0(unsigned int heapId);
 extern void *PROCSYS_Create(int a0);
 extern void PROCSYS_Push(void *,u32,const void *,void *);
-int func_0216F088(void **childSlot);
-int func_0216F0AC(void *proc, int state, TrainerCardParam *param);
-int func_0216F144(void *proc, int state, int param);
-int func_0216F174(int proc, int *state, int param, int work);
-int func_0216F1E0(int proc, int state, TrainerCardParam *param, TrainerCardWork *work);
-int func_0216F228(void *proc, int state, int param, MinimalWork *work);
-int func_0216F244(TrainerCardWork *work, TrainerCardParam *param);
-int func_0216F288(TrainerCardWork *work);
-int func_0216F2B4(TrainerCardWork *work);
-extern void *func_02012EBC(struct PlayerSave *p);
+int TRCARD_SYS_RunChildProc(void **childSlot);
+int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param);
+int TRCARD_SYS_InitMinimal(void *proc, int state, int param);
+int TRCARD_SYS_Main(int proc, int *state, int param, int work);
+int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWork *work);
+int TRCARD_SYS_ExitMinimal(void *proc, int state, int param, MinimalWork *work);
+int TRCARD_SYS_StateChooseScreen(TrainerCardWork *work, TrainerCardParam *param);
+int TRCARD_SYS_StateStartCardProc(TrainerCardWork *work);
+int TRCARD_SYS_StateWaitCardProc(TrainerCardWork *work);
+extern void *GAME_DATA_GetSaveControl(struct PlayerSave *p);
 extern int func_0200E6F0(void);
 extern void func_0200E714(struct BeaconRecord *dst, int idx, struct BeaconRecord *src);
 extern void GAME_BEACON_SetPms(u32 a0);
 extern u32 func_02008DFC(struct RecordBlock *obj, int i);
 extern struct TrainerCardSignature *func_020089C0(void *gameSystem);
-extern void *func_02012F08(int *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct SaveClockOwner *func_02008B14(void *gameSystem);
 extern struct RecordBlock *func_02008C58(void *gameSystem);
 extern void *func_0200E6E8(u32 a);
@@ -249,7 +249,7 @@ extern u8 func_02008550(const struct MyStatus *obj);
 extern u32 func_02008530(const struct MyStatus *obj);
 extern u32 func_0200C274(struct BadgeSave *p);
 extern u32 func_0200C234(struct BadgeSave *p, u32 bit);
-extern int func_02012FCC(int p0);
+extern int GAME_DATA_GetPlayTime(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u16 func_02008A0C(const struct TrainerCardSignature *obj);
@@ -257,10 +257,10 @@ extern u8 func_02008A28(const struct TrainerCardSignature *obj);
 extern void func_0200E6FC(struct BeaconRecord *src, int idx, struct BeaconRecord *dst);
 extern u32 func_0200C1DC(struct BadgeSave *p);
 extern u16 *func_0200BE48(void *gameSystem);
-extern void *func_02010F7C(u32 heapId);
+extern void *GPOWER_LoadPowerTable(u32 heapId);
 extern void func_0200BF54(struct BattleRecSave *p, u8 *dest, u32 n);
-extern void *func_020127B8(void *save);
-extern void func_02010F8C(void *p);
+extern void *GAME_DATA_GetLastBattleRecSlot(void *save);
+extern void GPOWER_FreePowerTable(void *p);
 extern u32 func_0200C184(struct BadgeSave *p);
 extern u32 func_02008EA0(struct RecordBlock *obj);
 extern u8 func_02008E78(struct RecordBlock *obj);
@@ -268,15 +268,15 @@ extern struct GameClearSave *func_0200921C(void *p);
 extern u8 func_020090E0(const struct GameClearSave *obj);
 extern unsigned long long func_0200BF94(struct BattleRecSave *p);
 extern u32 func_0201296C(const struct BtlSetup *p);
-extern u32 func_020142E8(void *bitmap, int id);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 func_0200D0AC(struct ZukanSave *p, u32 heapId);
 extern int func_020089D0(const struct TrainerCardSignature *obj);
 extern void *func_020089CC(void *p);
-extern int func_0216FEAC(void *tbl, void *pos, u8 *flags);
+extern int TOWN_MAP_SPOT_CountVisited(void *tbl, void *pos, u8 *flags);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *GAME_DATA_GetSaveBlock2A(void *save);
 extern int func_0200D298(void *p);
@@ -284,26 +284,26 @@ extern u32 func_0200DBA0(struct FlagSave *p, s32 i, u32 op);
 extern u32 func_0200A73C(struct PlayerSave *p);
 extern u16 func_0200BDF8(struct BattleRecSave *p);
 extern u16 func_0200BDFC(struct BattleRecSave *p);
-extern void *func_0215A5DC(void *a0);
-extern void func_021F385C(void *);
-extern void *func_0215A5F4(void *p);
-extern void *func_021F38BC();
-extern int func_0215897C();
-extern u8 *func_02012EC4(struct PlayerSave *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void SP_POKE_GIMMICK_UpdatePairB(void *);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *GIMMICK65_CallWaitEvent();
+extern int SCRIPT_SYS_CallEvent();
+extern u8 *GAME_DATA_GetFieldSave(struct PlayerSave *p);
 extern s32 *func_0200B3A4(struct RecordFlags *p, u32 b);
-int func_0216F2E0(TrainerCardWork *work);
-int func_0216F31C(TrainerCardWork *work);
-int func_0216F378(TrainerCardWork *work);
-int func_0216F3B0(TrainerCardWork *work);
-u32 func_0216F3D4(void *records, int group, u32 cap);
-void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, volatile u16 heapId);
-ViewWork *func_0216F7BC(void *cardData, u32 heapId, void *profile);
-EditWork *func_0216F7F4(void *cardData, u8 *profile, u32 heapId);
-int func_0216F830(void *save);
-int func_0216F8B8(void *unused, void *scriptCtx);
-int func_0216F8C8(void *unused, void *scriptCtx);
-int func_0216F8DC(void *unused, void *scriptCtx);
-void func_0216F900(void *gameSystem);
+int TRCARD_SYS_StateStartEditProc(TrainerCardWork *work);
+int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work);
+int TRCARD_SYS_StateStartBadgeProc(TrainerCardWork *work);
+int TRCARD_SYS_StateWaitBadgeProc(TrainerCardWork *work);
+u32 TRCARD_SYS_SumCappedRecords(void *records, int group, u32 cap);
+void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int flag, volatile u16 heapId);
+ViewWork *TRCARD_SYS_CreateViewWork(void *cardData, u32 heapId, void *profile);
+EditWork *TRCARD_SYS_CreateEditWork(void *cardData, u8 *profile, u32 heapId);
+int TRCARD_SYS_CountStars(void *save);
+int TRCARD_SYS_ScrCmdSetRecordFlag36(void *unused, void *scriptCtx);
+int TRCARD_SYS_ScrCmdStartFieldProc(void *unused, void *scriptCtx);
+int TRCARD_SYS_ScrCmdRunScriptTask(void *unused, void *scriptCtx);
+void TRCARD_SYS_SetRecordFlag36(void *gameSystem);
 extern char d_02172B64[];
 extern char d_021725FC[];
 extern const u32 gPmsInputProcData[];
@@ -312,7 +312,7 @@ extern const u32 d_021C892C[];
 extern u16 d_02172620[][7];
 
 
-int func_0216F088(void **childSlot)
+int TRCARD_SYS_RunChildProc(void **childSlot)
 {
     if (*childSlot != 0 && PROCSYS_Main(*childSlot) == 0) {
         func_0203133C(*childSlot);
@@ -325,30 +325,30 @@ int func_0216F088(void **childSlot)
 
 
 
-int func_0216F0AC(void *proc, int state, TrainerCardParam *param)
+int TRCARD_SYS_Init(void *proc, int state, TrainerCardParam *param)
 {
     TrainerCardWork *work;
 
-    func_0203064C(1, 0x26, 0x18000);
-    work = func_0203159C(proc, 0x20, 0x26);
+    GFL_HEAP_CreateChildHeap(1, 0x26, 0x18000);
+    work = PROCSYS_AllocProcWork(proc, 0x20, 0x26);
     func_02082BCC(work, 0, 0x20);
     work->heapId = 0x26;
     work->param = func_02030734((u16)work->heapId, 0x18, 1, d_02172B64, 0x9f);
     *work->param = *param;
     work->param->profile = func_02030734((u16)work->heapId, 0x678, 1, d_02172B64, 0xa1);
-    func_0216F40C(work->param->profile, param->saveData, 0, work->param->linkFlag, (u16)work->heapId);
+    TRCARD_SYS_BuildProfile(work->param->profile, param->saveData, 0, work->param->linkFlag, (u16)work->heapId);
     work->outfit = work->param->profile->outfit;
     return 1;
 }
 
 
 
-int func_0216F144(void *proc, int state, int param)
+int TRCARD_SYS_InitMinimal(void *proc, int state, int param)
 {
     MinimalWork *work;
 
-    func_0203064C(1, 38, 0x18000);
-    work = func_0203159C(proc, 32, 38);
+    GFL_HEAP_CreateChildHeap(1, 38, 0x18000);
+    work = PROCSYS_AllocProcWork(proc, 32, 38);
     func_02082BCC(work, 0, 32);
     work->heapId = 38;
     work->param = param;
@@ -358,29 +358,29 @@ int func_0216F144(void *proc, int state, int param)
 
 
 
-int func_0216F174(int proc, int *state, int param, int work)
+int TRCARD_SYS_Main(int proc, int *state, int param, int work)
 {
     switch (*state) {
     case 0:
-        *state = func_0216F244((TrainerCardWork *)work, (TrainerCardParam *)param);
+        *state = TRCARD_SYS_StateChooseScreen((TrainerCardWork *)work, (TrainerCardParam *)param);
         break;
     case 1:
-        *state = func_0216F288((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateStartCardProc((TrainerCardWork *)work);
         break;
     case 2:
-        *state = func_0216F2B4((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateWaitCardProc((TrainerCardWork *)work);
         break;
     case 3:
-        *state = func_0216F2E0((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateStartEditProc((TrainerCardWork *)work);
         break;
     case 4:
-        *state = func_0216F31C((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateWaitEditProc((TrainerCardWork *)work);
         break;
     case 5:
-        *state = func_0216F378((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateStartBadgeProc((TrainerCardWork *)work);
         break;
     case 6:
-        *state = func_0216F3B0((TrainerCardWork *)work);
+        *state = TRCARD_SYS_StateWaitBadgeProc((TrainerCardWork *)work);
         break;
     case 7:
     default:
@@ -395,7 +395,7 @@ int func_0216F174(int proc, int *state, int param, int work)
 /*
  * blocked:  listing 72 compiled 70
  */
-int func_0216F1E0(int proc, int state, TrainerCardParam *param, TrainerCardWork *work)
+int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWork *work)
 {
     u8 *myStatus;
     int outfit;
@@ -417,7 +417,7 @@ int func_0216F1E0(int proc, int state, TrainerCardParam *param, TrainerCardWork 
 
 
 
-int func_0216F228(void *proc, int state, int param, MinimalWork *work)
+int TRCARD_SYS_ExitMinimal(void *proc, int state, int param, MinimalWork *work)
 {
     func_020307B0((void *)work->param);
     func_020315D4(proc);
@@ -428,7 +428,7 @@ int func_0216F228(void *proc, int state, int param, MinimalWork *work)
 
 
 
-int func_0216F244(TrainerCardWork *work, TrainerCardParam *param)
+int TRCARD_SYS_StateChooseScreen(TrainerCardWork *work, TrainerCardParam *param)
 {
     struct TrainerCardProfile *profile;
 
@@ -456,7 +456,7 @@ int func_0216F244(TrainerCardWork *work, TrainerCardParam *param)
  * inputs to 020314F4, which reads/stores r0-r3. Legacy void(void)
  * prototypes omit these live inputs and the observed return value.
  */
-int func_0216F288(TrainerCardWork *work)
+int TRCARD_SYS_StateStartCardProc(TrainerCardWork *work)
 {
     if (work->childProc == 0)
         work->childProc = PROCSYS_Create((u16)work->heapId);
@@ -469,11 +469,11 @@ int func_0216F288(TrainerCardWork *work)
 /*
  * Extent: two-byte zero alignment padding at 0216F2DE.
  */
-int func_0216F2B4(TrainerCardWork *work)
+int TRCARD_SYS_StateWaitCardProc(TrainerCardWork *work)
 {
     int screen;
 
-    if (!func_0216F088(&work->childProc))
+    if (!TRCARD_SYS_RunChildProc(&work->childProc))
         return 2;
     screen = work->param->nextScreen;
     if (screen == 1)
@@ -491,11 +491,11 @@ int func_0216F2B4(TrainerCardWork *work)
  * Interface: 02031324 veneer forwards heap in r0 and returns allocation from
  * 02031354; 02031348 forwards all four arguments to 020314F4.
  */
-int func_0216F2E0(TrainerCardWork *work)
+int TRCARD_SYS_StateStartEditProc(TrainerCardWork *work)
 {
     if (work->childProc == 0)
         work->childProc = PROCSYS_Create((u16)work->heapId);
-    work->playerSave = func_02012EBC(work->param->saveData);
+    work->playerSave = GAME_DATA_GetSaveControl(work->param->saveData);
     PROCSYS_Push(work->childProc, (u32)ov110_id, gPmsInputProcData, &work->playerSave);
     return 4;
 }
@@ -511,16 +511,16 @@ int func_0216F2E0(TrainerCardWork *work)
  * function; no witness. Its C is parked: docs/notes/pkt_ov010_0200E714.c.txt
  * (register naming r3/r4 swapped).
  */
-int func_0216F31C(TrainerCardWork *work)
+int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work)
 {
     TrainerCardProfile *profile;
     u16 *beacon;
     int beaconSave;
 
-    if (func_0216F088(&work->childProc) == 0)
+    if (TRCARD_SYS_RunChildProc(&work->childProc) == 0)
         return 4;
     if (work->editedBeacon != 0) {
-        func_02012EBC(work->param->saveData);
+        GAME_DATA_GetSaveControl(work->param->saveData);
         beaconSave = func_0200E6F0();
         profile = work->param->profile;
         beacon = work->editedBeacon;
@@ -545,11 +545,11 @@ int func_0216F31C(TrainerCardWork *work)
  * Interface: veneers preserve arguments and result as shown by their full
  * forwarding targets 02031354 and 020314F4.
  */
-int func_0216F378(TrainerCardWork *work)
+int TRCARD_SYS_StateStartBadgeProc(TrainerCardWork *work)
 {
     if (work->childProc == 0)
         work->childProc = PROCSYS_Create((u16)work->heapId);
-    work->playerSave = func_02012EBC(work->param->saveData);
+    work->playerSave = GAME_DATA_GetSaveControl(work->param->saveData);
     PROCSYS_Push(work->childProc, (u32)ov110_id, d_021C892C, work->param);
     return 6;
 }
@@ -561,9 +561,9 @@ int func_0216F378(TrainerCardWork *work)
 /*
  * Extent: two-byte zero alignment padding at 0216F3D2.
  */
-int func_0216F3B0(TrainerCardWork *work)
+int TRCARD_SYS_StateWaitBadgeProc(TrainerCardWork *work)
 {
-    if (!func_0216F088(&work->childProc))
+    if (!TRCARD_SYS_RunChildProc(&work->childProc))
         return 6;
     if (work->param->nextScreen == 3)
         return 1;
@@ -580,7 +580,7 @@ int func_0216F3B0(TrainerCardWork *work)
  * bytes at 0x02172620), stopping at the first zero entry and clamping the
  * running sum to cap.
  */
-u32 func_0216F3D4(void *records, int group, u32 cap)
+u32 TRCARD_SYS_SumCappedRecords(void *records, int group, u32 cap)
 {
     u32 sum;
     int i;
@@ -616,11 +616,11 @@ u32 func_0216F3D4(void *records, int group, u32 cap)
  * Thumb thunks whose only caller is this function, so neither call has a
  * witness. 0x02010F7C is `ldr r3, =0x02048F61; adds r2, r0, #0; movs r0,
  * #0x26; movs r1, #0; bx r3` (a heap-id forwarder, `return
- * func_02048F60(0x26, 0, heap);`), 0x02010F8C is `ldr r3, =0x020307B1;
+ * ARC_TOOL_LoadMember(0x26, 0, heap);`), 0x02010F8C is `ldr r3, =0x020307B1;
  * bx r3` (`func_020307B0(p);`). Matching either thunk (ARM9 territory)
  * closes that site.
  */
-void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, volatile u16 heap)
+void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int flag, volatile u16 heap)
 {
     RTCDate date;
     RTCTime time;
@@ -638,10 +638,10 @@ void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, vola
     u8 badgeIndex;
     u8 badgeBit;
 
-    playerSave = func_02012EBC(save);
+    playerSave = GAME_DATA_GetSaveControl(save);
     signature = func_020089C0(playerSave);
     myStatus = func_02012944(save);
-    badges = func_02012F08(save);
+    badges = GAME_DATA_GetMiscSave(save);
     saveClock = (SaveClock *)func_02008B14(playerSave);
     records = func_02008C58(playerSave);
     beaconData = func_0200E6E8((u32)playerSave);
@@ -656,9 +656,9 @@ void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, vola
         out->name[3] = 'a';
         out->name[4] = 'm';
         out->name[5] = 'e';
-        out->name[6] = func_02045A98();
+        out->name[6] = STRBUF_GetEosChar();
     }
-    out->starCount = (u32)func_0216F830(save);
+    out->starCount = (u32)TRCARD_SYS_CountStars(save);
     out->outfitVariant = (u32)func_02008550(myStatus);
     out->trainerId = func_02008530(myStatus);
     out->badgeCount = func_0200C274(badges);
@@ -671,7 +671,7 @@ void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, vola
     }
 
     if (mode == 1) {
-        scratch = (void *)func_02012FCC((int)save);
+        scratch = (void *)GAME_DATA_GetPlayTime((int)save);
         out->outfit = (u32)func_02008554(myStatus);
         out->isLinkMode = 0;
         out->playTimeSource = 0;
@@ -680,7 +680,7 @@ void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, vola
     } else {
         out->outfit = (u32)func_02008554(myStatus);
         out->isLinkMode = 1;
-        out->playTimeSource = (u32)func_02012FCC((int)save);
+        out->playTimeSource = (u32)GAME_DATA_GetPlayTime((int)save);
     }
     out->signatureColor = (u32)func_02008A0C(signature);
     out->signatureStyle = (u32)func_02008A28(signature);
@@ -705,23 +705,23 @@ void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, vola
         out->clearMinute = time.minute;
     }
 
-    out->recordSum0 = func_0216F3D4(records, 0, 999999999);
-    out->recordSum1 = func_0216F3D4(records, 1, 999999999);
-    out->recordSum2 = func_0216F3D4(records, 2, 999999999);
-    out->recordSum3 = func_0216F3D4(records, 3, 999999999);
-    out->recordSum4 = func_0216F3D4(records, 4, 999999999);
-    out->recordSum5 = func_0216F3D4(records, 5, 999999999);
-    out->recordSum6 = func_0216F3D4(records, 6, 999999999);
+    out->recordSum0 = TRCARD_SYS_SumCappedRecords(records, 0, 999999999);
+    out->recordSum1 = TRCARD_SYS_SumCappedRecords(records, 1, 999999999);
+    out->recordSum2 = TRCARD_SYS_SumCappedRecords(records, 2, 999999999);
+    out->recordSum3 = TRCARD_SYS_SumCappedRecords(records, 3, 999999999);
+    out->recordSum4 = TRCARD_SYS_SumCappedRecords(records, 4, 999999999);
+    out->recordSum5 = TRCARD_SYS_SumCappedRecords(records, 5, 999999999);
+    out->recordSum6 = TRCARD_SYS_SumCappedRecords(records, 6, 999999999);
     out->badgeTotal = func_0200C1DC(badges);
-    out->recordSum7 = func_0216F3D4(records, 7, 9999);
+    out->recordSum7 = TRCARD_SYS_SumCappedRecords(records, 7, 9999);
 
     battleRec = func_0200BE48(playerSave);
-    scratch = func_02010F7C(heap);
+    scratch = GPOWER_LoadPowerTable(heap);
     func_0200BF54(battleRec, work, 2);
-    out->visitedSpotCount = func_0216FEAC(scratch, func_020127B8(save), work);
-    func_02010F8C(scratch);
+    out->visitedSpotCount = TOWN_MAP_SPOT_CountVisited(scratch, GAME_DATA_GetLastBattleRecSlot(save), work);
+    GPOWER_FreePowerTable(scratch);
 
-    out->recordSum8 = func_0216F3D4(records, 8, 9999);
+    out->recordSum8 = TRCARD_SYS_SumCappedRecords(records, 8, 9999);
     out->badgeExtraCount = func_0200C184(badges);
     out->recordTopValue = func_02008EA0(records);
     out->recordTopFlag = (u32)func_02008E78(records);
@@ -734,7 +734,7 @@ void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, vola
         out->hasRecordFlag78 = 1;
     if (func_02008DFC(records, (u16)0x79))
         out->hasRecordFlag79 = 1;
-    if (func_020142E8((void *)func_0201296C(save), 2402) == 1)
+    if (ZONEDATA_CheckEventFlag((void *)func_0201296C(save), 2402) == 1)
         out->hasEventFlag2402 = 1;
     else
         out->hasEventFlag2402 = 0;
@@ -748,7 +748,7 @@ void func_0216F40C(TrainerCardProfile *out, void *save, int mode, int flag, vola
 
 
 
-ViewWork *func_0216F7BC(void *cardData, u32 heapId, void *profile)
+ViewWork *TRCARD_SYS_CreateViewWork(void *cardData, u32 heapId, void *profile)
 {
     ViewWork *view;
 
@@ -764,7 +764,7 @@ ViewWork *func_0216F7BC(void *cardData, u32 heapId, void *profile)
 
 
 
-EditWork *func_0216F7F4(void *cardData, u8 *profile, u32 heapId)
+EditWork *TRCARD_SYS_CreateEditWork(void *cardData, u8 *profile, u32 heapId)
 {
     EditWork *edit;
 
@@ -790,7 +790,7 @@ EditWork *func_0216F7F4(void *cardData, u8 *profile, u32 heapId)
  * sibling at 0x02012F00 passing 0x3B) whose only caller is this function.
  * Matching that thunk (ARM9 territory) or seeding its start closes this file.
  */
-int func_0216F830(void *save)
+int TRCARD_SYS_CountStars(void *save)
 {
     int n;
     void *a;
@@ -800,8 +800,8 @@ int func_0216F830(void *save)
     n = 0;
     a = GAME_DATA_GetSaveBlock3A(save);
     b = GAME_DATA_GetSaveBlock2A(save);
-    c = func_020127B8(save);
-    if (func_020142E8((void *)func_0201296C(save), 0x960))
+    c = GAME_DATA_GetLastBattleRecSlot(save);
+    if (ZONEDATA_CheckEventFlag((void *)func_0201296C(save), 0x960))
         n++;
     if (func_0200D298(func_0200CA1C(save)))
         n++;
@@ -818,12 +818,12 @@ int func_0216F830(void *save)
 
 
 
-int func_0216F8B8(void *unused, void *scriptCtx)
+int TRCARD_SYS_ScrCmdSetRecordFlag36(void *unused, void *scriptCtx)
 {
     void *gameSystem;
 
-    gameSystem = func_0215A5DC(scriptCtx);
-    func_0216F900(gameSystem);
+    gameSystem = SCRCMD_WORK_GetGameSystem(scriptCtx);
+    TRCARD_SYS_SetRecordFlag36(gameSystem);
     return 0;
 }
 
@@ -834,9 +834,9 @@ int func_0216F8B8(void *unused, void *scriptCtx)
 /*
  * blocked:
  */
-int func_0216F8C8(void *unused, void *scriptCtx)
+int TRCARD_SYS_ScrCmdStartFieldProc(void *unused, void *scriptCtx)
 {
-    func_021F385C(func_0201210C(func_0215A5DC(scriptCtx)));
+    SP_POKE_GIMMICK_UpdatePairB(func_0201210C(SCRCMD_WORK_GetGameSystem(scriptCtx)));
     return 0;
 }
 
@@ -844,16 +844,16 @@ int func_0216F8C8(void *unused, void *scriptCtx)
 
 
 
-int func_0216F8DC(void *unused, void *scriptCtx)
+int TRCARD_SYS_ScrCmdRunScriptTask(void *unused, void *scriptCtx)
 {
     void *scriptWork;
     void *gameSystem;
     void *task;
 
-    scriptWork = func_0215A5F4(scriptCtx);
-    gameSystem = func_0215A5DC(scriptCtx);
-    task = func_021F38BC(gameSystem);
-    func_0215897C(scriptWork, task);
+    scriptWork = SCRCMD_WORK_GetScriptWork(scriptCtx);
+    gameSystem = SCRCMD_WORK_GetGameSystem(scriptCtx);
+    task = GIMMICK65_CallWaitEvent(gameSystem);
+    SCRIPT_SYS_CallEvent(scriptWork, task);
     return 1;
 }
 
@@ -864,7 +864,7 @@ int func_0216F8DC(void *unused, void *scriptCtx)
  * Extent: two-byte zero alignment padding at 0216F916.
  * Interface: the call explicitly supplies r1=0x36 even though the leaf reads only r0.
  */
-void func_0216F900(void *gameSystem)
+void TRCARD_SYS_SetRecordFlag36(void *gameSystem)
 {
-    *func_0200B3A4((struct RecordFlags *)func_02012EC4(func_020120F4(gameSystem)), 0x36) = 1;
+    *func_0200B3A4((struct RecordFlags *)GAME_DATA_GetFieldSave(func_020120F4(gameSystem)), 0x36) = 1;
 }

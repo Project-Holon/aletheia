@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_palpark.c
  * unit:     yes
- * function: func_021CC544, func_021CC570, func_021CC5D8, func_021CC614, func_021CC6A8, func_021CC6FC
+ * function: SCRCMD_PALPARK_CallFallEvent, SCRCMD_PALPARK_CallPalParkProc, SCRCMD_PALPARK_GetSaveValue, SCRCMD_PALPARK_SetBeacon, SCRCMD_PALPARK_CheckGPowerExpire, SCRCMD_PALPARK_CallFieldEvent
  * address:  0x021CC544
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,37 +15,37 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0201210C  0x0201210C  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0216C204  0x0216C204  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02014840  0x02014840  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   NAMEIN_SETUP_StartFallEvent  0x0216C204  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   FIELD_STATUS_CreateSubProcNoFadeCallbackEvent  0x02014840  thumb
  *   d_021DE5A8     0x021DE5A8  data
  *   ov107_id       0x0000006B  data
  *   d_021F6D78     0x021F6D78  data  ov107
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200C1A4  0x0200C1A4  thumb
  *   func_0200C184  0x0200C184  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0216530C  0x0216530C  thumb  ov010
- *   func_02165534  0x02165534  thumb  ov010
- *   func_021653C4  0x021653C4  thumb  ov010
- *   func_021656A0  0x021656A0  thumb  ov010
- *   func_021656D0  0x021656D0  thumb  ov010
- *   func_0216573C  0x0216573C  thumb  ov010
- *   func_02165604  0x02165604  thumb  ov010
- *   func_02165634  0x02165634  thumb  ov010
- *   func_0216566C  0x0216566C  thumb  ov010
- *   func_02010F18  0x02010F18  thumb
- *   func_02010F7C  0x02010F7C  thumb
- *   func_02010F40  0x02010F40  thumb
- *   func_02010F8C  0x02010F8C  thumb
- *   func_021F5340  0x021F5340  thumb  ov083
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetItemFound  0x0216530C  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetFieldEvent  0x021653C4  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetSimpleEventA  0x021656A0  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetByteValue  0x021656D0  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetSimpleEventC  0x0216573C  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetFacilityExit  0x02165604  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetWordValue  0x02165634  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetWordClear  0x0216566C  thumb  ov010
+ *   GPOWER_GetExpiringPowerId  0x02010F18  thumb
+ *   GPOWER_LoadPowerTable  0x02010F7C  thumb
+ *   GPOWER_ClearByPowerId  0x02010F40  thumb
+ *   GPOWER_FreePowerTable  0x02010F8C  thumb
+ *   GPOWER_EVENT_CreateFlashEvent  0x021F5340  thumb  ov083
  */
 struct Ctx;
 struct Big;
@@ -68,57 +68,57 @@ typedef struct PalParkProcParam {
 } PalParkProcParam;
 
 extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *p);
-extern int func_0216C204(void *a, u8 *b);
-extern void func_0215897C(void *a, void *b);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02014840(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *p);
+extern int NAMEIN_SETUP_StartFallEvent(void *a, u8 *b);
+extern void SCRIPT_SYS_CallEvent(void *a, void *b);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *p);
 extern u8 func_0200C1A4(struct Blk34 *p);
 extern u32 func_0200C184(struct Blk34 *p);
-extern unsigned int func_02159B10(void *a, void *b);
-extern void func_0216530C(void *a0);
-extern void func_02165534(void *a0);
-extern void func_021653C4(void);
-extern void func_021656A0(void);
-extern void func_021656D0(u8 a);
-extern void func_0216573C(void);
-extern void func_02165604(void);
-extern void func_02165634(void *a0);
-extern void func_0216566C(void);
-extern u8 func_02010F18(void);
-extern void *func_02010F7C(u32 heap);
-extern void func_02010F40(u16 v, void *p);
-extern void func_02010F8C(void *p);
-extern void *func_021F5340(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void GAME_BEACON_SEARCH_SetItemFound(void *a0);
+extern void GAME_BEACON_SEARCH_SetCountValue(void *a0);
+extern void GAME_BEACON_SEARCH_SetFieldEvent(void);
+extern void GAME_BEACON_SEARCH_SetSimpleEventA(void);
+extern void GAME_BEACON_SEARCH_SetByteValue(u8 a);
+extern void GAME_BEACON_SEARCH_SetSimpleEventC(void);
+extern void GAME_BEACON_SEARCH_SetFacilityExit(void);
+extern void GAME_BEACON_SEARCH_SetWordValue(void *a0);
+extern void GAME_BEACON_SEARCH_SetWordClear(void);
+extern u8 GPOWER_GetExpiringPowerId(void);
+extern void *GPOWER_LoadPowerTable(u32 heap);
+extern void GPOWER_ClearByPowerId(u16 v, void *p);
+extern void GPOWER_FreePowerTable(void *p);
+extern void *GPOWER_EVENT_CreateFlashEvent(void *p);
 
-int func_021CC544(void *core, void *work);
-int func_021CC570(u32 core, u32 work);
-int func_021CC5D8(ScriptVM *core, void *work);
-int func_021CC614(u32 core, u32 work);
-int func_021CC6A8(void *core, void *work);
-int func_021CC6FC(u32 unused, u32 work, u32 unused2, u32 unused3);
+int SCRCMD_PALPARK_CallFallEvent(void *core, void *work);
+int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work);
+int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work);
+int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work);
+int SCRCMD_PALPARK_CheckGPowerExpire(void *core, void *work);
+int SCRCMD_PALPARK_CallFieldEvent(u32 unused, u32 work, u32 unused2, u32 unused3);
 
 extern const char d_021DE5A8[];
 extern const u8 ov107_id[];
 extern u8 d_021F6D78[];
 
-/* Script command: calls the event that ov010 func_0216C204 builds on the field map. */
-int func_021CC544(void *core, void *work)
+/* Script command: calls the event that ov010 NAMEIN_SETUP_StartFallEvent builds on the field map. */
+int SCRCMD_PALPARK_CallFallEvent(void *core, void *work)
 {
-    void *script = func_0215A5F4(work);
-    void *gsys = func_0215A5DC(work);
-    func_0215897C(script, (void *)func_0216C204((void *)gsys, (u8 *)func_0201210C(gsys)));
+    void *script = SCRCMD_WORK_GetScriptWork(work);
+    void *gsys = SCRCMD_WORK_GetGameSystem(work);
+    SCRIPT_SYS_CallEvent(script, (void *)NAMEIN_SETUP_StartFallEvent((void *)gsys, (u8 *)GAMESYSTEM_GetFieldMap(gsys)));
     return 1;
 }
 
 /* Script command: runs the ov107 Pal Park process as a field sub-process. */
-int func_021CC570(u32 core, u32 work)
+int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work)
 {
     void *script;
     void *gsys;
@@ -126,19 +126,19 @@ int func_021CC570(u32 core, u32 work)
     void *fieldmap;
     PalParkProcParam *param;
 
-    script = func_0215A5F4((void *)work);
-    gsys = func_0215A5DC((void *)work);
-    gameData = func_0215A5E4((void *)work);
-    fieldmap = func_0201210C((void *)gsys);
+    script = SCRCMD_WORK_GetScriptWork((void *)work);
+    gsys = SCRCMD_WORK_GetGameSystem((void *)work);
+    gameData = SCRCMD_WORK_GetGameData((void *)work);
+    fieldmap = GAMESYSTEM_GetFieldMap((void *)gsys);
     param = func_02030734(4, 8, 0, d_021DE5A8, 0x44);
     param->result = 0;
     param->gameData = gameData;
-    func_0215897C(script, func_02014840(gsys, (int)fieldmap, (u32)ov107_id, (int)d_021F6D78, (int)param, 0, (int)param));
+    SCRIPT_SYS_CallEvent(script, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gsys, (int)fieldmap, (u32)ov107_id, (int)d_021F6D78, (int)param, 0, (int)param));
     return 1;
 }
 
 /* Script command: mode byte, result variable; stores one of two values of a save block. */
-int func_021CC5D8(ScriptVM *core, void *work)
+int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work)
 {
     u8 mode;
     u16 *result;
@@ -146,8 +146,8 @@ int func_021CC5D8(ScriptVM *core, void *work)
 
     mode = *core->pc;
     core->pc++;
-    result = func_02159AE8(core, work);
-    saveBlock = func_0200C0F0(func_02012EBC(func_0215A5E4(work)));
+    result = SCRIPT_WORK_ReadWorkPointer(core, work);
+    saveBlock = func_0200C0F0(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
     switch (mode) {
     case 0:
         *result = func_0200C1A4(saveBlock);
@@ -161,48 +161,48 @@ int func_021CC5D8(ScriptVM *core, void *work)
 
 /*
  * Script command: sets one game beacon (kind 0..8) with one value.
- * func_020120F4 takes the func_0215A5DC result as its argument (r0 still
+ * GAMESYSTEM_GetGameData takes the SCRCMD_WORK_GetGameSystem result as its argument (r0 still
  * holds it at the bl), as at every other caller; the results are unused.
  */
-int func_021CC614(u32 core, u32 work)
+int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work)
 {
     u32 kind;
     u32 value;
     void *gsys;
 
-    kind = func_02159B10((void *)core, (void *)work);
-    value = func_02159B10((void *)core, (void *)work);
-    gsys = func_0215A5DC((void *)work);
-    func_020120F4(gsys);
-    func_0201210C((void *)gsys);
-    func_0215A5F4((void *)work);
+    kind = SCRIPT_WORK_ReadWorkValue((void *)core, (void *)work);
+    value = SCRIPT_WORK_ReadWorkValue((void *)core, (void *)work);
+    gsys = SCRCMD_WORK_GetGameSystem((void *)work);
+    GAMESYSTEM_GetGameData(gsys);
+    GAMESYSTEM_GetFieldMap((void *)gsys);
+    SCRCMD_WORK_GetScriptWork((void *)work);
     switch (kind) {
     case 0:
-        func_0216530C((void *)value);
+        GAME_BEACON_SEARCH_SetItemFound((void *)value);
         break;
     case 1:
-        func_02165534((void *)value);
+        GAME_BEACON_SEARCH_SetCountValue((void *)value);
         break;
     case 2:
-        func_021653C4();
+        GAME_BEACON_SEARCH_SetFieldEvent();
         break;
     case 3:
-        func_021656A0();
+        GAME_BEACON_SEARCH_SetSimpleEventA();
         break;
     case 4:
-        func_021656D0(value);
+        GAME_BEACON_SEARCH_SetByteValue(value);
         break;
     case 5:
-        func_0216573C();
+        GAME_BEACON_SEARCH_SetSimpleEventC();
         break;
     case 6:
-        func_02165604();
+        GAME_BEACON_SEARCH_SetFacilityExit();
         break;
     case 7:
-        func_02165634((void *)value);
+        GAME_BEACON_SEARCH_SetWordValue((void *)value);
         break;
     case 8:
-        func_0216566C();
+        GAME_BEACON_SEARCH_SetWordClear();
         break;
     }
     return 0;
@@ -212,27 +212,27 @@ int func_021CC614(u32 core, u32 work)
  * Script command: stores the expiring G power id (0x30 = none) and whether a
  * power is still active after that one is cleared.
  */
-int func_021CC6A8(void *core, void *work)
+int SCRCMD_PALPARK_CheckGPowerExpire(void *core, void *work)
 {
-    u16 *powerId = func_02159AE8(core, work);
-    u16 *stillActive = func_02159AE8(core, work);
+    u16 *powerId = SCRIPT_WORK_ReadWorkPointer(core, work);
+    u16 *stillActive = SCRIPT_WORK_ReadWorkPointer(core, work);
     void *powerTable;
 
-    *powerId = func_02010F18();
+    *powerId = GPOWER_GetExpiringPowerId();
     if (*powerId != 0x30) {
-        powerTable = func_02010F7C(0x8015);
-        func_02010F40(*powerId, powerTable);
-        func_02010F8C(powerTable);
-        *stillActive = (func_02010F18() != 0x30) ? 1 : 0;
+        powerTable = GPOWER_LoadPowerTable(0x8015);
+        GPOWER_ClearByPowerId(*powerId, powerTable);
+        GPOWER_FreePowerTable(powerTable);
+        *stillActive = (GPOWER_GetExpiringPowerId() != 0x30) ? 1 : 0;
     } else {
         *stillActive = 0;
     }
     return 0;
 }
 
-/* Script command: calls the event that ov083 func_021F5340 builds. */
-int func_021CC6FC(u32 unused, u32 work, u32 unused2, u32 unused3)
+/* Script command: calls the event that ov083 GPOWER_EVENT_CreateFlashEvent builds. */
+int SCRCMD_PALPARK_CallFieldEvent(u32 unused, u32 work, u32 unused2, u32 unused3)
 {
-    func_0215897C(func_0215A5F4((void *)work), func_021F5340(func_0215A5DC((void *)work)));
+    SCRIPT_SYS_CallEvent(SCRCMD_WORK_GetScriptWork((void *)work), GPOWER_EVENT_CreateFlashEvent(SCRCMD_WORK_GetGameSystem((void *)work)));
     return 1;
 }

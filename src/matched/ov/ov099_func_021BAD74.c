@@ -14,15 +14,15 @@
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_021BDD48 0x021BDD48 thumb ov099
  *   func_021C27E0 0x021C27E0 thumb ov099
- *   func_0201F81C 0x0201F81C thumb
- *   func_0201F878 0x0201F878 thumb
- *   func_020450F0 0x020450F0 arm
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_0201FF30 0x0201FF30 thumb
+ *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0201C4E4 0x0201C4E4 thumb
- *   func_02020CF8 0x02020CF8 thumb
- *   func_02045374 0x02045374 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
+ *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  * prototype-evidence: C23B8 forwards the visibly supplied index to ov009
  *   56860, whose full body returns the address consumed here; BDD48's
@@ -52,16 +52,16 @@ extern u8 func_021B97F4(struct W *);
 extern int func_021C23B8(int i);
 extern u32 func_021BDD48(int, struct S *);
 extern int func_021C27E0(struct S *);
-extern struct Slot *func_0201F81C(u32, u32);
-extern void func_0201F878(struct Slot *, u32, u32, u32, u32);
+extern struct Slot *BMP_MENUWORK_Create(u32, u32);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *, u32, u32, u32, u32);
 struct Src;
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
-extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
+extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 extern u32 func_0201C6B4(const struct PrintSys *);
-extern u32 func_0201C4E4(struct PrintSys *);
-extern void func_02020CF8(struct Obj *p, int heap);
-extern void func_02045374(struct Cfg *);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
+extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
+extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern void func_02041B6C(u32);
 void func_021BAD74(char *p)
 {
@@ -76,30 +76,30 @@ void func_021BAD74(char *p)
     kind = (u16)func_021BDD48((int)p, state);
     func_021C27E0(state);
     func_021C27E0(*(struct S * *)&((struct Obj01244 *)p)->f8);
-    *(struct Slot * *)&((struct Obj01244 *)p)->fB8 = func_0201F81C(2, 33);
+    *(struct Slot * *)&((struct Obj01244 *)p)->fB8 = BMP_MENUWORK_Create(2, 33);
     for (i = 0; i < 2; i++) {
         if (i == 0 && kind != 2 && kind != 5 && kind != 1) {
             desc.rows--;
             desc.count--;
             n--;
         } else {
-            func_0201F878(*(struct Slot * *)&((struct Obj01244 *)p)->fB8, ((struct Obj01244 *)p)->fE0, d_021C3730[i].a, d_021C3730[i].b, 33);
+            BMP_MENUWORK_AddMsgItem(*(struct Slot * *)&((struct Obj01244 *)p)->fB8, ((struct Obj01244 *)p)->fE0, d_021C3730[i].a, d_021C3730[i].b, 33);
         }
     }
-    *(u32 *)&((struct Obj01244 *)p)->f1A4 = func_020450F0(2, 16, (u8)((3 - n) * 2 + 11), 15, n * 2, 15, 1);
+    *(u32 *)&((struct Obj01244 *)p)->f1A4 = BMP_WIN_Create(2, 16, (u8)((3 - n) * 2 + 11), 15, n * 2, 15, 1);
     func_0201F73C(((struct Obj01244 *)p)->f1A4, 2, (u16)(((struct Obj01244 *)p)->f1334), 14);
     desc.w0 = *(u32 *)&((struct Obj01244 *)p)->fB8;
     desc.wc = *(u32 *)&((struct Obj01244 *)p)->f1A4;
     desc.w2c = *(u32 *)&((struct Obj01244 *)p)->f1B4;
     desc.w28 = (u32)(p + 0x1ac);
     desc.w30 = ((struct Obj01244 *)p)->fE8;
-    *(struct Obj * *)&((struct Obj01244 *)p)->fBC = func_0201FF30((struct Src *)(&desc), 0, 0, 33);
+    *(struct Obj * *)&((struct Obj01244 *)p)->fBC = BMP_MENULIST_Create((struct Src *)(&desc), 0, 0, 33);
     if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0) {
         do {
-            func_0201C4E4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4);
+            PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4);
         } while (func_0201C6B4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0);
     }
-    func_02020CF8(*(struct Obj * *)&((struct Obj01244 *)p)->fBC, 33);
-    func_02045374(*(struct Cfg * *)&((struct Obj01244 *)p)->f1A4);
+    BMP_MENULIST_ResetCursorTile(*(struct Obj * *)&((struct Obj01244 *)p)->fBC, 33);
+    BMP_WIN_MakeScreen(*(struct Cfg * *)&((struct Obj01244 *)p)->f1A4);
     func_02041B6C(2);
 }

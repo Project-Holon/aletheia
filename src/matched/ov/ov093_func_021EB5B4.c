@@ -1,5 +1,5 @@
 /*
- * function: func_021EB5B4
+ * function: BTLV_SCU_ProcQuickEntry
  * address:  0x021EB5B4
  * packet:   pkt_ov093_021EB5B4
  * region:   ov093
@@ -12,10 +12,10 @@
  * symbols:
  *   func_021B8ED8  0x021B8ED8  thumb  ov093
  *   func_021B98AC  0x021B98AC  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_021F7EE8  0x021F7EE8  thumb  ov094
  *   func_021EDA04  0x021EDA04  thumb  ov093
- *   func_021EB584  0x021EB584  thumb  ov093
+ *   BTLV_SCU_StartBrightnessFade  0x021EB584  thumb  ov093
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  */
 #include "../include/Obj10117.h"
@@ -25,12 +25,12 @@ extern u8 func_021B8ED8(u8 *p, u8 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 struct E;
 struct Work;
-extern void *func_021D5864(struct Work *p);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern void func_021F7EE8(void *, int);
 extern void func_021EDA04(struct E *e);
-extern void func_021EB584(int);
+extern void BTLV_SCU_StartBrightnessFade(int);
 extern int func_021F7EB4(void);
-int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n)
+int BTLV_SCU_ProcQuickEntry(u8 *p, int *state, u8 *src, u8 n)
 {
     switch (*state) {
     case 0: {
@@ -40,7 +40,7 @@ int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n)
         for (i = 0; i < n; i++) {
             c = src[i];
             k = func_021B8ED8(*(u8 * *)&((struct Obj10117 *)p)->f134, c);
-            func_021F7EE8(func_021D5864((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon((struct Work *)func_021B98AC(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
             func_021EDA04((struct E *)(p + 0x48 + k * 12));
         }
         *state = *state + 1;
@@ -49,7 +49,7 @@ int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n)
     case 1:
         if (p[0x150] != 0)
             return 1;
-        func_021EB584(-3);
+        BTLV_SCU_StartBrightnessFade(-3);
         *state = *state + 1;
         break;
     case 2:

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_021FCA04  0x021FCA04  thumb  ov094
  *   func_021FFFD8  0x021FFFD8  thumb  ov094
@@ -22,7 +22,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021F8694(void);
 extern int func_021FCA04(State *s, int i, int *out);
 extern void func_021FFFD8(char *w, int key, int flag, int clear);
@@ -30,9 +30,9 @@ extern void func_021FFFD8(char *w, int key, int flag, int clear);
 int func_021FBF48(struct Cursor *a, State *s)
 {
     int buf[8];
-    int x = func_0201134C(a);
-    int n = func_021FCA04(s, func_0201134C(a), buf);
-    int y = func_0201134C(a);
+    int x = VM_GetU32(a);
+    int n = func_021FCA04(s, VM_GetU32(a), buf);
+    int y = VM_GetU32(a);
     int i;
 
     if (n != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021A85B4
+ * function: FIELD_MENU_Update
  * address:  0x021A85B4
  * packet:   pkt_ov021_021A85B4
  * region:   ov021
@@ -11,22 +11,22 @@
  *
  * symbols:
  *   func_0201C6B4  0x0201C6B4  thumb
- *   func_021A12D4  0x021A12D4  thumb  ov021
- *   func_021A9294  0x021A9294  thumb  ov021
+ *   FIELD_SUBSCREEN_LoadBackdrop  0x021A12D4  thumb  ov021
+ *   FIELD_MENU_ShowItemWindow  0x021A9294  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_021A8588  0x021A8588  thumb  ov021
- *   func_021A87A8  0x021A87A8  thumb  ov021
- *   func_020221A4  0x020221A4  thumb
- *   func_021A8EEC  0x021A8EEC  thumb  ov021
- *   func_021A8FFC  0x021A8FFC  thumb  ov021
- *   func_021A90E0  0x021A90E0  thumb  ov021
- *   func_0204B98C  0x0204B98C  arm
+ *   FIELD_MENU_ShowBgLayers  0x021A8588  thumb  ov021
+ *   FIELD_MENU_UpdateActorsForScroll  0x021A87A8  thumb  ov021
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   FIELD_MENU_HandleKeys  0x021A8EEC  thumb  ov021
+ *   FIELD_MENU_HandleTouch  0x021A8FFC  thumb  ov021
+ *   FIELD_MENU_UpdateSelection  0x021A90E0  thumb  ov021
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
  *   func_02040588  0x02040588  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_021A9080  0x021A9080  thumb  ov021
- *   func_0204B878  0x0204B878  arm
- *   func_021A0FA0  0x021A0FA0  thumb  ov021
- *   func_0201C4E4  0x0201C4E4  thumb
+ *   FIELD_MENU_PlaceCursor  0x021A9080  thumb  ov021
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   FIELD_SUBSCREEN_SetPanelResult  0x021A0FA0  thumb  ov021
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  */
 
 typedef unsigned char u8;
@@ -85,26 +85,26 @@ typedef struct Obj {
 
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
-extern void func_021A12D4(u32 *p, u32 x);
-extern void func_021A9294(Obj *p, Item *it);
+extern void FIELD_SUBSCREEN_LoadBackdrop(u32 *p, u32 x);
+extern void FIELD_MENU_ShowItemWindow(Obj *p, Item *it);
 extern void func_020061E4(u32 se);
-extern int func_021A8588();
-extern void func_021A87A8(Obj *p);
-extern u32 func_020221A4(void);
-extern void func_021A8EEC(Obj *p);
+extern int FIELD_MENU_ShowBgLayers();
+extern void FIELD_MENU_UpdateActorsForScroll(Obj *p);
+extern u32 WIPE_SYS_EndCheck(void);
+extern void FIELD_MENU_HandleKeys(Obj *p);
 struct W;
-extern void func_021A8FFC(struct W *w);
-extern void func_021A90E0(struct W *w);
+extern void FIELD_MENU_HandleTouch(struct W *w);
+extern void FIELD_MENU_UpdateSelection(struct W *w);
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_021A9080(Obj *p, u8 a, u8 b);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021A0FA0(int *p, int v);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void FIELD_MENU_PlaceCursor(Obj *p, u8 a, u8 b);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void FIELD_SUBSCREEN_SetPanelResult(int *p, int v);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-u32 func_021A85B4(Obj *p)
+u32 FIELD_MENU_Update(Obj *p)
 {
     u8 i;
     s16 v;
@@ -113,16 +113,16 @@ u32 func_021A85B4(Obj *p)
     switch (p->f0C) {
     case 1:
         if (func_0201C6B4(p->f12C) == 1) {
-            func_021A12D4(p->f08, p->f02);
+            FIELD_SUBSCREEN_LoadBackdrop(p->f08, p->f02);
             for (i = 0; i < 7; i++) {
-                func_021A9294(p, &p->items[i]);
+                FIELD_MENU_ShowItemWindow(p, &p->items[i]);
             }
             if (p->fFC != 0) {
                 func_020061E4(0x554);
                 p->f0C = 0;
             } else {
                 p->f0C = 2;
-                func_021A8588();
+                FIELD_MENU_ShowBgLayers();
             }
         }
         break;
@@ -131,26 +131,26 @@ u32 func_021A85B4(Obj *p)
         if (v < 0x40) {
             p->fFC = 0;
             p->f0C = 3;
-            func_021A8588();
+            FIELD_MENU_ShowBgLayers();
         } else {
             p->fFC = v - 0x40;
-            func_021A87A8(p);
+            FIELD_MENU_UpdateActorsForScroll(p);
         }
         p->f100 = 1;
         break;
     case 2:
-        if (func_020221A4() == 1) {
-            func_021A12D4(p->f08, p->f02);
+        if (WIPE_SYS_EndCheck() == 1) {
+            FIELD_SUBSCREEN_LoadBackdrop(p->f08, p->f02);
             p->f0C = 3;
         }
         break;
     case 3:
-        func_021A8EEC(p);
-        func_021A8FFC((struct W *)p);
-        func_021A90E0((struct W *)p);
+        FIELD_MENU_HandleKeys(p);
+        FIELD_MENU_HandleTouch((struct W *)p);
+        FIELD_MENU_UpdateSelection((struct W *)p);
         break;
     case 4:
-        if (func_0204B98C((struct Actor *)p->f128) != 0) {
+        if (CLACT_IsActorAnimActive((struct Actor *)p->f128) != 0) {
             break;
         }
         p->f0C = 5;
@@ -172,8 +172,8 @@ u32 func_021A85B4(Obj *p)
             s = p->fF8;
             if (s->f18 != 0) {
                 p->f20 = 0;
-                func_021A9080(p, s->f14, s->f15);
-                func_0204B878((struct Obj *)p->f124, 1);
+                FIELD_MENU_PlaceCursor(p, s->f14, s->f15);
+                CLACT_SetActorAnimSeq((struct Obj *)p->f124, 1);
                 func_0204B3DC((struct Obj *)p->f124, 1);
                 p->f0C = 6;
                 func_020061E4(0x54C);
@@ -184,16 +184,16 @@ u32 func_021A85B4(Obj *p)
         break;
     case 6:
         p->f20++;
-        if (func_0204B98C((struct Actor *)p->f124) == 0) {
+        if (CLACT_IsActorAnimActive((struct Actor *)p->f124) == 0) {
             p->f0C = 8;
         }
         break;
     case 7:
-        func_021A0FA0(p->f08, 4);
+        FIELD_SUBSCREEN_SetPanelResult(p->f08, 4);
         p->f0C = 10;
         break;
     case 8:
-        func_021A0FA0(p->f08, 3);
+        FIELD_SUBSCREEN_SetPanelResult(p->f08, 3);
         p->f0C = 10;
         break;
     case 9:
@@ -202,10 +202,10 @@ u32 func_021A85B4(Obj *p)
             p->f0C = 7;
         } else {
             p->fFC += 0x40;
-            func_021A87A8(p);
+            FIELD_MENU_UpdateActorsForScroll(p);
         }
         p->f100 = 1;
         break;
     }
-    return func_0201C4E4(p->f12C);
+    return PRINTSYS_QUE_Main(p->f12C);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02188CF0
+ * function: FIELDMAP_GetCtrlType
  * address:  0x02188CF0
  * packet:   pkt_02188CF0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_02188CF0(u32 a)
+int FIELDMAP_GetCtrlType(u32 a)
 {
 return *(u32 *)((u8 *)(*(u32 *)((u8 *)(a) + ((66 << 2)))));
 }

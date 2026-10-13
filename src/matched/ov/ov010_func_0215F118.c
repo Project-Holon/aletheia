@@ -1,5 +1,5 @@
 /*
- * function: func_0215F118
+ * function: MOVE_POKEMON_IsInSkillArea
  * address:  0x0215F118
  * packet:   pkt_ov010_0215F118
  * region:   ov010
@@ -13,10 +13,10 @@
  * flag is already set in the field's save block.
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  */
 
 typedef unsigned short u16;
@@ -31,18 +31,18 @@ typedef struct Area {
 
 struct BigObj;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201296C(const struct BigObj *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 typedef signed int     s32;
-extern u32 func_020142E8(void *bitmap, s32 id);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 
-int func_0215F118(const Area *a, u16 x, u16 z, u32 flag, void *field)
+int MOVE_POKEMON_IsInSkillArea(const Area *a, u16 x, u16 z, u32 flag, void *field)
 {
     int dx;
     int dz;
 
-    if (func_020142E8((void *)func_0201296C(func_020120F4(func_02188C80(field))), flag) != 0)
+    if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(field))), flag) != 0)
         return 0;
     dx = a->x - x;
     dz = a->z - z;

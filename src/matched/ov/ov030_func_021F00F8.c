@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F00F8, func_021F0114
+ * function: NO_GEAR_Update, NO_GEAR_Hook
  * address: 0x021F00F8
  * packet: pkt_ov030_021F00F8
  * region: ov030
@@ -9,26 +9,26 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * extent: empty follower func_021F0114 then two-byte zero padding.
+ * extent: empty follower NO_GEAR_Hook then two-byte zero padding.
  * symbols:
- *   func_020120F4 0x020120F4 thumb
- *   func_0201283C 0x0201283C thumb
- *   func_0201058C 0x0201058C thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
+ *   WIH_DWC_PollStatus 0x0201058C thumb
  */
 #include "../include/Obj13049.h"
 typedef unsigned int u32;
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201283C(const struct BigObj *p);
-extern u32 func_0201058C(void *key);
-void func_021F00F8(char *p)
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+extern u32 WIH_DWC_PollStatus(void *key);
+void NO_GEAR_Update(char *p)
 {
     if (*(void (**)(char *))p != 0) {
         (*(void (**)(char *))p)(p);
     }
-    func_0201058C((void *)func_0201283C(func_020120F4(((struct Obj13049 *)p)->f18)));
+    WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(((struct Obj13049 *)p)->f18)));
 }
-void func_021F0114(void)
+void NO_GEAR_Hook(void)
 {
 }

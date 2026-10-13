@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021CF32C, func_021CF36C
+ * function: COMM_ENTRY_SendReady, COMM_ENTRY_RecvAccept
  * address:  0x021CF32C
  * packet:   pkt_ov021_021CF32C
  * region:   ov021
@@ -10,12 +10,12 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_021CF36C (unlabelled) is a tail-call stub into func_021CE70C.
+ * COMM_ENTRY_RecvAccept (unlabelled) is a tail-call stub into COMM_ENTRY_MENU_SetAcceptFlag.
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3F8  0x0203D3F8  arm
- *   func_021CE70C  0x021CE70C  thumb  ov021
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
+ *   COMM_ENTRY_MENU_SetAcceptFlag  0x021CE70C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -24,19 +24,19 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void func_021CE70C(u8 *p);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern void COMM_ENTRY_MENU_SetAcceptFlag(u8 *p);
 
-u32 func_021CF32C(u32 flag)
+u32 COMM_ENTRY_SendReady(u32 flag)
 {
     if (flag == 1)
-        func_0203D3F8((u32)func_020399A8(), 0xff, 0x2704, 0, 0, 0, 0, 0);
+        GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0xff, 0x2704, 0, 0, 0, 0, 0);
     else
-        return func_0203D3F8((u32)func_020399A8(), 0, 0x2704, 0, 0, 0, 0, 0);
+        return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0, 0x2704, 0, 0, 0, 0, 0);
 }
 
-void func_021CF36C(u32 a, u32 b, u32 c, u32 d)
+void COMM_ENTRY_RecvAccept(u32 a, u32 b, u32 c, u32 d)
 {
-    func_021CE70C((u8 *)d);
+    COMM_ENTRY_MENU_SetAcceptFlag((u8 *)d);
 }

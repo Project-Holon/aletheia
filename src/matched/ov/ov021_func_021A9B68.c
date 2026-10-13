@@ -1,5 +1,5 @@
 /*
- * function: func_021A9B68
+ * function: FIELD_ENCOUNT_PickSlotByType
  * address:  0x021A9B68
  * packet:   pkt_ov021_021A9B68
  * region:   ov021
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_02019C90  0x02019C90  thumb
- *   func_021A9DC8  0x021A9DC8  thumb
+ *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb
  *   _u32_div_f  0x0209C2B0  arm
  * Addresses are Black-image addresses.
  */
@@ -27,9 +27,9 @@ typedef signed int     s32;
 struct Spec { u16 id : 11; u16 lvl : 5; u8 lo; u8 hi; };
 
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
-extern u32 func_021A9DC8(void);
+extern u32 FIELD_ENCOUNT_RandPercent(void);
 
-u8 func_021A9B68(u8 *u, struct Spec *specs, u32 type)
+u8 FIELD_ENCOUNT_PickSlotByType(u8 *u, struct Spec *specs, u32 type)
 {
     u8 buf[12];
     int i;
@@ -49,5 +49,5 @@ u8 func_021A9B68(u8 *u, struct Spec *specs, u32 type)
     }
     if (n == 0)
         return 0xFF;
-    return buf[func_021A9DC8() % n];
+    return buf[FIELD_ENCOUNT_RandPercent() % n];
 }

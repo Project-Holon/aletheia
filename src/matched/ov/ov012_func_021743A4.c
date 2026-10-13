@@ -15,37 +15,37 @@
  *
  * symbols:
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02183C3C  0x02183C3C  thumb  ov022
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   UNION_APP_Update  0x02183C3C  thumb  ov022
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_02012944  0x02012944  thumb
- *   func_02183B60  0x02183B60  thumb  ov022
- *   func_020399A8  0x020399A8  arm
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   UNION_APP_Create  0x02183B60  thumb  ov022
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
  *   UNION_COMMAND_SendAppQuitRequest  0x02173E1C  thumb  ov012
- *   func_02183F84  0x02183F84  thumb  ov022
+ *   UNION_APP_IsQuitAccepted  0x02183F84  thumb  ov022
  *   UNION_COMMAND_SendAppQuitCancel  0x02173EC8  thumb  ov012
- *   func_0218401C  0x0218401C  thumb  ov022
- *   func_021841A0  0x021841A0  thumb  ov022
+ *   UNION_APP_HasMembers  0x0218401C  thumb  ov022
+ *   UNION_APP_GetJoinedBits  0x021841A0  thumb  ov022
  *   UNION_COMMAND_SendAppJoinData  0x02173F90  thumb  ov012
- *   func_0218402C  0x0218402C  thumb  ov022
+ *   UNION_APP_IsAllEntriesReceived  0x0218402C  thumb  ov022
  *   UNION_COMMAND_SendAppLeaveData  0x02174084  thumb  ov012
- *   func_021840AC  0x021840AC  thumb  ov022
- *   func_021736E0  0x021736E0  thumb  ov012
- *   func_0203D1E8  0x0203D1E8  arm
- *   func_0203D7BC  0x0203D7BC  arm
+ *   UNION_APP_AddSelfToJoined  0x021840AC  thumb  ov022
+ *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
+ *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   func_02012984  0x02012984  thumb
- *   func_02029DF4  0x02029DF4  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx  0x02029DF4  thumb
  *   GFL_USE_ChangeBgm  0x02005DA4  thumb
  *   GFL_USE_IsBgmFading  0x02005E50  thumb
- *   func_02183BE0  0x02183BE0  thumb  ov022
+ *   UNION_APP_Delete  0x02183BE0  thumb  ov022
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   ov022_id       0x00000016  data   a1
  *   ov023_id       0x00000017  data   a1
@@ -53,7 +53,7 @@
  *   gOekakiProcData     0x02186B30  data   ov023  a4
  *   gGuru2ProcData     0x021E1A2C  data   ov137  a4
  *
- * evidence: 0x02029DF4 is an unlabelled ARM9 thunk ("ldr r3, =func_02029EB4;
+ * evidence: 0x02029DF4 is an unlabelled ARM9 thunk ("ldr r3, =FIELD_SOUND_SYSTEM_GetFieldBgmForZone;
  * bx r3"), seeded in layout/function_starts.txt from the bl sites in ov020
  * and ov021 (0x021AF018 and others), so +0x21E attests as `label`.
  * 0x02005DA4 is an 8-byte ARM9 wrapper ("push {r3, lr}; bl 0x02005F70;
@@ -104,43 +104,43 @@ typedef struct Self {
 
 struct Evt;
 extern u32 func_0200FB24(void);
-extern void func_02183C3C(u8 *s, u8 *c);
+extern void UNION_APP_Update(u8 *s, u8 *c);
 struct BigObj;
 struct Ctx;
 struct IcaAnime;
 struct Rec20;
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern int   func_02034AC4(signed int id);
 extern void  func_02034A5C(int id);
-extern u8 *func_02012944(void *p);
-extern u8 *func_02183B60(u8 *a, int heap, int kind, struct Rec20 *src);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern u8 *UNION_APP_Create(u8 *a, int heap, int kind, struct Rec20 *src);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
 extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
 extern u32 UNION_COMMAND_SendAppQuitRequest(void);
-extern u8 func_02183F84(u8 *p);
+extern u8 UNION_APP_IsQuitAccepted(u8 *p);
 extern int   UNION_COMMAND_SendAppQuitCancel(void);
-extern int func_0218401C(u8 *p);
-extern unsigned char func_021841A0(unsigned char *p);
+extern int UNION_APP_HasMembers(u8 *p);
+extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 extern int   UNION_COMMAND_SendAppJoinData(u8 a, u32 b);
-extern int func_0218402C(u8 *p);
+extern int UNION_APP_IsAllEntriesReceived(u8 *p);
 extern int   UNION_COMMAND_SendAppLeaveData(u8 a, u32 b);
-extern void func_021840AC(u8 *s);
-extern void func_021736E0(unsigned int x);
-extern void func_0203D1E8(u32 unused, void *arg);
-extern void func_0203D7BC(u8 a0);
+extern void UNION_APP_AddSelfToJoined(u8 *s);
+extern void UNION_COMM_SetGameKindByStatus(unsigned int x);
+extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+extern void GFL_NET_SetLoginOption(u8 a0);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
-extern u8 func_02012984(const struct BigObj *p);
-extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(void *a, unsigned int id, unsigned int which);
 extern void GFL_USE_ChangeBgm(unsigned int a, unsigned short b, int c, int d);
 extern int   GFL_USE_IsBgmFading(void);
-extern void  func_02183BE0(void *p);
+extern void  UNION_APP_Delete(void *p);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 
 extern char ov022_id[];
@@ -159,31 +159,31 @@ int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, 
     if (func_0200FB24() != 0 && *state > 2 && *state <= 13)
         *state = 16;
     if (self->f3528 != 0)
-        func_02183C3C(self->f3528, (u8 *)self);
+        UNION_APP_Update(self->f3528, (u8 *)self);
 
     switch (*state) {
     case 0:
-        func_02012374(obj, (void *)func_021BE8D4((void *)a0, a2, 0, 0));
+        GAME_EVENT_CallEvent(obj, (void *)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)a0, a2, 0, 0));
         (*state)++;
         break;
     case 1:
-        func_02012374(obj, (void *)FIELD_STATUS_CreateFieldCloseEvent(a0, a2));
+        GAME_EVENT_CallEvent(obj, (void *)FIELD_STATUS_CreateFieldCloseEvent(a0, a2));
         (*state)++;
         break;
     case 2:
         func_02034AC4((u32)ov022_id);
-        self->f3528 = func_02183B60((u8 *)self, 3, 5, (struct Rec20 *)func_02012944((void *)self->f0->f8));
+        self->f3528 = UNION_APP_Create((u8 *)self, 3, 5, (struct Rec20 *)GAME_DATA_GetMyStatus((void *)self->f0->f8));
         if (l->flag5A == 1)
             *state = 5;
         else
             (*state)++;
         break;
     case 3:
-        func_02039C68((struct Link *)func_020399A8(), 9, 0x14);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14);
         (*state)++;
         break;
     case 4:
-        if (func_02039CB4((struct Link *)func_020399A8(), 9, 0x14) == 1)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 9, 0x14) == 1)
             *state = 7;
         break;
     case 5:
@@ -191,7 +191,7 @@ int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, 
             (*state)++;
         break;
     case 6:
-        if (func_02183F84(self->f3528) == 1)
+        if (UNION_APP_IsQuitAccepted(self->f3528) == 1)
             *state = 7;
         break;
     case 7:
@@ -199,39 +199,39 @@ int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, 
             (*state)++;
         break;
     case 8:
-        if (func_0218401C(self->f3528) == 1)
+        if (UNION_APP_HasMembers(self->f3528) == 1)
             (*state)++;
         break;
     case 9:
-        v = func_021841A0(self->f3528);
-        if (UNION_COMMAND_SendAppJoinData(v, (u32)func_02012944((void *)self->f0->f8)) == 1)
+        v = UNION_APP_GetJoinedBits(self->f3528);
+        if (UNION_COMMAND_SendAppJoinData(v, (u32)GAME_DATA_GetMyStatus((void *)self->f0->f8)) == 1)
             (*state)++;
         break;
     case 10:
-        if (func_0218402C(self->f3528) == 1)
+        if (UNION_APP_IsAllEntriesReceived(self->f3528) == 1)
             (*state)++;
         break;
     case 11:
         if (l->flag5A == 1) {
-            v = func_021841A0(self->f3528);
-            if (UNION_COMMAND_SendAppLeaveData(v, (u32)func_02012944((void *)self->f0->f8)) == 1) {
-                func_021840AC(self->f3528);
+            v = UNION_APP_GetJoinedBits(self->f3528);
+            if (UNION_COMMAND_SendAppLeaveData(v, (u32)GAME_DATA_GetMyStatus((void *)self->f0->f8)) == 1) {
+                UNION_APP_AddSelfToJoined(self->f3528);
                 *state = 13;
             }
         } else {
-            func_021736E0(l->f0);
-            func_02039C68((struct Link *)func_020399A8(), 10, 0x14);
+            UNION_COMM_SetGameKindByStatus(l->f0);
+            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14);
             *state = 12;
         }
         break;
     case 12:
-        if (func_02039CB4((struct Link *)func_020399A8(), 10, 0x14) == 1) {
-            func_0203D1E8((u32)func_020399A8(), (void *)1);
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14) == 1) {
+            GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
             *state = 13;
         }
         break;
     case 13:
-        func_0203D7BC(0);
+        GFL_NET_SetLoginOption(0);
         if (l->f0 == 3) {
             r = sub->f8;
             r->f0 = self->f3528;
@@ -248,7 +248,7 @@ int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, 
             break;
         if (l->f0 == 0x19) {
             if (sub->f8->f14 == 1) {
-                GFL_USE_ChangeBgm((u16)func_02029DF4((void *)self->f0->f8, 0x1a6, func_02012984((const struct BigObj *)self->f0->f8)), (int)0xffff, 6, 0x3c);
+                GFL_USE_ChangeBgm((u16)FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx((void *)self->f0->f8, 0x1a6, GAME_DATA_GetSeason((const struct BigObj *)self->f0->f8)), (int)0xffff, 6, 0x3c);
                 *state = 15;
             } else {
                 *state = 16;
@@ -263,18 +263,18 @@ int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, 
         break;
     case 16:
         if (self->f3528 != 0) {
-            func_02183BE0(self->f3528);
+            UNION_APP_Delete(self->f3528);
             self->f3528 = 0;
             func_02034A5C((int)ov022_id);
         }
         *state = 17;
         break;
     case 17:
-        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)a0));
+        GAME_EVENT_CallEvent(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)a0));
         (*state)++;
         break;
     case 18:
-        func_02012374(obj, (void *)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(obj, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)a0, a2, 0, 0, 1, 0, 0));
         (*state)++;
         break;
     case 19:

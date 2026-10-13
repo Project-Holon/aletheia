@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE6CC",
-    "func_021DE700"
+    "BTL_HANDLER_ITEM_MuscleBandBoostPhysical",
+    "BTL_HANDLER_ITEM_GetWiseGlassesHandlers"
+   ],
+   "addresses": [
+    "0x021DE6CC",
+    "0x021DE700"
    ],
    "evidence": {
     "sole-ref": [

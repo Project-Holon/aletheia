@@ -10,8 +10,8 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201D304 0x0201D304 thumb
  *   func_02045738 0x02045738 arm
  */
@@ -28,8 +28,8 @@ struct StrObj;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 func_02045738(struct Descriptor *p);
 void func_0220C694(char *p, int i, int id)
@@ -46,7 +46,7 @@ void func_0220C694(char *p, int i, int id)
     font = ((struct Obj25144 *)(*(char * *)&((struct Obj08358 *)p)->f0))->fC;
     x = (s16)(((func_02045738(handle) << 3) - width) >> 1);
     f = ((struct Obj08358 *)p)->f1EAC;
-    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), x, 5, (u32)t, font, 0x3DC0);
+    PRINTSYS_PrintQueColor(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), x, 5, (u32)t, font, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
-    func_02045808(t);
+    STRBUF_Delete(t);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_02176AA0  0x02176AA0  data ov011 a2
+ *   gIntrudeCommZonePairs  0x02176AA0  data ov011 a2
  */
 #include "../include/Obj02670.h"
 
@@ -23,7 +23,7 @@ typedef struct Ent {
     u16 c;
 } Ent;
 
-extern Ent d_02176AA0[8];
+extern Ent gIntrudeCommZonePairs[8];
 
 int INTRUDE_COMM_LookupZonePair(u16 v, u8 *out)
 {
@@ -32,9 +32,9 @@ int INTRUDE_COMM_LookupZonePair(u16 v, u8 *out)
 
     ((struct Obj02670 *)out)->f0 = v;
     for (i = 0; i < 8; i++) {
-        if (v == d_02176AA0[i].a) {
+        if (v == gIntrudeCommZonePairs[i].a) {
             k = 0;
-        } else if (v == d_02176AA0[i].b) {
+        } else if (v == gIntrudeCommZonePairs[i].b) {
             k = 1;
         } else {
             continue;

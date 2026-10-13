@@ -1,5 +1,5 @@
 /*
- * function: func_021DF390
+ * function: BTL_HANDLER_ITEM_GetSmokeBallHandlers
  * address: 0x021DF390
  * packet: pkt_ov093_021DF390
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F15FC[];
-int *func_021DF390(int *p);
+int *BTL_HANDLER_ITEM_GetSmokeBallHandlers(int *p);
 
-int *func_021DF390(int *p)
+int *BTL_HANDLER_ITEM_GetSmokeBallHandlers(int *p)
 {
     *p = 2;
     return d_021F15FC;

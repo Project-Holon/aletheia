@@ -10,7 +10,7 @@
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021FA9C8 0x021FA9C8 thumb ov135
  *   func_021F4FF4 0x021F4FF4 thumb ov135
  *   tbl_02203298 0x02203298 data a1
@@ -26,7 +26,7 @@ struct WinMgr;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021FA9C8(u8 *p, int mode, int pos);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
@@ -35,13 +35,13 @@ extern const u8 tbl_02203298[][2];
 int func_021FB614(u8 *p)
 {
     func_021FA9C8(p, 6, 0x20);
-    func_0204B878((struct Obj *)(((struct Obj02858 *)p)->f8), 18);
+    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02858 *)p)->f8), 18);
     BGWINFRM_StartMove(((struct Obj02858 *)p)->f18, 0, -4, 0, 4);
     ((struct Obj02858 *)p)->f48 = 1;
     ((struct Obj02858 *)p)->f4C = 19;
     ((struct Obj02858 *)p)->f44 = 10;
     ((struct Obj02858 *)p)->f38 = -1;
     func_021F4FF4(((struct Obj02858 *)p)->f8, (tbl_02203298[((struct Obj02858 *)p)->f44][0] + 16) * 8, tbl_02203298[((struct Obj02858 *)p)->f44][1] * 8);
-    func_0204B878((struct Obj *)(((struct Obj02858 *)p)->f8), 6);
+    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02858 *)p)->f8), 6);
     return -1;
 }

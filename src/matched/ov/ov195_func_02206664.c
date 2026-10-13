@@ -13,13 +13,13 @@
  *   d_02208E8C 0x02208E8C data
  *   d_02148BCC 0x02148BCC data
  *   G3D_SYSTEM_GetProjection 0x020467EC arm
- *   func_02046AFC 0x02046AFC arm
+ *   G3D_SYSTEM_GetLookAt 0x02046AFC arm
  *   func_0207ADC4 0x0207ADC4 arm
  *   NNS_G3dGlbBaseTrans 0x0206A9DC arm
  *   func_02082B60 0x02082B60 arm
  *   NNS_G3dGlbBaseScale 0x0206AA0C arm
- *   func_02048AD0 0x02048AD0 arm
- *   func_020479D8 0x020479D8 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   func_0206DB80 0x0206DB80 arm
  *   G3D_SYSTEM_SetProjection 0x02046858 arm
  *   G3D_SYSTEM_SetLookAt 0x02046B40 arm
@@ -71,13 +71,13 @@ extern const VecFx32 d_02208E8C;
 extern GlbState d_02148BCC;
 extern void G3D_SYSTEM_GetProjection(int p0);
 struct Light;
-extern void func_02046AFC(u8 *dst);
+extern void G3D_SYSTEM_GetLookAt(u8 *dst);
 extern void func_0207ADC4(MtxFx33 *m);
 extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
 extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
 extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
-extern void func_02048AD0(struct Light *l);
-extern void func_020479D8(void);
+extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void func_0206DB80(void);
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void G3D_SYSTEM_SetLookAt(u8 *a0);
@@ -94,7 +94,7 @@ void func_02206664(Owner *o)
     u8 i;
 
     G3D_SYSTEM_GetProjection((int)save0);
-    func_02046AFC(save1);
+    G3D_SYSTEM_GetLookAt(save1);
     {
         VecFx32 scale = d_02208E8C;
         MtxFx33 rot;
@@ -106,8 +106,8 @@ void func_02206664(Owner *o)
         d_02148BCC.flag &= ~0xa4;
         NNS_G3dGlbBaseScale(&scale);
     }
-    func_02048AD0(w->tex);
-    func_020479D8();
+    G3D_CAMERA_Reset(w->tex);
+    G3D_SYSTEM_ApplyLookAt();
     func_0206DB80();
     REG_MTX_MODE = 3;
     REG_MTX_IDENTITY = 0;
@@ -122,6 +122,6 @@ void func_02206664(Owner *o)
         func_02208570(w->quad, o->heap);
     G3D_SYSTEM_SetProjection((const u32 *)save0);
     G3D_SYSTEM_SetLookAt(save1);
-    func_020479D8();
+    G3D_SYSTEM_ApplyLookAt();
     func_0206DB80();
 }

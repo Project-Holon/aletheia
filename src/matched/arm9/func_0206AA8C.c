@@ -1,5 +1,5 @@
 /*
- * function: func_0206AA8C
+ * function: NNS_G3dGlbMaterialColorDiffAmb
  * address:  0x0206AA8C
  * packet:   pkt_0206AA78
  * region:   arm9
@@ -23,15 +23,15 @@
  * layout/function_starts.txt rather than edited in.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206AA8C.c \
- *       --func func_0206AA8C --addr 0x0206AA8C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGlbMaterialColorDiffAmb.c \
+ *       --func NNS_G3dGlbMaterialColorDiffAmb --addr 0x0206AA8C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern u32 g_renderState[];
 
-void func_0206AA8C(u32 v, u32 bits, u32 flag)
+void NNS_G3dGlbMaterialColorDiffAmb(u32 v, u32 bits, u32 flag)
 {
     g_renderState[0x25] = v | (bits << 16) | ((u32)(flag != 0) << 15);
 }

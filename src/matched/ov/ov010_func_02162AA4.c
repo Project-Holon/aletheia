@@ -1,5 +1,5 @@
 /*
- * function: func_02162AA4
+ * function: EVENTDATA_SYSTEM_CalcExitOffset
  * address:  0x02162AA4
  * packet:   pkt_ov010_02162AA4
  * region:   ov010
@@ -19,7 +19,7 @@
 
 typedef unsigned short u16;
 
-u16 func_02162AA4(int v, int m, int flag, int dir, u16 n)
+u16 EVENTDATA_SYSTEM_CalcExitOffset(int v, int m, int flag, int dir, u16 n)
 {
     int b, a, c;
     unsigned h, hw;

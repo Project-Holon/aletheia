@@ -1,5 +1,5 @@
 /*
- * function: func_021D1028
+ * function: TRIAL_HOUSE_GetRecordSlotsState
  * address:  0x021D1028
  * packet:   pkt_ov021_021D1028
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E8F8  0x0200E8F8  thumb
  * Addresses are Black-image addresses.
  */
@@ -21,14 +21,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E8F8(void *sys);
 
-int func_021D1028(const struct Ctx *a0)
+int TRIAL_HOUSE_GetRecordSlotsState(const struct Ctx *a0)
 {
-    u8 *p = func_0200E8F8(func_02012EBC((struct Big *)func_020120F4(a0)));
+    u8 *p = func_0200E8F8(GAME_DATA_GetSaveControl((struct Big *)GAMESYSTEM_GetGameData(a0)));
 
     if (p[0] != 0) {
         if (p[0x14] != 0) {

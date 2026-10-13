@@ -10,27 +10,27 @@
  * symbols:
  *   func_021C1A44 0x021C1A44 thumb ov099
  *   func_021C1F74 0x021C1F74 thumb ov099
- *   func_02051C6C 0x02051C6C arm
+ *   BUTTON_MAN_Delete 0x02051C6C arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 #include "../include/Obj00008.h"
 extern int func_021C1A44(char *);
 extern void func_021C1F74(char *);
-extern void func_02051C6C(void *);
+extern void BUTTON_MAN_Delete(void *);
 typedef unsigned int   u32;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 void func_021C1AC0(char *p)
 {
     if (func_021C1A44(p)) {
         func_021C1F74(p);
-        func_02051C6C(((struct Obj00008 *)p)->f8C8);
+        BUTTON_MAN_Delete(((struct Obj00008 *)p)->f8C8);
         ((struct Obj00008 *)p)->f8C8 = 0;
         func_0201ED04(((struct Obj00008 *)p)->f8B0);
         ((struct Obj00008 *)p)->f8B0 = 0;
-        func_02043598(1, 1);
-        func_02043598(14, 0);
+        BG_SYS_SetSubPlaneVisible(1, 1);
+        BG_SYS_SetSubPlaneVisible(14, 0);
     }
 }

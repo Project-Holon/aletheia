@@ -1,5 +1,5 @@
 /*
- * function: func_021A8DD8
+ * function: FIELD_MENU_SetScrolledOut
  * address:  0x021A8DD8
  * packet:   pkt_ov021_021A8DD8
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02040618  0x02040618  arm
- *   func_0204B09C  0x0204B09C  arm
+ *   CLACT_SetSurfacePos  0x0204B09C  arm
  */
 
 typedef short s16;
@@ -30,9 +30,9 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_0204B09C(int a, int b, P *c);
+extern void CLACT_SetSurfacePos(int a, int b, P *c);
 
-void func_021A8DD8(S *s)
+void FIELD_MENU_SetScrolledOut(S *s)
 {
     P v;
     s->hfc = 0xc0;
@@ -40,5 +40,5 @@ void func_021A8DD8(S *s)
     func_02040618(6, 3, -0xc5);
     v.x = 0;
     v.y = 0xc0;
-    func_0204B09C(s->f120, 0, &v);
+    CLACT_SetSurfacePos(s->f120, 0, &v);
 }

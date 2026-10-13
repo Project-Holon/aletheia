@@ -15,7 +15,7 @@
  *   CLACT_ResetOamIfPending  0x0204BB54  arm
  *
  * Cell-actor latch-only tick: latch off, flush the actor bank list, latch
- * back on.  No render update compared with func_0204A600.
+ * back on.  No render update compared with CLACT_DrawSystem.
  */
 
 #include "../include/G_Mgr.h"

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3BC8
+ * function: GIMMICK46_CalcUnitPose
  * address:  0x021F3BC8
  * packet:   pkt_021F3BC8
  * region:   ov046
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021F3BC8(int *p)
+int GIMMICK46_CalcUnitPose(int *p)
 {
     if (p[1] == 0) {
         if (p[2] == 0)

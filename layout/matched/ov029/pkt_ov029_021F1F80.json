@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F1F80",
+   "name": "C_GEAR_UpdateClock",
    "address": "0x021F1F80",
    "kind": "game",
    "region": "ov029",

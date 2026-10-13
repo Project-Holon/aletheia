@@ -1,5 +1,5 @@
 /*
- * function: func_0219BF48
+ * function: FLDMMDL_MOVE_GetHideEffect
  * address:  0x0219BF48
  * packet:   pkt_0219BF48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17961.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D69C(void *p);
+extern void *FLDMMDL_GetMoveProcWork(void *p);
 
-int func_0219BF48(u32 a)
+int FLDMMDL_MOVE_GetHideEffect(u32 a)
 {
-return ((struct Obj17961 *)((u8 *)(func_0216D69C((void *)a))))->f4;
+return ((struct Obj17961 *)((u8 *)(FLDMMDL_GetMoveProcWork((void *)a))))->f4;
 }
 

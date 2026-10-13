@@ -1,5 +1,5 @@
 /*
- * function: func_02194A34
+ * function: TALKMSGWIN_ClearWindowFrame
  * address:  0x02194A34
  * packet:   pkt_02194A34
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02195E90  0x02195E90  thumb  ov021
+ *   TALKMSGWIN_ClearFrame  0x02195E90  thumb  ov021
  *   func_020409B4  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
@@ -25,11 +25,11 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020409B4(u32);
 struct FrameStyle;
-extern void func_02195E90(struct FrameStyle *style, void *win);
+extern void TALKMSGWIN_ClearFrame(struct FrameStyle *style, void *win);
 
-int func_02194A34(u32 a, u32 b)
+int TALKMSGWIN_ClearWindowFrame(u32 a, u32 b)
 {
-func_02195E90((struct FrameStyle *)a, (void *)b);
+TALKMSGWIN_ClearFrame((struct FrameStyle *)a, (void *)b);
 return func_020409B4(((((struct Obj17941 *)((u8 *)(a)))->f10 << 24) >> 24));
 }
 

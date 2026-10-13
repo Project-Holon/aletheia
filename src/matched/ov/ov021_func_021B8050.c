@@ -1,5 +1,5 @@
 /*
- * function: func_021B8050
+ * function: FIELD_RAIL_WORK_GetStepVector
  * address:  0x021B8050
  * packet:   pkt_ov021_021B8050
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B91F8  0x021B91F8  thumb  ov021
+ *   FIELD_RAIL_WORK_GetSpotPos  0x021B91F8  thumb  ov021
  *   func_021B9238  0x021B9238  thumb  ov021
- *   func_021B9368  0x021B9368  thumb  ov021
+ *   FIELD_RAIL_ProbeStep  0x021B9368  thumb  ov021
  *   VEC_Subtract   0x0207CA00  arm
  *   VEC_Normalize  0x0207CCA4  arm
  */
@@ -40,9 +40,9 @@ typedef struct Sub {
     void *f78;
 } Sub;
 
-extern void func_021B91F8(Sub *p, VecFx32 *out);
+extern void FIELD_RAIL_WORK_GetSpotPos(Sub *p, VecFx32 *out);
 extern void func_021B9238(Sub *p, Arg *out);
-extern int func_021B9368(u8 *p, u32 a1, u32 a2, int a3, u32 a5);
+extern int FIELD_RAIL_ProbeStep(u8 *p, u32 a1, u32 a2, int a3, u32 a5);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
 
@@ -53,7 +53,7 @@ static inline void set3(s16 *d, int x, int y, int z)
     d[2] = z;
 }
 
-void func_021B8050(Sub *o, s16 *out)
+void FIELD_RAIL_WORK_GetStepVector(Sub *o, s16 *out)
 {
     VecFx32 a;
     VecFx32 b;
@@ -65,7 +65,7 @@ void func_021B8050(Sub *o, s16 *out)
 
     save = o->f14;
     o->f14 = 0;
-    func_021B91F8(o, &a);
+    FIELD_RAIL_WORK_GetSpotPos(o, &a);
     cur = o->fC;
     o->f14 = save;
     lim = o->f10;
@@ -73,13 +73,13 @@ void func_021B8050(Sub *o, s16 *out)
     if (end < lim) {
         o->fC += 0x10;
         o->f14 = 0;
-        func_021B91F8(o, &b);
+        FIELD_RAIL_WORK_GetSpotPos(o, &b);
         o->f14 = save;
         o->fC = cur;
     } else {
         func_021B9238(o, &q);
         q.h4 = 0;
-        func_021B9368(o->f78, (u32)(&q), o->f4->f8, end - lim, (u32)(&b));
+        FIELD_RAIL_ProbeStep(o->f78, (u32)(&q), o->f4->f8, end - lim, (u32)(&b));
     }
     VEC_Subtract(&b, &a, &b);
     VEC_Normalize(&b, &b);

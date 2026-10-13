@@ -1,5 +1,5 @@
 /*
- * function: func_0216FC74
+ * function: WAZA_OSHIE_PrintToClearedBitmap
  * address: 0x0216FC74
  * packet: pkt_ov010_0216FC74
  * region: ov010
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0216FC50 0x0216FC50 thumb ov010
- *   func_0201C7D0 0x0201C7D0 thumb
+ *   WAZA_OSHIE_ClearBitmap 0x0216FC50 thumb ov010
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  */
 typedef signed short s16;
 typedef unsigned short u16;
-extern void func_0216FC50(void *);
-extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
-void func_0216FC74(void *a, u16 b, u16 c, u16 d, void *e, void *f) { func_0216FC50(e); func_0201C7D0(e,b,c,a,f,d); }
+extern void WAZA_OSHIE_ClearBitmap(void *);
+extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+void WAZA_OSHIE_PrintToClearedBitmap(void *a, u16 b, u16 c, u16 d, void *e, void *f) { WAZA_OSHIE_ClearBitmap(e); PRINTSYS_PrintColor(e,b,c,a,f,d); }

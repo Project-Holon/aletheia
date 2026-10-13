@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02049EF4       0x02049EF4  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle       0x02049EF4  arm
  *   sub_0202CAC4        0x0202CAC4  thumb
  *   ENV_SetResourceSet  0x020307B0  arm
  *
@@ -22,8 +22,8 @@
  * plus a shift pair rather than an `ldrh`.
  *
  * Identical in shape to its neighbour src/matched/sub_0202CAE4.c, which
- * differs only in calling ARC_UTIL_LoadPaletteDataFromArchive instead of func_02049EF4.
- * func_02049EF4 has a second caller at 0x02027652, so its relocation
+ * differs only in calling ARC_UTIL_LoadPaletteDataFromArchive instead of ARC_UTIL_LoadPaletteDataFromHandle.
+ * ARC_UTIL_LoadPaletteDataFromHandle has a second caller at 0x02027652, so its relocation
  * resolves through the `label` class.
  *
  * Verified with:
@@ -41,7 +41,7 @@ struct WinMgr {
     u32 heap;
 };
 
-extern void *func_02049EF4(void *arc, u32 member, u32 alloc, void **out,
+extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 member, u32 alloc, void **out,
                            u16 heap);
 extern void sub_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
 extern void ENV_SetResourceSet(void *p);
@@ -51,7 +51,7 @@ void sub_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc)
     void *buf;
     void *res;
 
-    res = func_02049EF4(arc, member, alloc, &buf, mgr->heap);
+    res = ARC_UTIL_LoadPaletteDataFromHandle(arc, member, alloc, &buf, mgr->heap);
     sub_0202CAC4(mgr, idx, (char *)buf + 0xc);
     ENV_SetResourceSet(res);
 }

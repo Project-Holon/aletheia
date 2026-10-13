@@ -1,5 +1,5 @@
 /*
- * function: func_021DC9C8
+ * function: BTL_ABILITY_MummySpreadAbility
  * address:  0x021DC9C8
  * packet:   pkt_ov093_021DC9C8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C83D4  0x021C83D4  thumb  ov093
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern int func_021C83D4(u8 *p);
 extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern void *func_021C7CF4(int *p, int i);
@@ -39,14 +39,14 @@ extern void func_021C8860(struct S *p, u32 v);
 extern int func_021B9A24(unsigned int a, unsigned int b);
 extern void func_021C88C8(void *a, void *b);
 
-void func_021DC9C8(int a, void *b, int c)
+void BTL_ABILITY_MummySpreadAbility(int a, void *b, int c)
 {
     u8 *m;
     u8 k;
 
-    if (c == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021C83D4(b) == 0
-        && WAZA_TOOL_GetFlag(func_021D775C(0x12), 0) != 0) {
-        k = func_021D775C(3);
+    if (c == BTL_EVENT_GetVar(4) && BTL_EVENT_GetVar(0x46) == 0 && func_021C83D4(b) == 0
+        && WAZA_TOOL_GetFlag(BTL_EVENT_GetVar(0x12), 0) != 0) {
+        k = BTL_EVENT_GetVar(3);
         if (func_021D59B4(func_021C7CF4(b, k), 0x10) != 0x98) {
             m = (u8 *)func_021C88A4(b, 0x1f, c);
             ((struct Obj07815 *)m)->f4 = 0x98;

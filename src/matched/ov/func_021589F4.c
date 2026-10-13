@@ -1,5 +1,5 @@
 /*
- * function: func_021589F4
+ * function: SCRIPT_SYS_ClearLocalWork
  * address:  0x021589F4
  * packet:   pkt_021589F4
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern int ZONEDATA_ResetEventFlagRange();
 extern int ZONEDATA_ClearEventWorkRange();
 
-int func_021589F4(int a0)
+int SCRIPT_SYS_ClearLocalWork(int a0)
 {
     int a1;
     int a2;

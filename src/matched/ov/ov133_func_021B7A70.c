@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021B7F54 0x021B7F54 thumb ov133
  *   func_021B7F00 0x021B7F00 thumb ov133
@@ -35,7 +35,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern void func_021B7F54(u8 *,int);
 extern void func_021BA148(u8 *p, u8 *q);
@@ -56,7 +56,7 @@ extern void func_020061E4(u32);
 void func_021B7A70(u8 *p)
 {
     int moved=0,other=0,hit=0,outer,n,dx,dy;
-    if(((struct Obj00004 *)p)->f183C==0){((struct Obj00004 *)p)->f14=func_02035C60();((struct Obj00004 *)p)->f18=TOUCHPANEL_GetPointCont((u32 *)(p+0x1c),(u32 *)(p+0x20));}
+    if(((struct Obj00004 *)p)->f183C==0){((struct Obj00004 *)p)->f14=TOUCHPANEL_GetTrg();((struct Obj00004 *)p)->f18=TOUCHPANEL_GetPointCont((u32 *)(p+0x1c),(u32 *)(p+0x20));}
     if(((struct Obj00004 *)p)->f14!=0 || ((struct Obj00004 *)p)->f18!=0){
         if(((struct Obj00004 *)p)->f20>176)((struct Obj00004 *)p)->f20=176;
         if(((struct Obj00004 *)p)->f20<16)((struct Obj00004 *)p)->f20=16;

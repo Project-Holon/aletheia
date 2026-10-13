@@ -1,5 +1,5 @@
 /*
- * function: func_0219DC08
+ * function: FLDMMDL_RAIL_MOVE_GetFldEffCtrl
  * address:  0x0219DC08
  * packet:   pkt_0219DC08
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D534  0x0216D534  thumb  ov010
- *   func_02188CD0  0x02188CD0  thumb  ov021
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysGetFieldMap  0x0216D534  thumb  ov010
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D534(void *p);
-extern void *func_0216D67C(void *a0);
-extern u32 func_02188CD0(u8 *p);
+extern u32 FLDMMDL_SysGetFieldMap(void *p);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern u32 FIELDMAP_GetEffect(u8 *p);
 
-int func_0219DC08(u32 a)
+int FLDMMDL_RAIL_MOVE_GetFldEffCtrl(u32 a)
 {
-return func_02188CD0((u8 *)func_0216D534((void *)func_0216D67C((void *)a)));
+return FIELDMAP_GetEffect((u8 *)FLDMMDL_SysGetFieldMap((void *)FLDMMDL_GetMmdlSys((void *)a)));
 }
 

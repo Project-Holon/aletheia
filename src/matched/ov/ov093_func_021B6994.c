@@ -1,5 +1,5 @@
 /*
- * function: func_021B6994
+ * function: BTL_MAIN_GetPositionsPerClient
  * address:  0x021B6994
  * packet:   pkt_ov093_021B6994
  * region:   ov093
@@ -28,7 +28,7 @@ struct S {
 
 extern u32 func_0201AA18(void *p);
 
-int func_021B6994(struct S **pp, u32 b)
+int BTL_MAIN_GetPositionsPerClient(struct S **pp, u32 b)
 {
     struct S *p = *pp;
     void *q;

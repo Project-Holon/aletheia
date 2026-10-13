@@ -1,5 +1,5 @@
 /*
- * function: func_021F3758
+ * function: GIMMICK50_IsModel0AnimeDone
  * address: 0x021F3758
  * packet: pkt_ov050_021F3758
  * region: ov050
@@ -10,12 +10,12 @@
  * status: EXACT
  * note: index declared before pointer restores r4/r5; fourth callee parameter is u16 for the observed call-site shift pair.
  * symbols:
- *   func_02188D2C 0x02188D2C thumb ov021
- *   func_021BE674 0x021BE674 thumb ov021
- *   func_021BE6BC 0x021BE6BC thumb ov021
+ *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
+ *   FLD_EXP_OBJ_GetAnime 0x021BE674 thumb ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped 0x021BE6BC thumb ov021
  */
 
-extern int func_02188D2C(int *);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern int func_021BE6BC(int *);
-int func_021F3758(int *p) { int i; char *q; q=(char *)func_02188D2C(p); for(i=0;i<1;i++) { if(func_021BE6BC(func_021BE674(q,0,0,(unsigned short)i))==0) return 0; } return 1; }
+extern int FIELDMAP_GetExpObj(int *);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern int FLD_EXP_OBJ_IsAnimeStopped(int *);
+int GIMMICK50_IsModel0AnimeDone(int *p) { int i; char *q; q=(char *)FIELDMAP_GetExpObj(p); for(i=0;i<1;i++) { if(FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(q,0,0,(unsigned short)i))==0) return 0; } return 1; }

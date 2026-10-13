@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217BD9C",
+   "name": "UNION_ONESELF_ChatInputMain",
    "address": "0x0217BD9C",
    "kind": "game",
    "region": "ov019",

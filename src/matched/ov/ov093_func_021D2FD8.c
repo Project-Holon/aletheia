@@ -15,7 +15,7 @@
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_021B98AC 0x021B98AC thumb ov093
  *   func_021EAF18 0x021EAF18 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021EAF50 0x021EAF50 thumb ov093
  *   func_021F883C 0x021F883C thumb ov094
  *   d_021EFF80 0x021EFF80 data a2
@@ -36,7 +36,7 @@ extern int func_021F7EB4(void);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct L;
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021F883C(u32);
@@ -61,7 +61,7 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
             if (c[2]) {
                 u8 *p = func_021B98AC((char *const *)a[1], (u8)c[0]);
                 func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x41);
-                func_021EAF50((struct L *)((u8 *)a + 0x58), func_021D5440(p));
+                func_021EAF50((struct L *)((u8 *)a + 0x58), BTL_POKEPARAM_GetPokeId(p));
                 func_021F883C(0x518);
             } else {
                 int msg;
@@ -89,7 +89,7 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
             if (c[3]) {
                 u8 *p = func_021B98AC((char *const *)a[1], (u8)c[0]);
                 func_021EAF18((struct L *)((u8 *)a + 0x58), 1, 0x42);
-                func_021EAF50((struct L *)((u8 *)a + 0x58), func_021D5440(p));
+                func_021EAF50((struct L *)((u8 *)a + 0x58), BTL_POKEPARAM_GetPokeId(p));
                 func_021EA614((char *)a[21], (struct H *)((u8 *)a + 0x58));
                 (*b)++;
             } else return 1;

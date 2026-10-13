@@ -1,5 +1,5 @@
 /*
- * function: func_02169E98
+ * function: REPORT_EVENT_DeleteMessageWindow
  * address:  0x02169E98
  * packet:   pkt_02169E98
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 struct Descriptor;
 u32 func_020452E8(struct Descriptor *d);
 
-int func_02169E98(char *p)
+int REPORT_EVENT_DeleteMessageWindow(char *p)
 {
     return func_020452E8((struct Descriptor *)(((struct Obj19073 *)(*(char * *)&((struct Obj19072 *)p)->f18))->f8));
 }

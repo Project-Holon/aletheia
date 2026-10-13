@@ -1,5 +1,5 @@
 /*
- * function: func_0219EB4C
+ * function: FLDMMDL_RAIL_LookAroundMoveBody
  * address:  0x0219EB4C
  * packet:   pkt_ov021_0219EB4C
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0219EA10  0x0219EA10  thumb  ov021
- *   func_0219EA24  0x0219EA24  thumb  ov021
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0219EA78  0x0219EA78  thumb  ov021
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_RAIL_GetRandomTableEntry  0x0219EA10  thumb  ov021
+ *   FLDMMDL_RAIL_GetRandomDirOfKind  0x0219EA24  thumb  ov021
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_RAIL_StoreNowLocation  0x0219EA78  thumb  ov021
  *   d_021D84AC     0x021D84AC  data  ov021  a4
  * Addresses are Black-image addresses.
  */
@@ -32,21 +32,21 @@ typedef struct {
 
 extern u8 d_021D84AC[];
 
-extern void *func_0216D69C(void *p);
-extern int func_0219EA10(u32 *a, int b);
-extern u32 func_0219EA24(u32 a, u32 b);
-extern void func_0216D5E0(int a0, int a1);
-extern int func_0219EA78();
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern int FLDMMDL_RAIL_GetRandomTableEntry(u32 *a, int b);
+extern u32 FLDMMDL_RAIL_GetRandomDirOfKind(u32 a, u32 b);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
+extern int FLDMMDL_RAIL_StoreNowLocation();
 
-int func_0219EB4C(u32 o)
+int FLDMMDL_RAIL_LookAroundMoveBody(u32 o)
 {
     E *e;
 
-    e = func_0216D69C((void *)o);
+    e = FLDMMDL_GetMoveProcWork((void *)o);
     e->cnt = e->cnt - 1;
     if (e->cnt <= 0) {
-        e->cnt = func_0219EA10((u32 *)d_021D84AC, -1);
-        func_0216D5E0((u32)o, (u16)func_0219EA24(e->val, 9));
+        e->cnt = FLDMMDL_RAIL_GetRandomTableEntry((u32 *)d_021D84AC, -1);
+        FLDMMDL_SetDirDispCheckPause((u32)o, (u16)FLDMMDL_RAIL_GetRandomDirOfKind(e->val, 9));
     }
-    return func_0219EA78(e, o);
+    return FLDMMDL_RAIL_StoreNowLocation(e, o);
 }

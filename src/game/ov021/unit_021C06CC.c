@@ -1,7 +1,7 @@
 /*
  * file:     unit_021C06CC.c
  * unit:     yes
- * function: func_021C06CC, func_021C06E0, func_021C0780, func_021C0808, func_021C080C, func_021C0810, func_021C0820, func_021C0844, func_021C0904, func_021C0988, func_021C09A8, func_021C09B0, func_021C0A10, func_021C0A48, func_021C0A70, func_021C0AA0, func_021C0AC0, func_021C0B3C, func_021C0BD8, func_021C0BE8, func_021C0C48, func_021C0C80, func_021C0C94
+ * function: EVENT_COMM_ERROR_Create, EVENT_COMM_ERROR_Run, EVENT_COMM_ERROR_RunCommExit, EVENT_COMM_ERROR_SubProcInit, EVENT_COMM_ERROR_SubProcMain, EVENT_COMM_ERROR_SubProcEnd, EVENT_RECOVERY_CreateBallsEvent, EVENT_RECOVERY_RunBalls, EVENT_RECOVERY_InitBalls, EVENT_RECOVERY_DeleteBalls, EVENT_RECOVERY_SetBallsStep, EVENT_RECOVERY_PlaceBall, EVENT_RECOVERY_StartBallsAnime, EVENT_RECOVERY_FinishBalls, EVENT_RECOVERY_AreBallsIdle, EVENT_RECOVERY_CreatePartyEvent, EVENT_RECOVERY_RunParty, EVENT_RECOVERY_InitParty, EVENT_RECOVERY_DeleteMachineNode, EVENT_RECOVERY_PlacePartyBall, EVENT_RECOVERY_ActivateParty, EVENT_RECOVERY_IsMachineAnimeDone, EVENT_RECOVERY_GetPartyBallCount
  * address:  0x021C06CC
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,56 +14,56 @@
  * Split from field_player_grid_event.c at 0x021C06CC (lane CL118, no __FILE__ anchor, original unknown: a sub-proc event (06CC..0810, called by field_event_check.c and ov018 intrude_subdisp.c) and the Pokemon Center recovery ball events (0820..0C94, called by scrcmd_screeneffects.c); possibly two originals, cut at 021C0820).
  *
  * symbols:
- *   func_02012374  0x02012374  thumb
- *   func_02188C84  0x02188C84  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_0218DC6C  0x0218DC6C  thumb  ov021
- *   func_0218C584  0x0218C584  thumb  ov021
- *   func_0218C724  0x0218C724  thumb  ov021
- *   func_0218C88C  0x0218C88C  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
+ *   FIELD_BUILDMODEL_CollectEntriesInRect  0x0218C584  thumb  ov021
+ *   FIELD_BUILDMODEL_CreateNodeFromEntry  0x0218C724  thumb  ov021
+ *   FIELD_BUILDMODEL_PlayNodeSlot  0x0218C88C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0218C8FC  0x0218C8FC  thumb  ov021
- *   func_0218C860  0x0218C860  thumb  ov021
- *   d_021DA08C  0x021DA08C  data
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_BUILDMODEL_IsNodeSlotIdle  0x0218C8FC  thumb  ov021
+ *   FIELD_BUILDMODEL_DeleteNode  0x0218C860  thumb  ov021
+ *   sCommErrorSubProcData  0x021DA08C  data
  *   ov021_id  0x00000015  data
- *   func_0200FB38  0x0200FB38  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012138  0x02012138  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_020124E4  0x020124E4  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_020146F8  0x020146F8  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
  *   func_0202647C  0x0202647C  thumb
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_02188BE8  0x02188BE8  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0203CD98  0x0203CD98  arm
- *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203CDBC  0x0203CDBC  arm
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
+ *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_02012124  0x02012124  thumb
- *   func_020121CC  0x020121CC  thumb
+ *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
+ *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   func_02026474  0x02026474  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02164FC4  0x02164FC4  thumb  ov010
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_02029830  0x02029830  thumb
- *   func_02029620  0x02029620  thumb
- *   func_0218C6D0  0x0218C6D0  thumb  ov021
- *   func_020520FC  0x020520FC  arm
+ *   GAME_BEACON_SEARCH_SetStartDelay  0x02164FC4  thumb  ov010
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FIELD_SOUND_SYSTEM_StartPushAndPlayTask  0x02029830  thumb
+ *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
+ *   FIELD_BUILDMODEL_GetEntryWorldPos  0x0218C6D0  thumb  ov021
+ *   BUTTON_MAN_MakeRotMtxXYZ  0x020520FC  arm
  *   func_0207C9D0  0x0207C9D0  arm
- *   func_0218C7F0  0x0218C7F0  thumb  ov021
- *   d_021DA098  0x021DA098  data  ov021  a4
- *   func_0218C69C  0x0218C69C  thumb  ov021
- *   d_021DA0E0     0x021DA0E0  data  a4
- *   func_0218C8D8  0x0218C8D8  thumb  ov021
- *   func_02012934  0x02012934  thumb
+ *   FIELD_BUILDMODEL_CreateNodeFromBlock  0x0218C7F0  thumb  ov021
+ *   sRecoveryBallOffsets  0x021DA098  data  ov021  a4
+ *   FIELD_BUILDMODEL_PlayEntryAnim  0x0218C69C  thumb  ov021
+ *   sPartyRecoveryBallOffsets     0x021DA0E0  data  a4
+ *   FIELD_BUILDMODEL_TryOpenNodeCurrentSlot  0x0218C8D8  thumb  ov021
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA1C  0x0201AA1C  thumb
  */
 #include "fieldmap_types.h"
@@ -207,86 +207,86 @@ enum {
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, GameEventFunc handler, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern GameSystem *func_020124E4(GameEvent *event);
-extern FieldMap *func_0201210C(GameSystem *gameSystem);
-extern struct GameComm *func_02012138(GameSystem *gameSystem);
-extern struct GameData *func_020120F4(GameSystem *gameSystem);
-extern void func_02012124(GameSystem *gameSystem, u32 state);
-extern u32 func_020121CC(GameSystem *gameSystem);
-extern void func_02012374(GameEvent *parent, GameEvent *child);
-extern int func_02012B70(struct GameData *gameData);
-extern void *func_02012934(struct GameData *gameData);
+extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
+extern void GAMESYSTEM_SetFieldMapState(GameSystem *gameSystem, u32 state);
+extern u32 GAMESYSTEM_TryStartAutoComm(GameSystem *gameSystem);
+extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
+extern int GAME_DATA_GetIntrudeCount(struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 extern u32 func_0201AA1C(void *party);
 extern u32 func_0202647C(struct GameComm *gameComm);
 extern void *func_02026474(struct GameComm *gameComm);
 extern u32 func_02026454(struct GameComm *gameComm);
-extern int func_0203CD98(void);
-extern int func_0203CEAC(int a0);
-extern int func_0203CDBC(void);
-extern void func_0200FB38(void);
+extern int GFL_NET_GetRunState(void);
+extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_IsSessionNull(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_0200FBA0(void);
-extern GameEvent *func_020146F8(GameSystem *gameSystem, FieldMap *fieldMap, u8 *overlayId, const SubProcData *procData, GameSystem *procWork);
-extern void func_02164FC4(void *searchWork);
-extern struct MmdlSys *func_02188C7C(FieldMap *fieldMap);
-extern int func_02188BE8(FieldMap *fieldMap);
-extern void func_0216D9A0(struct MmdlSys *mmdlSys);
-extern u32 *func_0216D9E4(struct MmdlSys *mmdlSys);
-extern u16 func_02188C84(FieldMap *fieldMap);
-extern struct FieldG3dMapper *func_02188C98(FieldMap *fieldMap);
-extern struct FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern GameSystem *func_02188C80(FieldMap *fieldMap);
-extern void func_021A3038(struct FieldPlayer *player, VecFx32 *out);
-extern struct BuildModelMan *func_0218DC6C(struct FieldG3dMapper *mapper);
-extern struct BuildModelEntry **func_0218C584(struct BuildModelMan *man, RecoveryRect *rect, int kind, int *count);
-extern void func_0218C6D0(struct BuildModelEntry *entry, VecFx32 *out);
-extern struct BuildModelNode *func_0218C724(struct BuildModelMan *man, struct BuildModelEntry *entry);
-extern struct BuildModelNode *func_0218C7F0(struct BuildModelMan *man, u32 tableId, RecoveryBallPlacement *placement);
-extern void func_0218C69C(struct BuildModelMan *man, struct BuildModelEntry *entry, int slot, int mode);
-extern void func_0218C860(struct BuildModelNode *node);
-extern void func_0218C88C(struct BuildModelNode *node, int slot, int mode);
-extern int func_0218C8D8(struct BuildModelNode *node);
-extern int func_0218C8FC(struct BuildModelNode *node, int slot);
-extern GameEvent *func_02029830(GameSystem *gameSystem, u32 bgmId);
-extern GameEvent *func_02029620(GameSystem *gameSystem, u32 a, u32 fadeFrames);
+extern GameEvent *FIELD_STATUS_CreateSubProcEvent(GameSystem *gameSystem, FieldMap *fieldMap, u8 *overlayId, const SubProcData *procData, GameSystem *procWork);
+extern void GAME_BEACON_SEARCH_SetStartDelay(void *searchWork);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+extern int FIELDMAP_IsReady(FieldMap *fieldMap);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *mmdlSys);
+extern u32 *FLDMMDL_SysResumeMove(struct MmdlSys *mmdlSys);
+extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+extern struct BuildModelMan *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+extern struct BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(struct BuildModelMan *man, RecoveryRect *rect, int kind, int *count);
+extern void FIELD_BUILDMODEL_GetEntryWorldPos(struct BuildModelEntry *entry, VecFx32 *out);
+extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(struct BuildModelMan *man, struct BuildModelEntry *entry);
+extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromBlock(struct BuildModelMan *man, u32 tableId, RecoveryBallPlacement *placement);
+extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMan *man, struct BuildModelEntry *entry, int slot, int mode);
+extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
+extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
+extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
+extern int FIELD_BUILDMODEL_IsNodeSlotIdle(struct BuildModelNode *node, int slot);
+extern GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(GameSystem *gameSystem, u32 bgmId);
+extern GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(GameSystem *gameSystem, u32 a, u32 fadeFrames);
 extern void func_020061E4(u32 seId);
 extern u32 func_020307B0(void *block);
-extern void func_020520FC(int angleX, int angleY, int angleZ, Mtx33 *out);
+extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, Mtx33 *out);
 extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 
 extern u8 ov021_id[];
-extern const SubProcData d_021DA08C;
-extern const VecFx32 d_021DA098[RECOVERY_BALL_MAX];
-extern const VecFx32 d_021DA0E0[RECOVERY_BALL_MAX];
+extern const SubProcData sCommErrorSubProcData;
+extern const VecFx32 sRecoveryBallOffsets[RECOVERY_BALL_MAX];
+extern const VecFx32 sPartyRecoveryBallOffsets[RECOVERY_BALL_MAX];
 
-GameEvent *func_021C06CC(GameSystem *gameSystem, FieldMap *fieldMap);
-int func_021C06E0(GameEvent *event, int *seq, void *work);
-int func_021C0780(GameEvent *event, int *seq, void *work);
-int func_021C0808(void *proc, int *seq, void *procWork, void *myWork);
-int func_021C080C(void *proc, int *seq, void *procWork, void *myWork);
-int func_021C0810(void *proc, int *seq, void *procWork, void *myWork);
-GameEvent *func_021C0820(GameSystem *gameSystem, GameEvent *parent, u32 count);
-int func_021C0844(GameEvent *event, int *seq, void *eventWork);
-void func_021C0904(RecoveryBallsWork *work, GameSystem *gameSystem, u32 count);
-void func_021C0988(RecoveryBallsWork *work);
-void func_021C09A8(RecoveryBallsWork *work, int *seq, int nextStep);
-void func_021C09B0(RecoveryBallsWork *work);
-void func_021C0A10(RecoveryBallsWork *work);
-void func_021C0A48(RecoveryBallsWork *work);
-int func_021C0A70(RecoveryBallsWork *work);
-GameEvent *func_021C0AA0(GameSystem *gameSystem, GameEvent *parent);
-int func_021C0AC0(GameEvent *event, int *seq, void *eventWork);
-void func_021C0B3C(PartyRecoveryWork *work, GameSystem *gameSystem);
-void func_021C0BD8(PartyRecoveryWork *work);
-void func_021C0BE8(PartyRecoveryWork *work);
-void func_021C0C48(PartyRecoveryWork *work);
-int func_021C0C80(PartyRecoveryWork *work);
-u32 func_021C0C94(GameSystem *gameSystem);
+GameEvent *EVENT_COMM_ERROR_Create(GameSystem *gameSystem, FieldMap *fieldMap);
+int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work);
+int EVENT_COMM_ERROR_RunCommExit(GameEvent *event, int *seq, void *work);
+int EVENT_COMM_ERROR_SubProcInit(void *proc, int *seq, void *procWork, void *myWork);
+int EVENT_COMM_ERROR_SubProcMain(void *proc, int *seq, void *procWork, void *myWork);
+int EVENT_COMM_ERROR_SubProcEnd(void *proc, int *seq, void *procWork, void *myWork);
+GameEvent *EVENT_RECOVERY_CreateBallsEvent(GameSystem *gameSystem, GameEvent *parent, u32 count);
+int EVENT_RECOVERY_RunBalls(GameEvent *event, int *seq, void *eventWork);
+void EVENT_RECOVERY_InitBalls(RecoveryBallsWork *work, GameSystem *gameSystem, u32 count);
+void EVENT_RECOVERY_DeleteBalls(RecoveryBallsWork *work);
+void EVENT_RECOVERY_SetBallsStep(RecoveryBallsWork *work, int *seq, int nextStep);
+void EVENT_RECOVERY_PlaceBall(RecoveryBallsWork *work);
+void EVENT_RECOVERY_StartBallsAnime(RecoveryBallsWork *work);
+void EVENT_RECOVERY_FinishBalls(RecoveryBallsWork *work);
+int EVENT_RECOVERY_AreBallsIdle(RecoveryBallsWork *work);
+GameEvent *EVENT_RECOVERY_CreatePartyEvent(GameSystem *gameSystem, GameEvent *parent);
+int EVENT_RECOVERY_RunParty(GameEvent *event, int *seq, void *eventWork);
+void EVENT_RECOVERY_InitParty(PartyRecoveryWork *work, GameSystem *gameSystem);
+void EVENT_RECOVERY_DeleteMachineNode(PartyRecoveryWork *work);
+void EVENT_RECOVERY_PlacePartyBall(PartyRecoveryWork *work);
+void EVENT_RECOVERY_ActivateParty(PartyRecoveryWork *work);
+int EVENT_RECOVERY_IsMachineAnimeDone(PartyRecoveryWork *work);
+u32 EVENT_RECOVERY_GetPartyBallCount(GameSystem *gameSystem);
 
 /*
  * Starts the comm error event.
  */
-GameEvent *func_021C06CC(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_COMM_ERROR_Create(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    return func_020122C0(gameSystem, 0, func_021C06E0, 0);
+    return func_020122C0(gameSystem, 0, EVENT_COMM_ERROR_Run, 0);
 }
 
 /*
@@ -294,32 +294,32 @@ GameEvent *func_021C06CC(GameSystem *gameSystem, FieldMap *fieldMap)
  * sub proc (or shuts the comm down when the comm is not in the intrude
  * state), and resumes the move models when the field map is ready again.
  */
-int func_021C06E0(GameEvent *event, int *seq, void *work)
+int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work)
 {
     GameSystem *gameSystem = func_020124E4(event);
-    FieldMap *fieldMap = func_0201210C(gameSystem);
+    FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     GameEvent *child;
 
     switch (*seq) {
     case COMM_ERROR_STEP_START:
-        func_0216D9A0(func_02188C7C(fieldMap));
-        if (func_0202647C(func_02012138(gameSystem)) == 2) {
-            if (func_02012B70(func_020120F4(gameSystem)) == 1) {
-                func_0200FB38();
-                child = func_020146F8(gameSystem, fieldMap, ov021_id, &d_021DA08C, gameSystem);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
+        if (func_0202647C(GAMESYSTEM_GetGameComm(gameSystem)) == 2) {
+            if (GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(gameSystem)) == 1) {
+                GFL_NET_ERR_RequestScreen();
+                child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, ov021_id, &sCommErrorSubProcData, gameSystem);
             } else {
-                child = func_020122C0(gameSystem, 0, func_021C0780, 0);
+                child = func_020122C0(gameSystem, 0, EVENT_COMM_ERROR_RunCommExit, 0);
             }
         } else {
-            func_0200FB38();
-            child = func_020146F8(gameSystem, fieldMap, ov021_id, &d_021DA08C, gameSystem);
+            GFL_NET_ERR_RequestScreen();
+            child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, ov021_id, &sCommErrorSubProcData, gameSystem);
         }
-        func_02012374(event, child);
+        GAME_EVENT_CallEvent(event, child);
         (*seq)++;
         break;
     case COMM_ERROR_STEP_WAIT:
-        if (fieldMap != 0 && func_02188BE8(fieldMap) == 1) {
-            func_0216D9E4(func_02188C7C(fieldMap));
+        if (fieldMap != 0 && FIELDMAP_IsReady(fieldMap) == 1) {
+            FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(fieldMap));
             return UNIT_021C06CC_FINISHED;
         }
         break;
@@ -331,30 +331,30 @@ int func_021C06E0(GameEvent *event, int *seq, void *work)
  * Comm shutdown event: leaves the comm session, resets the field map state,
  * restarts the automatic comm and sets the beacon search delay.
  */
-int func_021C0780(GameEvent *event, int *seq, void *work)
+int EVENT_COMM_ERROR_RunCommExit(GameEvent *event, int *seq, void *work)
 {
     GameSystem *gameSystem;
     struct GameComm *gameComm;
     void *searchWork;
 
     gameSystem = func_020124E4(event);
-    gameComm = func_02012138(gameSystem);
+    gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     switch (*seq) {
     case COMM_EXIT_STEP_EXIT:
-        if (func_0203CD98()) {
-            func_0203CEAC(0);
+        if (GFL_NET_GetRunState()) {
+            GFL_NET_Exit(0);
         }
         *seq = *seq + 1;
         break;
     case COMM_EXIT_STEP_WAIT_SESSION_END:
-        if (func_0203CDBC() == 1) {
+        if (GFL_NET_IsSessionNull() == 1) {
             func_0200FBA0();
-            func_02012124(gameSystem, 0);
+            GAMESYSTEM_SetFieldMapState(gameSystem, 0);
             *seq = *seq + 1;
         }
         break;
     case COMM_EXIT_STEP_AUTO_COMM:
-        if (func_020121CC(gameSystem) == 1) {
+        if (GAMESYSTEM_TryStartAutoComm(gameSystem) == 1) {
             *seq = *seq + 1;
             break;
         }
@@ -362,7 +362,7 @@ int func_021C0780(GameEvent *event, int *seq, void *work)
     case COMM_EXIT_STEP_SET_SEARCH_DELAY:
         searchWork = func_02026474(gameComm);
         if (searchWork && func_02026454(gameComm)) {
-            func_02164FC4(searchWork);
+            GAME_BEACON_SEARCH_SetStartDelay(searchWork);
             return UNIT_021C06CC_FINISHED;
         }
         break;
@@ -373,7 +373,7 @@ int func_021C0780(GameEvent *event, int *seq, void *work)
 /*
  * Init function of the comm error sub proc: nothing to set up.
  */
-int func_021C0808(void *proc, int *seq, void *procWork, void *myWork)
+int EVENT_COMM_ERROR_SubProcInit(void *proc, int *seq, void *procWork, void *myWork)
 {
     return 1;
 }
@@ -381,7 +381,7 @@ int func_021C0808(void *proc, int *seq, void *procWork, void *myWork)
 /*
  * Main function of the comm error sub proc: ends at once.
  */
-int func_021C080C(void *proc, int *seq, void *procWork, void *myWork)
+int EVENT_COMM_ERROR_SubProcMain(void *proc, int *seq, void *procWork, void *myWork)
 {
     return 1;
 }
@@ -390,21 +390,21 @@ int func_021C080C(void *proc, int *seq, void *procWork, void *myWork)
  * End function of the comm error sub proc: resets the field map state of the
  * game system it was started with.
  */
-int func_021C0810(void *proc, int *seq, void *procWork, void *myWork)
+int EVENT_COMM_ERROR_SubProcEnd(void *proc, int *seq, void *procWork, void *myWork)
 {
-    func_02012124(procWork, 0);
+    GAMESYSTEM_SetFieldMapState(procWork, 0);
     return 1;
 }
 
 /*
  * Creates the recovery balls event (count balls, at most RECOVERY_BALL_MAX).
  */
-GameEvent *func_021C0820(GameSystem *gameSystem, GameEvent *parent, u32 count)
+GameEvent *EVENT_RECOVERY_CreateBallsEvent(GameSystem *gameSystem, GameEvent *parent, u32 count)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021C0844, sizeof(RecoveryBallsWork));
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_RECOVERY_RunBalls, sizeof(RecoveryBallsWork));
     RecoveryBallsWork *work = func_020124E8(event);
 
-    func_021C0904(work, gameSystem, count);
+    EVENT_RECOVERY_InitBalls(work, gameSystem, count);
     return event;
 }
 
@@ -413,38 +413,38 @@ GameEvent *func_021C0820(GameSystem *gameSystem, GameEvent *parent, u32 count)
  * frames, starts the machine animation and the jingle, waits until every ball
  * is idle, then plays the balls out and the sound task that ends the jingle.
  */
-int func_021C0844(GameEvent *event, int *seq, void *eventWork)
+int EVENT_RECOVERY_RunBalls(GameEvent *event, int *seq, void *eventWork)
 {
     RecoveryBallsWork *work = eventWork;
 
     switch (*seq) {
     case RECOVERY_BALLS_STEP_PLACE:
         if ((int)work->frame % RECOVERY_BALLS_SPAWN_INTERVAL == 0) {
-            func_021C09B0(work);
+            EVENT_RECOVERY_PlaceBall(work);
             if (work->ballCount <= work->ballsPlaced) {
-                func_021C09A8(work, seq, RECOVERY_BALLS_STEP_START_ANIME);
+                EVENT_RECOVERY_SetBallsStep(work, seq, RECOVERY_BALLS_STEP_START_ANIME);
             }
         }
         break;
     case RECOVERY_BALLS_STEP_START_ANIME:
         if (work->frame > RECOVERY_END_DELAY) {
-            func_021C0A10(work);
-            func_02012374(event, func_02029830(func_02188C80(work->fieldMap), RECOVERY_BGM_JINGLE));
-            func_021C09A8(work, seq, RECOVERY_BALLS_STEP_WAIT_ANIME);
+            EVENT_RECOVERY_StartBallsAnime(work);
+            GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPushAndPlayTask(FIELDMAP_GetGameSystem(work->fieldMap), RECOVERY_BGM_JINGLE));
+            EVENT_RECOVERY_SetBallsStep(work, seq, RECOVERY_BALLS_STEP_WAIT_ANIME);
         }
         break;
     case RECOVERY_BALLS_STEP_WAIT_ANIME:
-        if (func_021C0A70(work) != 0) {
-            func_021C0A48(work);
-            func_021C09A8(work, seq, RECOVERY_BALLS_STEP_POP_SOUND);
+        if (EVENT_RECOVERY_AreBallsIdle(work) != 0) {
+            EVENT_RECOVERY_FinishBalls(work);
+            EVENT_RECOVERY_SetBallsStep(work, seq, RECOVERY_BALLS_STEP_POP_SOUND);
         }
         break;
     case RECOVERY_BALLS_STEP_POP_SOUND:
-        func_02012374(event, func_02029620(func_02188C80(work->fieldMap), 0, 6));
-        func_021C09A8(work, seq, RECOVERY_BALLS_STEP_END);
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(FIELDMAP_GetGameSystem(work->fieldMap), 0, 6));
+        EVENT_RECOVERY_SetBallsStep(work, seq, RECOVERY_BALLS_STEP_END);
         break;
     case RECOVERY_BALLS_STEP_END:
-        func_021C0988(work);
+        EVENT_RECOVERY_DeleteBalls(work);
         return UNIT_021C06CC_FINISHED;
     }
     work->frame = work->frame + 1;
@@ -454,7 +454,7 @@ int func_021C0844(GameEvent *event, int *seq, void *eventWork)
 /*
  * Fills the recovery balls work: finds the machine entry around the player.
  */
-void func_021C0904(RecoveryBallsWork *work, GameSystem *gameSystem, u32 count)
+void EVENT_RECOVERY_InitBalls(RecoveryBallsWork *work, GameSystem *gameSystem, u32 count)
 {
     FieldMap *fieldMap;
     u32 heapId;
@@ -464,27 +464,27 @@ void func_021C0904(RecoveryBallsWork *work, GameSystem *gameSystem, u32 count)
     RecoveryRect rect;
     int entryCount;
 
-    fieldMap = func_0201210C(gameSystem);
-    heapId = func_02188C84(fieldMap);
-    mapper = func_02188C98(fieldMap);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    heapId = FIELDMAP_GetHeapId(fieldMap);
+    mapper = FIELDMAP_GetG3dMapper(fieldMap);
     work->heapId = heapId;
     work->ballCount = count;
     work->fieldMap = fieldMap;
     work->ballsPlaced = 0;
-    work->buildModelMan = func_0218DC6C(mapper);
+    work->buildModelMan = FIELD_G3D_MAPPER_GetBuildModel(mapper);
     work->machineEntry = 0;
     if (work->ballCount > RECOVERY_BALL_MAX) {
         work->ballCount = RECOVERY_BALL_MAX;
     }
-    func_021A3038(func_02188CB4(work->fieldMap), &playerPos);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(work->fieldMap), &playerPos);
     rect.zMin = playerPos.z - RECOVERY_SEARCH_RADIUS;
     rect.zMax = playerPos.z + RECOVERY_SEARCH_RADIUS;
     rect.xMin = playerPos.x - RECOVERY_SEARCH_RADIUS;
     rect.xMax = playerPos.x + RECOVERY_SEARCH_RADIUS;
-    entries = func_0218C584(work->buildModelMan, &rect, RECOVERY_ENTRY_KIND_BALLS, &entryCount);
+    entries = FIELD_BUILDMODEL_CollectEntriesInRect(work->buildModelMan, &rect, RECOVERY_ENTRY_KIND_BALLS, &entryCount);
     if (entries) {
         work->machineEntry = *entries;
-        func_0218C6D0(*entries, &work->machinePos);
+        FIELD_BUILDMODEL_GetEntryWorldPos(*entries, &work->machinePos);
     }
     func_020307B0(entries);
 }
@@ -492,18 +492,18 @@ void func_021C0904(RecoveryBallsWork *work, GameSystem *gameSystem, u32 count)
 /*
  * Deletes each of the placed ball nodes.
  */
-void func_021C0988(RecoveryBallsWork *work)
+void EVENT_RECOVERY_DeleteBalls(RecoveryBallsWork *work)
 {
     int i;
 
     for (i = 0; i < work->ballCount; i++)
-        func_0218C860(work->balls[i]);
+        FIELD_BUILDMODEL_DeleteNode(work->balls[i]);
 }
 
 /*
  * Moves the event to the next step and restarts the frame counter.
  */
-void func_021C09A8(RecoveryBallsWork *work, int *seq, int nextStep)
+void EVENT_RECOVERY_SetBallsStep(RecoveryBallsWork *work, int *seq, int nextStep)
 {
     *seq = nextStep;
     work->frame = 0;
@@ -512,7 +512,7 @@ void func_021C09A8(RecoveryBallsWork *work, int *seq, int nextStep)
 /*
  * Places the next ball at its offset from the machine and plays the sound.
  */
-void func_021C09B0(RecoveryBallsWork *work)
+void EVENT_RECOVERY_PlaceBall(RecoveryBallsWork *work)
 {
     RecoveryBallPlacement placement;
     u32 i;
@@ -522,9 +522,9 @@ void func_021C09B0(RecoveryBallsWork *work)
         placement.scale.x = 0x1000;
         placement.scale.y = 0x1000;
         placement.scale.z = 0x1000;
-        func_020520FC(0, 0, 0, &placement.rotation);
-        func_0207C9D0(&work->machinePos, &d_021DA098[i], &placement.pos);
-        work->balls[i] = func_0218C7F0(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
+        BUTTON_MAN_MakeRotMtxXYZ(0, 0, 0, &placement.rotation);
+        func_0207C9D0(&work->machinePos, &sRecoveryBallOffsets[i], &placement.pos);
+        work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
         work->ballsPlaced = work->ballsPlaced + 1;
         func_020061E4(RECOVERY_SE_BALL_PLACED);
     }
@@ -534,36 +534,36 @@ void func_021C09B0(RecoveryBallsWork *work)
  * Resets the animation of each placed ball, then plays the machine entry
  * animation when there is one.
  */
-void func_021C0A10(RecoveryBallsWork *work)
+void EVENT_RECOVERY_StartBallsAnime(RecoveryBallsWork *work)
 {
     int i;
 
     for (i = 0; i < work->ballsPlaced; i++)
-        func_0218C88C(work->balls[i], RECOVERY_ANIME_SLOT, RECOVERY_MODE_START);
+        FIELD_BUILDMODEL_PlayNodeSlot(work->balls[i], RECOVERY_ANIME_SLOT, RECOVERY_MODE_START);
     if (work->machineEntry != 0)
-        func_0218C69C(work->buildModelMan, work->machineEntry, RECOVERY_ANIME_SLOT, RECOVERY_MODE_START);
+        FIELD_BUILDMODEL_PlayEntryAnim(work->buildModelMan, work->machineEntry, RECOVERY_ANIME_SLOT, RECOVERY_MODE_START);
 }
 
 /*
  * Sets the finish mode on each placed ball.
  */
-void func_021C0A48(RecoveryBallsWork *work)
+void EVENT_RECOVERY_FinishBalls(RecoveryBallsWork *work)
 {
     int i;
 
     for (i = 0; i < work->ballsPlaced; i++)
-        func_0218C88C(work->balls[i], RECOVERY_ANIME_SLOT, RECOVERY_MODE_FINISH);
+        FIELD_BUILDMODEL_PlayNodeSlot(work->balls[i], RECOVERY_ANIME_SLOT, RECOVERY_MODE_FINISH);
 }
 
 /*
  * Returns 1 when every placed ball has an idle animation slot.
  */
-int func_021C0A70(RecoveryBallsWork *work)
+int EVENT_RECOVERY_AreBallsIdle(RecoveryBallsWork *work)
 {
     int i;
 
     for (i = 0; i < work->ballsPlaced; i++) {
-        if (func_0218C8FC(work->balls[i], RECOVERY_ANIME_SLOT) != 1)
+        if (FIELD_BUILDMODEL_IsNodeSlotIdle(work->balls[i], RECOVERY_ANIME_SLOT) != 1)
             return 0;
     }
     return 1;
@@ -572,12 +572,12 @@ int func_021C0A70(RecoveryBallsWork *work)
 /*
  * Creates the party recovery event (one ball per party member).
  */
-GameEvent *func_021C0AA0(GameSystem *gameSystem, GameEvent *parent)
+GameEvent *EVENT_RECOVERY_CreatePartyEvent(GameSystem *gameSystem, GameEvent *parent)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021C0AC0, sizeof(PartyRecoveryWork));
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_RECOVERY_RunParty, sizeof(PartyRecoveryWork));
     PartyRecoveryWork *work = func_020124E8(event);
 
-    func_021C0B3C(work, gameSystem);
+    EVENT_RECOVERY_InitParty(work, gameSystem);
     return event;
 }
 
@@ -586,14 +586,14 @@ GameEvent *func_021C0AA0(GameSystem *gameSystem, GameEvent *parent)
  * frames, then starts the finish mode on the balls and the machine node,
  * waits for the machine animation and ends.
  */
-int func_021C0AC0(GameEvent *event, int *seq, void *eventWork)
+int EVENT_RECOVERY_RunParty(GameEvent *event, int *seq, void *eventWork)
 {
     PartyRecoveryWork *work = eventWork;
 
     switch (*seq) {
     case PARTY_RECOVERY_STEP_PLACE:
         if ((int)work->frame % RECOVERY_PARTY_SPAWN_INTERVAL == 0) {
-            func_021C0BE8(work);
+            EVENT_RECOVERY_PlacePartyBall(work);
             if (work->ballCount <= work->ballsPlaced) {
                 *seq = *seq + 1;
                 work->frame = 0;
@@ -602,18 +602,18 @@ int func_021C0AC0(GameEvent *event, int *seq, void *eventWork)
         break;
     case PARTY_RECOVERY_STEP_START_ANIME:
         if (work->frame > RECOVERY_END_DELAY) {
-            func_021C0C48(work);
+            EVENT_RECOVERY_ActivateParty(work);
             *seq = *seq + 1;
             work->frame = 0;
         }
         break;
     case PARTY_RECOVERY_STEP_WAIT_ANIME:
-        if (func_021C0C80(work) != 0) {
+        if (EVENT_RECOVERY_IsMachineAnimeDone(work) != 0) {
             *seq = *seq + 1;
         }
         break;
     case PARTY_RECOVERY_STEP_END:
-        func_021C0BD8(work);
+        EVENT_RECOVERY_DeleteMachineNode(work);
         return UNIT_021C06CC_FINISHED;
     }
     work->frame = work->frame + 1;
@@ -624,7 +624,7 @@ int func_021C0AC0(GameEvent *event, int *seq, void *eventWork)
  * Fills the party recovery work: finds the machine entry around the player
  * and makes a node from it.
  */
-void func_021C0B3C(PartyRecoveryWork *work, GameSystem *gameSystem)
+void EVENT_RECOVERY_InitParty(PartyRecoveryWork *work, GameSystem *gameSystem)
 {
     FieldMap *fieldMap;
     struct FieldG3dMapper *mapper;
@@ -633,46 +633,46 @@ void func_021C0B3C(PartyRecoveryWork *work, GameSystem *gameSystem)
     RecoveryRect rect;
     int entryCount;
 
-    fieldMap = func_0201210C(gameSystem);
-    mapper = func_02188C98(fieldMap);
-    work->heapId = func_02188C84(fieldMap);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    mapper = FIELDMAP_GetG3dMapper(fieldMap);
+    work->heapId = FIELDMAP_GetHeapId(fieldMap);
     work->fieldMap = fieldMap;
-    work->ballCount = func_021C0C94(gameSystem);
+    work->ballCount = EVENT_RECOVERY_GetPartyBallCount(gameSystem);
     work->ballsPlaced = 0;
-    work->buildModelMan = func_0218DC6C(mapper);
+    work->buildModelMan = FIELD_G3D_MAPPER_GetBuildModel(mapper);
     work->machineEntry = 0;
     if (work->ballCount > RECOVERY_BALL_MAX) {
         work->ballCount = RECOVERY_BALL_MAX;
     }
-    func_021A3038(func_02188CB4(work->fieldMap), &playerPos);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(work->fieldMap), &playerPos);
     rect.zMin = playerPos.z - RECOVERY_SEARCH_RADIUS;
     rect.zMax = playerPos.z + RECOVERY_SEARCH_RADIUS;
     rect.xMin = playerPos.x - RECOVERY_SEARCH_RADIUS;
     rect.xMax = playerPos.x + RECOVERY_SEARCH_RADIUS;
-    entries = func_0218C584(work->buildModelMan, &rect, RECOVERY_ENTRY_KIND_MACHINE, &entryCount);
+    entries = FIELD_BUILDMODEL_CollectEntriesInRect(work->buildModelMan, &rect, RECOVERY_ENTRY_KIND_MACHINE, &entryCount);
     if (entries) {
         work->machineEntry = *entries;
-        func_0218C6D0(*entries, &work->machinePos);
+        FIELD_BUILDMODEL_GetEntryWorldPos(*entries, &work->machinePos);
     }
     func_020307B0(entries);
     if (work->machineEntry != 0) {
-        work->machineNode = func_0218C724(work->buildModelMan, work->machineEntry);
+        work->machineNode = FIELD_BUILDMODEL_CreateNodeFromEntry(work->buildModelMan, work->machineEntry);
     }
 }
 
 /*
  * Deletes the machine node when there is one.
  */
-void func_021C0BD8(PartyRecoveryWork *work)
+void EVENT_RECOVERY_DeleteMachineNode(PartyRecoveryWork *work)
 {
     if (work->machineEntry != 0)
-        func_0218C860(work->machineNode);
+        FIELD_BUILDMODEL_DeleteNode(work->machineNode);
 }
 
 /*
  * Places the next ball at its offset from the machine and plays the sound.
  */
-void func_021C0BE8(PartyRecoveryWork *work)
+void EVENT_RECOVERY_PlacePartyBall(PartyRecoveryWork *work)
 {
     RecoveryBallPlacement placement;
     u32 i;
@@ -682,9 +682,9 @@ void func_021C0BE8(PartyRecoveryWork *work)
         placement.scale.x = 0x1000;
         placement.scale.y = 0x1000;
         placement.scale.z = 0x1000;
-        func_020520FC(0, 0, 0, &placement.rotation);
-        func_0207C9D0(&work->machinePos, &d_021DA0E0[i], &placement.pos);
-        work->balls[i] = func_0218C7F0(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
+        BUTTON_MAN_MakeRotMtxXYZ(0, 0, 0, &placement.rotation);
+        func_0207C9D0(&work->machinePos, &sPartyRecoveryBallOffsets[i], &placement.pos);
+        work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
         work->ballsPlaced++;
         func_020061E4(RECOVERY_SE_BALL_PLACED);
     }
@@ -693,23 +693,23 @@ void func_021C0BE8(PartyRecoveryWork *work)
 /*
  * Sets the active mode on each placed ball and resets the machine node.
  */
-void func_021C0C48(PartyRecoveryWork *work)
+void EVENT_RECOVERY_ActivateParty(PartyRecoveryWork *work)
 {
     int i;
 
     for (i = 0; i < work->ballsPlaced; i++)
-        func_0218C88C(work->balls[i], RECOVERY_ANIME_SLOT, RECOVERY_MODE_ACTIVE);
+        FIELD_BUILDMODEL_PlayNodeSlot(work->balls[i], RECOVERY_ANIME_SLOT, RECOVERY_MODE_ACTIVE);
     if (work->machineEntry != 0)
-        func_0218C88C(work->machineNode, RECOVERY_ANIME_SLOT, RECOVERY_MODE_START);
+        FIELD_BUILDMODEL_PlayNodeSlot(work->machineNode, RECOVERY_ANIME_SLOT, RECOVERY_MODE_START);
 }
 
 /*
  * Returns the state of the machine node animation, or 1 without a machine.
  */
-int func_021C0C80(PartyRecoveryWork *work)
+int EVENT_RECOVERY_IsMachineAnimeDone(PartyRecoveryWork *work)
 {
     if (work->machineEntry != 0) {
-        return func_0218C8D8(work->machineNode);
+        return FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(work->machineNode);
     }
     return 1;
 }
@@ -717,7 +717,7 @@ int func_021C0C80(PartyRecoveryWork *work)
 /*
  * Number of party members that are not eggs.
  */
-u32 func_021C0C94(GameSystem *gameSystem)
+u32 EVENT_RECOVERY_GetPartyBallCount(GameSystem *gameSystem)
 {
-    return func_0201AA1C(func_02012934(func_020120F4(gameSystem)));
+    return func_0201AA1C(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem)));
 }

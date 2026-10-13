@@ -1,5 +1,5 @@
 /*
- * function: func_0218BC10
+ * function: FIELD_BUILDMODEL_GetAnimResourceData
  * address:  0x0218BC10
  * packet:   pkt_0218BC10
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-u8 *func_0218BC10(u8 *a, int b)
+u8 *FIELD_BUILDMODEL_GetAnimResourceData(u8 *a, int b)
 {
 return (a + *(u32 *)((u8 *)((a + (b << 2))) + 4));
 }

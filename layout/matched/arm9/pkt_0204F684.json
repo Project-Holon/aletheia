@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0204F684",
+   "name": "BILLBOARD_SetElemScale",
    "address": "0x0204F684",
    "kind": "game",
    "region": "arm9",
@@ -30,8 +30,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204F6B4",
-    "func_0204F6DC",
+    "BILLBOARD_SetElemAlpha",
+    "BILLBOARD_SetElemPolyId",
     "BILLBOARD_GetElemVisible"
    ],
    "addresses": [
@@ -41,7 +41,7 @@
    ]
   },
   {
-   "name": "func_0204F720",
+   "name": "BILLBOARD_SetElemVisible",
    "address": "0x0204F720",
    "kind": "game",
    "region": "arm9",
@@ -53,7 +53,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204F748",
+   "name": "BILLBOARD_GetElemFlipS",
    "address": "0x0204F748",
    "kind": "game",
    "region": "arm9",
@@ -65,7 +65,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204F764",
+   "name": "BILLBOARD_SetElemFlipS",
    "address": "0x0204F764",
    "kind": "game",
    "region": "arm9",
@@ -77,7 +77,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204F794",
+   "name": "BILLBOARD_SetElemFlipT",
    "address": "0x0204F794",
    "kind": "game",
    "region": "arm9",

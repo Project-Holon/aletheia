@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043B5C  0x02043B5C  arm
- *   func_0201DD78  0x0201DD78  thumb
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   BMP_WIN_TransferChars  0x02045334  arm
  */
 #include "../include/Obj02796.h"
 
@@ -22,19 +22,19 @@ typedef unsigned short u16;
 typedef short s16;
 
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 typedef unsigned int   u32;
-extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 void func_021ECE60(u8 *a, int b)
 {
-    func_02043B5C((struct CharBuf *)(((struct Obj02796 *)a)->f4), 0xc);
-    func_0201DD78(1, 9, 0xc);
-    func_0201C7A4((void *)(((struct Obj02796 *)a)->f4), 0, 0, (void *)b, (void *)(((struct Obj02796 *)a)->f24));
-    func_02045334((struct Descriptor *)((struct Obj02796 *)a)->f0);
+    BMP_Clear((struct CharBuf *)(((struct Obj02796 *)a)->f4), 0xc);
+    GF_FONT_SetTextColor(1, 9, 0xc);
+    PRINTSYS_Print((void *)(((struct Obj02796 *)a)->f4), 0, 0, (void *)b, (void *)(((struct Obj02796 *)a)->f24));
+    BMP_WIN_TransferChars((struct Descriptor *)((struct Obj02796 *)a)->f0);
     a[0x13f] = 0;
     ((struct Obj02796 *)a)->f148 = 0;
     ((struct Obj02796 *)a)->f14A = 0;

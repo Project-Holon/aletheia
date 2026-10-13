@@ -1,5 +1,5 @@
 /*
- * function: func_02159BF4
+ * function: MAP_MATRIX_GetWidth
  * address:  0x02159BF4
  * packet:   pkt_ov010_02159BF4
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf accessor (prints as .word): returns the field at +8.
- * Sole blocker of ov021 func_02189B30's MATCH.
+ * Sole blocker of ov021 FIELDMAP_SetupMapperParam's MATCH.
  */
 
 typedef struct Obj {
@@ -18,7 +18,7 @@ typedef struct Obj {
     unsigned short f;
 } Obj;
 
-unsigned short func_02159BF4(Obj *p)
+unsigned short MAP_MATRIX_GetWidth(Obj *p)
 {
     return p->f;
 }

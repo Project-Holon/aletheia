@@ -26,8 +26,8 @@
  *   func_021FD5F0  0x021FD5F0  thumb
  *   func_021FFD1C  0x021FFD1C  thumb
  *   func_021FD8BC  0x021FD8BC  thumb
- *   func_0203D34C  0x0203D34C  arm
- *   func_0202208C  0x0202208C  thumb
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   WIPE_SYS_Start  0x0202208C  thumb
  */
 
 typedef signed char s8;
@@ -94,8 +94,8 @@ extern void func_021FD790(void *bank, void *pane, u32 index, void *g);
 extern void func_021FD5F0(Work *p);
 extern void func_021FFD1C(Work *p, int i, int dy);
 extern void func_021FD8BC(void *p);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int func_021FCC40(Work *p)
 {
@@ -122,14 +122,14 @@ int func_021FCC40(Work *p)
     func_021FFD1C(p, p->cur, -p->scroll);
     p->vblank = func_021FD8BC;
     *(vu16 *)0x04000304 |= 0x8000;
-    func_0203D34C(1, 0x48);
+    GFL_NET_RestartWithDefaultTimeout(1, 0x48);
     if (p->kind == 0x11) {
         if (func_0207D55C((vu16 *)0x0400006C) == -16 && func_0207D55C((vu16 *)0x0400106C) != -16) {
-            func_0202208C((void *)3, 1, 1, 0, 6, 1, 0x48);
+            WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
         } else if (func_0207D55C((vu16 *)0x0400006C) != -16 && func_0207D55C((vu16 *)0x0400106C) == -16) {
-            func_0202208C((void *)4, 1, 1, 0, 6, 1, 0x48);
+            WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, 0x48);
         } else {
-            func_0202208C(0, 1, 1, 0, 6, 1, 0x48);
+            WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x48);
         }
     }
     p->f28 = 0;

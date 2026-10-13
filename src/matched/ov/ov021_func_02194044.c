@@ -1,5 +1,5 @@
 /*
- * function: func_02194044
+ * function: FIELD_WFBC_BLOCK_IsPlaced
  * address:  0x02194044
  * packet:   pkt_ov021_02194044
  * region:   ov021
@@ -22,7 +22,7 @@ typedef signed char    s8;
 
 typedef struct { u8 a; u8 b; u16 c; } Cell;
 
-int func_02194044(Cell (*t)[8], u8 b, u16 c)
+int FIELD_WFBC_BLOCK_IsPlaced(Cell (*t)[8], u8 b, u16 c)
 {
     int i;
     int j;

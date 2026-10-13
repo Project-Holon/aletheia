@@ -1,5 +1,5 @@
 /*
- * function: func_021B1FB8
+ * function: SCRCMD_FLDMMDL_StartMmdlMoveToGrid
  * address:  0x021B1FB8
  * packet:   pkt_ov021_021B1FB8
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02161AC0  0x02161AC0  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_CreateHopEvent  0x02161AC0  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -25,19 +25,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct Tri;
-extern void *func_0215A5EC(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0216DE94(void *map, u32 id);
+extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void *func_02161AC0(void *p, void *a1, struct Tri *t, void *a3);
-extern void func_0215897C(void *vm, void *task);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern void *EVENT_FIELD_PROCLINK_CreateHopEvent(void *p, void *a1, struct Tri *t, void *a3);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B1FB8(u32 a, u32 b)
+int SCRCMD_FLDMMDL_StartMmdlMoveToGrid(u32 a, u32 b)
 {
     int buf[3];
     int vec[3];
@@ -50,18 +50,18 @@ int func_021B1FB8(u32 a, u32 b)
     void *w;
     u32 o;
 
-    t = func_0215A5F4((void *)b);
-    i = func_02159B10((void *)a, (void *)b);
-    x = func_02159B10((void *)a, (void *)b);
-    y = func_02159B10((void *)a, (void *)b);
-    z = func_02159B10((void *)a, (void *)b);
-    m = (u32)func_0215A5EC((void *)b);
-    w = func_0215A5DC((void *)b);
-    o = (u32)func_0216DE94((void *)m, i);
-    func_0216D88C((const struct Actor *)o, (struct VecFx32 *)buf);
+    t = SCRCMD_WORK_GetScriptWork((void *)b);
+    i = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    y = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    z = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    m = (u32)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    w = SCRCMD_WORK_GetGameSystem((void *)b);
+    o = (u32)FLDMMDL_SysSearchObjId((void *)m, i);
+    FLDMMDL_GetPos((const struct Actor *)o, (struct VecFx32 *)buf);
     vec[0] = (x << 16) + 0x8000;
     vec[1] = y << 16;
     vec[2] = (z << 16) + 0x8000;
-    func_0215897C(t, func_02161AC0(w, (void *)o, (struct Tri *)buf, vec));
+    SCRIPT_SYS_CallEvent(t, EVENT_FIELD_PROCLINK_CreateHopEvent(w, (void *)o, (struct Tri *)buf, vec));
     return 1;
 }

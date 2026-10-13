@@ -1,5 +1,5 @@
 /*
- * function: func_021B6500
+ * function: BTL_MAIN_ProcExit
  * address: 0x021B6500
  * packet: pkt_ov093_021B6500
  * region: ov093
@@ -17,17 +17,17 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
- *   func_021EF980 0x021EF980 thumb ov093
- *   func_021D4D5C 0x021D4D5C thumb ov093
- *   func_021D7894 0x021D7894 thumb ov093
+ *   BTL_FIELD_Delete 0x021EF980 thumb ov093
+ *   BTL_NET_FreeRelayPacket 0x021D4D5C thumb ov093
+ *   BTL_CALC_Exit 0x021D7894 thumb ov093
  *   func_021BA0CC 0x021BA0CC thumb ov093
  *   func_021B9DE8 0x021B9DE8 thumb ov093
- *   func_021B6804 0x021B6804 thumb ov093
- *   func_021EEA54 0x021EEA54 thumb ov093
- *   func_021D4254 0x021D4254 thumb ov093
- *   func_021D8058 0x021D8058 thumb ov093
- *   func_021E8DF8 0x021E8DF8 thumb ov093
- *   func_021E88F8 0x021E88F8 thumb ov093
+ *   BTL_MAIN_StartCleanupTask 0x021B6804 thumb ov093
+ *   BTL_ADAPTER_NoOp 0x021EEA54 thumb ov093
+ *   BTL_NET_Exit 0x021D4254 thumb ov093
+ *   BTL_CALC_NoOp 0x021D8058 thumb ov093
+ *   BTLV_CORE_UnloadOverlays 0x021E8DF8 thumb ov093
+ *   BTLV_CORE_UnloadDsiOverlay 0x021E88F8 thumb ov093
  *   GFL_USE_SetPlayersAudible  0x02005CA4  thumb  arm9
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
@@ -48,23 +48,23 @@ extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern int func_0207D55C(volatile u16 *);
 extern void func_0207D534(volatile u16 *, int);
-extern void func_021EF980(void *);
+extern void BTL_FIELD_Delete(void *);
 extern u32 func_020307B0(void *p);
-extern void func_021D4D5C(void *);
-extern void func_021D7894(void);
+extern void BTL_NET_FreeRelayPacket(void *);
+extern void BTL_CALC_Exit(void);
 extern void func_021BA0CC(struct S *);
 extern void func_021B9DE8(char *);
-extern void func_021B6804(Callback *, u8 *, u8 *);
-extern void func_021EEA54(void);
-extern void func_021D4254(void);
-extern void func_021D8058(void);
-extern void func_021E8DF8(void);
+extern void BTL_MAIN_StartCleanupTask(Callback *, u8 *, u8 *);
+extern void BTL_ADAPTER_NoOp(void);
+extern void BTL_NET_Exit(void);
+extern void BTL_CALC_NoOp(void);
+extern void BTLV_CORE_UnloadOverlays(void);
 extern void GFL_USE_SetPlayersAudible(int, u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int);
-extern void func_021E88F8(void);
+extern void BTLV_CORE_UnloadDsiOverlay(void);
 static inline int poll(u8 *p, u32 offset)
 {
     typedef int (*Fn)(u32 *, void *);
@@ -80,7 +80,7 @@ static inline int poll(u8 *p, u32 offset)
     }
     return 1;
 }
-int func_021B6500(int handle, u32 *state, int unused, u8 *p)
+int BTL_MAIN_ProcExit(int handle, u32 *state, int unused, u8 *p)
 {
     switch (*state) {
     case 0:
@@ -111,23 +111,23 @@ int func_021B6500(int handle, u32 *state, int unused, u8 *p)
         } else *state += 1;
         break;
     case 3:
-        if (((struct Obj01370 *)p)->f2BC) { func_021EF980(((struct Obj01370 *)p)->f2BC); ((struct Obj01370 *)p)->f2BC = 0; }
+        if (((struct Obj01370 *)p)->f2BC) { BTL_FIELD_Delete(((struct Obj01370 *)p)->f2BC); ((struct Obj01370 *)p)->f2BC = 0; }
         if (((struct Obj01370 *)p)->f2C0) { func_020307B0(((struct Obj01370 *)p)->f2C0); ((struct Obj01370 *)p)->f2C0 = 0; }
-        if (((struct Obj01370 *)p)->f2C4) { func_021D4D5C(((struct Obj01370 *)p)->f2C4); ((struct Obj01370 *)p)->f2C4 = 0; }
-        func_021D7894();
+        if (((struct Obj01370 *)p)->f2C4) { BTL_NET_FreeRelayPacket(((struct Obj01370 *)p)->f2C4); ((struct Obj01370 *)p)->f2C4 = 0; }
+        BTL_CALC_Exit();
         func_021BA0CC((struct S *)p);
         func_021B9DE8((char *)p);
-        func_021B6804((Callback *)(p + 0x450), p, *(u8 * *)&((struct Obj01370 *)p)->f0);
+        BTL_MAIN_StartCleanupTask((Callback *)(p + 0x450), p, *(u8 * *)&((struct Obj01370 *)p)->f0);
         *state += 1;
         break;
     case 4:
         if (poll(p, 0x450)) {
-            func_021EEA54(); func_021D4254(); func_021D8058();
+            BTL_ADAPTER_NoOp(); BTL_NET_Exit(); BTL_CALC_NoOp();
             *state += 1;
         }
         break;
     case 5:
-        func_021E8DF8();
+        BTLV_CORE_UnloadOverlays();
         GFL_USE_SetPlayersAudible(1, 62);
         PM_VOICE_ResetMasterVolume();
         if (((Flags *)p)->flag7) { RINGTONE_SYS_RegisterSleepCallbacks(); ((Flags *)p)->flag7 = 0; }
@@ -135,7 +135,7 @@ int func_021B6500(int handle, u32 *state, int unused, u8 *p)
         func_020306F0(19);
         func_020306F0(20);
         func_020306F0(18);
-        func_021E88F8();
+        BTLV_CORE_UnloadDsiOverlay();
         return 1;
     }
     return 0;

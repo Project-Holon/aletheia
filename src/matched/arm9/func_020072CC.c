@@ -1,5 +1,5 @@
 /*
- * function: func_020072CC
+ * function: SAVE_CONTROL_LoadExtraSaveWithBuffer
  * address:  0x020072CC
  * packet:   pkt_02007248
  * region:   arm9
@@ -76,7 +76,7 @@ extern int func_02008784(void *sys, u32 index);
 extern u32 *func_020087D4(void *sys, u32 index);
 extern int BACKUP_SYSTEM_LoadLinked(struct Obj02031DC0 *a0, u32 a1, u32 a2);
 
-u32 func_020072CC(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size)
+u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size)
 {
     ctrl->unk14[id] = BACKUP_SYSTEM_CreateWithWork(&func_020072CC_Table[id], heap, buf, size, 1);
     if (func_02008784(ctrl, id) == 0) {

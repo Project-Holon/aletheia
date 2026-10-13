@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_0207D63C  0x0207D63C  arm
  */
 #include "../include/Obj13588.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void func_0207D63C(int reg, int a, int b, int c, int d);
 
 int func_021FB574(struct Cursor *a, unsigned int *b)
 {
     int t2;
 
-    func_0201134C(a);
-    func_0201134C(a);
-    t2 = func_0201134C(a);
-    func_0201134C(a);
-    func_0201134C(a);
-    func_0201134C(a);
+    VM_GetU32(a);
+    VM_GetU32(a);
+    t2 = VM_GetU32(a);
+    VM_GetU32(a);
+    VM_GetU32(a);
+    VM_GetU32(a);
     if (t2 == 0x1f)
         func_0207D63C(0x04000050, 2, 0x3d, 0x1f, 7);
     else

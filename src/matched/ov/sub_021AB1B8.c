@@ -1,5 +1,5 @@
 /*
- * function: sub_021AB1B8
+ * function: MAP_ATTR_IsGimmickD8
  * address:  0x021AB1B8
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef int BOOL;
 
-BOOL sub_021AB1B8(u16 id)
+BOOL MAP_ATTR_IsGimmickD8(u16 id)
 {
     if (id == 0xd8) {
         return 1;

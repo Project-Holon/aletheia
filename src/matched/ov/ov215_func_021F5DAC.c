@@ -14,11 +14,11 @@
  * Forwarding: 64FC adds4 to r0 and tails through6504 to662C;662C is ldr r0,[r0]; bx lr. All one full-word input/output.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_021F64FC 0x021F64FC thumb ov215
  *   table 0x021F7124 data ov215
@@ -27,13 +27,13 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204AC18(void *, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
-extern int func_0204A6C8(void *, unsigned int, unsigned int, unsigned int, unsigned short);
-extern int func_0204AF28(void *, unsigned int, unsigned int, unsigned int);
-extern void func_02049238(void *);
+extern int CLACT_RegisterPaletteEx(void *, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
+extern int CLACT_RegisterCharacter(void *, unsigned int, unsigned int, unsigned int, unsigned short);
+extern int CLACT_RegisterCellAnim(void *, unsigned int, unsigned int, unsigned int);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_021F64FC(char *p);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern const unsigned int table[][2];
 struct Context {
@@ -52,13 +52,13 @@ void func_021F5DAC(int unused, struct Context *p)
     char *tmp1;
     unsigned int tmp2;
     int tmp;
-    p->resource2 = func_0204AC18(h, 3, 0, 0, 0, 1, p->heap);
-    tmp = func_0204A6C8(h, 2, 0, 0, p->heap);
+    p->resource2 = CLACT_RegisterPaletteEx(h, 3, 0, 0, 0, 1, p->heap);
+    tmp = CLACT_RegisterCharacter(h, 2, 0, 0, p->heap);
     if (unused) {
     }
     p->resource1 = tmp;
-    p->resource3 = func_0204AF28(h, 1, 0, p->heap);
-    func_02049238(h);
+    p->resource3 = CLACT_RegisterCellAnim(h, 1, 0, p->heap);
+    ARC_TOOL_DeleteHandle(h);
     for (i = 0; i < 6; i++) {
         struct Context *out;
         unsigned int o;
@@ -66,7 +66,7 @@ void func_021F5DAC(int unused, struct Context *p)
         tmp1 = tmp1 + (i * 4);
         out = (struct Context *)tmp1;
         tmp2 = (unsigned int)table[i];
-        o = (unsigned int)func_0204B294((void *)func_021F64FC((char *)p->owner), p->resource1, p->resource2, p->resource3, (const void *)tmp2, 0, p->heap);
+        o = (unsigned int)CLACT_CreateActor((void *)func_021F64FC((char *)p->owner), p->resource1, p->resource2, p->resource3, (const void *)tmp2, 0, p->heap);
         out->objects[0] = o;
         func_0204B92C((struct Obj *)o, 0);
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AC8
+ * function: POKELIST_GetMoveLearnStatus
  * address: 0x021B9AC8
  * packet: pkt_ov091_021B9AC8
  * region: ov091
@@ -10,7 +10,7 @@
  * blocker: arm9 0x020188AC, unfiled Thumb forwarding stub; verified EXACT
  *   with one --thumb, no region (scratch blocker188AC.log).
  *   extern unsigned int POKE_TOOL_CheckBoxTmCompat(void *, int);
- *   unsigned int func_020188AC(void *p, int n) { return POKE_TOOL_CheckBoxTmCompat(p, n); }
+ *   unsigned int POKE_TOOL_CheckTmCompat(void *p, int n) { return POKE_TOOL_CheckBoxTmCompat(p, n); }
  * lever: u8 bit pins the prologue spill; explicit zero-initialized result
  *   locals keep the two final empty-slot tests zero-first.
  * note 2026-10-05 (wave D9r lane 131): removed the 2 dead first assignments
@@ -21,17 +21,17 @@
  * superseded.
  *
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202130C 0x0202130C thumb
- *   func_020188AC 0x020188AC thumb
+ *   POKE_TOOL_CheckTmCompat 0x020188AC thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02017E1C(void *, u32, u32);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u32 func_0202130C(u32 id);
-extern u32 func_020188AC(void *p, int v);
-int func_021B9AC8(u8 *p, void *mon, u8 bit)
+extern u32 POKE_TOOL_CheckTmCompat(void *p, int v);
+int POKELIST_GetMoveLearnStatus(u8 *p, void *mon, u8 bit)
 {
     int empty = 0;
     u8 i;
@@ -54,7 +54,7 @@ int func_021B9AC8(u8 *p, void *mon, u8 bit)
             c = a;
         }
         for (i = 0; i < 4; i++) {
-            v = func_02017E1C(mon, i + 0x36, 0);
+            v = POKE_TOOL_GetPartyValue(mon, i + 0x36, 0);
             if (v == a || v == b || v == c) return 3;
             if (v == 0) empty = 1;
         }
@@ -64,13 +64,13 @@ int func_021B9AC8(u8 *p, void *mon, u8 bit)
         } else return 2;
     } else {
         for (i = 0; i < 4; i++) {
-            v = func_02017E1C(mon, i + 0x36, 0);
+            v = POKE_TOOL_GetPartyValue(mon, i + 0x36, 0);
             if (v == *(u16 *)(*(u8 **)(p + 0x280) + 0x46)) return 3;
             if (v == 0) empty = 1;
         }
         if (*(u16 *)(*(u8 **)(p + 0x280) + 0x44) != 0) {
             u32 id = func_0202130C(*(u16 *)(*(u8 **)(p + 0x280) + 0x44));
-            if (id != 0xff && func_020188AC(mon, id) == 1) {
+            if (id != 0xff && POKE_TOOL_CheckTmCompat(mon, id) == 1) {
                 int result = 0;
                 if (empty != 1) result = 1;
                 return result;

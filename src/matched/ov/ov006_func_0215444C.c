@@ -14,16 +14,16 @@
  * The lead is 110 bytes, followed by two padding bytes and the 24-byte
  * EVENT_WIFICLUB_SetBattleParty thunk. function_starts: 0x021544BC.
  * func_020084F4 is the bx-lr identity: the original retains the pointer
- * returned by func_02012950 in r0 across two loads, passes it to the
+ * returned by GAME_DATA_GetPlayerStatus in r0 across two loads, passes it to the
  * identity, and stores the unchanged result. Its prior (void) extern
  * dropped the live input and caused an 18-byte scheduling residue.
- * func_0203D1A4 explicitly returns only eight bits; the caller consumes
+ * GFL_NET_GetHandleNetID explicitly returns only eight bits; the caller consumes
  * those bits without truncation. Indexed record reads retain modular
  * unsigned address arithmetic without assuming an index domain.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
- *   func_02012950 0x02012950 thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
@@ -58,10 +58,10 @@ struct Party;
 struct Rec44;
 struct Sub0200852CObj;
 struct Sub24;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-u32 func_0203D1A4(struct Link *p);
-struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+u32 GFL_NET_GetHandleNetID(struct Link *p);
+struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 const void *func_020084F4(const void *p);
 u8 func_02008550(const struct Sub0200852CObj *obj);
 void POKEPARTY_Init(struct Party *p);
@@ -73,9 +73,9 @@ void EVENT_WIFICLUB_BuildBattleEntry(O *a, void *b)
     void *t;
     Sub *q;
 
-    x = func_0203D1A4((struct Link *)func_020399A8());
+    x = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
     y = 1 - x;
-    t = func_02012950(b, y);
+    t = GAME_DATA_GetPlayerStatus(b, y);
     a->s.f0 = a->r->f1c;
     q = &a->s;
     q->f4 = *(int *)((unsigned int)a->r + 0x14 + 4 * (unsigned int)x);

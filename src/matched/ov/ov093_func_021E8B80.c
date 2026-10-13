@@ -1,5 +1,5 @@
 /*
- * function: func_021E8B80
+ * function: BTLV_CORE_GetSlotValue
  * address:  0x021E8B80
  * packet:   pkt_ov093_021E8B80
  * region:   ov093
@@ -18,7 +18,7 @@ union Unk021E8B80 {
     struct { u32 kind : 3; u32 pad : 12; u32 id : 16; u32 rest : 1; } b;
 };
 
-u16 func_021E8B80(union Unk021E8B80 v)
+u16 BTLV_CORE_GetSlotValue(union Unk021E8B80 v)
 {
     if (v.a.kind == 1) return v.a.id;
     if (v.a.kind == 3) return v.a.id;

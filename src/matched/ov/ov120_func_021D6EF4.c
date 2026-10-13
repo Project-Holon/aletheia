@@ -13,7 +13,7 @@
  *   d_021D8924 0x021D8924 data a2
  *   d_021D893C 0x021D893C data a2
  *   d_021D8934 0x021D8934 data a2
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
@@ -25,7 +25,7 @@ typedef struct Triple { u16 a[3]; } Triple;
 typedef struct Record { u16 x,y,z; u8 a,b; } Record;
 extern const Triple d_021D892C,d_021D8924,d_021D893C,d_021D8934;
 struct Obj;
-extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
+extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D6EF4(u8 *p,int flag)
@@ -39,7 +39,7 @@ void func_021D6EF4(u8 *p,int flag)
     for(i=0;i<3;i++) {
         if(flag || i!=0) {
             r.x=x.a[i]; r.y=y.a[i]; r.z=z.a[i]; r.a=i; r.b=b.a[i];
-            *(void **)(p+i*4+0x140)=func_0204B294((void *)((struct Obj06439 *)p)->f10,((struct Obj06439 *)p)->f28,((struct Obj06439 *)p)->f18,((struct Obj06439 *)p)->f74,&r,1,((struct Obj06439 *)p)->fF4);
+            *(void **)(p+i*4+0x140)=CLACT_CreateActor((void *)((struct Obj06439 *)p)->f10,((struct Obj06439 *)p)->f28,((struct Obj06439 *)p)->f18,((struct Obj06439 *)p)->f74,&r,1,((struct Obj06439 *)p)->fF4);
             func_0204B92C(*(void **)(p+i*4+0x140),1);
             func_0204B3DC(*(void **)(p+i*4+0x140),1);
         }

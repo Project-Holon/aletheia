@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA8C
+ * function: FIELD_PLACE_NAME_HasPlaceNameChanged
  * address:  0x021BCA8C
  * packet:   pkt_ov021_021BCA8C
  * region:   ov021
@@ -21,7 +21,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_02013E4C(u32 id);
 
-int func_021BCA8C(Obj *p)
+int FIELD_PLACE_NAME_HasPlaceNameChanged(Obj *p)
 {
     int a = func_02013E4C(p->h44);
 

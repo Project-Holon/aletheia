@@ -14,7 +14,7 @@
  *   func_0203633C 0x0203633C arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021DAAA4 0x021DAAA4 thumb ov121
  *   d_021DF76C 0x021DF76C data a4
  */
@@ -35,7 +35,7 @@ extern void func_020061E4(u32 a);
 extern u64 _u32_div_f(u32,u32);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef signed int     s32;
 extern s32 func_021DAAA4(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
 int func_021DA6D0(u8 *p)
@@ -72,8 +72,8 @@ int func_021DA6D0(u8 *p)
         pos.x=d_021DF76C[*(u32 *)(p+8)].x;
         pos.y=d_021DF76C[*(u32 *)(p+8)].y+((struct Obj00360 *)p)->f2E*8;
         func_0204B404(((struct Obj00360 *)p)->f4,(const struct Vec2 *)(&pos),0);
-        if(((struct Obj00360 *)p)->f8==3) func_0204B878(((struct Obj00360 *)p)->f4,2);
-        else func_0204B878(((struct Obj00360 *)p)->f4,((struct Obj00360 *)p)->f30);
+        if(((struct Obj00360 *)p)->f8==3) CLACT_SetActorAnimSeq(((struct Obj00360 *)p)->f4,2);
+        else CLACT_SetActorAnimSeq(((struct Obj00360 *)p)->f4,((struct Obj00360 *)p)->f30);
         if(*(void (**)(u32))(p+0x34)) (*(void (**)(u32))(p+0x34))(((struct Obj00360 *)p)->f38);
     }
     oldphase=((struct Obj00360 *)p)->f24;

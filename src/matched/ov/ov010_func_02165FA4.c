@@ -1,5 +1,5 @@
 /*
- * function: func_02165FA4
+ * function: GAME_BEACON_ACCESSOR_GetActionHalfwordValue
  * address:  0x02165FA4
  * packet:   pkt_ov010_02165FA4
  * region:   ov010
@@ -31,7 +31,7 @@ typedef struct Rec {
     u16 f38;            /* 0x38 */
 } Rec;
 
-u16 func_02165FA4(Rec *r)
+u16 GAME_BEACON_ACCESSOR_GetActionHalfwordValue(Rec *r)
 {
     if (r->type == 0x30)
         return r->f34.h;

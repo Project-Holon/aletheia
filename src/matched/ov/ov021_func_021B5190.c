@@ -1,5 +1,5 @@
 /*
- * function: func_021B5190
+ * function: SCRCMD_PROC_FLD_AddUniqueU16
  * address:  0x021B5190
  * packet:   pkt_ov021_021B5190
  * region:   ov021
@@ -15,7 +15,7 @@
 
 typedef unsigned short u16;
 
-u16 func_021B5190(u16 *arr, u16 n, u16 v)
+u16 SCRCMD_PROC_FLD_AddUniqueU16(u16 *arr, u16 n, u16 v)
 {
     int i;
 

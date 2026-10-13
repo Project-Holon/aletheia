@@ -1,5 +1,5 @@
 /*
- * function: func_021F3748
+ * function: GIMMICK62_Update
  * address:  0x021F3748
  * packet:   pkt_ov062_021F3748
  * region:   ov062
@@ -12,13 +12,13 @@
  * Two-call wrapper.
  *
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE580  0x021BE580  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
 */
 
-void func_021F3748(void *p)
+void GIMMICK62_Update(void *p)
 {
-    int func_02188D2C(int *p);
-    void func_021BE580(void *p);
-    func_021BE580((void *)func_02188D2C(p));
+    int FIELDMAP_GetExpObj(int *p);
+    void FLD_EXP_OBJ_UpdateAnimes(void *p);
+    FLD_EXP_OBJ_UpdateAnimes((void *)FIELDMAP_GetExpObj(p));
 }

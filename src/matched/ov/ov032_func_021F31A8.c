@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void func_0204AFD8(unsigned);
-extern void func_0204A8D4(unsigned);
-extern void func_0204ADA4(unsigned);
+extern void CLACT_ReleaseCellAnim(unsigned);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleasePalette(unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
@@ -36,11 +36,11 @@ void func_021F31A8(void *unused, T *p)
     unsigned i;
     int j;
     for (i = 0; i < p->n2; i++)
-        func_0204AFD8(p->a2[i]);
+        CLACT_ReleaseCellAnim(p->a2[i]);
     for (i = 0; i < p->n1; i++)
-        func_0204A8D4(p->a1[i]);
+        CLACT_ReleaseCharacter(p->a1[i]);
     for (i = 0; i < p->n0; i++)
-        func_0204ADA4(p->a0[i]);
+        CLACT_ReleasePalette(p->a0[i]);
     for (j = 0; j < 3; j++) {
         if (((unsigned *)p)[j * 2 + 1] != 0)
             func_020307B0((void *)(((unsigned *)p)[j * 2 + 1]));

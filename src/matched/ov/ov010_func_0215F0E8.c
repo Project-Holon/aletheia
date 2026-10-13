@@ -1,5 +1,5 @@
 /*
- * function: func_0215F0E8
+ * function: MOVE_POKEMON_InitSkillWork
  * address: 0x0215F0E8
  * packet: pkt_ov010_0215F0E8
  * region: ov010
@@ -12,4 +12,4 @@
 
 typedef unsigned int u32;
 typedef struct Pair { u32 a, b; } Pair;
-void func_0215F0E8(u32 *out, const Pair *in, u32 *ctx) { out[0] = 0x19740205; out[1] = ctx[3]; *(Pair *)(out+3) = *in; out[2] = ctx[2]; }
+void MOVE_POKEMON_InitSkillWork(u32 *out, const Pair *in, u32 *ctx) { out[0] = 0x19740205; out[1] = ctx[3]; *(Pair *)(out+3) = *in; out[2] = ctx[2]; }

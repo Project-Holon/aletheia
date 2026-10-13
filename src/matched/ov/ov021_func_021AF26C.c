@@ -1,5 +1,5 @@
 /*
- * function: func_021AF26C
+ * function: SCRCMD_StopMarkedSeSlots
  * address:  0x021AF26C
  * packet:   pkt_ov021_021AF26C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  *
  * symbols:
- *   func_02158F88  0x02158F88  thumb  ov010
+ *   SCRIPT_WORK_GetTrainerParam  0x02158F88  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -21,15 +21,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u8 *func_02158F88(void *p);
+extern u8 *SCRIPT_WORK_GetTrainerParam(void *p);
 extern void func_020061F8(int i);
 
-void func_021AF26C(u32 a)
+void SCRCMD_StopMarkedSeSlots(u32 a)
 {
     int i;
     u8 *p;
 
-    p = func_02158F88((void *)a);
+    p = SCRIPT_WORK_GetTrainerParam((void *)a);
 
     for (i = 0; i < 5; i++) {
         if (*p & (1 << i))

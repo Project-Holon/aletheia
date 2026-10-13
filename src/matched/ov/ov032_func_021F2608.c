@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020310C4 0x020310C4 arm
+ *   TCBL_Main 0x020310C4 arm
  */
 #include "../include/Obj09800.h"
 struct Tcbl;
-extern void func_020310C4(struct Tcbl *);
+extern void TCBL_Main(struct Tcbl *);
 int func_021F2608(char *p, int *unused)
 {
-    func_020310C4(*(struct Tcbl * *)&((struct Obj09800 *)p)->fA0);
+    TCBL_Main(*(struct Tcbl * *)&((struct Obj09800 *)p)->fA0);
     if (((struct Obj09800 *)p)->fA8 == 0)
         return 1;
     return 0;

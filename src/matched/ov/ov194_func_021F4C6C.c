@@ -10,13 +10,14 @@
  * evidence: caller truncates id to u8 before 020403F4, whose own source uses u32.
  * symbols:
  *   d_021F5600 0x021F5600 data a4
+ *   BMP_WIN_Exit  0x020450C8  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u8 d_021F5600[];
 extern void func_020403F4(u32 i);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_02082BCC(void *, u32, u32);
 void func_021F4C6C(void *p)
@@ -24,7 +25,7 @@ void func_021F4C6C(void *p)
     u32 i;
     for (i = 0; i < 8; i++)
         func_020403F4((u8)(*(const u32 *)(d_021F5600 + i * 0x2C)));
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     func_02082BCC(p, 0, 4);
 }

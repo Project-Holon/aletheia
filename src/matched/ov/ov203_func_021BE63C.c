@@ -16,11 +16,11 @@
  *   func_0201493C 0x0201493C thumb
  *   func_021BDF3C 0x021BDF3C thumb
  *   func_0207DCF8 0x0207DCF8 arm
- *   func_0207DC44 0x0207DC44 arm
- *   func_0207DD10 0x0207DD10 arm
- *   func_0207DD24 0x0207DD24 arm
+ *   G3X_SetFog 0x0207DC44 arm
+ *   G3X_SetFogTable 0x0207DD10 arm
+ *   G3X_SetClearColor 0x0207DD24 arm
  *   func_0207DE88 0x0207DE88 arm
- *   func_02046BE0 0x02046BE0 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -47,11 +47,11 @@ extern void func_0201493C(u32,u32,u32,u32,u32,u16 *,u16);
 struct Obj;
 extern void func_021BDF3C(struct Obj *obj, unsigned short *a, int a2);
 extern void func_0207DCF8(const u16 *);
-extern void func_0207DC44(BOOL,GXFogBlend,GXFogSlope,int);
-extern void func_0207DD10(const u32 *);
-extern void func_0207DD24(u16,int,int,int,BOOL);
+extern void G3X_SetFog(BOOL,GXFogBlend,GXFogSlope,int);
+extern void G3X_SetFogTable(const u32 *);
+extern void G3X_SetClearColor(u16,int,int,int,BOOL);
 extern void func_0207DE88(int);
-extern void func_02046BE0(u32,u32);
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 #define DISP (*(volatile u16 *)0x04000060)
 static inline void Anti(BOOL enable) {
     if(enable) DISP=(u16)((DISP & ~0x3000)|16);
@@ -81,13 +81,13 @@ void func_021BE63C(struct Context *ctx,struct Config *cfg,const struct Record *r
     Blend(record->blend);
     Edge(record->edge);
     if(record->edge) func_0207DCF8(record->edgecolors);
-    func_0207DC44(record->fog,(GXFogBlend)record->mode,(GXFogSlope)record->slope,record->offset);
+    G3X_SetFog(record->fog,(GXFogBlend)record->mode,(GXFogSlope)record->slope,record->offset);
     if(record->fog) {
         *(volatile u32 *)0x04000358=record->fogcolor|(record->fogalpha<<16);
         for(i=0;i<8;i++) fogtable[i]=record->fogtable[i];
-        func_0207DD10(fogtable);
+        G3X_SetFogTable(fogtable);
     }
-    func_0207DD24(record->clear,record->alpha,record->depth,record->polygon,record->fog);
+    G3X_SetClearColor(record->clear,record->alpha,record->depth,record->polygon,record->fog);
     func_0207DE88(record->depthoffset);
-    func_02046BE0(record->mode1,record->mode2);
+    G3D_SYSTEM_SetSwapBuffersMode(record->mode1,record->mode2);
 }

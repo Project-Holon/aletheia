@@ -1,5 +1,5 @@
 /*
- * function: func_0218BC8C
+ * function: FIELD_BUILDMODEL_CountAnimResources
  * address:  0x0218BC8C
  * packet:   pkt_ov021_0218BC8C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0218BC8C(int *p)
+int FIELD_BUILDMODEL_CountAnimResources(int *p)
 {
     unsigned int i;
     int n;

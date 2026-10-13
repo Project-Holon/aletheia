@@ -47,7 +47,7 @@
  *   body in a static inline Build(p, a, b, c, const u32 *ids, int count) called with (d_02185F7C, 0x82):
  *   46 bytes, CSE temp still first and the loop loses its branch to the bottom test.
  * 2026-10-05 (wD8 lane10): EXACT found but parked as DIFF under the stand-in rule. Writing the two table
- *   arguments in two different forms, `func_0201F878(..., t, d_02185F7C[i], tb(i), (u16)*(u32 *)p)` (or tb(i)
+ *   arguments in two different forms, `BMP_MENUWORK_AddMsgItem(..., t, d_02185F7C[i], tb(i), (u16)*(u32 *)p)` (or tb(i)
  *   third and d_02185F7C[i] fourth), gives EXACT 120 bytes: the early CSE no longer merges the two reads, so the
  *   stack argument is computed first and the late CSE shares the load. `d[i]` with `*(d + i)` does not (same
  *   tree), and tb as `return d[i]` does not. The two-form trick only exists to defeat CSE, so the integrator or
@@ -55,7 +55,7 @@
  * 2026-10-05 (wD7 lane14): still DIFF 17 bytes. Reading: the image computes the table address in r2/r3 because h (r0) and t (r1) are
  *   already live, so the table chain comes after the h load in the IR; ours computes the CSE'd table value first (temps r0/r1), so
  *   the scheduler cannot interleave. Tried: non-const extern table (same), u16 h local before the call (same, propagated),
- *   f(q, t, v, v = tb(i), h) (same), static inline Add(q, t, i, u16 h / int h) (same). The arm9 callee func_0201F878 reads only
+ *   f(q, t, v, v = tb(i), h) (same), static inline Add(q, t, i, u16 h / int h) (same). The arm9 callee BMP_MENUWORK_AddMsgItem reads only
  *   four arguments (the fifth is a dead stack argument, kept as in the matched sibling 02184EC0).
  * 2026-10-05 (wD6 lane16): still DIFF 17 bytes. Tried: static inline wrappers W(a, t, v, h) and W(h, a, t, v) calling
  *   f(a, t, v, v, h); Add(p, t, id) reading p inside; `v = d[i]` as the third argument with v as the fourth; a block
@@ -76,7 +76,7 @@
  *   `u16 Hid(u8 *p)` (with plain d[i] twice, and with tb(i) twice): unchanged; `f(q, t, v = d[i], v, h)`
  *   (assignment in the third argument; the fourth-argument form was tried before): unchanged. The early
  *   CSE still places the table read before the stack argument.
- * 2026-10-05 (wD9r lane24): still DIFF 17 bytes. Tried an unprototyped callee `extern void func_0201F878();`
+ * 2026-10-05 (wD9r lane24): still DIFF 17 bytes. Tried an unprototyped callee `extern void BMP_MENUWORK_AddMsgItem();`
  *   (default argument promotions): unchanged. Reading kept: the image order (h load, table load, C050 load)
  *   is right-to-left argument evaluation, so in the original the two table reads were not one CSE candidate
  *   at the early stage; only the two-form D8 source reproduces that so far.
@@ -102,9 +102,9 @@
  *   d_02185F7C 0x02185F7C data a4
  *   func_02184968 0x02184968 thumb ov219
  *   func_02045B38 0x02045B38 arm
- *   func_0201F81C 0x0201F81C thumb
- *   func_0201F878 0x0201F878 thumb
- *   func_02045C04 0x02045C04 arm
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_02184FC8 0x02184FC8 thumb ov219
  */
 
@@ -119,9 +119,9 @@ struct Rec;
 struct Slot;
 struct Src;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201F81C(u32, u32);
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern u32 func_02045C04(struct Rec *rec);
+extern void *BMP_MENUWORK_Create(u32, u32);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_02184FC8(char *p, const struct Src *source, unsigned count);
 
 static inline u32 GetMsg(u32 idx) { return d_02185F7C[idx]; }
@@ -131,10 +131,10 @@ void func_02185074(u8 *p, const u8 *a, u32 b, u32 c)
     int i;
     *(u32 *)(p + 0xC018) = func_02184968(a, 1);
     t = func_02045B38(0, 2, (u16)c, (u16)*(u32 *)p);
-    *(void **)(p + 0xC050) = func_0201F81C(0x82, *(u32 *)p);
+    *(void **)(p + 0xC050) = BMP_MENUWORK_Create(0x82, *(u32 *)p);
     for (i = 0; (i < 0x82) ? 1 : 0; i++) {
-        func_0201F878(*(void **)(p + 0xC050), (u32)t, GetMsg(i), d_02185F7C[i], (u16)*(u32 *)p);
+        BMP_MENUWORK_AddMsgItem(*(void **)(p + 0xC050), (u32)t, GetMsg(i), d_02185F7C[i], (u16)*(u32 *)p);
     }
-    func_02045C04(t);
+    MSGDATA_Delete(t);
     func_02184FC8((char *)p, (const struct Src *)b, 0x82);
 }

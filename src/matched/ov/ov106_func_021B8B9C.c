@@ -21,14 +21,14 @@
  *   Only its shard is missing, so this stays MATCH until the integrator builds it.
  *
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200A930 0x0200A930 thumb
  *   func_0200A8E4 0x0200A8E4 thumb
  *   func_0200A908 0x0200A908 thumb
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_020457B0 0x020457B0 arm
- *   func_02045924 0x02045924 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_SetString 0x02045924 arm
  *   d_021B9680 0x021B9680 data a1
  */
 typedef unsigned char u8;
@@ -47,22 +47,22 @@ struct Entry;
 struct Rec;
 struct Strbuf;
 struct U16Vec;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200A8A0(void *);
 extern s32 func_0200A8AC(struct Rec *r);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32);
 extern u8 func_0200A930(char *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Entry *func_0200A8C8(struct Rec *r, u32 index);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u8 func_0200A8D0(struct Rec *r, u32 index);
 extern u16 func_0200A8E4(struct Rec *r, u32 index);
 extern u32 func_0200A8F8(struct Rec *r, u32 index);
 extern void func_0200A908(void *,u32,u16 *,u8 *,u8 *,u8 *);
 void *func_021B8B9C(void *sys,u16 heap) {
  void *src; u16 count; u8 *out; Item *item; u32 i; u8 prev,seq,active;
- src=func_0200A8A0(func_02012EBC(sys));
+ src=func_0200A8A0(GAME_DATA_GetSaveControl(sys));
  count=func_0200A8AC(src);
  out=func_02030734(heap,count*16+4,0,d_021B9680,2724);
  func_02082BCC(out,0,count*16+4);
@@ -71,8 +71,8 @@ void *func_021B8B9C(void *sys,u16 heap) {
   prev=128; seq=0; active=func_0200A930(src);
   for(i=0;i<*(u32 *)out;i++) {
    item=(Item *)(out+4+i*16);
-   item->text=func_020457B0(8,heap);
-   func_02045924(item->text,(const u16 *)func_0200A8C8(src,i));
+   item->text=STRBUF_Create(8,heap);
+   STRBUF_SetString(item->text,(const u16 *)func_0200A8C8(src,i));
    item->id=func_0200A8D0(src,i);
    item->value=func_0200A8E4(src,i);
    if(item->id<prev) item->seq=i+1;

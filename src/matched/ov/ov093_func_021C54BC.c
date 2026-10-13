@@ -1,5 +1,5 @@
 /*
- * function: func_021C54BC
+ * function: BTL_SERVER_FLOW_PushActionBlockedMessage
  * address: 0x021C54BC
  * packet: pkt_ov093_021C54BC
  * region: ov093
@@ -7,15 +7,15 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * leaf: Sole blocker of func_021BCCE0; ordinary default-argument tail call.
+ * leaf: Sole blocker of BTL_SERVER_FLOW_ProcAction; ordinary default-argument tail call.
  * extent: Next function 021C54C8 is already separately matched; 12-byte leaf.
  * semantics: Forwards both pointer inputs unchanged; literal argument 0x350.
  * symbols:
- *   func_021C5D88 0x021C5D88 thumb ov093
+ *   BTL_SERVER_FLOW_PushMsgSetPoke 0x021C5D88 thumb ov093
  */
 typedef unsigned char u8;
-extern void func_021C5D88(u8 *, u8 *, int);
-void func_021C54BC(u8 *p, u8 *a)
+extern void BTL_SERVER_FLOW_PushMsgSetPoke(u8 *, u8 *, int);
+void BTL_SERVER_FLOW_PushActionBlockedMessage(u8 *p, u8 *a)
 {
-    func_021C5D88(p, a, 0x350);
+    BTL_SERVER_FLOW_PushMsgSetPoke(p, a, 0x350);
 }

@@ -11,14 +11,14 @@
  *   func_0201F5DC 0x0201F5DC thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02049740 0x02049740 arm
- *   func_02049990 0x02049990 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   func_020403F4 0x020403F4 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_02040618 0x02040618 arm
  *   func_0204047C 0x0204047C arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021E6AB0 0x021E6AB0 thumb ov119
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   d_021E7E44 0x021E7E44 data a4
  */
 #include "../include/Obj00001.h"
@@ -31,14 +31,14 @@ extern const struct BgTemplate d_021E7E44;
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
+extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *, u32, u32, u32, u16, u32, u32, u16);
 extern void func_020403F4(u32 i);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204047C(int idx, unsigned short val);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_021E6AB0(const char *p);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 void func_021E6B90(char *p)
 {
     void *h;
@@ -46,18 +46,18 @@ void func_021E6B90(char *p)
     ((struct Obj00001 *)p)->f644 = func_0201F5DC((void *)6, 15, 0, ((struct Obj00001 *)p)->f5F4);
     h = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
     ((struct Obj00001 *)p)->f870 = func_02049740(h, 13, 5, 0, 0, ((struct Obj00001 *)p)->f5F4);
-    func_02049990(h, 7, 4, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
-    func_02049990(h, 7, 5, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 7, 4, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 7, 5, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
     t = d_021E7E44;
     func_020403F4(7);
     func_0203FCA0(7, &t, 0);
-    func_02049990(h, 8, 7, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 8, 7, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
     func_02040618(4, 0, -0x80);
     func_02040618(7, 0, 0);
     func_0204047C(4, 3);
-    func_02049990(h, 11, 2, 0, (u16)((struct Obj00001 *)p)->f86C, 0, 0, ((struct Obj00001 *)p)->f5F4);
-    func_02049238(h);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h, 11, 2, 0, (u16)((struct Obj00001 *)p)->f86C, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    ARC_TOOL_DeleteHandle(h);
     ((struct Obj00001 *)p)->f11DE = 0;
     func_021E6AB0(p);
-    func_020435F4(0x1f);
+    BG_SYS_SetSubVisiblePlanes(0x1f);
 }

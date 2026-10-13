@@ -1,5 +1,5 @@
 /*
- * function: func_0215AB18
+ * function: SCRCMD_WORK_CmdGetFieldRecordA
  * address:  0x0215AB18
  * packet:   pkt_0215AB18
  * region:   ov010
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_021690B4  0x021690B4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   FIELD_CLOCK_GetTimeZone  0x021690B4  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_021690B4(int a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern int FIELD_CLOCK_GetTimeZone(int a0);
 
-int func_0215AB18(int a0, int a1)
+int SCRCMD_WORK_CmdGetFieldRecordA(int a0, int a1)
 {    int t5;
     int t6;
     u16 *q;
@@ -32,13 +32,13 @@ int func_0215AB18(int a0, int a1)
 t6 = a1 + 0;
 t5 = a0 + 0;
 a0 = t6 + 0;
-    v0 = func_0215A5E4((void *)a0);
+    v0 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0215AB24:
 a0 = t5 + 0;
 a1 = t6 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
+    q = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_0215AB2E:
-    a0 = func_021690B4((int)v0);
+    a0 = FIELD_CLOCK_GetTimeZone((int)v0);
 loc_0215AB36:
 *q = a0;
 a0 = 0;

@@ -17,24 +17,24 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_02030734 0x02030734 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
- *   func_020437D4 0x020437D4 arm
+ *   BMP_GetPixels 0x020437D4 arm
  *   P_STA_OAM_FileName 0x021DC854 data a1
- *   func_020437DC 0x020437DC arm
- *   func_020437E4 0x020437E4 arm
- *   func_020437EC 0x020437EC arm
+ *   BMP_GetWidth 0x020437DC arm
+ *   BMP_GetHeight 0x020437E4 arm
+ *   BMP_GetByteSize 0x020437EC arm
  *   func_020862F0 0x020862F0 arm
- *   func_0204ABBC 0x0204ABBC arm
+ *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
  *   func_0207E780 0x0207E780 arm
  *   func_0207E804 0x0207E804 arm
  *   P_STA_RIBBON_InfoTable 0x021DC2F8 data a4
@@ -52,23 +52,23 @@ typedef signed short s16;
 
 extern u32 func_020307B0(void *p);
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204A6C8(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
-extern int func_0204AF28(void *arc, u32 fileId, u32 a, u32 heapId);
-extern void func_02049238(void *arc);
-extern void func_0204A8D4(u32 charRes);
-extern void func_0204AFD8(u32 cellRes);
-extern struct Actor *func_0204B294(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
+extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
+extern int CLACT_RegisterCellAnim(void *arc, u32 fileId, u32 a, u32 heapId);
+extern void ARC_TOOL_DeleteHandle(void *arc);
+extern void CLACT_ReleaseCharacter(u32 charRes);
+extern void CLACT_ReleaseCellAnim(u32 cellRes);
+extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
 extern void func_0204B3DC(struct Actor *actor, u32 enable);
-extern void func_0204B3B4(struct Actor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0204B6F4(struct Actor *actor, u32 animSeq, u32 flag);
 extern void func_0204B404(struct Actor *actor, const struct StaOamPoint *delta, u32 space);
-extern void *func_020437D4(const struct Bmp *bmp);
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern u32 func_020437EC(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void func_020862F0(void *dst, int size);
-extern int func_0204ABBC(u32 charRes, u32 screen);
+extern int CLACT_GetCharacterVramAddress(u32 charRes, u32 screen);
 extern void func_0207E780(void *dst, void *src, u32 size);
 extern void func_0207E804(void *dst, void *src, u32 size);
 struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit);
@@ -114,10 +114,10 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     grid = func_02030734(mgr->heapId, 0x24, 1, P_STA_OAM_FileName, 0x8a);
     bmp = desc->bmp;
     grid->bmp = bmp;
-    cols = ((u32)func_020437DC(bmp) >> 6) & 0xff;
-    rows = ((u32)func_020437E4(desc->bmp) >> 5) & 0xff;
-    if (func_020437DC(desc->bmp) % 64 != 0) cols = cols + 1;
-    if (func_020437E4(desc->bmp) % 32 != 0) rows = rows + 1;
+    cols = ((u32)BMP_GetWidth(bmp) >> 6) & 0xff;
+    rows = ((u32)BMP_GetHeight(desc->bmp) >> 5) & 0xff;
+    if (BMP_GetWidth(desc->bmp) % 64 != 0) cols = cols + 1;
+    if (BMP_GetHeight(desc->bmp) % 32 != 0) rows = rows + 1;
     grid->cols = cols;
     grid->rows = rows;
     grid->space = desc->space;
@@ -126,16 +126,16 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     for (i = 0; i < rows; i++) {
         for (j = 0; j < cols; j++) {
             mode = P_STA_OAM_GetCellResMode(mgr, desc->screen, (u32)arc);
-            grid->charRes[i * cols + j] = func_0204A6C8(arc, 7, 0, desc->screen, mgr->heapId);
+            grid->charRes[i * cols + j] = CLACT_RegisterCharacter(arc, 7, 0, desc->screen, mgr->heapId);
             pos.x = desc->x + (j << 6);
             pos.y = desc->y + (i << 5);
             pos.drawPriority = desc->drawPriority;
             pos.bgPriority = desc->bgPriority;
-            grid->actor[i * cols + j] = func_0204B294(mgr->clunit, (u32)grid->charRes[i * cols + j], desc->plttRes, mgr->cellRes[mode], &pos, desc->space, mgr->heapId);
+            grid->actor[i * cols + j] = CLACT_CreateActor(mgr->clunit, (u32)grid->charRes[i * cols + j], desc->plttRes, mgr->cellRes[mode], &pos, desc->space, mgr->heapId);
             func_0204B6F4(grid->actor[j], (u8)desc->animSeq, 0);
         }
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     return grid;
 }
 
@@ -144,8 +144,8 @@ void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid)
     u8 i, j;
     for (i = 0; i < grid->rows; i++) {
         for (j = 0; j < grid->cols; j++) {
-            func_0204A8D4((u32)grid->charRes[j + i * grid->cols]);
-            func_0204B3B4(grid->actor[j + i * grid->cols]);
+            CLACT_ReleaseCharacter((u32)grid->charRes[j + i * grid->cols]);
+            CLACT_DeleteActor(grid->actor[j + i * grid->cols]);
         }
     }
     func_020307B0(grid);
@@ -171,19 +171,19 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
     u8 *src;
     u8 k;
     void (*copy)(void *, void *, u32);
-    dst0 = func_020437D4(grid->bmp);
-    func_020862F0(dst0, func_020437EC(grid->bmp));
+    dst0 = BMP_GetPixels(grid->bmp);
+    func_020862F0(dst0, BMP_GetByteSize(grid->bmp));
     if (grid->screen == 0) copy = func_0207E780; else copy = func_0207E804;
-    wt = (u32)func_020437DC(grid->bmp) >> 3;
-    rem = (u32)func_020437E4(grid->bmp) >> 3;
+    wt = (u32)BMP_GetWidth(grid->bmp) >> 3;
+    rem = (u32)BMP_GetHeight(grid->bmp) >> 3;
     rem = rem % 4;
-    edge = func_020437DC(grid->bmp) % 64 / 8 * 32;
+    edge = BMP_GetWidth(grid->bmp) % 64 / 8 * 32;
     if (edge == 0) edge = 256;
     off = 0;
     for (r = 0; r < grid->rows; r++) {
         for (c = 0; c < grid->cols; c++) {
             if (c == grid->cols - 1) seg = edge; else seg = 256;
-            src = (u8 *)func_0204ABBC((u32)grid->charRes[c + r * grid->cols], grid->screen);
+            src = (u8 *)CLACT_GetCharacterVramAddress((u32)grid->charRes[c + r * grid->cols], grid->screen);
             for (k = 0; k < 4; k++) {
                 if (r == grid->rows - 1 && rem != 0 && k >= rem) continue;
                 copy(dst0 + (off + k * (wt * 32)), src, seg);
@@ -229,7 +229,7 @@ int P_STA_OAM_GetCellResMode(struct StaOamManager *mgr, int screen, u32 arc)
     default: mode = 0; break;
     }
     if (mgr->cellRes[mode] != -1) return mode;
-    mgr->cellRes[mode] = func_0204AF28((void *)arc, 0x4d, 0x80, mgr->heapId);
+    mgr->cellRes[mode] = CLACT_RegisterCellAnim((void *)arc, 0x4d, 0x80, mgr->heapId);
     return mode;
 }
 
@@ -237,7 +237,7 @@ void P_STA_OAM_FreeCellRes(struct StaOamManager *mgr) {
     int i;
     for (i = 0; i < 3; i++) {
         if (mgr->cellRes[i] != -1) {
-            func_0204AFD8(mgr->cellRes[i]);
+            CLACT_ReleaseCellAnim(mgr->cellRes[i]);
             mgr->cellRes[i] = -1;
         }
     }

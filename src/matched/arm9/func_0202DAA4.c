@@ -24,10 +24,10 @@
  *   POKEGRA_GetTrainerCgrArcIndex  0x0202D5D8  thumb
  *   POKEGRA_GetTrainerPalArcIndex  0x0202D61C  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02049250  0x02049250  arm
- *   func_02049E74  0x02049E74  arm
- *   func_0204A9D0  0x0204A9D0  arm
- *   func_0204ADEC  0x0204ADEC  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   ARC_UTIL_LoadScreenDataFromHandle  0x02049E74  arm
+ *   CLACT_TransferCharacter  0x0204A9D0  arm
+ *   CLACT_TransferPalette  0x0204ADEC  arm
  *   func_02062A98  0x02062A98  arm
  */
 
@@ -40,11 +40,11 @@ extern u32 func_020307B0(void *p);
 typedef signed int     s32;
 struct ArcFile;
 struct NitroFileHeader;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 struct Sub0204A9D0;
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
-extern void  func_0204ADEC(void *dst, void *src, u32 flag);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
+extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
 void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which)
@@ -53,12 +53,12 @@ void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, vola
     void *b;
     void *a;
 
-    res = func_02049250(set, POKEGRA_GetTrainerPalArcIndex(id, 0), which);
+    res = ARC_TOOL_LoadHandleMember(set, POKEGRA_GetTrainerPalArcIndex(id, 0), which);
     func_02062A98(res, &b);
-    func_0204ADEC(dstB, b, 1);
+    CLACT_TransferPalette(dstB, b, 1);
     func_020307B0(res);
 
-    res = func_02049E74(set, POKEGRA_GetTrainerCgrArcIndex(id, 0), 1, (u32)(&a), which);
-    func_0204A9D0((int)dstA, a);
+    res = ARC_UTIL_LoadScreenDataFromHandle(set, POKEGRA_GetTrainerCgrArcIndex(id, 0), 1, (u32)(&a), which);
+    CLACT_TransferCharacter((int)dstA, a);
     func_020307B0(res);
 }

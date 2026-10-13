@@ -1,5 +1,5 @@
 /*
- * function: func_021CF3B8
+ * function: BTL_CLIENT_FlushSlotLinkWord
  * address: 0x021CF3B8
  * packet: pkt_ov093_021CF3B8
  * region: ov093
@@ -19,7 +19,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern u8 func_021B8FF4(u8 *p);
 extern void func_021B90BC(u8 *p, u8 k, u32 v);
-void func_021CF3B8(u8 *p, u32 i)
+void BTL_CLIENT_FlushSlotLinkWord(u8 *p, u32 i)
 {
     if (p[0x1aa] == 0) {
         if (p[0x1a6] == func_021B8FF4(*(u8 * *)&((struct Obj05200 *)p)->f0)) {

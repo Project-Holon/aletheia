@@ -14,16 +14,16 @@
  * pooled 0x74 (116), a linker overlay id; the third lies in ov116.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   ov116_id       0x00000074  data   a1
  *   d_021D83A4     0x021D83A4  data   ov116  a4
  */
@@ -34,17 +34,17 @@ typedef unsigned short u16;
 struct GameSystem;
 struct GameEvent;
 struct ProcHandle;
-extern void *func_0201210C(const struct GameSystem *gameSystem);
-extern u32   func_02012138(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern u32   GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 typedef unsigned char  u8;
 extern u32 func_02026454(void *gameComm);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
-extern void func_02012374(struct GameEvent *event, struct GameEvent **callee);
+extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **callee);
 extern void GAMESYSTEM_CallProc(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
-extern int func_021BE8D4(void *gameSystem, int fieldMap, int sel, int d);
-extern int func_021BE92C(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
 
 extern char ov116_id[];
 extern char d_021D83A4[];
@@ -52,19 +52,19 @@ extern char d_021D83A4[];
 u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work)
 {
     u32 gameSystem = work[1];
-    void *fieldMap = func_0201210C((void *)gameSystem);
+    void *fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
 
     switch (*stage) {
     case 0:
-        if (func_02026454((void *)((int)func_02012138((const struct GameSystem *)gameSystem))) == 0)
+        if (func_02026454((void *)((int)GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem))) == 0)
             (*stage)++;
         break;
     case 1:
-        func_02012374(event, (struct GameEvent **)func_021BE8D4((void *)gameSystem, (int)fieldMap, 0, 0));
+        GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)gameSystem, (int)fieldMap, 0, 0));
         (*stage)++;
         break;
     case 2:
-        func_02012374(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, (int)fieldMap));
+        GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, (int)fieldMap));
         (*stage)++;
         break;
     case 3:
@@ -81,11 +81,11 @@ u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work)
         }
         break;
     case 5:
-        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent((void *)gameSystem));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent((void *)gameSystem));
         (*stage)++;
         break;
     case 6:
-        func_02012374(event, (struct GameEvent **)func_021BE92C((void *)gameSystem, (int)fieldMap, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)gameSystem, (int)fieldMap, 0, 0, 1, 0, 0));
         (*stage)++;
         break;
     case 7:

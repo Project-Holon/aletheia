@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02169500",
+   "name": "FIELD_G3D_MAP_SetPos",
    "address": "0x02169500",
    "kind": "game",
    "region": "ov010",

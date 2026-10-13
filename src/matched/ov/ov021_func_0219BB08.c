@@ -1,5 +1,5 @@
 /*
- * function: func_0219BB08
+ * function: FLDMMDL_MOVE_LookFellow
  * address:  0x0219BB08
  * packet:   pkt_ov021_0219BB08
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0219BC48  0x0219BC48  thumb  ov021
- *   d_021D538C  0x021D538C  data  a4
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateFellowTracking  0x0219BC48  thumb  ov021
+ *   gLookFellowStepTable  0x021D538C  data  a4
  */
 
 typedef unsigned char  u8;
@@ -21,15 +21,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef int (*Step)(u32, u8 *);
-extern void *func_0216D69C(void *p);
-extern int func_0219BC48(int a, u8 *b);
-extern Step d_021D538C[];
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern int FLDMMDL_MOVE_UpdateFellowTracking(int a, u8 *b);
+extern Step gLookFellowStepTable[];
 
-void func_0219BB08(u32 a)
+void FLDMMDL_MOVE_LookFellow(u32 a)
 {
-    u8 *p = func_0216D69C((void *)a);
-    if (func_0219BC48(a, p)) {
-        while (d_021D538C[p[0]](a, p) == 1) {
+    u8 *p = FLDMMDL_GetMoveProcWork((void *)a);
+    if (FLDMMDL_MOVE_UpdateFellowTracking(a, p)) {
+        while (gLookFellowStepTable[p[0]](a, p) == 1) {
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C59F8
+ * function: SHORTCUT_MENU_SetActorsY
  * address:  0x021C59F8
  * packet:   pkt_ov021_021C59F8
  * region:   ov021
@@ -11,6 +11,9 @@
  *
  * Sets the y offset of the three sprite handles (EXACT*: pad). The split i =
  * 0; y = v; ordering is what schedules the zero before the sign extension.
+ *
+ * symbols:
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -30,12 +33,12 @@ typedef struct {
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021C59F8(S *p, int v)
+void SHORTCUT_MENU_SetActorsY(S *p, int v)
 {
     s16 y;
     int i;
@@ -44,7 +47,7 @@ void func_021C59F8(S *p, int v)
     i = 0;
     y = v;
     for (; i < 3; i++) {
-        func_0204B454((struct Actor *)p->h[i], (struct PtS *)&t, 0);
+        CLACT_GetActorSurfacePos((struct Actor *)p->h[i], (struct PtS *)&t, 0);
         t.y = y;
         func_0204B404((struct Obj *)p->h[i], (const struct Vec2 *)(&t), 0);
     }

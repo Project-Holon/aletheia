@@ -1,5 +1,5 @@
 /*
- * function: func_0201F91C
+ * function: BMP_MENUWORK_CountItems
  * address:  0x0201F91C
  * packet:   pkt_0201F5BC
  * region:   arm9
@@ -24,8 +24,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F91C.c \
- *       --func func_0201F91C --addr 0x0201F91C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_CountItems.c \
+ *       --func BMP_MENUWORK_CountItems --addr 0x0201F91C --cc 1.1p1 --thumb
  */
 typedef unsigned int u32;
 
@@ -37,7 +37,7 @@ struct Slot {
     u32 tag;
 };
 
-u32 func_0201F91C(struct Slot *s)
+u32 BMP_MENUWORK_CountItems(struct Slot *s)
 {
     u32 n;
 

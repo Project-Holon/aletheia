@@ -1,5 +1,5 @@
 /*
- * function: func_021962F4
+ * function: IRCBATTLEMENU_DeleteMsgWin
  * address:  0x021962F4
  * packet:   pkt_ov021_021962F4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021962C4  0x021962C4  thumb  ov021
+ *   IRCBATTLEMENU_ClearMessageWindow  0x021962C4  thumb  ov021
  *   func_020452E8  0x020452E8  arm
  * Addresses are Black-image addresses.
  */
@@ -23,12 +23,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 struct Descriptor;
-extern int func_021962C4(u32 a);
+extern int IRCBATTLEMENU_ClearMessageWindow(u32 a);
 extern u32 func_020452E8(struct Descriptor *d);
 
-void func_021962F4(u8 *a)
+void IRCBATTLEMENU_DeleteMsgWin(u8 *a)
 {
-    func_021962C4((u32)a);
+    IRCBATTLEMENU_ClearMessageWindow((u32)a);
     func_020452E8((struct Descriptor *)(*(u32 *)&((struct Obj00094 *)a)->f2B0));
     *(u32 *)&((struct Obj00094 *)a)->f2B0 = 0;
 }

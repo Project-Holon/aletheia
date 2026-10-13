@@ -1,7 +1,7 @@
 /*
  * file:     map_replace.c
  * unit:     yes
- * function: func_02159D84, func_02159DC8, func_02159DCC, func_02159DEC, func_02159E00, func_02159E60, func_02159E8C, func_02159F04, func_02159F28, func_02159F54, func_02159F80, func_02159F84, func_02159F94, func_02159FA8, func_02159FE0, func_0215A014, func_0215A048, func_0215A064
+ * function: MAP_REPLACE_Create, MAP_REPLACE_GetRecordCount, MAP_REPLACE_LoadRecord, MAP_REPLACE_Delete, MAP_REPLACE_CheckRecord, MAP_REPLACE_GetFlagIndex, MAP_REPLACE_SetupFlags, MAP_REPLACE_FindFlagEntry, MAP_REPLACE_SetFlag, MAP_REPLACE_CheckFlag, func_02159F80, func_02159F84, func_02159F94, func_02159FA8, func_02159FE0, func_0215A014, func_0215A048, func_0215A064
  * address:  0x02159D84
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -16,30 +16,30 @@
  * unknown original file; it stays here until its home is known.
  *
  * symbols:
- *   func_0201296C  0x0201296C  thumb
- *   func_02014314  0x02014314  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_SetEventFlag  0x02014314  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020490F4  0x020490F4  arm
- *   func_020493D4  0x020493D4  arm
+ *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
  *   d_021728BC  0x021728BC  data
- *   func_0204944C  0x0204944C  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_02170FB0 0x02170FB0 data
- *   func_02012138  0x02012138  thumb
- *   func_0202E83C  0x0202E83C  thumb
- *   func_0215843C  0x0215843C  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
+ *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb  ov010
  *   func_020143CC  0x020143CC  thumb
- *   func_02159F04 0x02159F04 thumb ov010
+ *   MAP_REPLACE_FindFlagEntry 0x02159F04 thumb ov010
  *   d_02170FF4 0x02170FF4 data a2
  *   d_02170FEC 0x02170FEC data
  *   d_02170FF0 0x02170FF0 data
- *   func_02014184 0x02014184 thumb
+ *   ZONEDATA_SetDirectLocation 0x02014184 thumb
  *   func_02159F84  0x02159F84  thumb  ov010
  *   func_02159F80  0x02159F80  thumb  ov010
- *   func_02159F28  0x02159F28  thumb  ov010
- *   func_02159F54  0x02159F54  thumb  ov010
+ *   MAP_REPLACE_SetFlag  0x02159F28  thumb  ov010
+ *   MAP_REPLACE_CheckFlag  0x02159F54  thumb  ov010
  */
 struct BigObj;
 struct Ctx;
@@ -73,7 +73,7 @@ typedef struct MapReplace {
      * event work d_02170FB0[i] holds its value.
      */
     u8 variant[13];
-    MapReplaceRecord record;    /* last record read by func_02159DCC */
+    MapReplaceRecord record;    /* last record read by MAP_REPLACE_LoadRecord */
 } MapReplace;
 
 /* Entry of the 10-entry flag table d_02170FB0. */
@@ -96,25 +96,25 @@ typedef struct WarpDataEntry {
     u16 entryZoneId;        /* zone whose entry sets arriveFlag */
     char pad0A[10];
 } WarpDataEntry;
-extern u32 func_0201296C(const struct BigObj *p);
-extern void func_02014314(char *, int);
-extern void *func_020120F4(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void ZONEDATA_SetEventFlag(char *, int);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
-extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
-extern void func_02049238(void *arc);
-int func_02159E60(int selector);
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_0202E83C(void *a0);
-extern int func_0215843C(void *p);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+extern void ARC_TOOL_DeleteHandle(void *arc);
+int MAP_REPLACE_GetFlagIndex(int selector);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
+extern int INTRUDE_COMM_GetAreaOwnerVersion(void *p);
 extern u32 func_020143CC(u32 a, u32 b);
-void func_02159E8C(u8 *variant, int gameSystem);
-MapReplaceFlagEntry *func_02159F04(int unused, int flagNo);
+void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem);
+MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo);
 /* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/func_02159F80.c \ * --func func_02159F80 --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb */ int func_02159F80(void);
 int func_02159F84(int warpId);
-extern void func_02014184(void *, int, int, int, int, int);
+extern void ZONEDATA_SetDirectLocation(void *, int, int, int, int, int);
 /* * evidence: owner commit f860957 supplies the matched ARM9 Thumb02014184 * witness. Recheck the caller against that witness; no owner C compiled. * prototype: owner's u16 id is widened to int here because original r1 * is passed unchanged without narrowing. Remaining payloads retain 32 bits. * prior: wave49 one MATCH; tu --suggest-split left caller OUT. */ void func_0215A048(void *location, int zoneId, int unused, unsigned gridX, u16 gridZ);
 int func_0215A064(int warpId);
 extern const char d_021728BC[];
@@ -124,34 +124,34 @@ extern const WarpDataEntry d_02170FEC[];
 extern const u16 d_02170FF0[][10];
 
 
-MapReplace *func_02159D84(int heapId, int gameSystem)
+MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem)
 {
     MapReplace *replace = func_02030734(heapId, sizeof(MapReplace), 1, d_021728BC, 0x77);
     replace->heapId = heapId;
     replace->arc = func_020490F4(10, heapId);
-    replace->recordCount = (u16)func_020493D4(replace->arc, 0) / sizeof(MapReplaceRecord);
-    func_02159E8C(replace->variant, gameSystem);
+    replace->recordCount = (u16)ARC_TOOL_GetHandleMemberSize(replace->arc, 0) / sizeof(MapReplaceRecord);
+    MAP_REPLACE_SetupFlags(replace->variant, gameSystem);
     return replace;
 }
 
 
 
-u32 func_02159DC8(MapReplace *replace) { return replace->recordCount; }
+u32 MAP_REPLACE_GetRecordCount(MapReplace *replace) { return replace->recordCount; }
 
 
 
 /* Read record `index` into replace->record and return its matrix id. */
-u32 func_02159DCC(MapReplace *replace, int index)
+u32 MAP_REPLACE_LoadRecord(MapReplace *replace, int index)
 {
-    func_0204944C(replace->arc, 0, index * sizeof(MapReplaceRecord), sizeof(MapReplaceRecord), &replace->record);
+    ARC_TOOL_ReadHandleMemberRange(replace->arc, 0, index * sizeof(MapReplaceRecord), sizeof(MapReplaceRecord), &replace->record);
     return replace->record.matrixId;
 }
 
 
 
-int func_02159DEC(MapReplace *replace)
+int MAP_REPLACE_Delete(MapReplace *replace)
 {
-    func_02049238(replace->arc);
+    ARC_TOOL_DeleteHandle(replace->arc);
     return func_020307B0(replace);
 }
 
@@ -161,7 +161,7 @@ int func_02159DEC(MapReplace *replace)
  * Check the loaded record: returns 0 when the chosen id equals ids[0],
  * 2 for a reload record (kind 1), 1 for a swap record (kind 0).
  */
-int func_02159E00(MapReplace *replace, u32 *oldId, u32 *newId)
+int MAP_REPLACE_CheckRecord(MapReplace *replace, u32 *oldId, u32 *newId)
 {
     MapReplaceRecord *record = &replace->record;
     u8 *variant = replace->variant;
@@ -180,7 +180,7 @@ int func_02159E00(MapReplace *replace, u32 *oldId, u32 *newId)
         index = variant[2];
         break;
     default:
-        index = (variant + func_02159E60(selector))[3];
+        index = (variant + MAP_REPLACE_GetFlagIndex(selector))[3];
         break;
     }
     id = record->ids[index];
@@ -197,7 +197,7 @@ int func_02159E00(MapReplace *replace, u32 *oldId, u32 *newId)
 
 
 
-int func_02159E60(int selector)
+int MAP_REPLACE_GetFlagIndex(int selector)
 {
     unsigned int i;
     for (i = 0; i < 10; i++) {
@@ -209,14 +209,14 @@ int func_02159E60(int selector)
 
 
 
-void func_02159E8C(u8 *variant, int gameSystem)
+void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
 {
-    int eventWork = func_0201296C(func_020120F4((const struct Ctx *)gameSystem));
-    int fieldMap = func_02012138((const struct Ctx *)gameSystem);
-    int infoCode = func_0202E83C((void *)gameSystem);
+    int eventWork = GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem));
+    int fieldMap = GAMESYSTEM_GetGameComm((const struct Ctx *)gameSystem);
+    int infoCode = COMM_PLAYER_SUPPORT_GetInfoCode((void *)gameSystem);
     int i;
     variant[0] = infoCode;
-    variant[1] = (func_0215843C((void *)fieldMap) != 0x15);
+    variant[1] = (INTRUDE_COMM_GetAreaOwnerVersion((void *)fieldMap) != 0x15);
     variant[2] = (variant[1] == 0) ? 0 : infoCode + 1;
     for (i = 0; i < 10; i++) {
         MapReplaceFlagEntry *entry = &d_02170FB0[i];
@@ -230,7 +230,7 @@ void func_02159E8C(u8 *variant, int gameSystem)
 
 
 
-MapReplaceFlagEntry *func_02159F04(int unused, int flagNo)
+MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo)
 {
     unsigned int i;
     for (i = 0; i < 10; i++) {
@@ -246,12 +246,12 @@ MapReplaceFlagEntry *func_02159F04(int unused, int flagNo)
 /*
  * extent: two bytes of zero alignment padding at 0x02159F52.
  */
-void func_02159F28(int gameData, int flagNo, int set)
+void MAP_REPLACE_SetFlag(int gameData, int flagNo, int set)
 {
-    MapReplaceFlagEntry *entry = func_02159F04(gameData, flagNo);
+    MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
     u16 *work;
     if (entry) {
-        work = (u16 *)func_020143CC(func_0201296C((const struct BigObj *)gameData), entry->workId);
+        work = (u16 *)func_020143CC(GAME_DATA_GetEventWork((const struct BigObj *)gameData), entry->workId);
         if (set)
             *work = entry->value;
         else
@@ -261,12 +261,12 @@ void func_02159F28(int gameData, int flagNo, int set)
 
 
 
-int func_02159F54(int gameData, int flagNo)
+int MAP_REPLACE_CheckFlag(int gameData, int flagNo)
 {
-    MapReplaceFlagEntry *entry = func_02159F04(gameData, flagNo);
+    MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
     u16 *work;
     if (entry) {
-        work = (u16 *)func_020143CC(func_0201296C((const struct BigObj *)gameData), entry->workId);
+        work = (u16 *)func_020143CC(GAME_DATA_GetEventWork((const struct BigObj *)gameData), entry->workId);
         if (entry->value == *work)
             return 1;
         else
@@ -354,7 +354,7 @@ void func_02159FA8(int warpId, int location)
 /*
  * Unlabelled leaf (push {r4,r5} only, so disasm.py prints it as .word
  * data): a 1-based index lookup over a 17-entry, 0x14-byte table.
- * Callee of ov020 func_021857C0.
+ * Callee of ov020 EVENT_MAPCHANGE_ApplyLocation.
  */
 int func_02159FE0(int zoneId)
 {
@@ -381,7 +381,7 @@ void func_0215A014(void *gameData, int zoneId)
     for (i = 0; i < 17; i++) {
         entry = &d_02170FEC[i];
         if (zoneId == entry->entryZoneId && entry->setsFlagOnEntry) {
-            func_02014314((char *)func_0201296C(gameData), entry->arriveFlag);
+            ZONEDATA_SetEventFlag((char *)GAME_DATA_GetEventWork(gameData), entry->arriveFlag);
             return;
         }
     }
@@ -403,7 +403,7 @@ void func_0215A014(void *gameData, int zoneId)
  */
 void func_0215A048(void *location, int zoneId, int unused, unsigned gridX, u16 gridZ)
 {
-    func_02014184(location, zoneId, 1, gridX << 16, 0, (unsigned)gridZ << 16);
+    ZONEDATA_SetDirectLocation(location, zoneId, 1, gridX << 16, 0, (unsigned)gridZ << 16);
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021EFF54
+ * function: NO_GEAR_SetupBackgrounds
  * address:  0x021EFF54
  * packet:   pkt_ov030_021EFF54
  * region:   ov030
@@ -15,9 +15,9 @@
  *   func_0204047C  0x0204047C  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
- *   d_021F014C     0x021F014C  data  ov030  a4
- *   d_021F016C     0x021F016C  data  ov030  a4
- *   d_021F018C     0x021F018C  data  ov030  a4
+ *   gNoGearBgTemplateMain     0x021F014C  data  ov030  a4
+ *   gNoGearBgTemplateMid     0x021F016C  data  ov030  a4
+ *   gNoGearBgTemplateBack     0x021F018C  data  ov030  a4
  */
 
 typedef unsigned char  u8;
@@ -47,11 +47,11 @@ extern void func_0204047C(int idx, unsigned short val);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
 
-extern struct BgTemplate d_021F014C;
-extern struct BgTemplate d_021F016C;
-extern struct BgTemplate d_021F018C;
+extern struct BgTemplate gNoGearBgTemplateMain;
+extern struct BgTemplate gNoGearBgTemplateMid;
+extern struct BgTemplate gNoGearBgTemplateBack;
 
-void func_021EFF54(void)
+void NO_GEAR_SetupBackgrounds(void)
 {
     int i;
 
@@ -59,7 +59,7 @@ void func_021EFF54(void)
         func_02040588((u8)i, 0);
     }
     {
-        struct BgTemplate t = d_021F014C;
+        struct BgTemplate t = gNoGearBgTemplateMain;
         func_0203FCA0(6, &t, 0);
         func_02040588((u8)6, 1);
         func_0204047C(6, 3);
@@ -67,7 +67,7 @@ void func_021EFF54(void)
         func_020409B4(6);
     }
     {
-        struct BgTemplate t = d_021F016C;
+        struct BgTemplate t = gNoGearBgTemplateMid;
         func_0203FCA0(5, &t, 0);
         func_02040588((u8)5, 1);
         func_0204047C(5, 1);
@@ -75,7 +75,7 @@ void func_021EFF54(void)
         func_020409B4(5);
     }
     {
-        struct BgTemplate t = d_021F018C;
+        struct BgTemplate t = gNoGearBgTemplateBack;
         func_0203FCA0(4, &t, 0);
         func_02040588((u8)4, 1);
         func_0204047C(4, 2);

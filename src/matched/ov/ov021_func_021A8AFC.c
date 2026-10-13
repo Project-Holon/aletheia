@@ -1,5 +1,5 @@
 /*
- * function: func_021A8AFC
+ * function: FIELD_MENU_LoadFrameBg
  * address:  0x021A8AFC
  * packet:   pkt_ov021_021A8AFC
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A92A4  0x021A92A4  thumb
+ *   FIELD_MENU_LoadScreen  0x021A92A4  thumb
  *   func_02040588  0x02040588  arm
  */
 
 typedef unsigned int   u32;
-extern void func_021A92A4(u32 a, u32 b);
+extern void FIELD_MENU_LoadScreen(u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_021A8AFC(int a, int b)
+void FIELD_MENU_LoadFrameBg(int a, int b)
 {
-    func_021A92A4(a, 4);
+    FIELD_MENU_LoadScreen(a, 4);
     if (b != 0) {
         func_02040588(4, 0);
     }

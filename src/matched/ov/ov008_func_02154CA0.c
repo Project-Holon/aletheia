@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_Create  0x02031324  arm
  */
 #include "../include/Obj18644.h"
@@ -19,17 +19,17 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void  func_0203064C(unsigned int a, unsigned int b, unsigned int c);
+extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int a0);
 
 int EVENT_BATTLE_REC_SAVE_ProcInit(void *ctx)
 {
     u8 *p;
 
-    func_0203064C(1, 0x76, 0x4000);
-    p = func_0203159C(ctx, 0x1c, 0x76);
+    GFL_HEAP_CreateChildHeap(1, 0x76, 0x4000);
+    p = PROCSYS_AllocProcWork(ctx, 0x1c, 0x76);
     ((struct Obj18644 *)p)->f0 = (unsigned int)PROCSYS_Create(0x76);
     return 1;
 }

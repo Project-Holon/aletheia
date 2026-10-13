@@ -1,5 +1,5 @@
 /*
- * function: func_021EF12C
+ * function: WEATHER_DOWNPOUR_EndFade
  * address:  0x021EF12C
  * packet:   pkt_ov025_021EF12C
  * region:   ov025
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF12C 0x021EF12C thumb ov025
- *   func_021A21B8 0x021A21B8 thumb ov021
- *   func_021A223C 0x021A223C thumb ov021
- *   func_021A2390 0x021A2390 thumb ov021
- *   func_021A23B0 0x021A23B0 thumb ov021
- *   func_021A21BC 0x021A21BC thumb ov021
- *   func_021A244C 0x021A244C thumb ov021
- *   func_021A2564 0x021A2564 thumb ov021
+ *   WEATHER_DOWNPOUR_EndFade 0x021EF12C thumb ov025
+ *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
+ *   WEATHER_TASK_StepSpawner 0x021A223C thumb ov021
+ *   WEATHER_TASK_ChangeFogOffset 0x021A2390 thumb ov021
+ *   WEATHER_TASK_IsFogIdle 0x021A23B0 thumb ov021
+ *   WEATHER_TASK_GetParticleCount 0x021A21BC thumb ov021
+ *   WEATHER_TASK_GetCameraScroll 0x021A244C thumb ov021
+ *   WEATHER_TASK_ShiftParticles 0x021A2564 thumb ov021
  */
 
 typedef signed int     s32;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern int *func_021A21B8(int *p);
-extern int func_021A223C(unsigned char *o, int arg);
-extern void func_021A2390(u32 *p, int a, int b, int c);
-extern int func_021A23B0(u32 a);
-extern int func_021A21BC(unsigned char *o);
-extern void func_021A244C(u8 *o, s32 *outX, s32 *outY);
-extern void func_021A2564(int, int, int);
+extern int *WEATHER_TASK_GetWorkBuffer(int *p);
+extern int WEATHER_TASK_StepSpawner(unsigned char *o, int arg);
+extern void WEATHER_TASK_ChangeFogOffset(u32 *p, int a, int b, int c);
+extern int WEATHER_TASK_IsFogIdle(u32 a);
+extern int WEATHER_TASK_GetParticleCount(unsigned char *o);
+extern void WEATHER_TASK_GetCameraScroll(u8 *o, s32 *outX, s32 *outY);
+extern void WEATHER_TASK_ShiftParticles(int, int, int);
 
-int func_021EF12C(int a, int b, int c)
+int WEATHER_DOWNPOUR_EndFade(int a, int b, int c)
 {
     int *p;
     int t;
@@ -39,20 +39,20 @@ int func_021EF12C(int a, int b, int c)
     int y;
     int ok;
 
-    p = func_021A21B8((int *)a);
-    t = func_021A223C((unsigned char *)a, c);
+    p = WEATHER_TASK_GetWorkBuffer((int *)a);
+    t = WEATHER_TASK_StepSpawner((unsigned char *)a, c);
     if (*p > 0) {
         *p = *p - 1;
         if (*p == 0) {
-            func_021A2390((u32 *)a, 0x7FDF, 0x3C, b);
+            WEATHER_TASK_ChangeFogOffset((u32 *)a, 0x7FDF, 0x3C, b);
         }
     } else {
-        ok = (b != 0) ? func_021A23B0(a) : 1;
-        if (ok != 0 && t != 0 && func_021A21BC((unsigned char *)a) == 0) {
+        ok = (b != 0) ? WEATHER_TASK_IsFogIdle(a) : 1;
+        if (ok != 0 && t != 0 && WEATHER_TASK_GetParticleCount((unsigned char *)a) == 0) {
             return 1;
         }
     }
-    func_021A244C((u8 *)a, &x, &y);
-    func_021A2564(a, x, y);
+    WEATHER_TASK_GetCameraScroll((u8 *)a, &x, &y);
+    WEATHER_TASK_ShiftParticles(a, x, y);
     return 0;
 }

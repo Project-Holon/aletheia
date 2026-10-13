@@ -15,7 +15,7 @@
  * gives the later-born address temp the lower register (r1) and the table base r2, so the table
  * load stays below the f1C store.
  * symbols:
- *   d_021B3C84     0x021B3C84  data  ov013  a4
+ *   gVctSendState     0x021B3C84  data  ov013  a4
  *   d_021B3C24     0x021B3C24  data  ov013  a4
  *   gVctSession     0x021B60D8  data  ov013  a4
  *   d_021B3AD0     0x021B3AD0  data  ov013  a1
@@ -67,7 +67,7 @@ typedef struct {
     u8 raw[0x94];
 } Slot;
 
-extern Ctx3C84 d_021B3C84;
+extern Ctx3C84 gVctSendState;
 extern int d_021B3C24;
 extern Ctx60D8 gVctSession;
 typedef struct {
@@ -100,19 +100,19 @@ int VCT_SESSION_Init(void)
     u32 i;
     u32 k;
 
-    d_021B3C84.f0 = func_02087170();
+    gVctSendState.f0 = func_02087170();
     d_021B3C24 = 1;
-    d_021B3C84.f20 = 0;
-    d_021B3C84.f4 = 0;
+    gVctSendState.f20 = 0;
+    gVctSendState.f4 = 0;
     k = 0;
     if (gVctSession.f10 != 1) {
         k = 4;
-        d_021B3C84.f1C = k;
+        gVctSendState.f1C = k;
     } else {
-        d_021B3C84.f1C = k;
+        gVctSendState.f1C = k;
     }
-    d_021B3C84.f24 = 0x440;
-    d_021B3C84.fC = pairValue(k);
+    gVctSendState.f24 = 0x440;
+    gVctSendState.fC = pairValue(k);
     d_021B42C0.f8C0 = 0;
     d_021B42C0.f8C4 = 0;
     d_021B42C0.f8CC = 0;

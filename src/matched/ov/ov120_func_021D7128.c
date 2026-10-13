@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
@@ -19,16 +19,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Record { u16 x, y, z; u8 a, b; } Record;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D7128(u8 *p, int n, int k)
 {
     Record r;
-    if (*(void **)(p + 0x14c + n * 4)) func_0204B3B4(*(void **)(p + 0x14c + n * 4));
+    if (*(void **)(p + 0x14c + n * 4)) CLACT_DeleteActor(*(void **)(p + 0x14c + n * 4));
     r.x = 0; r.y = 0; r.z = 1; r.a = 10; r.b = 2;
-    *(void **)(p + 0x14c + n * 4) = func_0204B294((void *)((struct Obj10396 *)p)->f10, *(u32 *)(p + (k + 6) * 4 + 0x18), ((struct Obj10396 *)p)->f20, *(u32 *)(p + (k + 25) * 4 + 0x18), &r, 1, ((struct Obj10396 *)p)->fF4);
+    *(void **)(p + 0x14c + n * 4) = CLACT_CreateActor((void *)((struct Obj10396 *)p)->f10, *(u32 *)(p + (k + 6) * 4 + 0x18), ((struct Obj10396 *)p)->f20, *(u32 *)(p + (k + 25) * 4 + 0x18), &r, 1, ((struct Obj10396 *)p)->fF4);
     func_0204B92C(*(void **)(p + 0x14c + n * 4), 1);
     func_0204B3DC(*(void **)(p + 0x14c + n * 4), 0);
 }

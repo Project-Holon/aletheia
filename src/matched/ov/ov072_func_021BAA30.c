@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA30
+ * function: TOWNMAP_TownSetShown
  * address:  0x021BAA30
  * packet:   pkt_ov072_021BAA30
  * region:   ov072
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA774  0x021BA774  thumb  ov072
- *   func_021BADBC  0x021BADBC  thumb  ov072
+ *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
+ *   TOWNMAP_TownSetFrame  0x021BADBC  thumb  ov072
  *   func_0204B3DC  0x0204B3DC  arm
  */
 
@@ -30,12 +30,12 @@ typedef struct {
     int f40;
 } W;
 
-extern int func_021BA774(char *p, int i);
-extern void func_021BADBC(char *p, int v);
+extern int TOWNMAP_TownGetField(char *p, int i);
+extern void TOWNMAP_TownSetFrame(char *p, int v);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 
-void func_021BAA30(W *p, int a)
+void TOWNMAP_TownSetShown(W *p, int a)
 {
     if (p->obj == 0 || p->f32 == 0xff) {
         return;
@@ -44,8 +44,8 @@ void func_021BAA30(W *p, int a)
         func_0204B3DC((struct Obj *)p->obj, 0);
         return;
     }
-    if (func_021BA774((char *)p, 11) == 4 || func_021BA774((char *)p, 11) == 5) {
-        func_021BADBC((char *)p, p->f30);
+    if (TOWNMAP_TownGetField((char *)p, 11) == 4 || TOWNMAP_TownGetField((char *)p, 11) == 5) {
+        TOWNMAP_TownSetFrame((char *)p, p->f30);
         func_0204B3DC((struct Obj *)p->obj, 1);
     } else {
         func_0204B3DC((struct Obj *)p->obj, a);

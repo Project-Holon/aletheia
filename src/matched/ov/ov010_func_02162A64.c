@@ -1,5 +1,5 @@
 /*
- * function: func_02162A64
+ * function: EVENTDATA_SYSTEM_GetConnectCenterPosThunk
  * address:  0x02162A64
  * packet:   pkt_ov010_02162A64
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Unlabelled leaf (tail-call thunk, a .word run in the ov010 listing) to
- * func_02162CE8.  Blocker of ov061 func_021F388C.
+ * EVENTDATA_SYSTEM_GetConnectCenterPos.  Blocker of ov061 func_021F388C.
  *
  * symbols:
- *   func_02162CE8  0x02162CE8  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetConnectCenterPos  0x02162CE8  thumb  ov010
  */
 
 typedef struct {
@@ -22,9 +22,9 @@ typedef struct {
     int c;
 } V3;
 
-extern void func_02162CE8(const void *p, V3 *out);
+extern void EVENTDATA_SYSTEM_GetConnectCenterPos(const void *p, V3 *out);
 
-void func_02162A64(const void *p, V3 *out)
+void EVENTDATA_SYSTEM_GetConnectCenterPosThunk(const void *p, V3 *out)
 {
-    func_02162CE8(p, out);
+    EVENTDATA_SYSTEM_GetConnectCenterPos(p, out);
 }

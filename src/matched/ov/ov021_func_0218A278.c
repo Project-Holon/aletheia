@@ -1,5 +1,5 @@
 /*
- * function: func_0218A278
+ * function: FIELD_EVENT_CHECK_CheckRailEvents
  * address:  0x0218A278
  * packet:   pkt_ov021_0218A278
  * region:   ov021
@@ -10,40 +10,40 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218A4E0  0x0218A4E0  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0219E634  0x0219E634  thumb  ov021
- *   func_0218A738  0x0218A738  thumb  ov021
- *   func_0218A728  0x0218A728  thumb  ov021
- *   func_0201296C  0x0201296C  thumb
- *   func_0219E2F4  0x0219E2F4  thumb  ov021
- *   func_02162958  0x02162958  thumb  ov010
- *   func_02158768  0x02158768  thumb  ov010
- *   func_0218B0CC  0x0218B0CC  thumb  ov021
- *   func_0218A9B0  0x0218A9B0  thumb  ov021
- *   func_0218B208  0x0218B208  thumb  ov021
- *   func_0218B53C  0x0218B53C  thumb  ov021
- *   func_0216D5B8  0x0216D5B8  thumb  ov010
- *   func_02158D90  0x02158D90  thumb  ov010
- *   func_021A2F6C  0x021A2F6C  thumb  ov021
+ *   FIELD_EVENT_CHECK_InitInput  0x0218A4E0  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_RAIL_GetFrontLocation  0x0219E634  thumb  ov021
+ *   FIELD_EVENT_CHECK_StartPendingScript  0x0218A738  thumb  ov021
+ *   FIELD_EVENT_CHECK_AddStepRecord  0x0218A728  thumb  ov021
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb  ov021
+ *   EVENTDATA_SYSTEM_GetRailPosEventScriptId  0x02162958  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
+ *   FIELD_EVENT_CHECK_CheckRailConnect  0x0218B0CC  thumb  ov021
+ *   FIELD_EVENT_CHECK_CheckStepEvents  0x0218A9B0  thumb  ov021
+ *   FIELD_EVENT_CHECK_CheckWildEncount  0x0218B208  thumb  ov021
+ *   FIELD_EVENT_CHECK_SearchRailFrontMmdl  0x0218B53C  thumb  ov021
+ *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
+ *   SCRIPT_SYS_IsZoneScriptId  0x02158D90  thumb  ov010
+ *   FIELD_PLAYER_ResetMoveWork  0x021A2F6C  thumb  ov021
  *   func_0219F01C  0x0219F01C  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_02162A5C  0x02162A5C  thumb  ov010
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_0218B310  0x0218B310  thumb  ov021
- *   func_0218B13C  0x0218B13C  thumb  ov021
- *   func_0218B24C  0x0218B24C  thumb  ov021
- *   func_020221A4  0x020221A4  thumb
- *   func_02188CCC  0x02188CCC  thumb  ov021
- *   func_0215FF34  0x0215FF34  thumb  ov010
- *   func_021A0ED4  0x021A0ED4  thumb  ov021
- *   func_0215FF54  0x0215FF54  thumb  ov010
- *   func_0201212C  0x0201212C  thumb
- *   func_021C06CC  0x021C06CC  thumb  ov021
- *   func_021A0F90  0x021A0F90  thumb  ov021
- *   func_0215FC40  0x0215FC40  thumb  ov010
- *   func_021A0EB0  0x021A0EB0  thumb  ov021
- *   func_0218ACA8  0x0218ACA8  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden  0x02162A5C  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_EVENT_CHECK_IsRailFrontFree  0x0218B310  thumb  ov021
+ *   FIELD_EVENT_CHECK_CheckRailConnectFront  0x0218B13C  thumb  ov021
+ *   FIELD_EVENT_CHECK_CheckRailSignBoard  0x0218B24C  thumb  ov021
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
+ *   EVENT_SHORTCUT_MENU_HasShortcuts  0x0215FF34  thumb  ov010
+ *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
+ *   EVENT_SHORTCUT_MENU_Create  0x0215FF54  thumb  ov010
+ *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
+ *   EVENT_COMM_ERROR_Create  0x021C06CC  thumb  ov021
+ *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
+ *   SCRCMD_NETWORK_CreateBattleRecordLinkEvent  0x0215FC40  thumb  ov010
+ *   FIELD_SUBSCREEN_CheckModeRequest  0x021A0EB0  thumb  ov021
+ *   FIELD_EVENT_CHECK_CreateGPowerExpireEvent  0x0218ACA8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -87,49 +87,49 @@ struct FieldInput {
 typedef struct Cell { u16 x, y, z, w; } Cell;
 
 struct Obj00020;
-extern void func_0218A4E0(struct FieldInput *p, void *sys, struct Obj00020 *pos);
+extern void FIELD_EVENT_CHECK_InitInput(struct FieldInput *p, void *sys, struct Obj00020 *pos);
 struct BigObj;
 struct Ctx;
 struct Desc;
-extern void *func_021A3074(u8 *p);
-extern int func_0219E634(void *a, u32 b);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern int FLDMMDL_RAIL_GetFrontLocation(void *a, u32 b);
 struct Ctx738;
 struct Ctx9B0;
 struct FieldCtx;
-extern int func_0218A738(struct Ctx738 *c);
-extern int func_0218A728(void *a);
-extern u32 func_0201296C(const struct BigObj *p);
-extern void func_0219E2F4(void *o, void *out);
-extern u16 func_02162958(void *c, void *a, int key);
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-extern int func_0218B0CC(char *p, void *unused, void *x);
-extern int func_0218A9B0(struct Ctx9B0 *p, u8 *pos);
-extern int func_0218B208(struct FieldCtx *p, void *unused, u8 *pos);
-extern int func_0218B53C(unsigned char *p, void *b);
-extern u32 func_0216D5B8(void *p);
-extern int func_02158D90(u16 v);
-extern void func_021A2F6C(u32 *p);
+extern int FIELD_EVENT_CHECK_StartPendingScript(struct Ctx738 *c);
+extern int FIELD_EVENT_CHECK_AddStepRecord(void *a);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void FLDMMDL_RAIL_GetNextLocation(void *o, void *out);
+extern u16 EVENTDATA_SYSTEM_GetRailPosEventScriptId(void *c, void *a, int key);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+extern int FIELD_EVENT_CHECK_CheckRailConnect(char *p, void *unused, void *x);
+extern int FIELD_EVENT_CHECK_CheckStepEvents(struct Ctx9B0 *p, u8 *pos);
+extern int FIELD_EVENT_CHECK_CheckWildEncount(struct FieldCtx *p, void *unused, u8 *pos);
+extern int FIELD_EVENT_CHECK_SearchRailFrontMmdl(unsigned char *p, void *b);
+extern u32 FLDMMDL_GetEventId(void *p);
+extern int SCRIPT_SYS_IsZoneScriptId(u16 v);
+extern void FIELD_PLAYER_ResetMoveWork(u32 *p);
 extern int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
-extern u16 func_0216D5F8(void *obj);
-extern u16 func_02162A5C(void *set, void *flags, const void *where, u16 type);
+extern u16 FLDMMDL_GetDirDisp(void *obj);
+extern u16 EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(void *set, void *flags, const void *where, u16 type);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern int func_0218B310(void *a, unsigned char *s);
-extern int func_0218B13C(char *p, void *unused, void *x, int *alt);
-extern int func_0218B24C(char *p, void *q, void *x);
-extern u32 func_020221A4(void);
-extern u32 func_02188CCC(u8 *p);
-extern int func_0215FF34(void *sys);
-extern int func_021A0ED4(u32 a);
-extern struct Desc *func_0215FF54(int a0, int a1, u16 a2);
-extern u8 func_0201212C(const struct Ctx *p);
-extern int func_021C06CC(void *sys, u8 *pos);
-extern u32 func_021A0F90(u8 *p);
-extern struct Desc *func_0215FC40(int a0, int a1, u16 a2);
-extern int func_021A0EB0(u32 *p, u32 a);
-extern struct Desc *func_0218ACA8(void *a);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern int FIELD_EVENT_CHECK_IsRailFrontFree(void *a, unsigned char *s);
+extern int FIELD_EVENT_CHECK_CheckRailConnectFront(char *p, void *unused, void *x, int *alt);
+extern int FIELD_EVENT_CHECK_CheckRailSignBoard(char *p, void *q, void *x);
+extern u32 WIPE_SYS_EndCheck(void);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
+extern int EVENT_SHORTCUT_MENU_HasShortcuts(void *sys);
+extern int FIELD_SUBSCREEN_IsIdle(u32 a);
+extern struct Desc *EVENT_SHORTCUT_MENU_Create(int a0, int a1, u16 a2);
+extern u8 GAMESYSTEM_GetFieldMapState(const struct Ctx *p);
+extern int EVENT_COMM_ERROR_Create(void *sys, u8 *pos);
+extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
+extern struct Desc *SCRCMD_NETWORK_CreateBattleRecordLinkEvent(int a0, int a1, u16 a2);
+extern int FIELD_SUBSCREEN_CheckModeRequest(u32 *p, u32 a);
+extern struct Desc *FIELD_EVENT_CHECK_CreateGPowerExpireEvent(void *a);
 
-int func_0218A278(void *sys, struct Obj00020 *pos)
+int FIELD_EVENT_CHECK_CheckRailEvents(void *sys, struct Obj00020 *pos)
 {
     struct FieldInput in;
     Cell here;
@@ -139,87 +139,87 @@ int func_0218A278(void *sys, struct Obj00020 *pos)
     int r;
     u32 msg;
 
-    func_0218A4E0(&in, sys, (struct Obj00020 *)pos);
-    model = func_021A3074((u8 *)in.f18);
-    func_0219E634(model, (u32)(&here));
-    r = func_0218A738((struct Ctx738 *)(&in));
+    FIELD_EVENT_CHECK_InitInput(&in, sys, (struct Obj00020 *)pos);
+    model = FIELD_PLAYER_GetMmdl((u8 *)in.f18);
+    FLDMMDL_RAIL_GetFrontLocation(model, (u32)(&here));
+    r = FIELD_EVENT_CHECK_StartPendingScript((struct Ctx738 *)(&in));
     if (r != 0)
         return r;
     if (in.b2)
-        func_0218A728(in.f8);
+        FIELD_EVENT_CHECK_AddStepRecord(in.f8);
     if (in.b2) {
-        void *obj = func_021A3074((u8 *)in.f18);
-        void *flags = (void *)func_0201296C(in.f8);
+        void *obj = FIELD_PLAYER_GetMmdl((u8 *)in.f18);
+        void *flags = (void *)GAME_DATA_GetEventWork(in.f8);
 
-        func_0219E2F4(obj, cur);
-        msg = func_02162958(in.fC, flags, (int)cur);
+        FLDMMDL_RAIL_GetNextLocation(obj, cur);
+        msg = EVENTDATA_SYSTEM_GetRailPosEventScriptId(in.fC, flags, (int)cur);
         if (msg != 0xFFFF)
-            return (int)func_02158768((int)sys, msg, 0, in.f0);
-        r = func_0218B0CC((char *)(&in), sys, pos);
+            return (int)SCRIPT_SYS_CreateScriptEventSimple((int)sys, msg, 0, in.f0);
+        r = FIELD_EVENT_CHECK_CheckRailConnect((char *)(&in), sys, pos);
         if (r != 0)
             return r;
-        r = func_0218A9B0((struct Ctx9B0 *)(&in), (u8 *)pos);
+        r = FIELD_EVENT_CHECK_CheckStepEvents((struct Ctx9B0 *)(&in), (u8 *)pos);
         if (r != 0)
             return r;
     }
-    r = func_0218B208((struct FieldCtx *)(&in), sys, (u8 *)pos);
+    r = FIELD_EVENT_CHECK_CheckWildEncount((struct FieldCtx *)(&in), sys, (u8 *)pos);
     if (r != 0)
         return r;
     if (in.b0) {
-        int target = func_0218B53C((unsigned char *)(&in), pos);
+        int target = FIELD_EVENT_CHECK_SearchRailFrontMmdl((unsigned char *)(&in), pos);
         void *flags;
         u16 d;
 
         if (target != 0) {
-            u32 kind = func_0216D5B8((void *)target);
+            u32 kind = FLDMMDL_GetEventId((void *)target);
 
-            if (func_02158D90(kind) == 1) {
-                void *m = func_021A3074((u8 *)in.f18);
+            if (SCRIPT_SYS_IsZoneScriptId(kind) == 1) {
+                void *m = FIELD_PLAYER_GetMmdl((u8 *)in.f18);
 
-                func_021A2F6C((u32 *)in.f18);
+                FIELD_PLAYER_ResetMoveWork((u32 *)in.f18);
                 return func_0219F01C((u32)sys, (u32)pos, kind, (u32)m, target, in.f0);
             }
         }
-        flags = (void *)func_0201296C(in.f8);
-        d = func_0216D5F8(model);
+        flags = (void *)GAME_DATA_GetEventWork(in.f8);
+        d = FLDMMDL_GetDirDisp(model);
         copy = here;
-        msg = func_02162A5C(in.fC, flags, &copy, d);
+        msg = EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(in.fC, flags, &copy, d);
         if (msg != 0xFFFF)
-            return (int)func_02158768((int)sys, msg, 0, in.f0);
+            return (int)SCRIPT_SYS_CreateScriptEventSimple((int)sys, msg, 0, in.f0);
     }
-    if (in.b5 && func_0218B310(func_02188CB4(pos), (unsigned char *)(&in)) == 0) {
-        r = func_0218B13C((char *)(&in), sys, pos, (int *)(&here));
+    if (in.b5 && FIELD_EVENT_CHECK_IsRailFrontFree(FIELDMAP_GetFieldPlayer(pos), (unsigned char *)(&in)) == 0) {
+        r = FIELD_EVENT_CHECK_CheckRailConnectFront((char *)(&in), sys, pos, (int *)(&here));
         if (r != 0)
             return r;
     }
-    r = func_0218B24C((char *)(&in), sys, pos);
+    r = FIELD_EVENT_CHECK_CheckRailSignBoard((char *)(&in), sys, pos);
     if (r != 0)
         return r;
-    if (in.b6 && func_020221A4()) {
-        void *pl = (void *)func_02188CCC((u8 *)pos);
+    if (in.b6 && WIPE_SYS_EndCheck()) {
+        void *pl = (void *)FIELDMAP_GetSubscreen((u8 *)pos);
 
-        if (func_0215FF34(sys) && func_021A0ED4((u32)pl)) {
-            r = (int)func_0215FF54((int)sys, (int)pos, in.f0);
+        if (EVENT_SHORTCUT_MENU_HasShortcuts(sys) && FIELD_SUBSCREEN_IsIdle((u32)pl)) {
+            r = (int)EVENT_SHORTCUT_MENU_Create((int)sys, (int)pos, in.f0);
             if (r != 0)
                 return r;
         }
     }
-    if (func_0201212C(sys) == 1 && func_020221A4() && in.b10)
-        return func_021C06CC(sys, (u8 *)pos);
-    if (in.b1 && func_020221A4()) {
-        if (func_021A0F90((void *)func_02188CCC((u8 *)pos)) == 6)
+    if (GAMESYSTEM_GetFieldMapState(sys) == 1 && WIPE_SYS_EndCheck() && in.b10)
+        return EVENT_COMM_ERROR_Create(sys, (u8 *)pos);
+    if (in.b1 && WIPE_SYS_EndCheck()) {
+        if (FIELD_SUBSCREEN_GetMode((void *)FIELDMAP_GetSubscreen((u8 *)pos)) == 6)
             return 0;
-        return (int)func_0215FC40((int)sys, (int)pos, in.f0);
+        return (int)SCRCMD_NETWORK_CreateBattleRecordLinkEvent((int)sys, (int)pos, in.f0);
     }
     {
-        u32 f = (in.b7 && func_020221A4()) ? 1 : 0;
+        u32 f = (in.b7 && WIPE_SYS_EndCheck()) ? 1 : 0;
 
-        r = func_021A0EB0((void *)func_02188CCC((u8 *)pos), f);
+        r = FIELD_SUBSCREEN_CheckModeRequest((void *)FIELDMAP_GetSubscreen((u8 *)pos), f);
         if (r != 0)
             return r;
     }
-    if (in.b7 && func_020221A4()) {
-        r = (int)func_0218ACA8(sys);
+    if (in.b7 && WIPE_SYS_EndCheck()) {
+        r = (int)FIELD_EVENT_CHECK_CreateGPowerExpireEvent(sys);
         if (r != 0)
             return r;
     }

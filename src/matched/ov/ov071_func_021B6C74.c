@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf called by func_021B7EE0: the state byte of entry i of
+ * Unlabelled leaf called by MONOLITH_TOOL_MENU_Update: the state byte of entry i of
  * the 8-byte table at p + 0xC (field +2, see func_021B6C7C).
  */
 

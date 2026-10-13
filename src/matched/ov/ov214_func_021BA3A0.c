@@ -10,9 +10,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201FDA0 0x0201FDA0 thumb
+ *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  */
 #include "../include/Obj10937.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-struct WinDat;struct BmpMenu;extern struct BmpMenu *func_0201FDA0(const struct WinDat *,u16,u8,u8,u16);
-void func_021BA3A0(int unused,u8 *p){*(struct BmpMenu * *)&((struct Obj10937 *)p)->f88=func_0201FDA0((const struct WinDat *)(p+0x80),((struct Obj10937 *)p)->f74,10,0,((struct Obj10937 *)p)->f0);}
+struct WinDat;struct BmpMenu;extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
+void func_021BA3A0(int unused,u8 *p){*(struct BmpMenu * *)&((struct Obj10937 *)p)->f88=BMP_MENU_CreateYesNo((const struct WinDat *)(p+0x80),((struct Obj10937 *)p)->f74,10,0,((struct Obj10937 *)p)->f0);}

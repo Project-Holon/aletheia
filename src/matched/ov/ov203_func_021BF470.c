@@ -14,7 +14,7 @@
  * padding: 0x021BF4C2..0x021BF4C4 is zero alignment padding.
  * symbols:
  *   func_0201CE48 0x0201CE48 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
  *   func_020452E8 0x020452E8 arm
@@ -28,7 +28,7 @@ struct Descriptor;
 struct Rec3;
 struct U16Vec;
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201DD68(void);
 extern void func_0201F7A8(void *,unsigned);
 extern u32 func_020452E8(struct Descriptor *d);
@@ -39,7 +39,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 void func_021BF470(char *p)
 {
     if(*(void **)(p+0x20)) func_0201CE48(*(void **)(p+0x20));
-    func_02045808(*(void **)(p+0x24));func_0201DD68();
+    STRBUF_Delete(*(void **)(p+0x24));func_0201DD68();
     func_0201F7A8(*(void **)(p+0x1C),1);func_020452E8(*(void **)(p+0x1C));
     func_0201F614(1,*(int *)(p+0x18));func_02082BCC(p,0,0x28);
     func_0204047C(1,1);func_0204047C(0,0);func_02040588(1,0);

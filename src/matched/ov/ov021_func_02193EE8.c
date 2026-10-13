@@ -1,5 +1,5 @@
 /*
- * function: func_02193EE8
+ * function: FIELD_WFBC_StoreSaveData
  * address:  0x02193EE8
  * packet:   pkt_ov021_02193EE8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021938FC  0x021938FC  thumb  ov021
+ *   FIELD_WFBC_WriteSaveData  0x021938FC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -42,10 +42,10 @@ typedef struct V {
     Tbl *f08;
 } V;
 
-extern void func_021938FC(void *v);
+extern void FIELD_WFBC_WriteSaveData(void *v);
 
-void func_02193EE8(V *v)
+void FIELD_WFBC_StoreSaveData(V *v)
 {
     if (v->f01 == 0 && v->f08 != 0)
-        func_021938FC(v);
+        FIELD_WFBC_WriteSaveData(v);
 }

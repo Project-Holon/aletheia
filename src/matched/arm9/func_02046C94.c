@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02046C94
+ * function: G3D_SYSTEM_GetResourceSize
  * address:  0x02046C94
  * packet:   pkt_020461F4
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02046C94(void){ return 8; }
+int G3D_SYSTEM_GetResourceSize(void){ return 8; }

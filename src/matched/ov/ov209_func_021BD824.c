@@ -12,16 +12,16 @@
  * symbols:
  *   func_021BDD5C 0x021BDD5C thumb
  *   func_021BDBA8 0x021BDBA8 thumb
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  */
 
 extern void func_021BDD5C(char *p);
 extern void func_021BDBA8(char *p);
-extern void func_0204A5AC(void);
+extern void CLACT_ExitSystem(void);
 
 void func_021BD824(char *a)
 {
     func_021BDD5C(a);
     func_021BDBA8(a);
-    func_0204A5AC();
+    CLACT_ExitSystem();
 }

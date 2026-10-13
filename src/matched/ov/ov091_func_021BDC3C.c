@@ -1,5 +1,5 @@
 /*
- * function: func_021BDC3C
+ * function: PLIST_DEMO_ApplyGiratinaOriginForm
  * address: 0x021BDC3C
  * packet: pkt_ov091_021BDC3C
  * region: ov091
@@ -10,16 +10,16 @@
  * status: EXACT*
  * Extent tail: two bytes of alignment padding at 0x021BDC5A.
  * symbols:
- *   func_02017988 0x02017988 thumb
+ *   POKE_TOOL_ChangeForm 0x02017988 thumb
  *   func_0200CDE0 0x0200CDE0 thumb
  */
 #include "../include/Obj20927.h"
 typedef unsigned int u32;
 struct Blk37;
-extern u32 func_02017988(void *, u32);
+extern u32 POKE_TOOL_ChangeForm(void *, u32);
 extern void func_0200CDE0(struct Blk37 *, void *);
-void func_021BDC3C(u32 p, void *m)
+void PLIST_DEMO_ApplyGiratinaOriginForm(u32 p, void *m)
 {
-    func_02017988(m, 1);
+    POKE_TOOL_ChangeForm(m, 1);
     func_0200CDE0(*(struct Blk37 **)(((struct Obj20927 *)p)->f280 + 0x18), m);
 }

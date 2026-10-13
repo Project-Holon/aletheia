@@ -12,7 +12,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021BAF14 0x021BAF14 data a4
  * prototype: 49238 asm body saves entry r0 and forwards it to destructors; retain caller's resource argument.
  */
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021B9794(int a,u16 heap,int index)
 {
     void *p;
@@ -35,5 +35,5 @@ void func_021B9794(int a,u16 heap,int index)
     func_02049B68(p,4,4,0,0,heap);
     func_02049658(p,3,6,0,0,0,heap);
     func_020498F4(p,5,6,0,0,0,heap);
-    func_02049238(p);
+    ARC_TOOL_DeleteHandle(p);
 }

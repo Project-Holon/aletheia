@@ -14,11 +14,11 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_021F4FF4  0x021F4FF4  thumb
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020362DC  0x020362DC  arm
  *   func_020355C4  0x020355C4  arm
- *   func_0204B9A0  0x0204B9A0  arm
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   tbl_022038E0   0x022038E0  data  a2
  */
 
@@ -50,11 +50,11 @@ extern void func_021F4FF4(u32 a, u32 b, u32 c);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 struct Actor;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 
 int func_022005EC(Work *p)
 {
@@ -66,7 +66,7 @@ int func_022005EC(Work *p)
         func_020061E4(0x548);
         func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_0204B878((struct Obj *)p->cursor, 1);
+        CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
         func_020355D8(1);
         if (p->sel == 2) {
@@ -86,12 +86,12 @@ int func_022005EC(Work *p)
         p->sel = 2;
         func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_0204B878((struct Obj *)p->cursor, 1);
+        CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
         func_020061E4(0x551);
     } else if (func_020362DC() & 1) {
         func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_0204B878((struct Obj *)p->cursor, 1);
+        CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 1);
         p->state = 0xE;
         func_020061E4(0x54C);
     } else if (func_020362DC() & 0x40) {
@@ -99,7 +99,7 @@ int func_022005EC(Work *p)
             p->sel--;
             func_020061E4(0x548);
             func_0204B3DC((struct Obj *)p->cursor, 1);
-            func_0204B9A0((struct Actor *)p->cursor);
+            CLACT_RestartActorAnim((struct Actor *)p->cursor);
             func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
     } else if (func_020362DC() & 0x80) {
@@ -107,7 +107,7 @@ int func_022005EC(Work *p)
             p->sel++;
             func_020061E4(0x548);
             func_0204B3DC((struct Obj *)p->cursor, 1);
-            func_0204B9A0((struct Actor *)p->cursor);
+            CLACT_RestartActorAnim((struct Actor *)p->cursor);
             func_021F4FF4(p->cursor, tbl_022038E0[p->sel].x, tbl_022038E0[p->sel].y);
         }
     }

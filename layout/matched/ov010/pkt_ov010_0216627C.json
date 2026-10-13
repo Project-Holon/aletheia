@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216627C",
+   "name": "GAME_BEACON_ACCESSOR_IsDistributionSerialInvalid",
    "address": "0x0216627C",
    "kind": "game",
    "region": "ov010",

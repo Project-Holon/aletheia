@@ -1,5 +1,5 @@
 /*
- * function: func_02197E10
+ * function: FLDMMDL_ACMD_ListStateSetCmd
  * address:  0x02197E10
  * packet:   pkt_02197E10
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D410  0x0216D410  thumb  ov010
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09177.h"
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0216D410(void *a0, u16 a1);
+extern void FLDMMDL_SetAcmd(void *a0, u16 a1);
 
-int func_02197E10(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_ACMD_ListStateSetCmd(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D410((void *)(((struct Obj09177 *)((u8 *)(a)))->fC), *(u16 *)((u8 *)(((struct Obj09177 *)((u8 *)(a)))->f10)));
+FLDMMDL_SetAcmd((void *)(((struct Obj09177 *)((u8 *)(a)))->fC), *(u16 *)((u8 *)(((struct Obj09177 *)((u8 *)(a)))->f10)));
 ((struct Obj09177 *)((u8 *)(a)))->f0 = 3;
 return 0;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021802A8",
+   "name": "EVENT_COMM_COMMON_ChangeTalkTypeEvent",
    "address": "0x021802A8",
    "kind": "game",
    "region": "ov018",

@@ -15,7 +15,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_021B9C08 0x021B9C08 thumb ov133
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
  */
 #include "../include/Obj00004.h"
@@ -33,7 +33,7 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_021B9C08(u8 *, unsigned int, void *);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 void func_021B9CBC(u8 *p, u8 *entry)
 {
@@ -46,7 +46,7 @@ void func_021B9CBC(u8 *p, u8 *entry)
     func_0201EE0C(obj, 0, a, 0, 1, 2);
     func_0201EE0C(obj, 1, b, 0, 1, 2);
     func_021B9C08(p, 3, obj);
-    func_02045808(b);
-    func_02045808(a);
+    STRBUF_Delete(b);
+    STRBUF_Delete(a);
     func_0201ED04(obj);
 }

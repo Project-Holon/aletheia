@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021B8D8C  0x021B8D8C  thumb  ov093
  *   func_0201BD28  0x0201BD28  thumb
  *   func_020061E4  0x020061E4  thumb
@@ -31,7 +31,7 @@ typedef struct {
     void *win;            /* 0x54 */
 } Seq;
 
-extern u32 func_021CD9E0(u8 *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern int func_021B8D8C(void *p, void *a, u32 b);
 struct S;
 extern u32 func_0201BD28(u16 id, u32 field);
@@ -47,7 +47,7 @@ int func_021D2278(Seq *s, int *state, u32 *a)
 
     switch (*state) {
     case 0:
-        if (func_021CD9E0((u8 *)s) == 0) {
+        if (BTL_CLIENT_IsMainStepActive((u8 *)s) == 0) {
             t = func_021B8D8C((void *)s->unk00, (void *)s->unk04, (u8)a[0]);
             func_021EA0A0(s->win, t, t, 1, func_0201BD28(1, 0x1B), 0, 0);
         }
@@ -56,7 +56,7 @@ int func_021D2278(Seq *s, int *state, u32 *a)
     case 1:
         if (func_021EA0E4(s->win)) {
             t = func_021B8D8C((void *)s->unk00, (void *)s->unk04, (u8)a[0]);
-            if (func_021CD9E0((u8 *)s) == 0) {
+            if (BTL_CLIENT_IsMainStepActive((u8 *)s) == 0) {
                 func_020061E4(0x564);
             }
             func_021EA0F4(s->win, 1, t, 1);

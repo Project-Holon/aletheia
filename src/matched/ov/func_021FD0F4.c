@@ -10,10 +10,11 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *
 
  *
- * Tail call into func_0204B3B4 with the pointer held at +0xd08.
+ * Tail call into CLACT_DeleteActor with the pointer held at +0xd08.
  */
 #include "../include/Obj18570.h"
 
@@ -21,9 +22,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021FD0F4(u8 *p)
 {
-    func_0204B3B4((struct Obj *)(((struct Obj18570 *)p)->fD08));
+    CLACT_DeleteActor((struct Obj *)(((struct Obj18570 *)p)->fD08));
 }

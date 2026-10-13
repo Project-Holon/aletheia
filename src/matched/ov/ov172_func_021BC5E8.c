@@ -15,13 +15,13 @@
  *   func_021BDFE4  0x021BDFE4  thumb  ov172
  *   func_020061E4  0x020061E4  thumb
  *   func_021BCEF8  0x021BCEF8  thumb  ov172
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B404  0x0204B404  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   APP_TASKMENU_WIN_IsTouch  0x0202824C  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   func_0200616C  0x0200616C  thumb
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020362DC  0x020362DC  arm
  *   d_021C7040     0x021C7040  data
  *
@@ -47,12 +47,12 @@ extern void func_020061E4(u32 id);
 extern void func_021BCEF8(void *ctx, u8 *st);
 struct Obj;
 struct Vec2;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 APP_TASKMENU_WIN_IsTouch(void **p);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_0200616C(void *arg, int i);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern u32 func_020362DC(void);
 extern const u8 d_021C7040[];
 
@@ -136,7 +136,7 @@ void func_021BC5E8(void *ctx, u8 *list)
         } else if (tx >= 0xec && tx <= 0x104 && ty >= ((struct Obj00330 *)list)->f6 + 0xc
                    && ty <= ((struct Obj00330 *)list)->f6 + 0x24 && list[0x14] > 5) {
             ((struct Obj00330 *)list)->f10 = 1;
-            func_0204B878((struct Obj *)(((struct Obj00330 *)list)->f404), 0xd);
+            CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00330 *)list)->f404), 0xd);
             func_020061E4(0x66c);
         }
     }
@@ -157,7 +157,7 @@ void func_021BC5E8(void *ctx, u8 *list)
         }
     } else {
         ((struct Obj00330 *)list)->f10 = 0;
-        func_0204B878((struct Obj *)(((struct Obj00330 *)list)->f404), 0xc);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00330 *)list)->f404), 0xc);
     }
     if (((struct Obj00330 *)list)->f1C != 0 && APP_TASKMENU_WIN_IsTouch((void **)(((struct Obj00330 *)list)->f1C)) == 1) {
         APP_TASKMENU_WIN_SetDecide((char *)(((struct Obj00330 *)list)->f1C), 1);
@@ -166,10 +166,10 @@ void func_021BC5E8(void *ctx, u8 *list)
         if (((struct Obj00330 *)list)->f18 == 1)
             func_0200616C((void *)0x73d, 2);
     }
-    if (!func_02035C08(d_021C7040) || (func_020362DC() & 2)) {
+    if (!TOUCHPANEL_HitTrg(d_021C7040) || (func_020362DC() & 2)) {
         ((struct Obj00330 *)list)->f8 = 6;
         ((struct Obj00330 *)list)->f18 = 5;
-        func_0204B878((struct Obj *)(((struct Obj00330 *)list)->f400), 9);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00330 *)list)->f400), 9);
         func_020061E4(0x551);
     }
 }

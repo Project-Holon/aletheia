@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02028148",
+   "name": "APP_TASKMENU_WIN_Delete",
    "address": "0x02028148",
    "kind": "game",
    "region": "arm9",

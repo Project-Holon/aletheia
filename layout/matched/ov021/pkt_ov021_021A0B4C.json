@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A0B4C",
+   "name": "FIELD_LIGHT_EvalBlend",
    "address": "0x021A0B4C",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA1D0
+ * function: ITEMMENU_GetRowColorKind
  * address:  0x021BA1D0
  * packet:   pkt_ov070_021BA1D0
  * region:   ov070
@@ -18,7 +18,7 @@ typedef unsigned int   u32;
 extern u32 func_02021288(u32 id);
 extern int func_020212B0(int);
 
-int func_021BA1D0(int x)
+int ITEMMENU_GetRowColorKind(int x)
 {
     if (func_02021288(x) == 1) {
         switch (func_020212B0(x)) {

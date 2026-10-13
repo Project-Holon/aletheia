@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02017588",
+   "name": "POKE_TOOL_SetupPartyParamEx",
    "address": "0x02017588",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02017988",
+   "name": "POKE_TOOL_ChangeForm",
    "address": "0x02017988",
    "kind": "game",
    "region": "arm9",

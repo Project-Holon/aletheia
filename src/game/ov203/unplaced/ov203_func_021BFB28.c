@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_021BFB28 0x021BFB28 thumb
- *   func_021B6284 0x021B6284 thumb
+ *   UI_SCENE_FreeActorGfx 0x021B6284 thumb
  *   func_020307B0 0x020307B0 arm
  */
 #include "../../../matched/include/Obj14601.h"
 
 typedef unsigned char u8;
 
-extern void func_021B6284(void *);
+extern void UI_SCENE_FreeActorGfx(void *);
 
 #pragma thumb off
 typedef unsigned int   u32;
@@ -28,7 +28,7 @@ extern u32 func_020307B0(void *p);
 void func_021BFB28(char *arg0)
 {
     char *ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
-    func_021B6284(ptr + 4);
+    UI_SCENE_FreeActorGfx(ptr + 4);
     ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
     func_020307B0(ptr);
 }

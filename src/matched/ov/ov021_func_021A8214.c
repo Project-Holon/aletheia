@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188C98  0x02188C98  thumb
- *   func_0218DC6C  0x0218DC6C  thumb
- *   func_0218C7D8  0x0218C7D8  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb
+ *   FIELD_BUILDMODEL_CreateNodeNearPos  0x0218C7D8  thumb
  */
 
 typedef struct {
@@ -29,11 +29,11 @@ typedef struct {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_02188C98(u8 *p);
-extern u32 func_0218DC6C(u8 *p);
-extern int func_0218C7D8(void *p, int b, int c);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p);
+extern int FIELD_BUILDMODEL_CreateNodeNearPos(void *p, int b, int c);
 
 void func_021A8214(S *s)
 {
-    s->f28 = func_0218C7D8((void *)func_0218DC6C((u8 *)func_02188C98((u8 *)s->f0->fc)), 1, (int)s->f1c);
+    s->f28 = FIELD_BUILDMODEL_CreateNodeNearPos((void *)FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((u8 *)s->f0->fc)), 1, (int)s->f1c);
 }

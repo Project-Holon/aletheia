@@ -1,5 +1,5 @@
 /*
- * function: func_02157174
+ * function: MUSICAL_PROGRAM_SplitBonus
  * address:  0x02157174
  * packet:   pkt_ov010_02157174
  * region:   ov010
@@ -55,7 +55,7 @@ extern unsigned char func_021F5140(void *p, int i);
 extern void func_021F4F40(void **p);
 extern int _s32_div_f(int dividend, int divisor);
 
-void func_02157174(u32 heap, Deal *d, Party *party)
+void MUSICAL_PROGRAM_SplitBonus(u32 heap, Deal *d, Party *party)
 {
     void *h;
     u8 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021AC260
+ * function: FLDEFF_SHADOW_Delete
  * address:  0x021AC260
  * packet:   pkt_021AC260
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021AC2AC  0x021AC2AC  thumb  ov021
+ *   FLDEFF_SHADOW_DeleteSlot  0x021AC2AC  thumb  ov021
  *   ENV_SetResourceSet  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021AC2AC(u8 *p);
+extern void FLDEFF_SHADOW_DeleteSlot(u8 *p);
 extern void ENV_SetResourceSet(void *p);
 
-void func_021AC260(u32 a, u8 *p)
+void FLDEFF_SHADOW_Delete(u32 a, u8 *p)
 {
-    func_021AC2AC(p);
+    FLDEFF_SHADOW_DeleteSlot(p);
     ENV_SetResourceSet(p);
 }

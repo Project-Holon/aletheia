@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021590F4",
+   "name": "SCRIPT_WORK_SetReturnScriptId",
    "address": "0x021590F4",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021590FC",
+   "name": "SCRIPT_WORK_GetReturnScriptId",
    "address": "0x021590FC",
    "kind": "game",
    "region": "ov010",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02159114",
+   "name": "SCRIPT_WORK_SetReturnFlag",
    "address": "0x02159114",
    "kind": "game",
    "region": "ov010",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0215911C",
+   "name": "SCRIPT_WORK_GetReturnFlag",
    "address": "0x0215911C",
    "kind": "game",
    "region": "ov010",

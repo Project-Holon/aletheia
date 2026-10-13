@@ -17,7 +17,7 @@
  * evidence: 0x021B973C ov114 Thumb leaf now has S23's verified EXACT
  *   pkt_ov114_021B973C shard; no caller retry because ARM9 still blocks it.
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_020362DC 0x020362DC arm
  *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
  *   func_021B95D4 0x021B95D4 thumb ov114
@@ -27,7 +27,7 @@
  *   func_021DA034 0x021DA034 thumb ov123
  *   func_021DA328 0x021DA328 thumb ov123
  */
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_020362DC(void);
@@ -43,7 +43,7 @@ void func_021DA3A0(char *p)
 {
     int a;
     unsigned b;
-    if (func_0203CD98()) {
+    if (GFL_NET_GetRunState()) {
         if (func_021B95D4(9,*(void **)(p + 8))) {
             b = (unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p + 0x1c),&a);
             func_021BE79C((void *)func_021B973C(*(void **)(p + 8)),(void *)b,0x80000);

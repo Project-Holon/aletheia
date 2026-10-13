@@ -1,5 +1,5 @@
 /*
- * function: func_021AC1AC
+ * function: FIELD_EFFECT_GetObjectParam
  * address:  0x021AC1AC
  * packet:   pkt_021AC1AC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021AC1AC(u32 a)
+int FIELD_EFFECT_GetObjectParam(u32 a)
 {
 if (a != 0) {
     return ((struct Obj18086 *)((u8 *)(a)))->f8;

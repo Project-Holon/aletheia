@@ -1,5 +1,5 @@
 /*
- * function: func_021A7A90
+ * function: FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame
  * address:  0x021A7A90
  * packet:   pkt_ov021_021A7A90
  * region:   ov021
@@ -25,7 +25,7 @@ typedef struct {
     u32 f14;
 } S;
 
-u16 func_021A7A90(S *s, int i)
+u16 FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame(S *s, int i)
 {
     int k;
     if (i + 1 < s->f14) {

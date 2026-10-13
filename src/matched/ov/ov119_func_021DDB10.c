@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_02039CB4 0x02039CB4 arm
  *   func_021DD24C 0x021DD24C thumb ov119
@@ -21,7 +21,7 @@
  */
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int func_021D8A24(void *);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
@@ -35,5 +35,5 @@ extern void func_021DEA24(char *p);
 
 void func_021DDB10(unsigned char *p)
 {
-    func_020399A8(); if(func_021D8A24(p)) { if(func_02039CB4((struct Link *)func_020399A8(),25,8)==0) {func_021DD24C((char *)p);return;} } func_021E1098((char *)p);func_021DD294((char *)p,0,0);func_021D8980((char *)p);func_021DD09C((char *)p);func_021D8E84(p,(int)func_021DEA24);
+    GFL_NET_HANDLE_GetCurrentHandle(); if(func_021D8A24(p)) { if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {func_021DD24C((char *)p);return;} } func_021E1098((char *)p);func_021DD294((char *)p,0,0);func_021D8980((char *)p);func_021DD09C((char *)p);func_021D8E84(p,(int)func_021DEA24);
 }

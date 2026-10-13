@@ -1,5 +1,5 @@
 /*
- * function: func_021EE96C
+ * function: BTL_REC_FinishPacket
  * address:  0x021EE96C
  * packet:   pkt_ov093_021EE96C
  * region:   ov093
@@ -29,7 +29,7 @@ typedef struct {
     u8 d[60];
 } B;
 
-u8 *func_021EE96C(B *p, u8 b, u32 *out)
+u8 *BTL_REC_FinishPacket(B *p, u8 b, u32 *out)
 {
     u8 type;
 

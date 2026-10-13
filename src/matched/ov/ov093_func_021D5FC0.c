@@ -1,5 +1,5 @@
 /*
- * function: func_021D5FC0
+ * function: BTL_POKEPARAM_SetTurnFlag
  * address:  0x021D5FC0
  * packet:   pkt_ov093_021D5FC0
  * region:   ov093
@@ -45,7 +45,7 @@ struct UtilWork {
     u8 f157[5];
 };
 
-void func_021D5FC0(struct UtilWork *p, u32 n)
+void BTL_POKEPARAM_SetTurnFlag(struct UtilWork *p, u32 n)
 {
     p->bits153[(u8)(n >> 3)] |= (u8)(1 << (n & 7));
 }

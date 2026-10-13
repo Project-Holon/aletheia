@@ -16,20 +16,20 @@
  *
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020409B4 0x020409B4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02045B38 0x02045B38 arm
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_02045770 0x02045770 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02017E88 0x02017E88 thumb
  *   func_02030734 0x02030734 arm
- *   func_020450F0 0x020450F0 arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_020452E8 0x020452E8 arm
@@ -44,18 +44,18 @@
  *   func_020275EC 0x020275EC thumb
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   func_02041300 0x02041300 arm
  *   func_02041570 0x02041570 arm
  *   func_0201EC64 0x0201EC64 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201ED04 0x0201ED04 thumb
- *   func_0201C724 0x0201C724 thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_02018584 0x02018584 thumb
- *   func_02043AF4 0x02043AF4 arm
- *   g_020A7370 0x020A7370 data
+ *   BMP_FillRect 0x02043AF4 arm
+ *   gSpeciesNameBank 0x020A7370 data
  *   d_021DC24C 0x021DC24C data
  *   d_021DC264 0x021DC264 data
  *   func_0202F688 0x0202F688 thumb
@@ -124,22 +124,22 @@ struct StaInfoStatIds { u32 id[6]; };
 struct StaInfoStatRows { u8 row[6][6]; };
 
 extern u32 func_020307B0(void *p);
-extern void func_0204B878(struct Actor *actor, u16 anim);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
 extern void func_020409B4(u32);
 extern void func_0204B3DC(struct Actor *actor, u32 enable);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern unsigned int func_02045C04(struct MsgBank *bank);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern u32 func_02017E88(void *mon, int paramId, void *out);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct Strbuf *str);
-extern void func_0201C724(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
+extern void STRBUF_Delete(struct Strbuf *str);
+extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
 extern struct Bmp *func_02045770(struct BmpWin *win);
-extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct BmpWin *func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045334(struct BmpWin *win);
-extern void func_02045374(struct BmpWin *win);
+extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 func_02045730(struct BmpWin *win);
 extern void func_02041B6C(u32);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
@@ -157,11 +157,11 @@ extern void CLACT_SetActorImageProxy(struct Actor *actor, const StaSpriteRes *sr
 extern u8 func_020275EC(int i);
 extern void func_0204B6F4(struct Actor *actor, u32 v, u32 flag);
 extern void func_0204B404(struct Actor *actor, const StaOamPoint *delta, u32 which);
-extern void func_0204B84C(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 enable);
 extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041570(int channel, u16 val);
 extern u32 func_02018584(u16,u16,u16);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern int func_0202F498(void *mon, int index);
 extern u8 *func_02012944(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *mon, void *trainer);
@@ -186,7 +186,7 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon);
 void *P_STA_INFO_GetPlaceName(PStatusWork *wk, PStaInfoWork *work, unsigned int placeId);
 extern const char d_021DC824[];
 extern const unsigned char d_021DC288[];
-extern struct MsgBank *g_020A7370;
+extern struct MsgBank *gSpeciesNameBank;
 extern const u32 d_021DC24C[6];
 extern const u8 d_021DC264[6][6];
 
@@ -226,11 +226,11 @@ void P_STA_INFO_LoadResources(PStatusWork *wk, PStaInfoWork *work, void *arc)
 void P_STA_INFO_FreeResources(PStatusWork *wk, PStaInfoWork *work)
 {
     if (work->isWinActive == 1) P_STA_INFO_DeleteWindows(wk, work);
-    func_02045C04(work->msgInfo);
-    func_02045C04(work->msgPlaceBank89);
-    func_02045C04(work->msgPlaceBank92);
-    func_02045C04(work->msgPlaceBank90);
-    func_02045C04(work->msgPlaceBank91);
+    MSGDATA_Delete(work->msgInfo);
+    MSGDATA_Delete(work->msgPlaceBank89);
+    MSGDATA_Delete(work->msgPlaceBank92);
+    MSGDATA_Delete(work->msgPlaceBank90);
+    MSGDATA_Delete(work->msgPlaceBank91);
     func_020307B0(work->bgScrnFile);
     func_020307B0(work->eggScrnFile);
     func_020307B0(work->palFile);
@@ -243,9 +243,9 @@ void P_STA_INFO_Setup(PStatusWork *wk, PStaInfoWork *work)
     unsigned char i;
     for(i=0;i<10;i++) {
         unsigned int winOffset=i*4;
-        *(struct BmpWin **)((u8 *)work->win+winOffset)=func_020450F0(1,d_021DC288[winOffset],d_021DC288[winOffset+1],d_021DC288[winOffset+2],d_021DC288[winOffset+3],14,1);
+        *(struct BmpWin **)((u8 *)work->win+winOffset)=BMP_WIN_Create(1,d_021DC288[winOffset],d_021DC288[winOffset+1],d_021DC288[winOffset+2],d_021DC288[winOffset+3],14,1);
     }
-    work->win[STA_INFO_WIN_MEMO]=func_020450F0(4,4,5,24,20,14,1);
+    work->win[STA_INFO_WIN_MEMO]=BMP_WIN_Create(4,4,5,24,20,14,1);
     P_STA_INFO_DrawStats(wk,work,mon);
     P_STA_INFO_DrawMemo(wk,work,mon);
     work->isWinActive=1;
@@ -269,13 +269,13 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
     func_02041B6C(5);
     for(i=0;i<10;i++) {
         win=work->win[i];
-        func_02045334(win);
-        func_02045374(win);
+        BMP_WIN_TransferChars(win);
+        BMP_WIN_MakeScreen(win);
         func_020409B4(func_02045730(win));
     }
     win=work->win[STA_INFO_WIN_MEMO];
-    func_02045334(win);
-    func_02045374(win);
+    BMP_WIN_TransferChars(win);
+    BMP_WIN_MakeScreen(win);
     func_020409B4(func_02045730(win));
     if(wk->isEgg==0) {
         type1=func_02017E88(mon,174,0);
@@ -287,7 +287,7 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
         offset.y=48;
         func_0204B404(wk->typeIconActor[0],&offset,0);
         func_0204B3DC(wk->typeIconActor[0],1);
-        func_0204B84C(wk->typeIconActor[0],1);
+        CLACT_SetActorBgPriority(wk->typeIconActor[0],1);
         if(type1!=type2) {
             CLACT_GetCharacterProxy(wk->typeChrRes[type2],&header2);
             CLACT_SetActorImageProxy(wk->typeIconActor[1],&header2);
@@ -296,13 +296,13 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
             offset.y=48;
             func_0204B404(wk->typeIconActor[1],&offset,0);
             func_0204B3DC(wk->typeIconActor[1],1);
-            func_0204B84C(wk->typeIconActor[1],1);
+            CLACT_SetActorBgPriority(wk->typeIconActor[1],1);
         } else func_0204B3DC(wk->typeIconActor[1],0);
     } else {
         func_0204B3DC(wk->typeIconActor[0],0);
         func_0204B3DC(wk->typeIconActor[1],0);
     }
-    func_0204B878(wk->buttonActor[0],3);
+    CLACT_SetActorAnimSeq(wk->buttonActor[0],3);
 }
 
 void P_STA_INFO_DeleteWindows(PStatusWork *wk, PStaInfoWork *work) {
@@ -322,7 +322,7 @@ void P_STA_INFO_HidePage(PStatusWork *wk, PStaInfoWork *work)
     func_02041B6C(4);
     func_0204B3DC(wk->typeIconActor[0], 0);
     func_0204B3DC(wk->typeIconActor[1], 0);
-    func_0204B878(wk->buttonActor[0], 0);
+    CLACT_SetActorAnimSeq(wk->buttonActor[0], 0);
 }
 
 /*
@@ -363,15 +363,15 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         }
         func_0201ED04(dexWordSet);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_SPECIES],10,1,1,0x3c40);
-        if(wk->isEgg==0) {species=func_02017E88(mon,5,0); speciesName=func_02045EC0(g_020A7370,species);}
-        else speciesName=func_02045EC0(g_020A7370,0x28a);
+        if(wk->isEgg==0) {species=func_02017E88(mon,5,0); speciesName=func_02045EC0(gSpeciesNameBank,species);}
+        else speciesName=func_02045EC0(gSpeciesNameBank,0x28a);
         bmp=func_02045770(work->win[STA_INFO_WIN_SPECIES]);
         color=0x440;
-        func_0201C724(wk->printQue,bmp,0x41,1,speciesName,wk->font,color);
-        func_02045808(speciesName);
+        PRINTSYS_PrintQueColor(wk->printQue,bmp,0x41,1,speciesName,wk->font,color);
+        STRBUF_Delete(speciesName);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_TYPE],12,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],13,1,1,0x3c40);
-        otName=func_020457B0(0x20,wk->heapId);
+        otName=STRBUF_Create(0x20,wk->heapId);
         otWordSet=func_0201EC64(wk->heapId);
         tmpValue=func_02017E88(mon,0x9a,otName);
         if(tmpValue==0) color=0x14c0;
@@ -380,7 +380,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         func_0201EE0C(otWordSet,0,otName,0,1,2);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],otWordSet,14,0x41,1,color);
         func_0201ED04(otWordSet);
-        func_02045808(otName);
+        STRBUF_Delete(otName);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],15,1,1,0x3c40);
         idWordSet=func_0201EC64(wk->heapId);
         idNo=func_02017E88(mon,7,0);
@@ -413,7 +413,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
             barPixels=(tmpValue<<6)/(expNextLv-expThisLv);
             if(tmpValue!=0 && barPixels==0) barPixels=1;
             if(barPixels==0x40) barPixels=barPixels-1;
-            func_02043AF4(func_02045770(work->win[STA_INFO_WIN_EXP_BAR]),0,3,(u16)barPixels,3,5);
+            BMP_FillRect(func_02045770(work->win[STA_INFO_WIN_EXP_BAR]),0,3,(u16)barPixels,3,5);
         }
     }
     work->isDrawn=1;
@@ -484,11 +484,11 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
 
     if (isEgg == 0) {
         msgStr = func_02045EC0(work->msgInfo, natureMsg);
-        func_0201C724(wk->printQue, func_02045770(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)1, msgStr, wk->font, 0x440);
-        func_02045808(msgStr);
+        PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)1, msgStr, wk->font, 0x440);
+        STRBUF_Delete(msgStr);
         textY = 0x10;
     }
-    infoStr = func_020457B0(0x100, wk->heapId);
+    infoStr = STRBUF_Create(0x100, wk->heapId);
     wordSet = func_0201EC74(10, 0x20, wk->heapId);
     if (isEgg == 0) {
         if (metPlace == 0x7531) {
@@ -577,13 +577,13 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     func_0201EE0C(wordSet, 8, eggPlaceStr, bestStat, 1, 2);
     msgStr = func_02045EC0(work->msgInfo, msgId);
     func_0201F250(wordSet, infoStr, msgStr);
-    func_0201C724(wk->printQue, func_02045770(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), infoStr, wk->font, 0x440);
+    PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), infoStr, wk->font, 0x440);
     func_0201ED04(wordSet);
     textY += sub_0201D2C8(infoStr) << 4;
-    func_02045808(eggPlaceStr);
-    func_02045808(metPlaceStr);
-    func_02045808(msgStr);
-    func_02045808(infoStr);
+    STRBUF_Delete(eggPlaceStr);
+    STRBUF_Delete(metPlaceStr);
+    STRBUF_Delete(msgStr);
+    STRBUF_Delete(infoStr);
     if (isEgg == 0) {
         struct StaInfoStatIds statIds;
         struct StaInfoStatRows statRows;
@@ -604,8 +604,8 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
             }
         }
         msgStr = func_02045EC0(work->msgInfo, bestStat * 5 + 0x35 + bestValue % 5);
-        func_0201C724(wk->printQue, func_02045770(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), msgStr, wk->font, 0x440);
-        func_02045808(msgStr);
+        PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), msgStr, wk->font, 0x440);
+        STRBUF_Delete(msgStr);
     } else {
         u32 eggMsgId;
         if (eggSteps <= 5) {
@@ -618,8 +618,8 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
             eggMsgId = 0x5a;
         }
         msgStr = func_02045EC0(work->msgInfo, eggMsgId);
-        func_0201C724(wk->printQue, func_02045770(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), msgStr, wk->font, 0x440);
-        func_02045808(msgStr);
+        PRINTSYS_PrintQueColor(wk->printQue, func_02045770(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), msgStr, wk->font, 0x440);
+        STRBUF_Delete(msgStr);
     }
 }
 

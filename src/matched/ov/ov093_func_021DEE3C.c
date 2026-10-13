@@ -1,5 +1,5 @@
 /*
- * function: func_021DEE3C
+ * function: BTL_HANDLER_ITEM_GetPowerHerbHandlers
  * address: 0x021DEE3C
  * packet: pkt_ov093_021DEE3C
  * region: ov093
@@ -15,13 +15,13 @@
  *   d_021F197C 0x021F197C data ov093 a4
  */
 
-int *func_021DEE3C(int *p);
+int *BTL_HANDLER_ITEM_GetPowerHerbHandlers(int *p);
 extern int d_021F197C[];
 
 /*
  * sdk:      DWC_ScInitialize (libdwcsc.TWL.HYB.a dwc_sc.o)
  */
-int *func_021DEE3C(int *p)
+int *BTL_HANDLER_ITEM_GetPowerHerbHandlers(int *p)
 {
     *p = 3;
     return d_021F197C;

@@ -10,12 +10,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 #include "../include/Obj10440.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
 struct Obj;
-extern void func_0204B3B4(struct Obj *);
-void func_021D63E4(u8 *p){int i;for(i=0;i<16;i++){u8 *q=p+i*4;if(*(struct Obj * *)&((struct Obj10440 *)q)->f74){func_0204B3B4(*(struct Obj * *)&((struct Obj10440 *)q)->f74);((struct Obj10440 *)q)->f74=0;}}}
+extern void CLACT_DeleteActor(struct Obj *);
+void func_021D63E4(u8 *p){int i;for(i=0;i<16;i++){u8 *q=p+i*4;if(*(struct Obj * *)&((struct Obj10440 *)q)->f74){CLACT_DeleteActor(*(struct Obj * *)&((struct Obj10440 *)q)->f74);((struct Obj10440 *)q)->f74=0;}}}

@@ -1,5 +1,5 @@
 /*
- * function: func_0218C4EC
+ * function: FIELD_BUILDMODEL_RemoveEntriesByObject
  * address:  0x0218C4EC
  * packet:   pkt_ov021_0218C4EC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218C518  0x0218C518  thumb  ov021
+ *   FIELD_BUILDMODEL_FreeEntry  0x0218C518  thumb  ov021
  */
 
 typedef struct {
@@ -20,14 +20,14 @@ typedef struct {
     int c;
 } Ent;
 
-void func_0218C518(void *p, Ent *e);
+void FIELD_BUILDMODEL_FreeEntry(void *p, Ent *e);
 
-void func_0218C4EC(unsigned char *p, void *key)
+void FIELD_BUILDMODEL_RemoveEntriesByObject(unsigned char *p, void *key)
 {
     Ent *e = (Ent *)(p + 0x1F8);
     int i;
     for (i = 0; i < 0x120; i++) {
         if (e[i].key == key)
-            func_0218C518(p, &e[i]);
+            FIELD_BUILDMODEL_FreeEntry(p, &e[i]);
     }
 }

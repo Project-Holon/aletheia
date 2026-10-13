@@ -1,5 +1,5 @@
 /*
- * function: func_0215AADC
+ * function: SCRCMD_WORK_CmdGetMsgDataId
  * address:  0x0215AADC
  * packet:   pkt_0215AADC
  * region:   ov010
@@ -10,27 +10,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A610  0x0215A610  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetMsgDataId  0x0215A610  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u16 func_0215A610(void *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u16 SCRCMD_WORK_GetMsgDataId(void *p);
 
-int func_0215AADC(int a0, int a1)
+int SCRCMD_WORK_CmdGetMsgDataId(int a0, int a1)
 {
     int t5;
     u16 *q;
 
 t5 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
+    q = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_0215AAE4:
 a0 = t5 + 0;
-    a0 = func_0215A610((void *)a0);
+    a0 = SCRCMD_WORK_GetMsgDataId((void *)a0);
 loc_0215AAEC:
 *q = a0;
 a0 = 0;

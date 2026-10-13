@@ -1,5 +1,5 @@
 /*
- * function: func_0215736C
+ * function: MUSICAL_PROGRAM_GetPropRow
  * address:  0x0215736C
  * packet:   pkt_0215736C
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0215736C(int a0)
+int MUSICAL_PROGRAM_GetPropRow(int a0)
 {
 
 a0 = ((struct Obj12027 *)a0)->fC;

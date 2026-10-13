@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02039338  0x02039338  arm
- *   func_0203996C  0x0203996C  arm
- *   func_0203D3A8  0x0203D3A8  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *
  * Retire every armed two-byte slot of the own-slot entry: early-out when
- * func_02039338() reports busy, otherwise take the 0xFF entry and, for each
+ * GFL_NET_SYSTEM_GetCurrentAid() reports busy, otherwise take the 0xFF entry and, for each
  * of the eight slot pairs at +0x2C, clear the +0x2D flag byte once
- * func_0203D3A8(entry, 5, 2, &pair) accepts it.
+ * GFL_NET_SendToHandle(entry, 5, 2, &pair) accepts it.
  *
  * THE LAST STORE'S OFFSET IS A NAMED LOCAL, THE OTHER TWO ARE NOT.  Written
  * with `i * 2` spelled at all three uses, the whole function comes out
@@ -51,9 +51,9 @@ typedef unsigned short u16;
 
 typedef signed int     s32;
 struct Entry;
-extern u16 func_02039338(void);
-extern struct Entry *func_0203996C(s32 idx);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
 void GFL_NET_HANDLE_SendNegotiation(void)
 {
@@ -61,14 +61,14 @@ void GFL_NET_HANDLE_SendNegotiation(void)
     int i;
     int off;
 
-    if (func_02039338() != 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
         return;
     }
-    p = (u8 *)func_0203996C(0xff);
+    p = (u8 *)GFL_NET_HANDLE_GetNetHandle(0xff);
     for (i = 0; i < 8; i++) {
         off = i * 2;
         if (*(u8 *)(p + 0x2d + i * 2) != 0) {
-            if (func_0203D3A8((struct Entry *)p, 5, 2, (u32)(p + 0x2c + i * 2)) != 0) {
+            if (GFL_NET_SendToHandle((struct Entry *)p, 5, 2, (u32)(p + 0x2c + i * 2)) != 0) {
                 *(u8 *)(p + 0x2d + off) = 0;
             }
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215B068
+ * function: SCRCMD_WORK_CmdSetFixedEventFlag
  * address: 0x0215B068
  * packet: pkt_ov010_0215B068
  * region: ov010
@@ -9,18 +9,18 @@
  * status: EXACT
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  * symbols:
- *   func_0215A5E4 0x0215A5E4 thumb ov010
- *   func_0201296C 0x0201296C thumb
- *   func_02014314 0x02014314 thumb
+ *   SCRCMD_WORK_GetGameData 0x0215A5E4 thumb ov010
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
+ *   ZONEDATA_SetEventFlag 0x02014314 thumb
  */
 typedef unsigned short u16;
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_0201296C(const struct BigObj *p);
-extern void func_02014314(char *,int);
-int func_0215B068(int a,int b)
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void ZONEDATA_SetEventFlag(char *,int);
+int SCRCMD_WORK_CmdSetFixedEventFlag(int a,int b)
 {
-    func_02014314((char *)func_0201296C(func_0215A5E4((void *)b)), 0x963);
+    ZONEDATA_SetEventFlag((char *)GAME_DATA_GetEventWork(SCRCMD_WORK_GetGameData((void *)b)), 0x963);
     return 0;
 }

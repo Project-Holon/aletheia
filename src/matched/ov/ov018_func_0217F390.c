@@ -1,5 +1,5 @@
 /*
- * function: func_0217F390
+ * function: EVENT_COMM_COMMON_DeletePrintWin
  * address:  0x0217F390
  * packet:   pkt_ov018_0217F390
  * region:   ov018
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02190E40  0x02190E40  thumb  ov021
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  */
 
 typedef struct {
@@ -29,12 +29,12 @@ typedef struct {
 } Ov018Obj;
 
 typedef unsigned int   u32;
-int func_02190E40(u32 a);
+int FIELD_MSGBG_DeleteSysWin(u32 a);
 
-void func_0217F390(Ov018Obj *p)
+void EVENT_COMM_COMMON_DeletePrintWin(Ov018Obj *p)
 {
     if (p->f18 != 0) {
-        func_02190E40((u32)p->f18);
+        FIELD_MSGBG_DeleteSysWin((u32)p->f18);
         p->f18 = 0;
     }
 }

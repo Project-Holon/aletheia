@@ -1,7 +1,7 @@
 /*
  * file:     net_system.c
  * unit:     yes
- * function: GFL_NET_SYSTEM_SetDebugByte, GFL_NET_SYSTEM_InitRecvState, GFL_NET_SYSTEM_GetSendSize, GFL_NET_SYSTEM_InitWork, GFL_NET_SYSTEM_ResetBuffers, GFL_NET_SYSTEM_ResetRecvBuffer, GFL_NET_SYSTEM_InitDevice, GFL_NET_SYSTEM_SetDeviceOption, GFL_NET_SYSTEM_RecvCallback, GFL_NET_SYSTEM_ConnectDevice, GFL_NET_SYSTEM_ParentConnectHook, GFL_NET_SYSTEM_ChildConnectHook, GFL_NET_SYSTEM_StartParent, GFL_NET_SYSTEM_StartBeaconScan, GFL_NET_SYSTEM_EndDevice, GFL_NET_SYSTEM_SetDeviceMode, GFL_NET_SYSTEM_ConnectToParent, GFL_NET_SYSTEM_FreeWork, GFL_NET_SYSTEM_CheckAutoFree, GFL_NET_SYSTEM_ResetMachineBuffer, GFL_NET_SYSTEM_Main, GFL_NET_SYSTEM_ResetAll, GFL_NET_SYSTEM_PackSendData, GFL_NET_SYSTEM_SendParentData, GFL_NET_SYSTEM_SendWireless, GFL_NET_SYSTEM_SendWifi, GFL_NET_SYSTEM_RecvData, GFL_NET_SYSTEM_RecvParentCallback, GFL_NET_SYSTEM_SendIrc, GFL_NET_SYSTEM_SendMP, GFL_NET_SYSTEM_SendMPParent, GFL_NET_SYSTEM_CheckAllChildRecv, GFL_NET_SYSTEM_ClearChildRecv, GFL_NET_SYSTEM_UpdateMPParent, GFL_NET_SYSTEM_RecvChildData, GFL_NET_SYSTEM_RecvParentData, GFL_NET_SYSTEM_SendCallback, GFL_NET_SYSTEM_SendEndCallback, GFL_NET_SYSTEM_BuildSendPacket, GFL_NET_SYSTEM_SetSendQueue, GFL_NET_SYSTEM_GetChildRingDataSize, GFL_NET_SYSTEM_GetParentRingDataSize, GFL_NET_SYSTEM_DispatchRecv, GFL_NET_SYSTEM_ProcessRecvRing, GFL_NET_SYSTEM_ProcessParentRecv, GFL_NET_SYSTEM_ProcessChildRecv, GFL_NET_SYSTEM_IsConnectMember, func_020392B8, GFL_NET_SYSTEM_IsDeviceReady, func_02039338, GFL_NET_SYSTEM_GetChildBitmap, GFL_NET_SYSTEM_IsError, GFL_NET_SYSTEM_CheckError, GFL_NET_SYSTEM_IsSendQueueEntry, GFL_NET_SYSTEM_IsSendQueueEmpty, GFL_NET_SYSTEM_SetNoChildError, GFL_NET_SYSTEM_SetWaitMode, GFL_NET_SYSTEM_SetError, GFL_NET_SYSTEM_ResetError, GFL_NET_SYSTEM_SetNoSend, GFL_NET_SYSTEM_IsSendEnable, GFL_NET_SYSTEM_ClampNetId
+ * function: GFL_NET_SYSTEM_SetDebugByte, GFL_NET_SYSTEM_InitRecvState, GFL_NET_SYSTEM_GetSendSize, GFL_NET_SYSTEM_InitWork, GFL_NET_SYSTEM_ResetBuffers, GFL_NET_SYSTEM_ResetRecvBuffer, GFL_NET_SYSTEM_InitDevice, GFL_NET_SYSTEM_SetDeviceOption, GFL_NET_SYSTEM_RecvCallback, GFL_NET_SYSTEM_ConnectDevice, GFL_NET_SYSTEM_ParentConnectHook, GFL_NET_SYSTEM_ChildConnectHook, GFL_NET_SYSTEM_StartParent, GFL_NET_SYSTEM_StartBeaconScan, GFL_NET_SYSTEM_EndDevice, GFL_NET_SYSTEM_SetDeviceMode, GFL_NET_SYSTEM_ConnectToParent, GFL_NET_SYSTEM_FreeWork, GFL_NET_SYSTEM_CheckAutoFree, GFL_NET_SYSTEM_ResetMachineBuffer, GFL_NET_SYSTEM_Main, GFL_NET_SYSTEM_ResetAll, GFL_NET_SYSTEM_PackSendData, GFL_NET_SYSTEM_SendParentData, GFL_NET_SYSTEM_SendWireless, GFL_NET_SYSTEM_SendWifi, GFL_NET_SYSTEM_RecvData, GFL_NET_SYSTEM_RecvParentCallback, GFL_NET_SYSTEM_SendIrc, GFL_NET_SYSTEM_SendMP, GFL_NET_SYSTEM_SendMPParent, GFL_NET_SYSTEM_CheckAllChildRecv, GFL_NET_SYSTEM_ClearChildRecv, GFL_NET_SYSTEM_UpdateMPParent, GFL_NET_SYSTEM_RecvChildData, GFL_NET_SYSTEM_RecvParentData, GFL_NET_SYSTEM_SendCallback, GFL_NET_SYSTEM_SendEndCallback, GFL_NET_SYSTEM_BuildSendPacket, GFL_NET_SYSTEM_SetSendQueue, GFL_NET_SYSTEM_GetChildRingDataSize, GFL_NET_SYSTEM_GetParentRingDataSize, GFL_NET_SYSTEM_DispatchRecv, GFL_NET_SYSTEM_ProcessRecvRing, GFL_NET_SYSTEM_ProcessParentRecv, GFL_NET_SYSTEM_ProcessChildRecv, GFL_NET_SYSTEM_IsConnectMember, GFL_NET_SYSTEM_GetConnectNum, GFL_NET_SYSTEM_IsDeviceReady, GFL_NET_SYSTEM_GetCurrentAid, GFL_NET_SYSTEM_GetChildBitmap, GFL_NET_SYSTEM_IsError, GFL_NET_SYSTEM_CheckError, GFL_NET_SYSTEM_IsSendQueueEntry, GFL_NET_SYSTEM_IsSendQueueEmpty, GFL_NET_SYSTEM_SetNoChildError, GFL_NET_SYSTEM_SetWaitMode, GFL_NET_SYSTEM_SetError, GFL_NET_SYSTEM_ResetError, GFL_NET_SYSTEM_SetNoSend, GFL_NET_SYSTEM_IsSendEnable, GFL_NET_SYSTEM_ClampNetId
  * address:  0x02037224
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -25,15 +25,15 @@
  *   _pNetSys     0x021469D0  data
  *   _AssertNetIdRange   0x020A7A34  data
  *   func_020307B0   0x020307B0  arm
- *   func_02039338   0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_SYSTEM_GetChildBitmap   0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   _AssertAlways     0x020A7A50  data
  *   _AssertNotMpMode   0x020A7A54  data
  *   GFL_NET_SYSTEM_IsSendEnable  0x02039594  arm
- *   func_0203996C   0x0203996C  arm
+ *   GFL_NET_HANDLE_GetNetHandle   0x0203996C  arm
  *   func_02082D44  0x02082D44  arm
  *   _pNetState     0x021469DC  data
  *   str_020A7A68   0x020A7A68  data
@@ -89,18 +89,18 @@
  *   GFL_NET_QUEUE_IsCommandQueued 0x02036B98 arm
  *   GFL_NET_WM_ICON_EasyEnd 0x020370C8 arm
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
- *   func_0203CEAC 0x0203CEAC arm
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   GFL_NET_IsHandleReady 0x0203D394 arm
- *   func_0203D3A8 0x0203D3A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
- *   func_0203D4D0 0x0203D4D0 arm
- *   func_0203D650 0x0203D650 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
+ *   GFL_NET_SendDataMask 0x0203D4D0 arm
+ *   GFL_NET_GetUserArg 0x0203D650 arm
  *   GFL_NET_GetMaxConnectNum 0x0203D680 arm
  *   GFL_NET_GetChildSendSize 0x0203D6BC arm
  *   GFL_NET_CallDeviceReadyFunc 0x0203D700 arm
  *   GFL_NET_GetSession 0x0203D788 arm
- *   func_0203D798 0x0203D798 arm
+ *   GFL_NET_GetInitParam 0x0203D798 arm
  *   GFL_NET_IRC_WIRELESS_IsActive 0x0203DA4C arm
  *   GFL_NET_IRC_WIRELESS_AddMacAddress 0x0203DAC4 arm
  *   GFL_NET_COMMAND_GetHeaderSize  0x0203A634  arm
@@ -152,19 +152,19 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 
 extern u32 func_020307B0(void *p);
 
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 
 extern int  GFL_NET_SYSTEM_IsError(void);
 
-extern GFLNetHandle *func_020399A8(void);
+extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
-extern GFLNetHandle *func_0203996C(s32 idx);
+extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
 extern void func_02082D44(const void *src, void *dst, int n);
 
@@ -302,11 +302,11 @@ void GFL_NET_SYSTEM_ProcessChildRecv(void);
 
 int GFL_NET_SYSTEM_IsConnectMember(u32 netId);
 
-u32 func_020392B8(void);
+u32 GFL_NET_SYSTEM_GetConnectNum(void);
 
 int GFL_NET_SYSTEM_IsDeviceReady(void);
 
-u16 func_02039338(void);
+u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 int GFL_NET_SYSTEM_GetChildBitmap(void);
 
@@ -332,9 +332,9 @@ int GFL_NET_SYSTEM_IsSendEnable(void);
 
 int GFL_NET_SYSTEM_ClampNetId(int slot);
 
-GFLNetHandle *func_0203996C(s32 idx);
+GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-GFLNetHandle *func_020399A8(void);
+GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 u32 GFL_NET_COMMAND_GetHeaderSize(u32 commandOption);
 
@@ -358,7 +358,7 @@ void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
 struct NetErrorInfo *GFL_NET_STATE_GetError(void);
 
-int func_0203D3A8(GFLNetHandle *a, u32 b, u32 c, const void *d);
+int GFL_NET_SendToHandle(GFLNetHandle *a, u32 b, u32 c, const void *d);
 
 u32 GFL_NET_GetMaxConnectNum(void);
 
@@ -366,7 +366,7 @@ u32 GFL_NET_GetChildSendSize(void);
 
 GFLNetSession *GFL_NET_GetSession(void);
 
-GFLNetSession *func_0203D798(void);
+GFLNetSession *GFL_NET_GetInitParam(void);
 
 extern u8 _NetPhase[];  /* [0] MP parent phase (1 receive, 2 wait, 3 done, 4 send); [1] send phase (0 idle, 2 receiving, 4 ready) */
 
@@ -728,7 +728,7 @@ void GFL_NET_SYSTEM_ResetRecvBuffer(int netId)
  */
 int GFL_NET_SYSTEM_InitDevice(u32 packetSize, u32 heapId)
 {
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
     u32 useParentSize = 0;
 
@@ -858,7 +858,7 @@ u32 GFL_NET_SYSTEM_RecvCallback(u32 netId, u8 *packet, u32 length)
 u32 GFL_NET_SYSTEM_ConnectDevice(u8 renewTgid)
 {
     u32 zero;
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
     u16 heapId;
     void (*setEventCallback)(void *);
@@ -933,7 +933,7 @@ u32 GFL_NET_SYSTEM_ConnectDevice(u8 renewTgid)
  */
 void GFL_NET_SYSTEM_ParentConnectHook(u32 netId)
 {
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
     void (*hook)(u32, u32);
 
@@ -1003,7 +1003,7 @@ void GFL_NET_SYSTEM_ParentConnectHook(u32 netId)
  */
 void GFL_NET_SYSTEM_ChildConnectHook(u32 netId)
 {
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
     void (*hook)(u32, u32);
 
@@ -1065,7 +1065,7 @@ void GFL_NET_SYSTEM_ChildConnectHook(u32 netId)
  */
 u32 GFL_NET_SYSTEM_StartParent(u8 renewTgid, u16 packetSize, u32 sendArg0, u32 sendArg1)
 {
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
     u32 flag;
     u16 heapId;
@@ -1087,7 +1087,7 @@ u32 GFL_NET_SYSTEM_StartParent(u8 renewTgid, u16 packetSize, u32 sendArg0, u32 s
         flag = 0;
     }
 
-    initParam = func_0203D798();
+    initParam = GFL_NET_GetInitParam();
     heapId = initParam->init.heapId;
     GFL_NET_SYSTEM_InitWork(packetSize, heapId, flag);
 
@@ -1170,7 +1170,7 @@ u32 GFL_NET_SYSTEM_StartBeaconScan(u32 sendArg, u16 packetSize)
             flag = 0;
         }
 
-        initParam = func_0203D798();
+        initParam = GFL_NET_GetInitParam();
         heapId = initParam->init.heapId;
         GFL_NET_SYSTEM_InitWork(packetSize, heapId, flag);
 
@@ -1243,7 +1243,7 @@ int GFL_NET_SYSTEM_EndDevice(u32 packetSize)
     result = session->ops->startAutoSearch();
     if (result == 1) {
         session->ops->setEventCallback(GFL_NET_SYSTEM_RecvParentData);
-        GFL_NET_SYSTEM_InitWork(packetSize, func_0203D798()->init.heapId, 0);
+        GFL_NET_SYSTEM_InitWork(packetSize, GFL_NET_GetInitParam()->init.heapId, 0);
         _NetPhase[1] = 4;
     }
     return result;
@@ -1353,7 +1353,7 @@ void GFL_NET_SYSTEM_SetDeviceMode(int interval)
 u32 GFL_NET_SYSTEM_ConnectToParent(u32 beaconArg0, u32 beaconArg1, u16 packetSize, u32 beaconArg2)
 {
     GFLNetSession *session = GFL_NET_GetSession();
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
     void (*setEventCallback)(void *);
     u32 flag;
     u16 heapId;
@@ -1369,7 +1369,7 @@ u32 GFL_NET_SYSTEM_ConnectToParent(u32 beaconArg0, u32 beaconArg1, u16 packetSiz
             flag = 0;
         }
 
-        initParam = func_0203D798();
+        initParam = GFL_NET_GetInitParam();
         heapId = initParam->init.heapId;
         GFL_NET_SYSTEM_InitWork(packetSize, heapId, flag);
 
@@ -1432,7 +1432,7 @@ u32 GFL_NET_SYSTEM_ConnectToParent(u32 beaconArg0, u32 beaconArg1, u16 packetSiz
 void GFL_NET_SYSTEM_FreeWork(void)
 {
     GFL_NET_GetSession();
-    func_0203D798();
+    GFL_NET_GetInitParam();
 
     if (_pNetSys == 0) {
         return;
@@ -1512,7 +1512,7 @@ void GFL_NET_SYSTEM_CheckAutoFree(void)
 {
     if (_pNetSys->autoFree == 0)
         return;
-    if (func_02039338() == 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
         if (GFL_NET_SYSTEM_GetChildBitmap() == 0)
             GFL_NET_SYSTEM_FreeWork();
         return;
@@ -1635,7 +1635,7 @@ void GFL_NET_SYSTEM_ResetMachineBuffer(u32 netId)
 int GFL_NET_SYSTEM_Main(void)
 {
     GFLNetSession *session = GFL_NET_GetSession();
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
 
     if (_pNetSys == 0) {
         if (session != 0)
@@ -1664,11 +1664,11 @@ int GFL_NET_SYSTEM_Main(void)
     } else {
         GFL_NET_SYSTEM_SendMP();
         GFL_NET_SYSTEM_ProcessParentRecv();
-        if (func_02039338() == 0) {
+        if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             if (GFL_NET_SYSTEM_IsConnectMember(0) != 0 && initParam->init.bMPMode != 0)
                 GFL_NET_SYSTEM_UpdateMPParent();
         }
-        if (func_02039338() != 0)
+        if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
             goto skip;
     }
     GFL_NET_SYSTEM_ProcessChildRecv();
@@ -1864,13 +1864,13 @@ void GFL_NET_SYSTEM_SendParentData(void)
     result = session->ops->isConnected();
     if (result == 0)
         return;
-    result = func_02039338();
+    result = GFL_NET_SYSTEM_GetCurrentAid();
     result = GFL_NET_SYSTEM_IsConnectMember(result);
     if (result == 0)
         return;
     if (_NetPhase[1] != 0)
         return;
-    if (func_02039338() != 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
         result = session->ops->sendData((u32)_pNetSys->sendPacketBuf, childSendSize, 0, GFL_NET_SYSTEM_SendCallback);
         if (result == 0)
             return;
@@ -2036,7 +2036,7 @@ void GFL_NET_SYSTEM_SendWifi(void)
     session = GFL_NET_GetSession();
 
     if (GFL_NET_QUEUE_IsEmpty(&_pNetSys->sendQueue) != 0)
-        func_0203D3A8(func_020399A8(), 0x10, 0, 0);
+        GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0, 0);
 
     value = (u32)session->ops->resetLink;
     if (value != 0)
@@ -2116,7 +2116,7 @@ u32 GFL_NET_SYSTEM_RecvData(u32 netId, u8 *packet, u32 length)
     int checksum;
     u32 dataSize;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     GFL_NET_GetChildSendSize();
 
     if (packet[4] == 0xFF)
@@ -2207,7 +2207,7 @@ void GFL_NET_SYSTEM_RecvParentCallback(u32 buffer, u32 size)
     GFLNetSession *session;
     u32 aid;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     session = GFL_NET_GetSession();
 
     if (session->ops->getChannel() == 0 ||
@@ -2285,7 +2285,7 @@ void GFL_NET_SYSTEM_SendIrc(void)
     GFLNetSession *session;
     u32 childSendSize;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     session = GFL_NET_GetSession();
     childSendSize = GFL_NET_GetChildSendSize();
 
@@ -2356,7 +2356,7 @@ void GFL_NET_SYSTEM_SendIrc(void)
  * The reading: refresh the UI object, ask its +0x340 owner's +0x70 virtual
  * whether the session is still up, then let the two teardown probes decide
  * whether GFL_NET_SYSTEM_PackSendData(1) and GFL_NET_SYSTEM_SendParentData are reached.  The first
- * func_0203D798() result is discarded - the image overwrites r0 with
+ * GFL_NET_GetInitParam() result is discarded - the image overwrites r0 with
  * GFL_NET_GetSession()'s answer immediately - which is why the call stands on its
  * own statement rather than as an initialiser.
  *
@@ -2370,11 +2370,11 @@ void GFL_NET_SYSTEM_SendMP(void)
 {
     GFLNetSession *session;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     session = GFL_NET_GetSession();
     if (session->ops->isConnected() == 0)
         return;
-    if (GFL_NET_SYSTEM_IsConnectMember(func_02039338()) == 0)
+    if (GFL_NET_SYSTEM_IsConnectMember(GFL_NET_SYSTEM_GetCurrentAid()) == 0)
         return;
     GFL_NET_SYSTEM_PackSendData(1);
     GFL_NET_SYSTEM_SendParentData();
@@ -2423,7 +2423,7 @@ void GFL_NET_SYSTEM_SendMPParent(void)
 
     GFL_NET_GetMaxConnectNum();
     if (_NetPhase[0] == 1) {
-        if ((int)func_020392B8() > 1) {
+        if ((int)GFL_NET_SYSTEM_GetConnectNum() > 1) {
             GFL_NET_SYSTEM_SetDebugByte(2, 0x46a);
             if (session->ops->isConnected() != 0) {
                 u32 size = GFL_NET_SYSTEM_GetSendSize();
@@ -2433,7 +2433,7 @@ void GFL_NET_SYSTEM_SendMPParent(void)
                 GFL_NET_SYSTEM_SetDebugByte(1, 0x46a + 4);
                 goto tail;
             }
-            if ((func_0203D798())->init.bNetType != 3 && (func_0203D798())->init.bNetType != 4)
+            if ((GFL_NET_GetInitParam())->init.bNetType != 3 && (GFL_NET_GetInitParam())->init.bNetType != 4)
                 goto tail;
             if (session->ops->getErrorCode() == 0) {
                 GFL_NET_SYSTEM_SetDebugByte(1, 0x475);
@@ -2456,9 +2456,9 @@ tail:
     }
     if (session->ops->isConnected() == 0)
         goto last;
-    if ((func_0203D798())->init.bNetType == 3)
+    if ((GFL_NET_GetInitParam())->init.bNetType == 3)
         goto last;
-    if ((func_0203D798())->init.bNetType != 4)
+    if ((GFL_NET_GetInitParam())->init.bNetType != 4)
         return;
 last:
     GFL_NET_SYSTEM_SetDebugByte(4, 0x492);
@@ -2610,7 +2610,7 @@ void GFL_NET_SYSTEM_ClearChildRecv(void)
 void GFL_NET_SYSTEM_UpdateMPParent(void)
 {
     GFLNetSession *session = GFL_NET_GetSession();
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
     u8 netType = initParam->init.bNetType;
 
     if ((u8)(netType + 0xff) <= 1) {
@@ -2800,7 +2800,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
     s32 dataSize;
     int checksum;
 
-    (int)func_0203D798();
+    (int)GFL_NET_GetInitParam();
     GFL_NET_GetChildSendSize();
     work = _pNetSys;
     work->parentRecvPending = work->parentRecvPending - 1;
@@ -2940,7 +2940,7 @@ int GFL_NET_SYSTEM_SendEndCallback(u32 success)
 {
     GFL_NET_GetChildSendSize();
     GFL_NET_GetMaxConnectNum();
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (success != 0) {
         GFL_NET_SYSTEM_SetDebugByte(4, 0x5d4);
     } else {
@@ -2993,7 +2993,7 @@ s32 GFL_NET_SYSTEM_BuildSendPacket(struct NetPacketHeader *header, NetQueue *que
     s32 dataSize;
     u16 checksum;
 
-    initParam = func_0203D798();
+    initParam = GFL_NET_GetInitParam();
     session = GFL_NET_GetSession();
 
     MI_CpuFill8(header, 0, (u32)packetSize);
@@ -3089,7 +3089,7 @@ body:
  * The module handle behind the global at 0x021469D0 is fetched once and every
  * later read comes off the same pooled base; a null handle, a busy queue
  * (GFL_NET_SYSTEM_CheckError non-zero or GFL_NET_STATE_GetErrorMode zero) and a failed GFL_NET_SYSTEM_IsSendEnable
- * all return 0 early.  func_0203D798's result is only used for its +0x64
+ * all return 0 early.  GFL_NET_GetInitParam's result is only used for its +0x64
  * byte, which selects the +0xf4 table over the +0xcc one when the fifth
  * argument is the 0xff wildcard.
  *
@@ -3128,7 +3128,7 @@ int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sen
     if (noRing != 0)
         useRing = 0;
 
-    initParam = func_0203D798();
+    initParam = GFL_NET_GetInitParam();
     if (_pNetSys == 0)
         return 0;
     if (GFL_NET_SYSTEM_CheckError() != 0 || GFL_NET_STATE_GetErrorMode() != 0)
@@ -3279,12 +3279,12 @@ void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, u32 data, struct NetRecv
 {
     u32 handle;
 
-    func_0203D798();
-    handle = (u32)func_0203996C(func_02039338());
+    GFL_NET_GetInitParam();
+    handle = (u32)GFL_NET_HANDLE_GetNetHandle(GFL_NET_SYSTEM_GetCurrentAid());
     GFL_NET_COMMAND_CallCommand(cursor->senderID, cursor->commandOption, command, size, data, handle);
 
-    if (func_02039338() == 0) {
-        handle = (u32)func_0203996C(0xFF);
+    if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
+        handle = (u32)GFL_NET_HANDLE_GetNetHandle(0xFF);
         if (command < 0x11)
             GFL_NET_COMMAND_CallCommand(cursor->senderID, cursor->commandOption, command, size, data, handle);
     }
@@ -3357,7 +3357,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, st
     u32 command;
     int copyCount;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     while (GFL_NET_RING_BUFF_GetDataSize(ring) != 0) {
         command = cursor->command;
         if (command == 0) {
@@ -3596,7 +3596,7 @@ int GFL_NET_SYSTEM_IsConnectMember(u32 netId)
     u16 bitmap;
 
     session = GFL_NET_GetSession();
-    initParam = func_0203D798();
+    initParam = GFL_NET_GetInitParam();
     work = _pNetSys;
     if (work == 0)
         return 0;
@@ -3624,9 +3624,9 @@ int GFL_NET_SYSTEM_IsConnectMember(u32 netId)
         return 0;
     if (session->ops->isConnected() == 0)
         return 0;
-    if (netId == (u32)func_02039338())
+    if (netId == (u32)GFL_NET_SYSTEM_GetCurrentAid())
         return 1;
-    if (func_02039338() == 0 || initParam->init.bMPMode == 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() == 0 || initParam->init.bMPMode == 0) {
         bitmap = (u16)session->ops->getAidBitmap();
         if (((1 << netId) & bitmap) != 0)
             return 1;
@@ -3681,10 +3681,10 @@ int GFL_NET_SYSTEM_IsConnectMember(u32 netId)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020392B8.c \
- *       --func func_020392B8 --addr 0x020392B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_GetConnectNum.c \
+ *       --func GFL_NET_SYSTEM_GetConnectNum --addr 0x020392B8 --cc 1.1p1 --arm
  */
-u32 func_020392B8(void)
+u32 GFL_NET_SYSTEM_GetConnectNum(void)
 {
     int count;
     int i;
@@ -3749,7 +3749,7 @@ u32 func_020392B8(void)
 int GFL_NET_SYSTEM_IsDeviceReady(void)
 {
     GFLNetSession *session = GFL_NET_GetSession();
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
 
     if (_pNetSys != 0 && (u8)(initParam->init.bNetType + 0xFF) <= 3)
         return 1;
@@ -3788,7 +3788,7 @@ int GFL_NET_SYSTEM_IsDeviceReady(void)
 
 
 
-u16 func_02039338(void)
+u16 GFL_NET_SYSTEM_GetCurrentAid(void)
 {
     GFLNetSession *session;
     u8 netTypeBias;
@@ -3799,7 +3799,7 @@ u16 func_02039338(void)
     }
 
     session = GFL_NET_GetSession();
-    netTypeBias = (func_0203D798())->init.bNetType + 0xff;
+    netTypeBias = (GFL_NET_GetInitParam())->init.bNetType + 0xff;
 
     if (netTypeBias <= 1) {
         aid = session->ops->getMyAid();
@@ -4002,7 +4002,7 @@ u32 GFL_NET_SYSTEM_CheckError(void)
 
 int GFL_NET_SYSTEM_IsSendQueueEntry(u32 command, u32 destNetId)
 {
-    GFLNetSession *initParam = func_0203D798();
+    GFLNetSession *initParam = GFL_NET_GetInitParam();
 
     if (initParam->init.bMPMode != 0 && destNetId == 0xff) {
         return GFL_NET_QUEUE_IsCommandQueued(&_pNetSys->mpParentSendQueue, command);
@@ -4128,7 +4128,7 @@ void GFL_NET_SYSTEM_SetNoChildError(u8 v)
 
 void GFL_NET_SYSTEM_SetWaitMode(u32 mode)
 {
-    u8 netType = func_0203D798()->init.bNetType;
+    u8 netType = GFL_NET_GetInitParam()->init.bNetType;
 
     if ((u8)(netType + 0xff) > 1) {
         return;
@@ -4319,7 +4319,7 @@ int GFL_NET_SYSTEM_IsSendEnable(void)
         goto yes;
     }
 
-    initParam = func_0203D798();
+    initParam = GFL_NET_GetInitParam();
     if (initParam->init.bMPMode != 0) {
         goto yes;
     }

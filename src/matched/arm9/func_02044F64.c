@@ -1,5 +1,5 @@
 /*
- * function: func_02044F64
+ * function: BMP_ConvertToLinear
  * address:  0x02044F64
  * packet:   pkt_02044F64
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043678  0x02043678  arm
- *   func_02043814  0x02043814  arm
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Create  0x02043678  arm
+ *   BMP_CopyPixels  0x02043814  arm
+ *   BMP_Delete  0x020437AC  arm
  *   _s32_div_f     0x0209C0A4  arm
  *
  * bmp.c de-tile entry point: builds a new descriptor of the same extent
@@ -35,12 +35,12 @@ typedef signed int     s32;
 
 struct Bmp { u8 *pixels; u16 width; u16 height; u16 depth; };
 
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 struct Obj020437AC;
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 
-struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap)
+struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap)
 {
     struct Bmp *dst;
     s32 i, n;
@@ -53,7 +53,7 @@ struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap)
     w = src->width / 8;
     dep = src->depth;
     d = dep / 8;
-    dst = func_02043678(w, h, dep, heap);
+    dst = BMP_Create(w, h, dep, heap);
     n = w * h * dep;
     for (i = 0; i < n; i++) {
         s32 q, r, x, y;
@@ -64,8 +64,8 @@ struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u16 heap)
         dst->pixels[i] = src->pixels[(q % 8) * d + y + (q / 8 * w + x) * dep];
     }
     if (keep == 0) {
-        func_02043814(dst, src);
-        func_020437AC((struct Obj020437AC *)dst);
+        BMP_CopyPixels(dst, src);
+        BMP_Delete((struct Obj020437AC *)dst);
         dst = 0;
     }
     return dst;

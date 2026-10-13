@@ -17,7 +17,7 @@
  *   _pRapWork     0x021A8264  data  ov009  a4
  *   d_021A1C5C     0x021A1C5C  data  ov009  a1
  *   d_021A1C60     0x021A1C60  data  ov009  a1
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_AllocAligned  0x0203D7C8  arm
  *   func_02034714  0x02034714  arm
  *   func_020597C8  0x020597C8  arm
@@ -68,7 +68,7 @@ extern G *_pRapWork;
 extern char d_021A1C5C[];
 extern char d_021A1C60[];
 typedef unsigned int   u32;
-void *func_0203D798(void);
+void *GFL_NET_GetInitParam(void);
 void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
 void func_02034714(const char *expr, u32 line, const char *file);
 struct DWCstAccUserData;
@@ -81,7 +81,7 @@ int DWC_RAP_CreateWork(int a0, int a1)
     Ctx *ctx;
     int i;
 
-    ctx = func_0203D798();
+    ctx = GFL_NET_GetInitParam();
     if (_pRapWork != 0)
         func_02034714(d_021A1C5C, 0, d_021A1C5C);
     _pRapWork = GFL_NET_AllocAligned(ctx->heap, sizeof(G), d_021A1C60, 302);

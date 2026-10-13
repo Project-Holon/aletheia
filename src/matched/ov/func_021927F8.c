@@ -1,5 +1,5 @@
 /*
- * function: func_021927F8
+ * function: FIELD_MSGBG_IsCursorDrawn
  * address:  0x021927F8
  * packet:   pkt_021927F8
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_021927F8(u8 *p)
+u8 FIELD_MSGBG_IsCursorDrawn(u8 *p)
 {
     return ((struct Obj17936 *)p)->f0;
 }

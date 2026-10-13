@@ -1,5 +1,5 @@
 /*
- * function: func_02189A60
+ * function: FIELDMAP_GetFaceUpWorkPtr
  * address:  0x02189A60
  * packet:   pkt_ov021_02189A60
  * region:   ov021
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-u8 *func_02189A60(u8 *p)
+u8 *FIELDMAP_GetFaceUpWorkPtr(u8 *p)
 {
     return p + 0x148;
 }

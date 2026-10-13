@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B86B8  0x021B86B8  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  */
 #include "../include/Obj21588.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void *func_021B86B8(void ***p);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
 
 u16 func_021ECE08(u8 *a, int b)
 {
     int r;
 
-    switch ((int)func_021B86B8(*(void *** *)&((struct Obj21588 *)a)->f134)) {
+    switch ((int)BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj21588 *)a)->f134)) {
     case 0:
     default:
         r = 1;

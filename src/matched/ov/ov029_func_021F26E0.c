@@ -1,5 +1,5 @@
 /*
- * function: func_021F26E0
+ * function: C_GEAR_Cleanup
  * address:  0x021F26E0
  * packet:   pkt_ov029_021F26E0
  * region:   ov029
@@ -21,23 +21,23 @@
  *
  * symbols:
  *   func_02012138  0x02012138  thumb
- *   func_021585E0  0x021585E0  thumb
- *   func_02158614  0x02158614  thumb
- *   func_021F2E5C  0x021F2E5C  thumb  ov029
+ *   INTRUDE_COMM_GetVisitProgress  0x021585E0  thumb
+ *   INTRUDE_COMM_SetCompleted  0x02158614  thumb
+ *   C_GEAR_DeleteFadeFx  0x021F2E5C  thumb  ov029
  *   func_02035010  0x02035010  arm
  *   func_02035040  0x02035040  arm
  *   GFL_NET_RestartNoTimeout  0x0203D8AC  arm
- *   func_0203D34C  0x0203D34C  arm
- *   func_020215A0  0x020215A0  thumb
- *   func_02021540  0x02021540  thumb
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   PALANM_FreeSlotBuffers  0x020215A0  thumb
+ *   PALANM_Delete  0x02021540  thumb
  *   func_02030DA4  0x02030DA4  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_02012A30  0x02012A30  thumb
  *   func_02028A70  0x02028A70  thumb
- *   func_02049238  0x02049238  arm
- *   func_021F1F24  0x021F1F24  thumb  ov029
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   C_GEAR_FreeGraphics  0x021F1F24  thumb  ov029
  *   func_02082BCC  0x02082BCC  arm
  */
 
@@ -48,49 +48,49 @@ struct Node;
 struct PalAnmSlot;
 struct SoundSys;
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_021585E0(int r);
-extern void func_02158614(int a);
-extern void func_021F2E5C(char *a);
+extern int INTRUDE_COMM_GetVisitProgress(int r);
+extern void INTRUDE_COMM_SetCompleted(int a);
+extern void C_GEAR_DeleteFadeFx(char *a);
 extern void func_02035010(u32 a, u32 b);
 extern void func_02035040(u32 a, u32 b);
 extern void GFL_NET_RestartNoTimeout(void);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern u32 func_02021540(void *a0);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+extern u32 PALANM_Delete(void *a0);
 extern void func_02030DA4(int a);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028A70(struct SoundSys *sys);
-extern void func_02049238(int a);
-extern void func_021F1F24(char *p);
+extern void ARC_TOOL_DeleteHandle(int a);
+extern void C_GEAR_FreeGraphics(char *p);
 extern void func_02082BCC(char *p, int a, int b);
 
-void func_021F26E0(char *p)
+void C_GEAR_Cleanup(char *p)
 {
     int r = func_02012138((const struct Ctx *)(*(int *)(p + 0x1c)));
 
     if (r != 0) {
-        if (func_021585E0(r) == 2)
-            func_02158614(r);
+        if (INTRUDE_COMM_GetVisitProgress(r) == 2)
+            INTRUDE_COMM_SetCompleted(r);
     }
-    func_021F2E5C(p + 0x21c);
+    C_GEAR_DeleteFadeFx(p + 0x21c);
     func_02035010(0, 0);
     func_02035040(0, 0);
     GFL_NET_RestartNoTimeout();
-    func_0203D34C(0, *(unsigned short *)(p + 0xc));
-    func_020215A0((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3);
-    func_020215A0((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1);
-    func_02021540((void *)(*(int *)(p + 0x210)));
+    GFL_NET_RestartWithDefaultTimeout(0, *(unsigned short *)(p + 0xc));
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1);
+    PALANM_Delete((void *)(*(int *)(p + 0x210)));
     func_02030DA4(*(int *)(p + 0x204));
     func_020307B0((void *)(*(int *)(p + 0x20c)));
     func_02030EAC((struct Node *)(*(int *)(p + 0x208)));
     if (*(int *)(p + 0x218) != 5) {
         func_02028A70((struct SoundSys *)func_02012A30(func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c)))));
     }
-    func_02049238(*(int *)(p + 0x24));
-    func_021F1F24(p);
+    ARC_TOOL_DeleteHandle(*(int *)(p + 0x24));
+    C_GEAR_FreeGraphics(p);
     *(volatile unsigned short *)0x04001050 = 0;
     func_02082BCC(p, 0, 0x468);
 }

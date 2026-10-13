@@ -1,5 +1,5 @@
 /*
- * function: func_0218E7DC
+ * function: FIELD_CAMERA_RefineAngles
  * address:  0x0218E7DC
  * packet:   pkt_ov021_0218E7DC
  * region:   ov021
@@ -33,7 +33,7 @@ static inline int FXM(int a, int b)
 }
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-void func_0218E7DC(V *v, u16 h0, u16 h1, u16 *p0, u16 *p1)
+void FIELD_CAMERA_RefineAngles(V *v, u16 h0, u16 h1, u16 *p0, u16 *p1)
 {
     VS c = {0, 0, 0};
     VS b = {0, 0, 0};

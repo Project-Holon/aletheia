@@ -1,5 +1,5 @@
 /*
- * function: func_0218BD20
+ * function: FIELD_BUILDMODEL_GetSeasonChanged
  * address:  0x0218BD20
  * packet:   pkt_0218BB04
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0218BD20(u8 *p)
+u32 FIELD_BUILDMODEL_GetSeasonChanged(u8 *p)
 {
     return ((struct Obj17894 *)p)->f8;
 }

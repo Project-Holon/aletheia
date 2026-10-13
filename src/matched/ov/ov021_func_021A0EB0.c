@@ -1,5 +1,5 @@
 /*
- * function: func_021A0EB0
+ * function: FIELD_SUBSCREEN_CheckModeRequest
  * address:  0x021A0EB0
  * packet:   pkt_ov021_021A0EB0
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern struct G_021D8738 d_021D8738[];
 
-int func_021A0EB0(u32 *p, u32 a)
+int FIELD_SUBSCREEN_CheckModeRequest(u32 *p, u32 a)
 {
     if (p[2] == 0 && d_021D8738[p[0]].init != 0)
         return d_021D8738[p[0]].init(p, a);

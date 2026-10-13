@@ -1,5 +1,5 @@
 /*
- * function: func_021BB98C
+ * function: PLIST_MESSAGE_DestroyWordSet
  * address: 0x021BB98C
  * packet: pkt_ov091_021BB98C
  * region: ov091
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
-void func_021BB98C(void *p,u32 s) { func_0201ED04((struct WordSet *)(((struct Obj13253 *)s)->f2C)); ((struct Obj13253 *)s)->f2C=0; }
+void PLIST_MESSAGE_DestroyWordSet(void *p,u32 s) { func_0201ED04((struct WordSet *)(((struct Obj13253 *)s)->f2C)); ((struct Obj13253 *)s)->f2C=0; }

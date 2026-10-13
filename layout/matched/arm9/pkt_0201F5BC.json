@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0201F868",
+   "name": "BMP_MENUWORK_Delete",
    "address": "0x0201F868",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201F878",
+   "name": "BMP_MENUWORK_AddMsgItem",
    "address": "0x0201F878",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201F898",
+   "name": "BMP_MENUWORK_AddStrItem",
    "address": "0x0201F898",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0201F8F4",
+   "name": "BMP_MENUWORK_ReleaseItems",
    "address": "0x0201F8F4",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0201F91C",
+   "name": "BMP_MENUWORK_CountItems",
    "address": "0x0201F91C",
    "kind": "game",
    "region": "arm9",

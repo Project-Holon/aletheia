@@ -1,5 +1,5 @@
 /*
- * function: func_021CF448
+ * function: BTL_CLIENT_SumSlotFlagsBeforeCurrent
  * address: 0x021CF448
  * packet: pkt_ov093_021CF448
  * region: ov093
@@ -11,7 +11,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u8 func_021CF448(u8 *p)
+u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(u8 *p)
 {
     u32 i;
     u32 sum;

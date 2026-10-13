@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F08
+ * function: BSUBWAY_RECORD_LIST_StateFadeOutWait
  * address: 0x021B9F08
  * packet: pkt_ov069_021B9F08
  * region: ov069
@@ -10,13 +10,13 @@
  * status: EXACT*
  * extent: Two bytes of alignment padding follow.
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
 #include "../include/Obj20658.h"
-extern unsigned func_020221A4(void);
-int func_021B9F08(char *p)
+extern unsigned WIPE_SYS_EndCheck(void);
+int BSUBWAY_RECORD_LIST_StateFadeOutWait(char *p)
 {
-    if (func_020221A4()) {
+    if (WIPE_SYS_EndCheck()) {
         ((struct Obj20658 *)p)->f158 = 0;
         return 0;
     }

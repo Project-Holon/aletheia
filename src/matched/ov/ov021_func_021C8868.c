@@ -1,5 +1,5 @@
 /*
- * function: func_021C8868
+ * function: PLEASURE_BOAT_ScrCmdGetStat
  * address:  0x021C8868
  * packet:   pkt_ov021_021C8868
  * region:   ov021
@@ -10,42 +10,42 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012ED0  0x02012ED0  thumb
- *   func_02011330  0x02011330  thumb
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_021C8738  0x021C8738  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventState  0x02012ED0  thumb
+ *   VM_GetU16  0x02011330  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   PLEASURE_BOAT_GetStat  0x021C8738  thumb  ov021
  */
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned char  u8;
 struct Big;
-extern u8 *func_02012ED0(struct Big *p);
+extern u8 *GAME_DATA_GetEventState(struct Big *p);
 typedef unsigned short u16;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern unsigned short *func_02159AE8(void *a0, void *a1);
-extern int func_021C8738(char *p, int k);
+extern u16 VM_GetU16(struct Stream *s);
+extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern int PLEASURE_BOAT_GetStat(char *p, int k);
 
-int func_021C8868(int a, int b)
+int PLEASURE_BOAT_ScrCmdGetStat(int a, int b)
 {
     int *r4;
     int r7;
     unsigned short *r5;
 
-    func_0215A5F4((void *)b);
-    r4 = (int *)func_02012ED0(func_020120F4((void *)func_02188C80(func_0201210C(func_0215A5DC((void *)b)))));
-    r7 = func_02011330((struct Stream *)a);
-    r5 = func_02159AE8((void *)a, (void *)b);
-    *r5 = func_021C8738((char *)(*r4), r7);
+    SCRCMD_WORK_GetScriptWork((void *)b);
+    r4 = (int *)GAME_DATA_GetEventState(GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b)))));
+    r7 = VM_GetU16((struct Stream *)a);
+    r5 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    *r5 = PLEASURE_BOAT_GetStat((char *)(*r4), r7);
     return 0;
 }

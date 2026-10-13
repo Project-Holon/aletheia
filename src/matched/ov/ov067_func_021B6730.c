@@ -1,5 +1,5 @@
 /*
- * function: func_021B6730
+ * function: TOUCHBAR_GetGfxWord
  * address:  0x021B6730
  * packet:   pkt_ov067_021B6730
  * region:   ov067
@@ -12,7 +12,7 @@
  * Word array index.
  */
 
-int func_021B6730(void *p, int i)
+int TOUCHBAR_GetGfxWord(void *p, int i)
 {
     return ((int *)p)[i];
 }

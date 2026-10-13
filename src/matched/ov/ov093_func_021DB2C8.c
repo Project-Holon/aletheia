@@ -1,5 +1,5 @@
 /*
- * function: func_021DB2C8
+ * function: BTL_TOKUSEI_Forecast_ResetFormOnAbilityChange
  * address: 0x021DB2C8
  * packet: pkt_ov093_021DB2C8
  * region: ov093
@@ -9,21 +9,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D70A8 0x021D70A8 thumb ov093
- *   func_021DB318 0x021DB318 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_GetFactorKey 0x021D70A8 thumb ov093
+ *   BTL_TOKUSEI_Forecast_ResetForm 0x021DB318 thumb ov093
  */
 typedef unsigned short u16;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 struct QQ;
-extern u16 func_021D70A8(struct QQ *p);
-extern void func_021DB318(int,void *,int);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
+extern void BTL_TOKUSEI_Forecast_ResetForm(int,void *,int);
 
-void func_021DB2C8(void *a, void *b, int c)
+void BTL_TOKUSEI_Forecast_ResetFormOnAbilityChange(void *a, void *b, int c)
 {
     int v;
-    if (c == func_021D775C(2)) {
-        v = func_021D775C(16);
-        if (v != func_021D70A8(a)) func_021DB318((int)a, b, c);
+    if (c == BTL_EVENT_GetVar(2)) {
+        v = BTL_EVENT_GetVar(16);
+        if (v != BTL_EVENT_GetFactorKey(a)) BTL_TOKUSEI_Forecast_ResetForm((int)a, b, c);
     }
 }

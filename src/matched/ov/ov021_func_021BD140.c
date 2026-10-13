@@ -1,5 +1,5 @@
 /*
- * function: func_021BD140
+ * function: FIELD_PLACE_NAME_HasWindow
  * address:  0x021BD140
  * packet:   pkt_ov021_021BD140
  * region:   ov021
@@ -13,7 +13,7 @@
 typedef unsigned int   u32;
 extern u32 func_02013E6C(u32 id);
 
-void func_021BD140(void *a, int b, int c)
+void FIELD_PLACE_NAME_HasWindow(void *a, int b, int c)
 {
     func_02013E6C((u32)a);
 }

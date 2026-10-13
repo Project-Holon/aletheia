@@ -1,5 +1,5 @@
 /*
- * function: func_02174E20
+ * function: COLOSSEUM_SendReady
  * address:  0x02174E20
  * packet:   pkt_ov012_02174E20
  * region:   ov012
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  */
 
 struct Entry;
 
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
-u32 func_02174E20(void)
+u32 COLOSSEUM_SendReady(void)
 {
-    return func_0203D3F8((u32)func_020399A8(), 0, 0x1508, 0, 0, 1, 0, 0);
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0, 0x1508, 0, 0, 1, 0, 0);
 }

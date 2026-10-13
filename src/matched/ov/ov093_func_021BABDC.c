@@ -1,5 +1,5 @@
 /*
- * function: func_021BABDC
+ * function: BTL_SERVER_GetFinalData
  * address: 0x021BABDC
  * packet: pkt_ov093_021BABDC
  * region: ov093
@@ -12,7 +12,7 @@
 #include "../include/Obj21026.h"
 
 typedef struct { unsigned int a, b; } Pair;
-void func_021BABDC(char *p, Pair *out)
+void BTL_SERVER_GetFinalData(char *p, Pair *out)
 {
  *out = **(Pair * *)&((struct Obj21026 *)p)->fB0;
 }

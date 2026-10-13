@@ -1,5 +1,5 @@
 /*
- * function: func_02184504
+ * function: EVENT_MAPCHANGE_DetachedTailEvent
  * address:  0x02184504
  * packet:   pkt_ov020_02184504
  * region:   ov020
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A30  0x02012A30  thumb
- *   func_02161824  0x02161824  thumb  ov010
- *   func_02012374  0x02012374  thumb
- *   func_02029D44  0x02029D44  thumb
- *   func_02029D7C  0x02029D7C  thumb
- *   func_02184360  0x02184360  thumb  ov020
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   EVENT_FIELD_PROCLINK_CreateAnimEvent  0x02161824  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb
+ *   FIELD_SOUND_SYSTEM_PostFadeIn  0x02029D7C  thumb
+ *   EVENT_MAPCHANGE_CreateChangeFieldEvent  0x02184360  thumb  ov020
  */
 #include "../include/Obj04972.h"
 
@@ -23,16 +23,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 struct BigObj;
-extern unsigned int func_02012A30(const struct BigObj *p);
+extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *p);
 struct Evt;
-extern void *func_02161824(void *a, void *b);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *EVENT_FIELD_PROCLINK_CreateAnimEvent(void *a, void *b);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 typedef unsigned int   u32;
-extern void func_02029D44(u32 a, u32 b, u16 c, u8 d);
-extern void func_02029D7C(int a, int b);
-extern void *func_02184360(u8 *p, int value);
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(u32 a, u32 b, u16 c, u8 d);
+extern void FIELD_SOUND_SYSTEM_PostFadeIn(int a, int b);
+extern void *EVENT_MAPCHANGE_CreateChangeFieldEvent(u8 *p, int value);
 
-int func_02184504(int a, int *state, u8 *p)
+int EVENT_MAPCHANGE_DetachedTailEvent(int a, int *state, u8 *p)
 {
     int r;
     int v;
@@ -43,22 +43,22 @@ int func_02184504(int a, int *state, u8 *p)
     x = ((struct Obj04972 *)p)->f0;
     z = ((struct Obj04972 *)p)->f8;
     y = ((struct Obj04972 *)p)->f4;
-    v = func_02012A30((const struct BigObj *)y);
+    v = GAME_DATA_GetBgmInfo((const struct BigObj *)y);
 
     switch (*state) {
     case 0:
-        r = (int)func_02161824((void *)x, (void *)z);
-        func_02012374((struct Evt *)a, (struct Evt **)r);
+        r = (int)EVENT_FIELD_PROCLINK_CreateAnimEvent((void *)x, (void *)z);
+        GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)r);
         (*state)++;
         break;
     case 1:
-        func_02029D44(v, y, ((struct Obj04972 *)p)->f14, (u8)((struct Obj04972 *)p)->f4A);
-        func_02029D7C(v, y);
+        FIELD_SOUND_SYSTEM_PostZoneBgmReplace(v, y, ((struct Obj04972 *)p)->f14, (u8)((struct Obj04972 *)p)->f4A);
+        FIELD_SOUND_SYSTEM_PostFadeIn(v, y);
         (*state)++;
         break;
     case 2:
-        r = (int)func_02184360(p, ((struct Obj04972 *)p)->f30);
-        func_02012374((struct Evt *)a, (struct Evt **)r);
+        r = (int)EVENT_MAPCHANGE_CreateChangeFieldEvent(p, ((struct Obj04972 *)p)->f30);
+        GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)r);
         (*state)++;
         break;
     case 3:

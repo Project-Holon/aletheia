@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C146C",
+   "name": "FIELD_PLAYER_GRID_EVENT_JumpUpApproach",
    "address": "0x021C146C",
    "kind": "game",
    "region": "ov021",

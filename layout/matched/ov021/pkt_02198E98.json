@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02198E98",
+   "name": "FLDMMDL_ACMD_AnimeDash4FStartSe",
    "address": "0x02198E98",
    "kind": "sdk",
    "region": "ov021",

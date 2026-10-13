@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB954",
+   "name": "FIELD_SUBPROC_MGR_RunDraw",
    "address": "0x021BB954",
    "kind": "game",
    "region": "ov021",

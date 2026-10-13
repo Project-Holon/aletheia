@@ -1,5 +1,5 @@
 /*
- * function: func_02164978
+ * function: FLD_FACEUP_ScrCmdPrepareField
  * address:  0x02164978
  * packet:   pkt_02164978
  * region:   ov010
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_021F558C  0x021F558C  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FLD_FACEUP_ResumeLipSync  0x021F558C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_021F558C();
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FLD_FACEUP_ResumeLipSync();
 
-int func_02164978(int a0, int a1)
+int FLD_FACEUP_ScrCmdPrepareField(int a0, int a1)
 {
     int t4;
     void *v0;
@@ -35,14 +35,14 @@ int func_02164978(int a0, int a1)
 
 t4 = a1 + 0;
 a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
+    v0 = SCRCMD_WORK_GetScriptWork((void *)a0);
 loc_02164982:
 a0 = t4 + 0;
-    v1 = func_0215A5DC((void *)a0);
+    v1 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_02164988:
-    v2 = func_0201210C(v1);
+    v2 = GAMESYSTEM_GetFieldMap(v1);
 loc_0216498C:
-    a0 = func_021F558C(v2);
+    a0 = FLD_FACEUP_ResumeLipSync(v2);
 loc_02164990:
 a0 = 0;
     return a0;}

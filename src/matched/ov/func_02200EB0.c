@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   STRBUF_Create  0x020457B0  arm  arm9
  *
 
  * Claim the 0xb4/0x48 resource and park it at +0xb88.
@@ -21,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 void func_02200EB0(u8 *p)
 {
-    ((struct Obj18610 *)p)->fB88 = (u32)func_020457B0(0xb4, 0x48);
+    ((struct Obj18610 *)p)->fB88 = (u32)STRBUF_Create(0xb4, 0x48);
 }

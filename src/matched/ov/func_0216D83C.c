@@ -1,5 +1,5 @@
 /*
- * function: func_0216D83C
+ * function: FLDMMDL_GetGridNowX
  * address:  0x0216D83C
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D83C.c \
- *       --func func_0216D83C --addr 0x0216D83C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetGridNowX.c \
+ *       --func FLDMMDL_GetGridNowX --addr 0x0216D83C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17843.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-int func_0216D83C(void *p) { return ((struct Obj17843 *)p)->f3C; }
+int FLDMMDL_GetGridNowX(void *p) { return ((struct Obj17843 *)p)->f3C; }

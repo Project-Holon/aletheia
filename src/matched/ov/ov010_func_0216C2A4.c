@@ -1,5 +1,5 @@
 /*
- * function: func_0216C2A4
+ * function: NAMEIN_SETUP_SnapObjToGrid
  * address:  0x0216C2A4
  * packet:   pkt_ov010_0216C2A4
  * region:   ov010
@@ -20,10 +20,10 @@
  * hoisted) gives the image's load order x, z, y. EXACT in c99 and c.
  *
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE480  0x021BE480  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3044  0x021A3044  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -41,14 +41,14 @@ typedef struct Work {
     void *field;        /* 0x08 */
 } Work;
 
-extern int func_02188D2C(int *p);
-extern VecFx32 *func_021BE480(void *p, int a, int b);
+extern int FIELDMAP_GetExpObj(int *p);
+extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *p, int a, int b);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3044(u8 *p, void *v);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 
 #pragma opt_propagation off
-void func_0216C2A4(Work *w)
+void NAMEIN_SETUP_SnapObjToGrid(Work *w)
 {
     VecFx32 v;
     const VecFx32 *pos;
@@ -58,8 +58,8 @@ void func_0216C2A4(Work *w)
     fx32 z;
     fx32 k;
 
-    pos = func_021BE480((void *)func_02188D2C(w->field), 0, 0);
-    q = func_02188CB4(w->field);
+    pos = FLD_EXP_OBJ_GetModelStatus((void *)FIELDMAP_GetExpObj(w->field), 0, 0);
+    q = FIELDMAP_GetFieldPlayer(w->field);
     z = pos->z;
     y = pos->y;
     x = pos->x;
@@ -68,6 +68,6 @@ void func_0216C2A4(Work *w)
     v.y = y;
     v.x = (((x >> 12) / 16) << 16) + 0x8000;
     v.z = (((z >> 12) / 16) << 16) + 0x8000;
-    func_021A3044(q, &v);
+    FIELD_PLAYER_SetPos(q, &v);
 }
 #pragma opt_propagation reset

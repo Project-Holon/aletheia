@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F09DC",
+   "name": "C_GEAR_SelectTabPalette",
    "address": "0x021F09DC",
    "kind": "game",
    "region": "ov029",

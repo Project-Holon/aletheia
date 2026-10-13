@@ -1,5 +1,5 @@
 /*
- * function: func_021A5728
+ * function: FIELD_PLAYER_GRID_GetCore
  * address:  0x021A5728
  * packet:   pkt_021A5728
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A5728(u8 *p)
+u32 FIELD_PLAYER_GRID_GetCore(u8 *p)
 {
     return ((struct Obj18050 *)p)->fC;
 }

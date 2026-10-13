@@ -1,5 +1,5 @@
 /*
- * function: func_02159F04
+ * function: MAP_REPLACE_FindFlagEntry
  * address: 0x02159F04
  * packet: pkt_ov010_02159F04
  * region: ov010
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Ent { u8 f00; u8 f01; u16 f02; u16 f04; } Ent;
 extern Ent d_02170FB0[];
-Ent *func_02159F04(int unused, int x)
+Ent *MAP_REPLACE_FindFlagEntry(int unused, int x)
 {
     unsigned int i;
     for (i = 0; i < 10; i++) {

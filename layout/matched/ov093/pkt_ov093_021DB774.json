@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DB774",
+   "name": "BTL_TOKUSEI_Klutz_ShowBlockedMoveMessage",
    "address": "0x021DB774",
    "kind": "game",
    "region": "ov093",

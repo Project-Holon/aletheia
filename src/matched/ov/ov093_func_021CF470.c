@@ -10,37 +10,37 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D8434  0x021D8434  thumb  ov093
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
- *   func_021D8444  0x021D8444  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D6314  0x021D6314  thumb  ov093
- *   func_021E8B80  0x021E8B80  thumb  ov093
- *   func_021D67C4  0x021D67C4  thumb  ov093
- *   func_021D82D0  0x021D82D0  thumb  ov093
- *   func_021D67A8  0x021D67A8  thumb  ov093
- *   func_021D5778  0x021D5778  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_CALC_ActionSetNone  0x021D8434  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
+ *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
+ *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb  ov093
+ *   BTL_POKEPARAM_GetLastMoveSlot  0x021D67C4  thumb  ov093
+ *   BTL_ACTION_SetFight  0x021D82D0  thumb  ov093
+ *   BTL_POKEPARAM_GetLastUsedMoveId  0x021D67A8  thumb  ov093
+ *   BTL_POKEPARAM_FindMoveSlot  0x021D5778  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D5B68(void *q);
+extern int BTL_POKEPARAM_IsFainted(void *q);
 struct Unk021D82D0;
-extern void func_021D8434(u32 *p);
+extern void BTL_CALC_ActionSetNone(u32 *p);
 struct QL;
 struct Unk021D62A8;
 struct UtilWork;
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
-extern void func_021D8444(u32 *p);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
+extern void BTL_CALC_ActionSetForcedSkip(u32 *p);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 typedef struct { u32 v; } Word;
-extern Word func_021D6314(void *q, int i);
-extern u16 func_021E8B80(Word v);
-extern u8 func_021D67C4(u8 *p);
-extern void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub);
-extern u16 func_021D67A8(struct QL *p);
-extern u8 func_021D5778(void *q, u32 id);
+extern Word BTL_POKEPARAM_GetSickContRaw(void *q, int i);
+extern u16 BTLV_CORE_GetSlotValue(Word v);
+extern u8 BTL_POKEPARAM_GetLastMoveSlot(u8 *p);
+extern void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub);
+extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
+extern u8 BTL_POKEPARAM_FindMoveSlot(void *q, u32 id);
 
 u32 func_021CF470(u8 *p, void *q, u8 *o)
 {
@@ -48,34 +48,34 @@ u32 func_021CF470(u8 *p, void *q, u8 *o)
     u32 a;
     u32 b;
     Word t;
-    if (func_021D5B68(q) != 0) {
+    if (BTL_POKEPARAM_IsFainted(q) != 0) {
         if (o != 0) {
-            func_021D8434((u32 *)o);
+            BTL_CALC_ActionSetNone((u32 *)o);
         }
         return 1;
     }
-    if (func_021D5BDC(q, 0xc) != 0) {
+    if (BTL_POKEPARAM_TestContFlag(q, 0xc) != 0) {
         if (o != 0) {
-            func_021D8444((u32 *)o);
+            BTL_CALC_ActionSetForcedSkip((u32 *)o);
         }
         return 1;
     }
     id = 0x19;
-    if (func_021D62C4(q, id) != 0) {
-        t = func_021D6314(q, id);
-        id = func_021E8B80(t);
-        b = func_021D67C4(q);
+    if (BTL_POKEPARAM_HasSick(q, id) != 0) {
+        t = BTL_POKEPARAM_GetSickContRaw(q, id);
+        id = BTLV_CORE_GetSlotValue(t);
+        b = BTL_POKEPARAM_GetLastMoveSlot(q);
         if (o != 0) {
-            func_021D82D0((struct Unk021D82D0 *)o, id, b);
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)o, id, b);
         }
         return 1;
     }
-    if (func_021D62C4(q, 0x1a) != 0) {
-        a = func_021D67A8(q);
-        b = func_021D67C4(q);
-        func_021D5778(q, a);
+    if (BTL_POKEPARAM_HasSick(q, 0x1a) != 0) {
+        a = BTL_POKEPARAM_GetLastUsedMoveId(q);
+        b = BTL_POKEPARAM_GetLastMoveSlot(q);
+        BTL_POKEPARAM_FindMoveSlot(q, a);
         if (o != 0) {
-            func_021D82D0((struct Unk021D82D0 *)o, a, b);
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)o, a, b);
         }
         return 1;
     }

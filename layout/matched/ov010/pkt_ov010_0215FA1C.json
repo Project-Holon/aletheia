@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215FA1C",
+   "name": "SCRCMD_NETWORK_LoadOv020Task",
    "address": "0x0215FA1C",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: func_0215929C
+ * function: SCRIPT_WORK_CmdReturn
  * address:  0x0215929C
  * packet:   pkt_0215929C
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct Ring;
 extern u32 VM_Return(struct Ring *r);
 
-int func_0215929C(struct Ring *a0)
+int SCRIPT_WORK_CmdReturn(struct Ring *a0)
 {
 
     a0 = (struct Ring *)VM_Return(a0);

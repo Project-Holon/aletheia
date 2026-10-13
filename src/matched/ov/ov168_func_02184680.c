@@ -14,7 +14,7 @@
  *   pool load); an int parameter sinks it to the end of the entry block.
  * symbols:
  *   func_02030DA8  0x02030DA8  arm
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   func_0203F5FC  0x0203F5FC  arm
  *   CLACT_SetActorPosAxis  0x0204B550  arm
  *   func_02184780  0x02184780  thumb  ov168
@@ -47,7 +47,7 @@ typedef struct {
 
 extern u32 func_02030DA8(int owner, void (*fn)(), int arg, int n);
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern int func_0203F5FC(u32 x);
 struct Actor;
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
@@ -65,7 +65,7 @@ void func_02184680(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u32 g, u32 
 
     t = func_02030DA8(a0, func_02184780, a2, 0);
     ((u32 *)a2)[0x2c / 4] = t;
-    o = (Obj *)func_02030EE8((struct S02030EE8 *)t);
+    o = (Obj *)TCBL_IsDeletePending((struct S02030EE8 *)t);
     o->handle = handle;
     o->timer = i;
     o->x = FX_F32_TO_FX32(a3);

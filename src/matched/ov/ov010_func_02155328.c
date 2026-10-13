@@ -1,5 +1,5 @@
 /*
- * function: func_02155328
+ * function: MUSICAL_EVENT_BindParticipantSlots
  * address:  0x02155328
  * packet:   pkt_ov010_02155328
  * region:   ov010
@@ -17,15 +17,15 @@
  *
  * The ABS32 to 0x0216FED8 resolves as sole-ref/data since
  * overlay_data_structure() ends each extent at its last instruction's real
- * length (func_0216FEAC ends in the 2-byte pop at 0x0216FED6).
+ * length (TOWN_MAP_SPOT_CountVisited ends in the 2-byte pop at 0x0216FED6).
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012950  0x02012950  thumb
- *   d_0216FED8     0x0216FED8  data  ov010  a1
- *   d_0216FEDC     0x0216FEDC  data  a1
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   MUSICAL_EVENT_TwoPlayerPositionRemap     0x0216FED8  data  ov010  a1
+ *   MUSICAL_EVENT_FourPlayerPositionRemap     0x0216FEDC  data  a1
  */
 
 typedef unsigned char u8;
@@ -56,49 +56,49 @@ struct Ctx {
     struct Slot slot[4];
 };
 
-extern const Map2 d_0216FED8;
-extern const Map4 d_0216FEDC;
+extern const Map2 MUSICAL_EVENT_TwoPlayerPositionRemap;
+extern const Map4 MUSICAL_EVENT_FourPlayerPositionRemap;
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 struct Rec44;
 struct Sub24;
-extern void *func_020120F4(const struct Ctx *p);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 
-void func_02155328(struct Ctx *ctx, void *party)
+void MUSICAL_EVENT_BindParticipantSlots(struct Ctx *ctx, void *party)
 {
     Map4 m4;
     Map2 m2;
     int i;
 
     if (ctx->f88->f22 != 0) {
-        if (ctx->b78[func_0203D1A4((struct Link *)((u32)func_020399A8()))] < 2) {
+        if (ctx->b78[GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()))] < 2) {
             for (i = 0; i < 4; i++) {
                 ctx->slot[ctx->b78[i]].list = ctx->f3c[i];
-                ctx->slot[ctx->b78[i]].mon = func_02012950(func_020120F4(party), i);
+                ctx->slot[ctx->b78[i]].mon = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(party), i);
             }
         } else {
             i = 0;
-            m4 = d_0216FEDC;
+            m4 = MUSICAL_EVENT_FourPlayerPositionRemap;
             for (; i < 4; i++) {
                 ctx->slot[m4.v[ctx->b78[i]]].list = ctx->f3c[i];
-                ctx->slot[m4.v[ctx->b78[i]]].mon = func_02012950(func_020120F4(party), i);
+                ctx->slot[m4.v[ctx->b78[i]]].mon = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(party), i);
             }
         }
     } else {
-        if (func_0203D1A4((struct Link *)((u32)func_020399A8())) == 0) {
+        if (GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())) == 0) {
             for (i = 0; i < 2; i++) {
                 ctx->slot[ctx->b78[i]].list = ctx->f3c[i];
-                ctx->slot[ctx->b78[i]].mon = func_02012950(func_020120F4(party), i);
+                ctx->slot[ctx->b78[i]].mon = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(party), i);
             }
         } else {
             i = 0;
-            m2 = d_0216FED8;
+            m2 = MUSICAL_EVENT_TwoPlayerPositionRemap;
             for (; i < 2; i++) {
                 ctx->slot[m2.v[ctx->b78[i]]].list = ctx->f3c[i];
-                ctx->slot[m2.v[ctx->b78[i]]].mon = func_02012950(func_020120F4(party), i);
+                ctx->slot[m2.v[ctx->b78[i]]].mon = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(party), i);
             }
         }
     }

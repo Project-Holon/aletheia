@@ -9,7 +9,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb
  */
 #include "../include/Obj00059.h"
 
-int APP_TASKMENU_OpenMenuFastDecide(int a0, int a1){ int t0; t0 = func_02027778(a0, a1); *(int *)&((struct Obj00059 *)((char *)(t0)))->f14 = (int)2; return t0; }
+int APP_TASKMENU_OpenMenuFastDecide(int a0, int a1){ int t0; t0 = APP_TASKMENU_OpenMenu(a0, a1); *(int *)&((struct Obj00059 *)((char *)(t0)))->f14 = (int)2; return t0; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021927E8
+ * function: FIELD_MSGBG_ExitCursor
  * address:  0x021927E8
  * packet:   pkt_021927E8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Clears the leading byte and tail calls on the word at +4.
  *
  * symbols:
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Delete  0x020437AC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Obj020437AC;
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 
-void func_021927E8(u32 *p)
+void FIELD_MSGBG_ExitCursor(u32 *p)
 {
     ((struct Obj12068 *)p)->f0 = 0;
-    func_020437AC((struct Obj020437AC *)p[1]);
+    BMP_Delete((struct Obj020437AC *)p[1]);
 }

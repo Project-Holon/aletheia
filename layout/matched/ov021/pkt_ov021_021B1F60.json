@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B1F60",
+   "name": "SCRCMD_FLDMMDL_GetPlayerForm",
    "address": "0x021B1F60",
    "kind": "game",
    "region": "ov021",

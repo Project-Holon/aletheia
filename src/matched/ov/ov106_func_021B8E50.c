@@ -9,12 +9,12 @@
  * status: EXACT*
  * extent: two bytes of alignment padding after the return.
  * symbols:
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  */
 typedef struct { int x,y; } Pair;
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 int func_021B8E50(char *p, Pair *a, Pair *b, Pair *c) {
- if (func_02035C38()) {
+ if (TOUCHPANEL_GetCont()) {
  if(a) *a=*(Pair *)p;
  if(b) *b=*(Pair *)(p+8);
  if(c) *c=*(Pair *)(p+24);

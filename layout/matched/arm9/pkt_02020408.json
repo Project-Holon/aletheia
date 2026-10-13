@@ -86,9 +86,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02020CF8",
-    "func_02020D0C",
-    "func_02020D10",
+    "BMP_MENULIST_ResetCursorTile",
+    "BMP_MENULIST_GetUserData",
+    "BMP_MENULIST_SetCancelDisabled",
     "BMP_CURSOR_Create"
    ],
    "addresses": [

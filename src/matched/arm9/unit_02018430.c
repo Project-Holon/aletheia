@@ -12,7 +12,7 @@
  *
  * The record's level accessor: it unlocks the block area, reads ids 5, 0x6F
  * and 8 out of it (species, form and experience), locks it again and hands the
- * three to func_0201850C (src/matched/unit_0201850C.c), which is the same
+ * three to POKE_TOOL_CalcLevelFromExp (src/matched/unit_0201850C.c), which is the same
  * computation id 0x9E of POKE_TOOL_GetBoxValueRaw performs directly on the substructs.
  * POKE_TOOL_CalcLevel in front of it is an eight byte
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk with no prologue, and
@@ -21,7 +21,7 @@
  *
  * The three values are held in word locals and truncated at the call, not at
  * the assignment: the two `lsls #0x10` / `lsrs #0x10` pairs sit immediately in
- * front of the `bl`, after the lock call, which is what fixes func_0201850C's
+ * front of the `bl`, after the lock call, which is what fixes POKE_TOOL_CalcLevelFromExp's
  * first two parameters as u16 and func_02017E88's return as a word.  The same
  * shape appears in src/matched/unit_02017E64.c and src/matched/unit_0201854C.c.
  *
@@ -35,16 +35,21 @@
  * Verified with
  *   python tools/match.py tu --src src/matched/unit_02018430.c \
  *       --addr 0x02018430 --thumb
+ *
+ * symbols:
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   POKE_TOOL_CalcLevelFromExp  0x0201850C  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_0201850C(u16 species, u16 form, u32 exp);
+extern u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp);
 
 u32 POKE_TOOL_CalcBoxLevel(void *p);
 
@@ -55,11 +60,11 @@ u32 POKE_TOOL_CalcLevel(void *p)
 
 u32 POKE_TOOL_CalcBoxLevel(void *p)
 {
-    u32 t = func_02017DBC(p);
+    u32 t = POKE_TOOL_DecodeBoxParam(p);
     u32 species = func_02017E88(p, 5, 0);
     u32 form = func_02017E88(p, 0x6F, 0);
     u32 exp = func_02017E88(p, 8, 0);
 
-    func_02017DE4(p, t);
-    return func_0201850C((u16)species, (u16)form, exp);
+    POKE_TOOL_EncodeBoxParam(p, t);
+    return POKE_TOOL_CalcLevelFromExp((u16)species, (u16)form, exp);
 }

@@ -10,7 +10,7 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj06477.h"
 #include "../include/Obj08135.h"
@@ -22,5 +22,5 @@ struct Descriptor;
 struct PrintSys;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
-void func_021CA478(char *p) {u32 i;char *q;void *v;for(i=0;i<64;i++){q=*(char **)(p+i*4+56);if(!q)break;v=((struct Obj06477 *)p)->f34;if(((struct Obj08135 *)q)->f4) {if(!func_0201C6C4(v,func_02045770(((struct Obj08135 *)q)->f0))) {func_02045334(((struct Obj08135 *)q)->f0);((struct Obj08135 *)q)->f4=0;}}}}
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+void func_021CA478(char *p) {u32 i;char *q;void *v;for(i=0;i<64;i++){q=*(char **)(p+i*4+56);if(!q)break;v=((struct Obj06477 *)p)->f34;if(((struct Obj08135 *)q)->f4) {if(!func_0201C6C4(v,func_02045770(((struct Obj08135 *)q)->f0))) {BMP_WIN_TransferChars(((struct Obj08135 *)q)->f0);((struct Obj08135 *)q)->f4=0;}}}}

@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DC13C.c and filed here.
  *
  * symbols:
- *   d_021F0778 0x021F0778 data ov093 a4
+ *   gHealerHandlers 0x021F0778 data ov093 a4
  */
 
 int *func_021DC20C(int *p);
-extern int d_021F0778[];
+extern int gHealerHandlers[];
 
 int *func_021DC20C(int *p)
 {
     *p = 1;
-    return d_021F0778;
+    return gHealerHandlers;
 }

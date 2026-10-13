@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D4D0 0x0203D4D0 arm
- *   func_021840A8 0x021840A8 thumb ov022
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendDataMask 0x0203D4D0 arm
+ *   UNION_APP_GetSettingSize 0x021840A8 thumb ov022
  */
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D4D0(u32, u32, u32, u32, u32, u32, u32, u32);
-extern u32 func_021840A8(u32);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendDataMask(u32, u32, u32, u32, u32, u32, u32, u32);
+extern u32 UNION_APP_GetSettingSize(u32);
 u32 UNION_COMMAND_SendAppSetting(void *p, u32 a)
 {
     u32 entry;
     u32 size;
-    entry = (u32)func_020399A8();
-    size = func_021840A8(entry);
-    return func_0203D4D0(entry, a, 0x1410, size, (u32)p, 1, 0, 0);
+    entry = (u32)GFL_NET_HANDLE_GetCurrentHandle();
+    size = UNION_APP_GetSettingSize(entry);
+    return GFL_NET_SendDataMask(entry, a, 0x1410, size, (u32)p, 1, 0, 0);
 }

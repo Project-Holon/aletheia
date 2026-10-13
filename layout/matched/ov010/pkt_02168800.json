@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02168800",
+   "name": "FLD_BTL_INST_TOOL_ReadMonData",
    "address": "0x02168800",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216880C",
+   "name": "FLD_BTL_INST_TOOL_LoadTrainerGroup",
    "address": "0x0216880C",
    "kind": "game",
    "region": "ov010",

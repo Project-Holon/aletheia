@@ -1,5 +1,5 @@
 /*
- * function: func_0219BD30
+ * function: FLDMMDL_MOVE_TurnToFellow
  * address:  0x0219BD30
  * packet:   pkt_ov021_0219BD30
  * region:   ov021
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_0216D804  0x0216D804  thumb  ov010
- *   func_0216D81C  0x0216D81C  thumb  ov010
- *   func_021642B4  0x021642B4  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D438  0x0216D438  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_GetGridOldX  0x0216D804  thumb  ov010
+ *   FLDMMDL_GetGridOldZ  0x0216D81C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirFromPoints  0x021642B4  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetLocalAcmd  0x0216D438  thumb  ov010
  */
 #include "../include/Obj05999.h"
 
@@ -25,33 +25,33 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
-extern int func_0216D804(void *p);
-extern int func_0216D81C(void *p);
-extern u16 func_021642B4(int x0, int y0, int x1, int y1);
-extern int func_021641E8(int a);
-extern u32 func_021641F8(u16);
-extern u32 func_02197E7C(u16, u32);
-extern void func_0216D438(char *a0, int a1);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern int FLDMMDL_GetGridOldX(void *p);
+extern int FLDMMDL_GetGridOldZ(void *p);
+extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int y0, int x1, int y1);
+extern int FLDMMDL_MOVE_GetDirAddGridX(int a);
+extern u32 FLDMMDL_MOVE_GetDirAddGridZ(u16);
+extern u32 FLDMMDL_ACMD_ConvertCodeByDir(u16, u32);
+extern void FLDMMDL_SetLocalAcmd(char *a0, int a1);
 
-int func_0219BD30(char *a, struct Obj05999 *b)
+int FLDMMDL_MOVE_TurnToFellow(char *a, struct Obj05999 *b)
 {
-    u32 x = func_0216D83C((void *)a);
-    u32 y = func_0216D86C((void *)a);
-    u32 px = func_0216D83C((void *)(b->f8));
-    u32 py = func_0216D86C((void *)(b->f8));
-    u32 pz = func_0216D804((void *)(b->f8));
-    u32 pw = func_0216D81C((void *)(b->f8));
+    u32 x = FLDMMDL_GetGridNowX((void *)a);
+    u32 y = FLDMMDL_GetGridNowZ((void *)a);
+    u32 px = FLDMMDL_GetGridNowX((void *)(b->f8));
+    u32 py = FLDMMDL_GetGridNowZ((void *)(b->f8));
+    u32 pz = FLDMMDL_GetGridOldX((void *)(b->f8));
+    u32 pw = FLDMMDL_GetGridOldZ((void *)(b->f8));
     u32 r;
     if (x == px && y == py) {
         return 0;
     }
-    r = func_021642B4(x, y, pz, pw);
-    x += (u32)func_021641E8((u16)r);
-    y += func_021641F8(r);
+    r = FLDMMDL_MOVE_GetDirFromPoints(x, y, pz, pw);
+    x += (u32)FLDMMDL_MOVE_GetDirAddGridX((u16)r);
+    y += FLDMMDL_MOVE_GetDirAddGridZ(r);
     if (x != px || y != py) {
-        func_0216D438(a, (u16)func_02197E7C(r, 12));
+        FLDMMDL_SetLocalAcmd(a, (u16)FLDMMDL_ACMD_ConvertCodeByDir(r, 12));
         return 1;
     }
     return 0;

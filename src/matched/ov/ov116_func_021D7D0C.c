@@ -17,7 +17,7 @@
  *   func_02049740 0x02049740 arm
  *   func_02049990 0x02049990 arm
  *   func_02049F78 0x02049F78 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
@@ -27,7 +27,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_0203FA08 0x0203FA08 arm
  *   func_0201F5DC 0x0201F5DC thumb
- *   func_02021F64 0x02021F64 thumb
+ *   PALANM_BlendColors 0x02021F64 thumb
  *   func_021D7F54 0x021D7F54 thumb ov116
  */
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ extern void func_02049B68(void *, int, int, int, int, u32);
 extern u32 func_02049740(void *, int, int, int, int, u32);
 extern void func_02049990(void *, int, int, int, u16, int, int, u32);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02049B40(int, int, int, int, int, u32);
 extern void func_02082BCC(void *, int, u32);
 extern void func_02082D44(const void *, void *, u32);
@@ -48,7 +48,7 @@ extern void func_020862F0(void *, u32);
 extern void func_0207D63C(void *, int, int, int, int);
 extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
 extern void *func_0201F5DC(void *a0, u32 a1, u32 a2, u32 a3);
-extern void func_02021F64(void *, void *, u16, u8, u16);
+extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
 extern void func_021D7F54(void *unused, u8 *p);
 struct Arc { int f0; int f4; int f8; u8 *fC; };
 void func_021D7D0C(u8 *p, short heap) {
@@ -94,7 +94,7 @@ void func_021D7D0C(u8 *p, short heap) {
             sh = t >> 8;
             b = pa + j * 32;
             for (m = 4; m < 11; m++) {
-                func_02021F64(a + m * 2, b + m * 2, 1, (u8)sh, *(u16 *)(q + 0x14 + m * 2));
+                PALANM_BlendColors(a + m * 2, b + m * 2, 1, (u8)sh, *(u16 *)(q + 0x14 + m * 2));
             }
             j++;
             if (done == 1) break;
@@ -107,7 +107,7 @@ void func_021D7D0C(u8 *p, short heap) {
     *(void **)(p + 0xc) = func_020056A0((void *)func_021D7F54, p + 0xc, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
     p[0x978] = 0;
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     func_0203FA08(1, 0x20, 0);
     func_0203FA08(2, 0x20, 0);
     *(void **)(p + 0x984) = func_0201F5DC((void *)1, 0xd, 0, heap);

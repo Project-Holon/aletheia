@@ -1,5 +1,5 @@
 /*
- * function: func_0216DB98
+ * function: FLDMMDL_SetStatusBitAlias
  * address:  0x0216DB98
  * packet:   pkt_0216DB98
  * region:   ov010
@@ -13,23 +13,23 @@
  * takes the shifted mask and the value.
  *
  * symbols:
- *   func_0216D548   0x0216D548  thumb  ov010
- *   func_0216D550   0x0216D550  thumb  ov010
+ *   FLDMMDL_SetStatusBit   0x0216D548  thumb  ov010
+ *   FLDMMDL_ClearStatusBit   0x0216D550  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 *func_0216D548(u32 *p, u32 v);
-extern u32 *func_0216D550(u32 *p, u32 v);
+extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
+extern u32 *FLDMMDL_ClearStatusBit(u32 *p, u32 v);
 
-int func_0216DB98(void *a0, int a1)
+int FLDMMDL_SetStatusBitAlias(void *a0, int a1)
 {
     int a2;
     if (a1 == 1)
-        return (int)func_0216D548(a0, 0x800);
+        return (int)FLDMMDL_SetStatusBit(a0, 0x800);
 
-    return (int)func_0216D550(a0, 0x800);
+    return (int)FLDMMDL_ClearStatusBit(a0, 0x800);
 }
 

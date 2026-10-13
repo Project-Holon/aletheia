@@ -1,5 +1,5 @@
 /*
- * function: func_021C6CF4
+ * function: FIELD_TASK_RunCheck
  * address:  0x021C6CF4
  * packet:   pkt_ov021_021C6CF4
  * region:   ov021
@@ -13,7 +13,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_021C6CEC  0x021C6CEC  thumb  ov021
+ *   FIELD_TASK_SetFinished  0x021C6CEC  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -33,11 +33,11 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef struct { u32 f0; u32 *f4; int (*f8)(u32 *); } Q;
-extern int func_021C6CEC(u32 a);
-void func_021C6CF4(Q *q)
+extern int FIELD_TASK_SetFinished(u32 a);
+void FIELD_TASK_RunCheck(Q *q)
 {
     if (q->f0 == 1) {
         if (q->f8(q->f4) == 1)
-            func_021C6CEC((u32)q);
+            FIELD_TASK_SetFinished((u32)q);
     }
 }

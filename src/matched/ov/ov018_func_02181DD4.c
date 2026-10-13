@@ -1,5 +1,5 @@
 /*
- * function: func_02181DD4
+ * function: EVENT_COMM_COMMON_SupportMsgEventMain
  * address:  0x02181DD4
  * packet:   pkt_ov018_02181DD4
  * region:   ov018
@@ -11,13 +11,13 @@
  * symbols:
  *   func_020124E4  0x020124E4  thumb
  *   func_0201F02C  0x0201F02C  thumb
- *   func_0217F3C4  0x0217F3C4  thumb
- *   func_0217F40C  0x0217F40C  thumb
- *   func_0217F318  0x0217F318  thumb
- *   func_02158768  0x02158768  thumb  ov010
- *   func_021589D0  0x021589D0  thumb  ov010
- *   func_02159058  0x02159058  thumb  ov010
- *   func_02012374  0x02012374  thumb
+ *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
+ *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
+ *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
+ *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010
+ *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -45,17 +45,17 @@ struct Obj;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_0217F3C4(Ov018Obj *p, int a);
-int func_0217F40C(Ov018Obj *p);
-void func_0217F318(Ov018Obj *p);
+void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
+int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
+void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
 struct Desc;
-struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-int func_021589D0(int a0);
-int func_02159058(int a, int b, int c, int d, u16 e);
-void func_02012374(struct Evt *evt, struct Evt **out);
+struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+int SCRIPT_SYS_GetEventScriptWork(int a0);
+int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
+void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 u32 func_020307B0(void *p);
 
-int func_02181DD4(void *a, int *state, Ov018Obj *c)
+int EVENT_COMM_COMMON_SupportMsgEventMain(void *a, int *state, Ov018Obj *c)
 {
     void *sub;
     void *w;
@@ -64,19 +64,19 @@ int func_02181DD4(void *a, int *state, Ov018Obj *c)
     switch (*state) {
     case 0:
         func_0201F02C(c->f00, 0, c->f30);
-        func_0217F3C4(c, 0x1C);
+        EVENT_COMM_COMMON_PrintMsg(c, 0x1C);
         (*state)++;
         break;
     case 1:
-        if (func_0217F40C(c) == 1) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(c) == 1) {
             (*state)++;
         }
         break;
     case 2:
-        func_0217F318(c);
-        w = func_02158768((int)sub, 0xAFD, 0, 4);
-        func_02159058(func_021589D0((int)w), 0x1C, 1, 0, 0);
-        func_02012374(a, w);
+        EVENT_COMM_COMMON_ExitMsgBox(c);
+        w = SCRIPT_SYS_CreateScriptEventSimple((int)sub, 0xAFD, 0, 4);
+        SCRIPT_WORK_SetParams(SCRIPT_SYS_GetEventScriptWork((int)w), 0x1C, 1, 0, 0);
+        GAME_EVENT_CallEvent(a, w);
         (*state)++;
         break;
     case 3:

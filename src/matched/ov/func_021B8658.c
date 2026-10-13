@@ -1,5 +1,5 @@
 /*
- * function: func_021B8658
+ * function: FIELD_RAIL_WORK_EnterLine
  * address:  0x021B8658
  * packet:   pkt_021B8658
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021B8658(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
+void FIELD_RAIL_WORK_EnterLine(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
 {
     ((struct Obj04134 *)p)->f0 = 1;
     ((struct Obj04134 *)p)->f4 = a;

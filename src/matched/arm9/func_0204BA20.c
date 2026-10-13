@@ -1,5 +1,5 @@
 /*
- * function: func_0204BA20
+ * function: CLACT_SetActorVisible
  * address:  0x0204BA20
  * packet:   pkt_0204B954
  * region:   arm9
@@ -20,8 +20,8 @@
  * docs/idioms/a-one-bit-bitfield-wants-two-arms-not-a-boolean.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204BA20.c \
- *       --func func_0204BA20 --addr 0x0204BA20 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetActorVisible.c \
+ *       --func CLACT_SetActorVisible --addr 0x0204BA20 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ struct Actor {
     u32 pad_64 : 31;
 };
 
-void func_0204BA20(struct Actor *a, u32 v)
+void CLACT_SetActorVisible(struct Actor *a, u32 v)
 {
     if (v == 0) {
         a->hidden = 1;

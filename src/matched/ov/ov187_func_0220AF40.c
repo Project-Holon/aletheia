@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   BATTLE_REC_AllocWork 0x0200B400 thumb
  *   func_0220B008 0x0220B008 thumb ov187
@@ -17,9 +17,9 @@
  *   d_0220B2A0 0x0220B2A0 data a4
  */
 #include "../include/Obj24881.h"
-extern void func_0203064C(unsigned, unsigned, unsigned);
+extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void *func_02082BCC(void *, int, unsigned);
 extern void BATTLE_REC_AllocWork(unsigned);
 typedef unsigned int   u32;
@@ -31,8 +31,8 @@ extern const char d_0220B2A0[];
 int func_0220AF40(struct Obj0203159C *a, unsigned unused, unsigned mode)
 {
     char *p;
-    func_0203064C(1, 0x59, 0x12000);
-    p = func_0203159C(a, 0x17f4, 0x59);
+    GFL_HEAP_CreateChildHeap(1, 0x59, 0x12000);
+    p = PROCSYS_AllocProcWork(a, 0x17f4, 0x59);
     func_02082BCC(p, 0, 0x17f4);
     ((struct Obj24881 *)p)->f17F0 = mode;
     BATTLE_REC_AllocWork(0x59);

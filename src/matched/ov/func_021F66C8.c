@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm  arm9
  *
 
  *
@@ -22,14 +23,14 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 struct ArcFile;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 struct NitroFileHeader;
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern u32 func_020307B0(void *p);
 
 u32 func_021F66C8(u32 a, u32 b, u32 c, u32 d)
 {
-    u32 blk = (u32)func_02049250((struct ArcFile *)a, b, (u16)d);
+    u32 blk = (u32)ARC_TOOL_LoadHandleMember((struct ArcFile *)a, b, (u16)d);
 
     if (blk != 0 && func_02062A4C((struct NitroFileHeader *)blk, (void **)c) == 0) {
         func_020307B0((void *)blk);

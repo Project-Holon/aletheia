@@ -13,7 +13,7 @@
  *
  * Blocked at MATCH on the `label`/`matched` classes: all 82 concrete bytes
  * are correct (88-byte extent, the last 6 bytes being the pool word 0xffff),
- * but the PC-relative call at +0x0034 to func_0215E6F8 in ov010 has no
+ * but the PC-relative call at +0x0034 to MOVE_POKEMON_IsAnyEntryActive in ov010 has no
  * witness: 0x0215E6F8 has exactly one branch reference image-wide and it is
  * that call, so no cut frees it, and the address is inside BOTH ov009's and
  * ov010's windows, so the `label` class refuses it even with the ov010 hint
@@ -27,14 +27,14 @@
  * difference with `lsls r0, r0, #0x10; lsrs r0, r0, #0x10` first.
  *
  * The first call takes the actor pointer as well as the truncated id,
- * `func_0215E6A8(a0, (u16)a1)`: r0 is still r0 at the call and the id is
+ * `MOVE_POKEMON_FindEntryByZone(a0, (u16)a1)`: r0 is still r0 at the call and the id is
  * built in r1.  Declaring it as a one-argument call puts the id in r0 and
  * shifts the whole prologue.
  *
  * symbols:
- *   func_0215E6A8  0x0215E6A8  thumb ov010
- *   func_0215E6F8  0x0215E6F8  thumb ov010
- *   func_02012994  0x02012994  thumb
+ *   MOVE_POKEMON_FindEntryByZone  0x0215E6A8  thumb ov010
+ *   MOVE_POKEMON_IsAnyEntryActive  0x0215E6F8  thumb ov010
+ *   GAME_DATA_GetSubscreenMode  0x02012994  thumb
  *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
  *   ZONEDATA_GetWeatherId  0x02013C10  thumb
  */
@@ -44,10 +44,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0215E6A8(void *a, int x);
-extern int func_0215E6F8(int a0);
+extern int MOVE_POKEMON_FindEntryByZone(void *a, int x);
+extern int MOVE_POKEMON_IsAnyEntryActive(int a0);
 struct BigObj;
-extern u8 func_02012994(const struct BigObj *p);
+extern u8 GAME_DATA_GetSubscreenMode(const struct BigObj *p);
 struct BigObj;
 extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
 extern u32 ZONEDATA_GetWeatherId(u32 id);
@@ -57,8 +57,8 @@ void func_0202C860(u8 *a0, int a1)
     u32 v;
     u16 r;
 
-    v = func_0215E6A8(a0, (u16)a1);
-    r = (u16)(u32)func_02012994((const struct BigObj *)a0);
+    v = MOVE_POKEMON_FindEntryByZone(a0, (u16)a1);
+    r = (u16)(u32)GAME_DATA_GetSubscreenMode((const struct BigObj *)a0);
     if (v != 0xffff) {
         GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)v);
         return;
@@ -66,7 +66,7 @@ void func_0202C860(u8 *a0, int a1)
     if ((u32)(r - 6) > 1) {
         return;
     }
-    if (func_0215E6F8((int)a0) != 1) {
+    if (MOVE_POKEMON_IsAnyEntryActive((int)a0) != 1) {
         return;
     }
     GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)ZONEDATA_GetWeatherId((u16)a1));

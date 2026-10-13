@@ -1,7 +1,7 @@
 /*
  * file:     wih_dwc.c
  * unit:     yes
- * function: sub_02010158, func_020101D4, func_0201034C, WIH_DWC_Create, WIH_DWC_Delete, WIH_DWC_PauseTimers, WIH_DWC_ResumeTimers, WIH_DWC_AddBeacon, WIH_DWC_TickTimers, WIH_DWC_IsSsidInFilterList, WIH_DWC_IsOpenTaggedBeacon, WIH_DWC_IsPrivacyBeacon, func_0201058C, WIH_DWC_CreateFilterBuffer, WIH_DWC_ResetFilterState, WIH_DWC_FindSlotByKey, WIH_DWC_GetAlertLevel, WIH_DWC_RequestAlertLevel, WIH_DWC_Dummy, func_02010888, func_0201088C, func_020108C4, func_02010904, func_02010934, func_0201093C, func_02010964, func_02010994, func_020109B8, func_020109E0, func_02010A04, func_02010A3C, sub_02010A5C, func_02010AC4
+ * function: sub_02010158, func_020101D4, func_0201034C, WIH_DWC_Create, WIH_DWC_Delete, WIH_DWC_PauseTimers, WIH_DWC_ResumeTimers, WIH_DWC_AddBeacon, WIH_DWC_TickTimers, WIH_DWC_IsSsidInFilterList, WIH_DWC_IsOpenTaggedBeacon, WIH_DWC_IsPrivacyBeacon, WIH_DWC_PollStatus, WIH_DWC_CreateFilterBuffer, WIH_DWC_ResetFilterState, WIH_DWC_FindSlotByKey, WIH_DWC_GetAlertLevel, WIH_DWC_RequestAlertLevel, WIH_DWC_Dummy, func_02010888, func_0201088C, func_020108C4, func_02010904, func_02010934, func_0201093C, func_02010964, func_02010994, func_020109B8, func_020109E0, func_02010A04, func_02010A3C, sub_02010A5C, func_02010AC4
  * address:  0x02010158
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -24,18 +24,18 @@
  *   MIi_CpuClear16    0x02082A48  arm
  *   BMP_CreateFromVram     0x02043754  arm
  *   func_0201EC64     0x0201EC64  thumb
- *   func_0201D7EC     0x0201D7EC  thumb
+ *   GF_FONT_Create     0x0201D7EC  thumb
  *   func_02045B38     0x02045B38  arm
  *   func_0201EFA4     0x0201EFA4  thumb
  *   func_02045EC0     0x02045EC0  arm
- *   func_020457B0     0x020457B0  arm
+ *   STRBUF_Create     0x020457B0  arm
  *   func_0201F250     0x0201F250  thumb
- *   func_0201C7D0     0x0201C7D0  thumb
- *   func_02045808     0x02045808  arm
- *   func_02045C04     0x02045C04  arm
- *   func_0201D83C     0x0201D83C  thumb
+ *   PRINTSYS_PrintColor     0x0201C7D0  thumb
+ *   STRBUF_Delete     0x02045808  arm
+ *   MSGDATA_Delete     0x02045C04  arm
+ *   GF_FONT_Delete     0x0201D83C  thumb
  *   func_0201ED04     0x0201ED04  thumb
- *   func_020437AC     0x020437AC  arm
+ *   BMP_Delete     0x020437AC  arm
  *   gWihDwc     0x021461E0  data
  *   sWihDwcAssertArg        0x020A7240  data
  *   sWihDwcFile    0x020A7244  data
@@ -50,26 +50,26 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_0203F004  0x0203F004  arm
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_0203D798  0x0203D798  arm
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_0203CF10  0x0203CF10  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   func_0205D01C  0x0205D01C  arm
  *   NET_WHPIPE_GetEntryKind  0x02178098  thumb  ov014
  *   func_0205FAA8  0x0205FAA8  arm
- *   func_0203CD98     0x0203CD98  arm
+ *   GFL_NET_GetRunState     0x0203CD98  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   func_02177B80     0x02177B80  thumb  ov014
  *   sub_0202E8D8      0x0202E8D8  thumb
  *   sNetSaveFile       0x020A725C  data
  *   sWihBeaconSsidTag        0x020A7250  data
  *   func_02030734     0x02030734  arm
- *   func_020399A8     0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle     0x020399A8  arm
  *   func_02039C68     0x02039C68  arm
  *   func_020307B0     0x020307B0  arm
  *   func_0200FB24     0x0200FB24  thumb
  *   GAME_DATA_SaveCancel     0x02012E08  thumb
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   sub_020124F4   0x020124F4  thumb
  *   sub_02012EBC   0x02012EBC  thumb
@@ -85,6 +85,8 @@
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   GFL_USE_UpdateSound  0x02005BC0  thumb
  *   PM_VOICE_StopFinished  0x020065FC  thumb
+ *   GAME_DATA_SaveStart  0x02012DAC  thumb
+ *   GAME_DATA_SaveMain  0x02012DD0  thumb
  */
 
 typedef unsigned char  u8;
@@ -171,7 +173,7 @@ struct WihSsidInfo {
     u8  rest[0x3C];    /* +0x04 */
 };
 
-/* the connection state block func_0203D798 returns (fields used here) */
+/* the connection state block GFL_NET_GetInitParam returns (fields used here) */
 struct GFLNetInitializeStruct {
     u8 unused00[0x62];
     u8 slotCount;
@@ -234,18 +236,18 @@ extern u8  *G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern struct WordSet *func_0201EC64(u32 heapId);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flags);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *wordSet, void *dst, void *src);
-extern void func_0201C7D0(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct MsgBank *bank);
-extern u32 func_0201D83C(void *font);
+extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern u32 GF_FONT_Delete(void *font);
 extern u32 func_0201ED04(struct WordSet *wordSet);
-extern void func_020437AC(struct Bmp *bmp);
+extern void BMP_Delete(struct Bmp *bmp);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *file, u16 line);
 extern u32  DWC_GetParseWMBssDescWorkSize(void);
@@ -256,28 +258,28 @@ extern void func_02034A5C(int handle);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u32 func_0203F004(const u8 *s);
 extern s32 func_0203EFC8(const void *a, const void *b, u32 n);
-extern void *func_0203D798(void);
-extern int  func_0203D1B4(void);
-extern u32 func_0203CF10(u32 slot);
+extern void *GFL_NET_GetInitParam(void);
+extern int  GFL_NET_GetNegotiationNum(void);
+extern u32 GFL_NET_GetScanResult(u32 slot);
 extern u8   NET_WHPIPE_GetEntryKind(u8 slot);
 extern int  func_0205D01C(void *work, struct WihBssDesc *beacon, struct WihSsidInfo *out);
 extern void func_0205FAA8(u8 *filterState, u32 value);
-extern int  func_0203CD98(void);
+extern int  GFL_NET_GetRunState(void);
 extern void OS_GetMacAddress(u8 *mac);
 extern u8 func_02177B80(int slot);
 extern int sub_0202E8D8(char *record, int key, char *mac);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern struct Link *func_020399A8(void);
+extern struct Link *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_02039C68(struct Link *link, u32 timingId, u32 size);
 extern u32 func_020307B0(void *task);
 extern u32  func_0200FB24(void);
 extern void GAME_DATA_SaveCancel(u32 gameData);
 extern u32 func_02039CB4(struct Link *link, u32 timingId, u32 size);
-extern int func_02012DAC(u32 gameData);
-extern int  func_02012DD0(u32 gameData);
+extern int GAME_DATA_SaveStart(u32 gameData);
+extern int  GAME_DATA_SaveMain(u32 gameData);
 extern u32  func_020056EC(u32 frames);
-extern void  func_0203064C(u32 a, u32 heapId, u32 size);
-extern void *func_0203159C(void *proc, u32 size, u32 heapId);
+extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
+extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
 extern void *sub_020124F4(u16 heapId);
 extern struct SaveControl *sub_02012EBC(void *gameData);
@@ -302,7 +304,7 @@ void WIH_DWC_TickTimers(void);
 int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon);
 int WIH_DWC_IsOpenTaggedBeacon(const struct WihBssDesc *beacon);
 u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon);
-u32 func_0201058C(void *searchKey);
+u32 WIH_DWC_PollStatus(void *searchKey);
 void WIH_DWC_CreateFilterBuffer(u32 heapId);
 void WIH_DWC_ResetFilterState(void);
 int WIH_DWC_FindSlotByKey(void *searchKey);
@@ -425,7 +427,7 @@ void func_020101D4(u32 messageVariant, u32 useGenericMessage)
     MIi_CpuClear16(0x7777, G2_GetBG1CharPtr() + 0x400, 0x3c00);
     bmp = BMP_CreateFromVram(G2_GetBG1CharPtr() + 0x400, 0x1e, 0x10, 0x20, 1);
     wordSet = func_0201EC64(1);
-    font = func_0201D7EC(0x17, 0, 0, 0, 1);
+    font = GF_FONT_Create(0x17, 0, 0, 0, 1);
 
     if (useGenericMessage == 1) {
         msgBank = func_02045B38(0, 2, 0xe8, 1);
@@ -453,15 +455,15 @@ void func_020101D4(u32 messageVariant, u32 useGenericMessage)
     }
 
     message = func_02045EC0(msgBank, messageIndex);
-    textBuf = func_020457B0(0x189, 1);
+    textBuf = STRBUF_Create(0x189, 1);
     func_0201F250(wordSet, textBuf, message);
-    func_0201C7D0(bmp, 0, 0, textBuf, font, 0x1167);
-    func_02045808(textBuf);
-    func_02045808(message);
-    func_02045C04(msgBank);
-    func_0201D83C(font);
+    PRINTSYS_PrintColor(bmp, 0, 0, textBuf, font, 0x1167);
+    STRBUF_Delete(textBuf);
+    STRBUF_Delete(message);
+    MSGDATA_Delete(msgBank);
+    GF_FONT_Delete(font);
     func_0201ED04(wordSet);
-    func_020437AC(bmp);
+    BMP_Delete(bmp);
 }
 
 
@@ -807,7 +809,7 @@ u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
 /*
  * wih_dwc.c per-frame status poll: returns a flag word (bit 1 always set)
  * built from the lookup in WIH_DWC_FindSlotByKey, the connection state byte +0x67
- * and slot count +0x62 of the func_0203D798 state block, the ov014 per-slot
+ * and slot count +0x62 of the GFL_NET_GetInitParam state block, the ov014 per-slot
  * state (0x14..0x1B, 9), then drains the 0xC0-byte record queue that
  * WIH_DWC_AddBeacon fills, arming the four countdowns at +0x318..+0x324 that
  * WIH_DWC_TickTimers decrements (600 or 400 frames), and finally derives bits
@@ -826,7 +828,7 @@ u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
  *
  * wih_dwc.c per-frame status poll: returns a flag word (bit 1 always set)
  * built from the lookup in WIH_DWC_FindSlotByKey, the connection state byte +0x67
- * and slot count +0x62 of the func_0203D798 context, the ov014 per-slot
+ * and slot count +0x62 of the GFL_NET_GetInitParam context, the ov014 per-slot
  * state (0x14..0x1B, 9), then drains the 0xC0-byte record queue that
  * WIH_DWC_AddBeacon fills, arming the four countdowns at +0x318..+0x324 that
  * WIH_DWC_TickTimers decrements (600 or 400 frames), and finally derives bits
@@ -841,13 +843,13 @@ u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0201058C.c \
- *       --func func_0201058C --addr 0x0201058C --thumb
+ *   python tools/match.py one --src src/pending/WIH_DWC_PollStatus.c \
+ *       --func WIH_DWC_PollStatus --addr 0x0201058C --thumb
  */
-u32 func_0201058C(void *searchKey)
+u32 WIH_DWC_PollStatus(void *searchKey)
 {
     u32 flags = 0;
-    struct GFLNetInitializeStruct *netState = func_0203D798();
+    struct GFLNetInitializeStruct *netState = GFL_NET_GetInitParam();
     int slot;
     int beaconIndex;
     struct WihBssDesc *beacon;
@@ -859,11 +861,11 @@ u32 func_0201058C(void *searchKey)
 
     if (WIH_DWC_FindSlotByKey(searchKey) != -1)
         flags |= 8;
-    if (netState->connectState == 2 && func_0203D1B4() > 1)
+    if (netState->connectState == 2 && GFL_NET_GetNegotiationNum() > 1)
         flags |= 4;
 
     for (slot = 0; slot < netState->slotCount; slot++) {
-        if (func_0203CF10(slot) != 0) {
+        if (GFL_NET_GetScanResult(slot) != 0) {
             slotState = NET_WHPIPE_GetEntryKind(slot);
             if (slotState >= 0x14 && slotState <= 0x1B)
                 flags |= 0x10;
@@ -986,8 +988,8 @@ void WIH_DWC_ResetFilterState(void)
 
 /*
  * wih_dwc.c: find the first of 16 slots whose ov014 state is 0x20 and whose
- * func_0203CF10 record sub_0202E8D8 accepts against (key, own MAC address);
- * -1 when none, or when func_0203CD98 reports the layer inactive.  The guard
+ * GFL_NET_GetScanResult record sub_0202E8D8 accepts against (key, own MAC address);
+ * -1 when none, or when GFL_NET_GetRunState reports the layer inactive.  The guard
  * is a wrapping `if` (it branches forward over the whole body to the shared
  * -1 exit) and the two loop tests are joined by &&.
  */
@@ -1004,8 +1006,8 @@ void WIH_DWC_ResetFilterState(void)
  *           over three unlabelled leaves, filed as src/matched/unit_02010848.c.
  *
  * wih_dwc.c: find the first of 16 slots whose ov014 state is 0x20 and whose
- * func_0203CF10 record COMM_PLAYER_SUPPORT_FindPeerRecord accepts against (key, own MAC address);
- * -1 when none, or when func_0203CD98 reports the layer inactive.  The
+ * GFL_NET_GetScanResult record COMM_PLAYER_SUPPORT_FindPeerRecord accepts against (key, own MAC address);
+ * -1 when none, or when GFL_NET_GetRunState reports the layer inactive.  The
  * closing lever over docs/notes/pkt_020107CC.c.txt was the wrapping `if`
  * instead of an early return (the original's guard branches forward over
  * the whole body to the shared -1 exit) plus the two loop tests joined by &&.
@@ -1021,11 +1023,11 @@ int WIH_DWC_FindSlotByKey(void *searchKey)
     u8 mac[8];
     int slot;
 
-    if (func_0203CD98() != 0) {
-        func_0203D798();
+    if (GFL_NET_GetRunState() != 0) {
+        GFL_NET_GetInitParam();
         OS_GetMacAddress(mac);
         for (slot = 0; slot < 0x10; slot++) {
-            if (func_02177B80(slot) == 0x20 && sub_0202E8D8((void *)func_0203CF10(slot), (int)searchKey, (char *)mac) != 0) {
+            if (func_02177B80(slot) == 0x20 && sub_0202E8D8((void *)GFL_NET_GetScanResult(slot), (int)searchKey, (char *)mac) != 0) {
                 return slot;
             }
         }
@@ -1155,7 +1157,7 @@ struct NetSaveTask *func_0201088C(u32 heapId, u32 gameData)
 
     task = func_02030734(heapId, 0x14, 1, (const char *)&sNetSaveFile, 0x75);
     task->gameData = gameData;
-    func_02039C68(func_020399A8(), 0x71, 8);
+    func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
     func_02010888(task, func_0201093C);
     return task;
 }
@@ -1169,7 +1171,7 @@ struct NetSaveTask *func_020108C4(u32 heapId, u32 gameData, void (*callback)(u32
     task->progressCallback = callback;
     task->callbackArg = callbackArg;
     task->gameData = gameData;
-    func_02039C68(func_020399A8(), 0x71, 8);
+    func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8);
     func_02010888(task, func_0201093C);
     return task;
 }
@@ -1202,8 +1204,8 @@ void func_02010934(struct NetSaveTask *task)
  */
 void func_0201093C(struct NetSaveTask *task)
 {
-    if (func_02039CB4(func_020399A8(), 0x71, 8) != 0) {
-        func_02012DAC(task->gameData);
+    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8) != 0) {
+        GAME_DATA_SaveStart(task->gameData);
         func_02010888(task, func_02010964);
     }
 }
@@ -1216,8 +1218,8 @@ void func_0201093C(struct NetSaveTask *task)
  */
 void func_02010964(struct NetSaveTask *task)
 {
-    if (func_02012DD0(task->gameData) == 1) {
-        func_02039C68(func_020399A8(), 0x72, 8);
+    if (GAME_DATA_SaveMain(task->gameData) == 1) {
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
         task->delayFrames = func_020056EC(0x3c);
         func_02010888(task, func_02010994);
     }
@@ -1231,7 +1233,7 @@ void func_02010964(struct NetSaveTask *task)
  */
 void func_02010994(struct NetSaveTask *task)
 {
-    if (func_02039CB4(func_020399A8(), 0x72, 8) != 0) {
+    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8) != 0) {
         func_02010888(task, func_020109B8);
     }
 }
@@ -1248,7 +1250,7 @@ void func_020109B8(struct NetSaveTask *task)
 
     task->delayFrames = framesLeft;
     if (framesLeft < 0) {
-        func_02039C68(func_020399A8(), 0x73, 8);
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8);
         func_02010888(task, func_020109E0);
     }
 }
@@ -1261,7 +1263,7 @@ void func_020109B8(struct NetSaveTask *task)
  */
 void func_020109E0(struct NetSaveTask *task)
 {
-    if (func_02039CB4(func_020399A8(), 0x73, 8) != 0) {
+    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x73, 8) != 0) {
         func_02010888(task, func_02010A04);
     }
 }
@@ -1277,9 +1279,9 @@ void func_02010A04(struct NetSaveTask *task)
     if (task->progressCallback != 0) {
         task->progressCallback(task->callbackArg);
     }
-    if (func_02012DD0(task->gameData) == 2) {
+    if (GAME_DATA_SaveMain(task->gameData) == 2) {
         task->gameData = 0;
-        func_02039C68(func_020399A8(), 0x74, 8);
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8);
         func_02010888(task, func_02010A3C);
     }
 }
@@ -1292,7 +1294,7 @@ void func_02010A04(struct NetSaveTask *task)
  */
 void func_02010A3C(struct NetSaveTask *task)
 {
-    if (func_02039CB4(func_020399A8(), 0x74, 8) != 0) {
+    if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8) != 0) {
         func_02010888(task, 0);
     }
 }
@@ -1303,8 +1305,8 @@ int sub_02010A5C(void *proc)
     struct NetSaveProcWork *work;
     void *gameData;
 
-    func_0203064C(1, 0x67, 0x78000);
-    work = func_0203159C(proc, 0x1d8, 0x67);
+    GFL_HEAP_CreateChildHeap(1, 0x67, 0x78000);
+    work = PROCSYS_AllocProcWork(proc, 0x1d8, 0x67);
     func_02082BCC(work, 0, 0x1d8);
     work->heapId = 0x67;
     gameData = sub_020124F4(0x67);
@@ -1403,7 +1405,7 @@ int func_02010AC4(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork *wor
         work->state += 1;
         break;
     case 3:
-        if (func_0203CD98() == 0 || work->saveFailed == 1) {
+        if (GFL_NET_GetRunState() == 0 || work->saveFailed == 1) {
             work->retryRequested = 1;
             work->state = 0;
             break;

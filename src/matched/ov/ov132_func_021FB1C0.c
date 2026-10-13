@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  */
 #include "../include/Obj23250.h"
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *);
-int func_021FB1C0(void *unused,char *p) { func_0201134C(*(struct Cursor * *)&((struct Obj23250 *)p)->f4); return 0; }
+extern unsigned int VM_GetU32(struct Cursor *);
+int func_021FB1C0(void *unused,char *p) { VM_GetU32(*(struct Cursor * *)&((struct Obj23250 *)p)->f4); return 0; }

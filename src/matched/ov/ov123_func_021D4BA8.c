@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021D4244 0x021D4244 thumb ov123
  *   func_021D4B44 0x021D4B44 thumb ov123
  */
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 struct Obj;
 extern void func_020061E4(u32 a);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021D4244(char *, void *, int);
 extern void func_021D4B44(char *);
 int func_021D4BA8(int n, char *p)
@@ -27,7 +27,7 @@ int func_021D4BA8(int n, char *p)
     switch (n) {
     case 0:
         func_020061E4(0x73b);
-        func_0204B878(((struct Obj06458 *)p)->f2A0, 14);
+        CLACT_SetActorAnimSeq(((struct Obj06458 *)p)->f2A0, 14);
         func_021D4244(p, func_021D4B44, 0x389);
         ((struct Obj06458 *)p)->f8 = 2;
         break;

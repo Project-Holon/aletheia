@@ -1,5 +1,5 @@
 /*
- * function: func_021B83B0
+ * function: FIELD_RAIL_IsPosNear
  * address:  0x021B83B0
  * packet:   pkt_ov021_021B83B0
  * region:   ov021
@@ -15,7 +15,7 @@
 
 typedef int s32;
 
-int func_021B83B0(const s32 *a, const s32 *b, s32 r)
+int FIELD_RAIL_IsPosNear(const s32 *a, const s32 *b, s32 r)
 {
     s32 dx, dz, dy, rr, d2, r2;
 

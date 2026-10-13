@@ -21,20 +21,20 @@
  *   func_021DC8B4 0x021DC8B4 thumb ov175
  *   func_021DC908 0x021DC908 thumb ov175
  *   func_02167ED8 0x02167ED8 arm ov009
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_02089004 0x02089004 arm
  *   func_020891E0 0x020891E0 arm
  *   func_02088F58 0x02088F58 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0200FA84 0x0200FA84 thumb
  *   func_0200B078 0x0200B078 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200BBFC 0x0200BBFC thumb
  *   func_0200BBD8 0x0200BBD8 thumb
  *   func_0200B110 0x0200B110 thumb
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  */
 #include "../include/Obj00728.h"
 #include "../include/Obj08277.h"
@@ -57,7 +57,7 @@ extern void func_021D97E4(char *,u32);
 extern u32 func_021DD020(char *);
 extern void func_021DC8B4(char *,void *,unsigned);
 extern int func_021DC908(char *);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern int func_02167ED8(void *date, void *time);
 extern void func_0200FA84(void);
 typedef signed int     s32;
@@ -65,12 +65,12 @@ extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
 extern void func_020891E0(struct RTCDate *,struct RTCTime *,s64);
 extern s32 func_02088F58(struct RTCDate *date);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern unsigned int func_0200BBFC(struct Obj *,unsigned int);
 extern void func_0200BBD8(struct Obj *p, int v);
 extern void func_0200B110(struct Reg2 *,unsigned int,int);
-extern int func_02012DAC(int),func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern void func_02082BCC(void *,int,unsigned);
 void func_021D9090(u32 sys,int *state,char *p)
 {
@@ -87,7 +87,7 @@ void func_021D9090(u32 sys,int *state,char *p)
     switch(*state) {
     case 0:*state=1;break;
     case 1:reg=*(struct Reg2 * *)&((struct Obj00728 *)p)->f108;
-        if(!func_0203CD98())func_0200FA84();
+        if(!GFL_NET_GetRunState())func_0200FA84();
         got=func_02167ED8((int *)&nowDate,(int *)&nowTime);
         if(got)func_020891E0(&nowDate,&nowTime,func_02089004(&nowDate,&nowTime));
         startDate.year=func_0200B078(reg,4);
@@ -111,13 +111,13 @@ void func_021D9090(u32 sys,int *state,char *p)
         else *state=13;break;
     case 5:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,40,2);
         *state=14;func_021E8AB4(sys,6);break;
-    case 6:box=func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj08277 *)q)->f8));
+    case 6:box=func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
         ((struct Obj00728 *)p)->f26C=func_0200BBFC(box,1);
         func_0200BBD8(box,1);
         func_0200B110(*(struct Reg2 * *)&((struct Obj00728 *)p)->f108,10,3);
-        func_02012DAC(**(int * *)&((struct Obj08277 *)q)->f8);*state=7;break;
-    case 7:if(func_02012DD0(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
-    case 8:func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj08277 *)q)->f8));
+        GAME_DATA_SaveStart(**(int * *)&((struct Obj08277 *)q)->f8);*state=7;break;
+    case 7:if(GAME_DATA_SaveMain(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
+    case 8:func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
         if(((struct Obj00728 *)p)->f26C!=0) *state=9;else *state=10;break;
     case 9:func_021D97E4(p,1);
         func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,81,1);

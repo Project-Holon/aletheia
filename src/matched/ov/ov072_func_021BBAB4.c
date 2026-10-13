@@ -1,5 +1,5 @@
 /*
- * function: func_021BBAB4
+ * function: TOWNMAP_GRH_ExitSprites
  * address:  0x021BBAB4
  * packet:   pkt_ov072_021BBAB4
  * region:   ov072
@@ -10,41 +10,41 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204A5AC  0x0204A5AC  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
  *   func_02082BCC  0x02082BCC  arm
  */
 typedef unsigned int u32;
 
 struct Bank;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204AFD8(u32 a);
-extern void func_0204A8D4(u32 a);
-extern void func_0204ADA4(u32 a);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCellAnim(u32 a);
+extern void CLACT_ReleaseCharacter(u32 a);
+extern void CLACT_ReleasePalette(u32 a);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 extern void func_02082BCC(void *p, int v, int n);
 
-void func_021BBAB4(u32 *p)
+void TOWNMAP_GRH_ExitSprites(u32 *p)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
         if (p[i + 1] != 0) {
-            func_0204B3B4((struct Obj *)p[i + 1]);
+            CLACT_DeleteActor((struct Obj *)p[i + 1]);
         }
     }
-    func_0204AFD8(p[7]);
-    func_0204A8D4(p[6]);
-    func_0204ADA4(p[8]);
+    CLACT_ReleaseCellAnim(p[7]);
+    CLACT_ReleaseCharacter(p[6]);
+    CLACT_ReleasePalette(p[8]);
     if (p[0] != 0) {
-        func_0204B1CC((struct Bank *)p[0]);
+        CLACT_DeleteUnit((struct Bank *)p[0]);
     }
-    func_0204A5AC();
+    CLACT_ExitSystem();
     func_02082BCC(p, 0, 0x24);
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   func_02082D44  0x02082D44  arm
  *   GAME_COMM_UpdatePlayerStatus  0x020264B4  thumb
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   INTRUDE_COMM_AdjustRemotePosition  0x021751D4  thumb ov011
  */
 #include "../include/Obj00269.h"
@@ -39,7 +39,7 @@ typedef struct Cp {
 
 void func_02082D44(const Ent *a, Ent *b, int c);
 void GAME_COMM_UpdatePlayerStatus(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag);
-u16 func_02039338(void);
+u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, struct Ent *c);
 
 void INTRUDE_COMM_StorePlayerRecord(u8 *p, int idx, const Ent *src, int arg)
@@ -56,7 +56,7 @@ void INTRUDE_COMM_StorePlayerRecord(u8 *p, int idx, const Ent *src, int arg)
         e->f0 = 1;
     }
     GAME_COMM_UpdatePlayerStatus((void *)(((struct Obj00269 *)p)->f4), idx, e->f14, (u8)e->a, e->lo, arg);
-    if (idx != func_02039338()) {
+    if (idx != GFL_NET_SYSTEM_GetCurrentAid()) {
         *((Cp *)(p + 0xE0) + idx) = *(Cp *)e;
         INTRUDE_COMM_AdjustRemotePosition(p, ((struct Obj00269 *)p)->f84, ((struct Obj00269 *)p)->f74, e);
     }

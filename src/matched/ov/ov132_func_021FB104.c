@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_02030734 0x02030734 arm
  *   func_021F9E04 0x021F9E04 thumb ov132
  *   func_021F9E08 0x021F9E08 thumb ov132
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_021FDD00[];
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 typedef unsigned char  u8;
 extern u16 func_021F9E04(u8 *p);
@@ -38,9 +38,9 @@ int func_021FB104(void *unused, char *ctx)
     int target;
     int wait;
     owner = *(char * *)&((struct Obj06491 *)ctx)->f0;
-    time = func_0201134C(((struct Obj06491 *)ctx)->f4);
-    target = func_0201134C(((struct Obj06491 *)ctx)->f4);
-    wait = func_0201134C(((struct Obj06491 *)ctx)->f4);
+    time = VM_GetU32(((struct Obj06491 *)ctx)->f4);
+    target = VM_GetU32(((struct Obj06491 *)ctx)->f4);
+    wait = VM_GetU32(((struct Obj06491 *)ctx)->f4);
     if (time == 0) {
         func_021F9E08(((struct Obj08160 *)owner)->f34, target);
     } else {

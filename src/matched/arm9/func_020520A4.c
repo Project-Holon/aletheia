@@ -1,5 +1,5 @@
 /*
- * function: func_020520A4
+ * function: BUTTON_MAN_ScaleVec
  * address:  0x020520A4
  * packet:   pkt_020520A4
  * region:   arm9
@@ -25,8 +25,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020520A4.c \
- *       --func func_020520A4 --addr 0x020520A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_ScaleVec.c \
+ *       --func BUTTON_MAN_ScaleVec --addr 0x020520A4 --cc 1.1p1 --arm
  */
 
 typedef long long s64;
@@ -37,7 +37,7 @@ struct Vec3 {
     int z;  /* 0x08 */
 };
 
-void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *dst)
+void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst)
 {
     dst->x = (int)((((s64)v->x * s) + 0x800) >> 12);
     dst->y = (int)((((s64)v->y * s) + 0x800) >> 12);

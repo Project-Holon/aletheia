@@ -13,16 +13,17 @@
  * interface: 020185F0 is an empty forwarder; caller supplies r0 and consumes its unchanged pointer result at 021E6346.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021E62D4 0x021E62D4 thumb ov119
  *   d_021E7D70 0x021E7D70 data a4
  *   d_021E7DA0 0x021E7DA0 data a4
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb  arm9
+ *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
  */
 #include "../include/Obj00001.h"
 typedef unsigned short u16;
@@ -31,25 +32,25 @@ typedef unsigned int u32;
 typedef struct { short x,y,z; u8 a,b; } Create;
 extern const int d_021E7D70[6][2];
 extern const int d_021E7DA0[6][2];
-extern void *func_020185F0(void *);
+extern void *POKE_TOOL_Dummy(void *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021E62D4(void *,int,int);
 extern u32 func_0201BA68(void *);
 typedef signed int     s32;
 struct Obj;
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern int POKE_TOOL_GetIconPalette(void *);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_02049238(int);
+extern void ARC_TOOL_DeleteHandle(int);
 void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
 {
     Create c;
-    void *q = func_020185F0(mon);
+    void *q = POKE_TOOL_Dummy(mon);
     void *h = func_020490F4(7,((struct Obj00001 *)p)->f5F4);
     int n;
     func_021E62D4(p,i,j);
@@ -59,10 +60,10 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
         c.x=d_021E7DA0[i*3+j][0]; c.y=d_021E7DA0[i*3+j][1]; n=1;
     }
     c.z=1; c.a=16; c.b=1;
-    *(int *)(p+0x1020+i*12+j*4) = func_0204A6C8((void *)((u32)h),func_0201BA68(q),0,n,((struct Obj00001 *)p)->f5F4);
-    *(int *)(p+0x1008+i*12+j*4) = (int)func_0204B294((void *)((struct Obj00001 *)p)->f9C4,*(int *)(p+0x1020+i*12+j*4),*(int *)&((struct Obj00001 *)p)->f890,*(int *)&((struct Obj00001 *)p)->f8C0,&c,n,((struct Obj00001 *)p)->f5F4);
+    *(int *)(p+0x1020+i*12+j*4) = CLACT_RegisterCharacter((void *)((u32)h),func_0201BA68(q),0,n,((struct Obj00001 *)p)->f5F4);
+    *(int *)(p+0x1008+i*12+j*4) = (int)CLACT_CreateActor((void *)((struct Obj00001 *)p)->f9C4,*(int *)(p+0x1020+i*12+j*4),*(int *)&((struct Obj00001 *)p)->f890,*(int *)&((struct Obj00001 *)p)->f8C0,&c,n,((struct Obj00001 *)p)->f5F4);
     func_0204B6F4((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),POKE_TOOL_GetIconPalette(q),1);
     func_0204B92C((struct Obj *)*(int *)(p+0x1008+i*12+j*4),0);
     func_0204B3DC((struct Obj *)*(int *)(p+0x1008+i*12+j*4),visible);
-    func_02049238((int)h);
+    ARC_TOOL_DeleteHandle((int)h);
 }

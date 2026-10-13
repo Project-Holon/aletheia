@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B80
+ * function: ITEMMENU_TaskSellConfirmInput
  * address:  0x021B7B80
  * packet:   pkt_ov070_021B7B80
  * region:   ov070
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BADF0  0x021BADF0  thumb  ov070
- *   func_020279E8  0x020279E8  thumb
- *   func_02027A04  0x02027A04  thumb
- *   func_021BB1AC  0x021BB1AC  thumb  ov070
- *   func_021B619C  0x021B619C  thumb  ov070
- *   func_021B7D20  0x021B7D20  thumb  ov070
- *   func_02012F08  0x02012F08  thumb
+ *   ITEMMENU_IsMessageFinished  0x021BADF0  thumb  ov070
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
+ *   ITEMMENU_CloseYesNoList  0x021BB1AC  thumb  ov070
+ *   ITEMMENU_GetSellTotal  0x021B619C  thumb  ov070
+ *   ITEMMENU_RemoveSelectedItems  0x021B7D20  thumb  ov070
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C278  0x0200C278  thumb
  *   func_020061E4  0x020061E4  thumb
- *   func_021BAFC4  0x021BAFC4  thumb  ov070
- *   func_02045CAC  0x02045CAC  arm
- *   func_021B6204  0x021B6204  thumb  ov070
+ *   ITEMMENU_PrintMoney  0x021BAFC4  thumb  ov070
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   ITEMMENU_RegisterItemNameCounted  0x021B6204  thumb  ov070
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_021BADAC  0x021BADAC  thumb  ov070
- *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B7C88  0x021B7C88  thumb  ov070
+ *   ITEMMENU_ShowMessageDefault  0x021BADAC  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
+ *   ITEMMENU_TaskWaitMessageDismiss  0x021B7C88  thumb  ov070
  *   func_020355C4  0x020355C4  arm
- *   func_021B80C4  0x021B80C4  thumb  ov070
- *   func_021B7CD0  0x021B7CD0  thumb  ov070
+ *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
+ *   ITEMMENU_TaskReturnToListFromQuantity  0x021B7CD0  thumb  ov070
  */
 
 typedef unsigned short u16;
@@ -51,61 +51,61 @@ typedef struct Obj {
     unsigned int f84C;
 } Obj;
 
-extern int func_021BADF0(int p);
+extern int ITEMMENU_IsMessageFinished(int p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct TaskMenu;
 struct WordSet;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 struct Blk34;
 struct MsgBank;
-extern void func_021BB1AC(char *p);
-extern int func_021B619C(int a, int b, unsigned int id);
-extern void func_021B7D20(struct Obj *o, int x);
-extern void *func_02012F08(int *p);
+extern void ITEMMENU_CloseYesNoList(char *p);
+extern int ITEMMENU_GetSellTotal(int a, int b, unsigned int id);
+extern void ITEMMENU_RemoveSelectedItems(struct Obj *o, int x);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C278(struct Blk34 *p, u32 v);
 extern void func_020061E4(unsigned int id);
-extern void func_021BAFC4(u8 *p);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021B6204(u8 *p, int a, unsigned int b, int c, int d);
+extern void ITEMMENU_PrintMoney(u8 *p);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void ITEMMENU_RegisterItemNameCounted(u8 *p, int a, unsigned int b, int c, int d);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021BADAC(void *p);
-extern void func_021B6100(char *p, int k);
-extern void func_021B7C88();
+extern void ITEMMENU_ShowMessageDefault(void *p);
+extern void ITEMMENU_SetTask(char *p, int k);
+extern void ITEMMENU_TaskWaitMessageDismiss();
 extern u8 func_020355C4(void);
-extern void func_021B80C4(Obj *o, int v);
-extern void func_021B7CD0(struct Obj *o);
+extern void ITEMMENU_SetCursorActive(Obj *o, int v);
+extern void ITEMMENU_TaskReturnToListFromQuantity(struct Obj *o);
 
-void func_021B7B80(Obj *o)
+void ITEMMENU_TaskSellConfirmInput(Obj *o)
 {
     int r;
     int v;
 
-    if (func_021BADF0((int)o) == 0)
+    if (ITEMMENU_IsMessageFinished((int)o) == 0)
         return;
-    if (func_020279E8(o->f77C) == 0)
+    if (APP_TASKMENU_IsFinish(o->f77C) == 0)
         return;
-    r = func_02027A04(o->f77C);
-    func_021BB1AC((char *)o);
+    r = APP_TASKMENU_GetCursorPos(o->f77C);
+    ITEMMENU_CloseYesNoList((char *)o);
     switch (r) {
     case 0:
-        v = func_021B619C(o->f84C, o->f7F4, o->f544);
-        func_021B7D20(o, o->f7F4);
-        func_0200C278((struct Blk34 *)((unsigned int)func_02012F08(o->f000)), v);
+        v = ITEMMENU_GetSellTotal(o->f84C, o->f7F4, o->f544);
+        ITEMMENU_RemoveSelectedItems(o, o->f7F4);
+        func_0200C278((struct Blk34 *)((unsigned int)GAME_DATA_GetMiscSave(o->f000)), v);
         func_020061E4(0x655);
-        func_021BAFC4((u8 *)o);
-        func_02045CAC(o->f51C, 0x50, (void *)o->f524);
-        func_021B6204((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);
+        ITEMMENU_PrintMoney((u8 *)o);
+        MSGDATA_ReadString(o->f51C, 0x50, (void *)o->f524);
+        ITEMMENU_RegisterItemNameCounted((u8 *)o, 0, o->f84C, o->f7F4 > 1, 0);
         func_0201EFA4(o->f520, 1, v, 7, 0, 1);
         func_0201F250(o->f520, o->f528, (void *)o->f524);
-        func_021BADAC(o);
-        func_021B6100((char *)o, (int)((void *)func_021B7C88));
+        ITEMMENU_ShowMessageDefault(o);
+        ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskWaitMessageDismiss));
         break;
     case 1:
-        func_021B80C4(o, func_020355C4() == 0);
-        func_021B6100((char *)o, (int)((void *)func_021B7CD0));
+        ITEMMENU_SetCursorActive(o, func_020355C4() == 0);
+        ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskReturnToListFromQuantity));
         break;
     }
 }

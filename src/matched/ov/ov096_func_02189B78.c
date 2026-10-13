@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   VM_Jump  0x020113B0  thumb
- *   func_021D5448  0x021D5448  thumb  ov093
- *   func_021D54C0  0x021D54C0  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021C7DAC  0x021C7DAC  thumb  ov093
  *
  * Lever: the second parameter is a struct pointer; with an int base the
@@ -31,13 +31,13 @@ typedef int s32;
 typedef struct { u8 p0[0x38]; int f38; u8 p1[0x58]; u8 f94; u8 p2[0x1b]; int fb0, fb4, fb8; u8 *fbc, *fc0; int fc4; } Obj;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 struct Cur;
 struct QG;
 extern void VM_Jump(struct Cur *c, u32 v);
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(u8 *p, int i);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021C7DAC(u8 *p, int a, int b, int c);
 
 int func_02189B78(struct Cursor *a, Obj *b) {
@@ -46,11 +46,11 @@ int func_02189B78(struct Cursor *a, Obj *b) {
     int c6;
     int c7;
     int c2;
-    r = func_0201134C(a);
-    for (i = 0; i < func_021D5448((struct QG *)b->fbc); i++) {
-        c6 = func_021D54C0(b->fbc, (u8)i);
-        c7 = func_021D5440(b->fbc);
-        c2 = func_021D5440(b->fc0);
+    r = VM_GetU32(a);
+    for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc); i++) {
+        c6 = BTL_POKEPARAM_GetMoveId(b->fbc, (u8)i);
+        c7 = BTL_POKEPARAM_GetPokeId(b->fbc);
+        c2 = BTL_POKEPARAM_GetPokeId(b->fc0);
         if ((u32)(func_021C7DAC((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
             VM_Jump((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r);
             break;

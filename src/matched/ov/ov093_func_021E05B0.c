@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021EF948  0x021EF948  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021E8940  0x021E8940  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
-extern int func_021D775C(int key);
-extern int func_021EF948(int k);
+extern int BTL_EVENT_GetVar(int key);
+extern int BTL_FIELD_GetStaticSlotObject(int k);
 extern void *func_021C88A4(char *p, int a, int b);
 typedef unsigned int   u32;
-extern int func_021E8940(u32 a);
+extern int BTLV_CORE_MakeSlotKind2Index(u32 a);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
@@ -32,11 +32,11 @@ void func_021E05B0(int a, void *b, int c)
 {
     int *p;
 
-    if (c == func_021D775C(3)) {
-        if (func_021EF948(1) == 0) {
+    if (c == BTL_EVENT_GetVar(3)) {
+        if (BTL_FIELD_GetStaticSlotObject(1) == 0) {
             p = func_021C88A4(b, 0x1b, c);
             p[1] = 1;
-            p[2] = func_021E8940(5);
+            p[2] = BTLV_CORE_MakeSlotKind2Index(5);
             func_021C8838(p + 4, 2, 0x359);
             func_021C8860((struct S *)(p + 4), c);
             func_021C88C8(b, p);

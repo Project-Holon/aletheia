@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0207D534  0x0207D534  arm
- *   func_020435F4  0x020435F4  arm
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0207E24C  0x0207E24C  arm
  *   func_02082A48  0x02082A48  arm
  *   func_0207DFB4  0x0207DFB4  arm
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 #define PLTT_MAIN_BG           0x05000000
 
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void *func_0207E24C(void);
 extern void func_02082A48(int value, u32 dst, u32 size);
 extern void *func_0207DFB4(void);
@@ -40,7 +40,7 @@ void ERROR_SCREEN_Teardown(void)
 {
     func_0207D534(REG_MASTER_BRIGHT_MAIN, -16);
     func_0207D534(REG_MASTER_BRIGHT_SUB, -16);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     func_02082A48(0, (u32)func_0207E24C(), 0x4000);
     func_02082A48(0, (u32)func_0207DFB4(), 0x800);
     func_02082A48(0x7FFF, PLTT_MAIN_BG, 0x20);

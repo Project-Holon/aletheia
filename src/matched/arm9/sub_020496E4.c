@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A1BC       0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember       0x0204A1BC  arm
  *   func_0204979C       0x0204979C  arm
  *   ENV_SetResourceSet  0x020307B0  arm
  *
@@ -22,12 +22,12 @@
  * stores it, so no separate `cmp` appears.
  *
  * The flag word is the sixth argument and arrives as a halfword, and
- * func_0204A1BC's fourth parameter is `u16`, which is what turns
+ * ARC_UTIL_LoadMember's fourth parameter is `u16`, which is what turns
  * `(flags & 0x7FFF) | 0x8000` into an `and`/`orr` pair followed by a
  * `lsl #16`/`lsr #16` truncation rather than a single `orr`.
  *
  * The twin of src/matched/ARC_UTIL_RegisterObjCharFromHandle.c, differing only in which loader it
- * calls. func_0204A1BC has thirteen further callers image-wide and
+ * calls. ARC_UTIL_LoadMember has thirteen further callers image-wide and
  * func_0204979C its second caller at 0x02049780, so both resolve through the
  * `label` class.
  *
@@ -39,7 +39,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern u32 func_0204979C(void *buf, u32 a1, u32 a2);
 extern void ENV_SetResourceSet(void *p);
 
@@ -48,7 +48,7 @@ u32 ARC_UTIL_RegisterObjCharFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, 
     void *buf;
     u32 res;
 
-    buf = (void *)func_0204A1BC((u32)a0, (u32)a1, (u32)a4, (u16)((flags & 0x7FFF) | 0x8000));
+    buf = (void *)ARC_UTIL_LoadMember((u32)a0, (u32)a1, (u32)a4, (u16)((flags & 0x7FFF) | 0x8000));
     if (buf == 0) {
         return 0;
     }

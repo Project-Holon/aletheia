@@ -1,5 +1,5 @@
 /*
- * function: func_021B5610
+ * function: SCRCMD_PROC_FLD_CallOv056Event
  * address:  0x021B5610
  * packet:   pkt_ov021_021B5610
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_021F36C0  0x021F36C0  thumb  ov037
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -24,20 +24,20 @@ typedef unsigned int u32;
 
 struct Ctx;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(const struct Ctx *p);
-extern unsigned int func_02159B10(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *func_021F36C0(void *a, u8 *b, u32 c);
-extern void func_0215897C(void *vm, void *task);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B5610(void *a0, void *a1)
+int SCRCMD_PROC_FLD_CallOv056Event(void *a0, void *a1)
 {
-    void *r6 = func_0215A5F4(a1);
-    void *r7 = func_0215A5DC(a1);
-    u8 *t = func_0201210C(r7);
-    unsigned int v = func_02159B10(a0, a1);
+    void *r6 = SCRCMD_WORK_GetScriptWork(a1);
+    void *r7 = SCRCMD_WORK_GetGameSystem(a1);
+    u8 *t = GAMESYSTEM_GetFieldMap(r7);
+    unsigned int v = SCRIPT_WORK_ReadWorkValue(a0, a1);
 
-    func_0215897C(r6, func_021F36C0(r7, t, (u16)(v - 1)));
+    SCRIPT_SYS_CallEvent(r6, func_021F36C0(r7, t, (u16)(v - 1)));
     return 1;
 }

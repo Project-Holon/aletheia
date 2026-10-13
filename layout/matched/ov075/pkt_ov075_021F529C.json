@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F529C",
+   "name": "ENCEFF_StartScreenTexEffect",
    "address": "0x021F529C",
    "kind": "game",
    "region": "ov075",

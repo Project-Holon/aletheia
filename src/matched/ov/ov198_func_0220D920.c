@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043AF4 0x02043AF4 arm
+ *   BMP_FillRect 0x02043AF4 arm
  *   func_0220C16C 0x0220C16C thumb ov198
  *   func_0220C2F8 0x0220C2F8 thumb ov198
  */
@@ -20,15 +20,15 @@ typedef unsigned int   u32;
 struct Bmp;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_0220C16C(u8 *,int,int,u8,u8);
 extern void func_0220C2F8(u8 *,int,int,u16,u8);
 void func_0220D920(u8 *p, int i)
 {
     char *base;
     base = (char *)p + 0x1f70;
-    func_02043AF4(func_02045770(*(void **)(base + i * 8)), 92, 32, 24, 8, 0);
-    func_02043AF4(func_02045770(*(void **)(base + i * 8)), 64, 24, 64, 8, 0);
+    BMP_FillRect(func_02045770(*(void **)(base + i * 8)), 92, 32, 24, 8, 0);
+    BMP_FillRect(func_02045770(*(void **)(base + i * 8)), 64, 24, 64, 8, 0);
     func_0220C16C(p, i, i, 92, 32);
     func_0220C2F8(p, i, i, 64, 24);
 }

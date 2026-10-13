@@ -25,7 +25,7 @@
  *
  * Near miss: 0x02013DD0 to 0x02013DF0 (32 bytes, two more unlabelled leaves)
  * immediately follows and is not in this file.  Both tail call
- * sub_02013B10 (defined in the neighbouring packet) through a pool word
+ * ZONEDATA_IsZoneInTable (defined in the neighbouring packet) through a pool word
  * over a different fixed table (0x0209DFC0 count 4, 0x0209DFEC count 9),
  * the same shape as sub_02013C70 in unit_02013C10.c, and for the same
  * reason: every other place either pointer or table address appears in the

@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_TOOL_CheckBoxTmCompat, POKE_TOOL_CheckSpeciesTmCompat, func_0201891C, POKE_TOOL_CheckSpeciesTutorCompat,
+ * function: POKE_TOOL_CheckBoxTmCompat, POKE_TOOL_CheckSpeciesTmCompat, POKE_TOOL_CheckTutorCompat, POKE_TOOL_CheckSpeciesTutorCompat,
  *           POKE_TOOL_HasRibbonData
  *
  * symbols:
- *   func_02017E1C        0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue        0x02017E1C  thumb
  *   func_02017E88        0x02017E88  thumb
  *   POKE_TOOL_DecodeCalcBlock        0x02018D10  thumb
  *   POKE_TOOL_EncodeCalcBlock        0x02018D6C  thumb
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 typedef unsigned long long u64;
 
-extern u32  func_02017E1C(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 struct Mon;
 struct Sav;
@@ -87,10 +87,10 @@ u32 POKE_TOOL_CheckSpeciesTmCompat(u16 a, u16 b, s32 v)
     return r;
 }
 
-u32 func_0201891C(void *p, s32 v)
+u32 POKE_TOOL_CheckTutorCompat(void *p, s32 v)
 {
-    u16 a = (u16)func_02017E1C(p, 5, 0);
-    u16 b = (u16)func_02017E1C(p, 0x6F, 0);
+    u16 a = (u16)POKE_TOOL_GetPartyValue(p, 5, 0);
+    u16 b = (u16)POKE_TOOL_GetPartyValue(p, 0x6F, 0);
 
     return POKE_TOOL_CheckSpeciesTutorCompat(a, b, v);
 }

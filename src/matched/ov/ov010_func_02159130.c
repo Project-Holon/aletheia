@@ -1,5 +1,5 @@
 /*
- * function: func_02159130
+ * function: SCRIPT_WORK_ClearCheckFlags
  * address: 0x02159130
  * packet: pkt_ov010_02159130
  * region: ov010
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_02172BA0 0x02172BA0 data a4
+ *   gScriptCheckFlags 0x02172BA0 data a4
  *   func_02082A7C 0x02082A7C arm
  */
-extern int d_02172BA0;
+extern int gScriptCheckFlags;
 extern void func_02082A7C(int, void *, int);
-void func_02159130(void)
+void SCRIPT_WORK_ClearCheckFlags(void)
 {
-    func_02082A7C(0, &d_02172BA0, 4);
+    func_02082A7C(0, &gScriptCheckFlags, 4);
 }

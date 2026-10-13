@@ -8,20 +8,25 @@
  * isa: thumb
  * status: EXACT*
  * Trailing: two alignment bytes at 021BD4CA.
+ *
+ * symbols:
+ *   PALANM_Create  0x02021518  thumb  arm9
+ *   PALANM_AllocSlotBuffers  0x0202155C  thumb  arm9
+ *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb  arm9
  */
 #include "../include/Obj00025.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct PalAnmSlot;
-extern void *func_02021518(u32);
-extern void func_0202155C(struct PalAnmSlot *, u32, u32, u32);
-extern void func_020216D4(struct PalAnmSlot *, u32, u32, u32);
+extern void *PALANM_Create(u32);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *, u32, u32, u32);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, u32, u32, u32);
 void func_021BD47C(u8 *p)
 {
-    *(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98 = func_02021518(((struct Obj00025 *)p)->f8);
-    func_0202155C(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 0, 512, ((struct Obj00025 *)p)->f8);
-    func_0202155C(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 2, 512, ((struct Obj00025 *)p)->f8);
-    func_020216D4(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 0, 0, 512);
-    func_020216D4(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 2, 0, 512);
+    *(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98 = PALANM_Create(((struct Obj00025 *)p)->f8);
+    PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 0, 512, ((struct Obj00025 *)p)->f8);
+    PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 2, 512, ((struct Obj00025 *)p)->f8);
+    PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 0, 0, 512);
+    PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 2, 0, 512);
 }

@@ -10,24 +10,24 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204AFD8  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  */
 
 typedef unsigned int   u32;
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
 void func_021F7108(char *p)
 {
     unsigned i;
 
     for (i = 0; i < 9; i++)
-        func_0204A8D4(*(int *)(p + i * 4 + 0xb4));
+        CLACT_ReleaseCharacter(*(int *)(p + i * 4 + 0xb4));
     for (i = 0; i < 4; i++)
-        func_0204ADA4(*(int *)(p + i * 4 + 0xd8));
+        CLACT_ReleasePalette(*(int *)(p + i * 4 + 0xd8));
     for (i = 0; i < 4; i++)
-        func_0204AFD8(*(int *)(p + i * 4 + 0xe8));
+        CLACT_ReleaseCellAnim(*(int *)(p + i * 4 + 0xe8));
 }

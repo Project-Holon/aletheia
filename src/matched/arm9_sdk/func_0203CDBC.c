@@ -1,5 +1,5 @@
 /*
- * function: func_0203CDBC
+ * function: GFL_NET_IsSessionNull
  * address:  0x0203CDBC
  * packet:   pkt_0203CDBC
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern void *GFL_NET_GetSession(void);
 
-int func_0203CDBC(void)
+int GFL_NET_IsSessionNull(void)
 {
     return GFL_NET_GetSession() == 0;
 }

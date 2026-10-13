@@ -1,5 +1,5 @@
 /*
- * function: func_02185454
+ * function: OEKAKI_StepQuitMenuResult
  * address:  0x02185454
  * packet:   pkt_ov023_02185454
  * region:   ov023
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02039338  0x02039338  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   APP_TASKMENU_TransWinAfterPrint  0x020278F4  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_021852F4  0x021852F4  thumb  ov023
- *   func_02185354  0x02185354  thumb  ov023
- *   func_021861C4  0x021861C4  thumb  ov023
- *   func_02186444  0x02186444  thumb  ov023
- *   func_021864A8  0x021864A8  thumb  ov023
- *   func_02186660  0x02186660  thumb  ov023
- *   func_02184560  0x02184560  thumb  ov023
+ *   OEKAKI_SetQuitButtonPressed  0x021852F4  thumb  ov023
+ *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
+ *   OEKAKI_PrintMessage  0x021861C4  thumb  ov023
+ *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
+ *   OEKAKI_IsQuitTouched  0x021864A8  thumb  ov023
+ *   OEKAKI_PollYesNoMenu  0x02186660  thumb  ov023
+ *   OEKAKI_OpenGroup  0x02184560  thumb  ov023
  */
 #include "../include/Obj02741.h"
 
@@ -38,69 +38,69 @@ typedef struct {
 } Bits;
 
 typedef unsigned short u16;
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *a);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 extern void APP_TASKMENU_TransWinAfterPrint(u8 *p);
 extern void func_020061E4(u32 a);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_021852F4(void *p, int flag);
-extern void func_02185354(char *p);
-extern void func_021861C4(u8 *w, u32 msg, int mode);
-extern void func_02186444(char *p, u32 v);
-extern int  func_021864A8(char *p);
-extern int  func_02186660(char *p);
-extern void func_02184560(char *p, int a);
+extern void OEKAKI_SetQuitButtonPressed(void *p, int flag);
+extern void OEKAKI_ApplyRemoteStrokes(char *p);
+extern void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode);
+extern void OEKAKI_SetNextScene(char *p, u32 v);
+extern int  OEKAKI_IsQuitTouched(char *p);
+extern int  OEKAKI_PollYesNoMenu(char *p);
+extern void OEKAKI_OpenGroup(char *p, int a);
 
-int func_02185454(char *p, int x)
+int OEKAKI_StepQuitMenuResult(char *p, int x)
 {
     u32 w;
 
     ((Bits *)(p + 0x4210))->mid = 0;
-    if (((struct Obj02741 *)p)->f4217 == 2 && func_02039338() != 0) {
-        func_02185354(p);
+    if (((struct Obj02741 *)p)->f4217 == 2 && GFL_NET_SYSTEM_GetCurrentAid() != 0) {
+        OEKAKI_ApplyRemoteStrokes(p);
         APP_TASKMENU_TransWinAfterPrint(((struct Obj02741 *)p)->f178);
-        if (func_021864A8(p))
+        if (OEKAKI_IsQuitTouched(p))
             func_020061E4(0x54b);
         return x;
     }
-    if (func_02039338() == 0 && ((struct Obj02741 *)p)->f9280 != 0) {
-        func_02185354(p);
+    if (GFL_NET_SYSTEM_GetCurrentAid() == 0 && ((struct Obj02741 *)p)->f9280 != 0) {
+        OEKAKI_ApplyRemoteStrokes(p);
         APP_TASKMENU_TransWinAfterPrint(((struct Obj02741 *)p)->f178);
         return x;
     }
-    switch (func_02186660(p)) {
+    switch (OEKAKI_PollYesNoMenu(p)) {
     case 0:
-        if (func_02039338() == 0) {
-            func_02186444(p, 0xf);
-            func_021861C4((u8 *)p, 4, 1);
+        if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
+            OEKAKI_SetNextScene(p, 0xf);
+            OEKAKI_PrintMessage((u8 *)p, 4, 1);
         } else {
-            func_02186444(p, 8);
+            OEKAKI_SetNextScene(p, 8);
             func_0201F7A8((void *)(((struct Obj02741 *)p)->f11C), 2);
         }
         w = ((struct Obj02741 *)p)->f118;
-        func_02045334((struct Descriptor *)w);
-        func_02045374((struct Cfg *)w);
+        BMP_WIN_TransferChars((struct Descriptor *)w);
+        BMP_WIN_MakeScreen((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
         break;
     case 1:
-        func_02186444(p, 4);
-        func_021852F4((void *)(((struct Obj02741 *)p)->f100), 0);
+        OEKAKI_SetNextScene(p, 4);
+        OEKAKI_SetQuitButtonPressed((void *)(((struct Obj02741 *)p)->f100), 0);
         func_0201F7A8((void *)(((struct Obj02741 *)p)->f11C), 2);
         w = ((struct Obj02741 *)p)->f118;
-        func_02045334((struct Descriptor *)w);
-        func_02045374((struct Cfg *)w);
+        BMP_WIN_TransferChars((struct Descriptor *)w);
+        BMP_WIN_MakeScreen((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
-        if (func_02039338() == 0) {
-            func_02184560(p, 1);
+        if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
+            OEKAKI_OpenGroup(p, 1);
             ((struct Obj02741 *)p)->f9E6C = 1;
         }
         break;
     }
-    func_02185354(p);
+    OEKAKI_ApplyRemoteStrokes(p);
     return x;
 }

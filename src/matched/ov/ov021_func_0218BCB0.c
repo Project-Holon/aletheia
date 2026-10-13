@@ -1,5 +1,5 @@
 /*
- * function: func_0218BCB0
+ * function: FIELD_BUILDMODEL_GetModelAnimKind
  * address:  0x0218BCB0
  * packet:   pkt_ov021_0218BCB0
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D3DC4     0x021D3DC4  data  a4
+ *   gBuildModelAnimKindTable     0x021D3DC4  data  a4
  */
 
 typedef struct {
     unsigned char b[16];
 } Tbl;
 
-extern const Tbl d_021D3DC4;
+extern const Tbl gBuildModelAnimKindTable;
 
-unsigned char func_0218BCB0(unsigned short *p)
+unsigned char FIELD_BUILDMODEL_GetModelAnimKind(unsigned short *p)
 {
-    Tbl t = d_021D3DC4;
+    Tbl t = gBuildModelAnimKindTable;
     if (p[1] >= 16)
         return 0;
     return t.b[p[1]];

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021F84D0  0x021F84D0  thumb  ov094
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_021FF4C0  0x021FF4C0  thumb  ov094
@@ -18,7 +18,7 @@
 #include "../include/Obj21660.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021F84D0(int a);
 extern int func_021F8694(void);
 extern void func_021FF4C0(void *obj, int a, int b, int *c, int d, int e, int f);
@@ -30,14 +30,14 @@ int func_021FB328(struct Cursor *a, char *b)
     int t0;
     int t5, t6, t7;
 
-    t0 = func_021F84D0(func_0201134C(a));
-    t1 = func_0201134C(a);
-    arr[0] = func_0201134C(a);
-    arr[1] = func_0201134C(a);
-    arr[2] = func_0201134C(a);
-    t5 = func_0201134C(a);
-    t6 = func_0201134C(a);
-    t7 = func_0201134C(a);
+    t0 = func_021F84D0(VM_GetU32(a));
+    t1 = VM_GetU32(a);
+    arr[0] = VM_GetU32(a);
+    arr[1] = VM_GetU32(a);
+    arr[2] = VM_GetU32(a);
+    t5 = VM_GetU32(a);
+    t6 = VM_GetU32(a);
+    t7 = VM_GetU32(a);
     func_021FF4C0((void *)func_021F8694(), t0, t1, arr, t5, t6, t7);
     return ((struct Obj21660 *)b)->f23C;
 }

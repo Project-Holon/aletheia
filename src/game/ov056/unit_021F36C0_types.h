@@ -208,50 +208,50 @@ typedef int (*FkDemoEventFunc)(struct GameEvent *event, int *seq, FkDemoWork *wo
 typedef void (*FkDemoTcbFunc)(struct Tcb *tcb, FkDemoWork *work);
 
 /* Data of the overlay. */
-extern const u32 d_021F42B0[FK_DEMO_VARIANT_COUNT];                /* field camera setting id restored after the demo */
-extern const struct FieldSubprocTemplate d_021F42C0;               /* draw only proc */
-extern u32 d_021F4290[FK_DEMO_VARIANT_COUNT];                      /* 1: variant has a building animation */
-extern VecFx32 d_021F42D8[FK_DEMO_VARIANT_COUNT];                  /* position of that building model */
-extern const VecFx32 d_021F4338;                                   /* camera up vector */
-extern const VecFx32 d_021F426C;                                   /* demo origin offset */
-extern const VecFx32 d_021F4308[FK_DEMO_VARIANT_COUNT];            /* end tile of the player */
-extern const u16 d_021F4264[FK_DEMO_VARIANT_COUNT];                /* end facing of the player */
-extern u32 d_021F42A0[FK_DEMO_VARIANT_COUNT];                      /* 1: variant has a sound anime */
-extern u16 d_021F43A4[][FK_SOUND_CHANNEL_COUNT];                   /* sound ids of the sound animes, one row per variant */
-extern VecFx32 d_021F4278;                                         /* building model of the anime sound proc */
-extern int d_021F4258[];                                           /* trigger frames of the anime sound proc */
-extern VecFx32 d_021F4284;                                         /* building model of the frame sound proc */
-extern int d_021F425C[];                                           /* frames of the frame sound proc */
+extern const u32 gFkDemoCameraSettingId[FK_DEMO_VARIANT_COUNT];                /* field camera setting id restored after the demo */
+extern const struct FieldSubprocTemplate gFkDemoDrawTemplate;               /* draw only proc */
+extern u32 gFkDemoHasBuildAnime[FK_DEMO_VARIANT_COUNT];                      /* 1: variant has a building animation */
+extern VecFx32 gFkDemoBuildModelPos[FK_DEMO_VARIANT_COUNT];                  /* position of that building model */
+extern const VecFx32 gFkDemoCameraUp;                                   /* camera up vector */
+extern const VecFx32 gFkDemoOrigin;                                   /* demo origin offset */
+extern const VecFx32 gFkDemoEndTile[FK_DEMO_VARIANT_COUNT];            /* end tile of the player */
+extern const u16 gFkDemoEndDir[FK_DEMO_VARIANT_COUNT];                /* end facing of the player */
+extern u32 gFkDemoHasSoundAnime[FK_DEMO_VARIANT_COUNT];                      /* 1: variant has a sound anime */
+extern u16 gFkSoundAnimeSoundIds[][FK_SOUND_CHANNEL_COUNT];                   /* sound ids of the sound animes, one row per variant */
+extern VecFx32 gFkBuildSoundModelPos;                                         /* building model of the anime sound proc */
+extern int gFkBuildSoundTriggerFrame[];                                           /* trigger frames of the anime sound proc */
+extern VecFx32 gFkFrameSoundModelPos;                                         /* building model of the frame sound proc */
+extern int gFkFrameSoundFrame[];                                           /* frames of the frame sound proc */
 extern char d_021F4400[];                                          /* source file name for allocations */
 
 /* Field map accessors and shared helpers (overlay 21 and arm9). */
-extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern struct FieldCamera *func_02188C58(struct FieldMap *fieldMap);
-extern struct FieldG3dMapper *func_02188C98(struct FieldMap *fieldMap);
-extern struct FieldPlayer *func_02188CB4(struct FieldMap *fieldMap);
-extern struct FieldmapFunc *func_02188D24(struct FieldMap *fieldMap);
-extern struct BuildModelMan *func_0218DC6C(struct FieldG3dMapper *mapper);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+extern struct FieldmapFunc *FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
+extern struct BuildModelMan *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 extern struct EventWork *func_0201296C(const struct GameData *gameData);
 extern struct MyStatus *func_02012944(struct GameData *gameData);
 extern struct FieldSoundSystem *func_02012A30(const struct GameData *gameData);
 extern u8 func_02008550(const struct MyStatus *myStatus);
 extern u16 *func_020143CC(struct EventWork *eventWork, u32 workId);
-extern struct BuildModelEntry *func_0218C654(struct BuildModelMan *man, int kind, const VecFx32 *pos);
-extern int func_0218C6F4(struct BuildModelMan *man, struct BuildModelEntry *entry, int animeId);
-extern void func_02028A7C(struct FieldSoundSystem *soundSys, u32 seId);
-extern void func_02028B50(struct FieldSoundSystem *soundSys, int seId);
+extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(struct BuildModelMan *man, int kind, const VecFx32 *pos);
+extern int FIELD_BUILDMODEL_GetEntrySlotFrame(struct BuildModelMan *man, struct BuildModelEntry *entry, int animeId);
+extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct FieldSoundSystem *soundSys, u32 seId);
+extern void FIELD_SOUND_SYSTEM_ReleaseSlot(struct FieldSoundSystem *soundSys, int seId);
 extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime);
 extern void func_020115EC(struct IcaAnime *anime, s32 frame);
-extern void func_02011558(struct IcaAnime *anime);
+extern void ICA_ANIME_Delete(struct IcaAnime *anime);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
 /* Sound anime (field_fk_sound_anime.c). */
-FkSoundAnime *func_021F4040(const void *soundIds, u32 arcId, u32 dataId, u32 bufFrameNum, u16 heapId);
-void func_021F408C(FkSoundAnime *sound);
-int func_021F40A0(FkSoundAnime *sound);
-void func_021F4224(FkSoundAnime *sound, u32 channel);
-void func_021F423C(FkSoundAnime *sound, u32 channel);
+FkSoundAnime *FIELD_FK_SOUND_ANIME_Create(const void *soundIds, u32 arcId, u32 dataId, u32 bufFrameNum, u16 heapId);
+void FIELD_FK_SOUND_ANIME_Delete(FkSoundAnime *sound);
+int FIELD_FK_SOUND_ANIME_Step(FkSoundAnime *sound);
+void FIELD_FK_SOUND_ANIME_PlaySe(FkSoundAnime *sound, u32 channel);
+void FIELD_FK_SOUND_ANIME_StopSe(FkSoundAnime *sound, u32 channel);
 
 #endif

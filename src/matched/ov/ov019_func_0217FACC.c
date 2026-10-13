@@ -1,5 +1,5 @@
 /*
- * function: func_0217FACC
+ * function: UNION_EFF_UpdateAnimGroup
  * address: 0x0217FACC
  * packet: pkt_ov019_0217FACC
  * region: ov019
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0216DA30 0x0216DA30 thumb ov010
- *   func_0217FA78 0x0217FA78 thumb ov019
- *   func_0217FA54 0x0217FA54 thumb ov019
+ *   FLDMMDL_CheckStatusBitUse 0x0216DA30 thumb ov010
+ *   UNION_EFF_UpdateAnimObj 0x0217FA78 thumb ov019
+ *   UNION_EFF_DeleteAnimObj 0x0217FA54 thumb ov019
  */
 
 typedef unsigned int u32;
-extern int func_0216DA30(int a0, int a1);
-extern void func_0217FA78(u32 *p);
-extern void func_0217FA54(u32 *p);
-void func_0217FACC(u32 *p, int a1)
+extern int FLDMMDL_CheckStatusBitUse(int a0, int a1);
+extern void UNION_EFF_UpdateAnimObj(u32 *p);
+extern void UNION_EFF_DeleteAnimObj(u32 *p);
+void UNION_EFF_UpdateAnimGroup(u32 *p, int a1)
 {
     if (p[3] != 0) {
-        if (func_0216DA30(p[0], a1) == 1) func_0217FA78(p);
-        else func_0217FA54(p);
+        if (FLDMMDL_CheckStatusBitUse(p[0], a1) == 1) UNION_EFF_UpdateAnimObj(p);
+        else UNION_EFF_DeleteAnimObj(p);
     }
 }

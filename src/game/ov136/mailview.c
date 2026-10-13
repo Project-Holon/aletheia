@@ -16,62 +16,62 @@
  *   PMSI_PARAM_IsComplete 0x02024464 thumb
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
  *   d_021C77A0 0x021C77A0 data a1
- *   func_02021FD8 0x02021FD8 thumb
- *   func_02035C38 0x02035C38 arm
+ *   PALANM_BlendChannel 0x02021FD8 thumb
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_0203630C 0x0203630C arm
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020061E4 0x020061E4 thumb
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  *   _s32_div_f 0x0209C0A4 arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   d_021C7784 0x021C7784 data a4
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_02045CAC 0x02045CAC arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_020279E8 0x020279E8 thumb
- *   func_02027A04 0x02027A04 thumb
- *   func_02027858 0x02027858 thumb
- *   func_02045808 0x02045808 arm
+ *   APP_TASKMENU_IsFinish 0x020279E8 thumb
+ *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   APP_TASKMENU_WIN_ResetDecide 0x020282A4 thumb
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0201CE48 0x0201CE48 thumb
- *   func_02027974 0x02027974 thumb
+ *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
  *   APP_TASKMENU_WIN_TransChar 0x02028454 thumb
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
  *   PALANM_TransferPalettes 0x02021D50 thumb
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  *   func_020419E4 0x020419E4 arm
  *   func_02045B38 0x02045B38 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   PALANM_SetAutoTransfer 0x02021EE4 thumb
  *   func_02030CB0 0x02030CB0 arm
  *   func_02030734 0x02030734 arm
  *   func_02030CBC 0x02030CBC arm
  *   func_02030DA8 0x02030DA8 arm
  *   d_021C7EF8 0x021C7EF8 data a1
- *   func_02045C04 0x02045C04 arm
- *   func_02027FD8 0x02027FD8 thumb
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   func_0201C440 0x0201C440 thumb
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
  *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_0204B1CC 0x0204B1CC arm
- *   func_020433E0 0x020433E0 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_021C77C4 0x021C77C4 data a1
  *   func_0203FC28 0x0203FC28 arm
  *   func_0204363C 0x0204363C arm
@@ -87,33 +87,33 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049B40 0x02049B40 arm
- *   func_02021518 0x02021518 thumb
- *   func_0202155C 0x0202155C thumb
+ *   PALANM_Create 0x02021518 thumb
+ *   PALANM_AllocSlotBuffers 0x0202155C thumb
  *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   func_0201F548 0x0201F548 thumb
  *   func_0201DD68 0x0201DD68 thumb
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02041300 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02021540 0x02021540 thumb
+ *   PALANM_Delete 0x02021540 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_02030DA4 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_02045088 0x02045088 arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Init 0x02045088 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_020452E8 0x020452E8 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   PMS_DRAW_Print 0x0202DC48 thumb
- *   func_0201C724 0x0201C724 thumb
- *   func_0204A48C 0x0204A48C arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   func_0203D34C 0x0203D34C arm
- *   d_020A1448 0x020A1448 data a4
- *   func_0204A5AC 0x0204A5AC arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   gClActorInitParam 0x020A1448 data a4
+ *   CLACT_ExitSystem 0x0204A5AC arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082AC0 0x02082AC0 arm
  *   func_02008FEC 0x02008FEC thumb
  *   PROCSYS_Create 0x02031324 arm
@@ -126,6 +126,11 @@
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
  *   APP_TASKMENU_WIN_ClearScreen  0x0202843C  thumb  arm9
  *   PMS_DRAW_Create  0x0202DB0C  thumb  arm9
+ *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
+ *   PALANM_FreeSlotBuffers  0x020215A0  thumb  arm9
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb  arm9
+ *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
+ *   APP_TASKMENU_WIN_Delete  0x02028148  thumb  arm9
  */
 #include "ov136_types.h"
 
@@ -189,22 +194,22 @@ typedef struct {
 
 extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
-extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-extern int func_02035C38(void);
+extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern int TOUCHPANEL_GetCont(void);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_020061E4(u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern void func_0201F73C(void *, int, int, int);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
@@ -212,41 +217,41 @@ extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern u32 func_0201CE30(void *p);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
-extern void func_02027858(struct TaskMenu *m);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02027974(void *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void APP_TASKMENU_UpdateMenu(void *p);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 extern void func_020419E4(void);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
 extern u32 func_02030CB0(u32 idx);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_02030DA8(void *, void (*)(void *, u8 *), u8 *, int);
-extern unsigned int func_02045C04(struct Rec *rec);
-extern u32 func_02027FD8(struct TaskMenuState *s);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern u32 func_0201C440(void *p);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern void PMS_DRAW_Delete(struct Obj *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_020433E0(const struct DispVram *c);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0204363C(u32);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -259,35 +264,35 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *func_02021518(u32 heap);
-extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void *PALANM_Create(u32 heap);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern u8 func_0201F548(int i);
 extern void func_0201DD68(void);
-extern void func_02049238(void *h);
+extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041B6C(u32 layer);
-extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern u32 func_02021540(void *a0);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+extern u32 PALANM_Delete(void *a0);
 extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
 extern void func_0207D63C(void *, int, int, int, int);
-extern void func_02045088(u16);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_Init(u16);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
-extern void func_02028148(u8 *p);
+extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_0204A5AC(void);
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void CLACT_ExitSystem(void);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082AC0(int,void *,int);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *PROCSYS_Create(int);
@@ -341,7 +346,7 @@ extern char d_021C7EF8[];
 extern const char d_021C77C4[];
 extern const struct DispConfig g_77F4;
 extern const struct BgSet g_7804;
-extern u8 d_020A1448[];
+extern u8 gClActorInitParam[];
 extern const char d_021C78E0[];
 
 
@@ -373,7 +378,7 @@ int func_021C446C(void *a)
 
 void func_021C44FC(u8 *p)
 {
-    func_02021FD8((struct Chan02021FD8 *)(*(u32 *)&((struct MailViewCtx *)p)->f38), 0, (u16)(p[0x1b] + 0x21), 1, 0, 0x7FFF);
+    PALANM_BlendChannel((struct Chan02021FD8 *)(*(u32 *)&((struct MailViewCtx *)p)->f38), 0, (u16)(p[0x1b] + 0x21), 1, 0, 0x7FFF);
     p[0x19] = 0;
     p[0x18] = 0;
 }
@@ -401,7 +406,7 @@ int func_021C4534(void)
 int func_021C4538(u8 *p)
 {
     if (p[0xA] == 0) {
-        if (func_02035C38()) return 0;
+        if (TOUCHPANEL_GetCont()) return 0;
         if (func_0203630C()) {
             if (*(void (**)(void *))(p + 0x3C)) (*(void (**)(void *))(p + 0x3C))(p);
             p[0xA] = 1;
@@ -409,7 +414,7 @@ int func_021C4538(u8 *p)
         }
     } else {
         if (func_0203630C()) return 0;
-        if (func_02035C38()) {
+        if (TOUCHPANEL_GetCont()) {
             if (*(void (**)(void *))(p + 0x40)) (*(void (**)(void *))(p + 0x40))(p);
             p[0xA] = 0;
             return 0;
@@ -424,7 +429,7 @@ int func_021C4590(u8 *p)
 {
     if (func_020362DC()) {
         p[0xA] = 1;
-    } else if (func_02035C60()) {
+    } else if (TOUCHPANEL_GetTrg()) {
         p[0xA] = 0;
     } else {
         return 0;
@@ -506,7 +511,7 @@ int func_021C45C0(u8 *p)
 int func_021C4700(u8 *p)
 {
     int n;
-    n = func_02035C08(d_021C7784);
+    n = TOUCHPANEL_HitTrg(d_021C7784);
     if (n == -1) return 0;
     if (n == 4) {
         func_020061E4(0x551);
@@ -549,12 +554,12 @@ void func_021C47C4(u8 *p, int n)
 {
     void *q;
     func_0201F73C(((struct MailViewCtx *)p)->f5C, 2, 13, 4);
-    func_02043B5C(func_02045770(((struct MailViewCtx *)p)->f5C), 255);
+    BMP_Clear(func_02045770(((struct MailViewCtx *)p)->f5C), 255);
     func_02045CAC(((struct MailViewCtx *)p)->f20, n, ((struct MailViewCtx *)p)->f34);
-    *(unsigned int *)&((struct MailViewCtx *)p)->f9C = func_0201CCE4(*(u32 *)&((struct MailViewCtx *)p)->f5C, 0, 0, *(u32 *)&((struct MailViewCtx *)p)->f34, *(unsigned int *)&((struct MailViewCtx *)p)->f24, ((struct MailViewCtx *)p)->f15, *(unsigned int *)&((struct MailViewCtx *)p)->f100, 4, (u16)((struct MailViewCtx *)p)->f0, 15);
+    *(unsigned int *)&((struct MailViewCtx *)p)->f9C = PRINTSYS_PrintStream(*(u32 *)&((struct MailViewCtx *)p)->f5C, 0, 0, *(u32 *)&((struct MailViewCtx *)p)->f34, *(unsigned int *)&((struct MailViewCtx *)p)->f24, ((struct MailViewCtx *)p)->f15, *(unsigned int *)&((struct MailViewCtx *)p)->f100, 4, (u16)((struct MailViewCtx *)p)->f0, 15);
     q = ((struct MailViewCtx *)p)->f5C;
-    func_02045334(q);
-    func_02045374(q);
+    BMP_WIN_TransferChars(q);
+    BMP_WIN_MakeScreen(q);
     func_020409B4(func_02045730(q));
 }
 
@@ -579,7 +584,7 @@ int func_021C483C(u8 *p)
         break;
     case 2:
         if (func_0201CE30(((struct MailViewCtx *)p)->f9C) == 2) {
-            if ((func_020362DC() & 1) || func_02035C60()) {
+            if ((func_020362DC() & 1) || TOUCHPANEL_GetTrg()) {
                 func_0201CE48(((struct MailViewCtx *)p)->f9C);
                 ((struct MailViewCtx *)p)->f8 = 3;
             }
@@ -588,7 +593,7 @@ int func_021C483C(u8 *p)
     case 3:
         func_0201F7A8(((struct MailViewCtx *)p)->f5C, 2);
         q = ((struct MailViewCtx *)p)->f5C;
-        func_020456F8(q);
+        BMP_WIN_ClearScreen(q);
         func_020409B4(func_02045730(q));
         func_021C44FC(p);
         ((struct MailViewCtx *)p)->f8 = 0;
@@ -617,8 +622,8 @@ void func_021C48FC(u8 *p)
     t.y = 6;
     t.w = 8;
     t.h = 3;
-    ((struct MailViewCtx *)p)->f10C = func_02027778((struct TaskMenuTmpl *)(&t), ((struct MailViewCtx *)p)->f108);
-    func_02021FD8(((struct MailViewCtx *)p)->f38, 0, 0, 48, 10, 0);
+    ((struct MailViewCtx *)p)->f10C = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), ((struct MailViewCtx *)p)->f108);
+    PALANM_BlendChannel(((struct MailViewCtx *)p)->f38, 0, 0, 48, 10, 0);
     APP_TASKMENU_WIN_ClearScreen(((struct MailViewCtx *)p)->f128);
     APP_TASKMENU_WIN_ClearScreen(((struct MailViewCtx *)p)->f12C);
 }
@@ -628,11 +633,11 @@ void func_021C48FC(u8 *p)
 int func_021C4998(u8 *p)
 {
     int r = -1;
-    if (func_020279E8(((struct MailViewCtx *)p)->f10C)) {
-        r = func_02027A04(((struct MailViewCtx *)p)->f10C);
-        func_02027858(((struct MailViewCtx *)p)->f10C);
-        func_02045808(((struct MailViewCtx *)p)->f110);
-        func_02045808(((struct MailViewCtx *)p)->f11C);
+    if (APP_TASKMENU_IsFinish(((struct MailViewCtx *)p)->f10C)) {
+        r = APP_TASKMENU_GetCursorPos(((struct MailViewCtx *)p)->f10C);
+        APP_TASKMENU_CloseMenu(((struct MailViewCtx *)p)->f10C);
+        STRBUF_Delete(((struct MailViewCtx *)p)->f110);
+        STRBUF_Delete(((struct MailViewCtx *)p)->f11C);
     }
     return r;
 }
@@ -669,13 +674,13 @@ int func_021C49D0(u8 *p)
         }
         return 0;
     case 3:
-        func_02027974(((struct MailViewCtx *)p)->f10C);
+        APP_TASKMENU_UpdateMenu(((struct MailViewCtx *)p)->f10C);
         r = func_021C4998(p);
         if (r < 0)
             return 0;
         func_0201F7A8(((struct MailViewCtx *)p)->f5C, 2);
         w = ((struct MailViewCtx *)p)->f5C;
-        func_020456F8(w);
+        BMP_WIN_ClearScreen(w);
         func_020409B4(func_02045730(w));
         ((struct MailViewCtx *)p)->f8 = 0;
         if (r == 0) {
@@ -685,7 +690,7 @@ int func_021C49D0(u8 *p)
         }
         *(int *)&((struct MailViewCtx *)p)->f10 = 0;
         p[0xB] = p[0xC];
-        func_02021FD8(((struct MailViewCtx *)p)->f38, 0, 0, 0x30, 0, 0);
+        PALANM_BlendChannel(((struct MailViewCtx *)p)->f38, 0, 0, 0x30, 0, 0);
         APP_TASKMENU_WIN_TransChar(((struct MailViewCtx *)p)->f128);
         APP_TASKMENU_WIN_TransChar(((struct MailViewCtx *)p)->f12C);
         return 0;
@@ -706,11 +711,11 @@ void func_021C4AF8(void)
     func_020434DC(8, 0);
     func_020434DC(16, 0);
     func_020434DC(1, 0);
-    func_02043598(1, 0);
-    func_02043598(2, 0);
-    func_02043598(4, 0);
-    func_02043598(8, 0);
-    func_02043598(16, 0);
+    BG_SYS_SetSubPlaneVisible(1, 0);
+    BG_SYS_SetSubPlaneVisible(2, 0);
+    BG_SYS_SetSubPlaneVisible(4, 0);
+    BG_SYS_SetSubPlaneVisible(8, 0);
+    BG_SYS_SetSubPlaneVisible(16, 0);
 }
 
 
@@ -718,7 +723,7 @@ void func_021C4AF8(void)
 void func_021C4B5C(void *a, u32 *p)
 {
     if (p[14]) PALANM_TransferPalettes((struct S02021D50 *)p[14]);
-    func_0204A648();
+    CLACT_VBlankSystem();
     func_020419E4();
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
 }
@@ -738,7 +743,7 @@ void func_021C4B88(void *unused, u8 *p)
         func_021C44FC(p);
         p[0x1B] = p[0x1A];
     }
-    func_02021FD8(((struct MailViewCtx *)p)->f38, 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);
+    PALANM_BlendChannel(((struct MailViewCtx *)p)->f38, 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);
     direction = p[0x19];
     old = p[0x18];
     if (direction != 0) {
@@ -760,7 +765,7 @@ int func_021C4BFC(u8 *p)
     switch (((struct MailViewCtx *)p)->f8) {
     case 0:
         ((struct MailViewCtx *)p)->f20 = func_02045B38(0, 2, 60, (u16)((struct MailViewCtx *)p)->f0);
-        ((struct MailViewCtx *)p)->f34 = func_020457B0(128, (u16)((struct MailViewCtx *)p)->f0);
+        ((struct MailViewCtx *)p)->f34 = STRBUF_Create(128, (u16)((struct MailViewCtx *)p)->f0);
         func_021C4DE4((u32 *)p);
         break;
     case 1:
@@ -771,7 +776,7 @@ int func_021C4BFC(u8 *p)
         break;
     case 3:
         func_021C5420(p);
-        ((struct MailViewCtx *)p)->f108 = func_02027F60(0, 8, (u32)(((struct MailViewCtx *)p)->f24), (u32)(((struct MailViewCtx *)p)->f98), (u16)((struct MailViewCtx *)p)->f0);
+        ((struct MailViewCtx *)p)->f108 = APP_TASKMENU_RES_Create(0, 8, (u32)(((struct MailViewCtx *)p)->f24), (u32)(((struct MailViewCtx *)p)->f98), (u16)((struct MailViewCtx *)p)->f0);
         ((struct MailViewCtx *)p)->f8 = 0;
         func_021C4D54(p);
         func_021C5360(p);
@@ -788,7 +793,7 @@ int func_021C4BFC(u8 *p)
 void func_021C4C9C(u8 *p)
 {
     void *q;
-    func_02021FD8(((struct MailViewCtx *)p)->f38, 0, 0, 112, 16, 0);
+    PALANM_BlendChannel(((struct MailViewCtx *)p)->f38, 0, 0, 112, 16, 0);
     PALANM_SetAutoTransfer(((struct MailViewCtx *)p)->f38, 1);
     PALANM_TransferPalettes(((struct MailViewCtx *)p)->f38);
     p[0x18] = 0;
@@ -805,9 +810,9 @@ int func_021C4D14(u8 *p)
 {
     func_021C4DA8(p);
     func_021C5470(p);
-    if (p + 0x28) func_02045C04(((struct MailViewCtx *)p)->f20);
-    func_02045808(((struct MailViewCtx *)p)->f34);
-    func_02027FD8(((struct MailViewCtx *)p)->f108);
+    if (p + 0x28) MSGDATA_Delete(((struct MailViewCtx *)p)->f20);
+    STRBUF_Delete(((struct MailViewCtx *)p)->f34);
+    APP_TASKMENU_RES_Delete(((struct MailViewCtx *)p)->f108);
     func_021C52F8(p);
     func_021C5114(p);
     func_021C4EC4(p);
@@ -819,7 +824,7 @@ int func_021C4D14(u8 *p)
 void func_021C4D54(u8 *p)
 {
     ((struct MailViewCtx *)p)->f158 = (void *)func_0201C440((void *)((u16)((struct MailViewCtx *)p)->f0));
-    ((struct MailViewCtx *)p)->f154 = func_0204B100(8, 1, (u16)((struct MailViewCtx *)p)->f0);
+    ((struct MailViewCtx *)p)->f154 = CLACT_CreateUnit(8, 1, (u16)((struct MailViewCtx *)p)->f0);
     ((struct MailViewCtx *)p)->f148 = PMS_DRAW_Create(*(u32 *)&((struct MailViewCtx *)p)->f154, 0, *(u32 *)&((struct MailViewCtx *)p)->f158, *(u32 *)&((struct MailViewCtx *)p)->f24, 0, 4, (u16)((struct MailViewCtx *)p)->f0);
     PMS_DRAW_SetNullColorPalette(((struct MailViewCtx *)p)->f148, 0);
 }
@@ -831,14 +836,14 @@ void func_021C4DA8(u8 *p)
     PMS_DRAW_Delete(((struct MailViewCtx *)p)->f148);
     func_0201C4C0(((struct MailViewCtx *)p)->f158);
     ((struct MailViewCtx *)p)->f158 = 0;
-    func_0204B1CC(((struct MailViewCtx *)p)->f154);
+    CLACT_DeleteUnit(((struct MailViewCtx *)p)->f154);
 }
 
 
 
 void func_021C4DD4(void)
 {
-    func_020433E0((const struct DispVram *)d_021C77C4);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021C77C4);
 }
 
 
@@ -910,15 +915,15 @@ void func_021C4EEC(u8 *p)
     func_020498F4(h, chr, 4, 0, sz, 1, (u16)((struct MailViewCtx *)p)->f0);
     func_02049B68(h, k, 4, 0, 0, (u16)((struct MailViewCtx *)p)->f0);
     func_02049B40(0x17, 5, 0, 0xA0, 0x20, (u16)((struct MailViewCtx *)p)->f0);
-    *(unsigned int *)&((struct MailViewCtx *)p)->f38 = (u32)func_02021518(((struct MailViewCtx *)p)->f0);
-    func_0202155C((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 0, 0xE0, (u16)((struct MailViewCtx *)p)->f0);
+    *(unsigned int *)&((struct MailViewCtx *)p)->f38 = (u32)PALANM_Create(((struct MailViewCtx *)p)->f0);
+    PALANM_AllocSlotBuffers((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 0, 0xE0, (u16)((struct MailViewCtx *)p)->f0);
     PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), h, k, (u16)((struct MailViewCtx *)p)->f0, 0, 0x60, 0);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 0x17, 7, (u16)((struct MailViewCtx *)p)->f0, 0, 0x20, 0x30);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 0x17, 5, (u16)((struct MailViewCtx *)p)->f0, 0, 0x20, 0x50);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 5, func_0201F548(0), (u16)((struct MailViewCtx *)p)->f0, 0, 0x20, 0x40);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(*(unsigned int *)&((struct MailViewCtx *)p)->f38), 5, func_0201F548(1), (u16)((struct MailViewCtx *)p)->f0, 0, 0x20, 0x60);
     func_0201DD68();
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     func_02041300(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
     func_02041B6C(4);
     func_020434DC(1, 1);
@@ -927,7 +932,7 @@ void func_021C4EEC(u8 *p)
     if (p[0xB] != 0) {
         h = func_020490F4(0x9B, (u16)((struct MailViewCtx *)p)->f0);
         func_020498F4(h, 0x24, 2, 0, sz, 1, (u16)((struct MailViewCtx *)p)->f0);
-        func_02049238(h);
+        ARC_TOOL_DeleteHandle(h);
         ((struct MailViewCtx *)p)->f3C = (void *)func_021C4534;
         ((struct MailViewCtx *)p)->f40 = (void *)func_021C4528;
         func_020434DC(4, 1);
@@ -938,8 +943,8 @@ void func_021C4EEC(u8 *p)
 
 void func_021C5114(u8 *p)
 {
-    func_020215A0(((struct MailViewCtx *)p)->f38, 0);
-    func_02021540(((struct MailViewCtx *)p)->f38);
+    PALANM_FreeSlotBuffers(((struct MailViewCtx *)p)->f38, 0);
+    PALANM_Delete(((struct MailViewCtx *)p)->f38);
     ((struct MailViewCtx *)p)->f38 = 0;
     func_02030EAC(((struct MailViewCtx *)p)->fFC);
     func_02030DA4(((struct MailViewCtx *)p)->fF8);
@@ -955,25 +960,25 @@ void func_021C515C(Obj *p)
     int i;
     void *w;
 
-    func_02045088((u16)p->heapId);
-    p->win[0] = (void *)func_020450F0(1, 0, 0, 1, 1, 5, 0);
-    p->win[1] = (void *)func_020450F0(1, 3, 3, 0x1A, 4, 1, 0);
-    p->win[2] = (void *)func_020450F0(1, 3, 8, 0x1A, 4, 1, 0);
-    p->win[3] = (void *)func_020450F0(1, 3, 0xD, 0x1A, 4, 1, 0);
-    p->win[4] = (void *)func_020450F0(1, 8, 0x13, 0xB, 2, 1, 0);
-    p->win[5] = (void *)func_020450F0(1, 0x15, 0x13, 8, 2, 1, 0);
-    p->win[6] = (void *)func_020450F0(0, 2, 1, 0x1C, 4, 5, 1);
+    BMP_WIN_Init((u16)p->heapId);
+    p->win[0] = (void *)BMP_WIN_Create(1, 0, 0, 1, 1, 5, 0);
+    p->win[1] = (void *)BMP_WIN_Create(1, 3, 3, 0x1A, 4, 1, 0);
+    p->win[2] = (void *)BMP_WIN_Create(1, 3, 8, 0x1A, 4, 1, 0);
+    p->win[3] = (void *)BMP_WIN_Create(1, 3, 0xD, 0x1A, 4, 1, 0);
+    p->win[4] = (void *)BMP_WIN_Create(1, 8, 0x13, 0xB, 2, 1, 0);
+    p->win[5] = (void *)BMP_WIN_Create(1, 0x15, 0x13, 8, 2, 1, 0);
+    p->win[6] = (void *)BMP_WIN_Create(0, 2, 1, 0x1C, 4, 5, 1);
     for (i = 0; i < 6; i++) {
         p->slot[i].win = p->win[i];
         p->slot[i].flag = 0;
     }
     p->f98 = (void *)func_0201C440((void *)((u16)p->heapId));
     for (i = 0; i < 7; i++) {
-        func_02043B5C(func_02045770(p->win[i]), 0);
+        BMP_Clear(func_02045770(p->win[i]), 0);
         if (i < 5) {
             w = p->win[i];
-            func_02045334(w);
-            func_02045374(w);
+            BMP_WIN_TransferChars(w);
+            BMP_WIN_MakeScreen(w);
             func_020409B4(func_02045730(w));
         }
     }
@@ -1004,20 +1009,20 @@ void func_021C52F8(u8 *p)
     int i;
     void *q;
     if (p[0xB] == 1) {
-        func_02028148(((struct MailViewCtx *)p)->f128);
-        func_02028148(((struct MailViewCtx *)p)->f12C);
-        func_02045808(((struct MailViewCtx *)p)->f130);
-        func_02045808(((struct MailViewCtx *)p)->f13C);
+        APP_TASKMENU_WIN_Delete(((struct MailViewCtx *)p)->f128);
+        APP_TASKMENU_WIN_Delete(((struct MailViewCtx *)p)->f12C);
+        STRBUF_Delete(((struct MailViewCtx *)p)->f130);
+        STRBUF_Delete(((struct MailViewCtx *)p)->f13C);
     }
     func_0201C4C0(((struct MailViewCtx *)p)->f98);
     ((struct MailViewCtx *)p)->f98 = 0;
     for (i = 0; i < 7; i++) {
         q = *(void **)(p + i * 4 + 0x44);
-        func_020456F8(q);
+        BMP_WIN_ClearScreen(q);
         func_020409B4(func_02045730(q));
         func_020452E8(*(void **)(p + i * 4 + 0x44));
     }
-    func_020450C8();
+    BMP_WIN_Exit();
 }
 
 
@@ -1044,11 +1049,11 @@ void func_021C5360(u8 *p)
     }
     if (p[0xB] == 0) {
         u32 a = *(u32 *)&((struct MailViewCtx *)p)->f98;
-        func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)((struct MailViewCtx *)p)->f88), 0, 2, (u32)(((struct MailViewCtx_f1C *)((struct MailViewCtx *)p)->f1C)->fC), *(u32 *)&((struct MailViewCtx *)p)->f24, 0x440);
+        PRINTSYS_PrintQueColor((void *)a, (u32)func_02045770((struct Descriptor *)((struct MailViewCtx *)p)->f88), 0, 2, (u32)(((struct MailViewCtx_f1C *)((struct MailViewCtx *)p)->f1C)->fC), *(u32 *)&((struct MailViewCtx *)p)->f24, 0x440);
         p[0x8C] = 1;
         t = ((struct MailViewCtx *)p)->f58;
-        func_02045334((struct Descriptor *)t);
-        func_02045374((struct Cfg *)t);
+        BMP_WIN_TransferChars((struct Descriptor *)t);
+        BMP_WIN_MakeScreen((struct Cfg *)t);
         func_020409B4(func_02045730((struct Descriptor *)t));
     }
 }
@@ -1056,27 +1061,27 @@ void func_021C5360(u8 *p)
 
 void func_021C5420(u8 *p)
 {
-    func_0204A48C((const struct Cfg *)d_020A1448,(unsigned int)d_021C77C4,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
-    ((struct MailViewCtx *)p)->fA0 = func_0204B100(4,(int)0,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(unsigned int)d_021C77C4,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
+    ((struct MailViewCtx *)p)->fA0 = CLACT_CreateUnit(4,(int)0,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
     CLACT_SetUnitDefaultRenderer(((struct MailViewCtx *)p)->fA0);
     func_020434DC(16,1);
-    func_02043598(16,1);
-    func_0203D34C((int)0,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
+    BG_SYS_SetSubPlaneVisible(16,1);
+    GFL_NET_RestartWithDefaultTimeout((int)0,(u16)(*(int *)&((struct MailViewCtx *)p)->f0));
 }
 
 
 void func_021C5470(u8 *p)
 {
-    func_0204B1CC(((struct MailViewCtx *)p)->fA0);
-    func_0204A5AC();
+    CLACT_DeleteUnit(((struct MailViewCtx *)p)->fA0);
+    CLACT_ExitSystem();
 }
 
 
 int func_021C5480(void *a, int unused, void **arg)
 {
     u8 *p;
-    func_0203064C(1,101,65536);
-    p = func_0203159C(a,52,101);
+    GFL_HEAP_CreateChildHeap(1,101,65536);
+    p = PROCSYS_AllocProcWork(a,52,101);
     func_02082AC0(0,p,52);
     ((struct MbSeqCtx *)p)->f4 = arg;
     ((struct MbSeqCtx *)p)->f0 = func_02008FEC(*arg);
@@ -1107,11 +1112,11 @@ int func_021C54DC(void *a, void *b, void *c, u32 *p)
 void func_021C54FC(void *unused)
 {
     func_020419E4();
-    func_0204A648();
+    CLACT_VBlankSystem();
 }
 
 
 void func_021C5508(void)
 {
-    func_020433E0((const struct DispVram *)d_021C78E0);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021C78E0);
 }

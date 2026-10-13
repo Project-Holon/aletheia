@@ -1,5 +1,5 @@
 /*
- * function: func_021BCB98
+ * function: BTL_SERVER_FLOW_MoveActionForward
  * address:  0x021BCB98
  * packet:   pkt_ov093_021BCB98
  * region:   ov093
@@ -15,7 +15,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct { u32 a; u32 b, c; u8 d0; u8 flag; u16 pad; } E;
 typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[6]; E t; } S;
 
-int func_021BCB98(S *p, E *cur, int start)
+int BTL_SERVER_FLOW_MoveActionForward(S *p, E *cur, int start)
 {
     int a = -1;
     int b = -1;

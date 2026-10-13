@@ -1,5 +1,5 @@
 /*
- * function: func_021AB888
+ * function: FLD_SCENEAREA_LOADER_GetCallbacks
  * address:  0x021AB888
  * packet:   pkt_021AB888
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   d_021D8EF4  0x021D8EF4  data  a4
+ *   gFldSceneAreaCallbacks  0x021D8EF4  data  a4
  */
 
-void *func_021AB888(void)
+void *FLD_SCENEAREA_LOADER_GetCallbacks(void)
 {
     return (void *)0x021D8EF4;
 }

@@ -13,18 +13,18 @@
  *   func_021DE884  0x021DE884  thumb  ov171
  *   func_021DE368  0x021DE368  thumb  ov171
  *   func_021DE258  0x021DE258  thumb  ov171
- *   func_0204A5AC  0x0204A5AC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
  */
 
 extern void func_021DE884(int *);
 extern void func_021DE368(char *p);
 extern void func_021DE258(char *p);
-extern void func_0204A5AC(void);
+extern void CLACT_ExitSystem(void);
 
 void func_021DE014(int *p)
 {
     func_021DE884(p);
     func_021DE368((char *)p);
     func_021DE258((char *)p);
-    func_0204A5AC();
+    CLACT_ExitSystem();
 }

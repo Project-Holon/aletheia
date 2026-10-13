@@ -12,11 +12,11 @@
  * symbols:
  *   _pNetSys     0x021469D0  data
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *
  * Reads the current value through the vtable slot at +0x80 of the object
  * hanging off +0x340 of GFL_NET_GetSession()'s record.  The mode byte at +0x65 of
- * func_0203D798()'s record selects which of the two spellings runs: modes 1
+ * GFL_NET_GetInitParam()'s record selects which of the two spellings runs: modes 1
  * and 2 treat a -1 result as "nothing", every other mode takes the raw
  * result.  Both arms call the same slot, and the u16 narrowing is written
  * out in each of them rather than factored behind a label.
@@ -55,7 +55,7 @@ struct Mode {
 
 extern struct LinkState *_pNetSys;
 extern void *GFL_NET_GetSession(void);
-extern struct Mode *func_0203D798(void);
+extern struct Mode *GFL_NET_GetInitParam(void);
 
 u16 GFL_NET_SYSTEM_GetCurrentAid(void)
 {
@@ -68,7 +68,7 @@ u16 GFL_NET_SYSTEM_GetCurrentAid(void)
     }
 
     owner = GFL_NET_GetSession();
-    sel = func_0203D798()->unk65 + 0xff;
+    sel = GFL_NET_GetInitParam()->unk65 + 0xff;
 
     if (sel <= 1) {
         v = owner->unk340->unk80();

@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_02039338(void);
-u8 *func_021B8834(int a,u8 *p) { if(a==func_02039338()) return p+0x8c; else return p+8; }
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+u8 *func_021B8834(int a,u8 *p) { if(a==GFL_NET_SYSTEM_GetCurrentAid()) return p+0x8c; else return p+8; }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C5C64",
+   "name": "FISHING_CheckFacingWater",
    "address": "0x021C5C64",
    "kind": "game",
    "region": "ov021",

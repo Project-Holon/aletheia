@@ -25,7 +25,7 @@
  * from the other would be a claim that they are one object, and the image does
  * not say so.
  *
- * This is in turn what keeps func_0201D83C, src/pending/sub_0201D83C.c, out of
+ * This is in turn what keeps GF_FONT_Delete, src/pending/sub_0201D83C.c, out of
  * src/matched.
  *
  * Addresses are Black-image addresses.

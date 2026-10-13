@@ -1,5 +1,5 @@
 /*
- * function: func_021F58C0
+ * function: FLD_FACEUP_InitAnim
  * address:  0x021F58C0
  * packet:   pkt_021F58C0
  * region:   ov082
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj06201.h"
 
-void func_021F58C0(char *p)
+void FLD_FACEUP_InitAnim(char *p)
 {
     ((struct Obj06201 *)p)->f0 = 1;
     ((struct Obj06201 *)p)->f4 = 0;

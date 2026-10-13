@@ -1,5 +1,5 @@
 /*
- * function: func_021EF8B8
+ * function: BTL_FIELD_TickCountdown
  * address:  0x021EF8B8
  * packet:   pkt_ov093_021EF8B8
  * region:   ov093
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status: EXACT
  *
- * Tail call into the countdown leaf func_021EF9D0 with the static record.
+ * Tail call into the countdown leaf BTL_FIELD_StepCountdown with the static record.
  *
  * 2026-10-03: byte-correct, MATCH only because 0x021EF9D0 has no label yet.
  * Its witness is filed EXACT as src/matched/ov/ov093_func_021EF9D0.c; once
  * the integrator seeds that start this verifies EXACT.
  *
  * symbols:
- *   func_021EF9D0  0x021EF9D0  thumb  ov093
- *   d_021F63F4  0x021F63F4  data  a4
+ *   BTL_FIELD_StepCountdown  0x021EF9D0  thumb  ov093
+ *   gBtlFieldCountdown  0x021F63F4  data  a4
  */
 
 #include "../include/G_Countdown.h"
@@ -29,10 +29,10 @@ typedef struct {
     u32 count;
 } Countdown;
 
-extern struct Countdown d_021F63F4;
-extern u32 func_021EF9D0(Countdown *p);
+extern struct Countdown gBtlFieldCountdown;
+extern u32 BTL_FIELD_StepCountdown(Countdown *p);
 
-u32 func_021EF8B8(void)
+u32 BTL_FIELD_TickCountdown(void)
 {
-    return func_021EF9D0(((Countdown *)&d_021F63F4));
+    return BTL_FIELD_StepCountdown(((Countdown *)&gBtlFieldCountdown));
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B71D4",
+   "name": "BTL_MAIN_TaskSetupRotation",
    "address": "0x021B71D4",
    "kind": "game",
    "region": "ov093",

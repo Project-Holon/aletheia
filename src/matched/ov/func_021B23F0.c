@@ -1,5 +1,5 @@
 /*
- * function: func_021B23F0
+ * function: SCRCMD_GIMMICK40_SetFlag
  * address:  0x021B23F0
  * packet:   pkt_021B23F0
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_021F37A4  0x021F37A4  thumb  ov040
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GIMMICK40_SetFlag  0x021F37A4  thumb  ov040
  * Addresses are Black-image addresses.
  */
 
@@ -25,15 +25,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
-extern void func_021F37A4(u8 *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void GIMMICK40_SetFlag(u8 *p);
 
-int func_021B23F0(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_GIMMICK40_SetFlag(u32 a, u32 b, u32 c, u32 d)
 {
-func_0215A5F4((void *)b);
-func_021F37A4(func_0201210C(func_0215A5DC((void *)b)));
+SCRCMD_WORK_GetScriptWork((void *)b);
+GIMMICK40_SetFlag(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b)));
 return 0;
 }
 

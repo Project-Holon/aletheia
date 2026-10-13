@@ -1,5 +1,5 @@
 /*
- * function: func_021756A4
+ * function: INTRUDE_COMM_GetPartnerTallyValid
  * address:  0x021756A4
  * packet:   pkt_021756A4
  * region:   ov011
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 func_021756A4(char *p)
+u8 INTRUDE_COMM_GetPartnerTallyValid(char *p)
 {
     return p[0x35a];
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216E68C
+ * function: EVENT_BATTLE_ProcScriptedBattle
  * address:  0x0216E68C
  * packet:   pkt_ov010_0216E68C
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Four-state proc that pushes the tutorial capture task (func_0216EB98)
+ * Four-state proc that pushes the tutorial capture task (EVENT_BATTLE_ProcBattleTask)
  * for the opponent's first Pokemon and then the result screens.
  * Byte-correct first draft (func_021CF5D8's species is a u32 here: no
  * truncation at the call).
@@ -20,26 +20,26 @@
  * 2026-10-05: byte-identical; the two wildcards resolve once shards exist for arm9 BTL_SETUP_GetParty (matched file exists, no shard) and COMM_PLAYER_SUPPORT_HasSavedMode (new matched/arm9 file, EXACT, this lane).
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0216F02C  0x0216F02C  thumb  ov010
+ *   EVENT_BATTLE_InitTaskWork  0x0216F02C  thumb  ov010
  *   BTL_SETUP_GetParty  0x0201313C  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_021CF5D8  0x021CF5D8  thumb
- *   func_02012374  0x02012374  thumb
- *   func_02012F20  0x02012F20  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
- *   func_02012A44  0x02012A44  thumb
- *   func_0216EFA8  0x0216EFA8  thumb  ov010
- *   func_0215F6E8  0x0215F6E8  thumb  ov010
- *   func_0201235C  0x0201235C  thumb
- *   func_021BE92C  0x021BE92C  thumb
+ *   GAME_DATA_GetFieldMode  0x02012A44  thumb
+ *   EVENT_BATTLE_IsResultSilent  0x0216EFA8  thumb  ov010
+ *   SCRCMD_NETWORK_CreateCommProcEvent  0x0215F6E8  thumb  ov010
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
  *   COMM_PLAYER_SUPPORT_HasSavedMode  0x0202E818  thumb
- *   func_02181D8C  0x02181D8C  thumb
- *   func_0216EB98  0x0216EB98  thumb  ov010
+ *   EVENT_COMM_COMMON_CreateSupportMsgEvent  0x02181D8C  thumb
+ *   EVENT_BATTLE_ProcBattleTask  0x0216EB98  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -80,31 +80,31 @@ struct Desc;
 struct Evt;
 struct Obj;
 struct S0201235C;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0216F02C(void **p, void *a, void *b);
+extern void EVENT_BATTLE_InitTaskWork(void **p, void *a, void *b);
 extern void *BTL_SETUP_GetParty(void *p, int i);
 extern void *func_0201AB28(void *party, u32 i);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_0201210C(const struct Ctx *p);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void func_021CF5D8(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_02012F20(int p0);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern int GAME_DATA_GetPmsWork(int p0);
 extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
-extern u32 func_02012A44(const struct BigObj *p);
-extern int func_0216EFA8(int a, int b);
-extern void *func_0215F6E8(void *sys);
-extern void func_0201235C(struct S0201235C *o, u32 *out);
-extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 GAME_DATA_GetFieldMode(const struct BigObj *p);
+extern int EVENT_BATTLE_IsResultSilent(int a, int b);
+extern void *SCRCMD_NETWORK_CreateCommProcEvent(void *sys);
+extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern int COMM_PLAYER_SUPPORT_HasSavedMode(int *p);
-extern void *func_02181D8C(void *sys, u32 v);
-extern int func_0216EB98(void *evt, u32 *state, struct Work *w);
+extern void *EVENT_COMM_COMMON_CreateSupportMsgEvent(void *sys, u32 v);
+extern int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, struct Work *w);
 
-int func_0216E68C(void *evt, u32 *state, Work *w)
+int EVENT_BATTLE_ProcScriptedBattle(void *evt, u32 *state, Work *w)
 {
     void *sys = w->sys;
-    void *ctx = func_020120F4(sys);
+    void *ctx = GAMESYSTEM_GetGameData(sys);
     void *task;
     Task *t;
     u32 species;
@@ -112,42 +112,42 @@ int func_0216E68C(void *evt, u32 *state, Work *w)
 
     switch (*state) {
     case 0:
-        task = func_020122C0(sys, 0, func_0216EB98, 0x28);
+        task = func_020122C0(sys, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
         t = func_020124E8(task);
-        func_0216F02C((void **)t, sys, w->bs);
+        EVENT_BATTLE_InitTaskWork((void **)t, sys, w->bs);
         flag = 1;
         t->f14 = 1;
-        species = func_02017E1C(func_0201AB28(BTL_SETUP_GetParty(w->bs, 1), 0), 5, 0);
+        species = POKE_TOOL_GetPartyValue(func_0201AB28(BTL_SETUP_GetParty(w->bs, 1), 0), 5, 0);
         {
-            void *proc = func_0201210C(sys);
+            void *proc = GAMESYSTEM_GetFieldMap(sys);
 
             if (w->bs->f04 != 1)
                 flag = 0;
             func_021CF5D8(species, w->f0c, flag, proc, &t->f24, t->f08->f18);
         }
-        func_02012374(evt, task);
+        GAME_EVENT_CallEvent(evt, task);
         (*state)++;
         break;
     case 1:
         if (w->f08 == 1) {
-            COMM_PLAYER_SUPPORT_Init((void *)func_02012F20((int)ctx));
+            COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)ctx));
             return 1;
         }
-        if (func_0216EFA8(func_02012A44(ctx), 0) == 1) {
-            COMM_PLAYER_SUPPORT_Init((void *)func_02012F20((int)ctx));
-            func_0201235C(evt, func_0215F6E8(sys));
+        if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetFieldMode(ctx), 0) == 1) {
+            COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)ctx));
+            GAME_EVENT_ChangeEvent(evt, SCRCMD_NETWORK_CreateCommProcEvent(sys));
         } else {
-            func_02012374(evt, func_021BE92C(sys, func_0201210C(sys), 0, 0, 1, 0, 0));
+            GAME_EVENT_CallEvent(evt, EVENT_FIELDMAP_CONTROL_StartFadeIn(sys, GAMESYSTEM_GetFieldMap(sys), 0, 0, 1, 0, 0));
         }
         (*state)++;
         break;
     case 2:
-        if (COMM_PLAYER_SUPPORT_HasSavedMode((void *)func_02012F20((int)ctx)) == 1)
-            func_02012374(evt, func_02181D8C(sys, 4));
+        if (COMM_PLAYER_SUPPORT_HasSavedMode((void *)GAME_DATA_GetPmsWork((int)ctx)) == 1)
+            GAME_EVENT_CallEvent(evt, EVENT_COMM_COMMON_CreateSupportMsgEvent(sys, 4));
         (*state)++;
         break;
     case 3:
-        COMM_PLAYER_SUPPORT_Init((void *)func_02012F20((int)ctx));
+        COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)ctx));
         return 1;
     }
     return 0;

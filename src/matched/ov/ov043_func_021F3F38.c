@@ -1,5 +1,5 @@
 /*
- * function: func_021F3F38
+ * function: GIMMICK43_ShowLiftAnime
  * address:  0x021F3F38
  * packet:   pkt_ov043_021F3F38
  * region:   ov043
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F4328     0x021F4328  data  ov043
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE6CC  0x021BE6CC  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
+ *   sGimmick43LiftAnimeFlip     0x021F4328  data  ov043
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  */
 
 typedef unsigned short u16;
 
-extern int d_021F4328[];
+extern int sGimmick43LiftAnimeFlip[];
 
-extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void func_021BE6B0(unsigned char *p, int v);
+extern void  FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, u16 j, u16 k, int flag);
+extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
+extern void *FLD_EXP_OBJ_GetAnime(void *p, int i, u16 j, u16 k);
+extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
 
-void func_021F3F38(int *a, void *b, int c)
+void GIMMICK43_ShowLiftAnime(int *a, void *b, int c)
 {
     int r4, r6;
 
     if (a[c]) {
-        if (d_021F4328[c]) {
+        if (sGimmick43LiftAnimeFlip[c]) {
             r4 = 0;
             r6 = 1;
         } else {
@@ -39,7 +39,7 @@ void func_021F3F38(int *a, void *b, int c)
             r6 = 0;
         }
     } else {
-        if (d_021F4328[c]) {
+        if (sGimmick43LiftAnimeFlip[c]) {
             r4 = 1;
             r6 = 0;
         } else {
@@ -47,8 +47,8 @@ void func_021F3F38(int *a, void *b, int c)
             r6 = 1;
         }
     }
-    func_021BE700(b, 0, c, r4, 1);
-    func_021BE700(b, 0, c, r6, 0);
-    func_021BE6CC((int)b, 0, (u16)c, (u16)r4, 0);
-    func_021BE6B0(func_021BE674(b, 0, c, r4), 1);
+    FLD_EXP_OBJ_SetAnimeEnabled(b, 0, c, r4, 1);
+    FLD_EXP_OBJ_SetAnimeEnabled(b, 0, c, r6, 0);
+    FLD_EXP_OBJ_SetAnimeFrame((int)b, 0, (u16)c, (u16)r4, 0);
+    FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(b, 0, c, r4), 1);
 }

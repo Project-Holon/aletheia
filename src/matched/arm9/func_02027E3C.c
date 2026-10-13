@@ -11,11 +11,11 @@
  *
  * app_taskmenu.c: the touch handler.  Builds a stack table of one
  * eight-pixel-tall hit rectangle per menu entry (0xff-terminated), hands it
- * to func_02035C08, and on a hit moves the cursor, repaints the old and the
+ * to TOUCHPANEL_HitTrg, and on a hit moves the cursor, repaints the old and the
  * new entry, and raises the confirm notification.
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020355D8  0x020355D8  arm
  *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
  *   func_020061E4  0x020061E4  thumb
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  func_02035C08(const void *key);
+extern int  TOUCHPANEL_HitTrg(const void *key);
 extern void func_020355D8(u8 v);
 struct S;
 extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
@@ -57,7 +57,7 @@ void APP_TASKMENU_UpdateTouch(u8 *m)
     }
     rect[i * 4] = 0xff;
 
-    hit = func_02035C08(rect);
+    hit = TOUCHPANEL_HitTrg(rect);
     if (hit == ~0) {
         return;
     }

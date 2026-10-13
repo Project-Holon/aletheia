@@ -63,7 +63,7 @@ enum {
     BTL_WEATHER_SAND = 4
 };
 
-/* Type affinity classes that func_021D7AD4 returns. */
+/* Type affinity classes that BTL_CALC_SummarizeTypeAffinity returns. */
 enum {
     BTL_AFFINITY_SUPER_EFFECTIVE = 2,
     BTL_AFFINITY_RESISTED = 3
@@ -112,13 +112,13 @@ typedef struct {
 } BtlMessageCmd;
 
 /* Services of the event variable stack and the battle server flow. */
-extern int func_021D775C(int key);
-extern int func_021D76BC(int key, u32 value);
-extern void func_021D7704(int key, s32 ratio);
-extern u32 func_021D7B10(u32 value, u32 ratio);
-extern u32 func_021D7B60(struct BtlPokeParam *bpp, u32 divisor);
-extern int func_021D7AD4(int affinity);
-extern int func_021D7AF0(u32 percent);
+extern int BTL_EVENT_GetVar(int key);
+extern int BTL_EVENT_OverwriteVar(int key, u32 value);
+extern void BTL_EVENT_MultiplyVar(int key, s32 ratio);
+extern u32 BTL_CALC_MulRatio(u32 value, u32 ratio);
+extern u32 BTL_CALC_DivideMaxHp(struct BtlPokeParam *bpp, u32 divisor);
+extern int BTL_CALC_SummarizeTypeAffinity(int affinity);
+extern int BTL_CALC_RollPercent(u32 percent);
 extern struct BtlPokeParam *func_021C7CF4(struct BtlSvFlow *flow, int pokeId);
 extern int func_021C8288(struct BtlSvFlow *flow);
 extern void *func_021C88A4(struct BtlSvFlow *flow, int size, int pokeId);
@@ -129,10 +129,10 @@ extern int WAZA_TOOL_GetDamageType(int moveId);
 
 /* Services of the poke parameter. */
 extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
-extern u8 func_021D5440(struct BtlPokeParam *bpp);
+extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
 extern int func_021D58A8(struct BtlPokeParam *bpp, int valueId);
-extern int func_021D5BDC(struct BtlPokeParam *bpp, u32 flagIndex);
-extern int func_021D62A8(struct BtlPokeParam *bpp);
-extern int func_021D62C4(struct BtlPokeParam *bpp, int sickId);
+extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *bpp, u32 flagIndex);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
+extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, int sickId);
 
 #endif

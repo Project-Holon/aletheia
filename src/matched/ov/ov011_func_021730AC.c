@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02012E40  0x02012E40  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   INTRUDE_COMM_SendShutdownRequest  0x021736EC  thumb  ov011
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   INTRUDE_COMM_OnSessionExit  0x02173580  thumb  ov011
  */
 
@@ -46,34 +46,34 @@ typedef struct Work {
 } Work;
 
 extern u32 func_02026478(void *obj);
-extern u8 func_02012E40(const u8 *o);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern u32 func_0200FB24(void);
-extern int func_0203CEAC(int a0);
-extern int   func_0203D1B4(void);
+extern int GFL_NET_Exit(int a0);
+extern int   GFL_NET_GetNegotiationNum(void);
 extern int INTRUDE_COMM_SendShutdownRequest(char *p);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *p, u32 a, u32 b);
 extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
-extern void func_0203D7BC(u8 a0);
-extern u32 func_0203D378(void);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern u32 GFL_NET_IsParentAid(void);
 extern void INTRUDE_COMM_OnSessionExit(u8 *w);
 
 int INTRUDE_COMM_Shutdown(int *state, Param *p, Work *w)
 {
-    if (func_02012E40((const u8 *)func_02026478(p->field04)) == 1) {
+    if (GAME_DATA_IsSaving((const u8 *)func_02026478(p->field04)) == 1) {
         return 0;
     }
     if (w->bit1 == 1 || func_0200FB24() != 0) {
         w->field8f8 |= 0x40;
-        func_0203CEAC((int)INTRUDE_COMM_OnSessionExit);
+        GFL_NET_Exit((int)INTRUDE_COMM_OnSessionExit);
         return 1;
     }
     switch (*state) {
     case 0:
         w->field8fd = 9;
-        if (func_0203D1B4() <= 1) {
+        if (GFL_NET_GetNegotiationNum() <= 1) {
             *state = 4;
         } else if (INTRUDE_COMM_SendShutdownRequest((char *)w) == 1) {
             (*state)++;
@@ -81,20 +81,20 @@ int INTRUDE_COMM_Shutdown(int *state, Param *p, Work *w)
         break;
     case 1:
         w->timer = 0;
-        func_02039C68((struct Link *)func_020399A8(), 0x14, 2);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 2);
         (*state)++;
         break;
     case 2:
         w->timer++;
-        if (func_02039CB4((struct Link *)func_020399A8(), 0x14, 2) == 1 || w->timer > 300) {
-            func_0203D7BC(0);
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x14, 2) == 1 || w->timer > 300) {
+            GFL_NET_SetLoginOption(0);
             (*state)++;
         }
         break;
     case 3:
         w->timer++;
-        if (func_0203D378() == 1) {
-            if (func_0203D1B4() <= 1 || w->timer > 300) {
+        if (GFL_NET_IsParentAid() == 1) {
+            if (GFL_NET_GetNegotiationNum() <= 1 || w->timer > 300) {
                 (*state)++;
             }
         } else {
@@ -103,7 +103,7 @@ int INTRUDE_COMM_Shutdown(int *state, Param *p, Work *w)
         break;
     case 4:
         w->field8f8 |= 0x40;
-        func_0203CEAC((int)INTRUDE_COMM_OnSessionExit);
+        GFL_NET_Exit((int)INTRUDE_COMM_OnSessionExit);
         return 1;
     }
     return 0;

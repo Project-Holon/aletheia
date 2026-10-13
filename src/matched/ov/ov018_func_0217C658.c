@@ -1,5 +1,5 @@
 /*
- * function: func_0217C658
+ * function: INTRUDE_FIELD_InitPlayerSpin
  * address: 0x0217C658
  * packet: pkt_ov018_0217C658
  * region: ov018
@@ -24,7 +24,7 @@ typedef struct {
     int f14;
 } Rec;
 extern void func_02082BCC(void *, int, int);
-void func_0217C658(Rec *p, void *a, int b, u16 c, u8 d, u8 e)
+void INTRUDE_FIELD_InitPlayerSpin(Rec *p, void *a, int b, u16 c, u8 d, u8 e)
 {
     func_02082BCC(p, 0, sizeof(Rec));
     p->f0 = a;

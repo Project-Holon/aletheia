@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F1F9C 0x021F1F9C thumb
- *   func_02021FD8 0x02021FD8 thumb
+ *   PALANM_BlendChannel 0x02021FD8 thumb
  *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj02752.h"
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Chan02021FD8;
-extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 struct TcblNode;
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
@@ -33,14 +33,14 @@ void func_021F1F9C(void *task, u8 *s)
 
     if (c < 2) {
         if (s[1]++ >= s[2]) {
-            func_02021FD8((struct Chan02021FD8 *)(((struct Obj20443 *)(*(char * *)&((struct Obj02752 *)s)->fC))->fAC), 3, s[3], 0x10, (c % 2) << 2, 0x7fff);
+            PALANM_BlendChannel((struct Chan02021FD8 *)(((struct Obj20443 *)(*(char * *)&((struct Obj02752 *)s)->fC))->fAC), 3, s[3], 0x10, (c % 2) << 2, 0x7fff);
             s[0]++;
             s[1] = 0;
         }
     } else {
         int *r;
 
-        func_02021FD8((struct Chan02021FD8 *)(((struct Obj20444 *)(*(char * *)&((struct Obj02752 *)s)->fC))->fAC), 3, s[3], 0x10, 0, 0x7fff);
+        PALANM_BlendChannel((struct Chan02021FD8 *)(((struct Obj20444 *)(*(char * *)&((struct Obj02752 *)s)->fC))->fAC), 3, s[3], 0x10, 0, 0x7fff);
         r = *(int * *)&((struct Obj02752 *)s)->f10;
         if (r != 0)
             (*r)--;

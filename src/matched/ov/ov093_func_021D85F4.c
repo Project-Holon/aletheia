@@ -1,5 +1,5 @@
 /*
- * function: func_021D85F4
+ * function: BTL_CALC_IntimidateOnEnter
  * address:  0x021D85F4
  * packet:   pkt_ov093_021D85F4
  * region:   ov093
@@ -11,8 +11,8 @@
  *
  * lever: -1 is a signed store (subs from the shared 1); p is declared last.
  * symbols:
- *   func_021D85F4  0x021D85F4  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_CALC_IntimidateOnEnter  0x021D85F4  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7D00  0x021C7D00  thumb  ov093
  *   func_021C8120  0x021C8120  thumb  ov093
  *   func_021C7F68  0x021C7F68  thumb  ov093
@@ -28,7 +28,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021D775C(int a);
+int BTL_EVENT_GetVar(int a);
 int func_021C7D00(u8 *p, int b);
 u8 *func_021C8120(u8 *p, int b);
 u8 func_021C7F68(int *p, int b, u8 *out);
@@ -36,7 +36,7 @@ void func_021C88B4(void *a, int k, int b);
 void *func_021C88A4(char *p, int a, int b);
 void func_021C88C8(void *a, void *b);
 
-void func_021D85F4(void *a, int b, int c)
+void BTL_CALC_IntimidateOnEnter(void *a, int b, int c)
 {
     void *r;
     void *v;
@@ -44,7 +44,7 @@ void func_021D85F4(void *a, int b, int c)
     u32 i;
     u8 *p;
 
-    if (c != func_021D775C(2))
+    if (c != BTL_EVENT_GetVar(2))
         return;
     r = (void *)func_021C7D00((u8 *)b, c);
     v = (void *)func_021C8120((u8 *)b, 6);

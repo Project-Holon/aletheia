@@ -10,9 +10,10 @@
  * follower: two zero padding bytes at 021D7D2E.
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  */
 #include "../include/Obj08081.h"
 typedef unsigned short u16;
@@ -20,20 +21,20 @@ typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 typedef signed short   s16;
 typedef unsigned int   u32;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045334(struct Descriptor *d);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 void func_021D7CE8(char *p,u16 n,int i)
 {
     void *q=*(void **)(p+0x38+4*i);
     if(q) {
-        func_02043B5C(func_02045770(q),0);
-        func_02045CAC(((struct Obj08081 *)p)->fC,n,(void *)(((struct Obj08081 *)p)->f18));
-        func_0201C7A4(func_02045770(q),2,2,(void *)(((struct Obj08081 *)p)->f18),(void *)(((struct Obj08081 *)p)->f14));
-        func_02045334(q);
+        BMP_Clear(func_02045770(q),0);
+        MSGDATA_ReadString(((struct Obj08081 *)p)->fC,n,(void *)(((struct Obj08081 *)p)->f18));
+        PRINTSYS_Print(func_02045770(q),2,2,(void *)(((struct Obj08081 *)p)->f18),(void *)(((struct Obj08081 *)p)->f14));
+        BMP_WIN_TransferChars(q);
     }
 }

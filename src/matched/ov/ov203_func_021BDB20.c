@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
@@ -25,7 +25,7 @@ struct Rec;
 struct S020315D4;
 extern void BRIGHTNESS_ChangeReset(u32 mask);
 extern void func_021BDD18(char *);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021BE4B4(char *ctx);
 extern void func_021BDE98(char *ctx);
@@ -37,7 +37,7 @@ int func_021BDB20(void *a, void *b, void *c, char *work)
 {
     BRIGHTNESS_ChangeReset(3);
     func_021BDD18(*(char * *)&((struct Obj06664 *)work)->f1C);
-    func_02045C04(((struct Obj06664 *)work)->f14);
+    MSGDATA_Delete(((struct Obj06664 *)work)->f14);
     func_0201C4C0(((struct Obj06664 *)work)->f10);
     func_021BE4B4(((struct Obj06664 *)work)->f18);
     func_021BDE98(((struct Obj06664 *)work)->fC);

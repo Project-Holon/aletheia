@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C4078",
+   "name": "SODATEYA_RollRandomU32",
    "address": "0x021C4078",
    "kind": "game",
    "region": "ov021",

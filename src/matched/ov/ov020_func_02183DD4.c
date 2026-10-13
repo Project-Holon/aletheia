@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020120F4 0x020120F4 thumb
- *   func_020127C4 0x020127C4 thumb
- *   func_02161D64 0x02161D64 thumb ov010
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetSecondUnionInfo 0x020127C4 thumb
+ *   EVENT_FIELD_PROCLINK_CheckZoneFlag 0x02161D64 thumb ov010
  * interface: 020127C4 forwards 020127D0's returned pointer in r0.
  */
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned char  u8;
-extern u8 *func_020127C4(void *p);
-extern int func_02161D64(int a0);
+extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
+extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0);
 void func_02183DD4(void *p)
 {
-    func_02161D64((int)func_020127C4(func_020120F4(p)));
+    EVENT_FIELD_PROCLINK_CheckZoneFlag((int)GAME_DATA_GetSecondUnionInfo(GAMESYSTEM_GetGameData(p)));
 }

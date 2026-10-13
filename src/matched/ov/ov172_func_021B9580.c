@@ -29,10 +29,10 @@
  *   func_021BE08C 0x021BE08C thumb ov172
  *   func_021B99F4 0x021B99F4 thumb ov172
  *   func_020362DC 0x020362DC arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
  *   d_021C6F83 0x021C6F83 data a1
  *   d_021C6F77 0x021C6F77 data a1
@@ -58,10 +58,10 @@ extern u32 func_021B77B4(int unused, void *p);
 extern void func_021BE08C(void *);
 extern void func_021B99F4(void *unused, u8 *q);
 extern u32 func_020362DC(void);
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32);
-extern void func_0204B878(struct Obj *, u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern void func_0204B92C(struct Obj *, u32);
 extern const u8 d_021C6F83[];
 extern const u8 d_021C6F77[];
@@ -109,28 +109,28 @@ void func_021B9580(u8 *c, u8 *q)
         }
     }
     if (*(int *)q == 5) {
-        if ((func_020362DC() & 0x400) || (func_020362DC() & 0x400) || func_02035C08(d_021C6F83) != -1) {
+        if ((func_020362DC() & 0x400) || (func_020362DC() & 0x400) || TOUCHPANEL_HitTrg(d_021C6F83) != -1) {
             *(int *)q = 3;
             *(int *)(q + 4) = 6;
-            func_0204B878(*(struct Obj **)(q + 0x9c), 0x14);
+            CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x9c), 0x14);
             func_0204B92C(*(struct Obj **)(q + 0x9c), 1);
             func_020061E4(0x66C);
         }
     }
     if (*(int *)q == 5) {
-        r6 = func_02035C08(d_021C6F77);
+        r6 = TOUCHPANEL_HitTrg(d_021C6F77);
         if (r6 == 0 || (func_020362DC() & 2)) {
             if (r6 == 0) func_020355D8(1); else func_020355D8(0);
             *(int *)q = 9;
             func_020061E4(0x551);
-            func_0204B878(*(struct Obj **)(q + 0x98), 9);
+            CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x98), 9);
         } else if (r6 == 1 || (func_020362DC() & 0xc)) {
             func_021BE0B8(c);
             func_020061E4(0x66F);
             if (func_021BE0B4(c) == 1)
-                func_0204B878(*(struct Obj **)(q + 0x94), 0x15);
+                CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x94), 0x15);
             else
-                func_0204B878(*(struct Obj **)(q + 0x94), 0x16);
+                CLACT_SetActorAnimSeq(*(struct Obj **)(q + 0x94), 0x16);
         }
     }
     if (func_021BE0A4(c) == 0 && (func_020362DC() & 0x200)) {

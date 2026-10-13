@@ -48,13 +48,16 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201D69C.c \
  *       --addr 0x0201D69C --thumb
+ *
+ * symbols:
+ *   STRBUF_GetLength  0x020458F8  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct U16Vec;
-extern u16 func_020458F8(struct U16Vec *vec);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
 
 struct Ring {
     u16 head;
@@ -64,7 +67,7 @@ struct Ring {
 
 u32 func_0201D69C(void *s)
 {
-    u32 n = (func_020458F8(s) + 1) * 2;
+    u32 n = (STRBUF_GetLength(s) + 1) * 2;
 
     while ((n & 3) != 0) {
         n++;

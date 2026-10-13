@@ -1,5 +1,5 @@
 /*
- * function: CTRDG_SetPulledOutCallback
+ * function: VCT_SESSION_SetFilterEnabled
  * address:  0x021B0D08
  * packet:   pkt_ov013_021B0D08
  * region:   ov013
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B3C84                   0x021B3C84  data
+ *   gVctSendState                   0x021B3C84  data
 */
 
 #include "../include/G_021B3C84.h"
 
-extern struct G_021B3C84 d_021B3C84;
+extern struct G_021B3C84 gVctSendState;
 
-void CTRDG_SetPulledOutCallback(void *cb)
+void VCT_SESSION_SetFilterEnabled(void *cb)
 {
-	*(void **)(((unsigned char *)&d_021B3C84) + 0x18) = cb;
+	*(void **)(((unsigned char *)&gVctSendState) + 0x18) = cb;
 }
 

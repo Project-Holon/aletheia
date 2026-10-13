@@ -10,17 +10,17 @@
  * symbols:
  *   func_021F9220 0x021F9220 thumb ov094
  *   func_021F9260 0x021F9260 thumb ov094
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetUp 0x02048B44 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_021F73A4 0x021F73A4 thumb ov094
  */
 extern void func_021F9220(int *, int *, int *, int *);
 extern int func_021F9260(void *, void *);
-extern void func_02048AFC(int, int *);
-extern void func_02048B44(int, int *);
+extern void G3D_CAMERA_SetEye(int, int *);
+extern void G3D_CAMERA_SetUp(int, int *);
 struct Light;
-extern void func_02048AD0(struct Light *l);
+extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_021F73A4(int *);
 
 void func_021F723C(int *p)
@@ -64,9 +64,9 @@ void func_021F723C(int *p)
         b[0] = p[9] + p[24];
         b[1] = p[10] + p[25];
         b[2] = p[11] + p[26];
-        func_02048AFC(p[1], a);
-        func_02048B44(p[1], b);
-        func_02048AD0((struct Light *)p[1]);
+        G3D_CAMERA_SetEye(p[1], a);
+        G3D_CAMERA_SetUp(p[1], b);
+        G3D_CAMERA_Reset((struct Light *)p[1]);
         func_021F73A4(p);
     } else {
         p[27]--;

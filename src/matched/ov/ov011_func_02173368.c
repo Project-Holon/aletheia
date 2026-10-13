@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   WIH_IsMatchingParent  0x0217873C  thumb  ov014
  *   func_02177494  0x02177494  thumb  ov014
  *   func_02177BFC  0x02177BFC  thumb  ov014
  *   func_02013D5C  0x02013D5C  thumb
- *   func_02158570  0x02158570  thumb  ov010
- *   func_02165C34  0x02165C34  thumb  ov010
- *   func_02165D08  0x02165D08  thumb  ov010
- *   func_02165C50  0x02165C50  thumb  ov010
+ *   INTRUDE_COMM_IsListedId  0x02158570  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetSex  0x02165D08  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetLanguage  0x02165C50  thumb  ov010
  *
  * Addresses are Black-image addresses.
  */
@@ -57,16 +57,16 @@ typedef struct Obj {
     u8 f93f_rest : 6;
 } Obj;
 
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern u32 func_0200FB24(void);
 extern int WIH_IsMatchingParent(u8 *p);
 extern int func_02177494(u8 *obj, u32 flags);
 extern Rec *func_02177BFC(void *, u8 *);
 extern u32 func_02013D5C(u32 id);
-extern int func_02158570(u16);
-extern void func_02165C34(struct Rec *r, void *buf);
-extern u8 func_02165D08(struct Rec *r);
-extern u8 func_02165C50(u32 *);
+extern int INTRUDE_COMM_IsListedId(u16);
+extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *r, void *buf);
+extern u8 GAME_BEACON_ACCESSOR_GetSex(struct Rec *r);
+extern u8 GAME_BEACON_ACCESSOR_GetLanguage(u32 *);
 
 void INTRUDE_COMM_ScanCallback(void *a0, Obj *s)
 {
@@ -77,7 +77,7 @@ void INTRUDE_COMM_ScanCallback(void *a0, Obj *s)
     if (s->count >= 2) {
         return;
     }
-    if (func_0203D1B4() > 1) {
+    if (GFL_NET_GetNegotiationNum() > 1) {
         return;
     }
     if (s->f93f_1 == 1) {
@@ -107,12 +107,12 @@ void INTRUDE_COMM_ScanCallback(void *a0, Obj *s)
     if ((int)func_02013D5C((u16)rec->mon) == 1) {
         return;
     }
-    if (func_02158570(rec->mon) == 0) {
+    if (INTRUDE_COMM_IsListedId(rec->mon) == 0) {
         return;
     }
-    func_02165C34((struct Rec *)(&rec->w8), (void *)s->a928[s->count]);
-    s->b938[s->count] = func_02165D08((struct Rec *)(&rec->w8));
-    s->b93a[s->count] = func_02165C50(&rec->w8);
+    GAME_BEACON_ACCESSOR_GetPlayerName((struct Rec *)(&rec->w8), (void *)s->a928[s->count]);
+    s->b938[s->count] = GAME_BEACON_ACCESSOR_GetSex((struct Rec *)(&rec->w8));
+    s->b93a[s->count] = GAME_BEACON_ACCESSOR_GetLanguage(&rec->w8);
     s->ids[s->count] = rec->id;
     s->f926 = 0;
     s->count++;

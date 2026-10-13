@@ -1,5 +1,5 @@
 /*
- * function: func_021EE638
+ * function: BTL_REC_GetPacketId
  * address:  0x021EE638
  * packet:   pkt_021EDF78
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EE638   0x021EE638  thumb
+ *   BTL_REC_GetPacketId   0x021EE638  thumb
  *
  * Reads the u8 field at offset 0 of the argument and returns it.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021EE638  ldrb r0,[r0] */
-u8 func_021EE638(u8 *p) { return *p; }
+u8 BTL_REC_GetPacketId(u8 *p) { return *p; }
 

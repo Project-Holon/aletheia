@@ -1,5 +1,5 @@
 /*
- * function: func_0215AA48
+ * function: SCRCMD_WORK_SetChildScriptIndex
  * address:  0x0215AA48
  * packet:   pkt_0215AA48
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0215AA48.c \
- *       --func func_0215AA48 --addr 0x0215AA48 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRCMD_WORK_SetChildScriptIndex.c \
+ *       --func SCRCMD_WORK_SetChildScriptIndex --addr 0x0215AA48 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17666.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void func_0215AA48(void *p, int v) { ((struct Obj17666 *)p)->f1A = v; }
+void SCRCMD_WORK_SetChildScriptIndex(void *p, int v) { ((struct Obj17666 *)p)->f1A = v; }

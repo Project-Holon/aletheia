@@ -1,5 +1,5 @@
 /*
- * function: func_0219D6B8
+ * function: FLDMMDL_RAIL_MOVE_InitMove
  * address:  0x0219D6B8
  * packet:   pkt_0219D6B8
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D6F4  0x0216D6F4  thumb  ov010
- *   func_0216D548  0x0216D548  thumb  ov010
+ *   FLDMMDL_CallMoveInitProc  0x0216D6F4  thumb  ov010
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 *func_0216D548(u32 *p, u32 v);
-extern void func_0216D6F4(void *a0);
+extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
+extern void FLDMMDL_CallMoveInitProc(void *a0);
 
-int func_0219D6B8(u32 *a, u32 b, u32 c, u32 d)
+int FLDMMDL_RAIL_MOVE_InitMove(u32 *a, u32 b, u32 c, u32 d)
 {
-func_0216D6F4((void *)a);
-return (int)func_0216D548(a, 2);
+FLDMMDL_CallMoveInitProc((void *)a);
+return (int)FLDMMDL_SetStatusBit(a, 2);
 }
 

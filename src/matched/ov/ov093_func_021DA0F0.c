@@ -1,5 +1,5 @@
 /*
- * function: func_021DA0F0
+ * function: HAND_TOKUSEI_AddSynchronize
  * address: 0x021DA0F0
  * packet: pkt_ov093_021DA0F0
  * region: ov093
@@ -15,12 +15,12 @@
  *   d_021F0810 0x021F0810 data ov093 a4
  */
 
-int *func_021DA0F0(int *p);
+int *HAND_TOKUSEI_AddSynchronize(int *p);
 
-/* 021DA0FC  shape F1: gate on func_021D775C(3) */
+/* 021DA0FC  shape F1: gate on BTL_EVENT_GetVar(3) */
 extern int d_021F0810[];
 
-int *func_021DA0F0(int *p)
+int *HAND_TOKUSEI_AddSynchronize(int *p)
 {
     *p = 1;
     return d_021F0810;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B76B0
+ * function: YESNO_MENU_GetAnswer
  * address:  0x021B76B0
  * packet:   pkt_ov067_021B76B0
  * region:   ov067
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf after func_021B7378's pool (inside its handed extent).
+ * Unlabelled leaf after YESNO_MENU_Update's pool (inside its handed extent).
  */
 
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef struct S {
     int f9c;
 } S;
 
-int func_021B76B0(S *p)
+int YESNO_MENU_GetAnswer(S *p)
 {
     if (p->f98 != 0 && p->f98 != 4)
         return 2;

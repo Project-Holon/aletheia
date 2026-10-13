@@ -1,5 +1,5 @@
 /*
- * function: func_021DA618
+ * function: HAND_TOKUSEI_AddAnticipation
  * address: 0x021DA618
  * packet: pkt_ov093_021DA618
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F09A0[];
-int *func_021DA618(int *p);
+int *HAND_TOKUSEI_AddAnticipation(int *p);
 
-int *func_021DA618(int *p)
+int *HAND_TOKUSEI_AddAnticipation(int *p)
 {
     *p = 2;
     return d_021F09A0;

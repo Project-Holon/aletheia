@@ -1,5 +1,5 @@
 /*
- * function: func_0215A2E4
+ * function: EVENT_POKE_STATUS_CreateMoveSelectEvent
  * address:  0x0215A2E4
  * packet:   pkt_ov010_0215A2E4
  * region:   ov010
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0215A370  0x0215A370  thumb  ov010
+ *   EVENT_POKE_STATUS_MoveSelectEvent  0x0215A370  thumb  ov010
  *   d_021728CC     0x021728CC  data  ov010  a4
  */
 #include "../include/Obj03073.h"
@@ -24,21 +24,21 @@
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 struct Ctx;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned int   u32;
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0215A370(void);
+extern void EVENT_POKE_STATUS_MoveSelectEvent(void);
 extern int d_021728CC;
 
-int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
+int EVENT_POKE_STATUS_CreateMoveSelectEvent(int a, int b, int c, int d, int e, int f, unsigned short g)
 {
-    int t8 = (int)func_020120F4((const struct Ctx *)a);
-    void *t12 = func_02012934((void *)t8);
+    int t8 = (int)GAMESYSTEM_GetGameData((const struct Ctx *)a);
+    void *t12 = GAME_DATA_GetMyParty((void *)t8);
     char *p = (char *)func_02030734(4, 0x98, 1, (const char *)&d_021728CC, 0x11d);
     int r;
     int *q;
@@ -52,7 +52,7 @@ int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
     p[0xd] = (f == 1) ? 3 : 2;
     ((struct Obj03073 *)p)->f20 = 0;
     ((struct Obj03073 *)p)->f8 = t8;
-    r = (int)func_020122C0((void *)a, 0, func_0215A370, 0x14);
+    r = (int)func_020122C0((void *)a, 0, EVENT_POKE_STATUS_MoveSelectEvent, 0x14);
     q = func_020124E8((struct Obj *)r);
     q[0] = a;
     q[1] = b;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216CCCC
+ * function: FLDMMDL_ClearObjCodeParamCache
  * address:  0x0216CCCC
  * packet:   pkt_ov010_0216CCCC
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * Unlabelled leaf (saves no lr, so disasm.py prints it as .word data):
  * clears the 0x310-byte buffer at +0x44, a tail call through a pool word.
- * Callee of ov020 func_021857C0.
+ * Callee of ov020 EVENT_MAPCHANGE_ApplyLocation.
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
@@ -27,7 +27,7 @@ typedef struct Obj {
 
 void MI_CpuFill8(void *dst, u8 val, u32 size);
 
-void func_0216CCCC(Obj *o)
+void FLDMMDL_ClearObjCodeParamCache(Obj *o)
 {
     MI_CpuFill8(o->f44, 0, 0x310);
 }

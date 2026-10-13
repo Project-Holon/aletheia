@@ -1,5 +1,5 @@
 /*
- * function: func_02191558
+ * function: FIELD_MSGBG_CreatePlainWin
  * address:  0x02191558
  * packet:   pkt_ov021_02191558
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm  arm9
- *   func_020457B0  0x020457B0  arm  arm9
- *   func_02191504  0x02191504  thumb  ov021
+ *   STRBUF_Create  0x020457B0  arm  arm9
+ *   FIELD_MSGBG_SetupPlainWin  0x02191504  thumb  ov021
  *   d_021DDA50     0x021DDA50  data   ov021  a1
  * Addresses are Black-image addresses.
  */
@@ -47,18 +47,18 @@ extern char d_021DDA50[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02191504(u16 *a, u32 *b, u32 c, u32 d, u16 e, u16 f, u32 g);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void FIELD_MSGBG_SetupPlainWin(u16 *a, u32 *b, u32 c, u32 d, u16 e, u16 f, u32 g);
 
-R *func_02191558(Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g)
+R *FIELD_MSGBG_CreatePlainWin(Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g)
 {
     R *r;
 
     r = func_02030734(a->f00, 0x2C, 1, d_021DDA50, 0xCA7);
     r->f0c = a;
     r->f14 = b;
-    r->f08 = (u32)func_020457B0(0xA0, a->f00);
-    func_02191504((u16 *)a, (u32 *)r, d, e, f, g, c);
+    r->f08 = (u32)STRBUF_Create(0xA0, a->f00);
+    FIELD_MSGBG_SetupPlainWin((u16 *)a, (u32 *)r, d, e, f, g, c);
     if (c == 1)
         r->f28 = 8;
     return r;

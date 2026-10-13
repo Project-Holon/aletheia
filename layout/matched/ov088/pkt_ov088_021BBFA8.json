@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBFA8",
+   "name": "STARTMENU_UpdateMessage",
    "address": "0x021BBFA8",
    "kind": "game",
    "region": "ov088",

@@ -1,5 +1,5 @@
 /*
- * function: func_02196EC8
+ * function: IRCBATTLEMENU_SeqIdleRule
  * address:  0x02196EC8
  * packet:   pkt_02196EC8
  * region:   ov021
@@ -21,6 +21,6 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_02196EC8(void)
+void IRCBATTLEMENU_SeqIdleRule(void)
 {
 }

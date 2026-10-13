@@ -18,18 +18,18 @@
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   PALANM_GetDefaultWork 0x02021728 thumb
  *   func_02082A60 0x02082A60 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_0204ABF0 0x0204ABF0 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
- *   func_020216D4 0x020216D4 thumb
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_020275E4 0x020275E4 thumb
  *   func_020490F4 0x020490F4 arm
  *   func_020275FC 0x020275FC thumb
  *   func_02027600 0x02027600 thumb
  *   func_020275E8 0x020275E8 thumb
  *   func_020275F8 0x020275F8 thumb
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -62,18 +62,18 @@ extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, 
 extern int func_021F86E0(void);
 extern int PALANM_GetDefaultWork(char *p, int i);
 extern void func_02082A60(const void *, void *, u32);
-extern int func_0204A6C8(void *, u32, u32, u32, u16);
-extern int func_0204AF28(void *, u32, u32, u32);
-extern int func_0204ABF0(void *, u32, u32, u32, u16);
+extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
+extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
+extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020275E4(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_020275FC(u32);
 extern u32 func_02027600(u32);
 extern u32 func_020275E8(void);
 extern u32 func_020275F8(u32);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_022033F4(Main *m)
 {
     void *arc;
@@ -86,18 +86,18 @@ void func_022033F4(Main *m)
     PALANM_LoadHandlePaletteToSlot(m->pal, m->f48, 0x5c, m->heap, 1, 0x1e0, 0);
     if (m->f23c == 1)
         func_02082A60((const void *)(PALANM_GetDefaultWork((char *)func_021F86E0(), 1) + 0x40), m->buf284, 0x20);
-    m->h104 = func_0204A6C8(m->f48, 0x73, 0, 1, m->heap);
-    m->h10c = func_0204AF28(m->f48, 0x75, 0x76, m->heap);
-    m->h108 = func_0204ABF0(m->f48, 0x74, 1, 0, m->heap);
-    func_020216D4(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h108, 1) >> 1), 0x100);
-    m->h110 = func_0204A6C8(m->f48, 0x77, 0, 1, m->heap);
-    m->h114 = func_0204AF28(m->f48, 0x78, 0x79, m->heap);
+    m->h104 = CLACT_RegisterCharacter(m->f48, 0x73, 0, 1, m->heap);
+    m->h10c = CLACT_RegisterCellAnim(m->f48, 0x75, 0x76, m->heap);
+    m->h108 = CLACT_RegisterPalette(m->f48, 0x74, 1, 0, m->heap);
+    PALANM_CopyHwPaletteToSlot(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h108, 1) >> 1), 0x100);
+    m->h110 = CLACT_RegisterCharacter(m->f48, 0x77, 0, 1, m->heap);
+    m->h114 = CLACT_RegisterCellAnim(m->f48, 0x78, 0x79, m->heap);
     arc = func_020490F4(func_020275E4(), (u16)((m->heap & 0x7fff) | 0x8000));
     file = func_020275FC(0);
-    m->h1f4 = func_0204AF28(arc, file, func_02027600(0), m->heap);
-    m->h1f0 = func_0204ABF0(arc, func_020275E8(), 1, 0x100, m->heap);
-    func_020216D4(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h1f0, 1) >> 1), 0x60);
+    m->h1f4 = CLACT_RegisterCellAnim(arc, file, func_02027600(0), m->heap);
+    m->h1f0 = CLACT_RegisterPalette(arc, func_020275E8(), 1, 0x100, m->heap);
+    PALANM_CopyHwPaletteToSlot(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h1f0, 1) >> 1), 0x60);
     for (i = 0; i < 4; i++)
-        m->h1e0[i] = func_0204A6C8(arc, func_020275F8(0), 0, 1, m->heap);
-    func_02049238(arc);
+        m->h1e0[i] = CLACT_RegisterCharacter(arc, func_020275F8(0), 0, 1, m->heap);
+    ARC_TOOL_DeleteHandle(arc);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0A4
+ * function: RAIL_ATTR_Delete
  * address:  0x021BB0A4
  * packet:   pkt_021BB0A4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021BB11C  0x021BB11C  thumb  ov021
+ *   RAIL_ATTR_Release  0x021BB11C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021BB11C(u32 *p);
+extern void RAIL_ATTR_Release(u32 *p);
 extern u32 func_020307B0(void *p);
 
-void func_021BB0A4(u8 *p, u32 a1, u32 a2, u32 a3)
+void RAIL_ATTR_Delete(u8 *p, u32 a1, u32 a2, u32 a3)
 {
-    func_021BB11C((u32 *)p);
+    RAIL_ATTR_Release((u32 *)p);
     func_020307B0(p);
 }

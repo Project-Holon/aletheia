@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021650F4",
+   "name": "GAME_BEACON_SEARCH_SetInfoBattleWildPokeWin",
    "address": "0x021650F4",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02165164",
+   "name": "GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeWin",
    "address": "0x02165164",
    "kind": "game",
    "region": "ov010",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021651D4",
+   "name": "GAME_BEACON_SEARCH_SetInfoBattleTrainerWin",
    "address": "0x021651D4",
    "kind": "game",
    "region": "ov010",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02165244",
+   "name": "GAME_BEACON_SEARCH_SetInfoBattleLeaderWin",
    "address": "0x02165244",
    "kind": "game",
    "region": "ov010",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021652B4",
+   "name": "GAME_BEACON_SEARCH_SetInfoBattleBigFourWin",
    "address": "0x021652B4",
    "kind": "game",
    "region": "ov010",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02165334",
+   "name": "GAME_BEACON_SEARCH_SetInfoItemFound",
    "address": "0x02165334",
    "kind": "game",
    "region": "ov010",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02165368",
+   "name": "GAME_BEACON_SEARCH_SetInfoScriptEvent",
    "address": "0x02165368",
    "kind": "game",
    "region": "ov010",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021653B4",
+   "name": "GAME_BEACON_SEARCH_SetInfoPresetEvent",
    "address": "0x021653B4",
    "kind": "game",
    "region": "ov010",

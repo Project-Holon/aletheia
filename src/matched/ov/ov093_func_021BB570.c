@@ -1,5 +1,5 @@
 /*
- * function: func_021BB570
+ * function: BTL_SERVER_CompareFlowOutput
  * address:  0x021BB570
  * packet:   pkt_ov093_021BB570
  * region:   ov093
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BBB60  0x021BBB60  thumb  ov093
- *   func_021BBC34  0x021BBC34  thumb  ov093
- *   func_021BBC44  0x021BBC44  thumb  ov093
- *   func_021BBD80  0x021BBD80  thumb  ov093
- *   func_021BBD8C  0x021BBD8C  thumb  ov093
- *   func_021BBD20  0x021BBD20  thumb  ov093
- *   func_021BBD2C  0x021BBD2C  thumb  ov093
+ *   BTL_SERVER_FLOW_RunBattleStart  0x021BBB60  thumb  ov093
+ *   BTL_SERVER_FLOW_ResetInitState  0x021BBC34  thumb  ov093
+ *   BTL_SERVER_FLOW_StartTurn  0x021BBC44  thumb  ov093
+ *   BTL_SERVER_FLOW_ResetInitStateAfterChange  0x021BBD80  thumb  ov093
+ *   BTL_SERVER_FLOW_StartAfterPokeChange  0x021BBD8C  thumb  ov093
+ *   BTL_SERVER_FLOW_ResetInitStateAfterSelect  0x021BBD20  thumb  ov093
+ *   BTL_SERVER_FLOW_StartAfterPokeSelect  0x021BBD2C  thumb  ov093
  *   func_0203EFC8  0x0203EFC8  arm
  */
 #include "../include/Obj03190.h"
@@ -24,17 +24,17 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021BBB60(u8 *);
-extern void func_021BBC34(u8 *);
-extern int func_021BBC44(u8 *, int);
-extern void func_021BBD80(u8 *);
-extern int func_021BBD8C(u8 *, int);
-extern void func_021BBD20(u8 *);
-extern int func_021BBD2C(u8 *, int);
+extern int BTL_SERVER_FLOW_RunBattleStart(u8 *);
+extern void BTL_SERVER_FLOW_ResetInitState(u8 *);
+extern int BTL_SERVER_FLOW_StartTurn(u8 *, int);
+extern void BTL_SERVER_FLOW_ResetInitStateAfterChange(u8 *);
+extern int BTL_SERVER_FLOW_StartAfterPokeChange(u8 *, int);
+extern void BTL_SERVER_FLOW_ResetInitStateAfterSelect(u8 *);
+extern int BTL_SERVER_FLOW_StartAfterPokeSelect(u8 *, int);
 typedef signed int     s32;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-int func_021BB570(u8 *p, int sel, void *data, u32 n)
+int BTL_SERVER_CompareFlowOutput(u8 *p, int sel, void *data, u32 n)
 {
     u32 *s = *(u32 * *)&((struct Obj03190 *)p)->fCB0;
 
@@ -42,19 +42,19 @@ int func_021BB570(u8 *p, int sel, void *data, u32 n)
     s[1] = 0;
     switch (sel) {
     case 4:
-        func_021BBB60(*(u8 * *)&((struct Obj03190 *)p)->f44);
+        BTL_SERVER_FLOW_RunBattleStart(*(u8 * *)&((struct Obj03190 *)p)->f44);
         break;
     case 1:
-        func_021BBC34(*(u8 * *)&((struct Obj03190 *)p)->f44);
-        func_021BBC44(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
+        BTL_SERVER_FLOW_ResetInitState(*(u8 * *)&((struct Obj03190 *)p)->f44);
+        BTL_SERVER_FLOW_StartTurn(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
         break;
     case 2:
-        func_021BBD80(*(u8 * *)&((struct Obj03190 *)p)->f44);
-        func_021BBD8C(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
+        BTL_SERVER_FLOW_ResetInitStateAfterChange(*(u8 * *)&((struct Obj03190 *)p)->f44);
+        BTL_SERVER_FLOW_StartAfterPokeChange(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
         break;
     case 3:
-        func_021BBD20(*(u8 * *)&((struct Obj03190 *)p)->f44);
-        func_021BBD2C(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
+        BTL_SERVER_FLOW_ResetInitStateAfterSelect(*(u8 * *)&((struct Obj03190 *)p)->f44);
+        BTL_SERVER_FLOW_StartAfterPokeSelect(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
         break;
     }
     s = *(u32 * *)&((struct Obj03190 *)p)->fCB0;

@@ -18,7 +18,7 @@
  *   MI_CpuCopy8   0x02082D44  arm
  *   func_020071CC  0x020071CC  thumb
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
- *   func_020142E8  0x020142E8  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   file_020A745C  0x020A745C  data
  *   unit_020355C4  0x020355C4  arm
  *   func_020355D8 0x020355D8 arm
@@ -29,15 +29,16 @@
  *   func_0201EFC8    0x0201EFC8  thumb
  *   func_0201EFFC    0x0201EFFC  thumb
  *   func_0201F250    0x0201F250  thumb
- *   func_020457B0    0x020457B0  arm
- *   func_02045808    0x02045808  arm
+ *   STRBUF_Create    0x020457B0  arm
+ *   STRBUF_Delete    0x02045808  arm
  *   func_02045B38    0x02045B38  arm
- *   func_02045C04    0x02045C04  arm
+ *   MSGDATA_Delete    0x02045C04  arm
  *   func_02045EC0    0x02045EC0  arm
  *   g_0209F724  0x0209F724  data
  *   g_0209F71C  0x0209F71C  data
  *   data_0209F734  0x0209F734  data
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
+ *   PMS_WORD_GetSaveData  0x02024988  thumb
  */
 #include "pms_types.h"
 
@@ -89,7 +90,7 @@ extern u32 func_020307B0(void *p);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void *func_020071CC(struct WinPanel020071CCCtrl *ctrl, u32 id);
 extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *a0);
-extern u32 func_020142E8(void *bitmap, int id);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 unit_020355C4(void);
 extern void func_020355D8(void *);
 extern struct WordSet *func_0201EC64(u32 heap);
@@ -97,9 +98,9 @@ extern u32 func_0201ED04(struct WordSet *p);
 extern void func_0201EFC8(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFFC(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void  *func_020457B0(u32 size, u16 heap);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
+extern void  *STRBUF_Create(u32 size, u16 heap);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct MsgBank *func_02045B38(int resident, int arcId, u32 fileId, u16 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D478(void *s);
@@ -154,7 +155,7 @@ u32 PMSI_PARAM_ValidateWord(u16 *word, u32 allowEmpty, u32 allowDeco);
 u32 PMSI_PARAM_ValidateDecoValue(u32 *decoId, u32 allowZero);
 int PMSI_PARAM_IsSpecialWord(u32 word);
 int PMS_WORD_SplitWordId(u32 word, u32 *wordGroup, u32 *wordIndex);
-void *func_02024988(struct WinPanel020071CCCtrl *ctrl);
+void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl);
 
 extern u8 file_020A745C[];
 extern const s16 tbl_020A1B38[];
@@ -173,7 +174,7 @@ extern const struct SpecialWordTable data_0209F734;
  *   - `heapId` is a u32 parameter narrowed by an EXPLICIT (u16) cast at the
  *     allocator call.  A u16 parameter gives `ldrh` at +0x08 where the
  *     original loads a full word and narrows with lsls/lsrs #0x10.
- *   - func_020142E8 returns u32 and the result is narrowed by an explicit
+ *   - ZONEDATA_CheckEventFlag returns u32 and the result is narrowed by an explicit
  *     (u8) cast before the bitfield store.  Declaring the return u8 folds
  *     the `lsls #0x18 / lsrs #0x18` pair away and loses 4 bytes.
  *   - `optionFlag` is likewise u32 with an explicit (u8) cast into the bitfield:
@@ -206,8 +207,8 @@ struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSent
     obj = (struct PmsiParam *)func_02030734((u16)heapId, 0x20, 1, (const char *)file_020A745C, 0x56);
     obj->inputMode = (u8)inputMode;
     obj->saveWork = func_020071CC(saveControl, 0x37);
-    obj->wordSave = func_02024988(saveControl);
-    obj->eventFlagSet = (u8)func_020142E8((void *)GAME_DATA_GetEventWorkFromSave(saveControl), 0x960);
+    obj->wordSave = PMS_WORD_GetSaveData(saveControl);
+    obj->eventFlagSet = (u8)ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWorkFromSave(saveControl), 0x960);
     obj->closed = 0;
     obj->canceled = 1;
     obj->changed = 0;
@@ -569,11 +570,11 @@ void *PMSI_PARAM_ToStringWords(const struct PmsData *sentence, u32 heapId, int w
         }
     }
     bank = func_02045B38(0, 2, Table_0209F724[sentence->sentenceType], (u16)heapId);
-    buffer = func_020457B0(0x100, (u16)heapId);
+    buffer = STRBUF_Create(0x100, (u16)heapId);
     message = func_02045EC0(bank, sentence->sentenceId);
     func_0201F250(wordSet, buffer, message);
-    func_02045808(message);
-    func_02045C04(bank);
+    STRBUF_Delete(message);
+    MSGDATA_Delete(bank);
     func_0201ED04(wordSet);
     return buffer;
 }
@@ -586,7 +587,7 @@ void *PMSI_PARAM_GetSourceString(const struct PmsData *sentence, u32 heapId)
 
     bank = func_02045B38(0, 2, Table_0209F724[sentence->sentenceType], heap);
     message = func_02045EC0(bank, sentence->sentenceId);
-    func_02045C04(bank);
+    MSGDATA_Delete(bank);
 
     return message;
 }
@@ -618,9 +619,9 @@ u32 PMSI_PARAM_GetWordCount(u32 sentenceType, u32 sentenceId, u16 heapId)
     void *message = func_02045EC0(bank, sentenceId);
     u32 length;
 
-    func_02045C04((struct Rec *)bank);
+    MSGDATA_Delete((struct Rec *)bank);
     length = func_0201D478(message);
-    func_02045808((struct U16Vec *)message);
+    STRBUF_Delete((struct U16Vec *)message);
 
     return length;
 }

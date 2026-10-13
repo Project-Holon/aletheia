@@ -1,5 +1,5 @@
 /*
- * function: func_0218FA40
+ * function: FIELD_CAMERA_StartMoveToSetting
  * address:  0x0218FA40
  * packet:   pkt_ov021_0218FA40
  * region:   ov021
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Sibling of func_0218F9C4/func_0218F930: arms the +0xf0 motion block with
- * func_0218FB1C as the per-frame callback, seeded from func_0218E260's record.
+ * Sibling of FIELD_CAMERA_StartMoveToSaved/FIELD_CAMERA_StartFreeMove: arms the +0xf0 motion block with
+ * FIELD_CAMERA_UpdateMove as the per-frame callback, seeded from FIELD_CAMERA_ReadSetting's record.
  * The two +0x70 copies are tail-merged by the compiler (a shared source
  * pointer variable compiles the same).
  *
  * symbols:
- *   func_0218E13C  0x0218E13C  thumb  ov021
- *   func_0218F780  0x0218F780  thumb  ov021
- *   func_0218E260  0x0218E260  thumb  ov021
- *   func_0218FB1C  0x0218FB1C  thumb  ov021
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
+ *   FIELD_CAMERA_TakeView  0x0218F780  thumb  ov021
+ *   FIELD_CAMERA_ReadSetting  0x0218E260  thumb  ov021
+ *   FIELD_CAMERA_UpdateMove  0x0218FB1C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01117.h"
@@ -40,12 +40,12 @@ typedef struct {
     B12 v;
 } Rec;
 
-extern void func_0218E13C(u8 *p, u32 v);
-extern void func_0218F780(u8 *p, u8 *q);
-extern void func_0218E260(void *p, void *r);
-extern void func_0218FB1C(u8 *p);
+extern void FIELD_CAMERA_SetMode(u8 *p, u32 v);
+extern void FIELD_CAMERA_TakeView(u8 *p, u8 *q);
+extern void FIELD_CAMERA_ReadSetting(void *p, void *r);
+extern void FIELD_CAMERA_UpdateMove(u8 *p);
 
-void func_0218FA40(u8 *p, u16 v)
+void FIELD_CAMERA_StartMoveToSetting(u8 *p, u16 v)
 {
     u8 *q;
     Rec loc;
@@ -53,9 +53,9 @@ void func_0218FA40(u8 *p, u16 v)
     if (p) {
         q = p + 0xf0;
         if (((struct Obj01117 *)q)->f98 != 0 && v != 0) {
-            func_0218E13C(p, 0);
-            func_0218F780(p, q + 0x34);
-            func_0218E260(p, &loc);
+            FIELD_CAMERA_SetMode(p, 0);
+            FIELD_CAMERA_TakeView(p, q + 0x34);
+            FIELD_CAMERA_ReadSetting(p, &loc);
             ((struct Obj01117 *)q)->f88 = loc.b;
             ((struct Obj01117 *)q)->f8A = loc.c;
             ((struct Obj01117 *)q)->f8C = loc.a << 12;
@@ -77,7 +77,7 @@ void func_0218FA40(u8 *p, u16 v)
             ((struct Obj01117 *)q)->fAC = 1;
             ((struct Obj01117 *)q)->fB0 = 1;
             ((struct Obj01117 *)q)->fB4 = 1;
-            ((struct Obj12597 *)p)->f1AC = (void *)func_0218FB1C;
+            ((struct Obj12597 *)p)->f1AC = (void *)FIELD_CAMERA_UpdateMove;
             ((struct Obj01117 *)q)->fB8 = 0;
             ((struct Obj01117 *)q)->f9C = 1;
         }

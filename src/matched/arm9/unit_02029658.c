@@ -20,12 +20,13 @@
  * relocation needs no image evidence at all.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
+ *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02029658.c  *       --addr 0x02029658 --thumb
@@ -52,12 +53,12 @@ struct Sys;
 struct BigObj;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct Sys *s);
-extern u32 func_020289B8(struct Sys *s);
+extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct Sys *s);
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern u32 func_02012A30(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
 u32 FIELD_SOUND_SYSTEM_PopTask(void *task, u32 *state, struct Work *work)
 {
@@ -76,11 +77,11 @@ u32 FIELD_SOUND_SYSTEM_PopTask(void *task, u32 *state, struct Work *work)
 
 void *FIELD_SOUND_SYSTEM_StartPopTask(void *a, u32 b, u32 c)
 {
-    void *x = func_020120F4(a);
+    void *x = GAMESYSTEM_GetGameData(a);
     void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_PopTask, 0x10);
     struct Work *work = func_020124E8(task);
 
-    work->unk04 = (void *)func_02012A30(x);
+    work->unk04 = (void *)GAME_DATA_GetBgmInfo(x);
     work->unk0C = c;
     work->unk0E = b;
     return task;

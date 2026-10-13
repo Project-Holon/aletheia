@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA48
+ * function: FIELD_PLACE_NAME_IsAllBlitted
  * address:  0x021BCA48
  * packet:   pkt_ov021_021BCA48
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD138  0x021BD138  thumb  ov021
+ *   FIELD_PLACE_NAME_GetMessageLength  0x021BD138  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -20,11 +20,11 @@ typedef struct {
     u8 b14A;
 } Obj;
 
-extern int func_021BD138(Obj *p);
+extern int FIELD_PLACE_NAME_GetMessageLength(Obj *p);
 
-int func_021BCA48(Obj *p)
+int FIELD_PLACE_NAME_IsAllBlitted(Obj *p)
 {
-    if (func_021BD138(p) <= p->b14A) {
+    if (FIELD_PLACE_NAME_GetMessageLength(p) <= p->b14A) {
         return 1;
     }
     return 0;

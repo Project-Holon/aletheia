@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF5C
+ * function: OPTION_MENU_InitSettings
  * address:  0x021BAF5C
  * packet:   pkt_ov068_021BAF5C
  * region:   ov068
@@ -23,7 +23,7 @@
  *   CONFIG_GetBattleScene  0x020083AC  thumb
  *   CONFIG_GetBattleStyle  0x020083C8  thumb
  *   CONFIG_GetSoundMode  0x02008390  thumb
- *   func_02008428  0x02008428  thumb
+ *   CONFIG_GetButtonMode  0x02008428  thumb
  */
 
 typedef unsigned char u8;
@@ -34,9 +34,9 @@ extern unsigned int CONFIG_GetTextSpeed(int a0);
 extern u32 CONFIG_GetBattleScene(u32 a);
 extern u32 CONFIG_GetBattleStyle(u32 a);
 extern unsigned int CONFIG_GetSoundMode(char *a0);
-extern int func_02008428(unsigned short *p);
+extern int CONFIG_GetButtonMode(unsigned short *p);
 
-void func_021BAF5C(u8 *p, short unsigned int *a)
+void OPTION_MENU_InitSettings(u8 *p, short unsigned int *a)
 {
     func_02082BCC(p, 0, 12);
     p[5] = 11;
@@ -45,5 +45,5 @@ void func_021BAF5C(u8 *p, short unsigned int *a)
     p[1] = CONFIG_GetBattleScene((u32)a);
     p[2] = CONFIG_GetBattleStyle((u32)a);
     p[3] = CONFIG_GetSoundMode((char *)a);
-    p[4] = func_02008428(a);
+    p[4] = CONFIG_GetButtonMode(a);
 }

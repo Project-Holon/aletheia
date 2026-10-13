@@ -1,5 +1,5 @@
 /*
- * function: func_021A2F98
+ * function: FIELD_PLAYER_GetRideEffect
  * address:  0x021A2F98
  * packet:   pkt_021A2F48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A3AD4  0x021A3AD4  thumb
+ *   FIELD_PLAYER_CORE_GetRideEffect  0x021A3AD4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A3AD4(u8 *p);
+extern u32 FIELD_PLAYER_CORE_GetRideEffect(u8 *p);
 
-u32 func_021A2F98(u8 *p)
+u32 FIELD_PLAYER_GetRideEffect(u8 *p)
 {
-    return func_021A3AD4((u8 *)(((struct Obj18009 *)p)->f4));
+    return FIELD_PLAYER_CORE_GetRideEffect((u8 *)(((struct Obj18009 *)p)->f4));
 }

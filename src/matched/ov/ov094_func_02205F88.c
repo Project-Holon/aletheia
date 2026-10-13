@@ -14,12 +14,20 @@
  *   func_02204C98  0x02204C98  thumb  ov094
  *   func_0201EC64  0x0201EC64  thumb
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_0201EF34  0x0201EF34  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201C7A4  0x0201C7A4  thumb
+ *   PRINTSYS_Print  0x0201C7A4  thumb
  *   func_0201ED04  0x0201ED04  thumb
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
+ *   BMP_Create  0x02043678  arm  arm9
+ *   BMP_Delete  0x020437AC  arm  arm9
+ *   BMP_GetPixels  0x020437D4  arm  arm9
+ *   BMP_Clear  0x02043B5C  arm  arm9
+ *   STRBUF_Create  0x020457B0  arm  arm9
+ *   STRBUF_Delete  0x02045808  arm  arm9
+ *   CLACT_CreateActor  0x0204B294  arm  arm9
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  */
 #include "../include/Obj01384.h"
 
@@ -31,7 +39,7 @@ typedef struct Point { s16 x, y; } Point;
 typedef struct { int w[9]; } Struct36;
 extern const u16 d_0220A392[];
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Struct36;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -42,26 +50,26 @@ struct Obj;
 struct Obj020437AC;
 struct U16Vec;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
-extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 
 void func_02205F88(char *p)
 {
@@ -78,25 +86,25 @@ void func_02205F88(char *p)
     int i;
     enum { VRAM_BASE = 0x06600000 } vram;
 
-    ((struct Obj01384 *)p)->f21C = func_0204B294((void *)((struct Obj01384 *)p)->f218, ((struct Obj01384 *)p)->f104, ((struct Obj01384 *)p)->f108, ((struct Obj01384 *)p)->f10C, d_0220A392, 1, ((struct Obj01384 *)p)->f240);
+    ((struct Obj01384 *)p)->f21C = CLACT_CreateActor((void *)((struct Obj01384 *)p)->f218, ((struct Obj01384 *)p)->f104, ((struct Obj01384 *)p)->f108, ((struct Obj01384 *)p)->f10C, d_0220A392, 1, ((struct Obj01384 *)p)->f240);
     pos.x = 0x80;
     pos.y = 0x50;
     func_0204B404(((struct Obj01384 *)p)->f21C, (const struct Vec2 *)(&pos), 1);
     func_0204B92C(((struct Obj01384 *)p)->f21C, 1);
-    func_0204B878(((struct Obj01384 *)p)->f21C, 0x14);
-    str = func_020457B0(0x10, ((struct Obj01384 *)p)->f240);
+    CLACT_SetActorAnimSeq(((struct Obj01384 *)p)->f21C, 0x14);
+    str = STRBUF_Create(0x10, ((struct Obj01384 *)p)->f240);
     msg = func_02045EC0(((struct Obj01384 *)p)->f5C, 0);
     font = (int)func_0201EC64(((struct Obj01384 *)p)->f240);
-    bmp = func_02043678(0xe, 4, 0x20, ((struct Obj01384 *)p)->f240);
-    func_02043B5C(bmp, 0);
+    bmp = BMP_Create(0xe, 4, 0x20, ((struct Obj01384 *)p)->f240);
+    BMP_Clear(bmp, 0);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
-    func_0201DD78(0xe, 0xa, 0);
+    GF_FONT_SetTextColor(0xe, 0xa, 0);
     func_0201EF34((struct WordSet *)font, 0, 0xa5);
     func_0201F250((struct WordSet *)font, str, msg);
     func_02204C98((struct StrObj *)str, (int)(((struct Obj01384 *)p)->f224), &w, &h);
-    func_0201C7A4(bmp, 0x38 - w / 2, 8, str, ((struct Obj01384 *)p)->f224);
-    func_0201DD78(c[2], c[1], c[0]);
-    pixels = func_020437D4(bmp);
+    PRINTSYS_Print(bmp, 0x38 - w / 2, 8, str, ((struct Obj01384 *)p)->f224);
+    GF_FONT_SetTextColor(c[2], c[1], c[0]);
+    pixels = BMP_GetPixels(bmp);
     CLACT_GetActorImageProxy(((struct Obj01384 *)p)->f21C, (struct Struct36 *)(&buf));
     vram = VRAM_BASE;
     for (i = 0; i < 4; i++) {
@@ -104,8 +112,8 @@ void func_02205F88(char *p)
         func_02082A60(pixels + (i * 0x1c0 + 0x100), (void *)(vram + (i * 4 + 0xed) * 32 + buf.w[2]), 0x80);
         func_02082A60(pixels + (i * 0x1c0 + 0x180), (void *)(vram + (i * 2 + 0xfd) * 32 + buf.w[2]), 0x40);
     }
-    func_02045808(str);
-    func_02045808(msg);
+    STRBUF_Delete(str);
+    STRBUF_Delete(msg);
     func_0201ED04((struct WordSet *)font);
-    func_020437AC(bmp);
+    BMP_Delete(bmp);
 }

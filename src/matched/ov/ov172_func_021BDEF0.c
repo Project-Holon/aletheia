@@ -11,8 +11,8 @@
  *   func_02008510 0x02008510 thumb
  *   func_0201D304 0x0201D304 thumb
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj02216.h"
 typedef unsigned char u8;
@@ -24,18 +24,18 @@ extern void *func_02008510(void *a, int tag);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(u32 owner, void *b, short y, u32 c, void *d, u32 e, u32 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(u32 owner, void *b, short y, u32 c, void *d, u32 e, u32 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021BDEF0(u8 *p, char *a, u32 b)
 {
     void *s;
     int x;
     s = func_02008510(a, ((struct Obj02216 *)p)->f0);
     x = (0x60 - (u8)func_0201D304(s, ((struct Obj02216 *)p)->f1C8, 0)) / 2;
-    func_0201C724(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x + 1, 1, s, ((struct Obj02216 *)p)->f1C8, 0x400);
-    func_0201C724(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x - 1, 1, s, ((struct Obj02216 *)p)->f1C8, 0x400);
-    func_0201C724(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x, 2, s, ((struct Obj02216 *)p)->f1C8, 0x400);
-    func_0201C724(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x, 0, s, ((struct Obj02216 *)p)->f1C8, 0x400);
-    func_0201C724(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x, 1, s, ((struct Obj02216 *)p)->f1C8, 0x3c00);
-    func_02045808(s);
+    PRINTSYS_PrintQueColor(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x + 1, 1, s, ((struct Obj02216 *)p)->f1C8, 0x400);
+    PRINTSYS_PrintQueColor(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x - 1, 1, s, ((struct Obj02216 *)p)->f1C8, 0x400);
+    PRINTSYS_PrintQueColor(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x, 2, s, ((struct Obj02216 *)p)->f1C8, 0x400);
+    PRINTSYS_PrintQueColor(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x, 0, s, ((struct Obj02216 *)p)->f1C8, 0x400);
+    PRINTSYS_PrintQueColor(((struct Obj02216 *)p)->f1D0, func_02045770((struct Descriptor *)b), x, 1, s, ((struct Obj02216 *)p)->f1C8, 0x3c00);
+    STRBUF_Delete(s);
 }

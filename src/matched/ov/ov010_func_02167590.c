@@ -1,5 +1,5 @@
 /*
- * function: func_02167590
+ * function: COMM_PLAYER_Update
  * address:  0x02167590
  * packet:   pkt_ov010_02167590
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02167A74  0x02167A74  thumb
- *   func_02012114  0x02012114  thumb
- *   func_021BB5C8  0x021BB5C8  thumb
+ *   COMM_PLAYER_CreateSys  0x02167A74  thumb
+ *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
+ *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb
  */
 
 typedef unsigned char u8;
@@ -34,19 +34,19 @@ typedef struct Work {
     Ent e[4];
 } Work;
 
-extern void func_02167A74(int a0, int a1);
+extern void COMM_PLAYER_CreateSys(int a0, int a1);
 struct Ctx;
-extern u32 func_02012114(const struct Ctx *p);
-extern int func_021BB5C8(u32 v);
+extern u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
+extern int FLDEFF_GYOE_IsFinished(u32 v);
 
-void func_02167590(void *a, Work *w)
+void COMM_PLAYER_Update(void *a, Work *w)
 {
     int i;
 
-    func_02167A74((int)a, (int)w);
-    if (func_02012114(w->sys) == 1) {
+    COMM_PLAYER_CreateSys((int)a, (int)w);
+    if (GAMESYSTEM_IsFieldMapExist(w->sys) == 1) {
         for (i = 0; i < 4; i++) {
-            if (w->e[i].used == 1 && w->e[i].f18 != 0 && func_021BB5C8(w->e[i].f18) == 1)
+            if (w->e[i].used == 1 && w->e[i].f18 != 0 && FLDEFF_GYOE_IsFinished(w->e[i].f18) == 1)
                 w->e[i].f18 = 0;
         }
     }

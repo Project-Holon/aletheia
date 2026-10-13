@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C3530",
+   "name": "SODATEYA_GrantExp",
    "address": "0x021C3530",
    "kind": "game",
    "region": "ov021",

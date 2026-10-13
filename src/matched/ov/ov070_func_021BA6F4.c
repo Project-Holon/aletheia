@@ -1,5 +1,5 @@
 /*
- * function: func_021BA6F4
+ * function: ITEMMENU_CreateSideButtonActors
  * address:  0x021BA6F4
  * packet:   pkt_ov070_021BA6F4
  * region:   ov070
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_021B811C  0x021B811C  thumb  ov070
+ *   ITEMMENU_IsBrowseMode  0x021B811C  thumb  ov070
  *   d_021BBAA8     0x021BBAA8  data  ov070  a1
  *   d_021BBA6C     0x021BBA6C  data  a1
  *   d_021BBA68     0x021BBA68  data  a1
@@ -38,17 +38,17 @@ typedef struct {
 } B2;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
-extern int func_021B811C(u8 *p);
+extern int ITEMMENU_IsBrowseMode(u8 *p);
 extern const B5 d_021BBAA8;
 extern const B5 d_021BBA6C;
 extern const B2 d_021BBA68;
 extern const B2 d_021BBA64;
 
-void func_021BA6F4(char *p)
+void ITEMMENU_CreateSideButtonActors(char *p)
 {
     Rect r;
     B5 t1;
@@ -68,12 +68,12 @@ void func_021BA6F4(char *p)
         if (i == 2) {
             r.b += 4;
         }
-        *(int *)(p + i * 4 + 0x710) = (int)func_0204B294((void *)((struct Obj01515 *)p)->f69C, ((struct Obj01515 *)p)->f564, ((struct Obj01515 *)p)->f55C, ((struct Obj01515 *)p)->f570, &r, 0, ((struct Obj01515 *)p)->f544);
+        *(int *)(p + i * 4 + 0x710) = (int)CLACT_CreateActor((void *)((struct Obj01515 *)p)->f69C, ((struct Obj01515 *)p)->f564, ((struct Obj01515 *)p)->f55C, ((struct Obj01515 *)p)->f570, &r, 0, ((struct Obj01515 *)p)->f544);
         func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x710), 1);
     }
     func_0204B92C((struct Obj *)((struct Obj01515 *)p)->f710, 1);
     func_0204B92C((struct Obj *)((struct Obj01515 *)p)->f714, 1);
-    if (func_021B811C((u8 *)p) == 0) {
+    if (ITEMMENU_IsBrowseMode((u8 *)p) == 0) {
         func_0204B3DC((struct Obj *)((struct Obj01515 *)p)->f718, 0);
     }
     if (((struct Obj01515 *)p)->f10 == 2) {
@@ -86,7 +86,7 @@ void func_021BA6F4(char *p)
         r.b = t4.v[i];
         r.c = t3.v[i];
         r.e = 0;
-        *(int *)(p + (u8)(i + 5) * 4 + 0x710) = (int)func_0204B294((void *)((struct Obj01515 *)p)->f69C, ((struct Obj01515 *)p)->f564, ((struct Obj01515 *)p)->f55C, ((struct Obj01515 *)p)->f570, &r, 0, ((struct Obj01515 *)p)->f544);
+        *(int *)(p + (u8)(i + 5) * 4 + 0x710) = (int)CLACT_CreateActor((void *)((struct Obj01515 *)p)->f69C, ((struct Obj01515 *)p)->f564, ((struct Obj01515 *)p)->f55C, ((struct Obj01515 *)p)->f570, &r, 0, ((struct Obj01515 *)p)->f544);
         func_0204B92C((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 1);
         func_0204B3DC((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 0);
     }

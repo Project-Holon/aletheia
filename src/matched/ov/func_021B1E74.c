@@ -1,5 +1,5 @@
 /*
- * function: func_021B1E74
+ * function: SCRCMD_FLDMMDL_GetPlayerMmdl
  * address:  0x021B1E74
  * packet:   pkt_021B1E74
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0215A5EC (0x0215A5EC) is a matched manifest entry, so the `matched`
+ * SCRCMD_WORK_GetOccupyInfo (0x0215A5EC) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5EC  0x0215A5EC  thumb
- *   func_0216DEE0  0x0216DEE0  thumb  ov010
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -27,11 +27,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0215A5EC(u32);
-extern void *func_0216DEE0(void *a0);
+extern u32 SCRCMD_WORK_GetOccupyInfo(u32);
+extern void *FLDMMDL_SysSearchPlayer(void *a0);
 
-int func_021B1E74(u32 a)
+int SCRCMD_FLDMMDL_GetPlayerMmdl(u32 a)
 {
-return (int)func_0216DEE0((void *)func_0215A5EC(a));
+return (int)FLDMMDL_SysSearchPlayer((void *)SCRCMD_WORK_GetOccupyInfo(a));
 }
 

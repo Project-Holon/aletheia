@@ -1,5 +1,5 @@
 /*
- * function: func_0217F5A0
+ * function: EVENT_COMM_COMMON_GetMissionState
  * address:  0x0217F5A0
  * packet:   pkt_ov018_0217F5A0
  * region:   ov018
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02175DA8  0x02175DA8  thumb  ov011
- *   func_02175B34  0x02175B34  thumb  ov011
+ *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
+ *   INTRUDE_COMM_GetActiveSessionRequest  0x02175B34  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -27,17 +27,17 @@ typedef struct {
     u8 bit1A5 : 1;
 } Ov018Obj;
 
-int func_02175DA8(u8 *p);
-u8 *func_02175B34(u8 *p);
+int INTRUDE_COMM_HasResult(u8 *p);
+u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
 
-int func_0217F5A0(Ov018Obj *p)
+int EVENT_COMM_COMMON_GetMissionState(Ov018Obj *p)
 {
     Rec *r;
 
-    if (func_02175DA8((u8 *)p) == 1) {
+    if (INTRUDE_COMM_HasResult((u8 *)p) == 1) {
         return 4;
     }
-    r = (Rec *)func_02175B34((u8 *)p);
+    r = (Rec *)INTRUDE_COMM_GetActiveSessionRequest((u8 *)p);
     if (r == 0) {
         return 0;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021766CC
+ * function: INTRUDE_LINK_CreateEvent
  * address: 0x021766CC
  * packet: pkt_ov011_021766CC
  * region: ov011
@@ -19,7 +19,7 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern int INTRUDE_LINK_EventMain(void *a, u32 *p, int *q);
-void *func_021766CC(void *p, void *q)
+void *INTRUDE_LINK_CreateEvent(void *p, void *q)
 {
     void *desc;
     void **buf;

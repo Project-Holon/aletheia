@@ -1,5 +1,5 @@
 /*
- * function: func_021B65B4
+ * function: TOUCHBAR_ResetAndEnableButton
  * address:  0x021B65B4
  * packet:   pkt_ov067_021B65B4
  * region:   ov067
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6548  0x021B6548  thumb
+ *   TOUCHBAR_SetButtonEnabled  0x021B6548  thumb
  *
  * Seeded start (layout/function_starts.txt): no lr-saving prologue, so the
  * listing showed it as data.  Referenced by ov119 func_021D8980, which does
@@ -19,16 +19,16 @@
  * window is ov067 (ov071's own 0x021B65B4 is unrelated code).
  *
  * Clears +0x08, sets +0x00 to -1 (the `subs r2, #1` reuses the zero), then
- * tail-calls func_021B6548(p, a1, 1) through `ldr r3, =func; bx r3`.
+ * tail-calls TOUCHBAR_SetButtonEnabled(p, a1, 1) through `ldr r3, =func; bx r3`.
  */
 
 typedef unsigned int u32;
 
-extern int func_021B6548(unsigned char *p, unsigned int id, int v);
+extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
 
-void func_021B65B4(u32 *p, u32 a1)
+void TOUCHBAR_ResetAndEnableButton(u32 *p, u32 a1)
 {
     p[2] = 0;
     p[0] = (u32)-1;
-    func_021B6548((unsigned char *)p, a1, 1);
+    TOUCHBAR_SetButtonEnabled((unsigned char *)p, a1, 1);
 }

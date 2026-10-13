@@ -1,5 +1,5 @@
 /*
- * function: func_0219CA6C
+ * function: FLDMMDL_BLACT_RemoveResIndex
  * address:  0x0219CA6C
  * packet:   pkt_ov021_0219CA6C
  * region:   ov021
@@ -18,7 +18,7 @@ typedef signed char    s8;
 typedef struct { u16 a; u16 b; u16 c; u16 pad; } Ent;
 typedef struct { int n; Ent *e; } Tbl;
 
-void func_0219CA6C(Tbl *t, u16 k)
+void FLDMMDL_BLACT_RemoveResIndex(Tbl *t, u16 k)
 {
     int i;
     Ent *e = t->e;

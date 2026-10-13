@@ -1,5 +1,5 @@
 /*
- * function: func_02162D2C
+ * function: EVENTDATA_SYSTEM_IsConnectGridHit
  * address: 0x02162D2C
  * packet: pkt_ov010_02162D2C
  * region: ov010
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef short s16;
 struct Sub { s16 f0, f2, f4; u16 f6, f8; };
 struct Box { u16 pad0[3]; u16 f6; struct Sub s; };
-int func_02162D2C(const struct Box *b, const int *pos)
+int EVENTDATA_SYSTEM_IsConnectGridHit(const struct Box *b, const int *pos)
 {
     const struct Sub *s;
     s16 x0;

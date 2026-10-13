@@ -1,5 +1,5 @@
 /*
- * function: func_02196B94
+ * function: IRCBATTLEMENU_SeqPressKindBack
  * address:  0x02196B94
  * packet:   pkt_ov021_02196B94
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02196B7C  0x02196B7C  thumb  ov021
+ *   IRCBATTLEMENU_HookKindBackPressed  0x02196B7C  thumb  ov021
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204BA00  0x0204BA00  arm
- *   func_0204B9A0  0x0204B9A0  arm
- *   func_02196034  0x02196034  thumb  ov021
- *   func_02196B90  0x02196B90  thumb  ov021
+ *   CLACT_ApplyActorAnimCommand  0x0204BA00  arm
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_SeqIdleKindBack  0x02196B90  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -28,23 +28,23 @@ typedef signed char    s8;
 typedef struct Obj { u8 pad[0x294]; void *objs[27]; u32 mode; } Obj;
 typedef struct { u16 x0; Obj *a; void (*cb)(); } Req;
 struct Actor;
-extern void func_02196B7C(u8 *p);
+extern void IRCBATTLEMENU_HookKindBackPressed(u8 *p);
 extern void func_0204B92C(struct Obj *p, u32 v);
 struct Cmd;
-extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
-extern void func_0204B9A0(struct Actor *a);
-extern void func_02196034(Obj *, void (*)(), u32);
-extern void func_02196B90();
+extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
+extern void CLACT_RestartActorAnim(struct Actor *a);
+extern void IRCBATTLEMENU_SetSeq(Obj *, void (*)(), u32);
+extern void IRCBATTLEMENU_SeqIdleKindBack();
 
-void func_02196B94(Obj *a)
+void IRCBATTLEMENU_SeqPressKindBack(Obj *a)
 {
     Req r;
 
     r.x0 = 0;
     r.a = a;
-    r.cb = func_02196B7C;
+    r.cb = IRCBATTLEMENU_HookKindBackPressed;
     func_0204B92C(a->objs[a->mode], 1);
-    func_0204BA00(a->objs[a->mode], (const struct Cmd *)(&r));
-    func_0204B9A0(a->objs[a->mode]);
-    func_02196034(a, func_02196B90, 0x492);
+    CLACT_ApplyActorAnimCommand(a->objs[a->mode], (const struct Cmd *)(&r));
+    CLACT_RestartActorAnim(a->objs[a->mode]);
+    IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqIdleKindBack, 0x492);
 }

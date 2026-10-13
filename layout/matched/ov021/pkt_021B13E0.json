@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B13E0",
+   "name": "SCRCMD_MSGWIN_CmdCloseBgWin",
    "address": "0x021B13E0",
    "kind": "game",
    "region": "ov021",

@@ -27,7 +27,7 @@
  *   func_021B8434 0x021B8434 thumb ov105
  *   func_021B7250 0x021B7250 thumb ov101
  *   func_021B8340 0x021B8340 thumb ov105
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
 #include "../include/Obj01709.h"
@@ -53,7 +53,7 @@ extern void func_021B80CC(u8 *);
 extern int func_021B8434(void *);
 extern int func_021B7250(int *);
 extern void func_021B8340(u8 *,u16 *);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_020061E4(u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int func_02005F38(void);
@@ -92,7 +92,7 @@ void func_021B80E8(u8 *p,u16 *state) {
   if(!func_02005F38() && (((struct Obj01709 *)p)->f198)++>30) {((struct Obj01709 *)p)->f198=0;*state=7;}
   break;
  case 7:
-  if(func_02035C60()) {
+  if(TOUCHPANEL_GetTrg()) {
    if(*(void **)CTX)func_021B658C(*(void **)CTX,&data);
    value=func_021B8860(p);
    if(value==0) {
@@ -105,7 +105,7 @@ void func_021B80E8(u8 *p,u16 *state) {
  case 8:
   if((((struct Obj01709 *)p)->f198)++>30) {func_021B728C(*(int *)&((struct Obj01709 *)p)->f188,1);((struct Obj01709 *)p)->f198=0;*state=9;}break;
  case 9:func_021B728C(*(int *)&((struct Obj01709 *)p)->f188,1);*state=10;break;
- case 10:if(func_02035C60())func_021B80BC(p,(unsigned int)func_021B8340);break;
+ case 10:if(TOUCHPANEL_GetTrg())func_021B80BC(p,(unsigned int)func_021B8340);break;
  }
  if(func_021B7250(*(int * *)&((struct Obj01709 *)p)->f188)==1)func_021B80CC(p);
  func_021B8434(p+0xe8);

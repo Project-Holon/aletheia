@@ -29,9 +29,9 @@
  *   func_02017E88  0x02017E88  thumb
  *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
- *   func_0202D060  0x0202D060  thumb
+ *   POKEGRA_GetArcID  0x0202D060  thumb
  *   POKEGRA_GetCbrArcIndex  0x0202D09C  thumb
- *   func_0202D0D4  0x0202D0D4  thumb
+ *   POKEGRA_GetPalArcIndex  0x0202D0D4  thumb
  *   POKEGRA_GetCelArcIndex  0x0202D110  thumb
  *   POKEGRA_GetAnmArcIndex  0x0202D144  thumb
  *   POKEGRA_GetMCelArcIndex  0x0202D178  thumb
@@ -45,10 +45,10 @@ extern u32   func_02017E88(void *p, u32 id, u32 v);
 extern u32   POKE_TOOL_IsBoxShiny(void *p);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 
-extern int func_0202D060(void);
+extern int POKEGRA_GetArcID(void);
 typedef signed int     s32;
 extern s32 POKEGRA_GetCbrArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
-extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern s32 POKEGRA_GetCelArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern s32 POKEGRA_GetAnmArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern s32 POKEGRA_GetMCelArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
@@ -91,9 +91,9 @@ void MCSS_TOOL_MakeAddWorkFromPPP(void *p, struct Stats *out, u32 lvl)
 void MCSS_TOOL_MakeAddWorkFromParam(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, struct Stats *out,
                    u32 a6)
 {
-    out->unk00 = func_0202D060();
+    out->unk00 = POKEGRA_GetArcID();
     out->unk04 = POKEGRA_GetCbrArcIndex(out->unk00, a0, a1, a2, a3, a6, a4);
-    out->unk08 = func_0202D0D4(out->unk00, a0, a1, a2, a3, a6, a4);
+    out->unk08 = POKEGRA_GetPalArcIndex(out->unk00, a0, a1, a2, a3, a6, a4);
     out->unk0C = POKEGRA_GetCelArcIndex(out->unk00, a0, a1, a2, a3, a6, a4);
     out->unk10 = POKEGRA_GetAnmArcIndex(out->unk00, a0, a1, a2, a3, a6, a4);
     out->unk14 = POKEGRA_GetMCelArcIndex(out->unk00, a0, a1, a2, a3, a6, a4);

@@ -1,5 +1,5 @@
 /*
- * function: func_0215901C
+ * function: SCRIPT_WORK_GetWorkValue
  * address: 0x0215901C
  * packet: pkt_ov010_0215901C
  * region: ov010
@@ -10,13 +10,13 @@
  * extent: two-byte zero alignment padding follows the 18-byte function.
  * Return stays full-width: the fallback id has no halfword truncation.
  * symbols:
- *   func_02158FE0 0x02158FE0 thumb ov010
+ *   SCRIPT_WORK_GetWorkPtr 0x02158FE0 thumb ov010
  */
 typedef unsigned short u16;
-extern u16 *func_02158FE0(void *, void *, unsigned int);
-unsigned int func_0215901C(void *a, void *b, unsigned int id)
+extern u16 *SCRIPT_WORK_GetWorkPtr(void *, void *, unsigned int);
+unsigned int SCRIPT_WORK_GetWorkValue(void *a, void *b, unsigned int id)
 {
-    u16 *p = func_02158FE0(a, b, id);
+    u16 *p = SCRIPT_WORK_GetWorkPtr(a, b, id);
     if (p) id = *p;
     return id;
 }

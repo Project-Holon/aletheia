@@ -1,5 +1,5 @@
 /*
- * function: func_021CF188
+ * function: COMM_ENTRY_GetRosterBuffer
  * address: 0x021CF188
  * packet: pkt_ov021_021CF188
  * region: ov021
@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov021/trial_house.c and filed here.
  *
  * symbols:
- *   func_021CEAF8 0x021CEAF8 thumb ov021
+ *   COMM_ENTRY_MENU_GetNameBuffer 0x021CEAF8 thumb ov021
  */
 
 typedef unsigned int   u32;
-extern void *func_021CEAF8(void *p);
-void *func_021CF188(u32 a, void *b);
+extern void *COMM_ENTRY_MENU_GetNameBuffer(void *p);
+void *COMM_ENTRY_GetRosterBuffer(u32 a, void *b);
 
-void *func_021CF188(u32 a, void *b) { return func_021CEAF8(b); }
+void *COMM_ENTRY_GetRosterBuffer(u32 a, void *b) { return COMM_ENTRY_MENU_GetNameBuffer(b); }

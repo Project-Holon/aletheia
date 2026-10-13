@@ -1,5 +1,5 @@
 /*
- * function: func_021F3998
+ * function: FIELD_GIMMICK_BSUBWAY_FindZoneEntry
  * address:  0x021F3998
  * packet:   pkt_ov052_021F3998
  * region:   ov052
@@ -18,7 +18,7 @@
 typedef struct { int key; int val; } E;
 extern E d_021F39DC[];
 
-void func_021F3998(int a0, int *a1, int *a2)
+void FIELD_GIMMICK_BSUBWAY_FindZoneEntry(int a0, int *a1, int *a2)
 {
     int i;
     for (i = 0; i < 10; i++) {

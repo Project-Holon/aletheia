@@ -1,5 +1,5 @@
 /*
- * function: func_021C7C74
+ * function: FIELD_TASK_UpdateCameraLerp
  * address:  0x021C7C74
  * packet:   pkt_ov021_021C7C74
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218E138  0x0218E138  thumb  ov021
- *   func_0218E13C  0x0218E13C  thumb  ov021
- *   func_0218EC90  0x0218EC90  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   func_0207CEE4  0x0207CEE4  arm
  *   _ffltu         0x0209BE04  arm
  *   _fdiv          0x0209CE10  arm
@@ -41,24 +41,24 @@ typedef struct {
     int f30;
 } Obj;
 
-extern void *func_02188C58(void *p);
-extern u32 func_0218E138(u8 *p);
-extern void func_0218E13C(u8 *a, u32 s);
-extern void func_0218EC90(int, Vec *);
+extern void *FIELDMAP_GetCamera(void *p);
+extern u32 FIELD_CAMERA_GetMode(u8 *p);
+extern void FIELD_CAMERA_SetMode(u8 *a, u32 s);
+extern void FIELD_CAMERA_SetTarget(int, Vec *);
 extern void func_0207CEE4(int, Vec *, Vec *, Vec *);
 
-int func_021C7C74(Obj *p)
+int FIELD_TASK_UpdateCameraLerp(Obj *p)
 {
     int h;
     int n;
     float t;
     Vec v;
 
-    h = (int)func_02188C58((void *)p->f4);
+    h = (int)FIELDMAP_GetCamera((void *)p->f4);
     switch (p->f0) {
     case 0:
-        p->f30 = func_0218E138((u8 *)h);
-        func_0218E13C((u8 *)h, 0);
+        p->f30 = FIELD_CAMERA_GetMode((u8 *)h);
+        FIELD_CAMERA_SetMode((u8 *)h, 0);
         p->f0 = p->f0 + 1;
         break;
     case 1:
@@ -70,9 +70,9 @@ int func_021C7C74(Obj *p)
             n = (int)(4096.0f * t - 0.5f);
         }
         func_0207CEE4(n, &p->f24, &p->fC, &v);
-        func_0218EC90(h, &v);
+        FIELD_CAMERA_SetTarget(h, &v);
         if (p->fA <= p->f8) {
-            func_0218E13C((u8 *)h, p->f30);
+            FIELD_CAMERA_SetMode((u8 *)h, p->f30);
             return 1;
         }
         break;

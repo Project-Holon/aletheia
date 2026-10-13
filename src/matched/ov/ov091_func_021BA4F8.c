@@ -1,5 +1,5 @@
 /*
- * function: func_021BA4F8
+ * function: POKELIST_ForceSelectionEnd
  * address:  0x021BA4F8
  * packet:   pkt_ov091_021BA4F8
  * region:   ov091
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B90F8  0x021B90F8  thumb  ov091
+ *   POKELIST_CloseContextMenu  0x021B90F8  thumb  ov091
  *   POKE_REGULATION_FindValidOrder  0x0201A59C  thumb
  */
 #include "../include/Obj00009.h"
@@ -22,10 +22,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021B90F8(u8 *a);
+extern void POKELIST_CloseContextMenu(u8 *a);
 extern int POKE_REGULATION_FindValidOrder(void *a0, void *a1, void *a2);
 
-void func_021BA4F8(u8 *a)
+void POKELIST_ForceSelectionEnd(u8 *a)
 {
     u8 i;
     u8 j;
@@ -44,7 +44,7 @@ void func_021BA4F8(u8 *a)
     if (st == 1)
         return;
     if (st == 6)
-        func_021B90F8(a);
+        POKELIST_CloseContextMenu(a);
     ((struct Obj00009 *)a)->f250 = 1;
     if (((struct Obj00009 *)a)->f278 == 1)
         a[0xc] = 0x11;

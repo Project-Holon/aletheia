@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  */
 #include "../include/Obj21680.h"
 typedef struct {
@@ -35,12 +35,12 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 
 int func_021FBE90(struct Cursor *a, State *s)
 {
-    int sel = func_0201134C(a);
-    int v = func_0201134C(a);
+    int sel = VM_GetU32(a);
+    int v = VM_GetU32(a);
 
     switch (sel) {
     case 9:

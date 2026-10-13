@@ -1,5 +1,5 @@
 /*
- * function: SetBottomScreenLineCentered
+ * function: BTL_FIELD_DrawStaticSlotLine
  * address:  0x021EF91C
  * packet:   pkt_ov093_021EF91C
  * region:   ov093
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * SetBottomScreenLineCentered (libdwcgscommon/screen.o): forwards the global
+ * BTL_FIELD_DrawStaticSlotLine (libdwcgscommon/screen.o): forwards the global
  * bottom-screen descriptor and all three parameters to SetScreenLineCentered;
  * the fourth argument rides in r3 across the BL.
  *
@@ -21,7 +21,7 @@
 extern char gBottomScreen;
 extern void func_021EFC1C(void *screen, int line, int color, char *text);
 
-void SetBottomScreenLineCentered(int line, int color, char *text)
+void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text)
 {
     func_021EFC1C(&gBottomScreen, line, color, text);
 }

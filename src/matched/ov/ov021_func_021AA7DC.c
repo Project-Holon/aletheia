@@ -1,5 +1,5 @@
 /*
- * function: func_021AA7DC
+ * function: EFFECT_ENCOUNT_LoadSetting
  * address:  0x021AA7DC
  * packet:   pkt_ov021_021AA7DC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D8E70  0x021D8E70  data  a4
+ *   sEffectEncountSettings  0x021D8E70  data  a4
  */
 
 typedef unsigned char u8;
@@ -38,14 +38,14 @@ typedef struct {
     u16 b;
 } D;
 
-extern const Pair d_021D8E70[];
+extern const Pair sEffectEncountSettings[];
 
-void func_021AA7DC(S *s, D *d)
+void EFFECT_ENCOUNT_LoadSetting(S *s, D *d)
 {
     unsigned int k = s->fc->k;
     if (k > 2) {
         k = 0;
     }
-    d->a = d_021D8E70[k].a;
-    d->b = d_021D8E70[k].b;
+    d->a = sEffectEncountSettings[k].a;
+    d->b = sEffectEncountSettings[k].b;
 }

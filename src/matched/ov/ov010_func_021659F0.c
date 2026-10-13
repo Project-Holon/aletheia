@@ -1,5 +1,5 @@
 /*
- * function: func_021659F0
+ * function: GAME_BEACON_ACCESSOR_TableGetRingIndex
  * address:  0x021659F0
  * packet:   pkt_ov010_021659F0
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Ring index of the 30-slot queue (func_021658D4): head byte at +0xB04
+ * Ring index of the 30-slot queue (GAME_BEACON_ACCESSOR_TablePop): head byte at +0xB04
  * plus a signed offset, wrapped mod 30 (a negative offset is biased by
  * 30 first). Filed as the callee of 02165A10.
  *
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 
 extern int _s32_div_f(int a, int b);
 
-int func_021659F0(u8 *q, int delta)
+int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta)
 {
     int h = q[0xB04];
 

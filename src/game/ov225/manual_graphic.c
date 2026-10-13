@@ -13,12 +13,12 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0204047C 0x0204047C arm
- *   func_0204E720 0x0204E720 arm
- *   func_0203D34C 0x0203D34C arm
+ *   FADE_Start 0x0204E720 arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021B9D18 0x021B9D18 thumb ov225
  *   func_021BB2B4 0x021BB2B4 thumb ov225
@@ -30,7 +30,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021BB31C 0x021BB31C thumb ov225
  *   func_021BB6E0 0x021BB6E0 thumb ov225
  *   func_021BB844 0x021BB844 thumb ov225
@@ -49,9 +49,9 @@
  *   func_021B9E60 0x021B9E60 thumb ov225
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
- *   func_0204361C 0x0204361C arm
+ *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
@@ -60,7 +60,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -68,15 +68,16 @@
  *   config 0x021BBDF0 data ov225
  *   table 0x021BBE4C data ov225
  *   d_021BBE4C 0x021BBE4C data a4
- *   func_0204A48C 0x0204A48C arm
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204A5AC  0x0204A5AC  arm
- *   func_0204A600 0x0204A600 arm
- *   func_0204A648 0x0204A648 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   BMP_WIN_Exit  0x020450C8  arm  arm9
  */
 #include "../../matched/include/Obj04649.h"
 #include "../../matched/include/Obj00100.h"
@@ -128,14 +129,14 @@ typedef enum {ZERO=0,ONE=1} Flag;
 
 struct Record { u32 id; u32 bg[8]; u32 kind; u32 visible; };
 
-extern void func_0203064C(u32,u32,u32);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u32,u32);
 extern void *func_021B9D18(void *,u16);
 extern void func_0204047C(int,u16);
 extern void *func_020056A0(void (*)(void *,char *),void *,u32);
-extern void func_0204E720(u32,int,int,int);
-extern void func_0203D34C(u32,u32);
+extern void FADE_Start(u32,int,int,int);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern char *func_021BB2B4(char *,char *);
 extern void func_021BB308(char *p);
 extern void func_021BB7F4(char *p);
@@ -145,7 +146,7 @@ extern void func_021B9DEC(char *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 extern int func_021BB31C(char *);
 extern char *func_021BB6E0(char *,char *);
 extern int func_021BB844(char *);
@@ -164,33 +165,33 @@ extern struct Q *func_021BB854(struct Owner *p, struct Data *data);
 extern void func_021B9E60(char *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0204363C(u32);
-extern void func_0204361C(void);
+extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern u32 func_020307B0(void *p);
 extern void func_0201DD68(void);
 extern void func_0203F8F4(u32);
-extern void func_02045088(u32);
+extern void BMP_WIN_Init(u32);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8, u8);
 extern void func_020403F4(u32 i);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_020419E4(void);
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
-extern void func_0204A600(void);
-extern void func_0204A648(void);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
 int func_021B95A0(void *proc, void *unused, struct Args *args);
 int func_021B9660(void *proc, void *a, void *b, char *work);
 int func_021B96BC(void *a,u32 *state,void *unused,char *p);
@@ -217,8 +218,8 @@ extern const u8 d_021BBE4C[];
 int func_021B95A0(void *proc, void *unused, struct Args *args)
 {
     struct Work *p;
-    func_0203064C(1,0x90,0x50000);
-    p = func_0203159C(proc,0x78,0x90);
+    GFL_HEAP_CreateChildHeap(1,0x90,0x50000);
+    p = PROCSYS_AllocProcWork(proc,0x78,0x90);
     func_02082BCC(p,0,0x78);
     p->heap = 0x90;
     p->args = args;
@@ -229,8 +230,8 @@ int func_021B95A0(void *proc, void *unused, struct Args *args)
     func_0204047C(6,1);
     func_0204047C(7,0);
     p->task = func_020056A0(func_021B98FC,p,1);
-    func_0204E720(3,16,0,0);
-    func_0203D34C(0,p->heap);
+    FADE_Start(3,16,0,0);
+    GFL_NET_RestartWithDefaultTimeout(0,p->heap);
     p->record14[0] = 0;
     p->record20 = 0;
     p->record22 = 0;
@@ -269,7 +270,7 @@ int func_021B96BC(void *a,u32 *state,void *unused,char *p)
  u16 id,i,item,selected;
  switch(*state) {
  case 0: *state=1; break;
- case 1: if(!func_0204E804()) *state=2; break;
+ case 1: if(!FADE_IsActive()) *state=2; break;
  case 2:
   done=0;
   switch(((struct Obj00100 *)p)->f10) {
@@ -348,9 +349,9 @@ innerDone:
    }
    break;
   }
-  if(done) { *state=3; func_0204E720(3,0,16,0); }
+  if(done) { *state=3; FADE_Start(3,0,16,0); }
   break;
- case 3: if(!func_0204E804()) *state=4; break;
+ case 3: if(!FADE_IsActive()) *state=4; break;
  case 4: return 1;
  }
  func_021B9E60(*(char * *)&((struct Obj00100 *)p)->f8);
@@ -383,9 +384,9 @@ void *func_021B9900(u32 swap, u32 heap)
     GX_SetVisibleWnd(0);
     GXS_SetVisibleWnd(0);
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((const struct DispVram *)vram);
+    BG_SYS_SetVramBanks((const struct DispVram *)vram);
     func_0204363C(swap);
-    func_0204361C();
+    BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
@@ -430,7 +431,7 @@ void func_021B9A28(void *p, u32 heap)
     u32 i = 0;
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
-    func_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)config);
     for (; i < 4; i++) {
         struct Record *r = &table[i];
@@ -444,7 +445,7 @@ void func_021B9A28(void *p, u32 heap)
 void func_021B9A88(void *p) {
     u32 i;
     for (i=0; i<4; i++) func_020403F4((u8)(*(const u32 *)(d_021BBE4C+i*44)));
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     func_02082BCC(p,0,4);
 }
@@ -457,23 +458,23 @@ void func_021B9AC4(void *a0) { func_020419E4(); }
 void func_021B9ACC(unsigned char *p, int a, int b)
 {
     func_02082BCC(p, 0, 4);
-    func_0204A48C((const struct Cfg *)0x021BBE00, a, b);
-    ((struct Obj14801 *)p)->f0 = (int)func_0204B100(0x80, 0, b);
+    CLACT_InitSystem((const struct Cfg *)0x021BBE00, a, b);
+    ((struct Obj14801 *)p)->f0 = (int)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)((struct Obj14801 *)p)->f0);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 
 void func_021B9B0C(char *p)
 {
-    func_0204B1CC((struct Bank *)(((struct Obj26131 *)p)->f0));
-    func_0204A5AC();
+    CLACT_DeleteUnit((struct Bank *)(((struct Obj26131 *)p)->f0));
+    CLACT_ExitSystem();
     func_02082BCC(p, 0, 4);
 }
 
-void func_021B9B28(void *a0) {func_0204A600();}
+void func_021B9B28(void *a0) {CLACT_DrawSystem();}
 
-void func_021B9B30(void *a0) {func_0204A648();}
+void func_021B9B30(void *a0) {CLACT_VBlankSystem();}
 
 u32 func_021B9B38(const u32 *p) {return *p;}

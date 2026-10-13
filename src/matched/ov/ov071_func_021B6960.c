@@ -1,5 +1,5 @@
 /*
- * function: func_021B6960
+ * function: MONOLITH_TOOL_FreeActorResources
  * address: 0x021B6960
  * packet: pkt_ov071_021B6960
  * region: ov071
@@ -12,15 +12,15 @@
  * Enum counter preserves the first iteration's cmp/branch.
  * symbols:
  *   ACTOR_TOOL_FreeChar 0x02025518 thumb
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 typedef unsigned int u32;
 typedef enum { SLOT_FIRST, SLOT_COUNT = 2 } Slot;
 extern void ACTOR_TOOL_FreeChar(u32, u32, u32);
-extern void func_0204A8D4(u32);
-extern void func_0204AFD8(u32);
-void func_021B6960(u32 *p)
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleaseCellAnim(u32);
+void MONOLITH_TOOL_FreeActorResources(u32 *p)
 {
     Slot i;
     int flag;
@@ -33,8 +33,8 @@ void func_021B6960(u32 *p)
         }
         e = p + i * 4;
         ACTOR_TOOL_FreeChar(p[1], e[16], flag);
-        func_0204A8D4(e[17]);
-        func_0204AFD8(e[18]);
+        CLACT_ReleaseCharacter(e[17]);
+        CLACT_ReleaseCellAnim(e[18]);
         ACTOR_TOOL_FreeChar(p[1], e[19], flag);
         i++;
     } while (i < SLOT_COUNT);

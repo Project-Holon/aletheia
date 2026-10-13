@@ -1,5 +1,5 @@
 /*
- * function: func_021AD3D4
+ * function: FLDEFF_NAMIPOKE_SPLASH_Create
  * address:  0x021AD3D4
  * packet:   pkt_ov021_021AD3D4
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DE080  0x021DE080  data
- *   func_021AD410  0x021AD410  thumb  ov021
+ *   sFldeffNamipokeFileName  0x021DE080  data
+ *   FLDEFF_NAMIPOKE_SPLASH_LoadResources  0x021AD410  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -23,15 +23,15 @@ typedef signed char    s8;
 typedef struct P { u32 f0; } P;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_021AD410(u32 *a);
-extern char d_021DE080[];
+extern void FLDEFF_NAMIPOKE_SPLASH_LoadResources(u32 *a);
+extern char sFldeffNamipokeFileName[];
 
-P *func_021AD3D4(u32 a, int heap)
+P *FLDEFF_NAMIPOKE_SPLASH_Create(u32 a, int heap)
 {
     P *p;
 
-    p = (P *)func_02030734(heap, 0x10, 1, d_021DE080, 0x3cf);
+    p = (P *)func_02030734(heap, 0x10, 1, sFldeffNamipokeFileName, 0x3cf);
     p->f0 = a;
-    func_021AD410((u32 *)p);
+    FLDEFF_NAMIPOKE_SPLASH_LoadResources((u32 *)p);
     return p;
 }

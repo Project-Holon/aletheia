@@ -28,16 +28,16 @@
  *   trailing parameters are neither supplied nor read/forwarded in its body.
  * symbols:
  *   func_021B7C78 0x021B7C78 thumb ov180
- *   func_0204B034 0x0204B034 arm
+ *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_SetRendererCulling 0x0204B0F4 arm
  *   func_0204B258 0x0204B258 arm
  *   func_021B75A4 0x021B75A4 thumb ov180
  *   func_021B746C 0x021B746C thumb ov180
  *   func_020490F4 0x020490F4 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204ABF0 0x0204ABF0 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02008550 0x02008550 thumb
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
@@ -64,16 +64,16 @@ extern const char d_021B8204[], d_021B824C[], d_021B8264[];
 extern void func_021B7C78(char *);
 struct Obj;
 struct Sub0200852CObj;
-extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
+extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
 extern void func_0204B258(struct Bank *,void *);
 extern struct Obj *func_021B75A4(char *p, const char *q);
 extern void func_021B746C(int *,int,int);
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern signed int func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int func_0204AF28(void *,u32,u32,u32);
-extern void func_02049238(u8 *);
+extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
+extern signed int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
+extern void ARC_TOOL_DeleteHandle(u8 *);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern int POKEGRA_OpenTrainerHandle(int);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
@@ -87,17 +87,17 @@ void func_021B7D80(char *p) {
     int mode;
     func_021B7C78(p);
     s=d_021B82B4;
-    *(struct Actor **)(p+0x9118)=(struct Actor *)func_0204B034((u8 *)&s,2,141);
+    *(struct Actor **)(p+0x9118)=(struct Actor *)CLACT_CreateRenderer((u8 *)&s,2,141);
     CLACT_SetRendererCulling(*(struct Actor **)(p+0x9118),1);
     func_0204B258(*(struct Bank **)(p+0x9044),*(void **)(p+0x9118));
     *(u32 *)(p+0x9064)=(u32)func_021B75A4(p,d_021B8204);
     *(u32 *)(p+0x9068)=(u32)func_021B75A4(p,((char *)&d_021B81EC));
     func_021B746C((int *)p,7,0); func_021B746C((int *)p,8,0);
     h=func_020490F4(216,0x808d);
-    *(int *)(p+0x90e0)=func_0204A6C8(h,25,0,1,141);
-    *(u32 *)(p+0x90fc)=func_0204ABF0(h,3,1,0,141);
-    *(int *)(p+0x9114)=func_0204AF28(h,27,33,141);
-    func_02049238(h);
+    *(int *)(p+0x90e0)=CLACT_RegisterCharacter(h,25,0,1,141);
+    *(u32 *)(p+0x90fc)=CLACT_RegisterPalette(h,3,1,0,141);
+    *(int *)(p+0x9114)=CLACT_RegisterCellAnim(h,27,33,141);
+    ARC_TOOL_DeleteHandle(h);
     mode=1;
     if(!func_02008550((const struct Sub0200852CObj *)(*(struct Player **)(*(char **)p+4)))) mode=0;
     h=(u8 *)POKEGRA_OpenTrainerHandle(0x808d);
@@ -107,7 +107,7 @@ void func_021B7D80(char *p) {
     *(u32 *)(p+0x90dc)=POKEGRA_RegisterTrainerCgr((u32)h,mode,1,141);
     *(u32 *)(p+0x90f8)=POKEGRA_RegisterTrainerPalette((u32)h,mode,1,96,141);
     *(int *)(p+0x9110)=POKEGRA_RegisterTrainerCellAnim(mode,0,1,141);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     *(u32 *)(p+0x905c)=(u32)func_021B75A4(p,d_021B824C);
     *(u32 *)(p+0x9060)=(u32)func_021B75A4(p,d_021B8264);
     func_021B79F4(p);

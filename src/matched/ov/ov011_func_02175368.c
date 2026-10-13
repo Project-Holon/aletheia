@@ -1,5 +1,5 @@
 /*
- * function: func_02175368
+ * function: INTRUDE_COMM_ClearNotice
  * address:  0x02175368
  * packet:   pkt_ov011_02175368
  * region:   ov011
@@ -20,7 +20,7 @@
 
 extern void sub_02082BCC(void *p, int c, unsigned int n);
 
-void func_02175368(char *p)
+void INTRUDE_COMM_ClearNotice(char *p)
 {
     sub_02082BCC(p + 0x15C, 0, 4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B331C
+ * function: SCRCMD_PROC_FLD_LoadShopMessages
  * address:  0x021B331C
  * packet:   pkt_ov021_021B331C
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-void func_021B331C(u8 *w, int b)
+void SCRCMD_PROC_FLD_LoadShopMessages(u8 *w, int b)
 {
     if (b == 1) {
         ((struct Obj00037 *)w)->f194 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0xd);

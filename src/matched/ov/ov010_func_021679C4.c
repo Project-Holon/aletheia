@@ -1,5 +1,5 @@
 /*
- * function: func_021679C4
+ * function: COMM_PLAYER_SetEffect
  * address:  0x021679C4
  * packet:   pkt_ov010_021679C4
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_021943EC  0x021943EC  thumb  ov021
- *   func_021BB578  0x021BB578  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FIELD_COMM_ACTOR_CTRL_GetMmdl  0x021943EC  thumb  ov021
+ *   FLDEFF_GYOE_StartHeld  0x021BB578  thumb
  */
 
 typedef unsigned char u8;
@@ -45,13 +45,13 @@ typedef struct Work {
 } Work;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Tbl;
-extern u32 func_02188CD0(u8 *p);
-extern u32 func_021943EC(struct Tbl *t, u32 key);
-extern u32 func_021BB578(void *a, void *b, int c, int d);
+extern u32 FIELDMAP_GetEffect(u8 *p);
+extern u32 FIELD_COMM_ACTOR_CTRL_GetMmdl(struct Tbl *t, u32 key);
+extern u32 FLDEFF_GYOE_StartHeld(void *a, void *b, int c, int d);
 
-int func_021679C4(Work *w, int i)
+int COMM_PLAYER_SetEffect(Work *w, int i)
 {
     Ent *e;
     void *a;
@@ -59,7 +59,7 @@ int func_021679C4(Work *w, int i)
     e = &w->e[i];
     if (w->obj == 0 || e->used == 0 || e->f18 != 0)
         return 0;
-    a = (void *)func_02188CD0(func_0201210C(w->sys));
-    e->f18 = func_021BB578(a, (void *)func_021943EC(w->obj, i), 0, 0);
+    a = (void *)FIELDMAP_GetEffect(GAMESYSTEM_GetFieldMap(w->sys));
+    e->f18 = FLDEFF_GYOE_StartHeld(a, (void *)FIELD_COMM_ACTOR_CTRL_GetMmdl(w->obj, i), 0, 0);
     return 1;
 }

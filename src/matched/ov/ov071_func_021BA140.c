@@ -1,5 +1,5 @@
 /*
- * function: func_021BA140
+ * function: MONOLITH_TOOL_UpdateRows
  * address:  0x021BA140
  * packet:   pkt_ov071_021BA140
  * region:   ov071
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202590C  0x0202590C  thumb
- *   func_02043814  0x02043814  arm
+ *   BMP_OAM_SetPos  0x0202590C  thumb
+ *   BMP_CopyPixels  0x02043814  arm
  */
 #include "../include/Obj20759.h"
 
@@ -20,10 +20,10 @@ typedef unsigned char u8;
 typedef signed short   s16;
 struct Bmp;
 struct Grid;
-extern void func_0202590C(struct Grid *g, s16 x, s16 y);
-extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
+extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
+extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 
-void func_021BA140(u8 *p)
+void MONOLITH_TOOL_UpdateRows(u8 *p)
 {
     int x = ((struct Obj20759 *)p)->f2D8 >> 8;
     int b = 8 - x % 32;
@@ -31,9 +31,9 @@ void func_021BA140(u8 *p)
     int i;
 
     for (i = 0; i < 7; i++) {
-        func_0202590C(*(void **)(p + i * 4 + 0x2a0), 0x20, b + i * 32);
+        BMP_OAM_SetPos(*(void **)(p + i * 4 + 0x2a0), 0x20, b + i * 32);
         if (*(void **)(q + i * 4 + 0x24) != 0) {
-            func_02043814(*(void **)(q + i * 4 + 0x24), *(void **)(p + i * 4 + 0x2bc));
+            BMP_CopyPixels(*(void **)(q + i * 4 + 0x24), *(void **)(p + i * 4 + 0x2bc));
         }
     }
 }

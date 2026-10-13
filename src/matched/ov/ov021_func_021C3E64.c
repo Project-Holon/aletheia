@@ -1,5 +1,5 @@
 /*
- * function: func_021C3E64
+ * function: SODATEYA_ApplyPowerItemRule
  * address:  0x021C3E64
  * packet:   pkt_ov021_021C3E64
  * region:   ov021
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02005728  0x02005728  thumb  ov021
- *   d_021DA930     0x021DA930  data  ov021  a4
+ *   sSodateyaPowerItemIds     0x021DA930  data  ov021  a4
  *
  * The flag array at q+0x58 must be a struct member (q->a[ia]); spelled
  * q[0x16 + ia] the compiler folds 0x16 into the index and spills it.
@@ -27,11 +27,11 @@ typedef struct {
     u32 n;
 } S;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_02005728(u32 n);
-extern const T6 d_021DA930;
+extern const T6 sSodateyaPowerItemIds;
 
-void func_021C3E64(u32 *p, S *q)
+void SODATEYA_ApplyPowerItemRule(u32 *p, S *q)
 {
     T6 t;
     int fa;
@@ -44,9 +44,9 @@ void func_021C3E64(u32 *p, S *q)
 
     fa = 0;
     fb = 0;
-    a = func_02017E1C((void *)p[0], 6, 0);
-    b = func_02017E1C((void *)p[1], 6, 0);
-    t = d_021DA930;
+    a = POKE_TOOL_GetPartyValue((void *)p[0], 6, 0);
+    b = POKE_TOOL_GetPartyValue((void *)p[1], 6, 0);
+    t = sSodateyaPowerItemIds;
     for (i = 0; i < 6; i++) {
         if (a == t.v[i]) {
             fa = 1;

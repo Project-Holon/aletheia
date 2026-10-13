@@ -1,5 +1,5 @@
 /*
- * function: func_02156C4C
+ * function: MUSICAL_DRESSUP_SYS_Main
  * address:  0x02156C4C
  * packet:   pkt_ov010_02156C4C
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Recovered existing source/shard: setup func_02156BD0 loads ov133 (0x85).
+ * Recovered existing source/shard: setup MUSICAL_DRESSUP_SYS_Init loads ov133 (0x85).
  * Its constructor returns the allocation; ov070's same address is a setter.
  * The ov132 getter reads its session argument at +0x48, passed live in r0.
  * The 94-byte body is followed by two bytes of alignment padding.
@@ -30,7 +30,7 @@ extern int func_021FD904(int *);
 typedef struct S S;
 extern void func_021FD52C(struct S *s);
 
-int func_02156C4C(int a, int *state, int c, int *d)
+int MUSICAL_DRESSUP_SYS_Main(int a, int *state, int c, int *d)
 {
     switch (*state) {
     case 0:

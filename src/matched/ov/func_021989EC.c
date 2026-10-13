@@ -1,5 +1,5 @@
 /*
- * function: func_021989EC
+ * function: FLDMMDL_ACMD_RiseInit
  * address:  0x021989EC
  * packet:   pkt_021989EC
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D7CC (0x0216D7CC) is a matched manifest entry, so the `matched`
+ * FLDMMDL_IncAcmdSeq (0x0216D7CC) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D6BC  0x0216D6BC  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17952.h"
@@ -29,15 +29,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0216D674(void *p, u16 v);
-extern void *func_0216D6BC(int a0, int a1, int a2);
-extern u32 func_0216D7CC(u32);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void *FLDMMDL_InitMoveCmdWork(int a0, int a1, int a2);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-int func_021989EC(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_ACMD_RiseInit(u32 a, u32 b, u32 c, u32 d)
 {
-((struct Obj17952 *)((u8 *)(func_0216D6BC(a, 8, c))))->f4 = (8 << 13);
-func_0216D674((void *)a, 0);
-func_0216D7CC(a);
+((struct Obj17952 *)((u8 *)(FLDMMDL_InitMoveCmdWork(a, 8, c))))->f4 = (8 << 13);
+FLDMMDL_SetDrawStatus((void *)a, 0);
+FLDMMDL_IncAcmdSeq(a);
 return 1;
 }
 

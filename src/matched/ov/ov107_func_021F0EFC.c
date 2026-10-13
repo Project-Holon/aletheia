@@ -13,7 +13,7 @@
  * Halfword flag fields reproduce every original read/store without volatile.
  * symbols:
  *   request_021F6C94 0x021F6C94 data a4
- *   func_0203CBAC 0x0203CBAC arm
+ *   GFL_NET_StartSession 0x0203CBAC arm
  *   GFL_NET_LOWER_DATA_Init 0x0203E5F8 arm
  */
 typedef unsigned char u8;
@@ -34,13 +34,13 @@ typedef struct {
 } State;
 extern const Request request_021F6C94;
 struct Req;
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern void GFL_NET_LOWER_DATA_Init(int,int);
 void func_021F0EFC(State *p)
 {
     Request q=request_021F6C94;
     q.f54=p->heap;
-    func_0203CBAC((struct Req *)(&q),0,(u32)p);
+    GFL_NET_StartSession((struct Req *)(&q),0,(u32)p);
     p->f24=0;
     p->f18.b00=0;
     p->f1e=0;

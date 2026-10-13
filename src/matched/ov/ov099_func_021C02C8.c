@@ -14,15 +14,15 @@
  *   POKEPARTY_GetAliveNonEggCount 0x0201AC80 thumb
  *   func_021B9B64 0x021B9B64 thumb ov099
  *   func_021BA928 0x021BA928 thumb ov099
- *   func_020200CC 0x020200CC thumb
+ *   BMP_MENULIST_Main 0x020200CC thumb
  *   func_021C0290 0x021C0290 thumb ov099
  *   func_021C2408 0x021C2408 thumb ov099
  *   func_021BB954 0x021BB954 thumb ov099
  *   func_021C23C8 0x021C23C8 thumb ov099
  *   func_021BDDD0 0x021BDDD0 thumb ov099
  *   func_021BA8BC 0x021BA8BC thumb ov099
- *   func_0202020C 0x0202020C thumb
- *   func_0201F868 0x0201F868 thumb
+ *   BMP_MENULIST_Delete 0x0202020C thumb
+ *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_0202EB14 0x0202EB14 thumb
@@ -37,15 +37,15 @@ struct W; struct Obj;
 extern u32 POKEPARTY_GetAliveNonEggCount(void *);
 extern void func_021B9B64(char *);
 extern int func_021BA928(struct W *);
-extern int func_020200CC(struct Obj *);
+extern int BMP_MENULIST_Main(struct Obj *);
 extern void func_021C0290(char *);
 extern void func_021C2408(char *);
 extern void func_021BB954(char *, int);
 extern int func_021C23C8(void *a, void *b);
 extern int func_021BDDD0(char *);
 extern int func_021BA8BC(void *);
-extern void func_0202020C(struct Obj *, u16 *, u16 *);
-extern u32 func_0201F868(void *p);
+extern void BMP_MENULIST_Delete(struct Obj *, u16 *, u16 *);
+extern u32 BMP_MENUWORK_Delete(void *p);
 extern void func_021BA8EC(char *);
 extern void func_021BAAB8(char *, int, int);
 extern int func_0202EB14(void);
@@ -58,7 +58,7 @@ int func_021C02C8(char *p, int ret)
     POKEPARTY_GetAliveNonEggCount(((struct Obj00008 *)p)->fC8);
     func_021B9B64(p + 0x274);
     if (!func_021BA928((struct W *)p)) return ret;
-    choice = func_020200CC(*(struct Obj * *)&((struct Obj00008 *)p)->fBC);
+    choice = BMP_MENULIST_Main(*(struct Obj * *)&((struct Obj00008 *)p)->fBC);
     switch (choice) {
     case (u32)-1:
         return ret;
@@ -85,8 +85,8 @@ int func_021C02C8(char *p, int ret)
     case 6:
         if (func_021BDDD0(p) == 0) {
             *(int *)&((struct Obj00008 *)p)->f1A4 = func_021BA8BC(((struct Obj00008 *)p)->f1A4);
-            func_0202020C(*(struct Obj * *)&((struct Obj00008 *)p)->fBC, 0, (u16 *)(p + 0x23c));
-            func_0201F868(((struct Obj00008 *)p)->fB8);
+            BMP_MENULIST_Delete(*(struct Obj * *)&((struct Obj00008 *)p)->fBC, 0, (u16 *)(p + 0x23c));
+            BMP_MENUWORK_Delete(((struct Obj00008 *)p)->fB8);
             func_021BA8EC(p);
             func_021BAAB8(p, 0x79, 0);
             ((struct Obj00008 *)p)->f1CC = 0x71;

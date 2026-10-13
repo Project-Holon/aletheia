@@ -21,7 +21,7 @@
  *   func_021EBBC8 0x021EBBC8 thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
  *   func_0201AB28 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
  *   func_021EBC58 0x021EBC58 thumb ov170
  *   func_021ED888 0x021ED888 thumb ov170
@@ -46,7 +46,7 @@ extern void func_020061E4(unsigned);
 extern void func_021EBBC8(u8 *, unsigned, int);
 extern int func_021E8F50(char *, int);
 extern void *func_0201AB28(void *, unsigned);
-extern unsigned func_02017E1C(void *, unsigned, unsigned);
+extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
 extern unsigned func_0202136C(u16);
 extern void func_021EBC58(u8 *, int, int, int);
 extern void func_021ED888(char *, int);
@@ -77,7 +77,7 @@ int func_021E8024(char *p)
                 ((struct Obj00000 *)p)->f28 = 14;
                 return func_021E8F50(p, 6);
             }
-            if (func_0202136C(func_02017E1C(func_0201AB28(((struct Obj23928 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, slot), 6, 0)) == 1) {
+            if (func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28(((struct Obj23928 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, slot), 6, 0)) == 1) {
                 func_020061E4(0x557);
                 func_021EBC58((u8 *)p, 0, 5, 24);
                 *(u8 *)(W + 0xA170) = 1;

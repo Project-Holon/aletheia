@@ -1,5 +1,5 @@
 /*
- * function: func_021572E4
+ * function: MUSICAL_PROGRAM_CreateNpcPerformer
  * address:  0x021572E4
  * packet:   pkt_ov010_021572E4
  * region:   ov010
@@ -15,8 +15,8 @@
  * loaded once and kept in ip for the fourth argument.
  *
  * symbols:
- *   func_02156FD0  0x02156FD0  thumb  ov010
- *   func_0215700C  0x0215700C  thumb  ov010
+ *   MUSICAL_STAGE_SYS_CreateNpcPerformer  0x02156FD0  thumb  ov010
+ *   MUSICAL_STAGE_SYS_SetPerformerProp  0x0215700C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -51,18 +51,18 @@ typedef struct Deal {
 
 typedef signed short   s16;
 struct Stage;
-extern void func_02156FD0(struct Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y);
-extern void func_0215700C(struct Stage *s, u8 idx, u8 j, u16 id, s16 a, u8 b);
+extern void MUSICAL_STAGE_SYS_CreateNpcPerformer(struct Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y);
+extern void MUSICAL_STAGE_SYS_SetPerformerProp(struct Stage *s, u8 idx, u8 j, u16 id, s16 a, u8 b);
 
-void func_021572E4(Deal *d, void *a, u8 b, u8 slot, u16 y)
+void MUSICAL_PROGRAM_CreateNpcPerformer(Deal *d, void *a, u8 b, u8 slot, u16 y)
 {
     Ent *e;
     u8 j;
 
     e = &d->f0C->ents[d->f08[slot]];
-    func_02156FD0(a, b, e->f00, e->f02[3], e->f02[0] + (e->f02[1] << 8) + (e->f02[2] << 16) + (e->f02[3] << 24), e->f06, y);
+    MUSICAL_STAGE_SYS_CreateNpcPerformer(a, b, e->f00, e->f02[3], e->f02[0] + (e->f02[1] << 8) + (e->f02[2] << 16) + (e->f02[3] << 24), e->f06, y);
     for (j = 0; j < 8; j++) {
         if (e->moves[j].id != 0x1FE && e->moves[j].id != 0x1FF)
-            func_0215700C(a, b, e->moves[j].f02, e->moves[j].id, 0, j);
+            MUSICAL_STAGE_SYS_SetPerformerProp(a, b, e->moves[j].f02, e->moves[j].id, 0, j);
     }
 }

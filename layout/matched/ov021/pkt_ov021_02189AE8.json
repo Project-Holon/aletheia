@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02189AE8",
+   "name": "FIELDMAP_IsMmdlDrawEnabled",
    "address": "0x02189AE8",
    "kind": "game",
    "region": "ov021",

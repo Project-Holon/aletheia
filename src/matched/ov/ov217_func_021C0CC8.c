@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020215A0  0x020215A0  thumb
+ *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
 struct PalAnmSlot;
-extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
 void func_021C0CC8(int *p)
 {
     int obj;
     obj = p[10];
-    func_020215A0((struct PalAnmSlot *)obj, 0);
-    func_020215A0((struct PalAnmSlot *)obj, 2);
-    func_020215A0((struct PalAnmSlot *)obj, 1);
-    func_020215A0((struct PalAnmSlot *)obj, 3);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)obj, 0);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)obj, 2);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)obj, 1);
+    PALANM_FreeSlotBuffers((struct PalAnmSlot *)obj, 3);
 }

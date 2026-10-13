@@ -1,7 +1,7 @@
 /*
  * file:     field_flash.c
  * unit:     yes
- * function: func_021C6E5C, func_021C6E74, func_021C6E94, func_021C6EA8, func_021C6EDC, func_021C6F00, func_021C6F30, func_021C701C, func_021C7058, func_021C7094, func_021C70DC, func_021C71A4, func_021C71D4, func_021C7220, func_021C7260, func_021C72AC, func_021C72F8, func_021C734C, func_021C73B4, func_021C7418, func_021C748C, func_021C7500, func_021C754C, func_021C7584, func_021C7684, func_021C76C4, func_021C7730, func_021C77D8, func_021C7814, func_021C7844, func_021C7858, func_021C7878, func_021C78DC, func_021C7940, func_021C7A20, func_021C7A7C, func_021C7AE4, func_021C7B1C, func_021C7C10, func_021C7C74, func_021C7D28, func_021C7D78, func_021C7DAC, func_021C7DE0, func_021C7DFC, func_021C7E30, func_021C7E50, func_021C7E54, func_021C7E58, func_021C7E64, func_021C7E70, func_021C7E90, func_021C7EEC, func_021C7EF0, func_021C7EF4, func_021C7EF8, func_021C7EFC, func_021C7F18, func_021C7F44, func_021C7F70, func_021C7F9C, func_021C7FAC, func_021C7FB4, func_021C7FBC, func_021C7FC0, func_021C7FF0, func_021C8000, func_021C800C, func_021C8018, func_021C8054, func_021C8078, func_021C812C, func_021C8170, func_021C81B4, func_021C81F8, func_021C8268, func_021C82C4, func_021C85CC, func_021C8608, func_021C8660, func_021C868C, func_021C86E8, func_021C8738
+ * function: func_021C6E5C, func_021C6E74, func_021C6E94, func_021C6EA8, func_021C6EDC, FIELD_TASK_CreateCameraDistanceTween, FIELD_TASK_UpdateCameraDistanceTween, FIELD_TASK_CreateCameraYawTween, FIELD_TASK_CreateCameraPitchTween, FIELD_TASK_InitCameraAngleTween, FIELD_TASK_StepCameraAngleTween, FIELD_TASK_UpdateCameraAngleTween, FIELD_TASK_CreatePlayerSpinLinear, FIELD_TASK_CreateMmdlSpinLinear, FIELD_TASK_CreatePlayerSpinEaseIn, FIELD_TASK_CreatePlayerSpinEaseOut, FIELD_TASK_GetSpinAcmdLinear, FIELD_TASK_GetSpinAcmdEaseIn, FIELD_TASK_GetSpinAcmdEaseOut, FIELD_TASK_UpdateSpinLinear, FIELD_TASK_UpdateSpinEaseIn, FIELD_TASK_UpdateSpinEaseOut, FIELD_TASK_CreatePlayerPosTween, FIELD_TASK_UpdatePlayerPosTween, FIELD_TASK_CreatePlayerDrop, FIELD_TASK_CalcDropOffset, FIELD_TASK_UpdatePlayerDrop, func_021C77D8, FIELD_TASK_CreateFade, FIELD_TASK_UpdateFade, FIELD_TASK_CreatePlayerDrawOffsetTween, FIELD_TASK_CreateMmdlDrawOffsetTween, FIELD_TASK_CreateMmdlPosOffsetTween, FIELD_TASK_CalcOffsetByProgress, FIELD_TASK_UpdateMmdlDrawOffsetTween, FIELD_TASK_UpdateMmdlPosOffsetTween, FIELD_TASK_CreateCameraTargetTween, FIELD_TASK_UpdateCameraTargetTween, FIELD_TASK_CreateCameraLerp, FIELD_TASK_UpdateCameraLerp, FIELD_TASK_CreateRepeatPlayerEffect, FIELD_TASK_UpdateRepeatPlayerEffect, FIELD_FLASH_Create, FIELD_FLASH_Delete, FIELD_FLASH_Update, FIELD_FLASH_Apply, FIELD_FLASH_SetPendingCommand, FIELD_FLASH_GetState, FIELD_FLASH_InitTween, FIELD_FLASH_ClearTween, FIELD_FLASH_StartTween, FIELD_FLASH_StepTween, FIELD_FLASH_GetTweenSize, FIELD_FLASH_SetTweenSize, FIELD_FLASH_GetTweenAlpha, FIELD_FLASH_SetTweenAlpha, FIELD_FLASH_CmdInit, FIELD_FLASH_CmdExpand, func_021C7F44, FIELDSKILL_MAPEFF_Create, FIELDSKILL_MAPEFF_Delete, FIELDSKILL_MAPEFF_Update, FIELDSKILL_MAPEFF_Apply, FIELDSKILL_MAPEFF_GetFlash, FIELDSKILL_MAPEFF_InitFlash, FIELDSKILL_MAPEFF_FreeFlash, FIELDSKILL_MAPEFF_UpdateFlash, FIELDSKILL_MAPEFF_ApplyFlash, FLD_WIPE_3DOBJ_Create, FLD_WIPE_3DOBJ_Delete, FLD_WIPE_3DOBJ_Draw, SCRCMD_StartFld3dCi, SCRCMD_StartFld3dCiByVar, SCRCMD_RunFld3dCiMain, SCRCMD_StartFld3dCiByTable, FLD_WIPE_3DOBJ_CreateMapChangeEvent, FLD_WIPE_3DOBJ_MapChangeEventMain, FLD_WIPE_3DOBJ_FadeOutEventMain, PLEASURE_BOAT_Create, PLEASURE_BOAT_AckEvent, PLEASURE_BOAT_Update, PLEASURE_BOAT_AdvanceTime, PLEASURE_BOAT_GetStat
  * address:  0x021C6E5C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021C6CA8  0x021C6CA8  thumb  ov021
- *   func_021C6CBC  0x021C6CBC  thumb  ov021
- *   func_021C6CC4  0x021C6CC4  thumb  ov021
- *   func_021C6CE0  0x021C6CE0  thumb  ov021
- *   func_021C6CD0  0x021C6CD0  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_021C6C70  0x021C6C70  thumb  ov021
- *   func_021C6CCC  0x021C6CCC  thumb  ov021
- *   func_02188C58  0x02188C58  thumb
- *   func_0218ED54  0x0218ED54  thumb
- *   func_0218E138  0x0218E138  thumb
- *   func_0218E13C  0x0218E13C  thumb
- *   func_0218ED58  0x0218ED58  thumb
+ *   FIELD_TASK_Delete  0x021C6CA8  thumb  ov021
+ *   FIELD_TASK_Update  0x021C6CBC  thumb  ov021
+ *   FIELD_TASK_Start  0x021C6CC4  thumb  ov021
+ *   FIELD_TASK_GetState  0x021C6CE0  thumb  ov021
+ *   FIELD_TASK_IsFinished  0x021C6CD0  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELD_TASK_Create  0x021C6C70  thumb  ov021
+ *   FIELD_TASK_GetWork  0x021C6CCC  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb
+ *   FIELD_CAMERA_GetDistance  0x0218ED54  thumb
+ *   FIELD_CAMERA_GetMode  0x0218E138  thumb
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb
+ *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb
  *   _fgr           0x0209BBB0  arm
  *   _ffltu         0x0209BE04  arm
  *   _fflt          0x0209BDBC  arm
@@ -34,124 +34,124 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _fdiv          0x0209CE10  arm
- *   func_0218ED40  0x0218ED40  thumb  ov021
- *   func_0218ED2C  0x0218ED2C  thumb  ov021
- *   func_0218ED34  0x0218ED34  thumb  ov021
- *   func_0218ED48  0x0218ED48  thumb  ov021
+ *   FIELD_CAMERA_GetYaw  0x0218ED40  thumb  ov021
+ *   FIELD_CAMERA_GetPitch  0x0218ED2C  thumb  ov021
+ *   FIELD_CAMERA_SetPitch  0x0218ED34  thumb  ov021
+ *   FIELD_CAMERA_SetYaw  0x0218ED48  thumb  ov021
  *   _ffixu         0x0209C4C8  arm
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   d_021DAAC0  0x021DAAC0  data  ov021  a2
- *   d_021DAAB8  0x021DAAB8  data  ov021  a2
- *   d_021DAAC8     0x021DAAC8  data  ov021  a2
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   gSpinAcmdLinear  0x021DAAC0  data  ov021  a2
+ *   gSpinAcmdEaseIn  0x021DAAB8  data  ov021  a2
+ *   gSpinAcmdEaseOut     0x021DAAC8  data  ov021  a2
  *   func_0209C5E0  0x0209C5E0  arm
  *   _f2d           0x0209BD38  arm
  *   _d2f           0x0209B64C  arm
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021A3044  0x021A3044  thumb  ov021
- *   func_02164010  0x02164010  thumb  ov010
- *   func_020520A4  0x020520A4  arm
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
+ *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
+ *   BUTTON_MAN_ScaleVec  0x020520A4  arm
  *   func_0207C9D0  0x0207C9D0  arm
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_021AC528  0x021AC528  thumb  ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_0204E720  0x0204E720  arm
- *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   FADE_Start  0x0204E720  arm
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   _ll_mul        0x0209C054  arm
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0218ECC4  0x0218ECC4  thumb  ov021
- *   func_0218ECD4  0x0218ECD4  thumb  ov021
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FIELD_CAMERA_GetTargetShift  0x0218ECC4  thumb  ov021
+ *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb  ov021
  *   func_0207CA00  0x0207CA00  arm
- *   func_0218EC90  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   func_0207CEE4  0x0207CEE4  arm
- *   func_021ADD7C  0x021ADD7C  thumb  ov021
- *   d_021DE4FC  0x021DE4FC  data  ov021  a4
+ *   FLDEFF_IWAKUDAKI_Start  0x021ADD7C  thumb  ov021
+ *   gFieldFlashFileName  0x021DE4FC  data  ov021  a4
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   d_021DAAD0  0x021DAAD0  data  ov021  a4
+ *   gFlashCommandTable  0x021DAAD0  data  ov021  a4
  *   func_02082BCC  0x02082BCC  arm
  *   func_0207C768  0x0207C768  arm
  *   _s32_div_f     0x0209C0A4  arm
- *   d_021DE50C  0x021DE50C  data  ov021  a4
- *   d_021DE520  0x021DE520  data  ov021  a4
- *   func_02046DB8  0x02046DB8  arm
- *   func_02047400  0x02047400  arm
- *   func_0204767C  0x0204767C  arm
- *   func_02047788  0x02047788  arm
- *   func_02047504  0x02047504  arm
- *   func_02047738  0x02047738  arm
+ *   gFieldSkillMapEffFileName  0x021DE50C  data  ov021  a4
+ *   gFldWipe3dObjFileName  0x021DE520  data  ov021  a4
+ *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
  *   func_02046EFC  0x02046EFC  arm
- *   func_02046AFC  0x02046AFC  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   G3D_SYSTEM_GetLookAt  0x02046AFC  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   func_0206AAD4  0x0206AAD4  arm
  *   func_02082B60  0x02082B60  arm
- *   func_0204755C  0x0204755C  arm
+ *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
  *   func_0206E394  0x0206E394  arm
  *   func_0206E4FC  0x0206E4FC  arm
  *   func_0206E484  0x0206E484  arm
  *   func_0206E574  0x0206E574  arm
  *   func_0206E40C  0x0206E40C  arm
- *   func_02047A60  0x02047A60  arm
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
+ *   G3D_SYSTEM_DrawObject  0x02047A60  arm
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   func_0201210C  0x0201210C  thumb
- *   func_02189A00  0x02189A00  thumb  ov021
+ *   FIELDMAP_GetFld3dCi  0x02189A00  thumb  ov021
  *   func_02011330  0x02011330  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021C1CB0  0x021C1CB0  thumb  ov021
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_021C1D68  0x021C1D68  thumb  ov021
- *   func_021C30B8  0x021C30B8  thumb  ov021
- *   d_021DAAE0     0x021DAAE0  data  a2
- *   d_021DAAE2     0x021DAAE2  data  a2
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   FLD3D_CI_StartSequence  0x021C1CB0  thumb  ov021
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FLD3D_CI_StartPartyMemberSequence  0x021C1D68  thumb  ov021
+ *   FLD3D_CI_StartMessageSequence  0x021C30B8  thumb  ov021
+ *   gFld3dCiKeyTable     0x021DAAE0  data  a2
+ *   gFld3dCiIdTable     0x021DAAE2  data  a2
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02014204  0x02014204  thumb
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_0218F1AC  0x0218F1AC  thumb  ov021
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_021BB260  0x021BB260  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_0218F818  0x0218F818  thumb  ov021
- *   func_0218F848  0x0218F848  thumb  ov021
- *   func_0218F900  0x0218F900  thumb  ov021
- *   func_0218FE50  0x0218FE50  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_02012374  0x02012374  thumb
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
- *   func_0218F878  0x0218F878  thumb  ov021
- *   func_021BEA30  0x021BEA30  thumb  ov021
- *   func_021854CC  0x021854CC  thumb  ov020
- *   func_02188D20  0x02188D20  thumb  ov021
- *   func_021BC5BC  0x021BC5BC  thumb  ov021
+ *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
+ *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   FIELD_NOGRID_MAPPER_SetActive  0x021BB260  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_CAMERA_PushState  0x0218F818  thumb  ov021
+ *   FIELD_CAMERA_PushStateConstrained  0x0218F848  thumb  ov021
+ *   FIELD_CAMERA_StartMove  0x0218F900  thumb  ov021
+ *   FIELD_CAMERA_IsMoving  0x0218FE50  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   FIELD_CAMERA_PopState  0x0218F878  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent  0x021BEA30  thumb  ov021
+ *   EVENT_MAPCHANGE_CreateWarpEventToLocation  0x021854CC  thumb  ov020
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
+ *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
  *   func_02043658  0x02043658  arm
- *   func_02188DA0  0x02188DA0  thumb  ov021
+ *   FIELDMAP_SetBgMode  0x02188DA0  thumb  ov021
  *   func_02043534  0x02043534  arm
- *   func_02188DB0  0x02188DB0  thumb  ov021
- *   func_021BC578  0x021BC578  thumb  ov021
- *   func_0218F9C4  0x0218F9C4  thumb  ov021
- *   func_0218EC30  0x0218EC30  thumb  ov021
- *   func_0218F05C  0x0218F05C  thumb  ov021
+ *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
+ *   FIELD_PLACE_NAME_ShowForZone  0x021BC578  thumb  ov021
+ *   FIELD_CAMERA_StartMoveToSaved  0x0218F9C4  thumb  ov021
+ *   FIELD_CAMERA_SetTraceTarget  0x0218EC30  thumb  ov021
+ *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   func_020124E4  0x020124E4  thumb
- *   func_0204E804  0x0204E804  arm
+ *   FADE_IsActive  0x0204E804  arm
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_021F36C0  0x021F36C0  thumb  ov037
- *   d_021DE534     0x021DE534  data  a4
+ *   gPleasureBoatFileName     0x021DE534  data  a4
  *   d_00000024     0x00000024  data  a4
- *   func_021C87E0  0x021C87E0  thumb  ov021
- *   func_02158768  0x02158768  thumb  ov010
+ *   PLEASURE_BOAT_GetTimeEvent  0x021C87E0  thumb  ov021
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  */
 
 #define FX_FX32_TO_F32(x) ((f32)((x) / 4096.0f))
@@ -438,220 +438,220 @@ typedef struct PleasureBoatWork {
     int locked;
 } PleasureBoatWork;
 
-extern void func_021C6CA8(FieldTask *task);
-extern void func_021C6CBC(FieldTask *task);
-extern u32 func_021C6CE0(FieldTask *task);
-extern void func_021C6CC4(FieldTask *task);
-extern int func_021C6CD0(FieldTask *task);
-extern u16 func_02188C84(FieldMap *fieldMap);
-extern FieldTask *func_021C6C70(u32 heapId, u32 size, FieldTaskUpdateFunc update);
-extern void *func_021C6CCC(FieldTask *task);
-extern FieldCamera *func_02188C58(FieldMap *fieldMap);
-extern fx32 func_0218ED54(FieldCamera *camera);
-extern u32 func_0218E138(FieldCamera *camera);
-extern void func_0218E13C(FieldCamera *camera, u32 value);
-extern void func_0218ED58(FieldCamera *camera, fx32 distance);
-extern u16 func_0218ED40(FieldCamera *camera);
-extern u16 func_0218ED2C(FieldCamera *camera);
-extern void func_0218ED34(FieldCamera *camera, u16 angle);
-extern void func_0218ED48(FieldCamera *camera, u16 angle);
-extern FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern Mmdl *func_021A3074(FieldPlayer *player);
-extern u16 func_0216D5F8(Mmdl *mmdl);
+extern void FIELD_TASK_Delete(FieldTask *task);
+extern void FIELD_TASK_Update(FieldTask *task);
+extern u32 FIELD_TASK_GetState(FieldTask *task);
+extern void FIELD_TASK_Start(FieldTask *task);
+extern int FIELD_TASK_IsFinished(FieldTask *task);
+extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
+extern FieldTask *FIELD_TASK_Create(u32 heapId, u32 size, FieldTaskUpdateFunc update);
+extern void *FIELD_TASK_GetWork(FieldTask *task);
+extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
+extern fx32 FIELD_CAMERA_GetDistance(FieldCamera *camera);
+extern u32 FIELD_CAMERA_GetMode(FieldCamera *camera);
+extern void FIELD_CAMERA_SetMode(FieldCamera *camera, u32 value);
+extern void FIELD_CAMERA_SetDistance(FieldCamera *camera, fx32 distance);
+extern u16 FIELD_CAMERA_GetYaw(FieldCamera *camera);
+extern u16 FIELD_CAMERA_GetPitch(FieldCamera *camera);
+extern void FIELD_CAMERA_SetPitch(FieldCamera *camera, u16 angle);
+extern void FIELD_CAMERA_SetYaw(FieldCamera *camera, u16 angle);
+extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern double func_0209C5E0(double x);
-extern void func_0216D410(Mmdl *mmdl, int acmd);
-extern void func_0216D5E0(Mmdl *mmdl, int direction);
-extern void func_021A3038(FieldPlayer *player, VecFx32 *pos);
-extern void func_021A3044(FieldPlayer *player, VecFx32 *pos);
-extern int func_02164010(Mmdl *mmdl);
-extern void func_020520A4(const VecFx32 *v, int scale, VecFx32 *out);
+extern void FLDMMDL_SetAcmd(Mmdl *mmdl, int acmd);
+extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int direction);
+extern void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *pos);
+extern void FIELD_PLAYER_SetPos(FieldPlayer *player, VecFx32 *pos);
+extern int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
+extern void BUTTON_MAN_ScaleVec(const VecFx32 *v, int scale, VecFx32 *out);
 extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern FieldEffectCtrl *func_02188CD0(FieldMap *fieldMap);
-extern void func_0216D8C0(Mmdl *mmdl, VecFx32 *offset);
-extern void func_021AC528(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
+extern FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
+extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
 extern void func_020061E4(u32 seId);
-extern void func_0204E720(u32 mode, u32 start, u32 end, u32 wait);
-extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *pos);
-extern void func_0216D89C(Mmdl *mmdl, VecFx32 *pos);
-extern void func_0218ECC4(FieldCamera *camera, VecFx32 *out);
-extern void func_0218ECD4(FieldCamera *camera, VecFx32 *v);
+extern void FADE_Start(u32 mode, u32 start, u32 end, u32 wait);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *pos);
+extern void FLDMMDL_SetPos(Mmdl *mmdl, VecFx32 *pos);
+extern void FIELD_CAMERA_GetTargetShift(FieldCamera *camera, VecFx32 *out);
+extern void FIELD_CAMERA_SetTargetShift(FieldCamera *camera, VecFx32 *v);
 extern void func_0207CA00(VecFx32 *a, VecFx32 *b, VecFx32 *out);
-extern void func_0218EC90(FieldCamera *camera, VecFx32 *v);
+extern void FIELD_CAMERA_SetTarget(FieldCamera *camera, VecFx32 *v);
 extern void func_0207CEE4(int t, VecFx32 *a, VecFx32 *b, VecFx32 *out);
-extern void func_021ADD7C(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
+extern void FLDEFF_IWAKUDAKI_Start(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *dst, int value, int size);
 extern u32 func_0207C768(u32 a, u32 b);
-extern void *func_02046DB8(u32 arcId, u32 mode);
-extern void *func_02047400(void *resArc, u32 index, void *param);
-extern void *func_0204767C(void *render, u32 *anime, int count);
+extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 mode);
+extern void *G3D_SYSTEM_CreateRender(void *resArc, u32 index, void *param);
+extern void *G3D_SYSTEM_CreateObject(void *render, u32 *anime, int count);
 extern void func_02046EFC(void *resArc);
-extern void func_02047504(void *render);
-extern void func_02047738(void *object);
-extern void *func_02047788(void *object);
-extern void func_02046AFC(G3dLookAt *dst);
-extern void func_0207CCA4(VecFx32 *src, VecFx32 *dst);
+extern void G3D_SYSTEM_DeleteRender(void *render);
+extern void G3D_SYSTEM_DeleteObject(void *object);
+extern void *G3D_SYSTEM_GetObjectRender(void *object);
+extern void G3D_SYSTEM_GetLookAt(G3dLookAt *dst);
+extern void VEC_Normalize(VecFx32 *src, VecFx32 *dst);
 extern u32 *func_0206AAD4(void);
 extern void func_02082B60(Mtx43 *src, Mtx33 *dst);
-extern G3dRenderRef *func_0204755C(void *render);
+extern G3dRenderRef *G3D_SYSTEM_GetRenderObj(void *render);
 extern void func_0206E394(void *mdl, int a, int b);
 extern void func_0206E4FC(void *mdl, int a, int b);
 extern void func_0206E484(void *mdl, int a, int b);
 extern void func_0206E574(void *mdl, int a, int b);
 extern void func_0206E40C(void *mdl, int a, int b);
-extern void func_02047A60(void *object, G3dObjectStatus *status);
-extern GameSystem *func_0215A5DC(ScrCmdWork *work);
+extern void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
+extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrCmdWork *work);
 extern FieldMap *func_0201210C(GameSystem *gameSystem);
-extern Fld3dCi *func_02189A00(FieldMap *fieldMap);
+extern Fld3dCi *FIELDMAP_GetFld3dCi(FieldMap *fieldMap);
 extern u16 func_02011330(ScriptVm *vm);
-extern ScriptSystem *func_0215A5F4(ScrCmdWork *work);
-extern GameEvent *func_021C1CB0(GameSystem *gameSystem, Fld3dCi *ci, int id);
-extern void func_0215897C(ScriptSystem *scriptSys, GameEvent *event);
-extern unsigned int func_02159B10(ScriptVm *vm, ScrCmdWork *work);
-extern GameEvent *func_021C1D68(GameSystem *gameSystem, Fld3dCi *ci, int value);
-extern GameEvent *func_021C30B8(GameSystem *gameSystem, Fld3dCi *ci, unsigned int value);
+extern ScriptSystem *SCRCMD_WORK_GetScriptWork(ScrCmdWork *work);
+extern GameEvent *FLD3D_CI_StartSequence(GameSystem *gameSystem, Fld3dCi *ci, int id);
+extern void SCRIPT_SYS_CallEvent(ScriptSystem *scriptSys, GameEvent *event);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrCmdWork *work);
+extern GameEvent *FLD3D_CI_StartPartyMemberSequence(GameSystem *gameSystem, Fld3dCi *ci, int value);
+extern GameEvent *FLD3D_CI_StartMessageSequence(GameSystem *gameSystem, Fld3dCi *ci, unsigned int value);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, int (*main)(), unsigned int workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void *func_020120F4(GameSystem *gameSystem);
 extern MyStatus *func_02012944(void *gameData);
 extern u8 func_02008550(const MyStatus *myStatus);
-extern void func_02014204(ZoneStartLocation *location, int zoneId);
-extern u32 func_02188C5C(FieldMap *fieldMap);
-extern void func_0218F1AC(FieldCamera *camera, u32 value);
-extern u32 func_0218EC5C(FieldCamera *camera);
-extern void func_0218F0A8(FieldCamera *camera);
-extern u32 func_0218F0E8(FieldCamera *camera);
-extern void func_021BB260(u32 bg, u32 value);
-extern void func_0218EC54(FieldCamera *camera);
-extern void func_0218F818(FieldCamera *camera);
-extern void func_0218F848(FieldCamera *camera);
-extern void func_0218F900(FieldCamera *camera, CameraAnimParam *param, int frames);
-extern int func_0218FE50(FieldCamera *camera);
-extern MmdlSys *func_02188C7C(FieldMap *fieldMap);
-extern void func_0216D9A0(MmdlSys *mmdlSys);
-extern void func_02012374(GameEvent *parent, GameEvent *child);
-extern u32 *func_0216D9E4(MmdlSys *mmdlSys);
-extern void func_0216DAC8(Mmdl *mmdl, unsigned int vanish);
-extern void func_0218F878(FieldCamera *camera);
-extern GameEvent *func_021BEA30(GameSystem *gameSystem, FieldMap *fieldMap, u32 a, u32 b);
-extern GameEvent *func_021854CC(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, ZoneStartLocation *location, u16 flag);
-extern void *func_02188D20(FieldMap *fieldMap);
-extern int func_021BC5BC(void *msgBg);
+extern void ZONEDATA_SetZoneStartLocation(ZoneStartLocation *location, int zoneId);
+extern u32 FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
+extern void FIELD_CAMERA_SetAreasEnabled(FieldCamera *camera, u32 value);
+extern u32 FIELD_CAMERA_GetTraceTarget(FieldCamera *camera);
+extern void FIELD_CAMERA_EndDelay(FieldCamera *camera);
+extern u32 FIELD_CAMERA_IsDelayEnabled(FieldCamera *camera);
+extern void FIELD_NOGRID_MAPPER_SetActive(u32 bg, u32 value);
+extern void FIELD_CAMERA_StopTargetTrace(FieldCamera *camera);
+extern void FIELD_CAMERA_PushState(FieldCamera *camera);
+extern void FIELD_CAMERA_PushStateConstrained(FieldCamera *camera);
+extern void FIELD_CAMERA_StartMove(FieldCamera *camera, CameraAnimParam *param, int frames);
+extern int FIELD_CAMERA_IsMoving(FieldCamera *camera);
+extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
+extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
+extern u32 *FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
+extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, unsigned int vanish);
+extern void FIELD_CAMERA_PopState(FieldCamera *camera);
+extern GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(GameSystem *gameSystem, FieldMap *fieldMap, u32 a, u32 b);
+extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, ZoneStartLocation *location, u16 flag);
+extern void *FIELDMAP_GetPlaceName(FieldMap *fieldMap);
+extern int FIELD_PLACE_NAME_Cancel(void *msgBg);
 extern u32 func_02043658(void);
-extern void func_02188DA0(void);
+extern void FIELDMAP_SetBgMode(void);
 extern void func_02043534(u32 planes);
-extern void func_02188DB0(FieldMap *fieldMap);
-extern void func_021BC578(void *msgBg, int zoneId);
-extern void func_0218F9C4(FieldCamera *camera, CameraAnimFlags *flags, u16 frames);
-extern void func_0218EC30(FieldCamera *camera, u32 bits);
-extern void func_0218F05C(FieldCamera *camera);
+extern void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap);
+extern void FIELD_PLACE_NAME_ShowForZone(void *msgBg, int zoneId);
+extern void FIELD_CAMERA_StartMoveToSaved(FieldCamera *camera, CameraAnimFlags *flags, u16 frames);
+extern void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, u32 bits);
+extern void FIELD_CAMERA_RestartDelay(FieldCamera *camera);
 extern GameSystem *func_020124E4(GameEvent *event);
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 extern int func_02034AC4(s32 overlayId);
 extern void func_02034A5C(int overlayId);
 extern void func_021F36C0(PleasureBoatWork *work);
-extern int func_021C87E0(PleasureBoatWork *work);
-extern GameEvent *func_02158768(GameSystem *gameSystem, int a, int b, int scriptId);
+extern int PLEASURE_BOAT_GetTimeEvent(PleasureBoatWork *work);
+extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(GameSystem *gameSystem, int a, int b, int scriptId);
 
 /* Spin acmd tables (u16 per facing direction) and the FLD3D_CI id table (key, id pairs). */
-extern SpinAcmdTable d_021DAAC0;
-extern SpinAcmdTable d_021DAAB8;
-extern SpinAcmdTable d_021DAAC8;
-extern char d_021DE4FC[];
-extern char d_021DE50C[];
-extern char d_021DE520[];
-extern unsigned short d_021DAAE0[];
-extern unsigned short d_021DAAE2[];
-extern char d_021DE534;
+extern SpinAcmdTable gSpinAcmdLinear;
+extern SpinAcmdTable gSpinAcmdEaseIn;
+extern SpinAcmdTable gSpinAcmdEaseOut;
+extern char gFieldFlashFileName[];
+extern char gFieldSkillMapEffFileName[];
+extern char gFldWipe3dObjFileName[];
+extern unsigned short gFld3dCiKeyTable[];
+extern unsigned short gFld3dCiIdTable[];
+extern char gPleasureBoatFileName;
 extern char d_00000024[];
-extern void (*d_021DAAD0[])(FieldFlash *flash);
+extern void (*gFlashCommandTable[])(FieldFlash *flash);
 
 void func_021C6E5C(FieldTaskList *list, int slot, FieldTask *task, u32 parent);
 void func_021C6E74(FieldTaskList *list, int slot);
 void func_021C6E94(FieldTaskList *list, int slot);
 void func_021C6EA8(FieldTaskList *list, int slot);
 void func_021C6EDC(FieldTaskList *list, int slot);
-FieldTask *func_021C6F00(FieldMap *fieldMap, u16 frames, fx32 targetDistance);
-int func_021C6F30(CameraDistanceTween *tween);
-FieldTask *func_021C701C(FieldMap *fieldMap, u16 frames, u32 targetAngle);
-FieldTask *func_021C7058(FieldMap *fieldMap, u16 frames, u32 targetAngle);
-void func_021C7094(CameraAngleTween *tween);
-void func_021C70DC(CameraAngleTween *tween);
-int func_021C71A4(CameraAngleTween *tween);
-FieldTask *func_021C71D4(FieldMap *fieldMap, u32 frames, u32 spins);
-FieldTask *func_021C7220(FieldMap *fieldMap, u16 frames, int spins, Mmdl *mmdl);
-FieldTask *func_021C7260(FieldMap *fieldMap, u16 frames, int spins);
-FieldTask *func_021C72AC(FieldMap *fieldMap, u16 frames, int spins, int endDirection);
-u16 func_021C72F8(float frame, float frames, float spins);
-u16 func_021C734C(float frame, float frames, float spins);
-u16 func_021C73B4(float frame, float frames, float spins);
-int func_021C7418(MmdlSpinTask *task);
-int func_021C748C(MmdlSpinTask *task);
-int func_021C7500(MmdlSpinTask *task);
-FieldTask *func_021C754C(FieldMap *fieldMap, u32 frames, VecFx32 *to);
-int func_021C7584(PosTween *tween);
-FieldTask *func_021C7684(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height);
-void func_021C76C4(VecFx32 *out, float frame, float frames, float height);
-int func_021C7730(PlayerDropTask *task);
+FieldTask *FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, fx32 targetDistance);
+int FIELD_TASK_UpdateCameraDistanceTween(CameraDistanceTween *tween);
+FieldTask *FIELD_TASK_CreateCameraYawTween(FieldMap *fieldMap, u16 frames, u32 targetAngle);
+FieldTask *FIELD_TASK_CreateCameraPitchTween(FieldMap *fieldMap, u16 frames, u32 targetAngle);
+void FIELD_TASK_InitCameraAngleTween(CameraAngleTween *tween);
+void FIELD_TASK_StepCameraAngleTween(CameraAngleTween *tween);
+int FIELD_TASK_UpdateCameraAngleTween(CameraAngleTween *tween);
+FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 frames, u32 spins);
+FieldTask *FIELD_TASK_CreateMmdlSpinLinear(FieldMap *fieldMap, u16 frames, int spins, Mmdl *mmdl);
+FieldTask *FIELD_TASK_CreatePlayerSpinEaseIn(FieldMap *fieldMap, u16 frames, int spins);
+FieldTask *FIELD_TASK_CreatePlayerSpinEaseOut(FieldMap *fieldMap, u16 frames, int spins, int endDirection);
+u16 FIELD_TASK_GetSpinAcmdLinear(float frame, float frames, float spins);
+u16 FIELD_TASK_GetSpinAcmdEaseIn(float frame, float frames, float spins);
+u16 FIELD_TASK_GetSpinAcmdEaseOut(float frame, float frames, float spins);
+int FIELD_TASK_UpdateSpinLinear(MmdlSpinTask *task);
+int FIELD_TASK_UpdateSpinEaseIn(MmdlSpinTask *task);
+int FIELD_TASK_UpdateSpinEaseOut(MmdlSpinTask *task);
+FieldTask *FIELD_TASK_CreatePlayerPosTween(FieldMap *fieldMap, u32 frames, VecFx32 *to);
+int FIELD_TASK_UpdatePlayerPosTween(PosTween *tween);
+FieldTask *FIELD_TASK_CreatePlayerDrop(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height);
+void FIELD_TASK_CalcDropOffset(VecFx32 *out, float frame, float frames, float height);
+int FIELD_TASK_UpdatePlayerDrop(PlayerDropTask *task);
 FieldTask *func_021C77D8(FieldMap *fieldMap, u16 frames);
-int func_021C77FC(WaitTask *task);
-FieldTask *func_021C7814(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait);
-int func_021C7844(FadeTask *task);
-FieldTask *func_021C7858(FieldMap *fieldMap, int frames, const VecFx32 *offset);
-FieldTask *func_021C7878(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
-FieldTask *func_021C78DC(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
-void func_021C7940(VecFx32 *out, u16 frame, VecFx32 *offset, u16 frames);
-int func_021C7A20(MmdlOffsetTween *tween);
-int func_021C7A7C(MmdlOffsetTween *tween);
-FieldTask *func_021C7AE4(FieldMap *fieldMap, u32 frames, const VecFx32 *to);
-int func_021C7B1C(PosTween *tween);
-FieldTask *func_021C7C10(FieldMap *fieldMap, int frames, const VecFx32 *start, const VecFx32 *end);
-int func_021C7C74(CameraLerpTask *task);
-FieldTask *func_021C7D28(FieldMap *fieldMap, int unused, u16 frames, u16 interval);
-int func_021C7D78(RepeatEffectTask *task);
-FieldFlash *func_021C7DAC(u32 heapId);
-void func_021C7DE0(FieldFlash *flash);
-void func_021C7DFC(FieldFlash *flash);
-void func_021C7E30(FieldFlash *flash);
-void func_021C7E50(FieldFlash *flash, u16 command);
-u16 func_021C7E54(FieldFlash *flash);
-void func_021C7E58(FlashTween *tween);
-void func_021C7E64(FlashTween *tween);
-FlashTween *func_021C7E70(FlashTween *tween, fx32 sizeStart, fx32 sizeEnd, u32 alphaStart, u8 alphaEnd, u32 frames);
-int func_021C7E90(FlashTween *tween);
-u32 func_021C7EEC(FlashTween *tween);
-void func_021C7EF0(FlashTween *tween, fx32 size);
-u8 func_021C7EF4(FlashTween *tween);
-FlashTween *func_021C7EF8(FlashTween *tween, u8 alpha);
-void func_021C7EFC(FieldFlash *flash);
-void func_021C7F18(FieldFlash *flash);
+int FIELD_TASK_UpdateWait(WaitTask *task);
+FieldTask *FIELD_TASK_CreateFade(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait);
+int FIELD_TASK_UpdateFade(FadeTask *task);
+FieldTask *FIELD_TASK_CreatePlayerDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset);
+FieldTask *FIELD_TASK_CreateMmdlDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
+FieldTask *FIELD_TASK_CreateMmdlPosOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
+void FIELD_TASK_CalcOffsetByProgress(VecFx32 *out, u16 frame, VecFx32 *offset, u16 frames);
+int FIELD_TASK_UpdateMmdlDrawOffsetTween(MmdlOffsetTween *tween);
+int FIELD_TASK_UpdateMmdlPosOffsetTween(MmdlOffsetTween *tween);
+FieldTask *FIELD_TASK_CreateCameraTargetTween(FieldMap *fieldMap, u32 frames, const VecFx32 *to);
+int FIELD_TASK_UpdateCameraTargetTween(PosTween *tween);
+FieldTask *FIELD_TASK_CreateCameraLerp(FieldMap *fieldMap, int frames, const VecFx32 *start, const VecFx32 *end);
+int FIELD_TASK_UpdateCameraLerp(CameraLerpTask *task);
+FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, int unused, u16 frames, u16 interval);
+int FIELD_TASK_UpdateRepeatPlayerEffect(RepeatEffectTask *task);
+FieldFlash *FIELD_FLASH_Create(u32 heapId);
+void FIELD_FLASH_Delete(FieldFlash *flash);
+void FIELD_FLASH_Update(FieldFlash *flash);
+void FIELD_FLASH_Apply(FieldFlash *flash);
+void FIELD_FLASH_SetPendingCommand(FieldFlash *flash, u16 command);
+u16 FIELD_FLASH_GetState(FieldFlash *flash);
+void FIELD_FLASH_InitTween(FlashTween *tween);
+void FIELD_FLASH_ClearTween(FlashTween *tween);
+FlashTween *FIELD_FLASH_StartTween(FlashTween *tween, fx32 sizeStart, fx32 sizeEnd, u32 alphaStart, u8 alphaEnd, u32 frames);
+int FIELD_FLASH_StepTween(FlashTween *tween);
+u32 FIELD_FLASH_GetTweenSize(FlashTween *tween);
+void FIELD_FLASH_SetTweenSize(FlashTween *tween, fx32 size);
+u8 FIELD_FLASH_GetTweenAlpha(FlashTween *tween);
+FlashTween *FIELD_FLASH_SetTweenAlpha(FlashTween *tween, u8 alpha);
+void FIELD_FLASH_CmdInit(FieldFlash *flash);
+void FIELD_FLASH_CmdExpand(FieldFlash *flash);
 void func_021C7F44(FieldFlash *flash);
 void func_021C7F60(FieldFlash *flash);
-FieldSkillMapEff *func_021C7F70(u32 flags, u32 heapId);
-void func_021C7F9C(FieldSkillMapEff *mapEff);
-void func_021C7FAC(FieldSkillMapEff *mapEff);
-void func_021C7FB4(FieldSkillMapEff *mapEff);
-FieldFlash *func_021C7FBC(FieldSkillMapEff *mapEff);
-void func_021C7FC0(FieldSkillMapEff *mapEff, u32 flags, u32 heapId);
-void func_021C7FF0(FieldSkillMapEff *mapEff);
-void func_021C8000(FieldSkillMapEff *mapEff);
-void func_021C800C(FieldSkillMapEff *mapEff);
-FldWipe3dObj *func_021C8018(u32 heapId);
-int func_021C8054(FldWipe3dObj *obj);
-void func_021C8078(FldWipe3dObj *obj, int size, int alpha);
-int func_021C812C(ScriptVm *vm, ScrCmdWork *work);
-int func_021C8170(ScriptVm *vm, ScrCmdWork *work);
-int func_021C81B4(ScriptVm *vm, ScrCmdWork *work);
-int func_021C81F8(ScriptVm *vm, ScrCmdWork *work);
-GameEvent *func_021C8268(GameSystem *gameSystem, int unused, int zoneId);
-int func_021C82C4(GameEvent *event, int *seq, WipeMapChangeWork *work);
-int func_021C85CC(GameEvent *event, int *seq);
-PleasureBoatWork *func_021C8608(void);
-void func_021C8660(PleasureBoatWork *work);
-GameEvent *func_021C868C(GameSystem *gameSystem, PleasureBoatWork *work);
-void func_021C86E8(PleasureBoatWork *work, int seconds, int clamp);
-int func_021C8738(PleasureBoatWork *work, int kind);
+FieldSkillMapEff *FIELDSKILL_MAPEFF_Create(u32 flags, u32 heapId);
+void FIELDSKILL_MAPEFF_Delete(FieldSkillMapEff *mapEff);
+void FIELDSKILL_MAPEFF_Update(FieldSkillMapEff *mapEff);
+void FIELDSKILL_MAPEFF_Apply(FieldSkillMapEff *mapEff);
+FieldFlash *FIELDSKILL_MAPEFF_GetFlash(FieldSkillMapEff *mapEff);
+void FIELDSKILL_MAPEFF_InitFlash(FieldSkillMapEff *mapEff, u32 flags, u32 heapId);
+void FIELDSKILL_MAPEFF_FreeFlash(FieldSkillMapEff *mapEff);
+void FIELDSKILL_MAPEFF_UpdateFlash(FieldSkillMapEff *mapEff);
+void FIELDSKILL_MAPEFF_ApplyFlash(FieldSkillMapEff *mapEff);
+FldWipe3dObj *FLD_WIPE_3DOBJ_Create(u32 heapId);
+int FLD_WIPE_3DOBJ_Delete(FldWipe3dObj *obj);
+void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha);
+int SCRCMD_StartFld3dCi(ScriptVm *vm, ScrCmdWork *work);
+int SCRCMD_StartFld3dCiByVar(ScriptVm *vm, ScrCmdWork *work);
+int SCRCMD_RunFld3dCiMain(ScriptVm *vm, ScrCmdWork *work);
+int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work);
+GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unused, int zoneId);
+int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeWork *work);
+int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq);
+PleasureBoatWork *PLEASURE_BOAT_Create(void);
+void PLEASURE_BOAT_AckEvent(PleasureBoatWork *work);
+GameEvent *PLEASURE_BOAT_Update(GameSystem *gameSystem, PleasureBoatWork *work);
+void PLEASURE_BOAT_AdvanceTime(PleasureBoatWork *work, int seconds, int clamp);
+int PLEASURE_BOAT_GetStat(PleasureBoatWork *work, int kind);
 
 void func_021C6E5C(FieldTaskList *list, int slot, FieldTask *task, u32 parent)
 {
@@ -664,7 +664,7 @@ void func_021C6E5C(FieldTaskList *list, int slot, FieldTask *task, u32 parent)
 void func_021C6E74(FieldTaskList *list, int slot)
 {
     if (list->tasks[slot] != 0) {
-        func_021C6CA8(list->tasks[slot]);
+        FIELD_TASK_Delete(list->tasks[slot]);
         list->tasks[slot] = 0;
         list->parents[slot] = 0;
     }
@@ -673,27 +673,27 @@ void func_021C6E74(FieldTaskList *list, int slot)
 void func_021C6E94(FieldTaskList *list, int slot)
 {
     if (list->tasks[slot] != 0)
-        func_021C6CBC(list->tasks[slot]);
+        FIELD_TASK_Update(list->tasks[slot]);
 }
 
 void func_021C6EA8(FieldTaskList *list, int slot)
 {
     if (list->tasks[slot] != 0 && list->parents[slot] != 0) {
-        if (func_021C6CE0(list->tasks[slot]) == 0 && func_021C6CE0((FieldTask *)list->parents[slot]) == 2)
-            func_021C6CC4(list->tasks[slot]);
+        if (FIELD_TASK_GetState(list->tasks[slot]) == 0 && FIELD_TASK_GetState((FieldTask *)list->parents[slot]) == 2)
+            FIELD_TASK_Start(list->tasks[slot]);
     }
 }
 
 void func_021C6EDC(FieldTaskList *list, int slot)
 {
-    if (list->tasks[slot] != 0 && func_021C6CD0(list->tasks[slot]) == 1)
+    if (list->tasks[slot] != 0 && FIELD_TASK_IsFinished(list->tasks[slot]) == 1)
         func_021C6E74(list, slot);
 }
 
-FieldTask *func_021C6F00(FieldMap *fieldMap, u16 frames, fx32 targetDistance)
+FieldTask *FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, fx32 targetDistance)
 {
-    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x14, func_021C6F30);
-    CameraDistanceTween *tween = (CameraDistanceTween *)func_021C6CCC(task);
+    FieldTask *task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x14, FIELD_TASK_UpdateCameraDistanceTween);
+    CameraDistanceTween *tween = (CameraDistanceTween *)FIELD_TASK_GetWork(task);
     tween->state = 0;
     tween->fieldMap = fieldMap;
     tween->frame = 0;
@@ -702,7 +702,7 @@ FieldTask *func_021C6F00(FieldMap *fieldMap, u16 frames, fx32 targetDistance)
     return task;
 }
 
-int func_021C6F30(CameraDistanceTween *tween)
+int FIELD_TASK_UpdateCameraDistanceTween(CameraDistanceTween *tween)
 {
     FieldCamera *camera;
     u32 savedBits;
@@ -710,22 +710,22 @@ int func_021C6F30(CameraDistanceTween *tween)
     f32 start;
     f32 target;
     f32 distance;
-    camera = func_02188C58(tween->fieldMap);
+    camera = FIELDMAP_GetCamera(tween->fieldMap);
     switch (tween->state) {
     case 0:
-        tween->startDistance = func_0218ED54(camera);
+        tween->startDistance = FIELD_CAMERA_GetDistance(camera);
         tween->state++;
         break;
     case 1:
         tween->frame++;
-        savedBits = func_0218E138(camera);
-        func_0218E13C(camera, 0);
+        savedBits = FIELD_CAMERA_GetMode(camera);
+        FIELD_CAMERA_SetMode(camera, 0);
         t = (f32)tween->frame / (f32)tween->frames;
         start = FX_FX32_TO_F32(tween->startDistance);
         target = FX_FX32_TO_F32(tween->targetDistance);
         distance = (1.0f - t) * start + t * target;
-        func_0218ED58(camera, FX_F32_TO_FX32(distance));
-        func_0218E13C(camera, savedBits);
+        FIELD_CAMERA_SetDistance(camera, FX_F32_TO_FX32(distance));
+        FIELD_CAMERA_SetMode(camera, savedBits);
         if (tween->frames <= tween->frame)
             return 1;
         break;
@@ -733,12 +733,12 @@ int func_021C6F30(CameraDistanceTween *tween)
     return 0;
 }
 
-FieldTask *func_021C701C(FieldMap *fieldMap, u16 frames, u32 targetAngle)
+FieldTask *FIELD_TASK_CreateCameraYawTween(FieldMap *fieldMap, u16 frames, u32 targetAngle)
 {
-    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x1c, func_021C71A4);
-    CameraAngleTween *tween = (CameraAngleTween *)func_021C6CCC(task);
+    FieldTask *task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x1c, FIELD_TASK_UpdateCameraAngleTween);
+    CameraAngleTween *tween = (CameraAngleTween *)FIELD_TASK_GetWork(task);
     tween->fieldMap = fieldMap;
-    tween->camera = func_02188C58(fieldMap);
+    tween->camera = FIELDMAP_GetCamera(fieldMap);
     tween->state = 0;
     tween->axis = CAMERA_ANGLE_AXIS_YAW;
     tween->frame = 0;
@@ -747,12 +747,12 @@ FieldTask *func_021C701C(FieldMap *fieldMap, u16 frames, u32 targetAngle)
     return task;
 }
 
-FieldTask *func_021C7058(FieldMap *fieldMap, u16 frames, u32 targetAngle)
+FieldTask *FIELD_TASK_CreateCameraPitchTween(FieldMap *fieldMap, u16 frames, u32 targetAngle)
 {
-    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x1c, func_021C71A4);
-    CameraAngleTween *tween = (CameraAngleTween *)func_021C6CCC(task);
+    FieldTask *task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x1c, FIELD_TASK_UpdateCameraAngleTween);
+    CameraAngleTween *tween = (CameraAngleTween *)FIELD_TASK_GetWork(task);
     tween->fieldMap = fieldMap;
-    tween->camera = func_02188C58(fieldMap);
+    tween->camera = FIELDMAP_GetCamera(fieldMap);
     tween->state = 0;
     tween->axis = CAMERA_ANGLE_AXIS_PITCH;
     tween->frame = 0;
@@ -762,16 +762,16 @@ FieldTask *func_021C7058(FieldMap *fieldMap, u16 frames, u32 targetAngle)
 }
 
 /* Reads the current angle and moves the target by a full turn when the short way round crosses the wrap. */
-void func_021C7094(CameraAngleTween *tween)
+void FIELD_TASK_InitCameraAngleTween(CameraAngleTween *tween)
 {
     u32 axis = tween->axis;
     u32 from = (u32)tween->camera;
     u32 to = tween->to;
     u32 diff;
     if (axis == 0 || axis != 1)
-        from = func_0218ED40((FieldCamera *)from);
+        from = FIELD_CAMERA_GetYaw((FieldCamera *)from);
     else
-        from = func_0218ED2C((FieldCamera *)from);
+        from = FIELD_CAMERA_GetPitch((FieldCamera *)from);
     if (from < to) {
         diff = to - from;
         if (diff > 0x8000)
@@ -785,7 +785,7 @@ void func_021C7094(CameraAngleTween *tween)
     tween->to = to;
 }
 
-void func_021C70DC(CameraAngleTween *tween)
+void FIELD_TASK_StepCameraAngleTween(CameraAngleTween *tween)
 {
     u16 frames;
     FieldCamera *camera;
@@ -801,28 +801,28 @@ void func_021C70DC(CameraAngleTween *tween)
     t = (f32)tween->frame / (f32)frames;
     s = (3.0f + -2.0f * t) * (t * t);
     angle = (u16)((1.0f - s) * (f32)tween->from + s * (f32)tween->to);
-    savedBits = func_0218E138(camera);
-    func_0218E13C(camera, 0);
+    savedBits = FIELD_CAMERA_GetMode(camera);
+    FIELD_CAMERA_SetMode(camera, 0);
     switch (tween->axis) {
     case CAMERA_ANGLE_AXIS_YAW:
-        func_0218ED48(camera, angle);
+        FIELD_CAMERA_SetYaw(camera, angle);
         break;
     case CAMERA_ANGLE_AXIS_PITCH:
-        func_0218ED34(camera, angle);
+        FIELD_CAMERA_SetPitch(camera, angle);
         break;
     }
-    func_0218E13C(camera, savedBits);
+    FIELD_CAMERA_SetMode(camera, savedBits);
 }
 
-int func_021C71A4(CameraAngleTween *tween)
+int FIELD_TASK_UpdateCameraAngleTween(CameraAngleTween *tween)
 {
     switch (tween->state) {
     case 0:
-        func_021C7094(tween);
+        FIELD_TASK_InitCameraAngleTween(tween);
         tween->state++;
         break;
     case 1:
-        func_021C70DC(tween);
+        FIELD_TASK_StepCameraAngleTween(tween);
         if (tween->frames <= tween->frame)
             return 1;
         break;
@@ -831,74 +831,74 @@ int func_021C71A4(CameraAngleTween *tween)
 }
 
 /* Spin the player: linear rate of turn. */
-FieldTask *func_021C71D4(FieldMap *fieldMap, u32 frames, u32 spins)
+FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 frames, u32 spins)
 {
-    u32 heapId = func_02188C84(fieldMap);
-    FieldPlayer *player = func_02188CB4(fieldMap);
-    FieldTask *task = func_021C6C70(heapId, 0x10, func_021C7418);
-    MmdlSpinTask *spin = (MmdlSpinTask *)func_021C6CCC(task);
+    u32 heapId = FIELDMAP_GetHeapId(fieldMap);
+    FieldPlayer *player = FIELDMAP_GetFieldPlayer(fieldMap);
+    FieldTask *task = FIELD_TASK_Create(heapId, 0x10, FIELD_TASK_UpdateSpinLinear);
+    MmdlSpinTask *spin = (MmdlSpinTask *)FIELD_TASK_GetWork(task);
     Mmdl *mmdl;
     spin->fieldMap = fieldMap;
-    mmdl = func_021A3074(player);
+    mmdl = FIELD_PLAYER_GetMmdl(player);
     spin->mmdl = mmdl;
     spin->frame = 0;
     spin->frames = frames;
     spin->spins = spins;
-    spin->endDirection = func_0216D5F8(mmdl);
+    spin->endDirection = FLDMMDL_GetDirDisp(mmdl);
     return task;
 }
 
 /* Spin the given model: linear rate of turn. */
-FieldTask *func_021C7220(FieldMap *fieldMap, u16 frames, int spins, Mmdl *mmdl)
+FieldTask *FIELD_TASK_CreateMmdlSpinLinear(FieldMap *fieldMap, u16 frames, int spins, Mmdl *mmdl)
 {
     FieldTask *task;
     MmdlSpinTask *spin;
-    task = func_021C6C70(func_02188C84(fieldMap), 0x10, func_021C7418);
-    spin = (MmdlSpinTask *)func_021C6CCC(task);
+    task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x10, FIELD_TASK_UpdateSpinLinear);
+    spin = (MmdlSpinTask *)FIELD_TASK_GetWork(task);
     spin->fieldMap = fieldMap;
     spin->mmdl = mmdl;
     spin->frame = 0;
     spin->frames = frames;
     spin->spins = spins;
-    spin->endDirection = func_0216D5F8(mmdl);
+    spin->endDirection = FLDMMDL_GetDirDisp(mmdl);
     return task;
 }
 
 /* Spin the player: rate of turn grows (ease in). */
-FieldTask *func_021C7260(FieldMap *fieldMap, u16 frames, int spins)
+FieldTask *FIELD_TASK_CreatePlayerSpinEaseIn(FieldMap *fieldMap, u16 frames, int spins)
 {
     FieldTask *task;
     MmdlSpinTask *spin;
     u32 heapId;
     FieldPlayer *player;
     Mmdl *mmdl;
-    heapId = func_02188C84(fieldMap);
-    player = func_02188CB4(fieldMap);
-    task = func_021C6C70(heapId, 0x10, func_021C748C);
-    spin = (MmdlSpinTask *)func_021C6CCC(task);
+    heapId = FIELDMAP_GetHeapId(fieldMap);
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
+    task = FIELD_TASK_Create(heapId, 0x10, FIELD_TASK_UpdateSpinEaseIn);
+    spin = (MmdlSpinTask *)FIELD_TASK_GetWork(task);
     spin->fieldMap = fieldMap;
-    mmdl = func_021A3074(player);
+    mmdl = FIELD_PLAYER_GetMmdl(player);
     spin->mmdl = mmdl;
     spin->frame = 0;
     spin->frames = frames;
     spin->spins = spins;
-    spin->endDirection = func_0216D5F8(mmdl);
+    spin->endDirection = FLDMMDL_GetDirDisp(mmdl);
     return task;
 }
 
 /* Spin the player: rate of turn drops (ease out); ends facing endDirection. */
-FieldTask *func_021C72AC(FieldMap *fieldMap, u16 frames, int spins, int endDirection)
+FieldTask *FIELD_TASK_CreatePlayerSpinEaseOut(FieldMap *fieldMap, u16 frames, int spins, int endDirection)
 {
     FieldTask *task;
     MmdlSpinTask *spin;
     u32 heapId;
     FieldPlayer *player;
-    heapId = func_02188C84(fieldMap);
-    player = func_02188CB4(fieldMap);
-    task = func_021C6C70(heapId, 0x10, func_021C7500);
-    spin = (MmdlSpinTask *)func_021C6CCC(task);
+    heapId = FIELDMAP_GetHeapId(fieldMap);
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
+    task = FIELD_TASK_Create(heapId, 0x10, FIELD_TASK_UpdateSpinEaseOut);
+    spin = (MmdlSpinTask *)FIELD_TASK_GetWork(task);
     spin->fieldMap = fieldMap;
-    spin->mmdl = func_021A3074(player);
+    spin->mmdl = FIELD_PLAYER_GetMmdl(player);
     spin->frame = 0;
     spin->frames = frames;
     spin->spins = spins;
@@ -911,38 +911,38 @@ FieldTask *func_021C72AC(FieldMap *fieldMap, u16 frames, int spins, int endDirec
  * The last multiply keeps its operand order only through a named float local;
  * inline it and the compiler swaps to a * f.
  */
-u16 func_021C72F8(float frame, float frames, float spins)
+u16 FIELD_TASK_GetSpinAcmdLinear(float frame, float frames, float spins)
 {
-    SpinAcmdTable table = d_021DAAC0;
+    SpinAcmdTable table = gSpinAcmdLinear;
     float turnsPerFrame = 4.0f * spins / frames;
     int index = (int)(turnsPerFrame * frame);
     return table.acmd[index % 4];
 }
 
-u16 func_021C734C(float frame, float frames, float spins)
+u16 FIELD_TASK_GetSpinAcmdEaseIn(float frame, float frames, float spins)
 {
-    SpinAcmdTable table = d_021DAAB8;
+    SpinAcmdTable table = gSpinAcmdEaseIn;
     float turnsPerFrame = 4.0f * spins / (frames * frames);
     float turns = turnsPerFrame * frame;
     int index = (int)(frame * turns);
     return table.acmd[index % 4];
 }
 
-u16 func_021C73B4(float frame, float frames, float spins)
+u16 FIELD_TASK_GetSpinAcmdEaseOut(float frame, float frames, float spins)
 {
-    SpinAcmdTable table = d_021DAAC8;
+    SpinAcmdTable table = gSpinAcmdEaseOut;
     float fullTurns = 4.0f * spins;
     float rate = fullTurns * fullTurns / frames;
     int index = (int)(float)func_0209C5E0((double)(rate * frame));
     return table.acmd[index % 4];
 }
 
-int func_021C7418(MmdlSpinTask *task)
+int FIELD_TASK_UpdateSpinLinear(MmdlSpinTask *task)
 {
     Mmdl *mmdl;
     int acmd;
     mmdl = task->mmdl;
-    func_0216D410(mmdl, func_021C72F8((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
+    FLDMMDL_SetAcmd(mmdl, FIELD_TASK_GetSpinAcmdLinear((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
     task->frame = task->frame + 1;
     if (task->frames < task->frame) {
         switch (task->endDirection) {
@@ -952,18 +952,18 @@ int func_021C7418(MmdlSpinTask *task)
         case 2: acmd = 2; break;
         case 3: acmd = 3; break;
         }
-        func_0216D410(mmdl, acmd);
+        FLDMMDL_SetAcmd(mmdl, acmd);
         return 1;
     }
     return 0;
 }
 
-int func_021C748C(MmdlSpinTask *task)
+int FIELD_TASK_UpdateSpinEaseIn(MmdlSpinTask *task)
 {
     Mmdl *mmdl;
     int acmd;
     mmdl = task->mmdl;
-    func_0216D410(mmdl, func_021C734C((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
+    FLDMMDL_SetAcmd(mmdl, FIELD_TASK_GetSpinAcmdEaseIn((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
     task->frame = task->frame + 1;
     if (task->frames < task->frame) {
         switch (task->endDirection) {
@@ -973,20 +973,20 @@ int func_021C748C(MmdlSpinTask *task)
         case 2: acmd = 2; break;
         case 3: acmd = 3; break;
         }
-        func_0216D410(mmdl, acmd);
+        FLDMMDL_SetAcmd(mmdl, acmd);
         return 1;
     }
     return 0;
 }
 
-int func_021C7500(MmdlSpinTask *task)
+int FIELD_TASK_UpdateSpinEaseOut(MmdlSpinTask *task)
 {
     Mmdl *mmdl;
     mmdl = task->mmdl;
-    func_0216D410(mmdl, func_021C73B4((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
+    FLDMMDL_SetAcmd(mmdl, FIELD_TASK_GetSpinAcmdEaseOut((float)(u32)task->frame, (float)(u32)task->frames, (float)(u32)task->spins));
     task->frame = task->frame + 1;
     if (task->frames < task->frame) {
-        func_0216D5E0(mmdl, task->endDirection);
+        FLDMMDL_SetDirDispCheckPause(mmdl, task->endDirection);
         return 1;
     }
     return 0;
@@ -1002,10 +1002,10 @@ static inline void setVec(VecFx32 *dst, int x, int y, int z)
 }
 
 /* Tween the player position to a point. */
-FieldTask *func_021C754C(FieldMap *fieldMap, u32 frames, VecFx32 *to)
+FieldTask *FIELD_TASK_CreatePlayerPosTween(FieldMap *fieldMap, u32 frames, VecFx32 *to)
 {
-    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x28, func_021C7584);
-    PosTween *tween = (PosTween *)func_021C6CCC(task);
+    FieldTask *task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x28, FIELD_TASK_UpdatePlayerPosTween);
+    PosTween *tween = (PosTween *)FIELD_TASK_GetWork(task);
     tween->state = 0;
     tween->fieldMap = fieldMap;
     tween->frame = 0;
@@ -1014,7 +1014,7 @@ FieldTask *func_021C754C(FieldMap *fieldMap, u32 frames, VecFx32 *to)
     return task;
 }
 
-int func_021C7584(PosTween *tween)
+int FIELD_TASK_UpdatePlayerPosTween(PosTween *tween)
 {
     FieldPlayer *player;
     Mmdl *mmdl;
@@ -1022,21 +1022,21 @@ int func_021C7584(PosTween *tween)
     VecFx32 fromPart;
     VecFx32 toPart;
     VecFx32 pos;
-    player = func_02188CB4(tween->fieldMap);
-    mmdl = func_021A3074(player);
+    player = FIELDMAP_GetFieldPlayer(tween->fieldMap);
+    mmdl = FIELD_PLAYER_GetMmdl(player);
     switch (tween->state) {
     case 0:
-        func_021A3038(player, &tween->from);
+        FIELD_PLAYER_GetPos(player, &tween->from);
         tween->state++;
         break;
     case 1:
         tween->frame++;
         t = FX_F32_TO_FX32((f32)tween->frame / (f32)tween->frames);
-        func_020520A4(&tween->from, FX32_ONE - t, &fromPart);
-        func_020520A4(&tween->to, t, &toPart);
+        BUTTON_MAN_ScaleVec(&tween->from, FX32_ONE - t, &fromPart);
+        BUTTON_MAN_ScaleVec(&tween->to, t, &toPart);
         func_0207C9D0(&fromPart, &toPart, &pos);
-        func_021A3044(player, &pos);
-        func_02164010(mmdl);
+        FIELD_PLAYER_SetPos(player, &pos);
+        FLDMMDL_MOVE_UpdateHeight(mmdl);
         if (tween->frames <= tween->frame)
             return 1;
         break;
@@ -1045,12 +1045,12 @@ int func_021C7584(PosTween *tween)
 }
 
 /* Player drop: the draw offset falls from `height` to the ground. */
-FieldTask *func_021C7684(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height)
+FieldTask *FIELD_TASK_CreatePlayerDrop(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height)
 {
     FieldTask *task;
     PlayerDropTask *drop;
-    task = func_021C6C70(func_02188C84(fieldMap), 0x14, func_021C7730);
-    drop = (PlayerDropTask *)func_021C6CCC(task);
+    task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x14, FIELD_TASK_UpdatePlayerDrop);
+    drop = (PlayerDropTask *)FIELD_TASK_GetWork(task);
     drop->state = 0;
     drop->fieldMap = fieldMap;
     drop->frame = 0;
@@ -1065,7 +1065,7 @@ FieldTask *func_021C7684(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height)
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
 /* Draw offset y of a falling model: height * (1 - (frame / frames)^2). */
-void func_021C76C4(VecFx32 *out, float frame, float frames, float height)
+void FIELD_TASK_CalcDropOffset(VecFx32 *out, float frame, float frames, float height)
 {
     float rate = height / (frames * frames);
     float drop = rate * frame;
@@ -1075,25 +1075,25 @@ void func_021C76C4(VecFx32 *out, float frame, float frames, float height)
     out->z = 0;
 }
 
-int func_021C7730(PlayerDropTask *task)
+int FIELD_TASK_UpdatePlayerDrop(PlayerDropTask *task)
 {
     VecFx32 offset;
     Mmdl *mmdl;
-    func_02188CB4(task->fieldMap);
+    FIELDMAP_GetFieldPlayer(task->fieldMap);
     mmdl = task->mmdl;
     switch (task->state) {
     case 0:
-        func_021C76C4(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
-        func_0216D8C0(mmdl, &offset);
+        FIELD_TASK_CalcDropOffset(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
+        FLDMMDL_SetDrawOffset(mmdl, &offset);
         func_020061E4(0x681);
         task->state = task->state + 1;
         break;
     case 1:
         task->frame = task->frame + 1;
-        func_021C76C4(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
-        func_0216D8C0(mmdl, &offset);
+        FIELD_TASK_CalcDropOffset(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
+        FLDMMDL_SetDrawOffset(mmdl, &offset);
         if (task->frames <= task->frame) {
-            func_021AC528(mmdl, func_02188CD0(task->fieldMap));
+            FLDEFF_KEMURI_Start(mmdl, FIELDMAP_GetEffect(task->fieldMap));
             func_020061E4(0x682);
             return 1;
         }
@@ -1104,14 +1104,14 @@ int func_021C7730(PlayerDropTask *task)
 
 FieldTask *func_021C77D8(FieldMap *fieldMap, u16 frames)
 {
-    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 4, func_021C77FC);
-    WaitTask *wait = (WaitTask *)func_021C6CCC(task);
+    FieldTask *task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 4, FIELD_TASK_UpdateWait);
+    WaitTask *wait = (WaitTask *)FIELD_TASK_GetWork(task);
     wait->frame = 0;
     wait->frames = frames;
     return task;
 }
 
-int func_021C77FC(WaitTask *task)
+int FIELD_TASK_UpdateWait(WaitTask *task)
 {
     task->frame++;
     if (task->frames <= task->frame)
@@ -1119,10 +1119,10 @@ int func_021C77FC(WaitTask *task)
     return 0;
 }
 
-FieldTask *func_021C7814(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait)
+FieldTask *FIELD_TASK_CreateFade(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait)
 {
-    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x14, func_021C7844);
-    FadeTask *fade = (FadeTask *)func_021C6CCC(task);
+    FieldTask *task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x14, FIELD_TASK_UpdateFade);
+    FadeTask *fade = (FadeTask *)FIELD_TASK_GetWork(task);
     fade->fieldMap = fieldMap;
     fade->fadeMode = fadeMode;
     fade->startBrightness = startBrightness;
@@ -1131,31 +1131,31 @@ FieldTask *func_021C7814(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, 
     return task;
 }
 
-int func_021C7844(FadeTask *task)
+int FIELD_TASK_UpdateFade(FadeTask *task)
 {
-    func_0204E720(task->fadeMode, task->startBrightness, task->endBrightness, task->wait);
+    FADE_Start(task->fadeMode, task->startBrightness, task->endBrightness, task->wait);
     return 1;
 }
 
-FieldTask *func_021C7858(FieldMap *fieldMap, int frames, const VecFx32 *offset)
+FieldTask *FIELD_TASK_CreatePlayerDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset)
 {
-    return func_021C7878(fieldMap, frames, offset, func_021A3074(func_02188CB4(fieldMap)));
+    return FIELD_TASK_CreateMmdlDrawOffsetTween(fieldMap, frames, offset, FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)));
 }
 
 #undef FX_F32_TO_FX32
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
 /* Draw offset of a model slides from zero to `offset` (negative frames: from `offset` back to zero). */
-FieldTask *func_021C7878(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl)
+FieldTask *FIELD_TASK_CreateMmdlDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl)
 {
     MmdlOffsetTween *tween;
     FieldTask *task;
-    task = func_021C6C70(func_02188C84(fieldMap), 0x2c, func_021C7A20);
-    tween = (MmdlOffsetTween *)func_021C6CCC(task);
+    task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x2c, FIELD_TASK_UpdateMmdlDrawOffsetTween);
+    tween = (MmdlOffsetTween *)FIELD_TASK_GetWork(task);
     tween->state = 0;
     tween->fieldMap = fieldMap;
     tween->mmdl = mmdl;
-    func_0216D88C(mmdl, &tween->startPos);
+    FLDMMDL_GetPos(mmdl, &tween->startPos);
     if (frames >= 0) {
         tween->reverse = 0;
         tween->frame = 0;
@@ -1170,16 +1170,16 @@ FieldTask *func_021C7878(FieldMap *fieldMap, int frames, const VecFx32 *offset, 
 }
 
 /* Position of a model slides by `offset` from its start position. */
-FieldTask *func_021C78DC(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl)
+FieldTask *FIELD_TASK_CreateMmdlPosOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl)
 {
     MmdlOffsetTween *tween;
     FieldTask *task;
-    task = func_021C6C70(func_02188C84(fieldMap), 0x2c, func_021C7A7C);
-    tween = (MmdlOffsetTween *)func_021C6CCC(task);
+    task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x2c, FIELD_TASK_UpdateMmdlPosOffsetTween);
+    tween = (MmdlOffsetTween *)FIELD_TASK_GetWork(task);
     tween->state = 0;
     tween->fieldMap = fieldMap;
     tween->mmdl = mmdl;
-    func_0216D88C(mmdl, &tween->startPos);
+    FLDMMDL_GetPos(mmdl, &tween->startPos);
     if (frames >= 0) {
         tween->reverse = 0;
         tween->frame = 0;
@@ -1194,7 +1194,7 @@ FieldTask *func_021C78DC(FieldMap *fieldMap, int frames, const VecFx32 *offset, 
 }
 
 /* out = offset * (frame / frames) in fixed point. */
-void func_021C7940(VecFx32 *out, u16 frame, VecFx32 *offset, u16 frames)
+void FIELD_TASK_CalcOffsetByProgress(VecFx32 *out, u16 frame, VecFx32 *offset, u16 frames)
 {
     fx32 t;
     t = FX_F32_TO_FX32((f32)frame / (f32)frames);
@@ -1203,18 +1203,18 @@ void func_021C7940(VecFx32 *out, u16 frame, VecFx32 *offset, u16 frames)
     out->z = (fx32)(((long long)offset->z * t + 0x800) >> 12);
 }
 
-int func_021C7A20(MmdlOffsetTween *tween)
+int FIELD_TASK_UpdateMmdlDrawOffsetTween(MmdlOffsetTween *tween)
 {
     Mmdl *mmdl = tween->mmdl;
     VecFx32 offset;
     if (tween->state == 0) {
         tween->frame = tween->frame + 1;
         if (tween->reverse == 0) {
-            func_021C7940(&offset, tween->frame, &tween->offset, tween->frames);
+            FIELD_TASK_CalcOffsetByProgress(&offset, tween->frame, &tween->offset, tween->frames);
         } else if (tween->reverse == 1) {
-            func_021C7940(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
+            FIELD_TASK_CalcOffsetByProgress(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
         }
-        func_0216D8C0(mmdl, &offset);
+        FLDMMDL_SetDrawOffset(mmdl, &offset);
         if (tween->frames <= tween->frame) {
             return 1;
         }
@@ -1222,19 +1222,19 @@ int func_021C7A20(MmdlOffsetTween *tween)
     return 0;
 }
 
-int func_021C7A7C(MmdlOffsetTween *tween)
+int FIELD_TASK_UpdateMmdlPosOffsetTween(MmdlOffsetTween *tween)
 {
     Mmdl *mmdl = tween->mmdl;
     VecFx32 offset;
     if (tween->state == 0) {
         tween->frame = tween->frame + 1;
         if (tween->reverse == 0) {
-            func_021C7940(&offset, tween->frame, &tween->offset, tween->frames);
+            FIELD_TASK_CalcOffsetByProgress(&offset, tween->frame, &tween->offset, tween->frames);
         } else if (tween->reverse == 1) {
-            func_021C7940(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
+            FIELD_TASK_CalcOffsetByProgress(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
         }
         func_0207C9D0(&offset, &tween->startPos, &offset);
-        func_0216D89C(mmdl, &offset);
+        FLDMMDL_SetPos(mmdl, &offset);
         if (tween->frames <= tween->frame) {
             return 1;
         }
@@ -1245,12 +1245,12 @@ int func_021C7A7C(MmdlOffsetTween *tween)
 /*
  * The source vector is const: the const lets the scheduler hoist each
  * load above the preceding store (ldr x; str frames; ldr y; str x; ...).  The
- * sibling func_021C754C takes a plain pointer and keeps loads after the frames store.
+ * sibling FIELD_TASK_CreatePlayerPosTween takes a plain pointer and keeps loads after the frames store.
  */
-FieldTask *func_021C7AE4(FieldMap *fieldMap, u32 frames, const VecFx32 *to)
+FieldTask *FIELD_TASK_CreateCameraTargetTween(FieldMap *fieldMap, u32 frames, const VecFx32 *to)
 {
-    FieldTask *task = func_021C6C70(func_02188C84(fieldMap), 0x28, func_021C7B1C);
-    PosTween *tween = (PosTween *)func_021C6CCC(task);
+    FieldTask *task = FIELD_TASK_Create(FIELDMAP_GetHeapId(fieldMap), 0x28, FIELD_TASK_UpdateCameraTargetTween);
+    PosTween *tween = (PosTween *)FIELD_TASK_GetWork(task);
     tween->state = 0;
     tween->fieldMap = fieldMap;
     tween->frame = 0;
@@ -1260,26 +1260,26 @@ FieldTask *func_021C7AE4(FieldMap *fieldMap, u32 frames, const VecFx32 *to)
 }
 
 /* Tween the camera target offset between two points. */
-int func_021C7B1C(PosTween *tween)
+int FIELD_TASK_UpdateCameraTargetTween(PosTween *tween)
 {
     FieldCamera *camera;
     fx32 t;
     VecFx32 fromPart;
     VecFx32 toPart;
     VecFx32 pos;
-    camera = func_02188C58(tween->fieldMap);
+    camera = FIELDMAP_GetCamera(tween->fieldMap);
     switch (tween->state) {
     case 0:
-        func_0218ECC4(camera, &tween->from);
+        FIELD_CAMERA_GetTargetShift(camera, &tween->from);
         tween->state++;
         break;
     case 1:
         tween->frame++;
         t = FX_F32_TO_FX32((f32)tween->frame / (f32)tween->frames);
-        func_020520A4(&tween->from, FX32_ONE - t, &fromPart);
-        func_020520A4(&tween->to, t, &toPart);
+        BUTTON_MAN_ScaleVec(&tween->from, FX32_ONE - t, &fromPart);
+        BUTTON_MAN_ScaleVec(&tween->to, t, &toPart);
         func_0207C9D0(&fromPart, &toPart, &pos);
-        func_0218ECD4(camera, &pos);
+        FIELD_CAMERA_SetTargetShift(camera, &pos);
         if (tween->frames <= tween->frame)
             return 1;
         break;
@@ -1288,15 +1288,15 @@ int func_021C7B1C(PosTween *tween)
 }
 
 /* Move the camera along a line from `start` to `end`. */
-FieldTask *func_021C7C10(FieldMap *fieldMap, int frames, const VecFx32 *start, const VecFx32 *end)
+FieldTask *FIELD_TASK_CreateCameraLerp(FieldMap *fieldMap, int frames, const VecFx32 *start, const VecFx32 *end)
 {
     int heapId;
     FieldTask *task;
     CameraLerpTask *lerp;
-    heapId = func_02188C84(fieldMap);
-    func_02188C58(fieldMap);
-    task = func_021C6C70(heapId, 0x34, func_021C7C74);
-    lerp = (CameraLerpTask *)func_021C6CCC(task);
+    heapId = FIELDMAP_GetHeapId(fieldMap);
+    FIELDMAP_GetCamera(fieldMap);
+    task = FIELD_TASK_Create(heapId, 0x34, FIELD_TASK_UpdateCameraLerp);
+    lerp = (CameraLerpTask *)FIELD_TASK_GetWork(task);
     lerp->state = 0;
     lerp->fieldMap = fieldMap;
     lerp->frame = 0;
@@ -1307,17 +1307,17 @@ FieldTask *func_021C7C10(FieldMap *fieldMap, int frames, const VecFx32 *start, c
     return task;
 }
 
-int func_021C7C74(CameraLerpTask *task)
+int FIELD_TASK_UpdateCameraLerp(CameraLerpTask *task)
 {
     FieldCamera *camera;
     int t;
     float progress;
     VecFx32 pos;
-    camera = func_02188C58(task->fieldMap);
+    camera = FIELDMAP_GetCamera(task->fieldMap);
     switch (task->state) {
     case 0:
-        task->savedFlag = func_0218E138(camera);
-        func_0218E13C(camera, 0);
+        task->savedFlag = FIELD_CAMERA_GetMode(camera);
+        FIELD_CAMERA_SetMode(camera, 0);
         task->state = task->state + 1;
         break;
     case 1:
@@ -1329,9 +1329,9 @@ int func_021C7C74(CameraLerpTask *task)
             t = (int)(4096.0f * progress - 0.5f);
         }
         func_0207CEE4(t, &task->delta, &task->start, &pos);
-        func_0218EC90(camera, &pos);
+        FIELD_CAMERA_SetTarget(camera, &pos);
         if (task->frames <= task->frame) {
-            func_0218E13C(camera, task->savedFlag);
+            FIELD_CAMERA_SetMode(camera, task->savedFlag);
             return 1;
         }
         break;
@@ -1340,19 +1340,19 @@ int func_021C7C74(CameraLerpTask *task)
 }
 
 /* Run the player effect every `interval` frames for `frames` frames. */
-FieldTask *func_021C7D28(FieldMap *fieldMap, int unused, u16 frames, u16 interval)
+FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, int unused, u16 frames, u16 interval)
 {
     int heapId;
     FieldPlayer *player;
     FieldTask *task;
     RepeatEffectTask *effect;
-    heapId = func_02188C84(fieldMap);
-    player = func_02188CB4(fieldMap);
-    task = func_021C6C70(heapId, 0x14, func_021C7D78);
-    effect = (RepeatEffectTask *)func_021C6CCC(task);
+    heapId = FIELDMAP_GetHeapId(fieldMap);
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
+    task = FIELD_TASK_Create(heapId, 0x14, FIELD_TASK_UpdateRepeatPlayerEffect);
+    effect = (RepeatEffectTask *)FIELD_TASK_GetWork(task);
     effect->fieldMap = fieldMap;
-    effect->effectCtrl = func_02188CD0(fieldMap);
-    effect->mmdl = func_021A3074(player);
+    effect->effectCtrl = FIELDMAP_GetEffect(fieldMap);
+    effect->mmdl = FIELD_PLAYER_GetMmdl(player);
     effect->state = 0;
     effect->frame = 0;
     effect->frames = frames;
@@ -1360,86 +1360,86 @@ FieldTask *func_021C7D28(FieldMap *fieldMap, int unused, u16 frames, u16 interva
     return task;
 }
 
-int func_021C7D78(RepeatEffectTask *task)
+int FIELD_TASK_UpdateRepeatPlayerEffect(RepeatEffectTask *task)
 {
     if (task->state == 0) {
         if (task->frame % task->interval == 0)
-            func_021ADD7C(task->mmdl, task->effectCtrl);
+            FLDEFF_IWAKUDAKI_Start(task->mmdl, task->effectCtrl);
         if (task->frames <= task->frame++)
             return 1;
     }
     return 0;
 }
 
-FieldFlash *func_021C7DAC(u32 heapId)
+FieldFlash *FIELD_FLASH_Create(u32 heapId)
 {
-    FieldFlash *flash = func_02030734(heapId, sizeof(FieldFlash), 1, d_021DE4FC, 0x7a);
-    flash->model = func_021C8018(heapId);
+    FieldFlash *flash = func_02030734(heapId, sizeof(FieldFlash), 1, gFieldFlashFileName, 0x7a);
+    flash->model = FLD_WIPE_3DOBJ_Create(heapId);
     flash->state = FLASH_STATE_OFF;
     flash->pendingCommand = FLASH_CMD_NONE;
-    func_021C7E58(&flash->tween);
+    FIELD_FLASH_InitTween(&flash->tween);
     return flash;
 }
 
-void func_021C7DE0(FieldFlash *flash)
+void FIELD_FLASH_Delete(FieldFlash *flash)
 {
     if (flash != 0) {
-        func_021C7E64(&flash->tween);
-        func_021C8054(flash->model);
+        FIELD_FLASH_ClearTween(&flash->tween);
+        FLD_WIPE_3DOBJ_Delete(flash->model);
         func_020307B0(flash);
     }
 }
 
 /* Runs a pending command, then steps the tween while it expands. */
-void func_021C7DFC(FieldFlash *flash)
+void FIELD_FLASH_Update(FieldFlash *flash)
 {
     if (flash != 0) {
         if (flash->pendingCommand != FLASH_CMD_NONE) {
-            d_021DAAD0[flash->pendingCommand](flash);
+            gFlashCommandTable[flash->pendingCommand](flash);
             flash->pendingCommand = FLASH_CMD_NONE;
         }
-        if (flash->state == FLASH_STATE_EXPANDING && func_021C7E90(&flash->tween))
+        if (flash->state == FLASH_STATE_EXPANDING && FIELD_FLASH_StepTween(&flash->tween))
             flash->state = FLASH_STATE_EXPANDED;
     }
 }
 
 /* Applies the tween size and alpha to the mask model. */
-void func_021C7E30(FieldFlash *flash)
+void FIELD_FLASH_Apply(FieldFlash *flash)
 {
     u32 size;
     if (flash != 0) {
-        size = func_021C7EEC(&flash->tween);
-        func_021C8078(flash->model, size, func_021C7EF4(&flash->tween));
+        size = FIELD_FLASH_GetTweenSize(&flash->tween);
+        FLD_WIPE_3DOBJ_Draw(flash->model, size, FIELD_FLASH_GetTweenAlpha(&flash->tween));
     }
 }
 
-void func_021C7E50(FieldFlash *flash, u16 command)
+void FIELD_FLASH_SetPendingCommand(FieldFlash *flash, u16 command)
 {
     flash->pendingCommand = command;
 }
 
 /*
- * Unlabelled leaf accessor (prints as .word in the listing): returns the u16 at +0x1C (func_021C7E50 sets +0x1E).
- * Sole blocker of ov010 func_0215ECBC's MATCH.
+ * Unlabelled leaf accessor (prints as .word in the listing): returns the u16 at +0x1C (FIELD_FLASH_SetPendingCommand sets +0x1E).
+ * Sole blocker of ov010 MOVE_POKEMON_FlashEventMain's MATCH.
  */
-u16 func_021C7E54(FieldFlash *flash)
+u16 FIELD_FLASH_GetState(FieldFlash *flash)
 {
     return flash->state;
 }
 
 /* Tail-call thunk: pins arguments 2 and 3 to 0 and 24. */
-void func_021C7E58(FlashTween *tween)
+void FIELD_FLASH_InitTween(FlashTween *tween)
 {
     func_02082BCC(tween, 0, 24);
 }
 
-void func_021C7E64(FlashTween *tween)
+void FIELD_FLASH_ClearTween(FlashTween *tween)
 {
     func_02082BCC(tween, 0, 24);
 }
 
 /* Starts a tween of size sizeStart..sizeEnd and alpha alphaStart..alphaEnd over `frames`. */
-FlashTween *func_021C7E70(FlashTween *tween, fx32 sizeStart, fx32 sizeEnd, u32 alphaStart, u8 alphaEnd, u32 frames)
+FlashTween *FIELD_FLASH_StartTween(FlashTween *tween, fx32 sizeStart, fx32 sizeEnd, u32 alphaStart, u8 alphaEnd, u32 frames)
 {
     tween->size = sizeStart;
     tween->sizeStart = sizeStart;
@@ -1453,7 +1453,7 @@ FlashTween *func_021C7E70(FlashTween *tween, fx32 sizeStart, fx32 sizeEnd, u32 a
 }
 
 /* Returns 1 once the tween has run its frames. */
-int func_021C7E90(FlashTween *tween)
+int FIELD_FLASH_StepTween(FlashTween *tween)
 {
     if (tween->frame < tween->frames) {
         tween->frame = tween->frame + 1;
@@ -1464,40 +1464,40 @@ int func_021C7E90(FlashTween *tween)
     return 1;
 }
 
-u32 func_021C7EEC(FlashTween *tween)
+u32 FIELD_FLASH_GetTweenSize(FlashTween *tween)
 {
     return tween->size;
 }
 
-void func_021C7EF0(FlashTween *tween, fx32 size)
+void FIELD_FLASH_SetTweenSize(FlashTween *tween, fx32 size)
 {
     tween->size = size;
 }
 
-u8 func_021C7EF4(FlashTween *tween)
+u8 FIELD_FLASH_GetTweenAlpha(FlashTween *tween)
 {
     return tween->alpha;
 }
 
-FlashTween *func_021C7EF8(FlashTween *tween, u8 alpha)
+FlashTween *FIELD_FLASH_SetTweenAlpha(FlashTween *tween, u8 alpha)
 {
     tween->alpha = alpha;
     return tween;
 }
 
 /* Command 0: small lit area (size 3.0, full alpha). */
-void func_021C7EFC(FieldFlash *flash)
+void FIELD_FLASH_CmdInit(FieldFlash *flash)
 {
     flash->state = FLASH_STATE_READY;
-    func_021C7EF0(&flash->tween, (3 << 12));
-    func_021C7EF8(&flash->tween, 31);
+    FIELD_FLASH_SetTweenSize(&flash->tween, (3 << 12));
+    FIELD_FLASH_SetTweenAlpha(&flash->tween, 31);
 }
 
 /* Command 1: grow the lit area to size 10.6 in 15 frames (flash was just used). */
-void func_021C7F18(FieldFlash *flash)
+void FIELD_FLASH_CmdExpand(FieldFlash *flash)
 {
     flash->state = FLASH_STATE_EXPANDING;
-    func_021C7E70(&flash->tween, 0x3000, 0xaa00, 0x1f, 0x1f, 0xf);
+    FIELD_FLASH_StartTween(&flash->tween, 0x3000, 0xaa00, 0x1f, 0x1f, 0xf);
     func_020061E4(0x767);
 }
 
@@ -1505,101 +1505,101 @@ void func_021C7F18(FieldFlash *flash)
 void func_021C7F44(FieldFlash *flash)
 {
     flash->state = FLASH_STATE_EXPANDED;
-    func_021C7EF0(&flash->tween, 0xaa00);
-    func_021C7EF8(&flash->tween, 0x1f);
+    FIELD_FLASH_SetTweenSize(&flash->tween, 0xaa00);
+    FIELD_FLASH_SetTweenAlpha(&flash->tween, 0x1f);
 }
 
 /* Command 3: hide the mask. */
 void func_021C7F60(FieldFlash *flash)
 {
     flash->state = FLASH_STATE_OFF;
-    func_021C7EF0(&flash->tween, 0);
+    FIELD_FLASH_SetTweenSize(&flash->tween, 0);
 }
 
-FieldSkillMapEff *func_021C7F70(u32 flags, u32 heapId)
+FieldSkillMapEff *FIELDSKILL_MAPEFF_Create(u32 flags, u32 heapId)
 {
-    FieldSkillMapEff *mapEff = func_02030734(heapId, sizeof(FieldSkillMapEff), 1, d_021DE50C, 0x49);
-    func_021C7FC0(mapEff, flags, heapId);
+    FieldSkillMapEff *mapEff = func_02030734(heapId, sizeof(FieldSkillMapEff), 1, gFieldSkillMapEffFileName, 0x49);
+    FIELDSKILL_MAPEFF_InitFlash(mapEff, flags, heapId);
     return mapEff;
 }
 
-void func_021C7F9C(FieldSkillMapEff *mapEff)
+void FIELDSKILL_MAPEFF_Delete(FieldSkillMapEff *mapEff)
 {
-    func_021C7FF0(mapEff);
+    FIELDSKILL_MAPEFF_FreeFlash(mapEff);
     func_020307B0(mapEff);
 }
 
-/* Tail-call thunk: forwards to func_021C8000 with no argument change. */
-void func_021C7FAC(FieldSkillMapEff *mapEff)
+/* Tail-call thunk: forwards to FIELDSKILL_MAPEFF_UpdateFlash with no argument change. */
+void FIELDSKILL_MAPEFF_Update(FieldSkillMapEff *mapEff)
 {
-    func_021C8000(mapEff);
+    FIELDSKILL_MAPEFF_UpdateFlash(mapEff);
 }
 
-/* Tail-call thunk: forwards to func_021C800C with no argument change. */
-void func_021C7FB4(FieldSkillMapEff *mapEff)
+/* Tail-call thunk: forwards to FIELDSKILL_MAPEFF_ApplyFlash with no argument change. */
+void FIELDSKILL_MAPEFF_Apply(FieldSkillMapEff *mapEff)
 {
-    func_021C800C(mapEff);
+    FIELDSKILL_MAPEFF_ApplyFlash(mapEff);
 }
 
 /*
  * Unlabelled leaf accessor (prints as .word in the listing): returns the first word of its argument.
- * Sole blocker of ov010 func_0215ECBC's MATCH.
+ * Sole blocker of ov010 MOVE_POKEMON_FlashEventMain's MATCH.
  */
-FieldFlash *func_021C7FBC(FieldSkillMapEff *mapEff)
+FieldFlash *FIELDSKILL_MAPEFF_GetFlash(FieldSkillMapEff *mapEff)
 {
     return mapEff->flash;
 }
 
 /* Creates the flash when the map effect mask has bit 0 or 1; bit 1 starts it already expanded. */
-void func_021C7FC0(FieldSkillMapEff *mapEff, u32 flags, u32 heapId)
+void FIELDSKILL_MAPEFF_InitFlash(FieldSkillMapEff *mapEff, u32 flags, u32 heapId)
 {
     if (flags & 3) {
-        mapEff->flash = func_021C7DAC(heapId);
+        mapEff->flash = FIELD_FLASH_Create(heapId);
         if (flags & 2)
-            func_021C7E50(mapEff->flash, FLASH_CMD_SHOW_EXPANDED);
+            FIELD_FLASH_SetPendingCommand(mapEff->flash, FLASH_CMD_SHOW_EXPANDED);
         else
-            func_021C7E50(mapEff->flash, FLASH_CMD_INIT);
+            FIELD_FLASH_SetPendingCommand(mapEff->flash, FLASH_CMD_INIT);
     } else {
         mapEff->flash = 0;
     }
 }
 
-void func_021C7FF0(FieldSkillMapEff *mapEff)
+void FIELDSKILL_MAPEFF_FreeFlash(FieldSkillMapEff *mapEff)
 {
-    func_021C7DE0(mapEff->flash);
+    FIELD_FLASH_Delete(mapEff->flash);
     mapEff->flash = 0;
 }
 
-/* Tail-call thunk: forwards the flash to func_021C7DFC. */
-void func_021C8000(FieldSkillMapEff *mapEff)
+/* Tail-call thunk: forwards the flash to FIELD_FLASH_Update. */
+void FIELDSKILL_MAPEFF_UpdateFlash(FieldSkillMapEff *mapEff)
 {
-    func_021C7DFC(mapEff->flash);
+    FIELD_FLASH_Update(mapEff->flash);
 }
 
-/* Tail-call thunk: forwards the flash to func_021C7E30. */
-void func_021C800C(FieldSkillMapEff *mapEff)
+/* Tail-call thunk: forwards the flash to FIELD_FLASH_Apply. */
+void FIELDSKILL_MAPEFF_ApplyFlash(FieldSkillMapEff *mapEff)
 {
-    func_021C7E30(mapEff->flash);
+    FIELD_FLASH_Apply(mapEff->flash);
 }
 
-FldWipe3dObj *func_021C8018(u32 heapId)
+FldWipe3dObj *FLD_WIPE_3DOBJ_Create(u32 heapId)
 {
-    FldWipe3dObj *obj = func_02030734(heapId, sizeof(FldWipe3dObj), 1, d_021DE520, 0x24);
-    obj->resArc = func_02046DB8(0x4a, 0);
-    obj->object = func_0204767C(func_02047400(obj->resArc, 0, 0), 0, 0);
+    FldWipe3dObj *obj = func_02030734(heapId, sizeof(FldWipe3dObj), 1, gFldWipe3dObjFileName, 0x24);
+    obj->resArc = G3D_SYSTEM_CreateResourceArc(0x4a, 0);
+    obj->object = G3D_SYSTEM_CreateObject(G3D_SYSTEM_CreateRender(obj->resArc, 0, 0), 0, 0);
     return obj;
 }
 
-int func_021C8054(FldWipe3dObj *obj)
+int FLD_WIPE_3DOBJ_Delete(FldWipe3dObj *obj)
 {
-    func_02047504(func_02047788(obj->object));
-    func_02047738(obj->object);
+    G3D_SYSTEM_DeleteRender(G3D_SYSTEM_GetObjectRender(obj->object));
+    G3D_SYSTEM_DeleteObject(obj->object);
     func_02046EFC(obj->resArc);
     return func_020307B0(obj);
 }
 
 /* Draws the mask model as a camera-facing billboard of the given size and alpha. */
-void func_021C8078(FldWipe3dObj *obj, int size, int alpha)
+void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha)
 {
     G3dObjectStatus status;
     G3dLookAt lookAt;
@@ -1609,10 +1609,10 @@ void func_021C8078(FldWipe3dObj *obj, int size, int alpha)
     if (size == 0) {
         return;
     }
-    func_02046AFC(&lookAt);
+    G3D_SYSTEM_GetLookAt(&lookAt);
     status.trans = lookAt.camPos;
     func_0207CA00(&lookAt.target, &lookAt.camPos, &viewDir);
-    func_0207CCA4(&viewDir, &viewDir);
+    VEC_Normalize(&viewDir, &viewDir);
     viewY = viewDir.y;
     if (viewY <= 0) {
         viewY = -viewY;
@@ -1621,74 +1621,74 @@ void func_021C8078(FldWipe3dObj *obj, int size, int alpha)
     status.scale.y = (int)(((long long)size * viewY + 0x800) >> 12);
     status.scale.z = 0x4000;
     func_02082B60((Mtx43 *)func_0206AAD4(), &status.rotate);
-    mdl = func_0204755C(func_02047788(obj->object))->rndObj;
+    mdl = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(obj->object))->rndObj;
     func_0206E394(mdl, 0, 0);
     func_0206E4FC(mdl, 0, 0);
     func_0206E484(mdl, 0, 2);
     func_0206E574(mdl, 0, alpha);
     func_0206E40C(mdl, 0, 0);
-    func_02047A60(obj->object, &status);
+    G3D_SYSTEM_DrawObject(obj->object, &status);
 }
 
 /* Script command: start the FLD3D_CI sequence whose id is the next script halfword. */
-int func_021C812C(ScriptVm *vm, ScrCmdWork *work)
+int SCRCMD_StartFld3dCi(ScriptVm *vm, ScrCmdWork *work)
 {
     Fld3dCi *ci;
     int ciId;
     GameSystem *gameSystem;
     ScriptSystem *scriptSys;
     GameEvent *event;
-    gameSystem = func_0215A5DC(work);
-    ci = func_02189A00(func_0201210C(gameSystem));
+    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    ci = FIELDMAP_GetFld3dCi(func_0201210C(gameSystem));
     ciId = func_02011330(vm);
-    scriptSys = func_0215A5F4(work);
-    event = func_021C1CB0(gameSystem, ci, (unsigned char)ciId);
+    scriptSys = SCRCMD_WORK_GetScriptWork(work);
+    event = FLD3D_CI_StartSequence(gameSystem, ci, (unsigned char)ciId);
     if (event) {
-        func_0215897C(scriptSys, event);
+        SCRIPT_SYS_CallEvent(scriptSys, event);
     }
     return 1;
 }
 
 /* Script command: start the FLD3D_CI sequence whose id is read from a script value. */
-int func_021C8170(ScriptVm *vm, ScrCmdWork *work)
+int SCRCMD_StartFld3dCiByVar(ScriptVm *vm, ScrCmdWork *work)
 {
     Fld3dCi *ci;
     int ciId;
     GameSystem *gameSystem;
     ScriptSystem *scriptSys;
     GameEvent *event;
-    gameSystem = func_0215A5DC(work);
-    ci = func_02189A00(func_0201210C(gameSystem));
-    ciId = func_02159B10(vm, work);
-    scriptSys = func_0215A5F4(work);
-    event = func_021C1D68(gameSystem, ci, (unsigned char)ciId);
+    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    ci = FIELDMAP_GetFld3dCi(func_0201210C(gameSystem));
+    ciId = SCRIPT_WORK_ReadWorkValue(vm, work);
+    scriptSys = SCRCMD_WORK_GetScriptWork(work);
+    event = FLD3D_CI_StartPartyMemberSequence(gameSystem, ci, (unsigned char)ciId);
     if (event) {
-        func_0215897C(scriptSys, event);
+        SCRIPT_SYS_CallEvent(scriptSys, event);
     }
     return 1;
 }
 
 /* Script command: run the FLD3D_CI main function with a script value. */
-int func_021C81B4(ScriptVm *vm, ScrCmdWork *work)
+int SCRCMD_RunFld3dCiMain(ScriptVm *vm, ScrCmdWork *work)
 {
     Fld3dCi *ci;
     int value;
     GameSystem *gameSystem;
     ScriptSystem *scriptSys;
     GameEvent *event;
-    gameSystem = func_0215A5DC(work);
-    ci = func_02189A00(func_0201210C(gameSystem));
-    value = (int)func_02159B10(vm, work);
-    scriptSys = func_0215A5F4(work);
-    event = func_021C30B8(gameSystem, ci, value);
+    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    ci = FIELDMAP_GetFld3dCi(func_0201210C(gameSystem));
+    value = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
+    scriptSys = SCRCMD_WORK_GetScriptWork(work);
+    event = FLD3D_CI_StartMessageSequence(gameSystem, ci, value);
     if (event) {
-        func_0215897C(scriptSys, event);
+        SCRIPT_SYS_CallEvent(scriptSys, event);
     }
     return 1;
 }
 
 /* Script command: map a script value through the 17-entry key table to a FLD3D_CI id and start it. */
-int func_021C81F8(ScriptVm *vm, ScrCmdWork *work)
+int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work)
 {
     GameSystem *gameSystem;
     Fld3dCi *ci;
@@ -1698,34 +1698,34 @@ int func_021C81F8(ScriptVm *vm, ScrCmdWork *work)
     ScriptSystem *scriptSys;
     unsigned short ciId;
     GameEvent *event;
-    gameSystem = func_0215A5DC(work);
-    ci = func_02189A00(func_0201210C(gameSystem));
-    value = (int)func_02159B10(vm, work);
+    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    ci = FIELDMAP_GetFld3dCi(func_0201210C(gameSystem));
+    value = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     found = 0;
     for (i = 0; i < 17; i++) {
-        if (value == d_021DAAE0[i * 2]) {
+        if (value == gFld3dCiKeyTable[i * 2]) {
             found = 1;
-            ciId = d_021DAAE2[i * 2];
+            ciId = gFld3dCiIdTable[i * 2];
             break;
         }
     }
     if (found) {
-        scriptSys = func_0215A5F4(work);
-        event = func_021C1CB0(gameSystem, ci, (unsigned char)ciId);
+        scriptSys = SCRCMD_WORK_GetScriptWork(work);
+        event = FLD3D_CI_StartSequence(gameSystem, ci, (unsigned char)ciId);
         if (event) {
-            func_0215897C(scriptSys, event);
+            SCRIPT_SYS_CallEvent(scriptSys, event);
         }
     }
     return 1;
 }
 
 /* Creates the wipe event: picks the two FLD3D_CI ids by player outfit and remembers the destination zone. */
-GameEvent *func_021C8268(GameSystem *gameSystem, int unused, int zoneId)
+GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unused, int zoneId)
 {
     GameEvent *event;
     WipeMapChangeWork *work;
     int cutInIdAfter;
-    event = func_020122C0(gameSystem, 0, func_021C82C4, 0x30);
+    event = func_020122C0(gameSystem, 0, FLD_WIPE_3DOBJ_MapChangeEventMain, 0x30);
     work = func_020124E8(event);
     func_02082BCC(work, 0, 0x30);
     work->gameSystem = gameSystem;
@@ -1738,12 +1738,12 @@ GameEvent *func_021C8268(GameSystem *gameSystem, int unused, int zoneId)
         cutInIdAfter = 19;
     }
     work->cutInIdAfter = cutInIdAfter;
-    func_02014204(&work->startLocation, (unsigned short)zoneId);
+    ZONEDATA_SetZoneStartLocation(&work->startLocation, (unsigned short)zoneId);
     return event;
 }
 
 /* Wipe event: camera swing and FLD3D_CI cut-in, map change, then the reverse cut-in. */
-int func_021C82C4(GameEvent *event, int *seq, WipeMapChangeWork *work)
+int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeWork *work)
 {
     FieldMap *fieldMap;
     FieldCamera *camera;
@@ -1759,23 +1759,23 @@ int func_021C82C4(GameEvent *event, int *seq, WipeMapChangeWork *work)
     VecFx32 playerPos2;
     CameraAnimFlags flags;
     fieldMap = func_0201210C(work->gameSystem);
-    camera = func_02188C58(fieldMap);
-    ci = func_02189A00(fieldMap);
-    bg = func_02188C5C(fieldMap);
+    camera = FIELDMAP_GetCamera(fieldMap);
+    ci = FIELDMAP_GetFld3dCi(fieldMap);
+    bg = FIELDMAP_GetNogridMapper(fieldMap);
     switch (*seq) {
     case 0:
-        func_0218F1AC(camera, 0);
-        work->savedCameraBits = func_0218EC5C(camera);
-        func_0218F0A8(camera);
+        FIELD_CAMERA_SetAreasEnabled(camera, 0);
+        work->savedCameraBits = FIELD_CAMERA_GetTraceTarget(camera);
+        FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case 1:
-        if (work->savedCameraBits != 0 && func_0218F0E8(camera) != 0)
+        if (work->savedCameraBits != 0 && FIELD_CAMERA_IsDelayEnabled(camera) != 0)
             break;
-        func_021BB260(bg, 0);
-        func_0218EC54(camera);
-        func_0218F818(camera);
-        func_021A3038(func_02188CB4(fieldMap), &playerPos1);
+        FIELD_NOGRID_MAPPER_SetActive(bg, 0);
+        FIELD_CAMERA_StopTargetTrace(camera);
+        FIELD_CAMERA_PushState(camera);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos1);
         param1.pitch = 0x25d8;
         param1.yaw = 0;
         param1.distance = 0xed000;
@@ -1790,42 +1790,42 @@ int func_021C82C4(GameEvent *event, int *seq, WipeMapChangeWork *work)
         param1.flags.apply[3] = 1;
         param1.flags.apply[4] = 1;
         param1.flags.apply[5] = 1;
-        func_0218F900(camera, &param1, 10);
+        FIELD_CAMERA_StartMove(camera, &param1, 10);
         (*seq)++;
     case 2:
-        if (func_0218FE50(camera) != 0)
+        if (FIELD_CAMERA_IsMoving(camera) != 0)
             break;
-        func_0216D9A0(func_02188C7C(fieldMap));
-        child = func_021C1CB0(work->gameSystem, ci, (u8)work->cutInIdBefore);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
+        child = FLD3D_CI_StartSequence(work->gameSystem, ci, (u8)work->cutInIdBefore);
         if (child != 0)
-            func_02012374(event, child);
+            GAME_EVENT_CallEvent(event, child);
         (*seq)++;
         break;
     case 3:
-        func_0216D9E4(func_02188C7C(fieldMap));
-        func_0216DAC8(func_021A3074(func_02188CB4(fieldMap)), 1);
-        func_0218F878(camera);
-        func_02012374(event, func_021BEA30(work->gameSystem, fieldMap, 0, 0));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(fieldMap));
+        FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 1);
+        FIELD_CAMERA_PopState(camera);
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(work->gameSystem, fieldMap, 0, 0));
         (*seq)++;
         break;
     case 4:
-        func_02012374(event, func_021854CC(work->gameSystem, fieldMap, work->zoneId, &work->startLocation, 1));
+        GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateWarpEventToLocation(work->gameSystem, fieldMap, work->zoneId, &work->startLocation, 1));
         (*seq)++;
         break;
     case 5:
-        func_021BC5BC(func_02188D20(fieldMap));
-        work->savedCameraBits = func_0218EC5C(camera);
-        func_0218F0A8(camera);
+        FIELD_PLACE_NAME_Cancel(FIELDMAP_GetPlaceName(fieldMap));
+        work->savedCameraBits = FIELD_CAMERA_GetTraceTarget(camera);
+        FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case 6:
-        if (work->savedCameraBits != 0 && func_0218F0E8(camera) != 0)
+        if (work->savedCameraBits != 0 && FIELD_CAMERA_IsDelayEnabled(camera) != 0)
             break;
-        func_021BB260(bg, 0);
-        func_0218EC54(camera);
-        func_0218F848(camera);
-        func_0218F1AC(camera, 0);
-        func_021A3038(func_02188CB4(fieldMap), &playerPos2);
+        FIELD_NOGRID_MAPPER_SetActive(bg, 0);
+        FIELD_CAMERA_StopTargetTrace(camera);
+        FIELD_CAMERA_PushStateConstrained(camera);
+        FIELD_CAMERA_SetAreasEnabled(camera, 0);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos2);
         param2.pitch = 0x25d8;
         param2.yaw = 0;
         param2.distance = 0xed000;
@@ -1840,76 +1840,76 @@ int func_021C82C4(GameEvent *event, int *seq, WipeMapChangeWork *work)
         param2.flags.apply[3] = 1;
         param2.flags.apply[4] = 1;
         param2.flags.apply[5] = 1;
-        func_0218F900(camera, &param2, 1);
+        FIELD_CAMERA_StartMove(camera, &param2, 1);
         (*seq)++;
     case 7:
-        if (func_0218FE50(camera) != 0)
+        if (FIELD_CAMERA_IsMoving(camera) != 0)
             break;
-        func_0216DAC8(func_021A3074(func_02188CB4(fieldMap)), 1);
+        FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 1);
         visiblePlanes = func_02043658();
-        func_02188DA0();
+        FIELDMAP_SetBgMode();
         func_02043534(visiblePlanes);
-        func_02188DB0(fieldMap);
+        FIELDMAP_ResetBgAffineShowMsg(fieldMap);
         (*seq)++;
         break;
     case 8:
-        func_0216D9A0(func_02188C7C(fieldMap));
-        child = func_021C1CB0(work->gameSystem, ci, (u8)work->cutInIdAfter);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(fieldMap));
+        child = FLD3D_CI_StartSequence(work->gameSystem, ci, (u8)work->cutInIdAfter);
         if (child != 0) {
-            func_02012374(event, child);
+            GAME_EVENT_CallEvent(event, child);
         } else {
-            mmdl = func_021A3074(func_02188CB4(fieldMap));
-            func_0216DAC8(mmdl, 0);
-            func_0216D5E0(mmdl, 1);
-            func_02012374(event, func_020122C0(work->gameSystem, event, func_021C85CC, 0));
+            mmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
+            FLDMMDL_SetStatusBitVanish(mmdl, 0);
+            FLDMMDL_SetDirDispCheckPause(mmdl, 1);
+            GAME_EVENT_CallEvent(event, func_020122C0(work->gameSystem, event, FLD_WIPE_3DOBJ_FadeOutEventMain, 0));
         }
         (*seq)++;
         break;
     case 9:
-        func_0216D9E4(func_02188C7C(fieldMap));
-        func_021BC578(func_02188D20(fieldMap), work->zoneId);
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(fieldMap));
+        FIELD_PLACE_NAME_ShowForZone(FIELDMAP_GetPlaceName(fieldMap), work->zoneId);
         flags.apply[0] = 1;
         flags.apply[1] = 1;
         flags.apply[2] = 0;
         flags.apply[3] = 1;
         flags.apply[4] = 1;
         flags.apply[5] = 1;
-        func_0218F9C4(camera, &flags, 10);
+        FIELD_CAMERA_StartMoveToSaved(camera, &flags, 10);
         (*seq)++;
     case 10:
-        if (func_0218FE50(camera) != 0)
+        if (FIELD_CAMERA_IsMoving(camera) != 0)
             break;
         if (work->savedCameraBits != 0)
-            func_0218EC30(camera, work->savedCameraBits);
-        func_0218F05C(camera);
-        func_021BB260(bg, 1);
-        func_0218F878(camera);
-        func_0218F1AC(camera, 1);
+            FIELD_CAMERA_SetTraceTarget(camera, work->savedCameraBits);
+        FIELD_CAMERA_RestartDelay(camera);
+        FIELD_NOGRID_MAPPER_SetActive(bg, 1);
+        FIELD_CAMERA_PopState(camera);
+        FIELD_CAMERA_SetAreasEnabled(camera, 1);
         return 1;
     }
     return 0;
 }
 
 /* Fades the screen out, then ends. */
-int func_021C85CC(GameEvent *event, int *seq)
+int FLD_WIPE_3DOBJ_FadeOutEventMain(GameEvent *event, int *seq)
 {
     func_0201210C(func_020124E4(event));
     switch (*seq) {
     case 0:
-        func_0204E720(3, 0x10, 0, 0);
+        FADE_Start(3, 0x10, 0, 0);
         (*seq)++;
         break;
     case 1:
-        if (func_0204E804() == 0)
+        if (FADE_IsActive() == 0)
             return 1;
         break;
     }
     return 0;
 }
 
-PleasureBoatWork *func_021C8608(void)
+PleasureBoatWork *PLEASURE_BOAT_Create(void)
 {
-    PleasureBoatWork *work = func_02030734(5, sizeof(PleasureBoatWork), 1, &d_021DE534, 0x31);
+    PleasureBoatWork *work = func_02030734(5, sizeof(PleasureBoatWork), 1, &gPleasureBoatFileName, 0x31);
     work->eventPending = 0;
     work->timeTicks = 0;
     work->periodCount = 0;
@@ -1925,7 +1925,7 @@ PleasureBoatWork *func_021C8608(void)
 }
 
 /* Plays the arrival jingle and moves to the next period once the pending flag is set. */
-void func_021C8660(PleasureBoatWork *work)
+void PLEASURE_BOAT_AckEvent(PleasureBoatWork *work)
 {
     if (work != 0 && work->locked == 0 && work->eventPending != 0) {
         func_020061E4(0x6dd);
@@ -1935,7 +1935,7 @@ void func_021C8660(PleasureBoatWork *work)
 }
 
 /* Advances the boat clock; returns the script event when the boat reaches a milestone. */
-GameEvent *func_021C868C(GameSystem *gameSystem, PleasureBoatWork *work)
+GameEvent *PLEASURE_BOAT_Update(GameSystem *gameSystem, PleasureBoatWork *work)
 {
     GameEvent *event;
     int hasEvent;
@@ -1947,14 +1947,14 @@ GameEvent *func_021C868C(GameSystem *gameSystem, PleasureBoatWork *work)
         return 0;
     }
     work->timeTicks = work->timeTicks + 1;
-    milestone = func_021C87E0(work);
+    milestone = PLEASURE_BOAT_GetTimeEvent(work);
     switch (milestone) {
     case 1:
         work->eventPending = 1;
         hasEvent = 0;
         break;
     case 2:
-        event = func_02158768(gameSystem, 1, 0, 0x8015);
+        event = SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 1, 0, 0x8015);
         hasEvent = 1;
         break;
     default:
@@ -1974,7 +1974,7 @@ GameEvent *func_021C868C(GameSystem *gameSystem, PleasureBoatWork *work)
  * Adds `seconds` of boat time (30 ticks per second, 1350 ticks per period).
  * At a period end the clock stops one tick short (clamp) or enters the next period.
  */
-void func_021C86E8(PleasureBoatWork *work, int seconds, int clamp)
+void PLEASURE_BOAT_AdvanceTime(PleasureBoatWork *work, int seconds, int clamp)
 {
     int ticks;
     ticks = work->timeTicks % 1350;
@@ -1992,7 +1992,7 @@ void func_021C86E8(PleasureBoatWork *work, int seconds, int clamp)
 }
 
 /* Reads one boat statistic: kinds 0-3 are the group counters, 4 the visitor count, 5 the used passenger slots. */
-int func_021C8738(PleasureBoatWork *work, int kind)
+int PLEASURE_BOAT_GetStat(PleasureBoatWork *work, int kind)
 {
     int result;
     int i;

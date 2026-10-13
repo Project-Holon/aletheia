@@ -1,5 +1,5 @@
 /*
- * function: func_0216B280
+ * function: FIELD_G3D_MAP_IntrudeRequestEventMain
  * address:  0x0216B280
  * packet:   pkt_ov010_0216B280
  * region:   ov010
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SendValueNow  0x02176850  thumb  ov011
  *   INTRUDE_COMM_IsRecordReceived  0x02176870  thumb  ov011
  */
@@ -25,17 +25,17 @@ typedef unsigned int u32;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_02158344(int a0);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern int INTRUDE_COMM_SendValueNow(u8 *p, u8 value);
 extern u32 INTRUDE_COMM_IsRecordReceived(u8 *p);
 
-int func_0216B280(int a0, int *state, u8 **work)
+int FIELD_G3D_MAP_IntrudeRequestEventMain(int a0, int *state, u8 **work)
 {
     int r;
     u16 *p;
 
-    r = func_02158344(func_02012138((const struct Ctx *)func_020124E4((struct Obj *)a0)));
+    r = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)func_020124E4((struct Obj *)a0)));
     if (r == 0) {
         p = *(u16 * *)&((struct Obj09327 *)work)->f0;
         if (p != 0)

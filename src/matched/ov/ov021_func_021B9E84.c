@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E84
+ * function: FIELD_RAIL_LINEFUNC_Straight
  * address:  0x021B9E84
  * packet:   pkt_ov021_021B9E84
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * Builds the 8-byte record for id `a` at pos between the two entries of
- * func_021B8230's link: horizontal distance and height offset scaled by
- * func_021B8248 and rounded by func_021B8378; returns 0 when out of range,
- * else 1 when the record round-trips unchanged through func_021B8250 and
- * func_021B7D38.
+ * FIELD_RAIL_GetLine's link: horizontal distance and height offset scaled by
+ * FIELD_RAIL_GetUnitScaleRaw and rounded by FIELD_RAIL_RoundToGrid; returns 0 when out of range,
+ * else 1 when the record round-trips unchanged through FIELD_RAIL_ClampLocation and
+ * FIELD_RAIL_GetLocationPos.
  * pos->x and pos->z go through locals: stored straight into m, the y = 0
  * stores interleave with them and the loads split; the out-of-range
  * `return 0` is the fall-out of an if around the rest (it sits after the
@@ -21,14 +21,14 @@
  * in that order.
  *
  * symbols:
- *   func_021B8224  0x021B8224  thumb  ov021
- *   func_021B8230  0x021B8230  thumb  ov021
- *   func_021B823C  0x021B823C  thumb  ov021
- *   func_021B8248  0x021B8248  thumb  ov021
- *   func_021B8250  0x021B8250  thumb  ov021
- *   func_021B8378  0x021B8378  thumb  ov021
- *   func_021B7D38  0x021B7D38  thumb  ov021
- *   func_021BAE7C  0x021BAE7C  thumb  ov021
+ *   FIELD_RAIL_GetPoint  0x021B8224  thumb  ov021
+ *   FIELD_RAIL_GetLine  0x021B8230  thumb  ov021
+ *   FIELD_RAIL_GetLinePos  0x021B823C  thumb  ov021
+ *   FIELD_RAIL_GetUnitScaleRaw  0x021B8248  thumb  ov021
+ *   FIELD_RAIL_ClampLocation  0x021B8250  thumb  ov021
+ *   FIELD_RAIL_RoundToGrid  0x021B8378  thumb  ov021
+ *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb  ov021
+ *   FIELD_RAIL_ProjectOnSegment  0x021BAE7C  thumb  ov021
  *   func_0207C768  0x0207C768  arm
  *   func_0207CF3C  0x0207CF3C  arm
  *   func_0203EFC8  0x0203EFC8  arm
@@ -50,20 +50,20 @@ typedef struct {
     s16 f6;
 } Rec;
 
-int *func_021B8224(void *p, int k);
-int *func_021B8230(void *p, int a);
-void func_021B823C(u8 *p, int k);
-u32 func_021B8248(u8 *p);
-void func_021B8250(void *p, Rec *r, Rec *o);
-int func_021B8378(int x);
-int func_021B7D38(void *p, Rec *r, int c);
-int func_021BAE7C(int *e0, int *e1, const V *pos, V *a, int *b, V *c);
+int *FIELD_RAIL_GetPoint(void *p, int k);
+int *FIELD_RAIL_GetLine(void *p, int a);
+void FIELD_RAIL_GetLinePos(u8 *p, int k);
+u32 FIELD_RAIL_GetUnitScaleRaw(u8 *p);
+void FIELD_RAIL_ClampLocation(void *p, Rec *r, Rec *o);
+int FIELD_RAIL_RoundToGrid(int x);
+int FIELD_RAIL_GetLocationPos(void *p, Rec *r, int c);
+int FIELD_RAIL_ProjectOnSegment(int *e0, int *e1, const V *pos, V *a, int *b, V *c);
 typedef signed int     s32;
 u32 func_0207C768(u32 a, u32 b);
 int func_0207CF3C(const V *a, const V *b);
 s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-int func_021B9E84(int a, void *p, const V *pos, Rec *out, int arg)
+int FIELD_RAIL_LINEFUNC_Straight(int a, void *p, const V *pos, Rec *out, int arg)
 {
     V A;
     V C;
@@ -84,11 +84,11 @@ int func_021B9E84(int a, void *p, const V *pos, Rec *out, int arg)
     int x;
     int z;
 
-    info = func_021B8230(p, a);
-    e0 = func_021B8224(p, info[0]);
-    e1 = func_021B8224(p, info[1]);
-    k = func_021B8248(p);
-    if (func_021BAE7C(e0, e1, pos, &A, &B, &C) == 0) {
+    info = FIELD_RAIL_GetLine(p, a);
+    e0 = FIELD_RAIL_GetPoint(p, info[0]);
+    e1 = FIELD_RAIL_GetPoint(p, info[1]);
+    k = FIELD_RAIL_GetUnitScaleRaw(p);
+    if (FIELD_RAIL_ProjectOnSegment(e0, e1, pos, &A, &B, &C) == 0) {
         return 0;
     }
     x = pos->x;
@@ -100,7 +100,7 @@ int func_021B9E84(int a, void *p, const V *pos, Rec *out, int arg)
     m.y = 0;
     n.y = 0;
     dist = (int)func_0207C768((int)func_0207CF3C(&m, &n), (int)k) >> 12;
-    func_021B823C(p, info[3]);
+    FIELD_RAIL_GetLinePos(p, info[3]);
     L = info[5] << 4;
     diff = L - ((int)func_0207C768((int)B, (int)k) >> 12);
     for (i = 0; i < 4; i++) {
@@ -116,13 +116,13 @@ int func_021B9E84(int a, void *p, const V *pos, Rec *out, int arg)
         out->f2 = 1;
         out->f3 = 3;
         if (C.y >= 0) {
-            out->f4 = func_021B8378(dist);
+            out->f4 = FIELD_RAIL_RoundToGrid(dist);
         } else {
-            out->f4 = -func_021B8378(dist);
+            out->f4 = -FIELD_RAIL_RoundToGrid(dist);
         }
-        out->f6 = func_021B8378(diff);
-        func_021B8250(p, out, &buf);
-        func_021B7D38(p, &buf, arg);
+        out->f6 = FIELD_RAIL_RoundToGrid(diff);
+        FIELD_RAIL_ClampLocation(p, out, &buf);
+        FIELD_RAIL_GetLocationPos(p, &buf, arg);
         if (func_0203EFC8((const u8 *)out, (const u8 *)(&buf), 8) == 0) {
             return 1;
         }

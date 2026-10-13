@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A141C",
+   "name": "FIELD_SUBSCREEN_CheckIntrudeRequest",
    "address": "0x021A141C",
    "kind": "game",
    "region": "ov021",

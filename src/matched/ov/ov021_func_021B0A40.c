@@ -1,5 +1,5 @@
 /*
- * function: func_021B0A40
+ * function: SCRCMD_MSGWIN_GetBalloonSide
  * address:  0x021B0A40
  * packet:   pkt_ov021_021B0A40
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -24,14 +24,14 @@ typedef struct Q { int f0; int f4; int f8; } Q;
 
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *t);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *t);
 
-int func_021B0A40(u32 a, Q *q)
+int SCRCMD_MSGWIN_GetBalloonSide(u32 a, Q *q)
 {
     T t;
     int r = 2;
 
-    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&t);
+    FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)&t);
     if (q->f8 < t.c)
         r = 1;
     return r;

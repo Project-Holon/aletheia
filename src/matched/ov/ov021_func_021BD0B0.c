@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0B0
+ * function: FIELD_PLACE_NAME_IncrementFrame
  * address:  0x021BD0B0
  * packet:   pkt_ov021_021BD0B0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef struct {
     u16 h42;
 } Obj;
 
-void func_021BD0B0(Obj *p)
+void FIELD_PLACE_NAME_IncrementFrame(Obj *p)
 {
     p->h42++;
 }

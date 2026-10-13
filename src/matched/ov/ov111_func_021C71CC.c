@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -85,22 +85,22 @@ struct Node;
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_02030EAC(struct Node *n);
-extern void func_02049238(void *p);
+extern void ARC_TOOL_DeleteHandle(void *p);
 
 void func_021C71CC(Work *p)
 {
     int i;
 
     for (i = 0; i < 7; i++) {
-        func_02045808(p->f2C[i]);
+        STRBUF_Delete(p->f2C[i]);
     }
-    func_02045808(p->f28);
+    STRBUF_Delete(p->f28);
     func_0201ED04(p->f24);
-    func_02045C04(p->f20);
+    MSGDATA_Delete(p->f20);
     func_02030EAC(p->fF4);
-    func_02049238(p->f0);
+    ARC_TOOL_DeleteHandle(p->f0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AC1CC
+ * function: FIELD_EFFECT_SetObjectPos
  * address:  0x021AC1CC
  * packet:   pkt_ov021_021AC1CC
  * region:   ov021
@@ -33,7 +33,7 @@ struct Obj {
     void *fd0;
 };
 
-void func_021AC1CC(Obj *o, V3 *in)
+void FIELD_EFFECT_SetObjectPos(Obj *o, V3 *in)
 {
     if (o != 0)
         o->pos = *in;

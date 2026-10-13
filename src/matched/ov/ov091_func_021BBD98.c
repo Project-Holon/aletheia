@@ -1,5 +1,5 @@
 /*
- * function: func_021BBD98
+ * function: PLIST_MENU_CreateCommandLabel
  * address:  0x021BBD98
  * packet:   pkt_ov091_021BBD98
  * region:   ov091
@@ -9,36 +9,36 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045C04  0x02045C04  arm
- *   d_021BEC8C     0x021BEC8C  data  ov091  a4
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   gPlistMenuLabelMsgIds     0x021BEC8C  data  ov091  a4
  */
 #include "../include/Obj05174.h"
 
 typedef unsigned short u16;
 
-extern unsigned int func_02017E1C(void *, unsigned int, unsigned int);
+extern unsigned int POKE_TOOL_GetPartyValue(void *, unsigned int, unsigned int);
 typedef unsigned int   u32;
 struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
-extern int d_021BEC8C[];
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern int gPlistMenuLabelMsgIds[];
 
-int func_021BBD98(int a, int unused, int idx)
+int PLIST_MENU_CreateCommandLabel(int a, int unused, int idx)
 {
     int r;
     int h;
     if (idx >= 0x10 && idx <= 0x13) {
-        r = func_02017E1C((void *)*(int *)&((struct Obj05174 *)a)->f38, idx + 0x26, 0);
+        r = POKE_TOOL_GetPartyValue((void *)*(int *)&((struct Obj05174 *)a)->f38, idx + 0x26, 0);
         h = (int)func_02045B38(0, 2, 0xcb, ((struct Obj05174 *)a)->f0);
         r = (int)func_02045EC0((struct MsgBank *)h, r);
-        func_02045C04((struct Rec *)h);
+        MSGDATA_Delete((struct Rec *)h);
     } else {
-        r = (int)func_02045EC0((struct MsgBank *)(((struct Obj05174 *)a)->f134), d_021BEC8C[idx]);
+        r = (int)func_02045EC0((struct MsgBank *)(((struct Obj05174 *)a)->f134), gPlistMenuLabelMsgIds[idx]);
     }
     return r;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5B24
+ * function: ENCEFF_StepFlipCell
  * address:  0x021F5B24
  * packet:   pkt_ov079_021F5B24
  * region:   ov079
@@ -21,7 +21,7 @@
  * axis (phase 0), then half a turn more (phase 1) to show its back, then is
  * done. Angles are 16 bit angles << 4.
  */
-int func_021F5B24(EncEffGridCell *cell)
+int ENCEFF_StepFlipCell(EncEffGridCell *cell)
 {
     int phase = cell->phase;
 

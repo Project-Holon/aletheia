@@ -1,5 +1,5 @@
 /*
- * function: func_021BB43C
+ * function: PLIST_PLATE_GetLabelState
  * address:  0x021BB43C
  * packet:   pkt_021BB43C
  * region:   ov091
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BB43C(int *p)
+int PLIST_PLATE_GetLabelState(int *p)
 {
     return p[7];
 }

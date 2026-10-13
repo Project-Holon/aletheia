@@ -35,7 +35,7 @@
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -71,13 +71,13 @@
  *     func_02045E04(dest,index);
  * }
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);extern void func_02045CAC(void *,int,void *);extern void func_02045808(void *);
-void func_021D5004(char *p) {void *t;t=func_020457B0(100,*(u16 *)(p+12));*(void **)(p+0x328)=t;func_02045CAC(*(void **)(p+0x44),9,t);*(u16 *)(p+0x32c)=0x39e3;*(u32 *)(p+0x330)=1;func_02045808(*(void **)(p+0x328));}
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);extern void MSGDATA_ReadString(void *,int,void *);extern void STRBUF_Delete(void *);
+void func_021D5004(char *p) {void *t;t=STRBUF_Create(100,*(u16 *)(p+12));*(void **)(p+0x328)=t;MSGDATA_ReadString(*(void **)(p+0x44),9,t);*(u16 *)(p+0x32c)=0x39e3;*(u32 *)(p+0x330)=1;STRBUF_Delete(*(void **)(p+0x328));}

@@ -49,8 +49,10 @@
  * symbols:
  *   MI_CpuFill8      0x02082BCC  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
- *   func_02045A98    0x02045A98  arm
+ *   STRBUF_GetEosChar    0x02045A98  arm
  *   func_0203F1FC    0x0203F1FC  arm
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  */
 
 typedef unsigned char  u8;
@@ -61,16 +63,16 @@ typedef signed int     s32;
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void OS_GetOwnerInfo(void *info);
 
-extern u16   func_02045A98(void);
+extern u16   STRBUF_GetEosChar(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 struct Big;
 struct Blk34;
 struct Sub0200852CObj;
 struct Sub02009470Obj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *func_02012944(void *p);
-extern void *func_02012F08(int *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
 struct Rec0200E6FC;
@@ -125,13 +127,13 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     u32 c;
     u32 d;
     void *blk;
-    void *save = func_02012EBC(sys);
+    void *save = GAME_DATA_GetSaveControl(sys);
     void *rec = func_02012944(sys);
     void *env;
     s32 i;
 
     func_02009470(save);
-    blk = func_02012F08(sys);
+    blk = GAME_DATA_GetMiscSave(sys);
     env = func_0200E6E8((u32)save);
     OS_GetOwnerInfo(&info);
     func_0200C164(blk, &a, &b, &c, &d);
@@ -147,7 +149,7 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     p->unk17 = func_0200856C(rec);
     p->unk18 = func_02008570(rec);
     for (i = 0; i < 0x28; i++) {
-        p->unk20[i] = func_02045A98();
+        p->unk20[i] = STRBUF_GetEosChar();
     }
     func_0200E6FC(env, 0, (struct Rec0200E6FC *)p->unk20);
     p->unk15 = info.unk02;

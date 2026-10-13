@@ -1,5 +1,5 @@
 /*
- * function: func_021C8A74
+ * function: FIELD_TILE_MOVE_IsSpinTile
  * address:  0x021C8A74
  * packet:   pkt_021C8A74
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021C89A8 with no argument change.
+ * Tail-call thunk: forwards to FIELD_TILE_MOVE_HasSpinEntry with no argument change.
  *
  * symbols:
- *   func_021C89A8  0x021C89A8  thumb
+ *   FIELD_TILE_MOVE_HasSpinEntry  0x021C89A8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021C89A8(u32 a);
+extern int FIELD_TILE_MOVE_HasSpinEntry(u32 a);
 
-int func_021C8A74(u32 a)
+int FIELD_TILE_MOVE_IsSpinTile(u32 a)
 {
-    return func_021C89A8(a);
+    return FIELD_TILE_MOVE_HasSpinEntry(a);
 }

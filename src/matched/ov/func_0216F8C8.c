@@ -1,5 +1,5 @@
 /*
- * function: func_0216F8C8
+ * function: TRCARD_SYS_ScrCmdStartFieldProc
  * address:  0x0216F8C8
  * packet:   pkt_0216F8C8
  * region:   ov010
@@ -11,22 +11,22 @@
  * blocked:  
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_021F385C  0x021F385C  thumb  ov059
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SP_POKE_GIMMICK_UpdatePairB  0x021F385C  thumb  ov059
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_021F385C(void *);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void SP_POKE_GIMMICK_UpdatePairB(void *);
 
-int func_0216F8C8(int a0, int a1)
+int TRCARD_SYS_ScrCmdStartFieldProc(int a0, int a1)
 {
-    func_021F385C((void *)func_0201210C((void *)func_0215A5DC((void *)a1)));
+    SP_POKE_GIMMICK_UpdatePairB((void *)GAMESYSTEM_GetFieldMap((void *)SCRCMD_WORK_GetGameSystem((void *)a1)));
     return 0;
 }

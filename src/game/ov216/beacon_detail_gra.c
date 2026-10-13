@@ -14,66 +14,66 @@
  *
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   ov067_id 0x00000043 data
  *   ov072_id 0x00000048 data
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
- *   func_020310C4 0x020310C4 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   TCBL_Main 0x020310C4 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_0201C6B4 0x0201C6B4 thumb
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
- *   func_021B6448 0x021B6448 thumb ov067
- *   func_02165B10 0x02165B10 thumb ov010
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
+ *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
+ *   GAME_BEACON_ACCESSOR_AllocInfo 0x02165B10 thumb ov010
  *   func_02012A54 0x02012A54 thumb
  *   BEACON_STATUS_GetLog 0x020275A8 thumb
- *   func_02165B04 0x02165B04 thumb ov010
- *   func_02165AC4 0x02165AC4 thumb ov010
- *   func_02165B5C 0x02165B5C thumb ov010
- *   func_02165C10 0x02165C10 thumb ov010
+ *   GAME_BEACON_ACCESSOR_TableGetCount 0x02165B04 thumb ov010
+ *   GAME_BEACON_ACCESSOR_TableRingGet 0x02165AC4 thumb ov010
+ *   GAME_BEACON_ACCESSOR_IsInfoInvalid 0x02165B5C thumb ov010
+ *   GAME_BEACON_ACCESSOR_IsDistributionAction 0x02165C10 thumb ov010
  *   func_02012FFC 0x02012FFC thumb
- *   func_021BBB24 0x021BBB24 thumb ov072
- *   func_021BBB34  0x021BBB34  thumb  ov072
+ *   TOWNMAP_GRH_LoadTownInfo 0x021BBB24 thumb ov072
+ *   TOWNMAP_GRH_FreeTownInfo  0x021BBB34  thumb  ov072
  *   func_020307B0  0x020307B0  arm
- *   func_0203101C 0x0203101C arm
+ *   TCBL_Create 0x0203101C arm
  *   func_020490F4 0x020490F4 arm
- *   func_0201DD78 0x0201DD78 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_0201C450 0x0201C450 thumb
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201EC74 0x0201EC74 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_020457B0 0x020457B0 arm
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_0201D83C 0x0201D83C thumb
+ *   GF_FONT_Delete 0x0201D83C thumb
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_0201DD68 0x0201DD68 thumb
- *   func_02031140 0x02031140 arm
- *   func_02049238 0x02049238 arm
+ *   TCBL_Destroy 0x02031140 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02049250 0x02049250 arm
+ *   ARC_TOOL_LoadHandleMember 0x02049250 arm
  *   func_02062A98 0x02062A98 arm
  *   func_0207D63C 0x0207D63C arm
- *   func_021B62E0 0x021B62E0 thumb ov067
+ *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   d_021BDB4C 0x021BDB4C data a4
- *   func_021B639C 0x021B639C thumb ov067
- *   func_021B63D0 0x021B63D0 thumb ov067
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
+ *   TOUCHBAR_Delete 0x021B639C thumb ov067
+ *   TOUCHBAR_Update 0x021B63D0 thumb ov067
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   configA 0x021BDB28 data a2
  *   configB 0x021BDB34 data a2
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
@@ -81,16 +81,16 @@
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
  *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
  *   POKEGRA_RegisterTrainerCellAnim 0x0202DA6C thumb
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   PMS_DRAW_Create 0x0202DB0C thumb
  *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
@@ -101,9 +101,9 @@
  *   sub_0202DBC4  0x0202DBC4  thumb
  *   func_02030734 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
- *   func_0204361C 0x0204361C arm
+ *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
@@ -111,7 +111,7 @@
  *   d_021BDBD8 0x021BDBD8 data a4
  *   func_02030EAC 0x02030EAC arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -119,27 +119,27 @@
  *   d_021BDBAC 0x021BDBAC data a4
  *   d_021BDC28 0x021BDC28 data a4
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
- *   func_0204A48C 0x0204A48C arm
- *   func_0204B100 0x0204B100 arm
- *   func_0204B034 0x0204B034 arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_SetRendererCulling 0x0204B0F4 arm
  *   func_0204B258 0x0204B258 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021BDBBC 0x021BDBBC data a4
  *   d_021BDC08 0x021BDC08 data a4
- *   func_0204B084 0x0204B084 arm
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_DeleteRenderer 0x0204B084 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   MI_CpuFill8   0x02082BCC arm
- *   func_0204A600 0x0204A600 arm
- *   func_0204A648 0x0204A648 arm
- *   func_0203D34C 0x0203D34C arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02012204 0x02012204 thumb
- *   func_021B6470 0x021B6470 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   func_02035D20 0x02035D20 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_020862F0 0x020862F0 arm
@@ -147,59 +147,59 @@
  *   func_0207E468 0x0207E468 arm
  *   func_0207E51C 0x0207E51C arm
  *   func_0207E5D0 0x0207E5D0 arm
- *   func_021B6548 0x021B6548 thumb ov067
- *   func_02165C48  0x02165C48  thumb  ov010
+ *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
+ *   GAME_BEACON_ACCESSOR_GetPmVersion  0x02165C48  thumb  ov010
  *   d_021BDDA2 0x021BDDA2 data a1
- *   func_02165DAC 0x02165DAC thumb ov010
- *   func_02165DF0 0x02165DF0 thumb ov010
- *   func_02165DBC 0x02165DBC thumb ov010
- *   func_02165D28 0x02165D28 thumb ov010
- *   func_0204B878  0x0204B878  arm
- *   func_0204B9A0  0x0204B9A0  arm
+ *   GAME_BEACON_ACCESSOR_GetDetailsType 0x02165DAC thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetDetailsMonsNo 0x02165DF0 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetDetailsTrainerNo 0x02165DBC thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetZoneId 0x02165D28 thumb ov010
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   func_0204B404  0x0204B404  arm
  *   func_02045CAC 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
- *   func_0204A9D0 0x0204A9D0 arm
+ *   CLACT_TransferCharacter 0x0204A9D0 arm
  *   d_021BDD92 0x021BDD92 data a1
  *   d_021BDD8A 0x021BDD8A data a2
- *   func_02043AF4 0x02043AF4 arm
+ *   BMP_FillRect 0x02043AF4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   sub_0202DCC4 0x0202DCC4 thumb
  *   PMS_DRAW_SetVisible 0x0202DCB0 thumb
  *   sub_02040588 0x02040588 arm
  *   func_02040618 0x02040618 arm
- *   func_02165CC0 0x02165CC0 thumb ov010
- *   func_02021F64 0x02021F64 thumb
- *   func_02165C34 0x02165C34 thumb ov010
- *   func_02165C60 0x02165C60 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetFavoriteColorRgb 0x02165CC0 thumb ov010
+ *   PALANM_BlendColors 0x02021F64 thumb
+ *   GAME_BEACON_ACCESSOR_GetPlayerName 0x02165C34 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond 0x02165C60 thumb ov010
  *   STRBUF_Clear 0x0204581C arm
  *   func_0201F1C8 0x0201F1C8 thumb
- *   func_02165C78 0x02165C78 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst 0x02165C78 thumb ov010
  *   func_0201F198 0x0201F198 thumb
- *   func_02165D10 0x02165D10 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetPlayTime 0x02165D10 thumb ov010
  *   func_0201EFA4 0x0201EFA4 thumb
- *   func_02165C58 0x02165C58 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetNation 0x02165C58 thumb ov010
  *   func_0201F048 0x0201F048 thumb
- *   func_02165C5C 0x02165C5C thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetArea 0x02165C5C thumb ov010
  *   func_0201F094 0x0201F094 thumb
- *   func_02165D40 0x02165D40 thumb ov010
- *   func_02165D48 0x02165D48 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetPassCount 0x02165D40 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetThanksCount 0x02165D48 thumb ov010
  *   PMS_DRAW_IsActive 0x0202DCC4 thumb
  *   PMS_DRAW_Clear 0x0202DC9C thumb
- *   func_02165C90 0x02165C90 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetDetailsPms 0x02165C90 thumb ov010
  *   PMS_DRAW_Print 0x0202DC48 thumb
- *   func_02165CE8 0x02165CE8 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetTrainerAppearance 0x02165CE8 thumb ov010
  *   func_02025C88 0x02025C88 thumb
  *   POKEGRA_LoadTrainerGraphics 0x0202DAA4 thumb
- *   func_02165CB4 0x02165CB4 thumb ov010
- *   func_02165D34 0x02165D34 thumb ov010
- *   func_021BBB48 0x021BBB48 thumb ov072
- *   func_021BBB3C 0x021BBB3C thumb ov072
+ *   GAME_BEACON_ACCESSOR_GetResearchTeamRank 0x02165CB4 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetTownmapRootZoneId 0x02165D34 thumb ov010
+ *   TOWNMAP_GRH_FindRecordIndex 0x021BBB48 thumb ov072
+ *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
  *   sub_020311B8 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   TCBL_DeleteTask 0x02031194 arm
- *   func_021B64A8 0x021B64A8 thumb ov067
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHBAR_SetAllButtonsEnabled 0x021B64A8 thumb ov067
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020362DC 0x020362DC arm
  *   TCBL_DeleteTask 0x02031194 arm
  *   d_021BDD88 0x021BDD88 data a1
@@ -261,7 +261,7 @@
 #define REC1(w, j, i) ((struct Rec *)((char *)(w) + (j) * 0x80 + (i) * 16))
 #define HANDLE(p, k) (*(int *)((p) + (k)))
 #define ARG(p, k) (*(int *)((p) + (k) + 0xC))
-#define CALLS(r) do { void *d = (r)->d; func_02045334(d); func_02045374(d); func_020409B4(func_02045730(d)); } while (0)
+#define CALLS(r) do { void *d = (r)->d; BMP_WIN_TransferChars(d); BMP_WIN_MakeScreen(d); func_020409B4(func_02045730(d)); } while (0)
 struct Obj0203159C;
 struct S021BC6B4;
 struct S020315D4;
@@ -362,78 +362,78 @@ typedef void (*TcblFunc)(struct TcblNode *,void *);
 typedef struct Work{int arg;u8 *owner;int *counter;} Work;
 
 extern int func_02034AC4(int);
-extern void func_0203064C(unsigned,unsigned,unsigned);
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *,int,int);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int);
-extern void func_020310C4(struct Tcbl *);
-extern unsigned func_0201C4E4(struct PrintSys *);
+extern void TCBL_Main(struct Tcbl *);
+extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 extern unsigned func_0201C6B4(const struct PrintSys *);
-extern void func_0204E720(unsigned,int,int,int);
-extern int func_0204E804(void);
-extern int func_021B6448(unsigned char *);
-extern u8 *func_02165B10(u32);
+extern void FADE_Start(unsigned,int,int,int);
+extern int FADE_IsActive(void);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(unsigned char *);
+extern u8 *GAME_BEACON_ACCESSOR_AllocInfo(u32);
 extern u32 func_02012A54(const struct BigObj *);
 extern u32 BEACON_STATUS_GetLog(u32 a);
-extern u8 func_02165B04(u8 *);
-extern int func_02165AC4(struct Queue *,struct Rec *,u16 *,int);
-extern int func_02165B5C(struct Rec *);
-extern int func_02165C10(u8 *);
+extern u8 GAME_BEACON_ACCESSOR_TableGetCount(u8 *);
+extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *,struct Rec *,u16 *,int);
+extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct Rec *);
+extern int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *);
 extern signed char func_02012FFC(void);
-extern int func_021BBB24(int);
-extern void func_021BBB34(void *p);
+extern int TOWNMAP_GRH_LoadTownInfo(int);
+extern void TOWNMAP_GRH_FreeTownInfo(void *p);
 extern u32 func_020307B0(void *p);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0201DD78(unsigned,unsigned,unsigned);
+extern void GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
 extern void *func_0201C450(unsigned short,unsigned);
-extern struct GfFont *func_0201D7EC(int,int,int,int,unsigned);
+extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
-extern struct U16Vec *func_020457B0(unsigned,unsigned);
-extern void func_02045808(struct U16Vec *);
-extern unsigned int func_02045C04(struct Rec *rec);
+extern struct U16Vec *STRBUF_Create(unsigned,unsigned);
+extern void STRBUF_Delete(struct U16Vec *);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int func_0201ED04(struct WordSet *p);
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_0201C6EC(struct PrintSys *);
 extern void func_0201C4C0(struct PrintSys *);
 extern void func_0201DD68(void);
-extern void func_02031140(struct S02031140 *);
-extern void func_02049238(void *);
+extern void TCBL_Destroy(struct S02031140 *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32);
-extern void *func_02049250(struct ArcFile *,u32,u32);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *,u32,u32);
 extern int func_02062A98(struct NitroFileHeader *,void **);
 extern void func_0207D63C(u32 *,u32,u32,int,int);
-extern R *func_021B62E0(A *,int);
-extern void func_021B639C(unsigned char *);
-extern void func_021B63D0(struct S *p);
-extern signed int func_0204AC18(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned short e, unsigned short f, unsigned short g);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_0204AFD8(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
+extern R *TOUCHBAR_Create(A *,int);
+extern void TOUCHBAR_Delete(unsigned char *);
+extern void TOUCHBAR_Update(struct S *p);
+extern signed int CLACT_RegisterPaletteEx(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned short e, unsigned short f, unsigned short g);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
 extern int POKEGRA_OpenTrainerHandle(int a0);
 extern int func_02062A00(struct NitroFileHeader *,void **);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
-extern unsigned func_020450F0(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
+extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *,unsigned char);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *);
+extern void BMP_Clear(struct CharBuf *,unsigned char);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern unsigned char func_02045730(struct Descriptor *);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern struct PmsDraw *PMS_DRAW_Create(u32,u32,u32,u32,u8,u8,u16);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *,u8);
@@ -445,39 +445,39 @@ extern void PMS_DRAW_Delete(struct Obj *p);
 extern int sub_0202DBC4(u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0204363C(u32 swap);
-extern void func_0204361C(void);
+extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void func_0201DD60(void);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
 extern void func_02030EAC(struct Node *n);
 extern void func_0203F8F4(int);
-extern void func_02045088(int);
+extern void BMP_WIN_Init(int);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
 extern void func_020403F4(u32 i);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_020419E4(void);
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void CLACT_SetRendererCulling(struct Actor *a0, int a1);
 extern void func_0204B258(struct Bank *bank, void *p);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
-extern void func_0204B084(void *);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern void CLACT_DeleteRenderer(void *);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 extern void MI_CpuFill8(void *, int, int);
-extern void func_0204A600(void);
-extern void func_0204A648(void);
-extern void func_0203D34C(u32 a, u32 b);
-extern int func_021B6470(unsigned char *);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern int TOUCHBAR_GetPressedButtonIdIfPressing(unsigned char *);
 extern u32 func_020362DC(void);
 extern unsigned func_02012204(const struct Ctx *);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
@@ -487,61 +487,61 @@ extern void func_0207E3D0(void *,unsigned,unsigned);
 extern void func_0207E468(void *,unsigned,unsigned);
 extern void func_0207E51C(void *,unsigned,unsigned);
 extern void func_0207E5D0(void *,unsigned,unsigned);
-extern int func_021B6548(unsigned char *p, unsigned int id, int v);
-extern unsigned int func_02165C48(void *a0);
-extern unsigned func_02165DAC(const char *);
-extern unsigned short func_02165DF0(const char *);
-extern unsigned short func_02165DBC(const char *);
-extern unsigned short func_02165D28(const struct Bits *);
+extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
+extern unsigned int GAME_BEACON_ACCESSOR_GetPmVersion(void *a0);
+extern unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const char *);
+extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const char *);
+extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(const char *);
+extern unsigned short GAME_BEACON_ACCESSOR_GetZoneId(const struct Bits *);
 extern u32 func_02013E4C(u32 id);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F104(struct WordSet *p, u32 i, u32 a);
 extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_02045CAC(struct MsgBank*,u32,void*);
 extern void func_0201F250(struct WordSet*,void*,void*);
-extern void func_0204A9D0(int,struct Sub0204A9D0*);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void CLACT_TransferCharacter(int,struct Sub0204A9D0*);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern u32 sub_0202DCC4(const struct Obj0202DCC4 *, u32);
 extern void PMS_DRAW_SetVisible(struct Obj0202DC98 *, int, u32);
 extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_02040618(u32,u32,u32);
-extern void func_02165CC0(int a0, int a1);
-extern void func_02021F64(u16 *,u16 *,u32,int,u16);
-extern void func_02165C34(struct Rec *,void *);
-extern int func_02165C60(int a0);
+extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int a0, int a1);
+extern void PALANM_BlendColors(u16 *,u16 *,u32,int,u16);
+extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *,void *);
+extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(int a0);
 extern void STRBUF_Clear(struct U16Vec *);
 extern void func_0201F1C8(struct WordSet *,u32,u32);
-extern int func_02165C78(int a0);
+extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(int a0);
 extern void func_0201F198(struct WordSet *,u32,u32);
-extern void func_02165D10(const struct S *p, u16 *a, u16 *b);
+extern void GAME_BEACON_ACCESSOR_GetPlayTime(const struct S *p, u16 *a, u16 *b);
 extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
-extern u8 func_02165C58(const u8 *p);
+extern u8 GAME_BEACON_ACCESSOR_GetNation(const u8 *p);
 extern void func_0201F048(struct WordSet *,u32,u32);
-extern u8 func_02165C5C(const u8 *p);
+extern u8 GAME_BEACON_ACCESSOR_GetArea(const u8 *p);
 extern void func_0201F094(struct WordSet *,u32,u32,u32);
-extern u32 func_02165D40(const struct S *p);
-extern u32 func_02165D48(const struct S *p);
+extern u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct S *p);
+extern u32 GAME_BEACON_ACCESSOR_GetThanksCount(const struct S *p);
 extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *,u32);
 extern void PMS_DRAW_Clear(struct Obj0202DC98 *,int,u32);
-extern void func_02165C90(const struct R *p, struct Quad *q);
+extern void GAME_BEACON_ACCESSOR_GetDetailsPms(const struct R *p, struct Quad *q);
 extern void PMS_DRAW_Print(u32,u32,u32,u32);
-extern u8 func_02165CE8(struct S *);
+extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct S *);
 extern u32 func_02025C88(u32);
 extern void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
-extern u8 func_02165CB4(void *);
-extern unsigned short func_02165D34(const struct Bits *p);
-extern int func_021BBB48(int,int);
-extern u16 func_021BBB3C(char *,int,int);
+extern u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(void *);
+extern unsigned short GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(const struct Bits *p);
+extern int TOWNMAP_GRH_FindRecordIndex(int,int);
+extern u16 TOWNMAP_GRH_GetTownInfoValue(char *,int,int);
 extern struct TcblNode *sub_020311B8(struct Tcbl *, void (*)(struct TcblNode *, void *), u32, u32);
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void TCBL_DeleteTask(struct TcblNode*);
-extern void func_021B64A8(u8 *, u32);
-extern int func_02035C60(void);
+extern void TOUCHBAR_SetAllButtonsEnabled(u8 *, u32);
+extern int TOUCHPANEL_GetTrg(void);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern struct TcblNode *func_020311B8(struct Tcbl *,TcblFunc,u32,u32);
@@ -649,8 +649,8 @@ int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config)
     char *p;
     func_02034AC4((int)ov067_id);
     func_02034AC4((int)ov072_id);
-    func_0203064C(1,119,3<<16);
-    p=func_0203159C(obj,620,119);
+    GFL_HEAP_CreateChildHeap(1,119,3<<16);
+    p=PROCSYS_AllocProcWork(obj,620,119);
     func_02082BCC(p,0,620);
     ((struct Obj00366 *)p)->f14=config;
     ((struct Obj00366 *)p)->f0=119;
@@ -707,8 +707,8 @@ int func_021BBE7C(int unused0,int *state,int unused2,char *p)
     case 4: *state=func_021BBF98(p); break;
     case 5: return 1;
     }
-    func_020310C4(*(struct Tcbl * *)&((struct Obj03374 *)p)->f18);
-    func_0201C4E4(*(struct PrintSys * *)&((struct Obj03374 *)p)->f12C);
+    TCBL_Main(*(struct Tcbl * *)&((struct Obj03374 *)p)->f18);
+    PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj03374 *)p)->f12C);
     func_021BC920((unsigned *)p);
     func_021BCA24(*(char * *)&((struct Obj03374 *)p)->f50);
     return 0;
@@ -756,7 +756,7 @@ int func_021BBF28(unsigned char *p){switch(((struct Obj03374 *)p)->f4){case 0:fu
 
 
 
-int func_021BBF60(char *p){switch(((struct Obj10942 *)p)->f4){case 0:func_0204E720(3,16,0,0);(((struct Obj10942 *)p)->f4)++;break;case 1:if(func_0204E804()==0){((struct Obj10942 *)p)->f4=0;return 2;}break;}return 1;}
+int func_021BBF60(char *p){switch(((struct Obj10942 *)p)->f4){case 0:FADE_Start(3,16,0,0);(((struct Obj10942 *)p)->f4)++;break;case 1:if(FADE_IsActive()==0){((struct Obj10942 *)p)->f4=0;return 2;}break;}return 1;}
 
 
 
@@ -769,13 +769,13 @@ int func_021BBF98(char *p)
     case 0:
         if (((struct Obj25768 *)(*(char * *)&((struct Obj05552 *)p)->f14))->f9==0) {
             func_021BC3DC((S *)(((struct Obj05552 *)p)->f124));
-            if (func_021B6448(*(unsigned char * *)&((struct Obj05552 *)p)->f124)!=1) break;
+            if (TOUCHBAR_GetPressedButtonIdIfDone(*(unsigned char * *)&((struct Obj05552 *)p)->f124)!=1) break;
         }
-        func_0204E720(3,0,16,0);
+        FADE_Start(3,0,16,0);
         (((struct Obj05552 *)p)->f4)++;
         break;
     case 1:
-        if (func_0204E804()==0) {
+        if (FADE_IsActive()==0) {
             ((struct Obj05552 *)p)->f4=0;
             return 5;
         }
@@ -799,14 +799,14 @@ int func_021BBF98(char *p)
 void func_021BBFEC(u8 *p)
 {
     int i,count;
-    *(u8 **)(p+40)=func_02165B10(*(u16 *)p);
+    *(u8 **)(p+40)=GAME_BEACON_ACCESSOR_AllocInfo(*(u16 *)p);
     *(u32 *)(p+32)=func_02012A54(*(const struct BigObj **)(*(u8 **)(p+20)+4));
     *(void **)(p+36)=(void *)BEACON_STATUS_GetLog((u32)(*(void **)(p+32)));
-    count=func_02165B04(*(u8 **)(p+36));
+    count=GAME_BEACON_ACCESSOR_TableGetCount(*(u8 **)(p+36));
     p[48]=255;
     for(i=0;i<count;i++){
-        func_02165AC4(*(struct Queue **)(p+36),*(struct Rec **)(p+40),(u16 *)(p+44),i);
-        if(func_02165B5C(*(struct Rec **)(p+40))==0 && func_02165C10(*(u8 **)(p+40))==0){
+        GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue **)(p+36),*(struct Rec **)(p+40),(u16 *)(p+44),i);
+        if(GAME_BEACON_ACCESSOR_IsInfoInvalid(*(struct Rec **)(p+40))==0 && GAME_BEACON_ACCESSOR_IsDistributionAction(*(u8 **)(p+40))==0){
             if((*(u8 **)(p+20))[8]==i)p[48]=p[47];
             p[p[47]++ +49]=i;
         }
@@ -814,7 +814,7 @@ void func_021BBFEC(u8 *p)
     if(p[48]==255 || p[48]>=p[47])p[48]=0;
     if(p[47]==0)*(u32 *)(p+16)=1;
     p[79]=func_02012FFC();
-    *(int *)(p+28)=func_021BBB24(*(u16 *)p);
+    *(int *)(p+28)=TOWNMAP_GRH_LoadTownInfo(*(u16 *)p);
 }
 
 
@@ -825,7 +825,7 @@ void func_021BBFEC(u8 *p)
 
 void func_021BC0B4(char *p)
 {
-    func_021BBB34((void *)(((struct Obj14715 *)p)->f1C));
+    TOWNMAP_GRH_FreeTownInfo((void *)(((struct Obj14715 *)p)->f1C));
     func_020307B0((void *)(((struct Obj14715 *)p)->f28));
 }
 
@@ -836,17 +836,17 @@ void func_021BC0B4(char *p)
 
 void func_021BC0C8(char *p)
 {
-    *(struct Tcbl * *)&((struct Obj00366 *)p)->f18=func_0203101C(((struct Obj00366 *)p)->f0,((struct Obj00366 *)p)->f0,64,128);
+    *(struct Tcbl * *)&((struct Obj00366 *)p)->f18=TCBL_Create(((struct Obj00366 *)p)->f0,((struct Obj00366 *)p)->f0,64,128);
     ((struct Obj00366 *)p)->f54=func_020490F4(173,((struct Obj00366 *)p)->f0);
-    func_0201DD78(7,8,15);
+    GF_FONT_SetTextColor(7,8,15);
     ((struct Obj00366 *)p)->f12C=func_0201C450(2048,((struct Obj00366 *)p)->f0);
-    *(struct GfFont * *)&((struct Obj00366 *)p)->f128=func_0201D7EC(23,0,0,0,((struct Obj00366 *)p)->f0);
+    *(struct GfFont * *)&((struct Obj00366 *)p)->f128=GF_FONT_Create(23,0,0,0,((struct Obj00366 *)p)->f0);
     *(struct WordSet * *)&((struct Obj00366 *)p)->f138=func_0201EC74(8,64,((struct Obj00366 *)p)->f0);
     *(struct MsgBank * *)&((struct Obj00366 *)p)->f130=func_02045B38(0,2,7,((struct Obj00366 *)p)->f0);
     *(struct MsgBank * *)&((struct Obj00366 *)p)->f134=func_02045B38(0,2,231,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f13C=func_020457B0(109,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f140=func_020457B0(109,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f144=func_020457B0(109,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f13C=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f140=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f144=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
 }
 
 
@@ -856,18 +856,18 @@ void func_021BC0C8(char *p)
 
 void func_021BC178(char *p)
 {
-    func_02045808(*(struct U16Vec * *)&((struct Obj01437 *)p)->f144);
-    func_02045808(*(struct U16Vec * *)&((struct Obj01437 *)p)->f140);
-    func_02045808(*(struct U16Vec * *)&((struct Obj01437 *)p)->f13C);
-    func_02045C04(*(struct Rec * *)&((struct Obj01437 *)p)->f134);
-    func_02045C04(*(struct Rec * *)&((struct Obj01437 *)p)->f130);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f144);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f140);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f13C);
+    MSGDATA_Delete(*(struct Rec * *)&((struct Obj01437 *)p)->f134);
+    MSGDATA_Delete(*(struct Rec * *)&((struct Obj01437 *)p)->f130);
     func_0201ED04(*(struct WordSet * *)&((struct Obj01437 *)p)->f138);
-    func_0201D83C(((struct Obj01437 *)p)->f128);
+    GF_FONT_Delete(((struct Obj01437 *)p)->f128);
     func_0201C6EC(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
     func_0201C4C0(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
     func_0201DD68();
-    func_02031140(*(struct S02031140 * *)&((struct Obj01437 *)p)->f18);
-    func_02049238(((struct Obj01437 *)p)->f54);
+    TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01437 *)p)->f18);
+    ARC_TOOL_DeleteHandle(((struct Obj01437 *)p)->f54);
 }
 
 
@@ -895,10 +895,10 @@ void func_021BC1E4(char *p,u16 heap)
     func_020498F4(arc,17,2,0,2048,0,heap);
     func_02049658(arc,7,3,0,0,0,heap);
     func_020498F4(arc,16,3,0,2048,0,heap);
-    ((struct Obj01591 *)p)->f120=func_02049250(*(struct ArcFile * *)&((struct Obj01591 *)p)->f54,29,((struct Obj01591 *)p)->f0);
+    ((struct Obj01591 *)p)->f120=ARC_TOOL_LoadHandleMember(*(struct ArcFile * *)&((struct Obj01591 *)p)->f54,29,((struct Obj01591 *)p)->f0);
     func_02062A98(*(struct NitroFileHeader * *)&((struct Obj01591 *)p)->f120,(void **)(p+280));
     ((struct Obj01591 *)p)->f11C=((struct Obj25769 *)(*(char * *)&((struct Obj01591 *)p)->f118))->fC;
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     func_0207D63C((u32 *)0x04000050,2,30,11,5);
     func_0207D63C((u32 *)0x04001050,3,31,13,3);
 }
@@ -921,21 +921,21 @@ void func_021BC378(char *p)
 
 
 
-R *func_021BC398(int manager,int heap){A a;enum {Zero} zero=Zero;func_02082BCC(&a,0,32);a.f0=(unsigned char *)d_021BDB4C;a.f4=3;a.f10=13;a.f14=11;a.f8=manager;a.fC=zero;a.f18=zero;return func_021B62E0(&a,heap);}
+R *func_021BC398(int manager,int heap){A a;enum {Zero} zero=Zero;func_02082BCC(&a,0,32);a.f0=(unsigned char *)d_021BDB4C;a.f4=3;a.f10=13;a.f14=11;a.f8=manager;a.fC=zero;a.f18=zero;return TOUCHBAR_Create(&a,heap);}
 
 
 
 
 
 
-void func_021BC3D4(unsigned char *p){func_021B639C(p);}
+void func_021BC3D4(unsigned char *p){TOUCHBAR_Delete(p);}
 
 
 
 
 
 
-void func_021BC3DC(S *p){func_021B63D0(p);}
+void func_021BC3DC(S *p){TOUCHBAR_Update(p);}
 
 
 
@@ -945,9 +945,9 @@ void func_021BC3DC(S *p){func_021B63D0(p);}
 void func_021BC3E4(unsigned short *p,int *out,const Config_021BBD80 *cfg,void *handle)
 {
     func_02082BCC(out,0,12);
-    out[0]=func_0204AC18(handle,cfg->first,cfg->a,(unsigned short)(cfg->b<<5),0,cfg->c,*p);
-    out[1]=func_0204A6C8((void *)handle,cfg->second,0,cfg->a,*p);
-    out[2]=func_0204AF28((void *)handle,cfg->third,cfg->third+1,*p);
+    out[0]=CLACT_RegisterPaletteEx(handle,cfg->first,cfg->a,(unsigned short)(cfg->b<<5),0,cfg->c,*p);
+    out[1]=CLACT_RegisterCharacter((void *)handle,cfg->second,0,cfg->a,*p);
+    out[2]=CLACT_RegisterCellAnim((void *)handle,cfg->third,cfg->third+1,*p);
 }
 
 
@@ -958,9 +958,9 @@ void func_021BC3E4(unsigned short *p,int *out,const Config_021BBD80 *cfg,void *h
 
 void func_021BC43C(void *unused, char *p)
 {
-    func_0204AFD8(((struct Obj10945 *)p)->f8);
-    func_0204A8D4(((struct Obj10945 *)p)->f4);
-    func_0204ADA4(((struct Obj10945 *)p)->f0);
+    CLACT_ReleaseCellAnim(((struct Obj10945 *)p)->f8);
+    CLACT_ReleaseCharacter(((struct Obj10945 *)p)->f4);
+    CLACT_ReleasePalette(((struct Obj10945 *)p)->f0);
 }
 
 
@@ -990,14 +990,14 @@ void func_021BC454(char *p,u32 handle)
     b=configB;
     arc=func_020490F4(32,((struct Obj01783 *)p)->f2);
     func_021BC3E4((u16 *)p, (int *)(p+128), (const Config_021BBD80 *)&b, (void *)((u32)arc));
-    ((struct Obj01783 *)p)->f114=func_02049250(arc,0,((struct Obj01783 *)p)->f0);
+    ((struct Obj01783 *)p)->f114=ARC_TOOL_LoadHandleMember(arc,0,((struct Obj01783 *)p)->f0);
     func_02062A98(*(struct NitroFileHeader * *)&((struct Obj01783 *)p)->f114,(void **)(p+268));
     ((struct Obj01783 *)p)->f110=((struct Obj25771 *)(*(char * *)&((struct Obj01783 *)p)->f10C))->fC;
     for(i=0;i<16;i++){
-        *(void **)(p+i*8+144)=func_02049250(arc,i+49,((struct Obj01783 *)p)->f0);
+        *(void **)(p+i*8+144)=ARC_TOOL_LoadHandleMember(arc,i+49,((struct Obj01783 *)p)->f0);
         func_02062A00(*(struct NitroFileHeader **)(p+i*8+144),(void **)(p+140+i*8));
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     for(i=0;i<2;i++){
         char *q=p+i*12;
         ((struct Obj10946 *)q)->f6C=POKEGRA_RegisterTrainerCgr(((struct Obj01783 *)p)->f58,i+2,1,((struct Obj01783 *)p)->f0);
@@ -1018,7 +1018,7 @@ void func_021BC56C(char *p)
     func_020307B0(((struct Obj14716 *)p)->f114);
     func_021BC43C(p,p+0x80);
     func_021BC43C(p,p+0x5c);
-    func_02049238(((struct Obj14716 *)p)->f58);
+    ARC_TOOL_DeleteHandle(((struct Obj14716 *)p)->f58);
 }
 
 
@@ -1028,14 +1028,14 @@ void func_021BC56C(char *p)
 void func_021BC5C4(Window_021BBD80 *p,unsigned char layer,unsigned char palette,unsigned x,unsigned char y,unsigned char width,unsigned char height)
 {
     struct Descriptor *window;
-    p->window=(struct Descriptor *)func_020450F0(layer,x,y,width,height,palette,1);
+    p->window=(struct Descriptor *)BMP_WIN_Create(layer,x,y,width,height,palette,1);
     p->buffer=func_02045770(p->window);
     p->copy=p->window;
     p->state=0;
-    func_02043B5C(p->buffer,3);
+    BMP_Clear(p->buffer,3);
     window=p->window;
-    func_02045334(window);
-    func_02045374((struct Cfg *)window);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen((struct Cfg *)window);
     func_020409B4(func_02045730(window));
 }
 
@@ -1043,7 +1043,7 @@ void func_021BC5C4(Window_021BBD80 *p,unsigned char layer,unsigned char palette,
 
 
 
-unsigned func_021BC614(unsigned short *p,void *manager,unsigned *r,short x,short y,unsigned char z,unsigned char a,unsigned char b,unsigned short flag){Position pos;pos.x=x;pos.y=y;pos.z=z;pos.b=b;pos.a=a;return (unsigned)func_0204B294(manager,r[1],r[0],r[2],&pos,flag,*p);}
+unsigned func_021BC614(unsigned short *p,void *manager,unsigned *r,short x,short y,unsigned char z,unsigned char a,unsigned char b,unsigned short flag){Position pos;pos.x=x;pos.y=y;pos.z=z;pos.b=b;pos.a=a;return (unsigned)CLACT_CreateActor(manager,r[1],r[0],r[2],&pos,flag,*p);}
 
 
 
@@ -1067,7 +1067,7 @@ void func_021BC6B4(struct S021BC6B4 *p)
     for (i = 0; i < 2; i++)
     {
         func_0204B3DC(p->slots[i], 0);
-        func_0204B3B4(p->slots[i]);
+        CLACT_DeleteActor(p->slots[i]);
     }
 }
 
@@ -1105,7 +1105,7 @@ void func_021BC70C(char *p)
         layer=i+4;
         q=p+348+i*128;
         q[126]=(u8)layer;
-        *(u32 *)(q+112)=func_020450F0((u8)layer,2,15,28,4,i,1);
+        *(u32 *)(q+112)=BMP_WIN_Create((u8)layer,2,15,28,4,i,1);
         for(j=0;j<4;j++)func_021BC5C4((Window_021BBD80 *)(q+j*16),layer,i,2,j*2+1,19,2);
         func_021BC5C4((Window_021BBD80 *)(q+64),layer,i,2,9,19,2);
         func_021BC5C4((Window_021BBD80 *)(q+80),layer,i,3,11,28,4);
@@ -1128,8 +1128,8 @@ void func_021BC8A8(char *p)
     char *base=p+0x15c;
     for(;i<2;i++) {
         char *q=base+i*128;
-        func_0204B3DC(((struct Obj05553 *)q)->f78,0); func_0204B3B4(((struct Obj05553 *)q)->f78);
-        func_0204B3DC(((struct Obj05553 *)q)->f74,0); func_0204B3B4(((struct Obj05553 *)q)->f74);
+        func_0204B3DC(((struct Obj05553 *)q)->f78,0); CLACT_DeleteActor(((struct Obj05553 *)q)->f78);
+        func_0204B3DC(((struct Obj05553 *)q)->f74,0); CLACT_DeleteActor(((struct Obj05553 *)q)->f74);
         func_020452E8(((struct Obj05553 *)q)->f60);
         for(j=0;j<2;j++) func_020452E8(*(void **)(q+0x40+j*16));
         for(j=0;j<4;j++) func_020452E8(*(void **)(q+j*16));
@@ -1167,9 +1167,9 @@ void *func_021BC930(int a,int heap)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((const struct DispVram *)d_021BDBD8);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021BDBD8);
     func_0204363C(a);
-    func_0204361C();
+    BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     func_0201DD60();
@@ -1229,7 +1229,7 @@ void func_021BCA58(void *p,int heap)
     unsigned i;
     func_02082BCC(p,0,4);
     func_0203F8F4(heap);
-    func_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021BDBAC);
     for(i=0;i<8;i++) {
         const struct Entry *e=&d_021BDC28[i];
@@ -1243,7 +1243,7 @@ void func_021BCA58(void *p,int heap)
 
 
 
-void func_021BCAB8(void *p){unsigned base=(unsigned)d_021BDC28;unsigned i;for(i=0;i<8;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));func_020450C8();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_021BCAB8(void *p){unsigned base=(unsigned)d_021BDC28;unsigned i;for(i=0;i<8;i++)func_020403F4((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
 
 
 
@@ -1260,14 +1260,14 @@ void func_021BCAFC(void **p,void *a,int heap)
 {
     struct Block b;
     func_02082BCC(p,0,8);
-    func_0204A48C((const struct Cfg *)d_021BDBBC,(unsigned int)a,heap);
-    p[0]=func_0204B100(128,0,heap);
+    CLACT_InitSystem((const struct Cfg *)d_021BDBBC,(unsigned int)a,heap);
+    p[0]=CLACT_CreateUnit(128,0,heap);
     b=d_021BDC08;
-    p[1]=func_0204B034((u8 *)(&b),2,heap);
+    p[1]=CLACT_CreateRenderer((u8 *)(&b),2,heap);
     CLACT_SetRendererCulling(p[1],1);
     func_0204B258(p[0],p[1]);
     func_020434DC(16,1);
-    func_02043598(16,1);
+    BG_SYS_SetSubPlaneVisible(16,1);
 }
 
 
@@ -1275,19 +1275,19 @@ void func_021BCAFC(void **p,void *a,int heap)
 
 void func_021BCB70(char *p)
 {
-    func_0204B084(((struct Obj14717 *)p)->f4);
-    func_0204B1CC(((struct Obj14717 *)p)->f0);
-    func_0204A5AC();
+    CLACT_DeleteRenderer(((struct Obj14717 *)p)->f4);
+    CLACT_DeleteUnit(((struct Obj14717 *)p)->f0);
+    CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 8);
 }
 
 
 
-void func_021BCB90(void *a0){func_0204A600();}
+void func_021BCB90(void *a0){CLACT_DrawSystem();}
 
 
 
-void func_021BCB98(void *a0){func_0204A648();}
+void func_021BCB98(void *a0){CLACT_VBlankSystem();}
 
 
 
@@ -1298,19 +1298,19 @@ u32 func_021BCBA0(u32*p){return *p;}
 void func_021BCBA4(unsigned char *p)
 {
     func_021BCF08((char *)p);
-    func_02165AC4(((struct Obj00051 *)p)->f24,((struct Obj00051 *)p)->f28,(u16 *)(p+0x2c),*(p+p[0x30]+0x31));
+    GAME_BEACON_ACCESSOR_TableRingGet(((struct Obj00051 *)p)->f24,((struct Obj00051 *)p)->f28,(u16 *)(p+0x2c),*(p+p[0x30]+0x31));
     func_021BD174((char *)p,((struct Obj00051 *)p)->f28,((struct Obj00051 *)p)->f2C,p[0x2e]);
     func_021BD0E4((char *)p,p[0x2e],1);
     func_021BD0E4((char *)p,p[0x2e]^1,0);
     func_021BD448((char *)p); func_021BCD60(p);
-    func_0203D34C(0,((struct Obj00051 *)p)->f2);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00051 *)p)->f2);
 }
 
 
 
 int func_021BCC10(unsigned char *p)
 {
-    int state=func_021B6470(((struct Obj05554 *)p)->f124);
+    int state=TOUCHBAR_GetPressedButtonIdIfPressing(((struct Obj05554 *)p)->f124);
     unsigned keys=func_020362DC();
     if(func_02012204((const struct Ctx *)**(void ** *)&((struct Obj05554 *)p)->f14)) { (*(unsigned char **)(p+0x14))[9]=1; return 4; }
     if(state==1) { (*(unsigned char **)(p+0x14))[9]=0; return 4; }
@@ -1351,18 +1351,18 @@ void func_021BCD08(void *p,unsigned mode,unsigned a,unsigned b)
 
 void func_021BCD60(unsigned char *p)
 {
-    func_021B6548(((struct Object *)p)->menu,1,1);
-    if(p[0x30]) func_021B6548(((struct Object *)p)->menu,3,1);
-    else func_021B6548(((struct Object *)p)->menu,3,0);
-    if(p[0x30]<p[0x2f]-1) func_021B6548(((struct Object *)p)->menu,2,1);
-    else func_021B6548(((struct Object *)p)->menu,2,0);
+    TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,1,1);
+    if(p[0x30]) TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,3,1);
+    else TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,3,0);
+    if(p[0x30]<p[0x2f]-1) TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,2,1);
+    else TOUCHBAR_SetButtonEnabled(((struct Object *)p)->menu,2,0);
 }
 
 
 
 
 /*
- * Unblocked by matching func_02165C48 (ov010, EXACT): the +0002 call site now
+ * Unblocked by matching GAME_BEACON_ACCESSOR_GetPmVersion (ov010, EXACT): the +0002 call site now
  * attests as `matched`.  ov009 holds ARM code at that address; ov010 is the
  * coherent Thumb leaf, so the correct hint is ov010 (the earlier ov009 hint
  * was wrong).
@@ -1375,7 +1375,7 @@ void func_021BCD60(unsigned char *p)
  */
 int func_021BCDC0(void *a0)
 {
-    switch (func_02165C48(a0)) {
+    switch (GAME_BEACON_ACCESSOR_GetPmVersion(a0)) {
     case 0x15:
         return 0;
     case 0x14:
@@ -1393,16 +1393,16 @@ const u8*func_021BCDDC(u32 n){u32 i;for(i=0;i<6;i++){if(n==d_021BDDA2[i*3])retur
 
 void func_021BCE04(void *p,void *q)
 {
-    switch(func_02165DAC(p)) {
+    switch(GAME_BEACON_ACCESSOR_GetDetailsType(p)) {
     case 0: case 1:
-        func_0201EE60(q,0,func_02165DF0(p)); break;
+        func_0201EE60(q,0,GAME_BEACON_ACCESSOR_GetDetailsMonsNo(p)); break;
     case 2: {
-        unsigned a=func_02165DBC(p);
+        unsigned a=GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(p);
         func_0201F104(q,0,a); func_0201F134(q,1,a); break;
     }
     case 3: case 4: break;
     default: {
-        unsigned a=func_02165D28(p);
+        unsigned a=GAME_BEACON_ACCESSOR_GetZoneId(p);
         if(a>=427) a=317;
         func_0201F158(q,0,func_02013E4C(a)); break;
     }
@@ -1414,8 +1414,8 @@ void func_021BCE04(void *p,void *q)
 
 void func_021BCE7C(void *p, unsigned short value)
 {
-    func_0204B878(p, value);
-    func_0204B9A0(p);
+    CLACT_SetActorAnimSeq(p, value);
+    CLACT_RestartActorAnim(p);
 }
 
 
@@ -1521,7 +1521,7 @@ void func_021BCEA4(u8*p, u8 n){func_02045CAC(*(struct MsgBank**)(p+0x130),n,*(vo
 
 
 
-void func_021BCED0(u8*p,u32 n){func_0204A9D0(((struct Obj14719 *)p)->f84,*(struct Sub0204A9D0**)((u32)p+n*8+0x8c));func_021BCD08((u8*)*(void* *)&((struct Obj14719 *)p)->f110+(d_021BDD92[n]&15)*32,2,160,16);}
+void func_021BCED0(u8*p,u32 n){CLACT_TransferCharacter(((struct Obj14719 *)p)->f84,*(struct Sub0204A9D0**)((u32)p+n*8+0x8c));func_021BCD08((u8*)*(void* *)&((struct Obj14719 *)p)->f110+(d_021BDD92[n]&15)*32,2,160,16);}
 
 
 
@@ -1563,7 +1563,7 @@ void func_021BCF08(char *p)
         j = 0;
         do {
             rec = (struct Rec *)(off + (u32)&w[j]);
-            func_02043B5C((struct CharBuf *)rec->h, b);
+            BMP_Clear((struct CharBuf *)rec->h, b);
             func_021BDA54(p, (char *)rec, 0, 0, ARG(p, 0x130), a);
             CALLS(rec);
             j++;
@@ -1575,7 +1575,7 @@ void func_021BCF08(char *p)
 
     x = 0;
     do {
-        func_02043B5C((struct CharBuf *)w2[x].b.h, 3);
+        BMP_Clear((struct CharBuf *)w2[x].b.h, 3);
         func_021BDA54(p, (char *)&w2[x].b, 0, 0, ARG(p, 0x130), 0x3DC3);
         CALLS(&w2[x].b);
         x++;
@@ -1584,7 +1584,7 @@ void func_021BCF08(char *p)
     w3 = (struct Win *)(p + 0x130 + 0x2C);
     j = 0;
     do {
-        func_02043B5C((struct CharBuf *)w3[j].c.h, 3);
+        BMP_Clear((struct CharBuf *)w3[j].c.h, 3);
         func_021BDA54(p, (char *)&w3[j].c, 0, 0, ARG(p, 0x130), 0x3DC3);
         CALLS(&w3[j].c);
         j++;
@@ -1604,10 +1604,10 @@ void func_021BCF08(char *p)
 void func_021BD07C(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e)
 {
     void *x;
-    func_02043AF4(q[1],(short)(a*8),0,(unsigned short)(c*8),(unsigned short)(d*8),d_021BDD8A[e].b);
+    BMP_FillRect(q[1],(short)(a*8),0,(unsigned short)(c*8),(unsigned short)(d*8),d_021BDD8A[e].b);
     func_021BDA54(p,(char *)q,b,0,v,d_021BDD8A[e].a);
     x=q[0];
-    func_02045334(x); func_02045374(x); func_020409B4(func_02045730(x));
+    BMP_WIN_TransferChars(x); BMP_WIN_MakeScreen(x); func_020409B4(func_02045730(x));
 }
 
 
@@ -1643,42 +1643,42 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     u16 value;
     int position;
     int index;
-    func_02165CC0((int)(&colors.a),(int)record);
-    func_02021F64(&colors.a,&colors.b,1,3,0);
+    GAME_BEACON_ACCESSOR_GetFavoriteColorRgb((int)(&colors.a),(int)record);
+    PALANM_BlendColors(&colors.a,&colors.b,1,3,0);
     position=slot*16;
     func_021BCD08(&colors,1,(u16)(position+1),2);
     func_021BCD08(*(char * *)&((struct Obj00051 *)p)->f11C+func_021BCDC0(record)*32,1,(u16)(position+10),2);
-    func_02165C34(record,((struct Obj00051 *)p)->f13C);
+    GAME_BEACON_ACCESSOR_GetPlayerName(record,((struct Obj00051 *)p)->f13C);
     func_021BD07C((char *)p,(void **)q,*(int *)&((struct Obj00051 *)p)->f13C,6,48,13,2,0);
-    subtype=func_02165C60((int)record);
+    subtype=GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond((int)record);
     if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
     else {func_0201F1C8(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,5);}
     func_021BD07C((char *)p,(void **)(q+16),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
-    subtype=func_02165C78((int)record);
+    subtype=GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst((int)record);
     if(subtype==255) STRBUF_Clear(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
     else {func_0201F198(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((u8 *)p,4);}
     func_021BD07C((char *)p,(void **)(q+32),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,0);
-    func_02165D10(record,&counts.b,&counts.a);
+    GAME_BEACON_ACCESSOR_GetPlayTime(record,&counts.b,&counts.a);
     func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,2,counts.b,3,0,1);
     func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,3,counts.a,2,2,1);
     func_021BCEA4((u8 *)p,6);
     func_021BD07C((char *)p,(void **)(q+48),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
-    value=(unsigned)func_02165C58(record);
+    value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
     func_0201F048(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
-    func_0201F094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,func_02165C5C(record));
+    func_0201F094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
     func_021BCEA4((u8 *)p,8);
     func_021BD07C((char *)p,(void **)(q+80),*(int *)&((struct Obj00051 *)p)->f140,0,0,28,4,0);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,func_02165D40(record),5,1,1);
-    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,func_02165D48(record),5,1,1);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
     func_021BCEA4((u8 *)p,10);
     func_021BD07C((char *)p,(void **)(q+96),*(int *)&((struct Obj00051 *)p)->f140,21,0,6,4,0);
     if(PMS_DRAW_IsActive(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) PMS_DRAW_Clear(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);
-    func_02165C90(record,&data);
+    GAME_BEACON_ACCESSOR_GetDetailsPms(record,&data);
     PMS_DRAW_Print(*(u32 *)&((struct Obj00051 *)p)->f158,((struct Obj05555 *)q)->f70,(u32)&data,slot);
-    ((struct Obj05555 *)q)->f7C=func_02165CE8(record);
+    ((struct Obj05555 *)q)->f7C=GAME_BEACON_ACCESSOR_GetTrainerAppearance(record);
     index=slot*12;
     POKEGRA_LoadTrainerGraphics(((struct Obj00051 *)p)->f58,func_02025C88(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
-    subtype=func_02165CB4(record);
+    subtype=GAME_BEACON_ACCESSOR_GetResearchTeamRank(record);
     if(subtype==0) {func_0204B3DC(*(struct Obj * *)&((struct Obj05555 *)q)->f74,0);return;}
     func_021BCE7C(((struct Obj05555 *)q)->f74,(u8)(subtype+1));
     func_0204B3DC(*(struct Obj * *)&((struct Obj05555 *)q)->f74,1);
@@ -1692,12 +1692,12 @@ void func_021BD448(char *p)
     u32 value;
     int index,high;
     struct Descriptor *d;
-    func_02165AC4(*(struct Queue * *)&((struct Obj00051 *)p)->f24,*(struct Rec * *)&((struct Obj00051 *)p)->f28,(u16 *)(p+44),*(u8 *)((u32)p+((struct Obj00051 *)p)->f30+49));
-    type=func_021BCDDC(func_02165DAC(*(const char * *)&((struct Obj00051 *)p)->f28));
-    func_021BCED0((u8 *)p,func_02165CE8(*(struct S * *)&((struct Obj00051 *)p)->f28));
-    value=func_02165D28(*(struct Bits * *)&((struct Obj00051 *)p)->f28);
-    index=func_021BBB48(*(int *)&((struct Obj00051 *)p)->f1C,func_02165D34((const struct Bits *)(*(const char * *)&((struct Obj00051 *)p)->f28)));
-    if(index==0xffff || func_021BBB3C(*(char * *)&((struct Obj00051 *)p)->f1C,index,16)!=0xffff || value>=427) {
+    GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue * *)&((struct Obj00051 *)p)->f24,*(struct Rec * *)&((struct Obj00051 *)p)->f28,(u16 *)(p+44),*(u8 *)((u32)p+((struct Obj00051 *)p)->f30+49));
+    type=func_021BCDDC(GAME_BEACON_ACCESSOR_GetDetailsType(*(const char * *)&((struct Obj00051 *)p)->f28));
+    func_021BCED0((u8 *)p,GAME_BEACON_ACCESSOR_GetTrainerAppearance(*(struct S * *)&((struct Obj00051 *)p)->f28));
+    value=GAME_BEACON_ACCESSOR_GetZoneId(*(struct Bits * *)&((struct Obj00051 *)p)->f28);
+    index=TOWNMAP_GRH_FindRecordIndex(*(int *)&((struct Obj00051 *)p)->f1C,GAME_BEACON_ACCESSOR_GetTownmapRootZoneId((const struct Bits *)(*(const char * *)&((struct Obj00051 *)p)->f28)));
+    if(index==0xffff || TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct Obj00051 *)p)->f1C,index,16)!=0xffff || value>=427) {
         ((struct Obj00051 *)p)->f260=0;
         *(volatile s16 *)&((struct Obj00051 *)p)->f25E=0;
         ((struct Obj00051 *)p)->f25C=*(volatile s16 *)&((struct Obj00051 *)p)->f25E;
@@ -1705,8 +1705,8 @@ void func_021BD448(char *p)
         func_0204B3DC(*(struct Obj * *)&((struct Obj00051 *)p)->f268,0);
     } else {
         ((struct Obj00051 *)p)->f260=1;
-        ((struct Obj00051 *)p)->f25C=func_021BBB3C(*(char * *)&((struct Obj00051 *)p)->f1C,index,2);
-        ((struct Obj00051 *)p)->f25E=func_021BBB3C(*(char * *)&((struct Obj00051 *)p)->f1C,index,3)-16;
+        ((struct Obj00051 *)p)->f25C=TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct Obj00051 *)p)->f1C,index,2);
+        ((struct Obj00051 *)p)->f25E=TOWNMAP_GRH_GetTownInfoValue(*(char * *)&((struct Obj00051 *)p)->f1C,index,3)-16;
         if(((struct Obj00051 *)p)->f25E<32) ((struct Obj00051 *)p)->f25E=32;
         else if(((struct Obj00051 *)p)->f25E>152) ((struct Obj00051 *)p)->f25E=152;
         if(((struct Obj00051 *)p)->f25C<16) ((struct Obj00051 *)p)->f25C=16;
@@ -1719,7 +1719,7 @@ void func_021BD448(char *p)
         }
         func_0204B3DC(*(struct Obj * *)&((struct Obj00051 *)p)->f268,type[2]!=0);
     }
-    func_02043B5C(*(struct CharBuf * *)&((struct Obj00051 *)p)->f14C,15);
+    BMP_Clear(*(struct CharBuf * *)&((struct Obj00051 *)p)->f14C,15);
     high=(u8)(((struct Obj00051 *)p)->f2C>>8);
     func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,high,2,0,1);
     func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,(u8)((struct Obj00051 *)p)->f2C,2,2,1);
@@ -1729,8 +1729,8 @@ void func_021BD448(char *p)
     func_021BCEA4((u8 *)p,type[1]);
     func_021BDA54(p,p+0x148,0,16,*(u32 *)&((struct Obj00051 *)p)->f140,0x1d0f);
     d=*(struct Descriptor * *)&((struct Obj00051 *)p)->f148;
-    func_02045334(d);
-    func_02045374((struct Cfg *)d);
+    BMP_WIN_TransferChars(d);
+    BMP_WIN_MakeScreen((struct Cfg *)d);
     func_020409B4(func_02045730(d));
 }
 
@@ -1778,7 +1778,7 @@ void func_021BD6FC(char *owner, int *counter)
     MI_CpuFill8(work, 0, 16);
     *(char * *)&((struct Obj10949 *)work)->f8 = owner;
     ((struct Obj10949 *)work)->f1 = 150;
-    func_021B64A8(*(u8 * *)&((struct Obj14720 *)owner)->f124, 0);
+    TOUCHBAR_SetAllButtonsEnabled(*(u8 * *)&((struct Obj14720 *)owner)->f124, 0);
     *(int * *)&((struct Obj10949 *)work)->fC = counter;
     ++*counter;
 }
@@ -1789,7 +1789,7 @@ void func_021BD6FC(char *owner, int *counter)
 int func_021BD73C(char *p)
 {
     unsigned char c;
-    if (func_02035C60() != 0 || (func_020362DC() & 1) != 0)
+    if (TOUCHPANEL_GetTrg() != 0 || (func_020362DC() & 1) != 0)
     {
         ((struct Obj10950 *)p)->f1 = 0;
         return 0;
@@ -1891,13 +1891,13 @@ void func_021BD8A8(char *owner, int direction, int *counter)
     ((struct Obj05556 *)work)->f4 = direction;
     if (direction == 0) {
         ((struct Obj05556 *)work)->f3 = ((struct Obj00051 *)owner)->f30 + 1;
-        func_021B6548(((struct Obj00051 *)owner)->f124, 3, 0);
+        TOUCHBAR_SetButtonEnabled(((struct Obj00051 *)owner)->f124, 3, 0);
     } else {
         ((struct Obj05556 *)work)->f3 = ((struct Obj00051 *)owner)->f30 - 1;
-        func_021B6548(((struct Obj00051 *)owner)->f124, 2, 0);
+        TOUCHBAR_SetButtonEnabled(((struct Obj00051 *)owner)->f124, 2, 0);
     }
-    func_021B6548(((struct Obj00051 *)owner)->f124, 1, 0);
-    func_02165AC4(*(struct Queue * *)&((struct Obj00051 *)owner)->f24, *(struct Rec * *)&((struct Obj00051 *)owner)->f28, (u16 *)(owner + 0x2c), *(u8 *)(owner + 0x31 + ((struct Obj05556 *)work)->f3));
+    TOUCHBAR_SetButtonEnabled(((struct Obj00051 *)owner)->f124, 1, 0);
+    GAME_BEACON_ACCESSOR_TableRingGet(*(struct Queue * *)&((struct Obj00051 *)owner)->f24, *(struct Rec * *)&((struct Obj00051 *)owner)->f28, (u16 *)(owner + 0x2c), *(u8 *)(owner + 0x31 + ((struct Obj05556 *)work)->f3));
     func_021BD174(owner, ((struct Obj00051 *)owner)->f28, ((struct Obj00051 *)owner)->f2C, ((struct Obj00051 *)owner)->f2E ^ 1);
     *(char * *)&((struct Obj05556 *)work)->f10 = owner;
     *(int * *)&((struct Obj05556 *)work)->f14 = counter;
@@ -1912,14 +1912,14 @@ void func_021BD8A8(char *owner, int direction, int *counter)
 void func_021BD948(struct TcblNode *task,char *work)
 {
     if(((struct Obj00690 *)work)->f5==0) {
-        if(func_021B6448(*(u8 * *)&((struct Obj25787 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f124)!=-1)
+        if(TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct Obj25787 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f124)!=-1)
             ((struct Obj00690 *)work)->f5=1;
     }
     if(func_0201C6B4(*(struct PrintSys * *)&((struct Obj25788 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f12C)==0) return;
     switch(((struct Obj00690 *)work)->f0) {
     case 0:
         if(((struct Obj00690 *)work)->f5==0) break;
-        func_021B64A8(*(u8 * *)&((struct Obj25789 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f124,0);
+        TOUCHBAR_SetAllButtonsEnabled(*(u8 * *)&((struct Obj25789 *)(*(char * *)&((struct Obj00690 *)work)->f10))->f124,0);
         ++((struct Obj00690 *)work)->f0;
         return;
     case 1:

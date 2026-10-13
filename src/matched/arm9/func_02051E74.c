@@ -1,5 +1,5 @@
 /*
- * function: func_02051E74
+ * function: BUTTON_MAN_RotScaleMtx22
  * address:  0x02051E74
  * packet:   pkt_02051E74
  * region:   arm9
@@ -41,7 +41,7 @@ extern void MTX_Rot22_(struct Mtx22 *mtx, s32 sinVal, s32 cosVal);
 extern void MTX_ScaleApply22(const struct Mtx22 *src, struct Mtx22 *dst, s32 x, s32 y);
 extern long FX_Inv(long v);
 
-void func_02051E74(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode)
+void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode)
 {
     if (mode == 1)
         ang = (u16)((ang * 0xFFFF) >> 8);

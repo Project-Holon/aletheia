@@ -1,5 +1,5 @@
 /*
- * function: func_02157298
+ * function: MUSICAL_PROGRAM_PackPicks
  * address:  0x02157298
  * packet:   pkt_ov010_02157298
  * region:   ov010
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * Little-endian 24-bit read from bytes 8..10 of a record (inverse of
- * func_021572A8).
+ * MUSICAL_PROGRAM_UnpackPicks).
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u32 func_02157298(const u8 *p)
+u32 MUSICAL_PROGRAM_PackPicks(const u8 *p)
 {
     return p[8] + (p[9] << 8) + (p[10] << 16);
 }

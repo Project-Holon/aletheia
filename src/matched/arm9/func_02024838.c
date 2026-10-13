@@ -21,8 +21,8 @@
  *   PMS_WORD_SplitWordId    0x020248D8  thumb
  *   STRBUF_Clear    0x0204581C  arm
  *   func_02045B38    0x02045B38  arm
- *   func_02045C04    0x02045C04  arm
- *   func_02045CAC    0x02045CAC  arm
+ *   MSGDATA_Delete    0x02045C04  arm
+ *   MSGDATA_ReadString    0x02045CAC  arm
  */
 
 typedef unsigned short u16;
@@ -36,8 +36,8 @@ struct Rec;
 struct U16Vec;
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 void PMS_WORD_LoadString(u32 id, void *dest, u32 heap)
 {
@@ -50,8 +50,8 @@ void PMS_WORD_LoadString(u32 id, void *dest, u32 heap)
         PMS_WORD_SplitWordId(id, &bank, &entry);
         bank = Table_0209F7AC[bank];
         arc = func_02045B38(0, 2, bank, heap);
-        func_02045CAC(arc, entry, dest);
-        func_02045C04(arc);
+        MSGDATA_ReadString(arc, entry, dest);
+        MSGDATA_Delete(arc);
     } else {
         STRBUF_Clear(dest);
     }

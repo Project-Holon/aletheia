@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021847CC",
+   "name": "EVENT_MAPCHANGE_SeasonEffectAEvent",
    "address": "0x021847CC",
    "kind": "game",
    "region": "ov020",

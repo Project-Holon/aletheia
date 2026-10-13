@@ -49,6 +49,7 @@
  *   MYSTERY_DATA_SetEventFlag  0x0200A1E4  thumb  arm9
  *   MYSTERY_DATA_GetCardSlotNum  0x0200A348  thumb  arm9
  *   MYSTERY_DATA_IsMainSave  0x0200A350  thumb  arm9
+ *   MYSTERY_DATA_IsCardReceived  0x0200A104  thumb  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -87,7 +88,7 @@ extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
 extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
 struct Obj;
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
-extern int func_0200A104(char *p, unsigned int idx);
+extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern int func_0202EB44(void);
 extern void *func_021DE4D8(char *p);
@@ -118,7 +119,7 @@ void func_021D6E3C(void *task,u32 *state,u8 *p)
             flag=(MYSTERY_DATA_HasCardSpace(P(956))==0);
             if(flag) {
                 for(i=0;i<MYSTERY_DATA_GetCardSlotNum(P(956));i++) {
-                    if(func_0200A104(P(956),i)) all=0;
+                    if(MYSTERY_DATA_IsCardReceived(P(956),i)) all=0;
                 }
             }
             if(flag) {

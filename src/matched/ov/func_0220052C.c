@@ -11,15 +11,16 @@
  *
  * symbols:
  *   g_022038EC  0x022038EC  data  ov135
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
 
  *
- * Tail call into func_02035C08 with the overlay's own state object.
+ * Tail call into TOUCHPANEL_HitTrg with the overlay's own state object.
  */
 
-extern int func_02035C08(const void *key);
+extern int TOUCHPANEL_HitTrg(const void *key);
 extern char g_022038EC[];
 
 int func_0220052C(void)
 {
-    return func_02035C08(g_022038EC);
+    return TOUCHPANEL_HitTrg(g_022038EC);
 }

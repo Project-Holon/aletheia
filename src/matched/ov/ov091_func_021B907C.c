@@ -1,5 +1,5 @@
 /*
- * function: func_021B907C
+ * function: POKELIST_EnterMenuPhase
  * address:  0x021B907C
  * packet:   pkt_ov091_021B907C
  * region:   ov091
@@ -66,7 +66,7 @@ static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect)
 
 #define W(o) (*(int *)(p + (o)))
 
-void func_021B907C(u8 *p)
+void POKELIST_EnterMenuPhase(u8 *p)
 {
     p[0xc] = 6;
     p[0xe] = 0;

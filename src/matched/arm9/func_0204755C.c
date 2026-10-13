@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204755C
+ * function: G3D_SYSTEM_GetRenderObj
  * address:  0x0204755C
  * packet:   pkt_02047260
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0204755C(int *p){ return p[1]; }
+int G3D_SYSTEM_GetRenderObj(int *p){ return p[1]; }

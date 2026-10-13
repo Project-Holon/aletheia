@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_02012EBC  0x02012EBC  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009470  0x02009470  thumb
  *   func_02082D44  0x02082D44  arm
  *   func_0200856C  0x0200856C  thumb
@@ -29,12 +29,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 struct Big;
 struct Sub02009470Obj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void func_02082D44(void *dst, const void *src, int n);
 struct Sub0200852CObj;
@@ -53,11 +53,11 @@ void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
     u32 r1, r2;
     void *saved;
 
-    if (a4 != (int)func_020399A8())
+    if (a4 != (int)GFL_NET_HANDLE_GetCurrentHandle())
         return;
-    if (p == (void *)func_0203D1A4((struct Link *)((u32)func_020399A8())))
+    if (p == (void *)GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
-    saved = func_02009470(func_02012EBC(((struct Obj22714 *)a3)->f82C));
+    saved = func_02009470(GAME_DATA_GetSaveControl(((struct Obj22714 *)a3)->f82C));
     func_02082D44(a2, buf, 0x28);
     x = func_0200856C((const struct Sub0200852CObj *)buf);
     y = func_02008570((const struct Sub0200852CObj *)buf);

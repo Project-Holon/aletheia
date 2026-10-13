@@ -1,5 +1,5 @@
 /*
- * function: func_021A9080
+ * function: FIELD_MENU_PlaceCursor
  * address:  0x021A9080
  * packet:   pkt_ov021_021A9080
  * region:   ov021
@@ -32,7 +32,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021A9080(S *s, s16 x, s16 y)
+void FIELD_MENU_PlaceCursor(S *s, s16 x, s16 y)
 {
     P v;
     v.x = x;

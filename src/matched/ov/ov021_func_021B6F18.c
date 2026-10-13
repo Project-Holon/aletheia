@@ -1,5 +1,5 @@
 /*
- * function: func_021B6F18
+ * function: SCRCMD_POKEMON_FLD_ReceiveGiftMon
  * address:  0x021B6F18
  * packet:   pkt_ov021_021B6F18
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012934  0x02012934  thumb
- *   func_021B6EE0  0x021B6EE0  thumb  ov021
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   SCRCMD_POKEMON_FLD_CreateGiftMon  0x021B6EE0  thumb  ov021
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
@@ -24,22 +24,22 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Party;
 struct PartyMon;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 struct Blk37;
-extern int func_021B6EE0(u32 a, u32 b);
+extern int SCRCMD_POKEMON_FLD_CreateGiftMon(u32 a, u32 b);
 extern u32 func_0201AA18(void *p);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern u32 func_020307B0(void *p);
 
-void func_021B6F18(int a, int b, int c)
+void SCRCMD_POKEMON_FLD_ReceiveGiftMon(int a, int b, int c)
 {
     void *l;
     void *m;
 
-    l = func_02012934((void *)b);
-    m = (void *)func_021B6EE0(a, c);
+    l = GAME_DATA_GetMyParty((void *)b);
+    m = (void *)SCRCMD_POKEMON_FLD_CreateGiftMon(a, c);
     if ((int)func_0201AA18(l) < 6 && m != 0) {
         func_0201A98C(l, m);
         func_0200CDE0(func_0200CA1C((void *)b), m);

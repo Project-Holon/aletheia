@@ -14,12 +14,12 @@
  *
  * symbols:
  *   func_0201BD28  0x0201BD28  thumb
- *   func_021B8588  0x021B8588  thumb
+ *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
  *   func_021B99E0  0x021B99E0  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021D80A8  0x021D80A8  thumb
- *   func_021D82D0  0x021D82D0  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb
+ *   BTL_ACTION_SetFight  0x021D82D0  thumb
  *   func_0689AE34 0x0689AE34 thumb ov095
  *   func_0689B354  0x0689B354  thumb  ov095
  */
@@ -39,13 +39,13 @@ typedef struct {
 
 extern void func_0689AE34(u8 *list, u8 n, int unused, u8 *s);
 extern void func_0689B354(u8 *p, u8 *s);
-extern int func_021B8588(u32 a);
-extern u32 func_021D5440(u32 a);
+extern int BTL_MAIN_GetRule(u32 a);
+extern u32 BTL_POKEPARAM_GetPokeId(u32 a);
 extern void func_021B8D8C(u32 a, u32 b, u32 c);
 extern u8 *func_021B99E0(void);
-extern void func_021D82D0(Q *q, u16 id, u8 c);
+extern void BTL_ACTION_SetFight(Q *q, u16 id, u8 c);
 extern u8 func_0201BD28(u16 id, int k);
-extern u8 func_021D80A8(u32 a);
+extern u8 BTL_CALC_GetCurseTargetKind(u32 a);
 void func_0689B098(u8 *p, u8 *s);
 u8 func_0689B0CC(u8 *p);
 int func_0689B0D4(int unused, u8 *s);
@@ -77,20 +77,20 @@ int func_0689B0D4(int unused, u8 *s)
     u8 c;
 
     func_0689B354(s + 0x80, s);
-    if (func_021B8588(*(u32 *)&((struct Obj00409 *)s)->fA0) == 2) {
+    if (BTL_MAIN_GetRule(*(u32 *)&((struct Obj00409 *)s)->fA0) == 2) {
         c = 6;
         if (s[0x80] != 0) {
             func_021B8D8C(*(u32 *)&((struct Obj00409 *)s)->fA0, *(u32 *)&((struct Obj00409 *)s)->fA4,
-                          func_021D5440(*(u32 *)&((struct Obj00409 *)s)->f6C));
+                          BTL_POKEPARAM_GetPokeId(*(u32 *)&((struct Obj00409 *)s)->f6C));
             c = func_021B99E0()[4];
         }
-        func_021D82D0(*(Q * *)&((struct Obj00409 *)s)->f70, (*(Q * *)&((struct Obj00409 *)s)->f70)->id, c);
+        BTL_ACTION_SetFight(*(Q * *)&((struct Obj00409 *)s)->f70, (*(Q * *)&((struct Obj00409 *)s)->f70)->id, c);
         s[0x89] = 1;
     }
     func_0689B098(s + 0x80, s);
     s[0x89] = 0;
     s[0x8a] = func_0201BD28((*(Q * *)&((struct Obj00409 *)s)->f70)->id, 0x1b);
     if ((*(Q * *)&((struct Obj00409 *)s)->f70)->id == 0xae)
-        s[0x8a] = func_021D80A8(*(u32 *)&((struct Obj00409 *)s)->f6C);
+        s[0x8a] = BTL_CALC_GetCurseTargetKind(*(u32 *)&((struct Obj00409 *)s)->f6C);
     return 1;
 }

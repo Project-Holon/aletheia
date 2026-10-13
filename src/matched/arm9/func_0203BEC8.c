@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_GetSession   0x0203D788  arm
- *   func_0203D798   0x0203D798  arm
+ *   GFL_NET_GetInitParam   0x0203D798  arm
  *   GFL_NET_STATE_FreeWork   0x0203AEEC  arm
  *
  * Addresses are Black-image addresses.
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern void GFL_NET_STATE_FreeWork(u8 *p);
 
@@ -32,7 +32,7 @@ void GFL_NET_STATE_ExitWait(u8 *p)
 {
     u8 *s;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     s = GFL_NET_GetSession();
 
     if ((*(u32 (**)(void))(*(u32 *)(s + 0x340) + 0x78))() != 0) {

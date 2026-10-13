@@ -1,5 +1,5 @@
 /*
- * function: func_021AF750
+ * function: SCRCMD_GetItemMachineFlag
  * address:  0x021AF750
  * packet:   pkt_021AF750
  * region:   ov021
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02021288(u32 id);
 
-int func_021AF750(u32 a)
+int SCRCMD_GetItemMachineFlag(u32 a)
 {
 return ((func_02021288(a) << 16) >> 16);
 }

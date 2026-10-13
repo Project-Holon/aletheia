@@ -1,5 +1,5 @@
 /*
- * function: func_0216D570
+ * function: FLDMMDL_ClearMoveBit
  * address:  0x0216D570
  * packet:   pkt_0216D570
  * region:   ov010
@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-char *func_0216D570(char *p, u32 v)
+char *FLDMMDL_ClearMoveBit(char *p, u32 v)
 {
     ((struct Obj19125 *)p)->f4 &= ~v;
     return p;

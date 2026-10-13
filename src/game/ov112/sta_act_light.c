@@ -13,20 +13,20 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0204F720 0x0204F720 arm
+ *   BILLBOARD_SetElemVisible 0x0204F720 arm
  *   func_02030734 0x02030734 arm
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0204ABF0 0x0204ABF0 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021F8408 0x021F8408 data a4
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204B1CC 0x0204B1CC arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
  *   func_020307B0 0x020307B0 arm
  *   func_021F9E04 0x021F9E04 thumb ov132
  *   func_021F9E18 0x021F9E18 thumb ov132
@@ -39,25 +39,25 @@
  *   _ffix 0x0209C494 arm
  *   func_021F9DA0 0x021F9DA0 thumb ov132
  *   func_021F9DA4 0x021F9DA4 thumb ov132
- *   func_0204B294 0x0204B294 arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   d_021F8454 0x021F8454 data a1
- *   func_02047910 0x02047910 arm
+ *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   func_0207ADC4 0x0207ADC4 arm
- *   func_02047A60 0x02047A60 arm
+ *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  *   d_021F8430 0x021F8430 data a4
  *   d_021F8418 0x021F8418 data a4
- *   func_02046DB8 0x02046DB8 arm
- *   func_02046FF8 0x02046FF8 arm
- *   func_02047400 0x02047400 arm
- *   func_02047564 0x02047564 arm
- *   func_0204767C 0x0204767C arm
- *   func_020477A4 0x020477A4 arm
- *   func_02047738 0x02047738 arm
- *   func_0204762C 0x0204762C arm
- *   func_02047504 0x02047504 arm
- *   func_02046EFC 0x02046EFC arm
- *   func_020470D0 0x020470D0 arm
+ *   G3D_SYSTEM_CreateResourceArc 0x02046DB8 arm
+ *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
+ *   G3D_SYSTEM_CreateRender 0x02047400 arm
+ *   G3D_SYSTEM_CreateAnime 0x02047564 arm
+ *   G3D_SYSTEM_CreateObject 0x0204767C arm
+ *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
+ *   G3D_SYSTEM_DeleteObject 0x02047738 arm
+ *   G3D_SYSTEM_DeleteAnime 0x0204762C arm
+ *   G3D_SYSTEM_DeleteRender 0x02047504 arm
+ *   G3D_SYSTEM_DeleteResource 0x02046EFC arm
+ *   G3D_SYSTEM_FreeVramTexture 0x020470D0 arm
  *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
  *   d_021F8464 0x021F8464 data a1
  *   BILLBOARD_DeleteImage 0x0204F150 arm
@@ -83,7 +83,7 @@
  *   func_021F4ED4 0x021F4ED4 thumb ov112
  *   func_021F4EB4 0x021F4EB4 thumb ov112
  *   func_021F4E6C 0x021F4E6C thumb ov112
- *   func_0204F638 0x0204F638 arm
+ *   BILLBOARD_SetElemPos 0x0204F638 arm
  *   _fadd 0x0209C95C arm
  *   func_021F5204 0x021F5204 thumb ov112
  *   func_0201ADE4 0x0201ADE4 thumb
@@ -266,19 +266,19 @@ typedef struct { u8 pad0[0x4c]; int zero; u8 pad50[8]; int target; } Obj;
 
 typedef struct { int pad[33]; int a; int pad2[17]; int b; } Slot_021F7C90;
 
-extern void func_0204F720(void *,u32,u32 *);
+extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void *func_020490F4(u32 id, u32 heap);
-extern signed int func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32_021F6BD8 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32_021F6BD8 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *);
-extern void func_0204ADA4(u32);
-extern void func_0204A8D4(u32);
-extern void func_0204AFD8(u32);
-extern void func_0204B1CC(void *);
+extern signed int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
+extern s32_021F6BD8 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32_021F6BD8 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern void CLACT_ReleasePalette(u32);
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleaseCellAnim(u32);
+extern void CLACT_DeleteUnit(void *);
 extern void func_020307B0(void *);
 extern u16 func_021F9E04(u8 *p);
 extern int func_021F9E18(char *p);
@@ -286,22 +286,22 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3B4(struct Obj *p);
-extern int func_02047910(void *,int,int);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
 extern void func_0207ADC4(void *);
-extern void func_02047A60(void *,struct Arg *);
-extern void *func_02046DB8(u32 a0, u32 a1);
-extern int func_02046FF8(int *self);
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
-extern void func_02047738(struct Rec *p);
-extern void func_0204762C(struct Rec *p);
-extern void func_02047504(struct Rec *p);
-extern void func_02046EFC(struct Tagged *p);
-extern int func_020470D0(u32 *p);
+extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
+extern void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
+extern int G3D_SYSTEM_TransVramTexture(int *self);
+extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
+extern void G3D_SYSTEM_DeleteAnime(struct Rec *p);
+extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
+extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
 extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
 extern void BILLBOARD_DeleteImage(u8 *a0, int i);
 extern u32 func_021F9E44(u8 *p);
@@ -324,7 +324,7 @@ extern void func_021F4E8C(u32, u8 *, const Vec_021F732C *);
 extern void func_021F4ED4(u32 unused, u32 p, u16 v);
 extern void func_021F4EB4(u32 unused, u32 p, s16_021F6BC0 a, s16_021F6BC0 b);
 extern void func_021F4E6C(u8 *, u8 *, u32);
-extern void func_0204F638(u8 *a0, int i, struct Trip *src);
+extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
 extern u8 *func_021F5204(void *,u8 *,u32);
 extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
@@ -423,7 +423,7 @@ extern void *d_021F832C[];
 /*
  * note: True entry includes push {r0-r3}; handed 021F6BC2 is an interior prologue label.
  */
-void func_021F6BC0(char *p,u32 *q,u32 flag) {func_0204F720(((struct Obj22554 *)p)->f4,q[6],&flag);}
+void func_021F6BC0(char *p,u32 *q,u32 flag) {BILLBOARD_SetElemVisible(((struct Obj22554 *)p)->f4,q[6],&flag);}
 
 
 
@@ -438,13 +438,13 @@ Object *func_021F6BD8(u16 heap,void *a)
     p->heap=heap; p->a=a;
     for(;i<4;i++) p->entries[i][0]=0;
     p->other[0]=0;
-    p->bank=func_0204B100(5,0,p->heap);
+    p->bank=CLACT_CreateUnit(5,0,p->heap);
     CLACT_SetUnitDefaultRenderer(p->bank);
     q=func_020490F4((unsigned int)47,p->heap);
-    p->x=func_0204ABF0((void *)q,4,0,0,p->heap);
-    p->y=func_0204A6C8((void *)((u32)q),10,0,0,p->heap);
-    p->z=func_0204AF28((void *)((u32)q),20,23,p->heap);
-    func_02049238(q);
+    p->x=CLACT_RegisterPalette((void *)q,4,0,0,p->heap);
+    p->y=CLACT_RegisterCharacter((void *)((u32)q),10,0,0,p->heap);
+    p->z=CLACT_RegisterCellAnim((void *)((u32)q),20,23,p->heap);
+    ARC_TOOL_DeleteHandle(q);
     return p;
 }
 
@@ -454,7 +454,7 @@ Object *func_021F6BD8(u16 heap,void *a)
 /*
  * note: Two-byte zero alignment padding follows the compiled body.
  */
-void func_021F6C7C(char *p) {func_0204ADA4(((struct Obj08024 *)p)->fAC);func_0204A8D4(((struct Obj08024 *)p)->fB0);func_0204AFD8(((struct Obj08024 *)p)->fB4);func_0204B1CC(((struct Obj08024 *)p)->fA8);func_020307B0(p);}
+void func_021F6C7C(char *p) {CLACT_ReleasePalette(((struct Obj08024 *)p)->fAC);CLACT_ReleaseCharacter(((struct Obj08024 *)p)->fB0);CLACT_ReleaseCellAnim(((struct Obj08024 *)p)->fB4);CLACT_DeleteUnit(((struct Obj08024 *)p)->fA8);func_020307B0(p);}
 
 
 
@@ -504,13 +504,13 @@ void func_021F6D68(char *p)
         d.z=0;
         d.a=0;
         d.b=2;
-        a=func_0204B294((void *)((struct Obj00771 *)p)->fA8,((struct Obj00771 *)p)->fB0,((struct Obj00771 *)p)->fAC,((struct Obj00771 *)p)->fB4,&d.x,0,((struct Obj00771 *)p)->f0);
+        a=CLACT_CreateActor((void *)((struct Obj00771 *)p)->fA8,((struct Obj00771 *)p)->fB0,((struct Obj00771 *)p)->fAC,((struct Obj00771 *)p)->fB4,&d.x,0,((struct Obj00771 *)p)->f0);
         ((struct Obj00771 *)p)->fA4=a;
         func_0204B3DC(a,1);
     }
     if(((struct Obj00771 *)p)->f88==1) {
         if(func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
-            func_0204B3B4(((struct Obj00771 *)p)->fA4);
+            CLACT_DeleteActor(((struct Obj00771 *)p)->fA4);
             ((struct Obj00771 *)p)->f88=0;
             return;
         }
@@ -550,7 +550,7 @@ u8 *func_021F6E78(u8 *p, int v)
     pos.z = 0;
     pos.a = 0;
     pos.b = 2;
-    o = func_0204B294(*(void **)(p + 0xa8), *(u32 *)(p + 0xb0), *(u32 *)(p + 0xac), *(u32 *)(p + 0xb4), &pos, 0, *(u16 *)p);
+    o = CLACT_CreateActor(*(void **)(p + 0xa8), *(u32 *)(p + 0xb0), *(u32 *)(p + 0xac), *(u32 *)(p + 0xb4), &pos, 0, *(u16 *)p);
     *(struct Obj **)(q + 0x1c) = o;
     func_0204B3DC(o, 1);
     return q;
@@ -559,7 +559,7 @@ u8 *func_021F6E78(u8 *p, int v)
 
 
 
-void func_021F6EE4(void *unused,u8 *p) { func_0204B3B4(*(struct Obj * *)&((struct Obj13836 *)p)->f1C); ((struct Obj13836 *)p)->f0=0; }
+void func_021F6EE4(void *unused,u8 *p) { CLACT_DeleteActor(*(struct Obj * *)&((struct Obj13836 *)p)->f1C); ((struct Obj13836 *)p)->f0=0; }
 
 
 
@@ -620,7 +620,7 @@ void func_021F6F4C(u8 *p) { if(*(u32 *)&((struct Obj00670 *)p)->f1C) func_021F70
 
 
 
-void func_021F6F64(u8 *p) { u8 i; if(((struct Obj13837 *)p)->f1C) { for(i=0;i<3;i++) func_02047910(((struct Obj13837 *)p)->f3C,i,4096); } }
+void func_021F6F64(u8 *p) { u8 i; if(((struct Obj13837 *)p)->f1C) { for(i=0;i<3;i++) G3D_SYSTEM_LoopObjectAnimeFrame(((struct Obj13837 *)p)->f3C,i,4096); } }
 
 
 
@@ -629,7 +629,7 @@ void func_021F6F64(u8 *p) { u8 i; if(((struct Obj13837 *)p)->f1C) { for(i=0;i<3;
 
 
 
-void func_021F6F8C(u8 *p) { if(((struct Obj13838 *)p)->f1C) { func_0207ADC4(d_021F8430); func_02047A60(((struct Obj13838 *)p)->f3C,&d_021F8418); } }
+void func_021F6F8C(u8 *p) { if(((struct Obj13838 *)p)->f1C) { func_0207ADC4(d_021F8430); G3D_SYSTEM_DrawObject(((struct Obj13838 *)p)->f3C,&d_021F8418); } }
 
 
 
@@ -644,15 +644,15 @@ void func_021F6F8C(u8 *p) { if(((struct Obj13838 *)p)->f1C) { func_0207ADC4(d_02
 void func_021F6FB0(Cleanup *p, char *q) {
     u8 i, j;
     if (p->single != 0) func_021F7048(p);
-    p->single = (int)func_02046DB8(0x2f, (u32)(q + 0x1e));
-    p->a[0] = (int)func_02046DB8(0x2f, (u32)(q + 0x24));
-    p->a[1] = (int)func_02046DB8(0x2f, (u32)(q + 0x2e));
-    p->a[2] = (int)func_02046DB8(0x2f, (u32)(q + 0x29));
-    if (func_02046FF8((int *)p->single) != 0) {
-        p->b = (int)func_02047400((void *)p->single, 0, (void *)p->single);
-        for (i = 0; i < 3; i++) p->c[i] = (int)func_02047564((struct G3dOwner *)p->b, (const struct G3dOwner *)p->a[i], 0);
-        p->d = (int)func_0204767C(p->b, (u32 *)p->c, 3);
-        for (j = 0; j < 3; j++) func_020477A4((struct G3dSys *)p->d, j);
+    p->single = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x1e));
+    p->a[0] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x24));
+    p->a[1] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x2e));
+    p->a[2] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x29));
+    if (G3D_SYSTEM_TransVramTexture((int *)p->single) != 0) {
+        p->b = (int)G3D_SYSTEM_CreateRender((void *)p->single, 0, (void *)p->single);
+        for (i = 0; i < 3; i++) p->c[i] = (int)G3D_SYSTEM_CreateAnime((struct G3dOwner *)p->b, (const struct G3dOwner *)p->a[i], 0);
+        p->d = (int)G3D_SYSTEM_CreateObject(p->b, (u32 *)p->c, 3);
+        for (j = 0; j < 3; j++) G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)p->d, j);
     }
 }
 
@@ -665,12 +665,12 @@ void func_021F6FB0(Cleanup *p, char *q) {
 
 void func_021F7048(Cleanup *p) {
     u8 i;
-    func_02047738((struct Rec *)p->d);
-    for (i = 0; i < 3; i++) func_0204762C((struct Rec *)p->c[i]);
-    func_02047504((struct Rec *)p->b);
-    for (i = 0; i < 3; i++) func_02046EFC((struct Tagged *)p->a[i]);
-    func_020470D0((u32 *)p->single);
-    func_02046EFC((struct Tagged *)p->single);
+    G3D_SYSTEM_DeleteObject((struct Rec *)p->d);
+    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteAnime((struct Rec *)p->c[i]);
+    G3D_SYSTEM_DeleteRender((struct Rec *)p->b);
+    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteResource((struct Tagged *)p->a[i]);
+    G3D_SYSTEM_FreeVramTexture((u32 *)p->single);
+    G3D_SYSTEM_DeleteResource((struct Tagged *)p->single);
     p->single = 0;
 }
 
@@ -899,7 +899,7 @@ void func_021F732C(u8 *self, u8 *q)
     v3.x = *(int *)(q + 0x18) / 16;
     v3.y = (0xC0000 - *(int *)(q + 0x1C)) / 16;
     v3.z = 0x32;
-    func_0204F638(*(void **)(self + 8), *(u32 *)(q + 0x5C), (struct Trip *)(&v3));
+    BILLBOARD_SetElemPos(*(void **)(self + 8), *(u32 *)(q + 0x5C), (struct Trip *)(&v3));
 }
 
 
@@ -1008,7 +1008,7 @@ void func_021F760C(u8 *p,u8 *input)
     }
     *(int *)&((struct Obj00723 *)q)->f5C=BILLBOARD_AddElem(((struct Obj03762 *)p)->f8,((struct Obj03762 *)p)->f438,1024,768,(struct Vec3 *)(q+24),30,0,0);
     flag=1;
-    func_0204F720(((struct Obj03762 *)p)->f8,((struct Obj00723 *)q)->f5C,&flag);
+    BILLBOARD_SetElemVisible(((struct Obj03762 *)p)->f8,((struct Obj00723 *)q)->f5C,&flag);
     ((struct Obj00723 *)q)->f50=func_020056EC(150)>>1;
     ((struct Obj00723 *)q)->f4C=1;
 }
@@ -1419,7 +1419,7 @@ void func_021F80D4(char *p, char *q, int v) {
         if (((Slot_021F7C90 *)(q + i * 4))->a != 0 && ((Slot_021F7C90 *)(q + i * 4))->b == 1)
             func_021F4E6C((u8 *)(((struct Obj13845 *)p)->f10), (u8 *)(((Slot_021F7C90 *)(q + i * 4))->a), value);
     }
-    func_0204F720((void *)(((struct Obj13845 *)p)->f8), ((struct Obj13846 *)q)->f5C, (u32 *)(&v));
+    BILLBOARD_SetElemVisible((void *)(((struct Obj13845 *)p)->f8), ((struct Obj13846 *)q)->f5C, (u32 *)(&v));
 }
 
 

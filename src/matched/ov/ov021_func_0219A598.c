@@ -1,5 +1,5 @@
 /*
- * function: func_0219A598
+ * function: FLDMMDL_MOVECODE_InitFixedDirRight
  * address: 0x0219A598
  * packet: pkt_ov021_0219A598
  * region: ov021
@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov021/unit_02198D3C.c and filed here.
  *
  * symbols:
- *   func_0219A528 0x0219A528 thumb
+ *   FLDMMDL_MOVECODE_InitFixedDir 0x0219A528 thumb
  */
 
 typedef unsigned int   u32;
-int func_0219A528();
-int func_0219A598(u32 a);
+int FLDMMDL_MOVECODE_InitFixedDir();
+int FLDMMDL_MOVECODE_InitFixedDirRight(u32 a);
 
-int func_0219A598(u32 a) { return func_0219A528(a, 3); }
+int FLDMMDL_MOVECODE_InitFixedDirRight(u32 a) { return FLDMMDL_MOVECODE_InitFixedDir(a, 3); }

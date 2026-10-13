@@ -1,5 +1,5 @@
 /*
- * function: func_0215EC6C
+ * function: MOVE_POKEMON_CheckWaterfall
  * address: 0x0215EC6C
  * packet: pkt_ov010_0215EC6C
  * region: ov010
@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0215F104 0x0215F104 thumb ov010
+ *   MOVE_POKEMON_IsSkillUsable 0x0215F104 thumb ov010
  */
-extern int func_0215F104(int a0, int a1);
+extern int MOVE_POKEMON_IsSkillUsable(int a0, int a1);
 typedef enum { B_FALSE, B_TRUE } Bool;
-int func_0215EC6C(void *p)
+int MOVE_POKEMON_CheckWaterfall(void *p)
 {
-    return func_0215F104((int)p, 4) != 0 ? B_FALSE : B_TRUE;
+    return MOVE_POKEMON_IsSkillUsable((int)p, 4) != 0 ? B_FALSE : B_TRUE;
 }

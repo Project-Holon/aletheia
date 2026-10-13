@@ -1,5 +1,5 @@
 /*
- * function: func_021AC134
+ * function: FIELD_EFFECT_ObjectTask
  * address:  0x021AC134
  * packet:   pkt_021AC134
  * region:   ov021
@@ -12,7 +12,7 @@
  * Untraced thunk: forwards the second argument.
  *
  * symbols:
- *   func_021AC178  0x021AC178  thumb  ov021
+ *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
 
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021AC178(u32 v);
+extern void FIELD_EFFECT_UpdateObject(u32 v);
 
-void func_021AC134(u32 a, u32 b)
+void FIELD_EFFECT_ObjectTask(u32 a, u32 b)
 {
-    func_021AC178(b);
+    FIELD_EFFECT_UpdateObject(b);
 }

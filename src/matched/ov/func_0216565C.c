@@ -1,5 +1,5 @@
 /*
- * function: func_0216565C
+ * function: GAME_BEACON_SEARCH_SetInfoWordValue
  * address:  0x0216565C
  * packet:   pkt_0216565C
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_ResetDetails(void *dst);
 
-void func_0216565C(void *a0, unsigned a1)
+void GAME_BEACON_SEARCH_SetInfoWordValue(void *a0, unsigned a1)
 {
     ((struct Obj00121 *)a0)->f30 = 0x29;
     *(u32 *)((char *)a0 + 0x34) = (u32)a1;

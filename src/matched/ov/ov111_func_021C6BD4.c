@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_0201C7D0  0x0201C7D0  thumb
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   func_0201F35C  0x0201F35C  thumb
  *   func_0201D304  0x0201D304  thumb
  *   d_021C8768     0x021C8768  data  a2
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void func_0201F35C(void *ctx, int n, u32 kind, u32 mode, u32 flag);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -43,5 +43,5 @@ void func_021C6BD4(Work *p, void *a, int x, int dx, int y, void *s, int n, u8 ki
 
     func_0201F35C(s, n, kind, mode, 1);
     w = func_0201D304(s, (u32)p->f31FC, 0);
-    func_0201C7D0(func_02045770(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
+    PRINTSYS_PrintColor(func_02045770(a), x - (w + dx), y, s, p->f31FC, d_021C8768[idx]);
 }

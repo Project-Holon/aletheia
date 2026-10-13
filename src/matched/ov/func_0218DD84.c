@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD84
+ * function: FIELD_G3D_MAPPER_IsCellUsed
  * address:  0x0218DD84
  * packet:   pkt_0218DD84
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0218DD84(u32 a)
+int FIELD_G3D_MAPPER_IsCellUsed(u32 a)
 {
 if (((struct Obj17903 *)((u8 *)(a)))->f0 != (~0)) {
     return 1;

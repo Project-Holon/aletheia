@@ -1,5 +1,5 @@
 /*
- * function: func_02159BFC
+ * function: MAP_MATRIX_GetCount
  * address:  0x02159BFC
  * packet:   pkt_ov010_02159BFC
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf accessor (prints as .word): returns the field at +0x10.
- * Sole blocker of ov021 func_02189B30's MATCH.
+ * Sole blocker of ov021 FIELDMAP_SetupMapperParam's MATCH.
  */
 
 typedef struct Obj {
@@ -18,7 +18,7 @@ typedef struct Obj {
     int f;
 } Obj;
 
-int func_02159BFC(Obj *p)
+int MAP_MATRIX_GetCount(Obj *p)
 {
     return p->f;
 }

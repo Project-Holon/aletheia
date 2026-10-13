@@ -1,5 +1,5 @@
 /*
- * function: func_021DD8B4
+ * function: BTL_ITEM_RaiseSpeedOne
  * address:  0x021DD8B4
  * packet:   pkt_021DC604
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021DD8B4   0x021DD8B4  thumb
- *   func_021DD9E8   0x021DD9E8  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #5; movs r3, #1; bl func_021DD9E8; pop {r3, pc}.
+ *   BTL_ITEM_RaiseSpeedOne   0x021DD8B4  thumb
+ *   BTL_ITEM_RaiseStat   0x021DD9E8  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #5; movs r3, #1; bl BTL_ITEM_RaiseStat; pop {r3, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021DD8B4  shifted 3-arg wrapper -> func_021DD9E8(..., 0x5, 1) */
-void func_021DD8B4(int a, int b, int c)
+/* 021DD8B4  shifted 3-arg wrapper -> BTL_ITEM_RaiseStat(..., 0x5, 1) */
+void BTL_ITEM_RaiseSpeedOne(int a, int b, int c)
 {
-    func_021DD9E8(b, c, 0x5, 1);
+    BTL_ITEM_RaiseStat(b, c, 0x5, 1);
 }
 

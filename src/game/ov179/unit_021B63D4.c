@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
- *   func_0204363C 0x0204363C arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_021B615C 0x021B615C thumb ov179
  *   func_021B616C 0x021B616C thumb ov179
  *   func_020490F4 0x020490F4 arm
@@ -23,11 +23,11 @@
  *   func_021B624C 0x021B624C thumb ov179
  *   func_021B6290 0x021B6290 thumb ov179
  *   d_021B6A1C 0x021B6A1C data a4
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021B6268 0x021B6268 thumb ov179
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021B6248 0x021B6248 thumb ov179
  *   func_021B6220 0x021B6220 thumb ov179
  *   func_020870D0  0x020870D0  arm
@@ -35,7 +35,7 @@
  *   data_021B6A1C  0x021B6A1C  data  ov179
  *   _ull_mul       0x0209C054  arm
  *   _ll_udiv       0x0209C00C  arm
- *   func_0204A380  0x0204A380  arm
+ *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   func_020862F0  0x020862F0  arm
  *   func_0207EB78  0x0207EB78  arm
  *   func_0207ECF0  0x0207ECF0  arm
@@ -89,24 +89,24 @@ typedef struct {
 } Entry_021B64E0;
 
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
-extern void func_0204363C(u32 swap);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void func_021B615C(void);
 extern void func_021B616C(char *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_021B622C(char *);
 extern void func_021B624C(int *);
 extern void func_021B6290(char *,unsigned,unsigned,unsigned);
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021B6268(char *);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_021B6248(char *);
 extern void func_021B6220(void);
 extern u64 func_020870D0(void);
 extern void func_0204047C(int idx, unsigned short val);
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_020862F0(int, int);
 extern void func_0207EB78(int, int, int);
 extern void func_0207ECF0(int, int, int);
@@ -152,10 +152,10 @@ extern const unsigned d_021B6A90[];
 
 int func_021B63D4(char *p)
 {
- func_02043534(0);func_020435F4(0);
+ func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
- func_0204363C(1);func_021B615C();func_021B616C(p);
+ BG_SYS_SetLcdSwap(1);func_021B615C();func_021B616C(p);
  ((struct Obj14386 *)p)->f4=func_020490F4(d_021B6A1C[**(unsigned short **)p].value,0x7F);
  func_021B622C(p);func_021B624C((int *)p);func_021B6290(p,1,1,5);
  ((struct Obj14386 *)p)->f6058=1;
@@ -163,17 +163,17 @@ int func_021B63D4(char *p)
 }
 
 int func_021B6448(char *p) {
- if(func_020221A4()==0) return 1;
+ if(WIPE_SYS_EndCheck()==0) return 1;
  if(GFL_USE_IsBgmFading()==1) return 1;
  GFL_USE_CancelChangeAndStopBgm();
- if(((struct Obj14387 *)p)->f6058==1) { func_021B6268(p); func_02049238(((struct Obj14387 *)p)->f4); func_021B6248(p); func_021B6220(); }
+ if(((struct Obj14387 *)p)->f6058==1) { func_021B6268(p); ARC_TOOL_DeleteHandle(((struct Obj14387 *)p)->f4); func_021B6248(p); func_021B6220(); }
  return 6;
 }
 
 
 u32 func_021B6490(char *p)
 {
-    if (func_020221A4() == 1)
+    if (WIPE_SYS_EndCheck() == 1)
         return ((struct Obj24472 *)p)->f6054;
     return 2;
 }
@@ -251,7 +251,7 @@ int func_021B64E0(char *p)
 
 void func_021B669C(int a, int b, int c, int d, int e)
 {
-    int t = (int)func_0204A380((void *)a, b, 1, 0x807f);
+    int t = (int)ARC_UTIL_LoadHandleMember((void *)a, b, 1, 0x807f);
 
     func_020862F0(t, d);
     if (e == 0) {

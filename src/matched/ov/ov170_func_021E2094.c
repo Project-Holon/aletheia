@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020362DC 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  *   func_020061E4 0x020061E4 thumb
@@ -16,14 +16,14 @@
 #include "../include/Obj00000.h"
 
 typedef unsigned int u32;
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_020362DC(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern void func_020061E4(unsigned);
 int func_021E2094(char *p)
 {
-    if (func_02035C60() == 1) {
+    if (TOUCHPANEL_GetTrg() == 1) {
         func_020061E4(0x54C);
         func_020355D8(1);
         return ((struct Obj00000 *)p)->f28;

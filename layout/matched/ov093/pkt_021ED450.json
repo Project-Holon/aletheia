@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021EEAD0",
+   "name": "BTL_ADAPTER_ResetCommand",
    "address": "0x021EEAD0",
    "kind": "game",
    "region": "ov093",

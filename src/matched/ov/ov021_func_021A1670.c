@@ -1,5 +1,5 @@
 /*
- * function: func_021A1670
+ * function: FIELD_3DBG_ReleaseBillboardTextureVram
  * address:  0x021A1670
  * packet:   pkt_ov021_021A1670
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A1768  0x021A1768  thumb  ov021
+ *   FIELD_3DBG_ReleaseTextureVram  0x021A1768  thumb  ov021
  */
 
 typedef unsigned char u8;
 
-void func_021A1768(u8 *p);
+void FIELD_3DBG_ReleaseTextureVram(u8 *p);
 
-void func_021A1670(u8 *p)
+void FIELD_3DBG_ReleaseBillboardTextureVram(u8 *p)
 {
     if (p != 0)
-        func_021A1768(p + 0x20);
+        FIELD_3DBG_ReleaseTextureVram(p + 0x20);
 }

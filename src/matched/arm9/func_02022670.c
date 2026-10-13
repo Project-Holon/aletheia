@@ -21,7 +21,7 @@
  * the second `ldr`.
  *
  * symbols:
- *   func_0202223C  0x0202223C  thumb
+ *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetWndMask  0x02022224  thumb
  *
  * Addresses are Black-image addresses.
@@ -44,13 +44,13 @@ struct Screen {
     void *f2C;
 };
 
-extern void func_0202223C(u32 a, u32 color);
+extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern u32 WIPE_ResetWndMask(void *win);
 
 void WIPE_SUB_ApplyEndBrightness(struct Screen *s)
 {
     if (s->f28 == 1 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0) {
-        func_0202223C((u32)s->f10, s->f24);
+        WIPE_SetBrightnessFadeOut((u32)s->f10, s->f24);
         WIPE_ResetWndMask(s->f10);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A2254
+ * function: WEATHER_TASK_PrewarmParticles
  * address:  0x021A2254
  * packet:   pkt_ov021_021A2254
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A2BC4  0x021A2BC4  thumb  ov021
+ *   WEATHER_TASK_IsParticleLinked  0x021A2BC4  thumb  ov021
  *   _s32_div_f     0x0209C0A4  arm
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A2BC4(u32 a);
+extern int WEATHER_TASK_IsParticleLinked(u32 a);
 
-void func_021A2254(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w)
+void WEATHER_TASK_PrewarmParticles(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w)
 {
     int j;
     u8 *cur;
@@ -47,7 +47,7 @@ void func_021A2254(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w
         if (cnt > 0) {
             do {
                 ((void (*)(u8 *))(*(u32 *)(*(u32 *)(p + 0x20) + 0x48)))(cur);
-                if (func_021A2BC4((u32)cur) == 0) {
+                if (WEATHER_TASK_IsParticleLinked((u32)cur) == 0) {
                     break;
                 }
                 j++;

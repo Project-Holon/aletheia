@@ -1,5 +1,5 @@
 /*
- * function: func_021D33E0
+ * function: FIELD_PALACE_SYS_Delete
  * address:  0x021D33E0
  * packet:   pkt_ov021_021D33E0
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021D33E0(u32 *p)
+void FIELD_PALACE_SYS_Delete(u32 *p)
 {
     if (p[2] != 0) {
         func_020307B0((void *)p[2]);

@@ -1,5 +1,5 @@
 /*
- * function: func_02186A58
+ * function: FIELD_WFBC_DATA_LOCAL_IsNpcPresent
  * address:  0x02186A58
  * packet:   pkt_ov020_02186A58
  * region:   ov020
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02161ECC  0x02161ECC  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb  ov010
  */
 
 typedef unsigned char u8;
 
-extern int func_02161ECC(char *);
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(char *);
 
-int func_02186A58(char *p, int id)
+int FIELD_WFBC_DATA_LOCAL_IsNpcPresent(char *p, int id)
 {
     int i;
     char *b;
@@ -26,13 +26,13 @@ int func_02186A58(char *p, int id)
     i = 0;
     a = p + 8;
     for (; i < 10; i++) {
-        if (func_02161ECC(a + i * 0x18) != 0 && (u8)p[i * 0x18 + 9] == id)
+        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(a + i * 0x18) != 0 && (u8)p[i * 0x18 + 9] == id)
             return 1;
     }
     i = 0;
     b = p + 0xF8;
     for (; i < 10; i++) {
-        if (func_02161ECC(b + i * 0x18) != 0 && (u8)p[i * 0x18 + 0xF9] == id)
+        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(b + i * 0x18) != 0 && (u8)p[i * 0x18 + 0xF9] == id)
             return 1;
     }
     return 0;

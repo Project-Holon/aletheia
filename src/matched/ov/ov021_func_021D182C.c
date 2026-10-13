@@ -1,5 +1,5 @@
 /*
- * function: func_021D182C
+ * function: SCRCMD_MMDL_ICA_CreateProc
  * address:  0x021D182C
  * packet:   pkt_ov021_021D182C
  * region:   ov021
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The spilled second parameter is a u16 (func_0216DE94 compares its id
- * against func_0216D588's u16): as u32/int its reload from [sp] is hoisted
- * above the struct copy's last store. func_021BBA6C takes the result of
- * func_021BB990 (the bl has no argument setup of its own).
+ * The spilled second parameter is a u16 (FLDMMDL_SysSearchObjId compares its id
+ * against FLDMMDL_GetObjId's u16): as u32/int its reload from [sp] is hoisted
+ * above the struct copy's last store. FIELD_SUBPROC_GetWork takes the result of
+ * FIELD_SUBPROC_Start (the bl has no argument setup of its own).
  *
  * symbols:
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02188D24  0x02188D24  thumb  ov021
- *   func_021BB990  0x021BB990  thumb  ov021
- *   func_021BBA6C  0x021BBA6C  thumb  ov021
- *   func_0216DE94  0x0216DE94  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
+ *   FIELD_SUBPROC_Start  0x021BB990  thumb  ov021
+ *   FIELD_SUBPROC_GetWork  0x021BBA6C  thumb  ov021
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   d_021DD5F0     0x021DD5F0  data    ov021  a4
  * Addresses are Black-image addresses.
  */
@@ -31,23 +31,23 @@ typedef unsigned int   u32;
 
 struct V3 { u32 a, b, c; };
 
-extern void *func_02188C7C(unsigned char *p);
-extern u32 func_02188D24(u8 *p);
-extern int *func_021BB990(int a, int *d, const int *c);
-extern u32 func_021BBA6C(const void *p);
-extern void *func_0216DE94(void *map, u32 id);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
+extern u32 FIELDMAP_GetMapFunc(u8 *p);
+extern int *FIELD_SUBPROC_Start(int a, int *d, const int *c);
+extern u32 FIELD_SUBPROC_GetWork(const void *p);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 extern int d_021DD5F0[];
 
-u8 *func_021D182C(u32 a, u16 b, struct V3 *c, u16 d)
+u8 *SCRCMD_MMDL_ICA_CreateProc(u32 a, u16 b, struct V3 *c, u16 d)
 {
-    void *t = func_02188C7C((void *)a);
-    u32 h = func_02188D24((u8 *)a);
-    int *w = func_021BB990(-1, (int *)h, d_021DD5F0);
-    u8 *p = (u8 *)func_021BBA6C(w);
+    void *t = FIELDMAP_GetMmdlSys((void *)a);
+    u32 h = FIELDMAP_GetMapFunc((u8 *)a);
+    int *w = FIELD_SUBPROC_Start(-1, (int *)h, d_021DD5F0);
+    u8 *p = (u8 *)FIELD_SUBPROC_GetWork(w);
 
     *(int * *)&((struct Obj09751 *)p)->f188 = w;
     ((struct Obj09751 *)p)->f19C = d;
     *(struct V3 *)(p + 0x18C) = *c;
-    ((struct Obj09751 *)p)->f0 = (u32)func_0216DE94(t, b);
+    ((struct Obj09751 *)p)->f0 = (u32)FLDMMDL_SysSearchObjId(t, b);
     return p;
 }

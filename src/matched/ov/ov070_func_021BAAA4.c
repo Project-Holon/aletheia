@@ -1,5 +1,5 @@
 /*
- * function: func_021BAAA4
+ * function: ITEMMENU_LoadBgPaletteMode
  * address:  0x021BAAA4
  * packet:   pkt_ov070_021BAAA4
  * region:   ov070
@@ -12,7 +12,7 @@
  * symbols:
  *   func_020490F4  0x020490F4  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt  0x020499D4  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 #include "../include/Obj06176.h"
 
@@ -21,9 +21,9 @@ typedef unsigned short u16;
 
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021BAAA4(int p, int mode)
+void ITEMMENU_LoadBgPaletteMode(int p, int mode)
 {
     void *h = func_020490F4(0x58, ((struct Obj06176 *)p)->f544);
 
@@ -32,5 +32,5 @@ void func_021BAAA4(int p, int mode)
     } else {
         ARC_UTIL_UploadBgPaletteAddFromHandleExt(h, 0x18, 5, 0, (u16)((struct Obj06176 *)p)->f800, 0, 0, ((struct Obj06176 *)p)->f544);
     }
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     field_camera_anime.c
  * unit:     yes
- * function: func_0218FE78, func_0218FE80, func_0218FE98, func_0218FEA0, func_0218FEA4, func_0218FEC0, func_0218FF00, func_0218FF20, func_0218FF30, func_0218FF48, func_0218FF50, func_0218FF78, func_0218FFE8, func_02190000, func_02190058, func_021900A8, func_021900C4, func_02190110, func_0219014C, func_021901E4, func_021901E8
+ * function: FIELD_CAMERA_ANIME_GetCurrentParam, FIELD_CAMERA_ANIME_Create, FIELD_CAMERA_ANIME_Delete, FIELD_CAMERA_ANIME_SetData, FIELD_CAMERA_ANIME_Setup, FIELD_CAMERA_ANIME_ApplyStartParam, FIELD_CAMERA_ANIME_Start, FIELD_CAMERA_ANIME_Restore, FIELD_CAMERA_ANIME_Alloc, FIELD_CAMERA_ANIME_Free, FIELD_CAMERA_ANIME_Init, FIELD_CAMERA_ANIME_SaveCameraState, FIELD_CAMERA_ANIME_SaveCameraMode, FIELD_CAMERA_ANIME_RestoreCameraState, FIELD_CAMERA_ANIME_SetAnglesFromPos, FIELD_CAMERA_ANIME_SetTargetFromCurrent, FIELD_CAMERA_ANIME_ReadParam, FIELD_CAMERA_ANIME_ApplyEndParam, FIELD_CAMERA_ANIME_StartMoveTasks, FIELD_CAMERA_ANIME_GetCamera, FIELD_CAMERA_ANIME_GetData
  * address:  0x0218FE78
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,41 +14,41 @@
  * Split from field_msgbg.c at 0x0218FE78: field_camera_anime.c __FILE__ anchor at 0x0218FF30; 0x0218FE78 forwards to the anime move code (cut position probable, 0x0218FE50 and 0x0218FE70 read the camera object).
  *
  * symbols:
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_02188C84  0x02188C84  thumb
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_0207CA00  0x0207CA00  arm
  *   d_021DDA38  0x021DDA38  data  ov021  a4
- *   func_02188C58  0x02188C58  thumb
- *   func_02188C5C  0x02188C5C  thumb  ov021
- *   func_021BB260  0x021BB260  thumb  ov021
- *   func_02189A18  0x02189A18  thumb  ov021
- *   func_021AB75C  0x021AB75C  thumb  ov021
- *   func_021C7058  0x021C7058  thumb  ov021
- *   func_021C701C  0x021C701C  thumb  ov021
- *   func_021C6F00  0x021C6F00  thumb  ov021
- *   func_021C7C10  0x021C7C10  thumb  ov021
- *   func_021C7AE4  0x021C7AE4  thumb  ov021
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_021C6DE0  0x021C6DE0  thumb  ov021
- *   func_0218E138  0x0218E138  thumb  ov021
- *   func_0218E13C  0x0218E13C  thumb  ov021
- *   func_0218EC30  0x0218EC30  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218EC90  0x0218EC90  thumb  ov021
- *   func_0218ECC4  0x0218ECC4  thumb  ov021
- *   func_0218ECD4  0x0218ECD4  thumb  ov021
- *   func_0218ED34  0x0218ED34  thumb  ov021
- *   func_0218ED48  0x0218ED48  thumb  ov021
- *   func_0218ED58  0x0218ED58  thumb  ov021
- *   func_0218ED5C  0x0218ED5C  thumb  ov021
- *   func_0218F18C  0x0218F18C  thumb  ov021
- *   func_0218F19C  0x0218F19C  thumb  ov021
- *   func_0218F1AC  0x0218F1AC  thumb  ov021
- *   func_0218F1B4  0x0218F1B4  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb
+ *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
+ *   FIELD_NOGRID_MAPPER_SetActive  0x021BB260  thumb  ov021
+ *   FIELDMAP_GetSceneArea  0x02189A18  thumb  ov021
+ *   FLD_SCENEAREA_SetEnabled  0x021AB75C  thumb  ov021
+ *   FIELD_TASK_CreateCameraPitchTween  0x021C7058  thumb  ov021
+ *   FIELD_TASK_CreateCameraYawTween  0x021C701C  thumb  ov021
+ *   FIELD_TASK_CreateCameraDistanceTween  0x021C6F00  thumb  ov021
+ *   FIELD_TASK_CreateCameraLerp  0x021C7C10  thumb  ov021
+ *   FIELD_TASK_CreateCameraTargetTween  0x021C7AE4  thumb  ov021
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
+ *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
+ *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
+ *   FIELD_CAMERA_SetTraceTarget  0x0218EC30  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_GetTargetShift  0x0218ECC4  thumb  ov021
+ *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb  ov021
+ *   FIELD_CAMERA_SetPitch  0x0218ED34  thumb  ov021
+ *   FIELD_CAMERA_SetYaw  0x0218ED48  thumb  ov021
+ *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb  ov021
+ *   FIELD_CAMERA_GetVectorAngles  0x0218ED5C  thumb  ov021
+ *   FIELD_CAMERA_GetTarget  0x0218F18C  thumb  ov021
+ *   FIELD_CAMERA_GetEye  0x0218F19C  thumb  ov021
+ *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb  ov021
+ *   FIELD_CAMERA_GetAreasEnabled  0x0218F1B4  thumb  ov021
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -71,136 +71,136 @@ typedef struct FieldCameraAnime {
 } FieldCameraAnime;
 
 /* field_camera.c */
-u32 func_0218E138(FieldCamera *camera);
-void func_0218E13C(FieldCamera *camera, u32 mode);
-void func_0218EC30(FieldCamera *camera, const VecFx32 *target);
-void func_0218EC54(FieldCamera *camera);
-const VecFx32 *func_0218EC5C(FieldCamera *camera);
-void func_0218EC90(FieldCamera *camera, const VecFx32 *target);
-void func_0218ECC4(FieldCamera *camera, VecFx32 *out);
-void func_0218ECD4(FieldCamera *camera, const VecFx32 *shift);
-void func_0218ED34(FieldCamera *camera, u16 pitch);
-void func_0218ED48(FieldCamera *camera, u32 yaw);
-void func_0218ED58(FieldCamera *camera, u32 distance);
-void func_0218ED5C(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance);
-void func_0218F18C(FieldCamera *camera, VecFx32 *target);
-void func_0218F19C(FieldCamera *camera, VecFx32 *pos);
-void func_0218F1AC(FieldCamera *camera, u32 trace);
-unsigned char func_0218F1B4(FieldCamera *camera);
+u32 FIELD_CAMERA_GetMode(FieldCamera *camera);
+void FIELD_CAMERA_SetMode(FieldCamera *camera, u32 mode);
+void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, const VecFx32 *target);
+void FIELD_CAMERA_StopTargetTrace(FieldCamera *camera);
+const VecFx32 *FIELD_CAMERA_GetTraceTarget(FieldCamera *camera);
+void FIELD_CAMERA_SetTarget(FieldCamera *camera, const VecFx32 *target);
+void FIELD_CAMERA_GetTargetShift(FieldCamera *camera, VecFx32 *out);
+void FIELD_CAMERA_SetTargetShift(FieldCamera *camera, const VecFx32 *shift);
+void FIELD_CAMERA_SetPitch(FieldCamera *camera, u16 pitch);
+void FIELD_CAMERA_SetYaw(FieldCamera *camera, u32 yaw);
+void FIELD_CAMERA_SetDistance(FieldCamera *camera, u32 distance);
+void FIELD_CAMERA_GetVectorAngles(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance);
+void FIELD_CAMERA_GetTarget(FieldCamera *camera, VecFx32 *target);
+void FIELD_CAMERA_GetEye(FieldCamera *camera, VecFx32 *pos);
+void FIELD_CAMERA_SetAreasEnabled(FieldCamera *camera, u32 trace);
+unsigned char FIELD_CAMERA_GetAreasEnabled(FieldCamera *camera);
 
-void func_0218FE78(FieldCamera *camera, FieldCameraParam *param);
-FieldCameraAnime *func_0218FE80(FieldMap *fieldMap);
-void func_0218FE98(FieldCameraAnime *anime);
-void func_0218FEA0(FieldCameraAnime *anime, FieldCameraAnimeData *data);
-int func_0218FEA4(FieldCameraAnime *anime);
-void func_0218FEC0(FieldCameraAnime *anime);
-void func_0218FF00(FieldCameraAnime *anime);
-void func_0218FF20(FieldCameraAnime *anime);
-FieldCameraAnime *func_0218FF30(u16 heapId);
-void func_0218FF48(FieldCameraAnime *anime);
-void func_0218FF50(FieldCameraAnime *anime, FieldMap *fieldMap);
-u32 func_0218FF78(FieldCameraAnime *anime);
-void func_0218FFE8(FieldCameraAnime *anime);
-void func_02190000(FieldCameraAnime *anime);
-void func_02190058(FieldCamera *camera);
-void func_021900A8(FieldCamera *camera);
-void func_021900C4(FieldCamera *camera, FieldCameraParam *param);
-void func_02190110(FieldCameraAnime *anime);
-void func_0219014C(FieldCameraAnime *anime);
-FieldCamera *func_021901E4(FieldCameraAnime *anime);
-FieldCameraAnimeData *func_021901E8(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_GetCurrentParam(FieldCamera *camera, FieldCameraParam *param);
+FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
+void FIELD_CAMERA_ANIME_Delete(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_SetData(FieldCameraAnime *anime, FieldCameraAnimeData *data);
+int FIELD_CAMERA_ANIME_Setup(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_ApplyStartParam(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_Start(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_Restore(FieldCameraAnime *anime);
+FieldCameraAnime *FIELD_CAMERA_ANIME_Alloc(u16 heapId);
+void FIELD_CAMERA_ANIME_Free(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_Init(FieldCameraAnime *anime, FieldMap *fieldMap);
+u32 FIELD_CAMERA_ANIME_SaveCameraState(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_SaveCameraMode(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_RestoreCameraState(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_SetAnglesFromPos(FieldCamera *camera);
+void FIELD_CAMERA_ANIME_SetTargetFromCurrent(FieldCamera *camera);
+void FIELD_CAMERA_ANIME_ReadParam(FieldCamera *camera, FieldCameraParam *param);
+void FIELD_CAMERA_ANIME_ApplyEndParam(FieldCameraAnime *anime);
+void FIELD_CAMERA_ANIME_StartMoveTasks(FieldCameraAnime *anime);
+FieldCamera *FIELD_CAMERA_ANIME_GetCamera(FieldCameraAnime *anime);
+FieldCameraAnimeData *FIELD_CAMERA_ANIME_GetData(FieldCameraAnime *anime);
 
-extern u32 func_02188CFC(FieldMap *fieldMap);
+extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 extern void func_02082BCC(void *dst, int value, u32 size);
-extern u16 func_02188C84(FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void *func_02030734(u16 heapId, u32 size, u32 flag, const char *file, u32 line);
 extern u32 func_020307B0(void *mem);
 extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern FieldCamera *func_02188C58(FieldMap *fieldMap);
-extern u32 func_02188C5C(FieldMap *fieldMap);
-extern void func_021BB260(u32 obj, u32 enable);
-extern u32 func_02189A18(FieldMap *fieldMap);
-extern void func_021AB75C(u8 *player, u32 enable);
-extern u32 func_021C7058(FieldMap *fieldMap, u32 frames, u32 pitch);
-extern u32 func_021C701C(FieldMap *fieldMap, u32 frames, u32 yaw);
-extern u32 func_021C6F00(FieldMap *fieldMap, u16 frames, fx32 distance);
-extern u32 func_021C7C10(FieldMap *fieldMap, u16 frames, const VecFx32 *start, const VecFx32 *end);
-extern u32 func_021C7AE4(FieldMap *fieldMap, u32 frames, const VecFx32 *shift);
-extern u32 func_02188D38(FieldMap *fieldMap);
-extern void func_021C6DE0(u8 *taskMan, u32 *task, u32 arg);
+extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
+extern u32 FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
+extern void FIELD_NOGRID_MAPPER_SetActive(u32 obj, u32 enable);
+extern u32 FIELDMAP_GetSceneArea(FieldMap *fieldMap);
+extern void FLD_SCENEAREA_SetEnabled(u8 *player, u32 enable);
+extern u32 FIELD_TASK_CreateCameraPitchTween(FieldMap *fieldMap, u32 frames, u32 pitch);
+extern u32 FIELD_TASK_CreateCameraYawTween(FieldMap *fieldMap, u32 frames, u32 yaw);
+extern u32 FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, fx32 distance);
+extern u32 FIELD_TASK_CreateCameraLerp(FieldMap *fieldMap, u16 frames, const VecFx32 *start, const VecFx32 *end);
+extern u32 FIELD_TASK_CreateCameraTargetTween(FieldMap *fieldMap, u32 frames, const VecFx32 *shift);
+extern u32 FIELDMAP_GetTaskManager(FieldMap *fieldMap);
+extern void FIELD_TASK_MANAGER_AddTask(u8 *taskMan, u32 *task, u32 arg);
 extern const char d_021DDA38[];
 
-void func_0218FE78(FieldCamera *camera, FieldCameraParam *param)
+void FIELD_CAMERA_ANIME_GetCurrentParam(FieldCamera *camera, FieldCameraParam *param)
 {
-    func_021900C4(camera, param);
+    FIELD_CAMERA_ANIME_ReadParam(camera, param);
 }
 
-FieldCameraAnime *func_0218FE80(FieldMap *fieldMap)
+FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap)
 {
-    FieldCameraAnime *anime = func_0218FF30(func_02188C84(fieldMap));
-    func_0218FF50(anime, fieldMap);
+    FieldCameraAnime *anime = FIELD_CAMERA_ANIME_Alloc(FIELDMAP_GetHeapId(fieldMap));
+    FIELD_CAMERA_ANIME_Init(anime, fieldMap);
     return anime;
 }
 
-void func_0218FE98(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_Delete(FieldCameraAnime *anime)
 {
-    func_0218FF48(anime);
+    FIELD_CAMERA_ANIME_Free(anime);
 }
 
-void func_0218FEA0(FieldCameraAnime *anime, FieldCameraAnimeData *data)
+void FIELD_CAMERA_ANIME_SetData(FieldCameraAnime *anime, FieldCameraAnimeData *data)
 {
     anime->data = data;
 }
 
-int func_0218FEA4(FieldCameraAnime *anime)
+int FIELD_CAMERA_ANIME_Setup(FieldCameraAnime *anime)
 {
-    func_0218FFE8(anime);
-    func_02190058(anime->camera);
-    func_021900A8(anime->camera);
-    return func_0218FF78(anime);
+    FIELD_CAMERA_ANIME_SaveCameraMode(anime);
+    FIELD_CAMERA_ANIME_SetAnglesFromPos(anime->camera);
+    FIELD_CAMERA_ANIME_SetTargetFromCurrent(anime->camera);
+    return FIELD_CAMERA_ANIME_SaveCameraState(anime);
 }
 
-void func_0218FEC0(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_ApplyStartParam(FieldCameraAnime *anime)
 {
-    FieldCamera *camera = func_021901E4(anime);
-    FieldCameraParam *start = &func_021901E8(anime)->start;
-    func_0218ED34(camera, start->pitch);
-    func_0218ED48(camera, start->yaw);
-    func_0218ED58(camera, start->distance);
-    func_0218EC90(camera, &start->target);
-    func_0218ECD4(camera, &start->shift);
+    FieldCamera *camera = FIELD_CAMERA_ANIME_GetCamera(anime);
+    FieldCameraParam *start = &FIELD_CAMERA_ANIME_GetData(anime)->start;
+    FIELD_CAMERA_SetPitch(camera, start->pitch);
+    FIELD_CAMERA_SetYaw(camera, start->yaw);
+    FIELD_CAMERA_SetDistance(camera, start->distance);
+    FIELD_CAMERA_SetTarget(camera, &start->target);
+    FIELD_CAMERA_SetTargetShift(camera, &start->shift);
 }
 
-void func_0218FF00(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_Start(FieldCameraAnime *anime)
 {
-    if (func_021901E8(anime)->frames == 0) {
-        func_02190110(anime);
+    if (FIELD_CAMERA_ANIME_GetData(anime)->frames == 0) {
+        FIELD_CAMERA_ANIME_ApplyEndParam(anime);
         return;
     }
-    func_0219014C(anime);
+    FIELD_CAMERA_ANIME_StartMoveTasks(anime);
 }
 
-void func_0218FF20(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_Restore(FieldCameraAnime *anime)
 {
     if (anime->isSetUp != 0)
-        func_02190000(anime);
+        FIELD_CAMERA_ANIME_RestoreCameraState(anime);
 }
 
-FieldCameraAnime *func_0218FF30(u16 heapId)
+FieldCameraAnime *FIELD_CAMERA_ANIME_Alloc(u16 heapId)
 {
     return func_02030734(heapId, sizeof(FieldCameraAnime), 0, d_021DDA38, 0xee);
 }
 
-void func_0218FF48(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_Free(FieldCameraAnime *anime)
 {
     func_020307B0(anime);
 }
 
-void func_0218FF50(FieldCameraAnime *anime, FieldMap *fieldMap)
+void FIELD_CAMERA_ANIME_Init(FieldCameraAnime *anime, FieldMap *fieldMap)
 {
     func_02082BCC(anime, 0, sizeof(FieldCameraAnime));
     anime->fieldMap = fieldMap;
-    anime->camera = func_02188C58(fieldMap);
+    anime->camera = FIELDMAP_GetCamera(fieldMap);
     anime->data = 0;
     anime->isSetUp = 0;
     anime->savedTrace = 0;
@@ -208,100 +208,100 @@ void func_0218FF50(FieldCameraAnime *anime, FieldMap *fieldMap)
     anime->targetDetached = 0;
 }
 
-u32 func_0218FF78(FieldCameraAnime *anime)
+u32 FIELD_CAMERA_ANIME_SaveCameraState(FieldCameraAnime *anime)
 {
     FieldMap *fieldMap = anime->fieldMap;
     FieldCamera *camera = anime->camera;
-    FieldCameraAnimeData *data = func_021901E8(anime);
-    if (func_02188CFC(fieldMap) == 1)
-        func_021BB260(func_02188C5C(fieldMap), 0);
+    FieldCameraAnimeData *data = FIELD_CAMERA_ANIME_GetData(anime);
+    if (FIELDMAP_GetMoveKind(fieldMap) == 1)
+        FIELD_NOGRID_MAPPER_SetActive(FIELDMAP_GetNogridMapper(fieldMap), 0);
     if (data->detachTarget != 0) {
-        if (func_0218EC5C(anime->camera) != 0) {
+        if (FIELD_CAMERA_GetTraceTarget(anime->camera) != 0) {
             anime->targetDetached = 1;
-            anime->savedTarget = func_0218EC5C(camera);
-            func_0218EC54(camera);
+            anime->savedTarget = FIELD_CAMERA_GetTraceTarget(camera);
+            FIELD_CAMERA_StopTargetTrace(camera);
         }
     }
     if (data->stopTrace != 0) {
-        anime->savedTrace = func_0218F1B4(camera);
-        func_0218F1AC(camera, 0);
+        anime->savedTrace = FIELD_CAMERA_GetAreasEnabled(camera);
+        FIELD_CAMERA_SetAreasEnabled(camera, 0);
     }
-    func_021AB75C((u8 *)func_02189A18(fieldMap), 0);
+    FLD_SCENEAREA_SetEnabled((u8 *)FIELDMAP_GetSceneArea(fieldMap), 0);
     anime->isSetUp = 1;
     return anime->isSetUp;
 }
 
-void func_0218FFE8(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_SaveCameraMode(FieldCameraAnime *anime)
 {
     FieldCamera *camera = anime->camera;
-    anime->savedMode = func_0218E138(camera);
-    func_0218E13C(camera, 0);
+    anime->savedMode = FIELD_CAMERA_GetMode(camera);
+    FIELD_CAMERA_SetMode(camera, 0);
 }
 
-void func_02190000(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_RestoreCameraState(FieldCameraAnime *anime)
 {
     FieldMap *fieldMap = anime->fieldMap;
     FieldCamera *camera = anime->camera;
-    FieldCameraAnimeData *data = func_021901E8(anime);
-    func_021AB75C((u8 *)func_02189A18(fieldMap), 1);
+    FieldCameraAnimeData *data = FIELD_CAMERA_ANIME_GetData(anime);
+    FLD_SCENEAREA_SetEnabled((u8 *)FIELDMAP_GetSceneArea(fieldMap), 1);
     if (data->stopTrace != 0)
-        func_0218F1AC(camera, anime->savedTrace);
+        FIELD_CAMERA_SetAreasEnabled(camera, anime->savedTrace);
     if (anime->targetDetached != 0)
-        func_0218EC30(camera, anime->savedTarget);
-    func_0218E13C(camera, anime->savedMode);
-    if (func_02188CFC(fieldMap) == 1)
-        func_021BB260(func_02188C5C(fieldMap), 1);
+        FIELD_CAMERA_SetTraceTarget(camera, anime->savedTarget);
+    FIELD_CAMERA_SetMode(camera, anime->savedMode);
+    if (FIELDMAP_GetMoveKind(fieldMap) == 1)
+        FIELD_NOGRID_MAPPER_SetActive(FIELDMAP_GetNogridMapper(fieldMap), 1);
 }
 
-void func_02190058(FieldCamera *camera)
+void FIELD_CAMERA_ANIME_SetAnglesFromPos(FieldCamera *camera)
 {
     VecFx32 target, pos, dir;
     fx32 distance;
     u16 pitch, yaw;
-    func_0218F19C(camera, &pos);
-    func_0218F18C(camera, &target);
+    FIELD_CAMERA_GetEye(camera, &pos);
+    FIELD_CAMERA_GetTarget(camera, &target);
     func_0207CA00(&pos, &target, &dir);
-    func_0218ED5C(&dir, &pitch, &yaw, &distance);
-    func_0218ED58(camera, distance);
-    func_0218ED34(camera, pitch);
-    func_0218ED48(camera, yaw);
+    FIELD_CAMERA_GetVectorAngles(&dir, &pitch, &yaw, &distance);
+    FIELD_CAMERA_SetDistance(camera, distance);
+    FIELD_CAMERA_SetPitch(camera, pitch);
+    FIELD_CAMERA_SetYaw(camera, yaw);
 }
 
-void func_021900A8(FieldCamera *camera)
+void FIELD_CAMERA_ANIME_SetTargetFromCurrent(FieldCamera *camera)
 {
     VecFx32 target;
-    func_0218F18C(camera, &target);
-    func_0218EC90(camera, &target);
+    FIELD_CAMERA_GetTarget(camera, &target);
+    FIELD_CAMERA_SetTarget(camera, &target);
 }
 
-void func_021900C4(FieldCamera *camera, FieldCameraParam *param)
+void FIELD_CAMERA_ANIME_ReadParam(FieldCamera *camera, FieldCameraParam *param)
 {
     VecFx32 target;
     VecFx32 pos;
     VecFx32 dir;
-    func_0218F19C(camera, &pos);
-    func_0218F18C(camera, &target);
+    FIELD_CAMERA_GetEye(camera, &pos);
+    FIELD_CAMERA_GetTarget(camera, &target);
     func_0207CA00(&pos, &target, &dir);
-    func_0218ED5C(&dir, &param->pitch, &param->yaw, &param->distance);
-    func_0218F18C(camera, &param->target);
-    func_0218ECC4(camera, &param->shift);
+    FIELD_CAMERA_GetVectorAngles(&dir, &param->pitch, &param->yaw, &param->distance);
+    FIELD_CAMERA_GetTarget(camera, &param->target);
+    FIELD_CAMERA_GetTargetShift(camera, &param->shift);
 }
 
-void func_02190110(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_ApplyEndParam(FieldCameraAnime *anime)
 {
     FieldCamera *camera = anime->camera;
-    FieldCameraParam *end = &func_021901E8(anime)->end;
-    func_0218ED34(camera, end->pitch);
-    func_0218ED48(camera, end->yaw);
-    func_0218ED58(camera, end->distance);
-    func_0218EC90(camera, &end->target);
-    func_0218ECD4(camera, &end->shift);
+    FieldCameraParam *end = &FIELD_CAMERA_ANIME_GetData(anime)->end;
+    FIELD_CAMERA_SetPitch(camera, end->pitch);
+    FIELD_CAMERA_SetYaw(camera, end->yaw);
+    FIELD_CAMERA_SetDistance(camera, end->distance);
+    FIELD_CAMERA_SetTarget(camera, &end->target);
+    FIELD_CAMERA_SetTargetShift(camera, &end->shift);
 }
 
-void func_0219014C(FieldCameraAnime *anime)
+void FIELD_CAMERA_ANIME_StartMoveTasks(FieldCameraAnime *anime)
 {
     FieldMap *fieldMap = anime->fieldMap;
-    FieldCameraAnimeData *data = func_021901E8(anime);
+    FieldCameraAnimeData *data = FIELD_CAMERA_ANIME_GetData(anime);
     u32 frames = data->frames;
     FieldCameraParam *end = &data->end;
     u32 pitchTask;
@@ -309,26 +309,26 @@ void func_0219014C(FieldCameraAnime *anime)
     u32 distanceTask;
     u32 targetTask;
     u32 shiftTask;
-    pitchTask = func_021C7058(fieldMap, frames, end->pitch);
-    yawTask = func_021C701C(fieldMap, frames, end->yaw);
-    distanceTask = func_021C6F00(fieldMap, frames, end->distance);
-    targetTask = func_021C7C10(fieldMap, frames, &data->start.target, &end->target);
-    shiftTask = func_021C7AE4(fieldMap, frames, &end->shift);
+    pitchTask = FIELD_TASK_CreateCameraPitchTween(fieldMap, frames, end->pitch);
+    yawTask = FIELD_TASK_CreateCameraYawTween(fieldMap, frames, end->yaw);
+    distanceTask = FIELD_TASK_CreateCameraDistanceTween(fieldMap, frames, end->distance);
+    targetTask = FIELD_TASK_CreateCameraLerp(fieldMap, frames, &data->start.target, &end->target);
+    shiftTask = FIELD_TASK_CreateCameraTargetTween(fieldMap, frames, &end->shift);
     /* the original reuses the field map variable for the task manager */
-    fieldMap = (FieldMap *)func_02188D38(fieldMap);
-    func_021C6DE0((u8 *)fieldMap, (u32 *)pitchTask, 0);
-    func_021C6DE0((u8 *)fieldMap, (u32 *)yawTask, 0);
-    func_021C6DE0((u8 *)fieldMap, (u32 *)distanceTask, 0);
-    func_021C6DE0((u8 *)fieldMap, (u32 *)targetTask, 0);
-    func_021C6DE0((u8 *)fieldMap, (u32 *)shiftTask, 0);
+    fieldMap = (FieldMap *)FIELDMAP_GetTaskManager(fieldMap);
+    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)pitchTask, 0);
+    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)yawTask, 0);
+    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)distanceTask, 0);
+    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)targetTask, 0);
+    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)shiftTask, 0);
 }
 
-FieldCamera *func_021901E4(FieldCameraAnime *anime)
+FieldCamera *FIELD_CAMERA_ANIME_GetCamera(FieldCameraAnime *anime)
 {
     return anime->camera;
 }
 
-FieldCameraAnimeData *func_021901E8(FieldCameraAnime *anime)
+FieldCameraAnimeData *FIELD_CAMERA_ANIME_GetData(FieldCameraAnime *anime)
 {
     return anime->data;
 }

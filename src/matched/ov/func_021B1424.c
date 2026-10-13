@@ -1,5 +1,5 @@
 /*
- * function: func_021B1424
+ * function: SCRCMD_MSGWIN_WaitSpWin
  * address:  0x021B1424
  * packet:   pkt_021B1424
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A61C  0x0215A61C  thumb  ov010
- *   func_021926D8  0x021926D8  thumb  ov021
+ *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
+ *   FIELD_MSGBG_SpWinWaitKey  0x021926D8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,13 +22,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0215A61C(int a0);
+extern int SCRCMD_WORK_GetMsgWindow(int a0);
 struct U;
-extern int func_021926D8(struct U *u);
+extern int FIELD_MSGBG_SpWinWaitKey(struct U *u);
 
-int func_021B1424(int a, int b, int c, int d)
+int SCRCMD_MSGWIN_WaitSpWin(int a, int b, int c, int d)
 {
-if (func_021926D8((struct U *)func_0215A61C(b)) == 1) {
+if (FIELD_MSGBG_SpWinWaitKey((struct U *)SCRCMD_WORK_GetMsgWindow(b)) == 1) {
     return 1;
 }
 return 0;

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F39C0.c
  * unit:     yes
- * function: func_021F39C0, func_021F3A64, func_021F3AA4, func_021F3B10, func_021F3B20, func_021F3B48, func_021F3C2C, func_021F3CE4, func_021F3CF4, func_021F3D0C, func_021F3D90, func_021F3DBC, func_021F3DD4, func_021F3E84, func_021F3F20, func_021F3F30, func_021F3F9C, func_021F405C, func_021F40F4, func_021F4124, func_021F414C, func_021F4174, func_021F41F0, func_021F42AC, func_021F4318, func_021F4388, func_021F43D8, func_021F4430, func_021F4458, func_021F4474, func_021F4510, func_021F4530, func_021F4574, func_021F459C
+ * function: CROWD_Init, CROWD_Exit, CROWD_Update, func_021F3B10, CROWD_FindFreePerson, CROWD_FindPersonAtSpawn, CROWD_CreatePerson, CROWD_DeletePerson, CROWD_UpdatePerson, CROWD_StartPerson, CROWD_MakePersonSolid, CROWD_RemovePerson, CROWD_SidestepPerson, CROWD_LoadConfig, CROWD_FreeConfig, CROWD_UpdateSpawns, CROWD_SpawnPerson, CROWD_SpawnInitialPeople, CROWD_GetWalkCmdBase, CROWD_InitSolidPerson, CROWD_InitPlayerAwarePerson, CROWD_UpdateSolidPerson, CROWD_UpdatePlayerAwarePerson, CROWD_FindBlockingMmdl, CROWD_IsMmdlInFront, CROWD_IsTileInFront, CROWD_InitChatter, CROWD_ExitChatter, CROWD_CloseAllChatterSlots, CROWD_UpdateChatter, CROWD_InitChatterSlot, CROWD_OpenChatterSlot, CROWD_UpdateChatterSlot, CROWD_ClearChatterSlot
  * address:  0x021F39C0
  * region:   ov055
  * compiler: dsi/1.1p1
@@ -13,63 +13,63 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_021690B4  0x021690B4  thumb  ov010
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02189A68  0x02189A68  thumb  ov021
- *   func_02189A38  0x02189A38  thumb  ov021
- *   func_02189A2C  0x02189A2C  thumb  ov021
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELD_CLOCK_GetTimeZone  0x021690B4  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_SetZoneEffectWork  0x02189A68  thumb  ov021
+ *   FIELDMAP_GetTimeZone  0x02189A38  thumb  ov021
+ *   FIELDMAP_IsEventActive  0x02189A2C  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  *   func_020056EC  0x020056EC  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   d_021F4620     0x021F4620  data  ov055  a4
+ *   gCrowdMmdlHeader     0x021F4620  data  ov055  a4
  *   d_021F4620_b   0x021F4620  data  ov055  a4
- *   func_0216CE60  0x0216CE60  thumb  ov010
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
- *   func_0216DCCC  0x0216DCCC  thumb  ov010
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_0216CF2C 0x0216CF2C thumb ov010
- *   d_021F45C0 0x021F45C0 data a4
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216E618  0x0216E618  thumb  ov010
- *   func_0216E0AC  0x0216E0AC  thumb  ov010
- *   d_021F45C8     0x021F45C8  data  ov055  a4
- *   func_0216D5B8 0x0216D5B8 thumb ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_021642A4  0x021642A4  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_0216D410  0x0216D410  thumb  ov010
+ *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   FLDMMDL_SetMoveBitAttrEffectOff  0x0216DCCC  thumb  ov010
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_DeleteMmdl 0x0216CF2C thumb ov010
+ *   gCrowdPersonUpdateFuncs 0x021F45C0 data a4
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_InitPosRecord  0x0216E618  thumb  ov010
+ *   FLDMMDL_ChangeHeader  0x0216E0AC  thumb  ov010
+ *   gCrowdPersonInitFuncs     0x021F45C8  data  ov055  a4
+ *   FLDMMDL_GetEventId 0x0216D5B8 thumb ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirTableValue  0x021642A4  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   func_020490F4  0x020490F4  arm
- *   func_02049250  0x02049250  arm
- *   func_020493D4  0x020493D4  arm
- *   func_0204944C  0x0204944C  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02049238  0x02049238  arm
- *   func_0216DB4C 0x0216DB4C thumb ov010
- *   func_0216DC98 0x0216DC98 thumb ov010
- *   func_0216DAE0 0x0216DAE0 thumb ov010
- *   func_0216D5B4 0x0216D5B4 thumb ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
- *   func_0216DAB4  0x0216DAB4  thumb  ov010
- *   func_0216D804  0x0216D804  thumb  ov010
- *   func_0216D81C  0x0216D81C  thumb  ov010
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   FLDMMDL_SetStatusBitHeightGetOff 0x0216DB4C thumb ov010
+ *   FLDMMDL_SetStatusBitAttrGetOff 0x0216DC98 thumb ov010
+ *   FLDMMDL_SetStatusBitFellowHit 0x0216DAE0 thumb ov010
+ *   FLDMMDL_SetEventId 0x0216D5B4 thumb ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
+ *   FLDMMDL_CheckStatusBitVanish  0x0216DAB4  thumb  ov010
+ *   FLDMMDL_GetGridOldX  0x0216D804  thumb  ov010
+ *   FLDMMDL_GetGridOldZ  0x0216D81C  thumb  ov010
  *   func_02045B38  0x02045B38  arm
- *   func_021F45A4 0x021F45A4 thumb ov055
- *   func_02045C04 0x02045C04 arm
- *   d_021F45E0 0x021F45E0 data a1
- *   d_021F45D0 0x021F45D0 data a1
+ *   CROWD_CloseChatterSlot 0x021F45A4 thumb ov055
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   gCrowdChatterSlotX 0x021F45E0 data a1
+ *   gCrowdChatterSlotY 0x021F45D0 data a1
  *   func_02191870  0x02191870  thumb  ov021
- *   func_0219196C  0x0219196C  thumb  ov021
+ *   FIELD_MSGBG_DeleteSubMsgWin  0x0219196C  thumb  ov021
  */
 #include "../ov010/fldmmdl_types.h"
 #include "../ov021/fieldmap_types.h"
@@ -77,7 +77,7 @@
 /*
  * Crowd of passers-by that walk across the field map, with speech windows
  * popping up over them. Started from a script command (the sub process table
- * d_021F45F0 in ov055, see scrcmd_pokemon_fld.c); the field map keeps the work
+ * gCrowdSubprocTemplate in ov055, see scrcmd_pokemon_fld.c); the field map keeps the work
  * in FieldMap.zoneEffectWork. The per-zone setup comes from archive 0xba.
  */
 
@@ -198,102 +198,102 @@ typedef struct CrowdWork {
     CrowdChatter chatter;        /* 0x348 */
 } CrowdWork;
 
-extern struct FieldMsgBg *func_02188C54(FieldMap *fieldMap);
-extern struct GameSystem *func_02188C80(FieldMap *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern MmdlSys *func_02188C7C(FieldMap *fieldMap);
-extern u16 func_02188C9C(FieldMap *fieldMap);
-extern int func_021690B4(struct GameData *gameData);
-extern u16 func_02188C84(FieldMap *fieldMap);
-extern void func_02189A68(FieldMap *fieldMap, void *zoneEffectWork);
-extern int func_02189A38(FieldMap *fieldMap);
-extern int func_02189A2C(FieldMap *fieldMap);
-extern int func_0216D83C(Mmdl *mmdl);
-extern int func_0216D86C(Mmdl *mmdl);
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
+extern int FIELD_CLOCK_GetTimeZone(struct GameData *gameData);
+extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
+extern void FIELDMAP_SetZoneEffectWork(FieldMap *fieldMap, void *zoneEffectWork);
+extern int FIELDMAP_GetTimeZone(FieldMap *fieldMap);
+extern int FIELDMAP_IsEventActive(FieldMap *fieldMap);
+extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
 extern u32 func_020056EC(u32);
-extern Mmdl *func_0216CE60(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
-extern void func_0216DAC8(Mmdl *mmdl, int flag);
-extern int func_0216DCCC(Mmdl *mmdl, int flag);
-extern void func_0216D8C0(Mmdl *mmdl, int *offset);
-extern void func_0216CF2C(Mmdl *mmdl);
-extern u16 func_0216D598(Mmdl *mmdl);
-extern void func_0216E618(MmdlHeader *header, int x, int z, int y);
-extern void func_0216E0AC(Mmdl *mmdl, MmdlHeader *header);
-extern u32 func_0216D5B8(Mmdl *mmdl);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-extern u16 func_021642A4(int dir);
-extern int func_021641E8(int dir);
-extern int func_021641F8(int dir);
-extern void func_0216D410(Mmdl *mmdl, u16 walkCmd);
+extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
+extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
+extern int FLDMMDL_SetMoveBitAttrEffectOff(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, int *offset);
+extern void FLDMMDL_DeleteMmdl(Mmdl *mmdl);
+extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
+extern void FLDMMDL_InitPosRecord(MmdlHeader *header, int x, int z, int y);
+extern void FLDMMDL_ChangeHeader(Mmdl *mmdl, MmdlHeader *header);
+extern u32 FLDMMDL_GetEventId(Mmdl *mmdl);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+extern u16 FLDMMDL_MOVE_GetDirTableValue(int dir);
+extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
+extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
+extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 walkCmd);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
-extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
-extern int func_0216DB4C(Mmdl *mmdl, int flag);
-extern int func_0216DC98(Mmdl *mmdl, int flag);
-extern void func_0216DAE0(Mmdl *mmdl, int flag);
-extern void func_0216D5B4(Mmdl *mmdl, u16 eventId);
-extern int func_0216D454();
-extern Mmdl *func_021A3074(struct FieldPlayer *player);
-extern int func_0216DD1C(MmdlSys *mmdlSys, Mmdl **out, u32 *iter);
-extern int func_0216D55C(Mmdl *mmdl, int bit);
-extern int func_0216DAB4(Mmdl *mmdl);
-extern int func_0216D804(Mmdl *mmdl);
-extern int func_0216D81C(Mmdl *mmdl);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern int FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
+extern int FLDMMDL_SetStatusBitAttrGetOff(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetStatusBitFellowHit(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetEventId(Mmdl *mmdl, u16 eventId);
+extern int FLDMMDL_CheckEndAcmd();
+extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **out, u32 *iter);
+extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bit);
+extern int FLDMMDL_CheckStatusBitVanish(Mmdl *mmdl);
+extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
+extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
 extern struct MsgData *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_021F45A4(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
-extern u32 func_02045C04(struct MsgData *msgData);
+extern void CROWD_CloseChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
+extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void func_02191870(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId, u32 windowId, u8 x, u8 y, u8 width, u8 height);
-extern void func_0219196C(struct FieldMsgBg *msgBg, u32 windowId);
-void func_021F39C0(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
-void func_021F3A64(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
-void func_021F3AA4(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
+extern void FIELD_MSGBG_DeleteSubMsgWin(struct FieldMsgBg *msgBg, u32 windowId);
+void CROWD_Init(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
+void CROWD_Exit(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
+void CROWD_Update(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
 void func_021F3B10(CrowdWork *work);
-CrowdPerson *func_021F3B20(CrowdWork *work);
-const CrowdPerson *func_021F3B48(const CrowdWork *work, int x, int z, unsigned int dir, int unused, int *isOccupied);
-void func_021F3C2C(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const CrowdConfig *config, int index);
-void func_021F3CE4(CrowdPerson *person);
-void func_021F3CF4(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player);
-void func_021F3D0C(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player, int kind, u16 gridX, u16 gridZ, u16 dir, u16 stepCount, const CrowdArea *area);
-void func_021F3D90(CrowdPerson *person);
-void func_021F3DBC(CrowdPerson *person);
-void func_021F3DD4(CrowdPerson *person, Mmdl *blocker);
-void func_021F3E84(CrowdConfig *config, int timeZone, int zoneId, u16 heapId);
-void func_021F3F20(CrowdConfig *config);
-void func_021F3F30(CrowdConfig *config, CrowdWork *work, int timeZone);
-void func_021F3F9C(const CrowdWork *work, const CrowdConfig *config, const CrowdArea *area, CrowdPerson *person, u16 stagger);
-void func_021F405C(CrowdConfig *config, CrowdWork *work, int timeZone);
-u32 func_021F40F4(const CrowdConfig *config);
-void func_021F4124(CrowdPerson *person);
-void func_021F414C(CrowdPerson *person);
-void func_021F4174(CrowdPerson *person, MmdlSys *mmdlSys);
-void func_021F41F0(CrowdPerson *person, MmdlSys *mmdlSys, u32 player);
-int func_021F42AC(CrowdPerson *person, MmdlSys *mmdlSys, Mmdl **blocker, u16 maxDist, u16 minDist);
-int func_021F4318(const CrowdPerson *person, Mmdl *other, u16 maxDist, u16 minDist);
-int func_021F4388(int ownX, int ownZ, int otherX, int otherZ, u16 maxDist, u16 minDist, u16 dir);
-void func_021F43D8(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const CrowdConfig *config, u32 timeZone, u16 heapId);
-void func_021F4430(CrowdChatter *chatter);
-void func_021F4458(CrowdChatter *chatter);
-void func_021F4474(CrowdChatter *chatter, const CrowdConfig *config, FieldMap *fieldMap);
-void func_021F4510(CrowdChatterSlot *slot, int index);
-void func_021F4530(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgFirst, u32 msgCount);
-void func_021F4574(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
-void func_021F459C(CrowdChatterSlot *slot);
+CrowdPerson *CROWD_FindFreePerson(CrowdWork *work);
+const CrowdPerson *CROWD_FindPersonAtSpawn(const CrowdWork *work, int x, int z, unsigned int dir, int unused, int *isOccupied);
+void CROWD_CreatePerson(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const CrowdConfig *config, int index);
+void CROWD_DeletePerson(CrowdPerson *person);
+void CROWD_UpdatePerson(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player);
+void CROWD_StartPerson(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player, int kind, u16 gridX, u16 gridZ, u16 dir, u16 stepCount, const CrowdArea *area);
+void CROWD_MakePersonSolid(CrowdPerson *person);
+void CROWD_RemovePerson(CrowdPerson *person);
+void CROWD_SidestepPerson(CrowdPerson *person, Mmdl *blocker);
+void CROWD_LoadConfig(CrowdConfig *config, int timeZone, int zoneId, u16 heapId);
+void CROWD_FreeConfig(CrowdConfig *config);
+void CROWD_UpdateSpawns(CrowdConfig *config, CrowdWork *work, int timeZone);
+void CROWD_SpawnPerson(const CrowdWork *work, const CrowdConfig *config, const CrowdArea *area, CrowdPerson *person, u16 stagger);
+void CROWD_SpawnInitialPeople(CrowdConfig *config, CrowdWork *work, int timeZone);
+u32 CROWD_GetWalkCmdBase(const CrowdConfig *config);
+void CROWD_InitSolidPerson(CrowdPerson *person);
+void CROWD_InitPlayerAwarePerson(CrowdPerson *person);
+void CROWD_UpdateSolidPerson(CrowdPerson *person, MmdlSys *mmdlSys);
+void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, u32 player);
+int CROWD_FindBlockingMmdl(CrowdPerson *person, MmdlSys *mmdlSys, Mmdl **blocker, u16 maxDist, u16 minDist);
+int CROWD_IsMmdlInFront(const CrowdPerson *person, Mmdl *other, u16 maxDist, u16 minDist);
+int CROWD_IsTileInFront(int ownX, int ownZ, int otherX, int otherZ, u16 maxDist, u16 minDist, u16 dir);
+void CROWD_InitChatter(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const CrowdConfig *config, u32 timeZone, u16 heapId);
+void CROWD_ExitChatter(CrowdChatter *chatter);
+void CROWD_CloseAllChatterSlots(CrowdChatter *chatter);
+void CROWD_UpdateChatter(CrowdChatter *chatter, const CrowdConfig *config, FieldMap *fieldMap);
+void CROWD_InitChatterSlot(CrowdChatterSlot *slot, int index);
+void CROWD_OpenChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgFirst, u32 msgCount);
+void CROWD_UpdateChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
+void CROWD_ClearChatterSlot(CrowdChatterSlot *slot);
 /*
  * Template of the field model header, two symbols for the one object: the
  * store of the object code goes through the first, the model is created from
  * the second (one symbol for both gives a different literal pool).
  */
-extern MmdlHeader d_021F4620;
+extern MmdlHeader gCrowdMmdlHeader;
 extern MmdlHeader d_021F4620_b;
-extern const u8 d_021F45E0[];
-extern const u8 d_021F45D0[];
+extern const u8 gCrowdChatterSlotX[];
+extern const u8 gCrowdChatterSlotY[];
 
 /* Start of the sub process: load the zone setup, create the people and the chatter. */
-void func_021F39C0(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work)
+void CROWD_Init(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work)
 {
     int i;
     u16 heapId;
@@ -302,58 +302,58 @@ void func_021F39C0(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *wor
     int zoneId;
     int timeZone;
 
-    msgBg = func_02188C54(fieldMap);
-    gameData = func_020120F4(func_02188C80(fieldMap));
-    work->player = func_02188CB4(fieldMap);
-    work->mmdlSys = func_02188C7C(fieldMap);
-    zoneId = func_02188C9C(fieldMap);
-    timeZone = func_021690B4(gameData);
-    heapId = func_02188C84(fieldMap);
-    func_021F3E84(&work->config, timeZone, zoneId, heapId);
+    msgBg = FIELDMAP_GetMsgBg(fieldMap);
+    gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
+    work->player = FIELDMAP_GetFieldPlayer(fieldMap);
+    work->mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
+    zoneId = FIELDMAP_GetZoneId(fieldMap);
+    timeZone = FIELD_CLOCK_GetTimeZone(gameData);
+    heapId = FIELDMAP_GetHeapId(fieldMap);
+    CROWD_LoadConfig(&work->config, timeZone, zoneId, heapId);
     for (i = 0; i < CROWD_PERSON_MAX; i++)
-        func_021F3C2C(&work->people[i], work->mmdlSys, zoneId, &work->config, i);
-    func_021F405C(&work->config, work, timeZone);
-    func_021F43D8(&work->chatter, msgBg, &work->config, timeZone, heapId);
-    func_02189A68(fieldMap, work);
+        CROWD_CreatePerson(&work->people[i], work->mmdlSys, zoneId, &work->config, i);
+    CROWD_SpawnInitialPeople(&work->config, work, timeZone);
+    CROWD_InitChatter(&work->chatter, msgBg, &work->config, timeZone, heapId);
+    FIELDMAP_SetZoneEffectWork(fieldMap, work);
 }
 
 /* End of the sub process. */
-void func_021F3A64(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work)
+void CROWD_Exit(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work)
 {
     int i;
 
-    func_02189A68(fieldMap, 0);
+    FIELDMAP_SetZoneEffectWork(fieldMap, 0);
     for (i = 0; i < CROWD_PERSON_MAX; i++)
-        func_021F3CE4(&work->people[i]);
-    func_021F3F20(&work->config);
-    func_021F4430(&work->chatter);
+        CROWD_DeletePerson(&work->people[i]);
+    CROWD_FreeConfig(&work->config);
+    CROWD_ExitChatter(&work->chatter);
     work->player = 0;
     work->mmdlSys = 0;
 }
 
 /* Per frame: spawn people, move them, run the speech windows. */
-void func_021F3AA4(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work)
+void CROWD_Update(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work)
 {
     int i;
 
-    func_021F3F30(&work->config, work, func_02189A38(fieldMap));
-    if (func_02189A2C(fieldMap)) {
+    CROWD_UpdateSpawns(&work->config, work, FIELDMAP_GetTimeZone(fieldMap));
+    if (FIELDMAP_IsEventActive(fieldMap)) {
         for (i = 0; i < CROWD_PERSON_MAX; i++)
-            func_021F3D90(&work->people[i]);
+            CROWD_MakePersonSolid(&work->people[i]);
     }
     for (i = 0; i < CROWD_PERSON_MAX; i++)
-        func_021F3CF4(&work->people[i], work->mmdlSys, work->player);
-    func_021F4474(&work->chatter, &work->config, fieldMap);
+        CROWD_UpdatePerson(&work->people[i], work->mmdlSys, work->player);
+    CROWD_UpdateChatter(&work->chatter, &work->config, fieldMap);
 }
 
 /* Draw hook of the sub process: close the speech windows. */
 void func_021F3B10(CrowdWork *work)
 {
-    func_021F4458(&work->chatter);
+    CROWD_CloseAllChatterSlots(&work->chatter);
 }
 
 /* The first person slot that is not in use, or 0. */
-CrowdPerson *func_021F3B20(CrowdWork *work)
+CrowdPerson *CROWD_FindFreePerson(CrowdWork *work)
 {
     int i;
 
@@ -373,7 +373,7 @@ CrowdPerson *func_021F3B20(CrowdWork *work)
  * The switch lists case 3 before case 2: the original lays the dx = 1 arm
  * out ahead of the dx = -1 arm.
  */
-const CrowdPerson *func_021F3B48(const CrowdWork *work, int x, int z, unsigned int dir, int unused, int *isOccupied)
+const CrowdPerson *CROWD_FindPersonAtSpawn(const CrowdWork *work, int x, int z, unsigned int dir, int unused, int *isOccupied)
 {
     int dx;
     int dz;
@@ -404,8 +404,8 @@ const CrowdPerson *func_021F3B48(const CrowdWork *work, int x, int z, unsigned i
     *isOccupied = 0;
     for (i = 0; i < CROWD_PERSON_MAX; i++) {
         if (work->people[i].isActive != 0 && work->people[i].kind == CROWD_KIND_PLAYER_AWARE) {
-            personX = func_0216D83C(work->people[i].mmdl);
-            personZ = func_0216D86C(work->people[i].mmdl);
+            personX = FLDMMDL_GetGridNowX(work->people[i].mmdl);
+            personZ = FLDMMDL_GetGridNowZ(work->people[i].mmdl);
             signX = personX - x;
             signZ = personZ - z;
             if (signX != 0) {
@@ -427,7 +427,7 @@ const CrowdPerson *func_021F3B48(const CrowdWork *work, int x, int z, unsigned i
 }
 
 /* Create the hidden field model of a person: random look, event and position jitter. */
-void func_021F3C2C(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const CrowdConfig *config, int index)
+void CROWD_CreatePerson(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const CrowdConfig *config, int index)
 {
     u32 i;
     u32 rand;
@@ -435,7 +435,7 @@ void func_021F3C2C(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const Crow
 
     i = 0;
     objCode = config->modelCodes[func_020056EC(0) % config->modelCount];
-    d_021F4620.objCode = objCode;
+    gCrowdMmdlHeader.objCode = objCode;
     rand = func_020056EC(0);
     person->mmdlId = index + 0x30;
     for (i = 0; i < config->modelTableCount; i++) {
@@ -444,62 +444,62 @@ void func_021F3C2C(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const Crow
             break;
         }
     }
-    person->mmdl = func_0216CE60(mmdlSys, &d_021F4620_b, zoneId);
+    person->mmdl = FLDMMDL_AddMmdl(mmdlSys, &d_021F4620_b, zoneId);
     person->isActive = 0;
     person->state = 0;
     person->kind = 0;
     person->dir = 0;
-    person->walkCmdBase = func_021F40F4(config);
-    func_0216DAC8(person->mmdl, 1);
-    func_0216DCCC(person->mmdl, 1);
+    person->walkCmdBase = CROWD_GetWalkCmdBase(config);
+    FLDMMDL_SetStatusBitVanish(person->mmdl, 1);
+    FLDMMDL_SetMoveBitAttrEffectOff(person->mmdl, 1);
     {
         int drawOffset[3] = {0, 0, 0};
         drawOffset[0] = func_020056EC(0x8000) - 0x4000;
-        func_0216D8C0(person->mmdl, drawOffset);
+        FLDMMDL_SetDrawOffset(person->mmdl, drawOffset);
     }
 }
 
 /* Delete the field model of a person. */
-void func_021F3CE4(CrowdPerson *person) { func_0216CF2C(person->mmdl); person->mmdl=0; }
+void CROWD_DeletePerson(CrowdPerson *person) { FLDMMDL_DeleteMmdl(person->mmdl); person->mmdl=0; }
 
 /* Per-kind update handlers, indexed by CrowdPerson.kind. */
-extern void (*d_021F45C0[])(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player);
+extern void (*gCrowdPersonUpdateFuncs[])(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player);
 
 /* Run the update handler of an active person. */
-void func_021F3CF4(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player) { if (person->isActive) d_021F45C0[person->kind](person, mmdlSys, player); }
+void CROWD_UpdatePerson(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player) { if (person->isActive) gCrowdPersonUpdateFuncs[person->kind](person, mmdlSys, player); }
 
 /* Per-kind start handlers, indexed by CrowdPerson.kind. */
-extern void (* const d_021F45C8[])(CrowdPerson *person);
+extern void (* const gCrowdPersonInitFuncs[])(CrowdPerson *person);
 
 /* Put a person on the map at the grid position, walking in direction dir. */
-void func_021F3D0C(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player, int kind, u16 gridX, u16 gridZ, u16 dir, u16 stepCount, const CrowdArea *area)
+void CROWD_StartPerson(CrowdPerson *person, MmdlSys *mmdlSys, struct FieldPlayer *player, int kind, u16 gridX, u16 gridZ, u16 dir, u16 stepCount, const CrowdArea *area)
 {
     MmdlHeader header;
 
     person->isActive = 1;
-    func_0216DAC8(person->mmdl, 0);
-    header = d_021F4620;
-    header.objCode = func_0216D598(person->mmdl);
+    FLDMMDL_SetStatusBitVanish(person->mmdl, 0);
+    header = gCrowdMmdlHeader;
+    header.objCode = FLDMMDL_GetObjCode(person->mmdl);
     header.dirHeader = dir;
     header.objId = person->mmdlId;
-    func_0216E618(&header, gridX, gridZ, 0);
-    func_0216E0AC(person->mmdl, &header);
+    FLDMMDL_InitPosRecord(&header, gridX, gridZ, 0);
+    FLDMMDL_ChangeHeader(person->mmdl, &header);
     person->kind = kind;
     person->dir = dir;
     person->state = 0;
     person->stepsLeft = stepCount;
     person->isSidestepping = 0;
     person->sidestepDir = 0;
-    func_0216DCCC(person->mmdl, 1);
+    FLDMMDL_SetMoveBitAttrEffectOff(person->mmdl, 1);
     person->area = area;
-    d_021F45C8[kind](person);
+    gCrowdPersonInitFuncs[kind](person);
 }
 
 /* While a game event runs, a player-aware person with no event of its own becomes a solid one. */
-void func_021F3D90(CrowdPerson *person) { if (person->isActive==1 && person->kind==CROWD_KIND_PLAYER_AWARE && func_0216D5B8(person->mmdl)==CROWD_EVENT_NONE) { person->kind=CROWD_KIND_SOLID; func_021F4124(person); } }
+void CROWD_MakePersonSolid(CrowdPerson *person) { if (person->isActive==1 && person->kind==CROWD_KIND_PLAYER_AWARE && FLDMMDL_GetEventId(person->mmdl)==CROWD_EVENT_NONE) { person->kind=CROWD_KIND_SOLID; CROWD_InitSolidPerson(person); } }
 
 /* Take a person off the map: inactive and hidden. */
-void func_021F3DBC(CrowdPerson *person) { person->isActive=0; person->kind=0; person->dir=0; person->state=0; func_0216DAC8(person->mmdl,1); }
+void CROWD_RemovePerson(CrowdPerson *person) { person->isActive=0; person->kind=0; person->dir=0; person->state=0; FLDMMDL_SetStatusBitVanish(person->mmdl,1); }
 
 #pragma opt_lifetimes off
 
@@ -512,7 +512,7 @@ void func_021F3DBC(CrowdPerson *person) { person->isActive=0; person->kind=0; pe
  * Many source forms were tried, none changes that; see the register
  * allocator notes in the lane log.
  */
-void func_021F3DD4(CrowdPerson *person, Mmdl *blocker)
+void CROWD_SidestepPerson(CrowdPerson *person, Mmdl *blocker)
 {
     u32 newDir;
     u32 blockerDir;
@@ -520,43 +520,43 @@ void func_021F3DD4(CrowdPerson *person, Mmdl *blocker)
     int nextZ;
     int posZ;
     const CrowdArea *area;
-    blockerDir = func_0216D5F8(blocker);
-    posX = func_0216D83C(person->mmdl);
-    posZ = func_0216D86C(person->mmdl);
+    blockerDir = FLDMMDL_GetDirDisp(blocker);
+    posX = FLDMMDL_GetGridNowX(person->mmdl);
+    posZ = FLDMMDL_GetGridNowZ(person->mmdl);
     if (person->isSidestepping != 0) {
         newDir = person->sidestepDir;
     } else {
-        if (blockerDir == person->dir || person->dir == func_021642A4(blockerDir)) {
+        if (blockerDir == person->dir || person->dir == FLDMMDL_MOVE_GetDirTableValue(blockerDir)) {
             if (func_020056EC(2) == 0) {
                 newDir = (u16)(blockerDir + 2);
             } else {
-                newDir = func_021642A4((u16)(blockerDir + 2));
+                newDir = FLDMMDL_MOVE_GetDirTableValue((u16)(blockerDir + 2));
             }
         } else {
-            newDir = func_021642A4(blockerDir);
+            newDir = FLDMMDL_MOVE_GetDirTableValue(blockerDir);
         }
     }
-    posX = (s16)(posX + func_021641E8(newDir));
-    nextZ = (s16)(posZ + func_021641F8(newDir));
+    posX = (s16)(posX + FLDMMDL_MOVE_GetDirAddGridX(newDir));
+    nextZ = (s16)(posZ + FLDMMDL_MOVE_GetDirAddGridZ(newDir));
     if (newDir <= 1) {
         area = person->area;
         if (nextZ < area->zMin || nextZ > area->zMax) {
-            newDir = func_021642A4(newDir);
+            newDir = FLDMMDL_MOVE_GetDirTableValue(newDir);
         }
     } else {
         area = person->area;
         if (posX < area->xMin || posX > area->xMax) {
-            newDir = func_021642A4(newDir);
+            newDir = FLDMMDL_MOVE_GetDirTableValue(newDir);
         }
     }
-    func_0216D410(person->mmdl, (u16)(person->walkCmdBase + newDir));
+    FLDMMDL_SetAcmd(person->mmdl, (u16)(person->walkCmdBase + newDir));
     person->isSidestepping = 1;
     person->sidestepDir = newDir;
 }
 #pragma opt_lifetimes reset
 
 /* Read the setup of the current zone from archive 0xba. */
-void func_021F3E84(CrowdConfig *config, int timeZone, int zoneId, u16 heapId)
+void CROWD_LoadConfig(CrowdConfig *config, int timeZone, int zoneId, u16 heapId)
 {
     struct ArcFile *arc;
     int *zoneTable;
@@ -566,36 +566,36 @@ void func_021F3E84(CrowdConfig *config, int timeZone, int zoneId, u16 heapId)
 
     tempHeapId = (heapId & 0x7fff) | 0x8000;
     arc = func_020490F4(0xba, tempHeapId);
-    zoneTable = func_02049250(arc, 5, (u16)tempHeapId);
-    count = func_020493D4(arc, 5) >> 2;
+    zoneTable = ARC_TOOL_LoadHandleMember(arc, 5, (u16)tempHeapId);
+    count = ARC_TOOL_GetHandleMemberSize(arc, 5) >> 2;
     for (i = 0; i < count; i++) {
         if (zoneId == zoneTable[i])
             break;
     }
-    func_0204944C(arc, i, 0, 0x32, config);
+    ARC_TOOL_ReadHandleMemberRange(arc, i, 0, 0x32, config);
     func_020307B0(zoneTable);
-    count = func_020493D4(arc, 6);
-    config->modelTable = func_02049250(arc, 6, (u16)heapId);
+    count = ARC_TOOL_GetHandleMemberSize(arc, 6);
+    config->modelTable = ARC_TOOL_LoadHandleMember(arc, 6, (u16)heapId);
     config->modelTableCount = count >> 4;
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     for (j = 0; j < CROWD_AREA_MAX; j++)
         config->spawnCounter[j] = 0;
 }
 
 /* Free the model table of the setup. */
-void func_021F3F20(CrowdConfig *config) { func_020307B0(config->modelTable); config->modelTable=0; }
+void CROWD_FreeConfig(CrowdConfig *config) { func_020307B0(config->modelTable); config->modelTable=0; }
 
 /* Per frame: count up the spawn timers and put a new person on the map when one runs out. */
-void func_021F3F30(CrowdConfig *config, CrowdWork *work, int timeZone)
+void CROWD_UpdateSpawns(CrowdConfig *config, CrowdWork *work, int timeZone)
 {
     int i;
 
     for (i = 0; i < config->areaCount; i++) {
         CrowdPerson *person;
         if (config->spawnCounter[i] >= config->intervalByTimeZone[timeZone]) {
-            person = func_021F3B20(work);
+            person = CROWD_FindFreePerson(work);
             if (person) {
-                func_021F3F9C(work, config, &config->areas[i], person, 0);
+                CROWD_SpawnPerson(work, config, &config->areas[i], person, 0);
                 config->spawnCounter[i] = 0;
             }
         } else {
@@ -609,13 +609,13 @@ void func_021F3F30(CrowdConfig *config, CrowdWork *work, int timeZone)
  * walking direction; skipped when the entry tile is occupied. One person in
  * ten (when none is ahead of it) is player-aware.
  *
- * Levers, each measured: func_021F3D0C's u16 parameters (its own file) put
+ * Levers, each measured: CROWD_StartPerson's u16 parameters (its own file) put
  * y in r7 and spill x; the else arm's x is an if/else, not a ternary (the
  * shared truncation then stays ahead of the area loads); u8 kind moves
  * the stack parameter's load to the front of the prologue; const work and
  * area let the final call's field loads rise above the argument stores.
  */
-void func_021F3F9C(const CrowdWork *work, const CrowdConfig *config, const CrowdArea *area, CrowdPerson *person, u16 stagger)
+void CROWD_SpawnPerson(const CrowdWork *work, const CrowdConfig *config, const CrowdArea *area, CrowdPerson *person, u16 stagger)
 {
     int isOccupied;
     u16 gridX;
@@ -640,16 +640,16 @@ void func_021F3F9C(const CrowdWork *work, const CrowdConfig *config, const Crowd
             gridX = area->xMin + stagger;
         gridZ = area->zMin + rand % (area->zMax - area->zMin + 1);
     }
-    if (func_021F3B48(work, gridX, gridZ, dir, 1, &isOccupied) == 0) {
+    if (CROWD_FindPersonAtSpawn(work, gridX, gridZ, dir, 1, &isOccupied) == 0) {
         if (rand % 10 == 0)
             kind = 1;
     }
     if (isOccupied == 0)
-        func_021F3D0C(person, work->mmdlSys, work->player, kind, gridX, gridZ, area->dir, (u16)(area->length - stagger), area);
+        CROWD_StartPerson(person, work->mmdlSys, work->player, kind, gridX, gridZ, area->dir, (u16)(area->length - stagger), area);
 }
 
 /* Fill the areas with people when the zone is entered: the number follows the spawn interval. */
-void func_021F405C(CrowdConfig *config, CrowdWork *work, int timeZone)
+void CROWD_SpawnInitialPeople(CrowdConfig *config, CrowdWork *work, int timeZone)
 {
     int i, j, count, offset;
 
@@ -657,9 +657,9 @@ void func_021F405C(CrowdConfig *config, CrowdWork *work, int timeZone)
         count = (config->areas[i].length * 6) / config->intervalByTimeZone[timeZone];
         offset = 0;
         for (j = 0; j < count; j++) {
-            CrowdPerson *person = func_021F3B20(work);
+            CrowdPerson *person = CROWD_FindFreePerson(work);
             if (person) {
-                func_021F3F9C(work, config, &config->areas[i], person, (u16)(offset / 6));
+                CROWD_SpawnPerson(work, config, &config->areas[i], person, (u16)(offset / 6));
                 offset += config->intervalByTimeZone[timeZone];
             }
         }
@@ -667,7 +667,7 @@ void func_021F405C(CrowdConfig *config, CrowdWork *work, int timeZone)
 }
 
 /* Walk command of direction 0 for the step length of the setup. */
-u32 func_021F40F4(const CrowdConfig *config)
+u32 CROWD_GetWalkCmdBase(const CrowdConfig *config)
 {
     u32 walkFrames = config->walkFrames;
     if (walkFrames == 2)  return 0x14;
@@ -679,18 +679,18 @@ u32 func_021F40F4(const CrowdConfig *config)
 }
 
 /* Start handler of the solid kind: collides with other field models, no event. */
-void func_021F4124(CrowdPerson *person) { func_0216DB4C(person->mmdl,1); func_0216DC98(person->mmdl,1); func_0216DAE0(person->mmdl,0); func_0216D5B4(person->mmdl,CROWD_EVENT_NONE); }
+void CROWD_InitSolidPerson(CrowdPerson *person) { FLDMMDL_SetStatusBitHeightGetOff(person->mmdl,1); FLDMMDL_SetStatusBitAttrGetOff(person->mmdl,1); FLDMMDL_SetStatusBitFellowHit(person->mmdl,0); FLDMMDL_SetEventId(person->mmdl,CROWD_EVENT_NONE); }
 
 /* Start handler of the player-aware kind: passes through other field models, no event. */
-void func_021F414C(CrowdPerson *person) { func_0216DB4C(person->mmdl,1); func_0216DC98(person->mmdl,1); func_0216DAE0(person->mmdl,1); func_0216D5B4(person->mmdl,CROWD_EVENT_NONE); }
+void CROWD_InitPlayerAwarePerson(CrowdPerson *person) { FLDMMDL_SetStatusBitHeightGetOff(person->mmdl,1); FLDMMDL_SetStatusBitAttrGetOff(person->mmdl,1); FLDMMDL_SetStatusBitFellowHit(person->mmdl,1); FLDMMDL_SetEventId(person->mmdl,CROWD_EVENT_NONE); }
 
 /* Update handler of the solid kind: walk on, sidestep a blocker, leave at the end. */
-void func_021F4174(CrowdPerson *person, MmdlSys *mmdlSys)
+void CROWD_UpdateSolidPerson(CrowdPerson *person, MmdlSys *mmdlSys)
 {
     Mmdl *blocker;
     switch (person->state) {
     case CROWD_STATE_WAIT_STEP:
-        if (func_0216D454(person->mmdl) == 0) {
+        if (FLDMMDL_CheckEndAcmd(person->mmdl) == 0) {
             return;
         }
         person->state = person->state + 1;
@@ -699,16 +699,16 @@ void func_021F4174(CrowdPerson *person, MmdlSys *mmdlSys)
             person->state = CROWD_STATE_LEAVE;
             return;
         }
-        if (func_021F42AC(person, mmdlSys, &blocker, 2, 0)) {
-            func_021F3DD4(person, blocker);
+        if (CROWD_FindBlockingMmdl(person, mmdlSys, &blocker, 2, 0)) {
+            CROWD_SidestepPerson(person, blocker);
         } else {
-            func_0216D410(person->mmdl, (u16)(person->walkCmdBase + person->dir));
+            FLDMMDL_SetAcmd(person->mmdl, (u16)(person->walkCmdBase + person->dir));
             person->stepsLeft = person->stepsLeft - 1;
         }
         person->state = CROWD_STATE_WAIT_STEP;
         return;
     case CROWD_STATE_LEAVE:
-        func_021F3DBC(person);
+        CROWD_RemovePerson(person);
         return;
     }
 }
@@ -721,13 +721,13 @@ void func_021F4174(CrowdPerson *person, MmdlSys *mmdlSys)
  * blocker search, as in the original; as a pointer the call gets a u16
  * truncation the original does not have.
  */
-void func_021F41F0(CrowdPerson *person, MmdlSys *mmdlSys, u32 player)
+void CROWD_UpdatePlayerAwarePerson(CrowdPerson *person, MmdlSys *mmdlSys, u32 player)
 {
     Mmdl *blocker;
     Mmdl *playerMmdl;
     switch (person->state) {
     case CROWD_STATE_WAIT_STEP:
-        if (func_0216D454(person->mmdl) == 0) {
+        if (FLDMMDL_CheckEndAcmd(person->mmdl) == 0) {
             return;
         }
         person->state = person->state + 1;
@@ -736,25 +736,25 @@ void func_021F41F0(CrowdPerson *person, MmdlSys *mmdlSys, u32 player)
             person->state = CROWD_STATE_LEAVE;
             return;
         }
-        playerMmdl = func_021A3074((struct FieldPlayer *)player);
+        playerMmdl = FIELD_PLAYER_GetMmdl((struct FieldPlayer *)player);
         player = 1;
-        if (func_021F4318(person, playerMmdl, 1, 1)) {
-            func_0216D5B4(person->mmdl, person->eventId);
+        if (CROWD_IsMmdlInFront(person, playerMmdl, 1, 1)) {
+            FLDMMDL_SetEventId(person->mmdl, person->eventId);
             return;
         }
-        if (func_021F42AC(person, mmdlSys, &blocker, player, 0)) {
-            func_021F3DD4(person, blocker);
-            func_0216D5B4(person->mmdl, CROWD_EVENT_NONE);
-            func_021F3D90(person);
+        if (CROWD_FindBlockingMmdl(person, mmdlSys, &blocker, player, 0)) {
+            CROWD_SidestepPerson(person, blocker);
+            FLDMMDL_SetEventId(person->mmdl, CROWD_EVENT_NONE);
+            CROWD_MakePersonSolid(person);
         } else {
-            func_0216D410(person->mmdl, (u16)(person->walkCmdBase + person->dir));
+            FLDMMDL_SetAcmd(person->mmdl, (u16)(person->walkCmdBase + person->dir));
             person->stepsLeft = person->stepsLeft - 1;
-            func_0216D5B4(person->mmdl, CROWD_EVENT_NONE);
+            FLDMMDL_SetEventId(person->mmdl, CROWD_EVENT_NONE);
         }
         person->state = CROWD_STATE_WAIT_STEP;
         return;
     case CROWD_STATE_LEAVE:
-        func_021F3DBC(person);
+        CROWD_RemovePerson(person);
         return;
     }
 }
@@ -763,17 +763,17 @@ void func_021F41F0(CrowdPerson *person, MmdlSys *mmdlSys, u32 player)
  * Find another field model within minDist..maxDist tiles in front of the
  * person; *blocker gets it.
  *
- * maxDist and minDist are u16, as are func_021F4318's last two parameters (its
+ * maxDist and minDist are u16, as are CROWD_IsMmdlInFront's last two parameters (its
  * own file): with u32 the stack parameter's load (ldr r6, [sp, #0x20]) sinks to
  * the first call instead of leading the prologue.
  */
-int func_021F42AC(CrowdPerson *person, MmdlSys *mmdlSys, Mmdl **blocker, u16 maxDist, u16 minDist)
+int CROWD_FindBlockingMmdl(CrowdPerson *person, MmdlSys *mmdlSys, Mmdl **blocker, u16 maxDist, u16 minDist)
 {
     u32 iter = 0;
     Mmdl *other;
-    while (func_0216DD1C(mmdlSys, &other, &iter) == 1) {
-        if (person->mmdl != other && func_0216D55C(other, 0x80) == 0 &&
-            func_0216DAB4(other) == 0 && func_021F4318(person, other, maxDist, minDist) != 0) {
+    while (FLDMMDL_SysSearchUseMmdl(mmdlSys, &other, &iter) == 1) {
+        if (person->mmdl != other && FLDMMDL_CheckStatusBit(other, 0x80) == 0 &&
+            FLDMMDL_CheckStatusBitVanish(other) == 0 && CROWD_IsMmdlInFront(person, other, maxDist, minDist) != 0) {
             *blocker = other;
             return 1;
         }
@@ -782,25 +782,25 @@ int func_021F42AC(CrowdPerson *person, MmdlSys *mmdlSys, Mmdl **blocker, u16 max
 }
 
 /* Whether a field model (at its current or its previous tile) is in front of the person. */
-int func_021F4318(const CrowdPerson *person, Mmdl *other, u16 maxDist, u16 minDist)
+int CROWD_IsMmdlInFront(const CrowdPerson *person, Mmdl *other, u16 maxDist, u16 minDist)
 {
-    int otherX = func_0216D83C(other);
-    int otherZ = func_0216D86C(other);
-    int ownX = func_0216D83C(person->mmdl);
-    int ownZ = func_0216D86C(person->mmdl);
+    int otherX = FLDMMDL_GetGridNowX(other);
+    int otherZ = FLDMMDL_GetGridNowZ(other);
+    int ownX = FLDMMDL_GetGridNowX(person->mmdl);
+    int ownZ = FLDMMDL_GetGridNowZ(person->mmdl);
     int prevX;
     int prevZ;
 
-    if (func_021F4388(ownX, ownZ, otherX, otherZ, maxDist, minDist, person->dir)) {
+    if (CROWD_IsTileInFront(ownX, ownZ, otherX, otherZ, maxDist, minDist, person->dir)) {
         return 1;
     }
-    prevX = func_0216D804(other);
-    prevZ = func_0216D81C(other);
-    return func_021F4388(ownX, ownZ, prevX, prevZ, maxDist, minDist, person->dir);
+    prevX = FLDMMDL_GetGridOldX(other);
+    prevZ = FLDMMDL_GetGridOldZ(other);
+    return CROWD_IsTileInFront(ownX, ownZ, prevX, prevZ, maxDist, minDist, person->dir);
 }
 
 /* Whether the other tile is in the same lane, minDist..maxDist tiles ahead in direction dir. */
-int func_021F4388(int ownX, int ownZ, int otherX, int otherZ, u16 maxDist, u16 minDist, u16 dir)
+int CROWD_IsTileInFront(int ownX, int ownZ, int otherX, int otherZ, u16 maxDist, u16 minDist, u16 dir)
 {
     int ahead, side;
     switch (dir) {
@@ -828,7 +828,7 @@ int func_021F4388(int ownX, int ownZ, int otherX, int otherZ, u16 maxDist, u16 m
 }
 
 /* Set up the speech windows: first interval, message data, slot table. */
-void func_021F43D8(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const CrowdConfig *config, u32 timeZone, u16 heapId)
+void CROWD_InitChatter(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const CrowdConfig *config, u32 timeZone, u16 heapId)
 {
     int i;
     u32 rand;
@@ -843,18 +843,18 @@ void func_021F43D8(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const CrowdC
     chatter->msgBg = msgBg;
     chatter->nextSlot = rand & 0xf;
     for (i = 0; i < CROWD_CHATTER_SLOT_MAX; i++) {
-        func_021F4510(&chatter->slots[i], (u16)i);
+        CROWD_InitChatterSlot(&chatter->slots[i], (u16)i);
     }
 }
 
 /* Close the windows and free the message data. */
-void func_021F4430(CrowdChatter *chatter) { int i; for (i=0;i<CROWD_CHATTER_SLOT_MAX;i++) func_021F45A4(&chatter->slots[i],chatter->msgBg); chatter->msgBg=0; func_02045C04(chatter->msgData); chatter->msgData=0; }
+void CROWD_ExitChatter(CrowdChatter *chatter) { int i; for (i=0;i<CROWD_CHATTER_SLOT_MAX;i++) CROWD_CloseChatterSlot(&chatter->slots[i],chatter->msgBg); chatter->msgBg=0; MSGDATA_Delete(chatter->msgData); chatter->msgData=0; }
 
 /* Close all open windows. */
-void func_021F4458(CrowdChatter *chatter) { int i; for (i=0;i<CROWD_CHATTER_SLOT_MAX;i++) func_021F45A4(&chatter->slots[i],chatter->msgBg); }
+void CROWD_CloseAllChatterSlots(CrowdChatter *chatter) { int i; for (i=0;i<CROWD_CHATTER_SLOT_MAX;i++) CROWD_CloseChatterSlot(&chatter->slots[i],chatter->msgBg); }
 
 /* Per frame: open a window when the timer runs out (not during an event), age the open ones. */
-void func_021F4474(CrowdChatter *chatter, const CrowdConfig *config, FieldMap *fieldMap)
+void CROWD_UpdateChatter(CrowdChatter *chatter, const CrowdConfig *config, FieldMap *fieldMap)
 {
     int i;
     u32 rand;
@@ -862,11 +862,11 @@ void func_021F4474(CrowdChatter *chatter, const CrowdConfig *config, FieldMap *f
 
     i = 0;
     rand = func_020056EC(0);
-    timeZone = func_02189A38(fieldMap);
-    if (func_02189A2C(fieldMap) == 0) {
+    timeZone = FIELDMAP_GetTimeZone(fieldMap);
+    if (FIELDMAP_IsEventActive(fieldMap) == 0) {
         chatter->timer = chatter->timer + 1;
         if (chatter->timer >= chatter->interval) {
-            func_021F4530(&chatter->slots[chatter->nextSlot], chatter->msgBg, chatter->msgData,
+            CROWD_OpenChatterSlot(&chatter->slots[chatter->nextSlot], chatter->msgBg, chatter->msgData,
                           config->chatterMsgFirst, config->chatterMsgCount);
             chatter->timer = i;
             chatter->nextSlot = (chatter->nextSlot + 1) & 0xf;
@@ -874,27 +874,27 @@ void func_021F4474(CrowdChatter *chatter, const CrowdConfig *config, FieldMap *f
         }
         i = 0;
         for (; i < CROWD_CHATTER_SLOT_MAX; i++) {
-            func_021F4574(&chatter->slots[i], chatter->msgBg);
+            CROWD_UpdateChatterSlot(&chatter->slots[i], chatter->msgBg);
         }
     } else {
         for (i = 0; i < CROWD_CHATTER_SLOT_MAX; i++) {
-            func_021F45A4(&chatter->slots[i], chatter->msgBg);
+            CROWD_CloseChatterSlot(&chatter->slots[i], chatter->msgBg);
         }
     }
 }
 
 /* Set up a speech window slot: closed, at its fixed position. */
-void func_021F4510(CrowdChatterSlot *slot, int index)
+void CROWD_InitChatterSlot(CrowdChatterSlot *slot, int index)
 {
     slot->isOpen = 0;
-    slot->x = d_021F45E0[index];
-    slot->y = d_021F45D0[index];
+    slot->x = gCrowdChatterSlotX[index];
+    slot->y = gCrowdChatterSlotY[index];
     slot->windowId = index;
     slot->frames = 0;
 }
 
 /* Open the speech window of a slot with a random message. */
-void func_021F4530(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgFirst, u32 msgCount)
+void CROWD_OpenChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgFirst, u32 msgCount)
 {
     u32 rand = func_020056EC(0);
     slot->isOpen = 1;
@@ -904,22 +904,22 @@ void func_021F4530(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgD
 
 /*
  * Age an open speech window; it closes after 16 frames.
- * Unlabelled leaf callee of func_021F4474.
+ * Unlabelled leaf callee of CROWD_UpdateChatter.
  */
-void func_021F4574(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg)
+void CROWD_UpdateChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg)
 {
     if (slot->isOpen != 0) {
         s16 *frames = &slot->frames;
         *frames = *frames + 1;
         if (*frames >= 0x10) {
-            func_0219196C(msgBg, slot->windowId);
-            func_021F459C(slot);
+            FIELD_MSGBG_DeleteSubMsgWin(msgBg, slot->windowId);
+            CROWD_ClearChatterSlot(slot);
         }
     }
 }
 
 /* Mark a speech window slot closed. */
-void func_021F459C(CrowdChatterSlot *slot)
+void CROWD_ClearChatterSlot(CrowdChatterSlot *slot)
 {
     slot->frames = 0;
     slot->isOpen = 0;

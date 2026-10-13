@@ -1,5 +1,5 @@
 /*
- * function: func_021A2BC4
+ * function: WEATHER_TASK_IsParticleLinked
  * address:  0x021A2BC4
  * packet:   pkt_021A2BC4
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A2BC4(u32 a)
+int WEATHER_TASK_IsParticleLinked(u32 a)
 {
 if (((struct Obj18004 *)((u8 *)(a)))->f30 != 0) {
     return 1;

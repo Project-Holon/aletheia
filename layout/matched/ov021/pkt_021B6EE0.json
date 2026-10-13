@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6EE0",
+   "name": "SCRCMD_POKEMON_FLD_CreateGiftMon",
    "address": "0x021B6EE0",
    "kind": "game",
    "region": "ov021",

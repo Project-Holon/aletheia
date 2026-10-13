@@ -17,15 +17,15 @@
  *
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_021E7270 0x021E7270 thumb ov177
  *   func_021E6F20 0x021E6F20 thumb ov177
  *   func_020407E8 0x020407E8 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj00133.h"
 #include "../include/Obj05464.h"
@@ -40,15 +40,15 @@ struct MsgBank;
 struct Obj;
 struct U16Vec;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021E7270(char *);
 extern void func_021E6F20(Work *,void *,void *,u16);
 extern u32 func_020407E8(u32 layer);
 extern void func_0204B404(void *,const Pt *,u16);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
 {
     int i;
@@ -56,7 +56,7 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
     int x;
     int base,layer1,secondary,layer2;
     Pt pos;
-    func_02043B5C(func_02045770(((struct Obj00133 *)p)->f20),0);
+    BMP_Clear(func_02045770(((struct Obj00133 *)p)->f20),0);
     i=0;
     func_021E7270(p);
     base=0x240;
@@ -92,7 +92,7 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
         }
         func_0204B3DC(((struct Obj00133 *)p)->f18C,1);
         s=func_02045EC0(mgr,17);
-        func_0201C724(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     case 1:
@@ -107,7 +107,7 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
         }
         func_0204B3DC(((struct Obj00133 *)p)->f18C,0);
         s=func_02045EC0(mgr,18);
-        func_0201C724(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     case 2:
@@ -122,9 +122,9 @@ void func_021E5F24(char *p, int mode, void *mgr, void *print, int font, u16 a5)
         }
         func_0204B3DC(((struct Obj00133 *)p)->f18C,0);
         s=func_02045EC0(mgr,19);
-        func_0201C724(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,(u32)func_02045770(((struct Obj00133 *)p)->fB4),0,0,(u32)s,font,0x3c40);
         ((struct Obj00133 *)p)->fB8=1;
         break;
     }
-    func_02045808(s);
+    STRBUF_Delete(s);
 }

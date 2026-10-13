@@ -1,5 +1,5 @@
 /*
- * function: func_021BC4EC
+ * function: STARTMENU_ConfigPromptInit
  * address:  0x021BC4EC
  * packet:   pkt_ov088_021BC4EC
  * region:   ov088
@@ -13,32 +13,32 @@
  * padding pair.
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
- *   func_021BC62C  0x021BC62C  thumb  ov088
- *   func_021BC75C  0x021BC75C  thumb  ov088
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
+ *   STARTMENU_ConfigPromptSetupGraphics  0x021BC62C  thumb  ov088
+ *   STARTMENU_ConfigPromptDrawQuestion  0x021BC75C  thumb  ov088
  */
 #include "../include/Obj09923.h"
 
-extern void func_0203064C(unsigned int, unsigned int, unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 typedef unsigned int   u32;
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
-extern void func_021BC62C(char *);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void STARTMENU_ConfigPromptSetupGraphics(char *);
 typedef unsigned char  u8;
-extern void func_021BC75C(u8 *p);
+extern void STARTMENU_ConfigPromptDrawQuestion(u8 *p);
 
-int func_021BC4EC(struct Obj0203159C *a, int b, int *c)
+int STARTMENU_ConfigPromptInit(struct Obj0203159C *a, int b, int *c)
 {
     char *r;
-    func_0203064C(1, 0x39, 0x80000);
-    r = func_0203159C(a, 0x1c, 0x39);
+    GFL_HEAP_CreateChildHeap(1, 0x39, 0x80000);
+    r = PROCSYS_AllocProcWork(a, 0x1c, 0x39);
     if (*c == 0)
         ((struct Obj09923 *)r)->f4 = 0;
     else
         ((struct Obj09923 *)r)->f4 = 2;
     ((struct Obj09923 *)r)->f18 = 0;
-    func_021BC62C(r);
-    func_021BC75C((u8 *)r);
+    STARTMENU_ConfigPromptSetupGraphics(r);
+    STARTMENU_ConfigPromptDrawQuestion((u8 *)r);
     return 1;
 }

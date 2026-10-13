@@ -1,5 +1,5 @@
 /*
- * function: func_0215D198
+ * function: SCRCMD_PROC_GetDaycareGenderKind
  * address:  0x0215D198
  * packet:   pkt_ov010_0215D198
  * region:   ov010
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned int   u32;
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-int func_0215D198(void *x)
+int SCRCMD_PROC_GetDaycareGenderKind(void *x)
 {
-    int a = func_02017E1C(x, 5, 0);
-    int b = func_02017E1C(x, 0x6e, 0);
+    int a = POKE_TOOL_GetPartyValue(x, 5, 0);
+    int b = POKE_TOOL_GetPartyValue(x, 0x6e, 0);
     if (a == 0x20 || a == 0x1d) {
         a = 0;
-        if (func_02017E1C(x, 0x75, 0) == 0)
+        if (POKE_TOOL_GetPartyValue(x, 0x75, 0) == 0)
             return a;
     }
     switch (b) {

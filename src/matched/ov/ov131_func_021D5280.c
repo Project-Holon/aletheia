@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   d_021DC114 0x021DC114 data a1
  */
 #include "../include/Obj23123.h"
 struct Rect36 { unsigned char b[36]; };
 extern const struct Rect36 d_021DC114;
-extern int func_02035C08(const void *key);
+extern int TOUCHPANEL_HitTrg(const void *key);
 void P_STATUS_UpdateTouch(char *p)
 {
     struct Rect36 r = d_021DC114;
-    ((struct Obj23123 *)p)->f24 = func_02035C08(&r);
+    ((struct Obj23123 *)p)->f24 = TOUCHPANEL_HitTrg(&r);
 }

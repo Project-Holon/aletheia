@@ -1,5 +1,5 @@
 /*
- * function: func_021EFC3C
+ * function: WEATHER_LIGHTNING_PickLongSequence
  * address:  0x021EFC3C
  * packet:   pkt_ov026_021EFC3C
  * region:   ov026
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * The handed 644-byte extent is 152 bytes of code; the unlabelled leaf
- * func_021EFCD4 and ov026 data follow. The tail entry must be spelled
+ * WEATHER_LIGHTNING_GetFlashColor and ov026 data follow. The tail entry must be spelled
  * `p->ent[i].field` (a `u16 *q = p + i * 12` cursor, as in the loop of the
- * twin func_021EFBA4, gives 62 bytes out: the image indexes +0xC from a
+ * twin WEATHER_LIGHTNING_PickShortFlashes, gives 62 bytes out: the image indexes +0xC from a
  * separate p+0xC base and re-adds p + i*12 per store).
  *
  * symbols:
  *   func_020056EC  0x020056EC  thumb
- *   d_021EFD1C     0x021EFD1C  data  a1
+ *   gWeatherLightningReturnFrames     0x021EFD1C  data  a1
  */
 
 typedef unsigned char  u8;
@@ -44,9 +44,9 @@ typedef struct {
 } Obj;
 
 extern u32 func_020056EC(u32 v);
-extern u8 d_021EFD1C[];
+extern u8 gWeatherLightningReturnFrames[];
 
-void func_021EFC3C(Obj *p)
+void WEATHER_LIGHTNING_PickLongSequence(Obj *p)
 {
     int i;
 
@@ -64,7 +64,7 @@ void func_021EFC3C(Obj *p)
     }
     p->ent[i].c = func_020056EC(1) + 0x1E;
     p->ent[i].a = 4;
-    p->ent[i].b = d_021EFD1C[p->ent[i].c];
+    p->ent[i].b = gWeatherLightningReturnFrames[p->ent[i].c];
     p->ent[i].d = func_020056EC(300) + 0xF0;
     p->ent[i].e = 10;
     p->ent[i].f = 0x692;

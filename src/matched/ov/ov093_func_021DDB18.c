@@ -1,5 +1,5 @@
 /*
- * function: func_021DDB18
+ * function: BTL_ITEM_GetWeakenDamageGrassHandlers
  * address: 0x021DDB18
  * packet: pkt_ov093_021DDB18
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DDB04.c and filed here.
  *
  * symbols:
- *   d_021F179C 0x021F179C data ov093 a4
+ *   gBtlItemWeakenDamageGrassHandlers 0x021F179C data ov093 a4
  */
 
-extern int d_021F179C[];
-int *func_021DDB18(int *p);
+extern int gBtlItemWeakenDamageGrassHandlers[];
+int *BTL_ITEM_GetWeakenDamageGrassHandlers(int *p);
 
-int *func_021DDB18(int *p)
+int *BTL_ITEM_GetWeakenDamageGrassHandlers(int *p)
 {
     *p = 2;
-    return d_021F179C;
+    return gBtlItemWeakenDamageGrassHandlers;
 }

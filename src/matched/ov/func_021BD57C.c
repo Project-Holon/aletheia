@@ -1,5 +1,5 @@
 /*
- * function: func_021BD57C
+ * function: PLACE_NAME_LETTER_ClearBmp
  * address:  0x021BD57C
  * packet:   pkt_021BD57C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call on the word at +8 with a zero second argument.
  *
  * symbols:
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-void func_021BD57C(u8 *p)
+void PLACE_NAME_LETTER_ClearBmp(u8 *p)
 {
-    func_02043B5C((struct CharBuf *)(((struct Obj18234 *)p)->f8), 0);
+    BMP_Clear((struct CharBuf *)(((struct Obj18234 *)p)->f8), 0);
 }

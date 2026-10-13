@@ -1,5 +1,5 @@
 /*
- * function: func_0219DB44
+ * function: FLDMMDL_RAIL_MOVE_MapAttrEndNopProc
  * address:  0x0219DB44
  * packet:   pkt_0219DB44
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0219DB44(u32 a0, u32 a1, u32 a2, u32 a3)
+void FLDMMDL_RAIL_MOVE_MapAttrEndNopProc(u32 a0, u32 a1, u32 a2, u32 a3)
 {
 }
 

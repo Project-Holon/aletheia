@@ -1,5 +1,5 @@
 /*
- * function: func_021C7858
+ * function: FIELD_TASK_CreatePlayerDrawOffsetTween
  * address:  0x021C7858
  * packet:   pkt_021C7858
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021C7878  0x021C7878  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_TASK_CreateMmdlDrawOffsetTween  0x021C7878  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -24,12 +24,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern u32 func_021C7878(u32, u32, u32, void *);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern u32 FIELD_TASK_CreateMmdlDrawOffsetTween(u32, u32, u32, void *);
 
-int func_021C7858(u32 a, u32 b, u32 c)
+int FIELD_TASK_CreatePlayerDrawOffsetTween(u32 a, u32 b, u32 c)
 {
-return func_021C7878(a, b, c, func_021A3074(func_02188CB4((struct Obj00020 *)a)));
+return FIELD_TASK_CreateMmdlDrawOffsetTween(a, b, c, FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((struct Obj00020 *)a)));
 }
 

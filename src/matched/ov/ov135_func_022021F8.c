@@ -17,9 +17,9 @@
  *   func_020307B0 0x020307B0 arm
  *   func_0201AB28 0x0201AB28 thumb
  *   func_0201A9C8 0x0201A9C8 thumb
- *   func_020120F4 0x020120F4 thumb
- *   func_02012F98 0x02012F98 thumb
- *   func_02012934 0x02012934 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetBoxSave 0x02012F98 thumb
+ *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   func_02007C34 0x02007C34 thumb
  *   func_0200AD94 0x0200AD94 thumb
  */
@@ -50,10 +50,10 @@ extern void func_02007664(void *, unsigned, unsigned);
 extern u32 func_020307B0(void *p);
 extern void *func_0201AB28(void *, unsigned);
 extern u32 func_0201A9C8(struct Party *p, s32 idx);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Sub02007AC8Entry;
-extern struct Sub02007AC8Entry *func_02012F98(void *p);
-extern void *func_02012934(const struct BigObj *p);
+extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void func_02007C34(struct PerapVoice *p, void *a);
 extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
 void func_022021F8(u8 *p, int flag)
@@ -71,9 +71,9 @@ void func_022021F8(u8 *p, int flag)
         mon = func_0201AB28(((struct Obj23463 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f8, ((struct Obj01260 *)p)->fC6);
         if (flag) func_0200ADB8(((struct Obj23464 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f0, mon, ((struct Obj01260 *)p)->fC4);
         func_0201A9C8(((struct Obj23465 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f8, ((struct Obj01260 *)p)->fC6);
-        save = func_020120F4(((struct Obj23466 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f40);
-        box = func_02012F98(save);
-        func_02007C34(box, func_02012934(save));
+        save = GAMESYSTEM_GetGameData(((struct Obj23466 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f40);
+        box = GAME_DATA_GetBoxSave(save);
+        func_02007C34(box, GAME_DATA_GetMyParty(save));
     }
     if (flag) func_0200AD94(((struct Obj23467 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f0, 1);
 }

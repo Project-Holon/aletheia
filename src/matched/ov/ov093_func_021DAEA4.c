@@ -1,5 +1,5 @@
 /*
- * function: func_021DAEA4
+ * function: BTL_ABILITY_DampRemoveSkipCheck
  * address: 0x021DAEA4
  * packet: pkt_ov093_021DAEA4
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DA624.c and filed here.
  *
  * symbols:
- *   func_021D7324 0x021D7324 thumb ov093
+ *   BTL_EVENT_ClearFactorSkipCheck 0x021D7324 thumb ov093
  */
 
 typedef unsigned char u8;
-extern void func_021D7324();
-void func_021DAEA4(u8 *p);
+extern void BTL_EVENT_ClearFactorSkipCheck();
+void BTL_ABILITY_DampRemoveSkipCheck(u8 *p);
 
-void func_021DAEA4(u8 *p)
+void BTL_ABILITY_DampRemoveSkipCheck(u8 *p)
 {
-    func_021D7324(p);
+    BTL_EVENT_ClearFactorSkipCheck(p);
 }

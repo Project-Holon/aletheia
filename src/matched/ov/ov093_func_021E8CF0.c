@@ -1,5 +1,5 @@
 /*
- * function: func_021E8CF0
+ * function: BTLV_CORE_PackByteTwice
  * address:  0x021E8CF0
  * packet:   pkt_ov093_021E8CF0
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8CE0  0x021E8CE0  thumb  ov093
+ *   BTLV_CORE_PackBytes  0x021E8CE0  thumb  ov093
  */
 
-unsigned short func_021E8CE0(unsigned int, unsigned int);
+unsigned short BTLV_CORE_PackBytes(unsigned int, unsigned int);
 
-int func_021E8CF0(int a)
+int BTLV_CORE_PackByteTwice(int a)
 {
-    return func_021E8CE0(a, a);
+    return BTLV_CORE_PackBytes(a, a);
 }

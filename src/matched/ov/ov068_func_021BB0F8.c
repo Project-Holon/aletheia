@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0F8
+ * function: OPTION_MENU_InitRunner
  * address: 0x021BB0F8
  * packet: pkt_ov068_021BB0F8
  * region: ov068
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02082BCC(void *, u32, u32);
 extern void func_021BB138(void *, int);
-void func_021BB0F8(u8 *p, int value, int callback)
+void OPTION_MENU_InitRunner(u8 *p, int value, int callback)
 {
     func_02082BCC(p, 0, 16);
     ((struct Obj20650 *)p)->fC = value;

@@ -14,7 +14,7 @@
  *   func_021EB6D8 0x021EB6D8 thumb
  *   BGWINFRM_ChangePalette 0x0202CE50 thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_021EAAE4 0x021EAAE4 thumb
  */
 
@@ -34,7 +34,7 @@ extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021EAAE4(unsigned char *p, unsigned i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -56,7 +56,7 @@ void func_021EB988(char *p, Ent *e, unsigned n)
     }
     for (; n < 6; n++) {
         unsigned k = 0x13 - n;
-        func_02043B5C(func_02045770(*(void **)(WORK(p) + k * 8 + 0x94)), 0);
+        BMP_Clear(func_02045770(*(void **)(WORK(p) + k * 8 + 0x94)), 0);
         func_021EAAE4((unsigned char *)WORK(p), k);
     }
 }

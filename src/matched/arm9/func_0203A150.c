@@ -11,11 +11,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   GFL_NET_HANDLE_SetNegotiationEnd  0x0203A118  arm
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_0203996C  0x0203996C  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_IRC_WIRELESS_AddMacAddress  0x0203DAC4  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  */
@@ -51,12 +51,12 @@ struct Glob
 };
 
 typedef signed int     s32;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct Entry;
 extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 extern void GFL_NET_HANDLE_SetNegotiationEnd(u8 *p);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern struct Peer *func_0203996C(u32);
+extern struct Peer *GFL_NET_HANDLE_GetNetHandle(u32);
 extern void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac);
 extern void OS_GetMacAddress(u8 *);
 
@@ -66,7 +66,7 @@ void GFL_NET_HANDLE_RecvNegotiationReturn(int a0, int a1, struct Msg *msg, int a
     u8 mac[8];
     u32 id;
 
-    g = func_0203D798();
+    g = GFL_NET_GetInitParam();
     id = GFL_NET_HANDLE_GetNetHandleID((struct Entry *)peer);
     if (id == 0xff)
     {
@@ -99,7 +99,7 @@ void GFL_NET_HANDLE_RecvNegotiationReturn(int a0, int a1, struct Msg *msg, int a
     if (peer->f4a == 7)
         return;
 
-    func_0203996C(msg->f0c)->f4a = 5;
+    GFL_NET_HANDLE_GetNetHandle(msg->f0c)->f4a = 5;
 
     if (g->f0c != 0)
         g->f0c(a3, msg->f0c);

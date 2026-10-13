@@ -1,5 +1,5 @@
 /*
- * function: func_021C76C4
+ * function: FIELD_TASK_CalcDropOffset
  * address:  0x021C76C4
  * packet:   pkt_ov021_021C76C4
  * region:   ov021
@@ -30,7 +30,7 @@ typedef struct {
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
 
-void func_021C76C4(Vec *out, float a, float b, float c)
+void FIELD_TASK_CalcDropOffset(Vec *out, float a, float b, float c)
 {
     float y = c / (b * b);
     float z = y * a;

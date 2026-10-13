@@ -1,5 +1,5 @@
 /*
- * function: func_021F4530
+ * function: CROWD_OpenChatterSlot
  * address:  0x021F4530
  * packet:   pkt_ov055_021F4530
  * region:   ov055
@@ -23,7 +23,7 @@ extern u32 func_020056EC(u32 v);
 struct Fx;
 extern void func_02191870(struct Fx *a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h);
 
-void func_021F4530(u16 *p, u32 a, u32 b, u32 c, u32 d)
+void CROWD_OpenChatterSlot(u16 *p, u32 a, u32 b, u32 c, u32 d)
 {
     u32 r = func_020056EC(0);
 

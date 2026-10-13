@@ -1,5 +1,5 @@
 /*
- * function: func_021A4A74
+ * function: FIELD_PLAYER_GRID_GetTurnResultOnCycle
  * address:  0x021A4A74
  * packet:   pkt_ov021_021A4A74
  * region:   ov021
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A491C  0x021A491C  thumb  ov021
- *   func_021A4994  0x021A4994  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_GRID_GetStandResultOnCycle  0x021A491C  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetWalkResultOnCycle  0x021A4994  thumb  ov021
  */
 #include "../include/Obj02084.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-int func_0216D3CC(int b);
-int func_021A491C(int a, int b, u8 *c);
-int func_021A4994(u8 *a, void *b, u8 *c);
+int FLDMMDL_CheckPossibleAcmd(int b);
+int FIELD_PLAYER_GRID_GetStandResultOnCycle(int a, int b, u8 *c);
+int FIELD_PLAYER_GRID_GetWalkResultOnCycle(u8 *a, void *b, u8 *c);
 
-int func_021A4A74(int a, int b, u8 *c)
+int FIELD_PLAYER_GRID_GetTurnResultOnCycle(int a, int b, u8 *c)
 {
-    if (func_0216D3CC(b) == 0)
+    if (FLDMMDL_CheckPossibleAcmd(b) == 0)
         return 0;
     if (((struct Obj02084 *)c)->f8 == 9)
-        return func_021A491C(a, b, c);
-    return func_021A4994((u8 *)a, (void *)b, c);
+        return FIELD_PLAYER_GRID_GetStandResultOnCycle(a, b, c);
+    return FIELD_PLAYER_GRID_GetWalkResultOnCycle((u8 *)a, (void *)b, c);
 }

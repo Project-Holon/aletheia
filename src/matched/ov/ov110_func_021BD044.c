@@ -10,9 +10,9 @@
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_021BAC64 0x021BAC64 thumb ov110
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021BAC78 0x021BAC78 thumb ov110
  *   func_021BD0F8 0x021BD0F8 thumb ov110
  *   func_0204B3DC 0x0204B3DC arm
@@ -26,9 +26,9 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021BAC64(void *,void *,int,int);
 typedef signed int     s32;
 struct Obj;
-extern s32 func_0204A6C8(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
-extern s32 func_0204AF28(void *owner, unsigned int first, unsigned int second, unsigned int mode);
-extern void func_02049238(void *);
+extern s32 CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *func_021BAC78(char *p, unsigned int *r, short x, short y, unsigned int a, int mode);
 extern void func_021BD0F8(u8 *p, int i, int flag);
 typedef unsigned int   u32;
@@ -40,9 +40,9 @@ void func_021BD044(Object *p) {
     s16 x;
     h=func_020490F4(43,42);
     func_021BAC64(p->root,(u8 *)p+0x10,0,0);
-    ((struct Obj01249 *)p)->f14=(void *)func_0204A6C8(h,13,0,0,42);
-    ((struct Obj01249 *)p)->f18=(void *)func_0204AF28(h,35,41,42);
-    func_02049238(h);
+    ((struct Obj01249 *)p)->f14=(void *)CLACT_RegisterCharacter(h,13,0,0,42);
+    ((struct Obj01249 *)p)->f18=(void *)CLACT_RegisterCellAnim(h,35,41,42);
+    ARC_TOOL_DeleteHandle(h);
     for(i=0;i<8;i++) {
         x=24*i;
         if(i==7) x=0;

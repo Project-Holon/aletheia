@@ -1,5 +1,5 @@
 /*
- * function: func_02165C48
+ * function: GAME_BEACON_ACCESSOR_GetPmVersion
  * address:  0x02165C48
  * packet:   pkt_02165C48
  * region:   ov010
@@ -25,7 +25,7 @@ typedef struct {
     u32 field : 6;
 } S;
 
-u32 func_02165C48(S *a0)
+u32 GAME_BEACON_ACCESSOR_GetPmVersion(S *a0)
 {
     return a0->field;
 }

@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02172EDC 0x02172EDC thumb ov012
+ *   UNION_COMM_StartConnectSync 0x02172EDC thumb ov012
  */
 typedef unsigned char u8;
-extern void func_02172EDC(u8 *p);
+extern void UNION_COMM_StartConnectSync(u8 *p);
 void UNION_COMMAND_RecvConnectSync(int a, int b, void *c, u8 *p)
 {
-    func_02172EDC(p);
+    UNION_COMM_StartConnectSync(p);
     p[0x288e] |= (u8)(1 << a);
 }

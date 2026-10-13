@@ -1,5 +1,5 @@
 /*
- * function: func_0216D514
+ * function: FLDMMDL_SysGetTcbSys
  * address:  0x0216D514
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D514.c \
- *       --func func_0216D514 --addr 0x0216D514 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SysGetTcbSys.c \
+ *       --func FLDMMDL_SysGetTcbSys --addr 0x0216D514 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17779.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_0216D514(void *p) { return ((struct Obj17779 *)p)->f20; }
+u32 FLDMMDL_SysGetTcbSys(void *p) { return ((struct Obj17779 *)p)->f20; }

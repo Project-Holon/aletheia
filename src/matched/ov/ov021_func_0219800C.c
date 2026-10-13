@@ -1,5 +1,5 @@
 /*
- * function: func_0219800C
+ * function: FLDMMDL_ACMD_WalkMove
  * address:  0x0219800C
  * packet:   pkt_ov021_0219800C
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_02163FC0  0x02163FC0  thumb  ov010
- *   func_02164010  0x02164010  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_MOVE_AddDirVectorPos  0x02163FC0  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj05990.h"
@@ -26,28 +26,28 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_0216D6D4(void *p);
-extern void func_02163FC0(int a, int dir, int amt);
-extern int func_02164010(int a);
-extern void *func_0216D568(void *p, u32 v);
-extern int func_02163F10(int a0);
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216D7CC(u8 *);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern void FLDMMDL_MOVE_AddDirVectorPos(int a, int dir, int amt);
+extern int FLDMMDL_MOVE_UpdateHeight(int a);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_IncAcmdSeq(u8 *);
 
-u32 func_0219800C(u8 *p)
+u32 FLDMMDL_ACMD_WalkMove(u8 *p)
 {
     u8 *h;
 
-    h = func_0216D6D4(p);
-    func_02163FC0((int)p, (u16)(((struct Obj05990 *)h)->f4), (u32)(((struct Obj05990 *)h)->f8));
-    func_02164010((int)p);
+    h = FLDMMDL_GetMoveCmdWork(p);
+    FLDMMDL_MOVE_AddDirVectorPos((int)p, (u16)(((struct Obj05990 *)h)->f4), (u32)(((struct Obj05990 *)h)->f8));
+    FLDMMDL_MOVE_UpdateHeight((int)p);
     ((struct Obj05990 *)h)->f2 = ((struct Obj05990 *)h)->f2 - 1;
     if (((struct Obj05990 *)h)->f2 > 0) {
         return 0;
     }
-    func_0216D568(p, 0x440);
-    func_02163F10((int)p);
-    func_0216D674(p, 0);
-    func_0216D7CC(p);
+    FLDMMDL_SetMoveBit(p, 0x440);
+    FLDMMDL_MOVE_UpdateOldGridPos((int)p);
+    FLDMMDL_SetDrawStatus(p, 0);
+    FLDMMDL_IncAcmdSeq(p);
     return 0;
 }

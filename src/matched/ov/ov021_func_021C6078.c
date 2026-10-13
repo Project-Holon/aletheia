@@ -1,5 +1,5 @@
 /*
- * function: func_021C6078
+ * function: SWEET_SCENT_CreateEvent
  * address:  0x021C6078
  * packet:   pkt_ov021_021C6078
  * region:   ov021
@@ -13,9 +13,9 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_020120F4  0x020120F4  thumb
- *   func_021C60B8  0x021C60B8  thumb  ov021
+ *   SWEET_SCENT_EventMain  0x021C60B8  thumb  ov021
  */
 #include "../include/Obj06082.h"
 
@@ -29,22 +29,22 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_021C60B8(void);
+extern void SWEET_SCENT_EventMain(void);
 
-void *func_021C6078(void *a, void *b, u8 c)
+void *SWEET_SCENT_CreateEvent(void *a, void *b, u8 c)
 {
     void *task;
     u8 *w;
 
-    task = func_020122C0(a, 0, func_021C60B8, 0x14);
+    task = func_020122C0(a, 0, SWEET_SCENT_EventMain, 0x14);
     w = func_020124E8(task);
     func_02082BCC(w, 0, 0x14);
     w[0] = c;
     ((struct Obj06082 *)w)->f4 = a;
     ((struct Obj06082 *)w)->fC = b;
-    ((struct Obj06082 *)w)->f10 = func_02188CB4(b);
+    ((struct Obj06082 *)w)->f10 = FIELDMAP_GetFieldPlayer(b);
     ((struct Obj06082 *)w)->f8 = func_020120F4(a);
     return task;
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021D54F4, func_021D5528
+ * function: BTL_POKEPARAM_CopyMoves, BTL_POKEPARAM_GetMovePP
  * address:  0x021D54F4
  * packet:   pkt_ov093_021D54F4
  * region:   ov093
@@ -34,14 +34,14 @@ struct Work {
     u8 n140;
 };
 
-void func_021D54F4(struct Work *src, struct Work *dst)
+void BTL_POKEPARAM_CopyMoves(struct Work *src, struct Work *dst)
 {
     u32 i;
     for (i = 0; i < 4; i++) dst->e[i] = src->e[i];
     dst->n140 = src->n140;
 }
 
-u16 func_021D5528(u8 *p, u8 i, u8 *a, u8 *b)
+u16 BTL_POKEPARAM_GetMovePP(u8 *p, u8 i, u8 *a, u8 *b)
 {
     u8 *q = p + i * 14;
     *a = q[0x10c];

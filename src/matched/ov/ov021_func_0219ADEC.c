@@ -1,5 +1,5 @@
 /*
- * function: func_0219ADEC
+ * function: FLDMMDL_MOVECODE_AdvanceRouteIndex
  * address:  0x0219ADEC
  * packet:   pkt_ov021_0219ADEC
  * region:   ov021
@@ -17,7 +17,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u8 a; s8 b; u8 c[3]; u8 f; } St;
 
-void func_0219ADEC(St *p)
+void FLDMMDL_MOVECODE_AdvanceRouteIndex(St *p)
 {
     if (p->f == 1) {
         p->b--;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D91C
+ * function: FLDMMDL_GetSizeWidth
  * address:  0x0216D91C
  * packet:   pkt_0216D91C
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-u8 func_0216D91C(int a0)
+u8 FLDMMDL_GetSizeWidth(int a0)
 {
 
 a0 = a0 + 0x7c;

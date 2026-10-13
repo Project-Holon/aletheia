@@ -7,14 +7,14 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * witness: arm9 func_02051788 filed as src/matched/arm9/func_02051788.c.
+ * witness: arm9 BUTTON_MAN_GetBlock filed as src/matched/arm9/BUTTON_MAN_GetBlock.c.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0201134C 0x0201134C thumb
- *   func_020515CC 0x020515CC arm
+ *   VM_GetU32 0x0201134C thumb
+ *   PARTICLE_StartEffectWithCallback 0x020515CC arm
  *   PARTICLE_InitCamera 0x02051648 arm
- *   func_02051788 0x02051788 arm
+ *   BUTTON_MAN_GetBlock 0x02051788 arm
  *   func_021FE38C 0x021FE38C thumb ov094
  *   func_021FD1A8 0x021FD1A8 thumb ov094
  *   func_021FD1CC 0x021FD1CC thumb ov094
@@ -32,10 +32,10 @@ extern const Vec d_02209DC0, d_02209D84;
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
-extern int func_020515CC(int *p, int a, int b, int c);
+extern u32 VM_GetU32(struct Cursor *p);
+extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 extern void PARTICLE_InitCamera(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);
-extern int func_02051788(char *p);
+extern int BUTTON_MAN_GetBlock(char *p);
 extern u32 func_021FE38C(char *, u32);
 extern int func_021FD1A8(char *, int);
 extern void func_021FD1CC(void *p);
@@ -46,22 +46,22 @@ int func_021FA988(void *a, char *s)
     int idx;
     int x;
     p = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x8e0);
-    idx = func_021FD1A8(s, func_021FE38C(s, func_0201134C(a)));
-    x = func_0201134C(a);
+    idx = func_021FD1A8(s, func_021FE38C(s, VM_GetU32(a)));
+    x = VM_GetU32(a);
     p[0] = (int)a;
-    p[8] = func_0201134C(a);
-    p[1] = func_0201134C(a);
-    p[2] = func_0201134C(a);
+    p[8] = VM_GetU32(a);
+    p[1] = VM_GetU32(a);
+    p[2] = VM_GetU32(a);
     p[3] = 0;
-    p[4] = func_0201134C(a);
+    p[4] = VM_GetU32(a);
     p[5] = 0;
-    p[9] = func_0201134C(a);
-    p[7] = func_0201134C(a);
+    p[9] = VM_GetU32(a);
+    p[7] = VM_GetU32(a);
     p[17] = 0xc00;
-    p[18] = func_0201134C(a);
+    p[18] = VM_GetU32(a);
     p[19] = 0xc00;
-    p[20] = func_0201134C(a);
-    p[21] = func_0201134C(a);
+    p[20] = VM_GetU32(a);
+    p[21] = VM_GetU32(a);
     p[16] = 3;
     if (p[21] == 0) p[21] = 1;
     if (idx != 16) {
@@ -78,9 +78,9 @@ int func_021FA988(void *a, char *s)
         desc.v[5] = 0x1000;
         desc.v[6] = 0x200000;
         desc.v[7] = 0x1000;
-        if (func_02051788(*(void **)(s + 0xc + idx * 4)) == 0)
+        if (BUTTON_MAN_GetBlock(*(void **)(s + 0xc + idx * 4)) == 0)
             PARTICLE_InitCamera(*(void **)(s + 0xc + idx * 4), &desc, 0x2000, &zero, &v1, &v2, (((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000);
-        if (func_020515CC(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD1CC, (int)p) == -1) {
+        if (PARTICLE_StartEffectWithCallback(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD1CC, (int)p) == -1) {
             func_020307B0(p);
         }
     } else {

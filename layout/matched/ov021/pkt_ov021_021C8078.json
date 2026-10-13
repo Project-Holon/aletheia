@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C8078",
+   "name": "FLD_WIPE_3DOBJ_Draw",
    "address": "0x021C8078",
    "kind": "game",
    "region": "ov021",

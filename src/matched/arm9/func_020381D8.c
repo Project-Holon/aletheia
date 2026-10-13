@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_SYSTEM_RecvData  0x020380E4  arm
  *   func_02034714  0x02034714  arm
@@ -45,7 +45,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern u32 GFL_NET_SYSTEM_RecvData(u32 a0, u8 *rec, u32 len);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -59,7 +59,7 @@ void GFL_NET_SYSTEM_RecvParentCallback(u32 a0, u32 a1)
     u8 *p;
     u32 v;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     p = GFL_NET_GetSession();
 
     if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0xA4))() == 0 ||

@@ -1,5 +1,5 @@
 /*
- * function: func_021AF908
+ * function: SCRCMD_BufferSpeciesName
  * address: 0x021AF908
  * packet: pkt_ov021_021AF908
  * region: ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0201EE60 0x0201EE60 thumb
- *   func_021AF8D8 0x021AF8D8 thumb
+ *   SCRCMD_BufferSpeciesNameCommon 0x021AF8D8 thumb
  */
 
 typedef unsigned char  u8;
@@ -25,6 +25,6 @@ typedef struct {
 } Script;
 
 extern void func_0201EE60();
-int func_021AF908(Script *a, u32 b);
+int SCRCMD_BufferSpeciesName(Script *a, u32 b);
 
-int func_021AF908(Script *a, u32 b) { return func_021AF8D8(a, b, func_0201EE60); }
+int SCRCMD_BufferSpeciesName(Script *a, u32 b) { return SCRCMD_BufferSpeciesNameCommon(a, b, func_0201EE60); }

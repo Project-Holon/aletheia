@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021D446C, func_021D44B4
+ * function: BTL_NET_AllocPartyBuf, BTL_NET_RecvPartyDone
  * address:  0x021D446C
  * packet:   pkt_ov093_021D446C
  * region:   ov093
@@ -12,8 +12,8 @@
  *
  * symbols:
  *   sub_02030734   0x02030734  arm
- *   d_021F3B88     0x021F3B88  data  ov093
- *   d_021F3A98     0x021F3A98  data  ov093  a1
+ *   gBtlNet     0x021F3B88  data  ov093
+ *   gBtlNetSourceName     0x021F3A98  data  ov093  a1
  */
 
 typedef unsigned char u8;
@@ -28,17 +28,17 @@ struct S {
     void *tblB[4];
 };
 
-extern struct S *d_021F3B88;
-extern const char d_021F3A98[];
+extern struct S *gBtlNet;
+extern const char gBtlNetSourceName[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void *func_021D446C(int idx, int unused, u32 size)
+void *BTL_NET_AllocPartyBuf(int idx, int unused, u32 size)
 {
-    d_021F3B88->tblA[idx] = sub_02030734((u16)((d_021F3B88->f04 & 0x7fff) | 0x8000), size, 1, d_021F3A98, 0x1ce);
-    return d_021F3B88->tblA[idx];
+    gBtlNet->tblA[idx] = sub_02030734((u16)((gBtlNet->f04 & 0x7fff) | 0x8000), size, 1, gBtlNetSourceName, 0x1ce);
+    return gBtlNet->tblA[idx];
 }
 
-void func_021D44B4(int idx, void *p)
+void BTL_NET_RecvPartyDone(int idx, void *p)
 {
-    d_021F3B88->tblB[idx] = p;
+    gBtlNet->tblB[idx] = p;
 }

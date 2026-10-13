@@ -1,5 +1,5 @@
 /*
- * function: func_021572A8
+ * function: MUSICAL_PROGRAM_UnpackPicks
  * address:  0x021572A8
  * packet:   pkt_ov010_021572A8
  * region:   ov010
@@ -21,7 +21,7 @@ typedef struct Deal {
     u8 f08[4];          /* 0x08 */
 } Deal;
 
-void func_021572A8(Deal *d, u32 v)
+void MUSICAL_PROGRAM_UnpackPicks(Deal *d, u32 v)
 {
     d->f08[0] = v;
     d->f08[1] = (v & 0xFF00) >> 8;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9B4
+ * function: FIELD_RAIL_CAMERA_YawFromPoint
  * address:  0x021BA9B4
  * packet:   pkt_ov021_021BA9B4
  * region:   ov021
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021B8220  0x021B8220  thumb  ov021
- *   func_021B830C  0x021B830C  thumb  ov021
- *   func_021B821C  0x021B821C  thumb  ov021
- *   func_021B79D4  0x021B79D4  thumb  ov021
- *   func_0218E124  0x0218E124  thumb  ov021
- *   func_0218EC60  0x0218EC60  thumb  ov021
+ *   FIELD_RAIL_GetFocusWork  0x021B8220  thumb  ov021
+ *   FIELD_RAIL_WORK_GetCamera  0x021B830C  thumb  ov021
+ *   FIELD_RAIL_GetFieldCamera  0x021B821C  thumb  ov021
+ *   FIELD_RAIL_GetFocusPos  0x021B79D4  thumb  ov021
+ *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
+ *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
  *   func_0207CA00  0x0207CA00  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CFB8  0x0207CFB8  arm
- *   func_0218ED34  0x0218ED34  thumb  ov021
- *   func_0218ED58  0x0218ED58  thumb  ov021
- *   func_0218ED48  0x0218ED48  thumb  ov021
+ *   FIELD_CAMERA_SetPitch  0x0218ED34  thumb  ov021
+ *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb  ov021
+ *   FIELD_CAMERA_SetYaw  0x0218ED48  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj07529.h"
@@ -31,20 +31,20 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } V;
 
-u32 func_021B8220(u8 *p);
-u8 *func_021B830C(void);
-u32 func_021B821C(u8 *p);
-void func_021B79D4(void **o, void *out);
-void func_0218E124(u8 *a, u32 s);
-int func_0218EC60(u32 a);
+u32 FIELD_RAIL_GetFocusWork(u8 *p);
+u8 *FIELD_RAIL_WORK_GetCamera(void);
+u32 FIELD_RAIL_GetFieldCamera(u8 *p);
+void FIELD_RAIL_GetFocusPos(void **o, void *out);
+void FIELD_CAMERA_EnterMode(u8 *a, u32 s);
+int FIELD_CAMERA_ResumeTargetTrace(u32 a);
 void func_0207CA00(const V *a, const V *b, V *c);
-void func_0207CCA4(const V *a, V *b);
+void VEC_Normalize(const V *a, V *b);
 int func_0207CFB8(int a, int b);
-void func_0218ED34(u8 *p, u16 v);
-void func_0218ED58(u8 *p, u32 v);
-void func_0218ED48(u8 *p, u32 v);
+void FIELD_CAMERA_SetPitch(u8 *p, u16 v);
+void FIELD_CAMERA_SetDistance(u8 *p, u32 v);
+void FIELD_CAMERA_SetYaw(u8 *p, u32 v);
 
-void func_021BA9B4(u8 *p)
+void FIELD_RAIL_CAMERA_YawFromPoint(u8 *p)
 {
     V w;
     V v;
@@ -52,20 +52,20 @@ void func_021BA9B4(u8 *p)
     u32 o;
     int h;
 
-    func_021B8220(p);
-    q = func_021B830C();
-    o = func_021B821C(p);
-    func_0218E124((u8 *)o, 0);
-    func_0218EC60(func_021B821C(p));
-    func_021B79D4((void **)p, &v);
+    FIELD_RAIL_GetFocusWork(p);
+    q = FIELD_RAIL_WORK_GetCamera();
+    o = FIELD_RAIL_GetFieldCamera(p);
+    FIELD_CAMERA_EnterMode((u8 *)o, 0);
+    FIELD_CAMERA_ResumeTargetTrace(FIELD_RAIL_GetFieldCamera(p));
+    FIELD_RAIL_GetFocusPos((void **)p, &v);
     v.y = 0;
     w.x = ((struct Obj07529 *)q)->fC;
     w.y = 0;
     w.z = ((struct Obj07529 *)q)->f10;
     func_0207CA00(&v, &w, &v);
-    func_0207CCA4(&v, &v);
+    VEC_Normalize(&v, &v);
     h = func_0207CFB8(v.x, v.z);
-    func_0218ED34((u8 *)o, ((struct Obj07529 *)q)->f4);
-    func_0218ED58((u8 *)o, ((struct Obj07529 *)q)->f8);
-    func_0218ED48((u8 *)o, h);
+    FIELD_CAMERA_SetPitch((u8 *)o, ((struct Obj07529 *)q)->f4);
+    FIELD_CAMERA_SetDistance((u8 *)o, ((struct Obj07529 *)q)->f8);
+    FIELD_CAMERA_SetYaw((u8 *)o, h);
 }

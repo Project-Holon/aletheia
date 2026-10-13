@@ -1,5 +1,5 @@
 /*
- * function: func_0216E434
+ * function: FLDMMDL_NormalizeEventType
  * address:  0x0216E434
  * packet:   pkt_0216E434
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-u32 func_0216E434(u32 a)
+u32 FLDMMDL_NormalizeEventType(u32 a)
 {
 switch (a) {
 case 4:

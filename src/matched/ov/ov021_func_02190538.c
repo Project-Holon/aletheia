@@ -1,5 +1,5 @@
 /*
- * function: func_02190538
+ * function: FIELD_MSGBG_DeleteMsgPrint
  * address:  0x02190538
  * packet:   pkt_ov021_02190538
  * region:   ov021
@@ -9,6 +9,9 @@
  * isa:      thumb
  * status:   EXACT*
  * Addresses are Black-image addresses.
+ *
+ * symbols:
+ *   STRBUF_Delete  0x02045808  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -29,13 +32,13 @@ typedef struct Slot {
 } Slot;
 
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_02190538(Slot *s)
+void FIELD_MSGBG_DeleteMsgPrint(Slot *s)
 {
     s->f08 = 0;
     s->f0c = 0;
-    func_02045808((struct U16Vec *)s->f18);
+    STRBUF_Delete((struct U16Vec *)s->f18);
     s->f18 = 0;
     s->f10 = 0;
 }

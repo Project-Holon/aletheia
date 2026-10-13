@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02160A4C",
+   "name": "EVENT_SHORTCUT_MENU_CallResumeHook",
    "address": "0x02160A4C",
    "kind": "game",
    "region": "ov010",

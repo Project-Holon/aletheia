@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_0215E31C,func_0215E334
+ * function: FIELD_ENCOUNT_ST_Create,FIELD_ENCOUNT_ST_Delete
  * address: 0x0215E31C
  * packet: pkt_ov010_0215E31C
  * region: ov010
@@ -18,11 +18,11 @@ typedef unsigned short u16;
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
 extern const char d_02172928[];
-void *func_0215E31C(u32 heap)
+void *FIELD_ENCOUNT_ST_Create(u32 heap)
 {
     return func_02030734(heap, 32, 1, d_02172928, 45);
 }
-void func_0215E334(void *p)
+void FIELD_ENCOUNT_ST_Delete(void *p)
 {
     func_020307B0(p);
 }

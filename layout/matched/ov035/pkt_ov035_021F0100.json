@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F0100",
+   "name": "C_GEAR_POWER_ONOFF_ExitBgs",
    "address": "0x021F0100",
    "kind": "game",
    "region": "ov035",

@@ -1,5 +1,5 @@
 /*
- * function: func_02183D34
+ * function: UNION_APP_SendSetting
  * address: 0x02183D34
  * packet: pkt_ov022_02183D34
  * region: ov022
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * Callee's filed definition says void; original caller reads r0 at
- * 02183D42, and ov012 callee leaves func_0203D4D0 result live.
+ * 02183D42, and ov012 callee leaves GFL_NET_SendDataMask result live.
  * symbols:
  *   UNION_COMMAND_SendAppSetting 0x02173F20 thumb ov012
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 UNION_COMMAND_SendAppSetting(void *p, u32 a);
-void func_02183D34(u8 *p)
+void UNION_APP_SendSetting(u8 *p)
 {
     if (p[12] != 0 && UNION_COMMAND_SendAppSetting(p, p[12]) == 1) p[12] = 0;
 }

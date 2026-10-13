@@ -1,5 +1,5 @@
 /*
- * function: func_021D8C84
+ * function: BTL_CALC_GetOvergrowHandlers
  * address: 0x021D8C84
  * packet: pkt_ov093_021D8C84
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D8B50.c and filed here.
  *
  * symbols:
- *   d_021F0648 0x021F0648 data ov093 a4
+ *   gOvergrowHandlers 0x021F0648 data ov093 a4
  */
 
-int *func_021D8C84(int *p);
-extern int d_021F0648[];
+int *BTL_CALC_GetOvergrowHandlers(int *p);
+extern int gOvergrowHandlers[];
 
-int *func_021D8C84(int *p)
+int *BTL_CALC_GetOvergrowHandlers(int *p)
 {
     *p = 1;
-    return d_021F0648;
+    return gOvergrowHandlers;
 }

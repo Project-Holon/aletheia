@@ -1,5 +1,5 @@
 /*
- * function: func_02159BBC
+ * function: MAP_MATRIX_Delete
  * address:  0x02159BBC
  * packet:   pkt_02159BBC
  * region:   ov010
@@ -21,7 +21,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02159BBC(void *ptr)
+void MAP_MATRIX_Delete(void *ptr)
 {
     func_020307B0(ptr);
 }

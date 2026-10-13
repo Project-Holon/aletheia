@@ -1,5 +1,5 @@
 /*
- * function: func_021841A0
+ * function: UNION_APP_GetJoinedBits
  * address:  0x021841A0
  * packet:   pkt_ov022_021841A0
  * region:   ov022
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-unsigned char func_021841A0(unsigned char *p)
+unsigned char UNION_APP_GetJoinedBits(unsigned char *p)
 {
     return p[1];
 }

@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02165CE4  0x02165CE4  thumb  ov010
- *   func_02165D08  0x02165D08  thumb  ov010
- *   func_02165C34  0x02165C34  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetTrainerId  0x02165CE4  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetSex  0x02165D08  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
  *   STRBUF_Clear  0x0204581C  arm
- *   func_02165D50  0x02165D50  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetGreeting  0x02165D50  thumb  ov010
  *   func_021F10D8  0x021F10D8  thumb  ov032
  *   func_021F0F74  0x021F0F74  thumb  ov032
  *   func_021F1004  0x021F1004  thumb  ov032
- *   func_02165E24  0x02165E24  thumb  ov010
- *   func_02165D6C  0x02165D6C  thumb  ov010
- *   func_02165D8C  0x02165D8C  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetActionNo  0x02165E24  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetThanksName  0x02165D6C  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetFreeText  0x02165D8C  thumb  ov010
  *   func_021F1070  0x021F1070  thumb  ov032
  *   func_021F1E40  0x021F1E40  thumb  ov032
  *   func_021F1080  0x021F1080  thumb  ov032
@@ -34,29 +34,29 @@ typedef unsigned int   u32;
 
 struct Rec;
 struct U16Vec;
-extern u16 func_02165CE4(u8 *r);
-extern u8 func_02165D08(struct Rec *r);
-extern void func_02165C34(struct Rec *r, void *buf);
+extern u16 GAME_BEACON_ACCESSOR_GetTrainerId(u8 *r);
+extern u8 GAME_BEACON_ACCESSOR_GetSex(struct Rec *r);
+extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct Rec *r, void *buf);
 extern void STRBUF_Clear(struct U16Vec *vec);
 struct Strbuf;
-extern void func_02165D50(struct Rec *r, struct Strbuf *buf);
+extern void GAME_BEACON_ACCESSOR_GetGreeting(struct Rec *r, struct Strbuf *buf);
 extern void func_021F10D8(char *this, u8 *p, int a);
 extern void func_021F0F74(char *p, u8 *q, void *r);
 extern void func_021F1004(char *p, u8 *q, int r);
-extern int func_02165E24(int a0);
-extern int func_02165D6C(int a0, int a1);
-extern int func_02165D8C(int a0, int a1);
+extern int GAME_BEACON_ACCESSOR_GetActionNo(int a0);
+extern int GAME_BEACON_ACCESSOR_GetThanksName(int a0, int a1);
+extern int GAME_BEACON_ACCESSOR_GetFreeText(int a0, int a1);
 extern void func_021F1070(char *p, char *q, void *text, int a4);
 extern void func_021F1E40(char *p, char *q, void *x, int flag);
 extern void func_021F1080(char *p, char *q, int r, int t);
 
 void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
 {
-    ((struct Obj00225 *)q)->f6 = func_02165CE4(r);
-    q[4] = func_02165D08(r);
-    func_02165C34(r, ((struct Obj00225 *)q)->f24);
+    ((struct Obj00225 *)q)->f6 = GAME_BEACON_ACCESSOR_GetTrainerId(r);
+    q[4] = GAME_BEACON_ACCESSOR_GetSex(r);
+    GAME_BEACON_ACCESSOR_GetPlayerName(r, ((struct Obj00225 *)q)->f24);
     STRBUF_Clear(((struct Obj00225 *)q)->f20);
-    func_02165D50(r, ((struct Obj00225 *)q)->f20);
+    GAME_BEACON_ACCESSOR_GetGreeting(r, ((struct Obj00225 *)q)->f20);
     func_021F10D8((char *)p, q, (int)r);
     func_021F0F74((char *)p, q, r);
     func_021F1004((char *)p, q, (int)r);
@@ -64,13 +64,13 @@ void func_021F1144(u8 *p, u8 *q, void *r, int mode, int skip, int t)
         return;
     switch (mode) {
     case 0:
-        switch (func_02165E24((int)r)) {
+        switch (GAME_BEACON_ACCESSOR_GetActionNo((int)r)) {
         case 0x18:
-            func_02165D6C((int)r, (int)(((struct Obj00007 *)p)->f118));
+            GAME_BEACON_ACCESSOR_GetThanksName((int)r, (int)(((struct Obj00007 *)p)->f118));
             func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
             break;
         case 0x31:
-            func_02165D8C((int)r, (int)(((struct Obj00007 *)p)->f118));
+            GAME_BEACON_ACCESSOR_GetFreeText((int)r, (int)(((struct Obj00007 *)p)->f118));
             func_021F1070((char *)p, (char *)q, ((struct Obj00007 *)p)->f118, t);
             break;
         }

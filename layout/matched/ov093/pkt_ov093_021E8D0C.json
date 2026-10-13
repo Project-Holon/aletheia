@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021E8D0C",
+   "name": "BTLV_CORE_SplitBytes",
    "address": "0x021E8D0C",
    "kind": "game",
    "region": "ov093",

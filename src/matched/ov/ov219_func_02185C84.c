@@ -10,8 +10,8 @@
  * symbols:
  *   func_02184790 0x02184790 thumb ov219
  *   func_02045B38 0x02045B38 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_02025BA0 0x02025BA0 thumb
  * prototype: caller explicitly truncatesB5B38 member/heap at secondsite; useu16extern for those observed narrow inputs.4790 is tailstubto02025B3C readingonlykey.
  */
@@ -21,8 +21,8 @@ extern void *func_02045B38(unsigned,unsigned,u16,u16);
 typedef unsigned int   u32;
 struct MsgBank;
 struct Rec;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02045C04(struct Rec *rec);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 int func_02185C84(unsigned key,unsigned optional,void *first,void *second,unsigned heap)
 {
     unsigned index;
@@ -31,12 +31,12 @@ int func_02185C84(unsigned key,unsigned optional,void *first,void *second,unsign
     index=func_02184790(key);
     found=0;
     bank=func_02045B38(0,2,231,heap);
-    func_02045CAC(bank,key,first);
-    func_02045C04(bank);
+    MSGDATA_ReadString(bank,key,first);
+    MSGDATA_Delete(bank);
     if(index==0) {index=1;optional=0;}
     else found=1;
     bank=func_02045B38(0,2,func_02025BA0(index),heap);
-    func_02045CAC(bank,optional,second);
-    func_02045C04(bank);
+    MSGDATA_ReadString(bank,optional,second);
+    MSGDATA_Delete(bank);
     return found;
 }

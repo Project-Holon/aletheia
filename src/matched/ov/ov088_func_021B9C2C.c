@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C2C
+ * function: STARTMENU_Demo3dInit
  * address:  0x021B9C2C
  * packet:   pkt_ov088_021B9C2C
  * region:   ov088
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Levers: the four ortho bounds bound to locals before the func_02048A24
+ * Levers: the four ortho bounds bound to locals before the G3D_CAMERA_Create
  * call (inline in the argument list they evaluate in another order); the
  * sin/cos pair read as FX_SinCosTable_[0x2AA]/[0x2AB] (pool word base +
  * 0x540); d_021BD3DC without its ov088 token (contested hint).
@@ -17,15 +17,15 @@
  *           G3X_AlphaTest and G3X_AlphaBlend inlines at 0x021B9D80-0x021B9D9C
  *
  * symbols:
- *   func_02047CFC  0x02047CFC  arm
- *   func_02047E88  0x02047E88  arm
+ *   G3D_UTIL_Create  0x02047CFC  arm
+ *   G3D_UTIL_AddUnit  0x02047E88  arm
  *   func_020489F4  0x020489F4  arm
  *   func_02048A18  0x02048A18  arm
- *   func_020477A4  0x020477A4  arm
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   _ll_mul        0x0209C054  arm
  *   FX_Div         0x0207C768  arm
- *   func_02048A24  0x02048A24  arm
- *   func_02011510  0x02011510  thumb
+ *   G3D_CAMERA_Create  0x02048A24  arm
+ *   ICA_ANIME_CreateStream  0x02011510  thumb
  *   func_02048BC4  0x02048BC4  arm
  *   func_02048C58  0x02048C58  arm
  *   func_0204044C  0x0204044C  arm
@@ -112,23 +112,23 @@ extern VecFx32 d_021BD3F8;
 extern VecFx32 d_021BD404;
 extern const u32 d_021BD3DC[];
 
-extern u32   func_02047CFC(u32 a, u32 b, u32 heap);
-extern u16   func_02047E88(u32 a, const void *b);
+extern u32   G3D_UTIL_Create(u32 a, u32 b, u32 heap);
+extern u16   G3D_UTIL_AddUnit(u32 a, const void *b);
 struct G3dSys;
 struct LightSet;
 struct LightSlot;
 extern u32 func_020489F4(u8 *a0, int i);
 extern u32   func_02048A18(u32 a, u16 b);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 extern fx32  FX_Div(fx32 numer, fx32 denom);
-extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h,
+extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h,
                            VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
-extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
+extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_02048C58(struct LightSlot *slots);
 extern void func_0204044C(u32 mode);
 
-void func_021B9C2C(Work *p, u32 heap)
+void STARTMENU_Demo3dInit(Work *p, u32 heap)
 {
     int base;
     fx32 s;
@@ -139,13 +139,13 @@ void func_021B9C2C(Work *p, u32 heap)
     fx32 left;
     fx32 right;
 
-    p->f0 = func_02047CFC(7, 3, heap);
-    p->f4 = func_02047E88(p->f0, d_021BD410);
+    p->f0 = G3D_UTIL_Create(7, 3, heap);
+    p->f4 = G3D_UTIL_AddUnit(p->f0, d_021BD410);
     base = func_020489F4((u8 *)p->f0, p->f4);
-    func_020477A4((struct G3dSys *)func_02048A18(p->f0, base), 0);
-    func_020477A4((struct G3dSys *)func_02048A18(p->f0, base), 1);
-    func_020477A4((struct G3dSys *)func_02048A18(p->f0, base + 1), 0);
-    func_020477A4((struct G3dSys *)func_02048A18(p->f0, base + 2), 0);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(p->f0, base), 0);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(p->f0, base), 1);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(p->f0, base + 1), 0);
+    G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(p->f0, base + 2), 0);
 
     c = FX_SinCosTable_[0x2AB];
     s = FX_SinCosTable_[0x2AA];
@@ -154,10 +154,10 @@ void func_021B9C2C(Work *p, u32 heap)
     bottom = -FX_Div(t, c);
     right = FX_Div(FX_Mul(FX_Div(0x223, 0x1000), s), c);
     left = -FX_Div(FX_Mul(FX_Div(0x223, 0x1000), s), c);
-    p->f10 = func_02048A24(1, top, bottom, left, right,
+    p->f10 = G3D_CAMERA_Create(1, top, bottom, left, right,
                            0x19A, 0x800000, 0x19A,
                            &d_021BD3EC, &d_021BD3F8, &d_021BD404, heap);
-    p->fC = (u32)func_02011510(heap, 0xA0, 0xE9, 0xA);
+    p->fC = (u32)ICA_ANIME_CreateStream(heap, 0xA0, 0xE9, 0xA);
     p->f8 = (u32)func_02048BC4((const struct LightSet *)d_021BD3DC, heap);
     func_02048C58((struct LightSlot *)p->f8);
     func_0204044C(1);

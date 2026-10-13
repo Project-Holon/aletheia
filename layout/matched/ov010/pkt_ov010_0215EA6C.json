@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215EA6C",
+   "name": "MOVE_POKEMON_CreateCutEvent",
    "address": "0x0215EA6C",
    "kind": "game",
    "region": "ov010",

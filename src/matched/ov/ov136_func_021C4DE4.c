@@ -11,7 +11,7 @@
  *   func_021C4DE4 0x021C4DE4 thumb
  *   func_021C4DD4 0x021C4DD4 thumb
  *   func_0203FC28 0x0203FC28 arm
- *   func_0204363C 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
  *   func_02040B94 0x02040B94 arm
@@ -27,7 +27,7 @@ extern const struct DispConfig g_77F4;
 extern const struct BgSet g_7804;
 extern void func_021C4DD4(void);
 extern void func_0203FC28(struct DispConfig *);
-extern void func_0204363C(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32);
 typedef unsigned char  u8;
@@ -40,7 +40,7 @@ void func_021C4DE4(u32 *p)
         struct DispConfig d = g_77F4;
         func_0203FC28(&d);
     }
-    func_0204363C(0);
+    BG_SYS_SetLcdSwap(0);
     {
         struct BgSet s = g_7804;
         func_0203FCA0(0, &s.t[0], 0);

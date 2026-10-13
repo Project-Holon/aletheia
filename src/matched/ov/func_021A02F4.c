@@ -1,5 +1,5 @@
 /*
- * function: func_021A02F4
+ * function: FIELD_ZONEFOG_Delete
  * address:  0x021A02F4
  * packet:   pkt_021A02F4
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02049238  0x02049238  arm
- *   func_021A0358  0x021A0358  thumb  ov021
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   FIELD_ZONEFOG_Clear  0x021A0358  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -25,13 +25,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern void func_02049238(u32 arc);
-extern u32 func_021A0358(u32);
+extern void ARC_TOOL_DeleteHandle(u32 arc);
+extern u32 FIELD_ZONEFOG_Clear(u32);
 
-int func_021A02F4(void *a)
+int FIELD_ZONEFOG_Delete(void *a)
 {
-func_02049238(((struct Obj17987 *)((u8 *)(a)))->fC);
-func_021A0358((u32)a);
+ARC_TOOL_DeleteHandle(((struct Obj17987 *)((u8 *)(a)))->fC);
+FIELD_ZONEFOG_Clear((u32)a);
 return func_020307B0(a);
 }
 

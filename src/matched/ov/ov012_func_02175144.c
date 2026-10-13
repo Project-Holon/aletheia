@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D378  0x0203D378  arm
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   COLOSSEUM_SendAllReady  0x02174ED8  thumb  ov012
  *   COLOSSEUM_SendCancelAck  0x02174E9C  thumb  ov012
  */
@@ -19,8 +19,8 @@
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-extern u32 func_0203D378(void);
-extern int func_0203D1B4(void);
+extern u32 GFL_NET_IsParentAid(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern u32 COLOSSEUM_SendAllReady(void);
 extern u32 COLOSSEUM_SendCancelAck(int v);
 
@@ -30,7 +30,7 @@ void COLOSSEUM_UpdateReadyState(u8 *p)
     int i;
     int z;
 
-    if (func_0203D378() == 0) {
+    if (GFL_NET_IsParentAid() == 0) {
         return;
     }
     cnt = 0;
@@ -39,7 +39,7 @@ void COLOSSEUM_UpdateReadyState(u8 *p)
             cnt++;
         }
     }
-    if (cnt == func_0203D1B4()) {
+    if (cnt == GFL_NET_GetNegotiationNum()) {
         if (COLOSSEUM_SendAllReady() == 1) {
             z = 0;
             for (i = 0; i < 4; i++) {

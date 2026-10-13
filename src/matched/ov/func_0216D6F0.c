@@ -1,5 +1,5 @@
 /*
- * function: func_0216D6F0
+ * function: FLDMMDL_GetDrawProcWork
  * address:  0x0216D6F0
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D6F0.c \
- *       --func func_0216D6F0 --addr 0x0216D6F0 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetDrawProcWork.c \
+ *       --func FLDMMDL_GetDrawProcWork --addr 0x0216D6F0 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -26,4 +26,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void *func_0216D6F0(void *p) { return (char *)p + 196; }
+void *FLDMMDL_GetDrawProcWork(void *p) { return (char *)p + 196; }

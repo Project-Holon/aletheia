@@ -1,5 +1,5 @@
 /*
- * function: func_021F582C
+ * function: ENCEFF_DrawCellGrid
  * address: 0x021F582C
  * packet: pkt_ov077_021F582C
  * region: ov077
@@ -42,7 +42,7 @@ extern void func_0207AF1C(Mtx33 *mtx, int sinValue, int cosValue);
 extern void func_0207AF38(Mtx33 *mtx, int sinValue, int cosValue);
 extern void func_0207D934(const Mtx33 *mtx);
 
-void func_021F582C(EncEffGridWork *work)
+void ENCEFF_DrawCellGrid(EncEffGridWork *work)
 {
     REG_MTX_PUSH = 0;
     REG_DIF_AMB = 0x7FFF7FFF;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEA34",
+   "name": "WEATHER_SNOW_SpawnParticles",
    "address": "0x021EEA34",
    "kind": "game",
    "region": "ov025",

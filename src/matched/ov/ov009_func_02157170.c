@@ -12,7 +12,7 @@
  * blocker: every concrete byte matches (MATCH*, 270 of 272, the tail is
  * padding); the three THM_CALL sites to GFL_NET_ERR_RaiseFatal stay wildcarded
  * because 0x0200FB4C is an unlabelled arm9 Thumb leaf (it prints as .word
- * data after func_0200FB38), so no class attests it. The leaf verifies
+ * data after GFL_NET_ERR_RequestScreen), so no class attests it. The leaf verifies
  * EXACT (literal x2) as pkt_0200FB4C / src/matched/arm9/GFL_NET_ERR_RaiseFatal.c
  * with this body, outside this lane's write set:
  *
@@ -32,14 +32,14 @@
  * Filing that leaf makes this file (and ov135 func_022010BC) EXACT.
  *
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   DWC_RAPCOMMON_ClearNetError  0x02157160  thumb  ov009
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
  *   func_02059F18  0x02059F18  arm
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_NET_ERR_RaiseFatal  0x0200FB4C  thumb
  *   func_0200F7C0  0x0200F7C0  thumb
  *   func_0200FAAC  0x0200FAAC  thumb
@@ -55,7 +55,7 @@ typedef struct Status {
     int fC;
 } Status;
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
 extern u32 GFL_NET_STATE_GetError(void);
 extern u32 func_0200FB24(void);
@@ -63,7 +63,7 @@ extern void DWC_RAPCOMMON_ClearNetError(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FBA0(void);
 extern void func_02059F18(void);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 extern void func_0200F7C0(u32 value);
 extern void func_0200FAAC(void);
@@ -76,7 +76,7 @@ int DWC_RAPCOMMON_HandleNetError(int a0, int a1)
     Status *st;
     int v;
 
-    if (func_0203CD98() != 0) {
+    if (GFL_NET_GetRunState() != 0) {
         st = (Status *)GFL_NET_STATE_GetError();
         if (func_0200FB24() != 0) {
             switch (st->f4) {
@@ -94,11 +94,11 @@ int DWC_RAPCOMMON_HandleNetError(int a0, int a1)
             case 3:
             case 4:
             case 5:
-                func_0200FB38();
+                GFL_NET_ERR_RequestScreen();
                 GFL_NET_ERR_RaiseFatal(13);
                 return 2;
             case 6:
-                func_0200FB38();
+                GFL_NET_ERR_RequestScreen();
                 return 2;
             case 7:
                 func_0200F7C0(15);
@@ -128,12 +128,12 @@ int DWC_RAPCOMMON_HandleNetError(int a0, int a1)
                 func_0200FBA0();
                 return 1;
             }
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             GFL_NET_ERR_RaiseFatal(13);
             return 2;
         }
         if (v == 0x3EE || v == 0x3F7) {
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             GFL_NET_ERR_RaiseFatal(13);
             return 2;
         }

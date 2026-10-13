@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020264F4",
+   "name": "GAME_COMM_ClearPlayerStatus",
    "address": "0x020264F4",
    "kind": "game",
    "region": "arm9",

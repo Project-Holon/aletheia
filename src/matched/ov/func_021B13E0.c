@@ -1,5 +1,5 @@
 /*
- * function: func_021B13E0
+ * function: SCRCMD_MSGWIN_CmdCloseBgWin
  * address:  0x021B13E0
  * packet:   pkt_021B13E0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021B1268  0x021B1268  thumb  ov021
+ *   SCRCMD_MSGWIN_CloseBgWin  0x021B1268  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021B1268(void *p);
+extern void SCRCMD_MSGWIN_CloseBgWin(void *p);
 
-int func_021B13E0(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_MSGWIN_CmdCloseBgWin(u32 a, u32 b, u32 c, u32 d)
 {
-func_021B1268((void *)b);
+SCRCMD_MSGWIN_CloseBgWin((void *)b);
 return 0;
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0217BF28
+ * function: INTRUDE_FIELD_GetStartKind
  * address:  0x0217BF28
  * packet:   pkt_ov018_0217BF28
  * region:   ov018
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 func_0217BF28(u8 *p)
+u8 INTRUDE_FIELD_GetStartKind(u8 *p)
 {
     return p[0xE];
 }

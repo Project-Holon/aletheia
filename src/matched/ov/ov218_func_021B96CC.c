@@ -17,10 +17,10 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049DF4 0x02049DF4 arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   func_02040B1C 0x02040B1C arm
  *   func_020307B0 0x020307B0 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,10 +29,10 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021B96CC(u8 *p, u16 heap)
 {
     void *h;
@@ -48,9 +48,9 @@ void func_021B96CC(u8 *p, u16 heap)
     func_02049658(h, 0xc, 4, 0, 0x200, 0, heap);
     func_020498F4(h, 6, 7, 0, 0, 0, heap);
     func_020498F4(h, 0xd, 4, 0, 0, 0, heap);
-    w1 = func_02049DF4(h, 0, 0, (u32)((void **)&o1), heap);
+    w1 = ARC_UTIL_LoadBgCharDataFromHandle(h, 0, 0, (u32)((void **)&o1), heap);
     func_020498F4(h, 5, 3, 0, 0, 0, heap);
-    w2 = func_02049DF4(h, 0, 0, (u32)((void **)&o2), heap);
+    w2 = ARC_UTIL_LoadBgCharDataFromHandle(h, 0, 0, (u32)((void **)&o2), heap);
     func_02049658(h, 2, 2, 0, 0, 0, heap);
     func_02049658(h, 2, 6, 0, 0, 0, heap);
     for (i = 0; i < 0x82; i++) {
@@ -74,5 +74,5 @@ void func_021B96CC(u8 *p, u16 heap)
     func_020307B0(w1);
     func_02040B1C(3, *(void **)(o2 + 0x14), *(u32 *)(o2 + 0x10), 0);
     func_020307B0(w2);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

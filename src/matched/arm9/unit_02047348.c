@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: G3D_SYSTEM_IsTextureInVram, func_02047388, func_020473B8
+ * function: G3D_SYSTEM_IsTextureInVram, G3D_SYSTEM_GetTexVramKey, G3D_SYSTEM_GetPlttVramKey
  * address:  0x02047348
  * packet:   pkt_02047260
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206E964   0x0206E964  arm
+ *   NNS_G3dGetTex   0x0206E964  arm
  *
  * Three consecutive accessors on the object a layer record points at
  * through +4, 64 + 48 + 32 bytes with no padding between them.  The object
@@ -23,10 +23,10 @@
  * one-exit and the third is written as the inverted guard (`if (!bit)
  * return 0;`) whose fall-through carries the `return 1`.
  *
- * func_02047388 and func_020473B8 return the guarded word itself, so their
+ * G3D_SYSTEM_GetTexVramKey and G3D_SYSTEM_GetPlttVramKey return the guarded word itself, so their
  * arms are single instructions and the compiler if-converts them into
  * predicated `ldrne` / `moveq` on the entry compare; the third test in
- * func_02047388 is the one that stays a real branch pair.
+ * G3D_SYSTEM_GetTexVramKey is the one that stays a real branch pair.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02047348.c \
@@ -57,20 +57,20 @@ struct Ctl {
     u16 unk_32;
 };
 
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
 int G3D_SYSTEM_IsTextureInVram(struct Layer *layer)
 {
-    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
+    struct Ctl *p = (struct Ctl *)NNS_G3dGetTex(layer->unk_04);
 
     if ((p->unk_10 & 1) || (p->unk_20 & 1) || (p->unk_32 & 1))
         return 1;
     return 0;
 }
 
-u32 func_02047388(struct Layer *layer)
+u32 G3D_SYSTEM_GetTexVramKey(struct Layer *layer)
 {
-    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
+    struct Ctl *p = (struct Ctl *)NNS_G3dGetTex(layer->unk_04);
 
     if (p->unk_10 & 1)
         return p->unk_08;
@@ -79,9 +79,9 @@ u32 func_02047388(struct Layer *layer)
     return 0;
 }
 
-u32 func_020473B8(struct Layer *layer)
+u32 G3D_SYSTEM_GetPlttVramKey(struct Layer *layer)
 {
-    struct Ctl *p = (struct Ctl *)func_0206E964(layer->unk_04);
+    struct Ctl *p = (struct Ctl *)NNS_G3dGetTex(layer->unk_04);
 
     if (p->unk_32 & 1)
         return p->unk_2c;

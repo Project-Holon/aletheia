@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_0216786C  0x0216786C  thumb ov010
- *   func_02012FB0  0x02012FB0  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb ov010
+ *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
  */
 #include "../include/Obj09349.h"
 
@@ -35,11 +35,11 @@ struct Report;
 struct SaveBlock;
 struct Work;
 u32 func_02026478(void *obj);
-void *func_020127A4(struct SaveBlock *p);
+void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 struct Rec44;
-u16 func_02012AC8(const struct Rec44 *p);
-int func_0216786C(struct Work *w, struct Report *out);
-u8 func_02012FB0(int a);
+u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
+int COMM_PLAYER_UpdateMyPackage(struct Work *w, struct Report *out);
+u8 GAME_DATA_GetSymbolMapFlag(int a);
 
 int INTRUDE_COMM_UpdateSelfRecord(u8 *p)
 {
@@ -50,15 +50,15 @@ int INTRUDE_COMM_UpdateSelfRecord(u8 *p)
     Hd *h;
 
     ctx = func_02026478((void *)(((struct Obj09349 *)p)->f4));
-    v = func_02012AC8(func_020127A4((struct SaveBlock *)ctx));
+    v = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)ctx));
     h = (Hd *)(p + 0x70);
-    r = func_0216786C((struct Work *)(((struct Obj09349 *)p)->f8), (struct Report *)h);
+    r = COMM_PLAYER_UpdateMyPackage((struct Work *)(((struct Obj09349 *)p)->f8), (struct Report *)h);
     if (h->f14 != v) {
         h->f14 = v;
         r = 1;
     }
-    if (h->x != func_02012FB0(ctx)) {
-        h->x = func_02012FB0(ctx);
+    if (h->x != GAME_DATA_GetSymbolMapFlag(ctx)) {
+        h->x = GAME_DATA_GetSymbolMapFlag(ctx);
         r = 1;
     }
     k = (*(volatile u16 *)0x02FFFFA8 & 0x8000) >> 15;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F009C
+ * function: REPORT_CheckSaveCounter
  * address: 0x021F009C
  * packet: pkt_ov034_021F009C
  * region: ov034
@@ -12,4 +12,4 @@
  *   _u32_div_f 0x0209C2B0 arm
  */
 #include "../include/Obj13074.h"
-unsigned func_021F009C(char *p) { return ((struct Obj13074 *)p)->f114 >= ((struct Obj13074 *)p)->f118/3; }
+unsigned REPORT_CheckSaveCounter(char *p) { return ((struct Obj13074 *)p)->f114 >= ((struct Obj13074 *)p)->f118/3; }

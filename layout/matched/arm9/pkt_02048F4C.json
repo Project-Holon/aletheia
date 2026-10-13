@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048F4C",
+   "name": "ARC_TOOL_ReadMember",
    "address": "0x02048F4C",
    "kind": "sdk",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048F60",
+   "name": "ARC_TOOL_LoadMember",
    "address": "0x02048F60",
    "kind": "sdk",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048F74",
+   "name": "ARC_TOOL_ReadMemberRange",
    "address": "0x02048F74",
    "kind": "sdk",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048F88",
+   "name": "ARC_TOOL_LoadMemberRange",
    "address": "0x02048F88",
    "kind": "sdk",
    "region": "arm9",

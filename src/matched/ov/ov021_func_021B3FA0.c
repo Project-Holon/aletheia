@@ -1,5 +1,5 @@
 /*
- * function: func_021B3FA0
+ * function: SCRCMD_PROC_FLD_InitShopWindows
  * address:  0x021B3FA0
  * packet:   pkt_ov021_021B3FA0
  * region:   ov021
@@ -12,14 +12,14 @@
  * symbols:
  *   d_021DE18C    0x021DE18C data ov021 a4
  *   d_021DE170    0x021DE170 data ov021 a4
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C7D0 0x0201C7D0 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201C440 0x0201C440 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
@@ -42,7 +42,7 @@ typedef struct {
 extern WinTmpl *d_021DE18C[];
 extern WinTmpl *d_021DE170[];
 
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Cfg;
 struct Descriptor;
 struct MsgBank;
@@ -50,15 +50,15 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201C440(void *p);
-extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
 
-void func_021B3FA0(char *w)
+void SCRCMD_PROC_FLD_InitShopWindows(char *w)
 {
     WinTmpl **tbl;
     WinTmpl *e;
@@ -72,27 +72,27 @@ void func_021B3FA0(char *w)
     }
     for (i = 0; i < 7; i++) {
         e = tbl[i];
-        ((u32 *)(w + 0x164))[i] = func_020450F0((u8)e->f0, e->f4, e->f5, e->f6, e->f7, (u8)e->f8, 1);
+        ((u32 *)(w + 0x164))[i] = BMP_WIN_Create((u8)e->f0, e->f4, e->f5, e->f6, e->f7, (u8)e->f8, 1);
     }
     t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x14);
-    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f164)), 0, 0, (void *)t, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
-    func_02045808((struct U16Vec *)t);
+    PRINTSYS_PrintColor((void *)((u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f164)), 0, 0, (void *)t, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
+    STRBUF_Delete((struct U16Vec *)t);
     ((struct Obj00037 *)w)->f1A8 = ((struct Obj00037 *)w)->f16C;
     ((struct Obj00037 *)w)->f1AC = 0;
     ((struct Obj00037 *)w)->f1B0 = func_0201C440((void *)(((struct Obj00037 *)w)->f4));
     if (((struct Obj00037 *)w)->f163 == 1) {
         bg = ((struct Obj00037 *)w)->f168;
-        func_02045334((struct Descriptor *)bg);
-        func_02045374((struct Cfg *)bg);
+        BMP_WIN_TransferChars((struct Descriptor *)bg);
+        BMP_WIN_MakeScreen((struct Cfg *)bg);
         func_020409B4(func_02045730((struct Descriptor *)bg));
     } else {
         bg = ((struct Obj00037 *)w)->f164;
-        func_02045334((struct Descriptor *)bg);
-        func_02045374((struct Cfg *)bg);
+        BMP_WIN_TransferChars((struct Descriptor *)bg);
+        BMP_WIN_MakeScreen((struct Cfg *)bg);
         func_020409B4(func_02045730((struct Descriptor *)bg));
         bg = ((struct Obj00037 *)w)->f168;
-        func_02045334((struct Descriptor *)bg);
-        func_02045374((struct Cfg *)bg);
+        BMP_WIN_TransferChars((struct Descriptor *)bg);
+        BMP_WIN_MakeScreen((struct Cfg *)bg);
         func_020409B4(func_02045730((struct Descriptor *)bg));
     }
 }

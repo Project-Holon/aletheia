@@ -1,5 +1,5 @@
 /*
- * function: func_021750D0
+ * function: COLOSSEUM_GetMyChoiceReply
  * address:  0x021750D0
  * packet:   pkt_ov012_021750D0
  * region:   ov012
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 func_021750D0(u8 *p)
+u8 COLOSSEUM_GetMyChoiceReply(u8 *p)
 {
     return p[0xdd];
 }

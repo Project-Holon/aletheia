@@ -1,5 +1,5 @@
 /*
- * function: func_02169880
+ * function: FIELD_G3D_MAP_ClearPlacements
  * address:  0x02169880
  * packet:   pkt_ov010_02169880
  * region:   ov010
@@ -27,7 +27,7 @@ typedef struct E {
     u16 e;
 } E;
 
-void func_02169880(u8 *p)
+void FIELD_G3D_MAP_ClearPlacements(u8 *p)
 {
     int i;
     E *e;

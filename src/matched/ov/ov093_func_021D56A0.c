@@ -1,5 +1,5 @@
 /*
- * function: func_021D56A0
+ * function: BTL_POKEPARAM_RestoreRealMovePP
  * address: 0x021D56A0
  * packet: pkt_ov093_021D56A0
  * region: ov093
@@ -13,7 +13,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Entry { u16 id; u8 a; u8 b; u16 c; u16 other; u8 x; u8 y; u16 z; u8 flag; u8 rest; };
 typedef unsigned int u32;
-u16 func_021D56A0(u8 *p, u32 i, u8 n)
+u16 BTL_POKEPARAM_RestoreRealMovePP(u8 *p, u32 i, u8 n)
 {
     struct Entry *e = (struct Entry *)((u32)p + 0x104 + i * 14);
     e->a += n;

@@ -1,5 +1,5 @@
 /*
- * function: func_02169928
+ * function: FIELD_G3D_MAP_InitRenderObj
  * address:  0x02169928
  * packet:   pkt_ov010_02169928
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02046F48  0x02046F48  arm
- *   func_0206E954  0x0206E954  arm
- *   func_0206E964  0x0206E964  arm
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
+ *   NNS_G3dGetMdlSet  0x0206E954  arm
+ *   NNS_G3dGetTex  0x0206E964  arm
  *   func_0206A2CC  0x0206A2CC  arm
  *   func_0206A4AC  0x0206A4AC  arm
  *   func_02069D14  0x02069D14  arm
@@ -24,9 +24,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Tagged;
-extern void *func_02046F48(struct Tagged *p);
-extern int func_0206E954(int p0);
-extern unsigned char *func_0206E964(unsigned char *p);
+extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern int NNS_G3dGetMdlSet(int p0);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void func_0206A2CC(void *a, void *b);
 extern void func_0206A4AC(void *a, void *b);
 extern void func_02069D14(void *a, void *b);
@@ -41,7 +41,7 @@ static inline u32 *Get(u8 *r, u32 idx)
     return 0;
 }
 
-void func_02169928(void *a, void *b, void *c)
+void FIELD_G3D_MAP_InitRenderObj(void *a, void *b, void *c)
 {
     u8 *r;
     u32 *q;
@@ -49,16 +49,16 @@ void func_02169928(void *a, void *b, void *c)
     void *m;
     void *y;
 
-    res = func_02046F48(b);
-    y = func_02046F48(c);
+    res = G3D_SYSTEM_GetResourceFile(b);
+    y = G3D_SYSTEM_GetResourceFile(c);
     m = 0;
-    r = (u8 *)func_0206E954((int)res);
+    r = (u8 *)NNS_G3dGetMdlSet((int)res);
     if (r != 0 && (q = Get(r, 0)) != 0)
         res = r + *q;
     else
         res = 0;
     if (y != 0)
-        m = func_0206E964(y);
+        m = NNS_G3dGetTex(y);
     if (m != 0) {
         func_0206A2CC(res, m);
         func_0206A4AC(res, m);

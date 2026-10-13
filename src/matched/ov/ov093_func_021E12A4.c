@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * Lever: the constant 6 lives in r5 across the calls (movs r5,#6 before the
- * func_021D5844 bl); an int local folds it into each use, an enum local keeps it.
+ * BTL_POKEPARAM_GetMon bl); an int local folds it into each use, an enum local keeps it.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5444  0x021D5444  thumb  ov093
+ *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   func_021C7ED8  0x021C7ED8  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_021D7DC0  0x021D7DC0  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
+ *   BTL_CALC_MakeSickContFromKind  0x021D7DC0  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -28,14 +28,14 @@ typedef unsigned int u32;
 
 typedef enum { K_SIX = 6 } K;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 struct QF;
 extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5444(struct QF *p);
+extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern int func_021C7ED8(u8 *p, int i);
-extern void *func_021D5844(void *m);
-extern void func_021D7DC0(int a, void *b, void *out);
-extern int func_021D76BC(int key, u32 val);
+extern void *BTL_POKEPARAM_GetMon(void *m);
+extern void BTL_CALC_MakeSickContFromKind(int a, void *b, void *out);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E12A4(int unused, void *q, int id)
 {
@@ -45,21 +45,21 @@ void func_021E12A4(int unused, void *q, int id)
     int b;
     u32 out;
 
-    if (id == func_021D775C(3)) {
+    if (id == BTL_EVENT_GetVar(3)) {
         m = func_021C7CF4(q, id);
-        if (func_021D5444(m) == 0x1b9) {
+        if (BTL_POKEPARAM_GetSpecies(m) == 0x1b9) {
             n = func_021C7ED8(q, id);
             if (n != 0) {
                 a = K_SIX;
-                func_021D5844(m);
+                BTL_POKEPARAM_GetMon(m);
                 if (n > 2)
                     b = 0x1e;
                 else
                     b = 10;
-                func_021D7DC0(a, m, &out);
-                func_021D76BC(0x1d, a);
-                func_021D76BC(0x1e, out);
-                func_021D76BC(0x26, b);
+                BTL_CALC_MakeSickContFromKind(a, m, &out);
+                BTL_EVENT_OverwriteVar(0x1d, a);
+                BTL_EVENT_OverwriteVar(0x1e, out);
+                BTL_EVENT_OverwriteVar(0x26, b);
             }
         }
     }

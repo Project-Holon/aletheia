@@ -1,5 +1,5 @@
 /*
- * function: func_021F3C6C
+ * function: SP_POKE_GIMMICK_WaitAnimeProgressEventMain
  * address:  0x021F3C6C
  * packet:   pkt_ov059_021F3C6C
  * region:   ov059
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021BE6E8  0x021BE6E8  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnimeFrame  0x021BE6E8  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern int func_021BE6E8(int a, int b, int c, int d);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern int FLD_EXP_OBJ_GetAnimeFrame(int a, int b, int c, int d);
 
-int func_021F3C6C(void *a)
+int SP_POKE_GIMMICK_WaitAnimeProgressEventMain(void *a)
 {
     void *t;
     void *s;
@@ -35,9 +35,9 @@ int func_021F3C6C(void *a)
     int flag;
     int *p;
 
-    t = func_0201210C(func_020124E4(a));
-    s = (void *)func_02188D2C(t);
-    p = func_021897BC(t, 1);
+    t = GAMESYSTEM_GetFieldMap(func_020124E4(a));
+    s = (void *)FIELDMAP_GetExpObj(t);
+    p = FIELDMAP_GetCommonWork(t, 1);
     flag = 1;
     if (*p == 0) {
         lim = 0x5000;
@@ -45,7 +45,7 @@ int func_021F3C6C(void *a)
     } else {
         lim = 0x22000;
     }
-    if (func_021BE6E8((int)s, 0, (u16)flag, 0) >= lim) {
+    if (FLD_EXP_OBJ_GetAnimeFrame((int)s, 0, (u16)flag, 0) >= lim) {
         return 1;
     }
     return 0;

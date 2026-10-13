@@ -1,5 +1,5 @@
 /*
- * function: func_021A7A88
+ * function: FIELD_GROUND_ANIME_KeyTableGetGroupCount
  * address:  0x021A7A88
  * packet:   pkt_021A7A88
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A7A88(u8 *p)
+u32 FIELD_GROUND_ANIME_KeyTableGetGroupCount(u8 *p)
 {
     return ((struct Obj18066 *)p)->f14;
 }

@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_0204AFD8(u32);
-void func_021C45E0(u8 *p) { int i; for(i=0;i<16;i++){func_0204AFD8(*(u32 *)(p+i*20+392));*(u32 *)(p+i*20+392)=-1;} }
+extern void CLACT_ReleaseCellAnim(u32);
+void func_021C45E0(u8 *p) { int i; for(i=0;i<16;i++){CLACT_ReleaseCellAnim(*(u32 *)(p+i*20+392));*(u32 *)(p+i*20+392)=-1;} }

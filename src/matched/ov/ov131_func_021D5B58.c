@@ -13,6 +13,7 @@
  *   P_STATUS_SearchPokemon 0x021D5BAC thumb ov131
  *   P_STATUS_LoadPokemonState 0x021D5C4C thumb ov131
  *   POKE_TOOL_ClearPartyParam  0x02017528  thumb  arm9
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
  */
 #include "../include/Obj00039.h"
 typedef unsigned int   u32;
@@ -22,7 +23,7 @@ extern int P_STATUS_SearchPokemon(unsigned char *p, int direction, unsigned shor
 extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
 extern u32 func_020307B0(void *p);
 extern void *P_STATUS_GetPokePara(unsigned char *p);
-extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void P_STATUS_LoadPokemonState(unsigned char *p);
 int P_STATUS_ChangePokemon(unsigned char *p,int a) {
  unsigned short n;
@@ -31,7 +32,7 @@ int P_STATUS_ChangePokemon(unsigned char *p,int a) {
  ((struct Obj00039 *)p)->f18=n;
  if((*(unsigned char **)(p+8))[12]==2) {
  if(((struct Obj00039 *)p)->f258) {POKE_TOOL_ClearPartyParam(((struct Obj00039 *)p)->f258);func_020307B0(((struct Obj00039 *)p)->f258);}
- ((struct Obj00039 *)p)->f258=func_0201747C(P_STATUS_GetPokePara(p),((struct Obj00039 *)p)->f0);
+ ((struct Obj00039 *)p)->f258=POKE_TOOL_CreateFromBoxParam(P_STATUS_GetPokePara(p),((struct Obj00039 *)p)->f0);
  }
  P_STATUS_LoadPokemonState(p);
  }

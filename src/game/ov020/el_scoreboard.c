@@ -13,21 +13,21 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02012870  0x02012870  thumb
- *   func_0201284C  0x0201284C  thumb
+ *   GAME_DATA_GetEntranceLocation  0x02012870  thumb
+ *   GAME_DATA_GetStartLocation  0x0201284C  thumb
  *   func_02014068  0x02014068  thumb
- *   func_020128C0  0x020128C0  thumb
- *   func_02014204  0x02014204  thumb
+ *   GAME_DATA_SetEscapeLocation  0x020128C0  thumb
+ *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
  *   func_02013C50  0x02013C50  thumb
  *   func_02013FEC 0x02013FEC thumb
- *   func_02012894 0x02012894 thumb
- *   func_020127A4 0x020127A4 thumb
- *   func_02012B28 0x02012B28 thumb
- *   func_02012B2C 0x02012B2C thumb
+ *   GAME_DATA_GetSpecialLocation 0x02012894 thumb
+ *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
+ *   GAME_DATA_GetPlayerObjectCode 0x02012B28 thumb
+ *   GAME_DATA_SetPlayerObjectCode 0x02012B2C thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045A38  0x02045A38  arm
- *   func_02008F08  0x02008F08  thumb
+ *   STRBUF_ToChars  0x02045A38  arm
+ *   MAIL_Create  0x02008F08  thumb
  *   func_02008F88  0x02008F88  thumb
  *   func_02008FA0  0x02008FA0  thumb
  *   func_02008FA8  0x02008FA8  thumb
@@ -38,132 +38,132 @@
  *   func_02008FEC  0x02008FEC  thumb
  *   func_0200903C  0x0200903C  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   d_02187DA4  0x02187DA4  data  ov020  a4
  *   d_02187DAC  0x02187DAC  data  ov020  a4
  *   d_02187DB4  0x02187DB4  data  ov020  a4
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0201AD0C 0x0201AD0C thumb
- *   func_02012984 0x02012984 thumb
+ *   GAME_DATA_GetSeason 0x02012984 thumb
  *   func_02008B14 0x02008B14 thumb
- *   func_0216A358 0x0216A358 thumb ov010
+ *   FORMCHANGE_RevertShayminAtNight 0x0216A358 thumb ov010
  *   func_02030734 0x02030734 arm
  *   d_02187EA0 0x02187EA0 data ov020 a1
- *   func_0216D588  0x0216D588  thumb
- *   func_02161E78 0x02161E78 thumb ov010
+ *   FLDMMDL_GetObjId  0x0216D588  thumb
+ *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
  *   func_02008530  0x02008530  thumb
  *   func_020056EC  0x020056EC  thumb
- *   func_02161E84 0x02161E84 thumb ov010
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryAllowed 0x02161E84 thumb ov010
  *   func_0200855C  0x0200855C  thumb
- *   func_021584F4  0x021584F4  thumb  ov010
- *   func_02161ECC 0x02161ECC thumb ov010
- *   func_02012AC8  0x02012AC8  thumb
- *   func_020127C4  0x020127C4  thumb
- *   func_020127E0  0x020127E0  thumb
- *   func_020127F0  0x020127F0  thumb
- *   func_02013DE0  0x02013DE0  thumb
- *   func_02161E60  0x02161E60  thumb
- *   func_02161EEC  0x02161EEC  thumb
+ *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
+ *   GAME_DATA_GetMysteryRecvFlagA  0x020127E0  thumb
+ *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   ZONEDATA_IsZoneInTableDFEC  0x02013DE0  thumb
+ *   EVENT_FIELD_PROCLINK_CompactReturnList  0x02161E60  thumb
+ *   EVENT_FIELD_PROCLINK_InitIdList  0x02161EEC  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   func_0216E618  0x0216E618  thumb  ov010
+ *   FLDMMDL_InitPosRecord  0x0216E618  thumb  ov010
  *   d_02187EB4     0x02187EB4  data  ov020  a1
  *   d_02187DBC     0x02187DBC  data  ov020  a4
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_020084F4 0x020084F4 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_020490F4  0x020490F4  arm
- *   func_0204932C  0x0204932C  arm
- *   func_02049238 0x02049238 arm
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   d_02187DE0     0x02187DE0  data  ov020  a4
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_0218DC70  0x0218DC70  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_021A3460  0x021A3460  thumb  ov021
- *   func_0216DDC0  0x0216DDC0  thumb  ov010
- *   func_02193B40  0x02193B40  thumb  ov021
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02193BE4  0x02193BE4  thumb  ov021
- *   func_02193BC4  0x02193BC4  thumb  ov021
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5CC  0x0215A5CC  thumb  ov010
- *   func_02193B68  0x02193B68  thumb  ov021
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02193904  0x02193904  thumb  ov021
- *   func_0219390C  0x0219390C  thumb  ov021
- *   func_02193C00  0x02193C00  thumb  ov021
- *   func_02193C04  0x02193C04  thumb  ov021
- *   func_021938F4  0x021938F4  thumb  ov021
- *   func_02188C80 0x02188C80 thumb ov021
- *   func_020120F4 0x020120F4 thumb
- *   func_02012934  0x02012934  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetWfbc  0x0218DC70  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
+ *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
+ *   FIELD_WFBC_ApplyGiftMood  0x02193B40  thumb  ov021
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   FIELD_WFBC_GetPeopleArrivalFlag  0x02193BE4  thumb  ov021
+ *   FIELD_WFBC_ClearPeopleArrivalFlag  0x02193BC4  thumb  ov021
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
+ *   FIELD_WFBC_SetWordSetParentName  0x02193B68  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   FIELD_WFBC_ReloadSaveData  0x02193904  thumb  ov021
+ *   FIELD_WFBC_GetPeople  0x0219390C  thumb  ov021
+ *   FIELD_WFBC_PEOPLE_GetNpcRecord  0x02193C00  thumb  ov021
+ *   FIELD_WFBC_PEOPLE_GetPersonData  0x02193C04  thumb  ov021
+ *   FIELD_WFBC_GetPeopleNum  0x021938F4  thumb  ov021
+ *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0203F4E4  0x0203F4E4  arm
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_0219391C  0x0219391C  thumb  ov021
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_0201210C 0x0201210C thumb
- *   func_0215897C 0x0215897C thumb ov010
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_02158434  0x02158434  thumb  ov010
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   FIELD_WFBC_GetCityType  0x0219391C  thumb  ov021
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
+ *   SCRIPT_SYS_CallEvent 0x0215897C thumb ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   INTRUDE_COMM_GetReturnSlots  0x02158434  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_020127D0  0x020127D0  thumb
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021620A0  0x021620A0  thumb  ov010
- *   func_02162048  0x02162048  thumb  ov010
- *   func_0216208C  0x0216208C  thumb  ov010
- *   func_0216209C  0x0216209C  thumb  ov010
- *   func_02161E4C  0x02161E4C  thumb  ov010
- *   func_0204E720  0x0204E720  arm
- *   func_0204E804  0x0204E804  arm
- *   func_02012944  0x02012944  thumb
- *   func_02161F90  0x02161F90  thumb  ov010
- *   func_02193B20  0x02193B20  thumb  ov021
- *   func_0216CF2C  0x0216CF2C  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending  0x021620A0  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_RequestReturn  0x02162048  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_HasReturnDefaultSlot  0x0216208C  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_GetReturnDefaultSlotType  0x0216209C  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_HasEventdataEntry  0x02161E4C  thumb  ov010
+ *   FADE_Start  0x0204E720  arm
+ *   FADE_IsActive  0x0204E804  arm
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   EVENT_FIELD_PROCLINK_ApplyReturnEntry  0x02161F90  thumb  ov010
+ *   FIELD_WFBC_RemovePeople  0x02193B20  thumb  ov021
+ *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   func_0219129C  0x0219129C  thumb  ov021
+ *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
  *   d_02187E04     0x02187E04  data  ov020  a2
- *   func_02191388  0x02191388  thumb  ov021
+ *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb  ov021
  *   func_020362DC  0x020362DC  arm
- *   func_02190BE4  0x02190BE4  thumb  ov021
- *   func_02190C78  0x02190C78  thumb  ov021
- *   func_021909BC  0x021909BC  thumb  ov021
- *   func_021912D8  0x021912D8  thumb  ov021
- *   func_021912F8  0x021912F8  thumb  ov021
- *   func_0219131C 0x0219131C thumb ov021
- *   func_0216FC4C  0x0216FC4C  thumb  ov010
- *   func_0216FAB4  0x0216FAB4  thumb  ov010
- *   d_02187EDC     0x02187EDC  data  ov020  a4
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb  ov021
+ *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb  ov021
+ *   FIELD_MSGBG_ClearTalkWin 0x0219131C thumb ov021
+ *   WAZA_OSHIE_GetTexFormatCount  0x0216FC4C  thumb  ov010
+ *   WAZA_OSHIE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
+ *   EL_SCOREBOARD_SourceFileName     0x02187EDC  data  ov020  a4
  *   func_02061CA4 0x02061CA4 arm
- *   d_02187ECC 0x02187ECC data ov020 a4
+ *   EL_SCOREBOARD_LampPaletteColors 0x02187ECC data ov020 a4
  *   func_020124EC  0x020124EC  thumb
  *   func_0202E8B8  0x0202E8B8  thumb
- *   func_02043658 0x02043658 arm
- *   func_02188DA0 0x02188DA0 thumb ov021
+ *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
+ *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   func_02043534 0x02043534 arm
  *   func_0204047C 0x0204047C arm
  *   func_020414AC 0x020414AC arm
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   func_0203F8F4  0x0203F8F4  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_0203FCA0  0x0203FCA0  arm
- *   d_02187E58     0x02187E58  data  ov020
- *   d_02187E28     0x02187E28  data  ov020
- *   d_02187E38     0x02187E38  data  ov020
+ *   EL_SCOREBOARD_VramBankConfig     0x02187E58  data  ov020
+ *   EL_SCOREBOARD_DispConfig     0x02187E28  data  ov020
+ *   EL_SCOREBOARD_BgTemplate     0x02187E38  data  ov020
  *   func_02062A98  0x02062A98  arm
  *   func_02040E78  0x02040E78  arm
  *   func_02062A4C  0x02062A4C  arm
@@ -187,8 +187,8 @@
  *   func_0209C494  0x0209C494  arm
  *   func_0202E8A4  0x0202E8A4  thumb
  *   func_02040588  0x02040588  arm
- *   func_02188DB0  0x02188DB0  thumb  ov021
- *   func_02189A50 0x02189A50 thumb ov021
+ *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
+ *   FIELDMAP_SetSubscreenBusy 0x02189A50 thumb ov021
  */
 
 struct ArcHandle;
@@ -210,24 +210,24 @@ typedef signed int     s32;
 u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049238(void *p);
-extern void *func_02049250(struct ArcHandle *arc, unsigned int member,
+extern void ARC_TOOL_DeleteHandle(void *p);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, unsigned int member,
                            unsigned int heap);
-u16 func_02188C84(u8 *p);
+u16 FIELDMAP_GetHeapId(u8 *p);
 struct GameEvent *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct GameEvent *p);
 extern u32 func_020362DC(void);
-extern int func_0216FC4C(void);
-extern int func_0216FAB4(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
+extern int WAZA_OSHIE_GetTexFormatCount(void);
+extern int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 extern u32 *func_020124EC(struct GameEvent *p);
 extern u8 func_0202E8B8(int);
-extern u32 func_02043658(void);
-extern void func_02188DA0(void);
+extern u32 BG_SYS_GetMainVisiblePlanes(void);
+extern void FIELDMAP_SetBgMode(void);
 extern void func_02043534(u32 planes);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_020414AC(int a);
-void func_020433E0(const struct DispVram *c);
+void BG_SYS_SetVramBanks(const struct DispVram *c);
 void func_0203F8F4(u16 heapId);
 void func_0203FC28(struct DispConfig *cfg);
 void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -250,8 +250,8 @@ u32 func_0209CB8C(u32 a, u32 b);
 u32 func_0209C494(u32 x);
 u8 func_0202E8A4(u8 x);
 void func_02040588(unsigned char which, unsigned char enable);
-void func_02188DB0(u8 *a);
-extern void func_02189A50(char *p, int v);
+void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
+extern void FIELDMAP_SetSubscreenBusy(char *p, int v);
 ElLamp *func_021875F4(void *archive, const char *texName, const char *plttName, u32 texFormat, ElTexParams loadParams);
 void func_02187684(ElLamp *lamp);
 void func_0218768C(ElLamp *lamp);
@@ -283,24 +283,24 @@ int func_02187D40(ElScoreboardWork *work);
 int func_02187D54(ElScoreboardWork *work);
 int func_02187D74(ElScoreboardWork *work);
 void func_02187D94(ElScoreboardWork *work);
-extern int d_02187EDC;
-extern int d_02187ECC[];
-extern char d_02187E58[];
-extern char d_02187E28[];
-extern char d_02187E38[];
+extern int EL_SCOREBOARD_SourceFileName;
+extern int EL_SCOREBOARD_LampPaletteColors[];
+extern char EL_SCOREBOARD_VramBankConfig[];
+extern char EL_SCOREBOARD_DispConfig[];
+extern char EL_SCOREBOARD_BgTemplate[];
 
 ElLamp *func_021875F4(void *archive, const char *texName, const char *plttName, u32 texFormat, ElTexParams loadParams)
 {
     ElTexResult loaded;
     ElLamp *lamp;
 
-    lamp = func_02030734(((u16 *)&loadParams)[4], 0x1c, 1, (const char *)&d_02187EDC, 0x19c);
+    lamp = func_02030734(((u16 *)&loadParams)[4], 0x1c, 1, (const char *)&EL_SCOREBOARD_SourceFileName, 0x19c);
     lamp->flags = 0;
-    lamp->texIndex = func_0216FC4C() - 1;
-    lamp->plttIndex = func_0216FC4C() - 1;
+    lamp->texIndex = WAZA_OSHIE_GetTexFormatCount() - 1;
+    lamp->plttIndex = WAZA_OSHIE_GetTexFormatCount() - 1;
     lamp->texVram = -1;
     lamp->plttVram = (char *)-1;
-    if (func_0216FAB4(archive, texName, 0, plttName, texFormat, ((u16 *)&loadParams)[0], ((u16 *)&loadParams)[2], 0xC40, ((u16 *)&loadParams)[4], (struct TexKey *)(&loaded)) != 0) {
+    if (WAZA_OSHIE_LoadTexPlttByName(archive, texName, 0, plttName, texFormat, ((u16 *)&loadParams)[0], ((u16 *)&loadParams)[2], 0xC40, ((u16 *)&loadParams)[4], (struct TexKey *)(&loaded)) != 0) {
         lamp->texAddr = loaded.texAddr;
         lamp->plttSlot = loaded.plttSlot;
         lamp->texVram = loaded.texVram;
@@ -332,7 +332,7 @@ void func_0218768C(ElLamp *lamp)
 
 void func_021876B0(ElLampPaletteRef *paletteRef, int tick)
 {
-    func_02061CA4((void *)1, (u32)(paletteRef->base + (u16)paletteRef->index * 8), d_02187ECC[(tick & 31) / 8], 8);
+    func_02061CA4((void *)1, (u32)(paletteRef->base + (u16)paletteRef->index * 8), EL_SCOREBOARD_LampPaletteColors[(tick & 31) / 8], 8);
 }
 
 int func_021876E0(void *eventTask, int *state, ElScoreboardWork *work)
@@ -359,7 +359,7 @@ void *func_0218774C(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetS
     void *eventTask = func_020122C0(gameSystem, 0, func_021876E0, 0x28);
     ElScoreboardWork *work = func_020124E8(eventTask);
     u32 *statePtr = func_020124EC(eventTask);
-    work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = func_02188C84((u8 *)fieldMap); work->mode = 0; work->finished = 0;
+    work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = func_0202E8B8(shownSeason); work->finishCallback = 0; work->finishCallbackArg = 0;
     func_02187C20(work, (int *)statePtr, 0);
     return eventTask;
@@ -370,7 +370,7 @@ void *func_021877A8(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetS
     void *eventTask = func_020122C0(gameSystem, 0, func_021876E0, 0x28);
     ElScoreboardWork *work = func_020124E8(eventTask);
     u32 *statePtr = func_020124EC(eventTask);
-    work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = func_02188C84((u8 *)fieldMap); work->mode = 0; work->finished = 0;
+    work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = func_0202E8B8(shownSeason); work->finishCallback = finishCallback; work->finishCallbackArg = finishCallbackArg;
     func_02187C20(work, (int *)statePtr, 0);
     return eventTask;
@@ -412,8 +412,8 @@ void func_02187860(ElScoreboardWork *work)
 void func_02187884(ElScoreboardWork *work)
 {
     int planes;
-    planes = func_02043658();
-    func_02188DA0();
+    planes = BG_SYS_GetMainVisiblePlanes();
+    FIELDMAP_SetBgMode();
     func_02043534(planes);
     func_0204047C(0, 1);
     func_0204047C(3, 0);
@@ -424,10 +424,10 @@ void func_02187884(ElScoreboardWork *work)
 
 void func_021878C0(ElScoreboardWork *work)
 {
-    func_020433E0((const struct DispVram *)d_02187E58);
+    BG_SYS_SetVramBanks((const struct DispVram *)EL_SCOREBOARD_VramBankConfig);
     func_0203F8F4(work->heapId);
-    func_0203FC28((struct DispConfig *)d_02187E28);
-    func_0203FCA0(3, (const struct BgTemplate *)d_02187E38, 0);
+    func_0203FC28((struct DispConfig *)EL_SCOREBOARD_DispConfig);
+    func_0203FCA0(3, (const struct BgTemplate *)EL_SCOREBOARD_BgTemplate, 0);
     func_0204047C(0, 1);
     func_0204047C(3, 0);
     func_0204047C(1, 3);
@@ -481,19 +481,19 @@ void func_0218794C(int season, int heapId)
         break;
     }
     archive = func_020490F4(0x97, heapId);
-    member = func_02049250(archive, palIdx, heapId);
+    member = ARC_TOOL_LoadHandleMember(archive, palIdx, heapId);
     func_02062A98(member, (void **)(&palFile));
     func_02040E78(3, (void *)palFile[3], 0x20, 0);
     func_020307B0(member);
-    member = func_02049250(archive, charIdx, heapId);
+    member = ARC_TOOL_LoadHandleMember(archive, charIdx, heapId);
     func_02062A4C(member, (void **)(&charFile));
     func_02040B1C(3, (const void *)charFile[5], charFile[4], 0);
     func_020307B0(member);
-    member = func_02049250(archive, screenIdx, heapId);
+    member = ARC_TOOL_LoadHandleMember(archive, screenIdx, heapId);
     func_02062B30(member, (void **)(&screenFile));
     func_020409E0(3, screenFile + 3, screenFile[2], 0);
     func_020307B0(member);
-    func_02049238(archive);
+    ARC_TOOL_DeleteHandle(archive);
 }
 
 void func_02187A10(ElScoreboardWork *work, int state)
@@ -606,7 +606,7 @@ void func_02187C20(ElScoreboardWork *work, int *statePtr, int state)
     case 4:
         work->stateDuration = func_02187D54(work);
         if (func_02187D20(work) == 0 && work->shownSeason == work->targetSeason) {
-            func_02188DB0((u8 *)work->fieldMap);
+            FIELDMAP_ResetBgAffineShowMsg((u8 *)work->fieldMap);
             func_02040588(3, 1);
             func_02187D94(work);
         }
@@ -630,14 +630,14 @@ void func_02187CEC(ElScoreboardWork *work)
 {
     void *fieldMap;
     fieldMap = work->fieldMap;
-    if (fieldMap != 0) func_02189A50(fieldMap, 1);
+    if (fieldMap != 0) FIELDMAP_SetSubscreenBusy(fieldMap, 1);
 }
 
 /* Clears the field map flag, then runs the mode-specific teardown. */
 void func_02187CFC(ElScoreboardWork *work)
 {
     func_02040588(3, 0);
-    if (work->fieldMap != 0) func_02189A50(work->fieldMap, 0);
+    if (work->fieldMap != 0) FIELDMAP_SetSubscreenBusy(work->fieldMap, 0);
     func_02187914(work);
 }
 

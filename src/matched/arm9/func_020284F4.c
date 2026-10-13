@@ -9,6 +9,9 @@
  * isa:      thumb
  * status:   EXACT
 
+ *
+ * symbols:
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  */
 
 typedef signed char    s8;
@@ -16,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 
 u32 func_020284F4(u32 a)
 {
@@ -33,7 +36,7 @@ u32 func_020284F4(u32 a)
     }
 
     if (a & 4) {
-        if (func_02035C60() != 0) {
+        if (TOUCHPANEL_GetTrg() != 0) {
             r = 1;
         }
     }

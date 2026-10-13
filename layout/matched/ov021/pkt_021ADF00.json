@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ADF00",
+   "name": "FLDEFF_FISHING_Delete",
    "address": "0x021ADF00",
    "kind": "game",
    "region": "ov021",

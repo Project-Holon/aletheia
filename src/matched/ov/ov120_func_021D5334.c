@@ -11,7 +11,7 @@
  * symbols:
  *   func_021D6988 0x021D6988 thumb ov120
  *   func_021D7AF4 0x021D7AF4 thumb ov120
- *   func_021B6498 0x021B6498 thumb ov067
+ *   TOUCHBAR_IsBusy 0x021B6498 thumb ov067
  *   func_021D702C 0x021D702C thumb ov120
  *   func_021D6D10 0x021D6D10 thumb ov120
  *   func_021D82F8 0x021D82F8 thumb ov120
@@ -37,15 +37,15 @@
  *   func_021D52D4 0x021D52D4 thumb ov120
  *   func_021D5208 0x021D5208 thumb ov120
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021D6E70 0x021D6E70 thumb ov120
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021D7374 0x021D7374 thumb ov120
  *   func_021D82A8 0x021D82A8 thumb ov120
  *   func_021D72A0 0x021D72A0 thumb ov120
- *   func_021B63D0 0x021B63D0 thumb ov067
- *   func_021B6448 0x021B6448 thumb ov067
+ *   TOUCHBAR_Update 0x021B63D0 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   func_02040588 0x02040588 arm
  *   func_021D6D48 0x021D6D48 thumb ov120
  *   func_021D7D3C 0x021D7D3C thumb ov120
@@ -75,7 +75,7 @@ typedef struct Ctx {
 extern u32 func_021D6988(u8 *p);
 struct S;
 extern int func_021D7AF4(char *p);
-extern int func_021B6498(u8 *p);
+extern int TOUCHBAR_IsBusy(u8 *p);
 extern int func_021D702C(u8 *p, int *out);
 extern void func_021D6D10(u8 *p, void *list, int first);
 extern void func_021D82F8(char *p);
@@ -101,15 +101,15 @@ extern void func_021D51D4(u8 *p);
 extern void func_021D52D4(u8 *p);
 extern void func_021D5208(u8 *p);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern int func_02035C08(const void *t);
+extern int TOUCHPANEL_HitTrg(const void *t);
 extern void func_021D6E70(void *unused, int *p, int n);
 extern int TOUCHPANEL_HitCont(const void *t);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int func_021D7374(char *p, int y, int count);
 extern void func_021D82A8(char *p, void *q, int start);
 extern void func_021D72A0(u8 *p, void *list, int n);
-extern void func_021B63D0(struct S *p);
-extern int func_021B6448(u8 *p);
+extern void TOUCHBAR_Update(struct S *p);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *p);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021D6D48(u8 *p);
 extern void func_021D7D3C(char *p);
@@ -127,7 +127,7 @@ void func_021D5334(Ctx *p)
     r = func_021D6988(p->f3C);
     if (func_021D7AF4(p->f40) == 0)
         return;
-    if (func_021B6498((u8 *)r) != 0)
+    if (TOUCHBAR_IsBusy((u8 *)r) != 0)
         goto end;
     r = func_021D702C(p->f3C, &out);
     if (out == 1) {
@@ -208,7 +208,7 @@ void func_021D5334(Ctx *p)
         func_021D4244((int *)p, (int)func_021D52D4, 0x766);
         return;
     }
-    sel = func_02035C08(d_021D88D8);
+    sel = TOUCHPANEL_HitTrg(d_021D88D8);
     switch (sel) {
     case 3:
         func_020061E4(0x54C);
@@ -248,8 +248,8 @@ void func_021D5334(Ctx *p)
     }
     return;
 end:
-    func_021B63D0((struct S *)func_021D6988(p->f3C));
-    if (func_021B6448((u8 *)func_021D6988(p->f3C)) == 1) {
+    TOUCHBAR_Update((struct S *)func_021D6988(p->f3C));
+    if (TOUCHBAR_GetPressedButtonIdIfDone((u8 *)func_021D6988(p->f3C)) == 1) {
         func_02040588(4, 0);
         func_02040588(6, 0);
         func_021D5318((u8 *)p);

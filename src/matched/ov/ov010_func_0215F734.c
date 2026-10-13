@@ -1,5 +1,5 @@
 /*
- * function: func_0215F734
+ * function: SCRCMD_NETWORK_CommBattleEventMain
  * address:  0x0215F734
  * packet:   pkt_ov010_0215F734
  * region:   ov010
@@ -10,32 +10,32 @@
  * status:   EXACT
  *
  * Step machine of an ov010 sub-sequence: the step comes from w->seq[*i]
- * through func_0215F9DC, loading ov180/ov181 as procs and ov205/ov182 as
+ * through SCRCMD_NETWORK_AdvanceStep, loading ov180/ov181 as procs and ov205/ov182 as
  * tasks. Byte-correct first draft.
- * Former blocker (MATCH): ov205_id and ov182_id reach r1 of func_02012444, which
+ * Former blocker (MATCH): ov205_id and ov182_id reach r1 of GAME_EVENT_CallProc, which
  * is not in match.py's OVERLAY_ID_CONSUMERS; d_021B9BA0 then fails its
  * ov182 hint for want of that overlay_id site. Same blocker as
- * func_0215FA54.
+ * SCRCMD_NETWORK_WifiProcEventMain.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   func_02012444  0x02012444  thumb
+ *   GAME_EVENT_CallProc  0x02012444  thumb
  *   GAMESYSTEM_SetAlwaysNetFlag  0x02012158  thumb
- *   func_02014554  0x02014554  thumb
+ *   FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent  0x02014554  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02026454  0x02026454  thumb
- *   func_021BE8D4  0x021BE8D4  thumb
- *   func_0215F9C4  0x0215F9C4  thumb  ov010
- *   func_0215F9DC  0x0215F9DC  thumb  ov010
- *   func_0215F9EC  0x0215F9EC  thumb  ov010
- *   func_02158A20  0x02158A20  thumb  ov010
- *   func_02161B90  0x02161B90  thumb  ov010
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   SCRCMD_NETWORK_GetCommExitKind  0x0215F9C4  thumb  ov010
+ *   SCRCMD_NETWORK_AdvanceStep  0x0215F9DC  thumb  ov010
+ *   SCRCMD_NETWORK_SetupMiscSave  0x0215F9EC  thumb  ov010
+ *   SCRIPT_SYS_RunRecoverScript  0x02158A20  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_CreateCommExitEvent  0x02161B90  thumb  ov010
  *   ov180_id       0x000000B4  data
  *   ov181_id       0x000000B5  data
  *   ov205_id       0x000000CD  data
@@ -72,24 +72,24 @@ struct Ctx;
 struct Evt;
 struct IcaAnime;
 struct Obj;
-extern void *func_02012EBC(struct Big *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
-extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
-extern int func_02014554(int a0, int a1);
+extern int FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(int a0, int a1);
 extern void GFL_USE_FadeOutBgm(u32 v);
-extern void func_02026400(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern u32 func_02026454(void *obj);
-extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
-extern int func_0215F9C4(void);
-extern void func_0215F9DC(Work *w, u32 *i);
-extern int func_0215F9EC(int a0);
-extern void func_02158A20(int a, int v);
-extern void *func_02161B90(void *p, void *a1, int kind, int sub, int flag);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *sys, void *proc, u32 a, u32 b);
+extern int SCRCMD_NETWORK_GetCommExitKind(void);
+extern void SCRCMD_NETWORK_AdvanceStep(Work *w, u32 *i);
+extern int SCRCMD_NETWORK_SetupMiscSave(int a0);
+extern void SCRIPT_SYS_RunRecoverScript(int a, int v);
+extern void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *p, void *a1, int kind, int sub, int flag);
 extern u8 ov180_id[];
 extern u8 ov181_id[];
 extern u8 ov205_id[];
@@ -99,78 +99,78 @@ extern u8 d_021BAB24[];
 extern u8 d_021B9E54[];
 extern u8 d_021B9BA0[];
 
-int func_0215F734(void *evt, u32 *i, Work *w)
+int SCRCMD_NETWORK_CommBattleEventMain(void *evt, u32 *i, Work *w)
 {
     void *sys = w->sys;
     void *save;
     void *proc;
 
-    func_02012EBC(w->f04);
-    proc = func_0201210C(w->sys);
-    save = (void *)func_02012138(w->sys);
+    GAME_DATA_GetSaveControl(w->f04);
+    proc = GAMESYSTEM_GetFieldMap(w->sys);
+    save = (void *)GAMESYSTEM_GetGameComm(w->sys);
     switch (w->step) {
     case 0:
         if (w->f08 == 1)
-            func_0215F9EC((int)w);
+            SCRCMD_NETWORK_SetupMiscSave((int)w);
         GFL_USE_FadeOutBgm(30);
-        func_0215F9DC(w, i);
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 1:
-        func_02012374(evt, func_021BE8D4(sys, proc, 0, 0));
-        func_0215F9DC(w, i);
+        GAME_EVENT_CallEvent(evt, EVENT_FIELDMAP_CONTROL_StartFadeOut(sys, proc, 0, 0));
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 2:
         if (func_02026454(save))
-            func_02026400(save);
-        func_0215F9DC(w, i);
+            GAME_COMM_RequestExitNoCallback(save);
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 3:
         if (func_02026454(save) == 0)
-            func_0215F9DC(w, i);
+            SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 4:
-        func_02012374(evt, (void *)func_02014554((int)sys, (int)proc));
-        func_0215F9DC(w, i);
+        GAME_EVENT_CallEvent(evt, (void *)FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent((int)sys, (int)proc));
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 5:
         GAMESYSTEM_CallProc(sys, (u32)ov180_id, d_021B800C, w->f1c);
-        func_0215F9DC(w, i);
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 6:
         if (GAMESYSTEM_GetProcStatus(sys) == 0)
-            func_0215F9DC(w, i);
+            SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 7:
         GAMESYSTEM_CallProc(sys, (u32)ov181_id, d_021BAB24, w->f28);
-        func_0215F9DC(w, i);
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 8:
         if (GAMESYSTEM_GetProcStatus(sys) == 0)
-            func_0215F9DC(w, i);
+            SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 9:
-        func_02012374(evt, func_02161B90(sys, evt, func_0215F9C4(), 0, 0));
-        func_0215F9DC(w, i);
+        GAME_EVENT_CallEvent(evt, EVENT_FIELD_PROCLINK_CreateCommExitEvent(sys, evt, SCRCMD_NETWORK_GetCommExitKind(), 0, 0));
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 10:
-        func_02158A20((int)sys, 4);
-        func_0215F9DC(w, i);
+        SCRIPT_SYS_RunRecoverScript((int)sys, 4);
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 11:
-        func_02012444(evt, (u32)ov205_id, (u32)d_021B9E54, (u32)w->f14);
-        func_0215F9DC(w, i);
+        GAME_EVENT_CallProc(evt, (u32)ov205_id, (u32)d_021B9E54, (u32)w->f14);
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 12:
         if (w->timer > 60) {
             w->timer = 0;
-            func_0215F9DC(w, i);
+            SCRCMD_NETWORK_AdvanceStep(w, i);
         }
         w->timer++;
         break;
     case 13:
-        func_02012444(evt, (u32)ov182_id, (u32)d_021B9BA0, (u32)w->f30);
+        GAME_EVENT_CallProc(evt, (u32)ov182_id, (u32)d_021B9BA0, (u32)w->f30);
         GAMESYSTEM_SetAlwaysNetFlag(sys, 0);
-        func_0215F9DC(w, i);
+        SCRCMD_NETWORK_AdvanceStep(w, i);
         break;
     case 14:
         return 1;

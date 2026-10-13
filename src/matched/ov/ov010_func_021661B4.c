@@ -1,5 +1,5 @@
 /*
- * function: func_021661B4
+ * function: GAME_BEACON_ACCESSOR_IsActionItemNoInvalid
  * address:  0x021661B4
  * packet:   pkt_ov010_021661B4
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_021661B4(Rec *r)
+int GAME_BEACON_ACCESSOR_IsActionItemNoInvalid(Rec *r)
 {
     if (r->f34 == 0 || r->f34 > 0x272)
         return 1;

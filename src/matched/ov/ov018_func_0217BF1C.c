@@ -1,5 +1,5 @@
 /*
- * function: func_0217BF1C
+ * function: INTRUDE_FIELD_InitStartParam
  * address:  0x0217BF1C
  * packet:   pkt_ov018_0217BF1C
  * region:   ov018
@@ -14,7 +14,7 @@
 
 void func_02082BCC(void *dst, int val, int size);
 
-void func_0217BF1C(void *p)
+void INTRUDE_FIELD_InitStartParam(void *p)
 {
     func_02082BCC(p, 0, 0x10);
 }

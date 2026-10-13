@@ -12,10 +12,10 @@
  * symbols:
  *   func_021F2144 0x021F2144 thumb
  *   func_021F21B0 0x021F21B0 thumb
- *   func_02043B5C 0x02043B5C arm
- *   func_0201C7D0 0x0201C7D0 thumb
- *   func_0201C724 0x0201C724 thumb
- *   func_020257D0 0x020257D0 thumb
+ *   BMP_Clear 0x02043B5C arm
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   BMP_OAM_UploadChars 0x020257D0 thumb
  */
 #include "../include/Obj07635.h"
 
@@ -27,22 +27,22 @@ typedef signed short   s16;
 struct CharBuf;
 struct Obj;
 extern void func_021F21B0(char *p, char *q, int *r);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_020257D0(struct Obj *o);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void BMP_OAM_UploadChars(struct Obj *o);
 
 void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4)
 {
     u32 *t;
 
     t = (u32 *)(q + 0x18);
-    func_02043B5C((struct CharBuf *)t[1], 0);
+    BMP_Clear((struct CharBuf *)t[1], 0);
     if (((struct Obj07635 *)p)->f7A != 0) {
-        func_0201C7D0((void *)t[1], 0, 0, text, (void *)(((struct Obj07635 *)p)->fB0), col);
-        func_020257D0((struct Obj *)t[0]);
+        PRINTSYS_PrintColor((void *)t[1], 0, 0, text, (void *)(((struct Obj07635 *)p)->fB0), col);
+        BMP_OAM_UploadChars((struct Obj *)t[0]);
         return;
     }
-    func_0201C724((void *)(((struct Obj07635 *)p)->fB4), t[1], 0, 0, (u32)text, ((struct Obj07635 *)p)->fB0, col);
+    PRINTSYS_PrintQueColor((void *)(((struct Obj07635 *)p)->fB4), t[1], 0, 0, (u32)text, ((struct Obj07635 *)p)->fB0, col);
     func_021F21B0(p, q, (int *)a4);
 }

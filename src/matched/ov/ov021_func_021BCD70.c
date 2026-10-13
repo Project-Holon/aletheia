@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD70
+ * function: FIELD_PLACE_NAME_StateFadeInWait
  * address:  0x021BCD70
  * packet:   pkt_ov021_021BCD70
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BCB9C  0x021BCB9C  thumb  ov021
+ *   FIELD_PLACE_NAME_SetState  0x021BCB9C  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -20,11 +20,11 @@ typedef struct {
     u16 h42;
 } Obj;
 
-extern void func_021BCB9C(void *p, int keep);
+extern void FIELD_PLACE_NAME_SetState(void *p, int keep);
 
-void func_021BCD70(Obj *p)
+void FIELD_PLACE_NAME_StateFadeInWait(Obj *p)
 {
     if (p->h42 > 10) {
-        func_021BCB9C(p, 4);
+        FIELD_PLACE_NAME_SetState(p, 4);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216BBC4
+ * function: FIELD_G3D_MAP_GetMissionTimeLimitHours
  * address: 0x0216BBC4
  * packet: pkt_ov010_0216BBC4
  * region: ov010
@@ -11,12 +11,12 @@
  * arithmetic: address and stride are unsigned 32-bit additions, preserving
  * the original MUL/ADD wrapping for every input bit pattern.
  * symbols:
- *   d_021723C2 0x021723C2 data a1
+ *   sMissionTimeLimitHours 0x021723C2 data a1
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern const u8 d_021723C2[];
-int func_0216BBC4(int index)
+extern const u8 sMissionTimeLimitHours[];
+int FIELD_G3D_MAP_GetMissionTimeLimitHours(int index)
 {
-    return *(const u8 *)((u32)d_021723C2 + (u32)index * 7u);
+    return *(const u8 *)((u32)sMissionTimeLimitHours + (u32)index * 7u);
 }

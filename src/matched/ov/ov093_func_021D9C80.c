@@ -1,5 +1,5 @@
 /*
- * function: func_021D9C80
+ * function: HAND_TOKUSEI_AddAngerPoint
  * address: 0x021D9C80
  * packet: pkt_ov093_021D9C80
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F0858 0x021F0858 data ov093 a4
  */
 
-int *func_021D9C80(int *p);
+int *HAND_TOKUSEI_AddAngerPoint(int *p);
 extern int d_021F0858[];
 
-int *func_021D9C80(int *p)
+int *HAND_TOKUSEI_AddAngerPoint(int *p)
 {
     *p = 1;
     return d_021F0858;

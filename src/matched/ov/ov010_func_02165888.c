@@ -1,5 +1,5 @@
 /*
- * function: func_02165888
+ * function: GAME_BEACON_ACCESSOR_TableAddNewLogs
  * address:  0x02165888
  * packet:   pkt_ov010_02165888
  * region:   ov010
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02165888 0x02165888 thumb
+ *   GAME_BEACON_ACCESSOR_TableAddNewLogs 0x02165888 thumb
  *   func_0203F4CC 0x0203F4CC arm
  *   GAME_BEACON_GetNextNewLogIndex 0x02026CA0 thumb
  *   GAME_BEACON_GetLog 0x02026C1C thumb
- *   func_02165960 0x02165960 thumb ov010
+ *   GAME_BEACON_ACCESSOR_TableAdd 0x02165960 thumb ov010
  *   GAME_BEACON_ClearNewFlag 0x02026CE0 thumb
  */
 
@@ -24,11 +24,11 @@ extern int GAME_BEACON_GetNextNewLogIndex(int *);
 extern void *GAME_BEACON_GetLog(int n);
 struct Queue;
 struct Rec;
-extern int func_02165960(struct Queue *q, struct Rec *rec, int tag, int mode);
+extern int GAME_BEACON_ACCESSOR_TableAdd(struct Queue *q, struct Rec *rec, int tag, int mode);
 typedef unsigned int   u32;
 extern void GAME_BEACON_ClearNewFlag(u32 n);
 
-int func_02165888(int a0)
+int GAME_BEACON_ACCESSOR_TableAddNewLogs(int a0)
 {
     int t[3];
     int cur;
@@ -46,7 +46,7 @@ int func_02165888(int a0)
         if (k == 0x1e) {
             break;
         }
-        r = func_02165960((struct Queue *)a0, (struct Rec *)((int)GAME_BEACON_GetLog(k)), h, 0);
+        r = GAME_BEACON_ACCESSOR_TableAdd((struct Queue *)a0, (struct Rec *)((int)GAME_BEACON_GetLog(k)), h, 0);
         if (r == 0x1e) {
             break;
         }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F4200
+ * function: GIMMICK38_EventPressSwitch
  * address:  0x021F4200
  * packet:   pkt_ov038_021F4200
  * region:   ov038
@@ -10,27 +10,27 @@
  * status:   EXACT
  * note:     the case-0 byte must be held in a u8 (or u16) local: an int local
  *           swaps the 0x0201210C result and the 0x021897BC pointer between r4
- *           and r5.  func_020124E4/func_0201210C are argless as in the twin
- *           ov045_func_021F39B8.  func_021BE700/func_021BE674 take their
+ *           and r5.  func_020124E4/GAMESYSTEM_GetFieldMap are argless as in the twin
+ *           ov045_func_021F39B8.  FLD_EXP_OBJ_SetAnimeEnabled/FLD_EXP_OBJ_GetAnime take their
  *           fourth argument as u16 (the caller truncates it before the bl).
- *           func_021BE674's third parameter must be `int` here, as for
- *           func_021BE700: its own file's `unsigned int j` brings the r4/r5
+ *           FLD_EXP_OBJ_GetAnime's third parameter must be `int` here, as for
+ *           FLD_EXP_OBJ_SetAnimeEnabled: its own file's `unsigned int j` brings the r4/r5
  *           swap back even with the u8 local.
  *
  * symbols:
  *   func_020124E4 0x020124E4 thumb
- *   func_0201210C 0x0201210C thumb
- *   func_02188D2C 0x02188D2C thumb ov021
- *   func_021897BC 0x021897BC thumb
- *   func_02188C80 0x02188C80 thumb
- *   func_020120F4 0x020120F4 thumb
- *   func_02012EC4 0x02012EC4 thumb
- *   func_0200B3A4 0x0200B3A4 thumb
- *   func_0200B3A8 0x0200B3A8 thumb
- *   func_021BE700 0x021BE700 thumb ov021
- *   func_021BE674 0x021BE674 thumb ov021
- *   func_021BE6B0 0x021BE6B0 thumb ov021
- *   func_021BE6BC 0x021BE6BC thumb ov021
+ *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
+ *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
+ *   FIELDMAP_GetCommonWork 0x021897BC thumb
+ *   FIELDMAP_GetGameSystem 0x02188C80 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
+ *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
+ *   GIMMICK_WORK_GetProgress 0x0200B3A8 thumb
+ *   FLD_EXP_OBJ_SetAnimeEnabled 0x021BE700 thumb ov021
+ *   FLD_EXP_OBJ_GetAnime 0x021BE674 thumb ov021
+ *   FLD_EXP_OBJ_SetAnimePaused 0x021BE6B0 thumb ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped 0x021BE6BC thumb ov021
  */
 
 typedef unsigned char u8;
@@ -40,24 +40,24 @@ typedef unsigned int u32;
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
-extern u32 func_02188C80(u8 *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern u32 FIELDMAP_GetGameSystem(u8 *p);
 struct Big;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 struct Rec94;
-extern u8 *func_0200B3A8(struct Rec94 *p, u32 a1);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void *func_021BE674(char *base, int i, int j, u16 k);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern int func_021BE6BC(int *p);
+extern u8 *GIMMICK_WORK_GetProgress(struct Rec94 *p, u32 a1);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, int j, u16 k);
+extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
+extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
 
-int func_021F4200(int a0, int *a1)
+int GIMMICK38_EventPressSwitch(int a0, int *a1)
 {
     void *sys;
     int h;
@@ -68,23 +68,23 @@ int func_021F4200(int a0, int *a1)
     int i;
     u8 c;
 
-    sys = func_0201210C(func_020124E4((void *)a0));
-    h = func_02188D2C(sys);
-    s = (u8 *)func_021897BC(sys, 1);
-    t = (unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80(sys)));
-    p = func_0200B3A4((struct Rec94 *)t, 6);
-    q = (short unsigned int *)func_0200B3A8((struct Rec94 *)t, 6);
+    sys = GAMESYSTEM_GetFieldMap(func_020124E4((void *)a0));
+    h = FIELDMAP_GetExpObj(sys);
+    s = (u8 *)FIELDMAP_GetCommonWork(sys, 1);
+    t = (unsigned int)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem(sys)));
+    p = GIMMICK_WORK_GetSaveArea((struct Rec94 *)t, 6);
+    q = (short unsigned int *)GIMMICK_WORK_GetProgress((struct Rec94 *)t, 6);
     switch (*a1) {
     case 0:
         c = *s;
         for (i = 0; i < 2; i++) {
-            func_021BE700((void *)h, 0, c, (u16)i, 1);
-            func_021BE6B0(func_021BE674((char *)h, 0, c, i), 0);
+            FLD_EXP_OBJ_SetAnimeEnabled((void *)h, 0, c, (u16)i, 1);
+            FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime((char *)h, 0, c, i), 0);
         }
         *a1 = *a1 + 1;
         break;
     case 1:
-        if (func_021BE6BC(func_021BE674((char *)h, 0, *s, 0))) {
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime((char *)h, 0, *s, 0))) {
             p[*s] = 1;
             q[*s] = 1;
             return 1;

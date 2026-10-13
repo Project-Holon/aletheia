@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EF894",
+   "name": "BTL_FIELD_GetCountdownCount",
    "address": "0x021EF894",
    "kind": "game",
    "region": "ov093",

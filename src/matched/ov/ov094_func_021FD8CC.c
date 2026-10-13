@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BUTTON_MAN_GetUserData  0x02051A34  arm
- *   func_0207BC08  0x0207BC08  arm
+ *   MTX_MultVec43  0x0207BC08  arm
  *   func_021FE1B8  0x021FE1B8  thumb  ov094
  *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *   d_020A1B38  0x020A1B38  data
@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef struct { int x, y, z; } VecFx32;
 extern const s16 d_020A1B38[];
 extern int BUTTON_MAN_GetUserData(void *p);
-extern void func_0207BC08(const VecFx32 *a, const void *b, VecFx32 *out);
+extern void MTX_MultVec43(const VecFx32 *a, const void *b, VecFx32 *out);
 extern void BUTTON_MAN_SetEmitterPos(void *p, const VecFx32 *v);
 extern void func_021FE1B8(VecFx32 *v, const VecFx32 *ofs);
 #define MUL(a,b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
@@ -73,7 +73,7 @@ void func_021FD8CC(void *p, int active)
         v.y = MUL(v.y, s[13]);
         v.z = 0;
     }
-    func_0207BC08(&v, s, &v);
+    MTX_MultVec43(&v, s, &v);
     if (s[23] != 0)
         func_021FE1B8(&v, 0);
     BUTTON_MAN_SetEmitterPos(p, &v);

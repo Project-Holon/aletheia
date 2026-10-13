@@ -10,19 +10,19 @@
  * status: EXACT
  * extent: existing follower ov011_func_021744D0.c stays separate.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 low : 4; u8 flags : 2; u8 high : 2; } F93F;
 struct Entry;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-u32 func_0203D1A4(struct Link *p);
+u32 GFL_NET_GetHandleNetID(struct Link *p);
 void INTRUDE_COMM_RecvPeerFlags(int a, int b, u8 *c, u8 *p)
 {
-    if (a != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
+    if (a != GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()))) {
         ((F93F *)(p + 0x93f))->flags |= *c;
     }
 }

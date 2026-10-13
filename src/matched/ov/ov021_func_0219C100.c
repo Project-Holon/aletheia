@@ -1,5 +1,5 @@
 /*
- * function: func_0219C100
+ * function: FLDMMDL_MOVE_InitWallWalkMode2Hand0
  * address: 0x0219C100
  * packet: pkt_ov021_0219C100
  * region: ov021
@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov021/unit_0219B508.c and filed here.
  *
  * symbols:
- *   func_0219C0D4 0x0219C0D4 thumb
+ *   FLDMMDL_MOVE_InitWallWalk 0x0219C0D4 thumb
  */
 
 typedef unsigned int   u32;
-void func_0219C0D4();
-void func_0219C100(u32 a);
+void FLDMMDL_MOVE_InitWallWalk();
+void FLDMMDL_MOVE_InitWallWalkMode2Hand0(u32 a);
 
-void func_0219C100(u32 a) { func_0219C0D4(a, 2, 0); }
+void FLDMMDL_MOVE_InitWallWalkMode2Hand0(u32 a) { FLDMMDL_MOVE_InitWallWalk(a, 2, 0); }

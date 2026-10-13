@@ -12,7 +12,7 @@
  *   func_021E16AC 0x021E16AC thumb ov137
  *   func_021E1768 0x021E1768 thumb ov137
  *   func_021DEB10 0x021DEB10 thumb ov137
- *   func_02184180 0x02184180 thumb ov022
+ *   UNION_APP_GetMemberEntry 0x02184180 thumb ov022
  *   func_021DEF6C 0x021DEF6C thumb ov137
  *   func_021E0304 0x021E0304 thumb ov137
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
@@ -28,7 +28,7 @@ extern const u16 d_021E1FA0[][5];
 extern u8 *func_021E16AC(void *, int);
 extern int func_021E1768(char *, int);
 extern void *func_021DEB10(char *p);
-extern char *func_02184180(unsigned char *p, int i);
+extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
 extern void func_02008500(void *, void *);
 extern void func_021DEF6C(void *);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
@@ -45,7 +45,7 @@ int func_021DEDAC(Obj *obj)
     ((struct Obj08215 *)q)->f4 = d_021E1FA0[count][((struct Obj02869 *)p)->f2C];
     for (i = 0; i < 5; i++) {
         if (func_021E1768((char *)p, i)) {
-            obj->slots[i] = func_02184180(func_021DEB10((char *)p), (u8)i);
+            obj->slots[i] = UNION_APP_GetMemberEntry(func_021DEB10((char *)p), (u8)i);
             func_02008500(obj->slots[i], obj->other[i]);
         }
     }

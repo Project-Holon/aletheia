@@ -11,7 +11,7 @@
  * Extent remainder: two-byte zero alignment padding.
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj10279.h"
 typedef unsigned char u8;
@@ -21,10 +21,10 @@ typedef short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void func_021BD248(u8 *p)
 {
     func_0204B3DC(((struct Obj10279 *)p)->f28,1);
-    func_0204B878(((struct Obj10279 *)p)->f28,1);
+    CLACT_SetActorAnimSeq(((struct Obj10279 *)p)->f28,1);
     ((struct Obj10279 *)p)->f2C=0;
 }

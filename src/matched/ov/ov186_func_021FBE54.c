@@ -11,16 +11,16 @@
  *
  * Builds the three sprite handles of the 12-byte entry `idx` (at base+8+idx*12)
  * from the per-index asset category: one resource set opened on the caller's
- * heap, then func_0204A6C8 / func_0204AF28 (or ENV_SetResourceSet for the
+ * heap, then CLACT_RegisterCharacter / CLACT_RegisterCellAnim (or ENV_SetResourceSet for the
  * 0x11/0x12 cases, which fill the +8 field instead), then the set closed.
  * symbols:
  *   d_02200D48       0x02200D48  data
  *   func_02034714    0x02034714  arm
  *   func_020490F4    0x020490F4  arm
- *   func_0204A6C8    0x0204A6C8  arm
- *   func_0204AC18    0x0204AC18  arm
- *   func_0204AF28    0x0204AF28  arm
- *   func_02049238    0x02049238  arm
+ *   CLACT_RegisterCharacter    0x0204A6C8  arm
+ *   CLACT_RegisterPaletteEx    0x0204AC18  arm
+ *   CLACT_RegisterCellAnim    0x0204AF28  arm
+ *   ARC_TOOL_DeleteHandle    0x02049238  arm
  */
 #include "../include/Obj02235.h"
 
@@ -30,10 +30,10 @@ extern char d_02200D48[];
 typedef signed int     s32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_0204A6C8(void *h, u32 a1, u32 a2, u32 a3, u32 s0);
-extern u32 func_0204AC18(void *h, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *h);
+extern u32 CLACT_RegisterCharacter(void *h, u32 a1, u32 a2, u32 a3, u32 s0);
+extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *h);
 
 void func_021FBE54(char *base, u32 idx, u32 area)
 {
@@ -49,113 +49,113 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     case 4: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f0;
-        r4[1] = func_0204A6C8(h, 0x24, 0, 0, area);
-        r4[0] = (u32)func_0204AF28(h, 0x15, 0x14, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x24, 0, 0, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x15, 0x14, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 5: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f4;
-        r4[1] = func_0204A6C8(h, 0x24, 0, 1, area);
-        r4[0] = (u32)func_0204AF28(h, 0x15, 0x14, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x24, 0, 1, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x15, 0x14, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 0: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f0;
-        r4[1] = func_0204A6C8(h, 0x22, 0, 0, area);
-        r4[0] = (u32)func_0204AF28(h, 9, 0xa, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x22, 0, 0, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 9, 0xa, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 1: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f4;
-        r4[1] = func_0204A6C8(h, 0x22, 0, 1, area);
-        r4[0] = (u32)func_0204AF28(h, 9, 0xa, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x22, 0, 1, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 9, 0xa, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 2: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f0;
-        r4[1] = func_0204A6C8(h, 0x3f, 0, 0, area);
-        r4[0] = (u32)func_0204AF28(h, 0x3d, 0x3e, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x3f, 0, 0, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x3d, 0x3e, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 3: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f4;
-        r4[1] = func_0204A6C8(h, 0x3f, 0, 1, area);
-        r4[0] = (u32)func_0204AF28(h, 0x3d, 0x3e, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x3f, 0, 1, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x3d, 0x3e, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 6: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f4;
-        r4[1] = func_0204A6C8(h, 0x23, 0, 1, area);
-        r4[0] = (u32)func_0204AF28(h, 7, 8, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x23, 0, 1, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 7, 8, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 8: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f4;
-        r4[1] = func_0204A6C8(h, 0x56, 0, 1, area);
-        r4[0] = (u32)func_0204AF28(h, 0x55, 0x54, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x56, 0, 1, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x55, 0x54, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 7: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f0;
-        r4[1] = func_0204A6C8(h, 0x56, 0, 0, area);
-        r4[0] = (u32)func_0204AF28(h, 0x55, 0x54, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x56, 0, 0, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x55, 0x54, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 11: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = func_0204AC18(h, 0x13, 1, 0x80, 0, 1, area);
-        r4[1] = func_0204A6C8(h, 0xf, 0, 1, area);
-        r4[0] = (u32)func_0204AF28(h, 0x10, 0x11, area);
-        func_02049238(h);
+        r4[2] = CLACT_RegisterPaletteEx(h, 0x13, 1, 0x80, 0, 1, area);
+        r4[1] = CLACT_RegisterCharacter(h, 0xf, 0, 1, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x10, 0x11, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 12: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = func_0204AC18(h, 0x33, 1, 0xa0, 0, 1, area);
-        r4[1] = func_0204A6C8(h, 0x32, 0, 1, area);
-        r4[0] = (u32)func_0204AF28(h, 0x30, 0x31, area);
-        func_02049238(h);
+        r4[2] = CLACT_RegisterPaletteEx(h, 0x33, 1, 0xa0, 0, 1, area);
+        r4[1] = CLACT_RegisterCharacter(h, 0x32, 0, 1, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x30, 0x31, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 9: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f0;
-        r4[1] = func_0204A6C8(h, 0x36, 0, 0, area);
-        r4[0] = (u32)func_0204AF28(h, 0x34, 0x35, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x36, 0, 0, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x34, 0x35, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 10: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f4;
-        r4[1] = func_0204A6C8(h, 0x36, 0, 1, area);
-        r4[0] = (u32)func_0204AF28(h, 0x34, 0x35, area);
-        func_02049238(h);
+        r4[1] = CLACT_RegisterCharacter(h, 0x36, 0, 1, area);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x34, 0x35, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     case 13: {
         void *h = func_020490F4(0x89, area);
         r4[2] = ((struct Obj02235 *)base)->f0;
-        r4[0] = (u32)func_0204AF28(h, 0x29, 0x2a, area);
-        r4[1] = func_0204A6C8(h, 0x25, 0, 0, area);
-        func_02049238(h);
+        r4[0] = (u32)CLACT_RegisterCellAnim(h, 0x29, 0x2a, area);
+        r4[1] = CLACT_RegisterCharacter(h, 0x25, 0, 0, area);
+        ARC_TOOL_DeleteHandle(h);
         break;
     }
     default:

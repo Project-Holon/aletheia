@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C602C",
+   "name": "FISHING_StartRodEffect",
    "address": "0x021C602C",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_0217F1E8
+ * function: INTRUDE_SUBDISP_IsInfoActive
  * address: 0x0217F1E8
  * packet: pkt_ov018_0217F1E8
  * region: ov018
@@ -10,18 +10,18 @@
  * status: EXACT*
  * extent: Two bytes of alignment padding at 0x0217F212.
  * symbols:
- *   func_020120F4 0x020120F4 thumb
- *   func_02012B70 0x02012B70 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetIntrudeCount 0x02012B70 thumb
  */
 #include "../include/Obj00092.h"
 typedef unsigned char u8;
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_02012B70(const struct BigObj *p);
-int func_0217F1E8(u8 *p)
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
+int INTRUDE_SUBDISP_IsInfoActive(u8 *p)
 {
-    if (func_02012B70(func_020120F4(((struct Obj00092 *)p)->f0)) == 1) {
+    if (GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(((struct Obj00092 *)p)->f0)) == 1) {
         switch (((struct Obj00092 *)p)->fDC) {
         case 2: case 3: case 4: return 1;
         }

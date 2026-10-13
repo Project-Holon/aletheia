@@ -14,7 +14,7 @@
  *   func_02034714  0x02034714  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_SYSTEM_SetDebugByte  0x02037224  arm
  */
 
@@ -26,14 +26,14 @@ extern const u8 str_020A7A50[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 GFL_NET_GetChildSendSize(void);
 extern u32 GFL_NET_GetMaxConnectNum(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void GFL_NET_SYSTEM_SetDebugByte(u8 v, int b);
 
 int GFL_NET_SYSTEM_SendEndCallback(u32 a)
 {
     GFL_NET_GetChildSendSize();
     GFL_NET_GetMaxConnectNum();
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (a != 0) {
         GFL_NET_SYSTEM_SetDebugByte(4, 0x5d4);
     } else {

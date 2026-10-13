@@ -1,5 +1,5 @@
 /*
- * function: func_021CCF54
+ * function: PARTY_SELECT_LIST_GetMenuResult
  * address:  0x021CCF54
  * packet:   pkt_021CCF54
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call on the word at +0xac.
  *
  * symbols:
- *   func_021909E4  0x021909E4  thumb  ov021
+ *   FIELD_MSGBG_MenuFuncMain  0x021909E4  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Handle;
-extern int func_021909E4(struct Handle *h);
+extern int FIELD_MSGBG_MenuFuncMain(struct Handle *h);
 
-u32 func_021CCF54(u8 *p)
+u32 PARTY_SELECT_LIST_GetMenuResult(u8 *p)
 {
-    return func_021909E4((struct Handle *)(((struct Obj18358 *)p)->fAC));
+    return FIELD_MSGBG_MenuFuncMain((struct Handle *)(((struct Obj18358 *)p)->fAC));
 }

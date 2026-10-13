@@ -1,5 +1,5 @@
 /*
- * function: func_0218BA04
+ * function: FIELD_BUILDMODEL_RegisterObject
  * address:  0x0218BA04
  * packet:   pkt_ov021_0218BA04
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218BBD0  0x0218BBD0  thumb  ov021
- *   func_0218C4A0  0x0218C4A0  thumb  ov021
+ *   FIELD_BUILDMODEL_GetModelIndex  0x0218BBD0  thumb  ov021
+ *   FIELD_BUILDMODEL_AddEntry  0x0218C4A0  thumb  ov021
  */
 
 /*
@@ -35,8 +35,8 @@ typedef struct {
     unsigned short w;
 } Args;
 
-int func_0218BBD0(void *p, unsigned int i);
-void func_0218C4A0(void *p, int a, Args *args, int d);
+int FIELD_BUILDMODEL_GetModelIndex(void *p, unsigned int i);
+void FIELD_BUILDMODEL_AddEntry(void *p, int a, Args *args, int d);
 
 static inline void Args_SetPos(Args *v, int x, int y, int z)
 {
@@ -45,11 +45,11 @@ static inline void Args_SetPos(Args *v, int x, int y, int z)
     v->z = z;
 }
 
-void func_0218BA04(void *p, int a, const Src *s, int d)
+void FIELD_BUILDMODEL_RegisterObject(void *p, int a, const Src *s, int d)
 {
     Args args;
-    args.k = func_0218BBD0(p, (unsigned short)(s->lo + (s->hi << 8)));
+    args.k = FIELD_BUILDMODEL_GetModelIndex(p, (unsigned short)(s->lo + (s->hi << 8)));
     Args_SetPos(&args, s->x, s->y, -s->z);
     args.w = s->w;
-    func_0218C4A0(p, a, &args, d);
+    FIELD_BUILDMODEL_AddEntry(p, a, &args, d);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D600
+ * function: FLDMMDL_SetDirMove
  * address:  0x0216D600
  * packet:   pkt_0216D600
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D600(int a0, u16 a1)
+int FLDMMDL_SetDirMove(int a0, u16 a1)
 {
     int a2;
 

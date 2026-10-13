@@ -1,5 +1,5 @@
 /*
- * function: func_02190D2C
+ * function: FIELD_MSGBG_CreateMsgStream
  * address:  0x02190D2C
  * packet:   pkt_ov021_02190D2C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02190C94  0x02190C94  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgStreamColor  0x02190C94  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern u32 *func_02190C94(u32 *a, u32 b, u32 c, u32 d, u16 e0, u32 f, u16 g);
+extern u32 *FIELD_MSGBG_CreateMsgStreamColor(u32 *a, u32 b, u32 c, u32 d, u16 e0, u32 f, u16 g);
 
-u32 *func_02190D2C(u32 *a, u32 b, u32 c, u32 d, u16 e, u32 f)
+u32 *FIELD_MSGBG_CreateMsgStream(u32 *a, u32 b, u32 c, u32 d, u16 e, u32 f)
 {
-    return func_02190C94(a, b, c, d, e, f, 0xF);
+    return FIELD_MSGBG_CreateMsgStreamColor(a, b, c, d, e, f, 0xF);
 }

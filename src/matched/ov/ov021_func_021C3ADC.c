@@ -1,5 +1,5 @@
 /*
- * function: func_021C3ADC
+ * function: SODATEYA_RollVolbeatSpecies
  * address:  0x021C3ADC
  * packet:   pkt_ov021_021C3ADC
  * region:   ov021
@@ -12,18 +12,19 @@
  * Volbeat / Illumise: offspring species is a coin flip of the two.
  *
  * symbols:
- *   func_021C3BB0  0x021C3BB0  thumb  ov021
+ *   SODATEYA_GetSpeciesParent  0x021C3BB0  thumb  ov021
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  */
 
 typedef unsigned int u32;
 
-extern int func_021C3BB0(u32 a);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern int SODATEYA_GetSpeciesParent(u32 a);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern u32 func_02005728(u32 v);
 
-void func_021C3ADC(void *a, u32 *out)
+void SODATEYA_RollVolbeatSpecies(void *a, u32 *out)
 {
-    u32 sp = func_02017E1C((void *)func_021C3BB0((u32)a), 5, 0);
+    u32 sp = POKE_TOOL_GetPartyValue((void *)SODATEYA_GetSpeciesParent((u32)a), 5, 0);
 
     if (sp == 0x139 || sp == 0x13A) {
         if (func_02005728(2) == 0)

@@ -11,8 +11,8 @@
  * symbols:
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
- *   func_021D6740  0x021D6740  thumb  ov093
- *   func_0201134C  0x0201134C  thumb
+ *   BTL_POKEPARAM_GetConsumedItem  0x021D6740  thumb  ov093
+ *   VM_GetU32  0x0201134C  thumb
  */
 #include "../include/Obj13663.h"
 
@@ -24,18 +24,18 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 struct QK;
-extern u16 func_021D6740(struct QK *p);
+extern u16 BTL_POKEPARAM_GetConsumedItem(struct QK *p);
 
 int func_021894D4(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
-    t = func_021D6740((struct QK *)func_0218A2FC((u8 *)b, s));
+    t = BTL_POKEPARAM_GetConsumedItem((struct QK *)func_0218A2FC((u8 *)b, s));
     ((struct Obj13663 *)b)->f38 = t;
     return ((struct Obj13663 *)b)->fC4;
 }

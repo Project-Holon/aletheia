@@ -12,8 +12,8 @@
  * note: Cleared BABB8 follower occupies 60 bytes through BABF4. The pools
  * at BABEC/BABF0 point to the two fields of the same byte-pair table.
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_021B6284 0x021B6284 thumb ov067
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   UI_SCENE_FreeActorGfx 0x021B6284 thumb ov067
  *   d_021BB4C4 0x021BB4C4 data a1
  */
 #include "../include/Obj08422.h"
@@ -21,12 +21,12 @@ typedef unsigned char u8;
 typedef struct {u8 a,b;} Pair;
 extern const Pair d_021BB4C4[];
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_021B6284(unsigned int *p);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void UI_SCENE_FreeActorGfx(unsigned int *p);
 void func_021BABA4(void*p,void*actor)
 {
-    func_0204B3B4(actor);
-    func_021B6284(p);
+    CLACT_DeleteActor(actor);
+    UI_SCENE_FreeActorGfx(p);
 }
 void func_021BABB8(int unused,char*p)
 {

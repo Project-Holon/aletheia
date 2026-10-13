@@ -1,5 +1,5 @@
 /*
- * function: func_021DA868
+ * function: BTL_ABILITY_HeatproofHalveBurnDamage
  * address:  0x021DA868
  * packet:   pkt_ov093_021DA868
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C   0x021D775C  thumb ov093
- *   func_021D7B08   0x021D7B08  thumb ov093
- *   func_021D76BC   0x021D76BC  thumb ov093
+ *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
+ *   BTL_CALC_Max   0x021D7B08  thumb ov093
+ *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb ov093
  */
 
 typedef unsigned char u8;
@@ -22,18 +22,18 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern int func_021D775C(int a);
-extern int func_021D7B08(int a, int b);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_GetVar(int a);
+extern int BTL_CALC_Max(int a, int b);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021DA868(int a, int b, int c)
+void BTL_ABILITY_HeatproofHalveBurnDamage(int a, int b, int c)
 {
     int t;
 
-    if (c != func_021D775C(2))
+    if (c != BTL_EVENT_GetVar(2))
         return;
-    if (func_021D775C(0x1d) != 4)
+    if (BTL_EVENT_GetVar(0x1d) != 4)
         return;
-    t = func_021D775C(0x32);
-    func_021D76BC(0x32, func_021D7B08(t / 2, 1));
+    t = BTL_EVENT_GetVar(0x32);
+    BTL_EVENT_OverwriteVar(0x32, BTL_CALC_Max(t / 2, 1));
 }

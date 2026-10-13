@@ -1,5 +1,5 @@
 /*
- * function: func_021A30BC
+ * function: FIELD_PLAYER_GetGameSystem
  * address:  0x021A30BC
  * packet:   pkt_021A2F48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A3990  0x021A3990  thumb
+ *   FIELD_PLAYER_CORE_GetGameSystem  0x021A3990  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A3990(u8 *p);
+extern u32 FIELD_PLAYER_CORE_GetGameSystem(u8 *p);
 
-int func_021A30BC(u8 *p)
+int FIELD_PLAYER_GetGameSystem(u8 *p)
 {
-    return func_021A3990((u8 *)(((struct Obj18018 *)p)->f4));
+    return FIELD_PLAYER_CORE_GetGameSystem((u8 *)(((struct Obj18018 *)p)->f4));
 }

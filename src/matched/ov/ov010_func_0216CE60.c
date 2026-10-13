@@ -1,5 +1,5 @@
 /*
- * function: func_0216CE60
+ * function: FLDMMDL_AddMmdl
  * address:  0x0216CE60
  * packet:   pkt_0216CE60
  * region:   ov010
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0216CDC4  0x0216CDC4  thumb
+ *   FLDMMDL_AddMmdlCore  0x0216CDC4  thumb
  */
 
-void func_0216CDC4(int a, int b, int c, int d);
+void FLDMMDL_AddMmdlCore(int a, int b, int c, int d);
 
-void func_0216CE60(int a, int b, int c)
+void FLDMMDL_AddMmdl(int a, int b, int c)
 {
-    func_0216CDC4(a, b, c, 0);
+    FLDMMDL_AddMmdlCore(a, b, c, 0);
 }

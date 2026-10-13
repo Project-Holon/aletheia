@@ -9,21 +9,23 @@
  * status: EXACT*
  * symbols:
  *   func_021B9CBC 0x021B9CBC thumb ov110
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  */
 #include "../include/Obj10265.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
-extern u32 func_020221A4(void);
+extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void func_021B9CBC(u8 *);
 void func_021BA150(int unused, u8 *p) {
     switch (((struct Obj10265 *)p)->f14) {
     case 0:
-        func_0202208C(0, 1, 1, 0, 5, 1, 42);
+        WIPE_SYS_Start(0, 1, 1, 0, 5, 1, 42);
         ++((struct Obj10265 *)p)->f14;
         break;
     case 1:
-        if (func_020221A4()) ++((struct Obj10265 *)p)->f14;
+        if (WIPE_SYS_EndCheck()) ++((struct Obj10265 *)p)->f14;
         break;
     default:
         func_021B9CBC(p);

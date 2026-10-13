@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E48
+ * function: FIELD_TASK_MANAGER_IsEmpty
  * address:  0x021C6E48
  * packet:   pkt_021C6E48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021C6E20  0x021C6E20  thumb  ov021
+ *   FIELD_TASK_MANAGER_CountUsedSlots  0x021C6E20  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021C6E20(u32, u32, u32, u32);
+extern u32 FIELD_TASK_MANAGER_CountUsedSlots(u32, u32, u32, u32);
 
-int func_021C6E48(u32 a, u32 b, u32 c, u32 d)
+int FIELD_TASK_MANAGER_IsEmpty(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021C6E20(a, b, c, d) == 0) {
+if (FIELD_TASK_MANAGER_CountUsedSlots(a, b, c, d) == 0) {
     return 1;
 }
 return 0;

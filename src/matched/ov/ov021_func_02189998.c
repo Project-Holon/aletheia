@@ -1,5 +1,5 @@
 /*
- * function: func_02189998
+ * function: FIELDMAP_Draw3dParticle
  * address:  0x02189998
  * packet:   pkt_ov021_02189998
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207DD24  0x0207DD24  arm
- *   func_021C1AEC  0x021C1AEC  thumb  ov021
- *   func_021C1C4C  0x021C1C4C  thumb  ov021
+ *   G3X_SetClearColor  0x0207DD24  arm
+ *   FLD_PARTICLE_Exit  0x021C1AEC  thumb  ov021
+ *   FLD3D_CI_DrawEffect  0x021C1C4C  thumb  ov021
  */
 #include "../include/Obj19499.h"
 
 typedef unsigned short u16;
-void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
-void func_021C1AEC(void);
-void func_021C1C4C(char *p);
+void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
+void FLD_PARTICLE_Exit(void);
+void FLD3D_CI_DrawEffect(char *p);
 
-void func_02189998(unsigned char *p)
+void FIELDMAP_Draw3dParticle(unsigned char *p)
 {
-    func_0207DD24(0, 0, 0x7FFF, 0, 0);
-    func_021C1AEC();
-    func_021C1C4C((char *)(((struct Obj19499 *)p)->f124));
+    G3X_SetClearColor(0, 0, 0x7FFF, 0, 0);
+    FLD_PARTICLE_Exit();
+    FLD3D_CI_DrawEffect((char *)(((struct Obj19499 *)p)->f124));
 }

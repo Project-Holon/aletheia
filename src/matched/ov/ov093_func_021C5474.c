@@ -1,5 +1,5 @@
 /*
- * function: func_021C5474
+ * function: BTL_SERVER_FLOW_ClearPendingCounter
  * address:  0x021C5474
  * packet:   pkt_021C5474
  * region:   ov093
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj21097.h"
 
-void *func_021C5474(char *p)
+void *BTL_SERVER_FLOW_ClearPendingCounter(char *p)
 {
     ((struct Obj21097 *)p)->f220 = 0;
     return p;

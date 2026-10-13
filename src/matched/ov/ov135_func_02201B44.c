@@ -17,8 +17,8 @@
  *   func_02009DE8 0x02009DE8 thumb
  *   func_020307B0 0x020307B0 arm
  *   memset 0x02082BCC arm
- *   func_02008494 0x02008494 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   MYSTATUS_Copy 0x02008494 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202EB7C 0x0202EB7C thumb
  */
 #include "../include/Obj06521.h"
@@ -51,8 +51,8 @@ extern void *func_02009EC8(void *);
 extern void func_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 extern u32 func_020307B0(void *p);
 extern void *memset(void *, int, u32);
-extern void func_02008494(void *src, void *dst);
-extern u32 func_02017E1C(void *, u32, u32);
+extern void MYSTATUS_Copy(void *src, void *dst);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u32 func_0202EB7C(u32 a0, u32 a1);
 void func_02201B44(u8 *p, void *mon, u8 *r, void *old)
 {
@@ -66,11 +66,11 @@ void func_02201B44(u8 *p, void *mon, u8 *r, void *old)
     func_020307B0(copy);
     copy = func_021F72C4(r);
     memset(&rec, 0, sizeof(rec));
-    func_02008494(copy, &rec);
-    if (old != 0) species = func_02017E1C(old, 5, 0);
+    MYSTATUS_Copy(copy, &rec);
+    if (old != 0) species = POKE_TOOL_GetPartyValue(old, 5, 0);
     else species = ((struct Obj06521 *)r)->fEC;
     rec.old_species = species;
-    rec.new_species = func_02017E1C(mon, 5, 0);
+    rec.new_species = POKE_TOOL_GetPartyValue(mon, 5, 0);
     rec.x = ((struct Obj06521 *)r)->f126;
     rec.flags = (rec.flags & ~7) | (((struct Obj06521 *)r)->fF7 & 7);
     rec.y = ((struct Obj06521 *)r)->f127;

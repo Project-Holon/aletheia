@@ -1,5 +1,5 @@
 /*
- * function: func_021A2D04
+ * function: WEATHER_TASK_ApplyFogChange
  * address:  0x021A2D04
  * packet:   pkt_ov021_021A2D04
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A0224  0x021A0224  thumb  ov021
+ *   FIELD_FOG_FADE_InitEx  0x021A0224  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -28,9 +28,9 @@ typedef struct {
 } Obj021A2D04;
 
 typedef unsigned short u16;
-void func_021A0224(u8 *p, u32 a, u32 b, u32 c, u32 d, u16 e);
+void FIELD_FOG_FADE_InitEx(u8 *p, u32 a, u32 b, u32 c, u32 d, u16 e);
 
-void func_021A2D04(Obj021A2D04 *p)
+void WEATHER_TASK_ApplyFogChange(Obj021A2D04 *p)
 {
-    func_021A0224((u8 *)p->handle, 0x7FDF, p->value, p->mode, p->mode, p->half);
+    FIELD_FOG_FADE_InitEx((u8 *)p->handle, 0x7FDF, p->value, p->mode, p->mode, p->half);
 }

@@ -14,6 +14,7 @@
  * symbols:
  *   func_021BF6BC  0x021BF6BC  thumb  ov217
  *   PALANM_TransferPalettes  0x02021D50  thumb  arm9
+ *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -28,11 +29,11 @@ typedef signed int     s32;
 
 extern u32 PALANM_TransferPalettes();
 extern u32 func_020419E4();
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 u32 func_021BF6BC(u32 a0, u32 a1)
 {
     func_020419E4();
-    func_0204A648();
+    CLACT_VBlankSystem();
     return PALANM_TransferPalettes(((struct Obj25930 *)(((u8*)a1)))->f3B8);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021A0C60
+ * function: FIELD_LIGHT_FADE_InitHold
  * address:  0x021A0C60
  * packet:   pkt_ov021_021A0C60
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-void func_021A0C60(u16 *p, u16 a, u16 b)
+void FIELD_LIGHT_FADE_InitHold(u16 *p, u16 a, u16 b)
 {
     p[0] = 1;
     p[1] = a;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5BB0
+ * function: BTL_POKEPARAM_TestTurnFlag
  * address:  0x021D5BB0
  * packet:   pkt_ov093_021D5BB0
  * region:   ov093
@@ -45,7 +45,7 @@ struct UtilWork {
     u8 f157[5];
 };
 
-int func_021D5BB0(struct UtilWork *p, u32 n)
+int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n)
 {
     return (p->bits153[(u8)(n >> 3)] & (u8)(1 << (n & 7))) ? 1 : 0;
 }

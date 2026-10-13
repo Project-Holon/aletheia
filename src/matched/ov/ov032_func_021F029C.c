@@ -1,5 +1,5 @@
 /*
- * function: func_021F029C
+ * function: BEACON_VIEW_SetPrintQueueLimit
  * address: 0x021F029C
  * packet: pkt_ov032_021F029C
  * region: ov032
@@ -15,4 +15,4 @@
 typedef unsigned int   u32;
 struct PrintSys;
 extern void PRINTSYS_QUE_SetLimitTick(struct PrintSys *p, u32 lo, u32 hi);
-void func_021F029C(char *p,int flag) { if(flag) PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(((struct Obj00007 *)p)->fB4),2000,0); else PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(((struct Obj00007 *)p)->fB4),500,0); }
+void BEACON_VIEW_SetPrintQueueLimit(char *p,int flag) { if(flag) PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(((struct Obj00007 *)p)->fB4),2000,0); else PRINTSYS_QUE_SetLimitTick((struct PrintSys *)(((struct Obj00007 *)p)->fB4),500,0); }

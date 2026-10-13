@@ -12,6 +12,8 @@
   *
  * symbols:
  *   tbl_02202C58  0x02202C58  data  a4
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
  */
 
 typedef signed char s8;
@@ -22,14 +24,14 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern const u32 tbl_02202C58[];
 
 u32 func_021F6BC4(void *sav)
 {
-    u32 f = func_02017DBC(sav);
+    u32 f = POKE_TOOL_DecodeBoxParam(sav);
     u32 i;
     u32 r;
 
@@ -39,6 +41,6 @@ u32 func_021F6BC4(void *sav)
             break;
         }
     }
-    func_02017DE4(sav, f);
+    POKE_TOOL_EncodeBoxParam(sav, f);
     return r;
 }

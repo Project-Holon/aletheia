@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  * Addresses are Black-image addresses.
  */
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021BF358(int p, int i)
 {
@@ -23,7 +23,7 @@ void func_021BF358(int p, int i)
     int *q = (int *)(p + 0x28);
 
     if (*(int *)((int)q + o) != 0) {
-        func_0204B3B4((struct Obj *)(*(int *)((int)q + o)));
+        CLACT_DeleteActor((struct Obj *)(*(int *)((int)q + o)));
         *(int *)((int)q + o) = 0;
     }
 }

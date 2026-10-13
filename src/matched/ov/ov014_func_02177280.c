@@ -12,7 +12,7 @@
  *   g_pWhPipeWork     0x021797A4  data   a4
  *   sFileNetWhPipe     0x02179780  data   a1
  *   func_02030734  0x02030734  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0208F1B4  0x0208F1B4  arm
  *   func_021790E4  0x021790E4  thumb  ov014
  *   func_02178E1C  0x02178E1C  thumb  ov014
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 extern struct W *g_pWhPipeWork;
 extern char sFileNetWhPipe[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u16 func_0208F1B4(void);
 extern int func_021790E4(u32 heap, int a, int b);
 extern void func_02178E1C(u32 v);
@@ -38,8 +38,8 @@ int func_02177280(int a, int b, u32 c, int d)
     u8 *st;
     u8 *w;
 
-    func_0203D798();
-    st = func_0203D798();
+    GFL_NET_GetInitParam();
+    st = GFL_NET_GetInitParam();
     if (((u8 *)g_pWhPipeWork) != 0)
         return 0;
     w = func_02030734(a, 0xCF8, 1, sFileNetWhPipe, 0xed);

@@ -1,5 +1,5 @@
 /*
- * function: func_020255A0
+ * function: BMP_OAM_Create
  * address:  0x020255A0
  * packet:   pkt_020255A0
  * region:   arm9
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
  *   CLACT_RegisterEmptyCharacter  0x0204A7A0  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B6F4  0x0204B6F4  arm
- *   func_0204BA20  0x0204BA20  arm
+ *   CLACT_SetActorVisible  0x0204BA20  arm
  *   BMP_OAM_AcquireModeSlot  0x02025A9C  thumb
  *   gModeTable     0x0209F87C  data
  *   g_020A7494     0x020A7494  data
@@ -90,16 +90,16 @@ extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 
 struct Actor;
 struct Bmp;
 struct Obj;
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern s32 CLACT_RegisterEmptyCharacter(u32 size, u32 a2, u16 heapId);
 extern u32 BMP_OAM_AcquireModeSlot(struct Obj *obj, u32 engine, u32 arg);
-extern struct Obj *func_0204B294(void *a, u32 res, u32 c, u32 d, const void *pt,
+extern struct Obj *CLACT_CreateActor(void *a, u32 res, u32 c, u32 d, const void *pt,
                            u16 f, u16 g);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_0204BA20(struct Actor *a, u32 v);
+extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
-struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
+struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param)
 {
     struct Point pt;
     u32 mode;
@@ -124,12 +124,12 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
 
     g = func_02030734(sys->f4, 0xcc, 1, (const char *)g_020A7494, 0xa3);
     g->bmp = param->bmp;
-    cols = (u8)(func_020437DC(g->bmp) >> 5);
-    rows = (u8)(func_020437E4(param->bmp) >> 4);
-    if ((s32)func_020437DC(param->bmp) % 32 != 0) {
+    cols = (u8)(BMP_GetWidth(g->bmp) >> 5);
+    rows = (u8)(BMP_GetHeight(param->bmp) >> 4);
+    if ((s32)BMP_GetWidth(param->bmp) % 32 != 0) {
         cols = (u8)(cols + 1);
     }
-    if ((s32)func_020437E4(param->bmp) % 16 != 0) {
+    if ((s32)BMP_GetHeight(param->bmp) % 16 != 0) {
         rows = (u8)(rows + 1);
     }
     g->cols = cols;
@@ -152,14 +152,14 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
             pt.f6 = param->f10;
             pt.f7 = param->f11;
             {
-                void *act = func_0204B294((void *)sys->f0, (u32)((struct Obj06909 *)cell)->f68,
+                void *act = CLACT_CreateActor((void *)sys->f0, (u32)((struct Obj06909 *)cell)->f68,
                                           f8, sys->slot[mode], &pt,
                                           param->f12, sys->f4);
                 u32 fc = (u8)param->fc;
                 ((struct Obj06909 *)cell)->f4 = act;
                 func_0204B6F4(act, fc, 0);
             }
-            func_0204BA20(((struct Obj06909 *)cell)->f4, 0);
+            CLACT_SetActorVisible(((struct Obj06909 *)cell)->f4, 0);
         }
     }
     return g;

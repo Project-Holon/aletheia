@@ -10,9 +10,9 @@
  * status: EXACT
  * symbols:
  *   func_02026478 0x02026478 thumb
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
- *   func_02012B4C 0x02012B4C thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GAME_DATA_SetEnterMode 0x02012B4C thumb
  * The loaded byte stays live as r1 into 02012B4C.
  */
 #include "../include/Obj12413.h"
@@ -21,18 +21,18 @@ struct Link;
 typedef unsigned int   u32;
 extern u32 func_02026478(void *obj);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern unsigned int func_0203D1A4(struct Link *);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern unsigned int GFL_NET_GetHandleNetID(struct Link *);
 struct BigObj;
-extern void func_02012B4C(struct BigObj *p, u8 v);
+extern void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v);
 void INTRUDE_COMM_RecvMemberCount(unsigned int a, int b, u8 *c, u8 *d)
 {
     void *h;
     unsigned int n;
     h = (void *)func_02026478(((struct Obj12413 *)d)->f4);
-    if (a != func_0203D1A4((struct Link *)func_020399A8())) {
+    if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
         n = *c;
         d[0x902] = n;
-        func_02012B4C(h, n);
+        GAME_DATA_SetEnterMode(h, n);
     }
 }

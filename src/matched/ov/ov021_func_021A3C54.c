@@ -1,5 +1,5 @@
 /*
- * function: func_021A3C54
+ * function: FIELD_PLAYER_CORE_GetVertDirFromKeys
  * address:  0x021A3C54
  * packet:   pkt_ov021_021A3C54
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr save): maps a key mask to a direction, 9 for none.
- * Filed as a blocker of ov021 func_021A3BB4.
+ * Filed as a blocker of ov021 FIELD_PLAYER_CORE_SelectMoveDir.
  */
 
 typedef unsigned int u32;
 
-int func_021A3C54(u32 keys)
+int FIELD_PLAYER_CORE_GetVertDirFromKeys(u32 keys)
 {
     if (keys & 0x40) {
         return 0;

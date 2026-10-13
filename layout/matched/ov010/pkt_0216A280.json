@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216A280",
+   "name": "REPORT_EVENT_StopSaveEffect",
    "address": "0x0216A280",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: func_0216754C
+ * function: COMM_PLAYER_Delete
  * address:  0x0216754C
  * packet:   pkt_ov010_0216754C
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02167658  0x02167658  thumb  ov010
- *   func_02012114  0x02012114  thumb
- *   func_021942C8  0x021942C8  thumb  ov021
+ *   COMM_PLAYER_Del  0x02167658  thumb  ov010
+ *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
+ *   FIELD_COMM_ACTOR_CTRL_Delete  0x021942C8  thumb  ov021
  *   func_02034714  0x02034714  arm
  *   func_020307B0  0x020307B0  arm
  *   d_02172A28  0x02172A28  data  ov010  a4
@@ -23,23 +23,23 @@ struct O {
     int f4;
 };
 
-extern void func_02167658(struct O *o, int i);
+extern void COMM_PLAYER_Del(struct O *o, int i);
 struct Ctx;
-extern unsigned int func_02012114(const struct Ctx *a);
-extern void func_021942C8(int a);
+extern unsigned int GAMESYSTEM_IsFieldMapExist(const struct Ctx *a);
+extern void FIELD_COMM_ACTOR_CTRL_Delete(int a);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020307B0(void *p);
 extern const char d_02172A28[];
 
-void func_0216754C(int a, struct O *o)
+void COMM_PLAYER_Delete(int a, struct O *o)
 {
     int i;
     if (o->f4 != 0) {
         for (i = 0; i < 4; i++)
-            func_02167658(o, i);
-        if (func_02012114((const struct Ctx *)a) == 1)
-            func_021942C8(o->f4);
+            COMM_PLAYER_Del(o, i);
+        if (GAMESYSTEM_IsFieldMapExist((const struct Ctx *)a) == 1)
+            FIELD_COMM_ACTOR_CTRL_Delete(o->f4);
         else
             func_02034714(d_02172A28, 0, d_02172A28);
     }

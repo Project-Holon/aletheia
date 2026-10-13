@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_SYSTEM_IsSendQueueEntry 0x02039468 arm
  *   func_021B6424 0x021B6424 thumb ov101
  */
@@ -18,8 +18,8 @@ typedef unsigned int u32;
 typedef struct Obj { unsigned char pad[0x78]; int busy; unsigned char pad7c[6]; u16 counter; } Obj;
 struct Entry;
 struct Link;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *p);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_SYSTEM_IsSendQueueEntry(u32,u32);
 extern int func_021B6424(int);
 int func_021B63D0(Obj *p)
@@ -30,7 +30,7 @@ int func_021B63D0(Obj *p)
     p->counter += 1;
     if (old > 180) {
         p->counter = 0;
-        if (!GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,func_0203D1A4((void *)func_020399A8())))
+        if (!GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,GFL_NET_GetHandleNetID((void *)GFL_NET_HANDLE_GetCurrentHandle())))
             return func_021B6424((int)p);
     }
     return 0;

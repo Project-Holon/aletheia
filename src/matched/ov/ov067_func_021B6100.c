@@ -1,5 +1,5 @@
 /*
- * function: func_021B6100
+ * function: UI_SCENE_Create
  * address:  0x021B6100
  * packet:   pkt_ov067_021B6100
  * region:   ov067
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Allocates the 0x10-byte record func_021B6144 steps (fields named there).
+ * Allocates the 0x10-byte record UI_SCENE_Step steps (fields named there).
  *
  * symbols:
  *   func_02030734  0x02030734  arm
@@ -35,7 +35,7 @@ extern const char d_021B9540[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 
-S *func_021B6100(u32 heap, void *arr, u8 c, u16 idx, void *f4)
+S *UI_SCENE_Create(u32 heap, void *arr, u8 c, u16 idx, void *f4)
 {
     S *p;
 

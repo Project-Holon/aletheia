@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046F50  0x02046F50  arm
- *   func_02046FF8  0x02046FF8  arm
+ *   G3D_SYSTEM_CheckResourceType  0x02046F50  arm
+ *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
  *   G3D_SYSTEM_IsTextureInVram  0x02047348  arm
- *   func_02047400  0x02047400  arm
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   g3d_util_file  0x020A7EB8  data
- *   func_02046DB8  0x02046DB8  arm
+ *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
  *   G3D_SYSTEM_CreateResourcePath  0x02046E90  arm
- *   func_02046C94  0x02046C94  arm
- *   func_02046CE0  0x02046CE0  arm
- *   func_02048F60  0x02048F60  arm
+ *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
+ *   G3D_SYSTEM_InitResourceByFile  0x02046CE0  arm
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   ARC_TOOL_LoadMemberFromPath  0x02048F9C  arm
  *
  * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
@@ -38,10 +38,10 @@
  * model through getRes (load it by its setup record's type when its status
  * byte is 1, else mark it and take the loaded handle), set bit 0 of the
  * object status when it had to be loaded; resolve the texture the same way
- * when it is a separate resource that answers func_02046F50(res, 1) == 1
- * (bit 1, then func_02046FF8), bind them with func_02047400, build the
+ * when it is a separate resource that answers G3D_SYSTEM_CheckResourceType(res, 1) == 1
+ * (bit 1, then G3D_SYSTEM_TransVramTexture), bind them with G3D_SYSTEM_CreateRender, build the
  * animation array in a low-heap scratch block (__LINE__ 534) and create the
- * object with func_0204767C.
+ * object with G3D_SYSTEM_CreateObject.
  *
  * The two inline helpers are the lever: createRes writes its result
  * through the caller's out pointer in every case (no local result), which
@@ -113,35 +113,35 @@ struct G3dRec;
 struct Layer;
 struct S02046CE0;
 struct Tagged;
-extern void *func_02046DB8(u32 a0, u32 a1);
+extern void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
 extern void *G3D_SYSTEM_CreateResourcePath(u32 a0, u32 a1);
-extern int func_02046C94(void);
-extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern int G3D_SYSTEM_GetResourceSize(void);
+extern void G3D_SYSTEM_InitResourceByFile(struct S02046CE0 *out, u32 *tag);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 a, u32 heap);
-extern u32 func_02046F50(struct Tagged *p, u32 sel);
-extern int func_02046FF8(int *self);
+extern u32 G3D_SYSTEM_CheckResourceType(struct Tagged *p, u32 sel);
+extern int G3D_SYSTEM_TransVramTexture(int *self);
 extern int G3D_SYSTEM_IsTextureInVram(struct Layer *layer);
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 
 static inline void createRes(Util *util, const ResSetup *rs, void **out)
 {
     switch (rs->type) {
     case 0:
-        *out = func_02046DB8(rs->arc, rs->dat);
+        *out = G3D_SYSTEM_CreateResourceArc(rs->arc, rs->dat);
         break;
     case 1:
         *out = G3D_SYSTEM_CreateResourcePath(rs->arc, rs->dat);
         break;
     case 2:
-        *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 342);
-        func_02046CE0(*out, func_02048F60(rs->arc, rs->dat, util->heapID));
+        *out = func_02030734(util->heapID, G3D_SYSTEM_GetResourceSize(), 0, g3d_util_file, 342);
+        G3D_SYSTEM_InitResourceByFile(*out, ARC_TOOL_LoadMember(rs->arc, rs->dat, util->heapID));
         break;
     case 3:
-        *out = func_02030734(util->heapID, func_02046C94(), 0, g3d_util_file, 355);
-        func_02046CE0(*out, ARC_TOOL_LoadMemberFromPath((const char *)rs->arc, rs->dat, util->heapID));
+        *out = func_02030734(util->heapID, G3D_SYSTEM_GetResourceSize(), 0, g3d_util_file, 355);
+        G3D_SYSTEM_InitResourceByFile(*out, ARC_TOOL_LoadMemberFromPath((const char *)rs->arc, rs->dat, util->heapID));
         break;
     }
 }
@@ -176,32 +176,32 @@ void G3D_UTIL_BuildUnitObjects(Util *util, u16 unitIdx, const Setup *setup, u16 
         if (getRes(util, resIdx, setup->objTbl[i].mdlResIdx, setup, &mdl) == 1)
             util->objStat[objIdx + i] |= 1;
         if (os->texResIdx != os->mdlResIdx) {
-            if (func_02046F50(util->res[resIdx + os->texResIdx], 1) == 1) {
+            if (G3D_SYSTEM_CheckResourceType(util->res[resIdx + os->texResIdx], 1) == 1) {
                 if (getRes(util, resIdx, os->texResIdx, setup, &tex) == 1) {
                     util->objStat[objIdx + i] |= 2;
-                    func_02046FF8(tex);
+                    G3D_SYSTEM_TransVramTexture(tex);
                 }
             } else {
                 tex = util->res[resIdx + os->texResIdx];
-                func_02046FF8(tex);
+                G3D_SYSTEM_TransVramTexture(tex);
             }
         } else {
             tex = mdl;
             if (G3D_SYSTEM_IsTextureInVram(mdl) == 0)
-                func_02046FF8(mdl);
+                G3D_SYSTEM_TransVramTexture(mdl);
         }
-        rnd = func_02047400(mdl, os->mdlDatIdx, tex);
+        rnd = G3D_SYSTEM_CreateRender(mdl, os->mdlDatIdx, tex);
         anm = func_02030734((heapID & 0x7fff) | 0x8000, os->anmCount * 4, 1,
                             g3d_util_file, 534);
         for (j = 0; j < os->anmCount; j++) {
             if (os->anmTbl[j].anmResIdx == 0xff)
                 a = 0;
             else
-                a = func_02047564(rnd, util->res[resIdx + os->anmTbl[j].anmResIdx],
+                a = G3D_SYSTEM_CreateAnime(rnd, util->res[resIdx + os->anmTbl[j].anmResIdx],
                                   os->anmTbl[j].anmDatIdx);
             anm[j] = a;
         }
-        util->obj[objIdx + i] = func_0204767C((u32)rnd, (u32 *)anm, os->anmCount);
+        util->obj[objIdx + i] = G3D_SYSTEM_CreateObject((u32)rnd, (u32 *)anm, os->anmCount);
         func_020307B0(anm);
     }
 }

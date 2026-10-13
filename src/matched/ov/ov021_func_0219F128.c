@@ -1,5 +1,5 @@
 /*
- * function: func_0219F128
+ * function: FLDMMDL_DRAW_DrawDirAnime
  * address:  0x0219F128
  * packet:   pkt_ov021_0219F128
  * region:   ov021
@@ -11,18 +11,18 @@
  *
  * Leaf callees now filed; formerly MATCH. Leaf sources verified from a scratch
  * file (region arm9, --arm, dsi/1.1p1 -O4,p; typedefs u8/u16/u32):
- *   func_02050080:
- *   u32 func_02050080(u8 *p) { return *(u32 *)(p + 4); }
+ *   BILLBOARD_ACT_GetBoard:
+ *   u32 BILLBOARD_ACT_GetBoard(u8 *p) { return *(u32 *)(p + 4); }
  *
  * symbols:
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
- *   func_0216D910  0x0216D910  thumb  ov010
- *   func_0219C9DC  0x0219C9DC  thumb  ov021
- *   func_02197CCC  0x02197CCC  thumb  ov021
- *   func_0219FFBC  0x0219FFBC  thumb  ov021
- *   func_02050080  0x02050080  arm
- *   func_0204F638  0x0204F638  arm
- *   func_0219FEB0  0x0219FEB0  thumb  ov021
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_GetBlActCont  0x0216D910  thumb  ov010
+ *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
+ *   FLDMMDL_ACMD_GetDrawPos  0x02197CCC  thumb  ov021
+ *   FLDMMDL_DRAW_AddHeightOffset  0x0219FFBC  thumb  ov021
+ *   BILLBOARD_ACT_GetBoard  0x02050080  arm
+ *   BILLBOARD_SetElemPos  0x0204F638  arm
+ *   FLDMMDL_DRAW_UpdateDirAnime  0x0219FEB0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -31,27 +31,27 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 struct Trip;
-extern void *func_0216D6F0(void *p);
-extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u8 *p);
-extern void func_02197CCC(u8 *p, s32 *out);
-extern void func_0219FFBC(u32 a, u32 *p);
-extern u32 func_02050080(u32 *p);
-extern void func_0204F638(u8 *a0, int i, struct Trip *src);
-extern void func_0219FEB0(u8 *s, u32 a, u32 r, u16 id);
+extern void *FLDMMDL_GetDrawProcWork(void *p);
+extern int FLDMMDL_GetBlActCont(int a0);
+extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *p);
+extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, s32 *out);
+extern void FLDMMDL_DRAW_AddHeightOffset(u32 a, u32 *p);
+extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
+extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
+extern void FLDMMDL_DRAW_UpdateDirAnime(u8 *s, u32 a, u32 r, u16 id);
 
-void func_0219F128(u32 a)
+void FLDMMDL_DRAW_DrawDirAnime(u32 a)
 {
     s32 buf[3];
     u16 *q;
     u32 r;
-    q = func_0216D6F0((void *)a);
+    q = FLDMMDL_GetDrawProcWork((void *)a);
     if (*q != 0xFFFF) {
-        r = func_0219C9DC((u8 *)func_0216D910(a));
-        func_0219FEB0((u8 *)(q + 2), a, r, *q);
-    func_02197CCC((u8 *)a, buf);
-    func_0219FFBC(a, (u32 *)buf);
-    r = func_02050080((u32 *)r);
-    func_0204F638((u8 *)r, *q, (struct Trip *)buf);
+        r = FLDMMDL_BLACT_GetBbActSys((u8 *)FLDMMDL_GetBlActCont(a));
+        FLDMMDL_DRAW_UpdateDirAnime((u8 *)(q + 2), a, r, *q);
+    FLDMMDL_ACMD_GetDrawPos((u8 *)a, buf);
+    FLDMMDL_DRAW_AddHeightOffset(a, (u32 *)buf);
+    r = BILLBOARD_ACT_GetBoard((u32 *)r);
+    BILLBOARD_SetElemPos((u8 *)r, *q, (struct Trip *)buf);
     }
 }

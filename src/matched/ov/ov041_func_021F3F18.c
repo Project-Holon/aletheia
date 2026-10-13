@@ -1,5 +1,5 @@
 /*
- * function: func_021F3F18
+ * function: GIMMICK41_GetFirstAnimeSlot
  * address:  0x021F3F18
  * packet:   pkt_ov041_021F3F18
  * region:   ov041
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * An unlabelled leaf (no lr save) next to func_021F3F44: maps 0..3 to an even
- * index. Callee of func_021F3884.
+ * An unlabelled leaf (no lr save) next to GIMMICK41_FacingToRingIndex: maps 0..3 to an even
+ * index. Callee of GIMMICK41_EventLaunch.
  */
 
-int func_021F3F18(int x)
+int GIMMICK41_GetFirstAnimeSlot(int x)
 {
     switch (x) {
     case 0: return 0;

@@ -19,13 +19,13 @@
    "status": "EXACT",
    "functions": [
     "BMP_MENULIST_SetColors",
-    "func_02020298",
-    "func_020202EC",
-    "func_020202FC",
-    "func_02020314",
-    "func_02020324",
-    "func_02020344",
-    "func_02020350"
+    "BMP_MENULIST_SetOverrideColors",
+    "BMP_MENULIST_GetListIndex",
+    "BMP_MENULIST_GetPos",
+    "BMP_MENULIST_GetCursorY",
+    "BMP_MENULIST_GetRowY",
+    "BMP_MENULIST_GetItemValue",
+    "BMP_MENULIST_GetAttr"
    ],
    "addresses": [
     "0x02020268",

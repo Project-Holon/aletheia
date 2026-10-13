@@ -1,5 +1,5 @@
 /*
- * function: func_021C6D90
+ * function: FIELD_TASK_MANAGER_Update
  * address:  0x021C6D90
  * packet:   pkt_ov021_021C6D90
  * region:   ov021
@@ -24,7 +24,7 @@ extern void func_021C6E94(u8 *p, u8 i);
 extern void func_021C6EA8(u8 *p, u8 i);
 extern void func_021C6EDC(u8 *p, u8 i);
 
-void func_021C6D90(u8 *p)
+void FIELD_TASK_MANAGER_Update(u8 *p)
 {
     int i;
 

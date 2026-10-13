@@ -1,5 +1,5 @@
 /*
- * function: func_021C3C78
+ * function: SODATEYA_RollNature
  * address:  0x021C3C78
  * packet:   pkt_ov021_021C3C78
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 
 extern u32 func_02005728(u32 v);
 
-void func_021C3C78(void *a, u32 *out)
+void SODATEYA_RollNature(void *a, u32 *out)
 {
     out[3] = func_02005728(0x19);
 }

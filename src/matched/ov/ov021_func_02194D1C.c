@@ -1,5 +1,5 @@
 /*
- * function: func_02194D1C
+ * function: TALKMSGWIN_DrawBalloonShape
  * address:  0x02194D1C
  * packet:   pkt_ov021_02194D1C
  * region:   ov021
@@ -15,9 +15,9 @@
  * and, when c is 0, a quad (v[5], v[3], v[4], v[6]); then pop. The texture
  * and palette addresses are the NNS key decode folded into the SDK packing
  * macros. Region ov021: ov021 holds this Thumb code and its caller
- * func_02194CE8 directly precedes it; ov009 is ARM here (wave A1 witness).
+ * TALKMSGWIN_DrawEntry directly precedes it; ov009 is ARM here (wave A1 witness).
  *
- * What closed the docs/notes/func_02194D1C.c.txt residue: the SDK G3_Vtx /
+ * What closed the docs/notes/TALKMSGWIN_DrawBalloonShape.c.txt residue: the SDK G3_Vtx /
  * G3_TexCoord inline shapes, a sub-struct pointer for b+0x1C (the image keeps
  * it in r6), translate loaded z, y, x into locals, and non-const parameters
  * (with const the loads float across the volatile stores).
@@ -94,7 +94,7 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
     reg_G3_VTX_16 = (u32)(u16)z;
 }
 
-void func_02194D1C(Owner *a, Sprite *b, int c)
+void TALKMSGWIN_DrawBalloonShape(Owner *a, Sprite *b, int c)
 {
     struct Quad *q = &b->q;
     fx32 x, y, z;

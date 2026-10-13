@@ -10,12 +10,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_0218A160 0x0218A160 thumb ov096
  *   func_0218A220 0x0218A220 thumb ov096
  */
 #include "../include/Obj13655.h"
 #include "../include/Obj21945.h"
-struct Cursor; extern unsigned int func_0201134C(struct Cursor *); extern unsigned char func_0218A160(unsigned char *,int); extern int func_0218A220(int,int,int);
-int func_02188F2C(struct Cursor *a,unsigned char *b) { int k; k=func_0201134C(a); ((struct Obj13655 *)b)->f38=func_0218A220((int)b,k,func_0218A160(b,k)); return ((struct Obj13655 *)b)->fC4; }
+struct Cursor; extern unsigned int VM_GetU32(struct Cursor *); extern unsigned char func_0218A160(unsigned char *,int); extern int func_0218A220(int,int,int);
+int func_02188F2C(struct Cursor *a,unsigned char *b) { int k; k=VM_GetU32(a); ((struct Obj13655 *)b)->f38=func_0218A220((int)b,k,func_0218A160(b,k)); return ((struct Obj13655 *)b)->fC4; }
 int func_02188F50(int a, unsigned char *b) { return ((struct Obj21945 *)b)->fC4; }

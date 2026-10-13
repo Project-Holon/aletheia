@@ -47,7 +47,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_020416D4  0x020416D4  arm
  *   func_021BD56C  0x021BD56C  thumb
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_021BD880  0x021BD880  thumb
  *   func_021BD89C  0x021BD89C  thumb
@@ -106,7 +106,7 @@ extern void func_02082BCC(void *p, u32 v, u32 n);
 extern u8   func_020416D4(u32 layer);
 struct Obj;
 extern int func_021BD56C(int *p, int i);
-extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021BD880(char *p);
 extern void func_021BD89C(char *p);
@@ -148,7 +148,7 @@ void ov208_func_021BD634(struct Ov208ActObj *p, u32 owner, const int *res, struc
     }
     p->f8 = p->desc.h10;
     pos.h4 = p->desc.h10;
-    p->f0 = (u32)func_0204B294((void *)owner, i, j, k, &pos, prio, mode);
+    p->f0 = (u32)CLACT_CreateActor((void *)owner, i, j, k, &pos, prio, mode);
     func_0204B92C((struct Obj *)p->f0, 1);
     switch (p->f10) {
     case 0:

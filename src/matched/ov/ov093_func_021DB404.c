@@ -1,5 +1,5 @@
 /*
- * function: func_021DB404
+ * function: BTL_TOKUSEI_GetForecastHandlers
  * address: 0x021DB404
  * packet: pkt_ov093_021DB404
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DB0E4_p02.c and filed here.
  *
  * symbols:
- *   d_021F0DD4 0x021F0DD4 data ov093 a4
+ *   gForecastHandlers 0x021F0DD4 data ov093 a4
  */
 
-int *func_021DB404(int *p);
-extern int d_021F0DD4[];
+int *BTL_TOKUSEI_GetForecastHandlers(int *p);
+extern int gForecastHandlers[];
 
-int *func_021DB404(int *p)
+int *BTL_TOKUSEI_GetForecastHandlers(int *p)
 {
     *p = 9;
-    return d_021F0DD4;
+    return gForecastHandlers;
 }

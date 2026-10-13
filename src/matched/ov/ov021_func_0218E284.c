@@ -1,5 +1,5 @@
 /*
- * function: func_0218E284
+ * function: FIELD_CAMERA_PullTargetFromTrace
  * address:  0x0218E284
  * packet:   pkt_ov021_0218E284
  * region:   ov021
@@ -20,7 +20,7 @@ typedef signed int     s32;
 
 typedef struct { u32 a, b, c; } Vec3;
 
-void func_0218E284(u8 *a)
+void FIELD_CAMERA_PullTargetFromTrace(u8 *a)
 {
     Vec3 *p = *(Vec3 * *)&((struct Obj00428 *)a)->f1C;
     if (p != 0)

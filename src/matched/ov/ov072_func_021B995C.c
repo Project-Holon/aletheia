@@ -1,5 +1,5 @@
 /*
- * function: func_021B995C
+ * function: TOWNMAP_ProcSetStep
  * address:  0x021B995C
  * packet:   pkt_021B995C
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021B995C(int *p, int x)
+void TOWNMAP_ProcSetStep(int *p, int x)
 {
     p[0] = x;
     p[2] = 0;

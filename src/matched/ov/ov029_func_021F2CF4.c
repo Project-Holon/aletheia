@@ -1,5 +1,5 @@
 /*
- * function: func_021F2CF4
+ * function: C_GEAR_ShowCommIndicator
  * address: 0x021F2CF4
  * packet: pkt_ov029_021F2CF4
  * region: ov029
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_021F2CF4(u8 *p)
+void C_GEAR_ShowCommIndicator(u8 *p)
 {
     if (p[0x45d] == 0) {
         p[0x45d] = 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_02186938
+ * function: OEKAKI_ClearStrokeGroup
  * address: 0x02186938
  * packet: pkt_ov023_02186938
  * region: ov023
@@ -18,7 +18,7 @@ typedef struct {
     u8 hi : 2;
     u8 b5;
 } Rec;
-void func_02186938(Rec *p)
+void OEKAKI_ClearStrokeGroup(Rec *p)
 {
     int i;
     for (i = 0; i < 5; i++) p[i].mid = 0;

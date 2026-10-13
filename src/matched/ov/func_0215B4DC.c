@@ -1,5 +1,5 @@
 /*
- * function: func_0215B4DC
+ * function: SCRCMD_PROC_GetPartyMemberParam
  * address:  0x0215B4DC
  * packet:   pkt_0215B4DC
  * region:   ov010
@@ -13,23 +13,23 @@
  * forwards the record and the third argument to the arm9 side.
  *
  * symbols:
- *   func_0215B4AC   0x0215B4AC  thumb  ov010
- *   func_02017E1C   0x02017E1C  thumb
+ *   SCRCMD_PROC_GetPartyMember   0x0215B4AC  thumb  ov010
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215B4AC(void *a0, u32 a1, void **a2);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern int SCRCMD_PROC_GetPartyMember(void *a0, u32 a1, void **a2);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-int func_0215B4DC(void *a0, void *a1, void *a2)
+int SCRCMD_PROC_GetPartyMemberParam(void *a0, void *a1, void *a2)
 {
     int v;
 
-    if (func_0215B4AC(a0, (u32)a1, (void **)(&v)) == 1)
-        return func_02017E1C((void *)v, (u32)a2, 0);
+    if (SCRCMD_PROC_GetPartyMember(a0, (u32)a1, (void **)(&v)) == 1)
+        return POKE_TOOL_GetPartyValue((void *)v, (u32)a2, 0);
 
     return 0;
 }

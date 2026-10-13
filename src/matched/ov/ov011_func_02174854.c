@@ -11,15 +11,15 @@
  *
  * symbols:
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  */
 
 int INTRUDE_COMM_IsLinked(void);
 struct Entry;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 typedef struct { unsigned char a : 1; unsigned char b : 1; unsigned char c : 1; } F8;
 
@@ -29,5 +29,5 @@ int INTRUDE_COMM_SendPageRequest(unsigned char *p, int b, int c)
         return 0;
     }
     ((F8 *)(p + 0x8F8))->b = 0;
-    return func_0203D3F8((u32)func_020399A8(), b, 0x228, 4, c, 0, 0, 0);
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), b, 0x228, 4, c, 0, 0, 0);
 }

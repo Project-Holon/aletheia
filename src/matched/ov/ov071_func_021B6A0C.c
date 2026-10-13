@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A0C
+ * function: MONOLITH_TOOL_CreateButton
  * address:  0x021B6A0C
  * packet:   pkt_ov071_021B6A0C
  * region:   ov071
@@ -14,14 +14,14 @@
  * `case 2:` shares its arm with `default:` (the dead `cmp r6, #2; b`).
  *
  * symbols:
- *   func_02043678  0x02043678  arm
- *   func_0204B294  0x0204B294  arm
- *   func_020255A0  0x020255A0  thumb
+ *   BMP_Create  0x02043678  arm
+ *   CLACT_CreateActor  0x0204B294  arm
+ *   BMP_OAM_Create  0x020255A0  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201F250  0x0201F250  thumb
  *   func_0201C6FC  0x0201C6FC  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   d_021BA80C     0x021BA80C  data  a2
  *   d_021BA814     0x021BA814  data  a4
  */
@@ -89,18 +89,18 @@ struct MsgBank;
 struct Sys;
 struct U16Vec;
 struct WordSet;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct PrintSys;
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021B6A0C(Ctx *a, Out *b, int c, int d, int e, int f, int g, void *h)
+void MONOLITH_TOOL_CreateButton(Ctx *a, Out *b, int c, int d, int e, int f, int g, void *h)
 {
     struct Point pt = d_021BA80C;
     struct Param param = d_021BA814;
@@ -128,7 +128,7 @@ void func_021B6A0C(Ctx *a, Out *b, int c, int d, int e, int f, int g, void *h)
         param.x = e - 0x30;
         break;
     }
-    bmp = func_02043678(w, 2, 0x20, 0x61);
+    bmp = BMP_Create(w, 2, 0x20, 0x61);
     b->bmp = bmp;
     pt.x = e;
     pt.y = f;
@@ -138,17 +138,17 @@ void func_021B6A0C(Ctx *a, Out *b, int c, int d, int e, int f, int g, void *h)
     x = c == 0 ? B_FALSE : B_TRUE;
     param.f14 = x;
     param.f12 = x;
-    b->act = func_0204B294((void *)a->f14, a->res[c].f44, a->res[c].f40, a->res[c].f48, &pt, x, 0x61);
-    b->grid = func_020255A0(a->f2c, &param);
+    b->act = CLACT_CreateActor((void *)a->f14, a->res[c].f44, a->res[c].f40, a->res[c].f48, &pt, x, 0x61);
+    b->grid = BMP_OAM_Create(a->f2c, &param);
     s = func_02045EC0(a->f28, g);
     if (h) {
-        t = func_020457B0(0x80, 0x61);
+        t = STRBUF_Create(0x80, 0x61);
         func_0201F250(h, t, s);
         func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, t, (u32)a->fc);
-        func_02045808(t);
+        STRBUF_Delete(t);
     } else {
         func_0201C6FC(a->f8, (u32)b->bmp, 0, 0, s, (u32)a->fc);
     }
-    func_02045808(s);
+    STRBUF_Delete(s);
     b->on = 1;
 }

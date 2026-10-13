@@ -1,7 +1,7 @@
 /*
  * file:     unit_0207C9D0.c
  * unit:     yes
- * function: func_0207C9D0, func_0207CA00, func_0207CA30, func_0207CA68, func_0207CAA4, func_0207CAE8, func_0207CB68, func_0207CBD0, func_0207CC30, func_0207CCA4, func_0207CDB8, func_0207CEE4, func_0207CF3C
+ * function: func_0207C9D0, func_0207CA00, func_0207CA30, func_0207CA68, VEC_Fx16DotProduct, func_0207CAE8, func_0207CB68, func_0207CBD0, func_0207CC30, VEC_Normalize, VEC_Fx16Normalize, func_0207CEE4, func_0207CF3C
  * address:  0x0207C9D0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -45,13 +45,13 @@ void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 void func_0207CA30(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab);
 fx32 func_0207CA68(const VecFx32 *a, const VecFx32 *b);
-fx32 func_0207CAA4(const VecFx16 *a, const VecFx16 *b);
+fx32 VEC_Fx16DotProduct(const VecFx16 *a, const VecFx16 *b);
 void func_0207CAE8(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 void func_0207CB68(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
 fx32 func_0207CBD0(const VecFx32 *pSrc);
 fx32 func_0207CC30(const VecFx16 *pSrc);
-void func_0207CCA4(const VecFx32 *pSrc, VecFx32 *pDst);
-void func_0207CDB8(const VecFx16 *pSrc, VecFx16 *pDst);
+void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
+void VEC_Fx16Normalize(const VecFx16 *pSrc, VecFx16 *pDst);
 void func_0207CEE4(fx32 a, const VecFx32 *v1, const VecFx32 *v2, VecFx32 *pDest);
 fx32 func_0207CF3C(const VecFx32 *v1, const VecFx32 *v2);
 
@@ -101,7 +101,7 @@ fx32 func_0207CA68(const VecFx32 *a, const VecFx32 *b)
 /*
  * sdk:      VEC_Fx16DotProduct (libfx.TWL.HYB.a fx_vec.o)
  */
-fx32 func_0207CAA4(const VecFx16 *a, const VecFx16 *b)
+fx32 VEC_Fx16DotProduct(const VecFx16 *a, const VecFx16 *b)
 {
     fx32 tmp1, tmp2;
 
@@ -224,7 +224,7 @@ static inline s64 CP_GetDivResult64(void)
  * notes:    the 64-bit CP registers (NUMER, DENOM, RESULT, SQRT_PARAM) are plain (non-volatile)
  *           u64 lvalues; a volatile SQRT_PARAM moves one ALU instruction of the first block.
  */
-void func_0207CCA4(const VecFx32 *pSrc, VecFx32 *pDst)
+void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst)
 {
     fx64 t;
     fx32 sqrt;
@@ -250,7 +250,7 @@ void func_0207CCA4(const VecFx32 *pSrc, VecFx32 *pDst)
  * notes:    the 64-bit CP registers (NUMER, DENOM, RESULT, SQRT_PARAM) are plain (non-volatile)
  *           u64 lvalues; a volatile SQRT_PARAM moves one ALU instruction of the first block.
  */
-void func_0207CDB8(const VecFx16 *pSrc, VecFx16 *pDst)
+void VEC_Fx16Normalize(const VecFx16 *pSrc, VecFx16 *pDst)
 {
     fx64 t;
     fx32 sqrt;

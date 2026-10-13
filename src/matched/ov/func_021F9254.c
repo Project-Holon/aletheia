@@ -10,18 +10,19 @@
  * status:   EXACT
  *
  * symbols:
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *
 
  *
- * Tail call into func_0203D34C with the fixed 0/0x48 pair.
+ * Tail call into GFL_NET_RestartWithDefaultTimeout with the fixed 0/0x48 pair.
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 void func_021F9254(u8 *a0)
 {
-    func_0203D34C(0, 0x48);
+    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D79E8
+ * function: BTL_CALC_CombineTypeAffinity
  * address:  0x021D79E8
  * packet:   pkt_ov093_021D79E8
  * region:   ov093
@@ -12,16 +12,16 @@
  *           the default path); the u32 switch value gives the unsigned `bhi` range check.
  *
  * symbols:
- *   d_021F0427  0x021F0427  data  ov093  a1
+ *   gBtlCalcAffinityScales  0x021F0427  data  ov093  a1
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 d_021F0427[];
+extern u8 gBtlCalcAffinityScales[];
 
-int func_021D79E8(int x, int y)
+int BTL_CALC_CombineTypeAffinity(int x, int y)
 {
-    u32 m = d_021F0427[x] * d_021F0427[y] / 4;
+    u32 m = gBtlCalcAffinityScales[x] * gBtlCalcAffinityScales[y] / 4;
 
     switch (m) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_0216FCA0
+ * function: WAZA_OSHIE_ConvertToTileOrder
  * address: 0x0216FCA0
  * packet: pkt_ov010_0216FCA0
  * region: ov010
@@ -26,9 +26,9 @@
  * in loop (127 B), total as loop bound (124 B), w/h/t as plain /8 (166 B: the
  * original keeps the lsls 13 / lsrs 16 pair), pragmas scheduling,
  * opt_propagation, opt_lifetimes off (24, 27, 24 B).
- * Callee types checked: func_020437DC/E4 u16, BMP_GetTileBytes u8 (BMP_GetTileBytes.c),
- * func_020437D4 returns a pointer (ov208 callers); all as declared here.
- * No tile-order twin (grep BMP_GetTileBytes, func_020437E4+func_020437DC in src/matched/ov).
+ * Callee types checked: BMP_GetWidth/E4 u16, BMP_GetTileBytes u8 (BMP_GetTileBytes.c),
+ * BMP_GetPixels returns a pointer (ov208 callers); all as declared here.
+ * No tile-order twin (grep BMP_GetTileBytes, BMP_GetHeight+BMP_GetWidth in src/matched/ov).
  * Idioms read: div-and-mod-are-two-calls, a-self-recompute-pins-an-operand-before-the-other-side-calls,
  * a-field-captured-before-a-named-divider-stays-live-across-the-call,
  * binding-a-modulo-result-to-a-local-moves-the-add-destination,
@@ -53,10 +53,10 @@
  * Matched twin for callee types: ov121 021DA338 (u16, u16, u8).
  *
  * symbols:
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
  *   BMP_GetTileBytes  0x02043994  arm
- *   func_020437D4  0x020437D4  arm
+ *   BMP_GetPixels  0x020437D4  arm
  *   _s32_div_f     0x0209C0A4  arm
  *
  * pass 2 2026-10-06 P2L24: EXACT (c99 and c). Fix: q = i / s as a named statement before r = i % s
@@ -68,13 +68,13 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Bmp;
-extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
 struct Bmp;
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 BMP_GetTileBytes(struct Bmp *b);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern int _s32_div_f(int a, int b);
-void func_0216FCA0(void *a, void *b)
+void WAZA_OSHIE_ConvertToTileOrder(void *a, void *b)
 {
   u8 *src;
   u8 *dst;
@@ -85,12 +85,12 @@ void func_0216FCA0(void *a, void *b)
   int i;
   int r;
   int q;
-  w = func_020437DC(a) / 8;
-  h = func_020437E4(a) / 8;
+  w = BMP_GetWidth(a) / 8;
+  h = BMP_GetHeight(a) / 8;
   d = BMP_GetTileBytes(a);
   t = d / 8;
-  src = func_020437D4(a);
-  dst = func_020437D4(b);
+  src = BMP_GetPixels(a);
+  dst = BMP_GetPixels(b);
   for (i = 0; i < ((w * h) * d); i++)
   {
     q = i / (w * t);

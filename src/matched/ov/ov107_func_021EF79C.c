@@ -18,7 +18,7 @@
  *   GFL_NET_WM_ICON_EasyStart 0x02037010 arm
  *   GFL_NET_WM_ICON_EasySetScreen 0x02037118 arm
  *   func_020351F8 0x020351F8 arm
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_021EF96C 0x021EF96C thumb ov107
  *   func_021F1898 0x021F1898 thumb ov107
  *   func_021F1628 0x021F1628 thumb ov107
@@ -31,7 +31,7 @@
  *   func_021EFA14 0x021EFA14 thumb ov107
  *   func_021F17E0 0x021F17E0 thumb ov107
  *   func_021F1B38 0x021F1B38 thumb ov107
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_02179570 0x02179570 thumb ov014
  *   func_021EFC10 0x021EFC10 thumb ov107
  *   func_021EFCA8 0x021EFCA8 thumb ov107
@@ -52,7 +52,7 @@ extern int func_021790E4(u32,int,int);
 extern void GFL_NET_WM_ICON_EasyStart(u32,u32,u32,u32),GFL_NET_WM_ICON_EasySetScreen(u32,u32);
 extern void func_020351F8(u32 a, u32 b);
 struct Sub0200852CObj;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_021EF96C(u8 *),func_021F1898(void *),func_021F1628(void *,int),func_021F18D8(void *);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern void func_021F1918(unsigned char *a, int b, int c, int d);
@@ -63,7 +63,7 @@ extern void func_021F18EC(void *);
 extern void func_021EFA14(u8 *);
 extern void func_021F17E0(void *,int);
 extern void func_021F1B38(u8 *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_02179570(void (*cb)(int));
 extern int func_021EFC10(void);
 extern int func_0208EE9C(void);
@@ -91,7 +91,7 @@ int func_021EF79C(u8 *p)
  default:break;
  case 2:
   if(func_02178E4C()==7){
-   q=func_02012944(((struct Obj22277 *)(*(u8 * *)&((struct Obj00072 *)p)->f8))->f4);func_021EF96C(p);
+   q=GAME_DATA_GetMyStatus(((struct Obj22277 *)(*(u8 * *)&((struct Obj00072 *)p)->f8))->f4);func_021EF96C(p);
    func_021F1898(((struct Obj00072 *)p)->f68);
    if(p[0x28]==0)func_021F1628(((struct Obj00072 *)p)->f68,2);
    else func_021F1628(((struct Obj00072 *)p)->f68,3);
@@ -105,7 +105,7 @@ int func_021EF79C(u8 *p)
   func_021F1898(((struct Obj00072 *)p)->f68);func_021F1628(((struct Obj00072 *)p)->f68,1);
   if(p[0x28]==0)func_021F17E0(((struct Obj00072 *)p)->f68,1);
   else func_021F17E0(((struct Obj00072 *)p)->f68,21);
-  func_021F1B38(((struct Obj00072 *)p)->f68,1);func_0204B878(((struct Obj00072 *)p)->f7C,15);p[0x24]=5;break;
+  func_021F1B38(((struct Obj00072 *)p)->f68,1);CLACT_SetActorAnimSeq(((struct Obj00072 *)p)->f7C,15);p[0x24]=5;break;
  case 5:((struct Obj00072 *)p)->f30=1;p[0x24]=6;break;
  case 8:p[0x24]=6;break;
  case 6:*(int *)(((u8 *)&d_021F6EA0)+8)=0;func_02179570((void (*)(int))((int (*)(int))func_021EFC10));((struct Obj00072 *)p)->f1C=0;p[0x24]=7;break;

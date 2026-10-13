@@ -1,5 +1,5 @@
 /*
- * function: func_0218E6A4
+ * function: FIELD_CAMERA_PrepareTargetMode
  * address:  0x0218E6A4
  * packet:   pkt_ov021_0218E6A4
  * region:   ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0207CA00  0x0207CA00  arm
- *   func_0218E674  0x0218E674  thumb  ov021
+ *   FIELD_CAMERA_SetAnglesFromVector  0x0218E674  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01848.h"
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 
 extern void func_0207CA00(void *a, void *b, void *c);
 typedef unsigned int   u32;
-extern void func_0218E674(u8 *a, u32 b);
+extern void FIELD_CAMERA_SetAnglesFromVector(u8 *a, u32 b);
 
-void func_0218E6A4(u8 *a)
+void FIELD_CAMERA_PrepareTargetMode(u8 *a)
 {
     u8 tmp[12];
 
@@ -34,6 +34,6 @@ void func_0218E6A4(u8 *a)
         ((struct Obj01848 *)a)->f78 = ((struct Obj01848 *)a)->f78 + 0x8000;
     } else {
         func_0207CA00(a + 0x24, a + 0x54, tmp);
-        func_0218E674(a, (u32)tmp);
+        FIELD_CAMERA_SetAnglesFromVector(a, (u32)tmp);
     }
 }

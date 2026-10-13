@@ -1,5 +1,5 @@
 /*
- * function: func_021BC4A4
+ * function: STARTMENU_SetNewPlayerNameAndGender
  * address:  0x021BC4A4
  * packet:   pkt_ov088_021BC4A4
  * region:   ov088
@@ -34,7 +34,7 @@ extern u32 func_0203F0A8(void);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 
-void func_021BC4A4(int a, int b, int c)
+void STARTMENU_SetNewPlayerNameAndGender(int a, int b, int c)
 {
     u64 x;
     u32 y;

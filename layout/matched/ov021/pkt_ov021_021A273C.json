@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A273C",
+   "name": "WEATHER_TASK_GetStagePhase",
    "address": "0x021A273C",
    "kind": "game",
    "region": "ov021",

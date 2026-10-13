@@ -1,5 +1,5 @@
 /*
- * function: func_0219FB5C
+ * function: FLDMMDL_DRAW_DrawMultiPattern
  * address:  0x0219FB5C
  * packet:   pkt_ov021_0219FB5C
  * region:   ov021
@@ -12,18 +12,18 @@
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  *
  * symbols:
- *   func_0216D6F0  0x0216D6F0  thumb  ov010
- *   func_0216D910  0x0216D910  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216D678  0x0216D678  thumb  ov010
- *   func_0219C9DC  0x0219C9DC  thumb  ov021
- *   func_02197CCC  0x02197CCC  thumb  ov021
- *   func_0219FFBC  0x0219FFBC  thumb  ov021
- *   func_0219FFD4  0x0219FFD4  thumb  ov021
- *   func_021A000C  0x021A000C  thumb  ov021
- *   func_02050080  0x02050080  arm
- *   func_0204F638  0x0204F638  arm
- *   func_0205082C  0x0205082C  arm
+ *   FLDMMDL_GetDrawProcWork  0x0216D6F0  thumb  ov010
+ *   FLDMMDL_GetBlActCont  0x0216D910  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_GetDrawStatus  0x0216D678  thumb  ov010
+ *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
+ *   FLDMMDL_ACMD_GetDrawPos  0x02197CCC  thumb  ov021
+ *   FLDMMDL_DRAW_AddHeightOffset  0x0219FFBC  thumb  ov021
+ *   FLDMMDL_DRAW_GetDirIndex  0x0219FFD4  thumb  ov021
+ *   FLDMMDL_DRAW_UpdateBlactFlags  0x021A000C  thumb  ov021
+ *   BILLBOARD_ACT_GetBoard  0x02050080  arm
+ *   BILLBOARD_SetElemPos  0x0204F638  arm
+ *   BILLBOARD_ACT_SetEntryList  0x0205082C  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01496.h"
@@ -34,20 +34,20 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Trip;
-extern void *func_0216D6F0(void *p);
-extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u8 *p);
-extern u16 func_0216D598(void *p);
-extern u16 func_0216D678(void *p);
-extern u32 func_0219FFD4(u32);
-extern void func_02197CCC(u8 *p, s32 *out);
-extern void func_0219FFBC(u32 a, u32 *p);
-extern u32 func_02050080(u32 *p);
-extern void func_0204F638(u8 *a0, int i, struct Trip *src);
-extern void func_0205082C(void *p, int idx, u32 h);
-extern void func_021A000C(u32, u32, u32, u32, u32);
+extern void *FLDMMDL_GetDrawProcWork(void *p);
+extern int FLDMMDL_GetBlActCont(int a0);
+extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *p);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern u16 FLDMMDL_GetDrawStatus(void *p);
+extern u32 FLDMMDL_DRAW_GetDirIndex(u32);
+extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, s32 *out);
+extern void FLDMMDL_DRAW_AddHeightOffset(u32 a, u32 *p);
+extern u32 BILLBOARD_ACT_GetBoard(u32 *p);
+extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
+extern void BILLBOARD_ACT_SetEntryList(void *p, int idx, u32 h);
+extern void FLDMMDL_DRAW_UpdateBlactFlags(u32, u32, u32, u32, u32);
 
-void func_0219FB5C(u32 a)
+void FLDMMDL_DRAW_DrawMultiPattern(u32 a)
 {
     s32 buf[3];
     u32 flag;
@@ -59,12 +59,12 @@ void func_0219FB5C(u32 a)
     u32 m;
 
     flag = 0;
-    q = (u8 *)func_0216D6F0((void *)a);
+    q = (u8 *)FLDMMDL_GetDrawProcWork((void *)a);
     if (((struct Obj01496 *)q)->f0 == 0xFFFF)
         return;
-    r = func_0219C9DC((u8 *)func_0216D910(a));
-    t = func_0216D598((void *)a);
-    x = func_0216D678((void *)a);
+    r = FLDMMDL_BLACT_GetBbActSys((u8 *)FLDMMDL_GetBlActCont(a));
+    t = FLDMMDL_GetObjCode((void *)a);
+    x = FLDMMDL_GetDrawStatus((void *)a);
     if (t == 0xd3 || t == 0xd5 || t == 0x79) {
         m = 0;
         if (x == q[5])
@@ -81,10 +81,10 @@ void func_0219FB5C(u32 a)
             break;
         }
         q[5] = x;
-        func_0205082C((void *)r, ((struct Obj01496 *)q)->f0, m);
+        BILLBOARD_ACT_SetEntryList((void *)r, ((struct Obj01496 *)q)->f0, m);
         flag = 1;
     } else if (t == 0xd4 || t == 0xd6) {
-        y = func_0219FFD4(a);
+        y = FLDMMDL_DRAW_GetDirIndex(a);
         m = 0;
         if (x < 10) {
             if (y == q[4] && x == q[5])
@@ -107,18 +107,18 @@ void func_0219FB5C(u32 a)
             }
         }
         q[5] = x;
-        func_0205082C((void *)r, ((struct Obj01496 *)q)->f0, m);
+        BILLBOARD_ACT_SetEntryList((void *)r, ((struct Obj01496 *)q)->f0, m);
         flag = 1;
     } else {
         if (x == q[5])
             goto tail;
         q[5] = x;
-        func_0205082C((void *)r, ((struct Obj01496 *)q)->f0, flag);
+        BILLBOARD_ACT_SetEntryList((void *)r, ((struct Obj01496 *)q)->f0, flag);
         flag = 1;
     }
 tail:
-    func_021A000C(a, r, ((struct Obj01496 *)q)->f0, flag, 1);
-    func_02197CCC((u8 *)a, buf);
-    func_0219FFBC(a, (u32 *)buf);
-    func_0204F638((u8 *)func_02050080((u32 *)r), ((struct Obj01496 *)q)->f0, (struct Trip *)buf);
+    FLDMMDL_DRAW_UpdateBlactFlags(a, r, ((struct Obj01496 *)q)->f0, flag, 1);
+    FLDMMDL_ACMD_GetDrawPos((u8 *)a, buf);
+    FLDMMDL_DRAW_AddHeightOffset(a, (u32 *)buf);
+    BILLBOARD_SetElemPos((u8 *)BILLBOARD_ACT_GetBoard((u32 *)r), ((struct Obj01496 *)q)->f0, (struct Trip *)buf);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AAB54
+ * function: EFFECT_ENCOUNT_MarkSpotForRestore
  * address:  0x021AAB54
  * packet:   pkt_ov021_021AAB54
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  */
 
 typedef unsigned char u8;
@@ -40,11 +40,11 @@ typedef struct {
     D *f10;
 } S;
 
-extern T *func_02012A38(int a);
+extern T *GAME_DATA_GetFieldGimmick(int a);
 
-void func_021AAB54(S *s)
+void EFFECT_ENCOUNT_MarkSpotForRestore(S *s)
 {
-    Sub *b = &func_02012A38(s->f8)->sub;
+    Sub *b = &GAME_DATA_GetFieldGimmick(s->f8)->sub;
     if (b->lo) {
         b->mid = 1;
     }

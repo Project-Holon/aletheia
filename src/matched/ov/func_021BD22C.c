@@ -1,5 +1,5 @@
 /*
- * function: func_021BD22C
+ * function: PLACE_NAME_LETTER_FreeWork
  * address:  0x021BD22C
  * packet:   pkt_021BD1CC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-u32 func_021BD22C(void *a0)
+u32 PLACE_NAME_LETTER_FreeWork(void *a0)
 {
     return func_020307B0(a0);
 }

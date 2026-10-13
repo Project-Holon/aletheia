@@ -1,5 +1,5 @@
 /*
- * function: func_021590FC
+ * function: SCRIPT_WORK_GetReturnScriptId
  * address:  0x021590FC
  * packet:   pkt_021590F4
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021590FC.c \
- *       --func func_021590FC --addr 0x021590FC --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRIPT_WORK_GetReturnScriptId.c \
+ *       --func SCRIPT_WORK_GetReturnScriptId --addr 0x021590FC --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17640.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_021590FC(void *p) { return ((struct Obj17640 *)p)->f13C; }
+u32 SCRIPT_WORK_GetReturnScriptId(void *p) { return ((struct Obj17640 *)p)->f13C; }

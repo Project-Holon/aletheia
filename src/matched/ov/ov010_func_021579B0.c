@@ -1,5 +1,5 @@
 /*
- * function: func_021579B0
+ * function: DELIVERY_IRC_StepFinish
  * address:  0x021579B0
  * packet:   pkt_ov010_021579B0
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_02082D44  0x02082D44  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0203F328  0x0203F328  arm
- *   func_02157960  0x02157960  thumb  ov010
- *   func_021579AC  0x021579AC  thumb  ov010
+ *   DELIVERY_IRC_SetStepAtLine  0x02157960  thumb  ov010
+ *   DELIVERY_IRC_StepEnd  0x021579AC  thumb  ov010
  */
 #include "../include/Obj01335.h"
 
@@ -23,16 +23,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_02082D44(void *, void *, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0203F328(u16 *p, u32 size, u32 seed);
-extern void func_02157960(int a, int b, int c);
-extern void func_021579AC(void);
+extern void DELIVERY_IRC_SetStepAtLine(int a, int b, int c);
+extern void DELIVERY_IRC_StepEnd(void);
 
-void func_021579B0(u8 *p)
+void DELIVERY_IRC_StepFinish(u8 *p)
 {
-    if (func_0203CD98() != 0)
+    if (GFL_NET_GetRunState() != 0)
         return;
     if (p[0x675] == 0) {
         if (((struct Obj01335 *)p)->f66C == 1) {
@@ -50,5 +50,5 @@ void func_021579B0(u8 *p)
         else
             p[0x674] = 3;
     }
-    func_02157960((int)p, (int)func_021579AC, 0xF8);
+    DELIVERY_IRC_SetStepAtLine((int)p, (int)DELIVERY_IRC_StepEnd, 0xF8);
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A298  0x0204A298  arm
+ *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  */
 
 typedef signed char s8;
@@ -19,14 +19,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
+extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 
 u16 *func_021F8498(u32 heap, u32 unused, u32 *count)
 {
     u32 size;
     u16 *list;
 
-    list = (u16 *)func_0204A298(0x62, 5, 0, (u16)heap, &size);
+    list = (u16 *)ARC_UTIL_LoadMemberWithSize(0x62, 5, 0, (u16)heap, &size);
     *count = size / 2;
     return list;
 }

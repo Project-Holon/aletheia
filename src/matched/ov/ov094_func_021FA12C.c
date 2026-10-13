@@ -10,11 +10,11 @@
  * witness: arm9 PARTICLE_SetupSystemNoHandlers filed as src/matched/arm9/PARTICLE_SetupSystemNoHandlers.c.
  * witness: func_021FC9F4 filed as src/matched/ov/ov094_func_021FC9F4.c.
  * symbols:
- *   func_0201134C 0x0201134C thumb
- *   func_020113D0 0x020113D0 thumb
+ *   VM_GetU32 0x0201134C thumb
+ *   VM_SetWait 0x020113D0 thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   func_0205121C 0x0205121C arm
+ *   PARTICLE_LoadArchiveMember 0x0205121C arm
  *   PARTICLE_CreateSystem 0x02050C30 arm
  *   PARTICLE_SetupSystemNoHandlers 0x02051380 arm
  *   func_020056A0 0x020056A0 thumb
@@ -32,11 +32,11 @@ typedef unsigned int u32;
 typedef struct { char *state; void *emitter; void *resource; } Callback;
 extern char d_0220AE68[];
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
-extern void func_020113D0(char *p, int val);
+extern u32 VM_GetU32(struct Cursor *p);
+extern void VM_SetWait(char *p, int val);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_020307B0(void *p);
-extern int func_0205121C(u32 a, u32 b, u32 c);
+extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern void *PARTICLE_CreateSystem(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
 extern void PARTICLE_SetupSystemNoHandlers(void *, void *);
 extern void *func_020056A0(void (*)(void), void *, int);
@@ -56,11 +56,11 @@ int func_021FA12C(void *a, char *s)
     Callback *cb;
     int line;
 
-    key = func_021FE38C(s, func_0201134C(a));
+    key = func_021FE38C(s, VM_GetU32(a));
     if (func_021FD15C(s, key, &slot) == 1) {
         line = 0x715;
         buffer = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x4800, 0, d_0220AE68, line);
-        resource = (void *)func_0205121C(6, key, (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
+        resource = (void *)PARTICLE_LoadArchiveMember(6, key, (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
         if (buffer != 0 && resource != 0) {
             *(void **)(s + 12 + slot * 4) = PARTICLE_CreateSystem((u32)buffer, 0x4800, 0, 5, 6, 0x36, (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
             if (*(void **)(s + 12 + slot * 4) != 0) {
@@ -72,7 +72,7 @@ int func_021FA12C(void *a, char *s)
                 cb->resource = resource;
                 ((struct Obj00325 *)s)->f0 |= 0x10000;
                 func_021F896C(func_020056A0(func_021FE9BC, cb, 0), 0, 1);
-                func_020113D0(a, (int)func_021FC9F4);
+                VM_SetWait(a, (int)func_021FC9F4);
                 func_021FD19C(s, slot, resource);
             }
         }

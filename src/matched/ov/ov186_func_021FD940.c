@@ -9,18 +9,18 @@
  * status: EXACT*
  * lever: Set the counter before narrowing value; its initialization splits the two shifts.
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B878(struct Obj *,u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 void func_021FD940(u8 *p,u32 value)
 {
     int i;
     u16 narrow;
     i=0;
     narrow=value;
-    for(;i<12;i++)func_0204B878(*(struct Obj **)((u32)p+(u32)i*4+0x1f8),narrow);
+    for(;i<12;i++)CLACT_SetActorAnimSeq(*(struct Obj **)((u32)p+(u32)i*4+0x1f8),narrow);
 }

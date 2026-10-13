@@ -1,5 +1,5 @@
 /*
- * function: func_021C7878
+ * function: FIELD_TASK_CreateMmdlDrawOffsetTween
  * address:  0x021C7878
  * packet:   pkt_ov021_021C7878
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_021C6C70  0x021C6C70  thumb  ov021
- *   func_021C6CCC  0x021C6CCC  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021C7A20  0x021C7A20  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELD_TASK_Create  0x021C6C70  thumb  ov021
+ *   FIELD_TASK_GetWork  0x021C6CCC  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FIELD_TASK_UpdateMmdlDrawOffsetTween  0x021C7A20  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -32,14 +32,14 @@ typedef struct {
     int f28;
 } Obj;
 
-extern u16 func_02188C84(u8 *p);
-extern int func_021C6C70(int, int, int (*)(Obj *));
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern int FIELD_TASK_Create(int, int, int (*)(Obj *));
 typedef unsigned int   u32;
-extern u32 func_021C6CCC(u8 *p);
+extern u32 FIELD_TASK_GetWork(u8 *p);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern int func_021C7A20(Obj *);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern int FIELD_TASK_UpdateMmdlDrawOffsetTween(Obj *);
 
 /* The Vec copy is a VEC_Set-style inline setter: its arguments are
  * evaluated right to left, which is what puts y in r1 and z in r2
@@ -51,17 +51,17 @@ static inline void vset(Vec *d, int x, int y, int z)
     d->z = z;
 }
 
-int func_021C7878(int a, int b, const Vec *c, int d)
+int FIELD_TASK_CreateMmdlDrawOffsetTween(int a, int b, const Vec *c, int d)
 {
     Obj *o;
     int h;
 
-    h = func_021C6C70(func_02188C84((u8 *)a), 0x2c, func_021C7A20);
-    o = (Obj *)func_021C6CCC((u8 *)h);
+    h = FIELD_TASK_Create(FIELDMAP_GetHeapId((u8 *)a), 0x2c, FIELD_TASK_UpdateMmdlDrawOffsetTween);
+    o = (Obj *)FIELD_TASK_GetWork((u8 *)h);
     o->f0 = 0;
     o->f4 = a;
     o->f28 = d;
-    func_0216D88C((const struct Actor *)d, (struct VecFx32 *)o->f1C);
+    FLDMMDL_GetPos((const struct Actor *)d, (struct VecFx32 *)o->f1C);
     if (b >= 0) {
         o->f8 = 0;
         o->fC = 0;

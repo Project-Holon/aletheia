@@ -1,5 +1,5 @@
 /*
- * function: func_021F3ECC
+ * function: GIMMICK43_IsLiftArrived
  * address:  0x021F3ECC
  * packet:   pkt_ov043_021F3ECC
  * region:   ov043
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf called only from func_021F3D78; the ov044 twin is
+ * Unlabelled leaf called only from GIMMICK43_ElevatorEventMain; the ov044 twin is
  * ov044_func_021F390C.c with every field one word lower.
  */
 
-int func_021F3ECC(int *p)
+int GIMMICK43_IsLiftArrived(int *p)
 {
     if (p[3] < 0) {
         if (p[2] >= p[1]) {

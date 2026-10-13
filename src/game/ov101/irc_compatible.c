@@ -16,11 +16,11 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_020120F4 0x020120F4 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
@@ -32,12 +32,12 @@
  *   func_0203133C 0x0203133C arm
  *   IRC_COMPATIBLE_StepTable 0x021B74B8 data a4
  *   PROCSYS_Push 0x02031348 arm
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200A8A0 0x0200A8A0 thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200A9D4 0x0200A9D4 thumb
  *   func_020084F4 0x020084F4 thumb
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_0200AA00 0x0200AA00 thumb
  *   func_021B6100 0x021B6100 thumb ov101
  *   func_021B6148 0x021B6148 thumb ov101
@@ -167,10 +167,10 @@ struct DateBytes { unsigned year, month, day, weekday; };
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern void func_02082BCC(void *dst, int value, u32 size);
 extern u32 func_020307B0(void *mem);
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void *func_020120F4(const struct GameSystem *gameSystem);
-extern void func_0203064C(u32,u32,u32);
-extern void *func_0203159C(struct Proc *proc, u32 size, u32 heapId);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 extern int GFL_USE_PushBgm(void);
 extern int GFL_USE_PopBgm(void);
@@ -181,12 +181,12 @@ extern void *PROCSYS_Create(int heapId);
 extern unsigned int PROCSYS_Main(void *queue);
 extern void func_0203133C(void *queue);
 extern void PROCSYS_Push(void *queue, int taskProc, int priority, void *args);
-extern void *func_02012EBC(void *gameData);
+extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *func_0200A8A0(void *saveBlock);
 extern u32 func_02008530(const u8 *myStatus);
 extern int func_0200A9D4(void *saveBlock, u32 nameKey);
 extern u16 *func_020084F4(void *myStatus);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern unsigned char func_0200AA00(unsigned month, unsigned day, struct DateBytes *date);
 void *func_021B6100(int a,int b,int c,int d);
 void func_021B6148(void *view);
@@ -234,8 +234,8 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
 {
     IrcCompatibleWork *work;
     int gameData;
-    func_0203064C(1, IRC_COMPATIBLE_HEAP_ID, 0x8000);
-    work = func_0203159C(proc, 64, IRC_COMPATIBLE_HEAP_ID);
+    GFL_HEAP_CreateChildHeap(1, IRC_COMPATIBLE_HEAP_ID, 0x8000);
+    work = PROCSYS_AllocProcWork(proc, 64, IRC_COMPATIBLE_HEAP_ID);
     func_02082BCC(work, 0, 64);
     gameData = 0;
     work->param = param;
@@ -563,12 +563,12 @@ void IRC_COMPATIBLE_FirstTestDestroyArgs(void *args, IrcCompatibleWork *work) {
  * func_020307B0 0x020307B0 arm
  * func_02082BCC 0x02082BCC arm
  * func_020120F4 0x020120F4 thumb
- * func_02012EBC 0x02012EBC thumb
+ * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * func_0200A8A0 0x0200A8A0 thumb
  * func_02008530 0x02008530 thumb
  * func_0200A9D4 0x0200A9D4 thumb
  * func_021B658C 0x021B658C thumb ov101
- * func_0203D378 0x0203D378 arm
+ * GFL_NET_IsParentAid 0x0203D378 arm
  * IRC_COMPATIBLE_CalcCompatibility 0x021B6ECC thumb ov101
  * IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  */
@@ -589,12 +589,12 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
         partnerName=work->partnerProfile->myStatus;
         /* the first call below discards its result; kept as in the original code */
         func_020120F4(work->param->gameSystem);
-        saveBlock=func_0200A8A0(func_02012EBC(func_020120F4(work->param->gameSystem)));
+        saveBlock=func_0200A8A0(GAME_DATA_GetSaveControl(func_020120F4(work->param->gameSystem)));
         if(func_0200A9D4(saveBlock,func_02008530(partnerName))==0) isNewPartner=1;
         useBonus=0;
         if(work->secondTestBonus && isNewPartner) useBonus=1;
         func_021B658C(work->param->gameSystem,&ownProfile);
-        if(func_0203D378()) packedDate=ownProfile.packedDate;
+        if(GFL_NET_IsParentAid()) packedDate=ownProfile.packedDate;
         else packedDate=work->partnerProfile->packedDate;
         args->compatibility=IRC_COMPATIBLE_CalcCompatibility(work->firstTestScore,work->secondTestScore,work->firstTestPenalty,work->secondTestPenalty,&ownProfile,work->partnerProfile,useBonus,packedDate,IRC_COMPATIBLE_HEAP_ID);
     }
@@ -671,13 +671,13 @@ u32 IRC_COMPATIBLE_CalcNameSimilarity(u16 *nameA, u16 *nameB)
     for (;;) {
         if (bitIndexA == 0) {
             charA = *++nameA;
-            if (charA == func_02045A98()) break;
+            if (charA == STRBUF_GetEosChar()) break;
             if (charA >= katakanaStartA && charA <= 0x30f4) charA -= 0x60;
             bitIndexA = IRC_COMPATIBLE_FindHighestSetBit(charA, 8);
         }
         if (bitIndexB == 0) {
             charB = *++nameB;
-            if (charB == func_02045A98()) break;
+            if (charB == STRBUF_GetEosChar()) break;
             if (charB >= katakanaStartB && charB <= 0x30f4) charB -= 0x60;
             bitIndexB = IRC_COMPATIBLE_FindHighestSetBit(charB, 8);
         }

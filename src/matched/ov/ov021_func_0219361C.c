@@ -1,5 +1,5 @@
 /*
- * function: func_0219361C
+ * function: FIELD_MSGBG_BlockQueryClear
  * address: 0x0219361C
  * packet: pkt_ov021_0219361C
  * region: ov021
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int   u32;
 
-void func_0219361C(u8 *p)
+void FIELD_MSGBG_BlockQueryClear(u8 *p)
 {
     *(u32 *)(p + 0x100) = 0;
 }

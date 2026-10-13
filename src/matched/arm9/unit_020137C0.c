@@ -12,7 +12,7 @@
  *
  * symbols:
  *   BTL_SETUP_SetupComm     0x02013528  thumb
-  *   func_0203D1A4     0x0203D1A4  arm
+  *   GFL_NET_GetHandleNetID     0x0203D1A4  arm
  *
  * The id-1 member of the same family - byte for byte BTL_SETUP_SetupCommSingle with a 1
  * where it has a 0 (the third argument of BTL_SETUP_SetupComm).
@@ -28,10 +28,10 @@ typedef unsigned int   u32;
 
 extern void BTL_SETUP_SetupComm(u32 p0, u32 p1, u32 id, u32 b, u32 c, u32 d, u32 e, u32 f);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 void BTL_SETUP_SetupCommDouble(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4)
 {
-    u32 r = func_0203D1A4((struct Link *)p2);
+    u32 r = GFL_NET_GetHandleNetID((struct Link *)p2);
 
     BTL_SETUP_SetupComm(p0, p1, 1, 0, p2, p3, r, p4);
 }

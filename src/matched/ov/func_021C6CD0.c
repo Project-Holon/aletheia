@@ -1,5 +1,5 @@
 /*
- * function: func_021C6CD0
+ * function: FIELD_TASK_IsFinished
  * address:  0x021C6CD0
  * packet:   pkt_021C6CD0
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C6CD0(u32 a)
+int FIELD_TASK_IsFinished(u32 a)
 {
 if (((struct Obj18315 *)((u8 *)(a)))->f0 == 2) {
     return 1;

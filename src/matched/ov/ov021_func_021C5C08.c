@@ -1,5 +1,5 @@
 /*
- * function: func_021C5C08
+ * function: SCRCMD_SubProcEventMain
  * address:  0x021C5C08
  * packet:   pkt_ov021_021C5C08
  * region:   ov021
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * blocker:  pooled 0x000000AB is an overlay-id-like absolute symbol passed to
- *           func_020146F8 (0x020146F8), which is not in match.py
+ *           FIELD_STATUS_CreateSubProcEvent (0x020146F8), which is not in match.py
  *           OVERLAY_ID_CONSUMERS, so the ABS32 has no witness (literal class
  *           refuses the range's own pool word).  Every concrete byte matches.
  *
  * symbols:
- *   func_020146F8  0x020146F8  thumb
- *   func_02012374  0x02012374  thumb
+ *   FIELD_STATUS_CreateSubProcEvent  0x020146F8  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   ov171_id       0x000000AB  data  a1
- *   d_021DEA44    0x021DEA44  data  ov021  a1
+ *   gSubProcTable    0x021DEA44  data  ov021  a1
  */
 
 typedef unsigned short u16;
@@ -30,19 +30,19 @@ typedef struct {
     u16 *f10;
 } Arg;
 
-extern void *func_020146F8(char *a0, int a1, int a2, int a3, int a4);
+extern void *FIELD_STATUS_CreateSubProcEvent(char *a0, int a1, int a2, int a3, int a4);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern char d_021DEA44[];
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern char gSubProcTable[];
 extern char ov171_id[];
 
-int func_021C5C08(void *a, int *st, Arg *p)
+int SCRCMD_SubProcEventMain(void *a, int *st, Arg *p)
 {
     int v;
 
     switch (*st) {
     case 0:
-        func_02012374(a, func_020146F8((char *)p->f0, p->f4, (int)ov171_id, (int)d_021DEA44, (int)p->f8));
+        GAME_EVENT_CallEvent(a, FIELD_STATUS_CreateSubProcEvent((char *)p->f0, p->f4, (int)ov171_id, (int)gSubProcTable, (int)p->f8));
         *st = *st + 1;
         break;
     case 1:

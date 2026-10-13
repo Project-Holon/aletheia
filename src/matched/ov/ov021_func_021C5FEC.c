@@ -1,5 +1,5 @@
 /*
- * function: func_021C5FEC
+ * function: FISHING_ShowBiteMark
  * address:  0x021C5FEC
  * packet:   pkt_ov021_021C5FEC
  * region:   ov021
@@ -12,27 +12,27 @@
  * Switches the window to mode 2 and opens the message box.
  *
  * symbols:
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_021BB528  0x021BB528  thumb  ov021
- *   func_021AE01C  0x021AE01C  thumb  ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDEFF_GYOE_SetMMdl  0x021BB528  thumb  ov021
+ *   FLDEFF_FISHING_SetAnimeSpeed  0x021AE01C  thumb  ov021
  */
 #include "../include/Obj06080.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_02188CD0(u8 *p);
-extern void func_0216D674(void *p, unsigned short v);
-extern u32 func_021BB528(u32 a, u32 b, u32 c, u32 d);
+extern u32 FIELDMAP_GetEffect(u8 *p);
+extern void FLDMMDL_SetDrawStatus(void *p, unsigned short v);
+extern u32 FLDEFF_GYOE_SetMMdl(u32 a, u32 b, u32 c, u32 d);
 typedef unsigned short u16;
-extern void func_021AE01C(u32 a, u16 v);
+extern void FLDEFF_FISHING_SetAnimeSpeed(u32 a, u16 v);
 
-void func_021C5FEC(u8 *p)
+void FISHING_ShowBiteMark(u8 *p)
 {
-    u32 o = func_02188CD0((u8 *)(((struct Obj06080 *)p)->f8));
+    u32 o = FIELDMAP_GetEffect((u8 *)(((struct Obj06080 *)p)->f8));
 
-    func_0216D674((void *)(((struct Obj06080 *)p)->f1C), 2);
-    ((struct Obj06080 *)p)->f2C = func_021BB528(o, ((struct Obj06080 *)p)->f1C, 0, 1);
-    func_021AE01C(((struct Obj06080 *)p)->f30, 1);
+    FLDMMDL_SetDrawStatus((void *)(((struct Obj06080 *)p)->f1C), 2);
+    ((struct Obj06080 *)p)->f2C = FLDEFF_GYOE_SetMMdl(o, ((struct Obj06080 *)p)->f1C, 0, 1);
+    FLDEFF_FISHING_SetAnimeSpeed(((struct Obj06080 *)p)->f30, 1);
 }

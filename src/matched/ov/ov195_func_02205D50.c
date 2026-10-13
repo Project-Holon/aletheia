@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
- *   func_02006984 0x02006984 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
+ *   PM_VOICE_Play 0x02006984 thumb
  *   func_02006650 0x02006650 thumb
  *   MCSS_SetPaletteFade 0x02015F50 thumb
  *   func_02206264 0x02206264 thumb ov195
@@ -35,8 +35,8 @@ typedef unsigned int u32;
 struct McssFade;
 struct Obj;
 struct Owner;
-extern u32 func_02017E1C(void *,u32,u32);
-extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 extern int func_02006650(void);
 typedef signed int     s32;
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
@@ -67,9 +67,9 @@ void func_02205D50(char *p)
         if(W(0x1c)) {
             u32 a,b;
             W(0x14)=1;
-            a=func_02017E1C(P(4),5,0);
-            b=func_02017E1C(P(4),0x6f,0);
-            func_02006984(a,b,0x40,0,0,0,0,0);
+            a=POKE_TOOL_GetPartyValue(P(4),5,0);
+            b=POKE_TOOL_GetPartyValue(P(4),0x6f,0);
+            PM_VOICE_Play(a,b,0x40,0,0,0,0,0);
         }
         break;
     case 1:
@@ -140,9 +140,9 @@ void func_02205D50(char *p)
             u32 a,b;
             W(0x14)=20;
             if(W(0x40))obj=P(4);else obj=P(0x10);
-            a=func_02017E1C(obj,5,0);
-            b=func_02017E1C(obj,0x6f,0);
-            func_02006984(a,b,0x40,0,0,0,0,0);
+            a=POKE_TOOL_GetPartyValue(obj,5,0);
+            b=POKE_TOOL_GetPartyValue(obj,0x6f,0);
+            PM_VOICE_Play(a,b,0x40,0,0,0,0,0);
         }
         break;
     case 20:if(!func_02006650()){W(0x14)=21;W(0x18)=0;W(0x34)=1;}break;

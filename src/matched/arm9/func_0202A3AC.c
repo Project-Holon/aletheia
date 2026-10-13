@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *
  */
 typedef unsigned int u32;
 
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
 void func_0202A3AC(void *a0, void *a1)
 {
-    func_02048F4C(a1, 0x5c, (u32)a0);
+    ARC_TOOL_ReadMember(a1, 0x5c, (u32)a0);
 }

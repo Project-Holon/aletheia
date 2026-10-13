@@ -1,5 +1,5 @@
 /*
- * function: func_021671DC
+ * function: EVENT_RESEARCH_RADAR_CreateWordSet
  * address:  0x021671DC
  * packet:   pkt_021671DC
  * region:   ov010
@@ -22,7 +22,7 @@ struct WordSet;
 
 extern struct WordSet *func_0201EC64(u32 heap);
 
-struct WordSet *func_021671DC(int a0)
+struct WordSet *EVENT_RESEARCH_RADAR_CreateWordSet(int a0)
 {
     int t4;
     struct WordSet *ws;

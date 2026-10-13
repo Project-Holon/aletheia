@@ -1,5 +1,5 @@
 /*
- * function: func_02186854
+ * function: FIELD_WFBC_DATA_LOCAL_CountItemSlots
  * address: 0x02186854
  * packet: pkt_ov020_02186854
  * region: ov020
@@ -11,4 +11,4 @@
  */
 
 typedef unsigned short u16;
-int func_02186854(u16 *p) { int i; int n; n = 0; for (i = 0; i < 10; i++) { if (p[i] != 0xFFFF) n++; } return n; }
+int FIELD_WFBC_DATA_LOCAL_CountItemSlots(u16 *p) { int i; int n; n = 0; for (i = 0; i < 10; i++) { if (p[i] != 0xFFFF) n++; } return n; }

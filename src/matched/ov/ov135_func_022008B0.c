@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B98C 0x0204B98C arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020355C4 0x020355C4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0220053C 0x0220053C thumb ov135
@@ -20,16 +20,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor;
 struct Obj;
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0220053C(u8 *p, int mode);
 int func_022008B0(u8 *p)
 {
-    if (func_0204B98C((struct Actor *)(((struct Obj01749 *)p)->fBF4)) == 0) {
-        func_0204B878((struct Obj *)(((struct Obj01749 *)p)->fBF4), 0);
+    if (CLACT_IsActorAnimActive((struct Actor *)(((struct Obj01749 *)p)->fBF4)) == 0) {
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj01749 *)p)->fBF4), 0);
         if (func_020355C4() == 1)
             func_0204B3DC((struct Obj *)((struct Obj01749 *)p)->fBF4, 0);
         else

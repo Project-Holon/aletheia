@@ -1,5 +1,5 @@
 /*
- * function: func_021B5DD0
+ * function: SCRCMD_POKEMON_FLD_LookupThreshold
  * address:  0x021B5DD0
  * packet:   pkt_ov021_021B5DD0
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf (saves no lr), called by func_021B5DF8.
+ * Unlabelled leaf (saves no lr), called by SCRCMD_POKEMON_FLD_GetPokedexRating.
  * symbols:
  * Addresses are Black-image addresses.
  */
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 typedef struct { u16 a; u16 b; } Ent;
 
-u32 func_021B5DD0(Ent *t, int k)
+u32 SCRCMD_POKEMON_FLD_LookupThreshold(Ent *t, int k)
 {
     int i;
     u32 th;

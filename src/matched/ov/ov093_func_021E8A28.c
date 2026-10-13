@@ -1,5 +1,5 @@
 /*
- * function: func_021E8A28
+ * function: BTLV_CORE_MakeSlotKind4
  * address:  0x021E8A28
  * packet:   pkt_ov093_021E8A28
  * region:   ov093
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 struct S { unsigned a:3; unsigned b:6; unsigned c:6; unsigned d:17; };
 
-int func_021E8A28(u32 a, u32 b)
+int BTLV_CORE_MakeSlotKind4(u32 a, u32 b)
 {
     struct S s = {0};
 

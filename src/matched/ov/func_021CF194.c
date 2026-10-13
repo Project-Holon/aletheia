@@ -1,5 +1,5 @@
 /*
- * function: func_021CF194
+ * function: COMM_ENTRY_RecvJoinRequest
  * address:  0x021CF194
  * packet:   pkt_021CF194
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021CD624  0x021CD624  thumb  ov021
+ *   COMM_ENTRY_MENU_AddMember  0x021CD624  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021CD624(u32, u32, u32, u32, u32);
+extern u32 COMM_ENTRY_MENU_AddMember(u32, u32, u32, u32, u32);
 
-int func_021CF194(u32 a, u32 b, u32 c, u32 d)
+int COMM_ENTRY_RecvJoinRequest(u32 a, u32 b, u32 c, u32 d)
 {
-return func_021CD624(d, a, c, *(u8 *)((u8 *)((c + 38))), (c + 32));
+return COMM_ENTRY_MENU_AddMember(d, a, c, *(u8 *)((u8 *)((c + 38))), (c + 32));
 }
 

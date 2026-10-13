@@ -24,11 +24,11 @@
  *   P_STA_RIBBON_GetRowOwnedIndex 0x021D9428 thumb ov131
  *   P_STA_RIBBON_PrintDetail 0x021D949C thumb ov131
  *   P_STA_RIBBON_Scroll 0x021D8F0C thumb ov131
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020061E4 0x020061E4 thumb
- *   func_02035C60 0x02035C60 arm
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  */
 #include "../include/Obj00091.h"
 #include "../include/Obj00136.h"
@@ -44,17 +44,17 @@ struct Obj;
 extern unsigned int P_STA_RIBBON_GetRowOwnedIndex(unsigned char *p, unsigned int target);
 extern void P_STA_RIBBON_PrintDetail(u8 *,u8 *);
 extern void P_STA_RIBBON_Scroll(void *,u8 *,int);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_020061E4(u32 a);
-extern int func_02035C60(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_GetCont(void);
 void P_STA_RIBBON_UpdateTouch(u8 *a,u8 *p)
 {
     int index, delta, velocity;
     if(((struct Obj00136 *)a)->f24==7) {
         P_STATUS_SetInputEnable((char *)a,1);
-        func_0204B878(((struct Obj00136 *)a)->f194,9);
+        CLACT_SetActorAnimSeq(((struct Obj00136 *)a)->f194,9);
         func_0204B3DC(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;
         p[0x59]=255;
@@ -65,7 +65,7 @@ void P_STA_RIBBON_UpdateTouch(u8 *a,u8 *p)
         func_020061E4(1361);
         return;
     }
-    if(func_02035C60()==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
+    if(TOUCHPANEL_GetTrg()==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
         index=P_STA_RIBBON_GetTouchedRow(a,p);
         if(index!=-1) {
             p[0x58]=(u8)index;
@@ -80,7 +80,7 @@ void P_STA_RIBBON_UpdateTouch(u8 *a,u8 *p)
         a[0x1c]=1;
         return;
     }
-    if(func_02035C38()==1 && ((struct Obj00091 *)p)->f64==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
+    if(TOUCHPANEL_GetCont()==1 && ((struct Obj00091 *)p)->f64==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
         delta=(s16)(((struct Obj00136 *)a)->f34-((struct Obj00136 *)a)->f2C);
         velocity=delta*2;
         P_STA_RIBBON_Scroll(a,p,delta);

@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DED1C.c
- * function: func_021DED1C
+ * function: BTL_HANDLER_ITEM_GetGripClawHandlers
  * address: 0x021DED1C
  * packet: pkt_ov093_021DED1C
  * region: ov093
@@ -14,7 +14,7 @@
  */
 extern int d_021F1384;
 
-int *func_021DED1C(int *count)
+int *BTL_HANDLER_ITEM_GetGripClawHandlers(int *count)
 {
     *count = 1;
     return &d_021F1384;

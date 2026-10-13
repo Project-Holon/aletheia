@@ -1,5 +1,5 @@
 /*
- * function: func_021B9434
+ * function: FIELD_RAIL_KEY_TurnLeft
  * address:  0x021B9434
  * packet:   pkt_021B9434
  * region:   ov021
@@ -14,7 +14,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021B9434(int dir)
+int FIELD_RAIL_KEY_TurnLeft(int dir)
 {
     switch (dir) {
     case 1: return 4;

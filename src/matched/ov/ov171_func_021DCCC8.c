@@ -13,7 +13,7 @@
  * Original frame: temp d@0, i@4, o@8, c@0xc, j@0x10; compiled: c@0, o@4, i@8, d@0xc, j@0x10.
  * Declaration order did not change the slot order. Also the p+0xB4 operand: original
  * computes (p+0xB4) fresh then +r; compiled adds r first. Spelling p+0xB4+r hoists p+0xB4
- * into a spill (worse). Callee prototypes guessed (all thumb except func_020457B0).
+ * into a spill (worse). Callee prototypes guessed (all thumb except STRBUF_Create).
  * 2026-10-04 (wD2 lane19): original temps by slot (low to high): d(p+0xC+r) @0, e(p+i*0xBC) @4, o @8, c @0xc, j @0x10.
  *   Declaring j,c,o,e,d,i,k at function scope reorders e/o/c but the d temp stays at 0xC; hoisting d before the k loop or
  *   `(u8*)((u32)(p+0xB4)+(u32)r)` grows the frame to 0x18 (worse). Residue: d temp slot and (p+0xB4)+r operand order.
@@ -30,12 +30,12 @@
  *   in that order give the frame. Only residue: func_0200ED14 (arm9, thumb) had no label. It is now filed EXACT
  *   as src/matched/arm9/func_0200ED14.c; once its shard exists this file should verify EXACT.
  * symbols:
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
  *   func_0200EC14 0x0200EC14 thumb
  *   func_0200EC98 0x0200EC98 thumb
  *   func_0200EC2C 0x0200EC2C thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_0200ECD0 0x0200ECD0 thumb
@@ -53,12 +53,12 @@ struct Src0200EC2C;
 struct Sub020072A4Ctrl;
 struct Sub020073D8Ctrl;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *GAME_DATA_GetSaveBlock42(void **h);
 extern int func_0200EC14(char *p);
 extern void func_0200EC98(const u8 *o, struct Out0200EC98 *out);
 extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_0200ECD0(char *o, int idx);
@@ -82,8 +82,8 @@ void func_021DCCC8(struct P *p)
     struct S *s;
     for (i = 0; i < 15; i++) {
         for (k = 0; k < 6; k++) {
-            p->rows[i].ents[k].a = func_020457B0(0x20, 0x8c);
-            p->rows[i].ents[k].b = func_020457B0(0x20, 0x8c);
+            p->rows[i].ents[k].a = STRBUF_Create(0x20, 0x8c);
+            p->rows[i].ents[k].b = STRBUF_Create(0x20, 0x8c);
         }
     }
     s = p->s;
@@ -96,7 +96,7 @@ void func_021DCCC8(struct P *p)
         p->n = 1;
     } else {
         u32 id;
-        c = func_02012EBC(s->f0);
+        c = GAME_DATA_GetSaveControl(s->f0);
         id = 8;
         if (SAVE_CONTROL_LoadExtraSave(c, id, 0x8c) == 1) {
             o = func_020073D8(c, id, 0);

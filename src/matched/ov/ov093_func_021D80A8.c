@@ -1,5 +1,5 @@
 /*
- * function: func_021D80A8
+ * function: BTL_CALC_GetCurseTargetKind
  * address:  0x021D80A8
  * packet:   pkt_ov093_021D80A8
  * region:   ov093
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5814  0x021D5814  thumb  ov093
+ *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D5814(void *p, int k);
+extern int BTL_POKEPARAM_HasType(void *p, int k);
 
-int func_021D80A8(void *p)
+int BTL_CALC_GetCurseTargetKind(void *p)
 {
     int r = 7;
-    if (func_021D5814(p, 7)) r = 0;
+    if (BTL_POKEPARAM_HasType(p, 7)) r = 0;
     return r;
 }

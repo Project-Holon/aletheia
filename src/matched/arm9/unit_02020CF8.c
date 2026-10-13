@@ -10,18 +10,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02020CF8, func_02020D0C, func_02020D10, BMP_CURSOR_Create
+ * function: BMP_MENULIST_ResetCursorTile, BMP_MENULIST_GetUserData, BMP_MENULIST_SetCancelDisabled, BMP_CURSOR_Create
  *
  * symbols:
  *   func_02020D18_File  0x020A73A0  data
  *   BMP_MENULIST_DrawCursor  0x020206C0  thumb
  *   BMP_CURSOR_SetTileBitmap  0x02020DC8  thumb
  *
- * func_02020D0C and func_02020D10 carry no label in the generated listing:
+ * BMP_MENULIST_GetUserData and BMP_MENULIST_SetCancelDisabled carry no label in the generated listing:
  * they are a two-instruction word getter and a two-instruction byte setter
  * with no register-saving prologue, so disasm.py's prologue sweep never
  * fires on them and the listing prints them as a run of data between
- * func_02020CF8 and BMP_CURSOR_Create
+ * BMP_MENULIST_ResetCursorTile and BMP_CURSOR_Create
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * BMP_CURSOR_Create is a debug-allocator constructor in the
@@ -52,18 +52,18 @@ struct Obj {
 extern void BMP_CURSOR_SetTileBitmap(char *p, int a);
 extern void BMP_MENULIST_DrawCursor(struct Obj *p);
 
-void func_02020CF8(struct Obj *p, int heap)
+void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap)
 {
     BMP_CURSOR_SetTileBitmap(p->unk3C, heap);
     BMP_MENULIST_DrawCursor(p);
 }
 
-u32 func_02020D0C(u8 *p)
+u32 BMP_MENULIST_GetUserData(u8 *p)
 {
     return ((struct Obj17238 *)p)->f1C;
 }
 
-void func_02020D10(u8 *p, u32 v)
+void BMP_MENULIST_SetCancelDisabled(u8 *p, u32 v)
 {
     p[0x4A] = v;
 }

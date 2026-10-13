@@ -1,5 +1,5 @@
 /*
- * function: func_021A25BC
+ * function: WEATHER_TASK_PlaySe
  * address:  0x021A25BC
  * packet:   pkt_ov021_021A25BC
  * region:   ov021
@@ -12,14 +12,14 @@
  * Unlabelled tail-call stub, filed for the ov026 lane.
  *
  * symbols:
- *   func_021A25BC 0x021A25BC thumb ov021
- *   func_021A2C30 0x021A2C30 thumb ov021
+ *   WEATHER_TASK_PlaySe 0x021A25BC thumb ov021
+ *   WEATHER_TASK_PlaySound 0x021A2C30 thumb ov021
  */
 #include "../include/Obj19740.h"
 
-extern void func_021A2C30(unsigned char *o, int a, int b);
+extern void WEATHER_TASK_PlaySound(unsigned char *o, int a, int b);
 
-void func_021A25BC(unsigned char *o, int arg)
+void WEATHER_TASK_PlaySe(unsigned char *o, int arg)
 {
-    func_021A2C30(o + 0x40, ((struct Obj19740 *)o)->fC, arg);
+    WEATHER_TASK_PlaySound(o + 0x40, ((struct Obj19740 *)o)->fC, arg);
 }

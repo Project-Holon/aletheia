@@ -1,5 +1,5 @@
 /*
- * function: func_02175094
+ * function: COLOSSEUM_SetStartFlag
  * address:  0x02175094
  * packet:   pkt_ov012_02175094
  * region:   ov012
@@ -17,7 +17,7 @@ typedef struct {
     u8 bc8 : 1;
 } Obj;
 
-void func_02175094(Obj *p, int v)
+void COLOSSEUM_SetStartFlag(Obj *p, int v)
 {
     p->bc8 = (u8)v;
 }

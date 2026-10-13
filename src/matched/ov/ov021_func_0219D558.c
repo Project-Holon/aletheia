@@ -1,5 +1,5 @@
 /*
- * function: func_0219D558
+ * function: FLDMMDL_G3DOBJ_FindResIdx
  * address:  0x0219D558
  * packet:   pkt_ov021_0219D558
  * region:   ov021
@@ -18,7 +18,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u16 a; u16 b; } E4;
 
-u16 func_0219D558(u8 *s, u16 k)
+u16 FLDMMDL_G3DOBJ_FindResIdx(u8 *s, u16 k)
 {
     int i;
     E4 *e = *(E4 * *)&((struct Obj09517 *)s)->fC;

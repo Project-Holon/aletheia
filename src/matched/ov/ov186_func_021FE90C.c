@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *
  * Three-state fade task.  start/end are assigned only for p[2] == 0 or 1:
  * the original passes callee-saved r5 and entry r2 unset on any other
@@ -20,8 +20,8 @@
  */
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
 int func_021FE90C(u32 *p, u32 *state)
 {
     u32 mask;
@@ -38,11 +38,11 @@ int func_021FE90C(u32 *p, u32 *state)
             start = 0;
             end = 16;
         }
-        func_0204E720(mask, start, end, p[6]);
+        FADE_Start(mask, start, end, p[6]);
         *state = 1;
         break;
     case 1:
-        if (func_0204E804() == 0) *state = 2;
+        if (FADE_IsActive() == 0) *state = 2;
         break;
     case 2:
         return 1;

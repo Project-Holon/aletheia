@@ -1,5 +1,5 @@
 /*
- * function: func_0216A07C
+ * function: REPORT_EVENT_UpdateMessageQueue
  * address:  0x0216A07C
  * packet:   pkt_ov010_0216A07C
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C4E4  0x0201C4E4  thumb
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_0201C6B4  0x0201C6B4  thumb
  */
 
@@ -58,22 +58,22 @@ typedef struct Slot {
 
 struct Descriptor;
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 
-int func_0216A07C(Work *w)
+int REPORT_EVENT_UpdateMessageQueue(Work *w)
 {
     Slot *s;
     void *t;
 
-    func_0201C4E4(w->f18->f14);
+    PRINTSYS_QUE_Main(w->f18->f14);
     t = w->f18->f14;
     s = (Slot *)&w->f18->f08;
     if (s->f04 != 0 && func_0201C6C4(t, func_02045770(s->f00)) == 0) {
-        func_02045334(s->f00);
+        BMP_WIN_TransferChars(s->f00);
         s->f04 = 0;
     }
     return func_0201C6B4(w->f18->f14);

@@ -1,5 +1,5 @@
 /*
- * function: func_02162940
+ * function: EVENTDATA_SYSTEM_GetAutoPosEventScriptId
  * address: 0x02162940
  * packet: pkt_ov010_02162940
  * region: ov010
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02162890 0x02162890 thumb ov010
+ *   EVENTDATA_SYSTEM_SearchAutoPosEvent 0x02162890 thumb ov010
  */
 typedef unsigned short u16;
 struct Ctx;
 struct Rec;
-extern struct Rec *func_02162890(struct Ctx *c, void *a, int key);
-u16 func_02162940(void *p, void *q, int key) { u16 *r=(u16 *)func_02162890(p,q,key); if(r) return *r; return 0xffff; }
+extern struct Rec *EVENTDATA_SYSTEM_SearchAutoPosEvent(struct Ctx *c, void *a, int key);
+u16 EVENTDATA_SYSTEM_GetAutoPosEventScriptId(void *p, void *q, int key) { u16 *r=(u16 *)EVENTDATA_SYSTEM_SearchAutoPosEvent(p,q,key); if(r) return *r; return 0xffff; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D7AD4
+ * function: BTL_CALC_SummarizeTypeAffinity
  * address: 0x021D7AD4
  * packet: pkt_ov093_021D7AD4
  * region: ov093
@@ -11,4 +11,4 @@
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
-int func_021D7AD4(int a) { if(a>3) return 2; if(a==3) return 1; if(a!=0) return 3; return 0; }
+int BTL_CALC_SummarizeTypeAffinity(int a) { if(a>3) return 2; if(a==3) return 1; if(a!=0) return 3; return 0; }

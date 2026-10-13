@@ -15,7 +15,7 @@
  *   func_021F76D8 0x021F76D8 thumb ov135
  *   func_021F777C 0x021F777C thumb ov135
  *   func_021F7878 0x021F7878 thumb ov135
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   func_021F9254 0x021F9254 thumb ov135
  *   func_021F81C8 0x021F81C8 thumb ov135
  *   func_021F8358 0x021F8358 thumb ov135
@@ -34,7 +34,7 @@ extern void func_021FFFE8(u8 *,u32,u32);
 extern void func_021F76D8(void *);
 extern void func_021F777C(void *);
 extern void func_021F7878(u8 *);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021F9254(u8 *);
 extern void func_021F81C8(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g);
 extern void func_021F8358(void *,void *,void **,void *,void *,void *);
@@ -48,7 +48,7 @@ int func_021F73DC(u8 *p)
     func_021F76D8(p);
     func_021F777C(p);
     func_021F7878(p);
-    func_0202208C((void *)3,1,1,0,6,1,0x48);
+    WIPE_SYS_Start((void *)3,1,1,0,6,1,0x48);
     func_021F9254(p);
     func_021F81C8(((struct Obj01159 *)p)->fB6C,((struct Obj01159 *)p)->fB70,(int)(((struct Obj01159 *)p)->fB68),p+0xD90,0,3,-1,p+0xFA0);
     func_021F8358(((struct Obj01159 *)p)->fB6C,((struct Obj01159 *)p)->fB68,(void **)(p+0xD9C),((struct Obj01159 *)p)->fCC,p+0xB4C,p+0xFA0);

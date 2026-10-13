@@ -1,5 +1,5 @@
 /*
- * function: func_021A2F48
+ * function: FIELD_PLAYER_StartFormChange
  * address:  0x021A2F48
  * packet:   pkt_021A2F48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A3CB0  0x021A3CB0  thumb
+ *   FIELD_PLAYER_CORE_StartFormChange  0x021A3CB0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A3CB0(u32 a, u32 b);
+extern int FIELD_PLAYER_CORE_StartFormChange(u32 a, u32 b);
 
-void func_021A2F48(u8 *p, u32 a1)
+void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1)
 {
-    func_021A3CB0(((struct Obj18007 *)p)->f4, a1);
+    FIELD_PLAYER_CORE_StartFormChange(((struct Obj18007 *)p)->f4, a1);
 }

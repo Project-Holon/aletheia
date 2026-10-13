@@ -1,5 +1,5 @@
 /*
- * function: func_021C7FF0
+ * function: FIELDSKILL_MAPEFF_FreeFlash
  * address:  0x021C7FF0
  * packet:   pkt_021C7FF0
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * TwlDWC libdwcgsgp gpipeer.o: frees the buffer the message owns and clears
- * the message's pointer (gsifree is func_021C7DE0 here).
+ * the message's pointer (gsifree is FIELD_FLASH_Delete here).
  *
  * symbols:
- *   func_021C7DE0  0x021C7DE0  thumb
+ *   FIELD_FLASH_Delete  0x021C7DE0  thumb
  */
 
 typedef unsigned int u32;
 
-extern void func_021C7DE0(void *p);
+extern void FIELD_FLASH_Delete(void *p);
 
-void func_021C7FF0(void *msg)
+void FIELDSKILL_MAPEFF_FreeFlash(void *msg)
 {
-    func_021C7DE0(*(void **)msg);
+    FIELD_FLASH_Delete(*(void **)msg);
     *(u32 *)msg = 0;
 }

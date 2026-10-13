@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021BB9AC,func_021BB9BC
+ * function: PLIST_MESSAGE_SetWordSetItem,PLIST_MESSAGE_SetWordSetHeldItem
  * address: 0x021BB9AC
  * packet: pkt_ov091_021BB9AC
  * region: ov091
@@ -19,5 +19,5 @@ typedef unsigned int   u32;
 struct WordSet;
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EF4C(struct WordSet *p, u32 i, u32 v);
-void func_021BB9AC(int a,int b,int c,int d) {func_0201EF40((struct WordSet *)(((struct Obj20891 *)b)->f2C),c,d);}
-void func_021BB9BC(int a, u32 b, u32 c, int d) {func_0201EF4C((struct WordSet *)(((struct Obj20892 *)b)->f2C),c,d);}
+void PLIST_MESSAGE_SetWordSetItem(int a,int b,int c,int d) {func_0201EF40((struct WordSet *)(((struct Obj20891 *)b)->f2C),c,d);}
+void PLIST_MESSAGE_SetWordSetHeldItem(int a, u32 b, u32 c, int d) {func_0201EF4C((struct WordSet *)(((struct Obj20892 *)b)->f2C),c,d);}

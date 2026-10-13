@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 void func_021D92DC(u32 a, u32 b, u8 *src, u8 *base, void *e)
 {
-    if (e == func_020399A8())
+    if (e == GFL_NET_HANDLE_GetCurrentHandle())
         (base + a)[0x11e0] = *src;
 }

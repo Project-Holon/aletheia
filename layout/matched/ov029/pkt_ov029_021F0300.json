@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F0300",
+   "name": "C_GEAR_InitTabTimersPowerOff",
    "address": "0x021F0300",
    "kind": "game",
    "region": "ov029",

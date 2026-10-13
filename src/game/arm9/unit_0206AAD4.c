@@ -14,13 +14,13 @@
  *
  * symbols:
  *   g_renderState   0x02148B4C  data
- *   g_02148B98   0x02148B98  data
+ *   g_renderStateDrawParams   0x02148B98  data
  *   g_02148C4C   0x02148C4C  data
  *   func_0207B67C  0x0207B67C  arm
  *   MI_Copy64B        0x02082BA0  arm
  *   MTX_Identity44_   0x0207BDB4  arm
  *   FX_InvFx64c       0x0207C788  arm
- *   g_02148B54   0x02148B54  data
+ *   SCREENTEX_ProjectionMatrix   0x02148B54  data
  *   g_02148D0C   0x02148D0C  data
  *   g_renderStateIdentityMtx   0x02148C08  data
  *   g_02148C7C   0x02148C7C  data
@@ -60,9 +60,9 @@ u32 *func_0206ADF4(void);
 void *func_0206AE2C(void);
 void func_0206AE94(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
 extern u32 g_renderState[];
-extern u32 g_02148B98[];
+extern u32 g_renderStateDrawParams[];
 extern u32 g_02148C4C[];
-extern u32 g_02148B54[];
+extern u32 SCREENTEX_ProjectionMatrix[];
 extern u32 g_02148D0C[];
 extern char g_renderStateIdentityMtx[];
 extern u32 g_02148C7C[];
@@ -99,7 +99,7 @@ extern char g_02148D4C[];
 u32 *func_0206AAD4(void)
 {
     if ((g_renderState[0x3f] & 8) == 0) {
-        func_0207B67C(g_02148B98, g_02148C4C);
+        func_0207B67C(g_renderStateDrawParams, g_02148C4C);
         g_renderState[0x3f] |= 8;
     }
     return g_02148C4C;
@@ -222,7 +222,7 @@ int func_0206AB18(const MtxFx44 *pSrc, MtxFx44 *pDst)
 u32 *func_0206AD20(void)
 {
     if ((g_renderState[0x3f] & 0x10) == 0) {
-        func_0206AB18((const MtxFx44 *)g_02148B54, (MtxFx44 *)g_02148D0C);
+        func_0206AB18((const MtxFx44 *)SCREENTEX_ProjectionMatrix, (MtxFx44 *)g_02148D0C);
         g_renderState[0x3f] |= 0x10;
     }
     return g_02148D0C;
@@ -263,7 +263,7 @@ u32 *func_0206AD20(void)
  */
 void func_0206AD64(void)
 {
-    func_0207B9F0(g_renderStateIdentityMtx, g_02148B98, g_02148C7C);
+    func_0207B9F0(g_renderStateIdentityMtx, g_renderStateDrawParams, g_02148C7C);
     func_0207B60C(g_02148C7C, g_02148C7C, g_renderState[0x3b], g_renderState[0x3c],
                   g_renderState[0x3d]);
     func_0207B67C(g_02148C7C, g_02148CAC);

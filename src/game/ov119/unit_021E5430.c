@@ -24,18 +24,18 @@
  *   d_021E7E84 0x021E7E84 data a4
  *   d_021E7EA4 0x021E7EA4 data a4
  *   func_020434DC 0x020434DC arm
- *   func_0207DC44 0x0207DC44 arm
- *   func_0207DD24 0x0207DD24 arm
+ *   G3X_SetFog 0x0207DC44 arm
+ *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   d_021E7D00 0x021E7D00 data a4
- *   func_02046440 0x02046440 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
  *   d_021E7DE0 0x021E7DE0 data a4
  *   d_021E7CA0 0x021E7CA0 data a4
  *   d_020A1EB8 0x020A1EB8 data a4
  *   d_021E7C94 0x021E7C94 data a4
- *   func_02048A24 0x02048A24 arm
- *   func_02048AD0 0x02048AD0 arm
- *   func_02046BE0 0x02046BE0 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  */
 #include "pokemontrade_types.h"
 
@@ -62,13 +62,13 @@ extern void func_0204044C(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0204047C(int,u16);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_0207DC44(int,int,int,int);
-extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
+extern void G3X_SetFog(int,int,int,int);
+extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
-extern void func_02046440(int,int,int,int,u16,u16,void (*)(void));
-extern int func_02048A24(int,int,int,int,int,int,int,int,const Vec *,const Vec *,const Vec *,u16);
-extern void func_02048AD0(struct Light *l);
-extern void func_02046BE0(u32 a, u32 b);
+extern void G3D_SYSTEM_Init(int,int,int,int,u16,u16,void (*)(void));
+extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const Vec *,const Vec *,const Vec *,u16);
+extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 void func_021E5430(void *a0);
 void func_021E5520(void);
 void func_021E55BC(char *p);
@@ -108,8 +108,8 @@ void func_021E5520(void)
     unsigned i;
     func_020434DC(1,1);
     shading(SHADING_HIGHLIGHT); antialias(1); blend(1); edge(0);
-    func_0207DC44(1,0,0,0);
-    func_0207DD24(0,0,0x7fff,0x3f,0);
+    G3X_SetFog(1,0,0,0);
+    G3X_SetClearColor(0,0,0x7fff,0x3f,0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
     for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,(const u16 *)(d_021E7D00+i*8));
     *(volatile u16 *)0x04000008 = (u16)((*(volatile u16 *)0x04000008 & ~3) | 2);
@@ -123,11 +123,11 @@ void func_021E55BC(char *p)
 {
     u16 heap;
     Vec v;
-    func_02046440(0,2,0,1,0,(((TradeWork *)p)->f5F4&0x7fff)|0x8000,func_021E5520);
+    G3D_SYSTEM_Init(0,2,0,1,0,(((TradeWork *)p)->f5F4&0x7fff)|0x8000,func_021E5520);
     heap = (((TradeWork *)p)->f5F4&0x7fff)|0x8000;
     v = d_021E7DE0;
-    ((TradeWork *)p)->f810 = func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021E7CA0,&v,&d_021E7C94,heap);
-    func_02048AD0((struct Light *)(((TradeWork *)p)->f810));
+    ((TradeWork *)p)->f810 = G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021E7CA0,&v,&d_021E7C94,heap);
+    G3D_CAMERA_Reset((struct Light *)(((TradeWork *)p)->f810));
     *(volatile u16 *)0x04000060 &= 0xcfdf;
-    func_02046BE0(0,0);
+    G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF93C
+ * function: BTL_HANDLER_ITEM_BoostMovePowerOfType
  * address:  0x021DF93C
  * packet:   pkt_ov093_021DF93C
  * region:   ov093
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
- *   func_021DD008  0x021DD008  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
+ *   BTL_HANDLER_ITEM_GetBoostRatio  0x021DD008  thumb  ov093
  */
 
-extern int func_021D775C(int key);
-extern void func_021D7704(int key, int m);
-extern int func_021DD008(int a);
+extern int BTL_EVENT_GetVar(int key);
+extern void BTL_EVENT_MultiplyVar(int key, int m);
+extern int BTL_HANDLER_ITEM_GetBoostRatio(int a);
 
-void func_021DF93C(int a, int b, int c, int d)
+void BTL_HANDLER_ITEM_BoostMovePowerOfType(int a, int b, int c, int d)
 {
-    if (c != func_021D775C(3))
+    if (c != BTL_EVENT_GetVar(3))
         return;
-    if (d != func_021D775C(22))
+    if (d != BTL_EVENT_GetVar(22))
         return;
-    func_021D7704(49, func_021DD008(a));
+    BTL_EVENT_MultiplyVar(49, BTL_HANDLER_ITEM_GetBoostRatio(a));
 }

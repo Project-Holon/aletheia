@@ -1,5 +1,5 @@
 /*
- * function: func_021AB100
+ * function: MAP_ATTR_IsPresent
  * address:  0x021AB100
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -13,21 +13,21 @@
  * sentinel nor the 0xFF no-terrain id in its low half.
  *
  * symbols:
- *   func_021AB0F0  0x021AB0F0  thumb
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-extern u16 func_021AB0F0(u32 attr);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 
 
-BOOL func_021AB100(u32 attr)
+BOOL MAP_ATTR_IsPresent(u32 attr)
 {
     u16 id;
 
-    id = func_021AB0F0(attr);
+    id = MAP_ATTR_GetTerrainId(attr);
 
     if (attr == 0xFFFFFFFF || id == 0xFF) {
         return 0;

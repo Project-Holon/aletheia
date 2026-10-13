@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _G3dSystem     0x02146A5C  data
- *   g_02148B54     0x02148B54  data
+ *   SCREENTEX_ProjectionMatrix     0x02148B54  data
  *   g_renderState     0x02148B4C  data
  *   func_0207C408  0x0207C408  arm
  *   func_0207C1D0  0x0207C1D0  arm
@@ -50,7 +50,7 @@ struct G3dCtx {
 };
 
 extern struct G3dCtx *_G3dSystem;
-extern u8  g_02148B54[];
+extern u8  SCREENTEX_ProjectionMatrix[];
 extern u32 g_renderState[];
 
 extern void func_0207C408(u32 a0, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, void *s2);
@@ -75,34 +75,34 @@ void G3D_SYSTEM_SetProjection(const u32 *src)
     case 0:
         if (_G3dSystem->f38 == 0) {
             func_0207C408(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f30,
-                _G3dSystem->f34, 0x1000, g_02148B54);
+                _G3dSystem->f34, 0x1000, SCREENTEX_ProjectionMatrix);
             hw[0x3F] &= ~0x50u;
             return;
         }
         func_0207C408(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f30,
-            _G3dSystem->f34, _G3dSystem->f38, g_02148B54);
+            _G3dSystem->f34, _G3dSystem->f38, SCREENTEX_ProjectionMatrix);
         hw[0x3F] &= ~0x50u;
         return;
     case 1:
         if (_G3dSystem->f38 == 0) {
             func_0207C1D0(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f2c,
-                _G3dSystem->f30, _G3dSystem->f34, 0x1000, g_02148B54);
+                _G3dSystem->f30, _G3dSystem->f34, 0x1000, SCREENTEX_ProjectionMatrix);
             hw[0x3F] &= ~0x50u;
             return;
         }
         func_0207C1D0(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f2c,
-            _G3dSystem->f30, _G3dSystem->f34, _G3dSystem->f38, g_02148B54);
+            _G3dSystem->f30, _G3dSystem->f34, _G3dSystem->f38, SCREENTEX_ProjectionMatrix);
         hw[0x3F] &= ~0x50u;
         return;
     case 2:
         if (_G3dSystem->f38 == 0) {
             func_0207C554(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f2c,
-                _G3dSystem->f30, _G3dSystem->f34, 0x1000, g_02148B54);
+                _G3dSystem->f30, _G3dSystem->f34, 0x1000, SCREENTEX_ProjectionMatrix);
             hw[0x3F] &= ~0x50u;
             return;
         }
         func_0207C554(_G3dSystem->f20, _G3dSystem->f24, _G3dSystem->f28, _G3dSystem->f2c,
-            _G3dSystem->f30, _G3dSystem->f34, _G3dSystem->f38, g_02148B54);
+            _G3dSystem->f30, _G3dSystem->f34, _G3dSystem->f38, SCREENTEX_ProjectionMatrix);
         hw[0x3F] &= ~0x50u;
         return;
     }

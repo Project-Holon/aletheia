@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D76BC   0x021D76BC  thumb
- *   func_021D775C   0x021D775C  thumb
+ *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
+ *   BTL_EVENT_GetVar   0x021D775C  thumb
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   d_021F2938     0x021F2938  data   ov093  a4
@@ -33,10 +33,10 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 void func_021E14E4(int a, int b, int c);
 int *func_021E14FC(int *p);
 void func_021E1508(int a, void *p, int id);
@@ -50,11 +50,11 @@ extern int d_021F2494[];
 
 
 
-/* 021E14E4  shape F1: gate on func_021D775C(3) */
+/* 021E14E4  shape F1: gate on BTL_EVENT_GetVar(3) */
 void func_021E14E4(int a, int b, int c)
 {
-    if (c == func_021D775C(3))
-        func_021D76BC(0x37, 0x14);
+    if (c == BTL_EVENT_GetVar(3))
+        BTL_EVENT_OverwriteVar(0x37, 0x14);
 }
 
 
@@ -72,12 +72,12 @@ void func_021E1508(int a, void *p, int id)
     void *x;
     void *y;
     u8 t;
-    if (id == func_021D775C(3)) {
-        t = func_021D775C(4);
+    if (id == BTL_EVENT_GetVar(3)) {
+        t = BTL_EVENT_GetVar(4);
         x = func_021C7CF4(p, t);
         y = func_021C7CF4(p, id);
         if (func_021D59B4(x, 13) - func_021D59B4(y, 13) <= 0) {
-            func_021D76BC(0x40, 1);
+            BTL_EVENT_OverwriteVar(0x40, 1);
         }
     }
 }
@@ -89,11 +89,11 @@ void func_021E1558(int a, void *p, int id)
 {
     void *x;
     int d;
-    if (id == func_021D775C(3)) {
+    if (id == BTL_EVENT_GetVar(3)) {
         x = func_021C7CF4(p, id);
-        d = func_021D59B4(func_021C7CF4(p, (u8)func_021D775C(4)), 13) - func_021D59B4(x, 13);
+        d = func_021D59B4(func_021C7CF4(p, (u8)BTL_EVENT_GetVar(4)), 13) - func_021D59B4(x, 13);
         if (d < 0) d = 1;
-        func_021D76BC(0x37, d);
+        BTL_EVENT_OverwriteVar(0x37, d);
     }
 }
 
@@ -109,10 +109,10 @@ void func_021E15B0(int a, int b, int c)
 {
     int n;
 
-    if (c != func_021D775C(3))
+    if (c != BTL_EVENT_GetVar(3))
         return;
     n = (unsigned char)func_021D59B4(func_021C7CF4((int *)b, c), 15);
-    func_021D76BC(55, n);
+    BTL_EVENT_OverwriteVar(55, n);
 }
 
 

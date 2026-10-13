@@ -1,5 +1,5 @@
 /*
- * function: func_021D7320
+ * function: BTL_EVENT_SetFactorSkipCheck
  * address:  0x021D7320
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D7320   0x021D7320  thumb
+ *   BTL_EVENT_SetFactorSkipCheck   0x021D7320  thumb
  *
  * Stores the second argument (a u32) into the field at #0xc.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021D7320  str r1,[r0,#0xc] */
 struct QS { u8 pad[0xc]; u32 v; };
-void func_021D7320(struct QS *p, u32 v) { p->v = v; }
+void BTL_EVENT_SetFactorSkipCheck(struct QS *p, u32 v) { p->v = v; }
 

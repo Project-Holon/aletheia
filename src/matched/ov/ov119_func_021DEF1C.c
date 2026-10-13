@@ -22,17 +22,17 @@
  *   func_021B99B8 0x021B99B8 thumb ov114
  *   func_021B9838 0x021B9838 thumb ov114
  *   func_021D89EC 0x021D89EC thumb ov119
- *   func_02017E1C 0x02017E1C thumb
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0202136C 0x0202136C thumb
- *   func_02008F08 0x02008F08 thumb
+ *   MAIL_Create 0x02008F08 thumb
  *   func_02008F88 0x02008F88 thumb
  *   func_02019B58 0x02019B58 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DF0B8 0x021DF0B8 thumb ov119
@@ -57,17 +57,17 @@ struct Rec;
 struct Sub02008F80Obj;
 struct U16Vec;
 extern int func_021D89EC(const u8 *p);
-extern u32 func_02017E1C(void *,u32,u32);
-extern void func_02017E40(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 func_0202136C(u16);
-extern void *func_02008F08(int);
+extern void *MAIL_Create(int);
 extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
 extern void func_02019B58(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020307B0(void *p);
 extern void func_021D8E84(void *,int);
 extern void func_021DF0B8(char *p);
@@ -100,20 +100,20 @@ void func_021DEF1C(u8 *p)
                     if(func_021D89EC(*(void **)(p+i*4+off1))) {
                         mon=*(void **)(p+i*4+off2);
                         if(func_021B99F4((u32)data,n)) {
-                            value=func_02017E1C(mon,6,0);
+                            value=POKE_TOOL_GetPartyValue(mon,6,0);
                             bank=func_02045B38(0,2,81,((struct Obj01927 *)p)->f5F4);
                             text=func_02045EC0(bank,15);
-                            func_02045C04(bank);
+                            MSGDATA_Delete(bank);
                             if(func_0202136C(value)) {
-                                name=func_02008F08(*heap);
-                                func_02017E1C(mon,167,(u32)name);
+                                name=MAIL_Create(*heap);
+                                POKE_TOOL_GetPartyValue(mon,167,(u32)name);
                                 func_02008F88(name,STRBUF_GetChars(text));
-                                func_02017E40(mon,167,(u32)name);
+                                POKE_TOOL_SetPartyValue(mon,167,(u32)name);
                                 func_020307B0(name);
                             }
                             func_02019B58(mon);
-                            func_02017E40(mon,142,(u32)STRBUF_GetChars(text));
-                            func_02045808(text);
+                            POKE_TOOL_SetPartyValue(mon,142,(u32)STRBUF_GetChars(text));
+                            STRBUF_Delete(text);
                         }
                         n++;
                     }

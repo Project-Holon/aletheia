@@ -1,5 +1,5 @@
 /*
- * function: func_0204F720
+ * function: BILLBOARD_SetElemVisible
  * address:  0x0204F720
  * packet:   pkt_0204F684
  * region:   arm9
@@ -30,7 +30,7 @@ struct Rec {
     u16 hi : 6;
 };
 
-void func_0204F720(void *p, u32 idx, u32 *flag)
+void BILLBOARD_SetElemVisible(void *p, u32 idx, u32 *flag)
 {
     if (*flag == 1) {
         struct Rec *r = (struct Rec *)(*(u8 * *)&((struct Obj11449 *)p)->f8 + idx * 0x1c + 0x18);

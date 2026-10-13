@@ -1,5 +1,5 @@
 /*
- * function: func_021B8CE4
+ * function: ITEMMENU_StartPocketTabPress
  * address:  0x021B8CE4
  * packet:   pkt_ov070_021B8CE4
  * region:   ov070
@@ -10,44 +10,44 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6288  0x021B6288  thumb  ov070
- *   func_021B80BC  0x021B80BC  thumb  ov070
- *   func_021B81F4  0x021B81F4  thumb  ov070
- *   func_021B6138  0x021B6138  thumb  ov070
+ *   ITEMMENU_SwitchPocketCursor  0x021B6288  thumb  ov070
+ *   ITEMMENU_RefreshInputGuard  0x021B80BC  thumb  ov070
+ *   ITEMMENU_UpdatePocketSortIcon  0x021B81F4  thumb  ov070
+ *   ITEMMENU_RedrawList  0x021B6138  thumb  ov070
  *   func_020061E4  0x020061E4  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B8D88  0x021B8D88  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
+ *   ITEMMENU_TaskWaitPocketTabPress  0x021B8D88  thumb  ov070
  */
 #include "../include/Obj00002.h"
 
 struct Obj;
-extern void func_021B6288(struct Obj *o, int a, int b);
-extern void func_021B80BC(void *p);
+extern void ITEMMENU_SwitchPocketCursor(struct Obj *o, int a, int b);
+extern void ITEMMENU_RefreshInputGuard(void *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Obj;
-extern void func_021B81F4(u8 *p);
-extern void func_021B6138(char *p);
+extern void ITEMMENU_UpdatePocketSortIcon(u8 *p);
+extern void ITEMMENU_RedrawList(char *p);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_021B6100(char *p, int k);
-extern void func_021B8D88(char *p);
+extern void ITEMMENU_SetTask(char *p, int k);
+extern void ITEMMENU_TaskWaitPocketTabPress(char *p);
 
-void func_021B8CE4(int p, int u, int a, int b)
+void ITEMMENU_StartPocketTabPress(int p, int u, int a, int b)
 {
     int x;
-    func_021B6288((struct Obj *)p, u, ((struct Obj00002 *)p)->f80C);
-    func_021B80BC((void *)p);
-    func_021B81F4((u8 *)p);
+    ITEMMENU_SwitchPocketCursor((struct Obj *)p, u, ((struct Obj00002 *)p)->f80C);
+    ITEMMENU_RefreshInputGuard((void *)p);
+    ITEMMENU_UpdatePocketSortIcon((u8 *)p);
     ((struct Obj00002 *)p)->f818 = 0xFFFF;
-    func_021B6138((char *)p);
+    ITEMMENU_RedrawList((char *)p);
     if (a == 1) {
         func_020061E4(0x7D9);
         x = 0xD;
@@ -58,8 +58,8 @@ void func_021B8CE4(int p, int u, int a, int b)
     ((struct Obj00002 *)p)->f864 = a;
     ((struct Obj00002 *)p)->f866 = 6;
     CLACT_SetActorAnimFrame((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), 0);
-    func_0204B878((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), (unsigned short)x);
+    CLACT_SetActorAnimSeq((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), (unsigned short)x);
     func_0204B92C((struct Obj *)*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710), 1);
     *(int *)&((struct Obj00002 *)p)->f868 = b;
-    func_021B6100((char *)p, (int)func_021B8D88);
+    ITEMMENU_SetTask((char *)p, (int)ITEMMENU_TaskWaitPocketTabPress);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F395C
+ * function: DAILY_LAYOUT_RemovePoolCell
  * address:  0x021F395C
  * packet:   pkt_ov036_021F395C
  * region:   ov036
@@ -13,7 +13,7 @@
  * file and packet carry the region to keep them distinct.
  */
 
-int func_021F395C(unsigned char *p, int idx)
+int DAILY_LAYOUT_RemovePoolCell(unsigned char *p, int idx)
 {
     if (idx > p[0x1f])
         return 0;

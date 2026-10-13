@@ -1,5 +1,5 @@
 /*
- * function: func_021F015C
+ * function: C_GEAR_POWER_ONOFF_DeleteTaskMenuRes
  * address:  0x021F015C
  * packet:   pkt_021F015C
  * region:   ov035
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F015C 0x021F015C thumb
- *   func_02027FD8 0x02027FD8 thumb
+ *   C_GEAR_POWER_ONOFF_DeleteTaskMenuRes 0x021F015C thumb
+ *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  */
 #include "../include/Obj20481.h"
 
 struct TaskMenuState;
 typedef unsigned int   u32;
-extern u32 func_02027FD8(struct TaskMenuState *s);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
-void func_021F015C(char *p)
+void C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(char *p)
 {
-    func_02027FD8((struct TaskMenuState *)(((struct Obj20481 *)p)->f40));
+    APP_TASKMENU_RES_Delete((struct TaskMenuState *)(((struct Obj20481 *)p)->f40));
 }

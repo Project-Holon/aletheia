@@ -12,16 +12,16 @@
  * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
  *   two calls to the unlabelled ARM leaf 0x0204784C (sites +0x8E, +0x98),
  *   closed when that leaf was seeded in layout/function_starts.txt and
- *   matched (src/matched/func_0204784C.c); all 11 relocations resolve.
+ *   matched (src/matched/G3D_SYSTEM_SetObjectAnimeFrame.c); all 11 relocations resolve.
  *
  * symbols:
  *   d_02208EC0 0x02208EC0 data
  *   func_022086C8 0x022086C8 thumb ov195
- *   func_02047E88 0x02047E88 arm
+ *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   func_020489F4 0x020489F4 arm
  *   func_02048A18 0x02048A18 arm
- *   func_020477A4 0x020477A4 arm
- *   func_0204784C 0x0204784C arm
+ *   G3D_SYSTEM_EnableObjectAnime 0x020477A4 arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  */
 
 typedef unsigned char u8;
@@ -54,13 +54,13 @@ typedef struct Anim {
 
 extern char d_02208EC0[];
 extern Node *func_022086C8(u16 heap, u16 n);
-extern u16 func_02047E88(void *res, void *name);
+extern u16 G3D_UTIL_AddUnit(void *res, void *name);
 struct G3dSys;
 extern u32 func_020489F4(u8 *a0, int i);
 extern u32 func_02048A18(u8 *a0, int i);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 
 void func_02208AB0(Anim *p)
 {
@@ -70,7 +70,7 @@ void func_02208AB0(Anim *p)
     Node *n;
     u16 id;
 
-    p->f18 = func_02047E88(p->res, d_02208EC0);
+    p->f18 = G3D_UTIL_AddUnit(p->res, d_02208EC0);
     p->count = 1;
     p->nodes = func_022086C8(p->heap, p->count);
     id = func_020489F4(p->res, p->f18);
@@ -82,13 +82,13 @@ void func_02208AB0(Anim *p)
     n->tz = 0;
     n->f40 = 1;
     for (i = 0; i < p->count; i++)
-        func_020477A4((struct G3dSys *)func_02048A18(p->res, p->nodes[i].id), 0);
+        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)func_02048A18(p->res, p->nodes[i].id), 0);
     p->f24 = 0;
     q = (void *)func_02048A18(p->res, p->nodes[p->f1a].id);
     x = 0;
     p->f28 = 0;
-    func_020477A4(q, 1);
-    func_020477A4(q, 2);
-    func_0204784C(q, 1, (s32 *)(&x));
-    func_0204784C(q, 2, (s32 *)(&x));
+    G3D_SYSTEM_EnableObjectAnime(q, 1);
+    G3D_SYSTEM_EnableObjectAnime(q, 2);
+    G3D_SYSTEM_SetObjectAnimeFrame(q, 1, (s32 *)(&x));
+    G3D_SYSTEM_SetObjectAnimeFrame(q, 2, (s32 *)(&x));
 }

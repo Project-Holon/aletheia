@@ -1,5 +1,5 @@
 /*
- * function: func_021AE050
+ * function: FLDEFF_FISHING_Update
  * address:  0x021AE050
  * packet:   pkt_ov021_021AE050
  * region:   ov021
@@ -13,7 +13,7 @@
  * converted through FX_F32_TO_FX32.
  *
  * symbols:
- *   func_02047910  0x02047910  arm
+ *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
@@ -33,10 +33,10 @@ typedef struct Arg {
 #define FX_F32_TO_FX32(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-extern int func_02047910(void *a, int idx, int amount);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 
-void func_021AE050(void *self, Arg *arg)
+void FLDEFF_FISHING_Update(void *self, Arg *arg)
 {
     Owner *owner = arg->owner;
-    func_02047910(owner->obj, 0, FX_F32_TO_FX32(arg->n * 2 + 1));
+    G3D_SYSTEM_LoopObjectAnimeFrame(owner->obj, 0, FX_F32_TO_FX32(arg->n * 2 + 1));
 }

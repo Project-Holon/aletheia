@@ -1,5 +1,5 @@
 /*
- * function: func_02187FD0
+ * function: FIELDMAP_ProcMain
  * address:  0x02187FD0
  * packet:   pkt_02187FD0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188B58  0x02188B58  thumb  ov021
+ *   FIELDMAP_Main  0x02188B58  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17856.h"
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02188B58(void *a, u8 *b, u32 a2, u32 a3);
+extern u32 FIELDMAP_Main(void *a, u8 *b, u32 a2, u32 a3);
 
-int func_02187FD0(u32 a, u32 b, u32 c, u32 d)
+int FIELDMAP_ProcMain(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02188B58((void *)c, (u8 *)(((struct Obj17856 *)((u8 *)(d)))->f0), c, d) == 1) {
+if (FIELDMAP_Main((void *)c, (u8 *)(((struct Obj17856 *)((u8 *)(d)))->f0), c, d) == 1) {
     return 1;
 }
 return 0;

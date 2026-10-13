@@ -12,15 +12,15 @@
  *   d_021BB060 0x021BB060 data ov218 a4
  *   template_021BB060 0x021BB060 data ov218 a4
  *   tbl_021BAC80 0x021BAC80 data ov218 a4
- *   func_021B7754 0x021B7754 thumb ov067
- *   func_021B7A10 0x021B7A10 thumb ov067
- *   func_021B7A4C 0x021B7A4C thumb ov067
+ *   FRAME_LIST_Create 0x021B7754 thumb ov067
+ *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
+ *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
  *   func_021B79E4 0x021B79E4 thumb ov067
  *   func_020490F4 0x020490F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  */
 #include "../include/Obj02556.h"
 #include "../include/G_Template.h"
@@ -33,17 +33,17 @@ extern struct Template template_021BB060;
 extern int tbl_021BAC80[];
 struct S;
 struct Tmpl;
-extern struct S *func_021B7754(struct Tmpl *tmpl, u32 heap);
-extern void func_021B7A10(u8 *p, u32 a, u32 b, u32 c, u32 index);
+extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, u32 heap);
+extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
 struct MsgBank;
 struct Rec;
-extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
+extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 void func_021B9D48(char *p)
 {
     int i,value;
@@ -61,12 +61,12 @@ void func_021B9D48(char *p)
             } else d_021BB060.start=i;
         }
     }
-    ((struct Obj02556 *)p)->f2C=func_021B7754((struct Tmpl *)(&template_021BB060),((struct Obj02556 *)p)->f0);
+    ((struct Obj02556 *)p)->f2C=FRAME_LIST_Create((struct Tmpl *)(&template_021BB060),((struct Obj02556 *)p)->f0);
     archive=func_020490F4(193,((struct Obj02556 *)p)->f0);
-    func_021B7A10(((struct Obj02556 *)p)->f2C,(u32)archive,3,0,0);
-    func_021B7A10(((struct Obj02556 *)p)->f2C,(u32)archive,4,0,1);
-    func_021B7A4C(((struct Obj02556 *)p)->f2C,archive,1,2,3);
-    func_02049238(archive);
+    FRAME_LIST_CopyMapToBuffer(((struct Obj02556 *)p)->f2C,(u32)archive,3,0,0);
+    FRAME_LIST_CopyMapToBuffer(((struct Obj02556 *)p)->f2C,(u32)archive,4,0,1);
+    FRAME_LIST_LoadPalettes(((struct Obj02556 *)p)->f2C,archive,1,2,3);
+    ARC_TOOL_DeleteHandle(archive);
     bank=func_02045B38(0,2,229,((struct Obj02556 *)p)->f0);
     for(i=0;i<130;i++) {
         offset=i*4;
@@ -78,5 +78,5 @@ void func_021B9D48(char *p)
         else
             *(void **)(*(char * *)&((struct Obj02556 *)p)->f28+0x2c+offset)=func_02045EC0(bank,238);
     }
-    func_02045C04(bank);
+    MSGDATA_Delete(bank);
 }

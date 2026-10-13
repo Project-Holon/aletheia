@@ -1,5 +1,5 @@
 /*
- * function: func_0219E784
+ * function: FLDMMDL_RAIL_GetDrawOffsetByDir
  * address:  0x0219E784
  * packet:   pkt_ov021_0219E784
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_021B8050  0x021B8050  thumb  ov021
- *   func_021B80D8  0x021B80D8  thumb  ov021
+ *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
+ *   FIELD_RAIL_WORK_GetStepVector  0x021B8050  thumb  ov021
+ *   FIELD_RAIL_WORK_GetLineKey  0x021B80D8  thumb  ov021
  *   func_0207AF1C  0x0207AF1C  thumb
  *   func_0207B51C  0x0207B51C  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   d_021D84D4     0x021D84D4  data  ov021  a1
  *   d_021D841C     0x021D841C  data  ov021  a2
  *   d_020A1B38     0x020A1B38  data  a2
@@ -49,14 +49,14 @@ extern u16 d_021D841C[];
 extern s16 d_020A1B38[];
 
 struct Sub;
-extern void *func_0219E348(void *a);
-extern void func_021B8050(struct Sub *o, s16 *out);
-extern u32 func_021B80D8(u8 *p);
+extern void *FLDMMDL_RAIL_GetRailWork(void *a);
+extern void FIELD_RAIL_WORK_GetStepVector(struct Sub *o, s16 *out);
+extern u32 FIELD_RAIL_WORK_GetLineKey(u8 *p);
 extern void func_0207AF1C();
 extern void func_0207B51C();
-extern void func_0207CCA4();
+extern void VEC_Normalize();
 
-void func_0219E784(u32 o, u32 idx, s16 *v)
+void FLDMMDL_RAIL_GetDrawOffsetByDir(u32 o, u32 idx, s16 *v)
 {
     u32 t;
     u32 n;
@@ -65,15 +65,15 @@ void func_0219E784(u32 o, u32 idx, s16 *v)
     s32 m[9];
     V vec;
 
-    t = (u32)func_0219E348((void *)o);
-    func_021B8050((struct Sub *)t, v);
-    n = func_021B80D8((u8 *)t);
+    t = (u32)FLDMMDL_RAIL_GetRailWork((void *)o);
+    FIELD_RAIL_WORK_GetStepVector((struct Sub *)t, v);
+    n = FIELD_RAIL_WORK_GetLineKey((u8 *)t);
     k = (d_021D841C[d_021D84D4[n][idx]] >> 4) * 2;
     c = d_020A1B38[k + 1];
     v[1] = (s16)(((s64)c * v[1] + 0x800) >> 12);
     setv(&vec, v[0], v[1], v[2]);
     func_0207AF1C(m, d_020A1B38[k], c);
     func_0207B51C(&vec, m, &vec);
-    func_0207CCA4(&vec, &vec);
+    VEC_Normalize(&vec, &vec);
     setw(v, vec.x, vec.y, vec.z);
 }

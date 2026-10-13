@@ -13,9 +13,9 @@
  *   func_021BC3B4  0x021BC3B4  thumb  ov208
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_021C1F50  0x021C1F50  thumb  ov208
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   func_021BDC48  0x021BDC48  thumb  ov208
@@ -43,9 +43,9 @@ extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021C1F50(u16 *heap, u8 *p, int key);
-extern void func_0204B878(u32 obj, u32 anim);
+extern void CLACT_SetActorAnimSeq(u32 obj, u32 anim);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
@@ -72,7 +72,7 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
         W(0x90) = ((Entry *)W(0x94))[p[0x78]].f1 == 0;
     W(0x2c) = 0;
     func_0201C6EC((struct PrintSys *)W(0x3c));
-    func_02043B5C(func_02045770((struct Descriptor *)W(0x1c)), 0);
+    BMP_Clear(func_02045770((struct Descriptor *)W(0x1c)), 0);
     func_021C1F50(heap, p, key);
     if (dir) {
         p[0xd8] = 2;
@@ -83,7 +83,7 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
         anim = 5;
         other = 2;
     }
-    func_0204B878(OBJ(p[0xd8]), anim);
+    CLACT_SetActorAnimSeq(OBJ(p[0xd8]), anim);
     func_0204B92C((struct Obj *)OBJ(other), 0);
     CLACT_SetActorAnimFrame((struct Obj *)OBJ(other), 0);
     func_021BDC48(s, 0);

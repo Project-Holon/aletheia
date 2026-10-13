@@ -1,5 +1,5 @@
 /*
- * function: func_021B5F24
+ * function: SCRCMD_POKEMON_FLD_GetTutorMoveId
  * address:  0x021B5F24
  * packet:   pkt_ov021_021B5F24
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201891C  0x0201891C  thumb
+ *   POKE_TOOL_CheckTutorCompat  0x0201891C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -19,27 +19,27 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef signed int     s32;
-extern u32 func_0201891C(void *p, s32 v);
+extern u32 POKE_TOOL_CheckTutorCompat(void *p, s32 v);
 
-int func_021B5F24(u32 a, int sel)
+int SCRCMD_POKEMON_FLD_GetTutorMoveId(u32 a, int sel)
 {
     switch (sel) {
     case 1:
-        if (func_0201891C((void *)a, 3))
+        if (POKE_TOOL_CheckTutorCompat((void *)a, 3))
             return 0x152;
-        if (func_0201891C((void *)a, 4))
+        if (POKE_TOOL_CheckTutorCompat((void *)a, 4))
             return 0x133;
-        if (func_0201891C((void *)a, 5))
+        if (POKE_TOOL_CheckTutorCompat((void *)a, 5))
             return 0x134;
         break;
     case 0:
         return 0x1b2;
     case 2:
-        if (func_0201891C((void *)a, 0))
+        if (POKE_TOOL_CheckTutorCompat((void *)a, 0))
             return 0x208;
-        if (func_0201891C((void *)a, 1))
+        if (POKE_TOOL_CheckTutorCompat((void *)a, 1))
             return 0x207;
-        if (func_0201891C((void *)a, 2))
+        if (POKE_TOOL_CheckTutorCompat((void *)a, 2))
             return 0x206;
         break;
     }

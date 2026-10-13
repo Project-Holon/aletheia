@@ -1,5 +1,5 @@
 /*
- * function: func_02194974
+ * function: TALKMSGWIN_IsShown
  * address:  0x02194974
  * packet:   pkt_02194A84
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call with a strided element address and the index.
  *
  * symbols:
- *   func_02194A84  0x02194A84  thumb  ov021
+ *   TALKMSGWIN_IsEntryShown  0x02194A84  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02194A84(u16 *p, int i);
+extern int TALKMSGWIN_IsEntryShown(u16 *p, int i);
 
-int func_02194974(u8 *p, int i)
+int TALKMSGWIN_IsShown(u8 *p, int i)
 {
-    return func_02194A84((u16 *)(p + 0x18 + i * 100), i);
+    return TALKMSGWIN_IsEntryShown((u16 *)(p + 0x18 + i * 100), i);
 }

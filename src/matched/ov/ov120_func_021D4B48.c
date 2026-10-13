@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021D7AF4 0x021D7AF4 thumb ov120
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021D8590 0x021D8590 thumb ov120
  *   func_021D505C 0x021D505C thumb ov120
  *   func_021D4988 0x021D4988 thumb ov120
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 typedef struct { u32 value; u8 kind; u8 pad; u16 detail; u32 tail; } Record;
 struct Sub0200852CObj;
 extern int func_021D7AF4(char *p);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_021D8590(u8 *, int, int);
 extern void func_021D505C(int a, int b, int *p);
 extern void func_021D4988(int *a);
@@ -61,7 +61,7 @@ void func_021D4B48(u8 *p)
     int i;
     Record *r;
     if (func_021D7AF4(((struct Obj01539 *)p)->f40)) {
-        if (func_0203CD98() == 0) {
+        if (GFL_NET_GetRunState() == 0) {
             func_021D8590(*(u8 * *)&((struct Obj01539 *)p)->f40, (int)func_021D505C, (int)p);
             func_021D4244((int *)p, (int)func_021D4988, 0x3ea);
             return;

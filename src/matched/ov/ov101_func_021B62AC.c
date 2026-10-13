@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
  */
 struct Entry;
 struct Link;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 int func_021B62AC(int *p)
@@ -23,11 +23,11 @@ int func_021B62AC(int *p)
     if(p[30]) return 1;
     switch(p[17]) {
     case 0:
-        func_02039C68((struct Link *)func_020399A8(),14,13);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
         p[17]=1;
         break;
     case 1:
-        if(func_02039CB4((struct Link *)func_020399A8(),14,13)) p[17]=2;
+        if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) p[17]=2;
         break;
     case 2:
         p[17]=0;

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02047790
+ * function: G3D_SYSTEM_GetObjectAnime
  * address:  0x02047790
  * packet:   pkt_02047260
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02047790(int *p, int i){ return ((int *)p[2])[i]; }
+int G3D_SYSTEM_GetObjectAnime(int *p, int i){ return ((int *)p[2])[i]; }

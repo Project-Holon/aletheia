@@ -1,5 +1,5 @@
 /*
- * function: func_0218E5FC
+ * function: FIELD_CAMERA_ClearAngles
  * address: 0x0218E5FC
  * packet: pkt_ov021_0218E5FC
  * region: ov021
@@ -15,9 +15,9 @@
 #include "../include/Obj00519.h"
 
 typedef unsigned char  u8;
-void func_0218E5FC(u8 *p);
+void FIELD_CAMERA_ClearAngles(u8 *p);
 
-void func_0218E5FC(u8 *p)
+void FIELD_CAMERA_ClearAngles(u8 *p)
 {
     ((struct Obj00519 *)p)->f78 = 0;
     ((struct Obj00519 *)p)->f7A = 0;

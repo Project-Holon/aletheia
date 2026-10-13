@@ -1,5 +1,5 @@
 /*
- * function: func_021BF644
+ * function: EVENT_APPEAR_CreateDescendingSpin
  * address:  0x021BF644
  * packet:   pkt_ov021_021BF644
  * region:   ov021
@@ -12,7 +12,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021BFB90  0x021BFB90  thumb  ov021
+ *   EVENT_APPEAR_RunDescendingSpin  0x021BFB90  thumb  ov021
  */
 
 typedef struct {
@@ -22,14 +22,14 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Desc;
-int func_021BFB90(int task, int *state, int *q);
+int EVENT_APPEAR_RunDescendingSpin(int task, int *state, int *q);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 void *func_020124E8(struct Obj *p);
 
-int func_021BF644(int a, int b, int c)
+int EVENT_APPEAR_CreateDescendingSpin(int a, int b, int c)
 {
-    int h = (int)func_020122C0((void *)b, (void *)a, func_021BFB90, 0x68);
+    int h = (int)func_020122C0((void *)b, (void *)a, EVENT_APPEAR_RunDescendingSpin, 0x68);
     Ent *e = func_020124E8((struct Obj *)h);
     e->f4 = c;
     e->f0 = b;

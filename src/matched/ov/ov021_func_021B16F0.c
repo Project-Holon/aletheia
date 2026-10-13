@@ -1,5 +1,5 @@
 /*
- * function: func_021B16F0
+ * function: SCRCMD_FLDMMDL_WaitAnimeTasks
  * address:  0x021B16F0
  * packet:   pkt_ov021_021B16F0
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020113D0  0x020113D0  thumb
- *   func_021B16DC  0x021B16DC  thumb  ov021
+ *   VM_SetWait  0x020113D0  thumb
+ *   SCRCMD_FLDMMDL_CheckAnimeTasksDone  0x021B16DC  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void func_020113D0(char *p, int val);
-extern int func_021B16DC(u32 a, u32 b, u32 c, u32 d);
+extern void VM_SetWait(char *p, int val);
+extern int SCRCMD_FLDMMDL_CheckAnimeTasksDone(u32 a, u32 b, u32 c, u32 d);
 
-int func_021B16F0(u32 a)
+int SCRCMD_FLDMMDL_WaitAnimeTasks(u32 a)
 {
-    func_020113D0((char *)a, (u32)func_021B16DC);
+    VM_SetWait((char *)a, (u32)SCRCMD_FLDMMDL_CheckAnimeTasksDone);
     return 1;
 }

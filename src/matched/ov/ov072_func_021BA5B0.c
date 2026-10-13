@@ -1,5 +1,5 @@
 /*
- * function: func_021BA5B0
+ * function: TOWNMAP_MapSetZoom
  * address:  0x021BA5B0
  * packet:   pkt_ov072_021BA5B0
  * region:   ov072
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA638  0x021BA638  thumb  ov072
- *   func_021BAD10  0x021BAD10  thumb  ov072
- *   func_021BAD84  0x021BAD84  thumb  ov072
- *   func_021BAF3C  0x021BAF3C  thumb  ov072
+ *   TOWNMAP_MapSetScroll  0x021BA638  thumb  ov072
+ *   TOWNMAP_TownSetScale  0x021BAD10  thumb  ov072
+ *   TOWNMAP_TownSetScroll  0x021BAD84  thumb  ov072
+ *   TOWNMAP_UpdateMarkerPosition  0x021BAF3C  thumb  ov072
  *   d_021BBB78     0x021BBB78  data  ov072
  */
 typedef unsigned char u8;
@@ -34,12 +34,12 @@ typedef struct {
 } W;
 
 extern char d_021BBB78[];
-extern void func_021BA638(W *p, int *v);
-extern void func_021BAD10(char *p, int s, char *r);
-extern void func_021BAD84(int *p, int *b);
-extern void func_021BAF3C(u32 *p, const u32 *v);
+extern void TOWNMAP_MapSetScroll(W *p, int *v);
+extern void TOWNMAP_TownSetScale(char *p, int s, char *r);
+extern void TOWNMAP_TownSetScroll(int *p, int *b);
+extern void TOWNMAP_UpdateMarkerPosition(u32 *p, const u32 *v);
 
-void func_021BA5B0(W *p, u32 s, const int *v)
+void TOWNMAP_MapSetZoom(W *p, u32 s, const int *v)
 {
     u32 i;
     int t[2];
@@ -57,10 +57,10 @@ void func_021BA5B0(W *p, u32 s, const int *v)
     }
     t[0] = -v[0];
     t[1] = -v[1];
-    func_021BA638(p, t);
+    TOWNMAP_MapSetScroll(p, t);
     for (i = 0; i < p->fC; i++) {
-        func_021BAD10(p->f8 + i * 0x44, s, d_021BBB78);
-        func_021BAD84((int *)(p->f8 + i * 0x44), &p->f10);
+        TOWNMAP_TownSetScale(p->f8 + i * 0x44, s, d_021BBB78);
+        TOWNMAP_TownSetScroll((int *)(p->f8 + i * 0x44), &p->f10);
     }
-    func_021BAF3C((u32 *)((char *)p + 0x20), (const u32 *)((int *)&p->f10));
+    TOWNMAP_UpdateMarkerPosition((u32 *)((char *)p + 0x20), (const u32 *)((int *)&p->f10));
 }

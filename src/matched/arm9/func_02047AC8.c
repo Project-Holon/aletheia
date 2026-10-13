@@ -1,5 +1,5 @@
 /*
- * function: func_02047AC8
+ * function: G3D_SYSTEM_DrawObjectCulling
  * address:  0x02047AC8
  * packet:   pkt_020479D8
  * region:   arm9
@@ -13,15 +13,15 @@
  *   _G3dSystem      0x02146A5C  data
  *   g_renderState      0x02148B4C  data
  *   g_renderStateIdentityMtx      0x02148C08  data
- *   func_02047788   0x02047788  arm
- *   func_0204755C   0x0204755C  arm
+ *   G3D_SYSTEM_GetObjectRender   0x02047788  arm
+ *   G3D_SYSTEM_GetRenderObj   0x0204755C  arm
  *   G3D_SYSTEM_CheckObjectCulling   0x02047B4C  arm
  *   G3D_SYSTEM_DrawRenderObj   0x02047C8C  arm
  *   NNS_G3dGlbBaseTrans   0x0206A9DC  arm
  *   NNS_G3dGlbBaseScale   0x0206AA0C  arm
  *   MI_Copy36B      0x02082B60  arm
  *
- * The sibling of func_02047A60 with a result: the same bring-up (the two
+ * The sibling of G3D_SYSTEM_DrawObject with a result: the same bring-up (the two
  * sub-objects of the argument at +0xC and +0x18, the `bic 0xa4` on word 63
  * of 0x02148B4C, the context's +0x88 callback) and then G3D_SYSTEM_CheckObjectCulling,
  * whose value is returned and whose `== 1` gates the G3D_SYSTEM_DrawRenderObj release.
@@ -54,8 +54,8 @@ extern struct Ctx *_G3dSystem;
 extern u32 g_renderState[];
 extern u32 g_renderStateIdentityMtx[];
 
-extern int func_02047788(int *p);
-extern int func_0204755C(int *p);
+extern int G3D_SYSTEM_GetObjectRender(int *p);
+extern int G3D_SYSTEM_GetRenderObj(int *p);
 extern int   G3D_SYSTEM_CheckObjectCulling(void *p);
 struct P02047C8C;
 extern void G3D_SYSTEM_DrawRenderObj(struct P02047C8C *p);
@@ -63,12 +63,12 @@ extern void  NNS_G3dGlbBaseTrans(void *p);
 extern void  NNS_G3dGlbBaseScale(VecFx32 *p);
 extern void  MI_Copy36B(const void *src, void *dst);
 
-int func_02047AC8(void *a0, struct Arg *a1)
+int G3D_SYSTEM_DrawObjectCulling(void *a0, struct Arg *a1)
 {
     void *r;
     int   s;
 
-    r = (void *)func_0204755C((int *)func_02047788(a0));
+    r = (void *)G3D_SYSTEM_GetRenderObj((int *)G3D_SYSTEM_GetObjectRender(a0));
     NNS_G3dGlbBaseTrans(a1);
     MI_Copy36B(&a1->m18, g_renderStateIdentityMtx);
     g_renderState[63] = g_renderState[63] & ~0xa4u;

@@ -14,11 +14,11 @@
  *
  * symbols:
  *   func_0689CA5C  0x0689CA5C  thumb
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  *   func_021C8114  0x021C8114  thumb  ov093
  *   func_021C8030  0x021C8030  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F26C4     0x021F26C4  data    a4
  *   d_021F262C     0x021F262C  data   ov093  a4
  *   d_021F251C     0x021F251C  data   ov093  a4
@@ -29,12 +29,12 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
-extern void func_021D7704(int a, int b);
+extern int BTL_EVENT_GetVar(int key);
+extern void BTL_EVENT_MultiplyVar(int a, int b);
 extern u16 func_021C8114(u8 *p);
 extern int func_0689CA5C(int id);
 extern int func_021C8030(u8 *p, int v, u16 k);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 void func_021E6F14(int a, int b, int c);
 int *func_021E6F30(int *p);
 void func_021E6F3C(int x, int a, int c);
@@ -48,8 +48,8 @@ extern int d_021F251C[];
 
 void func_021E6F14(int a, int b, int c)
 {
-    if (c == func_021D775C(3))
-        func_021D7704(0x31, 3 << 11);
+    if (c == BTL_EVENT_GetVar(3))
+        BTL_EVENT_MultiplyVar(0x31, 3 << 11);
 }
 
 
@@ -65,12 +65,12 @@ void func_021E6F3C(int x, int a, int c)
     u16 id;
     int r;
 
-    if (c == func_021D775C(2)) {
+    if (c == BTL_EVENT_GetVar(2)) {
         id = func_021C8114((u8 *)a);
         if (id != 0 && func_0689CA5C(id) == 0) {
             r = func_021C8030((u8 *)a, c, id);
-            func_021D76BC(0x12, id);
-            func_021D76BC(0xd, r);
+            BTL_EVENT_OverwriteVar(0x12, id);
+            BTL_EVENT_OverwriteVar(0xd, r);
         }
     }
 }
@@ -85,8 +85,8 @@ int *func_021E6F8C(int *p)
 
 void func_021E6F98(int a, int b, int c)
 {
-    if (c == func_021D775C(4) && c == func_021D775C(3))
-        func_021D76BC(0x1f, 10);
+    if (c == BTL_EVENT_GetVar(4) && c == BTL_EVENT_GetVar(3))
+        BTL_EVENT_OverwriteVar(0x1f, 10);
 }
 
 

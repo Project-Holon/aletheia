@@ -38,7 +38,7 @@
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -81,17 +81,17 @@
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201C440 0x0201C440 thumb
- *   func_0201D7EC 0x0201D7EC thumb
- *   func_020457B0 0x020457B0 arm
- *   func_0203101C 0x0203101C arm
- *   func_020450F0 0x020450F0 arm
+ *   GF_FONT_Create 0x0201D7EC thumb
+ *   STRBUF_Create 0x020457B0 arm
+ *   TCBL_Create 0x0203101C arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_0201DD78 0x0201DD78 thumb
- *   func_02045CAC 0x02045CAC arm
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -113,17 +113,17 @@ struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_0201C440(void *p);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201DD78(u32,u32,u32);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C7A4(void *,short,short,void *,void *);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void PRINTSYS_Print(void *,short,short,void *,void *);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 void *func_021B9964(u16 heap)
@@ -137,18 +137,18 @@ void *func_021B9964(u16 heap)
     *(void **)(p+0x14)=func_0201EC64(heap);
     *(void **)(p+8)=func_02045B38(0,2,229,heap);
     *(void **)(p+0x10)=(void *)func_0201C440((void *)heap);
-    *(void **)(p+0xc)=func_0201D7EC(23,0,0,0,heap);
-    *(void **)(p+0x18)=func_020457B0(1600,heap);
-    *(void **)(p+0x1c)=func_020457B0(1600,heap);
-    *(void **)(p+4)=func_0203101C(heap,heap,1,0);
-    *(void **)(p+0x24)=(void *)func_020450F0(0,1,19,30,4,14,1);
-    window=*(void **)(p+0x28)=(void *)func_020450F0(4,1,1,30,2,6,1);
-    func_02043B5C(func_02045770(window),15);
-    func_0201DD78(1,2,15);
-    func_02045CAC(*(void **)(p+8),233,*(void **)(p+0x18));
-    func_0201C7A4(func_02045770(window),4,0,*(void **)(p+0x18),*(void **)(p+0xc));
-    func_02045334(window);
-    func_02045374(window);
+    *(void **)(p+0xc)=GF_FONT_Create(23,0,0,0,heap);
+    *(void **)(p+0x18)=STRBUF_Create(1600,heap);
+    *(void **)(p+0x1c)=STRBUF_Create(1600,heap);
+    *(void **)(p+4)=TCBL_Create(heap,heap,1,0);
+    *(void **)(p+0x24)=(void *)BMP_WIN_Create(0,1,19,30,4,14,1);
+    window=*(void **)(p+0x28)=(void *)BMP_WIN_Create(4,1,1,30,2,6,1);
+    BMP_Clear(func_02045770(window),15);
+    GF_FONT_SetTextColor(1,2,15);
+    MSGDATA_ReadString(*(void **)(p+8),233,*(void **)(p+0x18));
+    PRINTSYS_Print(func_02045770(window),4,0,*(void **)(p+0x18),*(void **)(p+0xc));
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     func_02041B6C(func_02045730(window));
     return p;
 }

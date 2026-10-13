@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215E33C",
+   "name": "FIELD_ENCOUNT_ST_GetEffectEncount",
    "address": "0x0215E33C",
    "kind": "game",
    "region": "ov010",

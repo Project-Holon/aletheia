@@ -1,5 +1,5 @@
 /*
- * function: func_02155160
+ * function: MUSICAL_EVENT_SetPartyLevel50
  * address:  0x02155160
  * packet:   pkt_ov010_02155160
  * region:   ov010
@@ -25,7 +25,7 @@ extern u32 func_0201AA18(void *list);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void func_02019CA0(void *p, u32 v);
 
-void func_02155160(void *list)
+void MUSICAL_EVENT_SetPartyLevel50(void *list)
 {
     int i;
 

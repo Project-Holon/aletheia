@@ -13,10 +13,10 @@
  *
  * symbols:
  *   func_02030D28  0x02030D28  arm
- *   func_02047964  0x02047964  arm
- *   func_020479D8  0x020479D8  arm
- *   func_02050BE8  0x02050BE8  arm
- *   func_02047970  0x02047970  arm
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm
+ *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
+ *   PARTICLE_Main  0x02050BE8  arm
+ *   G3D_SYSTEM_DrawEnd  0x02047970  arm
  *   d_0220AF20     0x0220AF20  data   ov094
  *   func_021F9478  0x021F9478  thumb  ov094
  *   func_021F903C  0x021F903C  thumb  ov094
@@ -54,10 +54,10 @@ extern Work *d_0220AF20;
 struct Ctx;
 struct W;
 extern void func_02030D28(struct Ctx *c);
-extern void func_02047964(void);
-extern void func_020479D8(void);
-extern void func_02050BE8(void);
-extern void func_02047970(void);
+extern void G3D_SYSTEM_DrawStart(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
+extern void PARTICLE_Main(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 extern int func_021F9478(void *);
 extern void func_021F903C(void);
 extern void func_021FEBAC(void *);
@@ -84,14 +84,14 @@ void func_021F78E4(void)
         func_021F6ED4(d_0220AF20->h19c);
         func_02206EB4(d_0220AF20->h1a4);
         func_02201AF0(d_0220AF20->h1a0);
-        func_02047964();
-        func_020479D8();
+        G3D_SYSTEM_DrawStart();
+        G3D_SYSTEM_ApplyLookAt();
         func_021F69B0(d_0220AF20->h194);
         func_021F6DD4(d_0220AF20->h198);
         func_021FEE9C(d_0220AF20->h190);
         REG_04000604;
-        func_02050BE8();
+        PARTICLE_Main();
         REG_04000604;
-        func_02047970();
+        G3D_SYSTEM_DrawEnd();
     }
 }

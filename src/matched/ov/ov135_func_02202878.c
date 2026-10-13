@@ -11,7 +11,7 @@
  * symbols:
  *   func_0201CE48 0x0201CE48 thumb
  *   func_02012FFC 0x02012FFC thumb
- *   func_0201CCE4 0x0201CCE4 thumb
+ *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  */
 #include "../include/Obj04532.h"
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef signed short s16;
 struct Rec3;
 extern void func_0201CE48(struct Rec3 *p);
 extern signed char func_02012FFC(void);
-extern void *func_0201CCE4(void *, s16, s16, unsigned, unsigned, int, unsigned, unsigned, unsigned, unsigned);
+extern void *PRINTSYS_PrintStream(void *, s16, s16, unsigned, unsigned, int, unsigned, unsigned, unsigned, unsigned);
 void func_02202878(void *a, unsigned b, unsigned c, int d, int e, u8 *p)
 {
     int v;
@@ -28,6 +28,6 @@ void func_02202878(void *a, unsigned b, unsigned c, int d, int e, u8 *p)
         ((struct Obj04532 *)p)->f10 = 0;
     }
     v = func_02012FFC();
-    ((struct Obj04532 *)p)->f10 = func_0201CCE4(a, d, e, c, ((struct Obj04532 *)p)->f0, v, ((struct Obj04532 *)p)->f4, 0, 0x48, 0xF);
+    ((struct Obj04532 *)p)->f10 = PRINTSYS_PrintStream(a, d, e, c, ((struct Obj04532 *)p)->f0, v, ((struct Obj04532 *)p)->f4, 0, 0x48, 0xF);
     ((struct Obj04532 *)p)->f14 = a;
 }

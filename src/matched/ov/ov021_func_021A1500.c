@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EFF5C  0x021EFF5C  thumb  ov034
+ *   REPORT_ShowPartyIcons  0x021EFF5C  thumb  ov034
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern void func_021EFF5C(int *p);
+extern void REPORT_ShowPartyIcons(int *p);
 
 void func_021A1500(u32 *p)
 {
-    func_021EFF5C((int *)p[8]);
+    REPORT_ShowPartyIcons((int *)p[8]);
 }

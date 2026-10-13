@@ -1,5 +1,5 @@
 /*
- * function: func_0218DC6C
+ * function: FIELD_G3D_MAPPER_GetBuildModel
  * address:  0x0218DC6C
  * packet:   pkt_0218DC6C
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0218DC6C(u8 *p)
+u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p)
 {
     return ((struct Obj17896 *)p)->f64;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021624B0",
+   "name": "EVENTDATA_SYSTEM_ReadEventFile",
    "address": "0x021624B0",
    "kind": "game",
    "region": "ov010",

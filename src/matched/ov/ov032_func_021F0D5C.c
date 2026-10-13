@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_021F0D5C  0x021F0D5C  thumb
- *   func_02028178  0x02028178  thumb
+ *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
- *   func_02028148  0x02028148  thumb
+ *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02028178(u8 *p);
+extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-extern void func_02028148(u8 *p);
+extern void APP_TASKMENU_WIN_Delete(u8 *p);
 
 int func_021F0D5C(char *p, int i)
 {
@@ -29,10 +29,10 @@ int func_021F0D5C(char *p, int i)
     int j;
 
     q = p + 0xf0;
-    func_02028178((u8 *)(*(u32 *)(q + i * 16)));
+    APP_TASKMENU_WIN_Update((u8 *)(*(u32 *)(q + i * 16)));
     if (APP_TASKMENU_WIN_IsFinish(*(u8 **)(q + i * 16)) != 0) {
         for (j = 0; j < 2; j++) {
-            func_02028148((u8 *)(*(u32 *)(p + j * 16 + 0xf0)));
+            APP_TASKMENU_WIN_Delete((u8 *)(*(u32 *)(p + j * 16 + 0xf0)));
             *(u32 *)(p + j * 16 + 0xf0) = 0;
         }
         return 1;

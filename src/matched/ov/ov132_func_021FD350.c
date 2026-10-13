@@ -12,9 +12,10 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02030734 0x02030734 arm
  *   func_02082D44 0x02082D44 arm
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  *   d_021FDE5C 0x021FDE5C data a4
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
  */
 #include "../include/Obj06494.h"
 #include "../include/Obj23284.h"
@@ -23,10 +24,10 @@ typedef unsigned short u16;
 extern u32 func_020307B0(void *p);
 struct Entry;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void func_02082D44(void *,void *,u32);
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern const char d_021FDE5C[];
 int func_021FD350(char *p, char *src)
 {
@@ -35,15 +36,15 @@ int func_021FD350(char *p, char *src)
     u32 n;
     int zero;
     if(((struct Obj06494 *)p)->f124) func_020307B0(((struct Obj06494 *)p)->f124);
-    n=func_020173EC();
+    n=POKE_TOOL_GetPartyParamSize();
     q=func_02030734(((struct Obj06494 *)p)->f0,n+0x7c,0,d_021FDE5C,0x5be);
     zero=0;
     ((struct Obj06494 *)p)->f124=q;
     func_02082D44(src,q,0x7c);
-    n=func_020173EC();
+    n=POKE_TOOL_GetPartyParamSize();
     q+=0x7c;
     func_02082D44(((struct Obj23284 *)src)->f4,q,n);
-    h=func_020399A8();
-    n=func_020173EC();
-    return func_0203D3F8((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct Obj06494 *)p)->f124),1,zero,1);
+    h=GFL_NET_HANDLE_GetCurrentHandle();
+    n=POKE_TOOL_GetPartyParamSize();
+    return GFL_NET_SendData((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct Obj06494 *)p)->f124),1,zero,1);
 }

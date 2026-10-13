@@ -1,5 +1,5 @@
 /*
- * function: func_021BA350
+ * function: BSUBWAY_RECORD_LIST_InitPageCount
  * address: 0x021BA350
  * packet: pkt_ov069_021BA350
  * region: ov069
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 #include "../include/Obj06173.h"
-void func_021BA350(char *p)
+void BSUBWAY_RECORD_LIST_InitPageCount(char *p)
 {
     ((struct Obj06173 *)p)->f160 = 0;
     ((struct Obj06173 *)p)->f162 = ((struct Obj06173 *)p)->f164 / 10;

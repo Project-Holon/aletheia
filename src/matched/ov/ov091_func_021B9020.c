@@ -1,5 +1,5 @@
 /*
- * function: func_021B9020
+ * function: POKELIST_RunContextMenu
  * address:  0x021B9020
  * packet:   pkt_ov091_021B9020
  * region:   ov091
@@ -10,35 +10,35 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B907C  0x021B907C  thumb  ov091
- *   func_021B90F8  0x021B90F8  thumb  ov091
- *   func_021B916C  0x021B916C  thumb  ov091
- *   func_021BBBD8  0x021BBBD8  thumb  ov091
- *   func_021BBBE4  0x021BBBE4  thumb  ov091
+ *   POKELIST_EnterMenuPhase  0x021B907C  thumb  ov091
+ *   POKELIST_CloseContextMenu  0x021B90F8  thumb  ov091
+ *   POKELIST_DispatchMenuChoice  0x021B916C  thumb  ov091
+ *   PLIST_MENU_Update  0x021BBBD8  thumb  ov091
+ *   PLIST_MENU_GetSelectedCommand  0x021BBBE4  thumb  ov091
  */
 
 typedef unsigned char u8;
 
-extern void func_021B907C(u8 *p);
-extern void func_021B90F8(u8 *p);
-extern void func_021B916C(u8 *p);
-extern void func_021BBBD8(int unused, int *q);
-extern unsigned int func_021BBBE4(int a, unsigned char *b);
+extern void POKELIST_EnterMenuPhase(u8 *p);
+extern void POKELIST_CloseContextMenu(u8 *p);
+extern void POKELIST_DispatchMenuChoice(u8 *p);
+extern void PLIST_MENU_Update(int unused, int *q);
+extern unsigned int PLIST_MENU_GetSelectedCommand(int a, unsigned char *b);
 
 #define W(o) (*(int *)(p + (o)))
 
-void func_021B9020(u8 *p)
+void POKELIST_RunContextMenu(u8 *p)
 {
     int r;
 
     switch (p[0xe]) {
     case 0:
-        func_021B907C(p);
+        POKELIST_EnterMenuPhase(p);
         p[0xe] = 1;
         break;
     case 1:
-        func_021BBBD8((int)p, (int *)W(0x154));
-        r = func_021BBBE4((int)p, (unsigned char *)((int *)W(0x154)));
+        PLIST_MENU_Update((int)p, (int *)W(0x154));
+        r = PLIST_MENU_GetSelectedCommand((int)p, (unsigned char *)((int *)W(0x154)));
         if (r != 0x17) {
             W(0x3c) = r;
             p[0xe] = 2;
@@ -48,8 +48,8 @@ void func_021B9020(u8 *p)
         }
         break;
     case 2:
-        func_021B90F8(p);
-        func_021B916C(p);
+        POKELIST_CloseContextMenu(p);
+        POKELIST_DispatchMenuChoice(p);
         break;
     }
 }

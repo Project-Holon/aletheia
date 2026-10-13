@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A03CC",
+   "name": "FIELD_ZONEFOG_GetLightId",
    "address": "0x021A03CC",
    "kind": "game",
    "region": "ov021",

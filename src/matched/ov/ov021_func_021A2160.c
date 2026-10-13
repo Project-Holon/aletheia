@@ -1,5 +1,5 @@
 /*
- * function: func_021A2160
+ * function: WEATHER_TASK_SetBillboardVisible
  * address:  0x021A2160
  * packet:   pkt_ov021_021A2160
  * region:   ov021
@@ -12,13 +12,13 @@
  * Unlabelled tail-call stub, filed for the ov026 lane.
  *
  * symbols:
- *   func_021A2160 0x021A2160 thumb ov021
- *   func_021A16D4 0x021A16D4 thumb ov021
+ *   WEATHER_TASK_SetBillboardVisible 0x021A2160 thumb ov021
+ *   FIELD_3DBG_SetBillboardVisible 0x021A16D4 thumb ov021
  */
 
-extern void func_021A16D4(unsigned char *p, unsigned int v);
+extern void FIELD_3DBG_SetBillboardVisible(unsigned char *p, unsigned int v);
 
-void func_021A2160(unsigned char *o, unsigned int v, int i)
+void WEATHER_TASK_SetBillboardVisible(unsigned char *o, unsigned int v, int i)
 {
-    func_021A16D4((*(unsigned char ***)(o + 0x18))[i], v);
+    FIELD_3DBG_SetBillboardVisible((*(unsigned char ***)(o + 0x18))[i], v);
 }

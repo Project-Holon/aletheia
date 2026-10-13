@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -88,11 +88,11 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 
 int func_021C7A70(Work *p)
 {
-    if (func_020221A4()) {
+    if (WIPE_SYS_EndCheck()) {
         if (p->f110 == 0x12) {
             p->f108->fC = 0;
             p->f108->f10 = 1;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217FC6C",
+   "name": "EVENT_COMM_COMMON_CreateTalkedStartEvent",
    "address": "0x0217FC6C",
    "kind": "game",
    "region": "ov018",

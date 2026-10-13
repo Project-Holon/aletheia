@@ -1,5 +1,5 @@
 /*
- * function: func_021D5608
+ * function: BTL_POKEPARAM_DecrementMovePP
  * address:  0x021D5608
  * packet:   pkt_ov093_021D5608
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -48,14 +48,14 @@ struct UtilWork {
     u8 f157[5];
 };
 
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 
-void func_021D5608(struct UtilWork *p, int i, u8 n)
+void BTL_POKEPARAM_DecrementMovePP(struct UtilWork *p, int i, u8 n)
 {
     if (p->e[i].f8 >= n) p->e[i].f8 -= n;
     else p->e[i].f8 = 0;
     if (p->e[i].fC != 0) {
         p->e[i].f2 = p->e[i].f8;
-        func_02017E40(p->f0, i + 0x3A, p->e[i].f2);
+        POKE_TOOL_SetPartyValue(p->f0, i + 0x3A, p->e[i].f2);
     }
 }

@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
  */
 #include "../include/Obj24499.h"
 
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 
 int func_021B96B0(char *p)
 {
-    if (func_020221A4() == 1)
+    if (WIPE_SYS_EndCheck() == 1)
         return ((struct Obj24499 *)p)->f2F0;
     return 1;
 }

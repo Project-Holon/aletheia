@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047788  0x02047788  arm
- *   func_0204779C  0x0204779C  arm
- *   func_02047790  0x02047790  arm
- *   func_0204762C  0x0204762C  arm
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
+ *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
+ *   G3D_SYSTEM_GetObjectAnime  0x02047790  arm
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
  *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
- *   func_020470D0  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   G3D_SYSTEM_GetRenderMdlRes  0x0204754C  arm
- *   func_02047504  0x02047504  arm
- *   func_02047738  0x02047738  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
  *
  * g3d_util.c (the __FILE__ word 0x020A7EB8 of this family).  The utility
  * object is 0x218 bytes: resource handle table and status bytes at +0x00 /
@@ -71,18 +71,18 @@ typedef struct {
 } Setup;
 
 
-extern int func_02047788(int *p);
-extern u16   func_0204779C(void *obj);
-extern int func_02047790(int *p, int i);
+extern int G3D_SYSTEM_GetObjectRender(int *p);
+extern u16   G3D_SYSTEM_GetObjectAnimeCount(void *obj);
+extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
 struct Rec;
 struct Tagged;
-extern void func_0204762C(struct Rec *p);
+extern void G3D_SYSTEM_DeleteAnime(struct Rec *p);
 extern int G3D_SYSTEM_GetRenderTexRes(int *p);
-extern int func_020470D0(u32 *p);
-extern void func_02046EFC(struct Tagged *p);
+extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 extern int G3D_SYSTEM_GetRenderMdlRes(int *p);
-extern void func_02047504(struct Rec *p);
-extern void func_02047738(struct Rec *p);
+extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
+extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
 
 void G3D_UTIL_FreeUnitObjects(Util *util, u16 unitIdx)
 {
@@ -95,18 +95,18 @@ void G3D_UTIL_FreeUnitObjects(Util *util, u16 unitIdx)
 
     for (i = 0; i < objCount; i++) {
         obj = util->obj[objIdx + i];
-        rnd = (void *)func_02047788(obj);
-        anmCount = func_0204779C(obj);
+        rnd = (void *)G3D_SYSTEM_GetObjectRender(obj);
+        anmCount = G3D_SYSTEM_GetObjectAnimeCount(obj);
         for (j = 0; j < anmCount; j++)
-            func_0204762C((struct Rec *)func_02047790(obj, (u16)j));
+            G3D_SYSTEM_DeleteAnime((struct Rec *)G3D_SYSTEM_GetObjectAnime(obj, (u16)j));
         if (util->objStat[objIdx + i] & 0xfd) {
             void *tex = (void *)G3D_SYSTEM_GetRenderTexRes(rnd);
-            func_020470D0(tex);
-            func_02046EFC(tex);
+            G3D_SYSTEM_FreeVramTexture(tex);
+            G3D_SYSTEM_DeleteResource(tex);
         }
         if (util->objStat[objIdx + i] & 0xfe)
-            func_02046EFC((struct Tagged *)G3D_SYSTEM_GetRenderMdlRes(rnd));
-        func_02047504(rnd);
-        func_02047738(obj);
+            G3D_SYSTEM_DeleteResource((struct Tagged *)G3D_SYSTEM_GetRenderMdlRes(rnd));
+        G3D_SYSTEM_DeleteRender(rnd);
+        G3D_SYSTEM_DeleteObject(obj);
     }
 }

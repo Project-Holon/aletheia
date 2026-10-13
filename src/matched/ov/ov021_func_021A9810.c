@@ -1,5 +1,5 @@
 /*
- * function: func_021A9810
+ * function: FIELD_ENCOUNT_GetSwarmZoneId
  * address:  0x021A9810
  * packet:   pkt_ov021_021A9810
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A99A8  0x021A99A8  thumb
+ *   FIELD_ENCOUNT_GetSwarmEntry  0x021A99A8  thumb
  */
 
 typedef unsigned short u16;
 
 struct Entry8;
-extern const struct Entry8 *func_021A99A8(void *p);
+extern const struct Entry8 *FIELD_ENCOUNT_GetSwarmEntry(void *p);
 
-u16 func_021A9810(int a)
+u16 FIELD_ENCOUNT_GetSwarmZoneId(int a)
 {
-    u16 *p = (u16 *)func_021A99A8((void *)a);
+    u16 *p = (u16 *)FIELD_ENCOUNT_GetSwarmEntry((void *)a);
     if (p == 0) {
         return 0xffff;
     }

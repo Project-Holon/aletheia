@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_020498F4 0x020498F4 arm
- *   func_02045374 0x02045374 arm
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_020409B4 0x020409B4 arm
  *   func_0204B22C 0x0204B22C arm
  *   func_02206A58 0x02206A58 thumb ov094
@@ -43,8 +43,8 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 struct Bank;
 struct Cfg;
 struct Descriptor;
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_020409B4(u32 index);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 struct Obj;
@@ -60,7 +60,7 @@ void func_022041E0(void *h, Ctx *c)
     switch (c->state) {
     case 0:
         func_020498F4((void *)c->main->f48, 0x64, 4, 0, 0, 0, c->main->h240);
-        func_02045374(c->main->obj228);
+        BMP_WIN_MakeScreen(c->main->obj228);
         func_02206A58((char *)c->main);
         func_020409B4(6);
         func_022044C0(c->main, d_0220A4EC[c->main->mode].a, d_0220A4EC[c->main->mode].b, 8, 8);
@@ -79,7 +79,7 @@ void func_022041E0(void *h, Ctx *c)
     case 2:
     default:
         if (c->main->st == 0) {
-            func_02045334(c->main->obj228);
+            BMP_WIN_TransferChars(c->main->obj228);
             func_0204B22C(c->main->obj1f8, 1);
             func_02204960(c->main, 5, 0x100, 0xc0, 2, 2, 2, 2);
             func_0220687C((char *)c->main, h);

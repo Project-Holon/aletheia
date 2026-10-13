@@ -1,5 +1,5 @@
 /*
- * function: func_021EEDD8
+ * function: WEATHER_THUNDERSTORM_UpdateParticle
  * address:  0x021EEDD8
  * packet:   pkt_ov026_021EEDD8
  * region:   ov026
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EEDD8 0x021EEDD8 thumb ov026
- *   func_021A2630 0x021A2630 thumb ov021
- *   func_021A2638 0x021A2638 thumb ov021
- *   func_021A2640 0x021A2640 thumb ov021
- *   func_021A26C4 0x021A26C4 thumb ov021
- *   func_021A21E0 0x021A21E0 thumb ov021
+ *   WEATHER_THUNDERSTORM_UpdateParticle 0x021EEDD8 thumb ov026
+ *   WEATHER_TASK_GetParticleWork 0x021A2630 thumb ov021
+ *   WEATHER_TASK_GetParticleActor 0x021A2638 thumb ov021
+ *   WEATHER_TASK_GetParticlePos 0x021A2640 thumb ov021
+ *   WEATHER_TASK_SetParticlePos 0x021A26C4 thumb ov021
+ *   WEATHER_TASK_RemoveParticle 0x021A21E0 thumb ov021
  */
 
 typedef signed short s16;
@@ -26,21 +26,21 @@ typedef struct {
 } Pt;
 
 typedef unsigned int   u32;
-extern unsigned char *func_021A2630(unsigned char *o);
-extern unsigned int func_021A2638(unsigned char *o);
+extern unsigned char *WEATHER_TASK_GetParticleWork(unsigned char *o);
+extern unsigned int WEATHER_TASK_GetParticleActor(unsigned char *o);
 struct PtS;
-extern void func_021A2640(unsigned char *, struct PtS *);
-extern int func_021A26C4(u32 a, u32 b);
-extern void func_021A21E0(u32 *p);
+extern void WEATHER_TASK_GetParticlePos(unsigned char *, struct PtS *);
+extern int WEATHER_TASK_SetParticlePos(u32 a, u32 b);
+extern void WEATHER_TASK_RemoveParticle(u32 *p);
 
-void func_021EEDD8(int a)
+void WEATHER_THUNDERSTORM_UpdateParticle(int a)
 {
     int *p;
     Pt pt;
 
-    p = (int *)func_021A2630((unsigned char *)a);
-    func_021A2638((unsigned char *)a);
-    func_021A2640((unsigned char *)a, (struct PtS *)&pt);
+    p = (int *)WEATHER_TASK_GetParticleWork((unsigned char *)a);
+    WEATHER_TASK_GetParticleActor((unsigned char *)a);
+    WEATHER_TASK_GetParticlePos((unsigned char *)a, (struct PtS *)&pt);
     switch (p[3]) {
     case 0:
         pt.x = pt.x + (s16)p[4];
@@ -48,10 +48,10 @@ void func_021EEDD8(int a)
         if (pt.y >= 0xC0) {
             p[3] = 1;
         }
-        func_021A26C4(a, (u32)(&pt));
+        WEATHER_TASK_SetParticlePos(a, (u32)(&pt));
         break;
     case 1:
-        func_021A21E0((u32 *)a);
+        WEATHER_TASK_RemoveParticle((u32 *)a);
         break;
     }
 }

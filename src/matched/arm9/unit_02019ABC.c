@@ -31,7 +31,7 @@
  *       --addr 0x02019ABC --thumb
  *
  * symbols:
- *   gMsgBank   0x020A7370  data
+ *   gSpeciesNameBank   0x020A7370  data
  *   gNameBuf   0x021462F0  data
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  */
@@ -52,7 +52,7 @@ struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32 func_0201F448(const u16 *a, const u16 *b);
 
-extern void *gMsgBank;
+extern void *gSpeciesNameBank;
 extern u16   gNameBuf[];
 
 u32 func_02019ABC(struct Mon *p)
@@ -61,7 +61,7 @@ u32 func_02019ABC(struct Mon *p)
     struct BlockA *a = (struct BlockA *)func_02019C38(p, p->unk00, 0);
     void *c = func_02019C38(p, p->unk00, 2);
 
-    MSGDATA_ReadUnits(gMsgBank, a->species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gSpeciesNameBank, a->species, gNameBuf, 0x20);
     if (func_0201F448(gNameBuf, c) == 0) {
         r = 1;
     }

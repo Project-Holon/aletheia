@@ -13,16 +13,16 @@
  *   func_020355C4 0x020355C4 arm
  *   func_021C1610 0x021C1610 thumb ov110
  *   func_021C1718 0x021C1718 thumb ov110
- *   func_021B6208 0x021B6208 thumb ov067
- *   func_021B629C 0x021B629C thumb ov067
- *   func_0204B84C 0x0204B84C arm
+ *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
+ *   UI_SCENE_CreateActor 0x021B629C thumb ov067
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   func_0204B92C 0x0204B92C arm
  *   func_021C060C 0x021C060C thumb ov110
  *   func_021C09E0 0x021C09E0 thumb ov110
  *   func_021C0A54 0x021C0A54 thumb ov110
- *   func_02027F60 0x02027F60 thumb
+ *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   func_021C0B54 0x021C0B54 thumb ov110
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  */
 #include "../include/Obj00435.h"
 typedef unsigned char u8;
@@ -33,18 +33,18 @@ typedef struct { int f0; u32 f4; int f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
 extern u8 func_020355C4(void);
 extern void *func_021C1610(unsigned,u16);
 extern u32 func_021C1718(u8 *);
-extern void func_021B6208(void *,In *,int,u16);
-extern int func_021B629C(void *,int,u16,u16,u8,u16);
-extern void func_0204B84C(void *,u32);
+extern void UI_SCENE_LoadActorGfx(void *,In *,int,u16);
+extern int UI_SCENE_CreateActor(void *,int,u16,u16,u8,u16);
+extern void CLACT_SetActorBgPriority(void *,u32);
 struct Obj;
 struct R;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021C060C(u8 *p, u16 heap, u32 font, void *print, void *bank);
 extern void func_021C09E0(u8 *);
 extern void *func_021C0A54(int,void *,int);
-extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_021C0B54(char *);
-extern void func_0203D34C(u32,u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 void func_021C0490(u8 *p)
 {
     int enabled;
@@ -67,16 +67,16 @@ void func_021C0490(u8 *p)
     in.f8=43; in.fC=7; in.f10=13; in.f14=35; in.f18=41;
     in.f0=0; in.f4=0;
     in.b1c=0; in.b1d=0; in.b1e=5;
-    func_021B6208(p+12,&in,resource,((struct Obj00435 *)p)->f4);
-    *(int *)&((struct Obj00435 *)p)->f8=func_021B629C(p+12,resource,240,16,16,((struct Obj00435 *)p)->f4);
-    func_0204B84C(((struct Obj00435 *)p)->f8,1);
+    UI_SCENE_LoadActorGfx(p+12,&in,resource,((struct Obj00435 *)p)->f4);
+    *(int *)&((struct Obj00435 *)p)->f8=UI_SCENE_CreateActor(p+12,resource,240,16,16,((struct Obj00435 *)p)->f4);
+    CLACT_SetActorBgPriority(((struct Obj00435 *)p)->f8,1);
     func_0204B92C(((struct Obj00435 *)p)->f8,1);
     func_021C060C(p+0x24,((struct Obj00435 *)p)->f4,(u32)(((struct Obj00435 *)p)->f58),((struct Obj00435 *)p)->f5C,((struct Obj00435 *)p)->f60);
     func_021C09E0(p+0x24);
     p[0x44]=0;
     ((struct Obj00435 *)p)->f40=0;
     ((struct Obj00435 *)p)->f54=func_021C0A54((int)p,(void *)func_021C1718(*(u8 * *)&((struct Obj00435 *)p)->f50),((struct Obj00435 *)p)->f4);
-    ((struct Obj00435 *)p)->f64=func_02027F60(0,12,*(u32 *)&((struct Obj00435 *)p)->f58,*(u32 *)&((struct Obj00435 *)p)->f5C,((struct Obj00435 *)p)->f4);
+    ((struct Obj00435 *)p)->f64=APP_TASKMENU_RES_Create(0,12,*(u32 *)&((struct Obj00435 *)p)->f58,*(u32 *)&((struct Obj00435 *)p)->f5C,((struct Obj00435 *)p)->f4);
     func_021C0B54((char *)p);
-    func_0203D34C(1,((struct Obj00435 *)p)->f4);
+    GFL_NET_RestartWithDefaultTimeout(1,((struct Obj00435 *)p)->f4);
 }

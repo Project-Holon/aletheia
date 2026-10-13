@@ -1,5 +1,5 @@
 /*
- * function: func_021D8454
+ * function: BTL_CALC_ActionGetKind
  * address:  0x021D8454
  * packet:   pkt_ov093_021D8454
  * region:   ov093
@@ -15,7 +15,7 @@ typedef struct
     unsigned int x : 4;
 } S021D8454;
 
-unsigned int func_021D8454(S021D8454 *p)
+unsigned int BTL_CALC_ActionGetKind(S021D8454 *p)
 {
     return p->x;
 }

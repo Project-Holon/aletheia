@@ -1,5 +1,5 @@
 /*
- * function: func_021BAF9C
+ * function: OPTION_MENU_ExitSettings
  * address:  0x021BAF9C
  * packet:   pkt_ov068_021BAF9C
  * region:   ov068
@@ -15,7 +15,7 @@
  *   func_02082BCC  0x02082BCC  arm
  */
 
-void func_021BAF9C(void *p)
+void OPTION_MENU_ExitSettings(void *p)
 {
     void func_02082BCC(void *, int, int);
     func_02082BCC(p, 0, 0xc);

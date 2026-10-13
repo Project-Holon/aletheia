@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A4768  0x021A4768  thumb  ov021
- *   func_021A569C  0x021A569C  thumb  ov021
- *   func_021AB11C  0x021AB11C  thumb  ov021
- *   func_021A53A4  0x021A53A4  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_GRID_GetStandResultOnFootHop  0x021A4768  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetHopStepHitFlags  0x021A569C  thumb  ov021
+ *   MAP_ATTR_IsBlocked  0x021AB11C  thumb  ov021
+ *   FIELD_PLAYER_GRID_SetHopFlag  0x021A53A4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12736.h"
@@ -22,30 +22,30 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_0216D3CC(int a0);
-extern int func_021A4768(u32, u32, u32);
-extern int func_021A569C(u8 *a, void *b, int c, int *d);
-extern int func_021AB11C(u32 attr);
-extern void func_021A53A4(u32 *p, int on);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern int FIELD_PLAYER_GRID_GetStandResultOnFootHop(u32, u32, u32);
+extern int FIELD_PLAYER_GRID_GetHopStepHitFlags(u8 *a, void *b, int c, int *d);
+extern int MAP_ATTR_IsBlocked(u32 attr);
+extern void FIELD_PLAYER_GRID_SetHopFlag(u32 *p, int on);
 
 int ov021_func_021A47B4(u32 a, u32 b, u8 *c)
 {
     int sp;
     u32 r;
-    if (func_0216D3CC(b) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(b) == 0) {
         return 0;
     }
     if (((struct Obj12736 *)c)->f8 == 9) {
-        return func_021A4768(a, b, (u32)c);
+        return FIELD_PLAYER_GRID_GetStandResultOnFootHop(a, b, (u32)c);
     }
-    r = func_021A569C((u8 *)a, (void *)b, ((struct Obj12736 *)c)->f8, &sp);
+    r = FIELD_PLAYER_GRID_GetHopStepHitFlags((u8 *)a, (void *)b, ((struct Obj12736 *)c)->f8, &sp);
     if (sp != -1) {
         if (r & 0x100) {
             if (!(r & 0xFFFFFEFF)) {
                 return 2;
             }
-        } else if (func_021AB11C(sp) == 0) {
-            func_021A53A4((u32 *)a, 1);
+        } else if (MAP_ATTR_IsBlocked(sp) == 0) {
+            FIELD_PLAYER_GRID_SetHopFlag((u32 *)a, 1);
             return 7;
         }
     }

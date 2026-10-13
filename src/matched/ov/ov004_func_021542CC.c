@@ -14,10 +14,10 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200AD6C  0x0200AD6C  thumb
  *   func_02008B08  0x02008B08  thumb
  *   func_0201AD0C  0x0201AD0C  thumb
@@ -52,10 +52,10 @@ struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Ctx;
 unsigned int func_02012138(const struct Ctx *p);
 u32 func_02026454(void *obj);
-void func_02026400(struct Comm *p);
+void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
-void *func_02012EBC(struct Big *p);
+void *GAME_DATA_GetSaveControl(struct Big *p);
 void *func_0200AD6C(void *sys);
 struct Sub02008AECObj *func_02008B08(void *sys);
 void *func_0201AD0C(void *sys);
@@ -80,12 +80,12 @@ int EVENT_WORLDTRADE_Create(int a, int b, int c)
     r6 = (int)func_020120F4((const struct Ctx *)a);
     h = (int)func_020122C0((void *)a, 0, EVENT_WORLDTRADE_Main, 0x54);
     if (func_02026454((void *)func_02012138((const struct Ctx *)a)))
-        func_02026400((struct Comm *)func_02012138((const struct Ctx *)a));
+        GAME_COMM_RequestExitNoCallback((struct Comm *)func_02012138((const struct Ctx *)a));
     p = func_020124E8((struct Obj *)h);
     func_02082BCC(p, 0, 0x54);
     p[1] = a;
     p[2] = b;
-    p[18] = (int)func_02012EBC((struct Big *)r6);
+    p[18] = (int)GAME_DATA_GetSaveControl((struct Big *)r6);
     p[3] = (int)func_0200AD6C((void *)p[18]);
     p[4] = (int)func_02008B08((void *)p[18]);
     p[5] = (int)func_0201AD0C((void *)p[18]);

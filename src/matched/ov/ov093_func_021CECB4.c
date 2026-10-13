@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_021B9C00  0x021B9C00  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D5448  0x021D5448  thumb  ov093
- *   func_021D5584  0x021D5584  thumb  ov093
- *   func_021D54C0  0x021D54C0  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePPChecked  0x021D5584  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveId  0x021D54C0  thumb  ov093
  *   func_021CF5B0  0x021CF5B0  thumb  ov093
  */
 #include "../include/Obj21136.h"
@@ -25,12 +25,12 @@ typedef struct { u8 *q; u8 f[4]; } Ent;
 
 struct S2;
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D5B68(void *q);
+extern int BTL_POKEPARAM_IsFainted(void *q);
 struct QG;
-extern u8 func_021D5448(struct QG *p);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 struct UtilWork;
-extern u8 func_021D5584(struct UtilWork *p, u32 i);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern int func_021CF5B0(u8 *g, void *m, u32 move, void *out);
 
 void func_021CECB4(u8 *p, Ent *out)
@@ -48,10 +48,10 @@ void func_021CECB4(u8 *p, Ent *out)
         for (j = 0; j < 4; j++) {
             e->f[j] = 0;
         }
-        if (func_021D5B68(q) == 0) {
-            n = func_021D5448((struct QG *)q);
+        if (BTL_POKEPARAM_IsFainted(q) == 0) {
+            n = BTL_POKEPARAM_GetMoveCount((struct QG *)q);
             for (k = 0; k < n; k++) {
-                if (func_021D5584((struct UtilWork *)q, (u8)k) == 0 || func_021CF5B0(p, q, (u32)func_021D54C0(q, (u8)k), 0) != 0) {
+                if (BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)q, (u8)k) == 0 || func_021CF5B0(p, q, (u32)BTL_POKEPARAM_GetMoveId(q, (u8)k), 0) != 0) {
                     e->f[k] = 0;
                 } else {
                     e->f[k] = 1;

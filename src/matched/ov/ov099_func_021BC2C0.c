@@ -12,12 +12,12 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
- *   func_020200CC 0x020200CC thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_MENULIST_Main 0x020200CC thumb
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   func_021BA8BC 0x021BA8BC thumb ov099
- *   func_0202020C 0x0202020C thumb
- *   func_0201F868 0x0201F868 thumb
+ *   BMP_MENULIST_Delete 0x0202020C thumb
+ *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  *   func_0202EB14 0x0202EB14 thumb
  *   func_0202EB0C 0x0202EB0C thumb
@@ -38,12 +38,12 @@ struct Obj;
 struct PrintSys;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
-extern s32 func_020200CC(struct Obj *o);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern void func_021BA8EC(char *);
 extern int func_021BA8BC(void *p);
-extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern u32 func_0201F868(void *p);
+extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
+extern u32 BMP_MENUWORK_Delete(void *p);
 extern void func_021BAAB8(char *,int,int);
 extern int func_0202EB14(void);
 extern u32 func_0202EB0C(void);
@@ -55,11 +55,11 @@ int func_021BC2C0(char *p,int v)
     q = ((struct Obj00467 *)p)->f1B8;
     if (((struct Obj00467 *)p)->f1B0 != 0) {
         if (func_0201C6C4(q,func_02045770(((struct Obj00467 *)p)->f1AC)) == 0) {
-            func_02045334(((struct Obj00467 *)p)->f1AC);
+            BMP_WIN_TransferChars(((struct Obj00467 *)p)->f1AC);
             ((struct Obj00467 *)p)->f1B0=0;
         }
     }
-    r=func_020200CC(((struct Obj00467 *)p)->fBC);
+    r=BMP_MENULIST_Main(((struct Obj00467 *)p)->fBC);
     switch(r) {
     case 4: case 5:
         if (((struct Obj22023 *)(*(char * *)&((struct Obj00467 *)p)->f248))->f46==0) return v;
@@ -108,7 +108,7 @@ int func_021BC2C0(char *p,int v)
     case 7: ((struct Obj00467 *)p)->f1CC=0x4e; break;
     }
     ((struct Obj00467 *)p)->f1A4=(void *)func_021BA8BC(((struct Obj00467 *)p)->f1A4);
-    func_0202020C(((struct Obj00467 *)p)->fBC,0,(u16 *)(p+0x23c));
-    func_0201F868(((struct Obj00467 *)p)->fB8);
+    BMP_MENULIST_Delete(((struct Obj00467 *)p)->fBC,0,(u16 *)(p+0x23c));
+    BMP_MENUWORK_Delete(((struct Obj00467 *)p)->fB8);
     return v;
 }

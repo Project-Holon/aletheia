@@ -1,5 +1,5 @@
 /*
- * function: func_021B1E80
+ * function: SCRCMD_FLDMMDL_TurnPlayerToFrontEvent
  * address:  0x021B1E80
  * packet:   pkt_ov021_021B1E80
  * region:   ov021
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B1E80  0x021B1E80  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02012844  0x02012844  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021627C8  0x021627C8  thumb  ov010
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021618A0  0x021618A0  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
- *   d_021D93FC     0x021D93FC  data   a2
- *   d_021D9404     0x021D9404  data   a4
- *   d_021D940C     0x021D940C  data   a4
- *   d_021D9414     0x021D9414  data   a4
- *   d_021D941C     0x021D941C  data   a4
+ *   SCRCMD_FLDMMDL_TurnPlayerToFrontEvent  0x021B1E80  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAME_DATA_GetEventData  0x02012844  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   EVENTDATA_SYSTEM_SearchPosEvent  0x021627C8  thumb  ov010
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   EVENT_FIELD_PROCLINK_CreateObjAnimEvent  0x021618A0  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   gScrcmdFldmmdlFacingCodes     0x021D93FC  data   a2
+ *   gScrcmdFldmmdlTurnRightAcmdList     0x021D9404  data   a4
+ *   gScrcmdFldmmdlTurnLeftAcmdList     0x021D940C  data   a4
+ *   gScrcmdFldmmdlTurnDownAcmdList     0x021D9414  data   a4
+ *   gScrcmdFldmmdlTurnUpAcmdList     0x021D941C  data   a4
  */
 
 typedef unsigned char u8;
@@ -37,31 +37,31 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } V;
 typedef struct { u16 v[4]; } Ids;
 
-extern Ids d_021D93FC;
-extern u8 d_021D9404[];
-extern u8 d_021D940C[];
-extern u8 d_021D9414[];
-extern u8 d_021D941C[];
+extern Ids gScrcmdFldmmdlFacingCodes;
+extern u8 gScrcmdFldmmdlTurnRightAcmdList[];
+extern u8 gScrcmdFldmmdlTurnLeftAcmdList[];
+extern u8 gScrcmdFldmmdlTurnDownAcmdList[];
+extern u8 gScrcmdFldmmdlTurnUpAcmdList[];
 
-extern void *func_0215A5F4(void *p);
-extern int func_02158F58(int a0);
-extern void *func_0215A5E4(void *a0);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct BigObj;
-extern u32 func_02012844(const struct BigObj *p);
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *, struct VecFx32 *);
+extern void FIELD_PLAYER_GetPos(unsigned char *, struct VecFx32 *);
 struct Ctx;
 struct Rec;
-extern struct Rec *func_021627C8(struct Ctx *c, void *a, int key, int mode);
-extern u16 func_021A3050(u8 *p);
-extern void *func_021618A0(void *p, int a1, int a2, int a3);
-extern void func_0215897C(void *, void *);
+extern struct Rec *EVENTDATA_SYSTEM_SearchPosEvent(struct Ctx *c, void *a, int key, int mode);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
+extern void *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(void *p, int a1, int a2, int a3);
+extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int func_021B1E80(void *a, u32 b)
+int SCRCMD_FLDMMDL_TurnPlayerToFrontEvent(void *a, u32 b)
 {
     void *o;
     int q;
@@ -77,36 +77,36 @@ int func_021B1E80(void *a, u32 b)
     int k;
     u8 *tbl;
 
-    o = func_0215A5F4((void *)b);
-    q = ((int *)func_02158F58((int)o))[1];
-    e = func_0215A5E4((void *)b);
-    d = func_0215A5DC((void *)b);
-    ids = d_021D93FC;
-    h = func_02012844(e);
-    f = func_0201296C(e);
-    m = func_02188CB4((void *)q);
-    func_021A3038(m, (struct VecFx32 *)&pos);
+    o = SCRCMD_WORK_GetScriptWork((void *)b);
+    q = ((int *)SCRIPT_WORK_ResetFieldParam((int)o))[1];
+    e = SCRCMD_WORK_GetGameData((void *)b);
+    d = SCRCMD_WORK_GetGameSystem((void *)b);
+    ids = gScrcmdFldmmdlFacingCodes;
+    h = GAME_DATA_GetEventData(e);
+    f = GAME_DATA_GetEventWork(e);
+    m = FIELDMAP_GetFieldPlayer((void *)q);
+    FIELD_PLAYER_GetPos(m, (struct VecFx32 *)&pos);
     for (i = 0; i < 4; i++) {
         id = ids.v[i];
-        if (func_021627C8((struct Ctx *)h, (void *)f, (int)(&pos), id) != 0) {
+        if (EVENTDATA_SYSTEM_SearchPosEvent((struct Ctx *)h, (void *)f, (int)(&pos), id) != 0) {
             found = id;
             break;
         }
     }
-    k = func_021A3050(m);
+    k = FIELD_PLAYER_GetDirDisp(m);
     if (k != found) {
         if (found == 0) {
-            tbl = d_021D941C;
+            tbl = gScrcmdFldmmdlTurnUpAcmdList;
         } else if (found == 1) {
-            tbl = d_021D9414;
+            tbl = gScrcmdFldmmdlTurnDownAcmdList;
         } else if (found == 2) {
-            tbl = d_021D940C;
+            tbl = gScrcmdFldmmdlTurnLeftAcmdList;
         } else if (found == 3) {
-            tbl = d_021D9404;
+            tbl = gScrcmdFldmmdlTurnRightAcmdList;
         } else {
             return 0;
         }
-        func_0215897C(o, func_021618A0(d, q, 0xff, (int)tbl));
+        SCRIPT_SYS_CallEvent(o, EVENT_FIELD_PROCLINK_CreateObjAnimEvent(d, q, 0xff, (int)tbl));
         return 1;
     }
     return 0;

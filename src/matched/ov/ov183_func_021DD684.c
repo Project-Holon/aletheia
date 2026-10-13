@@ -20,10 +20,10 @@
  *   func_0200DAC4 0x0200DAC4 thumb
  *   func_0200DAD8 0x0200DAD8 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   func_0200DABC 0x0200DABC thumb
  *   func_021FC124 0x021FC124 thumb ov186
@@ -51,10 +51,10 @@ extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern u16 func_0200DAD8(struct Blk1AC *p, u32 i);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021FC7C4(char *,void *,void *,u16);
 extern u16 func_0200DABC(struct Blk1AC *p);
 extern int func_021FC124(int,int,struct Triple *);
@@ -87,25 +87,25 @@ void func_021DD684(char *p,char *q)
     number1=func_0200DAC4(*(void **)(q+0x10),select);
     number1=(number1>9999)?9999:number1;
     base=func_02045EC0((struct MsgBank *)second,rec->value);
-    obj=func_020457B0(0x80,*(u16 *)(p+0x7c));
+    obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
     func_0201EFA4((void *)third,0,number1,4,1,1);
     func_0201F250((void *)third,obj,base);
-    func_02045808(base);break;
+    STRBUF_Delete(base);break;
    }
    case 6:{
     void *base;
     number2=func_0200DAD8(*(void **)(q+0x10),select);
     number2=(number2>9999)?9999:number2;
     base=func_02045EC0((struct MsgBank *)second,rec->value);
-    obj=func_020457B0(0x80,*(u16 *)(p+0x7c));
+    obj=STRBUF_Create(0x80,*(u16 *)(p+0x7c));
     func_0201EFA4((void *)third,0,number2,4,1,1);
     func_0201F250((void *)third,obj,base);
-    func_02045808(base);break;
+    STRBUF_Delete(base);break;
    }
    default:obj=func_02045EC0((struct MsgBank *)second,rec->value);break;
   }
   func_021FC7C4(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
-  func_02045808(obj);
+  STRBUF_Delete(obj);
  }
  v=func_0200DABC(*(void **)(q+0x10));
  func_021FC124(*(int *)(q+8),13,&triple);

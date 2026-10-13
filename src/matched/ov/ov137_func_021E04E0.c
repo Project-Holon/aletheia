@@ -9,7 +9,7 @@
  * status: EXACT
  * lever: Enum zero preserves its early definition; halfword stores use literal zero to avoid truncation.
  * symbols:
- *   func_02047E88 0x02047E88 arm
+ *   G3D_UTIL_AddUnit 0x02047E88 arm
  *   d_021E20EC 0x021E20EC data a4
  *   d_021E1DE8 0x021E1DE8 data a4
  */
@@ -22,7 +22,7 @@ typedef struct { int x,y,z; } Vec;
 typedef struct { int a[4]; } Descriptor;
 extern const Descriptor d_021E20EC[];
 extern const int d_021E1DE8[];
-extern int func_02047E88(void *,const void *);
+extern int G3D_UTIL_AddUnit(void *,const void *);
 void func_021E04E0(u8 *p)
 {
     int index;
@@ -30,7 +30,7 @@ void func_021E04E0(u8 *p)
     u8 *s;
     index=((struct Obj23775 *)(*(u8 * *)&((struct Obj10625 *)p)->fD8))->f8;
     s=p+224;
-    ((struct Obj02499 *)s)->fBC=func_02047E88(((struct Obj10625 *)p)->fAF4,&d_021E20EC[index-2]);
+    ((struct Obj02499 *)s)->fBC=G3D_UTIL_AddUnit(((struct Obj10625 *)p)->fAF4,&d_021E20EC[index-2]);
     zero=0;
     ((struct Obj02499 *)s)->f44=d_021E1DE8[index];
     ((struct Obj02499 *)s)->f18=4096;

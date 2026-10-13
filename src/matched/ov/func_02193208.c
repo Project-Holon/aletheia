@@ -1,5 +1,5 @@
 /*
- * function: func_02193208
+ * function: FIELD_MSGBG_KeyWaitSetAuto
  * address:  0x02193208
  * packet:   pkt_02193208
  * region:   ov021
@@ -13,7 +13,7 @@
  * store.  Listing bytes 01 70 70 47.
  *
  * symbols:
- *   func_02193208  0x02193208  thumb  ov021
+ *   FIELD_MSGBG_KeyWaitSetAuto  0x02193208  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02193208(u8 *p, u8 v)
+void FIELD_MSGBG_KeyWaitSetAuto(u8 *p, u8 v)
 {
     *p = v;
 }

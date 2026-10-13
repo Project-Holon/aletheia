@@ -1,5 +1,5 @@
 /*
- * function: func_021D2B54
+ * function: SCRCMD_GetNpcGreetingMessage
  * address:  0x021D2B54
  * packet:   pkt_ov021_021D2B54
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   func_0201F02C  0x0201F02C  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0203F4CC  0x0203F4CC  arm
  *   func_020056EC  0x020056EC  thumb
- *   func_02012F2C  0x02012F2C  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   d_021DD774     0x021DD774  data  ov021
  *   func_02008DFC  0x02008DFC  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_02008550  0x02008550  thumb
- *   func_021D2CE8  0x021D2CE8  thumb  ov021
- *   func_021D2D24  0x021D2D24  thumb  ov021
+ *   SCRCMD_GREETING_AdjustMessageIdByMisc  0x021D2CE8  thumb  ov021
+ *   SCRCMD_GREETING_AdjustMessageIdByRandom  0x021D2D24  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -52,36 +52,36 @@ typedef struct {
     u32 d;
 } Entry;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Sub02008C20Obj;
 struct WordSet;
-extern u8 *func_02012944(void *p);
-extern void *func_02158F74(void *p);
-extern unsigned int func_02159B10(void *a, void *b);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 struct RtcTime;
 struct Sub0200852CObj;
 extern void func_0203F4CC(struct RtcTime *time);
 extern u32 func_020056EC(u32 v);
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern const Entry d_021DD774[];
 extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u32 func_021D2CE8(void *a, int i);
-extern u32 func_021D2D24(void *a, u32 v, int c);
+extern u32 SCRCMD_GREETING_AdjustMessageIdByMisc(void *a, int i);
+extern u32 SCRCMD_GREETING_AdjustMessageIdByRandom(void *a, u32 v, int c);
 
-int func_021D2B54(u32 a, u32 b)
+int SCRCMD_GetNpcGreetingMessage(u32 a, u32 b)
 {
     void *h;
     u32 name, ws, v;
@@ -97,19 +97,19 @@ int func_021D2B54(u32 a, u32 b)
     u32 tr;
     u32 e0, e1;
 
-    o = func_0215A5F4((void *)b);
-    h = func_020120F4(func_0215A5DC((void *)b));
-    name = (u32)func_02012944(h);
-    ws = (u32)func_02158F74(o);
-    v = func_02159B10((void *)a, (void *)b);
-    out = func_02159AE8((void *)a, (void *)b);
+    o = SCRCMD_WORK_GetScriptWork((void *)b);
+    h = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem((void *)b));
+    name = (u32)GAME_DATA_GetMyStatus(h);
+    ws = (u32)SCRIPT_WORK_GetWordSet(o);
+    v = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    out = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     func_0201F02C((struct WordSet *)ws, 0, (void *)name);
-    party = func_02012934(h);
+    party = GAME_DATA_GetMyParty(h);
     n = func_0201AA18(party);
     for (i = 0; i < n; i++) {
         mon = func_0201AB28(party, i);
-        if (func_02017E1C(mon, 0x4C, 0) == 0) {
-            func_0201EE60((struct WordSet *)ws, 3, func_02017E1C(mon, 5, 0));
+        if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
+            func_0201EE60((struct WordSet *)ws, 3, POKE_TOOL_GetPartyValue(mon, 5, 0));
             break;
         }
     }
@@ -119,7 +119,7 @@ int func_021D2B54(u32 a, u32 b)
         k = func_020056EC(0x1D);
         s0 = 0;
         s1 = 0;
-        tr = (u32)func_02012F2C(h);
+        tr = (u32)GAME_DATA_GetTrainerRecord(h);
         e0 = d_021DD774[k].a;
         if (e0 != -1) {
             s0 = func_02008DFC((struct Sub02008C20Obj *)tr, e0);
@@ -153,6 +153,6 @@ int func_021D2B54(u32 a, u32 b)
         base = 0x5A;
         k = func_020056EC(0x50);
     }
-    *out = func_021D2D24(h, func_021D2CE8(h, base + k), v);
+    *out = SCRCMD_GREETING_AdjustMessageIdByRandom(h, SCRCMD_GREETING_AdjustMessageIdByMisc(h, base + k), v);
     return 0;
 }

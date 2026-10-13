@@ -1,5 +1,5 @@
 /*
- * function: func_02184F40
+ * function: EVENT_MAPCHANGE_CreateSituationWarpEvent
  * address:  0x02184F40
  * packet:   pkt_ov020_02184F40
  * region:   ov020
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012914  0x02012914  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSituationWarpId  0x02012914  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02014204  0x02014204  thumb
+ *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
  *   func_02159F94  0x02159F94  thumb  ov010
- *   func_0218495C  0x0218495C  thumb  ov020
- *   func_02184CEC  0x02184CEC  thumb  ov020
+ *   EVENT_MAPCHANGE_ResetPlayerFormEvent  0x0218495C  thumb  ov020
+ *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
  */
 #include "../include/Obj00248.h"
 
@@ -30,23 +30,23 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-void *func_020120F4(const struct Ctx *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-u16 func_02012914(const struct BigObj *p);
+u16 GAME_DATA_GetSituationWarpId(const struct BigObj *p);
 u16 func_02159F94(int a);
 struct t;
-void func_02014204(struct t *p, int id);
-int func_0218495C(int ctx, int *state, u8 *p);
-void func_02184CEC(void **o, void *p);
+void ZONEDATA_SetZoneStartLocation(struct t *p, int id);
+int EVENT_MAPCHANGE_ResetPlayerFormEvent(int ctx, int *state, u8 *p);
+void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 
-void *func_02184F40(void *p)
+void *EVENT_MAPCHANGE_CreateSituationWarpEvent(void *p)
 {
-    void *r6 = (void *)func_02012914(func_020120F4(p));
-    void *r0v = func_020122C0(p, 0, func_0218495C, 0x9c);
+    void *r6 = (void *)GAME_DATA_GetSituationWarpId(GAMESYSTEM_GetGameData(p));
+    void *r0v = func_020122C0(p, 0, EVENT_MAPCHANGE_ResetPlayerFormEvent, 0x9c);
     char *r4 = func_020124E8(r0v);
 
-    func_02184CEC((void **)r4, p);
-    func_02014204((struct t *)(r4 + 0x10), func_02159F94((int)r6));
+    EVENT_MAPCHANGE_InitWork((void **)r4, p);
+    ZONEDATA_SetZoneStartLocation((struct t *)(r4 + 0x10), func_02159F94((int)r6));
     ((struct Obj00248 *)r4)->f10 = 1;
     ((struct Obj00248 *)r4)->f2C = 0;
     return r0v;

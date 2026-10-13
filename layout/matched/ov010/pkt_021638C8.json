@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021638C8",
+   "name": "FLDMMDL_MOVE_AttrEffectNone",
    "address": "0x021638C8",
    "kind": "game",
    "region": "ov010",

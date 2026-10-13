@@ -1,5 +1,5 @@
 /*
- * function: func_0216C0E4
+ * function: NAMEIN_SETUP_IsCanceled
  * address:  0x0216C0E4
  * packet:   pkt_ov010_0216C0E4
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0216C0E4(int *p)
+int NAMEIN_SETUP_IsCanceled(int *p)
 {
     return p[7];
 }

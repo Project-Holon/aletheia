@@ -10,13 +10,13 @@
  * status:   EXACT
  * symbols:
  *   func_02030734       0x02030734  arm
- *   func_020457B0       0x020457B0  arm
+ *   STRBUF_Create       0x020457B0  arm
  *   func_02045B38       0x02045B38  arm
  *   func_02045EC0       0x02045EC0  arm
- *   func_02045A38       0x02045A38  arm
- *   func_02045924       0x02045924  arm
- *   func_02045808       0x02045808  arm
- *   func_02045C04       0x02045C04  arm
+ *   STRBUF_ToChars       0x02045A38  arm
+ *   STRBUF_SetString       0x02045924  arm
+ *   STRBUF_Delete       0x02045808  arm
+ *   MSGDATA_Delete       0x02045C04  arm
  *   beacon_status_File     0x020A74D0  data
  */
 
@@ -28,13 +28,13 @@ struct Rec;
 struct Strbuf;
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern const char beacon_status_File[];
 
 typedef struct {
@@ -50,12 +50,12 @@ Obj *BEACON_STATUS_Create(u32 heap, u32 a1)
     u16 buf[10];
 
     p = (Obj *)func_02030734(heap, 0xb10, 1, beacon_status_File, 42);
-    p->fb08 = func_020457B0(9, heap);
+    p->fb08 = STRBUF_Create(9, heap);
     arc = func_02045B38(0, 2, 8, a1);
     msg = func_02045EC0(arc, 0x11);
-    func_02045A38(msg, buf, 9);
-    func_02045924(p->fb08, buf);
-    func_02045808(msg);
-    func_02045C04(arc);
+    STRBUF_ToChars(msg, buf, 9);
+    STRBUF_SetString(p->fb08, buf);
+    STRBUF_Delete(msg);
+    MSGDATA_Delete(arc);
     return p;
 }

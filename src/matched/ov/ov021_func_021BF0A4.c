@@ -1,5 +1,5 @@
 /*
- * function: func_021BF0A4
+ * function: EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn
  * address:  0x021BF0A4
  * packet:   pkt_ov021_021BF0A4
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0218774C  0x0218774C  thumb  ov020
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 #include "../include/Obj07553.h"
 
@@ -21,9 +21,9 @@ typedef unsigned int   u32;
 
 struct Evt;
 extern void *func_0218774C(int a, int b, u8 c, u8 d);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-int func_021BF0A4(u32 p0, int *st, u8 *q)
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(u32 p0, int *st, u8 *q)
 {
     u32 a = ((struct Obj07553 *)q)->f0;
     u32 b = ((struct Obj07553 *)q)->f4;
@@ -31,7 +31,7 @@ int func_021BF0A4(u32 p0, int *st, u8 *q)
     switch (*st) {
     case 0: {
         u32 r = (u32)func_0218774C(a, b, q[0x20], q[0x21]);
-        func_02012374((struct Evt *)p0, (struct Evt **)r);
+        GAME_EVENT_CallEvent((struct Evt *)p0, (struct Evt **)r);
         *st = *st + 1;
         break;
     }

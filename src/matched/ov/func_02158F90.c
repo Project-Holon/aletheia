@@ -1,5 +1,5 @@
 /*
- * function: func_02158F90
+ * function: SCRIPT_WORK_GetTargetObj
  * address:  0x02158F90
  * packet:   pkt_02158F90
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-void *func_02158F90(void *p)
+void *SCRIPT_WORK_GetTargetObj(void *p)
 {
     return ((struct Obj17636 *)p)->f8;
 }

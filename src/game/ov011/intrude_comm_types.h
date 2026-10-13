@@ -296,7 +296,7 @@ typedef struct IntrudeCommSys {
     u8 entryReceived;                           /* 0x90D */
     s16 waitFrames;                             /* 0x90E */
     u8 specialZoneEntered;                      /* 0x910: set once the player enters a zone of func_02013D5C */
-    u8 ownNetId;                                /* 0x911: own net ID, the value func_02158378 answers while the work exists */
+    u8 ownNetId;                                /* 0x911: own net ID, the value INTRUDE_COMM_GetPlayerNetId answers while the work exists */
     u8 pad912[2];
     IntrudeRemoteRecord remoteRecord;           /* 0x914 */
     u8 readyMask;                               /* 0x924: bit per net ID that answered command 0x20C */
@@ -312,7 +312,7 @@ typedef struct IntrudeCommSys {
     u8 tallyPending;                            /* 0x93E: ownTally has to be sent */
     u8 startFlag : 1;                           /* 0x93F: the parent's record had startFlag */
     u8 quit : 1;
-    u8 gearReported : 1;                        /* bit 2: set once the C-Gear took the pending state 2 of func_021585E0 */
+    u8 gearReported : 1;                        /* bit 2: set once the C-Gear took the pending state 2 of INTRUDE_COMM_GetVisitProgress */
     u8 infoShown : 1;                           /* bit 3: set when the info event starts, tested by the script command */
     u8 peerFlags : 2;                           /* set by command 0x220 */
     u8 lock : 1;

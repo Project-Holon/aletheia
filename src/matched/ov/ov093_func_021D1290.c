@@ -11,9 +11,9 @@
  * symbols:
  *   func_021B904C 0x021B904C thumb ov093
  *   func_021D13A4 0x021D13A4 thumb ov093
- *   func_021B86C8 0x021B86C8 thumb ov093
+ *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   func_021B916C 0x021B916C thumb ov093
- *   func_021B86DC 0x021B86DC thumb ov093
+ *   BTL_MAIN_GetWinBgm 0x021B86DC thumb ov093
  *   func_021EAF18 0x021EAF18 thumb ov093
  *   func_021EAF50 0x021EAF50 thumb ov093
  *   func_021EA614 0x021EA614 thumb ov093
@@ -32,9 +32,9 @@ extern u8 func_021B904C(u8 *p, int k);
 extern int func_021D13A4(void *);
 struct H;
 struct L;
-extern int func_021B86C8(unsigned char **p);
+extern int BTL_MAIN_IsMultiMode(unsigned char **p);
 extern void func_021B916C(u8 *p, u32 x);
-extern u16 func_021B86DC(void **p);
+extern u16 BTL_MAIN_GetWinBgm(void **p);
 extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EA614(char *p, struct H *h);
@@ -55,7 +55,7 @@ int func_021D1290(u8 *p, int *state, void *a2)
             return 1;
         idx = func_021B904C(((struct Obj00066 *)p)->f0, 0);
         mode = func_021D13A4(p);
-        flag = func_021B86C8((unsigned char **)(*(u8 * *)&((struct Obj00066 *)p)->f0));
+        flag = BTL_MAIN_IsMultiMode((unsigned char **)(*(u8 * *)&((struct Obj00066 *)p)->f0));
         func_021B916C(((struct Obj00066 *)p)->f0, mode);
         switch (mode) {
         case 1: msg = flag != 0 ? 0x31 : 0x30; break;
@@ -69,7 +69,7 @@ int func_021D1290(u8 *p, int *state, void *a2)
             func_021EAF50((struct L *)(p + 0x58), func_021B904C(((struct Obj00066 *)p)->f0, 1));
         func_021EA614(((struct Obj00066 *)p)->f54, (struct H *)(p + 0x58));
         if (mode == 1) {
-            GFL_USE_CancelChangeAndPlayBgm(func_021B86DC(((struct Obj00066 *)p)->f0), 0xFFFF);
+            GFL_USE_CancelChangeAndPlayBgm(BTL_MAIN_GetWinBgm(((struct Obj00066 *)p)->f0), 0xFFFF);
             (*state)++;
         } else {
             GFL_USE_FadeOutBgm(0x1E);

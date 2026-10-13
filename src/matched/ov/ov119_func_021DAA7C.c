@@ -12,22 +12,22 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021E31FC 0x021E31FC thumb ov119
  *   func_021DAA4C 0x021DAA4C thumb ov119
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  *   func_02039C68 0x02039C68 arm
  */
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int),func_021E31FC(void *),func_021DAA4C(void *);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 struct Link;
 extern void func_02039C68(struct Link *,unsigned,unsigned);
 void func_021DAA7C(char *p) {
  if(func_021D8A24(p)) {
-  if(func_0203D3F8((unsigned)func_020399A8(),255,0xc0e,0x2d6,(u32)(p+16),0,0,1)) {
-   func_02039C68((struct Link *)func_020399A8(),18,8);func_021D8E84(p,(int)func_021DAA4C);
+  if(GFL_NET_SendData((unsigned)GFL_NET_HANDLE_GetCurrentHandle(),255,0xc0e,0x2d6,(u32)(p+16),0,0,1)) {
+   func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,8);func_021D8E84(p,(int)func_021DAA4C);
   }
  } else {func_021E31FC(p);func_021D8E84(p,(int)func_021DAA4C);}
 }

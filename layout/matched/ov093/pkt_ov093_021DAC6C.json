@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DAC6C",
-    "func_021DAC84"
+    "BTL_ABILITY_LevitateClearFlag",
+    "BTL_ABILITY_GetLevitateHandlers"
+   ],
+   "addresses": [
+    "0x021DAC6C",
+    "0x021DAC84"
    ],
    "evidence": {
     "sole-ref": [

@@ -1,5 +1,5 @@
 /*
- * function: func_021A2F54
+ * function: FIELD_PLAYER_StepFormChange
  * address:  0x021A2F54
  * packet:   pkt_021A2F48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A3CC0  0x021A3CC0  thumb
+ *   FIELD_PLAYER_CORE_StepFormChange  0x021A3CC0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A3CC0(void *p);
+extern int FIELD_PLAYER_CORE_StepFormChange(void *p);
 
-int func_021A2F54(u8 *p)
+int FIELD_PLAYER_StepFormChange(u8 *p)
 {
-    return func_021A3CC0(((struct Obj18008 *)p)->f4);
+    return FIELD_PLAYER_CORE_StepFormChange(((struct Obj18008 *)p)->f4);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02198E2C",
+   "name": "FLDMMDL_ACMD_Walk12FMove",
    "address": "0x02198E2C",
    "kind": "sdk",
    "region": "ov021",

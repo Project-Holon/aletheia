@@ -1,7 +1,7 @@
 /*
  * file:     no_gear.c
  * unit:     yes
- * function: func_021EFEC0, func_021EFEC4, func_021EFECC, func_021EFF54, func_021F0058, func_021F007C, func_021F00C4, func_021F00C8, func_021F00F8
+ * function: func_021EFEC0, NO_GEAR_SetStepFunc, NO_GEAR_LoadGraphics, NO_GEAR_SetupBackgrounds, NO_GEAR_Init, NO_GEAR_ReleaseGraphics, NO_GEAR_Step, NO_GEAR_Create, NO_GEAR_Update
  * address:  0x021EFEC0
  * region:   ov030
  * compiler: dsi/1.1p1
@@ -14,31 +14,31 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02049B68  0x02049B68  arm
  *   func_02049740  0x02049740  arm
- *   func_02049990  0x02049990  arm
- *   func_02049238  0x02049238  arm
- *   func_0203D34C  0x0203D34C  arm
- *   func_02043598  0x02043598  arm
- *   d_021F0134     0x021F0134  data  ov030  a4
- *   d_021F0140     0x021F0140  data  ov030  a4
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
+ *   gNoGearPaletteFileIds     0x021F0134  data  ov030  a4
+ *   gNoGearCharFileIds     0x021F0140  data  ov030  a4
  *   func_02040588  0x02040588  arm
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_0204047C  0x0204047C  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
- *   d_021F014C     0x021F014C  data  ov030  a4
- *   d_021F016C     0x021F016C  data  ov030  a4
- *   d_021F018C     0x021F018C  data  ov030  a4
+ *   gNoGearBgTemplateMain     0x021F014C  data  ov030  a4
+ *   gNoGearBgTemplateMid     0x021F016C  data  ov030  a4
+ *   gNoGearBgTemplateBack     0x021F018C  data  ov030  a4
  *   func_0203FB44  0x0203FB44  arm
  *   func_020403F4  0x020403F4  arm
  *   func_02030734  0x02030734  arm
  *   str_021F01C0   0x021F01C0  data   ov030  a1
- *   func_0201283C 0x0201283C thumb
- *   func_0201058C 0x0201058C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
+ *   WIH_DWC_PollStatus 0x0201058C thumb
  */
 #include "../ov021/field_subscreen_types.h"
 
@@ -78,15 +78,15 @@ typedef struct NoGearWork {
 } NoGearWork;
 
 extern struct ArchiveHandle *func_020490F4(u32 archiveId, u32 heapId);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct PlayerStatus *func_02012944(struct GameData *gameData);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u8 func_02008550(const struct PlayerStatus *player);
 extern void func_02049B68(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern u32 func_02049740(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
-extern u32 func_02049990(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 x, u32 y, u32 width, u32 height, u16 heapId);
-extern void func_02049238(struct ArchiveHandle *archive);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_02043598(u32 planeMask, u32 enable);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArchiveHandle *archive, u32 fileId, u32 bgId, u32 x, u32 y, u32 width, u32 height, u16 heapId);
+extern void ARC_TOOL_DeleteHandle(struct ArchiveHandle *archive);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
 extern void func_02040588(unsigned char bgId, unsigned char visible);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void func_0204047C(int bgId, unsigned short priority);
@@ -95,23 +95,23 @@ extern void func_020409B4(u32 bgId);
 extern void func_0203FB44(u32 bgId, u32 offset, u32 size);
 extern void func_020403F4(u32 bgId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_0201283C(struct GameData *gameData);
-extern u32 func_0201058C(void *key);
+extern void *GAME_DATA_GetWifiList(struct GameData *gameData);
+extern u32 WIH_DWC_PollStatus(void *key);
 void func_021EFEC0(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *));
-void func_021EFEC4(NoGearWork *work, void (*stepFunc)(NoGearWork *), int line);
-void func_021EFECC(NoGearWork *work);
-void func_021EFF54(void);
-void func_021F0058(NoGearWork *work);
-void func_021F007C(NoGearWork *work);
-void func_021F00C4(NoGearWork *work);
-NoGearWork *func_021F00C8(void *cgearSave, FieldSubscreen *subscreen, struct GameSystem *gameSystem);
-void func_021F00F8(NoGearWork *work);
-void func_021F0114(void);
-extern const u32 d_021F0134[];
-extern const u32 d_021F0140[];
-extern struct BgTemplate d_021F014C;
-extern struct BgTemplate d_021F016C;
-extern struct BgTemplate d_021F018C;
+void NO_GEAR_SetStepFunc(NoGearWork *work, void (*stepFunc)(NoGearWork *), int line);
+void NO_GEAR_LoadGraphics(NoGearWork *work);
+void NO_GEAR_SetupBackgrounds(void);
+void NO_GEAR_Init(NoGearWork *work);
+void NO_GEAR_ReleaseGraphics(NoGearWork *work);
+void NO_GEAR_Step(NoGearWork *work);
+NoGearWork *NO_GEAR_Create(void *cgearSave, FieldSubscreen *subscreen, struct GameSystem *gameSystem);
+void NO_GEAR_Update(NoGearWork *work);
+void NO_GEAR_Hook(void);
+extern const u32 gNoGearPaletteFileIds[];
+extern const u32 gNoGearCharFileIds[];
+extern struct BgTemplate gNoGearBgTemplateMain;
+extern struct BgTemplate gNoGearBgTemplateMid;
+extern struct BgTemplate gNoGearBgTemplateBack;
 extern char str_021F01C0[];
 
 
@@ -126,31 +126,31 @@ void func_021EFEC0(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *))
  * Tail call to the unlabelled ov030 leaf func_021EFEC0; its ABS32 pool word
  * is now witnessed by the EXACT shard entry for func_021EFEC0 (matched x1).
  */
-void func_021EFEC4(NoGearWork *work, void (*stepFunc)(NoGearWork *), int line)
+void NO_GEAR_SetStepFunc(NoGearWork *work, void (*stepFunc)(NoGearWork *), int line)
 {
     func_021EFEC0(&work->stepFunc, stepFunc);
 }
 
 
 
-void func_021EFECC(NoGearWork *work)
+void NO_GEAR_LoadGraphics(NoGearWork *work)
 {
     struct ArchiveHandle *archive;
     int variant;
 
     archive = func_020490F4(0x1E, work->heapId);
-    variant = func_02008550(func_02012944(func_020120F4(work->gameSystem)));
-    func_02049B68(archive, d_021F0134[variant], 4, 0, 0, work->heapId);
-    work->charBlock = func_02049740(archive, d_021F0140[variant], 6, 0, 0, work->heapId);
-    func_02049990(archive, 3, 6, 0, (u16)work->charBlock, 0, 0, work->heapId);
-    func_02049238(archive);
-    func_0203D34C(0, work->heapId);
-    func_02043598(0x10, 1);
+    variant = func_02008550(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
+    func_02049B68(archive, gNoGearPaletteFileIds[variant], 4, 0, 0, work->heapId);
+    work->charBlock = func_02049740(archive, gNoGearCharFileIds[variant], 6, 0, 0, work->heapId);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 3, 6, 0, (u16)work->charBlock, 0, 0, work->heapId);
+    ARC_TOOL_DeleteHandle(archive);
+    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 
 
-void func_021EFF54(void)
+void NO_GEAR_SetupBackgrounds(void)
 {
     int bgId;
 
@@ -158,7 +158,7 @@ void func_021EFF54(void)
         func_02040588((u8)bgId, 0);
     }
     {
-        struct BgTemplate template = d_021F014C;
+        struct BgTemplate template = gNoGearBgTemplateMain;
         func_0203FCA0(6, &template, 0);
         func_02040588((u8)6, 1);
         func_0204047C(6, 3);
@@ -166,7 +166,7 @@ void func_021EFF54(void)
         func_020409B4(6);
     }
     {
-        struct BgTemplate template = d_021F016C;
+        struct BgTemplate template = gNoGearBgTemplateMid;
         func_0203FCA0(5, &template, 0);
         func_02040588((u8)5, 1);
         func_0204047C(5, 1);
@@ -174,7 +174,7 @@ void func_021EFF54(void)
         func_020409B4(5);
     }
     {
-        struct BgTemplate template = d_021F018C;
+        struct BgTemplate template = gNoGearBgTemplateBack;
         func_0203FCA0(4, &template, 0);
         func_02040588((u8)4, 1);
         func_0204047C(4, 2);
@@ -184,11 +184,11 @@ void func_021EFF54(void)
 }
 
 
-void func_021F0058(NoGearWork *work)
+void NO_GEAR_Init(NoGearWork *work)
 {
-    func_021EFF54();
-    func_021EFECC(work);
-    func_021EFEC4(work, func_021F00C4, 0x149);
+    NO_GEAR_SetupBackgrounds();
+    NO_GEAR_LoadGraphics(work);
+    NO_GEAR_SetStepFunc(work, NO_GEAR_Step, 0x149);
 }
 
 
@@ -196,7 +196,7 @@ void func_021F0058(NoGearWork *work)
 /*
  * (followed by an unlabelled 2-byte `bx lr` stub at 0x021F00C4)
  */
-void func_021F007C(NoGearWork *work)
+void NO_GEAR_ReleaseGraphics(NoGearWork *work)
 {
     u32 charBlock = work->charBlock;
 
@@ -207,46 +207,46 @@ void func_021F007C(NoGearWork *work)
     func_02040588(4, 0);
     func_02040588(5, 0);
     func_02040588(6, 0);
-    func_02043598(0x10, 0);
+    BG_SYS_SetSubPlaneVisible(0x10, 0);
 }
 
 
 /*
  * extent: empty callback bx lr, two-byte alignment then separate constructor
  * starts 0x021F00C8; callback alone is reproduced.
- * interface: func_021F0058 installs this callback and func_021F00F8 invokes
+ * interface: NO_GEAR_Init installs this callback and NO_GEAR_Update invokes
  * it with its object pointer in r0. Empty body does not read that context.
  */
-void func_021F00C4(NoGearWork *work)
+void NO_GEAR_Step(NoGearWork *work)
 {
 }
 
 
 
-NoGearWork *func_021F00C8(void *cgearSave, FieldSubscreen *subscreen, struct GameSystem *gameSystem)
+NoGearWork *NO_GEAR_Create(void *cgearSave, FieldSubscreen *subscreen, struct GameSystem *gameSystem)
 {
     NoGearWork *work;
 
     work = func_02030734(0x15, 0x20, 1, str_021F01C0, 0x17A);
     work->heapId = 0x15;
     work->gameSystem = gameSystem;
-    func_021F0058(work);
+    NO_GEAR_Init(work);
     return work;
 }
 
 
 /*
- * extent: empty follower func_021F0114 then two-byte zero padding.
+ * extent: empty follower NO_GEAR_Hook then two-byte zero padding.
  */
-void func_021F00F8(NoGearWork *work)
+void NO_GEAR_Update(NoGearWork *work)
 {
     if (work->stepFunc != 0) {
         work->stepFunc(work);
     }
-    func_0201058C(func_0201283C(func_020120F4(work->gameSystem)));
+    WIH_DWC_PollStatus(GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->gameSystem)));
 }
 
 
-void func_021F0114(void)
+void NO_GEAR_Hook(void)
 {
 }

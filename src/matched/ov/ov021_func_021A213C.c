@@ -1,5 +1,5 @@
 /*
- * function: func_021A213C
+ * function: WEATHER_TASK_IsLightFlashing
  * address:  0x021A213C
  * packet:   pkt_ov021_021A213C
  * region:   ov021
@@ -12,16 +12,16 @@
  * Unlabelled tail-call stub, filed for the ov026 lane.
  *
  * symbols:
- *   func_021A213C 0x021A213C thumb ov021
- *   func_021A065C 0x021A065C thumb ov021
+ *   WEATHER_TASK_IsLightFlashing 0x021A213C thumb ov021
+ *   FIELD_LIGHT_IsColorFading 0x021A065C thumb ov021
  */
 #include "../include/Obj00954.h"
 
 typedef unsigned char  u8;
 
-extern int func_021A065C(u8 *p);
+extern int FIELD_LIGHT_IsColorFading(u8 *p);
 
-int func_021A213C(u8 *p)
+int WEATHER_TASK_IsLightFlashing(u8 *p)
 {
-    return func_021A065C(*(u8 * *)&((struct Obj00954 *)p)->f8);
+    return FIELD_LIGHT_IsColorFading(*(u8 * *)&((struct Obj00954 *)p)->f8);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02183BE8
+ * function: UNION_APP_TryAcceptMember
  * address:  0x02183BE8
  * packet:   pkt_ov022_02183BE8
  * region:   ov022
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 func_02080D24(u32 a);
 
-int func_02183BE8(u8 *s, int i)
+int UNION_APP_TryAcceptMember(u8 *s, int i)
 {
     u32 n;
     u32 c;

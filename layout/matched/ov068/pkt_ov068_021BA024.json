@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BA024",
-    "func_021BA030"
+    "OPTION_MENU_InitInput",
+    "OPTION_MENU_ExitInput"
+   ],
+   "addresses": [
+    "0x021BA024",
+    "0x021BA030"
    ]
   }
  ]

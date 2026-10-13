@@ -1,5 +1,5 @@
 /*
- * function: func_021BBDD4
+ * function: FLDEFF_FOOTMARK_SetMMdl
  * address:  0x021BBDD4
  * packet:   pkt_ov021_021BBDD4
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D5FC  0x0216D5FC  thumb  ov010
- *   func_021BBD84  0x021BBD84  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D804  0x0216D804  thumb  ov010
- *   func_0216D81C  0x0216D81C  thumb  ov010
- *   func_02164280  0x02164280  thumb  ov010
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   d_021D9AF8     0x021D9AF8  data  a4
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetDirDispOld  0x0216D5FC  thumb  ov010
+ *   FLDEFF_FOOTMARK_GetSlotIndex  0x021BBD84  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetGridOldX  0x0216D804  thumb  ov010
+ *   FLDMMDL_GetGridOldZ  0x0216D81C  thumb  ov010
+ *   FLDMMDL_MOVE_GridToVectorPos  0x02164280  thumb  ov010
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   gFootmarkTaskHeader     0x021D9AF8  data  a4
  */
 #include "../include/Obj20103.h"
 
@@ -36,22 +36,22 @@ typedef struct Arg {
     u16 h;
 } Arg;
 
-extern int d_021D9AF8;
+extern int gFootmarkTaskHeader;
 
 typedef unsigned int   u32;
-int func_021ABEA0(u32 a, u32 b);
-u16 func_0216D5F8(void *p);
-u16 func_0216D5FC(void *p);
-int func_021BBD84(int a, int n, int x, int y);
+int FIELD_EFFECT_GetResource(u32 a, u32 b);
+u16 FLDMMDL_GetDirDisp(void *p);
+u16 FLDMMDL_GetDirDispOld(void *p);
+int FLDEFF_FOOTMARK_GetSlotIndex(int a, int n, int x, int y);
 struct Actor;
 struct VecFx32;
-void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-int func_0216D804(void *p);
-int func_0216D81C(void *p);
-void func_02164280(int x, int y, int *p);
-void func_021ABFA8(int a, void *b, Vec *c, int d, Arg *e, int f);
+void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
+int FLDMMDL_GetGridOldX(void *p);
+int FLDMMDL_GetGridOldZ(void *p);
+void FLDMMDL_MOVE_GridToVectorPos(int x, int y, int *p);
+void FIELD_EFFECT_AddObject(int a, void *b, Vec *c, int d, Arg *e, int f);
 
-void func_021BBDD4(int a, int b, int c)
+void FLDEFF_FOOTMARK_SetMMdl(int a, int b, int c)
 {
     int x;
     int t;
@@ -60,14 +60,14 @@ void func_021BBDD4(int a, int b, int c)
     Vec v;
     Arg s;
 
-    x = func_021ABEA0(b, 5);
+    x = FIELD_EFFECT_GetResource(b, 5);
     s.a = x;
-    t = func_0216D5F8((void *)a);
-    u = func_0216D5FC((void *)a);
-    w = (u16)func_021BBD84(x, c, t, u);
-    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
-    t = func_0216D804((void *)a);
-    func_02164280(t, func_0216D81C((void *)a), (int *)(&v));
+    t = FLDMMDL_GetDirDisp((void *)a);
+    u = FLDMMDL_GetDirDispOld((void *)a);
+    w = (u16)FLDEFF_FOOTMARK_GetSlotIndex(x, c, t, u);
+    FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)&v);
+    t = FLDMMDL_GetGridOldX((void *)a);
+    FLDMMDL_MOVE_GridToVectorPos(t, FLDMMDL_GetGridOldZ((void *)a), (int *)(&v));
     if (c == 0 && (u16)(w + 0xFFFE) <= 1) {
         v.z -= 0x2000;
     } else if (c == 4 && (u16)(w + 0xFFFE) <= 1) {
@@ -77,5 +77,5 @@ void func_021BBDD4(int a, int b, int c)
         v.y -= ((struct Obj20103 *)x)->f3C;
     }
     s.h = w;
-    func_021ABFA8(b, &d_021D9AF8, &v, 0, &s, 0);
+    FIELD_EFFECT_AddObject(b, &gFootmarkTaskHeader, &v, 0, &s, 0);
 }

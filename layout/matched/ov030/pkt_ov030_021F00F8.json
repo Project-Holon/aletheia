@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F00F8",
-    "func_021F0114"
+    "NO_GEAR_Update",
+    "NO_GEAR_Hook"
+   ],
+   "addresses": [
+    "0x021F00F8",
+    "0x021F0114"
    ]
   }
  ]

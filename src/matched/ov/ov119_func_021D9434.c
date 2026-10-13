@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202208C  0x0202208C  thumb
+ *   WIPE_SYS_Start  0x0202208C  thumb
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021D941C  0x021D941C  thumb  ov119
  *
@@ -25,12 +25,12 @@
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D8E84(void *, int);
 extern void func_021D941C(void *p);
 
 void func_021D9434(void *p)
 {
-    func_0202208C(0, 0, 0, 0, 6, 1, ((struct Obj22723 *)p)->f5F4);
+    WIPE_SYS_Start(0, 0, 0, 0, 6, 1, ((struct Obj22723 *)p)->f5F4);
     func_021D8E84(p, (int)func_021D941C);
 }

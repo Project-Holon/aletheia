@@ -1,5 +1,5 @@
 /*
- * function: func_02159C20
+ * function: MAP_MATRIX_GetMapGrid
  * address:  0x02159C20
  * packet:   pkt_02159C20
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-char *func_02159C20(char *p)
+char *MAP_MATRIX_GetMapGrid(char *p)
 {
     return p + 0x71c;
 }

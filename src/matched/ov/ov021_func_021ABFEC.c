@@ -1,5 +1,5 @@
 /*
- * function: func_021ABFEC
+ * function: FIELD_EFFECT_DrawObjects
  * address:  0x021ABFEC
  * packet:   pkt_ov021_021ABFEC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC074  0x021AC074  thumb
+ *   FIELD_EFFECT_DrawObjectMgr  0x021AC074  thumb
  */
 
 typedef unsigned short u16;
@@ -28,11 +28,11 @@ typedef struct {
 } T;
 
 struct Mgr;
-extern void func_021AC074(struct Mgr *m);
+extern void FIELD_EFFECT_DrawObjectMgr(struct Mgr *m);
 
-void func_021ABFEC(T *t)
+void FIELD_EFFECT_DrawObjects(T *t)
 {
     if (t->f20 != 0) {
-        func_021AC074((struct Mgr *)t->f20);
+        FIELD_EFFECT_DrawObjectMgr((struct Mgr *)t->f20);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02193210
+ * function: FIELD_MSGBG_KeyWaitGetCharWait
  * address:  0x02193210
  * packet:   pkt_ov021_02193210
  * region:   ov021
@@ -23,7 +23,7 @@ typedef short          s16;
 extern signed char func_02013080(u32 idx);
 extern signed char func_02012FFC(void);
 
-u32 func_02193210(u8 *p)
+u32 FIELD_MSGBG_KeyWaitGetCharWait(u8 *p)
 {
     if (*p != 0)
         return func_02013080(1);

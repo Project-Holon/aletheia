@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120D8  0x020120D8  thumb
+ *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   INTRUDE_COMM_SetRequestOpen  0x0217544C  thumb ov011
  */
 #include "../include/Obj03548.h"
@@ -24,7 +24,7 @@ typedef struct F86 {
     u16 hi : 1;
 } F86;
 
-int func_020120D8(char *a);
+int GAMESYSTEM_IsEventActive(char *a);
 void INTRUDE_COMM_SetRequestOpen(u8 *p);
 
 int INTRUDE_COMM_TryStartRequest(u8 *p, int i, u8 v)
@@ -34,7 +34,7 @@ int INTRUDE_COMM_TryStartRequest(u8 *p, int i, u8 v)
         return 0;
     }
     if (((F86 *)(p + 0x86))->x == 0) {
-        if (p[0x154] == 4 && p[0x158] == 0 && func_020120D8((char *)((struct Obj03548 *)p)->f0) == 0) {
+        if (p[0x154] == 4 && p[0x158] == 0 && GAMESYSTEM_IsEventActive((char *)((struct Obj03548 *)p)->f0) == 0) {
             p[0x154] = i;
             p[0x156] = 1;
             p[0x158] = v;

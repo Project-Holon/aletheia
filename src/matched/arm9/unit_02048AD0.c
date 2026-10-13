@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02048AD0
+ * function: G3D_CAMERA_Reset
  * address:  0x02048AD0
  * packet:   pkt_02048AD0
  * region:   arm9
@@ -77,73 +77,73 @@ struct Light {
 extern void G3D_SYSTEM_SetProjection(const u32 *src);
 extern void G3D_SYSTEM_SetLookAt(u8 *a0);
 
-void func_02048AD0(struct Light *l)
+void G3D_CAMERA_Reset(struct Light *l)
 {
     G3D_SYSTEM_SetProjection((const u32 *)l);
     G3D_SYSTEM_SetLookAt((u8 *)(&l->unk20));
 }
 
-void func_02048AE8(struct Light *l, VecFx32 *out)
+void G3D_CAMERA_GetEye(struct Light *l, VecFx32 *out)
 {
     *out = l->unk20;
 }
 
-void func_02048AFC(struct Light *l, const VecFx32 *in)
+void G3D_CAMERA_SetEye(struct Light *l, const VecFx32 *in)
 {
     l->unk20 = *in;
 }
 
-void func_02048B0C(struct Light *l, VecFx32 *out)
+void G3D_CAMERA_GetTarget(struct Light *l, VecFx32 *out)
 {
     *out = l->unk2C;
 }
 
-void func_02048B20(struct Light *l, const VecFx32 *in)
+void G3D_CAMERA_SetTarget(struct Light *l, const VecFx32 *in)
 {
     l->unk2C = *in;
 }
 
-void func_02048B30(struct Light *l, VecFx32 *out)
+void G3D_CAMERA_GetUp(struct Light *l, VecFx32 *out)
 {
     *out = l->unk38;
 }
 
-void func_02048B44(struct Light *l, const VecFx32 *in)
+void G3D_CAMERA_SetUp(struct Light *l, const VecFx32 *in)
 {
     l->unk38 = *in;
 }
 
-void func_02048B54(struct Light *l, u32 *out)
+void G3D_CAMERA_GetScale(struct Light *l, u32 *out)
 {
     *out = l->unk14;
 }
 
-void func_02048B60(struct Light *l, const u32 *in)
+void G3D_CAMERA_SetScale(struct Light *l, const u32 *in)
 {
     l->unk14 = *in;
 }
 
-void func_02048B6C(struct Light *l, const u32 *in)
+void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in)
 {
     l->unk18 = *in;
 }
 
-int func_02048B78(struct Light *l)
+int G3D_CAMERA_GetMode(struct Light *l)
 {
     return l->unk00;
 }
 
-void func_02048B80(struct Light *l, u32 v)
+void G3D_CAMERA_SetNearClip(struct Light *l, u32 v)
 {
     l->unk04 = v;
 }
 
-void func_02048B88(struct Light *l, u32 *out)
+void G3D_CAMERA_GetFarClip(struct Light *l, u32 *out)
 {
     *out = l->unk08;
 }
 
-void func_02048B94(struct Light *l, u32 v)
+void G3D_CAMERA_SetFarClip(struct Light *l, u32 v)
 {
     l->unk08 = v;
 }

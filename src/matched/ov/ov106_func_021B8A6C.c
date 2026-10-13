@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef struct {s16 x,y;} Pair;
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(void *,Pair *,u16);
 typedef unsigned int   u32;
 struct Obj;
@@ -30,7 +30,7 @@ void func_021B8A6C(u8 *p,int delta) {
     offsets[0]=-delta;
     offsets[1]=-delta;
     for(i=0;i<2;i++) {
-        func_0204B454(*(void **)((u8 *)((unsigned int *)p+i)+8),(struct PtS *)&pos,(u16)i);
+        CLACT_GetActorSurfacePos(*(void **)((u8 *)((unsigned int *)p+i)+8),(struct PtS *)&pos,(u16)i);
         pos.y=offsets[i]+*(s16 *)((u8 *)((s16 *)p+i)+16);
         func_0204B404(*(void **)((u8 *)((unsigned int *)p+i)+8),&pos,i);
         if(pos.y>-16 && pos.y<208) func_0204B3DC(*(void **)((u8 *)((unsigned int *)p+i)+8),1);

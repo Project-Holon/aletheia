@@ -1,5 +1,5 @@
 /*
- * function: sub_021AB434
+ * function: MAP_ATTR_IsGrassDoubleB
  * address:  0x021AB434
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef int BOOL;
 
-BOOL sub_021AB434(u16 id)
+BOOL MAP_ATTR_IsGrassDoubleB(u16 id)
 {
     if (id == 0x7) {
         return 1;

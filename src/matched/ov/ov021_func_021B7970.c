@@ -1,5 +1,5 @@
 /*
- * function: func_021B7970
+ * function: FIELD_RAIL_ActivateFreeWork
  * address:  0x021B7970
  * packet:   pkt_ov021_021B7970
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B91A8  0x021B91A8  thumb ov021
+ *   FIELD_RAIL_WORK_IsInUse  0x021B91A8  thumb ov021
  */
 
 typedef unsigned char  u8;
@@ -29,15 +29,15 @@ typedef struct {
     int count;
 } Ctx;
 
-extern u16 func_021B91A8(u8 *p);
+extern u16 FIELD_RAIL_WORK_IsInUse(u8 *p);
 
-void func_021B7970(Ctx *c)
+void FIELD_RAIL_ActivateFreeWork(Ctx *c)
 {
     Elem *found = 0;
     int i;
 
     for (i = 0; i < c->count; i++) {
-        if (func_021B91A8((u8 *)(&c->arr[i])) == 0) {
+        if (FIELD_RAIL_WORK_IsInUse((u8 *)(&c->arr[i])) == 0) {
             found = &c->arr[i];
             break;
         }

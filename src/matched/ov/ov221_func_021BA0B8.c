@@ -10,8 +10,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_0204A648(void);
-void func_021BA0B8(void *p){func_0204A648();}
+extern void CLACT_VBlankSystem(void);
+void func_021BA0B8(void *p){CLACT_VBlankSystem();}
 unsigned func_021BA0C0(unsigned *p){return *p;}

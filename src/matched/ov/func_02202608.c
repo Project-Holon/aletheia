@@ -11,6 +11,7 @@
  *
  * symbols:
  *   g_02203F5C  0x02203F5C  data  ov135
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
 
  * Create the table entry and register the 0x47 callback against it.
  */
@@ -20,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char g_02203F5C[];
 
 void *func_02202608(u32 heap)
 {
-    return func_02030734(heap, func_020173EC(), 0, g_02203F5C, 0x47);
+    return func_02030734(heap, POKE_TOOL_GetPartyParamSize(), 0, g_02203F5C, 0x47);
 }

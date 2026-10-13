@@ -1,5 +1,5 @@
 /*
- * function: func_0215716C
+ * function: MUSICAL_PROGRAM_Delete
  * address:  0x0215716C
  * packet:   pkt_0215716C
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0215716C.c \
- *       --func func_0215716C --addr 0x0215716C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MUSICAL_PROGRAM_Delete.c \
+ *       --func MUSICAL_PROGRAM_Delete --addr 0x0215716C --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_0215716C(void *a0)
+void MUSICAL_PROGRAM_Delete(void *a0)
 {
 
     func_020307B0(a0);

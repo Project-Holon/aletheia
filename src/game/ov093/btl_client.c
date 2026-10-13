@@ -1,7 +1,7 @@
 /*
  * file:     btl_client.c
  * unit:     yes
- * function: func_021CD6F0, func_021CD8E0, func_021CD914, func_021CD924, func_021CD938, func_021CD95C, func_021CD960, func_021CD978, func_021CD97C, func_021CD984, func_021CD9B0, func_021CD9C8, func_021CD9DC, func_021CD9E0, func_021CD9F4, func_021CDA0C, func_021CDA18, func_021CDC0C, func_021CDD34, func_021CDD50, func_021CDD94, func_021CDDA0, func_021CDDCC, func_021CDDDC, func_021CDE8C, func_021CDECC, func_021CDEE8, func_021CDF1C, func_021CDF58, func_021CDFE4, func_021CE040, func_021CE044, func_021CE068, func_021CE08C, func_021CE0BC, func_021CE0E0, func_021CE0F8, func_021CE150, func_021CE160, func_021CE170, func_021CE1B0, func_021CE2E8, func_021CE308, func_021CE3B4, func_021CE3C8, func_021CE4D0, func_021CE7D4, func_021CE8F0, func_021CEA94, func_021CECB4, func_021CED4C, func_021CEDC0, func_021CEEB8, func_021CEFFC, func_021CF078, func_021CF220, func_021CF2F0, func_021CF360, func_021CF37C, func_021CF3B8, func_021CF3F8, func_021CF41C, func_021CF430, func_021CF448, func_021CF470, func_021CF524, func_021CF58C, func_021CF5B0, func_021CF81C, func_021CF89C, func_021CF8D4, func_021CF918, func_021CF9B4, func_021CFAC4, func_021CFADC, func_021CFB8C, func_021CFBA4, func_021CFBBC, func_021CFBE0, func_021CFBF0, func_021CFD50, func_021CFDCC, func_021CFE08, func_021CFE98, func_021CFFAC, func_021D0100, func_021D0248, func_021D0304, func_021D04E4, func_021D055C, func_021D05C4, func_021D0644, func_021D06C8, func_021D0770, func_021D0980, func_021D09E0, func_021D0B10, func_021D0B6C, func_021D0BB0, func_021D0C78, func_021D0CC4, func_021D0D38, func_021D0D44, func_021D0D50, func_021D0E7C, func_021D102C, func_021D1058, func_021D10B8, func_021D123C, func_021D127C, func_021D1290, func_021D13A4, func_021D13FC, func_021D1410, func_021D1708, func_021D171C, func_021D185C, func_021D18EC, func_021D1960, func_021D1A18, func_021D1A60, func_021D1A74, func_021D1BD0, func_021D1C40, func_021D1CAC, func_021D1CF4, func_021D1DF4, func_021D1E6C, func_021D1EB4, func_021D1F10, func_021D1F58, func_021D1FB4, func_021D2000, func_021D2030, func_021D20BC, func_021D210C, func_021D215C, func_021D21D4, func_021D2234, func_021D2278, func_021D2320, func_021D2374, func_021D23B8, func_021D2424, func_021D2490, func_021D2510, func_021D2580, func_021D25C4, func_021D2628, func_021D266C, func_021D2700, func_021D2814, func_021D284C, func_021D28AC, func_021D2930, func_021D2990, func_021D299C, func_021D29CC, func_021D2A20, func_021D2C7C, func_021D2CA8, func_021D2FD8, func_021D3138, func_021D31A0, func_021D324C, func_021D32E0, func_021D344C, func_021D34B0, func_021D34E8
+ * function: BTL_CLIENT_Create, BTL_CLIENT_Delete, BTL_CLIENT_MarkCommandIssued, func_021CD924, BTL_CLIENT_AttachRemoteLink, BTL_CLIENT_SetView, BTL_CLIENT_SetRequestParam, BTL_CLIENT_GetNetChannel, BTL_CLIENT_RunTick, BTL_CLIENT_StartRemoteStep, BTL_CLIENT_StartMainStep, BTL_CLIENT_IsRemote, BTL_CLIENT_GetQueuedCommandWord, BTL_CLIENT_IsMainStepActive, BTL_CLIENT_AddPoints, BTL_CLIENT_SetStepFn, BTL_CLIENT_StepMain, func_021CDC0C, func_021CDD34, func_021CDD50, func_021CDD94, BTL_CLIENT_IsWindowWaiting, BTL_CLIENT_IsWindowDone, func_021CDDDC, BTL_CLIENT_PollWindowStep, BTL_CLIENT_StoreMonParam, BTL_CLIENT_HasMonParamDropped, func_021CDF1C, func_021CDF58, BTL_CLIENT_PickWindowMode, BTL_CLIENT_ReturnTrue, BTL_CLIENT_StartWindowModeSend, BTL_CLIENT_StartTimeLimit, BTL_CLIENT_PollTimeLimitReady, BTL_CLIENT_PollTimeLimitAndSetSub, BTL_CLIENT_StopTimeLimit, func_021CE0F8, BTL_CLIENT_SetSubFn, BTL_CLIENT_RunSubFn, func_021CE170, func_021CE1B0, BTL_CLIENT_ResetActionCursor, func_021CE308, BTL_CLIENT_ShowMessage, func_021CE3C8, func_021CE4D0, func_021CE7D4, func_021CE8F0, func_021CEA94, func_021CECB4, func_021CED4C, func_021CEDC0, func_021CEEB8, func_021CEFFC, func_021CF078, func_021CF220, func_021CF2F0, BTL_CLIENT_ClearSlotLinkWords, BTL_CLIENT_SetSlotLinkWord, BTL_CLIENT_FlushSlotLinkWord, BTL_CLIENT_FlushSlotLinkWords, BTL_CLIENT_ClearSlotFlags, func_021CF430, BTL_CLIENT_SumSlotFlagsBeforeCurrent, func_021CF470, func_021CF524, func_021CF58C, func_021CF5B0, func_021CF81C, func_021CF89C, func_021CF8D4, func_021CF918, func_021CF9B4, func_021CFAC4, func_021CFADC, func_021CFB8C, BTL_CLIENT_ClearSlotOrder, BTL_CLIENT_HasSlotInOrder, BTL_CLIENT_SetSlotOrder, func_021CFBF0, func_021CFD50, func_021CFDCC, func_021CFE08, func_021CFE98, func_021CFFAC, func_021D0100, func_021D0248, func_021D0304, func_021D04E4, func_021D055C, func_021D05C4, func_021D0644, func_021D06C8, func_021D0770, func_021D0980, func_021D09E0, BTL_CLIENT_BuildSlotChoices, func_021D0B6C, func_021D0BB0, func_021D0C78, func_021D0CC4, BTL_CLIENT_StepChoiceMode2, BTL_CLIENT_StepChoiceMode1, func_021D0D50, func_021D0E7C, BTL_CLIENT_IsDoubleBattleLeadAlive, func_021D1058, func_021D10B8, func_021D123C, func_021D127C, func_021D1290, func_021D13A4, func_021D13FC, func_021D1410, func_021D1708, func_021D171C, func_021D185C, func_021D18EC, func_021D1960, func_021D1A18, func_021D1A60, func_021D1A74, func_021D1BD0, func_021D1C40, func_021D1CAC, func_021D1CF4, func_021D1DF4, func_021D1E6C, func_021D1EB4, func_021D1F10, func_021D1F58, func_021D1FB4, func_021D2000, func_021D2030, func_021D20BC, func_021D210C, func_021D215C, func_021D21D4, func_021D2234, func_021D2278, func_021D2320, func_021D2374, func_021D23B8, func_021D2424, func_021D2490, func_021D2510, func_021D2580, func_021D25C4, func_021D2628, func_021D266C, func_021D2700, func_021D2814, func_021D284C, func_021D28AC, func_021D2930, func_021D2990, func_021D299C, func_021D29CC, func_021D2A20, func_021D2C7C, func_021D2CA8, func_021D2FD8, func_021D3138, func_021D31A0, func_021D324C, func_021D32E0, func_021D344C, func_021D34B0, func_021D34E8
  * address:  0x021CD6F0
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -15,159 +15,159 @@
  *
  * symbols:
  *   data_021EFCF0  0x021EFCF0  data  ov093
- *   func_021B8778  0x021B8778  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021B8BEC  0x021B8BEC  thumb  ov093
+ *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
  *   d_021EFCF4  0x021EFCF4  data  ov093  a1
  *   d_021EFCFA  0x021EFCFA  data  ov093  a1
- *   func_021B86C8 0x021B86C8 thumb ov093
- *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_021B8B9C  0x021B8B9C  thumb  ov093
+ *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
+ *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
  *   func_02007F1C 0x02007F1C thumb
  *   func_02007E50 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
- *   func_02012F08  0x02012F08  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C274  0x0200C274  thumb
- *   func_021D7FF8  0x021D7FF8  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_021B8714  0x021B8714  thumb  ov093
+ *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
+ *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_Calc  0x0201B7A0  thumb
  *   func_021D54F4 0x021D54F4 thumb ov093
- *   func_021D6C24  0x021D6C24  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
- *   func_021D53B8 0x021D53B8 thumb ov093
+ *   BTL_POKEPARAM_IsIllusionActive  0x021D6C24  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_Delete 0x021D53B8 thumb ov093
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
- *   func_021D4D84 0x021D4D84 thumb ov093
+ *   BTL_POKEPARAM_Create 0x021D4D84 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D5848 0x021D5848 thumb ov093
- *   func_021D5444 0x021D5444 thumb ov093
+ *   BTL_POKEPARAM_SetFakeMon 0x021D5848 thumb ov093
+ *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   func_02017E1C 0x02017E1C thumb
- *   func_020173F0 0x020173F0 thumb
+ *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
- *   func_021D6B84 0x021D6B84 thumb ov093
+ *   BTL_POKEPARAM_WriteBackToParam 0x021D6B84 thumb ov093
  *   func_0201A98C 0x0201A98C thumb
  *   func_0201AC2C 0x0201AC2C thumb
- *   func_021D6C3C 0x021D6C3C thumb ov093
- *   func_021D67D0  0x021D67D0  thumb  ov093
+ *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
+ *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
  *   func_02007B50 0x02007B50 thumb
  *   func_02007C70 0x02007C70 thumb
- *   func_021B6994  0x021B6994  thumb  ov093
- *   func_021B8588 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   data_021EFD70  0x021EFD70  data  ov093
- *   func_021B8C20 0x021B8C20 thumb ov093
- *   func_021D5B7C 0x021D5B7C thumb ov093
- *   func_021B8B78  0x021B8B78  thumb  ov093
- *   func_021D5854  0x021D5854  thumb  ov093
+ *   BTL_MAIN_GetEnemyLanePos 0x021B8C20 thumb ov093
+ *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
+ *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
+ *   BTL_POKEPARAM_ClearFakeMon  0x021D5854  thumb  ov093
  *   func_020307B0  0x020307B0  arm
- *   func_0200846C  0x0200846C  thumb
- *   func_02008494  0x02008494  thumb
+ *   MYSTATUS_Create  0x0200846C  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008510  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
- *   func_02045874  0x02045874  arm
+ *   STRBUF_Clone  0x02045874  arm
  *   func_02082D44  0x02082D44  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetChars  0x02045A00  arm
  *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
  *   func_0201A920 0x0201A920 thumb
  *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
  *   sub_02008DF0 0x02008DF0 thumb
  *   sub_02008DAC 0x02008DAC thumb
- *   func_021B6818 0x021B6818 thumb ov093
+ *   BTL_MAIN_IsCommCompetitor 0x021B6818 thumb ov093
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  *   NATSUKI_CalcParty 0x0201B818 thumb
- *   func_02017E40 0x02017E40 thumb
- *   func_021D7F60 0x021D7F60 thumb ov093
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
+ *   BTL_CALC_IsBossTrainer 0x021D7F60 thumb ov093
  *   func_021D805C 0x021D805C thumb ov093
- *   func_021D62A8 0x021D62A8 thumb ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   _u32_div_f 0x0209C2B0 arm
- *   func_021D826C  0x021D826C  thumb  ov093
- *   func_021D8270  0x021D8270  thumb  ov093
- *   func_021D787C  0x021D787C  thumb  ov093
- *   func_021B68D8  0x021B68D8  thumb  ov093
+ *   BTL_CLIENT_SET_GetCount  0x021D826C  thumb  ov093
+ *   BTL_CLIENT_SET_JudgeResult  0x021D8270  thumb  ov093
+ *   BTL_CALC_SetRngState  0x021D787C  thumb  ov093
+ *   BTL_MAIN_InitClientParties  0x021B68D8  thumb  ov093
  *   func_021E9034  0x021E9034  thumb  ov093
- *   func_021E8E28  0x021E8E28  thumb  ov093
- *   func_021E8F20  0x021E8F20  thumb  ov093
- *   func_021D54B4 0x021D54B4 thumb ov093
+ *   BTLV_CORE_ResetDisplay  0x021E8E28  thumb  ov093
+ *   BTLV_CORE_Create  0x021E8F20  thumb  ov093
+ *   BTL_POKEPARAM_GetUsedMoveTotal 0x021D54B4 thumb ov093
  *   func_02030734 0x02030734 arm
  *   d_021F3A60 0x021F3A60 data a4
- *   func_021EEA58  0x021EEA58  thumb  ov093
- *   func_02045808  0x02045808  arm
- *   func_021EEAE0  0x021EEAE0  thumb  ov093
- *   func_021B86C0 0x021B86C0 thumb ov093
- *   func_021EEB64  0x021EEB64  thumb  ov093
- *   func_021B85A8  0x021B85A8  thumb  ov093
- *   func_021D8454  0x021D8454  thumb  ov093
- *   func_021EE9A4  0x021EE9A4  thumb  ov093
- *   func_021B86DC  0x021B86DC  thumb  ov093
+ *   BTL_ADAPTER_Create  0x021EEA58  thumb  ov093
+ *   STRBUF_Delete  0x02045808  arm
+ *   BTL_ADAPTER_Delete  0x021EEAE0  thumb  ov093
+ *   BTL_MAIN_GetCommPos 0x021B86C0 thumb ov093
+ *   BTL_ADAPTER_GetSendBuffer  0x021EEB64  thumb  ov093
+ *   BTL_MAIN_CheckShiftModePrompt  0x021B85A8  thumb  ov093
+ *   BTL_CALC_ActionGetKind  0x021D8454  thumb  ov093
+ *   BTL_REC_MakeResetPacket  0x021EE9A4  thumb  ov093
+ *   BTL_MAIN_GetWinBgm  0x021B86DC  thumb  ov093
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
- *   func_021EE9B4  0x021EE9B4  thumb  ov093
- *   func_021EE9E4  0x021EE9E4  thumb  ov093
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   BTL_REC_LoadPacket  0x021EE9B4  thumb  ov093
+ *   BTL_REC_NextRecord  0x021EE9E4  thumb  ov093
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_021EE8B4 0x021EE8B4 thumb ov093
- *   func_021EE8D8 0x021EE8D8 thumb ov093
- *   func_021EE8F4  0x021EE8F4  thumb  ov093
- *   func_021EE96C  0x021EE96C  thumb  ov093
- *   func_021EEAE8  0x021EEAE8  thumb  ov093
- *   func_021EEB00  0x021EEB00  thumb  ov093
- *   func_021EEAFC  0x021EEAFC  thumb  ov093
- *   func_021EEB70 0x021EEB70 thumb ov093
- *   func_021EEB2C 0x021EEB2C thumb ov093
- *   func_021EEAD0 0x021EEAD0 thumb ov093
+ *   BTL_REC_InitPacket 0x021EE8B4 thumb ov093
+ *   BTL_REC_MakeSkipPacket 0x021EE8D8 thumb ov093
+ *   BTL_REC_AddRecord  0x021EE8F4  thumb  ov093
+ *   BTL_REC_FinishPacket  0x021EE96C  thumb  ov093
+ *   BTL_ADAPTER_NotifyNet  0x021EEAE8  thumb  ov093
+ *   BTL_ADAPTER_SetSendData  0x021EEB00  thumb  ov093
+ *   BTL_ADAPTER_Idle  0x021EEAFC  thumb  ov093
+ *   BTL_ADAPTER_Cancel 0x021EEB70 thumb ov093
+ *   BTL_ADAPTER_Update 0x021EEB2C thumb ov093
+ *   BTL_ADAPTER_ResetCommand 0x021EEAD0 thumb ov093
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   GAME_BEACON_SetPokeCapture 0x020271DC thumb
  *   SHINKA_CHECK_OpenHandle 0x0201B70C thumb
  *   d_021F3A70 0x021F3A70 data a4
- *   func_021D6EAC 0x021D6EAC thumb ov093
- *   func_021EF874 0x021EF874 thumb ov093
+ *   BTL_EVENT_InitFactorList 0x021D6EAC thumb ov093
+ *   BTL_FIELD_ResetStatic 0x021EF874 thumb ov093
  *   func_0689CFF0 0x0689CFF0 thumb ov095
  *   func_0689D118 0x0689D118 thumb ov095
  *   func_0689D1FC 0x0689D1FC thumb ov095
  *   func_02082BCC 0x02082BCC arm
- *   func_021D8230 0x021D8230 thumb ov093
+ *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
  *   func_06898BFC 0x06898BFC thumb ov095
- *   func_02049238 0x02049238 arm
- *   func_021B8750 0x021B8750 thumb ov093
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   BTL_MAIN_RegisterZukanSeen 0x021B8750 thumb ov093
  *   func_0689D134 0x0689D134 thumb ov095
- *   func_021D6EE8  0x021D6EE8  thumb  ov093
- *   func_021D74E4  0x021D74E4  thumb  ov093
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
+ *   BTL_EVENT_ClearSuspendedFlags  0x021D6EE8  thumb  ov093
+ *   BTL_EVENT_ResetVarStackIfUsed  0x021D74E4  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  *   func_0689D174 0x0689D174 thumb ov095
- *   func_021B8BC4  0x021B8BC4  thumb  ov093
+ *   BTL_MAIN_GetClientSide  0x021B8BC4  thumb  ov093
  *   func_0689D558 0x0689D558 thumb ov095
- *   func_021EF948  0x021EF948  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D8548  0x021D8548  thumb  ov093
- *   func_021DCFB4  0x021DCFB4  thumb  ov093
+ *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_CALC_EnableAbilityHandlers  0x021D8548  thumb  ov093
+ *   BTL_HANDLER_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
  *   func_0689D338 0x0689D338 thumb ov095
  *   func_021E02DC  0x021E02DC  thumb  ov093
  *   func_021E0394  0x021E0394  thumb  ov093
- *   func_021D83E0  0x021D83E0  thumb  ov093
- *   func_021D78AC  0x021D78AC  thumb  ov093
+ *   BTL_ACTION_IsChangeDepleted  0x021D83E0  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  *   func_0201BD28  0x0201BD28  thumb
- *   func_021D74F8  0x021D74F8  thumb  ov093
- *   func_021D75EC  0x021D75EC  thumb  ov093
- *   func_021D75A8  0x021D75A8  thumb  ov093
+ *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
+ *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
+ *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
  *   func_021D70F0  0x021D70F0  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7540  0x021D7540  thumb  ov093
- *   func_021D7674  0x021D7674  thumb  ov093
- *   func_021D7B10  0x021D7B10  thumb  ov093
- *   func_021D8340  0x021D8340  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
+ *   BTL_EVENT_SetVarRanged  0x021D7674  thumb  ov093
+ *   BTL_CALC_MulRatio  0x021D7B10  thumb  ov093
+ *   BTL_ACTION_GetFightMove  0x021D8340  thumb  ov093
  *   func_0689D588 0x0689D588 thumb ov095
- *   func_021B86E4 0x021B86E4 thumb ov093
+ *   BTL_MAIN_GetCompetitorKind 0x021B86E4 thumb ov093
  *   func_021D69AC 0x021D69AC thumb ov093
- *   func_021D5FC0 0x021D5FC0 thumb ov093
+ *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
  *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb
  *   func_021B871C 0x021B871C thumb ov093
- *   func_021B85A0 0x021B85A0 thumb ov093
+ *   BTL_MAIN_GetBadgeCount 0x021B85A0 thumb ov093
  *   POKE_TOOL_IsBoxOwnedByPlayer 0x02018488 thumb
- *   func_021D7630  0x021D7630  thumb  ov093
+ *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
  *   func_0689D5C8 0x0689D5C8 thumb ov095
  *   func_021D82FC  0x021D82FC  thumb  ov093
  *   func_0689CD40 0x0689CD40 thumb ov095
@@ -175,68 +175,68 @@
  *   func_0689CC70 0x0689CC70 thumb ov095
  *   func_0689D4F0 0x0689D4F0 thumb ov095
  *   func_021D58A8  0x021D58A8  thumb  ov093
- *   func_021D8244 0x021D8244 thumb ov093
+ *   BTL_CLIENT_SET_Add 0x021D8244 thumb ov093
  *   func_0689C68C 0x0689C68C thumb ov095
- *   func_021D8484 0x021D8484 thumb ov093
- *   func_021DCF5C 0x021DCF5C thumb ov093
- *   func_021D63EC 0x021D63EC thumb ov093
- *   func_021D6580 0x021D6580 thumb ov093
+ *   BTL_CALC_AddAbilityHandlers 0x021D8484 thumb ov093
+ *   BTL_HANDLER_ITEM_AddHeldItemFactor 0x021DCF5C thumb ov093
+ *   BTL_POKEPARAM_StartTurnThreshold 0x021D63EC thumb ov093
+ *   BTL_POKEPARAM_ReloadAndResetEffects 0x021D6580 thumb ov093
  *   func_0689D320 0x0689D320 thumb ov095
  *   func_0689CB3C 0x0689CB3C thumb ov095
  *   func_0689CB48 0x0689CB48 thumb ov095
  *   func_0689CF24 0x0689CF24 thumb ov095
  *   func_0689CC84 0x0689CC84 thumb ov095
  *   func_0689CC8C 0x0689CC8C thumb ov095
- *   func_021D70FC 0x021D70FC thumb ov093
- *   func_021D64F0  0x021D64F0  thumb  ov093
+ *   BTL_EVENT_DispatchEventToType 0x021D70FC thumb ov093
+ *   BTL_POKEPARAM_ResetEffectsOnSwitchOut  0x021D64F0  thumb  ov093
  *   func_0689D2F8 0x0689D2F8 thumb ov095
- *   func_021D6314  0x021D6314  thumb  ov093
- *   func_021E8B80  0x021E8B80  thumb  ov093
- *   func_021D55A0  0x021D55A0  thumb  ov093
- *   func_021D5C08 0x021D5C08 thumb ov093
- *   func_021D80BC 0x021D80BC thumb ov093
- *   func_021D82D0 0x021D82D0 thumb ov093
- *   func_021D5778 0x021D5778 thumb ov093
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
+ *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb  ov093
+ *   BTL_POKEPARAM_GetSemiInvulnerableFlag 0x021D5C08 thumb ov093
+ *   BTL_CALC_DecideMoveTarget 0x021D80BC thumb ov093
+ *   BTL_ACTION_SetFight 0x021D82D0 thumb ov093
+ *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
  *   func_0689CEE4 0x0689CEE4 thumb ov095
  *   func_0689CD78 0x0689CD78 thumb ov095
  *   func_0689CD48 0x0689CD48 thumb ov095
  *   func_0689D01C 0x0689D01C thumb ov095
- *   func_021D6744 0x021D6744 thumb ov093
- *   func_021D5BB0 0x021D5BB0 thumb ov093
+ *   BTL_POKEPARAM_RecordMoveUse 0x021D6744 thumb ov093
+ *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
- *   func_021D7394 0x021D7394 thumb ov093
+ *   BTL_EVENT_SuspendPokeFactors 0x021D7394 thumb ov093
  *   func_021E03D8 0x021E03D8 thumb ov093
- *   func_021D73D4 0x021D73D4 thumb ov093
+ *   BTL_EVENT_ResumePokeFactors 0x021D73D4 thumb ov093
  *   d_021EFDB8 0x021EFDB8 data a2
- *   func_021D6E74 0x021D6E74 thumb ov093
- *   func_021D6E40 0x021D6E40 thumb ov093
+ *   BTL_EVENT_HasClientReservedChoice 0x021D6E74 thumb ov093
+ *   BTL_EVENT_SetClientReservedChoice 0x021D6E40 thumb ov093
  *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
  *   func_0689CD50 0x0689CD50 thumb ov095
  *   func_0689D050 0x0689D050 thumb ov095
  *   func_0689CC14 0x0689CC14 thumb ov095
- *   func_021D6D7C  0x021D6D7C  thumb  ov093
+ *   BTL_POKEPARAM_HasSubstitute  0x021D6D7C  thumb  ov093
  *   func_0689D59C 0x0689D59C thumb ov095
- *   func_021D62D8  0x021D62D8  thumb  ov093
- *   func_021D7704 0x021D7704 thumb ov093
- *   func_021D7908 0x021D7908 thumb ov093
- *   func_021E896C 0x021E896C thumb ov093
- *   func_021D5C30 0x021D5C30 thumb ov093
- *   func_021E899C  0x021E899C  thumb  ov093
+ *   BTL_POKEPARAM_GetSickParam  0x021D62D8  thumb  ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
+ *   BTL_CALC_ApplyAccuracyStage 0x021D7908 thumb ov093
+ *   BTLV_CORE_MakeSlotKind2 0x021E896C thumb ov093
+ *   BTL_POKEPARAM_IsSemiInvulnerable 0x021D5C30 thumb ov093
+ *   BTLV_CORE_MakeSlotKind3  0x021E899C  thumb  ov093
  *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
- *   func_021D5584 0x021D5584 thumb ov093
- *   func_021D67B8 0x021D67B8 thumb ov093
- *   func_021D67A8 0x021D67A8 thumb ov093
+ *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
+ *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
+ *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
  *   func_021EF91C 0x021EF91C thumb ov093
- *   func_021D7AF0 0x021D7AF0 thumb ov093
- *   func_021D61A8  0x021D61A8  thumb  ov093
- *   func_021D6130  0x021D6130  thumb  ov093
- *   func_021D7D18 0x021D7D18 thumb ov093
+ *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
+ *   BTL_POKEPARAM_TickSlot6Turn  0x021D61A8  thumb  ov093
+ *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
+ *   BTL_CALC_MakeDefaultSickCont 0x021D7D18 thumb ov093
  *   func_021D69A0  0x021D69A0  thumb  ov093
- *   func_021D5608  0x021D5608  thumb  ov093
- *   func_021D56CC  0x021D56CC  thumb  ov093
+ *   BTL_POKEPARAM_DecrementMovePP  0x021D5608  thumb  ov093
+ *   BTL_POKEPARAM_MarkMoveUsed  0x021D56CC  thumb  ov093
  *   func_0689CDCC 0x0689CDCC thumb ov095
  *   func_0689CE58 0x0689CE58 thumb ov095
- *   func_021B8590 0x021B8590 thumb ov093
+ *   BTL_MAIN_CheckSceneOff 0x021B8590 thumb ov093
  *   func_0689CBB8 0x0689CBB8 thumb ov095
  *   d_021F3B2C  0x021F3B2C  data  ov093  a4
  *   d_021F3B20  0x021F3B20  data  ov093  a4
@@ -244,55 +244,55 @@
  *   d_021F3B26  0x021F3B26  data  ov093  a4
  *   d_021F3B23  0x021F3B23  data  ov093  a4
  *   d_021F3B20b 0x021F3B20  data  ov093  a4
- *   func_021D6848  0x021D6848  thumb  ov093
+ *   BTL_POKEPARAM_AddHitRecord  0x021D6848  thumb  ov093
  *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
- *   func_021D5B40  0x021D5B40  thumb  ov093
+ *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   func_0689CCF8 0x0689CCF8 thumb ov095
  *   func_0689CCB4 0x0689CCB4 thumb ov095
  *   sub_0201BD28   0x0201BD28  thumb
- *   func_021D7B3C  0x021D7B3C  thumb  ov093
+ *   BTL_CALC_MulPercent  0x021D7B3C  thumb  ov093
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
- *   func_021D7A44 0x021D7A44 thumb ov093
- *   func_021D7C38 0x021D7C38 thumb ov093
- *   func_021D7A6C 0x021D7A6C thumb ov093
- *   func_021D5B44  0x021D5B44  thumb  ov093
- *   func_021DCF24  0x021DCF24  thumb  ov093
- *   func_021D6730  0x021D6730  thumb  ov093
+ *   BTL_CALC_CalcBaseDamage 0x021D7A44 thumb ov093
+ *   BTL_CALC_GetWeatherMoveRatio 0x021D7C38 thumb ov093
+ *   BTL_CALC_ApplyTypeAffinity 0x021D7A6C thumb ov093
+ *   BTL_POKEPARAM_SetItem  0x021D5B44  thumb  ov093
+ *   BTL_HANDLER_ITEM_RemoveUnforcedFactors  0x021DCF24  thumb  ov093
+ *   BTL_POKEPARAM_ConsumeHeldItem  0x021D6730  thumb  ov093
  *   WAZA_TOOL_GetSickCont 0x0201BF58 thumb
- *   func_021D7C70 0x021D7C70 thumb ov093
- *   func_021D57FC 0x021D57FC thumb ov093
- *   func_021E8D24 0x021E8D24 thumb ov093
+ *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
+ *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
+ *   BTLV_CORE_HasByte 0x021E8D24 thumb ov093
  *   func_0689C364 0x0689C364 thumb ov095
- *   func_021D8510 0x021D8510 thumb ov093
- *   func_021D66D8 0x021D66D8 thumb ov093
- *   func_021D7D6C 0x021D7D6C thumb ov093
- *   func_021EF884  0x021EF884  thumb  ov093
+ *   BTL_CALC_RemoveAbilityHandlers 0x021D8510 thumb ov093
+ *   BTL_POKEPARAM_ChangeForm 0x021D66D8 thumb ov093
+ *   BTL_CALC_HasDefaultSickCont 0x021D7D6C thumb ov093
+ *   BTL_FIELD_GetCountdownValue  0x021EF884  thumb  ov093
  *   func_021D70E4 0x021D70E4 thumb ov093
  *   WAZA_TOOL_GetRankEffectCount 0x0201C020 thumb
  *   WAZA_TOOL_GetRankEffect  0x0201C0BC  thumb
  *   func_021D5D14 0x021D5D14 thumb ov093
- *   func_021D5B48  0x021D5B48  thumb  ov093
- *   func_021D7AD4 0x021D7AD4 thumb ov093
- *   func_021D5FB8  0x021D5FB8  thumb  ov093
- *   func_021D6D90  0x021D6D90  thumb  ov093
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb  ov093
+ *   BTL_CALC_SummarizeTypeAffinity 0x021D7AD4 thumb ov093
+ *   BTL_POKEPARAM_ZeroHp  0x021D5FB8  thumb  ov093
+ *   BTL_POKEPARAM_GetSubstituteHp  0x021D6D90  thumb  ov093
  *   func_0689C7A4 0x0689C7A4 thumb ov095
  *   WAZA_TOOL_GetWeather  0x0201C184  thumb
- *   func_021EF894 0x021EF894 thumb ov093
+ *   BTL_FIELD_GetCountdownCount 0x021EF894 thumb ov093
  *   func_021EF8A4 0x021EF8A4 thumb ov093
- *   func_021EF8C8  0x021EF8C8  thumb  ov093
- *   func_021E8A98  0x021E8A98  thumb  ov093
- *   func_021EF8F8  0x021EF8F8  thumb  ov093
+ *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
+ *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
+ *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
  *   func_0689C954 0x0689C954 thumb ov095
- *   func_021D66D0 0x021D66D0 thumb ov093
- *   func_021D8564 0x021D8564 thumb ov093
- *   func_021D7B74  0x021D7B74  thumb  ov093
- *   func_021D6D5C  0x021D6D5C  thumb  ov093
- *   func_021D6D9C  0x021D6D9C  thumb  ov093
- *   func_021D6D70  0x021D6D70  thumb  ov093
- *   func_021D6408 0x021D6408 thumb ov093
- *   func_021D6E88 0x021D6E88 thumb ov093
- *   func_021D701C 0x021D701C thumb ov093
- *   func_021B8630 0x021B8630 thumb ov093
+ *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
+ *   BTL_CALC_SwapAbilityHandlers 0x021D8564 thumb ov093
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
+ *   BTL_POKEPARAM_SetSubstituteHp  0x021D6D5C  thumb  ov093
+ *   BTL_POKEPARAM_DamageSubstitute  0x021D6D9C  thumb  ov093
+ *   BTL_POKEPARAM_ClearSubstitute  0x021D6D70  thumb  ov093
+ *   BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
+ *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
+ *   BTL_EVENT_RemoveDeadFactors 0x021D701C thumb ov093
+ *   BTL_MAIN_GetPmsWork 0x021B8630 thumb ov093
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
@@ -300,96 +300,96 @@
  *   func_0689C9F8 0x0689C9F8 thumb ov095
  *   func_0689B7A8 0x0689B7A8 thumb ov095
  *   func_021D6064 0x021D6064 thumb ov093
- *   func_021D806C 0x021D806C thumb ov093
+ *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *   func_0689B8CC 0x0689B8CC thumb ov095
  *   func_06898D54 0x06898D54 thumb ov095
- *   func_021EF934 0x021EF934 thumb ov093
+ *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
  *   func_021C4C40 0x021C4C40 thumb ov093
- *   func_021EF8B8 0x021EF8B8 thumb ov093
- *   func_021D7BD4 0x021D7BD4 thumb ov093
+ *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
+ *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
  *   func_0689D15C 0x0689D15C thumb ov095
- *   func_021D646C 0x021D646C thumb ov093
- *   func_021B8640  0x021B8640  thumb  ov093
+ *   BTL_POKEPARAM_ResetAllEffects 0x021D646C thumb ov093
+ *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
  *   func_0689D5FC 0x0689D5FC thumb ov095
- *   func_021D8538 0x021D8538 thumb ov093
- *   func_021DCFA4 0x021DCFA4 thumb ov093
+ *   BTL_CALC_DisableAbilityHandlers 0x021D8538 thumb ov093
+ *   BTL_HANDLER_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
  *   func_021E0434 0x021E0434 thumb ov093
- *   func_021D6264 0x021D6264 thumb ov093
- *   func_021EF90C 0x021EF90C thumb ov093
- *   func_021B85EC 0x021B85EC thumb ov093
+ *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
+ *   BTL_FIELD_QueryStaticSlotB 0x021EF90C thumb ov093
+ *   BTL_MAIN_CheckEventOverlayAllowed 0x021B85EC thumb ov093
  *   func_0689D1A0 0x0689D1A0 thumb ov095
  *   func_0689D184 0x0689D184 thumb ov095
  *   func_0689D1BC 0x0689D1BC thumb ov095
- *   func_021D69B8 0x021D69B8 thumb ov093
- *   func_021D61F0  0x021D61F0  thumb  ov093
- *   func_021D6238  0x021D6238  thumb  ov093
- *   func_021D7E10  0x021D7E10  thumb  ov093
- *   func_021D5DC0 0x021D5DC0 thumb ov093
- *   func_021D5E38 0x021D5E38 thumb ov093
- *   func_021D5FA4  0x021D5FA4  thumb  ov093
- *   func_021D6034  0x021D6034  thumb  ov093
- *   func_021E8A78  0x021E8A78  thumb  ov093
- *   func_021D5F90 0x021D5F90 thumb ov093
- *   func_021D56A0  0x021D56A0  thumb  ov093
- *   func_021D5674  0x021D5674  thumb  ov093
- *   func_021D5FE4 0x021D5FE4 thumb ov093
- *   func_021D6008 0x021D6008 thumb ov093
+ *   BTL_POKEPARAM_AddExp 0x021D69B8 thumb ov093
+ *   BTL_POKEPARAM_ClearMajorStatus  0x021D61F0  thumb  ov093
+ *   BTL_POKEPARAM_CureSick  0x021D6238  thumb  ov093
+ *   BTL_CALC_FindMajorSick  0x021D7E10  thumb  ov093
+ *   BTL_POKEPARAM_RaiseStatStage 0x021D5DC0 thumb ov093
+ *   BTL_POKEPARAM_LowerStatStage 0x021D5E38 thumb ov093
+ *   BTL_POKEPARAM_AddHp  0x021D5FA4  thumb  ov093
+ *   BTL_POKEPARAM_SetSickCont  0x021D6034  thumb  ov093
+ *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_POKEPARAM_SubHp 0x021D5F90 thumb ov093
+ *   BTL_POKEPARAM_RestoreRealMovePP  0x021D56A0  thumb  ov093
+ *   BTL_POKEPARAM_RestoreMovePP  0x021D5674  thumb  ov093
+ *   BTL_POKEPARAM_SetContFlag 0x021D5FE4 thumb ov093
+ *   BTL_POKEPARAM_ClearContFlag 0x021D6008 thumb ov093
  *   WAZA_TOOL_GetType   0x0201C1C8  thumb
  *   WAZA_TOOL_GetDamageType   0x0201C1E8  thumb
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb
  *   WAZA_TOOL_IsAlwaysCritical  0x0201C284  thumb
- *   func_021D5F14  0x021D5F14  thumb  ov093
- *   func_021D7930  0x021D7930  thumb  ov093
- *   func_021E8CFC 0x021E8CFC thumb ov093
- *   func_021E8D04 0x021E8D04 thumb ov093
- *   func_021E8DA8 0x021E8DA8 thumb ov093
- *   func_021D79E8 0x021D79E8 thumb ov093
- *   func_021D5814  0x021D5814  thumb  ov093
+ *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
+ *   BTL_CALC_RollCriticalHit  0x021D7930  thumb  ov093
+ *   BTLV_CORE_GetHighByte 0x021E8CFC thumb ov093
+ *   BTLV_CORE_GetLowByte 0x021E8D04 thumb ov093
+ *   BTLV_CORE_BytesEqual 0x021E8DA8 thumb ov093
+ *   BTL_CALC_CombineTypeAffinity 0x021D79E8 thumb ov093
+ *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   func_0689C6E4 0x0689C6E4 thumb ov095
  *   func_0689C540 0x0689C540 thumb ov095
- *   func_021D794C  0x021D794C  thumb  ov093
- *   func_021D7BA4  0x021D7BA4  thumb  ov093
+ *   BTL_CALC_GetTypeAffinity  0x021D794C  thumb  ov093
+ *   BTL_CALC_RollHitCount  0x021D7BA4  thumb  ov093
  *   WAZA_TOOL_GetPower  0x0201C1D8  thumb
- *   func_021D5AD8 0x021D5AD8 thumb ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
- *   func_021D7B2C  0x021D7B2C  thumb  ov093
- *   func_021B86A0 0x021B86A0 thumb ov093
+ *   BTL_POKEPARAM_GetStatForCrit 0x021D5AD8 thumb ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
+ *   BTL_CALC_MulRatioMin1  0x021D7B2C  thumb  ov093
+ *   BTL_MAIN_CheckFrontPos 0x021B86A0 thumb ov093
  *   func_0689D5F4 0x0689D5F4 thumb ov095
- *   func_021B8670  0x021B8670  thumb  ov093
+ *   BTL_MAIN_GetActivePosPerSide  0x021B8670  thumb  ov093
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
  *   func_06898CF4  0x06898CF4  thumb  ov095
  *   func_06898CE0 0x06898CE0 thumb ov095
  *   func_068982AC  0x068982AC  thumb
- *   func_021D67E8 0x021D67E8 thumb ov093
- *   func_021D55D8  0x021D55D8  thumb  ov093
+ *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
+ *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
  *   func_0689C464 0x0689C464 thumb ov095
- *   func_021D5EA8  0x021D5EA8  thumb  ov093
- *   func_021D5EFC 0x021D5EFC thumb ov093
- *   func_021D5F08  0x021D5F08  thumb  ov093
- *   func_021D5970 0x021D5970 thumb ov093
+ *   BTL_POKEPARAM_SetStatStage  0x021D5EA8  thumb  ov093
+ *   BTL_POKEPARAM_RaiseLoweredStatStages 0x021D5EFC thumb ov093
+ *   BTL_POKEPARAM_ResetStatStages  0x021D5F08  thumb  ov093
+ *   BTL_POKEPARAM_SetStat 0x021D5970 thumb ov093
  *   func_0689C9C0 0x0689C9C0 thumb ov095
- *   func_021D66B0  0x021D66B0  thumb  ov093
- *   func_021D6440 0x021D6440 thumb ov093
+ *   BTL_POKEPARAM_SetTypes  0x021D66B0  thumb  ov093
+ *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
  *   func_06898C10 0x06898C10 thumb ov095
  *   func_06898D10 0x06898D10 thumb ov095
- *   func_021EF8E8 0x021EF8E8 thumb ov093
+ *   BTL_FIELD_QueryStaticSlotA 0x021EF8E8 thumb ov093
  *   func_068981F0 0x068981F0 thumb ov095
  *   func_0689C974 0x0689C974 thumb ov095
- *   func_021D6738 0x021D6738 thumb ov093
- *   func_021DCF78  0x021DCF78  thumb  ov093
- *   func_021DCF9C  0x021DCF9C  thumb  ov093
- *   func_021D5734  0x021D5734  thumb  ov093
- *   func_021D65C8  0x021D65C8  thumb  ov093
- *   func_021D67D8 0x021D67D8 thumb ov093
- *   func_021D6C50 0x021D6C50 thumb ov093
- *   func_021D6C2C  0x021D6C2C  thumb  ov093
- *   func_021D6D54  0x021D6D54  thumb  ov093
- *   func_021B8C38 0x021B8C38 thumb ov093
- *   func_021D7F00 0x021D7F00 thumb ov093
- *   func_021B8C50 0x021B8C50 thumb ov093
- *   func_021D7EB4 0x021D7EB4 thumb ov093
- *   func_021D6E04 0x021D6E04 thumb ov093
- *   func_021D6E0C 0x021D6E0C thumb ov093
+ *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
+ *   BTL_HANDLER_ITEM_AddForcedFactor  0x021DCF78  thumb  ov093
+ *   BTL_HANDLER_ITEM_RemoveFactor  0x021DCF9C  thumb  ov093
+ *   BTL_POKEPARAM_ReplaceMove  0x021D5734  thumb  ov093
+ *   BTL_POKEPARAM_PassEffects  0x021D65C8  thumb  ov093
+ *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
+ *   BTL_POKEPARAM_Transform 0x021D6C50 thumb ov093
+ *   BTL_POKEPARAM_ClearIllusion  0x021D6C2C  thumb  ov093
+ *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb  ov093
+ *   BTL_MAIN_GetOwnLanePos 0x021B8C38 thumb ov093
+ *   BTL_CALC_GetFightersPerSide 0x021D7F00 thumb ov093
+ *   BTL_MAIN_GetEnemyLanePosFromWork 0x021B8C50 thumb ov093
+ *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
+ *   BTL_EVENT_GetClientPartyCount 0x021D6E04 thumb ov093
+ *   BTL_EVENT_GetClientPartySlotId 0x021D6E0C thumb ov093
  *   func_02008564 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
@@ -397,31 +397,31 @@
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
  *   func_0207C7B4  0x0207C7B4  arm
- *   func_021D6B6C  0x021D6B6C  thumb  ov093
+ *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
  *   g_021EFDC0      0x021EFDC0  data  ov093
  *   func_02019C90   0x02019C90  thumb arm9
  *   POKE_TOOL_DecodePartyParam   0x02017D30  thumb arm9
  *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
  *   data_021EFDE4 0x021EFDE4 data a4
- *   func_021B8724 0x021B8724 thumb ov093
- *   func_021D6E24 0x021D6E24 thumb ov093
+ *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
+ *   BTL_EVENT_StartClientPalAnm 0x021D6E24 thumb ov093
  *   GPOWER_ApplyCaptureRate 0x020111BC thumb
  *   FX_Div 0x0207C768 arm
  *   FX_Sqrt 0x0207C7B4 arm
  *   _ll_mul 0x0209C054 arm
- *   func_021B873C  0x021B873C  thumb  ov093
+ *   BTL_MAIN_GetZukanSeenCount  0x021B873C  thumb  ov093
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
  *   func_0689C9A0 0x0689C9A0 thumb ov095
  *   _fflt 0x0209BDBC arm
  *   _s32_div_f 0x0209C0A4 arm
- *   func_021E8940  0x021E8940  thumb  ov093
- *   func_021D5F38  0x021D5F38  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
+ *   BTL_POKEPARAM_AddCritStage  0x021D5F38  thumb  ov093
  *   func_021D5450  0x021D5450  thumb  ov093
- *   func_021D5568  0x021D5568  thumb  ov093
- *   func_021D54D0  0x021D54D0  thumb  ov093
+ *   BTL_POKEPARAM_GetRealMovePPLost  0x021D5568  thumb  ov093
+ *   BTL_POKEPARAM_GetRealMoveId  0x021D54D0  thumb  ov093
  *   func_0689C9E4 0x0689C9E4 thumb ov095
  *   func_0689C8FC 0x0689C8FC thumb ov095
- *   func_021E869C  0x021E869C  thumb  ov093
+ *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
  *   func_0689D1D4 0x0689D1D4 thumb ov095
  *   d_021EFE9C     0x021EFE9C  data  a4
  *   data_021F3A84 0x021F3A84 data
@@ -432,23 +432,23 @@
  *   func_021D3F04 0x021D3F04 thumb ov093
  *   func_021D3D9C 0x021D3D9C thumb ov093
  *   func_02187F00 0x02187F00 thumb ov096
- *   func_021EE5E4 0x021EE5E4 thumb ov093
- *   func_021EE600 0x021EE600 thumb ov093
+ *   BTL_REC_CreateBuffer 0x021EE5E4 thumb ov093
+ *   BTL_REC_DeleteBuffer 0x021EE600 thumb ov093
  *   func_02188080 0x02188080 thumb ov096
- *   func_021EE63C 0x021EE63C thumb ov093
- *   func_021EE830 0x021EE830 thumb ov093
+ *   BTL_REC_ReadEntry 0x021EE63C thumb ov093
+ *   BTL_REC_CountFlaggedRecords 0x021EE830 thumb ov093
  *   func_021D3F48 0x021D3F48 thumb ov093
- *   func_021EE674 0x021EE674 thumb ov093
- *   func_021EEBDC 0x021EEBDC thumb ov093
+ *   BTL_REC_ResetReader 0x021EE674 thumb ov093
+ *   BTL_ADAPTER_ClearRecvHeader 0x021EEBDC thumb ov093
  *   func_021D3F64 0x021D3F64 thumb ov093
  *   func_021D3F88 0x021D3F88 thumb ov093
  *   func_021D3FDC 0x021D3FDC thumb ov093
- *   func_021EEBE8 0x021EEBE8 thumb ov093
- *   func_021EEC20 0x021EEC20 thumb ov093
+ *   BTL_ADAPTER_GetRecvCommand 0x021EEBE8 thumb ov093
+ *   BTL_ADAPTER_GetRecvData 0x021EEC20 thumb ov093
  *   func_021D3FAC 0x021D3FAC thumb ov093
  *   func_021D3FC4 0x021D3FC4 thumb ov093
  *   func_021D3F4C 0x021D3F4C thumb ov093
- *   func_021EEC4C 0x021EEC4C thumb ov093
+ *   BTL_ADAPTER_SetRecvTarget 0x021EEC4C thumb ov093
  *   func_021D3F60 0x021D3F60 thumb ov093
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
@@ -469,7 +469,7 @@
  *   func_021F84E8  0x021F84E8  thumb  ov094
  *   func_021F8504  0x021F8504  thumb  ov094
  *   func_021EAEA8  0x021EAEA8  thumb  ov093
- *   func_021EE688  0x021EE688  thumb  ov093
+ *   BTL_REC_ReadSkipFlag  0x021EE688  thumb  ov093
  *   func_021D3F54  0x021D3F54  thumb  ov093
  *   func_021EAA00  0x021EAA00  thumb  ov093
  *   func_021EAA5C  0x021EAA5C  thumb  ov093
@@ -477,15 +477,15 @@
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EAF78  0x021EAF78  thumb  ov093
- *   func_021EE6B8 0x021EE6B8 thumb ov093
+ *   BTL_REC_ReadRecord 0x021EE6B8 thumb ov093
  *   func_021D3FD0 0x021D3FD0 thumb ov093
  *   func_021EA614 0x021EA614 thumb ov093
  *   func_021EA710 0x021EA710 thumb ov093
- *   func_021D8434 0x021D8434 thumb ov093
+ *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
  *   func_021EAE44 0x021EAE44 thumb ov093
  *   func_021EAE54 0x021EAE54 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
- *   func_021D81F8 0x021D81F8 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
+ *   BTL_CALC_PeekMoveTarget 0x021D81F8 thumb ov093
  *   func_021EA65C 0x021EA65C thumb ov093
  *   func_021E9760 0x021E9760 thumb ov093
  *   func_021E979C 0x021E979C thumb ov093
@@ -497,33 +497,33 @@
  *   func_021F7F58 0x021F7F58 thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
  *   func_021EA6B0 0x021EA6B0 thumb ov093
- *   func_021D7F38 0x021D7F38 thumb ov093
+ *   BTL_CALC_IsGymLeaderTrainer 0x021D7F38 thumb ov093
  *   func_021F87EC 0x021F87EC thumb ov094
  *   func_021F8774 0x021F8774 thumb ov094
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_0202A298 0x0202A298 thumb
- *   func_021D7B60 0x021D7B60 thumb ov093
+ *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
  *   d_021EFF78 0x021EFF78 data ov093 a2
  *   func_021E97BC 0x021E97BC thumb ov093
  *   func_021E9808 0x021E9808 thumb ov093
  *   func_021E98AC 0x021E98AC thumb ov093
  *   func_021E98B4 0x021E98B4 thumb ov093
  *   func_021D832C 0x021D832C thumb ov093
- *   func_021D83FC 0x021D83FC thumb ov093
- *   func_021D7EF0 0x021D7EF0 thumb ov093
+ *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
+ *   BTL_CALC_IsMultiFighterRule 0x021D7EF0 thumb ov093
  *   func_021E98BC 0x021E98BC thumb ov093
  *   func_021E9920 0x021E9920 thumb ov093
  *   func_021E98E8 0x021E98E8 thumb ov093
  *   func_021E9858 0x021E9858 thumb ov093
- *   func_021D5448  0x021D5448  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
  *   func_021E9CE0  0x021E9CE0  thumb  ov093
  *   func_021E9B14  0x021E9B14  thumb  ov093
  *   func_021E9B20  0x021E9B20  thumb  ov093
  *   func_021E9A78 0x021E9A78 thumb ov093
  *   func_0689CB14 0x0689CB14 thumb ov095
  *   func_0689CB1C 0x0689CB1C thumb ov095
- *   func_021D8394 0x021D8394 thumb ov093
+ *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
  *   func_021E9D04 0x021E9D04 thumb ov093
  *   func_021E9E70 0x021E9E70 thumb ov093
  *   func_021E9E80 0x021E9E80 thumb ov093
@@ -531,7 +531,7 @@
  *   func_021EA044 0x021EA044 thumb ov093
  *   func_021EA030 0x021EA030 thumb ov093
  *   func_021EA04C 0x021EA04C thumb ov093
- *   func_021D8358 0x021D8358 thumb ov093
+ *   BTL_ACTION_SetItem 0x021D8358 thumb ov093
  *   func_021EA058 0x021EA058 thumb ov093
  *   func_021EA720 0x021EA720 thumb ov093
  *   func_021EABC4 0x021EABC4 thumb ov093
@@ -539,19 +539,19 @@
  *   func_021D8414 0x021D8414 thumb ov093
  *   func_021EA7FC  0x021EA7FC  thumb  ov093
  *   func_021EA814  0x021EA814  thumb  ov093
- *   func_021D8444  0x021D8444  thumb  ov093
- *   func_021D67C4  0x021D67C4  thumb  ov093
- *   func_021D5750 0x021D5750 thumb ov093
+ *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
+ *   BTL_POKEPARAM_GetLastMoveSlot  0x021D67C4  thumb  ov093
+ *   BTL_POKEPARAM_HasMove 0x021D5750 thumb ov093
  *   func_021EFCE4 0x021EFCE4 thumb ov093
  *   func_021EFC1C 0x021EFC1C thumb ov093
- *   func_021E8AFC 0x021E8AFC thumb ov093
- *   func_021D631C 0x021D631C thumb ov093
+ *   BTLV_CORE_GetSlotLow 0x021E8AFC thumb ov093
+ *   BTL_POKEPARAM_GetSickTurn 0x021D631C thumb ov093
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
- *   func_021D799C 0x021D799C thumb ov093
- *   func_021D6940 0x021D6940 thumb ov093
+ *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
+ *   BTL_POKEPARAM_GetHitRecord 0x021D6940 thumb ov093
  *   d_021EFFC2 0x021EFFC2 data ov093 a2
- *   func_021D5C44  0x021D5C44  thumb  ov093
- *   func_021D7F2C 0x021D7F2C thumb ov093
+ *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
+ *   BTL_CALC_GetScanStartIndex 0x021D7F2C thumb ov093
  *   func_021D3DC4 0x021D3DC4 thumb ov093
  *   func_021880BC 0x021880BC thumb ov096
  *   func_02187FB0 0x02187FB0 thumb ov096
@@ -560,9 +560,9 @@
  *   func_0689CA98 0x0689CA98 thumb ov095
  *   func_0689CAB0 0x0689CAB0 thumb ov095
  *   func_0689CAE0 0x0689CAE0 thumb ov095
- *   func_021D83C4 0x021D83C4 thumb ov093
- *   func_021EE608  0x021EE608  thumb  ov093
- *   func_021EE638  0x021EE638  thumb  ov093
+ *   BTL_ACTION_SetChangeDepleted 0x021D83C4 thumb ov093
+ *   BTL_REC_AppendPacket  0x021EE608  thumb  ov093
+ *   BTL_REC_GetPacketId  0x021EE638  thumb  ov093
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021F878C   0x021F878C  thumb ov094
  *   func_021EA600 0x021EA600 thumb ov093
@@ -582,7 +582,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_021EA694  0x021EA694  thumb  ov093
  *   func_021EA6F4  0x021EA6F4  thumb  ov093
- *   func_021D80A8  0x021D80A8  thumb  ov093
+ *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb  ov093
  *   func_021EA0A0 0x021EA0A0 thumb ov093
  *   func_021EA0E4 0x021EA0E4 thumb ov093
  *   func_021EA354  0x021EA354  thumb  ov093
@@ -600,9 +600,9 @@
  *   func_021EA7C8  0x021EA7C8  thumb  ov093
  *   func_021EA7E8  0x021EA7E8  thumb  ov093
  *   func_021EA7D8  0x021EA7D8  thumb  ov093
- *   func_021EF9C0  0x021EF9C0  thumb  ov093
+ *   BTL_FIELD_StoreCountdown  0x021EF9C0  thumb  ov093
  *   d_021EFFAE     0x021EFFAE  data   ov093  a2
- *   func_021EF9C8  0x021EF9C8  thumb  ov093
+ *   BTL_FIELD_ClearCountdown  0x021EF9C8  thumb  ov093
  *   func_021EA838  0x021EA838  thumb  ov093
  *   func_021EA850  0x021EA850  thumb  ov093
  *   func_021EA904  0x021EA904  thumb  ov093
@@ -619,8 +619,8 @@
  *   func_021F8204 0x021F8204 thumb ov094
  *   func_021F8134 0x021F8134 thumb ov094
  *   func_021F8180 0x021F8180 thumb ov094
- *   func_021D6EA0 0x021D6EA0 thumb ov093
- *   func_021D6BFC 0x021D6BFC thumb ov093
+ *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
+ *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   func_021F8150 0x021F8150 thumb ov094
  *   func_02006238 0x02006238 thumb
  *   func_021EA3B8 0x021EA3B8 thumb ov093
@@ -711,10 +711,10 @@
  *   func_021BA73C  0x021BA73C  thumb  ov093
  *   func_021BA7F8  0x021BA7F8  thumb  ov093
  *   func_021BA820  0x021BA820  thumb  ov093
- *   func_021BB4E0  0x021BB4E0  thumb  ov093
- *   func_021BB570  0x021BB570  thumb  ov093
- *   func_021CD5E0  0x021CD5E0  thumb  ov093
- *   func_021CD644  0x021CD644  thumb  ov093
+ *   BTL_SERVER_LoadRecorderReplies  0x021BB4E0  thumb  ov093
+ *   BTL_SERVER_CompareFlowOutput  0x021BB570  thumb  ov093
+ *   BTL_SERVER_CMD_ReadNext  0x021CD5E0  thumb  ov093
+ *   BTL_SERVER_CMD_ReadU8Wrapper  0x021CD644  thumb  ov093
  */
 #include "btl_server_types.h"
 #include "../../matched/include/G_StateData.h"
@@ -1020,93 +1020,93 @@ struct StateDataL { u8 pad0[8]; int counter; u32 remaining; u32 pad10; u8 result
 
 union DView { struct StateDataL s; u32 w[9]; };
 
-extern int func_021D5B68(void *m);
-extern u8 func_021D5440(u8 *p);
-extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
-extern int func_021B86C8(unsigned char **p);
-extern void *func_021B86B8(void ***p);
-extern void *func_021D5844(void *m);
-extern int func_021D6C24(struct R4 *p);
+extern int BTL_POKEPARAM_IsFainted(void *m);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
+extern int BTL_MAIN_IsMultiMode(unsigned char **p);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
+extern void *BTL_POKEPARAM_GetMon(void *m);
+extern int BTL_POKEPARAM_IsIllusionActive(struct R4 *p);
 extern int func_021D59B4(u8 *p, int k);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void POKEPARTY_Init(struct Party *p);
-extern u32 func_021B8588(void **p);
-extern int func_021D5B7C(void *);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *);
 extern u32 func_020307B0(void *p);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern u32 sub_02008DF0(struct Sub02008C20Obj *, int);
 extern u32 sub_02008DAC(struct Sub02008C20Obj *, int, u32);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_021D805C(void *p, u32 n);
 extern u32 _u32_div_f(u32, u32);
 extern void *func_02030734(u16, unsigned int, int, const char *, u16);
-extern void *func_021EEA58(u32, int, u32, u32);
-extern void func_021EEAE0(void *p);
-extern u8 func_021B86C0(u8 **p);
-extern u32 func_021D8454(Action *);
-extern u16 func_021B86DC(void **);
+extern void *BTL_ADAPTER_Create(u32, int, u32, u32);
+extern void BTL_ADAPTER_Delete(void *p);
+extern u8 BTL_MAIN_GetCommPos(u8 **p);
+extern u32 BTL_CALC_ActionGetKind(Action *);
+extern u16 BTL_MAIN_GetWinBgm(void **);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_02082BCC(void *, int, u32);
-extern void func_021D8230(u8 *p);
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern void BTL_CLIENT_SET_Clear(u8 *p);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern u32 func_0201BD28(u32 v, u32 n);
-extern u32 func_021D8340(Action *m);
-extern int func_021B86E4(unsigned int **p);
-extern union Slot func_021D6314(void *p, int i);
-extern u16 func_021E8B80(union Slot v);
-extern void func_021D82D0(struct Unk021D82D0 *out, u32 id, u32 sub);
-extern u8 func_021D5778(struct UtilWork *p, u16 id);
+extern u32 BTL_ACTION_GetFightMove(Action *m);
+extern int BTL_MAIN_GetCompetitorKind(unsigned int **p);
+extern union Slot BTL_POKEPARAM_GetSickContRaw(void *p, int i);
+extern u16 BTLV_CORE_GetSlotValue(union Slot v);
+extern void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub);
+extern u8 BTL_POKEPARAM_FindMoveSlot(struct UtilWork *p, u16 id);
 extern int WAZA_TOOL_GetFlag(void *bag, int item);
 extern u32 WAZA_TOOL_GetCategory(u16);
-extern u16 func_021D62D8(struct UtilSlots *p, int i);
-extern int func_021D5C30(struct UtilWork *p);
-extern u32 func_021D5584(struct UtilWork *p, u32 i);
-extern u16 func_021D67B8(u8 *);
-extern u16 func_021D67A8(struct QL *p);
+extern u16 BTL_POKEPARAM_GetSickParam(struct UtilSlots *p, int i);
+extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
+extern u32 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
+extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *);
+extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u32 WAZA_TOOL_IsDamaging(void *p);
-extern unsigned int func_021B8590(unsigned char *p);
+extern unsigned int BTL_MAIN_CheckSceneOff(unsigned char *p);
 extern u32 WAZA_TOOL_GetCategory(u16 move);
-extern u16 func_021D5B40(struct QI *p);
+extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern int WAZA_TOOL_GetDamageType(int a);
-extern u16 func_021D57FC(void *);
-extern int func_021D5B48(u8 *p);
-extern int func_021D7AD4(int);
-extern void func_021D66D0(struct QJ *p, u32 v);
+extern u16 BTL_POKEPARAM_GetTypePair(void *);
+extern int BTL_POKEPARAM_IsHpFull(u8 *p);
+extern int BTL_CALC_SummarizeTypeAffinity(int);
+extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
 extern u32 func_0203F0A8(void);
-extern void func_021D646C(u8 *);
-extern int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r);
+extern void BTL_POKEPARAM_ResetAllEffects(u8 *);
+extern int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r);
 extern u8 WAZA_TOOL_GetType(void *p);
 extern int WAZA_TOOL_GetDamageType(int a);
-extern int func_021D5814(void *p, int k);
+extern int BTL_POKEPARAM_HasType(void *p, int k);
 extern u16 WAZA_TOOL_GetPower(void *p);
-unsigned int func_021B8670(unsigned int **p);
-extern int func_021D6C50(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
-extern void func_021D6C2C(struct Unk021D6C2C *p);
+unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **p);
+extern int BTL_POKEPARAM_Transform(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
+extern void BTL_POKEPARAM_ClearIllusion(struct Unk021D6C2C *p);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void func_021D3F04(u8 *);
 extern void func_021D3D9C(u8 *);
 extern void *func_02187F00(void **, u32, u32, u32, u16);
-extern void *func_021EE5E4(u32);
-extern void func_021EE600(void *);
+extern void *BTL_REC_CreateBuffer(u32);
+extern void BTL_REC_DeleteBuffer(void *);
 extern void func_02188080(void *);
-extern u16 *func_021EE63C(u16 *, u32 *);
-extern u32 func_021EE830(void *);
+extern u16 *BTL_REC_ReadEntry(u16 *, u32 *);
+extern u32 BTL_REC_CountFlaggedRecords(void *);
 extern void func_021D3F48(u8 *,u32);
-extern void func_021EE674(void *);
-extern void func_021EEBDC(void *);
+extern void BTL_REC_ResetReader(void *);
+extern void BTL_ADAPTER_ClearRecvHeader(void *);
 extern void func_021D3F64(u8 *,u16);
 extern void func_021D3F88(void *p);
 extern void func_021D3FDC(u8 *p, struct Qd *q);
-extern u8 func_021EEBE8(void *);
-extern int func_021EEC20(int, void *);
+extern u8 BTL_ADAPTER_GetRecvCommand(void *);
+extern int BTL_ADAPTER_GetRecvData(int, void *);
 extern int func_021D3FAC(u8 *);
 extern void func_021D3FC4(u8 *);
 extern int func_021D3F4C(void *);
-extern int func_021EEC4C(void *,void *,u32);
+extern int BTL_ADAPTER_SetRecvTarget(void *,void *,u32);
 extern u8 func_021D3F60(u8 *);
 extern void GFL_USE_SetPlayersAudible(int,u32);
 extern void PM_VOICE_ResetMasterVolume(void);
@@ -1126,7 +1126,7 @@ extern int func_021E90D0(void *s);
 extern void func_021F84E8(int a, int b);
 extern void func_021F8504(u32 a, u32 b, u32 c);
 extern void func_021EAEA8(u8 *p, int v);
-extern int func_021EE688(int, int);
+extern int BTL_REC_ReadSkipFlag(int, int);
 extern void func_021D3F54(u8 *p);
 extern void func_021EAA00(u8 *p, u8 v);
 extern void func_021EAA5C(u8 *o);
@@ -1134,15 +1134,15 @@ extern int func_021EAA34(u8 *o, u8 *out);
 extern void func_021EAF18(struct L *p, int kind, int id);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *o, u8 v);
-extern u32 *func_021EE6B8(void *,u8,u8 *,u8 *);
+extern u32 *BTL_REC_ReadRecord(void *,u8,u8 *,u8 *);
 extern void func_021D3FD0(unsigned char *p);
 extern void func_021EA614(char *p, void *h);
 extern int func_021EA710(u32 *p);
-extern void func_021D8434(u32 *p);
+extern void BTL_CALC_ActionSetNone(u32 *p);
 extern void func_021EAE44(void *);
 extern int func_021EAE54(void *);
-extern u16 func_021D54C0(u8 *p, int i);
-extern u32 func_021D81F8(void *,void *,void *,u32,void *);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
+extern u32 BTL_CALC_PeekMoveTarget(void *,void *,void *,u32,void *);
 extern void func_021EA65C(char *p, void *h);
 extern void func_021E9760(char *, u8 *, int, int);
 extern void func_021E979C(char *p);
@@ -1154,32 +1154,32 @@ extern void func_021E9954(void *);
 extern void func_021F7F58(int, u32, u32, u32, u32);
 extern void func_021F7998(u32 a);
 extern int func_021EA6B0(char *, u16, u16);
-extern int func_021D7F38(u32 n);
+extern int BTL_CALC_IsGymLeaderTrainer(u32 n);
 extern void func_021F87EC(u32);
 extern int func_021F8774(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern int func_021F7EB4(void);
 extern u32 func_0202A298(u32,u32,u32);
-extern u32 func_021D7B60(void *p, u32 b);
+extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
 extern void func_021E97BC(char *p, u8 *a, int b);
 extern void func_021E9808(char *p, u32 *q, int c);
 extern void func_021E98AC(void *);
 extern u32 func_021E98B4(void *);
 extern u32 func_021D832C(struct Unk021D82FC *p);
-extern void func_021D83FC(u32 *p, u32 sub);
-extern u32 func_021D7EF0(u32);
+extern void BTL_ACTION_SetRotate(u32 *p, u32 sub);
+extern u32 BTL_CALC_IsMultiFighterRule(u32);
 extern void func_021E98BC(char *p, u8 *a, int b);
 extern void func_021E9920(void *);
 extern int func_021E98E8(char *p);
 extern void func_021E9858(char *p);
-extern u8 func_021D5448(struct QG *p);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern void func_021E9CE0(u8 *p, u8 a, u8 b);
 extern void func_021E9B14(unsigned int *p);
 extern int func_021E9B20(u8 *p);
 extern void func_021E9A78(char *, const u8 *, int, int, u8 *);
 extern int func_0689CB14(void *);
 extern u8 func_0689CB1C(void *);
-extern void func_021D8394(void *, u8, u8);
+extern void BTL_ACTION_SetChange(void *, u8, u8);
 extern void func_021E9D04(void *, int, int, int, u32, u32);
 extern void func_021E9E70(u8 *p);
 extern int func_021E9E80(u8 *p);
@@ -1187,7 +1187,7 @@ extern u16 func_021EA01C(u8 *p);
 extern u8 func_021EA044(struct QV *p);
 extern u8 func_021EA030(u8 *p);
 extern u8 func_021EA04C(u8 *p);
-extern void func_021D8358(u32 *p, u32 id, u32 sub, u32 val);
+extern void BTL_ACTION_SetItem(u32 *p, u32 id, u32 sub, u32 val);
 extern void func_021EA058(char *p);
 extern int func_021EA720(u32 *p);
 extern void func_021EABC4(u8 *a, u32 x, u32 y, u32 z);
@@ -1195,18 +1195,18 @@ extern int func_021EAC54(void *, int *);
 extern void func_021D8414(u32 *p);
 extern void func_021EA7FC(char *p);
 extern int func_021EA814(u32 *p);
-extern void func_021D8444(u32 *p);
-extern u8 func_021D67C4(u8 *p);
-extern int func_021D5750(void *, u32);
+extern void BTL_CALC_ActionSetForcedSkip(u32 *p);
+extern u8 BTL_POKEPARAM_GetLastMoveSlot(u8 *p);
+extern int BTL_POKEPARAM_HasMove(void *, u32);
 extern void *func_021EFCE4(char *arg0, int arg1);
 extern int func_021EFC1C(int, int, void *, u32);
-extern u8 func_021E8AFC(union Slot);
-extern u8 func_021D631C(u8 *p, int i);
+extern u8 BTLV_CORE_GetSlotLow(union Slot);
+extern u8 BTL_POKEPARAM_GetSickTurn(u8 *p, int i);
 extern u8 WAZA_TOOL_GetType(void *p);
-extern int func_021D799C(int, u16);
-extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
-extern int func_021D5C44(struct Rat *p);
-extern u8 func_021D7F2C(u32 a, u8 b);
+extern int BTL_CALC_GetTypeAffinityVsPair(int, u16);
+extern int BTL_POKEPARAM_GetHitRecord(const u8 *p, int i, u32 j, u16 *out);
+extern int BTL_POKEPARAM_GetHpRatioFixed(struct Rat *p);
+extern u8 BTL_CALC_GetScanStartIndex(u32 a, u8 b);
 extern u32 func_021D3DC4(u8 *, void *, void *);
 extern void func_021880BC(int, u8 *, int);
 extern int func_02187FB0(u8 *);
@@ -1215,9 +1215,9 @@ extern u8 func_02188140(u8 *);
 extern void func_0689CA98(void *, u32, u32, u32);
 extern void func_0689CAB0(void *, u32);
 extern void func_0689CAE0(void *, void *);
-extern void func_021D83C4(u32 *p);
-extern void func_021EE608(u8 *p, const u8 *src, int n);
-extern u8 func_021EE638(u8 *p);
+extern void BTL_ACTION_SetChangeDepleted(u32 *p);
+extern void BTL_REC_AppendPacket(u8 *p, const u8 *src, int n);
+extern u8 BTL_REC_GetPacketId(u8 *p);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void func_021F878C(u32 a);
 extern void func_021EA600(char *p);
@@ -1236,7 +1236,7 @@ extern void func_021EA678(char *p, u16 k, int *c);
 extern void func_020061E4(unsigned int arg);
 extern void func_021EA694(char *p, u16 k, int *c);
 extern void func_021EA6F4(void *p, u8 b, u16 c);
-extern int func_021D80A8(void *p);
+extern int BTL_CALC_GetCurseTargetKind(void *p);
 extern void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7);
 extern int func_021EA0E4(u32 *p);
 extern void func_021EA354(void *ctx, int a, int b);
@@ -1254,8 +1254,8 @@ extern int func_021EA448(u32 *p);
 extern void func_021EA7C8(void *ctx, int a);
 extern int func_021EA7E8(void *w, int v);
 extern void func_021EA7D8(void *ctx, int a);
-extern int *func_021EF9C0(int *p, int a, int b);
-extern void func_021EF9C8(int *p);
+extern int *BTL_FIELD_StoreCountdown(int *p, int a, int b);
+extern void BTL_FIELD_ClearCountdown(int *p);
 extern void func_021EA838(u32 *p, u32 k);
 extern int func_021EA850(u32 *p, u32 k);
 extern void func_021EA904(void *w, u32 a, u32 b, u32 c, int d, int e);
@@ -1271,8 +1271,8 @@ extern int func_021EA8F4(u32 *p);
 extern int func_021F8204(int);
 extern void func_021F8134(int, u32);
 extern int func_021F8180(void);
-extern void func_021D6EA0(void *);
-extern void func_021D6BFC(u8 *p);
+extern void BTL_EVENT_ReleaseClientHandle(void *);
+extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
 extern void func_021F8150(int, void *);
 extern int func_02006238(void);
 extern void func_021EA3B8(char *ctx, int a, int b);
@@ -1360,54 +1360,54 @@ u16 func_021BA5D0(void *p);
 void func_021BA73C(char *p, u16 x);
 void func_021BA7F8(char *p);
 u32 func_021BA820(int *p);
-void func_021BB4E0(Obj_td *p, void *src, int n);
-int func_021BB570(u8 *p, int sel, void *data, u32 n);
-int func_021CD5E0(Buf_021CC768 *r, s32 *a);
-u8 func_021CD644(u8 *p);
-BtlClient *func_021CD6F0(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId);
-void func_021CD8E0(BtlClient *client);
-void func_021CD914(BtlClient *client);
+void BTL_SERVER_LoadRecorderReplies(Obj_td *p, void *src, int n);
+int BTL_SERVER_CompareFlowOutput(u8 *p, int sel, void *data, u32 n);
+int BTL_SERVER_CMD_ReadNext(Buf_021CC768 *r, s32 *a);
+u8 BTL_SERVER_CMD_ReadU8Wrapper(u8 *p);
+BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId);
+void BTL_CLIENT_Delete(BtlClient *client);
+void BTL_CLIENT_MarkCommandIssued(BtlClient *client);
 u16 *func_021CD924(BtlClient *client, u32 *out);
-void func_021CD938(BtlClient *client, void *a);
-void func_021CD95C(BtlClient *client, u32 v);
-void func_021CD960(BtlClient *client, u32 v);
-u32 func_021CD978(BtlClient *client);
-void func_021CD97C(BtlClient *client);
-void func_021CD984(BtlClient *client, u16 n);
-void func_021CD9B0(BtlClient *client);
-u32 func_021CD9C8(BtlClient *client);
-u16 func_021CD9DC(BtlClient *client);
-u32 func_021CD9E0(BtlClient *client);
-void func_021CD9F4(BtlClient *client, u8 n);
-void func_021CDA0C(BtlClient *client, u32 v);
-int func_021CDA18(BtlClient *client);
+void BTL_CLIENT_AttachRemoteLink(BtlClient *client, void *a);
+void BTL_CLIENT_SetView(BtlClient *client, u32 v);
+void BTL_CLIENT_SetRequestParam(BtlClient *client, u32 v);
+u32 BTL_CLIENT_GetNetChannel(BtlClient *client);
+void BTL_CLIENT_RunTick(BtlClient *client);
+void BTL_CLIENT_StartRemoteStep(BtlClient *client, u16 n);
+void BTL_CLIENT_StartMainStep(BtlClient *client);
+u32 BTL_CLIENT_IsRemote(BtlClient *client);
+u16 BTL_CLIENT_GetQueuedCommandWord(BtlClient *client);
+u32 BTL_CLIENT_IsMainStepActive(BtlClient *client);
+void BTL_CLIENT_AddPoints(BtlClient *client, u8 n);
+void BTL_CLIENT_SetStepFn(BtlClient *client, u32 v);
+int BTL_CLIENT_StepMain(BtlClient *client);
 int func_021CDC0C(BtlClient *client);
 void func_021CDD34(BtlClient *client);
 BtlClientStepFn func_021CDD50(BtlClient *client, u32 id, int *out);
 void func_021CDD94(BtlClient *client, int *o);
-int func_021CDDA0(BtlClient *client);
-u32 func_021CDDCC(BtlClient *client);
+int BTL_CLIENT_IsWindowWaiting(BtlClient *client);
+u32 BTL_CLIENT_IsWindowDone(BtlClient *client);
 int func_021CDDDC(BtlClient *client, int *st);
-int func_021CDE8C(BtlClient *client, int b);
-void func_021CDECC(BtlClient *client);
-u32 func_021CDEE8(BtlClient *client);
+int BTL_CLIENT_PollWindowStep(BtlClient *client, int b);
+void BTL_CLIENT_StoreMonParam(BtlClient *client);
+u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client);
 void *func_021CDF1C(BtlClient *client);
 int func_021CDF58(BtlClient *client, int *st);
-u32 func_021CDFE4(u32 mode);
-int func_021CE040(void);
-void func_021CE044(BtlClient *client);
-void func_021CE068(BtlClient *client);
-int func_021CE08C(BtlClient *client);
-int func_021CE0BC(BtlClient *client, void *q);
-void func_021CE0E0(BtlClient *client);
+u32 BTL_CLIENT_PickWindowMode(u32 mode);
+int BTL_CLIENT_ReturnTrue(void);
+void BTL_CLIENT_StartWindowModeSend(BtlClient *client);
+void BTL_CLIENT_StartTimeLimit(BtlClient *client);
+int BTL_CLIENT_PollTimeLimitReady(BtlClient *client);
+int BTL_CLIENT_PollTimeLimitAndSetSub(BtlClient *client, void *q);
+void BTL_CLIENT_StopTimeLimit(BtlClient *client);
 void func_021CE0F8(BtlClient *client, u8 *q, u8 *o);
-void func_021CE150(BtlClient *client, void *q);
-u32 func_021CE160(BtlClient *client);
+void BTL_CLIENT_SetSubFn(BtlClient *client, void *q);
+u32 BTL_CLIENT_RunSubFn(BtlClient *client);
 u32 func_021CE170(BtlClient *client, s32 *st);
 int func_021CE1B0(BtlClient *client, int *state);
-void func_021CE2E8(BtlClient *client);
+void BTL_CLIENT_ResetActionCursor(BtlClient *client);
 u32 func_021CE308(BtlClient *client);
-void func_021CE3B4(BtlClient *client, void *q);
+void BTL_CLIENT_ShowMessage(BtlClient *client, void *q);
 int func_021CE3C8(BtlClient *client, int *state);
 int func_021CE4D0(BtlClient *client, u32 *st);
 u32 func_021CE7D4(BtlClient *client, int *st);
@@ -1421,14 +1421,14 @@ u32 func_021CEFFC(BtlClient *client);
 u32 func_021CF078(BtlClient *client, u32 *st);
 u32 func_021CF220(BtlClient *client, int *st);
 u32 func_021CF2F0(BtlClient *client, s32 *st);
-void func_021CF360(BtlClient *client);
-void func_021CF37C(BtlClient *client, u32 i, u32 v);
-void func_021CF3B8(BtlClient *client, u32 i);
-void func_021CF3F8(BtlClient *client);
-void func_021CF41C(BtlClient *client);
+void BTL_CLIENT_ClearSlotLinkWords(BtlClient *client);
+void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v);
+void BTL_CLIENT_FlushSlotLinkWord(BtlClient *client, u32 i);
+void BTL_CLIENT_FlushSlotLinkWords(BtlClient *client);
+void BTL_CLIENT_ClearSlotFlags(BtlClient *client);
 void func_021CF430(BtlClient *client, u32 i, u32 v);
 u8 func_021CF43C(BtlClient *client, u32 i);
-u8 func_021CF448(BtlClient *client);
+u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(BtlClient *client);
 u32 func_021CF470(u8 *p, void *q, u8 *o);
 u32 func_021CF524(BtlClient *client, void *q, u32 y);
 void func_021CF58C(struct Unk021D82D0 *out, BtlClient *client, void *q);
@@ -1441,9 +1441,9 @@ u32 func_021CF9B4(BtlClient *client, void *m, u8 *a, u16 *b);
 int func_021CFAC4(void *p, void *q);
 int func_021CFADC(BtlClient *client, void *m);
 int func_021CFB8C(void *p, void *q);
-void func_021CFBA4(BtlClient *client);
-int func_021CFBBC(BtlClient *client, int v);
-void func_021CFBE0(BtlClient *client, u32 i, u32 v);
+void BTL_CLIENT_ClearSlotOrder(BtlClient *client);
+int BTL_CLIENT_HasSlotInOrder(BtlClient *client, int v);
+void BTL_CLIENT_SetSlotOrder(BtlClient *client, u32 i, u32 v);
 int func_021CFBF0(BtlClient *client, void *m, u32 slot, u8 *out);
 u8 *func_021CFD50(BtlClient *client, int k);
 int func_021CFDCC(void *p, void *q);
@@ -1461,17 +1461,17 @@ u8 func_021D06C8(BtlClient *client);
 int func_021D0770(BtlClient *client, u32 *state);
 u8 func_021D0980(BtlClient *client, u8 *out);
 void func_021D09E0(BtlClient *client, u8 *order, u8 count, void *target);
-void func_021D0B10(BtlClient *client, u32 a, u32 b, void *q, void *out);
+void BTL_CLIENT_BuildSlotChoices(BtlClient *client, u32 a, u32 b, void *q, void *out);
 void func_021D0B6C(BtlClient *client, u8 *s);
 void func_021D0BB0(BtlClient *client);
 u8 func_021D0C78(BtlClient *client, u8 *out);
 int func_021D0CC4(BtlClient *client, int *state);
-int func_021D0D38(BtlClient *client, int *state);
-int func_021D0D44(BtlClient *client, int *state);
+int BTL_CLIENT_StepChoiceMode2(BtlClient *client, int *state);
+int BTL_CLIENT_StepChoiceMode1(BtlClient *client, int *state);
 int func_021D0D50(BtlClient *client);
 int func_021D0E74(BtlClient *client, int *state);
 int func_021D0E7C(BtlClient *client, int *state, u8 param);
-int func_021D102C(BtlClient *client);
+int BTL_CLIENT_IsDoubleBattleLeadAlive(BtlClient *client);
 int func_021D1058(BtlClient *client, void *q);
 int func_021D10B8(BtlClient *client, int *state);
 int func_021D123C(BtlClient *client);
@@ -1549,7 +1549,7 @@ extern union DView d_021F3B64;
 extern struct StateData g_021F3B64;
 extern const u16 d_021EFF80[];
 
-BtlClient *func_021CD6F0(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId)
+BtlClient *BTL_CLIENT_Create(u8 *battleMain, u8 *sideSet, int netEnabled, int netSystem, u16 clientIndex, u16 slotTotal, u8 clientKind, int isCommBattle, int isReplay, BtlClientRng *rngInit, u16 heapId)
 {
     BtlClient *client;
     u32 slot;
@@ -1561,7 +1561,7 @@ BtlClient *func_021CD6F0(u8 *battleMain, u8 *sideSet, int netEnabled, int netSys
     client->clientId = clientIndex;
     client->heapId = heapId;
     client->kind = clientKind;
-    client->netChannel = func_021EEA58(netSystem, (u8)clientIndex, useNet, heapId);
+    client->netChannel = BTL_ADAPTER_Create(netSystem, (u8)clientIndex, useNet, heapId);
     client->sideData = func_021B9AF8((char *)sideSet, clientIndex);
     client->main = battleMain;
     client->side = sideSet;
@@ -1572,7 +1572,7 @@ BtlClient *func_021CD6F0(u8 *battleMain, u8 *sideSet, int netEnabled, int netSys
     client->view = 0;
     client->lastMonValue = 0;
     client->workBuffer = func_02030734(heapId, 0xbc0, 1, (const char *)d_021F3A88, 0x21a);
-    client->tickFn = (BtlClientTickFn)func_021CDA18;
+    client->tickFn = (BtlClientTickFn)BTL_CLIENT_StepMain;
     client->stepPhase = 0;
     client->requestParam = 0;
     client->flags.bit.requestSet = 0;
@@ -1588,7 +1588,7 @@ BtlClient *func_021CD6F0(u8 *battleMain, u8 *sideSet, int netEnabled, int netSys
     client->flags.bit.windowDone = 0;
     *(u32 *)&client->battleField = func_021BA08C(battleMain);
     client->isComm = isCommBattle;
-    func_021D8230((u8 *)&client->cursor);
+    BTL_CLIENT_SET_Clear((u8 *)&client->cursor);
     func_021D3F04(client->commandQueue);
     func_021D3D9C((u8 *)client);
     client->rng = *rngInit;
@@ -1601,7 +1601,7 @@ BtlClient *func_021CD6F0(u8 *battleMain, u8 *sideSet, int netEnabled, int netSys
     for (slot = 0; slot < 4; slot++)
         client->chosenSlots[slot] = 0;
     if (client->kind == 0 && func_021B90F8(client->main))
-        client->timeLimitTimer = func_021EE5E4(heapId);
+        client->timeLimitTimer = BTL_REC_CreateBuffer(heapId);
     else
         client->timeLimitTimer = 0;
     return client;
@@ -1620,11 +1620,11 @@ BtlClient *func_021CD6F0(u8 *battleMain, u8 *sideSet, int netEnabled, int netSys
 
 
 
-void func_021CD8E0(BtlClient *client) {
- if(client->timeLimitTimer)func_021EE600(client->timeLimitTimer);
+void BTL_CLIENT_Delete(BtlClient *client) {
+ if(client->timeLimitTimer)BTL_REC_DeleteBuffer(client->timeLimitTimer);
  if(client->recorder)func_02188080(client->recorder);
  func_020307B0(client->workBuffer);
- func_021EEAE0(client->netChannel);
+ BTL_ADAPTER_Delete(client->netChannel);
  func_020307B0(client);
 }
 
@@ -1641,7 +1641,7 @@ void func_021CD8E0(BtlClient *client) {
 
 
 
-void func_021CD914(BtlClient *client) {*(u8 *)&client->flags|=2;}
+void BTL_CLIENT_MarkCommandIssued(BtlClient *client) {*(u8 *)&client->flags|=2;}
 
 
 
@@ -1656,7 +1656,7 @@ void func_021CD914(BtlClient *client) {*(u8 *)&client->flags|=2;}
 
 
 
-u16 *func_021CD924(BtlClient *client, u32 *out) { if (client->timeLimitTimer) return func_021EE63C(client->timeLimitTimer,out); return 0; }
+u16 *func_021CD924(BtlClient *client, u32 *out) { if (client->timeLimitTimer) return BTL_REC_ReadEntry(client->timeLimitTimer,out); return 0; }
 
 
 
@@ -1675,7 +1675,7 @@ u16 *func_021CD924(BtlClient *client, u32 *out) { if (client->timeLimitTimer) re
  * Prototype: 021D3F48 stores only r1 low16; caller forwards full getter
  * result without truncation, so its extern argument is widened to u32.
  */
-void func_021CD938(BtlClient *client, void *a) { client->kind=2; client->remoteLink=a; func_021D3F48(client->commandQueue,func_021EE830(a)); }
+void BTL_CLIENT_AttachRemoteLink(BtlClient *client, void *a) { client->kind=2; client->remoteLink=a; func_021D3F48(client->commandQueue,BTL_REC_CountFlaggedRecords(a)); }
 
 
 
@@ -1693,7 +1693,7 @@ void func_021CD938(BtlClient *client, void *a) { client->kind=2; client->remoteL
 /*
  * Stores the second argument (a u32) into the field at #0x54.
  */
-void func_021CD95C(BtlClient *client, u32 v) { *(u32 *)&client->view = v; }
+void BTL_CLIENT_SetView(BtlClient *client, u32 v) { *(u32 *)&client->view = v; }
 
 
 
@@ -1709,7 +1709,7 @@ void func_021CD95C(BtlClient *client, u32 v) { *(u32 *)&client->view = v; }
 
 
 
-void func_021CD960(BtlClient *client, u32 v) {
+void BTL_CLIENT_SetRequestParam(BtlClient *client, u32 v) {
     client->requestParam = v;
     *(u8 *)&client->flags |= 8;
 }
@@ -1730,7 +1730,7 @@ void func_021CD960(BtlClient *client, u32 v) {
 /*
  * Reads the u32 field at #0x50 of the argument and returns it.
  */
-u32 func_021CD978(BtlClient *client) { return (u32)client->netChannel; }
+u32 BTL_CLIENT_GetNetChannel(BtlClient *client) { return (u32)client->netChannel; }
 
 
 
@@ -1748,7 +1748,7 @@ u32 func_021CD978(BtlClient *client) { return (u32)client->netChannel; }
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: push {r3, lr}; ldr r1, [r0, #0x28]; blx r1; pop {r3, pc}.
  */
-void func_021CD97C(BtlClient *client) { client->tickFn(client); }
+void BTL_CLIENT_RunTick(BtlClient *client) { client->tickFn(client); }
 
 
 
@@ -1767,7 +1767,7 @@ void func_021CD97C(BtlClient *client) { client->tickFn(client); }
  * Prototype: 021CDA0C stores its r1 payload unchanged at +0x28; caller
  * passes a callback address. Pointer replaces legacy u32 for that payload.
  */
-void func_021CD984(BtlClient *client, u16 n) { func_021EE674(client->remoteLink); func_021EEBDC(client->netChannel); func_021D3F64(client->commandQueue,n); func_021CDA0C(client,(u32)func_021CDC0C); }
+void BTL_CLIENT_StartRemoteStep(BtlClient *client, u16 n) { BTL_REC_ResetReader(client->remoteLink); BTL_ADAPTER_ClearRecvHeader(client->netChannel); func_021D3F64(client->commandQueue,n); BTL_CLIENT_SetStepFn(client,(u32)func_021CDC0C); }
 
 
 
@@ -1782,7 +1782,7 @@ void func_021CD984(BtlClient *client, u16 n) { func_021EE674(client->remoteLink)
 
 
 
-void func_021CD9B0(BtlClient *client) { func_021D3F88(client->commandQueue); func_021CDA0C(client,(u32)func_021CDA18); }
+void BTL_CLIENT_StartMainStep(BtlClient *client) { func_021D3F88(client->commandQueue); BTL_CLIENT_SetStepFn(client,(u32)BTL_CLIENT_StepMain); }
 
 
 
@@ -1802,7 +1802,7 @@ void func_021CD9B0(BtlClient *client) { func_021D3F88(client->commandQueue); fun
 /*
  * 8 instructions, 16 bytes: ldr r1, pool_021CD9D8; ldrb r0, [r0, r1]; cmp r0, #2; bne loc_021CD9D4; movs r0, #1; bx lr; movs r0, #0; bx lr.
  */
-u32 func_021CD9C8(BtlClient *client)
+u32 BTL_CLIENT_IsRemote(BtlClient *client)
 {
     return (client->kind == 2);
 }
@@ -1823,7 +1823,7 @@ u32 func_021CD9C8(BtlClient *client)
 /*
  * Reads the u16 field at #0x22 of the argument and returns it.
  */
-u16 func_021CD9DC(BtlClient *client) { return *(u16 *)&client->commandQueue[10]; }
+u16 BTL_CLIENT_GetQueuedCommandWord(BtlClient *client) { return *(u16 *)&client->commandQueue[10]; }
 
 
 
@@ -1843,7 +1843,7 @@ u16 func_021CD9DC(BtlClient *client) { return *(u16 *)&client->commandQueue[10];
 /*
  * 8 instructions, 16 bytes: ldr r1, [r0, #0x28]; ldr r0, pool_021CD9F0; cmp r1, r0; bne loc_021CD9EC; movs r0, #1; bx lr; movs r0, #0; bx lr.
  */
-u32 func_021CD9E0(BtlClient *client)
+u32 BTL_CLIENT_IsMainStepActive(BtlClient *client)
 {
     return ((unsigned int)client->tickFn == 0x021CDC0D);
 }
@@ -1865,7 +1865,7 @@ u32 func_021CD9E0(BtlClient *client)
  * u8 step preserves the low-byte result for every incoming word; no
  * signed int addition overflow. Wide step emits an extra narrowing pair.
  */
-void func_021CD9F4(BtlClient *client, u8 n) { client->pointCounter+=n; if(client->pointCounter>14) client->pointCounter=14; }
+void BTL_CLIENT_AddPoints(BtlClient *client, u8 n) { client->pointCounter+=n; if(client->pointCounter>14) client->pointCounter=14; }
 
 
 
@@ -1879,7 +1879,7 @@ void func_021CD9F4(BtlClient *client, u8 n) { client->pointCounter+=n; if(client
 
 
 
-void func_021CDA0C(BtlClient *client, u32 v)
+void BTL_CLIENT_SetStepFn(BtlClient *client, u32 v)
 {
     *(u32 *)&client->tickFn = v;
     client->stepPhase = 0;
@@ -1897,7 +1897,7 @@ void func_021CDA0C(BtlClient *client, u32 v)
 
 
 
-int func_021CDA18(BtlClient *client)
+int BTL_CLIENT_StepMain(BtlClient *client)
 {
     u32 id, *pair, x, y;
     int flag;
@@ -1905,11 +1905,11 @@ int func_021CDA18(BtlClient *client)
     func_021D3FDC((u8 *)client,(struct Qd *)client->commandQueue);
     switch (client->stepPhase) {
     case 0:
-        id = func_021EEBE8(client->netChannel);
+        id = BTL_ADAPTER_GetRecvCommand(client->netChannel);
         if (client->kind == 2 && (client->flags.bit.windowOpen || client->flags.bit.windowDone) && !id) return 0;
         func_021CDD34(client);
         if (id == 9) {
-            func_021EEC20((int)client->netChannel,&pair);
+            BTL_ADAPTER_GetRecvData((int)client->netChannel,&pair);
             x = pair[0]; y = pair[1];
             client->cursor.y = y;
             client->cursor.x = x;
@@ -1937,11 +1937,11 @@ int func_021CDA18(BtlClient *client)
         }
         break;
     case 2:
-        if (func_021EEC4C(client->netChannel,client->sendData,client->sendSize)) client->stepPhase = 0;
+        if (BTL_ADAPTER_SetRecvTarget(client->netChannel,client->sendData,client->sendSize)) client->stepPhase = 0;
         if (client->flags.bit.commandIssued) return 1;
         break;
     case 3:
-        if (func_021EEC4C(client->netChannel,client->sendData,client->sendSize)) client->stepPhase = 7;
+        if (BTL_ADAPTER_SetRecvTarget(client->netChannel,client->sendData,client->sendSize)) client->stepPhase = 7;
         if (client->flags.bit.commandIssued) return 1;
         break;
     case 6:
@@ -1995,7 +1995,7 @@ int func_021CDC0C(BtlClient *client)
         client->stepPhase = 1;
     case 1:
         if (!func_021D3F98(client->commandQueue)) {
-            id = func_021EEBE8(client->netChannel);
+            id = BTL_ADAPTER_GetRecvCommand(client->netChannel);
             if (id) {
                 zero = 0;
                 client->stepFn = func_021CDD50(client,id,0);
@@ -2028,7 +2028,7 @@ int func_021CDC0C(BtlClient *client)
         }
         break;
     case 3:
-        if (func_021EEC4C(client->netChannel,client->sendData,client->sendSize)) client->stepPhase = 1;
+        if (BTL_ADAPTER_SetRecvTarget(client->netChannel,client->sendData,client->sendSize)) client->stepPhase = 1;
         break;
     case 4:
         if (client->view) {
@@ -2123,7 +2123,7 @@ void func_021CDD94(BtlClient *client, int *o)
  * unresolved THM_CALL at +0x14. Region hint ov094 does not supply a witness.
  * note 2026-10-05 (D8 lane16): re-verified MATCH. Callee 0x021F8524 is an ov094 Thumb wrapper (pool-based tail), other overlay, not filed here (ov094 belongs to another owner). Integrator: seed label.
  */
-int func_021CDDA0(BtlClient *client) { if(client->kind!=2) { if(client->timeElapsed) return func_021F8524(0); return 0; } return client->flags.bit.windowOpen; }
+int BTL_CLIENT_IsWindowWaiting(BtlClient *client) { if(client->kind!=2) { if(client->timeElapsed) return func_021F8524(0); return 0; } return client->flags.bit.windowOpen; }
 
 
 
@@ -2137,7 +2137,7 @@ int func_021CDDA0(BtlClient *client) { if(client->kind!=2) { if(client->timeElap
 
 
 
-u32 func_021CDDCC(BtlClient *client) { return client->flags.bit.windowDone; }
+u32 BTL_CLIENT_IsWindowDone(BtlClient *client) { return client->flags.bit.windowDone; }
 
 
 
@@ -2162,7 +2162,7 @@ int func_021CDDDC(BtlClient *client, int *st)
 {
     switch (*st) {
     case 0:
-        if ((int)func_021B86B8(client->main) != 4) {
+        if ((int)BTL_MAIN_GetCompetitor(client->main) != 4) {
             func_021E90A0(client->view, 0);
         } else {
             func_021E90A0(client->view, 1);
@@ -2181,8 +2181,8 @@ int func_021CDDDC(BtlClient *client, int *st)
                 func_021F8504(0, 1, 1);
             }
         }
-        func_021CDECC(client);
-        if (func_021CD9E0(client) != 0) {
+        BTL_CLIENT_StoreMonParam(client);
+        if (BTL_CLIENT_IsMainStepActive(client) != 0) {
             func_021EAEA8(client->view, (u16)((u32)func_021D3FA8(client->commandQueue)));
         }
         return 1;
@@ -2202,18 +2202,18 @@ int func_021CDDDC(BtlClient *client, int *st)
 
 
 
-int func_021CDE8C(BtlClient *client, int b)
+int BTL_CLIENT_PollWindowStep(BtlClient *client, int b)
 {
     int r4;
     if (client->view != 0) {
         r4 = func_021CDDDC(client, (int *)b);
         if (r4 != 0) {
-            if (func_021EE688((int)client->remoteLink, client->clientId) != 0)
+            if (BTL_REC_ReadSkipFlag((int)client->remoteLink, client->clientId) != 0)
                 func_021D3F54(client->commandQueue);
         }
         return r4;
     }
-    func_021EE688((int)client->remoteLink, client->clientId);
+    BTL_REC_ReadSkipFlag((int)client->remoteLink, client->clientId);
     return 1;
 }
 
@@ -2228,7 +2228,7 @@ int func_021CDE8C(BtlClient *client, int b)
 
 
 
-void func_021CDECC(BtlClient *client) { void *a; a=func_021CDF1C(client); if(a) client->lastMonValue=func_021D59B4(a,13); }
+void BTL_CLIENT_StoreMonParam(BtlClient *client) { void *a; a=func_021CDF1C(client); if(a) client->lastMonValue=func_021D59B4(a,13); }
 
 
 
@@ -2241,7 +2241,7 @@ void func_021CDECC(BtlClient *client) { void *a; a=func_021CDF1C(client); if(a) 
 
 
 
-u32 func_021CDEE8(BtlClient *client) { void *a; u32 now,old; a=func_021CDF1C(client); if(a) { now=func_021D59B4(a,13); old=client->lastMonValue; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }
+u32 BTL_CLIENT_HasMonParamDropped(BtlClient *client) { void *a; u32 now,old; a=func_021CDF1C(client); if(a) { now=func_021D59B4(a,13); old=client->lastMonValue; if(now>=old) return 0; return _u32_div_f((old-now)*100,now); } return 0; }
 
 
 
@@ -2257,7 +2257,7 @@ u32 func_021CDEE8(BtlClient *client) { void *a; u32 now,old; a=func_021CDF1C(cli
  * Prototype: original narrows getter result to u8 before 021B9920;
  * caller extern has u8 second argument; named u8 local keeps shift in r0.
  */
-void *func_021CDF1C(BtlClient *client) { u8 side; if(func_021B8588(client->main)==0 && func_021B86C0(client->main)==0) { side=func_021B9064(client->main,client->clientId,0); return func_021B9920(client->side,side,0); } return 0; }
+void *func_021CDF1C(BtlClient *client) { u8 side; if(BTL_MAIN_GetRule(client->main)==0 && BTL_MAIN_GetCommPos(client->main)==0) { side=func_021B9064(client->main,client->clientId,0); return func_021B9920(client->side,side,0); } return 0; }
 
 
 
@@ -2277,11 +2277,11 @@ int func_021CDF58(BtlClient *client, int *st)
     switch (*st) {
     case 0:
         func_021EAA00(client->view, client->windowMode);
-        func_021CE068(client);
+        BTL_CLIENT_StartTimeLimit(client);
         *st = *st + 1;
         break;
     case 1:
-        if (func_021CE08C(client) != 0) {
+        if (BTL_CLIENT_PollTimeLimitReady(client) != 0) {
             func_021EAA5C(client->view);
             *st = 2;
         } else if (func_021EAA34(client->view, &buf) != 0) {
@@ -2290,11 +2290,11 @@ int func_021CDF58(BtlClient *client, int *st)
         }
         break;
     case 2:
-        client->windowMode = func_021CDFE4(client->windowMode);
+        client->windowMode = BTL_CLIENT_PickWindowMode(client->windowMode);
         *st = *st + 1;
         break;
     case 3:
-        func_021CE0E0(client);
+        BTL_CLIENT_StopTimeLimit(client);
         *st = *st + 1;
         break;
     case 4:
@@ -2320,7 +2320,7 @@ int func_021CDF58(BtlClient *client, int *st)
  * its own hop (a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.md).
  * One shared `mode = (u8)t;` after the switch threads the hops away (4 bytes short).
  */
-u32 func_021CDFE4(u32 mode)
+u32 BTL_CLIENT_PickWindowMode(u32 mode)
 {
     u32 v;
     int t;
@@ -2362,7 +2362,7 @@ u32 func_021CDFE4(u32 mode)
 
 
 
-int func_021CE040(void)
+int BTL_CLIENT_ReturnTrue(void)
 {
     return 1;
 }
@@ -2375,7 +2375,7 @@ int func_021CE040(void)
 
 
 
-void func_021CE044(BtlClient *client) { client->windowMode=func_021CDFE4(client->windowMode); client->sendData=&client->windowMode; client->sendSize=1; }
+void BTL_CLIENT_StartWindowModeSend(BtlClient *client) { client->windowMode=BTL_CLIENT_PickWindowMode(client->windowMode); client->sendData=&client->windowMode; client->sendSize=1; }
 
 
 
@@ -2386,7 +2386,7 @@ void func_021CE044(BtlClient *client) { client->windowMode=func_021CDFE4(client-
 
 
 
-void func_021CE068(BtlClient *client) { if(client->timeLimit) { func_021F8504(1,1,1); client->limitReady=0; } }
+void BTL_CLIENT_StartTimeLimit(BtlClient *client) { if(client->timeLimit) { func_021F8504(1,1,1); client->limitReady=0; } }
 
 
 
@@ -2400,7 +2400,7 @@ void func_021CE068(BtlClient *client) { if(client->timeLimit) { func_021F8504(1,
 /*
  * note 2026-10-05 (D8 lane16): re-verified MATCH. Same blocker as 021CDDA0: ov094 0x021F8524 needs a label/witness.
  */
-int func_021CE08C(BtlClient *client) { if(client->timeLimit!=0) { if(client->limitReady==0) { if(func_021F8524(1)) client->limitReady=1; } return client->limitReady; } return 0; }
+int BTL_CLIENT_PollTimeLimitReady(BtlClient *client) { if(client->timeLimit!=0) { if(client->limitReady==0) { if(func_021F8524(1)) client->limitReady=1; } return client->limitReady; } return 0; }
 
 
 
@@ -2411,7 +2411,7 @@ int func_021CE08C(BtlClient *client) { if(client->timeLimit!=0) { if(client->lim
 
 
 
-int func_021CE0BC(BtlClient *client, void *q) { if(func_021CE08C(client)) { if(q) func_021CE150(client,q); return 1; } return 0; }
+int BTL_CLIENT_PollTimeLimitAndSetSub(BtlClient *client, void *q) { if(BTL_CLIENT_PollTimeLimitReady(client)) { if(q) BTL_CLIENT_SetSubFn(client,q); return 1; } return 0; }
 
 
 
@@ -2422,7 +2422,7 @@ int func_021CE0BC(BtlClient *client, void *q) { if(func_021CE08C(client)) { if(q
 
 
 
-void func_021CE0E0(BtlClient *client) { if(client->timeLimit!=0) func_021F8504(1,0,0); }
+void BTL_CLIENT_StopTimeLimit(BtlClient *client) { if(client->timeLimit!=0) func_021F8504(1,0,0); }
 
 
 
@@ -2436,9 +2436,9 @@ void func_021CE0E0(BtlClient *client) { if(client->timeLimit!=0) func_021F8504(1
 
 void func_021CE0F8(BtlClient *client, u8 *q, u8 *o)
 {
-    if (func_021B8588(client->main) != 3) {
+    if (BTL_MAIN_GetRule(client->main) != 3) {
         func_021EAF18((struct L *)o, 1, 0x45);
-        func_021EAF50((struct L *)o, func_021D5440(q));
+        func_021EAF50((struct L *)o, BTL_POKEPARAM_GetPokeId(q));
         func_021EAF78(o, 0);
     } else {
         func_021EAF18((struct L *)o, 1, 0x46);
@@ -2456,7 +2456,7 @@ void func_021CE0F8(BtlClient *client, u8 *q, u8 *o)
 
 
 
-void func_021CE150(BtlClient *client, void *q) { client->subFn=q; client->subState=0; }
+void BTL_CLIENT_SetSubFn(BtlClient *client, void *q) { client->subFn=q; client->subState=0; }
 
 
 
@@ -2473,7 +2473,7 @@ void func_021CE150(BtlClient *client, void *q) { client->subFn=q; client->subSta
 /*
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: push {r3, lr}; adds r2, r0, #0; adds r2, #0xd0; adds r1, r0, #0; ldr r2, [r2]; adds r1, #0xd4; blx r2; pop {r3, pc}.
  */
-u32 func_021CE160(BtlClient *client)
+u32 BTL_CLIENT_RunSubFn(BtlClient *client)
 {
     return client->subFn(client, &client->subState);
 }
@@ -2491,13 +2491,13 @@ u32 func_021CE170(BtlClient *client, s32 *st)
 {
     switch (*st) {
     case 0:
-        func_021CE150(client, (void *)((u32)func_021CE308));
-        func_021CE068(client);
+        BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE308));
+        BTL_CLIENT_StartTimeLimit(client);
         *st = *st + 1;
         break;
     case 1:
-        func_021CE08C(client);
-        if (func_021CE160(client) != 0) {
+        BTL_CLIENT_PollTimeLimitReady(client);
+        if (BTL_CLIENT_RunSubFn(client) != 0) {
             return 1;
         }
         break;
@@ -2521,10 +2521,10 @@ int func_021CE1B0(BtlClient *client, int *state)
     switch (*state) {
     case 0:
         if (client->flags.bit.windowDone) {
-            func_021CE2E8(client);
+            BTL_CLIENT_ResetActionCursor(client);
             return 1;
         }
-        data = func_021EE6B8(client->remoteLink,client->clientId,&count,&flag);
+        data = BTL_REC_ReadRecord(client->remoteLink,client->clientId,&count,&flag);
         if (flag) func_021D3F54(client->commandQueue);
         *(u32 * *)&client->sendData = data;
         client->sendSize = count * 4;
@@ -2535,7 +2535,7 @@ int func_021CE1B0(BtlClient *client, int *state)
                 func_021EA614(client->view,&client->messageA);
                 (*state)++;
             } else {
-                func_021CE2E8(client);
+                BTL_CLIENT_ResetActionCursor(client);
                 *(u8 *)&client->flags |= 0x10;
                 return 1;
             }
@@ -2547,21 +2547,21 @@ int func_021CE1B0(BtlClient *client, int *state)
                 func_021EA614(client->view,&client->messageA);
                 *state += 2;
             } else {
-                func_021CE2E8(client);
+                BTL_CLIENT_ResetActionCursor(client);
                 return 1;
             }
         } else return 1;
         break;
     case 1:
         if (func_021EA710(client->view)) {
-            func_021CE2E8(client);
+            BTL_CLIENT_ResetActionCursor(client);
             *(u8 *)&client->flags |= 0x10;
             return 1;
         }
         break;
     case 2:
         if (func_021EA710(client->view)) {
-            func_021CE2E8(client);
+            BTL_CLIENT_ResetActionCursor(client);
             return 1;
         }
         break;
@@ -2577,7 +2577,7 @@ int func_021CE1B0(BtlClient *client, int *state)
 
 
 
-void func_021CE2E8(BtlClient *client) { client->actionCursor=(u8 *)client->actions; func_021D8434(client->actions); client->sendData=client->actionCursor; client->sendSize=4; }
+void BTL_CLIENT_ResetActionCursor(BtlClient *client) { client->actionCursor=(u8 *)client->actions; BTL_CALC_ActionSetNone(client->actions); client->sendData=client->actionCursor; client->sendSize=4; }
 
 
 
@@ -2596,11 +2596,11 @@ u32 func_021CE308(BtlClient *client)
     ((s8 *)client)[0x11e] = -1;
     client->slotsDone = 0;
     client->flags.bit.moveSelected = 0;
-    func_021D0B10(client, 0, client->slotCount, client->slotChoices, client->choiceFlags);
-    func_021CF41C(client);
-    func_021CF360(client);
+    BTL_CLIENT_BuildSlotChoices(client, 0, client->slotCount, client->slotChoices, client->choiceFlags);
+    BTL_CLIENT_ClearSlotFlags(client);
+    BTL_CLIENT_ClearSlotLinkWords(client);
     for (i = 0; i < 3; i++) {
-        func_021D8434((u32 *)((u8 *)client->actions + i * 4));
+        BTL_CALC_ActionSetNone((u32 *)((u8 *)client->actions + i * 4));
     }
     for (i = 0; i < client->slotCount; i++) {
         w = (u32)func_021B990C((char *)(client->side), client->clientId, (u8)i);
@@ -2609,7 +2609,7 @@ u32 func_021CE308(BtlClient *client)
             break;
         }
     }
-    func_021CE150(client, (void *)((u32)func_021CE4D0));
+    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
     return 0;
 }
 
@@ -2621,7 +2621,7 @@ u32 func_021CE308(BtlClient *client)
 
 
 
-void func_021CE3B4(BtlClient *client, void *q) { func_021EA614(client->view,q); client->redrawRequest=1; }
+void BTL_CLIENT_ShowMessage(BtlClient *client, void *q) { func_021EA614(client->view,q); client->redrawRequest=1; }
 
 
 
@@ -2646,12 +2646,12 @@ int func_021CE3C8(BtlClient *client, int *state)
             for (; client->slotIndex < client->slotCount; client->slotIndex++) {
                 client->activeMon = func_021B990C(client->side,client->clientId,client->slotIndex);
                 client->actionCursor = (u8 *)client->actions+client->slotIndex*4;
-                func_021D8434((u32 *)(client->actionCursor));
+                BTL_CALC_ActionSetNone((u32 *)(client->actionCursor));
                 if (!func_021CF470((u8 *)client,client->activeMon,client->actionCursor)) {
                     i = func_021CF81C(client,client->activeMon,out);
                     if (i < 4) {
-                        id = func_021D54C0(client->activeMon,i);
-                        func_021D82D0((struct Unk021D82D0 *)(client->actionCursor),id,func_021D81F8(client->main,client->side,client->activeMon,id,client->actionResult));
+                        id = BTL_POKEPARAM_GetMoveId(client->activeMon,i);
+                        BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),id,BTL_CALC_PeekMoveTarget(client->main,client->side,client->activeMon,id,client->actionResult));
                     } else func_021CF58C((struct Unk021D82D0 *)(client->actionCursor),client,client->activeMon);
                 }
             }
@@ -2661,7 +2661,7 @@ int func_021CE3C8(BtlClient *client, int *state)
     case 2:
         client->sendData = (u8 *)client->actions;
         client->sendSize = client->slotCount*4;
-        func_021CE150(client,(void *)((u32)func_021CF2F0));
+        BTL_CLIENT_SetSubFn(client,(void *)((u32)func_021CF2F0));
         break;
     }
     return 0;
@@ -2696,13 +2696,13 @@ int func_021CE4D0(BtlClient *client, u32 *st)
         (client->activeMon) = func_021B990C((client->side), client->clientId, client->slotIndex);
         (client->actionCursor) = (u8 *)client->actions + client->slotIndex * 4;
         client->extraActionCount = 0;
-        func_021D8434(((void *)client->actionCursor));
+        BTL_CALC_ActionSetNone(((void *)client->actionCursor));
         if (func_021CF470((u8 *)client, (client->activeMon), (client->actionCursor))) {
-            func_021CE150(client, (void *)((u32)func_021CF220));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
             break;
         }
         if (func_021CE8F0(client, &client->receivedCode) == 1) {
-            func_021CE150(client, (void *)((u32)func_021CE7D4));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE7D4));
             break;
         }
         ++*st; break;
@@ -2724,38 +2724,38 @@ int func_021CE4D0(BtlClient *client, u32 *st)
         func_021E9760((client->view), (client->activeMon), client->slotIndex > client->slotsDone, (int)(client->actionCursor));
         ++*st; break;
     case 4:
-        if (func_021CE0BC(client, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)func_021CE3C8))) {
             func_021E979C((client->view));
             return 0;
         }
         result = func_021E97A4((client->view));
         switch (result) {
         case 3:
-            if (func_021D62C4((client->activeMon), 0x21)) {
+            if (BTL_POKEPARAM_HasSick((client->activeMon), 0x21)) {
                 func_021E9964(((u32)client->view));
                 *st = 6;
             } else {
                 func_021CF430(client, client->slotIndex, 0);
-                func_021CE150(client, (void *)((u32)func_021CEDC0));
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CEDC0));
             }
             break;
         case 1:
             func_021CF430(client, client->slotIndex, 0);
-            func_021CE150(client, (void *)((u32)func_021CEA94));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CEA94));
             break;
         case 2:
-            if (func_021D62C4((client->activeMon), 0x21)) *st = 6;
+            if (BTL_POKEPARAM_HasSick((client->activeMon), 0x21)) *st = 6;
             else if (client->isComm == 1 && !func_021BA1EC((client->main))) {
                 func_021E9964(((u32)client->view));
                 *st = 5;
-            } else func_021CE150(client, (void *)((u32)func_021CEEB8));
+            } else BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CEEB8));
             break;
         case 4:
             if (client->slotIndex == client->slotsDone) {
-                if (func_021D62C4((client->activeMon), 0x21) && func_021B86E4((client->main)) != 2) *st = 6;
+                if (BTL_POKEPARAM_HasSick((client->activeMon), 0x21) && BTL_MAIN_GetCompetitorKind((client->main)) != 2) *st = 6;
                 else {
                     func_021CF430(client, client->slotIndex, 0);
-                    func_021CE150(client, (void *)((u32)func_021CF078));
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF078));
                 }
                 break;
             }
@@ -2764,11 +2764,11 @@ int func_021CE4D0(BtlClient *client, u32 *st)
                 --((struct L *)client)->idx;
                 if (!func_021CF470((u8 *)client, func_021B990C((client->side), ((struct L *)client)->sel, ((struct L *)client)->idx), 0)) {
                     client->pointCounter += func_021CF43C(client, client->slotIndex);
-                    if (func_021D8454((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 3)
+                    if (BTL_CALC_ActionGetKind((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 3)
                         func_0689CB08(client->choiceFlags);
-                    if (func_021D8454((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 2)
-                        func_021CF3B8(client, client->slotIndex);
-                    func_021CE150(client, (void *)((u32)func_021CE4D0));
+                    if (BTL_CALC_ActionGetKind((Action *)((u8 *)client->actions + client->slotIndex * 4)) == 2)
+                        BTL_CLIENT_FlushSlotLinkWord(client, client->slotIndex);
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
                     return 0;
                 }
             } while (((struct L *)client)->idx != 0);
@@ -2784,8 +2784,8 @@ int func_021CE4D0(BtlClient *client, u32 *st)
     case 7:
         if (!func_021E9974(((u32)client->view))) break;
         func_021EAF18((struct L *)&client->messageA, 1, 0xC5);
-        func_021EAF50((struct L *)&client->messageA, func_021D5440((client->activeMon)));
-        func_021CE3B4(client, (u8 *)&client->messageA);
+        func_021EAF50((struct L *)&client->messageA, BTL_POKEPARAM_GetPokeId((client->activeMon)));
+        BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
         ++*st; break;
     case 8:
         if (func_021EA710((client->view))) *st = 1;
@@ -2817,7 +2817,7 @@ u32 func_021CE7D4(BtlClient *client, int *st)
         func_021F7998(0x270);
         func_021EA6B0(client->view, k, client->receivedCode);
         if ((u16)(client->receivedCode + 0xffed) <= 1 &&
-            func_021D7F38(func_021BA020(client->main, i)) && !client->flags.bit.resultPending) {
+            BTL_CALC_IsGymLeaderTrainer(func_021BA020(client->main, i)) && !client->flags.bit.resultPending) {
             func_021F87EC(0x47b);
             if (!func_021F8774()) {
                 GFL_USE_FadeOutBgm(8);
@@ -2841,7 +2841,7 @@ u32 func_021CE7D4(BtlClient *client, int *st)
         }
         break;
     case 3:
-        if (!func_021F7EB4()) func_021CE150(client, (void *)((u32)func_021CE4D0));
+        if (!func_021F7EB4()) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
         break;
     }
     return 0;
@@ -2892,17 +2892,17 @@ u32 func_021CE8F0(BtlClient *client, u16 *out)
     u8 *mon;
     u8 *row;
     int skip,ok0,ok1,ok2,ok3,invalid;
-    if ((u32)func_021B86B8(client->main) != 1) goto fail;
+    if ((u32)BTL_MAIN_GetCompetitor(client->main) != 1) goto fail;
     id = func_021B904C(client->main,0);
     k = func_021BA004(client->main,id);
     if (!k) goto fail;
     entry = (u32)func_021B9AEC(client->side,id);
     mon = func_021B990C(client->side,id,(u8)0);
-    if (func_021D5B68(mon)) {
+    if (BTL_POKEPARAM_IsFainted(mon)) {
         count = func_021B99B8(client->main,id);
         for (i=1;i<count;i++) {
             mon = func_021B990C(client->side,id,(u8)i);
-            if (!func_021D5B68(mon)) break;
+            if (!BTL_POKEPARAM_IsFainted(mon)) break;
         }
     }
     result = -1;
@@ -2920,10 +2920,10 @@ u32 func_021CE8F0(BtlClient *client, u16 *out)
                 switch (key - 0x11) {
                 case 1:
                     a = func_021D59B4(mon,13);
-                    if ((u32)a <= func_021D7B60(mon,2)) { result = i; row[ok0] = 1; }
+                    if ((u32)a <= BTL_CALC_DivideMaxHp(mon,2)) { result = i; row[ok0] = 1; }
                     break;
                 case 0:
-                    if (!func_021D5B48(mon)) { result = i; row[ok1] = 1; }
+                    if (!BTL_POKEPARAM_IsHpFull(mon)) { result = i; row[ok1] = 1; }
                     break;
                 case 2:
                     if (func_021B9B94((void *)entry) > 1 && func_021B9B98((u8 *)entry) == 1) { result = i; row[ok2] = 1; }
@@ -2931,7 +2931,7 @@ u32 func_021CE8F0(BtlClient *client, u16 *out)
                 case 3:
                     if (func_021B9B94((void *)entry) > 1 && func_021B9B98((u8 *)entry) == 1) {
                         b = func_021D59B4(mon,13);
-                        if ((u32)b <= func_021D7B60(mon,2)) { result = i; row[ok3] = 1; }
+                        if ((u32)b <= BTL_CALC_DivideMaxHp(mon,2)) { result = i; row[ok3] = 1; }
                     }
                     break;
                 }
@@ -2972,9 +2972,9 @@ int func_021CEA94(BtlClient *client, u32 *state)
     u8 sub;
     switch (*state) {
     case 0:
-        if (func_021B8588(client->main) != 3) {
+        if (BTL_MAIN_GetRule(client->main) != 3) {
             if (func_021CF524(client, client->activeMon, (u32)client->actionCursor))
-                func_021CE150(client, (void *)((u32)func_021CF220));
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
             else *state = 1;
         } else {
             func_021CECB4(client, (Ent_021CECB4 *)client->recvEntry);
@@ -2990,43 +2990,43 @@ int func_021CEA94(BtlClient *client, u32 *state)
         *state = 3;
         break;
     case 3:
-        if (func_021CE0BC(client, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)func_021CE3C8))) {
             func_021E98AC(client->view);
             return 0;
         }
         if (func_021E98B4(client->view)) {
-            k = func_021D8454((Action *)client->actionCursor);
-            if (k == 0) func_021CE150(client, (void *)((u32)func_021CE4D0));
-            else if (k == 5) func_021CE150(client, (void *)((u32)func_021CF220));
+            k = BTL_CALC_ActionGetKind((Action *)client->actionCursor);
+            if (k == 0) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+            else if (k == 5) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
             else {
                 m = client->activeMon;
                 record = (u32 *)client->actionCursor;
                 sub = 0;
                 slot = client->slotIndex;
-                if (func_021B8588(client->main) == 3) {
+                if (BTL_MAIN_GetRule(client->main) == 3) {
                     sub = (u8)((Record_td *)&client->recordKey)->sub;
                     slot = func_021B9AB0(sub);
                     m = *(void **)((u32)client + slot * 8U + 0xa4U);
                 }
                 if (func_021D832C((struct Unk021D82FC *)record)) {
                     client->highlightSlot = slot;
-                    client->highlightKind = func_021D5778(m, (u16)((Record_td *)record)->id);
+                    client->highlightKind = BTL_POKEPARAM_FindMoveSlot(m, (u16)((Record_td *)record)->id);
                     if (client->highlightKind != 4) {
-                        func_021CE150(client, (void *)((u32)func_021CED4C));
+                        BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CED4C));
                         return 0;
                     }
                 }
                 if (func_021CF5B0(client, m, (u16)((Record_td *)record)->id, (u8 *)&client->messageA)) {
                     func_021EAF78((u8 *)&client->messageA, 0xff);
-                    func_021CE3B4(client, (u8 *)&client->messageA);
+                    BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
                     *state = 7;
                 } else {
-                    if (func_021B8588(client->main) == 3 && sub != 0 && sub != 1 && !func_021D5B68(m)) {
-                        k = func_021D8340((Action *)&client->actionKey);
+                    if (BTL_MAIN_GetRule(client->main) == 3 && sub != 0 && sub != 1 && !BTL_POKEPARAM_IsFainted(m)) {
+                        k = BTL_ACTION_GetFightMove((Action *)&client->actionKey);
                         record = (u32 *)client->actionCursor;
                         *(u32 *)&client->actionCursor = (u32)record + 4U;
-                        func_021D83FC(record, sub);
-                        func_021D82D0((void *)client->actionCursor, k, 6);
+                        BTL_ACTION_SetRotate(record, sub);
+                        BTL_ACTION_SetFight((void *)client->actionCursor, k, 6);
                         ++client->extraActionCount;
                     }
                     *state = 4;
@@ -3035,20 +3035,20 @@ int func_021CEA94(BtlClient *client, u32 *state)
         }
         break;
     case 4:
-        if (func_021D7EF0(func_021B8588(client->main))) *state = 5;
-        else func_021CE150(client, (void *)((u32)func_021CF220));
+        if (BTL_CALC_IsMultiFighterRule(BTL_MAIN_GetRule(client->main))) *state = 5;
+        else BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
         break;
     case 5:
         func_021E98BC(client->view, (u8 *)(client->activeMon), (u32)client->actionCursor);
         *state = 6;
         break;
     case 6:
-        if (func_021CE0BC(client, (void *)((u32)func_021CE3C8))) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, (void *)((u32)func_021CE3C8))) {
             func_021E9920(client->view);
             return 0;
         }
         k = func_021E98E8(client->view);
-        if (k == 1) func_021CE150(client, (void *)((u32)func_021CF220));
+        if (k == 1) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
         else if (k == 2) *state = 1;
         break;
     case 7:
@@ -3083,10 +3083,10 @@ void func_021CECB4(BtlClient *client, Ent_021CECB4 *out)
         for (j = 0; j < 4; j++) {
             e->f[j] = 0;
         }
-        if (func_021D5B68(q) == 0) {
-            n = func_021D5448((struct QG *)q);
+        if (BTL_POKEPARAM_IsFainted(q) == 0) {
+            n = BTL_POKEPARAM_GetMoveCount((struct QG *)q);
             for (k = 0; k < n; k++) {
-                if (func_021D5584((struct UtilWork *)q, (u8)k) == 0 || func_021CF5B0(client, q, (u32)func_021D54C0(q, (u8)k), 0) != 0) {
+                if (BTL_POKEPARAM_GetMovePPChecked((struct UtilWork *)q, (u8)k) == 0 || func_021CF5B0(client, q, (u32)BTL_POKEPARAM_GetMoveId(q, (u8)k), 0) != 0) {
                     e->f[k] = 0;
                 } else {
                     e->f[k] = 1;
@@ -3113,18 +3113,18 @@ u32 func_021CED4C(BtlClient *client, s32 *st)
         break;
     case 1:
         r = 0;
-        if (func_021CE0BC(client, 0) != 0) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, 0) != 0) {
             func_021E9B14((unsigned int *)(client->view));
             *st = 2;
             return r;
         }
         if (func_021E9B20((u8 *)(client->view)) != 0) {
-            func_021CE150(client, (void *)((u32)func_021CEA94));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CEA94));
         }
         break;
     case 2:
         if (func_021E9B20((u8 *)(client->view)) != 0) {
-            func_021CE150(client, (void *)((u32)func_021CE3C8));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE3C8));
         }
         break;
     }
@@ -3148,13 +3148,13 @@ u32 func_021CEDC0(BtlClient *client, int *st)
     case 0:
         r = 0;
         if ((u8)func_021CF8D4(client, client->activeMon, &a, &b) != 4 ||
-            a == func_021D5440(client->activeMon)) r = 1;
+            a == BTL_POKEPARAM_GetPokeId(client->activeMon)) r = 1;
         func_021E9A78(client->view, client->slotChoices, client->slotIndex, r, client->choiceFlags);
         ++*st;
         break;
     case 1:
         r = 0;
-        if (func_021CE0BC(client, 0)) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, 0)) {
             func_021E9B14((unsigned int *)(client->view));
             *st = 2;
             return r;
@@ -3163,16 +3163,16 @@ u32 func_021CEDC0(BtlClient *client, int *st)
             if (func_0689CB14(client->choiceFlags) == 0) {
                 n = func_0689CB1C(client->choiceFlags);
                 if (n < 6) {
-                    func_021D8394(client->actionCursor, client->slotIndex, n);
-                    func_021CE150(client, (void *)((u32)func_021CF220));
+                    BTL_ACTION_SetChange(client->actionCursor, client->slotIndex, n);
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
                     break;
                 }
             }
-            func_021CE150(client, (void *)((u32)func_021CE4D0));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
         }
         break;
     case 2:
-        if (func_021E9B20((u8 *)(client->view))) func_021CE150(client, (void *)((u32)func_021CE3C8));
+        if (func_021E9B20((u8 *)(client->view))) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE3C8));
         break;
     }
     return 0;
@@ -3217,7 +3217,7 @@ u32 func_021CEEB8(BtlClient *client, int *st)
     u32 flag;
     switch (*st) {
     case 0:
-        a = func_021CF448(client);
+        a = BTL_CLIENT_SumSlotFlagsBeforeCurrent(client);
         same = isSameSlotIndex(client);
         flag = (u8)func_021CEFFC(client);
         func_021E9D04(client->view, client->isComm, client->pointCounter, a, same, flag);
@@ -3225,7 +3225,7 @@ u32 func_021CEEB8(BtlClient *client, int *st)
         break;
     case 1:
         z = 0;
-        if (func_021CE0BC(client, 0)) {
+        if (BTL_CLIENT_PollTimeLimitAndSetSub(client, 0)) {
             func_021E9E70(client->view);
             *st = 2;
             return z;
@@ -3242,16 +3242,16 @@ u32 func_021CEEB8(BtlClient *client, int *st)
                     c = client->pointCounter;
                 }
                 func_021CF430(client, client->slotIndex, c);
-                func_021D8358((void *)client->actionCursor, a, (u8)b, (u8)d);
+                BTL_ACTION_SetItem((void *)client->actionCursor, a, (u8)b, (u8)d);
                 func_021EA058(client->view);
                 if (func_021D805C((void *)a, 0xf) == 4) *(u8 *)&client->flags |= 4;
-                func_021CF37C(client, client->slotIndex, a);
-                func_021CE150(client, (void *)((u32)func_021CF220));
-            } else func_021CE150(client, (void *)((u32)func_021CE4D0));
+                BTL_CLIENT_SetSlotLinkWord(client, client->slotIndex, a);
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
+            } else BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
         }
         break;
     case 2:
-        if (func_021E9E80(client->view)) func_021CE150(client, (void *)((u32)func_021CE3C8));
+        if (func_021E9E80(client->view)) BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE3C8));
         break;
     }
     return 0;
@@ -3277,10 +3277,10 @@ u32 func_021CEFFC(BtlClient *client)
     u32 c;
     u8 *w;
     u32 cnt;
-    if (func_021B86B8(client->main) == 0) {
+    if (BTL_MAIN_GetCompetitor(client->main) == 0) {
         arr = func_021B9AF8(client->side, 1);
         cnt = func_021B9B94(arr);
-        lim = func_021B8670((unsigned int **)(client->main));
+        lim = BTL_MAIN_GetActivePosPerSide((unsigned int **)(client->main));
         if (lim > cnt) {
             lim = cnt;
         }
@@ -3288,9 +3288,9 @@ u32 func_021CEFFC(BtlClient *client)
         c = 0;
         for (i = 0; i < lim; i++) {
             w = func_021B9C00(arr, (u8)i);
-            if (func_021D5B68(w) == 0) {
+            if (BTL_POKEPARAM_IsFainted(w) == 0) {
                 c++;
-                if (func_021D5C30((struct UtilWork *)w) != 0) {
+                if (BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)w) != 0) {
                     flag = 1;
                 }
             }
@@ -3319,7 +3319,7 @@ u32 func_021CF078(BtlClient *client, u32 *st)
     int result;
     switch (*st) {
     case 0:
-        switch (func_021B86E4(client->main)) {
+        switch (BTL_MAIN_GetCompetitorKind(client->main)) {
         default:
         case 0:
             if (func_021CF918(client, &id, &k) == 4) {
@@ -3333,18 +3333,18 @@ u32 func_021CF078(BtlClient *client, u32 *st)
             } else {
                 func_021EAF18((struct L *)&client->messageA, 1, 0x4a);
             }
-            func_021CE3B4(client, (u8 *)&client->messageA);
+            BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
             *st = 1;
             break;
         case 1:
             func_021EAF18((struct L *)&client->messageA, 1, 0x4c);
-            func_021CE3B4(client, (u8 *)&client->messageA);
+            BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
             *st = 1;
             break;
         case 2:
             func_021EAF18((struct L *)&client->messageA, 1, 0x4d);
             func_021EAF78((u8 *)&client->messageA, 0xff);
-            func_021CE3B4(client, (u8 *)&client->messageA);
+            BTL_CLIENT_ShowMessage(client, (u8 *)&client->messageA);
             *st = 3;
             break;
         }
@@ -3358,7 +3358,7 @@ u32 func_021CF078(BtlClient *client, u32 *st)
         break;
     case 2:
         if (func_021EA710(client->view))
-            func_021CE150(client, (void *)((u32)func_021CE4D0));
+            BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
         break;
     case 3:
         func_021EA710(client->view);
@@ -3375,16 +3375,16 @@ u32 func_021CF078(BtlClient *client, u32 *st)
                 if (result == 0)
                     *st = 5;
                 else
-                    func_021CE150(client, (void *)((u32)func_021CE4D0));
-            } else if (func_021CE08C(client)) {
-                func_021CE150(client, (void *)((u32)func_021CE3C8));
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
+            } else if (BTL_CLIENT_PollTimeLimitReady(client)) {
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE3C8));
             }
         }
         break;
     case 5:
         func_021D8414((void *)client->actionCursor);
         *(u8 *)&client->flags |= 4;
-        func_021CE150(client, (void *)((u32)func_021CF220));
+        BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF220));
         break;
     }
     return 0;
@@ -3414,13 +3414,13 @@ u32 func_021CF220(BtlClient *client, int *st)
             ++client->slotIndex;
             if (client->slotIndex < client->slotCount) {
                 if ((((u32)*(u8 *)&client->flags << 29) >> 31) == 0) {
-                    func_021CE150(client, (void *)((u32)func_021CE4D0));
+                    BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CE4D0));
                     break;
                 }
                 while (client->slotIndex < client->slotCount) {
                     q = func_021B990C((char *)(client->side), client->clientId, client->slotIndex);
                     if (!func_021CF470((u8 *)client, q, (u8 *)client->actions + client->slotIndex * 4))
-                        func_021D8434((u32 *)((u8 *)client->actions + client->slotIndex * 4));
+                        BTL_CALC_ActionSetNone((u32 *)((u8 *)client->actions + client->slotIndex * 4));
                     ++client->slotIndex;
                 }
             }
@@ -3429,7 +3429,7 @@ u32 func_021CF220(BtlClient *client, int *st)
                 client->extraActionCount = 0;
                 client->sendData = (u8 *)client->actions;
                 client->sendSize = n * 4;
-                func_021CE150(client, (void *)((u32)func_021CF2F0));
+                BTL_CLIENT_SetSubFn(client, (void *)((u32)func_021CF2F0));
             }
         }
         break;
@@ -3452,8 +3452,8 @@ u32 func_021CF2F0(BtlClient *client, s32 *st)
 {
     switch (*st) {
     case 0:
-        func_021CF3F8(client);
-        if (func_021B86C0(client->main) != 0) {
+        BTL_CLIENT_FlushSlotLinkWords(client);
+        if (BTL_MAIN_GetCommPos(client->main) != 0) {
             client->viewLocked = 1;
             func_021EA7FC((char *)(client->view));
             *st = *st + 1;
@@ -3468,7 +3468,7 @@ u32 func_021CF2F0(BtlClient *client, s32 *st)
         break;
     case 2:
         if (func_021F7EB4() == 0) {
-            func_021CE0E0(client);
+            BTL_CLIENT_StopTimeLimit(client);
             *st = *st + 1;
             return 1;
         }
@@ -3489,7 +3489,7 @@ u32 func_021CF2F0(BtlClient *client, s32 *st)
 
 
 
-void func_021CF360(BtlClient *client) { u32 i; for(i=0;i<3;i++) client->slotLinkWords[i]=0; }
+void BTL_CLIENT_ClearSlotLinkWords(BtlClient *client) { u32 i; for(i=0;i<3;i++) client->slotLinkWords[i]=0; }
 
 
 
@@ -3501,7 +3501,7 @@ void func_021CF360(BtlClient *client) { u32 i; for(i=0;i<3;i++) client->slotLink
 
 
 
-void func_021CF37C(BtlClient *client, u32 i, u32 v) { if(client->isComm==0) { if(client->clientId==func_021B8FF4(client->main)) { client->slotLinkWords[i]=v; func_021B9090(client->main,client->clientId,v); } } }
+void BTL_CLIENT_SetSlotLinkWord(BtlClient *client, u32 i, u32 v) { if(client->isComm==0) { if(client->clientId==func_021B8FF4(client->main)) { client->slotLinkWords[i]=v; func_021B9090(client->main,client->clientId,v); } } }
 
 
 
@@ -3517,7 +3517,7 @@ void func_021CF37C(BtlClient *client, u32 i, u32 v) { if(client->isComm==0) { if
  * lever: func_021B90BC consumes the live r2 halfword as its third argument;
  * its matched body forwards it to func_02007E50.
  */
-void func_021CF3B8(BtlClient *client, u32 i)
+void BTL_CLIENT_FlushSlotLinkWord(BtlClient *client, u32 i)
 {
     if (client->isComm == 0) {
         if (client->clientId == func_021B8FF4(client->main)) {
@@ -3541,7 +3541,7 @@ void func_021CF3B8(BtlClient *client, u32 i)
 
 
 
-void func_021CF3F8(BtlClient *client) { u32 i; if(client->isComm==0) for(i=0;i<3;i++) func_021CF3B8(client,(u8)i); }
+void BTL_CLIENT_FlushSlotLinkWords(BtlClient *client) { u32 i; if(client->isComm==0) for(i=0;i<3;i++) BTL_CLIENT_FlushSlotLinkWord(client,(u8)i); }
 
 
 
@@ -3553,7 +3553,7 @@ void func_021CF3F8(BtlClient *client) { u32 i; if(client->isComm==0) for(i=0;i<3
 
 
 
-void func_021CF41C(BtlClient *client) { func_02082BCC(client->slotFlags,0,3); }
+void BTL_CLIENT_ClearSlotFlags(BtlClient *client) { func_02082BCC(client->slotFlags,0,3); }
 
 
 
@@ -3595,7 +3595,7 @@ u8 func_021CF43C(BtlClient *client, u32 i)
 
 
 
-u8 func_021CF448(BtlClient *client)
+u8 BTL_CLIENT_SumSlotFlagsBeforeCurrent(BtlClient *client)
 {
     u32 i;
     u32 sum;
@@ -3623,34 +3623,34 @@ u32 func_021CF470(u8 *p, void *q, u8 *o)
     u16 a;
     u32 b;
     union Slot t;
-    if (func_021D5B68(q) != 0) {
+    if (BTL_POKEPARAM_IsFainted(q) != 0) {
         if (o != 0) {
-            func_021D8434((u32 *)o);
+            BTL_CALC_ActionSetNone((u32 *)o);
         }
         return 1;
     }
-    if (func_021D5BDC(q, 0xc) != 0) {
+    if (BTL_POKEPARAM_TestContFlag(q, 0xc) != 0) {
         if (o != 0) {
-            func_021D8444((u32 *)o);
+            BTL_CALC_ActionSetForcedSkip((u32 *)o);
         }
         return 1;
     }
     id = 0x19;
-    if (func_021D62C4(q, id) != 0) {
-        t = func_021D6314(q, id);
-        id = func_021E8B80(t);
-        b = func_021D67C4(q);
+    if (BTL_POKEPARAM_HasSick(q, id) != 0) {
+        t = BTL_POKEPARAM_GetSickContRaw(q, id);
+        id = BTLV_CORE_GetSlotValue(t);
+        b = BTL_POKEPARAM_GetLastMoveSlot(q);
         if (o != 0) {
-            func_021D82D0((struct Unk021D82D0 *)o, id, b);
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)o, id, b);
         }
         return 1;
     }
-    if (func_021D62C4(q, 0x1a) != 0) {
-        a = func_021D67A8(q);
-        b = func_021D67C4(q);
-        func_021D5778(q, a);
+    if (BTL_POKEPARAM_HasSick(q, 0x1a) != 0) {
+        a = BTL_POKEPARAM_GetLastUsedMoveId(q);
+        b = BTL_POKEPARAM_GetLastMoveSlot(q);
+        BTL_POKEPARAM_FindMoveSlot(q, a);
         if (o != 0) {
-            func_021D82D0((struct Unk021D82D0 *)o, a, b);
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)o, a, b);
         }
         return 1;
     }
@@ -3669,12 +3669,12 @@ u32 func_021CF470(u8 *p, void *q, u8 *o)
 
 u32 func_021CF524(BtlClient *client, void *q, u32 y)
 {
-    u32 n = func_021D5448(q);
+    u32 n = BTL_POKEPARAM_GetMoveCount(q);
     u32 c = 0;
     u32 i = 0;
     for (; i < n; i++) {
-        if (func_021CF5B0(client, q, (u32)func_021D54C0(q, (u8)i), 0) == 0) {
-            if ((u32)func_021D5584(q, (u8)i) != 0) {
+        if (func_021CF5B0(client, q, (u32)BTL_POKEPARAM_GetMoveId(q, (u8)i), 0) == 0) {
+            if ((u32)BTL_POKEPARAM_GetMovePPChecked(q, (u8)i) != 0) {
                 c++;
             }
         }
@@ -3698,8 +3698,8 @@ u32 func_021CF524(BtlClient *client, void *q, u32 y)
 void func_021CF58C(struct Unk021D82D0 *out, BtlClient *client, void *q)
 {
     u32 v;
-    v = func_021D81F8(client->main, client->side, q, 165, client->actionResult);
-    func_021D82D0(out, 165, v);
+    v = BTL_CALC_PeekMoveTarget(client->main, client->side, q, 165, client->actionResult);
+    BTL_ACTION_SetFight(out, 165, v);
 }
 
 
@@ -3717,57 +3717,57 @@ int func_021CF5B0(BtlClient *client, void *m, u32 move, void *out)
     u32 k2;
     union Slot w;
     if (move == 0xa5) return 0;
-    if (func_021CF89C(client, m) && func_021D62C4(m, 0x1b)) {
-        w = func_021D6314(m, 0x1b);
-        k = func_021E8B80(w);
-        if (func_021D5750(m, k) && k != move) {
+    if (func_021CF89C(client, m) && BTL_POKEPARAM_HasSick(m, 0x1b)) {
+        w = BTL_POKEPARAM_GetSickContRaw(m, 0x1b);
+        k = BTLV_CORE_GetSlotValue(w);
+        if (BTL_POKEPARAM_HasMove(m, k) && k != move) {
             if (out) {
                 func_021EAF18(out, 1, 0x63);
-                func_021EAF50(out, func_021D5B40(m));
+                func_021EAF50(out, BTL_POKEPARAM_GetItem(m));
                 func_021EAF50(out, k);
             }
             return 1;
         }
     }
-    if (func_021D62C4(m, 0x17)) {
-        k2 = func_021E8B80(func_021D6314(m, 0x17));
+    if (BTL_POKEPARAM_HasSick(m, 0x17)) {
+        k2 = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw(m, 0x17));
         if (move != k2) {
             if (out) {
                 func_021EAF18(out, 1, 0x64);
-                func_021EAF50(out, func_021D5440(m));
+                func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
                 func_021EAF50(out, k2);
             }
             return 1;
         }
     }
-    if (func_021D62C4(m, 0xb) && WAZA_TOOL_IsDamaging((void *)move) == 0) {
+    if (BTL_POKEPARAM_HasSick(m, 0xb) && WAZA_TOOL_IsDamaging((void *)move) == 0) {
         if (out) {
             func_021EAF18(out, 2, 0x23b);
-            func_021EAF50(out, func_021D5440(m));
+            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
             func_021EAF50(out, move);
         }
         return 1;
     }
-    if (func_021D62C4(m, 0xc) && move == func_021D67B8(m)) {
+    if (BTL_POKEPARAM_HasSick(m, 0xc) && move == BTL_POKEPARAM_GetLastSelectedMoveId(m)) {
         if (out) {
             func_021EAF18(out, 2, 0x244);
-            func_021EAF50(out, func_021D5440(m));
+            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
             func_021EAF50(out, move);
         }
         return 1;
     }
-    if (func_021D62C4(m, 0xd) && move == func_021D62D8(m, 0xd) && move != 0xa5) {
+    if (BTL_POKEPARAM_HasSick(m, 0xd) && move == BTL_POKEPARAM_GetSickParam(m, 0xd) && move != 0xa5) {
         if (out) {
             func_021EAF18(out, 2, 0x253);
-            func_021EAF50(out, func_021D5440(m));
+            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
             func_021EAF50(out, move);
         }
         return 1;
     }
-    if (func_021D62C4(m, 0xf) && WAZA_TOOL_GetFlag((void *)move, 0xc)) {
+    if (BTL_POKEPARAM_HasSick(m, 0xf) && WAZA_TOOL_GetFlag((void *)move, 0xc)) {
         if (out) {
             func_021EAF18(out, 2, 0x37a);
-            func_021EAF50(out, func_021D5440(m));
+            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
             func_021EAF50(out, move);
         }
         return 1;
@@ -3775,7 +3775,7 @@ int func_021CF5B0(BtlClient *client, void *m, u32 move, void *out)
     if (func_021EFCE4((char *)(client->battleField), 3) && func_021EFC1C((int)client->battleField, (int)client->side, m, move)) {
         if (out) {
             func_021EAF18(out, 2, 0x24d);
-            func_021EAF50(out, func_021D5440(m));
+            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
             func_021EAF50(out, move);
         }
         return 1;
@@ -3783,7 +3783,7 @@ int func_021CF5B0(BtlClient *client, void *m, u32 move, void *out)
     if (func_021EFCE4((char *)(client->battleField), 2) && WAZA_TOOL_GetFlag((void *)move, 9)) {
         if (out) {
             func_021EAF18(out, 2, 0x43e);
-            func_021EAF50(out, func_021D5440(m));
+            func_021EAF50(out, BTL_POKEPARAM_GetPokeId(m));
             func_021EAF50(out, move);
         }
         return 1;
@@ -3803,12 +3803,12 @@ int func_021CF5B0(BtlClient *client, void *m, u32 move, void *out)
 
 u32 func_021CF81C(BtlClient *client, void *q, u8 *out)
 {
-    u8 n = func_021D5448(q);
+    u8 n = BTL_POKEPARAM_GetMoveCount(q);
     u32 r = 4;
     u8 i = 0;
     for (; i < n; i++) {
-        if (func_021D5584(q, i) != 0) {
-            out[i] = (func_021CF5B0(client, q, func_021D54C0(q, i), 0) == 0) ? 1 : 0;
+        if (BTL_POKEPARAM_GetMovePPChecked(q, i) != 0) {
+            out[i] = (func_021CF5B0(client, q, BTL_POKEPARAM_GetMoveId(q, i), 0) == 0) ? 1 : 0;
             if (r == 4 && out[i] != 0) {
                 r = i;
             }
@@ -3834,7 +3834,7 @@ u32 func_021CF81C(BtlClient *client, void *q, u8 *out)
 int func_021CF89C(BtlClient *client, void *q)
 {
     if (func_021EFCE4(client->battleField, 7)) return 0;
-    if (func_021D62C4(q, 19)) return 0;
+    if (BTL_POKEPARAM_HasSick(q, 19)) return 0;
     if (func_021D59B4(q, 17) != 103) return 1;
     return 0;
 }
@@ -3853,7 +3853,7 @@ u32 func_021CF8D4(BtlClient *client, void *q, u8 *a, u16 *b)
 {
     u32 r;
     if (func_021CF89C(client, q) != 0) {
-        if (func_021D5B40(q) == 0x127) {
+        if (BTL_POKEPARAM_GetItem(q) == 0x127) {
             return 4;
         }
     }
@@ -3884,8 +3884,8 @@ u32 func_021CF918(BtlClient *client, u8 *a, u16 *b)
 
     for (i = 0; i < client->slotCount; i++) {
         m = func_021B9C00(client->sideData, (u8)i);
-        if (func_021D5B68(m) == 0) {
-            if (func_021CF89C(client, m) != 0 && func_021D5B40((struct QI *)m) == 0xe4)
+        if (BTL_POKEPARAM_IsFainted(m) == 0) {
+            if (func_021CF89C(client, m) != 0 && BTL_POKEPARAM_GetItem((struct QI *)m) == 0xe4)
                 return 4;
             if (func_021D59B4(m, 0x11) == 0x32)
                 return 4;
@@ -3915,29 +3915,29 @@ u32 func_021CF9B4(BtlClient *client, void *m, u8 *a, u16 *b)
     u8 i;
     u8 *q;
     u16 k;
-    n = func_021B8D38(client->main, (int)client->side, (u16)(func_021B8D8C(client->main, client->side, func_021D5440(m)) | 0x100), buf);
+    n = func_021B8D38(client->main, (int)client->side, (u16)(func_021B8D8C(client->main, client->side, BTL_POKEPARAM_GetPokeId(m)) | 0x100), buf);
     for (i = 0; i < n; i++) {
         q = func_021B9934(client->side, buf[i]);
         k = func_021D59B4(q, 0x11);
-        func_021D5440(q);
+        BTL_POKEPARAM_GetPokeId(q);
         if (k == 0x17 && func_021CFAC4(client, m)) {
-            *a = func_021D5440(q);
+            *a = BTL_POKEPARAM_GetPokeId(q);
             *b = k;
             return 0;
         }
         if (k == 0x47 && func_021CFADC(client, m)) {
-            *a = func_021D5440(q);
+            *a = BTL_POKEPARAM_GetPokeId(q);
             *b = k;
             return 0;
         }
         if (k == 0x2a && func_021CFB8C(client, m)) {
-            *a = func_021D5440(q);
+            *a = BTL_POKEPARAM_GetPokeId(q);
             *b = k;
             return 0;
         }
     }
-    if (func_021D62C4(m, 0x16) || func_021D62C4(m, 8) || func_021D62C4(m, 0x15)) {
-        *a = func_021D5440(m);
+    if (BTL_POKEPARAM_HasSick(m, 0x16) || BTL_POKEPARAM_HasSick(m, 8) || BTL_POKEPARAM_HasSick(m, 0x15)) {
+        *a = BTL_POKEPARAM_GetPokeId(m);
         *b = 0;
         return 3;
     }
@@ -3976,21 +3976,21 @@ int func_021CFADC(BtlClient *client, void *m)
     a = func_021CF89C(client, m);
     if (func_021EFCE4((char *)(client->battleField), 2) != 0)
         return 1;
-    if (func_021D62C4(m, 0x1f) != 0)
+    if (BTL_POKEPARAM_HasSick(m, 0x1f) != 0)
         return 1;
-    if (func_021D62C4(m, 0x15) != 0)
+    if (BTL_POKEPARAM_HasSick(m, 0x15) != 0)
         return 1;
-    if (a != 0 && func_021D5B40(m) == 0x116)
+    if (a != 0 && BTL_POKEPARAM_GetItem(m) == 0x116)
         return 1;
     if (func_021D59B4(m, 0x11) == 0x1a)
         return 0;
-    if (func_021D5814(m, 2) != 0)
+    if (BTL_POKEPARAM_HasType(m, 2) != 0)
         return 0;
-    if (func_021D62C4(m, 0x1e) != 0)
+    if (BTL_POKEPARAM_HasSick(m, 0x1e) != 0)
         return 0;
-    if (func_021D62C4(m, 0x20) != 0)
+    if (BTL_POKEPARAM_HasSick(m, 0x20) != 0)
         return 0;
-    if (a != 0 && func_021D5B40(m) == 0x21d)
+    if (a != 0 && BTL_POKEPARAM_GetItem(m) == 0x21d)
         return 0;
     return 1;
 }
@@ -4009,7 +4009,7 @@ int func_021CFADC(BtlClient *client, void *m)
  */
 int func_021CFB8C(void *p, void *q)
 {
-    if (func_021D5814(q, 8)) return 1;
+    if (BTL_POKEPARAM_HasType(q, 8)) return 1;
     return 0;
 }
 
@@ -4026,7 +4026,7 @@ int func_021CFB8C(void *p, void *q)
  * semantic: signed byte -1 has the original stored bits 0xff. The body
  *   only writes bytes and never reads through p. Six stores cover p10c..p111.
  */
-void func_021CFBA4(BtlClient *client)
+void BTL_CLIENT_ClearSlotOrder(BtlClient *client)
 {
     u32 i = 0;
     s8 fill = -1;
@@ -4041,7 +4041,7 @@ void func_021CFBA4(BtlClient *client)
 
 
 
-int func_021CFBBC(BtlClient *client, int v)
+int BTL_CLIENT_HasSlotInOrder(BtlClient *client, int v)
 {
     u32 i = 0;
     for (; i < 6; i++) {
@@ -4058,7 +4058,7 @@ int func_021CFBBC(BtlClient *client, int v)
 
 
 
-void func_021CFBE0(BtlClient *client, u32 i, u32 v)
+void BTL_CLIENT_SetSlotOrder(BtlClient *client, u32 i, u32 v)
 {
     if (i < 6) client->slotOrder[i] = v;
 }
@@ -4084,9 +4084,9 @@ int func_021CFBF0(BtlClient *client, void *m, u32 slot, u8 *out)
     choice = 6;
     if (func_021CF8D4(client, m, &id, &k) != 4) return 0;
     if (func_021B9B98(client->sideData) <= client->slotCount) return 0;
-    q = func_021CFD50(client, func_021B8D8C(client->main, client->side, func_021D5440(m)));
+    q = func_021CFD50(client, func_021B8D8C(client->main, client->side, BTL_POKEPARAM_GetPokeId(m)));
     if (!q) return 0;
-    if (func_021D6C24((struct R4 *)q))
+    if (BTL_POKEPARAM_IsIllusionActive((struct R4 *)q))
         q = func_021B937C(client->main, client->side, q);
     if (func_021CFDCC(client, m)) ok = 1;
     else if (func_021CFE08(client, m, q)) ok = 1;
@@ -4101,14 +4101,14 @@ int func_021CFBF0(BtlClient *client, void *m, u32 slot, u8 *out)
         n = func_021D0980(client, buf);
         func_021D09E0(client, buf, n, q);
         for (i = 0; i < n; i++) {
-            if (!func_021CFBBC(client, buf[i])) {
+            if (!BTL_CLIENT_HasSlotInOrder(client, buf[i])) {
                 choice = buf[i];
                 break;
             }
         }
     }
     if (choice == 6) return 0;
-    func_021CFBE0(client, slot, choice);
+    BTL_CLIENT_SetSlotOrder(client, slot, choice);
     *out = choice;
     return 1;
 }
@@ -4157,10 +4157,10 @@ int func_021CFDCC(void *p, void *q)
     u32 id = 20;
     u32 m;
     union Slot t;
-    if (func_021D62C4(q, id)) {
-        t = func_021D6314(q, id);
-        n = func_021E8AFC(t);
-        m = func_021D631C(q, id) + 1;
+    if (BTL_POKEPARAM_HasSick(q, id)) {
+        t = BTL_POKEPARAM_GetSickContRaw(q, id);
+        n = BTLV_CORE_GetSlotLow(t);
+        m = BTL_POKEPARAM_GetSickTurn(q, id) + 1;
         if (m == n) return 1;
     }
     return 0;
@@ -4176,7 +4176,7 @@ int func_021CFDCC(void *p, void *q)
 
 int func_021CFE08(BtlClient *client, void *a, void *b)
 {
-    if (func_021B8588(client->main) != 0)
+    if (BTL_MAIN_GetRule(client->main) != 0)
         return 0;
     if (func_021D59B4(b, 0x11) == 0x19) {
         if (func_021D0644(client, a, b, 4) == 0 && func_021D055C(client, b, 4) != 0) {
@@ -4205,13 +4205,13 @@ int func_021CFE98(BtlClient *client, void *a, void *b)
     u32 c;
     u32 i;
     u32 v;
-    k = func_021D57FC(b);
-    n = func_021D5448(a);
+    k = BTL_POKEPARAM_GetTypePair(b);
+    n = BTL_POKEPARAM_GetMoveCount(a);
     c = 0;
     for (i = 0; i < n; i++) {
-        v = (u32)func_021D54C0(a, (u8)i);
+        v = (u32)BTL_POKEPARAM_GetMoveId(a, (u8)i);
         if (WAZA_TOOL_IsDamaging((void *)v)) {
-            if (func_021D799C(WAZA_TOOL_GetType((void *)v), k))
+            if (BTL_CALC_GetTypeAffinityVsPair(WAZA_TOOL_GetType((void *)v), k))
                 return 0;
             c++;
         }
@@ -4241,13 +4241,13 @@ int func_021CFFAC(BtlClient *client, void *mon, void *target)
     int valid;
     u32 kind;
     union Slot slot;
-    if (func_021D62C4(mon, 0x1b)) {
-        slot = func_021D6314(mon, 0x1b);
-        id = func_021E8B80(slot);
+    if (BTL_POKEPARAM_HasSick(mon, 0x1b)) {
+        slot = BTL_POKEPARAM_GetSickContRaw(mon, 0x1b);
+        id = BTLV_CORE_GetSlotValue(slot);
         if (id) {
             valid = WAZA_TOOL_IsDamaging((void *)id);
             kind = WAZA_TOOL_GetType((void *)id);
-            if (func_021D799C(kind, func_021D57FC(target)) == 0 && valid) {
+            if (BTL_CALC_GetTypeAffinityVsPair(kind, BTL_POKEPARAM_GetTypePair(target)) == 0 && valid) {
                 if (func_021D055C(client, target, 4)) {
                     client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
                     return (u32)(((client->rng.seed >> 32) * 3) >> 32) < 2;
@@ -4284,7 +4284,7 @@ int func_021D0100(BtlClient *client, void *mon, void *target, u8 *out)
         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
         if ((u32)(((client->rng.seed >> 32) * 3) >> 32) == 0) return 0;
     }
-    while (func_021D6940(mon, 1, pos++, hist + 1)) {
+    while (BTL_POKEPARAM_GetHitRecord(mon, 1, pos++, hist + 1)) {
         for (i = 0; i < 4; i++) {
             row = &d_021EFFC2[i];
             if (((u8 *)hist)[6] == row->kind) {
@@ -4317,9 +4317,9 @@ int func_021D0248(BtlClient *client, void *m, u8 *out)
     u8 idx;
 
     if (func_021D59B4(m, 0x11) == 0x1e) {
-        if (func_021D62C4(m, 2) || func_021D62C4(m, 3)) {
-            if (func_021D5C44(m) >= 0x32000) {
-                if (func_021D6940(m, 1, 0, t)) {
+        if (BTL_POKEPARAM_HasSick(m, 2) || BTL_POKEPARAM_HasSick(m, 3)) {
+            if (BTL_POKEPARAM_GetHpRatioFixed(m) >= 0x32000) {
+                if (BTL_POKEPARAM_GetHitRecord(m, 1, 0, t)) {
                     if (func_021D05C4(client, ((u8 *)t)[4], 2, &idx)) {
                         *out = idx;
                         return 1;
@@ -4355,14 +4355,14 @@ int func_021D0304(BtlClient *client, void *mon, void *target, u8 *out)
     sum = 0;
     for (i = 1; i <= 7; i++) sum += func_021D59B4(mon, i);
     if (sum >= 4) return 0;
-    if (func_021D6940(mon, 1, 0, hist)) {
+    if (BTL_POKEPARAM_GetHitRecord(mon, 1, 0, hist)) {
         n = func_021B9B94(client->sideData);
-        i = func_021D7F2C(func_021B8588(client->main), client->slotCount);
+        i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
         for (; i < n; i++) {
-            if (!func_021CFBBC(client, (u8)i)) {
+            if (!BTL_CLIENT_HasSlotInOrder(client, (u8)i)) {
                 other = func_021B9C00(client->sideData, (u8)i);
                 if (func_021D0644(client, other, target, 4)) {
-                    affinity = func_021D799C(((u8 *)hist)[4], func_021D57FC(other));
+                    affinity = BTL_CALC_GetTypeAffinityVsPair(((u8 *)hist)[4], BTL_POKEPARAM_GetTypePair(other));
                     if (affinity == 0) {
                         client->rng.seed = client->rng.mul * client->rng.seed + client->rng.add;
                         if ((u32)(((client->rng.seed >> 32) * 2) >> 32) == 0) {
@@ -4397,11 +4397,11 @@ int func_021D04E4(BtlClient *client, u16 a, u8 *out)
     u8 *m;
 
     n = func_021B9B94(client->sideData);
-    i = func_021D7F2C(func_021B8588(client->main), client->slotCount);
+    i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
     for (; i < n; i++) {
-        if (func_021CFBBC(client, (u8)i) == 0) {
+        if (BTL_CLIENT_HasSlotInOrder(client, (u8)i) == 0) {
             m = func_021B9C00(client->sideData, (u8)i);
-            if (func_021D5B68(m) == 0 && a == func_021D59B4(m, 0x11)) {
+            if (BTL_POKEPARAM_IsFainted(m) == 0 && a == func_021D59B4(m, 0x11)) {
                 *out = i;
                 return 1;
             }
@@ -4423,9 +4423,9 @@ int func_021D055C(BtlClient *client, void *a, int b)
     u32 i;
 
     n = func_021B9B94(client->sideData);
-    i = func_021D7F2C(func_021B8588(client->main), client->slotCount);
+    i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
     for (; i < n; i++) {
-        if (func_021CFBBC(client, (u8)i) == 0) {
+        if (BTL_CLIENT_HasSlotInOrder(client, (u8)i) == 0) {
             if (func_021D0644(client, func_021B9C00(client->sideData, (u8)i), a, b))
                 return 1;
         }
@@ -4447,11 +4447,11 @@ int func_021D05C4(BtlClient *client, u8 a, int b, u8 *out)
     u8 *m;
 
     n = func_021B9B94(client->sideData);
-    i = func_021D7F2C(func_021B8588(client->main), client->slotCount);
+    i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
     for (; i < n; i++) {
-        if (func_021CFBBC(client, (u8)i) == 0) {
+        if (BTL_CLIENT_HasSlotInOrder(client, (u8)i) == 0) {
             m = func_021B9C00(client->sideData, (u8)i);
-            if (func_021D5B7C(m) != 0 && func_021D799C(a, func_021D57FC(m)) <= b) {
+            if (BTL_POKEPARAM_IsAbleToBattle(m) != 0 && BTL_CALC_GetTypeAffinityVsPair(a, BTL_POKEPARAM_GetTypePair(m)) <= b) {
                 *out = i;
                 return 1;
             }
@@ -4474,14 +4474,14 @@ int func_021D0644(BtlClient *client, void *m, void *a, int b)
     u32 i;
     u32 q;
 
-    if (func_021D5B68(m) == 0) {
-        x = func_021D57FC(a);
-        n = func_021D5448(m);
+    if (BTL_POKEPARAM_IsFainted(m) == 0) {
+        x = BTL_POKEPARAM_GetTypePair(a);
+        n = BTL_POKEPARAM_GetMoveCount(m);
         for (i = 0; i < n; i++) {
-            q = func_021D54C0(m, (u8)i);
-            if (func_021D5584(m, (u8)i) && WAZA_TOOL_IsDamaging((void *)q)
+            q = BTL_POKEPARAM_GetMoveId(m, (u8)i);
+            if (BTL_POKEPARAM_GetMovePPChecked(m, (u8)i) && WAZA_TOOL_IsDamaging((void *)q)
                 && func_021CF5B0(client, m, q, 0) == 0) {
-                if (func_021D799C(WAZA_TOOL_GetType((void *)q), x) >= b)
+                if (BTL_CALC_GetTypeAffinityVsPair(WAZA_TOOL_GetType((void *)q), x) >= b)
                     return 1;
             }
         }
@@ -4504,10 +4504,10 @@ u8 func_021D06C8(BtlClient *client)
 
     cnt = 1;
     buf[0] = 1;
-    if (func_021D5B68(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(2))) == 0) {
+    if (BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(2))) == 0) {
         buf[cnt++] = 2;
     }
-    if (func_021D5B68(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(3))) == 0) {
+    if (BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(3))) == 0) {
         buf[cnt++] = 3;
     }
     if (cnt > 1) {
@@ -4550,7 +4550,7 @@ int func_021D0770(BtlClient *client, u32 *state)
     u32 bytes;
     switch (*state) {
     case 0:
-        func_021CFBA4(client);
+        BTL_CLIENT_ClearSlotOrder(client);
         client->slotIndex = 0;
         client->extraActionCount = 0;
         *state = 1;
@@ -4558,41 +4558,41 @@ int func_021D0770(BtlClient *client, u32 *state)
         if (client->slotIndex >= client->slotCount) break;
         (client->activeMon) = func_021B9C00(client->sideData, client->slotIndex);
         (client->actionCursor) = (u8 *)client->actions+client->slotIndex*4;
-        if (func_021D5B68((client->activeMon))) {
-            func_021D8434((u32 *)(client->actionCursor));
+        if (BTL_POKEPARAM_IsFainted((client->activeMon))) {
+            BTL_CALC_ActionSetNone((u32 *)(client->actionCursor));
             goto complete;
         }
         if (func_021CF470((u8 *)client,(client->activeMon),(client->actionCursor))) goto complete;
         move = func_021D3DC4((u8 *)client,(client->activeMon),client->sideData);
         if (move) {
-            func_021D8358((u32 *)(client->actionCursor),move,client->slotIndex,0);
+            BTL_ACTION_SetItem((u32 *)(client->actionCursor),move,client->slotIndex,0);
             goto complete;
         }
-        if (func_021B86B8(client->main) && func_021CFBF0(client,(client->activeMon),client->slotIndex,&choice)) {
-            func_021D8394((client->actionCursor),client->slotIndex,choice);
+        if (BTL_MAIN_GetCompetitor(client->main) && func_021CFBF0(client,(client->activeMon),client->slotIndex,&choice)) {
+            BTL_ACTION_SetChange((client->actionCursor),client->slotIndex,choice);
             goto complete;
         }
-        if (func_021B8588(client->main) == 3) {
+        if (BTL_MAIN_GetRule(client->main) == 3) {
             sel = func_021D06C8(client);
             if (sel != 1) {
                 sub = func_021B9AB0(sel);
-                func_021D83FC((u32 *)(client->actionCursor),sel);
+                BTL_ACTION_SetRotate((u32 *)(client->actionCursor),sel);
                 (client->activeMon) = func_021B9C00(client->sideData,sub);
                 client->extraActionCount = 1;
                 (client->actionCursor) = (u8 *)((u32)(client->actionCursor)+4U);
             }
         }
-        if (func_021D62C4((client->activeMon),0x19)) {
-            move = func_021E8B80(func_021D6314((client->activeMon),0x19));
-            result = func_021D81F8(client->main,client->side,(client->activeMon),move,(u8 *)&client->rng);
-            func_021D82D0((struct Unk021D82D0 *)(client->actionCursor),move,result);
+        if (BTL_POKEPARAM_HasSick((client->activeMon),0x19)) {
+            move = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw((client->activeMon),0x19));
+            result = BTL_CALC_PeekMoveTarget(client->main,client->side,(client->activeMon),move,(u8 *)&client->rng);
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),move,result);
             goto complete;
         }
         if (func_021CF524(client,(client->activeMon),(u32)(client->actionCursor))) *state = 3;
-        func_021D5448((client->activeMon));
+        BTL_POKEPARAM_GetMoveCount((client->activeMon));
         slot = func_021CF81C(client,(client->activeMon),available);
         if (slot != 4) {
-            result = func_021B8D8C(client->main,client->side,func_021D5440((client->activeMon)));
+            result = func_021B8D8C(client->main,client->side,BTL_POKEPARAM_GetPokeId((client->activeMon)));
             func_021880BC((int)client->recorder,available,result);
             *state = 2;
         } else {
@@ -4605,8 +4605,8 @@ int func_021D0770(BtlClient *client, u32 *state)
         slot = func_02188134(client->recorder);
         if (slot != 4) {
             sub = func_02188140(client->recorder);
-            move = func_021D54C0((client->activeMon),slot);
-            func_021D82D0((struct Unk021D82D0 *)(client->actionCursor),move,sub);
+            move = BTL_POKEPARAM_GetMoveId((client->activeMon),slot);
+            BTL_ACTION_SetFight((struct Unk021D82D0 *)(client->actionCursor),move,sub);
         } else func_021D8414((u32 *)(client->actionCursor));
 complete:
         *state = 3;
@@ -4641,10 +4641,10 @@ u8 func_021D0980(BtlClient *client, u8 *out)
     u32 i;
 
     n = func_021B9B94(client->sideData);
-    i = func_021D7F2C(func_021B8588(client->main), client->slotCount);
+    i = BTL_CALC_GetScanStartIndex(BTL_MAIN_GetRule(client->main), client->slotCount);
     c = 0;
     for (; i < n; i = (u8)(i + 1)) {
-        if (func_021D5B7C(func_021B9C00(client->sideData, i))) {
+        if (BTL_POKEPARAM_IsAbleToBattle(func_021B9C00(client->sideData, i))) {
             if (out)
                 out[c] = i;
             c = (u8)(c + 1);
@@ -4659,7 +4659,7 @@ u8 func_021D0980(BtlClient *client, u8 *out)
 
 /*
  * pass 6 2026-10-06 P6L01: EXACT* (302 B code plus 2 B pad), also EXACT* under -lang c99. The
- * closing change is u16 type with func_021D799C declared (int, u16). The callee
+ * closing change is u16 type with BTL_CALC_GetTypeAffinityVsPair declared (int, u16). The callee
  * (ov093_func_021D799C.c) also matches EXACT with a u16 second parameter, so the prototype is consistent.
  * Why it closes (seen in a debugger capture of the post-RA scheduler of mwccarm): a word-sized spill of a
  * narrow variable gets the "narrow locals" alias set. With int type, the type store after the call
@@ -4679,22 +4679,22 @@ void func_021D09E0(BtlClient *client, u8 *order, u8 count, void *target)
     u16 power;
     u16 temp;
     u8 tempid;
-    type = func_021D57FC(target);
+    type = BTL_POKEPARAM_GetTypePair(target);
     for (i = 0; i < count; i++) {
         scores[i] = 0;
         mon = func_021B9C00(client->sideData, order[i]);
-        if (!func_021D5B68(mon)) {
+        if (!BTL_POKEPARAM_IsFainted(mon)) {
             u8 n;
-            n = func_021D5448(mon);
+            n = BTL_POKEPARAM_GetMoveCount(mon);
             for (j = 0; j < n; j++) {
-                if (func_021D5584(mon, j)) {
-                    move = func_021D54C0(mon, j);
+                if (BTL_POKEPARAM_GetMovePPChecked(mon, j)) {
+                    move = BTL_POKEPARAM_GetMoveId(mon, j);
                     if (WAZA_TOOL_IsDamaging((void *)(u32)move)) {
                         int kind;
                         kind = WAZA_TOOL_GetType((void *)(u32)move);
                         power = WAZA_TOOL_GetPower((void *)(u32)move);
                         if (power < 10) power = 60;
-                        switch (func_021D799C(kind, type)) {
+                        switch (BTL_CALC_GetTypeAffinityVsPair(kind, type)) {
                         case 5: power *= 4; break;
                         case 4: power *= 2; break;
                         case 2: power /= 2; break;
@@ -4726,7 +4726,7 @@ void func_021D09E0(BtlClient *client, u8 *order, u8 count, void *target)
 
 
 
-void func_021D0B10(BtlClient *client, u32 a, u32 b, void *q, void *out)
+void BTL_CLIENT_BuildSlotChoices(BtlClient *client, u32 a, u32 b, void *q, void *out)
 {
     func_0689CA98(q, (unsigned int)client->sideData, b, a);
     func_0689CAB0(q, client->slotCount);
@@ -4744,7 +4744,7 @@ void func_021D0B6C(BtlClient *client, u8 *s)
     u8 i;
 
     for (i = 0; i < s[6]; i++)
-        func_021D8394((u8 *)client->actions + i * 4, s[i + 3], s[i]);
+        BTL_ACTION_SetChange((u8 *)client->actions + i * 4, s[i + 3], s[i]);
     client->sendData = (u8 *)client->actions;
     client->sendSize = s[6] << 2;
 }
@@ -4768,8 +4768,8 @@ void func_021D0BB0(BtlClient *client)
     for (i = 0; i < client->pairCount; i++) {
         func_021B8E28(client->main, client->pairs[i], &pair[1], &pair[0]);
         for (j = start; j < n; j++) {
-            if (!func_021D5B68(func_021B9C00(client->sideData, (u8)j))) {
-                func_021D8394((u8 *)client->actions + count++ * 4, pair[0], j);
+            if (!BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)j))) {
+                BTL_ACTION_SetChange((u8 *)client->actions + count++ * 4, pair[0], j);
                 start = j + 1;
                 break;
             }
@@ -4792,7 +4792,7 @@ u8 func_021D0C78(BtlClient *client, u8 *out)
     u32 i;
     u32 cnt;
 
-    n = func_021EEC20((int)client->netChannel, &arr);
+    n = BTL_ADAPTER_GetRecvData((int)client->netChannel, &arr);
     i = 0;
     cnt = 0;
     for (; i < n; i++) {
@@ -4843,7 +4843,7 @@ int func_021D0CC4(BtlClient *client, int *state)
 
 
 
-int func_021D0D38(BtlClient *client, int *state)
+int BTL_CLIENT_StepChoiceMode2(BtlClient *client, int *state)
 {
     return func_021D0E7C(client, state, 2);
 }
@@ -4852,7 +4852,7 @@ int func_021D0D38(BtlClient *client, int *state)
 
 
 
-int func_021D0D44(BtlClient *client, int *state)
+int BTL_CLIENT_StepChoiceMode1(BtlClient *client, int *state)
 {
     return func_021D0E7C(client, state, 1);
 }
@@ -4886,7 +4886,7 @@ int func_021D0D50(BtlClient *client)
             target = func_021CFD50(client,client->pairs[0]);
             if (target) func_021D09E0(client,order,n,target);
             if (count > n) {
-                if (func_021B8588(client->main) == 3) {
+                if (BTL_MAIN_GetRule(client->main) == 3) {
                     result = func_021D1058(client,client->actions);
                     if (result) {
                         client->sendSize = result;
@@ -4898,12 +4898,12 @@ int func_021D0D50(BtlClient *client)
             }
             for (i=0;i<count;i++) {
                 func_021B8E28(client->main,client->pairs[i],pair,pair+1);
-                func_021D8394((u8 *)client->actions+i*4,pair[1],order[i]);
+                BTL_ACTION_SetChange((u8 *)client->actions+i*4,pair[1],order[i]);
             }
             *(void * *)&client->sendData = client->actions;
             client->sendSize = count*4;
         } else {
-            if (func_021D102C(client)) {
+            if (BTL_CLIENT_IsDoubleBattleLeadAlive(client)) {
                 result = func_021D1058(client,client->actions);
                 if (result) {
                     client->sendSize = result;
@@ -4911,12 +4911,12 @@ int func_021D0D50(BtlClient *client)
                     return 1;
                 }
             }
-            func_021D83C4(client->actions);
+            BTL_ACTION_SetChangeDepleted(client->actions);
             *(void * *)&client->sendData = client->actions;
             client->sendSize = 4;
         }
     } else {
-        func_021D8434(client->actions);
+        BTL_CALC_ActionSetNone(client->actions);
         *(void * *)&client->sendData = client->actions;
         client->sendSize = 4;
     }
@@ -4960,10 +4960,10 @@ int func_021D0E7C(BtlClient *client, int *state, u8 param)
             if (n != 0) {
                 count = ((CountField *)client)->count;
                 if (count > n) count = n;
-                if (func_021D102C(client) != 0) {
+                if (BTL_CLIENT_IsDoubleBattleLeadAlive(client) != 0) {
                     mon = func_021B9C00(client->sideData, 0);
-                    if (n == 1 && func_021D5B68(mon) != 0) {
-                        func_021D8394(client->actions, 0, order[0]);
+                    if (n == 1 && BTL_POKEPARAM_IsFainted(mon) != 0) {
+                        BTL_ACTION_SetChange(client->actions, 0, order[0]);
                         client->sendData = (u8 *)client->actions;
                         client->sendSize = 4;
                         *state = 4;
@@ -4971,31 +4971,31 @@ int func_021D0E7C(BtlClient *client, int *state, u8 param)
                     }
                 }
                 func_021B8E28(client->main, client->pairs[0], &pair[1], &pair[0]);
-                func_021D0B10(client, param, count, client->slotChoices, client->choiceFlags);
+                BTL_CLIENT_BuildSlotChoices(client, param, count, client->slotChoices, client->choiceFlags);
                 func_021E9A78(client->view, client->slotChoices, pair[0], 0, client->choiceFlags);
-                func_021CE068(client);
+                BTL_CLIENT_StartTimeLimit(client);
                 *state = 1;
             } else {
-                if (func_021D102C(client) != 0 && (mode = func_021D1058(client, client->actions)) != 0) {
+                if (BTL_CLIENT_IsDoubleBattleLeadAlive(client) != 0 && (mode = func_021D1058(client, client->actions)) != 0) {
                     client->sendSize = mode;
                     client->sendData = (u8 *)client->actions;
                     *state = 4;
                 } else {
-                    func_021D83C4(client->actions);
+                    BTL_ACTION_SetChangeDepleted(client->actions);
                     client->sendData = (u8 *)client->actions;
                     client->sendSize = 4;
                     *state = 4;
                 }
             }
         } else {
-            func_021D8434(client->actions);
+            BTL_CALC_ActionSetNone(client->actions);
             client->sendData = (u8 *)client->actions;
             client->sendSize = 4;
             *state = 4;
         }
         break;
     case 1:
-        if (func_021CE08C(client) != 0) {
+        if (BTL_CLIENT_PollTimeLimitReady(client) != 0) {
             func_021E9B14(client->view);
             *state = 2;
         } else if (func_021E9B20(client->view) != 0) {
@@ -5010,11 +5010,11 @@ int func_021D0E7C(BtlClient *client, int *state, u8 param)
         }
         break;
     case 3:
-        func_021CE0E0(client);
+        BTL_CLIENT_StopTimeLimit(client);
         *state = 4;
         break;
     case 4:
-        if (func_021B86C0(client->main) != 0) {
+        if (BTL_MAIN_GetCommPos(client->main) != 0) {
             client->viewLocked = 1;
             func_021EA7FC(client->view);
             *state = 5;
@@ -5041,9 +5041,9 @@ int func_021D0E7C(BtlClient *client, int *state, u8 param)
 /*
  * extent: compiled 42 bytes followed by two zero alignment bytes.
  */
-int func_021D102C(BtlClient *client)
+int BTL_CLIENT_IsDoubleBattleLeadAlive(BtlClient *client)
 {
-    if (func_021B8588(client->main) == 3 && func_021D5B68(func_021B9C00(client->sideData, 0)) != 0) return 1;
+    if (BTL_MAIN_GetRule(client->main) == 3 && BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, 0)) != 0) return 1;
     return 0;
 }
 
@@ -5058,13 +5058,13 @@ int func_021D1058(BtlClient *client, void *q)
     int k;
 
     k = 2;
-    if (func_021D5B68(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(2))) == 0) {
-        func_021D83FC(q, k);
+    if (BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(2))) == 0) {
+        BTL_ACTION_SetRotate(q, k);
         return 4;
     }
     k = 3;
-    if (func_021D5B68(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(3))) == 0) {
-        func_021D83FC(q, k);
+    if (BTL_POKEPARAM_IsFainted(func_021B9C00(client->sideData, (u8)(int)func_021B9AB0(3))) == 0) {
+        BTL_ACTION_SetRotate(q, k);
         return 4;
     }
     return 0;
@@ -5079,7 +5079,7 @@ int func_021D10B8(BtlClient *client, int *state)
     u8 count;
     switch (*state) {
     case 0:
-        func_021EEC20((int)client->netChannel, &args);
+        BTL_ADAPTER_GetRecvData((int)client->netChannel, &args);
         if (args[0] != 0x1F) {
             func_021EAF18((struct L *)&client->messageA, 1, 0x14);
             func_021EAF50((struct L *)&client->messageA, 1);
@@ -5102,7 +5102,7 @@ int func_021D10B8(BtlClient *client, int *state)
         if (func_021EA710(client->view) != 0) {
             if (func_021EAC54(client->view, &choice) != 0) {
                 if (choice == 0) {
-                    func_021D0B10(client, 0, 1, client->slotChoices, client->choiceFlags);
+                    BTL_CLIENT_BuildSlotChoices(client, 0, 1, client->slotChoices, client->choiceFlags);
                     func_021E9A78(client->view, client->slotChoices, 0, 0, client->choiceFlags);
                     *state = 3;
                 } else *state = 4;
@@ -5114,7 +5114,7 @@ int func_021D10B8(BtlClient *client, int *state)
             if (func_0689CB14(client->choiceFlags) == 0) {
                 count = func_0689CB1C(client->choiceFlags);
                 if (count != 0 && count < 6) {
-                    func_021D8394(client->actions, 0, count);
+                    BTL_ACTION_SetChange(client->actions, 0, count);
                     *state = 5;
                 } else {
 invalid:
@@ -5124,7 +5124,7 @@ invalid:
         }
         break;
     case 4:
-        func_021D8434(client->actions);
+        BTL_CALC_ActionSetNone(client->actions);
         *state = 5;
     case 5:
         client->sendData = (u8 *)client->actions;
@@ -5147,12 +5147,12 @@ invalid:
 int func_021D123C(BtlClient *client)
 {
     u8 *tmp;
-    int r4 = func_021EEC20((int)client->netChannel, &tmp);
+    int r4 = BTL_ADAPTER_GetRecvData((int)client->netChannel, &tmp);
     if (client->timeLimitTimer != 0)
-        func_021EE608((u8 *)(client->timeLimitTimer), (const u8 *)tmp, r4);
+        BTL_REC_AppendPacket((u8 *)(client->timeLimitTimer), (const u8 *)tmp, r4);
     if (client->requestParam != 0) {
-        func_021BB4E0((Obj_td *)client->requestParam, tmp, r4);
-        client->requestId = func_021EE638((u8 *)tmp);
+        BTL_SERVER_LoadRecorderReplies((Obj_td *)client->requestParam, tmp, r4);
+        client->requestId = BTL_REC_GetPacketId((u8 *)tmp);
     }
     return 1;
 }
@@ -5201,7 +5201,7 @@ int func_021D1290(BtlClient *client, int *state, void *a2)
             return 1;
         idx = func_021B904C(client->main, 0);
         mode = func_021D13A4(client);
-        flag = func_021B86C8((unsigned char **)(client->main));
+        flag = BTL_MAIN_IsMultiMode((unsigned char **)(client->main));
         func_021B916C(client->main, mode);
         switch (mode) {
         case 1: msg = flag != 0 ? 0x31 : 0x30; break;
@@ -5215,7 +5215,7 @@ int func_021D1290(BtlClient *client, int *state, void *a2)
             func_021EAF50((struct L *)&client->messageA, func_021B904C(client->main, 1));
         func_021EA614(client->view, &client->messageA);
         if (mode == 1) {
-            GFL_USE_CancelChangeAndPlayBgm(func_021B86DC(client->main), 0xFFFF);
+            GFL_USE_CancelChangeAndPlayBgm(BTL_MAIN_GetWinBgm(client->main), 0xFFFF);
             (*state)++;
         } else {
             GFL_USE_FadeOutBgm(0x1E);
@@ -5252,7 +5252,7 @@ int func_021D13A4(BtlClient *client)
 {
     u16 *q;
 
-    func_021EEC20((int)client->netChannel, (u8 **)&q);
+    BTL_ADAPTER_GetRecvData((int)client->netChannel, (u8 **)&q);
     switch (q[1]) {
     case 0:
         if (func_021B902C((u8)q[0], client->clientId) == 0)
@@ -5298,7 +5298,7 @@ int func_021D1410(BtlClient *client, int *state, void *q)
     switch (*state) {
     case 0:
         if (func_021D13A4(client) == 1) {
-            func_021F878C(func_021B86DC(client->main));
+            func_021F878C(BTL_MAIN_GetWinBgm(client->main));
             a = func_021B904C(client->main, 0);
             b = func_021B904C(client->main, 1);
             if (a == b) {
@@ -5468,7 +5468,7 @@ int func_021D171C(BtlClient *client, int *state, void *a2)
         if (client->flags.bit.windowDone != 0) return 1;
         mode = func_021D13A4(client);
         func_021B916C(client->main, mode);
-        if (mode == 1) func_021F878C(func_021B86DC(client->main));
+        if (mode == 1) func_021F878C(BTL_MAIN_GetWinBgm(client->main));
         if (mode <= 1) {
             idx = func_021B904C(client->main, 0);
             func_021F7F58(func_021BA020(client->main, idx), 9, 0, 0, 0);
@@ -5702,9 +5702,9 @@ int func_021D1A74(BtlClient *client, int *state, void *a2)
 again:
     switch (*state) {
     case 0:
-        size = func_021EEC20((int)client->netChannel, &args);
+        size = BTL_ADAPTER_GetRecvData((int)client->netChannel, &args);
         if (client->requestParam != 0 && client->requestId != 0 && client->flags.bit.requestSet != 0) {
-            if (func_021BB570((u8 *)client->requestParam, client->requestId, args, size) != 0) {
+            if (BTL_SERVER_CompareFlowOutput((u8 *)client->requestParam, client->requestId, args, size) != 0) {
                 func_021B9184(client->main);
                 client->flags.bit.requestSet = 0;
             }
@@ -5729,7 +5729,7 @@ again:
         if (func_021D3F4C(client->commandQueue) != 0) return 1;
         (*state)++;
     case 2:
-        code = func_021CD5E0(client->workBuffer, (s32 *)client->seqCursorBuf);
+        code = BTL_SERVER_CMD_ReadNext(client->workBuffer, (s32 *)client->seqCursorBuf);
         client->seqCode = code;
         if (code == 0x5E) return 1;
         for (i = 0; i < 0x5D; i++) {
@@ -5798,8 +5798,8 @@ int func_021D1C40(BtlClient *client, u8 x, int *out)
 
     if (x == client->clientId) {
         *out = 0;
-        if (func_021B8588(client->main) == 0 && func_021B86C0(client->main) == 0) {
-            v = func_021CDEE8(client);
+        if (BTL_MAIN_GetRule(client->main) == 0 && BTL_MAIN_GetCommPos(client->main) == 0) {
+            v = BTL_CLIENT_HasMonParamDropped(client);
             if (v >= 0x4b)
                 return 0x1d;
             if (v > 0x32)
@@ -5881,7 +5881,7 @@ int func_021D1CF4(BtlClient *client, int *state, const u32 *params)
     switch (*state) {
     case 0:
         if (flag != 0) {
-            id = func_021D5440(func_021B9920(client->side, a, b));
+            id = BTL_POKEPARAM_GetPokeId(func_021B9920(client->side, a, b));
             if (func_021B8CE8((int)(client->main), client->clientId, a) == 0) {
                 if (client->clientId == a) {
                     func_021EAF18((struct L *)&client->messageA, 1, func_021D1DF4(client));
@@ -5900,13 +5900,13 @@ int func_021D1CF4(BtlClient *client, int *state, const u32 *params)
         break;
     case 1:
         if (func_021EA710(client->view) != 0) {
-            func_021EA488(client->view, func_021B8BEC(client->main, a, b), a, b);
+            func_021EA488(client->view, BTL_MAIN_GetClientTrainerIndex(client->main, a, b), a, b);
             (*state)++;
         }
         break;
     case 2:
         if (func_021EA4C4(client->view) != 0) {
-            func_021CDECC(client);
+            BTL_CLIENT_StoreMonParam(client);
             return 1;
         }
         break;
@@ -5928,12 +5928,12 @@ int func_021D1DF4(BtlClient *client)
     u8 t;
     int v;
 
-    if (func_021B8588(client->main) == 0) {
+    if (BTL_MAIN_GetRule(client->main) == 0) {
         t = func_021B9064(client->main, client->clientId, 0);
         m = func_021B9920(client->side, t, 0);
-        if (func_021D5B68(m) != 0)
+        if (BTL_POKEPARAM_IsFainted(m) != 0)
             return 0xb;
-        v = func_021D5C44((struct Rat *)m);
+        v = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)m);
         if (v >= 0x4d800)
             return 0xb;
         if (v >= 0x37000)
@@ -5959,7 +5959,7 @@ int func_021D1E6C(BtlClient *client, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
-        if (func_021CD9E0(client)) {
+        if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
         func_021EA678(client->view, a[0], (int *)(a + 1));
@@ -5986,7 +5986,7 @@ int func_021D1EB4(BtlClient *client, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
-        if (func_021CD9E0(client)) {
+        if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
         func_021EA678(client->view, a[0], (int *)(a + 2));
@@ -6016,7 +6016,7 @@ int func_021D1F10(BtlClient *client, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
-        if (func_021CD9E0(client)) {
+        if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
         func_021EA694(client->view, a[0], (int *)(a + 1));
@@ -6043,7 +6043,7 @@ int func_021D1F58(BtlClient *client, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
-        if (func_021CD9E0(client)) {
+        if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
         func_021EA694(client->view, a[0], (int *)(a + 2));
@@ -6072,7 +6072,7 @@ int func_021D1FB4(BtlClient *client, int *state, u32 *a)
 {
     switch (*state) {
     case 0:
-        if (func_021CD9E0(client)) {
+        if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
         func_021EA6F4(client->view, a[0], a[1]);
@@ -6106,7 +6106,7 @@ u32 func_021D2000(BtlClient *client, u32 k, u8 b)
     }
     r = func_021B98AC((char *const *)client->side, b);
     if (r) {
-        return func_021D80A8(r);
+        return BTL_CALC_GetCurseTargetKind(r);
     }
     return func_0201BD28(k, 0x1B);
 }
@@ -6134,10 +6134,10 @@ int func_021D2030(BtlClient *client, int *state, const u32 *a)
     u32 result;
     switch (*state) {
     case 0:
-        if (func_021CD9E0(client)) {
+        if (BTL_CLIENT_IsMainStepActive(client)) {
             return 1;
         }
-        if (func_021B8590((unsigned char *)client->main)) {
+        if (BTL_MAIN_CheckSceneOff((unsigned char *)client->main)) {
             v = (u8)a[0];
             t1 = (u8)a[1];
             t2 = (u16)a[2];
@@ -6237,7 +6237,7 @@ int func_021D215C(BtlClient *client, int *state, u32 *a)
         p1 = a[1];
         p2 = a[2];
         for (i = 0; i < n; i++) {
-            buf[i] = func_021CD644(client->workBuffer);
+            buf[i] = BTL_SERVER_CMD_ReadU8Wrapper(client->workBuffer);
         }
         func_021EA280(client->view, n, p1, buf, p2);
         *state = *state + 1;
@@ -6321,7 +6321,7 @@ int func_021D2278(BtlClient *client, int *state, u32 *a)
 
     switch (*state) {
     case 0:
-        if (func_021CD9E0(client) == 0) {
+        if (BTL_CLIENT_IsMainStepActive(client) == 0) {
             t = func_021B8D8C(client->main, client->side, (u8)a[0]);
             func_021EA0A0(client->view, t, t, 1, func_0201BD28(1, 0x1B), 0, 0);
         }
@@ -6330,7 +6330,7 @@ int func_021D2278(BtlClient *client, int *state, u32 *a)
     case 1:
         if (func_021EA0E4(client->view)) {
             t = func_021B8D8C(client->main, client->side, (u8)a[0]);
-            if (func_021CD9E0(client) == 0) {
+            if (BTL_CLIENT_IsMainStepActive(client) == 0) {
                 func_020061E4(0x564);
             }
             func_021EA0F4(client->view, 1, t, 1);
@@ -6363,7 +6363,7 @@ int func_021D2320(BtlClient *client, int *st, u32 *c)
         break;
     case 1:
         if (func_021EA428(client->view)) {
-            func_021D646C(func_021B9934(client->side, (u8)(*c)));
+            BTL_POKEPARAM_ResetAllEffects(func_021B9934(client->side, (u8)(*c)));
             return 1;
         }
         break;
@@ -6408,9 +6408,9 @@ int func_021D23B8(BtlClient *client, int *st, u32 *c)
 
     switch (*st) {
     case 0:
-        if (func_021CD9E0(client))
+        if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
-        if (!func_021B8590(client->main))
+        if (!BTL_MAIN_CheckSceneOff(client->main))
             return 1;
         func_021EA7C8(client->view, t);
         (*st)++;
@@ -6437,9 +6437,9 @@ int func_021D2424(BtlClient *client, int *st, u32 *c)
 
     switch (*st) {
     case 0:
-        if (func_021CD9E0(client))
+        if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
-        if (!func_021B8590(client->main))
+        if (!BTL_MAIN_CheckSceneOff(client->main))
             return 1;
         func_021EA7D8(client->view, t);
         (*st)++;
@@ -6466,8 +6466,8 @@ int func_021D2490(BtlClient *client, int *st, u32 *c)
 
     switch (*st) {
     case 0:
-        func_021EF9C0(client->battleField, (u8)id, (u16)c[1]);
-        if (func_021CD9E0(client))
+        BTL_FIELD_StoreCountdown(client->battleField, (u8)id, (u16)c[1]);
+        if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
         if (id < 5)
             func_021F7998(d_021EFFAE[id].b);
@@ -6522,7 +6522,7 @@ int func_021D2510(BtlClient *client, int *st, u32 *c)
         break;
     case 1:
         if (func_021EA710(client->view)) {
-            func_021EF9C8(client->battleField);
+            BTL_FIELD_ClearCountdown(client->battleField);
             return 1;
         }
         break;
@@ -6567,9 +6567,9 @@ int func_021D25C4(BtlClient *client, int *st, u32 *c)
 
     switch (*st) {
     case 0:
-        if (func_021CD9E0(client))
+        if (BTL_CLIENT_IsMainStepActive(client))
             return 1;
-        if (!func_021B8590(client->main))
+        if (!BTL_MAIN_CheckSceneOff(client->main))
             return 1;
         func_021EA838(client->view, t);
         (*st)++;
@@ -6657,8 +6657,8 @@ int func_021D2700(BtlClient *client, int *st, u32 *c)
         if (!func_021F7EB4()) {
             u8 a = c[0], b = c[1];
             u32 x, y, v, w;
-            x = func_021B8BEC(client->main, a, b);
-            y = func_021B8BEC(client->main, a, 1);
+            x = BTL_MAIN_GetClientTrainerIndex(client->main, a, b);
+            y = BTL_MAIN_GetClientTrainerIndex(client->main, a, 1);
             v = func_021B8E70(client->main, x);
             w = func_021B8E70(client->main, y);
             func_021B9C10((u32 *)func_021B9AEC(client->side, a), b, 1);
@@ -6670,8 +6670,8 @@ int func_021D2700(BtlClient *client, int *st, u32 *c)
         if (func_021EA950(client->view)) {
             u8 a = c[2], b = c[3];
             u32 x, y, v, w;
-            x = func_021B8BEC(client->main, a, b);
-            y = func_021B8BEC(client->main, a, 1);
+            x = BTL_MAIN_GetClientTrainerIndex(client->main, a, b);
+            y = BTL_MAIN_GetClientTrainerIndex(client->main, a, 1);
             v = func_021B8E70(client->main, x);
             w = func_021B8E70(client->main, y);
             func_021B9C10((u32 *)func_021B9AEC(client->side, a), b, 1);
@@ -6724,7 +6724,7 @@ int func_021D284C(BtlClient *client, int *st, u32 *c)
     switch (*st) {
     case 0: {
         u32 t = func_021B8E70(client->main, (u8)(*c));
-        if (func_021CD9E0(client))
+        if (BTL_CLIENT_IsMainStepActive(client))
             func_021F88BC(1);
         func_021F7EA4(t);
         (*st)++;
@@ -6732,7 +6732,7 @@ int func_021D284C(BtlClient *client, int *st, u32 *c)
     }
     case 1:
         if (!func_021F7EB4()) {
-            if (func_021CD9E0(client))
+            if (BTL_CLIENT_IsMainStepActive(client))
                 func_021F88BC(0);
             return 1;
         }
@@ -6757,7 +6757,7 @@ int func_021D28AC(BtlClient *client, int *st, u32 *c)
         u8 *b = func_021B9934(client->side, (u8)c[1]);
         int d = (int)func_021B8DC0(client->main, client->side, (u8)c[0]);
         int e = (int)func_021B8DC0(client->main, client->side, (u8)c[1]);
-        func_021D6C50((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b);
+        BTL_POKEPARAM_Transform((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b);
         func_021EA8B4(client->view, d, e);
         (*st)++;
         break;
@@ -6783,9 +6783,9 @@ int func_021D2930(BtlClient *client, int *b, u32 *c)
 
     switch (*b) {
     case 0:
-        if (func_021CD9E0(client) == 0) {
+        if (BTL_CLIENT_IsMainStepActive(client) == 0) {
             t = func_021B8D8C(client->main, client->side, (u8)c[0]);
-            func_021EA1B8(client->view, (u16)c[2], t, func_021D7AD4(c[1]));
+            func_021EA1B8(client->view, (u16)c[2], t, BTL_CALC_SummarizeTypeAffinity(c[1]));
             (*b)++;
             break;
         }
@@ -6845,7 +6845,7 @@ int func_021D29CC(BtlClient *client, int b, u32 *c)
     int k;
     u32 v;
 
-    m = func_021D5844(func_021B9934(client->side, (u8)c[0]));
+    m = BTL_POKEPARAM_GetMon(func_021B9934(client->side, (u8)c[0]));
     for (i = 0; i < 6; i++) {
         if (d_021EFF88[i + 1] != 0) {
             k = d_021EFF88[i];
@@ -6853,7 +6853,7 @@ int func_021D29CC(BtlClient *client, int b, u32 *c)
             if (v > 0xff) {
                 v = 0xff;
             }
-            func_02017E40(m, k, v);
+            POKE_TOOL_SetPartyValue(m, k, v);
         }
     }
     return 1;
@@ -6891,7 +6891,7 @@ int func_021D2A20(BtlClient *client, int *state, u32 *args)
     case 1:
         if (d_021F3B64.s.remaining) {
             remaining = d_021F3B64.s.remaining;
-            if (func_021D69B8(obj, &remaining, (struct Result *)d_021F3B64.s.result)) {
+            if (BTL_POKEPARAM_AddExp(obj, &remaining, (struct Result *)d_021F3B64.s.result)) {
                 *state = 3;
             } else {
                 if (enabled) {
@@ -6907,8 +6907,8 @@ int func_021D2A20(BtlClient *client, int *state, u32 *args)
         if (!func_021F8180()) *state = 13;
         break;
     case 3:
-        func_021D6EA0(obj);
-        func_021D6BFC(obj);
+        BTL_EVENT_ReleaseClientHandle(obj);
+        BTL_POKEPARAM_ReloadFromParam(obj);
         if (enabled) {
             func_021F8150(index, obj);
             *state = 4;
@@ -6945,7 +6945,7 @@ int func_021D2A20(BtlClient *client, int *state, u32 *args)
         break;
     case 8:
         d_021F3B64.s.counter++;
-        if ((func_020362DC() & 3) || func_02035C60() || d_021F3B64.s.counter > 80) {
+        if ((func_020362DC() & 3) || TOUCHPANEL_GetTrg() || d_021F3B64.s.counter > 80) {
             d_021F3B64.s.counter = 0;
             func_021BA238(client->main, obj);
             func_021EADA4(client->view, (int)obj, d_021F3B64.s.result);
@@ -6953,13 +6953,13 @@ int func_021D2A20(BtlClient *client, int *state, u32 *args)
         }
         break;
     case 9:
-        if (func_021EADB4(client->view) && ((func_020362DC() & 3) || func_02035C60())) {
+        if (func_021EADB4(client->view) && ((func_020362DC() & 3) || TOUCHPANEL_GetTrg())) {
             func_021EADC4(client->view);
             *state = 10;
         }
         break;
     case 10:
-        if (func_021EADD4(client->view) && ((func_020362DC() & 3) || func_02035C60())) {
+        if (func_021EADD4(client->view) && ((func_020362DC() & 3) || TOUCHPANEL_GetTrg())) {
             func_021EADE4(client->view);
             *state = 11;
         }
@@ -7004,7 +7004,7 @@ int func_021D2C7C(int n)
 
 int func_021D2CA8(BtlClient *client, int *state, void *mon)
 {
-    int idx = func_021D5440(mon);
+    int idx = BTL_POKEPARAM_GetPokeId(mon);
 
     switch (*state) {
     case 0:
@@ -7012,7 +7012,7 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
         g_021F3B64.move = 0;
         *state = 1;
     case 1:
-        g_021F3B64.move = POKE_TOOL_GetLevelUpMove(func_021D5844(mon), &g_021F3B64.iter, client->heapId);
+        g_021F3B64.move = POKE_TOOL_GetLevelUpMove(BTL_POKEPARAM_GetMon(mon), &g_021F3B64.iter, client->heapId);
         if (g_021F3B64.move == 0)
             return 1;
         if (g_021F3B64.move == 0xFFFE)
@@ -7026,8 +7026,8 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
         break;
     case 2: {
         void *p = func_021B9934(client->side, idx);
-        func_021D5844(p);
-        func_021D6BFC(p);
+        BTL_POKEPARAM_GetMon(p);
+        BTL_POKEPARAM_ReloadFromParam(p);
         func_021EAF18((struct L *)(&client->messageA), 5, 3);
         func_021EAF50((struct L *)(&client->messageA), idx);
         func_021EAF50((struct L *)(&client->messageA), g_021F3B64.move);
@@ -7089,7 +7089,7 @@ int func_021D2CA8(BtlClient *client, int *state, void *mon)
             *state = 5;
             break;
         }
-        pp = func_021D5844(func_021B9934(client->side, idx));
+        pp = BTL_POKEPARAM_GetMon(func_021B9934(client->side, idx));
         old = func_02017E1C(pp, slot + 54, 0);
         func_020181F4(pp, g_021F3B64.move, slot);
         func_021EAF18((struct L *)(&client->messageA), 5, 5);
@@ -7166,7 +7166,7 @@ int func_021D2FD8(BtlClient *client, int *b, const u32 *c)
             if (c[2]) {
                 u8 *p = func_021B98AC((char *const *)client->side, (u8)c[0]);
                 func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x41);
-                func_021EAF50((struct L *)((u8 *)&client->messageA), func_021D5440(p));
+                func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(p));
                 func_021F883C(0x518);
             } else {
                 int msg;
@@ -7194,7 +7194,7 @@ int func_021D2FD8(BtlClient *client, int *b, const u32 *c)
             if (c[3]) {
                 u8 *p = func_021B98AC((char *const *)client->side, (u8)c[0]);
                 func_021EAF18((struct L *)((u8 *)&client->messageA), 1, 0x42);
-                func_021EAF50((struct L *)((u8 *)&client->messageA), func_021D5440(p));
+                func_021EAF50((struct L *)((u8 *)&client->messageA), BTL_POKEPARAM_GetPokeId(p));
                 func_021EA614(client->view, ((u8 *)&client->messageA));
                 (*b)++;
             } else return 1;
@@ -7312,8 +7312,8 @@ int func_021D324C(BtlClient *client, int *b, u32 *c)
     s = func_021B8D8C(client->main, client->side, u);
     switch (*b) {
     case 0:
-        if (func_021CD9E0(client) != 0) {
-            func_021D66D0((struct QJ *)func_021B9934(client->side, u), c[1]);
+        if (BTL_CLIENT_IsMainStepActive(client) != 0) {
+            BTL_POKEPARAM_SetAbility((struct QJ *)func_021B9934(client->side, u), c[1]);
             return 1;
         }
         func_021EA768(client->view, s, 0);
@@ -7321,7 +7321,7 @@ int func_021D324C(BtlClient *client, int *b, u32 *c)
         break;
     case 1:
         if (func_021EA778(client->view, s) != 0) {
-            func_021D66D0((struct QJ *)func_021B9934(client->side, u), c[1]);
+            BTL_POKEPARAM_SetAbility((struct QJ *)func_021B9934(client->side, u), c[1]);
             func_021EA7A8(client->view, s);
             (*b)++;
         }
@@ -7343,8 +7343,8 @@ int func_021D324C(BtlClient *client, int *b, u32 *c)
 
 /*
  * pass 6 2026-10-06 P6L08: EXACT (364 B), also EXACT under -lang c99. The closing change is u16 x, y
- * with func_021D66D0 declared (void *, u16), non-const a, and source order u, v, x, y. The callee
- * (func_021D66D0.c, strh to a u16 field) also matches EXACT with a u16 parameter, so the prototype is
+ * with BTL_POKEPARAM_SetAbility declared (void *, u16), non-const a, and source order u, v, x, y. The callee
+ * (BTL_POKEPARAM_SetAbility.c, strh to a u16 field) also matches EXACT with a u16 parameter, so the prototype is
  * consistent. Why it closes (scheduler trace, scratchpad wD9r/p6_P6L08): the word spill of the narrow
  * variable x uses the unknown-memory alias set (AO1), not a fresh spill alias object. With non-const a,
  * the pointee of a is in that set, so `str x, [sp]` gets a memory edge to the a[1] load and the load
@@ -7367,14 +7367,14 @@ int func_021D32E0(BtlClient *client, int *b, u32 *c)
     q = func_021B9934(client->side, v);
     switch (*b) {
     case 0:
-        if (func_021CD9E0(client)) {
-            func_021D66D0((struct QJ *)p, x);
-            func_021D66D0((struct QJ *)q, y);
+        if (BTL_CLIENT_IsMainStepActive(client)) {
+            BTL_POKEPARAM_SetAbility((struct QJ *)p, x);
+            BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
             return 1;
         }
         if (func_021B9A24(u, v)) {
-            func_021D66D0((struct QJ *)p, x);
-            func_021D66D0((struct QJ *)q, y);
+            BTL_POKEPARAM_SetAbility((struct QJ *)p, x);
+            BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
             return 1;
         }
         func_021EA768((u32 *)(client->view), s, 0);
@@ -7397,8 +7397,8 @@ int func_021D32E0(BtlClient *client, int *b, u32 *c)
         break;
     }
     case 3:
-        func_021D66D0((struct QJ *)p, x);
-        func_021D66D0((struct QJ *)q, y);
+        BTL_POKEPARAM_SetAbility((struct QJ *)p, x);
+        BTL_POKEPARAM_SetAbility((struct QJ *)q, y);
         d_021F3B64.w[1] = 0;
         (*b)++;
         break;
@@ -7441,8 +7441,8 @@ int func_021D344C(BtlClient *client, int *b, u32 *c)
         u = (u8)c[0];
         s = func_021B8D8C(client->main, client->side, u);
         m = func_021B9934(client->side, u);
-        f = func_021CD9E0(client);
-        func_021D6C2C((struct Unk021D6C2C *)m);
+        f = BTL_CLIENT_IsMainStepActive(client);
+        BTL_POKEPARAM_ClearIllusion((struct Unk021D6C2C *)m);
         func_021EA868(client->view, s, f);
         (*b)++;
         break;
@@ -7467,7 +7467,7 @@ int func_021D344C(BtlClient *client, int *b, u32 *c)
 int func_021D34B0(BtlClient *client, int *state, unsigned int *q)
 {
     if (*state == 0) {
-        if (func_021CD9E0(client) != 0) return 1;
+        if (BTL_CLIENT_IsMainStepActive(client) != 0) return 1;
         func_021F7998(q[0]);
         (*state)++;
     } else {
@@ -7487,10 +7487,10 @@ int func_021D34E8(BtlClient *client, int *b, u32 *c)
 
     k = func_021B8E70(client->main, (u8)c[0]);
     if (*b == 0) {
-        if (func_021CD9E0(client) != 0) {
+        if (BTL_CLIENT_IsMainStepActive(client) != 0) {
             return 1;
         }
-        if (func_021B8590((unsigned char *)client->main) == 0) {
+        if (BTL_MAIN_CheckSceneOff((unsigned char *)client->main) == 0) {
             if (func_0689C9D4((u16)c[1]) != 0) {
                 return 1;
             }

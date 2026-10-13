@@ -1,5 +1,5 @@
 /*
- * function: func_02158E38
+ * function: SCRIPT_SYS_SetCommandCheck
  * address: 0x02158E38
  * packet: pkt_ov010_02158E38
  * region: ov010
@@ -11,15 +11,15 @@
  * symbols:
  *   func_02011324 0x02011324 thumb
  *   func_02011328 0x02011328 thumb
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_02158DE8 0x02158DE8 thumb ov010
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   SCRIPT_SYS_CheckCommandPermit 0x02158DE8 thumb ov010
  */
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
-extern void *func_0215A5DC(void *a0);
-extern int func_02158DE8(int a, int b, int c, int idx);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern int SCRIPT_SYS_CheckCommandPermit(int a, int b, int c, int idx);
 extern void func_02011328(void *, int (*)(int, void *, void *, int), void *);
-void func_02158E38(void *a) {
-    void *b = func_0215A5DC(func_02011324(a));
-    func_02011328(a, (int (*)(int,  void *, void *, int))func_02158DE8, b);
+void SCRIPT_SYS_SetCommandCheck(void *a) {
+    void *b = SCRCMD_WORK_GetGameSystem(func_02011324(a));
+    func_02011328(a, (int (*)(int,  void *, void *, int))SCRIPT_SYS_CheckCommandPermit, b);
 }

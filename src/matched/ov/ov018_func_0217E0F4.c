@@ -1,5 +1,5 @@
 /*
- * function: func_0217E0F4
+ * function: INTRUDE_SUBDISP_UpdatePlayerTownActors
  * address:  0x0217E0F4
  * packet:   pkt_ov018_0217E0F4
  * region:   ov018
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0217E2E0  0x0217E2E0  thumb  ov018
- *   func_02012B58  0x02012B58  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   INTRUDE_SUBDISP_UpdateTownMarkPalette  0x0217E2E0  thumb  ov018
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B954  0x0204B954  arm
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   func_02013D5C  0x02013D5C  thumb
- *   func_0217BEA8  0x0217BEA8  thumb  ov018
+ *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
  *   func_0204B404  0x0204B404  arm
  *   func_0204B714  0x0204B714  arm
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   d_021836A4     0x021836A4  data   a1
  */
 
@@ -75,21 +75,21 @@ struct Actor;
 struct BigObj;
 struct Ctx;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void func_0217E2E0(Work *);
-extern u8 func_02012B58(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void INTRUDE_SUBDISP_UpdateTownMarkPalette(Work *);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B954(struct Actor *a, u32 v);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern u32 func_02013D5C(u32 id);
-extern u8 *func_0217BEA8(u16);
+extern u8 *INTRUDE_FIELD_FindZonePos(u16);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u32 func_0204B714(struct Obj *o);
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern const s8 d_021836A4[3][2];
 
-void func_0217E0F4(Work *p, Mon *m)
+void INTRUDE_SUBDISP_UpdatePlayerTownActors(Work *p, Mon *m)
 {
     void *sys;
     int cur;
@@ -103,20 +103,20 @@ void func_0217E0F4(Work *p, Mon *m)
     void *b;
     Pair l;
 
-    sys = func_020120F4(p->f00);
+    sys = GAMESYSTEM_GetGameData(p->f00);
     cur = p->fd8;
-    func_0217E2E0(p);
+    INTRUDE_SUBDISP_UpdateTownMarkPalette(p);
     for (i = 0; i < 3; i++) {
         obj = 0;
         prev = p->fec[i].ptr;
         previd = p->fec[i].id;
-        if (i != func_02012B58(sys)) {
+        if (i != GAME_DATA_GetExitMode(sys)) {
             p->fec[i].ptr = 0;
             p->fec[i].id = 0x1ab;
         }
         a = p->f8c[i];
         b = p->fa0[i];
-        if (i == func_02012B58(sys)) {
+        if (i == GAME_DATA_GetExitMode(sys)) {
             func_0204B3DC(a, 0);
             func_0204B3DC(b, 0);
             continue;
@@ -134,9 +134,9 @@ void func_0217E0F4(Work *p, Mon *m)
             continue;
         }
         if (e->hi == 2) {
-            func_0204B954(a, 0x2000);
+            CLACT_SetActorAutoAnimSpeed(a, 0x2000);
         } else {
-            func_0204B954(a, 0x1000);
+            CLACT_SetActorAutoAnimSpeed(a, 0x1000);
         }
         if (e->lo == cur) {
             if (func_02013D5C(e->f14) == 1) {
@@ -145,7 +145,7 @@ void func_0217E0F4(Work *p, Mon *m)
                 func_0204B3DC(b, 0);
             } else {
                 if (e->f14 != previd) {
-                    obj = func_0217BEA8(e->f14);
+                    obj = INTRUDE_FIELD_FindZonePos(e->f14);
                 } else {
                     obj = prev;
                 }
@@ -169,7 +169,7 @@ void func_0217E0F4(Work *p, Mon *m)
             func_0204B3DC(b, 0);
             for (k = 0; k < 3; k++) {
                 if (func_0204B714(p->f80[k]) == i + 1) {
-                    func_0204B454(p->f80[k], (struct PtS *)&l.p, 0);
+                    CLACT_GetActorSurfacePos(p->f80[k], (struct PtS *)&l.p, 0);
                     break;
                 }
             }

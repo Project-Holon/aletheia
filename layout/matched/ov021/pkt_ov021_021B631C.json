@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B631C",
+   "name": "SCRCMD_POKEMON_FLD_StartSelectEvent",
    "address": "0x021B631C",
    "kind": "game",
    "region": "ov021",

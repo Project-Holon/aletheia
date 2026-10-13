@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02011590
+ * function: ICA_ANIME_IncFrameLoop
  * address:  0x02011590
  * packet:   pkt_020113F0
  * region:   arm9
@@ -18,12 +18,12 @@
  * carry no label because they have no prologue, so they are written here as
  * what they are).
  *
- *   func_02011590   advance the clock, reset it if the frame count is
+ *   ICA_ANIME_IncFrameLoop   advance the clock, reset it if the frame count is
  *                   reached, and poke the animation when the new frame falls
  *                   outside [f14, f14 + f18)
  *   ICA_ANIME_IncFrameNoLoop   the same advance but returning "already finished" when
  *                   the frame at entry is past the count
- *   func_020115EC   set the clock outright
+ *   ICA_ANIME_SetFrame   set the clock outright
  *   (0x02011608)    getter: +0x0C
  *   (0x0201160C)    getter: +0x10
  *
@@ -55,7 +55,7 @@ struct IcaAnime {
 
 extern void ICA_ANIME_LoadFrames(struct IcaAnime *p, s32 v);
 
-u32 func_02011590(struct IcaAnime *p, s32 v)
+u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v)
 {
     s32 f;
     u32 r = 0;
@@ -86,7 +86,7 @@ u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *p, s32 v)
     return 1;
 }
 
-void func_020115EC(struct IcaAnime *p, s32 v)
+void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v)
 {
     s32 f = v >> 12;
 
@@ -100,7 +100,7 @@ u32 ICA_ANIME_GetFrameNum(struct IcaAnime *p)
     return p->f0c;
 }
 
-s32 func_0201160C(struct IcaAnime *p)
+s32 ICA_ANIME_GetFrame(struct IcaAnime *p)
 {
     return p->f10;
 }

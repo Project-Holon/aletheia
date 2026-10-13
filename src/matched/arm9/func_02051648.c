@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048A24  0x02048A24  arm
+ *   G3D_CAMERA_Create  0x02048A24  arm
  *   sDefaultCameraPos     0x020A1590  data
  *   sDefaultCameraTarget     0x020A1584  data
  *   sDefaultCameraUp     0x020A1578  data
@@ -18,7 +18,7 @@
  * Constructor for the 0x25c-byte emitter record: defaults the three pointer
  * arguments, zeroes three words, stores the id halfword, stamps the 0x25b
  * byte from the source record or from zero, then hands twelve arguments to
- * func_02048A24 and stores its return at +0x20.
+ * G3D_CAMERA_Create and stores its return at +0x20.
  *
  * CLOSES the 268/272 near miss written up in docs/notes/PARTICLE_InitCamera.c.txt,
  * whose whole residue was one missing `mov r0, #0`: the compiler kept the
@@ -63,7 +63,7 @@ extern struct G_020A1590 sDefaultCameraPos;
 extern struct G_020A1584 sDefaultCameraTarget;
 extern struct G_020A1578 sDefaultCameraUp;
 
-extern int func_02048A24(int a0, int a1, int a2, int a3, int a4, int a5,
+extern int G3D_CAMERA_Create(int a0, int a1, int a2, int a3, int a4, int a5,
                          int a6, int a7, int a8, int a9, int a10, int a11);
 
 struct Src648 {
@@ -97,12 +97,12 @@ void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a
 
     if (src != 0) {
         this->f25b = (u8)src->f00;
-        this->f20 = func_02048A24(src->f00, src->f04, src->f08, src->f0c,
+        this->f20 = G3D_CAMERA_Create(src->f00, src->f04, src->f08, src->f0c,
                                   src->f10, src->f14, src->f18, src->f1c,
                                   (int)a3, (int)a4, (int)a5, (u16)a6);
     } else {
         this->f25b = 0;
-        this->f20 = func_02048A24(0, 0xb50, 0xb50, 0x1555,
+        this->f20 = G3D_CAMERA_Create(0, 0xb50, 0xb50, 0x1555,
                                   0, 0x1000, 0x384000, 0,
                                   (int)a3, (int)a4, (int)a5, (u16)a6);
     }

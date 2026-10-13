@@ -1,5 +1,5 @@
 /*
- * function: func_021B15C8
+ * function: SCRCMD_MSGWIN_CmdSetAutoMode
  * address:  0x021B15C8
  * packet:   pkt_ov021_021B15C8
  * region:   ov021
@@ -10,36 +10,36 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011330  0x02011330  thumb
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02159144  0x02159144  thumb  ov010
- *   func_02159168  0x02159168  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021904DC  0x021904DC  thumb  ov021
+ *   VM_GetU16  0x02011330  thumb
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   FIELD_MSGBG_SetAutoMode  0x021904DC  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Stream;
-extern int func_02158F58(int a0);
-extern u16 func_02011330(struct Stream *s);
-extern void func_021904DC(u8 *p, u8 v);
-extern void func_02159144(int n);
-extern void func_02159168(int n);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u16 VM_GetU16(struct Stream *s);
+extern void FIELD_MSGBG_SetAutoMode(u8 *p, u8 v);
+extern void SCRIPT_WORK_SetCheckFlag(int n);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 
-int func_021B15C8(u32 a, u32 b)
+int SCRCMD_MSGWIN_CmdSetAutoMode(u32 a, u32 b)
 {
-    u32 *p = (u32 *)func_02158F58((int)func_0215A5F4((void *)b));
+    u32 *p = (u32 *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)b));
 
-    if (func_02011330((struct Stream *)a)) {
-        func_021904DC((u8 *)(*p), 1);
-        func_02159144(9);
+    if (VM_GetU16((struct Stream *)a)) {
+        FIELD_MSGBG_SetAutoMode((u8 *)(*p), 1);
+        SCRIPT_WORK_SetCheckFlag(9);
     } else {
-        func_021904DC((u8 *)(*p), 0);
-        func_02159168(9);
+        FIELD_MSGBG_SetAutoMode((u8 *)(*p), 0);
+        SCRIPT_WORK_ResetCheckFlag(9);
     }
     return 0;
 }

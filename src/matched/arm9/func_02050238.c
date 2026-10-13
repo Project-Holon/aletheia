@@ -1,5 +1,5 @@
 /*
- * function: func_02050238
+ * function: BILLBOARD_ACT_AddSlot
  * address:  0x02050238
  * packet:   pkt_020500B8
  * region:   arm9
@@ -22,8 +22,8 @@
  * `((struct S8 *)*(u32 *)((char *)p + 12))[idx].h`, it comes out EXACT.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050238.c \
- *       --func func_02050238 --addr 0x02050238 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_AddSlot.c \
+ *       --func BILLBOARD_ACT_AddSlot --addr 0x02050238 --cc 1.1p1 --arm
  *   EXACT, 64 bytes, 1 relocation site, resolved [label].
  *
  * symbols:
@@ -44,7 +44,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern s32 AREAMAN_Alloc(struct AreaMan *p, u32 len);
 
-u32 func_02050238(void *p, u32 b, u32 c)
+u32 BILLBOARD_ACT_AddSlot(void *p, u32 b, u32 c)
 {
     int idx = AREAMAN_Alloc((struct AreaMan *)(((struct Obj08867 *)p)->f14), 1);
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0219BE70
+ * function: FLDMMDL_MOVE_RecoverHide
  * address:  0x0219BE70
  * packet:   pkt_ov021_0219BE70
  * region:   ov021
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0219BF3C  0x0219BF3C  thumb  ov021
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   d_021D5480     0x021D5480  data   ov021  a4
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_MOVE_SetHideEffect  0x0219BF3C  thumb  ov021
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   gHideDrawOffsetRecover     0x021D5480  data   ov021  a4
  */
 
 typedef unsigned char u8;
@@ -21,21 +21,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef struct { u32 a, b, c; } T12;
-extern T12 d_021D5480;
-extern void *func_0216D69C(void *p);
-extern void func_0219BF3C(int a, u32 v);
-extern void func_0216D8C0(u32, void *);
-extern void *func_0216D568(void *p, u32 v);
+extern T12 gHideDrawOffsetRecover;
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern void FLDMMDL_MOVE_SetHideEffect(int a, u32 v);
+extern void FLDMMDL_SetDrawOffset(u32, void *);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 
-void func_0219BE70(u32 a)
+void FLDMMDL_MOVE_RecoverHide(u32 a)
 {
-    u8 *p = func_0216D69C((void *)a);
+    u8 *p = FLDMMDL_GetMoveProcWork((void *)a);
     T12 t;
     p[0] = 0;
-    func_0219BF3C(a, 0);
+    FLDMMDL_MOVE_SetHideEffect(a, 0);
     if (p[2] == 0) {
-        t = d_021D5480;
-        func_0216D8C0(a, &t);
-        func_0216D568((void *)a, 2 << 14);
+        t = gHideDrawOffsetRecover;
+        FLDMMDL_SetDrawOffset(a, &t);
+        FLDMMDL_SetMoveBit((void *)a, 2 << 14);
     }
 }

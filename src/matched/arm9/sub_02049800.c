@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A380  0x0204A380  arm
+ *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   func_0204982C  0x0204982C  arm
  *
  * Byte-correct, capped at MATCH. Blocked on: func_0204982C (0x0204982C) has
@@ -26,8 +26,8 @@
  * `fb.mask` to be entirely hard before claiming EXACT, so this correctly
  * reports MATCH. It graduates for real only once 0x0204982C has an EXACT
  * entry of its own: src/pending/ARC_UTIL_UploadScreen.c is the C for it, stuck at
- * MATCH on the unattestable data address 0x020A135C. func_0204A380 resolves
- * normally (label, and src/matched/func_0204A380.c).
+ * MATCH on the unattestable data address 0x020A135C. ARC_UTIL_LoadHandleMember resolves
+ * normally (label, and src/matched/ARC_UTIL_LoadHandleMember.c).
  *
  * A seven-argument front end that loads an archive member and hands the
  * buffer to the flush-and-dispatch worker; the flag word is passed straight
@@ -42,10 +42,10 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 func_0204982C(void *buf, u32 kind, u32 a2, u32 size);
 
 u32 ARC_UTIL_UploadScreenFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 {
-    return func_0204982C(func_0204A380(a0, a1, a5, a6), a2, a3, a4);
+    return func_0204982C(ARC_UTIL_LoadHandleMember(a0, a1, a5, a6), a2, a3, a4);
 }

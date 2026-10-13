@@ -13,6 +13,8 @@
  * symbols:
  *   _pGlyphBmp   0x02146558  data
  *   GF_FONT_ReadGlyph  0x0201DB04  thumb
+ *   BMP_GetPixels  0x020437D4  arm
+ *   BMP_Blit  0x020439A0  arm
  *
  * One of the two printsys.c glyph blitters, both of which forward the caller's
  * pen record to GF_FONT_ReadGlyph and then hand the result to a renderer reached
@@ -45,14 +47,14 @@ typedef signed int     s32;
 extern void *_pGlyphBmp;
 
 struct Bmp;
-extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 struct Font;
 extern void GF_FONT_ReadGlyph(struct Font *p, u16 ch, void *c, void *d);
 
 void PRINTSYS_PutGlyph4bpp(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f)
 {
-    GF_FONT_ReadGlyph((struct Font *)d, e, func_020437D4(_pGlyphBmp), (void *)f);
-    func_020439A0(_pGlyphBmp, a, 0, 0, b + f[0], c, f[1], f[3], 0);
+    GF_FONT_ReadGlyph((struct Font *)d, e, BMP_GetPixels(_pGlyphBmp), (void *)f);
+    BMP_Blit(_pGlyphBmp, a, 0, 0, b + f[0], c, f[1], f[3], 0);
 }
 

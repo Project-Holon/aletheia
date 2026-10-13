@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02047E88",
+   "name": "G3D_UTIL_AddUnit",
    "address": "0x02047E88",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047F4C",
+   "name": "G3D_UTIL_AddUnitLoaded",
    "address": "0x02047F4C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048010",
+   "name": "G3D_UTIL_AddUnitFromArchive",
    "address": "0x02048010",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020480E4",
+   "name": "G3D_UTIL_RemoveUnit",
    "address": "0x020480E4",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02048AC4",
+   "name": "G3D_CAMERA_Delete",
    "address": "0x02048AC4",
    "kind": "game",
    "region": "arm9",

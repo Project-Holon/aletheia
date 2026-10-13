@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B94D8",
+   "name": "FIELD_RAIL_CLOSED_ContainsLine",
    "address": "0x021B94D8",
    "kind": "game",
    "region": "ov021",

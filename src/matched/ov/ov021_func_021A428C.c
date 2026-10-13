@@ -1,5 +1,5 @@
 /*
- * function: func_021A428C
+ * function: FIELD_PLAYER_GRID_PlayTileSound
  * address:  0x021A428C
  * packet:   pkt_ov021_021A428C
  * region:   ov021
@@ -14,18 +14,18 @@
  * repeat counter at +0x1a.
  *
  * symbols:
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A5318  0x021A5318  thumb  ov021
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_02163E34  0x02163E34  thumb  ov010
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_GRID_HasFlag  0x021A5318  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_MOVE_GetMapAttr  0x02163E34  thumb  ov010
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   d_021D8A00     0x021D8A00  data  ov021  a4
- *   d_021D8A0C     0x021D8A0C  data  ov021  a4
- *   d_021D89F4     0x021D89F4  data  ov021  a4
- *   d_021D8A2C     0x021D8A2C  data  a4
+ *   gFieldPlayerGridAttrSounds     0x021D8A00  data  ov021  a4
+ *   gFieldPlayerGridAttrSoundsAhead     0x021D8A0C  data  ov021  a4
+ *   gFieldPlayerGridCallbackSounds     0x021D89F4  data  ov021  a4
+ *   gFieldPlayerGridCallbackSoundsAhead     0x021D8A2C  data  a4
  * Addresses are Black-image addresses.
- * d_021D8A2C carries no ov021 token: with it the hint reads as contested.
+ * gFieldPlayerGridCallbackSoundsAhead carries no ov021 token: with it the hint reads as contested.
  */
 #include "../include/Obj00656.h"
 
@@ -38,19 +38,19 @@ typedef signed char    s8;
 typedef struct { u32 mask; int val; s16 a; s16 b; } T1;
 typedef struct { int (*fn)(u16); u16 val; s8 a; s8 b; u8 kind; } T2;
 
-extern T1 d_021D8A00[];
-extern T1 d_021D8A0C[];
-extern T2 d_021D89F4[];
-extern T2 d_021D8A2C[];
+extern T1 gFieldPlayerGridAttrSounds[];
+extern T1 gFieldPlayerGridAttrSoundsAhead[];
+extern T2 gFieldPlayerGridCallbackSounds[];
+extern T2 gFieldPlayerGridCallbackSoundsAhead[];
 
-extern u32 func_021A3974(u8 *p);
-extern int func_021A5318(u32 *p, u32 m);
-extern void *func_021A3960(unsigned char *p);
-extern int func_02163E34(void *, int, u32 *);
-extern u16 func_021AB0F8(u32);
+extern u32 FIELD_PLAYER_CORE_GetFormCode(u8 *p);
+extern int FIELD_PLAYER_GRID_HasFlag(u32 *p, u32 m);
+extern void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+extern int FLDMMDL_MOVE_GetMapAttr(void *, int, u32 *);
+extern u16 MAP_ATTR_GetFlags(u32);
 extern void func_020061E4(u32 a);
 
-int func_021A428C(u8 *o, int unused, int c, int flag, int kind)
+int FIELD_PLAYER_GRID_PlayTileSound(u8 *o, int unused, int c, int flag, int kind)
 {
     int lim;
     int sel;
@@ -63,21 +63,21 @@ int func_021A428C(u8 *o, int unused, int c, int flag, int kind)
     sel = 0x546;
     lim = 0;
     mode = 0;
-    if (func_021A3974((u8 *)(*(u32 *)&((struct Obj00656 *)o)->fC)) == 1) {
+    if (FIELD_PLAYER_CORE_GetFormCode((u8 *)(*(u32 *)&((struct Obj00656 *)o)->fC)) == 1) {
         mode = 2;
-    } else if (func_021A5318((u32 *)o, 0x20) != 0) {
+    } else if (FIELD_PLAYER_GRID_HasFlag((u32 *)o, 0x20) != 0) {
         mode = 1;
     }
     if (mode == 0) {
         ((struct Obj00656 *)o)->f18 = 0x546;
         ((struct Obj00656 *)o)->f1A = 0;
     }
-    if (func_02163E34(func_021A3960(((struct Obj00656 *)o)->fC), c, &id) == 1) {
-        bits = func_021AB0F8(id);
+    if (FLDMMDL_MOVE_GetMapAttr(FIELD_PLAYER_CORE_GetMmdl(((struct Obj00656 *)o)->fC), c, &id) == 1) {
+        bits = MAP_ATTR_GetFlags(id);
         if (flag == 0) {
-            t = d_021D8A00;
+            t = gFieldPlayerGridAttrSounds;
         } else {
-            t = d_021D8A0C;
+            t = gFieldPlayerGridAttrSoundsAhead;
         }
         for (; t->mask != 0; t++) {
             if (t->mask & bits) {
@@ -91,9 +91,9 @@ int func_021A428C(u8 *o, int unused, int c, int flag, int kind)
             }
         }
         if (sel == 0x546) {
-            u = d_021D89F4;
+            u = gFieldPlayerGridCallbackSounds;
             if (flag != 0) {
-                u = d_021D8A2C;
+                u = gFieldPlayerGridCallbackSoundsAhead;
             }
             for (; u->fn != 0; u++) {
                 if (u->fn((u16)id) == 1 && (u->kind == 4 || u->kind == kind)) {

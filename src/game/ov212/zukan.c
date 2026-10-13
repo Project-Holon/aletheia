@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Main 0x02031330 arm
@@ -37,7 +37,7 @@
  *   func_0200CA70 0x0200CA70 thumb
  *   func_0200CED4 0x0200CED4 thumb
  *   func_0200D064 0x0200D064 thumb
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   open 0x020490F4 arm
  *   close 0x02049238 arm
  *   initial 0x021C983C thumb ov212
@@ -54,10 +54,11 @@
  *   site 0x021C99A8 data ov212 a1
  *   load 0x0204A298 arm
  *   names 0x0201AF80 thumb
- *   func_0204A39C  0x0204A39C  arm
+ *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   g_021C99A8     0x021C99A8  data
  *   g_021C9968     0x021C9968  data
  *   POKE_PERSONAL_LoadFormTable  0x0201AF80  thumb
+ *   CLACT_CreateActor  0x0204B294  arm  arm9
  */
 #include "../../matched/include/Obj00635.h"
 #include "../../matched/include/Obj25642.h"
@@ -135,8 +136,8 @@ struct Search {
   void *personal; u16 resultCount; u16 pad42; u16 *result;
 };
 
-extern void func_0203064C(unsigned,unsigned,unsigned);
-extern void *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
+extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,unsigned char,unsigned);
 extern void *PROCSYS_Create(int);
 extern unsigned PROCSYS_Main(void *);
@@ -152,9 +153,9 @@ extern void func_0200CA78(struct Blk37 *p, u32 v);
 extern unsigned func_0200CA70(struct Blk37 *);
 extern unsigned func_0200CED4(struct Blk37 *,u16);
 extern unsigned func_0200D064(struct Blk37 *,u16);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_02041EE4(u32,u32,u32);
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void *open(u32, u16);
 extern void close(void *);
 extern u32 initial(void *, int, int, u32, u16 **);
@@ -170,7 +171,7 @@ extern u32 value(const void *, u32);
 extern u8 finalTest(const u8 *, const u16 *, u32, u32);
 extern void *load(int,int,int,int,u32 *);
 extern u16 *names(int,u16 *);
-extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
+extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx);
 int func_021C8F2C(int a,int b,int c,unsigned char *p);
@@ -226,8 +227,8 @@ extern int g_021C9968[];
 int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
 {
     char *p;
-    func_0203064C(1,105,0x8000);
-    p=func_0203159C(obj,44,105);
+    GFL_HEAP_CreateChildHeap(1,105,0x8000);
+    p=PROCSYS_AllocProcWork(obj,44,105);
     func_02082BCC(p,0,44);
     ((struct Obj00635 *)p)->f0=ctx;
     ((struct Obj00635 *)p)->f4=PROCSYS_Create(105);
@@ -544,11 +545,11 @@ void func_021C9380(struct Blk37 *p, u8 *out) {
 
 
 
-void func_021C93A8(u32 heap) { func_0202208C(0,1,1,0,6,1,heap); }
+void func_021C93A8(u32 heap) { WIPE_SYS_Start(0,1,1,0,6,1,heap); }
 
 
 
-void func_021C93C4(u32 heap) { func_0202208C(0,0,0,0,6,1,heap); }
+void func_021C93C4(u32 heap) { WIPE_SYS_Start(0,0,0,0,6,1,heap); }
 
 
 
@@ -560,7 +561,7 @@ void func_021C93E4(u32 a, u32 b, u32 *counter) {
 
 
 struct Obj *func_021C940C(u32 bank, const u8 *t, u16 heap) {
-    return func_0204B294((void *)bank,*(const u32 *)&((struct Obj08418 *)t)->f8,*(const u32 *)&((struct Obj08418 *)t)->fC,*(const u32 *)&((struct Obj08418 *)t)->f10,t,*(const u16 *)&((struct Obj08418 *)t)->f16,heap);
+    return CLACT_CreateActor((void *)bank,*(const u32 *)&((struct Obj08418 *)t)->f8,*(const u32 *)&((struct Obj08418 *)t)->fC,*(const u32 *)&((struct Obj08418 *)t)->f10,t,*(const u16 *)&((struct Obj08418 *)t)->f16,heap);
 }
 
 
@@ -764,7 +765,7 @@ unsigned int func_021C983C(int a0, int a1, int a2, int a3, u16 **out)
         n = 0x289;
     } else {
         unsigned int tmp;
-        buf = (u16 *)func_0204A39C((void *)a0, g_021C9968[a2], 0, a3, &tmp);
+        buf = (u16 *)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, g_021C9968[a2], 0, a3, &tmp);
         n = (tmp >> 1) & 0xFFFF;
     }
     *out = buf;
@@ -784,10 +785,10 @@ void func_021C98A8(u32 a0, u32 a1, u16 *a2, u32 *a3,
 
     *a3 = (u32)POKE_PERSONAL_LoadFormTable(a1, 0);
     *a2 = 0x28A;
-    *a5 = (u32)func_0204A39C((void *)a0, 1, 0, a1, &buf);
+    *a5 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, 1, 0, a1, &buf);
     *a4 = buf;
-    *a7 = (u32)func_0204A39C((void *)a0, 2, 0, a1, &buf);
+    *a7 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, 2, 0, a1, &buf);
     *a6 = buf;
-    *a9 = (u32)func_0204A39C((void *)a0, 0, 0, a1, &buf);
+    *a9 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)a0, 0, 0, a1, &buf);
     *a8 = buf >> 1;
 }

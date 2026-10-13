@@ -1,5 +1,5 @@
 /*
- * function: func_021F376C
+ * function: FIELD_GIMMICK_GATE_Update
  * address: 0x021F376C
  * packet: pkt_ov048_021F376C
  * region: ov048
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021897BC 0x021897BC thumb ov021
- *   func_021F4784 0x021F4784 thumb ov048
- *   func_02188D2C 0x02188D2C thumb ov021
- *   func_021BE580 0x021BE580 thumb ov021
+ *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
+ *   GIMMICK_OBJ_ELBOARD_Advance 0x021F4784 thumb ov048
+ *   FIELDMAP_GetExpObj 0x02188D2C thumb ov021
+ *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   d_021F50C0 0x021F50C0 data a4
  */
 
@@ -21,9 +21,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int *func_021897BC(char *,int);
-extern void func_021F4784(unsigned char *p, int c);
-extern int func_02188D2C(int *p);
-extern void func_021BE580(void *);
+extern int *FIELDMAP_GetCommonWork(char *,int);
+extern void GIMMICK_OBJ_ELBOARD_Advance(unsigned char *p, int c);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void FLD_EXP_OBJ_UpdateAnimes(void *);
 extern struct T d_021F50C0;
-void func_021F376C(char *a) { int *p; p=func_021897BC(a,0); func_021F4784((void *)p[5],(*(int *)&d_021F50C0)); func_021BE580((void *)func_02188D2C((int *)((u32)a))); }
+void FIELD_GIMMICK_GATE_Update(char *a) { int *p; p=FIELDMAP_GetCommonWork(a,0); GIMMICK_OBJ_ELBOARD_Advance((void *)p[5],(*(int *)&d_021F50C0)); FLD_EXP_OBJ_UpdateAnimes((void *)FIELDMAP_GetExpObj((int *)((u32)a))); }

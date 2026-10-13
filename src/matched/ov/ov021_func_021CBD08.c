@@ -13,11 +13,11 @@
  *
  * symbols:
  *   func_0201A920  0x0201A920  thumb
- *   func_021CA210  0x021CA210  thumb
+ *   BSUBWAY_SCR_GetParty  0x021CA210  thumb
  *   func_0201A954  0x0201A954  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0201A98C  0x0201A98C  thumb
- *   func_021681C8  0x021681C8  thumb  ov010
+ *   FLD_BTL_INST_TOOL_CreateBtlSetup  0x021681C8  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -37,26 +37,26 @@ typedef signed int     s32;
 struct Party;
 struct PartyMon;
 extern struct Party *func_0201A920(u32 heap);
-extern void *func_021CA210(u8 *p);
+extern void *BSUBWAY_SCR_GetParty(u8 *p);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 struct Bs;
 struct Rec;
-extern struct Bs *func_021681C8(void *sys, void *partyA, u32 mode0, struct Rec *recA, struct Rec *recB, int n);
+extern struct Bs *FLD_BTL_INST_TOOL_CreateBtlSetup(void *sys, void *partyA, u32 mode0, struct Rec *recA, struct Rec *recB, int n);
 extern u32 func_020307B0(void *p);
 
 u32 func_021CBD08(u8 *p, int a)
 {
     void *list = func_0201A920(0x8004);
-    void *h = func_021CA210(p);
+    void *h = BSUBWAY_SCR_GetParty(p);
     int i;
     u32 r;
 
     func_0201A954(list, p[8]);
     for (i = 0; i < p[8]; i++)
         func_0201A98C(list, func_0201AB28(h, p[0x1e + i]));
-    r = (u32)func_021681C8((void *)a, list, p[9], (struct Rec *)(p + 0x88), (struct Rec *)(p + 0x2c8 + ((Sel *)p)->sel * 0x120), p[8]);
+    r = (u32)FLD_BTL_INST_TOOL_CreateBtlSetup((void *)a, list, p[9], (struct Rec *)(p + 0x88), (struct Rec *)(p + 0x2c8 + ((Sel *)p)->sel * 0x120), p[8]);
     func_020307B0(list);
     return r;
 }

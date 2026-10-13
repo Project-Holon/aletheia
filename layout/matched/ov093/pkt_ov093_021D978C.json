@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D978C",
+   "name": "BTL_TOKUSEI_GetSandStreamHandlers",
    "address": "0x021D978C",
    "kind": "game",
    "region": "ov093",

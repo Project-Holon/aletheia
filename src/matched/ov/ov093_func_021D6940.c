@@ -1,5 +1,5 @@
 /*
- * function: func_021D6940
+ * function: BTL_POKEPARAM_GetHitRecord
  * address:  0x021D6940
  * packet:   pkt_ov093_021D6940
  * region:   ov093
@@ -14,7 +14,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-int func_021D6940(const u8 *p, int i, u32 j, u16 *out)
+int BTL_POKEPARAM_GetHitRecord(const u8 *p, int i, u32 j, u16 *out)
 {
     int k;
     u32 n;

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4954
+ * function: FLDEFF_RIPPLE_UpdateObj
  * address:  0x021C4954
  * packet:   pkt_ov021_021C4954
  * region:   ov021
@@ -13,7 +13,8 @@
  * follower).
  *
  * symbols:
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   BILLBOARD_ACT_GetEntryLastCommand  0x020508EC  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -25,13 +26,13 @@ typedef struct {
 } S;
 
 typedef unsigned char  u8;
-extern u32 func_020508EC(u8 *p, int i, u16 *out);
-extern void func_021AC154(void *a);
+extern u32 BILLBOARD_ACT_GetEntryLastCommand(u8 *p, int i, u16 *out);
+extern void FIELD_EFFECT_DeleteObject(void *a);
 
-void func_021C4954(void *a, S *s)
+void FLDEFF_RIPPLE_UpdateObj(void *a, S *s)
 {
     u32 tmp;
 
-    if (func_020508EC((u8 *)s->p[1], s->id, (u16 *)(&tmp)) != 0)
-        func_021AC154(a);
+    if (BILLBOARD_ACT_GetEntryLastCommand((u8 *)s->p[1], s->id, (u16 *)(&tmp)) != 0)
+        FIELD_EFFECT_DeleteObject(a);
 }

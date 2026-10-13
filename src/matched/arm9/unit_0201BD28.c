@@ -14,7 +14,7 @@
  * getter it ends in.
  *
  * sub_0201BD28 finds the move's record in the cache the constructor in
- * src/matched/unit_0201C328.c builds, loading it through func_02048F4C if the
+ * src/matched/unit_0201C328.c builds, loading it through ARC_TOOL_ReadMember if the
  * slot it picks is empty or is holding a different move, and falls back to
  * the single record buffer at 0x02146534 when the cache has not been built.
  * The slot search, the "cache full, reuse the last slot" fixup and the load
@@ -53,6 +53,7 @@
  * symbols:
  *   _pWazaTool   0x02146530  data
  *   _WazaTempData  0x02146534  data
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201BD28.c \
@@ -96,7 +97,7 @@ struct Waza {
 extern struct WazaTool *_pWazaTool;
 extern struct Waza _WazaTempData;
 
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
 u32 WAZA_TOOL_GetDataParam(const struct Waza *p, u32 id);
 
@@ -109,7 +110,7 @@ u32 sub_0201BD28(u16 id, u32 field)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (((u16 *)_pWazaTool->vals)[i] == 0) {
                 ((u16 *)_pWazaTool->vals)[i] = id;
-                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+                ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
             if (id == ((u16 *)_pWazaTool->vals)[i]) {
@@ -119,12 +120,12 @@ u32 sub_0201BD28(u16 id, u32 field)
         if (i == _pWazaTool->count) {
             i--;
             ((u16 *)_pWazaTool->vals)[i] = id;
-            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+            ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
         }
         rec = _pWazaTool->recs[i];
     } else {
         rec = &_WazaTempData;
-        func_02048F4C(rec, 0x15, id);
+        ARC_TOOL_ReadMember(rec, 0x15, id);
     }
     return WAZA_TOOL_GetDataParam(rec, field);
 }

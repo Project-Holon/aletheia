@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021D4E64 0x021D4E64 thumb ov123
  *   func_021D4D40 0x021D4D40 thumb ov123
  *   func_021D4244 0x021D4244 thumb ov123
@@ -19,9 +19,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02012DD0(u8 *p);
+extern int GAME_DATA_SaveMain(u8 *p);
 extern void func_021D4E64(u8 *p);
 extern void func_021D4D40(char *,int);
 extern void func_021D4244(char *,void *,int);
 extern void func_021D4440(void *);
-void func_021D4FEC(char *p) { if(func_02012DD0(((struct Obj00273 *)p)->f260)==2) { func_021D4E64((u8 *)p); func_021D4D40(p,0); func_021D4244(p,func_021D4440,0x4ea); } }
+void func_021D4FEC(char *p) { if(GAME_DATA_SaveMain(((struct Obj00273 *)p)->f260)==2) { func_021D4E64((u8 *)p); func_021D4D40(p,0); func_021D4244(p,func_021D4440,0x4ea); } }

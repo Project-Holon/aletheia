@@ -1,5 +1,5 @@
 /*
- * function: func_020479D8
+ * function: G3D_SYSTEM_ApplyLookAt
  * address:  0x020479D8
  * packet:   pkt_020479D8
  * region:   arm9
@@ -33,8 +33,8 @@
  * struct up to camTarget; the offsets are fixed by the image's pool words.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020479D8.c \
- *       --func func_020479D8 --addr 0x020479D8 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_ApplyLookAt.c \
+ *       --func G3D_SYSTEM_ApplyLookAt --addr 0x020479D8 --arm
  */
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -103,7 +103,7 @@ struct G3dCtx {
 
 extern struct G3dCtx *_G3dSystem;
 
-void func_020479D8(void)
+void G3D_SYSTEM_ApplyLookAt(void)
 {
     NNS_G3dGlbLookAt(&_G3dSystem->view0, &_G3dSystem->view1, &_G3dSystem->view2);
     _G3dSystem->f88();

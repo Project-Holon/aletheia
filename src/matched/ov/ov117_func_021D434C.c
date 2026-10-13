@@ -10,6 +10,10 @@
  * status:   EXACT
  *
  * Addresses are Black-image addresses.
+ *
+ * symbols:
+ *   CLACT_CreateActor  0x0204B294  arm  arm9
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
  */
 #include "../include/Obj03253.h"
 #include "../include/Obj22635.h"
@@ -29,12 +33,12 @@ typedef struct {
     u8 e;
 } Local;
 
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Actor;
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 
 void func_021D434C(void *p)
 {
@@ -47,7 +51,7 @@ void func_021D434C(void *p)
         s.d = 0;
         s.e = 0;
         ((struct Obj22636 *)((char *)((struct Obj03253 *)p)->fC))->fB0 =
-            (u32)func_0204B294((void *)((struct Obj03253 *)p)->f9C4,
+            (u32)CLACT_CreateActor((void *)((struct Obj03253 *)p)->f9C4,
                           ((struct Obj03253 *)p)->f8A8,
                           ((struct Obj03253 *)p)->f88C,
                           ((struct Obj03253 *)p)->f8BC,
@@ -55,6 +59,6 @@ void func_021D434C(void *p)
         func_0204B92C((struct Obj *)((struct Obj22637 *)((char *)((struct Obj03253 *)p)->fC))->fB0, 1);
         func_0204B3DC((struct Obj *)((struct Obj22638 *)((char *)((struct Obj03253 *)p)->fC))->fB0, 1);
     } else {
-        func_0204B9A0((struct Actor *)v);
+        CLACT_RestartActorAnim((struct Actor *)v);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0219CD68
+ * function: FLDMMDL_BLACT_ReserveRes
  * address:  0x0219CD68
  * packet:   pkt_ov021_0219CD68
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0219CD68(u8 *o, u16 a, u8 b, u8 c, u16 d, u32 e)
+void FLDMMDL_BLACT_ReserveRes(u8 *o, u16 a, u8 b, u8 c, u16 d, u32 e)
 {
     u8 *ctx = *(u8 * *)&((struct Obj00429 *)o)->f1C;
     u32 i;

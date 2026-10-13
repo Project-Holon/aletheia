@@ -10,8 +10,8 @@
  * status: EXACT
  * abi: 3159C's live allocator result is consumed; ED4's explicitly loaded heap argument retained; FC4 and 30734 narrowed at caller.
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02183ED4 0x02183ED4 thumb ov168
  *   func_02183F30 0x02183F30 thumb ov168
@@ -38,9 +38,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum {OBJECT_SIZE=0x150} Size;
 extern const char d_02184A20[];
-extern void func_0203064C(u32,u32,u32);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
 extern void func_02183ED4(int);
 extern void func_02183F30(void);
@@ -66,9 +66,9 @@ enum Result func_02183B60(void *obj)
     u8 *p;
     Size size;
     int result=1;
-    func_0203064C(1,73,0x70000);
+    GFL_HEAP_CreateChildHeap(1,73,0x70000);
     size=OBJECT_SIZE;
-    p=func_0203159C(obj,size,73);
+    p=PROCSYS_AllocProcWork(obj,size,73);
     func_02082BCC(p,0,size);
     ((struct Obj02210 *)((unsigned)p))->f14C=73;
     func_02183ED4(73);

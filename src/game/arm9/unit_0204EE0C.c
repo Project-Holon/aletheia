@@ -1,7 +1,7 @@
 /*
  * file:     unit_0204EE0C.c
  * unit:     yes
- * function: BILLBOARD_FindFreeImage, BILLBOARD_BindImageResource, BILLBOARD_SetImageFormat, BILLBOARD_AddImage, BILLBOARD_AddImageFromArchive, func_0204F044, BILLBOARD_TrimImageResource, BILLBOARD_DeleteImage, BILLBOARD_ReleaseImageVramIfUsed, func_0204F214, BILLBOARD_DeleteAllImages, BILLBOARD_GetImageVramAddr, func_0204F2CC, BILLBOARD_GetImageTexKey
+ * function: BILLBOARD_FindFreeImage, BILLBOARD_BindImageResource, BILLBOARD_SetImageFormat, BILLBOARD_AddImage, BILLBOARD_AddImageFromArchive, BILLBOARD_AddImageFromVramKeys, BILLBOARD_TrimImageResource, BILLBOARD_DeleteImage, BILLBOARD_ReleaseImageVramIfUsed, BILLBOARD_ReleaseImageVram, BILLBOARD_DeleteAllImages, BILLBOARD_GetImageVramAddr, func_0204F2CC, BILLBOARD_GetImageTexKey
  * address:  0x0204EE0C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,19 +15,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02046FF8   0x02046FF8  arm
- *   func_02047388   0x02047388  arm
- *   func_020473B8   0x020473B8  arm
+ *   G3D_SYSTEM_TransVramTexture   0x02046FF8  arm
+ *   G3D_SYSTEM_GetTexVramKey   0x02047388  arm
+ *   G3D_SYSTEM_GetPlttVramKey   0x020473B8  arm
  *   _s32_div_f   0x0209C0A4  arm
  *   gTexSizeTbl  0x020A14C0  data
  *   gTexParamS   0x020A14D4  data
  *   gTexParamT   0x020A14D8  data
- *   func_02046DB8   0x02046DB8  arm
- *   func_02046F48  0x02046F48  arm
- *   func_02047250  0x02047250  arm
+ *   G3D_SYSTEM_CreateResourceArc   0x02046DB8  arm
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
+ *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
  *   func_020307E0  0x020307E0  arm
- *   func_020470D0   0x020470D0  arm
- *   func_02046EFC   0x02046EFC  arm
+ *   G3D_SYSTEM_FreeVramTexture   0x020470D0  arm
+ *   G3D_SYSTEM_DeleteResource   0x02046EFC  arm
  *   g_020A8144  0x020A8144  data
  *   g_020A814C  0x020A814C  data
  */
@@ -64,27 +64,27 @@ struct BbBoardBytes {
 
 typedef void (*FreeVramFn)(u32 key);
 
-extern int func_02046FF8(struct G3dResource *resource);
-extern u32 func_02047388(struct G3dResource *resource);
-extern u32 func_020473B8(struct G3dResource *resource);
+extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *resource);
+extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
+extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
 extern s32 _s32_div_f(s32 a, s32 b);
-extern void *func_02046DB8(u32 arcId, u32 dataId);
-extern void *func_02046F48(struct G3dResource *resource);
-extern struct NNSG3dResTex *func_02047250(struct G3dResource *resource);
+extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
+extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *resource);
+extern struct NNSG3dResTex *G3D_SYSTEM_GetResourceTex(struct G3dResource *resource);
 extern void func_020307E0(void *p, u32 size);
-extern int func_020470D0(struct G3dResource *resource);
-extern void func_02046EFC(struct G3dResource *resource);
+extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *resource);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *resource);
 
 int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex);
 void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *resource);
 void BILLBOARD_SetImageFormat(struct BbImage *image, u32 formatIndex, s32 sizeCode, u32 columns, u8 rows);
 u32 BILLBOARD_AddImage(struct BbBoard *board, struct G3dResource *resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
 u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, u32 arcId, u32 dataId, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
-int func_0204F044(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, u32 sizeCode, u8 columns, u8 rows);
+int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, u32 sizeCode, u8 columns, u8 rows);
 void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index);
 void BILLBOARD_DeleteImage(struct BbBoard *board, int index);
 void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index);
-void func_0204F214(struct BbBoard *board, int index);
+void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int index);
 void BILLBOARD_DeleteAllImages(struct BbBoard *board);
 void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset);
 void func_0204F2CC(struct BbBoard *board, int index, int *outPlttVramOffset);
@@ -133,13 +133,13 @@ void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *reso
 {
     u32 plttKey;
     image->handle = (u32)resource;
-    if (func_02046FF8(resource) == 0) {
+    if (G3D_SYSTEM_TransVramTexture(resource) == 0) {
         image->vramAddr = 0;
         image->plttAddr = 0;
         return;
     }
-    image->texKey = func_02047388(resource);
-    plttKey = func_020473B8(resource);
+    image->texKey = G3D_SYSTEM_GetTexVramKey(resource);
+    plttKey = G3D_SYSTEM_GetPlttVramKey(resource);
     image->plttKey = plttKey;
     image->vramAddr = (u32)(image->texKey << 16) >> 13;
     image->plttAddr = (u32)(plttKey << 16) >> 13;
@@ -208,7 +208,7 @@ u32 BILLBOARD_AddImage(struct BbBoard *board, struct G3dResource *resource, u32 
 
 /*
  * The second wrapper, one call longer than BILLBOARD_AddImage: the resource it
- * binds is loaded from the archive with func_02046DB8(arcId, dataId) rather
+ * binds is loaded from the archive with G3D_SYSTEM_CreateResourceArc(arcId, dataId) rather
  * than passed in, and the trailing parameters are one word and two bytes
  * rather than two bytes (`ldr` at sp+0x20, `ldrb` at sp+0x24 and sp+0x28).
  *
@@ -219,7 +219,7 @@ u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, u32 arcId, u32 dataId, 
 {
     u32 index;
     if (BILLBOARD_FindFreeImage(board, (int *)(&index)) == 1) {
-        BILLBOARD_BindImageResource(&board->images[index], (struct G3dResource *)func_02046DB8(arcId, dataId));
+        BILLBOARD_BindImageResource(&board->images[index], (struct G3dResource *)G3D_SYSTEM_CreateResourceArc(arcId, dataId));
         BILLBOARD_SetImageFormat(&board->images[index], formatIndex, sizeCode, columns, rows);
     }
     return index;
@@ -234,7 +234,7 @@ u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, u32 arcId, u32 dataId, 
  * different allocation; the sibling BILLBOARD_BindImageResource's `(u32)(key << 16) >> 13`
  * is what the image has.
  */
-int func_0204F044(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, u32 sizeCode, u8 columns, u8 rows)
+int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, u32 sizeCode, u8 columns, u8 rows)
 {
     u32 index;
     if (BILLBOARD_FindFreeImage(board, (int *)(&index)) == 1) {
@@ -260,8 +260,8 @@ void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
 {
     struct BbImage      *image    = &board->images[index];
     struct G3dResource  *resource = (struct G3dResource *)image->handle;
-    void                *file     = func_02046F48(resource);
-    struct NNSG3dResTex *texBlock = func_02047250(resource);
+    void                *file     = G3D_SYSTEM_GetResourceFile(resource);
+    struct NNSG3dResTex *texBlock = G3D_SYSTEM_GetResourceTex(resource);
     func_020307E0(file, (u32)((u8 *)texBlock + texBlock->texelDataOffset - (u8 *)file));
 }
 
@@ -277,15 +277,15 @@ void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 index)
  * first call receives, which is why there is no reload between them.
  *
  * The sibling entry points are BILLBOARD_ReleaseImageVramIfUsed (guarded, through two
- * function-pointer globals) and func_0204F214 (unguarded, same two globals);
+ * function-pointer globals) and BILLBOARD_ReleaseImageVram (unguarded, same two globals);
  * neither is contiguous with this one.
  */
 void BILLBOARD_DeleteImage(struct BbBoard *board, int index)
 {
     u32 off = index * 0x28;
     if (*(u32 *)((u8 *)board->images + off) != 0) {
-        func_020470D0((struct G3dResource *)(*(u32 *)((u8 *)board->images + off)));
-        func_02046EFC((struct G3dResource *)(*(u32 *)((u8 *)board->images + off)));
+        G3D_SYSTEM_FreeVramTexture((struct G3dResource *)(*(u32 *)((u8 *)board->images + off)));
+        G3D_SYSTEM_DeleteResource((struct G3dResource *)(*(u32 *)((u8 *)board->images + off)));
         *(u32 *)((u8 *)board->images + off) = 0;
     }
     *(u32 *)((u8 *)board->images + off + 0x14) = 5;
@@ -339,7 +339,7 @@ void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index)
  * through two direct calls.  The three are consecutive in the image and call
  * 0x0204F5A8-free leaf helpers, so each stands alone.
  */
-void func_0204F214(struct BbBoard *board, int index)
+void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int index)
 {
     u32 off = index * 0x28;
     g_020A8144(*(u32 *)((u8 *)board->images + off + 0x20));

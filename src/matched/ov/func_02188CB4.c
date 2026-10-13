@@ -1,5 +1,5 @@
 /*
- * function: func_02188CB4
+ * function: FIELDMAP_GetFieldPlayer
  * address:  0x02188CB4
  * packet:   pkt_02188C54
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_02188CB4(struct Obj00020 *p)
+void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p)
 {
     return p->f8C;
 }

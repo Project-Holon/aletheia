@@ -20,7 +20,7 @@
  *   func_021ED118  0x021ED118  thumb  ov093
  *   func_021ED1B0   0x021ED1B0  thumb  ov093
  *   func_021E9100  0x021E9100  thumb  ov093
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021ED208  0x021ED208  thumb  ov093
  *   func_021ED250  0x021ED250  thumb  ov093
  *   func_021ED268  0x021ED268  thumb  ov093
@@ -44,17 +44,17 @@
  *   func_021ED318  0x021ED318  thumb  ov093
  *   func_021ED374   0x021ED374  thumb  ov093
  *   func_021B98AC  0x021B98AC  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021ED3D4  0x021ED3D4  thumb  ov093
  *   func_021ED450  0x021ED450  thumb  ov093
- *   func_021EEE80  0x021EEE80  thumb  ov093
- *   func_021EEEF4  0x021EEEF4  thumb  ov093
- *   func_021EF694  0x021EF694  thumb  ov093
- *   func_021EF6A8  0x021EF6A8  thumb  ov093
- *   func_021EF6E8  0x021EF6E8  thumb  ov093
- *   func_021EF5E8  0x021EF5E8  thumb  ov093
- *   func_021EF664  0x021EF664  thumb  ov093
- *   func_02045838  0x02045838  arm
+ *   BTL_MSG_FormatWithSide  0x021EEE80  thumb  ov093
+ *   BTL_MSG_DispatchTagged  0x021EEEF4  thumb  ov093
+ *   BTL_MSG_GetUiString  0x021EF694  thumb  ov093
+ *   BTL_MSG_BuildUiString  0x021EF6A8  thumb  ov093
+ *   BTL_MSG_BuildTrainerString  0x021EF6E8  thumb  ov093
+ *   BTL_MSG_BuildItemUse  0x021EF5E8  thumb  ov093
+ *   BTL_MSG_BuildPlainEntry  0x021EF664  thumb  ov093
+ *   STRBUF_Copy  0x02045838  arm
  *   func_0202A298  0x0202A298  thumb
  *   func_0202A310  0x0202A310  thumb
  *   func_021ECF50   0x021ECF50  thumb  ov093
@@ -67,10 +67,10 @@
  *   func_021EDB00   0x021EDB00  thumb  ov093
  *   func_021EDB20   0x021EDB20  thumb  ov093
  *   func_021F8A40  0x021F8A40  thumb  ov094
- *   func_021EE200  0x021EE200  thumb  ov093
- *   func_021EE21C   0x021EE21C  thumb  ov093
+ *   BTLV_SCU_PrintWaitMessage  0x021EE200  thumb  ov093
+ *   BTLV_SCU_UpdateWaitMessage   0x021EE21C  thumb  ov093
  *   func_021F8A78  0x021F8A78  thumb  ov094
- *   func_021EE224  0x021EE224  thumb  ov093
+ *   BTLV_SCU_NoOp  0x021EE224  thumb  ov093
  *   func_021ED56C   0x021ED56C  thumb  ov093
  *   func_021ED57C   0x021ED57C  thumb  ov093
  *   func_021ED590   0x021ED590  thumb  ov093
@@ -80,7 +80,7 @@
  *   func_021ED660  0x021ED660  thumb  ov093
  *   func_021ED8AC   0x021ED8AC  thumb  ov093
  *   func_021ED8D8   0x021ED8D8  thumb  ov093
- *   func_021B8BEC  0x021B8BEC  thumb  ov093
+ *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
  *   func_021F84B4  0x021F84B4  thumb  ov094
  *   func_021ED4E4  0x021ED4E4  thumb  ov093
  *   func_021ED510  0x021ED510  thumb  ov093
@@ -216,7 +216,7 @@ extern void MYITEM_SAVEDATA_SetLastBattleItem(struct MyItemSave *p, u16 a, u16 b
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern void func_021ED118(u8 *p, int a, int b, u32 c, u32 d, int e, u8 f);
 extern u8 *func_021E9100(u8 *p, int n);
-extern u32 func_021CD9E0(u8 *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021ED208(char *p, u8 k, u16 a, int flag);
 extern int func_021ED250(char *p);
 extern void func_021ED268(u8 *p, u8 k, u32 x);
@@ -235,30 +235,30 @@ extern void func_021F7AAC(int a, int b, u32 c);
 extern void func_021ED294(u8 *p, int k, u32 x);
 extern void func_021ED318(char *p, u16 k, u16 a, int flag);
 extern u8 *func_021B98AC(char *const *q, u8 b);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag);
 extern int func_021ED450(u8 *p);
-extern void func_021EEE80(u32 a, u16 k, u32 *p);
-extern void func_021EEEF4(u32 a, u16 b, u32 c);
-extern void func_021EF694(u32 a, u32 b);
-extern void func_021EF6A8(u32 a, u32 b, u32 c);
-extern void func_021EF6E8(u32 a, u32 b, u32 c);
-extern void func_021EF5E8(u32 a, u8 b, u16 c);
-extern void func_021EF664(int a, u16 b, int c);
-void func_02045838(struct U16Vec *dst, struct U16Vec *src);
+extern void BTL_MSG_FormatWithSide(u32 a, u16 k, u32 *p);
+extern void BTL_MSG_DispatchTagged(u32 a, u16 b, u32 c);
+extern void BTL_MSG_GetUiString(u32 a, u32 b);
+extern void BTL_MSG_BuildUiString(u32 a, u32 b, u32 c);
+extern void BTL_MSG_BuildTrainerString(u32 a, u32 b, u32 c);
+extern void BTL_MSG_BuildItemUse(u32 a, u8 b, u16 c);
+extern void BTL_MSG_BuildPlainEntry(int a, u16 b, int c);
+void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 extern u32 func_0202A298(u32 key, u32 want, u32 heap);
 extern void func_0202A310(int key, int want, void *dest, u32 heap);
 extern void func_021ECEB8(u8 *a, u32 b, u16 s, u32 c);
 extern void func_021F8A40(int a);
-extern void func_021EE200(u8 *p);
-extern int func_021EE21C(u8 *p);
+extern void BTLV_SCU_PrintWaitMessage(u8 *p);
+extern int BTLV_SCU_UpdateWaitMessage(u8 *p);
 extern void func_021F8A78(void);
-extern void func_021EE224(char *p);
+extern void BTLV_SCU_NoOp(char *p);
 extern void func_021ED56C(int a, int b);
 extern int func_021ED57C(int a, int b);
 extern void func_021ED6BC(char *p, u32 k, u32 a);
 extern void func_021ED660(char *p, u32 k, u32 a, u32 b);
-extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
+extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
 extern void func_021F84B4(u32 a, u32 b);
 extern void func_021ED4E4(u8 *p, int a, int b);
 extern int func_021ED510(u8 *p, int a, int b);
@@ -451,7 +451,7 @@ int func_021EA160(int *st, char *ctx)
     t = func_021E9100((u8 *)ctx, 0xc);
     switch (*st) {
     case 0:
-        func_021ED208(*(char * *)&((struct Obj10108 *)ctx)->f17C, t[0xa], ((struct Obj10109 *)t)->f0, func_021CD9E0(*(u8 * *)&((struct Obj10108 *)ctx)->f4));
+        func_021ED208(*(char * *)&((struct Obj10108 *)ctx)->f17C, t[0xa], ((struct Obj10109 *)t)->f0, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj10108 *)ctx)->f4));
         func_021EA32C((u8 *)ctx, ((struct Obj10109 *)t)->f4);
         *st = *st + 1;
         break;
@@ -469,7 +469,7 @@ void func_021EA1B8(struct S_021EA1B8 *s, u32 a, int b, int c)
 {
     u8 *t;
 
-    if (func_021CD9E0(s->f04) == 0) {
+    if (BTL_CLIENT_IsMainStepActive(s->f04) == 0) {
         t = func_021E9100((u8 *)s, 0xc);
         ((struct Obj07843 *)t)->f4 = c;
         t[0xa] = b;
@@ -549,7 +549,7 @@ int func_021EA2BC(char *ctx)
     t = func_021E9100((u8 *)ctx, 0x14);
     switch (((struct Obj04377 *)t)->f8) {
     case 0:
-        f = func_021CD9E0(*(u8 * *)&((struct Obj07844 *)ctx)->f4);
+        f = BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj07844 *)ctx)->f4);
         for (i = 0; i < t[6]; i++) {
             func_021ED208(*(char * *)&((struct Obj07844 *)ctx)->f17C, t[i], ((struct Obj04377 *)t)->f10, f);
         }
@@ -610,7 +610,7 @@ void func_021EA354(void *ctx, int a, int b)
 
 void func_021EA384(char *ctx, int a)
 {
-    func_021ED494(*(char * *)&((struct Obj13558 *)ctx)->f17C, a, func_021CD9E0(*(u8 * *)&((struct Obj13558 *)ctx)->f4));
+    func_021ED494(*(char * *)&((struct Obj13558 *)ctx)->f17C, a, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj13558 *)ctx)->f4));
 }
 
 
@@ -622,7 +622,7 @@ int func_021EA3A0(u32 *p) { return func_021ED4D0(p[0x5f]) != 0; }
 
 void func_021EA3B8(char *ctx, int a, int b)
 {
-    if (func_021CD9E0(*(u8 * *)&((struct Obj21561 *)ctx)->f4) == 0) {
+    if (BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj21561 *)ctx)->f4) == 0) {
         func_021F7A28(a, b);
     }
 }
@@ -654,7 +654,7 @@ int func_021EA3F8(int a)
 
 void func_021EA40C(char *ctx, int a)
 {
-    func_021ED294((u8 *)(*(char * *)&((struct Obj13559 *)ctx)->f17C), a, func_021CD9E0(*(u8 * *)&((struct Obj13559 *)ctx)->f4));
+    func_021ED294((u8 *)(*(char * *)&((struct Obj13559 *)ctx)->f17C), a, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj13559 *)ctx)->f4));
 }
 
 
@@ -669,7 +669,7 @@ int func_021EA448(u32 *p) { return func_021ED304(p[0x5f]); }
 
 void func_021EA458(char *ctx, u16 a, u16 b)
 {
-    func_021ED318(*(char * *)&((struct Obj13560 *)ctx)->f17C, a, b, func_021CD9E0(*(u8 * *)&((struct Obj13560 *)ctx)->f4));
+    func_021ED318(*(char * *)&((struct Obj13560 *)ctx)->f17C, a, b, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj13560 *)ctx)->f4));
 }
 
 
@@ -689,7 +689,7 @@ void func_021EA488(struct S_021EA488 *s, u8 a, u8 b, u8 c)
     t[1] = b;
     t[2] = c;
     t[0] = a;
-    t[3] = func_021D5440(o);
+    t[3] = BTL_POKEPARAM_GetPokeId(o);
     s->f1c = 0;
     s->f20 = (u32)func_021EA504;
     s->f24 = s;
@@ -724,7 +724,7 @@ int func_021EA504(int *st, char *ctx)
     t = func_021E9100((u8 *)ctx, 4);
     switch (*st) {
     case 0:
-        func_021ED3D4(*(char * *)&((struct Obj10113 *)ctx)->f17C, t[0], t[1], t[2], func_021CD9E0(*(u8 * *)&((struct Obj10113 *)ctx)->f4));
+        func_021ED3D4(*(char * *)&((struct Obj10113 *)ctx)->f17C, t[0], t[1], t[2], BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj10113 *)ctx)->f4));
         *st = *st + 1;
         break;
     case 1:
@@ -741,25 +741,25 @@ void func_021EA55C(struct H_021EA01C *p, int a)
 {
     switch (p->op) {
     case 1:
-        func_021EEE80(a, p->h0, (u32 *)(&p->f4));
+        BTL_MSG_FormatWithSide(a, p->h0, (u32 *)(&p->f4));
         break;
     case 2:
-        func_021EEEF4(a, p->h0, (u32)(&p->f4));
+        BTL_MSG_DispatchTagged(a, p->h0, (u32)(&p->f4));
         break;
     case 3:
-        func_021EF694(a, p->h0);
+        BTL_MSG_GetUiString(a, p->h0);
         break;
     case 5:
-        func_021EF6A8(a, p->h0, (u32)(&p->f4));
+        BTL_MSG_BuildUiString(a, p->h0, (u32)(&p->f4));
         break;
     case 6:
-        func_021EF6E8(a, p->h0, (u32)(&p->f4));
+        BTL_MSG_BuildTrainerString(a, p->h0, (u32)(&p->f4));
         break;
     case 4:
-        func_021EF5E8(a, p->f4, p->f8);
+        BTL_MSG_BuildItemUse(a, p->f4, p->f8);
         break;
     case 7:
-        func_021EF664(a, p->f4, p->f8);
+        BTL_MSG_BuildPlainEntry(a, p->f4, p->f8);
         break;
     }
 }
@@ -767,7 +767,7 @@ void func_021EA55C(struct H_021EA01C *p, int a)
 
 void func_021EA5E4(unsigned char *p, void *src)
 {
-    func_02045838(((struct Obj21562 *)p)->fAC, src);
+    STRBUF_Copy(((struct Obj21562 *)p)->fAC, src);
 }
 
 
@@ -806,14 +806,14 @@ void func_021EA65C(char *p, struct H_021EA614 *h)
 
 void func_021EA678(char *p, u16 k, int *c)
 {
-    func_021EEE80(((struct Obj01899 *)p)->fAC, k, (unsigned int *)c);
+    BTL_MSG_FormatWithSide(((struct Obj01899 *)p)->fAC, k, (unsigned int *)c);
     func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }
 
 
 void func_021EA694(char *p, u16 k, int *c)
 {
-    func_021EEEF4(((struct Obj01899 *)p)->fAC, k, (unsigned int)c);
+    BTL_MSG_DispatchTagged(((struct Obj01899 *)p)->fAC, k, (unsigned int)c);
     func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }
 
@@ -832,7 +832,7 @@ int func_021EA6B0(char *p, u16 a, u16 b)
 
 void func_021EA6F4(void *p, u8 b, u16 c)
 {
-    func_021EF5E8(*(u32 *)&((struct Obj01899 *)p)->fAC, b, c);
+    BTL_MSG_BuildItemUse(*(u32 *)&((struct Obj01899 *)p)->fAC, b, c);
     func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }
 
@@ -848,7 +848,7 @@ int func_021EA720(u32 *p) { return func_021ECF50(p[0x5f]); }
 
 void func_021EA730(char *p, u32 a, u16 b, u32 c)
 {
-    if (func_021CD9E0(*(u8 * *)&((struct Obj01899 *)p)->f4) == 0) {
+    if (BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj01899 *)p)->f4) == 0) {
         func_021ECEB8(*(u8 * *)&((struct Obj01899 *)p)->f17C, a, b, c);
     }
 }
@@ -899,20 +899,20 @@ int func_021EA7E8(void *w, int v)
 void func_021EA7FC(char *p)
 {
     func_021F8A40(3);
-    func_021EE200((u8 *)(*(char * *)&((struct Obj21566 *)p)->f17C));
+    BTLV_SCU_PrintWaitMessage((u8 *)(*(char * *)&((struct Obj21566 *)p)->f17C));
 }
 
 
 /*
- * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; func_021EE21C is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
+ * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; BTLV_SCU_UpdateWaitMessage is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
  */
-int func_021EA814(u32 *p) { return func_021EE21C((u8 *)p[0x5f]); }
+int func_021EA814(u32 *p) { return BTLV_SCU_UpdateWaitMessage((u8 *)p[0x5f]); }
 
 
 void func_021EA824(char *p)
 {
     func_021F8A78();
-    func_021EE224(*(char * *)&((struct Obj21567 *)p)->f17C);
+    BTLV_SCU_NoOp(*(char * *)&((struct Obj21567 *)p)->f17C);
 }
 
 
@@ -930,7 +930,7 @@ int func_021EA878(u32 *p) { return func_021ED5D8(p[0x5f]); }
 
 void func_021EA888(char *ctx, int a)
 {
-    func_021ED6BC(*(char * *)&((struct Obj13562 *)ctx)->f17C, a, func_021CD9E0(*(u8 * *)&((struct Obj13562 *)ctx)->f4));
+    func_021ED6BC(*(char * *)&((struct Obj13562 *)ctx)->f17C, a, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj13562 *)ctx)->f4));
 }
 
 
@@ -942,7 +942,7 @@ int func_021EA8A4(u32 *p) { return func_021ED714(p[0x5f]); }
 
 void func_021EA8B4(char *ctx, u32 a, u32 b)
 {
-    func_021ED660(*(char * *)&((struct Obj13563 *)ctx)->f17C, a, b, func_021CD9E0(*(u8 * *)&((struct Obj13563 *)ctx)->f4));
+    func_021ED660(*(char * *)&((struct Obj13563 *)ctx)->f17C, a, b, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj13563 *)ctx)->f4));
 }
 
 
@@ -968,8 +968,8 @@ void func_021EA904(u32 *p, u32 a, u32 b, u32 c, u8 d, u8 e)
     t[2] = c;
     t[3] = d;
     t[4] = e;
-    t[5] = func_021B8BEC((u8 *)p[0], a, d);
-    t[6] = func_021B8BEC((u8 *)p[0], a, e);
+    t[5] = BTL_MAIN_GetClientTrainerIndex((u8 *)p[0], a, d);
+    t[6] = BTL_MAIN_GetClientTrainerIndex((u8 *)p[0], a, e);
     p[7] = 0;
     p[8] = (u32)func_021EA990;
     p[9] = (u32)p;

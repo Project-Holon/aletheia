@@ -1,5 +1,5 @@
 /*
- * function: func_021B9B44
+ * function: BSUBWAY_RECORD_LIST_CreateActors
  * address:  0x021B9B44
  * packet:   pkt_ov069_021B9B44
  * region:   ov069
@@ -16,9 +16,9 @@
  * Twin: ov111_func_021C75E4.
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   d_021BA6BC  0x021BA6BC  data  a4
+ *   sActorTemplates  0x021BA6BC  data  a4
  */
 
 typedef unsigned char u8;
@@ -42,24 +42,24 @@ typedef struct WorkObj {
     int arr[1];
 } Obj;
 
-extern const Ent d_021BA6BC[];
+extern const Ent sActorTemplates[];
 
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *, unsigned int);
 
-void func_021B9B44(Obj *o)
+void BSUBWAY_RECORD_LIST_CreateActors(Obj *o)
 {
     int i;
     Rec r;
 
     for (i = 0; i < 4; i++) {
-        r.a = d_021BA6BC[i].a;
-        r.b = d_021BA6BC[i].b;
-        r.c = d_021BA6BC[i].c;
+        r.a = sActorTemplates[i].a;
+        r.b = sActorTemplates[i].b;
+        r.c = sActorTemplates[i].c;
         r.e = 0;
         r.d = 0;
-        o->slot[i] = (int)func_0204B294((void *)o->f11C, o->arr[d_021BA6BC[i].d], o->arr[d_021BA6BC[i].e], o->arr[d_021BA6BC[i].f], &r, 0, 0x80);
+        o->slot[i] = (int)CLACT_CreateActor((void *)o->f11C, o->arr[sActorTemplates[i].d], o->arr[sActorTemplates[i].e], o->arr[sActorTemplates[i].f], &r, 0, 0x80);
         func_0204B92C((struct Obj *)o->slot[i], 1);
     }
 }

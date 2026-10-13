@@ -11,7 +11,7 @@
  *   holds unrelated interior ARM instructions at the overlapping address.
  * symbols:
  *   func_021B95B8 0x021B95B8 thumb ov100
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021799C0 0x021799C0 thumb ov015
  *   func_021BAAEC 0x021BAAEC thumb ov100
  *   GFL_NET_StartChangeoverEx 0x0203D060 arm
@@ -21,7 +21,7 @@
  *   func_021BB270 0x021BB270 thumb ov100
  */
 #include "../include/Obj22085.h"
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021799C0(int a);
@@ -33,7 +33,7 @@ extern void func_021B9848(int a);
 extern void func_021BB270(int p);
 extern void func_021B95B8(u8 *p, u32 v);
 void func_021BAC80(int a) {
- if(func_0203CD98()==1) {
+ if(GFL_NET_GetRunState()==1) {
   switch(((struct Obj22085 *)a)->f24C) { case 9: case 10: func_021799C0((int)func_021BAAEC); break; }
   GFL_NET_StartChangeoverEx((u32)func_021B9FBC,(u32)func_021B9FF4,(u32)func_021B9848);
   func_021B95B8((u8 *)a,(u32)func_021BB270);

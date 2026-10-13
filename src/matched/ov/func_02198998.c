@@ -1,5 +1,5 @@
 /*
- * function: func_02198998
+ * function: FLDMMDL_ACMD_Wait1F
  * address:  0x02198998
  * packet:   pkt_02198998
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_02198960(its own argument 1, 0x1) and returns 0x1.
+ * Calls FLDMMDL_ACMD_WaitInit(its own argument 1, 0x1) and returns 0x1.
  *
  * symbols:
- *   func_02198960  0x02198960  thumb
+ *   FLDMMDL_ACMD_WaitInit  0x02198960  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_02198960(u32 a1, u32 a2);
+extern void FLDMMDL_ACMD_WaitInit(u32 a1, u32 a2);
 
-u32 func_02198998(u32 a1)
+u32 FLDMMDL_ACMD_Wait1F(u32 a1)
 {
-    func_02198960(a1, 0x1);
+    FLDMMDL_ACMD_WaitInit(a1, 0x1);
 
     return 0x1;
 }

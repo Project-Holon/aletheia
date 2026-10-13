@@ -1,5 +1,5 @@
 /*
- * function: func_021855C8
+ * function: OEKAKI_StepResetWaitTimer
  * address:  0x021855C8
  * packet:   pkt_021855C8
  * region:   ov023
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02185354  0x02185354  thumb  ov023
+ *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
  */
 #include "../include/Obj20349.h"
 
-extern void func_02185354(char *p);
+extern void OEKAKI_ApplyRemoteStrokes(char *p);
 
 struct bf4210 {
     unsigned char a : 3;
@@ -22,10 +22,10 @@ struct bf4210 {
     unsigned char c : 2;
 };
 
-int func_021855C8(unsigned char *p, int a1)
+int OEKAKI_StepResetWaitTimer(unsigned char *p, int a1)
 {
     ((struct bf4210 *)(p + 0x4210))->b = 0;
     ((struct Obj20349 *)p)->f9286 = 0;
-    func_02185354((char *)p);
+    OEKAKI_ApplyRemoteStrokes((char *)p);
     return a1;
 }

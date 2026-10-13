@@ -1,5 +1,5 @@
 /*
- * function: func_021BA65C
+ * function: POKELIST_CheckBagItem
  * address: 0x021BA65C
  * packet: pkt_ov091_021BA65C
  * region: ov091
@@ -16,4 +16,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02007FB8(u8 *, u16, u16);
-u32 func_021BA65C(u8 *p, u16 id) { return func_02007FB8(*(u8 * *)&((struct Obj20870 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f4, id, ((struct Obj00009 *)p)->f0); }
+u32 POKELIST_CheckBagItem(u8 *p, u16 id) { return func_02007FB8(*(u8 * *)&((struct Obj20870 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f4, id, ((struct Obj00009 *)p)->f0); }

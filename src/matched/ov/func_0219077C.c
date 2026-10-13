@@ -1,5 +1,5 @@
 /*
- * function: func_0219077C
+ * function: FIELD_MSGBG_IsMsgWinTransDone
  * address:  0x0219077C
  * packet:   pkt_0219077C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_0219061C  0x0219061C  thumb  ov021
+ *   FIELD_MSGBG_IsMsgPrintTransDone  0x0219061C  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0219061C(u32 *p);
+extern u32 FIELD_MSGBG_IsMsgPrintTransDone(u32 *p);
 
-int func_0219077C(u8 *p)
+int FIELD_MSGBG_IsMsgWinTransDone(u8 *p)
 {
-    return func_0219061C((u32 *)(((struct Obj17928 *)p)->f4));
+    return FIELD_MSGBG_IsMsgPrintTransDone((u32 *)(((struct Obj17928 *)p)->f4));
 }

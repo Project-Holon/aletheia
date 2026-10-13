@@ -1,5 +1,5 @@
 /*
- * function: func_021C6874
+ * function: FIELD_G3DOBJ_LoadResource
  * address:  0x021C6874
  * packet:   pkt_ov021_021C6874
  * region:   ov021
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02046E24   0x02046E24  arm
- *   func_02046F50   0x02046F50  arm
- *   func_02046F48   0x02046F48  arm
- *   func_0206E964   0x0206E964  arm
- *   func_02022040   0x02022040  thumb
- *   func_021C6854   0x021C6854  thumb  ov021
+ *   G3D_SYSTEM_CreateResourceArcHandle   0x02046E24  arm
+ *   G3D_SYSTEM_CheckResourceType   0x02046F50  arm
+ *   G3D_SYSTEM_GetResourceFile   0x02046F48  arm
+ *   NNS_G3dGetTex   0x0206E964  arm
+ *   PALANM_ConvertGrayTable   0x02022040  thumb
+ *   FIELD_G3DOBJ_TransferResourceTexture   0x021C6854  thumb  ov021
  *   MIi_CpuClear32  0x02082A7C  arm
  */
 
@@ -48,38 +48,38 @@ typedef struct {
 } Pal;
 
 struct Tagged;
-extern void *func_02046E24(u32 a0, u32 a1);
-extern u32 func_02046F50(struct Tagged *p, u32 sel);
-extern void *func_02046F48(struct Tagged *p);
-extern unsigned char *func_0206E964(unsigned char *p);
-extern void func_02022040(u16 *pal, int n, const u8 *table);
-extern void func_021C6854(S *s);
+extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
+extern u32 G3D_SYSTEM_CheckResourceType(struct Tagged *p, u32 sel);
+extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+extern void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
+extern void FIELD_G3DOBJ_TransferResourceTexture(S *s);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 
-void func_021C6874(S *s, int unused, D *d, int mode, int flag)
+void FIELD_G3DOBJ_LoadResource(S *s, int unused, D *d, int mode, int flag)
 {
     u32 h;
     Pal *p;
     int i;
 
     if (d->f0 != 0)
-        s->f0 = (u32)func_02046E24(d->f0, d->fC);
+        s->f0 = (u32)G3D_SYSTEM_CreateResourceArcHandle(d->f0, d->fC);
     if (d->f4 != 0)
-        s->f4 = (u32)func_02046E24(d->f4, d->fE);
+        s->f4 = (u32)G3D_SYSTEM_CreateResourceArcHandle(d->f4, d->fE);
     if (flag != 0) {
         h = 0;
         if (s->f0 != 0)
             h = s->f0;
         if (s->f4 != 0)
             h = s->f4;
-        if (func_02046F50((struct Tagged *)h, 2)) {
-            p = (Pal *)func_0206E964((unsigned char *)((u32)func_02046F48((struct Tagged *)h)));
-            func_02022040((u16 *)((u8 *)p + p->f38), (u32)(p->f30 << 3) / sizeof(u16), (const u8 *)flag);
+        if (G3D_SYSTEM_CheckResourceType((struct Tagged *)h, 2)) {
+            p = (Pal *)NNS_G3dGetTex((unsigned char *)((u32)G3D_SYSTEM_GetResourceFile((struct Tagged *)h)));
+            PALANM_ConvertGrayTable((u16 *)((u8 *)p + p->f38), (u32)(p->f30 << 3) / sizeof(u16), (const u8 *)flag);
         }
     }
     if (s->f0 != 0 || s->f4 != 0) {
         if (mode == 1)
-            func_021C6854(s);
+            FIELD_G3DOBJ_TransferResourceTexture(s);
         else
             s->f29 = 2;
     }
@@ -87,6 +87,6 @@ void func_021C6874(S *s, int unused, D *d, int mode, int flag)
         s->f28 = d->f20;
         MIi_CpuClear32(0, s->f8, sizeof(s->f8));
         for (i = 0; i < s->f28; i++)
-            s->f8[i] = (u32)func_02046E24(d->f8, d->f10[i]);
+            s->f8[i] = (u32)G3D_SYSTEM_CreateResourceArcHandle(d->f8, d->f10[i]);
     }
 }

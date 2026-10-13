@@ -1,5 +1,5 @@
 /*
- * function: func_021C6580
+ * function: FIELD_G3DOBJ_DeleteResource
  * address:  0x021C6580
  * packet:   pkt_021C6580
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call on a strided element of the array at +8.
  *
  * symbols:
- *   func_021C6940  0x021C6940  thumb  ov021
+ *   FIELD_G3DOBJ_FreeResource  0x021C6940  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021C6940(u8 *p);
+extern void FIELD_G3DOBJ_FreeResource(u8 *p);
 
-void func_021C6580(u8 *p, int i)
+void FIELD_G3DOBJ_DeleteResource(u8 *p, int i)
 {
-    func_021C6940((u8 *)(((struct Obj18310 *)p)->f8 + i * 0x2c));
+    FIELD_G3DOBJ_FreeResource((u8 *)(((struct Obj18310 *)p)->f8 + i * 0x2c));
 }

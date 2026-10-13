@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0202208C
+ * function: WIPE_SYS_Start
  *
  * symbols:
  *   g_wipeSys                0x021467A4  data
@@ -25,7 +25,7 @@
  * The setup entry point of the dual-screen window/text cluster whose object
  * lives at 0x021467A4, the same fixed object WIPE_SUB_ClearSys zero-fills in five
  * sub-ranges (0x00/0x14, 0x14/0x30, 0x44/0x30, 0x74/0x18, 0x8C/0xC0) and the
- * one func_0202223C/WIPE_SetMstBrightColor read the sentinel colour out of at +0x150.
+ * one WIPE_SetBrightnessFadeOut/WIPE_SetMstBrightColor read the sentinel colour out of at +0x150.
  * It divides its sixth argument by CARD_GetBackupSectorSize(), clears the
  * object, runs two configuration calls, then builds the two screens with the
  * same eleven-argument builder WIPE_SYS_InitPanel: sub-object +0x14 with the
@@ -57,7 +57,7 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0202208C.c  *       --func func_0202208C --addr 0x0202208C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/WIPE_SYS_Start.c  *       --func WIPE_SYS_Start --addr 0x0202208C --cc 1.1p1 --thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -99,7 +99,7 @@ extern void  WIPE_SYS_InitPanel(void *sub, u32 a, u32 b, s32 c, u32 d, u32 e,
 extern void WIPE_SYS_MainPanel(u32 *obj, void *arg);
 extern void WIPE_SUB_RequestBrightnessReset(struct Screen *s);
 
-void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7)
+void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7)
 {
     s32    n;
     struct G *g;

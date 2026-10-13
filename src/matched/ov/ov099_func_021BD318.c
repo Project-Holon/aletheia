@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D378  0x0203D378  arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  *   func_021BC090  0x021BC090  thumb  ov099
  */
@@ -23,11 +23,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
 
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int POKE_REGULATION_GetDataSize(void);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(char *p);
 
@@ -37,11 +37,11 @@ int func_021BD318(char *p, int v)
     u32 h;
 
     t = 0;
-    if (func_0203D378() == 0) {
+    if (GFL_NET_IsParentAid() == 0) {
         t = 1;
     }
-    h = (u32)func_020399A8();
-    if (func_0203D3F8(h, 0xFF, 0xA07, POKE_REGULATION_GetDataSize(),
+    h = (u32)GFL_NET_HANDLE_GetCurrentHandle();
+    if (GFL_NET_SendData(h, 0xFF, 0xA07, POKE_REGULATION_GetDataSize(),
                       *(u32 *)(*(char * *)&((struct Obj13690 *)p)->f248 + t * 4 + 0x14), 0, 0, 1) != 0) {
         func_021BAAB8(p, 0x4C, 0);
         func_021BC090(p);

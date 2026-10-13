@@ -1,5 +1,5 @@
 /*
- * function: func_021BC944
+ * function: STARTMENU_ConfigPromptPulseColor
  * address:  0x021BC944
  * packet:   pkt_ov088_021BC944
  * region:   ov088
@@ -29,7 +29,7 @@ typedef struct W {
 extern s16 tbl_020A1B38[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-s32 func_021BC944(W *w)
+s32 STARTMENU_ConfigPromptPulseColor(W *w)
 {
     s32 n = w->f18 + 0x400;
     s32 v;

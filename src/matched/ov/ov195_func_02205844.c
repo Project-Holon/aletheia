@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  */
 #include "../include/Obj24950.h"
 
 typedef unsigned int   u32;
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 
 void func_02205844(int a, char *b)
 {
-    func_02017E40((void *)(((struct Obj24950 *)b)->f10), 6, 0);
+    POKE_TOOL_SetPartyValue((void *)(((struct Obj24950 *)b)->f10), 6, 0);
 }

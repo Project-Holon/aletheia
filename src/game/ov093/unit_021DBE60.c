@@ -10,11 +10,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0718 0x021F0718 data a4
+ *   gCursedBodyHandlers 0x021F0718 data a4
  */
 #include "unit_021DBAF0_types.h"
 
-extern int d_021F0718;
+extern int gCursedBodyHandlers;
 
 /* Cursed Body handler table (one handler). */
-int *func_021DBE60(int *handlerCount) { *handlerCount = 1; return &d_021F0718; }
+int *func_021DBE60(int *handlerCount) { *handlerCount = 1; return &gCursedBodyHandlers; }

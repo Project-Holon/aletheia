@@ -1,5 +1,5 @@
 /*
- * function: func_021C6470
+ * function: FIELD_G3DOBJ_Update
  * address:  0x021C6470
  * packet:   pkt_ov021_021C6470
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C6854  0x021C6854  thumb  ov021
- *   func_021C69B4  0x021C69B4  thumb  ov021
+ *   FIELD_G3DOBJ_TransferResourceTexture  0x021C6854  thumb  ov021
+ *   FIELD_G3DOBJ_CreateObject  0x021C69B4  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -37,10 +37,10 @@ typedef struct {
     Elem *fC;
 } Mgr;
 
-extern void func_021C6854(u8 *s);
-extern void func_021C69B4(Elem *e, u8 *s, int a, int b, int c, int d, int f);
+extern void FIELD_G3DOBJ_TransferResourceTexture(u8 *s);
+extern void FIELD_G3DOBJ_CreateObject(Elem *e, u8 *s, int a, int b, int c, int d, int f);
 
-void func_021C6470(Mgr *m)
+void FIELD_G3DOBJ_Update(Mgr *m)
 {
     int i;
     int j;
@@ -52,13 +52,13 @@ void func_021C6470(Mgr *m)
         s = m->f8;
         for (i = 0; i < m->f4; i++) {
             if (s[0x29] == 2)
-                func_021C6854(s);
+                FIELD_G3DOBJ_TransferResourceTexture(s);
             s += 0x2c;
         }
         s = m->f8;
         for (j = 0; j < m->f6; j++) {
             if (e->kind == 2)
-                func_021C69B4(e, s + e->f4 * 0x2c, e->f4, e->f6, m->f0, 0, 0);
+                FIELD_G3DOBJ_CreateObject(e, s + e->f4 * 0x2c, e->f4, e->f6, m->f0, 0, 0);
             e++;
         }
     }

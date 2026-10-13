@@ -1,5 +1,5 @@
 /*
- * function: func_021BA86C
+ * function: TOWNMAP_TownInit
  * address:  0x021BA86C
  * packet:   pkt_ov072_021BA86C
  * region:   ov072
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * Lever: f3c as `if (s5) f3c = 1; else f3c = f38 && f(...);` (a nested
- * ternary cross-jumps the two `movs r0,#1` arms). func_021BBB3C's second
+ * ternary cross-jumps the two `movs r0,#1` arms). TOWNMAP_GRH_GetTownInfoValue's second
  * parameter is u16 here (the caller truncates it before each bl).
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_021BBB3C  0x021BBB3C  thumb  ov072
- *   func_02166CD0  0x02166CD0  thumb  ov010
- *   func_021BA774  0x021BA774  thumb  ov072
- *   func_0204B294  0x0204B294  arm
+ *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
+ *   SYMBOL_MAP_CheckEventFlag  0x02166CD0  thumb  ov010
+ *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
+ *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAffineMode  0x0204B570  arm
- *   func_0204B84C  0x0204B84C  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
- *   func_021BAE44  0x021BAE44  thumb  ov072
+ *   TOWNMAP_TownUnhighlight  0x021BAE44  thumb  ov072
  */
 typedef unsigned char u8;
 typedef short s16;
@@ -50,19 +50,19 @@ typedef struct {
 } W;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern unsigned short func_021BBB3C(char *p, int a, int b);
-extern int func_02166CD0(void *a, u32 msg);
-extern int func_021BA774(char *p, int i);
+extern unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
+extern int SYMBOL_MAP_CheckEventFlag(void *a, u32 msg);
+extern int TOWNMAP_TownGetField(char *p, int i);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Actor;
 struct Node;
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-extern void func_0204B84C(int obj, int v);
+extern void CLACT_SetActorBgPriority(int obj, int v);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-extern void func_021BAE44(W *p);
+extern void TOWNMAP_TownUnhighlight(W *p);
 
-void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, u16 s4, int s5)
+void TOWNMAP_TownInit(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, u16 s4, int s5)
 {
     Pos pos;
     u32 r;
@@ -72,27 +72,27 @@ void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, 
     p->f34 = 0x1000;
     p->f4 = a;
     p->f8[0] = b;
-    r = func_021BBB3C((char *)a, (u16)b, 15);
+    r = TOWNMAP_GRH_GetTownInfoValue((char *)a, (u16)b, 15);
     if (r != 0xFFFF)
-        p->f38 = func_02166CD0(s3, r);
+        p->f38 = SYMBOL_MAP_CheckEventFlag(s3, r);
     else
         p->f38 = 0;
     if (s5)
         p->f38 = 1;
     for (i = 0; i < 9; i++)
-        p->f8[i + 1] = func_021BBB3C((char *)p->f4, (u16)p->f8[0], i + 2);
+        p->f8[i + 1] = TOWNMAP_GRH_GetTownInfoValue((char *)p->f4, (u16)p->f8[0], i + 2);
     if (s5)
         p->f3c = 1;
     else
-        p->f3c = p->f38 && func_021BBB3C((char *)p->f4, (u16)p->f8[0], 12);
-    r = func_021BBB3C((char *)p->f4, (u16)p->f8[0], 16);
+        p->f3c = p->f38 && TOWNMAP_GRH_GetTownInfoValue((char *)p->f4, (u16)p->f8[0], 12);
+    r = TOWNMAP_GRH_GetTownInfoValue((char *)p->f4, (u16)p->f8[0], 16);
     if (r != 0xFFFF)
-        p->f40 = func_02166CD0(s3, r) == 0;
+        p->f40 = SYMBOL_MAP_CheckEventFlag(s3, r) == 0;
     else
         p->f40 = 0;
     if (s5)
         p->f40 = 0;
-    switch (func_021BA774((char *)p, 11)) {
+    switch (TOWNMAP_TownGetField((char *)p, 11)) {
     case 0:
         p->f31 = 2;
         p->f30 = 1;
@@ -121,14 +121,14 @@ void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, 
             p->f30 = 0x10;
         break;
     }
-    if (func_021BA774((char *)p, 11) != 1) {
+    if (TOWNMAP_TownGetField((char *)p, 11) != 1) {
         func_02082BCC(&pos, 0, 8);
-        pos.x = func_021BA774((char *)p, 2);
-        pos.y = func_021BA774((char *)p, 3);
-        p->obj = (int)func_0204B294((void *)c, s0, s2, s1, &pos, 0, s4);
+        pos.x = TOWNMAP_TownGetField((char *)p, 2);
+        pos.y = TOWNMAP_TownGetField((char *)p, 3);
+        p->obj = (int)CLACT_CreateActor((void *)c, s0, s2, s1, &pos, 0, s4);
         CLACT_SetActorAffineMode((struct Actor *)p->obj, 2);
-        func_0204B84C(p->obj, 2);
+        CLACT_SetActorBgPriority(p->obj, 2);
         CLACT_SetActorDrawPriority((struct Node *)p->obj, 4);
     }
-    func_021BAE44(p);
+    TOWNMAP_TownUnhighlight(p);
 }

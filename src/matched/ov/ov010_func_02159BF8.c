@@ -1,5 +1,5 @@
 /*
- * function: func_02159BF8
+ * function: MAP_MATRIX_GetHeight
  * address:  0x02159BF8
  * packet:   pkt_ov010_02159BF8
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf accessor (prints as .word): returns the field at +0xA.
- * Sole blocker of ov021 func_02189B30's MATCH.
+ * Sole blocker of ov021 FIELDMAP_SetupMapperParam's MATCH.
  */
 
 typedef struct Obj {
@@ -18,7 +18,7 @@ typedef struct Obj {
     unsigned short f;
 } Obj;
 
-unsigned short func_02159BF8(Obj *p)
+unsigned short MAP_MATRIX_GetHeight(Obj *p)
 {
     return p->f;
 }

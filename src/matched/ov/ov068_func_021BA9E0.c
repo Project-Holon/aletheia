@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9E0
+ * function: OPTION_MENU_GetListSettings
  * address:  0x021BA9E0
  * packet:   pkt_021BA9E0
  * region:   ov068
@@ -19,7 +19,7 @@ typedef struct {
     u32 c;
 } Blk;
 
-void func_021BA9E0(u8 *p, Blk *out)
+void OPTION_MENU_GetListSettings(u8 *p, Blk *out)
 {
     *out = *(Blk *)(p + 0x44);
 }

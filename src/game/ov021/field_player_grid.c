@@ -1,7 +1,7 @@
 /*
  * file:     field_player_grid.c
  * unit:     yes
- * function: func_021A4140, func_021A41A8, func_021A41B0, func_021A4224, func_021A4254, func_021A428C, func_021A43D8, func_021A4444, func_021A448C, func_021A44BC, func_021A44C8, func_021A4544, func_021A4598, func_021A4664, func_021A4698, func_021A46F0, func_021A4768, func_021A47B4, func_021A482C, func_021A4890, func_021A48A4, func_021A48C8, func_021A491C, func_021A4960, func_021A4994, func_021A4A74, func_021A4AA8, func_021A4B00, func_021A4B54, func_021A4B98, func_021A4C1C, func_021A4C50, func_021A4CA8, func_021A4CF4, func_021A4D8C, func_021A4D90, func_021A4DC0, func_021A4E78, func_021A4E9C, func_021A4ED8, func_021A4F04, func_021A4F0C, func_021A4F50, func_021A4F58, func_021A4FA8, func_021A5010, func_021A5014, func_021A5044, func_021A50BC, func_021A50E0, func_021A511C, func_021A5148, func_021A51A4, func_021A51A8, func_021A51D8, func_021A5204, func_021A5228, func_021A5264, func_021A5304, func_021A530C, func_021A5318, func_021A5328, func_021A5334, func_021A5340, func_021A5354, func_021A5360, func_021A536C, func_021A5378, func_021A5390, func_021A53A4, func_021A53BC, func_021A53D0, func_021A5408, func_021A5458, func_021A548C, func_021A54A0, func_021A54B4, func_021A550C, func_021A552C, func_021A5538, func_021A55A8, func_021A55DC, func_021A55FC, func_021A5610, func_021A5630, func_021A569C, func_021A56C0, func_021A56F4, func_021A5708, func_021A5728, func_021A572C, func_021A5738, func_021A575C, func_021A5764, func_021A5768, func_021A5778, func_021A5788, func_021A57C0, func_021A5810
+ * function: FIELD_PLAYER_GRID_Create, FIELD_PLAYER_GRID_Delete, FIELD_PLAYER_GRID_Move, FIELD_PLAYER_GRID_BeginMove, FIELD_PLAYER_GRID_CanStartMove, FIELD_PLAYER_GRID_PlayTileSound, FIELD_PLAYER_GRID_PlayStepSound, FIELD_PLAYER_GRID_GetMoveResult, FIELD_PLAYER_GRID_GetDirChangeKind, FIELD_PLAYER_GRID_CheckCoreAction, FIELD_PLAYER_GRID_GetMoveResultOnFoot, FIELD_PLAYER_GRID_GetStandResultOnFoot, FIELD_PLAYER_GRID_GetWalkResultOnFoot, FIELD_PLAYER_GRID_GetTurnResultOnFoot, FIELD_PLAYER_GRID_GetBlockedResultOnFoot, FIELD_PLAYER_GRID_GetMoveResultOnFootHop, FIELD_PLAYER_GRID_GetStandResultOnFootHop, FIELD_PLAYER_GRID_GetWalkResultOnFootHop, FIELD_PLAYER_GRID_GetHoldResultOnFootHop, FIELD_PLAYER_GRID_GetHopAirResult, FIELD_PLAYER_GRID_GetHopFallResult, FIELD_PLAYER_GRID_GetMoveResultOnCycle, FIELD_PLAYER_GRID_GetStandResultOnCycle, FIELD_PLAYER_GRID_IsTileBlockingCycle, FIELD_PLAYER_GRID_GetWalkResultOnCycle, FIELD_PLAYER_GRID_GetTurnResultOnCycle, FIELD_PLAYER_GRID_GetBlockedResultOnCycle, FIELD_PLAYER_GRID_GetMoveResultOnSurf, FIELD_PLAYER_GRID_GetStandResultOnSurf, FIELD_PLAYER_GRID_GetWalkResultOnSurf, FIELD_PLAYER_GRID_GetTurnResultOnSurf, FIELD_PLAYER_GRID_GetBlockedResultOnSurf, FIELD_PLAYER_GRID_ApplyMoveResult, FIELD_PLAYER_GRID_ApplyMoveResultOnFoot, FIELD_PLAYER_GRID_ApplyNoneOnFoot, FIELD_PLAYER_GRID_StartStandOnFoot, FIELD_PLAYER_GRID_StartWalkOnFoot, FIELD_PLAYER_GRID_StartTurnOnFoot, FIELD_PLAYER_GRID_StartBlockedOnFoot, FIELD_PLAYER_GRID_StartLedgeJumpOnFoot, FIELD_PLAYER_GRID_StartHoldOnFoot, FIELD_PLAYER_GRID_StartHopOnFoot, FIELD_PLAYER_GRID_StartHopAirOnFoot, FIELD_PLAYER_GRID_StartHopFallOnFoot, FIELD_PLAYER_GRID_ApplyMoveResultOnCycle, FIELD_PLAYER_GRID_ApplyNoneOnCycle, FIELD_PLAYER_GRID_StartStandOnCycle, FIELD_PLAYER_GRID_StartWalkOnCycle, FIELD_PLAYER_GRID_StartTurnOnCycle, FIELD_PLAYER_GRID_StartBlockedOnCycle, FIELD_PLAYER_GRID_StartLedgeJumpOnCycle, FIELD_PLAYER_GRID_ApplyMoveResultOnSurf, FIELD_PLAYER_GRID_ApplyNoneOnSurf, FIELD_PLAYER_GRID_StartStandOnSurf, FIELD_PLAYER_GRID_StartWalkOnSurf, FIELD_PLAYER_GRID_StartTurnOnSurf, FIELD_PLAYER_GRID_StartBlockedOnSurf, FIELD_PLAYER_GRID_GetStepHitFlags, FIELD_PLAYER_GRID_SetFlag, FIELD_PLAYER_GRID_ClearFlag, FIELD_PLAYER_GRID_HasFlag, FIELD_PLAYER_GRID_SetForcedMoveFlag, FIELD_PLAYER_GRID_ClearForcedMoveFlag, FIELD_PLAYER_GRID_IsForcedMoveFlagSet, FIELD_PLAYER_GRID_SetNoForcedMoveFlag, FIELD_PLAYER_GRID_ClearNoForcedMoveFlag, FIELD_PLAYER_GRID_ClearStepPendingFlag, FIELD_PLAYER_GRID_SetHoldFlag, FIELD_PLAYER_GRID_IsHoldFlagSet, FIELD_PLAYER_GRID_SetHopFlag, FIELD_PLAYER_GRID_IsHopFlagSet, FIELD_PLAYER_GRID_ResetBlockedPose, FIELD_PLAYER_GRID_StopTurnOrBlocked, FIELD_PLAYER_GRID_CheckForcedMoveTile, FIELD_PLAYER_GRID_IsOnForcedMoveTile, FIELD_PLAYER_GRID_IsHopping, FIELD_PLAYER_GRID_FinishHop, FIELD_PLAYER_GRID_ReleaseForcedMove, FIELD_PLAYER_GRID_RunNoForcedMove, FIELD_PLAYER_GRID_StartForcedMove, FIELD_PLAYER_GRID_RunForcedMove, FIELD_PLAYER_GRID_IsHopTileKind, FIELD_PLAYER_GRID_IsHopStartTileKind, FIELD_PLAYER_GRID_IsOnHopStartTile, FIELD_PLAYER_GRID_FindHopDir, FIELD_PLAYER_GRID_GetHopStepHitFlags, FIELD_PLAYER_GRID_IsAtGroundHeight, FIELD_PLAYER_GRID_StartHold, FIELD_PLAYER_GRID_EndHold, FIELD_PLAYER_GRID_GetCore, FIELD_PLAYER_GRID_GetMmdl, FIELD_PLAYER_GRID_ResetHold, FIELD_PLAYER_GRID_StopForcedMove, FIELD_PLAYER_GRID_GetHopLanded, FIELD_PLAYER_GRID_SetHopLanded, FIELD_PLAYER_GRID_IsBlocked, FIELD_PLAYER_GRID_GetAttrAtDir, FIELD_PLAYER_GRID_GetHeightStep, FIELD_PLAYER_GRID_CheckMapConnectAhead
  * address:  0x021A4140
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -11,91 +11,91 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
- * Split from weather_task.c (lane L141): __FILE__ anchor 021A41A0 (d_021DDECC "field_player_grid.c"); 021A4140 is the grid constructor.
+ * Split from weather_task.c (lane L141): __FILE__ anchor 021A41A0 (sFieldPlayerGridFile "field_player_grid.c"); 021A4140 is the grid constructor.
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_021AB11C  0x021AB11C  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_0216D85C  0x0216D85C  thumb  ov010
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D608  0x0216D608  thumb  ov010
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   d_021DDECC     0x021DDECC  data  ov021  a4
- *   func_02163E34  0x02163E34  thumb  ov010
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
- *   d_021D8A00     0x021D8A00  data  ov021  a4
- *   d_021D8A0C     0x021D8A0C  data  ov021  a4
- *   d_021D89F4     0x021D89F4  data  ov021  a4
- *   d_021D8A2C     0x021D8A2C  data  a4
- *   func_0202E83C  0x0202E83C  thumb
- *   func_02164208  0x02164208  thumb  ov010
- *   func_021AB158  0x021AB158  thumb  ov021
- *   func_021AB164  0x021AB164  thumb  ov021
- *   func_021AB170  0x021AB170  thumb  ov021
- *   func_021AB17C  0x021AB17C  thumb  ov021
- *   func_0216D4B4  0x0216D4B4  thumb  ov010
- *   func_0219F7CC  0x0219F7CC  thumb  ov021
- *   func_021AB140  0x021AB140  thumb  ov021
- *   func_021AB404  0x021AB404  thumb  ov021
- *   func_021AB410  0x021AB410  thumb  ov021
- *   func_021AB328  0x021AB328  thumb  ov021
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   MAP_ATTR_IsBlocked  0x021AB11C  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FLDMMDL_SetGridNowY  0x0216D85C  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_GetDirMove  0x0216D608  thumb  ov010
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   sFieldPlayerGridFile     0x021DDECC  data  ov021  a4
+ *   FLDMMDL_MOVE_GetMapAttr  0x02163E34  thumb  ov010
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
+ *   gFieldPlayerGridAttrSounds     0x021D8A00  data  ov021  a4
+ *   gFieldPlayerGridAttrSoundsAhead     0x021D8A0C  data  ov021  a4
+ *   gFieldPlayerGridCallbackSounds     0x021D89F4  data  ov021  a4
+ *   gFieldPlayerGridCallbackSoundsAhead     0x021D8A2C  data  a4
+ *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
+ *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb  ov010
+ *   MAP_ATTR_IsLedgeNorth  0x021AB158  thumb  ov021
+ *   MAP_ATTR_IsLedgeSouth  0x021AB164  thumb  ov021
+ *   MAP_ATTR_IsLedgeWest  0x021AB170  thumb  ov021
+ *   MAP_ATTR_IsLedgeEast  0x021AB17C  thumb  ov021
+ *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
+ *   FLDMMDL_DRAW_GetFrameGroup  0x0219F7CC  thumb  ov021
+ *   MAP_ATTR_IsTallGrass  0x021AB140  thumb  ov021
+ *   MAP_ATTR_IsDeepSand  0x021AB404  thumb  ov021
+ *   MAP_ATTR_IsDeepSandB  0x021AB410  thumb  ov021
+ *   MAP_ATTR_IsDeepSnow  0x021AB328  thumb  ov021
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   func_021AB44C  0x021AB44C  thumb  ov021
- *   func_0216DB4C  0x0216DB4C  thumb  ov010
- *   func_0216DCE8  0x0216DCE8  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_02163E58  0x02163E58  thumb  ov010
- *   func_0216D570  0x0216D570  thumb  ov010
+ *   FLDMMDL_SetStatusBitHeightGetOff  0x0216DB4C  thumb  ov010
+ *   FLDMMDL_SetMoveBitShadowVanish  0x0216DCE8  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
  *   func_021AB41C  0x021AB41C  thumb  ov021
- *   func_021AC528  0x021AC528  thumb  ov021
- *   func_02163994  0x02163994  thumb  ov010
- *   func_021AB2DC  0x021AB2DC  thumb  ov021
- *   func_0216E5B0  0x0216E5B0  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7DC  0x0216D7DC  thumb  ov010
- *   func_021AB348  0x021AB348  thumb  ov021
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_02164010  0x02164010  thumb  ov010
- *   func_021640B0  0x021640B0  thumb  ov010
- *   func_0216D550  0x0216D550  thumb  ov010
- *   func_0216D548  0x0216D548  thumb  ov010
- *   data_021D89EC  0x021D89EC  data  a4
- *   d_021D8A24  0x021D8A24  data  a2
- *   func_02012844  0x02012844  thumb
- *   func_02162564  0x02162564  thumb  ov010
- *   func_021625CC  0x021625CC  thumb  ov010
- *   func_021626B8  0x021626B8  thumb  ov010
- *   func_021A3898  0x021A3898  thumb  ov021
- *   func_021A3920  0x021A3920  thumb  ov021
- *   func_021A395C  0x021A395C  thumb  ov021
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A3964  0x021A3964  thumb  ov021
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A3998  0x021A3998  thumb  ov021
- *   func_021A39AC  0x021A39AC  thumb  ov021
- *   func_021A3A20  0x021A3A20  thumb  ov021
- *   func_021A3AA0  0x021A3AA0  thumb  ov021
- *   func_021A3AB8  0x021A3AB8  thumb  ov021
- *   func_021A3AC4  0x021A3AC4  thumb  ov021
- *   func_021A3CB0  0x021A3CB0  thumb  ov021
- *   func_021A3CC0  0x021A3CC0  thumb  ov021
- *   func_021A3CE8  0x021A3CE8  thumb  ov021
+ *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
+ *   FLDMMDL_MOVE_HitCheckMoveCurrent  0x02163994  thumb  ov010
+ *   MAP_ATTR_IsHole  0x021AB2DC  thumb  ov021
+ *   FLDMMDL_CheckMovedPosAtMapPos  0x0216E5B0  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_GetNowAttr  0x0216D7DC  thumb  ov010
+ *   MAP_ATTR_IsForcedSlide  0x021AB348  thumb  ov021
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateMapAttr  0x021640B0  thumb  ov010
+ *   FLDMMDL_ClearStatusBit  0x0216D550  thumb  ov010
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
+ *   gFieldPlayerGridForcedMoveFuncs  0x021D89EC  data  a4
+ *   gFieldPlayerGridNextHopDirs  0x021D8A24  data  a2
+ *   GAME_DATA_GetEventData  0x02012844  thumb
+ *   EVENTDATA_SYSTEM_SearchConnectIdByGridPos  0x02162564  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetConnectData  0x021625CC  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsConnectExitDir  0x021626B8  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetPos  0x021A3898  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetDirDisp  0x021A3920  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFieldMap  0x021A395C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetStepKind  0x021A3964  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_CORE_ApplyFormCodeModel  0x021A3998  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetFormSlotModel  0x021A39AC  thumb  ov021
+ *   FIELD_PLAYER_CORE_CheckFormModel  0x021A3A20  thumb  ov021
+ *   FIELD_PLAYER_CORE_CheckAcmdPossible  0x021A3AA0  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChooseMoveDirFromKeys  0x021A3AB8  thumb  ov021
+ *   FIELD_PLAYER_CORE_RememberKeyDirs  0x021A3AC4  thumb  ov021
+ *   FIELD_PLAYER_CORE_StartFormChange  0x021A3CB0  thumb  ov021
+ *   FIELD_PLAYER_CORE_StepFormChange  0x021A3CC0  thumb  ov021
+ *   FIELD_PLAYER_CORE_FinishFormChange  0x021A3CE8  thumb  ov021
  */
 #include "field_player_grid_types.h"
 
@@ -106,7 +106,7 @@ typedef signed short s16;
 typedef signed char s8;
 typedef signed int s32;
 
-/* Animation command bases for func_02197E7C(dir, base). */
+/* Animation command bases for FLDMMDL_ACMD_ConvertCodeByDir(dir, base). */
 #define FIELD_PLAYER_GRID_ACMD_STAND            0x00
 #define FIELD_PLAYER_GRID_ACMD_WALK             0x0C
 #define FIELD_PLAYER_GRID_ACMD_RUN              0x10
@@ -133,7 +133,7 @@ typedef signed int s32;
 #define FIELD_PLAYER_GRID_STEP_KIND_WALK        1
 #define FIELD_PLAYER_GRID_STEP_KIND_RUN         2
 
-/* Tile sound by attribute mask (d_021D8A00, d_021D8A0C). */
+/* Tile sound by attribute mask (gFieldPlayerGridAttrSounds, gFieldPlayerGridAttrSoundsAhead). */
 typedef struct FieldPlayerGridAttrSound {
     u32 attrMask;
     int soundId;
@@ -141,7 +141,7 @@ typedef struct FieldPlayerGridAttrSound {
     s16 repeatCycle;        /* the same while cycling */
 } FieldPlayerGridAttrSound;
 
-/* Tile sound by attribute predicate (d_021D89F4, d_021D8A2C). */
+/* Tile sound by attribute predicate (gFieldPlayerGridCallbackSounds, gFieldPlayerGridCallbackSoundsAhead). */
 typedef struct FieldPlayerGridCallbackSound {
     int (*isTile)(u16 attrKind);
     u16 soundId;
@@ -155,259 +155,259 @@ typedef int (*FieldPlayerGridForcedMoveFunc)(FieldPlayerGrid *grid, int dir);
 extern u32 func_020307B0(void *memory);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020061E4(u32 soundId);
-extern void func_0216D5E0(Mmdl *mmdl, int dir);
-extern void func_0216D88C(Mmdl *mmdl, VecFx32 *out);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-extern u16 func_0216D83C(Mmdl *mmdl);
-extern u16 func_0216D854(Mmdl *mmdl);
-extern u16 func_0216D86C(Mmdl *mmdl);
-extern int func_021641E8(int dir);
-extern int func_021641F8(int dir);
-extern int func_021AB11C(u32 attr);
-extern u16 func_021AB0F0(u32 attr);
-extern void *func_020120F4(void *gameSystem);
-extern void *func_02188C80(FieldMap *fieldMap);
-extern void func_0216D85C(Mmdl *mmdl, int y);
-extern void func_0216D89C(Mmdl *mmdl, const VecFx32 *pos);
-extern int func_0216D3CC(Mmdl *mmdl);
-extern MmdlSys *func_0216D67C(Mmdl *mmdl);
-extern u16 func_0216D608(Mmdl *mmdl);
-extern void *func_02188CD0(FieldMap *fieldMap);
-extern int func_02163E34(Mmdl *mmdl, VecFx32 *pos, int *outAttr);
-extern u16 func_021AB0F8(u32 attr);
-extern int func_0202E83C(void *gameSystem);
-extern void func_02164208(int dir, VecFx32 *pos, int amount);
-extern int func_021AB158(u16 attrKind);
-extern int func_021AB164(u16 attrKind);
-extern int func_021AB170(u16 attrKind);
-extern int func_021AB17C(u16 attrKind);
-extern void func_0216D4B4(Mmdl *mmdl);
-extern int func_0219F7CC(Mmdl *mmdl, u32 frame);
-extern int func_021AB140(int attrKind);
-extern int func_021AB404(int attrKind);
-extern int func_021AB410(int attrKind);
-extern int func_021AB328(int attrKind);
-extern int func_02197E7C(int dir, int acmdBase);
-extern void func_0216D410(Mmdl *mmdl, int acmd);
+extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
+extern void FLDMMDL_GetPos(Mmdl *mmdl, VecFx32 *out);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+extern u16 FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern u16 FLDMMDL_GetGridNowY(Mmdl *mmdl);
+extern u16 FLDMMDL_GetGridNowZ(Mmdl *mmdl);
+extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
+extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
+extern int MAP_ATTR_IsBlocked(u32 attr);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern void *GAMESYSTEM_GetGameData(void *gameSystem);
+extern void *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
+extern void FLDMMDL_SetGridNowY(Mmdl *mmdl, int y);
+extern void FLDMMDL_SetPos(Mmdl *mmdl, const VecFx32 *pos);
+extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
+extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
+extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
+extern void *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern int FLDMMDL_MOVE_GetMapAttr(Mmdl *mmdl, VecFx32 *pos, int *outAttr);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *gameSystem);
+extern void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *pos, int amount);
+extern int MAP_ATTR_IsLedgeNorth(u16 attrKind);
+extern int MAP_ATTR_IsLedgeSouth(u16 attrKind);
+extern int MAP_ATTR_IsLedgeWest(u16 attrKind);
+extern int MAP_ATTR_IsLedgeEast(u16 attrKind);
+extern void FLDMMDL_FreeAcmd(Mmdl *mmdl);
+extern int FLDMMDL_DRAW_GetFrameGroup(Mmdl *mmdl, u32 frame);
+extern int MAP_ATTR_IsTallGrass(int attrKind);
+extern int MAP_ATTR_IsDeepSand(int attrKind);
+extern int MAP_ATTR_IsDeepSandB(int attrKind);
+extern int MAP_ATTR_IsDeepSnow(int attrKind);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int acmdBase);
+extern void FLDMMDL_SetAcmd(Mmdl *mmdl, int acmd);
 extern int func_021AB44C(u16 attrKind);
-extern int func_0216DB4C(Mmdl *mmdl, int flag);
-extern int func_0216DCE8(Mmdl *mmdl, int flag);
-extern void func_0216D568(Mmdl *mmdl, u32 bits);
-extern int func_02163E58(Mmdl *mmdl, VecFx32 *pos, int *outHeight);
-extern void func_0216D570(Mmdl *mmdl, u32 bits);
+extern int FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
+extern int FLDMMDL_SetMoveBitShadowVanish(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bits);
+extern int FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, VecFx32 *pos, int *outHeight);
+extern void FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bits);
 extern int func_021AB41C(u16 attrKind);
-extern void func_021AC528(Mmdl *mmdl, void *effectCtrl);
-extern int func_02163994(Mmdl *mmdl, int gridX, int gridY, int gridZ, u32 dir);
-extern int func_021AB2DC(u16 attrKind);
-extern int func_0216E5B0(MmdlSys *mmdlSys, const VecFx32 *pos);
-extern void func_0216D674(Mmdl *mmdl, u16 drawStatus);
-extern u32 func_0216D7DC(Mmdl *mmdl);
-extern int func_021AB348(u32 attrKind);
-extern int func_02164010(Mmdl *mmdl);
-extern int func_021640B0(Mmdl *mmdl);
-extern int func_02163F10(Mmdl *mmdl);
-extern void func_0216D550(Mmdl *mmdl, u32 bits);
-extern void func_0216D548(Mmdl *mmdl, u32 bits);
-extern void *func_02012844(void *gameData);
-extern int func_02162564(void *eventData, const VecFx32 *pos);
-extern void *func_021625CC(void *eventData, unsigned index);
-extern int func_021626B8(void *connect, int dir);
-extern void func_021A3898(FieldPlayerCore *core, VecFx32 *out);
-extern u16 func_021A3920(FieldPlayerCore *core);
-extern FieldMap *func_021A395C(FieldPlayerCore *core);
-extern Mmdl *func_021A3960(FieldPlayerCore *core);
-extern void func_021A3964(FieldPlayerCore *core, u32 form);
-extern u32 func_021A3974(FieldPlayerCore *core);
-extern void func_021A3998(FieldPlayerCore *core);
-extern void func_021A39AC(FieldPlayerCore *core, int a);
-extern int func_021A3A20(FieldPlayerCore *core);
-extern int func_021A3AA0(FieldPlayerCore *core);
-extern u16 func_021A3AB8(FieldPlayerCore *core, u32 keys);
-extern void func_021A3AC4(FieldPlayerCore *core, u32 keys);
-extern int func_021A3CB0(FieldPlayerCore *core, u32 mask);
-extern int func_021A3CC0(FieldPlayerCore *core);
-extern void func_021A3CE8(FieldPlayerCore *core);
+extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, void *effectCtrl);
+extern int FLDMMDL_MOVE_HitCheckMoveCurrent(Mmdl *mmdl, int gridX, int gridY, int gridZ, u32 dir);
+extern int MAP_ATTR_IsHole(u16 attrKind);
+extern int FLDMMDL_CheckMovedPosAtMapPos(MmdlSys *mmdlSys, const VecFx32 *pos);
+extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 drawStatus);
+extern u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
+extern int MAP_ATTR_IsForcedSlide(u32 attrKind);
+extern int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
+extern int FLDMMDL_MOVE_UpdateMapAttr(Mmdl *mmdl);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
+extern void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bits);
+extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bits);
+extern void *GAME_DATA_GetEventData(void *gameData);
+extern int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(void *eventData, const VecFx32 *pos);
+extern void *EVENTDATA_SYSTEM_GetConnectData(void *eventData, unsigned index);
+extern int EVENTDATA_SYSTEM_IsConnectExitDir(void *connect, int dir);
+extern void FIELD_PLAYER_CORE_GetPos(FieldPlayerCore *core, VecFx32 *out);
+extern u16 FIELD_PLAYER_CORE_GetDirDisp(FieldPlayerCore *core);
+extern FieldMap *FIELD_PLAYER_CORE_GetFieldMap(FieldPlayerCore *core);
+extern Mmdl *FIELD_PLAYER_CORE_GetMmdl(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_SetStepKind(FieldPlayerCore *core, u32 form);
+extern u32 FIELD_PLAYER_CORE_GetFormCode(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_ApplyFormCodeModel(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_SetFormSlotModel(FieldPlayerCore *core, int a);
+extern int FIELD_PLAYER_CORE_CheckFormModel(FieldPlayerCore *core);
+extern int FIELD_PLAYER_CORE_CheckAcmdPossible(FieldPlayerCore *core);
+extern u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(FieldPlayerCore *core, u32 keys);
+extern void FIELD_PLAYER_CORE_RememberKeyDirs(FieldPlayerCore *core, u32 keys);
+extern int FIELD_PLAYER_CORE_StartFormChange(FieldPlayerCore *core, u32 mask);
+extern int FIELD_PLAYER_CORE_StepFormChange(FieldPlayerCore *core);
+extern void FIELD_PLAYER_CORE_FinishFormChange(FieldPlayerCore *core);
 
-FieldPlayerGrid *func_021A4140(FieldPlayerCore *core, u32 heapId);
-void func_021A41A8(FieldPlayerGrid *grid);
-void func_021A41B0(FieldPlayerGrid *grid, u32 keyTrigger, u32 keyHeld, u32 dashAllowed);
-void func_021A4224(FieldPlayerGrid *grid, int result, const FieldPlayerGridMoveRequest *request);
-int func_021A4254(FieldPlayerGrid *grid, u32 dir);
-int func_021A428C(FieldPlayerGrid *grid, int unused, VecFx32 *pos, int lookAhead, int season);
-void func_021A43D8(FieldPlayerGrid *grid, int result, int dir);
-int func_021A4444(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
-int func_021A448C(FieldPlayerGrid *grid, int dir);
-void func_021A44BC(FieldPlayerGrid *grid);
-int func_021A44C8(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
-int func_021A4544(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4598(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4664(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4698(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A46F0(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
-int func_021A4768(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A47B4(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A482C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4890(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A48A4(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A48C8(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
-int func_021A491C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4960(int attrKind);
-int func_021A4994(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4A74(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4AA8(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4B00(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
-int func_021A4B54(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4B98(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4C1C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4C50(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4CA8(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request);
-void func_021A4CF4(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request);
-void func_021A4D8C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4D90(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4DC0(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4E78(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4E9C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4ED8(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4F04(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4F0C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4F50(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A4F58(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A4FA8(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request);
-void func_021A5010(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A5014(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A5044(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A50BC(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A50E0(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A511C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A5148(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request);
-void func_021A51A4(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A51A8(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A51D8(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A5204(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-void func_021A5228(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
-int func_021A5264(FieldPlayerGrid *grid, Mmdl *mmdl, u32 dir, int *outAttr);
-void func_021A5304(FieldPlayerGrid *grid, u32 mask);
-void func_021A530C(FieldPlayerGrid *grid, u32 mask);
-int func_021A5318(FieldPlayerGrid *grid, u32 mask);
-void func_021A5328(FieldPlayerGrid *grid);
-void func_021A5334(FieldPlayerGrid *grid);
-int func_021A5340(FieldPlayerGrid *grid);
-void func_021A5354(FieldPlayerGrid *grid);
-void func_021A5360(FieldPlayerGrid *grid);
-void func_021A536C(FieldPlayerGrid *grid);
-void func_021A5378(FieldPlayerGrid *grid, int on);
-int func_021A5390(FieldPlayerGrid *grid);
-void func_021A53A4(FieldPlayerGrid *grid, int on);
-int func_021A53BC(FieldPlayerGrid *grid);
-void func_021A53D0(FieldPlayerGrid *grid);
-int func_021A5408(FieldPlayerGrid *grid);
-int func_021A5458(FieldPlayerGrid *grid, int unused);
-int func_021A548C(FieldPlayerGrid *grid);
-int func_021A54A0(FieldPlayerGrid *grid);
-void func_021A54B4(FieldPlayerGrid *grid);
-void func_021A550C(FieldPlayerGrid *grid);
-u32 func_021A552C(FieldPlayerGrid *grid);
-int func_021A5538(FieldPlayerGrid *grid);
-int func_021A55A8(FieldPlayerGrid *grid, u32 dir, int skip);
-int func_021A55DC(int attrKind);
-int func_021A55FC(int attrKind);
-int func_021A5610(FieldPlayerGrid *grid);
-u32 func_021A5630(FieldPlayerGrid *grid);
-int func_021A569C(FieldPlayerGrid *grid, Mmdl *mmdl, int dir, int *outAttr);
-u32 func_021A56C0(FieldPlayerGrid *grid, u32 unused1, u32 unused2);
-void func_021A56F4(FieldPlayerGrid *grid);
-void func_021A5708(FieldPlayerGrid *grid);
-FieldPlayerCore *func_021A5728(FieldPlayerGrid *grid);
-Mmdl *func_021A572C(FieldPlayerGrid *grid);
-void func_021A5738(FieldPlayerGrid *grid, int keepFrame);
-void func_021A575C(FieldPlayerGrid *grid);
-u32 func_021A5764(FieldPlayerGrid *grid);
-int func_021A5768(FieldPlayerGrid *grid, u32 landed);
-int func_021A5778(FieldPlayerGrid *grid);
-int func_021A5788(FieldPlayerGrid *grid, int dir, int *outAttr);
-int func_021A57C0(FieldPlayerGrid *grid, int dir);
-int func_021A5810(FieldPlayerGrid *grid, int dir);
+FieldPlayerGrid *FIELD_PLAYER_GRID_Create(FieldPlayerCore *core, u32 heapId);
+void FIELD_PLAYER_GRID_Delete(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_Move(FieldPlayerGrid *grid, u32 keyTrigger, u32 keyHeld, u32 dashAllowed);
+void FIELD_PLAYER_GRID_BeginMove(FieldPlayerGrid *grid, int result, const FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_CanStartMove(FieldPlayerGrid *grid, u32 dir);
+int FIELD_PLAYER_GRID_PlayTileSound(FieldPlayerGrid *grid, int unused, VecFx32 *pos, int lookAhead, int season);
+void FIELD_PLAYER_GRID_PlayStepSound(FieldPlayerGrid *grid, int result, int dir);
+int FIELD_PLAYER_GRID_GetMoveResult(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetDirChangeKind(FieldPlayerGrid *grid, int dir);
+void FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_GetMoveResultOnFoot(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetStandResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetWalkResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetTurnResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetBlockedResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetMoveResultOnFootHop(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetStandResultOnFootHop(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetWalkResultOnFootHop(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetHoldResultOnFootHop(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetHopAirResult(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetHopFallResult(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetMoveResultOnCycle(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetStandResultOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_IsTileBlockingCycle(int attrKind);
+int FIELD_PLAYER_GRID_GetWalkResultOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetTurnResultOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetBlockedResultOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetMoveResultOnSurf(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetStandResultOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetWalkResultOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetTurnResultOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetBlockedResultOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_ApplyMoveResult(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_ApplyMoveResultOnFoot(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_ApplyNoneOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartStandOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartWalkOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartTurnOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartBlockedOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartLedgeJumpOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartHoldOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartHopOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartHopAirOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_StartHopFallOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_ApplyMoveResultOnCycle(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_ApplyNoneOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartStandOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartWalkOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartTurnOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartBlockedOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartLedgeJumpOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_ApplyMoveResultOnSurf(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_ApplyNoneOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartStandOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartWalkOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartTurnOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+void FIELD_PLAYER_GRID_StartBlockedOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
+int FIELD_PLAYER_GRID_GetStepHitFlags(FieldPlayerGrid *grid, Mmdl *mmdl, u32 dir, int *outAttr);
+void FIELD_PLAYER_GRID_SetFlag(FieldPlayerGrid *grid, u32 mask);
+void FIELD_PLAYER_GRID_ClearFlag(FieldPlayerGrid *grid, u32 mask);
+int FIELD_PLAYER_GRID_HasFlag(FieldPlayerGrid *grid, u32 mask);
+void FIELD_PLAYER_GRID_SetForcedMoveFlag(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_ClearForcedMoveFlag(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_IsForcedMoveFlagSet(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_SetNoForcedMoveFlag(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_ClearNoForcedMoveFlag(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_ClearStepPendingFlag(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_SetHoldFlag(FieldPlayerGrid *grid, int on);
+int FIELD_PLAYER_GRID_IsHoldFlagSet(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_SetHopFlag(FieldPlayerGrid *grid, int on);
+int FIELD_PLAYER_GRID_IsHopFlagSet(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_ResetBlockedPose(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_StopTurnOrBlocked(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_CheckForcedMoveTile(FieldPlayerGrid *grid, int unused);
+int FIELD_PLAYER_GRID_IsOnForcedMoveTile(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_IsHopping(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_FinishHop(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_ReleaseForcedMove(FieldPlayerGrid *grid);
+u32 FIELD_PLAYER_GRID_RunNoForcedMove(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_StartForcedMove(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_RunForcedMove(FieldPlayerGrid *grid, u32 dir, int skip);
+int FIELD_PLAYER_GRID_IsHopTileKind(int attrKind);
+int FIELD_PLAYER_GRID_IsHopStartTileKind(int attrKind);
+int FIELD_PLAYER_GRID_IsOnHopStartTile(FieldPlayerGrid *grid);
+u32 FIELD_PLAYER_GRID_FindHopDir(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_GetHopStepHitFlags(FieldPlayerGrid *grid, Mmdl *mmdl, int dir, int *outAttr);
+u32 FIELD_PLAYER_GRID_IsAtGroundHeight(FieldPlayerGrid *grid, u32 unused1, u32 unused2);
+void FIELD_PLAYER_GRID_StartHold(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_EndHold(FieldPlayerGrid *grid);
+FieldPlayerCore *FIELD_PLAYER_GRID_GetCore(FieldPlayerGrid *grid);
+Mmdl *FIELD_PLAYER_GRID_GetMmdl(FieldPlayerGrid *grid);
+void FIELD_PLAYER_GRID_ResetHold(FieldPlayerGrid *grid, int keepFrame);
+void FIELD_PLAYER_GRID_StopForcedMove(FieldPlayerGrid *grid);
+u32 FIELD_PLAYER_GRID_GetHopLanded(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 landed);
+int FIELD_PLAYER_GRID_IsBlocked(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_GetAttrAtDir(FieldPlayerGrid *grid, int dir, int *outAttr);
+int FIELD_PLAYER_GRID_GetHeightStep(FieldPlayerGrid *grid, int dir);
+int FIELD_PLAYER_GRID_CheckMapConnectAhead(FieldPlayerGrid *grid, int dir);
 
-extern u8 d_021DDECC[];
-extern FieldPlayerGridAttrSound d_021D8A00[];
-extern FieldPlayerGridAttrSound d_021D8A0C[];
-extern FieldPlayerGridCallbackSound d_021D89F4[];
-extern FieldPlayerGridCallbackSound d_021D8A2C[];
-extern FieldPlayerGridForcedMoveFunc const data_021D89EC[];
-extern const u16 d_021D8A24[4];
+extern u8 sFieldPlayerGridFile[];
+extern FieldPlayerGridAttrSound gFieldPlayerGridAttrSounds[];
+extern FieldPlayerGridAttrSound gFieldPlayerGridAttrSoundsAhead[];
+extern FieldPlayerGridCallbackSound gFieldPlayerGridCallbackSounds[];
+extern FieldPlayerGridCallbackSound gFieldPlayerGridCallbackSoundsAhead[];
+extern FieldPlayerGridForcedMoveFunc const gFieldPlayerGridForcedMoveFuncs[];
+extern const u16 gFieldPlayerGridNextHopDirs[4];
 
-FieldPlayerGrid *func_021A4140(FieldPlayerCore *core, u32 heapId)
+FieldPlayerGrid *FIELD_PLAYER_GRID_Create(FieldPlayerCore *core, u32 heapId)
 {
     FieldPlayerGrid *grid;
 
-    grid = func_02030734(heapId, 0x20, 1, (const char *)d_021DDECC, 0x17D);
+    grid = func_02030734(heapId, 0x20, 1, (const char *)sFieldPlayerGridFile, 0x17D);
     grid->core = core;
-    grid->fieldMap = func_021A395C(core);
+    grid->fieldMap = FIELD_PLAYER_CORE_GetFieldMap(core);
     grid->soundId = FIELD_PLAYER_GRID_SOUND_NONE;
-    func_021A5354(grid);
-    switch (func_021A3974(grid->core)) {
+    FIELD_PLAYER_GRID_SetNoForcedMoveFlag(grid);
+    switch (FIELD_PLAYER_CORE_GetFormCode(grid->core)) {
     case FIELD_PLAYER_AVATAR_FORM_SURF:
-        func_021A3CB0(grid->core, 4);
-        func_021A3CE8(grid->core);
+        FIELD_PLAYER_CORE_StartFormChange(grid->core, 4);
+        FIELD_PLAYER_CORE_FinishFormChange(grid->core);
         break;
     case FIELD_PLAYER_AVATAR_FORM_DIVE:
-        func_021A3CB0(grid->core, 0x100);
-        func_021A3CE8(grid->core);
+        FIELD_PLAYER_CORE_StartFormChange(grid->core, 0x100);
+        FIELD_PLAYER_CORE_FinishFormChange(grid->core);
         break;
     }
     return grid;
 }
 
 
-void func_021A41A8(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_Delete(FieldPlayerGrid *grid)
 {
     func_020307B0(grid);
 }
 
 
-void func_021A41B0(FieldPlayerGrid *grid, u32 keyTrigger, u32 keyHeld, u32 dashAllowed)
+void FIELD_PLAYER_GRID_Move(FieldPlayerGrid *grid, u32 keyTrigger, u32 keyHeld, u32 dashAllowed)
 {
     FieldPlayerGridMoveRequest request;
     u32 dir;
     int result;
 
-    dir = func_021A3AB8(grid->core, keyHeld);
-    if (func_021A4254(grid, dir) == 1) {
-        func_021A3CC0(grid->core);
-        if (func_021A55A8(grid, dir, 0) == 0) {
+    dir = FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(grid->core, keyHeld);
+    if (FIELD_PLAYER_GRID_CanStartMove(grid, dir) == 1) {
+        FIELD_PLAYER_CORE_StepFormChange(grid->core);
+        if (FIELD_PLAYER_GRID_RunForcedMove(grid, dir, 0) == 0) {
             request.keyTrigger = keyTrigger;
             request.keyHeld = keyHeld;
             request.dir = dir;
             request.dashAllowed = dashAllowed;
             request.isDash = 0;
-            result = func_021A4444(grid, &request);
-            func_021A4224(grid, result, &request);
-            func_021A4CA8(grid, result, &request);
-            func_021A43D8(grid, result, dir);
+            result = FIELD_PLAYER_GRID_GetMoveResult(grid, &request);
+            FIELD_PLAYER_GRID_BeginMove(grid, result, &request);
+            FIELD_PLAYER_GRID_ApplyMoveResult(grid, result, &request);
+            FIELD_PLAYER_GRID_PlayStepSound(grid, result, dir);
         }
     }
 }
 
 
-void func_021A4224(FieldPlayerGrid *grid, int result, const FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_BeginMove(FieldPlayerGrid *grid, int result, const FieldPlayerGridMoveRequest *request)
 {
     grid->lastResult = result;
-    func_021A3AC4(grid->core, request->keyHeld);
-    func_021A536C(grid);
-    func_021A530C(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
+    FIELD_PLAYER_CORE_RememberKeyDirs(grid->core, request->keyHeld);
+    FIELD_PLAYER_GRID_ClearStepPendingFlag(grid);
+    FIELD_PLAYER_GRID_ClearFlag(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
     if (result == FIELD_PLAYER_GRID_RESULT_WALK)
-        func_021A5360(grid);
+        FIELD_PLAYER_GRID_ClearNoForcedMoveFlag(grid);
     grid->hopLanded = 0;
 }
 
 
-int func_021A4254(FieldPlayerGrid *grid, u32 dir)
+int FIELD_PLAYER_GRID_CanStartMove(FieldPlayerGrid *grid, u32 dir)
 {
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
 
-    if (func_0216D3CC(mmdl) == 1)
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1)
         return 1;
-    if (dir != FIELD_PLAYER_GRID_DIR_NONE && grid->state == FIELD_PLAYER_GRID_STATE_BLOCKED && dir != func_0216D5F8(mmdl))
+    if (dir != FIELD_PLAYER_GRID_DIR_NONE && grid->state == FIELD_PLAYER_GRID_STATE_BLOCKED && dir != FLDMMDL_GetDirDisp(mmdl))
         return 1;
     return 0;
 }
@@ -417,9 +417,9 @@ int func_021A4254(FieldPlayerGrid *grid, u32 dir)
  * Picks a tile sound from two 12-byte-record tables (attribute-mask table,
  * then predicate-callback table), 0x546 meaning none, and plays it with a
  * repeat counter. lookAhead selects the second table pair (the tile ahead).
- * d_021D8A2C carries no ov021 token: with it the hint reads as contested.
+ * gFieldPlayerGridCallbackSoundsAhead carries no ov021 token: with it the hint reads as contested.
  */
-int func_021A428C(FieldPlayerGrid *grid, int unused, VecFx32 *pos, int lookAhead, int season)
+int FIELD_PLAYER_GRID_PlayTileSound(FieldPlayerGrid *grid, int unused, VecFx32 *pos, int lookAhead, int season)
 {
     int repeatLimit;
     int soundId;
@@ -432,21 +432,21 @@ int func_021A428C(FieldPlayerGrid *grid, int unused, VecFx32 *pos, int lookAhead
     soundId = FIELD_PLAYER_GRID_SOUND_NONE;
     repeatLimit = 0;
     mode = 0;
-    if (func_021A3974(grid->core) == FIELD_PLAYER_AVATAR_FORM_CYCLE) {
+    if (FIELD_PLAYER_CORE_GetFormCode(grid->core) == FIELD_PLAYER_AVATAR_FORM_CYCLE) {
         mode = 2;
-    } else if (func_021A5318(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK) != 0) {
+    } else if (FIELD_PLAYER_GRID_HasFlag(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK) != 0) {
         mode = 1;
     }
     if (mode == 0) {
         grid->soundId = FIELD_PLAYER_GRID_SOUND_NONE;
         grid->soundRepeat = 0;
     }
-    if (func_02163E34(func_021A3960(grid->core), pos, &attr) == 1) {
-        attrBits = func_021AB0F8(attr);
+    if (FLDMMDL_MOVE_GetMapAttr(FIELD_PLAYER_CORE_GetMmdl(grid->core), pos, &attr) == 1) {
+        attrBits = MAP_ATTR_GetFlags(attr);
         if (lookAhead == 0) {
-            attrSound = d_021D8A00;
+            attrSound = gFieldPlayerGridAttrSounds;
         } else {
-            attrSound = d_021D8A0C;
+            attrSound = gFieldPlayerGridAttrSoundsAhead;
         }
         for (; attrSound->attrMask != 0; attrSound++) {
             if (attrSound->attrMask & attrBits) {
@@ -460,9 +460,9 @@ int func_021A428C(FieldPlayerGrid *grid, int unused, VecFx32 *pos, int lookAhead
             }
         }
         if (soundId == FIELD_PLAYER_GRID_SOUND_NONE) {
-            callbackSound = d_021D89F4;
+            callbackSound = gFieldPlayerGridCallbackSounds;
             if (lookAhead != 0) {
-                callbackSound = d_021D8A2C;
+                callbackSound = gFieldPlayerGridCallbackSoundsAhead;
             }
             for (; callbackSound->isTile != 0; callbackSound++) {
                 if (callbackSound->isTile((u16)attr) == 1 && (callbackSound->season == 4 || callbackSound->season == season)) {
@@ -502,7 +502,7 @@ int func_021A428C(FieldPlayerGrid *grid, int unused, VecFx32 *pos, int lookAhead
 }
 
 
-void func_021A43D8(FieldPlayerGrid *grid, int result, int dir)
+void FIELD_PLAYER_GRID_PlayStepSound(FieldPlayerGrid *grid, int result, int dir)
 {
     VecFx32 pos;
     Mmdl *mmdl;
@@ -513,40 +513,40 @@ void func_021A43D8(FieldPlayerGrid *grid, int result, int dir)
         grid->soundRepeat = 0;
         return;
     }
-    mmdl = func_021A3960(grid->core);
-    season = func_0202E83C(func_02188C80(grid->fieldMap));
-    func_0216D88C(mmdl, &pos);
-    if (func_021A428C(grid, result, &pos, 0, season) == 0) {
-        func_02164208(dir, &pos, 0x10000);
-        func_021A428C(grid, result, &pos, 1, season);
+    mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
+    season = COMM_PLAYER_SUPPORT_GetInfoCode(FIELDMAP_GetGameSystem(grid->fieldMap));
+    FLDMMDL_GetPos(mmdl, &pos);
+    if (FIELD_PLAYER_GRID_PlayTileSound(grid, result, &pos, 0, season) == 0) {
+        FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
+        FIELD_PLAYER_GRID_PlayTileSound(grid, result, &pos, 1, season);
     }
 }
 
 
-int func_021A4444(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetMoveResult(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
 {
     int result;
 
     result = FIELD_PLAYER_GRID_RESULT_NONE;
-    switch (func_021A3974(grid->core)) {
+    switch (FIELD_PLAYER_CORE_GetFormCode(grid->core)) {
     case FIELD_PLAYER_AVATAR_FORM_NORMAL:
-        result = func_021A44C8(grid, request);
+        result = FIELD_PLAYER_GRID_GetMoveResultOnFoot(grid, request);
         break;
     case FIELD_PLAYER_AVATAR_FORM_CYCLE:
-        result = func_021A48C8(grid, request);
+        result = FIELD_PLAYER_GRID_GetMoveResultOnCycle(grid, request);
         break;
     case FIELD_PLAYER_AVATAR_FORM_SURF:
     case FIELD_PLAYER_AVATAR_FORM_DIVE:
-        result = func_021A4B00(grid, request);
+        result = FIELD_PLAYER_GRID_GetMoveResultOnSurf(grid, request);
         break;
     }
     return result;
 }
 
 
-int func_021A448C(FieldPlayerGrid *grid, int dir)
+int FIELD_PLAYER_GRID_GetDirChangeKind(FieldPlayerGrid *grid, int dir)
 {
-    int curDir = func_0216D5F8(func_021A3960(grid->core));
+    int curDir = FLDMMDL_GetDirDisp(FIELD_PLAYER_CORE_GetMmdl(grid->core));
 
     if (dir == FIELD_PLAYER_GRID_DIR_NONE)
         return 0;
@@ -557,45 +557,45 @@ int func_021A448C(FieldPlayerGrid *grid, int dir)
 
 
 /* Tail-call thunk: the core's current action check. */
-void func_021A44BC(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayerGrid *grid)
 {
-    func_021A3AA0(grid->core);
+    FIELD_PLAYER_CORE_CheckAcmdPossible(grid->core);
 }
 
 
-int func_021A44C8(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetMoveResultOnFoot(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
 {
     Mmdl *mmdl;
     int result;
 
-    mmdl = func_021A3960(grid->core);
+    mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
     result = FIELD_PLAYER_GRID_RESULT_NONE;
-    if (func_021A5610(grid) == 1 || func_021A53BC(grid) == 1) {
-        return func_021A46F0(grid, request);
+    if (FIELD_PLAYER_GRID_IsOnHopStartTile(grid) == 1 || FIELD_PLAYER_GRID_IsHopFlagSet(grid) == 1) {
+        return FIELD_PLAYER_GRID_GetMoveResultOnFootHop(grid, request);
     }
     switch (grid->state) {
     case FIELD_PLAYER_GRID_STATE_STAND:
-        result = func_021A4544(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetStandResultOnFoot(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_WALK:
-        result = func_021A4598(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetWalkResultOnFoot(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_TURN:
-        result = func_021A4664(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetTurnResultOnFoot(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_BLOCKED:
-        result = func_021A4698(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetBlockedResultOnFoot(grid, mmdl, request);
         break;
     }
     return result;
 }
 
 
-int func_021A4544(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetStandResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_0216D3CC(mmdl) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
         if (request->dir != FIELD_PLAYER_GRID_DIR_NONE) {
-            if (request->dir != func_0216D5F8(mmdl) && request->isDash == 0) {
+            if (request->dir != FLDMMDL_GetDirDisp(mmdl) && request->isDash == 0) {
                 if ((request->dashAllowed & 1) == 0) {
                     return FIELD_PLAYER_GRID_RESULT_TURN;
                 }
@@ -603,7 +603,7 @@ int func_021A4544(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
                     return FIELD_PLAYER_GRID_RESULT_TURN;
                 }
             }
-            return func_021A4598(grid, mmdl, request);
+            return FIELD_PLAYER_GRID_GetWalkResultOnFoot(grid, mmdl, request);
         }
         return FIELD_PLAYER_GRID_RESULT_STAND;
     }
@@ -612,10 +612,10 @@ int func_021A4544(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
 
 
 /*
- * Twin of func_021A4B98 with an extra tile-class check (ids
- * classed 0..3 by func_021AB158/164/170/17C) that returns 5.
+ * Twin of FIELD_PLAYER_GRID_GetWalkResultOnSurf with an extra tile-class check (ids
+ * classed 0..3 by MAP_ATTR_IsLedgeNorth/164/170/17C) that returns 5.
  */
-int func_021A4598(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetWalkResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int attr;
     u32 hitFlags;
@@ -623,28 +623,28 @@ int func_021A4598(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
     u32 attrBits;
     int ledgeDir;
 
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_GRID_RESULT_NONE;
     }
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        return func_021A4544(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnFoot(grid, mmdl, request);
     }
-    hitFlags = func_021A5264(grid, mmdl, request->dir, &attr);
+    hitFlags = FIELD_PLAYER_GRID_GetStepHitFlags(grid, mmdl, request->dir, &attr);
     if (request->isDash == 1 && hitFlags != 0 && !(hitFlags & 0x10)) {
         hitFlags = 0;
     }
     if (attr != -1) {
-        attrKind = func_021AB0F0(attr);
-        attrBits = func_021AB0F8(attr);
+        attrKind = MAP_ATTR_GetTerrainId(attr);
+        attrBits = MAP_ATTR_GetFlags(attr);
         if (hitFlags & 2) {
             ledgeDir = FIELD_PLAYER_GRID_DIR_NONE;
-            if (func_021AB158(attrKind)) {
+            if (MAP_ATTR_IsLedgeNorth(attrKind)) {
                 ledgeDir = 0;
-            } else if (func_021AB164(attrKind)) {
+            } else if (MAP_ATTR_IsLedgeSouth(attrKind)) {
                 ledgeDir = 1;
-            } else if (func_021AB170(attrKind)) {
+            } else if (MAP_ATTR_IsLedgeWest(attrKind)) {
                 ledgeDir = 2;
-            } else if (func_021AB17C(attrKind)) {
+            } else if (MAP_ATTR_IsLedgeEast(attrKind)) {
                 ledgeDir = 3;
             }
             if (ledgeDir != FIELD_PLAYER_GRID_DIR_NONE && ledgeDir == request->dir) {
@@ -664,102 +664,102 @@ int func_021A4598(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
 }
 
 
-int func_021A4664(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetTurnResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_0216D3CC(mmdl) == 0)
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0)
         return FIELD_PLAYER_GRID_RESULT_NONE;
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE)
-        return func_021A4544(grid, mmdl, request);
-    return func_021A4598(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnFoot(grid, mmdl, request);
+    return FIELD_PLAYER_GRID_GetWalkResultOnFoot(grid, mmdl, request);
 }
 
 
-int func_021A4698(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetBlockedResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    u32 curDir = func_0216D5F8(mmdl);
+    u32 curDir = FLDMMDL_GetDirDisp(mmdl);
 
     if (request->dir != FIELD_PLAYER_GRID_DIR_NONE && request->dir != curDir) {
-        func_0216D4B4(mmdl);
-        return func_021A4598(grid, mmdl, request);
+        FLDMMDL_FreeAcmd(mmdl);
+        return FIELD_PLAYER_GRID_GetWalkResultOnFoot(grid, mmdl, request);
     }
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_GRID_RESULT_NONE;
     }
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        return func_021A4544(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnFoot(grid, mmdl, request);
     }
-    return func_021A4598(grid, mmdl, request);
+    return FIELD_PLAYER_GRID_GetWalkResultOnFoot(grid, mmdl, request);
 }
 
 
-int func_021A46F0(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetMoveResultOnFootHop(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
 {
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
     int result = FIELD_PLAYER_GRID_RESULT_NONE;
 
     switch (grid->state) {
     case FIELD_PLAYER_GRID_STATE_STAND:
-        result = func_021A4768(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetStandResultOnFootHop(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_WALK:
-        result = func_021A47B4(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetWalkResultOnFootHop(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_TURN:
-        result = func_021A4664(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetTurnResultOnFoot(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_BLOCKED:
-        result = func_021A4698(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetBlockedResultOnFoot(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_HOLD:
-        result = func_021A482C(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetHoldResultOnFootHop(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_HOP:
     case FIELD_PLAYER_GRID_STATE_HOP_AIR:
-        result = func_021A4890(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetHopAirResult(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_HOP_FALL:
-        result = func_021A48A4(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetHopFallResult(grid, mmdl, request);
         break;
     }
     return result;
 }
 
 
-int func_021A4768(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetStandResultOnFootHop(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_0216D3CC(mmdl) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
         if (request->dir != FIELD_PLAYER_GRID_DIR_NONE) {
-            u32 curDir = func_0216D5F8(mmdl);
+            u32 curDir = FLDMMDL_GetDirDisp(mmdl);
             if (request->dir != curDir && request->isDash == 0) {
                 return FIELD_PLAYER_GRID_RESULT_TURN;
             }
-            return func_021A47B4(grid, mmdl, request);
+            return FIELD_PLAYER_GRID_GetWalkResultOnFootHop(grid, mmdl, request);
         }
-        return func_021A482C(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetHoldResultOnFootHop(grid, mmdl, request);
     }
     return FIELD_PLAYER_GRID_RESULT_NONE;
 }
 
 
-int func_021A47B4(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetWalkResultOnFootHop(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int attr;
     u32 hitFlags;
 
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_GRID_RESULT_NONE;
     }
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        return func_021A4768(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnFootHop(grid, mmdl, request);
     }
-    hitFlags = func_021A569C(grid, mmdl, request->dir, &attr);
+    hitFlags = FIELD_PLAYER_GRID_GetHopStepHitFlags(grid, mmdl, request->dir, &attr);
     if (attr != -1) {
         if (hitFlags & 0x100) {
             if (!(hitFlags & 0xFFFFFEFF)) {
                 return FIELD_PLAYER_GRID_RESULT_WALK;
             }
-        } else if (func_021AB11C(attr) == 0) {
-            func_021A53A4(grid, 1);
+        } else if (MAP_ATTR_IsBlocked(attr) == 0) {
+            FIELD_PLAYER_GRID_SetHopFlag(grid, 1);
             return FIELD_PLAYER_GRID_RESULT_HOP;
         }
     }
@@ -767,83 +767,83 @@ int func_021A47B4(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
 }
 
 
-int func_021A482C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetHoldResultOnFootHop(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        if (func_021A5390(grid) == 0) {
-            func_021A56F4(grid);
+        if (FIELD_PLAYER_GRID_IsHoldFlagSet(grid) == 0) {
+            FIELD_PLAYER_GRID_StartHold(grid);
         }
         if (grid->holdEffectPending == 1) {
-            if (func_0219F7CC(mmdl, grid->holdFrames) != 0) {
+            if (FLDMMDL_DRAW_GetFrameGroup(mmdl, grid->holdFrames) != 0) {
                 grid->holdEffectPending = 0;
             }
         }
         grid->holdFrames = grid->holdFrames + 1;
         if (grid->holdFrames == 60) {
-            func_021A5708(grid);
-            func_021A53A4(grid, 1);
+            FIELD_PLAYER_GRID_EndHold(grid);
+            FIELD_PLAYER_GRID_SetHopFlag(grid, 1);
             return FIELD_PLAYER_GRID_RESULT_HOP;
         }
     } else {
-        func_021A5708(grid);
-        return func_021A47B4(grid, mmdl, request);
+        FIELD_PLAYER_GRID_EndHold(grid);
+        return FIELD_PLAYER_GRID_GetWalkResultOnFootHop(grid, mmdl, request);
     }
     return FIELD_PLAYER_GRID_RESULT_HOLD;
 }
 
 
-int func_021A4890(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetHopAirResult(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_0216D3CC(mmdl) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
         return FIELD_PLAYER_GRID_RESULT_HOP_FALL;
     }
     return FIELD_PLAYER_GRID_RESULT_HOP_AIR;
 }
 
 
-int func_021A48A4(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetHopFallResult(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_021A56C0(grid, (u32)mmdl, (u32)request) == 1) {
-        func_021A54B4(grid);
-        func_021A53A4(grid, 0);
+    if (FIELD_PLAYER_GRID_IsAtGroundHeight(grid, (u32)mmdl, (u32)request) == 1) {
+        FIELD_PLAYER_GRID_FinishHop(grid);
+        FIELD_PLAYER_GRID_SetHopFlag(grid, 0);
         return FIELD_PLAYER_GRID_RESULT_STAND;
     }
     return FIELD_PLAYER_GRID_RESULT_HOP_FALL;
 }
 
 
-int func_021A48C8(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetMoveResultOnCycle(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
 {
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
     int result = FIELD_PLAYER_GRID_RESULT_NONE;
 
     switch (grid->state) {
     case FIELD_PLAYER_GRID_STATE_STAND:
-        result = func_021A491C(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetStandResultOnCycle(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_WALK:
-        result = func_021A4994(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetWalkResultOnCycle(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_TURN:
-        result = func_021A4A74(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetTurnResultOnCycle(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_BLOCKED:
-        result = func_021A4AA8(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetBlockedResultOnCycle(grid, mmdl, request);
         break;
     }
     return result;
 }
 
 
-int func_021A491C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetStandResultOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_0216D3CC(mmdl) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
         if (request->dir != FIELD_PLAYER_GRID_DIR_NONE) {
-            u32 curDir = func_0216D5F8(mmdl);
+            u32 curDir = FLDMMDL_GetDirDisp(mmdl);
             if (request->dir != curDir && request->isDash == 0) {
                 return FIELD_PLAYER_GRID_RESULT_TURN;
             }
-            return func_021A4994(grid, mmdl, request);
+            return FIELD_PLAYER_GRID_GetWalkResultOnCycle(grid, mmdl, request);
         }
         return FIELD_PLAYER_GRID_RESULT_STAND;
     }
@@ -851,19 +851,19 @@ int func_021A491C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
 }
 
 
-int func_021A4960(int attrKind)
+int FIELD_PLAYER_GRID_IsTileBlockingCycle(int attrKind)
 {
-    if (func_021AB140(attrKind) != 0 || func_021AB404(attrKind) != 0 || func_021AB410(attrKind) != 0 || func_021AB328(attrKind) != 0)
+    if (MAP_ATTR_IsTallGrass(attrKind) != 0 || MAP_ATTR_IsDeepSand(attrKind) != 0 || MAP_ATTR_IsDeepSandB(attrKind) != 0 || MAP_ATTR_IsDeepSnow(attrKind) != 0)
         return 1;
     return 0;
 }
 
 
 /*
- * Twin of func_021A4598; the final attribute test also consults
- * func_021A4960 on the tile id.
+ * Twin of FIELD_PLAYER_GRID_GetWalkResultOnFoot; the final attribute test also consults
+ * FIELD_PLAYER_GRID_IsTileBlockingCycle on the tile id.
  */
-int func_021A4994(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetWalkResultOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int attr;
     u32 hitFlags;
@@ -871,28 +871,28 @@ int func_021A4994(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
     u32 attrBits;
     int ledgeDir;
 
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_GRID_RESULT_NONE;
     }
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        return func_021A491C(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnCycle(grid, mmdl, request);
     }
-    hitFlags = func_021A5264(grid, mmdl, request->dir, &attr);
+    hitFlags = FIELD_PLAYER_GRID_GetStepHitFlags(grid, mmdl, request->dir, &attr);
     if (request->isDash == 1 && hitFlags != 0 && !(hitFlags & 0x10)) {
         hitFlags = 0;
     }
     if (attr != -1) {
-        attrKind = func_021AB0F0(attr);
-        attrBits = func_021AB0F8(attr);
+        attrKind = MAP_ATTR_GetTerrainId(attr);
+        attrBits = MAP_ATTR_GetFlags(attr);
         if (hitFlags & 2) {
             ledgeDir = FIELD_PLAYER_GRID_DIR_NONE;
-            if (func_021AB158(attrKind)) {
+            if (MAP_ATTR_IsLedgeNorth(attrKind)) {
                 ledgeDir = 0;
-            } else if (func_021AB164(attrKind)) {
+            } else if (MAP_ATTR_IsLedgeSouth(attrKind)) {
                 ledgeDir = 1;
-            } else if (func_021AB170(attrKind)) {
+            } else if (MAP_ATTR_IsLedgeWest(attrKind)) {
                 ledgeDir = 2;
-            } else if (func_021AB17C(attrKind)) {
+            } else if (MAP_ATTR_IsLedgeEast(attrKind)) {
                 ledgeDir = 3;
             }
             if (ledgeDir != FIELD_PLAYER_GRID_DIR_NONE && ledgeDir == request->dir) {
@@ -900,7 +900,7 @@ int func_021A4994(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
             }
         }
         if (hitFlags == 0) {
-            if (!(attrBits & 2) && func_021A4960(attrKind) == 0) {
+            if (!(attrBits & 2) && FIELD_PLAYER_GRID_IsTileBlockingCycle(attrKind) == 0) {
                 return FIELD_PLAYER_GRID_RESULT_WALK;
             }
             if (request->isDash == 1) {
@@ -912,66 +912,66 @@ int func_021A4994(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
 }
 
 
-int func_021A4A74(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetTurnResultOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_0216D3CC(mmdl) == 0)
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0)
         return FIELD_PLAYER_GRID_RESULT_NONE;
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE)
-        return func_021A491C(grid, mmdl, request);
-    return func_021A4994(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnCycle(grid, mmdl, request);
+    return FIELD_PLAYER_GRID_GetWalkResultOnCycle(grid, mmdl, request);
 }
 
 
-int func_021A4AA8(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetBlockedResultOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    u32 curDir = func_0216D5F8(mmdl);
+    u32 curDir = FLDMMDL_GetDirDisp(mmdl);
 
     if (request->dir != FIELD_PLAYER_GRID_DIR_NONE && request->dir != curDir) {
-        func_0216D4B4(mmdl);
-        return func_021A4994(grid, mmdl, request);
+        FLDMMDL_FreeAcmd(mmdl);
+        return FIELD_PLAYER_GRID_GetWalkResultOnCycle(grid, mmdl, request);
     }
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_GRID_RESULT_NONE;
     }
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        return func_021A491C(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnCycle(grid, mmdl, request);
     }
-    return func_021A4994(grid, mmdl, request);
+    return FIELD_PLAYER_GRID_GetWalkResultOnCycle(grid, mmdl, request);
 }
 
 
-int func_021A4B00(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetMoveResultOnSurf(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request)
 {
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
     int result = FIELD_PLAYER_GRID_RESULT_NONE;
 
     switch (grid->state) {
     case FIELD_PLAYER_GRID_STATE_STAND:
-        result = func_021A4B54(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetStandResultOnSurf(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_WALK:
-        result = func_021A4B98(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetWalkResultOnSurf(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_TURN:
-        result = func_021A4C1C(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetTurnResultOnSurf(grid, mmdl, request);
         break;
     case FIELD_PLAYER_GRID_STATE_BLOCKED:
-        result = func_021A4C50(grid, mmdl, request);
+        result = FIELD_PLAYER_GRID_GetBlockedResultOnSurf(grid, mmdl, request);
         break;
     }
     return result;
 }
 
 
-int func_021A4B54(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetStandResultOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_0216D3CC(mmdl) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
         if (request->dir != FIELD_PLAYER_GRID_DIR_NONE) {
-            u32 curDir = func_0216D5F8(mmdl);
+            u32 curDir = FLDMMDL_GetDirDisp(mmdl);
             if (request->dir != curDir && request->isDash == 0) {
                 return FIELD_PLAYER_GRID_RESULT_TURN;
             }
-            return func_021A4B98(grid, mmdl, request);
+            return FIELD_PLAYER_GRID_GetWalkResultOnSurf(grid, mmdl, request);
         }
         return FIELD_PLAYER_GRID_RESULT_STAND;
     }
@@ -979,25 +979,25 @@ int func_021A4B54(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
 }
 
 
-int func_021A4B98(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetWalkResultOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int attr;
     u32 hitFlags;
 
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_GRID_RESULT_NONE;
     }
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        return func_021A4B54(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnSurf(grid, mmdl, request);
     }
-    hitFlags = func_021A5264(grid, mmdl, request->dir, &attr);
+    hitFlags = FIELD_PLAYER_GRID_GetStepHitFlags(grid, mmdl, request->dir, &attr);
     if (request->isDash == 1 && hitFlags != 0 && !(hitFlags & 0x10)) {
         hitFlags = 0;
     }
     if (attr != -1) {
         u32 attrBits;
-        func_021AB0F0(attr);
-        attrBits = func_021AB0F8(attr);
+        MAP_ATTR_GetTerrainId(attr);
+        attrBits = MAP_ATTR_GetFlags(attr);
         if (hitFlags == 0) {
             if (attrBits & 2) {
                 return FIELD_PLAYER_GRID_RESULT_WALK;
@@ -1011,89 +1011,89 @@ int func_021A4B98(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
 }
 
 
-int func_021A4C1C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetTurnResultOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (func_0216D3CC(mmdl) == 0)
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0)
         return FIELD_PLAYER_GRID_RESULT_NONE;
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE)
-        return func_021A4B54(grid, mmdl, request);
-    return func_021A4B98(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnSurf(grid, mmdl, request);
+    return FIELD_PLAYER_GRID_GetWalkResultOnSurf(grid, mmdl, request);
 }
 
 
-int func_021A4C50(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_GetBlockedResultOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    u32 curDir = func_0216D5F8(mmdl);
+    u32 curDir = FLDMMDL_GetDirDisp(mmdl);
 
     if (request->dir != FIELD_PLAYER_GRID_DIR_NONE && request->dir != curDir) {
-        func_0216D4B4(mmdl);
-        return func_021A4B98(grid, mmdl, request);
+        FLDMMDL_FreeAcmd(mmdl);
+        return FIELD_PLAYER_GRID_GetWalkResultOnSurf(grid, mmdl, request);
     }
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_GRID_RESULT_NONE;
     }
     if (request->dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        return func_021A4B54(grid, mmdl, request);
+        return FIELD_PLAYER_GRID_GetStandResultOnSurf(grid, mmdl, request);
     }
-    return func_021A4B98(grid, mmdl, request);
+    return FIELD_PLAYER_GRID_GetWalkResultOnSurf(grid, mmdl, request);
 }
 
 
-void func_021A4CA8(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_ApplyMoveResult(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request)
 {
-    switch (func_021A3974(grid->core)) {
+    switch (FIELD_PLAYER_CORE_GetFormCode(grid->core)) {
     case FIELD_PLAYER_AVATAR_FORM_NORMAL:
-        func_021A4CF4(grid, result, request);
+        FIELD_PLAYER_GRID_ApplyMoveResultOnFoot(grid, result, request);
         return;
     case FIELD_PLAYER_AVATAR_FORM_CYCLE:
-        func_021A4FA8(grid, result, request);
+        FIELD_PLAYER_GRID_ApplyMoveResultOnCycle(grid, result, request);
         return;
     case FIELD_PLAYER_AVATAR_FORM_SURF:
     case FIELD_PLAYER_AVATAR_FORM_DIVE:
-        func_021A5148(grid, result, request);
+        FIELD_PLAYER_GRID_ApplyMoveResultOnSurf(grid, result, request);
         break;
     }
 }
 
 
-void func_021A4CF4(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_ApplyMoveResultOnFoot(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request)
 {
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
 
     switch (result) {
-    case FIELD_PLAYER_GRID_RESULT_NONE: func_021A4D8C(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_STAND: func_021A4D90(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_WALK: func_021A4DC0(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_TURN: func_021A4E78(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_BLOCKED: func_021A4E9C(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_LEDGE_JUMP: func_021A4ED8(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_HOLD: func_021A4F04(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_HOP: func_021A4F0C(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_HOP_AIR: func_021A4F50(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_HOP_FALL: func_021A4F58(grid, mmdl, request); break;
+    case FIELD_PLAYER_GRID_RESULT_NONE: FIELD_PLAYER_GRID_ApplyNoneOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_STAND: FIELD_PLAYER_GRID_StartStandOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_WALK: FIELD_PLAYER_GRID_StartWalkOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_TURN: FIELD_PLAYER_GRID_StartTurnOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_BLOCKED: FIELD_PLAYER_GRID_StartBlockedOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_LEDGE_JUMP: FIELD_PLAYER_GRID_StartLedgeJumpOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_HOLD: FIELD_PLAYER_GRID_StartHoldOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_HOP: FIELD_PLAYER_GRID_StartHopOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_HOP_AIR: FIELD_PLAYER_GRID_StartHopAirOnFoot(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_HOP_FALL: FIELD_PLAYER_GRID_StartHopFallOnFoot(grid, mmdl, request); break;
     }
 }
 
 
 /* Unlabelled leaf (no lr save), filed because it blocks the caller's MATCH. */
-void func_021A4D8C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_ApplyNoneOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
 }
 
 
-void func_021A4D90(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartStandOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int dir = request->dir;
 
     if (dir == FIELD_PLAYER_GRID_DIR_NONE)
-        dir = func_0216D5F8(mmdl);
-    func_0216D410(mmdl, func_02197E7C(dir, FIELD_PLAYER_GRID_ACMD_STAND));
+        dir = FLDMMDL_GetDirDisp(mmdl);
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, FIELD_PLAYER_GRID_ACMD_STAND));
     grid->state = FIELD_PLAYER_GRID_STATE_STAND;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
 }
 
 
-void func_021A4DC0(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartWalkOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     VecFx32 pos;
     int attr;
@@ -1104,17 +1104,17 @@ void func_021A4DC0(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest
         acmdBase = FIELD_PLAYER_GRID_ACMD_DASH;
         checkSlope = 0;
     } else if ((request->dashAllowed & 1) && (request->keyHeld & 2)) {
-        if (func_021A3A20(grid->core) == 0) {
+        if (FIELD_PLAYER_CORE_CheckFormModel(grid->core) == 0) {
             acmdBase = FIELD_PLAYER_GRID_ACMD_RUN;
         } else {
             acmdBase = FIELD_PLAYER_GRID_ACMD_RUN_SPECIAL;
-            func_021A5304(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
-            func_021A3898(grid->core, &pos);
-            if (func_02163E34(mmdl, &pos, &attr) != 0) {
-                if (func_021AB44C(func_021AB0F0(attr)) != 0) {
+            FIELD_PLAYER_GRID_SetFlag(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
+            FIELD_PLAYER_CORE_GetPos(grid->core, &pos);
+            if (FLDMMDL_MOVE_GetMapAttr(mmdl, &pos, &attr) != 0) {
+                if (func_021AB44C(MAP_ATTR_GetTerrainId(attr)) != 0) {
                     acmdBase = FIELD_PLAYER_GRID_ACMD_WALK;
                     checkSlope = 0;
-                    func_021A530C(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
+                    FIELD_PLAYER_GRID_ClearFlag(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
                 }
             }
         }
@@ -1122,7 +1122,7 @@ void func_021A4DC0(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest
         acmdBase = FIELD_PLAYER_GRID_ACMD_WALK;
     }
     if (checkSlope == 1) {
-        if (func_021A57C0(grid, request->dir) == 1) {
+        if (FIELD_PLAYER_GRID_GetHeightStep(grid, request->dir) == 1) {
             switch (acmdBase) {
             case FIELD_PLAYER_GRID_ACMD_RUN: acmdBase = FIELD_PLAYER_GRID_ACMD_RUN_SLOPE_UP; break;
             case FIELD_PLAYER_GRID_ACMD_RUN_SPECIAL: acmdBase = FIELD_PLAYER_GRID_ACMD_RUN_SPECIAL_SLOPE_UP; break;
@@ -1130,61 +1130,61 @@ void func_021A4DC0(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest
             }
         }
     }
-    func_0216D410(mmdl, func_02197E7C(request->dir, acmdBase));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, acmdBase));
     grid->state = FIELD_PLAYER_GRID_STATE_WALK;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
 }
 
 
-void func_021A4E78(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartTurnOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    func_0216D410(mmdl, func_02197E7C(request->dir, FIELD_PLAYER_GRID_ACMD_TURN));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_TURN));
     grid->state = FIELD_PLAYER_GRID_STATE_TURN;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_RUN);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_RUN);
 }
 
 
-void func_021A4E9C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartBlockedOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    func_0216D410(mmdl, func_02197E7C(request->dir, FIELD_PLAYER_GRID_ACMD_BLOCKED));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_BLOCKED));
     grid->state = FIELD_PLAYER_GRID_STATE_BLOCKED;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
-    if (func_021A5810(grid, request->dir) == 0)
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+    if (FIELD_PLAYER_GRID_CheckMapConnectAhead(grid, request->dir) == 0)
         func_020061E4(FIELD_PLAYER_GRID_SE_BLOCKED);
 }
 
 
-void func_021A4ED8(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartLedgeJumpOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    func_0216D410(mmdl, func_02197E7C(request->dir, FIELD_PLAYER_GRID_ACMD_LEDGE_JUMP));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_LEDGE_JUMP));
     grid->state = FIELD_PLAYER_GRID_STATE_WALK;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
     func_020061E4(FIELD_PLAYER_GRID_SE_LEDGE_JUMP);
 }
 
 
-void func_021A4F04(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartHoldOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     grid->state = FIELD_PLAYER_GRID_STATE_HOLD;
 }
 
 
-void func_021A4F0C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartHopOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     u32 dir = request->dir;
 
     if (dir == FIELD_PLAYER_GRID_DIR_NONE) {
-        dir = func_021A5630(grid);
+        dir = FIELD_PLAYER_GRID_FindHopDir(grid);
     }
-    func_0216D410(mmdl, func_02197E7C(dir, FIELD_PLAYER_GRID_ACMD_HOP));
-    func_0216DB4C(mmdl, 1);
-    func_0216DCE8(mmdl, 1);
-    func_0216D568(mmdl, MMDL_MOVEBIT_SHOAL_SET);
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, FIELD_PLAYER_GRID_ACMD_HOP));
+    FLDMMDL_SetStatusBitHeightGetOff(mmdl, 1);
+    FLDMMDL_SetMoveBitShadowVanish(mmdl, 1);
+    FLDMMDL_SetMoveBit(mmdl, MMDL_MOVEBIT_SHOAL_SET);
     grid->state = FIELD_PLAYER_GRID_STATE_HOP;
 }
 
 
-void func_021A4F50(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartHopAirOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     grid->state = FIELD_PLAYER_GRID_STATE_HOP_AIR;
 }
@@ -1192,7 +1192,7 @@ void func_021A4F50(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest
 
 /*
  * The function returns int: pos.y when the height is already at or under the
- * limit, 7 (the new state) otherwise. The only caller (func_021A4CF4, case 9)
+ * limit, 7 (the new state) otherwise. The only caller (FIELD_PLAYER_GRID_ApplyMoveResultOnFoot, case 9)
  * discards the value. Returning pos.y on the early path ties the cross-block
  * pos.y value to r0 (the return register), so the block-2 constant 0x8000 goes
  * to r1 and the subtract reads `subs r0, r0, r1`; the void form colours the
@@ -1200,22 +1200,22 @@ void func_021A4F50(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest
  * dozens of spellings). Leaving the final `return 7` out recolours the 7 to r1.
  * See docs/idioms/a-value-returned-on-the-early-path-precolours-its-register-to-r0.md.
  */
-int func_021A4F58(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+int FIELD_PLAYER_GRID_StartHopFallOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    Mmdl *playerMmdl = func_021A3960(grid->core);
+    Mmdl *playerMmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
     VecFx32 pos;
     int groundHeight;
 
-    func_0216D88C(playerMmdl, &pos);
-    func_02163E58(playerMmdl, &pos, &groundHeight);
+    FLDMMDL_GetPos(playerMmdl, &pos);
+    FLDMMDL_MOVE_GetMapHeight(playerMmdl, &pos, &groundHeight);
     if (pos.y > groundHeight) {
         pos.y -= 0x8000;
         if (pos.y < groundHeight) {
             pos.y = groundHeight;
-            func_0216D570(playerMmdl, MMDL_MOVEBIT_SHOAL_SET);
+            FLDMMDL_ClearMoveBit(playerMmdl, MMDL_MOVEBIT_SHOAL_SET);
             grid->hopLanded = 1;
         }
-        func_0216D89C(playerMmdl, &pos);
+        FLDMMDL_SetPos(playerMmdl, &pos);
         grid->state = FIELD_PLAYER_GRID_STATE_HOP_FALL;
         return 7;
     }
@@ -1223,39 +1223,39 @@ int func_021A4F58(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest 
 }
 
 
-void func_021A4FA8(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_ApplyMoveResultOnCycle(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request)
 {
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
 
     switch (result) {
-    case FIELD_PLAYER_GRID_RESULT_NONE: func_021A5010(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_STAND: func_021A5014(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_WALK: func_021A5044(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_TURN: func_021A50BC(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_BLOCKED: func_021A50E0(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_LEDGE_JUMP: func_021A511C(grid, mmdl, request); break;
+    case FIELD_PLAYER_GRID_RESULT_NONE: FIELD_PLAYER_GRID_ApplyNoneOnCycle(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_STAND: FIELD_PLAYER_GRID_StartStandOnCycle(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_WALK: FIELD_PLAYER_GRID_StartWalkOnCycle(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_TURN: FIELD_PLAYER_GRID_StartTurnOnCycle(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_BLOCKED: FIELD_PLAYER_GRID_StartBlockedOnCycle(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_LEDGE_JUMP: FIELD_PLAYER_GRID_StartLedgeJumpOnCycle(grid, mmdl, request); break;
     }
 }
 
 
-void func_021A5010(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_ApplyNoneOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
 }
 
 
-void func_021A5014(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartStandOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int dir = request->dir;
 
     if (dir == FIELD_PLAYER_GRID_DIR_NONE)
-        dir = func_0216D5F8(mmdl);
-    func_0216D410(mmdl, func_02197E7C(dir, FIELD_PLAYER_GRID_ACMD_STAND));
+        dir = FLDMMDL_GetDirDisp(mmdl);
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, FIELD_PLAYER_GRID_ACMD_STAND));
     grid->state = FIELD_PLAYER_GRID_STATE_STAND;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
 }
 
 
-void func_021A5044(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartWalkOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int attr;
     u32 acmdBase;
@@ -1266,133 +1266,133 @@ void func_021A5044(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest
         checkSlope = 0;
     } else {
         acmdBase = FIELD_PLAYER_GRID_ACMD_DASH;
-        if (func_021A5788(grid, FIELD_PLAYER_GRID_DIR_NONE, &attr) == 1) {
-            if (func_021AB41C(func_021AB0F0(attr)) == 1) {
+        if (FIELD_PLAYER_GRID_GetAttrAtDir(grid, FIELD_PLAYER_GRID_DIR_NONE, &attr) == 1) {
+            if (func_021AB41C(MAP_ATTR_GetTerrainId(attr)) == 1) {
                 acmdBase = FIELD_PLAYER_GRID_ACMD_CYCLE_SPECIAL;
-                func_021AC528(mmdl, func_02188CD0(grid->fieldMap));
+                FLDEFF_KEMURI_Start(mmdl, FIELDMAP_GetEffect(grid->fieldMap));
             }
         }
     }
     if (checkSlope == 1) {
-        if (func_021A57C0(grid, request->dir) == 1) {
+        if (FIELD_PLAYER_GRID_GetHeightStep(grid, request->dir) == 1) {
             if (acmdBase == FIELD_PLAYER_GRID_ACMD_DASH) {
                 acmdBase = FIELD_PLAYER_GRID_ACMD_RUN;
             }
         }
     }
-    func_0216D410(mmdl, func_02197E7C(request->dir, acmdBase));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, acmdBase));
     grid->state = FIELD_PLAYER_GRID_STATE_WALK;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
 }
 
 
-void func_021A50BC(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartTurnOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    func_0216D410(mmdl, func_02197E7C(request->dir, FIELD_PLAYER_GRID_ACMD_TURN));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_TURN));
     grid->state = FIELD_PLAYER_GRID_STATE_TURN;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_RUN);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_RUN);
 }
 
 
-void func_021A50E0(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartBlockedOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    func_0216D410(mmdl, func_02197E7C(request->dir, FIELD_PLAYER_GRID_ACMD_BLOCKED));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_BLOCKED));
     grid->state = FIELD_PLAYER_GRID_STATE_BLOCKED;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
-    if (func_021A5810(grid, request->dir) == 0)
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+    if (FIELD_PLAYER_GRID_CheckMapConnectAhead(grid, request->dir) == 0)
         func_020061E4(FIELD_PLAYER_GRID_SE_BLOCKED);
 }
 
 
-void func_021A511C(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartLedgeJumpOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    func_0216D410(mmdl, func_02197E7C(request->dir, FIELD_PLAYER_GRID_ACMD_LEDGE_JUMP));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_LEDGE_JUMP));
     grid->state = FIELD_PLAYER_GRID_STATE_WALK;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
     func_020061E4(FIELD_PLAYER_GRID_SE_LEDGE_JUMP);
 }
 
 
-void func_021A5148(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_ApplyMoveResultOnSurf(FieldPlayerGrid *grid, u32 result, FieldPlayerGridMoveRequest *request)
 {
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
 
     switch (result) {
-    case FIELD_PLAYER_GRID_RESULT_NONE: func_021A51A4(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_STAND: func_021A51A8(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_WALK: func_021A51D8(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_TURN: func_021A5204(grid, mmdl, request); return;
-    case FIELD_PLAYER_GRID_RESULT_BLOCKED: func_021A5228(grid, mmdl, request); break;
+    case FIELD_PLAYER_GRID_RESULT_NONE: FIELD_PLAYER_GRID_ApplyNoneOnSurf(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_STAND: FIELD_PLAYER_GRID_StartStandOnSurf(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_WALK: FIELD_PLAYER_GRID_StartWalkOnSurf(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_TURN: FIELD_PLAYER_GRID_StartTurnOnSurf(grid, mmdl, request); return;
+    case FIELD_PLAYER_GRID_RESULT_BLOCKED: FIELD_PLAYER_GRID_StartBlockedOnSurf(grid, mmdl, request); break;
     }
 }
 
 
-void func_021A51A4(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_ApplyNoneOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
 }
 
 
-void func_021A51A8(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartStandOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int dir = request->dir;
 
     if (dir == FIELD_PLAYER_GRID_DIR_NONE)
-        dir = func_0216D5F8(mmdl);
-    func_0216D410(mmdl, func_02197E7C(dir, FIELD_PLAYER_GRID_ACMD_STAND));
+        dir = FLDMMDL_GetDirDisp(mmdl);
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, FIELD_PLAYER_GRID_ACMD_STAND));
     grid->state = FIELD_PLAYER_GRID_STATE_STAND;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
 }
 
 
-void func_021A51D8(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartWalkOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
     int acmdBase = (request->isDash == 1) ? FIELD_PLAYER_GRID_ACMD_DASH : FIELD_PLAYER_GRID_ACMD_RUN;
 
-    func_0216D410(mmdl, func_02197E7C(request->dir, acmdBase));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, acmdBase));
     grid->state = FIELD_PLAYER_GRID_STATE_WALK;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
 }
 
 
-void func_021A5204(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartTurnOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    func_0216D410(mmdl, func_02197E7C(request->dir, FIELD_PLAYER_GRID_ACMD_TURN));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_TURN));
     grid->state = FIELD_PLAYER_GRID_STATE_TURN;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_RUN);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_RUN);
 }
 
 
-void func_021A5228(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
+void FIELD_PLAYER_GRID_StartBlockedOnSurf(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    func_0216D410(mmdl, func_02197E7C(request->dir, FIELD_PLAYER_GRID_ACMD_BLOCKED));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(request->dir, FIELD_PLAYER_GRID_ACMD_BLOCKED));
     grid->state = FIELD_PLAYER_GRID_STATE_BLOCKED;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
-    if (func_021A5810(grid, request->dir) == 0)
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+    if (FIELD_PLAYER_GRID_CheckMapConnectAhead(grid, request->dir) == 0)
         func_020061E4(FIELD_PLAYER_GRID_SE_BLOCKED);
 }
 
 
-int func_021A5264(FieldPlayerGrid *grid, Mmdl *mmdl, u32 dir, int *outAttr)
+int FIELD_PLAYER_GRID_GetStepHitFlags(FieldPlayerGrid *grid, Mmdl *mmdl, u32 dir, int *outAttr)
 {
     VecFx32 pos;
     int gridZ;
     int gridY;
     int hitFlags;
     int stepX;
-    stepX = func_0216D83C(mmdl);
-    gridY = func_0216D854(mmdl);
-    gridZ = func_0216D86C(mmdl);
-    stepX = (short)(stepX + func_021641E8(dir));
-    hitFlags = (short)(gridZ + func_021641F8(dir));
-    stepX = func_02163994(mmdl, stepX, gridY, hitFlags, dir);
-    func_0216D88C(mmdl, &pos);
-    func_02164208(dir, &pos, 0x10000);
-    if (func_02163E34(mmdl, &pos, outAttr) == 0) {
+    stepX = FLDMMDL_GetGridNowX(mmdl);
+    gridY = FLDMMDL_GetGridNowY(mmdl);
+    gridZ = FLDMMDL_GetGridNowZ(mmdl);
+    stepX = (short)(stepX + FLDMMDL_MOVE_GetDirAddGridX(dir));
+    hitFlags = (short)(gridZ + FLDMMDL_MOVE_GetDirAddGridZ(dir));
+    stepX = FLDMMDL_MOVE_HitCheckMoveCurrent(mmdl, stepX, gridY, hitFlags, dir);
+    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
+    if (FLDMMDL_MOVE_GetMapAttr(mmdl, &pos, outAttr) == 0) {
         *outAttr = -1;
     }
     if (stepX & 2) {
-        if (func_021AB2DC(func_021AB0F0(*outAttr)) == 1) {
-            if (func_0216E5B0(func_0216D67C(mmdl), &pos) == 1) {
+        if (MAP_ATTR_IsHole(MAP_ATTR_GetTerrainId(*outAttr)) == 1) {
+            if (FLDMMDL_CheckMovedPosAtMapPos(FLDMMDL_GetMmdlSys(mmdl), &pos) == 1) {
                 stepX &= ~2;
             }
         }
@@ -1401,19 +1401,19 @@ int func_021A5264(FieldPlayerGrid *grid, Mmdl *mmdl, u32 dir, int *outAttr)
 }
 
 
-void func_021A5304(FieldPlayerGrid *grid, u32 mask)
+void FIELD_PLAYER_GRID_SetFlag(FieldPlayerGrid *grid, u32 mask)
 {
     grid->flags = (mask | grid->flags);
 }
 
 
-void func_021A530C(FieldPlayerGrid *grid, u32 mask)
+void FIELD_PLAYER_GRID_ClearFlag(FieldPlayerGrid *grid, u32 mask)
 {
     grid->flags = ((~mask) & grid->flags);
 }
 
 
-int func_021A5318(FieldPlayerGrid *grid, u32 mask)
+int FIELD_PLAYER_GRID_HasFlag(FieldPlayerGrid *grid, u32 mask)
 {
     if (grid->flags & mask)
         return 1;
@@ -1421,99 +1421,99 @@ int func_021A5318(FieldPlayerGrid *grid, u32 mask)
 }
 
 
-void func_021A5328(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_SetForcedMoveFlag(FieldPlayerGrid *grid)
 {
-    func_021A5304(grid, FIELD_PLAYER_GRID_FLAG_FORCED_MOVE);
+    FIELD_PLAYER_GRID_SetFlag(grid, FIELD_PLAYER_GRID_FLAG_FORCED_MOVE);
 }
 
 
-void func_021A5334(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_ClearForcedMoveFlag(FieldPlayerGrid *grid)
 {
-    func_021A530C(grid, FIELD_PLAYER_GRID_FLAG_FORCED_MOVE);
+    FIELD_PLAYER_GRID_ClearFlag(grid, FIELD_PLAYER_GRID_FLAG_FORCED_MOVE);
 }
 
 
-int func_021A5340(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_IsForcedMoveFlagSet(FieldPlayerGrid *grid)
 {
     int isForced = 1;
 
-    if (func_021A5318(grid, FIELD_PLAYER_GRID_FLAG_FORCED_MOVE) == 0)
+    if (FIELD_PLAYER_GRID_HasFlag(grid, FIELD_PLAYER_GRID_FLAG_FORCED_MOVE) == 0)
         isForced = 0;
     return isForced;
 }
 
 
-void func_021A5354(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_SetNoForcedMoveFlag(FieldPlayerGrid *grid)
 {
-    func_021A5304(grid, FIELD_PLAYER_GRID_FLAG_NO_FORCED_MOVE);
+    FIELD_PLAYER_GRID_SetFlag(grid, FIELD_PLAYER_GRID_FLAG_NO_FORCED_MOVE);
 }
 
 
-void func_021A5360(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_ClearNoForcedMoveFlag(FieldPlayerGrid *grid)
 {
-    func_021A530C(grid, FIELD_PLAYER_GRID_FLAG_NO_FORCED_MOVE);
+    FIELD_PLAYER_GRID_ClearFlag(grid, FIELD_PLAYER_GRID_FLAG_NO_FORCED_MOVE);
 }
 
 
-void func_021A536C(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_ClearStepPendingFlag(FieldPlayerGrid *grid)
 {
-    func_021A530C(grid, FIELD_PLAYER_GRID_FLAG_STEP_PENDING);
+    FIELD_PLAYER_GRID_ClearFlag(grid, FIELD_PLAYER_GRID_FLAG_STEP_PENDING);
 }
 
 
-void func_021A5378(FieldPlayerGrid *grid, int on)
+void FIELD_PLAYER_GRID_SetHoldFlag(FieldPlayerGrid *grid, int on)
 {
     if (on == 1)
-        func_021A5304(grid, FIELD_PLAYER_GRID_FLAG_HOLD);
+        FIELD_PLAYER_GRID_SetFlag(grid, FIELD_PLAYER_GRID_FLAG_HOLD);
     else
-        func_021A530C(grid, FIELD_PLAYER_GRID_FLAG_HOLD);
+        FIELD_PLAYER_GRID_ClearFlag(grid, FIELD_PLAYER_GRID_FLAG_HOLD);
 }
 
 
-int func_021A5390(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_IsHoldFlagSet(FieldPlayerGrid *grid)
 {
-    if (func_021A5318(grid, FIELD_PLAYER_GRID_FLAG_HOLD) != 0) {
+    if (FIELD_PLAYER_GRID_HasFlag(grid, FIELD_PLAYER_GRID_FLAG_HOLD) != 0) {
         return 1;
     }
     return 0;
 }
 
 
-void func_021A53A4(FieldPlayerGrid *grid, int on)
+void FIELD_PLAYER_GRID_SetHopFlag(FieldPlayerGrid *grid, int on)
 {
     if (on == 1)
-        func_021A5304(grid, FIELD_PLAYER_GRID_FLAG_HOP);
+        FIELD_PLAYER_GRID_SetFlag(grid, FIELD_PLAYER_GRID_FLAG_HOP);
     else
-        func_021A530C(grid, FIELD_PLAYER_GRID_FLAG_HOP);
+        FIELD_PLAYER_GRID_ClearFlag(grid, FIELD_PLAYER_GRID_FLAG_HOP);
 }
 
 
-int func_021A53BC(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_IsHopFlagSet(FieldPlayerGrid *grid)
 {
-    if (func_021A5318(grid, FIELD_PLAYER_GRID_FLAG_HOP) != 0) {
+    if (FIELD_PLAYER_GRID_HasFlag(grid, FIELD_PLAYER_GRID_FLAG_HOP) != 0) {
         return 1;
     }
     return 0;
 }
 
 
-void func_021A53D0(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_ResetBlockedPose(FieldPlayerGrid *grid)
 {
     Mmdl *mmdl;
     int dir;
 
     if (grid->state == FIELD_PLAYER_GRID_STATE_BLOCKED) {
-        mmdl = func_021A3960(grid->core);
-        dir = func_0216D5F8(mmdl);
-        func_0216D4B4(mmdl);
-        func_0216D5E0(mmdl, dir);
-        func_0216D674(mmdl, 0);
-        func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+        mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
+        dir = FLDMMDL_GetDirDisp(mmdl);
+        FLDMMDL_FreeAcmd(mmdl);
+        FLDMMDL_SetDirDispCheckPause(mmdl, dir);
+        FLDMMDL_SetDrawStatus(mmdl, 0);
+        FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
     }
 }
 
 
-int func_021A5408(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_StopTurnOrBlocked(FieldPlayerGrid *grid)
 {
     Mmdl *mmdl;
     u32 dir;
@@ -1525,140 +1525,140 @@ int func_021A5408(FieldPlayerGrid *grid)
         return 0;
     case FIELD_PLAYER_GRID_STATE_TURN:
     case FIELD_PLAYER_GRID_STATE_BLOCKED:
-        mmdl = func_021A572C(grid);
-        dir = func_0216D5F8(mmdl);
-        func_0216D4B4(mmdl);
-        func_0216D5E0(mmdl, dir);
-        func_0216D674(mmdl, 0);
-        func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+        mmdl = FIELD_PLAYER_GRID_GetMmdl(grid);
+        dir = FLDMMDL_GetDirDisp(mmdl);
+        FLDMMDL_FreeAcmd(mmdl);
+        FLDMMDL_SetDirDispCheckPause(mmdl, dir);
+        FLDMMDL_SetDrawStatus(mmdl, 0);
+        FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
         break;
     }
     return 1;
 }
 
 
-int func_021A5458(FieldPlayerGrid *grid, int unused)
+int FIELD_PLAYER_GRID_CheckForcedMoveTile(FieldPlayerGrid *grid, int unused)
 {
-    int attrKind = func_0216D7DC(func_021A3960(grid->core));
+    int attrKind = FLDMMDL_GetNowAttr(FIELD_PLAYER_CORE_GetMmdl(grid->core));
 
-    if (func_021A5318(grid, FIELD_PLAYER_GRID_FLAG_NO_FORCED_MOVE) == 0 && func_021AB348(func_021AB0F0(attrKind)) == 1)
+    if (FIELD_PLAYER_GRID_HasFlag(grid, FIELD_PLAYER_GRID_FLAG_NO_FORCED_MOVE) == 0 && MAP_ATTR_IsForcedSlide(MAP_ATTR_GetTerrainId(attrKind)) == 1)
         return 1;
     return 0;
 }
 
 
-int func_021A548C(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_IsOnForcedMoveTile(FieldPlayerGrid *grid)
 {
-    if (func_021A5458(grid, FIELD_PLAYER_GRID_DIR_NONE) != 0) {
-        return 1;
-    }
-    return 0;
-}
-
-
-int func_021A54A0(FieldPlayerGrid *grid)
-{
-    if (func_021A53BC(grid) == 1) {
+    if (FIELD_PLAYER_GRID_CheckForcedMoveTile(grid, FIELD_PLAYER_GRID_DIR_NONE) != 0) {
         return 1;
     }
     return 0;
 }
 
 
-void func_021A54B4(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_IsHopping(FieldPlayerGrid *grid)
+{
+    if (FIELD_PLAYER_GRID_IsHopFlagSet(grid) == 1) {
+        return 1;
+    }
+    return 0;
+}
+
+
+void FIELD_PLAYER_GRID_FinishHop(FieldPlayerGrid *grid)
 {
     VecFx32 pos;
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
 
-    func_0216DB4C(mmdl, 0);
-    func_0216DCE8(mmdl, 0);
-    func_0216D568(mmdl, FIELD_PLAYER_GRID_MMDL_STEP_END_BITS);
-    func_02164010(mmdl);
-    func_0216D88C(mmdl, &pos);
-    func_0216D85C(mmdl, (s16)((pos.y >> 4) / 4096));
-    func_021640B0(mmdl);
-    func_02163F10(mmdl);
+    FLDMMDL_SetStatusBitHeightGetOff(mmdl, 0);
+    FLDMMDL_SetMoveBitShadowVanish(mmdl, 0);
+    FLDMMDL_SetMoveBit(mmdl, FIELD_PLAYER_GRID_MMDL_STEP_END_BITS);
+    FLDMMDL_MOVE_UpdateHeight(mmdl);
+    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_SetGridNowY(mmdl, (s16)((pos.y >> 4) / 4096));
+    FLDMMDL_MOVE_UpdateMapAttr(mmdl);
+    FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
 }
 
 
-void func_021A550C(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_ReleaseForcedMove(FieldPlayerGrid *grid)
 {
-    if (func_021A5340(grid) == 1) {
-        func_0216D550(func_021A3960(grid->core), FIELD_PLAYER_GRID_MMDL_PAUSE_BITS);
-        func_021A5334(grid);
+    if (FIELD_PLAYER_GRID_IsForcedMoveFlagSet(grid) == 1) {
+        FLDMMDL_ClearStatusBit(FIELD_PLAYER_CORE_GetMmdl(grid->core), FIELD_PLAYER_GRID_MMDL_PAUSE_BITS);
+        FIELD_PLAYER_GRID_ClearForcedMoveFlag(grid);
     }
 }
 
 
-u32 func_021A552C(FieldPlayerGrid *grid)
+u32 FIELD_PLAYER_GRID_RunNoForcedMove(FieldPlayerGrid *grid)
 {
-    func_021A550C(grid);
+    FIELD_PLAYER_GRID_ReleaseForcedMove(grid);
 
     return 0x0;
 }
 
 
-int func_021A5538(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_StartForcedMove(FieldPlayerGrid *grid)
 {
     int attr;
-    Mmdl *mmdl = func_021A3960(grid->core);
-    u32 dir = func_0216D608(mmdl);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
+    u32 dir = FLDMMDL_GetDirMove(mmdl);
 
-    if (func_021A5264(grid, mmdl, dir, &attr) != 0) {
-        func_021A550C(grid);
-        func_021A5354(grid);
-        func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
+    if (FIELD_PLAYER_GRID_GetStepHitFlags(grid, mmdl, dir, &attr) != 0) {
+        FIELD_PLAYER_GRID_ReleaseForcedMove(grid);
+        FIELD_PLAYER_GRID_SetNoForcedMoveFlag(grid);
+        FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_NONE);
         return 0;
     }
-    func_021A5328(grid);
-    func_0216D410(mmdl, func_02197E7C(dir, FIELD_PLAYER_GRID_ACMD_RUN));
-    func_0216D548(mmdl, FIELD_PLAYER_GRID_MMDL_PAUSE_BITS);
+    FIELD_PLAYER_GRID_SetForcedMoveFlag(grid);
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, FIELD_PLAYER_GRID_ACMD_RUN));
+    FLDMMDL_SetStatusBit(mmdl, FIELD_PLAYER_GRID_MMDL_PAUSE_BITS);
     grid->state = FIELD_PLAYER_GRID_STATE_WALK;
-    func_021A3964(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
+    FIELD_PLAYER_CORE_SetStepKind(grid->core, FIELD_PLAYER_GRID_STEP_KIND_WALK);
     return 1;
 }
 
 
-int func_021A55A8(FieldPlayerGrid *grid, u32 dir, int skip)
+int FIELD_PLAYER_GRID_RunForcedMove(FieldPlayerGrid *grid, u32 dir, int skip)
 {
     if (skip == 0) {
-        if (data_021D89EC[func_021A5458(grid, dir)](grid, dir) == 1)
+        if (gFieldPlayerGridForcedMoveFuncs[FIELD_PLAYER_GRID_CheckForcedMoveTile(grid, dir)](grid, dir) == 1)
             return 1;
     }
-    func_021A5334(grid);
+    FIELD_PLAYER_GRID_ClearForcedMoveFlag(grid);
     return 0;
 }
 
 
-int func_021A55DC(int attrKind)
+int FIELD_PLAYER_GRID_IsHopTileKind(int attrKind)
 {
-    if (func_021AB404(attrKind) == 1 || func_021AB410(attrKind) == 1)
+    if (MAP_ATTR_IsDeepSand(attrKind) == 1 || MAP_ATTR_IsDeepSandB(attrKind) == 1)
         return 1;
     return 0;
 }
 
 
-int func_021A55FC(int attrKind)
+int FIELD_PLAYER_GRID_IsHopStartTileKind(int attrKind)
 {
-    if (func_021AB404(attrKind) == 1) {
+    if (MAP_ATTR_IsDeepSand(attrKind) == 1) {
         return 1;
     }
     return 0;
 }
 
 
-int func_021A5610(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_IsOnHopStartTile(FieldPlayerGrid *grid)
 {
     int attr;
 
-    func_021A5788(grid, FIELD_PLAYER_GRID_DIR_NONE, &attr);
-    if (func_021A55FC(func_021AB0F0(attr)) == 1)
+    FIELD_PLAYER_GRID_GetAttrAtDir(grid, FIELD_PLAYER_GRID_DIR_NONE, &attr);
+    if (FIELD_PLAYER_GRID_IsHopStartTileKind(MAP_ATTR_GetTerrainId(attr)) == 1)
         return 1;
     return 0;
 }
 
 
-u32 func_021A5630(FieldPlayerGrid *grid)
+u32 FIELD_PLAYER_GRID_FindHopDir(FieldPlayerGrid *grid)
 {
     int attr;
     u16 dirTable[4];
@@ -1666,16 +1666,16 @@ u32 func_021A5630(FieldPlayerGrid *grid)
     u32 dir;
     u16 *nextDir = dirTable;
 
-    dirTable[0] = d_021D8A24[0];
-    dirTable[1] = d_021D8A24[1];
-    dirTable[2] = d_021D8A24[2];
-    dirTable[3] = d_021D8A24[3];
-    dir = func_021A3920(grid->core);
+    dirTable[0] = gFieldPlayerGridNextHopDirs[0];
+    dirTable[1] = gFieldPlayerGridNextHopDirs[1];
+    dirTable[2] = gFieldPlayerGridNextHopDirs[2];
+    dirTable[3] = gFieldPlayerGridNextHopDirs[3];
+    dir = FIELD_PLAYER_CORE_GetDirDisp(grid->core);
     tries = 0;
     do {
-        if (func_021A5788(grid, dir, &attr) == 1) {
-            if (func_021A55DC(func_021AB0F0(attr)) == 0) {
-                if (func_021AB11C(attr) == 0) {
+        if (FIELD_PLAYER_GRID_GetAttrAtDir(grid, dir, &attr) == 1) {
+            if (FIELD_PLAYER_GRID_IsHopTileKind(MAP_ATTR_GetTerrainId(attr)) == 0) {
+                if (MAP_ATTR_IsBlocked(attr) == 0) {
                     return dir;
                 }
             }
@@ -1687,67 +1687,67 @@ u32 func_021A5630(FieldPlayerGrid *grid)
 }
 
 
-int func_021A569C(FieldPlayerGrid *grid, Mmdl *mmdl, int dir, int *outAttr)
+int FIELD_PLAYER_GRID_GetHopStepHitFlags(FieldPlayerGrid *grid, Mmdl *mmdl, int dir, int *outAttr)
 {
-    int hitFlags = func_021A5264(grid, mmdl, dir, outAttr);
+    int hitFlags = FIELD_PLAYER_GRID_GetStepHitFlags(grid, mmdl, dir, outAttr);
 
-    if (func_021A55DC(func_021AB0F0(*outAttr)) == 1)
+    if (FIELD_PLAYER_GRID_IsHopTileKind(MAP_ATTR_GetTerrainId(*outAttr)) == 1)
         hitFlags |= 0x100;
     return hitFlags;
 }
 
 
-u32 func_021A56C0(FieldPlayerGrid *grid, u32 unused1, u32 unused2)
+u32 FIELD_PLAYER_GRID_IsAtGroundHeight(FieldPlayerGrid *grid, u32 unused1, u32 unused2)
 {
-    Mmdl *mmdl = func_021A3960(grid->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
     VecFx32 pos;
     int groundHeight;
 
-    func_0216D88C(mmdl, &pos);
-    func_02163E58(mmdl, &pos, &groundHeight);
+    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_MOVE_GetMapHeight(mmdl, &pos, &groundHeight);
     if (pos.y <= groundHeight)
         return 1;
     return 0;
 }
 
 
-void func_021A56F4(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_StartHold(FieldPlayerGrid *grid)
 {
-    func_021A5378(grid, 1);
-    func_021A39AC(grid->core, 7);
+    FIELD_PLAYER_GRID_SetHoldFlag(grid, 1);
+    FIELD_PLAYER_CORE_SetFormSlotModel(grid->core, 7);
 }
 
 
-void func_021A5708(FieldPlayerGrid *grid)
+void FIELD_PLAYER_GRID_EndHold(FieldPlayerGrid *grid)
 {
     grid->holdFrames = 0;
     grid->holdEffectPending = 0;
-    func_021A53A4(grid, 0);
-    func_021A5378(grid, 0);
-    func_021A3998(grid->core);
+    FIELD_PLAYER_GRID_SetHopFlag(grid, 0);
+    FIELD_PLAYER_GRID_SetHoldFlag(grid, 0);
+    FIELD_PLAYER_CORE_ApplyFormCodeModel(grid->core);
 }
 
 
-FieldPlayerCore *func_021A5728(FieldPlayerGrid *grid)
+FieldPlayerCore *FIELD_PLAYER_GRID_GetCore(FieldPlayerGrid *grid)
 {
     return grid->core;
 }
 
 
 /* Tail-call thunk: the model of the core. */
-Mmdl *func_021A572C(FieldPlayerGrid *grid)
+Mmdl *FIELD_PLAYER_GRID_GetMmdl(FieldPlayerGrid *grid)
 {
-    return func_021A3960(grid->core);
+    return FIELD_PLAYER_CORE_GetMmdl(grid->core);
 }
 
 
-void func_021A5738(FieldPlayerGrid *grid, int keepFrame)
+void FIELD_PLAYER_GRID_ResetHold(FieldPlayerGrid *grid, int keepFrame)
 {
     u16 savedFrames;
 
-    if (func_021A5390(grid) == 1) {
+    if (FIELD_PLAYER_GRID_IsHoldFlagSet(grid) == 1) {
         savedFrames = grid->holdFrames;
-        func_021A5708(grid);
+        FIELD_PLAYER_GRID_EndHold(grid);
         if (keepFrame == 1) {
             grid->holdFrames = savedFrames;
             grid->holdEffectPending = 1;
@@ -1756,20 +1756,20 @@ void func_021A5738(FieldPlayerGrid *grid, int keepFrame)
 }
 
 
-/* Tail-call thunk: forwards to func_021A550C with no argument change. */
-void func_021A575C(FieldPlayerGrid *grid)
+/* Tail-call thunk: forwards to FIELD_PLAYER_GRID_ReleaseForcedMove with no argument change. */
+void FIELD_PLAYER_GRID_StopForcedMove(FieldPlayerGrid *grid)
 {
-    func_021A550C(grid);
+    FIELD_PLAYER_GRID_ReleaseForcedMove(grid);
 }
 
 
-u32 func_021A5764(FieldPlayerGrid *grid)
+u32 FIELD_PLAYER_GRID_GetHopLanded(FieldPlayerGrid *grid)
 {
     return grid->hopLanded;
 }
 
 
-int func_021A5768(FieldPlayerGrid *grid, u32 landed)
+int FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 landed)
 {
     if (landed == 1) {
         grid->hopLanded = 1;
@@ -1780,7 +1780,7 @@ int func_021A5768(FieldPlayerGrid *grid, u32 landed)
 }
 
 
-int func_021A5778(FieldPlayerGrid *grid)
+int FIELD_PLAYER_GRID_IsBlocked(FieldPlayerGrid *grid)
 {
     if (grid->state == FIELD_PLAYER_GRID_STATE_BLOCKED) {
         return 1;
@@ -1789,29 +1789,29 @@ int func_021A5778(FieldPlayerGrid *grid)
 }
 
 
-int func_021A5788(FieldPlayerGrid *grid, int dir, int *outAttr)
+int FIELD_PLAYER_GRID_GetAttrAtDir(FieldPlayerGrid *grid, int dir, int *outAttr)
 {
     VecFx32 pos;
 
-    func_021A3898(grid->core, &pos);
+    FIELD_PLAYER_CORE_GetPos(grid->core, &pos);
     if (dir != FIELD_PLAYER_GRID_DIR_NONE)
-        func_02164208(dir, &pos, 0x10000);
-    return func_02163E34(func_021A3960(grid->core), &pos, outAttr);
+        FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
+    return FLDMMDL_MOVE_GetMapAttr(FIELD_PLAYER_CORE_GetMmdl(grid->core), &pos, outAttr);
 }
 
 
-int func_021A57C0(FieldPlayerGrid *grid, int dir)
+int FIELD_PLAYER_GRID_GetHeightStep(FieldPlayerGrid *grid, int dir)
 {
     Mmdl *mmdl;
     int curHeight;
     VecFx32 pos;
     int destHeight;
 
-    mmdl = func_021A3960(grid->core);
-    func_0216D88C(mmdl, &pos);
+    mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
+    FLDMMDL_GetPos(mmdl, &pos);
     curHeight = pos.y;
-    func_02164208(dir, &pos, 0x10000);
-    if (func_02163E58(mmdl, &pos, &destHeight) == 1) {
+    FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
+    if (FLDMMDL_MOVE_GetMapHeight(mmdl, &pos, &destHeight) == 1) {
         if (curHeight < destHeight) {
             return 1;
         }
@@ -1823,22 +1823,22 @@ int func_021A57C0(FieldPlayerGrid *grid, int dir)
 }
 
 
-int func_021A5810(FieldPlayerGrid *grid, int dir)
+int FIELD_PLAYER_GRID_CheckMapConnectAhead(FieldPlayerGrid *grid, int dir)
 {
     Mmdl *mmdl;
     void *eventData;
     int connectIndex;
     VecFx32 pos;
 
-    mmdl = func_021A3960(grid->core);
-    eventData = func_02012844(func_020120F4(func_02188C80(grid->fieldMap)));
-    func_0216D88C(mmdl, &pos);
-    func_02164208(dir, &pos, 0x10000);
-    connectIndex = func_02162564(eventData, &pos);
+    mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
+    eventData = GAME_DATA_GetEventData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(grid->fieldMap)));
+    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
+    connectIndex = EVENTDATA_SYSTEM_SearchConnectIdByGridPos(eventData, &pos);
     if (connectIndex == 0xffff) {
         return 0;
     }
-    if (func_021626B8(func_021625CC(eventData, (u16)connectIndex), dir)) {
+    if (EVENTDATA_SYSTEM_IsConnectExitDir(EVENTDATA_SYSTEM_GetConnectData(eventData, (u16)connectIndex), dir)) {
         return 1;
     }
     return 0;

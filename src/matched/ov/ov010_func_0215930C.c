@@ -1,5 +1,5 @@
 /*
- * function: func_0215930C
+ * function: SCRIPT_WORK_CmdCopyLocal
  * address: 0x0215930C
  * packet: pkt_ov010_0215930C
  * region: ov010
@@ -23,7 +23,7 @@ static inline u8 rd8_0215930C(Ctx_0215930C *c)
     return v;
 }
 
-int func_0215930C(Ctx_0215930C *c)
+int SCRIPT_WORK_CmdCopyLocal(Ctx_0215930C *c)
 {
     u8 a = rd8_0215930C(c);
     u8 b = rd8_0215930C(c);

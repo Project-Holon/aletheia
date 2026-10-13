@@ -1,5 +1,5 @@
 /*
- * function: func_02165A10
+ * function: GAME_BEACON_ACCESSOR_TableRingAdd
  * address:  0x02165A10
  * packet:   pkt_ov010_02165A10
  * region:   ov010
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Ring-buffer variant of the queue insert (func_021659F0 maps a logical
+ * Ring-buffer variant of the queue insert (GAME_BEACON_ACCESSOR_TableGetRingIndex maps a logical
  * index to a slot): replaces the record with the same f10 if present
  * before the first empty slot, else pushes a new head; the count byte
  * saturates at 30. *flag (optional) is 1 when a new slot was taken.
  *
  * symbols:
- *   func_021659F0  0x021659F0  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_TableGetRingIndex  0x021659F0  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -37,9 +37,9 @@ struct Queue {
     u8 count;
 };
 
-extern int func_021659F0(u8 *q, int delta);
+extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
 
-int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag)
+int GAME_BEACON_ACCESSOR_TableRingAdd(struct Queue *q, struct Rec *rec, u16 tag, int *flag)
 {
     int i;
     int idx;
@@ -47,7 +47,7 @@ int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag)
     if (flag)
         *flag = 0;
     for (i = 0; i < 30; i++) {
-        idx = func_021659F0((u8 *)q, i);
+        idx = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)q, i);
         if (q->r[idx].f00 == 0)
             break;
         if (rec->f10 == q->r[idx].f10) {
@@ -58,7 +58,7 @@ int func_02165A10(struct Queue *q, struct Rec *rec, u16 tag, int *flag)
     }
     if (flag)
         *flag = 1;
-    idx = func_021659F0((u8 *)q, -1);
+    idx = GAME_BEACON_ACCESSOR_TableGetRingIndex((u8 *)q, -1);
     q->r[idx] = *rec;
     q->tag[idx] = tag;
     q->head = idx;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ADB4C",
+   "name": "FLDEFF_ENCOUNT_SetPaused",
    "address": "0x021ADB4C",
    "kind": "game",
    "region": "ov021",

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F3718",
-    "func_021F3724"
+    "FIELD_GIMMICK_D06_GetPanelPositions",
+    "FIELD_GIMMICK_D06_GetPanelCount"
+   ],
+   "addresses": [
+    "0x021F3718",
+    "0x021F3724"
    ]
   }
  ]

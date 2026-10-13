@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201C4C0  0x0201C4C0  thumb
- *   func_0201D83C  0x0201D83C  thumb
+ *   GF_FONT_Delete  0x0201D83C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -26,10 +26,10 @@ typedef struct {
 struct PrintSys;
 extern void func_0201C4C0(struct PrintSys *p);
 typedef unsigned int   u32;
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 
 void func_021C795C(Work *p)
 {
     func_0201C4C0(p->f14);
-    func_0201D83C(p->f4);
+    GF_FONT_Delete(p->f4);
 }

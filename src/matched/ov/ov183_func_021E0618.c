@@ -17,7 +17,7 @@
  *   func_021F9BA0 0x021F9BA0 thumb ov186
  *   func_021F9BF4 0x021F9BF4 thumb ov186
  *   func_021FD1BC 0x021FD1BC thumb ov186
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021FD854 0x021FD854 thumb ov186
  */
 #include "../include/Obj04576.h"
@@ -32,7 +32,7 @@ extern unsigned long long func_021E0764(char *p);
 extern void func_021F9BA0(unsigned *ctx);
 extern void func_021F9BF4(unsigned *ctx, unsigned index);
 extern void func_021FD1BC(void *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021FD854(char *p);
 int func_021E0618(int unused, int *state, int *q, int *p)
 {
@@ -61,7 +61,7 @@ int func_021E0618(int unused, int *state, int *q, int *p)
     case 5: return 1;
     }
     if (p[2]) func_021FD1BC((void *)p[2]);
-    func_0201C4E4((struct PrintSys *)p[3]);
+    PRINTSYS_QUE_Main((struct PrintSys *)p[3]);
     func_021FD854((char *)p[5]);
     return 0;
 }

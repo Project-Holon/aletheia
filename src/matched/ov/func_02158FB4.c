@@ -1,5 +1,5 @@
 /*
- * function: func_02158FB4
+ * function: SCRIPT_WORK_GetUserWorkPtr
  * address:  0x02158FB4
  * packet:   pkt_02158F50
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02158FB4.c \
- *       --func func_02158FB4 --addr 0x02158FB4 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRIPT_WORK_GetUserWorkPtr.c \
+ *       --func SCRIPT_WORK_GetUserWorkPtr --addr 0x02158FB4 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -26,4 +26,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void *func_02158FB4(void *p) { return (char *)p + 60; }
+void *SCRIPT_WORK_GetUserWorkPtr(void *p) { return (char *)p + 60; }

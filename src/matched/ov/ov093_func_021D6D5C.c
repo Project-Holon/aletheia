@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D5C
+ * function: BTL_POKEPARAM_SetSubstituteHp
  * address: 0x021D6D5C
  * packet: pkt_ov093_021D6D5C
  * region: ov093
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D6238 0x021D6238 thumb ov093
+ *   BTL_POKEPARAM_CureSick 0x021D6238 thumb ov093
  */
 #include "../include/Obj21239.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct UtilSlots;
-extern void func_021D6238(struct UtilSlots *,int);
-void func_021D6D5C(u8 *p,u16 n) { ((struct Obj21239 *)p)->f1F2=n; func_021D6238((struct UtilSlots *)p,8); }
+extern void BTL_POKEPARAM_CureSick(struct UtilSlots *,int);
+void BTL_POKEPARAM_SetSubstituteHp(u8 *p,u16 n) { ((struct Obj21239 *)p)->f1F2=n; BTL_POKEPARAM_CureSick((struct UtilSlots *)p,8); }

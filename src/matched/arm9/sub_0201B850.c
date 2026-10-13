@@ -14,7 +14,7 @@
  * body: species 0 and species 650 both return early.
  *
  * The band index `idx` doubles as the literal zero argument of the three
- * func_02017E1C reads, which is why it is a named u8 initialised before the
+ * POKE_TOOL_GetPartyValue reads, which is why it is a named u8 initialised before the
  * species call rather than three separate `0` literals; and the two
  * increments must be spelled `idx++` (post-increment), not `idx = idx + 1`,
  * or the compiler proves idx is still 0 at the first band test and folds it
@@ -35,8 +35,8 @@
  *       --addr 0x0201B850 --thumb
  * symbols:
  *   func_02013E4C   0x02013E4C  thumb
- *   func_02017E1C   0x02017E1C  thumb
- *   func_02017E40   0x02017E40  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue   0x02017E40  thumb
  *   func_02020FE4   0x02020FE4  thumb
  *   GPOWER_ApplyFriendshipBonus   0x02011014  thumb
  *   _s32_div_f      0x0209C0A4  arm
@@ -48,8 +48,8 @@ typedef unsigned int   u32;
 typedef signed char    s8;
 
 extern u32 func_02013E4C(u32 id);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_02020FE4(void *a, u32 sel, u32 id);
 extern int GPOWER_ApplyFriendshipBonus(int a0);
 
@@ -64,12 +64,12 @@ void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3)
 
     t = func_02013E4C(a2);
     idx = 0;
-    species = (u16)func_02017E1C(mon, 0xAB, 0);
+    species = (u16)POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
     if (species == 0 || species == 650) {
         return;
     }
-    kind = (u8)func_02020FE4((void *)((u16)func_02017E1C(mon, 6, idx)), 1, a3);
-    cur = func_02017E1C(mon, 9, idx);
+    kind = (u8)func_02020FE4((void *)((u16)POKE_TOOL_GetPartyValue(mon, 6, idx)), 1, a3);
+    cur = POKE_TOOL_GetPartyValue(mon, 9, idx);
 
     if (cur >= 100) {
         idx++;
@@ -79,12 +79,12 @@ void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3)
     }
     n = tbl[idx];
     if (n > 0) {
-        if (func_02017E1C(mon, 0x98, 0) == 11) {
+        if (POKE_TOOL_GetPartyValue(mon, 0x98, 0) == 11) {
             n = n + 1;
         }
     }
     if (t != 0 && n > 0) {
-        if (t == (int)func_02017E1C(mon, 0x96, 0)) {
+        if (t == (int)POKE_TOOL_GetPartyValue(mon, 0x96, 0)) {
             n = n + 1;
         }
     }
@@ -98,6 +98,6 @@ void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3)
     if (cur > 255) {
         cur = 255;
     }
-    func_02017E40(mon, 9, cur);
+    POKE_TOOL_SetPartyValue(mon, 9, cur);
     return;
 }

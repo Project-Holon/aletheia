@@ -1,5 +1,5 @@
 /*
- * function: func_02157028
+ * function: MUSICAL_PROGRAM_Create
  * address:  0x02157028
  * packet:   pkt_ov010_02157028
  * region:   ov010
@@ -21,7 +21,7 @@
  *   _s32_div_f  0x0209C0A4  arm
  *   func_0203F0A8  0x0203F0A8  arm
  *   _ull_mul  0x0209C054  arm
- *   d_02172768  0x02172768  data
+ *   sMusicalProgramFileName  0x02172768  data
  */
 
 typedef unsigned char u8;
@@ -52,7 +52,7 @@ typedef struct Deal {
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0203F0A8(void);
-extern const char d_02172768[];
+extern const char sMusicalProgramFileName[];
 
 static inline u32 RandN(u32 n)
 {
@@ -63,7 +63,7 @@ static inline u32 RandN(u32 n)
     return r;
 }
 
-Deal *func_02157028(u32 heap, Src *src, u16 lim)
+Deal *MUSICAL_PROGRAM_Create(u32 heap, Src *src, u16 lim)
 {
     Deal *d;
     u8 i;
@@ -74,7 +74,7 @@ Deal *func_02157028(u32 heap, Src *src, u16 lim)
     u8 b;
     u8 t;
 
-    d = func_02030734(heap, 0x10, 0, d_02172768, 100);
+    d = func_02030734(heap, 0x10, 0, sMusicalProgramFileName, 100);
     d->f0C = src->f04;
     for (i = 0; i < 4; i++) {
         d->f00[i] = 0;

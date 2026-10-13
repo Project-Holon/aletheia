@@ -1,5 +1,5 @@
 /*
- * function: func_021BD188
+ * function: STARTMENU_SaveEraseUpdateMessage
  * address:  0x021BD188
  * packet:   pkt_ov088_021BD188
  * region:   ov088
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020310C4  0x020310C4  arm
- *   func_020286C4  0x020286C4  thumb
+ *   TCBL_Main  0x020310C4  arm
+ *   APP_KEYCURSOR_Update  0x020286C4  thumb
  *   func_0201CE30  0x0201CE30  thumb
  *   func_020362DC  0x020362DC  arm
  *   func_020061E4  0x020061E4  thumb
@@ -25,18 +25,18 @@ typedef unsigned int u32;
 struct Ctx;
 struct Rec3;
 struct Tcbl;
-extern void func_020310C4(struct Tcbl *p);
-extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern void TCBL_Main(struct Tcbl *p);
+extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
 extern u32 func_0201CE30(void *p);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
 extern void func_0201CE38(void *);
 extern void func_0201CE48(struct Rec3 *p);
 
-int func_021BD188(char *p)
+int STARTMENU_SaveEraseUpdateMessage(char *p)
 {
-    func_020310C4(((struct Obj00578 *)p)->f18);
-    func_020286C4(((struct Obj00578 *)p)->f24, ((struct Obj00578 *)p)->f14, ((struct Obj00578 *)p)->f1C);
+    TCBL_Main(((struct Obj00578 *)p)->f18);
+    APP_KEYCURSOR_Update(((struct Obj00578 *)p)->f24, ((struct Obj00578 *)p)->f14, ((struct Obj00578 *)p)->f1C);
     switch (func_0201CE30(((struct Obj00578 *)p)->f14)) {
     case 0:
         ((struct Obj00578 *)p)->f28 = 0;

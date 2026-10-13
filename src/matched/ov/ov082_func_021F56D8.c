@@ -1,5 +1,5 @@
 /*
- * function: func_021F56D8
+ * function: FLD_FACEUP_SaveVisiblePlanes
  * address:  0x021F56D8
  * packet:   pkt_021F56D8
  * region:   ov082
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043658  0x02043658  arm
+ *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
  */
 
 typedef unsigned int   u32;
-u32 func_02043658(void);
+u32 BG_SYS_GetMainVisiblePlanes(void);
 
-void func_021F56D8(int *p)
+void FLD_FACEUP_SaveVisiblePlanes(int *p)
 {
-    p[1] = func_02043658();
+    p[1] = BG_SYS_GetMainVisiblePlanes();
 }

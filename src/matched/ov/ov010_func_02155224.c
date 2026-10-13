@@ -1,5 +1,5 @@
 /*
- * function: func_02155224
+ * function: MUSICAL_EVENT_TrimAllPartiesToThree
  * address:  0x02155224
  * packet:   pkt_ov010_02155224
  * region:   ov010
@@ -12,7 +12,7 @@
  * Trims the list at +0x38 and the four lists at +0x3c to three entries each.
  *
  * symbols:
- *   func_02155200  0x02155200  thumb  ov010
+ *   MUSICAL_EVENT_TrimPartyToThree  0x02155200  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -23,13 +23,13 @@ struct Ctx {
     void *f3c[4];
 };
 
-extern void func_02155200(void *list);
+extern void MUSICAL_EVENT_TrimPartyToThree(void *list);
 
-void func_02155224(struct Ctx *ctx)
+void MUSICAL_EVENT_TrimAllPartiesToThree(struct Ctx *ctx)
 {
     int i;
 
-    func_02155200(ctx->f38);
+    MUSICAL_EVENT_TrimPartyToThree(ctx->f38);
     for (i = 0; i < 4; i++)
-        func_02155200(ctx->f3c[i]);
+        MUSICAL_EVENT_TrimPartyToThree(ctx->f3c[i]);
 }

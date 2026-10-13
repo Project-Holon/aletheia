@@ -1,5 +1,5 @@
 /*
- * function: func_021BD1DC
+ * function: PLACE_NAME_LETTER_GetBmp
  * address:  0x021BD1DC
  * packet:   pkt_021BD1CC
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021BD308 with no argument change.
+ * Tail-call thunk: forwards to PLACE_NAME_LETTER_GetBmpRaw with no argument change.
  *
  * symbols:
- *   func_021BD308  0x021BD308  thumb
+ *   PLACE_NAME_LETTER_GetBmpRaw  0x021BD308  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021BD308(u8 *p);
+extern int PLACE_NAME_LETTER_GetBmpRaw(u8 *p);
 
-int func_021BD1DC(u8 *a0)
+int PLACE_NAME_LETTER_GetBmp(u8 *a0)
 {
-    return func_021BD308(a0);
+    return PLACE_NAME_LETTER_GetBmpRaw(a0);
 }

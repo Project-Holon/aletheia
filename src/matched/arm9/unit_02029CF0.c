@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02029CF0
+ * function: FIELD_SOUND_SYSTEM_PostZoneBgmChange
  *
  * The last function of pkt_020295D8, and not a task at all: it resolves a
  * sequence id for the request and issues one command 5 for it, with the fifth
@@ -26,7 +26,7 @@
  * VERSION SENSITIVITY: 60 is a frame count, not a content id.
  *
  * symbols:
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  *   FIELD_SOUND_SYSTEM_GetPlayerObjectCode  0x02029E58  thumb
  *   FIELD_SOUND_SYSTEM_GetZoneBgm  0x02029E64  thumb
@@ -42,16 +42,16 @@ typedef unsigned int   u32;
 
 typedef unsigned char  u8;
 struct BigObj;
-extern u8 func_02012984(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern u32   FIELD_SOUND_SYSTEM_FindZoneBgmOverride(void *a, void *b);
 extern u32 FIELD_SOUND_SYSTEM_GetZoneBgm(void *unused, u32 id, u32 which);
 extern int FIELD_SOUND_SYSTEM_GetPlayerObjectCode(void *a0);
 struct Sys;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 
-void func_02029CF0(void *sys, void *a, void *b)
+void FIELD_SOUND_SYSTEM_PostZoneBgmChange(void *sys, void *a, void *b)
 {
-    void *pri = (void *)func_02012984(a);
+    void *pri = (void *)GAME_DATA_GetSeason(a);
     u32 id = FIELD_SOUND_SYSTEM_FindZoneBgmOverride(a, b);
     u16 c;
     u16 v;

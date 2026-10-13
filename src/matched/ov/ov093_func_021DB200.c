@@ -1,5 +1,5 @@
 /*
- * function: func_021DB200
+ * function: BTL_TOKUSEI_MoldBreaker_RemoveSkipCheckOnEvent4
  * address: 0x021DB200
  * packet: pkt_ov093_021DB200
  * region: ov093
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D7324 0x021D7324 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_ClearFactorSkipCheck 0x021D7324 thumb ov093
  */
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 typedef unsigned char  u8;
-extern void func_021D7324(u8 *p);
-void func_021DB200(char *a, int b, int c, int *d) { if (c == func_021D775C(2) && *d == 1) { func_021D7324((u8 *)a); *d = 0; } }
+extern void BTL_EVENT_ClearFactorSkipCheck(u8 *p);
+void BTL_TOKUSEI_MoldBreaker_RemoveSkipCheckOnEvent4(char *a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(2) && *d == 1) { BTL_EVENT_ClearFactorSkipCheck((u8 *)a); *d = 0; } }

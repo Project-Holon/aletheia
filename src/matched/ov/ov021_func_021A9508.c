@@ -1,5 +1,5 @@
 /*
- * function: func_021A9508
+ * function: FIELD_ENCOUNT_CreateWildMons
  * address:  0x021A9508
  * packet:   pkt_ov021_021A9508
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  *
  * symbols:
- *   func_021A996C  0x021A996C  thumb
- *   func_021A9C58  0x021A9C58  thumb
+ *   FIELD_ENCOUNT_IsRepelled  0x021A996C  thumb
+ *   FIELD_ENCOUNT_SelectMon  0x021A9C58  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -27,18 +27,18 @@ struct Slot14 { u8 pad00[4]; u8 f04; u8 pad05[0xF]; };
 
 struct Spec;
 struct Unit;
-extern void func_021A9C58(struct Unit *u, struct Spec *specs, struct Slot14 *s);
-extern int func_021A996C(struct Unit *u, u8 n);
+extern void FIELD_ENCOUNT_SelectMon(struct Unit *u, struct Spec *specs, struct Slot14 *s);
+extern int FIELD_ENCOUNT_IsRepelled(struct Unit *u, u8 n);
 
-int func_021A9508(u8 *u, void *arg, struct Slot14 *slots)
+int FIELD_ENCOUNT_CreateWildMons(u8 *u, void *arg, struct Slot14 *slots)
 {
     int n = 0;
     int i;
 
     for (i = 0; i < u[0x15]; i++) {
         struct Slot14 *s = &slots[n];
-        func_021A9C58((struct Unit *)u, arg, s);
-        if (func_021A996C((struct Unit *)u, s->f04) == 0)
+        FIELD_ENCOUNT_SelectMon((struct Unit *)u, arg, s);
+        if (FIELD_ENCOUNT_IsRepelled((struct Unit *)u, s->f04) == 0)
             n++;
     }
     return n;

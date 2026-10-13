@@ -15,10 +15,10 @@
  * header that asks for the double assignment is superseded.
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_02205E30(char *o)
 {
@@ -37,7 +37,7 @@ void func_02205E30(char *o)
         }
         for (j = 0; j < 6; j++) {
             if (*(void **)(p + j * 8) != 0) {
-                func_0204B3B4(*(void **)(p + j * 8));
+                CLACT_DeleteActor(*(void **)(p + j * 8));
                 *(void **)(p + j * 8) = 0;
             }
         }

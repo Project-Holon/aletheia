@@ -1,5 +1,5 @@
 /*
- * function: func_0216060C
+ * function: EVENT_SHORTCUT_MENU_CloseLink
  * address:  0x0216060C
  * packet:   pkt_0216060C
  * region:   ov010
@@ -8,15 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
- * unblocked: func_021C51A0 is ov021's label across the co-resident
+ * unblocked: SHORTCUT_MENU_Delete is ov021's label across the co-resident
  *   ov010/ov021 pair; the `ov021` token resolves the site as `label`.
  *   Extent runs 92 bytes against 90 compiled: the unlabelled follower.
  *
  * symbols:
  *   func_02040588  0x02040588  arm
- *   func_021C51A0  0x021C51A0  thumb  ov021
- *   func_02188C54  0x02188C54  thumb
- *   func_02190398  0x02190398  thumb
+ *   SHORTCUT_MENU_Delete  0x021C51A0  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb
+ *   FIELD_MSGBG_SetupBgSingle  0x02190398  thumb
  */
 #include "../include/Obj00020.h"
 
@@ -25,11 +25,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02040588();
-extern int func_021C51A0();
-extern int func_02188C54();
-extern int func_02190398();
+extern int SHORTCUT_MENU_Delete();
+extern int FIELDMAP_GetMsgBg();
+extern int FIELD_MSGBG_SetupBgSingle();
 
-int func_0216060C(int a0, int a1)
+int EVENT_SHORTCUT_MENU_CloseLink(int a0, int a1)
 {
     int t4;
     int t5;
@@ -58,7 +58,7 @@ t6 = 0;
     a0 = func_02040588(a0, a1);
 loc_02160638:
 a0 = *(int *)&((struct Obj00020 *)t5)->fC;
-    a0 = func_021C51A0(a0);
+    a0 = SHORTCUT_MENU_Delete(a0);
 loc_0216063E:
 *(int *)&((struct Obj00020 *)t5)->fC = t6;
 *(int *)&((struct Obj00020 *)t5)->f1C = t4;
@@ -69,9 +69,9 @@ a0 = 2;
     goto loc_0216065E;
 loc_0216064A:
 a0 = *(int *)&((struct Obj00020 *)t5)->f8;
-    a0 = func_02188C54(a0);
+    a0 = FIELDMAP_GetMsgBg(a0);
 loc_02160650:
-    a0 = func_02190398(a0);
+    a0 = FIELD_MSGBG_SetupBgSingle(a0);
 loc_02160654:
     goto loc_02160644;
 loc_02160656:

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4A64
+ * function: BTL_NET_FreePlayerInfoPacket
  * address:  0x021D4A64
  * packet:   pkt_021D4A64
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0   0x020307B0  arm arm9
- *   func_021D4A64   0x021D4A64  thumb ov093
+ *   BTL_NET_FreePlayerInfoPacket   0x021D4A64  thumb ov093
  *
  * tail-call thunk to func_020307B0
  */
@@ -25,7 +25,7 @@ typedef signed int s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021D4A64(void *p)
+void BTL_NET_FreePlayerInfoPacket(void *p)
 {
     func_020307B0(p);
 }

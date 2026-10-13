@@ -1,5 +1,5 @@
 /*
- * function: func_021856F4
+ * function: OEKAKI_StepWaitThenFadeOut
  * address: 0x021856F4
  * packet: pkt_ov023_021856F4
  * region: ov023
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202208C 0x0202208C thumb
- *   func_02185354 0x02185354 thumb ov023
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   OEKAKI_ApplyRemoteStrokes 0x02185354 thumb ov023
  */
 #include "../include/Obj20351.h"
-extern void func_0202208C(void *, unsigned int, unsigned int, unsigned int,
+extern void WIPE_SYS_Start(void *, unsigned int, unsigned int, unsigned int,
                         unsigned int, unsigned int, unsigned int);
-extern void func_02185354(char *);
-int func_021856F4(char *p, int a)
+extern void OEKAKI_ApplyRemoteStrokes(char *);
+int OEKAKI_StepWaitThenFadeOut(char *p, int a)
 {
     if (++((struct Obj20351 *)p)->f1A4 > 60) {
-        func_0202208C(0, 8, 8, 0, 0x10, 1, 0x28);
+        WIPE_SYS_Start(0, 8, 8, 0, 0x10, 1, 0x28);
         a = 3;
     }
-    func_02185354(p);
+    OEKAKI_ApplyRemoteStrokes(p);
     return a;
 }

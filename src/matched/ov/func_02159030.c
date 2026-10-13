@@ -1,5 +1,5 @@
 /*
- * function: func_02159030
+ * function: SCRIPT_WORK_SetWorkValue
  * address:  0x02159030
  * packet:   pkt_02159030
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02158FE0  0x02158FE0  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   SCRIPT_WORK_GetWorkPtr  0x02158FE0  thumb  ov010
  */
 #include "../include/Obj00020.h"
 
@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u16 *func_02158FE0(void *a, void *b, unsigned int id);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 
-int func_02159030(int a0, int a1, int a2)
+int SCRIPT_WORK_SetWorkValue(int a0, int a1, int a2)
 {
     int t4;
     int t5;
@@ -35,9 +35,9 @@ t5 = a0 + 0;
 a0 = *(int *)&((struct Obj00020 *)t5)->f10;
 t6 = a1 + 0;
 t4 = a2 + 0;
-    p = func_020120F4((const struct Ctx *)a0);
+    p = GAMESYSTEM_GetGameData((const struct Ctx *)a0);
 loc_0215903E:
-    q = func_02158FE0((void *)t5, p, t6);
+    q = SCRIPT_WORK_GetWorkPtr((void *)t5, p, t6);
 loc_02159048:
     if (q != 0) goto loc_02159050;
 loc_0215904C:

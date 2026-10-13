@@ -1,5 +1,5 @@
 /*
- * function: func_021B9280
+ * function: FIELD_RAIL_LINE_GetWidthAt
  * address:  0x021B9280
  * packet:   pkt_021B9280
  * region:   ov021
@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl)
+int FIELD_RAIL_LINE_GetWidthAt(u8 *a, u32 arg2, u32 arg3, u8 *tbl)
 {
     u8 *row1 = *(u8 * *)&((struct Obj02659 *)tbl)->f10 + ((struct Obj02052 *)a)->f0 * 0x70;
     u8 *row2 = *(u8 * *)&((struct Obj02659 *)tbl)->f10 + ((struct Obj02052 *)a)->f4 * 0x70;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216CAF4
+ * function: NAMEIN_SETUP_RunNameBalloonWaitEvent
  * address:  0x0216CAF4
  * packet:   pkt_0216CAF4
  * region:   ov010
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02191388  0x02191388  thumb
+ *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb
  *   func_020362DC  0x020362DC  arm
- *   func_021912D8  0x021912D8  thumb
- *   func_021912F8  0x021912F8  thumb
- *   func_02045808  0x02045808  arm
+ *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb
+ *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb
+ *   STRBUF_Delete  0x02045808  arm
  */
 #include "../include/Obj07205.h"
 #include "../include/Obj09165.h"
@@ -23,13 +23,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02191388();
+extern int FIELD_MSGBG_TalkWinMain();
 extern u32 func_020362DC(void);
-extern int func_021912D8();
-extern int func_021912F8();
-extern int func_02045808();
+extern int FIELD_MSGBG_DeleteTalkWin();
+extern int FIELD_MSGBG_WaitTalkWinClose();
+extern int STRBUF_Delete();
 
-int func_0216CAF4(int a0, int a1, int a2)
+int NAMEIN_SETUP_RunNameBalloonWaitEvent(int a0, int a1, int a2)
 {
     int t4;
     int t5;
@@ -46,7 +46,7 @@ loc_0216CB08:
     goto loc_0216CB42;
 loc_0216CB0A:
 a0 = ((struct Obj07205 *)t4)->f14;
-    a0 = func_02191388(a0);
+    a0 = FIELD_MSGBG_TalkWinMain(a0);
 loc_0216CB10:
     if (a0 != 1) goto loc_0216CB42;
 loc_0216CB14:
@@ -61,17 +61,17 @@ a1 = 3;
     if ((a0 & a1) == 0) goto loc_0216CB42;
 loc_0216CB26:
 a0 = ((struct Obj07205 *)t4)->f14;
-    a0 = func_021912D8(a0);
+    a0 = FIELD_MSGBG_DeleteTalkWin(a0);
 loc_0216CB2C:
     goto loc_0216CB14;
 loc_0216CB2E:
 a0 = ((struct Obj07205 *)t4)->f14;
-    a0 = func_021912F8(a0);
+    a0 = FIELD_MSGBG_WaitTalkWinClose(a0);
 loc_0216CB34:
     if (a0 != 1) goto loc_0216CB42;
 loc_0216CB38:
 a0 = ((struct Obj07205 *)t4)->f18;
-    a0 = func_02045808(a0);
+    a0 = STRBUF_Delete(a0);
 loc_0216CB3E:
 a0 = 1;
     return a0;

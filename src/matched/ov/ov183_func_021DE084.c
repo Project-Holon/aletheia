@@ -16,7 +16,7 @@
  *
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B688 0x0204B688 arm
  *   func_021DE15C 0x021DE15C thumb ov183
  */
@@ -29,7 +29,7 @@ typedef signed short s16;
 typedef struct Position { s16 x, y, z; u8 a, b; } Position;
 extern void func_02082BCC(void *, int, unsigned int);
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 typedef unsigned int   u32;
 struct Actor;
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -44,7 +44,7 @@ void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s1
     pos.x = x;
     pos.y = y;
     pos.z = 10;
-    ((struct Obj14427 *)p)->f0 = func_0204B294(manager, (unsigned int)((struct Obj05472 *)q)->f4, (unsigned int)((struct Obj05472 *)q)->f8, (unsigned int)((struct Obj05472 *)q)->f0, &pos, 0, heap);
+    ((struct Obj14427 *)p)->f0 = CLACT_CreateActor(manager, (unsigned int)((struct Obj05472 *)q)->f4, (unsigned int)((struct Obj05472 *)q)->f8, (unsigned int)((struct Obj05472 *)q)->f0, &pos, 0, heap);
     func_0204B688(((struct Obj14427 *)p)->f0, 1);
     pos.z = 0;
     base = x + 20;
@@ -53,7 +53,7 @@ void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s1
         pos.x = base + i * 16;
         pos.y = y;
         slot = p + i * 4;
-        ((struct Obj14428 *)slot)->f4 = func_0204B294(manager, (unsigned int)((struct Obj05472 *)q)->f4, (unsigned int)((struct Obj05472 *)q)->f8, (unsigned int)((struct Obj05472 *)q)->f0, &pos, 0, heap);
+        ((struct Obj14428 *)slot)->f4 = CLACT_CreateActor(manager, (unsigned int)((struct Obj05472 *)q)->f4, (unsigned int)((struct Obj05472 *)q)->f8, (unsigned int)((struct Obj05472 *)q)->f0, &pos, 0, heap);
         func_0204B688(((struct Obj14428 *)slot)->f4, 1);
     }
     func_021DE15C(p, value);

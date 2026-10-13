@@ -1,5 +1,5 @@
 /*
- * function: func_02197DA0
+ * function: FLDMMDL_ACMD_ListCheckEnd
  * address:  0x02197DA0
  * packet:   pkt_02197DA0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17950.h"
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
-int func_02197DA0(u32 a)
+int FLDMMDL_ACMD_ListCheckEnd(u32 a)
 {
-return ((struct Obj17950 *)((u8 *)(func_02030EE8((struct S02030EE8 *)a))))->f4;
+return ((struct Obj17950 *)((u8 *)(TCBL_IsDeletePending((struct S02030EE8 *)a))))->f4;
 }
 

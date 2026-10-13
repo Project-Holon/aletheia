@@ -1,5 +1,5 @@
 /*
- * function: func_02162F0C
+ * function: EVENTDATA_SYSTEM_IsPosEventGridHit
  * address:  0x02162F0C
  * packet:   pkt_ov010_02162F0C
  * region:   ov010
@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef short s16;
 
-int func_02162F0C(char *p, int *v)
+int EVENTDATA_SYSTEM_IsPosEventGridHit(char *p, int *v)
 {
     u16 *q;
     int x, y, z;

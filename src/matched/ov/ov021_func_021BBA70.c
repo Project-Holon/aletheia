@@ -1,5 +1,5 @@
 /*
- * function: func_021BBA70
+ * function: UNION_CHAT_LOG_Add
  * address:  0x021BBA70
  * packet:   pkt_ov021_021BBA70
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BBC58  0x021BBC58  thumb  ov021
- *   func_021BBBD8  0x021BBBD8  thumb  ov021
+ *   UNION_CHAT_LOG_IsNew  0x021BBC58  thumb  ov021
+ *   UNION_CHAT_LOG_TakeSlot  0x021BBBD8  thumb  ov021
  *   func_02034714  0x02034714  arm
  *   func_020084F8  0x020084F8  thumb
  *   func_02008550  0x02008550  thumb
  *   func_0201F41C  0x0201F41C  thumb
  *   func_02087C6C  0x02087C6C  arm
  *   func_02082D44  0x02082D44  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_0201283C  0x0201283C  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200ED48  0x0200ED48  thumb
  *   func_0217F894  0x0217F894  thumb  ov019
  *   func_0200EDC4  0x0200EDC4  thumb
@@ -78,8 +78,8 @@ typedef struct Ctx {
 } Ctx;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-int func_021BBC58(Ring *r, const void *b, u16 c);
-Entry *func_021BBBD8(Ring *r);
+int UNION_CHAT_LOG_IsNew(Ring *r, const void *b, u16 c);
+Entry *UNION_CHAT_LOG_TakeSlot(Ring *r);
 struct Big;
 struct BigObj;
 struct L0200EDC4;
@@ -89,14 +89,14 @@ u8 func_02008550(const struct Sub0200852CObj *obj);
 void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 void func_02087C6C(void *p);
 void func_02082D44(const void *src, void *dst, int n);
-void *func_020120F4(const struct Ctx *p);
-u32 func_0201283C(const struct BigObj *p);
-void *func_02012EBC(struct Big *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+void *GAME_DATA_GetSaveControl(struct Big *p);
 void *func_0200ED48(void *p);
 int func_0217F894(void *p, char *q);
 int func_0200EDC4(struct L0200EDC4 *l, u32 val);
 
-void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
+void UNION_CHAT_LOG_Add(Ctx *ctx, Src *src, u16 *v, u8 kind)
 {
     Ring *ring = &ctx->ring;
     Entry *e;
@@ -108,10 +108,10 @@ void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
     if (src == 0 && v == 0) {
         func_02034714((void *)0x021DE308, 0, (void *)0x021DE308);
     }
-    if (src != 0 && func_021BBC58(ring, src->key, src->h) == 0) {
+    if (src != 0 && UNION_CHAT_LOG_IsNew(ring, src->key, src->h) == 0) {
         return;
     }
-    e = func_021BBBD8(ring);
+    e = UNION_CHAT_LOG_TakeSlot(ring);
     if (src == 0) {
         a = ctx->sys->a;
         func_020084F8((void *)a, (u32)e->id, 8);
@@ -140,9 +140,9 @@ void func_021BBA70(Ctx *ctx, Src *src, u16 *v, u8 kind)
         e->h = src->h;
         func_02082D44(src->key, e->key, 6);
         e->flag = src->flag;
-        t = (int)func_020120F4((const struct Ctx *)ctx->sys->c);
-        s = func_0201283C((const struct BigObj *)t);
-        t = (int)func_0200ED48(func_02012EBC((struct Big *)t));
+        t = (int)GAMESYSTEM_GetGameData((const struct Ctx *)ctx->sys->c);
+        s = GAME_DATA_GetWifiList((const struct BigObj *)t);
+        t = (int)func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)t));
         if (func_0217F894((void *)s, (char *)src) == 1) {
             r = 1;
         } else if (func_0200EDC4((struct L0200EDC4 *)t, src->x5c) == 1) {

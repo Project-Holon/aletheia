@@ -1,5 +1,5 @@
 /*
- * function: func_021BBAFC
+ * function: TOWNMAP_GRH_DrawClactSystem
  * address:  0x021BBAFC
  * packet:   pkt_ov072_021BBAFC
  * region:   ov072
@@ -14,12 +14,12 @@
  * Declared as an ordinary tail-call extern at the veneer address.
  *
  * symbols:
- *   func_0204A600  0x0204A600  arm
+ *   CLACT_DrawSystem  0x0204A600  arm
  */
 
-extern void func_0204A600(int);
+extern void CLACT_DrawSystem(int);
 
-void func_021BBAFC(int x)
+void TOWNMAP_GRH_DrawClactSystem(int x)
 {
-    func_0204A600(x);
+    CLACT_DrawSystem(x);
 }

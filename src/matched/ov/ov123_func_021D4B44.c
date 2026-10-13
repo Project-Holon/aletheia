@@ -10,8 +10,8 @@
  * evidence: callback 0x021D45F0 resolved by its verified ov123 shard.
  * symbols:
  *   func_0204B92C 0x0204B92C arm
- *   func_0204BA00 0x0204BA00 arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   func_021D4244 0x021D4244 thumb ov123
  *   func_021D451C 0x021D451C thumb ov123
  *   func_021D45F0 0x021D45F0 thumb ov123
@@ -24,8 +24,8 @@ struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 struct Cmd;
-extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_021D4244(char *, void *, int);
 extern void func_021D451C(char *);
 extern void func_021D45F0(void);
@@ -36,7 +36,7 @@ void func_021D4B44(char *p)
     cb.object = p;
     cb.callback = func_021D451C;
     func_0204B92C(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0), 1);
-    func_0204BA00(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0), (const struct Cmd *)(&cb));
-    func_0204B9A0(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0));
+    CLACT_ApplyActorAnimCommand(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0), (const struct Cmd *)(&cb));
+    CLACT_RestartActorAnim(*(void **)(p + ((struct Obj10435 *)p)->f270 * 4 + 0x2a0));
     func_021D4244(p, func_021D45F0, 0x376);
 }

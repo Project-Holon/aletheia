@@ -12,8 +12,8 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_02045738 0x02045738 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj08353.h"
 #include "../include/Obj24990.h"
@@ -31,8 +31,8 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 func_02045738(struct Descriptor *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_0220B1D4(char *p,int i,int id,int y,u16 colour)
 {
     int handle=*(int *)(p+0x28+i*8);
@@ -41,7 +41,7 @@ void func_0220B1D4(char *p,int i,int id,int y,u16 colour)
     int x=(func_02045738((struct Descriptor *)handle)*8-width)>>1;
     int font=((struct Obj08353 *)p)->f18;
     int surface=(int)func_02045770((struct Descriptor *)*(int *)(p+0x28+i*8));
-    func_0201C724((void *)font,(int)surface,(s16)x,(s16)y,(int)text,(int)(((struct Obj24991 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4),colour);
+    PRINTSYS_PrintQueColor((void *)font,(int)surface,(s16)x,(s16)y,(int)text,(int)(((struct Obj24991 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4),colour);
     (p+i*8)[0x2c]=1;
-    func_02045808((struct U16Vec *)text);
+    STRBUF_Delete((struct U16Vec *)text);
 }

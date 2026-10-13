@@ -1,5 +1,5 @@
 /*
- * function: func_021B8834
+ * function: BTL_MAIN_ExpandPosDouble
  * address:  0x021B8834
  * packet:   pkt_ov093_021B8834
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8C50  0x021B8C50  thumb  ov093
+ *   BTL_MAIN_GetEnemyLanePosFromWork  0x021B8C50  thumb  ov093
  *   func_021B8CB0  0x021B8CB0  thumb  ov093
  */
 
@@ -18,10 +18,10 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Unk021B8CB0;
-extern u8 func_021B8C50(char **p, u32 v, int k);
+extern u8 BTL_MAIN_GetEnemyLanePosFromWork(char **p, u32 v, int k);
 extern u8 func_021B8CB0(struct Unk021B8CB0 **p, u8 x);
 
-u8 func_021B8834(void *p, u32 k, u8 v, u8 *out)
+u8 BTL_MAIN_ExpandPosDouble(void *p, u32 k, u8 v, u8 *out)
 {
     u8 t;
 
@@ -31,12 +31,12 @@ u8 func_021B8834(void *p, u32 k, u8 v, u8 *out)
         return 0;
     case 1:
     case 6:
-        out[0] = func_021B8C50(p, v, 0);
-        out[1] = func_021B8C50(p, v, 1);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(p, v, 0);
+        out[1] = BTL_MAIN_GetEnemyLanePosFromWork(p, v, 1);
         return 2;
     case 2:
-        out[0] = func_021B8C50(p, v, 0);
-        out[1] = func_021B8C50(p, v, 1);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(p, v, 0);
+        out[1] = BTL_MAIN_GetEnemyLanePosFromWork(p, v, 1);
         out[2] = func_021B8CB0(p, v);
         return 3;
     case 3:

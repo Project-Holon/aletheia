@@ -1,5 +1,5 @@
 /*
- * function: func_021619B8
+ * function: EVENT_FIELD_PROCLINK_HopEventMain
  * address:  0x021619B8
  * packet:   pkt_ov010_021619B8
  * region:   ov010
@@ -22,12 +22,12 @@
  *   d_0217140C     0x0217140C  data
  *   _ll_mul        0x0209C054  arm
  *   FX_Div         0x0207C768  arm
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216E014  0x0216E014  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
  *   func_020061E4  0x020061E4  thumb
- *   func_021AC528  0x021AC528  thumb  ov021
+ *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -55,20 +55,20 @@ typedef struct HopWork {
 
 extern const fx32 d_0217140C[];
 extern fx32 FX_Div(fx32 numer, fx32 denom);
-extern void func_0216D89C(void *obj, const VecFx32 *pos);
+extern void FLDMMDL_SetPos(void *obj, const VecFx32 *pos);
 struct Actor;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern u16 func_0216D5F8(void *obj);
-extern void func_0216E014(void *a, int *p, int b);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
+extern u16 FLDMMDL_GetDirDisp(void *obj);
+extern void FLDMMDL_InitPosition(void *a, int *p, int b);
 extern void func_020061E4(u32 se);
-extern void func_021AC528(u32 a, u32 b);
+extern void FLDEFF_KEMURI_Start(u32 a, u32 b);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
     return (fx32)(((s64)a * b + 0x800LL) >> 12);
 }
 
-int func_021619B8(void *task, u32 *seq, HopWork *w)
+int EVENT_FIELD_PROCLINK_HopEventMain(void *task, u32 *seq, HopWork *w)
 {
     VecFx32 pos;
     fx32 y;
@@ -83,25 +83,25 @@ int func_021619B8(void *task, u32 *seq, HopWork *w)
         w->t += 2;
         pos.x += FX_Div(FX_Mul(w->delta.x, w->t << 12), 15 << 12);
         pos.z += FX_Div(FX_Mul(w->delta.z, w->t << 12), 15 << 12);
-        func_0216D89C(w->obj, &pos);
+        FLDMMDL_SetPos(w->obj, &pos);
         if (w->t > 15u)
             (*seq)++;
         break;
     case 1:
-        func_0216D88C(w->obj, &pos);
+        FLDMMDL_GetPos(w->obj, &pos);
         floor = w->start.y + w->delta.y;
         y = pos.y - 0x8000;
         if (y > floor) {
             pos.y = y;
-            func_0216D89C(w->obj, &pos);
+            FLDMMDL_SetPos(w->obj, &pos);
         } else {
             pos.y = floor;
             done = 1;
             pos.x = w->start.x + w->delta.x;
             pos.z = w->start.z + w->delta.z;
-            func_0216E014(w->obj, (int *)(&pos), func_0216D5F8(w->obj));
+            FLDMMDL_InitPosition(w->obj, (int *)(&pos), FLDMMDL_GetDirDisp(w->obj));
             func_020061E4(0x67B);
-            func_021AC528((u32)w->obj, (u32)w->owner);
+            FLDEFF_KEMURI_Start((u32)w->obj, (u32)w->owner);
         }
         break;
     }

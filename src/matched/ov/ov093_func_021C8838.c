@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Named by the parked ov093 files (func_021DF0C4 / func_021DFABC /
+ * Named by the parked ov093 files (BTL_HANDLER_ITEM_DestinyKnot_Infatuate / BTL_HANDLER_ITEM_RockyHelmetDamageReaction /
  * func_021E7388).  Low byte of the +2 halfword <- (u8)a; +0 halfword <- b;
  * then bits 8..14 of the +2 halfword are cleared.  `(u8)(u16)a` and the
  * `(int)` cast before `~0x7F00` are both load-bearing: the first gives the

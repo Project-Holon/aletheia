@@ -1,5 +1,5 @@
 /*
- * function: func_0215F52C
+ * function: SCRCMD_NETWORK_PickSixDistinctRandom
  * address:  0x0215F52C
  * packet:   pkt_ov010_0215F52C
  * region:   ov010
@@ -13,15 +13,15 @@
  * yet taken) and writes each plus 0x37 to six script-variable slots.
  *
  * Keys: the work locals live in a nested block opened after the six
- * func_02159AE8 calls, so `u16 buf[6] = {0}` is emitted there (at function
+ * SCRIPT_WORK_ReadWorkPointer calls, so `u16 buf[6] = {0}` is emitted there (at function
  * scope the initializer lands above the calls) and its stores go through
  * the same `add r4, sp, #0x18` the search loops index. `u16 n = 0x34`
  * declared before buf schedules `movs r7, #0x34` ahead of the zero stores.
  * EXACT* only for the 2-byte pad after the function (218 of 220).
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   func_020056EC  0x020056EC  thumb
  */
 
@@ -30,21 +30,21 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern u16 *func_02159AE8(void *c, void *vm);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *c, void *vm);
 extern u32 func_020056EC(u32 n);
 
-int func_0215F52C(void *c, void *vm)
+int SCRCMD_NETWORK_PickSixDistinctRandom(void *c, void *vm)
 {
     u16 *p0, *p1, *p2, *p3, *p4, *p5;
 
-    func_0215A5F4(vm);
-    p0 = func_02159AE8(c, vm);
-    p1 = func_02159AE8(c, vm);
-    p2 = func_02159AE8(c, vm);
-    p3 = func_02159AE8(c, vm);
-    p4 = func_02159AE8(c, vm);
-    p5 = func_02159AE8(c, vm);
+    SCRCMD_WORK_GetScriptWork(vm);
+    p0 = SCRIPT_WORK_ReadWorkPointer(c, vm);
+    p1 = SCRIPT_WORK_ReadWorkPointer(c, vm);
+    p2 = SCRIPT_WORK_ReadWorkPointer(c, vm);
+    p3 = SCRIPT_WORK_ReadWorkPointer(c, vm);
+    p4 = SCRIPT_WORK_ReadWorkPointer(c, vm);
+    p5 = SCRIPT_WORK_ReadWorkPointer(c, vm);
     {
         u16 n = 0x34;
         u16 buf[6] = {0};

@@ -12,10 +12,10 @@
  * Callee witnesses filed in wave A1 (witness lane).
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
- *   func_020072CC  0x020072CC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_0200E5A0  0x0200E5A0  thumb
  *   func_0200E5CC  0x0200E5CC  thumb
@@ -31,10 +31,10 @@ typedef unsigned int   u32;
 struct Big;
 struct Ctx;
 struct Sub020073D8Ctrl;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
-extern void func_020072CC(int a, int b, int c, void *d, int e);
+extern void SAVE_CONTROL_LoadExtraSaveWithBuffer(int a, int b, int c, void *d, int e);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_0200E5A0(void *a0);
 extern int func_0200E5CC(void *p);
@@ -49,10 +49,10 @@ void func_021D09D0(int a, char *out)
     int h;
     void *buf;
 
-    h = (int)func_02012EBC(func_020120F4((const struct Ctx *)a));
+    h = (int)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)a));
     buf = func_02030734(0x8004, 0x8004 >> 3, 1, (const char *)&d_021DE674, 0x79);
     v = 0x8004 >> 3;
-    func_020072CC(h, 5, 0x8004, buf, v);
+    SAVE_CONTROL_LoadExtraSaveWithBuffer(h, 5, 0x8004, buf, v);
     v = 0;
     t = (int)func_020073D8((struct Sub020073D8Ctrl *)h, 5, 0);
     if (func_0200E5A0((void *)t)) {

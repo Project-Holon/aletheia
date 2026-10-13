@@ -1,5 +1,5 @@
 /*
- * function: func_021C27C0
+ * function: FLD3D_CI_SaveVisiblePlanes
  * address:  0x021C27C0
  * packet:   pkt_021C27C0
  * region:   ov021
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02043658  0x02043658  arm
+ *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
  */
 #include "../include/Obj20172.h"
 
 typedef unsigned int u32;
 
-u32 func_02043658(void);
+u32 BG_SYS_GetMainVisiblePlanes(void);
 
-void func_021C27C0(char *p)
+void FLD3D_CI_SaveVisiblePlanes(char *p)
 {
-    ((struct Obj20172 *)p)->f68 = func_02043658();
+    ((struct Obj20172 *)p)->f68 = BG_SYS_GetMainVisiblePlanes();
 }

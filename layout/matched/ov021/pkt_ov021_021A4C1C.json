@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A4C1C",
+   "name": "FIELD_PLAYER_GRID_GetTurnResultOnSurf",
    "address": "0x021A4C1C",
    "kind": "game",
    "region": "ov021",

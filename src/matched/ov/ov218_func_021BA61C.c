@@ -10,7 +10,7 @@
  * single-lever: row base retains ctx+i*4; fields at 244/2DC reproduce rematerialized id offset instead of hoisting a second array base.
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
 typedef struct Pair { short x, y; } Pair;
@@ -21,7 +21,7 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BA61C(char *ctx)
@@ -36,7 +36,7 @@ void func_021BA61C(char *ctx)
         if (row->id == 65535) {
             func_0204B3DC(item, 0);
         } else {
-            func_0204B454(item, (struct PtS *)&pos, 65535);
+            CLACT_GetActorSurfacePos(item, (struct PtS *)&pos, 65535);
             pos.y = row->id * 2 + 92;
             func_0204B404(item, (const struct Vec2 *)(&pos), 65535);
         }

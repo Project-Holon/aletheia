@@ -1,7 +1,7 @@
 /*
  * file:     fade.c
  * unit:     yes
- * function: FADE_Create, FADE_Update, FADE_GetSpeed, FADE_SetSpeed, FADE_ResetSpeed, func_0204E720, func_0204E804, FADE_ApplyBrightness
+ * function: FADE_Create, FADE_Update, FADE_GetSpeed, FADE_SetSpeed, FADE_ResetSpeed, FADE_Start, FADE_IsActive, FADE_ApplyBrightness
  * address:  0x0204E5E8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -44,8 +44,8 @@ void FADE_Update(void);
 s32 FADE_GetSpeed(void);
 void FADE_SetSpeed(s32 a);
 void FADE_ResetSpeed(void);
-void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-int func_0204E804(void);
+void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+int FADE_IsActive(void);
 void FADE_ApplyBrightness(void);
 extern const char fade_File[];
 extern Fade *g_02146A7C;
@@ -130,7 +130,7 @@ void FADE_ResetSpeed(void)
  * an absolute value written in the source: the compiler does not propagate
  * the branch condition into it.
  */
-void func_0204E720(u32 a, s32 b, s32 c, s32 d)
+void FADE_Start(u32 a, s32 b, s32 c, s32 d)
 {
     g_02146A7C->flags = a;
     g_02146A7C->start = b;
@@ -163,7 +163,7 @@ void func_0204E720(u32 a, s32 b, s32 c, s32 d)
     FADE_ApplyBrightness();
 }
 
-int func_0204E804(void)
+int FADE_IsActive(void)
 {
     return g_02146A7C->flags != 0;
 }

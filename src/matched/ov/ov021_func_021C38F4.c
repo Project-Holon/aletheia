@@ -1,5 +1,5 @@
 /*
- * function: func_021C38F4
+ * function: SODATEYA_BuildEgg
  * address:  0x021C38F4
  * packet:   pkt_ov021_021C38F4
  * region:   ov021
@@ -10,40 +10,40 @@
  * status:   EXACT
  *
  * Day-care offspring builder: runs every step of the 0x8C-byte work
- * record over the parent pair m and hands the result to func_021C4340.
+ * record over the parent pair m and hands the result to SODATEYA_SetupEggMon.
  * Callee prototypes without a matched file are written from the call
  * site's argument registers.
  * symbols:
- *   func_021C3A00  0x021C3A00  thumb  ov021
- *   func_021C3A44  0x021C3A44  thumb  ov021
- *   func_021C3A7C  0x021C3A7C  thumb  ov021
- *   func_021C3A90  0x021C3A90  thumb  ov021
- *   func_021C3AAC  0x021C3AAC  thumb  ov021
- *   func_021C3ADC  0x021C3ADC  thumb  ov021
- *   func_021C3B0C  0x021C3B0C  thumb  ov021
- *   func_021C3B2C  0x021C3B2C  thumb  ov021
- *   func_021C3BCC  0x021C3BCC  thumb  ov021
- *   func_021C3BD4  0x021C3BD4  thumb  ov021
- *   func_021C3C04  0x021C3C04  thumb  ov021
- *   func_021C3C30  0x021C3C30  thumb  ov021
- *   func_021C3C78  0x021C3C78  thumb  ov021
- *   func_021C3C88  0x021C3C88  thumb  ov021
- *   func_021C3D1C  0x021C3D1C  thumb  ov021
- *   func_021C3DA8  0x021C3DA8  thumb  ov021
- *   func_021C3DE4  0x021C3DE4  thumb  ov021
- *   func_021C3E38  0x021C3E38  thumb  ov021
- *   func_021C3E64  0x021C3E64  thumb  ov021
- *   func_021C3F60  0x021C3F60  thumb  ov021
- *   func_021C3FC0  0x021C3FC0  thumb  ov021
- *   func_021C4018  0x021C4018  thumb  ov021
- *   func_021C4024  0x021C4024  thumb  ov021
- *   func_021C4030  0x021C4030  thumb  ov021
- *   func_021C4084  0x021C4084  thumb  ov021
- *   func_021C40F8  0x021C40F8  thumb  ov021
- *   func_021C4160  0x021C4160  thumb  ov021
- *   func_021C4238  0x021C4238  thumb  ov021
- *   func_021C42BC  0x021C42BC  thumb  ov021
- *   func_021C4340  0x021C4340  thumb  ov021
+ *   SODATEYA_SortParentsByGender  0x021C3A00  thumb  ov021
+ *   SODATEYA_PutDittoSecond  0x021C3A44  thumb  ov021
+ *   SODATEYA_InitEgg  0x021C3A7C  thumb  ov021
+ *   SODATEYA_SetBaseSpecies  0x021C3A90  thumb  ov021
+ *   SODATEYA_RollNidoranSpecies  0x021C3AAC  thumb  ov021
+ *   SODATEYA_RollVolbeatSpecies  0x021C3ADC  thumb  ov021
+ *   SODATEYA_ApplyPhioneRule  0x021C3B0C  thumb  ov021
+ *   SODATEYA_ApplyIncenseBabyRule  0x021C3B2C  thumb  ov021
+ *   SODATEYA_ResetEggForm  0x021C3BCC  thumb  ov021
+ *   SODATEYA_InheritFormShellos  0x021C3BD4  thumb  ov021
+ *   SODATEYA_InheritFormBurmy  0x021C3C04  thumb  ov021
+ *   SODATEYA_InheritFormBasculin  0x021C3C30  thumb  ov021
+ *   SODATEYA_RollNature  0x021C3C78  thumb  ov021
+ *   SODATEYA_ApplyEverstoneRule  0x021C3C88  thumb  ov021
+ *   SODATEYA_RollAbilitySlot  0x021C3D1C  thumb  ov021
+ *   SODATEYA_RollDittoAbilitySlot  0x021C3DA8  thumb  ov021
+ *   SODATEYA_SetAbilityFromSlot  0x021C3DE4  thumb  ov021
+ *   SODATEYA_SetBaseFriendship  0x021C3E38  thumb  ov021
+ *   SODATEYA_ApplyPowerItemRule  0x021C3E64  thumb  ov021
+ *   SODATEYA_RollRandomIvInheritance  0x021C3F60  thumb  ov021
+ *   SODATEYA_CopyInheritedIvs  0x021C3FC0  thumb  ov021
+ *   SODATEYA_SetOtId  0x021C4018  thumb  ov021
+ *   SODATEYA_RollPersonalRnd  0x021C4024  thumb  ov021
+ *   SODATEYA_ApplyMasudaMethod  0x021C4030  thumb  ov021
+ *   SODATEYA_AddLevelUpMoves  0x021C4084  thumb  ov021
+ *   SODATEYA_AddEggMoves  0x021C40F8  thumb  ov021
+ *   SODATEYA_AddSharedMoves  0x021C4160  thumb  ov021
+ *   SODATEYA_AddTmMoves  0x021C4238  thumb  ov021
+ *   SODATEYA_AddVoltTackle  0x021C42BC  thumb  ov021
+ *   SODATEYA_SetupEggMon  0x021C4340  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -51,72 +51,72 @@ typedef unsigned int u32;
 
 typedef struct { u32 w[0x23]; } S;
 
-extern void func_021C3A00(u32 *m);
-extern void func_021C3A44(void **p);
-extern void func_021C3A7C(S *s);
-extern void func_021C3A90(void *a, u32 *out);
-extern void func_021C3AAC(void *a, u32 *out);
-extern void func_021C3ADC(void *a, u32 *out);
-extern void func_021C3B0C(void *a, u32 *out);
-extern void func_021C3B2C(u32 *p, u32 *q);
-extern int func_021C3BCC(u32 a, u32 b);
-extern void func_021C3BD4(void *a, u32 *out);
-extern void func_021C3C04(void *a, u32 *out);
-extern void func_021C3C30(void *a, u32 *out);
-extern void func_021C3C78(void *a, u32 *out);
-extern void func_021C3C88(u32 *p, u32 *q);
-extern void func_021C3D1C(u32 *p, u32 *q, u32 d);
-extern void func_021C3DA8(void **p, u32 *out);
-extern void func_021C3DE4(u32 *m, u32 *s, u32 heap);
-extern void func_021C3E38(u32 *p, u32 heap);
-extern void func_021C3E64(u32 *m, S *s);
-extern void func_021C3F60(int a, u32 *p);
-extern void func_021C3FC0(u32 *a, u32 *b);
-extern void func_021C4018(int a, char *p);
-extern void func_021C4024(int a, char *p);
-extern void func_021C4030(u32 *p, u32 *q);
-extern void func_021C4084(u32 *p);
-extern void func_021C40F8(u32 *p, u32 *q, u32 heap);
-extern void func_021C4160(u32 *p, u32 *q);
-extern void func_021C4238(u32 *a, u32 *b, u32 *c);
-extern void func_021C42BC(void **p, u32 *q);
-extern void func_021C4340(void *mon, S *s, void *b, void *c, u16 heap);
+extern void SODATEYA_SortParentsByGender(u32 *m);
+extern void SODATEYA_PutDittoSecond(void **p);
+extern void SODATEYA_InitEgg(S *s);
+extern void SODATEYA_SetBaseSpecies(void *a, u32 *out);
+extern void SODATEYA_RollNidoranSpecies(void *a, u32 *out);
+extern void SODATEYA_RollVolbeatSpecies(void *a, u32 *out);
+extern void SODATEYA_ApplyPhioneRule(void *a, u32 *out);
+extern void SODATEYA_ApplyIncenseBabyRule(u32 *p, u32 *q);
+extern int SODATEYA_ResetEggForm(u32 a, u32 b);
+extern void SODATEYA_InheritFormShellos(void *a, u32 *out);
+extern void SODATEYA_InheritFormBurmy(void *a, u32 *out);
+extern void SODATEYA_InheritFormBasculin(void *a, u32 *out);
+extern void SODATEYA_RollNature(void *a, u32 *out);
+extern void SODATEYA_ApplyEverstoneRule(u32 *p, u32 *q);
+extern void SODATEYA_RollAbilitySlot(u32 *p, u32 *q, u32 d);
+extern void SODATEYA_RollDittoAbilitySlot(void **p, u32 *out);
+extern void SODATEYA_SetAbilityFromSlot(u32 *m, u32 *s, u32 heap);
+extern void SODATEYA_SetBaseFriendship(u32 *p, u32 heap);
+extern void SODATEYA_ApplyPowerItemRule(u32 *m, S *s);
+extern void SODATEYA_RollRandomIvInheritance(int a, u32 *p);
+extern void SODATEYA_CopyInheritedIvs(u32 *a, u32 *b);
+extern void SODATEYA_SetOtId(int a, char *p);
+extern void SODATEYA_RollPersonalRnd(int a, char *p);
+extern void SODATEYA_ApplyMasudaMethod(u32 *p, u32 *q);
+extern void SODATEYA_AddLevelUpMoves(u32 *p);
+extern void SODATEYA_AddEggMoves(u32 *p, u32 *q, u32 heap);
+extern void SODATEYA_AddSharedMoves(u32 *p, u32 *q);
+extern void SODATEYA_AddTmMoves(u32 *a, u32 *b, u32 *c);
+extern void SODATEYA_AddVoltTackle(void **p, u32 *q);
+extern void SODATEYA_SetupEggMon(void *mon, S *s, void *b, void *c, u16 heap);
 
-void func_021C38F4(u16 heap, void *b, void *c, u32 m0, u32 m1, void *mon)
+void SODATEYA_BuildEgg(u16 heap, void *b, void *c, u32 m0, u32 m1, void *mon)
 {
     S s;
     u32 m[2];
 
     m[0] = m0;
     m[1] = m1;
-    func_021C3A00(m);
-    func_021C3A44((void **)m);
-    func_021C3A7C(&s);
-    func_021C3A90(m, (u32 *)(&s));
-    func_021C3AAC(m, (u32 *)(&s));
-    func_021C3ADC(m, (u32 *)(&s));
-    func_021C3B0C(m, (u32 *)(&s));
-    func_021C3B2C(m, (u32 *)(&s));
-    func_021C3BCC((u32)m, (u32)(&s));
-    func_021C3BD4(m, (u32 *)(&s));
-    func_021C3C04(m, (u32 *)(&s));
-    func_021C3C30(m, (u32 *)(&s));
-    func_021C3C78(m, (u32 *)(&s));
-    func_021C3C88(m, (u32 *)(&s));
-    func_021C3D1C(m, (u32 *)(&s), heap);
-    func_021C3DA8((void **)m, (u32 *)(&s));
-    func_021C3DE4(m, (u32 *)&s, heap);
-    func_021C3E38((u32 *)(&s), heap);
-    func_021C3E64(m, &s);
-    func_021C3F60((int)m, (u32 *)(&s));
-    func_021C3FC0(m, (u32 *)(&s));
-    func_021C4018((int)b, (char *)(&s));
-    func_021C4024((int)m, (char *)(&s));
-    func_021C4030(m, (u32 *)(&s));
-    func_021C4084((u32 *)(&s));
-    func_021C40F8(m, (u32 *)(&s), heap);
-    func_021C4160(m, (u32 *)(&s));
-    func_021C4238(m, (u32 *)(&s), (u32 *)heap);
-    func_021C42BC((void **)m, (u32 *)(&s));
-    func_021C4340(mon, &s, b, c, heap);
+    SODATEYA_SortParentsByGender(m);
+    SODATEYA_PutDittoSecond((void **)m);
+    SODATEYA_InitEgg(&s);
+    SODATEYA_SetBaseSpecies(m, (u32 *)(&s));
+    SODATEYA_RollNidoranSpecies(m, (u32 *)(&s));
+    SODATEYA_RollVolbeatSpecies(m, (u32 *)(&s));
+    SODATEYA_ApplyPhioneRule(m, (u32 *)(&s));
+    SODATEYA_ApplyIncenseBabyRule(m, (u32 *)(&s));
+    SODATEYA_ResetEggForm((u32)m, (u32)(&s));
+    SODATEYA_InheritFormShellos(m, (u32 *)(&s));
+    SODATEYA_InheritFormBurmy(m, (u32 *)(&s));
+    SODATEYA_InheritFormBasculin(m, (u32 *)(&s));
+    SODATEYA_RollNature(m, (u32 *)(&s));
+    SODATEYA_ApplyEverstoneRule(m, (u32 *)(&s));
+    SODATEYA_RollAbilitySlot(m, (u32 *)(&s), heap);
+    SODATEYA_RollDittoAbilitySlot((void **)m, (u32 *)(&s));
+    SODATEYA_SetAbilityFromSlot(m, (u32 *)&s, heap);
+    SODATEYA_SetBaseFriendship((u32 *)(&s), heap);
+    SODATEYA_ApplyPowerItemRule(m, &s);
+    SODATEYA_RollRandomIvInheritance((int)m, (u32 *)(&s));
+    SODATEYA_CopyInheritedIvs(m, (u32 *)(&s));
+    SODATEYA_SetOtId((int)b, (char *)(&s));
+    SODATEYA_RollPersonalRnd((int)m, (char *)(&s));
+    SODATEYA_ApplyMasudaMethod(m, (u32 *)(&s));
+    SODATEYA_AddLevelUpMoves((u32 *)(&s));
+    SODATEYA_AddEggMoves(m, (u32 *)(&s), heap);
+    SODATEYA_AddSharedMoves(m, (u32 *)(&s));
+    SODATEYA_AddTmMoves(m, (u32 *)(&s), (u32 *)heap);
+    SODATEYA_AddVoltTackle((void **)m, (u32 *)(&s));
+    SODATEYA_SetupEggMon(mon, &s, b, c, heap);
 }

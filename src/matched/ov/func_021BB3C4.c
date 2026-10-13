@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3C4
+ * function: FIELD_NOGRID_MAPPER_GetAttribute
  * address:  0x021BB3C4
  * packet:   pkt_021BB394
  * region:   ov021
@@ -12,11 +12,11 @@
  * Tail-call thunk: the object's word at +0x8.
  *
  * symbols:
- *   func_021BB13C  0x021BB13C  thumb
+ *   RAIL_ATTR_GetAttribute  0x021BB13C  thumb
  *
  * Addresses are Black-image addresses.
  *
- * evidence: func_021BB13C is ov021's own code (a "push {r4, r5}" leaf right
+ * evidence: RAIL_ATTR_GetAttribute is ov021's own code (a "push {r4, r5}" leaf right
  * after the "pop {r4, pc}" at 0x021BB13A), inside ov021's window, so only
  * ov021 can be resident there when this pool word is used.  Its start is
  * seeded in layout/function_starts.txt from this pointer word, the only
@@ -28,9 +28,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021BB13C(char *a, char *b);
+extern int RAIL_ATTR_GetAttribute(char *a, char *b);
 
-u32 func_021BB3C4(u8 *p, char *a1)
+u32 FIELD_NOGRID_MAPPER_GetAttribute(u8 *p, char *a1)
 {
-    return func_021BB13C((char *)(((struct Obj18170 *)p)->f8), a1);
+    return RAIL_ATTR_GetAttribute((char *)(((struct Obj18170 *)p)->f8), a1);
 }

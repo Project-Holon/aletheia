@@ -1,5 +1,5 @@
 /*
- * function: func_0216F378
+ * function: TRCARD_SYS_StateStartBadgeProc
  * address: 0x0216F378
  * packet: pkt_ov010_0216F378
  * region: ov010
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   PROCSYS_Create 0x02031324 arm
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   PROCSYS_Push 0x02031348 arm
  *   d_021C892C 0x021C892C data a4 ov111
  *   ov110_id 0x0000006E data a1
@@ -25,8 +25,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *PROCSYS_Create(int a0);
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void PROCSYS_Push(void *,u32,const void *,void *);
 extern const u32 d_021C892C[];
 extern char ov110_id[];
-int func_0216F378(char *p) { if (*(void **)(p+8)==0) *(void **)(p+8)=PROCSYS_Create((u16)(*(u32 *)p)); *(void **)(p+12)=func_02012EBC(*(void **)(*(char **)(p+24)+4)); PROCSYS_Push(*(void **)(p+8),(u32)ov110_id,d_021C892C,*(void **)(p+24)); return 6; }
+int TRCARD_SYS_StateStartBadgeProc(char *p) { if (*(void **)(p+8)==0) *(void **)(p+8)=PROCSYS_Create((u16)(*(u32 *)p)); *(void **)(p+12)=GAME_DATA_GetSaveControl(*(void **)(*(char **)(p+24)+4)); PROCSYS_Push(*(void **)(p+8),(u32)ov110_id,d_021C892C,*(void **)(p+24)); return 6; }

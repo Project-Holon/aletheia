@@ -1,5 +1,5 @@
 /*
- * function: func_021B93D4
+ * function: FIELD_RAIL_KEY_Opposite
  * address:  0x021B93D4
  * packet:   pkt_021B93D4
  * region:   ov021
@@ -14,7 +14,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021B93D4(int dir)
+int FIELD_RAIL_KEY_Opposite(int dir)
 {
     switch (dir) {
     case 1: return 3;

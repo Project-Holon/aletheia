@@ -1,5 +1,5 @@
 /*
- * function: func_02157700
+ * function: DELIVERY_BEACON_CheckDestSize
  * address: 0x02157700
  * packet: pkt_ov010_02157700
  * region: ov010
@@ -14,4 +14,4 @@
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_021727F0[];
-void func_02157700(int *p) { if (p[2] != 0 && p[2] >= 0x5e8) func_02034714(d_021727F0, 0, d_021727F0); }
+void DELIVERY_BEACON_CheckDestSize(int *p) { if (p[2] != 0 && p[2] >= 0x5e8) func_02034714(d_021727F0, 0, d_021727F0); }

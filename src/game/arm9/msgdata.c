@@ -1,7 +1,7 @@
 /*
  * file:     msgdata.c
  * unit:     yes
- * function: func_02045B38, func_02045C04, MSGDATA_CreateFromMemory, func_02045CAC, func_02045E04, MSGDATA_DecryptUnits, func_02045EC0, func_02045F50, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex
+ * function: func_02045B38, MSGDATA_Delete, MSGDATA_CreateFromMemory, MSGDATA_ReadString, func_02045E04, MSGDATA_DecryptUnits, func_02045EC0, func_02045F50, MSGDATA_ReadUnits, MSGDATA_LoadFileHeader, MSGDATA_LoadBank, MSGDATA_RefreshLanguage, MSGDATA_GetLanguageIndex
  * address:  0x02045B38
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   func_020461B8  0x020461B8  arm
  *   func_020490F4  0x020490F4  arm
  *   ARC_TOOL_GetHandleMemberOffset  0x02049578  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   STRBUF_Clear  0x0204581C  arm
  *   func_02045E04  0x02045E04  arm
  *   func_02046180  0x02046180  arm
@@ -38,7 +38,7 @@
  *   STRBUF_Truncate 0x02045900 arm
  *   STRBUF_SetChars 0x02045A00 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  */
 struct ArcFile;
 struct Strbuf;
@@ -119,7 +119,7 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcFile *arc, u32 member);
 extern s32 sub_020461E4(const struct MsgFile *file);
-extern void func_02049238(void *handle);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
 extern void func_0204960C(void *stream, u32 pos);
 extern void STRBUF_Clear(struct Strbuf *vec);
@@ -129,11 +129,11 @@ u16 STRBUF_GetLength(struct Strbuf *vec);
 void STRBUF_Truncate(struct Strbuf *vec, u32 length);
 void STRBUF_SetChars(struct Strbuf *buf, const void *src, u32 n);
 u16 *STRBUF_GetChars(struct Strbuf *vec);
-u16 func_02045A98(void);
+u16 STRBUF_GetEosChar(void);
 struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-u32 func_02045C04(struct MsgBank *bank);
+u32 MSGDATA_Delete(struct MsgBank *bank);
 struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
-void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 void MSGDATA_DecryptStrbuf(struct Strbuf *str, u32 msgIndex);
 u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex);
 struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
@@ -154,7 +154,7 @@ extern char MSGDATA_AllocSite[];
  * over a file the caller already has; this one opens the archive, seeks the
  * member, reads its header and then decides: a resident bank allocates the
  * whole payload up front and calls MSGDATA_LoadBank to index it, a streamed bank
- * leaves `base` null and reads entries on demand in func_02045CAC.
+ * leaves `base` null and reads entries on demand in MSGDATA_ReadString.
  *
  * The allocation tags are 0x68 for the bank and 0x7b for the payload, both
  * passed as the fifth argument on the stack, with the same BSS provenance
@@ -217,17 +217,17 @@ struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u
  * the value the `cmp` already loaded.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045C04.c \
- *       --func func_02045C04 --addr 0x02045C04 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_Delete.c \
+ *       --func MSGDATA_Delete --addr 0x02045C04 --cc 1.1p1 --arm
  */
-u32 func_02045C04(struct MsgBank *bank)
+u32 MSGDATA_Delete(struct MsgBank *bank)
 {
     if (bank->stream != 0) {
         func_020307B0((void *)bank->file);
         if (bank->base != 0) {
             func_020307B0(bank->base);
         }
-        func_02049238(bank->stream);
+        ARC_TOOL_DeleteHandle(bank->stream);
     }
     return func_020307B0(bank);
 }
@@ -238,7 +238,7 @@ u32 func_02045C04(struct MsgBank *bank)
  * The whole of pkt_02045C44, 448 bytes with both literal pools: the message
  * bank's constructor and its one reader.  Both functions are EXACT
  * individually as well (src/matched/MSGDATA_CreateFromMemory.c and
- * src/matched/func_02045CAC.c); this unit is the consolidated shape.
+ * src/matched/MSGDATA_ReadString.c); this unit is the consolidated shape.
  *
  * The object is 0x1c bytes and its layout is pinned by the pair:
  *
@@ -251,7 +251,7 @@ u32 func_02045C04(struct MsgBank *bank)
  *   +0x1a  u8             langIndex
  *   +0x1b  u8             resident
  *
- * func_02045CAC has two residency modes.  Resident: the entry descriptor is
+ * MSGDATA_ReadString has two residency modes.  Resident: the entry descriptor is
  * &((MsgEntry *)(base + 4))[index] and the payload is base + e->off, handed
  * straight to STRBUF_SetChars.  Streamed: the descriptor is an 8-byte archive
  * read into the cache at +0x8, then a scratch buffer of 2 * e->len bytes is
@@ -264,7 +264,7 @@ u32 func_02045C04(struct MsgBank *bank)
  * per-language section table and the entry table starts four bytes into its
  * section.
  *
- * Shape note that cost the last eleven bytes of func_02045CAC: both guards
+ * Shape note that cost the last eleven bytes of MSGDATA_ReadString: both guards
  * test bank->resident, but the source spells them `== 0`, not `!= 0`.  That
  * puts the streamed arm on the fall-through and leaves the short arm to be
  * if-converted (ldrne/addne), per
@@ -302,7 +302,7 @@ struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId)
 
 
 
-void func_02045CAC(struct MsgBank *bank, u32 index, struct Strbuf *dest)
+void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest)
 {
     u32 size;
     struct MsgEntry *entry;
@@ -380,7 +380,7 @@ void MSGDATA_DecryptStrbuf(struct Strbuf *str, u32 msgIndex)
  * The seed is derived forward from the entry's own descriptor index in the
  * message file, so no brute force or terminator-anchored back-solve is
  * needed. Decryption stops at the first unit that equals the global
- * end-of-string code func_02045A98() returns (0xFFFF in this build), and the
+ * end-of-string code STRBUF_GetEosChar() returns (0xFFFF in this build), and the
  * function returns the index of that unit, i.e. the decoded length; if no
  * terminator is found inside count units it returns count.
  *
@@ -395,7 +395,7 @@ void MSGDATA_DecryptStrbuf(struct Strbuf *str, u32 msgIndex)
  */
 u32 MSGDATA_DecryptUnits(u16 *str, u32 count, u32 msgIndex)
 {
-    u16 eos = func_02045A98();
+    u16 eos = STRBUF_GetEosChar();
     u16 key = (u16)((msgIndex + 3) * 0x2983);
     u32 i;
 
@@ -441,7 +441,7 @@ struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index)
     }
 
     str = STRBUF_Create(entry->length, bank->heapId);
-    func_02045CAC(bank, index, str);
+    MSGDATA_ReadString(bank, index, str);
     return str;
 }
 
@@ -472,7 +472,7 @@ u16 MSGDATA_GetMessageCount(const struct MsgBank *bank)
  * msgdata.c: read string msgIndex into str (at most maxLen characters),
  * either from the resident bank (mode != 0) or by seeking the archive file,
  * then decode it in place (MSGDATA_DecryptUnits) and terminate it with the EOM
- * code (func_02045A98).
+ * code (STRBUF_GetEosChar).
  *
  * The 11-byte scheduling residue of docs/notes/pkt_02045F5C.c.txt was the
  * first test's polarity: written `mode == 0` with the file arm first, the
@@ -520,7 +520,7 @@ void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen)
     }
 
     len = MSGDATA_DecryptUnits(str, count, msgIndex);
-    str[len] = func_02045A98();
+    str[len] = STRBUF_GetEosChar();
 }
 
 

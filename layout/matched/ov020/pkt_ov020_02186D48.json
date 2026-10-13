@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02186D48",
+   "name": "FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue",
    "address": "0x02186D48",
    "kind": "game",
    "region": "ov020",

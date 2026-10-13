@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030EAC 0x02030EAC arm
  *   func_021BDD24 0x021BDD24 thumb
- *   func_0204B1CC 0x0204B1CC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
  *   func_020307B0 0x020307B0 arm
  * tail: two zero alignment bytes after the function (listing extent is 2 bytes longer).
  */
@@ -20,13 +20,13 @@ struct Bank;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021BDD24(char *p);
-extern unsigned int func_0204B1CC(struct Bank *bank);
+extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void func_021BD954(struct Ov208Mgr *m)
 {
     func_02030EAC(m->f2c);
     func_021BDD24((char *)m);
-    func_0204B1CC(m->f28);
+    CLACT_DeleteUnit(m->f28);
     func_020307B0(m);
 }

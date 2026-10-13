@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D5B48  0x021D5B48  thumb  ov093
- *   func_021C2128  0x021C2128  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcHeldItemActivate  0x021C2128  thumb  ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -28,16 +28,16 @@ struct Cmd {
 };
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D5B68(void *p);
-extern int func_021D5B48(u8 *p);
-extern int func_021C2128(u8 *p, u8 *a);
+extern int BTL_POKEPARAM_IsFainted(void *p);
+extern int BTL_POKEPARAM_IsHpFull(u8 *p);
+extern int BTL_SERVER_FLOW_ProcHeldItemActivate(u8 *p, u8 *a);
 
 int func_021C9DE8(u8 *w, struct Cmd *c)
 {
     u8 *r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, (u8)c->id);
-    if (func_021D5B68(r) == 0 || c->f1) {
-        if (c->f0 && func_021D5B48(r) != 0) return 0;
-        if (func_021C2128(w, r) != 0) return 1;
+    if (BTL_POKEPARAM_IsFainted(r) == 0 || c->f1) {
+        if (c->f0 && BTL_POKEPARAM_IsHpFull(r) != 0) return 0;
+        if (BTL_SERVER_FLOW_ProcHeldItemActivate(w, r) != 0) return 1;
     }
     return 0;
 }

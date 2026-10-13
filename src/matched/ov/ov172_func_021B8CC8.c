@@ -19,14 +19,14 @@
  *   func_020498F4 0x020498F4 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_020409B4 0x020409B4 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045374 0x02045374 arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_021BE00C 0x021BE00C thumb ov172
  *   func_021BE010 0x021BE010 thumb ov172
  *   func_021BE018 0x021BE018 thumb ov172
@@ -49,14 +49,14 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0207D63C(void *, u32, u32, u32, u32);
 extern void func_020409B4(u32 layer);
-extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
+extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u16 func_021BE00C(u16 *p);
 extern u32 func_021BE010(void *p);
 extern u32 func_021BE018(void *p, int i);
@@ -87,37 +87,37 @@ void func_021B8CC8(void *a, char *p)
     rc.z = *(u8 *)(p + 0xD) + 0x19;
     rc.a = 0;
     rc.b = 2;
-    *(struct Obj **)(p + 0x90) = func_0204B294((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
+    *(struct Obj **)(p + 0x90) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
     func_0204B3DC(*(struct Obj **)(p + 0x90), 1);
     if (func_021BE0B4(a) == 1)
         rc.z = 0x15;
     else
         rc.z = 0x16;
-    *(struct Obj **)(p + 0x94) = func_0204B294((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
+    *(struct Obj **)(p + 0x94) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
     func_0204B3DC(*(struct Obj **)(p + 0x94), 1);
     rc.z = 0x14;
-    *(struct Obj **)(p + 0x9C) = func_0204B294((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
+    *(struct Obj **)(p + 0x9C) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
     func_0204B3DC(*(struct Obj **)(p + 0x9C), 1);
     rc.z = 0x18;
-    *(struct Obj **)(p + 0xA0) = func_0204B294((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
+    *(struct Obj **)(p + 0xA0) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 5), func_021BE018(a, 1), func_021BE018(a, 9), &rc, 1, h);
     func_0204B3DC(*(struct Obj **)(p + 0xA0), 1);
     rc.x = 0xE8;
     rc.y = 0xA8;
     rc.z = 1;
     rc.a = 0;
     rc.b = 0;
-    *(struct Obj **)(p + 0x98) = func_0204B294((void *)func_021BE024(a), func_021BE018(a, 6), func_021BE018(a, 2), func_021BE018(a, 10), &rc, 1, h);
+    *(struct Obj **)(p + 0x98) = CLACT_CreateActor((void *)func_021BE024(a), func_021BE018(a, 6), func_021BE018(a, 2), func_021BE018(a, 10), &rc, 1, h);
     func_0204B3DC(*(struct Obj **)(p + 0x98), 1);
     func_0204B92C(*(struct Obj **)(p + 0x98), 1);
     *(u32 *)(p + 0) = 0;
     *(u32 *)(p + 8) = 0;
     *(u32 *)(p + 0xA4) = 0;
     *(u32 *)(p + 0xA8) = 3;
-    *(u32 *)(p + 0x2C) = func_020450F0(4, 8, 3, 0x10, 8, 0xA, 1);
-    *(u32 *)(p + 0x7C) = func_020450F0(4, 1, 1, 0x1E, 4, 0xA, 1);
-    func_02043B5C(func_02045770(*(void **)(p + 0x2C)), 0);
-    func_02045374(*(void **)(p + 0x2C));
-    func_02045334(*(void **)(p + 0x2C));
+    *(u32 *)(p + 0x2C) = BMP_WIN_Create(4, 8, 3, 0x10, 8, 0xA, 1);
+    *(u32 *)(p + 0x7C) = BMP_WIN_Create(4, 1, 1, 0x1E, 4, 0xA, 1);
+    BMP_Clear(func_02045770(*(void **)(p + 0x2C)), 0);
+    BMP_WIN_MakeScreen(*(void **)(p + 0x2C));
+    BMP_WIN_TransferChars(*(void **)(p + 0x2C));
     *(u32 *)(p + 0x80) = 0;
     *(u32 *)(p + 0x84) = 0;
     *(u32 *)(p + 0x28) = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F0F68
+ * function: UNION_SUBDISP_SetLinePalette
  * address:  0x021F0F68
  * packet:   pkt_ov031_021F0F68
  * region:   ov031
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F0F68  0x021F0F68  thumb
+ *   UNION_SUBDISP_SetLinePalette  0x021F0F68  thumb
  *   func_0204162C  0x0204162C  arm
  *   func_020413B0  0x020413B0  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -25,7 +25,7 @@ extern u32 func_0204162C(int channel);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 bit);
 
-int func_021F0F68(void *unused, int idx, int flag)
+int UNION_SUBDISP_SetLinePalette(void *unused, int idx, int flag)
 {
     u16 *map;
     int pal;

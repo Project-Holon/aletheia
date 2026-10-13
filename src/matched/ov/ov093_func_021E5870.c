@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
- *   func_021E89C0  0x021E89C0  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
@@ -25,11 +25,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C88A4(char *p, int a, int b);
 typedef struct { u32 v; } Word;
 
-extern Word func_021E89C0(void);
+extern Word BTLV_CORE_MakeSlotKind1Empty(void);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
@@ -41,12 +41,12 @@ void func_021E5870(int a, void *b, int c)
     u8 *m;
     u8 k;
 
-    if (c == func_021D775C(3)) {
-        k = func_021D775C(6);
+    if (c == BTL_EVENT_GetVar(3)) {
+        k = BTL_EVENT_GetVar(6);
         m = (u8 *)func_021C88A4(b, 0xc, c);
         m[0xf] = k;
         ((struct Obj13528 *)m)->f4 = 0x10;
-        *(Word *)(m + 8) = func_021E89C0();
+        *(Word *)(m + 8) = BTLV_CORE_MakeSlotKind1Empty();
         func_021C8838(m + 0x14, 2, 0x235);
         func_021C8860((struct S *)(m + 0x14), k);
         func_021C88C8(b, m);

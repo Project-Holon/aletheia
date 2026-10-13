@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A1670",
+   "name": "FIELD_3DBG_ReleaseBillboardTextureVram",
    "address": "0x021A1670",
    "kind": "game",
    "region": "ov021",

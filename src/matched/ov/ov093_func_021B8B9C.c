@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B9C
+ * function: BTL_MAIN_IsClientUsed
  * address: 0x021B8B9C
  * packet: pkt_ov093_021B8B9C
  * region: ov093
@@ -9,4 +9,4 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021B8B9C(unsigned char *p,unsigned char k) { unsigned int i; if(k<4) { for(i=0;i<6;i++) if(k==p[i+0x428]) return 1; } return 0; }
+int BTL_MAIN_IsClientUsed(unsigned char *p,unsigned char k) { unsigned int i; if(k<4) { for(i=0;i<6;i++) if(k==p[i+0x428]) return 1; } return 0; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B74
+ * function: FRAME_LIST_StepScrollBarDrag
  * address:  0x021B8B74
  * packet:   pkt_ov067_021B8B74
  * region:   ov067
@@ -16,8 +16,8 @@
  * symbols:
  *   func_0201C6B4  0x0201C6B4  thumb
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
- *   func_021B8A44  0x021B8A44  thumb  ov067
- *   func_021B8434  0x021B8434  thumb  ov067
+ *   FRAME_LIST_GetScrollBarRow  0x021B8A44  thumb  ov067
+ *   FRAME_LIST_StartScroll  0x021B8434  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -47,10 +47,10 @@ struct S {
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int TOUCHPANEL_HitCont(const void *p);
-extern u32 func_021B8A44(struct S *s);
-extern void func_021B8434(u8 *p, int a, u8 b, u16 c, u32 d);
+extern u32 FRAME_LIST_GetScrollBarRow(struct S *s);
+extern void FRAME_LIST_StartScroll(u8 *p, int a, u8 b, u16 c, u32 d);
 
-int func_021B8B74(struct S *s)
+int FRAME_LIST_StepScrollBarDrag(struct S *s)
 {
     u32 x;
     u32 d;
@@ -62,7 +62,7 @@ int func_021B8B74(struct S *s)
         s->f4e = 0;
         return 0;
     }
-    x = func_021B8A44(s);
+    x = FRAME_LIST_GetScrollBarRow(s);
     d = s->f62 - x;
     if ((int)d < 0)
         d = -d;
@@ -70,10 +70,10 @@ int func_021B8B74(struct S *s)
         d = s->f48;
     if (s->f62 > x) {
         s->f62 = x + d;
-        func_021B8434((u8 *)s, (s8)(-s->fb), d, 2, 1);
+        FRAME_LIST_StartScroll((u8 *)s, (s8)(-s->fb), d, 2, 1);
     } else if (s->f62 < x) {
         s->f62 = x - d;
-        func_021B8434((u8 *)s, (s8)s->fb, d, 2, 1);
+        FRAME_LIST_StartScroll((u8 *)s, (s8)s->fb, d, 2, 1);
     }
     return 1;
 }

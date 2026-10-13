@@ -1,5 +1,5 @@
 /*
- * function: func_02158344
+ * function: INTRUDE_COMM_GetWorkIfRunning
  * address:  0x02158344
  * packet:   pkt_02158344
  * region:   ov010
@@ -25,7 +25,7 @@ extern u32 func_0200FB24(void);
 extern u32 func_02026454(void *obj);
 extern u32 func_02026460(void *obj);
 
-int func_02158344(int a0)
+int INTRUDE_COMM_GetWorkIfRunning(int a0)
 {
     int t4;
     int t5;

@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02045088 0x02045088 arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Init 0x02045088 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
@@ -36,16 +36,16 @@ typedef struct {
     void *f98;
 } Obj;
 
-extern void func_02045088(u16);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_Init(u16);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_0201C440(void *p);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 layer);
 
@@ -54,25 +54,25 @@ void func_021C515C(Obj *p)
     int i;
     void *w;
 
-    func_02045088((u16)p->heapId);
-    p->win[0] = (void *)func_020450F0(1, 0, 0, 1, 1, 5, 0);
-    p->win[1] = (void *)func_020450F0(1, 3, 3, 0x1A, 4, 1, 0);
-    p->win[2] = (void *)func_020450F0(1, 3, 8, 0x1A, 4, 1, 0);
-    p->win[3] = (void *)func_020450F0(1, 3, 0xD, 0x1A, 4, 1, 0);
-    p->win[4] = (void *)func_020450F0(1, 8, 0x13, 0xB, 2, 1, 0);
-    p->win[5] = (void *)func_020450F0(1, 0x15, 0x13, 8, 2, 1, 0);
-    p->win[6] = (void *)func_020450F0(0, 2, 1, 0x1C, 4, 5, 1);
+    BMP_WIN_Init((u16)p->heapId);
+    p->win[0] = (void *)BMP_WIN_Create(1, 0, 0, 1, 1, 5, 0);
+    p->win[1] = (void *)BMP_WIN_Create(1, 3, 3, 0x1A, 4, 1, 0);
+    p->win[2] = (void *)BMP_WIN_Create(1, 3, 8, 0x1A, 4, 1, 0);
+    p->win[3] = (void *)BMP_WIN_Create(1, 3, 0xD, 0x1A, 4, 1, 0);
+    p->win[4] = (void *)BMP_WIN_Create(1, 8, 0x13, 0xB, 2, 1, 0);
+    p->win[5] = (void *)BMP_WIN_Create(1, 0x15, 0x13, 8, 2, 1, 0);
+    p->win[6] = (void *)BMP_WIN_Create(0, 2, 1, 0x1C, 4, 5, 1);
     for (i = 0; i < 6; i++) {
         p->slot[i].win = p->win[i];
         p->slot[i].flag = 0;
     }
     p->f98 = (void *)func_0201C440((void *)((u16)p->heapId));
     for (i = 0; i < 7; i++) {
-        func_02043B5C(func_02045770(p->win[i]), 0);
+        BMP_Clear(func_02045770(p->win[i]), 0);
         if (i < 5) {
             w = p->win[i];
-            func_02045334(w);
-            func_02045374(w);
+            BMP_WIN_TransferChars(w);
+            BMP_WIN_MakeScreen(w);
             func_020409B4(func_02045730(w));
         }
     }

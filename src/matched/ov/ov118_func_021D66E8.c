@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204AFD8  0x0204AFD8  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *
  * Teardown of the three sub-buffers at +0x8a8/+0x88c/+0x8bc (their base
  * 0x8a8 is the single pool word) plus the +0xb0 pointer hung off the +0xc
@@ -31,21 +31,21 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
 void func_021D66E8(void *p)
 {
     u8 *b = p;
 
     if (((struct Obj22687 *)((u8 *)((struct Obj01725 *)b)->fC))->fB0 != 0)
-        func_0204B3B4(((struct Obj22688 *)((u8 *)((struct Obj01725 *)b)->fC))->fB0);
+        CLACT_DeleteActor(((struct Obj22688 *)((u8 *)((struct Obj01725 *)b)->fC))->fB0);
     if (((struct Obj01725 *)b)->f8A8 != 0) {
-        func_0204A8D4((u32)(((struct Obj01725 *)b)->f8A8));
-        func_0204ADA4((u32)(((struct Obj01725 *)b)->f88C));
-        func_0204AFD8((u32)(((struct Obj01725 *)b)->f8BC));
+        CLACT_ReleaseCharacter((u32)(((struct Obj01725 *)b)->f8A8));
+        CLACT_ReleasePalette((u32)(((struct Obj01725 *)b)->f88C));
+        CLACT_ReleaseCellAnim((u32)(((struct Obj01725 *)b)->f8BC));
     }
     ((struct Obj01725 *)b)->f8A8 = 0;
     ((struct Obj01725 *)b)->f88C = 0;

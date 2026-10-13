@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F279C",
+   "name": "C_GEAR_Create",
    "address": "0x021F279C",
    "kind": "game",
    "region": "ov029",

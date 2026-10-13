@@ -32,21 +32,23 @@
  *   POKE_TOOL_UpdateAbilityForSpecies  0x02017C50  thumb
  *   POKE_TOOL_UpdateGenderForSpecies  0x02017CC8  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
  */
 
 typedef unsigned int   u32;
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_UpdateAbilityForSpecies(int a0, int a1, int a2);
 extern void POKE_TOOL_UpdateGenderForSpecies(void *a0, void *a1, void *a2);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
 int POKE_TOOL_ChangeBoxForm(int a0, int a1)
 {
     int r4 = 0;
-    int r7 = (unsigned char)func_02017DBC((struct Sav *)a0);
+    int r7 = (unsigned char)POKE_TOOL_DecodeBoxParam((struct Sav *)a0);
     int t = (unsigned short)func_02017E88((void *)a0, 0x6f, 0);
 
     if (t != a1) {
@@ -57,6 +59,6 @@ int POKE_TOOL_ChangeBoxForm(int a0, int a1)
         POKE_TOOL_UpdateGenderForSpecies((void *)a0, (void *)r4, (void *)r4);
         r4 = 1;
     }
-    func_02017DE4((struct Sav *)a0, r7);
+    POKE_TOOL_EncodeBoxParam((struct Sav *)a0, r7);
     return r4;
 }

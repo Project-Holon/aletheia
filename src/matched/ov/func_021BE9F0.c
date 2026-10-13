@@ -1,5 +1,5 @@
 /*
- * function: func_021BE9F0
+ * function: EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore
  * address:  0x021BE9F0
  * packet:   pkt_021BE9F0
  * region:   ov021
@@ -15,8 +15,8 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021BEA6C  0x021BEA6C  thumb  ov021
- *   func_021BF518  0x021BF518  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_GetFadeKind  0x021BEA6C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore  0x021BF518  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -27,19 +27,19 @@ struct Desc;
 struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-int func_021BEA6C(int x);
-int func_021BF518(int a, int *s, int *q);
+int EVENT_FIELDMAP_CONTROL_GetFadeKind(int x);
+int EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore(int a, int *s, int *q);
 
-void *func_021BE9F0(void *p, int a1, int a2, int a3, int a4)
+void *EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore(void *p, int a1, int a2, int a3, int a4)
 {
-    void *r0v = func_020122C0(p, 0, func_021BF518, 0x2C);
+    void *r0v = func_020122C0(p, 0, EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore, 0x2C);
     int *r4 = func_020124E8(r0v);
 
     r4[0] = (int)p;
     r4[1] = a1;
     r4[2] = a2;
     r4[5] = a3;
-    r4[3] = (int)func_021BEA6C(a2);
+    r4[3] = (int)EVENT_FIELDMAP_CONTROL_GetFadeKind(a2);
     r4[4] = a4;
     return r0v;
 }

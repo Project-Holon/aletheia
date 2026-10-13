@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_020452E8 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj00001.h"
 
 struct Descriptor;
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern unsigned int func_020452E8(struct Descriptor *d);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 
 void func_021DD9DC(unsigned char *p)
 {
-    if(((struct Obj00001 *)p)->f5BC){func_020456F8((struct Descriptor *)(((struct Obj00001 *)p)->f5BC));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5BC));((struct Obj00001 *)p)->f5BC=0;}if(((struct Obj00001 *)p)->f5C0){func_020456F8((struct Descriptor *)(((struct Obj00001 *)p)->f5C0));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5C0));((struct Obj00001 *)p)->f5C0=0;}if(((struct Obj00001 *)p)->f5D4){func_020456F8((struct Descriptor *)(((struct Obj00001 *)p)->f5D4));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5D4));((struct Obj00001 *)p)->f5D4=0;}if(((struct Obj00001 *)p)->f5D8){func_020456F8((struct Descriptor *)(((struct Obj00001 *)p)->f5D8));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5D8));((struct Obj00001 *)p)->f5D8=0;}func_02041B6C(3);
+    if(((struct Obj00001 *)p)->f5BC){BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj00001 *)p)->f5BC));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5BC));((struct Obj00001 *)p)->f5BC=0;}if(((struct Obj00001 *)p)->f5C0){BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj00001 *)p)->f5C0));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5C0));((struct Obj00001 *)p)->f5C0=0;}if(((struct Obj00001 *)p)->f5D4){BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj00001 *)p)->f5D4));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5D4));((struct Obj00001 *)p)->f5D4=0;}if(((struct Obj00001 *)p)->f5D8){BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj00001 *)p)->f5D8));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5D8));((struct Obj00001 *)p)->f5D8=0;}func_02041B6C(3);
 }

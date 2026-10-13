@@ -19,16 +19,17 @@
  *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
  *   P_STATUS_PrintWordSetMsgToWin 0x021D6214 thumb ov131
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   CLACT_GetCharacterProxy 0x0204AB84 arm
  *   CLACT_SetActorImageProxy 0x0204B784 arm
  *   func_0204B6F4 0x0204B6F4 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   WAZA_TOOL_GetPower  0x0201C1D8  thumb  arm9
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb  arm9
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  */
 #include "../include/Obj01408.h"
 #include "../include/Obj04513.h"
@@ -48,7 +49,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void P_STATUS_PrintMsgToWin(unsigned char *p, unsigned int a, int b, int c, unsigned short d, unsigned short e);
 extern void P_STATUS_PrintWordSetMsgToWin(unsigned char *p, unsigned int a, void *b, int c, unsigned short d, unsigned short e, unsigned short f);
@@ -66,9 +67,9 @@ extern u32 func_0201BD28(u16,u32);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
 {
     void *data,*object1,*object2,*table,*str;
@@ -78,7 +79,7 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
     Record record;
     data=P_STATUS_GetPokePara(a);
     zero=0;
-    for(i=8;i<=11;i++) func_02043B5C(func_02045770(*(void **)(p+0x5c+i*4)),zero);
+    for(i=8;i<=11;i++) BMP_Clear(func_02045770(*(void **)(p+0x5c+i*4)),zero);
     if(p[41]<4) id=func_02017E88(data,p[41]+54,zero);
     else if(p[41]==255) {
         if((*(u8 **)(a+8))[13]==2 && p[43]==5) id=((struct Obj23163 *)(*(u8 * *)&((struct Obj04513 *)a)->f8))->f14;
@@ -110,9 +111,9 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
     }
     table=func_02045B38(0,2,202,((struct Obj04513 *)a)->f0);
     str=func_02045EC0(table,id);
-    func_0201C724(((struct Obj04513 *)a)->f84,(int)func_02045770(((struct Obj01408 *)p)->f88),1,1,(u32)str,((struct Obj04513 *)a)->f80,1088);
-    func_02045808(str);
-    func_02045C04(table);
+    PRINTSYS_PrintQueColor(((struct Obj04513 *)a)->f84,(int)func_02045770(((struct Obj01408 *)p)->f88),1,1,(u32)str,((struct Obj04513 *)a)->f80,1088);
+    STRBUF_Delete(str);
+    MSGDATA_Delete(table);
     ((struct Obj01408 *)p)->fC=0;
     ((struct Obj01408 *)p)->f8=1;
 }

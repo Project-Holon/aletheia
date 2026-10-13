@@ -1,5 +1,5 @@
 /*
- * function: func_0219DD18
+ * function: FLDMMDL_RAIL_MOVE_AcWalkEnd
  * address:  0x0219DD18
  * packet:   pkt_0219DD18
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D674  0x0216D674  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_0216D674(void *p, u16 v);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 
-int func_0219DD18(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_RAIL_MOVE_AcWalkEnd(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D674((void *)a, 0);
+FLDMMDL_SetDrawStatus((void *)a, 0);
 return 0;
 }
 

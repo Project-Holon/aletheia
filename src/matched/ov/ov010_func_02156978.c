@@ -1,5 +1,5 @@
 /*
- * function: func_02156978
+ * function: MUSICAL_EVENT_GetMinScore
  * address:  0x02156978
  * packet:   pkt_ov010_02156978
  * region:   ov010
@@ -32,7 +32,7 @@ typedef struct Work {
     Party *party;       /* 0x30 */
 } Work;
 
-u16 func_02156978(Work *w)
+u16 MUSICAL_EVENT_GetMinScore(Work *w)
 {
     u16 min = 0xFF;
     u8 i;

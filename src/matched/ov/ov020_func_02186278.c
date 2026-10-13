@@ -1,5 +1,5 @@
 /*
- * function: func_02186278
+ * function: FIELD_WFBC_DATA_LOCAL_CountPeople
  * address: 0x02186278
  * packet: pkt_ov020_02186278
  * region: ov020
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02161ECC 0x02161ECC thumb ov010
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
  */
-extern int func_02161ECC(char *);
-int func_02186278(char *p,int which) { char *q; int i; int count; if (which==0) q=p+8; else q=p+0xf8; count=0; for(i=0;i<10;i++) if(func_02161ECC(q+i*0x18)) count++; return count; }
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(char *);
+int FIELD_WFBC_DATA_LOCAL_CountPeople(char *p,int which) { char *q; int i; int count; if (which==0) q=p+8; else q=p+0xf8; count=0; for(i=0;i<10;i++) if(EVENT_FIELD_PROCLINK_IsReturnEntryValid(q+i*0x18)) count++; return count; }

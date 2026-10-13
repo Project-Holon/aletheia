@@ -12,7 +12,7 @@
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   TCBL_DeleteTask  0x02031194  arm
  */
 #include "../../../matched/include/Obj06711.h"
@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 struct PrintSys;
 struct TcblNode;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *x);
+extern void BMP_WIN_TransferChars(struct Descriptor *x);
 extern void TCBL_DeleteTask(struct TcblNode *n);
 
 void func_021BDAD8(int a, int **b)
@@ -36,7 +36,7 @@ void func_021BDAD8(int a, int **b)
 
     if (s[4]) {
         if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)((struct Obj06711 *)s)->f0))) == 0) {
-            func_02045334((struct Descriptor *)((struct Obj06711 *)s)->f0);
+            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06711 *)s)->f0);
             s[4] = 0;
         }
     }

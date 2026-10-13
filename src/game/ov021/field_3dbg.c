@@ -1,7 +1,7 @@
 /*
  * file:     field_3dbg.c
  * unit:     yes
- * function: func_021A15A4, func_021A15D4, ov021_func_021A15F4, func_021A1670, func_021A1680, func_021A1698, func_021A16D4, func_021A16D8, func_021A16DC, func_021A16E0, func_021A16E4, func_021A16E8, func_021A16EC, func_021A1750, func_021A1768, func_021A1780, func_021A1784, func_021A1848, func_021A1934, func_021A195C
+ * function: FIELD_3DBG_CreateBillboard, FIELD_3DBG_DeleteBillboard, FIELD_3DBG_DrawBillboard, FIELD_3DBG_ReleaseBillboardTextureVram, FIELD_3DBG_FreeBillboardTexture, FIELD_3DBG_LoadBillboardTexture, FIELD_3DBG_SetBillboardVisible, FIELD_3DBG_SetBillboardPolygonId, FIELD_3DBG_SetBillboardTexOffsetX, FIELD_3DBG_SetBillboardTexOffsetY, FIELD_3DBG_SetBillboardScaleX, FIELD_3DBG_SetBillboardScaleY, FIELD_3DBG_LoadTexture, FIELD_3DBG_FreeTexture, FIELD_3DBG_ReleaseTextureVram, FIELD_3DBG_IsTextureLoaded, FIELD_3DBG_CalcQuadGeometry, FIELD_3DBG_DrawQuad, FIELD_3DBG_SetPolygonAttr, FIELD_3DBG_SetTextureParams
  * address:  0x021A15A4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -19,18 +19,18 @@
  *   ov035_func_021EFEC0  0x021EFEC0  thumb  ov035
  *   abs_id_23      0x00000023  data
  *   func_02030734  0x02030734  arm
- *   d_021DDE5C     0x021DDE5C  data
+ *   g_Field3dbgSourceName     0x021DDE5C  data
  *   func_020307B0  0x020307B0  arm
  *   func_0206DB80  0x0206DB80  arm
  *   func_0207D8C4  0x0207D8C4  arm
- *   d_02148B54     0x02148B54  data  a4
- *   func_02046C94  0x02046C94  arm
- *   func_02049250  0x02049250  arm
- *   func_02046CE0  0x02046CE0  arm
- *   func_02047180  0x02047180  arm
- *   func_020470D0  0x020470D0  arm
+ *   g_DefaultProjectionMtx     0x02148B54  data  a4
+ *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   G3D_SYSTEM_InitResourceByFile  0x02046CE0  arm
+ *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   func_02046EFC  0x02046EFC  arm
- *   func_02047204  0x02047204  arm
+ *   G3D_SYSTEM_TransAllocatedTexture  0x02047204  arm
  *   FX_Div            0x0207C768  arm
  *   MTX_Identity33_   0x0207ADC4  arm
  *   MTX_RotZ33_       0x0207AF38  thumb
@@ -88,13 +88,13 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void func_0206DB80(void);
 extern void func_0207D8C4(ProjectionMtx *m);
-extern int func_02046C94(void);
-extern void *func_02049250(void *archive, u32 fileId, u16 heapId);
-extern void func_02046CE0(void *dst, void *src);
-extern int func_02047180(void *resource);
+extern int G3D_SYSTEM_GetResourceSize(void);
+extern void *ARC_TOOL_LoadHandleMember(void *archive, u32 fileId, u16 heapId);
+extern void G3D_SYSTEM_InitResourceByFile(void *dst, void *src);
+extern int G3D_SYSTEM_AllocVramTexture(void *resource);
 extern void func_02046EFC(struct G3dResource *resource);
-extern int func_020470D0(void *resource);
-u32 func_02047204(struct G3dResource *p);
+extern int G3D_SYSTEM_FreeVramTexture(void *resource);
+u32 G3D_SYSTEM_TransAllocatedTexture(struct G3dResource *p);
 fx32 FX_Div(fx32 numer, fx32 denom);
 void MTX_Identity33_(MtxFx33 *pDst);
 void MTX_RotZ33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
@@ -103,38 +103,38 @@ void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
 extern void func_0207D934(const void *m);
 u32 func_02047388(struct G3dResource *resource);
 u32 func_020473B8(struct G3dResource *resource);
-Field3dbgBillboard *func_021A15A4(const Field3dbgBillboardDesc *desc, u32 heapId);
-int func_021A15D4(Field3dbgBillboard *billboard);
-void ov021_func_021A15F4(Field3dbgBillboard *billboard);
-void func_021A1670(Field3dbgBillboard *billboard);
-void func_021A1680(Field3dbgBillboard *billboard);
-int func_021A1698(Field3dbgBillboard *billboard, void *archive, const Field3dbgTextureDesc *desc, u32 heapId);
-void func_021A16D4(Field3dbgBillboard *billboard, u32 isVisible);
-void func_021A16D8(Field3dbgBillboard *billboard, u8 polygonId);
-void func_021A16DC(Field3dbgBillboard *billboard, fx32 texOffsetX);
-void func_021A16E0(Field3dbgBillboard *billboard, fx32 texOffsetY);
-void func_021A16E4(Field3dbgBillboard *billboard, fx32 scaleX);
-void func_021A16E8(Field3dbgBillboard *billboard, fx32 scaleY);
-void func_021A16EC(Field3dbgTexture *tex, void *archive, const Field3dbgTextureDesc *desc, u32 heapId);
-int func_021A1750(Field3dbgTexture *tex);
-void func_021A1768(Field3dbgTexture *tex);
-u32 func_021A1780(Field3dbgTexture *tex);
-void func_021A1784(Field3dbgQuadGeometry *out, const Field3dbgBillboard *in, const Field3dbgTexture *texture, const ProjectionMtx *proj);
-void func_021A1848(const Field3dbgQuadGeometry *geom);
-void func_021A1934(Field3dbgBillboard *billboard);
-void func_021A195C(Field3dbgBillboard *billboard);
+Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId);
+int FIELD_3DBG_DeleteBillboard(Field3dbgBillboard *billboard);
+void FIELD_3DBG_DrawBillboard(Field3dbgBillboard *billboard);
+void FIELD_3DBG_ReleaseBillboardTextureVram(Field3dbgBillboard *billboard);
+void FIELD_3DBG_FreeBillboardTexture(Field3dbgBillboard *billboard);
+int FIELD_3DBG_LoadBillboardTexture(Field3dbgBillboard *billboard, void *archive, const Field3dbgTextureDesc *desc, u32 heapId);
+void FIELD_3DBG_SetBillboardVisible(Field3dbgBillboard *billboard, u32 isVisible);
+void FIELD_3DBG_SetBillboardPolygonId(Field3dbgBillboard *billboard, u8 polygonId);
+void FIELD_3DBG_SetBillboardTexOffsetX(Field3dbgBillboard *billboard, fx32 texOffsetX);
+void FIELD_3DBG_SetBillboardTexOffsetY(Field3dbgBillboard *billboard, fx32 texOffsetY);
+void FIELD_3DBG_SetBillboardScaleX(Field3dbgBillboard *billboard, fx32 scaleX);
+void FIELD_3DBG_SetBillboardScaleY(Field3dbgBillboard *billboard, fx32 scaleY);
+void FIELD_3DBG_LoadTexture(Field3dbgTexture *tex, void *archive, const Field3dbgTextureDesc *desc, u32 heapId);
+int FIELD_3DBG_FreeTexture(Field3dbgTexture *tex);
+void FIELD_3DBG_ReleaseTextureVram(Field3dbgTexture *tex);
+u32 FIELD_3DBG_IsTextureLoaded(Field3dbgTexture *tex);
+void FIELD_3DBG_CalcQuadGeometry(Field3dbgQuadGeometry *out, const Field3dbgBillboard *in, const Field3dbgTexture *texture, const ProjectionMtx *proj);
+void FIELD_3DBG_DrawQuad(const Field3dbgQuadGeometry *geom);
+void FIELD_3DBG_SetPolygonAttr(Field3dbgBillboard *billboard);
+void FIELD_3DBG_SetTextureParams(Field3dbgBillboard *billboard);
 extern unsigned char abs_id_20[];
 extern unsigned char abs_id_21[];
 extern unsigned char abs_id_22[];
 extern unsigned char abs_id_23[];
-extern char d_021DDE5C[];
-extern ProjectionMtx d_02148B54;
+extern char g_Field3dbgSourceName[];
+extern ProjectionMtx g_DefaultProjectionMtx;
 extern const s16 FX_SinCosTable_[];
 
 /* Allocate a billboard and copy its size, distance and polygon id from desc. */
-Field3dbgBillboard *func_021A15A4(const Field3dbgBillboardDesc *desc, u32 heapId)
+Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId)
 {
-    Field3dbgBillboard *billboard = func_02030734((u16)heapId, 0x70, 1, d_021DDE5C, 0x95);
+    Field3dbgBillboard *billboard = func_02030734((u16)heapId, 0x70, 1, g_Field3dbgSourceName, 0x95);
     billboard->width = desc->width;
     billboard->height = desc->height;
     billboard->distance = desc->distance;
@@ -144,55 +144,55 @@ Field3dbgBillboard *func_021A15A4(const Field3dbgBillboardDesc *desc, u32 heapId
 }
 
 /* Free the billboard's texture if loaded, then the billboard itself. */
-int func_021A15D4(Field3dbgBillboard *billboard)
+int FIELD_3DBG_DeleteBillboard(Field3dbgBillboard *billboard)
 {
-    if (func_021A1780(&billboard->tex) != 0) {
-        func_021A1750(&billboard->tex);
+    if (FIELD_3DBG_IsTextureLoaded(&billboard->tex) != 0) {
+        FIELD_3DBG_FreeTexture(&billboard->tex);
     }
     return func_020307B0(billboard);
 }
 
 /* Draw the billboard as one textured quad. */
-void ov021_func_021A15F4(Field3dbgBillboard *billboard)
+void FIELD_3DBG_DrawBillboard(Field3dbgBillboard *billboard)
 {
     ProjectionMtx proj;
-    if (billboard != 0 && billboard->isVisible != 0 && func_021A1780(&billboard->tex) != 0) {
+    if (billboard != 0 && billboard->isVisible != 0 && FIELD_3DBG_IsTextureLoaded(&billboard->tex) != 0) {
         func_0206DB80();
         REG_MTX_MODE = 0;
-        proj = d_02148B54;
+        proj = g_DefaultProjectionMtx;
         func_0207D8C4(&proj);
         REG_MTX_MODE = 2;
         REG_MTX_IDENTITY = 0;
         REG_MTX_PUSH = 0;
-        func_021A1784(&billboard->geom, billboard, &billboard->tex, &proj);
-        func_021A1934(billboard);
-        func_021A195C(billboard);
-        func_021A1848(&billboard->geom);
+        FIELD_3DBG_CalcQuadGeometry(&billboard->geom, billboard, &billboard->tex, &proj);
+        FIELD_3DBG_SetPolygonAttr(billboard);
+        FIELD_3DBG_SetTextureParams(billboard);
+        FIELD_3DBG_DrawQuad(&billboard->geom);
         REG_MTX_POP = 1;
     }
 }
 
 /* Release the VRAM copy of the billboard's texture. */
-void func_021A1670(Field3dbgBillboard *billboard)
+void FIELD_3DBG_ReleaseBillboardTextureVram(Field3dbgBillboard *billboard)
 {
     if (billboard != 0)
-        func_021A1768(&billboard->tex);
+        FIELD_3DBG_ReleaseTextureVram(&billboard->tex);
 }
 
 /* Free the billboard's texture resource if loaded. */
-void func_021A1680(Field3dbgBillboard *billboard)
+void FIELD_3DBG_FreeBillboardTexture(Field3dbgBillboard *billboard)
 {
-    if (func_021A1780(&billboard->tex) != 0)
-        func_021A1750(&billboard->tex);
+    if (FIELD_3DBG_IsTextureLoaded(&billboard->tex) != 0)
+        FIELD_3DBG_FreeTexture(&billboard->tex);
 }
 
 /* Replace the billboard's texture with the one described by desc and reset its transform. */
-int func_021A1698(Field3dbgBillboard *billboard, void *archive, const Field3dbgTextureDesc *desc, u32 heapId)
+int FIELD_3DBG_LoadBillboardTexture(Field3dbgBillboard *billboard, void *archive, const Field3dbgTextureDesc *desc, u32 heapId)
 {
-    if (func_021A1780(&billboard->tex) != 0) {
-        func_021A1750(&billboard->tex);
+    if (FIELD_3DBG_IsTextureLoaded(&billboard->tex) != 0) {
+        FIELD_3DBG_FreeTexture(&billboard->tex);
     }
-    func_021A16EC(&billboard->tex, archive, desc, heapId);
+    FIELD_3DBG_LoadTexture(&billboard->tex, archive, desc, heapId);
     billboard->alpha = desc->alpha;
     billboard->scaleX = (1 << 12);
     billboard->scaleY = (1 << 12);
@@ -200,32 +200,32 @@ int func_021A1698(Field3dbgBillboard *billboard, void *archive, const Field3dbgT
     return 0;
 }
 
-void func_021A16D4(Field3dbgBillboard *billboard, u32 isVisible)
+void FIELD_3DBG_SetBillboardVisible(Field3dbgBillboard *billboard, u32 isVisible)
 {
     billboard->isVisible = isVisible;
 }
 
-void func_021A16D8(Field3dbgBillboard *billboard, u8 polygonId)
+void FIELD_3DBG_SetBillboardPolygonId(Field3dbgBillboard *billboard, u8 polygonId)
 {
     billboard->polygonId = polygonId;
 }
 
-void func_021A16DC(Field3dbgBillboard *billboard, fx32 texOffsetX)
+void FIELD_3DBG_SetBillboardTexOffsetX(Field3dbgBillboard *billboard, fx32 texOffsetX)
 {
     billboard->texOffsetX = texOffsetX;
 }
 
-void func_021A16E0(Field3dbgBillboard *billboard, fx32 texOffsetY)
+void FIELD_3DBG_SetBillboardTexOffsetY(Field3dbgBillboard *billboard, fx32 texOffsetY)
 {
     billboard->texOffsetY = texOffsetY;
 }
 
-void func_021A16E4(Field3dbgBillboard *billboard, fx32 scaleX)
+void FIELD_3DBG_SetBillboardScaleX(Field3dbgBillboard *billboard, fx32 scaleX)
 {
     billboard->scaleX = scaleX;
 }
 
-void func_021A16E8(Field3dbgBillboard *billboard, fx32 scaleY)
+void FIELD_3DBG_SetBillboardScaleY(Field3dbgBillboard *billboard, fx32 scaleY)
 {
     billboard->scaleY = scaleY;
 }
@@ -235,7 +235,7 @@ void func_021A16E8(Field3dbgBillboard *billboard, fx32 scaleY)
  * `const` on desc is what schedules the second (u16)heapId truncation ahead of
  * the store of the allocation to tex->resource.
  */
-void func_021A16EC(Field3dbgTexture *tex, void *archive, const Field3dbgTextureDesc *desc, u32 heapId)
+void FIELD_3DBG_LoadTexture(Field3dbgTexture *tex, void *archive, const Field3dbgTextureDesc *desc, u32 heapId)
 {
     void *data;
 
@@ -245,18 +245,18 @@ void func_021A16EC(Field3dbgTexture *tex, void *archive, const Field3dbgTextureD
     tex->flip = desc->flip;
     tex->format = desc->format;
     tex->plttColor0 = desc->plttColor0;
-    tex->resource = func_02030734((u16)heapId, func_02046C94(), 1, d_021DDE5C, 0x2ad);
-    data = func_02049250(archive, desc->fileId, heapId);
-    func_02046CE0(tex->resource, data);
-    func_02047180(tex->resource);
+    tex->resource = func_02030734((u16)heapId, G3D_SYSTEM_GetResourceSize(), 1, g_Field3dbgSourceName, 0x2ad);
+    data = ARC_TOOL_LoadHandleMember(archive, desc->fileId, heapId);
+    G3D_SYSTEM_InitResourceByFile(tex->resource, data);
+    G3D_SYSTEM_AllocVramTexture(tex->resource);
     tex->isLoaded = 1;
     tex->isResident = 1;
 }
 
 /* Free the texture resource and mark the texture as not loaded. */
-int func_021A1750(Field3dbgTexture *tex)
+int FIELD_3DBG_FreeTexture(Field3dbgTexture *tex)
 {
-    func_020470D0(tex->resource);
+    G3D_SYSTEM_FreeVramTexture(tex->resource);
     func_02046EFC(tex->resource);
     tex->resource = 0;
     tex->isLoaded = 0;
@@ -264,15 +264,15 @@ int func_021A1750(Field3dbgTexture *tex)
 }
 
 /* Release the VRAM copy of the texture. */
-void func_021A1768(Field3dbgTexture *tex)
+void FIELD_3DBG_ReleaseTextureVram(Field3dbgTexture *tex)
 {
     if (tex->isResident != 0) {
-        func_02047204(tex->resource);
+        G3D_SYSTEM_TransAllocatedTexture(tex->resource);
         tex->isResident = 0;
     }
 }
 
-u32 func_021A1780(Field3dbgTexture *tex)
+u32 FIELD_3DBG_IsTextureLoaded(Field3dbgTexture *tex)
 {
     return tex->isLoaded;
 }
@@ -293,7 +293,7 @@ static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[idx * 2 + 1]; }
  * that keeps (texOffsetX<<12)+(width<<12) unfolded and gives the late texT0
  * store from r2.
  */
-void func_021A1784(Field3dbgQuadGeometry *out, const Field3dbgBillboard *in, const Field3dbgTexture *texture, const ProjectionMtx *proj)
+void FIELD_3DBG_CalcQuadGeometry(Field3dbgQuadGeometry *out, const Field3dbgBillboard *in, const Field3dbgTexture *texture, const ProjectionMtx *proj)
 {
     MtxFx33 scaleMtx;
     fx32 y;
@@ -345,7 +345,7 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
  * 3x3 matrix multiply (command 0x1A). The parameter must be const: without
  * it every geom load is repeated after each volatile register store (340 B).
  */
-void func_021A1848(const Field3dbgQuadGeometry *geom)
+void FIELD_3DBG_DrawQuad(const Field3dbgQuadGeometry *geom)
 {
     REG_MTX_MODE = 3;
     REG_MTX_IDENTITY = 0;
@@ -376,7 +376,7 @@ static inline void G3_PolygonAttr(int light, int polyMode, int cullMode, int pol
  * G3_MaterialColorDiffAmb(white, white, TRUE) as a literal, then the SDK
  * G3_PolygonAttr inline (int parameters) with the billboard's polygon id and alpha.
  */
-void func_021A1934(Field3dbgBillboard *billboard)
+void FIELD_3DBG_SetPolygonAttr(Field3dbgBillboard *billboard)
 {
     REG_DIF_AMB = 0x7FFFFFFF;
     G3_PolygonAttr(0, 0, 2, billboard->polygonId, billboard->alpha, 0x8000);
@@ -404,7 +404,7 @@ static inline u32 NNS_GfdGetPlttKeyAddr(u32 key) { return (u32)((0x0000FFFF & ke
  * which gives the load order and the [sp] spill of the tex key), NNS key
  * address inlines, and the format read once into an int local.
  */
-void func_021A195C(Field3dbgBillboard *billboard)
+void FIELD_3DBG_SetTextureParams(Field3dbgBillboard *billboard)
 {
     u32 texKey = func_02047388(billboard->tex.resource);
     int format = billboard->tex.format;

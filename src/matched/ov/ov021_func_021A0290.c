@@ -1,5 +1,5 @@
 /*
- * function: func_021A0290
+ * function: FIELD_FOG_FadeGetOffset
  * address:  0x021A0290
  * packet:   pkt_ov021_021A0290
  * region:   ov021
@@ -28,7 +28,7 @@ typedef struct {
     int f10;
 } Lerp;
 
-u32 func_021A0290(Lerp *s)
+u32 FIELD_FOG_FadeGetOffset(Lerp *s)
 {
     int q = s->f8 * s->f0 / s->f2;
     return q + s->f4;

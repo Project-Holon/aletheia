@@ -1,5 +1,5 @@
 /*
- * function: func_021BBDEC
+ * function: PLIST_MENU_CreateButtonWindow
  * address:  0x021BBDEC
  * packet:   pkt_ov091_021BBDEC
  * region:   ov091
@@ -11,7 +11,7 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  */
 #include "../include/Obj00009.h"
 
@@ -29,9 +29,9 @@ struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-int func_021BBDEC(int p, int unused, int id, int r3, u8 a4, int a5)
+int PLIST_MENU_CreateButtonWindow(int p, int unused, int id, int r3, u8 a4, int a5)
 {
     S s;
     int r;
@@ -43,6 +43,6 @@ int func_021BBDEC(int p, int unused, int id, int r3, u8 a4, int a5)
         s.flag = 1;
     }
     r = APP_TASKMENU_WIN_Create(((struct Obj00009 *)p)->f254, (u32)(&s), r3, a4, 10, ((struct Obj00009 *)p)->f0);
-    func_02045808((struct U16Vec *)s.a);
+    STRBUF_Delete((struct U16Vec *)s.a);
     return r;
 }

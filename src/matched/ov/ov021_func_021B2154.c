@@ -1,5 +1,5 @@
 /*
- * function: func_021B2154
+ * function: SCRCMD_FLDMMDL_SetPlayerRailLocation
  * address:  0x021B2154
  * packet:   pkt_ov021_021B2154
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B1E74  0x021B1E74  thumb  ov021
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_021B8484  0x021B8484  thumb  ov021
+ *   SCRCMD_FLDMMDL_GetPlayerMmdl  0x021B1E74  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
+ *   FIELD_RAIL_WORK_SetLineLocation  0x021B8484  thumb  ov021
  *   func_021B7DC0  0x021B7DC0  thumb  ov021
- *   func_0219E2C0  0x0219E2C0  thumb  ov021
+ *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,14 +23,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021B1E74(u32 a);
-extern unsigned int func_02159B10(void *a, void *b);
-extern void *func_0219E348(void *a);
-extern void func_021B8484(u8 *p, u32 a, u32 b, int c);
+extern int SCRCMD_FLDMMDL_GetPlayerMmdl(u32 a);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void *FLDMMDL_RAIL_GetRailWork(void *a);
+extern void FIELD_RAIL_WORK_SetLineLocation(u8 *p, u32 a, u32 b, int c);
 extern void func_021B7DC0(u32, void *);
-extern void func_0219E2C0(void *a, void *r);
+extern void FLDMMDL_RAIL_SetLocation(void *a, void *r);
 
-int func_021B2154(u32 a, u32 b)
+int SCRCMD_FLDMMDL_SetPlayerRailLocation(u32 a, u32 b)
 {
     u16 buf[4];
     u32 h;
@@ -39,13 +39,13 @@ int func_021B2154(u32 a, u32 b)
     u32 y;
     u32 z;
 
-    h = func_021B1E74(b);
-    x = func_02159B10((void *)a, (void *)b);
-    y = func_02159B10((void *)a, (void *)b);
-    z = func_02159B10((void *)a, (void *)b);
-    o = (u32)func_0219E348((void *)h);
-    func_021B8484((u8 *)o, x, y, z);
+    h = SCRCMD_FLDMMDL_GetPlayerMmdl(b);
+    x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    y = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    z = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    o = (u32)FLDMMDL_RAIL_GetRailWork((void *)h);
+    FIELD_RAIL_WORK_SetLineLocation((u8 *)o, x, y, z);
     func_021B7DC0(o, buf);
-    func_0219E2C0((void *)h, buf);
+    FLDMMDL_RAIL_SetLocation((void *)h, buf);
     return 0;
 }

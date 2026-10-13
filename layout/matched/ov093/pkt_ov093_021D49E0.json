@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D49E0",
-    "func_021D4A04"
+    "BTL_NET_FreeRelayedPlayerInfo",
+    "BTL_NET_FreeAfterPlayerInfoUse"
+   ],
+   "addresses": [
+    "0x021D49E0",
+    "0x021D4A04"
    ],
    "evidence": {
     "sole-ref": [

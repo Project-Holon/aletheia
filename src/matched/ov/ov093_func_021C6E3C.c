@@ -1,5 +1,5 @@
 /*
- * function: func_021C6E3C
+ * function: BTL_SERVER_FLOW_CalcTypeEffectiveness
  * address: 0x021C6E3C
  * packet: pkt_ov093_021C6E3C
  * region: ov093
@@ -8,48 +8,48 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D57FC 0x021D57FC thumb ov093
- *   func_021E8CFC 0x021E8CFC thumb ov093
- *   func_021E8D04 0x021E8D04 thumb ov093
- *   func_021E8DA8 0x021E8DA8 thumb ov093
- *   func_021C7038 0x021C7038 thumb ov093
- *   func_021D79E8 0x021D79E8 thumb ov093
- *   func_021C6F0C 0x021C6F0C thumb ov093
- *   func_021C5750 0x021C5750 thumb ov093
- *   func_021C6FC0 0x021C6FC0 thumb ov093
+ *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
+ *   BTLV_CORE_GetHighByte 0x021E8CFC thumb ov093
+ *   BTLV_CORE_GetLowByte 0x021E8D04 thumb ov093
+ *   BTLV_CORE_BytesEqual 0x021E8DA8 thumb ov093
+ *   BTL_SERVER_FLOW_CalcSingleTypeAffinity 0x021C7038 thumb ov093
+ *   BTL_CALC_CombineTypeAffinity 0x021D79E8 thumb ov093
+ *   BTL_SERVER_FLOW_IsPokeGrounded 0x021C6F0C thumb ov093
+ *   BTL_SERVER_FLOW_PushNoEffectMessage 0x021C5750 thumb ov093
+ *   BTL_SERVER_FLOW_ProcImmunityOverrideNotice 0x021C6FC0 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_021D57FC(void *);
-extern u8 func_021E8CFC(int);
-extern int func_021E8D04(int);
-extern int func_021E8DA8(int);
-extern int func_021C7038(u8 *, u8 *, u8 *, u32, u8);
-extern int func_021D79E8(int, int);
-extern int func_021C6F0C(u8 *, u8 *, int);
-extern void func_021C5750(u8 *, u8 *);
-extern void func_021C6FC0(u8 *, u8 *);
-int func_021C6E3C(u8 *p, u8 *a, u8 *b, u8 *q, int flag)
+extern u16 BTL_POKEPARAM_GetTypePair(void *);
+extern u8 BTLV_CORE_GetHighByte(int);
+extern int BTLV_CORE_GetLowByte(int);
+extern int BTLV_CORE_BytesEqual(int);
+extern int BTL_SERVER_FLOW_CalcSingleTypeAffinity(u8 *, u8 *, u8 *, u32, u8);
+extern int BTL_CALC_CombineTypeAffinity(int, int);
+extern int BTL_SERVER_FLOW_IsPokeGrounded(u8 *, u8 *, int);
+extern void BTL_SERVER_FLOW_PushNoEffectMessage(u8 *, u8 *);
+extern void BTL_SERVER_FLOW_ProcImmunityOverrideNotice(u8 *, u8 *);
+int BTL_SERVER_FLOW_CalcTypeEffectiveness(u8 *p, u8 *a, u8 *b, u8 *q, int flag)
 {
     int r, x;
     int changed = 0;
     if (q[6] == 17) return 3;
-    x = func_021D57FC(b);
-    r = func_021C7038(p, a, b, q[6], func_021E8CFC(x));
-    if (func_021E8DA8(x) == 0)
-        r = func_021D79E8(r, func_021C7038(p, a, b, q[6], func_021E8D04(x)));
+    x = BTL_POKEPARAM_GetTypePair(b);
+    r = BTL_SERVER_FLOW_CalcSingleTypeAffinity(p, a, b, q[6], BTLV_CORE_GetHighByte(x));
+    if (BTLV_CORE_BytesEqual(x) == 0)
+        r = BTL_CALC_CombineTypeAffinity(r, BTL_SERVER_FLOW_CalcSingleTypeAffinity(p, a, b, q[6], BTLV_CORE_GetLowByte(x)));
     if (r != 0) {
         if (q[6] != 4) return r;
-        changed = func_021C6F0C(p, b, 0);
+        changed = BTL_SERVER_FLOW_IsPokeGrounded(p, b, 0);
         if (changed == 0) return r;
         r = 0;
     } else if (q[6] == 4) {
-        if (func_021C6F0C(p, b, 1) == 0) return 3;
+        if (BTL_SERVER_FLOW_IsPokeGrounded(p, b, 1) == 0) return 3;
     }
     if (r == 0 && flag != 0) {
-        if (changed == 0) func_021C5750(p, b);
-        else func_021C6FC0(p, b);
+        if (changed == 0) BTL_SERVER_FLOW_PushNoEffectMessage(p, b);
+        else BTL_SERVER_FLOW_ProcImmunityOverrideNotice(p, b);
     }
     return r;
 }

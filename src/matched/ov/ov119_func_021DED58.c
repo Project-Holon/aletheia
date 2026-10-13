@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021DECA0  0x021DECA0  thumb  ov119
  */
 
-extern unsigned func_020221A4(void);
+extern unsigned WIPE_SYS_EndCheck(void);
 extern void func_021D8E84(void *p, int next);
 extern void func_021DECA0(char *p);
 
 void func_021DED58(void *p)
 {
-    if (func_020221A4() != 0) {
+    if (WIPE_SYS_EndCheck() != 0) {
         func_021D8E84(p, (int)func_021DECA0);
     }
 }

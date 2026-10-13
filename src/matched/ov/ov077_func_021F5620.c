@@ -1,5 +1,5 @@
 /*
- * function: func_021F5620
+ * function: ENCEFF_StartCellGrid
  * address:  0x021F5620
  * packet:   pkt_ov077_021F5620
  * region:   ov077
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Creates the ov077 task (callback func_021F5744) and lays out a grid of
+ * Creates the ov077 task (callback ENCEFF_CellGridEventMain) and lays out a grid of
  * 0x40-byte cells in a 0x307C-byte work block: 0x20/w columns by 0x18/h
  * rows, each cell's x/y in fx32 centred on the grid.  Same shape as ov076's
  * func_021F52D8 (fade plane 0xC or 3 from the flag).
@@ -20,11 +20,11 @@
  * named locals give the rem copy into r2 and the in-place row multiply.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02189A08  0x02189A08  thumb  ov021
- *   func_021CF52C  0x021CF52C  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
+ *   ENCEFF_AllocWork  0x021CF52C  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   func_021F5744  0x021F5744  thumb  ov077
+ *   ENCEFF_CellGridEventMain  0x021F5744  thumb  ov077
  */
 typedef unsigned char  u8;
 typedef short          s16;
@@ -66,13 +66,13 @@ typedef struct Param {
 
 struct Ctx;
 struct Desc;
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(unsigned char *p);
-extern u32 *func_021CF52C(u32 *p, int size, int heap);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetEncEff(unsigned char *p);
+extern u32 *ENCEFF_AllocWork(u32 *p, int size, int heap);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F5744(void *task, int *st);
+extern int ENCEFF_CellGridEventMain(void *task, int *st);
 
-void *func_021F5620(void *task, const Param *p, int flag)
+void *ENCEFF_StartCellGrid(void *task, const Param *p, int flag)
 {
     Work *w;
     void *h;
@@ -89,8 +89,8 @@ void *func_021F5620(void *task, const Param *p, int flag)
     int col;
     int row;
 
-    w =(Work *)func_021CF52C((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(task))), sizeof(Work), 0x50);
-    h = func_020122C0(task, 0, func_021F5744, 0);
+    w =(Work *)ENCEFF_AllocWork((u32 *)FIELDMAP_GetEncEff((unsigned char *)((int)GAMESYSTEM_GetFieldMap(task))), sizeof(Work), 0x50);
+    h = func_020122C0(task, 0, ENCEFF_CellGridEventMain, 0);
     a = p->w;
     b = p->h;
     a8 = a * 8;

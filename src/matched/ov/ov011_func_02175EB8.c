@@ -11,14 +11,14 @@
  * extent: alignment at 02175ED6 then existing filed leaf ov011_func_02175ED8.c.
  * interface: BCC matched caller returns int; body returns original object +0xac or null.
  * symbols:
- *   func_02175BCC 0x02175BCC thumb ov011
+ *   INTRUDE_COMM_GetSessionResult 0x02175BCC thumb ov011
  */
 typedef unsigned char u8;
-extern u8 *func_02175BCC(u8 *p);
+extern u8 *INTRUDE_COMM_GetSessionResult(u8 *p);
 int INTRUDE_COMM_IsResultConfirmed(void *p)
 {
     u8 *r;
-    r = (u8 *)func_02175BCC(p);
+    r = (u8 *)INTRUDE_COMM_GetSessionResult(p);
     if (r == 0) return 0;
     if (r[0x37] == 1) return 1;
     return 0;

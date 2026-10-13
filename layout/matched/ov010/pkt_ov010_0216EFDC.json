@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216EFDC",
+   "name": "EVENT_BATTLE_IsTaskResultSilent",
    "address": "0x0216EFDC",
    "kind": "game",
    "region": "ov010",

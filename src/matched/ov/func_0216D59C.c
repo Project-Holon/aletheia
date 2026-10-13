@@ -1,5 +1,5 @@
 /*
- * function: func_0216D59C
+ * function: FLDMMDL_SetMoveCode
  * address:  0x0216D59C
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D59C.c \
- *       --func func_0216D59C --addr 0x0216D59C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SetMoveCode.c \
+ *       --func FLDMMDL_SetMoveCode --addr 0x0216D59C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17798.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void func_0216D59C(void *p, u16 v) { ((struct Obj17798 *)p)->fE = v; }
+void FLDMMDL_SetMoveCode(void *p, u16 v) { ((struct Obj17798 *)p)->fE = v; }

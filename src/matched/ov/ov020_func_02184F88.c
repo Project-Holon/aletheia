@@ -1,5 +1,5 @@
 /*
- * function: func_02184F88
+ * function: EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent
  * address:  0x02184F88
  * packet:   pkt_02184F88
  * region:   ov020
@@ -15,9 +15,9 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02012894  0x02012894  thumb
- *   func_02184A14  0x02184A14  thumb  ov020
- *   func_02184CEC  0x02184CEC  thumb  ov020
+ *   GAME_DATA_GetSpecialLocation  0x02012894  thumb
+ *   EVENT_MAPCHANGE_FadeWaitEvent  0x02184A14  thumb  ov020
+ *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
  */
 #include "../include/Obj00248.h"
 
@@ -33,18 +33,18 @@ struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 struct BigObj;
 struct Rec1C;
-struct Rec1C *func_02012894(const struct BigObj *p);
-int func_02184A14(int ctx, int *state, u8 *p);
-void func_02184CEC(void **o, void *p);
+struct Rec1C *GAME_DATA_GetSpecialLocation(const struct BigObj *p);
+int EVENT_MAPCHANGE_FadeWaitEvent(int ctx, int *state, u8 *p);
+void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 
-void *func_02184F88(void *p)
+void *EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent(void *p)
 {
-    void *r0v = func_020122C0(p, 0, func_02184A14, 0x9c);
+    void *r0v = func_020122C0(p, 0, EVENT_MAPCHANGE_FadeWaitEvent, 0x9c);
     char *r4 = func_020124E8(r0v);
     S7 *src;
 
-    func_02184CEC((void **)r4, p);
-    src = (S7 *)func_02012894((const struct BigObj *)(*(int *)&((struct Obj00248 *)r4)->f4));
+    EVENT_MAPCHANGE_InitWork((void **)r4, p);
+    src = (S7 *)GAME_DATA_GetSpecialLocation((const struct BigObj *)(*(int *)&((struct Obj00248 *)r4)->f4));
     *(S7 *)(r4 + 0x10) = *src;
     ((struct Obj00248 *)r4)->f10 = 1;
     ((struct Obj00248 *)r4)->f18 = 2;

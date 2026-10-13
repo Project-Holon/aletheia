@@ -1,5 +1,5 @@
 /*
- * function: func_0216E3D0
+ * function: FLDMMDL_GetRealObjCode
  * address:  0x0216E3D0
  * packet:   pkt_ov010_0216E3D0
  * region:   ov010
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * Unlabelled thumb tail-call stub (ldr r3,[pc,#0]; bx r3; .word 0x0216E3D9);
- * the sole blocker of ov021 func_021B181C.
+ * the sole blocker of ov021 SCRCMD_FLDMMDL_AddMmdl.
  *
  * symbols:
- *   func_0216E3D8  0x0216E3D8  thumb  ov010
+ *   FLDMMDL_GetEventWorkObjCode  0x0216E3D8  thumb  ov010
  */
 
-unsigned int func_0216E3D8(unsigned int a, unsigned int id);
+unsigned int FLDMMDL_GetEventWorkObjCode(unsigned int a, unsigned int id);
 
-int func_0216E3D0(int a, int b)
+int FLDMMDL_GetRealObjCode(int a, int b)
 {
-    return func_0216E3D8(a, b);
+    return FLDMMDL_GetEventWorkObjCode(a, b);
 }

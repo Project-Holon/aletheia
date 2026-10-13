@@ -1,5 +1,5 @@
 /*
- * function: func_021D13F0
+ * function: FIELD_SAVEANIME_DeleteWindow
  * address:  0x021D13F0
  * packet:   pkt_021D13F0
  * region:   ov021
@@ -25,7 +25,7 @@ typedef signed char    s8;
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
 
-u32 func_021D13F0(u32 a)
+u32 FIELD_SAVEANIME_DeleteWindow(u32 a)
 {
 func_020452E8((struct Descriptor *)(((struct Obj04299 *)((u8 *)(a)))->f4));
 ((struct Obj04299 *)((u8 *)(a)))->f4 = 0;

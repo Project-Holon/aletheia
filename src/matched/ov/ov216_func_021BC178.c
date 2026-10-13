@@ -8,40 +8,40 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
- *   func_0201D83C 0x0201D83C thumb
+ *   GF_FONT_Delete 0x0201D83C thumb
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_0201DD68 0x0201DD68 thumb
- *   func_02031140 0x02031140 arm
- *   func_02049238 0x02049238 arm
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
+ *   TCBL_Destroy 0x02031140 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj01437.h"
 struct U16Vec; struct Rec; struct WordSet; struct PrintSys; struct S02031140;
-extern void func_02045808(struct U16Vec *);
-extern unsigned int func_02045C04(struct Rec *rec);
+extern void STRBUF_Delete(struct U16Vec *);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int func_0201ED04(struct WordSet *p);
 typedef unsigned int   u32;
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_0201C6EC(struct PrintSys *);
 extern void func_0201C4C0(struct PrintSys *);
-extern void func_0201DD68(void);
-extern void func_02031140(struct S02031140 *);
-extern void func_02049238(void *);
+extern void GF_FONT_SetDefaultTextColor(void);
+extern void TCBL_Destroy(struct S02031140 *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021BC178(char *p)
 {
-    func_02045808(*(struct U16Vec * *)&((struct Obj01437 *)p)->f144);
-    func_02045808(*(struct U16Vec * *)&((struct Obj01437 *)p)->f140);
-    func_02045808(*(struct U16Vec * *)&((struct Obj01437 *)p)->f13C);
-    func_02045C04(*(struct Rec * *)&((struct Obj01437 *)p)->f134);
-    func_02045C04(*(struct Rec * *)&((struct Obj01437 *)p)->f130);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f144);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f140);
+    STRBUF_Delete(*(struct U16Vec * *)&((struct Obj01437 *)p)->f13C);
+    MSGDATA_Delete(*(struct Rec * *)&((struct Obj01437 *)p)->f134);
+    MSGDATA_Delete(*(struct Rec * *)&((struct Obj01437 *)p)->f130);
     func_0201ED04(*(struct WordSet * *)&((struct Obj01437 *)p)->f138);
-    func_0201D83C(((struct Obj01437 *)p)->f128);
+    GF_FONT_Delete(((struct Obj01437 *)p)->f128);
     func_0201C6EC(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
     func_0201C4C0(*(struct PrintSys * *)&((struct Obj01437 *)p)->f12C);
-    func_0201DD68();
-    func_02031140(*(struct S02031140 * *)&((struct Obj01437 *)p)->f18);
-    func_02049238(((struct Obj01437 *)p)->f54);
+    GF_FONT_SetDefaultTextColor();
+    TCBL_Destroy(*(struct S02031140 * *)&((struct Obj01437 *)p)->f18);
+    ARC_TOOL_DeleteHandle(((struct Obj01437 *)p)->f54);
 }

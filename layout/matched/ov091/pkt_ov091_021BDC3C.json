@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDC3C",
+   "name": "PLIST_DEMO_ApplyGiratinaOriginForm",
    "address": "0x021BDC3C",
    "kind": "game",
    "region": "ov091",

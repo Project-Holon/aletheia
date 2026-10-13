@@ -327,7 +327,7 @@ void func_0217993C(u32 a, u8 b)
 
 /*
  * Unlabelled leaf setter (hidden in a .word run); helper for the call in
- * ov010 func_02157A78.
+ * ov010 DELIVERY_IRC_StepWaitEndSync.
  */
 void func_0217998C(int v)
 {

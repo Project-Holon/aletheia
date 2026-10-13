@@ -1,5 +1,5 @@
 /*
- * function: func_021A4F50
+ * function: FIELD_PLAYER_GRID_StartHopAirOnFoot
  * address:  0x021A4F50
  * packet:   pkt_ov021_021A4F50
  * region:   ov021
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-void func_021A4F50(u32 *a, void *a1, u32 a2)
+void FIELD_PLAYER_GRID_StartHopAirOnFoot(u32 *a, void *a1, u32 a2)
 {
     *a = 6;
 }

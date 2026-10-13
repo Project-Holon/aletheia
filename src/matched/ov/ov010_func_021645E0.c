@@ -1,5 +1,5 @@
 /*
- * function: func_021645E0
+ * function: EVENTDATA_SYSTEM_FieldLinkEnterEvent
  * address:  0x021645E0
  * packet:   pkt_ov010_021645E0
  * region:   ov010
@@ -12,14 +12,14 @@
  * Three-step wait state machine on *st; step 0 also counts frames in w[1].
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02012138  0x02012138  thumb
- *   func_0215870C  0x0215870C  thumb ov010
- *   func_02188C7C  0x02188C7C  thumb ov021
- *   func_02188BF8  0x02188BF8  thumb ov021
- *   func_02188CB4  0x02188CB4  thumb ov021
- *   func_021A2F54  0x021A2F54  thumb ov021
- *   func_021A34F8  0x021A34F8  thumb ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_IsSessionEndPending  0x0215870C  thumb ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb ov021
+ *   FIELDMAP_CheckPlayerRequest  0x02188BF8  thumb ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb ov021
+ *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb ov021
+ *   FIELD_PLAYER_WaitModelReady  0x021A34F8  thumb ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -29,38 +29,38 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_0215870C(void *p, int b);
-extern void *func_02188C7C(u8 *p);
-extern u32 func_02188BF8(u8 *a);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_IsSessionEndPending(void *p, int b);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern u32 FIELDMAP_CheckPlayerRequest(u8 *a);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern int   func_021A2F54(u8 *p);
-extern int   func_021A34F8(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern int   FIELD_PLAYER_StepFormChange(u8 *p);
+extern int   FIELD_PLAYER_WaitModelReady(u8 *p);
 
-int func_021645E0(void *unused, int *st, int *w)
+int EVENTDATA_SYSTEM_FieldLinkEnterEvent(void *unused, int *st, int *w)
 {
     int r;
-    u8 *h = func_0201210C((void *)w[0]);
-    func_02188C7C(h);
+    u8 *h = GAMESYSTEM_GetFieldMap((void *)w[0]);
+    FIELDMAP_GetMmdlSys(h);
     switch (*st) {
     case 0:
-        r = func_02012138((const struct Ctx *)w[0]);
+        r = GAMESYSTEM_GetGameComm((const struct Ctx *)w[0]);
         w[1]++;
-        if (func_0215870C((void *)r, w[1]) == 1 && (u32)w[1] < 0x1e) {
+        if (INTRUDE_COMM_IsSessionEndPending((void *)r, w[1]) == 1 && (u32)w[1] < 0x1e) {
             break;
         }
-        func_02188BF8(h);
+        FIELDMAP_CheckPlayerRequest(h);
         (*st)++;
         /* fall through */
     case 1:
-        if (func_021A2F54((u8 *)func_02188CB4((struct Obj00020 *)h)) == 1) {
+        if (FIELD_PLAYER_StepFormChange((u8 *)FIELDMAP_GetFieldPlayer((struct Obj00020 *)h)) == 1) {
             (*st)++;
         }
         break;
     case 2:
-        if (func_021A34F8((u8 *)func_02188CB4((struct Obj00020 *)h)) == 1) {
+        if (FIELD_PLAYER_WaitModelReady((u8 *)FIELDMAP_GetFieldPlayer((struct Obj00020 *)h)) == 1) {
             return 1;
         }
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE180
+ * function: ENTRANCE_CAMERA_GetRequest
  * address:  0x021BE180
  * packet:   pkt_021BE17C
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_021BE180(u8 *p)
+u8 *ENTRANCE_CAMERA_GetRequest(u8 *p)
 {
     return p + 0x58;
 }

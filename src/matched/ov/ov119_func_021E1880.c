@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   d_021E7984 0x021E7984 data a4
- *   func_02045CAC 0x02045CAC arm
- *   func_02017E1C 0x02017E1C thumb
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_02045770 0x02045770 arm
- *   func_0201C7A4 0x0201C7A4 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
  */
 #include "../include/Obj00001.h"
 typedef short s16;
@@ -23,21 +23,21 @@ extern const T5 d_021E7984;
 typedef unsigned int   u32;
 struct MsgBank;
 struct WordSet;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7A4(void *, s16, s16, void *, void *);
+extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 void func_021E1880(int a, int b, int c, int d, char *p)
 {
     int i = 0;
     T5 t = d_021E7984;
     for (; i < 5; i++) {
-        func_02045CAC(((struct Obj00001 *)p)->f720, 0x28, ((struct Obj00001 *)p)->f734);
-        func_0201EFA4(((struct Obj00001 *)p)->f724, 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
+        MSGDATA_ReadString(((struct Obj00001 *)p)->f720, 0x28, ((struct Obj00001 *)p)->f734);
+        func_0201EFA4(((struct Obj00001 *)p)->f724, 0, POKE_TOOL_GetPartyValue((void *)a, t.v[i], 0), 3, 1, 1);
         func_0201F250(((struct Obj00001 *)p)->f724, ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f734);
-        func_0201C7A4(func_02045770((struct Descriptor *)b), (s16)c, (s16)(d + i * 16), ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f728);
+        PRINTSYS_Print(func_02045770((struct Descriptor *)b), (s16)c, (s16)(d + i * 16), ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f728);
     }
 }

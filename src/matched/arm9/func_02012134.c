@@ -1,5 +1,5 @@
 /*
- * function: func_02012134
+ * function: GAMESYSTEM_GetIssSystem
  * address:  0x02012134
  * packet:   pkt_02012134
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-u32 func_02012134(u32 *p)
+u32 GAMESYSTEM_GetIssSystem(u32 *p)
 {
     return p[11];
 }

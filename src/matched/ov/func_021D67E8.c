@@ -1,5 +1,5 @@
 /*
- * function: func_021D67E8
+ * function: BTL_POKEPARAM_GetWeight
  * address:  0x021D67E8
  * packet:   pkt_021D67E8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D67E8   0x021D67E8  thumb ov093
+ *   BTL_POKEPARAM_GetWeight   0x021D67E8  thumb ov093
  *
  * ldrh at #0x13e (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021D67E8(u8 *p)
+u16 BTL_POKEPARAM_GetWeight(u8 *p)
 {
     return ((struct Obj18419 *)p)->f13E;
 }

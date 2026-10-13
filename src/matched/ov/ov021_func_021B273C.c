@@ -1,5 +1,5 @@
 /*
- * function: func_021B273C
+ * function: SCRCMD_GIMMICK38_CallCheckEvent
  * address:  0x021B273C
  * packet:   pkt_ov021_021B273C
  * region:   ov021
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02011330  0x02011330  thumb
- *   func_021F3A88  0x021F3A88  thumb  ov038
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   VM_GetU16  0x02011330  thumb
+ *   GIMMICK38_StartDoorEvent  0x021F3A88  thumb  ov038
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned short u16;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern int func_021F3A88(int a0, int a1, int a2);
-extern void func_0215897C(void *vm, void *task);
+extern u16 VM_GetU16(struct Stream *s);
+extern int GIMMICK38_StartDoorEvent(int a0, int a1, int a2);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B273C(int a, int b)
+int SCRCMD_GIMMICK38_CallCheckEvent(int a, int b)
 {
-    void *x = func_0215A5F4((void *)b);
-    void *y = func_0215A5DC((void *)b);
-    int p = func_02011330((struct Stream *)a);
-    int q = func_02011330((struct Stream *)a);
-    int r = func_021F3A88((int)y, p, q);
+    void *x = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *y = SCRCMD_WORK_GetGameSystem((void *)b);
+    int p = VM_GetU16((struct Stream *)a);
+    int q = VM_GetU16((struct Stream *)a);
+    int r = GIMMICK38_StartDoorEvent((int)y, p, q);
 
     if (r == 0) {
         return 1;
     }
-    func_0215897C(x, (void *)r);
+    SCRIPT_SYS_CallEvent(x, (void *)r);
     return 1;
 }

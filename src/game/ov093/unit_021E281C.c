@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D6940  0x021D6940  thumb  ov093
- *   func_021E8860  0x021E8860  thumb  ov093
+ *   BTL_POKEPARAM_GetHitRecord  0x021D6940  thumb  ov093
+ *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
  *   d_021F26AC     0x021F26AC  data   ov093  a4
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   _s32_div_f     0x0209C0A4  arm
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F2CA8     0x021F2CA8  data   ov093  a2
  *   d_021F2CAA     0x021F2CAA  data   ov093  a2
  *   d_021F249C     0x021F249C  data   ov093  a4
- *   func_021D62A8  0x021D62A8  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
  *   d_021F2444     0x021F2444  data   ov093  a4
  */
 struct Unk021D62A8;
@@ -35,14 +35,14 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
-extern void func_021E8860(int n);
+extern int BTL_POKEPARAM_GetHitRecord(const u8 *p, int i, u32 j, u16 *out);
+extern void BTLV_CORE_EventScaleDamage(int n);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021D76BC(int key, u32 v);
-extern int func_021D62A8(struct Unk021D62A8 *p);
-extern void func_021D7704(int a, int b);
+extern int BTL_EVENT_OverwriteVar(int key, u32 v);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
+extern void BTL_EVENT_MultiplyVar(int a, int b);
 void func_021E281C(int a, void *b, int c);
 int *func_021E288C(int *p);
 void func_021E2898(int a, void *b, int c);
@@ -63,13 +63,13 @@ void func_021E281C(int a, void *b, int c)
     u8 j;
     u16 buf[4];
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         v = func_021C7CF4(b, c);
-        t = func_021D775C(4);
+        t = BTL_EVENT_GetVar(4);
         j = 0;
-        while (func_021D6940(v, 0, j++, buf) != 0) {
+        while (BTL_POKEPARAM_GetHitRecord(v, 0, j++, buf) != 0) {
             if (((u8 *)buf)[5] == t && buf[1] != 0) {
-                func_021E8860(2);
+                BTLV_CORE_EventScaleDamage(2);
                 return;
             }
         }
@@ -92,7 +92,7 @@ void func_021E2898(int a, void *b, int c)
     u32 r;
     u32 i;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         m = func_021C7CF4(b, c);
         x = func_021D59B4(m, 0xD);
         y = func_021D59B4(m, 0xE);
@@ -103,7 +103,7 @@ void func_021E2898(int a, void *b, int c)
             if (r <= d_021F2CA8[i * 2])
                 break;
         }
-        func_021D76BC(0x30, d_021F2CAA[i * 2]);
+        BTL_EVENT_OverwriteVar(0x30, d_021F2CAA[i * 2]);
     }
 }
 
@@ -119,10 +119,10 @@ void func_021E2908(int a, void *b, int c)
 {
     int k;
 
-    if (c == func_021D775C(3)) {
-        k = func_021D62A8(func_021C7CF4(b, c));
+    if (c == BTL_EVENT_GetVar(3)) {
+        k = BTL_POKEPARAM_GetMajorStatusIndex(func_021C7CF4(b, c));
         if (k == 5 || k == 1 || k == 4)
-            func_021D7704(0x31, 2 << 12);
+            BTL_EVENT_MultiplyVar(0x31, 2 << 12);
     }
 }
 

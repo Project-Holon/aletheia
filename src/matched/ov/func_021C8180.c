@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8670  0x021B8670  thumb  ov093
+ *   BTL_MAIN_GetActivePosPerSide  0x021B8670  thumb  ov093
  */
 #include "../include/Obj18337.h"
 
-unsigned int func_021B8670(unsigned int **p);
+unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **p);
 
 int func_021C8180(int *p)
 {
-    return func_021B8670((unsigned int **)(((struct Obj18337 *)p)->f4));
+    return BTL_MAIN_GetActivePosPerSide((unsigned int **)(((struct Obj18337 *)p)->f4));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A0280
+ * function: FIELD_FOG_FadeStep
  * address:  0x021A0280
  * packet:   pkt_021A0280
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A0280(u32 a)
+int FIELD_FOG_FadeStep(u32 a)
 {
 if (((struct Obj07213 *)((u8 *)(a)))->f0 < ((struct Obj07213 *)((u8 *)(a)))->f2) {
     ((struct Obj07213 *)((u8 *)(a)))->f0 = (((struct Obj07213 *)((u8 *)(a)))->f0 + 1);

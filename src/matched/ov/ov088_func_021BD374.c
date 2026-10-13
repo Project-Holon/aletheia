@@ -1,5 +1,5 @@
 /*
- * function: func_021BD374
+ * function: SAVE_CONTROL_INTR_Resume
  * address:  0x021BD374
  * packet:   pkt_ov088_021BD374
  * region:   ov088
@@ -15,7 +15,7 @@
  * window does not overlap, so ov088 is the resident copy.
  */
 
-void func_021BD374(unsigned char *p)
+void SAVE_CONTROL_INTR_Resume(unsigned char *p)
 {
     if (p[4] != 3)
         p[6] = 0;

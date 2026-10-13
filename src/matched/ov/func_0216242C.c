@@ -1,5 +1,5 @@
 /*
- * function: func_0216242C
+ * function: EVENTDATA_SYSTEM_LoadEventData
  * address:  0x0216242C
  * packet:   pkt_0216242C
  * region:   ov010
@@ -11,21 +11,21 @@
  *
  *
  * symbols:
- *   func_021624B0  0x021624B0  thumb  ov010
+ *   EVENTDATA_SYSTEM_ReadEventFile  0x021624B0  thumb  ov010
 
  *
  * generated: lane O24 (ov010 leaf/wrapper sweep)
  *
  * Tail call through a pool word and `bx r3`: a two-instruction
- * thunk into func_021624B0, the shape of the arm9 copy.
+ * thunk into EVENTDATA_SYSTEM_ReadEventFile, the shape of the arm9 copy.
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md)
  *
  * Addresses are Black-image addresses.  --region ov010 is required: this
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216242C.c \
- *       --func func_0216242C --addr 0x0216242C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/EVENTDATA_SYSTEM_LoadEventData.c \
+ *       --func EVENTDATA_SYSTEM_LoadEventData --addr 0x0216242C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17713.h"
 
@@ -33,10 +33,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021624B0(void *, unsigned);
+extern void EVENTDATA_SYSTEM_ReadEventFile(void *, unsigned);
 
-void func_0216242C(void *a0, u16 a1, u8 a2)
+void EVENTDATA_SYSTEM_LoadEventData(void *a0, u16 a1, u8 a2)
 {
     ((struct Obj17713 *)a0)->f10 = a1;
-    func_021624B0(a0, a1);
+    EVENTDATA_SYSTEM_ReadEventFile(a0, a1);
 }

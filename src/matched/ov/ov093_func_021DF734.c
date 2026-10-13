@@ -1,5 +1,5 @@
 /*
- * function: func_021DF734
+ * function: BTL_HANDLER_ITEM_GetMiracleSeedHandlers
  * address: 0x021DF734
  * packet: pkt_ov093_021DF734
  * region: ov093
@@ -12,17 +12,17 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF48C.c and filed here.
  *
  * symbols:
- *   d_021F137C 0x021F137C data ov093 a4
+ *   gMiracleSeedHandlers 0x021F137C data ov093 a4
  */
 
-int *func_021DF734(int *p);
-extern int d_021F137C[];
+int *BTL_HANDLER_ITEM_GetMiracleSeedHandlers(int *p);
+extern int gMiracleSeedHandlers[];
 
 /*
  * sdk:      DWCi_ScSetUseSSL (libdwcsc.TWL.HYB.a(dwc_sc.o))
  */
-int *func_021DF734(int *p)
+int *BTL_HANDLER_ITEM_GetMiracleSeedHandlers(int *p)
 {
     *p = 1;
-    return d_021F137C;
+    return gMiracleSeedHandlers;
 }

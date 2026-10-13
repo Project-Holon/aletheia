@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A392C",
+   "name": "FIELD_PLAYER_CORE_SetDirDisp",
    "address": "0x021A392C",
    "kind": "game",
    "region": "ov021",

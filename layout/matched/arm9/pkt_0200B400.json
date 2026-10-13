@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "BATTLE_REC_AllocWork",
-    "func_0200B424",
+    "BATTLE_REC_FreeWork",
     "BATTLE_REC_Delete",
     "BATTLE_REC_GetWorkSize"
    ],

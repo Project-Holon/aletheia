@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02190AEC",
+   "name": "FIELD_MSGBG_GetMenuHeightChars",
    "address": "0x02190AEC",
    "kind": "game",
    "region": "ov021",

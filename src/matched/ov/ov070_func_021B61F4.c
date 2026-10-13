@@ -1,5 +1,5 @@
 /*
- * function: func_021B61F4
+ * function: ITEMMENU_RegisterItemName
  * address: 0x021B61F4
  * packet: pkt_ov070_021B61F4
  * region: ov070
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct WordSet;
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-void func_021B61F4(u8 *p, int a, unsigned int b)
+void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b)
 {
     func_0201EF40(((struct Obj20661 *)p)->f520, a, b);
 }

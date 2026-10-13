@@ -1,7 +1,7 @@
 /*
  * file:     unit_021542C0.c
  * unit:     yes
- * function: func_021542C0, EVENT_GSYNC_Entry
+ * function: EVENT_GSYNC_Main, EVENT_GSYNC_Entry
  * address:  0x021542C0
  * region:   ov000
  * compiler: dsi/1.1p1
@@ -14,9 +14,9 @@
  *
  * symbols:
  *   func_0201210C  0x0201210C  thumb
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -31,7 +31,7 @@
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009448  0x02009448  thumb
  *   func_02009304  0x02009304  thumb
  *   func_0201293C  0x0201293C  thumb
@@ -40,11 +40,11 @@
  *   func_02012944  0x02012944  thumb
  *   func_020079A0  0x020079A0  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_02012444  0x02012444  thumb
+ *   GAME_EVENT_CallProc  0x02012444  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
- *   func_020121CC  0x020121CC  thumb
+ *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   ov123_id       0x0000007B  data   a1
  *   ov016_id       0x00000010  data   a1
  *   ov115_id       0x00000073  data   a1
@@ -138,9 +138,9 @@ typedef struct GsyncEventWork {
 } GsyncEventWork;
 
 extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
-extern int func_021BE8D4(void *gameSystem, int fieldMap, int sel, int d);
-extern int func_021BE92C(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
-extern void func_02012374(struct GameEvent *event, struct GameEvent **newEvent);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
+extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
 extern void  func_02082BCC(void *dst, int value, int size);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
@@ -155,7 +155,7 @@ extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *param);
 extern int GFL_USE_PushBgm(void);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct WifiList *func_02009448(void *saveControl);
 extern u8 func_02009304(const struct WifiList *wifiList);
 extern struct BoxManager *func_0201293C(const struct GameData *gameData);
@@ -164,13 +164,13 @@ extern struct MyItem *func_0201292C(const struct GameData *gameData);
 extern u8 *func_02012944(void *gameData);
 extern int func_020079A0(void *boxManager);
 extern struct Config *func_0200873C(void *saveControl);
-extern void func_02012444(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
+extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
 extern u32 func_0200FB24(void);
-extern void  func_0200FB38(void);
+extern void  GFL_NET_ERR_RequestScreen(void);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern u32 func_020121CC(struct GameSystem *gameSystem);
+extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 extern void *EVENT_GSYNC_Create(void *gameSystem);
-u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
+u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
 void *EVENT_GSYNC_Entry(void *gameSystem);
 extern char ov123_id[];
 extern char ov016_id[];
@@ -184,7 +184,7 @@ extern char gNetSaveRetryProc[];
 extern char d_021EF78C[];
 
 
-u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
+u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
 {
     struct GameSystem *gameSystem = work->gameSystem;
     u32 fieldMap = (u32)func_0201210C(gameSystem);
@@ -192,11 +192,11 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
 
     switch (*seq) {
     case 0:
-        func_02012374(event, (struct GameEvent **)func_021BE8D4(gameSystem, fieldMap, 0, 0));
+        GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 0, 0));
         (*seq)++;
         break;
     case 1:
-        func_02012374(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, fieldMap));
+        GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, fieldMap));
         work->returnToMenu = 0;
         *seq = 2;
         break;
@@ -246,11 +246,11 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         *seq = 2;
         break;
     case 10:
-        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         (*seq)++;
         break;
     case 11:
-        func_02012374(event, (struct GameEvent **)func_021BE92C(gameSystem, fieldMap, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 0, 0, 1, 0, 0));
         (*seq)++;
         break;
     case 12:
@@ -265,7 +265,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 13:
         return 1;
     case 16:
-        wifiFlag = func_02009304(func_02009448(func_02012EBC(func_020120F4(gameSystem))));
+        wifiFlag = func_02009304(func_02009448(GAME_DATA_GetSaveControl(func_020120F4(gameSystem))));
         if (func_020079A0(func_0201293C(func_020120F4(gameSystem))) == 0 && wifiFlag == 0) {
             work->menuResult = 4;
             *seq = 19;
@@ -324,16 +324,16 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         work->box.party = func_02012934(work->box.gameData);
         work->box.myItem = func_0201292C(work->box.gameData);
         work->box.myStatus = func_02012944(work->box.gameData);
-        work->box.config = func_0200873C(func_02012EBC(work->box.gameData));
+        work->box.config = func_0200873C(GAME_DATA_GetSaveControl(work->box.gameData));
         work->box.pickerBuffer = work->pickerBuffer;
         work->box.result = 0;
         work->box.mode = 5;
-        func_02012444(event, (u32)ov170_id, (u32)d_021EF78C, (u32)&work->box);
+        GAME_EVENT_CallProc(event, (u32)ov170_id, (u32)d_021EF78C, (u32)&work->box);
         (*seq)++;
         break;
     case 22:
         if (func_0200FB24()) {
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             GFL_NET_ERR_ShowScreen(0);
             work->login.useSaveData = 1;
             *seq = 17;
@@ -363,7 +363,7 @@ u32 func_021542C0(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         break;
     case 24:
         if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
-            func_020121CC(gameSystem);
+            GAMESYSTEM_TryStartAutoComm(gameSystem);
             *(vu16 *)0x04000304 |= 0x8000;  /* POWCNT1: swap the two screens */
             work->returnToMenu = 0;
             *seq = 2;

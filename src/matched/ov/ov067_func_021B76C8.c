@@ -1,5 +1,5 @@
 /*
- * function: func_021B76C8
+ * function: YESNO_MENU_GetButtonPos
  * address:  0x021B76C8
  * packet:   pkt_ov067_021B76C8
  * region:   ov067
@@ -27,7 +27,7 @@ typedef struct { u8 v[4][2]; } T2;
 extern const T1 d_021B94B8;
 extern const T2 d_021B94BC;
 
-u8 func_021B76C8(u32 a, u32 b, u32 c)
+u8 YESNO_MENU_GetButtonPos(u32 a, u32 b, u32 c)
 {
     T1 t1 = d_021B94B8;
     T2 t2 = d_021B94BC;

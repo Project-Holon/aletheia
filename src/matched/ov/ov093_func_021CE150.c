@@ -1,5 +1,5 @@
 /*
- * function: func_021CE150
+ * function: BTL_CLIENT_SetSubFn
  * address: 0x021CE150
  * packet: pkt_ov093_021CE150
  * region: ov093
@@ -13,4 +13,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021CE150(u8 *p, void *q) { ((struct Obj01892 *)p)->fD0=q; ((struct Obj01892 *)p)->fD4=0; }
+void BTL_CLIENT_SetSubFn(u8 *p, void *q) { ((struct Obj01892 *)p)->fD0=q; ((struct Obj01892 *)p)->fD4=0; }

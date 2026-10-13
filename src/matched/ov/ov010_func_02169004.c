@@ -1,5 +1,5 @@
 /*
- * function: func_02169004
+ * function: FIELD_CLOCK_UpdateDays
  * address:  0x02169004
  * packet:   pkt_ov010_02169004
  * region:   ov010
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02169138  0x02169138  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_0201296C  0x0201296C  thumb
+ *   FIELD_CLOCK_GetCounter  0x02169138  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_ClearTimeFlags  0x020143F0  thumb
  *   func_0200D440  0x0200D440  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKERUS_DecreaseDays  0x0201B100  thumb
- *   func_02012F2C  0x02012F2C  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008E30  0x02008E30  thumb
  *   func_02009470  0x02009470  thumb
  *   func_0200952C  0x0200952C  thumb
- *   func_021862A8  0x021862A8  thumb
+ *   FIELD_WFBC_DATA_LOCAL_AdvanceDays  0x021862A8  thumb
  *   func_0200E394  0x0200E394  thumb
  *   func_0200E518  0x0200E518  thumb
  *   func_0200A8A0  0x0200A8A0  thumb
@@ -37,39 +37,39 @@
 
 struct BigObj;
 struct Tally;
-extern int func_02169138(int a0);
+extern int FIELD_CLOCK_GetCounter(int a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Big;
 struct Rec0200AB04;
 struct Sub02009470Obj;
-extern void *func_02012EBC(struct Big *p);
-extern u32 func_0201296C(const struct BigObj *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void ZONEDATA_ClearTimeFlags(u8 *a);
 extern void func_0200D440(void *sys);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void POKERUS_DecreaseDays(void *, int);
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern void func_02008E30(void *a0);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void func_0200952C(struct Sub02009470Obj *obj);
-extern void func_021862A8(int, int, int);
+extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(int, int, int);
 extern void *func_0200E394(void *a0);
 extern void func_0200E518(struct Tally *t);
 extern void *func_0200A8A0(void *sys);
 extern void func_0200AB04(struct Rec0200AB04 *o);
 
-void func_02169004(int a, int b)
+void FIELD_CLOCK_UpdateDays(int a, int b)
 {
     int x;
-    func_02169138(a);
-    x = (int)func_02012EBC((struct Big *)a);
-    ZONEDATA_ClearTimeFlags((u8 *)func_0201296C((const struct BigObj *)a));
+    FIELD_CLOCK_GetCounter(a);
+    x = (int)GAME_DATA_GetSaveControl((struct Big *)a);
+    ZONEDATA_ClearTimeFlags((u8 *)GAME_DATA_GetEventWork((const struct BigObj *)a));
     func_0200D440((void *)x);
-    POKERUS_DecreaseDays(func_02012934((void *)a), b);
-    func_02008E30(func_02012F2C((int *)a));
+    POKERUS_DecreaseDays(GAME_DATA_GetMyParty((void *)a), b);
+    func_02008E30(GAME_DATA_GetTrainerRecord((int *)a));
     func_0200952C(func_02009470((void *)x));
-    func_021862A8(a, b, 4);
+    FIELD_WFBC_DATA_LOCAL_AdvanceDays(a, b, 4);
     func_0200E518(func_0200E394((void *)x));
     func_0200AB04(func_0200A8A0((void *)x));
 }

@@ -15,13 +15,13 @@
  * symbols:
  *   func_021FCEA8 0x021FCEA8 thumb ov132
  *   _u32_div_f 0x0209C2B0 arm
- *   func_0203996C 0x0203996C arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  *   func_021FDA74 0x021FDA74 thumb ov132
  *   func_0203F0A8 0x0203F0A8 arm
  *   func_021FCE74  0x021FCE74  thumb
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   func_021FCDEC 0x021FCDEC thumb ov132
  */
 #include "ov132_types.h"
@@ -63,13 +63,13 @@ typedef signed int     s32;
 typedef unsigned long long u64;
 
 extern u32 func_021FCEA8(int unused, int kind, u32 value, u32 id);
-extern struct Entry *func_0203996C(s32 idx);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_021FDA74(int a0, int a1, int a2);
 extern u32 func_0203F0A8(void);
 extern void func_021FCE74(int unused, int kind, u32 value, u32 id);
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *);
 extern void func_021FCDEC(int,int);
 u32 func_021FD4F8(struct Ctx *p, u8 key);
 void func_021FD52C(S *s);
@@ -108,7 +108,7 @@ u32 func_021FD95C(char *p);
 
 
 /*
- * 2026-10-05 (wave D9): witness leaf for ov010 func_02156530. Searches the
+ * 2026-10-05 (wave D9): witness leaf for ov010 MUSICAL_EVENT_RollProgramRewards. Searches the
  * four 48-byte records at +0x60 for one whose id byte (+0x12) equals the key
  * and whose state word (+4) is 1; returns its word at +0x1C, else 0.
  */
@@ -126,7 +126,7 @@ u32 func_021FD4F8(struct Ctx *p, u8 key)
 
 /*
  * Unlabelled leaf hidden in a .word run; helper whose address is the
- * witness for the call in ov010 func_02156C4C.
+ * witness for the call in ov010 MUSICAL_DRESSUP_SYS_Main.
  */
 void func_021FD52C(S *s)
 {
@@ -175,7 +175,7 @@ int func_021FD5E4(char *p,u32 i)
     n=0x3800;
     s=*(char * *)&((struct HostEntry *)q)->f10+i*0x3800;
     if((i+1)*0x3800>((struct HostEntry *)q)->f2C) n=((struct HostEntry *)q)->f2C%0x3800U;
-    return func_0203D3F8((u32)func_0203996C(0xff),0xff,0x1105,n,(u32)s,0,1,1);
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetNetHandle(0xff),0xff,0x1105,n,(u32)s,0,1,1);
 }
 
 void func_021FD634(int a,int b,int c,char *p)
@@ -233,8 +233,8 @@ int func_021FD704(u8 *p)
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
     func_021FDA74(q[1], q[8], 2);
-    id = (u32)func_0203996C(255);
-    return func_0203D3F8(id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (*(u32 **)(p + 0x140))[1], 1, 0, 1);
+    id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
+    return GFL_NET_SendData(id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (*(u32 **)(p + 0x140))[1], 1, 0, 1);
 }
 
 void func_021FD744(void *a, void *b, void *c, u8 *p)
@@ -255,8 +255,8 @@ int func_021FD76C(u8 *p)
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
     func_021FDA74(q[2], q[9], 1);
-    id = (u32)func_0203996C(255);
-    return func_0203D3F8(id, 255, 0x1107, (*(u32 **)(p + 0x140))[9], (*(u32 **)(p + 0x140))[2], 1, 0, 1);
+    id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
+    return GFL_NET_SendData(id, 255, 0x1107, (*(u32 **)(p + 0x140))[9], (*(u32 **)(p + 0x140))[2], 1, 0, 1);
 }
 
 void func_021FD7AC(void *a, void *b, void *c, u8 *p)
@@ -277,8 +277,8 @@ int func_021FD7D4(u8 *p)
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->f140;
     u32 id;
     func_021FDA74(q[3], q[10], 0);
-    id = (u32)func_0203996C(255);
-    return func_0203D3F8(id, 255, 0x1108, (*(u32 **)(p + 0x140))[10], (*(u32 **)(p + 0x140))[3], 1, 0, 1);
+    id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
+    return GFL_NET_SendData(id, 255, 0x1108, (*(u32 **)(p + 0x140))[10], (*(u32 **)(p + 0x140))[3], 1, 0, 1);
 }
 
 void func_021FD814(void *a, void *b, void *c, u8 *p)
@@ -299,7 +299,7 @@ u32 func_021FD83C(char *p) {return ((struct ActingHost *)p)->f170;}
 /*
  * Unlabelled ov132 leaf hidden in a .word run: returns element 0x5e of the
  * argument viewed as an int array.  Matched to supply the `matched` witness
- * for the pending ov010 caller func_0215E0B0.
+ * for the pending ov010 caller SCRCMD_MUSICAL_WaitSessionReady.
  */
 int func_021FD844(int *p)
 {
@@ -342,7 +342,7 @@ void func_021FD8C4(char *p, int a)
     func_021FCE74((int)p, 0xa, a, 0xff);
 }
 
-u32 func_021FD8D4(char *p) {return *(u8 *)((u32)p+func_0203D1A4((struct Link *)func_020399A8())*0x30+0x72);}
+u32 func_021FD8D4(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
 
 u8 func_021FD8EC(char *p, int index) {return *(u8 *)((u32)p+index*0x30+0x72);}
 
@@ -352,7 +352,7 @@ u32 func_021FD8F8(char *p,u32 index){return *(u32 *)((u32)p+index*0x30+0x80);}
 /*
  * Unlabelled ov132 leaf hidden in a .word run: returns the word at +0x48.
  * Matched to supply the `matched` witness for the pending ov010 caller
- * func_02155F24.
+ * MUSICAL_EVENT_CreateLocalPerformer.
  */
 int func_021FD904(int *p)
 {
@@ -370,7 +370,7 @@ u32 func_021FD908(u8 *p)
 /*
  * Unlabelled ov132 leaf hidden in a .word run: returns element 0x57 of the
  * argument viewed as an int array.  Matched to supply the `matched` witness
- * for the pending ov010 caller func_0215E184.
+ * for the pending ov010 caller SCRCMD_MUSICAL_WaitSessionFinish.
  */
 int func_021FD910(int *p)
 {

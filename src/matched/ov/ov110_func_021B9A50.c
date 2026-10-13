@@ -11,14 +11,14 @@
  *   body calls 30DA8 and returns its pointer; original 9ABA consumes r0.
  * symbols:
  *   d_021C3C20 0x021C3C20 data a4
- *   d_020A1448 0x020A1448 data a4
+ *   gClActorInitParam 0x020A1448 data a4
  *   d_021C3714 0x021C3714 data a4
  *   func_02030734 0x02030734 arm
  *   func_021BF6D4 0x021BF6D4 thumb ov110
- *   func_0204A48C 0x0204A48C arm
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_InitSystem 0x0204A48C arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0207D534 0x0207D534 arm
  *   func_021BF7D0 0x021BF7D0 thumb ov110
  *   func_021B9BAC 0x021B9BAC thumb ov110
@@ -32,16 +32,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_021C3C20[];
-extern const u8 d_020A1448[];
+extern const u8 gClActorInitParam[];
 extern const u8 d_021C3714[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u8 *func_021BF6D4(u8 *);
 struct Cfg;
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void func_0203F8F4(u16);
-extern void func_02045088(u16);
+extern void BMP_WIN_Init(u16);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern u32 func_021BF7D0(u8 *);
 extern void func_021B9BAC(int a, unsigned char *b);
@@ -59,10 +59,10 @@ void *func_021B9A50(u8 *context,void *arg) {
         *(u8 * *)&((struct Obj01920 *)p)->f18=context;
         ((struct Obj01920 *)p)->f1C=arg;
         *(u8 * *)&((struct Obj01920 *)p)->f78=func_021BF6D4(context);
-        func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021C3714,42);
-        ((struct Obj01920 *)p)->f20=func_0204B100(128,0,42);
+        CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021C3714,42);
+        ((struct Obj01920 *)p)->f20=CLACT_CreateUnit(128,0,42);
         func_0203F8F4(42);
-        func_02045088(42);
+        BMP_WIN_Init(42);
         func_0207D534((void *)0x0400006c,-16);
         func_0207D534((void *)0x0400106c,-16);
         ((struct Obj01920 *)p)->f0=func_02030DA8(func_021BF7D0(context),(u32)func_021B9BAC,p,2);

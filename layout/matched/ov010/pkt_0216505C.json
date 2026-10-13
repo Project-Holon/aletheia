@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216505C",
+   "name": "GAME_BEACON_SEARCH_SetBattlePokeStart",
    "address": "0x0216505C",
    "kind": "sdk",
    "region": "ov010",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02158920",
+   "name": "SCRIPT_SYS_CreateScriptEvent",
    "address": "0x02158920",
    "kind": "game",
    "region": "ov010",

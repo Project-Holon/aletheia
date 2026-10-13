@@ -1,5 +1,5 @@
 /*
- * function: func_02164D6C
+ * function: GAME_BEACON_SEARCH_PollScanResult
  * address:  0x02164D6C
  * packet:   pkt_ov010_02164D6C
  * region:   ov010
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * Per-frame poll: state 1 finishes a request; otherwise, while the 9-byte
- * record at +0x74 is empty, picks an entry with func_02164E04 and copies it in.
+ * record at +0x74 is empty, picks an entry with GAME_BEACON_SEARCH_PickBestScanResult and copies it in.
  *
  * symbols:
  *   GFL_NET_EndDeviceWrapper  0x0203D0FC  arm
- *   func_02164E04  0x02164E04  thumb ov010
+ *   GAME_BEACON_SEARCH_PickBestScanResult  0x02164E04  thumb ov010
  *   func_02082BCC  0x02082BCC  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   GAME_BEACON_ReceiveInfo  0x02026A60  thumb
@@ -38,14 +38,14 @@ typedef struct Ent {
 } Ent;
 
 extern void  GFL_NET_EndDeviceWrapper(int a);
-extern Ent  *func_02164E04(u8 *obj, int *out);
+extern Ent  *GAME_BEACON_SEARCH_PickBestScanResult(u8 *obj, int *out);
 extern void  func_02082BCC(void *dst, int v, int n);
 extern void *GFL_NET_GetScanResultMac(u32 a);
 struct Req;
 extern int GAME_BEACON_ReceiveInfo(struct Req *r);
 extern void func_02177BF4(unsigned int idx);
 
-u8 *func_02164D6C(u8 *obj, int *arg)
+u8 *GAME_BEACON_SEARCH_PollScanResult(u8 *obj, int *arg)
 {
     Ent *e;
     u8 *src;
@@ -60,7 +60,7 @@ u8 *func_02164D6C(u8 *obj, int *arg)
         return 0;
     }
     if (rec[0] == 0) {
-        e = func_02164E04(obj, arg);
+        e = GAME_BEACON_SEARCH_PickBestScanResult(obj, arg);
         if (e != 0) {
             if (e->flag != 0) {
                 func_02177BF4(*arg);

@@ -10,10 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201058C  0x0201058C  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_020121CC  0x020121CC  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   WIH_DWC_PollStatus  0x0201058C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *
  * Flushes the +4 handle through three sub-calls, then raises event 1 with
  * the record's leading halfword when the fourth sub-call reports busy.
@@ -29,18 +30,18 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_0201058C(void *key);
+extern u32 WIH_DWC_PollStatus(void *key);
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct IcaAnime;
-extern u32 func_020121CC(struct IcaAnime *p);
-extern u32 func_0201283C(const struct BigObj *p);
-extern void func_0203D34C(u32 a, u32 b);
+extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 void func_021B96A0(u32 a0)
 {
-    func_0201058C((void *)func_0201283C(func_020120F4(((struct Obj10953 *)(((u8*)a0)))->f4)));
-    if (func_020121CC((struct IcaAnime *)(*(u32 *)&((struct Obj10953 *)(((u8*)a0)))->f4)) != 0) {
-    func_0203D34C(1, ((struct Obj10953 *)((u8*)a0))->f0);
+    WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(((struct Obj10953 *)(((u8*)a0)))->f4)));
+    if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct Obj10953 *)(((u8*)a0)))->f4)) != 0) {
+    GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj10953 *)((u8*)a0))->f0);
     }
 }

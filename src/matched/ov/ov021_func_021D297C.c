@@ -1,5 +1,5 @@
 /*
- * function: func_021D297C
+ * function: FIELD_SUBSCREEN_CreateAnimTask
  * address:  0x021D297C
  * packet:   pkt_ov021_021D297C
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02188CCC  0x02188CCC  thumb  ov021
- *   func_021D29A8  0x021D29A8  thumb  ov021
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
+ *   FIELD_SUBSCREEN_AnimTask  0x021D29A8  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -26,16 +26,16 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188CCC(u8 *p);
-extern u32 func_021D29A8(u32 a, u32 *st, u32 *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
+extern u32 FIELD_SUBSCREEN_AnimTask(u32 a, u32 *st, u32 *p);
 
-void *func_021D297C(void *a)
+void *FIELD_SUBSCREEN_CreateAnimTask(void *a)
 {
-    void *task = func_020122C0(a, 0, func_021D29A8, 8);
+    void *task = func_020122C0(a, 0, FIELD_SUBSCREEN_AnimTask, 8);
     u32 *w = func_020124E8(task);
 
-    w[0] = (u32)func_0201210C((void *)a);
-    w[1] = func_02188CCC((u8 *)w[0]);
+    w[0] = (u32)GAMESYSTEM_GetFieldMap((void *)a);
+    w[1] = FIELDMAP_GetSubscreen((u8 *)w[0]);
     return task;
 }

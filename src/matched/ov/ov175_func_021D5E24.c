@@ -22,15 +22,15 @@
  *   func_021DC2C0 0x021DC2C0 thumb ov175
  *   func_021DC2D8 0x021DC2D8 thumb ov175
  *   func_021D9F04 0x021D9F04 thumb ov175
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200ED48 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200ED54 0x0200ED54 thumb
  *   func_021E8AC0 0x021E8AC0 thumb ov177
  *   func_021DA384 0x021DA384 thumb ov175
  *   func_021DA390 0x021DA390 thumb ov175
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  */
 #include "../include/Obj02885.h"
@@ -50,15 +50,15 @@ extern void func_021E8AB8(unsigned);
 extern int func_021DC2C0(ul, void *);
 extern ul func_021DC2D8(char *, ul *);
 extern int func_021D9F04(char *, void *, void *);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_0200ED48(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *, u32);
 extern void func_021E8AC0(int, int);
 extern void func_021DA384(char *);
 extern int func_021DA390(char *);
-extern int func_02012DAC(int);
-extern int func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(u8 *);
 extern void func_021E8AA8(int);
 #define P(k) (*(int *)(p + (k)))
 #define TIMER (*(u32 *)(p + 0xe0))
@@ -88,7 +88,7 @@ void func_021D5E24(unsigned sys, int *state, char *p)
         }
         break;
     case 4:
-        list = func_0200ED48(func_02012EBC((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
+        list = func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
         func_0200ED54(list, func_02008530(((struct Obj02885 *)q)->f18));
         func_021E8AC0(**(int * *)&((struct Obj02885 *)q)->f8, **(int * *)&((struct Obj02885 *)q)->f2C);
         func_021DA384((char *)P(0x30));
@@ -114,11 +114,11 @@ void func_021D5E24(unsigned sys, int *state, char *p)
         func_021E8AB4(sys, 9);
         break;
     case 9:
-        func_02012DAC(**(int * *)&((struct Obj02885 *)q)->f8);
+        GAME_DATA_SaveStart(**(int * *)&((struct Obj02885 *)q)->f8);
         *state = 10;
         break;
     case 10:
-        switch (func_02012DD0((u8 *)**(int * *)&((struct Obj02885 *)q)->f8)) {
+        switch (GAME_DATA_SaveMain((u8 *)**(int * *)&((struct Obj02885 *)q)->f8)) {
         case 0: case 1: break;
         case 2: case 3: ((struct Obj02885 *)q)->f4 = 2; func_021E8AA8(sys); break;
         }

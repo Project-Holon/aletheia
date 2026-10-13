@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021F0D00, func_021F0D08, func_021F0D10
+ * function: C_GEAR_ClearTabTimerCount, C_GEAR_GetTabTimerCount, C_GEAR_SetTabTimerRunning
  * address:  0x021F0D00
  * packet:   pkt_021F0D00
  * region:   ov029
@@ -11,17 +11,17 @@
  * status:   EXACT
  */
 
-void func_021F0D00(unsigned short *p, int i)
+void C_GEAR_ClearTabTimerCount(unsigned short *p, int i)
 {
     p[i] = 0;
 }
 
-unsigned short func_021F0D08(unsigned short *p, int i)
+unsigned short C_GEAR_GetTabTimerCount(unsigned short *p, int i)
 {
     return p[i];
 }
 
-void func_021F0D10(char *p, char v)
+void C_GEAR_SetTabTimerRunning(char *p, char v)
 {
     p[9] = v;
 }

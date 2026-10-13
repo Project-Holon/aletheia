@@ -1,5 +1,5 @@
 /*
- * function: func_020521BC
+ * function: BUTTON_MAN_MakeLookAtMtx
  * address:  0x020521BC
  * packet:   pkt_020520A4
  * region:   arm9
@@ -29,7 +29,7 @@
  *
  * Both angle indices feed the shared interleaved sin/cos halfword table at
  * 0x020A1B38 (see src/matched/func_0203F684.c) at i = angle >> 4, sin at
- * tbl[2*i] and cos at tbl[2*i+1], exactly as in func_020520FC next door.
+ * tbl[2*i] and cos at tbl[2*i+1], exactly as in BUTTON_MAN_MakeRotMtxXYZ next door.
  *
  * Declaration order is the whole difference between 184 correct bytes and four
  * wrong ones: the frame lays `flat` at sp+0x48, `mx` at sp+0x24 and `my` at
@@ -40,8 +40,8 @@
  * immediates and the `str r1, [sp, #0x4c]` offset.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020521BC.c \
- *       --func func_020521BC --addr 0x020521BC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BUTTON_MAN_MakeLookAtMtx.c \
+ *       --func BUTTON_MAN_MakeLookAtMtx --addr 0x020521BC --cc 1.1p1 --arm
  *
  * Addresses are Black-image addresses.
  */
@@ -67,7 +67,7 @@ extern void MTX_RotY33_(struct Mtx33 *m, s16 sinv, s16 cosv);
 extern void MTX_Concat33(const struct Mtx33 *a, const struct Mtx33 *b,
                          struct Mtx33 *dst);
 
-void func_020521BC(const struct Vec3 *v, struct Mtx33 *dst)
+void BUTTON_MAN_MakeLookAtMtx(const struct Vec3 *v, struct Mtx33 *dst)
 {
     struct Vec3  flat;
     struct Mtx33 mx;

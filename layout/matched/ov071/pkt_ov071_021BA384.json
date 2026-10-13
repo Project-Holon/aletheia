@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA384",
+   "name": "MONOLITH_TOOL_ExitInfoScreen",
    "address": "0x021BA384",
    "kind": "game",
    "region": "ov071",

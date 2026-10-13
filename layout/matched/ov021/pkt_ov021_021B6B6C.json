@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6B6C",
+   "name": "SCRCMD_POKEMON_FLD_WarpToEntry",
    "address": "0x021B6B6C",
    "kind": "game",
    "region": "ov021",

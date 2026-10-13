@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C2758",
+   "name": "BTL_SERVER_FLOW_ApplyMoveSick",
    "address": "0x021C2758",
    "kind": "game",
    "region": "ov093",

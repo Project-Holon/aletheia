@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200B078 0x0200B078 thumb
@@ -22,7 +22,7 @@
  */
 #include "../include/Obj14366.h"
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *sys);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -42,7 +42,7 @@ void func_0217D458(int a, int unused, char *p)
     void *m;
     unsigned x;
     unsigned y;
-    m = func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj14366 *)p)->f30)), ((struct Obj14366 *)p)->f14);
+    m = func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj14366 *)p)->f30)), ((struct Obj14366 *)p)->f14);
     x = func_0200B078(m, 2);
     y = func_0200B078(m, 10);
     if (x && y == 1) {

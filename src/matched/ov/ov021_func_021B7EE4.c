@@ -1,5 +1,5 @@
 /*
- * function: func_021B7EE4
+ * function: FIELD_RAIL_WORK_SetLocation
  * address:  0x021B7EE4
  * packet:   pkt_ov021_021B7EE4
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B919C  0x021B919C  thumb  ov021
- *   func_021B9278  0x021B9278  thumb  ov021
- *   func_021B9280  0x021B9280  thumb  ov021
- *   func_021B8658  0x021B8658  thumb  ov021
- *   func_021B91F8  0x021B91F8  thumb  ov021
+ *   FIELD_RAIL_WORK_Reset  0x021B919C  thumb  ov021
+ *   FIELD_RAIL_LINE_GetLength  0x021B9278  thumb  ov021
+ *   FIELD_RAIL_LINE_GetWidthAt  0x021B9280  thumb  ov021
+ *   FIELD_RAIL_WORK_EnterLine  0x021B8658  thumb  ov021
+ *   FIELD_RAIL_WORK_GetSpotPos  0x021B91F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -76,13 +76,13 @@ typedef struct Sub {
     Out f64;
 } Sub;
 
-extern void func_021B919C(u8 *p, u32 a);
-extern u32 func_021B9278(Rec *o, u32 b, Tbl *t);
-extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
-extern void func_021B8658(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_021B91F8(Sub *p, V3 *out);
+extern void FIELD_RAIL_WORK_Reset(u8 *p, u32 a);
+extern u32 FIELD_RAIL_LINE_GetLength(Rec *o, u32 b, Tbl *t);
+extern int FIELD_RAIL_LINE_GetWidthAt(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
+extern void FIELD_RAIL_WORK_EnterLine(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void FIELD_RAIL_WORK_GetSpotPos(Sub *p, V3 *out);
 
-void func_021B7EE4(Sub *p, const Out *q)
+void FIELD_RAIL_WORK_SetLocation(Sub *p, const Out *q)
 {
     Rec *o;
     int i;
@@ -93,7 +93,7 @@ void func_021B7EE4(Sub *p, const Out *q)
     u32 v;
 
     o = 0;
-    func_021B919C((u8 *)p, (u32)p->f24);
+    FIELD_RAIL_WORK_Reset((u8 *)p, (u32)p->f24);
     if (q->t == 0) {
         p->f0 = 0;
         p->f4 = &p->f24->f10[q->a];
@@ -106,7 +106,7 @@ void func_021B7EE4(Sub *p, const Out *q)
                     e = 0;
                     c = p->f4->f10[i];
                 } else if (o->f4 == q->a) {
-                    d = func_021B9278(o, p->f1C, p->f24);
+                    d = FIELD_RAIL_LINE_GetLength(o, p->f1C, p->f24);
                     e = 0;
                     c = p->f4->f10[i];
                 }
@@ -122,12 +122,12 @@ void func_021B7EE4(Sub *p, const Out *q)
         e = q->e << 4;
         c = q->c;
     }
-    m = func_021B9278(o, p->f1C, p->f24);
-    func_021B8658((u8 *)p, (u32)o, c, d, e, m, func_021B9280((u8 *)o, d, m, (u8 *)p->f24));
+    m = FIELD_RAIL_LINE_GetLength(o, p->f1C, p->f24);
+    FIELD_RAIL_WORK_EnterLine((u8 *)p, (u32)o, c, d, e, m, FIELD_RAIL_LINE_GetWidthAt((u8 *)o, d, m, (u8 *)p->f24));
     p->f33 = 1;
     p->f32 = c;
     p->f8 = 1;
-    func_021B91F8(p, &p->f38);
+    FIELD_RAIL_WORK_GetSpotPos(p, &p->f38);
     p->f5C = *q;
     p->f64 = *q;
     p->f44 = p->f38;

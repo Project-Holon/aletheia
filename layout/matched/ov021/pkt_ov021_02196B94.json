@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02196B94",
+   "name": "IRCBATTLEMENU_SeqPressKindBack",
    "address": "0x02196B94",
    "kind": "game",
    "region": "ov021",

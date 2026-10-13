@@ -1,5 +1,5 @@
 /*
- * function: func_021ABD08
+ * function: FLD_SCENEAREA_LOADER_ApplyStripFov
  * address:  0x021ABD08
  * packet:   pkt_ov021_021ABD08
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB760  0x021AB760  thumb
- *   func_021ABBA0  0x021ABBA0  thumb
+ *   FLD_SCENEAREA_GetCamera  0x021AB760  thumb
+ *   FLD_SCENEAREA_LOADER_GetStripProgress  0x021ABBA0  thumb
  *   func_0207C768  0x0207C768  arm
- *   func_0218ED64  0x0218ED64  thumb
+ *   FIELD_CAMERA_SetFov  0x0218ED64  thumb
  */
 
 typedef unsigned short u16;
@@ -24,12 +24,12 @@ typedef struct {
     u16 h3a;
 } S;
 
-extern unsigned int func_021AB760(unsigned char *p);
-extern void func_021ABBA0(const S *s, int c, int *y, int *x);
+extern unsigned int FLD_SCENEAREA_GetCamera(unsigned char *p);
+extern void FLD_SCENEAREA_LOADER_GetStripProgress(const S *s, int c, int *y, int *x);
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
 typedef unsigned char  u8;
-extern void func_0218ED64(u8 *a, u16 angle);
+extern void FIELD_CAMERA_SetFov(u8 *a, u16 angle);
 
 /*
  * const on s lets mwcc hoist the two field loads above the store to the
@@ -37,11 +37,11 @@ extern void func_0218ED64(u8 *a, u16 angle);
  * load-of-a-struct-copy-into-an-address-taken-local.md); the assignment
  * must stay inside the multiply for the result to land in r3.
  */
-void func_021ABD08(unsigned char *a, const S *s, int c)
+void FLD_SCENEAREA_LOADER_ApplyStripFov(unsigned char *a, const S *s, int c)
 {
-    int h = func_021AB760(a);
+    int h = FLD_SCENEAREA_GetCamera(a);
     int y;
     int x;
-    func_021ABBA0(s, c, &y, &x);
-    func_0218ED64((u8 *)h, s->h38 + (s->h3a - s->h38) * (x = func_0207C768(x, y)) / 0x1000);
+    FLD_SCENEAREA_LOADER_GetStripProgress(s, c, &y, &x);
+    FIELD_CAMERA_SetFov((u8 *)h, s->h38 + (s->h3a - s->h38) * (x = func_0207C768(x, y)) / 0x1000);
 }

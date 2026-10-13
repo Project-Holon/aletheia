@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA9DC",
+   "name": "OPTION_MENU_GetListCursor",
    "address": "0x021BA9DC",
    "kind": "game",
    "region": "ov068",

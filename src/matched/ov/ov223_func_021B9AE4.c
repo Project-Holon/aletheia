@@ -16,14 +16,14 @@
  *   _ffix 0x0209C494 arm
  *   func_021B95A0 0x021B95A0 thumb ov223
  *   func_021BC52C 0x021BC52C thumb ov223
- *   func_02011B8C 0x02011B8C thumb
+ *   ICA_ANIME_SetCameraStatus 0x02011B8C thumb
  */
 #include "../include/Obj05572.h"
 typedef unsigned short u16;
 extern u16 table[][5];
 extern int func_021B95A0(int,int);
 extern unsigned func_021BC52C(unsigned char *p);
-extern void func_02011B8C(void *,void *);
+extern void ICA_ANIME_SetCameraStatus(void *,void *);
 void func_021B9AE4(char *p,int type,int flag)
 {
     u16 v;
@@ -32,7 +32,7 @@ void func_021B9AE4(char *p,int type,int flag)
     if(v!=0) f=0.5f+(float)(v<<12);
     else f=(float)(v<<12)-0.5f;
     func_021B95A0(*(int *)&((struct Obj05572 *)p)->f40,(int)f);
-    func_02011B8C((void *)func_021BC52C(((struct Obj05572 *)p)->f14),((struct Obj05572 *)p)->f40);
+    ICA_ANIME_SetCameraStatus((void *)func_021BC52C(((struct Obj05572 *)p)->f14),((struct Obj05572 *)p)->f40);
     ((struct Obj05572 *)p)->f44=type;
     ((struct Obj05572 *)p)->f48=flag;
     ((struct Obj05572 *)p)->f4C=v;

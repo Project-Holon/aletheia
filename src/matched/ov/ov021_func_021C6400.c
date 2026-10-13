@@ -1,5 +1,5 @@
 /*
- * function: func_021C6400
+ * function: FIELD_G3DOBJ_Delete
  * address:  0x021C6400
  * packet:   pkt_ov021_021C6400
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021C6A90  0x021C6A90  thumb  ov021
- *   func_021C6940  0x021C6940  thumb  ov021
+ *   FIELD_G3DOBJ_DestroyObject  0x021C6A90  thumb  ov021
+ *   FIELD_G3DOBJ_FreeResource  0x021C6940  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -38,11 +38,11 @@ typedef struct {
     Elem *fC;
 } Mgr;
 
-extern void func_021C6A90(u32 *p, u8 *q);
-extern void func_021C6940(u8 *p);
+extern void FIELD_G3DOBJ_DestroyObject(u32 *p, u8 *q);
+extern void FIELD_G3DOBJ_FreeResource(u8 *p);
 extern u32 func_020307B0(void *p);
 
-void func_021C6400(Mgr *m)
+void FIELD_G3DOBJ_Delete(Mgr *m)
 {
     u32 i;
     Elem *e;
@@ -54,7 +54,7 @@ void func_021C6400(Mgr *m)
     if (i < m->f6)
         for (; i < m->f6; i++) {
             if (e->kind == 1 && e->f44 != 0)
-                func_021C6A90((u32 *)e, m->f8 + e->f4 * 0x2c);
+                FIELD_G3DOBJ_DestroyObject((u32 *)e, m->f8 + e->f4 * 0x2c);
             e++;
         }
     func_020307B0(m->fC);
@@ -62,7 +62,7 @@ void func_021C6400(Mgr *m)
     s = m->f8;
     if (i < m->f4)
         for (; i < m->f4; i++) {
-            func_021C6940(s);
+            FIELD_G3DOBJ_FreeResource(s);
             s += 0x2c;
         }
     func_020307B0(m->f8);

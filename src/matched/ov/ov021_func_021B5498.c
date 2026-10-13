@@ -1,5 +1,5 @@
 /*
- * function: func_021B5498
+ * function: SCRCMD_PROC_FLD_SetFieldRegionLayerFlags
  * address:  0x021B5498
  * packet:   pkt_ov021_021B5498
  * region:   ov021
@@ -10,29 +10,29 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02011330  0x02011330  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218F9C4  0x0218F9C4  thumb  ov021
+ *   VM_GetU16  0x02011330  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_StartMoveToSaved  0x0218F9C4  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C58(void *);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetCamera(void *);
 typedef unsigned short u16;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern void func_0218F9C4(void *, u32 *, u32);
+extern u16 VM_GetU16(struct Stream *s);
+extern void FIELD_CAMERA_StartMoveToSaved(void *, u32 *, u32);
 
-int func_021B5498(u32 a, u32 b)
+int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(u32 a, u32 b)
 {
     u32 v[6];
-    void *x = func_02188C58(func_0201210C(func_0215A5DC((void *)b)));
-    u32 k = func_02011330((struct Stream *)a);
+    void *x = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b)));
+    u32 k = VM_GetU16((struct Stream *)a);
 
     v[0] = 1;
     v[1] = 1;
@@ -40,6 +40,6 @@ int func_021B5498(u32 a, u32 b)
     v[3] = 1;
     v[4] = 1;
     v[5] = 1;
-    func_0218F9C4(x, v, k);
+    FIELD_CAMERA_StartMoveToSaved(x, v, k);
     return 0;
 }

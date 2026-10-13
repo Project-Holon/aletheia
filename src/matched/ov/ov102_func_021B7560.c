@@ -10,8 +10,8 @@
  * lever: repeat the callback call in cases 0,1,2; cross-jumping preserves the case-0 branch into case 2. A grouped case or pointer join loses two bytes and pool alignment.
  * prototype: 3064C forwards all three inputs, including size 0x40000, to 0202FDC4; 3159C full body leaves allocated pointer live in r0; 879C preserves visible unused heap. 78F4 forwards to full 7C1C ldr r0,[r0];bx lr.
  * symbols:
- * func_0203064C 0x0203064C arm
- * func_0203159C 0x0203159C arm
+ * GFL_HEAP_CreateChildHeap 0x0203064C arm
+ * PROCSYS_AllocProcWork 0x0203159C arm
  * func_02082BCC 0x02082BCC arm
  * func_021B7C20 0x021B7C20 thumb ov102
  * func_021B7860 0x021B7860 thumb ov102
@@ -27,7 +27,7 @@
  * func_02041FB0 0x02041FB0 arm
  * func_021B879C 0x021B879C thumb ov102
  * func_020120F4 0x020120F4 thumb
- * func_02012EBC 0x02012EBC thumb
+ * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * func_020070A4 0x020070A4 thumb
  * func_0200A8A0 0x0200A8A0 thumb
  * func_021B8934 0x021B8934 thumb ov102
@@ -49,9 +49,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern void func_0203064C(u32 src,u32 dst,u32 size);
+extern void GFL_HEAP_CreateChildHeap(u32 src,u32 dst,u32 size);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
 extern void func_021B7C20(u32 *,u16);
 extern void func_021B7860(char *,u32);
@@ -72,7 +72,7 @@ extern void func_02041F6C(u32 which, u32 op, u32 value);
 extern void func_02041FB0(u32,u32,u16);
 extern void func_021B879C(void *,u32);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern void *func_0200A8A0(void *);
 extern void func_021B8934(u8 *a, void *b, void *c, int d);
@@ -91,8 +91,8 @@ int func_021B7560(void *owner,int unused,void *arg)
     void *save;
     u32 handle;
     int first,second;
-    func_0203064C(1,59,0x40000);
-    p=func_0203159C(owner,0x4a4,59);
+    GFL_HEAP_CreateChildHeap(1,59,0x40000);
+    p=PROCSYS_AllocProcWork(owner,0x4a4,59);
     func_02082BCC(p,0,0x4a4);
     ((struct Obj03229 *)p)->f48C=arg;
     func_021B7C20((u32 *)(p+0x9c),59);
@@ -111,7 +111,7 @@ int func_021B7560(void *owner,int unused,void *arg)
     func_02041FB0(7,12,40);
     func_021B879C(p+0xfc,59);
     save=**(void ** *)&((struct Obj03229 *)p)->f48C;
-    if(save) save=func_02012EBC(func_020120F4(save));
+    if(save) save=GAME_DATA_GetSaveControl(func_020120F4(save));
     else save=func_020070A4();
     func_021B8934((u8 *)((int)(p+0x118)),(void *)((int)p),(void *)((int)func_0200A8A0(save)),59);
     handle=func_021B78F4((unsigned int *)p);

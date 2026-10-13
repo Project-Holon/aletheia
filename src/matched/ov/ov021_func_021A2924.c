@@ -1,5 +1,5 @@
 /*
- * function: func_021A2924
+ * function: WEATHER_TASK_FreeParticles
  * address:  0x021A2924
  * packet:   pkt_ov021_021A2924
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_021A2C10  0x021A2C10  thumb  ov021
- *   func_021A2BB8  0x021A2BB8  thumb  ov021
- *   func_021A25CC  0x021A25CC  thumb  ov021
+ *   WEATHER_TASK_DestroyParticleActor  0x021A2C10  thumb  ov021
+ *   WEATHER_TASK_ClearParticle  0x021A2BB8  thumb  ov021
+ *   WEATHER_TASK_StopSe  0x021A25CC  thumb  ov021
  */
 
 typedef struct {
@@ -30,12 +30,12 @@ typedef struct {
 
 unsigned int func_020307B0(void *p);
 typedef unsigned char  u8;
-void func_021A2C10(u8 *p);
+void WEATHER_TASK_DestroyParticleActor(u8 *p);
 typedef unsigned int   u32;
-void func_021A2BB8(u32 a);
-void func_021A25CC(u8 *p);
+void WEATHER_TASK_ClearParticle(u32 a);
+void WEATHER_TASK_StopSe(u8 *p);
 
-void func_021A2924(Obj *o)
+void WEATHER_TASK_FreeParticles(Obj *o)
 {
     int i;
 
@@ -45,9 +45,9 @@ void func_021A2924(Obj *o)
     }
     if (o->hdr->n != 0) {
         for (i = 0; i < 0x20; i++) {
-            func_021A2C10((u8 *)((char *)o + 0x74 + i * 0x38));
-            func_021A2BB8((u32)((char *)o + 0x74 + i * 0x38));
+            WEATHER_TASK_DestroyParticleActor((u8 *)((char *)o + 0x74 + i * 0x38));
+            WEATHER_TASK_ClearParticle((u32)((char *)o + 0x74 + i * 0x38));
         }
     }
-    func_021A25CC((u8 *)o);
+    WEATHER_TASK_StopSe((u8 *)o);
 }

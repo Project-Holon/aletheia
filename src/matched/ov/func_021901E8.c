@@ -1,5 +1,5 @@
 /*
- * function: func_021901E8
+ * function: FIELD_CAMERA_ANIME_GetData
  * address:  0x021901E8
  * packet:   pkt_0218FE70
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021901E8(u8 *p)
+u32 FIELD_CAMERA_ANIME_GetData(u8 *p)
 {
     return ((struct Obj17920 *)p)->f8;
 }

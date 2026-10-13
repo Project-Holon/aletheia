@@ -18,13 +18,13 @@
  *   func_0207D4B0  0x0207D4B0  arm
  *   func_0207D534  0x0207D534  arm
  *   TEXTPRINT_Init  0x0204E130  arm
- *   func_02043678  0x02043678  arm
+ *   BMP_Create  0x02043678  arm
  *   BMP_Clear   0x02043B5C  arm
  *   _DebugConsole   0x021469AC  data
  *   _NewlineStr  0x020A796C  data
  *   TEXTPRINT_PrintText 0x0204E328  arm
  *   G2_GetBG0ScrPtr   0x0207DF60  arm
- *   func_020437D4     0x020437D4  arm
+ *   BMP_GetPixels     0x020437D4  arm
  *   DC_FlushRange     0x020862F0  arm
  *   GXS_LoadBG0Char   0x0207EE68  arm
  *   OS_Terminate      0x02088234  arm
@@ -119,11 +119,11 @@ extern void  func_0207FDCC(u32 enable);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void  TEXTPRINT_Init(u32 fontId);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heapId);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Clear(struct CharBuf *buf, u8 fillValue);
 extern void TEXTPRINT_PrintText(const char *text, struct DebugConsole *console);
 extern u16 *G2_GetBG0ScrPtr(void);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void DC_FlushRange(void *addr, u32 size);
 extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void OS_Terminate(void);
@@ -232,7 +232,7 @@ void sub_02034768(void)
 
     TEXTPRINT_Init(0);
 
-    charBuf = func_02043678(0x20, 8, 0x20, 0);
+    charBuf = BMP_Create(0x20, 8, 0x20, 0);
     _DebugConsole.charBitmap = charBuf;
     _DebugConsole.cursorX = 0;
     _DebugConsole.cursorY = 0;
@@ -319,7 +319,7 @@ void sub_02034900(void)
         screenMap += 0x20;
     }
 
-    charData = func_020437D4(_DebugConsole.charBitmap);
+    charData = BMP_GetPixels(_DebugConsole.charBitmap);
     DC_FlushRange(charData, 0x2000);
     GXS_LoadBG0Char(charData, 0, 0x2000);
     OS_Terminate();

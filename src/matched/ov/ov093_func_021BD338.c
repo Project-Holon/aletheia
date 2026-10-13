@@ -1,5 +1,5 @@
 /*
- * function: func_021BD338
+ * function: BTL_SERVER_FLOW_SetFieldPokeIterRule
  * address: 0x021BD338
  * packet: pkt_ov093_021BD338
  * region: ov093
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B8588 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  */
 #include "../include/Obj21049.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern u32 func_021B8588(void **p);
-void func_021BD338(u8 *p, u8 *q)
+extern u32 BTL_MAIN_GetRule(void **p);
+void BTL_SERVER_FLOW_SetFieldPokeIterRule(u8 *p, u8 *q)
 {
-    if (func_021B8588(((struct Obj21049 *)q)->f4) == 3) p[3] = 1;
+    if (BTL_MAIN_GetRule(((struct Obj21049 *)q)->f4) == 3) p[3] = 1;
 }

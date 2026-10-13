@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
- *   func_0203A5E4  0x0203A5E4  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
  *   func_020307B0  0x020307B0  arm
  */
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
-extern void func_0203A5E4(u32 key);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern u32 func_020307B0(void *p);
 
 void func_0217E058(int *p)
 {
-    if (func_0203CD98())
-        func_0203A5E4(0x1f00);
+    if (GFL_NET_GetRunState())
+        GFL_NET_COMMAND_DeleteCommandTable(0x1f00);
     func_020307B0(p);
 }

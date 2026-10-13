@@ -1,5 +1,5 @@
 /*
- * function: func_021C2EBC
+ * function: FLD3D_CI_GetTexDataOffset
  * address:  0x021C2EBC
  * packet:   pkt_021C2EBC
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C2EBC(u32 a, u32 b)
+int FLD3D_CI_GetTexDataOffset(u32 a, u32 b)
 {
 return (((((struct Obj18296 *)((u8 *)(b)))->f0 << 16) >> 13) + ((((struct Obj18295 *)((u8 *)(a)))->f8 << 16) >> 13));
 }

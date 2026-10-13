@@ -1,5 +1,5 @@
 /*
- * function: func_021DB644
+ * function: BTL_TOKUSEI_GetLiquidOozeHandlers
  * address: 0x021DB644
  * packet: pkt_ov093_021DB644
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DB560.c and filed here.
  *
  * symbols:
- *   d_021F0920 0x021F0920 data ov093 a4
+ *   gLiquidOozeHandlers 0x021F0920 data ov093 a4
  */
 
-int *func_021DB644(int *p);
-extern int d_021F0920[];
+int *BTL_TOKUSEI_GetLiquidOozeHandlers(int *p);
+extern int gLiquidOozeHandlers[];
 
-int *func_021DB644(int *p)
+int *BTL_TOKUSEI_GetLiquidOozeHandlers(int *p)
 {
     *p = 2;
-    return d_021F0920;
+    return gLiquidOozeHandlers;
 }

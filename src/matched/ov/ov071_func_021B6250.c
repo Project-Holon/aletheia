@@ -1,5 +1,5 @@
 /*
- * function: func_021B6250
+ * function: MONOLITH_TOOL_Main
  * address:  0x021B6250
  * packet:   pkt_ov071_021B6250
  * region:   ov071
@@ -9,28 +9,28 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Main proc of the ov071 triple (work allocated by func_021B6100): fade in,
+ * Main proc of the ov071 triple (work allocated by MONOLITH_TOOL_Init): fade in,
  * wait on the link state, start the two sound handles (+0x12C/+0x130) off the
  * d_021BA774 pair table, fade out. The link-wait cases are
  * `if (r == 0 || FB24() != 0) seq++; else if (X() == 1) seq++;`: one ||
  * chain of all three conditions lays the branches out 2 B short.
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0202208C  0x0202208C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   WIPE_SYS_Start  0x0202208C  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   INTRUDE_COMM_SendBusyBegin  0x0217440C  thumb  ov011
  *   INTRUDE_COMM_SendBusyEnd  0x0217446C  thumb  ov011
- *   func_020221A4  0x020221A4  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   func_0202648C  0x0202648C  thumb
  *   func_02026454  0x02026454  thumb
  *   PROCSYS_Push  0x02031348  arm
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   PROCSYS_Main  0x02031330  arm
- *   func_020310C4  0x020310C4  arm
- *   func_0201C4E4  0x0201C4E4  thumb
- *   func_0204A600  0x0204A600  arm
+ *   TCBL_Main  0x020310C4  arm
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   CLACT_DrawSystem  0x0204A600  arm
  *   d_021BA774     0x021BA774  data  a4
  */
 #include "../include/Obj00712.h"
@@ -47,24 +47,24 @@ extern Pair d_021BA774[];
 
 struct Ctx;
 struct PrintSys;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_02158344(int a0);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 struct Tcbl;
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 func_0200FB24(void);
 extern u32 INTRUDE_COMM_SendBusyBegin(void);
 extern u32 INTRUDE_COMM_SendBusyEnd(void);
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern u32 func_0202648C(void *obj);
 extern u32 func_02026454(void *obj);
 extern void PROCSYS_Push(int h, int id, int a, void *b);
-extern void func_0201DD78(u32, u32, u32);
+extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern u32 PROCSYS_Main(void *h);
-extern void func_020310C4(struct Tcbl *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_0204A600(void);
+extern void TCBL_Main(struct Tcbl *p);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void CLACT_DrawSystem(void);
 
-int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
+int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, u8 *mywk)
 {
     void *h;
     u8 *r;
@@ -72,11 +72,11 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     int s2;
     u8 k;
 
-    h = (void *)func_02012138(*pwk);
-    r = (u8 *)func_02158344((int)h);
+    h = (void *)GAMESYSTEM_GetGameComm(*pwk);
+    r = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)h);
     switch (*seq) {
     case 0:
-        func_0202208C(0, 1, 1, 0, 6, 1, 0x8061);
+        WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x8061);
         (*seq)++;
         break;
     case 1:
@@ -86,7 +86,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
             (*seq)++;
         break;
     case 2:
-        if (func_020221A4() == 1)
+        if (WIPE_SYS_EndCheck() == 1)
             (*seq)++;
         break;
     case 3:
@@ -98,7 +98,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
                 mywk[0x135] = 1;
             }
             if (mywk[0x136] == 0) {
-                func_0201DD78(0xF, 2, 0);
+                GF_FONT_SetTextColor(0xF, 2, 0);
                 PROCSYS_Push(((struct Obj00712 *)mywk)->f130, -1, d_021BA774[mywk[0x134]].b, mywk + 0xF8);
                 mywk[0x136] = 1;
             }
@@ -127,7 +127,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
         }
         break;
     case 4:
-        func_0202208C(0, 0, 0, 0, 6, 1, 0x8061);
+        WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x8061);
         (*seq)++;
         break;
     case 5:
@@ -137,14 +137,14 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
             (*seq)++;
         break;
     case 6:
-        if (func_020221A4() == 1)
+        if (WIPE_SYS_EndCheck() == 1)
             (*seq)++;
         break;
     case 7:
         return 1;
     }
-    func_020310C4(((struct Obj00712 *)mywk)->f18);
-    func_0201C4E4((struct PrintSys *)(((struct Obj00712 *)mywk)->f8));
-    func_0204A600();
+    TCBL_Main(((struct Obj00712 *)mywk)->f18);
+    PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj00712 *)mywk)->f8));
+    CLACT_DrawSystem();
     return 0;
 }

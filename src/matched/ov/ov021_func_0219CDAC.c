@@ -1,5 +1,5 @@
 /*
- * function: func_0219CDAC
+ * function: FLDMMDL_BLACT_LoadReservedRes
  * address:  0x0219CDAC
  * packet:   pkt_ov021_0219CDAC
  * region:   ov021
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Commits pending 0xC-byte entries through func_0219CE60, then compacts the
+ * Commits pending 0xC-byte entries through FLDMMDL_BLACT_LoadAddRes, then compacts the
  * table so the free (0xFFFF) entries sit at the end.
  *
  * symbols:
- *   func_0219CE60  0x0219CE60  thumb  ov021
+ *   FLDMMDL_BLACT_LoadAddRes  0x0219CE60  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -28,9 +28,9 @@ typedef unsigned int   u32;
 
 typedef struct { u32 a, b, c; } E12;
 
-extern int func_0219CE60(u8 *, u32, u32, u32, u16, u32);
+extern int FLDMMDL_BLACT_LoadAddRes(u8 *, u32, u32, u32, u16, u32);
 
-void func_0219CDAC(u8 *o)
+void FLDMMDL_BLACT_LoadReservedRes(u8 *o)
 {
     u8 *ctx = *(u8 * *)&((struct Obj03579 *)o)->f1C;
     u32 j = 0;
@@ -39,7 +39,7 @@ void func_0219CDAC(u8 *o)
     u8 *base;
     for (; j < ((struct Obj05011 *)ctx)->f4; j++, e += 0xc) {
         if (((struct Obj04224 *)e)->f0 != 0xFFFF) {
-            if (func_0219CE60(o, ((struct Obj04224 *)e)->f0, e[4], e[5], ((struct Obj04224 *)e)->f2, ((struct Obj04224 *)e)->f8) == 0)
+            if (FLDMMDL_BLACT_LoadAddRes(o, ((struct Obj04224 *)e)->f0, e[4], e[5], ((struct Obj04224 *)e)->f2, ((struct Obj04224 *)e)->f8) == 0)
                 break;
             ((struct Obj04224 *)e)->f0 = 0xFFFF;
             k++;

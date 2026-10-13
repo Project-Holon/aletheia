@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED48
+ * function: FIELD_CAMERA_SetYaw
  * address:  0x0218ED48
  * packet:   pkt_0218ED48
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0218ED48(u8 *p, u32 v)
+void FIELD_CAMERA_SetYaw(u8 *p, u32 v)
 {
     ((struct Obj17912 *)p)->f7A = v;
 }

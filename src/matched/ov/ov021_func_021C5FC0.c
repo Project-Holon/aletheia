@@ -1,5 +1,5 @@
 /*
- * function: func_021C5FC0
+ * function: FISHING_WaitBite
  * address:  0x021C5FC0
  * packet:   pkt_ov021_021C5FC0
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
 
-int func_021C5FC0(u8 *p, u32 lim)
+int FISHING_WaitBite(u8 *p, u32 lim)
 {
     u32 n = ((struct Obj07564 *)p)->f60;
 

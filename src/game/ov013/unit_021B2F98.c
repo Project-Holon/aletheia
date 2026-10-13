@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021B4C24 0x021B4C24 data
+ *   gVoiceFramePool 0x021B4C24 data
 */
 
 #include "vct_types.h"
@@ -19,6 +19,6 @@
 /* Forget the frame buffer area of the frame pool. */
 void DWCi_InitReliableQueue(void)
 {
-    d_021B4C24.freeHead = 0;
-    d_021B4C24.base = 0;
+    gVoiceFramePool.freeHead = 0;
+    gVoiceFramePool.base = 0;
 }

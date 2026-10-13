@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
  */
 
@@ -25,12 +25,12 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Cfg;
-void func_02045374(struct Cfg *cfg);
+void BMP_WIN_MakeScreen(struct Cfg *cfg);
 void func_020409B4(u32 index);
 
 void func_021F1B24(Ov107Ctx *p, int x)
 {
     p->f38 = x;
-    func_02045374(p->f10);
+    BMP_WIN_MakeScreen(p->f10);
     func_020409B4(p->f02);
 }

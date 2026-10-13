@@ -1,5 +1,5 @@
 /*
- * function: func_021B6288
+ * function: ITEMMENU_SwitchPocketCursor
  * address:  0x021B6288
  * packet:   pkt_ov070_021B6288
  * region:   ov070
@@ -13,10 +13,10 @@
  *   func_02008298  0x02008298  thumb
  *   func_02008288  0x02008288  thumb
  *   func_02008270  0x02008270  thumb
- *   func_021BA6A4  0x021BA6A4  thumb  ov070
- *   func_021BAF38  0x021BAF38  thumb  ov070
- *   func_021BA96C  0x021BA96C  thumb  ov070
- *   func_021BAAA4  0x021BAAA4  thumb  ov070
+ *   ITEMMENU_MoveCursorToRow  0x021BA6A4  thumb  ov070
+ *   ITEMMENU_PrintPocketCount  0x021BAF38  thumb  ov070
+ *   ITEMMENU_SelectTab  0x021BA96C  thumb  ov070
+ *   ITEMMENU_LoadBgPaletteMode  0x021BAAA4  thumb  ov070
  */
 
 typedef unsigned short u16;
@@ -34,12 +34,12 @@ struct MyItemSave;
 extern void func_02008298(struct MyItemSave *p, u16 v);
 extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
 extern void func_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b);
-extern void func_021BA6A4(char *p);
-extern void func_021BAF38(int p, int val);
-extern void func_021BA96C(int p, unsigned sel);
-extern void func_021BAAA4(int p, int mode);
+extern void ITEMMENU_MoveCursorToRow(char *p);
+extern void ITEMMENU_PrintPocketCount(int p, int val);
+extern void ITEMMENU_SelectTab(int p, unsigned sel);
+extern void ITEMMENU_LoadBgPaletteMode(int p, int mode);
 
-void func_021B6288(Obj *o, int a, int b)
+void ITEMMENU_SwitchPocketCursor(Obj *o, int a, int b)
 {
     s16 s[2];
 
@@ -48,8 +48,8 @@ void func_021B6288(Obj *o, int a, int b)
     func_02008270(o->gfx, (u16)b, &s[1], &s[0]);
     o->f810 = s[1];
     o->f814 = s[0] - 1;
-    func_021BA6A4((char *)o);
-    func_021BAF38((int)o, b);
-    func_021BA96C((int)o, b);
-    func_021BAAA4((int)o, b);
+    ITEMMENU_MoveCursorToRow((char *)o);
+    ITEMMENU_PrintPocketCount((int)o, b);
+    ITEMMENU_SelectTab((int)o, b);
+    ITEMMENU_LoadBgPaletteMode((int)o, b);
 }

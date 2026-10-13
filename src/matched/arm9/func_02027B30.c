@@ -11,6 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_SetPalette  0x02045798  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  */
 #include "../include/Obj11289.h"
 
@@ -23,7 +24,7 @@ struct S;
 struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_SetPalette(struct Descriptor *p, u8 v);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
@@ -34,6 +35,6 @@ void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode)
     } else if (mode == 0) {
         BMP_WIN_SetPalette((struct Descriptor *)a0, (u8)(((struct Obj11289 *)s)->f2 + 1));
     }
-    func_02045374((struct Cfg *)a0);
+    BMP_WIN_MakeScreen((struct Cfg *)a0);
     func_02041B6C(func_02045730((struct Descriptor *)a0));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA8C0
+ * function: ITEMMENU_CreateTabActors
  * address:  0x021BA8C0
  * packet:   pkt_ov070_021BA8C0
  * region:   ov070
@@ -22,7 +22,7 @@
  *   d_021BBA74     0x021BBA74  data  a1
  *   d_021BBBCC     0x021BBBCC  data  a2
  *   d_021BBA81     0x021BBA81  data  a1
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  */
 
@@ -47,10 +47,10 @@ extern unsigned char d_021BBA74[];
 extern short d_021BBBCC[][2];
 extern unsigned char d_021BBA81[];
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B92C(struct Obj *, unsigned int);
 
-void func_021BA8C0(W *p)
+void ITEMMENU_CreateTabActors(W *p)
 {
     unsigned i;
     Rect r;
@@ -60,7 +60,7 @@ void func_021BA8C0(W *p)
         r.x = d_021BBBCC[i][0] - 0x10;
         r.y = d_021BBBCC[i][1];
         r.z = d_021BBA81[i * 2 + 1];
-        p->obj[i] = (int)func_0204B294((void *)p->owner, p->res[1], p->res[0], p->res[2], &r, 0, p->heap);
+        p->obj[i] = (int)CLACT_CreateActor((void *)p->owner, p->res[1], p->res[0], p->res[2], &r, 0, p->heap);
         func_0204B92C((struct Obj *)p->obj[i], 1);
     }
 }

@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020120D8",
+   "name": "GAMESYSTEM_IsEventActive",
    "address": "0x020120D8",
    "kind": "game",
    "region": "arm9",

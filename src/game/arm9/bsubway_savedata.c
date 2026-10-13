@@ -1,7 +1,7 @@
 /*
  * file:     bsubway_savedata.c
  * unit:     yes
- * function: func_0200DE5C, func_0200DE64, BSUBWAY_SAVEDATA_SetTrainers, func_0200DE94, BSUBWAY_SAVEDATA_GetTrainersTagB, func_0200DEA8, BSUBWAY_SAVEDATA_SetHistory, func_0200DF58, func_0200DF94, func_0200DFB4, BSUBWAY_SAVEDATA_InitStats, BSUBWAY_SAVEDATA_GetStat, BSUBWAY_SAVEDATA_SetStat, BSUBWAY_SAVEDATA_IncStat, func_0200E024, func_0200E06C, func_0200E090, func_0200E098, func_0200E0B0, func_0200E0BC, func_0200E0E8, func_0200E124, func_0200E164, func_0200E184, func_0200E18C, func_0200E1A8, func_0200E27C, func_0200E2BC, func_0200E368, func_0200E370, func_0200E394, func_0200E3A0, func_0200E3A4, func_0200E3E8, func_0200E440
+ * function: func_0200DE5C, func_0200DE64, BSUBWAY_SAVEDATA_SetTrainers, func_0200DE94, BSUBWAY_SAVEDATA_GetTrainersTagB, func_0200DEA8, BSUBWAY_SAVEDATA_SetHistory, BSUBWAY_SAVEDATA_AllocHistoryCopy, BSUBWAY_SAVEDATA_CountHistoryEntries, BSUBWAY_SAVEDATA_GetHistoryEntryScore, BSUBWAY_SAVEDATA_InitStats, BSUBWAY_SAVEDATA_GetStat, BSUBWAY_SAVEDATA_SetStat, BSUBWAY_SAVEDATA_IncStat, func_0200E024, func_0200E06C, func_0200E090, func_0200E098, func_0200E0B0, func_0200E0BC, func_0200E0E8, func_0200E124, func_0200E164, func_0200E184, func_0200E18C, func_0200E1A8, func_0200E27C, func_0200E2BC, func_0200E368, func_0200E370, func_0200E394, func_0200E3A0, func_0200E3A4, func_0200E3E8, func_0200E440
  * address:  0x0200DE5C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   memcmp            0x0203EFC8  arm
  *   sFileName_symbol_save    0x020A720C  data
  *   func_02167380  0x02167380  thumb  ov010
- *   func_02167358  0x02167358  thumb  ov010
+ *   QUESTIONNAIRE_GetAnswerBitWidth  0x02167358  thumb  ov010
  */
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
 struct SaveBlockTable;
@@ -134,7 +134,7 @@ extern u32 func_020307B0(void *p);
 extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u32 e);
 extern int   memcmp(const void *a, const void *b, u32 n);
 extern u8 func_02167380(u32 id);
-extern u8 func_02167358(u32 id);
+extern u8 QUESTIONNAIRE_GetAnswerBitWidth(u32 id);
 u8 func_0200DE5C(struct BsubwaySave *save);
 u8 func_0200DE64(struct BsubwaySave *save);
 void BSUBWAY_SAVEDATA_SetTrainers(struct BsubwaySave *save, const void *src, u8 tag_a, u8 tag_b);
@@ -142,11 +142,11 @@ u8 func_0200DE94(struct BsubwaySave *save);
 u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct BsubwaySave *save);
 void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExport *out, int index);
 void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, const void *src, u8 tag_a, u8 tag_b);
-int func_0200DF40(struct BsubwaySave *save);
-u8 func_0200DF4C(struct BsubwaySave *save);
-struct HistoryBuf *func_0200DF58(struct BsubwaySave *save, u32 heap_id);
-u32 func_0200DF94(struct HistoryBuf *history);
-u32 func_0200DFB4(struct HistoryEntry *entry);
+int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwaySave *save);
+u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwaySave *save);
+struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heap_id);
+u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history);
+u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry);
 void BSUBWAY_SAVEDATA_InitStats(void *stats);
 u16 BSUBWAY_SAVEDATA_GetStat(StatRow *stats, int row, int col);
 void BSUBWAY_SAVEDATA_SetStat(StatRow *stats, int row, int col, int value);
@@ -277,32 +277,32 @@ void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExpo
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
  *
- *           func_0200DF94, func_0200DFB4, BSUBWAY_SAVEDATA_InitStats
+ *           BSUBWAY_SAVEDATA_CountHistoryEntries, BSUBWAY_SAVEDATA_GetHistoryEntryScore, BSUBWAY_SAVEDATA_InitStats
  *
  * 200 bytes, 0x0200DF10..0x0200DFD8, 7 functions, five of which carry no
  * label in the generated listing.
  *
  * alias: 0x020A71F8 spells "bsubway_savedata.c", the fifth original source
  * file name this project has recovered, attested by the `string` class off
- * the terminator of "gds_profile.c" at 0x020A71F5.  func_0200DF58 passes it
+ * the terminator of "gds_profile.c" at 0x020A71F5.  BSUBWAY_SAVEDATA_AllocHistoryCopy passes it
  * to the debug allocator at 0x02030734 with line 0x508.
  *
  * The second slot of the record whose first slot is
  * src/matched/unit_0200DE5C.c: a 0x3FC-byte payload at +0x794 behind a
  * present flag at +0xFF and two byte tags at +0x102 and +0x103.  0x3FC is
- * thirty entries of 0x22 bytes, which is what func_0200DF94 walks, so the
+ * thirty entries of 0x22 bytes, which is what BSUBWAY_SAVEDATA_CountHistoryEntries walks, so the
  * payload's element type is pinned by the stride rather than assumed.
  *
  * Three details are worth having.
  *
- *  - func_0200DF58 allocates a copy of the payload and returns it; the size
+ *  - BSUBWAY_SAVEDATA_AllocHistoryCopy allocates a copy of the payload and returns it; the size
  *    0x3FC is live in r6 across the allocation and is used again as the copy
  *    length, which is what writing it as `sizeof` at both sites gives.
- *  - in func_0200DF94 the loop index is declared **before** the counter even
+ *  - in BSUBWAY_SAVEDATA_CountHistoryEntries the loop index is declared **before** the counter even
  *    though the counter is the one assigned first in the output.  Declared
  *    the other way round the two swap registers and nothing else moves; see
  *    docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
- *  - func_0200DFB4 assembles a little-endian word out of four bytes and the
+ *  - BSUBWAY_SAVEDATA_GetHistoryEntryScore assembles a little-endian word out of four bytes and the
  *    compiler schedules the loads 0x16, 0x17, 0x14, 0x15, which is not the
  *    source order.  Every spelling tried, field by field or through an array,
  *    with or without casts on the operands, produces exactly these bytes, so
@@ -319,7 +319,7 @@ void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, const void *src, u8 t
 
 
 
-int func_0200DF40(struct BsubwaySave *save)
+int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwaySave *save)
 {
     return save->history_tag_a;
 }
@@ -327,7 +327,7 @@ int func_0200DF40(struct BsubwaySave *save)
 
 
 
-u8 func_0200DF4C(struct BsubwaySave *save)
+u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwaySave *save)
 {
     return save->history_tag_b;
 }
@@ -335,7 +335,7 @@ u8 func_0200DF4C(struct BsubwaySave *save)
 
 
 
-struct HistoryBuf *func_0200DF58(struct BsubwaySave *save, u32 heap_id)
+struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heap_id)
 {
     struct HistoryBuf *copy = func_02030734(heap_id, sizeof(save->history), 1,
                                         sFileName_bsubway_savedata, 0x508);
@@ -347,7 +347,7 @@ struct HistoryBuf *func_0200DF58(struct BsubwaySave *save, u32 heap_id)
 
 
 
-u32 func_0200DF94(struct HistoryBuf *history)
+u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history)
 {
     s32 i;
     u32 count = 0;
@@ -363,7 +363,7 @@ u32 func_0200DF94(struct HistoryBuf *history)
 
 
 
-u32 func_0200DFB4(struct HistoryEntry *entry)
+u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry)
 {
     return entry->score_le[0] | (entry->score_le[1] << 8) | (entry->score_le[2] << 16)
            | (entry->score_le[3] << 24);
@@ -642,7 +642,7 @@ u32 func_0200E164(struct SymbolSave *save, u32 band)
 
 
 /*
- * notes:    Thumb thunk (ldr r3,[pc]; bx r3) to func_0200E0BC; a tail call. Witness for the call in ov010 func_0216628C (2026-10-05, lane W-B).
+ * notes:    Thumb thunk (ldr r3,[pc]; bx r3) to func_0200E0BC; a tail call. Witness for the call in ov010 SYMBOL_MAP_MoveRecordToPairedBand (2026-10-05, lane W-B).
  */
 unsigned int func_0200E184(unsigned int value)
 {
@@ -865,13 +865,13 @@ u8 *func_0200E3A0(struct SymbolBitSave *save)
 
 /*
  * note:     wave 16: promoted.  0x02167380 and 0x02167358 are unlabelled ov010
- *           leaves matched in src/matched/func_02167380.c and func_02167358.c
+ *           leaves matched in src/matched/func_02167380.c and QUESTIONNAIRE_GetAnswerBitWidth.c
  *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  */
 u32 sub_0200E3A4(const u8 *bits, int field_id)
 {
     u32 bit_pos  = func_02167380(field_id);
-    u32 width    = func_02167358(field_id);
+    u32 width    = QUESTIONNAIRE_GetAnswerBitWidth(field_id);
     u32 byte_index = bit_pos >> 3;
     u32 bit_in_byte    = bit_pos & 7;
     u32 result  = 0;
@@ -895,7 +895,7 @@ u32 sub_0200E3A4(const u8 *bits, int field_id)
 
 /*
  * note:     wave 16: promoted.  0x02167380 and 0x02167358 are unlabelled ov010
- *           leaves matched in src/matched/func_02167380.c and func_02167358.c
+ *           leaves matched in src/matched/func_02167380.c and QUESTIONNAIRE_GetAnswerBitWidth.c
  *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  *
  * near miss resolved (wave 4, permuter): the note's 88-byte version was a
@@ -911,7 +911,7 @@ u32 sub_0200E3A4(const u8 *bits, int field_id)
 void sub_0200E3E8(u8 *bits, int field_id, u32 value)
 {
     u32 bit_pos = func_02167380(field_id);
-    u32 width   = func_02167358(field_id);
+    u32 width   = QUESTIONNAIRE_GetAnswerBitWidth(field_id);
     u32 byte_index = bit_pos >> 3;
     u32 bit_in_byte    = bit_pos & 7;
 

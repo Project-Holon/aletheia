@@ -1,5 +1,5 @@
 /*
- * function: func_02158318
+ * function: INTRUDE_COMM_CheckEntryAllowed
  * address:  0x02158318
  * packet:   pkt_02158318
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012B70  0x02012B70  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   func_0202648C  0x0202648C  thumb
  */
 
@@ -21,26 +21,26 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern int func_02012B70(const struct BigObj *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern u32 func_0202648C(void *obj);
 
-int func_02158318(int a0)
+int INTRUDE_COMM_CheckEntryAllowed(int a0)
 {
     int t4;
     int t5;
     void *p;
 
 t5 = a0 + 0;
-    a0 = func_02012138((const struct Ctx *)a0);
+    a0 = GAMESYSTEM_GetGameComm((const struct Ctx *)a0);
 loc_02158320:
 t4 = a0 + 0;
 a0 = t5 + 0;
-    p = func_020120F4((const struct Ctx *)a0);
+    p = GAMESYSTEM_GetGameData((const struct Ctx *)a0);
 loc_02158328:
-    a0 = func_02012B70(p);
+    a0 = GAME_DATA_GetIntrudeCount(p);
 loc_0215832C:
     if (a0 != 1) goto loc_0215833E;
 loc_02158330:

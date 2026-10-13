@@ -1,5 +1,5 @@
 /*
- * function: func_0216662C
+ * function: SYMBOL_MAP_IsBlankCell
  * address:  0x0216662C
  * packet:   pkt_0216662C
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216662C(int a0)
+int SYMBOL_MAP_IsBlankCell(int a0)
 {
 
 a0 = a0 + 1;

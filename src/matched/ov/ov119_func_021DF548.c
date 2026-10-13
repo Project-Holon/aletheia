@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020279E8 0x020279E8 thumb
- *   func_02027A04 0x02027A04 thumb
+ *   APP_TASKMENU_IsFinish 0x020279E8 thumb
+ *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   func_021E12F8 0x021E12F8 thumb ov119
  *   func_021E1098 0x021E1098 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
@@ -20,8 +20,8 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct TaskMenu;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void func_021E12F8(char *p);
 extern void func_021E1098(char *p);
 extern void func_021D8E84(void *, int);
@@ -30,8 +30,8 @@ extern void func_021DBBD0(char *p);
 void func_021DF548(void *p)
 {
     int v;
-    if (!func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) return;
-    v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
+    if (!APP_TASKMENU_IsFinish((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) return;
+    v=APP_TASKMENU_GetCursorPos((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
     func_021E12F8(p);
     func_021E1098(p);
     *(int *)&((struct Obj00001 *)p)->f64C=0;

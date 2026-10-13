@@ -1,5 +1,5 @@
 /*
- * function: func_0201F868
+ * function: BMP_MENUWORK_Delete
  * address:  0x0201F868
  * packet:   pkt_0201F5BC
  * region:   arm9
@@ -15,22 +15,22 @@
  * leaf into a push/pop function.
  *
  * symbols:
- *   func_0201F8F4  0x0201F8F4  thumb
+ *   BMP_MENUWORK_ReleaseItems  0x0201F8F4  thumb
  *   func_020307B0  0x020307B0  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F868.c \
- *       --func func_0201F868 --addr 0x0201F868 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_Delete.c \
+ *       --func BMP_MENUWORK_Delete --addr 0x0201F868 --cc 1.1p1 --thumb
  */
 struct Slot;
-extern void func_0201F8F4(struct Slot *s);
+extern void BMP_MENUWORK_ReleaseItems(struct Slot *s);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-u32 func_0201F868(void *p)
+u32 BMP_MENUWORK_Delete(void *p)
 {
-    func_0201F8F4(p);
+    BMP_MENUWORK_ReleaseItems(p);
     return func_020307B0(p);
 }

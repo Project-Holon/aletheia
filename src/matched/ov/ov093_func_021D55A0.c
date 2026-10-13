@@ -1,5 +1,5 @@
 /*
- * function: func_021D55A0
+ * function: BTL_POKEPARAM_GetMovePPById
  * address:  0x021D55A0
  * packet:   pkt_ov093_021D55A0
  * region:   ov093
@@ -45,7 +45,7 @@ struct UtilWork {
     u8 f157[5];
 };
 
-int func_021D55A0(struct UtilWork *p, int id)
+int BTL_POKEPARAM_GetMovePPById(struct UtilWork *p, int id)
 {
     u32 i;
     for (i = 0; i < *(volatile u8 *)&p->n140; i++) {

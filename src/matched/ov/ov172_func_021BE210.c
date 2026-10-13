@@ -21,10 +21,10 @@
  *   func_021B8B94 0x021B8B94 thumb ov172
  *   func_02008510 0x02008510 thumb
  *   func_0201D304 0x0201D304 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   d_021C7048 0x021C7048 data ov172
  *   d_021C704C 0x021C704C data ov172
  */
@@ -44,10 +44,10 @@ struct StrObj;
 struct U16Vec;
 struct Vec2;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern const struct Q d_021C7048;
 extern const struct Q d_021C704C;
 void func_021BE210(char *a, u8 idx)
@@ -67,10 +67,10 @@ void func_021BE210(char *a, u8 idx)
     rc.yv = d_021C7048;
     h = func_02008510(func_021B8B94((int)a, *(char **)(a + 0x1E4), idx), *(u16 *)a);
     v = (u8)func_0201D304(h, *(u32 *)(a + 0x1C8), 0);
-    func_02045808(h);
+    STRBUF_Delete(h);
     { u32 xk = rc.xv.b[k]; rc.x = xk + (v >> 1); }
     rc.y = rc.yv.b[k];
     func_0204B404(*(void **)(a + 0x1B0), (const struct Vec2 *)(&rc), 0);
     func_0204B3DC(*(void **)(a + 0x1B0), 1);
-    func_0204B9A0(*(void **)(a + 0x1B0));
+    CLACT_RestartActorAnim(*(void **)(a + 0x1B0));
 }

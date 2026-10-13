@@ -1,5 +1,5 @@
 /*
- * function: func_021B66E8
+ * function: ITEMMENU_TaskFinishClose
  * address: 0x021B66E8
  * packet: pkt_ov070_021B66E8
  * region: ov070
@@ -10,13 +10,13 @@
  * status: EXACT*
  * Extent ends in two zero alignment bytes.
  * symbols:
- *   func_021BB5DC 0x021BB5DC thumb ov070
- *   func_021B8AF4 0x021B8AF4 thumb ov070
+ *   ITEMMENU_UpdateSideButtonsForMode 0x021BB5DC thumb ov070
+ *   ITEMMENU_ReturnToBagMain 0x021B8AF4 thumb ov070
  */
-extern void func_021BB5DC(int, int);
-extern void func_021B8AF4(void *p);
-void func_021B66E8(int p)
+extern void ITEMMENU_UpdateSideButtonsForMode(int, int);
+extern void ITEMMENU_ReturnToBagMain(void *p);
+void ITEMMENU_TaskFinishClose(int p)
 {
-    func_021BB5DC(p, 1);
-    func_021B8AF4((void *)p);
+    ITEMMENU_UpdateSideButtonsForMode(p, 1);
+    ITEMMENU_ReturnToBagMain((void *)p);
 }

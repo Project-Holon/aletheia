@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_021F8754  0x021F8754  thumb  ov094
- *   func_021B86B8  0x021B86B8  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   func_021F8914  0x021F8914  thumb  ov094
- *   func_02021F64  0x02021F64  thumb
+ *   PALANM_BlendColors  0x02021F64  thumb
  *   func_021F86E0  0x021F86E0  thumb  ov094
  *   PALANM_CopyToSlot  0x020215BC  thumb
  */
@@ -22,9 +22,9 @@ typedef unsigned int u32;
 
 struct PalAnmSlot;
 extern int func_021F8754(void);
-extern void *func_021B86B8(void ***p);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern int func_021F8914(void);
-extern void func_02021F64(u16 *src, u16 *dst, u32 count, int weight, u16 color);
+extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 extern int func_021F86E0(void);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
@@ -32,8 +32,8 @@ void func_02206A14(char *p)
 {
     u16 buf[16];
 
-    if ((int)func_021B86B8((void ***)func_021F8754()) != 4 && func_021F8914() == 0) {
-        func_02021F64((u16 *)(p + 0x284), buf, 0x10, 8, 0);
+    if ((int)BTL_MAIN_GetCompetitor((void ***)func_021F8754()) != 4 && func_021F8914() == 0) {
+        PALANM_BlendColors((u16 *)(p + 0x284), buf, 0x10, 8, 0);
         PALANM_CopyToSlot((struct PalAnmSlot *)func_021F86E0(), buf, 1, 0x20, 0x20);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8904
+ * function: ITEMMENU_Main
  * address:  0x021B8904
  * packet:   pkt_ov070_021B8904
  * region:   ov070
@@ -10,44 +10,44 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202208C  0x0202208C  thumb
- *   func_021BA41C  0x021BA41C  thumb  ov070
- *   func_021BA4A4  0x021BA4A4  thumb  ov070
- *   func_021B9ED8  0x021B9ED8  thumb  ov070
- *   func_021BB73C  0x021BB73C  thumb  ov070
- *   func_020310C4  0x020310C4  arm
+ *   WIPE_SYS_Start  0x0202208C  thumb
+ *   ITEMMENU_SnapSelectorToCursor  0x021BA41C  thumb  ov070
+ *   ITEMMENU_UploadSlotGraphics  0x021BA4A4  thumb  ov070
+ *   ITEMMENU_FreeActionMenuResources  0x021B9ED8  thumb  ov070
+ *   ITEMMENU_FlushDirtyWindows  0x021BB73C  thumb  ov070
+ *   TCBL_Main  0x020310C4  arm
  */
 #include "../include/Obj01365.h"
 
 typedef unsigned int   u32;
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 typedef unsigned char  u8;
 struct Tcbl;
-extern void func_021BA41C(char *p);
-extern void func_021BA4A4(char *p);
-extern void func_021B9ED8(char *p);
-extern void func_021BB73C(u8 *p);
-extern void func_020310C4(struct Tcbl *p);
+extern void ITEMMENU_SnapSelectorToCursor(char *p);
+extern void ITEMMENU_UploadSlotGraphics(char *p);
+extern void ITEMMENU_FreeActionMenuResources(char *p);
+extern void ITEMMENU_FlushDirtyWindows(u8 *p);
+extern void TCBL_Main(struct Tcbl *p);
 
-int func_021B8904(int a, int b, int c, int p)
+int ITEMMENU_Main(int a, int b, int c, int p)
 {
     void (*fn)(int) = *(void (**)(int))((char *)p + 0x4F8);
     if (fn == 0) {
-        func_0202208C(0, 0, 0, 0, 6, 1, ((struct Obj01365 *)p)->f544);
+        WIPE_SYS_Start(0, 0, 0, 0, 6, 1, ((struct Obj01365 *)p)->f544);
         return 1;
     }
     ((struct Obj01365 *)p)->f818 = ((struct Obj01365 *)p)->f814;
     fn(p);
     if (((struct Obj01365 *)p)->f83E != 0) {
-        func_021BA41C((char *)p);
+        ITEMMENU_SnapSelectorToCursor((char *)p);
         ((struct Obj01365 *)p)->f83E = 0;
     }
     if (((struct Obj01365 *)p)->f83C != 0) {
-        func_021BA4A4((char *)p);
+        ITEMMENU_UploadSlotGraphics((char *)p);
         ((struct Obj01365 *)p)->f83C = 0;
     }
-    func_021B9ED8((char *)p);
-    func_021BB73C((u8 *)p);
-    func_020310C4((struct Tcbl *)(((struct Obj01365 *)p)->f730));
+    ITEMMENU_FreeActionMenuResources((char *)p);
+    ITEMMENU_FlushDirtyWindows((u8 *)p);
+    TCBL_Main((struct Tcbl *)(((struct Obj01365 *)p)->f730));
     return 0;
 }

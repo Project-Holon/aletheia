@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D85C0",
-    "func_021D85E8"
+    "BTL_CALC_RollChanceOrFlag",
+    "BTL_CALC_GetIntimidateHandlers"
+   ],
+   "addresses": [
+    "0x021D85C0",
+    "0x021D85E8"
    ],
    "evidence": {
     "sole-ref": [

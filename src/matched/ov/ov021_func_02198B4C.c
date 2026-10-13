@@ -1,5 +1,5 @@
 /*
- * function: func_02198B4C
+ * function: FLDMMDL_ACMD_MarkInit
  * address:  0x02198B4C
  * packet:   pkt_ov021_02198B4C
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D6BC  0x0216D6BC  thumb  ov010
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D534  0x0216D534  thumb  ov010
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_021BB528  0x021BB528  thumb  ov021
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysGetFieldMap  0x0216D534  thumb  ov010
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDEFF_GYOE_SetMMdl  0x021BB528  thumb  ov021
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -25,19 +25,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void *func_0216D6BC(int a0, int a1, int a2);
-extern void *func_0216D67C(void *a0);
-extern u32 func_0216D534(void *p);
-extern u32 func_02188CD0(u8 *p);
-extern u32 func_021BB528(u32, u32, u32, u32);
-extern void func_0216D7CC(u8 *p);
+extern void *FLDMMDL_InitMoveCmdWork(int a0, int a1, int a2);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern u32 FLDMMDL_SysGetFieldMap(void *p);
+extern u32 FIELDMAP_GetEffect(u8 *p);
+extern u32 FLDEFF_GYOE_SetMMdl(u32, u32, u32, u32);
+extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
-void func_02198B4C(u32 a, u32 b, u32 a3)
+void FLDMMDL_ACMD_MarkInit(u32 a, u32 b, u32 a3)
 {
     u32 *p;
 
-    p = func_0216D6BC(a, 8, a3);
+    p = FLDMMDL_InitMoveCmdWork(a, 8, a3);
     p[0] = b;
-    p[1] = func_021BB528(func_02188CD0((u8 *)func_0216D534(func_0216D67C((void *)a))), a, b, 1);
-    func_0216D7CC((u8 *)a);
+    p[1] = FLDEFF_GYOE_SetMMdl(FIELDMAP_GetEffect((u8 *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys((void *)a))), a, b, 1);
+    FLDMMDL_IncAcmdSeq((u8 *)a);
 }

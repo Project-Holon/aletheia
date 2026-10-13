@@ -1,5 +1,5 @@
 /*
- * function: func_021A66F8
+ * function: FIELD_PLAYER_NOGRID_HasFlags
  * address:  0x021A66F8
  * packet:   pkt_ov021_021A66F8
  * region:   ov021
@@ -17,7 +17,7 @@ typedef struct {
     int f4;
 } S;
 
-int func_021A66F8(S *a, int m)
+int FIELD_PLAYER_NOGRID_HasFlags(S *a, int m)
 {
     if (a->f4 & m) {
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021E8798
+ * function: BTLV_CORE_EventCounterMove
  * address:  0x021E8798
  * packet:   pkt_ov093_021E8798
  * region:   ov093
@@ -10,40 +10,40 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5C30  0x021D5C30  thumb  ov093
+ *   BTL_POKEPARAM_IsSemiInvulnerable  0x021D5C30  thumb  ov093
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   func_021C8434  0x021C8434  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 struct UtilWork;
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5C30(struct UtilWork *p);
+extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
 extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void func_021C8434(u8 *p, int a, int b);
 
-void func_021E8798(int u, void *a, int b, int d)
+void BTLV_CORE_EventCounterMove(int u, void *a, int b, int d)
 {
     u8 k;
     u16 m;
     int z;
 
     z = 4;
-    if (b == func_021D775C(4)) {
-        if (func_021D775C(0x4e) == 0) {
-            if (func_021D5C30(func_021C7CF4(a, b)) == 0) {
-                m = func_021D775C(0x12);
+    if (b == BTL_EVENT_GetVar(4)) {
+        if (BTL_EVENT_GetVar(0x4e) == 0) {
+            if (BTL_POKEPARAM_IsSemiInvulnerable(func_021C7CF4(a, b)) == 0) {
+                m = BTL_EVENT_GetVar(0x12);
                 if (WAZA_TOOL_GetFlag(m, z) != 0) {
                     z = 1;
-                    if (func_021D76BC(0x40, 1) != 0) {
-                        k = func_021D775C(3);
+                    if (BTL_EVENT_OverwriteVar(0x40, 1) != 0) {
+                        k = BTL_EVENT_GetVar(3);
                         func_021C8434(a, b, k);
-                        func_021D76BC(0x51, z);
+                        BTL_EVENT_OverwriteVar(0x51, z);
                     }
                 }
             }

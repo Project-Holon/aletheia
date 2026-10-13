@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE538",
-    "func_021DE558"
+    "BTL_HANDLER_ITEM_WideLensRaiseAccuracy",
+    "BTL_HANDLER_ITEM_GetScopeLensHandlers"
+   ],
+   "addresses": [
+    "0x021DE538",
+    "0x021DE558"
    ],
    "evidence": {
     "sole-ref": [

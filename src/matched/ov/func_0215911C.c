@@ -1,5 +1,5 @@
 /*
- * function: func_0215911C
+ * function: SCRIPT_WORK_GetReturnFlag
  * address:  0x0215911C
  * packet:   pkt_021590F4
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0215911C.c \
- *       --func func_0215911C --addr 0x0215911C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRIPT_WORK_GetReturnFlag.c \
+ *       --func SCRIPT_WORK_GetReturnFlag --addr 0x0215911C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17642.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_0215911C(void *p) { return ((struct Obj17642 *)p)->f144; }
+u32 SCRIPT_WORK_GetReturnFlag(void *p) { return ((struct Obj17642 *)p)->f144; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F133C
+ * function: C_GEAR_FindCellOfKind
  * address:  0x021F133C
  * packet:   pkt_ov029_021F133C
  * region:   ov029
@@ -9,28 +9,28 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021F2B9C  0x021F2B9C  thumb  ov029
- *   func_021F2BB8  0x021F2BB8  thumb  ov029
- *   func_021F2BD4  0x021F2BD4  thumb  ov029
- *   func_021F0D14  0x021F0D14  thumb  ov029
- *   func_021F1290  0x021F1290  thumb  ov029
+ *   C_GEAR_GetCellKind  0x021F2B9C  thumb  ov029
+ *   C_GEAR_IsCellMarked  0x021F2BB8  thumb  ov029
+ *   C_GEAR_IsCellKind  0x021F2BD4  thumb  ov029
+ *   C_GEAR_TileToScreen  0x021F0D14  thumb  ov029
+ *   C_GEAR_DrawTile  0x021F1290  thumb  ov029
  *   func_020091AC  0x020091AC  thumb
  *   func_020409B4  0x020409B4  arm
  */
 #include "../include/Obj00042.h"
 
-extern unsigned int func_021F2B9C(unsigned char *p, int row, int col);
-extern int func_021F2BB8(unsigned char *p, int row, int col);
+extern unsigned int C_GEAR_GetCellKind(unsigned char *p, int row, int col);
+extern int C_GEAR_IsCellMarked(unsigned char *p, int row, int col);
 typedef unsigned char  u8;
-extern int func_021F2BD4(u8 *p, int row, int col, int kind);
-extern void func_021F0D14(int, int, int *, int *);
-extern void func_021F1290(void *, int, int, int);
+extern int C_GEAR_IsCellKind(u8 *p, int row, int col, int kind);
+extern void C_GEAR_TileToScreen(int, int, int *, int *);
+extern void C_GEAR_DrawTile(void *, int, int, int);
 struct Sub020090B0Obj;
 extern void func_020091AC(struct Sub020090B0Obj *obj, int row, int col, int kind, int marked, int flagged);
 typedef unsigned int   u32;
 extern void func_020409B4(u32 index);
 
-int func_021F133C(char *p, int v, int *o1, int *o2)
+int C_GEAR_FindCellOfKind(char *p, int v, int *o1, int *o2)
 {
     int a = 0;
     int b = 0;
@@ -40,17 +40,17 @@ int func_021F133C(char *p, int v, int *o1, int *o2)
 
     for (j = 0; j < 4; j++) {
         for (i = 0; i < 9; i++) {
-            if (v == func_021F2B9C((unsigned char *)p, i, j)) {
+            if (v == C_GEAR_GetCellKind((unsigned char *)p, i, j)) {
                 if (found == 0) {
                     a = i;
                     b = j;
                     found = 1;
                 }
-                if (func_021F2BB8((unsigned char *)p, i, j)) {
-                    func_021F0D14(i, j, o1, o2);
+                if (C_GEAR_IsCellMarked((unsigned char *)p, i, j)) {
+                    C_GEAR_TileToScreen(i, j, o1, o2);
                     return 1;
                 }
-                if (func_021F2BD4((u8 *)p, i, j, v)) {
+                if (C_GEAR_IsCellKind((u8 *)p, i, j, v)) {
                     a = i;
                     b = j;
                     found = 1;
@@ -59,9 +59,9 @@ int func_021F133C(char *p, int v, int *o1, int *o2)
         }
     }
     if (found) {
-        func_021F0D14(a, b, o1, o2);
+        C_GEAR_TileToScreen(a, b, o1, o2);
         func_020091AC((struct Sub020090B0Obj *)(*(int *)&((struct Obj00042 *)p)->f20), a, b, v, 1, 0);
-        func_021F1290(p, a, b, v);
+        C_GEAR_DrawTile(p, a, b, v);
         func_020409B4(4);
         return 1;
     }

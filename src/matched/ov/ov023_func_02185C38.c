@@ -1,5 +1,5 @@
 /*
- * function: func_02185C38
+ * function: OEKAKI_DrawLine
  * address:  0x02185C38
  * packet:   pkt_ov023_02185C38
  * region:   ov023
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02185BBC  0x02185BBC  thumb  ov023
+ *   OEKAKI_BlitBrush  0x02185BBC  thumb  ov023
  */
 
-extern void func_02185BBC(int a0, int a1, int x, int y, int w, int h, int dx, int dy,
+extern void OEKAKI_BlitBrush(int a0, int a1, int x, int y, int w, int h, int dx, int dy,
                           int mx, int my);
 
-void func_02185C38(int a0, int a1, int x1, int y1, int *px, int *py, int c, int d)
+void OEKAKI_DrawLine(int a0, int a1, int x1, int y1, int *px, int *py, int c, int d)
 {
     int sx;
     int sy;
@@ -51,7 +51,7 @@ void func_02185C38(int a0, int a1, int x1, int y1, int *px, int *py, int c, int 
         } else {
             step = (sy < y1) ? 1 : -1;
         }
-        func_02185BBC(a0, a1, 0, 0, 6, 6, sx, sy, 6, 6);
+        OEKAKI_BlitBrush(a0, a1, 0, 0, 6, 6, sx, sy, 6, 6);
         err = dx >> 1;
         for (sx++; sx <= ex; sx++) {
             err -= dy;
@@ -59,7 +59,7 @@ void func_02185C38(int a0, int a1, int x1, int y1, int *px, int *py, int c, int 
                 err += dx;
                 sy += step;
             }
-            func_02185BBC(a0, a1, 0, 0, 6, 6, sx, sy, 6, 6);
+            OEKAKI_BlitBrush(a0, a1, 0, 0, 6, 6, sx, sy, 6, 6);
         }
     } else {
         if (sy > y1) {
@@ -70,7 +70,7 @@ void func_02185C38(int a0, int a1, int x1, int y1, int *px, int *py, int c, int 
         } else {
             step = (sx < x1) ? 1 : -1;
         }
-        func_02185BBC(a0, a1, 0, 0, 6, 6, sx, sy, 6, 6);
+        OEKAKI_BlitBrush(a0, a1, 0, 0, 6, 6, sx, sy, 6, 6);
         err = dy >> 1;
         for (sy++; sy <= ey; sy++) {
             err -= dx;
@@ -78,7 +78,7 @@ void func_02185C38(int a0, int a1, int x1, int y1, int *px, int *py, int c, int 
                 err += dy;
                 sx += step;
             }
-            func_02185BBC(a0, a1, 0, 0, 6, 6, sx, sy, 6, 6);
+            OEKAKI_BlitBrush(a0, a1, 0, 0, 6, 6, sx, sy, 6, 6);
         }
     }
     *px = x1;

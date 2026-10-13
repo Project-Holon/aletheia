@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -18,5 +21,5 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct TaskMenu;
-extern void func_02027858(struct TaskMenu *m);
-void func_021C0B44(struct TaskMenu *m) { func_02027858(m); }
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+void func_021C0B44(struct TaskMenu *m) { APP_TASKMENU_CloseMenu(m); }

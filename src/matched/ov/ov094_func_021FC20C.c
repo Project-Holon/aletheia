@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   VM_Call 0x020113B4 thumb
- *   func_02048F60 0x02048F60 arm
+ *   ARC_TOOL_LoadMember 0x02048F60 arm
  */
 typedef unsigned short u16;
 typedef struct {
@@ -33,17 +33,17 @@ typedef struct {
     int f260;
 } State;
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 struct Ring;
 extern void VM_Call(struct Ring *r, unsigned int v);
 typedef unsigned int   u32;
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 
 int func_021FC20C(struct Ring *a, State *s)
 {
-    int n = func_0201134C((struct Cursor *)a);
-    int v = func_0201134C((struct Cursor *)a);
-    int w = func_0201134C((struct Cursor *)a);
+    int n = VM_GetU32((struct Cursor *)a);
+    int v = VM_GetU32((struct Cursor *)a);
+    int w = VM_GetU32((struct Cursor *)a);
     int *p;
 
     s->a0[s->f260] = s->fdc;
@@ -53,7 +53,7 @@ int func_021FC20C(struct Ring *a, State *s)
     if (v != 14) s->fdc = v;
     if (w != 16) s->fe0 = w;
     s->f4 = 0;
-    p = func_02048F60(0x43, n - 0x231, (u16)((s->h238 & 0x7fff) | 0x8000));
+    p = ARC_TOOL_LoadMember(0x43, n - 0x231, (u16)((s->h238 & 0x7fff) | 0x8000));
     s->f1e8 = p;
     VM_Call(a, (unsigned int)((char *)p + p[1]));
     s->f260++;

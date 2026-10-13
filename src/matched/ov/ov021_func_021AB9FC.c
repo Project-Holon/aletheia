@@ -1,5 +1,5 @@
 /*
- * function: func_021AB9FC
+ * function: FLD_SCENEAREA_LOADER_ApplyFixedCamera
  * address:  0x021AB9FC
  * packet:   pkt_ov021_021AB9FC
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB760  0x021AB760  thumb
- *   func_0218E124  0x0218E124  thumb
- *   func_0218EC90  0x0218EC90  thumb
- *   func_0218ECF4  0x0218ECF4  thumb
+ *   FLD_SCENEAREA_GetCamera  0x021AB760  thumb
+ *   FIELD_CAMERA_EnterMode  0x0218E124  thumb
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb
+ *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb
  *
  * Lever: `const S *` together with the inline set3 helper gives the y, x, z
  * load order of the two 12-byte vector fills (as in ov021_func_021AB890.c).
@@ -33,10 +33,10 @@ typedef struct {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_021AB760(u8 *p);
-extern void func_0218E124(u8 *a, u32 s);
-extern void func_0218EC90(int h, V *v);
-extern void func_0218ECF4(int h, V *v);
+extern u32 FLD_SCENEAREA_GetCamera(u8 *p);
+extern void FIELD_CAMERA_EnterMode(u8 *a, u32 s);
+extern void FIELD_CAMERA_SetTarget(int h, V *v);
+extern void FIELD_CAMERA_SetEyeRaw(int h, V *v);
 
 
 static inline void set3(V *d, int x, int y, int z)
@@ -46,15 +46,15 @@ static inline void set3(V *d, int x, int y, int z)
     d->z = z;
 }
 
-void func_021AB9FC(int a, const S *s)
+void FLD_SCENEAREA_LOADER_ApplyFixedCamera(int a, const S *s)
 {
-    int h = func_021AB760((u8 *)a);
+    int h = FLD_SCENEAREA_GetCamera((u8 *)a);
     V v1;
     V v0;
 
-    func_0218E124((u8 *)h, 2);
+    FIELD_CAMERA_EnterMode((u8 *)h, 2);
     set3(&v1, s->f24.x, s->f24.y, s->f24.z);
     set3(&v0, s->f30.x, s->f30.y, s->f30.z);
-    func_0218EC90(h, &v1);
-    func_0218ECF4(h, &v0);
+    FIELD_CAMERA_SetTarget(h, &v1);
+    FIELD_CAMERA_SetEyeRaw(h, &v0);
 }

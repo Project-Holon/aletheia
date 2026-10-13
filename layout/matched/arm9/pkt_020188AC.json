@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020188AC",
+   "name": "POKE_TOOL_CheckTmCompat",
    "address": "0x020188AC",
    "kind": "game",
    "region": "arm9",

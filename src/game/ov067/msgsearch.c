@@ -1,7 +1,7 @@
 /*
  * file:     msgsearch.c
  * unit:     yes
- * function: func_021B6C74, func_021B6CCC, func_021B6CE0, func_021B6D70
+ * function: MSGSEARCH_Create, MSGSEARCH_Delete, MSGSEARCH_Search, MSGSEARCH_PrefixMatches
  * address:  0x021B6C74
  * region:   ov067
  * compiler: dsi/1.1p1
@@ -15,11 +15,11 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   d_021B9558     0x021B9558  data  a1
  *   ENV_SetResourceSet  0x020307B0  arm
- *   func_020458F8 0x020458F8 arm
+ *   STRBUF_GetLength 0x020458F8 arm
  *   func_02082A7C 0x02082A7C arm
  *   func_02045F50 0x02045F50 arm
  *   func_02045CAC 0x02045CAC arm
@@ -33,22 +33,22 @@ typedef unsigned int u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern struct StrBuf *func_020457B0(u32 capacity, u16 heapId);
-extern void func_02045808(struct StrBuf *str);
+extern struct StrBuf *STRBUF_Create(u32 capacity, u16 heapId);
+extern void STRBUF_Delete(struct StrBuf *str);
 extern void ENV_SetResourceSet(void *p);
-extern u16 func_020458F8(struct StrBuf *str);
+extern u16 STRBUF_GetLength(struct StrBuf *str);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
 extern u16 func_02045F50(const struct MsgBank *bank);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, struct StrBuf *dest);
 extern u16 *STRBUF_GetChars(struct StrBuf *str);
-MsgSearch *func_021B6C74(struct MsgBank **banks, u32 bankCount, u16 heapId);
-void func_021B6CCC(MsgSearch *search);
-u32 func_021B6CE0(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits);
-int func_021B6D70(struct StrBuf *prefix, struct StrBuf *text, u32 length);
+MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId);
+void MSGSEARCH_Delete(MsgSearch *search);
+u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits);
+int MSGSEARCH_PrefixMatches(struct StrBuf *prefix, struct StrBuf *text, u32 length);
 extern const char d_021B9558[];
 
 
-MsgSearch *func_021B6C74(struct MsgBank **banks, u32 bankCount, u16 heapId)
+MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
 {
     u32 size;
     MsgSearch *search;
@@ -62,14 +62,14 @@ MsgSearch *func_021B6C74(struct MsgBank **banks, u32 bankCount, u16 heapId)
     for (i = 0; i < bankCount; i++) {
         search->bank[i] = banks[i];
     }
-    search->scratch = func_020457B0(0x80, heapId);
+    search->scratch = STRBUF_Create(0x80, heapId);
     return search;
 }
 
 
-void func_021B6CCC(MsgSearch *search)
+void MSGSEARCH_Delete(MsgSearch *search)
 {
-    func_02045808(search->scratch);
+    STRBUF_Delete(search->scratch);
     ENV_SetResourceSet(search);
 }
 
@@ -77,9 +77,9 @@ void func_021B6CCC(MsgSearch *search)
 /*
  * Finds the messages of one bank that start with prefix. Fills hits with up to
  * maxHits matches (unused entries are set to -1) and returns how many
- * messages matched in all. Messages are compared with func_021B6D70.
+ * messages matched in all. Messages are compared with MSGSEARCH_PrefixMatches.
  */
-u32 func_021B6CE0(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits)
+u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits)
 {
     u32 matchCount;
     u32 messageCount;
@@ -87,7 +87,7 @@ u32 func_021B6CE0(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *p
     u32 messageIndex, hitCount, prefixLength;
 
     matchCount = 0;
-    prefixLength = func_020458F8(prefix);
+    prefixLength = STRBUF_GetLength(prefix);
     func_02082A7C(-1, hits, maxHits * sizeof(MsgSearchHit));
     if (prefixLength) {
         messageCount = func_02045F50(search->bank[bankIndex]);
@@ -98,7 +98,7 @@ u32 func_021B6CE0(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *p
             if (messageIndex >= messageCount) break;
             if (hitCount >= maxHits) break;
             func_02045CAC(bank, messageIndex, search->scratch);
-            if (func_021B6D70(prefix, search->scratch, func_020458F8(prefix))) {
+            if (MSGSEARCH_PrefixMatches(prefix, search->scratch, STRBUF_GetLength(prefix))) {
                 if (hitCount < maxHits) {
                     hits[hitCount].bankIndex = bankIndex;
                     hits[hitCount].messageIndex = messageIndex;
@@ -113,16 +113,16 @@ u32 func_021B6CE0(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *p
 
 
 /* Returns 1 when both strings are at least length characters long and their first length characters are equal. */
-int func_021B6D70(struct StrBuf *prefix, struct StrBuf *text, u32 length)
+int MSGSEARCH_PrefixMatches(struct StrBuf *prefix, struct StrBuf *text, u32 length)
 {
     u16 *prefixChars;
     u16 *textChars;
     u32 i;
 
-    if (func_020458F8(prefix) < length) {
+    if (STRBUF_GetLength(prefix) < length) {
         return 0;
     }
-    if (func_020458F8(text) < length) {
+    if (STRBUF_GetLength(text) < length) {
         return 0;
     }
     prefixChars = STRBUF_GetChars(prefix);

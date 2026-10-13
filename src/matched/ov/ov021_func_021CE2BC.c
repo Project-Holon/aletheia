@@ -1,5 +1,5 @@
 /*
- * function: func_021CE2BC
+ * function: COMM_ENTRY_MENU_UpdateMemberList
  * address:  0x021CE2BC
  * packet:   pkt_ov021_021CE2BC
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CE8B0  0x021CE8B0  thumb  ov021
- *   func_021CE8F4  0x021CE8F4  thumb  ov021
- *   func_021CE934  0x021CE934  thumb  ov021
- *   func_021CE84C  0x021CE84C  thumb  ov021
- *   func_021CE78C  0x021CE78C  thumb  ov021
- *   func_021CE9E4  0x021CE9E4  thumb  ov021
+ *   COMM_ENTRY_MENU_UpdateMemberName  0x021CE8B0  thumb  ov021
+ *   COMM_ENTRY_MENU_ClearMemberName  0x021CE8F4  thumb  ov021
+ *   COMM_ENTRY_MENU_PrintMemberName  0x021CE934  thumb  ov021
+ *   COMM_ENTRY_MENU_PrintRemaining  0x021CE84C  thumb  ov021
+ *   COMM_ENTRY_MENU_IsIdle  0x021CE78C  thumb  ov021
+ *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00011.h"
@@ -24,14 +24,14 @@ typedef unsigned char u8;
 typedef signed char   s8;
 typedef unsigned int  u32;
 
-extern void func_021CE8B0(u8 *p, u8 *e, int i);
-extern void func_021CE8F4(u8 *p, u8 *e, int i);
-extern void func_021CE934(u8 *p, u8 *e, int i);
-extern int func_021CE84C(u32 *p, int n);
-extern int func_021CE78C(u32 a);
-extern void func_021CE9E4(u8 *p, int n);
+extern void COMM_ENTRY_MENU_UpdateMemberName(u8 *p, u8 *e, int i);
+extern void COMM_ENTRY_MENU_ClearMemberName(u8 *p, u8 *e, int i);
+extern void COMM_ENTRY_MENU_PrintMemberName(u8 *p, u8 *e, int i);
+extern int COMM_ENTRY_MENU_PrintRemaining(u32 *p, int n);
+extern int COMM_ENTRY_MENU_IsIdle(u32 a);
+extern void COMM_ENTRY_MENU_PrintMessage(u8 *p, int n);
 
-void func_021CE2BC(u8 *p)
+void COMM_ENTRY_MENU_UpdateMemberList(u8 *p)
 {
     u8 *e;
     int i;
@@ -42,18 +42,18 @@ void func_021CE2BC(u8 *p)
     e = p + 0x50;
     for (; i < 4; i++) {
         if (p[0x70 + i * 0x2c]) {
-            func_021CE8B0(p, e + i * 0x2c, i);
+            COMM_ENTRY_MENU_UpdateMemberName(p, e + i * 0x2c, i);
             n++;
         } else {
-            func_021CE8F4(p, e + i * 0x2c, i);
+            COMM_ENTRY_MENU_ClearMemberName(p, e + i * 0x2c, i);
         }
     }
     if (n == 0) {
-        func_021CE934(p, p + 0x30, 0);
+        COMM_ENTRY_MENU_PrintMemberName(p, p + 0x30, 0);
         n++;
     }
     if (*(s8 *)&((struct Obj00011 *)p)->f572 != n) {
-        if (func_021CE84C((u32 *)p, n) == 1) {
+        if (COMM_ENTRY_MENU_PrintRemaining((u32 *)p, n) == 1) {
             p[0x572] = n;
             if (p[0x520] == 1 && n == 1) {
                 p[0x579] = 1;
@@ -61,9 +61,9 @@ void func_021CE2BC(u8 *p)
         }
     }
     if (p[0x579] == 1) {
-        if (func_021CE78C((u32)p) == 1 && ((struct Obj00011 *)p)->f130 == 0) {
+        if (COMM_ENTRY_MENU_IsIdle((u32)p) == 1 && ((struct Obj00011 *)p)->f130 == 0) {
             if (n == 1) {
-                func_021CE9E4(p, 8);
+                COMM_ENTRY_MENU_PrintMessage(p, 8);
             }
             p[0x579] = 0;
         }

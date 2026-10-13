@@ -1,5 +1,5 @@
 /*
- * function: func_021A66EC
+ * function: FIELD_PLAYER_NOGRID_ClearFlags
  * address:  0x021A66EC
  * packet:   pkt_021A66EC
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021A66EC(u32 *p, u32 v)
+void FIELD_PLAYER_NOGRID_ClearFlags(u32 *p, u32 v)
 {
     p[1] &= ~v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02185758
+ * function: EVENT_MAPCHANGE_DirToAngle
  * address: 0x02185758
  * packet: pkt_ov020_02185758
  * region: ov020
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
-int func_02185758(int value)
+int EVENT_MAPCHANGE_DirToAngle(int value)
 {
     switch (value) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_0217E504
+ * function: gsiLargeIntMultM
  * address:  0x0217E504
  * packet:   pkt_ov009_0217E504
  * region:   ov009
@@ -45,7 +45,7 @@ extern int gsiLargeIntSub(const unsigned int *src1, unsigned int length1,
 extern void *memset(void *d, int c, unsigned int n);
 extern void *memcpy(void *d, const void *s, unsigned int n);
 
-int func_0217E504(struct gsLargeInt_s *x, struct gsLargeInt_s *y,
+int gsiLargeIntMultM(struct gsLargeInt_s *x, struct gsLargeInt_s *y,
                   const struct gsLargeInt_s *m, unsigned int modPrime,
                   struct gsLargeInt_s *dest)
 {

@@ -1,5 +1,5 @@
 /*
- * function: func_021F053C
+ * function: C_GEAR_POWER_ONOFF_RunMessageStep
  * address:  0x021F053C
  * packet:   pkt_ov035_021F053C
  * region:   ov035
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F053C 0x021F053C thumb
- *   func_020456F8 0x020456F8 arm
+ *   C_GEAR_POWER_ONOFF_RunMessageStep 0x021F053C thumb
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
- *   func_021F0254 0x021F0254 thumb ov035
- *   func_020221A4 0x020221A4 thumb
- *   func_02035C60 0x02035C60 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   C_GEAR_POWER_ONOFF_PrintMessage 0x021F0254 thumb ov035
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,32 +34,32 @@ typedef struct CGearPowerOnOffWork {
     u16 step;                     /* 0x4A */
 } CGearPowerOnOffWork;
 
-extern void func_020456F8(struct BmpWin *window);
+extern void BMP_WIN_ClearScreen(struct BmpWin *window);
 extern void BMP_WIN_SetPosY(struct BmpWin *window, u8 posY);
-extern void func_02045334(struct BmpWin *window);
-extern void func_02045374(struct BmpWin *window);
-extern void func_021F0254(CGearPowerOnOffWork *work, struct BmpWin *window, int windowKind);
-extern u32 func_020221A4(void);
-extern int func_02035C60(void);
+extern void BMP_WIN_TransferChars(struct BmpWin *window);
+extern void BMP_WIN_MakeScreen(struct BmpWin *window);
+extern void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int windowKind);
+extern u32 WIPE_SYS_EndCheck(void);
+extern int TOUCHPANEL_GetTrg(void);
 
-int func_021F053C(CGearPowerOnOffWork *work)
+int C_GEAR_POWER_ONOFF_RunMessageStep(CGearPowerOnOffWork *work)
 {
     switch (work->step) {
     case 0:
-        func_020456F8(work->messageWindow);
-        func_020456F8(work->menuWindow);
+        BMP_WIN_ClearScreen(work->messageWindow);
+        BMP_WIN_ClearScreen(work->menuWindow);
         BMP_WIN_SetPosY(work->menuWindow, 6);
-        func_02045334(work->menuWindow);
-        func_02045374(work->menuWindow);
-        func_021F0254(work, work->menuWindow, 4);
+        BMP_WIN_TransferChars(work->menuWindow);
+        BMP_WIN_MakeScreen(work->menuWindow);
+        C_GEAR_POWER_ONOFF_PrintMessage(work, work->menuWindow, 4);
         work->step++;
         break;
     case 1:
-        if (func_020221A4() == 1)
+        if (WIPE_SYS_EndCheck() == 1)
             work->step++;
         break;
     case 2:
-        if (func_02035C60() != 0)
+        if (TOUCHPANEL_GetTrg() != 0)
             work->step++;
         break;
     case 3:

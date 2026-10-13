@@ -9,29 +9,29 @@
  * status: EXACT
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204ABF0 0x0204ABF0 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
- *   func_0203D34C 0x0203D34C arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  */
 #include "../include/Obj00835.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern int func_0204ABF0(void *,u32,u32,u32,u16);
-extern int func_0204AF28(void *,u32,u32,u32);
-extern void func_02049238(void *);
-extern void func_0203D34C(u32 a, u32 b);
+extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
+extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
+extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 void func_021DFF70(u8 *p)
 {
     void *arc;
     arc = func_020490F4(184,114);
-    ((struct Obj00835 *)p)->fD6C = func_0204A6C8(arc,6,0,0,114);
-    ((struct Obj00835 *)p)->fD70 = func_0204ABF0(arc,0,0,0,114);
-    ((struct Obj00835 *)p)->fD74 = func_0204AF28(arc,10,14,114);
-    func_02049238(arc);
-    func_0203D34C(1,114);
+    ((struct Obj00835 *)p)->fD6C = CLACT_RegisterCharacter(arc,6,0,0,114);
+    ((struct Obj00835 *)p)->fD70 = CLACT_RegisterPalette(arc,0,0,0,114);
+    ((struct Obj00835 *)p)->fD74 = CLACT_RegisterCellAnim(arc,10,14,114);
+    ARC_TOOL_DeleteHandle(arc);
+    GFL_NET_RestartWithDefaultTimeout(1,114);
 }

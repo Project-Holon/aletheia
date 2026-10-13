@@ -1,5 +1,5 @@
 /*
- * function: func_0215F608
+ * function: SCRCMD_NETWORK_FindNpcTableRow
  * address:  0x0215F608
  * packet:   pkt_0215F608
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0215F608(int a0, int a1, int a2, int a3)
+int SCRCMD_NETWORK_FindNpcTableRow(int a0, int a1, int a2, int a3)
 {
     int t4;
     int t5;

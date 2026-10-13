@@ -1,5 +1,5 @@
 /*
- * function: func_021ABE18
+ * function: FIELD_EFFECT_GetFieldMapData
  * address:  0x021ABE18
  * packet:   pkt_021ABE18
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x8.
  *
  * symbols:
- *   func_02188CD8  0x02188CD8  thumb  ov021
+ *   FIELDMAP_GetG3dObjCtrl  0x02188CD8  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02188CD8(u8 *p);
+extern u32 FIELDMAP_GetG3dObjCtrl(u8 *p);
 
-u32 func_021ABE18(u8 *p)
+u32 FIELD_EFFECT_GetFieldMapData(u8 *p)
 {
-    return func_02188CD8((u8 *)(((struct Obj18080 *)p)->f8));
+    return FIELDMAP_GetG3dObjCtrl((u8 *)(((struct Obj18080 *)p)->f8));
 }

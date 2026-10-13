@@ -1,5 +1,5 @@
 /*
- * function: func_0219B104
+ * function: FLDMMDL_MOVECODE_GetRandomDirFromSet
  * address:  0x0219B104
  * packet:   pkt_ov021_0219B104
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0219B120  0x0219B120  thumb  ov021
- *   func_0219B0D8  0x0219B0D8  thumb  ov021
+ *   FLDMMDL_MOVECODE_GetDirSet  0x0219B120  thumb  ov021
+ *   FLDMMDL_MOVECODE_FindTableEnd  0x0219B0D8  thumb  ov021
  *   func_020056EC  0x020056EC  thumb
  */
 
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 *func_0219B120(u32);
-extern int func_0219B0D8(u32 *, u32);
+extern u32 *FLDMMDL_MOVECODE_GetDirSet(u32);
+extern int FLDMMDL_MOVECODE_FindTableEnd(u32 *, u32);
 extern u32 func_020056EC(u32 v);
 
-u32 func_0219B104(u32 a, u32 b)
+u32 FLDMMDL_MOVECODE_GetRandomDirFromSet(u32 a, u32 b)
 {
-    u32 *t = func_0219B120(a);
-    return t[func_020056EC(func_0219B0D8(t, b))];
+    u32 *t = FLDMMDL_MOVECODE_GetDirSet(a);
+    return t[func_020056EC(FLDMMDL_MOVECODE_FindTableEnd(t, b))];
 }

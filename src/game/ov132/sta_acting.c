@@ -21,7 +21,7 @@
  *   func_021F9FEC 0x021F9FEC thumb ov132
  *   func_021FA5B0 0x021FA5B0 thumb ov132
  *   func_021FAAF4 0x021FAAF4 thumb ov132
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021FDCA0 0x021FDCA0 data a1
  *   g_02FFFC3C 0x02FFFC3C data a4
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
@@ -30,13 +30,13 @@
  *   func_0207D534 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021FAB58 0x021FAB58 thumb ov132
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_020452E8 0x020452E8 arm
- *   func_0201D83C 0x0201D83C thumb
- *   func_02031140 0x02031140 arm
+ *   GF_FONT_Delete 0x0201D83C thumb
+ *   TCBL_Destroy 0x02031140 arm
  *   func_021FA64C 0x021FA64C thumb ov132
  *   func_021FA04C 0x021FA04C thumb ov132
  *   func_021F6F4C 0x021F6F4C thumb ov112
@@ -46,15 +46,15 @@
  *   func_021F7120 0x021F7120 thumb ov112
  *   func_021F51B0 0x021F51B0 thumb ov112
  *   func_021F4948 0x021F4948 thumb ov112
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_0204ED24 0x0204ED24 arm
- *   func_02048AC4 0x02048AC4 arm
- *   func_02046788 0x02046788 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_02030EAC 0x02030EAC arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021FA6CC 0x021FA6CC thumb ov132
  *   func_021FABD8 0x021FABD8 thumb ov132
@@ -76,36 +76,36 @@
  *   func_021F718C 0x021F718C thumb ov112
  *   func_021F6F8C 0x021F6F8C thumb ov112
  *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
- *   func_02047970 0x02047970 arm
- *   func_0204A600 0x0204A600 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
- *   func_0204A648 0x0204A648 arm
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_02006238 0x02006238 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   d_02FFFC3C 0x02FFFC3C data a4
  *   d_021FDE80 0x021FDE80 data a4
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
- *   func_02046440 0x02046440 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
  *   func_0204044C 0x0204044C arm
- *   func_02046BE0 0x02046BE0 arm
- *   func_02048A24 0x02048A24 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
  *   func_02048AD0 0x02048AD0 arm
  *   func_0207DCF8 0x0207DCF8 arm
  *   func_0204EBD4 0x0204EBD4 arm
  *   func_0204ED70 0x0204ED70 arm
- *   func_0204A48C 0x0204A48C arm
+ *   CLACT_InitSystem 0x0204A48C arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
- *   func_0202223C 0x0202223C thumb
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
  *   d_021FDBA0 0x021FDBA0 data a4
  *   d_021FDAA0 0x021FDAA0 data a4
@@ -117,18 +117,18 @@
  *   d_021FDB00 0x021FDB00 data a4
  *   d_021FDB20 0x021FDB20 data a4
  *   d_021FDAB0 0x021FDAB0 data a4
- *   d_020A1448 0x020A1448 data a4
+ *   gClActorInitParam 0x020A1448 data a4
  *   d_021FDA7C 0x021FDA7C data a4
  *   d_021FDBF8 0x021FDBF8 data a4
  *   d_021FDBD4 0x021FDBD4 data a4
- *   func_02049BDC 0x02049BDC arm
+ *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02082A60 0x02082A60 arm
  *   func_020409B4 0x020409B4 arm
  *   func_021F6F24 0x021F6F24 thumb ov112
- *   func_02157364  0x02157364  thumb  ov010
+ *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
  *   func_021F6FB0  0x021F6FB0  thumb  ov112
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -162,27 +162,27 @@
  *   _ffix 0x0209C494 arm
  *   func_021FAC74 0x021FAC74 thumb ov132
  *   d_021FDBD0 0x021FDBD0 data a1
- *   func_0204A380 0x0204A380 arm
+ *   ARC_UTIL_LoadHandleMember 0x0204A380 arm
  *   func_021FAD0C 0x021FAD0C thumb ov132
  *   d_020A1B38 0x020A1B38 data a2
  *   func_02061CA4 0x02061CA4 arm
- *   func_020450F0 0x020450F0 arm
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
- *   func_0201D7EC 0x0201D7EC thumb
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromMemory 0x02045C44 arm
  *   func_02049B40 0x02049B40 arm
- *   func_0203101C 0x0203101C arm
+ *   TCBL_Create 0x0203101C arm
  *   func_0201C440 0x0201C440 thumb
- *   func_020310C4 0x020310C4 arm
+ *   TCBL_Main 0x020310C4 arm
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0201CE48 0x0201CE48 thumb
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_0201CCE4 0x0201CCE4 thumb
+ *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_0201C6FC 0x0201C6FC thumb
  *   func_021FA558 0x021FA558 thumb ov132
  *   func_021FA56C 0x021FA56C thumb ov132
@@ -199,10 +199,10 @@
  *   func_021FD9A0 0x021FD9A0 thumb ov132
  *   func_021FDA18 0x021FDA18 thumb ov132
  *   func_021FD9D0 0x021FD9D0 thumb ov132
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_021FDA24 0x021FDA24 thumb ov132
  *   func_021F5140 0x021F5140 thumb ov112
- *   func_02157394 0x02157394 thumb ov010
+ *   MUSICAL_PROGRAM_GetCategoryShare 0x02157394 thumb ov010
  *   func_021FD974 0x021FD974 thumb ov132
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ll_mul 0x0209C054 arm
@@ -309,20 +309,20 @@ extern void *func_021F6BD8(u16,void *);
 extern char *func_021F9FEC(u32_021F8480,void *,u32_021F8480);
 extern char *func_021FA5B0(u32_021F8480,void *,char *);
 extern void *func_021FAAF4(u32_021F8480,void *);
-extern void func_0203D34C(u32_021F8480,u32_021F8480);
+extern void GFL_NET_RestartWithDefaultTimeout(u32_021F8480,u32_021F8480);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void GFL_USE_StopSeqAndUnload(void);
 extern void GFL_USE_ClearPreloadedBgmBuffers(void);
 extern void func_0207D534(volatile u16 *,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021FAB58(char *);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32_021F8640 func_02045C04(struct Rec *rec);
+extern u32_021F8640 MSGDATA_Delete(struct Rec *rec);
 extern u32_021F8640 func_020452E8(struct Descriptor *d);
-extern u32_021F8640 func_0201D83C(void *ptr);
-extern void func_02031140(struct S02031140 *p);
+extern u32_021F8640 GF_FONT_Delete(void *ptr);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_021FA64C(char *);
 extern void func_021FA04C(u8 *p);
 extern void func_021F6F4C(u8 *p);
@@ -332,18 +332,18 @@ extern void func_021F6A24(char *p);
 extern void func_021F7120(char *p);
 extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *p);
-extern void func_0204A5AC(void);
+extern void CLACT_ExitSystem(void);
 extern void func_0204ED24(void *);
-extern u32_021F8640 func_02048AC4(void *ptr);
-extern void func_02046788(void);
+extern u32_021F8640 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(void);
 extern void func_020403F4(u32_021F8640);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_02030EAC(struct Node *n);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32_021F8640 func_020307B0(void *p);
-extern void func_0202208C(void *,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C);
-extern u32_021F879C func_020221A4(void);
+extern void WIPE_SYS_Start(void *,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C,u32_021F879C);
+extern u32_021F879C WIPE_SYS_EndCheck(void);
 extern u32_021F879C func_0200FB24(void);
 extern int func_02006238(void);
 extern void func_021FCDEC(int,int);
@@ -366,37 +366,37 @@ extern void func_021F51F4(void **p);
 extern void func_021F718C(char *p);
 extern void func_021F6F8C(u8 *);
 extern void func_02047964(void);
-extern void func_020479D8(void);
-extern void func_02047970(void);
-extern void func_0204A600(void);
-extern void func_0204A648(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
+extern void G3D_SYSTEM_DrawEnd(void);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0202223C(u32_021F899C,u32_021F899C);
+extern void WIPE_SetBrightnessFadeOut(u32_021F899C,u32_021F899C);
 extern u32_021F899C WIPE_ResetWndMask(void *);
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203F8F4(u16);
-extern void func_02045088(u16);
+extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02040588(u32 which, unsigned char enable);
-extern void func_02046440(u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u16,u16,void (*)(void));
+extern void G3D_SYSTEM_Init(u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u16,u16,void (*)(void));
 extern void func_0204044C(u32_021F899C);
-extern void func_02046BE0(u32_021F899C,u32_021F899C);
-extern void *func_02048A24(u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,const Vec3 *,const Vec3 *,const Vec3 *,u16);
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32_021F899C,u32_021F899C);
+extern void *G3D_CAMERA_Create(u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,u32_021F899C,const Vec3 *,const Vec3 *,const Vec3 *,u16);
 extern void func_02048AD0(struct Light *l);
 extern void func_0207DCF8(const void *);
 extern void *func_0204EBD4(u8 *src, void *heap);
 extern void func_0204ED70(u8 *dst, struct Blk3 *src);
-extern void func_0204A48C(const struct Cfg *cfg, u32_021F899C arg, u32_021F899C heapId);
-extern void func_02049BDC(void *a0, u32_021F8BD4 a1, u32_021F8BD4 a2, u32_021F8BD4 a3, u32_021F8BD4 a4, u32_021F8BD4 a5, u16 a6);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32_021F899C arg, u32_021F899C heapId);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32_021F8BD4 a1, u32_021F8BD4 a2, u32_021F8BD4 a3, u32_021F8BD4 a4, u32_021F8BD4 a5, u16 a6);
 extern u32_021F8BD4 func_02049658(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u32_021F8BD4 f, u16 g);
 extern void func_020498F4(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u32_021F8BD4 f, u16 g);
 extern void func_02049B68(void *a, u32_021F8BD4 b, u32_021F8BD4 c, u32_021F8BD4 d, u32_021F8BD4 e, u16 f);
 extern void func_02082A60(const void *,void *,u32_021F8BD4);
 extern void func_020409B4(u32_021F8BD4);
 extern u8 *func_021F6F24(u32_021F8BD4 heap, u32_021F8BD4 v);
-extern u8 func_02157364(char *a0);
+extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
 extern void func_021F6FB0(void *, int);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414AC(u32);
@@ -419,26 +419,26 @@ extern void func_02048AFC(void *, const Vec *);
 extern void func_02048B44(void *, const Vec *);
 extern void func_02040618(u32, u32, u32);
 extern void *func_021FAC74(char *p, void *arg, int flag);
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern char *func_021FAD0C(char *p, char *base, unsigned index, unsigned char flag);
 extern int func_02061CA4(void *, u32, u32, int);
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *);
-extern void func_020310C4(struct Tcbl *p);
+extern void TCBL_Main(struct Tcbl *p);
 extern unsigned func_0201CE30(void *);
 extern void func_0201CE48(struct Rec3 *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void *func_0201CCE4(void *, u32, u32, void *, void *, u32, void *, u32, u16, u32);
+extern void *PRINTSYS_PrintStream(void *, u32, u32, void *, void *, u32, void *, u32, u16, u32);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void func_021FA558(char *, int, int);
 extern void func_021FA56C(char *, u8);
@@ -455,10 +455,10 @@ extern int func_021FD9FC(char *p);
 extern int func_021FD9A0(void *, unsigned);
 extern void func_021FDA18(unsigned char *p);
 extern void func_021FD9D0(unsigned char *p, unsigned char key);
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void func_021FDA24(void *, u32, u32, u32);
 extern unsigned char func_021F5140(void *p, int i);
-extern u16 func_02157394(int a0, int a1);
+extern u16 MUSICAL_PROGRAM_GetCategoryShare(int a0, int a1);
 extern void func_021FD974(char *p, u32 key, u8 value);
 extern u32 func_0203F0A8(void);
 extern char *func_021F9EDC(char *p, u32 a);
@@ -545,7 +545,7 @@ extern const u32_021F899C d_021FDAE0[];
 extern const u32_021F899C d_021FDB00[];
 extern const u32_021F899C d_021FDB20[];
 extern const u32_021F899C d_021FDAB0[];
-extern const u32_021F899C d_020A1448[];
+extern const u32_021F899C gClActorInitParam[];
 extern const struct Vec d_021FDBE0;
 extern const Vec d_021FDBEC;
 extern const struct Bytes d_021FDBD0;
@@ -609,7 +609,7 @@ u8 *func_021F8480(u8 *input, int heap)
     *(void **)(p+0xa4)=func_021FA5B0(*(u16 *)p,p,*(char **)(*(u8 **)(p+0x30)+p[0xa]*4+4));
     *(void **)(p+0xb0)=func_021FAAF4(*(u16 *)p,p);
     func_021F9CF4((char *)p);
-    func_0203D34C(0,*(u16 *)p);
+    GFL_NET_RestartWithDefaultTimeout(0,*(u16 *)p);
     func_021F8D88(p,0);
     *(u32_021F8480 *)(p+0x1dc)=*(u32_021F8480 *)((*(u8 ***)(p+0x30))[6]+0x14);
     *(u32_021F8480 *)(p+0x1e0)=*(u32_021F8480 *)((*(u8 ***)(p+0x30))[6]+0x18);
@@ -634,13 +634,13 @@ void func_021F8640(char *p)
     *(volatile u32_021F8640 *)0x04000000 &= 0xffff1fff;
     func_021F9D08(p);
     func_021FAB58(((struct ActingScene *)p)->fB0);
-    if(((struct ActingScene *)p)->fE0.p!=0)func_02045808(((struct ActingScene *)p)->fE0.p);
+    if(((struct ActingScene *)p)->fE0.p!=0)STRBUF_Delete(((struct ActingScene *)p)->fE0.p);
     func_0201C6EC(((struct ActingScene *)p)->fE8.p);
     func_0201C4C0(((struct ActingScene *)p)->fE8.p);
-    func_02045C04(((struct ActingScene *)p)->fDC.p);
+    MSGDATA_Delete(((struct ActingScene *)p)->fDC.p);
     func_020452E8(((struct ActingScene *)p)->fD0.p);
-    func_0201D83C(((struct ActingScene *)p)->fD4.p);
-    func_02031140(((struct ActingScene *)p)->fCC.p);
+    GF_FONT_Delete(((struct ActingScene *)p)->fD4.p);
+    TCBL_Destroy(((struct ActingScene *)p)->fCC.p);
     func_021FA64C(*(char * *)&((struct ActingScene *)p)->fA4);
     func_021FA04C(((struct ActingScene *)p)->fB8);
     func_021F6F4C(((struct ActingScene *)p)->f3C);
@@ -650,20 +650,20 @@ void func_021F8640(char *p)
     func_021F7120(((struct ActingScene *)p)->f40);
     func_021F51B0((int)(((struct ActingScene *)p)->f34));
     func_021F4948(((struct ActingScene *)p)->f38);
-    func_0204A5AC();
+    CLACT_ExitSystem();
     func_0204ED24(((struct ActingScene *)p)->fAC.p);
-    func_02048AC4(((struct ActingScene *)p)->fA8);
-    func_02046788();
+    G3D_CAMERA_Delete(((struct ActingScene *)p)->fA8);
+    G3D_SYSTEM_Exit();
     func_020403F4(0);
     func_020403F4(1);
     func_020403F4(2);
     func_020403F4(3);
     func_020403F4(5);
     func_020403F4(7);
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     func_02030EAC(((struct ActingScene *)p)->f20);
-    func_02049238(((struct ActingScene *)p)->f18.p);
+    ARC_TOOL_DeleteHandle(((struct ActingScene *)p)->f18.p);
     func_020307B0(p);
 }
 
@@ -681,11 +681,11 @@ int func_021F879C(u8 *p)
     ((struct ActingScene *)p)->f1EC.u=tick;
     switch(((struct ActingScene *)p)->f1C) {
     case 0:
-        func_0202208C(0,1,1,0,6,1,((struct ActingScene *)p)->f0);
+        WIPE_SYS_Start(0,1,1,0,6,1,((struct ActingScene *)p)->f0);
         ((struct ActingScene *)p)->f1C=1;
         break;
     case 1:
-        if(func_020221A4()==1) {
+        if(WIPE_SYS_EndCheck()==1) {
             if(**(u32_021F879C * *)&((struct ActingScene *)p)->f30!=0) {
                 ((struct ActingScene *)p)->f1C=7;
                 func_021FCDEC(**(int * *)&((struct ActingScene *)p)->f30,200);
@@ -694,12 +694,12 @@ int func_021F879C(u8 *p)
         break;
     case 2:
         if(func_02006238()==0) {
-            func_0202208C(0,0,0,0,6,1,((struct ActingScene *)p)->f0);
+            WIPE_SYS_Start(0,0,0,0,6,1,((struct ActingScene *)p)->f0);
             ((struct ActingScene *)p)->f1C=3;
         }
         break;
     case 3:
-        if(func_020221A4()==1) return 1;
+        if(WIPE_SYS_EndCheck()==1) return 1;
         break;
     case 4:
         if((((struct ActingScene *)p)->f2)++ >=60) ((struct ActingScene *)p)->f1C=5;
@@ -737,7 +737,7 @@ int func_021F879C(u8 *p)
     func_021F94F8((char *)p);
     func_021FA064((char *)(*(u8 * *)&((struct ActingScene *)p)->fB8));
     func_021F91CC((Fade *)p);
-    func_02047964(); func_020479D8();
+    func_02047964(); G3D_SYSTEM_ApplyLookAt();
     func_021F6E74(*(u8 * *)&((struct ActingScene *)p)->f90);
     func_021F75A0(*(u8 * *)&((struct ActingScene *)p)->f40);
     func_021F51F4((void **)(*(u8 * *)&((struct ActingScene *)p)->f34));
@@ -746,7 +746,7 @@ int func_021F879C(u8 *p)
     BILLBOARD_Draw(((struct ActingScene *)p)->fAC.p,((struct ActingScene *)p)->fA8,0);
     func_021F9ED4(*(u8 * *)&((struct ActingScene *)p)->f6C);
     func_021F9E4C(p);
-    func_02047970(); func_0204A600();
+    G3D_SYSTEM_DrawEnd(); CLACT_DrawSystem();
     if(**(u32_021F879C * *)&((struct ActingScene *)p)->f30!=0 && ((struct ActingScene *)p)->f1C!=0 &&
        ((struct ActingScene *)p)->f1C!=1 && ((struct ActingScene *)p)->f1C!=2 &&
        ((struct ActingScene *)p)->f1C!=3 && func_0200FB24()!=0)
@@ -756,7 +756,7 @@ int func_021F879C(u8 *p)
 
 
 
-void func_021F8994(void) { func_0204A648(); }
+void func_021F8994(void) { CLACT_VBlankSystem(); }
 
 
 
@@ -803,11 +803,11 @@ void func_021F899C(u8 *p)
     void *light,*board;
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GX_SetVisiblePlane(0); GXS_SetVisiblePlane(0);
-    func_0202223C(0,0); func_0202223C(1,0);
+    WIPE_SetBrightnessFadeOut(0,0); WIPE_SetBrightnessFadeOut(1,0);
     WIPE_ResetWndMask(0); WIPE_ResetWndMask((void *)1);
     GX_SetDispSelect(SUB_MAIN);
-    func_020433E0((const struct DispVram *)d_021FDBA0);
-    func_0203F8F4(*(u16 *)p); func_02045088(*(u16 *)p);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021FDBA0);
+    func_0203F8F4(*(u16 *)p); BMP_WIN_Init(*(u16 *)p);
     func_0203FC28((struct DispConfig *)d_021FDAA0);
     func_021F8DA0((const struct BgTemplate *)d_021FDB40,1,0);
     func_021F8DA0((const struct BgTemplate *)d_021FDB60,2,0);
@@ -817,22 +817,22 @@ void func_021F899C(u8 *p)
     func_021F8DA0((const struct BgTemplate *)d_021FDB00,4,0);
     func_021F8DA0((const struct BgTemplate *)d_021FDB20,7,0);
     func_02040588(0,1);
-    func_02046440(0,2,0,4,0,*(u16 *)p,0);
+    G3D_SYSTEM_Init(0,2,0,4,0,*(u16 *)p,0);
     func_0204044C(3);
-    func_02046BE0(0,1);
-    light=func_02048A24(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021FDA7C.c,&d_021FDA7C.a,&d_021FDA7C.b,*(u16 *)p);
+    G3D_SYSTEM_SetSwapBuffersMode(0,1);
+    light=G3D_CAMERA_Create(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021FDA7C.c,&d_021FDA7C.a,&d_021FDA7C.b,*(u16 *)p);
     *(void **)(p+0xA8)=light;
     func_02048AD0(light);
     func_0207DCF8(d_021FDAB0);
     G3X_EdgeMarking(0); G3X_AntiAlias(1); G3X_AlphaBlend(1);
-    func_02046BE0(0,0);
+    G3D_SYSTEM_SetSwapBuffersMode(0,0);
     big=d_021FDBF8;
     small=d_021FDBD4;
     board=func_0204EBD4((u8 *)(&big),(void *)(u32_021F899C)*(u16 *)p);
     *(void **)(p+0xAC)=board;
     func_0204ED70(board,(struct Blk3 *)(&small));
-    func_0204A48C((const struct Cfg *)d_020A1448,(u32_021F899C)d_021FDBA0,*(u16 *)p);
-    func_020434DC(16,1); func_02043598(16,1);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32_021F899C)d_021FDBA0,*(u16 *)p);
+    func_020434DC(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     func_0207D63C((void *)0x04000050,8,1,0,10);
     GX_SetVisibleWnd(4);
     G2_SetWndOBJInsidePlane(23,1);
@@ -846,10 +846,10 @@ void func_021F8BD4(u8 *p)
     u16 palette[16];
     u8 i=0;
     u16 old,new;
-    func_02049BDC((void *)(((struct ActingScene *)p)->f18.u),2,0,32,32,32,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),2,0,32,32,32,((struct ActingScene *)p)->f0);
     func_02049658((void *)(((struct ActingScene *)p)->f18.u),8,3,0,0,0,((struct ActingScene *)p)->f0);
     func_020498F4((void *)(((struct ActingScene *)p)->f18.u),14,3,0,0,0,((struct ActingScene *)p)->f0);
-    func_02049BDC((void *)(((struct ActingScene *)p)->f18.u),3,0,0,0,32,((struct ActingScene *)p)->f0);
+    ARC_UTIL_UploadPaletteFromHandle((void *)(((struct ActingScene *)p)->f18.u),3,0,0,0,32,((struct ActingScene *)p)->f0);
     func_02049658((void *)(((struct ActingScene *)p)->f18.u),9,2,0,0,0,((struct ActingScene *)p)->f0);
     func_020498F4((void *)(((struct ActingScene *)p)->f18.u),15,2,0,0,0,((struct ActingScene *)p)->f0);
     func_02049B68((void *)(((struct ActingScene *)p)->f18.u),5,4,0,0,((struct ActingScene *)p)->f0);
@@ -878,7 +878,7 @@ void func_021F8BD4(u8 *p)
 
 
 /*
- * Unblocked by matching func_02157364 (ov010, EXACT, Thumb): the +0008 call
+ * Unblocked by matching MUSICAL_PROGRAM_GetBaseProgramId (ov010, EXACT, Thumb): the +0008 call
  * site now attests as `matched`. ov009 holds ARM code at that address; ov010
  * is the coherent Thumb leaf, so the declaration is thumb/ov010 (the earlier
  * `arm` was wrong).
@@ -887,7 +887,7 @@ void func_021F8BD4(u8 *p)
  */
 void func_021F8D88(u8 *p, u32 a1)
 {
-    int v = func_02157364(((struct ActingPartA *)((u8 *)((struct ActingScene *)p)->f30))->f14);
+    int v = MUSICAL_PROGRAM_GetBaseProgramId(((struct ActingPartA *)((u8 *)((struct ActingScene *)p)->f30))->f14);
     func_021F6FB0(((struct ActingScene *)p)->f3C, v);
 }
 
@@ -1020,7 +1020,7 @@ void func_021F9140(u8 *p, u8 n, u8 i)
 {
     void *table;
     u16 score;
-    table = func_0204A380((void *)(((struct ActingScene *)p)->f18.u), n + 0x37, 0, ((struct ActingScene *)p)->f0);
+    table = ARC_UTIL_LoadHandleMember((void *)(((struct ActingScene *)p)->f18.u), n + 0x37, 0, ((struct ActingScene *)p)->f0);
     score = *(u16 *)(*(u8 **)(*(u8 * *)&((struct ActingScene *)p)->f30 + i * 4 + 4) + 0x4a);
     if (score >= 70) {
         func_021FAD0C(((struct ActingScene *)p)->fB0, table, 0, (u8)(1 << i));
@@ -1035,7 +1035,7 @@ void func_021F9140(u8 *p, u8 n, u8 i)
 
 
 
-void func_021F91A8(char *p, u8 n, u8 mask){void *table;table=func_0204A380((void *)(((struct ActingScene *)p)->f18.u),n+0x4b,0,((struct ActingScene *)p)->f0);func_021FAD0C(((struct ActingScene *)p)->fB0,table,0,mask);}
+void func_021F91A8(char *p, u8 n, u8 mask){void *table;table=ARC_UTIL_LoadHandleMember((void *)(((struct ActingScene *)p)->f18.u),n+0x4b,0,((struct ActingScene *)p)->f0);func_021FAD0C(((struct ActingScene *)p)->fB0,table,0,mask);}
 
 
 
@@ -1080,15 +1080,15 @@ void func_021F91CC(Fade *p)
 void func_021F92CC(u8 *p)
 {
     int zero;
-    ((struct ActingScene *)p)->fD0.u=func_020450F0(1,4,20,24,4,15,1);
-    func_02045334((struct Descriptor *)((struct ActingScene *)p)->fD0.u);
-    func_02045374((struct Cfg *)(((struct ActingScene *)p)->fD0.u));
+    ((struct ActingScene *)p)->fD0.u=BMP_WIN_Create(1,4,20,24,4,15,1);
+    BMP_WIN_TransferChars((struct Descriptor *)((struct ActingScene *)p)->fD0.u);
+    BMP_WIN_MakeScreen((struct Cfg *)(((struct ActingScene *)p)->fD0.u));
     func_020409B4(1);
     zero=0;
-    ((struct ActingScene *)p)->fD4.u=(u32)func_0201D7EC(23,0,0,0,((struct ActingScene *)p)->f0);
+    ((struct ActingScene *)p)->fD4.u=(u32)GF_FONT_Create(23,0,0,0,((struct ActingScene *)p)->f0);
     ((struct ActingScene *)p)->fDC.u=(u32)MSGDATA_CreateFromMemory(((struct ActingPartB *)(*(u8 * *)&((struct ActingPartA *)(*(u8 * *)&((struct ActingScene *)p)->f30))->f18))->f8,((struct ActingScene *)p)->f0);
     func_02049B40(23,5,0,480,32,((struct ActingScene *)p)->f0);
-    ((struct ActingScene *)p)->fCC.u=(u32)func_0203101C(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->f0,3,256);
+    ((struct ActingScene *)p)->fCC.u=(u32)TCBL_Create(((struct ActingScene *)p)->f0,((struct ActingScene *)p)->f0,3,256);
     ((struct ActingScene *)p)->fD8.u=zero;
     ((struct ActingScene *)p)->fE0.u=zero;
     ((struct ActingScene *)p)->fE4.u=zero;
@@ -1100,15 +1100,15 @@ void func_021F92CC(u8 *p)
 
 void func_021F9374(u8 *p)
 {
-    func_020310C4(((struct ActingScene *)p)->fCC.p);
+    TCBL_Main(((struct ActingScene *)p)->fCC.p);
     if (((struct ActingScene *)p)->fD8.p && func_0201CE30(((struct ActingScene *)p)->fD8.p) == 2) {
         func_0201CE48(((struct ActingScene *)p)->fD8.p);
         ((struct ActingScene *)p)->fD8.p = 0;
     }
     if (((struct ActingScene *)p)->fE4.s == 1) {
-        func_0201C4E4(((struct ActingScene *)p)->fE8.p);
+        PRINTSYS_QUE_Main(((struct ActingScene *)p)->fE8.p);
         if (func_0201C6B4(((struct ActingScene *)p)->fE8.p) == 1) {
-            func_02045334(((struct ActingScene *)p)->fD0.p);
+            BMP_WIN_TransferChars(((struct ActingScene *)p)->fD0.p);
             ((struct ActingScene *)p)->fE4.s = 0;
         }
     }
@@ -1128,21 +1128,21 @@ void func_021F93D8(u8 *p, u16 index, u32 speed)
         ((struct ActingScene *)p)->fD8.p = 0;
     }
     if (((struct ActingScene *)p)->fE0.p) {
-        func_02045808(((struct ActingScene *)p)->fE0.p);
+        STRBUF_Delete(((struct ActingScene *)p)->fE0.p);
         ((struct ActingScene *)p)->fE0.p = 0;
     }
-    func_02043B5C(func_02045770(((struct ActingScene *)p)->fD0.p), 0);
+    BMP_Clear(func_02045770(((struct ActingScene *)p)->fD0.p), 0);
     zero = ZERO;
     ((struct ActingScene *)p)->fE0.p = func_02045EC0(((struct ActingScene *)p)->fDC.p, index);
     if (speed != 255) {
-        ((struct ActingScene *)p)->fD8.p = func_0201CCE4(((struct ActingScene *)p)->fD0.p, zero, zero,
+        ((struct ActingScene *)p)->fD8.p = PRINTSYS_PrintStream(((struct ActingScene *)p)->fD0.p, zero, zero,
             ((struct ActingScene *)p)->fE0.p, ((struct ActingScene *)p)->fD4.p, speed,
             ((struct ActingScene *)p)->fCC.p, 2, ((struct ActingScene *)p)->f0, zero);
     } else {
         func_0201C6FC(((struct ActingScene *)p)->fE8.p, (u32)func_02045770(((struct ActingScene *)p)->fD0.p),
             zero, zero, ((struct ActingScene *)p)->fE0.p, *(u32 *)&((struct ActingScene *)p)->fD4);
         ((struct ActingScene *)p)->fE4.s = 1;
-        func_02045808(((struct ActingScene *)p)->fE0.p);
+        STRBUF_Delete(((struct ActingScene *)p)->fE0.p);
         ((struct ActingScene *)p)->fE0.p = (void *)zero;
     }
 }
@@ -1157,11 +1157,11 @@ void func_021F94B0(u8 *p)
         ((struct ActingScene *)p)->fD8.p = 0;
     }
     if (((struct ActingScene *)p)->fE0.p) {
-        func_02045808(((struct ActingScene *)p)->fE0.p);
+        STRBUF_Delete(((struct ActingScene *)p)->fE0.p);
         ((struct ActingScene *)p)->fE0.p = 0;
     }
-    func_02043B5C(func_02045770(((struct ActingScene *)p)->fD0.p), 0);
-    func_02045334(((struct ActingScene *)p)->fD0.p);
+    BMP_Clear(func_02045770(((struct ActingScene *)p)->fD0.p), 0);
+    BMP_WIN_TransferChars(((struct ActingScene *)p)->fD0.p);
 }
 
 
@@ -1414,7 +1414,7 @@ void func_021F9794(char *p)
                 result = func_021F99F4(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
                 *(int *)(*(char **)(*(char * *)&((struct ActingScene *)p)->f30 + ((struct ActingScene *)p)->f11C * 4 + 4) + ((struct ActingScene *)p)->f11D * 4 + 0x54) = 1;
                 func_020061E4(result);
-            } else if (func_0203D378() == 1) {
+            } else if (GFL_NET_IsParentAid() == 1) {
                 result = func_021F99F4(p, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D);
                 if (result == 1580) func_021FDA24(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 1);
                 else func_021FDA24(**(void ** *)&((struct ActingScene *)p)->f30, ((struct ActingScene *)p)->f11C, ((struct ActingScene *)p)->f11D, 2);
@@ -1431,7 +1431,7 @@ int func_021F99F4(char *p, unsigned i, unsigned j)
 {
     u16 v;
     u8 old;
-    v = func_02157394((int)(((struct ActingPartA *)(*(char * *)&((struct ActingScene *)p)->f30))->f14), (u8)(int)func_021F5140((void *)func_021F9E0C((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct ActingScene *)p)->f30 + i * 4 + 4) + j * 6 + 0x14))));
+    v = MUSICAL_PROGRAM_GetCategoryShare((int)(((struct ActingPartA *)(*(char * *)&((struct ActingScene *)p)->f30))->f14), (u8)(int)func_021F5140((void *)func_021F9E0C((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct ActingScene *)p)->f30 + i * 4 + 4) + j * 6 + 0x14))));
     old = *(u8 *)(p + 0xf7 + i);
     *(u8 *)(p + 0xf7 + i) = old + v;
     func_021F95F0((u8 *)p);
@@ -1443,7 +1443,7 @@ int func_021F99F4(char *p, unsigned i, unsigned j)
 void func_021F9A48(char *p)
 {
     u8 i;
-    if (**(void ** *)&((struct ActingScene *)p)->f30 != 0 && func_0203D378() != 1) return;
+    if (**(void ** *)&((struct ActingScene *)p)->f30 != 0 && GFL_NET_IsParentAid() != 1) return;
     for (i = 0; i < 4; i++) {
         if (*(u16 *)(p + i * 2 + 0x124) != 0) {
             *(u16 *)(p + i * 2 + 0x124) -= 1;
@@ -1473,7 +1473,7 @@ static inline u32 random_below(u32 n)
 void func_021F9AD8(char *p, int mode, u8 slot)
 {
     u8 i;
-    if (**(void ** *)&((struct ActingScene *)p)->f30 && func_0203D378() != 1) return;
+    if (**(void ** *)&((struct ActingScene *)p)->f30 && GFL_NET_IsParentAid() != 1) return;
     for (i = 0; i < 4; i++) {
         int eligible[2] = {0, 0};
         char *record = *(char **)(*(char * *)&((struct ActingScene *)p)->f30 + i * 4 + 4);

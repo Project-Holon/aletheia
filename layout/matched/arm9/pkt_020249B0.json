@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020249B0",
+   "name": "PMS_WORD_IsSameGroup",
    "address": "0x020249B0",
    "kind": "game",
    "region": "arm9",

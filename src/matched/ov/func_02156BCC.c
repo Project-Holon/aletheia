@@ -1,5 +1,5 @@
 /*
- * function: func_02156BCC
+ * function: MUSICAL_EVENT_IsAborted
  * address:  0x02156BCC
  * packet:   pkt_02156BCC
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02156BCC.c \
- *       --func func_02156BCC --addr 0x02156BCC --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MUSICAL_EVENT_IsAborted.c \
+ *       --func MUSICAL_EVENT_IsAborted --addr 0x02156BCC --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17619.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_02156BCC(void *p) { return ((struct Obj17619 *)p)->f50; }
+u32 MUSICAL_EVENT_IsAborted(void *p) { return ((struct Obj17619 *)p)->f50; }

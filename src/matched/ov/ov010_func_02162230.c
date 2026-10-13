@@ -1,5 +1,5 @@
 /*
- * function: func_02162230
+ * function: EVENT_FIELD_PROCLINK_SetReturnSlot
  * address:  0x02162230
  * packet:   pkt_ov010_02162230
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 
 extern void func_02082D44(void *src, void *dst, unsigned n);
 
-void func_02162230(char *p, int index, void *s)
+void EVENT_FIELD_PROCLINK_SetReturnSlot(char *p, int index, void *s)
 {
     func_02082D44(s, p + 8 + index * 8, 8);
     *(u16 *)(p + 2) = (u16)(*(u16 *)(p + 2) | (1 << index));

@@ -1,5 +1,5 @@
 /*
- * function: func_0219D3F0
+ * function: FLDMMDL_BLACT_AddResSlot
  * address:  0x0219D3F0
  * packet:   pkt_ov021_0219D3F0
  * region:   ov021
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219C4AC  0x0219C4AC  thumb  ov021
- *   func_020500F0  0x020500F0  arm
- *   d_021D8064     0x021D8064  data a2
- *   d_021D75C4     0x021D75C4  data ov021 a2
+ *   FLDMMDL_BLACT_AddVramSlot  0x0219C4AC  thumb  ov021
+ *   BILLBOARD_ACT_CreateSlots  0x020500F0  arm
+ *   sBlactTexFmt     0x021D8064  data a2
+ *   sBlactCellSize     0x021D75C4  data ov021 a2
  */
 
 typedef unsigned int   u32;
-extern int func_0219C4AC(u32 a, u32 b, u32 c, u32 d);
+extern int FLDMMDL_BLACT_AddVramSlot(u32 a, u32 b, u32 c, u32 d);
 typedef unsigned short u16;
 struct BbActRec;
 struct BbActSys;
-extern u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n);
-extern unsigned short d_021D8064[];
-extern unsigned short d_021D75C4[];
+extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *o, const struct BbActRec *recs, u32 n);
+extern unsigned short sBlactTexFmt[];
+extern unsigned short sBlactCellSize[];
 
-unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5)
+unsigned short FLDMMDL_BLACT_AddResSlot(int *o, int a1, int a2, int a3, int a4, int a5)
 {
     unsigned short *q;
     struct {
@@ -38,14 +38,14 @@ unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5)
     } s;
 
     if (a5 == -1) {
-        return (unsigned short)func_0219C4AC(o[1], a4, a2, a3);
+        return (unsigned short)FLDMMDL_BLACT_AddVramSlot(o[1], a4, a2, a3);
     }
     s.w0 = a4;
     s.b4 = 0;
-    s.b5 = d_021D8064[a3];
-    q = d_021D75C4 + a2 * 2;
+    s.b5 = sBlactTexFmt[a3];
+    q = sBlactCellSize + a2 * 2;
     s.b6 = q[0];
     s.b7 = q[1];
     s.w2 = a5;
-    return func_020500F0((struct BbActSys *)o[1], (const struct BbActRec *)(&s), 1);
+    return BILLBOARD_ACT_CreateSlots((struct BbActSys *)o[1], (const struct BbActRec *)(&s), 1);
 }

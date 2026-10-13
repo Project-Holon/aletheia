@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Truncates both arguments to 16 bits, then runs the pair through
- * func_020371AC and GFL_NET_RestartByNetType.
+ * GFL_NET_WM_ICON_SetDefaultPos and GFL_NET_RestartByNetType.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/GFL_NET_RestartWithTimeout.c \
@@ -18,16 +18,17 @@
  *
  * symbols:
  *   GFL_NET_RestartByNetType  0x0203D2CC  arm
+ *   GFL_NET_WM_ICON_SetDefaultPos  0x020371AC  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020371AC(unsigned short a, unsigned int b);
+extern void GFL_NET_WM_ICON_SetDefaultPos(unsigned short a, unsigned int b);
 extern void GFL_NET_RestartByNetType(void);
 
 void GFL_NET_RestartWithTimeout(u32 a, u32 b)
 {
-    func_020371AC((u16)a, (u16)b);
+    GFL_NET_WM_ICON_SetDefaultPos((u16)a, (u16)b);
     GFL_NET_RestartByNetType();
 }

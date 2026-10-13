@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1AC
+ * function: ITEMMENU_CloseYesNoList
  * address: 0x021BB1AC
  * packet: pkt_ov070_021BB1AC
  * region: ov070
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02027858 0x02027858 thumb
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  */
 #include "../include/Obj13159.h"
 struct TaskMenu;
-extern void func_02027858(struct TaskMenu *m);
-void func_021BB1AC(char *p) { func_02027858(((struct Obj13159 *)p)->f77C); ((struct Obj13159 *)p)->f77C = 0; }
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+void ITEMMENU_CloseYesNoList(char *p) { APP_TASKMENU_CloseMenu(((struct Obj13159 *)p)->f77C); ((struct Obj13159 *)p)->f77C = 0; }

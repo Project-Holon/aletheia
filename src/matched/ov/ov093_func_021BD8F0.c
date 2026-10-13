@@ -1,5 +1,5 @@
 /*
- * function: func_021BD8F0
+ * function: BTL_SERVER_FLOW_ProcMemberInCore
  * address: 0x021BD8F0
  * packet: pkt_ov093_021BD8F0
  * region: ov093
@@ -9,19 +9,19 @@
  * status: EXACT
  * symbols:
  *   func_021B9AEC 0x021B9AEC thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  *   func_021B9D10 0x021B9D10 thumb ov093
  *   func_021B9C10 0x021B9C10 thumb ov093
  *   func_021B9BF0 0x021B9BF0 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021B8750 0x021B8750 thumb ov093
- *   func_021D8484 0x021D8484 thumb ov093
- *   func_021DCF5C 0x021DCF5C thumb ov093
- *   func_021D63EC 0x021D63EC thumb ov093
- *   func_021D6580 0x021D6580 thumb ov093
- *   func_021B8588 0x021B8588 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_MAIN_RegisterZukanSeen 0x021B8750 thumb ov093
+ *   BTL_CALC_AddAbilityHandlers 0x021D8484 thumb ov093
+ *   BTL_HANDLER_ITEM_AddHeldItemFactor 0x021DCF5C thumb ov093
+ *   BTL_POKEPARAM_StartTurnThreshold 0x021D63EC thumb ov093
+ *   BTL_POKEPARAM_ReloadAndResetEffects 0x021D6580 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   func_021B99B8 0x021B99B8 thumb ov093
- *   func_021B8BEC 0x021B8BEC thumb ov093
+ *   BTL_MAIN_GetClientTrainerIndex 0x021B8BEC thumb ov093
  *   func_021BD9C4 0x021BD9C4 thumb ov093
  */
 #include "../include/Obj00003.h"
@@ -29,44 +29,44 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char *func_021B9AEC(char *, int);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 struct Arr;
 extern void func_021B9D10(char *a, struct Arr *arr, int k);
 struct S2;
 extern void func_021B9C10(u32 *p, int a, int b);
 extern u32 func_021B9BF0(struct S2 *p, u32 i);
-extern u8 func_021D5440(u8 *p);
-extern void func_021B8750(char *p, unsigned char k, void *m);
-extern void *func_021D8484(void *a);
-extern void *func_021DCF5C(void *p);
-extern void func_021D63EC(u8 *p, u16 n);
-extern void func_021D6580(void *);
-extern u32 func_021B8588(void **p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_MAIN_RegisterZukanSeen(char *p, unsigned char k, void *m);
+extern void *BTL_CALC_AddAbilityHandlers(void *a);
+extern void *BTL_HANDLER_ITEM_AddHeldItemFactor(void *p);
+extern void BTL_POKEPARAM_StartTurnThreshold(u8 *p, u16 n);
+extern void BTL_POKEPARAM_ReloadAndResetEffects(void *);
+extern u32 BTL_MAIN_GetRule(void **p);
 extern int func_021B99B8(void *pp, unsigned int b);
-extern u8 func_021B8BEC(u8 *, u32, u8);
+extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *, u32, u8);
 extern void func_021BD9C4(void *, int, u8, void *);
-void func_021BD8F0(u8 *p, u8 i, u8 a, u8 b)
+void BTL_SERVER_FLOW_ProcMemberInCore(u8 *p, u8 i, u8 a, u8 b)
 {
     char *arr;
     u8 *m;
     u8 id;
     u8 *flags;
     arr = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, i);
-    func_021CD4B0(((struct Obj00003 *)p)->fC, 42, i);
+    BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 42, i);
     func_021B9D10(*(char * *)&((struct Obj00003 *)p)->f4, (struct Arr *)arr, i);
     if (a != b) func_021B9C10((u32 *)arr, a, b);
     m = (u8 *)func_021B9BF0((struct S2 *)arr, a);
-    id = func_021D5440(m);
-    func_021B8750(((struct Obj00003 *)p)->f4, i, m);
-    func_021D8484(m);
-    func_021DCF5C(m);
-    func_021D63EC(m, ((struct Obj00003 *)p)->f10);
-    func_021D6580(m);
+    id = BTL_POKEPARAM_GetPokeId(m);
+    BTL_MAIN_RegisterZukanSeen(((struct Obj00003 *)p)->f4, i, m);
+    BTL_CALC_AddAbilityHandlers(m);
+    BTL_HANDLER_ITEM_AddHeldItemFactor(m);
+    BTL_POKEPARAM_StartTurnThreshold(m, ((struct Obj00003 *)p)->f10);
+    BTL_POKEPARAM_ReloadAndResetEffects(m);
     flags = p + 0x7c1;
     flags[id] = 1;
-    if (func_021B8588(((struct Obj00003 *)p)->f4) == 3) {
+    if (BTL_MAIN_GetRule(((struct Obj00003 *)p)->f4) == 3) {
         if ((u32)func_021B99B8(((struct Obj00003 *)p)->f4, (int)i) <= a) flags[id] = 0;
     }
-    func_021CD4B0(((struct Obj00003 *)p)->fC, 18, i, a, b, (u16)((struct Obj00003 *)p)->f10);
-    func_021BD9C4(p + 0x1ab8, func_021B8BEC(*(u8 * *)&((struct Obj00003 *)p)->f4, i, a), id, ((struct Obj00003 *)p)->f8);
+    BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 18, i, a, b, (u16)((struct Obj00003 *)p)->f10);
+    func_021BD9C4(p + 0x1ab8, BTL_MAIN_GetClientTrainerIndex(*(u8 * *)&((struct Obj00003 *)p)->f4, i, a), id, ((struct Obj00003 *)p)->f8);
 }

@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204384C"
+    "BMP_CreateFromArchive"
+   ],
+   "addresses": [
+    "0x0204384C"
    ]
   },
   {
@@ -52,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020439A0",
+   "name": "BMP_Blit",
    "address": "0x020439A0",
    "kind": "game",
    "region": "arm9",
@@ -76,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02043AF4",
+   "name": "BMP_FillRect",
    "address": "0x02043AF4",
    "kind": "game",
    "region": "arm9",

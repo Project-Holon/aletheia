@@ -15,8 +15,8 @@
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
  *   ov_id 0x00000072 data
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   GAME_DATA_GetSaveBlock3B 0x02012EFC thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
@@ -38,8 +38,8 @@
  *   func_021D7B64 0x021D7B64 thumb ov116
  *   func_021D7CF4 0x021D7CF4 thumb ov116
  *   func_021C8FA8 0x021C8FA8 arm ov114
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021D730C 0x021D730C thumb ov116
  *   func_021D73D0 0x021D73D0 thumb ov116
  *   func_021D7420 0x021D7420 thumb ov116
@@ -55,31 +55,31 @@
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_0200DD28 0x0200DD28 thumb
  *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
- *   func_0200846C 0x0200846C thumb
+ *   MYSTATUS_Create 0x0200846C thumb
  *   func_020307B0 0x020307B0 arm
  *   func_02012944 0x02012944 thumb
- *   func_02008494 0x02008494 thumb
+ *   MYSTATUS_Copy 0x02008494 thumb
  *   func_02008510 0x02008510 thumb
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_020458F8 0x020458F8 arm
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetLength 0x020458F8 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_0217BC44 0x0217BC44 arm ov009
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0217BC90 0x0217BC90 arm ov009
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_021B9B00 0x021B9B00 thumb ov114
  *   func_021C9744 0x021C9744 arm ov114
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009470 0x02009470 thumb
  *   func_0201283C 0x0201283C thumb
  *   func_0200E6F0 0x0200E6F0 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_02008530 0x02008530 thumb
- *   d_0209DF08 0x0209DF08 data a1
- *   d_0209DF0C 0x0209DF0C data a1
+ *   GAME_VERSION_Code 0x0209DF08 data a1
+ *   GAME_LANGUAGE_Code 0x0209DF0C data a1
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
  *   func_02008550 0x02008550 thumb
@@ -207,11 +207,11 @@ typedef int s32_021D7250;
 typedef int s32_021D7258;
 
 extern int func_02034AC4(s32_021D6660 handle);
-extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
@@ -226,9 +226,9 @@ extern void GFL_USE_FadeInBgmFull(unsigned);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021D737C(u8 *);
 extern void func_021D7B70(u8 *,u32);
-extern void func_0204E720(u32 a, s32_021D6710 b, s32_021D6710 c, s32_021D6710 d);
+extern void FADE_Start(u32 a, s32_021D6710 b, s32_021D6710 c, s32_021D6710 d);
 extern void func_021D7A3C(u8 *);
-extern int func_021D73D4(u8 *),func_0204E804(void),func_021D7A94(u8 *),func_021D80CC(void *);
+extern int func_021D73D4(u8 *),FADE_IsActive(void),func_021D7A94(u8 *),func_021D80CC(void *);
 extern void func_021D8010(void *,u32);
 extern void func_021D8190(u8 *p);
 extern int func_021D6C50(u8 *,unsigned),func_021D6D18(u8 *,u8 *),func_021D7424(u8 *,int),func_021D7AC8(u8 *);
@@ -245,7 +245,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int);
 extern void func_02034A5C(int handle);
 extern int GFL_USE_PopBgm(void);
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 extern void func_021C941C(unsigned x);
 extern void func_021C94A0(unsigned x, unsigned y, unsigned z);
 extern u32 func_02025C1C(u32,u32,u32);
@@ -256,19 +256,19 @@ extern int func_02167ED8(void *, void *);
 extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void func_0200DD28(u8 *p, u8 a, u8 b, u32 *q);
 extern void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b);
-extern void *func_0200846C(int);
+extern void *MYSTATUS_Create(int);
 extern u32 func_020307B0(void *p);
-extern void func_02008494(void *, void *);
+extern void MYSTATUS_Copy(void *, void *);
 extern void *func_02008510(void *, int);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
+extern u16 STRBUF_GetEosChar(void);
 extern int func_0217BC44(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_0217BC90(void);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_021B9B00(u8 *,int);
 extern void func_021C9744(unsigned char *p, unsigned x);
@@ -353,7 +353,7 @@ void func_021D7258(u8 *p);
 void func_021D7260(u8 *p);
 void func_021D7278(u8 *p,int a);
 extern u8 ov_id[];
-extern u8 d_0209DF08, d_0209DF0C;
+extern u8 GAME_VERSION_Code, GAME_LANGUAGE_Code;
 extern struct MsgData *D_020A7370;
 extern u32 d_021D8560[],d_021D8568[],d_021DA62C[];
 extern u8 ov129_id[];
@@ -362,13 +362,13 @@ int func_021D6660(void *ctx,int unused,u8 *q) {
     u8 *p;
     void *save;
     func_02034AC4((s32_021D6660)ov_id);
-    func_0203064C(1,125,0x18000);
-    p=func_0203159C(ctx,0x185c,125);
+    GFL_HEAP_CreateChildHeap(1,125,0x18000);
+    p=PROCSYS_AllocProcWork(ctx,0x185c,125);
     func_02082BCC(p,0,0x185c);
     *(u8 **)p=q;
     *(int *)(q+8)=1;
     save=func_020120F4(*(void **)(*(u8 **)p+4));
-    q=func_02012EBC(save);
+    q=GAME_DATA_GetSaveControl(save);
     *(void **)(p+0x1844)=save;
     *(int *)(p+0x1848)=(int)func_02008B08(q);
     *(int *)(p+0x184c)=func_0201283C(save);
@@ -392,8 +392,8 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
     case 2: func_021D737C(p); ++*state; break;
     case 3: if(func_021D73D4(p)==0) ++*state; else { ((struct Obj22612 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; *state=17; } break;
-    case 4: func_021D7B70(p+4,125); func_0204E720(3,16,0,1); ++*state; break;
-    case 5: if(func_0204E804()==0) ++*state; break;
+    case 4: func_021D7B70(p+4,125); FADE_Start(3,16,0,1); ++*state; break;
+    case 5: if(FADE_IsActive()==0) ++*state; break;
     case 6: func_021D7A3C(p); func_021D8010(p+4,26); func_021D8190(p+4); ++*state; break;
     case 7: if(func_021D7A94(p)!=0) ++*state; break;
     case 8: if(func_021D80CC(p+4)!=0) ++*state; break;
@@ -402,8 +402,8 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     case 11: func_021D6CBC(p+0x1610,((struct Obj00671 *)p)->f1844,p+0x182c); ++*state; break;
     case 12: if(func_021D6D18(p+0x1610,p+0x182c)!=0) ++*state; break;
     case 13: v=func_021D7424(p,125); if(v==1) { ((struct Obj22613 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=0; ++*state; } else if(v==2) { ((struct Obj22614 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; ++*state; } break;
-    case 14: func_021D7AA8(p); func_0204E720(3,0,16,1); ++*state; break;
-    case 15: if(func_021D7AC8(p)!=0 && func_0204E804()==0) { func_021D7C58(p+4); ++*state; } break;
+    case 14: func_021D7AA8(p); FADE_Start(3,0,16,1); ++*state; break;
+    case 15: if(func_021D7AC8(p)!=0 && FADE_IsActive()==0) { func_021D7C58(p+4); ++*state; } break;
     case 16: if(GFL_NET_ERR_ShowScreen(0)==0) func_021D73E0(p); ++*state; break;
     case 17: GFL_USE_FadeOutBgm(6); ++*state; break;
     case 18: if(GFL_USE_IsBgmFading()==0) ++*state; break;
@@ -431,7 +431,7 @@ int func_021D6918(void *p, int a, int b, u8 *q) {
     return 1;
 }
 
-int func_021D696C(unsigned char *a,int b) { if(b<=13 && func_0204E804()==0 && ((struct Obj13858 *)a)->fB68!=0 && ((struct Obj13858 *)a)->fB6A==0) return 1; return 0; }
+int func_021D696C(unsigned char *a,int b) { if(b<=13 && FADE_IsActive()==0 && ((struct Obj13858 *)a)->fB68!=0 && ((struct Obj13858 *)a)->fB6A==0) return 1; return 0; }
 
 void func_021D6998(void *a) { func_02082BCC(a,0,0xa9c); }
 
@@ -495,7 +495,7 @@ void func_021D6AF0(u8 *p, void *q) {
 
 void func_021D6B30(unsigned char *a,void *b) { BSUBWAY_SAVEDATA_SetHistory(b,a+0x69e,((struct Obj13861 *)a)->f8,((struct Obj13861 *)a)->fA); }
 
-void func_021D6B50(unsigned char *a,int b) { func_02082BCC(a,0,0x21c); ((struct Obj22619 *)a)->f218=func_0200846C(b); }
+void func_021D6B50(unsigned char *a,int b) { func_02082BCC(a,0,0x21c); ((struct Obj22619 *)a)->f218=MYSTATUS_Create(b); }
 
 void func_021D6B70(unsigned char *a) { if(((struct Obj10338 *)a)->f218) { func_020307B0(((struct Obj10338 *)a)->f218); ((struct Obj10338 *)a)->f218=0; } }
 
@@ -509,20 +509,20 @@ void func_021D6B88(u8 *p, void *save, int id)
     void *str;
     u16 *chars;
     u32 i;
-    func_02008494(func_02012944(save), ((struct Obj04469 *)p)->f218);
+    MYSTATUS_Copy(func_02012944(save), ((struct Obj04469 *)p)->f218);
     str = func_02008510(((struct Obj04469 *)p)->f218, id);
     func_02082BCC(p + 0x1f0, 0, 40);
     ((struct Obj04469 *)p)->f214 = id;
     chars = STRBUF_GetChars(str);
-    for (i = 0; i < func_020458F8(str) + 1u; i++) {
+    for (i = 0; i < STRBUF_GetLength(str) + 1u; i++) {
         u16 c = chars[i];
-        if (c == func_02045A98()) ((u16 *)(p + 0x1f0))[i] = 0;
+        if (c == STRBUF_GetEosChar()) ((u16 *)(p + 0x1f0))[i] = 0;
         else ((u16 *)(p + 0x1f0))[i] = c;
     }
     ((struct Obj04469 *)p)->f208 = p + 0x1f0;
     ((struct Obj04469 *)p)->f210 = 0;
     func_0217BC44((short unsigned int **)(p + 0x208), 1, 0, 0, (char *)(p + 0x20c), (int *)(p + 0x210), 128);
-    func_02045808(str);
+    STRBUF_Delete(str);
 }
 
 int func_021D6C50(u8 *p,unsigned heap) {
@@ -534,9 +534,9 @@ int func_021D6C50(u8 *p,unsigned heap) {
     if(flag==1 && ready==1) {
         bank = func_02045B38(0,2,0x51,heap);
         str = func_02045EC0(bank,15);
-        func_02045C04(bank);
+        MSGDATA_Delete(bank);
         func_020084E4((u16 *)((struct Obj13862 *)p)->f218,str);
-        func_02045808(str);
+        STRBUF_Delete(str);
         return 2;
     }
     return 1;
@@ -550,7 +550,7 @@ int func_021D6C50(u8 *p,unsigned heap) {
  */
 void func_021D6CBC(u8 *p,void *q,u8 *r) {
     int a,b,c;
-    func_02012EBC(q);
+    GAME_DATA_GetSaveControl(q);
     a = (int)GAME_DATA_GetSaveBlock3B(q);
     b = (int)GAME_DATA_GetSaveBlock3A(q);
     c = *(int *)(p+0x218);
@@ -583,7 +583,7 @@ void func_021D6D40(u8 *p, void *save, void *idx)
 {
     void *profile, *n, *object;
     int i;
-    profile = func_02012EBC(save);
+    profile = GAME_DATA_GetSaveControl(save);
     func_02009470(profile);
     func_0201283C(save);
     n = GAME_DATA_GetSaveBlock3A(save);
@@ -591,8 +591,8 @@ void func_021D6D40(u8 *p, void *save, void *idx)
     func_02082BCC(p, 0, 240);
     func_02082D44(func_020084F4(idx), p + 0xb4, 16);
     *(u32 *)(p + 0xc8) = func_02008530(idx);
-    p[0xc4] = d_0209DF08;
-    p[0xc5] = d_0209DF0C;
+    p[0xc4] = GAME_VERSION_Code;
+    p[0xc5] = GAME_LANGUAGE_Code;
     p[0xc6] = func_0200856C(idx);
     p[0xc7] = func_02008570(idx);
     ((Bits *)(p + 0xd4))->b = (u8)(u32)func_02008550(idx);

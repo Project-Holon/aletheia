@@ -1,5 +1,5 @@
 /*
- * function: func_021B7518
+ * function: BTL_MAIN_RunSetupSeqKind3
  * address:  0x021B7518
  * packet:   pkt_ov093_021B7518
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8BEC  0x021B8BEC  thumb  ov093
+ *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
  *   d_021EFD54     0x021EFD54  data   a4
  */
 #include "../include/Obj02130.h"
@@ -19,10 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
+extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
 extern int (*d_021EFD54[7])(u8 *, u8 *);
 
-int func_021B7518(int *sp, u8 *p)
+int BTL_MAIN_RunSetupSeqKind3(int *sp, u8 *p)
 {
     if (*sp == 0) {
         p[0x46b] = 2;
@@ -33,7 +33,7 @@ int func_021B7518(int *sp, u8 *p)
         p[0x42c] = 0;
         p[0x42d] = 1;
         p[0x46c] = *(u8 *)(((struct Obj02130 *)p)->f0 + 0x21);
-        p[0x46d] = func_021B8BEC(p, p[0x46c], 0);
+        p[0x46d] = BTL_MAIN_GetClientTrainerIndex(p, p[0x46c], 0);
         *sp = *sp + 1;
         return 0;
     }

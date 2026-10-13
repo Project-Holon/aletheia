@@ -1,5 +1,5 @@
 /*
- * function: func_021A61B0
+ * function: FIELD_PLAYER_NOGRID_CheckSlowFromTurn
  * address:  0x021A61B0
  * packet:   pkt_ov021_021A61B0
  * region:   ov021
@@ -12,26 +12,26 @@
  * 
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A607C  0x021A607C  thumb  ov021
- *   func_021A60DC  0x021A60DC  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_NOGRID_CheckSlowFromStand  0x021A607C  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_CheckSlowStep  0x021A60DC  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D3CC(int a0);
-extern int func_021A607C(void *a, void *b, int c, int d, u16 e, int f);
-extern int func_021A60DC(void *a, void *b, int c, int d, int e, int f);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern int FIELD_PLAYER_NOGRID_CheckSlowFromStand(void *a, void *b, int c, int d, u16 e, int f);
+extern int FIELD_PLAYER_NOGRID_CheckSlowStep(void *a, void *b, int c, int d, int e, int f);
 
-int func_021A61B0(void *a, void *b, int c, int d, u16 e, int f)
+int FIELD_PLAYER_NOGRID_CheckSlowFromTurn(void *a, void *b, int c, int d, u16 e, int f)
 {
-    if (func_0216D3CC((int)b) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd((int)b) == 0) {
         return 0;
     }
     if (e == 9) {
-        return func_021A607C(a, b, c, d, e, f);
+        return FIELD_PLAYER_NOGRID_CheckSlowFromStand(a, b, c, d, e, f);
     }
-    return func_021A60DC(a, b, c, d, e, f);
+    return FIELD_PLAYER_NOGRID_CheckSlowStep(a, b, c, d, e, f);
 }

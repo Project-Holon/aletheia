@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   INTRUDE_COMM_StoreResultRecord 0x02175C88 thumb ov011
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_0203D378(void);
+u32 GFL_NET_IsParentAid(void);
 typedef struct Rec { u32 w[13]; } Rec;
 int INTRUDE_COMM_StoreResultRecord(u8 *a, Rec *b, int c);
 
 void INTRUDE_CMD_RecvProposal(int a, int b, void *c, u8 *d)
 {
-    if (func_0203D378()) INTRUDE_COMM_StoreResultRecord(d + 0x1ac, c, a);
+    if (GFL_NET_IsParentAid()) INTRUDE_COMM_StoreResultRecord(d + 0x1ac, c, a);
 }

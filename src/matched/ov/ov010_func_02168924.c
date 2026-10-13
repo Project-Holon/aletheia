@@ -1,5 +1,5 @@
 /*
- * function: func_02168924
+ * function: FLD_BTL_INST_TOOL_DrawTrainerParty
  * address:  0x02168924
  * packet:   pkt_ov010_02168924
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * Draws `count` distinct battle-facility Pokemon from an a/2/1/5 group
- * list (func_0216880C's record): no repeated species, none of the
+ * list (FLD_BTL_INST_TOOL_LoadTrainerGroup's record): no repeated species, none of the
  * excluded species, and for the first 50 tries no repeated or excluded
- * held item. Builds each one with func_021684E8 under one random trainer
+ * held item. Builds each one with FLD_BTL_INST_TOOL_BuildBattleMon under one random trainer
  * id and optionally reports the first two draws. Returns 1 when the
  * item rule had to be dropped.
  *
@@ -23,11 +23,11 @@
  * and u32 are 4 bytes out).
  *
  * symbols:
- *   func_02168824  0x02168824  thumb  ov010
+ *   FLD_BTL_INST_TOOL_GetRandomU16  0x02168824  thumb  ov010
  *   _s32_div_f     0x0209C0A4  arm
- *   func_02168800  0x02168800  thumb  ov010
- *   func_0216883C  0x0216883C  thumb  ov010
- *   func_021684E8  0x021684E8  thumb  ov010
+ *   FLD_BTL_INST_TOOL_ReadMonData  0x02168800  thumb  ov010
+ *   FLD_BTL_INST_TOOL_GetIvForRank  0x0216883C  thumb  ov010
+ *   FLD_BTL_INST_TOOL_BuildBattleMon  0x021684E8  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -60,12 +60,12 @@ typedef struct BattleMon {
     u8 data[0x3C];
 } BattleMon;
 
-extern int func_02168824(void);
-extern void func_02168800(void *dst, u32 member);
-extern u8 func_0216883C(u32 n);
-extern u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
+extern int FLD_BTL_INST_TOOL_GetRandomU16(void);
+extern void FLD_BTL_INST_TOOL_ReadMonData(void *dst, u32 member);
+extern u8 FLD_BTL_INST_TOOL_GetIvForRank(u32 n);
+extern u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
 
-int func_02168924(FacGroup *group, u16 rank, BattleMon *mons, int count, u16 *exclSpecies, u16 *exclItems, FacDraw *draw, u16 heap)
+int FLD_BTL_INST_TOOL_DrawTrainerParty(FacGroup *group, u16 rank, BattleMon *mons, int count, u16 *exclSpecies, u16 *exclItems, FacDraw *draw, u16 heap)
 {
     u8 natures[4];
     int ids[4];
@@ -84,10 +84,10 @@ int func_02168924(FacGroup *group, u16 rank, BattleMon *mons, int count, u16 *ex
     tries = 0;
     n = 0;
     while (n != count) {
-        id = group->members[(u8)(func_02168824() % group->count)];
-        func_02168800(&rec, id);
+        id = group->members[(u8)(FLD_BTL_INST_TOOL_GetRandomU16() % group->count)];
+        FLD_BTL_INST_TOOL_ReadMonData(&rec, id);
         for (i = 0; i < n; i++) {
-            func_02168800(&other, ids[i]);
+            FLD_BTL_INST_TOOL_ReadMonData(&other, ids[i]);
             if (other.species == rec.species)
                 break;
         }
@@ -103,7 +103,7 @@ int func_02168924(FacGroup *group, u16 rank, BattleMon *mons, int count, u16 *ex
         }
         if (tries < 50) {
             for (i = 0; i < n; i++) {
-                func_02168800(&other, ids[i]);
+                FLD_BTL_INST_TOOL_ReadMonData(&other, ids[i]);
                 if (other.item != 0 && other.item == rec.item)
                     break;
             }
@@ -127,12 +127,12 @@ int func_02168924(FacGroup *group, u16 rank, BattleMon *mons, int count, u16 *ex
         n++;
     }
 
-    iv = func_0216883C(rank);
-    otId = func_02168824() | (func_02168824() << 16);
+    iv = FLD_BTL_INST_TOOL_GetIvForRank(rank);
+    otId = FLD_BTL_INST_TOOL_GetRandomU16() | (FLD_BTL_INST_TOOL_GetRandomU16() << 16);
     if (tries >= 50)
         fail = 1;
     for (i = 0; i < n; i++)
-        pids[i] = func_021684E8(&mons[i], (u16)ids[i], otId, 0, iv, i, fail, heap);
+        pids[i] = FLD_BTL_INST_TOOL_BuildBattleMon(&mons[i], (u16)ids[i], otId, 0, iv, i, fail, heap);
     if (draw == 0)
         return fail;
     draw->otId = otId;

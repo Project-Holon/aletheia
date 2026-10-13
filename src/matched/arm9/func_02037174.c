@@ -1,5 +1,5 @@
 /*
- * function: func_02037174
+ * function: GFL_NET_WM_ICON_EasyObjWindowOn
  * address:  0x02037174
  * packet:   pkt_02037154
  * region:   arm9
@@ -14,13 +14,13 @@
  *
  * Sets the flag byte at +0x0F of the armed handler, and does nothing at all
  * when the handler is not armed - the `movne`/`strbne` pair is the whole body.
- * src/matched/func_02037190.c is the same function clearing the same byte.
+ * src/matched/GFL_NET_WM_ICON_EasyObjWindowOff.c is the same function clearing the same byte.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02037174.c \
- *       --func func_02037174 --addr 0x02037174 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_WM_ICON_EasyObjWindowOn.c \
+ *       --func GFL_NET_WM_ICON_EasyObjWindowOn --addr 0x02037174 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ typedef unsigned int  u32;
 
 extern u32 g_021469C8[];
 
-void func_02037174(void)
+void GFL_NET_WM_ICON_EasyObjWindowOn(void)
 {
     u8 *q;
 

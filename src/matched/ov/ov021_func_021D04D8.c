@@ -1,5 +1,5 @@
 /*
- * function: func_021D04D8
+ * function: FLDEFF_HIDE_Init
  * address:  0x021D04D8
  * packet:   pkt_ov021_021D04D8
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216E1A4  0x0216E1A4  thumb  ov010
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
+ *   FLDMMDL_GetCheckInfo  0x0216E1A4  thumb  ov010
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -31,12 +31,12 @@ typedef struct St021D04D8 {
     u16 f18;
 } St021D04D8;
 
-extern int func_021AC1AC(u32 a);
-extern int func_0216E1A4(int a0, int a1);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
+extern int FLDMMDL_GetCheckInfo(int a0, int a1);
 
-void func_021D04D8(void *a, St021D04D8 *s)
+void FLDEFF_HIDE_Init(void *a, St021D04D8 *s)
 {
-    *(Blk021D04D8 *)s = *((Blk021D04D8 *)func_021AC1AC((u32)a));
-    func_0216E1A4(s->f8, (int)s->f10);
+    *(Blk021D04D8 *)s = *((Blk021D04D8 *)FIELD_EFFECT_GetObjectParam((u32)a));
+    FLDMMDL_GetCheckInfo(s->f8, (int)s->f10);
     s->f18 = ((u16 *)(s->f0 + 8))[s->fC];
 }

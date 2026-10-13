@@ -10,7 +10,7 @@
  * symbols:
  *   func_02211944 0x02211944 thumb ov198
  *   func_02210420 0x02210420 thumb ov198
- *   func_020310C4 0x020310C4 arm
+ *   TCBL_Main 0x020310C4 arm
  *   func_0220F1A4 0x0220F1A4 thumb ov198
  *   func_0220B7AC 0x0220B7AC thumb ov198
  *   func_0220E22C 0x0220E22C thumb ov198
@@ -24,7 +24,7 @@ extern void func_02211944(u8 **);
 struct Node;
 extern int func_02210420(struct Node *task, char *p);
 struct Tcbl;
-extern void func_020310C4(struct Tcbl *p);
+extern void TCBL_Main(struct Tcbl *p);
 extern void func_0220F1A4(u8 *);
 extern void func_0220B7AC(u8 *);
 extern void func_0220E22C(u8 *);
@@ -37,7 +37,7 @@ void func_0220F478(void *task,u8 *p)
     if (((struct Obj01006 *)p)->f2178!=33)
         ((struct Obj01006 *)p)->f2178=d_0221221C[*(int *)(p+0x2178)](p);
     if (((struct Obj01006 *)p)->f2178==33 && func_02210420(task,(char *)p)==1) return;
-    func_020310C4(((struct Obj01006 *)p)->f1D4);
+    TCBL_Main(((struct Obj01006 *)p)->f1D4);
     func_0220F1A4(p);
     func_0220B7AC(p);
     func_0220E22C(p);

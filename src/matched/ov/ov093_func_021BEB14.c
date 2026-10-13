@@ -1,5 +1,5 @@
 /*
- * function: func_021BEB14
+ * function: BTL_SERVER_FLOW_DispatchMoveInterruptCheckEvent
  * address:  0x021BEB14
  * packet:   pkt_ov093_021BEB14
  * region:   ov093
@@ -12,45 +12,45 @@
  * symbols:
  *   func_021BEBB8  0x021BEBB8  thumb  ov093
  *   func_021BEBC8  0x021BEBC8  thumb  ov093
- *   func_021D74F8  0x021D74F8  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D75EC  0x021D75EC  thumb  ov093
- *   func_021D75A8  0x021D75A8  thumb  ov093
- *   func_021D7630  0x021D7630  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7540  0x021D7540  thumb  ov093
+ *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
+ *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
+ *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
+ *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u32 func_021BEBB8(int d);
 extern u8 *func_021BEBC8(int d, u32 i);
-extern void func_021D74F8(int line);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int key, u32 val);
-extern void func_021D75A8(int key, u32 val);
-extern void func_021D7630(int key, u32 val);
-extern void func_021D70F0(void *a, int id);
-extern int func_021D775C(int key);
-extern void func_021D7540(int line);
+extern void BTL_EVENT_PushVarFrame(int line);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
+extern void BTL_EVENT_SetVar(int key, u32 val);
+extern void BTL_EVENT_SetVarOnce(int key, u32 val);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
+extern int BTL_EVENT_GetVar(int key);
+extern void BTL_EVENT_PopVarFrame(int line);
 
-int func_021BEB14(int a, u8 *b, int c, int d, u8 *e, u8 *g)
+int BTL_SERVER_FLOW_DispatchMoveInterruptCheckEvent(int a, u8 *b, int c, int d, u8 *e, u8 *g)
 {
     u32 n;
     u32 i;
     n = func_021BEBB8(d);
-    func_021D74F8(4136);
-    func_021D75EC(0x12, c);
-    func_021D75EC(3, func_021D5440(b));
-    func_021D75EC(5, n);
+    BTL_EVENT_PushVarFrame(4136);
+    BTL_EVENT_SetVarReadOnly(0x12, c);
+    BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(b));
+    BTL_EVENT_SetVarReadOnly(5, n);
     for (i = 0; i < n; i++)
-        func_021D75EC(6 + i, func_021D5440(func_021BEBC8(d, i)));
-    func_021D7630(2, 0x1f);
-    func_021D75A8(4, 0x1f);
-    func_021D70F0((void *)a, 0x1a);
-    *e = func_021D775C(2);
-    *g = func_021D775C(4);
-    func_021D7540(4155);
+        BTL_EVENT_SetVarReadOnly(6 + i, BTL_POKEPARAM_GetPokeId(func_021BEBC8(d, i)));
+    BTL_EVENT_SetVarOnce(2, 0x1f);
+    BTL_EVENT_SetVar(4, 0x1f);
+    BTL_EVENT_DispatchEventChecked((void *)a, 0x1a);
+    *e = BTL_EVENT_GetVar(2);
+    *g = BTL_EVENT_GetVar(4);
+    BTL_EVENT_PopVarFrame(4155);
     if (*e != 0x1f)
         return 1;
     return 0;

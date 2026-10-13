@@ -1,5 +1,5 @@
 /*
- * function: func_02186844
+ * function: FIELD_WFBC_DATA_LOCAL_GetPositionPair
  * address:  0x02186844
  * packet:   pkt_ov020_02186844
  * region:   ov020
@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 
-u8 *func_02186844(u8 *t, int i)
+u8 *FIELD_WFBC_DATA_LOCAL_GetPositionPair(u8 *t, int i)
 {
     return t + i * 2;
 }

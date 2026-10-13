@@ -1,5 +1,5 @@
 /*
- * function: func_021B791C
+ * function: FIELD_RAIL_Delete
  * address:  0x021B791C
  * packet:   pkt_ov021_021B791C
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021B791C(void **o)
+void FIELD_RAIL_Delete(void **o)
 {
     func_020307B0(o[7]);
     func_020307B0(o[2]);

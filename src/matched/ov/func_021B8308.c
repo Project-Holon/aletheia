@@ -1,5 +1,5 @@
 /*
- * function: func_021B8308
+ * function: FIELD_RAIL_WORK_GetUnitScale
  * address:  0x021B8308
  * packet:   pkt_021B8038
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021B8308(u8 *p)
+u32 FIELD_RAIL_WORK_GetUnitScale(u8 *p)
 {
     return ((struct Obj18117 *)p)->f1C;
 }

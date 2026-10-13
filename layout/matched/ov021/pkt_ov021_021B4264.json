@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B4264",
+   "name": "SCRCMD_PROC_FLD_PrintItemDescription",
    "address": "0x021B4264",
    "kind": "game",
    "region": "ov021",

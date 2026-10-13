@@ -12,7 +12,7 @@
  * symbols:
  *   func_021B9AB0  0x021B9AB0  thumb  ov093
  *   func_021B9C00  0x021B9C00  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   _ull_mul       0x0209C054  arm
  */
 
@@ -31,7 +31,7 @@ struct G {
 extern int func_021B9AB0(int k);
 struct S2;
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D5B68(void *m);
+extern int BTL_POKEPARAM_IsFainted(void *m);
 
 u8 func_021D06C8(struct G *g)
 {
@@ -41,10 +41,10 @@ u8 func_021D06C8(struct G *g)
 
     cnt = 1;
     buf[0] = 1;
-    if (func_021D5B68(func_021B9C00(g->list, (u8)func_021B9AB0(2))) == 0) {
+    if (BTL_POKEPARAM_IsFainted(func_021B9C00(g->list, (u8)func_021B9AB0(2))) == 0) {
         buf[cnt++] = 2;
     }
-    if (func_021D5B68(func_021B9C00(g->list, (u8)func_021B9AB0(3))) == 0) {
+    if (BTL_POKEPARAM_IsFainted(func_021B9C00(g->list, (u8)func_021B9AB0(3))) == 0) {
         buf[cnt++] = 3;
     }
     if (cnt > 1) {

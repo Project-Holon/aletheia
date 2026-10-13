@@ -1,5 +1,5 @@
 /*
- * function: func_021B43EC
+ * function: SCRCMD_PROC_FLD_CreateItemListMenu
  * address:  0x021B43EC
  * packet:   pkt_ov021_021B43EC
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * Builds a 0x34-byte list template on the stack (layout as read by
- * func_0201FF30) and creates the list object from it.
+ * BMP_MENULIST_Create) and creates the list object from it.
  *
  * symbols:
- *   func_021B468C 0x021B468C thumb ov021
- *   func_021B4510 0x021B4510 thumb ov021
- *   func_021B45A0 0x021B45A0 thumb ov021
- *   func_0201F91C 0x0201F91C thumb
- *   func_0201FF30 0x0201FF30 thumb
+ *   SCRCMD_PROC_FLD_OnListCursorMove 0x021B468C thumb ov021
+ *   SCRCMD_PROC_FLD_PrintPriceEntry 0x021B4510 thumb ov021
+ *   SCRCMD_PROC_FLD_PrintUniqueItemEntry 0x021B45A0 thumb ov021
+ *   BMP_MENUWORK_CountItems 0x0201F91C thumb
+ *   BMP_MENULIST_Create 0x0201FF30 thumb
  */
 #include "../include/Obj00037.h"
 
@@ -54,28 +54,28 @@ typedef struct {
     u32 w30;
 } Tmpl;
 
-extern void func_021B468C(u32 a, u32 idx);
+extern void SCRCMD_PROC_FLD_OnListCursorMove(u32 a, u32 idx);
 struct Slot;
-extern void func_021B4510(u8 *p, int a, u8 b);
-extern void func_021B45A0(u32 unused, int a, u8 b);
-extern u32 func_0201F91C(struct Slot *s);
+extern void SCRCMD_PROC_FLD_PrintPriceEntry(u8 *p, int a, u8 b);
+extern void SCRCMD_PROC_FLD_PrintUniqueItemEntry(u32 unused, int a, u8 b);
+extern u32 BMP_MENUWORK_CountItems(struct Slot *s);
 struct Obj;
 struct Src;
-extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
+extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 
-void func_021B43EC(char *w)
+void SCRCMD_PROC_FLD_CreateItemListMenu(char *w)
 {
     Tmpl t;
 
     t.arr = ((struct Obj00037 *)w)->f180;
-    t.cb04 = (void *)func_021B468C;
+    t.cb04 = (void *)SCRCMD_PROC_FLD_OnListCursorMove;
     if (((struct Obj00037 *)w)->f162 == 0) {
-        t.cb08 = (void *)func_021B4510;
+        t.cb08 = (void *)SCRCMD_PROC_FLD_PrintPriceEntry;
     } else {
-        t.cb08 = (void *)func_021B45A0;
+        t.cb08 = (void *)SCRCMD_PROC_FLD_PrintUniqueItemEntry;
     }
     t.w0c = ((struct Obj00037 *)w)->f16C;
-    t.count = func_0201F91C(((struct Obj00037 *)w)->f180);
+    t.count = BMP_MENUWORK_CountItems(((struct Obj00037 *)w)->f180);
     t.rows = 7;
     t.f14 = 0;
     t.f15 = 0;
@@ -96,5 +96,5 @@ void func_021B43EC(char *w)
     t.w28 = w + 0x1A8;
     t.w2c = ((struct Obj00037 *)w)->f1B0;
     t.w30 = ((struct Obj00037 *)w)->f8;
-    ((struct Obj00037 *)w)->f1A4 = (unsigned int)func_0201FF30((struct Src *)(&t), 0, 0, ((struct Obj00037 *)w)->f4);
+    ((struct Obj00037 *)w)->f1A4 = (unsigned int)BMP_MENULIST_Create((struct Src *)(&t), 0, 0, ((struct Obj00037 *)w)->f4);
 }

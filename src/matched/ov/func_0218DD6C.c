@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD6C
+ * function: FIELD_G3D_MAPPER_SlotResReadGroundAnime
  * address:  0x0218DD6C
  * packet:   pkt_0218DD6C
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf getter (no lr save), callee of func_0218DCFC.
+ * Unlabelled leaf getter (no lr save), callee of FIELD_G3D_MAPPER_SlotResGetGroundAnime.
  *
  * Addresses are Black-image addresses.
  */
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0218DD6C(u32 *p)
+u32 FIELD_G3D_MAPPER_SlotResReadGroundAnime(u32 *p)
 {
     return *p;
 }

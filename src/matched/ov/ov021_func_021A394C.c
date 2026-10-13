@@ -1,5 +1,5 @@
 /*
- * function: func_021A394C
+ * function: FIELD_PLAYER_CORE_ClearRememberedObjCode
  * address:  0x021A394C
  * packet:   pkt_ov021_021A394C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr save, prints as .word data in the listing),
- * filed as the sole blocker of ov021 func_021A322C (itself a blocker of
+ * filed as the sole blocker of ov021 FIELD_PLAYER_ClearRememberedObjCode (itself a blocker of
  * ov018 func_0217BCDC): tail call on the object's word at +0xC.
  * symbols:
- *   func_02012B30  0x02012B30  thumb
+ *   GAME_DATA_SetPlayerPalaceZoneId  0x02012B30  thumb
  */
 #include "../include/Obj19777.h"
 
@@ -22,9 +22,9 @@ typedef unsigned int u32;
 
 typedef unsigned short u16;
 struct Rec44;
-extern void func_02012B30(struct Rec44 *p, u16 v);
+extern void GAME_DATA_SetPlayerPalaceZoneId(struct Rec44 *p, u16 v);
 
-void func_021A394C(u8 *p)
+void FIELD_PLAYER_CORE_ClearRememberedObjCode(u8 *p)
 {
-    func_02012B30((struct Rec44 *)(((struct Obj19777 *)p)->fC), 0xFFFF);
+    GAME_DATA_SetPlayerPalaceZoneId((struct Rec44 *)(((struct Obj19777 *)p)->fC), 0xFFFF);
 }

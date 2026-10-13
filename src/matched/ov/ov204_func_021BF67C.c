@@ -18,12 +18,13 @@
  *   func_021BF7F0 0x021BF7F0 thumb ov204
  *   MCSS_Add  0x020159C8  thumb  arm9
  *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb  arm9
+ *   POKE_TOOL_Create  0x020173F0  thumb  arm9
  */
 #include "../include/Obj10881.h"
 
 struct Vec { int v[3]; };
 extern const struct Vec defaultPos;
-extern void *func_020173F0(unsigned short, unsigned short, unsigned long long, unsigned short);
+extern void *POKE_TOOL_Create(unsigned short, unsigned short, unsigned long long, unsigned short);
 typedef unsigned int   u32;
 struct Obj;
 struct Rec;
@@ -43,7 +44,7 @@ void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsi
 {
     char data[36];
     struct Vec pos = defaultPos;
-    void *tmp = func_020173F0((unsigned short)species, 0, 0, ((struct Obj10881 *)p)->f0);
+    void *tmp = POKE_TOOL_Create((unsigned short)species, 0, 0, ((struct Obj10881 *)p)->f0);
     char *base = p + 8;
     unsigned int off = i * 12;
     MCSS_TOOL_MakeAddWorkFromPP(tmp, (struct Stats *)data, 0);

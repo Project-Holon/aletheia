@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021647FC",
+   "name": "CALENDER_OpenArchive",
    "address": "0x021647FC",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB960
+ * function: FIELD_SUBPROC_UpdateTcb
  * address:  0x021BB960
  * packet:   pkt_021BB960
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_021BB960(u32 a, u32 b, u32 c, u32 d)
+void FIELD_SUBPROC_UpdateTcb(u32 a, u32 b, u32 c, u32 d)
 {
 if (*(u32 *)((u8 *)(((struct Obj07223 *)((u8 *)(b)))->fC) + 16) != 0) {
     ((void (*)(u32, u32, u32, u32))*(u32 *)((u8 *)(*(u32 *)((u8 *)(b) + 12)) + 16))(b, *(u32 *)((u8 *)(((struct Obj07223 *)((u8 *)(b)))->f0)), ((struct Obj07223 *)((u8 *)(b)))->f10, *(u32 *)((u8 *)(((struct Obj07223 *)((u8 *)(b)))->fC) + 16));

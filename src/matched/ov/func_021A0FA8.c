@@ -1,5 +1,5 @@
 /*
- * function: func_021A0FA8
+ * function: FIELD_SUBSCREEN_ClearPanelResult
  * address:  0x021A0FA8
  * packet:   pkt_021A0FA8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call with a zero second argument.
  *
  * symbols:
- *   func_021A0FA0  0x021A0FA0  thumb  ov021
+ *   FIELD_SUBSCREEN_SetPanelResult  0x021A0FA0  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A0FA0(int *p, int v);
+extern void FIELD_SUBSCREEN_SetPanelResult(int *p, int v);
 
-void func_021A0FA8(int *p)
+void FIELD_SUBSCREEN_ClearPanelResult(int *p)
 {
-    func_021A0FA0(p, 0);
+    FIELD_SUBSCREEN_SetPanelResult(p, 0);
 }

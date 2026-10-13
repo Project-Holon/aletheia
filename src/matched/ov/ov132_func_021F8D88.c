@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unblocked by matching func_02157364 (ov010, EXACT, Thumb): the +0008 call
+ * Unblocked by matching MUSICAL_PROGRAM_GetBaseProgramId (ov010, EXACT, Thumb): the +0008 call
  * site now attests as `matched`. ov009 holds ARM code at that address; ov010
  * is the coherent Thumb leaf, so the declaration is thumb/ov010 (the earlier
  * `arm` was wrong).
  *
  * symbols:
- *   func_02157364  0x02157364  thumb  ov010
+ *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
  *   func_021F6FB0  0x021F6FB0  thumb  ov112
  *
  * Addresses are Black-image addresses.
@@ -28,11 +28,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u8 func_02157364(char *a0);
+extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
 extern void func_021F6FB0(void *, int);
 
 void func_021F8D88(u8 *p, u32 a1)
 {
-    int v = func_02157364(((struct Obj23181 *)((u8 *)((struct Obj14083 *)p)->f30))->f14);
+    int v = MUSICAL_PROGRAM_GetBaseProgramId(((struct Obj23181 *)((u8 *)((struct Obj14083 *)p)->f30))->f14);
     func_021F6FB0(((struct Obj14083 *)p)->f3C, v);
 }

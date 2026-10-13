@@ -1,5 +1,5 @@
 /*
- * function: func_0215840C
+ * function: INTRUDE_COMM_GetMemberEntry
  * address:  0x0215840C
  * packet:   pkt_ov010_0215840C
  * region:   ov010
@@ -23,7 +23,7 @@ typedef struct RecHolder {
     Rec28 recs[1];      /* 0x1AC */
 } RecHolder;
 
-Rec28 *func_0215840C(RecHolder *h, int idx)
+Rec28 *INTRUDE_COMM_GetMemberEntry(RecHolder *h, int idx)
 {
     return &h->recs[idx];
 }

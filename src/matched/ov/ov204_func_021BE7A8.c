@@ -13,7 +13,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_02006238  0x02006238  thumb
  *   PM_VOICE_Start  0x02006A64  thumb
- *   func_02006BD0  0x02006BD0  thumb
+ *   PM_VOICE_IsActive  0x02006BD0  thumb
  *   func_021BF744  0x021BF744  thumb ov204
  *   func_021BF864  0x021BF864  thumb ov204
  */
@@ -25,7 +25,7 @@ typedef unsigned int  u32;
 extern void func_020061E4(u32);
 extern int  func_02006238(void);
 extern int PM_VOICE_Start(u32 idx);
-extern u32 func_02006BD0(u32 i);
+extern u32 PM_VOICE_IsActive(u32 i);
 extern void func_021BF744(char *p, unsigned int i, unsigned int flag, unsigned int v);
 extern int func_021BF864(char *p, int delta, int limit);
 
@@ -54,7 +54,7 @@ int func_021BE7A8(u8 *p, u32 *q)
         }
         break;
     case 3:
-        if (func_02006BD0(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10)) == 0) {
+        if (PM_VOICE_IsActive(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10)) == 0) {
             *q = 0;
             return 1;
         }

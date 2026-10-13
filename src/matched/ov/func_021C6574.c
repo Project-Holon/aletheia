@@ -1,5 +1,5 @@
 /*
- * function: func_021C6574
+ * function: FIELD_G3DOBJ_AddResourceDefaultPal
  * address:  0x021C6574
  * packet:   pkt_021C6574
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021C6538  0x021C6538  thumb  ov021
+ *   FIELD_G3DOBJ_AddResource  0x021C6538  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18309.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021C6538(u32, u32, u32, u32);
+extern u32 FIELD_G3DOBJ_AddResource(u32, u32, u32, u32);
 
-int func_021C6574(u32 a, u32 b, u32 c)
+int FIELD_G3DOBJ_AddResourceDefaultPal(u32 a, u32 b, u32 c)
 {
-    return func_021C6538(a, b, c, ((struct Obj18309 *)((u8 *)(a)))->f10);
+    return FIELD_G3DOBJ_AddResource(a, b, c, ((struct Obj18309 *)((u8 *)(a)))->f10);
 }
 

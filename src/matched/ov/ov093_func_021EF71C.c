@@ -1,5 +1,5 @@
 /*
- * function: func_021EF71C
+ * function: BTL_MSG_BuildBallStatusOpen
  * address:  0x021EF71C
  * packet:   pkt_ov093_021EF71C
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   d_021F6398     0x021F6398  data   a4
+ *   gBtlMsgState     0x021F6398  data   a4
  */
 
 typedef unsigned char u8;
@@ -39,19 +39,19 @@ typedef struct {
 
 struct MsgBank;
 struct WordSet;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern D d_021F6398;
+extern D gBtlMsgState;
 
-void func_021EF71C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
+void BTL_MSG_BuildBallStatusOpen(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 {
-    func_02045CAC((struct MsgBank *)d_021F6398.f1c, 0x10, (void *)d_021F6398.fc);
-    func_0201EFA4((struct WordSet *)d_021F6398.f8, 0, b, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)d_021F6398.f8, 1, c, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)d_021F6398.f8, 2, d, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)d_021F6398.f8, 3, e, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)d_021F6398.f8, 4, f, 2, 0, 1);
-    func_0201EFA4((struct WordSet *)d_021F6398.f8, 5, g, 2, 0, 1);
-    func_0201F250((struct WordSet *)d_021F6398.f8, (void *)a, (void *)d_021F6398.fc);
+    MSGDATA_ReadString((struct MsgBank *)gBtlMsgState.f1c, 0x10, (void *)gBtlMsgState.fc);
+    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 0, b, 2, 0, 1);
+    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 1, c, 2, 0, 1);
+    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 2, d, 2, 0, 1);
+    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 3, e, 2, 0, 1);
+    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 4, f, 2, 0, 1);
+    func_0201EFA4((struct WordSet *)gBtlMsgState.f8, 5, g, 2, 0, 1);
+    func_0201F250((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
 }

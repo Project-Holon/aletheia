@@ -1,5 +1,5 @@
 /*
- * function: func_021BA638
+ * function: TOWNMAP_MapSetScroll
  * address:  0x021BA638
  * packet:   pkt_ov072_021BA638
  * region:   ov072
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BAD84  0x021BAD84  thumb  ov072
- *   func_021BAF3C  0x021BAF3C  thumb  ov072
+ *   TOWNMAP_TownSetScroll  0x021BAD84  thumb  ov072
+ *   TOWNMAP_UpdateMarkerPosition  0x021BAF3C  thumb  ov072
  */
 
 typedef short s16;
@@ -30,10 +30,10 @@ typedef struct {
     s16 f1e;
 } W;
 
-extern void func_021BAD84(int *p, int *b);
-extern void func_021BAF3C(u32 *p, const u32 *v);
+extern void TOWNMAP_TownSetScroll(int *p, int *b);
+extern void TOWNMAP_UpdateMarkerPosition(u32 *p, const u32 *v);
 
-void func_021BA638(W *p, int *in)
+void TOWNMAP_MapSetScroll(W *p, int *in)
 {
     u32 i;
     int x;
@@ -56,7 +56,7 @@ void func_021BA638(W *p, int *in)
     }
     p->f14 = y;
     for (i = 0; i < p->fc; i++) {
-        func_021BAD84((int *)(p->f8 + i * 0x44), &p->f10);
+        TOWNMAP_TownSetScroll((int *)(p->f8 + i * 0x44), &p->f10);
     }
-    func_021BAF3C((u32 *)((char *)p + 0x20), (const u32 *)(&p->f10));
+    TOWNMAP_UpdateMarkerPosition((u32 *)((char *)p + 0x20), (const u32 *)(&p->f10));
 }

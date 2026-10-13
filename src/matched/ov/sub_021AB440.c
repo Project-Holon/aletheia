@@ -1,5 +1,5 @@
 /*
- * function: sub_021AB440
+ * function: MAP_ATTR_IsMirrorFloor
  * address:  0x021AB440
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef int BOOL;
 
-BOOL sub_021AB440(u16 id)
+BOOL MAP_ATTR_IsMirrorFloor(u16 id)
 {
     if (id == 0x1b) {
         return 1;

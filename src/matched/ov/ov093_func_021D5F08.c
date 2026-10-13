@@ -1,5 +1,5 @@
 /*
- * function: func_021D5F08
+ * function: BTL_POKEPARAM_ResetStatStages
  * address:  0x021D5F08
  * packet:   pkt_021D5F08
  * region:   ov093
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D53C8  0x021D53C8  thumb  ov093
+ *   BTL_POKEPARAM_SetNeutralStatStages  0x021D53C8  thumb  ov093
  *
  * blocker: target 0x021D53C8 is unlabelled in ov093 and in all 11 overlapping
  * overlays, with no outside branch; the pool relocation has no witness.
  * All bytes correct.
  */
 
-void func_021D53C8(unsigned char *p);
+void BTL_POKEPARAM_SetNeutralStatStages(unsigned char *p);
 
-void func_021D5F08(char *p)
+void BTL_POKEPARAM_ResetStatStages(char *p)
 {
-    func_021D53C8((unsigned char *)(p + 0xfc));
+    BTL_POKEPARAM_SetNeutralStatStages((unsigned char *)(p + 0xfc));
 }

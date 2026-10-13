@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf: returns the address 0x82C bytes into the object.
- * Filed as the sole blocker of func_02166434 (ov010).
+ * Filed as the sole blocker of SYMBOL_MAP_GetSelection (ov010).
  *
  * symbols:
  */

@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 #include "../include/Obj00001.h"
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021E69A4(char *p)
 {
     if (((struct Obj00001 *)p)->fFD4) {
-        func_0204B3B4((struct Obj *)(((struct Obj00001 *)p)->fFD4));
+        CLACT_DeleteActor((struct Obj *)(((struct Obj00001 *)p)->fFD4));
         ((struct Obj00001 *)p)->fFD4 = 0;
     }
 }

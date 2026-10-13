@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F009C",
+   "name": "C_GEAR_StepRipple",
    "address": "0x021F009C",
    "kind": "game",
    "region": "ov029",

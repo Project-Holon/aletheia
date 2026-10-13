@@ -14,7 +14,7 @@
  * u16 heap id held at +0x5F4 to the ARM function 0x0204A48C.
  *
  * symbols:
- *   func_0204A48C  0x0204A48C  arm
+ *   CLACT_InitSystem  0x0204A48C  arm
  *   d_021E7CE4     0x021E7CE4  data  ov119
  *   d_021E7D40     0x021E7D40  data  ov119
  *
@@ -24,11 +24,11 @@
 
 typedef unsigned int   u32;
 struct Cfg;
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern const char d_021E7CE4[];
 extern const char d_021E7D40[];
 
 void func_021E3E40(char *p)
 {
-    func_0204A48C((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, ((struct Obj22799 *)p)->f5F4);
+    CLACT_InitSystem((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, ((struct Obj22799 *)p)->f5F4);
 }

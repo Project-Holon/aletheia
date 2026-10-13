@@ -1,5 +1,5 @@
 /*
- * function: func_021BE1C4
+ * function: ENTRANCE_CAMERA_IsPhaseActive
  * address:  0x021BE1C4
  * packet:   pkt_021BE1C4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021BE180  0x021BE180  thumb  ov021
+ *   ENTRANCE_CAMERA_GetRequest  0x021BE180  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09202.h"
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u8 *func_021BE180(u8 *p);
+extern u8 *ENTRANCE_CAMERA_GetRequest(u8 *p);
 
-int func_021BE1C4(u32 a)
+int ENTRANCE_CAMERA_IsPhaseActive(u32 a)
 {
-if (((struct Obj18257 *)((u8 *)(func_021BE180((u8 *)a))))->f4 == 0) {
+if (((struct Obj18257 *)((u8 *)(ENTRANCE_CAMERA_GetRequest((u8 *)a))))->f4 == 0) {
     return ((struct Obj09202 *)((u8 *)(a)))->f68;
 }
 return ((struct Obj09202 *)((u8 *)(a)))->f6C;

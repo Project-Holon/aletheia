@@ -1,5 +1,5 @@
 /*
- * function: func_0216628C
+ * function: SYMBOL_MAP_MoveRecordToPairedBand
  * address: 0x0216628C
  * packet: pkt_ov010_0216628C
  * region: ov010
@@ -51,7 +51,7 @@ extern void func_0200E27C(u8 *obj, int idx);
 extern void func_0200E024(void *obj);
 extern void func_0200E18C(u32 *obj, u32 slot);
 
-int func_0216628C(u32 *obj, u32 slot)
+int SYMBOL_MAP_MoveRecordToPairedBand(u32 *obj, u32 slot)
 {
     u32 kind;
     u32 dst;

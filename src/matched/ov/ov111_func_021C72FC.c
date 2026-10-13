@@ -16,17 +16,17 @@
  *   func_02027628  0x02027628  thumb
  *   func_0202762C  0x0202762C  thumb
  *   func_020490F4  0x020490F4  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
- *   func_02049BDC  0x02049BDC  arm
+ *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   func_02049B40  0x02049B40  arm
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   func_0201F57C  0x0201F57C  thumb
  *   func_0201F554  0x0201F554  thumb
- *   func_02049F78  0x02049F78  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -117,17 +117,17 @@ extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02049238(void *arc);
+extern void ARC_TOOL_DeleteHandle(void *arc);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
 extern void func_02049B68(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
-extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 index);
 extern void func_0201F57C(u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 
 void func_021C72FC(Work *p)
 {
@@ -150,18 +150,18 @@ void func_021C72FC(Work *p)
     arc2 = func_020490F4(func_020275E4(), 0x27);
     func_02049658(arc2, func_02027628(), 2, 0, 0, 0, 0x27);
     func_020498F4(arc2, func_0202762C(), 2, 0, 0, 0, 0x27);
-    func_02049BDC(arc2, func_02027624(), 0, 0, 0x1C0, 0x20, 0x27);
+    ARC_UTIL_UploadPaletteFromHandle(arc2, func_02027624(), 0, 0, 0x1C0, 0x20, 0x27);
     func_020413B0(2, 0, 0x15, 0x20, 3, 0xE);
     func_020409B4(2);
-    func_02049238(arc2);
+    ARC_TOOL_DeleteHandle(arc2);
     func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x27);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x27);
     func_0201F57C(4, 0xE, 0, 0x27);
     func_0201F554(4, 1, 0, 0x27);
     for (i = 0; i < 3; i++) {
-        p->f14C[i] = func_02049F78(arc, 4 - i, (u32)(&p->f158[i]), 0x27);
+        p->f14C[i] = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 4 - i, (u32)(&p->f158[i]), 0x27);
     }
     for (i = 0; i < 3; i++) {
-        p->f164[i] = func_02049F78(arc, 0x17 - i, (u32)(&p->f170[i]), 0x27);
+        p->f164[i] = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 0x17 - i, (u32)(&p->f170[i]), 0x27);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F4000
+ * function: GIMMICK41_UpdateBounce
  * address:  0x021F4000
  * packet:   pkt_ov041_021F4000
  * region:   ov041
@@ -10,17 +10,17 @@
  * status:   EXACT
  * Extent after the 0x80-byte function and pool is rodata, not a follower.
  * symbols:
- *   func_0218ECE4  0x0218ECE4  thumb  ov021
- *   func_0218ECF4  0x0218ECF4  thumb  ov021
+ *   FIELD_CAMERA_GetEyeRaw  0x0218ECE4  thumb  ov021
+ *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  */
 #include "../include/Obj02115.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 a, b, c; } Vec3;
-extern void func_0218ECE4(u8 *a, Vec3 *out);
-extern void func_0218ECF4(u8 *a, const Vec3 *p);
+extern void FIELD_CAMERA_GetEyeRaw(u8 *a, Vec3 *out);
+extern void FIELD_CAMERA_SetEyeRaw(u8 *a, const Vec3 *p);
 
-void func_021F4000(u8 *p, u8 *obj)
+void GIMMICK41_UpdateBounce(u8 *p, u8 *obj)
 {
     int step;
     Vec3 v;
@@ -35,9 +35,9 @@ void func_021F4000(u8 *p, u8 *obj)
                 p[14]++;
             }
             p[13] = (p[13] + 1) % 2;
-            func_0218ECE4(obj, &v);
+            FIELD_CAMERA_GetEyeRaw(obj, &v);
             v.b += step;
-            func_0218ECF4(obj, &v);
+            FIELD_CAMERA_SetEyeRaw(obj, &v);
             p[12] = 1;
         } else {
             p[12]--;

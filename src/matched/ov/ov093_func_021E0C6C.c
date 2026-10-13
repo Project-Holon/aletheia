@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D70A8  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   func_021E03F8  0x021E03F8  thumb  ov093
  */
 
 typedef unsigned short u16;
 struct QQ;
-extern u16 func_021D70A8(struct QQ *p);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern void func_021E03F8(int a, int b);
 
 void func_021E0C6C(void *a, int b, int c)
 {
-    func_021E03F8(c, func_021D70A8(a));
+    func_021E03F8(c, BTL_EVENT_GetFactorKey(a));
 }

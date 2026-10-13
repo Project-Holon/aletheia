@@ -1,5 +1,5 @@
 /*
- * function: func_021B9BD4
+ * function: STARTMENU_LogoUpdate
  * address:  0x021B9BD4
  * packet:   pkt_ov088_021B9BD4
  * region:   ov088
@@ -22,7 +22,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern u32 GPOWER_GetSpecialPowerId(void);
 
-void func_021B9BD4(int *p)
+void STARTMENU_LogoUpdate(int *p)
 {
     func_02040588(5, 0);
     func_02041EE4(6, 0, p[10] / 2);

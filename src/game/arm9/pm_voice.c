@@ -1,7 +1,7 @@
 /*
  * file:     pm_voice.c
  * unit:     yes
- * function: GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, func_02005C64, func_02005C8C, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, func_02005E04, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, func_02006148, func_0200616C, func_020061A4, func_020061E4, func_020061F0, func_020061F8, GFL_USE_StopAllSe, func_02006224, func_02006238, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, func_02006300, GFL_USE_StopLoaderThread, func_02006394, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers, PM_VOICE_Init, func_020065D8, PM_VOICE_StopFinished, func_02006650, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, func_02006984, PM_VOICE_Prepare, PM_VOICE_Start, func_02006A8C, PM_VOICE_AddFrequency, func_02006B20, PM_VOICE_StopSlot, func_02006BD0, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, func_02006CAC, func_02006CBC, SND_MIC_Exit, SND_MIC_AddElapsed, SND_MIC_IsLimitReached, func_02006DAC, func_02006DD8, func_02006E18, SND_MIC_GetBufferAligned
+ * function: GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, func_02005C64, func_02005C8C, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, func_02005E04, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, GFL_USE_GetSeSlot, func_0200616C, func_020061A4, func_020061E4, func_020061F0, func_020061F8, GFL_USE_StopAllSe, GFL_USE_IsSeSlotBusy, func_02006238, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, func_02006300, GFL_USE_StopLoaderThread, func_02006394, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers, PM_VOICE_Init, func_020065D8, PM_VOICE_StopFinished, func_02006650, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, PM_VOICE_Play, PM_VOICE_Prepare, PM_VOICE_Start, PM_VOICE_AddVolume, PM_VOICE_AddFrequency, func_02006B20, PM_VOICE_StopSlot, func_02006BD0, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, func_02006CAC, SND_MIC_Init, SND_MIC_Exit, SND_MIC_AddElapsed, SND_MIC_IsLimitReached, func_02006DAC, func_02006DD8, SND_MIC_StoreRecording, SND_MIC_GetBufferAligned
  * address:  0x02005BC0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -74,7 +74,7 @@
  *   func_02007B50  0x02007B50  thumb
  *   func_02007B64  0x02007B64  thumb
  *   func_02007B68  0x02007B68  thumb
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   func_020070A4  0x020070A4  thumb
  *   func_02007B44  0x02007B44  thumb
  *   func_02082BCC  0x02082BCC  arm
@@ -348,7 +348,7 @@ extern u32   func_020056EC(u32 limit);
 extern u32   func_02007B50(void *perapVoice);
 extern u8   *func_02007B64(struct PerapVoice *perapVoice);
 extern void  func_02007B68(void *dst, const void *src);
-extern void  func_02048F4C(void *dst, u32 archiveId, u32 member);
+extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 member);
 extern struct SaveData  *func_020070A4(void);
 extern struct SaveBlock *func_02007B44(struct SaveData *saveData);
 extern void  func_02082BCC(void *p, u32 value, u32 size);
@@ -398,14 +398,14 @@ void GFL_USE_FlushBgmChange(void);
 void GFL_USE_UpdateBgmChange(void);
 void GFL_USE_InitSeSlots(void);
 struct SndHandle *GFL_USE_GetSeHandle(int slot);
-int func_02006148(u32 seqNo);
+int GFL_USE_GetSeSlot(u32 seqNo);
 void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
 void GFL_USE_PlaySe(u32 seqNo, u32 volume);
 void GFL_USE_PlaySeDefaultVolume(u32 seqNo);
 void GFL_USE_PlaySeWithVolume(u32 seqNo, u32 volume);
 void GFL_USE_StopSeSlot(int slot);
 void GFL_USE_StopAllSe(void);
-int func_02006224(u32 slot);
+int GFL_USE_IsSeSlotBusy(u32 slot);
 int GFL_USE_IsAnySeBusy(void);
 int GFL_USE_IsSeqPlaying(u32 seqNo);
 void GFL_USE_SetSeSlotParams(int slot, u32 tempoRatio, u32 pitch, u32 pan);
@@ -442,12 +442,12 @@ void PM_VOICE_ClearSlot(struct PmVoice *voice);
 int PM_VOICE_LoadWave(struct PmVoice *voice, u32 waveId);
 int PM_VOICE_StartChannels(struct PmVoice *voice);
 void PM_VOICE_Stop(struct PmVoice *voice);
-u32 func_02006984(u32 species, u32 form, u32 pan, u32 dual,
+u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual,
                   u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
 int PM_VOICE_Prepare(int species, int form, int pan, int dual,
                   int volumeBiasB, int frequencyOffsetB, int reverse, void **recordedVoice);
 int PM_VOICE_Start(u32 slot);
-void func_02006A8C(u32 slot, int delta);
+void PM_VOICE_AddVolume(u32 slot, int delta);
 void PM_VOICE_AddFrequency(u32 slot, u32 delta);
 s8 PM_VOICE_GetVolume(u32 slot);
 u32 PM_VOICE_GetFrequency(u32 slot);
@@ -463,13 +463,13 @@ u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
 void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
 
 /* microphone (snd_mic.c part of this file) */
-void func_02006CBC(u16 heapId);
+void SND_MIC_Init(u16 heapId);
 void SND_MIC_Exit(void);
 void SND_MIC_AddElapsed(u32 ticks);
 u32 SND_MIC_IsLimitReached(void);
 u32 SND_MIC_StartSampling(const struct MICAutoParam *param);
 u32 SND_MIC_StartRecording(MICCallback callback, void *arg);
-void func_02006E18(struct PerapVoice *perapVoice);
+void SND_MIC_StoreRecording(struct PerapVoice *perapVoice);
 void *SND_MIC_GetBufferAligned(void);
 
 extern struct SndState _SndState;
@@ -985,7 +985,7 @@ struct SndHandle *GFL_USE_GetSeHandle(int slot)
  * rather than the `bhs` a conjunction emits; the source has the two guards
  * in this order, each with its own return.
  */
-int func_02006148(u32 seqNo)
+int GFL_USE_GetSeSlot(u32 seqNo)
 {
     if (seqNo < 0x546) {
         goto fail;
@@ -1022,7 +1022,7 @@ void GFL_USE_PlaySe(u32 seqNo, u32 volume)
     if (GFL_USE_IsSeqStartAllowed(seqNo) == 0) {
         return;
     }
-    slot = func_02006148(seqNo);
+    slot = GFL_USE_GetSeSlot(seqNo);
     _SeSlots[slot].seqNo = 0;
     if (func_02075560(&_SeSlots[slot].handle, seqNo) != 1) {
         return;
@@ -1066,7 +1066,7 @@ void GFL_USE_StopAllSe(void)
  * The player number is incremented in place before the call, so the source
  * added one to the parameter rather than passing a computed local.
  */
-int func_02006224(u32 slot)
+int GFL_USE_IsSeSlotBusy(u32 slot)
 {
     return NNS_SndPlayerGetActiveSeqCount(slot + 1) != 0;
 }
@@ -1076,7 +1076,7 @@ int GFL_USE_IsAnySeBusy(void)
     int slot;
 
     for (slot = 0; slot < SND_SE_SLOT_COUNT; slot++) {
-        if (func_02006224(slot) == 1) {
+        if (GFL_USE_IsSeSlotBusy(slot) == 1) {
             return 1;
         }
     }
@@ -1636,7 +1636,7 @@ void PM_VOICE_Stop(struct PmVoice *voice)
  * first test and the back edge skips it. The sleep time and the slot share
  * one local.
  */
-u32 func_02006984(u32 species, u32 form, u32 pan, u32 dual,
+u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual,
                   u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse,
                   void **recordedVoice)
 {
@@ -1710,7 +1710,7 @@ int PM_VOICE_Start(u32 slot)
  * same way and re-narrowed to a byte for the call. Both volume updates go to
  * channelA (as in the original).
  */
-void func_02006A8C(u32 slot, int delta)
+void PM_VOICE_AddVolume(u32 slot, int delta)
 {
     struct PmVoice *voice;
     int volume;
@@ -1868,7 +1868,7 @@ void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *cryIndex)
 }
 
 /*
- * Cry parameters for a species. func_02048F4C copies one 4-byte record of
+ * Cry parameters for a species. ARC_TOOL_ReadMember copies one 4-byte record of
  * archive 194 (a/1/9/4, 652 records) into `record`; its second halfword's
  * low byte is the cry volume (97 to 127). Species 441 (Chatot) is the one
  * cry that is a recorded sample: when the recording exists, its 8180 bytes
@@ -1883,7 +1883,7 @@ u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
 {
     u16 record[2];
 
-    func_02048F4C(record, 194, species);
+    ARC_TOOL_ReadMember(record, 194, species);
     *volume = (s8)record[1];
     if (recordedVoice == 0) {
         return 0;
@@ -1916,7 +1916,7 @@ void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out)
  * amplifier on with gain 2, microphone init, and on a DSi the IIR filter
  * table. The recording bit is cleared and set again (bics for the clear).
  */
-void func_02006CBC(u16 heapId)
+void SND_MIC_Init(u16 heapId)
 {
     struct SndMic *mic;
     void *sampleBuffer;
@@ -2015,7 +2015,7 @@ u32 SND_MIC_StartRecording(MICCallback callback, void *arg)
 }
 
 /* Copy the recorded buffer into a Perap voice (Chatot) record. */
-void func_02006E18(struct PerapVoice *perapVoice)
+void SND_MIC_StoreRecording(struct PerapVoice *perapVoice)
 {
     void *buffer = SND_MIC_GetBufferAligned();
 

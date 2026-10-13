@@ -14,7 +14,7 @@
  *   func_021BA5F4 0x021BA5F4 thumb ov100
  *   func_021BA3A4 0x021BA3A4 thumb ov100
  *   func_021BA64C 0x021BA64C thumb ov100
- *   func_0204BA00 0x0204BA00 arm
+ *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   func_02040588 0x02040588 arm
  *   func_021BB0C4 0x021BB0C4 thumb ov100
  *   func_021BB10C 0x021BB10C thumb ov100
@@ -33,7 +33,7 @@ extern void func_021BA3A4(struct Word *,int);
 extern void func_021BA64C(unsigned a, unsigned b);
 struct Actor;
 struct Cmd;
-extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
+extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_021BB0C4(int),func_021BB10C(int);
 void func_021BB180(int p)
@@ -61,9 +61,9 @@ void func_021BB180(int p)
             task.state=0;
             task.context=p;
             task.callback=func_021BB0C4;
-            func_0204BA00((struct Actor *)(((struct Obj02449 *)p)->f2C8),(const struct Cmd *)(&task));
+            CLACT_ApplyActorAnimCommand((struct Actor *)(((struct Obj02449 *)p)->f2C8),(const struct Cmd *)(&task));
             task.callback=func_021BB10C;
-            func_0204BA00((struct Actor *)(((struct Obj02449 *)p)->f2D0),(const struct Cmd *)(&task));
+            CLACT_ApplyActorAnimCommand((struct Actor *)(((struct Obj02449 *)p)->f2D0),(const struct Cmd *)(&task));
         }
         ((struct Obj02449 *)p)->fC8C=0;
     }

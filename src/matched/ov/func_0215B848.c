@@ -1,5 +1,5 @@
 /*
- * function: func_0215B848
+ * function: SCRCMD_PROC_FindFirstPartyIndex
  * address:  0x0215B848
  * packet:   pkt_0215B848
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012934  0x02012934  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AB08  0x0201AB08  thumb
  *   POKEPARTY_FindFirstNonEgg  0x0201AB18  thumb
  */
@@ -23,15 +23,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern unsigned short *func_02159AE8(void *a0, void *a1);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_0215A5E4(void *a0);
+extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AB08(void *p);
 extern u32 POKEPARTY_FindFirstNonEgg(void *p);
 
-int func_0215B848(int a0, int a1)
+int SCRCMD_PROC_FindFirstPartyIndex(int a0, int a1)
 {
     int t4;
     int t5;
@@ -40,17 +40,17 @@ int func_0215B848(int a0, int a1)
 
 t4 = a0 + 0;
 t5 = a1 + 0;
-    v0 = func_02159AE8((void *)a0, (void *)a1);
+    v0 = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_0215B852:
 a0 = t4 + 0;
 a1 = t5 + 0;
-    a0 = (int)func_02159B10((void *)a0, (void *)a1);
+    a0 = (int)SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
 loc_0215B85C:
 t4 = a0 + 0;
 a0 = t5 + 0;
-    p = func_0215A5E4((void *)a0);
+    p = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0215B864:
-    p = func_02012934(p);
+    p = GAME_DATA_GetMyParty(p);
 loc_0215B868:
     if (t4 == 1) goto loc_0215B87A;
 loc_0215B86C:

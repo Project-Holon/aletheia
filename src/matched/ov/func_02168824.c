@@ -1,5 +1,5 @@
 /*
- * function: func_02168824
+ * function: FLD_BTL_INST_TOOL_GetRandomU16
  * address:  0x02168824
  * packet:   pkt_02168824
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern u32 func_020056EC(u32 range);
 extern int func_0209C2B0();
 
-int func_02168824(void)
+int FLD_BTL_INST_TOOL_GetRandomU16(void)
 {
     int a0;
     int a1;

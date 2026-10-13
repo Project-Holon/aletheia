@@ -1,5 +1,5 @@
 /*
- * function: func_021A02A8
+ * function: FIELD_FOG_FadeGetSlope
  * address:  0x021A02A8
  * packet:   pkt_ov021_021A02A8
  * region:   ov021
@@ -28,7 +28,7 @@ typedef struct {
     int f10;
 } Lerp;
 
-u16 func_021A02A8(Lerp *s)
+u16 FIELD_FOG_FadeGetSlope(Lerp *s)
 {
     int q = s->f10 * s->f0 / s->f2;
     return q + s->fc;

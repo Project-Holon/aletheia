@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F70
+ * function: STARTMENU_SpritesDelete
  * address:  0x021B9F70
  * packet:   pkt_ov088_021B9F70
  * region:   ov088
@@ -12,26 +12,26 @@
  *           trailing alignment padding, no byte difference.
  *
  * symbols:
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204A5AC  0x0204A5AC  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
  */
 
 typedef unsigned int   u32;
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 struct Bank;
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 
-void func_021B9F70(int *p)
+void STARTMENU_SpritesDelete(int *p)
 {
-    func_0204A8D4(p[12]);
-    func_0204ADA4(p[11]);
-    func_0204AFD8(p[13]);
-    func_0204B1CC((struct Bank *)p[0]);
-    func_0204A5AC();
+    CLACT_ReleaseCharacter(p[12]);
+    CLACT_ReleasePalette(p[11]);
+    CLACT_ReleaseCellAnim(p[13]);
+    CLACT_DeleteUnit((struct Bank *)p[0]);
+    CLACT_ExitSystem();
 }

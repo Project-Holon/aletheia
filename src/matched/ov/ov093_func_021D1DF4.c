@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8588  0x021B8588  thumb  ov093
+ *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   func_021B9064  0x021B9064  thumb  ov093
  *   func_021B9920  0x021B9920  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D5C44  0x021D5C44  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -30,12 +30,12 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern u32 func_021B8588(void **p);
+extern u32 BTL_MAIN_GetRule(void **p);
 extern u32 func_021B9064(u8 *p, int k, int x);
 extern u8 *func_021B9920(void *p, u32 i, u8 j);
-extern int func_021D5B68(void *p);
+extern int BTL_POKEPARAM_IsFainted(void *p);
 struct Rat;
-extern int func_021D5C44(struct Rat *p);
+extern int BTL_POKEPARAM_GetHpRatioFixed(struct Rat *p);
 
 int func_021D1DF4(BattleSeq *s)
 {
@@ -43,12 +43,12 @@ int func_021D1DF4(BattleSeq *s)
     u8 t;
     int v;
 
-    if (func_021B8588(s->battle) == 0) {
+    if (BTL_MAIN_GetRule(s->battle) == 0) {
         t = func_021B9064(s->battle, s->unk1A6, 0);
         m = func_021B9920(s->unk04, t, 0);
-        if (func_021D5B68(m) != 0)
+        if (BTL_POKEPARAM_IsFainted(m) != 0)
             return 0xb;
-        v = func_021D5C44((struct Rat *)m);
+        v = BTL_POKEPARAM_GetHpRatioFixed((struct Rat *)m);
         if (v >= 0x4d800)
             return 0xb;
         if (v >= 0x37000)

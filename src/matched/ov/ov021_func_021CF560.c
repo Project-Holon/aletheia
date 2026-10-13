@@ -1,5 +1,5 @@
 /*
- * function: func_021CF560
+ * function: ENCEFF_GetWork
  * address:  0x021CF560
  * packet:   pkt_ov021_021CF560
  * region:   ov021
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021CF560(u32 *p)
+u32 ENCEFF_GetWork(u32 *p)
 {
     return p[7];
 }

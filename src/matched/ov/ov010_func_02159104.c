@@ -1,5 +1,5 @@
 /*
- * function: func_02159104
+ * function: SCRIPT_WORK_SetReturnParam
  * address:  0x02159104
  * packet:   pkt_ov010_02159104
  * region:   ov010
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-void func_02159104(u8 *p, u32 v)
+void SCRIPT_WORK_SetReturnParam(u8 *p, u32 v)
 {
     ((struct Obj18756 *)p)->f140 = v;
 }

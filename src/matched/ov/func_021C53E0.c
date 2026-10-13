@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204A8D4  0x0204A8D4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *
- * Forwards its second argument to func_0204B3B4 and then the first to
- * func_0204A8D4.
+ * Forwards its second argument to CLACT_DeleteActor and then the first to
+ * CLACT_ReleaseCharacter.
  */
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
-extern void func_0204A8D4(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
 
 void func_021C53E0(int a, int b)
 {
-    func_0204B3B4((struct Obj *)b);
-    func_0204A8D4(a);
+    CLACT_DeleteActor((struct Obj *)b);
+    CLACT_ReleaseCharacter(a);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F0CDC
+ * function: C_GEAR_IsTabTimerFull
  * address: 0x021F0CDC
  * packet: pkt_ov029_021F0CDC
  * region: ov029
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  */
-int func_021F0CDC(unsigned short *p, int i)
+int C_GEAR_IsTabTimerFull(unsigned short *p, int i)
 {
     if (p[i] >= p[3]) return 1;
     return 0;

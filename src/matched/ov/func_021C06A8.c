@@ -1,5 +1,5 @@
 /*
- * function: func_021C06A8
+ * function: HEIGHT_EX_GetAreaHeight
  * address:  0x021C06A8
  * packet:   pkt_021C06A8
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C06A8(u8 a, int b)
+int HEIGHT_EX_GetAreaHeight(u8 a, int b)
 {
 return *(u32 *)((u8 *)((((struct Obj18269 *)((u8 *)(b)))->f4 + (a * 28))) + 16);
 }

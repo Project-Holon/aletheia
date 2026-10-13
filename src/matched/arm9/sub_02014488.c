@@ -1,5 +1,5 @@
 /*
- * function: sub_02014488
+ * function: FIELD_STATUS_FieldCloseEvent
  * address:  0x02014488
  * packet:   pkt_02014488
  * region:   arm9
@@ -31,8 +31,8 @@
  *   sub_020120F0   0x020120F0  thumb
  *   sub_02012A30   0x02012A30  thumb
  *   sub_020289B8   0x020289B8  thumb
- *   func_0215FA44  0x0215FA44  thumb  ov010
- *   func_02188BD8  0x02188BD8  thumb  ov021
+ *   SCRCMD_NETWORK_UnloadOv020  0x0215FA44  thumb  ov010
+ *   FIELDMAP_RequestClose  0x02188BD8  thumb  ov021
  * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
@@ -48,10 +48,10 @@ struct Ctx;
 struct Sys;
 extern u32 sub_020120F0(const struct Ctx *p);
 extern u32 sub_020289B8(struct Sys *s);
-extern void func_0215FA44(void);
-extern void func_02188BD8(u8 *obj);
+extern void SCRCMD_NETWORK_UnloadOv020(void);
+extern void FIELDMAP_RequestClose(u8 *obj);
 
-int sub_02014488(void *a0, u32 *a1, u8 *a2)
+int FIELD_STATUS_FieldCloseEvent(void *a0, u32 *a1, u8 *a2)
 {
     void *v = (void *)((struct Obj05792 *)a2)->f8;
     void *w = (void *)((struct Obj05792 *)a2)->f0;
@@ -61,7 +61,7 @@ int sub_02014488(void *a0, u32 *a1, u8 *a2)
     y = (void *)sub_02012A30(v);
     switch (*a1) {
     case 0:
-        func_02188BD8(x);
+        FIELDMAP_RequestClose(x);
         *a1 = *a1 + 1;
         break;
     case 1:
@@ -72,7 +72,7 @@ int sub_02014488(void *a0, u32 *a1, u8 *a2)
             break;
         }
         if (((struct Obj05792 *)a2)->fC != 0) {
-            func_0215FA44();
+            SCRCMD_NETWORK_UnloadOv020();
         }
         return 1;
     }

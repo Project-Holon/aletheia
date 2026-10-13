@@ -1,7 +1,7 @@
 /*
  * file:     delivery_irc.c
  * unit:     yes
- * function: func_02157954, func_02157960, func_02157968, func_0215796C, func_02157980, func_02157998, func_021579A4, func_021579AC, func_021579B0, func_02157A30, func_02157A58, func_02157A78, func_02157AC8, func_02157AF0, func_02157B88, func_02157C48, func_02157D0C, func_02157D68, func_02157D98, func_02157DB8, func_02157DD8, func_02157E08, func_02157E34, func_02157E6C, func_02157E78, func_02157E8C, func_02157E9C, func_02158318, func_02158344, func_02158378, func_0215839C, func_021583CC, func_021583EC, func_0215840C, func_0215841C, func_02158428, func_02158434, func_0215843C, func_02158468, func_021584A4, func_021584F4, func_0215850C, func_02158570, func_02158590, func_021585BC, func_021585E0, func_02158614, func_02158630, func_02158678, func_021586C8, func_0215870C, func_0215874C
+ * function: DELIVERY_IRC_SetStep, DELIVERY_IRC_SetStepAtLine, DELIVERY_IRC_StepIdle, DELIVERY_IRC_RecvCrc, DELIVERY_IRC_RecvRequest, DELIVERY_IRC_RecvNotFound, DELIVERY_IRC_GetRecvBuffer, DELIVERY_IRC_StepEnd, DELIVERY_IRC_StepFinish, DELIVERY_IRC_StepExitParent, DELIVERY_IRC_StepExitChild, DELIVERY_IRC_StepWaitEndSync, DELIVERY_IRC_StepStartEndSync, DELIVERY_IRC_StepSendData, DELIVERY_IRC_StepSendCrc, DELIVERY_IRC_StepSearchEntry, DELIVERY_IRC_StepSendRequest, DELIVERY_IRC_StepWaitConnect, DELIVERY_IRC_StepStartChangeover, DELIVERY_IRC_StepWaitInit, DELIVERY_IRC_Create, DELIVERY_IRC_StartNet, DELIVERY_IRC_Start, DELIVERY_IRC_GetResult, DELIVERY_IRC_Main, DELIVERY_IRC_Delete, MYSTERY_GIFT_CreateMon, INTRUDE_COMM_CheckEntryAllowed, INTRUDE_COMM_GetWorkIfRunning, INTRUDE_COMM_GetPlayerNetId, INTRUDE_COMM_TogglePeerFlags, GAME_DATA_GetBattleRecSlotByNetId, GAME_DATA_GetMyStatusByNetId, INTRUDE_COMM_GetMemberEntry, GAME_DATA_GetIntrudeIdByte, INTRUDE_COMM_GetUnionInfoReceived, INTRUDE_COMM_GetReturnSlots, INTRUDE_COMM_GetAreaOwnerVersion, INTRUDE_COMM_GetAreaSlotFlag, INTRUDE_COMM_IsStepToOwnArea, INTRUDE_COMM_NormalizeVersion, INTRUDE_COMM_GetAreaOwnerVersionClass, INTRUDE_COMM_IsListedId, INTRUDE_COMM_HasUnlockFlags, INTRUDE_COMM_IsWarnedWithoutRequest, INTRUDE_COMM_GetVisitProgress, INTRUDE_COMM_SetCompleted, INTRUDE_COMM_GetRequestState, INTRUDE_COMM_CountEventPeers, INTRUDE_COMM_GetRequesterStatus, INTRUDE_COMM_IsSessionEndPending, INTRUDE_COMM_ClearHoldMode
  * address:  0x02157954
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -25,79 +25,79 @@
  * and script_sys.c.
  *
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_02082D44  0x02082D44  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_0203F328  0x0203F328  arm
  *   func_02179D3C 0x02179D3C thumb ov015
- *   func_0203CEAC 0x0203CEAC arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_0217998C  0x0217998C  thumb ov015
  *   func_02039C68 0x02039C68 arm
- *   func_0203D3F8  0x0203D3F8  arm
- *   func_0203D3A8  0x0203D3A8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   func_020056EC  0x020056EC  thumb
- *   func_0203D1B4 0x0203D1B4 arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
  *   func_02030734 0x02030734 arm
  *   d_02172878 0x02172878 data a1
- *   func_0203CBAC 0x0203CBAC arm
+ *   GFL_NET_StartSession 0x0203CBAC arm
  *   d_02172868 0x02172868 data a1
  *   d_02172808 0x02172808 data a1
  *   func_020307B0  0x020307B0  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008530  0x02008530  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
- *   func_020173F0  0x020173F0  thumb
- *   func_020186C8  0x020186C8  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_Create  0x020173F0  thumb
+ *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
+ *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetDefaultMoves  0x02017FA8  thumb
- *   func_0201808C  0x0201808C  thumb
- *   func_020180F4  0x020180F4  thumb
- *   func_02018A00  0x02018A00  thumb
- *   func_020185F0  0x020185F0  thumb
- *   func_020185C4  0x020185C4  thumb
+ *   POKE_TOOL_AddMove  0x0201808C  thumb
+ *   POKE_TOOL_PushMove  0x020180F4  thumb
+ *   POKE_TOOL_SetAbility  0x02018A00  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   func_0202F2AC  0x0202F2AC  thumb
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
- *   d_02170068     0x02170068  data
- *   d_0209DF08     0x0209DF08  data  a1
- *   d_0209DF0C     0x0209DF0C  data  a1
- *   d_020A7370     0x020A7370  data
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012B70  0x02012B70  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   sGiftRibbonIds     0x02170068  data
+ *   GAME_VERSION_Code     0x0209DF08  data  a1
+ *   GAME_LANGUAGE_Code     0x0209DF0C  data  a1
+ *   gSpeciesNameBank     0x020A7370  data
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   func_0202648C  0x0202648C  thumb
  *   func_02026474  0x02026474  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026460  0x02026460  thumb
  *   func_02026478  0x02026478  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_020127B8   0x020127B8  thumb
- *   func_020127AC   0x020127AC  thumb
- *   func_02012950   0x02012950  thumb
- *   func_02012B80   0x02012B80  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetLastBattleRecSlot   0x020127B8  thumb
+ *   GAME_DATA_GetBattleRecSlot   0x020127AC  thumb
+ *   GAME_DATA_GetPlayerStatus   0x02012950  thumb
+ *   GAME_DATA_GetIntrudeId   0x02012B80  thumb
  *   func_0200855C 0x0200855C thumb
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GAME_DATA_GetSlotFlag  0x02012B98  thumb
- *   func_02012B38  0x02012B38  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   func_0201444C  0x0201444C  thumb
- *   d_021700AC 0x021700AC data a2
- *   func_0201296C 0x0201296C thumb
- *   func_020142E8 0x020142E8 thumb
- *   d_021700A8 0x021700A8 data a2
- *   func_02175B14  0x02175B14  thumb
- *   func_02176258  0x02176258  thumb
- *   func_02176230  0x02176230  thumb
+ *   sIntrudeListedIds 0x021700AC data a2
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
+ *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
+ *   sIntrudeUnlockFlags 0x021700A8 data a2
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb
+ *   INTRUDE_COMM_IsRequestFromSelf  0x02176258  thumb
+ *   INTRUDE_COMM_GetRequesterNetId  0x02176230  thumb
  *   func_02008500  0x02008500  thumb
- *   func_0203CDBC  0x0203CDBC  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  */
 struct Entry;
 struct Link;
@@ -217,172 +217,172 @@ typedef struct GiftMon {
     u8 formatVersion;       /* 0xB3: must be 1 */
 } GiftMon;
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_02082D44(void *, void *, u32);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0203F328(u16 *p, u32 size, u32 seed);
 extern int func_02179D3C(void);
-extern int func_0203CEAC(int);
-extern struct Entry *func_020399A8(void);
+extern int GFL_NET_Exit(int);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void func_0217998C(int);
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern u32 func_020056EC(u32 range);
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_StartChangeoverChild(int a0);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern int func_020307B0();
-extern struct MyStatus *func_02012944(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u32 func_02008530(const struct MyStatus *status);
 extern const void *func_020084F4(const struct MyStatus *status);
-extern void *func_020173F0(u16 species, u16 level, u64 id, int heap);
-extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
-extern void func_02017588(struct PokemonParam *mon, u16 species, u16 level, unsigned long long id, u32 packedIvs, unsigned long long personalRnd);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heap);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *mon, u16 species, u16 level, unsigned long long id, u32 packedIvs, unsigned long long personalRnd);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_SetDefaultMoves(void *p);
-extern u32 func_0201808C(void *p, u32 move);
-extern void func_020180F4(void *p, int move);
-extern void func_02018A00(void *p, u32 a, u32 b);
-extern void *func_020185F0(void *p);
-extern void func_020185C4(void *p);
+extern u32 POKE_TOOL_AddMove(void *p, u32 move);
+extern void POKE_TOOL_PushMove(void *p, int move);
+extern void POKE_TOOL_SetAbility(void *p, u32 a, u32 b);
+extern void *POKE_TOOL_Dummy(void *p);
+extern void POKE_TOOL_RecalcParam(void *p);
 extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern void *func_02045EC0(struct StrBank *bank, u32 index);
-extern int func_02045808();
-extern GameComm *func_02012138(struct GameSystem *gameSystem);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
-extern int func_02012B70(const struct GameData *gameData);
+extern int STRBUF_Delete();
+extern GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u32 func_0202648C(GameComm *comm);
 extern IntrudeCommSys *func_02026474(GameComm *comm);
 extern u32 func_0200FB24(void);
 extern u32 func_02026454(GameComm *comm);
 extern u32 func_02026460(GameComm *comm);
 extern struct GameData *func_02026478(GameComm *comm);
-extern u8 func_02012B58(const struct GameData *gameData);
-extern struct BattleRecSlot *func_020127B8(struct GameData *gameData);
-extern struct BattleRecSlot *func_020127AC(struct GameData *gameData, u32 netId);
-extern struct MyStatus *func_02012950(struct GameData *gameData, u32 netId);
-extern u8 func_02012B80(const struct GameData *gameData);
+extern u8 GAME_DATA_GetExitMode(const struct GameData *gameData);
+extern struct BattleRecSlot *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
+extern struct BattleRecSlot *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 netId);
+extern struct MyStatus *GAME_DATA_GetPlayerStatus(struct GameData *gameData, u32 netId);
+extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
 extern u8 func_0200855C(const struct MyStatus *status);
 extern u8 func_02008550(const struct MyStatus *status);
-extern u8 func_02012984(const struct GameData *gameData);
+extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern u8 GAME_DATA_GetSlotFlag(const struct GameData *gameData, u32 slot);
-extern void *func_02012B38(const struct GameData *gameData);
+extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
 extern u32 func_0201444C(void *fieldStatus);
-extern struct EventWork *func_0201296C(const struct GameData *gameData);
-extern u32 func_020142E8(struct EventWork *eventWork, int flag);
-extern int func_02175B14(IntrudeSession *session);
-extern int func_02176258(IntrudeCommSys *work);
-extern int func_02176230(IntrudeCommSys *work, IntrudeSession *session);
+extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, int flag);
+extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
+extern int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *work);
+extern int INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *work, IntrudeSession *session);
 extern void func_02008500(const struct MyStatus *src, struct MyStatus *dst);
-extern int func_0203CDBC(void);
-void func_02157954(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line);
-void func_02157960(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line);
-void func_02157968(void);
-void func_0215796C(int netId, int size, const DeliveryIrcKeyMsg *msg, DeliveryIrcWork *work);
-void func_02157980(int netId, int size, const DeliveryIrcRequest *msg, DeliveryIrcWork *work);
-void func_02157998(int netId, int size, const int *msg, DeliveryIrcWork *work);
-u8 *func_021579A4(int netId, DeliveryIrcWork *work);
-void func_021579AC(DeliveryIrcWork *work);
-void func_021579B0(DeliveryIrcWork *work);
-void func_02157A30(DeliveryIrcWork *work);
-void func_02157A58(DeliveryIrcWork *work);
-void func_02157A78(DeliveryIrcWork *work);
-void func_02157AC8(DeliveryIrcWork *work);
-void func_02157AF0(DeliveryIrcWork *work);
-void func_02157B88(DeliveryIrcWork *work);
-void func_02157C48(DeliveryIrcWork *work);
-void func_02157D0C(DeliveryIrcWork *work);
-void func_02157D68(DeliveryIrcWork *work);
-void func_02157D98(DeliveryIrcWork *work);
-void func_02157DB8(DeliveryIrcWork *work);
-void *func_02157DD8(const DeliveryIrcParam *param);
-int func_02157E08(DeliveryIrcWork *work);
-int func_02157E34(DeliveryIrcWork *work);
-unsigned char func_02157E6C(DeliveryIrcWork *work);
-void func_02157E78(DeliveryIrcWork *work);
-int func_02157E8C(DeliveryIrcWork *work);
-struct PokemonParam *func_02157E9C(const GiftMon *gift, int heapId, struct GameData *gameData);
-int func_02158318(struct GameSystem *gameSystem);
-IntrudeCommSys *func_02158344(GameComm *comm);
-int func_02158378(GameComm *comm);
-int func_0215839C(IntrudeCommSys *work, int mask, int unused);
-struct BattleRecSlot *func_021583CC(struct GameData *gameData, u32 netId);
-struct MyStatus *func_021583EC(struct GameData *gameData, u32 netId);
-IntrudeMemberEntry *func_0215840C(IntrudeCommSys *work, int index);
-u8 func_0215841C(struct GameData *gameData);
-u8 func_02158428(IntrudeCommSys *work);
-void *func_02158434(IntrudeCommSys *work);
-int func_0215843C(GameComm *comm);
-int func_02158468(GameComm *comm);
-int func_021584A4(GameComm *comm, struct GameData *gameData, int stepKind);
-int func_021584F4(int version, u32 trainerId);
-int func_0215850C(GameComm *comm, struct GameData *gameData);
-int func_02158570(u16 value);
-int func_02158590(struct GameData *gameData);
-int func_021585BC(IntrudeCommSys *work);
-int func_021585E0(GameComm *comm);
-void func_02158614(GameComm *comm);
-int func_02158630(GameComm *comm);
-int func_02158678(GameComm *comm);
-int func_021586C8(GameComm *comm, struct MyStatus *out);
-int func_0215870C(GameComm *comm, int unused);
-void func_0215874C(GameComm *comm);
+extern int GFL_NET_IsSessionNull(void);
+void DELIVERY_IRC_SetStep(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line);
+void DELIVERY_IRC_SetStepAtLine(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line);
+void DELIVERY_IRC_StepIdle(void);
+void DELIVERY_IRC_RecvCrc(int netId, int size, const DeliveryIrcKeyMsg *msg, DeliveryIrcWork *work);
+void DELIVERY_IRC_RecvRequest(int netId, int size, const DeliveryIrcRequest *msg, DeliveryIrcWork *work);
+void DELIVERY_IRC_RecvNotFound(int netId, int size, const int *msg, DeliveryIrcWork *work);
+u8 *DELIVERY_IRC_GetRecvBuffer(int netId, DeliveryIrcWork *work);
+void DELIVERY_IRC_StepEnd(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepFinish(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepExitParent(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepExitChild(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepWaitEndSync(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepStartEndSync(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepSendData(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepSendCrc(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepSearchEntry(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepSendRequest(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepWaitConnect(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepStartChangeover(DeliveryIrcWork *work);
+void DELIVERY_IRC_StepWaitInit(DeliveryIrcWork *work);
+void *DELIVERY_IRC_Create(const DeliveryIrcParam *param);
+int DELIVERY_IRC_StartNet(DeliveryIrcWork *work);
+int DELIVERY_IRC_Start(DeliveryIrcWork *work);
+unsigned char DELIVERY_IRC_GetResult(DeliveryIrcWork *work);
+void DELIVERY_IRC_Main(DeliveryIrcWork *work);
+int DELIVERY_IRC_Delete(DeliveryIrcWork *work);
+struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, struct GameData *gameData);
+int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem);
+IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(GameComm *comm);
+int INTRUDE_COMM_GetPlayerNetId(GameComm *comm);
+int INTRUDE_COMM_TogglePeerFlags(IntrudeCommSys *work, int mask, int unused);
+struct BattleRecSlot *GAME_DATA_GetBattleRecSlotByNetId(struct GameData *gameData, u32 netId);
+struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, u32 netId);
+IntrudeMemberEntry *INTRUDE_COMM_GetMemberEntry(IntrudeCommSys *work, int index);
+u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
+u8 INTRUDE_COMM_GetUnionInfoReceived(IntrudeCommSys *work);
+void *INTRUDE_COMM_GetReturnSlots(IntrudeCommSys *work);
+int INTRUDE_COMM_GetAreaOwnerVersion(GameComm *comm);
+int INTRUDE_COMM_GetAreaSlotFlag(GameComm *comm);
+int INTRUDE_COMM_IsStepToOwnArea(GameComm *comm, struct GameData *gameData, int stepKind);
+int INTRUDE_COMM_NormalizeVersion(int version, u32 trainerId);
+int INTRUDE_COMM_GetAreaOwnerVersionClass(GameComm *comm, struct GameData *gameData);
+int INTRUDE_COMM_IsListedId(u16 value);
+int INTRUDE_COMM_HasUnlockFlags(struct GameData *gameData);
+int INTRUDE_COMM_IsWarnedWithoutRequest(IntrudeCommSys *work);
+int INTRUDE_COMM_GetVisitProgress(GameComm *comm);
+void INTRUDE_COMM_SetCompleted(GameComm *comm);
+int INTRUDE_COMM_GetRequestState(GameComm *comm);
+int INTRUDE_COMM_CountEventPeers(GameComm *comm);
+int INTRUDE_COMM_GetRequesterStatus(GameComm *comm, struct MyStatus *out);
+int INTRUDE_COMM_IsSessionEndPending(GameComm *comm, int unused);
+void INTRUDE_COMM_ClearHoldMode(GameComm *comm);
 extern const char d_02172878[];
 extern u8 d_02172868[];
 extern u8 d_02172808[];
-extern const u32 d_02170068[15];
-extern u8 d_0209DF08[];
-extern u8 d_0209DF0C[];
-extern struct StrBank *d_020A7370;
-extern const u16 d_021700AC[61];
-extern const u16 d_021700A8[2];
+extern const u32 sGiftRibbonIds[15];
+extern u8 GAME_VERSION_Code[];
+extern u8 GAME_LANGUAGE_Code[];
+extern struct StrBank *gSpeciesNameBank;
+extern const u16 sIntrudeListedIds[61];
+extern const u16 sIntrudeUnlockFlags[2];
 
 
 /*
  * Unlabelled leaf setter (hidden in a .word run); filed as a helper because
  * its address is the witness for the tail-call thunk at 0x02157960.
  */
-void func_02157954(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line)
+void DELIVERY_IRC_SetStep(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line)
 {
     work->step = step;
 }
 
 
-void func_02157960(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line)
+void DELIVERY_IRC_SetStepAtLine(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line)
 {
-    func_02157954(work, step, line);
+    DELIVERY_IRC_SetStep(work, step, line);
 }
 
 
-void func_02157968(void) {}
+void DELIVERY_IRC_StepIdle(void) {}
 
 
-void func_0215796C(int netId, int size, const DeliveryIrcKeyMsg *msg, DeliveryIrcWork *work)
+void DELIVERY_IRC_RecvCrc(int netId, int size, const DeliveryIrcKeyMsg *msg, DeliveryIrcWork *work)
 {
     work->crc = msg->crc;
     work->cryptKey = msg->cryptKey;
 }
 
 
-void func_02157980(int netId, int size, const DeliveryIrcRequest *msg, DeliveryIrcWork *work)
+void DELIVERY_IRC_RecvRequest(int netId, int size, const DeliveryIrcRequest *msg, DeliveryIrcWork *work)
 {
     work->request = *msg;
 }
 
 
-void func_02157998(int netId, int size, const int *msg, DeliveryIrcWork *work)
+void DELIVERY_IRC_RecvNotFound(int netId, int size, const int *msg, DeliveryIrcWork *work)
 {
     work->notFound = *msg;
 }
 
 
-u8 *func_021579A4(int netId, DeliveryIrcWork *work)
+u8 *DELIVERY_IRC_GetRecvBuffer(int netId, DeliveryIrcWork *work)
 {
     return work->recvBuffer;
 }
@@ -390,16 +390,16 @@ u8 *func_021579A4(int netId, DeliveryIrcWork *work)
 
 /*
  * Unlabelled empty callback (bx lr) hidden in a .word run; witness for the
- * function pointer taken in func_021579B0.
+ * function pointer taken in DELIVERY_IRC_StepFinish.
  */
-void func_021579AC(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepEnd(DeliveryIrcWork *work)
 {
 }
 
 
-void func_021579B0(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepFinish(DeliveryIrcWork *work)
 {
-    if (func_0203CD98() != 0)
+    if (GFL_NET_GetRunState() != 0)
         return;
     if (work->isParent == 0) {
         if (work->notFound == 1) {
@@ -417,92 +417,92 @@ void func_021579B0(DeliveryIrcWork *work)
         else
             work->result = 3;
     }
-    func_02157960(work, func_021579AC, 0xF8);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepEnd, 0xF8);
 }
 
 
-void func_02157A30(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepExitParent(DeliveryIrcWork *work)
 {
     if (func_02179D3C())
-        func_0203CEAC(0);
-    func_02157960(work, func_021579B0, 0x102);
+        GFL_NET_Exit(0);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepFinish, 0x102);
 }
 
 
-void func_02157A58(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepExitChild(DeliveryIrcWork *work)
 {
-    func_0203CEAC(0);
-    func_02157960(work, func_021579B0, 0x10A);
+    GFL_NET_Exit(0);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepFinish, 0x10A);
 }
 
 
-void func_02157A78(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepWaitEndSync(DeliveryIrcWork *work)
 {
     int k = 0x23;
-    void *link = func_020399A8();
+    void *link = GFL_NET_HANDLE_GetCurrentHandle();
 
     if (func_02039CB4(link, 0x23, (u8)work->param.netCommandBase) != 0) {
-        if (func_0203D378() != 0) {
+        if (GFL_NET_IsParentAid() != 0) {
             k = 0x12C;
             func_0217998C(k);
             k -= 0x19;
-            func_02157960(work, func_02157A30, k);
+            DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepExitParent, k);
             return;
         }
         k += 0xF3;
-        func_02157960(work, func_02157A58, k);
+        DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepExitChild, k);
     }
 }
 
 
-void func_02157AC8(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepStartEndSync(DeliveryIrcWork *work)
 {
     int k = 0x23;
-    func_02039C68((struct Link *)func_020399A8(), k, (u8)work->param.netCommandBase);
-    func_02157960(work, func_02157A78, k + 0xFC);
+    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), k, (u8)work->param.netCommandBase);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepWaitEndSync, k + 0xFC);
 }
 
 
-void func_02157AF0(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepSendData(DeliveryIrcWork *work)
 {
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x18, (u8)work->param.netCommandBase) == 0)
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase) == 0)
         return;
     if (work->isParent != 0) {
         if (work->found == 1) {
             DeliveryIrcEntry *entry = &work->param.entries[work->foundIndex];
             int k = 0xFF;
-            if (func_0203D3F8((u32)func_020399A8(), 0xFF, (unsigned)(work->param.netCommandBase << 24) >> 16, entry->size, (u32)entry->data, 0, 0, 1) == 0)
+            if (GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, (unsigned)(work->param.netCommandBase << 24) >> 16, entry->size, (u32)entry->data, 0, 0, 1) == 0)
                 return;
-            func_02157960(work, func_02157AC8, k + 0x2F);
+            DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepStartEndSync, k + 0x2F);
             return;
         }
-        func_02157960(work, func_02157AC8, 0x133);
+        DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepStartEndSync, 0x133);
         return;
     }
-    func_02157960(work, func_02157AC8, 0x137);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepStartEndSync, 0x137);
 }
 
 
-void func_02157B88(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepSendCrc(DeliveryIrcWork *work)
 {
     if (work->found == 1) {
         DeliveryIrcKeyMsg msg;
         DeliveryIrcEntry *entry = work->sendEntry;
         msg.crc = func_0203F1FC(entry->data, entry->size);
         msg.cryptKey = work->cryptKey;
-        if (func_0203D3A8(func_020399A8(), (u16)((work->param.netCommandBase << 8) + 1), (u16)8, (u32)&msg) == 0)
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 1), (u16)8, (u32)&msg) == 0)
             return;
-        func_02039C68((struct Link *)func_020399A8(), 0x18, (u8)work->param.netCommandBase);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
         work->ackFlag = 0;
-        func_02157960(work, func_02157AF0, 0x152);
+        DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendData, 0x152);
         return;
     }
     work->notFound = 1;
-    if (func_0203D3A8(func_020399A8(), (u16)((work->param.netCommandBase << 8) + 3), (u16)4, (u32)&work->notFound) == 0)
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 3), (u16)4, (u32)&work->notFound) == 0)
         return;
-    func_02039C68((struct Link *)func_020399A8(), 0x18, (u8)work->param.netCommandBase);
+    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
     work->ackFlag = 0;
-    func_02157960(work, func_02157AF0, 0x162);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendData, 0x162);
 }
 
 
@@ -512,12 +512,12 @@ void func_02157B88(DeliveryIrcWork *work)
  *   condition rather than through n; expanding that one use changes the
  *   hoisted bound/far-word allocation from r7/r6 to the original r6/r7.
  */
-void func_02157C48(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepSearchEntry(DeliveryIrcWork *work)
 {
     DeliveryIrcEntry *entry;
     u32 i;
     unsigned long count;
-    if (func_02039CB4((struct Link *)func_020399A8(), 0x17, (u8)work->param.netCommandBase) == 0)
+    if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)work->param.netCommandBase) == 0)
         return;
     if (work->isParent != 0) {
         entry = 0;
@@ -531,7 +531,7 @@ void func_02157C48(DeliveryIrcWork *work)
                 break;
             }
         }
-        func_02157960(work, func_02157B88, 0x188);
+        DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendCrc, 0x188);
         if (work->found == 1) {
             u32 key = func_020056EC(0);
             work->cryptKey = key;
@@ -540,49 +540,49 @@ void func_02157C48(DeliveryIrcWork *work)
         }
         return;
     }
-    func_02039C68((struct Link *)func_020399A8(), 0x18, (u8)work->param.netCommandBase);
-    func_02157960(work, func_02157AF0, 0x193);
+    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendData, 0x193);
 }
 
 
-void func_02157D0C(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepSendRequest(DeliveryIrcWork *work)
 {
     if (work->isParent == 0) {
         work->request.id = work->param.entries[0].id;
         work->request.mask = work->param.entries[0].mask;
-        if (func_0203D3A8(func_020399A8(), (u16)((work->param.netCommandBase << 8) + 2), (u16)8, (u32)&work->request) == 0)
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 2), (u16)8, (u32)&work->request) == 0)
             return;
-        func_02157960(work, func_02157C48, 0x1A2);
+        DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSearchEntry, 0x1A2);
         return;
     }
-    func_02157960(work, func_02157C48, 0x1A6);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSearchEntry, 0x1A6);
 }
 
 
-void func_02157D68(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepWaitConnect(DeliveryIrcWork *work)
 {
-    if (func_0203D1B4() > 1) {
-        func_02039C68((struct Link *)func_020399A8(), 0x17, (u8)work->param.netCommandBase);
-        func_02157960(work, func_02157D0C, 0x1AF);
+    if (GFL_NET_GetNegotiationNum() > 1) {
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)work->param.netCommandBase);
+        DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendRequest, 0x1AF);
     }
 }
 
 
-void func_02157D98(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepStartChangeover(DeliveryIrcWork *work)
 {
     GFL_NET_StartChangeoverChild(0);
-    func_02157960(work, func_02157D68, 0x1B7);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepWaitConnect, 0x1B7);
 }
 
 
-void func_02157DB8(DeliveryIrcWork *work)
+void DELIVERY_IRC_StepWaitInit(DeliveryIrcWork *work)
 {
-    if (func_0203CD98() == 1)
-        func_02157960(work, func_02157D98, 0x1BE);
+    if (GFL_NET_GetRunState() == 1)
+        DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepStartChangeover, 0x1BE);
 }
 
 
-void *func_02157DD8(const DeliveryIrcParam *param)
+void *DELIVERY_IRC_Create(const DeliveryIrcParam *param)
 {
     void *work = func_02030734(param->heapId, 0x684, 1, d_02172878, 0x1CD);
     func_02082D44((void *)param, work, 0x7C);
@@ -590,24 +590,24 @@ void *func_02157DD8(const DeliveryIrcParam *param)
 }
 
 
-int func_02157E08(DeliveryIrcWork *work)
+int DELIVERY_IRC_StartNet(DeliveryIrcWork *work)
 {
-    if (func_0203CD98() != 0)
+    if (GFL_NET_GetRunState() != 0)
         return 0;
     d_02172868[7] = work->param.netCommandBase;
-    func_0203CBAC((struct Req *)d_02172808, 0, (u32)work);
+    GFL_NET_StartSession((struct Req *)d_02172808, 0, (u32)work);
     return 1;
 }
 
 
-int func_02157E34(DeliveryIrcWork *work)
+int DELIVERY_IRC_Start(DeliveryIrcWork *work)
 {
-    int started = func_02157E08(work);
+    int started = DELIVERY_IRC_StartNet(work);
     work->isParent = 0;
     work->found = 0;
     work->foundIndex = 0;
     work->notFound = 0;
-    func_02157960(work, func_02157DB8, 0x231);
+    DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepWaitInit, 0x231);
     return started;
 }
 
@@ -615,13 +615,13 @@ int func_02157E34(DeliveryIrcWork *work)
 /*
  * extent: Accessor ends at 02157E78, followed by labelled callback function.
  */
-unsigned char func_02157E6C(DeliveryIrcWork *work)
+unsigned char DELIVERY_IRC_GetResult(DeliveryIrcWork *work)
 {
     return work->result;
 }
 
 
-void func_02157E78(DeliveryIrcWork *work)
+void DELIVERY_IRC_Main(DeliveryIrcWork *work)
 {
     DeliveryIrcStepFunc step = work->step;
     if (step != 0)
@@ -629,10 +629,10 @@ void func_02157E78(DeliveryIrcWork *work)
 }
 
 
-int func_02157E8C(DeliveryIrcWork *work)
+int DELIVERY_IRC_Delete(DeliveryIrcWork *work)
 {
     func_020307B0(work);
-    return func_0203CEAC(0);
+    return GFL_NET_Exit(0);
 }
 
 
@@ -646,7 +646,7 @@ int func_02157E8C(DeliveryIrcWork *work)
  * Lever: gender is a u8 local, loaded from GiftMon.gender and remapped from
  * 0xFF to 2; the form argument of the personality call is cast to u8.
  */
-struct PokemonParam *func_02157E9C(const GiftMon *gift, int heapId, struct GameData *gameData)
+struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, struct GameData *gameData)
 {
     u16 moves[4];
     u8 ivValues[6];
@@ -711,7 +711,7 @@ struct PokemonParam *func_02157E9C(const GiftMon *gift, int heapId, struct GameD
     if (level == 0)
         level = func_020056EC(100) + 1;
     if (gift->otId == 0)
-        otId = func_02008530(func_02012944(gameData));
+        otId = func_02008530(GAME_DATA_GetMyStatus(gameData));
     if (gender == 0xFF)
         gender = 2;
     for (i = 0; i < 6; i++) {
@@ -720,7 +720,7 @@ struct PokemonParam *func_02157E9C(const GiftMon *gift, int heapId, struct GameD
     }
 
     otId64 = otId;
-    mon = func_020173F0(species, level, otId64, heapId);
+    mon = POKE_TOOL_Create(species, level, otId64, heapId);
     packedIvs = (ivValues[0] & 0x1F) | ((ivValues[1] & 0x1F) << 5) | ((ivValues[2] & 0x1F) << 10)
         | ((ivValues[3] & 0x1F) << 15) | ((ivValues[4] & 0x1F) << 20) | ((ivValues[5] & 0x1F) << 25);
 
@@ -747,91 +747,91 @@ struct PokemonParam *func_02157E9C(const GiftMon *gift, int heapId, struct GameD
     if (gift->pid != 0) {
         personalRnd = gift->pid;
     } else if (gift->pidType == 0) {
-        personalRnd = func_020186C8(otId, (u16)species, (u8)gift->form, gender, abilitySlot, 0);
+        personalRnd = POKE_TOOL_CreatePersonalRnd(otId, (u16)species, (u8)gift->form, gender, abilitySlot, 0);
     } else if (gift->pidType == 1) {
-        personalRnd = func_020186C8(otId, (u16)species, (u8)gift->form, gender, abilitySlot, 2);
+        personalRnd = POKE_TOOL_CreatePersonalRnd(otId, (u16)species, (u8)gift->form, gender, abilitySlot, 2);
     } else if (gift->pidType == 2) {
-        personalRnd = func_020186C8(otId, (u16)species, (u8)gift->form, gender, abilitySlot, 1);
+        personalRnd = POKE_TOOL_CreatePersonalRnd(otId, (u16)species, (u8)gift->form, gender, abilitySlot, 1);
     }
 
-    func_02017588(mon, gift->species, level, otId64, packedIvs, personalRnd);
-    func_02017E40(mon, 6, gift->item);
+    POKE_TOOL_SetupPartyParamEx(mon, gift->species, level, otId64, packedIvs, personalRnd);
+    POKE_TOOL_SetPartyValue(mon, 6, gift->item);
     POKE_TOOL_SetDefaultMoves(mon);
     for (i = 0; i < 4; i++) {
         move = moves[i];
         if (move != 0 && move < 0x230) {
-            if (func_0201808C(mon, move) == 0xFFFF)
-                func_020180F4(mon, move);
+            if (POKE_TOOL_AddMove(mon, move) == 0xFFFF)
+                POKE_TOOL_PushMove(mon, move);
         }
     }
     if (gift->pid == 0 && abilityKind == 2)
-        func_02018A00(mon, species, gift->form);
-    func_02017E40(mon, 0x6F, gift->form);
+        POKE_TOOL_SetAbility(mon, species, gift->form);
+    POKE_TOOL_SetPartyValue(mon, 0x6F, gift->form);
     if (gift->ball != 0 && gift->ball <= 0x19)
-        func_02017E40(mon, 0x98, gift->ball);
+        POKE_TOOL_SetPartyValue(mon, 0x98, gift->ball);
     else
-        func_02017E40(mon, 0x98, 4);
+        POKE_TOOL_SetPartyValue(mon, 0x98, 4);
     if (gift->ballExtra != 0)
-        func_02017E40(mon, 0x99, gift->ballExtra);
-    func_02017E40(mon, 0x13, gift->contestStats[0]);
-    func_02017E40(mon, 0x14, gift->contestStats[1]);
-    func_02017E40(mon, 0x15, gift->contestStats[2]);
-    func_02017E40(mon, 0x16, gift->contestStats[3]);
-    func_02017E40(mon, 0x17, gift->contestStats[4]);
-    func_02017E40(mon, 0x18, gift->contestStats[4]);
+        POKE_TOOL_SetPartyValue(mon, 0x99, gift->ballExtra);
+    POKE_TOOL_SetPartyValue(mon, 0x13, gift->contestStats[0]);
+    POKE_TOOL_SetPartyValue(mon, 0x14, gift->contestStats[1]);
+    POKE_TOOL_SetPartyValue(mon, 0x15, gift->contestStats[2]);
+    POKE_TOOL_SetPartyValue(mon, 0x16, gift->contestStats[3]);
+    POKE_TOOL_SetPartyValue(mon, 0x17, gift->contestStats[4]);
+    POKE_TOOL_SetPartyValue(mon, 0x18, gift->contestStats[4]);
     for (ribbonBit = 0; ribbonBit < 15; ribbonBit++) {
         if (gift->ribbons & (1 << ribbonBit))
-            func_02017E40(mon, d_02170068[ribbonBit], 1);
+            POKE_TOOL_SetPartyValue(mon, sGiftRibbonIds[ribbonBit], 1);
     }
     if (gift->originGame == 0)
-        func_02017E40(mon, 0x77, d_0209DF08[0]);
+        POKE_TOOL_SetPartyValue(mon, 0x77, GAME_VERSION_Code[0]);
     else
-        func_02017E40(mon, 0x77, gift->originGame);
+        POKE_TOOL_SetPartyValue(mon, 0x77, gift->originGame);
     if (gift->language == 0)
-        func_02017E40(mon, 0xC, d_0209DF0C[0]);
+        POKE_TOOL_SetPartyValue(mon, 0xC, GAME_LANGUAGE_Code[0]);
     else
-        func_02017E40(mon, 0xC, gift->language);
+        POKE_TOOL_SetPartyValue(mon, 0xC, gift->language);
     if (gift->nickname[0] == 0) {
         func_020307B0(mon);
         result = 0;
         goto out;
     }
-    if (gift->nickname[0] != func_02045A98())
-        func_02017E40(mon, 0x74, (u32)gift->nickname);
+    if (gift->nickname[0] != STRBUF_GetEosChar())
+        POKE_TOOL_SetPartyValue(mon, 0x74, (u32)gift->nickname);
     nature = gift->nature;
     if (nature == 0xFF)
         nature = (u8)func_020056EC(25);
-    func_02017E40(mon, 0x70, nature);
-    func_02017E40(mon, 0x95, gift->eggLocation);
-    func_02017E40(mon, 0x96, gift->metLocation);
+    POKE_TOOL_SetPartyValue(mon, 0x70, nature);
+    POKE_TOOL_SetPartyValue(mon, 0x95, gift->eggLocation);
+    POKE_TOOL_SetPartyValue(mon, 0x96, gift->metLocation);
     if (gift->otName[0] == 0) {
         func_020307B0(mon);
         result = 0;
         goto out;
     }
-    if (gift->otName[0] == func_02045A98())
-        func_02017E40(mon, 0x8E, (u32)func_020084F4(func_02012944(gameData)));
+    if (gift->otName[0] == STRBUF_GetEosChar())
+        POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)func_020084F4(GAME_DATA_GetMyStatus(gameData)));
     else
-        func_02017E40(mon, 0x8E, (u32)gift->otName);
+        POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)gift->otName);
     if (gift->otGender <= 2)
-        func_02017E40(mon, 0x9A, gift->otGender);
+        POKE_TOOL_SetPartyValue(mon, 0x9A, gift->otGender);
     else
-        func_02017E40(mon, 0x9A, func_02008550(func_02012944(gameData)));
+        POKE_TOOL_SetPartyValue(mon, 0x9A, func_02008550(GAME_DATA_GetMyStatus(gameData)));
     if (gift->isEgg) {
-        func_02017E40(mon, 0x4C, 1);
-        eggName = func_02045EC0(d_020A7370, 0x28A);
-        func_02017E40(mon, 0x73, (u32)eggName);
-        func_02045808(eggName);
-        func_02017E40(mon, 9, 10);
+        POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
+        eggName = func_02045EC0(gSpeciesNameBank, 0x28A);
+        POKE_TOOL_SetPartyValue(mon, 0x73, (u32)eggName);
+        STRBUF_Delete(eggName);
+        POKE_TOOL_SetPartyValue(mon, 9, 10);
     }
     year = gift->receivedDate >> 16;
     month = (u8)(gift->receivedDate >> 8);
     day = gift->receivedDate;
     metLocation = gift->isEgg ? gift->eggLocation : gift->metLocation;
-    func_0202F2AC(func_020185F0(mon), metLocation, year - 2000, month, day);
-    func_020185C4(mon);
+    func_0202F2AC(POKE_TOOL_Dummy(mon), metLocation, year - 2000, month, day);
+    POKE_TOOL_RecalcParam(mon);
     result = 0;
-    if (func_02017E1C(mon, 3, 0) != 0)
+    if (POKE_TOOL_GetPartyValue(mon, 3, 0) != 0)
         func_020307B0(mon);
     else
         result = mon;
@@ -844,12 +844,12 @@ out:
  * Returns 0 while the game data has exactly one visit count and the
  * game comm counter is nonzero, else 1.
  */
-int func_02158318(struct GameSystem *gameSystem)
+int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem)
 {
-    GameComm *comm = func_02012138(gameSystem);
-    struct GameData *gameData = func_020120F4(gameSystem);
+    GameComm *comm = GAMESYSTEM_GetGameComm(gameSystem);
+    struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
 
-    if (func_02012B70(gameData) == 1 && func_0202648C(comm) != 0)
+    if (GAME_DATA_GetIntrudeCount(gameData) == 1 && func_0202648C(comm) != 0)
         return 0;
     return 1;
 }
@@ -859,7 +859,7 @@ int func_02158318(struct GameSystem *gameSystem)
  * The intrude comm work of the game comm, or 0 unless the game comm runs
  * kind 2 outside a transition from kind 1 and the work exists.
  */
-IntrudeCommSys *func_02158344(GameComm *comm)
+IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(GameComm *comm)
 {
     IntrudeCommSys *work = func_02026474(comm);
 
@@ -869,12 +869,12 @@ IntrudeCommSys *func_02158344(GameComm *comm)
 }
 
 
-int func_02158378(GameComm *comm)
+int INTRUDE_COMM_GetPlayerNetId(GameComm *comm)
 {
-    IntrudeCommSys *work = func_02158344(comm);
+    IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
 
     if (work == 0) {
-        return func_02012B58(func_02026478(comm));
+        return GAME_DATA_GetExitMode(func_02026478(comm));
     }
     return work->ownNetId;
 }
@@ -884,7 +884,7 @@ int func_02158378(GameComm *comm)
  * When one of the mask bits is set in the 2-bit peer flags, flips the low
  * bit of the flags and answers 1.
  */
-int func_0215839C(IntrudeCommSys *work, int mask, int unused)
+int INTRUDE_COMM_TogglePeerFlags(IntrudeCommSys *work, int mask, int unused)
 {
     u8 flags = work->peerFlags;
 
@@ -900,12 +900,12 @@ int func_0215839C(IntrudeCommSys *work, int mask, int unused)
  * The battle record slot of a net ID: the last-battle slot for the own net
  * ID, the per-ID slot for any other.
  */
-struct BattleRecSlot *func_021583CC(struct GameData *gameData, u32 netId)
+struct BattleRecSlot *GAME_DATA_GetBattleRecSlotByNetId(struct GameData *gameData, u32 netId)
 {
-    if (func_02012B58(gameData) == netId)
-        return func_020127B8(gameData);
+    if (GAME_DATA_GetExitMode(gameData) == netId)
+        return GAME_DATA_GetLastBattleRecSlot(gameData);
 
-    return func_020127AC(gameData, netId);
+    return GAME_DATA_GetBattleRecSlot(gameData, netId);
 }
 
 
@@ -913,19 +913,19 @@ struct BattleRecSlot *func_021583CC(struct GameData *gameData, u32 netId)
  * The MyStatus of a net ID: the own status for the own net ID, the player
  * status of the net ID for any other.
  */
-struct MyStatus *func_021583EC(struct GameData *gameData, u32 netId)
+struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, u32 netId)
 {
-    if (func_02012B58(gameData) == netId)
-        return func_02012944(gameData);
+    if (GAME_DATA_GetExitMode(gameData) == netId)
+        return GAME_DATA_GetMyStatus(gameData);
 
-    return func_02012950(gameData, netId);
+    return GAME_DATA_GetPlayerStatus(gameData, netId);
 }
 
 
 /*
  * Address of the member entry (0x28 bytes) of the session at index.
  */
-IntrudeMemberEntry *func_0215840C(IntrudeCommSys *work, int index)
+IntrudeMemberEntry *INTRUDE_COMM_GetMemberEntry(IntrudeCommSys *work, int index)
 {
     return &work->session.members[index];
 }
@@ -934,18 +934,18 @@ IntrudeMemberEntry *func_0215840C(IntrudeCommSys *work, int index)
 /*
  * The net ID of the player whose area is visited, as a byte.
  */
-u8 func_0215841C(struct GameData *gameData)
+u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData)
 {
-    return (u8)(unsigned)func_02012B80(gameData);
+    return (u8)(unsigned)GAME_DATA_GetIntrudeId(gameData);
 }
 
 
 /*
  * Unlabelled leaf (no lr save, so disasm.py prints it inside the extent of
- * func_0215841C); sole blocker of ov018 func_0217D1C0. Followed by another
+ * GAME_DATA_GetIntrudeIdByte); sole blocker of ov018 INTRUDE_SUBDISP_Update. Followed by another
  * unlabelled leaf at 0x02158434.
  */
-u8 func_02158428(IntrudeCommSys *work)
+u8 INTRUDE_COMM_GetUnionInfoReceived(IntrudeCommSys *work)
 {
     return work->unionInfoReceived;
 }
@@ -953,9 +953,9 @@ u8 func_02158428(IntrudeCommSys *work)
 
 /*
  * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
- * called from ov020 func_021870C4.
+ * called from ov020 FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent.
  */
-void *func_02158434(IntrudeCommSys *work)
+void *INTRUDE_COMM_GetReturnSlots(IntrudeCommSys *work)
 {
     return work->returnSlots;
 }
@@ -968,15 +968,15 @@ void *func_02158434(IntrudeCommSys *work)
  * extent: Two zero alignment bytes at 0x02158466 precede 0x02158468.
  * lever: A named u8 id truncates the result in r0 before preparing r1.
  */
-int func_0215843C(GameComm *comm)
+int INTRUDE_COMM_GetAreaOwnerVersion(GameComm *comm)
 {
     struct GameData *gameData = func_02026478(comm);
     u8 areaOwnerId;
 
-    if (func_02012B70(gameData) == 0)
+    if (GAME_DATA_GetIntrudeCount(gameData) == 0)
         return 21;
-    areaOwnerId = (int)func_02012B80(gameData);
-    return func_0200855C(func_021583EC(gameData, areaOwnerId));
+    areaOwnerId = (int)GAME_DATA_GetIntrudeId(gameData);
+    return func_0200855C(GAME_DATA_GetMyStatusByNetId(gameData, areaOwnerId));
 }
 
 
@@ -984,17 +984,17 @@ int func_0215843C(GameComm *comm)
  * The season of the game data when no visit runs or the visited area is the
  * own one, else the slot flag of the visited area's owner.
  */
-int func_02158468(GameComm *comm)
+int INTRUDE_COMM_GetAreaSlotFlag(GameComm *comm)
 {
     struct GameData *gameData = func_02026478(comm);
     u8 areaOwnerId;
 
-    if (func_02012B70(gameData) == 0) {
-        return func_02012984(gameData);
+    if (GAME_DATA_GetIntrudeCount(gameData) == 0) {
+        return GAME_DATA_GetSeason(gameData);
     }
-    areaOwnerId = func_0215841C(gameData);
-    if (areaOwnerId == func_02012B58(gameData)) {
-        return func_02012984(gameData);
+    areaOwnerId = GAME_DATA_GetIntrudeIdByte(gameData);
+    if (areaOwnerId == GAME_DATA_GetExitMode(gameData)) {
+        return GAME_DATA_GetSeason(gameData);
     }
     return GAME_DATA_GetSlotFlag(gameData, areaOwnerId);
 }
@@ -1005,9 +1005,9 @@ int func_02158468(GameComm *comm)
  * forward, wrapping at the highest net ID, lands on the own net ID. Answers 1
  * when no visit work exists.
  */
-int func_021584A4(GameComm *comm, struct GameData *gameData, int stepKind)
+int INTRUDE_COMM_IsStepToOwnArea(GameComm *comm, struct GameData *gameData, int stepKind)
 {
-    IntrudeCommSys *work = func_02158344(comm);
+    IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
     int next;
     int current;
 
@@ -1023,7 +1023,7 @@ int func_021584A4(GameComm *comm, struct GameData *gameData, int stepKind)
         if (next >= work->lastAreaIndex + 1)
             next = 0;
     }
-    if (next == func_02012B58(gameData))
+    if (next == GAME_DATA_GetExitMode(gameData))
         return 1;
     return 0;
 }
@@ -1033,7 +1033,7 @@ int func_021584A4(GameComm *comm, struct GameData *gameData, int stepKind)
  * Normalizes a version code to 20 or 21: other codes become 20 when bit 16
  * of the trainer ID is set, else 21.
  */
-int func_021584F4(int version, u32 trainerId)
+int INTRUDE_COMM_NormalizeVersion(int version, u32 trainerId)
 {
     if (version == 21)
         return version;
@@ -1050,20 +1050,20 @@ int func_021584F4(int version, u32 trainerId)
  * field status is not map mode 1, 1 for version 20, 2 for version 21, 3 for
  * any other. The work of the comm is fetched first and not used.
  */
-int func_0215850C(GameComm *comm, struct GameData *gameData)
+int INTRUDE_COMM_GetAreaOwnerVersionClass(GameComm *comm, struct GameData *gameData)
 {
     u8 areaOwnerId;
     struct MyStatus *status;
     int version;
 
-    func_02158344(comm);
-    if (func_0201444C(func_02012B38(gameData)) != 1)
+    INTRUDE_COMM_GetWorkIfRunning(comm);
+    if (func_0201444C(GAME_DATA_GetMoveModelSys(gameData)) != 1)
         return 0;
-    areaOwnerId = func_0215841C(gameData);
-    if (areaOwnerId == func_02012B58(gameData))
+    areaOwnerId = GAME_DATA_GetIntrudeIdByte(gameData);
+    if (areaOwnerId == GAME_DATA_GetExitMode(gameData))
         return 0;
-    status = func_02012950(gameData, areaOwnerId);
-    version = func_021584F4(func_0200855C(status), func_02008530(status));
+    status = GAME_DATA_GetPlayerStatus(gameData, areaOwnerId);
+    version = INTRUDE_COMM_NormalizeVersion(func_0200855C(status), func_02008530(status));
     switch (version) {
     case 20:
         return 1;
@@ -1080,12 +1080,12 @@ int func_0215850C(GameComm *comm, struct GameData *gameData)
  *
  * lever: The ternary loop condition preserves the branch to the bottom test.
  */
-int func_02158570(u16 value)
+int INTRUDE_COMM_IsListedId(u16 value)
 {
     unsigned int i;
 
     for (i = 0; (i < 61) ? 1 : 0; i++) {
-        if (value == d_021700AC[i])
+        if (value == sIntrudeListedIds[i])
             return 1;
     }
     return 0;
@@ -1095,13 +1095,13 @@ int func_02158570(u16 value)
 /*
  * Whether both event flags of the table are set.
  */
-int func_02158590(struct GameData *gameData)
+int INTRUDE_COMM_HasUnlockFlags(struct GameData *gameData)
 {
-    struct EventWork *eventWork = func_0201296C(gameData);
+    struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     unsigned int i;
 
     for (i = 0; i < 2; i++) {
-        if (func_020142E8(eventWork, d_021700A8[i]) == 0)
+        if (ZONEDATA_CheckEventFlag(eventWork, sIntrudeUnlockFlags[i]) == 0)
             return 0;
     }
     return 1;
@@ -1111,9 +1111,9 @@ int func_02158590(struct GameData *gameData)
 /*
  * 1 when the session has been warned but no request is active.
  */
-int func_021585BC(IntrudeCommSys *work)
+int INTRUDE_COMM_IsWarnedWithoutRequest(IntrudeCommSys *work)
 {
-    if (work->warned != 0 && func_02175B14(&work->session) == 0)
+    if (work->warned != 0 && INTRUDE_COMM_IsSessionActive(&work->session) == 0)
         return 1;
     return 0;
 }
@@ -1121,18 +1121,18 @@ int func_021585BC(IntrudeCommSys *work)
 
 /*
  * Progress of the visit: 0 without work, 3 once the gear reported flag is set,
- * else 2 or 1 from the state of func_02158630 (3 gives 2).
+ * else 2 or 1 from the state of INTRUDE_COMM_GetRequestState (3 gives 2).
  *
  * Callee 02158344 consumes incoming r0.
  */
-int func_021585E0(GameComm *comm)
+int INTRUDE_COMM_GetVisitProgress(GameComm *comm)
 {
-    IntrudeCommSys *work = func_02158344(comm);
+    IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
 
     if (work == 0)
         return 0;
     if (work->gearReported == 0) {
-        if (func_02158630(comm) == 3)
+        if (INTRUDE_COMM_GetRequestState(comm) == 3)
             return 2;
         return 1;
     }
@@ -1145,9 +1145,9 @@ int func_021585E0(GameComm *comm)
  *
  * The callee reads its incoming r0; legacy void prototypes omit it.
  */
-void func_02158614(GameComm *comm)
+void INTRUDE_COMM_SetCompleted(GameComm *comm)
 {
-    IntrudeCommSys *work = func_02158344(comm);
+    IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
 
     if (work != 0)
         work->gearReported = 1;
@@ -1159,16 +1159,16 @@ void func_02158614(GameComm *comm)
  * session, 2 when the request is the player's own, else 1 or 3 by the
  * event flags (3 when both are set).
  */
-int func_02158630(GameComm *comm)
+int INTRUDE_COMM_GetRequestState(GameComm *comm)
 {
-    IntrudeCommSys *work = func_02158344(comm);
+    IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
 
     if (work == 0)
         return 0;
-    if (func_02175B14(&work->session) == 1) {
-        if (func_02176258(work) == 1)
+    if (INTRUDE_COMM_IsSessionActive(&work->session) == 1) {
+        if (INTRUDE_COMM_IsRequestFromSelf(work) == 1)
             return 2;
-        if (func_02158590(func_02026478(comm)) == 0)
+        if (INTRUDE_COMM_HasUnlockFlags(func_02026478(comm)) == 0)
             return 1;
         return 3;
     }
@@ -1180,15 +1180,15 @@ int func_02158630(GameComm *comm)
  * Number of peers with the event flag set (at least 1) while a session is
  * active, else 0.
  */
-int func_02158678(GameComm *comm)
+int INTRUDE_COMM_CountEventPeers(GameComm *comm)
 {
     int count = 0;
     u8 i;
-    IntrudeCommSys *work = func_02158344(comm);
+    IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
 
     if (work == 0)
         return count;
-    if (func_02175B14(&work->session) == 0)
+    if (INTRUDE_COMM_IsSessionActive(&work->session) == 0)
         return count;
     for (i = 0; i < 3; i++) {
         if (work->peers[i].eventJoined == 1)
@@ -1204,14 +1204,14 @@ int func_02158678(GameComm *comm)
  * Copies the status of the requester of the active session to out. Answers 0
  * when no work or no active session exists.
  */
-int func_021586C8(GameComm *comm, struct MyStatus *out)
+int INTRUDE_COMM_GetRequesterStatus(GameComm *comm, struct MyStatus *out)
 {
-    IntrudeCommSys *work = func_02158344(comm);
+    IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
     struct GameData *gameData = func_02026478(comm);
 
-    if (work == 0 || func_02175B14(&work->session) == 0)
+    if (work == 0 || INTRUDE_COMM_IsSessionActive(&work->session) == 0)
         return 0;
-    func_02008500(func_02012950(gameData, func_02176230(work, &work->session)), out);
+    func_02008500(GAME_DATA_GetPlayerStatus(gameData, INTRUDE_COMM_GetRequesterNetId(work, &work->session)), out);
     return 1;
 }
 
@@ -1220,7 +1220,7 @@ int func_021586C8(GameComm *comm, struct MyStatus *out)
  * Three guards (kind == 2, a non-null work, session-ended bit set) then a
  * predicate whose one result is inverted.
  */
-int func_0215870C(GameComm *comm, int unused)
+int INTRUDE_COMM_IsSessionEndPending(GameComm *comm, int unused)
 {
     IntrudeCommSys *work;
 
@@ -1231,7 +1231,7 @@ int func_0215870C(GameComm *comm, int unused)
         return 0;
     if (work->sessionEnded == 0)
         return 0;
-    if (func_0203CDBC() == 1)
+    if (GFL_NET_IsSessionNull() == 1)
         return 0;
     return 1;
 }
@@ -1240,9 +1240,9 @@ int func_0215870C(GameComm *comm, int unused)
 /*
  * Clears the 2-bit zone check of the work.
  */
-void func_0215874C(GameComm *comm)
+void INTRUDE_COMM_ClearHoldMode(GameComm *comm)
 {
-    IntrudeCommSys *work = func_02158344(comm);
+    IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
 
     if (work != 0)
         work->zoneCheck = 0;

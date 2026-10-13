@@ -1,5 +1,5 @@
 /*
- * function: func_021CEF08
+ * function: COMM_ENTRY_ClearParentSlot
  * address:  0x021CEF08
  * packet:   pkt_ov021_021CEF08
  * region:   ov021
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021CEF08(u8 *p, int i)
+void COMM_ENTRY_ClearParentSlot(u8 *p, int i)
 {
     (p + i * 0x2c)[0x16a] = 0;
 }

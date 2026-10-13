@@ -14,8 +14,8 @@
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FB964 0x021FB964 thumb ov186
- *   func_0201F81C 0x0201F81C thumb
- *   func_0201F878 0x0201F878 thumb
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   func_021FC8C8 0x021FC8C8 thumb ov186
  *   func_02082BCC 0x02082BCC arm
  *   func_021FC124 0x021FC124 thumb ov186
@@ -38,8 +38,8 @@ extern const Record d_021E3728[];
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void func_021FB964(void *ctx, unsigned kind, unsigned short heap);
-extern Slot *func_0201F81C(u32,u32);
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern Slot *BMP_MENUWORK_Create(u32,u32);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void *func_021FC8C8(Config *,u32);
 extern void func_02082BCC(void *,u32,u32);
 extern int func_021FC124(int,int,Triple *);
@@ -53,8 +53,8 @@ int func_021DFE98(char *p,char *q)
     first=func_021FC20C(*(char * *)&((struct Obj04571 *)q)->f8);
     second=func_021FC214(*(char * *)&((struct Obj04571 *)q)->f8);
     func_021FB964((void *)(*(int *)&((struct Obj04571 *)q)->f8),27,((struct Obj02523 *)p)->f54);
-    *(Slot * *)&((struct Obj02523 *)p)->f14=func_0201F81C(19,((struct Obj02523 *)p)->f54);
-    for(i=0;i<19;i++)func_0201F878((Slot *)((u32)*(Slot * *)&((struct Obj02523 *)p)->f14+i*8),second,i+205,i,((struct Obj02523 *)p)->f54);
+    *(Slot * *)&((struct Obj02523 *)p)->f14=BMP_MENUWORK_Create(19,((struct Obj02523 *)p)->f54);
+    for(i=0;i<19;i++)BMP_MENUWORK_AddMsgItem((Slot *)((u32)*(Slot * *)&((struct Obj02523 *)p)->f14+i*8),second,i+205,i,((struct Obj02523 *)p)->f54);
     cfg=d_021E3758;
     cfg.words[0]=*(u32 *)&((struct Obj02523 *)p)->f14;cfg.words[1]=19;
     cfg.words[5]=*(u32 *)&((struct Obj04571 *)q)->f8;cfg.words[6]=((struct Obj04571 *)q)->f4;

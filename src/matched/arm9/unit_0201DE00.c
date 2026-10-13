@@ -14,7 +14,7 @@
  *   g_02146578   0x02146578  data
  *
  * The current text colour, read back and compared.  g_02146578 is the three
- * bytes func_0201DD78 stores the last requested colour into.
+ * bytes GF_FONT_SetTextColor stores the last requested colour into.
  *
  * GF_FONT_IsTextColorDifferent returns 1 when the colour differs, and its shape is the
  * disjunction form rather than the conjunction: the first two comparisons branch

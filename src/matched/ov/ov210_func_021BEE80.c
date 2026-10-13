@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  * Addresses are Black-image addresses.
  */
 
-extern void func_0204B84C(int h, unsigned v);
+extern void CLACT_SetActorBgPriority(int h, unsigned v);
 
 void func_021BEE80(int p, int i, unsigned v)
 {
-    func_0204B84C(((int *)(p + i * 4))[0xa], (unsigned char)v);
+    CLACT_SetActorBgPriority(((int *)(p + i * 4))[0xa], (unsigned char)v);
 }

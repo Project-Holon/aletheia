@@ -1,7 +1,7 @@
 /*
  * file:     event_poke_status.c
  * unit:     yes
- * function: func_0215A07C, func_0215A0E8, func_0215A168, func_0215A214, func_0215A2E4, func_0215A370, func_0215A438, func_0215A460, func_0215A480, func_0215A490, func_0215A4A0, func_0215A4B4, func_0215A4C8, func_0215A4D8, func_0215A4EC, func_0215A500
+ * function: EVENT_POKE_STATUS_CreatePokeSelectEvent, EVENT_POKE_STATUS_CreatePokeSelectMoveEvent, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent, EVENT_POKE_STATUS_PokeSelectEvent, EVENT_POKE_STATUS_CreateMoveSelectEvent, EVENT_POKE_STATUS_MoveSelectEvent, func_0215A438, func_0215A460, func_0215A480, func_0215A490, func_0215A4A0, func_0215A4B4, func_0215A4C8, func_0215A4D8, func_0215A4EC, func_0215A500
  * address:  0x0215A07C
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -16,31 +16,31 @@
  * until its home is known.
  *
  * symbols:
- *   func_020142E8  0x020142E8  thumb
- *   func_02014314  0x02014314  thumb
- *   func_0201433C  0x0201433C  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
+ *   ZONEDATA_SetEventFlag  0x02014314  thumb
+ *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   d_021728CC  0x021728CC  data
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   func_0201AA18  0x0201AA18  thumb
- *   func_021BE8D4  0x021BE8D4  thumb
- *   func_021BE92C  0x021BE92C  thumb
- *   func_02012374  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02014910  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   ov131_id       0x00000083  data
  *   gPokeStatusProcData     0x021DC800  data  ov131
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
- *   func_021589D0  0x021589D0  thumb  ov010
- *   func_02159124  0x02159124  thumb  ov010
+ *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010
+ *   SCRIPT_WORK_GetTrainerEntry  0x02159124  thumb  ov010
  *   func_0202A230  0x0202A230  thumb
  */
 #include "../ov131/p_status_types.h"
@@ -83,42 +83,42 @@ typedef struct MoveSelectEventWork {
 typedef struct RecordHead24 {
     int word[6];
 } RecordHead24;
-extern u32 func_020142E8(void *bitmap, s32 id);
-extern void func_02014314(char *, int);
-extern void func_0201433C(char *a0, int a1);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
+extern void ZONEDATA_SetEventFlag(char *, int);
+extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern u32 func_0201AA18(void *p);
-extern void *func_021BE8D4(void *, void *, int, int);
-extern void *func_021BE92C(void *, void *, int, int, int, int, int);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *func_02014910(char *a0, int a1, int a2, int a3);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
-extern int func_021589D0(int);
-extern char *func_02159124(char *p, int i);
+extern int SCRIPT_SYS_GetEventScriptWork(int);
+extern char *SCRIPT_WORK_GetTrainerEntry(char *p, int i);
 extern u32 func_0202A230(void *a, u32 idx);
-int func_0215A214(void *event, u32 *seq, PokeListEventWork *work);
+int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *work);
 /*
  * Case 2 loads 0x00000083 from the pool: an absolute symbol (overlay id),
  * see docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  */
-int func_0215A370(void *event, u32 *seq, MoveSelectEventWork *work);
+int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork *work);
 extern const char d_021728CC[];
 extern u8 ov131_id[];
 extern u8 gPokeStatusProcData[];
 
-void *func_0215A07C(int gameSystem, u16 *retDecided, u16 *retSlot)
+void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int gameSystem, u16 *retDecided, u16 *retSlot)
 {
-    void *party = func_02012934(func_020120F4((void *)gameSystem));
+    void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((void *)gameSystem));
     PokeListParam *listParam = func_02030734(4, 0x98, 1, d_021728CC, 0x40);
     void *event;
     PokeListEventWork *work;
@@ -126,10 +126,10 @@ void *func_0215A07C(int gameSystem, u16 *retDecided, u16 *retSlot)
     listParam->listMode = 3;
     listParam->listArg = 0;
     listParam->selectedSlot = 0;
-    event = func_020122C0((void *)gameSystem, 0, func_0215A214, 0x18);
+    event = func_020122C0((void *)gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = func_020124E8(event);
     work->gameSystem = (void *)gameSystem;
-    work->fieldMap = func_0201210C((void *)gameSystem);
+    work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
     work->listParam = listParam;
     work->statusParam = 0;
     work->retDecided = retDecided;
@@ -137,9 +137,9 @@ void *func_0215A07C(int gameSystem, u16 *retDecided, u16 *retSlot)
     return event;
 }
 
-void *func_0215A0E8(int gameSystem, int retDecided, int retSlot, int fieldIndex, unsigned short moveId)
+void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(int gameSystem, int retDecided, int retSlot, int fieldIndex, unsigned short moveId)
 {
-    void *party = func_02012934(func_020120F4((const struct Ctx *)gameSystem));
+    void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem));
     PokeListParam *listParam = func_02030734(4, 0x98, 1, d_021728CC, 0x66);
     void *event;
     PokeListEventWork *work;
@@ -149,10 +149,10 @@ void *func_0215A0E8(int gameSystem, int retDecided, int retSlot, int fieldIndex,
     listParam->selectedSlot = 0;
     listParam->fieldIndex = fieldIndex;
     listParam->argValue2 = moveId;
-    event = func_020122C0((void *)gameSystem, 0, func_0215A214, 0x18);
+    event = func_020122C0((void *)gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = func_020124E8(event);
     work->gameSystem = (void *)gameSystem;
-    work->fieldMap = func_0201210C((void *)gameSystem);
+    work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
     work->listParam = listParam;
     work->statusParam = 0;
     work->retDecided = (u16 *)retDecided;
@@ -160,10 +160,10 @@ void *func_0215A0E8(int gameSystem, int retDecided, int retSlot, int fieldIndex,
     return event;
 }
 
-void *func_0215A168(int gameSystem, int retDecided, int retSlot)
+void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecided, int retSlot)
 {
-    void *gameData = func_020120F4((const struct Ctx *)gameSystem);
-    void *party = func_02012934(gameData);
+    void *gameData = GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem);
+    void *party = GAME_DATA_GetMyParty(gameData);
     int zukanSave = (int)func_0200CA1C(gameData);
     PokeListParam *listParam = func_02030734(4, 0x98, 1, d_021728CC, 0x90);
     PStatusParam *statusParam;
@@ -182,10 +182,10 @@ void *func_0215A168(int gameSystem, int retDecided, int retSlot)
     statusParam->page = 0;
     statusParam->isNationalDex = func_0200CA38((struct Blk37 *)zukanSave);
     statusParam->canUseButtons = 0;
-    event = func_020122C0((void *)gameSystem, 0, func_0215A214, 0x18);
+    event = func_020122C0((void *)gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = func_020124E8(event);
     work->gameSystem = (void *)gameSystem;
-    work->fieldMap = func_0201210C((void *)gameSystem);
+    work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
     work->listParam = listParam;
     work->statusParam = statusParam;
     work->retDecided = (u16 *)retDecided;
@@ -193,30 +193,30 @@ void *func_0215A168(int gameSystem, int retDecided, int retSlot)
     return event;
 }
 
-int func_0215A214(void *event, u32 *seq, PokeListEventWork *work)
+int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *work)
 {
     u32 step = *seq;
     void *gameSystem = work->gameSystem;
     int slot;
     switch (step) {
     case 0:
-        func_02012374(event, func_021BE8D4(gameSystem, work->fieldMap, 0, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, work->fieldMap, 0, 0));
         *seq = 1;
         break;
     case 1:
-        func_02012374(event, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
+        GAME_EVENT_CallEvent(event, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
         *seq = 2;
         break;
     case 2:
-        func_02012374(event, func_02014910(gameSystem, (int)work->fieldMap, (int)work->listParam, (int)work->statusParam));
+        GAME_EVENT_CallEvent(event, func_02014910(gameSystem, (int)work->fieldMap, (int)work->listParam, (int)work->statusParam));
         *seq = 3;
         break;
     case 3:
-        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         *seq = 4;
         break;
     case 4:
-        func_02012374(event, func_021BE92C(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
         *seq = 5;
         break;
     case 5:
@@ -236,10 +236,10 @@ int func_0215A214(void *event, u32 *seq, PokeListEventWork *work)
     return 0;
 }
 
-int func_0215A2E4(int gameSystem, int fieldMap, int pos, int retDecided, int retMovePos, int mode, unsigned short newMove)
+int EVENT_POKE_STATUS_CreateMoveSelectEvent(int gameSystem, int fieldMap, int pos, int retDecided, int retMovePos, int mode, unsigned short newMove)
 {
-    int gameData = (int)func_020120F4((const struct Ctx *)gameSystem);
-    void *party = func_02012934((void *)gameData);
+    int gameData = (int)GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem);
+    void *party = GAME_DATA_GetMyParty((void *)gameData);
     PStatusParam *param = (PStatusParam *)func_02030734(4, 0x98, 1, (const char *)&d_021728CC, 0x11d);
     int event;
     MoveSelectEventWork *work;
@@ -253,7 +253,7 @@ int func_0215A2E4(int gameSystem, int fieldMap, int pos, int retDecided, int ret
     param->mode = (mode == 1) ? 3 : 2;
     param->canUseButtons = 0;
     param->config = (void *)gameData;
-    event = (int)func_020122C0((void *)gameSystem, 0, func_0215A370, 0x14);
+    event = (int)func_020122C0((void *)gameSystem, 0, EVENT_POKE_STATUS_MoveSelectEvent, 0x14);
     work = func_020124E8((struct Obj *)event);
     work->gameSystem = (void *)gameSystem;
     work->fieldMap = (void *)fieldMap;
@@ -267,17 +267,17 @@ int func_0215A2E4(int gameSystem, int fieldMap, int pos, int retDecided, int ret
  * Case 2 loads 0x00000083 from the pool: an absolute symbol (overlay id),
  * see docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  */
-int func_0215A370(void *event, u32 *seq, MoveSelectEventWork *work)
+int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork *work)
 {
     u32 step = *seq;
     void *gameSystem = work->gameSystem;
     switch (step) {
     case 0:
-        func_02012374(event, func_021BE8D4(gameSystem, work->fieldMap, 0, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, work->fieldMap, 0, 0));
         *seq = 1;
         break;
     case 1:
-        func_02012374(event, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
+        GAME_EVENT_CallEvent(event, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
         *seq = 2;
         break;
     case 2:
@@ -285,11 +285,11 @@ int func_0215A370(void *event, u32 *seq, MoveSelectEventWork *work)
         *seq = 3;
         break;
     case 3:
-        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         *seq = 4;
         break;
     case 4:
-        func_02012374(event, func_021BE92C(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
         *seq = 5;
         break;
     case 5:
@@ -308,7 +308,7 @@ int func_0215A370(void *event, u32 *seq, MoveSelectEventWork *work)
 
 void func_0215A438(int scrcmdWork, int index, RecordHead24 *src)
 {
-    int *entry = (int *)func_02159124((char *)func_021589D0(scrcmdWork), index);
+    int *entry = (int *)SCRIPT_WORK_GetTrainerEntry((char *)SCRIPT_SYS_GetEventScriptWork(scrcmdWork), index);
 
     *(RecordHead24 *)entry = *src;
     entry[6] = 0;
@@ -350,8 +350,8 @@ int func_0215A4C8(int saveData)
 /*
  * interface: original narrows r1 by shift pairs; u16 extern preserves this.
  */
-unsigned func_0215A4D8(void *flagSet, unsigned flagOffset) { return func_020142E8(flagSet, (u16)(flagOffset + 1420)); }
+unsigned func_0215A4D8(void *flagSet, unsigned flagOffset) { return ZONEDATA_CheckEventFlag(flagSet, (u16)(flagOffset + 1420)); }
 
-void func_0215A4EC(char *flagSet, unsigned flagOffset) { func_02014314(flagSet, (u16)(flagOffset + 1420)); }
+void func_0215A4EC(char *flagSet, unsigned flagOffset) { ZONEDATA_SetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
 
-void func_0215A500(char *flagSet, unsigned flagOffset) { func_0201433C(flagSet, (u16)(flagOffset + 1420)); }
+void func_0215A500(char *flagSet, unsigned flagOffset) { ZONEDATA_ResetEventFlag(flagSet, (u16)(flagOffset + 1420)); }

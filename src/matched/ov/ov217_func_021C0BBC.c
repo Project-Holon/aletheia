@@ -12,7 +12,7 @@
  *   d_021C3F80 0x021C3F80 data a4
  *   func_021C0DBC 0x021C0DBC thumb ov217
  *   func_021C0DB4 0x021C0DB4 thumb ov217
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj00791.h"
@@ -26,7 +26,7 @@ struct Obj;
 extern const struct Entry d_021C3F80;
 extern u32 func_021C0DBC(void *, u32);
 extern u32 func_021C0DB4(void *, u32);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, u32);
 void func_021C0BBC(u8 *p)
 {
@@ -38,6 +38,6 @@ void func_021C0BBC(u8 *p)
     b=func_021C0DB4(p,d_021C3F80.d);
     c=func_021C0DB4(p,d_021C3F80.e);
     d=func_021C0DB4(p,d_021C3F80.f);
-    *(u32 *)&((struct Obj00791 *)p)->f24=(u32)func_0204B294((void *)a,b,c,d,&arg,d_021C3F80.g,((struct Obj00791 *)p)->f0);
+    *(u32 *)&((struct Obj00791 *)p)->f24=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,d_021C3F80.g,((struct Obj00791 *)p)->f0);
     func_0204B3DC(*(struct Obj * *)&((struct Obj00791 *)p)->f24,1);
 }

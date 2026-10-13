@@ -1,5 +1,5 @@
 /*
- * function: func_021A1784
+ * function: FIELD_3DBG_CalcQuadGeometry
  * address:  0x021A1784
  * packet:   pkt_ov021_021A1784
  * region:   ov021
@@ -78,7 +78,7 @@ static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[idx * 2 + 1]; }
 
 
 
-void func_021A1784(Out021A1784 *out, const In021A1784 *in, int unused, const Q021A1784 *q)
+void FIELD_3DBG_CalcQuadGeometry(Out021A1784 *out, const In021A1784 *in, int unused, const Q021A1784 *q)
 {
     MtxFx33 tmp;
     fx32 y;

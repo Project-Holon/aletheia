@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D5E38",
+   "name": "BTL_POKEPARAM_LowerStatStage",
    "address": "0x021D5E38",
    "kind": "game",
    "region": "ov093",

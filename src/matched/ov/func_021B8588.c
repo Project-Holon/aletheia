@@ -1,5 +1,5 @@
 /*
- * function: func_021B8588
+ * function: BTL_MAIN_GetRule
  * address:  0x021B8588
  * packet:   pkt_021B8588
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8588   0x021B8588  thumb ov093
+ *   BTL_MAIN_GetRule   0x021B8588  thumb ov093
  *
  * double deref: *(u32*)(*p + 0x4)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u32 func_021B8588(void **p)
+u32 BTL_MAIN_GetRule(void **p)
 {
     return ((struct Obj18120 *)((u8 *)*p))->f4;
 }

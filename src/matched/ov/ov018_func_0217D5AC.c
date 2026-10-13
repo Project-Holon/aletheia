@@ -1,5 +1,5 @@
 /*
- * function: func_0217D5AC
+ * function: INTRUDE_SUBDISP_VBlankTask
  * address:  0x0217D5AC
  * packet:   pkt_ov018_0217D5AC
  * region:   ov018
@@ -22,7 +22,7 @@ extern void func_020862F0();
 extern void func_0207E5D0();
 extern void func_0207E804();
 
-void func_0217D5AC(int a0, u8 *p)
+void INTRUDE_SUBDISP_VBlankTask(int a0, u8 *p)
 {
     p[0x11D] ^= 1;
     if (p[0x11D] != 0) {

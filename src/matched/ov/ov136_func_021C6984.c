@@ -11,13 +11,13 @@
  *
  * symbols:
  *   func_020056A0       0x020056A0  thumb
- *   func_0203064C   0x0203064C  arm
+ *   GFL_HEAP_CreateChildHeap   0x0203064C  arm
  *   func_02030734        0x02030734  arm
  *   func_02030EAC   0x02030EAC  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_02043534  0x02043534  arm
- *   func_020435F4             0x020435F4  arm
- *   func_0204363C  0x0204363C  arm
+ *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   func_02082AC0    0x02082AC0  arm
  *   func_021C54FC 0x021C54FC thumb
  *   func_021C5508 0x021C5508 thumb
@@ -45,9 +45,9 @@ extern const char d_021C7F04[];
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_02043534(u32);
-extern void func_020435F4(u32);
-extern void func_0204363C(u32);
-extern void func_0203064C(u32, u32, u32);
+extern void BG_SYS_SetSubVisiblePlanes(u32);
+extern void BG_SYS_SetLcdSwap(u32);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(u32, void *, u32);
 extern void func_021C5B40(u8 *);
@@ -66,7 +66,7 @@ extern void func_021C5C00(u8 *);
 extern void func_021C59B8(u8 *);
 extern void func_021C54FC(void);
 extern void *func_020056A0(void (*)(void *), void *, u32);
-extern void func_0203D34C(u32, u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 int func_021C6984(u8 *p)
 {
     if (((struct Obj03836 *)p)->f2C != 0) {
@@ -74,11 +74,11 @@ int func_021C6984(u8 *p)
         *(u32 *)&((struct Obj03836 *)p)->f2C = 0;
     }
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    func_0204363C(0);
-    func_0203064C(1, 0x66, 0x60000);
+    BG_SYS_SetLcdSwap(0);
+    GFL_HEAP_CreateChildHeap(1, 0x66, 0x60000);
     ((struct Obj03836 *)p)->f8 = func_02030734(0x66, 0x370, 0, d_021C7F04, 0x10C);
     func_02082AC0(0, ((struct Obj03836 *)p)->f8, 0x370);
     func_021C5B40(p);
@@ -96,6 +96,6 @@ int func_021C6984(u8 *p)
     func_021C5C00(p);
     func_021C59B8(p);
     ((struct Obj03836 *)p)->f2C = func_020056A0((void (*)(void *))func_021C54FC, p, 1);
-    func_0203D34C(0, 0x66);
+    GFL_NET_RestartWithDefaultTimeout(0, 0x66);
     return ((struct Obj03836 *)p)->f28;
 }

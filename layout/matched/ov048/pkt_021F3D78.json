@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3D78",
+   "name": "GIMMICK_OBJ_ELBOARD_FillMessages",
    "address": "0x021F3D78",
    "kind": "game",
    "region": "ov048",

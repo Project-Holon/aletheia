@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 #include "../include/Obj14314.h"
 #include "../include/Obj24174.h"
 
-extern unsigned int func_02017E1C(void *, unsigned int, unsigned int);
+extern unsigned int POKE_TOOL_GetPartyValue(void *, unsigned int, unsigned int);
 
 unsigned short func_021B7448(int *p)
 {
     int *q = *(int * *)&((struct Obj24174 *)p)->f0;
 
-    return func_02017E1C((void *)((struct Obj14314 *)q)->f0, ((struct Obj14314 *)q)->f1B + 0x36, 0);
+    return POKE_TOOL_GetPartyValue((void *)((struct Obj14314 *)q)->f0, ((struct Obj14314 *)q)->f1B + 0x36, 0);
 }

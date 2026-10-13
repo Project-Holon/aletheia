@@ -1,5 +1,5 @@
 /*
- * function: func_021B9954
+ * function: STARTMENU_CaptureVblankTask
  * address:  0x021B9954
  * packet:   pkt_ov088_021B9954
  * region:   ov088
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
  */
 
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
-void func_021B9954(void *task, short *p)
+void STARTMENU_CaptureVblankTask(void *task, short *p)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
     *(volatile unsigned int *)0x04000064 = p[4] | (0xC0330000 | (p[5] << 8));
 }

@@ -12,6 +12,10 @@
  * symbols:
  *   _pNetState     0x021469DC  data
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -33,23 +37,23 @@ struct B794 {
     void (*unk_2C)(u32);
 };
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct NetState;
 extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_020399B8(u8 *p);
-extern u32 func_0203D650(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
+extern u32 GFL_NET_GetUserArg(void);
 
 void GFL_NET_STATE_ChildNegotiationWait(struct B794 *p)
 {
-    u8 *s = func_0203D798();
+    u8 *s = GFL_NET_GetInitParam();
 
-    if (func_020399B8((u8 *)((u32)func_020399A8())) == 0)
+    if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)((u32)GFL_NET_HANDLE_GetCurrentHandle())) == 0)
         return;
 
     if (p->unk_2C != 0) {
-        p->unk_2C(func_0203D650());
+        p->unk_2C(GFL_NET_GetUserArg());
         p->unk_2C = 0;
     }
 

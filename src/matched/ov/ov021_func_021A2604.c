@@ -1,5 +1,5 @@
 /*
- * function: func_021A2604
+ * function: WEATHER_TASK_PlaySeWithVoice
  * address:  0x021A2604
  * packet:   pkt_ov021_021A2604
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02005C64  0x02005C64  thumb
- *   func_02028ACC  0x02028ACC  thumb
+ *   FIELD_SOUND_SYSTEM_ClaimSlotWithOwner  0x02028ACC  thumb
  *   func_020061F0  0x020061F0  thumb
  */
 #include "../include/Obj12714.h"
@@ -21,14 +21,14 @@ typedef unsigned int  u32;
 
 int func_02005C64(void);
 struct SoundSys2;
-void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who);
+void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(struct SoundSys2 *s, u32 id, u32 who);
 void func_020061F0(u32 a, u32 b);
 
-void func_021A2604(u8 *p, int a, int b)
+void WEATHER_TASK_PlaySeWithVoice(u8 *p, int a, int b)
 {
     if (func_02005C64() == 0) {
         if (((struct Obj12714 *)p)->f48 != 0)
-            func_02028ACC((struct SoundSys2 *)(((struct Obj12714 *)p)->fC), a, b);
+            FIELD_SOUND_SYSTEM_ClaimSlotWithOwner((struct SoundSys2 *)(((struct Obj12714 *)p)->fC), a, b);
         else
             func_020061F0(a, b);
     }

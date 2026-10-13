@@ -12,26 +12,26 @@
  * Task step: resolves the field's current map object and reports whether its fade has finished.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F54  0x02158F54  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012ED8  0x02012ED8  thumb
- *   func_02167CB4  0x02167CB4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetCurrentEvent  0x02012ED8  thumb
+ *   BSUBWAY_COMM_SendData  0x02167CB4  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
-extern void *func_0215A5F4(void *p);
-extern void *func_02158F54(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetGameSystem(void *p);
 struct Big;
 struct Ctx;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012ED8(struct Big *p);
-extern int func_02167CB4(struct Obj *o);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetCurrentEvent(struct Big *p);
+extern int BSUBWAY_COMM_SendData(struct Obj *o);
 
 int func_021CB6DC(void *task, void *p)
 {
-    if (func_02167CB4(func_02012ED8(func_020120F4(func_02158F54(func_0215A5F4(p))))) == 1)
+    if (BSUBWAY_COMM_SendData(GAME_DATA_GetCurrentEvent(GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(p))))) == 1)
         return 1;
     return 0;
 }

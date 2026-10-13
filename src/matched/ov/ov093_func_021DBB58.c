@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DBAF0.c and filed here.
  *
  * symbols:
- *   d_021F0960 0x021F0960 data ov093 a4
+ *   gUnburdenHandlers 0x021F0960 data ov093 a4
  */
 
 int *func_021DBB58(int *p);
-extern int d_021F0960[];
+extern int gUnburdenHandlers[];
 
 int *func_021DBB58(int *p)
 {
     *p = 2;
-    return d_021F0960;
+    return gUnburdenHandlers;
 }

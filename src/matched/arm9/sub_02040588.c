@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *
  * Eight-way dispatch turning a small selector into a one-hot plane mask for
  * one of the two 2D engines: selectors 0..3 go to the engine-A visible-plane
  * toggle at func_020434DC with masks 1/2/4/8 and selectors 4..7 to the
- * engine-B toggle at func_02043598 with the same four.  The on/off flag is
+ * engine-B toggle at BG_SYS_SetSubPlaneVisible with the same four.  The on/off flag is
  * the second parameter and is forwarded untouched in r1, which is why no
  * argument setup other than the mask appears in any arm.  The ARM form
  * of the dense switch is `cmp #7` plus `addls pc, pc, r0, lsl #2` over a
@@ -27,7 +27,7 @@
 typedef unsigned int u32;
 
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 void sub_02040588(unsigned char which, unsigned char enable)
 {
@@ -45,16 +45,16 @@ void sub_02040588(unsigned char which, unsigned char enable)
         func_020434DC(8, enable);
         break;
     case 4:
-        func_02043598(1, enable);
+        BG_SYS_SetSubPlaneVisible(1, enable);
         break;
     case 5:
-        func_02043598(2, enable);
+        BG_SYS_SetSubPlaneVisible(2, enable);
         break;
     case 6:
-        func_02043598(4, enable);
+        BG_SYS_SetSubPlaneVisible(4, enable);
         break;
     case 7:
-        func_02043598(8, enable);
+        BG_SYS_SetSubPlaneVisible(8, enable);
         break;
     }
 }

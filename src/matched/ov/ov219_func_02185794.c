@@ -10,12 +10,12 @@
  * status: EXACT
  * note 2026-10-05 (wD6 lane16): EXACT. The flag block is an if/else-if chain with h == 0 first; tail merging of the duplicate stores gives the bne/b pairs.
  * symbols:
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
- *   func_02048B80 0x02048B80 arm
- *   func_02048B94 0x02048B94 arm
- *   func_02048B60 0x02048B60 arm
- *   func_02048B6C 0x02048B6C arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetUp 0x02048B44 arm
+ *   G3D_CAMERA_SetNearClip 0x02048B80 arm
+ *   G3D_CAMERA_SetFarClip 0x02048B94 arm
+ *   G3D_CAMERA_SetScale 0x02048B60 arm
+ *   G3D_CAMERA_SetRoll 0x02048B6C arm
  *   func_02185AC8 0x02185AC8 thumb ov219
  *   d_02185E0C 0x02185E0C data a4
  *   d_02185DF4 0x02185DF4 data a4
@@ -32,25 +32,25 @@ typedef struct {char pad[0x30]; short a, b;} Cfg;
 extern struct G_02185E0C d_02185E0C;
 extern struct Vec3 d_02185DF4;
 extern Cfg d_020A1C78;
-extern void func_02048AFC(void *, Vec3 *);
-extern void func_02048B44(void *, Vec3 *);
+extern void G3D_CAMERA_SetEye(void *, Vec3 *);
+extern void G3D_CAMERA_SetUp(void *, Vec3 *);
 struct Light;
-extern void func_02048B80(struct Light *l, u32 v);
-extern void func_02048B94(struct Light *l, u32 v);
-extern void func_02048B60(struct Light *l, const u32 *in);
-extern void func_02048B6C(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetNearClip(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetFarClip(struct Light *l, u32 v);
+extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
 extern int func_02185AC8(char *);
 
 void func_02185794(char *p)
 {
     u32 a = 0;
     u32 b = 0x19 << 14;
-    func_02048AFC(*(void **)(p + 0xC36C), ((Vec3 *)&d_02185E0C));
-    func_02048B44(*(void **)(p + 0xC36C), ((Vec3 *)&d_02185DF4));
-    func_02048B80(*(void **)(p + 0xC36C), d_020A1C78.a);
-    func_02048B94(*(void **)(p + 0xC36C), d_020A1C78.b);
-    func_02048B60(*(void **)(p + 0xC36C), &a);
-    func_02048B6C(*(void **)(p + 0xC36C), &b);
+    G3D_CAMERA_SetEye(*(void **)(p + 0xC36C), ((Vec3 *)&d_02185E0C));
+    G3D_CAMERA_SetUp(*(void **)(p + 0xC36C), ((Vec3 *)&d_02185DF4));
+    G3D_CAMERA_SetNearClip(*(void **)(p + 0xC36C), d_020A1C78.a);
+    G3D_CAMERA_SetFarClip(*(void **)(p + 0xC36C), d_020A1C78.b);
+    G3D_CAMERA_SetScale(*(void **)(p + 0xC36C), &a);
+    G3D_CAMERA_SetRoll(*(void **)(p + 0xC36C), &b);
     if (*(u16 *)(p + 0xC31C) == 0)
         *(u16 *)(p + 0xC30C) = 1;
     else if (*(u32 *)(p + 0xC33C) == 0)

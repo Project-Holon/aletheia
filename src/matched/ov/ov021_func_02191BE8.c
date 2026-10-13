@@ -1,5 +1,5 @@
 /*
- * function: func_02191BE8
+ * function: FIELD_MSGBG_BgWinMain
  * address:  0x02191BE8
  * packet:   pkt_ov021_02191BE8
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020458F8  0x020458F8  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_GetLength  0x020458F8  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045770  0x02045770  arm
- *   func_0219214C  0x0219214C  thumb  ov021
- *   func_02045334  0x02045334  arm
+ *   FIELD_MSGBG_PrintTwoLines  0x0219214C  thumb  ov021
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020409B4  0x020409B4  arm
  *   func_02040618  0x02040618  arm
- *   func_02192138  0x02192138  thumb  ov021
+ *   FIELD_MSGBG_IsLineMissing  0x02192138  thumb  ov021
  *   func_020362DC  0x020362DC  arm
- *   func_021928C0  0x021928C0  thumb  ov021
- *   func_021927FC  0x021927FC  thumb  ov021
- *   func_02043814  0x02043814  arm
+ *   FIELD_MSGBG_AnimateCursor  0x021928C0  thumb  ov021
+ *   FIELD_MSGBG_ClearCursor  0x021927FC  thumb  ov021
+ *   BMP_CopyPixels  0x02043814  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_021921C8  0x021921C8  thumb  ov021
+ *   FIELD_MSGBG_RollLines  0x021921C8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -33,31 +33,31 @@ typedef unsigned int   u32;
 
 struct Bmp;
 struct U16Vec;
-extern u16 func_020458F8(struct U16Vec *vec);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
-extern int func_0219214C(u32 a, u32 b, u32 c, u32 d, u32 *cnt, u8 col);
-extern void func_02045334(struct Descriptor *w);
+extern int FIELD_MSGBG_PrintTwoLines(u32 a, u32 b, u32 c, u32 d, u32 *cnt, u8 col);
+extern void BMP_WIN_TransferChars(struct Descriptor *w);
 extern void func_020409B4(u32 layer);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern int func_02192138(u32 a, u32 b, u32 c);
+extern int FIELD_MSGBG_IsLineMissing(u32 a, u32 b, u32 c);
 extern u32 func_020362DC(void);
 struct Cur;
-extern void func_021928C0(struct Cur *c, u32 win, u32 col);
-extern void func_021927FC(struct Cur *c, u32 win, u32 col);
-extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
+extern void FIELD_MSGBG_AnimateCursor(struct Cur *c, u32 win, u32 col);
+extern void FIELD_MSGBG_ClearCursor(struct Cur *c, u32 win, u32 col);
+extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 extern void func_020061E4(u32 a);
-extern int func_021921C8(u32 a, u32 b, u32 c, int n, u16 col);
+extern int FIELD_MSGBG_RollLines(u32 a, u32 b, u32 c, int n, u16 col);
 
-u32 func_02191BE8(u32 *p, u32 b)
+u32 FIELD_MSGBG_BgWinMain(u32 *p, u32 b)
 {
     switch (p[6]) {
     case 0:
         p[4] = b;
-        p[5] = (u32)func_020457B0(func_020458F8((struct U16Vec *)b) + 2, *(u16 *)p[0]);
-        func_0219214C((u32)func_02045770((struct Descriptor *)p[1]), p[12], p[4], p[5], p + 9, 15);
-        func_02045334((struct Descriptor *)p[1]);
+        p[5] = (u32)STRBUF_Create(STRBUF_GetLength((struct U16Vec *)b) + 2, *(u16 *)p[0]);
+        FIELD_MSGBG_PrintTwoLines((u32)func_02045770((struct Descriptor *)p[1]), p[12], p[4], p[5], p + 9, 15);
+        BMP_WIN_TransferChars((struct Descriptor *)p[1]);
         func_020409B4((u8)((u16 *)p[0])[1]);
         p[6]++;
         break;
@@ -70,30 +70,30 @@ u32 func_02191BE8(u32 *p, u32 b)
         func_02040618((u8)((u16 *)p[0])[1], 3, p[7]);
         break;
     case 2:
-        if (func_02192138(p[4], p[5], p[9]) == 1) {
+        if (FIELD_MSGBG_IsLineMissing(p[4], p[5], p[9]) == 1) {
             p[6] = 5;
             break;
         }
         p[6]++;
     case 3:
         if ((func_020362DC() & 3) == 0) {
-            func_021928C0((struct Cur *)(p + 10), (u32)func_02045770((struct Descriptor *)p[1]), 15);
-            func_02045334((struct Descriptor *)p[1]);
+            FIELD_MSGBG_AnimateCursor((struct Cur *)(p + 10), (u32)func_02045770((struct Descriptor *)p[1]), 15);
+            BMP_WIN_TransferChars((struct Descriptor *)p[1]);
             break;
         }
-        func_021927FC((struct Cur *)(p + 10), (u32)func_02045770((struct Descriptor *)p[1]), 15);
-        func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)p[1])), (const struct Bmp *)p[3]);
-        func_0219214C(p[2], p[12], p[4], p[5], p + 9, 15);
+        FIELD_MSGBG_ClearCursor((struct Cur *)(p + 10), (u32)func_02045770((struct Descriptor *)p[1]), 15);
+        BMP_CopyPixels((struct Bmp *)((u32)func_02045770((struct Descriptor *)p[1])), (const struct Bmp *)p[3]);
+        FIELD_MSGBG_PrintTwoLines(p[2], p[12], p[4], p[5], p + 9, 15);
         p[8] = 0;
         func_020061E4(0x547);
         p[6]++;
     case 4:
-        if (func_021921C8((u32)func_02045770((struct Descriptor *)p[1]), p[3], p[2], p[8], 15) == 1) {
+        if (FIELD_MSGBG_RollLines((u32)func_02045770((struct Descriptor *)p[1]), p[3], p[2], p[8], 15) == 1) {
             p[6] = 2;
         } else {
             p[8] += 4;
         }
-        func_02045334((struct Descriptor *)p[1]);
+        BMP_WIN_TransferChars((struct Descriptor *)p[1]);
         func_020409B4((u8)((u16 *)p[0])[1]);
         break;
     case 5:

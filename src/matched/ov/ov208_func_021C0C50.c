@@ -11,7 +11,7 @@
  *
  * symbols:
  *   ov208_func_021C0C14  0x021C0C14  thumb  ov208
- *   func_021BBB3C  0x021BBB3C  thumb  ov072
+ *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
  *   func_0204B404  0x0204B404  arm
  */
 #include "../include/Obj10903.h"
@@ -24,7 +24,7 @@ typedef int            s32;
 extern u8   ov208_func_021C0C14(u16 *heap, u8 *p, int key);
 struct Obj;
 struct Vec2;
-extern unsigned short func_021BBB3C(char *p, int a, int b);
+extern unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 void ov208_func_021C0C50(u16 *heap, u8 *p, int key)
@@ -34,8 +34,8 @@ void ov208_func_021C0C50(u16 *heap, u8 *p, int key)
 
     idx = ov208_func_021C0C14(heap, p, key);
     if (idx != 0xff) {
-        pos[0] = func_021BBB3C((char *)(((struct Obj10903 *)p)->f3C8), idx, 2);
-        pos[1] = func_021BBB3C((char *)(((struct Obj10903 *)p)->f3C8), idx, 3);
+        pos[0] = TOWNMAP_GRH_GetTownInfoValue((char *)(((struct Obj10903 *)p)->f3C8), idx, 2);
+        pos[1] = TOWNMAP_GRH_GetTownInfoValue((char *)(((struct Obj10903 *)p)->f3C8), idx, 3);
         func_0204B404((struct Obj *)(((struct Obj10903 *)p)->fD4), (const struct Vec2 *)pos, 0);
     }
 }

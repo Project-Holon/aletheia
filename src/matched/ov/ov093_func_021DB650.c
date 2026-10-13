@@ -1,5 +1,5 @@
 /*
- * function: func_021DB650
+ * function: BTL_TOKUSEI_Klutz_SkipCheck
  * address:  0x021DB650
  * packet:   pkt_ov093_021DB650
  * region:   ov093
@@ -11,27 +11,27 @@
  *
  * symbols:
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D70AC  0x021D70AC  thumb  ov093
- *   d_021F0B78     0x021F0B78  data   a2
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_EVENT_GetFactorPokeId  0x021D70AC  thumb  ov093
+ *   gKlutzExemptItemIds     0x021F0B78  data   a2
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern unsigned char func_021D70AC(unsigned char *p);
-extern const u16 d_021F0B78[];
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern unsigned char BTL_EVENT_GetFactorPokeId(unsigned char *p);
+extern const u16 gKlutzExemptItemIds[];
 
-int func_021DB650(int a, int b, int c, int d, int e, u8 g)
+int BTL_TOKUSEI_Klutz_SkipCheck(int a, int b, int c, int d, int e, u8 g)
 {
     u32 i;
 
-    if (func_021D62C4(func_021C7CF4((int *)b, g), 0x10) != 0)
+    if (BTL_POKEPARAM_HasSick(func_021C7CF4((int *)b, g), 0x10) != 0)
         return 0;
-    if (c == 5 && g == func_021D70AC((unsigned char *)a)) {
+    if (c == 5 && g == BTL_EVENT_GetFactorPokeId((unsigned char *)a)) {
         for (i = 0; i < 13; i++) {
-            if (e == d_021F0B78[i])
+            if (e == gKlutzExemptItemIds[i])
                 return 0;
         }
         return 1;

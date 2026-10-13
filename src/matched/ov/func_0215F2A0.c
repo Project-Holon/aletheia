@@ -1,5 +1,5 @@
 /*
- * function: func_0215F2A0
+ * function: SCRCMD_NETWORK_CmdUnblockComm
  * address:  0x0215F2A0
  * packet:   pkt_0215F2A0
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAMESYSTEM_SetCommBlocked  0x0201213C  thumb
- *   func_020121CC  0x020121CC  thumb
+ *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  */
 #include "../include/Obj17704.h"
 
@@ -21,9 +21,9 @@ typedef unsigned int u32;
 
 extern int GAMESYSTEM_SetCommBlocked();
 struct IcaAnime;
-extern u32 func_020121CC(struct IcaAnime *p);
+extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
-int func_0215F2A0(int a0, int a1)
+int SCRCMD_NETWORK_CmdUnblockComm(int a0, int a1)
 {
     int t4;
 
@@ -33,7 +33,7 @@ a0 = t4 + 0;
     a0 = GAMESYSTEM_SetCommBlocked(a0, a1);
 loc_0215F2AC:
 a0 = t4 + 0;
-    a0 = func_020121CC((struct IcaAnime *)a0);
+    a0 = GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)a0);
 loc_0215F2B2:
 a0 = 1;
     return a0;}

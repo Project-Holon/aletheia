@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  */
 #include "../include/Obj13803.h"
 typedef unsigned char u8;
@@ -21,5 +21,5 @@ struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-u32 func_021BFD94(u8 *p,Vec2 *out) { u32 result; result=func_0204B3F4(((struct Obj13803 *)p)->f1C); func_0204B454(((struct Obj13803 *)p)->f1C,(struct PtS *)out,0); return result; }
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
+u32 func_021BFD94(u8 *p,Vec2 *out) { u32 result; result=func_0204B3F4(((struct Obj13803 *)p)->f1C); CLACT_GetActorSurfacePos(((struct Obj13803 *)p)->f1C,(struct PtS *)out,0); return result; }

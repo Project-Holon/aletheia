@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020479D8",
+   "name": "G3D_SYSTEM_ApplyLookAt",
    "address": "0x020479D8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047A60",
+   "name": "G3D_SYSTEM_DrawObject",
    "address": "0x02047A60",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047AC8",
+   "name": "G3D_SYSTEM_DrawObjectCulling",
    "address": "0x02047AC8",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047CE4",
+   "name": "G3D_SYSTEM_ResetDrawCounts",
    "address": "0x02047CE4",
    "kind": "game",
    "region": "arm9",

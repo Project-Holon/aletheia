@@ -1,5 +1,5 @@
 /*
- * function: func_021D038C
+ * function: FLDEFF_HIDE_CreateResources
  * address:  0x021D038C
  * packet:   pkt_ov021_021D038C
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DE618     0x021DE618  data  ov021  a4
+ *   sFldeffHideFileName     0x021DE618  data  ov021  a4
  *   func_02030734  0x02030734  arm
- *   func_021D03C4  0x021D03C4  thumb  ov021
+ *   FLDEFF_HIDE_LoadResources  0x021D03C4  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -21,14 +21,14 @@ typedef unsigned int u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct W;
-extern void func_021D03C4(struct W *p);
-extern char d_021DE618[];
+extern void FLDEFF_HIDE_LoadResources(struct W *p);
+extern char sFldeffHideFileName[];
 
-void *func_021D038C(u32 v, u32 heap)
+void *FLDEFF_HIDE_CreateResources(u32 v, u32 heap)
 {
-    u32 *p = func_02030734(heap, 0xc, 1, d_021DE618, 0x6b);
+    u32 *p = func_02030734(heap, 0xc, 1, sFldeffHideFileName, 0x6b);
 
     p[1] = v;
-    func_021D03C4((struct W *)p);
+    FLDEFF_HIDE_LoadResources((struct W *)p);
     return p;
 }

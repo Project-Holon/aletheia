@@ -1,5 +1,5 @@
 /*
- * function: func_02013734
+ * function: BTL_SETUP_SetupTrainerMulti
  * address:  0x02013734
  * packet:   pkt_020136E0
  * region:   arm9
@@ -22,8 +22,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02013734.c \
- *       --func func_02013734 --addr 0x02013734 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupTrainerMulti.c \
+ *       --func BTL_SETUP_SetupTrainerMulti --addr 0x02013734 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ struct Obj02013734 {
 extern void BTL_SETUP_SetupTrainerBase(struct Obj02013734 *o, u32 a1, u32 n, u32 a2, u32 a3);
 extern void BTL_SETUP_SetTrainer(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h);
 
-void func_02013734(struct Obj02013734 *o, u32 a1, u32 a2, u32 a3, u32 a4,
+void BTL_SETUP_SetupTrainerMulti(struct Obj02013734 *o, u32 a1, u32 a2, u32 a3, u32 a4,
                    u32 a5, u32 a6)
 {
     BTL_SETUP_SetupTrainerBase(o, a1, 1, a2, a6);

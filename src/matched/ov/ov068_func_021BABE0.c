@@ -1,5 +1,5 @@
 /*
- * function: func_021BABE0
+ * function: OPTION_MENU_ScrollList
  * address:  0x021BABE0
  * packet:   pkt_ov068_021BABE0
  * region:   ov068
@@ -17,7 +17,7 @@
  *   func_02040804  0x02040804  arm
  *   func_02041EE4  0x02041EE4  arm
  *   func_0204B404  0x0204B404  arm
- *   d_021BB704     0x021BB704  data  a4
+ *   gOptionMenuChoices     0x021BB704  data  a4
  */
 #include "../include/Obj04326.h"
 
@@ -32,9 +32,9 @@ extern void func_02041EE4(u32 index, u32 a, u32 b);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u32  d_021BB704[][6];
+extern u32  gOptionMenuChoices[][6];
 
-void func_021BABE0(u8 *p, int a1, int a2, int a3)
+void OPTION_MENU_ScrollList(u8 *p, int a1, int a2, int a3)
 {
     int i;
     int v;
@@ -54,8 +54,8 @@ void func_021BABE0(u8 *p, int a1, int a2, int a3)
     ((struct Obj04326 *)p)->f34 = t;
     ((struct Obj04326 *)p)->f34 = t > 0x10 - a2 ? 0x10 - a2 : (t < 0x10 - a3 ? 0x10 - a3 : t);
     for (i = 0; i < 11; i++) {
-        pt.x = d_021BB704[i][2];
-        pt.y = ((struct Obj04326 *)p)->f34 + d_021BB704[i][3];
+        pt.x = gOptionMenuChoices[i][2];
+        pt.y = ((struct Obj04326 *)p)->f34 + gOptionMenuChoices[i][3];
         func_0204B404((struct Obj *)(*(u32 *)(p + i * 4 + 8)), (const struct Vec2 *)(&pt), 0);
     }
 }

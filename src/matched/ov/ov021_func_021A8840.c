@@ -1,5 +1,5 @@
 /*
- * function: func_021A8840
+ * function: FIELD_MENU_ApplyBgScroll
  * address:  0x021A8840
  * packet:   pkt_ov021_021A8840
  * region:   ov021
@@ -23,7 +23,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 
-void func_021A8840(S *s)
+void FIELD_MENU_ApplyBgScroll(S *s)
 {
     if (s->f100 == 1) {
         func_02041EE4(5, 3, -s->hfc);

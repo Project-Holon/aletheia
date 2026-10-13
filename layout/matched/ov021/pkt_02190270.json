@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02190270",
+   "name": "FIELD_MSGBG_SetupBg",
    "address": "0x02190270",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021902A4",
+   "name": "FIELD_MSGBG_LoadWindowGraphics",
    "address": "0x021902A4",
    "kind": "game",
    "region": "ov021",

@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_0207CB68   0x0207CB68  arm
- *   func_0207CDB8   0x0207CDB8  arm
+ *   VEC_Fx16Normalize   0x0207CDB8  arm
  *
  * out = M * src for a rig matrix M whose two 3x2 s16 rows live at m+0x84 and
  * m+0x8a; the third row is their cross product, normalised in place:
@@ -63,7 +63,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
 }
 
 extern void func_0207CB68(const struct Vec16 *a, const struct Vec16 *b, struct Vec16 *out);
-extern void func_0207CDB8(struct Vec16 *v, struct Vec16 *w);
+extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
 
 void func_020576D0(fx32 *out, const struct VecFx32 *src, const struct Mtx3 *m)
 {
@@ -71,7 +71,7 @@ void func_020576D0(fx32 *out, const struct VecFx32 *src, const struct Mtx3 *m)
 
     func_0207CB68((const struct Vec16 *)(m->pad + 0x84),
                   (const struct Vec16 *)(m->pad + 0x8a), &v);
-    func_0207CDB8(&v, &v);
+    VEC_Fx16Normalize(&v, &v);
 
     out[0] = FX_Mul(src->x, m->r0[0]) + FX_Mul(src->y, m->r1[0]) + FX_Mul(src->z, v.x);
     out[1] = FX_Mul(src->x, m->r0[1]) + FX_Mul(src->y, m->r1[1]) + FX_Mul(src->z, v.y);

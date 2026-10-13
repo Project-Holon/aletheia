@@ -12,8 +12,8 @@
  * func_02082BCC 0x02082BCC arm
  * BG_SYS_ClearGraphicsMemory 0x0204335C arm
  * func_0204363C 0x0204363C arm
- * func_0204361C 0x0204361C arm
- * func_020433E0 0x020433E0 arm
+ * BG_SYS_ResetSubDisplay 0x0204361C arm
+ * BG_SYS_SetVramBanks 0x020433E0 arm
  * func_021B7AB4 0x021B7AB4 thumb ov102
  * func_021B78FC 0x021B78FC thumb ov102
  * func_020056A0 0x020056A0 thumb
@@ -23,9 +23,9 @@
 extern void func_02082BCC(void *,int,unsigned);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void func_0204363C(unsigned);
-extern void func_0204361C(void);
+extern void BG_SYS_ResetSubDisplay(void);
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_021B7AB4(void *,const void *,unsigned);
 extern void func_021B78FC(unsigned,void *);
 extern unsigned func_020056A0(void (*)(unsigned,void *),void *,unsigned);
@@ -38,8 +38,8 @@ void func_021B7860(char *p,unsigned b) {
  *(volatile unsigned *)0x04001000 &= ~0xe000;
  BG_SYS_ClearGraphicsMemory(0);
  func_0204363C(0);
- func_0204361C();
- func_020433E0((const struct DispVram *)d_021B8B2C);
+ BG_SYS_ResetSubDisplay();
+ BG_SYS_SetVramBanks((const struct DispVram *)d_021B8B2C);
  func_021B7AB4(p,d_021B8B2C,b);
  ((struct Obj22140 *)p)->f90=func_020056A0(func_021B78FC,p,0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F4388
+ * function: CROWD_IsTileInFront
  * address:  0x021F4388
  * packet:   pkt_ov055_021F4388
  * region:   ov055
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-int func_021F4388(int a, int b, int c, int d, u16 hi, u16 lo, u16 dir)
+int CROWD_IsTileInFront(int a, int b, int c, int d, u16 hi, u16 lo, u16 dir)
 {
     int x, y;
 

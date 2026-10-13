@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020263D8",
-    "func_02026400",
-    "func_0202640C"
+    "GAME_COMM_Start",
+    "GAME_COMM_RequestExitNoCallback",
+    "GAME_COMM_RequestExit"
+   ],
+   "addresses": [
+    "0x020263D8",
+    "0x02026400",
+    "0x0202640C"
    ]
   }
  ]

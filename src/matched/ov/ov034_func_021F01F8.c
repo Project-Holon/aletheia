@@ -1,5 +1,5 @@
 /*
- * function: func_021F01F8
+ * function: REPORT_ExitBgs
  * address: 0x021F01F8
  * packet: pkt_ov034_021F01F8
  * region: ov034
@@ -15,4 +15,4 @@
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(u32 i);
-void func_021F01F8(void) { func_02040588(6,0); func_02040588(5,0); func_02040588(4,0); func_020403F4(6); func_020403F4(5); func_020403F4(4); }
+void REPORT_ExitBgs(void) { func_02040588(6,0); func_02040588(5,0); func_02040588(4,0); func_020403F4(6); func_020403F4(5); func_020403F4(4); }

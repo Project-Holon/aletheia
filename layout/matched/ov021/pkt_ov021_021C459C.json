@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C459C",
+   "name": "SCRCMD_PLAYER_GRID_EVENT_StartA",
    "address": "0x021C459C",
    "kind": "game",
    "region": "ov021",

@@ -1,7 +1,7 @@
 /*
  * file:     field_task.c
  * unit:     yes
- * function: func_021C6C70, func_021C6CA8, func_021C6CBC, func_021C6CC4, func_021C6CCC, func_021C6CD0, func_021C6CE0, func_021C6CE4, func_021C6CEC, func_021C6CF4, func_021C6D10, func_021C6D5C, func_021C6D90, func_021C6DE0, func_021C6E20, func_021C6E48
+ * function: FIELD_TASK_Create, FIELD_TASK_Delete, FIELD_TASK_Update, FIELD_TASK_Start, FIELD_TASK_GetWork, FIELD_TASK_IsFinished, FIELD_TASK_GetState, FIELD_TASK_SetRunning, FIELD_TASK_SetFinished, FIELD_TASK_RunCheck, FIELD_TASK_MANAGER_Create, FIELD_TASK_MANAGER_Delete, FIELD_TASK_MANAGER_Update, FIELD_TASK_MANAGER_AddTask, FIELD_TASK_MANAGER_CountUsedSlots, FIELD_TASK_MANAGER_IsEmpty
  * address:  0x021C6C70
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -24,7 +24,7 @@
  *   func_021C6EA8  0x021C6EA8  thumb  ov021
  *   func_021C6EDC  0x021C6EDC  thumb  ov021
  *   func_021C6E5C  0x021C6E5C  thumb  ov021
- *   func_021C6E20  0x021C6E20  thumb  ov021
+ *   FIELD_TASK_MANAGER_CountUsedSlots  0x021C6E20  thumb  ov021
  */
 #include "field_task_types.h"
 
@@ -44,25 +44,25 @@ extern void func_021C6EDC(FieldTaskManager *manager, u8 slot);
 extern char d_021DE4D4[];
 extern int d_021DE4E4;
 
-FieldTask *func_021C6C70(u32 heapId, u32 workSize, FieldTaskCheckFunc check);
-void func_021C6CA8(FieldTask *task);
-void func_021C6CBC(FieldTask *task);
-void func_021C6CC4(FieldTask *task);
-u32 func_021C6CCC(FieldTask *task);
-int func_021C6CD0(FieldTask *task);
-u32 func_021C6CE0(FieldTask *task);
-void func_021C6CE4(FieldTask *task);
-int func_021C6CEC(FieldTask *task);
-void func_021C6CF4(FieldTask *task);
-FieldTaskManager *func_021C6D10(int count, int heapId);
-void func_021C6D5C(FieldTaskManager *manager);
-void func_021C6D90(FieldTaskManager *manager);
-void func_021C6DE0(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
-u8 func_021C6E20(FieldTaskManager *manager);
-int func_021C6E48(FieldTaskManager *manager);
+FieldTask *FIELD_TASK_Create(u32 heapId, u32 workSize, FieldTaskCheckFunc check);
+void FIELD_TASK_Delete(FieldTask *task);
+void FIELD_TASK_Update(FieldTask *task);
+void FIELD_TASK_Start(FieldTask *task);
+u32 FIELD_TASK_GetWork(FieldTask *task);
+int FIELD_TASK_IsFinished(FieldTask *task);
+u32 FIELD_TASK_GetState(FieldTask *task);
+void FIELD_TASK_SetRunning(FieldTask *task);
+int FIELD_TASK_SetFinished(FieldTask *task);
+void FIELD_TASK_RunCheck(FieldTask *task);
+FieldTaskManager *FIELD_TASK_MANAGER_Create(int count, int heapId);
+void FIELD_TASK_MANAGER_Delete(FieldTaskManager *manager);
+void FIELD_TASK_MANAGER_Update(FieldTaskManager *manager);
+void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
+u8 FIELD_TASK_MANAGER_CountUsedSlots(FieldTaskManager *manager);
+int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager);
 
 /* Allocates a task and its work block. */
-FieldTask *func_021C6C70(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
+FieldTask *FIELD_TASK_Create(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
 {
     FieldTask *task = func_02030734(heapId, 0xc, 0, d_021DE4D4, 0x3b);
     task->state = FIELD_TASK_STATE_CREATED;
@@ -72,32 +72,32 @@ FieldTask *func_021C6C70(u32 heapId, u32 workSize, FieldTaskCheckFunc check)
 }
 
 /* Frees the work block and the task. */
-void func_021C6CA8(FieldTask *task)
+void FIELD_TASK_Delete(FieldTask *task)
 {
     func_020307B0(task->work);
     func_020307B0(task);
 }
 
 /* Runs the check callback once. */
-void func_021C6CBC(FieldTask *task)
+void FIELD_TASK_Update(FieldTask *task)
 {
-    func_021C6CF4(task);
+    FIELD_TASK_RunCheck(task);
 }
 
 /* Starts the task. */
-void func_021C6CC4(FieldTask *task)
+void FIELD_TASK_Start(FieldTask *task)
 {
-    func_021C6CE4(task);
+    FIELD_TASK_SetRunning(task);
 }
 
 /* Returns the work block. */
-u32 func_021C6CCC(FieldTask *task)
+u32 FIELD_TASK_GetWork(FieldTask *task)
 {
     return (u32)task->work;
 }
 
 /* Returns 1 when the task has finished. */
-int func_021C6CD0(FieldTask *task)
+int FIELD_TASK_IsFinished(FieldTask *task)
 {
     if (task->state == FIELD_TASK_STATE_FINISHED) {
         return 1;
@@ -106,35 +106,35 @@ int func_021C6CD0(FieldTask *task)
 }
 
 /* Returns the task state. */
-u32 func_021C6CE0(FieldTask *task)
+u32 FIELD_TASK_GetState(FieldTask *task)
 {
     return task->state;
 }
 
 /* Sets the state to running. */
-void func_021C6CE4(FieldTask *task)
+void FIELD_TASK_SetRunning(FieldTask *task)
 {
     task->state = FIELD_TASK_STATE_RUNNING;
 }
 
 /* Sets the state to finished. */
-int func_021C6CEC(FieldTask *task)
+int FIELD_TASK_SetFinished(FieldTask *task)
 {
     task->state = FIELD_TASK_STATE_FINISHED;
     return (int)task;
 }
 
 /* While running, calls the check callback and finishes the task when it returns 1. */
-void func_021C6CF4(FieldTask *task)
+void FIELD_TASK_RunCheck(FieldTask *task)
 {
     if (task->state == FIELD_TASK_STATE_RUNNING) {
         if (task->check(task->work) == 1)
-            func_021C6CEC(task);
+            FIELD_TASK_SetFinished(task);
     }
 }
 
 /* Allocates a manager with count slots. */
-FieldTaskManager *func_021C6D10(int count, int heapId)
+FieldTaskManager *FIELD_TASK_MANAGER_Create(int count, int heapId)
 {
     FieldTaskManager *manager = func_02030734(heapId, 12, 0, (const char *)&d_021DE4E4, 0x34);
 
@@ -145,7 +145,7 @@ FieldTaskManager *func_021C6D10(int count, int heapId)
 }
 
 /* Frees every task, both slot tables and the manager. */
-void func_021C6D5C(FieldTaskManager *manager)
+void FIELD_TASK_MANAGER_Delete(FieldTaskManager *manager)
 {
     int slot;
     for (slot = 0; slot < manager->count; slot++)
@@ -156,7 +156,7 @@ void func_021C6D5C(FieldTaskManager *manager)
 }
 
 /* Per frame: run the running tasks, start tasks whose prerequisite finished, free finished tasks. */
-void func_021C6D90(FieldTaskManager *manager)
+void FIELD_TASK_MANAGER_Update(FieldTaskManager *manager)
 {
     int slot;
 
@@ -170,7 +170,7 @@ void func_021C6D90(FieldTaskManager *manager)
 
 /* Puts a task in the first free slot; starts it now unless it has a prerequisite.
  * With no free slot the task is freed. */
-void func_021C6DE0(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite)
+void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite)
 {
     int slot;
 
@@ -178,15 +178,15 @@ void func_021C6DE0(FieldTaskManager *manager, FieldTask *task, FieldTask *prereq
         if (manager->tasks[slot] == 0) {
             func_021C6E5C(manager, slot, task, prerequisite);
             if (prerequisite == 0)
-                func_021C6CC4(task);
+                FIELD_TASK_Start(task);
             return;
         }
     }
-    func_021C6CA8(task);
+    FIELD_TASK_Delete(task);
 }
 
 /* Returns the number of used slots. */
-u8 func_021C6E20(FieldTaskManager *manager)
+u8 FIELD_TASK_MANAGER_CountUsedSlots(FieldTaskManager *manager)
 {
     int slot;
     u8 used = 0;
@@ -198,9 +198,9 @@ u8 func_021C6E20(FieldTaskManager *manager)
 }
 
 /* TRUE when the manager has no task queued. */
-int func_021C6E48(FieldTaskManager *manager)
+int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager)
 {
-    if (func_021C6E20(manager) == 0) {
+    if (FIELD_TASK_MANAGER_CountUsedSlots(manager) == 0) {
         return 1;
     }
     return 0;

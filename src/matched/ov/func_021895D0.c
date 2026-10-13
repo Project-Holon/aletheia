@@ -1,5 +1,5 @@
 /*
- * function: func_021895D0
+ * function: FIELDMAP_ChangeZoneCamera
  * address:  0x021895D0
  * packet:   pkt_021895D0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call passing the object, a pass-through argument and the leading u16.
  *
  * symbols:
- *   func_021895E8  0x021895E8  thumb  ov021
+ *   FIELDMAP_SetupCameraArea  0x021895E8  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021895E8(unsigned char *p, int id, int c);
+extern void FIELDMAP_SetupCameraArea(unsigned char *p, int id, int c);
 
-void func_021895D0(u8 *p, u32 a)
+void FIELDMAP_ChangeZoneCamera(u8 *p, u32 a)
 {
-    func_021895E8(p, a, ((struct Obj09444 *)p)->f0);
+    FIELDMAP_SetupCameraArea(p, a, ((struct Obj09444 *)p)->f0);
 }

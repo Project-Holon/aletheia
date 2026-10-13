@@ -11,8 +11,8 @@
  *
  * symbols:
  *   ov208_func_021BC3B4  0x021BC3B4  thumb  ov208
- *   func_0204B98C  0x0204B98C  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
  */
@@ -26,8 +26,8 @@ typedef int            s32;
 
 extern void *ov208_func_021BC3B4(int key);
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_0204B878(u32 obj, u32 anim);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+extern void CLACT_SetActorAnimSeq(u32 obj, u32 anim);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void ov208_func_021BDC48(void *s, u32 on);
@@ -53,10 +53,10 @@ void ov208_func_021C0A8C(u16 *heap, u8 *p, int key)
         next = 2;
         nextAnim = 2;
     }
-    if (sel != 7 && func_0204B98C((struct Actor *)OBJ(sel)) == 0) {
-        func_0204B878(OBJ(p[0xd8]), anim);
+    if (sel != 7 && CLACT_IsActorAnimActive((struct Actor *)OBJ(sel)) == 0) {
+        CLACT_SetActorAnimSeq(OBJ(p[0xd8]), anim);
         func_0204B92C((struct Obj *)OBJ(next), 1);
-        func_0204B878(OBJ(next), nextAnim);
+        CLACT_SetActorAnimSeq(OBJ(next), nextAnim);
         p[0xd8] = 7;
         if (((struct Obj06683 *)p)->f6C == 0 || ((struct Obj06683 *)p)->f6C == 5)
             ov208_func_021BDC48(scene, 1);

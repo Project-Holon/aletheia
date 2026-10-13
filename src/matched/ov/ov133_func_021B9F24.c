@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 #include "../include/Obj14154.h"
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-void func_021B9F24(unsigned char *p) {unsigned char i;for(i=0;i<8;i++)func_0204B3B4(*(void **)((unsigned int)p+(unsigned int)i*4+0x1890));func_0204B3B4(((struct Obj14154 *)p)->f18B4);func_0204B3B4(((struct Obj14154 *)p)->f18B0);}
+extern void CLACT_DeleteActor(struct Obj *p);
+void func_021B9F24(unsigned char *p) {unsigned char i;for(i=0;i<8;i++)CLACT_DeleteActor(*(void **)((unsigned int)p+(unsigned int)i*4+0x1890));CLACT_DeleteActor(((struct Obj14154 *)p)->f18B4);CLACT_DeleteActor(((struct Obj14154 *)p)->f18B0);}

@@ -19,7 +19,7 @@
  *           Tried: inner switch arm orders (case 0/default first, last, split), case 9 with
  *           SE in each arm, reversed outer case order (layout follows source, worse).
  *           Found and fixed: switch value u32 (compare tree, 0xFFFFFFFE case), switch on
- *           func_0201FEBC result cast to u32 in cases 6 and 15, case 19 written before
+ *           BMP_MENU_ProcessYesNo result cast to u32 in cases 6 and 15, case 19 written before
  *           case 18 (original block order), stack locals ids, count, tmp, old (int).
  *           d_02185xxx data words are sole references (MATCH at best once bytes agree).
  *           2026-10-05 wave D4 lane 08: still DIFF (84 lines, the draft above is unchanged). The original keeps
@@ -54,23 +54,23 @@
  *   func_0203630C 0x0203630C arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_02045B38 0x02045B38 arm
  *   func_020490F4 0x020490F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02040588 0x02040588 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02045770 0x02045770 arm
- *   func_02045C04 0x02045C04 arm
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_020200CC 0x020200CC thumb
- *   func_0201FDA0 0x0201FDA0 thumb
- *   func_0201FEBC 0x0201FEBC thumb
+ *   BMP_MENULIST_Main 0x020200CC thumb
+ *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
+ *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  *   func_02025BE8 0x02025BE8 thumb
  *   func_02025C44 0x02025C44 thumb
  *   func_02025B94 0x02025B94 thumb
@@ -128,23 +128,23 @@ struct Obj;
 struct PrintSys;
 struct Rec;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02043B5C(struct CharBuf *, u8);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_Clear(struct CharBuf *, u8);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void *func_02045770(struct Descriptor *);
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern u32 func_020221A4(void);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 WIPE_SYS_EndCheck(void);
 extern u32 func_0201C6B4(const struct PrintSys *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern s32 func_020200CC(struct Obj *o);
-extern void *func_0201FDA0(const void *a, int b, int c, int d, u16 heap);
-extern u32 func_0201FEBC(u8 *p);
+extern s32 BMP_MENULIST_Main(struct Obj *o);
+extern void *BMP_MENU_CreateYesNo(const void *a, int b, int c, int d, u16 heap);
+extern u32 BMP_MENU_ProcessYesNo(u8 *p);
 extern int func_02025BE8(void);
 extern int func_02025C44(u32 a0, u32 *a1, u32 *a2);
 extern u32 func_02025B94(u32 a);
@@ -193,7 +193,7 @@ static inline void close_win(u8 *p, int d, int f)
 {
     void *win = *(void **)(p + 0xC080);
     if (B(f) != 0 && (int)func_0201C6C4(win, func_02045770(*(struct Descriptor **)(p + d))) == 0) {
-        func_02045334(*(struct Descriptor **)(p + d));
+        BMP_WIN_TransferChars(*(struct Descriptor **)(p + d));
         B(f) = 0;
     }
 }
@@ -220,7 +220,7 @@ int func_02183D14(u8 *p, int *state)
         W(0xC360) = 0;
     }
     if (W(0xC360) == 1) {
-        W(0xC35C) = func_02035C60();
+        W(0xC35C) = TOUCHPANEL_GetTrg();
     } else {
         W(0xC35C) = (int)func_02035D20((u32 *)(p + 0xC364), (u32 *)(p + 0xC368));
     }
@@ -230,9 +230,9 @@ int func_02183D14(u8 *p, int *state)
         arc = func_020490F4(0xC5, (u16)W(0));
         func_02185580((char *)p, arc);
         func_021849A4((char *)p, arc);
-        func_02049238(arc);
+        ARC_TOOL_DeleteHandle(arc);
         W(0xC314) = 0;
-        func_0202208C(0, (int)1, (int)1, (int)0, (int)6, (int)1, W(0));
+        WIPE_SYS_Start(0, (int)1, (int)1, (int)0, (int)6, (int)1, W(0));
         func_02040588(6, 1);
         func_02040588(2, 1);
         func_02040588(7, 1);
@@ -240,7 +240,7 @@ int func_02183D14(u8 *p, int *state)
         *state = 1;
         break;
     case 1:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             *state = 2;
         }
         break;
@@ -263,7 +263,7 @@ int func_02183D14(u8 *p, int *state)
         if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
             break;
         }
-        r = func_020200CC(*(void **)(p + 0xC04C));
+        r = BMP_MENULIST_Main(*(void **)(p + 0xC04C));
         if (r == -1) {
             break;
         }
@@ -284,12 +284,12 @@ int func_02183D14(u8 *p, int *state)
         break;
     case 5:
         if (func_02184D70((char *)p, 2, 1) == 1) {
-            *(void **)(p + 0xC054) = func_0201FDA0(d_02185DB0, 0x22, 7, 0, W(0));
+            *(void **)(p + 0xC054) = BMP_MENU_CreateYesNo(d_02185DB0, 0x22, 7, 0, W(0));
             *state = 6;
         }
         break;
     case 6:
-        switch ((u32)(int)func_0201FEBC(*(void **)(p + 0xC054))) {
+        switch ((u32)(int)BMP_MENU_ProcessYesNo(*(void **)(p + 0xC054))) {
         case 0:
             if (W(0xC318) == 1) {
                 *(void **)(p + 0xC344) = (void *)func_02025BE8();
@@ -317,7 +317,7 @@ int func_02183D14(u8 *p, int *state)
         if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
             break;
         }
-        r = func_020200CC(*(void **)(p + 0xC04C));
+        r = BMP_MENULIST_Main(*(void **)(p + 0xC04C));
         if (r == -1) {
             break;
         }
@@ -355,7 +355,7 @@ int func_02183D14(u8 *p, int *state)
         if ((int)func_0201C6B4(*(void **)(p + 0xC080)) == 0) {
             break;
         }
-        r = func_020200CC(*(void **)(p + 0xC04C));
+        r = BMP_MENULIST_Main(*(void **)(p + 0xC04C));
         if (r == -1) {
             break;
         }
@@ -384,12 +384,12 @@ int func_02183D14(u8 *p, int *state)
         break;
     case 14:
         if (func_02184D70((char *)p, 5, 1) == 1) {
-            *(void **)(p + 0xC054) = func_0201FDA0(d_02185DB0, 0x22, 7, 0, W(0));
+            *(void **)(p + 0xC054) = BMP_MENU_CreateYesNo(d_02185DB0, 0x22, 7, 0, W(0));
             *state = 0xF;
         }
         break;
     case 15:
-        switch ((u32)(int)func_0201FEBC(*(void **)(p + 0xC054))) {
+        switch ((u32)(int)BMP_MENU_ProcessYesNo(*(void **)(p + 0xC054))) {
         case 0:
             func_02185310((char *)p);
             func_0200947C(W(0x10), W(0xC), W(0xC344), W(0xC348));
@@ -413,8 +413,8 @@ int func_02183D14(u8 *p, int *state)
         func_021856CC(p);
         func_02184734(p);
         func_02185794((char *)p);
-        func_02043B5C(func_02045770(*(struct Descriptor **)(p + 0xC01C)), 0xF);
-        func_02045334(*(struct Descriptor **)(p + 0xC01C));
+        BMP_Clear(func_02045770(*(struct Descriptor **)(p + 0xC01C)), 0xF);
+        BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0xC01C));
         func_02184C2C((char *)p, 1);
         if (W(0xC33C) != 0) {
             func_0218519C((char *)p);
@@ -440,8 +440,8 @@ int func_02183D14(u8 *p, int *state)
             func_02184C8C(p, 0);
             func_02183CBC(p, 1);
             func_020061E4(0x551);
-            func_02043B5C(func_02045770(*(struct Descriptor **)(p + 0xC01C)), 0xF);
-            func_02045334(*(struct Descriptor **)(p + 0xC01C));
+            BMP_Clear(func_02045770(*(struct Descriptor **)(p + 0xC01C)), 0xF);
+            BMP_WIN_TransferChars(*(struct Descriptor **)(p + 0xC01C));
             *state = 0x13;
             break;
         }
@@ -492,16 +492,16 @@ int func_02183D14(u8 *p, int *state)
         break;
     case 20:
         W(0xC314) = 0;
-        func_0202208C(0, (int)0, (int)0, (int)0, (int)6, (int)1, W(0));
+        WIPE_SYS_Start(0, (int)0, (int)0, (int)0, (int)6, (int)1, W(0));
         *state = 0x15;
         break;
     case 21:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             ret = 1;
             W(0xC310) = 1;
             func_02184CB0((char *)p);
             func_0218562C((char *)p);
-            func_02045C04(*(void **)(p + 0xC070));
+            MSGDATA_Delete(*(void **)(p + 0xC070));
             *state = 0;
         }
         break;

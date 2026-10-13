@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020215A0 0x020215A0 thumb
- *   func_02021540 0x02021540 thumb
+ *   PALANM_FreeSlotBuffers 0x020215A0 thumb
+ *   PALANM_Delete 0x02021540 thumb
  */
 #include "../include/Obj03842.h"
 typedef unsigned int u32;struct PalAnmSlot;
-extern void func_020215A0(struct PalAnmSlot *,u32);extern void func_02021540(struct PalAnmSlot *);
-void func_021DFEFC(char *p){func_020215A0(*(struct PalAnmSlot * *)&((struct Obj03842 *)p)->fD78,0);func_020215A0(*(struct PalAnmSlot * *)&((struct Obj03842 *)p)->fD78,1);func_02021540(*(struct PalAnmSlot * *)&((struct Obj03842 *)p)->fD78);}
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,u32);extern void PALANM_Delete(struct PalAnmSlot *);
+void func_021DFEFC(char *p){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj03842 *)p)->fD78,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj03842 *)p)->fD78,1);PALANM_Delete(*(struct PalAnmSlot * *)&((struct Obj03842 *)p)->fD78);}

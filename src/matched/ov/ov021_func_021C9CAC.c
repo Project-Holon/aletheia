@@ -1,5 +1,5 @@
 /*
- * function: func_021C9CAC
+ * function: BSUBWAY_SCR_SavePlayDataMembers
  * address:  0x021C9CAC
  * packet:   pkt_ov021_021C9CAC
  * region:   ov021
@@ -35,7 +35,7 @@ extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
 extern void func_0200DA14(struct Blk3C *p);
 extern void func_0200D868(struct Blk3C *p, u32 v);
 
-void func_021C9CAC(u8 *p)
+void BSUBWAY_SCR_SavePlayDataMembers(u8 *p)
 {
     u8 v = p[9];
 

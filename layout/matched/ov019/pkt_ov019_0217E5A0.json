@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217E5A0",
+   "name": "UNION_ONESELF_ColosseumBattleMain",
    "address": "0x0217E5A0",
    "kind": "game",
    "region": "ov019",

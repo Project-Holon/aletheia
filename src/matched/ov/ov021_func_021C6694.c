@@ -1,5 +1,5 @@
 /*
- * function: func_021C6694
+ * function: FIELD_G3DOBJ_IncAnimeFrame
  * address:  0x021C6694
  * packet:   pkt_ov021_021C6694
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020478B8  0x020478B8  arm
+ *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12952.h"
@@ -21,9 +21,9 @@ typedef unsigned int   u32;
 
 typedef struct { u32 k : 2; } K;
 
-extern int func_020478B8(void *a, int idx, int amount);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount);
 
-int func_021C6694(u32 *a, int idx, int v)
+int FIELD_G3DOBJ_IncAnimeFrame(u32 *a, int idx, int v)
 {
     int r = 0;
     u8 *e = (u8 *)a[3] + idx * 0x68;
@@ -32,7 +32,7 @@ int func_021C6694(u32 *a, int idx, int v)
     if (((K *)e)->k == 1) {
         n = *(u8 *)((u8 *)a[2] + ((struct Obj12952 *)e)->f4 * 0x2c + 0x28);
         for (i = r; i < n; i++) {
-            if (func_020478B8((void *)(((struct Obj12952 *)e)->f44), (u16)i, v))
+            if (G3D_SYSTEM_IncObjectAnimeFrame((void *)(((struct Obj12952 *)e)->f44), (u16)i, v))
                 r = 1;
         }
     } else if (((K *)e)->k == 2) {

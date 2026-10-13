@@ -1,5 +1,5 @@
 /*
- * function: func_0217DA18
+ * function: INTRUDE_SUBDISP_ClactResourceUnload
  * address: 0x0217DA18
  * packet: pkt_ov018_0217DA18
  * region: ov018
@@ -10,23 +10,23 @@
  * status: EXACT
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
-extern void func_0204ADA4(u32);
-extern void func_0204A8D4(u32);
-extern void func_0204AFD8(u32);
-void func_0217DA18(u32 *p)
+extern void CLACT_ReleasePalette(u32);
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleaseCellAnim(u32);
+void INTRUDE_SUBDISP_ClactResourceUnload(u32 *p)
 {
     func_020307B0((void *)p[0xd0 / 4]);
     func_020307B0((void *)p[0xc8 / 4]);
-    func_0204ADA4(p[3]);
-    func_0204ADA4(p[2]);
-    func_0204A8D4(p[1]);
-    func_0204A8D4(p[5]);
-    func_0204AFD8(p[4]);
-    func_0204AFD8(p[6]);
+    CLACT_ReleasePalette(p[3]);
+    CLACT_ReleasePalette(p[2]);
+    CLACT_ReleaseCharacter(p[1]);
+    CLACT_ReleaseCharacter(p[5]);
+    CLACT_ReleaseCellAnim(p[4]);
+    CLACT_ReleaseCellAnim(p[6]);
 }

@@ -12,7 +12,7 @@
  * Counts the six entries for which func_021CFA04 accepts the value read from them.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BAC8  0x0200BAC8  thumb
  *   func_0200BBEC  0x0200BBEC  thumb
  *   func_02017E88  0x02017E88  thumb
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *p);
 extern void *func_0200BBEC(void *base, u32 i, u32 j);
 extern u32   func_02017E88(void *p, u32 id, u32 v);
@@ -37,7 +37,7 @@ int func_021CF9AC(void *a, void *heap, int x, int y)
     int i;
     int n;
 
-    h = func_0200BAC8(func_02012EBC(heap));
+    h = func_0200BAC8(GAME_DATA_GetSaveControl(heap));
     n = 0;
     for (i = 0; i < 6; i++) {
         void *p = func_0200BBEC(h, x, i);

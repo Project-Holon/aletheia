@@ -1,5 +1,5 @@
 /*
- * function: func_021867B0
+ * function: FIELD_WFBC_DATA_LOCAL_GetNpcId
  * address: 0x021867B0
  * packet: pkt_ov020_021867B0
  * region: ov020
@@ -12,4 +12,4 @@
  */
 
 typedef unsigned char u8;
-int func_021867B0(u8 *p) { return p[1]; }
+int FIELD_WFBC_DATA_LOCAL_GetNpcId(u8 *p) { return p[1]; }

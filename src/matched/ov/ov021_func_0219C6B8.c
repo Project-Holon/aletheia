@@ -1,5 +1,5 @@
 /*
- * function: func_0219C6B8
+ * function: FLDMMDL_BLACT_AddActorPos
  * address:  0x0219C6B8
  * packet:   pkt_ov021_0219C6B8
  * region:   ov021
@@ -8,23 +8,23 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * Former blocker (now filed in src/matched/arm9): func_0205082C (0x0205082C) and func_020507F0 (0x020507F0) are
+ * Former blocker (now filed in src/matched/arm9): BILLBOARD_ACT_SetEntryList (0x0205082C) and BILLBOARD_ACT_SetEntryEnabled (0x020507F0) are
  * unlabelled arm9 leaves (the integrator's), no witness outside this range. Verified C,
- * both EXACT under --arm --region arm9 (func_020500A0 is the arm9 label at 0x020500A0):
- *     void func_020507F0(void *p, int idx, u32 v)
+ * both EXACT under --arm --region arm9 (BILLBOARD_ACT_ResetPlayback is the arm9 label at 0x020500A0):
+ *     void BILLBOARD_ACT_SetEntryEnabled(void *p, int idx, u32 v)
  *     { char *e = (char *)(*(u32 *)((char *)p + 24) + idx * 40); *(u32 *)(e + 24) = v; }
- *     void func_0205082C(void *p, int idx, u16 h)
- *     { char *e = (char *)(*(u32 *)((char *)p + 24) + idx * 40); *(u16 *)(e + 14) = h; func_020500A0(e); }
- * func_0219C9D0 (function pointer word) is filed as pkt_ov021_0219C9D0.
+ *     void BILLBOARD_ACT_SetEntryList(void *p, int idx, u16 h)
+ *     { char *e = (char *)(*(u32 *)((char *)p + 24) + idx * 40); *(u16 *)(e + 14) = h; BILLBOARD_ACT_ResetPlayback(e); }
+ * FLDMMDL_BLACT_EntryHook (function pointer word) is filed as pkt_ov021_0219C9D0.
  * symbols:
- *   func_0216D520  0x0216D520  thumb  ov010
- *   func_02050340  0x02050340  arm
- *   func_0219D3E4  0x0219D3E4  thumb  ov021
- *   func_02050804  0x02050804  arm
- *   func_0205082C  0x0205082C  arm
- *   func_020507F0  0x020507F0  arm
- *   func_0219C9D0  0x0219C9D0  thumb  ov021
- *   d_021D75D0     0x021D75D0  data  a4
+ *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
+ *   BILLBOARD_ACT_CreateEntries  0x02050340  arm
+ *   FLDMMDL_BLACT_GetAnimeTable  0x0219D3E4  thumb  ov021
+ *   BILLBOARD_ACT_SetEntryCommands  0x02050804  arm
+ *   BILLBOARD_ACT_SetEntryList  0x0205082C  arm
+ *   BILLBOARD_ACT_SetEntryEnabled  0x020507F0  arm
+ *   FLDMMDL_BLACT_EntryHook  0x0219C9D0  thumb  ov021
+ *   sBlactDrawSize     0x021D75D0  data  a4
  */
 #include "../include/Obj07474.h"
 
@@ -46,41 +46,41 @@ typedef struct {
     u32 f20;
 } Desc;
 
-extern u16 d_021D75D0[][2];
-extern u32 func_0216D520(void *p);
+extern u16 sBlactDrawSize[][2];
+extern u32 FLDMMDL_SysGetBlActCont(void *p);
 struct BbActDesc;
 struct BbActSys;
-extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
-extern char *func_0219D3E4(int i);
-extern void func_02050804(void *p, int idx, u32 v, u16 h);
-extern void func_0205082C(void *p, int idx, u32 h);
-extern void func_020507F0(void *p, int idx, u32 v);
-extern void func_0219C9D0(u32 a, u32 b, u8 *p);
+extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
+extern char *FLDMMDL_BLACT_GetAnimeTable(int i);
+extern void BILLBOARD_ACT_SetEntryCommands(void *p, int idx, u32 v, u16 h);
+extern void BILLBOARD_ACT_SetEntryList(void *p, int idx, u32 h);
+extern void BILLBOARD_ACT_SetEntryEnabled(void *p, int idx, u32 v);
+extern void FLDMMDL_BLACT_EntryHook(u32 a, u32 b, u8 *p);
 
-u32 func_0219C6B8(u32 a, V3 *b, int c, u32 d, u16 e)
+u32 FLDMMDL_BLACT_AddActorPos(u32 a, V3 *b, int c, u32 d, u16 e)
 {
-    u8 *m = (u8 *)func_0216D520((void *)a);
+    u8 *m = (u8 *)FLDMMDL_SysGetBlActCont((void *)a);
     Desc s;
     u32 r;
     u32 *q;
-    u16 *t = d_021D75D0[c];
+    u16 *t = sBlactDrawSize[c];
     u32 h;
     s.slot = e;
-    s.v12 = d_021D75D0[c][0];
+    s.v12 = sBlactDrawSize[c][0];
     s.v14 = t[1];
     s.pos = *b;
     s.k = 0x1f;
     s.flag = 1;
     s.w = 1;
-    s.f1c = (void (*)(void))func_0219C9D0;
+    s.f1c = (void (*)(void))FLDMMDL_BLACT_EntryHook;
     s.f20 = (u32)m;
-    r = func_02050340((struct BbActSys *)(((struct Obj07474 *)m)->f4), ((struct Obj07474 *)m)->f8, (const struct BbActDesc *)(&s), 1, 0);
-    q = (u32 *)func_0219D3E4(d);
+    r = BILLBOARD_ACT_CreateEntries((struct BbActSys *)(((struct Obj07474 *)m)->f4), ((struct Obj07474 *)m)->f8, (const struct BbActDesc *)(&s), 1, 0);
+    q = (u32 *)FLDMMDL_BLACT_GetAnimeTable(d);
     if (q[0] != 0) {
-        func_02050804((void *)(((struct Obj07474 *)m)->f4), r, q[0], (u16)q[1]);
+        BILLBOARD_ACT_SetEntryCommands((void *)(((struct Obj07474 *)m)->f4), r, q[0], (u16)q[1]);
         h = ((struct Obj07474 *)m)->f4;
-        func_0205082C((void *)h, r, 0);
-        func_020507F0((void *)h, r, 1);
+        BILLBOARD_ACT_SetEntryList((void *)h, r, 0);
+        BILLBOARD_ACT_SetEntryEnabled((void *)h, r, 1);
     }
     return r;
 }

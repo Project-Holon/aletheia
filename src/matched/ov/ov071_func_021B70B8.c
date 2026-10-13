@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * Unlabelled leaf thunk: loads *p then tail-calls the ARM9 ARM function
- * func_0204B3B4 with it.  It is the callee whose only image-wide callers are
+ * CLACT_DeleteActor with it.  It is the callee whose only image-wide callers are
  * the three ov071 offset-thunks (matched via this EXACT entry).
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  */
 
 struct Obj;
 void func_021B70B8(void **p)
 {
-    void func_0204B3B4(struct Obj *p);
-    func_0204B3B4(*p);
+    void CLACT_DeleteActor(struct Obj *p);
+    CLACT_DeleteActor(*p);
 }

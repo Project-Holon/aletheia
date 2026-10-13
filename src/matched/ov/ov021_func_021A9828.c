@@ -1,5 +1,5 @@
 /*
- * function: func_021A9828
+ * function: FIELD_ENCOUNT_ApplyLeadAbility
  * address:  0x021A9828
  * packet:   pkt_ov021_021A9828
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   func_021A9DC8  0x021A9DC8  thumb  ov021
+ *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -54,9 +54,9 @@ struct Sel {
     u32 b15 : 1;
 };
 
-extern u32 func_021A9DC8(void);
+extern u32 FIELD_ENCOUNT_RandPercent(void);
 
-void func_021A9828(struct Sel *s, u16 d)
+void FIELD_ENCOUNT_ApplyLeadAbility(struct Sel *s, u16 d)
 {
     switch (s->f1B) {
     case 0x23:
@@ -86,11 +86,11 @@ void func_021A9828(struct Sel *s, u16 d)
         s->b9 = 1;
         return;
     }
-    if (s->f1B == 0x38 && func_021A9DC8() < 0x43) {
+    if (s->f1B == 0x38 && FIELD_ENCOUNT_RandPercent() < 0x43) {
         s->b11 = 1;
         return;
     }
-    if (func_021A9DC8() < 0x32)
+    if (FIELD_ENCOUNT_RandPercent() < 0x32)
         return;
     switch (s->f1B) {
     case 0x2A:

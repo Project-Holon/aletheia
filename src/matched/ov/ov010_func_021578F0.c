@@ -1,5 +1,5 @@
 /*
- * function: func_021578F0
+ * function: DELIVERY_BEACON_HasAnyPiece
  * address:  0x021578F0
  * packet:   pkt_ov010_021578F0
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021578F0(void *p)
+int DELIVERY_BEACON_HasAnyPiece(void *p)
 {
     int i;
 

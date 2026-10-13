@@ -17,9 +17,9 @@
  *   and font are spilled, font at sp+0x9c just under c); 1.1p1 CSEs those sums
  *   across the calls, so q spills, k takes r7 and every slot shifts. Breaking the
  *   CSEs with (u32)i / (s32)(u32)i casts per call group plus a temporary for the
- *   func_0204B294 result (so the store address is formed after the call) gets the
+ *   CLACT_CreateActor result (so the store address is formed after the call) gets the
  *   p/i registers and the per-call recompute, but q still lands in r7 and k in r6.
- *   Also open: func_0201DD78's colour arguments are evaluated r2, r1, r0 in the
+ *   Also open: GF_FONT_SetTextColor's colour arguments are evaluated r2, r1, r0 in the
  *   image (col kept in r0), ours evaluates r0 first and copies col to r3.
  * note (2026-10-02, lane A2-06): source now has the casts per call group (the
  *   recompute pattern of every p/q/i sum matches the image), the obj temporary,
@@ -101,6 +101,11 @@
  *   GF_FONT_GetTextColor  0x0201DE00  thumb  arm9
  *   PALANM_CopyToSlot  0x020215BC  thumb  arm9
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
+ *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
+ *   STRBUF_Create  0x020457B0  arm  arm9
+ *   STRBUF_Delete  0x02045808  arm  arm9
+ *   CLACT_CreateActor  0x0204B294  arm  arm9
  */
 #include "../include/Obj21781.h"
 #include "../include/Obj21782.h"
@@ -130,13 +135,13 @@ struct Bank;
 struct MsgBank;
 struct Obj;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern u32 func_0201BD28(u16 id, u32 field);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct PalAnmSlot;
 struct Struct36;
 struct Vec2;
@@ -151,17 +156,17 @@ extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void func_02082A60(const void *, void *, int);
 extern u32 func_020307B0(void *p);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
-extern void func_0201C7A4(void *, s16, s16, void *, void *);
+extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 extern int func_02205768(int a, int b);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
 typedef struct Work {
     char pad0[0x50];
@@ -217,18 +222,18 @@ void func_02204CC0(Work *p, const Slots *q)
     u8 cr, cg, cb;
     enum { VRAM_BASE = 0x06600000 } vram;
 
-    str1 = func_020457B0(0x10, p->heap);
+    str1 = STRBUF_Create(0x10, p->heap);
     m0 = func_02045EC0(p->msgdata, 0);
     m1 = func_02045EC0(p->msgdata, 1);
     font = (int)func_0201EC64(p->heap);
-    str2 = func_020457B0(0x10, p->heap);
+    str2 = STRBUF_Create(0x10, p->heap);
     m2 = func_02045EC0(p->msgdata, 2);
     func_0204B22C(p->sys, 0);
     for (i = 0; (i < 4) ? 1 : 0; i++) {
         if (q->id[i] != 0) {
             k = func_0201BD28(q->id[i], 0);
             file = d_0220A5F0[k];
-            p->obj[i] = func_0204B294(p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
+            p->obj[i] = CLACT_CreateActor(p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
             func_0204B404(p->obj[i], (const struct Vec2 *)(&d_0220A3C4[i]), (int)1);
             heap = (p->heap & 0x7fff) | 0x8000;
             arc = func_020275E4();
@@ -239,11 +244,11 @@ void func_02204CC0(Work *p, const Slots *q)
             func_02082A60(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
             func_020307B0(chr);
             GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
-            func_0201DD78(1, 2, 0);
+            GF_FONT_SetTextColor(1, 2, 0);
             func_0201EF34((struct WordSet *)font, 0, q->id[i]);
             func_0201F250((struct WordSet *)font, str1, m0);
             func_02204C98(str1, (int)p->fnt, &w, &h);
-            func_0201C7A4(p->win, d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, p->fnt);
+            PRINTSYS_Print(p->win, d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, p->fnt);
             func_0201EFA4((struct WordSet *)font, 0, q->a[i], 2, 1, 1);
             func_0201EFA4((struct WordSet *)font, 1, q->b[i], 2, 1, 1);
             func_0201F250((struct WordSet *)font, str2, m2);
@@ -251,11 +256,11 @@ void func_02204CC0(Work *p, const Slots *q)
             cb = (u8)(col & 0x1f);
             cg = (u8)((col >> 5) & 0x1f);
             cr = (u8)((col >> 10) & 0x1f);
-            func_0201DD78(cr, cg, cb);
-            func_0201C7A4(p->win, t1.v[i].x, t1.v[i].y, m1, p->fnt);
+            GF_FONT_SetTextColor(cr, cg, cb);
+            PRINTSYS_Print(p->win, t1.v[i].x, t1.v[i].y, m1, p->fnt);
             func_02204C98(str2, (int)p->fnt, &w, &h);
-            func_0201C7A4(p->win, t2.v[i].x - w / 2, t2.v[i].y, str2, p->fnt);
-            func_0201DD78(c[2], c[1], c[0]);
+            PRINTSYS_Print(p->win, t2.v[i].x - w / 2, t2.v[i].y, str2, p->fnt);
+            GF_FONT_SetTextColor(c[2], c[1], c[0]);
             p->f25a[i] = q->a[i] != 0;
             p->f262[i] = q->id[i] != 0;
         } else {
@@ -271,11 +276,11 @@ void func_02204CC0(Work *p, const Slots *q)
         p->f25a[i + 1] = 1;
     }
     func_0201ED04((struct WordSet *)font);
-    func_02045808(str1);
-    func_02045808(m1);
-    func_02045808(m0);
-    func_02045808(m2);
-    func_02045808(str2);
+    STRBUF_Delete(str1);
+    STRBUF_Delete(m1);
+    STRBUF_Delete(m0);
+    STRBUF_Delete(m2);
+    STRBUF_Delete(str2);
 }
 #pragma opt_propagation reset
 #pragma opt_common_subs reset

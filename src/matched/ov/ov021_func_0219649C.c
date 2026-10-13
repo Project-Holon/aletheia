@@ -1,5 +1,5 @@
 /*
- * function: func_0219649C
+ * function: IRCBATTLEMENU_TouchCallback
  * address:  0x0219649C
  * packet:   pkt_ov021_0219649C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef signed char    s8;
 
 typedef struct Cb { u32 x0; int (*fn)(void *, struct Cb *); } Cb;
 
-void func_0219649C(void *a, int b, Cb *c)
+void IRCBATTLEMENU_TouchCallback(void *a, int b, Cb *c)
 {
     if (b == 0 && c->fn != 0 && c->fn(a, c) != 0) {
         return;

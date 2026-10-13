@@ -1,7 +1,7 @@
 /*
  * file:     bmp_oam.c
  * unit:     yes
- * function: ACTOR_TOOL_Create, ACTOR_TOOL_Delete, ACTOR_TOOL_AllocRun, ACTOR_TOOL_FreeRun, ACTOR_TOOL_LoadChar, ACTOR_TOOL_LoadCharSimple, ACTOR_TOOL_LoadCharPalAnm, ACTOR_TOOL_LoadCharSimplePalAnm, ACTOR_TOOL_GetCharBlock, ACTOR_TOOL_FreeChar, func_02025538, func_02025588, func_020255A0, func_0202570C, func_02025774, func_020257C4, func_020257D0, BMP_OAM_GetPos, func_0202590C, BMP_OAM_SetObjMode, BMP_OAM_SetDrawPriority, BMP_OAM_SetBgPriority, BMP_OAM_SetPalette, BMP_OAM_AcquireModeSlot, BMP_OAM_ReleaseModeSlots, func_02025B38, func_02025B3C, func_02025B64, func_02025B94, func_02025BA0, func_02025BB8, func_02025BD0, func_02025BE8, func_02025BEC, func_02025C1C, func_02025C30, func_02025C44
+ * function: ACTOR_TOOL_Create, ACTOR_TOOL_Delete, ACTOR_TOOL_AllocRun, ACTOR_TOOL_FreeRun, ACTOR_TOOL_LoadChar, ACTOR_TOOL_LoadCharSimple, ACTOR_TOOL_LoadCharPalAnm, ACTOR_TOOL_LoadCharSimplePalAnm, ACTOR_TOOL_GetCharBlock, ACTOR_TOOL_FreeChar, BMP_OAM_CreateSys, BMP_OAM_DeleteSys, BMP_OAM_Create, BMP_OAM_Delete, BMP_OAM_SetEnabled, BMP_OAM_GetEnabled, BMP_OAM_UploadChars, BMP_OAM_GetPos, BMP_OAM_SetPos, BMP_OAM_SetObjMode, BMP_OAM_SetDrawPriority, BMP_OAM_SetBgPriority, BMP_OAM_SetPalette, BMP_OAM_AcquireModeSlot, BMP_OAM_ReleaseModeSlots, func_02025B38, func_02025B3C, func_02025B64, func_02025B94, func_02025BA0, func_02025BB8, func_02025BD0, func_02025BE8, func_02025BEC, func_02025C1C, func_02025C30, func_02025C44
  * address:  0x02025318
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -16,36 +16,36 @@
  *   func_02030734  0x02030734  arm
  *   g_020A7484     0x020A7484  data
  *   func_020307B0  0x020307B0  arm
- *   func_0204AC18  0x0204AC18  arm
- *   func_0204ACEC  0x0204ACEC  arm
- *   func_020216D4   0x020216D4  thumb
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
+ *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
+ *   PALANM_CopyHwPaletteToSlot   0x020216D4  thumb
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   func_020490F4  0x020490F4  arm
  *   g_020A7494      0x020A7494  data
- *   func_02049238  0x02049238  arm
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
  *   CLACT_RegisterEmptyCharacter  0x0204A7A0  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B6F4  0x0204B6F4  arm
- *   func_0204BA20  0x0204BA20  arm
+ *   CLACT_SetActorVisible  0x0204BA20  arm
  *   gModeTable     0x0209F87C  data
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B3F4  0x0204B3F4  arm
- *   func_020437D4  0x020437D4  arm
- *   func_020437EC  0x020437EC  arm
+ *   BMP_GetPixels  0x020437D4  arm
+ *   BMP_GetByteSize  0x020437EC  arm
  *   func_020862F0  0x020862F0  arm
- *   func_0204ABBC  0x0204ABBC  arm
+ *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
  *   GX_LoadOBJ     0x0207E780  arm
  *   GXS_LoadOBJ    0x0207E804  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  *   func_0204B688  0x0204B688  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
- *   func_0204B84C  0x0204B84C  arm
- *   func_0204AF28  0x0204AF28  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   g_0209FA34  0x0209FA34  data
  *   g_0209FA35  0x0209FA35  data
@@ -129,27 +129,27 @@ struct ModeEntry {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *block);
-extern s32 func_0204AC18(void *src, u32 resId, u32 bank, u32 vramOff, u16 reserved, u16 len, u16 flags);
-extern int func_0204ACEC(void *src, u32 resId, u32 bank, u32 vramOff, u16 flags);
-extern void func_020216D4(void *palSlots, u32 bank, u32 off, u32 size);
-extern void func_0204ADA4(u32 charOffset);
+extern s32 CLACT_RegisterPaletteEx(void *src, u32 resId, u32 bank, u32 vramOff, u16 reserved, u16 len, u16 flags);
+extern int CLACT_RegisterPaletteCompressed(void *src, u32 resId, u32 bank, u32 vramOff, u16 flags);
+extern void PALANM_CopyHwPaletteToSlot(void *palSlots, u32 bank, u32 off, u32 size);
+extern void CLACT_ReleasePalette(u32 charOffset);
 extern void *func_020490F4(u32 arcId, u32 heapId);
-extern void func_02049238(void *arcTool);
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern void ARC_TOOL_DeleteHandle(void *arcTool);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern s32 CLACT_RegisterEmptyCharacter(u32 size, u32 engine, u16 heapId);
-extern struct Actor *func_0204B294(void *clact, u32 charRes, u32 animResId, s32 resSlot,
+extern struct Actor *CLACT_CreateActor(void *clact, u32 charRes, u32 animResId, s32 resSlot,
                                    const struct ActorInitParam *initParam, u16 space, u16 heapId);
 extern void func_0204B6F4(struct Actor *actor, u32 palette, u32 flag);
-extern void func_0204BA20(struct Actor *actor, u32 visible);
-extern void func_0204A8D4(u32 charRes);
-extern void func_0204B3B4(struct Actor *actor);
+extern void CLACT_SetActorVisible(struct Actor *actor, u32 visible);
+extern void CLACT_ReleaseCharacter(u32 charRes);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void func_0204B3DC(struct Actor *actor, unsigned int enabled);
 extern u32 func_0204B3F4(struct Actor *actor);
-extern void *func_020437D4(const struct Bmp *bmp);
-extern u32 func_020437EC(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void  func_020862F0(void *buf, u32 size);
-extern int func_0204ABBC(u32 charRes, u32 engine);
+extern int CLACT_GetCharacterVramAddress(u32 charRes, u32 engine);
 extern void  GX_LoadOBJ(void *src, u32 off, u32 n);
 extern void  GXS_LoadOBJ(void *src, u32 off, u32 n);
 extern int CLACT_GetPaletteVramAddress(int charOffset, int bank);
@@ -157,8 +157,8 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct OamPos *out, u1
 extern void func_0204B404(struct Actor *actor, const struct OamPos *pos, u32 space);
 extern void func_0204B688(struct Actor *actor, u32 objMode);
 extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 drawPriority);
-extern void func_0204B84C(struct Actor *actor, u32 bgPriority);
-extern s32 func_0204AF28(void *arcTool, u32 arcId, u32 entryId, u32 heapId);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 bgPriority);
+extern s32 CLACT_RegisterCellAnim(void *arcTool, u32 arcId, u32 entryId, u32 heapId);
 extern void CLACT_ReleaseCellAnim(u32 resSlot);
 
 struct ActorTool *ACTOR_TOOL_Create(u32 heapId, u8 bank0Count, u8 bank1Count);
@@ -171,15 +171,15 @@ u32 ACTOR_TOOL_LoadCharPalAnm(void *palSlots, struct ActorTool *tool, void *src,
 u32 ACTOR_TOOL_LoadCharSimplePalAnm(void *palSlots, struct ActorTool *tool, void *src, u32 resId, u32 bank, u32 len, u32 flags);
 unsigned int ACTOR_TOOL_GetCharBlock(int tool, int charOffset, int bank);
 void ACTOR_TOOL_FreeChar(struct ActorTool *tool, u32 charOffset, u32 bank);
-struct BmpOamSys *func_02025538(u32 heapId, void *clact);
-void func_02025588(struct BmpOamSys *sys);
-struct BmpOam *func_020255A0(struct BmpOamSys *sys, const struct BmpOamParam *param);
-void func_0202570C(struct BmpOam *bmpOam);
-void func_02025774(struct BmpOam *bmpOam, u32 enabled);
-int func_020257C4(const struct BmpOam *bmpOam);
-void func_020257D0(struct BmpOam *bmpOam);
+struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact);
+void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
+struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *param);
+void BMP_OAM_Delete(struct BmpOam *bmpOam);
+void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, u32 enabled);
+int BMP_OAM_GetEnabled(const struct BmpOam *bmpOam);
+void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 void BMP_OAM_GetPos(struct BmpOam *bmpOam, s16 *outX, s16 *outY);
-void func_0202590C(struct BmpOam *bmpOam, s16 x, s16 y);
+void BMP_OAM_SetPos(struct BmpOam *bmpOam, s16 x, s16 y);
 void BMP_OAM_SetObjMode(struct BmpOam *bmpOam, u32 objMode);
 void BMP_OAM_SetDrawPriority(struct BmpOam *bmpOam, u32 drawPriority);
 void BMP_OAM_SetBgPriority(struct BmpOam *bmpOam, u32 bgPriority);
@@ -298,21 +298,21 @@ s32 ACTOR_TOOL_LoadChar(struct ActorTool *tool, void *src, u32 resId, u32 bank, 
 {
     u32 runStart = ACTOR_TOOL_AllocRun(tool, len, bank);
 
-    return func_0204AC18(src, resId, bank, (runStart & 0x7ff) << 5, 0, (u16)len, (u16)flags);
+    return CLACT_RegisterPaletteEx(src, resId, bank, (runStart & 0x7ff) << 5, 0, (u16)len, (u16)flags);
 }
 
 int ACTOR_TOOL_LoadCharSimple(struct ActorTool *tool, void *src, u32 resId, u32 bank, u32 len, u32 flags)
 {
     u32 runStart = ACTOR_TOOL_AllocRun(tool, len, bank);
 
-    return func_0204ACEC(src, resId, bank, (runStart & 0x7ff) << 5, (u16)flags);
+    return CLACT_RegisterPaletteCompressed(src, resId, bank, (runStart & 0x7ff) << 5, (u16)flags);
 }
 
 /*
  * Create one map tile: a4's flag word picks the 3-versus-2 mode, the tile is
  * built by ACTOR_TOOL_LoadChar over (a1, a2, a3, a4, a5, a6), its width comes back
  * from ACTOR_TOOL_GetCharBlock packed into the low half of a5's shifted word and the
- * tile is handed to func_020216D4 with a5 shifted up five.
+ * tile is handed to PALANM_CopyHwPaletteToSlot with a5 shifted up five.
  */
 u32 ACTOR_TOOL_LoadCharPalAnm(void *palSlots, struct ActorTool *tool, void *src, u32 resId, u32 bank, u32 len, u32 flags)
 {
@@ -325,7 +325,7 @@ u32 ACTOR_TOOL_LoadCharPalAnm(void *palSlots, struct ActorTool *tool, void *src,
     }
     charOffset = ACTOR_TOOL_LoadChar(tool, src, resId, bank, len, flags);
     charBlock = ACTOR_TOOL_GetCharBlock((int)tool, charOffset, bank);
-    func_020216D4(palSlots, palBankType, (u16)(charBlock << 4), len << 5);
+    PALANM_CopyHwPaletteToSlot(palSlots, palBankType, (u16)(charBlock << 4), len << 5);
     return charOffset;
 }
 
@@ -344,7 +344,7 @@ u32 ACTOR_TOOL_LoadCharSimplePalAnm(void *palSlots, struct ActorTool *tool, void
     }
     charOffset = ACTOR_TOOL_LoadCharSimple(tool, src, resId, bank, len, flags);
     charBlock = ACTOR_TOOL_GetCharBlock((int)tool, charOffset, bank);
-    func_020216D4(palSlots, palBankType, (u16)(charBlock << 4), len << 5);
+    PALANM_CopyHwPaletteToSlot(palSlots, palBankType, (u16)(charBlock << 4), len << 5);
     return charOffset;
 }
 
@@ -361,7 +361,7 @@ void ACTOR_TOOL_FreeChar(struct ActorTool *tool, u32 charOffset, u32 bank)
     u32 charBlock = ACTOR_TOOL_GetCharBlock((int)tool, charOffset, bank);
 
     ACTOR_TOOL_FreeRun(tool, charBlock, bank);
-    func_0204ADA4(charOffset);
+    CLACT_ReleasePalette(charOffset);
 }
 
 /*
@@ -370,7 +370,7 @@ void ACTOR_TOOL_FreeChar(struct ActorTool *tool, u32 charOffset, u32 bank)
  * handle through func_020490F4 with the heap field forced to a 0x8000-based
  * value.
  */
-struct BmpOamSys *func_02025538(u32 heapId, void *clact)
+struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact)
 {
     struct BmpOamSys *sys;
     int modeIdx;
@@ -385,9 +385,9 @@ struct BmpOamSys *func_02025538(u32 heapId, void *clact)
     return sys;
 }
 
-void func_02025588(struct BmpOamSys *sys)
+void BMP_OAM_DeleteSys(struct BmpOamSys *sys)
 {
-    func_02049238(sys->arcTool);
+    ARC_TOOL_DeleteHandle(sys->arcTool);
     BMP_OAM_ReleaseModeSlots(sys);
     func_020307B0(sys);
 }
@@ -400,7 +400,7 @@ void func_02025588(struct BmpOamSys *sys)
  * pt and the grid no longer order the param field loads, which gives the
  * image's instruction order.
  */
-struct BmpOam *func_020255A0(struct BmpOamSys *sys, const struct BmpOamParam *param)
+struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *param)
 {
     struct ActorInitParam actorParam;
     u32 mapMode;
@@ -425,12 +425,12 @@ struct BmpOam *func_020255A0(struct BmpOamSys *sys, const struct BmpOamParam *pa
 
     bmpOam = func_02030734(sys->heapId, 0xcc, 1, (const char *)g_020A7494, 0xa3);
     bmpOam->bmp = param->bmp;
-    cols = (u8)(func_020437DC(bmpOam->bmp) >> 5);
-    rows = (u8)(func_020437E4(param->bmp) >> 4);
-    if ((s32)func_020437DC(param->bmp) % 32 != 0) {
+    cols = (u8)(BMP_GetWidth(bmpOam->bmp) >> 5);
+    rows = (u8)(BMP_GetHeight(param->bmp) >> 4);
+    if ((s32)BMP_GetWidth(param->bmp) % 32 != 0) {
         cols = (u8)(cols + 1);
     }
-    if ((s32)func_020437E4(param->bmp) % 16 != 0) {
+    if ((s32)BMP_GetHeight(param->bmp) % 16 != 0) {
         rows = (u8)(rows + 1);
     }
     bmpOam->cols = cols;
@@ -452,13 +452,13 @@ struct BmpOam *func_020255A0(struct BmpOamSys *sys, const struct BmpOamParam *pa
             actorParam.drawPriority = param->drawPriority;
             actorParam.bgPriority = param->bgPriority;
             {
-                struct Actor *actor = func_0204B294(sys->clact, cell->res[0], animResId, sys->slot[mapMode], &actorParam,
+                struct Actor *actor = CLACT_CreateActor(sys->clact, cell->res[0], animResId, sys->slot[mapMode], &actorParam,
                                                   param->space, sys->heapId);
                 u32 palette = (u8)param->palette;
                 cell->act[0] = actor;
                 func_0204B6F4(actor, palette, 0);
             }
-            func_0204BA20(cell->act[0], 0);
+            CLACT_SetActorVisible(cell->act[0], 0);
         }
     }
     return bmpOam;
@@ -468,20 +468,20 @@ struct BmpOam *func_020255A0(struct BmpOamSys *sys, const struct BmpOamParam *pa
  * Tear down the grid: for every cell of the rows x cols grid, release the
  * cell's resource and actor, then free the object itself.
  */
-void func_0202570C(struct BmpOam *bmpOam)
+void BMP_OAM_Delete(struct BmpOam *bmpOam)
 {
     u8 rowIdx, colIdx;
 
     for (rowIdx = 0; rowIdx < bmpOam->rows; rowIdx++) {
         for (colIdx = 0; colIdx < bmpOam->cols; colIdx++) {
-            func_0204A8D4(bmpOam->res[colIdx + rowIdx * bmpOam->cols]);
-            func_0204B3B4(bmpOam->act[colIdx + rowIdx * bmpOam->cols]);
+            CLACT_ReleaseCharacter(bmpOam->res[colIdx + rowIdx * bmpOam->cols]);
+            CLACT_DeleteActor(bmpOam->act[colIdx + rowIdx * bmpOam->cols]);
         }
     }
     func_020307B0(bmpOam);
 }
 
-void func_02025774(struct BmpOam *bmpOam, u32 enabled)
+void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, u32 enabled)
 {
     u8 rowIdx;
     u8 colIdx;
@@ -494,7 +494,7 @@ void func_02025774(struct BmpOam *bmpOam, u32 enabled)
 }
 
 /* Forwards the state of the first actor. */
-int func_020257C4(const struct BmpOam *bmpOam)
+int BMP_OAM_GetEnabled(const struct BmpOam *bmpOam)
 {
     return func_0204B3F4(bmpOam->act[0]);
 }
@@ -511,7 +511,7 @@ int func_020257C4(const struct BmpOam *bmpOam)
  * zero.  The signed shift quartet around the remainder is what says the
  * width helper hands back a signed int, not the u16 its other callers use.
  */
-void func_020257D0(struct BmpOam *bmpOam)
+void BMP_OAM_UploadChars(struct BmpOam *bmpOam)
 {
     void (*loadObj)(void *, u32, u32);
     u8 *pixels;
@@ -527,16 +527,16 @@ void func_020257D0(struct BmpOam *bmpOam)
     u32 nextRowOff;
     void *charAddr;
 
-    pixels = (u8 *)func_020437D4(bmpOam->bmp);
-    func_020862F0(pixels, func_020437EC(bmpOam->bmp));
+    pixels = (u8 *)BMP_GetPixels(bmpOam->bmp);
+    func_020862F0(pixels, BMP_GetByteSize(bmpOam->bmp));
     if (bmpOam->engine == 0) {
         loadObj = GX_LoadOBJ;
     } else {
         loadObj = GXS_LoadOBJ;
     }
-    tileCols = (s32)((u32)func_020437DC(bmpOam->bmp) >> 3);
-    tileRows = (s32)((u32)func_020437E4(bmpOam->bmp) >> 3);
-    lastColBytes = (u32)((((s32)(u32)func_020437DC(bmpOam->bmp) % 32) / 8) * 32);
+    tileCols = (s32)((u32)BMP_GetWidth(bmpOam->bmp) >> 3);
+    tileRows = (s32)((u32)BMP_GetHeight(bmpOam->bmp) >> 3);
+    lastColBytes = (u32)((((s32)(u32)BMP_GetWidth(bmpOam->bmp) % 32) / 8) * 32);
     if (lastColBytes == 0) {
         lastColBytes = 0x80;
     }
@@ -558,7 +558,7 @@ void func_020257D0(struct BmpOam *bmpOam)
             } else {
                 bytes = 0x80;
             }
-            charAddr = (void *)func_0204ABBC(bmpOam->res[col + row * bmpOam->cols], bmpOam->engine);
+            charAddr = (void *)CLACT_GetCharacterVramAddress(bmpOam->res[col + row * bmpOam->cols], bmpOam->engine);
             dstAddr = (u32)charAddr;
             loadObj(pixels + srcOff, dstAddr, bytes);
             if (row == bmpOam->rows - 1 && oddRows != 0) {
@@ -590,7 +590,7 @@ void BMP_OAM_GetPos(struct BmpOam *bmpOam, s16 *outX, s16 *outY)
  * x/y parameters are s16, not int: only the narrow parameter type puts the
  * two spills ahead of the object copy in the prologue.
  */
-void func_0202590C(struct BmpOam *bmpOam, s16 x, s16 y)
+void BMP_OAM_SetPos(struct BmpOam *bmpOam, s16 x, s16 y)
 {
     struct OamPos pos;
     int rowIdx, colIdx;
@@ -635,7 +635,7 @@ void BMP_OAM_SetBgPriority(struct BmpOam *bmpOam, u32 bgPriority)
 
     for (rowIdx = 0; rowIdx < bmpOam->rows; rowIdx++) {
         for (colIdx = 0; colIdx < bmpOam->cols; colIdx++) {
-            func_0204B84C(bmpOam->act[rowIdx * bmpOam->cols + colIdx], bgPriority);
+            CLACT_SetActorBgPriority(bmpOam->act[rowIdx * bmpOam->cols + colIdx], bgPriority);
         }
     }
 }
@@ -654,7 +654,7 @@ void BMP_OAM_SetPalette(struct BmpOam *bmpOam, u32 palette)
 
 /*
  * Map the engine's DISPCNT OBJ-mapping bits (mask 0x00300010) to a slot
- * index 0/1/2 and lazily fill that slot through func_0204AF28 with the
+ * index 0/1/2 and lazily fill that slot through CLACT_RegisterCellAnim with the
  * gModeTable record's two ids.
  *
  * The 0x00200010 arm is not empty: it sets mode = 0 itself, and it is
@@ -694,7 +694,7 @@ u32 BMP_OAM_AcquireModeSlot(struct BmpOamSys *sys, u32 engine, void *arcTool)
         return mapMode;
     }
 
-    sys->slot[mapMode] = func_0204AF28(arcTool, gModeTable[mapMode].resArcId,
+    sys->slot[mapMode] = CLACT_RegisterCellAnim(arcTool, gModeTable[mapMode].resArcId,
                                     gModeTable[mapMode].resEntryId, sys->heapId);
     return mapMode;
 }

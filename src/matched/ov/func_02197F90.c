@@ -1,5 +1,5 @@
 /*
- * function: func_02197F90
+ * function: FLDMMDL_ACMD_DirUp
  * address:  0x02197F90
  * packet:   pkt_02197F90
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_02197F6C(its own argument 1, 0x0) and returns 0x1.
+ * Calls FLDMMDL_ACMD_TurnInit(its own argument 1, 0x0) and returns 0x1.
  *
  * symbols:
- *   func_02197F6C  0x02197F6C  thumb
+ *   FLDMMDL_ACMD_TurnInit  0x02197F6C  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern int func_02197F6C(u32 a, u32 b);
+extern int FLDMMDL_ACMD_TurnInit(u32 a, u32 b);
 
-u32 func_02197F90(u32 a1)
+u32 FLDMMDL_ACMD_DirUp(u32 a1)
 {
-    func_02197F6C(a1, 0x0);
+    FLDMMDL_ACMD_TurnInit(a1, 0x0);
 
     return 0x1;
 }

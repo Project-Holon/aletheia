@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CC570",
+   "name": "SCRCMD_PALPARK_CallPalParkProc",
    "address": "0x021CC570",
    "kind": "game",
    "region": "ov021",

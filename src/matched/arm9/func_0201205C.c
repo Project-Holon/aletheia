@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120D8     0x020120D8  thumb
- *   func_02012114     0x02012114  thumb
- *   func_0201210C     0x0201210C  thumb
- *   func_02188BE8     0x02188BE8  thumb  ov021
- *   func_020121CC     0x020121CC  thumb
+ *   GAMESYSTEM_IsEventActive     0x020120D8  thumb
+ *   GAMESYSTEM_IsFieldMapExist     0x02012114  thumb
+ *   GAMESYSTEM_GetFieldMap     0x0201210C  thumb
+ *   FIELDMAP_IsReady     0x02188BE8  thumb  ov021
+ *   GAMESYSTEM_TryStartAutoComm     0x020121CC  thumb
  *
  * Three nested tests sharing one epilogue: the object is driven through
- * func_020121CC only when func_020120D8 returns 0, func_02012114 returns 1
+ * GAMESYSTEM_TryStartAutoComm only when GAMESYSTEM_IsEventActive returns 0, GAMESYSTEM_IsFieldMapExist returns 1
  * and the overlay call returns 1 as well.  That last call's argument is
- * func_0201210C(p)'s result - r0 is not reloaded in between, which is what
+ * GAMESYSTEM_GetFieldMap(p)'s result - r0 is not reloaded in between, which is what
  * the source's nesting says.
  *
  * Verified with:
@@ -45,19 +45,19 @@ struct IcaAnime {
     u32 f2c;        /* +0x2C */
 };
 
-extern int func_020120D8(char *p);
+extern int GAMESYSTEM_IsEventActive(char *p);
 struct Ctx;
-extern u32 func_02012114(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188BE8(void *v);   /* overlay-resident */
-extern u32 func_020121CC(struct IcaAnime *p);
+extern u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_IsReady(void *v);   /* overlay-resident */
+extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
 void GAMESYSTEM_UpdateAutoComm(struct IcaAnime *p)
 {
-    if (func_020120D8((char *)p) == 0) {
-        if (func_02012114((const struct Ctx *)p) == 1) {
-            if (func_02188BE8(func_0201210C((const struct Ctx *)p)) == 1)
-                func_020121CC(p);
+    if (GAMESYSTEM_IsEventActive((char *)p) == 0) {
+        if (GAMESYSTEM_IsFieldMapExist((const struct Ctx *)p) == 1) {
+            if (FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap((const struct Ctx *)p)) == 1)
+                GAMESYSTEM_TryStartAutoComm(p);
         }
     }
 }

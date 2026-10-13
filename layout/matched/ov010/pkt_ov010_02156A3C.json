@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02156A3C",
+   "name": "MUSICAL_EVENT_SetPlayerNameWord",
    "address": "0x02156A3C",
    "kind": "game",
    "region": "ov010",

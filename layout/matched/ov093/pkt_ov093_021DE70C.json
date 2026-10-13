@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE70C",
-    "func_021DE740"
+    "BTL_HANDLER_ITEM_WiseGlassesBoostSpecial",
+    "BTL_HANDLER_ITEM_GetDeepSeaToothHandlers"
+   ],
+   "addresses": [
+    "0x021DE70C",
+    "0x021DE740"
    ],
    "evidence": {
     "sole-ref": [

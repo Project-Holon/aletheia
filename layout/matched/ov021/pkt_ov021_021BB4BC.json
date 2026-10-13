@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB4BC",
+   "name": "FLDEFF_GYOE_InitResource",
    "address": "0x021BB4BC",
    "kind": "game",
    "region": "ov021",

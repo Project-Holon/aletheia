@@ -14,22 +14,22 @@
  *   src/matched/arm9/func_<ADDR>.c (D2 lane 11). Rerun after the integrator regenerates shards: expected EXACT*.
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0204A39C 0x0204A39C arm
+ *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021846B8 0x021846B8 thumb ov219
  *   func_020307B0 0x020307B0 arm
  *   func_02025B38 0x02025B38 thumb
  *   func_02025BD0 0x02025BD0 thumb
  *   func_02025BB8 0x02025BB8 thumb
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_0204A39C(void *,int,int,u32,u32 *);
+extern void *ARC_UTIL_LoadHandleMemberWithSize(void *,int,int,u32,u32 *);
 extern void func_021846B8(char *,int,int,int,u16,u16);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern int func_02025B38(void);
 extern u32 func_02025BD0(u32),func_02025BB8(u32);
 void func_021845B4(char *p)
@@ -42,7 +42,7 @@ void func_021845B4(char *p)
     int firstcount,i,j;
     arc=func_020490F4(0x35,(u16)(*(u32 *)p));
     *(u32 *)(p+0x14)=0;
-    data=func_0204A39C(arc,0x12,0,*(u32 *)p,&size);
+    data=ARC_UTIL_LoadHandleMemberWithSize(arc,0x12,0,*(u32 *)p,&size);
     firstcount=size/6u;
     cursor=(short *)((char *)data+6);
     for(i=1;i<firstcount;i++,cursor+=3){
@@ -55,7 +55,7 @@ void func_021845B4(char *p)
     j=1;
     count=func_02025B38();
     for(;j<count;j++){
-        data2=func_0204A39C(arc,func_02025BD0(j),0,*(u32 *)p,&size2);
+        data2=ARC_UTIL_LoadHandleMemberWithSize(arc,func_02025BD0(j),0,*(u32 *)p,&size2);
         count2=size2;
         count2=count2/4u;
         cursor=(short *)((char *)data2+4);
@@ -65,5 +65,5 @@ void func_021845B4(char *p)
         }
         func_020307B0(data2);
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
 }

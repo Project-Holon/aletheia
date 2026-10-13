@@ -1,5 +1,5 @@
 /*
- * function: func_0215A370
+ * function: EVENT_POKE_STATUS_MoveSelectEvent
  * address:  0x0215A370
  * packet:   pkt_ov010_0215A370
  * region:   ov010
@@ -15,9 +15,9 @@
  * symbols:
  *   ov131_id       0x00000083  data
  *   gPokeStatusProcData     0x021DC800  data  ov131
- *   func_021BE8D4  0x021BE8D4  thumb
- *   func_021BE92C  0x021BE92C  thumb
- *   func_02012374  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
@@ -40,27 +40,27 @@ typedef struct {
 extern u8 ov131_id[];
 extern u8 gPokeStatusProcData[];
 
-extern void *func_021BE8D4(void *, void *, int, int);
-extern void *func_021BE92C(void *, void *, int, int, int, int, int);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 struct IcaAnime;
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 func_020307B0(void *p);
 
-int func_0215A370(void *a, u32 *st, Ctx *c)
+int EVENT_POKE_STATUS_MoveSelectEvent(void *a, u32 *st, Ctx *c)
 {
     u32 s = *st;
     void *p0 = c->f0;
     switch (s) {
     case 0:
-        func_02012374(a, func_021BE8D4(p0, c->f4, 0, 0));
+        GAME_EVENT_CallEvent(a, EVENT_FIELDMAP_CONTROL_StartFadeOut(p0, c->f4, 0, 0));
         *st = 1;
         break;
     case 1:
-        func_02012374(a, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)p0, (int)c->f4));
+        GAME_EVENT_CallEvent(a, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)p0, (int)c->f4));
         *st = 2;
         break;
     case 2:
@@ -68,11 +68,11 @@ int func_0215A370(void *a, u32 *st, Ctx *c)
         *st = 3;
         break;
     case 3:
-        func_02012374(a, FIELD_STATUS_CreateFieldOpenEvent(p0));
+        GAME_EVENT_CallEvent(a, FIELD_STATUS_CreateFieldOpenEvent(p0));
         *st = 4;
         break;
     case 4:
-        func_02012374(a, func_021BE92C(p0, c->f4, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(a, EVENT_FIELDMAP_CONTROL_StartFadeIn(p0, c->f4, 0, 0, 1, 0, 0));
         *st = 5;
         break;
     case 5:

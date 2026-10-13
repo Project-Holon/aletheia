@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02013C80",
+   "name": "ZONEDATA_HasSpecialKind",
    "address": "0x02013C80",
    "kind": "game",
    "region": "arm9",

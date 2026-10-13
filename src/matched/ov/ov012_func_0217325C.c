@@ -14,10 +14,10 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_02087C6C  0x02087C6C  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_020084F8  0x020084F8  thumb
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
@@ -27,7 +27,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_0201283C  0x0201283C  thumb
  *   func_02009CB0  0x02009CB0  thumb
- *   func_021840C8  0x021840C8  thumb  ov022
+ *   UNION_APP_IsClosed  0x021840C8  thumb  ov022
  */
 #include "../include/Obj02671.h"
 
@@ -94,10 +94,10 @@ typedef struct Save {
 
 extern void func_02082BCC(void *dst, int val, int size);
 struct Sub0200852CObj;
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void func_02087C6C(void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
-extern int  func_0203D1B4(void);
+extern int  GFL_NET_GetNegotiationNum(void);
 struct BigObj;
 struct Ctx;
 extern u32 func_020084F8(void *dst, u32 value, u32 size);
@@ -109,7 +109,7 @@ extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_0201283C(const struct BigObj *p);
 extern int func_02009CB0(int a0, int a1);
-extern int func_021840C8(u8 *p);
+extern int UNION_APP_IsClosed(u8 *p);
 
 void UNION_COMM_BuildBeacon(u8 *self, Rec *out)
 {
@@ -117,14 +117,14 @@ void UNION_COMM_BuildBeacon(u8 *self, Rec *out)
 
     func_02082BCC(out, 0, 0x64);
     if (l->f20 != 0) {
-        if (func_0203D378() == 1)
+        if (GFL_NET_IsParentAid() == 1)
             func_02087C6C(out);
         else
             MI_CpuCopy8(l->f20 + 0x64, out, 6);
     } else if (l->f18 != 0) {
         MI_CpuCopy8(l->f18 + 0x64, out, 6);
     }
-    out->b6lo = func_0203D1B4();
+    out->b6lo = GFL_NET_GetNegotiationNum();
     out->f8 = 0x15;
     out->f9 = 2;
     out->fA = l->f1;
@@ -145,7 +145,7 @@ void UNION_COMM_BuildBeacon(u8 *self, Rec *out)
     out->f28 = l->f30;
     func_02009CB0(func_0201283C(func_020120F4((const struct Ctx *)((*(Save * *)&((struct Obj02671 *)self)->f0)->fC))), (int)out->f50);
     if (((struct Obj02671 *)self)->f3528 != 0)
-        out->b6bit = func_021840C8(((struct Obj02671 *)self)->f3528);
+        out->b6bit = UNION_APP_IsClosed(((struct Obj02671 *)self)->f3528);
     else
         out->b6bit = 0;
     out->used = 1;

@@ -18,11 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0204361C"
+    "BG_SYS_ResetSubDisplay"
+   ],
+   "addresses": [
+    "0x0204361C"
    ]
   },
   {
-   "name": "func_02043668",
+   "name": "BG_SYS_GetSubVisiblePlanes",
    "address": "0x02043668",
    "kind": "game",
    "region": "arm9",
@@ -34,7 +37,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02043678",
+   "name": "BMP_Create",
    "address": "0x02043678",
    "kind": "game",
    "region": "arm9",
@@ -46,7 +49,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020436FC",
+   "name": "BMP_CreateFromBuffer",
    "address": "0x020436FC",
    "kind": "game",
    "region": "arm9",
@@ -70,7 +73,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020437AC",
+   "name": "BMP_Delete",
    "address": "0x020437AC",
    "kind": "game",
    "region": "arm9",
@@ -82,7 +85,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020437D4",
+   "name": "BMP_GetPixels",
    "address": "0x020437D4",
    "kind": "game",
    "region": "arm9",
@@ -94,7 +97,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020437DC",
+   "name": "BMP_GetWidth",
    "address": "0x020437DC",
    "kind": "game",
    "region": "arm9",
@@ -106,7 +109,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020437E4",
+   "name": "BMP_GetHeight",
    "address": "0x020437E4",
    "kind": "game",
    "region": "arm9",
@@ -118,7 +121,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020437EC",
+   "name": "BMP_GetByteSize",
    "address": "0x020437EC",
    "kind": "game",
    "region": "arm9",
@@ -130,7 +133,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02043814",
+   "name": "BMP_CopyPixels",
    "address": "0x02043814",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2D0
+ * function: PLACE_NAME_LETTER_SetChar
  * address:  0x021BD2D0
  * packet:   pkt_021BD2D0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021BD2D0(u8 *p, u16 v)
+void PLACE_NAME_LETTER_SetChar(u8 *p, u16 v)
 {
     ((struct Obj18222 *)p)->f48 = v;
 }

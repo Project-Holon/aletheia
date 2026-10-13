@@ -1,5 +1,5 @@
 /*
- * function: func_0204F748
+ * function: BILLBOARD_GetElemFlipS
  * address:  0x0204F748
  * packet:   pkt_0204F684
  * region:   arm9
@@ -14,7 +14,7 @@
  * 10 exactly, and no other read-modify-write.
  *
  * Unlabelled in the generated listing because the prologue saves nothing, and
- * it is the follower that makes func_0204F720 EXACT*.  Seeding 0x0204F748 in
+ * it is the follower that makes BILLBOARD_SetElemVisible EXACT*.  Seeding 0x0204F748 in
  * layout/function_starts.txt turns that EXACT* into EXACT; that file is the
  * integrator's, not this packet's.
  *
@@ -37,7 +37,7 @@ struct Ent {
     u8  pad_1a[2];
 };
 
-u32 func_0204F748(u8 *a0, int i)
+u32 BILLBOARD_GetElemFlipS(u8 *a0, int i)
 {
     struct Ent *e = &((struct Ent *)((struct Obj16146 *)a0)->f8)[i];
 

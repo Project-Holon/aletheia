@@ -11,16 +11,16 @@
  * lever: enum Boolean local keeps zero live across the call and one shared exit;
  * int folds to two returns (27 concrete bytes differ).
  * symbols:
- *   func_021B6818 0x021B6818 thumb ov093
+ *   BTL_MAIN_IsCommCompetitor 0x021B6818 thumb ov093
  */
 #include "../include/Obj21004.h"
 typedef unsigned char u8;
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
-extern unsigned int func_021B6818(unsigned int *p);
+extern unsigned int BTL_MAIN_IsCommCompetitor(unsigned int *p);
 BOOL func_021BA1EC(char **p)
 {
     BOOL result = FALSE;
-    if (func_021B6818((unsigned int *)((int *)*p)) == 1) {
+    if (BTL_MAIN_IsCommCompetitor((unsigned int *)((int *)*p)) == 1) {
         if (((struct Obj21004 *)(*p))->f7F) result = TRUE;
     }
     return result;

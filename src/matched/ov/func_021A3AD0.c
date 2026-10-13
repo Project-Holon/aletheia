@@ -1,5 +1,5 @@
 /*
- * function: func_021A3AD0
+ * function: FIELD_PLAYER_CORE_SetRideEffect
  * address:  0x021A3AD0
  * packet:   pkt_021A3AD0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021A3AD0(u8 *p, u32 v)
+void FIELD_PLAYER_CORE_SetRideEffect(u8 *p, u32 v)
 {
     ((struct Obj18046 *)p)->f28 = v;
 }

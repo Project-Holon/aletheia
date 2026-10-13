@@ -1,5 +1,5 @@
 /*
- * function: func_02175004
+ * function: INTRUDE_COMM_UpdatePlayerObjects
  * address:  0x02175004
  * packet:   pkt_ov011_02175004
  * region:   ov011
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02012E40  0x02012E40  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   INTRUDE_COMM_UpdatePlayerObject  0x02175060  thumb ov011
  */
 #include "../include/Obj01838.h"
@@ -26,14 +26,14 @@ typedef struct Fl {
 
 typedef unsigned int   u32;
 u32 func_02026478(void *obj);
-u8 func_02012E40(const u8 *o);
+u8 GAME_DATA_IsSaving(const u8 *o);
 void INTRUDE_COMM_UpdatePlayerObject(u8 *p, int i);
 
-void func_02175004(u8 *p)
+void INTRUDE_COMM_UpdatePlayerObjects(u8 *p)
 {
     u8 i;
 
-    if (func_02012E40((const u8 *)func_02026478((void *)(((struct Obj01838 *)p)->f4))) == 1) {
+    if (GAME_DATA_IsSaving((const u8 *)func_02026478((void *)(((struct Obj01838 *)p)->f4))) == 1) {
         return;
     }
     if (((Fl *)(p + 0x904))->b1 == 1) {

@@ -1,5 +1,5 @@
 /*
- * function: func_0219C164
+ * function: FLDMMDL_MOVE_WallWalkWaitStep
  * address:  0x0219C164
  * packet:   pkt_0219C164
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216DA50 (0x0216DA50) is a matched manifest entry, so the `matched`
+ * FLDMMDL_OffMoveBitMove (0x0216DA50) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02197EDC  0x02197EDC  thumb  ov021
- *   func_0216DA50  0x0216DA50  thumb
+ *   FLDMMDL_ACMD_Update  0x02197EDC  thumb  ov021
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17966.h"
@@ -28,13 +28,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216DA50(u32);
-extern u32 func_02197EDC(u8 *p);
+extern u32 FLDMMDL_OffMoveBitMove(u32);
+extern u32 FLDMMDL_ACMD_Update(u8 *p);
 
-int func_0219C164(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_MOVE_WallWalkWaitStep(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02197EDC((u8 *)a) == 1) {
-    func_0216DA50(a);
+if (FLDMMDL_ACMD_Update((u8 *)a) == 1) {
+    FLDMMDL_OffMoveBitMove(a);
     ((struct Obj17966 *)((u8 *)(b)))->f0 = 0;
 }
 return 0;

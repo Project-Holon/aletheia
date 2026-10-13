@@ -14,7 +14,7 @@
  *   BGWINFRM_AddFrame 0x0202CA3C thumb
  *   BGWINFRM_SetClipArea 0x0202CFEC thumb
  *   BGWINFRM_SetFrameDataArcHandle 0x0202CB18 thumb
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   d_0220DB44 0x0220DB44 data a4
  */
@@ -34,7 +34,7 @@ extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h)
 struct Obj;
 extern void BGWINFRM_SetClipArea(struct Obj *o, u32 i, u8 a, u8 b, s8 c, s8 d);
 extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr,u32,void *,u32,u32);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr,u32,s8,s8);
 void func_0220BBE4(char *p)
 {
@@ -47,7 +47,7 @@ void func_0220BBE4(char *p)
         BGWINFRM_SetClipArea(((struct Obj01176 *)p)->f520,i,0,64,0,64);
         BGWINFRM_SetFrameDataArcHandle(((struct Obj01176 *)p)->f520,i,arc,d_0220DB44[i].member,1);
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,0,0,1);
     BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,1,0,10);
     BGWINFRM_PutFrame(((struct Obj01176 *)p)->f520,2,16,1);

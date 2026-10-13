@@ -19,12 +19,12 @@
  *   func_02030734  0x02030734  arm
  *   _IcaAnimeFileName  0x020A7270  data
  *   func_020307B0  0x020307B0  arm
- *   func_0204944C  0x0204944C  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
  *
  * Load one frame of an ICA animation: the frame index is (q >> 12) modulo
  * the frame count s->f0c; the file offset is 8 + 12 * index per enabled
  * channel and the read size 12 * s->f18 per enabled channel.  The floats are
- * read into a scratch buffer (func_0204944C, fifth argument = destination),
+ * read into a scratch buffer (ARC_TOOL_ReadHandleMemberRange, fifth argument = destination),
  * converted with the TwlSDK FX_F32_TO_FX32 macro into the three Vec3 tables
  * (f30 gates f24, f2c gates f20, f28 gates f1c), then freed; s->f14 = q >> 12.
  *
@@ -37,7 +37,7 @@
  *    the buffer is `volatile float *`: the element is then loaded for the
  *    compare and again in the taken arm, off a byte offset that gets its own
  *    stack slot per site (the image's nine slots sp+0x18..0x38).
- *  - func_0204944C takes five arguments; the fifth is the buffer ([sp]).
+ *  - ARC_TOOL_ReadHandleMemberRange takes five arguments; the fifth is the buffer ([sp]).
  *  - `q >> 12` is written twice (the modulo and the final store) and never
  *    named: its CSE temporary takes the lowest spill slot (sp+4).  A named
  *    `frame` local lands above the i*12 temporaries (14 bytes out).
@@ -74,7 +74,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern u8    _IcaAnimeFileName;
 struct ArcFile;
-extern void  func_0204944C(struct ArcFile *a, u32 b, u32 ofs, u32 size, void *dst);
+extern void  ARC_TOOL_ReadHandleMemberRange(struct ArcFile *a, u32 b, u32 ofs, u32 size, void *dst);
 
 #define FX_F32_TO_FX32(x) ((s32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
@@ -100,7 +100,7 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *s, s32 q)
 
     f = (volatile float *)func_02030734((u16)((s->f00 & 0x7fff) | 0x8000), size, 0, (const char *)&_IcaAnimeFileName, 0x2bd);
     i = 0;
-    func_0204944C((struct ArcFile *)s->f04, s->f08, ofs, size, (void *)f);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcFile *)s->f04, s->f08, ofs, size, (void *)f);
 
     k = 0;
     for (; i < s->f18; i++) {

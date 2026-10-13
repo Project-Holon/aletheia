@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_02009864 0x02009864 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  */
@@ -16,7 +16,7 @@
 #include "../include/Obj23069.h"
 typedef unsigned char u8;
 struct BigObj;
-extern unsigned int func_0201283C(const struct BigObj *p);
+extern unsigned int GAME_DATA_GetWifiList(const struct BigObj *p);
 typedef unsigned int   u32;
 struct Sub020097BCObj;
 struct WordSet;
@@ -27,7 +27,7 @@ int func_021C6C20(u8 *p,u8 *q,int idx)
     void *base;
     unsigned v;
     int result;
-    base=(void *)func_0201283C(((struct Obj23069 *)q)->f4);
+    base=(void *)GAME_DATA_GetWifiList(((struct Obj23069 *)q)->f4);
     result=1;
     v=func_02009864(base,idx,7);
     if(v==0) result=0;

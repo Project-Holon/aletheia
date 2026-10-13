@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD34
+ * function: FIELD_PLACE_NAME_StateFadeIn
  * address:  0x021BCD34
  * packet:   pkt_ov021_021BCD34
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD0C0  0x021BD0C0  thumb  ov021
- *   func_021BCEB4  0x021BCEB4  thumb  ov021
- *   func_021BD0D0  0x021BD0D0  thumb  ov021
- *   func_021BCB9C  0x021BCB9C  thumb  ov021
+ *   FIELD_PLACE_NAME_GetStep  0x021BD0C0  thumb  ov021
+ *   FIELD_PLACE_NAME_DrawFadeIn  0x021BCEB4  thumb  ov021
+ *   FIELD_PLACE_NAME_IncrementStep  0x021BD0D0  thumb  ov021
+ *   FIELD_PLACE_NAME_SetState  0x021BCB9C  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -24,24 +24,24 @@ typedef struct {
 } Obj;
 
 typedef unsigned char  u8;
-extern u8 func_021BD0C0(u8 *p);
-extern void func_021BCEB4(char *p);
+extern u8 FIELD_PLACE_NAME_GetStep(u8 *p);
+extern void FIELD_PLACE_NAME_DrawFadeIn(char *p);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_021BD0D0(Obj *p);
-extern void func_021BCB9C(void *p, int keep);
+extern void FIELD_PLACE_NAME_IncrementStep(Obj *p);
+extern void FIELD_PLACE_NAME_SetState(void *p, int keep);
 
-void func_021BCD34(Obj *p)
+void FIELD_PLACE_NAME_StateFadeIn(Obj *p)
 {
-    switch (func_021BD0C0((u8 *)p)) {
+    switch (FIELD_PLACE_NAME_GetStep((u8 *)p)) {
     case 0:
-        func_021BCEB4((char *)p);
+        FIELD_PLACE_NAME_DrawFadeIn((char *)p);
         func_02040588(3, 1);
-        func_021BD0D0(p);
+        FIELD_PLACE_NAME_IncrementStep(p);
         break;
     case 1:
         if (p->h42 > 10) {
-            func_021BCB9C(p, 3);
+            FIELD_PLACE_NAME_SetState(p, 3);
         }
         break;
     }

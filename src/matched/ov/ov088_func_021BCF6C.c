@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF6C
+ * function: STARTMENU_SaveEraseSetupGraphics
  * address:  0x021BCF6C
  * packet:   pkt_ov088_021BCF6C
  * region:   ov088
@@ -41,7 +41,7 @@ extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02040EBC(u32 a0, u32 a1);
 
-void func_021BCF6C(void)
+void STARTMENU_SaveEraseSetupGraphics(void)
 {
     A16 a;
     B32 b;

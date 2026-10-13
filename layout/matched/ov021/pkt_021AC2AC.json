@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AC2AC",
+   "name": "FLDEFF_SHADOW_DeleteSlot",
    "address": "0x021AC2AC",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_02167518
+ * function: COMM_PLAYER_Create
  * address: 0x02167518
  * packet: pkt_ov010_02167518
  * region: ov010
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_02172A18[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
-void *func_02167518(int a, void *b, u16 heap, int c) {
+void *COMM_PLAYER_Create(int a, void *b, u16 heap, int c) {
     u8 *p;
     p = func_02030734(heap, 148, 1, d_02172A18, 97);
     p[142] = a;

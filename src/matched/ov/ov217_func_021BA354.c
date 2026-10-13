@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Wraps ARM func_0204E720(3, 0x10, 0, 0).
+ * Wraps ARM FADE_Start(3, 0x10, 0, 0).
  *
  * symbols:
  *   func_021BA354  0x021BA354  thumb  ov217
+ *   FADE_Start  0x0204E720  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -24,9 +25,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 void func_021BA354(void)
 {
-    func_0204E720(3, 0x10, 0, 0);
+    FADE_Start(3, 0x10, 0, 0);
 }
 

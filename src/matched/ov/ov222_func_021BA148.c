@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  */
-extern void func_0204A600(void);
-void func_021BA148(void *p) { func_0204A600(); }
+extern void CLACT_DrawSystem(void);
+void func_021BA148(void *p) { CLACT_DrawSystem(); }

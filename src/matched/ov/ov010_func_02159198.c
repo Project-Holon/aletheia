@@ -1,5 +1,5 @@
 /*
- * function: func_02159198
+ * function: SCRIPT_WORK_IsCheckFlagSet
  * address: 0x02159198
  * packet: pkt_ov010_02159198
  * region: ov010
@@ -16,12 +16,12 @@
  * state updates use only task+0x0c. Thus shifted IDs are 0..13 on the
  * traced primary paths; no invented guard or domain was added.
  * symbols:
- *   d_02172BA0 0x02172BA0 data a4
+ *   gScriptCheckFlags 0x02172BA0 data a4
  */
-extern int d_02172BA0;
-int func_02159198(int n)
+extern int gScriptCheckFlags;
+int SCRIPT_WORK_IsCheckFlagSet(int n)
 {
     if (n >= 14) return 0;
-    if ((d_02172BA0 >> n) & 1) return 1;
+    if ((gScriptCheckFlags >> n) & 1) return 1;
     return 0;
 }

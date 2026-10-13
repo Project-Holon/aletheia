@@ -1,5 +1,5 @@
 /*
- * function: func_021B4918
+ * function: SCRCMD_PROC_FLD_ShowBuyConfirm
  * address:  0x021B4918
  * packet:   pkt_ov021_021B4918
  * region:   ov021
@@ -14,8 +14,8 @@
  * `lsls` instead of before it.
  *
  * symbols:
- *   func_021B4878 0x021B4878 thumb ov021
- *   func_021B4894 0x021B4894 thumb ov021
+ *   SCRCMD_PROC_FLD_PrepareMessageWindow 0x021B4878 thumb ov021
+ *   SCRCMD_PROC_FLD_ShowMessage 0x021B4894 thumb ov021
  *   func_0201EF6C 0x0201EF6C thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  * Addresses are Black-image addresses.
@@ -25,17 +25,17 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021B4878(u32 a);
+extern int SCRCMD_PROC_FLD_PrepareMessageWindow(u32 a);
 struct WordSet;
-extern void func_021B4894(char *w, u32 b);
+extern void SCRCMD_PROC_FLD_ShowMessage(char *w, u32 b);
 extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-void func_021B4918(char *w, u32 a, u16 b, u32 c, u16 d)
+void SCRCMD_PROC_FLD_ShowBuyConfirm(char *w, u32 a, u16 b, u32 c, u16 d)
 {
-    func_021B4878(((struct Obj01121 *)w)->f17C);
+    SCRCMD_PROC_FLD_PrepareMessageWindow(((struct Obj01121 *)w)->f17C);
     func_0201EF6C((struct WordSet *)(((struct Obj01121 *)w)->f190), 0, b, 0, 0);
     func_0201EFA4((struct WordSet *)(((struct Obj01121 *)w)->f190), 1, d, 2, 0, 1);
     func_0201EFA4((struct WordSet *)(((struct Obj01121 *)w)->f190), 2, d * c, 7, 0, 1);
-    func_021B4894((char *)((u32)w), a);
+    SCRCMD_PROC_FLD_ShowMessage((char *)((u32)w), a);
 }

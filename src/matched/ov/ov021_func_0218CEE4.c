@@ -1,5 +1,5 @@
 /*
- * function: func_0218CEE4
+ * function: FIELD_G3D_MAPPER_Setup
  * address:  0x0218CEE4
  * packet:   pkt_ov021_0218CEE4
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218D104  0x0218D104  thumb  ov021
- *   func_0218DC84  0x0218DC84  thumb  ov021
+ *   FIELD_G3D_MAPPER_LoadTexture  0x0218D104  thumb  ov021
+ *   FIELD_G3D_MAPPER_CreateGroundAnime  0x0218DC84  thumb  ov021
  *   func_02030734  0x02030734  arm
- *   d_021D3DDC     0x021D3DDC  data
- *   d_021DD9EC     0x021DD9EC  data
- *   func_0218DD70  0x0218DD70  thumb  ov021
- *   func_0218DD14  0x0218DD14  thumb  ov021
- *   func_02169148  0x02169148  thumb  ov010
- *   func_0216937C  0x0216937C  thumb  ov010
- *   func_021693B4  0x021693B4  thumb  ov010
- *   func_021693C4  0x021693C4  thumb  ov010
- *   func_0218BB04  0x0218BB04  thumb  ov021
+ *   gFieldG3dMapperMapTypeTable     0x021D3DDC  data
+ *   gFieldG3dMapperSrcName     0x021DD9EC  data
+ *   FIELD_G3D_MAPPER_ResetCell  0x0218DD70  thumb  ov021
+ *   FIELD_G3D_MAPPER_InitSlotRes  0x0218DD14  thumb  ov021
+ *   FIELD_G3D_MAP_Create  0x02169148  thumb  ov010
+ *   FIELD_G3D_MAP_OpenArchive  0x0216937C  thumb  ov010
+ *   FIELD_G3D_MAP_SetAltTextureRes  0x021693B4  thumb  ov010
+ *   FIELD_G3D_MAP_SetPlacedModels  0x021693C4  thumb  ov010
+ *   FIELD_BUILDMODEL_GetHandleTable  0x0218BB04  thumb  ov021
  * Addresses are Black-image addresses.
  *
  * src is const: that lets the scheduler pull the long-lived field loads
@@ -44,19 +44,19 @@ typedef struct Cfg {
     u32 f1c;
 } Cfg;
 
-extern void func_0218D104(u8 *a, u8 *b, void *c);
-extern int func_0218DC84(int a, int b, const int *q, int c);
+extern void FIELD_G3D_MAPPER_LoadTexture(u8 *a, u8 *b, void *c);
+extern int FIELD_G3D_MAPPER_CreateGroundAnime(int a, int b, const int *q, int c);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern char d_021D3DDC[];
-extern int d_021DD9EC;
-extern int func_0218DD70(u32 a);
-extern void func_0218DD14(int *dst, char *src, int a, int b);
+extern char gFieldG3dMapperMapTypeTable[];
+extern int gFieldG3dMapperSrcName;
+extern int FIELD_G3D_MAPPER_ResetCell(u32 a);
+extern void FIELD_G3D_MAPPER_InitSlotRes(int *dst, char *src, int a, int b);
 struct Mgr;
-extern struct Mgr *func_02169148(const struct Cfg *cfg, u32 heap);
-extern void func_0216937C(u8 *p, int a, int b);
-extern void func_021693B4(char *p, int v);
-extern void func_021693C4(char *p, int v);
-extern u8 *func_0218BB04(u8 *p);
+extern struct Mgr *FIELD_G3D_MAP_Create(const struct Cfg *cfg, u32 heap);
+extern void FIELD_G3D_MAP_OpenArchive(u8 *p, int a, int b);
+extern void FIELD_G3D_MAP_SetAltTextureRes(char *p, int v);
+extern void FIELD_G3D_MAP_SetPlacedModels(char *p, int v);
+extern u8 *FIELD_BUILDMODEL_GetHandleTable(u8 *p);
 
 typedef struct Src {
     int f00;
@@ -105,7 +105,7 @@ typedef struct Obj {
     int f68;
 } Obj;
 
-void func_0218CEE4(Obj *p, const Src *src, void *c)
+void FIELD_G3D_MAPPER_Setup(Obj *p, const Src *src, void *c)
 {
     Cfg cfg;
     int i;
@@ -137,30 +137,30 @@ void func_0218CEE4(Obj *p, const Src *src, void *c)
         break;
     }
     p->f20 = src->f20;
-    func_0218D104((u8 *)p, (u8 *)src, c);
-    p->f68 = func_0218DC84(p->f2e, p->f60, src->f2c, p->heap);
+    FIELD_G3D_MAPPER_LoadTexture((u8 *)p, (u8 *)src, c);
+    p->f68 = FIELD_G3D_MAPPER_CreateGroundAnime(p->f2e, p->f60, src->f2c, p->heap);
     cfg.size = src->f34;
     cfg.texSize = 0;
-    cfg.f08 = (u32)d_021D3DDC;
+    cfg.f08 = (u32)gFieldG3dMapperMapTypeTable;
     cfg.f0c = 0;
     cfg.f10 = 0x800;
     cfg.nA = 0x20;
     cfg.nB = 0;
     cfg.f18 = 0x1000000;
     cfg.f1c = 0x400000;
-    p->f24 = func_02030734(p->heap, p->f2e * 0x28, 1, (const char *)&d_021DD9EC, 0x306);
-    p->f28 = func_02030734(p->heap, p->f2e << 4, 1, (const char *)&d_021DD9EC, 0x307);
-    p->f44 = func_02030734(p->heap, p->f2e, 1, (const char *)&d_021DD9EC, 0x308);
+    p->f24 = func_02030734(p->heap, p->f2e * 0x28, 1, (const char *)&gFieldG3dMapperSrcName, 0x306);
+    p->f28 = func_02030734(p->heap, p->f2e << 4, 1, (const char *)&gFieldG3dMapperSrcName, 0x307);
+    p->f44 = func_02030734(p->heap, p->f2e, 1, (const char *)&gFieldG3dMapperSrcName, 0x308);
     for (i = 0; i < p->f2e; i++) {
         off = i * 0x28;
-        func_0218DD70((u32)(p->f24 + off + 0x18));
-        func_0218DD14((int *)(p->f24 + off + 4), (char *)p, i, p->heap);
+        FIELD_G3D_MAPPER_ResetCell((u32)(p->f24 + off + 0x18));
+        FIELD_G3D_MAPPER_InitSlotRes((int *)(p->f24 + off + 4), (char *)p, i, p->heap);
         cfg.f0c = p->f24 + off + 4;
-        h = (int)func_02169148(&cfg, p->heap);
+        h = (int)FIELD_G3D_MAP_Create(&cfg, p->heap);
         *(int *)(p->f24 + off) = h;
-        func_0216937C((u8 *)h, p->f10, p->heap);
+        FIELD_G3D_MAP_OpenArchive((u8 *)h, p->f10, p->heap);
         if (p->f60 != 0)
-            func_021693B4((char *)h, p->f60);
-        func_021693C4((char *)h, (int)func_0218BB04((u8 *)p->f64));
+            FIELD_G3D_MAP_SetAltTextureRes((char *)h, p->f60);
+        FIELD_G3D_MAP_SetPlacedModels((char *)h, (int)FIELD_BUILDMODEL_GetHandleTable((u8 *)p->f64));
     }
 }

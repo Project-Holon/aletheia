@@ -1,5 +1,5 @@
 /*
- * function: func_0217F284
+ * function: INTRUDE_SUBDISP_IsAlone
  * address: 0x0217F284
  * packet: pkt_ov018_0217F284
  * region: ov018
@@ -10,20 +10,20 @@
  * status: EXACT*
  * extent: Two bytes of alignment padding at 0x0217F2B2.
  * symbols:
- *   func_020120F4 0x020120F4 thumb
- *   func_02012B58 0x02012B58 thumb
- *   func_02158590 0x02158590 thumb ov010
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetExitMode 0x02012B58 thumb
+ *   INTRUDE_COMM_HasUnlockFlags 0x02158590 thumb ov010
  */
 #include "../include/Obj12494.h"
 typedef unsigned char u8;
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012B58(const struct BigObj *p);
-extern int func_02158590(void *);
-int func_0217F284(u8 *p)
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern int INTRUDE_COMM_HasUnlockFlags(void *);
+int INTRUDE_SUBDISP_IsAlone(u8 *p)
 {
-    void *q = func_020120F4(((struct Obj12494 *)p)->f0);
-    if (((struct Obj12494 *)p)->fE4 == 0 && func_02012B58(q) == 0 && func_02158590(q) == 0) return 1;
+    void *q = GAMESYSTEM_GetGameData(((struct Obj12494 *)p)->f0);
+    if (((struct Obj12494 *)p)->fE4 == 0 && GAME_DATA_GetExitMode(q) == 0 && INTRUDE_COMM_HasUnlockFlags(q) == 0) return 1;
     return 0;
 }

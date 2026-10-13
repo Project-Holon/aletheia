@@ -14,8 +14,8 @@
  *   MTX_Concat44     0x0207BE14  arm
  *   FX_Div           0x0207C768  arm
  *   _ll_mul          0x0209C054  arm
- *   g_02148B98       0x02148B98  data
- *   g_02148B54       0x02148B54  data
+ *   g_renderStateDrawParams       0x02148B98  data
+ *   SCREENTEX_ProjectionMatrix       0x02148B54  data
  *   func_021FE254    0x021FE254  thumb
  */
 typedef int fx32;
@@ -25,8 +25,8 @@ typedef struct { fx32 x, y, z; } VecFx32;
 typedef struct { fx32 m[4][3]; } MtxFx43;
 typedef struct { fx32 m[4][4]; } MtxFx44;
 
-extern MtxFx43 g_02148B98;
-extern MtxFx44 g_02148B54;
+extern MtxFx43 g_renderStateDrawParams;
+extern MtxFx44 SCREENTEX_ProjectionMatrix;
 
 void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
 void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
@@ -40,8 +40,8 @@ void func_021FE1B8(VecFx32 *v, const VecFx32 *ofs)
     fx32 w;
     MtxFx44 m;
 
-    MTX_Copy43To44_(&g_02148B98, &m);
-    MTX_Concat44(&m, &g_02148B54, &m);
+    MTX_Copy43To44_(&g_renderStateDrawParams, &m);
+    MTX_Concat44(&m, &SCREENTEX_ProjectionMatrix, &m);
     if (ofs != 0) {
         v->x += ofs->x;
         v->y += ofs->y;

@@ -1,5 +1,5 @@
 /*
- * function: func_02169848
+ * function: FIELD_G3D_MAP_QueryPlane
  * address: 0x02169848
  * packet: pkt_ov010_02169848
  * region: ov010
@@ -22,4 +22,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef void (*Cb)(void *,u32,u32 *,u32,u32);
 extern void func_0207CA00(u32,void *,u32 *);
-void func_02169848(void *a,u8 *b,u32 c,u32 d) { u32 buf[3]; Cb cb; func_0207CA00(c,b+4,buf); cb=*(Cb *)(((struct Obj07317 *)b)->f28+((struct Obj07317 *)b)->f18*16u+12u); cb(a,((struct Obj07317 *)b)->fD4,buf,d,((struct Obj07317 *)b)->f8); }
+void FIELD_G3D_MAP_QueryPlane(void *a,u8 *b,u32 c,u32 d) { u32 buf[3]; Cb cb; func_0207CA00(c,b+4,buf); cb=*(Cb *)(((struct Obj07317 *)b)->f28+((struct Obj07317 *)b)->f18*16u+12u); cb(a,((struct Obj07317 *)b)->fD4,buf,d,((struct Obj07317 *)b)->f8); }

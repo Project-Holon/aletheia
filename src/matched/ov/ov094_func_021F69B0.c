@@ -12,7 +12,7 @@
  * Applies each of the two transforms whose disable bit is clear.
  *
  * symbols:
- *   func_02047A60 0x02047A60 arm
+ *   G3D_SYSTEM_DrawObject 0x02047A60 arm
  */
 typedef struct {
     char pad[0x24];
@@ -23,7 +23,7 @@ typedef struct {
 } Obj;
 
 struct Arg;
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
 void func_021F69B0(Obj *p)
 {
@@ -31,6 +31,6 @@ void func_021F69B0(Obj *p)
 
     for (i = 0; i < 2; i++) {
         if (!(p->off & (1 << i)))
-            func_02047A60(p->h[i], (struct Arg *)p->xf[i]);
+            G3D_SYSTEM_DrawObject(p->h[i], (struct Arg *)p->xf[i]);
     }
 }

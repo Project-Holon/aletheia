@@ -1,5 +1,5 @@
 /*
- * function: func_021B2ADC
+ * function: SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam
  * address:  0x021B2ADC
  * packet:   pkt_ov021_021B2ADC
  * region:   ov021
@@ -10,36 +10,36 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02158F50  0x02158F50  thumb  ov010
- *   func_021C0820  0x021C0820  thumb  ov021
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   SCRIPT_WORK_GetEvent  0x02158F50  thumb  ov010
+ *   EVENT_RECOVERY_CreateBallsEvent  0x021C0820  thumb  ov021
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02158F50(void *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *SCRIPT_WORK_GetEvent(void *p);
 typedef unsigned int   u32;
-extern void *func_021C0820(void *p, int a1, u32 n);
-extern void func_0215897C(void *vm, void *task);
+extern void *EVENT_RECOVERY_CreateBallsEvent(void *p, int a1, u32 n);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B2ADC(int a, int b)
+int SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam(int a, int b)
 {
-    void *y = func_0215A5DC((void *)b);
-    void *x = func_0215A5F4((void *)b);
-    int p = (int)func_02159B10((void *)a, (void *)b);
+    void *y = SCRCMD_WORK_GetGameSystem((void *)b);
+    void *x = SCRCMD_WORK_GetScriptWork((void *)b);
+    int p = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
 
-    func_02188CB4(func_0201210C((void *)y));
-    func_0215897C(x, func_021C0820(y, (int)func_02158F50((void *)x), (unsigned char)p));
+    FIELDMAP_GetFieldPlayer(GAMESYSTEM_GetFieldMap((void *)y));
+    SCRIPT_SYS_CallEvent(x, EVENT_RECOVERY_CreateBallsEvent(y, (int)SCRIPT_WORK_GetEvent((void *)x), (unsigned char)p));
     return 1;
 }

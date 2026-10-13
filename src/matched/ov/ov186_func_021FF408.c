@@ -17,7 +17,7 @@
  *   func_02012944 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
  *   func_021D6660 0x021D6660 thumb ov125
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GDS_PROFILE_Create 0x0200D59C thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
  *   func_021FFB14 0x021FFB14 thumb ov186
@@ -46,7 +46,7 @@ extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern int func_021D6660(char *p, char *a);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct GdsProfile *GDS_PROFILE_Create(u32 heap);
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 extern char *func_021FFB14(void *p, int f, unsigned heap);
@@ -73,7 +73,7 @@ char *func_021FF408(void *owner,void *arg,u32 heap)
     cfg.d=func_021FFAF0;cfg.e=func_021FFAFC;cfg.f=func_021FFB08;
     func_021D6660(p,(char *)(&cfg));
     ((struct Obj06637 *)p)->f5A4=1;
-    func_02012EBC(owner);
+    GAME_DATA_GetSaveControl(owner);
     ((struct Obj06637 *)p)->f5A8=GDS_PROFILE_Create(heap);
     GDS_PROFILE_Init(((struct Obj06637 *)p)->f5A8,owner);
     ((struct Obj06637 *)p)->f5AC=func_021FFB14(p,(int)((void *)func_021FF8E0),heap);

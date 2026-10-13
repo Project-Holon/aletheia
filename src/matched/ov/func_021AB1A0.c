@@ -1,5 +1,5 @@
 /*
- * function: func_021AB1A0
+ * function: MAP_ATTR_IsGimmickD6
  * address:  0x021AB1A0
  * packet:   pkt_021AB1A0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021AB1A0(int x)
+int MAP_ATTR_IsGimmickD6(int x)
 {
     return x == 0xD6;
 }

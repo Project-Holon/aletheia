@@ -13,8 +13,8 @@
  *   func_021BC0B4 0x021BC0B4 thumb ov206
  *   func_021BC0B8 0x021BC0B8 thumb ov206
  *   func_021BC0CC 0x021BC0CC thumb ov206
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204AF28 0x0204AF28 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
  */
 #include "../include/Obj02542.h"
 typedef unsigned char u8;
@@ -26,8 +26,8 @@ extern int func_021BC0B8(int);
 extern int func_021BC0CC(int);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 void func_021BB9E0(struct State *p)
 {
     u8 i;
@@ -39,7 +39,7 @@ void func_021BB9E0(struct State *p)
     flag=0;
     if(p->flag) flag=1;
     owner=p->owner;
-    ((struct Obj02542 *)p)->f17C=func_0204AC18((void *)owner,func_021BC0B4(p->flag),flag,160,0,1,p->heap);
-    ((struct Obj02542 *)p)->f180=func_0204AF28((void *)owner,func_021BC0B8(0),func_021BC0CC(0),p->heap);
-    ((struct Obj02542 *)p)->f184=func_0204AF28((void *)owner,func_021BC0B8(494),func_021BC0CC(494),p->heap);
+    ((struct Obj02542 *)p)->f17C=CLACT_RegisterPaletteEx((void *)owner,func_021BC0B4(p->flag),flag,160,0,1,p->heap);
+    ((struct Obj02542 *)p)->f180=CLACT_RegisterCellAnim((void *)owner,func_021BC0B8(0),func_021BC0CC(0),p->heap);
+    ((struct Obj02542 *)p)->f184=CLACT_RegisterCellAnim((void *)owner,func_021BC0B8(494),func_021BC0CC(494),p->heap);
 }

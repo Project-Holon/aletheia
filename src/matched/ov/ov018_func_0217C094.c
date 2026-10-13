@@ -1,5 +1,5 @@
 /*
- * function: func_0217C094
+ * function: INTRUDE_FIELD_SetSingleAreaMode
  * address:  0x0217C094
  * packet:   pkt_ov018_0217C094
  * region:   ov018
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_0217C094(unsigned char *p)
+void INTRUDE_FIELD_SetSingleAreaMode(unsigned char *p)
 {
     if (p != 0) {
         p[0x8F8] |= 0x20;

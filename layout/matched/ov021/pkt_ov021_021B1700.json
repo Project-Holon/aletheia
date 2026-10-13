@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B1700",
+   "name": "SCRCMD_FLDMMDL_GetMmdlMoveCode",
    "address": "0x021B1700",
    "kind": "game",
    "region": "ov021",

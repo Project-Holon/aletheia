@@ -1,5 +1,5 @@
 /*
- * function: func_0216730C
+ * function: EVENT_RESEARCH_RADAR_GetReportMessageId
  * address:  0x0216730C
  * packet:   pkt_ov010_0216730C
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0216730C(unsigned int n)
+int EVENT_RESEARCH_RADAR_GetReportMessageId(unsigned int n)
 {
     switch (n) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_021CA164
+ * function: BSUBWAY_SCR_UpdateStageRank
  * address:  0x021CA164
  * packet:   pkt_ov021_021CA164
  * region:   ov021
@@ -35,7 +35,7 @@ extern u8 func_0200DC0C(struct Blk1AC *p, u32 kind);
 extern void func_0200DBFC(struct Blk1AC *p);
 extern const u8 data_021DACD0[];
 
-int func_021CA164(void *a, int unused, int mode)
+int BSUBWAY_SCR_UpdateStageRank(void *a, int unused, int mode)
 {
     u8 state = (int)func_0200DC08(a);
     u32 v;

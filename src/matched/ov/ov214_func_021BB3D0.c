@@ -10,11 +10,11 @@
  * unit: yes
  * follower: 021BB3D8 word getter, within handed extent.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204A648(void);
-void func_021BB3D0(void) { func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void func_021BB3D0(void) { CLACT_VBlankSystem(); }
 u32 func_021BB3D8(u32 *p) { return *p; }

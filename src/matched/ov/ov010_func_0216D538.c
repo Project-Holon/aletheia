@@ -1,5 +1,5 @@
 /*
- * function: func_0216D538
+ * function: FLDMMDL_SysGetAreaId
  * address:  0x0216D538
  * packet:   pkt_ov010_0216D538
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0216D538(u8 *p)
+u32 FLDMMDL_SysGetAreaId(u8 *p)
 {
     u16 *q = *(u16 * *)&((struct Obj19122 *)p)->f40;
     if (q != 0)

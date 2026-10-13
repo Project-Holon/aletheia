@@ -1,5 +1,5 @@
 /*
- * function: func_021F0000
+ * function: C_GEAR_AcquireActorSlot
  * address:  0x021F0000
  * packet:   pkt_ov029_021F0000
  * region:   ov029
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F0000  0x021F0000  thumb  ov029
+ *   C_GEAR_AcquireActorSlot  0x021F0000  thumb  ov029
  *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
  *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
  */
@@ -33,7 +33,7 @@ struct Owner {
     struct Slot s[20];
 };
 
-struct Slot *func_021F0000(struct Owner *p)
+struct Slot *C_GEAR_AcquireActorSlot(struct Owner *p)
 {
     int best = -1;
     int bestSub = -1;

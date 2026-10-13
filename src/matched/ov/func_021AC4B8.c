@@ -1,5 +1,5 @@
 /*
- * function: func_021AC4B8
+ * function: FLDEFF_KEMURI_Delete
  * address:  0x021AC4B8
  * packet:   pkt_021AC4B8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021AC514  0x021AC514  thumb  ov021
+ *   FLDEFF_KEMURI_FreeResource  0x021AC514  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern int func_021AC514(u32 a);
+extern int FLDEFF_KEMURI_FreeResource(u32 a);
 extern u32 func_020307B0(void *p);
 
-void func_021AC4B8(u32 a, u8 *p)
+void FLDEFF_KEMURI_Delete(u32 a, u8 *p)
 {
-    func_021AC514((u32)p);
+    FLDEFF_KEMURI_FreeResource((u32)p);
     func_020307B0(p);
 }

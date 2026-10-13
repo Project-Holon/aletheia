@@ -1,5 +1,5 @@
 /*
- * function: func_021944D8
+ * function: FIELD_COMM_ACTOR_Move
  * address:  0x021944D8
  * packet:   pkt_ov021_021944D8
  * region:   ov021
@@ -10,32 +10,32 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_021945A0  0x021945A0  thumb  ov021
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216E014  0x0216E014  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FIELD_COMM_ACTOR_ConvertDir  0x021945A0  thumb  ov021
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  */
 
 typedef unsigned short u16;
 
-extern void *func_0216D69C(void *p);
-extern int func_021945A0(int x);
-extern void func_0216D5E0(int a0, int a1);
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern int FIELD_COMM_ACTOR_ConvertDir(int x);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern u16 func_0216D5F8(void *p);
-extern void func_0216E014(void *a, int *p, int b);
-extern u16 func_0216D598(void *p);
-extern void func_0216D674(void *a, int v);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void FLDMMDL_InitPosition(void *a, int *p, int b);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern void FLDMMDL_SetDrawStatus(void *a, int v);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 
-void func_021944D8(void *a)
+void FIELD_COMM_ACTOR_Move(void *a)
 {
     int v[3];
     int *r4;
@@ -44,16 +44,16 @@ void func_021944D8(void *a)
     int s;
     int t;
 
-    r4 = func_0216D69C(a);
-    func_0216D5E0((int)a, func_021945A0(*(u16 *)r4[0]));
+    r4 = FLDMMDL_GetMoveProcWork(a);
+    FLDMMDL_SetDirDispCheckPause((int)a, FIELD_COMM_ACTOR_ConvertDir(*(u16 *)r4[0]));
     r6 = 0;
-    func_0216D88C(a, (struct VecFx32 *)v);
+    FLDMMDL_GetPos(a, (struct VecFx32 *)v);
     p = (int *)r4[1];
     if (v[0] != p[0] || v[1] != p[1] || v[2] != p[2]) {
-        func_0216E014(a, (int *)r4[1], func_0216D5F8(a));
+        FLDMMDL_InitPosition(a, (int *)r4[1], FLDMMDL_GetDirDisp(a));
         r6 = 3;
         if (*(u16 *)(r4[3] + 6) != 0) {
-            s = func_0216D598(a);
+            s = FLDMMDL_GetObjCode(a);
             if (s == 1 || s == 4) {
                 int sum = 0;
                 p = (int *)r4[1];
@@ -70,13 +70,13 @@ void func_021944D8(void *a)
             }
         }
     }
-    func_0216D674(a, r6);
+    FLDMMDL_SetDrawStatus(a, r6);
     if (r4[2] != 0)
     {
         int f = 0;
 
         if (*(int *)r4[2] == 1)
             f = 1;
-        func_0216DAC8(a, f);
+        FLDMMDL_SetStatusBitVanish(a, f);
     }
 }

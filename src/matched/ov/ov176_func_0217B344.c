@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   func_021E8A78 0x021E8A78 thumb ov177
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj14356.h"
@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021E8A78(void *);
 struct Rec;
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
-void func_0217B344(int *p) {func_021E8A78(((struct Obj14356 *)p)->f0);func_02045C04(((struct Obj14356 *)p)->fC);func_020307B0(p);}
+void func_0217B344(int *p) {func_021E8A78(((struct Obj14356 *)p)->f0);MSGDATA_Delete(((struct Obj14356 *)p)->fC);func_020307B0(p);}

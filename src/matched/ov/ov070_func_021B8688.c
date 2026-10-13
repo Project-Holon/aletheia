@@ -1,5 +1,5 @@
 /*
- * function: func_021B8688
+ * function: ITEMMENU_TaskWaitFadeIn
  * address:  0x021B8688
  * packet:   pkt_ov070_021B8688
  * region:   ov070
@@ -11,26 +11,26 @@
  * blocked:  
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
- *   func_021BB690  0x021BB690  thumb  ov070
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   ITEMMENU_MoveActorToPoint  0x021BB690  thumb  ov070
  *   func_0204B92C  0x0204B92C  arm
- *   func_021B8AF4  0x021B8AF4  thumb  ov070
+ *   ITEMMENU_ReturnToBagMain  0x021B8AF4  thumb  ov070
  */
 #include "../include/Obj20670.h"
 
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
-extern int func_021BB690(const char *p);
+extern u32 WIPE_SYS_EndCheck(void);
+extern int ITEMMENU_MoveActorToPoint(const char *p);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
-extern void func_021B8AF4(void *p);
+extern void ITEMMENU_ReturnToBagMain(void *p);
 
-void func_021B8688(int p)
+void ITEMMENU_TaskWaitFadeIn(int p)
 {
-    int a = func_020221A4();
-    int b = func_021BB690((const char *)p);
+    int a = WIPE_SYS_EndCheck();
+    int b = ITEMMENU_MoveActorToPoint((const char *)p);
     if (a == 1 && b == 0) {
         func_0204B92C((struct Obj *)((struct Obj20670 *)p)->f6A8, 1);
-        func_021B8AF4((void *)p);
+        ITEMMENU_ReturnToBagMain((void *)p);
     }
 }

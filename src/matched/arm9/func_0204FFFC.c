@@ -1,5 +1,5 @@
 /*
- * function: func_0204FFFC
+ * function: BILLBOARD_ACT_Delete
  * address:  0x0204FFFC
  * packet:   pkt_0204FFFC
  * region:   arm9
@@ -50,7 +50,7 @@ extern void func_0204ED24(void *board);
 extern u32 AREAMAN_Delete(void *a);
 extern u32 func_020307B0(void *p);
 
-void func_0204FFFC(struct BbActSys *o)
+void BILLBOARD_ACT_Delete(struct BbActSys *o)
 {
     int i;
 

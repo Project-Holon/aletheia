@@ -1,5 +1,5 @@
 /*
- * function: func_021C3BE0
+ * function: BTL_SERVER_FLOW_ProcWeatherChanged
  * address: 0x021C3BE0
  * packet: pkt_ov093_021C3BE0
  * region: ov093
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern u32 func_021CC8D8(void *, int);
 extern void func_021C7998(u8 *, u32);
 extern void func_021CC95C(u32 *p, u32 v, int line);
-void func_021C3BE0(u8 *p, u32 a)
+void BTL_SERVER_FLOW_ProcWeatherChanged(u8 *p, u32 a)
 {
     u32 old;
     int line = 0x2303;

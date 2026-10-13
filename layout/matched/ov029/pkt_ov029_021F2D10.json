@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F2D10",
+   "name": "C_GEAR_HideCommIndicator",
    "address": "0x021F2D10",
    "kind": "game",
    "region": "ov029",

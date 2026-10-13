@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_021A3050(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 
 int func_021A80FC(u32 a)
 {
-return (((u32)func_021A3050(func_02188CB4((struct Obj00020 *)a)) << 24) >> 24);
+return (((u32)FIELD_PLAYER_GetDirDisp(FIELDMAP_GetFieldPlayer((struct Obj00020 *)a)) << 24) >> 24);
 }
 

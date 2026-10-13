@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021BA014 0x021BA014 thumb ov213
  *   func_020452E8 0x020452E8 arm
  */
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_021BA014(u8 *);
 extern u32 func_020452E8(struct Descriptor *d);
-void func_021BA2F0(u8 *p) {func_02045808((struct U16Vec *)(((struct Obj14694 *)p)->f18));func_021BA014(p+32);func_020452E8((struct Descriptor *)(((struct Obj14694 *)p)->f1C));}
+void func_021BA2F0(u8 *p) {STRBUF_Delete((struct U16Vec *)(((struct Obj14694 *)p)->f18));func_021BA014(p+32);func_020452E8((struct Descriptor *)(((struct Obj14694 *)p)->f1C));}

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9930
+ * function: OPTION_MENU_UpdateScreen
  * address: 0x021B9930
  * packet: pkt_ov068_021B9930
  * region: ov068
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021B9FC0 0x021B9FC0 thumb ov068
- *   func_021B9BD0 0x021B9BD0 thumb ov068
+ *   OPTION_MENU_UpdateSprites 0x021B9FC0 thumb ov068
+ *   OPTION_MENU_UpdateGfxBlink 0x021B9BD0 thumb ov068
  */
 typedef unsigned char u8;
-extern void func_021B9FC0(u8 *);
-extern void func_021B9BD0(u8 *);
-void func_021B9930(u8 *p)
+extern void OPTION_MENU_UpdateSprites(u8 *);
+extern void OPTION_MENU_UpdateGfxBlink(u8 *);
+void OPTION_MENU_UpdateScreen(u8 *p)
 {
-    func_021B9FC0(p + 0x7c);
-    func_021B9BD0(p);
+    OPTION_MENU_UpdateSprites(p + 0x7c);
+    OPTION_MENU_UpdateGfxBlink(p);
 }

@@ -17,19 +17,19 @@
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   func_020355D8  0x020355D8  arm
  */
 
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 
 int func_0220546C(void)
 {
-    if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
+    if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
         if ((func_020362DC() & 3) != 0)
             func_020355D8(0);
         else

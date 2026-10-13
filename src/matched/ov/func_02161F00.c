@@ -1,5 +1,5 @@
 /*
- * function: func_02161F00
+ * function: EVENT_FIELD_PROCLINK_InitReturnHeader
  * address:  0x02161F00
  * packet:   pkt_02161F00
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern void func_02082BCC(void *dst, u8 data, u32 size);
 
-void func_02161F00(void *p)
+void EVENT_FIELD_PROCLINK_InitReturnHeader(void *p)
 {
     func_02082BCC(p, 0, 4);
     ((struct Obj17710 *)p)->f2 = 10;

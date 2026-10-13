@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   d_021BA854     0x021BA854  data  a4
  */
 
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef struct { u16 a, b, c, d; } Rect;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern const Rect d_021BA854;
 
 int func_021B7014(int *p, const int *pos, int flag)
@@ -34,5 +34,5 @@ int func_021B7014(int *p, const int *pos, int flag)
         f = 1;
     r.a = pos[0];
     r.b = pos[1];
-    return (int)func_0204B294((void *)p[0x14 / 4], *(int *)((char *)p + 0x44 + flag * 16), *(int *)((char *)p + 0x40 + flag * 16), *(int *)((char *)p + 0x48 + flag * 16), &r, (u16)f, 0x61);
+    return (int)CLACT_CreateActor((void *)p[0x14 / 4], *(int *)((char *)p + 0x44 + flag * 16), *(int *)((char *)p + 0x40 + flag * 16), *(int *)((char *)p + 0x48 + flag * 16), &r, (u16)f, 0x61);
 }

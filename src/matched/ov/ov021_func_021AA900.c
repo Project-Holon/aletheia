@@ -1,5 +1,5 @@
 /*
- * function: func_021AA900
+ * function: EFFECT_ENCOUNT_IsSpotAt
  * address:  0x021AA900
  * packet:   pkt_ov021_021AA900
  * region:   ov021
@@ -13,7 +13,7 @@
  * s16 triple at +0x12/+0x14/+0x16 equals pos[0]/pos[1]/pos[2].
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
  */
 
 typedef struct Entry {
@@ -32,11 +32,11 @@ typedef struct Self {
 
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_02012A38(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 
-int func_021AA900(Self *self, short *pos)
+int EFFECT_ENCOUNT_IsSpotAt(Self *self, short *pos)
 {
-    Entry *e = (Entry *)func_02012A38(self->obj);
+    Entry *e = (Entry *)GAME_DATA_GetFieldGimmick(self->obj);
 
     if (e->flags == 0)
         return 0;

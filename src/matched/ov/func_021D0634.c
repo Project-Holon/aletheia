@@ -1,5 +1,5 @@
 /*
- * function: func_021D0634
+ * function: FLDEFF_BUBBLE_DeleteRes
  * address:  0x021D0634
  * packet:   pkt_021D0634
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021D06E0  0x021D06E0  thumb  ov021
+ *   FLDEFF_BUBBLE_FreeResources  0x021D06E0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 struct S;
-extern void func_021D06E0(struct S *p);
+extern void FLDEFF_BUBBLE_FreeResources(struct S *p);
 extern u32 func_020307B0(void *p);
 
-void func_021D0634(u32 a, u8 *p)
+void FLDEFF_BUBBLE_DeleteRes(u32 a, u8 *p)
 {
-    func_021D06E0((struct S *)p);
+    FLDEFF_BUBBLE_FreeResources((struct S *)p);
     func_020307B0(p);
 }

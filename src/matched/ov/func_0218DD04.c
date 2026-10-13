@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD04
+ * function: FIELD_G3D_MAPPER_SlotResGetBuildModel
  * address:  0x0218DD04
  * packet:   pkt_0218DC6C
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_0218DD04(u8 *p)
+int FIELD_G3D_MAPPER_SlotResGetBuildModel(u8 *p)
 {
     return ((struct Obj17898 *)p)->f4;
 }

@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02048AC4 0x02048AC4 arm
- *   func_02046788 0x02046788 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
  */
 
 typedef unsigned int   u32;
-extern u32 func_02048AC4(void *ptr);
-extern void func_02046788(int);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(int);
 
 void func_021BB448(int *p)
 {
-    func_02046788(func_02048AC4((void *)(*p)));
+    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

@@ -14,14 +14,14 @@
  * prototype: 0204B294's live r0 is the actor stored and passed to 0204B878, despite its own void declaration.
  * symbols:
  * func_020490F4 0x020490F4 arm
- * func_0204ACEC 0x0204ACEC arm
- * func_0204A6C8 0x0204A6C8 arm
- * func_0204AF28 0x0204AF28 arm
- * func_02049238 0x02049238 arm
+ * CLACT_RegisterPaletteCompressed 0x0204ACEC arm
+ * CLACT_RegisterCharacter 0x0204A6C8 arm
+ * CLACT_RegisterCellAnim 0x0204AF28 arm
+ * ARC_TOOL_DeleteHandle 0x02049238 arm
  * func_02082BCC 0x02082BCC arm
  * func_021BA1E0 0x021BA1E0 thumb ov220
- * func_0204B294 0x0204B294 arm
- * func_0204B878 0x0204B878 arm
+ * CLACT_CreateActor 0x0204B294 arm
+ * CLACT_SetActorAnimSeq 0x0204B878 arm
  * func_0204B92C 0x0204B92C arm
  * func_0204B6F4 0x0204B6F4 arm
  * func_0201BC3C 0x0201BC3C thumb
@@ -45,15 +45,15 @@ struct Param
 extern const u8 coords3[];
 extern const u8 coords4[];
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204ACEC(void *, u32, u32, u32, u16);
-extern int func_0204A6C8(void *, u32, u32, u32, u16);
-extern int func_0204AF28(void *, u32, u32, u32);
-extern void func_02049238(void *);
+extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
+extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
+extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02082BCC(void *, u32, u32);
 struct Obj;
 extern u32 func_021BA1E0(u8 *p);
-extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern int func_0201BC3C(void);
@@ -99,20 +99,20 @@ void func_021B99DC(char *p)
       form = desc[i * 4 + 6];
       gender = desc[i * 4 + 7];
       if (i == 0)
-        *((u32 *) (p + i * 12 + 0x20)) = func_0204ACEC(owner, func_0201BC3C(), 0, 32, *((u16 *) p));
+        *((u32 *) (p + i * 12 + 0x20)) = CLACT_RegisterPaletteCompressed(owner, func_0201BC3C(), 0, 32, *((u16 *) p));
       res = p + i * 12;
-      *((u32 *) (res + 0x1C)) = func_0204A6C8(owner, POKE_TOOL_CalcGraphicIndex(species, form, gender, 0), 0, 0, *((u16 *) p));
-      *((u32 *) (res + 0x24)) = func_0204AF28(owner, func_0201BC40(), func_0201BCB4(), *((u16 *) p));
+      *((u32 *) (res + 0x1C)) = CLACT_RegisterCharacter(owner, POKE_TOOL_CalcGraphicIndex(species, form, gender, 0), 0, 0, *((u16 *) p));
+      *((u32 *) (res + 0x24)) = CLACT_RegisterCellAnim(owner, func_0201BC40(), func_0201BCB4(), *((u16 *) p));
       func_02082BCC(&param, 0, 8);
       param.x = *((const s16 *) (coords + i * 4));
       param.y = *((const s16 *) (coords + i * 4 + 2));
       slot = p + i * 4;
-      actor = func_0204B294((void *)func_021BA1E0(*((void **) (p + 8))), *((u32 *) (res + 0x1C)), *((u32 *) (p + 0x20)), *((u32 *) (res + 0x24)), (const void *)((u32) (&param)), 0, *((u16 *) p));
+      actor = CLACT_CreateActor((void *)func_021BA1E0(*((void **) (p + 8))), *((u32 *) (res + 0x1C)), *((u32 *) (p + 0x20)), *((u32 *) (res + 0x24)), (const void *)((u32) (&param)), 0, *((u16 *) p));
       *((void **) (slot + 0x4C)) = actor;
-      func_0204B878(actor, 1);
+      CLACT_SetActorAnimSeq(actor, 1);
       func_0204B92C(*((void **) (slot + 0x4C)), 0);
       func_0204B6F4(*((void **) (slot + 0x4C)), func_0201BB5C(species, form, gender, 0), 0);
     }
-    func_02049238(owner);
+    ARC_TOOL_DeleteHandle(owner);
   }
 }

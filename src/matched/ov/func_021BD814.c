@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   (none)
 
  * Stores +4 and either re-arms +8 from +0x24 or takes it from +0x26 before handing the pair to 0x0204B878.
@@ -19,7 +20,7 @@
 
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void func_021BD814(char *p, int v)
 {
@@ -27,9 +28,9 @@ void func_021BD814(char *p, int v)
     if (v != 0) {
         if (((struct Obj03065 *)p)->f8 == ((struct Obj03065 *)p)->f28)
             ((struct Obj03065 *)p)->f8 = ((struct Obj03065 *)p)->f24;
-        func_0204B878((struct Obj *)(((struct Obj03065 *)p)->f0), (unsigned short)((struct Obj03065 *)p)->f8);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj03065 *)p)->f0), (unsigned short)((struct Obj03065 *)p)->f8);
     } else {
-        func_0204B878((struct Obj *)(((struct Obj03065 *)p)->f0), ((struct Obj03065 *)p)->f26);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj03065 *)p)->f0), ((struct Obj03065 *)p)->f26);
     }
 }
 

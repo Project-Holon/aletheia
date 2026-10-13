@@ -1,5 +1,5 @@
 /*
- * function: func_0216D550
+ * function: FLDMMDL_ClearStatusBit
  * address:  0x0216D550
  * packet:   pkt_0216D550
  * region:   ov010
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-u32 *func_0216D550(u32 *p, u32 v)
+u32 *FLDMMDL_ClearStatusBit(u32 *p, u32 v)
 {
     *p &= ~v;
     return p;

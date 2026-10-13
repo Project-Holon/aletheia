@@ -1,5 +1,5 @@
 /*
- * function: func_021CFBE0
+ * function: BTL_CLIENT_SetSlotOrder
  * address: 0x021CFBE0
  * packet: pkt_ov093_021CFBE0
  * region: ov093
@@ -11,7 +11,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021CFBE0(u8 *p, u32 i, u32 v)
+void BTL_CLIENT_SetSlotOrder(u8 *p, u32 i, u32 v)
 {
     if (i < 6) (p + i)[0x10c] = v;
 }

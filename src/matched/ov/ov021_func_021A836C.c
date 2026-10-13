@@ -1,5 +1,5 @@
 /*
- * function: func_021A836C
+ * function: FIELD_MENU_Create
  * address:  0x021A836C
  * packet:   pkt_ov021_021A836C
  * region:   ov021
@@ -11,30 +11,30 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   d_021DDF94     0x021DDF94  data  ov021  a1
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_020120F8  0x020120F8  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02188C54  0x02188C54  thumb  ov021
+ *   gFieldMenuFileName     0x021DDF94  data  ov021  a1
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_020355C4  0x020355C4  arm
  *   func_020056A0  0x020056A0  thumb
- *   func_021A8D40  0x021A8D40  thumb  ov021
+ *   FIELD_MENU_ColorTask  0x021A8D40  thumb  ov021
  *   func_0201C440  0x0201C440  thumb
  *   func_020490F4  0x020490F4  arm
- *   func_021A8B18  0x021A8B18  thumb  ov021
- *   func_021A8874  0x021A8874  thumb  ov021
- *   func_021A8BB8  0x021A8BB8  thumb  ov021
- *   func_02049238  0x02049238  arm
+ *   FIELD_MENU_GetLayoutType  0x021A8B18  thumb  ov021
+ *   FIELD_MENU_LoadGraphics  0x021A8874  thumb  ov021
+ *   FIELD_MENU_CreateItems  0x021A8BB8  thumb  ov021
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02040588  0x02040588  arm
- *   func_021A90E0  0x021A90E0  thumb  ov021
- *   func_021A8DD8  0x021A8DD8  thumb  ov021
- *   func_020129C4  0x020129C4  thumb
- *   func_021A8E20  0x021A8E20  thumb  ov021
+ *   FIELD_MENU_UpdateSelection  0x021A90E0  thumb  ov021
+ *   FIELD_MENU_SetScrolledOut  0x021A8DD8  thumb  ov021
+ *   GAME_DATA_GetFrameRate  0x020129C4  thumb
+ *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *
  * 0x021DDF94 is the "field_menu.c" file-name string; 0x134 is its line.
  */
@@ -85,39 +85,39 @@ typedef struct Obj {
     u32 f134;
 } Obj;
 
-extern char d_021DDF94[];
+extern char gFieldMenuFileName[];
 
 struct W;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct BigObj;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
-extern unsigned char *func_020120F8(const struct Ctx *p);
+extern unsigned char *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 struct Rec44;
-extern unsigned short func_02012AC8(const struct Rec44 *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
-extern u32 func_02188C54(u8 *p);
+extern unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern u8 func_020355C4(void);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_021A8D40(void *unused, struct W *w);
+extern void FIELD_MENU_ColorTask(void *unused, struct W *w);
 extern u32 func_0201C440(void *p);
 extern void *func_020490F4(u32 id, u32 heap);
-extern u32 func_021A8B18(void *a, void *b, u32 c);
-extern void func_021A8874(struct Obj *p, void *q, int r, u32 unused);
-extern void func_021A8BB8(struct Obj *p, void *q, int r);
-extern void func_02049238(void *q);
+extern u32 FIELD_MENU_GetLayoutType(void *a, void *b, u32 c);
+extern void FIELD_MENU_LoadGraphics(struct Obj *p, void *q, int r, u32 unused);
+extern void FIELD_MENU_CreateItems(struct Obj *p, void *q, int r);
+extern void ARC_TOOL_DeleteHandle(void *q);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_021A90E0(struct W *w);
-extern void func_021A8DD8(Obj *p);
-extern u8 func_020129C4(const struct BigObj *p);
-extern void func_021A8E20(struct W *w, u32 v);
+extern void FIELD_MENU_UpdateSelection(struct W *w);
+extern void FIELD_MENU_SetScrolledOut(Obj *p);
+extern u8 GAME_DATA_GetFrameRate(const struct BigObj *p);
+extern void FIELD_MENU_SelectButton(struct W *w, u32 v);
 extern void func_0204B3DC(struct Obj *, unsigned int);
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
-Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
+Obj *FIELD_MENU_Create(u16 heap, u16 a1, int a2, void *a3, int a4)
 {
     Obj *p;
     u32 x;
@@ -125,41 +125,41 @@ Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
     void *q;
     u32 r;
 
-    p = func_02030734(heap, 0x138, 0, d_021DDF94, 0x134);
-    x = (u32)func_02188C80(a3);
-    y = (u32)func_020120F4((const struct Ctx *)x);
+    p = func_02030734(heap, 0x138, 0, gFieldMenuFileName, 0x134);
+    x = (u32)FIELDMAP_GetGameSystem(a3);
+    y = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)x);
     p->f00 = heap;
     p->f02 = a1;
     p->f04 = a3;
     p->f08 = a2;
     p->f0C = 1;
-    p->f1C = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)x));
-    p->f14 = func_0201296C((const struct BigObj *)y);
-    p->f18 = (u32)func_02012944((void *)y);
-    p->f10 = func_02188C54(a3);
+    p->f1C = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork((const struct Ctx *)x));
+    p->f14 = GAME_DATA_GetEventWork((const struct BigObj *)y);
+    p->f18 = (u32)GAME_DATA_GetMyStatus((void *)y);
+    p->f10 = FIELDMAP_GetMsgBg(a3);
     p->f1E = 0;
     p->f1F = 0;
     p->f24 = p->f2C = func_020355C4() ^ 1;
     p->fF8 = 0;
-    p->f130 = func_020056A0(func_021A8D40, p, 0);
+    p->f130 = func_020056A0(FIELD_MENU_ColorTask, p, 0);
     p->f12C = (void *)func_0201C440((void *)p->f00);
     p->f100 = 0;
     p->fFC = 0;
     q = func_020490F4(0x47, p->f02);
-    r = func_021A8B18((void *)y, (void *)p->f14, p->f1C);
+    r = FIELD_MENU_GetLayoutType((void *)y, (void *)p->f14, p->f1C);
     p->f21 = r;
-    func_021A8874(p, q, r, p->f10);
-    func_021A8BB8(p, q, r);
-    func_02049238(q);
+    FIELD_MENU_LoadGraphics(p, q, r, p->f10);
+    FIELD_MENU_CreateItems(p, q, r);
+    ARC_TOOL_DeleteHandle(q);
     func_02040588(1, 1);
     if (a4 == 1) {
         p->f1E = 0;
         p->f1F = 0;
         p->f24 = 1;
-        func_021A90E0((struct W *)p);
-        func_021A8DD8(p);
+        FIELD_MENU_UpdateSelection((struct W *)p);
+        FIELD_MENU_SetScrolledOut(p);
     } else {
-        func_021A8E20((struct W *)p, func_020129C4((const struct BigObj *)y));
+        FIELD_MENU_SelectButton((struct W *)p, GAME_DATA_GetFrameRate((const struct BigObj *)y));
         p->f24 = 1;
         if (p->f2C != 0) {
             func_0204B3DC((struct Obj *)p->f124, 1);
@@ -167,6 +167,6 @@ Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
             func_0204B3DC((struct Obj *)p->f124, 0);
         }
     }
-    func_0203D34C(0, p->f02);
+    GFL_NET_RestartWithDefaultTimeout(0, p->f02);
     return p;
 }

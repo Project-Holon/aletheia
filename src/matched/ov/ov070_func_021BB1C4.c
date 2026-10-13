@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1C4
+ * function: ITEMMENU_LoadSellPalette
  * address:  0x021BB1C4
  * packet:   pkt_ov070_021BB1C4
  * region:   ov070
@@ -17,12 +17,12 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0204A380  0x0204A380  arm
+ *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   func_02062B30  0x02062B30  arm
  *   func_02041090  0x02041090  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 
 typedef unsigned char  u8;
@@ -43,15 +43,15 @@ typedef struct {
 } Work;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void *func_0204A380(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
+extern void *ARC_UTIL_LoadHandleMember(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern int func_02062B30(void *file, void **out);
 extern void func_02041090(unsigned int index, unsigned int a1, unsigned int a2, unsigned int a3, u8 a4, u8 a5);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021BB1C4(Work *p)
+void ITEMMENU_LoadSellPalette(Work *p)
 {
     void *arc;
     int tex;
@@ -61,7 +61,7 @@ void func_021BB1C4(Work *p)
     int n;
 
     arc = func_020490F4(0x58, p->f544);
-    tex = (int)func_0204A380(arc, 0x23, 0, p->f544);
+    tex = (int)ARC_UTIL_LoadHandleMember(arc, 0x23, 0, p->f544);
     i = 0;
     if (func_02062B30((void *)tex, (void **)(&img))) {
         d = img->d;
@@ -73,5 +73,5 @@ void func_021BB1C4(Work *p)
         func_02041B6C(3);
     }
     func_020307B0((void *)tex);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
 }

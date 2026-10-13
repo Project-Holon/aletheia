@@ -1,5 +1,5 @@
 /*
- * function: func_021A6D9C
+ * function: FIELDMAP_CTRL_NOGRID_WORK_FreeWork
  * address:  0x021A6D9C
  * packet:   pkt_021A6D9C
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021A6D9C(void *a0)
+void FIELDMAP_CTRL_NOGRID_WORK_FreeWork(void *a0)
 {
     func_020307B0(a0);
 }

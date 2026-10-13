@@ -1,5 +1,5 @@
 /*
- * function: func_021C89A8
+ * function: FIELD_TILE_MOVE_HasSpinEntry
  * address:  0x021C89A8
  * packet:   pkt_021C89A8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021C8984  0x021C8984  thumb  ov021
+ *   FIELD_TILE_MOVE_FindSpinEntry  0x021C8984  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021C8984(u32);
+extern u32 FIELD_TILE_MOVE_FindSpinEntry(u32);
 
-int func_021C89A8(u32 a)
+int FIELD_TILE_MOVE_HasSpinEntry(u32 a)
 {
-if (func_021C8984(a) != 0) {
+if (FIELD_TILE_MOVE_FindSpinEntry(a) != 0) {
     return 1;
 }
 return 0;

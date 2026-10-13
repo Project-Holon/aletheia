@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02048A18 0x02048A18 arm
- *   func_0204784C 0x0204784C arm
+ *   G3D_SYSTEM_SetObjectAnimeFrame 0x0204784C arm
  *   _ffltu 0x0209BE04 arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -22,7 +22,7 @@ extern unsigned int func_02048A18(u8 *a0, int i);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
 void func_021BFBC8(char *p,unsigned value)
 {
     void *ctl;
@@ -32,7 +32,7 @@ void func_021BFBC8(char *p,unsigned value)
     if(value!=0) f=0.5f+(float)(value<<12);
     else f=(float)(value<<12)-0.5f;
     frame=(int)f;
-    func_0204784C(ctl,0,&frame);
-    func_0204784C(ctl,1,&frame);
-    func_0204784C(ctl,2,&frame);
+    G3D_SYSTEM_SetObjectAnimeFrame(ctl,0,&frame);
+    G3D_SYSTEM_SetObjectAnimeFrame(ctl,1,&frame);
+    G3D_SYSTEM_SetObjectAnimeFrame(ctl,2,&frame);
 }

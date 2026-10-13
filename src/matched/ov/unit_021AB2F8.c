@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021AB2F8, func_021AB304
+ * function: MAP_ATTR_IsRippleWater, func_021AB304
  * address:  0x021AB2F8
  * packet:   pkt_021AB2F8
  * region:   ov021
@@ -13,7 +13,7 @@
  * Two equality predicates.
  */
 
-int func_021AB2F8(int x)
+int MAP_ATTR_IsRippleWater(int x)
 {
     return x == 0x14;
 }

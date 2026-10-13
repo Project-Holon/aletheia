@@ -1,5 +1,5 @@
 /*
- * function: func_021A59EC
+ * function: FIELD_PLAYER_NOGRID_IsForcedMove
  * address:  0x021A59EC
  * packet:   pkt_ov021_021A59EC
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A66F8  0x021A66F8  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_HasFlags  0x021A66F8  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
 
-extern u32 func_021A66F8(u32 p, u32 f);
+extern u32 FIELD_PLAYER_NOGRID_HasFlags(u32 p, u32 f);
 
-u32 func_021A59EC(u32 p)
+u32 FIELD_PLAYER_NOGRID_IsForcedMove(u32 p)
 {
     u32 r = 1;
-    if (func_021A66F8(p, 1) == 0) {
+    if (FIELD_PLAYER_NOGRID_HasFlags(p, 1) == 0) {
         r = 0;
     }
     return r;

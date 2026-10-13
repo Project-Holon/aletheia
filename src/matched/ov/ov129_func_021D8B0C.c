@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   func_021D9890 0x021D9890 thumb ov129
  *   func_021DA164 0x021DA164 thumb ov129
  *   func_021D9AB0 0x021D9AB0 thumb ov129
@@ -35,7 +35,7 @@ typedef unsigned char  u8;
 extern void func_021DA42C(u8 *p);
 extern void func_021DA524(void **p, int a, int b, int c, int d, int e, int f, int g, int h);
 extern void func_021D8AF4(char *,int);
-extern void func_0202208C(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
+extern void WIPE_SYS_Start(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
 int func_021D8B0C(char *p)  {
     func_021D9890(p);
     func_021DA164(p);
@@ -48,6 +48,6 @@ int func_021D8B0C(char *p)  {
     func_021DA42C((u8 *)p);
     func_021DA524((void **)(p+0x310),((struct Obj10498 *)p)->f328,4,2,19,27,4,((struct Obj10498 *)p)->f314,((struct Obj10498 *)p)->f344);
     func_021D8AF4(p,1);
-    func_0202208C(0,1,1,0,6,1,50);
+    WIPE_SYS_Start(0,1,1,0,6,1,50);
     return 0;
 }

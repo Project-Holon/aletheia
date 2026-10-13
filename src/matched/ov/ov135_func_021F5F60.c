@@ -13,6 +13,7 @@
  * symbols:
  *   tbl_02202D24  0x02202D24  data
  *   func_021F4FF4  0x021F4FF4  thumb
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm  arm9
  */
 
 typedef signed char s8;
@@ -30,14 +31,14 @@ typedef struct {
 extern const Pos tbl_02202D24[];
 
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B84C(u32 obj, int k);
+extern void CLACT_SetActorBgPriority(u32 obj, int k);
 
 void func_021F5F60(u32 cursor, int i)
 {
     func_021F4FF4(cursor, tbl_02202D24[i].x, tbl_02202D24[i].y);
     if (i == 0x1F || (i >= 0 && i <= 5)) {
-        func_0204B84C(cursor, 0);
+        CLACT_SetActorBgPriority(cursor, 0);
     } else {
-        func_0204B84C(cursor, 1);
+        CLACT_SetActorBgPriority(cursor, 1);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02169520
+ * function: FIELD_G3D_MAP_GetActiveRef
  * address:  0x02169520
  * packet:   pkt_02169520
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02169520(int a0, int a1)
+int FIELD_G3D_MAP_GetActiveRef(int a0, int a1)
 {
 
 a0 = a0 + 0xb0;

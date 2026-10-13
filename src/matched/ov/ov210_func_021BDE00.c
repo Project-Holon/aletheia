@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7AB0  0x021B7AB0  thumb  ov067
+ *   FRAME_LIST_Update  0x021B7AB0  thumb  ov067
  *   func_020355C4  0x020355C4  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_021BE290  0x021BE290  thumb  ov210
@@ -34,7 +34,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
 struct S;
-extern int func_021B7AB0(struct S *p);
+extern int FRAME_LIST_Update(struct S *p);
 extern u8 func_020355C4(void);
 extern void func_020061E4(u32 id);
 extern void func_021BE290(u8 *p, int index);
@@ -53,7 +53,7 @@ u32 func_021BDE00(u8 *p)
     u32 r5;
     u32 ret = 22;
 
-    r5 = func_021B7AB0((struct S *)(*(u32 *)&((struct Obj00085 *)p)->f1E0));
+    r5 = FRAME_LIST_Update((struct S *)(*(u32 *)&((struct Obj00085 *)p)->f1E0));
 
     switch (r5) {
     case 0:

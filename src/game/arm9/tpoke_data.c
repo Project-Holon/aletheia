@@ -14,20 +14,20 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0204A298  0x0204A298  arm
- *   func_02048F60  0x02048F60  arm
+ *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   sTpokeData82   0x020A76CC  data
  *   func_020307B0 0x020307B0 arm
- *   func_020490A8  0x020490A8  arm
- *   func_02048F74  0x02048F74  arm
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
+ *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
  *   func_020490F4  0x020490F4  arm
- *   func_0204944C  0x0204944C  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02045B38  0x02045B38  arm
- *   func_02045CAC  0x02045CAC  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   STRBUF_Clear  0x0204581C  arm
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   Data_0209FF1C  0x0209FF1C  data
  *   Table_0209FEE4  0x0209FEE4  data
  *   func_0202A3D8   0x0202A3D8  thumb
@@ -94,24 +94,24 @@ struct Record {
 };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int   func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern int   ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern u32 func_020307B0(void *p);
 extern u32 func_0202A1CC(const struct Container *c, u32 key, u32 v2, u32 v3);
-extern u32   func_020490A8(u32 a, u32 b);
-extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
+extern u32   ARC_TOOL_GetMemberSize(u32 a, u32 b);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
-extern void  func_02049238(void *h);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+extern void  ARC_TOOL_DeleteHandle(void *h);
 u32 func_0202A20C(u8 *p, u32 key, u32 v2, u32 v3);
 int func_0202A21C(int a0, int a1);
 u32 func_0202A230(void *a, u32 idx);
 u32 func_0202A298(u32 key, u32 want, u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02045C04(struct Rec *rec);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Clear(struct U16Vec *vec);
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 void func_0202A310(int key, int want, void *dest, u32 heap);
 void func_0202A3AC(void *a0, void *a1);
 void func_0202A3BC(void *a0, void *a1);
@@ -141,9 +141,9 @@ Tpoke *func_0202A128(int heap)
     u32 size;
 
     p = (Tpoke *)func_02030734(heap, 0x10, 1, sTpokeData82, 82);
-    p->handle = func_0204A298(0xd3, 0, 0, heap, &size);
+    p->handle = ARC_UTIL_LoadMemberWithSize(0xd3, 0, 0, heap, &size);
     p->count = size >> 3;
-    p->buf = func_02048F60(0x30, 0, heap);
+    p->buf = ARC_TOOL_LoadMember(0x30, 0, heap);
     p->buf4 = (char *)p->buf + 4;
     return p;
 }
@@ -310,12 +310,12 @@ u32 func_0202A298(u32 key, u32 want, u32 heap)
     u32   end;
     u32   found = 0;
 
-    end = func_020490A8(0x5a, 0);
-    func_02048F74(rec, 0x5b, 0, key * 2, (u32 *)2);
+    end = ARC_TOOL_GetMemberSize(0x5a, 0);
+    ARC_TOOL_ReadMemberRange(rec, 0x5b, 0, key * 2, (u32 *)2);
     h = func_020490F4(0x5a, heap);
 
     while (rec[0] != end) {
-        func_0204944C(h, 0, rec[0], 4, &rec[1]);
+        ARC_TOOL_ReadHandleMemberRange(h, 0, rec[0], 4, &rec[1]);
         if (rec[1] == key && rec[2] == want) {
             found = 1;
             break;
@@ -326,7 +326,7 @@ u32 func_0202A298(u32 key, u32 want, u32 heap)
         rec[0] = (u16)(rec[0] + 4);
     }
 
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     return found;
 }
 
@@ -340,21 +340,21 @@ void func_0202A310(int key, int want, void *dest, u32 heap)
     u32   end;
 
     bank = func_02045B38(0, 2, 0xbd, heap);
-    end = func_020490A8(0x5a, 0);
-    func_02048F74(rec, 0x5b, 0, key * 2, (u32 *)2);
+    end = ARC_TOOL_GetMemberSize(0x5a, 0);
+    ARC_TOOL_ReadMemberRange(rec, 0x5b, 0, key * 2, (u32 *)2);
     h = func_020490F4(0x5a, heap);
 
     while (rec[0] != end) {
-        func_0204944C(h, 0, rec[0], 4, &rec[1]);
+        ARC_TOOL_ReadHandleMemberRange(h, 0, rec[0], 4, &rec[1]);
         if (rec[1] == key && rec[2] == want) {
-            func_02045CAC(bank, (u32)rec[0] >> 2, dest);
+            MSGDATA_ReadString(bank, (u32)rec[0] >> 2, dest);
             break;
         }
         rec[0] = (u16)(rec[0] + 4);
     }
 
-    func_02049238(h);
-    func_02045C04(bank);
+    ARC_TOOL_DeleteHandle(h);
+    MSGDATA_Delete(bank);
 
     if (rec[0] == end) {
         STRBUF_Clear(dest);
@@ -365,14 +365,14 @@ void func_0202A310(int key, int want, void *dest, u32 heap)
 
 void func_0202A3AC(void *a0, void *a1)
 {
-    func_02048F4C(a1, 0x5c, (u32)a0);
+    ARC_TOOL_ReadMember(a1, 0x5c, (u32)a0);
 }
 
 
 
 void func_0202A3BC(void *a0, void *a1)
 {
-    func_02048F4C(a1, 0x5d, (u32)a0);
+    ARC_TOOL_ReadMember(a1, 0x5d, (u32)a0);
 }
 
 

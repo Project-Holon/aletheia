@@ -1,5 +1,5 @@
 /*
- * function: func_021BB3A0
+ * function: FIELD_NOGRID_MAPPER_DeleteRailWork
  * address:  0x021BB3A0
  * packet:   pkt_021BB394
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x0.
  *
  * symbols:
- *   func_021B79AC  0x021B79AC  thumb
+ *   FIELD_RAIL_ReleaseWork  0x021B79AC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021B79AC();
+extern void FIELD_RAIL_ReleaseWork();
 
-void func_021BB3A0(u8 *p, u32 a1)
+void FIELD_NOGRID_MAPPER_DeleteRailWork(u8 *p, u32 a1)
 {
-    func_021B79AC(((struct Obj18167 *)p)->f0);
+    FIELD_RAIL_ReleaseWork(((struct Obj18167 *)p)->f0);
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021CC8D8  0x021CC8D8  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_021CC8D8(void *lock, int line);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
@@ -40,7 +40,7 @@ int func_021CC5F4(char *p, void *m)
     char *q;
 
     s = func_021CC8D8(p + 0x1d74, 1968);
-    id = func_021D5440(m);
+    id = BTL_POKEPARAM_GetPokeId(m);
     r = (u8 *)func_021C88A4(p, 16, id);
     r[4] = 1;
     r[5] = id;

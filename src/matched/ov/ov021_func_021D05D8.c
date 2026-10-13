@@ -1,5 +1,5 @@
 /*
- * function: func_021D05D8
+ * function: FLDEFF_BUBBLE_Start
  * address:  0x021D05D8
  * packet:   pkt_ov021_021D05D8
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   d_021DB968     0x021DB968  data  ov021  a4
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -29,20 +29,20 @@ typedef struct Vec021D05D8 {
     int x, y, z;
 } Vec021D05D8;
 
-extern int func_021ABEA0(u32 a, u32 b);
+extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void func_021ABFA8(void *a, void *b, void *c, u32 d, void *e, u32 f);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern void FIELD_EFFECT_AddObject(void *a, void *b, void *c, u32 d, void *e, u32 f);
 extern char d_021DB968[];
 
-void func_021D05D8(void *a, void *b)
+void FLDEFF_BUBBLE_Start(void *a, void *b)
 {
     Arg021D05D8 arg;
     Vec021D05D8 v;
 
-    arg.h = func_021ABEA0((u32)b, 0x10);
+    arg.h = FIELD_EFFECT_GetResource((u32)b, 0x10);
     arg.a = a;
-    func_0216D88C(a, (struct VecFx32 *)&v);
-    func_021ABFA8(b, d_021DB968, &v, 0, &arg, 0);
+    FLDMMDL_GetPos(a, (struct VecFx32 *)&v);
+    FIELD_EFFECT_AddObject(b, d_021DB968, &v, 0, &arg, 0);
 }

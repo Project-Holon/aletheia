@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Recursive MATCH unblocker: the unlabelled ov014 leaf that func_0201058C
+ * Recursive MATCH unblocker: the unlabelled ov014 leaf that WIH_DWC_PollStatus
  * calls at +005C.  Byte-identical to func_02177B80: read g_pWhPipeWork, test the
  * per-slot u16 flag at +0xC40 (stride 2), then return the slot's u8 state at
  * +0x5C of the 0xC0-byte record, or 0.

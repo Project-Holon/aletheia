@@ -1,5 +1,5 @@
 /*
- * function: func_021BB920
+ * function: BTL_SERVER_ClearPokeChangeRequests
  * address: 0x021BB920
  * packet: pkt_ov093_021BB920
  * region: ov093
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_021BB920(u8 *p) { p[0xcba] = 0; p[0xcbf] = 0; }
+void BTL_SERVER_ClearPokeChangeRequests(u8 *p) { p[0xcba] = 0; p[0xcbf] = 0; }

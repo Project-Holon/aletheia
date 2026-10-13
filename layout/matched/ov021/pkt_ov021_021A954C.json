@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A954C",
+   "name": "FIELD_ENCOUNT_CreateZoneWildMons",
    "address": "0x021A954C",
    "kind": "game",
    "region": "ov021",

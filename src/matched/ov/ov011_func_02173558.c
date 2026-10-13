@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02167688 0x02167688 thumb ov010
+ *   COMM_PLAYER_Suspend 0x02167688 thumb ov010
  * Extent contains followers 02173568, already-filed 02173580, and 0217358C;
  * the lead stays separate to preserve the existing follower file.
  */
 #include "../include/Obj19162.h"
 typedef struct { void *sys; void *obj; } Work;
 struct Work;
-extern void func_02167688(struct Work *w);
+extern void COMM_PLAYER_Suspend(struct Work *w);
 void INTRUDE_COMM_SuspendPlayers(int a, char *p)
 {
     if (p != 0)
-        func_02167688((struct Work *)(*(Work * *)&((struct Obj19162 *)p)->f8));
+        COMM_PLAYER_Suspend((struct Work *)(*(Work * *)&((struct Obj19162 *)p)->f8));
 }

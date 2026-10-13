@@ -18,7 +18,7 @@
  *   func_021B98F8 0x021B98F8 thumb ov114
  *   func_021B9748 0x021B9748 thumb ov114
  *   func_021D89EC 0x021D89EC thumb ov119
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DEEFC 0x021DEEFC thumb ov119
  *   func_021DEF1C 0x021DEF1C thumb ov119
@@ -38,7 +38,7 @@ extern void func_021B98D8(u8 *,int,int);
 extern int func_021B98F8(u8 *);
 extern int func_021B9748(u8 *);
 extern int func_021D89EC(const u8 *p);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void func_021D8E84(void *,int);
 extern void func_021DEEFC(void **p);
 extern void func_021DEF1C(u8 *p);
@@ -49,7 +49,7 @@ void func_021DF0B8(char *p) {
  *(u8 * *)&((struct Obj02827 *)p)->f0=func_021B9800(((struct Obj02827 *)p)->f5F4,func_0200853C(((struct Obj02827 *)p)->f830),((struct Obj22746 *)(*(char * *)&((struct Obj02827 *)p)->f8))->f24);
  DWC_RAP_SetErrorCallback((int)func_021DEEFC,(int)p);
  for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+0xfe4+i*4))) n++;
- func_021B98A0(*(u8 * *)&((struct Obj02827 *)p)->f0,((struct Obj02827 *)p)->f5F4,func_020173EC()*n,2);
- for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+i*4+0xfe4))) func_021B98D8(*(u8 * *)&((struct Obj02827 *)p)->f0,*(int *)(p+i*4+0xfe4),func_020173EC());
+ func_021B98A0(*(u8 * *)&((struct Obj02827 *)p)->f0,((struct Obj02827 *)p)->f5F4,POKE_TOOL_GetPartyParamSize()*n,2);
+ for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+i*4+0xfe4))) func_021B98D8(*(u8 * *)&((struct Obj02827 *)p)->f0,*(int *)(p+i*4+0xfe4),POKE_TOOL_GetPartyParamSize());
  func_021B98F8(*(u8 * *)&((struct Obj02827 *)p)->f0);func_021B9748(*(u8 * *)&((struct Obj02827 *)p)->f0);func_021D8E84(p,(int)func_021DEF1C);
 }

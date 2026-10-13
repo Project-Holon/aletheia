@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   BMP_Clear  0x02043B5C  arm  arm9
+ *   BMP_WIN_TransferChars  0x02045334  arm  arm9
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj14681.h"
@@ -22,12 +24,12 @@ typedef signed char    s8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 void func_021BE820(u8 *p)
 {
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj14681 *)p)->f154)), 0);
-    func_02045334((struct Descriptor *)((struct Obj14681 *)p)->f154);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj14681 *)p)->f154)), 0);
+    BMP_WIN_TransferChars((struct Descriptor *)((struct Obj14681 *)p)->f154);
 }
 

@@ -12,14 +12,14 @@
  * sdk:      gsiLargeIntAdd (libdwcgscommon.TWL.HYB.a(gslargeint.o))
  *
  * symbols:
- *   func_0217D3AC  0x0217D3AC  arm  ov009
+ *   gsiLargeIntTimerEnter  0x0217D3AC  arm  ov009
  *   func_02092344  0x02092344  arm
  *   gsiLargeIntTimerExit  0x0217D3F8  arm  ov009
  */
 
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern void func_0217D3AC(int id);
+extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
 extern void *func_02092344(void *dst, const void *src, u32 n);
 
@@ -33,7 +33,7 @@ int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, 
 
     i = 0;
     carry = 0;
-    func_0217D3AC(3);
+    gsiLargeIntTimerEnter(3);
     if (maxlen < length1 || maxlen < length2)
         return 0;
 

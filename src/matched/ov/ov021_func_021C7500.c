@@ -1,5 +1,5 @@
 /*
- * function: func_021C7500
+ * function: FIELD_TASK_UpdateSpinEaseOut
  * address:  0x021C7500
  * packet:   pkt_ov021_021C7500
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   _ffltu         0x0209BE04  arm
- *   func_021C73B4  0x021C73B4  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   FIELD_TASK_GetSpinAcmdEaseOut  0x021C73B4  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -30,19 +30,19 @@ typedef struct {
     u16 he;
 } Ctl;
 
-extern u16 func_021C73B4(float a, float b, float c);
-extern void func_0216D410(void *a0, u16 a1);
-extern void func_0216D5E0(int a0, int a1);
+extern u16 FIELD_TASK_GetSpinAcmdEaseOut(float a, float b, float c);
+extern void FLDMMDL_SetAcmd(void *a0, u16 a1);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 
-int func_021C7500(Ctl *o)
+int FIELD_TASK_UpdateSpinEaseOut(Ctl *o)
 {
     u32 s;
 
     s = o->w4;
-    func_0216D410((void *)s, func_021C73B4((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
+    FLDMMDL_SetAcmd((void *)s, FIELD_TASK_GetSpinAcmdEaseOut((float)(u32)o->h8, (float)(u32)o->ha, (float)(u32)o->bc));
     o->h8 = o->h8 + 1;
     if (o->ha < o->h8) {
-        func_0216D5E0(s, o->he);
+        FLDMMDL_SetDirDispCheckPause(s, o->he);
         return 1;
     }
     return 0;

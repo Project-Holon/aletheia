@@ -1,5 +1,5 @@
 /*
- * function: func_021A79E4
+ * function: FIELD_GROUND_ANIME_GetTexData
  * address:  0x021A79E4
  * packet:   pkt_ov021_021A79E4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02047250  0x02047250  arm
+ *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
  */
 
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ typedef struct Res {
     Dict dict;
 } Res;
 
-extern Res *func_02047250(void *p);
+extern Res *G3D_SYSTEM_GetResourceTex(void *p);
 
 static inline void *DictGetByIdx(const Dict *d, u32 idx)
 {
@@ -49,12 +49,12 @@ static inline void *DictGetByIdx(const Dict *d, u32 idx)
     return 0;
 }
 
-u8 *func_021A79E4(void *a, u32 idx)
+u8 *FIELD_GROUND_ANIME_GetTexData(void *a, u32 idx)
 {
     Res *r;
     u32 *e;
 
-    r = func_02047250(a);
+    r = G3D_SYSTEM_GetResourceTex(a);
     e = r ? DictGetByIdx(&r->dict, idx) : 0;
     return (u8 *)r + r->f14 + ((*e & 0xFFFF) << 3);
 }

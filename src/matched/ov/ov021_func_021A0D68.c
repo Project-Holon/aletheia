@@ -1,5 +1,5 @@
 /*
- * function: func_021A0D68
+ * function: FIELD_SUBSCREEN_Main
  * address:  0x021A0D68
  * packet:   pkt_ov021_021A0D68
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02189A2C  0x02189A2C  thumb  ov021
- *   func_0202208C  0x0202208C  thumb
- *   func_020221A4  0x020221A4  thumb
+ *   FIELDMAP_IsEventActive  0x02189A2C  thumb  ov021
+ *   WIPE_SYS_Start  0x0202208C  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   d_021D872C  0x021D872C  data  a4
  * Addresses are Black-image addresses.
  */
@@ -35,22 +35,22 @@ typedef struct {
 } Mode;
 
 extern Mode d_021D872C[];
-extern int func_02189A2C(int *a);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern u32 func_020221A4(void);
+extern int FIELDMAP_IsEventActive(int *a);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 WIPE_SYS_EndCheck(void);
 
-void func_021A0D68(u32 *a)
+void FIELD_SUBSCREEN_Main(u32 *a)
 {
     switch (a[2]) {
     case 0:
-        d_021D872C[a[0]].update(a, func_02189A2C((int *)a[5]) == 0);
+        d_021D872C[a[0]].update(a, FIELDMAP_IsEventActive((int *)a[5]) == 0);
         break;
     case 1:
-        func_0202208C((void *)4, 0, 0, 0, 1, 1, ((struct Obj02081 *)a)->fC);
+        WIPE_SYS_Start((void *)4, 0, 0, 0, 1, 1, ((struct Obj02081 *)a)->fC);
         a[2] = 2;
         break;
     case 2:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             d_021D872C[a[0]].exit(a);
             d_021D872C[a[1]].init(a, a[0]);
             a[0] = a[1];
@@ -60,14 +60,14 @@ void func_021A0D68(u32 *a)
     case 3:
         break;
     case 4:
-        func_0202208C((void *)4, 1, 1, 0, 1, 1, ((struct Obj02081 *)a)->fC);
+        WIPE_SYS_Start((void *)4, 1, 1, 0, 1, 1, ((struct Obj02081 *)a)->fC);
         a[2] = 5;
         break;
     case 5:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             a[2] = 0;
         }
-        d_021D872C[a[0]].update(a, func_02189A2C((int *)a[5]) == 0);
+        d_021D872C[a[0]].update(a, FIELDMAP_IsEventActive((int *)a[5]) == 0);
         break;
     }
 }

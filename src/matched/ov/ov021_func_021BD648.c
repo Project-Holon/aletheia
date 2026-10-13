@@ -1,5 +1,5 @@
 /*
- * function: func_021BD648
+ * function: EVENT_ENTRANCE_IN_Create
  * address:  0x021BD648
  * packet:   pkt_ov021_021BD648
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   d_021D9BB0     0x021D9BB0  data  ov021  a4
+ *   gEntranceInEventTable     0x021D9BB0  data  ov021  a4
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  */
@@ -31,16 +31,16 @@ typedef struct {
     Arg *f08;
 } Work;
 
-extern Tbl d_021D9BB0;
+extern Tbl gEntranceInEventTable;
 typedef unsigned int   u32;
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 
-void *func_021BD648(Arg *p)
+void *EVENT_ENTRANCE_IN_Create(Arg *p)
 {
-    Tbl t = d_021D9BB0;
+    Tbl t = gEntranceInEventTable;
     int i;
     void *task;
     Work *w;

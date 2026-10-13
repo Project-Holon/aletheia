@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_020437D4  0x020437D4  arm
+ *   BMP_GetPixels  0x020437D4  arm
  *   func_02040B1C  0x02040B1C  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -39,14 +39,14 @@ typedef unsigned char  u8;
 struct Bmp;
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02041B6C(u32 layer);
 
 void ov208_func_021BE9CC(struct Ov208Icon *p)
 {
     if (p->f30 != 0 && func_0201C6C4((struct PrintSys *)p->f2c, (void *)p->f18) == 0) {
-        func_02040B1C(5, func_020437D4((const struct Bmp *)p->f18), p->f20, p->f1c);
+        func_02040B1C(5, BMP_GetPixels((const struct Bmp *)p->f18), p->f20, p->f1c);
         func_02041B6C(5);
         p->f30 = 0;
     }

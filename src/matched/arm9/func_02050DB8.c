@@ -1,5 +1,5 @@
 /*
- * function: func_02050DB8
+ * function: PARTICLE_DeleteSystem
  * address:  0x02050DB8
  * packet:   pkt_02050C30
  * region:   arm9
@@ -16,7 +16,7 @@
  *   func_02061824  0x02061824  arm
  *   func_02062594  0x02062594  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02048AC4  0x02048AC4  arm
+ *   G3D_CAMERA_Delete  0x02048AC4  arm
  *   g_pParticleMan     0x02146A88  data
  *
  * Emitter teardown: release the two 0x40-entry resource tables (either as a
@@ -26,7 +26,7 @@
  * the emitter from the singleton's sixteen-slot table, release the 3D block
  * at +0x20 and free the record.
  *
- * CLOSES both residues of docs/notes/func_02050DB8.c.txt.
+ * CLOSES both residues of docs/notes/PARTICLE_DeleteSystem.c.txt.
  *
  * 1. The note's HARD BLOCKER is gone without filing anything: 0x0206168C
  *    (and 0x02061824) had no branch outside this range, but both are traced
@@ -59,8 +59,8 @@
  *     note.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050DB8.c \
- *       --func func_02050DB8 --addr 0x02050DB8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_DeleteSystem.c \
+ *       --func PARTICLE_DeleteSystem --addr 0x02050DB8 --cc 1.1p1 --arm
  *   EXACT, 284 bytes, 9 relocation sites, all resolved.
  */
 #include "../include/Obj01319.h"
@@ -76,10 +76,10 @@ extern u32 func_020621FC(u32 h);
 extern void func_02061824(void *p);
 extern int func_02062594(u32 id);
 extern u32 func_020307B0(void *p);
-extern u32 func_02048AC4(void *ptr);
+extern u32 G3D_CAMERA_Delete(void *ptr);
 extern struct G_02146A88 *g_pParticleMan;
 
-void func_02050DB8(u8 *p)
+void PARTICLE_DeleteSystem(u8 *p)
 {
     int i;
     u32 z = 0;
@@ -135,7 +135,7 @@ void func_02050DB8(u8 *p)
     }
 
     if (((struct Obj01319 *)p)->f20 != 0)
-        func_02048AC4((void *)(((struct Obj01319 *)p)->f20));
+        G3D_CAMERA_Delete((void *)(((struct Obj01319 *)p)->f20));
 
     func_020307B0(p);
 }

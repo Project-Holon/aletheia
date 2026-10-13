@@ -33,7 +33,7 @@
  * what makes the compiler predicate all three stores off the single `cmp r4,
  * #0` instead of branching.
  *
- * func_0204BA00 and CLACT_ResetActorAnimCommand are tail-call thunks that only re-base the
+ * CLACT_ApplyActorAnimCommand and CLACT_ResetActorAnimCommand are tail-call thunks that only re-base the
  * actor pointer onto its +0x68 sub-object.  Each is a pool word and a `bx`,
  * never a displacement branch, because every function gets its own section
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
@@ -88,7 +88,7 @@ void CLACT_SetActorAnimLoopCount(struct Actor *a, u32 v)
     }
 }
 
-void func_0204BA00(struct Actor *a, const struct Cmd *cmd)
+void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd)
 {
     CLACT_ApplyAnimCommand(&a->ctl, cmd);
 }

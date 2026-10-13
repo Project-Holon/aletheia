@@ -1,5 +1,5 @@
 /*
- * function: func_021A6F18
+ * function: FIELDMAP_CTRL_HYBRID_Destroy
  * address:  0x021A6F18
  * packet:   pkt_021A6F18
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188CA4  0x02188CA4  thumb  ov021
+ *   FIELDMAP_GetCtrlWork  0x02188CA4  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern u32 func_02188CA4(u8 *p);
+extern u32 FIELDMAP_GetCtrlWork(u8 *p);
 
-int func_021A6F18(u32 a, u32 b, u32 c, u32 d)
+int FIELDMAP_CTRL_HYBRID_Destroy(u32 a, u32 b, u32 c, u32 d)
 {
-return func_020307B0((void *)func_02188CA4((u8 *)a));
+return func_020307B0((void *)FIELDMAP_GetCtrlWork((u8 *)a));
 }
 

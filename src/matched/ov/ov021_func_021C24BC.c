@@ -1,5 +1,5 @@
 /*
- * function: func_021C24BC
+ * function: FLD3D_CI_FollowTargetCallback
  * address:  0x021C24BC
  * packet:   pkt_ov021_021C24BC
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * Unlabelled thumb leaf (push {r4} only), reached through the pool word
- * 0x021C24BD in func_021C24A8. Char-pointer offsets give the same bytes
+ * 0x021C24BD in FLD3D_CI_StartTrack. Char-pointer offsets give the same bytes
  * scheduled differently (34 differ); the struct-typed accesses keep the
  * zero-initialiser stores ahead of the loads, as in the original.
  * Addresses are Black-image addresses.
@@ -33,7 +33,7 @@ typedef struct {
     Vec f28;
 } Obj;
 
-void func_021C24BC(Obj *p)
+void FLD3D_CI_FollowTargetCallback(Obj *p)
 {
     Vec o = { 0, 0, 0 };
 

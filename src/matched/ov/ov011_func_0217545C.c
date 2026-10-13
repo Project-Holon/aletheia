@@ -1,5 +1,5 @@
 /*
- * function: func_0217545C
+ * function: INTRUDE_COMM_ClearRequestOpen
  * address: 0x0217545C
  * packet: pkt_ov011_0217545C
  * region: ov011
@@ -12,4 +12,4 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 low : 4; u8 flag : 1; u8 high : 3; } Flags;
-void func_0217545C(u8 *p) { ((Flags *)(p + 0x8F8))->flag = 0; }
+void INTRUDE_COMM_ClearRequestOpen(u8 *p) { ((Flags *)(p + 0x8F8))->flag = 0; }

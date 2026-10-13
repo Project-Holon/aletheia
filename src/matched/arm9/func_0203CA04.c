@@ -13,7 +13,7 @@
  *   _pNetState      0x021469DC  data
  *   g_020A7BA8      0x020A7BA8  data
  *   g_020A7BEC      0x020A7BEC  data
- *   func_0203D798   0x0203D798  arm
+ *   GFL_NET_GetInitParam   0x0203D798  arm
  *   func_02034714   0x02034714  arm
  *
  * Addresses are Black-image addresses.
@@ -32,7 +32,7 @@ extern struct Sys *_pNetState;
 extern u8  g_020A7BA8[];
 extern u8  g_020A7BEC[];
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void GFL_NET_STATE_SetWifiError(void)
@@ -43,7 +43,7 @@ void GFL_NET_STATE_SetWifiError(void)
     if (((u8 *)_pNetState) == 0)
         return;
 
-    q = func_0203D798();
+    q = GFL_NET_GetInitParam();
 
     t = 0;
     if ((u8)(q[0x65] + 0xFF) <= 5) {

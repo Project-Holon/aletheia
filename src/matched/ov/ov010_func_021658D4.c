@@ -1,5 +1,5 @@
 /*
- * function: func_021658D4
+ * function: GAME_BEACON_ACCESSOR_TablePop
  * address:  0x021658D4
  * packet:   pkt_ov010_021658D4
  * region:   ov010
@@ -38,7 +38,7 @@ struct Queue {
 
 extern void MI_CpuFill8(void *dst, u32 v, u32 size);
 
-int func_021658D4(struct Queue *q, struct Rec *out, u16 *tag)
+int GAME_BEACON_ACCESSOR_TablePop(struct Queue *q, struct Rec *out, u16 *tag)
 {
     int i;
 

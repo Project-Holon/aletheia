@@ -9,23 +9,23 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02049238 0x02049238 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  */
 #include "../include/Obj10616.h"
 #include "../include/Obj14207.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void func_02049238(void *);
-extern void func_0204A8D4(u32);
-extern void func_0204ADA4(u32);
-extern void func_0204AFD8(u32);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleasePalette(u32);
+extern void CLACT_ReleaseCellAnim(u32);
 struct Bank;
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
-void func_021DD570(u8 *p) {int i;u8 *q;func_02049238(((struct Obj10616 *)p)->f34);for(i=0;i<5;i++) {q=(u8 *)((u32)p+i*4);func_0204A8D4(((struct Obj14207 *)q)->f6C);func_0204ADA4(((struct Obj14207 *)q)->f80);}func_0204AFD8(((struct Obj10616 *)p)->f94);func_0204B1CC(((struct Obj10616 *)p)->f68);func_0204A5AC();}
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
+void func_021DD570(u8 *p) {int i;u8 *q;ARC_TOOL_DeleteHandle(((struct Obj10616 *)p)->f34);for(i=0;i<5;i++) {q=(u8 *)((u32)p+i*4);CLACT_ReleaseCharacter(((struct Obj14207 *)q)->f6C);CLACT_ReleasePalette(((struct Obj14207 *)q)->f80);}CLACT_ReleaseCellAnim(((struct Obj10616 *)p)->f94);CLACT_DeleteUnit(((struct Obj10616 *)p)->f68);CLACT_ExitSystem();}

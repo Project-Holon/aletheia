@@ -1,5 +1,5 @@
 /*
- * function: func_0217CEE8
+ * function: INTRUDE_SUBDISP_CreateBrightFadeEvent
  * address: 0x0217CEE8
  * packet: pkt_ov018_0217CEE8
  * region: ov018
@@ -11,20 +11,20 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   func_0217CF0C 0x0217CF0C thumb ov018
+ *   INTRUDE_SUBDISP_BrightFadeEventMain 0x0217CF0C thumb ov018
  */
 typedef struct { int f0, f4, f8; } Obj;
-extern int func_0217CF0C(int, int *, Obj *);
+extern int INTRUDE_SUBDISP_BrightFadeEventMain(int, int *, Obj *);
 typedef unsigned int   u32;
 struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-void *func_0217CEE8(void *p, int a, int b)
+void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b)
 {
     void *task;
     int *work;
-    task = func_020122C0(p, 0, func_0217CF0C, 12);
+    task = func_020122C0(p, 0, INTRUDE_SUBDISP_BrightFadeEventMain, 12);
     work = func_020124E8(task);
     work[0] = a;
     work[1] = b;

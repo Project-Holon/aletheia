@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Arms the deferred screen task for one of the two sub-objects func_0202208C
+ * Arms the deferred screen task for one of the two sub-objects WIPE_SYS_Start
  * built, but only for a screen that is still idle: the task handle at +0x28
  * must be null, the resolved sentinel value at +0x24 must be either the
  * pass-through 0x7FFF or zero, and the second handle at +0x2C must be null

@@ -1,5 +1,5 @@
 /*
- * function: func_02158F74
+ * function: SCRIPT_WORK_GetWordSet
  * address:  0x02158F74
  * packet:   pkt_02158F50
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02158F74.c \
- *       --func func_02158F74 --addr 0x02158F74 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRIPT_WORK_GetWordSet.c \
+ *       --func SCRIPT_WORK_GetWordSet --addr 0x02158F74 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj00020.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void *func_02158F74(void *p) { return ((struct Obj00020 *)p)->f2C; }
+void *SCRIPT_WORK_GetWordSet(void *p) { return ((struct Obj00020 *)p)->f2C; }

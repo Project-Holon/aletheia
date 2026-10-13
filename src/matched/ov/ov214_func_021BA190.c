@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_0203630C 0x0203630C arm
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0201CE5C 0x0201CE5C thumb
@@ -28,23 +28,23 @@ struct Rec;
 extern void func_0201CE5C(struct Rec *p, s32 v);
 extern void func_0201CE38(void*);
 extern unsigned int func_0203630C(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_020061E4(unsigned);
 int func_021BA190(int unused,char*p)
 {
     int result=0;
     switch(func_0201CE30(*(void* *)&((struct Obj04632 *)p)->f5C)){
     case 0:
-        if((func_0203630C()&3)||func_02035C38()){
+        if((func_0203630C()&3)||TOUCHPANEL_GetCont()){
             func_0201CE5C(*(void* *)&((struct Obj04632 *)p)->f5C,0);
             if(func_0203630C()&3)func_020355D8(0);else func_020355D8(1);
         }
         break;
     case 1:
-        if((func_020362DC()&3)||func_02035C60()){
+        if((func_020362DC()&3)||TOUCHPANEL_GetTrg()){
             func_020061E4(0x547);
             func_0201CE38(*(void* *)&((struct Obj04632 *)p)->f5C);
             if(func_020362DC()&3)func_020355D8(0);else func_020355D8(1);
@@ -53,7 +53,7 @@ int func_021BA190(int unused,char*p)
     case 2:
         if(((struct Obj04632 *)p)->f64)--((struct Obj04632 *)p)->f64;
         else if(((struct Obj04632 *)p)->f60){
-            if((func_020362DC()&3)||func_02035C60()){
+            if((func_020362DC()&3)||TOUCHPANEL_GetTrg()){
                 if(func_020362DC()&3)func_020355D8(0);else func_020355D8(1);
                 ((struct Obj04632 *)p)->f60=0;
                 result=1;

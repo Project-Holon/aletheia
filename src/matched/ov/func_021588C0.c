@@ -1,5 +1,5 @@
 /*
- * function: func_021588C0
+ * function: SCRIPT_SYS_HasEndCallback
  * address:  0x021588C0
  * packet:   pkt_021588C0
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_021588C0(int a0)
+int SCRIPT_SYS_HasEndCallback(int a0)
 {
 
 a0 = ((struct Obj17625 *)a0)->f10;

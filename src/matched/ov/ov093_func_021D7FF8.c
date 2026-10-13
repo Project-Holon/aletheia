@@ -1,5 +1,5 @@
 /*
- * function: func_021D7FF8
+ * function: BTL_CALC_CalcDefeatMoneyLoss
  * address:  0x021D7FF8
  * packet:   pkt_ov093_021D7FF8
  * region:   ov093
@@ -13,7 +13,7 @@
  *   func_021B9B94  0x021B9B94  thumb  ov093
  *   func_021B9C00  0x021B9C00  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   d_021F042D     0x021F042D  data  ov093  a1
+ *   gBtlCalcDefeatMoneyScales     0x021F042D  data  ov093  a1
  */
 
 typedef unsigned char u8;
@@ -28,9 +28,9 @@ struct S2;
 u8 func_021B9B94(struct Q1 *p);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D59B4(u8 *p, int k);
-extern u8 d_021F042D[];
+extern u8 gBtlCalcDefeatMoneyScales[];
 
-u32 func_021D7FF8(u32 a, void *b)
+u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b)
 {
     u32 n = func_021B9B94(b);
     u32 m = 1;
@@ -44,5 +44,5 @@ u32 func_021D7FF8(u32 a, void *b)
     }
     if (a >= 9)
         a = 8;
-    return d_021F042D[a] * (m << 2);
+    return gBtlCalcDefeatMoneyScales[a] * (m << 2);
 }

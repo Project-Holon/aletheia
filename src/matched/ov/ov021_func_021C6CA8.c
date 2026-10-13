@@ -1,5 +1,5 @@
 /*
- * function: func_021C6CA8
+ * function: FIELD_TASK_Delete
  * address:  0x021C6CA8
  * packet:   pkt_ov021_021C6CA8
  * region:   ov021
@@ -32,7 +32,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef struct { u32 f0; u32 *f4; u32 f8; } Q;
-void func_021C6CA8(Q *q)
+void FIELD_TASK_Delete(Q *q)
 {
     func_020307B0(q->f4);
     func_020307B0(q);

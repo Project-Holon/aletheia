@@ -1,5 +1,5 @@
 /*
- * function: func_0218B13C
+ * function: FIELD_EVENT_CHECK_CheckRailConnectFront
  * address:  0x0218B13C
  * packet:   pkt_ov021_0218B13C
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0219E2F4  0x0219E2F4  thumb  ov021
- *   func_02162598  0x02162598  thumb  ov010
- *   func_021625CC  0x021625CC  thumb  ov010
- *   func_021626EC  0x021626EC  thumb  ov010
- *   func_021626E8  0x021626E8  thumb  ov010
- *   func_0218AECC  0x0218AECC  thumb  ov021
- *   func_0218B2A8  0x0218B2A8  thumb  ov021
- *   func_0218B2E8  0x0218B2E8  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb  ov021
+ *   EVENTDATA_SYSTEM_SearchConnectIdByRailLocation  0x02162598  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetConnectData  0x021625CC  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsConnectDisabled  0x021626EC  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetConnectExitType  0x021626E8  thumb  ov010
+ *   FIELD_EVENT_CHECK_IsConnectExitDir  0x0218AECC  thumb  ov021
+ *   FIELD_EVENT_CHECK_SetEntranceFromRailConnect  0x0218B2A8  thumb  ov021
+ *   FIELD_EVENT_CHECK_StartRailConnectEvent  0x0218B2E8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04983.h"
@@ -28,41 +28,41 @@ typedef unsigned short u16;
 
 typedef unsigned char  u8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern void func_0219E2F4(void *o, void *out);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void FLDMMDL_RAIL_GetNextLocation(void *o, void *out);
 struct Q;
-extern int func_02162598(char *p, struct Q *q);
-extern void *func_021625CC(char *p, unsigned i);
-extern int func_021626EC(u16 *p);
-extern u8 func_021626E8(u8 *p);
-extern int func_0218AECC(char *a0, int a1);
-extern void func_0218B2A8(char *p, int s, u16 *v);
-extern int func_0218B2E8(char *p, void *x, int a, int *b);
+extern int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(char *p, struct Q *q);
+extern void *EVENTDATA_SYSTEM_GetConnectData(char *p, unsigned i);
+extern int EVENTDATA_SYSTEM_IsConnectDisabled(u16 *p);
+extern u8 EVENTDATA_SYSTEM_GetConnectExitType(u8 *p);
+extern int FIELD_EVENT_CHECK_IsConnectExitDir(char *a0, int a1);
+extern void FIELD_EVENT_CHECK_SetEntranceFromRailConnect(char *p, int s, u16 *v);
+extern int FIELD_EVENT_CHECK_StartRailConnectEvent(char *p, void *x, int a, int *b);
 
-int func_0218B13C(char *p, void *unused, void *x, int *alt)
+int FIELD_EVENT_CHECK_CheckRailConnectFront(char *p, void *unused, void *x, int *alt)
 {
     int buf[2];
     int id;
     void *o;
 
-    func_0219E2F4(func_021A3074(func_02188CB4(x)), buf);
-    id = func_02162598(((struct Obj04983 *)p)->fC, (struct Q *)buf);
+    FLDMMDL_RAIL_GetNextLocation(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(x)), buf);
+    id = EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(((struct Obj04983 *)p)->fC, (struct Q *)buf);
     if (id != 0xFFFF) {
-        o = func_021625CC(((struct Obj04983 *)p)->fC, (u16)id);
-        if (func_021626EC(o) == 0 && func_0218AECC(o, ((struct Obj04983 *)p)->f24) != 0
-            && func_021626E8(o) == 1) {
-            func_0218B2A8(p, id, (u16 *)buf);
-            return func_0218B2E8(p, x, id, buf);
+        o = EVENTDATA_SYSTEM_GetConnectData(((struct Obj04983 *)p)->fC, (u16)id);
+        if (EVENTDATA_SYSTEM_IsConnectDisabled(o) == 0 && FIELD_EVENT_CHECK_IsConnectExitDir(o, ((struct Obj04983 *)p)->f24) != 0
+            && EVENTDATA_SYSTEM_GetConnectExitType(o) == 1) {
+            FIELD_EVENT_CHECK_SetEntranceFromRailConnect(p, id, (u16 *)buf);
+            return FIELD_EVENT_CHECK_StartRailConnectEvent(p, x, id, buf);
         }
     }
-    id = func_02162598(((struct Obj04983 *)p)->fC, (struct Q *)alt);
+    id = EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(((struct Obj04983 *)p)->fC, (struct Q *)alt);
     if (id == 0xFFFF)
         return 0;
-    o = func_021625CC(((struct Obj04983 *)p)->fC, (u16)id);
-    if (func_021626EC(o) == 0 && func_0218AECC(o, ((struct Obj04983 *)p)->f24) != 0) {
-        func_0218B2A8(p, id, (u16 *)buf);
-        return func_0218B2E8(p, x, id, buf);
+    o = EVENTDATA_SYSTEM_GetConnectData(((struct Obj04983 *)p)->fC, (u16)id);
+    if (EVENTDATA_SYSTEM_IsConnectDisabled(o) == 0 && FIELD_EVENT_CHECK_IsConnectExitDir(o, ((struct Obj04983 *)p)->f24) != 0) {
+        FIELD_EVENT_CHECK_SetEntranceFromRailConnect(p, id, (u16 *)buf);
+        return FIELD_EVENT_CHECK_StartRailConnectEvent(p, x, id, buf);
     }
     return 0;
 }

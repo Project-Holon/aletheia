@@ -1,5 +1,5 @@
 /*
- * function: func_0217357C
+ * function: UNION_COMM_AddMember
  * address:  0x0217357C
  * packet:   pkt_ov012_0217357C
  * region:   ov012
@@ -26,7 +26,7 @@ typedef struct {
 extern int memcmp(const void *a, const void *b, int n);
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
 
-int func_0217357C(u8 *self, const u8 *mac, u8 a2, u8 a3)
+int UNION_COMM_AddMember(u8 *self, const u8 *mac, u8 a2, u8 a3)
 {
     int j;
     Rec *r;

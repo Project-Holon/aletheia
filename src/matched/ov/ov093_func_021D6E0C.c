@@ -1,5 +1,5 @@
 /*
- * function: func_021D6E0C
+ * function: BTL_EVENT_GetClientPartySlotId
  * address: 0x021D6E0C
  * packet: pkt_ov093_021D6E0C
  * region: ov093
@@ -12,7 +12,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u8 func_021D6E0C(u8 *p, u32 i)
+u8 BTL_EVENT_GetClientPartySlotId(u8 *p, u32 i)
 {
     if (i < p[0xd0]) return *(p + i + 0xd1);
     return 0x1f;

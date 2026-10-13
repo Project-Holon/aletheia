@@ -1,5 +1,5 @@
 /*
- * function: func_021F5AEC
+ * function: ENCEFF_InitGridSpread
  * address:  0x021F5AEC
  * packet:   pkt_ov081_021F5AEC
  * region:   ov081
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021F5AEC(u8 *w)
+void ENCEFF_InitGridSpread(u8 *w)
 {
     u8 *t = w + 0x300C;
 

@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0203064C 0x0203064C arm
- *   func_0204A380 0x0204A380 arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   ARC_UTIL_LoadHandleMember 0x0204A380 arm
  *   func_021BE010 0x021BE010 thumb ov172
  *   func_021BE100 0x021BE100 thumb ov172
  *   func_021B6100 0x021B6100 thumb ov172
@@ -31,8 +31,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0203064C(unsigned int, unsigned int, unsigned int);
-extern void *func_0204A380(void *, u32, u32, u32);
+extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
+extern void *ARC_UTIL_LoadHandleMember(void *, u32, u32, u32);
 extern u32 func_021BE010(void *);
 extern int func_021BE100(void);
 extern char *func_021B6100(int);
@@ -59,7 +59,7 @@ char *func_021B6EE0(void *a, u16 b)
     r6 = func_021BE010(a);
     if (func_021BE100() == 1) {
         ((struct Obj00439 *)p)->f0 = 0x6E;
-        func_0203064C(1, 0x6E, 0x80000);
+        GFL_HEAP_CreateChildHeap(1, 0x6E, 0x80000);
         *(char * *)&((struct Obj00439 *)p)->fA4 = func_021B6100(((struct Obj00439 *)p)->f0);
         func_021B6950(*(char * *)&((struct Obj00439 *)p)->fA4, 5);
         func_021B69BC(*(char * *)&((struct Obj00439 *)p)->fA4, 1);
@@ -69,11 +69,11 @@ char *func_021B6EE0(void *a, u16 b)
         ((struct Obj00439 *)p)->fA8 = func_02030734((u16)((((struct Obj00439 *)p)->f0 & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x76);
         ((struct Obj00439 *)p)->fAC = func_02030734((u16)((((struct Obj00439 *)p)->f0 & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x77);
         ((struct Obj00439 *)p)->fB0 = func_02030734((u16)((((struct Obj00439 *)p)->f0 & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x78);
-        ((struct Obj00439 *)p)->f8 = func_0204A380((void *)r6, 0x19, 0, ((struct Obj00439 *)p)->f0);
-        r0 = func_0204A380((void *)r6, 0x1A, 0, ((struct Obj00439 *)p)->f0);
+        ((struct Obj00439 *)p)->f8 = ARC_UTIL_LoadHandleMember((void *)r6, 0x19, 0, ((struct Obj00439 *)p)->f0);
+        r0 = ARC_UTIL_LoadHandleMember((void *)r6, 0x1A, 0, ((struct Obj00439 *)p)->f0);
     } else {
-        ((struct Obj00439 *)p)->f8 = func_0204A380((void *)r6, 0x19, 0, b);
-        r0 = func_0204A380((void *)r6, 0x1A, 0, b);
+        ((struct Obj00439 *)p)->f8 = ARC_UTIL_LoadHandleMember((void *)r6, 0x19, 0, b);
+        r0 = ARC_UTIL_LoadHandleMember((void *)r6, 0x1A, 0, b);
     }
     ((struct Obj00439 *)p)->fC = r0;
     i = 0;

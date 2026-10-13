@@ -10,30 +10,30 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021E8624  0x021E8624  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
- *   func_021E8744  0x021E8744  thumb  ov093
+ *   BTLV_CORE_EventRedirectMove  0x021E8744  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern int func_021E8624(int a, int b);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int func_021B9A24(unsigned int a, unsigned int b);
-extern void func_021E8744(int a, void *b, int c, int d);
+extern void BTLV_CORE_EventRedirectMove(int a, void *b, int c, int d);
 
 void func_021E34B4(int u, void *p, int key, int o)
 {
-    u8 v = func_021D775C(2);
+    u8 v = BTL_EVENT_GetVar(2);
     if (v == key) {
         if (func_021E8624((int)p, key) != 0) {
-            func_021D76BC(0x22, 0x1a);
+            BTL_EVENT_OverwriteVar(0x22, 0x1a);
             return;
         }
     } else if (func_021B9A24(key, v) == 0) {
-        func_021E8744(u, p, key, o);
+        BTLV_CORE_EventRedirectMove(u, p, key, o);
     }
 }

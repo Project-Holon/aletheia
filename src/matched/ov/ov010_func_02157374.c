@@ -1,5 +1,5 @@
 /*
- * function: func_02157374
+ * function: MUSICAL_PROGRAM_GetNpcPortraitClass
  * address:  0x02157374
  * packet:   pkt_ov010_02157374
  * region:   ov010
@@ -28,7 +28,7 @@ typedef struct Deal {
     Slot *slots;        /* 0x0C */
 } Deal;
 
-u8 func_02157374(Deal *d, u8 i)
+u8 MUSICAL_PROGRAM_GetNpcPortraitClass(Deal *d, u8 i)
 {
     return d->slots[d->map[i]].f0e;
 }

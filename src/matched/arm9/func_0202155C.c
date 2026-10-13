@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202155C
+ * function: PALANM_AllocSlotBuffers
  * address:  0x0202155C
  * packet:   pkt_02021444
  * region:   arm9
@@ -24,8 +24,8 @@
  * field of the slot.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202155C.c \
- *       --func func_0202155C --addr 0x0202155C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_AllocSlotBuffers.c \
+ *       --func PALANM_AllocSlotBuffers --addr 0x0202155C --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -45,7 +45,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void PALANM_SetSlotBuffers(struct PalAnmSlot *slots, u32 idx, void *a, void *b,
                           u32 size);
 
-void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap)
+void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap)
 {
     void *a = func_02030734(heap, size, 0, sPalAnmFileName, 142);
     void *b = func_02030734(heap, size, 0, sPalAnmFileName, 143);

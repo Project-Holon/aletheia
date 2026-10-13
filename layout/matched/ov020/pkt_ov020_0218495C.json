@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218495C",
+   "name": "EVENT_MAPCHANGE_ResetPlayerFormEvent",
    "address": "0x0218495C",
    "kind": "game",
    "region": "ov020",

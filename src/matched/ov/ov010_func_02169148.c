@@ -1,5 +1,5 @@
 /*
- * function: func_02169148
+ * function: FIELD_G3D_MAP_Create
  * address:  0x02169148
  * packet:   pkt_ov010_02169148
  * region:   ov010
@@ -16,8 +16,8 @@
  *
  * symbols:
  *   sub_02030734   0x02030734  arm
- *   func_02046C94  0x02046C94  arm
- *   func_0216990C  0x0216990C  thumb  ov010
+ *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
+ *   FIELD_G3D_MAP_Reset  0x0216990C  thumb  ov010
  *   d_02172A40     0x02172A40  data
  *   g_020A8140     0x020A8140  data
  *   g_020A8148     0x020A8148  data
@@ -73,19 +73,19 @@ typedef struct Mgr {
 } Mgr;
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_02046C94(void);
-extern void func_0216990C(u8 *p);
+extern int G3D_SYSTEM_GetResourceSize(void);
+extern void FIELD_G3D_MAP_Reset(u8 *p);
 extern const char d_02172A40[];
 extern u32 (*g_020A8140)(u32 size, u32 is4x4, u32 opt);
 extern u32 (*g_020A8148)(u32 size, u32 is4pltt, u32 opt);
 
-Mgr *func_02169148(const Cfg *cfg, u32 heap)
+Mgr *FIELD_G3D_MAP_Create(const Cfg *cfg, u32 heap)
 {
     Mgr *m;
     u32 sz;
 
     m = sub_02030734(heap, sizeof(Mgr), 1, d_02172A40, 0x6E);
-    sz = func_02046C94();
+    sz = G3D_SYSTEM_GetResourceSize();
     m->nA = cfg->nA;
     m->nB = cfg->nB;
     m->fA8 = cfg->f18;
@@ -94,7 +94,7 @@ Mgr *func_02169148(const Cfg *cfg, u32 heap)
         m->listA = sub_02030734(heap, cfg->nA * 20, 1, d_02172A40, 0x77);
     if (m->nB != 0)
         m->listB = sub_02030734(heap, cfg->nB * 20, 1, d_02172A40, 0x7A);
-    func_0216990C((u8 *)m);
+    FIELD_G3D_MAP_Reset((u8 *)m);
     m->f28 = cfg->f08;
     m->size = cfg->size;
     m->buf = sub_02030734(heap, cfg->size, 1, d_02172A40, 0x86);

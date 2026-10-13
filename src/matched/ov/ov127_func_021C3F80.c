@@ -12,7 +12,7 @@
  *   func_021C41BC 0x021C41BC thumb ov127
  *   func_021C4330 0x021C4330 thumb ov127
  *   func_021C4010 0x021C4010 thumb ov127
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj05371.h"
@@ -22,7 +22,7 @@ extern int func_021C4790(char *p);
 extern void func_021C41BC(u8 *p);
 extern void func_021C4330(char *p, int a1);
 extern void func_021C4010(u8 *p);
-extern void func_02049238(u32);
+extern void ARC_TOOL_DeleteHandle(u32);
 extern u32 func_020307B0(void *p);
 void func_021C3F80(u8 *p)
 {
@@ -33,8 +33,8 @@ void func_021C3F80(u8 *p)
     }
     func_021C4330((char *)p, 0);
     func_021C4010(p);
-    func_02049238(((struct Obj05371 *)p)->f2F8);
-    func_02049238(((struct Obj05371 *)p)->f2FC);
+    ARC_TOOL_DeleteHandle(((struct Obj05371 *)p)->f2F8);
+    ARC_TOOL_DeleteHandle(((struct Obj05371 *)p)->f2FC);
     func_020307B0(((struct Obj05371 *)p)->f8);
     func_020307B0(p);
 }

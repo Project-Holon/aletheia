@@ -1,5 +1,5 @@
 /*
- * function: func_021F3704
+ * function: GIMMICK54_Exit
  * address: 0x021F3704
  * packet: pkt_ov054_021F3704
  * region: ov054
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021897BC 0x021897BC thumb ov021
- *   func_021897A0 0x021897A0 thumb ov021
+ *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
+ *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   ISS_3DS_SYS_SetVolume 0x0202B914 thumb
- *   func_021F38B0 0x021F38B0 thumb ov054
- *   func_021C4DA8 0x021C4DA8 thumb ov021
+ *   GIMMICK54_SaveAnimeFrames 0x021F38B0 thumb ov054
+ *   SOUND_OBJ_Delete 0x021C4DA8 thumb ov021
  */
 #include "../include/Obj20572.h"
 
-extern int *func_021897BC(char *,int);
-extern void func_021897A0(unsigned char *,int);
+extern int *FIELDMAP_GetCommonWork(char *,int);
+extern void FIELDMAP_FreeCommonWork(unsigned char *,int);
 typedef unsigned int   u32;
 struct Obj;
 extern void ISS_3DS_SYS_SetVolume(struct Obj *o, u32 v);
-extern void func_021F38B0(char *,int);
-extern int func_021C4DA8(void *a);
-void func_021F3704(char *a) { int i=0; char *p=(char *)func_021897BC(a,0); ISS_3DS_SYS_SetVolume((struct Obj *)(((struct Obj20572 *)p)->f4),0); func_021F38B0(p,(int)a); for(;i<2;i++) func_021C4DA8((void *)(*(void **)(p+8+4*i))); func_021897A0((unsigned char *)a,0); }
+extern void GIMMICK54_SaveAnimeFrames(char *,int);
+extern int SOUND_OBJ_Delete(void *a);
+void GIMMICK54_Exit(char *a) { int i=0; char *p=(char *)FIELDMAP_GetCommonWork(a,0); ISS_3DS_SYS_SetVolume((struct Obj *)(((struct Obj20572 *)p)->f4),0); GIMMICK54_SaveAnimeFrames(p,(int)a); for(;i<2;i++) SOUND_OBJ_Delete((void *)(*(void **)(p+8+4*i))); FIELDMAP_FreeCommonWork((unsigned char *)a,0); }

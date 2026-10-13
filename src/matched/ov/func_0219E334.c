@@ -1,5 +1,5 @@
 /*
- * function: func_0219E334
+ * function: FLDMMDL_RAIL_GetNowLocation
  * address:  0x0219E334
  * packet:   pkt_0219E334
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
  *   func_021B7DC0  0x021B7DC0  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D69C(void *p);
+extern void *FLDMMDL_GetMoveProcWork(void *p);
 extern u32 func_021B7DC0(u32, u32);
 
-int func_0219E334(u32 a, u32 b)
+int FLDMMDL_RAIL_GetNowLocation(u32 a, u32 b)
 {
-return func_021B7DC0(((struct Obj17973 *)((u8 *)(func_0216D69C((void *)a))))->f0, b);
+return func_021B7DC0(((struct Obj17973 *)((u8 *)(FLDMMDL_GetMoveProcWork((void *)a))))->f0, b);
 }
 

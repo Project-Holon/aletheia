@@ -1,5 +1,5 @@
 /*
- * function: func_02157938
+ * function: DELIVERY_BEACON_Delete
  * address:  0x02157938
  * packet:   pkt_02157938
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02157938  0x02157938  thumb
+ *   DELIVERY_BEACON_Delete  0x02157938  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_0203CEAC  0x0203CEAC  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
  */
 
 typedef unsigned char u8;
@@ -20,14 +20,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
-extern int func_0203CEAC(int a0);
+extern int GFL_NET_Exit(int a0);
 
-int func_02157938(void *a0)
+int DELIVERY_BEACON_Delete(void *a0)
 {
 
     a0 = (void *)func_020307B0(a0);
 loc_0215793E:
 a0 = 0;
-    a0 = (void *)func_0203CEAC((int)a0);
+    a0 = (void *)GFL_NET_Exit((int)a0);
 loc_02157944:
     return (int)a0;}

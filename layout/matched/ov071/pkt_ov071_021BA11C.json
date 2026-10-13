@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA11C",
+   "name": "MONOLITH_TOOL_UpdateBgScroll",
    "address": "0x021BA11C",
    "kind": "game",
    "region": "ov071",

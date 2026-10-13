@@ -1,5 +1,5 @@
 /*
- * function: func_021F4740
+ * function: GIMMICK39_ApplySwitch
  * address:  0x021F4740
  * packet:   pkt_ov039_021F4740
  * region:   ov039
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F4740  0x021F4740  thumb
- *   func_021F4894  0x021F4894  thumb
- *   func_021F47D8  0x021F47D8  thumb
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
+ *   GIMMICK39_ApplySwitch  0x021F4740  thumb
+ *   GIMMICK39_IsCartBeforeSwitchLimit  0x021F4894  thumb
+ *   GIMMICK39_SwapCartAnimes  0x021F47D8  thumb
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  */
 
 typedef unsigned int u32;
@@ -26,17 +26,17 @@ typedef signed char s8;
 
 struct Big;
 struct Ctx;
-extern int *func_021897BC(char *p, int idx);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern int func_021F4894(void *p, int i, u8 j);
-extern void func_021F47D8(void *a, int f, int i);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern int GIMMICK39_IsCartBeforeSwitchLimit(void *p, int i, u8 j);
+extern void GIMMICK39_SwapCartAnimes(void *a, int f, int i);
 
-void func_021F4740(u32 a, void *b)
+void GIMMICK39_ApplySwitch(u32 a, void *b)
 {
     s8 *p;
     u8 *q;
@@ -44,8 +44,8 @@ void func_021F4740(u32 a, void *b)
     u8 v;
     s8 i;
 
-    p = (s8 *)func_021897BC((char *)a, 1);
-    q = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 2);
+    p = (s8 *)FIELDMAP_GetCommonWork((char *)a, 1);
+    q = (u8 *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))), 2);
     i = p[5];
     if (i == -1) {
         return;
@@ -53,8 +53,8 @@ void func_021F4740(u32 a, void *b)
     arr = q + 0x10;
     v = arr[i];
     arr[i] = (v + 1) % 2;
-    if (func_021F4894(b, (u8)i, *((u8 *)p + p[5] + 0x21EC)) != 0) {
-        func_021F47D8(b, v, (u8)p[5]);
+    if (GIMMICK39_IsCartBeforeSwitchLimit(b, (u8)i, *((u8 *)p + p[5] + 0x21EC)) != 0) {
+        GIMMICK39_SwapCartAnimes(b, v, (u8)p[5]);
         i = p[5];
         *((u8 *)p + i + 0x21EC) = i * 2 + *(u8 *)(q + i + 0x10);
     } else {

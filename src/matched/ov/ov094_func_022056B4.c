@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02041300  0x02041300  arm
  *   PALANM_RequestFadeOverwrite  0x02021848  thumb
  *   func_02205F64  0x02205F64  thumb  ov094
@@ -38,9 +38,9 @@ typedef struct Main {
 } Main;
 
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
 extern void PALANM_RequestFadeOverwrite(int a, int b, u16 c, int d, int e, int f, int g, void *h);
 extern void func_02205F64(Main *m);
@@ -59,10 +59,10 @@ void func_022056B4(Main *m)
     for (j = 0; j < 4; j++) {
         m->b262[j] = 0;
     }
-    func_02043B5C((struct CharBuf *)m->o22c, 0);
-    func_02045334((struct Descriptor *)m->o228);
-    func_02043B5C((struct CharBuf *)m->o234, 0);
-    func_02045334((struct Descriptor *)m->o230);
+    BMP_Clear((struct CharBuf *)m->o22c, 0);
+    BMP_WIN_TransferChars((struct Descriptor *)m->o228);
+    BMP_Clear((struct CharBuf *)m->o234, 0);
+    BMP_WIN_TransferChars((struct Descriptor *)m->o230);
     func_02205F64(m);
     func_02206128((char *)m);
     func_02205D34(m);

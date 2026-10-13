@@ -1,5 +1,5 @@
 /*
- * function: func_021A5EA4
+ * function: FIELD_PLAYER_NOGRID_StartWalkStand
  * address:  0x021A5EA4
  * packet:   pkt_ov021_021A5EA4
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D5F8  0x0216D5F8  thumb
- *   func_02197E7C  0x02197E7C  thumb
- *   func_0216D410  0x0216D410  thumb
- *   func_021A3964  0x021A3964  thumb
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb
+ *   FIELD_PLAYER_CORE_SetStepKind  0x021A3964  thumb
  */
 
 typedef unsigned short u16;
@@ -24,19 +24,19 @@ typedef struct {
     unsigned char *f14;
 } S;
 
-extern u16 func_0216D5F8(void *p);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D410(void *p, int a);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetAcmd(void *p, int a);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021A3964(u8 *p, u32 v);
+extern void FIELD_PLAYER_CORE_SetStepKind(u8 *p, u32 v);
 
-void func_021A5EA4(S *a, void *b, int c, int d, u16 e)
+void FIELD_PLAYER_NOGRID_StartWalkStand(S *a, void *b, int c, int d, u16 e)
 {
     if (e == 9) {
-        e = func_0216D5F8(b);
+        e = FLDMMDL_GetDirDisp(b);
     }
-    func_0216D410(b, func_02197E7C(e, 0));
+    FLDMMDL_SetAcmd(b, FLDMMDL_ACMD_ConvertCodeByDir(e, 0));
     a->f0 = 0;
-    func_021A3964(a->f14, 0);
+    FIELD_PLAYER_CORE_SetStepKind(a->f14, 0);
 }

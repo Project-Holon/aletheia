@@ -16,8 +16,8 @@
  *   APP_TASKMENU_DrawWinFrame  0x020282D8  thumb
  *   func_02045770  0x02045770  arm
  *   PRINTSYS_PrintQueColor   0x0201C724  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *
@@ -74,8 +74,8 @@ extern void  APP_TASKMENU_DrawWinFrame(u32 bg, struct Cfg *c, u32 d);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *bg);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void  func_02045334(struct Descriptor *bg);
-extern void func_02045374(struct Cfg *cfg);
+extern void  BMP_WIN_TransferChars(struct Descriptor *bg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void  func_02041B6C(u32 bit);
 
@@ -105,8 +105,8 @@ void APP_TASKMENU_CreateWindows(struct Obj *o, struct Cfg *cfg)
         PRINTSYS_PrintQueColor((void *)cfg->f14, (u32)func_02045770((struct Descriptor *)o->layers[i]), 0xa, 6,
                      rows[i].f00, cfg->f10, row->f04);
         bg = o->layers[i];
-        func_02045334((struct Descriptor *)bg);
-        func_02045374((struct Cfg *)bg);
+        BMP_WIN_TransferChars((struct Descriptor *)bg);
+        BMP_WIN_MakeScreen((struct Cfg *)bg);
         func_02041B6C(func_02045730((struct Descriptor *)bg));
     }
 }

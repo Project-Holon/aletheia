@@ -1,5 +1,5 @@
 /*
- * function: func_0219CC80
+ * function: FLDMMDL_BLACT_DeleteReserve
  * address:  0x0219CC80
  * packet:   pkt_ov021_0219CC80
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
 
  * Addresses are Black-image addresses.
  */
@@ -25,9 +25,9 @@ typedef unsigned int   u32;
 
 struct Tagged;
 extern u32 func_020307B0(void *p);
-extern void func_02046EFC(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
-void func_0219CC80(u8 *o)
+void FLDMMDL_BLACT_DeleteReserve(u8 *o)
 {
     u8 *c = *(u8 * *)&((struct Obj04225 *)o)->f1C;
     u32 i;
@@ -41,7 +41,7 @@ void func_0219CC80(u8 *o)
     if (i < ((struct Obj02698 *)c)->f6) {
         for (; i < ((struct Obj02698 *)c)->f6; i++, p += 0x14) {
             if (((struct Obj06000 *)p)->f10 != 0)
-                func_02046EFC((struct Tagged *)(((struct Obj06000 *)p)->f10));
+                G3D_SYSTEM_DeleteResource((struct Tagged *)(((struct Obj06000 *)p)->f10));
         }
     }
     func_020307B0((void *)(*(u32 *)&((struct Obj02698 *)c)->f10));
@@ -50,7 +50,7 @@ void func_0219CC80(u8 *o)
     if (i < ((struct Obj02698 *)c)->f8) {
         for (; i < ((struct Obj02698 *)c)->f8; i++, p += 0x28) {
             if (((struct Obj06000 *)p)->f0 != 0 && ((struct Obj06000 *)p)->f10 != 0)
-                func_02046EFC((struct Tagged *)(((struct Obj06000 *)p)->f10));
+                G3D_SYSTEM_DeleteResource((struct Tagged *)(((struct Obj06000 *)p)->f10));
         }
     }
     func_020307B0((void *)(*(u32 *)&((struct Obj02698 *)c)->f14));

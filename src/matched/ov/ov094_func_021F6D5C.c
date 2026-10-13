@@ -14,7 +14,7 @@
  * cleared field), not a copy of i. Flags word is a bitfield (lsls/lsrs).
  *
  * symbols:
- *   func_02047910  0x02047910  arm
+ *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   func_021F9364  0x021F9364  thumb  ov094
  */
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ typedef struct {
     u32 bit1 : 1;
 } Obj;
 
-extern int func_02047910(void *a, int idx, int amount);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 extern void func_021F9364(void *p);
 
 void func_021F6D5C(Obj *o)
@@ -72,7 +72,7 @@ void func_021F6D5C(Obj *o)
                 break;
             }
             if (amt != 0)
-                func_02047910(o->h18, (u16)i, amt);
+                G3D_SYSTEM_LoopObjectAnimeFrame(o->h18, (u16)i, amt);
         }
     }
     func_021F9364(o->sub);

@@ -1,5 +1,5 @@
 /*
- * function: func_02160C88
+ * function: EVENT_FIELD_PROCLINK_ReturnPokeList
  * address:  0x02160C88
  * packet:   pkt_ov010_02160C88
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled (the listing folds it into func_02160A94's extent). Consume a
+ * Unlabelled (the listing folds it into EVENT_FIELD_PROCLINK_CreatePokeListParam's extent). Consume a
  * reply record: copy its result into the context and pick the next state.
  */
 
@@ -52,7 +52,7 @@ typedef struct Req {
     u32 f50;            /* 0x50 */
 } Req;
 
-int func_02160C88(Ctx *c, Req *r)
+int EVENT_FIELD_PROCLINK_ReturnPokeList(Ctx *c, Req *r)
 {
     c->f18->f2c = r->f3c;
     c->f60 = r->f3c;

@@ -1,5 +1,5 @@
 /*
- * function: func_021CD038
+ * function: PARTY_SELECT_LIST_DeleteListWindow
  * address:  0x021CD038
  * packet:   pkt_ov021_021CD038
  * region:   ov021
@@ -12,7 +12,7 @@
  * Releases the +0xB4 handle of the work block if it is set and clears it.
  *
  * symbols:
- *   func_02190728  0x02190728  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -29,12 +29,12 @@ typedef struct {
     void *fB4;
 } Work;
 
-extern int func_02190728(void *a);
+extern int FIELD_MSGBG_DeleteMsgWin(void *a);
 
-void func_021CD038(Work *w)
+void PARTY_SELECT_LIST_DeleteListWindow(Work *w)
 {
     if (w->fB4 != 0) {
-        func_02190728((void *)w->fB4);
+        FIELD_MSGBG_DeleteMsgWin((void *)w->fB4);
         w->fB4 = 0;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA7B4
+ * function: OPTION_MENU_ExitList
  * address:  0x021BA7B4
  * packet:   pkt_ov068_021BA7B4
  * region:   ov068
@@ -16,7 +16,7 @@
  *   func_02082BCC  0x02082BCC  arm
  */
 
-void func_021BA7B4(void *p)
+void OPTION_MENU_ExitList(void *p)
 {
     void func_02082BCC(void *, int, int);
     func_02082BCC(p, 0, 0x58);

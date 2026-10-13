@@ -1,5 +1,5 @@
 /*
- * function: func_0218123C
+ * function: EVENT_COMM_COMMON_BattleRequestEventMain
  * address:  0x0218123C
  * packet:   pkt_ov018_0218123C
  * region:   ov018
@@ -10,32 +10,32 @@
  * status:   EXACT
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0215839C  0x0215839C  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   INTRUDE_COMM_TogglePeerFlags  0x0215839C  thumb  ov010
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0217F2B4  0x0217F2B4  thumb
- *   func_0217F318  0x0217F318  thumb
- *   func_0217F3C4  0x0217F3C4  thumb
- *   func_0217F40C  0x0217F40C  thumb
- *   func_0217F420  0x0217F420  thumb
- *   func_02175514  0x02175514  thumb  ov011
+ *   EVENT_COMM_COMMON_InitMsgBox  0x0217F2B4  thumb
+ *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
+ *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
+ *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
+ *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb
+ *   INTRUDE_COMM_TakeRequestResult  0x02175514  thumb  ov011
  *   func_020362DC  0x020362DC  arm
- *   func_02173B9C  0x02173B9C  thumb
- *   func_021753B8  0x021753B8  thumb
- *   func_0217405C  0x0217405C  thumb
- *   func_02175CF4  0x02175CF4  thumb
- *   func_021756F0  0x021756F0  thumb
- *   func_021744D0  0x021744D0  thumb
- *   func_021766CC  0x021766CC  thumb
- *   func_02012374  0x02012374  thumb
- *   func_0217FE38  0x0217FE38  thumb
+ *   INTRUDE_COMM_SendAnswer  0x02173B9C  thumb
+ *   INTRUDE_COMM_NextRequestToken  0x021753B8  thumb
+ *   INTRUDE_CMD_SendProposal  0x0217405C  thumb
+ *   INTRUDE_COMM_GetJoinStatus  0x02175CF4  thumb
+ *   INTRUDE_COMM_SetLock  0x021756F0  thumb
+ *   INTRUDE_COMM_SendPeerFlags  0x021744D0  thumb
+ *   INTRUDE_LINK_CreateEvent  0x021766CC  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026474  0x02026474  thumb
- *   func_021804F8  0x021804F8  thumb
- *   func_0217CA84  0x0217CA84  thumb
- *   func_0201235C  0x0201235C  thumb
+ *   EVENT_COMM_COMMON_CreateMissionResultEvent  0x021804F8  thumb
+ *   INTRUDE_SUBDISP_CreateDisconnectEvent  0x0217CA84  thumb
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   d_021838F6     0x021838F6  data  a2
  *   d_02183900     0x02183900  data  a2
  *   d_0218390A     0x0218390A  data  a2
@@ -95,34 +95,34 @@ struct S0201235C;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
 struct Ctx;
-u32 func_02012138(const struct Ctx *);
-int func_02158344(int a0);
-int func_0215839C(u8 *p, int m, int a2);
+u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
+int INTRUDE_COMM_GetWorkIfRunning(int a0);
+int INTRUDE_COMM_TogglePeerFlags(u8 *p, int m, int a2);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-void func_0217F2B4(Ov018Obj *p, void *);
-void func_0217F318(Ov018Obj *p);
-void func_0217F3C4(Ov018Obj *p, u16 a);
-int func_0217F40C(Ov018Obj *p);
-int func_0217F420(void);
-int func_02175514(u8 *p);
+void EVENT_COMM_COMMON_InitMsgBox(Ov018Obj *p, void *);
+void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
+void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, u16 a);
+int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
+int EVENT_COMM_COMMON_IsKeyTrg(void);
+int INTRUDE_COMM_TakeRequestResult(u8 *p);
 u32 func_020362DC(void);
-int func_02173B9C(int, int);
-void func_021753B8(void *);
-int func_0217405C(void *, void *);
-int func_02175CF4(void *, void *);
-void func_021756F0(void *, int);
-int func_021744D0(void *, int, int);
-void *func_021766CC(void *, int *);
-void func_02012374(struct Evt *evt, struct Evt **out);
-void func_0217FE38(void *v, Ov018Outer *c);
+int INTRUDE_COMM_SendAnswer(int, int);
+void INTRUDE_COMM_NextRequestToken(void *);
+int INTRUDE_CMD_SendProposal(void *, void *);
+int INTRUDE_COMM_GetJoinStatus(void *, void *);
+void INTRUDE_COMM_SetLock(void *, int);
+int INTRUDE_COMM_SendPeerFlags(void *, int, int);
+void *INTRUDE_LINK_CreateEvent(void *, int *);
+void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+void EVENT_COMM_COMMON_ExitCommonWork(void *v, Ov018Outer *c);
 u32 func_02026454(void *obj);
 u32 func_02026474(void *obj);
-void *func_021804F8(void *, int);
-int func_0217CA84(void *a, int b);
-void func_0201235C(struct S0201235C *o, u32 *out);
+void *EVENT_COMM_COMMON_CreateMissionResultEvent(void *, int);
+int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
+void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 
-int func_0218123C(void *a, int *state, Ov018Outer *c)
+int EVENT_COMM_COMMON_BattleRequestEventMain(void *a, int *state, Ov018Outer *c)
 {
     void *sub;
     void *t;
@@ -130,15 +130,15 @@ int func_0218123C(void *a, int *state, Ov018Outer *c)
     void *r;
 
     sub = func_020124E4(a);
-    t = (void *)func_02012138(sub);
-    v = (u8 *)func_02158344((int)t);
+    t = (void *)GAMESYSTEM_GetGameComm(sub);
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)t);
     if (v == 0) {
-        if (func_0217F40C(&c->obj) == 0) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 0) {
             return 0;
         }
         if (*state < 13) {
-            func_0217F2B4(&c->obj, sub);
-            func_0217F3C4(&c->obj, 4);
+            EVENT_COMM_COMMON_InitMsgBox(&c->obj, sub);
+            EVENT_COMM_COMMON_PrintMsg(&c->obj, 4);
             *state = 13;
             c->f98 = 1;
             return 0;
@@ -148,12 +148,12 @@ int func_0218123C(void *a, int *state, Ov018Outer *c)
     case 0:
         func_0201F02C(c->obj.f00, 0, c->f78);
         func_0201EFA4(c->obj.f00, 1, c->fA1, 3, 0, 1);
-        func_0217F3C4(&c->obj, c->fA4 == 0 ? d_021838F6[c->f42] : d_02183900[c->f42]);
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, c->fA4 == 0 ? d_021838F6[c->f42] : d_02183900[c->f42]);
         (*state)++;
         break;
     case 1:
-        if (func_0217F40C(&c->obj) == 1) {
-            switch (func_02175514(v)) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
+            switch (INTRUDE_COMM_TakeRequestResult(v)) {
             case 4:
                 *state = 2;
                 break;
@@ -162,8 +162,8 @@ int func_0218123C(void *a, int *state, Ov018Outer *c)
                 *state = 11;
                 break;
             default:
-                if ((func_020362DC() & 2) && func_02173B9C(v[0x154], v[0x158]) == 1) {
-                    func_021753B8(v);
+                if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
+                    INTRUDE_COMM_NextRequestToken(v);
                     *state = 12;
                 }
                 break;
@@ -171,59 +171,59 @@ int func_0218123C(void *a, int *state, Ov018Outer *c)
         }
         break;
     case 2:
-        func_0217F3C4(&c->obj, d_0218390A[c->f42]);
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, d_0218390A[c->f42]);
         *state = 3;
         break;
     case 3:
-        if (func_0217405C(v, v + 0x1AC) == 1) {
+        if (INTRUDE_CMD_SendProposal(v, v + 0x1AC) == 1) {
             (*state)++;
         }
         break;
     case 4:
-        if (func_02175CF4(v, v + 0x1AC) != 0) {
-            func_021756F0(v, 1);
+        if (INTRUDE_COMM_GetJoinStatus(v, v + 0x1AC) != 0) {
+            INTRUDE_COMM_SetLock(v, 1);
             *state = 5;
         }
         break;
     case 5:
-        if (func_0217F40C(&c->obj) == 1 && func_021744D0(v, c->f40, 1) == 1) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1 && INTRUDE_COMM_SendPeerFlags(v, c->f40, 1) == 1) {
             (*state)++;
         }
         break;
     case 6:
-        if (func_0215839C(v, 1, c->f40) == 1) {
+        if (INTRUDE_COMM_TogglePeerFlags(v, 1, c->f40) == 1) {
             *state = 7;
-        } else if ((func_020362DC() & 2) && func_02173B9C(v[0x154], v[0x158]) == 1) {
-            func_021753B8(v);
+        } else if ((func_020362DC() & 2) && INTRUDE_COMM_SendAnswer(v[0x154], v[0x158]) == 1) {
+            INTRUDE_COMM_NextRequestToken(v);
             *state = 12;
         }
         break;
     case 7:
-        if (func_021744D0(v, c->f40, 2) == 1) {
+        if (INTRUDE_COMM_SendPeerFlags(v, c->f40, 2) == 1) {
             (*state)++;
         }
         break;
     case 8:
-        if (func_0215839C(v, 2, c->f40) == 1) {
-            func_0217F318(&c->obj);
+        if (INTRUDE_COMM_TogglePeerFlags(v, 2, c->f40) == 1) {
+            EVENT_COMM_COMMON_ExitMsgBox(&c->obj);
             *state = 9;
-        } else if (func_02175514(v) == 3) {
-            func_0217F3C4(&c->obj, 4);
+        } else if (INTRUDE_COMM_TakeRequestResult(v) == 3) {
+            EVENT_COMM_COMMON_PrintMsg(&c->obj, 4);
             *state = 13;
         }
         break;
     case 9:
         c->fA8 = 1;
-        func_02012374(a, func_021766CC(sub, &c->f9C));
+        GAME_EVENT_CallEvent(a, INTRUDE_LINK_CreateEvent(sub, &c->f9C));
         (*state)++;
         break;
     case 10:
-        func_0217F2B4(&c->obj, sub);
-        func_0217F3C4(&c->obj, d_02183914[c->f42]);
+        EVENT_COMM_COMMON_InitMsgBox(&c->obj, sub);
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, d_02183914[c->f42]);
         *state = 13;
         break;
     case 11:
-        func_0217F3C4(&c->obj, d_0218391E[c->f42]);
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, d_0218391E[c->f42]);
         *state = 13;
         break;
     case 12:
@@ -231,28 +231,28 @@ int func_0218123C(void *a, int *state, Ov018Outer *c)
         *state = 15;
         break;
     case 13:
-        if (func_0217F40C(&c->obj) == 1) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
             *state = 14;
         }
         break;
     case 14:
-        if (func_0217F420() == 1) {
+        if (EVENT_COMM_COMMON_IsKeyTrg() == 1) {
             *state = 15;
         }
         break;
     case 15:
-        func_0217FE38(v, c);
+        EVENT_COMM_COMMON_ExitCommonWork(v, c);
         if (func_02026454(t) == 2 && func_02026474(t) != 0) {
-            func_021756F0((void *)func_02026474(t), 0);
+            INTRUDE_COMM_SetLock((void *)func_02026474(t), 0);
         }
         if (c->fA8 == 1) {
-            r = func_021804F8(sub, c->fA8);
+            r = EVENT_COMM_COMMON_CreateMissionResultEvent(sub, c->fA8);
         } else if (c->fAC == 0) {
-            r = (void *)func_0217CA84(sub, 1);
+            r = (void *)INTRUDE_SUBDISP_CreateDisconnectEvent(sub, 1);
         } else {
-            r = (void *)func_0217CA84(sub, 0);
+            r = (void *)INTRUDE_SUBDISP_CreateDisconnectEvent(sub, 0);
         }
-        func_0201235C(a, r);
+        GAME_EVENT_ChangeEvent(a, r);
         return 0;
     }
     return 0;

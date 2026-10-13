@@ -1,5 +1,5 @@
 /*
- * function: func_02190378
+ * function: FIELD_MSGBG_ReleaseSysFrame
  * address:  0x02190378
  * packet:   pkt_ov021_02190378
  * region:   ov021
@@ -20,7 +20,7 @@ typedef signed int     s32;
 
 extern void func_020403F4(u32 i);
 
-int func_02190378(u8 *a)
+int FIELD_MSGBG_ReleaseSysFrame(u8 *a)
 {
     if (((struct Obj09473 *)a)->f4 != 0xff) {
         func_020403F4((u8)(((struct Obj09473 *)a)->f4));

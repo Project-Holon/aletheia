@@ -13,19 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D69AC  0x021D69AC  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_GetCounter  0x021D69AC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F2C00     0x021F2C00  data   ov093  a4
  *   d_021F2C18     0x021F2C18  data   ov093  a4
  *   d_021F2C30     0x021F2C30  data   ov093  a4
  *   func_021C7D00  0x021C7D00  thumb  ov093
  *   func_021C7D44  0x021C7D44  thumb  ov093
  *   func_021C8030  0x021C8030  thumb  ov093
- *   func_021D7B10  0x021D7B10  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D6940  0x021D6940  thumb  ov093
+ *   BTL_CALC_MulRatio  0x021D7B10  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetHitRecord  0x021D6940  thumb  ov093
  *   func_021B9A24  0x021B9A24  thumb  ov093
  *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
  *   d_021F25C4     0x021F25C4  data   ov093  a4
@@ -46,16 +46,16 @@ typedef struct { u32 f0; u8 pad[60]; } E64;
 
 typedef struct Ent { unsigned short a; unsigned short b; unsigned char c, d, e, f; } Ent;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern u8 func_021D69AC(u8 *a, int i);
-extern int func_021D76BC(int key, u32 val);
+extern u8 BTL_POKEPARAM_GetCounter(u8 *a, int i);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int func_021C7D00(u8 *p, int b);
 extern int func_021C7D44(char *p, int i);
 extern int func_021C8030(u8 *p, int v, u16 k);
-extern u32 func_021D7B10(u32 a, u32 b);
-extern u8 func_021D5440(u8 *p);
-extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
+extern u32 BTL_CALC_MulRatio(u32 a, u32 b);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern int BTL_POKEPARAM_GetHitRecord(const u8 *p, int i, u32 j, u16 *out);
 extern int func_021B9A24(u32 a, u32 b);
 extern int WAZA_TOOL_GetDamageType(int a);
 void func_021E18EC(int a, void *p, int id);
@@ -95,8 +95,8 @@ void func_021E18EC(int a, void *p, int id)
 {
     int two = 2;
     int v;
-    if (id == func_021D775C(2)) {
-        switch (func_021D69AC(func_021C7CF4(p, id), 0)) {
+    if (id == BTL_EVENT_GetVar(2)) {
+        switch (BTL_POKEPARAM_GetCounter(func_021C7CF4(p, id), 0)) {
         case 1:
         default:
             v = 1 << 10;
@@ -108,7 +108,7 @@ void func_021E18EC(int a, void *p, int id)
             v = two << 11;
             break;
         }
-        func_021D76BC(0x35, v);
+        BTL_EVENT_OverwriteVar(0x35, v);
     }
 }
 
@@ -238,8 +238,8 @@ void func_021E19F8(int a, int b, int c, int d)
 {
     Ent e;
 
-    if (b == func_021D775C(2) && func_021E1AE4(func_021C7CF4((int *)a, b), d, &e) == 0)
-        func_021D76BC(34, 26);
+    if (b == BTL_EVENT_GetVar(2) && func_021E1AE4(func_021C7CF4((int *)a, b), d, &e) == 0)
+        BTL_EVENT_OverwriteVar(34, 26);
 }
 
 
@@ -249,7 +249,7 @@ void func_021E1A2C(void *p, int id, int u, int x)
     Ent e;
     int t;
     int r;
-    if (id == func_021D775C(3)) {
+    if (id == BTL_EVENT_GetVar(3)) {
         if (func_021E1AE4(func_021C7CF4(p, id), x, &e)) {
             t = e.d;
             if (func_021C7D00(p, t) == 6) {
@@ -265,7 +265,7 @@ void func_021E1A2C(void *p, int id, int u, int x)
                         t = e.d;
                 }
             }
-            func_021D76BC(4, t);
+            BTL_EVENT_OverwriteVar(4, t);
         }
     }
 }
@@ -276,9 +276,9 @@ void func_021E1A2C(void *p, int id, int u, int x)
 void func_021E1AA4(void *p, int id, int u, int x, int arg)
 {
     Ent e;
-    if (id == func_021D775C(3)) {
+    if (id == BTL_EVENT_GetVar(3)) {
         if (func_021E1AE4(func_021C7CF4(p, id), x, &e)) {
-            func_021D76BC(0x37, func_021D7B10(e.b, arg));
+            BTL_EVENT_OverwriteVar(0x37, BTL_CALC_MulRatio(e.b, arg));
         }
     }
 }
@@ -288,9 +288,9 @@ void func_021E1AA4(void *p, int id, int u, int x, int arg)
 
 int func_021E1AE4(void *m, int x, Ent *out)
 {
-    u8 q = func_021D5440(m);
+    u8 q = BTL_POKEPARAM_GetPokeId(m);
     u8 i = 0;
-    while (func_021D6940(m, 0, i++, (u16 *)out)) {
+    while (BTL_POKEPARAM_GetHitRecord(m, 0, i++, (u16 *)out)) {
         if (func_021B9A24(q, out->d) == 0) {
             if (x == 0 || x == WAZA_TOOL_GetDamageType(out->a))
                 return 1;

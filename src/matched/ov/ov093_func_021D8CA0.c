@@ -1,5 +1,5 @@
 /*
- * function: func_021D8CA0
+ * function: BTL_CALC_GetSwarmHandlers
  * address: 0x021D8CA0
  * packet: pkt_ov093_021D8CA0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D8B50.c and filed here.
  *
  * symbols:
- *   d_021F0640 0x021F0640 data ov093 a4
+ *   gSwarmHandlers 0x021F0640 data ov093 a4
  */
 
-int *func_021D8CA0(int *p);
-extern int d_021F0640[];
+int *BTL_CALC_GetSwarmHandlers(int *p);
+extern int gSwarmHandlers[];
 
-int *func_021D8CA0(int *p)
+int *BTL_CALC_GetSwarmHandlers(int *p)
 {
     *p = 1;
-    return d_021F0640;
+    return gSwarmHandlers;
 }

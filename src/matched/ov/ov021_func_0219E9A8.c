@@ -1,5 +1,5 @@
 /*
- * function: func_0219E9A8
+ * function: FLDMMDL_RAIL_CheckOutsideHomeArea
  * address:  0x0219E9A8
  * packet:   pkt_ov021_0219E9A8
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D660  0x0216D660  thumb  ov010
- *   func_0216D66C  0x0216D66C  thumb  ov010
+ *   FLDMMDL_GetMoveLimitX  0x0216D660  thumb  ov010
+ *   FLDMMDL_GetMoveLimitZ  0x0216D66C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -26,18 +26,18 @@ typedef struct {
     u16 ly;
 } L;
 
-extern int func_0216D660(void *p);
-extern int func_0216D66C(void *p);
+extern int FLDMMDL_GetMoveLimitX(void *p);
+extern int FLDMMDL_GetMoveLimitZ(void *p);
 
-int func_0219E9A8(u32 o, int a, int b, L *l)
+int FLDMMDL_RAIL_CheckOutsideHomeArea(u32 o, int a, int b, L *l)
 {
     int x;
     int y;
     int lo;
     int hi;
 
-    x = func_0216D660((void *)o);
-    y = func_0216D66C((void *)o);
+    x = FLDMMDL_GetMoveLimitX((void *)o);
+    y = FLDMMDL_GetMoveLimitZ((void *)o);
     if (x != -1) {
         lo = b - x;
         hi = b + x;

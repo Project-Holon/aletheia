@@ -1,5 +1,5 @@
 /*
- * function: func_021CF59C
+ * function: ENCEFF_LoadOverlay4B
  * address:  0x021CF59C
  * packet:   pkt_ov021_021CF59C
  * region:   ov021
@@ -13,16 +13,16 @@
  * (a pool word, 0x4B).
  *
  * symbols:
- *   func_021CF564  0x021CF564  thumb ov021
+ *   ENCEFF_LoadOverlay  0x021CF564  thumb ov021
  *   ov075_id       0x0000004B  data
  */
 
 typedef unsigned int u32;
 struct Res021CF;
-extern void func_021CF564(struct Res021CF *r, u32 id);
+extern void ENCEFF_LoadOverlay(struct Res021CF *r, u32 id);
 extern unsigned char ov075_id[];
 
-void func_021CF59C(struct Res021CF *r)
+void ENCEFF_LoadOverlay4B(struct Res021CF *r)
 {
-    func_021CF564(r, (u32)ov075_id);
+    ENCEFF_LoadOverlay(r, (u32)ov075_id);
 }

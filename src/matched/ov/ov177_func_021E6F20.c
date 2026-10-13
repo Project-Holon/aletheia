@@ -10,6 +10,12 @@
  * symbols:
  *   func_0200B214 0x0200B214 thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb  arm9
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm  arm9
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm  arm9
+ *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm  arm9
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
+ *   CLACT_CreateActor  0x0204B294  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,22 +42,22 @@ struct Obj;
 extern int func_0201BC3C(void);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 typedef signed int     s32;
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 struct Rec1E;
 extern s32 func_0200B214(struct Rec1E *p, u32 id, u8 n);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern void func_02049238(void *);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_020275E4(void);
 extern u32 func_02027694(void);
 extern u32 func_02027698(void);
 extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void func_02082BCC(void *, u32, u32);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern u32 func_0201BB5C(u32, u32, u32, u32);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
@@ -64,20 +70,20 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
     int i;
     Request req, sub;
     h = func_020490F4(7, heap);
-    w->pal = (void *)func_0204ACEC(h, func_0201BC3C(), w->layer, (u16)(w->palSlot << 5), (heap & 0x7fff) | 0x8000);
-    w->cell = (void *)func_0204AF28(h, func_0201BC40(), func_0201BCB4(), heap);
+    w->pal = (void *)CLACT_RegisterPaletteCompressed(h, func_0201BC3C(), w->layer, (u16)(w->palSlot << 5), (heap & 0x7fff) | 0x8000);
+    w->cell = (void *)CLACT_RegisterCellAnim(h, func_0201BC40(), func_0201BCB4(), heap);
     for (i = 0; i < 6; i++) {
         species = func_0200B214(rec, 0, i);
         form = func_0200B214(rec, 1, i);
         gender = func_0200B214(rec, 3, i);
-        w->chr[i] = (void *)func_0204A6C8(h, POKE_TOOL_CalcGraphicIndex((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
+        w->chr[i] = (void *)CLACT_RegisterCharacter(h, POKE_TOOL_CalcGraphicIndex((u16)(species != 0 ? species : 1), form, gender, 0), 0, w->layer, (heap & 0x7fff) | 0x8000);
     }
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     h = func_020490F4(func_020275E4(), heap);
-    w->pal2 = (void *)func_0204AC18(h, func_02027694(), w->layer, (u16)((w->palSlot + 3) << 5), (u32)0, (u32)1, (heap & 0x7fff) | 0x8000);
-    w->chr2 = (void *)func_0204A6C8(h, func_02027698(), 0, w->layer, (heap & 0x7fff) | 0x8000);
-    w->cell2 = (void *)func_0204AF28(h, func_0202769C(2), func_020276A0(2), heap);
-    func_02049238(h);
+    w->pal2 = (void *)CLACT_RegisterPaletteEx(h, func_02027694(), w->layer, (u16)((w->palSlot + 3) << 5), (u32)0, (u32)1, (heap & 0x7fff) | 0x8000);
+    w->chr2 = (void *)CLACT_RegisterCharacter(h, func_02027698(), 0, w->layer, (heap & 0x7fff) | 0x8000);
+    w->cell2 = (void *)CLACT_RegisterCellAnim(h, func_0202769C(2), func_020276A0(2), heap);
+    ARC_TOOL_DeleteHandle(h);
     func_02082BCC(&req, 0, 8);
     req.y = 0xa8;
     req.id = 1;
@@ -90,7 +96,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
         shown = func_0200B214(rec, 2, i);
         if (species != 0) {
             req.x = (i << 5) + 0x120;
-            w->objs[i] = func_0204B294(owner, (unsigned int)w->chr[i], (unsigned int)w->pal, (unsigned int)w->cell, &req, w->layer, heap);
+            w->objs[i] = CLACT_CreateActor(owner, (unsigned int)w->chr[i], (unsigned int)w->pal, (unsigned int)w->cell, &req, w->layer, heap);
             func_0204B6F4(w->objs[i], func_0201BB5C(species, form, gender, 0), 0);
             if (shown != 0) {
                 sub = req;
@@ -98,7 +104,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
                 sub.y += 8;
                 sub.a = 0;
                 sub.id = 0;
-                w->objs[i + 15] = func_0204B294(owner, (unsigned int)w->chr2, (unsigned int)w->pal2, (unsigned int)w->cell2, &sub, w->layer, heap);
+                w->objs[i + 15] = CLACT_CreateActor(owner, (unsigned int)w->chr2, (unsigned int)w->pal2, (unsigned int)w->cell2, &sub, w->layer, heap);
             } else {
                 w->objs[i + 15] = 0;
             }

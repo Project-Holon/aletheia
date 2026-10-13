@@ -3,7 +3,7 @@
 /*
  * ov093 battle server flow: the work area of btl_server_flow.c.
  *
- * The constructor (func_021BB968) allocates 0x212C bytes and stores the five
+ * The constructor (BTL_SERVER_FLOW_Create) allocates 0x212C bytes and stores the five
  * arguments it receives: the owning server, the main module, the poke
  * container, the command queue, the bag mode and the heap id.  The flow runs
  * the actions of one turn; it keeps a stack of up to seven frames (one per

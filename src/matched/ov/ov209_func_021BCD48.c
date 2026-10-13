@@ -12,7 +12,7 @@
  * symbols:
  *   ov067_id 0x00000043 data a1
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_0207D534 0x0207D534 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_021BC91C 0x021BC91C thumb ov209
@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char ov067_id[];
 extern void func_02043534(u32);
-extern void func_020435F4(u32);
+extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void func_0207D534(volatile u16 *reg, int brightness);
 extern u32 PALANM_GetFadeRequestBits(const char *);
 extern void func_02034A5C(int);
@@ -66,7 +66,7 @@ int func_021BCD48(char *p)
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     func_02034A5C((int)ov067_id);
     return 9;
 }

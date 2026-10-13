@@ -1,5 +1,5 @@
 /*
- * function: func_02165D28
+ * function: GAME_BEACON_ACCESSOR_GetZoneId
  * address: 0x02165D28
  * packet: pkt_ov010_02165D28
  * region: ov010
@@ -11,4 +11,4 @@
  * overlapping ov009 address is interior ARM code, as explicit shows prove.
  */
 struct Bits { unsigned a; unsigned low:17; unsigned value:10; unsigned high:5; };
-unsigned short func_02165D28(const struct Bits *p) { return p->value; }
+unsigned short GAME_BEACON_ACCESSOR_GetZoneId(const struct Bits *p) { return p->value; }

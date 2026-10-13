@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0200B394, func_0200B3A4, func_0200B3A8, func_0200B3AC,
+ * function: func_0200B394, GIMMICK_WORK_GetSaveArea, GIMMICK_WORK_GetProgress, func_0200B3AC,
  *           func_0200B3B0, func_0200B3C8, BATTLE_REC_Create
  *
  * symbols:
@@ -68,12 +68,12 @@ s32 *func_0200B394(struct Rec94 *p, s32 value)
     return p->unk04;
 }
 
-s32 *func_0200B3A4(struct Rec94 *p, u32 b)
+s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b)
 {
     return p->unk04;
 }
 
-u8 *func_0200B3A8(struct Rec94 *p, u32 a1)
+u8 *GIMMICK_WORK_GetProgress(struct Rec94 *p, u32 a1)
 {
     return p->unk84;
 }

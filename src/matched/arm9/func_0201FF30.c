@@ -1,5 +1,5 @@
 /*
- * function: func_0201FF30
+ * function: BMP_MENULIST_Create
  * address:  0x0201FF30
  * packet:   pkt_0201FF30
  * region:   arm9
@@ -15,6 +15,7 @@
  *   BMP_MENULIST_DrawCursor  0x020206C0  thumb
  *   BMP_MENULIST_NotifyCursor  0x02020A34  thumb
  *   BMP_CURSOR_Create  0x02020D18  thumb
+ *   BMP_Clear  0x02043B5C  arm
  */
 #include "../include/Obj11266.h"
 
@@ -75,12 +76,12 @@ struct CharBuf;
 extern void *BMP_CURSOR_Create(u32 heap);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_MENULIST_DrawItems(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
 extern void BMP_MENULIST_DrawCursor(struct Obj *o);
 extern void BMP_MENULIST_NotifyCursor(struct Obj *obj, void *arg1);
 
-struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
+struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap)
 {
     struct Obj *obj;
     int i;
@@ -114,7 +115,7 @@ struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
         ((struct Obj11266 *)q)->f0 = (u32)obj->unk0C;
         q[4] = 0;
     }
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
     BMP_MENULIST_DrawItems(obj, obj->f40, 0, obj->rows, 1);
     BMP_MENULIST_DrawCursor(obj);
     BMP_MENULIST_NotifyCursor(obj, (void *)1);

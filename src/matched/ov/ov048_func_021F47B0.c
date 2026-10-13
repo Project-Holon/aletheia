@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021F47B0, func_021F47B4, func_021F47B8
+ * function: GIMMICK_OBJ_ELBOARD_GetScroll, GIMMICK_OBJ_ELBOARD_GetHeapId, GIMMICK_OBJ_ELBOARD_GetLineCount
  * address:  0x021F47B0
  * packet:   pkt_021F47B0
  * region:   ov048
@@ -16,17 +16,17 @@
 #include "../include/Obj20546.h"
 #include "../include/Obj20547.h"
 
-int func_021F47B0(void *p)
+int GIMMICK_OBJ_ELBOARD_GetScroll(void *p)
 {
     return ((struct Obj20545 *)p)->f18;
 }
 
-int func_021F47B4(void *p)
+int GIMMICK_OBJ_ELBOARD_GetHeapId(void *p)
 {
     return ((struct Obj20546 *)p)->f0;
 }
 
-int func_021F47B8(void *p)
+int GIMMICK_OBJ_ELBOARD_GetLineCount(void *p)
 {
     return ((struct Obj20547 *)p)->f2;
 }

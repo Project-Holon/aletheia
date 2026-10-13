@@ -11,7 +11,7 @@
  * pool slots 7AD8/7AE0; data a4 resolves both as sole-ref, same exact bytes.
  * symbols:
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -23,7 +23,7 @@
  *   func_021B9060 0x021B9060 thumb ov103
  *   func_02040C14 0x02040C14 arm
  *   func_02049740 0x02049740 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0207D63C 0x0207D63C arm
  *   d_021B924C 0x021B924C data ov103 a4
  *   d_021B927C 0x021B927C data a4
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 extern u32 d_021B924C[], d_021B927C[], d_021B9298[];
 extern const u32 d_021B9310[][8];
 extern void func_0203F8F4(u16);
-extern void func_02045088(u16);
+extern void BMP_WIN_Init(u16);
 struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -50,7 +50,7 @@ extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void func_021B9060(int, u16);
 extern void func_02040C14(u32, u32, u32, u32);
 extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0207D63C(int, int, int, int, int);
 void func_021B7970(u32 *p, u16 heap)
 {
@@ -58,7 +58,7 @@ void func_021B7970(u32 *p, u16 heap)
     u32 layer;
     void *arc;
     func_0203F8F4(heap);
-    func_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28((struct DispConfig *)d_021B924C);
     for (i = 0; i < 7; i++) {
         layer = d_021B927C[i];
@@ -81,6 +81,6 @@ void func_021B7970(u32 *p, u16 heap)
     func_021B9060(1, heap);
     func_02040C14(5, 0, 1, 0);
     p[0] = func_02049740(arc, 49, 5, 0, 0, heap);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     func_0207D63C(0x04000050, 5, 12, 13, 8);
 }

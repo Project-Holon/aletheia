@@ -115,7 +115,7 @@ typedef struct BtlSetup {
     u8 reserved34[0x8C - 0x34];
     u32 outcome;                /* 0x8C: 1 won */
     u8 reserved90;
-    u8 recordMode;              /* 0x91: checked by func_0200BA38 (cmd 416) */
+    u8 recordMode;              /* 0x91: checked by BATTLE_REC_IsVersionSupported (cmd 416) */
     u8 reserved92[0xB4 - 0x92];
     u16 score;                  /* 0xB4 */
     u8 tally[11];               /* 0xB6 */

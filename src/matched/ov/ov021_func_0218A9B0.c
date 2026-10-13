@@ -1,5 +1,5 @@
 /*
- * function: func_0218A9B0
+ * function: FIELD_EVENT_CHECK_CheckStepEvents
  * address:  0x0218A9B0
  * packet:   pkt_ov021_0218A9B0
  * region:   ov021
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Field step handler: runs the step-triggered checks in order (func_0218AC84,
+ * Field step handler: runs the step-triggered checks in order (FIELD_EVENT_CHECK_CheckStepEncount,
  * the 128-step counter, milestones, egg hatching, the save flag message) and
  * returns the first non-zero result. Flags come from the u32 bitfield at
  * 0x3C.
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb
- *   func_02188C80  0x02188C80  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0218AC84  0x0218AC84  thumb
- *   func_0218AB9C  0x0218AB9C  thumb
- *   func_0218AC08  0x0218AC08  thumb
- *   func_0218AB50  0x0218AB50  thumb
- *   func_0218AC4C  0x0218AC4C  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   FIELD_EVENT_CHECK_CheckStepEncount  0x0218AC84  thumb
+ *   FIELD_EVENT_CHECK_UpdateWalkFriendship  0x0218AB9C  thumb
+ *   FIELD_EVENT_CHECK_CheckZoneStepMessage  0x0218AC08  thumb
+ *   FIELD_EVENT_CHECK_CheckEggHatch  0x0218AB50  thumb
+ *   FIELD_EVENT_CHECK_CheckSaveFlagMessage  0x0218AC4C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -49,40 +49,40 @@ struct Ctx9B0 {
     u32 b9 : 1;
 };
 
-extern u16 func_02188C84(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_0218AC84(u8 *pos, void *msg, void *sys);
-extern void func_0218AB9C(void *sys, u8 *pos);
-extern int func_0218AC08(void *msg, u8 *pos, u16 id);
-extern int func_0218AB50(void *p, u8 *pos, void *msg, void *sys);
-extern int func_0218AC4C(u8 *pos, void *msg, void *sys);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern int FIELD_EVENT_CHECK_CheckStepEncount(u8 *pos, void *msg, void *sys);
+extern void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *sys, u8 *pos);
+extern int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *msg, u8 *pos, u16 id);
+extern int FIELD_EVENT_CHECK_CheckEggHatch(void *p, u8 *pos, void *msg, void *sys);
+extern int FIELD_EVENT_CHECK_CheckSaveFlagMessage(u8 *pos, void *msg, void *sys);
 
-int func_0218A9B0(struct Ctx9B0 *p, u8 *pos)
+int FIELD_EVENT_CHECK_CheckStepEvents(struct Ctx9B0 *p, u8 *pos)
 {
     void *msg;
     void *sys;
     int r;
 
-    func_02188C84(pos);
-    msg = func_02188C80(pos);
-    sys = func_020120F4(msg);
+    FIELDMAP_GetHeapId(pos);
+    msg = FIELDMAP_GetGameSystem(pos);
+    sys = GAMESYSTEM_GetGameData(msg);
     if (p->b2 || p->b9) {
-        r = func_0218AC84(pos, msg, sys);
+        r = FIELD_EVENT_CHECK_CheckStepEncount(pos, msg, sys);
         if (r != 0)
             return r;
     }
     if (!p->b2)
         return 0;
-    func_0218AB9C(p->f8, pos);
-    r = func_0218AC08(msg, pos, p->f10);
+    FIELD_EVENT_CHECK_UpdateWalkFriendship(p->f8, pos);
+    r = FIELD_EVENT_CHECK_CheckZoneStepMessage(msg, pos, p->f10);
     if (r != 0)
         return r;
-    r = func_0218AB50(p, pos, msg, sys);
+    r = FIELD_EVENT_CHECK_CheckEggHatch(p, pos, msg, sys);
     if (r != 0)
         return r;
-    r = func_0218AC4C(pos, msg, sys);
+    r = FIELD_EVENT_CHECK_CheckSaveFlagMessage(pos, msg, sys);
     if (r == 0)
         return 0;
     return r;

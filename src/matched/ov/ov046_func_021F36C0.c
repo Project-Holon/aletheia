@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: GIMMICK45_Init
  * address:  0x021F36C0
  * packet:   pkt_ov046_021F36C0
  * region:   ov046
@@ -10,32 +10,32 @@
  * status:   EXACT
  *
  * The [sp,#0xc] word the loop passes is mwcc's hoisted constant 1, spilled,
- * and f = (func_021F40D8(vec) != 0 ? 1 : 0) coalesces with it; a named
+ * and f = (GIMMICK46_IsPosInside(vec) != 0 ? 1 : 0) coalesces with it; a named
  * f = 1 before the loop is propagated as a literal instead (41 bytes off).
  *
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_021F3838  0x021F3838  thumb  ov046
- *   func_021F38D4  0x021F38D4  thumb  ov046
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021F40D8  0x021F40D8  thumb  ov046
- *   func_021F3FA8  0x021F3FA8  thumb  ov046
- *   func_021F4078  0x021F4078  thumb  ov046
- *   d_021F4120     0x021F4120  data  a4
- *   d_021F4108     0x021F4108  data  a2
- *   d_021F4194     0x021F4194  data  a4
- *   d_021F4170     0x021F4170  data  a4
- *   d_021F4204     0x021F4204  data  a4
- *   d_021F41B8     0x021F41B8  data  a4
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   GIMMICK46_InitModel  0x021F3838  thumb  ov046
+ *   GIMMICK46_InitUnitPose  0x021F38D4  thumb  ov046
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   GIMMICK46_IsPosInside  0x021F40D8  thumb  ov046
+ *   GIMMICK46_SetExteriorHidden  0x021F3FA8  thumb  ov046
+ *   GIMMICK46_ApplyPoseLines  0x021F4078  thumb  ov046
+ *   sGimmick46ExpUnitDesc     0x021F4120  data  a4
+ *   sGimmick46UnitAngles     0x021F4108  data  a2
+ *   sGimmick46BodyPos     0x021F4194  data  a4
+ *   sGimmick46LeverPos     0x021F4170  data  a4
+ *   sGimmick46ButtonPos     0x021F4204  data  a4
+ *   sGimmick46ExtraModelPos     0x021F41B8  data  a4
  */
 #include "../include/Obj20520.h"
 
@@ -49,37 +49,37 @@ typedef struct {
     int c;
 } V;
 
-extern int func_02188D2C(int *p);
+extern int FIELDMAP_GetExpObj(int *p);
 struct Big;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void func_021BE760(u32 p, void *a, int b);
-extern void func_021F3838(u32 a0, int a1, V *a2, u16 *a3, int a4, int a5);
-extern void func_021F38D4(u8 *base, u32 t, int idx);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(u32 p, void *a, int b);
+extern void GIMMICK46_InitModel(u32 a0, int a1, V *a2, u16 *a3, int a4, int a5);
+extern void GIMMICK46_InitUnitPose(u8 *base, u32 t, int idx);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern int func_021F40D8(int *p);
-extern void func_021F3FA8(char *a, u32 b, u32 c);
-extern void func_021F4078(u32 a, int b, int c);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern int GIMMICK46_IsPosInside(int *p);
+extern void GIMMICK46_SetExteriorHidden(char *a, u32 b, u32 c);
+extern void GIMMICK46_ApplyPoseLines(u32 a, int b, int c);
 
-extern int d_021F4120;
-extern u16 d_021F4108[];
-extern V d_021F4194[];
-extern V d_021F4170[];
-extern V d_021F4204[];
-extern V d_021F41B8;
+extern int sGimmick46ExpUnitDesc;
+extern u16 sGimmick46UnitAngles[];
+extern V sGimmick46BodyPos[];
+extern V sGimmick46LeverPos[];
+extern V sGimmick46ButtonPos[];
+extern V sGimmick46ExtraModelPos;
 
-void func_021F36C0(void *a0)
+void GIMMICK45_Init(void *a0)
 {
     V tmp;
     int vec[3];
@@ -91,28 +91,28 @@ void func_021F36C0(void *a0)
     int n;
     int f;
 
-    t = func_02188D2C(a0);
-    w = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(a0))), 10);
-    x = func_02189764(a0, 1, func_02188C84(a0), 0x28);
-    func_021BE760(t, &d_021F4120, 0);
+    t = FIELDMAP_GetExpObj(a0);
+    w = (u8 *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a0))), 10);
+    x = FIELDMAP_AllocCommonWork(a0, 1, FIELDMAP_GetHeapId(a0), 0x28);
+    FLD_EXP_OBJ_AddUnitFromArchive(t, &sGimmick46ExpUnitDesc, 0);
     for (i = 0; i < 3; i++) {
         v = 0;
-        v = d_021F4108[i];
+        v = sGimmick46UnitAngles[i];
         n = i * 5;
-        func_021F3838(t, n, &d_021F4194[i], &v, 8, 0);
-        func_021F3838(t, n + 1, &d_021F4170[i], &v, 2, 0);
-        func_021F3838(t, n + 2, &d_021F4170[i], &v, 2, 0);
-        func_021F3838(t, n + 3, &d_021F4204[i * 2], 0, 1, 1);
-        func_021F3838(t, n + 4, &d_021F4204[i * 2 + 1], 0, 1, 1);
-        func_021F38D4(w, t, i);
+        GIMMICK46_InitModel(t, n, &sGimmick46BodyPos[i], &v, 8, 0);
+        GIMMICK46_InitModel(t, n + 1, &sGimmick46LeverPos[i], &v, 2, 0);
+        GIMMICK46_InitModel(t, n + 2, &sGimmick46LeverPos[i], &v, 2, 0);
+        GIMMICK46_InitModel(t, n + 3, &sGimmick46ButtonPos[i * 2], 0, 1, 1);
+        GIMMICK46_InitModel(t, n + 4, &sGimmick46ButtonPos[i * 2 + 1], 0, 1, 1);
+        GIMMICK46_InitUnitPose(w, t, i);
     }
-    tmp = d_021F41B8;
-    func_021F3838(t, 0xf, &tmp, 0, 0, 0);
-    func_021BE700((void *)t, 0, 0xf, 0, 1);
-    func_021A3038(func_02188CB4((void *)a0), (struct VecFx32 *)vec);
-    f = func_021F40D8(vec) != 0 ? 1 : 0;
-    func_021F3FA8((char *)t, (u32)a0, f);
+    tmp = sGimmick46ExtraModelPos;
+    GIMMICK46_InitModel(t, 0xf, &tmp, 0, 0, 0);
+    FLD_EXP_OBJ_SetAnimeEnabled((void *)t, 0, 0xf, 0, 1);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((void *)a0), (struct VecFx32 *)vec);
+    f = GIMMICK46_IsPosInside(vec) != 0 ? 1 : 0;
+    GIMMICK46_SetExteriorHidden((char *)t, (u32)a0, f);
     ((struct Obj20520 *)x)->f24 = f;
     for (i = 0; i < 3; i++)
-        func_021F4078((u32)a0, i, *(int *)(w + i * 12));
+        GIMMICK46_ApplyPoseLines((u32)a0, i, *(int *)(w + i * 12));
 }

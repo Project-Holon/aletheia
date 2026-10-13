@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0200846C  0x0200846C  thumb
- *   func_020084A0  0x020084A0  thumb
+ *   MYSTATUS_Create  0x0200846C  thumb
+ *   MYSTATUS_Init  0x020084A0  thumb
  *   func_020084D4  0x020084D4  thumb
  *   func_02008560  0x02008560  thumb
  *   func_02008568  0x02008568  thumb
@@ -47,9 +47,9 @@ typedef struct {
     u8 f125;
 } Entry;
 
-extern void *func_0200846C(int a0);
+extern void *MYSTATUS_Create(int a0);
 struct Sub0200852CObj;
-extern void func_020084A0(struct Sub0200852CObj *p);
+extern void MYSTATUS_Init(struct Sub0200852CObj *p);
 extern u32 func_020084D4(u32 value, void *dst);
 extern void func_02008560(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008568(struct Sub0200852CObj *obj, u8 value);
@@ -61,8 +61,8 @@ Info *func_021F72C4(Entry *e)
 {
     Info *info;
 
-    info = func_0200846C(0x48);
-    func_020084A0((struct Sub0200852CObj *)info);
+    info = MYSTATUS_Create(0x48);
+    MYSTATUS_Init((struct Sub0200852CObj *)info);
     func_020084D4((u32)info, e->name);
     func_02008560((struct Sub0200852CObj *)info, e->f124);
     func_02008568((struct Sub0200852CObj *)info, e->f125);

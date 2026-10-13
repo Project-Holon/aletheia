@@ -13,8 +13,8 @@
  *   func_021DE550 0x021DE550 thumb ov121
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021D6E3C 0x021D6E3C thumb ov121
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021D9288 0x021D9288 thumb ov121
  *   func_021D9E04 0x021D9E04 thumb ov121
  *   func_021D6C28 0x021D6C28 thumb ov121
@@ -31,7 +31,7 @@
  *   func_021D9CA4 0x021D9CA4 thumb ov121
  *   func_021D9FFC 0x021D9FFC thumb ov121
  *   func_0207D63C 0x0207D63C arm
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_021D73DC 0x021D73DC thumb ov121
  *   func_020307B0 0x020307B0 arm
@@ -57,8 +57,8 @@ typedef signed int     s32;
 extern void func_021DE550(char *p);
 extern void func_021DA8B0(u32 *p, u32 a);
 extern void func_021D6E3C(void *task, u32 *state, u8 *p);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
 extern void func_021D9288(unsigned *p, unsigned v);
 extern void func_021D9E04(u8 *p);
 extern void func_021D6C28(u8 *p);
@@ -76,7 +76,7 @@ extern void func_021D6AEC(char *p, void *owner, u16 heap);
 extern void *func_021D9CA4(int a, u8 b, void *c, void *d, u16 heap);
 extern void func_021D9FFC(u8 *p, int a, int b);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void func_0203D34C(u32,u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void func_021D73DC(void *task, u32 *state, u8 *p);
 extern u32 func_020307B0(void *p);
@@ -95,10 +95,10 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
     }
     switch(*state) {
     case 0:
-        func_0204E720(3,0,16,0);
+        FADE_Start(3,0,16,0);
         *state=1; return;
     case 1:
-        if(!func_0204E804()) {
+        if(!FADE_IsActive()) {
             func_021D9288((unsigned int *)(p+312),0);
             *state=2; return;
         }
@@ -133,17 +133,17 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         ((struct Obj00533 *)p)->f284=func_021D9CA4(1,15,((struct Obj00533 *)p)->f39C,((struct Obj00533 *)p)->f398,29);
         func_021D9FFC(((struct Obj00533 *)p)->f284,10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);
-        func_0203D34C(1,29);
+        GFL_NET_RestartWithDefaultTimeout(1,29);
         GFL_USE_CancelChangeAndPlayBgm(1154,65535);
         func_021D9288((unsigned int *)(p+312),1);
         *state=4; return;
     case 4:
         *state=6; return;
     case 6:
-        func_0204E720(3,16,0,0);
+        FADE_Start(3,16,0,0);
         *state=7; return;
     case 7:
-        if(!func_0204E804()) { *state=8; return; }
+        if(!FADE_IsActive()) { *state=8; return; }
         break;
     case 8:
         if(!((struct Obj22866 *)(*(u8 * *)&((struct Obj00533 *)p)->f3C0))->f1C) func_021DA8B0(task,(u32)func_021D73DC);

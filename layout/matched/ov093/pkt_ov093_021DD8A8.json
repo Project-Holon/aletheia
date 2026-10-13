@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DD8A8",
+   "name": "BTL_ITEM_GetRaiseSpeedOneHandlers",
    "address": "0x021DD8A8",
    "kind": "game",
    "region": "ov093",

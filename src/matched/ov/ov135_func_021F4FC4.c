@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202F038  0x0202F038  thumb
- *   func_02045374  0x02045374  arm
+ *   TIME_ICON_Delete  0x0202F038  thumb
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
@@ -25,17 +25,17 @@ typedef unsigned int u32;
 
 struct Cfg;
 struct Descriptor;
-extern void func_0202F038(u8 *p);
-extern void func_02045374(struct Cfg *cfg);
+extern void TIME_ICON_Delete(u8 *p);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 v);
 
 void func_021F4FC4(u8 *p)
 {
     if (((struct Obj00018 *)p)->fDF8 != 0) {
-        func_0202F038((u8 *)(((struct Obj00018 *)p)->fDF8));
+        TIME_ICON_Delete((u8 *)(((struct Obj00018 *)p)->fDF8));
         ((struct Obj00018 *)p)->fDF8 = 0;
-        func_02045374((struct Cfg *)(((struct Obj00018 *)p)->fD40));
+        BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj00018 *)p)->fD40));
         func_020409B4(func_02045730((struct Descriptor *)(((struct Obj00018 *)p)->fD40)));
     }
 }

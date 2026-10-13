@@ -1,5 +1,5 @@
 /*
- * function: func_02165D10
+ * function: GAME_BEACON_ACCESSOR_GetPlayTime
  * packet: pkt_ov010_02165D10
  * address: 0x02165D10
  * region: ov010
@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct S {u32 a,b,c;u32 low:16;u32 first:10;u32 second:6;};
-void func_02165D10(const struct S *p,u16 *a,u16 *b)
+void GAME_BEACON_ACCESSOR_GetPlayTime(const struct S *p,u16 *a,u16 *b)
 {
     *a=p->first;
     *b=p->second;

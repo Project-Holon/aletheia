@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Closes the clact.c fan-in-1 blocker documented in
- * docs/notes/clact_c_fan_in_1_blockers.c.txt: func_0204B9A0 (its only
+ * docs/notes/clact_c_fan_in_1_blockers.c.txt: CLACT_RestartActorAnim (its only
  * caller image wide) forwards its argument unchanged.
  *
  * Dispatch through a function-pointer table indexed by the mode word at

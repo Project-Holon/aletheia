@@ -7,17 +7,23 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
+ *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  */
 #include "../include/Obj08288.h"
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204A8D4(unsigned);
-extern void func_0204AFD8(unsigned);
-extern void func_0204ADA4(unsigned);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleaseCellAnim(unsigned);
+extern void CLACT_ReleasePalette(unsigned);
 void func_021E7C14(char *p)
 {
-    func_0204B3B4(((struct Obj08288 *)p)->f64);
-    func_0204A8D4(((struct Obj08288 *)p)->f82);
-    func_0204AFD8(((struct Obj08288 *)p)->f84);
-    func_0204ADA4(((struct Obj08288 *)p)->f80);
+    CLACT_DeleteActor(((struct Obj08288 *)p)->f64);
+    CLACT_ReleaseCharacter(((struct Obj08288 *)p)->f82);
+    CLACT_ReleaseCellAnim(((struct Obj08288 *)p)->f84);
+    CLACT_ReleasePalette(((struct Obj08288 *)p)->f80);
 }

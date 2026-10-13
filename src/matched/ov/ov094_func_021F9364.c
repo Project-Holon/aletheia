@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046F48  0x02046F48  arm
- *   func_0206E964  0x0206E964  arm
- *   func_02021F64  0x02021F64  thumb
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
+ *   NNS_G3dGetTex  0x0206E964  arm
+ *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02061CA4  0x02061CA4  arm
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -38,9 +38,9 @@ typedef struct {
 } Q;
 
 struct Tagged;
-extern void *func_02046F48(struct Tagged *p);
-extern unsigned char *func_0206E964(unsigned char *p);
-extern void func_02021F64(u16 *src, u16 *dst, u32 count, int weight, u16 color);
+extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
@@ -55,10 +55,10 @@ void func_021F9364(P *p)
         if (p->cnt == 0) {
             p->cnt = p->rl;
             for (i = 0; i < p->n; i++) {
-                q = (Q *)func_0206E964(func_02046F48((struct Tagged *)p->a0[i]));
+                q = (Q *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile((struct Tagged *)p->a0[i]));
                 sz = q->h30 << 3;
                 off = (u16)q->w2c << 3;
-                func_02021F64((u16 *)((char *)q + q->o38), p->a4[i], (u16)(sz >> 1), p->cur, p->col);
+                PALANM_BlendColors((u16 *)((char *)q + q->o38), p->a4[i], (u16)(sz >> 1), p->cur, p->col);
                 func_02061CA4((void *)1, off, (u32)p->a4[i], sz);
             }
             if (p->cur == p->tgt) {

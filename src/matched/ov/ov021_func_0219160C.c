@@ -1,5 +1,5 @@
 /*
- * function: func_0219160C
+ * function: FIELD_MSGBG_OpenPlainWin
  * address:  0x0219160C
  * packet:   pkt_ov021_0219160C
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02194A34  0x02194A34  thumb  ov021
+ *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb  ov021
  */
 
 typedef unsigned int   u32;
-extern int func_02194A34(u32 a, u32 b);
+extern int TALKMSGWIN_ClearWindowFrame(u32 a, u32 b);
 
-void func_0219160C(int *p)
+void FIELD_MSGBG_OpenPlainWin(int *p)
 {
-    func_02194A34(p[4], p[6]);
+    TALKMSGWIN_ClearWindowFrame(p[4], p[6]);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EE4B4
+ * function: BTLV_SCU_StepBallWindowRefresh
  * address:  0x021EE4B4
  * packet:   pkt_ov093_021EE4B4
  * region:   ov093
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D590C  0x021D590C  thumb  ov093
- *   func_021EF7AC  0x021EF7AC  thumb  ov093
- *   func_02043B5C  0x02043B5C  arm
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_02045334  0x02045334  arm
+ *   BTL_POKEPARAM_ReadStatsFromMon  0x021D590C  thumb  ov093
+ *   BTL_MSG_BuildBallStatusRefresh  0x021EF7AC  thumb  ov093
+ *   BMP_Clear  0x02043B5C  arm
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020061E4  0x020061E4  thumb
  */
 
@@ -43,26 +43,26 @@ struct C {
 
 typedef signed short   s16;
 struct CharBuf;
-extern void func_021D590C(void **p, u16 *out);
-extern void func_021EF7AC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void BTL_POKEPARAM_ReadStatsFromMon(void **p, u16 *out);
+extern void BTL_MSG_BuildBallStatusRefresh(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_020061E4(u32 a);
 
-int func_021EE4B4(int *st, struct C *c)
+int BTLV_SCU_StepBallWindowRefresh(int *st, struct C *c)
 {
     switch (*st) {
     case 0:
-        func_021D590C((void **)c->f16c, &c->f170);
-        func_021EF7AC(c->f34, c->f172, c->f174, c->f176, c->f178, c->f17a, c->f17c);
-        func_02043B5C((struct CharBuf *)c->f0c, 12);
-        func_0201C7A4((void *)c->f0c, 0, 0, (void *)c->f34, (void *)c->f24);
+        BTL_POKEPARAM_ReadStatsFromMon((void **)c->f16c, &c->f170);
+        BTL_MSG_BuildBallStatusRefresh(c->f34, c->f172, c->f174, c->f176, c->f178, c->f17a, c->f17c);
+        BMP_Clear((struct CharBuf *)c->f0c, 12);
+        PRINTSYS_Print((void *)c->f0c, 0, 0, (void *)c->f34, (void *)c->f24);
         (*st)++;
         break;
     case 1:
-        func_02045334((struct Descriptor *)c->f08);
+        BMP_WIN_TransferChars((struct Descriptor *)c->f08);
         func_020061E4(0x547);
         (*st)++;
         break;

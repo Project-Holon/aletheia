@@ -1,5 +1,5 @@
 /*
- * function: func_0217C450
+ * function: UNION_ONESELF_TalkParentAnswerWaitMain
  * address:  0x0217C450
  * packet:   pkt_ov019_0217C450
  * region:   ov019
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217BB04  0x0217BB04  thumb ov019
- *   func_02173A04  0x02173A04  thumb ov012
- *   func_0217B8E4  0x0217B8E4  thumb ov019
+ *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
+ *   UNION_COMMAND_SendPartnerSelectA  0x02173A04  thumb ov012
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb ov019
  *   func_0217EC40  0x0217EC40  thumb ov019
  *   func_0217EC54  0x0217EC54  thumb ov019
- *   func_0217F210  0x0217F210  thumb ov019
- *   func_0217F1EC  0x0217F1EC  thumb ov019
+ *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb ov019
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb ov019
  */
 
 typedef unsigned char u8;
@@ -37,44 +37,44 @@ typedef struct {
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
-int func_0217BB04(char *p);
-int func_02173A04(int a, ...);
-int func_0217B8E4(char *p, int v);
+int UNION_ONESELF_CheckNetError(char *p);
+int UNION_COMMAND_SendPartnerSelectA(int a, ...);
+int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 u16 func_0217EC40(int i, int j);
 u16 func_0217EC54(int i, int j);
-void func_0217F210(u8 *p, u8 *a, u32 b);
-u32 func_0217F1EC(u8 *p);
+void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
+u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 
-int func_0217C450(void *ctx, Obj *obj, u8 *a2, u8 *state)
+int UNION_ONESELF_TalkParentAnswerWaitMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
 {
-    if (func_0217BB04(ctx) == 1)
+    if (UNION_ONESELF_CheckNetError(ctx) == 1)
         return 1;
 
     switch (*state) {
     case 0:
-        if (func_02173A04(obj->f2d) == 1) {
+        if (UNION_COMMAND_SendPartnerSelectA(obj->f2d) == 1) {
             if (obj->f2d == 0) {
-                func_0217B8E4(ctx, 0x27);
+                UNION_ONESELF_SetNextPlayCategory(ctx, 0x27);
                 return 1;
             }
-            func_0217F210(ctx, a2, func_0217EC40(obj->f2d, obj->f14->flag));
+            UNION_MSG_SetupPrintTalkMsg(ctx, a2, func_0217EC40(obj->f2d, obj->f14->flag));
             (*state)++;
         }
         break;
     case 1:
-        if (func_0217F1EC(ctx) != 0) {
+        if (UNION_MSG_CheckTalkPrintEnd(ctx) != 0) {
             if (obj->f2e == 1) {
-                func_0217B8E4(ctx, obj->f2d + 11);
+                UNION_ONESELF_SetNextPlayCategory(ctx, obj->f2d + 11);
                 (*state)++;
             } else if (obj->f2e == 0) {
-                func_0217B8E4(ctx, 0x27);
-                func_0217F210(ctx, a2, func_0217EC54(obj->f2d, obj->f14->flag));
+                UNION_ONESELF_SetNextPlayCategory(ctx, 0x27);
+                UNION_MSG_SetupPrintTalkMsg(ctx, a2, func_0217EC54(obj->f2d, obj->f14->flag));
                 return 1;
             }
         }
         break;
     case 2:
-        if (func_0217F1EC(ctx) == 1)
+        if (UNION_MSG_CheckTalkPrintEnd(ctx) == 1)
             return 1;
         break;
     }

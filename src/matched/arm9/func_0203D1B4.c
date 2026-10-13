@@ -1,5 +1,5 @@
 /*
- * function: func_0203D1B4
+ * function: GFL_NET_GetNegotiationNum
  * address:  0x0203D1B4
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 
-int func_0203D1B4(void)
+int GFL_NET_GetNegotiationNum(void)
 {
     return GFL_NET_HANDLE_GetNegotiationNum();
 }

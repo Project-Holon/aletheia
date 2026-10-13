@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  */
 #include "../include/Obj10942.h"
-extern void func_0204E720(unsigned,int,int,int);
-extern int func_0204E804(void);
-int func_021BBF60(char *p){switch(((struct Obj10942 *)p)->f4){case 0:func_0204E720(3,16,0,0);(((struct Obj10942 *)p)->f4)++;break;case 1:if(func_0204E804()==0){((struct Obj10942 *)p)->f4=0;return 2;}break;}return 1;}
+extern void FADE_Start(unsigned,int,int,int);
+extern int FADE_IsActive(void);
+int func_021BBF60(char *p){switch(((struct Obj10942 *)p)->f4){case 0:FADE_Start(3,16,0,0);(((struct Obj10942 *)p)->f4)++;break;case 1:if(FADE_IsActive()==0){((struct Obj10942 *)p)->f4=0;return 2;}break;}return 1;}

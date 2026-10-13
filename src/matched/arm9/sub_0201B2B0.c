@@ -20,7 +20,7 @@
  *           src/matched/unit_02007CB0.c already declares that parameter u16.
  *
  * symbols:
- *   func_02017E1C   0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   func_02020FE4   0x02020FE4  thumb
  *   func_02030734   0x02030734  arm
  *   func_020307B0   0x020307B0  arm
@@ -59,7 +59,7 @@ struct EvoRow {
     u16 target;
 };
 
-extern u32   func_02017E1C(void *mon, u32 id, u32 v);
+extern u32   POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern u32   func_02020FE4(u32 id, u32 sel, u16 heap);
 extern void *func_02030734(u32 heap, u32 size, int c, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
@@ -97,13 +97,13 @@ u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
     u32 j;
 
     result = 0;
-    if (func_02017E1C(mon, 0x4C, 0) != 0) {
+    if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) != 0) {
         return result;
     }
-    species = func_02017E1C(mon, 5, 0);
-    held = func_02017E1C(mon, 6, 0);
-    pid = func_02017E1C(mon, 0, 0);
-    beauty = func_02017E1C(mon, 0x14, 0);
+    species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    held = POKE_TOOL_GetPartyValue(mon, 6, 0);
+    pid = POKE_TOOL_GetPartyValue(mon, 0, 0);
+    beauty = POKE_TOOL_GetPartyValue(mon, 0x14, 0);
     pidHigh = (pid & 0xFFFF0000) >> 16;
     holdEffect = func_02020FE4(held, 1, heap);
     if (species != 0x40 && holdEffect == 0x40 && context != 3) {
@@ -118,8 +118,8 @@ u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
 
     switch (context) {
     case 0:
-        level = func_02017E1C(mon, 0x9E, i);
-        friendship = func_02017E1C(mon, 9, i);
+        level = POKE_TOOL_GetPartyValue(mon, 0x9E, i);
+        friendship = POKE_TOOL_GetPartyValue(mon, 9, i);
         for (i = 0; i < 7; i++) {
             row = &table[i];
             switch (row->method) {
@@ -145,24 +145,24 @@ u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
                 break;
             case 9:
                 if (row->param <= level) {
-                    a34 = func_02017E1C(mon, 0xA2, 0);
-                    if (a34 > func_02017E1C(mon, 0xA3, 0)) {
+                    a34 = POKE_TOOL_GetPartyValue(mon, 0xA2, 0);
+                    if (a34 > POKE_TOOL_GetPartyValue(mon, 0xA3, 0)) {
                         result = row->target;
                     }
                 }
                 break;
             case 10:
                 if (row->param <= level) {
-                    a38 = func_02017E1C(mon, 0xA2, 0);
-                    if (a38 == func_02017E1C(mon, 0xA3, 0)) {
+                    a38 = POKE_TOOL_GetPartyValue(mon, 0xA2, 0);
+                    if (a38 == POKE_TOOL_GetPartyValue(mon, 0xA3, 0)) {
                         result = row->target;
                     }
                 }
                 break;
             case 11:
                 if (row->param <= level) {
-                    a3c = func_02017E1C(mon, 0xA2, 0);
-                    if (a3c < func_02017E1C(mon, 0xA3, 0)) {
+                    a3c = POKE_TOOL_GetPartyValue(mon, 0xA2, 0);
+                    if (a3c < POKE_TOOL_GetPartyValue(mon, 0xA3, 0)) {
                         result = row->target;
                     }
                 }
@@ -211,12 +211,12 @@ u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
                 }
                 break;
             case 23:
-                if (func_02017E1C(mon, 0x6E, 0) == 0 && row->param <= level) {
+                if (POKE_TOOL_GetPartyValue(mon, 0x6E, 0) == 0 && row->param <= level) {
                     result = row->target;
                 }
                 break;
             case 24:
-                if (func_02017E1C(mon, 0x6E, 0) == 1 && row->param <= level) {
+                if (POKE_TOOL_GetPartyValue(mon, 0x6E, 0) == 1 && row->param <= level) {
                     result = row->target;
                 }
                 break;
@@ -272,11 +272,11 @@ u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
                 }
                 break;
             case 7:
-                if (func_02020FE4((u16)func_02017E1C((void *)param, 6, 0), 1, heap) != 0x40) {
-                    if ((func_02017E1C(mon, 0xAB, 0) == 588
-                         && func_02017E1C((void *)param, 0xAB, 0) == 616)
-                     || (func_02017E1C((void *)param, 0xAB, 0) == 588
-                         && func_02017E1C(mon, 0xAB, 0) == 616)) {
+                if (func_02020FE4((u16)POKE_TOOL_GetPartyValue((void *)param, 6, 0), 1, heap) != 0x40) {
+                    if ((POKE_TOOL_GetPartyValue(mon, 0xAB, 0) == 588
+                         && POKE_TOOL_GetPartyValue((void *)param, 0xAB, 0) == 616)
+                     || (POKE_TOOL_GetPartyValue((void *)param, 0xAB, 0) == 588
+                         && POKE_TOOL_GetPartyValue(mon, 0xAB, 0) == 616)) {
                         result = row->target;
                     }
                 }
@@ -295,10 +295,10 @@ u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
             if (row->method == 8 && param == row->param) {
                 result = row->target;
             }
-            if (row->method == 0x11 && func_02017E1C(mon, 0x6E, 0) == 0 && param == row->param) {
+            if (row->method == 0x11 && POKE_TOOL_GetPartyValue(mon, 0x6E, 0) == 0 && param == row->param) {
                 result = row->target;
             }
-            if (row->method == 0x12 && func_02017E1C(mon, 0x6E, 0) == 1 && param == row->param) {
+            if (row->method == 0x12 && POKE_TOOL_GetPartyValue(mon, 0x6E, 0) == 1 && param == row->param) {
                 result = row->target;
             }
             if (result != 0) {

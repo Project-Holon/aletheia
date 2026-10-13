@@ -1,5 +1,5 @@
 /*
- * function: func_021C536C
+ * function: SHORTCUT_MENU_RequestClose
  * address:  0x021C536C
  * packet:   pkt_ov021_021C536C
  * region:   ov021
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021C536C(u8 *p)
+void SHORTCUT_MENU_RequestClose(u8 *p)
 {
     if (((struct Obj12940 *)p)->f70 == 3)
         ((struct Obj12940 *)p)->f70 = 4;

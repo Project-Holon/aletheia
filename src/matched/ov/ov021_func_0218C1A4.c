@@ -1,5 +1,5 @@
 /*
- * function: func_0218C1A4
+ * function: FIELD_BUILDMODEL_AdvanceAllSlots
  * address:  0x0218C1A4
  * packet:   pkt_ov021_0218C1A4
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02047910  0x02047910  arm
+ *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  */
 
-int func_02047910(void *a, int idx, int amount);
+int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 
-void func_0218C1A4(int unused, int *s)
+void FIELD_BUILDMODEL_AdvanceAllSlots(int unused, int *s)
 {
     int i;
     for (i = 0; i < 4; i++)
-        func_02047910((void *)(*s), (unsigned short)i, 0x1000);
+        G3D_SYSTEM_LoopObjectAnimeFrame((void *)(*s), (unsigned short)i, 0x1000);
 }

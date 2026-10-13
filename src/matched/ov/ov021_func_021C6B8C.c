@@ -1,5 +1,5 @@
 /*
- * function: func_021C6B8C
+ * function: FIELDMAP_TCB_CAMERA_ZOOM_Main
  * address:  0x021C6B8C
  * packet:   pkt_ov021_021C6B8C
  * region:   ov021
@@ -13,7 +13,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
- *   func_021C6BB4  0x021C6BB4  thumb  ov021
+ *   FIELDMAP_TCB_CAMERA_ZOOM_Step  0x021C6BB4  thumb  ov021
  */
 
 
@@ -34,10 +34,10 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef struct { u32 f0; u16 f4; u16 f6; } P;
-extern void func_021C6BB4(u8 *p);
-void func_021C6B8C(void *task, P *p)
+extern void FIELDMAP_TCB_CAMERA_ZOOM_Step(u8 *p);
+void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, P *p)
 {
-    func_021C6BB4((u8 *)p);
+    FIELDMAP_TCB_CAMERA_ZOOM_Step((u8 *)p);
     p->f4++;
     if (p->f6 < p->f4) {
         func_020307B0(p);

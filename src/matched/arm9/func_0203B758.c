@@ -12,6 +12,8 @@
  * symbols:
  *   _pNetState     0x021469DC  data
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -28,15 +30,15 @@ typedef unsigned int  u32;
 
 extern struct Sys *_pNetState;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct NetState;
 extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
-extern int func_02039ACC(void);
+extern int GFL_NET_HANDLE_CheckNegotiation(void);
 
 void GFL_NET_STATE_ChangeoverChildNegotiation(void)
 {
-    func_0203D798();
-    if (func_02039ACC() == 0)
+    GFL_NET_GetInitParam();
+    if (GFL_NET_HANDLE_CheckNegotiation() == 0)
         return;
 
     GFL_NET_STATE_ChangeStateDebug((struct NetState *)((u8 *)_pNetState), (void *)0x0203B794, 0, 0x30E);

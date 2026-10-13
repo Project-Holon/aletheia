@@ -1,5 +1,5 @@
 /*
- * function: func_0219EF7C
+ * function: FIELD_RAIL_LOADER_Load
  * address:  0x0219EF7C
  * packet:   pkt_ov021_0219EF7C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A298  0x0204A298  arm
+ *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   func_0209C2B0  0x0209C2B0  arm
  * Addresses are Black-image addresses.
  */
@@ -35,13 +35,13 @@ struct S {
     u32 f34;
 };
 
-extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
+extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern u32 func_0209C2B0(u32, u32);
 
-void func_0219EF7C(struct S *p, u32 b, u32 c)
+void FIELD_RAIL_LOADER_Load(struct S *p, u32 b, u32 c)
 {
     u32 loc;
-    p->f0 = (u32 *)func_0204A298(0x4f, b, 0, (u16)c, &loc);
+    p->f0 = (u32 *)ARC_UTIL_LoadMemberWithSize(0x4f, b, 0, (u16)c, &loc);
     p->f4 = loc;
     p->f18 = (u32)p->f0 + p->f0[2];
     p->h8 = func_0209C2B0(p->f0[3] - p->f0[2], 0x70);

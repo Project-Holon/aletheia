@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ABE04",
+   "name": "FIELD_EFFECT_Update",
    "address": "0x021ABE04",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ABE0C",
+   "name": "FIELD_EFFECT_Draw",
    "address": "0x021ABE0C",
    "kind": "game",
    "region": "ov021",

@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203064C   0x0203064C  arm
- *   func_0203159C   0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap   0x0203064C  arm
+ *   PROCSYS_AllocProcWork   0x0203159C  arm
  *   func_02082BCC   0x02082BCC  arm
  *   func_021E58F0   0x021E58F0  thumb
  *   func_021E5A70   0x021E5A70  thumb
@@ -20,9 +20,9 @@
  */
 
 
-extern void func_0203064C(unsigned int, unsigned int, unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(int, int, int);
 extern void func_021E58F0(int, int *, int);
 typedef unsigned int   u32;
@@ -31,8 +31,8 @@ extern void func_021E5A70(u32 *out, u32 **pp, u32 v);
 int func_021E5838(struct Obj0203159C *a, int b, int *p)
 {
     int h;
-    func_0203064C(1, 0x58, 0x10000);
-    h = (int)func_0203159C(a, 4, 0x58);
+    GFL_HEAP_CreateChildHeap(1, 0x58, 0x10000);
+    h = (int)PROCSYS_AllocProcWork(a, 4, 0x58);
     func_02082BCC(h, 0, 4);
     p[2] = 0;
     switch (p[1]) {

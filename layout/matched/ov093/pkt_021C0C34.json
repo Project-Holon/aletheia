@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C0C34",
+   "name": "BTL_SERVER_FLOW_GetHitFlagsByte2",
    "address": "0x021C0C34",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021C1194",
+   "name": "BTL_SERVER_FLOW_GetHitFlagsMultiHit",
    "address": "0x021C1194",
    "kind": "game",
    "region": "ov093",

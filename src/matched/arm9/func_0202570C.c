@@ -1,5 +1,5 @@
 /*
- * function: func_0202570C
+ * function: BMP_OAM_Delete
  * address:  0x0202570C
  * packet:   pkt_020255A0
  * region:   arm9
@@ -14,8 +14,8 @@
  * object itself.
  *
  * symbols:
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -31,19 +31,19 @@ struct Grid {
     u8    rows;
 };
 
-extern void func_0204A8D4(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 func_020307B0(void *p);
 
-void func_0202570C(struct Grid *g)
+void BMP_OAM_Delete(struct Grid *g)
 {
     u8 i, j;
 
     for (i = 0; i < g->rows; i++) {
         for (j = 0; j < g->cols; j++) {
-            func_0204A8D4((u32)g->b[j + i * g->cols]);
-            func_0204B3B4(g->a[j + i * g->cols]);
+            CLACT_ReleaseCharacter((u32)g->b[j + i * g->cols]);
+            CLACT_DeleteActor(g->a[j + i * g->cols]);
         }
     }
     func_020307B0(g);

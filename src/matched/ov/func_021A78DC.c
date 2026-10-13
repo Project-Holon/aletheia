@@ -1,5 +1,5 @@
 /*
- * function: func_021A78DC
+ * function: FIELD_GROUND_ANIME_TexAnmIsActive
  * address:  0x021A78DC
  * packet:   pkt_021A78DC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A78DC(u32 a)
+int FIELD_GROUND_ANIME_TexAnmIsActive(u32 a)
 {
 if (((struct Obj18065 *)((u8 *)(a)))->f1C != 0) {
     return 1;

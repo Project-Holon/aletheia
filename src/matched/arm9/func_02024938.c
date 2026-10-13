@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   g_pmsWordDefaultFlagTable   0x0209F784  data  a1
- *   func_020249A0  0x020249A0  thumb
+ *   PMS_WORD_SetFlag  0x020249A0  thumb
  *
  * pms_word.c: clear the flag words, seed all forty word slots to 0xFFFF,
  * then set the flag bit named by the first row of the 7 x 2 byte table at
@@ -37,7 +37,7 @@ struct PmsWord {
 };
 
 extern const u8 g_pmsWordDefaultFlagTable[][2];
-extern void func_020249A0(int *p, int bit);
+extern void PMS_WORD_SetFlag(int *p, int bit);
 
 void PMS_WORD_InitSave(struct PmsWord *p)
 {
@@ -52,7 +52,7 @@ void PMS_WORD_InitSave(struct PmsWord *p)
     }
     for (k = 0; k < 7; k++) {
         if (g_pmsWordDefaultFlagTable[k][0] == 2) {
-            func_020249A0((int *)p, g_pmsWordDefaultFlagTable[k][1]);
+            PMS_WORD_SetFlag((int *)p, g_pmsWordDefaultFlagTable[k][1]);
             return;
         }
     }

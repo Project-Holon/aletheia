@@ -1,5 +1,5 @@
 /*
- * function: func_0216F830
+ * function: TRCARD_SYS_CountStars
  * address:  0x0216F830
  * packet:   pkt_ov010_0216F830
  * region:   ov010
@@ -21,9 +21,9 @@
  * symbols:
  *   GAME_DATA_GetSaveBlock3A  0x02012EF0  thumb
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
- *   func_020127B8  0x020127B8  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
+ *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200D298  0x0200D298  thumb
  *   func_0200DBA0  0x0200DBA0  thumb
@@ -41,10 +41,10 @@ struct Blk1AC;
 struct Rec1B0;
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *GAME_DATA_GetSaveBlock2A(void *save);
-extern void *func_020127B8(void *save);
+extern void *GAME_DATA_GetLastBattleRecSlot(void *save);
 struct BigObj;
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020142E8(void *bitmap, int id);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern void *func_0200CA1C(void *save);
 extern int func_0200D298(void *p);
 extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
@@ -52,7 +52,7 @@ extern u32 func_0200A73C(struct Big *p);
 extern u16 func_0200BDF8(struct Rec1B0 *p);
 extern u16 func_0200BDFC(struct Rec1B0 *p);
 
-int func_0216F830(void *save)
+int TRCARD_SYS_CountStars(void *save)
 {
     int n;
     void *a;
@@ -62,8 +62,8 @@ int func_0216F830(void *save)
     n = 0;
     a = GAME_DATA_GetSaveBlock3A(save);
     b = GAME_DATA_GetSaveBlock2A(save);
-    c = func_020127B8(save);
-    if (func_020142E8((void *)func_0201296C(save), 0x960))
+    c = GAME_DATA_GetLastBattleRecSlot(save);
+    if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save), 0x960))
         n++;
     if (func_0200D298(func_0200CA1C(save)))
         n++;

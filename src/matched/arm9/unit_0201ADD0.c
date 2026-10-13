@@ -16,6 +16,7 @@
  *   poke_personal_File  0x020A7310  data
  *   POKE_PERSONAL_LoadData  0x0201ADA4  thumb
  *   POKE_PERSONAL_GetFormDataId  0x0201AFD4  thumb
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *
  * POKE_PERSONAL_LoadDataDirect is a second, smaller wrapper around POKE_PERSONAL_GetFormDataId (see
  * src/matched/unit_0201ADA4.c for why it is not merged with that file); here
@@ -43,13 +44,13 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern u32 POKE_PERSONAL_GetFormDataId(u32 a, int b);
-extern void  func_02048F4C(void *c, u32 id, u32 arg);
+extern void  ARC_TOOL_ReadMember(void *c, u32 id, u32 arg);
 
 void POKE_PERSONAL_LoadDataDirect(u32 a, int b, void *c)
 {
     u32 r = POKE_PERSONAL_GetFormDataId(a, b);
 
-    func_02048F4C(c, 0x12, r);
+    ARC_TOOL_ReadMember(c, 0x12, r);
 }
 
 extern void *func_02030734(u32 heap, u32 size, int zero, const char *file, u16 tag);

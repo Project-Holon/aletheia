@@ -11,8 +11,8 @@
  *   zero already in r4), not the counter; the three post-loop stores are 0 too.
  * symbols:
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   func_02035C60 0x02035C60 arm
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   P_STA_SUB_ResetStroke 0x021D77E8 thumb ov131
  *   P_STA_SUB_TrackStrokes 0x021D75A4 thumb ov131
@@ -24,8 +24,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {u8 b[12];} Rects;
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern int func_02035C60(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_HitCont(const void *);
 extern void P_STA_SUB_ResetStroke(u8 *p, u32 a, u32 b);
 extern void P_STA_SUB_TrackStrokes(int a, u8 *p);
@@ -37,8 +37,8 @@ void P_STA_SUB_UpdateTouch(u8 *a,u8 *p) {
     u8 i;
     TOUCHPANEL_GetPointCont(&x,&y);
     if(((struct Obj23140 *)a)->f38!=0) return;
-    t=func_02035C60();
-    g=func_02035C38();
+    t=TOUCHPANEL_GetTrg();
+    g=TOUCHPANEL_GetCont();
     k=TOUCHPANEL_HitCont(&r);
     if(((struct Obj00200 *)p)->f8==0) {
         if(k==0 || (k==1 && t==0)) {

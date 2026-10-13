@@ -14,7 +14,7 @@
  *
  * symbols:
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_021BC990    0x021BC990 data ov211
  *   func_020419E4 0x020419E4 arm
  *   SDK_AUTOLOAD_MAIN_TWL_START 0x02FE0000 data
@@ -27,7 +27,7 @@
  *   func_02040B94 0x02040B94 arm
  *   func_02041570 0x02041570 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021BC8C8 0x021BC8C8 data a4
  *   d_021BC910 0x021BC910 data a4
  *   d_021BC930 0x021BC930 data a4
@@ -42,7 +42,7 @@
  *   screen 0x02049658 arm
  *   tiles 0x020498F4 arm
  *   close 0x02049238 arm
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_0200E8D8 0x0200E8D8 thumb
@@ -59,12 +59,12 @@
  *   func_0207F65C 0x0207F65C arm
  *   func_020072A4 0x020072A4 thumb
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
- *   func_0204363C 0x0204363C arm
- *   func_0203D34C 0x0203D34C arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_021C93A8 0x021C93A8 thumb ov212
- *   func_020221A4 0x020221A4 thumb
- *   func_02035C38   0x02035C38  arm
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
+ *   TOUCHPANEL_GetCont   0x02035C38  arm
  *   func_020355D8   0x020355D8  arm
  *   func_020362DC   0x020362DC  arm
  *   func_021C93C4   0x021C93C4  thumb ov212
@@ -118,7 +118,7 @@ struct Owner_021BC5B0 { u32_021BC7A0 pad[2]; u32_021BC7A0 state; };
 struct Object_021BC5B0 { struct Owner_021BC5B0 *owner; u8 pad[6]; u8 timer,state; };
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_020419E4(void);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
 extern void func_02030EAC(struct Node *);
@@ -129,15 +129,15 @@ extern void func_020414EC(u32);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02041570(int, u16);
 extern void func_020434DC(u32, u32);
-extern void func_02043598(u32, u32);
-extern void func_020434DC(unsigned,unsigned),func_02043598(unsigned,unsigned),func_020403F4(unsigned),func_0203F9B4(void);
+extern void BG_SYS_SetSubPlaneVisible(u32, u32);
+extern void func_020434DC(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),func_020403F4(unsigned),func_0203F9B4(void);
 extern void *open(u32,u16);
 extern int kind(void *);
 extern void palette(void *,u32,u32,u32,u32,u16);
 extern void screen(void *,u32,u32,u32,u32,u32,u16);
 extern void tiles(void *,u32,u32,u32,u32,u32,u16);
 extern void close(void *);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern u32_021BC5B0 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32_021BC5B0,u32_021BC5B0);
 extern void *func_020073D8(struct Sub020073D8Ctrl *,u32_021BC5B0,u32_021BC5B0);
 extern u32_021BC5B0 func_0200E8D8(const void *obj);
@@ -148,11 +148,11 @@ extern void func_020862F0(void *,unsigned long);
 extern void func_0207F308(void),func_0207F394(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F428(void);
 extern void func_0207F5B0(void),func_0207F5C8(const void *,u32_021BC5B0,u32_021BC5B0),func_0207F65C(void);
 extern void func_020072A4(struct Sub020072A4Ctrl *,u32_021BC5B0);
-extern void func_02043534(unsigned),func_020435F4(unsigned),func_0204363C(unsigned);
+extern void func_02043534(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
 extern void func_021C93A8(unsigned);
-extern void func_021BC30C(unsigned char *),func_021BC43C(void),func_02043534(unsigned),func_020435F4(unsigned);
-extern unsigned func_020221A4(void);
-extern int  func_02035C38(void);
+extern void func_021BC30C(unsigned char *),func_021BC43C(void),func_02043534(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
+extern unsigned WIPE_SYS_EndCheck(void);
+extern int  TOUCHPANEL_GetCont(void);
 extern void func_020355D8(u8 v);
 extern u32_021BC720 func_020362DC(void);
 extern void func_021C93C4(u32_021BC720 heap);
@@ -187,7 +187,7 @@ void func_021BC2B0(void)
 {
     S021BC2B0 buf = d_021BC990;
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((const struct DispVram *)(&buf));
+    BG_SYS_SetVramBanks((const struct DispVram *)(&buf));
 }
 
 
@@ -224,11 +224,11 @@ void func_021BC318(void)
     func_0203FCA0(5, (const struct BgTemplate *)(&f), 0);
     func_020414EC(5);
     func_020434DC(14, 1);
-    func_02043598(10, 1);
+    BG_SYS_SetSubPlaneVisible(10, 1);
 }
 
 
-void func_021BC43C(void){func_020434DC(14,0);func_02043598(10,0);func_020403F4(5);func_020403F4(7);func_020403F4(2);func_020403F4(1);func_020403F4(3);func_0203F9B4();}
+void func_021BC43C(void){func_020434DC(14,0);BG_SYS_SetSubPlaneVisible(10,0);func_020403F4(5);func_020403F4(7);func_020403F4(2);func_020403F4(1);func_020403F4(3);func_0203F9B4();}
 
 
 void func_021BC474(struct Object_021BC2B0 *p)
@@ -265,7 +265,7 @@ void func_021BC474(struct Object_021BC2B0 *p)
 void func_021BC5B0(char *p)
 {
     void *save,*block,*tiles,*palette;
-    save=func_02012EBC(*(struct Big **)*(char * *)&((struct Obj10925 *)p)->f0);
+    save=GAME_DATA_GetSaveControl(*(struct Big **)*(char * *)&((struct Obj10925 *)p)->f0);
     if(SAVE_CONTROL_LoadExtraSave(save,7,0x807e)==1){
         block=func_020073D8(save,7,0);
         if(block!=0&&func_0200E8D8(block)==1){
@@ -295,24 +295,24 @@ void func_021BC5B0(char *p)
  */
 int func_021BC670(char *p)
 {
-    func_02043534(0);func_020435F4(0);
+    func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050=0;
     *(volatile unsigned short *)0x04001050=0;
-    func_0204363C(0);func_021BC2B0();func_021BC318();
+    BG_SYS_SetLcdSwap(0);func_021BC2B0();func_021BC318();
     func_021BC474((struct Object_021BC2B0 *)((struct Object_021BC5B0 *)p));func_021BC5B0(p);
-    func_0203D34C(1,126);func_02043598(16,1);
+    GFL_NET_RestartWithDefaultTimeout(1,126);BG_SYS_SetSubPlaneVisible(16,1);
     func_021BC2F4((unsigned char *)p);func_021C93A8(126);
     return 2;
 }
 
 
-int func_021BC6CC(unsigned char *p){func_021BC30C(p);func_021BC43C();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;func_02043534(0);func_020435F4(0);return 6;}
+int func_021BC6CC(unsigned char *p){func_021BC30C(p);func_021BC43C();*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);return 6;}
 
 
-int func_021BC6F8(void){if(func_020221A4()==1)return 4;return 2;}
+int func_021BC6F8(void){if(WIPE_SYS_EndCheck()==1)return 4;return 2;}
 
 
-int func_021BC70C(void){if(func_020221A4()==1)return 1;return 3;}
+int func_021BC70C(void){if(WIPE_SYS_EndCheck()==1)return 1;return 3;}
 
 
 
@@ -323,7 +323,7 @@ int func_021BC720(char *p)
     if (((struct Obj06700 *)p)->f8 == 0x12C)
         return 5;
     ((struct Obj06700 *)p)->f8 = ((struct Obj06700 *)p)->f8 + 1;
-    if (func_02035C38() == 1) {
+    if (TOUCHPANEL_GetCont() == 1) {
         func_020355D8(1);
         return 5;
     }

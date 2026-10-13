@@ -14,7 +14,7 @@
  *   d_0220AC70 0x0220AC70 data a4
  *   d_0220AC78 0x0220AC78 data a4
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021F7BEC 0x021F7BEC thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
@@ -28,7 +28,7 @@ extern char *d_0220AF20;
 extern u32 d_0220AC70[];
 extern u32 d_0220AC78[];
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_021F7BEC(void);
 extern void func_021F7998(u32);
 extern int func_021F7EB4(void);
@@ -41,7 +41,7 @@ void func_021F903C(void)
     int a, b;
     u32 n, value;
     a = func_020362DC();
-    b = func_02035C60();
+    b = TOUCHPANEL_GetTrg();
     if (WORD(0x238) == 0)
         return;
     if (WORD(0x238) != 2 && WORD(0x238) != 3 && (a != 0 || b != 0)) {

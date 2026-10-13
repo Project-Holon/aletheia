@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043AF4  0x02043AF4  arm
+ *   BMP_FillRect  0x02043AF4  arm
  *   BMP_CURSOR_Draw  0x02020D5C  thumb
  *
  * The two redraw entry points of the menu-cursor block, BMP_MENULIST_DrawCursor and
@@ -73,7 +73,7 @@ extern void *func_02045770(struct Descriptor *p);
 struct Bmp;
 struct Desc;
 struct Handle;
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void BMP_CURSOR_Draw(struct Desc *d, u32 x, u32 y, struct Handle *h, void *dst, u32 f);
 
 void BMP_MENULIST_DrawCursor(struct Obj *obj)
@@ -97,7 +97,7 @@ void BMP_MENULIST_EraseCursor(struct Obj *obj, u32 n)
 {
     switch (obj->f1Atop) {
     case 0:
-        func_02043AF4((struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C)),
+        BMP_FillRect((struct Bmp *)((u32)func_02045770((struct Descriptor *)obj->unk0C)),
                       obj->f16,
                       (s16)(u16)(obj->f17lo + n * (u8)(obj->f22 + obj->f1Amid)),
                       obj->f20,

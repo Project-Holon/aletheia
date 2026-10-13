@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
 #include "../include/Obj10886.h"
 
 struct Descriptor;
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 typedef unsigned char  u8;
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
@@ -32,14 +32,14 @@ void func_021BB0FC(void *obj)
 
     if (((struct Obj10886 *)obj)->f8 != 0) {
         p = ((struct Obj10886 *)obj)->f8C;
-        func_02045334((struct Descriptor *)p);
-        func_02045374((struct Cfg *)p);
+        BMP_WIN_TransferChars((struct Descriptor *)p);
+        BMP_WIN_MakeScreen((struct Cfg *)p);
         func_02041B6C(func_02045730((struct Descriptor *)p));
         return;
     }
     p = ((struct Obj10886 *)obj)->f90;
-    func_02045334((struct Descriptor *)p);
-    func_02045374((struct Cfg *)p);
+    BMP_WIN_TransferChars((struct Descriptor *)p);
+    BMP_WIN_MakeScreen((struct Cfg *)p);
     func_02041B6C(func_02045730((struct Descriptor *)p));
 }
 

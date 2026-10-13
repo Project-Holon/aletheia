@@ -11,10 +11,10 @@
  * volatile: hardware 04000008 and 04000060 read/write at 021BCD78-021BCDBA; 04000580 write at 021BCDD8.
  * symbols:
  *   func_020434DC 0x020434DC arm
- *   func_0207DC44 0x0207DC44 arm
- *   func_0207DD24 0x0207DD24 arm
+ *   G3X_SetFog 0x0207DC44 arm
+ *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
- *   func_02046BE0 0x02046BE0 arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   d_021C8164 0x021C8164 data a2
  */
 typedef unsigned short u16;
@@ -26,11 +26,11 @@ static inline void AlphaTest(int enable,int ref) {if(enable){REG60=(u16)((REG60 
 static inline void AlphaBlend(int enable) {if(enable)REG60=(u16)((REG60 & ~0x3000)|8);else REG60&=(u16)~0x3008;}
 static inline void EdgeMarking(int enable) {if(enable)REG60=(u16)((REG60 & ~0x3000)|0x20);else REG60&=(u16)~0x3020;}
 extern void func_020434DC(unsigned,unsigned);
-extern void func_0207DC44(int,int,int,int);
-extern void func_0207DD24(u16,int,int,int,int);
+extern void G3X_SetFog(int,int,int,int);
+extern void G3X_SetClearColor(u16,int,int,int,int);
 typedef unsigned int   u32;
 extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
-extern void func_02046BE0(unsigned,unsigned);
+extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
 extern const u16 d_021C8164[][4];
 void func_021BCD68(void)
 {
@@ -42,9 +42,9 @@ void func_021BCD68(void)
     AlphaTest(0,0);
     AlphaBlend(1);
     EdgeMarking(0);
-    func_0207DC44(0,0,0,0);
-    func_0207DD24(0,0,0x7fff,0x3f,0);
+    G3X_SetFog(0,0,0,0);
+    G3X_SetClearColor(0,0,0x7fff,0x3f,0);
     *(volatile unsigned *)0x04000580=0xbfff0000;
     for(i=0;i<4;i++)G3D_SYSTEM_SetLight((unsigned char)i,d_021C8164[i]);
-    func_02046BE0(0,0);
+    G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }

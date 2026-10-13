@@ -1,5 +1,5 @@
 /*
- * function: func_021904D0
+ * function: FIELD_MSGBG_RequestSysFrame
  * address:  0x021904D0
  * packet:   pkt_ov021_021904D0
  * region:   ov021
@@ -15,7 +15,7 @@
 
 typedef unsigned char  u8;
 
-void func_021904D0(u8 *p)
+void FIELD_MSGBG_RequestSysFrame(u8 *p)
 {
     p[0x170] = 1;
 }

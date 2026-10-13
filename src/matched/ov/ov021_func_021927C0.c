@@ -1,5 +1,5 @@
 /*
- * function: func_021927C0
+ * function: FIELD_MSGBG_InitCursor
  * address:  0x021927C0
  * packet:   pkt_ov021_021927C0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020436FC  0x020436FC  arm  arm9
+ *   BMP_CreateFromBuffer  0x020436FC  arm  arm9
  *   func_02082BCC  0x02082BCC  arm  arm9
  * Addresses are Black-image addresses.
  */
@@ -37,10 +37,10 @@ typedef struct G {
 
 extern void func_02082BCC(void *p, int v, int n);
 struct Bmp;
-extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
-void func_021927C0(G *g, Fx *a)
+void FIELD_MSGBG_InitCursor(G *g, Fx *a)
 {
     func_02082BCC(g, 0, 8);
-    g->f04 = (u32)func_020436FC((void *)(((struct Obj19604 *)(*(u8 * *)&((struct Obj00126 *)a)->f178))->f14), 1, 1, 0x20, a->f00);
+    g->f04 = (u32)BMP_CreateFromBuffer((void *)(((struct Obj19604 *)(*(u8 * *)&((struct Obj00126 *)a)->f178))->f14), 1, 1, 0x20, a->f00);
 }

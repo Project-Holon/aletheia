@@ -1,5 +1,5 @@
 /*
- * function: func_021A3974
+ * function: FIELD_PLAYER_CORE_GetFormCode
  * address:  0x021A3974
  * packet:   pkt_021A3810
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0xc.
  *
  * symbols:
- *   func_02012B28  0x02012B28  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Rec44;
-extern u32 func_02012B28(const struct Rec44 *p);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
 
-u32 func_021A3974(u8 *p)
+u32 FIELD_PLAYER_CORE_GetFormCode(u8 *p)
 {
-    return func_02012B28((const struct Rec44 *)(((struct Obj18041 *)p)->fC));
+    return GAME_DATA_GetPlayerObjectCode((const struct Rec44 *)(((struct Obj18041 *)p)->fC));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02021540
+ * function: PALANM_Delete
  * address:  0x02021540
  * packet:   pkt_02021540
  * region:   arm9
@@ -14,14 +14,14 @@
  * it no func_ label because it has no prologue.
  *
  * symbols:
- *   func_02021540  0x02021540  thumb
+ *   PALANM_Delete  0x02021540  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-u32 func_02021540(void *a0)
+u32 PALANM_Delete(void *a0)
 {
     return func_020307B0(a0);
 }

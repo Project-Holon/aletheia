@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_TOOL_GetBoxParamSize, func_020173EC
+ * function: POKE_TOOL_GetBoxParamSize, POKE_TOOL_GetPartyParamSize
  *
  * The two record sizes this region's files open with, `movs r0, #imm; bx lr`,
  * neither of them labelled in the generated listing because neither saves lr.
@@ -21,7 +21,7 @@
  * src/pending/unit_020173B4.c.
  *
  * The original file name of the two constructors after them is recoverable
- * even though neither is matched yet: func_020173F0 and POKE_TOOL_CreateEx both
+ * even though neither is matched yet: POKE_TOOL_Create and POKE_TOOL_CreateEx both
  * pass 0x020A72E4 to the debug allocator at 0x02030734, and the bytes there
  * spell "poke_tool.c".  Its left neighbours in the packed string area are
  * "d_status.c" at 0x020A72C0 and "mcss.c" at 0x020A72CC, and between "mcss.c"
@@ -39,7 +39,7 @@ u32 POKE_TOOL_GetBoxParamSize(void)
     return 0x88;
 }
 
-u32 func_020173EC(void)
+u32 POKE_TOOL_GetPartyParamSize(void)
 {
     return 0xDC;
 }

@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204A5AC  0x0204A5AC  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
  *   func_021E3E60  0x021E3E60  thumb  ov119
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   func_021DFD3C  0x021DFD3C  thumb  ov119
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021D9434  0x021D9434  thumb  ov119
@@ -39,10 +39,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Bank;
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 extern void func_021E3E60(void *);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void func_021DFD3C(void *);
 extern void func_021D8E84(void *, int);
 extern void func_021D9434(void *p);
@@ -57,10 +57,10 @@ void func_021DFDA0(void *p)
     u8 *b = p;
     int st;
 
-    func_0204B1CC(((struct Obj00906 *)b)->f9C4);
-    func_0204A5AC();
+    CLACT_DeleteUnit(((struct Obj00906 *)b)->f9C4);
+    CLACT_ExitSystem();
     func_021E3E60(p);
-    ((struct Obj00906 *)b)->f9C4 = func_0204B100(0x154, 0, ((struct Obj00906 *)b)->f5F4);
+    ((struct Obj00906 *)b)->f9C4 = CLACT_CreateUnit(0x154, 0, ((struct Obj00906 *)b)->f5F4);
     st = ((struct Obj00906 *)b)->f118C;
     if (st == 5) {
         func_021DFD3C(p);

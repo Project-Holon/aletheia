@@ -1,5 +1,5 @@
 /*
- * function: func_021EEA04
+ * function: WEATHER_SANDSTORM_SpawnParticles
  * address:  0x021EEA04
  * packet:   pkt_ov027_021EEA04
  * region:   ov027
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Twin of ov025 func_021EEE04: `extern const` tables read as `tbl[k]` at
+ * Twin of ov025 WEATHER_BLIZZARD_SpawnParticles: `extern const` tables read as `tbl[k]` at
  * each use in a plain for loop. Holding them in locals, hoisted by hand
  * behind an explicit guard, left the two pool loads split (9 bytes out);
  * see a-table-load-hoisted-past-the-loop-guard-names-a-const-extern-table.md.
@@ -17,11 +17,11 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
- *   func_021A21B8  0x021A21B8  thumb  ov021
- *   func_021A21C8  0x021A21C8  thumb  ov021
- *   func_021A2630  0x021A2630  thumb  ov021
- *   func_021A2638  0x021A2638  thumb  ov021
- *   func_021A2654  0x021A2654  thumb  ov021
+ *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
+ *   WEATHER_TASK_AddParticle  0x021A21C8  thumb  ov021
+ *   WEATHER_TASK_GetParticleWork  0x021A2630  thumb  ov021
+ *   WEATHER_TASK_GetParticleActor  0x021A2638  thumb  ov021
+ *   WEATHER_TASK_SetParticlePosWrapped  0x021A2654  thumb  ov021
  *   d_021EEB68     0x021EEB68  data  a4
  *   d_021EEB48     0x021EEB48  data  ov027  a4
  */
@@ -32,15 +32,15 @@ typedef signed short s16;
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-extern int *func_021A21B8(int *p);
-extern void *func_021A21C8(void *p, int a1);
-extern unsigned char *func_021A2630(unsigned char *o);
-extern unsigned int func_021A2638(unsigned char *o);
-extern void func_021A2654(int obj, unsigned short *src);
+extern int *WEATHER_TASK_GetWorkBuffer(int *p);
+extern void *WEATHER_TASK_AddParticle(void *p, int a1);
+extern unsigned char *WEATHER_TASK_GetParticleWork(unsigned char *o);
+extern unsigned int WEATHER_TASK_GetParticleActor(unsigned char *o);
+extern void WEATHER_TASK_SetParticlePosWrapped(int obj, unsigned short *src);
 extern const int d_021EEB68[];
 extern const int d_021EEB48[];
 
-void func_021EEA04(int a, int n, int idx)
+void WEATHER_SANDSTORM_SpawnParticles(int a, int n, int idx)
 {
     int *w;
     int k;
@@ -51,16 +51,16 @@ void func_021EEA04(int a, int n, int idx)
     int s;
     s16 pt[2];
 
-    w = func_021A21B8((int *)a);
+    w = WEATHER_TASK_GetWorkBuffer((int *)a);
     w[1] = (w[1] + 1) % 320;
     k = w[1] / 40;
     for (i = 0; i < n; i++) {
-        obj = (int)func_021A21C8((void *)a, idx);
+        obj = (int)WEATHER_TASK_AddParticle((void *)a, idx);
         if (obj == 0) {
             return;
         }
-        e = (int *)func_021A2630((unsigned char *)obj);
-        q = func_021A2638((unsigned char *)obj);
+        e = (int *)WEATHER_TASK_GetParticleWork((unsigned char *)obj);
+        q = WEATHER_TASK_GetParticleActor((unsigned char *)obj);
         e[0] = 0;
         e[1] = func_020056EC(20) + 15;
         s = 3 - (e[1] - 15) / 6;
@@ -75,6 +75,6 @@ void func_021EEA04(int a, int n, int idx)
         CLACT_SetActorAnimIndex(q, (u16)s);
         pt[0] = -6 - func_020056EC(24);
         pt[1] = func_020056EC(192) - 64;
-        func_021A2654(obj, (short unsigned int *)pt);
+        WEATHER_TASK_SetParticlePosWrapped(obj, (short unsigned int *)pt);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C3AA8
+ * function: BTL_SERVER_FLOW_ProcMoveWeather
  * address:  0x021C3AA8
  * packet:   pkt_ov093_021C3AA8
  * region:   ov093
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   WAZA_TOOL_GetWeather  0x0201C184  thumb
- *   func_021C3C10  0x021C3C10  thumb  ov093
- *   func_021C3B68  0x021C3B68  thumb  ov093
- *   func_021C5718  0x021C5718  thumb  ov093
+ *   BTL_SERVER_FLOW_QueryWeatherPokeEvent  0x021C3C10  thumb  ov093
+ *   BTL_SERVER_FLOW_TryChangeWeather  0x021C3B68  thumb  ov093
+ *   BTL_SERVER_FLOW_PushMsgStdFailed  0x021C5718  thumb  ov093
  *   func_021CC8D8  0x021CC8D8  thumb  ov093
- *   func_021C3CCC  0x021C3CCC  thumb  ov093
+ *   BTL_SERVER_FLOW_DispatchPokeMoveEvent  0x021C3CCC  thumb  ov093
  *   func_021C88E4  0x021C88E4  thumb  ov093
  *   func_021CC95C  0x021CC95C  thumb  ov093
  */
@@ -26,31 +26,31 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct { u8 pad[5]; u8 f : 1; } Q;
 
 extern u32 WAZA_TOOL_GetWeather(int id);
-extern u8 func_021C3C10(u8 *p, int k, u8 *a);
-extern int func_021C3B68(u8 *p, int k, u8 v);
-extern void func_021C5718(u8 *p, u8 *b, int c);
+extern u8 BTL_SERVER_FLOW_QueryWeatherPokeEvent(u8 *p, int k, u8 *a);
+extern int BTL_SERVER_FLOW_TryChangeWeather(u8 *p, int k, u8 v);
+extern void BTL_SERVER_FLOW_PushMsgStdFailed(u8 *p, u8 *b, int c);
 extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021C3CCC(u8 *p, u8 *b, int c);
+extern void BTL_SERVER_FLOW_DispatchPokeMoveEvent(u8 *p, u8 *b, int c);
 extern int func_021C88E4(u8 *p);
 extern void func_021CC95C(u32 *p, u32 v, int line);
 
-void func_021C3AA8(u8 *p, u16 *a, u8 *b)
+void BTL_SERVER_FLOW_ProcMoveWeather(u8 *p, u16 *a, u8 *b)
 {
     u8 k = WAZA_TOOL_GetWeather(*a);
     if (k) {
-        int x = func_021C3C10(p, k, b);
-        if (func_021C3B68(p, k, (u8)(x + 5))) {
+        int x = BTL_SERVER_FLOW_QueryWeatherPokeEvent(p, k, b);
+        if (BTL_SERVER_FLOW_TryChangeWeather(p, k, (u8)(x + 5))) {
             Q *q = *(Q * *)&((struct Obj13330 *)p)->f4A8;
             if (!q->f)
                 q->f = 1;
             return;
         }
-        func_021C5718(p, b, *a);
+        BTL_SERVER_FLOW_PushMsgStdFailed(p, b, *a);
     } else {
         u32 s;
         int e;
         s = func_021CC8D8(p + 0x1d74, 0x22c8);
-        func_021C3CCC(p, b, *a);
+        BTL_SERVER_FLOW_DispatchPokeMoveEvent(p, b, *a);
         e = (func_021C88E4(p) == 2);
         func_021CC95C((u32 *)(p + 0x1d74), s, 0x22cc);
         if (e) {
@@ -58,7 +58,7 @@ void func_021C3AA8(u8 *p, u16 *a, u8 *b)
             if (!q->f)
                 q->f = 1;
         } else {
-            func_021C5718(p, b, *a);
+            BTL_SERVER_FLOW_PushMsgStdFailed(p, b, *a);
         }
     }
 }

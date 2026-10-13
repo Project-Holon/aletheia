@@ -1,5 +1,5 @@
 /*
- * function: func_0217E014
+ * function: INTRUDE_SUBDISP_UpdatePlayerMarkActors
  * address:  0x0217E014
  * packet:   pkt_ov018_0217E014
  * region:   ov018
@@ -15,7 +15,7 @@
  * `if (n > 0)` guard on the second loop, and the mask test written as
  * `p[0xd9] & (1 << i)`.
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_0204B404  0x0204B404  arm
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_0204B3DC  0x0204B3DC  arm
@@ -35,7 +35,7 @@ typedef struct {
 } Layout;
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -44,7 +44,7 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
 #pragma opt_propagation off
-void func_0217E014(u8 *p, int a1)
+void INTRUDE_SUBDISP_UpdatePlayerMarkActors(u8 *p, int a1)
 {
     u8 *s;
     void *act;
@@ -56,7 +56,7 @@ void func_0217E014(u8 *p, int a1)
     int j;
     Layout l;
 
-    func_020120F4(*(void **)p);
+    GAMESYSTEM_GetGameData(*(void **)p);
     s = l.slot;
     s[0] = 0;
     s[1] = 0;

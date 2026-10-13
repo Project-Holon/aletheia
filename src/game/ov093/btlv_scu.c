@@ -1,7 +1,7 @@
 /*
  * file:     btlv_scu.c
  * unit:     yes
- * function: func_021EAF00, func_021EAF18, func_021EAF50, func_021EAF78, func_021EAF7C, func_021EB028, func_021EB1D8, func_021EB234, func_021EB2A8, func_021EB318, func_021EB32C, func_021EB52C, func_021EB584, func_021EB5B4, func_021EB660, func_021EB670, func_021EB680, func_021EB690, func_021EB820, func_021EB870, func_021EBAC0, func_021EBB20, func_021EBD90, func_021EBDDC, func_021EBE28, func_021EBE88
+ * function: func_021EAF00, func_021EAF18, func_021EAF50, func_021EAF78, BTLV_SCU_Create, BTLV_SCU_SetupDisplay, BTLV_SCU_LoadArcTiles, BTLV_SCU_Delete, BTLV_SCU_ReloadGraphics, func_021EB318, BTLV_SCU_StartEntryScene, BTLV_SCU_RunProc, BTLV_SCU_StartBrightnessFade, BTLV_SCU_ProcQuickEntry, BTLV_SCU_ProcQuickEntrySingle, BTLV_SCU_ProcQuickEntryDouble, BTLV_SCU_ProcQuickEntryTriple, BTLV_SCU_ProcEntrySingleWild, BTLV_SCU_GetEntryMessageId, BTLV_SCU_ProcEntrySingleTrainer, BTLV_SCU_ProcEntrySingleLink, BTLV_SCU_ProcEntryDoubleWild, BTLV_SCU_ProcEntryDoubleTrainerLocal, BTLV_SCU_ProcEntryDoubleTrainerComm, BTLV_SCU_ProcEntryDoubleLinkLocal, BTLV_SCU_ProcEntryDoubleLinkComm
  * address:  0x021EAF00
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,11 +13,11 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_020061E4  0x020061E4  thumb  arm9
  *   func_02030734  0x02030734  arm    arm9
  *   d_021F3AD0     0x021F3AD0  data   a4
- *   func_020457B0  0x020457B0  arm    arm9
+ *   STRBUF_Create  0x020457B0  arm    arm9
  *   func_0201C440  0x0201C440  thumb  arm9
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
@@ -26,55 +26,55 @@
  *   func_02041300 0x02041300 arm
  *   func_02040C14 0x02040C14 arm
  *   func_0204989C 0x0204989C arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_021ED76C 0x021ED76C thumb ov093
  *   func_021ED930 0x021ED930 thumb ov093
  *   func_021EDB3C 0x021EDB3C thumb ov093
  *   func_020409B4 0x020409B4 arm
  *   func_02040588 0x02040588 arm
  *   func_020434DC 0x020434DC arm
- *   d_021F3930 0x021F3930 data a4
- *   d_021F3950 0x021F3950 data a4
- *   d_021F3970 0x021F3970 data a4
+ *   gBtlvScuBgTemplateMsg 0x021F3930 data a4
+ *   gBtlvScuBgTemplateName 0x021F3950 data a4
+ *   gBtlvScuBgTemplateBack 0x021F3970 data a4
  *   func_020490F4  0x020490F4  arm
  *   func_02049740  0x02049740  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_021EDBE8  0x021EDBE8  thumb  ov093
  *   func_021ED988  0x021ED988  thumb  ov093
  *   func_020452E8  0x020452E8  arm
  *   func_020403F4  0x020403F4  arm
  *   func_0201C4C0  0x0201C4C0  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02049658  0x02049658  arm
  *   func_020414EC  0x020414EC  arm
- *   func_0204E804   0x0204E804  arm
- *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_021B8588 0x021B8588 thumb ov093
- *   func_021B86C8 0x021B86C8 thumb ov093
+ *   FADE_IsActive   0x0204E804  arm
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
+ *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
  *   func_021EBED4 0x021EBED4 thumb ov093
  *   func_021EBF20 0x021EBF20 thumb ov093
  *   func_0207D55C  0x0207D55C  arm    arm9
- *   func_0204E720  0x0204E720  arm    arm9
+ *   FADE_Start  0x0204E720  arm    arm9
  *   func_021B8ED8  0x021B8ED8  thumb  ov093
  *   func_021B98AC  0x021B98AC  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_021F7EE8  0x021F7EE8  thumb  ov094
  *   func_021EDA04  0x021EDA04  thumb  ov093
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
- *   d_021F38AC  0x021F38AC  data  a4
- *   d_021F38AE  0x021F38AE  data  a4
- *   d_021F38B2  0x021F38B2  data  a4
- *   func_021D5440 0x021D5440 thumb ov093
+ *   gBtlvScuQuickSidesSingle  0x021F38AC  data  a4
+ *   gBtlvScuQuickSidesDouble  0x021F38AE  data  a4
+ *   gBtlvScuQuickSidesTriple  0x021F38B2  data  a4
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021ED798 0x021ED798 thumb ov093
  *   func_021ED814 0x021ED814 thumb ov093
  *   func_021F7A28 0x021F7A28 thumb ov094
- *   func_021EEE24 0x021EEE24 thumb ov093
+ *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
  *   func_021ECEB8 0x021ECEB8 thumb ov093
  *   func_021ECF68 0x021ECF68 thumb ov093
  *   func_021F7998 0x021F7998 thumb ov094
@@ -82,19 +82,19 @@
  *   func_021B8DE4 0x021B8DE4 thumb ov093
  *   func_021BA020 0x021BA020 thumb ov093
  *   func_021F7F58 0x021F7F58 thumb ov094
- *   func_021EE104 0x021EE104 thumb ov093
+ *   BTLV_SCU_GetBallStates 0x021EE104 thumb ov093
  *   func_021F823C 0x021F823C thumb ov094
  *   func_021B8FF4 0x021B8FF4 thumb ov093
  *   func_021F8260 0x021F8260 thumb ov094
  *   func_021F827C 0x021F827C thumb ov094
- *   d_021F38E8  0x021F38E8  data  a4
- *   func_021B8BEC 0x021B8BEC thumb ov093
- *   func_021B8C50 0x021B8C50 thumb ov093
+ *   gBtlvScuSingleLinkPhases  0x021F38E8  data  a4
+ *   BTL_MAIN_GetClientTrainerIndex 0x021B8BEC thumb ov093
+ *   BTL_MAIN_GetEnemyLanePosFromWork 0x021B8C50 thumb ov093
  *   func_021B8E70 0x021B8E70 thumb ov093
- *   d_021F38D0  0x021F38D0  data  a4
- *   d_021F38DC  0x021F38DC  data  a4
- *   d_021F3900  0x021F3900  data  a4
- *   d_021F38B8  0x021F38B8  data  a4
+ *   gBtlvScuDoubleTrainerLocalPhases  0x021F38D0  data  a4
+ *   gBtlvScuDoubleTrainerCommPhases  0x021F38DC  data  a4
+ *   gBtlvScuDoubleLinkLocalPhases  0x021F3900  data  a4
+ *   gBtlvScuDoubleLinkCommPhases  0x021F38B8  data  a4
  */
 #include "btlv_scu_types.h"
 
@@ -119,10 +119,10 @@ struct BtlvCoreHead {
     u8 *client;
 };
 
-extern u32 func_021CD9E0(u8 *);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *);
 extern void func_020061E4(u32 a);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern struct MsgBuf *func_020457B0(int, int);
+extern struct MsgBuf *STRBUF_Create(int, int);
 extern struct PrintSys *func_0201C440(u32 heapId);
 extern void func_0203FCA0(u32, const struct BgTemplate *, u32);
 extern int func_021F86E0(void);
@@ -131,12 +131,12 @@ extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
 extern void func_02040C14(u32, u32, u32, u32);
 extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
-extern struct BmpWin *func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct CharBuf *func_02045770(struct BmpWin *win);
-extern void func_02045374(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern void BMP_WIN_DrawFrame(struct BmpWin *win, u16 base, u32 pal);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct BmpWin *win);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void func_021ED76C(BtlvScuWinSlide *slide, struct BmpWin *win);
 extern void func_021ED930(BtlvScu *scu);
 extern void func_021EDB3C(BtlvScu *scu, u32 tile);
@@ -145,34 +145,34 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern void func_02049238(void *h);
+extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_021EDBE8(BtlvScu *scu);
 extern void func_021ED988(BtlvScu *scu);
 extern u32 func_020452E8(struct BmpWin *win);
 extern void func_020403F4(u32 i);
 extern void func_0201C4C0(struct PrintSys *printer);
-extern void func_02045808(struct MsgBuf *buf);
+extern void STRBUF_Delete(struct MsgBuf *buf);
 extern u32 func_020307B0(void *p);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020414EC(u32 i);
-extern int func_021B86B8(struct BtlContext *);
-extern u32 func_021B8588(struct BtlContext *);
-extern int func_021B86C8(struct BtlContext *);
+extern int BTL_MAIN_GetCompetitor(struct BtlContext *);
+extern u32 BTL_MAIN_GetRule(struct BtlContext *);
+extern int BTL_MAIN_IsMultiMode(struct BtlContext *);
 extern int func_021EBED4(int *, BtlvScu *);
 extern int func_021EBF20(int *, BtlvScu *);
 extern int func_0207D55C(volatile u16 *);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern u8 func_021B8ED8(struct BtlContext *, u8 side);
 extern struct BtlPokeParam *func_021B98AC(struct BtlMonTable *, u8 monIdx);
-extern void *func_021D5864(struct BtlPokeParam *mon);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *mon);
 extern void func_021F7EE8(void *sprite, int side);
 extern void func_021EDA04(BtlvScuMonSlot *slot);
 extern int func_021F7EB4(void);
-extern u8 func_021D5440(struct BtlPokeParam *mon);
+extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *mon);
 extern void func_021ED798(BtlvScuWinSlide *slide);
 extern int func_021ED814(BtlvScuWinSlide *slide);
 extern void func_021F7A28(int, u32);
-extern void func_021EEE24(struct MsgBuf *, u32, u32, ...);
+extern void BTL_MSG_FormatArgs(struct MsgBuf *, u32, u32, ...);
 extern void func_021ECEB8(BtlvScu *, struct MsgBuf *, u16, u32);
 extern int func_021ECF68(BtlvScu *scu);
 extern void func_021F7998(u32);
@@ -180,54 +180,54 @@ extern int func_021BA1A8(struct BtlContext *, int mask);
 extern u8 func_021B8DE4(struct BtlContext *, int i);
 extern u16 func_021BA020(struct BtlContext *, int);
 extern void func_021F7F58(int, u32, u32, u32, u32);
-extern void func_021EE104(BtlvScu *, u32 *, u32, u32, u32);
+extern void BTLV_SCU_GetBallStates(BtlvScu *, u32 *, u32, u32, u32);
 extern void func_021F823C(u32 *);
 extern u8 func_021B8FF4(struct BtlContext *);
 extern void func_021F8260(u32);
 extern int func_021F827C(u32);
-extern u8 func_021B8BEC(struct BtlContext *, u32, u8);
-extern u8 func_021B8C50(struct BtlContext *, u32 v, int k);
+extern u8 BTL_MAIN_GetClientTrainerIndex(struct BtlContext *, u32, u8);
+extern u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlContext *, u32 v, int k);
 extern u8 func_021B8E70(struct BtlContext *, u32);
 void func_021EAF00(struct BtlvCoreHead *core, int a);
 void func_021EAF18(struct BtlvMessage *msg, int kind, int id);
 void func_021EAF50(struct BtlvMessage *msg, u32 val);
 /* 021EAF78 strb r1,[r0,#2] */ void func_021EAF78(struct BtlvMessage *msg, u8 param);
-BtlvScu *func_021EAF7C(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId);
-void func_021EB028(BtlvScu *scu);
-u16 func_021EB1D8(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer);
-void func_021EB234(BtlvScu *scu);
-void func_021EB2A8(const BtlvScu *scu);
+BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId);
+void BTLV_SCU_SetupDisplay(BtlvScu *scu);
+u16 BTLV_SCU_LoadArcTiles(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer);
+void BTLV_SCU_Delete(BtlvScu *scu);
+void BTLV_SCU_ReloadGraphics(const BtlvScu *scu);
 u32 func_021EB318(void);
-void func_021EB32C(BtlvScu *scu, u32 quickMode);
-int func_021EB52C(BtlvScu *scu);
-void func_021EB584(int speed);
-int func_021EB5B4(BtlvScu *scu, int *state, u8 *sides, u8 count);
-int func_021EB660(BtlvScu *scu, int *state);
-int func_021EB670(BtlvScu *scu, int *state);
-int func_021EB680(BtlvScu *scu, int *state);
-int func_021EB690(int *state, BtlvScu *scu);
-int func_021EB820(BtlvScu *scu);
-int func_021EB870(int *state, BtlvScu *scu);
-int func_021EBAC0(int *state, BtlvScu *scu);
-int func_021EBB20(int *state, BtlvScu *scu);
-int func_021EBD90(int *state, BtlvScu *scu);
-int func_021EBDDC(int *state, BtlvScu *scu);
-int func_021EBE28(int *state, BtlvScu *scu);
-int func_021EBE88(int *state, BtlvScu *scu);
+void BTLV_SCU_StartEntryScene(BtlvScu *scu, u32 quickMode);
+int BTLV_SCU_RunProc(BtlvScu *scu);
+void BTLV_SCU_StartBrightnessFade(int speed);
+int BTLV_SCU_ProcQuickEntry(BtlvScu *scu, int *state, u8 *sides, u8 count);
+int BTLV_SCU_ProcQuickEntrySingle(BtlvScu *scu, int *state);
+int BTLV_SCU_ProcQuickEntryDouble(BtlvScu *scu, int *state);
+int BTLV_SCU_ProcQuickEntryTriple(BtlvScu *scu, int *state);
+int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu);
+int BTLV_SCU_GetEntryMessageId(BtlvScu *scu);
+int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu);
+int BTLV_SCU_ProcEntrySingleLink(int *state, BtlvScu *scu);
+int BTLV_SCU_ProcEntryDoubleWild(int *state, BtlvScu *scu);
+int BTLV_SCU_ProcEntryDoubleTrainerLocal(int *state, BtlvScu *scu);
+int BTLV_SCU_ProcEntryDoubleTrainerComm(int *state, BtlvScu *scu);
+int BTLV_SCU_ProcEntryDoubleLinkLocal(int *state, BtlvScu *scu);
+int BTLV_SCU_ProcEntryDoubleLinkComm(int *state, BtlvScu *scu);
 extern u8 d_021F3AD0[];
-extern const struct BgTemplate d_021F3930, d_021F3950, d_021F3970;
-extern u8 d_021F38AC[];
-extern u8 d_021F38AE[];
-extern u8 d_021F38B2[];
-extern int (*const d_021F38E8[][2])(BtlvScu *, int *);
-extern int (*const d_021F38D0[])(BtlvScu *, int *);
-extern int (*const d_021F38DC[])(BtlvScu *, int *);
-extern int (*const d_021F3900[][2])(BtlvScu *, int *);
-extern int (*const d_021F38B8[])(BtlvScu *, int *);
+extern const struct BgTemplate gBtlvScuBgTemplateMsg, gBtlvScuBgTemplateName, gBtlvScuBgTemplateBack;
+extern u8 gBtlvScuQuickSidesSingle[];
+extern u8 gBtlvScuQuickSidesDouble[];
+extern u8 gBtlvScuQuickSidesTriple[];
+extern int (*const gBtlvScuSingleLinkPhases[][2])(BtlvScu *, int *);
+extern int (*const gBtlvScuDoubleTrainerLocalPhases[])(BtlvScu *, int *);
+extern int (*const gBtlvScuDoubleTrainerCommPhases[])(BtlvScu *, int *);
+extern int (*const gBtlvScuDoubleLinkLocalPhases[][2])(BtlvScu *, int *);
+extern int (*const gBtlvScuDoubleLinkCommPhases[])(BtlvScu *, int *);
 
 void func_021EAF00(struct BtlvCoreHead *core, int a)
 {
-    if (func_021CD9E0(core->client) == 0)
+    if (BTL_CLIENT_IsMainStepActive(core->client) == 0)
         func_020061E4(a);
 }
 
@@ -259,7 +259,7 @@ void func_021EAF50(struct BtlvMessage *msg, u32 val)
 void func_021EAF78(struct BtlvMessage *msg, u8 param) { msg->param = param; }
 
 
-BtlvScu *func_021EAF7C(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId)
+BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, struct BtlMonTable *monTable, void *taskSys, void *fontMain, void *fontSub, u8 clientIndex, int heapId)
 {
     BtlvScu *scu;
     scu = func_02030734(heapId, 0x180, 1, (const char *)d_021F3AD0, 0x151);
@@ -273,9 +273,9 @@ BtlvScu *func_021EAF7C(struct BtlvCore *core, struct BtlContext *context, struct
     scu->quickMode = 0;
     scu->taskHandle = 0;
     scu->taskSys = taskSys;
-    scu->textBuf = func_020457B0(0x400, heapId);
-    scu->wordBuf0 = func_020457B0(0x180, heapId);
-    scu->wordBuf1 = func_020457B0(0x180, heapId);
+    scu->textBuf = STRBUF_Create(0x400, heapId);
+    scu->wordBuf0 = STRBUF_Create(0x180, heapId);
+    scu->wordBuf1 = STRBUF_Create(0x180, heapId);
     scu->busyFlag = 0;
     scu->cmdResult = 0;
     scu->printer = func_0201C440(scu->heapId);
@@ -285,31 +285,31 @@ BtlvScu *func_021EAF7C(struct BtlvCore *core, struct BtlContext *context, struct
 }
 
 
-void func_021EB028(BtlvScu *scu)
+void BTLV_SCU_SetupDisplay(BtlvScu *scu)
 {
     u16 zero;
     u32 frameTile;
-    func_0203FCA0(1, &d_021F3930, 0);
-    func_0203FCA0(2, &d_021F3950, 0);
-    func_0203FCA0(3, &d_021F3970, 0);
+    func_0203FCA0(1, &gBtlvScuBgTemplateMsg, 0);
+    func_0203FCA0(2, &gBtlvScuBgTemplateName, 0);
+    func_0203FCA0(3, &gBtlvScuBgTemplateBack, 0);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), 0xb, 0x5a, scu->heapId, 0, 0x20, 0, 0);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)func_021F86E0(), 0xb, 0xd6, scu->heapId, 0, 0x60, 0x10, 0x10);
     zero = 0;
     PALANM_CopyToSlot((struct PalAnmSlot *)func_021F86E0(), &zero, 0, 0, 2);
     func_02041300(1, 0, 0, 0, 0x20, 0x20, 0x11);
     func_02040C14(1, 0, 1, 0);
-    frameTile = func_021EB1D8(scu, 0xb, 0x59, 1);
-    scu->msgTile = func_021EB1D8(scu, 0xb, 0xd5, 3);
+    frameTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0x59, 1);
+    scu->msgTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0xd5, 3);
     func_0204989C(0xb, 0xd7, 2, 0, 0, 0, scu->heapId);
     func_0204989C(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
-    scu->msgWin = func_020450F0(1, 1, 0x13, 0x1e, 4, 0, 0);
+    scu->msgWin = BMP_WIN_Create(1, 1, 0x13, 0x1e, 4, 0, 0);
     scu->msgWinChars = func_02045770(scu->msgWin);
-    func_02045374(scu->msgWin);
+    BMP_WIN_MakeScreen(scu->msgWin);
     BMP_WIN_DrawFrame(scu->msgWin, frameTile, 0);
-    func_02043B5C(scu->msgWinChars, 0xc);
-    func_02045334(scu->msgWin);
-    scu->nameTile = func_021EB1D8(scu, 0xb, 0xdd, 3);
-    scu->nameWin = func_020450F0(3, 0x15, 0x25, 0xa, 0xc, 3, 0);
+    BMP_Clear(scu->msgWinChars, 0xc);
+    BMP_WIN_TransferChars(scu->msgWin);
+    scu->nameTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0xdd, 3);
+    scu->nameWin = BMP_WIN_Create(3, 0x15, 0x25, 0xa, 0xc, 3, 0);
     scu->nameWinChars = func_02045770(scu->nameWin);
     func_021ED76C(&scu->slide, scu->msgWin);
     func_021ED930(scu);
@@ -325,17 +325,17 @@ void func_021EB028(BtlvScu *scu)
 }
 
 
-u16 func_021EB1D8(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer)
+u16 BTLV_SCU_LoadArcTiles(BtlvScu *scu, u32 arcId, u32 fileId, u32 layer)
 {
     void *handle = func_020490F4(arcId, (u16)((scu->heapId & 0x7fff) | 0x8000));
     u32 tileOffset = func_02049740(handle, fileId, layer, 0, 0, (u16)((scu->heapId & 0x7fff) | 0x8000));
 
-    func_02049238(handle);
+    ARC_TOOL_DeleteHandle(handle);
     return (u16)tileOffset;
 }
 
 
-void func_021EB234(BtlvScu *scu)
+void BTLV_SCU_Delete(BtlvScu *scu)
 {
     func_021EDBE8(scu);
     func_021ED988(scu);
@@ -355,14 +355,14 @@ void func_021EB234(BtlvScu *scu)
         scu->printer = 0;
     }
     if (scu->wordBuf1 != 0) {
-        func_02045808(scu->wordBuf1);
+        STRBUF_Delete(scu->wordBuf1);
         scu->wordBuf1 = 0;
     }
     if (scu->wordBuf0 != 0) {
-        func_02045808(scu->wordBuf0);
+        STRBUF_Delete(scu->wordBuf0);
         scu->wordBuf0 = 0;
     }
-    func_02045808(scu->textBuf);
+    STRBUF_Delete(scu->textBuf);
     func_020307B0(scu);
 }
 
@@ -371,22 +371,22 @@ void func_021EB234(BtlvScu *scu)
  * Lever: the parameter is const BtlvScu *; without const the ldrh of the heap
  * halfword schedules after the second zero stack store (DIFF, 19 lines).
  */
-void func_021EB2A8(const BtlvScu *scu)
+void BTLV_SCU_ReloadGraphics(const BtlvScu *scu)
 {
     void *handle = func_020490F4(0xb, (u16)((scu->heapId & 0x7fff) | 0x8000));
 
     func_02049658(handle, 0xd5, 3, scu->msgTile, 0, 0, scu->heapId);
     func_02049658(handle, 0xdd, 3, scu->nameTile, 0, 0, scu->heapId);
-    func_02049238(handle);
+    ARC_TOOL_DeleteHandle(handle);
     func_020414EC(3);
     func_0204989C(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
 }
 
 
 /*
- * Calls the ARM9 predicate func_0204E804 and returns its negation.  Filed here because it is the only witness available for func_021EE25C's pool word: no branch anywhere in the image targets 0x021EB318, so `label` and `sole-ref/code` both refuse it.  18 bytes against a 20-byte listing extent (the last two are alignment), so the entry is EXACT*.
+ * Calls the ARM9 predicate FADE_IsActive and returns its negation.  Filed here because it is the only witness available for BTLV_SCU_GetWaitState's pool word: no branch anywhere in the image targets 0x021EB318, so `label` and `sole-ref/code` both refuse it.  18 bytes against a 20-byte listing extent (the last two are alignment), so the entry is EXACT*.
  */
-u32 func_021EB318(void) { if (func_0204E804() == 0) return 1; return 0; }
+u32 func_021EB318(void) { if (FADE_IsActive() == 0) return 1; return 0; }
 
 static inline void BTLV_SCU_SetProc(BtlvScu *scu, BtlvScuProc proc)
 {
@@ -396,28 +396,28 @@ static inline void BTLV_SCU_SetProc(BtlvScu *scu, BtlvScuProc proc)
     scu->procState = 0;
 }
 
-void func_021EB32C(BtlvScu *scu, u32 quickMode)
+void BTLV_SCU_StartEntryScene(BtlvScu *scu, u32 quickMode)
 {
-    int battleType = func_021B86B8(scu->context);
+    int battleType = BTL_MAIN_GetCompetitor(scu->context);
     scu->phase = 0;
     scu->quickMode = quickMode;
-    switch (func_021B8588(scu->context)) {
+    switch (BTL_MAIN_GetRule(scu->context)) {
     case 0:
         switch (battleType) {
-        default: case 0: case 4: BTLV_SCU_SetProc(scu, func_021EB690); return;
-        case 1: case 2: BTLV_SCU_SetProc(scu, func_021EB870); return;
-        case 3: BTLV_SCU_SetProc(scu, func_021EBAC0); return;
+        default: case 0: case 4: BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntrySingleWild); return;
+        case 1: case 2: BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntrySingleTrainer); return;
+        case 3: BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntrySingleLink); return;
         }
     case 1:
         switch (battleType) {
-        case 0: BTLV_SCU_SetProc(scu, func_021EBB20); return;
+        case 0: BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleWild); return;
         case 3:
-            if (!func_021B86C8(scu->context)) BTLV_SCU_SetProc(scu, func_021EBE28);
-            else BTLV_SCU_SetProc(scu, func_021EBE88);
+            if (!BTL_MAIN_IsMultiMode(scu->context)) BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleLinkLocal);
+            else BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleLinkComm);
             return;
         case 1: case 2:
-            if (!func_021B86C8(scu->context)) BTLV_SCU_SetProc(scu, func_021EBD90);
-            else BTLV_SCU_SetProc(scu, func_021EBDDC);
+            if (!BTL_MAIN_IsMultiMode(scu->context)) BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleTrainerLocal);
+            else BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleTrainerComm);
             return;
         }
         break;
@@ -433,7 +433,7 @@ void func_021EB32C(BtlvScu *scu, u32 quickMode)
 }
 
 
-int func_021EB52C(BtlvScu *scu)
+int BTLV_SCU_RunProc(BtlvScu *scu)
 {
     if (scu->preProc != 0) {
         if (scu->preProc(&scu->procState, scu->procScu) != 0) {
@@ -452,15 +452,15 @@ int func_021EB52C(BtlvScu *scu)
     return 1;
 }
 
-void func_021EB584(int speed)
+void BTLV_SCU_StartBrightnessFade(int speed)
 {
     if (func_0207D55C(REG_MASTER_BRIGHT_MAIN) <= 0)
-        func_0204E720(3, 0x10, 0, speed);
+        FADE_Start(3, 0x10, 0, speed);
     else
-        func_0204E720(0xc, 0x10, 0, speed);
+        FADE_Start(0xc, 0x10, 0, speed);
 }
 
-int func_021EB5B4(BtlvScu *scu, int *state, u8 *sides, u8 count)
+int BTLV_SCU_ProcQuickEntry(BtlvScu *scu, int *state, u8 *sides, u8 count)
 {
     switch (*state) {
     case 0: {
@@ -470,7 +470,7 @@ int func_021EB5B4(BtlvScu *scu, int *state, u8 *sides, u8 count)
         for (i = 0; i < count; i++) {
             side = sides[i];
             monIdx = func_021B8ED8(scu->context, side);
-            func_021F7EE8(func_021D5864(func_021B98AC(scu->monTable, monIdx)), side);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(func_021B98AC(scu->monTable, monIdx)), side);
             func_021EDA04(&scu->monSlots[monIdx]);
         }
         *state = *state + 1;
@@ -479,7 +479,7 @@ int func_021EB5B4(BtlvScu *scu, int *state, u8 *sides, u8 count)
     case 1:
         if (scu->quickMode != 0)
             return 1;
-        func_021EB584(-3);
+        BTLV_SCU_StartBrightnessFade(-3);
         *state = *state + 1;
         break;
     case 2:
@@ -490,45 +490,45 @@ int func_021EB5B4(BtlvScu *scu, int *state, u8 *sides, u8 count)
     return 0;
 }
 
-int func_021EB660(BtlvScu *scu, int *state)
+int BTLV_SCU_ProcQuickEntrySingle(BtlvScu *scu, int *state)
 {
-    return func_021EB5B4(scu, state, d_021F38AC, 2);
+    return BTLV_SCU_ProcQuickEntry(scu, state, gBtlvScuQuickSidesSingle, 2);
 }
 
-int func_021EB670(BtlvScu *scu, int *state)
+int BTLV_SCU_ProcQuickEntryDouble(BtlvScu *scu, int *state)
 {
-    return func_021EB5B4(scu, state, d_021F38AE, 4);
+    return BTLV_SCU_ProcQuickEntry(scu, state, gBtlvScuQuickSidesDouble, 4);
 }
 
-int func_021EB680(BtlvScu *scu, int *state)
+int BTLV_SCU_ProcQuickEntryTriple(BtlvScu *scu, int *state)
 {
-    return func_021EB5B4(scu, state, d_021F38B2, 6);
+    return BTLV_SCU_ProcQuickEntry(scu, state, gBtlvScuQuickSidesTriple, 6);
 }
 
-int func_021EB690(int *state, BtlvScu *scu)
+int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
 {
     BtlvScuIntroState *intro = &scu->intro;
-    if (scu->quickMode) return func_021EB660(scu, state);
+    if (scu->quickMode) return BTLV_SCU_ProcQuickEntrySingle(scu, state);
     switch (*state) {
     case 0:
         intro->single.side = 1;
         intro->single.monIdx = func_021B8ED8(scu->context, intro->single.side);
         intro->single.mon = func_021B98AC(scu->monTable, intro->single.monIdx);
-        intro->single.monId = func_021D5440(intro->single.mon);
+        intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
         func_021ED798(&scu->slide);
         (*state)++;
         break;
     case 1:
         if (func_021ED814(&scu->slide)) {
-            func_021F7EE8(func_021D5864(intro->single.mon), intro->single.side);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
             func_021F7A28(intro->single.side, 0x231);
-            func_021EB584(2);
+            BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
-            func_021EEE24(scu->textBuf, func_021EB820(scu), 1, intro->single.monId);
+            BTL_MSG_FormatArgs(scu->textBuf, BTLV_SCU_GetEntryMessageId(scu), 1, intro->single.monId);
             func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
@@ -542,7 +542,7 @@ int func_021EB690(int *state, BtlvScu *scu)
         break;
     case 4:
         if (func_021ED814(&scu->slide)) {
-            if (func_021B86B8(scu->context) == 4) func_021F7998(0x23c);
+            if (BTL_MAIN_GetCompetitor(scu->context) == 4) func_021F7998(0x23c);
             else func_021F7998(0x232);
             (*state)++;
         }
@@ -552,10 +552,10 @@ int func_021EB690(int *state, BtlvScu *scu)
             intro->single.side = 0;
             intro->single.monIdx = func_021B8ED8(scu->context, intro->single.side);
             intro->single.mon = func_021B98AC(scu->monTable, intro->single.monIdx);
-            intro->single.monId = func_021D5440(intro->single.mon);
-            func_021F7EE8(func_021D5864(intro->single.mon), intro->single.side);
+            intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
             func_021F7998(0x234);
-            func_021EEE24(scu->textBuf, 11, 1, intro->single.monId);
+            BTL_MSG_FormatArgs(scu->textBuf, 11, 1, intro->single.monId);
             func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
@@ -580,7 +580,7 @@ int func_021EB690(int *state, BtlvScu *scu)
 }
 
 
-int func_021EB820(BtlvScu *scu)
+int BTLV_SCU_GetEntryMessageId(BtlvScu *scu)
 {
     if (func_021BA1A8(scu->context, 4) != 0) {
         return 6;
@@ -597,13 +597,13 @@ int func_021EB820(BtlvScu *scu)
     return 1;
 }
 
-int func_021EB870(int *state, BtlvScu *scu)
+int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
 {
     BtlvScuIntroState *intro = &scu->intro;
     u32 introArgs[7];
     u32 sendOutArgs[7];
     u32 side, trainerIdx;
-    if (scu->quickMode) return func_021EB660(scu, state);
+    if (scu->quickMode) return BTLV_SCU_ProcQuickEntrySingle(scu, state);
     switch (*state) {
     case 0:
         side = func_021B8ED8(scu->context, 1);
@@ -613,22 +613,22 @@ int func_021EB870(int *state, BtlvScu *scu)
         intro->single.trainerIdx = trainerIdx;
         intro->single.monIdx = side;
         intro->single.mon = func_021B98AC(scu->monTable, intro->single.monIdx);
-        intro->single.monId = func_021D5440(intro->single.mon);
+        intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
         func_021ED798(&scu->slide);
         (*state)++;
         break;
     case 1:
         if (func_021ED814(&scu->slide)) {
             func_021F7A28(intro->single.side, 0x237);
-            func_021EB584(2);
+            BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
-            func_021EE104(scu, introArgs, intro->single.trainerIdx, 4, 1);
+            BTLV_SCU_GetBallStates(scu, introArgs, intro->single.trainerIdx, 4, 1);
             func_021F823C(introArgs);
-            func_021EEE24(scu->textBuf, 7, 1, intro->single.trainerIdx);
+            BTL_MSG_FormatArgs(scu->textBuf, 7, 1, intro->single.trainerIdx);
             func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
@@ -642,14 +642,14 @@ int func_021EB870(int *state, BtlvScu *scu)
         break;
     case 4:
         if (func_021ED814(&scu->slide) && !func_021F7EB4()) {
-            func_021EEE24(scu->textBuf, 14, 2, 1, intro->single.monId);
+            BTL_MSG_FormatArgs(scu->textBuf, 14, 2, 1, intro->single.monId);
             func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
         break;
     case 5:
         if (func_021ECF68(scu)) {
-            func_021F7EE8(func_021D5864(intro->single.mon), intro->single.side);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
             func_021F7A28(intro->single.side, 0x239);
             func_021F8260(1);
             func_021ED798(&scu->slide);
@@ -658,7 +658,7 @@ int func_021EB870(int *state, BtlvScu *scu)
         break;
     case 6:
         if (func_021ED814(&scu->slide) && !func_021F7EB4()) {
-            func_021EE104(scu, sendOutArgs, func_021B8FF4(scu->context), 4, 0);
+            BTLV_SCU_GetBallStates(scu, sendOutArgs, func_021B8FF4(scu->context), 4, 0);
             func_021F823C(sendOutArgs);
             (*state)++;
         }
@@ -673,10 +673,10 @@ int func_021EB870(int *state, BtlvScu *scu)
             intro->single.side = 0;
             intro->single.monIdx = func_021B8ED8(scu->context, intro->single.side);
             intro->single.mon = func_021B98AC(scu->monTable, intro->single.monIdx);
-            intro->single.monId = func_021D5440(intro->single.mon);
-            func_021F7EE8(func_021D5864(intro->single.mon), intro->single.side);
+            intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
             func_021F7998(0x234);
-            func_021EEE24(scu->textBuf, 11, 1, intro->single.monId);
+            BTL_MSG_FormatArgs(scu->textBuf, 11, 1, intro->single.monId);
             func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
@@ -703,12 +703,12 @@ int func_021EB870(int *state, BtlvScu *scu)
 
 
 
-int func_021EBAC0(int *state, BtlvScu *scu)
+int BTLV_SCU_ProcEntrySingleLink(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
-        return func_021EB660(scu, state);
+        return BTLV_SCU_ProcQuickEntrySingle(scu, state);
     if (scu->phase < 3) {
-        if (d_021F38E8[scu->phase][func_021B8FF4(scu->context)](scu, state) != 0) {
+        if (gBtlvScuSingleLinkPhases[scu->phase][func_021B8FF4(scu->context)](scu, state) != 0) {
             scu->phase = scu->phase + 1;
             *state = 0;
         }
@@ -723,43 +723,43 @@ int func_021EBAC0(int *state, BtlvScu *scu)
  * integer temporary gave 620 and lost the index spill; pointer lvalues gave
  * EXACT 624 bytes. Evidence: B10/BB20-r1.log through BB20-r3.log.
  */
-int func_021EBB20(int *state, BtlvScu *scu)
+int BTLV_SCU_ProcEntryDoubleWild(int *state, BtlvScu *scu)
 {
     BtlvScuIntroState *intro = &scu->intro;
     u32 side;
     unsigned i;
-    if (scu->quickMode) return func_021EB670(scu, state);
+    if (scu->quickMode) return BTLV_SCU_ProcQuickEntryDouble(scu, state);
     switch (*state) {
     case 0:
-        side = func_021B8BEC(scu->context, scu->clientIndex, 0);
-        intro->dbl.monIdx[0] = func_021B8C50(scu->context, side, 0);
+        side = BTL_MAIN_GetClientTrainerIndex(scu->context, scu->clientIndex, 0);
+        intro->dbl.monIdx[0] = BTL_MAIN_GetEnemyLanePosFromWork(scu->context, side, 0);
         intro->dbl.mon[0] = func_021B98AC(scu->monTable, intro->dbl.monIdx[0]);
-        intro->dbl.monId[0] = func_021D5440(intro->dbl.mon[0]);
-        intro->dbl.monIdx[1] = func_021B8C50(scu->context, side, 1);
+        intro->dbl.monId[0] = BTL_POKEPARAM_GetPokeId(intro->dbl.mon[0]);
+        intro->dbl.monIdx[1] = BTL_MAIN_GetEnemyLanePosFromWork(scu->context, side, 1);
         intro->dbl.mon[1] = func_021B98AC(scu->monTable, intro->dbl.monIdx[1]);
-        intro->dbl.monId[1] = func_021D5440(intro->dbl.mon[1]);
+        intro->dbl.monId[1] = BTL_POKEPARAM_GetPokeId(intro->dbl.mon[1]);
         func_021ED798(&scu->slide);
         (*state)++;
         break;
     case 1:
         if (func_021ED814(&scu->slide)) {
             side = func_021B8E70(scu->context, intro->dbl.monIdx[0]);
-            func_021F7EE8(func_021D5864(intro->dbl.mon[0]), side);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[0]), side);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
             side = func_021B8E70(scu->context, intro->dbl.monIdx[1]);
-            func_021F7EE8(func_021D5864(intro->dbl.mon[1]), side);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[1]), side);
             func_021F7A28(side, 0x231);
-            func_021EB584(2);
+            BTLV_SCU_StartBrightnessFade(2);
             (*state)++;
         }
         break;
     case 3:
         if (!func_021F7EB4()) {
-            func_021EEE24(scu->textBuf, 2, 2, intro->dbl.monId[0], intro->dbl.monId[1]);
+            BTL_MSG_FormatArgs(scu->textBuf, 2, 2, intro->dbl.monId[0], intro->dbl.monId[1]);
             func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
@@ -786,12 +786,12 @@ int func_021EBB20(int *state, BtlvScu *scu)
             for (i = 0; i < 2; i++) {
                 intro->dbl.monIdx[i] = func_021B8ED8(scu->context, intro->dbl.side[i]);
                 intro->dbl.mon[i] = func_021B98AC(scu->monTable, intro->dbl.monIdx[i]);
-                if (intro->dbl.mon[i]) intro->dbl.monId[i] = func_021D5440(intro->dbl.mon[i]);
+                if (intro->dbl.mon[i]) intro->dbl.monId[i] = BTL_POKEPARAM_GetPokeId(intro->dbl.mon[i]);
             }
-            func_021F7EE8(func_021D5864(intro->dbl.mon[0]), intro->dbl.side[0]);
-            func_021F7EE8(func_021D5864(intro->dbl.mon[1]), intro->dbl.side[1]);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[0]), intro->dbl.side[0]);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[1]), intro->dbl.side[1]);
             func_021F7998(0x234);
-            func_021EEE24(scu->textBuf, 12, 2, intro->dbl.monId[0], intro->dbl.monId[1]);
+            BTL_MSG_FormatArgs(scu->textBuf, 12, 2, intro->dbl.monId[0], intro->dbl.monId[1]);
             func_021ECEB8(scu, scu->textBuf, 0x50, 0);
             (*state)++;
         }
@@ -818,12 +818,12 @@ int func_021EBB20(int *state, BtlvScu *scu)
 
 
 
-int func_021EBD90(int *state, BtlvScu *scu)
+int BTLV_SCU_ProcEntryDoubleTrainerLocal(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
-        return func_021EB670(scu, state);
+        return BTLV_SCU_ProcQuickEntryDouble(scu, state);
     if (scu->phase < 3) {
-        if (d_021F38D0[scu->phase](scu, state) != 0) {
+        if (gBtlvScuDoubleTrainerLocalPhases[scu->phase](scu, state) != 0) {
             scu->phase = scu->phase + 1;
             *state = 0;
         }
@@ -834,12 +834,12 @@ int func_021EBD90(int *state, BtlvScu *scu)
 
 
 
-int func_021EBDDC(int *state, BtlvScu *scu)
+int BTLV_SCU_ProcEntryDoubleTrainerComm(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
-        return func_021EB670(scu, state);
+        return BTLV_SCU_ProcQuickEntryDouble(scu, state);
     if (scu->phase < 3) {
-        if (d_021F38DC[scu->phase](scu, state) != 0) {
+        if (gBtlvScuDoubleTrainerCommPhases[scu->phase](scu, state) != 0) {
             scu->phase = scu->phase + 1;
             *state = 0;
         }
@@ -850,12 +850,12 @@ int func_021EBDDC(int *state, BtlvScu *scu)
 
 
 
-int func_021EBE28(int *state, BtlvScu *scu)
+int BTLV_SCU_ProcEntryDoubleLinkLocal(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
-        return func_021EB670(scu, state);
+        return BTLV_SCU_ProcQuickEntryDouble(scu, state);
     if (scu->phase < 3) {
-        if (d_021F3900[scu->phase][func_021B8FF4(scu->context)](scu, state) != 0) {
+        if (gBtlvScuDoubleLinkLocalPhases[scu->phase][func_021B8FF4(scu->context)](scu, state) != 0) {
             scu->phase = scu->phase + 1;
             *state = 0;
         }
@@ -866,12 +866,12 @@ int func_021EBE28(int *state, BtlvScu *scu)
 
 
 
-int func_021EBE88(int *state, BtlvScu *scu)
+int BTLV_SCU_ProcEntryDoubleLinkComm(int *state, BtlvScu *scu)
 {
     if (scu->quickMode != 0)
-        return func_021EB670(scu, state);
+        return BTLV_SCU_ProcQuickEntryDouble(scu, state);
     if (scu->phase < 3) {
-        if (d_021F38B8[scu->phase](scu, state) != 0) {
+        if (gBtlvScuDoubleLinkCommPhases[scu->phase](scu, state) != 0) {
             scu->phase = scu->phase + 1;
             *state = 0;
         }

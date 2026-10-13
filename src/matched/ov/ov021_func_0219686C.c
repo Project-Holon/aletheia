@@ -1,5 +1,5 @@
 /*
- * function: func_0219686C
+ * function: IRCBATTLEMENU_HookTopMenuPressed
  * address:  0x0219686C
  * packet:   pkt_ov021_0219686C
  * region:   ov021
@@ -12,11 +12,11 @@
  * symbols:
  *   func_02155A94  0x02155A94  thumb  ov010
  *   func_0200873C  0x0200873C  thumb
- *   func_02008428  0x02008428  thumb
- *   func_02196034  0x02196034  thumb  ov021
- *   func_02196804  0x02196804  thumb  ov021
- *   func_02197700  0x02197700  thumb  ov021
- *   func_02196A60  0x02196A60  thumb  ov021
+ *   CONFIG_GetButtonMode  0x02008428  thumb
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_SeqStartFadeOut  0x02196804  thumb  ov021
+ *   IRCBATTLEMENU_SeqSaveQuestion  0x02197700  thumb  ov021
+ *   IRCBATTLEMENU_SeqSetupKindMenu  0x02196A60  thumb  ov021
  */
 #include "../include/Obj09492.h"
 
@@ -26,25 +26,25 @@ typedef unsigned int   u32;
 struct Sub02008700Obj;
 extern u32 func_02155A94(u8 *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int func_02008428(unsigned short *p);
-extern void func_02196034(void *p, void *fn, u32 n);
-extern void func_02196804(u8 *p);
-extern void func_02197700(u8 *a);
-extern void func_02196A60(u8 *p);
+extern int CONFIG_GetButtonMode(unsigned short *p);
+extern void IRCBATTLEMENU_SetSeq(void *p, void *fn, u32 n);
+extern void IRCBATTLEMENU_SeqStartFadeOut(u8 *p);
+extern void IRCBATTLEMENU_SeqSaveQuestion(u8 *a);
+extern void IRCBATTLEMENU_SeqSetupKindMenu(u8 *p);
 
-void func_0219686C(u8 *p)
+void IRCBATTLEMENU_HookTopMenuPressed(u8 *p)
 {
     if (((struct Obj09492 *)p)->f8 == 0xC) {
-        func_02196034(p, (void *)func_02196804, 0x38C);
+        IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqStartFadeOut, 0x38C);
         return;
     }
-    if (func_02008428((unsigned short *)func_0200873C((void *)func_02155A94((u8 *)(((struct Obj09492 *)p)->f2E4)))) == 1) {
-        func_02196034(p, (void *)func_02197700, 0x38F);
+    if (CONFIG_GetButtonMode((unsigned short *)func_0200873C((void *)func_02155A94((u8 *)(((struct Obj09492 *)p)->f2E4)))) == 1) {
+        IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqSaveQuestion, 0x38F);
         return;
     }
     if (((struct Obj09492 *)p)->f8 - 6 <= 2) {
-        func_02196034(p, (void *)func_02196804, 0x394);
+        IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqStartFadeOut, 0x394);
         return;
     }
-    func_02196034(p, (void *)func_02196A60, 0x397);
+    IRCBATTLEMENU_SetSeq(p, (void *)IRCBATTLEMENU_SeqSetupKindMenu, 0x397);
 }

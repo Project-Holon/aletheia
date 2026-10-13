@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7040  0x021D7040  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 struct Node;
-extern void func_021D7040(struct Node *n);
+extern void BTL_EVENT_RemoveFactor(struct Node *n);
 
 void func_021E1F70(void *u, int a, int b, int *p)
 {
-    if (b == func_021D775C(2)) {
+    if (b == BTL_EVENT_GetVar(2)) {
         if (*p == 2)
-            func_021D7040(u);
+            BTL_EVENT_RemoveFactor(u);
     }
 }

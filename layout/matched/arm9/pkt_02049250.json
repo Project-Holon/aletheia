@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02049250",
+   "name": "ARC_TOOL_LoadHandleMember",
    "address": "0x02049250",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204932C",
+   "name": "ARC_TOOL_ReadHandleMember",
    "address": "0x0204932C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020493D4",
+   "name": "ARC_TOOL_GetHandleMemberSize",
    "address": "0x020493D4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204944C",
+   "name": "ARC_TOOL_ReadHandleMemberRange",
    "address": "0x0204944C",
    "kind": "game",
    "region": "arm9",

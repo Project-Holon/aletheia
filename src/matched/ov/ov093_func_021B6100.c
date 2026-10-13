@@ -1,5 +1,5 @@
 /*
- * function: func_021B6100
+ * function: BTL_MAIN_ProcInit
  * address: 0x021B6100
  * packet: pkt_ov093_021B6100
  * region: ov093
@@ -28,30 +28,30 @@
  *   3, f8 held result before default 4: three nonshrinking, stopped;
  *   check 4 f9/f10 MATCH. Runs 10; permuter not rerun (earlier run).
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082A7C 0x02082A7C arm
- *   func_021E8DC4 0x021E8DC4 thumb ov093
- *   func_021E88CC 0x021E88CC thumb ov093
+ *   BTLV_CORE_LoadOverlays 0x021E8DC4 thumb ov093
+ *   BTLV_CORE_LoadDsiOverlay 0x021E88CC thumb ov093
  *   GFL_USE_IsMuteHookActive 0x020057C4 thumb
  *   GFL_USE_SetSleepVolumeHooks 0x020057AC thumb
  *   CONFIG_GetTextSpeed 0x02008374 thumb
  *   CONFIG_GetBattleScene 0x020083AC thumb
  *   CONFIG_GetBattleStyle 0x020083C8 thumb
- *   func_021EF958 0x021EF958 thumb ov093
+ *   BTL_FIELD_Create 0x021EF958 thumb ov093
  *   func_021B93E0 0x021B93E0 thumb ov093
  *   func_021BA82C 0x021BA82C thumb ov093
  *   func_0203F258 0x0203F258 arm
- *   func_021D7840 0x021D7840 thumb ov093
- *   func_021CD6EC 0x021CD6EC thumb ov093
- *   func_021D7F88 0x021D7F88 thumb ov093
- *   func_021D8230 0x021D8230 thumb ov093
- *   func_021D4150 0x021D4150 thumb ov093
- *   func_021D804C 0x021D804C thumb ov093
- *   func_021D4270 0x021D4270 thumb ov093
- *   func_021D4230 0x021D4230 thumb ov093
- *   func_021EEA30 0x021EEA30 thumb ov093
- *   func_021B66D4 0x021B66D4 thumb ov093
+ *   BTL_CALC_Init 0x021D7840 thumb ov093
+ *   BTL_SERVER_CMD_Dummy 0x021CD6EC thumb ov093
+ *   BTL_CALC_CalcPrizeMoney 0x021D7F88 thumb ov093
+ *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
+ *   BTL_NET_Init 0x021D4150 thumb ov093
+ *   BTL_CALC_SetHeapId 0x021D804C thumb ov093
+ *   BTL_NET_HasCommError 0x021D4270 thumb ov093
+ *   BTL_NET_IsInitialSyncDone 0x021D4230 thumb ov093
+ *   BTL_ADAPTER_ClearSlots 0x021EEA30 thumb ov093
+ *   BTL_MAIN_StartSetupTask 0x021B66D4 thumb ov093
  *   func_021B9DB8 0x021B9DB8 thumb ov093
  *   func_021BA094 0x021BA094 thumb ov093
  *   func_021BA1B4 0x021BA1B4 thumb ov093
@@ -100,35 +100,35 @@ struct Obj0203159C
   u32 pad00[5];
   void *buffer;
 };
-extern void func_0203064C(u32, u32, u32);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082A7C(u32, void *, u32);
 struct S;
-extern void func_021E8DC4(unsigned short heap);
-extern void func_021E88CC(void);
+extern void BTLV_CORE_LoadOverlays(unsigned short heap);
+extern void BTLV_CORE_LoadDsiOverlay(void);
 extern int GFL_USE_IsMuteHookActive(void);
 extern void GFL_USE_SetSleepVolumeHooks(void);
 extern u32 CONFIG_GetTextSpeed(int);
 extern u32 CONFIG_GetBattleScene(void *);
 extern u32 CONFIG_GetBattleStyle(void *);
-extern void *func_021EF958(u32);
+extern void *BTL_FIELD_Create(u32);
 extern void func_021B93E0(char *, u32, u32);
 extern void func_021BA82C(char *);
 extern void func_0203F258(struct Lcg64 *);
-extern void func_021D7840(struct Lcg64 *, u32);
-extern void func_021CD6EC(void);
-extern u32 func_021D7F88(u8 *);
-extern void func_021D8230(u8 *p);
-extern void func_021D4150(void *, u16, u16);
-extern void func_021D804C(u32);
-extern int func_021D4270(void);
-extern int func_021D4230(void);
-extern void func_021EEA30(int v);
-extern void func_021B66D4(struct Callback *, u8 *, u8 *);
+extern void BTL_CALC_Init(struct Lcg64 *, u32);
+extern void BTL_SERVER_CMD_Dummy(void);
+extern u32 BTL_CALC_CalcPrizeMoney(u8 *);
+extern void BTL_CLIENT_SET_Clear(u8 *p);
+extern void BTL_NET_Init(void *, u16, u16);
+extern void BTL_CALC_SetHeapId(u32);
+extern int BTL_NET_HasCommError(void);
+extern int BTL_NET_IsInitialSyncDone(void);
+extern void BTL_ADAPTER_ClearSlots(int v);
+extern void BTL_MAIN_StartSetupTask(struct Callback *, u8 *, u8 *);
 extern void func_021B9DB8(char *p);
 extern void func_021BA094(struct S *p);
 extern void func_021BA1B4(char **p, int i);
-int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
+int BTL_MAIN_ProcInit(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
 {
   u32 flag;
   u32 i;
@@ -137,13 +137,13 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
   switch (*state)
   {
     case 0:
-      func_0203064C(1, 0x12, 0x20000);
-      func_0203064C(1, 0x14, 0x8000);
-      func_0203064C(1, 0x13, 0xab100);
-      p = func_0203159C(owner, 0x474, 0x12);
+      GFL_HEAP_CreateChildHeap(1, 0x12, 0x20000);
+      GFL_HEAP_CreateChildHeap(1, 0x14, 0x8000);
+      GFL_HEAP_CreateChildHeap(1, 0x13, 0xab100);
+      p = PROCSYS_AllocProcWork(owner, 0x474, 0x12);
       func_02082A7C(0, p, 0x474);
-      func_021E8DC4(0x13);
-      func_021E88CC();
+      BTLV_CORE_LoadOverlays(0x13);
+      BTLV_CORE_LoadDsiOverlay();
       if (!GFL_USE_IsMuteHookActive())
       {
         GFL_USE_SetSleepVolumeHooks();
@@ -170,7 +170,7 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
       if (CONFIG_GetBattleScene(*((void **) (q + 0x5c))) == 0)
         flag = 1;
       ((struct FlagByte *) (p + 0x473))->a2 = (u8) flag;
-      *((void **) (p + 0x2bc)) = func_021EF958(*((u16 *) (p + 0x468)));
+      *((void **) (p + 0x2bc)) = BTL_FIELD_Create(*((u16 *) (p + 0x468)));
       func_021B93E0(((char *) p) + 0xc8, (u32) p, 0);
       func_021B93E0(((char *) p) + 0x1b0, (u32) p, 1);
       func_021BA82C(*((char **) p));
@@ -180,9 +180,9 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
         func_0203F258((struct Lcg64 *) (p + 0x3f0));
       else
         *((struct Lcg64 *) (p + 0x3f0)) = *((struct Lcg64 *) (q + 0x9c));
-      func_021D7840((struct Lcg64 *) (p + 0x3f0), *((u16 *) (p + 0x468)));
-      func_021CD6EC();
-      *((u32 *) (p + 0x430)) = func_021D7F88(q);
+      BTL_CALC_Init((struct Lcg64 *) (p + 0x3f0), *((u16 *) (p + 0x468)));
+      BTL_SERVER_CMD_Dummy();
+      *((u32 *) (p + 0x430)) = BTL_CALC_CalcPrizeMoney(q);
       *((u32 *) (p + 0x434)) = 0;
       *((u32 *) (p + 0x438)) = 0;
       if ((*((u8 **) p))[0x23] == 0)
@@ -190,28 +190,28 @@ int func_021B6100(struct Obj0203159C *owner, u32 *state, u8 *q, u8 *p)
         for (i = 0; i < 4; i++)
           (*((u8 **) p))[0x44 + i] = 0;
       }
-      func_021D8230(p + 0x448);
+      BTL_CLIENT_SET_Clear(p + 0x448);
       ready = CONFIG_GetBattleStyle(*((void **) (q + 0x5c)));
       flag = 0;
       if (ready != 0)
         flag = 1;
       p[0x46f] = flag;
-      func_021D4150(*((void **) (q + 0x1c)), *((u16 *) (q + 0x84)), 0x14);
-      func_021D804C(0x12);
+      BTL_NET_Init(*((void **) (q + 0x1c)), *((u16 *) (q + 0x84)), 0x14);
+      BTL_CALC_SetHeapId(0x12);
       (*state)++;
       break;
 
     case 1:
-      if (((*((void **) ((*((u8 **) p)) + 0x1c))) != 0) && func_021D4270())
+      if (((*((void **) ((*((u8 **) p)) + 0x1c))) != 0) && BTL_NET_HasCommError())
       {
         ((struct FlagByte *) (p + 0x473))->a0 = 1;
         ((struct FlagByte *) (p + 0x473))->a1 = 1;
         return 1;
       }
-      if (func_021D4230())
+      if (BTL_NET_IsInitialSyncDone())
       {
-        func_021EEA30((*((u8 **) p))[0x20]);
-        func_021B66D4((struct Callback *) (p + 0x450), p, *((u8 **) p));
+        BTL_ADAPTER_ClearSlots((*((u8 **) p))[0x20]);
+        BTL_MAIN_StartSetupTask((struct Callback *) (p + 0x450), p, *((u8 **) p));
         *((u32 *) (p + 0x460)) = 0;
         func_021B9DB8((char *)p);
         func_021BA094((struct S *)p);

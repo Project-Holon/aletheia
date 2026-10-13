@@ -1,5 +1,5 @@
 /*
- * function: func_021A0E58
+ * function: FIELD_SUBSCREEN_MainNoTransition
  * address:  0x021A0E58
  * packet:   pkt_ov021_021A0E58
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02189A2C  0x02189A2C  thumb  ov021
+ *   FIELDMAP_IsEventActive  0x02189A2C  thumb  ov021
  *   d_021D8734  0x021D8734  data  a4
  * Addresses are Black-image addresses.
  */
@@ -21,17 +21,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_02189A2C(int *a);
+extern int FIELDMAP_IsEventActive(int *a);
 extern u8 d_021D8734[];
 
-void func_021A0E58(u32 *a)
+void FIELD_SUBSCREEN_MainNoTransition(u32 *a)
 {
     s32 r;
 
     switch (a[2]) {
     case 0:
         if (*(u32 *)(d_021D8734 + a[0] * 0x1c) != 0) {
-            r = func_02189A2C((int *)a[5]);
+            r = FIELDMAP_IsEventActive((int *)a[5]);
             ((void (*)(u32 *, s32))*(u32 *)(d_021D8734 + a[0] * 0x1c))(a, r == 0);
         }
         break;

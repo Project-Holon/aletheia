@@ -14,8 +14,8 @@
  *   func_02210DA8 0x02210DA8 thumb ov198
  *   func_0220C694 0x0220C694 thumb ov198
  *   func_022110D4 0x022110D4 thumb ov198
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -30,9 +30,9 @@ extern void func_0220DA6C(u8 *p, int idx);
 extern int func_02210DA8(u8 *p);
 extern void func_0220C694(char *, int, int);
 extern int func_022110D4(u8 *,int);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(unsigned);
 void func_0220D9B4(char *p)
@@ -56,11 +56,11 @@ void func_0220D9B4(char *p)
         return;
     }
     obj = ((struct Obj00507 *)p)->f1F80;
-    func_02045334(obj);
-    func_02045374(obj);
+    BMP_WIN_TransferChars(obj);
+    BMP_WIN_MakeScreen(obj);
     func_02041B6C(func_02045730(obj));
     obj = ((struct Obj00507 *)p)->f1F88;
-    func_02045334(obj);
-    func_02045374(obj);
+    BMP_WIN_TransferChars(obj);
+    BMP_WIN_MakeScreen(obj);
     func_02041B6C(func_02045730(obj));
 }

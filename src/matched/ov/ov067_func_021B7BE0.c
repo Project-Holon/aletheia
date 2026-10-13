@@ -1,5 +1,5 @@
 /*
- * function: func_021B7BE0
+ * function: FRAME_LIST_Redraw
  * address:  0x021B7BE0
  * packet:   pkt_ov067_021B7BE0
  * region:   ov067
@@ -16,9 +16,9 @@
  *
  * symbols:
  *   func_02041EE4  0x02041EE4  arm
- *   func_021B91D0  0x021B91D0  thumb  ov067
- *   func_021B9228  0x021B9228  thumb  ov067
- *   func_021B92F0  0x021B92F0  thumb  ov067
+ *   FRAME_LIST_DrawRowA  0x021B91D0  thumb  ov067
+ *   FRAME_LIST_DrawRowB  0x021B9228  thumb  ov067
+ *   FRAME_LIST_SetCursorHighlight  0x021B92F0  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -56,11 +56,11 @@ typedef struct S {
 } S;
 
 extern void func_02041EE4(u32 index, u32 a, u32 b);
-extern void func_021B91D0(S *p, int i, int a2);
-extern void func_021B9228(S *p, int i, int a2);
-extern void func_021B92F0(struct S *p, u32 a1, u32 a2);
+extern void FRAME_LIST_DrawRowA(S *p, int i, int a2);
+extern void FRAME_LIST_DrawRowB(S *p, int i, int a2);
+extern void FRAME_LIST_SetCursorHighlight(struct S *p, u32 a1, u32 a2);
 
-void func_021B7BE0(S *p, int a1)
+void FRAME_LIST_Redraw(S *p, int a1)
 {
     s16 i;
     s8 j;
@@ -79,7 +79,7 @@ void func_021B7BE0(S *p, int a1)
     for (;;) {
         if (j >= 0x18)
             break;
-        func_021B91D0(p, i, j);
+        FRAME_LIST_DrawRowA(p, i, j);
         p->f46++;
         i = i + 1;
         j = j + (s8)p->f5;
@@ -100,12 +100,12 @@ void func_021B7BE0(S *p, int a1)
     for (;;) {
         if (j >= 0x18)
             break;
-        func_021B9228(p, i, j);
+        FRAME_LIST_DrawRowB(p, i, j);
         p->f47++;
         i = i + 1;
         j = j + (s8)p->f5;
     }
     p->f49 = p->f47;
-    func_021B92F0(p, (u16)p->f5c, 0xff);
+    FRAME_LIST_SetCursorHighlight(p, (u16)p->f5c, 0xff);
     p->f20->fn4(p->f24, p->f5c + p->f62, a1);
 }

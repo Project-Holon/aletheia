@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021DE620, func_021DE65C
+ * function: BTL_HANDLER_ITEM_ZoomLensRaiseAccuracy, BTL_HANDLER_ITEM_GetLaxIncenseHandlers
  * address:  0x021DE620
  * packet:   pkt_ov093_021DE620
  * region:   ov093
@@ -11,38 +11,38 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5BB0  0x021D5BB0  thumb  ov093
- *   func_021DD008  0x021DD008  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
- *   d_021F1474     0x021F1474  data   ov093  a4
+ *   BTL_POKEPARAM_TestTurnFlag  0x021D5BB0  thumb  ov093
+ *   BTL_HANDLER_ITEM_GetBoostRatio  0x021DD008  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
+ *   gLaxIncenseHandlerTable     0x021F1474  data   ov093  a4
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int k);
+extern int BTL_EVENT_GetVar(int k);
 extern void *func_021C7CF4(int *p, int i);
 struct UtilWork;
-extern int func_021D5BB0(struct UtilWork *p, u32 n);
-extern int func_021DD008(int a);
-extern void func_021D7704(int key, int m);
-extern int d_021F1474;
+extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
+extern int BTL_HANDLER_ITEM_GetBoostRatio(int a);
+extern void BTL_EVENT_MultiplyVar(int key, int m);
+extern int gLaxIncenseHandlerTable;
 
-void func_021DE620(int a, int b, int c)
+void BTL_HANDLER_ITEM_ZoomLensRaiseAccuracy(int a, int b, int c)
 {
     u8 v;
-    if (c == func_021D775C(3)) {
-        v = func_021D775C(4);
-        if (func_021D5BB0(func_021C7CF4((int *)b, v), 1) != 0)
-            func_021D7704(0x35, func_021DD008(a));
+    if (c == BTL_EVENT_GetVar(3)) {
+        v = BTL_EVENT_GetVar(4);
+        if (BTL_POKEPARAM_TestTurnFlag(func_021C7CF4((int *)b, v), 1) != 0)
+            BTL_EVENT_MultiplyVar(0x35, BTL_HANDLER_ITEM_GetBoostRatio(a));
     }
 }
 
-int *func_021DE65C(int *p)
+int *BTL_HANDLER_ITEM_GetLaxIncenseHandlers(int *p)
 {
     *p = 1;
-    return &d_021F1474;
+    return &gLaxIncenseHandlerTable;
 }

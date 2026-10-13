@@ -1,5 +1,5 @@
 /*
- * function: func_021CCB98
+ * function: PARTY_SELECT_LIST_DeleteMonIcons
  * address:  0x021CCB98
  * packet:   pkt_ov021_021CCB98
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201AA18  0x0201AA18  thumb
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  */
 #include "../include/Obj09731.h"
 
@@ -20,19 +20,19 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
 extern u32 func_0201AA18(void *p);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021CCB98(u8 *p)
+void PARTY_SELECT_LIST_DeleteMonIcons(u8 *p)
 {
     int i;
     int n;
 
     n = func_0201AA18(((struct Obj09731 *)p)->f4);
     for (i = 0; i < n; i++)
-        func_0204B3B4(*(void **)(p + i * 4 + 0x1c));
+        CLACT_DeleteActor(*(void **)(p + i * 4 + 0x1c));
     if (((struct Obj09731 *)p)->f8) {
         n = func_0201AA18(((struct Obj09731 *)p)->f8);
         for (i = 0; i < n; i++)
-            func_0204B3B4(*(void **)(p + i * 4 + 0x34));
+            CLACT_DeleteActor(*(void **)(p + i * 4 + 0x34));
     }
 }

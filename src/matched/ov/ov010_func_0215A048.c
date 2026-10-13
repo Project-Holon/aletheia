@@ -14,10 +14,10 @@
  * is passed unchanged without narrowing. Remaining payloads retain 32 bits.
  * prior: wave49 one MATCH; tu --suggest-split left caller OUT.
  * symbols:
- *   func_02014184 0x02014184 thumb
+ *   ZONEDATA_SetDirectLocation 0x02014184 thumb
  */
 typedef unsigned short u16;
-extern void func_02014184(void *, int, short, int, int, int);
+extern void ZONEDATA_SetDirectLocation(void *, int, short, int, int, int);
 void func_0215A048(void *a, int b, int c, unsigned d, u16 e) {
- func_02014184(a, b, 1, d << 16, 0, (unsigned)e << 16);
+ ZONEDATA_SetDirectLocation(a, b, 1, d << 16, 0, (unsigned)e << 16);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021993FC
+ * function: FLDMMDL_ACMD_StepDownFaceUp8F
  * address:  0x021993FC
  * packet:   pkt_ov021_021993FC
  * region:   ov021
@@ -19,7 +19,7 @@
  *   window) fixes the overlay; with the hint the tool refused it as contested.
  *
  * symbols:
- *   func_0219912C  0x0219912C  thumb  ov021
+ *   FLDMMDL_ACMD_StepInit  0x0219912C  thumb  ov021
  *   d_021D4BE0     0x021D4BE0  data  a4
  * Addresses are Black-image addresses.
  */
@@ -28,11 +28,11 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec;
 extern const Vec d_021D4BE0;
-extern void func_0219912C(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f);
+extern void FLDMMDL_ACMD_StepInit(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f);
 
-int func_021993FC(u32 a)
+int FLDMMDL_ACMD_StepDownFaceUp8F(u32 a)
 {
     Vec t = d_021D4BE0;
-    func_0219912C(a, &t, 0, 1, 8, 3);
+    FLDMMDL_ACMD_StepInit(a, &t, 0, 1, 8, 3);
     return 1;
 }

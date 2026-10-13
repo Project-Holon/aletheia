@@ -1,5 +1,5 @@
 /*
- * function: func_021DF48C
+ * function: BTL_HANDLER_ITEM_IcyRockExtendHail
  * address:  0x021DF48C
  * packet:   pkt_ov093_021DF48C
  * region:   ov093
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021DF4E0  0x021DF4E0  thumb  ov093
+ *   BTL_HANDLER_ITEM_ExtendWeatherTurns  0x021DF4E0  thumb  ov093
  */
-extern void func_021DF4E0(void *, int, int, int);
-void func_021DF48C(void *a, int b, int c)
+extern void BTL_HANDLER_ITEM_ExtendWeatherTurns(void *, int, int, int);
+void BTL_HANDLER_ITEM_IcyRockExtendHail(void *a, int b, int c)
 {
-    func_021DF4E0(a, b, c, 3);
+    BTL_HANDLER_ITEM_ExtendWeatherTurns(a, b, c, 3);
 }

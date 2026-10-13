@@ -10,9 +10,9 @@
  * status: EXACT*
  * trailing: Two zero alignment bytes.
  * symbols:
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0202570C 0x0202570C thumb
- *   func_02025588 0x02025588 thumb
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   BMP_OAM_Delete 0x0202570C thumb
+ *   BMP_OAM_DeleteSys 0x02025588 thumb
  */
 #include "../include/Obj08140.h"
 typedef unsigned char u8;
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Grid;
-extern void func_0204ADA4(u32);
-extern void func_0202570C(struct Grid *);
-extern void func_02025588(void *);
-void func_021DA3D0(u8 *p) { func_0204ADA4(((struct Obj08140 *)p)->f30C); func_0202570C(*(struct Grid * *)&((struct Obj08140 *)p)->f304); func_0202570C(*(struct Grid * *)&((struct Obj08140 *)p)->f308); func_02025588(((struct Obj08140 *)p)->f300); }
+extern void CLACT_ReleasePalette(u32);
+extern void BMP_OAM_Delete(struct Grid *);
+extern void BMP_OAM_DeleteSys(void *);
+void func_021DA3D0(u8 *p) { CLACT_ReleasePalette(((struct Obj08140 *)p)->f30C); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08140 *)p)->f304); BMP_OAM_Delete(*(struct Grid * *)&((struct Obj08140 *)p)->f308); BMP_OAM_DeleteSys(((struct Obj08140 *)p)->f300); }

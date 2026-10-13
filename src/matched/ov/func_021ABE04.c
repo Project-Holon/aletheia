@@ -1,5 +1,5 @@
 /*
- * function: func_021ABE04
+ * function: FIELD_EFFECT_Update
  * address:  0x021ABE04
  * packet:   pkt_021ABE04
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021ABFDC with no argument change.
+ * Tail-call thunk: forwards to FIELD_EFFECT_RunTasks with no argument change.
  *
  * symbols:
- *   func_021ABFDC  0x021ABFDC  thumb
+ *   FIELD_EFFECT_RunTasks  0x021ABFDC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021ABFDC();
+extern void FIELD_EFFECT_RunTasks();
 
-void func_021ABE04(u32 a)
+void FIELD_EFFECT_Update(u32 a)
 {
-    func_021ABFDC();
+    FIELD_EFFECT_RunTasks();
 }

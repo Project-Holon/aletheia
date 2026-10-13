@@ -1,5 +1,5 @@
 /*
- * function: func_021C7E70
+ * function: FIELD_FLASH_StartTween
  * address:  0x021C7E70
  * packet:   pkt_021C7E70
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C7E70(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1)
+int FIELD_FLASH_StartTween(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 e1)
 {
 ((struct Obj03529 *)((u8 *)(a)))->f0 = b;
 ((struct Obj03529 *)((u8 *)(a)))->fC = b;

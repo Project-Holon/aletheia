@@ -11,10 +11,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5B40  0x021D5B40  thumb  ov093
- *   func_021D6740  0x021D6740  thumb  ov093
+ *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
+ *   BTL_POKEPARAM_GetConsumedItem  0x021D6740  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
@@ -26,12 +26,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 struct QI;
 struct QK;
 extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D5B40(struct QI *p);
-extern u16 func_021D6740(struct QK *p);
+extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
+extern u16 BTL_POKEPARAM_GetConsumedItem(struct QK *p);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
@@ -45,10 +45,10 @@ void func_021E3F44(int u, void *a, int c)
     int h;
     char *p;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         q = func_021C7CF4(a, c);
-        if (func_021D5B40(q) == 0) {
-            h = func_021D6740(q);
+        if (BTL_POKEPARAM_GetItem(q) == 0) {
+            h = BTL_POKEPARAM_GetConsumedItem(q);
             if (h != 0) {
                 p = func_021C88A4(a, 0x20, c);
                 ((struct Obj10088 *)p)->f4 = h;

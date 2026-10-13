@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021DCF78  0x021DCF78  thumb  ov093
- *   func_021DCF9C  0x021DCF9C  thumb  ov093
- *   func_021CD4FC  0x021CD4FC  thumb  ov093
- *   func_021CD568  0x021CD568  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_HANDLER_ITEM_AddForcedFactor  0x021DCF78  thumb  ov093
+ *   BTL_HANDLER_ITEM_RemoveFactor  0x021DCF9C  thumb  ov093
+ *   BTL_SERVER_CMD_Reserve  0x021CD4FC  thumb  ov093
+ *   BTL_SERVER_CMD_FillReserved  0x021CD568  thumb  ov093
  *   func_021CC8D8  0x021CC8D8  thumb  ov093
  *   func_021CC95C  0x021CC95C  thumb  ov093
- *   func_021C6E00  0x021C6E00  thumb  ov093
+ *   BTL_SERVER_FLOW_DispatchPostMoveKindEvent  0x021C6E00  thumb  ov093
  *   func_021C88E4  0x021C88E4  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -35,14 +35,14 @@ struct Cmd {
 };
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D5B68(void *p);
-extern void *func_021DCF78(void *p, unsigned int k);
-extern void func_021DCF9C(void *n);
-extern int func_021CD4FC(void *p, int k);
-extern void func_021CD568(void *p, int a, int k, u32 b);
+extern int BTL_POKEPARAM_IsFainted(void *p);
+extern void *BTL_HANDLER_ITEM_AddForcedFactor(void *p, unsigned int k);
+extern void BTL_HANDLER_ITEM_RemoveFactor(void *n);
+extern int BTL_SERVER_CMD_Reserve(void *p, int k);
+extern void BTL_SERVER_CMD_FillReserved(void *p, int a, int k, u32 b);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021C6E00(u8 *p, u8 *a, u8 k);
+extern void BTL_SERVER_FLOW_DispatchPostMoveKindEvent(u8 *p, u8 *a, u8 k);
 extern int func_021C88E4(u8 *p);
 
 int func_021C9E3C(u8 *w, struct Cmd *c)
@@ -51,17 +51,17 @@ int func_021C9E3C(u8 *w, struct Cmd *c)
     int x;
     int t;
     u32 s;
-    if (func_021D5B68((void *)r) == 0) {
-        x = (int)func_021DCF78((void *)r, c->h6);
+    if (BTL_POKEPARAM_IsFainted((void *)r) == 0) {
+        x = (int)BTL_HANDLER_ITEM_AddForcedFactor((void *)r, c->h6);
         if (x != 0) {
-            t = func_021CD4FC(((struct Obj00003 *)w)->fC, 0x42);
+            t = BTL_SERVER_CMD_Reserve(((struct Obj00003 *)w)->fC, 0x42);
             s = func_021CC8D8(w + 0x1D74, 15755);
-            func_021C6E00(w, (u8 *)r, c->id);
+            BTL_SERVER_FLOW_DispatchPostMoveKindEvent(w, (u8 *)r, c->id);
             if (func_021C88E4(w) == 2) {
-                func_021CD568(((struct Obj00003 *)w)->fC, t, 0x42, c->b4);
+                BTL_SERVER_CMD_FillReserved(((struct Obj00003 *)w)->fC, t, 0x42, c->b4);
             }
             func_021CC95C((u32 *)(w + 0x1D74), s, 15762);
-            func_021DCF9C((void *)x);
+            BTL_HANDLER_ITEM_RemoveFactor((void *)x);
             return 1;
         }
     }

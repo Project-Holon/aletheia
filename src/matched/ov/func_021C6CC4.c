@@ -1,5 +1,5 @@
 /*
- * function: func_021C6CC4
+ * function: FIELD_TASK_Start
  * address:  0x021C6CC4
  * packet:   pkt_021C6CC4
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021C6CE4 with no argument change.
+ * Tail-call thunk: forwards to FIELD_TASK_SetRunning with no argument change.
  *
  * symbols:
- *   func_021C6CE4  0x021C6CE4  thumb  ov021
+ *   FIELD_TASK_SetRunning  0x021C6CE4  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021C6CE4(u32 *p);
+extern void FIELD_TASK_SetRunning(u32 *p);
 
-void func_021C6CC4(u32 *a0)
+void FIELD_TASK_Start(u32 *a0)
 {
-    func_021C6CE4(a0);
+    FIELD_TASK_SetRunning(a0);
 }

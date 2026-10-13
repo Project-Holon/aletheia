@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B854C",
+   "name": "FIELD_RAIL_WORK_TryEnterLine",
    "address": "0x021B854C",
    "kind": "game",
    "region": "ov021",

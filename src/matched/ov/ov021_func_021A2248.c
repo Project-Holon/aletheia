@@ -1,5 +1,5 @@
 /*
- * function: func_021A2248
+ * function: WEATHER_TASK_StepSpawnTimer
  * address:  0x021A2248
  * packet:   pkt_ov021_021A2248
  * region:   ov021
@@ -12,13 +12,13 @@
  * Unlabelled tail-call stub, filed for lane S30 (callee of ov027 functions).
  *
  * symbols:
- *   func_021A2248 0x021A2248 thumb ov021
- *   func_021A2B8C 0x021A2B8C thumb ov021
+ *   WEATHER_TASK_StepSpawnTimer 0x021A2248 thumb ov021
+ *   WEATHER_TASK_TickSpawnTimer 0x021A2B8C thumb ov021
  */
 
-extern int func_021A2B8C(unsigned char *o, int arg);
+extern int WEATHER_TASK_TickSpawnTimer(unsigned char *o, int arg);
 
-int func_021A2248(unsigned char *o, int arg)
+int WEATHER_TASK_StepSpawnTimer(unsigned char *o, int arg)
 {
-    return func_021A2B8C(o + 0x4C, arg);
+    return WEATHER_TASK_TickSpawnTimer(o + 0x4C, arg);
 }

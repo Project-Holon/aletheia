@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  */
 
 typedef unsigned char  u8;
@@ -23,10 +23,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204ADA4(u32 v);
-extern void func_0204A8D4(u32 v);
-extern void func_0204AFD8(u32 v);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleasePalette(u32 v);
+extern void CLACT_ReleaseCharacter(u32 v);
+extern void CLACT_ReleaseCellAnim(u32 v);
 
 struct S {
     u8 pad[0x3c];
@@ -39,10 +39,10 @@ struct S {
 void func_021C2FEC(void *unused, struct S *p, u32 unused2, u32 i)
 {
     if (p->a54[i] != 0) {
-        func_0204B3B4((struct Obj *)p->a54[i]);
+        CLACT_DeleteActor((struct Obj *)p->a54[i]);
         p->a54[i] = 0;
-        func_0204ADA4(p->a3c[i]);
-        func_0204A8D4(p->a44[i]);
-        func_0204AFD8(p->a4c[i]);
+        CLACT_ReleasePalette(p->a3c[i]);
+        CLACT_ReleaseCharacter(p->a44[i]);
+        CLACT_ReleaseCellAnim(p->a4c[i]);
     }
 }

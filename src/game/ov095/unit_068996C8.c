@@ -18,9 +18,9 @@
  *   func_021C8234  0x021C8234  thumb
  *   func_021C88A4  0x021C88A4  thumb
  *   func_021C88C8  0x021C88C8  thumb
- *   func_021D5814  0x021D5814  thumb
- *   func_021D775C  0x021D775C  thumb
- *   func_021E89C0  0x021E89C0  thumb
+ *   BTL_POKEPARAM_HasType  0x021D5814  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
+ *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb
  *   func_021E8A58  0x021E8A58  thumb
  *   data_0689D708 0x0689D708 data a4
  *   func_06898DE0  0x06898DE0  thumb
@@ -34,15 +34,15 @@ typedef unsigned short u16;
 typedef struct { int v; } Id;
 
 extern int func_06898DE0(int a, u32 b);
-extern int func_021D775C(int a);
+extern int BTL_EVENT_GetVar(int a);
 extern int func_021B9A40(int a);
 extern int func_021C8234(void *a, int b);
 extern int func_021C7CF4(void *a, int b);
-extern int func_021D5814(int a, int b);
+extern int BTL_POKEPARAM_HasType(int a, int b);
 extern void *func_021C88A4();
 extern void func_021C88C8();
 extern u32 func_021E8A58(void);
-extern u32 func_021E89C0(void);
+extern u32 BTLV_CORE_MakeSlotKind1Empty(void);
 void *func_068996C8(u32 *p);
 void func_068996D4(int a, void *p, int x);
 extern unsigned char data_0689D708[];
@@ -76,9 +76,9 @@ void func_068996D4(int a, void *p, int x)
     u8 *t;
     u32 *q;
 
-    v = func_021D775C(2);
+    v = BTL_EVENT_GetVar(2);
     if (x == func_021B9A40(v) && func_021C8234(p, v) == 0) {
-        if (func_021D5814(func_021C7CF4(p, v), 3) != 0) {
+        if (BTL_POKEPARAM_HasType(func_021C7CF4(p, v), 3) != 0) {
             t = func_021C88A4(p, 0x1a, v);
             t[7] = x;
             t[4] = 3;
@@ -93,7 +93,7 @@ void func_068996D4(int a, void *p, int x)
             if ((u32)cmpid(a, x).v > 1)
                 q[2] = func_021E8A58();
             else
-                q[2] = func_021E89C0();
+                q[2] = BTLV_CORE_MakeSlotKind1Empty();
             *((u8 *)q + 0xf) = v;
             func_021C88C8(p, q);
         }

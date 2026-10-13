@@ -1,5 +1,5 @@
 /*
- * function: func_021B91D0
+ * function: FRAME_LIST_DrawRowA
  * address:  0x021B91D0
  * packet:   pkt_ov067_021B91D0
  * region:   ov067
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8FE4  0x021B8FE4  thumb
- *   func_021B90B8  0x021B90B8  thumb
- *   func_021B9138  0x021B9138  thumb
+ *   FRAME_LIST_UploadRowTiles  0x021B8FE4  thumb
+ *   FRAME_LIST_ScrollBgRows  0x021B90B8  thumb
+ *   FRAME_LIST_ClearBgRows  0x021B9138  thumb
  */
 
 typedef unsigned char u8;
@@ -40,17 +40,17 @@ struct S {
     s8 f66;
 };
 
-extern void func_021B8FE4(struct S *s, u32 a1, u32 a2);
-extern void func_021B90B8(struct S *p, int a1, int a2);
-extern void func_021B9138(struct S *p, int a1, int a2);
+extern void FRAME_LIST_UploadRowTiles(struct S *s, u32 a1, u32 a2);
+extern void FRAME_LIST_ScrollBgRows(struct S *p, int a1, int a2);
+extern void FRAME_LIST_ClearBgRows(struct S *p, int a1, int a2);
 
-void func_021B91D0(struct S *p, int i, int a2)
+void FRAME_LIST_DrawRowA(struct S *p, int i, int a2)
 {
     if (i >= 0 && i < p->f4c) {
-        func_021B8FE4(p, i, p->f46);
-        func_021B90B8(p, p->f46, a2);
+        FRAME_LIST_UploadRowTiles(p, i, p->f46);
+        FRAME_LIST_ScrollBgRows(p, p->f46, a2);
         p->f20->fn(p->f24, i, p->f38 + p->f46 * 8, a2 * 8 - p->f66, 1);
     } else {
-        func_021B9138(p, p->f0, a2);
+        FRAME_LIST_ClearBgRows(p, p->f0, a2);
     }
 }

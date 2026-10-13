@@ -1,5 +1,5 @@
 /*
- * function: func_021DAED8
+ * function: BTL_ABILITY_GetDampHandlers
  * address: 0x021DAED8
  * packet: pkt_ov093_021DAED8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DA624_p02.c and filed here.
  *
  * symbols:
- *   d_021F0BD4 0x021F0BD4 data ov093 a4
+ *   gDampHandlerTable 0x021F0BD4 data ov093 a4
  */
 
-int *func_021DAED8(int *p);
-extern int d_021F0BD4[];
+int *BTL_ABILITY_GetDampHandlers(int *p);
+extern int gDampHandlerTable[];
 
-int *func_021DAED8(int *p)
+int *BTL_ABILITY_GetDampHandlers(int *p)
 {
     *p = 5;
-    return d_021F0BD4;
+    return gDampHandlerTable;
 }

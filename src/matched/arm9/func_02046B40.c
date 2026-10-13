@@ -12,7 +12,7 @@
  *   func_0207BCA0    0x0207BCA0  arm
  *   _G3dSystem       0x02146A5C  data
  *   g_renderState       0x02148B4C  data
- *   g_02148B98       0x02148B98  data
+ *   g_renderStateDrawParams       0x02148B98  data
  *   SCREENTEX_CameraPositionOut       0x02148D8C  data
  *   SCREENTEX_CameraTargetOut       0x02148D98  data
  *   SCREENTEX_CameraUpOut       0x02148DA4  data
@@ -29,7 +29,7 @@ extern u32 *_G3dSystem;
 extern Blk SCREENTEX_CameraPositionOut;
 extern Blk SCREENTEX_CameraTargetOut;
 extern Blk SCREENTEX_CameraUpOut;
-extern Blk g_02148B98;
+extern Blk g_renderStateDrawParams;
 extern u32 g_renderState[];
 
 extern void func_0207BCA0(void *a0, void *a1, void *a2, void *a3);
@@ -44,6 +44,6 @@ void G3D_SYSTEM_SetLookAt(u8 *a0)
     SCREENTEX_CameraPositionOut = *(Blk *)(o + 0x5C);
     SCREENTEX_CameraTargetOut = *(Blk *)(o + 0x68);
     SCREENTEX_CameraUpOut = *(Blk *)(o + 0x74);
-    func_0207BCA0(o + 0x5C, o + 0x68, o + 0x74, &g_02148B98);
+    func_0207BCA0(o + 0x5C, o + 0x68, o + 0x74, &g_renderStateDrawParams);
     g_renderState[0x3F] &= ~0xE8u;
 }

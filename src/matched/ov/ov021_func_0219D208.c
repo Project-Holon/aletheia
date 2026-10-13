@@ -1,5 +1,5 @@
 /*
- * function: func_0219D208
+ * function: FLDMMDL_BLACT_ChangeObjCode
  * address:  0x0219D208
  * packet:   pkt_ov021_0219D208
  * region:   ov021
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D520  0x0216D520  thumb  ov010
- *   func_0216D7A8  0x0216D7A8  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216E204  0x0216E204  thumb  ov010
- *   func_0219CBD4  0x0219CBD4  thumb  ov021
- *   func_0219C880  0x0219C880  thumb  ov021
- *   func_02050468  0x02050468  arm
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
+ *   FLDMMDL_CallDrawGetProc  0x0216D7A8  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_ChangeObjCode  0x0216E204  thumb  ov010
+ *   FLDMMDL_BLACT_FindRes  0x0219CBD4  thumb  ov021
+ *   FLDMMDL_BLACT_DeleteActorRes  0x0219C880  thumb  ov021
+ *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm
  */
 #include "../include/Obj03119.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct BbActSys;
-extern void *func_0216D67C(void *a0);
-extern u32 func_0216D520(void *p);
-extern int func_0216D7A8(void *p, unsigned int v);
-extern u16 func_0216D598(void *p);
-extern void func_0216E204(char *a, u32 v);
-extern int func_0219CBD4(u32 a, u32 b, u32 c, u32 d);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern u32 FLDMMDL_SysGetBlActCont(void *p);
+extern int FLDMMDL_CallDrawGetProc(void *p, unsigned int v);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern void FLDMMDL_ChangeObjCode(char *a, u32 v);
+extern int FLDMMDL_BLACT_FindRes(u32 a, u32 b, u32 c, u32 d);
 typedef unsigned char  u8;
-extern void func_0219C880(u8 *o, u32 a, u32 b, u32 c);
-extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
+extern void FLDMMDL_BLACT_DeleteActorRes(u8 *o, u32 a, u32 b, u32 c);
+extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
 
-void func_0219D208(int a, unsigned int id)
+void FLDMMDL_BLACT_ChangeObjCode(int a, unsigned int id)
 {
     int *ctx;
     int i;
@@ -42,17 +42,17 @@ void func_0219D208(int a, unsigned int id)
     unsigned short h;
     unsigned short v[2];
 
-    ctx = (int *)func_0216D520(func_0216D67C((void *)a));
+    ctx = (int *)FLDMMDL_SysGetBlActCont(FLDMMDL_GetMmdlSys((void *)a));
     r = (unsigned char *)ctx[8];
-    func_0219CBD4((u32)ctx, id, (u32)(&v[1]), (u32)(&v[0]));
+    FLDMMDL_BLACT_FindRes((u32)ctx, id, (u32)(&v[1]), (u32)(&v[0]));
     if (v[1] != 0xFFFF && !(v[0] & 2)) {
-        func_0216E204((char *)a, id);
+        FLDMMDL_ChangeObjCode((char *)a, id);
         return;
     }
     i = 0;
-    h = func_0216D7A8((void *)a, 0);
+    h = FLDMMDL_CallDrawGetProc((void *)a, 0);
     if (h == 0xFFFF) {
-        func_0216E204((char *)a, id);
+        FLDMMDL_ChangeObjCode((char *)a, id);
         return;
     }
     for (; i < 4; i++) {
@@ -61,18 +61,18 @@ void func_0219D208(int a, unsigned int id)
         }
     }
     if (i >= 4) {
-        func_0216E204((char *)a, id);
+        FLDMMDL_ChangeObjCode((char *)a, id);
         return;
     }
     ((struct Obj03119 *)r)->f0 = a;
     ((struct Obj03119 *)r)->f4 = h;
-    ((struct Obj03119 *)r)->f6 = func_0216D598((void *)a);
+    ((struct Obj03119 *)r)->f6 = FLDMMDL_GetObjCode((void *)a);
     ((struct Obj03119 *)r)->f8 = id;
-    func_0216E204((char *)a, id);
+    FLDMMDL_ChangeObjCode((char *)a, id);
     i = 0;
-    if (func_0216D7A8((void *)a, 0) != 0xFFFF) {
-        func_0219C880((u8 *)ctx, a, ((struct Obj03119 *)r)->f4, ((struct Obj03119 *)r)->f6);
-        func_02050468((struct BbActSys *)ctx[1], ((struct Obj03119 *)r)->f4, 1);
+    if (FLDMMDL_CallDrawGetProc((void *)a, 0) != 0xFFFF) {
+        FLDMMDL_BLACT_DeleteActorRes((u8 *)ctx, a, ((struct Obj03119 *)r)->f4, ((struct Obj03119 *)r)->f6);
+        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)ctx[1], ((struct Obj03119 *)r)->f4, 1);
         ((struct Obj03119 *)r)->f0 = i;
     }
 }

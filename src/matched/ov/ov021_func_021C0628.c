@@ -1,5 +1,5 @@
 /*
- * function: func_021C0628
+ * function: HEIGHT_EX_SetArea
  * address:  0x021C0628
  * packet:   pkt_ov021_021C0628
  * region:   ov021
@@ -28,7 +28,7 @@ typedef struct {
     Slot *e;
 } SlotTable;
 
-void func_021C0628(int i, int a, int b, int c, int d, int e, int f, SlotTable *t)
+void HEIGHT_EX_SetArea(int i, int a, int b, int c, int d, int e, int f, SlotTable *t)
 {
     if (i < t->n && t->e[i].used == 0) {
         t->e[i].f0 = a;

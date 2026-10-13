@@ -12,6 +12,8 @@
  *   P_STATUS_SetFastMode 0x021D60D4 thumb ov131
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb  arm9
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb  arm9
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
  */
 #include "../include/Obj00112.h"
 typedef unsigned int   u32;
@@ -20,8 +22,8 @@ extern void *P_STATUS_GetPokePara(unsigned char *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 void P_STATUS_SetFastMode(unsigned char *p,int a) {
  void *m;
  switch((*(unsigned char **)(p+8))[12]) {
@@ -35,8 +37,8 @@ void P_STATUS_SetFastMode(unsigned char *p,int a) {
  break;
  case 2:
  m=P_STATUS_GetPokePara(p);
- if(a==1) {POKE_TOOL_DecodePartyParam(((struct Obj00112 *)p)->f258);func_02017DBC(m);}
- else {POKE_TOOL_EncodePartyParam(((struct Obj00112 *)p)->f258,1);func_02017DE4(m,1);}
+ if(a==1) {POKE_TOOL_DecodePartyParam(((struct Obj00112 *)p)->f258);POKE_TOOL_DecodeBoxParam(m);}
+ else {POKE_TOOL_EncodePartyParam(((struct Obj00112 *)p)->f258,1);POKE_TOOL_EncodeBoxParam(m,1);}
  break;
  }
 }

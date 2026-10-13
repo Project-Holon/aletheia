@@ -1,5 +1,5 @@
 /*
- * function: func_021CFBA4
+ * function: BTL_CLIENT_ClearSlotOrder
  * address: 0x021CFBA4
  * packet: pkt_ov093_021CFBA4
  * region: ov093
@@ -12,7 +12,7 @@
  */
 typedef signed char s8;
 typedef unsigned int u32;
-void func_021CFBA4(s8 *p)
+void BTL_CLIENT_ClearSlotOrder(s8 *p)
 {
     u32 i = 0;
     s8 fill = -1;

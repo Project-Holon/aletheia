@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7AF0  0x021D7AF0  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_CALC_RollPercent  0x021D7AF0  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   func_021C83DC  0x021C83DC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
-extern int func_021D7AF0(u32 pct);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_GetVar(int key);
+extern int BTL_CALC_RollPercent(u32 pct);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void func_021C83DC(char *p, int x);
 
 void func_021E2C4C(int u, void *a, int b, int *p)
 {
-    if (b == func_021D775C(3)) {
-        if (func_021D7AF0(0x14) != 0)
-            *p = func_021D76BC(0x51, 1);
+    if (b == BTL_EVENT_GetVar(3)) {
+        if (BTL_CALC_RollPercent(0x14) != 0)
+            *p = BTL_EVENT_OverwriteVar(0x51, 1);
         func_021C83DC(a, (u8)(*p != 0));
     }
 }

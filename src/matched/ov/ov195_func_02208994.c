@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02050ED4 0x02050ED4 arm
+ *   PARTICLE_ExitManager 0x02050ED4 arm
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void func_02050ED4(void);
+extern void PARTICLE_ExitManager(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
 void func_02208994(char *a)
 {
-    func_02050ED4();
+    PARTICLE_ExitManager();
     func_020307B0(a);
 }

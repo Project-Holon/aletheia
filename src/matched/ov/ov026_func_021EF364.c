@@ -1,5 +1,5 @@
 /*
- * function: func_021EF364
+ * function: WEATHER_STORM_InitSlowSideDrop
  * address:  0x021EF364
  * packet:   pkt_ov026_021EF364
  * region:   ov026
@@ -12,10 +12,10 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   func_021A26C4  0x021A26C4  thumb  ov021
- *   func_0204B878  0x0204B878  arm
+ *   WEATHER_TASK_SetParticlePos  0x021A26C4  thumb  ov021
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B954  0x0204B954  arm
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  */
 
 typedef unsigned char  u8;
@@ -24,15 +24,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern u32 func_020056EC(u32 v);
-extern int func_021A26C4(u32 a, u32 b);
+extern int WEATHER_TASK_SetParticlePos(u32 a, u32 b);
 struct Actor;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
-extern void func_0204B954(struct Actor *a, u32 v);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 
-void func_021EF364(int a, s16 *b, s16 *c, int d)
+void WEATHER_STORM_InitSlowSideDrop(int a, s16 *b, s16 *c, int d)
 {
     u32 r;
     s16 v[2];
@@ -47,11 +47,11 @@ void func_021EF364(int a, s16 *b, s16 *c, int d)
     c[5] = b[12];
     v[0] = (r & 7) - 8;
     v[1] = r % 160 - 16;
-    func_021A26C4(a, (u32)v);
+    WEATHER_TASK_SetParticlePos(a, (u32)v);
     c[0] = v[0] << 3;
     c[1] = v[1] << 3;
-    func_0204B878((struct Obj *)d, 0);
+    CLACT_SetActorAnimSeq((struct Obj *)d, 0);
     one = 1;
     func_0204B92C((struct Obj *)d, 1);
-    func_0204B954((struct Actor *)d, one << 13);
+    CLACT_SetActorAutoAnimSpeed((struct Actor *)d, one << 13);
 }

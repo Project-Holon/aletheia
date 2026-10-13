@@ -1,5 +1,5 @@
 /*
- * function: func_0215897C
+ * function: SCRIPT_SYS_CallEvent
  * address:  0x0215897C
  * packet:   pkt_ov010_0215897C
  * region:   ov010
@@ -12,8 +12,8 @@
  * Queue a task on the script's event list.
  *
  * symbols:
- *   func_02158F50  0x02158F50  thumb  ov010
- *   func_02012374  0x02012374  thumb
+ *   SCRIPT_WORK_GetEvent  0x02158F50  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
 typedef unsigned char u8;
@@ -22,11 +22,11 @@ typedef unsigned int u32;
 typedef signed char s8;
 typedef short s16;
 
-extern void *func_02158F50(void *vm);
+extern void *SCRIPT_WORK_GetEvent(void *vm);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-void func_0215897C(void *vm, void *task)
+void SCRIPT_SYS_CallEvent(void *vm, void *task)
 {
-    func_02012374(func_02158F50(vm), task);
+    GAME_EVENT_CallEvent(SCRIPT_WORK_GetEvent(vm), task);
 }

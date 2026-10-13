@@ -1,5 +1,5 @@
 /*
- * function: func_02167358
+ * function: QUESTIONNAIRE_GetAnswerBitWidth
  * address:  0x02167358
  * packet:   pkt_02167358
  * region:   ov010
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 d_02171F5D[];
-u8 func_02167358(u32 id)
+u8 QUESTIONNAIRE_GetAnswerBitWidth(u32 id)
 {
     if (id > 0x1d)
         return 0;

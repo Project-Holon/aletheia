@@ -12,7 +12,7 @@
  * symbols:
  *   func_0207CA00 0x0207CA00 arm
  *   func_0207CBD0 0x0207CBD0 arm
- *   func_0207CCA4 0x0207CCA4 arm
+ *   VEC_Normalize 0x0207CCA4 arm
  *   func_0207CEE4 0x0207CEE4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 typedef struct {int x,y,z;} Vec;
 extern void func_0207CA00(Vec *,Vec *,Vec *);
 extern int func_0207CBD0(Vec *);
-extern void func_0207CCA4(Vec *,Vec *);
+extern void VEC_Normalize(Vec *,Vec *);
 extern void func_0207CEE4(int,Vec *,Vec *,Vec *);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -35,7 +35,7 @@ void func_021B8D20(u8 *p) {
  u16 xy[2]; Vec delta; Vec pos; int length;
  if(((struct Obj02453 *)p)->f8) {
   func_0207CA00((Vec *)(p+0x18),(Vec *)(p+0xc),&delta);
-  length=func_0207CBD0(&delta); func_0207CCA4(&delta,&delta);
+  length=func_0207CBD0(&delta); VEC_Normalize(&delta,&delta);
   func_0207CEE4((u32)(length * ((struct Obj02453 *)p)->f24)/ ((struct Obj02453 *)p)->f28,&delta,(Vec *)(p+0xc),&pos);
   xy[0]=pos.x>>12; xy[1]=pos.y>>12;
   if((((struct Obj02453 *)p)->f24)++ > ((struct Obj02453 *)p)->f28) {

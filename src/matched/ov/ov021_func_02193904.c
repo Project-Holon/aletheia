@@ -1,5 +1,5 @@
 /*
- * function: func_02193904
+ * function: FIELD_WFBC_ReloadSaveData
  * address:  0x02193904
  * packet:   pkt_ov021_02193904
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * Unlabelled leaf (saves nothing, so disasm.py prints it as .word data);
- * filed as the blocker of func_02186D48 (ov020).
+ * filed as the blocker of FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue (ov020).
  *
  * symbols:
- *   func_02193EB4  0x02193EB4  thumb  ov021
+ *   FIELD_WFBC_LoadSaveData  0x02193EB4  thumb  ov021
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern int func_02193EB4(void *p);
+extern int FIELD_WFBC_LoadSaveData(void *p);
 
-int func_02193904(void *p)
+int FIELD_WFBC_ReloadSaveData(void *p)
 {
-    return func_02193EB4(p);
+    return FIELD_WFBC_LoadSaveData(p);
 }

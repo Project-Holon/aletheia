@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A652C",
+   "name": "FIELD_PLAYER_NOGRID_CheckRailFromStand",
    "address": "0x021A652C",
    "kind": "game",
    "region": "ov021",

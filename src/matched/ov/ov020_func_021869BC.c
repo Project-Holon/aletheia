@@ -1,5 +1,5 @@
 /*
- * function: func_021869BC
+ * function: FIELD_WFBC_DATA_LOCAL_AddValuePoints
  * address:  0x021869BC
  * packet:   pkt_ov020_021869BC
  * region:   ov020
@@ -11,7 +11,7 @@
  */
 typedef unsigned short u16;
 
-void func_021869BC(u16 *p)
+void FIELD_WFBC_DATA_LOCAL_AddValuePoints(u16 *p)
 {
     if (p[1] < 0x2710)
         p[1] += 10;

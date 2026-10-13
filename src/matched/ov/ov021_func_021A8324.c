@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE8D4  0x021BE8D4  thumb
- *   func_02012374  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
 typedef struct {
@@ -26,17 +26,17 @@ typedef struct {
 } R;
 
 struct Evt;
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 void func_021A8324(int a, R **r)
 {
     R *p = *r;
     int t;
     if (p->f40 != 0) {
-        t = func_021BE8D4((void *)p->f4, p->fc, 0, 0);
+        t = EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)p->f4, p->fc, 0, 0);
     } else {
-        t = func_021BE8D4((void *)p->f4, p->fc, p->f38, 0);
+        t = EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)p->f4, p->fc, p->f38, 0);
     }
-    func_02012374((struct Evt *)a, (struct Evt **)t);
+    GAME_EVENT_CallEvent((struct Evt *)a, (struct Evt **)t);
 }

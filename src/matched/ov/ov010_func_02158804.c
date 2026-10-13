@@ -1,5 +1,5 @@
 /*
- * function: func_02158804
+ * function: SCRIPT_SYS_Create
  * address: 0x02158804
  * packet: pkt_ov010_02158804
  * region: ov010
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern const char d_02172888[];
-void *func_02158804(u32 heap) {
+void *SCRIPT_SYS_Create(u32 heap) {
     u16 *p = func_02030734(heap, 0x18, 1, d_02172888, 0xef);
     *p = heap;
     return p;

@@ -10,28 +10,28 @@
  * status:   EXACT
  * symbols:
  *   func_0207E3D0 0x0207E3D0 arm
- *   func_02027974 0x02027974 thumb
- *   func_02028178 0x02028178 thumb
+ *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
+ *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   func_02040618 0x02040618 arm
- *   func_0204A600 0x0204A600 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0200FB38 0x0200FB38 thumb
- *   func_0202223C 0x0202223C thumb
+ *   GFL_NET_ERR_RequestScreen 0x0200FB38 thumb
+ *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0207E3D0(void *, int, int);
-extern void func_02027974(u8 *);
-extern void func_02028178(u8 *);
+extern void APP_TASKMENU_UpdateMenu(u8 *);
+extern void APP_TASKMENU_WIN_Update(u8 *);
 extern void func_02040618(u32, u32, u32);
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 func_0200FB24(void);
-extern void func_0200FB38(void);
-extern void func_0202223C(u32, u32);
+extern void GFL_NET_ERR_RequestScreen(void);
+extern void WIPE_SetBrightnessFadeOut(u32, u32);
 u32 func_021BB498(u32 a, u32 b, u32 c, u8 *p)
 {
     void (*cb)(u8 *) = *(void (**)(u8 *))(p + 0x248);
@@ -53,19 +53,19 @@ L:
         cb(p);
         if (*(u32 *)(p + 0x248)) ret = 0;
     }
-    if (*(u32 *)(p + 0xCC0)) func_02027974(*(u8 **)(p + 0xCC0));
-    if (*(u32 *)(p + 0xCE0)) func_02028178(*(u8 **)(p + 0xCE0));
-    if (*(u32 *)(p + 0xCE4)) func_02028178(*(u8 **)(p + 0xCE4));
+    if (*(u32 *)(p + 0xCC0)) APP_TASKMENU_UpdateMenu(*(u8 **)(p + 0xCC0));
+    if (*(u32 *)(p + 0xCE0)) APP_TASKMENU_WIN_Update(*(u8 **)(p + 0xCE0));
+    if (*(u32 *)(p + 0xCE4)) APP_TASKMENU_WIN_Update(*(u8 **)(p + 0xCE4));
     func_02040618(4, 3, *(u32 *)(p + 0xC9C));
     *(u32 *)(p + 0xC9C) = *(u32 *)(p + 0xC9C) - 1;
-    func_0204A600();
-    func_0201C4E4((struct PrintSys *)(*(u8 **)(p + 0xCB8)));
+    CLACT_DrawSystem();
+    PRINTSYS_QUE_Main((struct PrintSys *)(*(u8 **)(p + 0xCB8)));
     if (func_0200FB24()) {
-        func_0200FB38();
+        GFL_NET_ERR_RequestScreen();
         *(u32 *)(*(u8 **)(p + 0x244) + 0x1C) = 12;
         ret = 1;
-        func_0202223C(0, 0);
-        func_0202223C(1, 0);
+        WIPE_SetBrightnessFadeOut(0, 0);
+        WIPE_SetBrightnessFadeOut(1, 0);
     }
     return ret;
 }

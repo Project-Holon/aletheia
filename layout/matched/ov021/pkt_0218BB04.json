@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218BB04",
+   "name": "FIELD_BUILDMODEL_GetHandleTable",
    "address": "0x0218BB04",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218BCAC",
+   "name": "FIELD_BUILDMODEL_GetModelAnimDefs",
    "address": "0x0218BCAC",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218BD20",
+   "name": "FIELD_BUILDMODEL_GetSeasonChanged",
    "address": "0x0218BD20",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218BD24",
+   "name": "FIELD_BUILDMODEL_GetSeasonAnimSlot",
    "address": "0x0218BD24",
    "kind": "game",
    "region": "ov021",

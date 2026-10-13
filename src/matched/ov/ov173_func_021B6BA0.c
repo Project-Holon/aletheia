@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  */
 #include "../include/Obj24159.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-int func_021B6BA0(char *p) { func_0202208C(0,0,0,0,6,1,79); ((struct Obj24159 *)p)->f1B0=9; return 0; }
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+int func_021B6BA0(char *p) { WIPE_SYS_Start(0,0,0,0,6,1,79); ((struct Obj24159 *)p)->f1B0=9; return 0; }

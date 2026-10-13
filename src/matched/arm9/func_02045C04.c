@@ -1,5 +1,5 @@
 /*
- * function: func_02045C04
+ * function: MSGDATA_Delete
  * address:  0x02045C04
  * packet:   pkt_02045AA8
  * region:   arm9
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *
  * Tear down the record: when the +0x14 handle is live, release the two
  * buffers it owns (the second only if non-NULL) and close the handle, then
@@ -25,8 +25,8 @@
  * the value the `cmp` already loaded.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045C04.c \
- *       --func func_02045C04 --addr 0x02045C04 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/MSGDATA_Delete.c \
+ *       --func MSGDATA_Delete --addr 0x02045C04 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -40,16 +40,16 @@ struct Rec {
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *handle);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 
-u32 func_02045C04(struct Rec *rec)
+u32 MSGDATA_Delete(struct Rec *rec)
 {
     if (rec->unk_14 != 0) {
         func_020307B0(rec->unk_00);
         if (rec->unk_04 != 0) {
             func_020307B0(rec->unk_04);
         }
-        func_02049238(rec->unk_14);
+        ARC_TOOL_DeleteHandle(rec->unk_14);
     }
     return func_020307B0(rec);
 }

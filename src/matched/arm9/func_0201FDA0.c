@@ -1,5 +1,5 @@
 /*
- * function: func_0201FDA0
+ * function: BMP_MENU_CreateYesNo
  * address:  0x0201FDA0
  * packet:   pkt_0201FC5C
  * region:   arm9
@@ -10,22 +10,22 @@
  * status:   EXACT
  * symbols:
  *   func_02045B38   0x02045B38  arm
- *   func_0201F81C   0x0201F81C  thumb
- *   func_0201F878   0x0201F878  thumb
- *   func_02045C04   0x02045C04  arm
+ *   BMP_MENUWORK_Create   0x0201F81C  thumb
+ *   BMP_MENUWORK_AddMsgItem   0x0201F878  thumb
+ *   MSGDATA_Delete   0x02045C04  arm
  *   MI_CpuFill8     0x02082BCC  arm
- *   func_020450F0   0x020450F0  arm
+ *   BMP_WIN_Create   0x020450F0  arm
  *   func_02030734   0x02030734  arm
  *   sBmpMenuFile    0x020A7384  data
- *   func_0201D7EC   0x0201D7EC  thumb
+ *   GF_FONT_Create   0x0201D7EC  thumb
  *   func_0201DC80   0x0201DC80  thumb
  *   func_0201C440   0x0201C440  thumb
  *   BMP_MENU_Add   0x0201F9D0  thumb
- *   func_02045374   0x02045374  arm
+ *   BMP_WIN_MakeScreen   0x02045374  arm
  *   func_0201F73C   0x0201F73C  thumb
  *   func_02045730   0x02045730  arm
  *   func_020409B4   0x020409B4  arm
- *   func_02045334   0x02045334  arm
+ *   BMP_WIN_TransferChars   0x02045334  arm
  *
  * bmp_menu.c: the yes/no menu builder (message archive 2 entry 0xE9, a
  * two-item BmpMenuWork list, a BmpMenuHeader filled on the stack, then
@@ -96,22 +96,22 @@ struct GfFont;
 struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern BmpMenuWork *func_0201F81C(u32 n, u16 heap);
+extern BmpMenuWork *BMP_MENUWORK_Create(u32 n, u16 heap);
 struct Slot;
-extern void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern u32 func_02045C04(struct Rec *rec);
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201DC80(struct Font *p);
 extern u32 func_0201C440(void *p);
 extern BmpMenu *BMP_MENU_Add(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u16 heap, u32 cancel);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern u8 func_02045730(struct Descriptor *p);
 extern void  func_020409B4(u32 layer);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 static inline void PrintUtil_Init(PrintUtil *util, void *cell)
 {
@@ -127,7 +127,7 @@ typedef struct {
     u16 chr;     /* +4  callers pass it as base */
 } WinDat;
 
-BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
+BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
 {
     BmpMenuHeader hdr;
     void *msg;
@@ -135,21 +135,21 @@ BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
     BmpMenu *m;
 
     msg = func_02045B38(0, 2, 0xE9, heap);
-    list = func_0201F81C(2, heap);
-    func_0201F878((struct Slot *)list, (u32)msg, 0, 0, heap);
-    func_0201F878((struct Slot *)list, (u32)msg, 1, -2, heap);
-    func_02045C04(msg);
+    list = BMP_MENUWORK_Create(2, heap);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)list, (u32)msg, 0, 0, heap);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)list, (u32)msg, 1, -2, heap);
+    MSGDATA_Delete(msg);
 
     MI_CpuFill8(&hdr, 0, sizeof(hdr));
     hdr.items = list;
-    hdr.win = (void *)func_020450F0(winDat->frame, winDat->x, winDat->y, 7, 4, winDat->pal, 1);
+    hdr.win = (void *)BMP_WIN_Create(winDat->frame, winDat->x, winDat->y, 7, 4, winDat->pal, 1);
     hdr.xmax = 1;
     hdr.ymax = 2;
     hdr.lineSpc = 1;
     hdr.cDisp = 0;
     hdr.bf0b6 = 0;
     hdr.util = func_02030734(heap, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
-    hdr.fontH = func_0201D7EC(0x17, 0, 0, 0, heap);
+    hdr.fontH = GF_FONT_Create(0x17, 0, 0, 0, heap);
     hdr.unk0e = func_0201DC80(hdr.fontH);
     hdr.unk0c = 10;
     PrintUtil_Init(hdr.util, hdr.win);
@@ -157,9 +157,9 @@ BmpMenu *func_0201FDA0(const WinDat *winDat, u16 base, u8 pal, u8 pos, u16 heap)
     hdr.unk20 = 0;
 
     m = BMP_MENU_Add(&hdr, 0xE, 0, pos, heap, 2);
-    func_02045374(hdr.win);
+    BMP_WIN_MakeScreen(hdr.win);
     func_0201F73C(hdr.win, 0, base, pal);
     func_020409B4(func_02045730(hdr.win));
-    func_02045334(hdr.win);
+    BMP_WIN_TransferChars(hdr.win);
     return m;
 }

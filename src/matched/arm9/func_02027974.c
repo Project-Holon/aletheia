@@ -1,5 +1,5 @@
 /*
- * function: func_02027974
+ * function: APP_TASKMENU_UpdateMenu
  * address:  0x02027974
  * packet:   pkt_02027974
  * region:   arm9
@@ -52,7 +52,7 @@ extern u32  _u32_div_f(u32 a, u32 b);
 extern void APP_TASKMENU_SetWinActive(u32 a, struct S *s, int mode);
 extern void APP_TASKMENU_UpdateCursorColor(u16 *phase, u16 *out, u32 mode, u32 slot);
 
-void func_02027974(Obj *p)
+void APP_TASKMENU_UpdateMenu(Obj *p)
 {
     u32 step;
     u16 *q;

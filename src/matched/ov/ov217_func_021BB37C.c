@@ -20,13 +20,13 @@
  *   func_021BB9A0 0x021BB9A0 thumb ov217
  *   func_021BB9D0 0x021BB9D0 thumb ov217
  *   func_020362DC 0x020362DC arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020061E4 0x020061E4 thumb
  */
 #include "../include/Obj02928.h"
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern void func_020061E4(u32 a);
 extern void func_021BB91C(void *p);
 extern void func_021BB910(unsigned char *a0, u32 a1);
@@ -42,7 +42,7 @@ extern u32 func_021BB9D0(u32 a0);
 void func_021BB37C(char *p)
 {
     u32 keys = func_020362DC();
-    int st = func_02035C08(p + 0x58);
+    int st = TOUCHPANEL_HitTrg(p + 0x58);
     if (keys & 0x40) {
         func_021BB9A0((u32)p);
     }

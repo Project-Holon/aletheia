@@ -1,5 +1,5 @@
 /*
- * function: func_0216BF74
+ * function: FIELD_G3D_MAP_StoreBeaconTrainerKey
  * address: 0x0216BF74
  * packet: pkt_ov010_0216BF74
  * region: ov010
@@ -20,6 +20,6 @@ struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200C38C(struct Blk34 *p, s32 i, u32 v);
 extern const u32 g_BeaconTrainerKeys[];
-void func_0216BF74(void *a, int i, void *b) {
+void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *a, int i, void *b) {
     if(i<8) func_0200C38C(a,i,func_02008530(b)^*(const u32 *)((u32)g_BeaconTrainerKeys+(u32)i*4));
 }

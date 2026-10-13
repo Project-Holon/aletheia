@@ -1,5 +1,5 @@
 /*
- * function: func_021F0D40
+ * function: UNION_SUBDISP_GetScrollRange
  * address:  0x021F0D40
  * packet:   pkt_ov031_021F0D40
  * region:   ov031
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr push) sitting in a word run; filed as a blocker of
- * func_021F0C60 and func_021F0CEC.
+ * UNION_SUBDISP_SetScrollFromKnob and UNION_SUBDISP_SetKnobFromScroll.
  *
  * symbols:
- *   func_021F0D40  0x021F0D40  thumb
+ *   UNION_SUBDISP_GetScrollRange  0x021F0D40  thumb
  */
 
 typedef struct {
@@ -21,7 +21,7 @@ typedef struct {
     int a;
 } B;
 
-int func_021F0D40(B *p)
+int UNION_SUBDISP_GetScrollRange(B *p)
 {
     int v = p->a;
 

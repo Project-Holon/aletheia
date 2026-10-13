@@ -1,5 +1,5 @@
 /*
- * function: func_021AFC18
+ * function: SCRCMD_BufferMapEntryNameA
  * address: 0x021AFC18
  * packet: pkt_ov021_021AFC18
  * region: ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0201F0F8 0x0201F0F8 thumb
- *   func_021AFBEC 0x021AFBEC thumb
+ *   SCRCMD_BufferByteEntryCommon 0x021AFBEC thumb
  */
 
 typedef unsigned char  u8;
@@ -24,6 +24,6 @@ typedef struct {
 } Ctx_021AFBEC;
 
 extern void func_0201F0F8();
-int func_021AFC18(Ctx_021AFBEC *a, int b);
+int SCRCMD_BufferMapEntryNameA(Ctx_021AFBEC *a, int b);
 
-int func_021AFC18(Ctx_021AFBEC *a, int b) { return func_021AFBEC(a, b, func_0201F0F8); }
+int SCRCMD_BufferMapEntryNameA(Ctx_021AFBEC *a, int b) { return SCRCMD_BufferByteEntryCommon(a, b, func_0201F0F8); }

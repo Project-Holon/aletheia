@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021881D8",
+   "name": "FIELDMAP_SeqCreateSubsystems",
    "address": "0x021881D8",
    "kind": "game",
    "region": "ov021",

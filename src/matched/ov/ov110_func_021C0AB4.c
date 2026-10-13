@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Resolved by the func_021B639C label in ov067 (thumb); cross-overlay target.
+ * Resolved by the TOUCHBAR_Delete label in ov067 (thumb); cross-overlay target.
  *
  * symbols:
- *   func_021B639C  0x021B639C  thumb  ov067
+ *   TOUCHBAR_Delete  0x021B639C  thumb  ov067
  */
 #include "../include/Obj22408.h"
 
@@ -23,5 +23,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021B639C(u8 *p);
-void func_021C0AB4(u8 *p) { func_021B639C((u8 *)(((struct Obj22408 *)p)->f54)); }
+extern void TOUCHBAR_Delete(u8 *p);
+void func_021C0AB4(u8 *p) { TOUCHBAR_Delete((u8 *)(((struct Obj22408 *)p)->f54)); }

@@ -1,5 +1,5 @@
 /*
- * function: func_02162E48
+ * function: EVENTDATA_SYSTEM_IsBgEventGridHit
  * address:  0x02162E48
  * packet:   pkt_ov010_02162E48
  * region:   ov010
@@ -37,7 +37,7 @@ typedef struct Trigger {
     TrigPos pos;        /* 0x08 */
 } Trigger;
 
-int func_02162E48(Trigger *t, const VecFx32 *pos)
+int EVENTDATA_SYSTEM_IsBgEventGridHit(Trigger *t, const VecFx32 *pos)
 {
     s32 gx;
     s32 gy;

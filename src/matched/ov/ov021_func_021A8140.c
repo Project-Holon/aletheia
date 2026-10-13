@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021A3484  0x021A3484  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_PLAYER_GetMoveOffsetInDir  0x021A3484  thumb  ov021
  *   func_0207CEE4  0x0207CEE4  arm
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_02163E58  0x02163E58  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
  */
 
 typedef struct V {
@@ -28,15 +28,15 @@ typedef struct V {
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_021A3050(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 typedef signed int     s32;
-extern void func_021A3484(unsigned char **a, int b, s32 *c);
+extern void FIELD_PLAYER_GetMoveOffsetInDir(unsigned char **a, int b, s32 *c);
 extern void func_0207CEE4(int a, V *b, V *c, V *d);
-extern void *func_021A3074(u8 *p);
-extern void func_02163E58(void *p, V *in, int *out);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void FLDMMDL_MOVE_GetMapHeight(void *p, V *in, int *out);
 
 void func_021A8140(void *a, V *out)
 {
@@ -47,12 +47,12 @@ void func_021A8140(void *a, V *out)
     V v2;
     int t;
 
-    ctx = func_02188CB4(a);
-    k = func_021A3050(ctx);
-    func_021A3038(ctx, (struct VecFx32 *)&v0);
-    func_021A3484(ctx, k, (s32 *)(&v1));
+    ctx = FIELDMAP_GetFieldPlayer(a);
+    k = FIELD_PLAYER_GetDirDisp(ctx);
+    FIELD_PLAYER_GetPos(ctx, (struct VecFx32 *)&v0);
+    FIELD_PLAYER_GetMoveOffsetInDir(ctx, k, (s32 *)(&v1));
     func_0207CEE4(0x10000, &v1, &v0, &v2);
-    func_02163E58(func_021A3074(ctx), &v2, &t);
+    FLDMMDL_MOVE_GetMapHeight(FIELD_PLAYER_GetMmdl(ctx), &v2, &t);
     v2.y = t;
     *out = v2;
 }

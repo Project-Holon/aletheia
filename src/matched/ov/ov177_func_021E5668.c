@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A600  0x0204A600  arm
+ *   CLACT_DrawSystem  0x0204A600  arm
  */
 
 typedef unsigned char u8;
@@ -20,9 +20,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 
 void func_021E5668(void *p)
 {
-    func_0204A600();
+    CLACT_DrawSystem();
 }

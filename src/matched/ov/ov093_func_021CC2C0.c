@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5B48  0x021D5B48  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021D805C  0x021D805C  thumb  ov093
+ *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D7B74  0x021D7B74  thumb  ov093
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
@@ -27,14 +27,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D5B48(u8 *p);
-extern int func_021D5B68(void *m);
-extern u8 func_021D5440(u8 *p);
+extern int BTL_POKEPARAM_IsHpFull(u8 *p);
+extern int BTL_POKEPARAM_IsFainted(void *m);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
-extern u32 func_021D805C(void *p, u32 n);
+extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021D7B74(u8 *p, u32 k);
+extern int BTL_CALC_DivideMaxHpMin1(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
@@ -45,21 +45,21 @@ int func_021CC2C0(void *a, void *m, void *s)
     u8 *r;
     u32 k;
 
-    if (func_021D5B48(m) == 0 && func_021D5B68(m) == 0) {
-        id = func_021D5440(m);
+    if (BTL_POKEPARAM_IsHpFull(m) == 0 && BTL_POKEPARAM_IsFainted(m) == 0) {
+        id = BTL_POKEPARAM_GetPokeId(m);
         r = (u8 *)func_021C88A4(a, 5, id);
         r[6] = id;
         r[7] = 1;
-        k = func_021D805C(s, 0x3a);
+        k = BTL_CALC_GetMonParamWithHeap(s, 0x3a);
         switch (k) {
         case 0xff:
             ((struct Obj05195 *)r)->f4 = func_021D59B4(m, 14);
             break;
         case 0xfe:
-            ((struct Obj05195 *)r)->f4 = func_021D7B74(m, 2);
+            ((struct Obj05195 *)r)->f4 = BTL_CALC_DivideMaxHpMin1(m, 2);
             break;
         case 0xfd:
-            ((struct Obj05195 *)r)->f4 = func_021D7B74(m, 4);
+            ((struct Obj05195 *)r)->f4 = BTL_CALC_DivideMaxHpMin1(m, 4);
             break;
         default:
             ((struct Obj05195 *)r)->f4 = k;

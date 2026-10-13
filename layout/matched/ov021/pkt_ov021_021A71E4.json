@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A71E4",
+   "name": "FIELDMAP_CTRL_HYBRID_FindRailLocation",
    "address": "0x021A71E4",
    "kind": "game",
    "region": "ov021",

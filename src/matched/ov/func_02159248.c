@@ -1,5 +1,5 @@
 /*
- * function: func_02159248
+ * function: SCRIPT_WORK_CmdHalt
  * address:  0x02159248
  * packet:   pkt_02159248
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 struct ScriptVm;
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 
-int func_02159248(struct ScriptVm *a0)
+int SCRIPT_WORK_CmdHalt(struct ScriptVm *a0)
 {
 
     a0 = (struct ScriptVm *)func_02011290(a0);

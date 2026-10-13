@@ -1,5 +1,5 @@
 /*
- * function: func_02186764
+ * function: FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag
  * address:  0x02186764
  * packet:   pkt_02186764
  * region:   ov020
@@ -28,7 +28,7 @@ u8 c;
 u8 flag : 1;
 } S;
 
-void func_02186764(S *p)
+void FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(S *p)
 {
 p->flag = 0;
 }

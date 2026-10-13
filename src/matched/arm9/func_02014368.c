@@ -8,16 +8,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  */
 
 typedef unsigned short u16;
 
-extern void func_0201433C(char *a0, int a1);
+extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
 
 void ZONEDATA_ResetEventFlagRange(char *a0, int a1, int a2)
 {
     int i;
 
     for (i = a1; i <= a2; i++)
-        func_0201433C(a0, (u16)i);
+        ZONEDATA_ResetEventFlag(a0, (u16)i);
 }

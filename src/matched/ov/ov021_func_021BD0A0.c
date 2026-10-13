@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0A0
+ * function: FIELD_PLACE_NAME_SetStateRaw
  * address:  0x021BD0A0
  * packet:   pkt_ov021_021BD0A0
  * region:   ov021
@@ -15,7 +15,7 @@ typedef struct {
     int f3C;
 } Obj;
 
-void func_021BD0A0(Obj *p, int v)
+void FIELD_PLACE_NAME_SetStateRaw(Obj *p, int v)
 {
     p->f3C = v;
 }

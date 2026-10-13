@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   APP_TASKMENU_WIN_SetDecide 0x0202822C thumb
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021C446C 0x021C446C thumb ov136
  *   d_021C7784 0x021C7784 data a4
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb  arm9
@@ -17,7 +17,7 @@
 #include "../include/Obj00274.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_020061E4(u32 a);
@@ -28,7 +28,7 @@ extern u8 d_021C7784[];
 int func_021C4700(u8 *p)
 {
     int n;
-    n = func_02035C08(d_021C7784);
+    n = TOUCHPANEL_HitTrg(d_021C7784);
     if (n == -1) return 0;
     if (n == 4) {
         func_020061E4(0x551);

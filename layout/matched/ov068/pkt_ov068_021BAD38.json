@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAD38",
+   "name": "OPTION_MENU_GetRowAtTouch",
    "address": "0x021BAD38",
    "kind": "game",
    "region": "ov068",

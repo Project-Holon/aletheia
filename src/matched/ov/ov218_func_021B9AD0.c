@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C4E4  0x0201C4E4  thumb
- *   func_020310C4  0x020310C4  arm
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   TCBL_Main  0x020310C4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -20,11 +20,11 @@
 typedef unsigned int   u32;
 struct PrintSys;
 struct Tcbl;
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_020310C4(struct Tcbl *p);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void TCBL_Main(struct Tcbl *p);
 
 void func_021B9AD0(char *p)
 {
-    func_0201C4E4((struct PrintSys *)(((struct Obj14771 *)p)->f10));
-    func_020310C4((struct Tcbl *)(((struct Obj14771 *)p)->f4));
+    PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj14771 *)p)->f10));
+    TCBL_Main((struct Tcbl *)(((struct Obj14771 *)p)->f4));
 }

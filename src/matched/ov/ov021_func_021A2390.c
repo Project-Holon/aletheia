@@ -1,5 +1,5 @@
 /*
- * function: func_021A2390
+ * function: WEATHER_TASK_ChangeFogOffset
  * address:  0x021A2390
  * packet:   pkt_ov021_021A2390
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A01D4  0x021A01D4  thumb  ov021
- *   func_021A01FC  0x021A01FC  thumb  ov021
+ *   FIELD_FOG_GetSlope  0x021A01D4  thumb  ov021
+ *   FIELD_FOG_FADE_Init  0x021A01FC  thumb  ov021
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-u32 func_021A01D4(u8 *p);
-void func_021A01FC(u8 *p, u32 a, u32 b, u32 c);
+u32 FIELD_FOG_GetSlope(u8 *p);
+void FIELD_FOG_FADE_Init(u8 *p, u32 a, u32 b, u32 c);
 
-void func_021A2390(u32 *p, int a, int b, int c)
+void WEATHER_TASK_ChangeFogOffset(u32 *p, int a, int b, int c)
 {
     if (c == 1)
-        func_021A01FC((u8 *)p[1], a, func_021A01D4((u8 *)p[1]), b);
+        FIELD_FOG_FADE_Init((u8 *)p[1], a, FIELD_FOG_GetSlope((u8 *)p[1]), b);
 }

@@ -10,9 +10,10 @@
  * lever: u16 arrays at 0xEF0 and 0xF04 preserve base/index load scheduling; raw offset casts differ by 8 bytes.
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_021F86A8 0x021F86A8 thumb ov135
  *   d_02202ED8 0x02202ED8 data a4
+ *   BMP_MENULIST_Create  0x0201FF30  thumb  arm9
  */
 #include "../include/Obj06512.h"
 typedef unsigned char u8;
@@ -24,18 +25,18 @@ extern const Menu d_02202ED8;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag);
 extern void func_0201F73C(void *win, int a, int b, int c);
 struct Obj;
 struct Src;
-extern struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap);
+extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
 void *func_021F875C(Work *p, void **menu, void *win, void *endmsg, void *msg, u8 *cfg, void *bag)
 {
     int kind;
     int count;
     Menu src;
-    func_02043B5C(func_02045770(win), 15);
+    BMP_Clear(func_02045770(win), 15);
     kind = ((struct Obj06512 *)cfg)->f6 + ((struct Obj06512 *)cfg)->f4;
     count = func_021F86A8(menu, msg, endmsg, *(u16 * *)&((struct Obj06512 *)cfg)->f18, ((struct Obj06512 *)cfg)->f14, ((struct Obj06512 *)cfg)->f1C, kind, bag);
     src = d_02202ED8;
@@ -43,5 +44,5 @@ void *func_021F875C(Work *p, void **menu, void *win, void *endmsg, void *msg, u8
     src.w[0] = (u32)*menu;
     src.w[3] = (u32)win;
     func_0201F73C(win, 0, 31, 11);
-    return func_0201FF30((struct Src *)(&src), p->a[kind], p->b[kind], 0x48);
+    return BMP_MENULIST_Create((struct Src *)(&src), p->a[kind], p->b[kind], 0x48);
 }

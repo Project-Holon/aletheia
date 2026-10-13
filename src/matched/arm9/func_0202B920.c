@@ -1,5 +1,5 @@
 /*
- * function: func_0202B920
+ * function: ISS_3DS_SYS_StartSource
  * address:  0x0202B920
  * packet:   pkt_0202B920
  * region:   arm9
@@ -20,7 +20,7 @@
  * call: push {r3, lr}; bl; pop {r3, pc}. */
 extern void ISS_3DS_SYS_StartSourceImpl(void *m, int i, int a, int b);
 
-void func_0202B920(void *m, int i, int a, int b)
+void ISS_3DS_SYS_StartSource(void *m, int i, int a, int b)
 {
     ISS_3DS_SYS_StartSourceImpl(m, i, a, b);
 }

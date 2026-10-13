@@ -1,5 +1,5 @@
 /*
- * function: func_021756F0
+ * function: INTRUDE_COMM_SetLock
  * address:  0x021756F0
  * packet:   pkt_ov011_021756F0
  * region:   ov011
@@ -21,7 +21,7 @@ typedef struct Flags {
     u8 hi : 1;
 } Flags;
 
-void func_021756F0(u8 *o, u32 v)
+void INTRUDE_COMM_SetLock(u8 *o, u32 v)
 {
     ((Flags *)(o + 0x93f))->f = (u8)v;
 }

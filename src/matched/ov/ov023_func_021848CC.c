@@ -1,5 +1,5 @@
 /*
- * function: func_021848CC
+ * function: OEKAKI_OnMemberLeft
  * address:  0x021848CC
  * packet:   pkt_ov023_021848CC
  * region:   ov023
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled empty callback (a lone bx lr after func_021848A8's pool);
- * func_02184674 hands its address to ov022 func_021840FC. Blocker of
- * ov023 func_02184674.
+ * Unlabelled empty callback (a lone bx lr after OEKAKI_OnMemberJoined's pool);
+ * OEKAKI_Main hands its address to ov022 UNION_APP_SetCallbacks. Blocker of
+ * ov023 OEKAKI_Main.
  */
 
-void func_021848CC(void)
+void OEKAKI_OnMemberLeft(void)
 {
 }

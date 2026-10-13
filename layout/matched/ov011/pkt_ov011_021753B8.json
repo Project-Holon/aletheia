@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021753B8",
+   "name": "INTRUDE_COMM_NextRequestToken",
    "address": "0x021753B8",
    "kind": "game",
    "region": "ov011",

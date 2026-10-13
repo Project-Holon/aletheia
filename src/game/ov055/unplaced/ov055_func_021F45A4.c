@@ -1,5 +1,5 @@
 /*
- * function: func_021F45A4
+ * function: CROWD_CloseChatterSlot
  * address:  0x021F45A4
  * packet:   pkt_ov055_021F45A4
  * region:   ov055
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219196C  0x0219196C  thumb  ov021
- *   func_021F459C  0x021F459C  thumb  ov055
+ *   FIELD_MSGBG_DeleteSubMsgWin  0x0219196C  thumb  ov021
+ *   CROWD_ClearChatterSlot  0x021F459C  thumb  ov055
  */
 
 typedef unsigned char  u8;
@@ -30,14 +30,14 @@ typedef struct CrowdChatterSlot {
     s16 frames;                  /* 0x06 frames the window has been open */
 } CrowdChatterSlot;
 
-extern void func_0219196C(struct FieldMsgBg *msgBg, u32 windowId);
-extern void func_021F459C(CrowdChatterSlot *slot);
+extern void FIELD_MSGBG_DeleteSubMsgWin(struct FieldMsgBg *msgBg, u32 windowId);
+extern void CROWD_ClearChatterSlot(CrowdChatterSlot *slot);
 
 /* Closes the speech window of an open slot and clears the slot. */
-void func_021F45A4(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg)
+void CROWD_CloseChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg)
 {
     if (slot->isOpen != 0) {
-        func_0219196C(msgBg, slot->windowId);
-        func_021F459C(slot);
+        FIELD_MSGBG_DeleteSubMsgWin(msgBg, slot->windowId);
+        CROWD_ClearChatterSlot(slot);
     }
 }

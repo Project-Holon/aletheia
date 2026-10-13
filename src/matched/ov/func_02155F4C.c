@@ -1,5 +1,5 @@
 /*
- * function: func_02155F4C
+ * function: MUSICAL_EVENT_Free
  * address:  0x02155F4C
  * packet:   pkt_02155F4C
  * region:   ov010
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02156CD8  0x02156CD8  thumb  ov010
- *   func_02156F98  0x02156F98  thumb  ov010
+ *   MUSICAL_DRESSUP_SYS_Delete  0x02156CD8  thumb  ov010
+ *   MUSICAL_STAGE_SYS_Delete  0x02156F98  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  *   func_021F6888  0x021F6888  thumb
- *   func_0215716C  0x0215716C  thumb  ov010
+ *   MUSICAL_PROGRAM_Delete  0x0215716C  thumb  ov010
  */
 #include "../include/Obj02657.h"
 
@@ -22,13 +22,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02156CD8();
-extern int func_02156F98();
+extern int MUSICAL_DRESSUP_SYS_Delete();
+extern int MUSICAL_STAGE_SYS_Delete();
 extern int func_020307B0();
 extern int func_021F6888();
-extern int func_0215716C();
+extern int MUSICAL_PROGRAM_Delete();
 
-int func_02155F4C(int a0)
+int MUSICAL_EVENT_Free(int a0)
 {
     int a1;
     int t4;
@@ -37,12 +37,12 @@ t4 = a0 + 0;
 a0 = ((struct Obj02657 *)t4)->f2C;
     if (a0 == 0) goto loc_02155F5A;
 loc_02155F56:
-    a0 = func_02156CD8(a0);
+    a0 = MUSICAL_DRESSUP_SYS_Delete(a0);
 loc_02155F5A:
 a0 = ((struct Obj02657 *)t4)->f30;
     if (a0 == 0) goto loc_02155F64;
 loc_02155F60:
-    a0 = func_02156F98(a0);
+    a0 = MUSICAL_STAGE_SYS_Delete(a0);
 loc_02155F64:
 a0 = ((struct Obj02657 *)t4)->f34;
     if (a0 == 0) goto loc_02155F76;
@@ -66,7 +66,7 @@ loc_02155F8A:
 a0 = ((struct Obj02657 *)t4)->f38;
     if (a0 == 0) goto loc_02155F94;
 loc_02155F90:
-    a0 = func_0215716C(a0);
+    a0 = MUSICAL_PROGRAM_Delete(a0);
 loc_02155F94:
 a0 = ((struct Obj02657 *)t4)->f8;
 a1 = 0;

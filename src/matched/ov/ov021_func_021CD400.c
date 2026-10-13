@@ -1,5 +1,5 @@
 /*
- * function: func_021CD400
+ * function: FIELD_GetAreaZoneId
  * address:  0x021CD400
  * packet:   pkt_ov021_021CD400
  * region:   ov021
@@ -25,7 +25,7 @@ typedef struct {
 
 extern const Ent d_021DB450[];
 
-u32 func_021CD400(u32 a, int b, int c)
+u32 FIELD_GetAreaZoneId(u32 a, int b, int c)
 {
     u32 i;
     const Ent *e = d_021DB450;

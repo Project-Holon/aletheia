@@ -1,5 +1,5 @@
 /*
- * function: func_0217B1D0
+ * function: UNION_CHARA_FocusRequestedMember
  * address:  0x0217B1D0
  * packet:   pkt_ov019_0217B1D0
  * region:   ov019
@@ -11,13 +11,13 @@
  * symbols:
  *   memcmp        0x0203EFC8  arm
  *   memset        0x02082BCC  arm
- *   func_02012114 0x02012114  thumb
- *   func_0201210C 0x0201210C  thumb
- *   func_02188CE0 0x02188CE0  thumb  ov021
- *   func_0217AED4 0x0217AED4  thumb  ov019
- *   func_02012964 0x02012964  thumb
- *   func_0216DE94 0x0216DE94  thumb  ov010
- *   func_0217F93C 0x0217F93C  thumb  ov019
+ *   GAMESYSTEM_IsFieldMapExist 0x02012114  thumb
+ *   GAMESYSTEM_GetFieldMap 0x0201210C  thumb
+ *   FIELDMAP_GetUnionEff 0x02188CE0  thumb  ov021
+ *   UNION_CHARA_MakeObjId 0x0217AED4  thumb  ov019
+ *   GAME_DATA_GetOccupyInfo 0x02012964  thumb
+ *   FLDMMDL_SysSearchObjId 0x0216DE94  thumb  ov010
+ *   UNION_EFF_AddAnimEffect 0x0217F93C  thumb  ov019
  */
 
 typedef unsigned char u8;
@@ -50,19 +50,19 @@ struct obj {
 extern int memcmp(const void *a, const void *b, int n);
 extern void memset(void *p, int v, int n);
 struct Ctx;
-extern unsigned int func_02012114(const struct Ctx *p);
+extern unsigned int GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188CE0(u8 *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetUnionEff(u8 *p);
 typedef unsigned short u16;
 struct BigObj;
-extern u16 func_0217AED4(u8 *a, u8 *b);
-extern u32 func_02012964(const struct BigObj *p);
-extern void *func_0216DE94(void *map, u32 id);
-extern void func_0217F93C(int, int);
+extern u16 UNION_CHARA_MakeObjId(u8 *a, u8 *b);
+extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern void UNION_EFF_AddAnimEffect(int, int);
 
-int func_0217B1D0(struct obj *o, struct ent *e)
+int UNION_CHARA_FocusRequestedMember(struct obj *o, struct ent *e)
 {
     int i;
     int v;
@@ -77,13 +77,13 @@ int func_0217B1D0(struct obj *o, struct ent *e)
         if (memcmp(e->s[i].mac, (char *)o + 0x28a4, 6) != 0) {
             continue;
         }
-        if (func_02012114((const struct Ctx *)o->in->fc) == 1) {
-            t = func_02188CE0(func_0201210C((void *)o->in->fc));
+        if (GAMESYSTEM_IsFieldMapExist((const struct Ctx *)o->in->fc) == 1) {
+            t = FIELDMAP_GetUnionEff(GAMESYSTEM_GetFieldMap((void *)o->in->fc));
             if (t != 0) {
-                r = func_0217AED4((u8 *)e, (u8 *)v);
-                r = (int)func_0216DE94((void *)func_02012964((const struct BigObj *)o->in->f8), r);
+                r = UNION_CHARA_MakeObjId((u8 *)e, (u8 *)v);
+                r = (int)FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo((const struct BigObj *)o->in->f8), r);
                 if (r != 0) {
-                    func_0217F93C(t, r);
+                    UNION_EFF_AddAnimEffect(t, r);
                 }
             }
         }

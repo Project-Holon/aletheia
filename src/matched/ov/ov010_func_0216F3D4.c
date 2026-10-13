@@ -1,5 +1,5 @@
 /*
- * function: func_0216F3D4
+ * function: TRCARD_SYS_SumCappedRecords
  * address:  0x0216F3D4
  * packet:   pkt_ov010_0216F3D4
  * region:   ov010
@@ -25,7 +25,7 @@ struct Sub02008C20Obj;
 extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern u16 d_02172620[][7];
 
-u32 func_0216F3D4(void *p, int idx, u32 cap)
+u32 TRCARD_SYS_SumCappedRecords(void *p, int idx, u32 cap)
 {
     u32 sum;
     int i;

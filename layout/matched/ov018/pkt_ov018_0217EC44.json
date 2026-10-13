@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217EC44",
+   "name": "INTRUDE_SUBDISP_SetTouchRect",
    "address": "0x0217EC44",
    "kind": "game",
    "region": "ov018",

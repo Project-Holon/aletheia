@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  */
 struct Entry;
-extern struct Entry *func_020399A8(void);
-void func_021B66A4(int a,int b,int c,int *d,unsigned e) { if(e==(unsigned)func_020399A8()) d[28]=1; }
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+void func_021B66A4(int a,int b,int c,int *d,unsigned e) { if(e==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) d[28]=1; }

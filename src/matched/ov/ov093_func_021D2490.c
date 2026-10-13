@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF9C0  0x021EF9C0  thumb  ov093
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   BTL_FIELD_StoreCountdown  0x021EF9C0  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021F7998  0x021F7998  thumb  ov094
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  *   func_021EA678  0x021EA678  thumb  ov093
@@ -23,8 +23,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 typedef struct { u16 a; u16 b; } Pair16;
 
-extern int *func_021EF9C0(int *p, int a, int b);
-extern u32 func_021CD9E0(u8 *p);
+extern int *BTL_FIELD_StoreCountdown(int *p, int a, int b);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021F7998(u32 a);
 extern int func_021F7EB4(void);
 extern void func_021EA678(char *p, u16 k, int *c);
@@ -37,8 +37,8 @@ int func_021D2490(u8 *p, int *st, u32 *c)
 
     switch (*st) {
     case 0:
-        func_021EF9C0(((struct Obj10019 *)p)->f34, (u8)id, (u16)c[1]);
-        if (func_021CD9E0(p))
+        BTL_FIELD_StoreCountdown(((struct Obj10019 *)p)->f34, (u8)id, (u16)c[1]);
+        if (BTL_CLIENT_IsMainStepActive(p))
             return 1;
         if (id < 5)
             func_021F7998(d_021EFFAE[id].b);

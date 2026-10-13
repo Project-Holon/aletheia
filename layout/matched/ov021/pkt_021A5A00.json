@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A36B0",
+   "name": "FIELD_PLAYER_GetNogridLocation",
    "address": "0x021A36B0",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A36BC",
+   "name": "FIELD_PLAYER_SetNogridLocation",
    "address": "0x021A36BC",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A36C8",
+   "name": "FIELD_PLAYER_GetNogridLocationByDir",
    "address": "0x021A36C8",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A36D4",
+   "name": "FIELD_PLAYER_ClearNogridState",
    "address": "0x021A36D4",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A5A00",
+   "name": "FIELD_PLAYER_NOGRID_SetRailLocation",
    "address": "0x021A5A00",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A5A0C",
+   "name": "FIELD_PLAYER_NOGRID_GetNextRailLocation",
    "address": "0x021A5A0C",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A5A18",
+   "name": "FIELD_PLAYER_NOGRID_GetRailLocationByDir",
    "address": "0x021A5A18",
    "kind": "game",
    "region": "ov021",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A5A24",
+   "name": "FIELD_PLAYER_NOGRID_GetRailPos",
    "address": "0x021A5A24",
    "kind": "game",
    "region": "ov021",

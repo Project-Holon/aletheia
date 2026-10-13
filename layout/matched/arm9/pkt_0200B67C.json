@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "BATTLE_REC_SaveSeq",
-    "func_0200B6E0"
+    "BATTLE_REC_Save"
    ],
    "addresses": [
     "0x0200B67C",

@@ -1,5 +1,5 @@
 /*
- * function: func_0216AD70
+ * function: SCRCMD_SYMBOL_GetState
  * address:  0x0216AD70
  * packet:   pkt_ov010_0216AD70
  * region:   ov010
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E0B0  0x0200E0B0  thumb
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
- *   func_02012FB0  0x02012FB0  thumb
- *   func_02166618  0x02166618  thumb  ov010
- *   func_0216662C  0x0216662C  thumb  ov010
- *   func_0216AEE8  0x0216AEE8  thumb  ov010
+ *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
+ *   SYMBOL_MAP_IsHomeCell  0x02166618  thumb  ov010
+ *   SYMBOL_MAP_IsBlankCell  0x0216662C  thumb  ov010
+ *   SCRCMD_SYMBOL_GetTargetObjectKey  0x0216AEE8  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -37,21 +37,21 @@ typedef struct {
     u32 rest : 3;
 } Bits;
 
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02012EBC(struct Big *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E0B0(void *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b);
-extern int func_02012FB0(unsigned char *base);
-extern int func_02166618(int a0);
-extern int func_0216662C(int a0);
-extern void func_0216AEE8(int vm, int *out);
+extern int GAME_DATA_GetSymbolMapFlag(unsigned char *base);
+extern int SYMBOL_MAP_IsHomeCell(int a0);
+extern int SYMBOL_MAP_IsBlankCell(int a0);
+extern void SCRCMD_SYMBOL_GetTargetObjectKey(int vm, int *out);
 
-int func_0216AD70(int a0, int a1)
+int SCRCMD_SYMBOL_GetState(int a0, int a1)
 {
     int kind;
     u16 *out;
@@ -61,12 +61,12 @@ int func_0216AD70(int a0, int a1)
     Bits v;
     Bits w;
 
-    kind = func_02159B10((void *)a0, (void *)a1);
-    out = func_02159AE8((void *)a0, (void *)a1);
-    x = func_0215A5DC((void *)a1);
-    y = func_0215A5E4((void *)a1);
-    func_0200E0B0(func_02012EBC((struct Big *)y));
-    t = func_02012138(x);
+    kind = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    out = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
+    x = SCRCMD_WORK_GetGameSystem((void *)a1);
+    y = SCRCMD_WORK_GetGameData((void *)a1);
+    func_0200E0B0(GAME_DATA_GetSaveControl((struct Big *)y));
+    t = GAMESYSTEM_GetGameComm(x);
     switch (kind) {
     case 0:
         if (INTRUDE_COMM_GetPartnerSlot((void *)t, y) == 4)
@@ -75,17 +75,17 @@ int func_0216AD70(int a0, int a1)
             *out = 0;
         break;
     case 1:
-        *out = func_02166618(func_02012FB0(y));
+        *out = SYMBOL_MAP_IsHomeCell(GAME_DATA_GetSymbolMapFlag(y));
         break;
     case 2:
-        *out = func_0216662C(func_02012FB0(y));
+        *out = SYMBOL_MAP_IsBlankCell(GAME_DATA_GetSymbolMapFlag(y));
         break;
     case 3:
-        func_0216AEE8(a1, (int *)(&v));
+        SCRCMD_SYMBOL_GetTargetObjectKey(a1, (int *)(&v));
         *out = v.lo;
         break;
     case 4:
-        func_0216AEE8(a1, (int *)(&w));
+        SCRCMD_SYMBOL_GetTargetObjectKey(a1, (int *)(&w));
         *out = w.f;
         break;
     }

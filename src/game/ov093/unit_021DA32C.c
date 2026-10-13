@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DA32C.c
- * function: func_021DA32C, func_021DA3CC
+ * function: HAND_TOKUSEI_DownloadOnMemberIn, HAND_TOKUSEI_AddDownload
  * address:  0x021DA32C
  * packet:   pkt_ov093_021DA32C
  * region:   ov093
@@ -12,7 +12,7 @@
  *
  * symbols:
  *   d_021F0970     0x021F0970  data   ov093  a4
- *   func_021D775C   0x021D775C  thumb ov093
+ *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   func_021C7D54   0x021C7D54  thumb ov093
  *   func_021C7CF4   0x021C7CF4  thumb ov093
  *   func_021D59B4   0x021D59B4  thumb ov093
@@ -21,7 +21,7 @@
  */
 #include "unit_021D9ADC_types.h"
 
-extern int func_021D775C(int varId);
+extern int BTL_EVENT_GetVar(int varId);
 extern u8 func_021C7D54(u8 *flowWork, u8 *pokeId, u8 *outFoeIds);
 extern void *func_021C7CF4(int *flowWork, int pokeId);
 extern int func_021D59B4(u8 *pokeParam, int valueId);
@@ -32,7 +32,7 @@ extern void func_021C88C8(void *flowWork, void *record);
 
 /* Download: on entering the field, compare the foes' total Defense and Special
    Defense and raise Attack or Special Attack by one stage accordingly. */
-void func_021DA32C(int myHandle, int flowWork, u8 pokeId)
+void HAND_TOKUSEI_DownloadOnMemberIn(int myHandle, int flowWork, u8 pokeId)
 {
     u8 foeIds[4];
     u8 foeCount;
@@ -43,7 +43,7 @@ void func_021DA32C(int myHandle, int flowWork, u8 pokeId)
     void *foe;
     struct HandExRankEffect *record;
 
-    if (pokeId != func_021D775C(HANDVAR_POKE_ID))
+    if (pokeId != BTL_EVENT_GetVar(HANDVAR_POKE_ID))
         return;
     foeCount = func_021C7D54((u8 *)flowWork, (u8 *)pokeId, foeIds);
     if (foeCount == 0)
@@ -71,7 +71,7 @@ void func_021DA32C(int myHandle, int flowWork, u8 pokeId)
 
 extern int d_021F0970[];
 
-int *func_021DA3CC(int *handlerCount)
+int *HAND_TOKUSEI_AddDownload(int *handlerCount)
 {
     *handlerCount = 2;
     return d_021F0970;

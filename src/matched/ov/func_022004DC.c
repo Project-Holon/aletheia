@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  *
 
  *
@@ -21,11 +22,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 
 int func_022004DC(u8 *p)
 {
-    if (func_020221A4()) {
+    if (WIPE_SYS_EndCheck()) {
         ((struct Obj18607 *)p)->f28 = 5;
     }
     return 2;

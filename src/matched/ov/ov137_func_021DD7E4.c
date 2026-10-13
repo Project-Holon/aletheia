@@ -12,13 +12,13 @@
  * abi: 021DD802 visibly reloads p into r0 for 021DE350; retain that argument despite its empty matched body.
  * symbols:
  *   func_021DD80C 0x021DD80C thumb ov137
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DE220 0x021DE220 thumb ov137
  *   func_021DE350 0x021DE350 thumb ov137
  */
 extern void func_021DD80C(char *);
 typedef unsigned short u16;
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int func_021DE220(void *);
 extern void func_021DE350(char *);
-int func_021DD7E4(char *p,int a) {func_021DD80C(p);if(func_02039338()==0) {if(func_021DE220(p)==1) {} else func_021DE350(p);}else func_021DE350(p);return a;}
+int func_021DD7E4(char *p,int a) {func_021DD80C(p);if(GFL_NET_SYSTEM_GetCurrentAid()==0) {if(func_021DE220(p)==1) {} else func_021DE350(p);}else func_021DE350(p);return a;}

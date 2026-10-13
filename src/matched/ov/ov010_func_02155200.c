@@ -1,5 +1,5 @@
 /*
- * function: func_02155200
+ * function: MUSICAL_EVENT_TrimPartyToThree
  * address:  0x02155200
  * packet:   pkt_ov010_02155200
  * region:   ov010
@@ -23,7 +23,7 @@ struct Party;
 extern u32 func_0201AA18(void *p);
 extern u32 func_0201A9C8(struct Party *p, s32 idx);
 
-void func_02155200(void *list)
+void MUSICAL_EVENT_TrimPartyToThree(void *list)
 {
     int i;
     int n;

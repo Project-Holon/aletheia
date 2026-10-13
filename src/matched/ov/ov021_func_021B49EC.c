@@ -1,5 +1,5 @@
 /*
- * function: func_021B49EC
+ * function: SCRCMD_PROC_FLD_AdjustQuantity
  * address:  0x021B49EC
  * packet:   pkt_ov021_021B49EC
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-int func_021B49EC(s16 *p, int max, int key)
+int SCRCMD_PROC_FLD_AdjustQuantity(s16 *p, int max, int key)
 {
     int s = *p;
     switch (key) {

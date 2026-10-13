@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC080",
+   "name": "STARTMENU_BeginFadeIn",
    "address": "0x021BC080",
    "kind": "game",
    "region": "ov088",

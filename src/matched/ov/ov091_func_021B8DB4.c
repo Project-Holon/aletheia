@@ -1,5 +1,5 @@
 /*
- * function: func_021B8DB4
+ * function: POKELIST_HandleTouch
  * address:  0x021B8DB4
  * packet:   pkt_ov091_021B8DB4
  * region:   ov091
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB3C4  0x021BB3C4  thumb  ov091
- *   func_021BB3FC  0x021BB3FC  thumb  ov091
- *   func_02035C08  0x02035C08  arm
- *   func_021BB468  0x021BB468  thumb  ov091
+ *   PLIST_PLATE_IsOccupied  0x021BB3C4  thumb  ov091
+ *   PLIST_PLATE_GetTouchRect  0x021BB3FC  thumb  ov091
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
+ *   PLIST_PLATE_IsEgg  0x021BB468  thumb  ov091
  *   func_020061E4  0x020061E4  thumb
- *   func_021BAFA0  0x021BAFA0  thumb  ov091
- *   func_021BBE5C  0x021BBE5C  thumb  ov091
+ *   PLIST_PLATE_SetSelected  0x021BAFA0  thumb  ov091
+ *   PLIST_MENU_ButtonWinSetActive  0x021BBE5C  thumb  ov091
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_021B9A84  0x021B9A84  thumb  ov091
- *   func_021B9AA0  0x021B9AA0  thumb  ov091
- *   func_021B9AB4  0x021B9AB4  thumb  ov091
+ *   POKELIST_IsItemMode  0x021B9A84  thumb  ov091
+ *   POKELIST_IsNotItemUseMode  0x021B9AA0  thumb  ov091
+ *   POKELIST_HasBackButton  0x021B9AB4  thumb  ov091
  *   d_021BEC2C     0x021BEC2C  data  ov091  a1
  */
 
@@ -41,22 +41,22 @@ typedef struct Rect4 {
 
 #define W(o) (*(int *)(p + (o)))
 
-extern int func_021BB3C4(void *unused, u32 p);
-extern void func_021BB3FC(int unused, u8 *s, u8 *out);
-extern int func_02035C08(const void *p);
-extern int func_021BB468(int unused, int *p);
+extern int PLIST_PLATE_IsOccupied(void *unused, u32 p);
+extern void PLIST_PLATE_GetTouchRect(int unused, u8 *s, u8 *out);
+extern int TOUCHPANEL_HitTrg(const void *p);
+extern int PLIST_PLATE_IsEgg(int unused, int *p);
 extern void func_020061E4(u32 id);
-extern void func_021BAFA0(u8 *a, u8 *s, int k);
-extern void func_021BBE5C(int h, int f);
+extern void PLIST_PLATE_SetSelected(u8 *a, u8 *s, int k);
+extern void PLIST_MENU_ButtonWinSetActive(int h, int f);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern int func_021B9A84(u32 p);
-extern int func_021B9AA0(u32 p);
-extern int  func_021B9AB4(u8 *p);
+extern int POKELIST_IsItemMode(u32 p);
+extern int POKELIST_IsNotItemUseMode(u32 p);
+extern int  POKELIST_HasBackButton(u8 *p);
 
 extern Rect4 d_021BEC2C;
 
-void func_021B8DB4(u8 *p)
+void POKELIST_HandleTouch(u8 *p)
 {
     Rect list[7];
     Rect4 fixed;
@@ -69,30 +69,30 @@ void func_021B8DB4(u8 *p)
 
     n = 0;
     for (i = 0; i < 6; i++) {
-        if (func_021BB3C4(p, *(int *)(p + i * 4 + 0x160)) == 1) {
+        if (PLIST_PLATE_IsOccupied(p, *(int *)(p + i * 4 + 0x160)) == 1) {
             map[n] = i;
-            func_021BB3FC((int)p, (u8 *)(*(int *)(p + i * 4 + 0x160)), (u8 *)(&list[n]));
+            PLIST_PLATE_GetTouchRect((int)p, (u8 *)(*(int *)(p + i * 4 + 0x160)), (u8 *)(&list[n]));
             n++;
         }
     }
     list[n].top = 0xff;
-    hit = func_02035C08(list);
+    hit = TOUCHPANEL_HitTrg(list);
     if (hit != -1) {
-        if (W(0x28) == 0 && hit <= 5 && func_021BB468((int)p, (int *)(*(int *)(p + hit * 4 + 0x160))) == 1) {
+        if (W(0x28) == 0 && hit <= 5 && PLIST_PLATE_IsEgg((int)p, (int *)(*(int *)(p + hit * 4 + 0x160))) == 1) {
             func_020061E4(0x557);
         } else {
             p[0xf] = 3;
             old = W(0x2c);
             W(0x2c) = map[hit];
             if (old <= 5) {
-                func_021BAFA0(p, (u8 *)(*(int *)(p + old * 4 + 0x160)), 0);
+                PLIST_PLATE_SetSelected(p, (u8 *)(*(int *)(p + old * 4 + 0x160)), 0);
             } else {
-                func_021BBE5C(*(int *)(p + (u8)(old - 6) * 4 + 0x108), 0);
+                PLIST_MENU_ButtonWinSetActive(*(int *)(p + (u8)(old - 6) * 4 + 0x108), 0);
             }
             if (W(0x2c) <= 5) {
-                func_021BAFA0(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 1);
+                PLIST_PLATE_SetSelected(p, (u8 *)(*(int *)(p + W(0x2c) * 4 + 0x160)), 1);
             } else {
-                func_021BBE5C(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
+                PLIST_MENU_ButtonWinSetActive(*(int *)(p + (u8)(W(0x2c) - 6) * 4 + 0x108), 1);
                 func_0204B3DC((struct Obj *)W(0x1d8), 0);
             }
             p[0x100] = 0xc;
@@ -101,8 +101,8 @@ void func_021B8DB4(u8 *p)
     }
     if (hit == -1) {
         fixed = d_021BEC2C;
-        if (func_021B9A84((u32)p) == 1) {
-            if (func_021B9AA0((u32)p) == 1) {
+        if (POKELIST_IsItemMode((u32)p) == 1) {
+            if (POKELIST_IsNotItemUseMode((u32)p) == 1) {
                 fixed.r[1].top = 0xa8;
                 fixed.r[1].bottom = 0xc0;
                 fixed.r[1].left = 0xb0;
@@ -118,7 +118,7 @@ void func_021B8DB4(u8 *p)
                 fixed.r[0].right = 0xff;
             }
         } else {
-            if (func_021B9AB4(p) == 1) {
+            if (POKELIST_HasBackButton(p) == 1) {
                 fixed.r[1].top = 0xa8;
                 fixed.r[1].bottom = 0xc0;
                 fixed.r[1].left = 0xe0;
@@ -131,7 +131,7 @@ void func_021B8DB4(u8 *p)
                 fixed.r[2].right = 0xe0;
             }
         }
-        r = func_02035C08(&fixed);
+        r = TOUCHPANEL_HitTrg(&fixed);
         if (r != -1) {
             p[0xf] = r;
             W(8) = 1;

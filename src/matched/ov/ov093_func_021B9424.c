@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D53B8 0x021D53B8 thumb ov093
+ *   BTL_POKEPARAM_Delete 0x021D53B8 thumb ov093
  *   func_021B9B40 0x021B9B40 thumb ov093
  */
-extern void func_021D53B8(void *);
+extern void BTL_POKEPARAM_Delete(void *);
 typedef unsigned char  u8;
 extern void func_021B9B40(u8 *p);
 void func_021B9424(char *p)
@@ -20,7 +20,7 @@ void func_021B9424(char *p)
     unsigned int i;
     for (i = 0; i < 24; i++) {
         if (*(void **)(p + i * 4 + 0x84) != 0) {
-            func_021D53B8(*(void **)(p + i * 4 + 0x84));
+            BTL_POKEPARAM_Delete(*(void **)(p + i * 4 + 0x84));
             *(void **)(p + i * 4 + 0x84) = 0;
         }
     }

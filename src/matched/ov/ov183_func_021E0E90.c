@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
 #include "../include/Obj00143.h"
@@ -22,7 +22,7 @@ typedef struct {s16 a,b,x,y;} Coords;
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -40,7 +40,7 @@ void func_021E0E90(char *p,int animated) {
             if(i==0)pos+=20;else pos+=8;
         }
         record=(char *)((u32)p+i*28);
-        func_0204B454(((struct Obj05480 *)record)->fC,(struct PtS *)&coords.x,1);
+        CLACT_GetActorSurfacePos(((struct Obj05480 *)record)->fC,(struct PtS *)&coords.x,1);
         if(animated==0){
             coords.x=pos;
             func_0204B404(((struct Obj05480 *)record)->fC,(const struct Vec2 *)(&coords.x),1);
@@ -52,7 +52,7 @@ void func_021E0E90(char *p,int animated) {
         }
         special=(char *)((u32)p+group*28);
         if(i==((struct Obj05481 *)special)->f150&&group!=2){
-            func_0204B454(((struct Obj05481 *)special)->f15C,(struct PtS *)&coords.a,1);
+            CLACT_GetActorSurfacePos(((struct Obj05481 *)special)->f15C,(struct PtS *)&coords.a,1);
             if(((struct Obj00143 *)p)->f248==((struct Obj00143 *)p)->f24C)pos+=8;
             else {
                 if(i>((struct Obj00143 *)p)->f248&&i<((struct Obj00143 *)p)->f24C)pos+=20;

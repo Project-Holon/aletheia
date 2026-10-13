@@ -27,7 +27,7 @@
  * twenty bytes of dispatch with nothing to cut away.  It needs a second
  * reference to the table, most likely from an overlay, to move.
  *
- * This is also what keeps func_0201D7EC, src/pending/sub_0201D7EC.c, out of
+ * This is also what keeps GF_FONT_Create, src/pending/sub_0201D7EC.c, out of
  * src/matched: its only witness for the call to this function would be having
  * it local in the same unit, and a unit that spans it inherits this same
  * unresolved table word.

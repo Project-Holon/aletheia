@@ -1,5 +1,5 @@
 /*
- * function: func_0218AE48
+ * function: FIELD_EVENT_CHECK_GetFrontPos
  * address:  0x0218AE48
  * packet:   pkt_ov021_0218AE48
  * region:   ov021
@@ -19,7 +19,7 @@ typedef struct Obj {
     Vec *pos;               /* 0x34 */
 } Obj;
 
-void func_0218AE48(Obj *p, Vec *out)
+void FIELD_EVENT_CHECK_GetFrontPos(Obj *p, Vec *out)
 {
     *out = *p->pos;
     switch (p->dir) {

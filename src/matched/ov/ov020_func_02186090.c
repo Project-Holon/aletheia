@@ -1,5 +1,5 @@
 /*
- * function: func_02186090
+ * function: FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl
  * address:  0x02186090
  * packet:   pkt_ov020_02186090
  * region:   ov020
@@ -10,14 +10,14 @@
  * status:   EXACT*
  * extent: two zero alignment bytes after the return.
  * symbols:
- *   func_0216D588  0x0216D588  thumb
+ *   FLDMMDL_GetObjId  0x0216D588  thumb
  */
 
 typedef unsigned short u16;
 
-u16 func_0216D588(void *p);
+u16 FLDMMDL_GetObjId(void *p);
 
-int func_02186090(void *p)
+int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(void *p)
 {
-    return func_0216D588(p) - 0x80;
+    return FLDMMDL_GetObjId(p) - 0x80;
 }

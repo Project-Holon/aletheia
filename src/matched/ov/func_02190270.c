@@ -1,5 +1,5 @@
 /*
- * function: func_02190270
+ * function: FIELD_MSGBG_SetupBg
  * address:  0x02190270
  * packet:   pkt_02190270
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: pins the second argument to 1.
  *
  * symbols:
- *   func_02192BD0  0x02192BD0  thumb
+ *   FIELD_MSGBG_InitBgTwoLayerTalk  0x02192BD0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02192BD0(char *p, int flag);
+extern void FIELD_MSGBG_InitBgTwoLayerTalk(char *p, int flag);
 
-void func_02190270(u32 a)
+void FIELD_MSGBG_SetupBg(u32 a)
 {
-    func_02192BD0((char *)a, 1);
+    FIELD_MSGBG_InitBgTwoLayerTalk((char *)a, 1);
 }

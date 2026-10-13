@@ -1,5 +1,5 @@
 /*
- * function: func_0218489C
+ * function: OEKAKI_VBlankTask
  * address:  0x0218489C
  * packet:   pkt_0218489C
  * region:   ov023
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
  *   func_020419E4  0x020419E4  arm
  */
 
-void func_0204A648(void);
+void CLACT_VBlankSystem(void);
 void func_020419E4(void);
 
-void func_0218489C(void)
+void OEKAKI_VBlankTask(void)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
     func_020419E4();
 }

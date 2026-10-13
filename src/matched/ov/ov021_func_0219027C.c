@@ -1,5 +1,5 @@
 /*
- * function: func_0219027C
+ * function: FIELD_MSGBG_SetupBgDelayed
  * address:  0x0219027C
  * packet:   pkt_ov021_0219027C
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02192CF0  0x02192CF0  thumb
+ *   FIELD_MSGBG_InitBgTwoLayer  0x02192CF0  thumb
  *   func_020056A0  0x020056A0  thumb
- *   func_02192EB8  0x02192EB8  thumb
+ *   FIELD_MSGBG_VblankTalkSysTask  0x02192EB8  thumb
  */
 #include "../include/Obj12600.h"
 
@@ -23,13 +23,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02192CF0(char *p, int flag);
+extern void FIELD_MSGBG_InitBgTwoLayer(char *p, int flag);
 extern void *func_020056A0(void (*fn)(void *, void *), void *arg, u32 pri);
-extern void func_02192EB8(u32 a, u8 *b);
+extern void FIELD_MSGBG_VblankTalkSysTask(u32 a, u8 *b);
 
-void func_0219027C(u8 *a)
+void FIELD_MSGBG_SetupBgDelayed(u8 *a)
 {
-    func_02192CF0((char *)a, 0);
+    FIELD_MSGBG_InitBgTwoLayer((char *)a, 0);
     if (((struct Obj12600 *)a)->f16C == 0)
-        ((struct Obj12600 *)a)->f16C = func_020056A0((void (*)(void *, void *))func_02192EB8, a, 0);
+        ((struct Obj12600 *)a)->f16C = func_020056A0((void (*)(void *, void *))FIELD_MSGBG_VblankTalkSysTask, a, 0);
 }

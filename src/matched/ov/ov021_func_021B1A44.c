@@ -1,5 +1,5 @@
 /*
- * function: func_021B1A44
+ * function: SCRCMD_FLDMMDL_CheckMmdlPauseRelease
  * address:  0x021B1A44
  * packet:   pkt_ov021_021B1A44
  * region:   ov021
@@ -10,70 +10,70 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F90  0x02158F90  thumb  ov010
- *   func_021B1E74  0x021B1E74  thumb  ov021
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216DAF8  0x0216DAF8  thumb  ov010
- *   func_0216DA5C  0x0216DA5C  thumb  ov010
- *   func_0216DE54  0x0216DE54  thumb  ov010
- *   func_0219BBA4  0x0219BBA4  thumb  ov021
- *   d_021EE71C     0x021EE71C  data  a1
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
+ *   SCRCMD_FLDMMDL_GetPlayerMmdl  0x021B1E74  thumb  ov021
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
+ *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
+ *   FLDMMDL_SysSearchMoveCode  0x0216DE54  thumb  ov010
+ *   FLDMMDL_MOVE_FindFellow  0x0219BBA4  thumb  ov021
+ *   gScrcmdFldmmdlPauseFlags     0x021EE71C  data  a1
  */
 
 typedef unsigned char u8;
 
-void *func_0215A5F4(void *p);
-void *func_02158F90(void *p);
+void *SCRCMD_WORK_GetScriptWork(void *p);
+void *SCRIPT_WORK_GetTargetObj(void *p);
 typedef unsigned int   u32;
-int func_021B1E74(u32 a);
-void *func_0215A5EC(void *p);
-int func_0216D454(int a);
-void func_0216DAF8(void *a0);
-int func_0216DA5C(void *a0);
-void *func_0216DE54(void *map, u32 kind);
-int func_0219BBA4(int a);
-extern u8 d_021EE71C;
+int SCRCMD_FLDMMDL_GetPlayerMmdl(u32 a);
+void *SCRCMD_WORK_GetOccupyInfo(void *p);
+int FLDMMDL_CheckEndAcmd(int a);
+void FLDMMDL_OnMoveBitMovePause(void *a0);
+int FLDMMDL_CheckMoveBitMove(void *a0);
+void *FLDMMDL_SysSearchMoveCode(void *map, u32 kind);
+int FLDMMDL_MOVE_FindFellow(int a);
+extern u8 gScrcmdFldmmdlPauseFlags;
 
-int func_021B1A44(int a, int b)
+int SCRCMD_FLDMMDL_CheckMmdlPauseRelease(int a, int b)
 {
     int r5;
     int r6;
     int r7;
 
-    r5 = (int)func_02158F90(func_0215A5F4((void *)b));
-    r6 = func_021B1E74(b);
-    r7 = (int)func_0215A5EC((void *)b);
-    if (d_021EE71C & 1) {
-        if (func_0216D454(r6) == 1) {
-            func_0216DAF8((void *)r6);
-            d_021EE71C &= 0xfe;
+    r5 = (int)SCRIPT_WORK_GetTargetObj(SCRCMD_WORK_GetScriptWork((void *)b));
+    r6 = SCRCMD_FLDMMDL_GetPlayerMmdl(b);
+    r7 = (int)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    if (gScrcmdFldmmdlPauseFlags & 1) {
+        if (FLDMMDL_CheckEndAcmd(r6) == 1) {
+            FLDMMDL_OnMoveBitMovePause((void *)r6);
+            gScrcmdFldmmdlPauseFlags &= 0xfe;
         }
     }
-    if (d_021EE71C & 4) {
-        if (func_0216DA5C((void *)r5) == 0) {
-            func_0216DAF8((void *)r5);
-            d_021EE71C &= 0xfb;
+    if (gScrcmdFldmmdlPauseFlags & 4) {
+        if (FLDMMDL_CheckMoveBitMove((void *)r5) == 0) {
+            FLDMMDL_OnMoveBitMovePause((void *)r5);
+            gScrcmdFldmmdlPauseFlags &= 0xfb;
         }
     }
-    if (d_021EE71C & 2) {
-        r6 = (int)func_0216DE54((void *)r7, 0x30);
-        if (func_0216DA5C((void *)r6) == 0) {
-            func_0216DAF8((void *)r6);
-            d_021EE71C &= 0xfd;
+    if (gScrcmdFldmmdlPauseFlags & 2) {
+        r6 = (int)FLDMMDL_SysSearchMoveCode((void *)r7, 0x30);
+        if (FLDMMDL_CheckMoveBitMove((void *)r6) == 0) {
+            FLDMMDL_OnMoveBitMovePause((void *)r6);
+            gScrcmdFldmmdlPauseFlags &= 0xfd;
         }
     }
-    if (d_021EE71C & 8) {
-        r5 = func_0219BBA4(r5);
+    if (gScrcmdFldmmdlPauseFlags & 8) {
+        r5 = FLDMMDL_MOVE_FindFellow(r5);
         if (r5 == 0) {
-            d_021EE71C &= 0xf7;
-        } else if (func_0216DA5C((void *)r5) == 0) {
-            func_0216DAF8((void *)r5);
-            d_021EE71C &= 0xf7;
+            gScrcmdFldmmdlPauseFlags &= 0xf7;
+        } else if (FLDMMDL_CheckMoveBitMove((void *)r5) == 0) {
+            FLDMMDL_OnMoveBitMovePause((void *)r5);
+            gScrcmdFldmmdlPauseFlags &= 0xf7;
         }
     }
-    if (d_021EE71C == 0) {
+    if (gScrcmdFldmmdlPauseFlags == 0) {
         return 1;
     }
     return 0;

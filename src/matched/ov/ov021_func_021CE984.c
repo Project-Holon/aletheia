@@ -1,5 +1,5 @@
 /*
- * function: func_021CE984
+ * function: COMM_ENTRY_MENU_EraseMemberName
  * address:  0x021CE984
  * packet:   pkt_ov021_021CE984
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02190794  0x02190794  thumb  ov021
+ *   FIELD_MSGBG_FillMsgWin  0x02190794  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -18,11 +18,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Slot;
-extern void func_02190794(struct Slot **p, int x, int y, int w, int h);
+extern void FIELD_MSGBG_FillMsgWin(struct Slot **p, int x, int y, int w, int h);
 
-void func_021CE984(u32 *p, u32 n)
+void COMM_ENTRY_MENU_EraseMemberName(u32 *p, u32 n)
 {
     if (p[3] != 0) {
-        func_02190794((struct Slot **)p[3], 0, n << 4, 0x90, 0x10);
+        FIELD_MSGBG_FillMsgWin((struct Slot **)p[3], 0, n << 4, 0x90, 0x10);
     }
 }

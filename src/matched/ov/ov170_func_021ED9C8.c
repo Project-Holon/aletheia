@@ -12,7 +12,7 @@
  *   func_021DEB14 0x021DEB14 thumb ov170
  *   func_021EC08C 0x021EC08C thumb ov170
  *   func_021EDB64 0x021EDB64 thumb ov170
- *   func_0202590C 0x0202590C thumb
+ *   BMP_OAM_SetPos 0x0202590C thumb
  *   func_021EB874 0x021EB874 thumb ov170
  */
 #include "../include/Obj00000.h"
@@ -23,7 +23,7 @@ extern void func_021EC08C(char *p, int i, int a, int b, unsigned short c);
 extern void func_021EDB64(char *, int, int);
 typedef signed short   s16;
 struct Grid;
-extern void func_0202590C(struct Grid *g, s16 x, s16 y);
+extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
 extern void func_021EB874(char **, unsigned, int);
 void func_021ED9C8(char *p)
 {
@@ -38,7 +38,7 @@ void func_021ED9C8(char *p)
         t.y += (short)y;
         func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2d, t.x, t.y, 0);
         func_021EDB64(p, a, i + 0x2d);
-        func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xc), 0x13c, y + 2);
+        BMP_OAM_SetPos(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xc), 0x13c, y + 2);
         func_021EB874((char **)p, a, i + 1);
     }
 }

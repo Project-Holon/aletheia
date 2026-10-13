@@ -1,5 +1,5 @@
 /*
- * function: func_0215A5E4
+ * function: SCRCMD_WORK_GetGameData
  * address:  0x0215A5E4
  * packet:   pkt_0215A5E4
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 
 
-void *func_0215A5E4(void *a0)
+void *SCRCMD_WORK_GetGameData(void *a0)
 {
     return ((struct Obj17658 *)(*(char * *)&((struct Obj00005 *)a0)->f20))->f8;
 }

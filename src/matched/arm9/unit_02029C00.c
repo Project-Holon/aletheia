@@ -26,6 +26,8 @@
  *
  * symbols:
  *   FIELD_SOUND_SYSTEM_PopTask  0x02029658  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  */
 
 typedef unsigned short u16;
@@ -46,19 +48,19 @@ extern u32 FIELD_SOUND_SYSTEM_PopTask(void *task, u32 *state, struct Work *work)
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
 void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a)
 {
-    void *x = func_020120F4(a);
+    void *x = GAMESYSTEM_GetGameData(a);
     void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_PopTask, 0x10);
     struct Work *work = func_020124E8(task);
 
-    work->unk04 = (void *)func_02012A30(x);
+    work->unk04 = (void *)GAME_DATA_GetBgmInfo(x);
     work->unk0C = 0x3C;
     work->unk0E = 0x1E;
     return task;

@@ -1,5 +1,5 @@
 /*
- * function: func_021F2EEC
+ * function: C_GEAR_StartPanelEvent
  * address:  0x021F2EEC
  * packet:   pkt_ov029_021F2EEC
  * region:   ov029
@@ -13,7 +13,7 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_021F0194  0x021F0194  thumb  ov029
- *   func_021F2F60  0x021F2F60  thumb  ov029
+ *   C_GEAR_PanelEventMain  0x021F2F60  thumb  ov029
  */
 #include "../include/Obj00042.h"
 
@@ -24,11 +24,11 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_021F0194(u8 *p);
-extern void func_021F2F60(void);
+extern void C_GEAR_PanelEventMain(void);
 
-int func_021F2EEC(char *p, int k)
+int C_GEAR_StartPanelEvent(char *p, int k)
 {
-    int r = (int)func_020122C0((void *)(*(int *)&((struct Obj00042 *)p)->f1C), 0, func_021F2F60, 8);
+    int r = (int)func_020122C0((void *)(*(int *)&((struct Obj00042 *)p)->f1C), 0, C_GEAR_PanelEventMain, 8);
     int *w = func_020124E8((struct Obj *)r);
 
     w[0] = (int)p;

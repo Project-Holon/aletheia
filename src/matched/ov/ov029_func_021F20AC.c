@@ -1,5 +1,5 @@
 /*
- * function: func_021F20AC
+ * function: C_GEAR_UpdateTileMarkers
  * address:  0x021F20AC
  * packet:   pkt_ov029_021F20AC
  * region:   ov029
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021F133C  0x021F133C  thumb  ov029
+ *   C_GEAR_FindCellOfKind  0x021F133C  thumb  ov029
  *   func_0204B404  0x0204B404  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  */
 
-extern int func_021F133C(char *p, int v, int *o1, int *o2);
+extern int C_GEAR_FindCellOfKind(char *p, int v, int *o1, int *o2);
 typedef unsigned int   u32;
 struct Node;
 struct Obj;
@@ -22,7 +22,7 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 
-void func_021F20AC(char *p)
+void C_GEAR_UpdateTileMarkers(char *p)
 {
     int i;
     int a;
@@ -30,7 +30,7 @@ void func_021F20AC(char *p)
     short s[2];
 
     for (i = 0; i < 3; i++) {
-        if (func_021F133C(p, i + 1, &a, &b)) {
+        if (C_GEAR_FindCellOfKind(p, i + 1, &a, &b)) {
             a = a * 8;
             b = b * 8;
             s[0] = a + 0x10;

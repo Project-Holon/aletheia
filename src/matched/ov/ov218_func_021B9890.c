@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B63D0 0x021B63D0 thumb ov067
+ *   TOUCHBAR_Update 0x021B63D0 thumb ov067
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct S S;
-extern void func_021B63D0(struct S *p);
+extern void TOUCHBAR_Update(struct S *p);
 void func_021B9890(S *p)
 {
-    func_021B63D0(p);
+    TOUCHBAR_Update(p);
 }

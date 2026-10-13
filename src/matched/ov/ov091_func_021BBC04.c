@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC04
+ * function: PLIST_MENU_BuildCommandList
  * address: 0x021BBC04
  * packet: pkt_ov091_021BBC04
  * region: ov091
@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B99E4 0x021B99E4 thumb ov091
- *   func_021BB43C 0x021BB43C thumb ov091
- *   func_021BBD98 0x021BBD98 thumb ov091
- *   func_02017E1C 0x02017E1C thumb
+ *   POKELIST_GetFieldMoveMenuIndex 0x021B99E4 thumb ov091
+ *   PLIST_PLATE_GetLabelState 0x021BB43C thumb ov091
+ *   PLIST_MENU_CreateCommandLabel 0x021BBD98 thumb ov091
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  */
 #include "../include/Obj05174.h"
 #include "../include/Obj07735.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021B99E4(void *, int);
-extern int func_021BB43C(int *);
-extern int func_021BBD98(int, int, int);
+extern int POKELIST_GetFieldMoveMenuIndex(void *, int);
+extern int PLIST_PLATE_GetLabelState(int *);
+extern int PLIST_MENU_CreateCommandLabel(int, int, int);
 typedef unsigned int   u32;
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 #define APPEND(v) do { *(u16 *)(s + s[0] * 2 + 2) = (v); s[0]++; } while (0)
-void func_021BBC04(u8 *p, u8 *s, int *items)
+void PLIST_MENU_BuildCommandList(u8 *p, u8 *s, int *items)
 {
     int n, i;
     u8 j;
@@ -40,13 +40,13 @@ void func_021BBC04(u8 *p, u8 *s, int *items)
         case 0: APPEND(0); break;
         case 1:
             for (j = 0; j < 4; j++) {
-                if (func_021B99E4(((struct Obj05174 *)p)->f38, j))
+                if (POKELIST_GetFieldMoveMenuIndex(((struct Obj05174 *)p)->f38, j))
                     APPEND(j + 16);
             }
             break;
         case 2:
             for (j = 0; j < 4; j++) {
-                if (func_02017E1C(((struct Obj05174 *)p)->f38, j + 0x36, 0))
+                if (POKE_TOOL_GetPartyValue(((struct Obj05174 *)p)->f38, j + 0x36, 0))
                     APPEND(j + 16);
             }
             break;
@@ -56,7 +56,7 @@ void func_021BBC04(u8 *p, u8 *s, int *items)
         case 6: APPEND(6); break;
         case 7: APPEND(7); break;
         case 8:
-            v = func_021BB43C(*(int **)(p + ((struct Obj05174 *)p)->f2C * 4 + 0x160));
+            v = PLIST_PLATE_GetLabelState(*(int **)(p + ((struct Obj05174 *)p)->f2C * 4 + 0x160));
             if (v == 6)
                 APPEND(20);
             else if (v <= 5)
@@ -73,7 +73,7 @@ void func_021BBC04(u8 *p, u8 *s, int *items)
     }
     for (n = 0; n < s[0]; n++) {
         u8 *entry;
-        *(int *)(s + n * 12 + 0x14) = func_021BBD98((int)p, (int)s, *(u16 *)(s + n * 2 + 2));
+        *(int *)(s + n * 12 + 0x14) = PLIST_MENU_CreateCommandLabel((int)p, (int)s, *(u16 *)(s + n * 2 + 2));
         entry = s + n * 12;
         if (*(u16 *)(s + n * 2 + 2) >= 16 && *(u16 *)(s + n * 2 + 2) <= 19 && (*(int **)(p + 0x280))[0x34 / 4] != 5)
             ((struct Obj07735 *)entry)->f18 = 0x35e0;

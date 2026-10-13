@@ -1,5 +1,5 @@
 /*
- * function: func_021BABDC
+ * function: FIELD_RAIL_CAMERA_ApplyLineEnd
  * address:  0x021BABDC
  * packet:   pkt_ov021_021BABDC
  * region:   ov021
@@ -10,27 +10,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8220  0x021B8220  thumb  ov021
- *   func_021B82F0  0x021B82F0  thumb  ov021
- *   func_021B834C  0x021B834C  thumb  ov021
- *   func_021BB014  0x021BB014  thumb  ov021
+ *   FIELD_RAIL_GetFocusWork  0x021B8220  thumb  ov021
+ *   FIELD_RAIL_WORK_GetMode  0x021B82F0  thumb  ov021
+ *   FIELD_RAIL_WORK_GetEndPoint  0x021B834C  thumb  ov021
+ *   FIELD_RAIL_CAMERA_ApplyPoint  0x021BB014  thumb  ov021
  */
 
-extern unsigned int func_021B8220(unsigned char *p);
+extern unsigned int FIELD_RAIL_GetFocusWork(unsigned char *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u16 func_021B82F0(u8 *p);
-extern u8 *func_021B834C(u8 *p);
+extern u16 FIELD_RAIL_WORK_GetMode(u8 *p);
+extern u8 *FIELD_RAIL_WORK_GetEndPoint(u8 *p);
 typedef unsigned int   u32;
-extern void func_021BB014(u32 a, unsigned char *b, u32 c);
+extern void FIELD_RAIL_CAMERA_ApplyPoint(u32 a, unsigned char *b, u32 c);
 
-void func_021BABDC(void *p)
+void FIELD_RAIL_CAMERA_ApplyLineEnd(void *p)
 {
-    void *a = (void *)func_021B8220(p);
-    int b = func_021B82F0(a);
-    int c = (int)func_021B834C(a);
+    void *a = (void *)FIELD_RAIL_GetFocusWork(p);
+    int b = FIELD_RAIL_WORK_GetMode(a);
+    int c = (int)FIELD_RAIL_WORK_GetEndPoint(a);
 
     if (b == 1) {
-        func_021BB014((u32)p, (unsigned char *)a, c);
+        FIELD_RAIL_CAMERA_ApplyPoint((u32)p, (unsigned char *)a, c);
     }
 }

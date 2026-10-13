@@ -13,17 +13,17 @@
  * 0x0204B98C.  Blocker target of func_021BE010.
  *
  * symbols:
- *   func_0204B98C  0x0204B98C  arm
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 int func_021BEDE0(int a0, int a1)
 {
     int *p = (int *)(a0 + a1 * 4);
 
-    return func_0204B98C((struct Actor *)p[0xa]);
+    return CLACT_IsActorAnimActive((struct Actor *)p[0xa]);
 }

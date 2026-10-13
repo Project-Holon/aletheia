@@ -1,5 +1,5 @@
 /*
- * function: func_0219E0A8
+ * function: FLDMMDL_RAIL_MOVE_AcJump1
  * address:  0x0219E0A8
  * packet:   pkt_ov021_0219E0A8
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_0219E354  0x0219E354  thumb  ov021
- *   func_021B8028  0x021B8028  thumb  ov021
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0219E370  0x0219E370  thumb  ov021
- *   func_0219E6C8  0x0219E6C8  thumb  ov021
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_021B8040  0x021B8040  thumb  ov021
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
+ *   FLDMMDL_RAIL_UpdateRailWork  0x0219E354  thumb  ov021
+ *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb  ov021
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_RAIL_SetMoveRequest  0x0219E370  thumb  ov021
+ *   FLDMMDL_RAIL_SetGridPosByDir  0x0219E6C8  thumb  ov021
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FIELD_RAIL_WORK_IsMoving  0x021B8040  thumb  ov021
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  *   func_020061E4  0x020061E4  thumb
  *   d_021DDD94     0x021DDD94  data
  * Addresses are Black-image addresses.
@@ -49,24 +49,24 @@ typedef struct {
     s8 table;
 } E;
 
-extern void *func_0216D6D4(void *p);
-extern void *func_0219E348(void *a);
-extern void func_0219E354(u32);
-extern void func_021B8028(u32, void *);
-extern void func_0216D89C(u32, void *);
-extern void func_0219E370(u32 a, u32 b, u32 c);
-extern void func_0219E6C8(u32 o, u16 id);
-extern void *func_0216D568(void *p, u32 v);
-extern void func_0216D8C0(u32, V3 *);
-extern u8 func_021B8040(u8 *p);
-extern int func_02163F10(int a0);
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216D7CC(u8 *p);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern void *FLDMMDL_RAIL_GetRailWork(void *a);
+extern void FLDMMDL_RAIL_UpdateRailWork(u32);
+extern void FIELD_RAIL_WORK_GetPos(u32, void *);
+extern void FLDMMDL_SetPos(u32, void *);
+extern void FLDMMDL_RAIL_SetMoveRequest(u32 a, u32 b, u32 c);
+extern void FLDMMDL_RAIL_SetGridPosByDir(u32 o, u16 id);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern void FLDMMDL_SetDrawOffset(u32, V3 *);
+extern u8 FIELD_RAIL_WORK_IsMoving(u8 *p);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_IncAcmdSeq(u8 *p);
 extern void func_020061E4(u32);
 
 extern s32 *d_021DDD94[];
 
-int func_0219E0A8(u32 o)
+int FLDMMDL_RAIL_MOVE_AcJump1(u32 o)
 {
     E *e;
     u32 a;
@@ -76,18 +76,18 @@ int func_0219E0A8(u32 o)
     V3 v;
     s32 z[3];
 
-    e = func_0216D6D4((void *)o);
+    e = FLDMMDL_GetMoveCmdWork((void *)o);
     e->count--;
     if (e->speed != 0) {
-        a = (u32)func_0219E348((void *)o);
-        func_0219E354(o);
-        func_021B8028(a, buf);
-        func_0216D89C(o, buf);
+        a = (u32)FLDMMDL_RAIL_GetRailWork((void *)o);
+        FLDMMDL_RAIL_UpdateRailWork(o);
+        FIELD_RAIL_WORK_GetPos(a, buf);
+        FLDMMDL_SetPos(o, buf);
         if (e->acc >= 0x10000 && e->count > 0) {
             e->acc = 0;
-            func_0219E370(o, e->id, 8);
-            func_0219E6C8(o, e->id);
-            func_0216D568((void *)o, 0x20);
+            FLDMMDL_RAIL_SetMoveRequest(o, e->id, 8);
+            FLDMMDL_RAIL_SetGridPosByDir(o, e->id);
+            FLDMMDL_SetMoveBit((void *)o, 0x20);
         }
         t = e->speed;
         if (t < 0) {
@@ -104,8 +104,8 @@ int func_0219E0A8(u32 o)
     v.x = 0;
     v.y = d_021DDD94[k][t];
     v.z = 0;
-    func_0216D8C0(o, &v);
-    if (e->count > 0 || func_021B8040((u8 *)a)) {
+    FLDMMDL_SetDrawOffset(o, &v);
+    if (e->count > 0 || FIELD_RAIL_WORK_IsMoving((u8 *)a)) {
         return 0;
     }
     {
@@ -113,12 +113,12 @@ int func_0219E0A8(u32 o)
         pv->x = 0;
         pv->y = 0;
         pv->z = 0;
-        func_0216D8C0(o, pv);
+        FLDMMDL_SetDrawOffset(o, pv);
     }
-    func_0216D568((void *)o, 0x540);
-    func_02163F10(o);
-    func_0216D674((void *)o, 0);
-    func_0216D7CC((u8 *)o);
+    FLDMMDL_SetMoveBit((void *)o, 0x540);
+    FLDMMDL_MOVE_UpdateOldGridPos(o);
+    FLDMMDL_SetDrawStatus((void *)o, 0);
+    FLDMMDL_IncAcmdSeq((u8 *)o);
     func_020061E4(0x67B);
     return 1;
 }

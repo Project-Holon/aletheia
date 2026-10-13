@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02050ED4  0x02050ED4  arm
+ *   PARTICLE_ExitManager  0x02050ED4  arm
  *   func_020307B0  0x020307B0  arm
  *
  * Teardown: release the +0xb4 pointer and the nine 32-bit slots at
@@ -21,14 +21,14 @@
 
 typedef unsigned int u32;
 
-extern void func_02050ED4(void);
+extern void PARTICLE_ExitManager(void);
 extern u32 func_020307B0(void *p);
 
 void func_021E3034(u32 *p, int a1)
 {
     int i;
 
-    func_02050ED4();
+    PARTICLE_ExitManager();
     if (p[0x2d] != 0) {
         func_020307B0((void *)p[0x2d]);
         p[0x2d] = 0;

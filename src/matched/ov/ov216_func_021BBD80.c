@@ -11,8 +11,8 @@
  * 3064C receives visibly loaded r2 beyond legacy two-argument declaration.
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021BC930 0x021BC930 thumb ov216
  *   func_021BBFEC 0x021BBFEC thumb ov216
@@ -31,8 +31,8 @@
 struct Obj0203159C;
 extern unsigned char ov067_id[],ov072_id[];
 extern int func_02034AC4(int);
-extern void func_0203064C(unsigned,unsigned,unsigned);
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *,int,int);
 extern void *func_021BC930(int,int);
 typedef unsigned char  u8;
@@ -52,8 +52,8 @@ int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config)
     char *p;
     func_02034AC4((int)ov067_id);
     func_02034AC4((int)ov072_id);
-    func_0203064C(1,119,3<<16);
-    p=func_0203159C(obj,620,119);
+    GFL_HEAP_CreateChildHeap(1,119,3<<16);
+    p=PROCSYS_AllocProcWork(obj,620,119);
     func_02082BCC(p,0,620);
     ((struct Obj00366 *)p)->f14=config;
     ((struct Obj00366 *)p)->f0=119;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B2DBC
+ * function: SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe
  * address:  0x021B2DBC
  * packet:   pkt_ov021_021B2DBC
  * region:   ov021
@@ -10,33 +10,33 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_021B2BD8  0x021B2BD8  thumb  ov021
- *   func_0218BA98  0x0218BA98  thumb  ov021
- *   func_0218C88C  0x0218C88C  thumb  ov021
- *   func_0218C990  0x0218C990  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_SCREENEFFECTS_GetBuildModelMgr  0x021B2BD8  thumb  ov021
+ *   FIELD_BUILDMODEL_GetNodeByHandle  0x0218BA98  thumb  ov021
+ *   FIELD_BUILDMODEL_PlayNodeSlot  0x0218C88C  thumb  ov021
+ *   FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry  0x0218C990  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int func_02159B10(void *, void *);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 typedef unsigned int   u32;
-extern int func_021B2BD8(u32 a);
-extern int func_0218BA98(int a, int b);
-extern void func_0218C88C(unsigned char *p, int v, int c);
-extern int func_0218C990(unsigned char *p, int v);
+extern int SCRCMD_SCREENEFFECTS_GetBuildModelMgr(u32 a);
+extern int FIELD_BUILDMODEL_GetNodeByHandle(int a, int b);
+extern void FIELD_BUILDMODEL_PlayNodeSlot(unsigned char *p, int v, int c);
+extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(unsigned char *p, int v);
 extern void func_020061E4(u32 a);
 
-int func_021B2DBC(int a, int b)
+int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe(int a, int b)
 {
     unsigned short v;
-    int p = func_02159B10((void *)a, (void *)b);
-    int q = func_02159B10((void *)a, (void *)b);
-    int h = func_0218BA98(func_021B2BD8(b), p);
+    int p = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int q = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int h = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(b), p);
 
     if (h) {
-        func_0218C88C((unsigned char *)h, q, 0);
-        if (func_0218C990((unsigned char *)h, (int)(&v))) {
+        FIELD_BUILDMODEL_PlayNodeSlot((unsigned char *)h, q, 0);
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry((unsigned char *)h, (int)(&v))) {
             func_020061E4(v);
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD1F4
+ * function: PLACE_NAME_LETTER_GetHeight
  * address:  0x021BD1F4
  * packet:   pkt_021BD1EC
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021BD2FC with no argument change.
+ * Tail-call thunk: forwards to PLACE_NAME_LETTER_GetHeightRaw with no argument change.
  *
  * symbols:
- *   func_021BD2FC  0x021BD2FC  thumb  ov021
+ *   PLACE_NAME_LETTER_GetHeightRaw  0x021BD2FC  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 func_021BD2FC(u8 *p);
+extern u8 PLACE_NAME_LETTER_GetHeightRaw(u8 *p);
 
-int func_021BD1F4(u8 *a0)
+int PLACE_NAME_LETTER_GetHeight(u8 *a0)
 {
-    return func_021BD2FC(a0);
+    return PLACE_NAME_LETTER_GetHeightRaw(a0);
 }

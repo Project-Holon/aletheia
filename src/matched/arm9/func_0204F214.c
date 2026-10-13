@@ -1,5 +1,5 @@
 /*
- * function: func_0204F214
+ * function: BILLBOARD_ReleaseImageVram
  * address:  0x0204F214
  * packet:   pkt_0204F150
  * region:   arm9
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern void (*g_020A8144)(u32 v);
 extern void (*g_020A814C)(u32 v);
 
-void func_0204F214(u8 *a0, int i)
+void BILLBOARD_ReleaseImageVram(u8 *a0, int i)
 {
     u32 off = i * 0x28;
 

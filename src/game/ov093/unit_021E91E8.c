@@ -27,7 +27,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045CAC  0x02045CAC  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_0209C0A4  0x0209C0A4  arm
  *   func_0201BD28  0x0201BD28  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
@@ -47,13 +47,13 @@
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EAF78  0x021EAF78  thumb  ov093
- *   func_021EB028  0x021EB028  thumb  ov093
- *   func_021EB32C  0x021EB32C  thumb  ov093
- *   func_021EB52C  0x021EB52C  thumb  ov093
+ *   BTLV_SCU_SetupDisplay  0x021EB028  thumb  ov093
+ *   BTLV_SCU_StartEntryScene  0x021EB32C  thumb  ov093
+ *   BTLV_SCU_RunProc  0x021EB52C  thumb  ov093
  *   func_021ED118  0x021ED118  thumb  ov093
  *   func_021ED1B0  0x021ED1B0  thumb  ov093
  *   func_021ED250  0x021ED250  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *
  * note (2026-10-03, wave B3 lane 01): every instruction, branch and pool word
@@ -99,16 +99,16 @@ struct Rec;
 extern void *func_021F745C(u8 *p, int a, u16 heap);
 extern void func_021F7544(u32 a, u32 b, u16 c);
 extern u32 func_020307B0(void *p);
-extern void func_021EB028(u8 *p);
+extern void BTLV_SCU_SetupDisplay(u8 *p);
 extern void func_06899BE0(u32 a);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_021EB32C(u8 *p, u32 flag);
-extern int func_021EB52C(u32 a);
+extern void BTLV_SCU_StartEntryScene(u8 *p, u32 flag);
+extern int BTLV_SCU_RunProc(u32 a);
 struct H;
 struct Pair;
 extern u8 *func_021E9634(struct Pair *s, u32 k);
 extern void func_021EAF18(struct L *p, int kind, int id);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void func_021EAF50(struct L *p, u32 val);
 extern void func_021EAF78(u8 *p, u8 v);
 extern void func_021EA65C(char *p, struct H *h);
@@ -141,7 +141,7 @@ extern int func_021EA720(u32 *p);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 extern int func_02005F38(void);
 extern void func_021F7C0C(void);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
 int func_021E91E8(Obj *p, int *state, Work *w)
 {
@@ -150,7 +150,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         u32 h = (u32)func_021F745C((u8 *)p->x0, p->x17C, p->h184);
         func_021F7544(h, p->xB4, p->h184);
         func_020307B0((void *)h);
-        func_021EB028((u8 *)p->x17C);
+        BTLV_SCU_SetupDisplay((u8 *)p->x17C);
         func_06899BE0(p->x180);
         w->heap = (u32)func_02045B38(0, 2, 0x14, p->h184);
         w->timer = 0;
@@ -158,15 +158,15 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     }
     case 1:
-        func_021EB32C((u8 *)p->x17C, 0);
+        BTLV_SCU_StartEntryScene((u8 *)p->x17C, 0);
         (*state)++;
         break;
     case 2:
-        if (func_021EB52C(p->x17C)) {
+        if (BTLV_SCU_RunProc(p->x17C)) {
             u8 msg[0x24];
             u8 *v = func_021E9634((struct Pair *)p, 0);
             func_021EAF18((struct L *)msg, 1, 0x45);
-            func_021EAF50((struct L *)msg, func_021D5440(v));
+            func_021EAF50((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
             func_021EAF78(msg, 0);
             func_021EA65C((char *)p, (struct H *)msg);
             (*state)++;
@@ -174,7 +174,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 3:
         p->xBC = (u32)func_021E9634((struct Pair *)p, 0);
-        p->xC0 = func_021D5440((u8 *)p->xBC);
+        p->xC0 = BTL_POKEPARAM_GetPokeId((u8 *)p->xBC);
         p->xB8 = 0;
         p->xC4 = 0;
         p->b175 = 0;
@@ -189,7 +189,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 5:
         if (func_06899F28(p->x180)) {
-            func_021EA6F4(p, func_021D5440(func_021E9634((struct Pair *)p, 0)), 1);
+            func_021EA6F4(p, BTL_POKEPARAM_GetPokeId(func_021E9634((struct Pair *)p, 0)), 1);
             func_06899D64(p->x180);
             (*state)++;
         }
@@ -210,7 +210,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         break;
     case 8:
         if (func_021ED250(p->x17C)) {
-            func_021EA6F4(p, func_021D5440(func_021E9634((struct Pair *)p, 1)), 0x2B);
+            func_021EA6F4(p, BTL_POKEPARAM_GetPokeId(func_021E9634((struct Pair *)p, 1)), 0x2B);
             (*state)++;
         }
         break;
@@ -231,7 +231,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
             u8 msg[0x24];
             u8 *v = func_021E9634((struct Pair *)p, 0);
             func_021EAF18((struct L *)msg, 2, 0x5D);
-            func_021EAF50((struct L *)msg, func_021D5440(v));
+            func_021EAF50((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
             func_021EAF78(msg, 0);
             func_021EA614((char *)p, (struct H *)msg);
             (*state)++;
@@ -276,7 +276,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
             u8 msg[0x24];
             u8 *v = func_021E9634((struct Pair *)p, 1);
             func_021EAF18((struct L *)msg, 1, 0x41);
-            func_021EAF50((struct L *)msg, func_021D5440(v));
+            func_021EAF50((struct L *)msg, BTL_POKEPARAM_GetPokeId(v));
             func_021EA614((char *)p, (struct H *)msg);
             (*state)++;
         }
@@ -292,7 +292,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
     case 19:
         if (!func_02005F38()) {
             func_021F7C0C();
-            func_02045C04((struct Rec *)w->heap);
+            MSGDATA_Delete((struct Rec *)w->heap);
             (*state)++;
         }
         break;

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DADD8",
-    "func_021DADF8"
+    "BTL_ABILITY_TruantClearLoafing",
+    "BTL_ABILITY_GetTruantHandlers"
+   ],
+   "addresses": [
+    "0x021DADD8",
+    "0x021DADF8"
    ],
    "evidence": {
     "sole-ref": [

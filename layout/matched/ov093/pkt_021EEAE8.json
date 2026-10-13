@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEAE8",
+   "name": "BTL_ADAPTER_NotifyNet",
    "address": "0x021EEAE8",
    "kind": "game",
    "region": "ov093",

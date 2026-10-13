@@ -1,5 +1,5 @@
 /*
- * function: func_021B83FC
+ * function: FIELD_RAIL_WORK_GetLocationParts
  * address:  0x021B83FC
  * packet:   pkt_ov021_021B83FC
  * region:   ov021
@@ -12,7 +12,7 @@
  *       loop names o->f24 directly (no local for it).
  *
  * symbols:
- *   func_021B9280  0x021B9280  thumb
+ *   FIELD_RAIL_LINE_GetWidthAt  0x021B9280  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -34,14 +34,14 @@ struct Obj {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
+extern int FIELD_RAIL_LINE_GetWidthAt(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
 
-void func_021B83FC(struct Obj *o, u16 *out0, u16 *out1, u16 *out2)
+void FIELD_RAIL_WORK_GetLocationParts(struct Obj *o, u16 *out0, u16 *out1, u16 *out2)
 {
     s32 idx, i, m, n;
 
-    m = func_021B9280((u8 *)o->f4, 0, o->f10, (u8 *)o->f24);
-    n = func_021B9280((u8 *)o->f4, o->f10, o->f10, (u8 *)o->f24);
+    m = FIELD_RAIL_LINE_GetWidthAt((u8 *)o->f4, 0, o->f10, (u8 *)o->f24);
+    n = FIELD_RAIL_LINE_GetWidthAt((u8 *)o->f4, o->f10, o->f10, (u8 *)o->f24);
     if (m < n)
         m = n;
     idx = 0;

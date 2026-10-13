@@ -1,5 +1,5 @@
 /*
- * function: func_0218B88C
+ * function: FIELD_BUILDMODEL_DrawNodes
  * address:  0x0218B88C
  * packet:   pkt_ov021_0218B88C
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218C934  0x0218C934  thumb  ov021
+ *   FIELD_BUILDMODEL_DrawNode  0x0218C934  thumb  ov021
  */
 
-void func_0218C934(unsigned char *p);
+void FIELD_BUILDMODEL_DrawNode(unsigned char *p);
 
-void func_0218B88C(unsigned char *p)
+void FIELD_BUILDMODEL_DrawNodes(unsigned char *p)
 {
     int i;
     for (i = 0; i < 7; i++) {
         if (((void **)(p + 0x1DC))[i] != 0)
-            func_0218C934(((void **)(p + 0x1DC))[i]);
+            FIELD_BUILDMODEL_DrawNode(((void **)(p + 0x1DC))[i]);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02188C84
+ * function: FIELDMAP_GetHeapId
  * address:  0x02188C84
  * packet:   pkt_02188C84
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_02188C84(u8 *p)
+u16 FIELDMAP_GetHeapId(u8 *p)
 {
     return ((struct Obj17862 *)p)->f0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A5768
+ * function: FIELD_PLAYER_GRID_SetHopLanded
  * address:  0x021A5768
  * packet:   pkt_021A5768
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A5768(u32 a, u32 b)
+int FIELD_PLAYER_GRID_SetHopLanded(u32 a, u32 b)
 {
 if (b == 1) {
     ((struct Obj12088 *)((u8 *)(a)))->f1C = 1;

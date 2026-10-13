@@ -16,7 +16,7 @@
  *   DWC_RAP_SetState  0x02155374  thumb  ov009
  *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
  *   DWC_RAP_EndCancel  0x02155904  thumb  ov009
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   DWC_RAP_StartVchat  0x02156344  thumb  ov009
  *   DWC_RAP_HandleError  0x02155F58  thumb  ov009
  *   DWC_RAP_StepSession  0x021561C0  thumb  ov009
@@ -50,7 +50,7 @@ int DWC_RAP_StepLogin(void);
 void DWC_RAP_SetState(int);
 int DWC_CloseAllConnectionsHard(void);
 void DWC_RAP_EndCancel(void);
-void *func_0203D798(void);
+void *GFL_NET_GetInitParam(void);
 void DWC_RAP_StartVchat(void *a);
 int DWC_RAP_HandleError(void);
 int DWC_RAP_StepSession(void);
@@ -85,7 +85,7 @@ int DWC_RAP_RunStateMachine(int a)
         DWC_RAP_EndCancel();
         break;
     case 9: {
-        u8 *p = func_0203D798();
+        u8 *p = GFL_NET_GetInitParam();
         if (_pRapWork->s782 != 0)
             DWC_RAP_StartVchat((void *)(((struct Obj18649 *)p)->f56));
         _pRapWork->h794 = 0;

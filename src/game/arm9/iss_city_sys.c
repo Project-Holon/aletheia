@@ -13,22 +13,24 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_SetNature  0x020185B0  thumb
- *   func_02018A00  0x02018A00  thumb
+ *   POKE_TOOL_SetAbility  0x02018A00  thumb
  *   func_02019C90  0x02019C90  thumb
  *   _s32_div_f     0x0209C0A4  arm
- *   func_02049030  0x02049030  arm
+ *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  *   func_02030734  0x02030734  arm
  *   ISS_CITY_SYS_sSourceFileName     0x020A76E8  data
  *   ISS_CITY_UNIT_sSourceFileName     0x020A76F8  data
  *   func_020307B0  0x020307B0  arm
- *   func_02012AC8  0x02012AC8  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   _s32_to_double  0x0209B750  arm
  *   func_0209AC04   0x0209AC04  arm
  *   _d2s            0x0209C508  arm
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
+ *   ARC_TOOL_LoadMemberRange  0x02048F88  arm
  */
 struct Personal;
 struct PlayerWork;
@@ -81,17 +83,17 @@ struct IssCitySys {
 extern void *func_0201ADE4(u32 species, int form, u32 heapId);
 extern u32 func_0201AE1C(const struct Personal *personal, u32 field);
 extern void func_0201AE14(void *personal);
-extern u32  func_02017E1C(void *mon, u32 field, u32 index);
-extern void func_02017E40(void *mon, u32 field, u32 value);
+extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 field, u32 index);
+extern void POKE_TOOL_SetPartyValue(void *mon, u32 field, u32 value);
 extern void POKE_TOOL_SetNature(void *mon, u32 nature);
-extern void func_02018A00(void *mon, u32 species, u32 form);
+extern void POKE_TOOL_SetAbility(void *mon, u32 species, u32 form);
 extern u32  func_02019C90(u32 species, u16 form, u32 personalField);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *sourceFile, u16 sourceLine);
-extern void *func_02048F88(u32 archiveId, u32 memberIndex, u32 heapId, u32 mode, u32 size);
-extern u32 func_02049030(u32 archiveId);
+extern void *ARC_TOOL_LoadMemberRange(u32 archiveId, u32 memberIndex, u32 heapId, u32 mode, u32 size);
+extern u32 ARC_TOOL_GetArchiveFileCount(u32 archiveId);
 extern u32 func_020307B0(void *block);
-extern u16 func_02012AC8(const struct PlayerWork *player);
-extern struct PlayerPosition *func_02012AA0(struct PlayerWork *player);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
+extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 extern void GFL_USE_SetBgmTrackVolume(u32 soundTarget, u32 volume);
 extern double _s32_to_double(s32 v);
 extern double func_0209AC04(double lhs, double rhs);
@@ -194,7 +196,7 @@ void func_0202A994(u32 species, u32 form, int adjustFlags, u32 *personalityLow, 
  * tr_tool.c: finish one trainer party member.  Field 9 (friendship) is
  * 0xFF unless one of the four moves (fields 0x36..0x39) is 0xDA, then 0;
  * field 0x6F takes form; the 0xF0 nibble of abilityFlags selects the ability
- * path (0x30: func_02018A00, otherwise func_02019C90 with field 0x1A or
+ * path (0x30: POKE_TOOL_SetAbility, otherwise func_02019C90 with field 0x1A or
  * 0x1B); two trainer/species pairs force a fixed nature, the rest take
  * (personality >> 8) % 25.
  *
@@ -215,25 +217,25 @@ void func_0202A9F4(u32 trainerId, void *mon, u32 form, u32 abilityFlags)
     u32 abilityMode;
     u32 trainerIdBase;
 
-    species = (u16)func_02017E1C(mon, 5, 0);
+    species = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
     for (moveSlot = 0; moveSlot < 4; moveSlot++) {
-        if (func_02017E1C(mon, 0x36 + moveSlot, 0) == 0xda) {
+        if (POKE_TOOL_GetPartyValue(mon, 0x36 + moveSlot, 0) == 0xda) {
             friendship = 0;
         }
     }
-    func_02017E40(mon, 9, friendship);
-    func_02017E40(mon, 0x6f, form);
+    POKE_TOOL_SetPartyValue(mon, 9, friendship);
+    POKE_TOOL_SetPartyValue(mon, 0x6f, form);
 
     abilityMode = abilityFlags & 0xf0;
     if (abilityMode == 0x30) {
-        func_02018A00(mon, species, form);
+        POKE_TOOL_SetAbility(mon, species, form);
     } else if (abilityMode != 0) {
         abilityField = 0x1a;
         abilityField2 = 0x1b;
         if (func_02019C90(species, (u16)form, 0x1b) != 0 && abilityMode == 0x20) {
             abilityField = abilityField2;
         }
-        func_02017E40(mon, 0xa, func_02019C90(species, (u16)form, abilityField));
+        POKE_TOOL_SetPartyValue(mon, 0xa, func_02019C90(species, (u16)form, abilityField));
     }
 
     trainerIdBase = 0x24a;
@@ -246,7 +248,7 @@ void func_0202A9F4(u32 trainerId, void *mon, u32 form, u32 abilityFlags)
         POKE_TOOL_SetNature(mon, 0xa);
         return;
     }
-    POKE_TOOL_SetNature(mon, (u8)(((s32)func_02017E1C(mon, 0, 0) >> 8) % 0x19));
+    POKE_TOOL_SetNature(mon, (u8)(((s32)POKE_TOOL_GetPartyValue(mon, 0, 0) >> 8) % 0x19));
 }
 
 
@@ -372,7 +374,7 @@ void ISS_CITY_SYS_ReleaseUnits(struct IssCitySys *sys)
  */
 void ISS_CITY_SYS_LoadUnits(struct IssCitySys *sys, u32 heapId)
 {
-    s32 memberCount = func_02049030(0x84);
+    s32 memberCount = ARC_TOOL_GetArchiveFileCount(0x84);
     s32 i;
     sys->unitCount = memberCount;
     sys->units = func_02030734(heapId, memberCount << 2, 0, ISS_CITY_SYS_sSourceFileName, 0x14d);
@@ -455,7 +457,7 @@ void ISS_CITY_SYS_HandleZoneChange(struct IssCitySys *sys, u32 zoneId)
 
 u32 ISS_CITY_SYS_GetPlayerZoneId(struct IssCitySys *sys)
 {
-    return func_02012AC8(sys->player);
+    return GAME_DATA_GetPlayerZoneId(sys->player);
 }
 
 
@@ -659,7 +661,7 @@ int ISS_CITY_SYS_RefreshVolume(struct IssCitySys *sys)
  */
 int ISS_CITY_SYS_CalcUnitVolume(struct IssCitySys *sys)
 {
-    return ISS_CITY_UNIT_CalcVolume(ISS_CITY_SYS_GetCurrentUnit(sys), (const s32 *)func_02012AA0(sys->player));
+    return ISS_CITY_UNIT_CalcVolume(ISS_CITY_SYS_GetCurrentUnit(sys), (const s32 *)GAME_DATA_GetPlayerPosition(sys->player));
 }
 
 
@@ -682,7 +684,7 @@ int ISS_CITY_SYS_CalcOutputVolume(struct IssCitySys *sys)
 
 
 /*
- * Allocates a 0x28-byte node with func_02030734, wraps it with func_02048F88,
+ * Allocates a 0x28-byte node with func_02030734, wraps it with ARC_TOOL_LoadMemberRange,
  * runs ISS_CITY_UNIT_Copy over the pair and releases the wrapper.  The pair is
  * passed as (wrapper, node): r0 is left holding the wrapper from the second
  * allocation when ISS_CITY_UNIT_Copy is reached, with the node moved into r1.
@@ -694,7 +696,7 @@ int ISS_CITY_SYS_CalcOutputVolume(struct IssCitySys *sys)
 struct IssCityUnit *ISS_CITY_UNIT_Create(u32 heapId, u32 memberIndex)
 {
     struct IssCityUnit *unit = func_02030734(heapId, sizeof(struct IssCityUnit), 0, ISS_CITY_UNIT_sSourceFileName, 0x6c);
-    struct IssCityUnit *rawMember = func_02048F88(0x84, memberIndex, heapId, 0, sizeof(struct IssCityUnit));
+    struct IssCityUnit *rawMember = ARC_TOOL_LoadMemberRange(0x84, memberIndex, heapId, 0, sizeof(struct IssCityUnit));
     ISS_CITY_UNIT_Copy(rawMember, unit);
     func_020307B0(rawMember);
     return unit;

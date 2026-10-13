@@ -1,5 +1,5 @@
 /*
- * function: func_021CD97C
+ * function: BTL_CLIENT_RunTick
  * address:  0x021CD97C
  * packet:   pkt_021CC95C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD97C   0x021CD97C  thumb
+ *   BTL_CLIENT_RunTick   0x021CD97C  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: push {r3, lr}; ldr r1, [r0, #0x28]; blx r1; pop {r3, pc}.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021CD97C  push {r3,lr}; ldr r1,[r0,#0x28]; blx r1; pop {r3,pc} */
 struct R2 { u8 pad[0x28]; void (*fn)(struct R2 *); };
-void func_021CD97C(struct R2 *p) { p->fn(p); }
+void BTL_CLIENT_RunTick(struct R2 *p) { p->fn(p); }
 

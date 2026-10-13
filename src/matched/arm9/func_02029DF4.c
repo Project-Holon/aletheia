@@ -1,5 +1,5 @@
 /*
- * function: func_02029DF4
+ * function: FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx
  * address:  0x02029DF4
  * packet:   pkt_02029DF4
  * region:   arm9
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02029EB4  0x02029EB4  thumb
+ *   FIELD_SOUND_SYSTEM_GetFieldBgmForZone  0x02029EB4  thumb
  *
- * Plain forwarder to func_02029EB4 (ldr r3, =target; bx r3).  Seeded in
+ * Plain forwarder to FIELD_SOUND_SYSTEM_GetFieldBgmForZone (ldr r3, =target; bx r3).  Seeded in
  * layout/function_starts.txt from the bl sites in ov020 and ov021
  * (w6_fix18).
  */
 
-extern unsigned int func_02029EB4(void *a, unsigned int id, unsigned int which);
+extern unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZone(void *a, unsigned int id, unsigned int which);
 
-unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which)
+unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(void *a, unsigned int id, unsigned int which)
 {
-    return func_02029EB4(a, id, which);
+    return FIELD_SOUND_SYSTEM_GetFieldBgmForZone(a, id, which);
 }

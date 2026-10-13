@@ -1,5 +1,5 @@
 /*
- * function: func_0219E00C
+ * function: FLDMMDL_RAIL_MOVE_AcJumpSetSe
  * address:  0x0219E00C
  * packet:   pkt_ov021_0219E00C
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D6BC  0x0216D6BC  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0219E370  0x0219E370  thumb  ov021
- *   func_0219E6C8  0x0219E6C8  thumb  ov021
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_RAIL_SetMoveRequest  0x0219E370  thumb  ov021
+ *   FLDMMDL_RAIL_SetGridPosByDir  0x0219E6C8  thumb  ov021
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
@@ -37,21 +37,21 @@ typedef struct {
     u16 f;
 } S;
 
-extern void *func_0216D6BC(int a0, int a1, int a2);
-extern int func_02163F10(int a0);
-extern void func_0219E370(u32 a, u32 b, u32 c);
-extern void func_0219E6C8(u32, u16);
-extern void *func_0216D568(void *p, u32 v);
-extern int func_0216D60C(int a0, int a1);
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216D7CC(u8 *p);
+extern void *FLDMMDL_InitMoveCmdWork(int a0, int a1, int a2);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
+extern void FLDMMDL_RAIL_SetMoveRequest(u32 a, u32 b, u32 c);
+extern void FLDMMDL_RAIL_SetGridPosByDir(u32, u16);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern int FLDMMDL_SetDirAll(int a0, int a1);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_IncAcmdSeq(u8 *p);
 extern void func_020061E4(u32 a);
 
-void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
+void FLDMMDL_RAIL_MOVE_AcJumpSetSe(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
 {
     u8 *e;
 
-    e = func_0216D6BC(o, 0x10, p);
+    e = FLDMMDL_InitMoveCmdWork(o, 0x10, p);
     e[0xc] = id;
     ((struct Obj05013 *)e)->f0 = p;
     e[0xd] = q;
@@ -59,15 +59,15 @@ void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
     e[0xf] = s.c;
     ((struct Obj05013 *)e)->f8 = s.e;
     if (p == 0) {
-        func_02163F10(o);
+        FLDMMDL_MOVE_UpdateOldGridPos(o);
     } else {
-        func_0219E370(o, (u16)id, 8);
-        func_0219E6C8(o, id);
+        FLDMMDL_RAIL_SetMoveRequest(o, (u16)id, 8);
+        FLDMMDL_RAIL_SetGridPosByDir(o, id);
     }
-    func_0216D568((void *)o, 0xa0);
-    func_0216D60C((u32)o, (u16)id);
-    func_0216D674((void *)o, s.a);
-    func_0216D7CC((u8 *)o);
+    FLDMMDL_SetMoveBit((void *)o, 0xa0);
+    FLDMMDL_SetDirAll((u32)o, (u16)id);
+    FLDMMDL_SetDrawStatus((void *)o, s.a);
+    FLDMMDL_IncAcmdSeq((u8 *)o);
     if (fn) {
         func_020061E4(fn);
     }

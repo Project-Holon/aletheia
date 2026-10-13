@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A4DC0",
+   "name": "FIELD_PLAYER_GRID_StartWalkOnFoot",
    "address": "0x021A4DC0",
    "kind": "game",
    "region": "ov021",

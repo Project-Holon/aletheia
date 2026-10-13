@@ -1,5 +1,5 @@
 /*
- * function: func_0216D518
+ * function: FLDMMDL_SysGetResArcHandle
  * address:  0x0216D518
  * packet:   pkt_0216D518
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u32 func_0216D518(u8 *p)
+u32 FLDMMDL_SysGetResArcHandle(u8 *p)
 {
     return ((struct Obj17780 *)p)->f10;
 }

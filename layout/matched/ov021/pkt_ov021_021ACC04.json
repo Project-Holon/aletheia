@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ACC04",
+   "name": "FLDEFF_NAMIPOKE_GetWakeLength",
    "address": "0x021ACC04",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021B6F2C
+ * function: MONOLITH_TOOL_GetTitleSpecies
  * address: 0x021B6F2C
  * packet: pkt_ov071_021B6F2C
  * region: ov071
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020120F4 0x020120F4 thumb
- *   func_021583EC 0x021583EC thumb ov010
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetMyStatusByNetId 0x021583EC thumb ov010
  */
 #include "../include/Obj13166.h"
 typedef unsigned char u8;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_021583EC(void *a0, int a1);
-void *func_021B6F2C(u8 **p)
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
+void *MONOLITH_TOOL_GetTitleSpecies(u8 **p)
 {
     u8 *q = *p;
-    return (void *)func_021583EC(func_020120F4(((struct Obj13166 *)q)->f0), q[0x3c]);
+    return (void *)GAME_DATA_GetMyStatusByNetId(GAMESYSTEM_GetGameData(((struct Obj13166 *)q)->f0), q[0x3c]);
 }

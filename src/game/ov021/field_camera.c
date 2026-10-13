@@ -1,7 +1,7 @@
 /*
  * file:     field_camera.c
  * unit:     yes
- * function: func_0218E018, func_0218E0E4, func_0218E104, func_0218E124, func_0218E138, func_0218E13C, func_0218E160, func_0218E17C, func_0218E188, func_0218E18C, func_0218E260, func_0218E284, func_0218E298, func_0218E2B4, func_0218E358, func_0218E404, func_0218E4B0, func_0218E540, func_0218E58C, func_0218E5A0, func_0218E5B8, func_0218E5D0, func_0218E5EC, func_0218E5F4, func_0218E5FC, func_0218E610, func_0218E674, func_0218E6A4, func_0218E6F0, func_0218E73C, func_0218E764, func_0218E7DC, func_0218EC2C, func_0218EC30, func_0218EC54, func_0218EC5C, func_0218EC60, func_0218EC68, func_0218EC7C, func_0218EC90, func_0218ECB4, func_0218ECC4, func_0218ECD4, func_0218ECE4, func_0218ECF4, func_0218ED04, func_0218ED14, func_0218ED20, func_0218ED2C, func_0218ED34, func_0218ED3C, func_0218ED40, func_0218ED48, func_0218ED50, func_0218ED54, func_0218ED58, func_0218ED5C, func_0218ED64, func_0218ED9C, func_0218EEFC, func_0218EFD4, func_0218F004, func_0218F050, func_0218F05C, func_0218F0A8, func_0218F0D4, func_0218F0E8, func_0218F0F8, func_0218F114, func_0218F134, func_0218F14C, func_0218F18C, func_0218F19C, func_0218F1AC, func_0218F1B4, func_0218F1BC, func_0218F1DC, func_0218F1FC, func_0218F310, func_0218F460, func_0218F780, func_0218F7D0, func_0218F818, func_0218F848, func_0218F878, func_0218F89C, func_0218F900, func_0218F918, func_0218F930, func_0218F9C4, func_0218FA40, func_0218FB1C, func_0218FC80, func_0218FD88, func_0218FDD4, func_0218FDF0, func_0218FE40, func_0218FE50, func_0218FE70
+ * function: FIELD_CAMERA_Create, FIELD_CAMERA_Delete, FIELD_CAMERA_Main, FIELD_CAMERA_EnterMode, FIELD_CAMERA_GetMode, FIELD_CAMERA_SetMode, FIELD_CAMERA_ReloadSetting, FIELD_CAMERA_SetSetting, FIELD_CAMERA_GetSettingId, FIELD_CAMERA_LoadSetting, FIELD_CAMERA_ReadSetting, FIELD_CAMERA_PullTargetFromTrace, FIELD_CAMERA_PullEyeFromTrace, FIELD_CAMERA_CalcOffsetPoint, FIELD_CAMERA_SolveTargetMode, FIELD_CAMERA_SolveEyeMode, FIELD_CAMERA_SolveFreeMode, FIELD_CAMERA_ApplyToG3d, FIELD_CAMERA_UpdateMode, FIELD_CAMERA_UpdateTargetMode, FIELD_CAMERA_UpdateEyeMode, FIELD_CAMERA_UpdateFreeMode, FIELD_CAMERA_ClearEyeTrace, FIELD_CAMERA_ClearTargetTrace, FIELD_CAMERA_ClearAngles, FIELD_CAMERA_CalcAngles, FIELD_CAMERA_SetAnglesFromVector, FIELD_CAMERA_PrepareTargetMode, FIELD_CAMERA_PrepareEyeMode, FIELD_CAMERA_SolveTrackMode, FIELD_CAMERA_UpdateViewAngles, FIELD_CAMERA_RefineAngles, FIELD_CAMERA_GetG3dCamera, FIELD_CAMERA_SetTraceTarget, FIELD_CAMERA_StopTargetTrace, FIELD_CAMERA_GetTraceTarget, FIELD_CAMERA_ResumeTargetTrace, FIELD_CAMERA_SetG3dScale, FIELD_CAMERA_SetG3dRoll, FIELD_CAMERA_SetTarget, FIELD_CAMERA_GetTargetRaw, FIELD_CAMERA_GetTargetShift, FIELD_CAMERA_SetTargetShift, FIELD_CAMERA_GetEyeRaw, FIELD_CAMERA_SetEyeRaw, FIELD_CAMERA_SetEyeShift, FIELD_CAMERA_SetG3dUp, FIELD_CAMERA_GetG3dUp, FIELD_CAMERA_GetPitch, FIELD_CAMERA_SetPitch, FIELD_CAMERA_GetViewPitchPtr, FIELD_CAMERA_GetYaw, FIELD_CAMERA_SetYaw, FIELD_CAMERA_GetViewYawPtr, FIELD_CAMERA_GetDistance, FIELD_CAMERA_SetDistance, FIELD_CAMERA_GetVectorAngles, FIELD_CAMERA_SetFov, FIELD_CAMERA_StepDelay, FIELD_CAMERA_CreateDelay, FIELD_CAMERA_DeleteDelay, FIELD_CAMERA_ApplyDelayToG3d, FIELD_CAMERA_StopDelayLog, FIELD_CAMERA_RestartDelay, FIELD_CAMERA_EndDelay, FIELD_CAMERA_StopDelay, FIELD_CAMERA_IsDelayEnabled, FIELD_CAMERA_HasDelay, FIELD_CAMERA_CopyAreas, FIELD_CAMERA_ClearAreas, FIELD_CAMERA_LoadAreas, FIELD_CAMERA_GetTarget, FIELD_CAMERA_GetEye, FIELD_CAMERA_SetAreasEnabled, FIELD_CAMERA_GetAreasEnabled, FIELD_CAMERA_ApplyTargetArea, FIELD_CAMERA_ApplyEyeArea, FIELD_CAMERA_AreaKeepInBox, FIELD_CAMERA_AreaKeepInRing, FIELD_CAMERA_AreaKeepOutBox, FIELD_CAMERA_TakeView, FIELD_CAMERA_TakeViewConstrained, FIELD_CAMERA_PushState, FIELD_CAMERA_PushStateConstrained, FIELD_CAMERA_PopState, FIELD_CAMERA_SetMoveGoal, FIELD_CAMERA_StartMove, FIELD_CAMERA_StartMoveConstrained, FIELD_CAMERA_StartFreeMove, FIELD_CAMERA_StartMoveToSaved, FIELD_CAMERA_StartMoveToSetting, FIELD_CAMERA_UpdateMove, FIELD_CAMERA_UpdateFreeMove, FIELD_CAMERA_LerpVec, FIELD_CAMERA_LerpFx32, FIELD_CAMERA_LerpAngle, FIELD_CAMERA_ClearMoveCallback, FIELD_CAMERA_IsMoving, FIELD_CAMERA_GetMoveGoal
  * address:  0x0218E018
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -17,40 +17,40 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020490F4  0x020490F4  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_0207C9D0  0x0207C9D0  arm
  *   d_020A1B38     0x020A1B38  data   a2
- *   d_021DDA28     0x021DDA28  data  ov021  a4
+ *   gFieldCameraFileName     0x021DDA28  data  ov021  a4
  *   func_02048B78  0x02048B78  arm
  *   func_02048B88  0x02048B88  arm
- *   func_0207D184  0x0207D184  arm
- *   d_021DDA0C  0x021DDA0C  data  ov021  a4
- *   d_021DDA00  0x021DDA00  data  ov021  a4
- *   func_02046BE0  0x02046BE0  arm
+ *   FX_AcosIdx  0x0207D184  arm
+ *   gFieldCameraEnterModeFuncs  0x021DDA0C  data  ov021  a4
+ *   gFieldCameraPrepareModeFuncs  0x021DDA00  data  ov021  a4
+ *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   func_02048B80  0x02048B80  arm
  *   func_02048B94  0x02048B94  arm
  *   tbl_020A1B38   0x020A1B38  data
- *   func_020493D4  0x020493D4  arm
- *   func_0204944C  0x0204944C  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
+ *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CEE4  0x0207CEE4  arm
  *   func_02048B44  0x02048B44  arm
  *   func_02048AFC  0x02048AFC  arm
- *   d_021D3E44  0x021D3E44  data  ov021  a4
+ *   gFieldCameraUpdateModeFuncs  0x021D3E44  data  ov021  a4
  *   func_0207CBD0  0x0207CBD0  arm
  *   func_0207CFB8  0x0207CFB8  arm
  *   func_0207CA00  0x0207CA00  arm
  *   func_0207CA68  0x0207CA68  arm
- *   d_021D3E2C     0x021D3E2C  data   ov021  a4
+ *   gFieldCameraUpVec     0x021D3E2C  data   ov021  a4
  *   func_02048B20  0x02048B20  arm
  *   func_02048B0C  0x02048B0C  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *   func_02048B30  0x02048B30  arm
  *   func_02048AE8  0x02048AE8  arm
  *   func_02082D44   0x02082D44  arm
- *   func_0204A380  0x0204A380  arm
- *   d_021DDA18  0x021DDA18  data  ov021  a4
+ *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
+ *   gFieldCameraAreaFuncs  0x021DDA18  data  ov021  a4
  *   VEC_Subtract     0x0207CA00  arm
  *   VEC_Mag          0x0207CBD0  arm
  *   FX_Modf          0x0207D14C  arm
@@ -58,7 +58,7 @@
  *   VEC_CrossProduct 0x0207CAE8  arm
  *   VEC_DotProduct   0x0207CA68  arm
  *   FX_AcosIdx       0x0207D184  arm
- *   d_021D3E38       0x021D3E38  data   a4
+ *   gFieldCameraRingRefVec       0x021D3E38  data   a4
  */
 #include "field_camera_types.h"
 
@@ -82,17 +82,17 @@ extern u32 func_02082BCC(void *, int, u32);
 extern void *func_02030734(u16, u32, u32, const void *, u32);
 extern u32 func_020307B0(void *);
 extern void *func_020490F4(u32, u32);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0207C9D0(VecFx32 *, VecFx32 *, VecFx32 *);
 extern int func_02048B78(struct G3dCamera *camera);
 extern void func_02048B88(struct G3dCamera *camera, unsigned int *out);
-extern u16 func_0207D184(int a);
-extern void func_02046BE0(u32 a, u32 b);
+extern u16 FX_AcosIdx(int a);
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void func_02048B80(struct G3dCamera *camera, u32 v);
 extern void func_02048B94(struct G3dCamera *camera, u32 v);
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
-extern void func_0204944C(struct ArcFile *, u32, u32, u32, void *);
-extern void func_0207CCA4(VecFx32 *, VecFx32 *);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, u32, u32, u32, void *);
+extern void VEC_Normalize(VecFx32 *, VecFx32 *);
 extern void func_0207CEE4(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
 extern void func_02048B44(struct G3dCamera *camera, const VecFx32 *in);
 extern void func_02048AFC(struct G3dCamera *camera, const VecFx32 *in);
@@ -107,7 +107,7 @@ extern void func_02048B0C(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048B30(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02048AE8(struct G3dCamera *camera, VecFx32 *out);
 extern void func_02082D44(void *, void *, int);
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern void VEC_Subtract(VecFx32 *a, VecFx32 *b, VecFx32 *o);
 extern int VEC_Mag(VecFx32 *a);
 extern int FX_Modf(int x, int *ip);
@@ -115,121 +115,121 @@ extern void VEC_Normalize(VecFx32 *a, VecFx32 *o);
 extern void VEC_CrossProduct(VecFx32 *a, VecFx32 *b, VecFx32 *o);
 extern int VEC_DotProduct(VecFx32 *a, VecFx32 *b);
 extern u16 FX_AcosIdx(int x);
-FieldCamera *func_0218E018(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId);
-void func_0218E0E4(FieldCamera *camera);
-void func_0218E104(FieldCamera *camera, u32 arg);
-void func_0218E124(FieldCamera *camera, u32 mode);
-u32 func_0218E138(FieldCamera *camera);
-void func_0218E13C(FieldCamera *camera, u32 mode);
-int func_0218E160(FieldCamera *camera);
-void func_0218E17C(FieldCamera *camera, u32 settingId);
-int func_0218E188(FieldCamera *camera);
-void func_0218E18C(FieldCamera *camera, const VecFx32 *targetSrc);
-void func_0218E260(FieldCamera *camera, FieldCameraSetting *out);
-void func_0218E284(FieldCamera *camera);
-int func_0218E298(FieldCamera *camera);
-void func_0218E2B4(VecFx32 *base, VecFx32 *out, int yaw, int pitch, int distance);
-void func_0218E358(FieldCamera *camera);
-void func_0218E404(FieldCamera *camera);
-void func_0218E4B0(FieldCamera *camera);
-void func_0218E540(FieldCamera *camera);
-void func_0218E58C(FieldCamera *camera, u32 arg);
-void func_0218E5A0(FieldCamera *camera, u32 arg);
-void func_0218E5B8(FieldCamera *camera, u32 arg);
-void func_0218E5D0(FieldCamera *camera, u32 arg);
-void func_0218E5EC(FieldCamera *camera);
-void func_0218E5F4(FieldCamera *camera);
-void func_0218E5FC(FieldCamera *camera);
-void func_0218E610(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance);
-void func_0218E674(FieldCamera *camera, VecFx32 *vec);
-void func_0218E6A4(FieldCamera *camera);
-void func_0218E6F0(FieldCamera *camera);
-void func_0218E73C(FieldCamera *camera);
-void func_0218E764(FieldCamera *camera, VecFx32 *targetPos, VecFx32 *eyePos);
-void func_0218E7DC(VecFx32 *vec, u16 yaw, u16 pitch, u16 *outYaw, u16 *outPitch);
-struct G3dCamera *func_0218EC2C(FieldCamera *camera);
-void func_0218EC30(FieldCamera *camera, const VecFx32 *target);
-void func_0218EC54(FieldCamera *camera);
-const VecFx32 *func_0218EC5C(FieldCamera *camera);
-void func_0218EC60(FieldCamera *camera);
-void func_0218EC68(FieldCamera *camera, u32 scale, ...);
-void func_0218EC7C(FieldCamera *camera, u32 roll, ...);
-void func_0218EC90(FieldCamera *camera, const VecFx32 *target);
-void func_0218ECB4(FieldCamera *camera, VecFx32 *out);
-void func_0218ECC4(FieldCamera *camera, VecFx32 *out);
-void func_0218ECD4(FieldCamera *camera, const VecFx32 *shift);
-void func_0218ECE4(FieldCamera *camera, VecFx32 *out);
-void func_0218ECF4(FieldCamera *camera, const VecFx32 *eye);
-void func_0218ED04(FieldCamera *camera, const VecFx32 *shift);
-void func_0218ED14(FieldCamera *camera, const VecFx32 *up);
-void func_0218ED20(FieldCamera *camera, VecFx32 *out);
-u16 func_0218ED2C(FieldCamera *camera);
-void func_0218ED34(FieldCamera *camera, u16 pitch);
-u16 *func_0218ED3C(FieldCamera *camera);
-u16 func_0218ED40(FieldCamera *camera);
-void func_0218ED48(FieldCamera *camera, u32 yaw);
-u16 *func_0218ED50(FieldCamera *camera);
-u32 func_0218ED54(FieldCamera *camera);
-void func_0218ED58(FieldCamera *camera, u32 distance);
-void func_0218ED5C(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance);
-void func_0218ED64(FieldCamera *camera, u16 fov);
-void func_0218ED9C(FieldCameraDelay *delay, VecFx32 *target, VecFx32 *eye, VecFx32 *outTarget, VecFx32 *outEye);
-void func_0218EEFC(int count, u32 delayFrames, u32 flags, u32 heapId, FieldCamera *camera);
-void func_0218EFD4(FieldCamera *camera);
-void func_0218F004(FieldCamera *camera);
-void func_0218F050(FieldCameraDelay *delay);
-void func_0218F05C(FieldCamera *camera);
-void func_0218F0A8(FieldCamera *camera);
-void func_0218F0D4(FieldCamera *camera, int unused);
-u32 func_0218F0E8(FieldCamera *camera);
-int func_0218F0F8(FieldCamera *camera);
-void func_0218F114(FieldCamera *camera, FieldCameraAreaSet *set);
-void func_0218F134(FieldCamera *camera);
-void func_0218F14C(FieldCamera *camera, u32 areaId, u32 heapId);
-void func_0218F18C(FieldCamera *camera, VecFx32 *out);
-void func_0218F19C(FieldCamera *camera, VecFx32 *out);
-void func_0218F1AC(FieldCamera *camera, u32 enabled);
-unsigned char func_0218F1B4(FieldCamera *camera);
-void func_0218F1BC(FieldCameraArea *area, VecFx32 *point);
-void func_0218F1DC(FieldCameraArea *area, VecFx32 *point);
-int func_0218F1FC(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out);
-int func_0218F310(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out);
-int func_0218F460(FieldCameraArea *area, VecFx32 *in, VecFx32 *out);
-void func_0218F780(FieldCamera *camera, FieldCameraView *view);
-void func_0218F7D0(FieldCamera *camera, FieldCameraView *view);
-void func_0218F818(FieldCamera *camera);
-void func_0218F848(FieldCamera *camera);
-void func_0218F878(FieldCamera *camera);
-void func_0218F89C(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames);
-void func_0218F900(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames);
-void func_0218F918(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames);
-void func_0218F930(FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal, FieldCameraMoveChannels *channels, u16 frames);
-void func_0218F9C4(FieldCamera *camera, FieldCameraMoveChannels *channels, u16 frames);
-void func_0218FA40(FieldCamera *camera, u16 frames);
-void func_0218FB1C(FieldCamera *camera);
-void func_0218FC80(FieldCamera *camera);
-void func_0218FD88(VecFx32 *from, VecFx32 *to, u16 frames, u16 frame, VecFx32 *out);
-int func_0218FDD4(int *from, int *to, int frames, int frame);
-u16 func_0218FDF0(u16 *from, u16 *to, s32 frames, s32 frame);
-void func_0218FE40(FieldCamera *camera);
-int func_0218FE50(FieldCamera *camera);
-FieldCameraView *func_0218FE70(FieldCamera *camera);
+FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId);
+void FIELD_CAMERA_Delete(FieldCamera *camera);
+void FIELD_CAMERA_Main(FieldCamera *camera, u32 arg);
+void FIELD_CAMERA_EnterMode(FieldCamera *camera, u32 mode);
+u32 FIELD_CAMERA_GetMode(FieldCamera *camera);
+void FIELD_CAMERA_SetMode(FieldCamera *camera, u32 mode);
+int FIELD_CAMERA_ReloadSetting(FieldCamera *camera);
+void FIELD_CAMERA_SetSetting(FieldCamera *camera, u32 settingId);
+int FIELD_CAMERA_GetSettingId(FieldCamera *camera);
+void FIELD_CAMERA_LoadSetting(FieldCamera *camera, const VecFx32 *targetSrc);
+void FIELD_CAMERA_ReadSetting(FieldCamera *camera, FieldCameraSetting *out);
+void FIELD_CAMERA_PullTargetFromTrace(FieldCamera *camera);
+int FIELD_CAMERA_PullEyeFromTrace(FieldCamera *camera);
+void FIELD_CAMERA_CalcOffsetPoint(VecFx32 *base, VecFx32 *out, int yaw, int pitch, int distance);
+void FIELD_CAMERA_SolveTargetMode(FieldCamera *camera);
+void FIELD_CAMERA_SolveEyeMode(FieldCamera *camera);
+void FIELD_CAMERA_SolveFreeMode(FieldCamera *camera);
+void FIELD_CAMERA_ApplyToG3d(FieldCamera *camera);
+void FIELD_CAMERA_UpdateMode(FieldCamera *camera, u32 arg);
+void FIELD_CAMERA_UpdateTargetMode(FieldCamera *camera, u32 arg);
+void FIELD_CAMERA_UpdateEyeMode(FieldCamera *camera, u32 arg);
+void FIELD_CAMERA_UpdateFreeMode(FieldCamera *camera, u32 arg);
+void FIELD_CAMERA_ClearEyeTrace(FieldCamera *camera);
+void FIELD_CAMERA_ClearTargetTrace(FieldCamera *camera);
+void FIELD_CAMERA_ClearAngles(FieldCamera *camera);
+void FIELD_CAMERA_CalcAngles(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance);
+void FIELD_CAMERA_SetAnglesFromVector(FieldCamera *camera, VecFx32 *vec);
+void FIELD_CAMERA_PrepareTargetMode(FieldCamera *camera);
+void FIELD_CAMERA_PrepareEyeMode(FieldCamera *camera);
+void FIELD_CAMERA_SolveTrackMode(FieldCamera *camera);
+void FIELD_CAMERA_UpdateViewAngles(FieldCamera *camera, VecFx32 *targetPos, VecFx32 *eyePos);
+void FIELD_CAMERA_RefineAngles(VecFx32 *vec, u16 yaw, u16 pitch, u16 *outYaw, u16 *outPitch);
+struct G3dCamera *FIELD_CAMERA_GetG3dCamera(FieldCamera *camera);
+void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, const VecFx32 *target);
+void FIELD_CAMERA_StopTargetTrace(FieldCamera *camera);
+const VecFx32 *FIELD_CAMERA_GetTraceTarget(FieldCamera *camera);
+void FIELD_CAMERA_ResumeTargetTrace(FieldCamera *camera);
+void FIELD_CAMERA_SetG3dScale(FieldCamera *camera, u32 scale, ...);
+void FIELD_CAMERA_SetG3dRoll(FieldCamera *camera, u32 roll, ...);
+void FIELD_CAMERA_SetTarget(FieldCamera *camera, const VecFx32 *target);
+void FIELD_CAMERA_GetTargetRaw(FieldCamera *camera, VecFx32 *out);
+void FIELD_CAMERA_GetTargetShift(FieldCamera *camera, VecFx32 *out);
+void FIELD_CAMERA_SetTargetShift(FieldCamera *camera, const VecFx32 *shift);
+void FIELD_CAMERA_GetEyeRaw(FieldCamera *camera, VecFx32 *out);
+void FIELD_CAMERA_SetEyeRaw(FieldCamera *camera, const VecFx32 *eye);
+void FIELD_CAMERA_SetEyeShift(FieldCamera *camera, const VecFx32 *shift);
+void FIELD_CAMERA_SetG3dUp(FieldCamera *camera, const VecFx32 *up);
+void FIELD_CAMERA_GetG3dUp(FieldCamera *camera, VecFx32 *out);
+u16 FIELD_CAMERA_GetPitch(FieldCamera *camera);
+void FIELD_CAMERA_SetPitch(FieldCamera *camera, u16 pitch);
+u16 *FIELD_CAMERA_GetViewPitchPtr(FieldCamera *camera);
+u16 FIELD_CAMERA_GetYaw(FieldCamera *camera);
+void FIELD_CAMERA_SetYaw(FieldCamera *camera, u32 yaw);
+u16 *FIELD_CAMERA_GetViewYawPtr(FieldCamera *camera);
+u32 FIELD_CAMERA_GetDistance(FieldCamera *camera);
+void FIELD_CAMERA_SetDistance(FieldCamera *camera, u32 distance);
+void FIELD_CAMERA_GetVectorAngles(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance);
+void FIELD_CAMERA_SetFov(FieldCamera *camera, u16 fov);
+void FIELD_CAMERA_StepDelay(FieldCameraDelay *delay, VecFx32 *target, VecFx32 *eye, VecFx32 *outTarget, VecFx32 *outEye);
+void FIELD_CAMERA_CreateDelay(int count, u32 delayFrames, u32 flags, u32 heapId, FieldCamera *camera);
+void FIELD_CAMERA_DeleteDelay(FieldCamera *camera);
+void FIELD_CAMERA_ApplyDelayToG3d(FieldCamera *camera);
+void FIELD_CAMERA_StopDelayLog(FieldCameraDelay *delay);
+void FIELD_CAMERA_RestartDelay(FieldCamera *camera);
+void FIELD_CAMERA_EndDelay(FieldCamera *camera);
+void FIELD_CAMERA_StopDelay(FieldCamera *camera, int unused);
+u32 FIELD_CAMERA_IsDelayEnabled(FieldCamera *camera);
+int FIELD_CAMERA_HasDelay(FieldCamera *camera);
+void FIELD_CAMERA_CopyAreas(FieldCamera *camera, FieldCameraAreaSet *set);
+void FIELD_CAMERA_ClearAreas(FieldCamera *camera);
+void FIELD_CAMERA_LoadAreas(FieldCamera *camera, u32 areaId, u32 heapId);
+void FIELD_CAMERA_GetTarget(FieldCamera *camera, VecFx32 *out);
+void FIELD_CAMERA_GetEye(FieldCamera *camera, VecFx32 *out);
+void FIELD_CAMERA_SetAreasEnabled(FieldCamera *camera, u32 enabled);
+unsigned char FIELD_CAMERA_GetAreasEnabled(FieldCamera *camera);
+void FIELD_CAMERA_ApplyTargetArea(FieldCameraArea *area, VecFx32 *point);
+void FIELD_CAMERA_ApplyEyeArea(FieldCameraArea *area, VecFx32 *point);
+int FIELD_CAMERA_AreaKeepInBox(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out);
+int FIELD_CAMERA_AreaKeepInRing(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out);
+int FIELD_CAMERA_AreaKeepOutBox(FieldCameraArea *area, VecFx32 *in, VecFx32 *out);
+void FIELD_CAMERA_TakeView(FieldCamera *camera, FieldCameraView *view);
+void FIELD_CAMERA_TakeViewConstrained(FieldCamera *camera, FieldCameraView *view);
+void FIELD_CAMERA_PushState(FieldCamera *camera);
+void FIELD_CAMERA_PushStateConstrained(FieldCamera *camera);
+void FIELD_CAMERA_PopState(FieldCamera *camera);
+void FIELD_CAMERA_SetMoveGoal(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames);
+void FIELD_CAMERA_StartMove(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames);
+void FIELD_CAMERA_StartMoveConstrained(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames);
+void FIELD_CAMERA_StartFreeMove(FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal, FieldCameraMoveChannels *channels, u16 frames);
+void FIELD_CAMERA_StartMoveToSaved(FieldCamera *camera, FieldCameraMoveChannels *channels, u16 frames);
+void FIELD_CAMERA_StartMoveToSetting(FieldCamera *camera, u16 frames);
+void FIELD_CAMERA_UpdateMove(FieldCamera *camera);
+void FIELD_CAMERA_UpdateFreeMove(FieldCamera *camera);
+void FIELD_CAMERA_LerpVec(VecFx32 *from, VecFx32 *to, u16 frames, u16 frame, VecFx32 *out);
+int FIELD_CAMERA_LerpFx32(int *from, int *to, int frames, int frame);
+u16 FIELD_CAMERA_LerpAngle(u16 *from, u16 *to, s32 frames, s32 frame);
+void FIELD_CAMERA_ClearMoveCallback(FieldCamera *camera);
+int FIELD_CAMERA_IsMoving(FieldCamera *camera);
+FieldCameraView *FIELD_CAMERA_GetMoveGoal(FieldCamera *camera);
 extern s16 d_020A1B38[];
-extern const char d_021DDA28[];
-extern FieldCameraEnterFunc d_021DDA0C[];
-extern FieldCameraEnterFunc d_021DDA00[];
+extern const char gFieldCameraFileName[];
+extern FieldCameraEnterFunc gFieldCameraEnterModeFuncs[];
+extern FieldCameraEnterFunc gFieldCameraPrepareModeFuncs[];
 extern s16 tbl_020A1B38[];
-extern FieldCameraUpdateFunc d_021D3E44[];
-extern VecFx32 d_021D3E2C;
+extern FieldCameraUpdateFunc gFieldCameraUpdateModeFuncs[];
+extern VecFx32 gFieldCameraUpVec;
 extern s16 FX_SinCosTable_[];
-extern FieldCameraAreaFunc d_021DDA18[];
-extern VecFx32 d_021D3E38;
+extern FieldCameraAreaFunc gFieldCameraAreaFuncs[];
+extern VecFx32 gFieldCameraRingRefVec;
 
 /* Creates the camera work: loads setting 'settingId', binds it to targetSrc and sets up the delay log. */
-FieldCamera *func_0218E018(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId)
+FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId)
 {
     int fovSin;
-    FieldCamera *camera = func_02030734(heapId, 0x1b0, 1, d_021DDA28, 0x80);
+    FieldCamera *camera = func_02030734(heapId, 0x1b0, 1, gFieldCameraFileName, 0x80);
 
     camera->settingId = settingId;
     camera->mode = mode;
@@ -254,92 +254,92 @@ FieldCamera *func_0218E018(int settingId, int mode, struct G3dCamera *g3dCamera,
     camera->areasEnabled = 1;
     if (func_02048B78(g3dCamera) == 0) {
         func_02048B88(g3dCamera, (unsigned int *)(&fovSin));
-        camera->fov = func_0207D184(fovSin);
+        camera->fov = FX_AcosIdx(fovSin);
     }
     camera->settingArc = func_020490F4(0x3c, camera->heapId);
     camera->areaArc = func_020490F4(0x6c, camera->heapId);
     camera->areaId = 0xffff;
-    func_0218E18C(camera, targetSrc);
-    func_0218EEFC(7, 6, 2, heapId, camera);
+    FIELD_CAMERA_LoadSetting(camera, targetSrc);
+    FIELD_CAMERA_CreateDelay(7, 6, 2, heapId, camera);
     camera->motion.callback = 0;
     return camera;
 }
 
-void func_0218E0E4(FieldCamera *camera)
+void FIELD_CAMERA_Delete(FieldCamera *camera)
 {
-    func_02049238(camera->settingArc);
-    func_02049238(camera->areaArc);
-    func_0218EFD4(camera);
+    ARC_TOOL_DeleteHandle(camera->settingArc);
+    ARC_TOOL_DeleteHandle(camera->areaArc);
+    FIELD_CAMERA_DeleteDelay(camera);
     func_020307B0(camera);
 }
 
 /* Per frame: runs the move callback, then the update of the current mode. */
-void func_0218E104(FieldCamera *camera, u32 arg)
+void FIELD_CAMERA_Main(FieldCamera *camera, u32 arg)
 {
     FieldCameraUpdateFunc callback = camera->motion.callback;
     if (callback != 0)
         callback(camera, camera->motion.callbackArg);
-    func_0218E58C(camera, arg);
+    FIELD_CAMERA_UpdateMode(camera, arg);
 }
 
-void func_0218E124(FieldCamera *camera, u32 mode)
+void FIELD_CAMERA_EnterMode(FieldCamera *camera, u32 mode)
 {
     camera->mode = mode;
-    d_021DDA0C[mode](camera);
+    gFieldCameraEnterModeFuncs[mode](camera);
 }
 
-u32 func_0218E138(FieldCamera *camera)
+u32 FIELD_CAMERA_GetMode(FieldCamera *camera)
 {
     return camera->mode;
 }
 
-void func_0218E13C(FieldCamera *camera, u32 mode)
+void FIELD_CAMERA_SetMode(FieldCamera *camera, u32 mode)
 {
     if (camera->mode != mode) {
-        d_021DDA00[mode](camera);
-        func_0218E124(camera, mode);
+        gFieldCameraPrepareModeFuncs[mode](camera);
+        FIELD_CAMERA_EnterMode(camera, mode);
     }
 }
 
 /* Goes back to mode FIELD_CAMERA_MODE_TRACK_TARGET and reloads the current setting. */
-int func_0218E160(FieldCamera *camera)
+int FIELD_CAMERA_ReloadSetting(FieldCamera *camera)
 {
-    func_0218E124(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
-    func_0218E18C(camera, camera->boundTarget);
+    FIELD_CAMERA_EnterMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+    FIELD_CAMERA_LoadSetting(camera, camera->boundTarget);
     camera->areasEnabled = 1;
     return 1;
 }
 
 /* Switches to another camera setting. */
-void func_0218E17C(FieldCamera *camera, u32 settingId)
+void FIELD_CAMERA_SetSetting(FieldCamera *camera, u32 settingId)
 {
     camera->settingId = settingId;
-    func_0218E160(camera);
+    FIELD_CAMERA_ReloadSetting(camera);
 }
 
-int func_0218E188(FieldCamera *camera)
+int FIELD_CAMERA_GetSettingId(FieldCamera *camera)
 {
     return camera->settingId;
 }
 
 /* Loads the current setting record into the camera and the G3D camera. */
-void func_0218E18C(FieldCamera *camera, const VecFx32 *targetSrc)
+void FIELD_CAMERA_LoadSetting(FieldCamera *camera, const VecFx32 *targetSrc)
 {
     FieldCameraSetting setting;
 
-    func_0218E260(camera, &setting);
+    FIELD_CAMERA_ReadSetting(camera, &setting);
     camera->distance = setting.distance << 12;
     camera->pitch = setting.pitch;
     camera->yaw = setting.yaw;
     camera->fov = setting.fov;
-    func_0218EC7C(camera, setting.g3dRoll);
-    func_0218EC68(camera, setting.g3dScale);
+    FIELD_CAMERA_SetG3dRoll(camera, setting.g3dRoll);
+    FIELD_CAMERA_SetG3dScale(camera, setting.g3dScale);
     switch (setting.projection) {
     case 0:
-        func_02046BE0(0, 0);
+        G3D_SYSTEM_SetSwapBuffersMode(0, 0);
         break;
     case 1:
-        func_02046BE0(0, 1);
+        G3D_SYSTEM_SetSwapBuffersMode(0, 1);
         break;
     }
     if (func_02048B78(camera->g3dCamera) == 0) {
@@ -362,14 +362,14 @@ void func_0218E18C(FieldCamera *camera, const VecFx32 *targetSrc)
 }
 
 /* Reads the current setting record out of archive 0x3C. */
-void func_0218E260(FieldCamera *camera, FieldCameraSetting *out)
+void FIELD_CAMERA_ReadSetting(FieldCamera *camera, FieldCameraSetting *out)
 {
-    func_020493D4(camera->settingArc, 0);
-    func_0204944C(camera->settingArc, 0, sizeof(FieldCameraSetting) * camera->settingId, sizeof(FieldCameraSetting), out);
+    ARC_TOOL_GetHandleMemberSize(camera->settingArc, 0);
+    ARC_TOOL_ReadHandleMemberRange(camera->settingArc, 0, sizeof(FieldCameraSetting) * camera->settingId, sizeof(FieldCameraSetting), out);
 }
 
 /* Copies the traced target position into the raw target. */
-void func_0218E284(FieldCamera *camera)
+void FIELD_CAMERA_PullTargetFromTrace(FieldCamera *camera)
 {
     const VecFx32 *src = camera->traceTarget;
     if (src != 0)
@@ -377,7 +377,7 @@ void func_0218E284(FieldCamera *camera)
 }
 
 /* Copies the traced eye position into the raw eye; returns 1 when there is one. */
-int func_0218E298(FieldCamera *camera)
+int FIELD_CAMERA_PullEyeFromTrace(FieldCamera *camera)
 {
     const VecFx32 *src = camera->traceEye;
     if (src != 0) {
@@ -388,7 +388,7 @@ int func_0218E298(FieldCamera *camera)
 }
 
 /* Puts out = base + distance * unit(yaw, pitch direction). */
-void func_0218E2B4(VecFx32 *base, VecFx32 *out, int yaw, int pitch, int distance)
+void FIELD_CAMERA_CalcOffsetPoint(VecFx32 *base, VecFx32 *out, int yaw, int pitch, int distance)
 {
     VecFx32 dir;
     int yawSin, yawCos;
@@ -405,72 +405,72 @@ void func_0218E2B4(VecFx32 *base, VecFx32 *out, int yaw, int pitch, int distance
     dir.x = (int)(((long long)yawSin * pitchCos + 0x800) >> 12);
     dir.y = pitchSin;
     dir.z = (int)(((long long)yawCos * pitchCos + 0x800) >> 12);
-    func_0207CCA4(&dir, &dir);
+    VEC_Normalize(&dir, &dir);
     func_0207CEE4(distance, &dir, base, &dir);
     *out = dir;
 }
 
 /* Target mode solve: raw target -> target (areas) -> raw eye -> eye (areas). */
-void func_0218E358(FieldCamera *camera)
+void FIELD_CAMERA_SolveTargetMode(FieldCamera *camera)
 {
     int i;
 
     camera->target = camera->targetRaw;
     if (camera->areasEnabled != 0) {
         for (i = 0; i < camera->areaCount; i++) {
-            func_0218F1BC(&camera->areas[i], &camera->target);
+            FIELD_CAMERA_ApplyTargetArea(&camera->areas[i], &camera->target);
         }
     }
-    func_0218E2B4(&camera->target, &camera->eyeRaw, camera->yaw, camera->pitch, camera->distance);
+    FIELD_CAMERA_CalcOffsetPoint(&camera->target, &camera->eyeRaw, camera->yaw, camera->pitch, camera->distance);
     camera->eye = camera->eyeRaw;
     if (camera->areasEnabled != 0) {
         for (i = 0; i < camera->areaCount; i++) {
-            func_0218F1DC(&camera->areas[i], &camera->eye);
+            FIELD_CAMERA_ApplyEyeArea(&camera->areas[i], &camera->eye);
         }
     }
 }
 
 /* Eye mode solve: mirror of the target mode solve. */
-void func_0218E404(FieldCamera *camera)
+void FIELD_CAMERA_SolveEyeMode(FieldCamera *camera)
 {
     int i;
 
     camera->eye = camera->eyeRaw;
     if (camera->areasEnabled != 0) {
         for (i = 0; i < camera->areaCount; i++) {
-            func_0218F1DC(&camera->areas[i], &camera->eye);
+            FIELD_CAMERA_ApplyEyeArea(&camera->areas[i], &camera->eye);
         }
     }
-    func_0218E2B4(&camera->eye, &camera->targetRaw, camera->yaw, camera->pitch, camera->distance);
+    FIELD_CAMERA_CalcOffsetPoint(&camera->eye, &camera->targetRaw, camera->yaw, camera->pitch, camera->distance);
     camera->target = camera->targetRaw;
     if (camera->areasEnabled != 0) {
         for (i = 0; i < camera->areaCount; i++) {
-            func_0218F1BC(&camera->areas[i], &camera->target);
+            FIELD_CAMERA_ApplyTargetArea(&camera->areas[i], &camera->target);
         }
     }
 }
 
 /* Free mode solve: both raw points go through the areas unchanged. */
-void func_0218E4B0(FieldCamera *camera)
+void FIELD_CAMERA_SolveFreeMode(FieldCamera *camera)
 {
     int i;
 
     camera->eye = camera->eyeRaw;
     if (camera->areasEnabled != 0) {
         for (i = 0; i < camera->areaCount; i++) {
-            func_0218F1DC(&camera->areas[i], &camera->eye);
+            FIELD_CAMERA_ApplyEyeArea(&camera->areas[i], &camera->eye);
         }
     }
     camera->target = camera->targetRaw;
     if (camera->areasEnabled != 0) {
         for (i = 0; i < camera->areaCount; i++) {
-            func_0218F1BC(&camera->areas[i], &camera->target);
+            FIELD_CAMERA_ApplyTargetArea(&camera->areas[i], &camera->target);
         }
     }
 }
 
 /* Sends eye and target (plus their shifts) to the G3D camera and refreshes the view angles. */
-void func_0218E540(FieldCamera *camera)
+void FIELD_CAMERA_ApplyToG3d(FieldCamera *camera)
 {
     VecFx32 targetWithShift;
     VecFx32 eyeWithShift;
@@ -479,48 +479,48 @@ void func_0218E540(FieldCamera *camera)
     func_0207C9D0(&camera->eye, &camera->eyeShift, &eyeWithShift);
     func_02048B44(camera->g3dCamera, &targetWithShift);
     func_02048AFC(camera->g3dCamera, &eyeWithShift);
-    func_0218F004(camera);
-    func_0218E764(camera, &targetWithShift, &camera->eye);
+    FIELD_CAMERA_ApplyDelayToG3d(camera);
+    FIELD_CAMERA_UpdateViewAngles(camera, &targetWithShift, &camera->eye);
 }
 
-void func_0218E58C(FieldCamera *camera, u32 arg)
+void FIELD_CAMERA_UpdateMode(FieldCamera *camera, u32 arg)
 {
-    d_021D3E44[camera->mode](camera, arg);
+    gFieldCameraUpdateModeFuncs[camera->mode](camera, arg);
 }
 
-void func_0218E5A0(FieldCamera *camera, u32 arg)
+void FIELD_CAMERA_UpdateTargetMode(FieldCamera *camera, u32 arg)
 {
-    func_0218E284(camera);
-    func_0218E358(camera);
-    func_0218E540(camera);
+    FIELD_CAMERA_PullTargetFromTrace(camera);
+    FIELD_CAMERA_SolveTargetMode(camera);
+    FIELD_CAMERA_ApplyToG3d(camera);
 }
 
-void func_0218E5B8(FieldCamera *camera, u32 arg)
+void FIELD_CAMERA_UpdateEyeMode(FieldCamera *camera, u32 arg)
 {
-    func_0218E298(camera);
-    func_0218E404(camera);
-    func_0218E540(camera);
+    FIELD_CAMERA_PullEyeFromTrace(camera);
+    FIELD_CAMERA_SolveEyeMode(camera);
+    FIELD_CAMERA_ApplyToG3d(camera);
 }
 
-void func_0218E5D0(FieldCamera *camera, u32 arg)
+void FIELD_CAMERA_UpdateFreeMode(FieldCamera *camera, u32 arg)
 {
-    func_0218E284(camera);
-    func_0218E298(camera);
-    func_0218E4B0(camera);
-    func_0218E540(camera);
+    FIELD_CAMERA_PullTargetFromTrace(camera);
+    FIELD_CAMERA_PullEyeFromTrace(camera);
+    FIELD_CAMERA_SolveFreeMode(camera);
+    FIELD_CAMERA_ApplyToG3d(camera);
 }
 
-void func_0218E5EC(FieldCamera *camera)
+void FIELD_CAMERA_ClearEyeTrace(FieldCamera *camera)
 {
     camera->traceEye = 0;
 }
 
-void func_0218E5F4(FieldCamera *camera)
+void FIELD_CAMERA_ClearTargetTrace(FieldCamera *camera)
 {
     camera->traceTarget = 0;
 }
 
-void func_0218E5FC(FieldCamera *camera)
+void FIELD_CAMERA_ClearAngles(FieldCamera *camera)
 {
     camera->pitch = 0;
     camera->yaw = 0;
@@ -528,7 +528,7 @@ void func_0218E5FC(FieldCamera *camera)
 }
 
 /* Converts a vector to pitch and yaw angles plus its length. */
-void func_0218E610(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance)
+void FIELD_CAMERA_CalcAngles(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance)
 {
     VecFx32 unit;
     VecFx32 flat;
@@ -536,31 +536,31 @@ void func_0218E610(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance)
     int length;
 
     length = func_0207CBD0(vec);
-    func_0207CCA4(vec, &unit);
+    VEC_Normalize(vec, &unit);
     flat.x = unit.x;
     flat.y = 0;
     flat.z = unit.z;
     angles[1] = func_0207CFB8(unit.y, func_0207CBD0(&flat));
     angles[0] = func_0207CFB8(unit.x, unit.z);
-    func_0218E7DC(&unit, angles[0], angles[1], angles, &angles[1]);
+    FIELD_CAMERA_RefineAngles(&unit, angles[0], angles[1], angles, &angles[1]);
     *pitch = angles[1];
     *yaw = angles[0];
     *distance = length;
 }
 
 /* Takes pitch, yaw and distance from a vector. */
-void func_0218E674(FieldCamera *camera, VecFx32 *vec)
+void FIELD_CAMERA_SetAnglesFromVector(FieldCamera *camera, VecFx32 *vec)
 {
     struct { u16 yaw, pitch; u32 distance; } result;
 
-    func_0218E610(vec, &result.pitch, &result.yaw, (int *)(&result.distance));
+    FIELD_CAMERA_CalcAngles(vec, &result.pitch, &result.yaw, (int *)(&result.distance));
     camera->pitch = result.pitch;
     camera->yaw = result.yaw;
     camera->distance = result.distance;
 }
 
 /* Prepares the switch to target mode: reverses the angles from eye mode, else derives them from eye - target. */
-void func_0218E6A4(FieldCamera *camera)
+void FIELD_CAMERA_PrepareTargetMode(FieldCamera *camera)
 {
     VecFx32 dir;
 
@@ -569,12 +569,12 @@ void func_0218E6A4(FieldCamera *camera)
         camera->pitch = camera->pitch + 0x8000;
     } else {
         func_0207CA00(&camera->eyeRaw, &camera->target, &dir);
-        func_0218E674(camera, &dir);
+        FIELD_CAMERA_SetAnglesFromVector(camera, &dir);
     }
 }
 
 /* Prepares the switch to eye mode: reverses the angles from target mode, else derives them from target - eye. */
-void func_0218E6F0(FieldCamera *camera)
+void FIELD_CAMERA_PrepareEyeMode(FieldCamera *camera)
 {
     VecFx32 dir;
 
@@ -583,25 +583,25 @@ void func_0218E6F0(FieldCamera *camera)
         camera->pitch = camera->pitch + 0x8000;
     } else {
         func_0207CA00(&camera->targetRaw, &camera->eye, &dir);
-        func_0218E674(camera, &dir);
+        FIELD_CAMERA_SetAnglesFromVector(camera, &dir);
     }
 }
 
 /* Solves the current tracking mode (target or eye). */
-void func_0218E73C(FieldCamera *camera)
+void FIELD_CAMERA_SolveTrackMode(FieldCamera *camera)
 {
     u32 mode = camera->mode;
     if (mode == FIELD_CAMERA_MODE_TRACK_TARGET) {
-        func_0218E284(camera);
-        func_0218E358(camera);
+        FIELD_CAMERA_PullTargetFromTrace(camera);
+        FIELD_CAMERA_SolveTargetMode(camera);
     } else if (mode == FIELD_CAMERA_MODE_TRACK_EYE) {
-        func_0218E298(camera);
-        func_0218E404(camera);
+        FIELD_CAMERA_PullEyeFromTrace(camera);
+        FIELD_CAMERA_SolveEyeMode(camera);
     }
 }
 
 /* Derives the view yaw and view pitch from the vector between eye and target. */
-void func_0218E764(FieldCamera *camera, VecFx32 *targetPos, VecFx32 *eyePos)
+void FIELD_CAMERA_UpdateViewAngles(FieldCamera *camera, VecFx32 *targetPos, VecFx32 *eyePos)
 {
     VecFx32 dir;
     VecFx32 up;
@@ -610,14 +610,14 @@ void func_0218E764(FieldCamera *camera, VecFx32 *targetPos, VecFx32 *eyePos)
     int pitch;
 
     func_0207CA00(eyePos, targetPos, &dir);
-    func_0207CCA4(&dir, &dir);
+    VEC_Normalize(&dir, &dir);
     camera->viewYaw = func_0207CFB8(dir.x, dir.z);
-    up = d_021D3E2C;
+    up = gFieldCameraUpVec;
     upDot = func_0207CA68(&up, &dir);
     flat = dir;
     pitch = 0;
     flat.y = 0;
-    func_0207CCA4(&flat, &flat);
+    VEC_Normalize(&flat, &flat);
     flatDot = func_0207CA68(&flat, &dir);
     if (flatDot != 0) {
         pitch = func_0207CFB8(upDot, flatDot);
@@ -635,7 +635,7 @@ static inline int FxMulRound(int a, int b)
  * direction for the current angles and for yaw +/- one degree (0xb6), then nudges each
  * angle by a linear interpolation per quadrant. Writes the results to outYaw/outPitch.
  */
-void func_0218E7DC(VecFx32 *vec, u16 yaw, u16 pitch, u16 *outYaw, u16 *outPitch)
+void FIELD_CAMERA_RefineAngles(VecFx32 *vec, u16 yaw, u16 pitch, u16 *outYaw, u16 *outPitch)
 {
     VecS16 cur = {0, 0, 0};
     VecS16 minus = {0, 0, 0};
@@ -733,138 +733,138 @@ void func_0218E7DC(VecFx32 *vec, u16 yaw, u16 pitch, u16 *outYaw, u16 *outPitch)
     *outPitch = pitch;
 }
 
-struct G3dCamera *func_0218EC2C(FieldCamera *camera)
+struct G3dCamera *FIELD_CAMERA_GetG3dCamera(FieldCamera *camera)
 {
     return camera->g3dCamera;
 }
 
 /* Makes the camera follow a position: the target jumps there. */
-void func_0218EC30(FieldCamera *camera, const VecFx32 *target)
+void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, const VecFx32 *target)
 {
     camera->traceTarget = target;
     camera->lastSetTarget = *target;
     camera->targetRaw = *target;
 }
 
-void func_0218EC54(FieldCamera *camera)
+void FIELD_CAMERA_StopTargetTrace(FieldCamera *camera)
 {
     camera->traceTarget = 0;
 }
 
-const VecFx32 *func_0218EC5C(FieldCamera *camera)
+const VecFx32 *FIELD_CAMERA_GetTraceTarget(FieldCamera *camera)
 {
     return camera->traceTarget;
 }
 
 /* Follows the bound position again. */
-void func_0218EC60(FieldCamera *camera)
+void FIELD_CAMERA_ResumeTargetTrace(FieldCamera *camera)
 {
     camera->traceTarget = camera->boundTarget;
 }
 
-void func_0218EC68(FieldCamera *camera, u32 scale, ...)
+void FIELD_CAMERA_SetG3dScale(FieldCamera *camera, u32 scale, ...)
 {
     func_02048B60(camera->g3dCamera, &scale);
 }
 
-void func_0218EC7C(FieldCamera *camera, u32 roll, ...)
+void FIELD_CAMERA_SetG3dRoll(FieldCamera *camera, u32 roll, ...)
 {
     func_02048B6C(camera->g3dCamera, &roll);
 }
 
-void func_0218EC90(FieldCamera *camera, const VecFx32 *target)
+void FIELD_CAMERA_SetTarget(FieldCamera *camera, const VecFx32 *target)
 {
     camera->targetRaw = *target;
     camera->lastSetTarget = *target;
 }
 
-void func_0218ECB4(FieldCamera *camera, VecFx32 *out)
+void FIELD_CAMERA_GetTargetRaw(FieldCamera *camera, VecFx32 *out)
 {
     *out = camera->targetRaw;
 }
 
-void func_0218ECC4(FieldCamera *camera, VecFx32 *out)
+void FIELD_CAMERA_GetTargetShift(FieldCamera *camera, VecFx32 *out)
 {
     *out = camera->targetShift;
 }
 
-void func_0218ECD4(FieldCamera *camera, const VecFx32 *shift)
+void FIELD_CAMERA_SetTargetShift(FieldCamera *camera, const VecFx32 *shift)
 {
     camera->targetShift = *shift;
 }
 
-void func_0218ECE4(FieldCamera *camera, VecFx32 *out)
+void FIELD_CAMERA_GetEyeRaw(FieldCamera *camera, VecFx32 *out)
 {
     *out = camera->eyeRaw;
 }
 
-void func_0218ECF4(FieldCamera *camera, const VecFx32 *eye)
+void FIELD_CAMERA_SetEyeRaw(FieldCamera *camera, const VecFx32 *eye)
 {
     camera->eyeRaw = *eye;
 }
 
-void func_0218ED04(FieldCamera *camera, const VecFx32 *shift)
+void FIELD_CAMERA_SetEyeShift(FieldCamera *camera, const VecFx32 *shift)
 {
     camera->eyeShift = *shift;
 }
 
-void func_0218ED14(FieldCamera *camera, const VecFx32 *up)
+void FIELD_CAMERA_SetG3dUp(FieldCamera *camera, const VecFx32 *up)
 {
     func_02048B20(camera->g3dCamera, up);
 }
 
-void func_0218ED20(FieldCamera *camera, VecFx32 *out)
+void FIELD_CAMERA_GetG3dUp(FieldCamera *camera, VecFx32 *out)
 {
     func_02048B0C(camera->g3dCamera, out);
 }
 
-u16 func_0218ED2C(FieldCamera *camera)
+u16 FIELD_CAMERA_GetPitch(FieldCamera *camera)
 {
     return camera->pitch;
 }
 
-void func_0218ED34(FieldCamera *camera, u16 pitch)
+void FIELD_CAMERA_SetPitch(FieldCamera *camera, u16 pitch)
 {
     camera->pitch = pitch;
 }
 
-u16 *func_0218ED3C(FieldCamera *camera)
+u16 *FIELD_CAMERA_GetViewPitchPtr(FieldCamera *camera)
 {
     return &camera->viewPitch;
 }
 
-u16 func_0218ED40(FieldCamera *camera)
+u16 FIELD_CAMERA_GetYaw(FieldCamera *camera)
 {
     return camera->yaw;
 }
 
-void func_0218ED48(FieldCamera *camera, u32 yaw)
+void FIELD_CAMERA_SetYaw(FieldCamera *camera, u32 yaw)
 {
     camera->yaw = yaw;
 }
 
-u16 *func_0218ED50(FieldCamera *camera)
+u16 *FIELD_CAMERA_GetViewYawPtr(FieldCamera *camera)
 {
     return &camera->viewYaw;
 }
 
-u32 func_0218ED54(FieldCamera *camera)
+u32 FIELD_CAMERA_GetDistance(FieldCamera *camera)
 {
     return camera->distance;
 }
 
-void func_0218ED58(FieldCamera *camera, u32 distance)
+void FIELD_CAMERA_SetDistance(FieldCamera *camera, u32 distance)
 {
     camera->distance = distance;
 }
 
-void func_0218ED5C(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance)
+void FIELD_CAMERA_GetVectorAngles(VecFx32 *vec, u16 *pitch, u16 *yaw, int *distance)
 {
-    func_0218E610(vec, pitch, yaw, distance);
+    FIELD_CAMERA_CalcAngles(vec, pitch, yaw, distance);
 }
 
 /* Sets the field of view angle and the matching sin and cos in the G3D camera. */
-void func_0218ED64(FieldCamera *camera, u16 fov)
+void FIELD_CAMERA_SetFov(FieldCamera *camera, u16 fov)
 {
     camera->fov = fov;
     func_02048B80(camera->g3dCamera, FX_SinCosTable_[(camera->fov >> 4) * 2]);
@@ -872,7 +872,7 @@ void func_0218ED64(FieldCamera *camera, u16 fov)
 }
 
 /* Pushes a target and an eye into the delay log and reads the delayed pair back. */
-void func_0218ED9C(FieldCameraDelay *delay, VecFx32 *target, VecFx32 *eye, VecFx32 *outTarget, VecFx32 *outEye)
+void FIELD_CAMERA_StepDelay(FieldCameraDelay *delay, VecFx32 *target, VecFx32 *eye, VecFx32 *outTarget, VecFx32 *outEye)
 {
     int readPos;
     int writePos;
@@ -907,7 +907,7 @@ void func_0218ED9C(FieldCameraDelay *delay, VecFx32 *target, VecFx32 *eye, VecFx
         if (readPos != writePos) {
             readPos = (readPos + 1) % delay->count;
             if (readPos == writePos)
-                func_0218F050(delay);
+                FIELD_CAMERA_StopDelayLog(delay);
         }
     } else {
         readPos = (readPos + 1) % delay->count;
@@ -932,13 +932,13 @@ void func_0218ED9C(FieldCameraDelay *delay, VecFx32 *target, VecFx32 *eye, VecFx
  * Creates the delay log (count entries per log) when the camera follows a
  * position. flags bit 0, 1, 2 delay the x, y, z component.
  */
-void func_0218EEFC(int count, u32 delayFrames, u32 flags, u32 heapId, FieldCamera *camera)
+void FIELD_CAMERA_CreateDelay(int count, u32 delayFrames, u32 flags, u32 heapId, FieldCamera *camera)
 {
     if (camera->traceTarget != 0) {
         int i = 0;
-        FieldCameraDelay *delay = func_02030734(heapId, sizeof(FieldCameraDelay), 0, d_021DDA28, 0x6aa);
-        delay->targetLog = func_02030734(heapId, count * sizeof(VecFx32), 0, d_021DDA28, 0x6ab);
-        delay->eyeLog = func_02030734(heapId, count * sizeof(VecFx32), 0, d_021DDA28, 0x6ac);
+        FieldCameraDelay *delay = func_02030734(heapId, sizeof(FieldCameraDelay), 0, gFieldCameraFileName, 0x6aa);
+        delay->targetLog = func_02030734(heapId, count * sizeof(VecFx32), 0, gFieldCameraFileName, 0x6ab);
+        delay->eyeLog = func_02030734(heapId, count * sizeof(VecFx32), 0, gFieldCameraFileName, 0x6ac);
         for (; i < count; i++) {
             VecFx32 *entry = &delay->targetLog[i];
             entry->x = 0;
@@ -969,7 +969,7 @@ void func_0218EEFC(int count, u32 delayFrames, u32 flags, u32 heapId, FieldCamer
     }
 }
 
-void func_0218EFD4(FieldCamera *camera)
+void FIELD_CAMERA_DeleteDelay(FieldCamera *camera)
 {
     if (camera->delay != 0) {
         func_020307B0(camera->delay->targetLog);
@@ -980,7 +980,7 @@ void func_0218EFD4(FieldCamera *camera)
 }
 
 /* Runs the G3D camera target and eye through the delay log. */
-void func_0218F004(FieldCamera *camera)
+void FIELD_CAMERA_ApplyDelayToG3d(FieldCamera *camera)
 {
     if (camera->traceTarget != 0) {
         VecFx32 eyeNow;
@@ -990,14 +990,14 @@ void func_0218F004(FieldCamera *camera)
 
         func_02048B30(camera->g3dCamera, &targetNow);
         func_02048AE8(camera->g3dCamera, &eyeNow);
-        func_0218ED9C(camera->delay, &targetNow, &eyeNow, &targetDelayed, &eyeDelayed);
+        FIELD_CAMERA_StepDelay(camera->delay, &targetNow, &eyeNow, &targetDelayed, &eyeDelayed);
         func_02048B44(camera->g3dCamera, &targetDelayed);
         func_02048AFC(camera->g3dCamera, &eyeDelayed);
     }
 }
 
 /* Switches the delay log off. */
-void func_0218F050(FieldCameraDelay *delay)
+void FIELD_CAMERA_StopDelayLog(FieldCameraDelay *delay)
 {
     delay->draining = 0;
     delay->enabled = 0;
@@ -1005,7 +1005,7 @@ void func_0218F050(FieldCameraDelay *delay)
 }
 
 /* Clears both logs and restarts the delay. */
-void func_0218F05C(FieldCamera *camera)
+void FIELD_CAMERA_RestartDelay(FieldCamera *camera)
 {
     FieldCameraDelay *delay = camera->delay;
     int i;
@@ -1030,19 +1030,19 @@ void func_0218F05C(FieldCamera *camera)
 }
 
 /* Ends the delay: at once while it is still warming up, else after the log has played out. */
-void func_0218F0A8(FieldCamera *camera)
+void FIELD_CAMERA_EndDelay(FieldCamera *camera)
 {
     FieldCameraDelay *delay = camera->delay;
 
     if (delay != 0) {
         if (delay->filled == 0 && delay->writePos == delay->delayFrames && delay->readPos == 0)
-            func_0218F050(delay);
+            FIELD_CAMERA_StopDelayLog(delay);
         else
             delay->draining = 1;
     }
 }
 
-void func_0218F0D4(FieldCamera *camera, int unused)
+void FIELD_CAMERA_StopDelay(FieldCamera *camera, int unused)
 {
     FieldCameraDelay *delay = camera->delay;
 
@@ -1053,7 +1053,7 @@ void func_0218F0D4(FieldCamera *camera, int unused)
     }
 }
 
-u32 func_0218F0E8(FieldCamera *camera)
+u32 FIELD_CAMERA_IsDelayEnabled(FieldCamera *camera)
 {
     FieldCameraDelay *delay = camera->delay;
 
@@ -1062,7 +1062,7 @@ u32 func_0218F0E8(FieldCamera *camera)
     return delay->enabled;
 }
 
-int func_0218F0F8(FieldCamera *camera)
+int FIELD_CAMERA_HasDelay(FieldCamera *camera)
 {
     if (camera->traceTarget == 0)
         return 0;
@@ -1072,73 +1072,73 @@ int func_0218F0F8(FieldCamera *camera)
 }
 
 /* Copies the areas of an area set into the camera. */
-void func_0218F114(FieldCamera *camera, FieldCameraAreaSet *set)
+void FIELD_CAMERA_CopyAreas(FieldCamera *camera, FieldCameraAreaSet *set)
 {
     func_02082D44(set->areas, camera->areas, sizeof(FieldCameraArea) * set->count);
     camera->areaCount = set->count;
 }
 
-void func_0218F134(FieldCamera *camera)
+void FIELD_CAMERA_ClearAreas(FieldCamera *camera)
 {
     func_02082BCC(camera->areas, 0, sizeof(camera->areas));
     camera->areaCount = 0;
 }
 
 /* Loads the area set areaId from archive 0x6C unless it is loaded already. */
-void func_0218F14C(FieldCamera *camera, u32 areaId, u32 heapId)
+void FIELD_CAMERA_LoadAreas(FieldCamera *camera, u32 areaId, u32 heapId)
 {
     FieldCameraAreaSet *set;
 
     if (camera->areaId != areaId) {
-        set = func_0204A380(camera->areaArc, areaId, 0, (u16)((heapId & 0x7fff) | 0x8000));
-        func_0218F114(camera, set);
+        set = ARC_UTIL_LoadHandleMember(camera->areaArc, areaId, 0, (u16)((heapId & 0x7fff) | 0x8000));
+        FIELD_CAMERA_CopyAreas(camera, set);
         func_020307B0(set);
         camera->areaId = areaId;
     }
 }
 
-void func_0218F18C(FieldCamera *camera, VecFx32 *out)
+void FIELD_CAMERA_GetTarget(FieldCamera *camera, VecFx32 *out)
 {
     *out = camera->target;
 }
 
-void func_0218F19C(FieldCamera *camera, VecFx32 *out)
+void FIELD_CAMERA_GetEye(FieldCamera *camera, VecFx32 *out)
 {
     *out = camera->eye;
 }
 
-void func_0218F1AC(FieldCamera *camera, u32 enabled)
+void FIELD_CAMERA_SetAreasEnabled(FieldCamera *camera, u32 enabled)
 {
     camera->areasEnabled = enabled;
 }
 
-unsigned char func_0218F1B4(FieldCamera *camera)
+unsigned char FIELD_CAMERA_GetAreasEnabled(FieldCamera *camera)
 {
     return camera->areasEnabled;
 }
 
 /* Runs an area on a point when the area limits the target. */
-void func_0218F1BC(FieldCameraArea *area, VecFx32 *point)
+void FIELD_CAMERA_ApplyTargetArea(FieldCameraArea *area, VecFx32 *point)
 {
     if (area->applyTo == FIELD_CAMERA_AREA_ON_TARGET) {
-        FieldCameraAreaFunc func = d_021DDA18[area->shape];
+        FieldCameraAreaFunc func = gFieldCameraAreaFuncs[area->shape];
         if (func != 0)
             func(area, point, point);
     }
 }
 
 /* Runs an area on a point when the area limits the eye. */
-void func_0218F1DC(FieldCameraArea *area, VecFx32 *point)
+void FIELD_CAMERA_ApplyEyeArea(FieldCameraArea *area, VecFx32 *point)
 {
     if (area->applyTo == FIELD_CAMERA_AREA_ON_EYE) {
-        FieldCameraAreaFunc func = d_021DDA18[area->shape];
+        FieldCameraAreaFunc func = gFieldCameraAreaFuncs[area->shape];
         if (func != 0)
             func(area, point, point);
     }
 }
 
 /* Clamps a point into the box (whole units, converted to fx32); returns 1 when it moved. */
-int func_0218F1FC(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
+int FIELD_CAMERA_AreaKeepInBox(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
 {
     VecFx32 p;
     int moved;
@@ -1173,7 +1173,7 @@ int func_0218F1FC(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
  * the table entry read into an s16 local puts it in r0:r1 of _ll_mul, and
  * `clamped = 1` repeated in both inner arms gives the cross-jumped clamp blocks.
  */
-int func_0218F310(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
+int FIELD_CAMERA_AreaKeepInRing(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
 {
     VecFx32 ref;
     VecFx32 flat;
@@ -1189,7 +1189,7 @@ int func_0218F310(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
     int idx;
     s16 trig;
 
-    ref = d_021D3E38;
+    ref = gFieldCameraRingRefVec;
     flat = *in;
     orig = *in;
     out->x = in->x;
@@ -1257,7 +1257,7 @@ int func_0218F310(const FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
  * Reading p.z directly (no named local) is what puts its CSE slot below the
  * minX temp.
  */
-int func_0218F460(FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
+int FIELD_CAMERA_AreaKeepOutBox(FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
 {
     VecFx32 p;
     int moved;
@@ -1305,7 +1305,7 @@ int func_0218F460(FieldCameraArea *area, VecFx32 *in, VecFx32 *out)
 }
 
 /* Takes a snapshot of the camera pose (raw eye and raw target). */
-void func_0218F780(FieldCamera *camera, FieldCameraView *view)
+void FIELD_CAMERA_TakeView(FieldCamera *camera, FieldCameraView *view)
 {
     view->eye = camera->eyeRaw;
     view->target = camera->targetRaw;
@@ -1317,10 +1317,10 @@ void func_0218F780(FieldCamera *camera, FieldCameraView *view)
 }
 
 /* Same as above, but with the target after the areas. */
-void func_0218F7D0(FieldCamera *camera, FieldCameraView *view)
+void FIELD_CAMERA_TakeViewConstrained(FieldCamera *camera, FieldCameraView *view)
 {
     view->eye = camera->eyeRaw;
-    func_0218F18C(camera, &view->target);
+    FIELD_CAMERA_GetTarget(camera, &view->target);
     view->pitch = camera->pitch;
     view->yaw = camera->yaw;
     view->distance = camera->distance;
@@ -1329,91 +1329,91 @@ void func_0218F7D0(FieldCamera *camera, FieldCameraView *view)
 }
 
 /* Saves mode and pose (raw target) once, then switches to target mode. */
-void func_0218F818(FieldCamera *camera)
+void FIELD_CAMERA_PushState(FieldCamera *camera)
 {
     if (camera != 0) {
         FieldCameraMotion *motion = &camera->motion;
         if (motion->stateSaved == 0) {
             motion->savedMode = camera->mode;
-            func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
-            func_0218F780(camera, &motion->saved);
+            FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+            FIELD_CAMERA_TakeView(camera, &motion->saved);
             motion->stateSaved = 1;
         }
     }
 }
 
 /* Same as above, saving the target after the areas. */
-void func_0218F848(FieldCamera *camera)
+void FIELD_CAMERA_PushStateConstrained(FieldCamera *camera)
 {
     if (camera != 0) {
         FieldCameraMotion *motion = &camera->motion;
         if (motion->stateSaved == 0) {
             motion->savedMode = camera->mode;
-            func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
-            func_0218F7D0(camera, &motion->saved);
+            FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+            FIELD_CAMERA_TakeViewConstrained(camera, &motion->saved);
             motion->stateSaved = 1;
         }
     }
 }
 
 /* Restores the mode saved by the two calls above. */
-void func_0218F878(FieldCamera *camera)
+void FIELD_CAMERA_PopState(FieldCamera *camera)
 {
     if (camera != 0) {
         FieldCameraMotion *motion = &camera->motion;
         if (motion->stateSaved != 0) {
-            func_0218E13C(camera, motion->savedMode);
+            FIELD_CAMERA_SetMode(camera, motion->savedMode);
             motion->stateSaved = 0;
         }
     }
 }
 
 /* Sets up a move to request->goal and arms the per-frame callback. */
-void func_0218F89C(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames)
+void FIELD_CAMERA_SetMoveGoal(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames)
 {
     FieldCameraMotion *motion;
 
     if (camera) {
         motion = &camera->motion;
-        func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+        FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
         motion->to = request->goal;
         motion->frame = 0;
         motion->frames = frames;
         motion->channels = request->channels;
-        camera->motion.callback = (FieldCameraUpdateFunc)func_0218FB1C;
+        camera->motion.callback = (FieldCameraUpdateFunc)FIELD_CAMERA_UpdateMove;
         motion->callbackArg = 0;
         motion->moving = 1;
     }
 }
 
 /* Moves from the current pose (raw target) to request->goal. */
-void func_0218F900(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames)
+void FIELD_CAMERA_StartMove(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames)
 {
     if (camera != 0) {
-        func_0218F89C(camera, request, frames);
-        func_0218F780(camera, &camera->motion.from);
+        FIELD_CAMERA_SetMoveGoal(camera, request, frames);
+        FIELD_CAMERA_TakeView(camera, &camera->motion.from);
     }
 }
 
 /* Same as above, starting from the target after the areas. */
-void func_0218F918(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames)
+void FIELD_CAMERA_StartMoveConstrained(FieldCamera *camera, FieldCameraMoveRequest *request, u16 frames)
 {
     if (camera != 0) {
-        func_0218F89C(camera, request, frames);
-        func_0218F7D0(camera, &camera->motion.from);
+        FIELD_CAMERA_SetMoveGoal(camera, request, frames);
+        FIELD_CAMERA_TakeViewConstrained(camera, &camera->motion.from);
     }
 }
 
 /* Moves eye and target to the two goals in free mode. */
-void func_0218F930(FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal, FieldCameraMoveChannels *channels, u16 frames)
+void FIELD_CAMERA_StartFreeMove(FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal, FieldCameraMoveChannels *channels, u16 frames)
 {
     FieldCameraMotion *motion;
     FieldCameraMoveChannels loc;
 
     if (camera) {
         motion = &camera->motion;
-        func_0218E13C(camera, FIELD_CAMERA_MODE_FREE);
-        func_0218F780(camera, &motion->from);
+        FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_FREE);
+        FIELD_CAMERA_TakeView(camera, &motion->from);
         motion->to.eye = *eyeGoal;
         motion->to.target = *targetGoal;
         motion->frame = 0;
@@ -1425,27 +1425,27 @@ void func_0218F930(FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal, F
         loc.distance = 0;
         loc.shift = channels->shift;
         motion->channels = loc;
-        camera->motion.callback = (FieldCameraUpdateFunc)func_0218FC80;
+        camera->motion.callback = (FieldCameraUpdateFunc)FIELD_CAMERA_UpdateFreeMove;
         motion->callbackArg = 0;
         motion->moving = 1;
     }
 }
 
 /* Moves from the current pose back to the pose saved by the push state calls. */
-void func_0218F9C4(FieldCamera *camera, FieldCameraMoveChannels *channels, u16 frames)
+void FIELD_CAMERA_StartMoveToSaved(FieldCamera *camera, FieldCameraMoveChannels *channels, u16 frames)
 {
     FieldCameraMotion *motion;
 
     if (camera) {
         motion = &camera->motion;
         if (motion->stateSaved != 0 && frames != 0) {
-            func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
-            func_0218F780(camera, &motion->from);
+            FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+            FIELD_CAMERA_TakeView(camera, &motion->from);
             motion->to = motion->saved;
             motion->frame = 0;
             motion->frames = frames;
             motion->channels = *channels;
-            camera->motion.callback = (FieldCameraUpdateFunc)func_0218FB1C;
+            camera->motion.callback = (FieldCameraUpdateFunc)FIELD_CAMERA_UpdateMove;
             motion->callbackArg = 0;
             motion->moving = 1;
         }
@@ -1457,7 +1457,7 @@ void func_0218F9C4(FieldCamera *camera, FieldCameraMoveChannels *channels, u16 f
  * The two vector copies into motion->to.target are tail-merged by the
  * compiler (a shared source pointer variable compiles the same).
  */
-void func_0218FA40(FieldCamera *camera, u16 frames)
+void FIELD_CAMERA_StartMoveToSetting(FieldCamera *camera, u16 frames)
 {
     FieldCameraMotion *motion;
     FieldCameraSetting setting;
@@ -1465,9 +1465,9 @@ void func_0218FA40(FieldCamera *camera, u16 frames)
     if (camera) {
         motion = &camera->motion;
         if (motion->stateSaved != 0 && frames != 0) {
-            func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
-            func_0218F780(camera, &motion->from);
-            func_0218E260(camera, &setting);
+            FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+            FIELD_CAMERA_TakeView(camera, &motion->from);
+            FIELD_CAMERA_ReadSetting(camera, &setting);
             motion->to.pitch = setting.pitch;
             motion->to.yaw = setting.yaw;
             motion->to.distance = setting.distance << 12;
@@ -1489,7 +1489,7 @@ void func_0218FA40(FieldCamera *camera, u16 frames)
             motion->channels.distance = 1;
             motion->channels.fov = 1;
             motion->channels.target = 1;
-            camera->motion.callback = (FieldCameraUpdateFunc)func_0218FB1C;
+            camera->motion.callback = (FieldCameraUpdateFunc)FIELD_CAMERA_UpdateMove;
             motion->callbackArg = 0;
             motion->moving = 1;
         }
@@ -1500,7 +1500,7 @@ void func_0218FA40(FieldCamera *camera, u16 frames)
  * Per-frame callback of the moves above: steps the frame counter and
  * interpolates each enabled channel from the start pose toward the goal pose.
  */
-void func_0218FB1C(FieldCamera *camera)
+void FIELD_CAMERA_UpdateMove(FieldCamera *camera)
 {
     FieldCameraMotion *motion;
     FieldCameraView *from;
@@ -1514,37 +1514,37 @@ void func_0218FB1C(FieldCamera *camera)
     from = &motion->from;
     to = &motion->to;
     if (motion->channels.pitch != 0) {
-        camera->pitch = func_0218FDF0(&from->pitch, &to->pitch,
+        camera->pitch = FIELD_CAMERA_LerpAngle(&from->pitch, &to->pitch,
                                       motion->frames, motion->frame);
     }
     if (motion->channels.yaw != 0) {
-        camera->yaw = func_0218FDF0(&from->yaw, &to->yaw,
+        camera->yaw = FIELD_CAMERA_LerpAngle(&from->yaw, &to->yaw,
                                     motion->frames, motion->frame);
     }
     if (motion->channels.target != 0) {
-        func_0218FD88(&from->target, &to->target, motion->frames, motion->frame, &camera->targetRaw);
+        FIELD_CAMERA_LerpVec(&from->target, &to->target, motion->frames, motion->frame, &camera->targetRaw);
     }
     if (motion->channels.fov != 0) {
-        camera->fov = func_0218FDF0(&from->fov, &to->fov,
+        camera->fov = FIELD_CAMERA_LerpAngle(&from->fov, &to->fov,
                                     motion->frames, motion->frame);
         func_02048B80(camera->g3dCamera, d_020A1B38[(camera->fov >> 4) * 2]);
         func_02048B94(camera->g3dCamera, d_020A1B38[(camera->fov >> 4) * 2 + 1]);
     }
     if (motion->channels.distance != 0) {
-        camera->distance = func_0218FDD4(&from->distance, &to->distance,
+        camera->distance = FIELD_CAMERA_LerpFx32(&from->distance, &to->distance,
                                          motion->frames, motion->frame);
     }
     if (motion->channels.shift != 0) {
-        func_0218FD88(&from->shift, &to->shift, motion->frames, motion->frame, &camera->targetShift);
+        FIELD_CAMERA_LerpVec(&from->shift, &to->shift, motion->frames, motion->frame, &camera->targetShift);
     }
     if (motion->frame >= motion->frames) {
         motion->moving = 0;
-        func_0218FE40(camera);
+        FIELD_CAMERA_ClearMoveCallback(camera);
     }
 }
 
 /* Per-frame callback of the free mode move: eye and target, fov and shift channels. */
-void func_0218FC80(FieldCamera *camera)
+void FIELD_CAMERA_UpdateFreeMove(FieldCamera *camera)
 {
     FieldCameraMotion *motion;
     FieldCameraView *from;
@@ -1558,21 +1558,21 @@ void func_0218FC80(FieldCamera *camera)
     from = &motion->from;
     to = &motion->to;
     if (motion->channels.target != 0) {
-        func_0218FD88(&from->target, &to->target, motion->frames, motion->frame, &camera->targetRaw);
-        func_0218FD88(&from->eye, &to->eye, motion->frames, motion->frame, &camera->eyeRaw);
+        FIELD_CAMERA_LerpVec(&from->target, &to->target, motion->frames, motion->frame, &camera->targetRaw);
+        FIELD_CAMERA_LerpVec(&from->eye, &to->eye, motion->frames, motion->frame, &camera->eyeRaw);
     }
     if (motion->channels.fov != 0) {
-        camera->fov = func_0218FDF0(&from->fov, &to->fov,
+        camera->fov = FIELD_CAMERA_LerpAngle(&from->fov, &to->fov,
                                     motion->frames, motion->frame);
         func_02048B80(camera->g3dCamera, d_020A1B38[(camera->fov >> 4) * 2]);
         func_02048B94(camera->g3dCamera, d_020A1B38[(camera->fov >> 4) * 2 + 1]);
     }
     if (motion->channels.shift != 0) {
-        func_0218FD88(&from->shift, &to->shift, motion->frames, motion->frame, &camera->targetShift);
+        FIELD_CAMERA_LerpVec(&from->shift, &to->shift, motion->frames, motion->frame, &camera->targetShift);
     }
     if (motion->frame >= motion->frames) {
         motion->moving = 0;
-        func_0218FE40(camera);
+        FIELD_CAMERA_ClearMoveCallback(camera);
     }
 }
 
@@ -1580,17 +1580,17 @@ void func_0218FC80(FieldCamera *camera)
  * frames and frame are u16 (the caller passes u16 fields): with int parameters the
  * scheduler hoists the third call's pointer bumps above the store of out->y.
  */
-void func_0218FD88(VecFx32 *from, VecFx32 *to, u16 frames, u16 frame, VecFx32 *out)
+void FIELD_CAMERA_LerpVec(VecFx32 *from, VecFx32 *to, u16 frames, u16 frame, VecFx32 *out)
 {
     if (frames == 0)
         *out = *to;
-    out->x = func_0218FDD4(&from->x, &to->x, frames, frame);
-    out->y = func_0218FDD4(&from->y, &to->y, frames, frame);
-    out->z = func_0218FDD4(&from->z, &to->z, frames, frame);
+    out->x = FIELD_CAMERA_LerpFx32(&from->x, &to->x, frames, frame);
+    out->y = FIELD_CAMERA_LerpFx32(&from->y, &to->y, frames, frame);
+    out->z = FIELD_CAMERA_LerpFx32(&from->z, &to->z, frames, frame);
 }
 
 /* Linear interpolation from *from to *to after frame of frames steps. */
-int func_0218FDD4(int *from, int *to, int frames, int frame)
+int FIELD_CAMERA_LerpFx32(int *from, int *to, int frames, int frame)
 {
     int start = *from;
     int end = *to;
@@ -1602,7 +1602,7 @@ int func_0218FDD4(int *from, int *to, int frames, int frame)
 }
 
 /* Same for 16-bit angles, along the shorter way round. */
-u16 func_0218FDF0(u16 *from, u16 *to, s32 frames, s32 frame)
+u16 FIELD_CAMERA_LerpAngle(u16 *from, u16 *to, s32 frames, s32 frame)
 {
     u16 start, delta, rem;
     if (frames == 0)
@@ -1615,14 +1615,14 @@ u16 func_0218FDF0(u16 *from, u16 *to, s32 frames, s32 frame)
     return start - (u16)(rem * frame / frames);
 }
 
-void func_0218FE40(FieldCamera *camera)
+void FIELD_CAMERA_ClearMoveCallback(FieldCamera *camera)
 {
     camera->motion.callback = 0;
     camera->motion.callbackArg = 0;
 }
 
 /* 1 while a move callback is armed and the move is running. */
-int func_0218FE50(FieldCamera *camera)
+int FIELD_CAMERA_IsMoving(FieldCamera *camera)
 {
     FieldCameraMotion *motion = &camera->motion;
     if (camera->motion.callback != 0 && motion->moving != 0)
@@ -1631,7 +1631,7 @@ int func_0218FE50(FieldCamera *camera)
 }
 
 /* Returns the goal pose of the running move. */
-FieldCameraView *func_0218FE70(FieldCamera *camera)
+FieldCameraView *FIELD_CAMERA_GetMoveGoal(FieldCamera *camera)
 {
     return &camera->motion.to;
 }

@@ -14,12 +14,12 @@
  * the declaration orders then match (docs/notes/pkt_ov119_021DBE70.c.txt).
  *
  * symbols:
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_020355D8 0x020355D8 arm
  *   func_0203630C 0x0203630C arm
  *   func_020355C4 0x020355C4 arm
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021E4E0C 0x021E4E0C thumb
  *   func_021DB4EC 0x021DB4EC thumb
  *   func_021E4DBC 0x021E4DBC thumb
@@ -36,7 +36,7 @@
  *   func_021D8DD0 0x021D8DD0 thumb
  *   func_02017E88 0x02017E88 thumb
  *   func_021DD0CC 0x021DD0CC thumb
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E0FF4 0x021E0FF4 thumb
  *   func_021D8E84 0x021D8E84 thumb
  *   func_021DA064 0x021DA064 thumb
@@ -56,14 +56,14 @@
  *   func_021DB89C 0x021DB89C thumb
  *   func_021DC2B0 0x021DC2B0 thumb
  *   func_021B6558 0x021B6558 thumb ov067
- *   func_021B6548 0x021B6548 thumb ov067
- *   func_021B63D0 0x021B63D0 thumb ov067
- *   func_021B6470 0x021B6470 thumb ov067
+ *   TOUCHBAR_SetButtonEnabled 0x021B6548 thumb ov067
+ *   TOUCHBAR_Update 0x021B63D0 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  */
 
 typedef unsigned int u32;
 
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 typedef unsigned char  u8;
 struct MsgBank;
 struct S;
@@ -71,7 +71,7 @@ extern void func_020355D8(u8 v);
 extern unsigned int func_0203630C(void);
 extern u8 func_020355C4(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern int func_021E4E0C(char *p, int *out);
 extern int func_021DB4EC(char *p, int v);
 extern int func_021E4DBC(char *p);
@@ -88,7 +88,7 @@ extern int func_021D8B0C(int a, int b);
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021DD0CC(char *p, int e);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E0FF4(void *p, int a, int flag);
 extern void func_021D8E84(void *p, int next);
 extern void func_021DA064(char *p);
@@ -109,9 +109,9 @@ extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_021DB89C(char *p);
 extern void func_021DC2B0(char *p);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
-extern int func_021B6548(unsigned char *p, unsigned int id, int v);
-extern void func_021B63D0(struct S *p);
-extern int func_021B6470(u8 *p);
+extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
+extern void TOUCHBAR_Update(struct S *p);
+extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *p);
 
 #define I(p, o) (*(int *)((p) + (o)))
 #define H(p, o) (*(short *)((p) + (o)))
@@ -126,7 +126,7 @@ static inline int poll_a(void)
 
 static inline int poll_b(void)
 {
-    int r = func_02035C60();
+    int r = TOUCHPANEL_GetTrg();
     if (r)
         func_020355D8(1);
     return r;
@@ -137,7 +137,7 @@ void func_021DBE70(char *p)
     int n;
     int e;
     p[0x11EA] = 1;
-    if (func_02035C38()) {
+    if (TOUCHPANEL_GetCont()) {
         func_020355D8(1);
         if (func_0203630C())
             return;
@@ -203,7 +203,7 @@ void func_021DBE70(char *p)
         e = (int)func_021D8DD0((void *)I(p, 0x828), func_021D8AF4(I(p, 0xF74), p), func_021D8B0C(I(p, 0xF74), I(p, 0xF78)), p);
         if (e && func_02017E88((void *)e, 0xA9, 0)) {
             if (func_021DD0CC(p, e)) {
-                func_02045CAC((struct MsgBank *)I(p, 0x720), 0x8E, (void *)I(p, 0x738));
+                MSGDATA_ReadString((struct MsgBank *)I(p, 0x720), 0x8E, (void *)I(p, 0x738));
                 func_021E0FF4(p, 1, 0);
                 func_021D8E84(p, (int)func_021DA064);
                 return;
@@ -232,7 +232,7 @@ void func_021DBE70(char *p)
         func_020355D8(1);
         I(p, 0xF70) = 1;
     default:
-        if (!func_02035C38()) {
+        if (!TOUCHPANEL_GetCont()) {
             if (I(p, 0x1088) && I(p, 0xF5C) && I(p, 0xF60)) {
                 I(p, 0x1088) = 0;
                 I(p, 0xF5C) = 0;
@@ -249,7 +249,7 @@ void func_021DBE70(char *p)
                 I(p, 0xF88) = I(p, 0xF80);
                 I(p, 0xF60) = 0;
                 func_021B6558((unsigned char *)I(p, 0x9C0), 8, 1);
-                func_021B6548((unsigned char *)I(p, 0x9C0), 8, 1);
+                TOUCHBAR_SetButtonEnabled((unsigned char *)I(p, 0x9C0), 8, 1);
                 func_021E6544(p);
                 func_020061E4(0x72A);
                 func_021D8E84(p, (int)func_021DBD3C);
@@ -272,10 +272,10 @@ void func_021DBE70(char *p)
             func_0204B92C((struct Obj *)I(p, 0xF04), 0);
         }
         func_021DB89C(p);
-        if (func_02035C38())
+        if (TOUCHPANEL_GetCont())
             I(p, 0x1088) = 1;
-        func_021B63D0((struct S *)I(p, 0x9C0));
-        switch (func_021B6470((u8 *)I(p, 0x9C0))) {
+        TOUCHBAR_Update((struct S *)I(p, 0x9C0));
+        switch (TOUCHBAR_GetPressedButtonIdIfPressing((u8 *)I(p, 0x9C0))) {
         case 1:
         case 7:
         case 8:

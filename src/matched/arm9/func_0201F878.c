@@ -1,5 +1,5 @@
 /*
- * function: func_0201F878
+ * function: BMP_MENUWORK_AddMsgItem
  * address:  0x0201F878
  * packet:   pkt_0201F5BC
  * region:   arm9
@@ -22,7 +22,7 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F878.c  *       --func func_0201F878 --addr 0x0201F878 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_AddMsgItem.c  *       --func BMP_MENUWORK_AddMsgItem --addr 0x0201F878 --cc 1.1p1 --thumb
  */
 typedef unsigned int u32;
 
@@ -38,7 +38,7 @@ extern struct Slot *BMP_MENUWORK_FindFreeEntry(struct Slot *s, u32 *tag_out);
 struct MsgBank;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-void func_0201F878(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap)
+void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap)
 {
     struct Slot *slot;
     u32          unused;

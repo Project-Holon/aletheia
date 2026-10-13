@@ -9,12 +9,12 @@
  * status: EXACT
  * note: original narrows the second call argument with lsls/lsrs #16 at 021E0682/021E0686, so this caller's extern uses u16.
  * symbols:
- *   func_020480E4 0x020480E4 arm
+ *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  */
 #include "../include/Obj14234.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ctx;
-extern void func_020480E4(struct Ctx *c, u32 i);
-void func_021E0678(char *p) { func_020480E4(*(struct Ctx * *)&((struct Obj14234 *)p)->fAF4,(u16)(((struct Obj14234 *)p)->fDA4)); }
+extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
+void func_021E0678(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct Obj14234 *)p)->fAF4,(u16)(((struct Obj14234 *)p)->fDA4)); }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216CAD4
+ * function: NAMEIN_SETUP_StartEncounterTransition
  * address:  0x0216CAD4
  * packet:   pkt_0216CAD4
  * region:   ov010
@@ -17,7 +17,7 @@
  *
  * symbols:
  *   func_021CBD84   0x021CBD84  thumb  ov021
- *   func_0216CAA8   0x0216CAA8  thumb  ov010
+ *   NAMEIN_SETUP_StartSceneEvent   0x0216CAA8  thumb  ov010
  */
 #include "../include/Obj17769.h"
 
@@ -26,12 +26,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_021CBD84(void *a);
-extern void *func_0216CAA8(void *a, void *b, void *c, void *d);
+extern void *NAMEIN_SETUP_StartSceneEvent(void *a, void *b, void *c, void *d);
 
-void func_0216CAD4(void *a0, void *a1, void *a2)
+void NAMEIN_SETUP_StartEncounterTransition(void *a0, void *a1, void *a2)
 {
     int v = (int)func_021CBD84(a0);
 
-    func_0216CAA8(a1, a2, (void *)(((struct Obj17769 *)a0)->f7CC), (void *)v);
+    NAMEIN_SETUP_StartSceneEvent(a1, a2, (void *)(((struct Obj17769 *)a0)->f7CC), (void *)v);
 }
 

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021542C0.c
  * unit:     yes
- * function: func_021542C0, EVENT_WORLDTRADE_Create
+ * function: EVENT_WORLDTRADE_Entry, EVENT_WORLDTRADE_Create
  * address:  0x021542C0
  * region:   ov004
  * compiler: dsi/1.1p1
@@ -17,10 +17,10 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_02012138  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200AD6C  0x0200AD6C  thumb
  *   func_02008B08  0x02008B08  thumb
  *   func_0201AD0C  0x0201AD0C  thumb
@@ -87,10 +87,10 @@ void *func_020120F4(const struct GameSystem *gameSystem);
 void *func_020122C0(void *gameSystem, void *a, void *callback, u32 workSize);
 struct GameComm *func_02012138(const struct GameSystem *gameSystem);
 u32 func_02026454(void *gameComm);
-void func_02026400(struct GameComm *gameComm);
+void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *func_020124E8(struct GameEvent *event);
 void func_02082BCC(void *dst, int value, int size);
-struct SaveControl *func_02012EBC(struct GameData *gameData);
+struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 void *func_0200AD6C(void *saveControl);
 void *func_02008B08(void *saveControl);
 void *func_0201AD0C(void *saveControl);
@@ -105,12 +105,12 @@ struct MyItem *func_0201292C(const struct GameData *gameData);
 u32 func_0200CA38(struct WorldTradeSave *worldTradeSave);
 int func_02009CC0(void *battleRecordData);
 u32 EVENT_WORLDTRADE_Main(void *event, u32 *seq, WorldTradeEventWork *work);
-int func_021542C0(int gameSystem, Pair *request);
+int EVENT_WORLDTRADE_Entry(int gameSystem, Pair *request);
 int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused);
 
 
 /* Overlay entry point: unpacks the request and creates the event. */
-int func_021542C0(int gameSystem, Pair *request)
+int EVENT_WORLDTRADE_Entry(int gameSystem, Pair *request)
 {
     return EVENT_WORLDTRADE_Create(gameSystem, request->fieldMap, request->unused);
 }
@@ -125,12 +125,12 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     gameData = (int)func_020120F4((const struct GameSystem *)gameSystem);
     event = (int)func_020122C0((void *)gameSystem, 0, EVENT_WORLDTRADE_Main, 0x54);
     if (func_02026454(func_02012138((const struct GameSystem *)gameSystem)))
-        func_02026400(func_02012138((const struct GameSystem *)gameSystem));
+        GAME_COMM_RequestExitNoCallback(func_02012138((const struct GameSystem *)gameSystem));
     work = func_020124E8((struct GameEvent *)event);
     func_02082BCC(work, 0, 0x54);
     work->gameSystem = (struct GameSystem *)gameSystem;
     work->fieldMap = fieldMap;
-    work->saveControl = func_02012EBC((struct GameData *)gameData);
+    work->saveControl = GAME_DATA_GetSaveControl((struct GameData *)gameData);
     work->param.regulationData = func_0200AD6C(work->saveControl);
     work->param.trainerCardData = func_02008B08(work->saveControl);
     work->param.mailBoxData = func_0201AD0C(work->saveControl);

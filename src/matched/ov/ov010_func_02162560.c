@@ -1,5 +1,5 @@
 /*
- * function: func_02162560
+ * function: EVENTDATA_SYSTEM_GetConnectCount
  * address:  0x02162560
  * packet:   pkt_ov010_02162560
  * region:   ov010
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-u16 func_02162560(u8 *p)
+u16 EVENTDATA_SYSTEM_GetConnectCount(u8 *p)
 {
     return ((struct Obj18958 *)p)->f16;
 }

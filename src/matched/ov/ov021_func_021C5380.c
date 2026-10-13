@@ -1,5 +1,5 @@
 /*
- * function: func_021C5380
+ * function: SHORTCUT_MENU_IsWaitingInput
  * address:  0x021C5380
  * packet:   pkt_ov021_021C5380
  * region:   ov021
@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-int func_021C5380(u8 *p)
+int SHORTCUT_MENU_IsWaitingInput(u8 *p)
 {
     int r = 1;
 

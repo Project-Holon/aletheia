@@ -1,5 +1,5 @@
 /*
- * function: func_021A3C6C
+ * function: FIELD_PLAYER_CORE_RunFormSteps
  * address:  0x021A3C6C
  * packet:   pkt_ov021_021A3C6C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   data_021D89C4  0x021D89C4  data  a4
+ *   gFieldPlayerFormStepTables  0x021D89C4  data  a4
  */
 
 typedef unsigned char  u8;
@@ -24,14 +24,14 @@ typedef struct {
 
 typedef int (*Step021A3C6C)(Obj021A3C6C *p);
 
-extern Step021A3C6C *const data_021D89C4[];
+extern Step021A3C6C *const gFieldPlayerFormStepTables[];
 
-u16 func_021A3C6C(Obj021A3C6C *p, int idx)
+u16 FIELD_PLAYER_CORE_RunFormSteps(Obj021A3C6C *p, int idx)
 {
     Step021A3C6C *tbl;
 
     if (p->done == 0) {
-        tbl = data_021D89C4[idx];
+        tbl = gFieldPlayerFormStepTables[idx];
         while (tbl[p->step](p) == 1)
             ;
     }

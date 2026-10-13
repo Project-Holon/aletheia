@@ -14,7 +14,7 @@
  *
  * Unlabelled ov132 leaf hidden in a .word run: returns element 0x57 of the
  * argument viewed as an int array.  Matched to supply the `matched` witness
- * for the pending ov010 caller func_0215E184.
+ * for the pending ov010 caller SCRCMD_MUSICAL_WaitSessionFinish.
  */
 
 int func_021FD910(int *p)

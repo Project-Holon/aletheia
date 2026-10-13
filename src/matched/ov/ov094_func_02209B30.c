@@ -11,6 +11,10 @@
  *
  * symbols:
  *   func_02209C18  0x02209C18  thumb  ov094
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
+ *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
+ *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
  */
 
 typedef struct {
@@ -26,20 +30,20 @@ typedef unsigned int   u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_02209C18(char *p);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern void func_0204ADA4(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
 struct Bank;
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
 
 void func_02209B30(P *p)
 {
     func_02030EAC(p->f8);
     func_02209C18((char *)p);
-    func_0204A8D4(p->fc);
-    func_0204AFD8(p->f14);
-    func_0204ADA4(p->f10);
-    func_0204B1CC((struct Bank *)p->h0);
+    CLACT_ReleaseCharacter(p->fc);
+    CLACT_ReleaseCellAnim(p->f14);
+    CLACT_ReleasePalette(p->f10);
+    CLACT_DeleteUnit((struct Bank *)p->h0);
     func_020307B0(p);
 }

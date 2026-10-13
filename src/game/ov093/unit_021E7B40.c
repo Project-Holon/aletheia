@@ -15,21 +15,21 @@
  * `data a4` line resolves it as sole-ref/data.
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D57FC  0x021D57FC  thumb  ov093
- *   func_021E8D48  0x021E8D48  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
+ *   BTLV_CORE_BytesOverlap  0x021E8D48  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F283C     0x021F283C  data   a4
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern u16 func_021D57FC(void *p);
-extern int func_021E8D48(int a, int b);
-extern int func_021D76BC(int key, u32 val);
+extern u16 BTL_POKEPARAM_GetTypePair(void *p);
+extern int BTLV_CORE_BytesOverlap(int a, int b);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int d_021F283C[];
 
 void func_021E7B40(int a, int b, int c)
@@ -38,13 +38,13 @@ void func_021E7B40(int a, int b, int c)
     void *x, *y;
     u32 u;
 
-    if (c == func_021D775C(3)) {
-        k = func_021D775C(4);
+    if (c == BTL_EVENT_GetVar(3)) {
+        k = BTL_EVENT_GetVar(4);
         x = func_021C7CF4((int *)b, k);
         y = func_021C7CF4((int *)b, c);
-        u = func_021D57FC(y);
-        if (func_021E8D48(u, func_021D57FC(x)) == 0)
-            func_021D76BC(0x40, 1);
+        u = BTL_POKEPARAM_GetTypePair(y);
+        if (BTLV_CORE_BytesOverlap(u, BTL_POKEPARAM_GetTypePair(x)) == 0)
+            BTL_EVENT_OverwriteVar(0x40, 1);
     }
 }
 

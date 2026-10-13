@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A8EEC",
+   "name": "FIELD_MENU_HandleKeys",
    "address": "0x021A8EEC",
    "kind": "game",
    "region": "ov021",

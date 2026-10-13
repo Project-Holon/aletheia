@@ -1,5 +1,5 @@
 /*
- * function: func_021AB0F0
+ * function: MAP_ATTR_GetTerrainId
  * address:  0x021AB0F0
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * Terrain-attribute accessor: the low half of the 32-bit attribute word a
  * map tile's 8-byte grid record carries at byte offset 4 (see
- * func_021D14C4, which hands that word to its caller verbatim with bit 31
- * cleared).  The low half is the terrain id; func_021AB0F8 is the matching
+ * FIELD_G3D_MAPPER_GetTilePlane, which hands that word to its caller verbatim with bit 31
+ * cleared).  The low half is the terrain id; MAP_ATTR_GetFlags is the matching
  * accessor for the high half, which is the flag half.
  *
  * A leaf that saves nothing, so disasm.py labels it only because a branch
@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-u16 func_021AB0F0(u32 attr)
+u16 MAP_ATTR_GetTerrainId(u32 attr)
 {
     return (u16)attr;
 }

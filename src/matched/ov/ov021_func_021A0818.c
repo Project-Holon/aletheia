@@ -1,5 +1,5 @@
 /*
- * function: func_021A0818
+ * function: FIELD_LIGHT_InitColorLerp
  * address:  0x021A0818
  * packet:   pkt_ov021_021A0818
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-void func_021A0818(s16 *o, s32 a, u32 b)
+void FIELD_LIGHT_InitColorLerp(s16 *o, s32 a, u32 b)
 {
     o[0] = a & 0x1f;
     o[1] = (s16)(b & 0x1f) - (u16)o[0];

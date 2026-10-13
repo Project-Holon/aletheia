@@ -1,5 +1,5 @@
 /*
- * function: func_021A12BC
+ * function: FIELD_SUBSCREEN_SetMenuSelectedButton
  * address:  0x021A12BC
  * packet:   pkt_ov021_021A12BC
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A0F90  0x021A0F90  thumb  ov021
- *   func_021A8E20  0x021A8E20  thumb  ov021
+ *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
+ *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern u32 func_021A0F90(u8 *p);
+extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
 struct W;
-extern void func_021A8E20(struct W *w, u32 v);
+extern void FIELD_MENU_SelectButton(struct W *w, u32 v);
 
-void func_021A12BC(u32 *p, u32 a)
+void FIELD_SUBSCREEN_SetMenuSelectedButton(u32 *p, u32 a)
 {
-    if (func_021A0F90((u8 *)p) == 1)
-        func_021A8E20((struct W *)p[8], a);
+    if (FIELD_SUBSCREEN_GetMode((u8 *)p) == 1)
+        FIELD_MENU_SelectButton((struct W *)p[8], a);
 }

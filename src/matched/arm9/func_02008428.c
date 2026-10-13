@@ -1,5 +1,5 @@
 /*
- * function: func_02008428
+ * function: CONFIG_GetButtonMode
  * address:  0x02008428
  * packet:   pkt_02008428
  * region:   arm9
@@ -13,10 +13,10 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   func_02008428  0x02008428  thumb
+ *   CONFIG_GetButtonMode  0x02008428  thumb
  */
 
-int func_02008428(unsigned short *p)
+int CONFIG_GetButtonMode(unsigned short *p)
 {
     return ((unsigned int)*p << 22) >> 31;
 }

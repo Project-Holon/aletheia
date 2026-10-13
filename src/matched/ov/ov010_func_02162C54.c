@@ -1,5 +1,5 @@
 /*
- * function: func_02162C54
+ * function: EVENTDATA_SYSTEM_ConnectExitDirToDir
  * address: 0x02162C54
  * packet: pkt_ov010_02162C54
  * region: ov010
@@ -13,7 +13,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-int func_02162C54(u8 *p)
+int EVENTDATA_SYSTEM_ConnectExitDirToDir(u8 *p)
 {
     switch (p[4]) {
     case 1: return 0;

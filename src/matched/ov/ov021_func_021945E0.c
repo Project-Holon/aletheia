@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CCC  0x02188CCC  thumb  ov021
- *   func_021A0ED4  0x021A0ED4  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
+ *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   func_020124E4  0x020124E4  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_020129D0  0x020129D0  thumb
- *   func_021A0F30  0x021A0F30  thumb  ov021
- *   func_020129B8  0x020129B8  thumb
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   GAME_DATA_SetFrameRate  0x020129D0  thumb
+ *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
+ *   GAME_DATA_SetSubscreenType  0x020129B8  thumb
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  */
 #include "../include/Obj02693.h"
 
@@ -27,17 +27,17 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 
 struct Obj;
-extern u32 func_02188CCC(u8 *p);
-extern int func_021A0ED4(u32 a);
-extern void *func_02188C7C(u8 *p);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
+extern int FIELD_SUBSCREEN_IsIdle(u32 a);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
 extern void *func_020124E4(struct Obj *p);
-extern u32 func_020120F4(void);
-extern void func_0216D9A0(void *a);
+extern u32 GAMESYSTEM_GetGameData(void);
+extern void FLDMMDL_SysPauseMove(void *a);
 struct BigObj;
-extern void func_020129D0(struct BigObj *p, u8 v);
-extern int func_021A0F30(u32 a, u32 b);
-extern void func_020129B8(struct BigObj *p, u32 v);
-extern u32 *func_0216D9E4(void *c);
+extern void GAME_DATA_SetFrameRate(struct BigObj *p, u8 v);
+extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
+extern void GAME_DATA_SetSubscreenType(struct BigObj *p, u32 v);
+extern u32 *FLDMMDL_SysResumeMove(void *c);
 
 int func_021945E0(void *a, int b, u8 *c)
 {
@@ -46,25 +46,25 @@ int func_021945E0(void *a, int b, u8 *c)
 
     switch (c[0x10]) {
     case 0:
-        if (func_021A0ED4(func_02188CCC(((struct Obj02693 *)c)->f8)) == 1) {
-            r6 = func_02188C7C(((struct Obj02693 *)c)->f8);
+        if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(((struct Obj02693 *)c)->f8)) == 1) {
+            r6 = FIELDMAP_GetMmdlSys(((struct Obj02693 *)c)->f8);
             func_020124E4(a);
-            r4 = func_020120F4();
-            func_0216D9A0(r6);
-            func_020129D0((struct BigObj *)r4, 1);
-            func_021A0F30(func_02188CCC(((struct Obj02693 *)c)->f8), ((struct Obj02693 *)c)->fC);
+            r4 = GAMESYSTEM_GetGameData();
+            FLDMMDL_SysPauseMove(r6);
+            GAME_DATA_SetFrameRate((struct BigObj *)r4, 1);
+            FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(((struct Obj02693 *)c)->f8), ((struct Obj02693 *)c)->fC);
             c[0x10]++;
         }
         break;
     case 1:
-        if (func_021A0ED4(func_02188CCC(((struct Obj02693 *)c)->f8)) == 1) {
+        if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(((struct Obj02693 *)c)->f8)) == 1) {
             func_020124E4(a);
-            func_020129B8((struct BigObj *)func_020120F4(), ((struct Obj02693 *)c)->fC & 0xff);
+            GAME_DATA_SetSubscreenType((struct BigObj *)GAMESYSTEM_GetGameData(), ((struct Obj02693 *)c)->fC & 0xff);
             c[0x10]++;
         }
         break;
     case 2:
-        func_0216D9E4(func_02188C7C(((struct Obj02693 *)c)->f8));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(((struct Obj02693 *)c)->f8));
         return 1;
     }
     return 0;

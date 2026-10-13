@@ -1,5 +1,5 @@
 /*
- * function: func_021BB784
+ * function: TOWNMAP_GRH_GetActor
  * address:  0x021BB784
  * packet:   pkt_021BB784
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BBB0C  0x021BBB0C  thumb
+ *   TOWNMAP_GRH_GetSpriteActor  0x021BBB0C  thumb
  *
  * blocker: target 0x021BBB0C is an unlabelled Thumb leaf in ov072 (labelled
  * only in the unrelated overlapping overlays ov110/ov225), so no `label`
@@ -19,13 +19,13 @@
  * field are right.
  
  *
- * UNBLOCKED: func_021BBB0C is now an EXACT entry in layout/matched/ov072;
+ * UNBLOCKED: TOWNMAP_GRH_GetSpriteActor is now an EXACT entry in layout/matched/ov072;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 
-unsigned int func_021BBB0C(void *p, int n);
+unsigned int TOWNMAP_GRH_GetSpriteActor(void *p, int n);
 
-unsigned int func_021BB784(char *p, int n)
+unsigned int TOWNMAP_GRH_GetActor(char *p, int n)
 {
-    return func_021BBB0C(p + 4, n);
+    return TOWNMAP_GRH_GetSpriteActor(p + 4, n);
 }

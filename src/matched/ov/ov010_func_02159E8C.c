@@ -1,5 +1,5 @@
 /*
- * function: func_02159E8C
+ * function: MAP_REPLACE_SetupFlags
  * address:  0x02159E8C
  * packet:   pkt_ov010_02159E8C
  * region:   ov010
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_02012138  0x02012138  thumb
- *   func_0202E83C  0x0202E83C  thumb
- *   func_0215843C  0x0215843C  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
+ *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb  ov010
  *   func_020143CC  0x020143CC  thumb
  *   d_02170FB0  0x02170FB0  data
  */
@@ -31,23 +31,23 @@ typedef struct Ent {
 
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201296C(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_0202E83C(void *a0);
-extern int func_0215843C(void *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
+extern int INTRUDE_COMM_GetAreaOwnerVersion(void *p);
 extern u32 func_020143CC(u32 a, u32 b);
 extern Ent d_02170FB0[];
 
-void func_02159E8C(u8 *out, int obj)
+void MAP_REPLACE_SetupFlags(u8 *out, int obj)
 {
-    int a = func_0201296C(func_020120F4((const struct Ctx *)obj));
-    int b = func_02012138((const struct Ctx *)obj);
-    int c = func_0202E83C((void *)obj);
+    int a = GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((const struct Ctx *)obj));
+    int b = GAMESYSTEM_GetGameComm((const struct Ctx *)obj);
+    int c = COMM_PLAYER_SUPPORT_GetInfoCode((void *)obj);
     int i;
     out[0] = c;
-    out[1] = (func_0215843C((void *)b) != 0x15);
+    out[1] = (INTRUDE_COMM_GetAreaOwnerVersion((void *)b) != 0x15);
     out[2] = (out[1] == 0) ? 0 : c + 1;
     for (i = 0; i < 10; i++) {
         Ent *e = &d_02170FB0[i];

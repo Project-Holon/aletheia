@@ -28,7 +28,7 @@
  * hi*0x60 in two stack slots.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E394  0x0200E394  thumb
  *   func_0200E44C  0x0200E44C  thumb
  *   _u32_div_f     0x0209C2B0  arm
@@ -61,7 +61,7 @@ struct Req {
 };
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E394(void *p);
 extern int   func_0200E44C(void *p, int i);
 extern u32   func_02167394(u8 id);
@@ -111,7 +111,7 @@ void GAME_BEACON_AddLog(u8 *base, struct Req *r)
             ((struct Obj00747 *)base)->fBAC = 0;
     }
 
-    bag = func_0200E394(func_02012EBC(((struct Obj00747 *)base)->f0));
+    bag = func_0200E394(GAME_DATA_GetSaveControl(((struct Obj00747 *)base)->f0));
     for (i = 0; i < 3; i++) {
         id = func_0200E44C(bag, i);
         if (id != 0xff) {
@@ -124,7 +124,7 @@ void GAME_BEACON_AddLog(u8 *base, struct Req *r)
         }
     }
 
-    sys = func_02012EBC(((struct Obj00747 *)base)->f0);
+    sys = GAME_DATA_GetSaveControl(((struct Obj00747 *)base)->f0);
     bag2 = func_0200E394(sys);
     tbl = func_0200C0F0(sys);
     for (i = 0; i < 3; i++) {

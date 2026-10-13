@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02045A98",
+   "name": "STRBUF_GetEosChar",
    "address": "0x02045A98",
    "kind": "sdk",
    "region": "arm9",

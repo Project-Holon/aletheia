@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201AE14 0x0201AE14 thumb
- *   func_02045C04 0x02045C04 arm
- *   func_02049238 0x02049238 arm
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned char u8;
 typedef struct S {
@@ -24,37 +24,37 @@ typedef struct S {
 } S;
 struct Rec;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201AE14(void *);
 typedef unsigned int   u32;
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_02049238(void *);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021BC008(S *p)
 {
     u8 i;
     for (i = 0; i < 16; i++)
-        func_02045808(p->a[i]);
+        STRBUF_Delete(p->a[i]);
     if (p->x != 0)
         func_0201AE14(p->x);
     for (i = 0; i < 35; i++) {
         switch (i) {
         case 1:
             if (p->g[0] == 0)
-                func_02045C04(p->objs[i]);
+                MSGDATA_Delete(p->objs[i]);
             break;
         case 2:
             if (p->g[1] == 0)
-                func_02045C04(p->objs[i]);
+                MSGDATA_Delete(p->objs[i]);
             break;
         case 3:
             if (p->g[2] == 0)
-                func_02045C04(p->objs[i]);
+                MSGDATA_Delete(p->objs[i]);
             break;
         default:
-            func_02045C04(p->objs[i]);
+            MSGDATA_Delete(p->objs[i]);
             break;
         }
     }
     for (i = 0; i < 7; i++)
-        func_02049238(p->w[i]);
+        ARC_TOOL_DeleteHandle(p->w[i]);
 }

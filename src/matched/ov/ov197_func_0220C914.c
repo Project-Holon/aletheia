@@ -11,7 +11,7 @@
  *   func_0220D3B0 0x0220D3B0 thumb ov197
  *   func_0220BF40 0x0220BF40 thumb ov197
  *   func_0220B980 0x0220B980 thumb ov197
- *   func_020310C4 0x020310C4 arm
+ *   TCBL_Main 0x020310C4 arm
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   d_0220DF40 0x0220DF40 data a4
  */
@@ -28,7 +28,7 @@ struct Node;
 extern int func_0220D3B0(struct Node *task, char *p);
 extern void func_0220BF40(char *);
 extern int func_0220B980(char *);
-extern void func_020310C4(struct Tcbl *);
+extern void TCBL_Main(struct Tcbl *);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 void func_0220C914(void *task, char *p)
 {
@@ -39,7 +39,7 @@ void func_0220C914(void *task, char *p)
     }
     if (((struct Obj00846 *)p)->f530 != 20) ((struct Obj00846 *)p)->f530 = d_0220DF40[*(u8 *)(p + 0x530)](p);
     if (((struct Obj00846 *)p)->f530 == 20 && func_0220D3B0(task, p) == 1) return;
-    func_020310C4(*(struct Tcbl * *)&((struct Obj00846 *)p)->f4);
+    TCBL_Main(*(struct Tcbl * *)&((struct Obj00846 *)p)->f4);
     func_0220BF40(p);
     BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((struct Obj00846 *)p)->f520);
     func_0220B980(p);

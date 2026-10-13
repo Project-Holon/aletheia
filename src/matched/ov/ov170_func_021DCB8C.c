@@ -18,10 +18,10 @@
  *   func_020498F4  0x020498F4  arm
  *   func_02049B68  0x02049B68  arm
  *   func_020275E4  0x020275E4  thumb
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   func_02040E78  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02027628  0x02027628  thumb
  *   func_02027624  0x02027624  thumb
  *   func_0202762C  0x0202762C  thumb
@@ -44,10 +44,10 @@ extern u32 func_02049740(void *, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern u32 func_020275E4(void);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_02027628(void);
 extern u32 func_02027624(void);
 extern u32 func_0202762C(void);
@@ -79,7 +79,7 @@ void func_021DCB8C(struct Ov170Ctx *ctx)
     func_02049B68(arc, 4, 0, 0, 0x80, 0x4c);
     func_02049658(arc, 0x3e, 1, 1000, 0x300, 1, 0x4c);
     func_02049B68(arc, 0x3f, 0, 0x180, 0x40, 0x4c);
-    pal = func_02049F34(func_020275E4(), 0x1f, (u32)(&pd), 0x804c);
+    pal = ARC_UTIL_LoadPaletteBlockFromArchive(func_020275E4(), 0x1f, (u32)(&pd), 0x804c);
     src = pd->fC;
     ofs = 0x194;
     func_02040E78(0, src + 0x34, 4, ofs);
@@ -91,7 +91,7 @@ void func_021DCB8C(struct Ov170Ctx *ctx)
     func_020498F4(arc, 5, 5, 0, 0, 1, 0x4c);
     func_02049658(arc, 6, 6, 0, 0, 1, 0x4c);
     func_02049B68(arc, 7, 4, 0, 0, 0x4c);
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     arc2 = func_020490F4(func_020275E4(), 0x4c);
     func_02049740(arc2, func_02027628(), 0, 0, 0, 0x4c);
     func_02049B68(arc2, func_02027624(), 0, 0xe0, 0x20, 0x4c);
@@ -99,7 +99,7 @@ void func_021DCB8C(struct Ov170Ctx *ctx)
     func_020413B0(0, 0, 0x15, 0x20, 3, 7);
     func_02041B6C(0);
     r6 = func_02049740(arc2, func_02027628(), 2, 0, 0, 0x4c);
-    func_02049238(arc2);
+    ARC_TOOL_DeleteHandle(arc2);
     a = (u16 *)func_0204162C(0);
     b = (u16 *)func_0204162C(2);
     for (i = 0; i < 0x60u; i++) {

@@ -14,25 +14,25 @@
  *
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02050B80 0x02050B80 arm
+ *   PARTICLE_InitManager 0x02050B80 arm
  *   d_021FDCB0 0x021FDCB0 data a4
- *   func_02050ED4 0x02050ED4 arm
+ *   PARTICLE_ExitManager 0x02050ED4 arm
  *   func_020307B0 0x020307B0 arm
  *   PARTICLE_UpdateAllSystems 0x02051574 arm
  *   PARTICLE_DrawAllSystems 0x02051534 arm
- *   func_02050C04 0x02050C04 arm
- *   func_0205121C 0x0205121C arm
+ *   PARTICLE_CreateSystemDefault 0x02050C04 arm
+ *   PARTICLE_LoadArchiveMember 0x0205121C arm
  *   func_020056BC 0x020056BC thumb
- *   func_02051230 0x02051230 arm
+ *   PARTICLE_SetupSystem 0x02051230 arm
  *   PARTICLE_KillAllEffects 0x02051620 arm
- *   func_02050DB8 0x02050DB8 arm
+ *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   PARTICLE_StartEffect 0x020515B4 arm
  *   PARTICLE_KillEffect  0x02051630  arm
  *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *   d_021FDCC4 0x021FDCC4 data a4
  *   func_021F9DFC 0x021F9DFC thumb ov132
  *   func_02005728 0x02005728 thumb
- *   func_0215725C 0x0215725C thumb ov010
+ *   MUSICAL_PROGRAM_GetCategoryBonus 0x0215725C thumb ov010
  *   func_021F9E04 0x021F9E04 thumb ov132
  *   func_021F9DA0 0x021F9DA0 thumb ov132
  *   func_021F9DA4 0x021F9DA4 thumb ov132
@@ -50,38 +50,38 @@
  *   d_021FDC16 0x021FDC16 data a2
  *   func_02040618 0x02040618 arm
  *   d_021FDCD8 0x021FDCD8 data a4
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204B1CC 0x0204B1CC arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
  *   d_021FDC20 0x021FDC20 data a1
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_0207D658 0x0207D658 arm
  *   func_021F9730 0x021F9730 thumb ov132
  *   func_021F9768 0x021F9768 thumb ov132
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
  *   func_020355D8 0x020355D8 arm
  *   func_0204B3F4 0x0204B3F4 arm
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_021F9E0C 0x021F9E0C thumb ov132
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
- *   func_0204ABF0 0x0204ABF0 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   func_021F4F54 0x021F4F54 thumb ov112
  *   func_021F4F70 0x021F4F70 thumb ov112
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204A1BC 0x0204A1BC arm
- *   func_0206E964 0x0206E964 arm
- *   func_0204ABBC 0x0204ABBC arm
+ *   ARC_UTIL_LoadMember 0x0204A1BC arm
+ *   NNS_G3dGetTex 0x0206E964 arm
+ *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
  *   func_020862F0 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E804 0x0207E804 arm
@@ -106,7 +106,7 @@
  *   _fadd 0x0209C95C arm
  *   func_0207CEE4 0x0207CEE4 arm
  *   func_0207C9D0 0x0207C9D0 arm
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   d_021FDD00 0x021FDD00 data ov132 a4
  *   func_021F96D0 0x021F96D0 thumb ov132
  *   func_021F9E00 0x021F9E00 thumb ov132
@@ -160,7 +160,7 @@
  *   func_021F9DF4 0x021F9DF4 thumb ov132
  *   func_021F93D8 0x021F93D8 thumb ov132
  *   func_021F94B0  0x021F94B0  thumb
- *   func_0201DD78 0x0201DD78 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_021F9664  0x021F9664  thumb
  *   func_021F9680  0x021F9680  thumb
  *   func_021F9690  0x021F9690  thumb
@@ -168,27 +168,27 @@
  *   func_021F96B0  0x021F96B0  thumb
  *   func_021F96C4  0x021F96C4  thumb
  *   d_021FDE5C 0x021FDE5C data a4
- *   func_02026400 0x02026400 thumb
- *   func_0203CBAC 0x0203CBAC arm
+ *   GAME_COMM_RequestExitNoCallback 0x02026400 thumb
+ *   GFL_NET_StartSession 0x0203CBAC arm
  *   func_02087C6C 0x02087C6C arm
  *   d_021FDE4C 0x021FDE4C data a4
  *   d_021FDDEC 0x021FDDEC data a4
- *   func_0203D1B4 0x0203D1B4 arm
- *   func_0203CEAC 0x0203CEAC arm
- *   func_0203A5E4 0x0203A5E4 arm
- *   func_0203D7BC 0x0203D7BC arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203D378 0x0203D378 arm
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   func_02012124 0x02012124 thumb
- *   func_0203CDBC 0x0203CDBC arm
- *   func_0203A574 0x0203A574 arm
+ *   GFL_NET_IsSessionNull 0x0203CDBC arm
+ *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021FDC38 0x021FDC38 data a4
  *   GAME_DATA_GetSaveBlock2A 0x02012F44 thumb
  *   func_020173EC 0x020173EC thumb
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
- *   func_02008468 0x02008468 thumb
+ *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_0200A81C 0x0200A81C thumb
  *   func_0203F0A8 0x0203F0A8 arm
@@ -204,8 +204,8 @@
  *   func_021FD550 0x021FD550 thumb ov132
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4 0x02039CB4 arm
- *   func_0203D3F8 0x0203D3F8 arm
- *   func_0203996C 0x0203996C arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetNetHandle 0x0203996C arm
  *   func_020061E4 0x020061E4 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_020084BC 0x020084BC thumb
@@ -214,6 +214,8 @@
  *   func_021FB190  0x021FB190  thumb  ov132
  *   func_021FB528  0x021FB528  thumb  ov132
  *   func_021FB8CC  0x021FB8CC  thumb  ov132
+ *   MYSTATUS_Copy  0x02008494  thumb  arm9
+ *   GAME_COMM_Start  0x020263D8  thumb  arm9
  */
 
 #include "../../game/ov132/ov132_types.h"
@@ -333,23 +335,23 @@ struct Context { char pad0[0x60]; struct Record rec[4]; };
 typedef struct {u8 pad[0x128];char *buffer;u8 tail[0x80];} Owner_021FD22C;
 
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
-extern void func_02050B80(unsigned);
-extern void func_02050ED4(void);
+extern void PARTICLE_InitManager(unsigned);
+extern void PARTICLE_ExitManager(void);
 extern u32 func_020307B0(void *p);
 extern int PARTICLE_UpdateAllSystems(void);
 extern int PARTICLE_DrawAllSystems(void);
-extern int func_02050C04(int a, int b, int c, int d);
-extern int func_0205121C(u32 a, u32 b, u32 c);
+extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
+extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 extern unsigned func_020056BC(void);
-extern void func_02051230(void *, void *, unsigned, unsigned);
+extern void PARTICLE_SetupSystem(void *, void *, unsigned, unsigned);
 extern void PARTICLE_KillAllEffects(u32);
-extern void func_02050DB8(u8 *p);
+extern void PARTICLE_DeleteSystem(u8 *p);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_KillEffect(void **p, void *q);
 extern void BUTTON_MAN_SetEmitterPos(void *, int);
 extern u16 func_021F9DFC(void *p);
 extern unsigned func_02005728(unsigned);
-extern u8 func_0215725C(u8 *, int);
+extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
 extern u16 func_021F9E04(u8 *p);
 extern void *func_021F9DA0(char *p);
 extern void *func_021F9DA4(char *p, u32 i);
@@ -360,34 +362,34 @@ extern void func_021F6F04(void *,char *,Vec *);
 extern void func_02041300(u32,u16,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
 extern void func_02040618(unsigned, unsigned, unsigned);
-extern void func_0204B3B4(struct Obj_021F9E40 *p);
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern int func_02035C08(const void *);
+extern void CLACT_DeleteActor(struct Obj_021F9E40 *p);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_0207D658(unsigned long,int,int);
 extern void func_021F9730(char *p, int value);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_0204B3DC(struct Obj_021F9E40 *,unsigned int);
 extern void func_0204B404(struct Obj_021F9E40 *p, const struct Vec2 *delta, u32 which);
 extern void func_020355D8(u8);
 extern int func_021F9768(char *p);
 extern u32 func_0204B3F4(struct Obj_021F9E40 *p);
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 func_021F9E0C(u8 *p);
 extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0204B92C(struct Obj_021F9E40 *,u32);
-extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16),func_0204A6C8(void *,u32,u32,u32,u16),func_0204AF28(void *,u32,u32,u32),func_0204ABF0(void *,u32,u32,u32,u16);
-extern struct Obj_021F9E40 *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern int func_0204A1BC(int,int,int,int);
-extern unsigned char *func_0206E964(unsigned char *p);
-extern int func_0204ABBC(u32 idx, u32 flag);
+extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16),CLACT_RegisterCharacter(void *,u32,u32,u32,u16),CLACT_RegisterCellAnim(void *,u32,u32,u32),CLACT_RegisterPalette(void *,u32,u32,u32,u16);
+extern struct Obj_021F9E40 *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+extern int ARC_UTIL_LoadMember(int,int,int,int);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 extern void func_020862F0(void *,u32);
 extern void func_0207E5D0(const void *,u32,u32);
 extern void func_0207E804(const void *,void *,u32);
@@ -409,7 +411,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_020605B4(volatile struct DList *list, void *elem);
 extern void func_0207CEE4(int, void *, void *, void *);
 extern void func_0207C9D0(const Vec *, const Vec *, Vec *);
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void func_021F96D0(char *p);
 extern void func_021F9E00(void *, u16);
 extern void func_021F9E08(u8 *p, u16 v);
@@ -460,7 +462,7 @@ extern void func_021F6EF4(void *unused, u32 *p, const u32 *q);
 extern void *func_021F9DF4(void *p);
 extern void func_021F93D8(u8 *,u16,u32);
 extern void func_021F94B0(u8 *p);
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern void func_021F9664(char *p, int a);
 extern void func_021F9680(char *p, int a);
 extern void func_021F9690(char *p);
@@ -468,27 +470,27 @@ extern int func_021F969C(char *p, u32 a, u32 b, u32 d);
 extern void func_021F96B0(char *p, int a);
 extern void func_021F96C4(char *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
-extern void func_02026400(struct Comm *);
+extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *);
 extern u8 *func_02012944(void *p);
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_02008494(void *, void *);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern void MYSTATUS_Copy(void *, void *);
 extern void func_02087C6C(void *);
-extern int func_0203D1B4(void);
-extern int func_0203CEAC(int);
-extern void func_0203A5E4(u32);
-extern void func_0203D7BC(u8 a0);
+extern int GFL_NET_GetNegotiationNum(void);
+extern int GFL_NET_Exit(int);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
+extern void GFL_NET_SetLoginOption(u8 a0);
 extern u32 func_0200FB24(void);
-extern u32 func_0203D378(void);
-extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern u32 GFL_NET_IsParentAid(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_02012124(struct Ctx *p, u32 v);
-extern int func_0203CDBC(void);
-extern void func_0203A574(u32,u32,u32,u32);
+extern int GFL_NET_IsSessionNull(void);
+extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void *GAME_DATA_GetSaveBlock2A(void *);
 extern u32 func_020173EC(void);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
-extern int func_02008468(void);
+extern int MYSTATUS_GetSize(void);
 extern void func_02082BCC(void *,u8,u32);
 extern u16 func_0200A81C(struct Big *p);
 extern u32 func_0203F0A8(void);
@@ -503,8 +505,8 @@ extern int func_021FD6A4(char *);
 extern void func_021FD550(char *);
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
-extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
-extern struct Entry *func_0203996C(int);
+extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(int);
 extern void func_020061E4(u32);
 extern void func_02082D44(void *,void *,u32);
 extern int func_020084BC(const u16 *values);
@@ -671,8 +673,8 @@ int func_021FBA6C(int unused, Msg *m)
     u32 vec[4];
     Vec3 v;
     Tag tag;
-    u32 x = func_0201134C(m->f4);
-    u32 y = func_0201134C(m->f4);
+    u32 x = VM_GetU32(m->f4);
+    u32 y = VM_GetU32(m->f4);
     void *h = func_021F9DA0(o->f34);
     u32 idx;
     u32 total;

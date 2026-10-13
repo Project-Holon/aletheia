@@ -1,5 +1,5 @@
 /*
- * function: func_021DB734
+ * function: BTL_TOKUSEI_Klutz_BlockNaturalGift
  * address:  0x021DB734
  * packet:   pkt_ov093_021DB734
  * region:   ov093
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 #include "../include/Obj13478.h"
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 typedef unsigned int   u32;
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021DB734(int a, int b, int c, int d)
+void BTL_TOKUSEI_Klutz_BlockNaturalGift(int a, int b, int c, int d)
 {
-    if (c == func_021D775C(2)) {
-        unsigned short t = (unsigned short)func_021D775C(0x12);
+    if (c == BTL_EVENT_GetVar(2)) {
+        unsigned short t = (unsigned short)BTL_EVENT_GetVar(0x12);
         ((struct Obj13478 *)d)->f8 = 0;
-        if (t == 0x16b && c == func_021D775C(2))
-            ((struct Obj13478 *)d)->f8 = func_021D76BC(0x22, 0x13);
+        if (t == 0x16b && c == BTL_EVENT_GetVar(2))
+            ((struct Obj13478 *)d)->f8 = BTL_EVENT_OverwriteVar(0x22, 0x13);
     }
 }

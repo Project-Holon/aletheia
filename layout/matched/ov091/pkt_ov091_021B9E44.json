@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B9E44",
-    "func_021B9EB0"
+    "POKELIST_CheckItemUsable",
+    "POKELIST_OpenLearnMoveMenu"
+   ],
+   "addresses": [
+    "0x021B9E44",
+    "0x021B9EB0"
    ]
   }
  ]

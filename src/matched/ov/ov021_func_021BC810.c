@@ -1,5 +1,5 @@
 /*
- * function: func_021BC810
+ * function: FIELD_PLACE_NAME_CreateArcHandle
  * address:  0x021BC810
  * packet:   pkt_ov021_021BC810
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD090  0x021BD090  thumb  ov021
+ *   FIELD_PLACE_NAME_GetHeapId  0x021BD090  thumb  ov021
  */
 
 typedef struct {
@@ -21,10 +21,10 @@ typedef struct {
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u16 func_021BD090(u8 *p);
+extern u16 FIELD_PLACE_NAME_GetHeapId(u8 *p);
 extern void *func_020490F4(u32 id, u32 heap);
 
-void func_021BC810(Obj *p)
+void FIELD_PLACE_NAME_CreateArcHandle(Obj *p)
 {
-    p->f10 = func_020490F4(0x54, func_021BD090((u8 *)p));
+    p->f10 = func_020490F4(0x54, FIELD_PLACE_NAME_GetHeapId((u8 *)p));
 }

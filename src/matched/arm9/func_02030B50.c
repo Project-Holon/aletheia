@@ -14,7 +14,7 @@
  *   func_02030A7C   0x02030A7C  arm
  *   GFL_HEAP_GetHeapSize   0x020303D8  arm
  *   GFL_HEAP_GetTotalFreeSize   0x02030344  arm
- *   func_0203038C   0x0203038C  arm
+ *   GFL_HEAP_GetAllocatableSize   0x0203038C  arm
  *   GFL_HEAP_GetAllocCountById   0x0203046C  arm
  *   GFL_HEAP_GetHeapHandle   0x02030428  arm
  *   func_0209128C   0x0209128C  arm
@@ -66,7 +66,7 @@ typedef signed int s32;
 typedef unsigned short u16;
 extern u32 GFL_HEAP_GetHeapSize(u32 heapId);
 extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
-extern void *func_0203038C(u32 heapId);
+extern void *GFL_HEAP_GetAllocatableSize(u32 heapId);
 extern u16 GFL_HEAP_GetAllocCountById(u32 heapId);
 extern void *GFL_HEAP_GetHeapHandle(u32 heapId);
 extern void func_0209128C(int x);
@@ -77,7 +77,7 @@ void func_02030B50(void *p)
 {
     GFL_HEAP_GetHeapSize((u32)p);
     GFL_HEAP_GetTotalFreeSize((u32)p);
-    func_0203038C((u32)p);
+    GFL_HEAP_GetAllocatableSize((u32)p);
     GFL_HEAP_GetAllocCountById((u32)p);
     func_0209128C(1);
     func_02060F50(GFL_HEAP_GetHeapHandle((u32)p), (void (*)(void *, void *, int))func_02030A7C, 0);

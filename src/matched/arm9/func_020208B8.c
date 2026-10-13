@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   BMP_MENULIST_DrawItems  0x0202055C  thumb
  *   BMP_MENULIST_ShiftWindow  0x02020CA0  thumb
  */
@@ -50,7 +50,7 @@ struct Obj {
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_MENULIST_DrawItems(struct Obj *o, u32 a, u32 b, u32 c, u32 d);
 extern void BMP_MENULIST_ShiftWindow(void *win, u32 a, u32 b, u32 c, u16 tile);
 
@@ -59,7 +59,7 @@ void BMP_MENULIST_ScrollRows(struct Obj *obj, int n, u32 flag)
     u8 step;
 
     if (n >= (int)obj->rows) {
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
+        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);
         BMP_MENULIST_DrawItems(obj, obj->f40, 0, obj->rows, 1);
         return;
     }

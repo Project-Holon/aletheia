@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GAMESYSTEM_GetProcStatus, func_020120F4, func_020120F8, func_02012104,
- *           GAMESYSTEM_SetEvent, func_0201210C, func_02012110, func_02012114,
- *           func_02012124, func_0201212C, func_02012134, func_02012138,
- *           GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, func_0201214C
+ * function: GAMESYSTEM_GetProcStatus, GAMESYSTEM_GetGameData, GAMESYSTEM_GetMyPlayerWork, GAMESYSTEM_GetEvent,
+ *           GAMESYSTEM_SetEvent, GAMESYSTEM_GetFieldMap, GAMESYSTEM_SetFieldMap, GAMESYSTEM_IsFieldMapExist,
+ *           GAMESYSTEM_SetFieldMapState, GAMESYSTEM_GetFieldMapState, GAMESYSTEM_GetIssSystem, GAMESYSTEM_GetGameComm,
+ *           GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, GAMESYSTEM_GetAlwaysNetFlag
  *
  * symbols:
- *   func_020127A4  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_IsConfigFlagSet  0x02012BB0  thumb
  *
  * 104 bytes, 0x020120F0..0x02012158, 15 functions, none of which carries a
@@ -30,8 +30,8 @@
  * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
  * source.
  *
- * func_020120F8 and func_0201214C are tail calls through pool words: the
- * first hands +0x1C to func_020127A4 and the second to GAME_DATA_IsConfigFlagSet, and
+ * GAMESYSTEM_GetMyPlayerWork and GAMESYSTEM_GetAlwaysNetFlag are tail calls through pool words: the
+ * first hands +0x1C to GAME_DATA_GetMyPlayerWork and the second to GAME_DATA_IsConfigFlagSet, and
  * both are ABS32 against a Thumb target, so the pool word is odd.
  *
  * 0x02012158, 12 bytes, is a third tail call of the same shape and is a near
@@ -61,7 +61,7 @@ typedef unsigned int   u32;
 
 struct BigObj;
 struct SaveBlock;
-extern void *func_020127A4(struct SaveBlock *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
 
 struct Ctx {
@@ -85,17 +85,17 @@ u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p)
     return p->unk0C;
 }
 
-void *func_020120F4(const struct Ctx *p)
+void *GAMESYSTEM_GetGameData(const struct Ctx *p)
 {
     return p->unk1C;
 }
 
-u8 *func_020120F8(const struct Ctx *p)
+u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p)
 {
-    return func_020127A4(p->unk1C);
+    return GAME_DATA_GetMyPlayerWork(p->unk1C);
 }
 
-u32 func_02012104(const struct Ctx *p)
+u32 GAMESYSTEM_GetEvent(const struct Ctx *p)
 {
     return p->unk18;
 }
@@ -105,17 +105,17 @@ void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v)
     p->unk18 = v;
 }
 
-void *func_0201210C(const struct Ctx *p)
+void *GAMESYSTEM_GetFieldMap(const struct Ctx *p)
 {
     return p->unk20;
 }
 
-void func_02012110(struct Ctx *p, void *v)
+void GAMESYSTEM_SetFieldMap(struct Ctx *p, void *v)
 {
     p->unk20 = v;
 }
 
-u32 func_02012114(const struct Ctx *p)
+u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p)
 {
     if (p->unk20 != 0) {
         return 1;
@@ -123,22 +123,22 @@ u32 func_02012114(const struct Ctx *p)
     return 0;
 }
 
-void func_02012124(struct Ctx *p, u32 v)
+void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v)
 {
     p->unk30 = v;
 }
 
-u8 func_0201212C(const struct Ctx *p)
+u8 GAMESYSTEM_GetFieldMapState(const struct Ctx *p)
 {
     return p->unk30;
 }
 
-u32 func_02012134(const struct Ctx *p)
+u32 GAMESYSTEM_GetIssSystem(const struct Ctx *p)
 {
     return p->unk2C;
 }
 
-u32 func_02012138(const struct Ctx *p)
+u32 GAMESYSTEM_GetGameComm(const struct Ctx *p)
 {
     return p->unk24;
 }
@@ -153,7 +153,7 @@ u8 GAMESYSTEM_IsCommBlocked(const struct Ctx *p)
     return p->unk32;
 }
 
-u32 func_0201214C(const struct Ctx *p)
+u32 GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *p)
 {
     return GAME_DATA_IsConfigFlagSet(p->unk1C);
 }

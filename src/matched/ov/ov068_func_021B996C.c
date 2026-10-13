@@ -1,5 +1,5 @@
 /*
- * function: func_021B996C
+ * function: OPTION_MENU_ScreenTaskMain
  * address: 0x021B996C
  * packet: pkt_ov068_021B996C
  * region: ov068
@@ -10,13 +10,13 @@
  * status: EXACT
  * Task callback ignores its task handle; preserve the pointers visibly loaded.
  * symbols:
- *   func_021B9D60 0x021B9D60 thumb ov068
- *   func_021BA010 0x021BA010 thumb ov068
+ *   OPTION_MENU_FlushGfx 0x021B9D60 thumb ov068
+ *   OPTION_MENU_DrawSprites 0x021BA010 thumb ov068
  */
-extern void func_021B9D60(char *);
-extern void func_021BA010(char *);
-void func_021B996C(void *task, char *p)
+extern void OPTION_MENU_FlushGfx(char *);
+extern void OPTION_MENU_DrawSprites(char *);
+void OPTION_MENU_ScreenTaskMain(void *task, char *p)
 {
-    func_021B9D60(p);
-    func_021BA010(p + 0x7c);
+    OPTION_MENU_FlushGfx(p);
+    OPTION_MENU_DrawSprites(p + 0x7c);
 }

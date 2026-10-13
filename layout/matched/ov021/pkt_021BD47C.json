@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD47C",
+   "name": "PLACE_NAME_LETTER_Deactivate",
    "address": "0x021BD47C",
    "kind": "game",
    "region": "ov021",

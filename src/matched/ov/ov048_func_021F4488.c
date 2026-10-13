@@ -1,5 +1,5 @@
 /*
- * function: func_021F4488
+ * function: GIMMICK_OBJ_ELBOARD_CountHighlights
  * address: 0x021F4488
  * packet: pkt_ov048_021F4488
  * region: ov048
@@ -10,4 +10,4 @@
  * status: EXACT
  * symbols:
  */
-int func_021F4488(unsigned char *p) { int i; int n; n=0; for(i=0;i<4;i++) if(((unsigned short *)p)[i]!=0x1ab && p[8+i]!=0xffff) n++; return n; }
+int GIMMICK_OBJ_ELBOARD_CountHighlights(unsigned char *p) { int i; int n; n=0; for(i=0;i<4;i++) if(((unsigned short *)p)[i]!=0x1ab && p[8+i]!=0xffff) n++; return n; }

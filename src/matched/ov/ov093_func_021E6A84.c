@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021E6AC8  0x021E6AC8  thumb  ov093
- *   func_021D7E44  0x021D7E44  thumb  ov093
+ *   BTL_CALC_PickRandomMoveExcluding  0x021D7E44  thumb  ov093
  *   func_021C8030  0x021C8030  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern int func_021E6AC8(u32 *out);
-extern u16 func_021D7E44(int a, int b);
+extern u16 BTL_CALC_PickRandomMoveExcluding(int a, int b);
 extern int func_021C8030(int a, int b, int c);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E6A84(int x, int a, int c)
 {
@@ -33,10 +33,10 @@ void func_021E6A84(int x, int a, int c)
     int id;
     int r;
 
-    if (c == func_021D775C(2)) {
-        id = func_021D7E44(func_021E6AC8(&v), (u16)v);
+    if (c == BTL_EVENT_GetVar(2)) {
+        id = BTL_CALC_PickRandomMoveExcluding(func_021E6AC8(&v), (u16)v);
         r = func_021C8030(a, c, id);
-        func_021D76BC(0x12, id);
-        func_021D76BC(0xd, r);
+        BTL_EVENT_OverwriteVar(0x12, id);
+        BTL_EVENT_OverwriteVar(0xd, r);
     }
 }

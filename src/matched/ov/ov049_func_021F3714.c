@@ -13,15 +13,15 @@
  *           the third load below the second store.
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE700  0x021BE700  thumb  ov021
- *   d_021F3894     0x021F3894  data  ov049  a4
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   gGimmick49Setup     0x021F3894  data  ov049  a4
  *   d_021F38A4     0x021F38A4  data  a4
  */
 
@@ -35,19 +35,19 @@ typedef struct {
 } V3;
 
 extern const V3 d_021F38A4[];
-extern char d_021F3894[];
+extern char gGimmick49Setup[];
 
 struct BigObj;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201296C(const struct BigObj *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 typedef signed int     s32;
-extern u32 func_020142E8(void *bitmap, s32 id);
-extern int func_02188D2C(int *p);
-extern void func_021BE760(u32 a, void *b, int c);
-extern V3 *func_021BE480(u32 a, int b, u16 c);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(u32 a, void *b, int c);
+extern V3 *FLD_EXP_OBJ_GetModelStatus(u32 a, int b, u16 c);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
 
 void func_021F3714(u32 a0, u32 a)
 {
@@ -60,37 +60,37 @@ void func_021F3714(u32 a0, u32 a)
     int i;
     V3 *p;
 
-    sv = (void *)func_0201296C(func_020120F4(func_02188C80((void *)a)));
-    f0 = func_020142E8(sv, 0x96B);
-    f1 = func_020142E8(sv, 0x96A);
-    f2 = func_020142E8(sv, 0x969);
-    f3 = func_020142E8(sv, 0x96C);
-    s = func_02188D2C((int *)a);
-    func_021BE760(s, d_021F3894, 0);
+    sv = (void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a)));
+    f0 = ZONEDATA_CheckEventFlag(sv, 0x96B);
+    f1 = ZONEDATA_CheckEventFlag(sv, 0x96A);
+    f2 = ZONEDATA_CheckEventFlag(sv, 0x969);
+    f3 = ZONEDATA_CheckEventFlag(sv, 0x96C);
+    s = FIELDMAP_GetExpObj((int *)a);
+    FLD_EXP_OBJ_AddUnitFromArchive(s, gGimmick49Setup, 0);
     for (i = 0; i < 6; i++) {
-        p = func_021BE480(s, 0, i);
+        p = FLD_EXP_OBJ_GetModelStatus(s, 0, i);
         p->a = d_021F38A4[i].a;
         p->b = d_021F38A4[i].b;
         p->c = d_021F38A4[i].c;
     }
     if (f0 && f1 && f2 && f3) {
-        func_021BE700((void *)s, 0, 0, 0, 1);
-        func_021BE700((void *)s, 0, 1, 0, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 0, 0, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 1, 0, 1);
     }
     if (f0)
-        func_021BE700((void *)s, 0, 2, 1, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 2, 1, 1);
     else
-        func_021BE700((void *)s, 0, 2, 0, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 2, 0, 1);
     if (f1)
-        func_021BE700((void *)s, 0, 3, 1, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 3, 1, 1);
     else
-        func_021BE700((void *)s, 0, 3, 0, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 3, 0, 1);
     if (f2)
-        func_021BE700((void *)s, 0, 4, 1, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 4, 1, 1);
     else
-        func_021BE700((void *)s, 0, 4, 0, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 4, 0, 1);
     if (f3)
-        func_021BE700((void *)s, 0, 5, 1, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 5, 1, 1);
     else
-        func_021BE700((void *)s, 0, 5, 0, 1);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)s, 0, 5, 0, 1);
 }

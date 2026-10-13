@@ -1,5 +1,5 @@
 /*
- * function: func_0218677C
+ * function: FIELD_WFBC_DATA_LOCAL_SetPersonParent
  * address: 0x0218677C
  * packet: pkt_ov020_0218677C
  * region: ov020
@@ -22,4 +22,4 @@ struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern const void *func_020084F4(const void *p);
 extern void func_02082D44(const void *src, void *dst, u32 size);
-void func_0218677C(u8 *p, void *src) { p[0] = (p[0] & ~0xF0) | 0x10; ((struct Obj09436 *)p)->f14 = func_02008530(src); func_02082D44(func_020084F4(src), p + 4, 16); }
+void FIELD_WFBC_DATA_LOCAL_SetPersonParent(u8 *p, void *src) { p[0] = (p[0] & ~0xF0) | 0x10; ((struct Obj09436 *)p)->f14 = func_02008530(src); func_02082D44(func_020084F4(src), p + 4, 16); }

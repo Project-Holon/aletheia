@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216F378",
+   "name": "TRCARD_SYS_StateStartBadgeProc",
    "address": "0x0216F378",
    "kind": "game",
    "region": "ov010",

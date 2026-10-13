@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
- *   func_020457B0  0x020457B0  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   PROCSYS_Create  0x02031324  arm
  */
 #include "../include/Obj04655.h"
 
-extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
+extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 typedef unsigned int   u32;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *PROCSYS_Create(int a0);
 
 struct s { char pad[0x38]; };
@@ -31,9 +31,9 @@ int func_021B95D0(struct Obj0203159C *a)
 {
     struct s *p;
 
-    func_0203064C(1, 0x8b, 0x1000);
-    p = (struct s *)func_0203159C(a, 0x38, 0x8b);
-    ((struct Obj04655 *)p)->f4 = (int)func_020457B0(0x20, 0x8b);
+    GFL_HEAP_CreateChildHeap(1, 0x8b, 0x1000);
+    p = (struct s *)PROCSYS_AllocProcWork(a, 0x38, 0x8b);
+    ((struct Obj04655 *)p)->f4 = (int)STRBUF_Create(0x20, 0x8b);
     ((struct Obj04655 *)p)->f0 = 0;
     ((struct Obj04655 *)p)->f28 = 0;
     ((struct Obj04655 *)p)->f2C = 0;

@@ -34,6 +34,8 @@
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   POKE_TOOL_GetGender  0x02017F00  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_IsShiny  0x02017EAC  thumb
  */
 
 typedef unsigned char  u8;
@@ -59,9 +61,9 @@ struct Blk37 {
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-extern u32   func_02017E1C(void *m, u32 field, u32 arg);
+extern u32   POKE_TOOL_GetPartyValue(void *m, u32 field, u32 arg);
 extern u8    POKE_TOOL_GetGender(void *m);
-extern u32   func_02017EAC(void *m);
+extern u32   POKE_TOOL_IsShiny(void *m);
 extern u32 func_0200C720(u32 v);
 extern u32   func_0200D064(struct Blk37 *p, u16 id);
 extern void  func_0200CA98(struct Blk37 *p, u16 id, u32 c, u32 d, u32 e);
@@ -81,16 +83,16 @@ void func_0200CDE0(struct Blk37 *p, void *m)
     s32 y;
 
     saved = POKE_TOOL_DecodePartyParam(m);
-    if (func_02017E1C(m, 0x4C, 0) == 1) {
+    if (POKE_TOOL_GetPartyValue(m, 0x4C, 0) == 1) {
         POKE_TOOL_EncodePartyParam(m, saved);
         return;
     }
-    id = (u16)func_02017E1C(m, 5, 0);
-    v0 = func_02017E1C(m, 0, 0);
-    v6F = func_02017E1C(m, 0x6F, 0);
-    v0C = func_02017E1C(m, 0xC, 0);
+    id = (u16)POKE_TOOL_GetPartyValue(m, 5, 0);
+    v0 = POKE_TOOL_GetPartyValue(m, 0, 0);
+    v6F = POKE_TOOL_GetPartyValue(m, 0x6F, 0);
+    v0C = POKE_TOOL_GetPartyValue(m, 0xC, 0);
     f = POKE_TOOL_GetGender(m);
-    g = func_02017EAC(m);
+    g = POKE_TOOL_IsShiny(m);
     POKE_TOOL_EncodePartyParam(m, saved);
     if (func_0200C720(id) != 0) {
         return;

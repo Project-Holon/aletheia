@@ -36,14 +36,14 @@
  *   func_021F51F4 0x021F51F4 thumb ov112
  *   func_021F718C 0x021F718C thumb ov112
  *   func_021F6F8C 0x021F6F8C thumb ov112
- *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
- *   func_02047970 0x02047970 arm
- *   func_0204A600 0x0204A600 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
- *   func_0204A648 0x0204A648 arm
- *   func_0202208C 0x0202208C thumb
- *   func_020221A4 0x020221A4 thumb
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_02006238 0x02006238 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   d_02FFFC3C 0x02FFFC3C data a4
@@ -56,8 +56,8 @@ typedef unsigned u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 d_02FFFC3C,d_021FDE80;
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern u32 func_020221A4(void),func_0200FB24(void);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern u32 WIPE_SYS_EndCheck(void),func_0200FB24(void);
 extern int func_02006238(void);
 extern void func_021FCDEC(int,int);
 struct Board;
@@ -87,7 +87,7 @@ extern void func_021F75A0(u8 *);
 extern void func_021F51F4(void **p);
 extern void func_021F718C(char *p);
 extern void func_021F6F8C(u8 *);
-extern void func_02047964(void),func_020479D8(void),func_02047970(void),func_0204A600(void),func_0204A648(void);
+extern void G3D_SYSTEM_DrawStart(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void),CLACT_DrawSystem(void),CLACT_VBlankSystem(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
 int func_021F879C(u8 *p)
 {
@@ -97,11 +97,11 @@ int func_021F879C(u8 *p)
     ((struct Obj00191 *)p)->f1EC=tick;
     switch(((struct Obj00191 *)p)->f1C) {
     case 0:
-        func_0202208C(0,1,1,0,6,1,((struct Obj00191 *)p)->f0);
+        WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj00191 *)p)->f0);
         ((struct Obj00191 *)p)->f1C=1;
         break;
     case 1:
-        if(func_020221A4()==1) {
+        if(WIPE_SYS_EndCheck()==1) {
             if(**(u32 * *)&((struct Obj00191 *)p)->f30!=0) {
                 ((struct Obj00191 *)p)->f1C=7;
                 func_021FCDEC(**(int * *)&((struct Obj00191 *)p)->f30,200);
@@ -110,12 +110,12 @@ int func_021F879C(u8 *p)
         break;
     case 2:
         if(func_02006238()==0) {
-            func_0202208C(0,0,0,0,6,1,((struct Obj00191 *)p)->f0);
+            WIPE_SYS_Start(0,0,0,0,6,1,((struct Obj00191 *)p)->f0);
             ((struct Obj00191 *)p)->f1C=3;
         }
         break;
     case 3:
-        if(func_020221A4()==1) return 1;
+        if(WIPE_SYS_EndCheck()==1) return 1;
         break;
     case 4:
         if((((struct Obj00191 *)p)->f2)++ >=60) ((struct Obj00191 *)p)->f1C=5;
@@ -153,7 +153,7 @@ int func_021F879C(u8 *p)
     func_021F94F8((char *)p);
     func_021FA064((char *)(*(u8 * *)&((struct Obj00191 *)p)->fB8));
     func_021F91CC(p);
-    func_02047964(); func_020479D8();
+    G3D_SYSTEM_DrawStart(); G3D_SYSTEM_ApplyLookAt();
     func_021F6E74(*(u8 * *)&((struct Obj00191 *)p)->f90);
     func_021F75A0(*(u8 * *)&((struct Obj00191 *)p)->f40);
     func_021F51F4((void **)(*(u8 * *)&((struct Obj00191 *)p)->f34));
@@ -162,11 +162,11 @@ int func_021F879C(u8 *p)
     BILLBOARD_Draw(((struct Obj00191 *)p)->fAC,((struct Obj00191 *)p)->fA8,0);
     func_021F9ED4(*(u8 * *)&((struct Obj00191 *)p)->f6C);
     func_021F9E4C(p);
-    func_02047970(); func_0204A600();
+    G3D_SYSTEM_DrawEnd(); CLACT_DrawSystem();
     if(**(u32 * *)&((struct Obj00191 *)p)->f30!=0 && ((struct Obj00191 *)p)->f1C!=0 &&
        ((struct Obj00191 *)p)->f1C!=1 && ((struct Obj00191 *)p)->f1C!=2 &&
        ((struct Obj00191 *)p)->f1C!=3 && func_0200FB24()!=0)
         ((struct Obj00191 *)p)->f1C=2;
     return 0;
 }
-void func_021F8994(void) { func_0204A648(); }
+void func_021F8994(void) { CLACT_VBlankSystem(); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6368
+ * function: SWEET_SCENT_FadeCleanup
  * address:  0x021C6368
  * packet:   pkt_ov021_021C6368
  * region:   ov021
@@ -30,7 +30,7 @@ extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
 extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 
-void func_021C6368(u8 *p)
+void SWEET_SCENT_FadeCleanup(u8 *p)
 {
     Pt pt = {0, 0};
 

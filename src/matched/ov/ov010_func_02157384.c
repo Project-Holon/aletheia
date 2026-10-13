@@ -1,5 +1,5 @@
 /*
- * function: func_02157384
+ * function: MUSICAL_PROGRAM_GetNpcNameId
  * address:  0x02157384
  * packet:   pkt_ov010_02157384
  * region:   ov010
@@ -27,7 +27,7 @@ typedef struct Table {
     Rec2C *recs;        /* 0x0C */
 } Table;
 
-u8 func_02157384(Table *t, int i)
+u8 MUSICAL_PROGRAM_GetNpcNameId(Table *t, int i)
 {
     return t->recs[t->index[i]].f0f;
 }

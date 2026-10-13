@@ -1,5 +1,5 @@
 /*
- * function: func_021A5928
+ * function: FIELD_PLAYER_NOGRID_AttachMmdl
  * address:  0x021A5928
  * packet:   pkt_ov021_021A5928
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D5A0  0x0216D5A0  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216E0AC  0x0216E0AC  thumb  ov010
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_0219E2C0  0x0219E2C0  thumb  ov021
- *   d_021DDEE0     0x021DDEE0  data  a4
+ *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_ChangeHeader  0x0216E0AC  thumb  ov010
+ *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
+ *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
+ *   gFieldPlayerNogridMmdlHeader     0x021DDEE0  data  a4
  *   d_021DDEE0b    0x021DDEE0  data  a4
  *
  * Addresses are Black-image addresses.
@@ -25,21 +25,21 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern u16  d_021DDEE0[2];
+extern u16  gFieldPlayerNogridMmdlHeader[2];
 extern u16  d_021DDEE0b[2];
 
-extern u16 func_0216D5A0(void *p);
-extern u16 func_0216D598(void *p);
-extern void func_0216E0AC(void *a0, void *a1);
-extern void *func_0219E348(void *a);
-extern void func_0219E2C0(void *a, void *r);
+extern u16 FLDMMDL_GetMoveCode(void *p);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern void FLDMMDL_ChangeHeader(void *a0, void *a1);
+extern void *FLDMMDL_RAIL_GetRailWork(void *a);
+extern void FLDMMDL_RAIL_SetLocation(void *a, void *r);
 
-void func_021A5928(u8 *p, int v)
+void FIELD_PLAYER_NOGRID_AttachMmdl(u8 *p, int v)
 {
-    if (func_0216D5A0((void *)(((struct Obj05027 *)p)->f1C)) != 0x45) {
-        d_021DDEE0[1] = func_0216D598((void *)(((struct Obj05027 *)p)->f1C));
-        func_0216E0AC((void *)(((struct Obj05027 *)p)->f1C), d_021DDEE0b);
+    if (FLDMMDL_GetMoveCode((void *)(((struct Obj05027 *)p)->f1C)) != 0x45) {
+        gFieldPlayerNogridMmdlHeader[1] = FLDMMDL_GetObjCode((void *)(((struct Obj05027 *)p)->f1C));
+        FLDMMDL_ChangeHeader((void *)(((struct Obj05027 *)p)->f1C), d_021DDEE0b);
     }
-    ((struct Obj05027 *)p)->f20 = (int)func_0219E348((void *)(((struct Obj05027 *)p)->f1C));
-    func_0219E2C0((void *)(((struct Obj05027 *)p)->f1C), (void *)v);
+    ((struct Obj05027 *)p)->f20 = (int)FLDMMDL_RAIL_GetRailWork((void *)(((struct Obj05027 *)p)->f1C));
+    FLDMMDL_RAIL_SetLocation((void *)(((struct Obj05027 *)p)->f1C), (void *)v);
 }

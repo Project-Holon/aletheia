@@ -1,5 +1,5 @@
 /*
- * function: func_0218B924
+ * function: FIELD_BUILDMODEL_GetModelDef
  * address:  0x0218B924
  * packet:   pkt_0218B924
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x18.
  *
  * symbols:
- *   func_0218BBF4  0x0218BBF4  thumb
+ *   FIELD_BUILDMODEL_GetOffsetTarget  0x0218BBF4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0218BBF4(u32 a, u32 b);
+extern int FIELD_BUILDMODEL_GetOffsetTarget(u32 a, u32 b);
 
-int func_0218B924(u8 *p, u32 a1)
+int FIELD_BUILDMODEL_GetModelDef(u8 *p, u32 a1)
 {
-    return func_0218BBF4(((struct Obj17893 *)p)->f18, a1);
+    return FIELD_BUILDMODEL_GetOffsetTarget(((struct Obj17893 *)p)->f18, a1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0E4
+ * function: TOWNMAP_CursorUpdate
  * address:  0x021BA0E4
  * packet:   pkt_ov072_021BA0E4
  * region:   ov072
@@ -17,13 +17,13 @@
  *   func_0203630C  0x0203630C  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020355C4  0x020355C4  arm
- *   func_021BA710  0x021BA710  thumb  ov072
- *   func_021BA69C  0x021BA69C  thumb  ov072
- *   func_021BA774  0x021BA774  thumb  ov072
+ *   TOWNMAP_MapFindNearestTown  0x021BA710  thumb  ov072
+ *   TOWNMAP_MapGetScroll  0x021BA69C  thumb  ov072
+ *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
  *   VEC_Subtract   0x0207CA00  arm
  *   VEC_Mag        0x0207CBD0  arm
  *   VEC_Normalize  0x0207CCA4  arm
- *   func_020520A4  0x020520A4  arm
+ *   BUTTON_MAN_ScaleVec  0x020520A4  arm
  *   func_0204B404  0x0204B404  arm
  *   func_020362DC  0x020362DC  arm
  *   func_02035D20  0x02035D20  arm
@@ -54,13 +54,13 @@ extern unsigned int func_0203630C(void);
 typedef unsigned char  u8;
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
-extern char *func_021BA710(void *p, Cur *c);
-extern void func_021BA69C(char *p, int *o);
-extern int func_021BA774(char *p, int i);
+extern char *TOWNMAP_MapFindNearestTown(void *p, Cur *c);
+extern void TOWNMAP_MapGetScroll(char *p, int *o);
+extern int TOWNMAP_TownGetField(char *p, int i);
 extern void VEC_Subtract(const struct Vec3 *a, const struct Vec3 *b, struct Vec3 *d);
 extern int VEC_Mag(const struct Vec3 *v);
 extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
-extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
+extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *d);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -69,7 +69,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
-void func_021BA0E4(Cur *c, void *q)
+void TOWNMAP_CursorUpdate(Cur *c, void *q)
 {
     struct Vec3 dir = { 0, 0, 0 };
     struct Vec3 v = { 0, 0, 0 };
@@ -106,10 +106,10 @@ void func_021BA0E4(Cur *c, void *q)
         dir.x += 0x1000;
         moved = 1;
     }
-    if (c->f10 != 0 && func_020355C4() == 0 && (w = func_021BA710(q, c)) != 0) {
-        func_021BA69C(q, o);
-        a.x = FX_F32_TO_FX32(o[0] + func_021BA774(w, 4));
-        a.y = FX_F32_TO_FX32(o[1] + func_021BA774(w, 5));
+    if (c->f10 != 0 && func_020355C4() == 0 && (w = TOWNMAP_MapFindNearestTown(q, c)) != 0) {
+        TOWNMAP_MapGetScroll(q, o);
+        a.x = FX_F32_TO_FX32(o[0] + TOWNMAP_TownGetField(w, 4));
+        a.y = FX_F32_TO_FX32(o[1] + TOWNMAP_TownGetField(w, 5));
         a.z = 0;
         b.x = FX_F32_TO_FX32(c->pt.x);
         b.y = FX_F32_TO_FX32(c->pt.y);
@@ -117,7 +117,7 @@ void func_021BA0E4(Cur *c, void *q)
         VEC_Subtract(&a, &b, &v);
         if (VEC_Mag(&v) > 0x1000) {
             VEC_Normalize(&v, &v);
-            func_020520A4(&v, 0x1000, &v);
+            BUTTON_MAN_ScaleVec(&v, 0x1000, &v);
         }
         moved = 1;
     }

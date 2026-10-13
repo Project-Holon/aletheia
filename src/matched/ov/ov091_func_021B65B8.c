@@ -1,5 +1,5 @@
 /*
- * function: func_021B65B8
+ * function: POKELIST_Main
  * address:  0x021B65B8
  * packet:   pkt_ov091_021B65B8
  * region:   ov091
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B68F0  0x021B68F0  thumb
+ *   POKELIST_UpdatePhase  0x021B68F0  thumb
  *   d_021BED80     0x021BED80  data  a1
  */
 
@@ -30,10 +30,10 @@ typedef struct {
     Q *q;
 } P;
 
-extern int func_021B68F0(u8 *p);
+extern int POKELIST_UpdatePhase(u8 *p);
 extern u8 d_021BED80;
 
-int func_021B65B8(int a0, int a1, int a2, P *p)
+int POKELIST_Main(int a0, int a1, int a2, P *p)
 {
     Q *q;
 
@@ -47,7 +47,7 @@ int func_021B65B8(int a0, int a1, int a2, P *p)
             }
         }
     }
-    if (func_021B68F0((u8 *)p) == 1)
+    if (POKELIST_UpdatePhase((u8 *)p) == 1)
         return 1;
     return 0;
 }

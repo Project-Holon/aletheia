@@ -1,5 +1,5 @@
 /*
- * function: func_021B9478
+ * function: FIELD_RAIL_CLOSED_Add
  * address:  0x021B9478
  * packet:   pkt_ov021_021B9478
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-void func_021B9478(u16 *p, u16 v)
+void FIELD_RAIL_CLOSED_Add(u16 *p, u16 v)
 {
     int i;
 

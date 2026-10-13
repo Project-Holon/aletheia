@@ -1,5 +1,5 @@
 /*
- * function: func_021A36BC
+ * function: FIELD_PLAYER_SetNogridLocation
  * address:  0x021A36BC
  * packet:   pkt_021A5A00
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards the field at +0xc of the object to func_021A5A0C.
+ * Tail-call thunk: forwards the field at +0xc of the object to FIELD_PLAYER_NOGRID_GetNextRailLocation.
  *
  * symbols:
- *   func_021A5A0C  0x021A5A0C  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_GetNextRailLocation  0x021A5A0C  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A5A0C(u8 *p, void *a1);
+extern void FIELD_PLAYER_NOGRID_GetNextRailLocation(u8 *p, void *a1);
 
-void func_021A36BC(struct Obj18028 *p, void *a1)
+void FIELD_PLAYER_SetNogridLocation(struct Obj18028 *p, void *a1)
 {
-    func_021A5A0C((u8 *)(p->fC), a1);
+    FIELD_PLAYER_NOGRID_GetNextRailLocation((u8 *)(p->fC), a1);
 }

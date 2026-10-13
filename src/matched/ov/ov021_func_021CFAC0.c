@@ -1,5 +1,5 @@
 /*
- * function: func_021CFAC0
+ * function: INTRUDE_FindOfferSlotAt
  * address:  0x021CFAC0
  * packet:   pkt_ov021_021CFAC0
  * region:   ov021
@@ -31,7 +31,7 @@ typedef struct {
 
 extern const Row d_021DB834[];
 
-int func_021CFAC0(u8 *base, int a, int b, int c, int d)
+int INTRUDE_FindOfferSlotAt(u8 *base, int a, int b, int c, int d)
 {
     int i;
     u8 *p = base + 0x10;

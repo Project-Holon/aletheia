@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215F2B8",
+   "name": "SCRCMD_NETWORK_CmdGetAlwaysNet",
    "address": "0x0215F2B8",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: func_02157968
+ * function: DELIVERY_IRC_StepIdle
  * address: 0x02157968
  * packet: pkt_ov010_02157968
  * region: ov010
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov010/script_work_p01.c and filed here.
  */
 
-void func_02157968(void);
+void DELIVERY_IRC_StepIdle(void);
 
-void func_02157968(void) {}
+void DELIVERY_IRC_StepIdle(void) {}

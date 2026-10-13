@@ -24,27 +24,27 @@
  *   - table at 0x021DFB2C (ribbon ids), threshold 0x800 at +0xB0, species table
  *     bound 0x289 and item bound 0x272 as in the twins.
  * symbols:
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_020056EC 0x020056EC thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
- *   func_020173F0 0x020173F0 thumb
- *   func_020186C8 0x020186C8 thumb
- *   func_02017588 0x02017588 thumb
- *   func_02017E40 0x02017E40 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_Create 0x020173F0 thumb
+ *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
+ *   POKE_TOOL_SetupPartyParamEx 0x02017588 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_SetDefaultMoves 0x02017FA8 thumb
- *   func_0201808C 0x0201808C thumb
- *   func_020180F4 0x020180F4 thumb
- *   func_02018A00 0x02018A00 thumb
+ *   POKE_TOOL_AddMove 0x0201808C thumb
+ *   POKE_TOOL_PushMove 0x020180F4 thumb
+ *   POKE_TOOL_SetAbility 0x02018A00 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_020185F0 0x020185F0 thumb
+ *   POKE_TOOL_Dummy 0x020185F0 thumb
  *   func_0202F2AC 0x0202F2AC thumb
- *   func_020185C4 0x020185C4 thumb
+ *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   g0209DF08 0x0209DF08 data a1
  *   g0209DF0C 0x0209DF0C data a1
  *   d_021DFB2C 0x021DFB2C data a4
@@ -104,30 +104,30 @@ extern u8 g0209DF0C;
 extern void *gMsgBank;
 
 extern u32 func_020056EC(u32 range);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Mon;
 struct MsgBank;
 struct Sub0200852CObj;
 struct U16Vec;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
-extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_SetDefaultMoves(void *p);
-extern u32 func_0201808C(void *p, u32 move);
-extern void func_020180F4(void *p, int move);
-extern void func_02018A00(void *p, u32 species, u32 arg);
-extern u16 func_02045A98(void);
+extern u32 POKE_TOOL_AddMove(void *p, u32 move);
+extern void POKE_TOOL_PushMove(void *p, int move);
+extern void POKE_TOOL_SetAbility(void *p, u32 species, u32 arg);
+extern u16 STRBUF_GetEosChar(void);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_020307B0(void *p);
-extern void *func_020185F0(void *p);
+extern void *POKE_TOOL_Dummy(void *p);
 extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern void func_020185C4(void *p);
+extern void POKE_TOOL_RecalcParam(void *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
 static inline int chk1(const struct Rec *r)
 {
@@ -179,7 +179,7 @@ int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
     count = 0;
     bad = 1;
     for (i = 0; i < 0x25; i++) {
-        if (r->name[i] == func_02045A98())
+        if (r->name[i] == STRBUF_GetEosChar())
             bad = 0;
     }
     if (bad)
@@ -230,7 +230,7 @@ int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
             if (level == 0)
                 level = (u16)(func_020056EC(0x64) + 1);
             if (r->f0 == 0)
-                id = func_02008530((const struct Sub0200852CObj *)func_02012944(gs));
+                id = func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
             if (gender == 0xff)
                 gender = 2;
             for (i = 0; i < 6; i++) {
@@ -238,7 +238,7 @@ int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
                     iv[i] = func_020056EC(0x20);
             }
             id64 = id;
-            mon = func_020173F0((u16)species, level, id, 0, heap);
+            mon = POKE_TOOL_Create((u16)species, level, id, 0, heap);
             ivs = (iv[0] & 31) | ((iv[1] & 31) << 5) | ((iv[2] & 31) << 10) | ((iv[3] & 31) << 15) | ((iv[4] & 31) << 20) | ((iv[5] & 31) << 25);
             if (mode == 4)
                 mode = (u8)func_020056EC(3);
@@ -263,89 +263,89 @@ int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
                 rnd = r->f8;
             else {
                 if (r->f37 == 0)
-                    rnd = func_020186C8(id, (u16)species, r->form, gender, i, 0);
+                    rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 0);
                 else if (r->f37 == 1)
-                    rnd = func_020186C8(id, (u16)species, r->form, gender, i, 2);
+                    rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 2);
                 else if (r->f37 == 2)
-                    rnd = func_020186C8(id, (u16)species, r->form, gender, i, 1);
+                    rnd = POKE_TOOL_CreatePersonalRnd(id, (u16)species, r->form, gender, i, 1);
             }
-            func_02017588(mon, r->species, level, id64, ivs, rnd);
-            func_02017E40(mon, 6, r->f10);
+            POKE_TOOL_SetupPartyParamEx(mon, r->species, level, id64, ivs, rnd);
+            POKE_TOOL_SetPartyValue(mon, 6, r->f10);
             POKE_TOOL_SetDefaultMoves(mon);
             for (i = 0; i < 4; i++) {
                 u16 m = mv[i];
                 if (m != 0 && m < 0x230) {
-                    if (func_0201808C(mon, m) == 0xffff)
-                        func_020180F4(mon, m);
+                    if (POKE_TOOL_AddMove(mon, m) == 0xffff)
+                        POKE_TOOL_PushMove(mon, m);
                 }
             }
             if (r->f8 == 0 && mode == 2)
-                func_02018A00(mon, species, r->form);
-            func_02017E40(mon, 0x6f, r->form);
+                POKE_TOOL_SetAbility(mon, species, r->form);
+            POKE_TOOL_SetPartyValue(mon, 0x6f, r->form);
             if (r->fE != 0 && r->fE <= 0x19)
-                func_02017E40(mon, 0x98, r->fE);
+                POKE_TOOL_SetPartyValue(mon, 0x98, r->fE);
             else
-                func_02017E40(mon, 0x98, 4);
+                POKE_TOOL_SetPartyValue(mon, 0x98, 4);
             if (r->f3C != 0)
-                func_02017E40(mon, 0x99, r->f3C);
-            func_02017E40(mon, 0x13, r->f3D);
-            func_02017E40(mon, 0x14, r->f3E);
-            func_02017E40(mon, 0x15, r->f3F);
-            func_02017E40(mon, 0x16, r->f40);
-            func_02017E40(mon, 0x17, r->f41);
-            func_02017E40(mon, 0x18, r->f41);
+                POKE_TOOL_SetPartyValue(mon, 0x99, r->f3C);
+            POKE_TOOL_SetPartyValue(mon, 0x13, r->f3D);
+            POKE_TOOL_SetPartyValue(mon, 0x14, r->f3E);
+            POKE_TOOL_SetPartyValue(mon, 0x15, r->f3F);
+            POKE_TOOL_SetPartyValue(mon, 0x16, r->f40);
+            POKE_TOOL_SetPartyValue(mon, 0x17, r->f41);
+            POKE_TOOL_SetPartyValue(mon, 0x18, r->f41);
             for (k = 0; k < 15; k++) {
                 if (r->fC & (1 << k))
-                    func_02017E40(mon, d_021DFB2C[k], 1);
+                    POKE_TOOL_SetPartyValue(mon, d_021DFB2C[k], 1);
             }
             if (r->f4 == 0)
-                func_02017E40(mon, 0x77, g0209DF08);
+                POKE_TOOL_SetPartyValue(mon, 0x77, g0209DF08);
             else
-                func_02017E40(mon, 0x77, r->f4);
+                POKE_TOOL_SetPartyValue(mon, 0x77, r->f4);
             if (r->f1D == 0)
-                func_02017E40(mon, 0xc, g0209DF0C);
+                POKE_TOOL_SetPartyValue(mon, 0xc, g0209DF0C);
             else
-                func_02017E40(mon, 0xc, r->f1D);
+                POKE_TOOL_SetPartyValue(mon, 0xc, r->f1D);
             if (r->f1E == 0) {
                 func_020307B0(mon);
                 res = 0;
                 goto end;
             }
-            if (r->f1E != func_02045A98())
-                func_02017E40(mon, 0x74, (u32)&r->f1E);
+            if (r->f1E != STRBUF_GetEosChar())
+                POKE_TOOL_SetPartyValue(mon, 0x74, (u32)&r->f1E);
             {
                 u32 v = r->f34;
                 if (v == 0xff)
                     v = (u8)func_020056EC(0x19);
-                func_02017E40(mon, 0x70, v);
+                POKE_TOOL_SetPartyValue(mon, 0x70, v);
             }
-            func_02017E40(mon, 0x95, r->f38);
-            func_02017E40(mon, 0x96, r->f3A);
+            POKE_TOOL_SetPartyValue(mon, 0x95, r->f38);
+            POKE_TOOL_SetPartyValue(mon, 0x96, r->f3A);
             if (r->f4A == 0) {
                 func_020307B0(mon);
                 res = 0;
                 goto end;
             }
-            if (r->f4A == func_02045A98())
-                func_02017E40(mon, 0x8e, (u32)func_020084F4(func_02012944(gs)));
+            if (r->f4A == STRBUF_GetEosChar())
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)func_020084F4(GAME_DATA_GetMyStatus(gs)));
             else
-                func_02017E40(mon, 0x8e, (u32)&r->f4A);
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->f4A);
             {
                 u32 v = r->f5A;
                 if (v <= 2)
-                    func_02017E40(mon, 0x9a, v);
+                    POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
-                    v = func_02008550((const struct Sub0200852CObj *)func_02012944(gs));
-                    func_02017E40(mon, 0x9a, v);
+                    v = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                    POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }
             if (r->f5C != 0) {
                 void *s;
-                func_02017E40(mon, 0x4c, 1);
+                POKE_TOOL_SetPartyValue(mon, 0x4c, 1);
                 s = func_02045EC0(gMsgBank, 0x28a);
-                func_02017E40(mon, 0x73, (u32)s);
-                func_02045808(s);
-                func_02017E40(mon, 9, 10);
+                POKE_TOOL_SetPartyValue(mon, 0x73, (u32)s);
+                STRBUF_Delete(s);
+                POKE_TOOL_SetPartyValue(mon, 9, 10);
             }
             {
                 int w = r->fAC;
@@ -354,11 +354,11 @@ int func_021DEFAC(struct Rec *r, void *gs, u16 heap)
                 month = (u8)(w >> 8);
                 day = w;
                 loc = r->f5C ? r->f38 : r->f3A;
-                func_0202F2AC(func_020185F0(mon), loc, year - 2000, month, day);
+                func_0202F2AC(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
             }
-            func_020185C4(mon);
+            POKE_TOOL_RecalcParam(mon);
             res = 0;
-            if (func_02017E1C(mon, 3, 0) != 0)
+            if (POKE_TOOL_GetPartyValue(mon, 3, 0) != 0)
                 func_020307B0(mon);
             else
                 res = mon;

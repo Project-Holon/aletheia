@@ -1,5 +1,5 @@
 /*
- * function: func_02161AC0
+ * function: EVENT_FIELD_PROCLINK_CreateHopEvent
  * address:  0x02161AC0
  * packet:   pkt_ov010_02161AC0
  * region:   ov010
@@ -12,11 +12,11 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CD0  0x02188CD0  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   func_0207CA00  0x0207CA00  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_021619B8  0x021619B8  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_HopEventMain  0x021619B8  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -41,21 +41,21 @@ struct HopWork;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188CD0(u8 *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetEffect(u8 *p);
 extern void func_0207CA00(void *a, void *b, void *c);
 extern void func_020061E4(u32 v);
-extern int func_021619B8(void *task, u32 *seq, struct HopWork *w);
+extern int EVENT_FIELD_PROCLINK_HopEventMain(void *task, u32 *seq, struct HopWork *w);
 
-void *func_02161AC0(void *p, void *a1, Tri *t, void *a3)
+void *EVENT_FIELD_PROCLINK_CreateHopEvent(void *p, void *a1, Tri *t, void *a3)
 {
     void *h;
     Node *n;
 
-    h = func_020122C0(p, 0, func_021619B8, 0x24);
+    h = func_020122C0(p, 0, EVENT_FIELD_PROCLINK_HopEventMain, 0x24);
     n = func_020124E8(h);
     n->f04 = a1;
-    n->f00 = (void *)func_02188CD0(func_0201210C(p));
+    n->f00 = (void *)FIELDMAP_GetEffect(GAMESYSTEM_GetFieldMap(p));
     n->f0c = *t;
     func_0207CA00(a3, t, n->f18);
     func_020061E4(0x55E);

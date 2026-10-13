@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0200A104
+ * function: MYSTERY_DATA_IsCardReceived
  * address:  0x0200A104
  * packet:   pkt_0200A104
  * region:   arm9
@@ -23,7 +23,7 @@ extern unsigned int MYSTERY_DATA_GetCardMax(struct Obj *obj);
 extern void MYSTERY_DATA_Decrypt(struct Obj *obj);
 extern void MYSTERY_DATA_Encrypt(struct Obj *obj);
 extern void *MYSTERY_DATA_GetCardSlot(struct Obj *obj, unsigned int index);
-int func_0200A104(char *p, unsigned int idx)
+int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx)
 {
     int r = 0;
     unsigned int n = MYSTERY_DATA_GetCardMax((struct Obj *)p);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB7B4",
+   "name": "FLDEFF_GYOE_RotateByCamera",
    "address": "0x021BB7B4",
    "kind": "game",
    "region": "ov021",

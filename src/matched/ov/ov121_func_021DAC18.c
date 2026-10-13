@@ -31,6 +31,8 @@
  *   d_021DF8FC 0x021DF8FC data a4
  *   d_021DF890 0x021DF890 data a4
  *   MYSTERY_DATA_GetCardSlotNum  0x0200A348  thumb  arm9
+ *   MYSTERY_DATA_GetCard  0x0200A000  thumb  arm9
+ *   MYSTERY_DATA_IsCardExist  0x0200A0E4  thumb  arm9
  */
 #include "../include/Obj00910.h"
 typedef unsigned char u8;
@@ -47,8 +49,8 @@ extern void *func_0203084C(u32 heapId);
 extern void func_02040618(u32,u32,u32);
 struct Obj;
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
-extern u32 func_0200A0E4(u8 *p, u32 a);
-extern int func_0200A000(char *p, int idx, void *buf);
+extern u32 MYSTERY_DATA_IsCardExist(u8 *p, u32 a);
+extern int MYSTERY_DATA_GetCard(char *p, int idx, void *buf);
 extern void func_021DBDF4(char *,const Record *,char *,u16);
 extern void *func_021DA854(void *,void *,u16);
 extern void func_021DB018(u8 *p, u16 heap);
@@ -82,9 +84,9 @@ char *func_021DAC18(const Input *src,u16 heap)
     func_02082A7C(-1,out+0xb88,32);
     func_02082A7C(-1,out+0xb68,32);
     for(i=0;i<MYSTERY_DATA_GetCardSlotNum(((struct Obj00910 *)out)->fC);i++) {
-        if(func_0200A0E4(((struct Obj00910 *)out)->fC,i)) {
+        if(MYSTERY_DATA_IsCardExist(((struct Obj00910 *)out)->fC,i)) {
             count++;
-            func_0200A000(((struct Obj00910 *)out)->fC,i,&record);
+            MYSTERY_DATA_GetCard(((struct Obj00910 *)out)->fC,i,&record);
             func_021DBDF4(out+40+i*0xdc,&record,out,heap);
         }
     }

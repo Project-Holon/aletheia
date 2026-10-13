@@ -1,5 +1,5 @@
 /*
- * function: func_0217FC64
+ * function: UNION_EFF_CreateIconObj
  * address:  0x0217FC64
  * packet:   pkt_ov019_0217FC64
  * region:   ov019
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_02047400  0x02047400  arm
- *   func_0204767C  0x0204767C  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04188.h"
@@ -24,10 +24,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 
-void func_0217FC64(char *self, u32 *out, u32 a2, u16 a3, int flag)
+void UNION_EFF_CreateIconObj(char *self, u32 *out, u32 a2, u16 a3, int flag)
 {
     u32 *q;
 
@@ -39,6 +39,6 @@ void func_0217FC64(char *self, u32 *out, u32 a2, u16 a3, int flag)
     } else {
         q = (u32 *)(self + 0xcc);
     }
-    out[1] = (u32)func_02047400((void *)(*q), 0, (void *)(*q));
-    out[3] = (u32)func_0204767C(*(volatile u32 *)&out[1], 0, 0);
+    out[1] = (u32)G3D_SYSTEM_CreateRender((void *)(*q), 0, (void *)(*q));
+    out[3] = (u32)G3D_SYSTEM_CreateObject(*(volatile u32 *)&out[1], 0, 0);
 }

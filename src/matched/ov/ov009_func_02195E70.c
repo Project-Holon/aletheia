@@ -1,5 +1,5 @@
 /*
- * function: func_02195E70
+ * function: gt2SetConnectionData
  * address:  0x02195E70
  * packet:   pkt_02155168
  * region:   ov009
@@ -12,7 +12,7 @@
  * Stores a word at +0x40.
  */
 
-void func_02195E70(int *p, int v)
+void gt2SetConnectionData(int *p, int v)
 {
     p[0x10] = v;
 }

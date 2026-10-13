@@ -1,5 +1,5 @@
 /*
- * function: func_021B9874
+ * function: STARTMENU_TitleDemoExit
  * address:  0x021B9874
  * packet:   pkt_ov088_021B9874
  * region:   ov088
@@ -32,7 +32,7 @@ extern char d_02184904[];
 extern char ov088_id[];
 extern char ov168_id[];
 
-int func_021B9874(int a0, int a1, int a2, int *a3)
+int STARTMENU_TitleDemoExit(int a0, int a1, int a2, int *a3)
 {
     int t = a3[1];
 

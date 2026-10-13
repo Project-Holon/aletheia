@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201F31C  0x0201F31C  thumb
  *   func_0201F048  0x0201F048  thumb
  *   func_0201F094  0x0201F094  thumb
@@ -47,7 +47,7 @@ typedef struct {
 
 struct U16Vec;
 struct WordSet;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F31C(struct WordSet *p);
 extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
@@ -57,7 +57,7 @@ void func_021FD270(Work *p)
 {
     Entry *e = &p->arr[p->cur];
 
-    p->str = func_020457B0(0xB4, 0x48);
+    p->str = STRBUF_Create(0xB4, 0x48);
     func_0201F31C(p->words);
     if (e->lang != 0) {
         func_0201F048(p->words, 8, e->lang);

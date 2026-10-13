@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
- *   func_02043AF4  0x02043AF4  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
+ *   BMP_FillRect  0x02043AF4  arm
  */
 
 typedef unsigned char  u8;
@@ -34,14 +34,14 @@ struct Ctx {
     u8  f04;
 };
 
-extern u16  func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern u16  BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 
 void APP_KEYCURSOR_DrawMark(struct Ctx *ctx, const struct Bmp *bmp, u32 color)
 {
-    u16 w = func_020437DC(bmp) - 11;
-    u16 h = func_020437E4(bmp) - 9;
+    u16 w = BMP_GetWidth(bmp) - 11;
+    u16 h = BMP_GetHeight(bmp) - 9;
 
-    func_02043AF4((struct Bmp *)bmp, (s16)w, (s16)(h + ctx->f04), 0xa, 7, (u8)color);
+    BMP_FillRect((struct Bmp *)bmp, (s16)w, (s16)(h + ctx->f04), 0xa, 7, (u8)color);
 }

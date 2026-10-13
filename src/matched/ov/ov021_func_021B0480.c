@@ -1,5 +1,5 @@
 /*
- * function: func_021B0480
+ * function: SCRCMD_MSGWIN_CloseInfoSysWin
  * address:  0x021B0480
  * packet:   pkt_ov021_021B0480
  * region:   ov021
@@ -10,40 +10,40 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159190  0x02159190  thumb  ov010
- *   func_0215A61C  0x0215A61C  thumb  ov010
- *   func_02191008  0x02191008  thumb  ov021
+ *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
+ *   SCRCMD_WORK_GetMsgWindow  0x0215A61C  thumb  ov010
+ *   FIELD_MSGBG_DeleteInfoSysWin  0x02191008  thumb  ov021
  *   func_0215A630  0x0215A630  thumb  ov010
- *   func_0202F038  0x0202F038  thumb
+ *   TIME_ICON_Delete  0x0202F038  thumb
  *   func_0215A624  0x0215A624  thumb  ov010
- *   func_0215A614  0x0215A614  thumb  ov010
- *   func_02159168  0x02159168  thumb  ov010
+ *   SCRCMD_WORK_SetMsgWindow  0x0215A614  thumb  ov010
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern int func_02159190(int a0);
-extern int func_0215A61C(int a0);
-extern int func_02191008(u32 a);
+extern int SCRIPT_WORK_CheckFlag(int a0);
+extern int SCRCMD_WORK_GetMsgWindow(int a0);
+extern int FIELD_MSGBG_DeleteInfoSysWin(u32 a);
 extern u32 func_0215A630(u8 *p);
-extern void func_0202F038(u8 *p);
+extern void TIME_ICON_Delete(u8 *p);
 extern void func_0215A624(u8 *p, u32 v);
-extern void func_0215A614(u8 *p, u32 v);
-extern void func_02159168(int n);
+extern void SCRCMD_WORK_SetMsgWindow(u8 *p, u32 v);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 
-void func_021B0480(u32 a)
+void SCRCMD_MSGWIN_CloseInfoSysWin(u32 a)
 {
     u32 t;
 
-    if (func_02159190(1)) {
-        func_02191008(func_0215A61C(a));
+    if (SCRIPT_WORK_CheckFlag(1)) {
+        FIELD_MSGBG_DeleteInfoSysWin(SCRCMD_WORK_GetMsgWindow(a));
         t = func_0215A630((u8 *)a);
         if (t) {
-            func_0202F038((void *)t);
+            TIME_ICON_Delete((void *)t);
             func_0215A624((u8 *)a, 0);
         }
-        func_0215A614((u8 *)a, 0);
-        func_02159168(1);
+        SCRCMD_WORK_SetMsgWindow((u8 *)a, 0);
+        SCRIPT_WORK_ResetCheckFlag(1);
     }
 }

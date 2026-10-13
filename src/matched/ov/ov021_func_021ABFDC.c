@@ -1,5 +1,5 @@
 /*
- * function: func_021ABFDC
+ * function: FIELD_EFFECT_RunTasks
  * address:  0x021ABFDC
  * packet:   pkt_ov021_021ABFDC
  * region:   ov021
@@ -30,7 +30,7 @@ typedef struct {
 struct Ctx;
 extern void func_02030D28(struct Ctx *c);
 
-void func_021ABFDC(T *t)
+void FIELD_EFFECT_RunTasks(T *t)
 {
     if (t->f1c != 0) {
         func_02030D28((struct Ctx *)t->f1c);

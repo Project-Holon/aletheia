@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0201DD68 0x0201DD68 thumb
- *   func_0201FDA0 0x0201FDA0 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
+ *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   data_021C371A 0x021C371A data a2
  */
 #include "../include/Obj00008.h"
@@ -19,10 +19,10 @@ typedef unsigned int u32;
 struct WinDat;
 struct BmpMenu;
 extern const struct WinDat data_021C371A;
-extern void func_0201DD68(void);
-extern struct BmpMenu *func_0201FDA0(const struct WinDat *, u16, u8, u8, u16);
+extern void GF_FONT_SetDefaultTextColor(void);
+extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *, u16, u8, u8, u16);
 void func_021BA828(char *p)
 {
-    func_0201DD68();
-    *(struct BmpMenu * *)&((struct Obj00008 *)p)->f108 = func_0201FDA0(&data_021C371A, ((struct Obj00008 *)p)->f1334, 14, 0, 0x21);
+    GF_FONT_SetDefaultTextColor();
+    *(struct BmpMenu * *)&((struct Obj00008 *)p)->f108 = BMP_MENU_CreateYesNo(&data_021C371A, ((struct Obj00008 *)p)->f1334, 14, 0, 0x21);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021584F4
+ * function: INTRUDE_COMM_NormalizeVersion
  * address:  0x021584F4
  * packet:   pkt_021584F4
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_021584F4(int a0, int a1)
+int INTRUDE_COMM_NormalizeVersion(int a0, int a1)
 {
 
     if (a0 == 0x15) goto loc_0215850A;

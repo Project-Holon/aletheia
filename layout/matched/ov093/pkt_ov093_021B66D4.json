@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B66D4",
-    "func_021B6804"
+    "BTL_MAIN_StartSetupTask",
+    "BTL_MAIN_StartCleanupTask"
+   ],
+   "addresses": [
+    "0x021B66D4",
+    "0x021B6804"
    ]
   }
  ]

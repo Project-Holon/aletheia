@@ -1,5 +1,5 @@
 /*
- * function: func_02175548
+ * function: INTRUDE_COMM_PickDefaultObjCode
  * address:  0x02175548
  * packet:   pkt_ov011_02175548
  * region:   ov011
@@ -26,7 +26,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u16 gIntrudeCommObjCodesMale[];
 extern u16 gIntrudeCommObjCodesFemale[];
 
-void func_02175548(u32 a, u16 *p1, u8 *p2, u8 *p3)
+void INTRUDE_COMM_PickDefaultObjCode(u32 a, u16 *p1, u8 *p2, u8 *p3)
 {
     u32 x;
     u32 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021A536C
+ * function: FIELD_PLAYER_GRID_ClearStepPendingFlag
  * address:  0x021A536C
  * packet:   pkt_021A5328
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: pins the second argument to 4.
  *
  * symbols:
- *   func_021A530C  0x021A530C  thumb
+ *   FIELD_PLAYER_GRID_ClearFlag  0x021A530C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A530C(u32 a, u32 b);
+extern int FIELD_PLAYER_GRID_ClearFlag(u32 a, u32 b);
 
-void func_021A536C(u32 a)
+void FIELD_PLAYER_GRID_ClearStepPendingFlag(u32 a)
 {
-    func_021A530C(a, 4);
+    FIELD_PLAYER_GRID_ClearFlag(a, 4);
 }

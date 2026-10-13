@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021962F4",
+   "name": "IRCBATTLEMENU_DeleteMsgWin",
    "address": "0x021962F4",
    "kind": "game",
    "region": "ov021",

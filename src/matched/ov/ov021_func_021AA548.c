@@ -1,5 +1,5 @@
 /*
- * function: func_021AA548
+ * function: FIELD_ENCOUNT_SetupRoamerBattle
  * address:  0x021AA548
  * packet:   pkt_ov021_021AA548
  * region:   ov021
@@ -11,16 +11,16 @@
  *
  *
  * symbols:
- *   data_021DDFA4  0x021DDFA4  data
- *   func_02013144  0x02013144  thumb
- *   func_0201347C  0x0201347C  thumb
- *   func_020173EC  0x020173EC  thumb
+ *   sFieldEncountFileName  0x021DDFA4  data
+ *   BTL_SETUP_SetStatusFlag  0x02013144  thumb
+ *   BTL_SETUP_SetupWild  0x0201347C  thumb
+ *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *   func_0201A920  0x0201A920  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_021A9780  0x021A9780  thumb
- *   func_021AA304  0x021AA304  thumb
+ *   FIELD_ENCOUNT_InitRoamerPokemon  0x021A9780  thumb
+ *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -44,27 +44,27 @@ struct Info { u32 f00; u32 f04; u8 f08; u8 f09; u16 f0A; u8 f0C; u8 f0D; u8 pad0
 struct Party;
 struct PartyMon;
 extern struct Party *func_0201A920(u32 heap);
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern void func_021AA304(struct Info *out, void *a1, void *a2);
-extern void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5);
-extern void func_02013144(char *p, int v);
+extern void FIELD_ENCOUNT_SetFieldSituation(struct Info *out, void *a1, void *a2);
+extern void BTL_SETUP_SetupWild(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5);
+extern void BTL_SETUP_SetStatusFlag(char *p, int v);
 extern u32 func_020307B0(void *p);
-extern const char data_021DDFA4[];
-extern void func_021A9780(void *mon, const struct Unit *u, void *src);
+extern const char sFieldEncountFileName[];
+extern void FIELD_ENCOUNT_InitRoamerPokemon(void *mon, const struct Unit *u, void *src);
 
-void func_021AA548(struct Ctx *ctx, void *a1, void *a2, u16 heap, void *src)
+void FIELD_ENCOUNT_SetupRoamerBattle(struct Ctx *ctx, void *a1, void *a2, u16 heap, void *src)
 {
     struct Info info;
     void *party = func_0201A920(heap);
-    void *mon = func_02030734((u16)((heap & 0x7FFF) | 0x8000), func_020173EC(), 1, data_021DDFA4, 0x2A4);
+    void *mon = func_02030734((u16)((heap & 0x7FFF) | 0x8000), POKE_TOOL_GetPartyParamSize(), 1, sFieldEncountFileName, 0x2A4);
 
-    func_021A9780(mon, a1, src);
+    FIELD_ENCOUNT_InitRoamerPokemon(mon, a1, src);
     func_0201A98C(party, mon);
-    func_021AA304(&info, ctx->f08, ctx->f00);
-    func_0201347C(a2, ctx->f08, (u32)party, (u32)(&info), 0, heap);
-    func_02013144(a2, 8);
+    FIELD_ENCOUNT_SetFieldSituation(&info, ctx->f08, ctx->f00);
+    BTL_SETUP_SetupWild(a2, ctx->f08, (u32)party, (u32)(&info), 0, heap);
+    BTL_SETUP_SetStatusFlag(a2, 8);
     func_020307B0(mon);
     func_020307B0(party);
 }

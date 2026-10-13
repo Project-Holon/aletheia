@@ -14,13 +14,13 @@
  *   sG3dSystemFile  0x020A7EA8  data
  *   func_02030734   0x02030734  arm
  *   ARC_TOOL_LoadMemberFromPath  0x02048F9C  arm
- *   func_02046CE0   0x02046CE0  arm
+ *   G3D_SYSTEM_InitResourceByFile   0x02046CE0  arm
  *
  * g3d_system.c's eight-byte-node allocators.  Three siblings, identical but
  * for the loader they call and the source line: read the size from the
  * global's +0x18 halfword, allocate eight bytes with file name and line, run
  * the loader for (arg0, arg1, that same halfword) and hand its result to
- * func_02046CE0 together with the new node.  The global is re-read after the
+ * G3D_SYSTEM_InitResourceByFile together with the new node.  The global is re-read after the
  * allocator call - the callee may have replaced it - which is why the second
  * `ldr r1, [r4]` is there.
  *
@@ -50,13 +50,13 @@ extern u8 sG3dSystemFile;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct S02046CE0;
 extern void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 a, u32 heap);
-extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
+extern void G3D_SYSTEM_InitResourceByFile(struct S02046CE0 *out, u32 *tag);
 
 void *G3D_SYSTEM_CreateResourcePath(u32 a0, u32 a1)
 {
     u8 *node = func_02030734(_G3dSystem->h18, 8, 0,
                              (const char *)&sG3dSystemFile, 0x2dc);
 
-    func_02046CE0((struct S02046CE0 *)node, ARC_TOOL_LoadMemberFromPath((const char *)a0, a1, _G3dSystem->h18));
+    G3D_SYSTEM_InitResourceByFile((struct S02046CE0 *)node, ARC_TOOL_LoadMemberFromPath((const char *)a0, a1, _G3dSystem->h18));
     return node;
 }

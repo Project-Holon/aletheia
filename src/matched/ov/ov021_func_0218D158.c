@@ -1,5 +1,5 @@
 /*
- * function: func_0218D158
+ * function: FIELD_G3D_MAPPER_SetFocusPos
  * address:  0x0218D158
  * packet:   pkt_ov021_0218D158
  * region:   ov021
@@ -31,7 +31,7 @@ static inline void set3(V3 *d, s32 x, s32 y, s32 z)
     d->z = z;
 }
 
-void func_0218D158(T *dst, const V3 *src)
+void FIELD_G3D_MAPPER_SetFocusPos(T *dst, const V3 *src)
 {
     set3(&dst->v, src->x, src->y, src->z);
 }

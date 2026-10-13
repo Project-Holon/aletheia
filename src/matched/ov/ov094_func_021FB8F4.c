@@ -12,14 +12,14 @@
  * Script command: releases slot arg of the table at 0xcc and marks it free.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F86F0 0x021F86F0 thumb ov094
  *   func_02201CA4 0x02201CA4 thumb ov094
  */
 #include "../include/Obj21671.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021F86F0(void);
 struct Res;
 extern void func_02201CA4(struct Res *r, int i);
@@ -27,7 +27,7 @@ extern void func_02201CA4(struct Res *r, int i);
 int func_021FB8F4(void *a, char *s)
 {
     int *tab = (int *)(s + 0xcc);
-    int i = func_0201134C(a);
+    int i = VM_GetU32(a);
 
     func_02201CA4((struct Res *)func_021F86F0(), tab[i]);
     tab[i] = -1;

@@ -1,5 +1,5 @@
 /*
- * function: func_02172D68
+ * function: UNION_COMM_IsResetting
  * address:  0x02172D68
  * packet:   pkt_ov012_02172D68
  * region:   ov012
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from ov019 func_0217C074.
+ * called from ov019 UNION_ONESELF_ConnectChildMain.
  */
 
 typedef unsigned char u8;
 
-int func_02172D68(u8 *p)
+int UNION_COMM_IsResetting(u8 *p)
 {
     if (p[0x3561] != 0)
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021A926C
+ * function: FIELD_MENU_DeleteItem
  * address:  0x021A926C
  * packet:   pkt_ov021_021A926C
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_020452E8  0x020452E8  arm
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204A8D4  0x0204A8D4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  */
 
 typedef struct {
@@ -29,19 +29,19 @@ typedef struct {
 struct Descriptor;
 struct Obj;
 extern unsigned int func_020452E8(struct Descriptor *d);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
-extern void func_0204AFD8(u32 i);
-extern void func_0204A8D4(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
 
-void func_021A926C(int a, S *s)
+void FIELD_MENU_DeleteItem(int a, S *s)
 {
     if (s->f0 == 1) {
         func_020452E8((struct Descriptor *)s->f4);
         if (s->f18 != 0) {
-            func_0204B3B4((struct Obj *)s->f18);
-            func_0204AFD8(s->f10);
-            func_0204A8D4(s->fc);
+            CLACT_DeleteActor((struct Obj *)s->f18);
+            CLACT_ReleaseCellAnim(s->f10);
+            CLACT_ReleaseCharacter(s->fc);
         }
     }
 }

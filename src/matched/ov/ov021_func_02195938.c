@@ -1,5 +1,5 @@
 /*
- * function: func_02195938
+ * function: TALKMSGWIN_DrawCorneredFrame
  * address:  0x02195938
  * packet:   pkt_ov021_02195938
  * region:   ov021
@@ -19,7 +19,7 @@
  * symbols:
  *   func_020409B4  0x020409B4  arm
  *   func_02041300  0x02041300  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045748  0x02045748  arm
  *   func_02045750  0x02045750  arm
  *   func_02045758  0x02045758  arm
@@ -45,11 +45,11 @@ extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 extern u8 func_02045748(struct Descriptor *p);
 extern u8 func_02045750(struct Descriptor *p);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
 extern void func_020409B4(u32 index);
 
-void func_02195938(struct FrameStyle *style, void *win, int deco)
+void TALKMSGWIN_DrawCorneredFrame(struct FrameStyle *style, void *win, int deco)
 {
     u16 x;
     u16 y;
@@ -89,7 +89,7 @@ void func_02195938(struct FrameStyle *style, void *win, int deco)
     if (bottom == 0x18)
         bottomClip = 1;
 
-    func_02045374(win);
+    BMP_WIN_MakeScreen(win);
 
     if (!topClip) {
         if (!leftClip) {

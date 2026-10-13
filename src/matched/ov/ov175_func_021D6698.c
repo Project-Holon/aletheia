@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
- *   func_02012944 0x02012944 thumb
- *   func_02008468 0x02008468 thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
+ *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_02082D44 0x02082D44 arm
  *   func_0200E6E8 0x0200E6E8 thumb
  *   func_0200E6FC 0x0200E6FC thumb
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_02009CC0 0x02009CC0 thumb
  */
 typedef unsigned int u32;
@@ -23,24 +23,24 @@ typedef unsigned char  u8;
 struct Big;
 struct BigObj;
 struct Rec0200E6FC;
-extern void *func_02012EBC(struct Big *p);
-extern u8 *func_02012944(void *p);
-extern int func_02008468(void);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern int MYSTATUS_GetSize(void);
 extern void func_02082D44(const void *,void *,int);
 extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 BSUBWAY_SAVEDATA_GetStat(u32,u32,u32);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int func_02009CC0(void *a0);
 void func_021D6698(u32 *p,u32 *q)
 {
     u32 save=((u32 *)((u32 *)q[16])[2])[0];
-    u32 profile=(u32)func_02012EBC((struct Big *)save);
+    u32 profile=(u32)GAME_DATA_GetSaveControl((struct Big *)save);
     u32 blob;
     u32 *ctx;
     p[17]=100;
-    blob=(u32)func_02012944((void *)save);
-    func_02082D44((void *)blob,p,func_02008468());
+    blob=(u32)GAME_DATA_GetMyStatus((void *)save);
+    func_02082D44((void *)blob,p,MYSTATUS_GetSize());
     func_0200E6FC(func_0200E6E8(profile),0,(struct Rec0200E6FC *)((char *)(p+14)));
     ctx=(u32 *)q[16];
     if(ctx[0]==0) {
@@ -52,5 +52,5 @@ void func_021D6698(u32 *p,u32 *q)
         ctx=(u32 *)q[16];
         p[11]=BSUBWAY_SAVEDATA_GetStat(ctx[4],((u32 *)ctx[2])[1],2);
     }
-    p[18]=func_02009CC0((void *)func_0201283C((const struct BigObj *)save));
+    p[18]=func_02009CC0((void *)GAME_DATA_GetWifiList((const struct BigObj *)save));
 }

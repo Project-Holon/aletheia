@@ -21,10 +21,11 @@
  *   func_021C9744 0x021C9744 arm ov114
  *   func_021D70E4 0x021D70E4 thumb ov116
  *   func_021D6D40 0x021D6D40 thumb ov116
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  */
 typedef unsigned char u8;
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void func_021B9B00(u8 *,int);
@@ -33,7 +34,7 @@ extern void func_021D70E4(u8 *);
 extern void func_021D6D40(u8 *p, void *save, void *idx);
 void func_021D6CBC(u8 *p,void *q,u8 *r) {
     int a,b,c;
-    func_02012EBC(q);
+    GAME_DATA_GetSaveControl(q);
     a = (int)GAME_DATA_GetSaveBlock3B(q);
     b = (int)GAME_DATA_GetSaveBlock3A(q);
     c = *(int *)(p+0x218);

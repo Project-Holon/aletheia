@@ -1,5 +1,5 @@
 /*
- * function: func_021CF5AC
+ * function: ENCEFF_UnloadOverlays
  * address:  0x021CF5AC
  * packet:   pkt_ov021_021CF5AC
  * region:   ov021
@@ -26,7 +26,7 @@ typedef struct Res021CF {
 typedef signed int     s32;
 extern void func_02034A5C(s32 handle);
 
-void func_021CF5AC(Res021CF *r)
+void ENCEFF_UnloadOverlays(Res021CF *r)
 {
     int i;
 

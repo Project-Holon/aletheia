@@ -11,7 +11,7 @@
  * The duplicated 021D8560 pool words require separate extern names;
  * see the duplicated-pool-word idiom.
  * symbols:
- *   func_0201FDA0 0x0201FDA0 thumb
+ *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   d_021D8560 0x021D8560 data a4
  *   d_021D8560_menu 0x021D8560 data a4
  */
@@ -22,5 +22,5 @@ typedef unsigned int u32;
 struct WinDat; struct BmpMenu;
 extern u8 d_021D8560[];
 extern u8 d_021D8560_menu[];
-extern struct BmpMenu *func_0201FDA0(const struct WinDat *,u16,u8,u8,u16);
-void func_021D8134(u8 *p) { *(u16 *)(d_021D8560+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=func_0201FDA0((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }
+extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
+void func_021D8134(u8 *p) { *(u16 *)(d_021D8560+4)=((struct Obj08048 *)p)->f988; *(struct BmpMenu * *)&((struct Obj08048 *)p)->f980=BMP_MENU_CreateYesNo((const struct WinDat *)d_021D8560_menu,((struct Obj08048 *)p)->f988,13,0,((struct Obj08048 *)p)->f4); }

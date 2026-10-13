@@ -61,7 +61,7 @@
    ]
   },
   {
-   "name": "func_0204A380",
+   "name": "ARC_UTIL_LoadHandleMember",
    "address": "0x0204A380",
    "kind": "game",
    "region": "arm9",

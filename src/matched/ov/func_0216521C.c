@@ -1,5 +1,5 @@
 /*
- * function: func_0216521C
+ * function: GAME_BEACON_SEARCH_SetBattleLeaderWin
  * address:  0x0216521C
  * packet:   pkt_0216521C
  * region:   ov010
@@ -16,7 +16,7 @@
  *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
  *   GAME_BEACON_RequestSend   0x02026FB8  thumb
  *   GAME_BEACON_Work      0x02146940  data
- *   func_02165244   0x02165244  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetInfoBattleLeaderWin   0x02165244  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern u32 GAME_BEACON_CheckActionPriority(u32 a);
 extern void GAME_BEACON_RequestSend(void *);
 extern char *GAME_BEACON_Work;
-extern void func_02165244(void *a0, unsigned a1);
+extern void GAME_BEACON_SEARCH_SetInfoBattleLeaderWin(void *a0, unsigned a1);
 
-void func_0216521C(void *a0)
+void GAME_BEACON_SEARCH_SetBattleLeaderWin(void *a0)
 {
     if (GAME_BEACON_CheckActionPriority(0x9)) {
-        func_02165244(GAME_BEACON_Work + 4, (unsigned int)a0);
+        GAME_BEACON_SEARCH_SetInfoBattleLeaderWin(GAME_BEACON_Work + 4, (unsigned int)a0);
         GAME_BEACON_RequestSend(GAME_BEACON_Work + 4);
     }
 }

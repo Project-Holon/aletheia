@@ -1,5 +1,5 @@
 /*
- * function: func_02193060
+ * function: FIELD_MSGBG_SetBlendThunk
  * address:  0x02193060
  * packet:   pkt_02193060
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_02193044 with no argument change.
+ * Tail-call thunk: forwards to FIELD_MSGBG_SetBlend with no argument change.
  *
  * symbols:
- *   func_02193044  0x02193044  thumb
+ *   FIELD_MSGBG_SetBlend  0x02193044  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02193044(u32 v);
+extern void FIELD_MSGBG_SetBlend(u32 v);
 
-void func_02193060(u32 a)
+void FIELD_MSGBG_SetBlendThunk(u32 a)
 {
-    func_02193044(a);
+    FIELD_MSGBG_SetBlend(a);
 }

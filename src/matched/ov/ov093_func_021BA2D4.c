@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021BB8DC 0x021BB8DC thumb ov093
+ *   BTL_SERVER_NotifyCapture 0x021BB8DC thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BB8DC(u8 *, u32 *);
+extern void BTL_SERVER_NotifyCapture(u8 *, u32 *);
 void func_021BA2D4(u32 p, u32 *q) {
     u8 *v = *(u8 **)(p + 8);
-    if (v) func_021BB8DC(v, q);
+    if (v) BTL_SERVER_NotifyCapture(v, q);
 }

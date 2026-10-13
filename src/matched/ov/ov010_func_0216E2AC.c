@@ -1,5 +1,5 @@
 /*
- * function: func_0216E2AC
+ * function: FLDMMDL_GetCachedObjCodeParam
  * address:  0x0216E2AC
  * packet:   pkt_ov010_0216E2AC
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf, blocker of ov021 func_0219C680: copies record i (28 bytes) from the table at +0x44.
+ * Unlabelled leaf, blocker of ov021 FLDMMDL_BLACT_AddCachedRes: copies record i (28 bytes) from the table at +0x44.
  * Overlay choice, ov009 and ov010 share this window; ov009 holds ARM code here,
  * ov010 holds this Thumb routine, and the ov021 callers already name ov010
  * (ov010 is the overlay resident with ov021).
@@ -28,7 +28,7 @@ typedef struct {
     u16 w[14];
 } Rec;
 
-void func_0216E2AC(void *p, u32 i, Rec *out)
+void FLDMMDL_GetCachedObjCodeParam(void *p, u32 i, Rec *out)
 {
     u16 *t = *(u16 * *)&((struct Obj12404 *)p)->f44;
 

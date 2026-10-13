@@ -31,14 +31,14 @@
  * same way as its sibling src/matched/POKE_TOOL_HatchBoxEgg.c, which the same note
  * file pairs it with.
  *
- * The note declares the accessors narrow (`u8 func_02017DBC`, `u16
+ * The note declares the accessors narrow (`u8 POKE_TOOL_DecodeBoxParam`, `u16
  * func_02017E88`).  With the callee declared narrow the compiler emits no
  * truncation at all and then spills the live values to the frame.  The
  * original truncates at the ASSIGNMENT with a `lsls`/`lsrs` pair and keeps
  * both narrowed values in callee-saved registers.  That shape needs the
  * callee declared returning a full word and the LOCAL declared narrow, so the
  * cast belongs to the source rather than to the callee.  Declaring
- * func_02017DBC and func_02017E88 u32 and keeping `u8 v` / `u16 w` is the
+ * POKE_TOOL_DecodeBoxParam and func_02017E88 u32 and keeping `u8 v` / `u16 w` is the
  * entire fix; the body is the note's, unchanged.
  *
  * This is docs/families/poke_tool.h's adjudication rule: a truncation at the
@@ -52,7 +52,7 @@
  * the parameter as a pointer is a claim the bytes do not make.
  *
  * Nothing here is version specific: 5, 0x6F, 0x74 and 0x75 are field
- * selectors and 0x20 is a halfword count.  g_020A7370 and gNameBuf are
+ * selectors and 0x20 is a halfword count.  gSpeciesNameBank and gNameBuf are
  * globals, so their addresses are build properties and must be re-derived
  * for a White build rather than copied.
  *
@@ -61,14 +61,14 @@
  *       --func POKE_TOOL_ChangeBoxSpecies --addr 0x02017900 --cc 1.1p1 --thumb
  *
  * symbols:
- *   func_02017DBC  0x02017DBC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   POKE_TOOL_UpdateAbilityForSpecies  0x02017C50  thumb
  *   POKE_TOOL_UpdateGenderForSpecies  0x02017CC8  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   func_02017DE4  0x02017DE4  thumb
- *   g_020A7370     0x020A7370  data
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   gSpeciesNameBank     0x020A7370  data
  *   gNameBuf     0x021462F0  data
  */
 
@@ -77,21 +77,21 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
 extern void POKE_TOOL_SetBoxValue(void *a0, u32 a1, u32 a2);
 extern void POKE_TOOL_UpdateAbilityForSpecies(int a0, int a1, int a2);
 extern void POKE_TOOL_UpdateGenderForSpecies(void *a0, void *a1, void *a2);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
-extern void *g_020A7370;
+extern void *gSpeciesNameBank;
 extern u8    gNameBuf[];
 
 u32 POKE_TOOL_ChangeBoxSpecies(void *a0, u32 a1)
 {
-    u8  v = (u8)func_02017DBC(a0);
+    u8  v = (u8)POKE_TOOL_DecodeBoxParam(a0);
     u16 w = (u16)func_02017E88(a0, 5, 0);
 
     if (w != a1) {
@@ -103,9 +103,9 @@ u32 POKE_TOOL_ChangeBoxSpecies(void *a0, u32 a1)
         POKE_TOOL_UpdateAbilityForSpecies((int)a0, a1, w);
         POKE_TOOL_UpdateGenderForSpecies(a0, (void *)a1, (void *)w);
         if (x == 0) {
-            MSGDATA_ReadUnits(g_020A7370, a1, (u16 *)gNameBuf, 0x20);
+            MSGDATA_ReadUnits(gSpeciesNameBank, a1, (u16 *)gNameBuf, 0x20);
             POKE_TOOL_SetBoxValue(a0, 0x74, (u32)gNameBuf);
         }
     }
-    return func_02017DE4(a0, v);
+    return POKE_TOOL_EncodeBoxParam(a0, v);
 }

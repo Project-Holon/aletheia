@@ -42,8 +42,8 @@
  *   func_021FC868 0x021FC868 thumb ov186
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   func_021DCBD8 0x021DCBD8 thumb ov183
- *   func_020457B0 0x020457B0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   func_0200D6EC 0x0200D6EC thumb
@@ -77,8 +77,8 @@ extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
 extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021FC7C4(char *,void *,void *,u16);
 extern void func_021DCBD8(char *,void *,void *,u16);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
@@ -114,12 +114,12 @@ void func_021DC8EC(char *p,char *q)
                 {
                 void *name;
                 void *message;
-                text=func_020457B0(128,*(u16 *)(p+0xb4));
+                text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 name=GDS_PROFILE_CreateNameStr(*(void **)(p+0xc0),*(u16 *)(p+0xb4));
                 message=func_02045EC0(bank,d->message);
                 func_0201EE0C(words,0,name,func_0200D6EC(*(RecGet **)(p+0xc0)),1,2);
                 func_0201F250(words,text,message);
-                func_02045808((U16Vec *)name);func_02045808((U16Vec *)message);
+                STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
                 func_021FC868(*(void **)(slot+0x30),0,1,0);
                 ready=1;break;
                 }
@@ -144,12 +144,12 @@ void func_021DC8EC(char *p,char *q)
                 high=quotient/100000ULL;
                 temporary=func_0200D774(*(GdsProfile **)(p+0xc0),(GdsRecord *)record,*(u16 *)(p+0xb4));
                 if(temporary) {
-                    message=func_02045EC0(bank,13);func_02045808((U16Vec *)temporary);
+                    message=func_02045EC0(bank,13);STRBUF_Delete((U16Vec *)temporary);
                 } else message=func_02045EC0(bank,d->message);
-                text=func_020457B0(128,*(u16 *)(p+0xb4));
+                text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                 func_0201EFA4(words,2,low,5,2,1);func_0201EFA4(words,1,middle,5,2,1);func_0201EFA4(words,0,high,2,2,1);
                 func_0201F250(words,text,message);
-                func_021FC868(*(void **)(slot+0x30),0,1,0);func_02045808((U16Vec *)message);
+                func_021FC868(*(void **)(slot+0x30),0,1,0);STRBUF_Delete((U16Vec *)message);
                 ready=1;break;
                 }
             case 3:
@@ -157,9 +157,9 @@ void func_021DC8EC(char *p,char *q)
                     u32 count;
                     void *message;
                     count=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),2,0);
-                    text=func_020457B0(128,*(u16 *)(p+0xb4));
+                    text=STRBUF_Create(128,*(u16 *)(p+0xb4));
                     message=func_02045EC0(bank,d->message);
-                    func_0201EFA4(words,0,count,4,0,1);func_0201F250(words,text,message);func_02045808((U16Vec *)message);
+                    func_0201EFA4(words,0,count,4,0,1);func_0201F250(words,text,message);STRBUF_Delete((U16Vec *)message);
                     func_021FC868(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
@@ -171,7 +171,7 @@ void func_021DC8EC(char *p,char *q)
                 break;
             }
             if(ready) {
-                func_021FC7C4(*(char **)(slot+0x30),text,font,0x3da0);func_02045808(text);
+                func_021FC7C4(*(char **)(slot+0x30),text,font,0x3da0);STRBUF_Delete(text);
             }
         }
         func_021DCBD8(p,*(void **)(q+0x18),*(void **)(p+0xc4),*(u16 *)(p+0xb4));

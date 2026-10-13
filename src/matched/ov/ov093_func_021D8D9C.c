@@ -1,5 +1,5 @@
 /*
- * function: func_021D8D9C
+ * function: BTL_ABILITY_CheckAllyHasAbility
  * address:  0x021D8D9C
  * packet:   pkt_ov093_021D8D9C
  * region:   ov093
@@ -24,7 +24,7 @@ extern u8 func_021C7F68(int *p, int b, u8 *out);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 
-int func_021D8D9C(void *a, int k, u8 *buf, int v)
+int BTL_ABILITY_CheckAllyHasAbility(void *a, int k, u8 *buf, int v)
 {
     int t;
     u8 n;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BF5E8
+ * function: EVENT_APPEAR_CreateSpinZoomAlt
  * address:  0x021BF5E8
  * packet:   pkt_ov021_021BF5E8
  * region:   ov021
@@ -12,7 +12,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021BF8EC  0x021BF8EC  thumb  ov021
+ *   EVENT_APPEAR_RunSpinZoomAlt  0x021BF8EC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,10 +22,10 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern int func_021BF8EC(void *task, int *state, void **q);
-u32 func_021BF5E8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
+extern int EVENT_APPEAR_RunSpinZoomAlt(void *task, int *state, void **q);
+u32 EVENT_APPEAR_CreateSpinZoomAlt(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f)
 {
-    u32 h = (u32)func_020122C0((void *)b, (void *)a, func_021BF8EC, 0x68);
+    u32 h = (u32)func_020122C0((void *)b, (void *)a, EVENT_APPEAR_RunSpinZoomAlt, 0x68);
     X *x = func_020124E8((struct Obj *)h);
     x->f4 = c;
     x->f0 = b;

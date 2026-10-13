@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3F7C",
+   "name": "FIELD_FK_SOUND_ANIME_ExitAmbientSoundA",
    "address": "0x021F3F7C",
    "kind": "game",
    "region": "ov056",

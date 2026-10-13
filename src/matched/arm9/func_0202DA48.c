@@ -11,14 +11,15 @@
  *
  * symbols:
  *   POKEGRA_GetTrainerCgrArcIndex  0x0202D5D8  thumb
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
  */
 
 typedef unsigned int u32;
 
 extern u32  POKEGRA_GetTrainerCgrArcIndex(u32 a, u32 b);
-extern void func_0204A6C8(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void CLACT_RegisterCharacter(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 void POKEGRA_RegisterTrainerCgr(u32 a, u32 b, u32 c, u32 d)
 {
-    func_0204A6C8(a, POKEGRA_GetTrainerCgrArcIndex(b, 0), 1, c, d);
+    CLACT_RegisterCharacter(a, POKEGRA_GetTrainerCgrArcIndex(b, 0), 1, c, d);
 }

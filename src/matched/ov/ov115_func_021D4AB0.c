@@ -15,7 +15,7 @@
  *   func_021D5D3C  0x021D5D3C  thumb  ov115
  *   func_021D5C94  0x021D5C94  thumb  ov115
  *   func_021D5ED8  0x021D5ED8  thumb  ov115
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_0200FBB0  0x0200FBB0  thumb
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   func_0200FBA0  0x0200FBA0  thumb
@@ -30,7 +30,7 @@ extern void func_021D5F7C(unsigned char *p);
 extern void func_021D5D3C(unsigned char *p);
 extern void func_021D5C94(unsigned char *p);
 extern void func_021D5ED8(unsigned char *p, unsigned int n);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_0200FBB0(void);
@@ -60,7 +60,7 @@ void func_021D4AB0(unsigned char *a)
             func_021D5F7C((unsigned char *)(((struct Obj02825 *)a)->f38));
             func_021D5D3C((unsigned char *)(((struct Obj02825 *)a)->f38));
             func_021D5C94((unsigned char *)(((struct Obj02825 *)a)->f38));
-            if (func_0203CD98() != 0)
+            if (GFL_NET_GetRunState() != 0)
                 func_0200FBB0();
             GFL_NET_STATE_SetWifiError();
             func_0200FBA0();

@@ -15,6 +15,7 @@
  *
  * symbols:
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
 typedef unsigned int u32;
@@ -22,7 +23,7 @@ typedef unsigned int u32;
 struct Evt;
 struct Obj;
 extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void func_02034A5C(int handle);
 
 int GAME_EVENT_OverlaySeq(void *a0, u32 *a1, u32 *a2)
@@ -30,7 +31,7 @@ int GAME_EVENT_OverlaySeq(void *a0, u32 *a1, u32 *a2)
     GAME_EVENT_GetGameSystem(a0);
     switch (*a1) {
     case 0:
-        func_02012374(a0, (void *)a2[1]);
+        GAME_EVENT_CallEvent(a0, (void *)a2[1]);
         (*a1)++;
         break;
     case 1:

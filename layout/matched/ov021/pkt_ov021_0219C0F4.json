@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219C0F4",
+   "name": "FLDMMDL_MOVE_InitWallWalkMode1Hand1",
    "address": "0x0219C0F4",
    "kind": "game",
    "region": "ov021",

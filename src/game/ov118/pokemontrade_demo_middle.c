@@ -24,9 +24,9 @@
  *   func_021D6738  0x021D6738  thumb  ov118
  *   func_021D8AA8  0x021D8AA8  thumb  ov119
  *   func_021D8FA4  0x021D8FA4  thumb  ov119
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02006CAC  0x02006CAC  thumb
- *   func_02006984  0x02006984  thumb
+ *   PM_VOICE_Play  0x02006984  thumb
  *   func_020307B0  0x020307B0  arm
  *   MCSS_GetPosition  0x02015C30  thumb
  *   func_021DFD24  0x021DFD24  thumb  ov119
@@ -38,8 +38,8 @@
  *   d_021D82C0     0x021D82C0  data
  *   d_021D8470     0x021D8470  data
  *   d_021D8880     0x021D8880  data
- *   func_0203D34C  0x0203D34C  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F250  0x0201F250  thumb
@@ -60,15 +60,15 @@
  *   MCSS_GetScale  0x02015C94  thumb
  *   MCSS_SetScale  0x02015CAC  thumb
  *   BUTTON_MAN_GetUserData  0x02051A34  arm
- *   func_02011610  0x02011610  thumb
+ *   ICA_ANIME_GetTranslate  0x02011610  thumb
  *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
  *   func_021D6744  0x021D6744  thumb
  *   MCSS_SetAnimeIndex  0x02016028  thumb
  *   func_021D6750  0x021D6750  thumb
  *   func_021DC720  0x021DC720  thumb
- *   func_0204A5AC  0x0204A5AC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
  *   func_021E3E40  0x021E3E40  thumb
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   func_02030734  0x02030734  arm
  *   func_021E5284  0x021E5284  thumb
  *   func_021E35A0  0x021E35A0  thumb ov119
@@ -136,9 +136,9 @@ extern void func_021E2680(char *p);
 extern void func_021D6738(u8 *p, u32 v);
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *, int);
-extern u32 func_02017E1C(void *, u32, u32);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern void func_02006CAC(void **out);
-extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 func_020307B0(void *p);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void func_021DFD24(u32 *p);
@@ -147,8 +147,8 @@ extern void func_021E36C8(void *p, int a, int b, void *mon, int c);
 extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_SetVanishFlag(void *p);
 extern void func_021D8E84(void *p, int next);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -167,7 +167,7 @@ extern void func_021DFDA0(void *p);
 extern void MCSS_GetScale(void *p, u32 *out);
 extern void MCSS_SetScale(void *p, u32 *src);
 extern int BUTTON_MAN_GetUserData(void *p);
-extern unsigned int func_02011610(struct IcaAnime *, struct Rec12 *);
+extern unsigned int ICA_ANIME_GetTranslate(struct IcaAnime *, struct Rec12 *);
 extern void BUTTON_MAN_SetEmitterPos(void *, Vec *);
 extern u32 func_02051774(void);
 extern void BUTTON_MAN_SetUserData(void *p, int v);
@@ -176,9 +176,9 @@ extern void func_021D6744(u8 *p);
 extern void MCSS_SetAnimeIndex(void *a, u32 flag);
 extern void func_021D6750(u8 *p);
 extern void func_021DC720(void *p);
-extern void func_0204A5AC(void);
+extern void CLACT_ExitSystem(void);
 extern void func_021E3E40(void *p);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021E5284(void *p, int a);
 extern void func_021E35A0(void *p, int a, int b, void *mon, int c);
@@ -231,12 +231,12 @@ void func_021D6918(u8 *p)
         func_021E2680((char *)p);
         func_021D6738(p, 0);
         mon = func_021D8FA4(p, func_021D8AA8(p));
-        func_02017E1C(mon, 7, 0);
-        if (func_02017E1C(mon, 0x4C, 0) == 0) {
-            a = func_02017E1C(mon, 0xAB, 0);
-            b = func_02017E1C(mon, 0x6F, 0);
+        POKE_TOOL_GetPartyValue(mon, 7, 0);
+        if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
+            a = POKE_TOOL_GetPartyValue(mon, 0xAB, 0);
+            b = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
             func_02006CAC((void **)(&buf));
-            func_02006984(a, b, 0x40, 0, 0, 0, 0, (u32)(&buf));
+            PM_VOICE_Play(a, b, 0x40, 0, 0, 0, 0, (u32)(&buf));
         }
         if (SLOT0 != 0) {
             func_020307B0((void *)SLOT0);
@@ -272,15 +272,15 @@ void func_021D6918(u8 *p)
  */
 void func_021D6AD4(u8 *p)
 {
-    func_0203D34C(0, ((struct Obj00984 *)p)->f5F4);
+    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00984 *)p)->f5F4);
     if (((struct Obj00984 *)p)->f118C == 6) {
-        func_02045CAC((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x98, (void *)(((struct Obj00984 *)p)->f73C));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x98, (void *)(((struct Obj00984 *)p)->f73C));
     } else if (((struct Obj00984 *)p)->f118C == 8) {
-        func_02045CAC((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x9B, (void *)(((struct Obj00984 *)p)->f73C));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x9B, (void *)(((struct Obj00984 *)p)->f73C));
     } else if (((struct Obj00984 *)p)->f11ED != 0) {
-        func_02045CAC((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x82, (void *)(((struct Obj00984 *)p)->f73C));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x82, (void *)(((struct Obj00984 *)p)->f73C));
     } else {
-        func_02045CAC((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x81, (void *)(((struct Obj00984 *)p)->f73C));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x81, (void *)(((struct Obj00984 *)p)->f73C));
     }
     func_0201EEF4(((struct Obj00984 *)p)->f724, 0, func_021D8FA4(p, func_021D8AA8(p)));
     func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00984 *)p)->f724), 1, (void *)(((struct Obj00984 *)p)->f834));
@@ -359,9 +359,9 @@ void func_021D6CC4(void *a0, int a1)
     u32 buf[3];
 
     x = func_021D8FA4(a0, 1 - func_021D8AA8(a0));
-    func_02017E1C(x, 7, 0);
-    if (func_02017E1C(x, 0x4c, 0) == 0) {
-        func_02006984(func_02017E1C(x, 0xab, 0), func_02017E1C(x, 0x6f, 0),
+    POKE_TOOL_GetPartyValue(x, 7, 0);
+    if (POKE_TOOL_GetPartyValue(x, 0x4c, 0) == 0) {
+        PM_VOICE_Play(POKE_TOOL_GetPartyValue(x, 0xab, 0), POKE_TOOL_GetPartyValue(x, 0x6f, 0),
                       0x40, 0, 0, 0, 0, 0);
     }
     if (((struct Obj01149 *)a0)->f11EE == 0) {
@@ -422,7 +422,7 @@ void func_021D6E6C(void *obj, int on)
             v->x = 0;
             v->y = 0;
             v->z = 0;
-            func_02011610(((struct Obj22693 *)(*(char * *)&((struct Obj13882 *)w)->fC))->f98, (struct Rec12 *)v);
+            ICA_ANIME_GetTranslate(((struct Obj22693 *)(*(char * *)&((struct Obj13882 *)w)->fC))->f98, (struct Rec12 *)v);
             BUTTON_MAN_SetEmitterPos(obj, v);
         }
     }
@@ -449,7 +449,7 @@ void func_021D6ECC(void *obj, int on)
             v->x = 0;
             v->y = 0;
             v->z = 0;
-            func_02011610(((struct Obj22695 *)(*(char * *)&((struct Obj13883 *)w)->fC))->f9C, (struct Rec12 *)v);
+            ICA_ANIME_GetTranslate(((struct Obj22695 *)(*(char * *)&((struct Obj13883 *)w)->fC))->f9C, (struct Rec12 *)v);
             BUTTON_MAN_SetEmitterPos(obj, v);
         }
     }
@@ -485,9 +485,9 @@ void func_021D6F2C(u8 *p)
 void func_021D6F90(u8 *p)
 {
     func_021DC720(p);
-    func_0204A5AC();
+    CLACT_ExitSystem();
     func_021E3E40(p);
-    ((struct Obj00001 *)p)->f9C4 = (int)func_0204B100(3, 0, HEAP);
+    ((struct Obj00001 *)p)->f9C4 = (int)CLACT_CreateUnit(3, 0, HEAP);
     WORK = func_02030734(HEAP, 0xBC, 1, d_021D866C, 0x9D);
     *(u16 *)(WORK + 0xBA) = HEAP;
     func_021E5284(p, 0);

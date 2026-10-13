@@ -1,5 +1,5 @@
 /*
- * function: func_021B1BF4
+ * function: SCRCMD_FLDMMDL_TurnTargetMmdlToPlayer
  * address:  0x021B1BF4
  * packet:   pkt_ov021_021B1BF4
  * region:   ov021
@@ -10,35 +10,35 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02158F90  0x02158F90  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021642A4  0x021642A4  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_021B1E74  0x021B1E74  thumb  ov021
+ *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirTableValue  0x021642A4  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   SCRCMD_FLDMMDL_GetPlayerMmdl  0x021B1E74  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 typedef unsigned short u16;
-extern int func_021B1E74(u32 a);
-extern u16 func_0216D5F8(void *p);
-extern u16 func_021642A4(int i);
-extern void *func_02158F90(void *p);
-extern void func_0216D5E0(int a0, int a1);
-extern void func_0216D674(void *p, u16 v);
+extern int SCRCMD_FLDMMDL_GetPlayerMmdl(u32 a);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern u16 FLDMMDL_MOVE_GetDirTableValue(int i);
+extern void *SCRIPT_WORK_GetTargetObj(void *p);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
 
-int func_021B1BF4(u32 a, u32 b)
+int SCRCMD_FLDMMDL_TurnTargetMmdlToPlayer(u32 a, u32 b)
 {
-    void *s = func_0215A5F4((void *)b);
-    u32 v = func_021642A4(func_0216D5F8((void *)func_021B1E74(b)));
-    u32 o = (u32)func_02158F90(s);
+    void *s = SCRCMD_WORK_GetScriptWork((void *)b);
+    u32 v = FLDMMDL_MOVE_GetDirTableValue(FLDMMDL_GetDirDisp((void *)SCRCMD_FLDMMDL_GetPlayerMmdl(b)));
+    u32 o = (u32)SCRIPT_WORK_GetTargetObj(s);
 
     if (o != 0) {
-        func_0216D5E0(o, v);
-        func_0216D674((void *)o, 0);
+        FLDMMDL_SetDirDispCheckPause(o, v);
+        FLDMMDL_SetDrawStatus((void *)o, 0);
     }
     return 0;
 }

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D8794",
-    "func_021D87BC"
+    "BTL_CALC_ChlorophyllDoubleSpeed",
+    "BTL_CALC_GetChlorophyllHandlers"
+   ],
+   "addresses": [
+    "0x021D8794",
+    "0x021D87BC"
    ],
    "evidence": {
     "sole-ref": [

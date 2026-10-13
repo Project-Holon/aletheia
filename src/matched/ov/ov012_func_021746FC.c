@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02184D38  0x02184D38  thumb  ov020
+ *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
  */
 
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ typedef struct {
 } P;
 
 typedef unsigned short u16;
-extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
+extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const int *q, u16 s, int t);
 
 int UNION_MAIN_StepPlayEffectAtFixedSpot(int a, int b, int c, int d, int e, int *out, u8 *cnt)
 {
@@ -34,7 +34,7 @@ int UNION_MAIN_StepPlayEffectAtFixedSpot(int a, int b, int c, int d, int e, int 
         z = 0;
         s.b = z;
         s.c = 0x3a << 14;
-        *out = (int)func_02184D38((void *)a, c, 0x1A6, (const int *)(&s), z, z);
+        *out = (int)EVENT_MAPCHANGE_CreateWarpEvent((void *)a, c, 0x1A6, (const int *)(&s), z, z);
     } else {
         return 1;
     }

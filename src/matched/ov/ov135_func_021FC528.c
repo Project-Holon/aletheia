@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  */
 #include "../include/Obj10585.h"
 typedef unsigned int u32;
 struct MsgBank;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021FC528(char *p)
 {
     int i;
-    ((struct Obj10585 *)p)->fB88 = func_020457B0(0xb4, 0x48);
+    ((struct Obj10585 *)p)->fB88 = STRBUF_Create(0xb4, 0x48);
     ((struct Obj10585 *)p)->fB8C = func_02045EC0(((struct Obj10585 *)p)->fB6C, 0x2d);
     for (i = 0; i < 10; i++) {
-        *(void **)(p + i * 4 + 0xb90) = func_020457B0(0x14, 0x48);
+        *(void **)(p + i * 4 + 0xb90) = STRBUF_Create(0x14, 0x48);
     }
 }

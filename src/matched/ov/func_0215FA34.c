@@ -1,5 +1,5 @@
 /*
- * function: func_0215FA34
+ * function: SCRCMD_NETWORK_LoadOv020
  * address:  0x0215FA34
  * packet:   pkt_0215FA34
  * region:   ov010
@@ -22,13 +22,13 @@
  * pooled small constant is an absolute linker symbol
  * (docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md).
  * Unlabelled in the listing (no lr-saving prologue, callers only in arm9);
- * the pair with func_0215FA44 (same id, into GF_OVERLAY_Unload).
+ * the pair with SCRCMD_NETWORK_UnloadOv020 (same id, into GF_OVERLAY_Unload).
  */
 
 extern unsigned char abs_id_14[];
 extern int GF_OVERLAY_Load(int id);
 
-void func_0215FA34(void)
+void SCRCMD_NETWORK_LoadOv020(void)
 {
     GF_OVERLAY_Load((int)abs_id_14);
 }

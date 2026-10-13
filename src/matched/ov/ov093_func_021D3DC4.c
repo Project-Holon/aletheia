@@ -12,10 +12,10 @@
  * symbols:
  *   d_021EFF74  0x021EFF74  data  a1
  *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D805C  0x021D805C  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
- *   func_021D7B60  0x021D7B60  thumb  ov093
+ *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
  *   func_021D3E70  0x021D3E70  thumb  ov093
  *   func_021D3EC8  0x021D3EC8  thumb  ov093
  */
@@ -28,10 +28,10 @@ extern u8 d_021EFF74[];
 struct Q1;
 struct Unk021D62A8;
 extern u8 func_021B9B94(struct Q1 *p);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern u32 func_021D805C(void *p, u32 n);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern int func_021D59B4(u8 *p, int k);
-extern u32 func_021D7B60(void *p, u32 b);
+extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
 extern int func_021D3E70(void *s, void *m);
 extern int func_021D3EC8(void *s, struct Unk021D62A8 *m);
 
@@ -45,7 +45,7 @@ u32 func_021D3DC4(u8 *a, void *b, void *c)
     u8 *t;
 
     lim = func_021B9B94(c);
-    if (func_021D62C4(b, 0x13) != 0)
+    if (BTL_POKEPARAM_HasSick(b, 0x13) != 0)
         return 0;
     for (i = 0; i < 4; i++) {
         if (d_021EFF74[i] < lim)
@@ -53,9 +53,9 @@ u32 func_021D3DC4(u8 *a, void *b, void *c)
         off = i * 2;
         if (*(u16 *)(a + off + 0xe8) != 0) {
             r = 0;
-            if (func_021D805C((void *)(u32)*(u16 *)(a + off + 0xe8), 0x29) != 0) {
+            if (BTL_CALC_GetMonParamWithHeap((void *)(u32)*(u16 *)(a + off + 0xe8), 0x29) != 0) {
                 r = func_021D59B4(b, 0xd);
-                if (r > func_021D7B60(b, 4))
+                if (r > BTL_CALC_DivideMaxHp(b, 4))
                     continue;
                 r = 1;
             } else {

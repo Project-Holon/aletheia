@@ -1,5 +1,5 @@
 /*
- * function: func_02156BD0
+ * function: MUSICAL_DRESSUP_SYS_Init
  * address:  0x02156BD0
  * packet:   pkt_ov010_02156BD0
  * region:   ov010
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02030734  0x02030734  arm
- *   d_02172730  0x02172730  data
+ *   sMusicalDressupSysFileName  0x02172730  data
  *   ov133_id  0x00000085  data
  */
 
@@ -30,20 +30,20 @@ typedef signed int     s32;
 typedef unsigned short u16;
 extern int func_02034AC4(s32 handle);
 extern char ov133_id[];
-extern void func_0203064C(u32, u32, u32);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern const char d_02172730[];
+extern const char sMusicalDressupSysFileName[];
 
-int func_02156BD0(void *a, u32 *out, u32 *src)
+int MUSICAL_DRESSUP_SYS_Init(void *a, u32 *out, u32 *src)
 {
     Obj *o;
     *out = 0;
     func_02034AC4((u32)ov133_id);
-    func_0203064C(1, 0x2d, 1 << 18);
-    o = func_0203159C(a, 0x10, 0x2d);
-    o->f00 = func_02030734(0x2d, 0xc, 0, d_02172730, 0x4e);
+    GFL_HEAP_CreateChildHeap(1, 0x2d, 1 << 18);
+    o = PROCSYS_AllocProcWork(a, 0x10, 0x2d);
+    o->f00 = func_02030734(0x2d, 0xc, 0, sMusicalDressupSysFileName, 0x4e);
     o->f0c = src;
     o->f00[0] = src[0];
     o->f00[1] = src[1];

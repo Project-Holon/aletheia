@@ -21,11 +21,11 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_020127B8  0x020127B8  thumb
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_02175DA8  0x02175DA8  thumb  ov011
- *   func_021763D8  0x021763D8  thumb  ov011
+ *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
+ *   INTRUDE_COMM_PickEntryForKind  0x021763D8  thumb  ov011
  *   INTRUDE_COMM_RecordResultOutcome  0x02175E30  thumb  ov011
  *   INTRUDE_COMM_CountOutcomes  0x02176424  thumb  ov011
  *   INTRUDE_COMM_SetResultRecord  0x02175D7C  thumb  ov011
@@ -44,11 +44,11 @@ struct Rec {
 struct Entry;
 struct Link;
 extern u32 func_02026478(void *obj);
-extern void *func_020127B8(void *p);
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *p);
-extern int func_02175DA8(u8 *);
-extern void func_021763D8(u8 *, u32);
+extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern int INTRUDE_COMM_HasResult(u8 *);
+extern void INTRUDE_COMM_PickEntryForKind(u8 *, u32);
 extern void INTRUDE_COMM_RecordResultOutcome(void *, u8 *, struct Rec *);
 extern int INTRUDE_COMM_CountOutcomes(u8 *, u8 *, u8 *);
 extern void INTRUDE_COMM_SetResultRecord(void *, u8 *, void *);
@@ -63,7 +63,7 @@ void INTRUDE_CMD_RecvResultRecord(int a0, int a1, u8 *b, u8 *s)
     int r6;
 
     x = (void *)func_02026478(*(void **)(s + 4));
-    y = func_020127B8(x);
+    y = GAME_DATA_GetLastBattleRecSlot(x);
     buf[1] = 0;
     flag = 0;
     buf[0] = 0;
@@ -72,12 +72,12 @@ void INTRUDE_CMD_RecvResultRecord(int a0, int a1, u8 *b, u8 *s)
     if (b[0x2c] == 4) {
         return;
     }
-    if (func_02175DA8(s + 0x1ac) == 1) {
+    if (INTRUDE_COMM_HasResult(s + 0x1ac) == 1) {
         return;
     }
-    if (b[0x28] == func_0203D1A4((struct Link *)func_020399A8())) {
+    if (b[0x28] == GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
         if (b[0x37] == 1) {
-            func_021763D8(y, ((struct Rec *)b)->lo);
+            INTRUDE_COMM_PickEntryForKind(y, ((struct Rec *)b)->lo);
             s[0x907] = 1;
         } else {
             INTRUDE_COMM_RecordResultOutcome(x, s, (struct Rec *)b);

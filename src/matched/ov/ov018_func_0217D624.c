@@ -1,5 +1,5 @@
 /*
- * function: func_0217D624
+ * function: INTRUDE_SUBDISP_SystemSetup
  * address:  0x0217D624
  * packet:   pkt_ov018_0217D624
  * region:   ov018
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B100  0x0204B100  arm
- *   func_0204B034  0x0204B034  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   CLACT_CreateRenderer  0x0204B034  arm
  *   func_0204B258  0x0204B258  arm
- *   func_02025538  0x02025538  thumb
- *   func_0203101C  0x0203101C  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   BMP_OAM_CreateSys  0x02025538  thumb
+ *   TCBL_Create  0x0203101C  arm
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201C440  0x0201C440  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   d_021836B4     0x021836B4  data   a4
  */
 
@@ -54,34 +54,34 @@ struct State {
     void *unkB0;              /* 0xB0 */
 };
 
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern struct Obj *func_0204B034(unsigned char *a0, unsigned int a1, unsigned int heap);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Obj *CLACT_CreateRenderer(unsigned char *a0, unsigned int a1, unsigned int heap);
 extern void func_0204B258(struct Bank *bank, void *p);
-extern void *func_02025538(unsigned int a0, void *a1);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 func_0201C440(void *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern unsigned char d_021836B4[];
 
-void func_0217D624(struct State *o)
+void INTRUDE_SUBDISP_SystemSetup(struct State *o)
 {
     struct Obj *t;
 
-    o->bank = func_0204B100(0x29, 5, 0x70);
-    t = func_0204B034(d_021836B4, 1, 0x70);
+    o->bank = CLACT_CreateUnit(0x29, 5, 0x70);
+    t = CLACT_CreateRenderer(d_021836B4, 1, 0x70);
     o->obj = t;
     func_0204B258(o->bank, t);
-    o->unkB0 = func_02025538(0x70, o->bank);
-    o->tcbl = func_0203101C(0x70, 0x70, 4, 0x20);
-    o->font = func_0201D7EC(0x17, 0, 0, 0, 0x70);
+    o->unkB0 = BMP_OAM_CreateSys(0x70, o->bank);
+    o->tcbl = TCBL_Create(0x70, 0x70, 4, 0x20);
+    o->font = GF_FONT_Create(0x17, 0, 0, 0, 0x70);
     o->words = func_0201EC64(0x70);
     o->unk28 = func_0201C440((void *)0x70);
     o->msg2C = func_02045B38(0, 2, 0x2D, 0x70);
     o->msg30 = func_02045B38(0, 2, 0x42, 0x70);
-    o->str38 = func_020457B0(0x80, 0x70);
-    o->str3C = func_020457B0(0x80, 0x70);
-    o->str40 = func_020457B0(0x80, 0x70);
+    o->str38 = STRBUF_Create(0x80, 0x70);
+    o->str3C = STRBUF_Create(0x80, 0x70);
+    o->str40 = STRBUF_Create(0x80, 0x70);
 }

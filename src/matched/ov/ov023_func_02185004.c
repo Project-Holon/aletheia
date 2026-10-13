@@ -1,5 +1,5 @@
 /*
- * function: func_02185004
+ * function: OEKAKI_DeleteWindows
  * address:  0x02185004
  * packet:   pkt_ov023_02185004
  * region:   ov023
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   TCBL_DeleteAllTasks  0x0203115C  arm
- *   func_02031140  0x02031140  arm
+ *   TCBL_Destroy  0x02031140  arm
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
  *   func_020452E8  0x020452E8  arm
- *   func_020450C8  0x020450C8  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  */
 #include "../include/Obj03624.h"
 
@@ -26,18 +26,18 @@ struct PrintSys;
 struct S02031140;
 struct Tcbl;
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
-extern void func_02031140(struct S02031140 *p);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 
-void func_02185004(char *p)
+void OEKAKI_DeleteWindows(char *p)
 {
     int i;
 
     TCBL_DeleteAllTasks((struct Tcbl *)(((struct Obj03624 *)p)->f170));
-    func_02031140((struct S02031140 *)(((struct Obj03624 *)p)->f170));
+    TCBL_Destroy((struct S02031140 *)(((struct Obj03624 *)p)->f170));
     func_0201C6EC((struct PrintSys *)(((struct Obj03624 *)p)->f168));
     func_0201C4C0((struct PrintSys *)(((struct Obj03624 *)p)->f168));
     func_0201C6EC((struct PrintSys *)(((struct Obj03624 *)p)->f164));
@@ -46,5 +46,5 @@ void func_02185004(char *p)
         func_020452E8((struct Descriptor *)(*(u32 *)(p + 0x104 + i * 4)));
     func_020452E8((struct Descriptor *)(((struct Obj03624 *)p)->f118));
     func_020452E8((struct Descriptor *)(((struct Obj03624 *)p)->f11C));
-    func_020450C8();
+    BMP_WIN_Exit();
 }

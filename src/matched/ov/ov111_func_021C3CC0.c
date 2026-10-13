@@ -12,21 +12,21 @@
  * symbols:
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
- *   func_0202223C  0x0202223C  thumb
+ *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetWndMask  0x02022224  thumb
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_020355C4  0x020355C4  arm
  *   func_02012FFC  0x02012FFC  thumb
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_0203F8F4  0x0203F8F4  arm
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   func_020056A0  0x020056A0  thumb
- *   func_0203101C  0x0203101C  arm
- *   func_0203D34C  0x0203D34C  arm
- *   func_0202208C  0x0202208C  thumb
+ *   TCBL_Create  0x0203101C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   WIPE_SYS_Start  0x0202208C  thumb
  *   func_021C41C4  0x021C41C4  thumb  ov111
  *   func_021C43E8  0x021C43E8  thumb  ov111
  *   func_021C453C  0x021C453C  thumb  ov111
@@ -118,25 +118,25 @@ typedef struct {
 
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void func_0202223C(u32 a, u32 b);
+extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 struct PmsDraw;
 extern u32 WIPE_ResetWndMask(void *win);
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 struct Tcbl;
 extern u8 func_020355C4(void);
 extern signed char func_02012FFC(void);
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern void func_0203F8F4(u16 heap);
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), void *ctx, int pri);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021C41C4(Work *p);
 extern void func_021C43E8(void);
 extern void func_021C453C(Work *p);
@@ -160,12 +160,12 @@ int func_021C3CC0(void *man, int *state, Args *args)
     BG_SYS_ClearSubPlanes();
     *(volatile u32 *)0x04000000 &= ~0x1F00;
     *(volatile u32 *)0x04001000 &= ~0x1F00;
-    func_0202223C(0, 0);
-    func_0202223C(1, 0);
+    WIPE_SetBrightnessFadeOut(0, 0);
+    WIPE_SetBrightnessFadeOut(1, 0);
     WIPE_ResetWndMask(0);
     WIPE_ResetWndMask((void *)1);
-    func_0203064C(1, 0x27, 0x50000);
-    p = func_0203159C(man, sizeof(Work), 0x27);
+    GFL_HEAP_CreateChildHeap(1, 0x27, 0x50000);
+    p = PROCSYS_AllocProcWork(man, sizeof(Work), 0x27);
     func_02082BCC(p, 0, sizeof(Work));
     p->heap = 0x27;
     p->anim.heap = 0x27;
@@ -188,12 +188,12 @@ int func_021C3CC0(void *man, int *state, Args *args)
         }
         mask <<= 1;
     }
-    if (func_0203D1B4() > 0) {
+    if (GFL_NET_GetNegotiationNum() > 0) {
         p->f32CA_1 = 1;
     }
     func_0203F8F4(p->heap);
     func_021C41C4(p);
-    func_020433E0((const struct DispVram *)d_021C8564);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021C8564);
     func_021C43E8();
     func_021C453C(p);
     func_021C6D9C(&p->anim, d_021C8564);
@@ -223,8 +223,8 @@ int func_021C3CC0(void *man, int *state, Args *args)
     func_021C5874();
     func_021C47EC(p);
     p->f31F4 = func_020056A0(func_021C581C, p, 1);
-    p->f31F8 = func_0203101C(p->heap, p->heap, 3, 0);
-    func_0203D34C(1, p->heap);
-    func_0202208C((void *)1, 3, 3, 0, 6, 1, p->heap);
+    p->f31F8 = TCBL_Create(p->heap, p->heap, 3, 0);
+    GFL_NET_RestartWithDefaultTimeout(1, p->heap);
+    WIPE_SYS_Start((void *)1, 3, 3, 0, 6, 1, p->heap);
     return 1;
 }

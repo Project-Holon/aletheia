@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C7FF0",
+   "name": "FIELDSKILL_MAPEFF_FreeFlash",
    "address": "0x021C7FF0",
    "kind": "sdk",
    "region": "ov021",

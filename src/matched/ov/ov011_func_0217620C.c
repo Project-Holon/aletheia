@@ -1,5 +1,5 @@
 /*
- * function: func_0217620C
+ * function: INTRUDE_COMM_IsRequestFromNetId
  * address: 0x0217620C
  * packet: pkt_ov011_0217620C
  * region: ov011
@@ -10,13 +10,13 @@
  * status: EXACT*
  * extent: two alignment bytes at 0217622E.
  * symbols:
- *   func_02175B14 0x02175B14 thumb ov011
+ *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
  */
 typedef unsigned char u8;
-extern int func_02175B14(u8 *p);
-int func_0217620C(u8 *p, int key)
+extern int INTRUDE_COMM_IsSessionActive(u8 *p);
+int INTRUDE_COMM_IsRequestFromNetId(u8 *p, int key)
 {
-    if (func_02175B14(p) == 0) return 0;
+    if (INTRUDE_COMM_IsSessionActive(p) == 0) return 0;
     if (p[0xa0] == key) return 1;
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB820
+ * function: TOWNMAP_GRH_InitBgLayers
  * address:  0x021BB820
  * packet:   pkt_ov072_021BB820
  * region:   ov072
@@ -29,8 +29,8 @@
  * as a separate value), which no type change above reached.
  *
  * renewed: Wave75 R29, 3 iteration + 2 check runs. Enum stack-zero72 bytes and enum palette-size74 worse; loop-init after first call flat68. Const BG table CCERR repaired with readonly callee prototype, then flat68. Own arm9 unit_02049B40 and ARC_UTIL_UploadBgCharFromHandle/498F4 re-read (6/7 args, u16 final heap); fresh ov070/071 callers and idioms. Earlier permuter300 remains consumed; best C retained.
- * Graphics init; the seven 0x28-byte BG entries at d_021BBC28 are the
- * ones func_021BB968 tears down.
+ * Graphics init; the seven 0x28-byte BG entries at sTownMapGrhBgTable are the
+ * ones TOWNMAP_GRH_ExitBgLayers tears down.
  *
  * note 2026-10-05 (wave P7 lane V1): no matched twin exists (ov021 02192FA4, ov218 021B9964,
  * ov173 021B66BC, ov091 021B71E4 share only the 02049B40/02049658 call forms). Prototypes now
@@ -56,7 +56,7 @@
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_0203F8F4  0x0203F8F4  arm
- *   func_02045088  0x02045088  arm
+ *   BMP_WIN_Init  0x02045088  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
@@ -66,9 +66,9 @@
  *   func_020498F4  0x020498F4  arm
  *   func_02049B40  0x02049B40  arm
  *   func_02040C14  0x02040C14  arm
- *   func_02049238  0x02049238  arm
- *   d_021BBBCC     0x021BBBCC  data  a4
- *   d_021BBC28     0x021BBC28  data  a4
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   sTownMapGrhDispConfig     0x021BBBCC  data  a4
+ *   sTownMapGrhBgTable     0x021BBC28  data  a4
  */
 
 typedef unsigned char  u8;
@@ -83,12 +83,12 @@ struct Ent {
     u32 mode;
 };
 
-extern struct Ent d_021BBC28[];
-extern char d_021BBBCC;
+extern struct Ent sTownMapGrhBgTable[];
+extern char sTownMapGrhDispConfig;
 
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_0203F8F4(u16 heap);
-extern void func_02045088(u16 heap);
+extern void BMP_WIN_Init(u16 heap);
 struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -100,9 +100,9 @@ extern u32 func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
-extern void func_02049238(void *h);
+extern void ARC_TOOL_DeleteHandle(void *h);
 
-void func_021BB820(void *p, u16 heap)
+void TOWNMAP_GRH_InitBgLayers(void *p, u16 heap)
 {
     int i;
     u32 id;
@@ -111,11 +111,11 @@ void func_021BB820(void *p, u16 heap)
     i = 0;
     func_02082BCC(p, 0, 4);
     func_0203F8F4(heap);
-    func_02045088(heap);
-    func_0203FC28((struct DispConfig *)(&d_021BBBCC));
+    BMP_WIN_Init(heap);
+    func_0203FC28((struct DispConfig *)(&sTownMapGrhDispConfig));
     for (; i < 7; i++) {
-        id = d_021BBC28[i].id;
-        func_0203FCA0((u8)id, (const struct BgTemplate *)(&d_021BBC28[i].tmpl), (u8)d_021BBC28[i].mode);
+        id = sTownMapGrhBgTable[i].id;
+        func_0203FCA0((u8)id, (const struct BgTemplate *)(&sTownMapGrhBgTable[i].tmpl), (u8)sTownMapGrhBgTable[i].mode);
         func_02040588(id, 1);
     }
     h = func_020490F4(0x55, heap);
@@ -131,5 +131,5 @@ void func_021BB820(void *p, u16 heap)
     func_02049B40(0x17, 5, 0, 0x1c0, 0x20, heap);
     func_02049B40(0x17, 5, 4, 0x1c0, 0x20, heap);
     func_02040C14((int)1, (int)0, (int)1, (int)0);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

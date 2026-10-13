@@ -1,5 +1,5 @@
 /*
- * function: func_0216C640
+ * function: NAMEIN_SETUP_StartEncounterScene
  * address:  0x0216C640
  * packet:   pkt_ov010_0216C640
  * region:   ov010
@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * lever: The result of func_021CBD08 remains live in r2 and is the third argument of func_0216E8CC.
+ * lever: The result of func_021CBD08 remains live in r2 and is the third argument of EVENT_BATTLE_CreateResultOnlyTask.
  *
  * DIFF: original keeps the call result in r2 (adds r2,r0) and loads the 0x7CC offset into r0;
  * ours loads the offset into r1 and stores r0. Tried a local, a struct field, unsigned char.
@@ -16,8 +16,8 @@
  * symbols:
  *   BATTLE_REC_AllocWork  0x0200B400  thumb
  *   func_021CBD08  0x021CBD08  thumb  ov021
- *   func_0216CAD4  0x0216CAD4  thumb  ov010
- *   func_0216E8CC  0x0216E8CC  thumb  ov010
+ *   NAMEIN_SETUP_StartEncounterTransition  0x0216CAD4  thumb  ov010
+ *   EVENT_BATTLE_CreateResultOnlyTask  0x0216E8CC  thumb  ov010
  */
 
 typedef struct S { char p0[9]; unsigned char k; char p1[0x7CC - 10]; int f; } S;
@@ -26,18 +26,18 @@ typedef unsigned int   u32;
 extern void BATTLE_REC_AllocWork(u32 heap);
 typedef unsigned char  u8;
 extern u32 func_021CBD08(u8 *p, int a);
-extern void func_0216CAD4(void *a0, void *a1, void *a2);
-extern int func_0216E8CC(int, int, int);
+extern void NAMEIN_SETUP_StartEncounterTransition(void *a0, void *a1, void *a2);
+extern int EVENT_BATTLE_CreateResultOnlyTask(int, int, int);
 
-void func_0216C640(S *a, int b, int c)
+void NAMEIN_SETUP_StartEncounterScene(S *a, int b, int c)
 {
     int t;
     BATTLE_REC_AllocWork(4);
     t = func_021CBD08((u8 *)a, b);
     a->f = t;
     if (a->k == 3 || a->k == 8) {
-        func_0216CAD4(a, (void *)b, (void *)c);
+        NAMEIN_SETUP_StartEncounterTransition(a, (void *)b, (void *)c);
         return;
     }
-    func_0216E8CC(b, c, t);
+    EVENT_BATTLE_CreateResultOnlyTask(b, c, t);
 }

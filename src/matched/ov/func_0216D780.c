@@ -1,5 +1,5 @@
 /*
- * function: func_0216D780
+ * function: FLDMMDL_CallDrawPushProc
  * address:  0x0216D780
  * packet:   pkt_0216D780
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0216D780(void *a0)
+void FLDMMDL_CallDrawPushProc(void *a0)
 {
     void (*fn)(void *) = *(void (**)(void *))((char *)((struct Obj00113 *)a0)->f90 + 0xC);
 

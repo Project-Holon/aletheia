@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A3C3C",
+   "name": "FIELD_PLAYER_CORE_GetHorzDirFromKeys",
    "address": "0x021A3C3C",
    "kind": "game",
    "region": "ov021",

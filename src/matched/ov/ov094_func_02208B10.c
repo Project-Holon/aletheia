@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   func_02030EAC 0x02030EAC arm
  */
@@ -25,7 +25,7 @@ typedef struct E {
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -38,22 +38,22 @@ void func_02208B10(void *h, E *e)
     s16 v[2];
     if (e->f44 != 0) step = 8;
     else step = -8;
-    func_0204B454(e->f0, (struct PtS *)v, 0);
+    CLACT_GetActorSurfacePos(e->f0, (struct PtS *)v, 0);
     v[0] += (s16)step;
     func_0204B404(e->f0, (const struct Vec2 *)v, 0);
-    func_0204B454(e->f8, (struct PtS *)v, 0);
+    CLACT_GetActorSurfacePos(e->f8, (struct PtS *)v, 0);
     v[0] += (s16)step;
     func_0204B404(e->f8, (const struct Vec2 *)v, 0);
-    func_0204B454(e->f14, (struct PtS *)v, 0);
+    CLACT_GetActorSurfacePos(e->f14, (struct PtS *)v, 0);
     v[0] += (s16)step;
     func_0204B404(e->f14, (const struct Vec2 *)v, 0);
     if (e->f44 == 0) {
-        func_0204B454(e->f4, (struct PtS *)v, 0);
+        CLACT_GetActorSurfacePos(e->f4, (struct PtS *)v, 0);
         v[0] += (s16)step;
         func_0204B404(e->f4, (const struct Vec2 *)v, 0);
     }
     if (e->f10 != 0) {
-        func_0204B454(e->f10, (struct PtS *)v, 0);
+        CLACT_GetActorSurfacePos(e->f10, (struct PtS *)v, 0);
         v[0] += (s16)step;
         func_0204B404(e->f10, (const struct Vec2 *)v, 0);
     }

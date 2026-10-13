@@ -1,5 +1,5 @@
 /*
- * function: func_021A01BC
+ * function: FIELD_FOG_SetOffset
  * address:  0x021A01BC
  * packet:   pkt_021A01BC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A01BC(u32 a, u32 b)
+int FIELD_FOG_SetOffset(u32 a, u32 b)
 {
 ((struct Obj07212 *)((u8 *)(a)))->f4 = b;
 ((struct Obj07212 *)((u8 *)(a)))->f40 = 1;

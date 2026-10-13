@@ -16,8 +16,8 @@
  *   func_021BBF14 0x021BBF14 thumb ov216
  *   func_021BBF98 0x021BBF98 thumb ov216
  *   func_021BCC10 0x021BCC10 thumb ov216
- *   func_020310C4 0x020310C4 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   TCBL_Main 0x020310C4 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021BC920 0x021BC920 thumb ov216
  *   func_021BCA24 0x021BCA24 thumb ov216
  */
@@ -29,8 +29,8 @@ extern int func_021BBF60(char *);
 extern int func_021BBF14(char *);
 extern int func_021BBF98(char *);
 extern int func_021BCC10(unsigned char *);
-extern void func_020310C4(struct Tcbl *);
-extern unsigned func_0201C4E4(struct PrintSys *);
+extern void TCBL_Main(struct Tcbl *);
+extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 extern int func_021BC920(unsigned *);
 extern void func_021BCA24(char *);
 int func_021BBF0C(char *);
@@ -46,8 +46,8 @@ int func_021BBE7C(int unused0,int *state,int unused2,char *p)
     case 4: *state=func_021BBF98(p); break;
     case 5: return 1;
     }
-    func_020310C4(*(struct Tcbl * *)&((struct Obj03374 *)p)->f18);
-    func_0201C4E4(*(struct PrintSys * *)&((struct Obj03374 *)p)->f12C);
+    TCBL_Main(*(struct Tcbl * *)&((struct Obj03374 *)p)->f18);
+    PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj03374 *)p)->f12C);
     func_021BC920((unsigned *)p);
     func_021BCA24(*(char * *)&((struct Obj03374 *)p)->f50);
     return 0;

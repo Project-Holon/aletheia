@@ -1,5 +1,5 @@
 /*
- * function: func_021AA728
+ * function: FIELD_ENCOUNT_UpdateStepWork
  * address:  0x021AA728
  * packet:   pkt_ov021_021AA728
  * region:   ov021
@@ -11,10 +11,10 @@
  *
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021A3074  0x021A3074  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -27,21 +27,21 @@ typedef signed int     s32;
 
 struct Pos { u16 x, y, z; u16 f06; u32 f08; };
 
-extern void *func_021A3074(u8 *p);
-extern int func_0216D83C(void *p);
-extern int func_0216D854(void *p);
-extern int func_0216D86C(void *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowY(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
 
-void func_021AA728(struct Pos *p, void *q)
+void FIELD_ENCOUNT_UpdateStepWork(struct Pos *p, void *q)
 {
-    void *o = func_021A3074(q);
+    void *o = FIELD_PLAYER_GetMmdl(q);
 
     if (p->f06 != 0) {
         if (p->f08 < 0xA000)
             p->f08++;
         return;
     }
-    if (p->x != func_0216D83C(o) || p->y != func_0216D854(o) || p->z != func_0216D86C(o)) {
+    if (p->x != FLDMMDL_GetGridNowX(o) || p->y != FLDMMDL_GetGridNowY(o) || p->z != FLDMMDL_GetGridNowZ(o)) {
         p->f06 = 1;
         p->f08++;
     }

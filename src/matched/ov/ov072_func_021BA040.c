@@ -1,5 +1,5 @@
 /*
- * function: func_021BA040
+ * function: TOWNMAP_BackButtonIsHeld
  * address:  0x021BA040
  * packet:   pkt_021BA040
  * region:   ov072
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6498  0x021B6498  thumb  ov067
+ *   TOUCHBAR_IsBusy  0x021B6498  thumb  ov067
  */
 
-int func_021B6498(unsigned char *p);
+int TOUCHBAR_IsBusy(unsigned char *p);
 
-int func_021BA040(int *p)
+int TOWNMAP_BackButtonIsHeld(int *p)
 {
-    return func_021B6498((unsigned char *)p[3]);
+    return TOUCHBAR_IsBusy((unsigned char *)p[3]);
 }

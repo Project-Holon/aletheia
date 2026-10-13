@@ -10,10 +10,10 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_022110D4 0x022110D4 thumb ov198
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201EF40 0x0201EF40 thumb
  *   func_0201F250 0x0201F250 thumb
  */
@@ -31,10 +31,10 @@ struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_022110D4(u8 *, int);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_0220C42C(char *p, int i, int index)
@@ -47,14 +47,14 @@ void func_0220C42C(char *p, int i, int index)
     if (((struct Obj14555 *)elem)->f1A == 0)
         t = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 0x1E);
     else {
-        t = (void *)func_020457B0(0x12, ((struct Obj25136 *)(*(char * *)&((struct Obj04599 *)p)->f0))->f10);
+        t = (void *)STRBUF_Create(0x12, ((struct Obj25136 *)(*(char * *)&((struct Obj04599 *)p)->f0))->f10);
         format = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 15);
         func_0201EF40(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
         func_0201F250(((struct Obj04599 *)p)->f1EA4, (void *)((u32)t), format);
-        func_02045808(format);
+        STRBUF_Delete(format);
     }
     f = ((struct Obj04599 *)p)->f1EAC;
-    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), 0, 0, (u32)t, ((struct Obj25137 *)(*(char * *)&((struct Obj04599 *)p)->f0))->fC, 0x3DC0);
+    PRINTSYS_PrintQueColor(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), 0, 0, (u32)t, ((struct Obj25137 *)(*(char * *)&((struct Obj04599 *)p)->f0))->fC, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
-    func_02045808(t);
+    STRBUF_Delete(t);
 }

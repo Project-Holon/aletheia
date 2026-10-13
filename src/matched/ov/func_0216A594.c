@@ -1,5 +1,5 @@
 /*
- * function: func_0216A594
+ * function: SCRCMD_TRIALHOUSE_SetRecordSource
  * address:  0x0216A594
  * packet:   pkt_0216A594
  * region:   ov010
@@ -11,11 +11,11 @@
  * blocked:  
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetListCursor  0x02012F50  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_021D0AB8  0x021D0AB8  thumb
  */
 #include "../include/Obj17758.h"
@@ -26,14 +26,14 @@ typedef unsigned int u32;
 
 struct Ctx;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetListCursor(void *base);
-extern unsigned int func_02159B10(void *, void *);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern int func_021D0AB8();
 
-int func_0216A594(int a0, int a1)
+int SCRCMD_TRIALHOUSE_SetRecordSource(int a0, int a1)
 {    int t5;
     int t6;
     void *p;
@@ -44,18 +44,18 @@ int func_0216A594(int a0, int a1)
 t6 = a1 + 0;
 t5 = a0 + 0;
 a0 = t6 + 0;
-    v0 = func_0215A5F4((void *)a0);
+    v0 = SCRCMD_WORK_GetScriptWork((void *)a0);
 loc_0216A5A0:
 a0 = t6 + 0;
-    v1 = func_0215A5DC((void *)a0);
+    v1 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0216A5A6:
-    p = func_020120F4((const struct Ctx *)v1);
+    p = GAMESYSTEM_GetGameData((const struct Ctx *)v1);
 loc_0216A5AA:
     v2 = GAME_DATA_GetListCursor(p);
 loc_0216A5AE:
 a0 = t5 + 0;
 a1 = t6 + 0;
-    a0 = func_02159B10((void *)a0, (void *)a1);
+    a0 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
 loc_0216A5B8:
 a1 = a0 + 0;
 a0 = ((struct Obj17758 *)((char *)v2))->f0;

@@ -24,7 +24,7 @@
  *   func_02035D20  0x02035D20  arm
  *   func_0204B3F4  0x0204B3F4  arm
  *   ov208_func_021BF280  0x021BF280  thumb  ov208
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_020355D8  0x020355D8  arm
  *   func_021BDC48  0x021BDC48  thumb  ov208
@@ -61,7 +61,7 @@ struct Obj;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern u32 func_0204B3F4(struct Obj *p);
 extern void ov208_func_021BF280(void *first, char *q, void *third, int next);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020061E4(u32 a);
 extern void func_020355D8(u8 v);
 extern void func_021BDC48(int p, u32 on);
@@ -98,7 +98,7 @@ int func_021BEFA0(void *a0, struct S *st, int *obj)
         ov208_func_021BF280(a0, (char *)st, obj, st->cur);
         *(u32 *)((u8 *)st + st->cur * 0x14 + 0x2c) = 1;
         e = (struct E *)((u8 *)st + st->cur * 0x14);
-        func_0204B878((struct Obj *)e->h1c, e->f26);
+        CLACT_SetActorAnimSeq((struct Obj *)e->h1c, e->f26);
         func_020061E4(0x54a);
         func_020355D8(1);
         func_021BDC48(sc, 0);

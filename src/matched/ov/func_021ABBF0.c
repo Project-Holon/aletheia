@@ -1,5 +1,5 @@
 /*
- * function: func_021ABBF0
+ * function: FLD_SCENEAREA_LOADER_ApplyStripFull
  * address:  0x021ABBF0
  * packet:   pkt_021ABBF0
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021ABABC  0x021ABABC  thumb  ov021
- *   func_021ABC5C  0x021ABC5C  thumb  ov021
- *   func_021ABD08  0x021ABD08  thumb  ov021
+ *   FLD_SCENEAREA_LOADER_ApplyStripCamera  0x021ABABC  thumb  ov021
+ *   FLD_SCENEAREA_LOADER_ApplyStripTarget  0x021ABC5C  thumb  ov021
+ *   FLD_SCENEAREA_LOADER_ApplyStripFov  0x021ABD08  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021ABABC(int a0, const u16 *p, void *q);
-extern void func_021ABC5C(u8 *a0, char *p, void *q);
-extern u32 func_021ABD08(u32, u32, u32);
+extern void FLD_SCENEAREA_LOADER_ApplyStripCamera(int a0, const u16 *p, void *q);
+extern void FLD_SCENEAREA_LOADER_ApplyStripTarget(u8 *a0, char *p, void *q);
+extern u32 FLD_SCENEAREA_LOADER_ApplyStripFov(u32, u32, u32);
 
-int func_021ABBF0(u8 *a, u32 b, u32 c, u32 d)
+int FLD_SCENEAREA_LOADER_ApplyStripFull(u8 *a, u32 b, u32 c, u32 d)
 {
-func_021ABABC((int)a, (const u16 *)b, (void *)c);
-func_021ABC5C(a, (char *)b, (void *)c);
-return func_021ABD08((u32)a, b, c);
+FLD_SCENEAREA_LOADER_ApplyStripCamera((int)a, (const u16 *)b, (void *)c);
+FLD_SCENEAREA_LOADER_ApplyStripTarget(a, (char *)b, (void *)c);
+return FLD_SCENEAREA_LOADER_ApplyStripFov((u32)a, b, c);
 }
 

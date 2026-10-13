@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02008468",
+   "name": "MYSTATUS_GetSize",
    "address": "0x02008468",
    "kind": "game",
    "region": "arm9",

@@ -12,14 +12,14 @@
  *   func_020490F4 0x020490F4 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021FB964(void *ctx,unsigned kind,unsigned short heap)
 {
     void *h;
@@ -152,5 +152,5 @@ void func_021FB964(void *ctx,unsigned kind,unsigned short heap)
         func_020498F4(h,0x2f,5,0,0,0,heap);
         break;
     }
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

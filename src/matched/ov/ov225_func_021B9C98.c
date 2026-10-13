@@ -13,12 +13,12 @@
  * pair makes the inferred extent run long).  The THM_CALL at +0xA to
  * func_0200ED48 (0x0200ED48) has no witness outside this range: no func_
  * label at the address and no branch to it from anywhere else in the image.
- * The other two sites are attested (func_02012EBC label x19, func_0200EDEC
+ * The other two sites are attested (GAME_DATA_GetSaveControl label x19, func_0200EDEC
  * matched).  A split cannot free the site: its only caller anywhere is this
  * function, so cutting elsewhere leaves it witnessless.  Blocked on label.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200ED48  0x0200ED48  thumb
  *   func_0200EDEC  0x0200EDEC  thumb
  *
@@ -26,11 +26,11 @@
  */
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200ED48(void *p);
 extern int func_0200EDEC(char *obj, int i);
 
 int func_021B9C98(void *unused, int b, int c)
 {
-    return func_0200EDEC(func_0200ED48(func_02012EBC((struct Big *)c)), b);
+    return func_0200EDEC(func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)c)), b);
 }

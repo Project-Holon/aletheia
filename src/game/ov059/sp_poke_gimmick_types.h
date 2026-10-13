@@ -56,13 +56,13 @@ typedef struct SpPokeGimmickWork {
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern struct GameSystem *func_020124E4(struct GameEvent *event);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
-extern FldExpObjCnt *func_02188D2C(struct FieldMap *fieldMap);
-extern SpPokeGimmickWork *func_021897BC(struct FieldMap *fieldMap, int id);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
+extern SpPokeGimmickWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
 extern int func_021BE6E8(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex);
-extern FldExpObjAnime *func_021BE674(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex);
+extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex);
 extern int func_021BE6BC(FldExpObjAnime *anime);
 
-int func_021F3D9C(struct GameEvent *event, int *seq, void *work);
+int SP_POKE_GIMMICK_SwapNpcEventMain(struct GameEvent *event, int *seq, void *work);
 
 #endif

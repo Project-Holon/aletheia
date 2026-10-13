@@ -10,7 +10,7 @@
  * extent: two zero padding bytes at 0x021BE786.
  * lever: a named u8 local narrows the accessor result before bitfield masking.
  * symbols:
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
  *   func_0200856C 0x0200856C thumb
@@ -35,7 +35,7 @@ typedef struct {
     u8 bits2:2;
     u8 bits4:4;
 } State;
-extern u8 *func_02012944(void *);
+extern u8 *GAME_DATA_GetMyStatus(void *);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 struct Sub0200852CObj;
@@ -52,7 +52,7 @@ void func_021BE6F0(char *p, int a, int b)
 {
     void *q;
     u8 t;
-    q = func_02012944(((struct Obj01051 *)p)->fC4);
+    q = GAME_DATA_GetMyStatus(((struct Obj01051 *)p)->fC4);
     (*(State * *)&((struct Obj01051 *)p)->f8)->f15 = 0x15;
     (*(State * *)&((struct Obj01051 *)p)->f8)->f16 = 2;
     t = (int)func_02008550(q);

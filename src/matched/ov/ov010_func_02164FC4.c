@@ -1,5 +1,5 @@
 /*
- * function: func_02164FC4
+ * function: GAME_BEACON_SEARCH_SetStartDelay
  * address:  0x02164FC4
  * packet:   pkt_02164FC4
  * region:   ov010
@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-void func_02164FC4(char *p)
+void GAME_BEACON_SEARCH_SetStartDelay(char *p)
 {
     ((struct Obj18988 *)p)->fC = 0x708;
 }

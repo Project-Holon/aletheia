@@ -1,5 +1,5 @@
 /*
- * function: func_02184B78
+ * function: OEKAKI_LoadBgGraphics
  * address:  0x02184B78
  * packet:   pkt_ov023_02184B78
  * region:   ov023
@@ -27,7 +27,7 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-void func_02184B78(u8 *p, void *h)
+void OEKAKI_LoadBgGraphics(u8 *p, void *h)
 {
     func_02049B68(h, 0, 0, 0, 0x180, 0x28);
     func_02049B68(h, 1, 4, 0, 0x180, 0x28);

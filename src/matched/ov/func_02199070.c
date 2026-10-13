@@ -1,5 +1,5 @@
 /*
- * function: func_02199070
+ * function: FLDMMDL_ACMD_StayWalk32F40F
  * address:  0x02199070
  * packet:   pkt_02199070
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D7CC (0x0216D7CC) is a matched manifest entry, so the `matched`
+ * FLDMMDL_IncAcmdSeq (0x0216D7CC) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
@@ -18,7 +18,7 @@
  *
  * symbols:
  *   func_02199034  0x02199034  thumb  ov021
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -27,13 +27,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D7CC(u32);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
 extern int func_02199034(u32 a, u32 b, u32 c, u32 d);
 
-int func_02199070(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_ACMD_StayWalk32F40F(u32 a, u32 b, u32 c, u32 d)
 {
 func_02199034(a, 1, 40, d);
-func_0216D7CC(a);
+FLDMMDL_IncAcmdSeq(a);
 return 0;
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021AAEC0
+ * function: EFFECT_ENCOUNT_IsTileOccupied
  * address:  0x021AAEC0
  * packet:   pkt_ov021_021AAEC0
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A3074  0x021A3074  thumb
- *   func_02188C7C  0x02188C7C  thumb
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216E3C4  0x0216E3C4  thumb  ov010
- *   func_0216D828  0x0216D828  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
+ *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
  */
 
 typedef struct Vec3s {
@@ -29,18 +29,18 @@ typedef struct Self {
 
 typedef unsigned char  u8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern void *func_02188C7C(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
 typedef unsigned int   u32;
 struct Ctx;
 struct Rec;
-extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
-extern int func_0216D454(void *rec);
-extern void *func_0216E3C4(void *p);
-extern void func_0216D828(void *rec, Vec3s *out);
+extern int FLDMMDL_SysSearchUseMmdl(struct Ctx *c, struct Rec **out, u32 *iter);
+extern int FLDMMDL_CheckEndAcmd(void *rec);
+extern void *FLDMMDL_GetObjCodeParam(void *p);
+extern void FLDMMDL_GetGridNowPos(void *rec, Vec3s *out);
 
-int func_021AAEC0(Self *self, int x, short y2, int z, int skip)
+int EFFECT_ENCOUNT_IsTileOccupied(Self *self, int x, short y2, int z, int skip)
 {
     Vec3s v;
     void *rec;
@@ -49,17 +49,17 @@ int func_021AAEC0(Self *self, int x, short y2, int z, int skip)
     void *cur;
     unsigned char *info;
 
-    cur = func_021A3074(func_02188CB4(self->ctx));
-    list = func_02188C7C(self->ctx);
+    cur = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(self->ctx));
+    list = FIELDMAP_GetMmdlSys(self->ctx);
     for (;;) {
-        if (!func_0216DD1C(list, (struct Rec **)(&rec), (u32 *)(&it)))
+        if (!FLDMMDL_SysSearchUseMmdl(list, (struct Rec **)(&rec), (u32 *)(&it)))
             break;
-        if (!func_0216D454(rec))
+        if (!FLDMMDL_CheckEndAcmd(rec))
             continue;
         if (rec == cur && skip)
             continue;
-        info = func_0216E3C4(rec);
-        func_0216D828(rec, &v);
+        info = FLDMMDL_GetObjCodeParam(rec);
+        FLDMMDL_GetGridNowPos(rec, &v);
         if (y2 != v.y)
             continue;
         if (x < v.x || x >= v.x + info[0xb])

@@ -1,5 +1,5 @@
 /*
- * function: func_021CBCC4
+ * function: BSUBWAY_SCR_GetTrainNo
  * address:  0x021CBCC4
  * packet:   pkt_ov021_021CBCC4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Maps the owner's mode 0x43..0x49 to a small index.
  *
  * symbols:
- *   func_02188C9C  0x02188C9C  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -20,11 +20,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 
-int func_021CBCC4(void *p)
+int BSUBWAY_SCR_GetTrainNo(void *p)
 {
-    u16 m = func_02188C9C(p);
+    u16 m = FIELDMAP_GetZoneId(p);
     int r = 0;
 
     switch (m) {

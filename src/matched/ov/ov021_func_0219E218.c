@@ -1,5 +1,5 @@
 /*
- * function: func_0219E218
+ * function: FLDMMDL_RAIL_MOVE_AcJumpR8F0
  * address:  0x0219E218
  * packet:   pkt_ov021_0219E218
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219E084  0x0219E084  thumb  ov021
+ *   FLDMMDL_RAIL_MOVE_AcJumpSet  0x0219E084  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -19,10 +19,10 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void func_0219E084(u32, u32, u32, u32, u16, s16, u16);
+extern void FLDMMDL_RAIL_MOVE_AcJumpSet(u32, u32, u32, u32, u16, s16, u16);
 
-int func_0219E218(u32 a)
+int FLDMMDL_RAIL_MOVE_AcJumpR8F0(u32 a)
 {
-    func_0219E084(a, 3, 0x2000, 8, 3, 0, 0x200);
+    FLDMMDL_RAIL_MOVE_AcJumpSet(a, 3, 0x2000, 8, 3, 0, 0x200);
     return 1;
 }

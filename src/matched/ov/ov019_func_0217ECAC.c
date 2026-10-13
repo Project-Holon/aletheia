@@ -13,7 +13,7 @@
  *   d_02180318  0x02180318  data a2
  *
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
- * called from func_0217C2AC.
+ * called from UNION_ONESELF_TalkParentMain.
  */
 
 typedef unsigned short u16;

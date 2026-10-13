@@ -1,5 +1,5 @@
 /*
- * function: func_021F0C00
+ * function: C_GEAR_SetTileFlashStep
  * address:  0x021F0C00
  * packet:   pkt_ov029_021F0C00
  * region:   ov029
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0D14  0x021F0D14  thumb  ov029
+ *   C_GEAR_TileToScreen  0x021F0D14  thumb  ov029
  *   func_020413B0  0x020413B0  arm
  *   func_020409B4  0x020409B4  arm
  *   d_021F323C     0x021F323C  data  a1
@@ -30,17 +30,17 @@ typedef struct {
 } Ent;
 
 extern const u8 d_021F323C[];
-extern void func_021F0D14(int a, int b, int *x, int *y);
+extern void C_GEAR_TileToScreen(int a, int b, int *x, int *y);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(unsigned int index);
 
-void func_021F0C00(Ent *p, int idx)
+void C_GEAR_SetTileFlashStep(Ent *p, int idx)
 {
     int x, y, w;
     int pal;
 
     pal = (d_021F323C + p->f4 * 5)[idx];
-    func_021F0D14(p->f6, p->f7, &x, &y);
+    C_GEAR_TileToScreen(p->f6, p->f7, &x, &y);
     w = 4;
     if (x < 0) {
         w = x + 4;

@@ -1,5 +1,5 @@
 /*
- * function: func_0201235C
+ * function: GAME_EVENT_ChangeEvent
  * address:  0x0201235C
  * packet:   pkt_0201235C
  * region:   arm9
@@ -19,8 +19,8 @@
  * Order matters: the +0x10 load is hoisted above the store.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201235C.c \
- *       --func func_0201235C --addr 0x0201235C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_EVENT_ChangeEvent.c \
+ *       --func GAME_EVENT_ChangeEvent --addr 0x0201235C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -35,7 +35,7 @@ extern void GAME_EVENT_Delete(char *p);
 struct Ctx;
 extern void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v);
 
-void func_0201235C(struct S0201235C *o, u32 *out)
+void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out)
 {
     u32 t = o->f10;
     u32 v = o->f00;

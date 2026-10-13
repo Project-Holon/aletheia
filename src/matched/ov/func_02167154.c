@@ -1,5 +1,5 @@
 /*
- * function: func_02167154
+ * function: EVENT_RESEARCH_RADAR_LoadReportMsgData
  * address:  0x02167154
  * packet:   pkt_02167154
  * region:   ov010
@@ -22,7 +22,7 @@ struct MsgBank;
 
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-struct MsgBank *func_02167154(int a0, int a1, int a2, int a3)
+struct MsgBank *EVENT_RESEARCH_RADAR_LoadReportMsgData(int a0, int a1, int a2, int a3)
 {
     int t4;
     struct MsgBank *bank;

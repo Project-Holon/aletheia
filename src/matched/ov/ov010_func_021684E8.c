@@ -1,5 +1,5 @@
 /*
- * function: func_021684E8
+ * function: FLD_BTL_INST_TOOL_BuildBattleMon
  * address:  0x021684E8
  * packet:   pkt_ov010_021684E8
  * region:   ov010
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * Build a battle-facility Pokemon from its a/2/1/4 record (the reader is
- * func_02168800). Levers: the pid store in both arms of an if/else, the
+ * FLD_BTL_INST_TOOL_ReadMonData). Levers: the pid store in both arms of an if/else, the
  * ability as a nested if storing in all three arms, and (2026-09-28
  * tree_ov010_4) the EV share as an int local computed straight from the
  * division with the count n reused as the second loop's counter.
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_02168800  0x02168800  thumb  ov010
- *   func_020186C8  0x020186C8  thumb
+ *   FLD_BTL_INST_TOOL_ReadMonData  0x02168800  thumb  ov010
+ *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   _s32_div_f     0x0209C0A4  arm
  *   func_02019C90  0x02019C90  thumb
  *   MSGDATA_CreateFromArchive   0x02045B38  arm
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   d_02172084     0x02172084  data
  */
 
@@ -64,18 +64,18 @@ typedef struct BattleMon {
 } BattleMon;
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_02168800(void *dst, u32 member);
+extern void FLD_BTL_INST_TOOL_ReadMonData(void *dst, u32 member);
 struct MsgBank;
 struct MsgData;
 struct Rec;
-extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern const u16 d_02172084[];
 
-u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap)
+u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap)
 {
     FacRec rec;
     int i;
@@ -86,7 +86,7 @@ u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemI
     void *bank;
 
     MI_CpuFill8(out, 0, sizeof(BattleMon));
-    func_02168800(&rec, member);
+    FLD_BTL_INST_TOOL_ReadMonData(&rec, member);
     out->species = rec.species;
     out->form = rec.form;
     if (useItem)
@@ -101,7 +101,7 @@ u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemI
     }
     out->otId = otId;
     if (pid == 0) {
-        pid = func_020186C8(otId, rec.species, rec.form, 2, 2, 0);
+        pid = POKE_TOOL_CreatePersonalRnd(otId, rec.species, rec.form, 2, 2, 0);
         out->pid = pid;
     } else {
         out->pid = pid;
@@ -139,6 +139,6 @@ u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemI
     out->friendship = friendship;
     bank = MSGDATA_CreateFromArchive(0, 2, 0x46, heap);
     MSGDATA_ReadUnits(bank, out->species, out->nick, 11);
-    func_02045C04(bank);
+    MSGDATA_Delete(bank);
     return pid;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A8D40
+ * function: FIELD_MENU_ColorTask
  * address:  0x021A8D40
  * packet:   pkt_ov021_021A8D40
  * region:   ov021
@@ -29,7 +29,7 @@ struct W {
 extern short func_0203F684(unsigned short x);
 extern void func_0207E5D0(void *src, u32 off, u32 n);
 
-void func_021A8D40(void *unused, struct W *w)
+void FIELD_MENU_ColorTask(void *unused, struct W *w)
 {
     s32 t = func_0203F684((u16)w->f134) + 0x1000;
     u16 c[2];

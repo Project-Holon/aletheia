@@ -1,5 +1,5 @@
 /*
- * function: func_02199D8C
+ * function: FLDMMDL_ACMD_FlyUpInit
  * address:  0x02199D8C
  * packet:   pkt_ov021_02199D8C
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6BC  0x0216D6BC  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  */
 #include "../include/Obj09499.h"
 
@@ -21,17 +21,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u8 *func_0216D6BC(u32, u32);
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216D7CC(u32);
+extern u8 *FLDMMDL_InitMoveCmdWork(u32, u32);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_IncAcmdSeq(u32);
 
-int func_02199D8C(u32 a)
+int FLDMMDL_ACMD_FlyUpInit(u32 a)
 {
-    u8 *p = func_0216D6BC(a, 16);
+    u8 *p = FLDMMDL_InitMoveCmdWork(a, 16);
     ((struct Obj09499 *)p)->f4 = 0x2000;
     ((struct Obj09499 *)p)->f8 = 0;
     p[10] = 0;
-    func_0216D674((void *)a, 11);
-    func_0216D7CC(a);
+    FLDMMDL_SetDrawStatus((void *)a, 11);
+    FLDMMDL_IncAcmdSeq(a);
     return 1;
 }

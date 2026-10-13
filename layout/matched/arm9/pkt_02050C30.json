@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050DB8",
+   "name": "PARTICLE_DeleteSystem",
    "address": "0x02050DB8",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050ED4",
+   "name": "PARTICLE_ExitManager",
    "address": "0x02050ED4",
    "kind": "game",
    "region": "arm9",

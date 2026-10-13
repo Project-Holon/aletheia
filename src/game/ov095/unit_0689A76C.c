@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D8414  0x021D8414  thumb
+ *   BTL_ACTION_SetEscape  0x021D8414  thumb
  *   func_021F81EC  0x021F81EC  thumb
  *   func_021F8A78  0x021F8A78  thumb
  *   func_0220270C  0x0220270C  thumb
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02202DC4(u32 h, void *a, void *b);
-extern void func_021D8414(u32 x);
+extern void BTL_ACTION_SetEscape(u32 x);
 extern void func_0220270C(u32 h, int a, int b);
 extern void func_021F81EC(int a);
 extern void func_021F8A78(void);
@@ -50,7 +50,7 @@ int func_0689A76C(int *st, u8 *s)
         v = d_0689D828[i];
         ((struct Obj06337 *)s)->f98 = v;
         if (v == 4) {
-            func_021D8414(((struct Obj06337 *)s)->f70);
+            BTL_ACTION_SetEscape(((struct Obj06337 *)s)->f70);
             func_0220270C(((struct Obj06337 *)s)->fB0, 0, 0);
             func_021F81EC(8);
             func_021F8A78();

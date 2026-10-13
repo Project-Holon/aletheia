@@ -1,5 +1,5 @@
 /*
- * function: func_021DDB98
+ * function: BTL_ITEM_GetWeakenDamageGroundHandlers
  * address: 0x021DDB98
  * packet: pkt_ov093_021DDB98
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DDB84.c and filed here.
  *
  * symbols:
- *   d_021F17CC 0x021F17CC data ov093 a4
+ *   gBtlItemWeakenDamageGroundHandlers 0x021F17CC data ov093 a4
  */
 
-extern int d_021F17CC[];
-int *func_021DDB98(int *p);
+extern int gBtlItemWeakenDamageGroundHandlers[];
+int *BTL_ITEM_GetWeakenDamageGroundHandlers(int *p);
 
-int *func_021DDB98(int *p)
+int *BTL_ITEM_GetWeakenDamageGroundHandlers(int *p)
 {
     *p = 2;
-    return d_021F17CC;
+    return gBtlItemWeakenDamageGroundHandlers;
 }

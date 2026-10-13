@@ -1,5 +1,5 @@
 /*
- * function: func_021A3D50
+ * function: FIELD_PLAYER_CORE_ChangeToFormSlot
  * address:  0x021A3D50
  * packet:   pkt_021A3D50
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A398C  0x021A398C  thumb  ov021
- *   func_021A3190  0x021A3190  thumb  ov021
- *   func_021A3D08  0x021A3D08  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetSex  0x021A398C  thumb  ov021
+ *   FIELD_PLAYER_GetFormObjCode  0x021A3190  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChangeToObjCode  0x021A3D08  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u16 func_021A3190(int i, int j);
-extern u32 func_021A398C(u8 *p);
-extern int func_021A3D08(u8 *p, u32 v);
+extern u16 FIELD_PLAYER_GetFormObjCode(int i, int j);
+extern u32 FIELD_PLAYER_CORE_GetSex(u8 *p);
+extern int FIELD_PLAYER_CORE_ChangeToObjCode(u8 *p, u32 v);
 
-int func_021A3D50(u32 a, u32 b)
+int FIELD_PLAYER_CORE_ChangeToFormSlot(u32 a, u32 b)
 {
-return func_021A3D08((u8 *)a, func_021A3190(func_021A398C((u8 *)a), b));
+return FIELD_PLAYER_CORE_ChangeToObjCode((u8 *)a, FIELD_PLAYER_GetFormObjCode(FIELD_PLAYER_CORE_GetSex((u8 *)a), b));
 }
 

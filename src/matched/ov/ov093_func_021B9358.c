@@ -10,15 +10,15 @@
  * status: EXACT
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D54F4 0x021D54F4 thumb ov093
+ *   BTL_POKEPARAM_CopyMoves 0x021D54F4 thumb ov093
  */
 struct Work;
 typedef unsigned char u8;
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D54F4(struct Work *, struct Work *);
+extern void BTL_POKEPARAM_CopyMoves(struct Work *, struct Work *);
 void func_021B9358(char *p, int i)
 {
     u8 *dst = func_021B9934(p + 0x1b0, i);
     u8 *src = func_021B9934(p + 0xc8, i);
-    func_021D54F4((struct Work *)src, (struct Work *)dst);
+    BTL_POKEPARAM_CopyMoves((struct Work *)src, (struct Work *)dst);
 }

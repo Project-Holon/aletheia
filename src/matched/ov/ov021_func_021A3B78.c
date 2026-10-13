@@ -1,5 +1,5 @@
 /*
- * function: func_021A3B78
+ * function: FIELD_PLAYER_CORE_CheckPlainModel
  * address:  0x021A3B78
  * packet:   pkt_ov021_021A3B78
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-void *func_021A3960(u8 *p);
+void *FIELD_PLAYER_CORE_GetMmdl(u8 *p);
 typedef unsigned short u16;
-u16 func_0216D598(void *p);
+u16 FLDMMDL_GetObjCode(void *p);
 
-int func_021A3B78(u8 *p)
+int FIELD_PLAYER_CORE_CheckPlainModel(u8 *p)
 {
-    int r = func_0216D598(func_021A3960(p));
+    int r = FLDMMDL_GetObjCode(FIELD_PLAYER_CORE_GetMmdl(p));
 
     if (r == 1 || r == 4)
         return 1;

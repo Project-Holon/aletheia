@@ -11,7 +11,7 @@
  * Callee 02021F64's legacy Rgb555 aggregate input reads only its low
  * stack halfword; scalar u16 preserves the original caller's str word.
  * symbols:
- *   func_02021F64 0x02021F64 thumb
+ *   PALANM_BlendColors 0x02021F64 thumb
  *   func_021C2A28 0x021C2A28 thumb ov217
  *   func_021C2D88 0x021C2D88 thumb ov217
  */
@@ -22,13 +22,13 @@ struct Rgb555 {
     unsigned short b : 5;
     unsigned short pad : 1;
 };
-extern void func_02021F64(unsigned short *, unsigned short *, unsigned int, int, unsigned short);
+extern void PALANM_BlendColors(unsigned short *, unsigned short *, unsigned int, int, unsigned short);
 extern void func_021C2A28(void *);
 extern int func_021C2D88(char *);
 void func_021C2C70(char *p)
 {
     int weight = ((((struct Obj00115 *)p)->f1C >> 2) & 1) == 0 ? 0 : 6;
-    func_02021F64(*(unsigned short * *)&((struct Obj00115 *)p)->fC, *(unsigned short * *)&((struct Obj00115 *)p)->f8, ((struct Obj00115 *)p)->f10, weight, ((struct Obj00115 *)p)->f12);
+    PALANM_BlendColors(*(unsigned short * *)&((struct Obj00115 *)p)->fC, *(unsigned short * *)&((struct Obj00115 *)p)->f8, ((struct Obj00115 *)p)->f10, weight, ((struct Obj00115 *)p)->f12);
     if (++((struct Obj00115 *)p)->f1C > 30) {
         func_021C2A28(p);
         func_021C2D88(p);

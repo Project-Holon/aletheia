@@ -14,7 +14,7 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_021BBB3C 0x021BBB3C thumb ov072
+ *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
  *   func_021C0CCC 0x021C0CCC thumb ov208
  *   func_021C0D5C 0x021C0D5C thumb ov208
  *   func_021C1068 0x021C1068 thumb ov208
@@ -22,7 +22,7 @@
  *   func_021C2238 0x021C2238 thumb ov208
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   func_02035D20 0x02035D20 arm
@@ -30,8 +30,8 @@
  *   func_0203630C 0x0203630C arm
  *   func_0207CA00 0x0207CA00 arm
  *   func_0207CBD0 0x0207CBD0 arm
- *   func_0207CCA4 0x0207CCA4 arm
- *   func_020520A4 0x020520A4 arm
+ *   VEC_Normalize 0x0207CCA4 arm
+ *   BUTTON_MAN_ScaleVec 0x020520A4 arm
  *   func_020061E4 0x020061E4 thumb
  */
 typedef unsigned char u8;
@@ -53,8 +53,8 @@ struct Vec2;
 struct Vec3;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern u16 func_021BBB3C(char *, int, int);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
+extern u16 TOWNMAP_GRH_GetTownInfoValue(char *, int, int);
 extern void func_021C0CCC(u16 *heap, u8 *p, int key);
 extern u8 func_021C0D5C(void *unused, char *p, int unused2, u8 x, u8 y);
 extern u8 func_021C1068(void *heap, char *p, int key, u8 x, u8 y);
@@ -62,8 +62,8 @@ extern void func_021C1D30(u16 *heap, u8 *p, int key);
 extern void func_021C2238(u16 *heap, u8 *p, int key);
 extern void func_0207CA00(struct Vec *a, struct Vec *b, struct Vec *out);
 extern int func_0207CBD0(struct Vec *v);
-extern void func_0207CCA4(struct Vec *src, struct Vec *dst);
-extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *dst);
+extern void VEC_Normalize(struct Vec *src, struct Vec *dst);
+extern void BUTTON_MAN_ScaleVec(const struct Vec3 *v, int s, struct Vec3 *dst);
 extern void func_020061E4(u32 se);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -111,7 +111,7 @@ void func_021C1450(u16 *heap, u8 *p, int key)
         struct Vec d = {0, 0, 0};
         struct Vec a;
         struct Vec b;
-        func_0204B454((struct Actor *)W(0xcc), &pt.c, 0);
+        CLACT_GetActorSurfacePos((struct Actor *)W(0xcc), &pt.c, 0);
         keys = func_0203630C();
         if ((keys & 0x10) || (keys & 0x20) || (keys & 0x40) || (keys & 0x80)) {
             moved = 1;
@@ -127,8 +127,8 @@ void func_021C1450(u16 *heap, u8 *p, int key)
         idx = func_021C1068(heap, (char *)p, key, (u8)pt.c.x, (u8)pt.c.y);
         if (idx != 0xff) {
             found = 1;
-            pt.t.x = func_021BBB3C(*(char **)(p + 0x3c8), idx, 4);
-            pt.t.y = func_021BBB3C(*(char **)(p + 0x3c8), idx, 5);
+            pt.t.x = TOWNMAP_GRH_GetTownInfoValue(*(char **)(p + 0x3c8), idx, 4);
+            pt.t.y = TOWNMAP_GRH_GetTownInfoValue(*(char **)(p + 0x3c8), idx, 5);
             a.x = FX(pt.t.x);
             a.y = FX(pt.t.y);
             a.z = 0;
@@ -139,8 +139,8 @@ void func_021C1450(u16 *heap, u8 *p, int key)
             if (func_0207CBD0(&d) < 0x1BB6)
                 near = 1;
             if (func_0207CBD0(&d) > 0x1000) {
-                func_0207CCA4(&d, &d);
-                func_020520A4((const struct Vec3 *)(&d), 0x1000, (struct Vec3 *)(&d));
+                VEC_Normalize(&d, &d);
+                BUTTON_MAN_ScaleVec((const struct Vec3 *)(&d), 0x1000, (struct Vec3 *)(&d));
             }
         }
         if (moved == 0 && found == 0)
@@ -148,7 +148,7 @@ void func_021C1450(u16 *heap, u8 *p, int key)
         if (moved == 0 && found != 0 && near != 0) {
             pt.c = pt.t;
         } else {
-            func_0207CCA4(&v, &v);
+            VEC_Normalize(&v, &v);
             dx = d.x + v.x * 3;
             dy = d.y + v.y * 3;
             if (dx > 0 && dx < 0x1000)

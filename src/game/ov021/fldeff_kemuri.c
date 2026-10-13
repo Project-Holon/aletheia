@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_kemuri.c
  * unit:     yes
- * function: func_021AC494, func_021AC4B8, func_021AC4CC, func_021AC514, func_021AC528, func_021AC578, func_021AC62C, func_021AC660, func_021AC66C, func_021AC688
+ * function: FLDEFF_KEMURI_Create, FLDEFF_KEMURI_Delete, FLDEFF_KEMURI_LoadResource, FLDEFF_KEMURI_FreeResource, FLDEFF_KEMURI_Start, FLDEFF_KEMURI_StartFacing, FLDEFF_KEMURI_Init, FLDEFF_KEMURI_Exit, FLDEFF_KEMURI_Update, FLDEFF_KEMURI_Draw
  * address:  0x021AC494
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -17,28 +17,28 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
  *   tbl_020A1B38   0x020A1B38  data  a2
- *   func_021C6628  0x021C6628  thumb  ov021
- *   func_0216D67C  0x0216D67C  thumb  ov010
+ *   FIELD_G3DOBJ_DeleteObject  0x021C6628  thumb  ov021
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
  *   d_021DE038  0x021DE038  data
- *   func_021C6AE0  0x021C6AE0  thumb  ov021
- *   func_021C6AF0  0x021C6AF0  thumb  ov021
- *   func_021C6AF8  0x021C6AF8  thumb  ov021
- *   func_021C6AFC  0x021C6AFC  thumb  ov021
- *   func_021C6574  0x021C6574  thumb  ov021
- *   func_021C6580  0x021C6580  thumb  ov021
- *   d_021D90AC     0x021D90AC  data  a4
- *   func_0216D538  0x0216D538  thumb  ov010
- *   func_021C6590  0x021C6590  thumb  ov021
- *   func_021C6694  0x021C6694  thumb  ov021
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
+ *   FIELD_G3DOBJ_InitResDesc  0x021C6AE0  thumb  ov021
+ *   FIELD_G3DOBJ_SetResDescModel  0x021C6AF0  thumb  ov021
+ *   FIELD_G3DOBJ_SetResDescAnimeArc  0x021C6AF8  thumb  ov021
+ *   FIELD_G3DOBJ_AddResDescAnimeFile  0x021C6AFC  thumb  ov021
+ *   FIELD_G3DOBJ_AddResourceDefaultPal  0x021C6574  thumb  ov021
+ *   FIELD_G3DOBJ_DeleteResource  0x021C6580  thumb  ov021
+ *   gFldeffKemuriObjFuncs     0x021D90AC  data  a4
+ *   FLDMMDL_SysGetAreaId  0x0216D538  thumb  ov010
+ *   FIELD_G3DOBJ_AddObject  0x021C6590  thumb  ov021
+ *   FIELD_G3DOBJ_IncAnimeFrame  0x021C6694  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
  */
 #include "field_effect_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -95,47 +95,47 @@ typedef struct FldeffKemuriWork {
 
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *out);
-extern void *func_0216D67C(const Mmdl *mmdl);
-extern void func_021C6AE0(FieldG3dObjResDesc *desc);
-extern int func_021C6AF0(FieldG3dObjResDesc *desc, u32 arc, u32 file);
-extern void func_021C6AF8(FieldG3dObjResDesc *desc, u32 arc);
-extern void func_021C6AFC(FieldG3dObjResDesc *desc, u16 file);
-extern int func_021C6574(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode);
-extern u32 func_021C6580(FieldG3dObjCtrl *ctrl, int resIdx);
-extern u32 func_0216D538(void *mmdlSys);
-extern u32 func_021C6590(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
-void func_021C6628(FieldG3dObjCtrl *ctrl, int objIdx);
-extern int func_021C6694(FieldG3dObjCtrl *ctrl, int objIdx, int speed);
-FieldG3dObjCtrl *func_021ABE18(FieldEffectSys *sys);
-int func_021ABE24(FieldEffectSys *sys);
-void *func_021ABEA0(FieldEffectSys *sys, int id);
-void func_021ABFA8(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-void func_021AC154(FieldEffectObj *obj);
-void *func_021AC1AC(FieldEffectObj *obj);
-void func_021AC1CC(FieldEffectObj *obj, const VecFx32 *pos);
-FldeffKemuri *func_021AC494(FieldEffectSys *sys, int heapId);
-void func_021AC4B8(FieldEffectSys *sys, FldeffKemuri *kemuri);
-void func_021AC4CC(FldeffKemuri *kemuri);
-int func_021AC514(FldeffKemuri *kemuri);
-void func_021AC528(Mmdl *mmdl, FieldEffectSys *sys);
-void func_021AC578(Mmdl *mmdl, FieldEffectSys *sys);
-void func_021AC62C(FieldEffectObj *obj, FldeffKemuriWork *work);
-void func_021AC660(FieldEffectObj *obj, FldeffKemuriWork *work);
-void func_021AC66C(FieldEffectObj *obj, FldeffKemuriWork *work);
-void func_021AC688(void);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
+extern void *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
+extern void FIELD_G3DOBJ_InitResDesc(FieldG3dObjResDesc *desc);
+extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, u32 arc, u32 file);
+extern void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, u32 arc);
+extern void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dObjResDesc *desc, u16 file);
+extern int FIELD_G3DOBJ_AddResourceDefaultPal(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode);
+extern u32 FIELD_G3DOBJ_DeleteResource(FieldG3dObjCtrl *ctrl, int resIdx);
+extern u32 FLDMMDL_SysGetAreaId(void *mmdlSys);
+extern u32 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
+void FIELD_G3DOBJ_DeleteObject(FieldG3dObjCtrl *ctrl, int objIdx);
+extern int FIELD_G3DOBJ_IncAnimeFrame(FieldG3dObjCtrl *ctrl, int objIdx, int speed);
+FieldG3dObjCtrl *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys);
+int FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
+void *FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
+void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
+void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
+void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
+void FIELD_EFFECT_SetObjectPos(FieldEffectObj *obj, const VecFx32 *pos);
+FldeffKemuri *FLDEFF_KEMURI_Create(FieldEffectSys *sys, int heapId);
+void FLDEFF_KEMURI_Delete(FieldEffectSys *sys, FldeffKemuri *kemuri);
+void FLDEFF_KEMURI_LoadResource(FldeffKemuri *kemuri);
+int FLDEFF_KEMURI_FreeResource(FldeffKemuri *kemuri);
+void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectSys *sys);
+void FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, FieldEffectSys *sys);
+void FLDEFF_KEMURI_Init(FieldEffectObj *obj, FldeffKemuriWork *work);
+void FLDEFF_KEMURI_Exit(FieldEffectObj *obj, FldeffKemuriWork *work);
+void FLDEFF_KEMURI_Update(FieldEffectObj *obj, FldeffKemuriWork *work);
+void FLDEFF_KEMURI_Draw(void);
 extern s16 tbl_020A1B38[];
 extern char d_021DE038[];
-extern FieldEffectObjFuncs d_021D90AC;
+extern FieldEffectObjFuncs gFldeffKemuriObjFuncs;
 
 /* Resource creation: allocates the resource and loads the smoke model. */
-FldeffKemuri *func_021AC494(FieldEffectSys *sys, int heapId)
+FldeffKemuri *FLDEFF_KEMURI_Create(FieldEffectSys *sys, int heapId)
 {
     FldeffKemuri *kemuri;
 
     kemuri = func_02030734(heapId, sizeof(FldeffKemuri), 1, d_021DE038, 0x52);
     kemuri->fieldEffect = sys;
-    func_021AC4CC(kemuri);
+    FLDEFF_KEMURI_LoadResource(kemuri);
     return kemuri;
 }
 
@@ -147,9 +147,9 @@ FldeffKemuri *func_021AC494(FieldEffectSys *sys, int heapId)
 
 
 /* Resource deletion: frees the G3D resource and the resource. */
-void func_021AC4B8(FieldEffectSys *sys, FldeffKemuri *kemuri)
+void FLDEFF_KEMURI_Delete(FieldEffectSys *sys, FldeffKemuri *kemuri)
 {
-    func_021AC514(kemuri);
+    FLDEFF_KEMURI_FreeResource(kemuri);
     func_020307B0(kemuri);
 }
 
@@ -161,16 +161,16 @@ void func_021AC4B8(FieldEffectSys *sys, FldeffKemuri *kemuri)
 
 
 /* Loads the smoke model and its animation into the G3D object control. */
-void func_021AC4CC(FldeffKemuri *kemuri)
+void FLDEFF_KEMURI_LoadResource(FldeffKemuri *kemuri)
 {
     FieldG3dObjResDesc desc;
-    FieldG3dObjCtrl *g3dObjCtrl = func_021ABE18(kemuri->fieldEffect);
-    int arcHandle = func_021ABE24(kemuri->fieldEffect);
-    func_021C6AE0(&desc);
-    func_021C6AF0(&desc, arcHandle, FLDEFF_KEMURI_MODEL_FILE);
-    func_021C6AF8(&desc, arcHandle);
-    func_021C6AFC(&desc, FLDEFF_KEMURI_ANIME_FILE);
-    kemuri->resIdx = func_021C6574(g3dObjCtrl, &desc, 0);
+    FieldG3dObjCtrl *g3dObjCtrl = FIELD_EFFECT_GetFieldMapData(kemuri->fieldEffect);
+    int arcHandle = FIELD_EFFECT_GetArcHandle(kemuri->fieldEffect);
+    FIELD_G3DOBJ_InitResDesc(&desc);
+    FIELD_G3DOBJ_SetResDescModel(&desc, arcHandle, FLDEFF_KEMURI_MODEL_FILE);
+    FIELD_G3DOBJ_SetResDescAnimeArc(&desc, arcHandle);
+    FIELD_G3DOBJ_AddResDescAnimeFile(&desc, FLDEFF_KEMURI_ANIME_FILE);
+    kemuri->resIdx = FIELD_G3DOBJ_AddResourceDefaultPal(g3dObjCtrl, &desc, 0);
 }
 
 
@@ -181,9 +181,9 @@ void func_021AC4CC(FldeffKemuri *kemuri)
 
 
 /* Frees the G3D resource of the smoke model. */
-int func_021AC514(FldeffKemuri *kemuri)
+int FLDEFF_KEMURI_FreeResource(FldeffKemuri *kemuri)
 {
-    return func_021C6580(func_021ABE18(kemuri->fieldEffect), kemuri->resIdx);
+    return FIELD_G3DOBJ_DeleteResource(FIELD_EFFECT_GetFieldMapData(kemuri->fieldEffect), kemuri->resIdx);
 }
 
 
@@ -194,16 +194,16 @@ int func_021AC514(FldeffKemuri *kemuri)
 
 
 /* Starts a smoke in front of a model. */
-void func_021AC528(Mmdl *mmdl, FieldEffectSys *sys)
+void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectSys *sys)
 {
     VecFx32 pos;
     FldeffKemuriParam param;
-    func_0216D88C(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, &pos);
     pos.y += FLDEFF_KEMURI_RAISE;
     pos.z += FLDEFF_KEMURI_FORWARD;
-    param.kemuri = func_021ABEA0(sys, FLDEFF_ID_KEMURI);
+    param.kemuri = FIELD_EFFECT_GetResource(sys, FLDEFF_ID_KEMURI);
     param.pos = pos;
-    func_021ABFA8(sys, &d_021D90AC, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(sys, &gFldeffKemuriObjFuncs, 0, 0, &param, 0);
 }
 
 
@@ -212,20 +212,20 @@ void func_021AC528(Mmdl *mmdl, FieldEffectSys *sys)
 
 
 /* Starts a smoke on the side a model faces. */
-void func_021AC578(Mmdl *mmdl, FieldEffectSys *sys)
+void FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, FieldEffectSys *sys)
 {
     VecFx32 pos;
     FldeffKemuriParam param;
     int dirIndex;
-    dirIndex = func_0216D538(func_0216D67C(mmdl));
-    func_0216D88C(mmdl, &pos);
+    dirIndex = FLDMMDL_SysGetAreaId(FLDMMDL_GetMmdlSys(mmdl));
+    FLDMMDL_GetPos(mmdl, &pos);
     pos.y += FLDEFF_KEMURI_RAISE;
     dirIndex = (dirIndex >> 4) * 2;
     pos.z += (s32)(((long long)tbl_020A1B38[dirIndex + 1] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);
     pos.x += (s32)(((long long)tbl_020A1B38[dirIndex] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);
-    param.kemuri = func_021ABEA0(sys, FLDEFF_ID_KEMURI);
+    param.kemuri = FIELD_EFFECT_GetResource(sys, FLDEFF_ID_KEMURI);
     param.pos = pos;
-    func_021ABFA8(sys, &d_021D90AC, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(sys, &gFldeffKemuriObjFuncs, 0, 0, &param, 0);
 }
 
 
@@ -234,38 +234,38 @@ void func_021AC578(Mmdl *mmdl, FieldEffectSys *sys)
 
 
 /* Smoke effect: init, puts the smoke object at the start position. */
-void func_021AC62C(FieldEffectObj *obj, FldeffKemuriWork *work)
+void FLDEFF_KEMURI_Init(FieldEffectObj *obj, FldeffKemuriWork *work)
 {
-    FldeffKemuriParam *param = func_021AC1AC(obj);
+    FldeffKemuriParam *param = FIELD_EFFECT_GetObjectParam(obj);
     work->kemuri = param->kemuri;
-    work->g3dObjCtrl = func_021ABE18(work->kemuri->fieldEffect);
-    func_021AC1CC(obj, &param->pos);
-    work->objIdx = func_021C6590(work->g3dObjCtrl, work->kemuri->resIdx, 0, &param->pos);
+    work->g3dObjCtrl = FIELD_EFFECT_GetFieldMapData(work->kemuri->fieldEffect);
+    FIELD_EFFECT_SetObjectPos(obj, &param->pos);
+    work->objIdx = FIELD_G3DOBJ_AddObject(work->g3dObjCtrl, work->kemuri->resIdx, 0, &param->pos);
 }
 
 
 
 
 /* Smoke effect: exit, deletes the smoke object. */
-void func_021AC660(FieldEffectObj *obj, FldeffKemuriWork *work)
+void FLDEFF_KEMURI_Exit(FieldEffectObj *obj, FldeffKemuriWork *work)
 {
-    func_021C6628(work->g3dObjCtrl, work->objIdx);
+    FIELD_G3DOBJ_DeleteObject(work->g3dObjCtrl, work->objIdx);
 }
 
 
 
 
 /* Smoke effect: update, plays the animation and ends the effect when it is over. */
-void func_021AC66C(FieldEffectObj *obj, FldeffKemuriWork *work)
+void FLDEFF_KEMURI_Update(FieldEffectObj *obj, FldeffKemuriWork *work)
 {
-    if (func_021C6694(work->g3dObjCtrl, work->objIdx, FLDEFF_KEMURI_ANIME_STEP) == 0)
-        func_021AC154(obj);
+    if (FIELD_G3DOBJ_IncAnimeFrame(work->g3dObjCtrl, work->objIdx, FLDEFF_KEMURI_ANIME_STEP) == 0)
+        FIELD_EFFECT_DeleteObject(obj);
 }
 
 
 
 
 /* Smoke effect: draw, nothing to do (the G3D object control draws the object). */
-void func_021AC688(void)
+void FLDEFF_KEMURI_Draw(void)
 {
 }

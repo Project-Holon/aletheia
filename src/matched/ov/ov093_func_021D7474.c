@@ -1,5 +1,5 @@
 /*
- * function: func_021D7474
+ * function: BTL_EVENT_AllocFactor
  * address:  0x021D7474
  * packet:   pkt_ov093_021D7474
  * region:   ov093
@@ -38,7 +38,7 @@ struct Node {
 };
 struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x84]; };
 extern struct NodeList data_021F3CB0;
-struct Node *func_021D7474(void)
+struct Node *BTL_EVENT_AllocFactor(void)
 {
     u32 i;
     if (data_021F3CB0.used == 0x84) return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021A752C
+ * function: FIELD_GROUND_ANIME_AnmEntryFree
  * address:  0x021A752C
  * packet:   pkt_021A752C
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 
-int func_021A752C(u32 a)
+int FIELD_GROUND_ANIME_AnmEntryFree(u32 a)
 {
 func_020307B0((void *)(((struct Obj12091 *)((u8 *)(a)))->f4));
 ((struct Obj12091 *)((u8 *)(a)))->f4 = 0;

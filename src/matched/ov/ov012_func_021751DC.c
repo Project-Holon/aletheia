@@ -1,5 +1,5 @@
 /*
- * function: func_021751DC
+ * function: COLOSSEUM_TakePackage
  * address:  0x021751DC
  * packet:   pkt_021751DC
  * region:   ov012
@@ -24,7 +24,7 @@ typedef struct {
     int w[5];
 } E;
 
-int func_021751DC(char *a0, int a1, E *out)
+int COLOSSEUM_TakePackage(char *a0, int a1, E *out)
 {
     E *e = (E *)(a0 + 0xE0 + a1 * 0x14);
     u8 old;

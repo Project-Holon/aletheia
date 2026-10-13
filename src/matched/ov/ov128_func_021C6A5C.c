@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020452E8 0x020452E8 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  */
 #include "../include/Obj00725.h"
 typedef unsigned char u8;
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020450C8(void);
-void func_021C6A5C(u8 *p) { func_02045808(((struct Obj00725 *)p)->f1C);func_02045808(((struct Obj00725 *)p)->f20);func_02045808(((struct Obj00725 *)p)->f14);func_02045808(((struct Obj00725 *)p)->f18);func_020452E8(((struct Obj00725 *)p)->fC);func_020450C8(); }
+extern void BMP_WIN_Exit(void);
+void func_021C6A5C(u8 *p) { STRBUF_Delete(((struct Obj00725 *)p)->f1C);STRBUF_Delete(((struct Obj00725 *)p)->f20);STRBUF_Delete(((struct Obj00725 *)p)->f14);STRBUF_Delete(((struct Obj00725 *)p)->f18);func_020452E8(((struct Obj00725 *)p)->fC);BMP_WIN_Exit(); }

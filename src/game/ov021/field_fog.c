@@ -1,7 +1,7 @@
 /*
  * file:     field_fog.c
  * unit:     yes
- * function: func_021A0104, func_021A0138, func_021A0140, func_021A0170, func_021A01A4, func_021A01AC, func_021A01B4, func_021A01BC, func_021A01C4, func_021A01CC, func_021A01D4, func_021A01D8, func_021A01FC, func_021A0224, func_021A0244, func_021A0250, func_021A0260, func_021A0280, func_021A0290, func_021A02A8
+ * function: FIELD_FOG_Create, FIELD_FOG_Delete, FIELD_FOG_Main, FIELD_FOG_Reflect, FIELD_FOG_SetFlag, FIELD_FOG_SetBlendMode, FIELD_FOG_SetSlope, FIELD_FOG_SetOffset, FIELD_FOG_SetColorRgb, FIELD_FOG_SetColorA, FIELD_FOG_GetSlope, FIELD_FOG_InitFogTable, FIELD_FOG_FADE_Init, FIELD_FOG_FADE_InitEx, FIELD_FOG_FADE_IsFade, FIELD_FOG_FadeIsRunning, FIELD_FOG_FadeStart, FIELD_FOG_FadeStep, FIELD_FOG_FadeGetOffset, FIELD_FOG_FadeGetSlope
  * address:  0x021A0104
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -18,8 +18,8 @@
  *   func_02030734  0x02030734  arm
  *   d_021DDE1C     0x021DDE1C  data
  *   func_020307B0  0x020307B0  arm
- *   func_0207DC44  0x0207DC44  arm
- *   func_0207DD10  0x0207DD10  arm
+ *   G3X_SetFog  0x0207DC44  arm
+ *   G3X_SetFogTable  0x0207DD10  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -53,37 +53,37 @@ typedef struct {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
-extern void func_0207DC44(int enable, int fogMode, int fogSlope, int fogOffset);
-extern void func_0207DD10(u8 *fogTable);
-void func_021A01D8(FieldFog *fog);
-int func_021A0250(FieldFogFade *fade);
-void func_021A0260(FieldFogFade *fade, u32 startOffset, u32 endOffset, u16 startSlope, u16 endSlope, u16 frames);
-void func_021A0280(FieldFogFade *fade);
-u32 func_021A0290(FieldFogFade *fade);
-u16 func_021A02A8(FieldFogFade *fade);
+extern void G3X_SetFog(int enable, int fogMode, int fogSlope, int fogOffset);
+extern void G3X_SetFogTable(u8 *fogTable);
+void FIELD_FOG_InitFogTable(FieldFog *fog);
+int FIELD_FOG_FadeIsRunning(FieldFogFade *fade);
+void FIELD_FOG_FadeStart(FieldFogFade *fade, u32 startOffset, u32 endOffset, u16 startSlope, u16 endSlope, u16 frames);
+void FIELD_FOG_FadeStep(FieldFogFade *fade);
+u32 FIELD_FOG_FadeGetOffset(FieldFogFade *fade);
+u16 FIELD_FOG_FadeGetSlope(FieldFogFade *fade);
 extern char d_021DDE1C[];
 
-FieldFog *func_021A0104(u16 heapId)
+FieldFog *FIELD_FOG_Create(u16 heapId)
 {
     FieldFog *fog = (FieldFog *)func_02030734(heapId, sizeof(FieldFog), 1, d_021DDE1C, 0x89);
     fog->blendMode = 0;
     fog->alpha = 0x1F;
     fog->offset = 0x7FFF;
-    func_021A01D8(fog);
+    FIELD_FOG_InitFogTable(fog);
     return fog;
 }
 
-void func_021A0138(FieldFog *fog)
+void FIELD_FOG_Delete(FieldFog *fog)
 {
     func_020307B0(fog);
 }
 
-void func_021A0140(FieldFog *fog)
+void FIELD_FOG_Main(FieldFog *fog)
 {
-    if (func_021A0250(&fog->fade)) {
-        func_021A0280(&fog->fade);
-        fog->offset = func_021A0290(&fog->fade);
-        fog->slope = func_021A02A8(&fog->fade);
+    if (FIELD_FOG_FadeIsRunning(&fog->fade)) {
+        FIELD_FOG_FadeStep(&fog->fade);
+        fog->offset = FIELD_FOG_FadeGetOffset(&fog->fade);
+        fog->slope = FIELD_FOG_FadeGetSlope(&fog->fade);
         fog->changed = 1;
     }
 }
@@ -93,59 +93,59 @@ static inline void SetFogColor(u16 color, int alpha)
     *(volatile u32 *)0x04000358 = (u32)(color | (alpha << 16));
 }
 
-void func_021A0170(FieldFog *fog)
+void FIELD_FOG_Reflect(FieldFog *fog)
 {
     if (fog->changed) {
-        func_0207DC44(fog->flag, fog->blendMode, fog->slope, fog->offset);
+        G3X_SetFog(fog->flag, fog->blendMode, fog->slope, fog->offset);
         SetFogColor(fog->colorRgb, fog->alpha);
-        func_0207DD10(fog->fogTable);
+        G3X_SetFogTable(fog->fogTable);
         fog->changed = 0;
     }
 }
 
-void func_021A01A4(FieldFog *fog, u32 flag)
+void FIELD_FOG_SetFlag(FieldFog *fog, u32 flag)
 {
     fog->flag = flag;
     fog->changed = 1;
 }
 
-void func_021A01AC(FieldFog *fog, u32 blendMode)
+void FIELD_FOG_SetBlendMode(FieldFog *fog, u32 blendMode)
 {
     fog->blendMode = blendMode;
     fog->changed = 1;
 }
 
-void func_021A01B4(FieldFog *fog, u32 slope)
+void FIELD_FOG_SetSlope(FieldFog *fog, u32 slope)
 {
     fog->slope = slope;
     fog->changed = 1;
 }
 
-void func_021A01BC(FieldFog *fog, u32 offset)
+void FIELD_FOG_SetOffset(FieldFog *fog, u32 offset)
 {
     fog->offset = offset;
     fog->changed = 1;
 }
 
-void func_021A01C4(FieldFog *fog, u32 colorRgb)
+void FIELD_FOG_SetColorRgb(FieldFog *fog, u32 colorRgb)
 {
     fog->colorRgb = colorRgb;
     fog->changed = 1;
 }
 
-void func_021A01CC(FieldFog *fog, u32 alpha)
+void FIELD_FOG_SetColorA(FieldFog *fog, u32 alpha)
 {
     fog->alpha = alpha;
     fog->changed = 1;
 }
 
-u32 func_021A01D4(FieldFog *fog)
+u32 FIELD_FOG_GetSlope(FieldFog *fog)
 {
     return fog->slope;
 }
 
 /* Default fog table: a linear ramp, entry i = 4i + 4i/32. */
-void func_021A01D8(FieldFog *fog)
+void FIELD_FOG_InitFogTable(FieldFog *fog)
 {
     int i;
     for (i = 0; i < FIELD_FOG_TABLE_MAX; i++) {
@@ -155,22 +155,22 @@ void func_021A01D8(FieldFog *fog)
 }
 
 /* Fade from the current offset and slope to the given ones. */
-void func_021A01FC(FieldFog *fog, u32 endOffset, u32 endSlope, u32 frames)
+void FIELD_FOG_FADE_Init(FieldFog *fog, u32 endOffset, u32 endSlope, u32 frames)
 {
-    func_021A0260(&fog->fade, fog->offset, endOffset, fog->slope, endSlope, frames);
+    FIELD_FOG_FadeStart(&fog->fade, fog->offset, endOffset, fog->slope, endSlope, frames);
 }
 
-void func_021A0224(FieldFog *fog, u32 startOffset, u32 endOffset, u32 startSlope, u32 endSlope, u16 frames)
+void FIELD_FOG_FADE_InitEx(FieldFog *fog, u32 startOffset, u32 endOffset, u32 startSlope, u32 endSlope, u16 frames)
 {
-    func_021A0260(&fog->fade, startOffset, endOffset, startSlope, endSlope, frames);
+    FIELD_FOG_FadeStart(&fog->fade, startOffset, endOffset, startSlope, endSlope, frames);
 }
 
-int func_021A0244(FieldFog *fog)
+int FIELD_FOG_FADE_IsFade(FieldFog *fog)
 {
-    return func_021A0250(&fog->fade);
+    return FIELD_FOG_FadeIsRunning(&fog->fade);
 }
 
-int func_021A0250(FieldFogFade *fade)
+int FIELD_FOG_FadeIsRunning(FieldFogFade *fade)
 {
     if (fade->frame < fade->frameMax) {
         return 1;
@@ -178,7 +178,7 @@ int func_021A0250(FieldFogFade *fade)
     return 0;
 }
 
-void func_021A0260(FieldFogFade *fade, u32 startOffset, u32 endOffset, u16 startSlope, u16 endSlope, u16 frames)
+void FIELD_FOG_FadeStart(FieldFogFade *fade, u32 startOffset, u32 endOffset, u16 startSlope, u16 endSlope, u16 frames)
 {
     fade->frame = 0;
     fade->frameMax = frames;
@@ -188,20 +188,20 @@ void func_021A0260(FieldFogFade *fade, u32 startOffset, u32 endOffset, u16 start
     fade->slopeRange = endSlope - startSlope;
 }
 
-void func_021A0280(FieldFogFade *fade)
+void FIELD_FOG_FadeStep(FieldFogFade *fade)
 {
     if (fade->frame < fade->frameMax) {
         fade->frame = fade->frame + 1;
     }
 }
 
-u32 func_021A0290(FieldFogFade *fade)
+u32 FIELD_FOG_FadeGetOffset(FieldFogFade *fade)
 {
     int value = fade->offsetRange * fade->frame / fade->frameMax;
     return value + fade->startOffset;
 }
 
-u16 func_021A02A8(FieldFogFade *fade)
+u16 FIELD_FOG_FadeGetSlope(FieldFogFade *fade)
 {
     int value = fade->slopeRange * fade->frame / fade->frameMax;
     return value + fade->startSlope;

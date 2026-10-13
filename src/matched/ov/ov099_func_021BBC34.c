@@ -14,8 +14,8 @@
  *   func_0201AB28 0x0201AB28 thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   func_0201BA68 0x0201BA68 thumb
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  */
@@ -30,9 +30,9 @@ extern void *func_0201AB28(void *, u32);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32 func_0201BA68(void *);
 typedef signed int     s32;
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern int POKE_TOOL_GetIconPalette(void *);
 struct Obj;
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
@@ -52,8 +52,8 @@ void func_021BBC34(char *p, void *a, int k, u32 o)
         rec.d = 0;
         rec.e = 0;
         dst = base+i*4;
-        *(int *)&((struct Obj07943 *)dst)->f118 = func_0204A6C8((void *)o,func_0201BA68(mon),0,0,0x21);
-        *(u32 *)&((struct Obj07943 *)dst)->f150 = (u32)func_0204B294((void *)((struct Obj03731 *)p)->f110,((struct Obj07943 *)dst)->f118,*(u32 *)&((struct Obj03731 *)p)->f148,*(u32 *)&((struct Obj03731 *)p)->f14C,&rec,0,0x21);
+        *(int *)&((struct Obj07943 *)dst)->f118 = CLACT_RegisterCharacter((void *)o,func_0201BA68(mon),0,0,0x21);
+        *(u32 *)&((struct Obj07943 *)dst)->f150 = (u32)CLACT_CreateActor((void *)((struct Obj03731 *)p)->f110,((struct Obj07943 *)dst)->f118,*(u32 *)&((struct Obj03731 *)p)->f148,*(u32 *)&((struct Obj03731 *)p)->f14C,&rec,0,0x21);
         func_0204B6F4(((struct Obj07943 *)dst)->f150,POKE_TOOL_GetIconPalette(mon),1);
     }
 }

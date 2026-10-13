@@ -1,5 +1,5 @@
 /*
- * function: func_021B631C
+ * function: SCRCMD_POKEMON_FLD_StartSelectEvent
  * address:  0x021B631C
  * packet:   pkt_ov021_021B631C
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_021C5AAC  0x021C5AAC  thumb  ov021
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_CreateNicknameEvent  0x021C5AAC  thumb  ov021
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -23,24 +23,24 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern unsigned int func_02159B10(void *a, void *b);
-extern int func_021C5AAC(void *a, int b, int c, int d);
-extern void func_0215897C(void *vm, void *task);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern int SCRCMD_CreateNicknameEvent(void *a, int b, int c, int d);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B631C(u32 a, u32 b)
+int SCRCMD_POKEMON_FLD_StartSelectEvent(u32 a, u32 b)
 {
     void *x;
     void *y;
     u16 *p;
     u32 q;
 
-    x = func_0215A5F4((void *)b);
-    y = func_0215A5DC((void *)b);
-    p = func_02159AE8((void *)a, (void *)b);
-    q = func_02159B10((void *)a, (void *)b);
-    func_0215897C(x, (void *)func_021C5AAC(y, (int)p, q, func_02159B10((void *)a, (void *)b)));
+    x = SCRCMD_WORK_GetScriptWork((void *)b);
+    y = SCRCMD_WORK_GetGameSystem((void *)b);
+    p = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    q = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    SCRIPT_SYS_CallEvent(x, (void *)SCRCMD_CreateNicknameEvent(y, (int)p, q, SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b)));
     return 1;
 }

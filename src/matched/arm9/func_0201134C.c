@@ -1,5 +1,5 @@
 /*
- * function: func_0201134C
+ * function: VM_GetU32
  * address:  0x0201134C
  * packet:   pkt_0201134C
  * region:   arm9
@@ -22,7 +22,7 @@ struct Cursor {
     u8 *buf;
 };
 
-u32 func_0201134C(struct Cursor *p)
+u32 VM_GetU32(struct Cursor *p)
 {
     u8 *b = p->buf;
     u8 *p1;

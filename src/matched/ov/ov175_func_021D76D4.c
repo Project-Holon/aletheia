@@ -22,13 +22,13 @@
  *   func_021D9A50 0x021D9A50 thumb
  *   func_0201AA50 0x0201AA50 thumb
  *   func_0200AE14 0x0200AE14 thumb
- *   func_0201A090 0x0201A090 thumb
+ *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  *   func_021DCB58 0x021DCB58 thumb
  *   func_021DCC28 0x021DCC28 thumb
  *   func_0201AA18 0x0201AA18 thumb
  *   func_021DBC04 0x021DBC04 thumb
  *   func_021DBDAC 0x021DBDAC thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200B358 0x0200B358 thumb
  *   func_0200B204 0x0200B204 thumb
@@ -37,8 +37,8 @@
  *   func_0200B110 0x0200B110 thumb
  *   func_0200B2A4 0x0200B2A4 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_021DD020 0x021DD020 thumb
  *   func_021DC8B4 0x021DC8B4 thumb
@@ -78,14 +78,14 @@ struct Big;
 struct Rec1E;
 struct RecBig;
 struct Reg2;
-extern int func_0201A090(void *rules, void *party, u32 *mask);
+extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void func_021DCB58(char *,void *,int);
 struct Record;
 extern int func_021DCC28(char *p, u8 *out);
 extern u32 func_0201AA18(void *p);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void * func_0200BAC8(void *);
 extern void *func_0200B358(void *sys);
 extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
@@ -94,8 +94,8 @@ extern void func_0200BBC8(struct Obj *p, u32 v);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
 extern void func_0200B2A4(int,int);
 extern u32 func_020307B0(void *p);
-extern int func_02012DAC(int);
-extern int func_02012DD0(unsigned char *);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(unsigned char *);
 extern void func_02082BCC(void *,int,unsigned);
 extern unsigned func_021DD020(char *);
 extern void func_021DC8B4(char *,void *,unsigned);
@@ -134,7 +134,7 @@ void func_021D76D4(u32 sys,int *state,char *p)
     case 12:
         rec=(char *)ctx[5]; func_021D9A50(rec,p);
         if(func_0201AA50(rec+0xd4)==0) *state=14;
-        else {out=0; if(func_0201A090((void *)func_0200AE14(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
+        else {out=0; if(POKE_REGULATION_CheckParty((void *)func_0200AE14(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
         break;
     case 13: func_021E8738((int *)W(0x2c),W(0x14),0x49,1); func_021E8AB4(sys,29); *state=30; break;
     case 14: func_021E8738((int *)W(0x2c),W(0x14),0x61,1); func_021E8AB4(sys,29); *state=30; break;
@@ -160,13 +160,13 @@ void func_021D76D4(u32 sys,int *state,char *p)
         if(r!=0) switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;}
         break;
     case 22:
-        saved=(u32)func_02012EBC((struct Big *)(*(u32 *)ctx[2])); box=func_0200BAC8((void *)saved);
+        saved=(u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2])); box=func_0200BAC8((void *)saved);
         tmp=(u32)func_0200B204(func_0200B358((void *)saved),0);
         saved=(u32)func_0200BAF4((int)box,0x8056); func_0200BBC8(box,1);
         func_0200B110((struct Reg2 *)W(0x108),10,2); func_0200B2A4(tmp,saved); func_020307B0((void *)saved);
         *state=23; break;
-    case 23: func_02012DAC(*(u32 *)ctx[2]); *state=24; break;
-    case 24: r=func_02012DD0((unsigned char *)*(u32 *)ctx[2]); if(r==2) *state=25; else if(r==3) *state=29; break;
+    case 23: GAME_DATA_SaveStart(*(u32 *)ctx[2]); *state=24; break;
+    case 24: r=GAME_DATA_SaveMain((unsigned char *)*(u32 *)ctx[2]); if(r==2) *state=25; else if(r==3) *state=29; break;
     case 25:
         func_02082BCC(&request,0,8); request.b=2; request.id=func_021DD020((char *)W(0x34));
         ((unsigned char *)((u32 *)W(0x104))[12])[5]=2;

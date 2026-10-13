@@ -1,5 +1,5 @@
 /*
- * function: func_0216EDFC
+ * function: EVENT_BATTLE_GetBattleKindClass
  * address:  0x0216EDFC
  * packet:   pkt_0216EDFC
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 extern u32 func_0202A230(void *a, u32 idx);
 extern u8 func_0202A3FC(u32 key);
 
-int func_0216EDFC(void *a0)
+int EVENT_BATTLE_GetBattleKindClass(void *a0)
 {
     int r = 1;
     int v;

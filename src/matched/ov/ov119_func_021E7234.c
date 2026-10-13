@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_02030EAC 0x02030EAC arm
  */
 typedef unsigned int   u32;
 struct Node;
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void func_02030EAC(struct Node *n);
 
 void func_021E7234(void *p, int a)
 {
-    func_020435F4(a);
+    BG_SYS_SetSubVisiblePlanes(a);
     func_02030EAC(p);
 }

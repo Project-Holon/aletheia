@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200A104",
+   "name": "MYSTERY_DATA_IsCardReceived",
    "address": "0x0200A104",
    "kind": "game",
    "region": "arm9",

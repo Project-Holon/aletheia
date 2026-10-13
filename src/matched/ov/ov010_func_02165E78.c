@@ -1,5 +1,5 @@
 /*
- * function: func_02165E78
+ * function: GAME_BEACON_ACCESSOR_GetActionItemNo
  * address:  0x02165E78
  * packet:   pkt_ov010_02165E78
  * region:   ov010
@@ -31,7 +31,7 @@ typedef struct Rec {
     u16 f38;            /* 0x38 */
 } Rec;
 
-u16 func_02165E78(Rec *r)
+u16 GAME_BEACON_ACCESSOR_GetActionItemNo(Rec *r)
 {
     if (r->type == 0x13 || r->type == 0x23)
         return r->f34.h;

@@ -8,24 +8,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  */
 #include "../include/Obj01297.h"
 struct Obj;
-extern void func_0204B3B4(struct Obj *);
-extern void func_0204AFD8(unsigned);
-extern void func_0204A8D4(unsigned);
-extern void func_0204ADA4(unsigned);
+extern void CLACT_DeleteActor(struct Obj *);
+extern void CLACT_ReleaseCellAnim(unsigned);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleasePalette(unsigned);
 void func_021B9C70(unsigned char *p)
 {
     unsigned char i;
     if(p[0x84]) {
-        for(i=0;i<p[0x84];i++) func_0204B3B4(*(struct Obj **)(p+0x94+4*i));
-        func_0204AFD8(((struct Obj01297 *)p)->f90);
-        func_0204A8D4(((struct Obj01297 *)p)->f88);
-        func_0204ADA4(((struct Obj01297 *)p)->f8C);
+        for(i=0;i<p[0x84];i++) CLACT_DeleteActor(*(struct Obj **)(p+0x94+4*i));
+        CLACT_ReleaseCellAnim(((struct Obj01297 *)p)->f90);
+        CLACT_ReleaseCharacter(((struct Obj01297 *)p)->f88);
+        CLACT_ReleasePalette(((struct Obj01297 *)p)->f8C);
     }
 }

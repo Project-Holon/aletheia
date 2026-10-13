@@ -1,5 +1,5 @@
 /*
- * function: func_021890C8
+ * function: FIELDMAP_DeleteG3dResources
  * address:  0x021890C8
  * packet:   pkt_021890C8
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02048C4C  0x02048C4C  arm
- *   func_02048AC4  0x02048AC4  arm
- *   func_0204FFFC  0x0204FFFC  arm
- *   func_021C6400  0x021C6400  thumb  ov021
+ *   G3D_LIGHT_DeleteSlots  0x02048C4C  arm
+ *   G3D_CAMERA_Delete  0x02048AC4  arm
+ *   BILLBOARD_ACT_Delete  0x0204FFFC  arm
+ *   FIELD_G3DOBJ_Delete  0x021C6400  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -25,18 +25,18 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct BbActSys;
-extern u32 func_02048AC4(void *ptr);
-extern u32 func_02048C4C(u32, u32, u32, u32);
-extern void func_0204FFFC(struct BbActSys *o);
-extern u32 func_021C6400(u32);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern u32 G3D_LIGHT_DeleteSlots(u32, u32, u32, u32);
+extern void BILLBOARD_ACT_Delete(struct BbActSys *o);
+extern u32 FIELD_G3DOBJ_Delete(u32);
 
-int func_021890C8(u32 a, u32 b, u32 c, u32 d)
+int FIELDMAP_DeleteG3dResources(u32 a, u32 b, u32 c, u32 d)
 {
-func_02048C4C(*(u32 *)((u8 *)((a + 168))), b, c, d);
-func_02048AC4((void *)(*(u32 *)((u8 *)((a + 164)))));
-func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 176)))));
-func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 180)))));
-func_0204FFFC((struct BbActSys *)(*(u32 *)((u8 *)((a + 184)))));
-return func_021C6400(*(u32 *)((u8 *)(a) + ((19 << 4))));
+G3D_LIGHT_DeleteSlots(*(u32 *)((u8 *)((a + 168))), b, c, d);
+G3D_CAMERA_Delete((void *)(*(u32 *)((u8 *)((a + 164)))));
+BILLBOARD_ACT_Delete((struct BbActSys *)(*(u32 *)((u8 *)((a + 176)))));
+BILLBOARD_ACT_Delete((struct BbActSys *)(*(u32 *)((u8 *)((a + 180)))));
+BILLBOARD_ACT_Delete((struct BbActSys *)(*(u32 *)((u8 *)((a + 184)))));
+return FIELD_G3DOBJ_Delete(*(u32 *)((u8 *)(a) + ((19 << 4))));
 }
 

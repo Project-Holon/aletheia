@@ -1,5 +1,5 @@
 /*
- * function: func_021656D0
+ * function: WCM_UpdateOption
  * address:  0x021656D0
  * packet:   pkt_ov009_021656D0
  * region:   ov009
@@ -32,7 +32,7 @@ extern struct WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-unsigned long func_021656D0(unsigned long option)
+unsigned long WCM_UpdateOption(unsigned long option)
 {
     unsigned long e;
     unsigned long filter;

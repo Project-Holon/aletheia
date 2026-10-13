@@ -1,5 +1,5 @@
 /*
- * function: func_021A03CC
+ * function: FIELD_ZONEFOG_GetLightId
  * address:  0x021A03CC
  * packet:   pkt_ov021_021A03CC
  * region:   ov021
@@ -12,10 +12,10 @@
  * Unlabelled leaf, filed as a blocker of the ov024/ov025 lane S26.
  *
  * symbols:
- *   func_021A03CC  0x021A03CC  thumb  ov021
+ *   FIELD_ZONEFOG_GetLightId  0x021A03CC  thumb  ov021
  */
 
-int func_021A03CC(int *p)
+int FIELD_ZONEFOG_GetLightId(int *p)
 {
     return p[2];
 }

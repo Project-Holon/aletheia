@@ -1,5 +1,5 @@
 /*
- * function: func_0217D314
+ * function: UNION_ONESELF_JoinMain
  * address:  0x0217D314
  * packet:   pkt_ov019_0217D314
  * region:   ov019
@@ -10,27 +10,27 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217AEFC  0x0217AEFC  thumb  ov019
- *   func_0217BB04  0x0217BB04  thumb  ov019
- *   func_021736E0  0x021736E0  thumb  ov012
- *   func_0203D14C  0x0203D14C  arm
- *   func_0217F1EC  0x0217F1EC  thumb  ov019
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_0217F060  0x0217F060  thumb  ov019
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_021734A8  0x021734A8  thumb  ov012
- *   func_0217B8E4  0x0217B8E4  thumb  ov019
+ *   UNION_CHARA_GetBeaconIndex  0x0217AEFC  thumb  ov019
+ *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
+ *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   UNION_COMM_SetSituationParam  0x021734A8  thumb  ov012
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  *   func_02034714  0x02034714  arm
  *   func_020362DC  0x020362DC  arm
  *   func_0217EE40  0x0217EE40  thumb  ov019
  *   func_0217EE1C  0x0217EE1C  thumb  ov019
  *   func_0217EDF8  0x0217EDF8  thumb  ov019
- *   func_0217F210  0x0217F210  thumb  ov019
- *   func_02172D20  0x02172D20  thumb  ov012
- *   func_02172D68  0x02172D68  thumb  ov012
- *   d_021807E4     0x021807E4  data  a4
+ *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
+ *   UNION_COMM_RequestRestart  0x02172D20  thumb  ov012
+ *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
+ *   gUnionEmptyString1     0x021807E4  data  a4
  */
 
 typedef unsigned char u8;
@@ -57,77 +57,77 @@ typedef struct {
     s16 f6c;
 } Obj;
 
-extern u16 func_0217AEFC(unsigned int x);
+extern u16 UNION_CHARA_GetBeaconIndex(unsigned int x);
 struct Link;
-extern int func_0217BB04(char *p);
-extern void func_021736E0(unsigned int x);
-extern void func_0203D14C(int a, int b, u8 *c);
-extern u32 func_0217F1EC(u8 *p);
-extern int func_0203D1B4(void);
-extern void func_0203D7BC(u8 a0);
-extern int func_0217F060(int i);
+extern int UNION_ONESELF_CheckNetError(char *p);
+extern void UNION_COMM_SetGameKindByStatus(unsigned int x);
+extern void GFL_NET_SetChangeoverModeWrapper(int a, int b, u8 *c);
+extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
+extern int GFL_NET_GetNegotiationNum(void);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern int UNION_MSG_GetCategoryTableValue(int i);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *p);
-extern void func_021734A8(u8 *self, u32 id, u32 v);
-extern int func_0217B8E4(char *p, int v);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
+extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020362DC(void);
 extern u16 func_0217EE40(int i);
 extern u16 func_0217EE1C(int i);
 extern u16 func_0217EDF8(int i);
-extern void func_0217F210(u8 *p, u8 *a, u32 b);
-extern void func_02172D20(u8 *a);
-extern int func_02172D68(u8 *a);
-extern u8 d_021807E4[];
+extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
+extern void UNION_COMM_RequestRestart(u8 *a);
+extern int UNION_COMM_IsResetting(u8 *a);
+extern u8 gUnionEmptyString1[];
 
-int func_0217D314(u8 *a, Obj *b, u8 *c, u8 *d)
+int UNION_ONESELF_JoinMain(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     int idx;
     int n;
-    idx = func_0217AEFC(b->f58);
-    if (func_0217BB04((char *)a) == 1)
+    idx = UNION_CHARA_GetBeaconIndex(b->f58);
+    if (UNION_ONESELF_CheckNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
         b->b0 = 1;
-        func_021736E0(b->f2d);
-        func_0203D14C(2, 1, a + 0x2974 + idx * 0x8c);
+        UNION_COMM_SetGameKindByStatus(b->f2d);
+        GFL_NET_SetChangeoverModeWrapper(2, 1, a + 0x2974 + idx * 0x8c);
         b->f6c = 0;
         (*d)++;
         break;
     case 1:
-        if (func_0217F1EC(a) == 0)
+        if (UNION_MSG_CheckTalkPrintEnd(a) == 0)
             break;
-        if (func_0203D1B4() > 1) {
-            func_0203D7BC(1);
-            n = func_0217F060(b->f2d);
-            if (n <= (int)func_0203D1A4((struct Link *)((int)func_020399A8()))) {
+        if (GFL_NET_GetNegotiationNum() > 1) {
+            GFL_NET_SetLoginOption(1);
+            n = UNION_MSG_GetCategoryTableValue(b->f2d);
+            if (n <= (int)GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) {
                 *d = 4;
             } else {
-                func_021734A8(a, 3, (u32)(a + 0x2910 + idx * 0x8c));
+                UNION_COMM_SetSituationParam(a, 3, (u32)(a + 0x2910 + idx * 0x8c));
                 b->b1 = 1;
                 switch (b->f2d) {
                 case 0x14:
-                    func_0217B8E4((char *)a, (int)0x1f);
+                    UNION_ONESELF_SetNextPlayCategory((char *)a, (int)0x1f);
                     break;
                 case 0x15:
-                    func_0217B8E4((char *)a, (int)0x20);
+                    UNION_ONESELF_SetNextPlayCategory((char *)a, (int)0x20);
                     break;
                 case 0x16:
-                    func_0217B8E4((char *)a, (int)0x21);
+                    UNION_ONESELF_SetNextPlayCategory((char *)a, (int)0x21);
                     break;
                 case 0x17:
-                    func_0217B8E4((char *)a, (int)0x22);
+                    UNION_ONESELF_SetNextPlayCategory((char *)a, (int)0x22);
                     break;
                 case 3:
-                    func_0217B8E4((char *)a, (int)0xe);
+                    UNION_ONESELF_SetNextPlayCategory((char *)a, (int)0xe);
                     break;
                 case 0x19:
-                    func_0217B8E4((char *)a, (int)0x24);
+                    UNION_ONESELF_SetNextPlayCategory((char *)a, (int)0x24);
                     break;
                 default:
-                    func_02034714((const char *)d_021807E4, (int)0, (const char *)d_021807E4);
+                    func_02034714((const char *)gUnionEmptyString1, (int)0, (const char *)gUnionEmptyString1);
                     break;
                 }
                 *d = 3;
@@ -136,7 +136,7 @@ int func_0217D314(u8 *a, Obj *b, u8 *c, u8 *d)
             b->f6c++;
             if (b->f6c > 600 || (func_020362DC() & 2)) {
                 b->b0 = 0;
-                func_0217B8E4((char *)a, (int)0);
+                UNION_ONESELF_SetNextPlayCategory((char *)a, (int)0);
                 *d = 4;
             }
         }
@@ -147,27 +147,27 @@ int func_0217D314(u8 *a, Obj *b, u8 *c, u8 *d)
         case 0x15:
         case 0x16:
         case 0x17:
-            func_0217F210(a, c, func_0217EE40(b->f14->b3));
+            UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE40(b->f14->b3));
             break;
         case 3:
-            func_0217F210(a, c, func_0217EE1C(b->f14->b3));
+            UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EE1C(b->f14->b3));
             break;
         case 0x19:
-            func_0217F210(a, c, func_0217EDF8(b->f14->b3));
+            UNION_MSG_SetupPrintTalkMsg(a, c, func_0217EDF8(b->f14->b3));
             break;
         }
         *d = 3;
         break;
     case 3:
-        if (func_0217F1EC(a) == 1)
+        if (UNION_MSG_CheckTalkPrintEnd(a) == 1)
             return 1;
         break;
     case 4:
-        func_02172D20(a);
+        UNION_COMM_RequestRestart(a);
         (*d)++;
         break;
     case 5:
-        if (func_02172D68(a) == 0)
+        if (UNION_COMM_IsResetting(a) == 0)
             *d = 2;
         break;
     }

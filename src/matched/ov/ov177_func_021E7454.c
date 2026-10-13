@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  */
 #include "../include/Obj24448.h"
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021E7454(int *p)
 {
-    func_0204B3B4((struct Obj *)(((struct Obj24448 *)p)->f18C));
+    CLACT_DeleteActor((struct Obj *)(((struct Obj24448 *)p)->f18C));
 }

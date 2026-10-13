@@ -1,5 +1,5 @@
 /*
- * function: func_0217F388
+ * function: UNION_MSG_SetupSubMenu
  * address:  0x0217F388
  * packet:   pkt_ov019_0217F388
  * region:   ov019
@@ -13,7 +13,7 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02082D44  0x02082D44  arm
- *   func_0217F2A8  0x0217F2A8  thumb  ov019
+ *   UNION_MSG_SetupMenu  0x0217F2A8  thumb  ov019
  *   d_0218046C     0x0218046C  data  a4
  *   d_021805A4     0x021805A4  data  a4
  *   d_021807FC     0x021807FC  data  a1
@@ -45,7 +45,7 @@ typedef struct Ent {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern void  func_02082D44(const void *src, void *dst, int size);
-extern void func_0217F2A8(char *p, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void UNION_MSG_SetupMenu(char *p, u32 a1, u32 a2, u32 a3, u32 a4);
 
 extern const Tmpl d_0218046C;
 extern const Ent  d_021805A4[];
@@ -53,7 +53,7 @@ extern const char d_021807FC[];
 extern const u32  d_0218050C[];
 extern const u32  d_021804B4[];
 
-void func_0217F388(char *p, int a1, int kind, u8 *arg)
+void UNION_MSG_SetupSubMenu(char *p, int a1, int kind, u8 *arg)
 {
     Tmpl t;
     u8 v;
@@ -76,16 +76,16 @@ void func_0217F388(char *p, int a1, int kind, u8 *arg)
         obj[0] = arg[0] + 0xff;
         obj[2] = arg[1] + 0x104;
         obj[4] = arg[2] + 0x106;
-        func_0217F2A8(p, a1, (u32)obj, v, (u32)(&t));
+        UNION_MSG_SetupMenu(p, a1, (u32)obj, v, (u32)(&t));
         func_020307B0(obj);
     } else if (kind == 5) {
         obj = func_02030734(0x41, 0x28, 1, d_021807FC, 0x657);
         func_02082D44(d_021804B4, obj, 0x28);
         obj[0] = arg[1] + 0x104;
         obj[2] = arg[2] + 0x106;
-        func_0217F2A8(p, a1, (u32)obj, v, (u32)(&t));
+        UNION_MSG_SetupMenu(p, a1, (u32)obj, v, (u32)(&t));
         func_020307B0(obj);
     } else {
-        func_0217F2A8(p, a1, (u32)d_021805A4[kind].p, v, (u32)(&t));
+        UNION_MSG_SetupMenu(p, a1, (u32)d_021805A4[kind].p, v, (u32)(&t));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B8E84
+ * function: ITEMMENU_FreePalAnmSlots
  * address: 0x021B8E84
  * packet: pkt_ov070_021B8E84
  * region: ov070
@@ -11,17 +11,17 @@
  * 02021540 forwards r0 to the allocator's free; name the pointer here
  * despite its legacy ARM9 thunk definition omitting that argument.
  * symbols:
- *   func_020215A0 0x020215A0 thumb
- *   func_02021540 0x02021540 thumb
+ *   PALANM_FreeSlotBuffers 0x020215A0 thumb
+ *   PALANM_Delete 0x02021540 thumb
  */
 #include "../include/Obj09878.h"
 typedef unsigned int u32;
 struct PalAnmSlot;
-extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern u32 func_02021540(void *a0);
-void func_021B8E84(char *p)
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+extern u32 PALANM_Delete(void *a0);
+void ITEMMENU_FreePalAnmSlots(char *p)
 {
-    func_020215A0(*(struct PalAnmSlot * *)&((struct Obj09878 *)p)->f854, 0);
-    func_020215A0(*(struct PalAnmSlot * *)&((struct Obj09878 *)p)->f854, 2);
-    func_02021540(*(struct PalAnmSlot * *)&((struct Obj09878 *)p)->f854);
+    PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj09878 *)p)->f854, 0);
+    PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj09878 *)p)->f854, 2);
+    PALANM_Delete(*(struct PalAnmSlot * *)&((struct Obj09878 *)p)->f854);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216D5D4
+ * function: FLDMMDL_GetDirHeader
  * address:  0x0216D5D4
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D5D4.c \
- *       --func func_0216D5D4 --addr 0x0216D5D4 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetDirHeader.c \
+ *       --func FLDMMDL_GetDirHeader --addr 0x0216D5D4 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17806.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-int func_0216D5D4(void *p) { return ((struct Obj17806 *)p)->f16; }
+int FLDMMDL_GetDirHeader(void *p) { return ((struct Obj17806 *)p)->f16; }

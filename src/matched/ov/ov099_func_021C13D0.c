@@ -11,8 +11,8 @@
  *   func_021BDD48 0x021BDD48 thumb ov099
  *   func_021BDD54 0x021BDD54 thumb ov099
  *   func_021BCBD8 0x021BCBD8 thumb ov099
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  */
 #include "../include/Obj04417.h"
 typedef unsigned short u16;
@@ -22,9 +22,9 @@ extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern unsigned func_021BCBD8(char *, int);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 int func_021C13D0(char *p, int ret)
 {
     Request request;
@@ -37,7 +37,7 @@ int func_021C13D0(char *p, int ret)
         request.b = *((u8 *)((struct Obj04417 *)p)->f248 + 0x46);
     }
     request.c = func_021BCBD8(p, 1);
-    if (func_0203D3A8(func_020399A8(), 0xa03, 8, (u32)(&request)) != 0)
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xa03, 8, (u32)(&request)) != 0)
         ((struct Obj04417 *)p)->f1CC = 43;
     return ret;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3BFC
+ * function: GIMMICK46_ButtonEventProc
  * address:  0x021F3BFC
  * packet:   pkt_ov046_021F3BFC
  * region:   ov046
@@ -14,16 +14,16 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   func_020122C0  0x020122C0  thumb
- *   func_02012374  0x02012374  thumb
- *   func_021F3DE8  0x021F3DE8  thumb  ov046
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   GIMMICK46_PlayAnimEventProc  0x021F3DE8  thumb  ov046
  */
 
 typedef unsigned int u32;
@@ -48,31 +48,31 @@ struct Ctx;
 struct Desc;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *);
 struct Evt;
-extern int *func_021897BC(char *p, int idx);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_021F3DE8(void *a, int *st);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern int GIMMICK46_PlayAnimEventProc(void *a, int *st);
 
-int func_021F3BFC(u32 a, int *b)
+int GIMMICK46_ButtonEventProc(u32 a, int *b)
 {
     void *h = func_020124E4((void *)a);
-    void *x = func_0201210C(h);
+    void *x = GAMESYSTEM_GetFieldMap(h);
     Q *q;
     int t;
     int i;
 
-    func_02188D2C(x);
-    q = (Q *)func_021897BC(x, 1);
-    func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
+    FIELDMAP_GetExpObj(x);
+    q = (Q *)FIELDMAP_GetCommonWork(x, 1);
+    GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(x))), 10);
     switch (*b) {
     case 0:
         q->c = (q->a4 == 0 ? 3 : 4) + q->a0 * 5;
@@ -81,7 +81,7 @@ int func_021F3BFC(u32 a, int *b)
         q->e = 1;
         q->p1c = 0x6d3;
         q->p20 = -1;
-        func_02012374((void *)a, (struct Evt **)func_020122C0(h, 0, func_021F3DE8, 0));
+        GAME_EVENT_CallEvent((void *)a, (struct Evt **)func_020122C0(h, 0, GIMMICK46_PlayAnimEventProc, 0));
         (*b)++;
         break;
     case 1:

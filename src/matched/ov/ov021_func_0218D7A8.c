@@ -1,5 +1,5 @@
 /*
- * function: func_0218D7A8
+ * function: FIELD_G3D_MAPPER_ApplyLayout
  * address:  0x0218D7A8
  * packet:   pkt_ov021_0218D7A8
  * region:   ov021
@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * Reconciles the grid object's live entries with a freshly laid-out cell
- * array (func_0218CA78's tail): entries whose id survives move to the new
+ * array (FIELD_G3D_MAPPER_UpdateBlocking's tail): entries whose id survives move to the new
  * position, the rest are hidden and released; new cells then take a free
  * entry.  Returns 1 when any free entry was claimed.
  *
  * symbols:
- *   func_0218DD84  0x0218DD84  thumb ov021
- *   func_0218DD98  0x0218DD98  thumb ov021
- *   func_0218DDA4  0x0218DDA4  thumb ov021
- *   func_0218DD70  0x0218DD70  thumb ov021
- *   func_0218DD4C  0x0218DD4C  thumb ov021
- *   func_0218B9FC  0x0218B9FC  thumb ov021
- *   func_02169500  0x02169500  thumb ov010
- *   func_021694F8  0x021694F8  thumb ov010
- *   func_021694D4  0x021694D4  thumb ov010
- *   func_02169470  0x02169470  thumb ov010
+ *   FIELD_G3D_MAPPER_IsCellUsed  0x0218DD84  thumb ov021
+ *   FIELD_G3D_MAPPER_GetCellGridIndex  0x0218DD98  thumb ov021
+ *   FIELD_G3D_MAPPER_GetCellPos  0x0218DDA4  thumb ov021
+ *   FIELD_G3D_MAPPER_ResetCell  0x0218DD70  thumb ov021
+ *   FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot  0x0218DD4C  thumb ov021
+ *   FIELD_BUILDMODEL_UnregisterObject  0x0218B9FC  thumb ov021
+ *   FIELD_G3D_MAP_SetPos  0x02169500  thumb ov010
+ *   FIELD_G3D_MAP_SetVisible  0x021694F8  thumb ov010
+ *   FIELD_G3D_MAP_Unload  0x021694D4  thumb ov010
+ *   FIELD_G3D_MAP_StartLoad  0x02169470  thumb ov010
  */
 
 typedef unsigned char u8;
@@ -71,18 +71,18 @@ typedef struct Obj {
     int f64;            /* 0x64 */
 } Obj;
 
-extern int func_0218DD84(u32 a);
-extern u32 func_0218DD98(u8 *p);
-extern void func_0218DDA4(Cell *c, Vec *v);
-extern int func_0218DD70(u32 a);
-extern void func_0218DD4C(void **a);
-extern void func_0218B9FC(int a, int obj);
-extern void func_02169500(u8 *p, u8 *q);
-extern void func_021694F8(u8 *p, u16 v);
-extern void func_021694D4(int obj);
-extern void func_02169470(u8 *obj, u32 member);
+extern int FIELD_G3D_MAPPER_IsCellUsed(u32 a);
+extern u32 FIELD_G3D_MAPPER_GetCellGridIndex(u8 *p);
+extern void FIELD_G3D_MAPPER_GetCellPos(Cell *c, Vec *v);
+extern int FIELD_G3D_MAPPER_ResetCell(u32 a);
+extern void FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot(void **a);
+extern void FIELD_BUILDMODEL_UnregisterObject(int a, int obj);
+extern void FIELD_G3D_MAP_SetPos(u8 *p, u8 *q);
+extern void FIELD_G3D_MAP_SetVisible(u8 *p, u16 v);
+extern void FIELD_G3D_MAP_Unload(int obj);
+extern void FIELD_G3D_MAP_StartLoad(u8 *obj, u32 member);
 
-int func_0218D7A8(Obj *p, Cell *nc)
+int FIELD_G3D_MAPPER_ApplyLayout(Obj *p, Cell *nc)
 {
     int placed;
     int moved;
@@ -93,41 +93,41 @@ int func_0218D7A8(Obj *p, Cell *nc)
 
     ret = 0;
     for (i = 0; i < p->n; i++) {
-        if (func_0218DD84((u32)(&p->entries[i].cell))) {
+        if (FIELD_G3D_MAPPER_IsCellUsed((u32)(&p->entries[i].cell))) {
             u32 id;
             moved = 0;
-            id = func_0218DD98((u8 *)(&p->entries[i].cell));
+            id = FIELD_G3D_MAPPER_GetCellGridIndex((u8 *)(&p->entries[i].cell));
             for (j = 0; j < p->n; j++) {
-                if (id == func_0218DD98((u8 *)(&nc[j])) && !moved) {
+                if (id == FIELD_G3D_MAPPER_GetCellGridIndex((u8 *)(&nc[j])) && !moved) {
                     Vec v;
-                    func_0218DDA4(&nc[j], &v);
-                    func_02169500((u8 *)p->entries[i].obj, (u8 *)(&v));
-                    func_0218DD70((u32)(&nc[j]));
+                    FIELD_G3D_MAPPER_GetCellPos(&nc[j], &v);
+                    FIELD_G3D_MAP_SetPos((u8 *)p->entries[i].obj, (u8 *)(&v));
+                    FIELD_G3D_MAPPER_ResetCell((u32)(&nc[j]));
                     moved = 1;
                 }
             }
             if (!moved) {
-                func_0218DD70((u32)(&p->entries[i].cell));
-                func_021694F8((u8 *)p->entries[i].obj, 0);
-                func_0218B9FC(p->f64, p->entries[i].obj);
-                func_0218DD4C((void **)p->entries[i].desc);
-                func_021694D4(p->entries[i].obj);
+                FIELD_G3D_MAPPER_ResetCell((u32)(&p->entries[i].cell));
+                FIELD_G3D_MAP_SetVisible((u8 *)p->entries[i].obj, 0);
+                FIELD_BUILDMODEL_UnregisterObject(p->f64, p->entries[i].obj);
+                FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot((void **)p->entries[i].desc);
+                FIELD_G3D_MAP_Unload(p->entries[i].obj);
             }
         }
     }
     changed = 0;
     for (i = 0; i < p->n; i++) {
-        if (func_0218DD84((u32)(&nc[i]))) {
+        if (FIELD_G3D_MAPPER_IsCellUsed((u32)(&nc[i]))) {
             placed = 0;
             for (j = 0; j < p->n; j++) {
-                if (!func_0218DD84((u32)(&p->entries[j].cell)) && !placed) {
-                    int obj = p->table[func_0218DD98((u8 *)(&nc[i]))];
+                if (!FIELD_G3D_MAPPER_IsCellUsed((u32)(&p->entries[j].cell)) && !placed) {
+                    int obj = p->table[FIELD_G3D_MAPPER_GetCellGridIndex((u8 *)(&nc[i]))];
                     Vec v;
-                    func_0218DDA4(&nc[i], &v);
+                    FIELD_G3D_MAPPER_GetCellPos(&nc[i], &v);
                     if (obj != -1) {
-                        func_02169470((u8 *)p->entries[j].obj, (u32)obj);
-                        func_02169500((u8 *)p->entries[j].obj, (u8 *)(&v));
-                        func_021694F8((u8 *)p->entries[j].obj, 1);
+                        FIELD_G3D_MAP_StartLoad((u8 *)p->entries[j].obj, (u32)obj);
+                        FIELD_G3D_MAP_SetPos((u8 *)p->entries[j].obj, (u8 *)(&v));
+                        FIELD_G3D_MAP_SetVisible((u8 *)p->entries[j].obj, 1);
                     }
                     p->entries[j].cell = nc[i];
                     placed = 1;

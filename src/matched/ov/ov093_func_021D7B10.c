@@ -1,5 +1,5 @@
 /*
- * function: func_021D7B10
+ * function: BTL_CALC_MulRatio
  * address:  0x021D7B10
  * packet:   pkt_ov093_021D7B10
  * region:   ov093
@@ -16,7 +16,7 @@
  */
 typedef unsigned int u32;
 
-u32 func_021D7B10(u32 a, u32 b)
+u32 BTL_CALC_MulRatio(u32 a, u32 b)
 {
     u32 f;
 

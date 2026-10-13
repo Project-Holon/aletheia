@@ -12,14 +12,14 @@
  *
  * Folds the six ids 0x46 to 0x4B, the six 5 bit fields of substruct B +0x10
  * that POKE_TOOL_GetBoxValueRaw reads, into a 0 to 63 index on bit 1 of each and scales
- * it to 30..70.  Its neighbour func_02018790 is the same fold on bit 0 with a
+ * it to 30..70.  Its neighbour POKE_TOOL_GetHiddenPowerType is the same fold on bit 0 with a
  * table lookup at the end, and the two are the pair a Hidden Power power and
  * type are computed with.
  *
- * The range is one function on purpose.  func_02018790, immediately before,
+ * The range is one function on purpose.  POKE_TOOL_GetHiddenPowerType, immediately before,
  * reads a byte table at 0x0209E288 whose only reference anywhere in the image
  * is the pool word under test, so it caps at MATCH however it is written; and
- * func_020188AC, immediately after, is an eight byte
+ * POKE_TOOL_CheckTmCompat, immediately after, is an eight byte
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md thunk whose pool word is the
  * only reference to POKE_TOOL_CheckBoxTmCompat in the image, so it caps too.  Both are
  * byte-correct and neither can be cut free; this middle function is what is
@@ -40,32 +40,33 @@
  *
  * symbols:
  *   _u32_div_f  0x0209C2B0  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 u32 POKE_TOOL_GetHiddenPowerPower(void *p)
 {
     u32 n = 0;
 
-    if ((func_02017E1C(p, 0x46, 0) & 3) > 1) {
+    if ((POKE_TOOL_GetPartyValue(p, 0x46, 0) & 3) > 1) {
         n += 1;
     }
-    if ((func_02017E1C(p, 0x47, 0) & 3) > 1) {
+    if ((POKE_TOOL_GetPartyValue(p, 0x47, 0) & 3) > 1) {
         n += 2;
     }
-    if ((func_02017E1C(p, 0x48, 0) & 3) > 1) {
+    if ((POKE_TOOL_GetPartyValue(p, 0x48, 0) & 3) > 1) {
         n += 4;
     }
-    if ((func_02017E1C(p, 0x49, 0) & 3) > 1) {
+    if ((POKE_TOOL_GetPartyValue(p, 0x49, 0) & 3) > 1) {
         n += 8;
     }
-    if ((func_02017E1C(p, 0x4A, 0) & 3) > 1) {
+    if ((POKE_TOOL_GetPartyValue(p, 0x4A, 0) & 3) > 1) {
         n += 16;
     }
-    if ((func_02017E1C(p, 0x4B, 0) & 3) > 1) {
+    if ((POKE_TOOL_GetPartyValue(p, 0x4B, 0) & 3) > 1) {
         n += 32;
     }
     return n * 40 / 63 + 30;

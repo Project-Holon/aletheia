@@ -1,5 +1,5 @@
 /*
- * function: func_02046788
+ * function: G3D_SYSTEM_Exit
  * address:  0x02046788
  * packet:   pkt_02046440
  * region:   arm9
@@ -25,8 +25,8 @@
  * slot's address in r4, because it needs it again for the store of zero.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02046788.c \
- *       --func func_02046788 --addr 0x02046788 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_Exit.c \
+ *       --func G3D_SYSTEM_Exit --addr 0x02046788 --cc 1.1p1 --arm
  *
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
@@ -58,7 +58,7 @@ extern u32   func_0206DB24(void);
 extern void *NNS_G3dGeReleaseBuffer(void);
 extern int   func_02030BC8(u32 idx);
 
-void func_02046788(void)
+void G3D_SYSTEM_Exit(void)
 {
     if (_G3dSystem->unk_10 != 0)
         func_020307B0(_G3dSystem->unk_10);

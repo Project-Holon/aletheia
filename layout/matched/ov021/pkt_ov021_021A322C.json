@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A322C",
+   "name": "FIELD_PLAYER_ClearRememberedObjCode",
    "address": "0x021A322C",
    "kind": "game",
    "region": "ov021",

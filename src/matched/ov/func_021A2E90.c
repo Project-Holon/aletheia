@@ -1,5 +1,5 @@
 /*
- * function: func_021A2E90
+ * function: FIELD_PLAYER_Delete
  * address:  0x021A2E90
  * packet:   pkt_021A2E90
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A41A8  0x021A41A8  thumb  ov021
- *   func_021A5920  0x021A5920  thumb  ov021
- *   func_021A3810  0x021A3810  thumb  ov021
+ *   FIELD_PLAYER_GRID_Delete  0x021A41A8  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_Delete  0x021A5920  thumb  ov021
+ *   FIELD_PLAYER_CORE_Delete  0x021A3810  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -26,19 +26,19 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern void func_021A3810(u32 a0);
-extern void func_021A41A8(void);
-extern void func_021A5920(void);
+extern void FIELD_PLAYER_CORE_Delete(u32 a0);
+extern void FIELD_PLAYER_GRID_Delete(void);
+extern void FIELD_PLAYER_NOGRID_Delete(void);
 
-int func_021A2E90(void *a)
+int FIELD_PLAYER_Delete(void *a)
 {
 if (((struct Obj05861 *)((u8 *)(a)))->f8 != 0) {
-    func_021A41A8();
+    FIELD_PLAYER_GRID_Delete();
 }
 if (((struct Obj05861 *)((u8 *)(a)))->fC != 0) {
-    func_021A5920();
+    FIELD_PLAYER_NOGRID_Delete();
 }
-func_021A3810(((struct Obj05861 *)((u8 *)(a)))->f4);
+FIELD_PLAYER_CORE_Delete(((struct Obj05861 *)((u8 *)(a)))->f4);
 return func_020307B0(a);
 }
 

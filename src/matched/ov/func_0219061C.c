@@ -1,5 +1,5 @@
 /*
- * function: func_0219061C
+ * function: FIELD_MSGBG_IsMsgPrintTransDone
  * address:  0x0219061C
  * packet:   pkt_0219061C
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0219061C(u32 *p)
+u32 FIELD_MSGBG_IsMsgPrintTransDone(u32 *p)
 {
     return p[1];
 }

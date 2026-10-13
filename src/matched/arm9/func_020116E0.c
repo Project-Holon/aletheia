@@ -27,6 +27,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ICA_ANIME_LoadHeader.c \
  *       --func ICA_ANIME_LoadHeader --addr 0x020116E0 --cc 1.1p1 --thumb
+ *
+ * symbols:
+ *   ARC_TOOL_CreateHandle  0x020490F4  arm
  */
 #include "../include/Obj00064.h"
 
@@ -34,7 +37,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *sub_020490F4(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 struct ArcFile;
 extern void sub_0204944C(struct ArcFile *a, u32 b, u32 c, u32 d, void *e);
 
@@ -44,7 +47,7 @@ void ICA_ANIME_LoadHeader(u8 *p, u32 a1, u32 a2, u32 a3)
     u32 v;
 
     ((struct Obj00064 *)p)->f0 = (u16)a3;
-    ((struct Obj00064 *)p)->f4 = sub_020490F4(a1, a3);
+    ((struct Obj00064 *)p)->f4 = ARC_TOOL_CreateHandle(a1, a3);
     ((struct Obj00064 *)p)->f8 = a2;
     sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, a2, 0, 4, p + 0xc);
     sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, ((struct Obj00064 *)p)->f8, 4, 1, buf + 2);

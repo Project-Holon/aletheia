@@ -12,7 +12,7 @@
  * symbols:
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_020185F0  0x020185F0  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   POKE_TOOL_GetBoxParamSize  0x020173E8  thumb
  *   func_0203EFC8  0x0203EFC8  arm
  *
@@ -25,7 +25,7 @@ typedef unsigned long u32;
 
 extern unsigned int func_0201AA18(void *list);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u8 *func_020185F0(u32 entry);
+extern u8 *POKE_TOOL_Dummy(u32 entry);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
@@ -38,8 +38,8 @@ int func_021D9BC4(u32 a, u32 b)
         for (i = 0; i < n; i++) {
             u32 ea = (u32)func_0201AB28((void *)a, i);
             u32 eb = (u32)func_0201AB28((void *)b, i);
-            u8 *pa = func_020185F0(ea);
-            u8 *pb = func_020185F0(eb);
+            u8 *pa = POKE_TOOL_Dummy(ea);
+            u8 *pb = POKE_TOOL_Dummy(eb);
             if (func_0203EFC8(pa, pb, POKE_TOOL_GetBoxParamSize()) != 0)
                 return 0;
         }

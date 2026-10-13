@@ -1,5 +1,5 @@
 /*
- * function: func_0217689C
+ * function: INTRUDE_COMM_ConsumeAreaNoticeSeen
  * address:  0x0217689C
  * packet:   pkt_ov011_0217689C
  * region:   ov011
@@ -31,7 +31,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_02013D9C(u32 id);
 
-int func_0217689C(u8 *ctx, int arg)
+int INTRUDE_COMM_ConsumeAreaNoticeSeen(u8 *ctx, int arg)
 {
     Flags *f = (Flags *)(ctx + 0x8f8);
     int b = f->b2;

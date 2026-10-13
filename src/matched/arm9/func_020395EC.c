@@ -17,7 +17,7 @@
  *   str_020A7A78   0x020A7A78  data
  *   func_02034714  0x02034714  arm
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203996C  0x0203996C  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ struct Entry;
 extern void *GFL_NET_GetSession(void);
 struct Entry;
 
-extern struct Entry *func_0203996C(s32 idx);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
 int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a)
 {
@@ -39,12 +39,12 @@ int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a)
     int i;
 
     GFL_NET_GetSession();
-    v = func_0203996C(0xff);
+    v = GFL_NET_HANDLE_GetNetHandle(0xff);
     if (v == a) {
         return 0xff;
     }
     for (i = 0; i < 9; i++) {
-        v = func_0203996C(i);
+        v = GFL_NET_HANDLE_GetNetHandle(i);
         if (v == a) {
             return i;
         }

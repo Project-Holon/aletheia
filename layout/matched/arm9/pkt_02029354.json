@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020294C0",
+   "name": "FIELD_SOUND_SYSTEM_StartFadeInTask",
    "address": "0x020294C0",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202952C",
+   "name": "FIELD_SOUND_SYSTEM_StartFadeOutTask",
    "address": "0x0202952C",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020295A4",
+   "name": "FIELD_SOUND_SYSTEM_StartPushTask",
    "address": "0x020295A4",
    "kind": "game",
    "region": "arm9",

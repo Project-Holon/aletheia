@@ -10,7 +10,7 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj05513.h"
 typedef unsigned char u8;
@@ -21,5 +21,5 @@ extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
-int func_021F3E78(u8 *p) {int window;window=((struct Obj05513 *)p)->f10;if(p[12]) {if(func_0201C6C4((struct PrintSys *)window,(void *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj05513 *)p)->f8)))==0) {func_02045334(((struct Obj05513 *)p)->f8);p[12]=0;}}if(!p[12]) return 1;return 0;}
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+int func_021F3E78(u8 *p) {int window;window=((struct Obj05513 *)p)->f10;if(p[12]) {if(func_0201C6C4((struct PrintSys *)window,(void *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj05513 *)p)->f8)))==0) {BMP_WIN_TransferChars(((struct Obj05513 *)p)->f8);p[12]=0;}}if(!p[12]) return 1;return 0;}

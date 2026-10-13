@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02049F78  0x02049F78  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   PALANM_CopyToSlot  0x020215BC  thumb
  *   func_020307B0  0x020307B0  arm
  *
@@ -52,7 +52,7 @@ struct PltRes {
     u16 *data;
 };
 
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx,
                           u32 off, u16 size);
 extern u32 func_020307B0(void *p);
@@ -63,7 +63,7 @@ void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *slots, void *arc, u32 f
     struct PltRes *res;
     void *block;
 
-    block = func_02049F78(arc, fileId, (u32)(&res), (u16)((tag & 0x7fff) | 0x8000));
+    block = ARC_UTIL_LoadPaletteBlockFromHandle(arc, fileId, (u32)(&res), (u16)((tag & 0x7fff) | 0x8000));
     if (count == 0) {
         count = res->count;
     }

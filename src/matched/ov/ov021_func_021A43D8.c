@@ -1,5 +1,5 @@
 /*
- * function: func_021A43D8
+ * function: FIELD_PLAYER_GRID_PlayStepSound
  * address:  0x021A43D8
  * packet:   pkt_ov021_021A43D8
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_0202E83C  0x0202E83C  thumb
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021A428C  0x021A428C  thumb  ov021
- *   func_02164208  0x02164208  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FIELD_PLAYER_GRID_PlayTileSound  0x021A428C  thumb  ov021
+ *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb  ov010
  */
 #include "../include/Obj00656.h"
 
@@ -23,16 +23,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021A3960(unsigned char *p);
-extern void *func_02188C80(void *p);
-extern int func_0202E83C(void *a0);
+extern void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern int func_021A428C(u8 *o, int unused, int c, int flag, int kind);
-extern void func_02164208(int dir, int *p, int amt);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern int FIELD_PLAYER_GRID_PlayTileSound(u8 *o, int unused, int c, int flag, int kind);
+extern void FLDMMDL_MOVE_AddDirVector(int dir, int *p, int amt);
 
-void func_021A43D8(u8 *p, int k, int dir)
+void FIELD_PLAYER_GRID_PlayStepSound(u8 *p, int k, int dir)
 {
     u32 buf[3];
     void *a;
@@ -43,11 +43,11 @@ void func_021A43D8(u8 *p, int k, int dir)
         ((struct Obj00656 *)p)->f1A = 0;
         return;
     }
-    a = func_021A3960(((struct Obj00656 *)p)->fC);
-    r = func_0202E83C(func_02188C80((void *)(((struct Obj00656 *)p)->f10)));
-    func_0216D88C(a, (struct VecFx32 *)buf);
-    if (func_021A428C(p, k, (int)buf, 0, r) == 0) {
-        func_02164208(dir, (int *)buf, 0x10000);
-        func_021A428C(p, k, (int)buf, 1, r);
+    a = FIELD_PLAYER_CORE_GetMmdl(((struct Obj00656 *)p)->fC);
+    r = COMM_PLAYER_SUPPORT_GetInfoCode(FIELDMAP_GetGameSystem((void *)(((struct Obj00656 *)p)->f10)));
+    FLDMMDL_GetPos(a, (struct VecFx32 *)buf);
+    if (FIELD_PLAYER_GRID_PlayTileSound(p, k, (int)buf, 0, r) == 0) {
+        FLDMMDL_MOVE_AddDirVector(dir, (int *)buf, 0x10000);
+        FIELD_PLAYER_GRID_PlayTileSound(p, k, (int)buf, 1, r);
     }
 }

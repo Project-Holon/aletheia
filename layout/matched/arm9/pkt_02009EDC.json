@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200A0E4",
+   "name": "MYSTERY_DATA_IsCardExist",
    "address": "0x0200A0E4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0200A13C",
+   "name": "MYSTERY_DATA_SetCardReceived",
    "address": "0x0200A13C",
    "kind": "game",
    "region": "arm9",

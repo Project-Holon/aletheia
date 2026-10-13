@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5B40  0x021D5B40  thumb  ov093
- *   func_021D805C  0x021D805C  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
+ *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
 struct QI;
-extern u16 func_021D5B40(struct QI *p);
-extern u32 func_021D805C(void *p, u32 n);
-extern int func_021D76BC(int key, u32 val);
+extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
+extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E5D24(int a, void *b, int c)
 {
-    if (c == func_021D775C(3)) {
-        u16 n = (int)func_021D5B40(func_021C7CF4(b, c));
-        func_021D76BC(0x30, func_021D805C((void *)n, 10));
+    if (c == BTL_EVENT_GetVar(3)) {
+        u16 n = (int)BTL_POKEPARAM_GetItem(func_021C7CF4(b, c));
+        BTL_EVENT_OverwriteVar(0x30, BTL_CALC_GetMonParamWithHeap((void *)n, 10));
     }
 }

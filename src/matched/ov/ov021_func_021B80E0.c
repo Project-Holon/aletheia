@@ -1,5 +1,5 @@
 /*
- * function: func_021B80E0
+ * function: FIELD_RAIL_WORK_StartStep
  * address:  0x021B80E0
  * packet:   pkt_ov021_021B80E0
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct {
     u16 h30;
 } Obj;
 
-int func_021B80E0(Obj *o, u16 a, u16 b)
+int FIELD_RAIL_WORK_StartStep(Obj *o, u16 a, u16 b)
 {
     if (o->b2c == 0) {
         o->b2c = 1;

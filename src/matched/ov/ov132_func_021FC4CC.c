@@ -9,7 +9,7 @@
  * status: EXACT*
  * follower: two-byte zero alignment padding at 021FC53A.
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021F9DD4 0x021F9DD4 thumb ov132
  *   func_021F9DDC 0x021F9DDC thumb ov132
  *   func_021F6F14 0x021F6F14 thumb ov112
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_021F9DD4(void *);
 extern void *func_021F9DDC(void *,u8);
 extern void func_021F6F14(void *a, char *p, u16 b, u8 c);
@@ -29,11 +29,11 @@ int func_021FC4CC(int a,char **p)
     u32 v,w,x,y,z;
     void *r,*s;
     q=p[0];
-    v=func_0201134C((struct Cursor *)p[1]);
-    w=func_0201134C((struct Cursor *)p[1]);
-    x=func_0201134C((struct Cursor *)p[1]);
-    y=func_0201134C((struct Cursor *)p[1]);
-    z=func_0201134C((struct Cursor *)p[1]);
+    v=VM_GetU32((struct Cursor *)p[1]);
+    w=VM_GetU32((struct Cursor *)p[1]);
+    x=VM_GetU32((struct Cursor *)p[1]);
+    y=VM_GetU32((struct Cursor *)p[1]);
+    z=VM_GetU32((struct Cursor *)p[1]);
     r=func_021F9DD4(((struct Obj14121 *)q)->f34);
     s=func_021F9DDC(((struct Obj14121 *)q)->f34,v);
     func_021F6F14(r,s,(u8)w|((u8)x<<5)|((u8)y<<10),z);

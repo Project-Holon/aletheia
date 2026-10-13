@@ -1,5 +1,5 @@
 /*
- * function: func_0215F948
+ * function: SCRCMD_NETWORK_InitCommBattleStepSequence
  * address:  0x0215F948
  * packet:   pkt_ov010_0215F948
  * region:   ov010
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-void func_0215F948(u8 *p)
+void SCRCMD_NETWORK_InitCommBattleStepSequence(u8 *p)
 {
     u32 *t = (u32 *)p;
     if (t[2] == 0 || t[2] != 1) {

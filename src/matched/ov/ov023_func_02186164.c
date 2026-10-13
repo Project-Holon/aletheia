@@ -1,5 +1,5 @@
 /*
- * function: func_02186164
+ * function: OEKAKI_GetMemberCount
  * address:  0x02186164
  * packet:   pkt_02186164
  * region:   ov023
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021841A4  0x021841A4  thumb  ov022
+ *   UNION_APP_GetMemberCount  0x021841A4  thumb  ov022
  *
  * Unblocked by matching the leaf at 0x021841A4 in ov022: the address is
  * below ov023's own base (0x021841E0) and ov022 is its only coherent code
@@ -19,9 +19,9 @@
 
 typedef unsigned int u32;
 
-int func_021841A4(unsigned char *p);
+int UNION_APP_GetMemberCount(unsigned char *p);
 
-int func_02186164(char *p)
+int OEKAKI_GetMemberCount(char *p)
 {
-    return func_021841A4((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj20361 *)p)->f4));
+    return UNION_APP_GetMemberCount((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj20361 *)p)->f4));
 }

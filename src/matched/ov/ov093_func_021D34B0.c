@@ -10,20 +10,20 @@
  * status: EXACT*
  * extent: compiled 54 bytes followed by two zero alignment bytes.
  * symbols:
- *   func_021CD9E0 0x021CD9E0 thumb ov093
+ *   BTL_CLIENT_IsMainStepActive 0x021CD9E0 thumb ov093
  *   func_021F7998 0x021F7998 thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_021CD9E0(u8 *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern void func_021F7998(unsigned int);
 extern int func_021F7EB4(void);
 int func_021D34B0(char *p, int *state, unsigned int *q)
 {
     if (*state == 0) {
-        if (func_021CD9E0((u8 *)p) != 0) return 1;
+        if (BTL_CLIENT_IsMainStepActive((u8 *)p) != 0) return 1;
         func_021F7998(q[0]);
         (*state)++;
     } else {

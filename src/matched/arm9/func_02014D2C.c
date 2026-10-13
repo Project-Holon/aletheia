@@ -52,8 +52,8 @@
  *   _ffix            0x0209C494  arm
  *   _fadd            0x0209C95C  arm
  *   _fsub            0x0209CB8C  arm
- *   g_02148B98       0x02148B98  data
- *   g_02148B54       0x02148B54  data
+ *   g_renderStateDrawParams       0x02148B98  data
+ *   SCREENTEX_ProjectionMatrix       0x02148B54  data
  *   SCREENTEX_CameraPositionOut       0x02148D8C  data
  *   SCREENTEX_CameraTargetOut       0x02148D98  data
  *   SCREENTEX_CameraUpOut       0x02148DA4  data
@@ -97,8 +97,8 @@ struct VecFx32;
 extern void MCSS_MulVecMtx44(const struct VecFx32 *v, const struct MtxFx44 *mtx, struct VecFx32 *dst, s32 *w);
 extern void MCSS_InitEdgeColor(void);
 
-extern MtxFx43 g_02148B98;
-extern MtxFx44 g_02148B54;
+extern MtxFx43 g_renderStateDrawParams;
+extern MtxFx44 SCREENTEX_ProjectionMatrix;
 extern VecFx32 SCREENTEX_CameraPositionOut;
 extern VecFx32 SCREENTEX_CameraTargetOut;
 extern VecFx32 SCREENTEX_CameraUpOut;
@@ -287,7 +287,7 @@ void MCSS_Draw(struct McssSys *sys)
     REG_MTX_MODE = 3;
     REG_MTX_IDENTITY = 0;
     REG_MTX_MODE = 2;
-    MTX_Inverse43(&g_02148B98, &inv);
+    MTX_Inverse43(&g_renderStateDrawParams, &inv);
     MI_Copy36B(&inv, &rot33);
     MTX_Copy33To44_(&rot33, &bb);
 
@@ -347,8 +347,8 @@ void MCSS_Draw(struct McssSys *sys)
             MtxFx44 m;
             sx = FX_MUL(w->fec, w->f128);
             sy = FX_MUL(w->ff0, w->f12c);
-            MTX_Copy43To44_(&g_02148B98, &m);
-            MTX_Concat44(&m, &g_02148B54, &m);
+            MTX_Copy43To44_(&g_renderStateDrawParams, &m);
+            MTX_Concat44(&m, &SCREENTEX_ProjectionMatrix, &m);
             MCSS_MulVecMtx44((const struct VecFx32 *)(&pos), (const struct MtxFx44 *)(&m), (struct VecFx32 *)(&pos), &wv);
             pos.x = FX_MUL(sub_0207C768(pos.x, wv), 0x80000);
             pos.y = FX_MUL(sub_0207C768(pos.y, wv), 0x60000);

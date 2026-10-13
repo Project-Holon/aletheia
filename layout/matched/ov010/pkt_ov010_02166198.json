@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02166198",
+   "name": "GAME_BEACON_ACCESSOR_IsNoValueInvalid",
    "address": "0x02166198",
    "kind": "game",
    "region": "ov010",

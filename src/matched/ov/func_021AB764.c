@@ -1,5 +1,5 @@
 /*
- * function: func_021AB764
+ * function: FLD_SCENEAREA_GetFieldMap
  * address:  0x021AB764
  * packet:   pkt_021AB764
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021AB764(u8 *p)
+u32 FLD_SCENEAREA_GetFieldMap(u8 *p)
 {
     return ((struct Obj18076 *)p)->f4;
 }

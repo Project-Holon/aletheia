@@ -13,24 +13,26 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
- *   func_020072CC  0x020072CC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
  *   g_MusicalDistSaveFileName     0x020A71D4  data  a1
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_CreateHandleFromMemory  0x0204913C  arm
- *   func_0204A39C  0x0204A39C  arm
+ *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   MSGDATA_CreateFromMemory  0x02045C44  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045A38  0x02045A38  arm
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
- *   func_02049238  0x02049238  arm
+ *   STRBUF_ToChars  0x02045A38  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   g_0209DE2C      0x0209DE2C  data
  *   g_0209DE20      0x0209DE20  data
+ *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
+ *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  */
 struct SaveWork;
 struct SaveBlockCtrl;
@@ -65,26 +67,26 @@ struct BlockImage {
     u8 footer[0x20];
 };
 
-extern void *func_02012EBC(struct SaveWork *game_sys);
+extern void *GAME_DATA_GetSaveControl(struct SaveWork *game_sys);
 extern void *func_02030734(u32 heap_id, u32 size, int clear, const char *file_name, u16 line);
-extern u32   func_020072CC(void *save_ctrl, u32 block_id, u32 heap_id, void *buf, u32 size);
+extern u32   SAVE_CONTROL_LoadExtraSaveWithBuffer(void *save_ctrl, u32 block_id, u32 heap_id, void *buf, u32 size);
 extern void *func_020073D8(struct SaveBlockCtrl *save_ctrl, u32 block_id, u32 mode);
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void func_020072A4(struct SaveBlockCtrl *save_ctrl, u32 block_id);
 extern u32 func_020307B0(void *mem);
-extern void func_02012E4C(u8 *game_sys, u32 block_id);
-extern int func_02012E7C(char *game_sys, int block_id);
+extern void GAME_DATA_PartSaveStart(u8 *game_sys, u32 block_id);
+extern int GAME_DATA_PartSaveMain(char *game_sys, int block_id);
 extern void *func_0200A5F8(void *save);
 extern void func_0200A7EC(struct SaveWork *profile, u8 value);
 extern u8 *func_0200A7F8(struct SaveWork *profile);
 extern void *ARC_TOOL_CreateHandleFromMemory(void *data, u32 size, u32 heap_id);
-extern void *func_0204A39C(void *narc, int file_id, int decompress, u32 heap_id, u32 *out_size);
+extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int file_id, int decompress, u32 heap_id, u32 *out_size);
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heap_id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void  func_02045A38(struct MsgString *str, u16 *dest, u32 max_len);
-extern void func_02045808(struct MsgString *str);
-extern u32 func_02045C04(struct MsgBank *bank);
-extern void  func_02049238(void *narc);
+extern void  STRBUF_ToChars(struct MsgString *str, u16 *dest, u32 max_len);
+extern void STRBUF_Delete(struct MsgString *str);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void  ARC_TOOL_DeleteHandle(void *narc);
 extern void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *dist);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
@@ -118,10 +120,10 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id)
     u32 load_result;
     u8 *block;
 
-    save_ctrl = func_02012EBC(game_sys);
+    save_ctrl = GAME_DATA_GetSaveControl(game_sys);
     dist = func_02030734(heap_id, 0x2C, 1, g_MusicalDistSaveFileName, 0x4A);
     dist->block = func_02030734(heap_id, 0x20000, 1, g_MusicalDistSaveFileName, 0x4C);
-    load_result = func_020072CC(save_ctrl, 6, heap_id, dist->block, 0x20000);
+    load_result = SAVE_CONTROL_LoadExtraSaveWithBuffer(save_ctrl, 6, heap_id, dist->block, 0x20000);
     dist->heap_id = heap_id;
     dist->game_sys = game_sys;
     dist->state = 0;
@@ -170,14 +172,14 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id)
  *    (the func_020073D8 call at 0x0200C560) is a register copy rather than a
  *    second `movs`.  Doing so costs the original a register, and the visible
  *    consequence is that the first parameter is homed to the stack at entry
- *    (`str r0, [sp, #4]`) while the func_02012EBC result keeps r6; every
+ *    (`str r0, [sp, #4]`) while the GAME_DATA_GetSaveControl result keeps r6; every
  *    source shape tried here does the reverse and is 116 bytes against the
  *    original's 118.  Thirty-six shapes were compiled and ranked by diff
  *    count: six permutations of the three field stores crossed with four
- *    positions for the func_020072CC call, the result as a named local
+ *    positions for the SAVE_CONTROL_LoadExtraSaveWithBuffer call, the result as a named local
  *    against the call written inline in the `if`, the id 6 as a literal
  *    against a local, five declaration orders for the locals, and a six
- *    argument reading of func_020072CC.  The ranking is flat at 57 to 80
+ *    argument reading of SAVE_CONTROL_LoadExtraSaveWithBuffer.  The ranking is flat at 57 to 80
  *    concrete bytes and every one of them is 116 bytes, so the missing
  *    instruction is not reachable by statement order.  All nine front ends
  *    agree, at every optimisation level.  Same class as the near misses at
@@ -192,7 +194,7 @@ struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id)
  */
 void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *dist)
 {
-    func_020072A4(func_02012EBC(dist->game_sys), 6);
+    func_020072A4(GAME_DATA_GetSaveControl(dist->game_sys), 6);
     if (dist->block != 0) {
         func_020307B0(dist->block);
     }
@@ -252,23 +254,23 @@ u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *dist)
             MUSICAL_DIST_SAVE_Delete(dist);
             return 1;
         }
-        profile = func_0200A5F8(func_02012EBC(dist->game_sys));
+        profile = func_0200A5F8(GAME_DATA_GetSaveControl(dist->game_sys));
         func_0200A7EC(profile, 1);
         narc = ARC_TOOL_CreateHandleFromMemory(dist->payload, dist->header.payload_size,
                              (u16)((dist->heap_id & 0x7FFF) | 0x8000));
-        msg_file = func_0204A39C(narc, 1, 0, (u16)((dist->heap_id & 0x7FFF) | 0x8000), &out_size);
+        msg_file = ARC_UTIL_LoadHandleMemberWithSize(narc, 1, 0, (u16)((dist->heap_id & 0x7FFF) | 0x8000), &out_size);
         msg_bank = MSGDATA_CreateFromMemory(msg_file, (u16)((dist->heap_id & 0x7FFF) | 0x8000));
         msg_str = func_02045EC0(msg_bank, 0);
-        func_02045A38(msg_str, (u16 *)func_0200A7F8(profile), 0x25);
-        func_02045808(msg_str);
-        func_02045C04(msg_bank);
+        STRBUF_ToChars(msg_str, (u16 *)func_0200A7F8(profile), 0x25);
+        STRBUF_Delete(msg_str);
+        MSGDATA_Delete(msg_bank);
         func_020307B0(msg_file);
-        func_02049238(narc);
-        func_02012E4C(dist->game_sys, 6);
+        ARC_TOOL_DeleteHandle(narc);
+        GAME_DATA_PartSaveStart(dist->game_sys, 6);
         dist->state++;
         break;
     case 1:
-        if (func_02012E7C(dist->game_sys, 6) == 2) {
+        if (GAME_DATA_PartSaveMain(dist->game_sys, 6) == 2) {
             MUSICAL_DIST_SAVE_Delete(dist);
             return 1;
         }

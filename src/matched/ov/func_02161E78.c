@@ -1,5 +1,5 @@
 /*
- * function: func_02161E78
+ * function: EVENT_FIELD_PROCLINK_ClearReturnEntry
  * address:  0x02161E78
  * packet:   pkt_02161E78
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02161E78.c \
- *       --func func_02161E78 --addr 0x02161E78 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/EVENT_FIELD_PROCLINK_ClearReturnEntry.c \
+ *       --func EVENT_FIELD_PROCLINK_ClearReturnEntry --addr 0x02161E78 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 
 extern void func_02082BCC(void *, unsigned, unsigned);
 
-void func_02161E78(void *a0)
+void EVENT_FIELD_PROCLINK_ClearReturnEntry(void *a0)
 {
 
     func_02082BCC(a0, 0, 24);

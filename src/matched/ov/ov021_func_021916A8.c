@@ -1,5 +1,5 @@
 /*
- * function: func_021916A8
+ * function: FIELD_MSGBG_PlainWinPrintStream
  * address:  0x021916A8
  * packet:   pkt_ov021_021916A8
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02190D2C  0x02190D2C  thumb  ov021
- *   func_02190D48  0x02190D48  thumb  ov021
- *   func_02193210  0x02193210  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgStream  0x02190D2C  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgStream  0x02190D48  thumb  ov021
+ *   FIELD_MSGBG_KeyWaitGetCharWait  0x02193210  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -42,13 +42,13 @@ typedef struct R {
     u16 f28;
 } R;
 
-extern int func_02190D48(void *a);
-extern u32 func_02193210(u8 *p);
-extern u32 *func_02190D2C(u32 *a, u32 b, u32 c, u32 d, u16 e, u32 f);
+extern int FIELD_MSGBG_DeleteMsgStream(void *a);
+extern u32 FIELD_MSGBG_KeyWaitGetCharWait(u8 *p);
+extern u32 *FIELD_MSGBG_CreateMsgStream(u32 *a, u32 b, u32 c, u32 d, u16 e, u32 f);
 
-void func_021916A8(R *r, u32 b, u16 c, u32 d)
+void FIELD_MSGBG_PlainWinPrintStream(R *r, u32 b, u16 c, u32 d)
 {
     if (r->f1c != 0)
-        func_02190D48((void *)r->f1c);
-    r->f1c = (u32)func_02190D2C((u32 *)r->f0c, d, r->f18, b, c, func_02193210((u8 *)r->f0c + 0x160));
+        FIELD_MSGBG_DeleteMsgStream((void *)r->f1c);
+    r->f1c = (u32)FIELD_MSGBG_CreateMsgStream((u32 *)r->f0c, d, r->f18, b, c, FIELD_MSGBG_KeyWaitGetCharWait((u8 *)r->f0c + 0x160));
 }

@@ -1,7 +1,7 @@
 /*
  * file:     field_g3d_mapper.c
  * unit:     yes
- * function: func_0218C9E8, func_0218CA4C, func_0218CA78, func_0218CB34, func_0218CC34, func_0218CC64, func_0218CD20, func_0218CEE0, func_0218CEE4, func_0218D05C, func_0218D0D8, func_0218D104, func_0218D13C, func_0218D158, func_0218D168, func_0218D1D0, func_0218D304, func_0218D444, func_0218D570, func_0218D7A8, func_0218D934, func_0218D970, func_0218D980, func_0218D9B8, func_0218D9C8, func_0218D9E8, func_0218DAEC, func_0218DBAC, func_0218DBD4, func_0218DC04, func_0218DC4C, func_0218DC5C, func_0218DC6C, func_0218DC70, func_0218DC74, func_0218DC84, func_0218DCF4, func_0218DCFC, func_0218DD04, func_0218DD08, func_0218DD0C, func_0218DD10, func_0218DD14, func_0218DD38, func_0218DD4C, func_0218DD5C, func_0218DD6C, func_0218DD70, func_0218DD80, func_0218DD84, func_0218DD98, func_0218DD9C, func_0218DDA4, func_0218DDB4, func_0218DE78, func_0218DEF0, func_0218DEFC, func_0218DF80, func_0218DFE0
+ * function: FIELD_G3D_MAPPER_Create, FIELD_G3D_MAPPER_Delete, FIELD_G3D_MAPPER_UpdateBlocking, FIELD_G3D_MAPPER_UpdateStep, FIELD_G3D_MAPPER_StepBlocks, FIELD_G3D_MAPPER_Draw, FIELD_G3D_MAPPER_AppendMatrix, FIELD_G3D_MAPPER_GetHeightEx, FIELD_G3D_MAPPER_Setup, FIELD_G3D_MAPPER_ReleaseBlocks, FIELD_G3D_MAPPER_TintTexture, FIELD_G3D_MAPPER_LoadTexture, FIELD_G3D_MAPPER_FreeTexture, FIELD_G3D_MAPPER_SetFocusPos, FIELD_G3D_MAPPER_GetFocusSlot, FIELD_G3D_MAPPER_LayoutLinear, FIELD_G3D_MAPPER_LayoutWindowClipped, FIELD_G3D_MAPPER_LayoutWindowWrapped, FIELD_G3D_MAPPER_LayoutLayers, FIELD_G3D_MAPPER_ApplyLayout, FIELD_G3D_MAPPER_GetWindowStartEven, FIELD_G3D_MAPPER_GetWindowStartOdd, FIELD_G3D_MAPPER_GetWindowStartWrapped, FIELD_G3D_MAPPER_ClearHit, FIELD_G3D_MAPPER_ClearHitList, FIELD_G3D_MAPPER_QueryHits, FIELD_G3D_MAPPER_QueryNearestHit, FIELD_G3D_MAPPER_QuerySlotPlane, FIELD_G3D_MAPPER_CheckSlotReady, FIELD_G3D_MAPPER_IsOutsideGrid, FIELD_G3D_MAPPER_SetOriginOffset, FIELD_G3D_MAPPER_GetOriginOffset, FIELD_G3D_MAPPER_GetBuildModel, FIELD_G3D_MAPPER_GetWfbc, FIELD_G3D_MAPPER_SetupWfbc, FIELD_G3D_MAPPER_CreateGroundAnime, FIELD_G3D_MAPPER_SlotResHasGroundAnime, FIELD_G3D_MAPPER_SlotResGetGroundAnime, FIELD_G3D_MAPPER_SlotResGetBuildModel, FIELD_G3D_MAPPER_SlotResGetWfbc, FIELD_G3D_MAPPER_SlotResGetSlotIndex, FIELD_G3D_MAPPER_SlotResGetHeapId, FIELD_G3D_MAPPER_InitSlotRes, FIELD_G3D_MAPPER_FreeGroundAnimeSlot, FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot, FIELD_G3D_MAPPER_SlotResTestGroundAnime, FIELD_G3D_MAPPER_SlotResReadGroundAnime, FIELD_G3D_MAPPER_ResetCell, FIELD_G3D_MAPPER_SetCellGridIndex, FIELD_G3D_MAPPER_IsCellUsed, FIELD_G3D_MAPPER_GetCellGridIndex, FIELD_G3D_MAPPER_SetCellPos, FIELD_G3D_MAPPER_GetCellPos, FIELD_G3D_MAPPER_AppendHeightExHits, FIELD_G3D_MAPPER_BeginDrawOrder, FIELD_G3D_MAPPER_StampFrame, FIELD_G3D_MAPPER_InsertDrawOrder, FIELD_G3D_MAPPER_CountFittingSlots, FIELD_G3D_MAPPER_GetDrawSlot
  * address:  0x0218C9E8
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,72 +15,74 @@
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
- *   func_02188C80  0x02188C80  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02046DB8  0x02046DB8  arm
- *   func_020470A8  0x020470A8  arm
- *   func_020470D0  0x020470D0  arm
+ *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
+ *   G3D_SYSTEM_TransVramTextureAndCut  0x020470A8  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   func_02046EFC  0x02046EFC  arm
- *   func_02169510  0x02169510  thumb
- *   d_021DD9EC     0x021DD9EC  data  ov021  a4
- *   func_021938AC  0x021938AC  thumb ov021
- *   func_021C05D4  0x021C05D4  thumb ov021
- *   func_021C0674  0x021C0674  thumb  ov021
- *   func_021938D4  0x021938D4  thumb  ov021
- *   func_0216932C  0x0216932C  thumb ov010
- *   func_02169520  0x02169520  thumb  ov010
- *   func_02169308  0x02169308  thumb  ov010
+ *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
+ *   gFieldG3dMapperSrcName     0x021DD9EC  data  ov021  a4
+ *   FIELD_WFBC_Create  0x021938AC  thumb ov021
+ *   HEIGHT_EX_CreateTable  0x021C05D4  thumb ov021
+ *   HEIGHT_EX_FreeTable  0x021C0674  thumb  ov021
+ *   FIELD_WFBC_Delete  0x021938D4  thumb  ov021
+ *   FIELD_G3D_MAP_WaitLoad  0x0216932C  thumb ov010
+ *   FIELD_G3D_MAP_GetActiveRef  0x02169520  thumb  ov010
+ *   FIELD_G3D_MAP_Update  0x02169308  thumb  ov010
  *   FX_Div  0x0207C768  arm
- *   func_021A73DC  0x021A73DC  thumb  ov021
- *   func_02169500  0x02169500  thumb ov010
- *   func_02169354  0x02169354  thumb ov010
- *   func_02159BF4  0x02159BF4  thumb
- *   func_02159BF8  0x02159BF8  thumb
- *   func_02159BFC  0x02159BFC  thumb
- *   func_02159C20  0x02159C20  thumb
+ *   FIELD_GROUND_ANIME_Update  0x021A73DC  thumb  ov021
+ *   FIELD_G3D_MAP_SetPos  0x02169500  thumb ov010
+ *   FIELD_G3D_MAP_DrawWithModels  0x02169354  thumb ov010
+ *   MAP_MATRIX_GetWidth  0x02159BF4  thumb
+ *   MAP_MATRIX_GetHeight  0x02159BF8  thumb
+ *   MAP_MATRIX_GetCount  0x02159BFC  thumb
+ *   MAP_MATRIX_GetMapGrid  0x02159C20  thumb
  *   func_02159C00  0x02159C00  thumb
  *   func_02012974  0x02012974  thumb
- *   d_021D3DDC     0x021D3DDC  data
- *   func_02169148  0x02169148  thumb  ov010
- *   func_0216937C  0x0216937C  thumb  ov010
- *   func_021693B4  0x021693B4  thumb  ov010
- *   func_021693C4  0x021693C4  thumb  ov010
- *   func_021693CC  0x021693CC  thumb ov010
- *   func_021693BC  0x021693BC  thumb ov010
- *   func_021693A0  0x021693A0  thumb ov010
- *   func_0216928C  0x0216928C  thumb ov010
- *   func_021A73C0  0x021A73C0  thumb ov021
- *   func_02022040  0x02022040  thumb
- *   func_021694FC  0x021694FC  thumb ov010
- *   func_021694F8  0x021694F8  thumb ov010
- *   func_021694D4  0x021694D4  thumb ov010
- *   func_02169470  0x02169470  thumb ov010
- *   func_02169800  0x02169800  thumb ov010
- *   func_021AB100  0x021AB100  thumb ov021
- *   func_02169848  0x02169848  thumb  ov010
- *   func_021697E0  0x021697E0  thumb ov010
- *   func_02193B04  0x02193B04  thumb  ov021
- *   d_021DD9E0     0x021DD9E0  data ov021 a2
+ *   gFieldG3dMapperMapTypeTable     0x021D3DDC  data
+ *   FIELD_G3D_MAP_Create  0x02169148  thumb  ov010
+ *   FIELD_G3D_MAP_OpenArchive  0x0216937C  thumb  ov010
+ *   FIELD_G3D_MAP_SetAltTextureRes  0x021693B4  thumb  ov010
+ *   FIELD_G3D_MAP_SetPlacedModels  0x021693C4  thumb  ov010
+ *   FIELD_G3D_MAP_ClearPlacedModels  0x021693CC  thumb ov010
+ *   FIELD_G3D_MAP_ClearAltTextureRes  0x021693BC  thumb ov010
+ *   FIELD_G3D_MAP_CloseArchive  0x021693A0  thumb ov010
+ *   FIELD_G3D_MAP_Destroy  0x0216928C  thumb ov010
+ *   FIELD_GROUND_ANIME_Delete  0x021A73C0  thumb ov021
+ *   PALANM_ConvertGrayTable  0x02022040  thumb
+ *   FIELD_G3D_MAP_IsVisible  0x021694FC  thumb ov010
+ *   FIELD_G3D_MAP_SetVisible  0x021694F8  thumb ov010
+ *   FIELD_G3D_MAP_Unload  0x021694D4  thumb ov010
+ *   FIELD_G3D_MAP_StartLoad  0x02169470  thumb ov010
+ *   FIELD_G3D_MAP_QueryHits  0x02169800  thumb ov010
+ *   MAP_ATTR_IsPresent  0x021AB100  thumb ov021
+ *   FIELD_G3D_MAP_QueryPlane  0x02169848  thumb  ov010
+ *   FIELD_G3D_MAP_CanQueryHits  0x021697E0  thumb ov010
+ *   FIELD_WFBC_SetUp  0x02193B04  thumb  ov021
+ *   gFieldG3dMapperGroundAnimeParam     0x021DD9E0  data ov021 a2
  *   g_021DD9E0     0x021DD9E0  data ov021 a2
- *   func_021A7360  0x021A7360  thumb ov021
- *   func_021A7404  0x021A7404  thumb  ov021
- *   func_021A7418  0x021A7418  thumb
- *   d_021D3DD4     0x021D3DD4  data a2
- *   func_021C0688  0x021C0688  thumb ov021
- *   func_021C068C  0x021C068C  thumb ov021
- *   func_021C06B4  0x021C06B4  thumb ov021
- *   func_021C06A8  0x021C06A8  thumb ov021
- *   func_02169598  0x02169598  thumb ov010
- *   func_02169538  0x02169538  thumb ov010
- *   func_0218B754  0x0218B754  thumb  ov021
- *   func_0218B7F8  0x0218B7F8  thumb  ov021
- *   func_0218B83C  0x0218B83C  thumb  ov021
- *   func_0218B88C  0x0218B88C  thumb  ov021
- *   func_0218B9FC  0x0218B9FC  thumb  ov021
- *   func_0218BB04  0x0218BB04  thumb  ov021
+ *   FIELD_GROUND_ANIME_Create  0x021A7360  thumb ov021
+ *   FIELD_GROUND_ANIME_GetAnmEntry  0x021A7404  thumb  ov021
+ *   FIELD_GROUND_ANIME_UnbindAnm  0x021A7418  thumb
+ *   gFieldG3dMapperDefaultHitHead     0x021D3DD4  data a2
+ *   HEIGHT_EX_GetAreaCount  0x021C0688  thumb ov021
+ *   HEIGHT_EX_IsPointInAreaAt  0x021C068C  thumb ov021
+ *   HEIGHT_EX_GetAreaAttr  0x021C06B4  thumb ov021
+ *   HEIGHT_EX_GetAreaHeight  0x021C06A8  thumb ov021
+ *   FIELD_G3D_MAP_GetRenderObj  0x02169598  thumb ov010
+ *   FIELD_G3D_MAP_GetTotalBytes  0x02169538  thumb ov010
+ *   FIELD_BUILDMODEL_Create  0x0218B754  thumb  ov021
+ *   FIELD_BUILDMODEL_Delete  0x0218B7F8  thumb  ov021
+ *   FIELD_BUILDMODEL_UpdateSeason  0x0218B83C  thumb  ov021
+ *   FIELD_BUILDMODEL_DrawNodes  0x0218B88C  thumb  ov021
+ *   FIELD_BUILDMODEL_UnregisterObject  0x0218B9FC  thumb  ov021
+ *   FIELD_BUILDMODEL_GetHandleTable  0x0218BB04  thumb  ov021
  *   _u32_div_f     0x0209C2B0  arm
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm  arm9
+ *   NNS_G3dGetTex  0x0206E964  arm  arm9
  */
 #include "field_g3d_mapper_types.h"
 
@@ -110,136 +112,136 @@ typedef struct G3dResTexView {
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern int FX_Div(int a, int b);
 extern int FX_ModS32(int a, int b);
-extern struct GameSystem *func_02188C80(FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
 extern u32 func_02012974(const struct GameData *gameData);
 extern void *func_02030734(u16 heapId, u32 size, u32 clear, const void *site, u32 line);
 extern u32 func_020307B0(void *p);
-extern G3dResource *func_02046DB8(u32 archiveId, u32 memberId);
-extern u32 func_020470A8(G3dResource *res);
-extern int func_020470D0(G3dResource *res);
+extern G3dResource *G3D_SYSTEM_CreateResourceArc(u32 archiveId, u32 memberId);
+extern u32 G3D_SYSTEM_TransVramTextureAndCut(G3dResource *res);
+extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern void func_02046EFC(G3dResource *res);
-extern void *func_02046F48(G3dResource *res);
-extern G3dResTexView *func_0206E964(void *file);
-extern void func_02022040(u16 *palette, int count, const u8 *tintTable);
-extern u16 func_02159BF4(const struct MapMatrix *matrix);
-extern u16 func_02159BF8(const struct MapMatrix *matrix);
-extern int func_02159BFC(const struct MapMatrix *matrix);
-extern u32 *func_02159C20(struct MapMatrix *matrix);
+extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
+extern G3dResTexView *NNS_G3dGetTex(void *file);
+extern void PALANM_ConvertGrayTable(u16 *palette, int count, const u8 *tintTable);
+extern u16 MAP_MATRIX_GetWidth(const struct MapMatrix *matrix);
+extern u16 MAP_MATRIX_GetHeight(const struct MapMatrix *matrix);
+extern int MAP_MATRIX_GetCount(const struct MapMatrix *matrix);
+extern u32 *MAP_MATRIX_GetMapGrid(struct MapMatrix *matrix);
 extern void func_02159C00(struct MapMatrix *matrix, u8 width, u8 height);
 
-extern FieldG3dMap *func_02169148(const FieldG3dMapConfig *config, u32 heapId);
-extern void func_0216928C(FieldG3dMap *map);
-extern void func_02169308(FieldG3dMap *map);
-extern int func_0216932C(FieldG3dMap *map);
-extern int func_02169354(FieldG3dMap *map, struct G3dCamera *camera);
-extern void func_0216937C(FieldG3dMap *map, int archiveId, int heapId);
-extern void func_021693A0(FieldG3dMap *map);
-extern void func_021693B4(FieldG3dMap *map, G3dResource *textureRes);
-extern void func_021693BC(FieldG3dMap *map);
-extern void func_021693C4(FieldG3dMap *map, FieldG3dMapModelSet *placedModels);
-extern void func_021693CC(FieldG3dMap *map);
-extern void func_02169470(FieldG3dMap *map, u32 memberIndex);
-extern void func_021694D4(FieldG3dMap *map);
-extern void func_021694F8(FieldG3dMap *map, u16 visible);
-extern u16 func_021694FC(FieldG3dMap *map);
-extern void func_02169500(FieldG3dMap *map, const VecFx32 *pos);
-extern void func_02169510(FieldG3dMap *map, VecFx32 *dst);
-extern u16 *func_02169520(FieldG3dMap *map, u16 **out);
-extern void func_02169538(FieldG3dMap *map, int *out);
-extern FieldG3dMapRenderObj *func_02169598(FieldG3dMap *map);
-extern int func_021697E0(FieldG3dMap *map);
-extern void func_02169800(FieldG3dMapHitList *out, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
-extern void func_02169848(u32 *plane, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
+extern FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *config, u32 heapId);
+extern void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);
+extern void FIELD_G3D_MAP_Update(FieldG3dMap *map);
+extern int FIELD_G3D_MAP_WaitLoad(FieldG3dMap *map);
+extern int FIELD_G3D_MAP_DrawWithModels(FieldG3dMap *map, struct G3dCamera *camera);
+extern void FIELD_G3D_MAP_OpenArchive(FieldG3dMap *map, int archiveId, int heapId);
+extern void FIELD_G3D_MAP_CloseArchive(FieldG3dMap *map);
+extern void FIELD_G3D_MAP_SetAltTextureRes(FieldG3dMap *map, G3dResource *textureRes);
+extern void FIELD_G3D_MAP_ClearAltTextureRes(FieldG3dMap *map);
+extern void FIELD_G3D_MAP_SetPlacedModels(FieldG3dMap *map, FieldG3dMapModelSet *placedModels);
+extern void FIELD_G3D_MAP_ClearPlacedModels(FieldG3dMap *map);
+extern void FIELD_G3D_MAP_StartLoad(FieldG3dMap *map, u32 memberIndex);
+extern void FIELD_G3D_MAP_Unload(FieldG3dMap *map);
+extern void FIELD_G3D_MAP_SetVisible(FieldG3dMap *map, u16 visible);
+extern u16 FIELD_G3D_MAP_IsVisible(FieldG3dMap *map);
+extern void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const VecFx32 *pos);
+extern void FIELD_G3D_MAP_GetPos(FieldG3dMap *map, VecFx32 *dst);
+extern u16 *FIELD_G3D_MAP_GetActiveRef(FieldG3dMap *map, u16 **out);
+extern void FIELD_G3D_MAP_GetTotalBytes(FieldG3dMap *map, int *out);
+extern FieldG3dMapRenderObj *FIELD_G3D_MAP_GetRenderObj(FieldG3dMap *map);
+extern int FIELD_G3D_MAP_CanQueryHits(FieldG3dMap *map);
+extern void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
+extern void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
 
-extern int func_021AB100(u32 attr);
-extern struct FieldGroundAnime *func_021A7360(const FieldG3dMapperGroundAnimeParam *param, G3dResource *textureRes, u32 heapId);
-extern struct FieldGroundAnime *func_021A7404(struct FieldGroundAnime *groundAnime, int slotIndex);
-extern void func_021A7418(struct FieldGroundAnime *slot);
-extern void func_021A73C0(struct FieldGroundAnime *groundAnime);
-extern void func_021A73DC(struct FieldGroundAnime *groundAnime);
-extern struct FieldWfbc *func_021938AC(u32 heapId);
-extern u32 func_021938D4(struct FieldWfbc *wfbc);
-extern int func_02193B04(struct FieldWfbc *wfbc, void *wfbcData, u32 param, u32 heapId);
-extern struct HeightEx *func_021C05D4(int capacity, u8 heapId);
-extern void func_021C0674(struct HeightEx *heightEx);
-extern u32 func_021C0688(struct HeightEx *heightEx);
-extern int func_021C068C(int blockX, int blockZ, struct HeightEx *heightEx, u8 index);
-extern int func_021C06A8(u8 index, struct HeightEx *heightEx);
-extern int func_021C06B4(u8 index, struct HeightEx *heightEx);
-extern struct FieldBuildModel *func_0218B754(u16 heapId, FieldG3dMapper *mapper, u16 param);
-extern void func_0218B7F8(struct FieldBuildModel *buildModel);
-extern void func_0218B83C(struct FieldBuildModel *buildModel);
-extern void func_0218B88C(struct FieldBuildModel *buildModel);
-extern void func_0218B9FC(struct FieldBuildModel *buildModel, FieldG3dMap *map);
-extern FieldG3dMapModelSet *func_0218BB04(struct FieldBuildModel *buildModel);
+extern int MAP_ATTR_IsPresent(u32 attr);
+extern struct FieldGroundAnime *FIELD_GROUND_ANIME_Create(const FieldG3dMapperGroundAnimeParam *param, G3dResource *textureRes, u32 heapId);
+extern struct FieldGroundAnime *FIELD_GROUND_ANIME_GetAnmEntry(struct FieldGroundAnime *groundAnime, int slotIndex);
+extern void FIELD_GROUND_ANIME_UnbindAnm(struct FieldGroundAnime *slot);
+extern void FIELD_GROUND_ANIME_Delete(struct FieldGroundAnime *groundAnime);
+extern void FIELD_GROUND_ANIME_Update(struct FieldGroundAnime *groundAnime);
+extern struct FieldWfbc *FIELD_WFBC_Create(u32 heapId);
+extern u32 FIELD_WFBC_Delete(struct FieldWfbc *wfbc);
+extern int FIELD_WFBC_SetUp(struct FieldWfbc *wfbc, void *wfbcData, u32 param, u32 heapId);
+extern struct HeightEx *HEIGHT_EX_CreateTable(int capacity, u8 heapId);
+extern void HEIGHT_EX_FreeTable(struct HeightEx *heightEx);
+extern u32 HEIGHT_EX_GetAreaCount(struct HeightEx *heightEx);
+extern int HEIGHT_EX_IsPointInAreaAt(int blockX, int blockZ, struct HeightEx *heightEx, u8 index);
+extern int HEIGHT_EX_GetAreaHeight(u8 index, struct HeightEx *heightEx);
+extern int HEIGHT_EX_GetAreaAttr(u8 index, struct HeightEx *heightEx);
+extern struct FieldBuildModel *FIELD_BUILDMODEL_Create(u16 heapId, FieldG3dMapper *mapper, u16 param);
+extern void FIELD_BUILDMODEL_Delete(struct FieldBuildModel *buildModel);
+extern void FIELD_BUILDMODEL_UpdateSeason(struct FieldBuildModel *buildModel);
+extern void FIELD_BUILDMODEL_DrawNodes(struct FieldBuildModel *buildModel);
+extern void FIELD_BUILDMODEL_UnregisterObject(struct FieldBuildModel *buildModel, FieldG3dMap *map);
+extern FieldG3dMapModelSet *FIELD_BUILDMODEL_GetHandleTable(struct FieldBuildModel *buildModel);
 
-extern const char d_021DD9EC[];
-extern FieldG3dMapType d_021D3DDC[];
-extern FieldG3dMapperGroundAnimeParam d_021DD9E0;
+extern const char gFieldG3dMapperSrcName[];
+extern FieldG3dMapType gFieldG3dMapperMapTypeTable[];
+extern FieldG3dMapperGroundAnimeParam gFieldG3dMapperGroundAnimeParam;
 /* Second name of the same address: the image loads the call argument through its own pool word. */
 extern FieldG3dMapperGroundAnimeParam g_021DD9E0;
-extern FieldG3dMapperHitHead d_021D3DD4;
+extern FieldG3dMapperHitHead gFieldG3dMapperDefaultHitHead;
 
-FieldG3dMapper *func_0218C9E8(u16 heapId, u16 buildModelParam);
-int func_0218CA4C(FieldG3dMapper *mapper);
-void func_0218CA78(FieldG3dMapper *mapper);
-int func_0218CB34(FieldG3dMapper *mapper);
-void func_0218CC34(FieldG3dMapper *mapper);
-void func_0218CC64(FieldG3dMapper *mapper, struct G3dCamera *camera, int pass);
-int func_0218CD20(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *matrix);
-struct HeightEx *func_0218CEE0(FieldG3dMapper *mapper);
-void func_0218CEE4(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, const u8 *tintTable);
-void func_0218D05C(FieldG3dMapper *mapper);
-int func_0218D0D8(G3dResource *res, const u8 *tintTable);
-void func_0218D104(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, const u8 *tintTable);
-void func_0218D13C(FieldG3dMapper *mapper);
-void func_0218D158(FieldG3dMapper *mapper, const VecFx32 *pos);
-int func_0218D168(FieldG3dMapper *mapper);
-void func_0218D1D0(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells);
-void func_0218D304(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells);
-void func_0218D444(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells);
-void func_0218D570(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells);
-int func_0218D7A8(FieldG3dMapper *mapper, FieldG3dMapperCell *newCells);
-int func_0218D934(u32 count, int cellSize, int pos);
-int func_0218D970(u32 count, int cellSize, int pos);
-int func_0218D980(u32 count, int cellSize, int pos);
-FieldG3dMapHit *func_0218D9B8(FieldG3dMapHit *hit);
-void func_0218D9C8(FieldG3dMapperHitList *list);
-int func_0218D9E8(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitList *list);
-int func_0218DAEC(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapHit *outHit);
-int func_0218DBAC(FieldG3dMapper *mapper, int slotIndex, const VecFx32 *pos, FieldG3dMapHit *outHit);
-int func_0218DBD4(FieldG3dMapper *mapper, int slotIndex);
-int func_0218DC04(FieldG3dMapper *mapper, const VecFx32 *pos);
-void func_0218DC4C(FieldG3dMapper *mapper, const VecFx32 *offset);
-void func_0218DC5C(FieldG3dMapper *mapper, VecFx32 *offset);
-struct FieldBuildModel *func_0218DC6C(FieldG3dMapper *mapper);
-struct FieldWfbc *func_0218DC70(FieldG3dMapper *mapper);
-int func_0218DC74(FieldG3dMapper *mapper, void *wfbcData, u32 param);
-struct FieldGroundAnime *func_0218DC84(int slotCount, G3dResource *textureRes, const int *animeIds, int heapId);
-int func_0218DCF4(FieldG3dMapperSlotRes *res);
-struct FieldGroundAnime *func_0218DCFC(FieldG3dMapperSlotRes *res);
-struct FieldBuildModel *func_0218DD04(FieldG3dMapperSlotRes *res);
-struct FieldWfbc *func_0218DD08(FieldG3dMapperSlotRes *res);
-int func_0218DD0C(FieldG3dMapperSlotRes *res);
-u16 func_0218DD10(FieldG3dMapperSlotRes *res);
-void func_0218DD14(FieldG3dMapperSlotRes *res, FieldG3dMapper *mapper, int slotIndex, int heapId);
-void func_0218DD38(struct FieldGroundAnime **slot);
-void func_0218DD4C(struct FieldGroundAnime **slot);
-int func_0218DD5C(FieldG3dMapperSlotRes *res);
-struct FieldGroundAnime *func_0218DD6C(FieldG3dMapperSlotRes *res);
-FieldG3dMapperCell *func_0218DD70(FieldG3dMapperCell *cell);
-void func_0218DD80(FieldG3dMapperCell *cell, u32 gridIndex);
-int func_0218DD84(FieldG3dMapperCell *cell);
-u32 func_0218DD98(FieldG3dMapperCell *cell);
-FieldG3dMapperCell *func_0218DD9C(FieldG3dMapperCell *cell, int x, int y, int z);
-void func_0218DDA4(FieldG3dMapperCell *cell, VecFx32 *pos);
-void func_0218DDB4(const FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitList *list);
-void func_0218DE78(FieldG3dMapper *mapper);
-void func_0218DEF0(FieldG3dMapper *mapper);
-void func_0218DEFC(FieldG3dMapper *mapper, FieldG3dMap *map, int slotIndex);
-void func_0218DF80(FieldG3dMapper *mapper);
-int func_0218DFE0(FieldG3dMapper *mapper, u32 order, int pass, u32 *slotIndex);
+FieldG3dMapper *FIELD_G3D_MAPPER_Create(u16 heapId, u16 buildModelParam);
+int FIELD_G3D_MAPPER_Delete(FieldG3dMapper *mapper);
+void FIELD_G3D_MAPPER_UpdateBlocking(FieldG3dMapper *mapper);
+int FIELD_G3D_MAPPER_UpdateStep(FieldG3dMapper *mapper);
+void FIELD_G3D_MAPPER_StepBlocks(FieldG3dMapper *mapper);
+void FIELD_G3D_MAPPER_Draw(FieldG3dMapper *mapper, struct G3dCamera *camera, int pass);
+int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *matrix);
+struct HeightEx *FIELD_G3D_MAPPER_GetHeightEx(FieldG3dMapper *mapper);
+void FIELD_G3D_MAPPER_Setup(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, const u8 *tintTable);
+void FIELD_G3D_MAPPER_ReleaseBlocks(FieldG3dMapper *mapper);
+int FIELD_G3D_MAPPER_TintTexture(G3dResource *res, const u8 *tintTable);
+void FIELD_G3D_MAPPER_LoadTexture(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, const u8 *tintTable);
+void FIELD_G3D_MAPPER_FreeTexture(FieldG3dMapper *mapper);
+void FIELD_G3D_MAPPER_SetFocusPos(FieldG3dMapper *mapper, const VecFx32 *pos);
+int FIELD_G3D_MAPPER_GetFocusSlot(FieldG3dMapper *mapper);
+void FIELD_G3D_MAPPER_LayoutLinear(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells);
+void FIELD_G3D_MAPPER_LayoutWindowClipped(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells);
+void FIELD_G3D_MAPPER_LayoutWindowWrapped(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells);
+void FIELD_G3D_MAPPER_LayoutLayers(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells);
+int FIELD_G3D_MAPPER_ApplyLayout(FieldG3dMapper *mapper, FieldG3dMapperCell *newCells);
+int FIELD_G3D_MAPPER_GetWindowStartEven(u32 count, int cellSize, int pos);
+int FIELD_G3D_MAPPER_GetWindowStartOdd(u32 count, int cellSize, int pos);
+int FIELD_G3D_MAPPER_GetWindowStartWrapped(u32 count, int cellSize, int pos);
+FieldG3dMapHit *FIELD_G3D_MAPPER_ClearHit(FieldG3dMapHit *hit);
+void FIELD_G3D_MAPPER_ClearHitList(FieldG3dMapperHitList *list);
+int FIELD_G3D_MAPPER_QueryHits(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitList *list);
+int FIELD_G3D_MAPPER_QueryNearestHit(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapHit *outHit);
+int FIELD_G3D_MAPPER_QuerySlotPlane(FieldG3dMapper *mapper, int slotIndex, const VecFx32 *pos, FieldG3dMapHit *outHit);
+int FIELD_G3D_MAPPER_CheckSlotReady(FieldG3dMapper *mapper, int slotIndex);
+int FIELD_G3D_MAPPER_IsOutsideGrid(FieldG3dMapper *mapper, const VecFx32 *pos);
+void FIELD_G3D_MAPPER_SetOriginOffset(FieldG3dMapper *mapper, const VecFx32 *offset);
+void FIELD_G3D_MAPPER_GetOriginOffset(FieldG3dMapper *mapper, VecFx32 *offset);
+struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(FieldG3dMapper *mapper);
+struct FieldWfbc *FIELD_G3D_MAPPER_GetWfbc(FieldG3dMapper *mapper);
+int FIELD_G3D_MAPPER_SetupWfbc(FieldG3dMapper *mapper, void *wfbcData, u32 param);
+struct FieldGroundAnime *FIELD_G3D_MAPPER_CreateGroundAnime(int slotCount, G3dResource *textureRes, const int *animeIds, int heapId);
+int FIELD_G3D_MAPPER_SlotResHasGroundAnime(FieldG3dMapperSlotRes *res);
+struct FieldGroundAnime *FIELD_G3D_MAPPER_SlotResGetGroundAnime(FieldG3dMapperSlotRes *res);
+struct FieldBuildModel *FIELD_G3D_MAPPER_SlotResGetBuildModel(FieldG3dMapperSlotRes *res);
+struct FieldWfbc *FIELD_G3D_MAPPER_SlotResGetWfbc(FieldG3dMapperSlotRes *res);
+int FIELD_G3D_MAPPER_SlotResGetSlotIndex(FieldG3dMapperSlotRes *res);
+u16 FIELD_G3D_MAPPER_SlotResGetHeapId(FieldG3dMapperSlotRes *res);
+void FIELD_G3D_MAPPER_InitSlotRes(FieldG3dMapperSlotRes *res, FieldG3dMapper *mapper, int slotIndex, int heapId);
+void FIELD_G3D_MAPPER_FreeGroundAnimeSlot(struct FieldGroundAnime **slot);
+void FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot(struct FieldGroundAnime **slot);
+int FIELD_G3D_MAPPER_SlotResTestGroundAnime(FieldG3dMapperSlotRes *res);
+struct FieldGroundAnime *FIELD_G3D_MAPPER_SlotResReadGroundAnime(FieldG3dMapperSlotRes *res);
+FieldG3dMapperCell *FIELD_G3D_MAPPER_ResetCell(FieldG3dMapperCell *cell);
+void FIELD_G3D_MAPPER_SetCellGridIndex(FieldG3dMapperCell *cell, u32 gridIndex);
+int FIELD_G3D_MAPPER_IsCellUsed(FieldG3dMapperCell *cell);
+u32 FIELD_G3D_MAPPER_GetCellGridIndex(FieldG3dMapperCell *cell);
+FieldG3dMapperCell *FIELD_G3D_MAPPER_SetCellPos(FieldG3dMapperCell *cell, int x, int y, int z);
+void FIELD_G3D_MAPPER_GetCellPos(FieldG3dMapperCell *cell, VecFx32 *pos);
+void FIELD_G3D_MAPPER_AppendHeightExHits(const FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitList *list);
+void FIELD_G3D_MAPPER_BeginDrawOrder(FieldG3dMapper *mapper);
+void FIELD_G3D_MAPPER_StampFrame(FieldG3dMapper *mapper);
+void FIELD_G3D_MAPPER_InsertDrawOrder(FieldG3dMapper *mapper, FieldG3dMap *map, int slotIndex);
+void FIELD_G3D_MAPPER_CountFittingSlots(FieldG3dMapper *mapper);
+int FIELD_G3D_MAPPER_GetDrawSlot(FieldG3dMapper *mapper, u32 order, int pass, u32 *slotIndex);
 
 /* Fixed point multiply with rounding (the SDK inline). */
 static inline s32 FX_Mul(s32 a, s32 b)
@@ -254,9 +256,9 @@ static inline void SetVecFx32(VecFx32 *dst, s32 x, s32 y, s32 z)
     dst->z = z;
 }
 
-FieldG3dMapper *func_0218C9E8(u16 heapId, u16 buildModelParam)
+FieldG3dMapper *FIELD_G3D_MAPPER_Create(u16 heapId, u16 buildModelParam)
 {
-    FieldG3dMapper *mapper = func_02030734(heapId, 0x74, 1, d_021DD9EC, 0xf9);
+    FieldG3dMapper *mapper = func_02030734(heapId, 0x74, 1, gFieldG3dMapperSrcName, 0xf9);
     mapper->heapId = heapId;
     mapper->focusPos.x = 0;
     mapper->focusPos.y = 0;
@@ -271,25 +273,25 @@ FieldG3dMapper *func_0218C9E8(u16 heapId, u16 buildModelParam)
     mapper->mapArchiveId = -1;
     mapper->drawReserve = 0;
     mapper->groundAnime = 0;
-    mapper->buildModel = func_0218B754(mapper->heapId, mapper, buildModelParam);
-    mapper->wfbc = func_021938AC(heapId);
-    mapper->heightEx = func_021C05D4(0x10, (u8)heapId);
+    mapper->buildModel = FIELD_BUILDMODEL_Create(mapper->heapId, mapper, buildModelParam);
+    mapper->wfbc = FIELD_WFBC_Create(heapId);
+    mapper->heightEx = HEIGHT_EX_CreateTable(0x10, (u8)heapId);
     return mapper;
 }
 
-int func_0218CA4C(FieldG3dMapper *mapper)
+int FIELD_G3D_MAPPER_Delete(FieldG3dMapper *mapper)
 {
-    func_021C0674(mapper->heightEx);
-    func_0218D05C(mapper);
-    func_021938D4(mapper->wfbc);
+    HEIGHT_EX_FreeTable(mapper->heightEx);
+    FIELD_G3D_MAPPER_ReleaseBlocks(mapper);
+    FIELD_WFBC_Delete(mapper->wfbc);
     if (mapper->buildModel != 0) {
-        func_0218B7F8(mapper->buildModel);
+        FIELD_BUILDMODEL_Delete(mapper->buildModel);
         mapper->buildModel = 0;
     }
     return func_020307B0(mapper);
 }
 
-void func_0218CA78(FieldG3dMapper *mapper)
+void FIELD_G3D_MAPPER_UpdateBlocking(FieldG3dMapper *mapper)
 {
     int i;
     int cellX;
@@ -298,31 +300,31 @@ void func_0218CA78(FieldG3dMapper *mapper)
     if (mapper->blockGrid == 0)
         return;
     for (i = 0; i < mapper->slotCount; i++)
-        func_0218DD70(&mapper->cells[i]);
+        FIELD_G3D_MAPPER_ResetCell(&mapper->cells[i]);
     switch (mapper->layout) {
     case 0:
-        func_0218D1D0(mapper, &mapper->focusPos, mapper->cells);
+        FIELD_G3D_MAPPER_LayoutLinear(mapper, &mapper->focusPos, mapper->cells);
         break;
     case 1:
     default:
-        func_0218D304(mapper, &mapper->focusPos, mapper->cells);
+        FIELD_G3D_MAPPER_LayoutWindowClipped(mapper, &mapper->focusPos, mapper->cells);
         break;
     case 2:
-        func_0218D444(mapper, &mapper->focusPos, mapper->cells);
+        FIELD_G3D_MAPPER_LayoutWindowWrapped(mapper, &mapper->focusPos, mapper->cells);
         break;
     case 3:
-        func_0218D570(mapper, &mapper->focusPos, mapper->cells);
+        FIELD_G3D_MAPPER_LayoutLayers(mapper, &mapper->focusPos, mapper->cells);
         break;
     }
-    func_0218D7A8(mapper, mapper->cells);
+    FIELD_G3D_MAPPER_ApplyLayout(mapper, mapper->cells);
     for (i = 0; i < mapper->slotCount; i++)
-        func_0216932C(mapper->slots[i].map);
+        FIELD_G3D_MAP_WaitLoad(mapper->slots[i].map);
     cellX = FX_Div(mapper->focusPos.x, mapper->cellSize);
     cellZ = FX_Div(mapper->focusPos.z, mapper->cellSize);
     mapper->focusCell = (cellX >> 12) + (cellZ >> 12) * mapper->gridWidth;
 }
 
-int func_0218CB34(FieldG3dMapper *mapper)
+int FIELD_G3D_MAPPER_UpdateStep(FieldG3dMapper *mapper)
 {
     int i;
     int busy;
@@ -333,53 +335,53 @@ int func_0218CB34(FieldG3dMapper *mapper)
     if (mapper->blockGrid == 0)
         return 0;
     for (i = 0; i < mapper->slotCount; i++)
-        func_0218DD70(&mapper->cells[i]);
+        FIELD_G3D_MAPPER_ResetCell(&mapper->cells[i]);
     switch (mapper->layout) {
     case 0:
-        func_0218D1D0(mapper, &mapper->focusPos, mapper->cells);
+        FIELD_G3D_MAPPER_LayoutLinear(mapper, &mapper->focusPos, mapper->cells);
         break;
     case 1:
     default:
-        func_0218D304(mapper, &mapper->focusPos, mapper->cells);
+        FIELD_G3D_MAPPER_LayoutWindowClipped(mapper, &mapper->focusPos, mapper->cells);
         break;
     case 2:
-        func_0218D444(mapper, &mapper->focusPos, mapper->cells);
+        FIELD_G3D_MAPPER_LayoutWindowWrapped(mapper, &mapper->focusPos, mapper->cells);
         break;
     case 3:
-        func_0218D570(mapper, &mapper->focusPos, mapper->cells);
+        FIELD_G3D_MAPPER_LayoutLayers(mapper, &mapper->focusPos, mapper->cells);
         break;
     }
-    func_0218D7A8(mapper, mapper->cells);
+    FIELD_G3D_MAPPER_ApplyLayout(mapper, mapper->cells);
     busy = 0;
-    func_0218DE78(mapper);
+    FIELD_G3D_MAPPER_BeginDrawOrder(mapper);
     for (i = 0; i < mapper->slotCount; i++) {
-        func_02169520(mapper->slots[i].map, &active);
+        FIELD_G3D_MAP_GetActiveRef(mapper->slots[i].map, &active);
         if (*active == 1)
             busy = 1;
-        func_02169308(mapper->slots[i].map);
-        func_0218DEFC(mapper, mapper->slots[i].map, i);
+        FIELD_G3D_MAP_Update(mapper->slots[i].map);
+        FIELD_G3D_MAPPER_InsertDrawOrder(mapper, mapper->slots[i].map, i);
     }
-    func_0218DF80(mapper);
+    FIELD_G3D_MAPPER_CountFittingSlots(mapper);
     cellX = FX_Div(mapper->focusPos.x, mapper->cellSize);
     cellZ = FX_Div(mapper->focusPos.z, mapper->cellSize);
     mapper->focusCell = (cellX >> 12) + (cellZ >> 12) * mapper->gridWidth;
-    func_0218B83C(mapper->buildModel);
+    FIELD_BUILDMODEL_UpdateSeason(mapper->buildModel);
     if (mapper->groundAnime != 0)
-        func_021A73DC(mapper->groundAnime);
+        FIELD_GROUND_ANIME_Update(mapper->groundAnime);
     return busy;
 }
 
-void func_0218CC34(FieldG3dMapper *mapper)
+void FIELD_G3D_MAPPER_StepBlocks(FieldG3dMapper *mapper)
 {
     int i;
     if (mapper->blockGrid != 0) {
         for (i = 0; i < mapper->slotCount; i++)
-            func_02169308(mapper->slots[i].map);
-        func_0218DEF0(mapper);
+            FIELD_G3D_MAP_Update(mapper->slots[i].map);
+        FIELD_G3D_MAPPER_StampFrame(mapper);
     }
 }
 
-void func_0218CC64(FieldG3dMapper *mapper, struct G3dCamera *camera, int pass)
+void FIELD_G3D_MAPPER_Draw(FieldG3dMapper *mapper, struct G3dCamera *camera, int pass)
 {
     VecFx32 mapPos;
     VecFx32 drawPos;
@@ -390,22 +392,22 @@ void func_0218CC64(FieldG3dMapper *mapper, struct G3dCamera *camera, int pass)
     if (pass == 0 && mapper->drawReserve == 0)
         return;
     for (i = 0; i < mapper->slotCount; i++) {
-        if (func_0218DFE0(mapper, i, pass, &slotIndex)) {
+        if (FIELD_G3D_MAPPER_GetDrawSlot(mapper, i, pass, &slotIndex)) {
             int drawn;
             drawnCount = &mapper->drawnCount;
-            func_02169510(mapper->slots[slotIndex].map, &mapPos);
+            FIELD_G3D_MAP_GetPos(mapper->slots[slotIndex].map, &mapPos);
             drawPos.x = mapPos.x + mapper->originOffset.x;
             drawPos.y = mapPos.y + mapper->originOffset.y;
             drawPos.z = mapPos.z + mapper->originOffset.z;
-            func_02169500(mapper->slots[slotIndex].map, &drawPos);
-            drawn = func_02169354(mapper->slots[slotIndex].map, camera);
-            func_02169500(mapper->slots[slotIndex].map, &mapPos);
+            FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, &drawPos);
+            drawn = FIELD_G3D_MAP_DrawWithModels(mapper->slots[slotIndex].map, camera);
+            FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, &mapPos);
             if (drawn != 0 && mapper->drawnCount < mapper->slotCount)
                 *drawnCount = *drawnCount + 1;
         }
     }
     if (pass == 1)
-        func_0218B88C(mapper->buildModel);
+        FIELD_BUILDMODEL_DrawNodes(mapper->buildModel);
 }
 
 /*
@@ -419,7 +421,7 @@ void func_0218CC64(FieldG3dMapper *mapper, struct G3dCamera *camera, int pass)
  *
  * Addresses are Black-image addresses.
  */
-int func_0218CD20(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *matrix)
+int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *matrix)
 {
     u32 *matrixCells;
     u32 newCount;
@@ -437,10 +439,10 @@ int func_0218CD20(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *
     int row;
     int col;
 
-    matrixWidth = func_02159BF4(matrix);
-    matrixDepth = func_02159BF8(matrix);
-    matrixCount = func_02159BFC(matrix);
-    matrixCells = func_02159C20(matrix);
+    matrixWidth = MAP_MATRIX_GetWidth(matrix);
+    matrixDepth = MAP_MATRIX_GetHeight(matrix);
+    matrixCount = MAP_MATRIX_GetCount(matrix);
+    matrixCells = MAP_MATRIX_GetMapGrid(matrix);
     newWidth = mapper->gridWidth + matrixWidth;
     newDepth = mapper->gridDepth;
     newCount = mapper->blockCount + matrixCount;
@@ -449,7 +451,7 @@ int func_0218CD20(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *
     if (newCount > 900 || newWidth > 30 || newDepth > 30)
         return 0;
 
-    newGrid = func_02030734((u16)((mapper->heapId & 0x7FFF) | 0x8000), newCount * 4, 0, d_021DD9EC, 0x25F);
+    newGrid = func_02030734((u16)((mapper->heapId & 0x7FFF) | 0x8000), newCount * 4, 0, gFieldG3dMapperSrcName, 0x25F);
     for (row = 0; row < mapper->gridDepth; row++) {
         for (col = 0; col < mapper->gridWidth; col++)
             newGrid[row * newWidth + col] = mapper->blockGrid[row * mapper->gridWidth + col];
@@ -465,7 +467,7 @@ int func_0218CD20(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *
     gridIndex = mapper->focusCell;
     mapper->focusCell = gridIndex % oldWidth + gridIndex / oldWidth * newWidth;
     for (row = 0; row < mapper->slotCount; row++) {
-        if (func_0218DD84(&mapper->slots[row].cell)) {
+        if (FIELD_G3D_MAPPER_IsCellUsed(&mapper->slots[row].cell)) {
             oldWidth = mapper->gridWidth;
             slot = &mapper->slots[row];
             cellRow = slot->cell.gridIndex;
@@ -475,7 +477,7 @@ int func_0218CD20(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *
     mapper->gridWidth = newWidth;
     mapper->gridDepth = newDepth;
     mapper->blockCount = newCount;
-    func_02159C00((struct MapMatrix *)func_02012974(func_020120F4(func_02188C80(fieldMap))), newWidth, newDepth);
+    func_02159C00((struct MapMatrix *)func_02012974(func_020120F4(FIELDMAP_GetGameSystem(fieldMap))), newWidth, newDepth);
     func_020307B0(newGrid);
     return 1;
 }
@@ -484,7 +486,7 @@ int func_0218CD20(FieldMap *fieldMap, FieldG3dMapper *mapper, struct MapMatrix *
  * Unlabelled 4-byte getter (ldr r0, [r0, #0x70]; bx lr), a leaf of
  * ov043 func_021F36C0.
  */
-struct HeightEx *func_0218CEE0(FieldG3dMapper *mapper)
+struct HeightEx *FIELD_G3D_MAPPER_GetHeightEx(FieldG3dMapper *mapper)
 {
     return mapper->heightEx;
 }
@@ -496,7 +498,7 @@ struct HeightEx *func_0218CEE0(FieldG3dMapper *mapper)
  * (blockCount, layout, cols, rows) above the stores into mapper, as in the
  * image.
  */
-void func_0218CEE4(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, const u8 *tintTable)
+void FIELD_G3D_MAPPER_Setup(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, const u8 *tintTable)
 {
     FieldG3dMapConfig config;
     int i;
@@ -527,44 +529,44 @@ void func_0218CEE4(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, con
         break;
     }
     mapper->textureMode = setup->textureMode;
-    func_0218D104(mapper, setup, tintTable);
-    mapper->groundAnime = func_0218DC84(mapper->slotCount, mapper->textureRes, setup->groundAnimeIds, mapper->heapId);
+    FIELD_G3D_MAPPER_LoadTexture(mapper, setup, tintTable);
+    mapper->groundAnime = FIELD_G3D_MAPPER_CreateGroundAnime(mapper->slotCount, mapper->textureRes, setup->groundAnimeIds, mapper->heapId);
     config.bufferSize = setup->blockBufferSize;
     config.texVramSize = 0;
-    config.typeTable = d_021D3DDC;
+    config.typeTable = gFieldG3dMapperMapTypeTable;
     config.userParam = 0;
     config.chunkSize = 0x800;
     config.placementCountA = 0x20;
     config.placementCountB = 0;
     config.extraParam0 = 0x1000000;
     config.extraParam1 = 0x400000;
-    mapper->slots = func_02030734(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperSlot), 1, d_021DD9EC, 0x306);
-    mapper->cells = func_02030734(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperCell), 1, d_021DD9EC, 0x307);
-    mapper->drawOrder = func_02030734(mapper->heapId, mapper->slotCount, 1, d_021DD9EC, 0x308);
+    mapper->slots = func_02030734(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperSlot), 1, gFieldG3dMapperSrcName, 0x306);
+    mapper->cells = func_02030734(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperCell), 1, gFieldG3dMapperSrcName, 0x307);
+    mapper->drawOrder = func_02030734(mapper->heapId, mapper->slotCount, 1, gFieldG3dMapperSrcName, 0x308);
     for (i = 0; i < mapper->slotCount; i++) {
-        func_0218DD70(&mapper->slots[i].cell);
-        func_0218DD14(&mapper->slots[i].res, mapper, i, mapper->heapId);
+        FIELD_G3D_MAPPER_ResetCell(&mapper->slots[i].cell);
+        FIELD_G3D_MAPPER_InitSlotRes(&mapper->slots[i].res, mapper, i, mapper->heapId);
         config.userParam = (u32)&mapper->slots[i].res;
-        map = func_02169148(&config, mapper->heapId);
+        map = FIELD_G3D_MAP_Create(&config, mapper->heapId);
         mapper->slots[i].map = map;
-        func_0216937C(map, mapper->mapArchiveId, mapper->heapId);
+        FIELD_G3D_MAP_OpenArchive(map, mapper->mapArchiveId, mapper->heapId);
         if (mapper->textureRes != 0)
-            func_021693B4(map, mapper->textureRes);
-        func_021693C4(map, func_0218BB04(mapper->buildModel));
+            FIELD_G3D_MAP_SetAltTextureRes(map, mapper->textureRes);
+        FIELD_G3D_MAP_SetPlacedModels(map, FIELD_BUILDMODEL_GetHandleTable(mapper->buildModel));
     }
 }
 
-void func_0218D05C(FieldG3dMapper *mapper)
+void FIELD_G3D_MAPPER_ReleaseBlocks(FieldG3dMapper *mapper)
 {
     int i;
 
     if (mapper->slots != 0) {
         for (i = 0; i < mapper->slotCount; i++) {
-            func_021693CC(mapper->slots[i].map);
-            func_021693BC(mapper->slots[i].map);
-            func_021693A0(mapper->slots[i].map);
-            func_0216928C(mapper->slots[i].map);
-            func_0218DD38(&mapper->slots[i].res.groundAnimeSlot);
+            FIELD_G3D_MAP_ClearPlacedModels(mapper->slots[i].map);
+            FIELD_G3D_MAP_ClearAltTextureRes(mapper->slots[i].map);
+            FIELD_G3D_MAP_CloseArchive(mapper->slots[i].map);
+            FIELD_G3D_MAP_Destroy(mapper->slots[i].map);
+            FIELD_G3D_MAPPER_FreeGroundAnimeSlot(&mapper->slots[i].res.groundAnimeSlot);
         }
         func_020307B0(mapper->slots);
         func_020307B0(mapper->cells);
@@ -575,51 +577,51 @@ void func_0218D05C(FieldG3dMapper *mapper)
         mapper->slotCount = 0;
     }
     if (mapper->groundAnime != 0) {
-        func_021A73C0(mapper->groundAnime);
+        FIELD_GROUND_ANIME_Delete(mapper->groundAnime);
         mapper->groundAnime = 0;
     }
-    func_0218D13C(mapper);
+    FIELD_G3D_MAPPER_FreeTexture(mapper);
 }
 
 /*
- * 2026-10-01: MATCH, capped only by the call to func_02022040 (arm9, Thumb,
+ * 2026-10-01: MATCH, capped only by the call to PALANM_ConvertGrayTable (arm9, Thumb,
  * unlabelled, no witness outside this function). It is a ~64+ byte RGB555
  * pixel converter (luma weights 76/151/29 over a lookup table); filing it
  * as an arm9 witness would lift this to EXACT.
  */
-int func_0218D0D8(G3dResource *res, const u8 *tintTable)
+int FIELD_G3D_MAPPER_TintTexture(G3dResource *res, const u8 *tintTable)
 {
-    G3dResTexView *tex = func_0206E964(func_02046F48(res));
+    G3dResTexView *tex = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(res));
     if (tex != 0) {
         u32 size = tex->plttSize << 3;
         u32 offset = tex->plttDataOffset;
         if (tintTable != 0)
-            func_02022040((u16 *)((u8 *)tex + offset), size >> 1, tintTable);
+            PALANM_ConvertGrayTable((u16 *)((u8 *)tex + offset), size >> 1, tintTable);
         return 1;
     }
     return 0;
 }
 
-void func_0218D104(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, const u8 *tintTable)
+void FIELD_G3D_MAPPER_LoadTexture(FieldG3dMapper *mapper, const FieldG3dMapperSetup *setup, const u8 *tintTable)
 {
     u32 mode = setup->textureMode;
     if (mode != 0) {
         if (mode == 1) {
             const u32 *textureIds = setup->textureIds;
-            mapper->textureRes = func_02046DB8(textureIds[0], textureIds[1]);
+            mapper->textureRes = G3D_SYSTEM_CreateResourceArc(textureIds[0], textureIds[1]);
             if (tintTable != 0)
-                func_0218D0D8(mapper->textureRes, tintTable);
-            func_020470A8(mapper->textureRes);
+                FIELD_G3D_MAPPER_TintTexture(mapper->textureRes, tintTable);
+            G3D_SYSTEM_TransVramTextureAndCut(mapper->textureRes);
         }
     } else {
         mapper->textureRes = 0;
     }
 }
 
-void func_0218D13C(FieldG3dMapper *mapper)
+void FIELD_G3D_MAPPER_FreeTexture(FieldG3dMapper *mapper)
 {
     if (mapper->textureRes != 0) {
-        func_020470D0(mapper->textureRes);
+        G3D_SYSTEM_FreeVramTexture(mapper->textureRes);
         func_02046EFC(mapper->textureRes);
         mapper->textureRes = 0;
     }
@@ -632,18 +634,18 @@ void func_0218D13C(FieldG3dMapper *mapper)
  * the stores come out in a,b,c order.  EXACT* only for the 2-byte alignment
  * pad.
  */
-void func_0218D158(FieldG3dMapper *mapper, const VecFx32 *pos)
+void FIELD_G3D_MAPPER_SetFocusPos(FieldG3dMapper *mapper, const VecFx32 *pos)
 {
     SetVecFx32(&mapper->focusPos, pos->x, pos->y, pos->z);
 }
 
-int func_0218D168(FieldG3dMapper *mapper)
+int FIELD_G3D_MAPPER_GetFocusSlot(FieldG3dMapper *mapper)
 {
     VecFx32 slotPos;
     unsigned int i;
 
     for (i = 0; i < mapper->slotCount; i++) {
-        if (func_021694FC(mapper->slots[i].map)) {
+        if (FIELD_G3D_MAP_IsVisible(mapper->slots[i].map)) {
             int half;
             int centerX;
             int centerZ;
@@ -651,7 +653,7 @@ int func_0218D168(FieldG3dMapper *mapper)
             int maxX;
             int minZ;
             int maxZ;
-            func_02169510(mapper->slots[i].map, &slotPos);
+            FIELD_G3D_MAP_GetPos(mapper->slots[i].map, &slotPos);
             half = mapper->cellSize / 2;
             centerX = slotPos.x;
             centerZ = slotPos.z;
@@ -667,7 +669,7 @@ int func_0218D168(FieldG3dMapper *mapper)
     return 0;
 }
 
-void func_0218D1D0(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells)
+void FIELD_G3D_MAPPER_LayoutLinear(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells)
 {
     int cellZ;
     int cellX;
@@ -696,8 +698,8 @@ void func_0218D1D0(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
             cellZ = col / mapper->gridWidth;
             if (cellIndex >= mapper->blockCount)
                 cellIndex = -1;
-            func_0218DD80(cells + cellIndex, cellIndex);
-            func_0218DD9C(cells + cellIndex, base + FX_Mul(cellX << 12, cellSize), y, base + FX_Mul(cellZ << 12, cellSize));
+            FIELD_G3D_MAPPER_SetCellGridIndex(cells + cellIndex, cellIndex);
+            FIELD_G3D_MAPPER_SetCellPos(cells + cellIndex, base + FX_Mul(cellX << 12, cellSize), y, base + FX_Mul(cellZ << 12, cellSize));
             cellIndex++;
         }
     }
@@ -709,7 +711,7 @@ void func_0218D1D0(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
  * The inner loop is a guarded do-while: a plain for with y hoisted by the
  * compiler re-tests the bound after the preheader (extra cmp/ble).
  */
-void func_0218D304(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells){
+void FIELD_G3D_MAPPER_LayoutWindowClipped(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells){
     int firstCol;
     int firstRow;
     int x;
@@ -729,13 +731,13 @@ void func_0218D304(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
     cellSize = mapper->cellSize;
     base = FX_Div(mapper->cellSize, 0x2000);
     if (mapper->cols % 2 == 0)
-        firstCol = func_0218D934(mapper->cols, cellSize, focusPos->x);
+        firstCol = FIELD_G3D_MAPPER_GetWindowStartEven(mapper->cols, cellSize, focusPos->x);
     else
-        firstCol = func_0218D970(mapper->cols, cellSize, focusPos->x);
+        firstCol = FIELD_G3D_MAPPER_GetWindowStartOdd(mapper->cols, cellSize, focusPos->x);
     if (mapper->rows % 2 == 0)
-        firstRow = func_0218D934(mapper->rows, cellSize, focusPos->z);
+        firstRow = FIELD_G3D_MAPPER_GetWindowStartEven(mapper->rows, cellSize, focusPos->z);
     else
-        firstRow = func_0218D970(mapper->rows, cellSize, focusPos->z);
+        firstRow = FIELD_G3D_MAPPER_GetWindowStartOdd(mapper->rows, cellSize, focusPos->z);
     for (winRow = 0; winRow < mapper->rows; winRow++) {
         gridRow = firstRow + winRow;
         if (gridRow < 0 || gridRow >= gridDepth)
@@ -749,9 +751,9 @@ void func_0218D304(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
             if (gridCol < 0 || gridCol >= gridWidth)
                 continue;
             cellIndex = winCol + winRow * mapper->cols;
-            func_0218DD80(cells + cellIndex, gridCol + gridRow * gridWidth);
+            FIELD_G3D_MAPPER_SetCellGridIndex(cells + cellIndex, gridCol + gridRow * gridWidth);
             x = FX_Mul(gridCol << 12, cellSize);
-            func_0218DD9C(cells + cellIndex, base + x, 0, base + y);
+            FIELD_G3D_MAPPER_SetCellPos(cells + cellIndex, base + x, 0, base + y);
         } while (++winCol < mapper->cols);
     }
 }
@@ -766,7 +768,7 @@ void func_0218D304(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
  * hoisted block), and FX_Div re-reads cellSize instead of taking the local,
  * which puts the local below the hoisted wrapRow*gridWidth temporary.
  */
-void func_0218D444(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells){
+void FIELD_G3D_MAPPER_LayoutWindowWrapped(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells){
     int cellIndex;
     FieldG3dMapperCell *cell;
     int winCol;
@@ -787,8 +789,8 @@ void func_0218D444(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
     gridDepth = mapper->gridDepth;
     cellSize = mapper->cellSize;
     base = FX_Div(mapper->cellSize, 0x2000);
-    firstCol = func_0218D980(mapper->cols, cellSize, focusPos->x);
-    firstRow = func_0218D980(mapper->rows, cellSize, focusPos->z);
+    firstCol = FIELD_G3D_MAPPER_GetWindowStartWrapped(mapper->cols, cellSize, focusPos->x);
+    firstRow = FIELD_G3D_MAPPER_GetWindowStartWrapped(mapper->rows, cellSize, focusPos->z);
     winRow = 0;
     if (winRow < mapper->rows) {
         do {
@@ -804,8 +806,8 @@ void func_0218D444(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
                 if (cellIndex < 0)
                     cellIndex += gridWidth;
                 cell = &cells[winCol + winRow * mapper->cols];
-                func_0218DD80(cell, cellIndex + wrapRow * gridWidth);
-                func_0218DD9C(cell, base + (int)(((long long)(gridCol << 12) * scale64 + 0x800LL) >> 12), 0, base + y);
+                FIELD_G3D_MAPPER_SetCellGridIndex(cell, cellIndex + wrapRow * gridWidth);
+                FIELD_G3D_MAPPER_SetCellPos(cell, base + (int)(((long long)(gridCol << 12) * scale64 + 0x800LL) >> 12), 0, base + y);
             }
             winRow++;
         } while (winRow < mapper->rows);
@@ -821,7 +823,7 @@ void func_0218D444(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
  * (see docs/idioms/an-unused-frame-word-under-a-sign-extension-spill-is-a-
  * field-passed-to-an-earlier-call.md).
  */
-void func_0218D570(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells)
+void FIELD_G3D_MAPPER_LayoutLayers(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapperCell *cells)
 {
     u32 layer;
     u32 layerCells;
@@ -857,8 +859,8 @@ void func_0218D570(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
         gridIndex = layer * layerCells + row * gridWidth + col;
         if (gridIndex >= mapper->blockCount)
             gridIndex = -1;
-        func_0218DD80(&cells[n], gridIndex);
-        func_0218DD9C(&cells[n], half + FX_Mul(col << 12, cellSize), y, half + FX_Mul(row << 12, cellSize));
+        FIELD_G3D_MAPPER_SetCellGridIndex(&cells[n], gridIndex);
+        FIELD_G3D_MAPPER_SetCellPos(&cells[n], half + FX_Mul(col << 12, cellSize), y, half + FX_Mul(row << 12, cellSize));
     }
     for (i = 0; i < layerCells; i++, n++) {
         y = FX_Mul((layer + dir) << 12, layerHeight);
@@ -867,18 +869,18 @@ void func_0218D570(FieldG3dMapper *mapper, const VecFx32 *focusPos, FieldG3dMapp
         gridIndex = (layer + dir) * layerCells + row * gridWidth + col;
         if (gridIndex >= mapper->blockCount)
             gridIndex = -1;
-        func_0218DD80(&cells[n], gridIndex);
-        func_0218DD9C(&cells[n], half + FX_Mul(col << 12, cellSize), y, half + FX_Mul(row << 12, cellSize));
+        FIELD_G3D_MAPPER_SetCellGridIndex(&cells[n], gridIndex);
+        FIELD_G3D_MAPPER_SetCellPos(&cells[n], half + FX_Mul(col << 12, cellSize), y, half + FX_Mul(row << 12, cellSize));
     }
 }
 
 /*
  * Reconciles the slots' live blocks with a freshly laid-out cell array
- * (func_0218CA78's tail): slots whose grid index survives move to the new
+ * (FIELD_G3D_MAPPER_UpdateBlocking's tail): slots whose grid index survives move to the new
  * position, the rest are hidden and released; new cells then take a free
  * slot.  Returns 1 when any free slot was claimed.
  */
-int func_0218D7A8(FieldG3dMapper *mapper, FieldG3dMapperCell *newCells)
+int FIELD_G3D_MAPPER_ApplyLayout(FieldG3dMapper *mapper, FieldG3dMapperCell *newCells)
 {
     int placed;
     int moved;
@@ -889,41 +891,41 @@ int func_0218D7A8(FieldG3dMapper *mapper, FieldG3dMapperCell *newCells)
 
     result = 0;
     for (i = 0; i < mapper->slotCount; i++) {
-        if (func_0218DD84(&mapper->slots[i].cell)) {
+        if (FIELD_G3D_MAPPER_IsCellUsed(&mapper->slots[i].cell)) {
             u32 gridIndex;
             moved = 0;
-            gridIndex = func_0218DD98(&mapper->slots[i].cell);
+            gridIndex = FIELD_G3D_MAPPER_GetCellGridIndex(&mapper->slots[i].cell);
             for (j = 0; j < mapper->slotCount; j++) {
-                if (gridIndex == func_0218DD98(&newCells[j]) && !moved) {
+                if (gridIndex == FIELD_G3D_MAPPER_GetCellGridIndex(&newCells[j]) && !moved) {
                     VecFx32 cellPos;
-                    func_0218DDA4(&newCells[j], &cellPos);
-                    func_02169500(mapper->slots[i].map, &cellPos);
-                    func_0218DD70(&newCells[j]);
+                    FIELD_G3D_MAPPER_GetCellPos(&newCells[j], &cellPos);
+                    FIELD_G3D_MAP_SetPos(mapper->slots[i].map, &cellPos);
+                    FIELD_G3D_MAPPER_ResetCell(&newCells[j]);
                     moved = 1;
                 }
             }
             if (!moved) {
-                func_0218DD70(&mapper->slots[i].cell);
-                func_021694F8(mapper->slots[i].map, 0);
-                func_0218B9FC(mapper->buildModel, mapper->slots[i].map);
-                func_0218DD4C(&mapper->slots[i].res.groundAnimeSlot);
-                func_021694D4(mapper->slots[i].map);
+                FIELD_G3D_MAPPER_ResetCell(&mapper->slots[i].cell);
+                FIELD_G3D_MAP_SetVisible(mapper->slots[i].map, 0);
+                FIELD_BUILDMODEL_UnregisterObject(mapper->buildModel, mapper->slots[i].map);
+                FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot(&mapper->slots[i].res.groundAnimeSlot);
+                FIELD_G3D_MAP_Unload(mapper->slots[i].map);
             }
         }
     }
     changed = 0;
     for (i = 0; i < mapper->slotCount; i++) {
-        if (func_0218DD84(&newCells[i])) {
+        if (FIELD_G3D_MAPPER_IsCellUsed(&newCells[i])) {
             placed = 0;
             for (j = 0; j < mapper->slotCount; j++) {
-                if (!func_0218DD84(&mapper->slots[j].cell) && !placed) {
-                    int mapModelIndex = mapper->blockGrid[func_0218DD98(&newCells[i])].mapModelIndex;
+                if (!FIELD_G3D_MAPPER_IsCellUsed(&mapper->slots[j].cell) && !placed) {
+                    int mapModelIndex = mapper->blockGrid[FIELD_G3D_MAPPER_GetCellGridIndex(&newCells[i])].mapModelIndex;
                     VecFx32 cellPos;
-                    func_0218DDA4(&newCells[i], &cellPos);
+                    FIELD_G3D_MAPPER_GetCellPos(&newCells[i], &cellPos);
                     if (mapModelIndex != -1) {
-                        func_02169470(mapper->slots[j].map, mapModelIndex);
-                        func_02169500(mapper->slots[j].map, &cellPos);
-                        func_021694F8(mapper->slots[j].map, 1);
+                        FIELD_G3D_MAP_StartLoad(mapper->slots[j].map, mapModelIndex);
+                        FIELD_G3D_MAP_SetPos(mapper->slots[j].map, &cellPos);
+                        FIELD_G3D_MAP_SetVisible(mapper->slots[j].map, 1);
                     }
                     mapper->slots[j].cell = newCells[i];
                     placed = 1;
@@ -937,7 +939,7 @@ int func_0218D7A8(FieldG3dMapper *mapper, FieldG3dMapperCell *newCells)
     return result;
 }
 
-int func_0218D934(u32 count, int cellSize, int pos)
+int FIELD_G3D_MAPPER_GetWindowStartEven(u32 count, int cellSize, int pos)
 {
     int first = -(int)((count >> 1) - 1);
     int cell = pos / cellSize;
@@ -948,14 +950,14 @@ int func_0218D934(u32 count, int cellSize, int pos)
     return first;
 }
 
-int func_0218D970(u32 count, int cellSize, int pos)
+int FIELD_G3D_MAPPER_GetWindowStartOdd(u32 count, int cellSize, int pos)
 {
     int first = -(int)(count >> 1);
     first += pos / cellSize;
     return first;
 }
 
-int func_0218D980(u32 count, int cellSize, int pos)
+int FIELD_G3D_MAPPER_GetWindowStartWrapped(u32 count, int cellSize, int pos)
 {
     int first = (FX_Div(pos, cellSize) >> 12) - (count >> 1);
     if ((count & 1) == 0) {
@@ -966,7 +968,7 @@ int func_0218D980(u32 count, int cellSize, int pos)
     return first;
 }
 
-FieldG3dMapHit *func_0218D9B8(FieldG3dMapHit *hit)
+FieldG3dMapHit *FIELD_G3D_MAPPER_ClearHit(FieldG3dMapHit *hit)
 {
     hit->kind = 0;
     hit->index = 0;
@@ -976,15 +978,15 @@ FieldG3dMapHit *func_0218D9B8(FieldG3dMapHit *hit)
     return hit;
 }
 
-void func_0218D9C8(FieldG3dMapperHitList *list)
+void FIELD_G3D_MAPPER_ClearHitList(FieldG3dMapperHitList *list)
 {
     int i;
     for (i = 0; i < 16; i++)
-        func_0218D9B8(&list->hits[i]);
+        FIELD_G3D_MAPPER_ClearHit(&list->hits[i]);
     list->count = 0;
 }
 
-int func_0218D9E8(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitList *list)
+int FIELD_G3D_MAPPER_QueryHits(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitList *list)
 {
     VecFx32 slotPos;
     FieldG3dMapHitList slotHits;
@@ -994,18 +996,18 @@ int func_0218D9E8(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitL
 
     if (mapper->blockGrid == 0)
         return 0;
-    func_0218D9C8(list);
+    FIELD_G3D_MAPPER_ClearHitList(list);
     n = 0;
     half = mapper->cellSize >> 1;
     for (i = 0; i < mapper->slotCount; i++) {
-        if (func_021694FC(mapper->slots[i].map) == 1) {
+        if (FIELD_G3D_MAP_IsVisible(mapper->slots[i].map) == 1) {
             int centerX;
             int centerZ;
             int minX;
             int maxX;
             int minZ;
             int maxZ;
-            func_02169510(mapper->slots[i].map, &slotPos);
+            FIELD_G3D_MAP_GetPos(mapper->slots[i].map, &slotPos);
             centerX = slotPos.x;
             centerZ = slotPos.z;
             minX = centerX - half;
@@ -1014,7 +1016,7 @@ int func_0218D9E8(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitL
             maxZ = centerZ + half;
             if (pos->x >= minX && pos->x < maxX && pos->z >= minZ && pos->z < maxZ) {
                 u32 j;
-                func_02169800(&slotHits, mapper->slots[i].map, pos, mapper->cellSize);
+                FIELD_G3D_MAP_QueryHits(&slotHits, mapper->slots[i].map, pos, mapper->cellSize);
                 if (slotHits.count != 0) {
                     if (n + slotHits.count >= 16)
                         break;
@@ -1031,21 +1033,21 @@ int func_0218D9E8(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitL
         }
     }
     list->count = n;
-    func_0218DDB4(mapper, pos, list);
+    FIELD_G3D_MAPPER_AppendHeightExHits(mapper, pos, list);
     if (list->count != 0)
         return 1;
     return 0;
 }
 
-int func_0218DAEC(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapHit *outHit)
+int FIELD_G3D_MAPPER_QueryNearestHit(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapHit *outHit)
 {
     FieldG3dMapperHitList hitList;
     int i;
     int best;
     int minDistance;
 
-    func_0218D9B8(outHit);
-    if (func_0218D9E8(mapper, pos, &hitList) == 0)
+    FIELD_G3D_MAPPER_ClearHit(outHit);
+    if (FIELD_G3D_MAPPER_QueryHits(mapper, pos, &hitList) == 0)
         return 0;
     if (hitList.count == 1) {
         *outHit = hitList.hits[0];
@@ -1054,7 +1056,7 @@ int func_0218DAEC(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapHit *ou
     best = 0;
     minDistance = 0x00FFF000;
     for (i = 0; i < hitList.count; i++) {
-        if (func_021AB100(hitList.hits[i].depth)) {
+        if (MAP_ATTR_IsPresent(hitList.hits[i].depth)) {
             int distance = hitList.hits[i].height - pos->y;
             if (distance < 0)
                 distance = FX_Mul(distance, -4096);
@@ -1068,31 +1070,31 @@ int func_0218DAEC(FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapHit *ou
     return 1;
 }
 
-int func_0218DBAC(FieldG3dMapper *mapper, int slotIndex, const VecFx32 *pos, FieldG3dMapHit *outHit)
+int FIELD_G3D_MAPPER_QuerySlotPlane(FieldG3dMapper *mapper, int slotIndex, const VecFx32 *pos, FieldG3dMapHit *outHit)
 {
     u32 plane[0x41];
-    func_02169848(plane, mapper->slots[slotIndex].map, pos, mapper->cellSize);
+    FIELD_G3D_MAP_QueryPlane(plane, mapper->slots[slotIndex].map, pos, mapper->cellSize);
     outHit->depth = plane[2];
     outHit->height = plane[3];
     return 1;
 }
 
-int func_0218DBD4(FieldG3dMapper *mapper, int slotIndex)
+int FIELD_G3D_MAPPER_CheckSlotReady(FieldG3dMapper *mapper, int slotIndex)
 {
     if (mapper->blockGrid == 0)
         return 0;
-    if (func_021694FC(mapper->slots[slotIndex].map) == 0)
+    if (FIELD_G3D_MAP_IsVisible(mapper->slots[slotIndex].map) == 0)
         return 0;
-    return func_021697E0(mapper->slots[slotIndex].map);
+    return FIELD_G3D_MAP_CanQueryHits(mapper->slots[slotIndex].map);
 }
 
 /*
  * Unlabelled ov021 leaf (a `.word` run in the listing, no lr save), the
- * sole blocker of ov010 func_021638CC. Returns 1 (outside) unless the
+ * sole blocker of ov010 FLDMMDL_MOVE_HitCheckMove. Returns 1 (outside) unless the
  * grid is present, not in layout 2, and pos.x/pos.z fall inside the
  * gridWidth*cell by gridDepth*cell rectangle.
  */
-int func_0218DC04(FieldG3dMapper *mapper, const VecFx32 *pos)
+int FIELD_G3D_MAPPER_IsOutsideGrid(FieldG3dMapper *mapper, const VecFx32 *pos)
 {
     s32 width;
     s32 depth;
@@ -1109,14 +1111,14 @@ int func_0218DC04(FieldG3dMapper *mapper, const VecFx32 *pos)
 
 /*
  * Unlabelled leaf: copies the 12-byte vector at r1 into the object at +0x54.
- * Filed as the only blocker of ov052 func_021F38F0.
+ * Filed as the only blocker of ov052 FIELD_GIMMICK_BSUBWAY_UpdateTrainSway.
  */
-void func_0218DC4C(FieldG3dMapper *mapper, const VecFx32 *offset)
+void FIELD_G3D_MAPPER_SetOriginOffset(FieldG3dMapper *mapper, const VecFx32 *offset)
 {
     mapper->originOffset = *offset;
 }
 
-void func_0218DC5C(FieldG3dMapper *mapper, VecFx32 *offset)
+void FIELD_G3D_MAPPER_GetOriginOffset(FieldG3dMapper *mapper, VecFx32 *offset)
 {
     *offset = mapper->originOffset;
 }
@@ -1124,7 +1126,7 @@ void func_0218DC5C(FieldG3dMapper *mapper, VecFx32 *offset)
 /*
  * Loads the 32-bit word at byte +0x64 of the object.
  */
-struct FieldBuildModel *func_0218DC6C(FieldG3dMapper *mapper)
+struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(FieldG3dMapper *mapper)
 {
     return mapper->buildModel;
 }
@@ -1132,62 +1134,62 @@ struct FieldBuildModel *func_0218DC6C(FieldG3dMapper *mapper)
 /*
  * Loads the 32-bit word at byte +0x6c of the object.
  */
-struct FieldWfbc *func_0218DC70(FieldG3dMapper *mapper)
+struct FieldWfbc *FIELD_G3D_MAPPER_GetWfbc(FieldG3dMapper *mapper)
 {
     return mapper->wfbc;
 }
 
-int func_0218DC74(FieldG3dMapper *mapper, void *wfbcData, u32 param)
+int FIELD_G3D_MAPPER_SetupWfbc(FieldG3dMapper *mapper, void *wfbcData, u32 param)
 {
-    return func_02193B04(mapper->wfbc, wfbcData, param, mapper->heapId);
+    return FIELD_WFBC_SetUp(mapper->wfbc, wfbcData, param, mapper->heapId);
 }
 
-struct FieldGroundAnime *func_0218DC84(int slotCount, G3dResource *textureRes, const int *animeIds, int heapId)
+struct FieldGroundAnime *FIELD_G3D_MAPPER_CreateGroundAnime(int slotCount, G3dResource *textureRes, const int *animeIds, int heapId)
 {
     int firstId;
     int secondId;
-    d_021DD9E0.slotCount = slotCount;
+    gFieldG3dMapperGroundAnimeParam.slotCount = slotCount;
     firstId = animeIds[0];
     if (firstId == -1) {
-        d_021DD9E0.useFlags = d_021DD9E0.useFlags & ~0xff;
+        gFieldG3dMapperGroundAnimeParam.useFlags = gFieldG3dMapperGroundAnimeParam.useFlags & ~0xff;
     } else {
-        d_021DD9E0.useFlags = (d_021DD9E0.useFlags & ~0xff) | 1;
-        d_021DD9E0.firstId = firstId;
+        gFieldG3dMapperGroundAnimeParam.useFlags = (gFieldG3dMapperGroundAnimeParam.useFlags & ~0xff) | 1;
+        gFieldG3dMapperGroundAnimeParam.firstId = firstId;
     }
     secondId = animeIds[1];
     if (secondId == -1) {
-        d_021DD9E0.useFlags = d_021DD9E0.useFlags & 0xffff00ff;
+        gFieldG3dMapperGroundAnimeParam.useFlags = gFieldG3dMapperGroundAnimeParam.useFlags & 0xffff00ff;
     } else {
-        d_021DD9E0.useFlags = (d_021DD9E0.useFlags & 0xffff00ff) | 0x100;
-        d_021DD9E0.secondId = secondId;
+        gFieldG3dMapperGroundAnimeParam.useFlags = (gFieldG3dMapperGroundAnimeParam.useFlags & 0xffff00ff) | 0x100;
+        gFieldG3dMapperGroundAnimeParam.secondId = secondId;
     }
-    return func_021A7360(&g_021DD9E0, textureRes, (u16)heapId);
+    return FIELD_GROUND_ANIME_Create(&g_021DD9E0, textureRes, (u16)heapId);
 }
 
 /*
- * Tail-call thunk: forwards to func_0218DD5C with no argument change.
+ * Tail-call thunk: forwards to FIELD_G3D_MAPPER_SlotResTestGroundAnime with no argument change.
  *
  * Addresses are Black-image addresses.
  */
-int func_0218DCF4(FieldG3dMapperSlotRes *res)
+int FIELD_G3D_MAPPER_SlotResHasGroundAnime(FieldG3dMapperSlotRes *res)
 {
-    return func_0218DD5C(res);
+    return FIELD_G3D_MAPPER_SlotResTestGroundAnime(res);
 }
 
 /*
- * Tail-call thunk: forwards to func_0218DD6C with no argument change.
+ * Tail-call thunk: forwards to FIELD_G3D_MAPPER_SlotResReadGroundAnime with no argument change.
  *
  * Addresses are Black-image addresses.
  */
-struct FieldGroundAnime *func_0218DCFC(FieldG3dMapperSlotRes *res)
+struct FieldGroundAnime *FIELD_G3D_MAPPER_SlotResGetGroundAnime(FieldG3dMapperSlotRes *res)
 {
-    return func_0218DD6C(res);
+    return FIELD_G3D_MAPPER_SlotResReadGroundAnime(res);
 }
 
 /*
  * Loads the 32-bit word at byte +0x4 of the object.
  */
-struct FieldBuildModel *func_0218DD04(FieldG3dMapperSlotRes *res)
+struct FieldBuildModel *FIELD_G3D_MAPPER_SlotResGetBuildModel(FieldG3dMapperSlotRes *res)
 {
     return res->buildModel;
 }
@@ -1197,7 +1199,7 @@ struct FieldBuildModel *func_0218DD04(FieldG3dMapperSlotRes *res)
  *
  * Addresses are Black-image addresses.
  */
-struct FieldWfbc *func_0218DD08(FieldG3dMapperSlotRes *res)
+struct FieldWfbc *FIELD_G3D_MAPPER_SlotResGetWfbc(FieldG3dMapperSlotRes *res)
 {
     return res->wfbc;
 }
@@ -1207,7 +1209,7 @@ struct FieldWfbc *func_0218DD08(FieldG3dMapperSlotRes *res)
  *
  * Addresses are Black-image addresses.
  */
-int func_0218DD0C(FieldG3dMapperSlotRes *res)
+int FIELD_G3D_MAPPER_SlotResGetSlotIndex(FieldG3dMapperSlotRes *res)
 {
     return res->slotIndex;
 }
@@ -1215,38 +1217,38 @@ int func_0218DD0C(FieldG3dMapperSlotRes *res)
 /*
  * Loads the 16-bit halfword at +0x10 of the object.
  */
-u16 func_0218DD10(FieldG3dMapperSlotRes *res)
+u16 FIELD_G3D_MAPPER_SlotResGetHeapId(FieldG3dMapperSlotRes *res)
 {
     return res->heapId;
 }
 
 /*
  * Fills a 0x14-byte slot resource record: the ground anime handle from
- * func_021A7404(mapper->groundAnime, slotIndex), then the build model, the
+ * FIELD_GROUND_ANIME_GetAnmEntry(mapper->groundAnime, slotIndex), then the build model, the
  * wfbc, the slot index, and the heap id as a halfword at +0x10.
- * Callee of func_0218CEE4.  EXACT* (unlabelled follower 0x0218DD38).
+ * Callee of FIELD_G3D_MAPPER_Setup.  EXACT* (unlabelled follower 0x0218DD38).
  */
-void func_0218DD14(FieldG3dMapperSlotRes *res, FieldG3dMapper *mapper, int slotIndex, int heapId)
+void FIELD_G3D_MAPPER_InitSlotRes(FieldG3dMapperSlotRes *res, FieldG3dMapper *mapper, int slotIndex, int heapId)
 {
-    res->groundAnimeSlot = func_021A7404(mapper->groundAnime, slotIndex);
+    res->groundAnimeSlot = FIELD_GROUND_ANIME_GetAnmEntry(mapper->groundAnime, slotIndex);
     res->buildModel = mapper->buildModel;
     res->wfbc = mapper->wfbc;
     res->slotIndex = slotIndex;
     res->heapId = heapId;
 }
 
-void func_0218DD38(struct FieldGroundAnime **slot)
+void FIELD_G3D_MAPPER_FreeGroundAnimeSlot(struct FieldGroundAnime **slot)
 {
     if (*slot != 0) {
-        func_021A7418(*slot);
+        FIELD_GROUND_ANIME_UnbindAnm(*slot);
         *slot = 0;
     }
 }
 
-void func_0218DD4C(struct FieldGroundAnime **slot)
+void FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot(struct FieldGroundAnime **slot)
 {
     if (*slot != 0)
-        func_021A7418(*slot);
+        FIELD_GROUND_ANIME_UnbindAnm(*slot);
 }
 
 /*
@@ -1255,22 +1257,22 @@ void func_0218DD4C(struct FieldGroundAnime **slot)
  *
  * Addresses are Black-image addresses.
  */
-int func_0218DD5C(FieldG3dMapperSlotRes *res)
+int FIELD_G3D_MAPPER_SlotResTestGroundAnime(FieldG3dMapperSlotRes *res)
 {
     return res->groundAnimeSlot != 0;
 }
 
 /*
- * Unlabelled leaf getter (no lr save), callee of func_0218DCFC.
+ * Unlabelled leaf getter (no lr save), callee of FIELD_G3D_MAPPER_SlotResGetGroundAnime.
  *
  * Addresses are Black-image addresses.
  */
-struct FieldGroundAnime *func_0218DD6C(FieldG3dMapperSlotRes *res)
+struct FieldGroundAnime *FIELD_G3D_MAPPER_SlotResReadGroundAnime(FieldG3dMapperSlotRes *res)
 {
     return res->groundAnimeSlot;
 }
 
-FieldG3dMapperCell *func_0218DD70(FieldG3dMapperCell *cell)
+FieldG3dMapperCell *FIELD_G3D_MAPPER_ResetCell(FieldG3dMapperCell *cell)
 {
     cell->gridIndex = -1;
     cell->pos.x = 0;
@@ -1284,12 +1286,12 @@ FieldG3dMapperCell *func_0218DD70(FieldG3dMapperCell *cell)
  *
  * Addresses are Black-image addresses.
  */
-void func_0218DD80(FieldG3dMapperCell *cell, u32 gridIndex)
+void FIELD_G3D_MAPPER_SetCellGridIndex(FieldG3dMapperCell *cell, u32 gridIndex)
 {
     cell->gridIndex = gridIndex;
 }
 
-int func_0218DD84(FieldG3dMapperCell *cell)
+int FIELD_G3D_MAPPER_IsCellUsed(FieldG3dMapperCell *cell)
 {
     if (cell->gridIndex != -1) {
         return 1;
@@ -1302,12 +1304,12 @@ int func_0218DD84(FieldG3dMapperCell *cell)
  *
  * Addresses are Black-image addresses.
  */
-u32 func_0218DD98(FieldG3dMapperCell *cell)
+u32 FIELD_G3D_MAPPER_GetCellGridIndex(FieldG3dMapperCell *cell)
 {
     return cell->gridIndex;
 }
 
-FieldG3dMapperCell *func_0218DD9C(FieldG3dMapperCell *cell, int x, int y, int z)
+FieldG3dMapperCell *FIELD_G3D_MAPPER_SetCellPos(FieldG3dMapperCell *cell, int x, int y, int z)
 {
     cell->pos.x = x;
     cell->pos.y = y;
@@ -1315,17 +1317,17 @@ FieldG3dMapperCell *func_0218DD9C(FieldG3dMapperCell *cell, int x, int y, int z)
     return cell;
 }
 
-void func_0218DDA4(FieldG3dMapperCell *cell, VecFx32 *pos)
+void FIELD_G3D_MAPPER_GetCellPos(FieldG3dMapperCell *cell, VecFx32 *pos)
 {
     *pos = cell->pos;
 }
 
-void func_0218DDB4(const FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitList *list)
+void FIELD_G3D_MAPPER_AppendHeightExHits(const FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMapperHitList *list)
 {
-    FieldG3dMapperHitHead head = d_021D3DD4;
+    FieldG3dMapperHitHead head = gFieldG3dMapperDefaultHitHead;
     int added = 0;
     int base = list->count;
-    int boxCount = func_021C0688(mapper->heightEx);
+    int boxCount = HEIGHT_EX_GetAreaCount(mapper->heightEx);
     int blockZ;
     int blockX;
     int i;
@@ -1333,7 +1335,7 @@ void func_0218DDB4(const FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMap
     blockX = pos->x / 0x10000;
     blockZ = pos->z / 0x10000;
     for (i = 0; i < boxCount; i++) {
-        if (func_021C068C(blockX, blockZ, mapper->heightEx, i)) {
+        if (HEIGHT_EX_IsPointInAreaAt(blockX, blockZ, mapper->heightEx, i)) {
             int hitIndex = base + ++added - 1;
             FieldG3dMapHit *hit;
             if (hitIndex >= 0x10)
@@ -1341,14 +1343,14 @@ void func_0218DDB4(const FieldG3dMapper *mapper, const VecFx32 *pos, FieldG3dMap
             hit = &list->hits[hitIndex];
             /* stand-in: the 6-byte head is copied as one struct; three halfword stores change the bytes */
             *(FieldG3dMapperHitHead *)hit = head;
-            hit->depth = func_021C06B4(i, mapper->heightEx);
-            hit->height = func_021C06A8(i, mapper->heightEx);
+            hit->depth = HEIGHT_EX_GetAreaAttr(i, mapper->heightEx);
+            hit->height = HEIGHT_EX_GetAreaHeight(i, mapper->heightEx);
         }
     }
     list->count += (u16)added;
 }
 
-void func_0218DE78(FieldG3dMapper *mapper)
+void FIELD_G3D_MAPPER_BeginDrawOrder(FieldG3dMapper *mapper)
 {
     int scanline;
     MI_CpuFill8(mapper->drawOrder, 0xff, mapper->slotCount);
@@ -1370,12 +1372,12 @@ void func_0218DE78(FieldG3dMapper *mapper)
     mapper->drawBudget = 0xf000 - ((scanline - 10) << 10);
 }
 
-void func_0218DEF0(FieldG3dMapper *mapper)
+void FIELD_G3D_MAPPER_StampFrame(FieldG3dMapper *mapper)
 {
     mapper->frameStamp = HW_VBLANK_COUNT_BUF;
 }
 
-void func_0218DEFC(FieldG3dMapper *mapper, FieldG3dMap *map, int slotIndex)
+void FIELD_G3D_MAPPER_InsertDrawOrder(FieldG3dMapper *mapper, FieldG3dMap *map, int slotIndex)
 {
     int bytes;
     int otherBytes;
@@ -1383,14 +1385,14 @@ void func_0218DEFC(FieldG3dMapper *mapper, FieldG3dMap *map, int slotIndex)
     int otherLeft;
     int i;
 
-    if (func_02169598(map) == 0)
+    if (FIELD_G3D_MAP_GetRenderObj(map) == 0)
         return;
-    if (func_021694FC(map) == 0)
+    if (FIELD_G3D_MAP_IsVisible(map) == 0)
         return;
-    func_02169538(map, &bytes);
+    FIELD_G3D_MAP_GetTotalBytes(map, &bytes);
     budgetLeft = mapper->drawBudget - bytes;
     for (i = mapper->sortedCount; i > 0; i--) {
-        func_02169538(mapper->slots[mapper->drawOrder[i - 1]].map, &otherBytes);
+        FIELD_G3D_MAP_GetTotalBytes(mapper->slots[mapper->drawOrder[i - 1]].map, &otherBytes);
         otherLeft = mapper->drawBudget - otherBytes;
         if (otherLeft >= 0 && budgetLeft >= otherLeft)
             break;
@@ -1407,7 +1409,7 @@ void func_0218DEFC(FieldG3dMapper *mapper, FieldG3dMap *map, int slotIndex)
  *
  * Addresses are Black-image addresses.
  */
-void func_0218DF80(FieldG3dMapper *mapper)
+void FIELD_G3D_MAPPER_CountFittingSlots(FieldG3dMapper *mapper)
 {
     int limit;
     int i;
@@ -1421,7 +1423,7 @@ void func_0218DF80(FieldG3dMapper *mapper)
             u8 *fitCount = &mapper->fitCount;
             int slotIndex = mapper->drawOrder[i];
             if (slotIndex == 0xFF) break;
-            func_02169538(mapper->slots[slotIndex].map, &bytes);
+            FIELD_G3D_MAP_GetTotalBytes(mapper->slots[slotIndex].map, &bytes);
             sum += bytes;
             if (mapper->drawBudget < sum) break;
             *fitCount = *fitCount + 1;
@@ -1429,7 +1431,7 @@ void func_0218DF80(FieldG3dMapper *mapper)
     }
 }
 
-int func_0218DFE0(FieldG3dMapper *mapper, u32 order, int pass, u32 *slotIndex)
+int FIELD_G3D_MAPPER_GetDrawSlot(FieldG3dMapper *mapper, u32 order, int pass, u32 *slotIndex)
 {
     u32 v = mapper->drawOrder[order];
     if (v == 0xff)

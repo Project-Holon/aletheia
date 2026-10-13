@@ -1,5 +1,5 @@
 /*
- * function: func_021B1BB8
+ * function: SCRCMD_FLDMMDL_PauseMmdls
  * address:  0x021B1BB8
  * packet:   pkt_ov021_021B1BB8
  * region:   ov021
@@ -10,27 +10,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02158F90  0x02158F90  thumb  ov010
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_021B1B08  0x021B1B08  thumb  ov021
+ *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   SCRCMD_FLDMMDL_PauseMmdlsReleaseActive  0x021B1B08  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_02158F90(void *);
-extern void *func_0215A5EC(void *);
-extern void func_0216D9A0(void *map);
-extern int func_021B1B08(int a, void *b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetTargetObj(void *);
+extern void *SCRCMD_WORK_GetOccupyInfo(void *);
+extern void FLDMMDL_SysPauseMove(void *map);
+extern int SCRCMD_FLDMMDL_PauseMmdlsReleaseActive(int a, void *b);
 
-int func_021B1BB8(int a, void *b)
+int SCRCMD_FLDMMDL_PauseMmdls(int a, void *b)
 {
-    if (func_02158F90(func_0215A5F4(b)) == 0) {
-        func_0216D9A0(func_0215A5EC(b));
+    if (SCRIPT_WORK_GetTargetObj(SCRCMD_WORK_GetScriptWork(b)) == 0) {
+        FLDMMDL_SysPauseMove(SCRCMD_WORK_GetOccupyInfo(b));
     } else {
-        return func_021B1B08(a, b);
+        return SCRCMD_FLDMMDL_PauseMmdlsReleaseActive(a, b);
     }
     return 0;
 }

@@ -30,6 +30,7 @@
  *   func_021BC5D4  0x021BC5D4  thumb  ov217
  *   func_021BB908  0x021BB908  thumb  ov217
  *   func_021BB94C  0x021BB94C  thumb  ov217
+ *   CLACT_DrawSystem  0x0204A600  arm  arm9
  */
 
 typedef unsigned int   u32;
@@ -53,7 +54,7 @@ extern void func_021BB84C(u8 *p);
 extern u32 func_021BAC90(void *p);
 extern void func_021BC5F0(u8 *a0);
 extern void func_021BC5D4(int *p);
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 extern void func_021BB908(void *);
 extern void func_021BB94C(u32 a0);
 
@@ -79,7 +80,7 @@ void func_021BABC4(void *self)
     if (!func_021BAC90(self)) {
         func_021BC5F0(self);
         func_021BC5D4(self);
-        func_0204A600();
+        CLACT_DrawSystem();
     }
     func_021BB908(self);
     func_021BB94C((u32)self);

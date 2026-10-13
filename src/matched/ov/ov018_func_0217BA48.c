@@ -1,5 +1,5 @@
 /*
- * function: func_0217BA48
+ * function: INTRUDE_FIELD_StartCommAfterExit
  * address:  0x0217BA48
  * packet:   pkt_0217BA48
  * region:   ov018
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0217BA54  0x0217BA54  thumb
+ *   INTRUDE_FIELD_StartComm  0x0217BA54  thumb
  */
 
-void func_0217BA54(void *a);
+void INTRUDE_FIELD_StartComm(void *a);
 
-void func_0217BA48(int a, int b)
+void INTRUDE_FIELD_StartCommAfterExit(int a, int b)
 {
     if (b == 0)
-        func_0217BA54((void *)a);
+        INTRUDE_FIELD_StartComm((void *)a);
 }

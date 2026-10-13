@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218BB78",
+   "name": "FIELD_BUILDMODEL_BuildTableIndex",
    "address": "0x0218BB78",
    "kind": "game",
    "region": "ov021",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02165E34",
+   "name": "GAME_BEACON_ACCESSOR_GetActionMonsNo",
    "address": "0x02165E34",
    "kind": "game",
    "region": "ov010",

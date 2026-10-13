@@ -17,10 +17,10 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_021FBFB0 0x021FBFB0 thumb ov135
  *   func_021FAC50 0x021FAC50 thumb ov135
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021F4FF4 0x021F4FF4 thumb ov135
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020355C4 0x020355C4 arm
@@ -45,11 +45,11 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern int func_021FBFB0(void *, int);
 extern void func_021FAC50(void *, void *, void *, u32, u16, void *);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32, u32, u32);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -76,11 +76,11 @@ int func_021FAEE0(u8 *p)
             p[i + 96] = 0;
         }
         func_021FAC50(((struct Obj01160 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
-        func_02045808(str);
+        STRBUF_Delete(str);
     }
     BGWINFRM_PutFrame(((struct Obj01160 *)p)->f18, 0, 16, 0);
     BGWINFRM_ShowFrame(((struct Obj01160 *)p)->f18, 0);
-    func_0204B878((struct Obj *)(((struct Obj01160 *)p)->f8), 18);
+    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj01160 *)p)->f8), 18);
     func_021F4FF4(((struct Obj01160 *)p)->f8, (tbl_022032C6[*(s16 *)(p + 56)].x + 16) * 8, tbl_022032C6[*(s16 *)(p + 56)].y * 8);
     ((struct Obj01160 *)p)->f44 = ((struct Obj01160 *)p)->f38;
     func_0204B3DC((struct Obj *)((struct Obj01160 *)p)->f8, 1);

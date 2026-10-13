@@ -1,5 +1,5 @@
 /*
- * function: func_021DF864
+ * function: BTL_HANDLER_ITEM_GetTwistedSpoonHandlers
  * address: 0x021DF864
  * packet: pkt_ov093_021DF864
  * region: ov093
@@ -12,19 +12,19 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF840.c and filed here.
  *
  * symbols:
- *   d_021F1484 0x021F1484 data ov093 a4
+ *   gTwistedSpoonHandlers 0x021F1484 data ov093 a4
  */
 
-int *func_021DF864(int *p);
-extern int d_021F1484[];
+int *BTL_HANDLER_ITEM_GetTwistedSpoonHandlers(int *p);
+extern int gTwistedSpoonHandlers[];
 
 /*
- * omits func_02048B6C from function: and its shard. tu --suggest-split leaves caller OUT.
+ * omits G3D_CAMERA_SetRoll from function: and its shard. tu --suggest-split leaves caller OUT.
  * typedef unsigned int u32;
- * void func_02048B6C(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
+ * void G3D_CAMERA_SetRoll(char *p,const u32 *in) {*(u32 *)(p+0x18)=*in;}
  */
-int *func_021DF864(int *p)
+int *BTL_HANDLER_ITEM_GetTwistedSpoonHandlers(int *p)
 {
     *p = 1;
-    return d_021F1484;
+    return gTwistedSpoonHandlers;
 }

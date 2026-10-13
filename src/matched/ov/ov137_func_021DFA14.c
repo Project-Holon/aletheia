@@ -10,12 +10,12 @@
  * symbols:
  *   func_02040588 0x02040588 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 void func_021DFA14(char *a0)
 {
     func_02040588(0, 0);
@@ -27,5 +27,5 @@ void func_021DFA14(char *a0)
     func_02040588(6, 0);
     func_02040588(7, 0);
     func_020434DC(16, 0);
-    func_02043598(16, 0);
+    BG_SYS_SetSubPlaneVisible(16, 0);
 }

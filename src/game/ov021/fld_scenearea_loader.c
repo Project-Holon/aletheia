@@ -1,7 +1,7 @@
 /*
  * file:     fld_scenearea_loader.c
  * unit:     yes
- * function: func_021AB7E4, func_021AB81C, func_021AB840, func_021AB868, func_021AB880, func_021AB884, func_021AB888, func_021AB890, func_021AB908, func_021AB9FC, func_021ABA3C, func_021ABABC, func_021ABB54, func_021ABB78, func_021ABBA0, func_021ABBF0, func_021ABC14, func_021ABC38, func_021ABC5C, func_021ABD08
+ * function: FLD_SCENEAREA_LOADER_Create, FLD_SCENEAREA_LOADER_Delete, FLD_SCENEAREA_LOADER_Load, FLD_SCENEAREA_LOADER_Unload, FLD_SCENEAREA_LOADER_GetRecs, FLD_SCENEAREA_LOADER_GetRecCount, FLD_SCENEAREA_LOADER_GetCallbacks, FLD_SCENEAREA_LOADER_CheckSector, FLD_SCENEAREA_LOADER_ApplySectorCamera, FLD_SCENEAREA_LOADER_ApplyFixedCamera, FLD_SCENEAREA_LOADER_CheckStrip, FLD_SCENEAREA_LOADER_ApplyStripCamera, FLD_SCENEAREA_LOADER_ApplyStripCameraStop, FLD_SCENEAREA_LOADER_ApplyStripCameraResume, FLD_SCENEAREA_LOADER_GetStripProgress, FLD_SCENEAREA_LOADER_ApplyStripFull, FLD_SCENEAREA_LOADER_ApplyStripFullStop, FLD_SCENEAREA_LOADER_ApplyStripFullResume, FLD_SCENEAREA_LOADER_ApplyStripTarget, FLD_SCENEAREA_LOADER_ApplyStripFov
  * address:  0x021AB7E4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -16,120 +16,120 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   d_021DE000  0x021DE000  data  a4
- *   d_021D8EEC  0x021D8EEC  data  a4
- *   func_0204A39C  0x0204A39C  arm
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   gFldSceneAreaLoaderFileName  0x021DE000  data  a4
+ *   gFldSceneAreaArcIds  0x021D8EEC  data  a4
+ *   ARC_UTIL_LoadHandleMemberWithSize  0x0204A39C  arm
  *   func_0207CA00  0x0207CA00  arm
  *   func_0207CBD0  0x0207CBD0  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   func_0207CFB8  0x0207CFB8  arm
- *   func_0218E124  0x0218E124  thumb  ov021
+ *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
  *   tbl_020A1B38   0x020A1B38  data  a2
- *   d_021D8EF4  0x021D8EF4  data  a4
- *   func_0218EC90  0x0218EC90  thumb  ov021
- *   func_0218ECF4  0x0218ECF4  thumb  ov021
+ *   gFldSceneAreaCallbacks  0x021D8EF4  data  a4
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  *   FX_Div         0x0207C768  arm
- *   func_0218ED34  0x0218ED34  thumb
- *   func_0218ED48  0x0218ED48  thumb
- *   func_0218ED58  0x0218ED58  thumb
- *   func_0218F0D4  0x0218F0D4  thumb
- *   func_0218F05C  0x0218F05C  thumb
- *   func_0218ECD4  0x0218ECD4  thumb ov021
+ *   FIELD_CAMERA_SetPitch  0x0218ED34  thumb
+ *   FIELD_CAMERA_SetYaw  0x0218ED48  thumb
+ *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb
+ *   FIELD_CAMERA_StopDelay  0x0218F0D4  thumb
+ *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb
+ *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb ov021
  *   func_0207C768  0x0207C768  arm
- *   func_0218ED64  0x0218ED64  thumb
- *   func_021AB760  0x021AB760  thumb  ov021
- *   func_021AB764  0x021AB764  thumb  ov021
+ *   FIELD_CAMERA_SetFov  0x0218ED64  thumb
+ *   FLD_SCENEAREA_GetCamera  0x021AB760  thumb  ov021
+ *   FLD_SCENEAREA_GetFieldMap  0x021AB764  thumb  ov021
  */
 #include "fld_scenearea_types.h"
 
 extern void *func_020490F4(u32 arcId, u32 heapId);
-extern void func_02049238(void *arcHandle);
+extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 func_02188CFC(void *fieldMap);
-extern void *func_0204A39C(void *arcHandle, int fileId, int decompress, u32 heapId, u32 *outSize);
+extern u32 FIELDMAP_GetMoveKind(void *fieldMap);
+extern void *ARC_UTIL_LoadHandleMemberWithSize(void *arcHandle, int fileId, int decompress, u32 heapId, u32 *outSize);
 extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern int func_0207CBD0(const VecFx32 *v);
-extern void func_0207CCA4(const VecFx32 *v, VecFx32 *out);
+extern void VEC_Normalize(const VecFx32 *v, VecFx32 *out);
 extern u32 func_0207CFB8(int x, int z);
-extern void func_0218E124(void *camera, u32 mode);
-extern void func_0218EC90(void *camera, VecFx32 *target);
-extern void func_0218ECF4(void *camera, VecFx32 *eye);
+extern void FIELD_CAMERA_EnterMode(void *camera, u32 mode);
+extern void FIELD_CAMERA_SetTarget(void *camera, VecFx32 *target);
+extern void FIELD_CAMERA_SetEyeRaw(void *camera, VecFx32 *eye);
 extern int FX_Div(int a, int b);
-extern void func_0218ED34(void *camera, u16 pitch);
-extern void func_0218ED48(void *camera, u32 yaw);
-extern void func_0218ED58(void *camera, u32 distance);
-extern void func_0218F0D4(void *camera, int delay);
-extern void func_0218F05C(void *camera);
-extern void func_0218ECD4(void *camera, VecFx32 *shift);
-extern void func_0218ED64(void *camera, u16 fov);
-extern void *func_021AB760(FldSceneArea *sceneArea);
-extern void *func_021AB764(FldSceneArea *sceneArea);
+extern void FIELD_CAMERA_SetPitch(void *camera, u16 pitch);
+extern void FIELD_CAMERA_SetYaw(void *camera, u32 yaw);
+extern void FIELD_CAMERA_SetDistance(void *camera, u32 distance);
+extern void FIELD_CAMERA_StopDelay(void *camera, int delay);
+extern void FIELD_CAMERA_RestartDelay(void *camera);
+extern void FIELD_CAMERA_SetTargetShift(void *camera, VecFx32 *shift);
+extern void FIELD_CAMERA_SetFov(void *camera, u16 fov);
+extern void *FLD_SCENEAREA_GetCamera(FldSceneArea *sceneArea);
+extern void *FLD_SCENEAREA_GetFieldMap(FldSceneArea *sceneArea);
 
-FldSceneAreaLoader *func_021AB7E4(int heapId);
-void func_021AB81C(FldSceneAreaLoader *loader);
-void func_021AB840(FldSceneAreaLoader *loader, int arcIndex, int fileId, int heapId);
-void func_021AB868(FldSceneAreaLoader *loader);
-FldSceneAreaRec *func_021AB880(FldSceneAreaLoader *loader);
-u32 func_021AB884(FldSceneAreaLoader *loader);
-const FldSceneAreaCallbacks *func_021AB888(void);
-int func_021AB890(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021AB908(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const VecFx32 *pos);
-void func_021AB9FC(FldSceneArea *sceneArea, const FldSceneAreaRec *rec);
-int func_021ABA3C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021ABABC(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021ABB54(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021ABB78(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021ABBA0(const FldSceneAreaRec *rec, VecFx32 *pos, int *length, int *progress);
-void func_021ABBF0(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021ABC14(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021ABC38(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021ABC5C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
-void func_021ABD08(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+FldSceneAreaLoader *FLD_SCENEAREA_LOADER_Create(int heapId);
+void FLD_SCENEAREA_LOADER_Delete(FldSceneAreaLoader *loader);
+void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, int fileId, int heapId);
+void FLD_SCENEAREA_LOADER_Unload(FldSceneAreaLoader *loader);
+FldSceneAreaRec *FLD_SCENEAREA_LOADER_GetRecs(FldSceneAreaLoader *loader);
+u32 FLD_SCENEAREA_LOADER_GetRecCount(FldSceneAreaLoader *loader);
+const FldSceneAreaCallbacks *FLD_SCENEAREA_LOADER_GetCallbacks(void);
+int FLD_SCENEAREA_LOADER_CheckSector(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplySectorCamera(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplyFixedCamera(FldSceneArea *sceneArea, const FldSceneAreaRec *rec);
+int FLD_SCENEAREA_LOADER_CheckStrip(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplyStripCamera(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplyStripCameraStop(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplyStripCameraResume(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_GetStripProgress(const FldSceneAreaRec *rec, VecFx32 *pos, int *length, int *progress);
+void FLD_SCENEAREA_LOADER_ApplyStripFull(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplyStripFullStop(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplyStripFullResume(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplyStripTarget(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
+void FLD_SCENEAREA_LOADER_ApplyStripFov(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
 
-extern char d_021DE000[];
-extern const int d_021D8EEC[];
-extern const FldSceneAreaCallbacks d_021D8EF4;
+extern char gFldSceneAreaLoaderFileName[];
+extern const int gFldSceneAreaArcIds[];
+extern const FldSceneAreaCallbacks gFldSceneAreaCallbacks;
 extern s16 tbl_020A1B38[];
 
 /* 0x021DE000 is the "fld_scenearea_loader.c" file-name string; 0x81 is its line. */
-FldSceneAreaLoader *func_021AB7E4(int heapId)
+FldSceneAreaLoader *FLD_SCENEAREA_LOADER_Create(int heapId)
 {
-    FldSceneAreaLoader *loader = func_02030734(heapId, sizeof(FldSceneAreaLoader), 1, d_021DE000, 0x81);
+    FldSceneAreaLoader *loader = func_02030734(heapId, sizeof(FldSceneAreaLoader), 1, gFldSceneAreaLoaderFileName, 0x81);
     int i;
 
     for (i = 0; i < 2; i++) {
-        loader->arcHandle[i] = func_020490F4(d_021D8EEC[i], heapId);
+        loader->arcHandle[i] = func_020490F4(gFldSceneAreaArcIds[i], heapId);
     }
     return loader;
 }
 
-void func_021AB81C(FldSceneAreaLoader *loader)
+void FLD_SCENEAREA_LOADER_Delete(FldSceneAreaLoader *loader)
 {
     int i;
 
-    func_021AB868(loader);
+    FLD_SCENEAREA_LOADER_Unload(loader);
     for (i = 0; i < 2; i++) {
-        func_02049238(loader->arcHandle[i]);
+        ARC_TOOL_DeleteHandle(loader->arcHandle[i]);
     }
     func_020307B0(loader);
 }
 
 /* Loads a scene area file from one of the two archives. */
-void func_021AB840(FldSceneAreaLoader *loader, int arcIndex, int fileId, int heapId)
+void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, int fileId, int heapId)
 {
     u32 size;
 
-    loader->recs = func_0204A39C(loader->arcHandle[arcIndex], fileId, 0, heapId, &size);
+    loader->recs = ARC_UTIL_LoadHandleMemberWithSize(loader->arcHandle[arcIndex], fileId, 0, heapId, &size);
     loader->count = size / sizeof(FldSceneAreaRec);
 }
 
 /* Frees the loaded records. */
-void func_021AB868(FldSceneAreaLoader *loader)
+void FLD_SCENEAREA_LOADER_Unload(FldSceneAreaLoader *loader)
 {
     if (loader->recs != 0) {
         func_020307B0(loader->recs);
@@ -138,20 +138,20 @@ void func_021AB868(FldSceneAreaLoader *loader)
     }
 }
 
-FldSceneAreaRec *func_021AB880(FldSceneAreaLoader *loader)
+FldSceneAreaRec *FLD_SCENEAREA_LOADER_GetRecs(FldSceneAreaLoader *loader)
 {
     return loader->recs;
 }
 
-u32 func_021AB884(FldSceneAreaLoader *loader)
+u32 FLD_SCENEAREA_LOADER_GetRecCount(FldSceneAreaLoader *loader)
 {
     return loader->count;
 }
 
-/* The check and action tables (d_021D8EF4). */
-const FldSceneAreaCallbacks *func_021AB888(void)
+/* The check and action tables (gFldSceneAreaCallbacks). */
+const FldSceneAreaCallbacks *FLD_SCENEAREA_LOADER_GetCallbacks(void)
 {
-    return &d_021D8EF4;
+    return &gFldSceneAreaCallbacks;
 }
 
 static inline void VecSet(VecFx32 *v, int x, int y, int z)
@@ -170,7 +170,7 @@ static inline void VecSet(VecFx32 *v, int x, int y, int z)
  * gives the y, x, z load order of the 12-byte vector fill; either alone does
  * not.
  */
-int func_021AB890(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+int FLD_SCENEAREA_LOADER_CheckSector(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
     VecFx32 offset;
     VecFx32 center;
@@ -181,7 +181,7 @@ int func_021AB890(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *
     func_0207CA00(pos, &center, &offset);
     offset.y = 0;
     distance = func_0207CBD0(&offset);
-    func_0207CCA4(&offset, &offset);
+    VEC_Normalize(&offset, &offset);
     angle = func_0207CFB8(offset.x, offset.z);
     if (rec->shape.sector.minDistance <= distance && rec->shape.sector.maxDistance > distance) {
         if (rec->shape.sector.angleHi < rec->shape.sector.angleLo) {
@@ -211,7 +211,7 @@ static inline s32 FX_Mul(s32 a, s32 b)
  * pos copy, which gives the colouring (y r7, zero r6, table r4) and lets the
  * final center.y reload become `mov r1, r7`.
  */
-void func_021AB908(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplySectorCamera(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const VecFx32 *pos)
 {
     VecFx32 playerOffset;
     VecFx32 center;
@@ -223,8 +223,8 @@ void func_021AB908(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const Ve
     s16 sinValue;
     s16 cosValue;
 
-    camera = func_021AB760(sceneArea);
-    func_0218E124(camera, 2);
+    camera = FLD_SCENEAREA_GetCamera(sceneArea);
+    FIELD_CAMERA_EnterMode(camera, 2);
     center.x = rec->shape.sector.center.x;
     center.y = rec->shape.sector.center.y;
     center.z = rec->shape.sector.center.z;
@@ -233,7 +233,7 @@ void func_021AB908(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const Ve
     playerOffset = *pos;
     playerOffset.y = 0;
     func_0207CA00(&playerOffset, &center, &playerOffset);
-    func_0207CCA4(&playerOffset, &dir);
+    VEC_Normalize(&playerOffset, &dir);
     sinValue = tbl_020A1B38[(rec->shape.sector.angleIndex >> 4) * 2];
     center.y = centerY;
     eye.y = FX_Mul(sinValue, rec->shape.sector.distance);
@@ -244,8 +244,8 @@ void func_021AB908(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const Ve
     eye.x += center.x;
     eye.y += center.y;
     eye.z += center.z;
-    func_0218EC90(camera, &center);
-    func_0218ECF4(camera, &eye);
+    FIELD_CAMERA_SetTarget(camera, &center);
+    FIELD_CAMERA_SetEyeRaw(camera, &eye);
 }
 
 /*
@@ -254,19 +254,19 @@ void func_021AB908(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const Ve
  *
  * Lever: `const FldSceneAreaRec *` together with the inline VecSet helper
  * gives the y, x, z load order of the two 12-byte vector fills (as in
- * func_021AB890).
+ * FLD_SCENEAREA_LOADER_CheckSector).
  */
-void func_021AB9FC(FldSceneArea *sceneArea, const FldSceneAreaRec *rec)
+void FLD_SCENEAREA_LOADER_ApplyFixedCamera(FldSceneArea *sceneArea, const FldSceneAreaRec *rec)
 {
-    void *camera = func_021AB760(sceneArea);
+    void *camera = FLD_SCENEAREA_GetCamera(sceneArea);
     VecFx32 target;
     VecFx32 eye;
 
-    func_0218E124(camera, 2);
+    FIELD_CAMERA_EnterMode(camera, 2);
     VecSet(&target, rec->shape.fixed.target.x, rec->shape.fixed.target.y, rec->shape.fixed.target.z);
     VecSet(&eye, rec->shape.fixed.eye.x, rec->shape.fixed.eye.y, rec->shape.fixed.eye.z);
-    func_0218EC90(camera, &target);
-    func_0218ECF4(camera, &eye);
+    FIELD_CAMERA_SetTarget(camera, &target);
+    FIELD_CAMERA_SetEyeRaw(camera, &eye);
 }
 
 /*
@@ -276,7 +276,7 @@ void func_021AB9FC(FldSceneArea *sceneArea, const FldSceneAreaRec *rec)
  * Lever: `const FldSceneAreaRec *rec` sinks the shifted.z spill store below
  * the first shift pair (const on the vector source alone does not).
  */
-int func_021ABA3C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+int FLD_SCENEAREA_LOADER_CheckStrip(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
     VecFx32 shifted;
     u16 playerTileX;
@@ -284,7 +284,7 @@ int func_021ABA3C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *
     int width;
     int height;
 
-    if (func_02188CFC(func_021AB764(sceneArea)) == 1)
+    if (FIELDMAP_GetMoveKind(FLD_SCENEAREA_GetFieldMap(sceneArea)) == 1)
         return 0;
     shifted = *pos;
     shifted.x -= 0x8000;
@@ -314,9 +314,9 @@ int func_021ABA3C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *
  * pitch and yaw being forward-substituted into their calls; distance, the
  * last, is.
  */
-void func_021ABABC(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplyStripCamera(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
-    void *camera = func_021AB760(sceneArea);
+    void *camera = FLD_SCENEAREA_GetCamera(sceneArea);
     int length;
     int progress;
     int ratio;
@@ -325,8 +325,8 @@ void func_021ABABC(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 
     int distance;
     int delta;
 
-    func_0218E124(camera, 0);
-    func_021ABBA0(rec, pos, &length, &progress);
+    FIELD_CAMERA_EnterMode(camera, 0);
+    FLD_SCENEAREA_LOADER_GetStripProgress(rec, pos, &length, &progress);
     progress = ratio = FX_Div(progress, length);
     delta = rec->shape.strip.to.pitch - rec->shape.strip.from.pitch;
     delta = delta * ratio / 4096;
@@ -337,30 +337,30 @@ void func_021ABABC(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 
     delta = rec->shape.strip.to.distance - rec->shape.strip.from.distance;
     delta = (int)(((s64)delta * ratio + 0x800) >> 12);
     distance = delta + rec->shape.strip.from.distance;
-    func_0218ED34(camera, pitch);
-    func_0218ED48(camera, (u16)yaw);
-    func_0218ED58(camera, distance);
+    FIELD_CAMERA_SetPitch(camera, pitch);
+    FIELD_CAMERA_SetYaw(camera, (u16)yaw);
+    FIELD_CAMERA_SetDistance(camera, distance);
 }
 
 /* Strip camera that first stops the camera delay when the record sets delayFlag. */
-void func_021ABB54(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplyStripCameraStop(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
-    void *camera = func_021AB760(sceneArea);
+    void *camera = FLD_SCENEAREA_GetCamera(sceneArea);
 
     if (rec->shape.strip.delayFlag != 0) {
-        func_0218F0D4(camera, rec->shape.strip.delayFlag);
+        FIELD_CAMERA_StopDelay(camera, rec->shape.strip.delayFlag);
     }
-    func_021ABABC(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripCamera(sceneArea, rec, pos);
 }
 
 /* Strip camera that restarts the camera delay afterwards when the record sets delayFlag. */
-void func_021ABB78(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplyStripCameraResume(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
-    void *camera = func_021AB760(sceneArea);
+    void *camera = FLD_SCENEAREA_GetCamera(sceneArea);
 
-    func_021ABABC(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripCamera(sceneArea, rec, pos);
     if (rec->shape.strip.delayFlag != 0) {
-        func_0218F05C(camera);
+        FIELD_CAMERA_RestartDelay(camera);
     }
 }
 
@@ -368,7 +368,7 @@ void func_021ABB78(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 
  * Where the player stands along a strip: *length is the strip length and
  * *progress the distance already covered, both in 16.16 tile units.
  */
-void func_021ABBA0(const FldSceneAreaRec *rec, VecFx32 *pos, int *length, int *progress)
+void FLD_SCENEAREA_LOADER_GetStripProgress(const FldSceneAreaRec *rec, VecFx32 *pos, int *length, int *progress)
 {
     VecFx32 shifted = *pos;
 
@@ -382,31 +382,31 @@ void func_021ABBA0(const FldSceneAreaRec *rec, VecFx32 *pos, int *length, int *p
 }
 
 /* Full strip action: camera angles, target shift and field of view. */
-void func_021ABBF0(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplyStripFull(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
-    func_021ABABC(sceneArea, rec, pos);
-    func_021ABC5C(sceneArea, rec, pos);
-    func_021ABD08(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripCamera(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripTarget(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripFov(sceneArea, rec, pos);
 }
 
 /* Full strip action that stops the camera delay first. */
-void func_021ABC14(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplyStripFullStop(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
-    func_021ABB54(sceneArea, rec, pos);
-    func_021ABC5C(sceneArea, rec, pos);
-    func_021ABD08(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripCameraStop(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripTarget(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripFov(sceneArea, rec, pos);
 }
 
 /* Full strip action that restarts the camera delay afterwards. */
-void func_021ABC38(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplyStripFullResume(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
-    func_021ABB78(sceneArea, rec, pos);
-    func_021ABC5C(sceneArea, rec, pos);
-    func_021ABD08(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripCameraResume(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripTarget(sceneArea, rec, pos);
+    FLD_SCENEAREA_LOADER_ApplyStripFov(sceneArea, rec, pos);
 }
 
 /* Moves the camera target shift from the strip's start to its end target. */
-void func_021ABC5C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplyStripTarget(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
     void *camera;
     int length;
@@ -416,8 +416,8 @@ void func_021ABC5C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 
     int deltaZ;
     int deltaX;
 
-    camera = func_021AB760(sceneArea);
-    func_021ABBA0(rec, pos, &length, &progress);
+    camera = FLD_SCENEAREA_GetCamera(sceneArea);
+    FLD_SCENEAREA_LOADER_GetStripProgress(rec, pos, &length, &progress);
     deltaY = rec->shape.strip.targetTo.y - rec->shape.strip.targetFrom.y;
     deltaZ = rec->shape.strip.targetTo.z - rec->shape.strip.targetFrom.z;
     deltaX = rec->shape.strip.targetTo.x - rec->shape.strip.targetFrom.x;
@@ -425,7 +425,7 @@ void func_021ABC5C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 
               FX_Div((int)(((long long)deltaX * progress + 0x800) >> 12), length);
     shift.y = rec->shape.strip.targetFrom.y + FX_Div((int)(((long long)deltaY * progress + 0x800) >> 12), length);
     shift.z = rec->shape.strip.targetFrom.z + FX_Div((int)(((long long)deltaZ * progress + 0x800) >> 12), length);
-    func_0218ECD4(camera, &shift);
+    FIELD_CAMERA_SetTargetShift(camera, &shift);
 }
 
 /*
@@ -436,12 +436,12 @@ void func_021ABC5C(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 
  * last-load-of-a-struct-copy-into-an-address-taken-local.md); the assignment
  * must stay inside the multiply for the result to land in r3.
  */
-void func_021ABD08(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
+void FLD_SCENEAREA_LOADER_ApplyStripFov(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos)
 {
-    void *camera = func_021AB760(sceneArea);
+    void *camera = FLD_SCENEAREA_GetCamera(sceneArea);
     int length;
     int progress;
 
-    func_021ABBA0(rec, pos, &length, &progress);
-    func_0218ED64(camera, rec->shape.strip.fovFrom + (rec->shape.strip.fovTo - rec->shape.strip.fovFrom) * (progress = FX_Div(progress, length)) / 0x1000);
+    FLD_SCENEAREA_LOADER_GetStripProgress(rec, pos, &length, &progress);
+    FIELD_CAMERA_SetFov(camera, rec->shape.strip.fovFrom + (rec->shape.strip.fovTo - rec->shape.strip.fovFrom) * (progress = FX_Div(progress, length)) / 0x1000);
 }

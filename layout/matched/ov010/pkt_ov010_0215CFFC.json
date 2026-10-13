@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215CFFC",
+   "name": "SCRCMD_PROC_GetDaycareMonSpecies",
    "address": "0x0215CFFC",
    "kind": "game",
    "region": "ov010",

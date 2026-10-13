@@ -1,5 +1,5 @@
 /*
- * function: func_0217D870
+ * function: INTRUDE_SUBDISP_BgExit
  * address: 0x0217D870
  * packet: pkt_ov018_0217D870
  * region: ov018
@@ -15,7 +15,7 @@
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020403F4(unsigned int);
-void func_0217D870(void)
+void INTRUDE_SUBDISP_BgExit(void)
 {
     func_02040588(6, 0);
     func_02040588(7, 0);

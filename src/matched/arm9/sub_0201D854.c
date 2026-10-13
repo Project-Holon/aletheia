@@ -17,13 +17,13 @@
  *   GF_FONT_GetProportionalWidth       0x0201DC88  thumb
  *   GF_FONT_GetFixedWidth       0x0201DD58  thumb
  *   ARC_TOOL_GetHandleMemberOffsetOut       0x020494F4  arm
- *   func_020493D4       0x020493D4  arm
+ *   ARC_TOOL_GetHandleMemberSize       0x020493D4  arm
  *   sub_0204944C        0x0204944C  arm
  *   func_02030734       0x02030734  arm
  *   GF_FONT_GetGlyphIndex  0x0201DB20  thumb
  *
  * gf_font.c's metrics and buffer initialiser, 372 bytes, the largest function
- * in the file and the one func_0201D7EC calls right after the allocation.  It
+ * in the file and the one GF_FONT_Create calls right after the allocation.  It
  * pulls five sections out of the font resource: the 0x14-byte header block at
  * +0x58, the glyph directory at +0x80, either the whole glyph body (preloaded,
  * into a buffer at +0x84) or nothing (streamed), the eight metric bytes at
@@ -112,7 +112,7 @@ extern const char func_0201D854_File[];
 struct ArcFile;
 extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcFile *arc, u32 member, u32 *out);
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   GF_FONT_GetGlyphIndex(struct Font *f, u16 ch);
 
@@ -147,7 +147,7 @@ void GF_FONT_LoadResource(struct Font *f, int resid, u32 flag, u32 heap)
     }
     f->unk8C = (void *)(f->unk60 + 8);
     f->unk90 = func_02030734(heap, f->unk76, 0, func_0201D854_File, 266);
-    size = func_020493D4(f->unk50, resid) - f->unk68;
+    size = ARC_TOOL_GetHandleMemberSize(f->unk50, resid) - f->unk68;
     f->unk88 = func_02030734(heap, size, 0, func_0201D854_File, 271);
     sub_0204944C(f->unk50, resid, f->unk68, size, f->unk88);
     f->unk70 = 0;

@@ -10,19 +10,22 @@
  * status:   EXACT
  *
  * symbols:
+ *   G3D_SYSTEM_DrawStart  0x02047964  arm  arm9
+ *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm  arm9
+ *   G3D_CAMERA_Reset  0x02048AD0  arm  arm9
  *   (none)
  *
  * Calls 0x02047964 on p, then 0x02048AD0 on the word at [p], then 0x020479D8.
  */
 
-extern void func_02047964(void *);
+extern void G3D_SYSTEM_DrawStart(void *);
 struct Light;
-extern void func_02048AD0(struct Light *l);
-extern void func_020479D8(void);
+extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_SYSTEM_ApplyLookAt(void);
 
 void func_021BD12C(int *p)
 {
-    func_02047964(p);
-    func_02048AD0((struct Light *)(*p));
-    func_020479D8();
+    G3D_SYSTEM_DrawStart(p);
+    G3D_CAMERA_Reset((struct Light *)(*p));
+    G3D_SYSTEM_ApplyLookAt();
 }

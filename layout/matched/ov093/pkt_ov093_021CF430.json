@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021CF430",
-    "func_021CF43C"
+    "BTL_CLIENT_SetSlotFlag",
+    "BTL_CLIENT_GetSlotFlag"
+   ],
+   "addresses": [
+    "0x021CF430",
+    "0x021CF43C"
    ]
   }
  ]

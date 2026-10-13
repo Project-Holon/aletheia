@@ -13,11 +13,11 @@
  *   func_021CC95C 0x021CC95C thumb ov093
  *   func_021C7A54 0x021C7A54 thumb ov093
  *   func_021C7AA0 0x021C7AA0 thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  *   func_021C99A0 0x021C99A0 thumb ov093
- *   func_021C2250 0x021C2250 thumb ov093
- *   func_021D6738 0x021D6738 thumb ov093
- *   func_021C195C 0x021C195C thumb ov093
+ *   BTL_SERVER_FLOW_SetHeldItem 0x021C2250 thumb ov093
+ *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
+ *   BTL_SERVER_FLOW_ProcDamagedItemReaction 0x021C195C thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
@@ -29,12 +29,12 @@ extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(u32 *p, u32 v, int line);
 extern int func_021C7A54(u8 *, u8 *, u32);
 extern void func_021C7AA0(u8 *, u8 *);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 struct Msg;
 extern int func_021C99A0(void *w, const struct Msg *m);
-extern void func_021C2250(u8 *p, u8 *a, u16 b, u32 c);
-extern void func_021D6738(u8 *);
-extern void func_021C195C(u8 *, u8 *, u32);
+extern void BTL_SERVER_FLOW_SetHeldItem(u8 *p, u8 *a, u16 b, u32 c);
+extern void BTL_POKEPARAM_ClearConsumedItem(u8 *);
+extern void BTL_SERVER_FLOW_ProcDamagedItemReaction(u8 *, u8 *, u32);
 int func_021C9BB8(u8 *p, const Ent *e)
 {
     u8 *a;
@@ -55,18 +55,18 @@ int func_021C9BB8(u8 *p, const Ent *e)
             return 0;
         }
     }
-    if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 87, (u8)e->index);
+    if (e->flag) BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 87, (u8)e->index);
     func_021C99A0(p, (const struct Msg *)e->msg);
-    func_021C2250(p, a, e->value, 0);
-    if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 88, (u8)e->index);
+    BTL_SERVER_FLOW_SetHeldItem(p, a, e->value, 0);
+    if (e->flag) BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 88, (u8)e->index);
     if (e->a) {
-        func_021D6738(a);
-        func_021CD4B0(((struct Obj00003 *)p)->fC, 43, e->id);
+        BTL_POKEPARAM_ClearConsumedItem(a);
+        BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 43, e->id);
     }
     if (e->b) {
-        func_021D6738(func_021B9934(((struct Obj00003 *)p)->f8, e->c));
-        func_021CD4B0(((struct Obj00003 *)p)->fC, 43, e->c);
+        BTL_POKEPARAM_ClearConsumedItem(func_021B9934(((struct Obj00003 *)p)->f8, e->c));
+        BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 43, e->c);
     }
-    func_021C195C(p, a, 0);
+    BTL_SERVER_FLOW_ProcDamagedItemReaction(p, a, 0);
     return 1;
 }

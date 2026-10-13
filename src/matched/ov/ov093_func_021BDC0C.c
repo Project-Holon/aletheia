@@ -1,5 +1,5 @@
 /*
- * function: func_021BDC0C
+ * function: BTL_SERVER_FLOW_DispatchMemberInEndEvent
  * address: 0x021BDC0C
  * packet: pkt_ov093_021BDC0C
  * region: ov093
@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
+ *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
+ *   BTL_EVENT_DispatchEventChecked 0x021D70F0 thumb ov093
+ *   BTL_EVENT_PopVarFrame 0x021D7540 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021D74F8(int);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D7540(int);
-void func_021BDC0C(u8 *p)
+extern void BTL_EVENT_PushVarFrame(int);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
+extern void BTL_EVENT_PopVarFrame(int);
+void BTL_SERVER_FLOW_DispatchMemberInEndEvent(u8 *p)
 {
-    func_021D74F8(3187);
-    func_021D70F0(p, 87);
-    func_021D7540(3189);
+    BTL_EVENT_PushVarFrame(3187);
+    BTL_EVENT_DispatchEventChecked(p, 87);
+    BTL_EVENT_PopVarFrame(3189);
 }

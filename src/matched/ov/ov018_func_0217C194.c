@@ -1,5 +1,5 @@
 /*
- * function: func_0217C194
+ * function: INTRUDE_FIELD_AddMarkerMmdls
  * address: 0x0217C194
  * packet: pkt_ov018_0217C194
  * region: ov018
@@ -10,21 +10,21 @@
  * status: EXACT*
  * extent: two alignment bytes at 0x0217C1CE.
  * symbols:
- *   func_02188C9C 0x02188C9C thumb ov021
+ *   FIELDMAP_GetZoneId 0x02188C9C thumb ov021
  *   func_02013D5C 0x02013D5C thumb
- *   func_0217C14C 0x0217C14C thumb ov018
+ *   INTRUDE_FIELD_AddMarkerMmdl 0x0217C14C thumb ov018
  */
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
-extern void func_0217C14C(int, u16, u16, int);
-void func_0217C194(int p)
+extern void INTRUDE_FIELD_AddMarkerMmdl(int, u16, u16, int);
+void INTRUDE_FIELD_AddMarkerMmdls(int p)
 {
     int i;
-    if (func_02013D5C(func_02188C9C((u8 *)p)) != 0) {
+    if (func_02013D5C(FIELDMAP_GetZoneId((u8 *)p)) != 0) {
         for (i = 0; i < 3; ++i)
-            func_0217C14C(p, (((i << 22) + 0x1f8000) >> 12) / 16, 29, 32);
+            INTRUDE_FIELD_AddMarkerMmdl(p, (((i << 22) + 0x1f8000) >> 12) / 16, 29, 32);
     }
 }

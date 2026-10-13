@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F36C0.c
  * unit:     yes
- * function: func_021F36C0, func_021F36E8, func_021F3724, func_021F3768
+ * function: func_021F36C0, GIMMICK_INIT_SetGimmick40Flag, GIMMICK_INIT_SetGimmick42Flags, GIMMICK_INIT_RestoreGimmick38State
  * address:  0x021F36C0
  * region:   ov037
  * compiler: dsi/1.1p1
@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_020127A4 0x020127A4 thumb
- *   func_0200B3A8  0x0200B3A8  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
+ *   GIMMICK_WORK_GetProgress  0x0200B3A8  thumb
  *   d_021F3840     0x021F3840  data ov037 a1
- *   d_021F3834     0x021F3834  data a1
+ *   gGimmick38DoorPlates     0x021F3834  data a1
  */
 #include "unit_021F36C0_types.h"
 
@@ -31,25 +31,25 @@ typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
 
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct GimmickWork *func_02012EC4(struct GameData *gameData);
-extern void *func_020127A4(struct GameData *gameData);
-extern void *func_0200B3A4(struct GimmickWork *gimmick, u32 gimmickId);
-extern u16 *func_0200B3A8(struct GimmickWork *gimmick, u32 gimmickId);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
+extern void *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmick, u32 gimmickId);
+extern u16 *GIMMICK_WORK_GetProgress(struct GimmickWork *gimmick, u32 gimmickId);
 void func_021F36C0(unsigned int gameSystem, int setFirst, int setSecond);
-void func_021F36E8(struct GameSystem *gameSystem, int enable);
-void func_021F3724(unsigned int gameSystem, int buttonMask);
-void func_021F3768(unsigned int gameSystem, unsigned short **foundVars);
+void GIMMICK_INIT_SetGimmick40Flag(struct GameSystem *gameSystem, int enable);
+void GIMMICK_INIT_SetGimmick42Flags(unsigned int gameSystem, int buttonMask);
+void GIMMICK_INIT_RestoreGimmick38State(unsigned int gameSystem, unsigned short **foundVars);
 
 /* Per switch: the two plates it lights (-1 for none). Per door: the two plates that open it. */
 extern signed char d_021F3840[][2];
-extern unsigned char d_021F3834[][2];
+extern unsigned char gGimmick38DoorPlates[][2];
 
 
 /* Marks the first and second flag of gimmick 39 as set. */
 void func_021F36C0(unsigned int gameSystem, int setFirst, int setSecond)
 {
-    Gimmick39Work *work = func_0200B3A4(func_02012EC4(func_020120F4((const struct GameSystem *)gameSystem)), 2);
+    Gimmick39Work *work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 2);
 
     if (setFirst)
         work->firstFlag = 1;
@@ -58,13 +58,13 @@ void func_021F36C0(unsigned int gameSystem, int setFirst, int setSecond)
 }
 
 /* Sets the flag of gimmick 40 and its byte mirror. */
-void func_021F36E8(struct GameSystem *gameSystem, int enable)
+void GIMMICK_INIT_SetGimmick40Flag(struct GameSystem *gameSystem, int enable)
 {
     struct GameData *gameData;
     Gimmick40Work *work;
-    gameData = func_020120F4(gameSystem);
-    work = func_0200B3A4(func_02012EC4(gameData), 3);
-    func_020127A4(gameData);
+    gameData = GAMESYSTEM_GetGameData(gameSystem);
+    work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), 3);
+    GAME_DATA_GetMyPlayerWork(gameData);
     if (enable) work->enabled = 1;
     else work->enabled = 0;
     if (work->enabled) work->enabledByte = 1;
@@ -73,9 +73,9 @@ void func_021F36E8(struct GameSystem *gameSystem, int enable)
 
 
 /* Sets the three flags of gimmick 42 from the low three bits of the mask. */
-void func_021F3724(unsigned int gameSystem, int buttonMask)
+void GIMMICK_INIT_SetGimmick42Flags(unsigned int gameSystem, int buttonMask)
 {
-    Gimmick42Work *work = func_0200B3A4(func_02012EC4(func_020120F4((const struct GameSystem *)gameSystem)), 4);
+    Gimmick42Work *work = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 4);
     unsigned char i;
 
     for (i = 0; i < 3; i++)
@@ -94,11 +94,11 @@ void func_021F3724(unsigned int gameSystem, int buttonMask)
  * sets its script variable and lights its plates, and every door whose two
  * plates are lit opens.  The last door is always open.
  */
-void func_021F3768(unsigned int gameSystem, unsigned short **foundVars)
+void GIMMICK_INIT_RestoreGimmick38State(unsigned int gameSystem, unsigned short **foundVars)
 {
-    struct GimmickWork *gimmickSave = func_02012EC4(func_020120F4((const struct GameSystem *)gameSystem));
-    Gimmick38Work *work = func_0200B3A4(gimmickSave, 6);
-    u16 *progress = func_0200B3A8(gimmickSave, 6);
+    struct GimmickWork *gimmickSave = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem));
+    Gimmick38Work *work = GIMMICK_WORK_GetSaveArea(gimmickSave, 6);
+    u16 *progress = GIMMICK_WORK_GetProgress(gimmickSave, 6);
     int switchIdx;
     int linkIdx;
     int plateIdx;
@@ -116,7 +116,7 @@ void func_021F3768(unsigned int gameSystem, unsigned short **foundVars)
     }
     for (switchIdx = 0; switchIdx < 6; switchIdx++) {
         for (linkIdx = 0; linkIdx < 2; linkIdx++) {
-            if (work->platePressed[d_021F3834[switchIdx][linkIdx]] == 0)
+            if (work->platePressed[gGimmick38DoorPlates[switchIdx][linkIdx]] == 0)
                 break;
         }
         if (linkIdx == 2)

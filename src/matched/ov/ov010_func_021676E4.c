@@ -1,5 +1,5 @@
 /*
- * function: func_021676E4
+ * function: COMM_PLAYER_Resume
  * address:  0x021676E4
  * packet:   pkt_ov010_021676E4
  * region:   ov010
@@ -12,11 +12,11 @@
  * symbols:
  *   func_02012114  0x02012114  thumb
  *   func_0201210C  0x0201210C  thumb
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02194284  0x02194284  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELD_COMM_ACTOR_CTRL_Create  0x02194284  thumb  ov021
  *   func_02034714  0x02034714  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_021675D0  0x021675D0  thumb
+ *   COMM_PLAYER_Add  0x021675D0  thumb
  *   d_02172A28     0x02172A28  data
  */
 
@@ -81,13 +81,13 @@ extern u8 d_02172A28[];
 struct Ctx;
 extern u32 func_02012114(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C7C(u8 *p);
-extern void *func_02194284(int a, void *b, int heap, int c);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern void *FIELD_COMM_ACTOR_CTRL_Create(int a, void *b, int heap, int c);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_021675D0(struct Work *w, int idx, int a2, struct Src *src);
+extern void COMM_PLAYER_Add(struct Work *w, int idx, int a2, struct Src *src);
 
-void func_021676E4(Work *w)
+void COMM_PLAYER_Resume(Work *w)
 {
     Src t;
     Slot *s;
@@ -97,7 +97,7 @@ void func_021676E4(Work *w)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (w->obj != 0)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    w->obj = func_02194284(w->f8e, func_02188C7C(func_0201210C(w->sys)), w->f8c, w->f90);
+    w->obj = FIELD_COMM_ACTOR_CTRL_Create(w->f8e, FIELDMAP_GetMmdlSys(func_0201210C(w->sys)), w->f8c, w->f90);
     func_02082BCC(&t, 0, 0x14);
     s = (Slot *)w;
     s = (Slot *)((char *)s + 0x1C);
@@ -107,7 +107,7 @@ void func_021676E4(Work *w)
             t.f10 = w->e[i].f10;
             t.f0 = 0;
             t.dir = s[i].dir;
-            func_021675D0(w, i, w->e[i].f12, &t);
+            COMM_PLAYER_Add(w, i, w->e[i].f12, &t);
         }
     }
 }

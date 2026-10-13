@@ -20,7 +20,7 @@
  *
  * symbols:
  *   func_021B6760  0x021B6760  thumb  ov101
- *   func_0203CEAC  0x0203CEAC  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
  *   func_021B6674  0x021B6674  thumb  ov101
  */
 
@@ -36,7 +36,7 @@ typedef struct Obj {
 } Obj;
 
 extern void func_021B6760(int *p);
-extern int func_0203CEAC(int a0);
+extern int GFL_NET_Exit(int a0);
 extern void func_021B6674(int *p);
 
 int func_021B61E8(Obj *o)
@@ -53,7 +53,7 @@ int func_021B61E8(Obj *o)
         o->state = 1;
         break;
     case 1:
-        if (func_0203CEAC((int)func_021B6674) != 0)
+        if (GFL_NET_Exit((int)func_021B6674) != 0)
             o->state = 2;
         else
             o->state = 3;

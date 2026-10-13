@@ -12,7 +12,7 @@
  *   func_021F3358 0x021F3358 thumb ov194
  *   func_021F256C 0x021F256C thumb ov194
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_021F26F0 0x021F26F0 thumb ov194
  *   func_02040AE0 0x02040AE0 arm
  *   func_02040588 0x02040588 arm
@@ -25,7 +25,7 @@ extern void func_021F2608(void *p);
 extern u32 func_021F3358(u32 a, u32 b, u32 c);
 extern void func_021F256C(char *p, unsigned mode, int index, void *table, u32 a4);
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *);extern void func_02043B5C(int,unsigned);
+extern void *func_02045770(struct Descriptor *);extern void BMP_Clear(int,unsigned);
 typedef unsigned short u16;
 extern void func_021F26F0(char *p, char *target, void *window, void *font, u16 heap);
 extern void func_02040AE0(unsigned,const void *,unsigned);extern void func_02040588(unsigned,unsigned);extern void func_020409B4(unsigned);
@@ -36,7 +36,7 @@ void func_021F35A8(char *p, u32 mode) {
  func_021F2608(p);
  index=func_021F3358(mode,((struct Obj01773 *)p)->f104,((struct Obj01773 *)p)->f108);
  func_021F256C(p,mode,index,((struct Obj01773 *)p)->f12C,((struct Obj01773 *)p)->fFE);
- func_02043B5C((int)func_02045770((struct Descriptor *)((struct Obj01773 *)p)->fE0),0);
+ BMP_Clear((int)func_02045770((struct Descriptor *)((struct Obj01773 *)p)->fE0),0);
  func_021F26F0(p,p+0xEC,(void *)(((struct Obj01773 *)p)->fF8),(void *)(((struct Obj01773 *)p)->fF4),((struct Obj01773 *)p)->fFE);
  if(mode==3) {func_02040AE0(1,*(char * *)&((struct Obj01773 *)p)->f124+12,2048);func_02040588(2,0);}
  else func_02040AE0(1,*(char * *)&((struct Obj01773 *)p)->f128+12,2048);

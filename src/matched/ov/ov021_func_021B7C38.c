@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C38
+ * function: FIELD_RAIL_GetUnitScale
  * address:  0x021B7C38
  * packet:   pkt_ov021_021B7C38
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 
 typedef long long s64;
 
-int func_021B7C38(u8 *o)
+int FIELD_RAIL_GetUnitScale(u8 *o)
 {
     return (int)(((s64)((struct Obj20055 *)o)->f4C * 0x10000 + 0x800) >> 12);
 }

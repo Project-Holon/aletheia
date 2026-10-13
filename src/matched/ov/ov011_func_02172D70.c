@@ -11,38 +11,38 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_020127C4  0x020127C4  thumb
- *   func_02161F74  0x02161F74  thumb  ov010
+ *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
+ *   EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline  0x02161F74  thumb  ov010
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
- *   func_021735FC  0x021735FC  thumb  ov011
+ *   INTRUDE_COMM_RefreshBeacon  0x021735FC  thumb  ov011
  *   INTRUDE_COMM_AgeFoundList  0x02173658  thumb  ov011
- *   func_020392B8  0x020392B8  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_02039ACC  0x02039ACC  arm
- *   func_02039338  0x02039338  arm
- *   func_02012B64  0x02012B64  thumb
- *   func_02012950  0x02012950  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02008494  0x02008494  thumb
- *   func_02175710  0x02175710  thumb  ov011
- *   func_02012984  0x02012984  thumb
- *   func_02158590  0x02158590  thumb  ov010
- *   func_020399A8  0x020399A8  arm
- *   func_020399B8  0x020399B8  arm
- *   func_02161F54  0x02161F54  thumb  ov010
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   GAME_DATA_SetExitMode  0x02012B64  thumb
+ *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
+ *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb  ov011
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
+ *   EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid  0x02161F54  thumb  ov010
  *   INTRUDE_COMM_RefreshSelfRecord  0x02174E3C  thumb  ov011
  *   INTRUDE_COMM_ApplyPlayerBeacon  0x02174EAC  thumb  ov011
  *   INTRUDE_COMM_SendStatusRecord  0x02173828  thumb  ov011
  *   func_0203F4FC  0x0203F4FC  arm
- *   func_02012B70  0x02012B70  thumb
- *   func_02012114  0x02012114  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
  *   func_02174978  0x02174978  thumb  ov011
  *   INTRUDE_COMM_IsResultConfirmed  0x02175EB8  thumb  ov011
- *   func_0203D378  0x0203D378  arm
- *   func_02175B14  0x02175B14  thumb  ov011
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  *   INTRUDE_COMM_SendTimeoutWarning  0x021739E0  thumb  ov011
  *   INTRUDE_COMM_GetLeaveFlag  0x02175ED8  thumb  ov011
  *   INTRUDE_COMM_HasConnectedPeers  0x02175628  thumb  ov011
@@ -95,44 +95,44 @@ typedef struct Work {
 
 struct BigObj;
 extern u32 func_02026478(void *obj);
-extern u8 *func_020127C4(void *p);
-extern void func_02161F74(int a0, int a1, int a2);
+extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
+extern void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(int a0, int a1, int a2);
 struct Comm;
 struct Rec44;
 struct Sub;
 struct Sub24;
 extern u32 func_0200FB24(void);
-extern void func_02026400(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern u32   func_02035390(void);
 extern int func_020353B0(void);
-extern void  func_021735FC(void *sv, void *p);
+extern void  INTRUDE_COMM_RefreshBeacon(void *sv, void *p);
 extern void INTRUDE_COMM_AgeFoundList(u8 *o);
-extern int   func_020392B8(void);
-extern void func_0203D7BC(u8 a0);
-extern int func_02039ACC(void);
-extern u16 func_02039338(void);
-extern void  func_02012B64(void *sv, u32 a);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-extern u8 *func_02012944(void *p);
-extern void  func_02008494(void *a, void *b);
-extern void func_02175710(u8 *o, u32 v);
-extern u8 func_02012984(const struct BigObj *p);
-extern int   func_02158590(void *sv);
+extern int   GFL_NET_SYSTEM_GetConnectNum(void);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern int GFL_NET_HANDLE_CheckNegotiation(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern void  GAME_DATA_SetExitMode(void *sv, u32 a);
+extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void  MYSTATUS_Copy(void *a, void *b);
+extern void INTRUDE_COMM_SetIntrudeId(u8 *o, u32 v);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern int   INTRUDE_COMM_HasUnlockFlags(void *sv);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_020399B8(u8 *p);
-extern int func_02161F54(int a0);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
+extern int EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(int a0);
 extern void INTRUDE_COMM_RefreshSelfRecord(u8 *p);
 extern void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q);
 extern int INTRUDE_COMM_SendStatusRecord(char *p);
 extern u32 func_0203F4FC(void);
-extern int func_02012B70(const struct BigObj *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 struct Ctx;
-extern u32   func_02012114(const struct Ctx *p);
+extern u32   GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
 extern void func_02174978(u8 *s);
 extern int   INTRUDE_COMM_IsResultConfirmed(void *p);
-extern u32 func_0203D378(void);
-extern int func_02175B14(u8 *p);
+extern u32 GFL_NET_IsParentAid(void);
+extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 extern int   INTRUDE_COMM_SendTimeoutWarning(void);
 extern int INTRUDE_COMM_GetLeaveFlag(struct Sub *s);
 extern int   INTRUDE_COMM_HasConnectedPeers(void);
@@ -146,7 +146,7 @@ void func_02172D70(int *state, Param *p, Work *w)
 
     sv = (void *)func_02026478(p->field04);
     if (w != 0 && w->step >= 7) {
-        func_02161F74((int)((u8 *)w + 0x35c), (int)func_020127C4(sv), w->field8fb);
+        EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline((int)((u8 *)w + 0x35c), (int)GAME_DATA_GetSecondUnionInfo(sv), w->field8fb);
     }
     if (func_0200FB24() != 0 || w->quit == 1) {
         if (w->lock) {
@@ -154,58 +154,58 @@ void func_02172D70(int *state, Param *p, Work *w)
         }
         w->step = 11;
         w->quit = 1;
-        func_02026400(w->field004);
+        GAME_COMM_RequestExitNoCallback(w->field004);
         return;
     }
     if (func_02035390() == 1 && func_020353B0() == 1 && w->lock == 0) {
-        func_02026400(w->field004);
+        GAME_COMM_RequestExitNoCallback(w->field004);
         return;
     }
     if (w->step == 7 && w->field8fa == 1) {
-        func_02026400(w->field004);
+        GAME_COMM_RequestExitNoCallback(w->field004);
         return;
     }
-    func_021735FC(sv, (u8 *)w + 0xc);
+    INTRUDE_COMM_RefreshBeacon(sv, (u8 *)w + 0xc);
     INTRUDE_COMM_AgeFoundList((u8 *)w);
     switch (*state) {
     case 0:
-        if (func_020392B8() > 1 && w->step < 5) {
+        if (GFL_NET_SYSTEM_GetConnectNum() > 1 && w->step < 5) {
             w->step = 5;
-            func_0203D7BC(1);
+            GFL_NET_SetLoginOption(1);
         }
         if (w->step == 5) {
-            if (func_02039ACC() == 1) {
-                func_02012B64(sv, func_02039338());
-                mon = func_02012950(sv, func_02039338());
-                func_02008494(func_02012944(sv), mon);
-                func_02175710((u8 *)w, func_02039338());
+            if (GFL_NET_HANDLE_CheckNegotiation() == 1) {
+                GAME_DATA_SetExitMode(sv, GFL_NET_SYSTEM_GetCurrentAid());
+                mon = GAME_DATA_GetPlayerStatus(sv, GFL_NET_SYSTEM_GetCurrentAid());
+                MYSTATUS_Copy(GAME_DATA_GetMyStatus(sv), mon);
+                INTRUDE_COMM_SetIntrudeId((u8 *)w, GFL_NET_SYSTEM_GetCurrentAid());
                 w->kind = 0x15;
-                w->mode = func_02012984(sv);
-                if (func_02158590(sv) == 0) {
+                w->mode = GAME_DATA_GetSeason(sv);
+                if (INTRUDE_COMM_HasUnlockFlags(sv) == 0) {
                     w->flag08b = 1;
                 }
-                func_0203D7BC(1);
+                GFL_NET_SetLoginOption(1);
                 (*state)++;
             }
         } else if (w->step == 4) {
             w->timer++;
             if (w->timer > 600) {
                 w->timer = 0;
-                func_02026400(w->field004);
+                GAME_COMM_RequestExitNoCallback(w->field004);
                 return;
             }
         }
         break;
     case 1:
-        if (func_020399B8((u8 *)((u32)func_020399A8())) == 1) {
+        if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)((u32)GFL_NET_HANDLE_GetCurrentHandle())) == 1) {
             w->step = 6;
             (*state)++;
         }
         break;
     case 2:
-        func_02161F54((int)((u8 *)w + 0x35c));
+        EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid((int)((u8 *)w + 0x35c));
         INTRUDE_COMM_RefreshSelfRecord((u8 *)w);
-        INTRUDE_COMM_ApplyPlayerBeacon((u8 *)w, func_02039338(), (u8 *)w + 0x160);
+        INTRUDE_COMM_ApplyPlayerBeacon((u8 *)w, GFL_NET_SYSTEM_GetCurrentAid(), (u8 *)w + 0x160);
         (*state)++;
         break;
     case 3:
@@ -216,17 +216,17 @@ void func_02172D70(int *state, Param *p, Work *w)
         }
         break;
     case 4:
-        if (func_02012B70(sv) == 0 && w->mode != func_02012984(sv)
-            && func_02012114(p->field00) == 1) {
-            func_02026400(w->field004);
+        if (GAME_DATA_GetIntrudeCount(sv) == 0 && w->mode != GAME_DATA_GetSeason(sv)
+            && GAMESYSTEM_IsFieldMapExist(p->field00) == 1) {
+            GAME_COMM_RequestExitNoCallback(w->field004);
             return;
         }
         func_02174978((u8 *)w);
         if (INTRUDE_COMM_IsResultConfirmed((u8 *)w + 0x1ac) == 1) {
-            func_02026400(w->field004);
+            GAME_COMM_RequestExitNoCallback(w->field004);
             return;
         }
-        if (func_0203D378() == 1 && func_02175B14((u8 *)w + 0x1ac) == 0) {
+        if (GFL_NET_IsParentAid() == 1 && INTRUDE_COMM_IsSessionActive((u8 *)w + 0x1ac) == 0) {
             base = w->stamp;
             now = func_0203F4FC();
             if (now < base) {
@@ -234,22 +234,22 @@ void func_02172D70(int *state, Param *p, Work *w)
             }
             now -= base;
             if (now >= 180) {
-                func_02026400(w->field004);
+                GAME_COMM_RequestExitNoCallback(w->field004);
                 return;
             }
             if (now > 170 && w->warned == 0 && INTRUDE_COMM_SendTimeoutWarning() == 1) {
                 w->warned = 1;
             }
-        } else if (w->lock == 0 && func_0203D378() == 1
+        } else if (w->lock == 0 && GFL_NET_IsParentAid() == 1
                    && INTRUDE_COMM_GetLeaveFlag((struct Sub *)((u8 *)w + 0x1ac)) == 1) {
-            func_02026400(w->field004);
+            GAME_COMM_RequestExitNoCallback(w->field004);
         } else {
             w->warned = 0;
         }
         if (INTRUDE_COMM_HasConnectedPeers() == 0) {
             w->idle++;
             if (w->idle > 180) {
-                func_02026400(w->field004);
+                GAME_COMM_RequestExitNoCallback(w->field004);
                 return;
             }
         } else {

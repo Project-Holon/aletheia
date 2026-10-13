@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021CA5CC     0x021CA5CC  data
  *
  * Addresses are Black-image addresses.
  */
 
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern char d_021CA5CC[];
 
 void func_021C6698(void *a0)
 {
-    func_020433E0((const struct DispVram *)d_021CA5CC);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021CA5CC);
 }

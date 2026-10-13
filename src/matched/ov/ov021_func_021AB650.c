@@ -1,5 +1,5 @@
 /*
- * function: func_021AB650
+ * function: FLD_SCENEAREA_ClearData
  * address:  0x021AB650
  * packet:   pkt_ov021_021AB650
  * region:   ov021
@@ -20,7 +20,7 @@ typedef struct {
     int f14;
 } S;
 
-void func_021AB650(S *s)
+void FLD_SCENEAREA_ClearData(S *s)
 {
     s->f8 = 0;
     s->fc = 0;

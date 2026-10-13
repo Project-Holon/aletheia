@@ -1,5 +1,5 @@
 /*
- * function: func_02156F68
+ * function: MUSICAL_STAGE_SYS_Create
  * address:  0x02156F68
  * packet:   pkt_ov010_02156F68
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   d_02172754  0x02172754  data
+ *   sMusicalStageSysFileName  0x02172754  data
  */
 
 typedef unsigned char u8;
@@ -25,14 +25,14 @@ typedef struct Stage {
 } Stage;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern const char d_02172754[];
+extern const char sMusicalStageSysFileName[];
 
-Stage *func_02156F68(u32 heap, void *p)
+Stage *MUSICAL_STAGE_SYS_Create(u32 heap, void *p)
 {
     Stage *s;
     u8 i;
 
-    s = func_02030734(heap, 0x20, 0, d_02172754, 0xBE);
+    s = func_02030734(heap, 0x20, 0, sMusicalStageSysFileName, 0xBE);
     s->f00 = p;
     for (i = 0; i < 4; i++)
         s->f04[i] = 0;

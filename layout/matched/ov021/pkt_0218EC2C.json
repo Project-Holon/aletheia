@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218EC2C",
+   "name": "FIELD_CAMERA_GetG3dCamera",
    "address": "0x0218EC2C",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218EC5C",
+   "name": "FIELD_CAMERA_GetTraceTarget",
    "address": "0x0218EC5C",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218ED2C",
+   "name": "FIELD_CAMERA_GetPitch",
    "address": "0x0218ED2C",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0218ED3C",
+   "name": "FIELD_CAMERA_GetViewPitchPtr",
    "address": "0x0218ED3C",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218ED40",
+   "name": "FIELD_CAMERA_GetYaw",
    "address": "0x0218ED40",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0218ED50",
+   "name": "FIELD_CAMERA_GetViewYawPtr",
    "address": "0x0218ED50",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218ED54",
+   "name": "FIELD_CAMERA_GetDistance",
    "address": "0x0218ED54",
    "kind": "game",
    "region": "ov021",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0218F1B4",
+   "name": "FIELD_CAMERA_GetAreasEnabled",
    "address": "0x0218F1B4",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021C93E4
+ * function: LAND_DATA_PATCH_OverwriteAttr
  * address:  0x021C93E4
  * packet:   pkt_ov021_021C93E4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C94AC  0x021C94AC  thumb  ov021
+ *   LAND_DATA_PATCH_GetAttrBlock  0x021C94AC  thumb  ov021
  *   func_02082D44  0x02082D44  arm
  *
  * Addresses are Black-image addresses.
@@ -22,12 +22,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021C94AC(u32 a);
+extern int LAND_DATA_PATCH_GetAttrBlock(u32 a);
 extern void func_02082D44(void *src, void *dst, int n);
 
-void func_021C93E4(u32 a, u8 *q, u32 x, u32 y, u32 z, u32 w, u32 n, u32 cnt)
+void LAND_DATA_PATCH_OverwriteAttr(u32 a, u8 *q, u32 x, u32 y, u32 z, u32 w, u32 n, u32 cnt)
 {
-    u8 *t = (u8 *)func_021C94AC(a);
+    u8 *t = (u8 *)LAND_DATA_PATCH_GetAttrBlock(a);
     u8 *qb = q + 4;
     u8 *tb = t + 4;
     u32 i;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021852F4",
+   "name": "OEKAKI_SetQuitButtonPressed",
    "address": "0x021852F4",
    "kind": "game",
    "region": "ov023",

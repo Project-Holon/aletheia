@@ -1,5 +1,5 @@
 /*
- * function: func_0218C584
+ * function: FIELD_BUILDMODEL_CollectEntriesInRect
  * address:  0x0218C584
  * packet:   pkt_ov021_0218C584
  * region:   ov021
@@ -13,10 +13,10 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02169510  0x02169510  thumb
+ *   FIELD_G3D_MAP_GetPos  0x02169510  thumb
  *   func_0207C9D0  0x0207C9D0  arm
- *   func_0218C674  0x0218C674  thumb  ov021
- *   d_021DD9CC     0x021DD9CC  data   a4
+ *   FIELD_BUILDMODEL_GetEntryAnimKind  0x0218C674  thumb  ov021
+ *   gBuildModelFileName     0x021DD9CC  data   a4
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19535.h"
@@ -45,10 +45,10 @@ typedef struct {
 } Ent;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_02169510(int o, Vec *v);
+extern void FIELD_G3D_MAP_GetPos(int o, Vec *v);
 extern void func_0207C9D0(Vec *a, Vec *b, Vec *c);
-extern int func_0218C674(unsigned char *p, int b);
-extern char d_021DD9CC[];
+extern int FIELD_BUILDMODEL_GetEntryAnimKind(unsigned char *p, int b);
+extern char gBuildModelFileName[];
 
 static inline int InRect(Rect *r, int x, int z)
 {
@@ -57,7 +57,7 @@ static inline int InRect(Rect *r, int x, int z)
     return 0;
 }
 
-Ent **func_0218C584(u8 *s, Rect *r, int kind, int *count)
+Ent **FIELD_BUILDMODEL_CollectEntriesInRect(u8 *s, Rect *r, int kind, int *count)
 {
     Ent **list;
     Ent *e;
@@ -65,14 +65,14 @@ Ent **func_0218C584(u8 *s, Rect *r, int kind, int *count)
     int n = 0;
     u32 i;
 
-    list = func_02030734(((struct Obj19535 *)s)->f0, 0x80, 1, d_021DD9CC, 0x749);
+    list = func_02030734(((struct Obj19535 *)s)->f0, 0x80, 1, gBuildModelFileName, 0x749);
     for (i = 0; i < 0x120; i++) {
         e = (Ent *)(s + 0x1F8) + i;
         if (e->obj == 0)
             continue;
-        if (kind != 0 && kind != func_0218C674(s, (int)e))
+        if (kind != 0 && kind != FIELD_BUILDMODEL_GetEntryAnimKind(s, (int)e))
             continue;
-        func_02169510(e->obj, &v);
+        FIELD_G3D_MAP_GetPos(e->obj, &v);
         func_0207C9D0((Vec *)(e->ref + 4), &v, &v);
         if (InRect(r, v.x, v.z) == 1) {
             list[n] = e;

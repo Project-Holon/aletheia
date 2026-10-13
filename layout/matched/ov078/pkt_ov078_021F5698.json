@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F5698",
+   "name": "ENCEFF_StartRipple",
    "address": "0x021F5698",
    "kind": "game",
    "region": "ov078",

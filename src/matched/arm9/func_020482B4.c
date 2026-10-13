@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046F50   0x02046F50  arm
- *   func_020470D0   0x020470D0  arm
- *   func_02046EFC   0x02046EFC  arm
+ *   G3D_SYSTEM_CheckResourceType   0x02046F50  arm
+ *   G3D_SYSTEM_FreeVramTexture   0x020470D0  arm
+ *   G3D_SYSTEM_DeleteResource   0x02046EFC  arm
  *
  * Tear down one row of the array: for each of the slot record's +0x18
  * elements (starting at the +0x16 index) that is not null, clear the
  * matching byte of the owner's second array (base + index), then run
- * func_02046F50 with mode 2 and, only when it answers exactly one,
- * func_020470D0, and finally func_02046EFC on the element either way.
+ * G3D_SYSTEM_CheckResourceType with mode 2 and, only when it answers exactly one,
+ * G3D_SYSTEM_FreeVramTexture, and finally G3D_SYSTEM_DeleteResource on the element either way.
  *
  * The same signed count and `blt` back edge as G3D_UTIL_LoadUnitResourcesFromArchive, and the same
  * re-read of the owner's element pointer per iteration.
@@ -44,9 +44,9 @@ struct Owner {
 };
 
 struct Tagged;
-extern u32 func_02046F50(struct Tagged *p, u32 sel);
-extern int func_020470D0(u32 *p);
-extern void func_02046EFC(struct Tagged *p);
+extern u32 G3D_SYSTEM_CheckResourceType(struct Tagged *p, u32 sel);
+extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
 void G3D_UTIL_FreeUnitResources(struct Owner *owner, u32 index)
 {
@@ -61,10 +61,10 @@ void G3D_UTIL_FreeUnitResources(struct Owner *owner, u32 index)
         if (v != 0) {
             owner->unk_04[base + i] = 0;
 
-            if (func_02046F50((struct Tagged *)v, 2) == 1)
-                func_020470D0((u32 *)v);
+            if (G3D_SYSTEM_CheckResourceType((struct Tagged *)v, 2) == 1)
+                G3D_SYSTEM_FreeVramTexture((u32 *)v);
 
-            func_02046EFC((struct Tagged *)v);
+            G3D_SYSTEM_DeleteResource((struct Tagged *)v);
         }
     }
 }

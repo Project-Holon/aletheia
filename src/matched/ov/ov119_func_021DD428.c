@@ -10,7 +10,7 @@
  * lever: Separate two-by-three struct fields recompute the side offset;
  * raw combined offsets cached it in ip and produced 208 rather than 204 bytes.
  * symbols:
- *   func_020173EC 0x020173EC thumb
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02030734 0x02030734 arm
  *   func_02082D44 0x02082D44 arm
  *   func_021DF918 0x021DF918 thumb ov119
@@ -19,7 +19,7 @@
 #include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_020173EC(void);
+extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082D44(void *,const void *,int);
 extern void func_021DF918(void *,int,void *);
@@ -43,8 +43,8 @@ int func_021DD428(State *p,int side,int a,int b,void *value)
             p->a[side][i]=a;
             p->b[side][i]=b;
             if(p->value[side][i]==0)
-                p->value[side][i]=func_02030734(((struct Obj00001 *)p)->f5F4,func_020173EC(),1,d_021E80E0,0x14c);
-            func_02082D44(value,p->value[side][i],func_020173EC());
+                p->value[side][i]=func_02030734(((struct Obj00001 *)p)->f5F4,POKE_TOOL_GetPartyParamSize(),1,d_021E80E0,0x14c);
+            func_02082D44(value,p->value[side][i],POKE_TOOL_GetPartyParamSize());
             func_021DF918(p,side,value);
             return i;
         }

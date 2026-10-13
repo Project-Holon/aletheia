@@ -13,6 +13,11 @@
  *   _pNetState     0x021469DC  data
  *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -34,30 +39,30 @@ struct B794 {
     void (*unk_2C)(u32);
 };
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct NetState;
 extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_GetNegotiationNum(u32 a);
-extern u16 func_02039338(void);
-extern u32 func_0203D650(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern u32 GFL_NET_GetUserArg(void);
 
 void GFL_NET_STATE_ParentNegotiationWait(struct B794 *p)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
 
-    func_0203996C(0xFF);
-    if ((int)GFL_NET_HANDLE_GetNegotiationNum((u32)func_020399A8()) < 2)
+    GFL_NET_HANDLE_GetNetHandle(0xFF);
+    if ((int)GFL_NET_HANDLE_GetNegotiationNum((u32)GFL_NET_HANDLE_GetCurrentHandle()) < 2)
         return;
 
-    func_02039338();
+    GFL_NET_SYSTEM_GetCurrentAid();
 
     if (p->unk_2C != 0) {
-        p->unk_2C(func_0203D650());
+        p->unk_2C(GFL_NET_GetUserArg());
         p->unk_2C = 0;
     }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02190B08
+ * function: FIELD_MSGBG_SetMenuHeaderRect
  * address:  0x02190B08
  * packet:   pkt_02190B08
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_02190B08(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 f)
+int FIELD_MSGBG_SetMenuHeaderRect(u32 a, u32 b, u32 c, u32 d, u32 e0, u32 f)
 {
 ((struct Obj05858 *)((u8 *)(a)))->f0 = b;
 ((struct Obj05858 *)((u8 *)(a)))->f16 = d;

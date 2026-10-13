@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F1268 0x021F1268 thumb
- *   func_021659F0 0x021659F0 thumb ov010
+ *   GAME_BEACON_ACCESSOR_TableGetRingIndex 0x021659F0 thumb ov010
  *   func_021F0F44 0x021F0F44 thumb
  *   func_021F1080 0x021F1080 thumb
  */
@@ -20,7 +20,7 @@
 
 typedef unsigned char u8;
 
-extern int func_021659F0(u8 *q, int delta);
+extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
 extern char *func_021F0F44(char *this, u8 id);
 extern void func_021F1080(char *this, char *e, int i, int j);
 
@@ -30,7 +30,7 @@ void func_021F1268(char *this)
     char *e;
 
     for (i = 0; i < ((struct Obj09797 *)this)->f7D; i++) {
-        e = func_021F0F44(this, func_021659F0(*(u8 * *)&((struct Obj09797 *)this)->f3C, ((struct Obj09797 *)this)->f7C + i));
+        e = func_021F0F44(this, GAME_BEACON_ACCESSOR_TableGetRingIndex(*(u8 * *)&((struct Obj09797 *)this)->f3C, ((struct Obj09797 *)this)->f7C + i));
         if (((struct Obj13063 *)e)->f30 == 0 || ((struct Obj13063 *)e)->f2C != 0)
             func_021F1080(this, e, 0, 0);
     }

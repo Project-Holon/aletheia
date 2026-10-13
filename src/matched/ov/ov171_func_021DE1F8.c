@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A8D4  0x0204A8D4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  */
 typedef unsigned int u32;
 
-extern void func_0204A8D4(u32 v);
+extern void CLACT_ReleaseCharacter(u32 v);
 
 void func_021DE1F8(char *p, int i)
 {
     if (*(u32 *)(p + 0xbb4 + i * 4) != 0xffffffffu) {
-        func_0204A8D4(*(u32 *)(p + 0xbb4 + i * 4));
+        CLACT_ReleaseCharacter(*(u32 *)(p + 0xbb4 + i * 4));
         *(u32 *)(p + 0xbb4 + i * 4) = 0xffffffffu;
     }
 }

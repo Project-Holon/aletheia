@@ -1,5 +1,5 @@
 /*
- * function: func_0218C54C
+ * function: FIELD_BUILDMODEL_SwapEntryModelId
  * address:  0x0218C54C
  * packet:   pkt_ov021_0218C54C
  * region:   ov021
@@ -18,7 +18,7 @@ typedef struct {
     int *fC;
 } S;
 
-void func_0218C54C(S *p, int save)
+void FIELD_BUILDMODEL_SwapEntryModelId(S *p, int save)
 {
     if (save) {
         *p->fC = p->f4;

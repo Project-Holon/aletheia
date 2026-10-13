@@ -1,5 +1,5 @@
 /*
- * function: func_021BB0E4
+ * function: OPTION_MENU_AreSettingsEqual
  * address: 0x021BB0E4
  * packet: pkt_ov068_021BB0E4
  * region: ov068
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0203EFC8(const u8 *, const u8 *, u32);
-int func_021BB0E4(const u8 *p, const u8 *q)
+int OPTION_MENU_AreSettingsEqual(const u8 *p, const u8 *q)
 {
     if (func_0203EFC8(p, q, 5) == 0) return 1;
     return 0;

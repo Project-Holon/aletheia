@@ -1,5 +1,5 @@
 /*
- * function: func_02050340
+ * function: BILLBOARD_ACT_CreateEntries
  * address:  0x02050340
  * packet:   pkt_02050340
  * region:   arm9
@@ -12,14 +12,14 @@
  *   AREAMAN_Alloc  0x02033CA8  arm
  *   BILLBOARD_ACT_InitEntry  0x020500B8  arm
  *   BILLBOARD_AddElem  0x0204F428  arm
- *   func_0204F720  0x0204F720  arm
+ *   BILLBOARD_SetElemVisible  0x0204F720  arm
  *
  * billboard_act.c: take `count` consecutive entry indices from the pool at
  * +0x20 and build one board element per 0x24-byte descriptor through
  * BILLBOARD_AddElem, returning the first index (0xFFFF when the pool is full).
  * Levers, all measured: the descriptor array is `const` (its field loads
  * then move above the entry stores, 62 -> 15 bytes); the element id is a
- * named local passed on to func_0204F720 rather than re-read; the caller's
+ * named local passed on to BILLBOARD_SetElemVisible rather than re-read; the caller's
  * view of BILLBOARD_AddElem takes s16 v12/v14 (ldrsh, no narrowing); all five
  * locals at function scope in the order p, e, idx, i, r (loop-scoped e/p
  * swap the i and p registers).
@@ -83,9 +83,9 @@ struct AreaMan;
 extern s32 AREAMAN_Alloc(struct AreaMan *p, u32 len);
 extern void BILLBOARD_ACT_InitEntry(u32 *p);
 extern s32  BILLBOARD_AddElem(void *board, u32 id, s16 v12, s16 v14, const struct Vec3 *src, u8 k, u32 w, u32 mode);
-extern void func_0204F720(void *p, u32 idx, u32 *flag);
+extern void BILLBOARD_SetElemVisible(void *p, u32 idx, u32 *flag);
 
-u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode)
+u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode)
 {
     const struct BbActDesc *p;
     struct BbActEntry *e;
@@ -107,7 +107,7 @@ u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 c
         e->f00 = r;
         e->f20 = p->f1c;
         e->f24 = p->f20;
-        func_0204F720(o->f04, r, (u32 *)(&p->flag));
+        BILLBOARD_SetElemVisible(o->f04, r, (u32 *)(&p->flag));
         e->f1C = 0x3FFF;
     }
     return idx;

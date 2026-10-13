@@ -1,5 +1,5 @@
 /*
- * function: func_02189A1C
+ * function: FIELDMAP_SetScriptEffectBusy
  * address:  0x02189A1C
  * packet:   pkt_02189A00
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02189A1C(u8 *p, u32 v)
+void FIELDMAP_SetScriptEffectBusy(u8 *p, u32 v)
 {
     ((struct Obj17888 *)p)->f138 = v;
 }

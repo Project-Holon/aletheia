@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219B8A8",
+   "name": "FLDMMDL_MOVE_IsButtonBHeld",
    "address": "0x0219B8A8",
    "kind": "game",
    "region": "ov021",

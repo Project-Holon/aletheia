@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C8494   0x021C8494  thumb  ov093
- *   func_021BFF60   0x021BFF60  thumb  ov093
+ *   BTL_SERVER_FLOW_ReleaseBindingTarget   0x021BFF60  thumb  ov093
  *   func_021B9934   0x021B9934  thumb  ov093
  * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
  */
@@ -27,7 +27,7 @@ typedef signed int s32;
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021BFF60(u8 *p, u8 *a, int z);
+extern void BTL_SERVER_FLOW_ReleaseBindingTarget(u8 *p, u8 *a, int z);
 
-void func_021C8494(u8 *p, int i) { func_021BFF60(p, func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
+void func_021C8494(u8 *p, int i) { BTL_SERVER_FLOW_ReleaseBindingTarget(p, func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
 

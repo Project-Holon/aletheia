@@ -1,5 +1,5 @@
 /*
- * function: func_021F3E54
+ * function: FIELD_FK_BUILD_SOUND_Update
  * address:  0x021F3E54
  * packet:   pkt_ov056_021F3E54
  * region:   ov056
@@ -10,34 +10,34 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218C6F4  0x0218C6F4  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02028A7C  0x02028A7C  thumb
- *   d_021F4258  0x021F4258  data  ov056  a4
+ *   FIELD_BUILDMODEL_GetEntrySlotFrame  0x0218C6F4  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_ClaimSlot  0x02028A7C  thumb
+ *   gFkBuildSoundTriggerFrame  0x021F4258  data  ov056  a4
  */
 
 typedef unsigned int u32;
 
 struct Ctx;
 struct SoundSys2;
-extern int func_0218C6F4(unsigned char *p, int b, int id);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern int FIELD_BUILDMODEL_GetEntrySlotFrame(unsigned char *p, int b, int id);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
-extern void func_02028A7C(struct SoundSys2 *s, u32 id);
-extern int d_021F4258[];
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct SoundSys2 *s, u32 id);
+extern int gFkBuildSoundTriggerFrame[];
 
-void func_021F3E54(int unused, int b, u32 *c)
+void FIELD_FK_BUILD_SOUND_Update(int unused, int b, u32 *c)
 {
     int r;
 
-    if (c[2] == func_0218C6F4((unsigned char *)c[0], c[1], 1)) {
-        r = func_02012A30((const struct BigObj *)func_020120F4(func_02188C80((void *)b)));
+    if (c[2] == FIELD_BUILDMODEL_GetEntrySlotFrame((unsigned char *)c[0], c[1], 1)) {
+        r = GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)b)));
         c[3] = 0;
-        c[2] = d_021F4258[c[3]];
-        func_02028A7C((struct SoundSys2 *)r, 0x692);
+        c[2] = gFkBuildSoundTriggerFrame[c[3]];
+        FIELD_SOUND_SYSTEM_ClaimSlot((struct SoundSys2 *)r, 0x692);
     }
 }

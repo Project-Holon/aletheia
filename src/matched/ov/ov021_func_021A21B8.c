@@ -1,5 +1,5 @@
 /*
- * function: func_021A21B8
+ * function: WEATHER_TASK_GetWorkBuffer
  * address:  0x021A21B8
  * packet:   pkt_ov021_021A21B8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Unlabelled 4-byte leaf: returns field 0x3c (ldr r0,[r0,#0x3c]).
  */
 
-int *func_021A21B8(int *p)
+int *WEATHER_TASK_GetWorkBuffer(int *p)
 {
     return (int *)p[15];
 }

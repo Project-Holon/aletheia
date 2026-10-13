@@ -1,5 +1,5 @@
 /*
- * function: func_021B40D4
+ * function: SCRCMD_PROC_FLD_PrintMoneyWindow
  * address:  0x021B40D4
  * packet:   pkt_ov021_021B40D4
  * region:   ov021
@@ -11,19 +11,19 @@
  *
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0200DABC 0x0200DABC thumb
  *   func_0200C274 0x0200C274 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_0201C7D0 0x0201C7D0 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj00037.h"
 
@@ -41,42 +41,42 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u16 func_0200DABC(struct Blk1AC *p);
 extern u32 func_0200C274(struct Blk34 *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 a);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021B40D4(char *w)
+void SCRCMD_PROC_FLD_PrintMoneyWindow(char *w)
 {
     u32 t7, t6, s, bg;
 
     if (((struct Obj00037 *)w)->f163 == 1) {
         t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x16);
-        t6 = (u32)func_020457B0(10, ((struct Obj00037 *)w)->f4);
+        t6 = (u32)STRBUF_Create(10, ((struct Obj00037 *)w)->f4);
         func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200DABC((struct Blk1AC *)(((struct Obj00037 *)w)->f18)), 4, 1, 1);
     } else {
         t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x15);
-        t6 = (u32)func_020457B0(10, ((struct Obj00037 *)w)->f4);
+        t6 = (u32)STRBUF_Create(10, ((struct Obj00037 *)w)->f4);
         func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200C274((struct Blk34 *)(((struct Obj00037 *)w)->fC)), 7, 1, 1);
     }
     func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), (void *)t6, (void *)t7);
     s = (u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f168);
-    func_02043B5C((struct CharBuf *)s, 0);
-    func_0201C7D0((void *)s, 0, 0, (void *)t6, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
+    BMP_Clear((struct CharBuf *)s, 0);
+    PRINTSYS_PrintColor((void *)s, 0, 0, (void *)t6, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
     bg = ((struct Obj00037 *)w)->f168;
-    func_02045334((struct Descriptor *)bg);
-    func_02045374((struct Cfg *)bg);
+    BMP_WIN_TransferChars((struct Descriptor *)bg);
+    BMP_WIN_MakeScreen((struct Cfg *)bg);
     func_020409B4(func_02045730((struct Descriptor *)bg));
-    func_02045808((struct U16Vec *)t6);
-    func_02045808((struct U16Vec *)t7);
+    STRBUF_Delete((struct U16Vec *)t6);
+    STRBUF_Delete((struct U16Vec *)t7);
 }

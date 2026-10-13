@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021844D8",
+   "name": "OEKAKI_SendCanvasChunk",
    "address": "0x021844D8",
    "kind": "game",
    "region": "ov023",

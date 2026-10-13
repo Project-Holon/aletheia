@@ -1,5 +1,5 @@
 /*
- * function: func_021642A4
+ * function: FLDMMDL_MOVE_GetDirTableValue
  * address:  0x021642A4
  * packet:   pkt_ov010_021642A4
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf (no lr save, prints as .word data in the listing),
- * filed as a blocker of ov021 func_0219A7DC and func_0219A8C0: returns
+ * filed as a blocker of ov021 FLDMMDL_MOVECODE_SwingStepRotateDir and FLDMMDL_MOVECODE_BackForthStepFaceDir: returns
  * the low halfword of word i of a table.
  *
  * symbols:
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 d_021714B0[];
 
-u16 func_021642A4(int i)
+u16 FLDMMDL_MOVE_GetDirTableValue(int i)
 {
     return d_021714B0[i];
 }

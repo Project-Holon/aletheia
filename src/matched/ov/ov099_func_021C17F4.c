@@ -11,7 +11,7 @@
  * symbols:
  *   func_021B97F4 0x021B97F4 thumb ov099
  *   func_021BE2A8 0x021BE2A8 thumb ov099
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_021BA858 0x021BA858 thumb ov099
  *   func_021C27E0 0x021C27E0 thumb ov099
  *   func_021C27E8 0x021C27E8 thumb ov099
@@ -27,7 +27,7 @@
 typedef unsigned char u8;
 extern int func_021B97F4(char *);
 extern void *func_021BE2A8(char *, int);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 typedef unsigned int   u32;
 extern u32 func_021BA858(char *p);
 extern u8 func_021C27E0(void *);
@@ -43,7 +43,7 @@ int func_021C17F4(char *p, int state)
     void *selection;
     int result;
     selection = func_021BE2A8(p, func_021B97F4(p + 0x274));
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     result = func_021BA858(p);
     if (result == -1) return state;
     if (result == 0) {

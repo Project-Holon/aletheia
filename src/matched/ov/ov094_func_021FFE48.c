@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017EAC  0x02017EAC  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_IsShiny  0x02017EAC  thumb
  *   func_02019C90  0x02019C90  thumb
  *   func_0202D034  0x0202D034  thumb
  *   func_022019F4  0x022019F4  thumb  ov094
@@ -41,8 +41,8 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(char *p, int key);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017EAC(void *p);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_IsShiny(void *p);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern int func_0202D034(u32 a, u32 b);
 
@@ -54,13 +54,13 @@ void func_021FFE48(Work *w, int key, void *p)
         return;
     if (w->e[idx].h == 0)
         return;
-    w->e[idx].a = func_02017E1C(p, 5, 0);
-    w->e[idx].b = func_02017E1C(p, 0x6f, 0);
+    w->e[idx].a = POKE_TOOL_GetPartyValue(p, 5, 0);
+    w->e[idx].b = POKE_TOOL_GetPartyValue(p, 0x6f, 0);
     w->e[idx].d = func_02019C90(w->e[idx].a, w->e[idx].b, 0x26);
-    w->e[idx].c = func_02017E1C(p, 0, 0);
-    w->e[idx].f = func_02017E1C(p, 0x98, 0);
-    if (func_02017EAC(p) == 1)
+    w->e[idx].c = POKE_TOOL_GetPartyValue(p, 0, 0);
+    w->e[idx].f = POKE_TOOL_GetPartyValue(p, 0x98, 0);
+    if (POKE_TOOL_IsShiny(p) == 1)
         w->e[idx].flags0 |= 2;
-    w->e[idx].e = func_0202D034(func_02017E1C(p, 0xa0, 0), func_02017E1C(p, 0xa1, 0));
+    w->e[idx].e = func_0202D034(POKE_TOOL_GetPartyValue(p, 0xa0, 0), POKE_TOOL_GetPartyValue(p, 0xa1, 0));
     w->e[idx].flags |= 0x200;
 }

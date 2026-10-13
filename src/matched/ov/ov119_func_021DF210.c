@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   func_02039CB4 0x02039CB4 arm
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_021DD24C 0x021DD24C thumb ov119
  *   func_021DD294 0x021DD294 thumb ov119
@@ -26,14 +26,14 @@
 #include "../include/Obj00001.h"
 #include "../include/Obj22747.h"
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern unsigned int func_0203D1A4(struct Link *p);
+extern unsigned int GFL_NET_GetHandleNetID(struct Link *p);
 struct Link;
 extern unsigned func_02039CB4(struct Link *, unsigned, unsigned);
 typedef unsigned int   u32;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern int func_021D8A24(void *);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
@@ -49,14 +49,14 @@ void func_021DF210(char *p)
 {
     unsigned a, b;
     volatile int v; /* memory-resident on purpose: the original keeps v in [sp] and reads it uninitialised on the fall-through path; a plain local takes r7 */
-    a = func_0203D1A4((struct Link *)func_020399A8());
+    a = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
     b = 1 - a;
     if (!func_021D8A24(p)) {
         a = 0;
         b = 1;
     }
     if (func_021D8A24(p)) {
-        if (!func_02039CB4((struct Link *)func_020399A8(), 0x1A, 8)) {
+        if (!func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1A, 8)) {
             func_021DD24C(p);
             return;
         }
@@ -85,7 +85,7 @@ void func_021DF210(char *p)
     } else if (*(unsigned char *)(p + a + 0x11E0) == 4) {
         v = 0x66;
     }
-    func_02045CAC(((struct Obj00001 *)p)->f720, v, ((struct Obj00001 *)p)->f738);
+    MSGDATA_ReadString(((struct Obj00001 *)p)->f720, v, ((struct Obj00001 *)p)->f738);
     func_021E1024(p);
     ((struct Obj00001 *)p)->f11E0 = 0;
     ((struct Obj00001 *)p)->f11E1 = 0;

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_02030DA8 0x02030DA8 arm
  *   func_021F896C 0x021F896C thumb ov094
  *   func_021FE8D8 0x021FE8D8 thumb ov094
@@ -29,7 +29,7 @@ typedef struct { unsigned low : 10; unsigned bit10 : 1; unsigned high : 21; } Fl
 extern char d_0220AE68[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, int);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021FE8D8(void *, void *);
@@ -53,13 +53,13 @@ int func_021FBFC0(void *a, char *s)
     int i;
     int slot;
     int *p;
-    n = func_021FCA04(s, func_0201134C(a), buf);
-    x = func_0201134C(a);
-    y = func_0201134C(a);
-    z = func_0201134C(a);
-    q = func_0201134C(a);
-    r = func_0201134C(a);
-    duration = func_0201134C(a);
+    n = func_021FCA04(s, VM_GetU32(a), buf);
+    x = VM_GetU32(a);
+    y = VM_GetU32(a);
+    z = VM_GetU32(a);
+    q = VM_GetU32(a);
+    r = VM_GetU32(a);
+    duration = VM_GetU32(a);
     if (n != 0) {
         if (duration == 0) {
             for (i = 0; i < n; i++) {

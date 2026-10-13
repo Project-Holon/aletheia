@@ -1,5 +1,5 @@
 /*
- * function: func_021A2CF8
+ * function: WEATHER_TASK_HasFogChange
  * address:  0x021A2CF8
  * packet:   pkt_021A2CF8
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 func_021A2CF8(char *p)
+u8 WEATHER_TASK_HasFogChange(char *p)
 {
     return p[0x77c];
 }

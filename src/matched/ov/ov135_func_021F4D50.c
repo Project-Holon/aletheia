@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02027F60 0x02027F60 thumb
- *   func_02027778 0x02027778 thumb
+ *   APP_TASKMENU_RES_Create 0x02027F60 thumb
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   func_02034714 0x02034714 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021F5008 0x021F5008 thumb ov135
@@ -29,10 +29,10 @@ extern const Items data_02202C2C;
 struct R;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, u32, u32);
-extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_021F5008(u32 x);
 void func_021F4D50(u8 *p, u16 a, int count, int b)
 {
@@ -41,7 +41,7 @@ void func_021F4D50(u8 *p, u16 a, int count, int b)
     int i;
     if (*(u32 *)&((struct Obj00448 *)p)->fE04) func_02034714(str_02203B08,0,str_02203B08);
     if (*(u32 *)&((struct Obj00448 *)p)->fE08) func_02034714(str_02203B08,0,str_02203B08);
-    ((struct Obj00448 *)p)->fE04=func_02027F60(a,10,((struct Obj00448 *)p)->fFA0,((struct Obj00448 *)p)->fFAC,0x48);
+    ((struct Obj00448 *)p)->fE04=APP_TASKMENU_RES_Create(a,10,((struct Obj00448 *)p)->fFA0,((struct Obj00448 *)p)->fFAC,0x48);
     items=data_02202C2C;
     func_02082BCC(&menu,0,20);
     if ((u32)count>3) func_02034714(str_02203B08,0,str_02203B08);
@@ -54,6 +54,6 @@ void func_021F4D50(u8 *p, u16 a, int count, int b)
     menu.b=b;
     menu.c=13;
     menu.d=3;
-    ((struct Obj00448 *)p)->fE08=func_02027778((struct TaskMenuTmpl *)(&menu),((struct Obj00448 *)p)->fE04);
+    ((struct Obj00448 *)p)->fE08=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),((struct Obj00448 *)p)->fE04);
     func_021F5008(1);
 }

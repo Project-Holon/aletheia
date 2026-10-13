@@ -19,11 +19,11 @@
  *   SYSTEMFONT_GetGlyphHeight  0x020463C0  arm
  *   SYSTEMFONT_GetGlyphWidth  0x020463D8  arm
  *   SYSTEMFONT_SetColors  0x020463E0  arm
- *   func_020436FC  0x020436FC  arm
- *   func_02045A98  0x02045A98  arm
+ *   BMP_CreateFromBuffer  0x020436FC  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   SYSTEMFONT_GetGlyph  0x02046300  arm
- *   func_020439A0  0x020439A0  arm
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Blit  0x020439A0  arm
+ *   BMP_Delete  0x020437AC  arm
  *   s_textprint_c   0x020A7F80  data
  *   g_TextPrintSymbolKeys  0x020A1480  data
  *   g_TextPrintSymbolGlyphs  0x020A1482  data
@@ -60,11 +60,11 @@ typedef struct {
 extern int SYSTEMFONT_GetGlyphHeight(void);  /* glyph height */
 extern int SYSTEMFONT_GetGlyphWidth(void);  /* full-width space width */
 extern void  SYSTEMFONT_SetColors(u32 fgColor, u32 bgColor);
-extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
-extern u16   func_02045A98(void);  /* string terminator code */
+extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
+extern u16   STRBUF_GetEosChar(void);  /* string terminator code */
 extern void SYSTEMFONT_GetGlyph(int glyphIndex, u8 *glyphOut);
-extern void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
-extern void func_020437AC(struct Bmp *bmp);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
+extern void BMP_Delete(struct Bmp *bmp);
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern u32 func_020307B0(void *block);
 void TEXTPRINT_Init(u32 fontId);
@@ -147,8 +147,8 @@ void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console)
     g_TextPrintWork->cursorX = console->cursorX;
     g_TextPrintWork->cursorY = console->cursorY;
     SYSTEMFONT_SetColors(console->fgColor, console->bgColor);
-    glyphBmp = func_020436FC(g_TextPrintWork, 1, 1, 0x20, 0);
-    endCode = func_02045A98();
+    glyphBmp = BMP_CreateFromBuffer(g_TextPrintWork, 1, 1, 0x20, 0);
+    endCode = STRBUF_GetEosChar();
     while (endCode != *codes) {
         code = *codes;
         codes++;
@@ -165,7 +165,7 @@ void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console)
             break;
         default:
             SYSTEMFONT_GetGlyph((u16)(code - 4), (u8 *)g_TextPrintWork);
-            func_020439A0(glyphBmp, console->charBitmap, 0, 0, g_TextPrintWork->cursorX, g_TextPrintWork->cursorY,
+            BMP_Blit(glyphBmp, console->charBitmap, 0, 0, g_TextPrintWork->cursorX, g_TextPrintWork->cursorY,
                           g_TextPrintWork->glyphWidth, glyphHeight, 0);
             g_TextPrintWork->cursorX += (u16)(g_TextPrintWork->glyphWidth + console->advanceX);
             break;
@@ -173,7 +173,7 @@ void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console)
     }
     console->cursorX = g_TextPrintWork->cursorX;
     console->cursorY = g_TextPrintWork->cursorY;
-    func_020437AC(glyphBmp);
+    BMP_Delete(glyphBmp);
 }
 
 
@@ -219,7 +219,7 @@ void TEXTPRINT_PrintText(char *text, TextParam *console)
  * are inside it.
  *
  * Shape notes worth keeping.  `return` type is void: the epilogue is
- * `bl func_02045A98; strh r0,[r5]; pop` and nothing copies r0 afterwards, but
+ * `bl STRBUF_GetEosChar; strh r0,[r5]; pop` and nothing copies r0 afterwards, but
  * a u16 return forces `c` live across the loop and costs a callee-saved sb.
  * The first byte must be spelled `u8 ch = *p; p++;` -- `u8 ch = *p++;` emits
  * `ldrb r0,[r6],#1` and loses the `and r0,r0,#0xff` that reuses the loop
@@ -245,7 +245,7 @@ void TEXTPRINT_SjisToGlyphCodes(char *text, u16 *out, int maxCodes)
             count++;
         }
     }
-    *out = func_02045A98();
+    *out = STRBUF_GetEosChar();
 }
 
 

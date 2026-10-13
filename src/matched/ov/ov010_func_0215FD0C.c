@@ -1,5 +1,5 @@
 /*
- * function: func_0215FD0C
+ * function: SCRCMD_NETWORK_BattleRecordLinkEventMain
  * address:  0x0215FD0C
  * packet:   pkt_ov010_0215FD0C
  * region:   ov010
@@ -15,28 +15,28 @@
  * follows it.
  *
  * symbols:
- *   func_02188CCC  0x02188CCC  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_021A0ED4  0x021A0ED4  thumb  ov021
- *   func_021A0F30  0x021A0F30  thumb  ov021
- *   func_021A0F94  0x021A0F94  thumb  ov021
- *   func_021A0FA8  0x021A0FA8  thumb  ov021
- *   func_021A12A4  0x021A12A4  thumb  ov021
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
+ *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
+ *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
+ *   FIELD_SUBSCREEN_ClearPanelResult  0x021A0FA8  thumb  ov021
+ *   FIELD_SUBSCREEN_GetMenuSelectedButton  0x021A12A4  thumb  ov021
  *   func_021945A4  0x021945A4  thumb  ov021
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_0215FEC8  0x0215FEC8  thumb  ov010
- *   func_0215E840  0x0215E840  thumb  ov010
- *   func_0215EA30  0x0215EA30  thumb  ov010
- *   func_0215EA38  0x0215EA38  thumb  ov010
- *   func_0216075C  0x0216075C  thumb  ov010
- *   func_021644F4  0x021644F4  thumb  ov010
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
+ *   SCRCMD_NETWORK_GetRecordKindByFrameRate  0x0215FEC8  thumb  ov010
+ *   MOVE_POKEMON_InitSkillInfo  0x0215E840  thumb  ov010
+ *   MOVE_POKEMON_InitSkillTarget  0x0215EA30  thumb  ov010
+ *   MOVE_POKEMON_CreateSkillEvent  0x0215EA38  thumb  ov010
+ *   EVENT_SHORTCUT_MENU_CreateProcEvent  0x0216075C  thumb  ov010
+ *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
  *   func_020124E4  0x020124E4  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_020129D0  0x020129D0  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_0201235C  0x0201235C  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_SetFrameRate  0x020129D0  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
 typedef unsigned char u8;
@@ -75,35 +75,35 @@ typedef struct Ctx {
     u32 f4c;            /* 0x4C */
 } Ctx;
 
-extern u32 func_02188CCC(u8 *p);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
 struct BigObj;
 struct Evt;
 struct Obj;
 struct S0201235C;
-extern void *func_02188C7C(u8 *p);
-extern int func_021A0ED4(u32 a);
-extern int func_021A0F30(u32 a, u32 b);
-extern int func_021A0F94(u32 a);
-extern void func_021A0FA8(int *p);
-extern u32 func_021A12A4(void *link);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern int FIELD_SUBSCREEN_IsIdle(u32 a);
+extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
+extern int FIELD_SUBSCREEN_GetPanelResult(u32 a);
+extern void FIELD_SUBSCREEN_ClearPanelResult(int *p);
+extern u32 FIELD_SUBSCREEN_GetMenuSelectedButton(void *link);
 extern void *func_021945A4(void *a, u32 b, u32 c);
-extern void func_0216D9A0(void *map);
-extern u32 *func_0216D9E4(void *c);
-extern u32 func_0215FEC8(u32 n);
-extern void func_0215E840(void *field, Info *out);
-extern void func_0215EA30(Query *q, u16 a, u16 b, u32 c);
-extern int func_0215EA38(int a0, int a1, int a2);
+extern void FLDMMDL_SysPauseMove(void *map);
+extern u32 *FLDMMDL_SysResumeMove(void *c);
+extern u32 SCRCMD_NETWORK_GetRecordKindByFrameRate(u32 n);
+extern void MOVE_POKEMON_InitSkillInfo(void *field, Info *out);
+extern void MOVE_POKEMON_InitSkillTarget(Query *q, u16 a, u16 b, u32 c);
+extern int MOVE_POKEMON_CreateSkillEvent(int a0, int a1, int a2);
 struct Owner;
-extern void *func_0216075C(struct Owner *o, u16 id);
-extern int func_021644F4(int i, void *a, void *p);
+extern void *EVENT_SHORTCUT_MENU_CreateProcEvent(struct Owner *o, u16 id);
+extern int EVENTDATA_SYSTEM_CreateFieldLinkEvent(int i, void *a, void *p);
 extern void *func_020124E4(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void func_020129D0(struct BigObj *p, u8 v);
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_0201235C(struct S0201235C *o, u32 *out);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void GAME_DATA_SetFrameRate(struct BigObj *p, u8 v);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-int func_0215FD0C(void *task, void *unused, Ctx *c)
+int SCRCMD_NETWORK_BattleRecordLinkEventMain(void *task, void *unused, Ctx *c)
 {
     Query q;
     Info info;
@@ -115,51 +115,51 @@ int func_0215FD0C(void *task, void *unused, Ctx *c)
 
     switch (c->state) {
     case 0:
-        if (func_021A0ED4(func_02188CCC(c->field)) == 1) {
-            map = func_02188C7C(c->field);
-            sys = func_020120F4(func_020124E4(task));
-            func_0216D9A0(map);
-            func_020129D0(sys, 1);
-            func_021A0F30(func_02188CCC(c->field), 1);
+        if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(c->field)) == 1) {
+            map = FIELDMAP_GetMmdlSys(c->field);
+            sys = GAMESYSTEM_GetGameData(func_020124E4(task));
+            FLDMMDL_SysPauseMove(map);
+            GAME_DATA_SetFrameRate(sys, 1);
+            FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(c->field), 1);
             c->state = 1;
         }
         break;
     case 1:
-        r = func_021A0F94(func_02188CCC(c->field));
+        r = FIELD_SUBSCREEN_GetPanelResult(FIELDMAP_GetSubscreen(c->field));
         if (r == 3) {
             c->state = 2;
-            func_021A0FA8((int *)func_02188CCC(c->field));
+            FIELD_SUBSCREEN_ClearPanelResult((int *)FIELDMAP_GetSubscreen(c->field));
         } else if (r == 4) {
             c->state = 3;
-            func_021A0FA8((int *)func_02188CCC(c->field));
+            FIELD_SUBSCREEN_ClearPanelResult((int *)FIELDMAP_GetSubscreen(c->field));
         }
         break;
     case 2:
-        sys = func_020120F4(func_020124E4(task));
-        n = func_021A12A4((void *)func_02188CCC(c->field));
-        func_020129D0(sys, n);
-        c->f10 = func_021A12A4((void *)func_02188CCC(c->field));
-        c->f28 = func_0215FEC8(n);
+        sys = GAMESYSTEM_GetGameData(func_020124E4(task));
+        n = FIELD_SUBSCREEN_GetMenuSelectedButton((void *)FIELDMAP_GetSubscreen(c->field));
+        GAME_DATA_SetFrameRate(sys, n);
+        c->f10 = FIELD_SUBSCREEN_GetMenuSelectedButton((void *)FIELDMAP_GetSubscreen(c->field));
+        c->f28 = SCRCMD_NETWORK_GetRecordKindByFrameRate(n);
         c->state = 5;
         break;
     case 3:
-        func_0216D9E4(func_02188C7C(c->field));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(c->field));
         if (c->f40 != 1 && c->f40 != 4) {
-            func_0201235C(task, func_021945A4(func_020124E4(task), (u32)c->field, c->f18));
+            GAME_EVENT_ChangeEvent(task, func_021945A4(func_020124E4(task), (u32)c->field, c->f18));
             return 0;
         }
         return 1;
     case 4:
-        func_0216D9E4(func_02188C7C(c->field));
-        func_0215E840(func_0201210C(c->f08), &info);
-        func_0215EA30(&q, c->f48, c->f44, c->f4c);
-        next = (void *)func_0215EA38(c->f44, (int)(&q), (int)(&info));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(c->field));
+        MOVE_POKEMON_InitSkillInfo(GAMESYSTEM_GetFieldMap(c->f08), &info);
+        MOVE_POKEMON_InitSkillTarget(&q, c->f48, c->f44, c->f4c);
+        next = (void *)MOVE_POKEMON_CreateSkillEvent(c->f44, (int)(&q), (int)(&info));
         if (next == 0)
             return 1;
-        func_0201235C(c->f04, next);
+        GAME_EVENT_ChangeEvent(c->f04, next);
         break;
     case 5:
-        func_02012374(task, func_0216075C((struct Owner *)c->req, c->f00));
+        GAME_EVENT_CallEvent(task, EVENT_SHORTCUT_MENU_CreateProcEvent((struct Owner *)c->req, c->f00));
         c->state = 6;
         break;
     case 6:
@@ -175,8 +175,8 @@ int func_0215FD0C(void *task, void *unused, Ctx *c)
             c->state = 3;
         break;
     case 7:
-        func_0216D9E4(func_02188C7C(c->field));
-        func_02012374(task, (struct Evt **)func_021644F4(c->f44, c->f08, c->field));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(c->field));
+        GAME_EVENT_CallEvent(task, (struct Evt **)EVENTDATA_SYSTEM_CreateFieldLinkEvent(c->f44, c->f08, c->field));
         c->state = 8;
         break;
     case 8:

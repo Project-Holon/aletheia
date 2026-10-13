@@ -1,5 +1,5 @@
 /*
- * function: func_021F2508
+ * function: C_GEAR_TransferPalettesTask
  * address: 0x021F2508
  * packet: pkt_ov029_021F2508
  * region: ov029
@@ -14,7 +14,7 @@
 #include "../include/Obj13047.h"
 struct S02021D50;
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
-void func_021F2508(void *task, char *p)
+void C_GEAR_TransferPalettesTask(void *task, char *p)
 {
     if (((struct Obj13047 *)p)->f210 != 0)
         PALANM_TransferPalettes(((struct Obj13047 *)p)->f210);

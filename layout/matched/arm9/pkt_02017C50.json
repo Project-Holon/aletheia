@@ -20,8 +20,8 @@
    "functions": [
     "POKE_TOOL_DecodePartyParam",
     "POKE_TOOL_EncodePartyParam",
-    "func_02017DBC",
-    "func_02017DE4"
+    "POKE_TOOL_DecodeBoxParam",
+    "POKE_TOOL_EncodeBoxParam"
    ],
    "addresses": [
     "0x02017D30",
@@ -44,9 +44,9 @@
    "functions": [
     "POKE_TOOL_SetBoxValue",
     "func_02017E88",
-    "func_02017EAC",
+    "POKE_TOOL_IsShiny",
     "POKE_TOOL_IsBoxShiny",
-    "func_02017ED8",
+    "POKE_TOOL_CheckShiny",
     "POKE_TOOL_GetGender",
     "POKE_TOOL_GetBoxGender",
     "POKE_TOOL_CalcGender",

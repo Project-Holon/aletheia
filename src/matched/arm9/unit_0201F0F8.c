@@ -39,6 +39,8 @@
  *
  * symbols:
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  */
 
 typedef unsigned char  u8;
@@ -51,8 +53,8 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 struct MsgBank;
 struct Obj;
 struct Rec;
-extern u32 func_02045C04(struct Rec *rec);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
 extern void  MYSTATUS_NameToStrbuf(void *a, void *b);
 extern u32   func_02025B94(u32 a);
@@ -161,9 +163,9 @@ void func_0201F1E0(struct WordSet *p, u32 i, u32 v)
 
     func_0201ED64(p, i);
     if (v <= 6 && s != 0) {
-        func_02045CAC(s, v + 0x2B, p->buf);
+        MSGDATA_ReadString(s, v + 0x2B, p->buf);
         func_0201ED84(p, i, p->buf, 0);
-        func_02045C04(s);
+        MSGDATA_Delete(s);
     }
 }
 

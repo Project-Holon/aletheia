@@ -12,7 +12,7 @@
  *
  * waza_tool.c: the module's constructor, its destructor, its "is it up"
  * predicate, and (folded back in this run) PRINTSYS_Init, which resets
- * something with 0xFFFF and hands func_02043678's result to the static at
+ * something with 0xFFFF and hands BMP_Create's result to the static at
  * 0x02146558.  PRINTSYS_Init used to be cut out into src/pending/PRINTSYS_Init.c
  * because its one call, to STRBUF_SetEosChar, had no witness anywhere in the
  * image; STRBUF_SetEosChar is now EXACT in src/matched/STRBUF_SetEosChar.c, giving the
@@ -41,6 +41,7 @@
  *   waza_tool_File  0x020A7340  data
  *   _pGlyphBmp         0x02146558  data
  *   STRBUF_SetEosChar  0x020457A0  arm
+ *   BMP_Create  0x02043678  arm
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C328.c \
@@ -61,7 +62,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void STRBUF_SetEosChar(u16 stamp);
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u32 heap);
 
 extern struct WazaTool *_pWazaTool;
 extern const char waza_tool_File[];
@@ -113,5 +114,5 @@ u32 WAZA_TOOL_IsCacheCreated(void)
 void PRINTSYS_Init(void *arg)
 {
     STRBUF_SetEosChar(0xFFFF);
-    _pGlyphBmp = func_02043678(2, 2, 0x20, (u32)arg);
+    _pGlyphBmp = BMP_Create(2, 2, 0x20, (u32)arg);
 }

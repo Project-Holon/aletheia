@@ -17,14 +17,14 @@
  *
  * symbols:
  *   func_02049B40 0x02049B40 arm
- *   func_020450F0 0x020450F0 arm
- *   func_02045CAC 0x02045CAC arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0200785C 0x0200785C thumb
- *   func_0201DD78 0x0201DD78 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
  */
 #include "../include/Obj00001.h"
@@ -33,17 +33,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct CharBuf;
 struct Descriptor;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0200785C(void *,u32,void *);
-extern void func_0201DD78(u32,u32,u32);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
 void func_021E4420(char *p)
 {
@@ -71,14 +71,14 @@ void func_021E4420(char *p)
         do {
             q = (char *)((u32 *)p+i);
             if (*(u32 *)(q+h) == 0)
-                *(u32 *)(q+off1) = func_020450F0(5,0,0,15,2,14,0);
+                *(u32 *)(q+off1) = BMP_WIN_Create(5,0,0,15,2,14,0);
             if (i == *(int *)(p+off))
-                func_02045CAC(((struct Obj00001 *)p)->f720,16,*(void **)(p+off2));
+                MSGDATA_ReadString(((struct Obj00001 *)p)->f720,16,*(void **)(p+off2));
             else func_0200785C(((struct Obj00001 *)p)->f828,i,*(void **)(p+off3));
-            func_0201DD78(15,2,zero);
-            func_02043B5C(func_02045770(*(void **)(q+a)),zero);
-            func_0201C7A4(func_02045770(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
-            func_02045334(*(void **)(q+e));
+            GF_FONT_SetTextColor(15,2,zero);
+            BMP_Clear(func_02045770(*(void **)(q+a)),zero);
+            PRINTSYS_Print(func_02045770(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));
+            BMP_WIN_TransferChars(*(void **)(q+e));
             BMP_WIN_SetPosY(*(void **)(q+f),zero);
         } while (++i < (int)((u32)*(int *)(p+g)+1u));
 done:;

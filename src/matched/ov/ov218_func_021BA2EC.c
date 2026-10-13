@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 #include "../include/Obj01983.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef signed short s16;typedef unsigned int u32;
-extern void func_0204A8D4(u32);extern void func_0204ADA4(u32);extern void func_0204AFD8(u32);
-void func_021BA2EC(char *p){if(((struct Obj01983 *)p)->f2D0!=-1)func_0204A8D4(((struct Obj01983 *)p)->f2D0);if(((struct Obj01983 *)p)->f2D4!=-1)func_0204ADA4(((struct Obj01983 *)p)->f2D4);if(((struct Obj01983 *)p)->f2D8!=-1)func_0204AFD8(((struct Obj01983 *)p)->f2D8);}
+extern void CLACT_ReleaseCharacter(u32);extern void CLACT_ReleasePalette(u32);extern void CLACT_ReleaseCellAnim(u32);
+void func_021BA2EC(char *p){if(((struct Obj01983 *)p)->f2D0!=-1)CLACT_ReleaseCharacter(((struct Obj01983 *)p)->f2D0);if(((struct Obj01983 *)p)->f2D4!=-1)CLACT_ReleasePalette(((struct Obj01983 *)p)->f2D4);if(((struct Obj01983 *)p)->f2D8!=-1)CLACT_ReleaseCellAnim(((struct Obj01983 *)p)->f2D8);}

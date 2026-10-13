@@ -1,7 +1,7 @@
 /*
  * file:     g3d_system.c
  * unit:     yes
- * function: func_02046440, func_02046788, G3D_SYSTEM_GetProjection, G3D_SYSTEM_SetProjection, G3D_SYSTEM_SetLight, func_02046AFC, G3D_SYSTEM_SetLookAt, func_02046BE0, G3D_SYSTEM_GetTexManagerMode, G3D_SYSTEM_GetPlttManagerMode, G3D_SYSTEM_SetGlbFlushMode, G3D_SYSTEM_FlushGlbDefault, func_02046C94, G3D_SYSTEM_InitResourceByKind, func_02046CE0, func_02046DB8, func_02046E24, G3D_SYSTEM_CreateResourcePath, func_02046EFC, func_02046F48, func_02046F50, G3D_SYSTEM_CutTexture, func_02046FF8, func_020470A8, func_020470D0, func_02047180, func_02047204, func_02047250, G3D_SYSTEM_AllocTexVramKeys, G3D_SYSTEM_AllocPlttVramKey, G3D_SYSTEM_IsTextureInVram, func_02047388, func_020473B8, G3D_SYSTEM_GetTexDataAddr, G3D_SYSTEM_GetPlttDataAddr, func_02047400, func_02047504, G3D_SYSTEM_GetRenderMdlRes, G3D_SYSTEM_GetRenderTexRes, func_0204755C, func_02047564, func_0204762C, func_02047674, func_0204767C, func_02047738, func_02047788, func_02047790, func_0204779C, func_020477A4, func_020477D4, func_02047804, func_02047828, func_0204784C, func_02047888, func_020478B8, func_02047910, func_02047964, func_02047970, G3D_SYSTEM_SwapBuffersMain, func_020479D8, func_02047A60, func_02047AC8, G3D_SYSTEM_CheckObjectCulling, G3D_SYSTEM_BoxTest, G3D_SYSTEM_DrawRenderObj, func_02047CE4
+ * function: G3D_SYSTEM_Init, G3D_SYSTEM_Exit, G3D_SYSTEM_GetProjection, G3D_SYSTEM_SetProjection, G3D_SYSTEM_SetLight, G3D_SYSTEM_GetLookAt, G3D_SYSTEM_SetLookAt, G3D_SYSTEM_SetSwapBuffersMode, G3D_SYSTEM_GetTexManagerMode, G3D_SYSTEM_GetPlttManagerMode, G3D_SYSTEM_SetGlbFlushMode, G3D_SYSTEM_FlushGlbDefault, G3D_SYSTEM_GetResourceSize, G3D_SYSTEM_InitResourceByKind, G3D_SYSTEM_InitResourceByFile, G3D_SYSTEM_CreateResourceArc, G3D_SYSTEM_CreateResourceArcHandle, G3D_SYSTEM_CreateResourcePath, G3D_SYSTEM_DeleteResource, G3D_SYSTEM_GetResourceFile, G3D_SYSTEM_CheckResourceType, G3D_SYSTEM_CutTexture, G3D_SYSTEM_TransVramTexture, G3D_SYSTEM_TransVramTextureAndCut, G3D_SYSTEM_FreeVramTexture, G3D_SYSTEM_AllocVramTexture, G3D_SYSTEM_TransAllocatedTexture, G3D_SYSTEM_GetResourceTex, G3D_SYSTEM_AllocTexVramKeys, G3D_SYSTEM_AllocPlttVramKey, G3D_SYSTEM_IsTextureInVram, G3D_SYSTEM_GetTexVramKey, G3D_SYSTEM_GetPlttVramKey, G3D_SYSTEM_GetTexDataAddr, G3D_SYSTEM_GetPlttDataAddr, G3D_SYSTEM_CreateRender, G3D_SYSTEM_DeleteRender, G3D_SYSTEM_GetRenderMdlRes, G3D_SYSTEM_GetRenderTexRes, G3D_SYSTEM_GetRenderObj, G3D_SYSTEM_CreateAnime, G3D_SYSTEM_DeleteAnime, G3D_SYSTEM_GetAnimeObj, G3D_SYSTEM_CreateObject, G3D_SYSTEM_DeleteObject, G3D_SYSTEM_GetObjectRender, G3D_SYSTEM_GetObjectAnime, G3D_SYSTEM_GetObjectAnimeCount, G3D_SYSTEM_EnableObjectAnime, G3D_SYSTEM_DisableObjectAnime, G3D_SYSTEM_ResetObjectAnimeFrame, G3D_SYSTEM_GetObjectAnimeFrame, G3D_SYSTEM_SetObjectAnimeFrame, G3D_SYSTEM_GetObjectAnimeFrameMax, G3D_SYSTEM_IncObjectAnimeFrame, G3D_SYSTEM_LoopObjectAnimeFrame, G3D_SYSTEM_DrawStart, G3D_SYSTEM_DrawEnd, G3D_SYSTEM_SwapBuffersMain, G3D_SYSTEM_ApplyLookAt, G3D_SYSTEM_DrawObject, G3D_SYSTEM_DrawObjectCulling, G3D_SYSTEM_CheckObjectCulling, G3D_SYSTEM_BoxTest, G3D_SYSTEM_DrawRenderObj, G3D_SYSTEM_ResetDrawCounts
  * address:  0x02046440
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,9 +31,9 @@
  *   func_020307E0      0x020307E0  arm
  *   func_02030BBC      0x02030BBC  arm
  *   func_02030BC8      0x02030BC8  arm
- *   func_02048F60      0x02048F60  arm
+ *   ARC_TOOL_LoadMember      0x02048F60  arm
  *   ARC_TOOL_LoadMemberFromPath      0x02048F9C  arm
- *   func_02049250      0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember      0x02049250  arm
  *   func_020613D8      0x020613D8  arm
  *   func_0206210C      0x0206210C  arm
  *   func_02062114      0x02062114  arm
@@ -73,9 +73,9 @@
  *   NNS_G3dFreeRenderObj      0x0206E358  arm
  *   NNS_G3dAllocAnmObj      0x0206E364  arm
  *   NNS_G3dFreeAnmObj      0x0206E388  arm
- *   func_0206E954      0x0206E954  arm
- *   func_0206E964      0x0206E964  arm
- *   func_0206E9A4      0x0206E9A4  arm
+ *   NNS_G3dGetMdlSet      0x0206E954  arm
+ *   NNS_G3dGetTex      0x0206E964  arm
+ *   NNS_G3dGetAnmByIdx      0x0206E9A4  arm
  *   func_0207C1D0      0x0207C1D0  arm
  *   func_0207C408      0x0207C408  arm
  *   func_0207C554      0x0207C554  arm
@@ -301,9 +301,9 @@ extern void  func_020307C8(NNSFndAllocator *allocator, u16 heapId, u32 align);
 extern void  func_020307E0(void *memory, u32 newSize);
 extern void *func_02030BBC(u32 size);
 extern int   func_02030BC8(u32 buffer);
-extern void *func_02048F60(u32 arcId, u32 dataId, u16 heapId);
+extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u16 heapId);
 extern void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 dataId, u16 heapId);
-extern void *func_02049250(struct ArcHandle *arc, u32 dataId, u16 heapId);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 dataId, u16 heapId);
 extern void  func_020613D8(u32 size, u32 useAsDefault);
 extern int   func_0206210C(int numBlocks);
 extern void  func_02062114(u32 size, u32 size4x4, u32 work, u32 workSize, u32 useAsDefault);
@@ -343,9 +343,9 @@ extern NNSG3dRenderObj *NNS_G3dAllocRenderObj(NNSFndAllocator *allocator);
 extern void  NNS_G3dFreeRenderObj(NNSFndAllocator *allocator, NNSG3dRenderObj *rndObj);
 extern NNSG3dAnmObj *NNS_G3dAllocAnmObj(NNSFndAllocator *allocator, void *anm, NNSG3dResMdl *resMdl);
 extern void  NNS_G3dFreeAnmObj(NNSFndAllocator *allocator, NNSG3dAnmObj *anmObj);
-extern NNSG3dResMdlSet *func_0206E954(void *file);
-extern NNSG3dResTex *func_0206E964(void *file);
-extern void *func_0206E9A4(void *file, u32 anmIdx);
+extern NNSG3dResMdlSet *NNS_G3dGetMdlSet(void *file);
+extern NNSG3dResTex *NNS_G3dGetTex(void *file);
+extern void *NNS_G3dGetAnmByIdx(void *file, u32 anmIdx);
 extern void  func_0207C1D0(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  func_0207C408(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  func_0207C554(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
@@ -370,72 +370,72 @@ extern int (*NNS_GfdDefaultFuncFreeTexVram)(u32 key);
 extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 size, BOOL is4pltt, u32 opt);
 extern int (*NNS_GfdDefaultFuncFreePlttVram)(u32 key);
 
-void func_02046440(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize, u16 geBufSize, s16 heapId, void (*setUpFunc)(void));
-void func_02046788(void);
+void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize, u16 geBufSize, s16 heapId, void (*setUpFunc)(void));
+void G3D_SYSTEM_Exit(void);
 void G3D_SYSTEM_GetProjection(G3dProjection *proj);
 void G3D_SYSTEM_SetProjection(const G3dProjection *proj);
 void G3D_SYSTEM_SetLight(u32 lightIdx, const G3dLight *light);
-void func_02046AFC(G3dLookAt *lookAt);
+void G3D_SYSTEM_GetLookAt(G3dLookAt *lookAt);
 void G3D_SYSTEM_SetLookAt(const G3dLookAt *lookAt);
-void func_02046BE0(u32 sortMode, u32 bufferMode);
+void G3D_SYSTEM_SetSwapBuffersMode(u32 sortMode, u32 bufferMode);
 u32 G3D_SYSTEM_GetTexManagerMode(void);
 u32 G3D_SYSTEM_GetPlttManagerMode(void);
 void G3D_SYSTEM_SetGlbFlushMode(u32 mode);
 void G3D_SYSTEM_FlushGlbDefault(void);
-u32 func_02046C94(void);
+u32 G3D_SYSTEM_GetResourceSize(void);
 void G3D_SYSTEM_InitResourceByKind(G3dResource *res, u32 kind, void *file);
-void func_02046CE0(G3dResource *res, NNSG3dResFileHeader *file);
-G3dResource *func_02046DB8(u32 arcId, u32 dataId);
-G3dResource *func_02046E24(struct ArcHandle *arc, u32 dataId);
+void G3D_SYSTEM_InitResourceByFile(G3dResource *res, NNSG3dResFileHeader *file);
+G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
+G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 G3dResource *G3D_SYSTEM_CreateResourcePath(const char *path, u32 dataId);
-void func_02046EFC(G3dResource *res);
-void *func_02046F48(G3dResource *res);
-u32 func_02046F50(G3dResource *res, u32 kind);
+void G3D_SYSTEM_DeleteResource(G3dResource *res);
+void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
+u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind);
 void G3D_SYSTEM_CutTexture(G3dResource *res);
-BOOL func_02046FF8(G3dResource *res);
-BOOL func_020470A8(G3dResource *res);
-BOOL func_020470D0(G3dResource *res);
-BOOL func_02047180(G3dResource *res);
-BOOL func_02047204(G3dResource *res);
-NNSG3dResTex *func_02047250(G3dResource *res);
+BOOL G3D_SYSTEM_TransVramTexture(G3dResource *res);
+BOOL G3D_SYSTEM_TransVramTextureAndCut(G3dResource *res);
+BOOL G3D_SYSTEM_FreeVramTexture(G3dResource *res);
+BOOL G3D_SYSTEM_AllocVramTexture(G3dResource *res);
+BOOL G3D_SYSTEM_TransAllocatedTexture(G3dResource *res);
+NNSG3dResTex *G3D_SYSTEM_GetResourceTex(G3dResource *res);
 BOOL G3D_SYSTEM_AllocTexVramKeys(NNSG3dResTex *tex, u32 *texKey, u32 *tex4x4Key);
 BOOL G3D_SYSTEM_AllocPlttVramKey(NNSG3dResTex *tex, u32 *plttKey);
 BOOL G3D_SYSTEM_IsTextureInVram(G3dResource *res);
-u32 func_02047388(G3dResource *res);
-u32 func_020473B8(G3dResource *res);
+u32 G3D_SYSTEM_GetTexVramKey(G3dResource *res);
+u32 G3D_SYSTEM_GetPlttVramKey(G3dResource *res);
 void *G3D_SYSTEM_GetTexDataAddr(G3dResource *res);
 void *G3D_SYSTEM_GetPlttDataAddr(G3dResource *res);
-G3dRender *func_02047400(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-void func_02047504(G3dRender *render);
+G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
+void G3D_SYSTEM_DeleteRender(G3dRender *render);
 G3dResource *G3D_SYSTEM_GetRenderMdlRes(G3dRender *render);
 G3dResource *G3D_SYSTEM_GetRenderTexRes(G3dRender *render);
-NNSG3dRenderObj *func_0204755C(G3dRender *render);
-G3dAnime *func_02047564(G3dRender *render, const G3dResource *anmRes, u32 anmIdx);
-void func_0204762C(G3dAnime *anime);
-NNSG3dAnmObj *func_02047674(G3dAnime *anime);
-G3dObject *func_0204767C(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-void func_02047738(G3dObject *obj);
-G3dRender *func_02047788(G3dObject *obj);
-G3dAnime *func_02047790(G3dObject *obj, int anmIdx);
-u16 func_0204779C(G3dObject *obj);
-BOOL func_020477A4(G3dObject *obj, u32 anmIdx);
-BOOL func_020477D4(G3dObject *obj, u32 anmIdx);
-BOOL func_02047804(G3dObject *obj, u16 anmIdx);
-BOOL func_02047828(G3dObject *obj, u32 anmIdx, fx32 *frame);
-BOOL func_0204784C(G3dObject *obj, u16 anmIdx, const fx32 *frame);
-BOOL func_02047888(G3dObject *obj, int anmIdx, fx32 *frameMax);
-BOOL func_020478B8(G3dObject *obj, int anmIdx, fx32 step);
-BOOL func_02047910(G3dObject *obj, int anmIdx, fx32 step);
-void func_02047964(void);
-void func_02047970(void);
+NNSG3dRenderObj *G3D_SYSTEM_GetRenderObj(G3dRender *render);
+G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, u32 anmIdx);
+void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
+NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(G3dAnime *anime);
+G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
+void G3D_SYSTEM_DeleteObject(G3dObject *obj);
+G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj);
+G3dAnime *G3D_SYSTEM_GetObjectAnime(G3dObject *obj, int anmIdx);
+u16 G3D_SYSTEM_GetObjectAnimeCount(G3dObject *obj);
+BOOL G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+BOOL G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 anmIdx);
+BOOL G3D_SYSTEM_ResetObjectAnimeFrame(G3dObject *obj, u16 anmIdx);
+BOOL G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, fx32 *frame);
+BOOL G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, const fx32 *frame);
+BOOL G3D_SYSTEM_GetObjectAnimeFrameMax(G3dObject *obj, int anmIdx, fx32 *frameMax);
+BOOL G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
+BOOL G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
+void G3D_SYSTEM_DrawStart(void);
+void G3D_SYSTEM_DrawEnd(void);
 void G3D_SYSTEM_SwapBuffersMain(void);
-void func_020479D8(void);
-void func_02047A60(G3dObject *obj, G3dObjectStatus *status);
-BOOL func_02047AC8(G3dObject *obj, G3dObjectStatus *status);
+void G3D_SYSTEM_ApplyLookAt(void);
+void G3D_SYSTEM_DrawObject(G3dObject *obj, G3dObjectStatus *status);
+BOOL G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 BOOL G3D_SYSTEM_CheckObjectCulling(G3dObject *obj);
 BOOL G3D_SYSTEM_BoxTest(const GXBoxTestParam *box);
 void G3D_SYSTEM_DrawRenderObj(NNSG3dRenderObj *rndObj);
-void func_02047CE4(void);
+void G3D_SYSTEM_ResetDrawCounts(void);
 
 /*
  * Bring the 3D system up: allocate the work (line 92), set up the geometry
@@ -450,7 +450,7 @@ void func_02047CE4(void);
  * heapId is s16: as u16 the compiler reloads it from its stack home instead
  * of holding it in r8 across the first allocation.
  */
-void func_02046440(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize,
+void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize,
                    u16 geBufSize, s16 heapId, void (*setUpFunc)(void))
 {
     G3dProjection proj;
@@ -505,7 +505,7 @@ void func_02046440(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManS
 
     lookAt = _DefaultLookAt;
     G3D_SYSTEM_SetLookAt(&lookAt);
-    func_02046BE0(0, 1);
+    G3D_SYSTEM_SetSwapBuffersMode(0, 1);
     G3D_SYSTEM_SetGlbFlushMode(0);
 
     if (setUpFunc != 0) {
@@ -529,7 +529,7 @@ void func_02046440(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManS
  * Shut the 3D system down: free the manager works, release the geometry
  * command buffer when one is set, free the work.
  */
-void func_02046788(void)
+void G3D_SYSTEM_Exit(void)
 {
     if (_G3dSystem.work->plttManagerWork != 0)
         func_020307B0(_G3dSystem.work->plttManagerWork);
@@ -650,7 +650,7 @@ void G3D_SYSTEM_SetLight(u32 lightIdx, const G3dLight *light)
     NNS_G3dGlbLightColor(lightIdx, _G3dSystem.work->lights[lightIdx].color);
 }
 
-void func_02046AFC(G3dLookAt *lookAt)
+void G3D_SYSTEM_GetLookAt(G3dLookAt *lookAt)
 {
     G3dSystemWork *work = _G3dSystem.work;
 
@@ -678,7 +678,7 @@ void G3D_SYSTEM_SetLookAt(const G3dLookAt *lookAt)
     NNS_G3dGlb.flag &= ~0xE8u;
 }
 
-void func_02046BE0(u32 sortMode, u32 bufferMode)
+void G3D_SYSTEM_SetSwapBuffersMode(u32 sortMode, u32 bufferMode)
 {
     _G3dSystem.work->swapSortMode = sortMode;
     _G3dSystem.work->swapBufferMode = bufferMode;
@@ -720,7 +720,7 @@ void G3D_SYSTEM_FlushGlbDefault(void)
     func_0206A854();
 }
 
-u32 func_02046C94(void)
+u32 G3D_SYSTEM_GetResourceSize(void)
 {
     return sizeof(G3dResource);
 }
@@ -748,11 +748,11 @@ void G3D_SYSTEM_InitResourceByKind(G3dResource *res, u32 kind, void *file)
  * Fill a resource header from the file signature. The case bodies are in
  * source order (BMD0, BTX0, then the animations), not in value order.
  */
-void func_02046CE0(G3dResource *res, NNSG3dResFileHeader *file)
+void G3D_SYSTEM_InitResourceByFile(G3dResource *res, NNSG3dResFileHeader *file)
 {
     switch (file->signature) {
     case SIGNATURE_BMD0:
-        if (func_0206E964(file) == 0) {
+        if (NNS_G3dGetTex(file) == 0) {
             res->type = G3D_RES_TYPE_MDL;
         } else {
             res->type = G3D_RES_TYPE_MDLTEX;
@@ -777,20 +777,20 @@ void func_02046CE0(G3dResource *res, NNSG3dResFileHeader *file)
 }
 
 /* Load a resource file from an archive. */
-G3dResource *func_02046DB8(u32 arcId, u32 dataId)
+G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId)
 {
     G3dResource *res = func_02030734(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2b4);
 
-    func_02046CE0(res, func_02048F60(arcId, dataId, _G3dSystem.work->heapId));
+    G3D_SYSTEM_InitResourceByFile(res, ARC_TOOL_LoadMember(arcId, dataId, _G3dSystem.work->heapId));
     return res;
 }
 
 /* Load a resource file through an open archive handle. */
-G3dResource *func_02046E24(struct ArcHandle *arc, u32 dataId)
+G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId)
 {
     G3dResource *res = func_02030734(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2c8);
 
-    func_02046CE0(res, func_02049250(arc, dataId, _G3dSystem.work->heapId));
+    G3D_SYSTEM_InitResourceByFile(res, ARC_TOOL_LoadHandleMember(arc, dataId, _G3dSystem.work->heapId));
     return res;
 }
 
@@ -799,11 +799,11 @@ G3dResource *G3D_SYSTEM_CreateResourcePath(const char *path, u32 dataId)
 {
     G3dResource *res = func_02030734(_G3dSystem.work->heapId, 8, 0, G3D_SYSTEM_FileName, 0x2dc);
 
-    func_02046CE0(res, ARC_TOOL_LoadMemberFromPath(path, dataId, _G3dSystem.work->heapId));
+    G3D_SYSTEM_InitResourceByFile(res, ARC_TOOL_LoadMemberFromPath(path, dataId, _G3dSystem.work->heapId));
     return res;
 }
 
-void func_02046EFC(G3dResource *res)
+void G3D_SYSTEM_DeleteResource(G3dResource *res)
 {
     if (res == 0) {
         return;
@@ -819,7 +819,7 @@ void func_02046EFC(G3dResource *res)
     func_020307B0(res);
 }
 
-void *func_02046F48(G3dResource *res)
+void *G3D_SYSTEM_GetResourceFile(G3dResource *res)
 {
     return res->file;
 }
@@ -829,7 +829,7 @@ void *func_02046F48(G3dResource *res)
  * MDL), a texture (MDLTEX or TEX) or an animation. The model test is written
  * as a range on type - 1 (`+ 0xFFFF` after the halfword narrowing).
  */
-u32 func_02046F50(G3dResource *res, u32 kind)
+u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind)
 {
     u16 type = res->type;
 
@@ -850,7 +850,7 @@ u32 func_02046F50(G3dResource *res, u32 kind)
 void G3D_SYSTEM_CutTexture(G3dResource *res)
 {
     void         *file = res->file;
-    NNSG3dResTex *tex = func_0206E964(file);
+    NNSG3dResTex *tex = NNS_G3dGetTex(file);
 
     func_020307E0(file, (u32)((u8 *)tex + tex->texInfo.ofsTex - (u8 *)file));
 }
@@ -860,7 +860,7 @@ void G3D_SYSTEM_CutTexture(G3dResource *res)
  * keys and load the texels and palettes. The first guard exits through the
  * shared epilogue (a plain `return 0` there is if-converted).
  */
-BOOL func_02046FF8(G3dResource *res)
+BOOL G3D_SYSTEM_TransVramTexture(G3dResource *res)
 {
     u32 texKey;
     u32 tex4x4Key;
@@ -869,7 +869,7 @@ BOOL func_02046FF8(G3dResource *res)
     NNSG3dResTex *tex;
 
     file = res->file;
-    tex = func_0206E964(file);
+    tex = NNS_G3dGetTex(file);
     if (tex == 0)
         goto fail;
     if (G3D_SYSTEM_AllocTexVramKeys(tex, &texKey, &tex4x4Key) == 0)
@@ -887,9 +887,9 @@ fail:
 }
 
 /* Load the texture into VRAM, then cut the texels off the file. */
-BOOL func_020470A8(G3dResource *res)
+BOOL G3D_SYSTEM_TransVramTextureAndCut(G3dResource *res)
 {
-    if (func_02046FF8(res) == 0) {
+    if (G3D_SYSTEM_TransVramTexture(res) == 0) {
         return 0;
     }
     G3D_SYSTEM_CutTexture(res);
@@ -902,7 +902,7 @@ BOOL func_020470A8(G3dResource *res)
  * each), and the palette free takes the release call's result directly so
  * the function pointer goes to r1.
  */
-BOOL func_020470D0(G3dResource *res)
+BOOL G3D_SYSTEM_FreeVramTexture(G3dResource *res)
 {
     NNSG3dResTex *tex;
     int texLoaded;
@@ -910,7 +910,7 @@ BOOL func_020470D0(G3dResource *res)
     u32 texKey;
     u32 tex4x4Key;
 
-    tex = func_0206E964(res->file);
+    tex = NNS_G3dGetTex(res->file);
     texLoaded = 0;
     tex4x4Loaded = 0;
     if (tex->texInfo.flag & 1)
@@ -928,14 +928,14 @@ BOOL func_020470D0(G3dResource *res)
 }
 
 /* Allocate texture and palette VRAM and set the keys, without loading. */
-BOOL func_02047180(G3dResource *res)
+BOOL G3D_SYSTEM_AllocVramTexture(G3dResource *res)
 {
     NNSG3dResTex *tex;
     u32 texKey;
     u32 tex4x4Key;
     u32 plttKey;
 
-    tex = func_0206E964(res->file);
+    tex = NNS_G3dGetTex(res->file);
     if (tex == 0)
         goto fail;
     if (G3D_SYSTEM_AllocTexVramKeys(tex, &texKey, &tex4x4Key) == 0)
@@ -950,10 +950,10 @@ fail:
 }
 
 /* Load the texels and palettes into VRAM keys allocated before. */
-BOOL func_02047204(G3dResource *res)
+BOOL G3D_SYSTEM_TransAllocatedTexture(G3dResource *res)
 {
     NNSG3dResFileHeader *file = res->file;
-    NNSG3dResTex        *tex = func_0206E964(file);
+    NNSG3dResTex        *tex = NNS_G3dGetTex(file);
 
     if (tex == 0) {
         return 0;
@@ -964,9 +964,9 @@ BOOL func_02047204(G3dResource *res)
     return 1;
 }
 
-NNSG3dResTex *func_02047250(G3dResource *res)
+NNSG3dResTex *G3D_SYSTEM_GetResourceTex(G3dResource *res)
 {
-    return func_0206E964(res->file);
+    return NNS_G3dGetTex(res->file);
 }
 
 /*
@@ -1014,16 +1014,16 @@ done:
 /* Whether any part of the resource's texture block is in VRAM. */
 BOOL G3D_SYSTEM_IsTextureInVram(G3dResource *res)
 {
-    NNSG3dResTex *tex = func_0206E964(res->file);
+    NNSG3dResTex *tex = NNS_G3dGetTex(res->file);
 
     if ((tex->texInfo.flag & 1) || (tex->tex4x4Info.flag & 1) || (tex->plttInfo.flag & 1))
         return 1;
     return 0;
 }
 
-u32 func_02047388(G3dResource *res)
+u32 G3D_SYSTEM_GetTexVramKey(G3dResource *res)
 {
-    NNSG3dResTex *tex = func_0206E964(res->file);
+    NNSG3dResTex *tex = NNS_G3dGetTex(res->file);
 
     if (tex->texInfo.flag & 1)
         return tex->texInfo.vramKey;
@@ -1032,9 +1032,9 @@ u32 func_02047388(G3dResource *res)
     return 0;
 }
 
-u32 func_020473B8(G3dResource *res)
+u32 G3D_SYSTEM_GetPlttVramKey(G3dResource *res)
 {
-    NNSG3dResTex *tex = func_0206E964(res->file);
+    NNSG3dResTex *tex = NNS_G3dGetTex(res->file);
 
     if (tex->plttInfo.flag & 1)
         return tex->plttInfo.vramKey;
@@ -1043,14 +1043,14 @@ u32 func_020473B8(G3dResource *res)
 
 void *G3D_SYSTEM_GetTexDataAddr(G3dResource *res)
 {
-    NNSG3dResTex *tex = func_02047250(res);
+    NNSG3dResTex *tex = G3D_SYSTEM_GetResourceTex(res);
 
     return (u8 *)tex + tex->texInfo.ofsTex;
 }
 
 void *G3D_SYSTEM_GetPlttDataAddr(G3dResource *res)
 {
-    NNSG3dResTex *tex = func_02047250(res);
+    NNSG3dResTex *tex = G3D_SYSTEM_GetResourceTex(res);
 
     return (u8 *)tex + tex->plttInfo.ofsPlttData;
 }
@@ -1063,7 +1063,7 @@ void *G3D_SYSTEM_GetPlttDataAddr(G3dResource *res)
  * two predecessors each, as the image has them; the structured form lets the
  * compiler predicate the entry lookup (12 bytes off).
  */
-G3dRender *func_02047400(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes)
+G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes)
 {
     NNSG3dResTex *tex;
     NNSG3dResMdlSet *mdlSet;
@@ -1075,7 +1075,7 @@ G3dRender *func_02047400(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes)
     u32 sizeUnit;
 
     tex = 0;
-    mdlSet = func_0206E954(mdlRes->file);
+    mdlSet = NNS_G3dGetMdlSet(mdlRes->file);
     if (mdlSet == 0) goto noModel;
     dict = &mdlSet->dict;
     if (dict == 0) goto noEntry;
@@ -1093,7 +1093,7 @@ noModel:
 have:
     ;
 
-    if (texRes != 0) tex = func_0206E964(texRes->file);
+    if (texRes != 0) tex = NNS_G3dGetTex(texRes->file);
 
     render = func_02030734(_G3dSystem.work->heapId, 0x10, 0, G3D_SYSTEM_FileName, 0x608);
     render->magic = G3D_RENDER_MAGIC;
@@ -1108,7 +1108,7 @@ have:
     return render;
 }
 
-void func_02047504(G3dRender *render)
+void G3D_SYSTEM_DeleteRender(G3dRender *render)
 {
     if (render == 0)
         return;
@@ -1130,7 +1130,7 @@ G3dResource *G3D_SYSTEM_GetRenderTexRes(G3dRender *render)
     return render->texRes;
 }
 
-NNSG3dRenderObj *func_0204755C(G3dRender *render)
+NNSG3dRenderObj *G3D_SYSTEM_GetRenderObj(G3dRender *render)
 {
     return render->rndObj;
 }
@@ -1143,7 +1143,7 @@ NNSG3dRenderObj *func_0204755C(G3dRender *render)
  * store, and the scheduler then issues the magic's pool load first as the
  * image does.
  */
-G3dAnime *func_02047564(G3dRender *render, const G3dResource *anmRes, u32 anmIdx)
+G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, u32 anmIdx)
 {
     G3dAnime *anime;
     void *anm;
@@ -1153,16 +1153,16 @@ G3dAnime *func_02047564(G3dRender *render, const G3dResource *anmRes, u32 anmIdx
     anime = func_02030734(_G3dSystem.work->heapId, 0xC, 0, G3D_SYSTEM_FileName, 0x6D2);
     anime->magic = G3D_ANIME_MAGIC;
     anime->anmRes = anmRes;
-    anm = func_0206E9A4(anmRes->file, anmIdx);
+    anm = NNS_G3dGetAnmByIdx(anmRes->file, anmIdx);
     resMdl = render->rndObj->resMdl;
     if (G3D_SYSTEM_GetRenderTexRes(render) != 0)
-        tex = func_0206E964(render->texRes->file);
+        tex = NNS_G3dGetTex(render->texRes->file);
     anime->anmObj = NNS_G3dAllocAnmObj(&_G3dSystem.work->allocator, anm, resMdl);
     func_02069C74(anime->anmObj, anm, resMdl, tex);
     return anime;
 }
 
-void func_0204762C(G3dAnime *anime)
+void G3D_SYSTEM_DeleteAnime(G3dAnime *anime)
 {
     if (anime == 0)
         return;
@@ -1174,13 +1174,13 @@ void func_0204762C(G3dAnime *anime)
     func_020307B0(anime);
 }
 
-NNSG3dAnmObj *func_02047674(G3dAnime *anime)
+NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(G3dAnime *anime)
 {
     return anime->anmObj;
 }
 
 /* Build an object from a render object and a copy of an animation table (lines 1883, 1893). */
-G3dObject *func_0204767C(G3dRender *render, G3dAnime **anmTbl, int anmCount)
+G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount)
 {
     G3dObject *obj;
     int i;
@@ -1201,7 +1201,7 @@ G3dObject *func_0204767C(G3dRender *render, G3dAnime **anmTbl, int anmCount)
     return obj;
 }
 
-void func_02047738(G3dObject *obj)
+void G3D_SYSTEM_DeleteObject(G3dObject *obj)
 {
     if (obj == 0)
         return;
@@ -1217,23 +1217,23 @@ void func_02047738(G3dObject *obj)
     func_020307B0(obj);
 }
 
-G3dRender *func_02047788(G3dObject *obj)
+G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj)
 {
     return obj->render;
 }
 
-G3dAnime *func_02047790(G3dObject *obj, int anmIdx)
+G3dAnime *G3D_SYSTEM_GetObjectAnime(G3dObject *obj, int anmIdx)
 {
     return obj->anmTbl[anmIdx];
 }
 
-u16 func_0204779C(G3dObject *obj)
+u16 G3D_SYSTEM_GetObjectAnimeCount(G3dObject *obj)
 {
     return obj->anmCount;
 }
 
 /* Attach animation anmIdx to the object's render object; FALSE for an empty slot. */
-BOOL func_020477A4(G3dObject *obj, u32 anmIdx)
+BOOL G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx)
 {
     G3dAnime *anime = obj->anmTbl[anmIdx];
 
@@ -1246,7 +1246,7 @@ BOOL func_020477A4(G3dObject *obj, u32 anmIdx)
 }
 
 /* Detach animation anmIdx from the object's render object; FALSE for an empty slot. */
-BOOL func_020477D4(G3dObject *obj, u32 anmIdx)
+BOOL G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 anmIdx)
 {
     G3dAnime *anime = obj->anmTbl[anmIdx];
 
@@ -1257,7 +1257,7 @@ BOOL func_020477D4(G3dObject *obj, u32 anmIdx)
     return 1;
 }
 
-BOOL func_02047804(G3dObject *obj, u16 anmIdx)
+BOOL G3D_SYSTEM_ResetObjectAnimeFrame(G3dObject *obj, u16 anmIdx)
 {
     G3dAnime *anime = obj->anmTbl[anmIdx];
 
@@ -1268,7 +1268,7 @@ BOOL func_02047804(G3dObject *obj, u16 anmIdx)
     return 1;
 }
 
-BOOL func_02047828(G3dObject *obj, u32 anmIdx, fx32 *frame)
+BOOL G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, fx32 *frame)
 {
     G3dAnime *anime = obj->anmTbl[anmIdx];
 
@@ -1280,7 +1280,7 @@ BOOL func_02047828(G3dObject *obj, u32 anmIdx, fx32 *frame)
 }
 
 /* Set the frame of animation anmIdx, clamped to its frame count. */
-BOOL func_0204784C(G3dObject *obj, u16 anmIdx, const fx32 *frame)
+BOOL G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, const fx32 *frame)
 {
     G3dAnime *anime = obj->anmTbl[anmIdx];
     NNSG3dAnmObj *anmObj;
@@ -1297,7 +1297,7 @@ BOOL func_0204784C(G3dObject *obj, u16 anmIdx, const fx32 *frame)
     return 1;
 }
 
-BOOL func_02047888(G3dObject *obj, int anmIdx, fx32 *frameMax)
+BOOL G3D_SYSTEM_GetObjectAnimeFrameMax(G3dObject *obj, int anmIdx, fx32 *frameMax)
 {
     G3dAnime *anime = obj->anmTbl[anmIdx];
     if (anime == 0) {
@@ -1311,7 +1311,7 @@ BOOL func_02047888(G3dObject *obj, int anmIdx, fx32 *frameMax)
  * Advance animation anmIdx by step without looping: at the end it stays on
  * the last frame, below zero it stays on frame 0. FALSE when it stopped.
  */
-BOOL func_020478B8(G3dObject *obj, int anmIdx, fx32 step)
+BOOL G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step)
 {
     G3dAnime **anmTbl = obj->anmTbl;
     G3dAnime *anime = anmTbl[anmIdx];
@@ -1343,7 +1343,7 @@ BOOL func_020478B8(G3dObject *obj, int anmIdx, fx32 step)
  * Advance animation anmIdx by step and wrap: past the end it goes to frame
  * 0, below zero to the end. FALSE when it wrapped.
  */
-BOOL func_02047910(G3dObject *obj, int anmIdx, fx32 step)
+BOOL G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step)
 {
     G3dAnime **anmTbl = obj->anmTbl;
     G3dAnime *anime = anmTbl[anmIdx];
@@ -1372,13 +1372,13 @@ BOOL func_02047910(G3dObject *obj, int anmIdx, fx32 step)
 }
 
 /* Start a frame of 3D drawing. */
-void func_02047964(void)
+void G3D_SYSTEM_DrawStart(void)
 {
     func_0207DA8C();
 }
 
 /* End a frame of 3D drawing: flush the command buffer and request the buffer swap. */
-void func_02047970(void)
+void G3D_SYSTEM_DrawEnd(void)
 {
     func_0206DB80();
     _G3dSystem.work->swapRequest = 1;
@@ -1408,7 +1408,7 @@ static inline void NNS_G3dGlbLookAt(const VecFx32 *camPos, const VecFx32 *camUp,
 }
 
 /* Load the stored camera into the global state and flush it. */
-void func_020479D8(void)
+void G3D_SYSTEM_ApplyLookAt(void)
 {
     NNS_G3dGlbLookAt(&_G3dSystem.work->lookAt.camPos, &_G3dSystem.work->lookAt.camUp, &_G3dSystem.work->lookAt.target);
     _G3dSystem.work->glbFlushFunc();
@@ -1422,11 +1422,11 @@ static inline void NNS_G3dGlbSetBaseRot(const MtxFx33 *rot)
 }
 
 /* Draw an object at the given position, scale and rotation. */
-void func_02047A60(G3dObject *obj, G3dObjectStatus *status)
+void G3D_SYSTEM_DrawObject(G3dObject *obj, G3dObjectStatus *status)
 {
     NNSG3dRenderObj *rndObj;
 
-    rndObj = func_0204755C(func_02047788(obj));
+    rndObj = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(obj));
     NNS_G3dGlbBaseTrans(&status->trans);
     NNS_G3dGlbSetBaseRot(&status->rotate);
     NNS_G3dGlbBaseScale(&status->scale);
@@ -1438,12 +1438,12 @@ void func_02047A60(G3dObject *obj, G3dObjectStatus *status)
  * Draw an object only when its bounding box is in view; returns whether it
  * was drawn.
  */
-BOOL func_02047AC8(G3dObject *obj, G3dObjectStatus *status)
+BOOL G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status)
 {
     NNSG3dRenderObj *rndObj;
     BOOL visible;
 
-    rndObj = func_0204755C(func_02047788(obj));
+    rndObj = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(obj));
     NNS_G3dGlbBaseTrans(&status->trans);
     NNS_G3dGlbSetBaseRot(&status->rotate);
     NNS_G3dGlbBaseScale(&status->scale);
@@ -1465,7 +1465,7 @@ BOOL G3D_SYSTEM_CheckObjectCulling(G3dObject *obj)
     BOOL visible;
 
     visible = 1;
-    resMdl = func_0204755C(func_02047788(obj))->resMdl;
+    resMdl = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(obj))->resMdl;
     info = (resMdl != 0 ? &resMdl->info : 0);
 
     box.x = info->boxX;
@@ -1521,7 +1521,7 @@ void G3D_SYSTEM_DrawRenderObj(NNSG3dRenderObj *rndObj)
     func_0206B6A4(rndObj);
 }
 
-void func_02047CE4(void)
+void G3D_SYSTEM_ResetDrawCounts(void)
 {
     _G3dSystem.polygonCount = 0;
     _G3dSystem.vertexCount = 0;

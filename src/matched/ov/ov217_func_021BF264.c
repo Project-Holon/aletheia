@@ -14,8 +14,8 @@
  *   func_021C0FF8 0x021C0FF8 thumb ov217
  *   func_021C0F78 0x021C0F78 thumb ov217
  *   func_02045EC0 0x02045EC0 arm
- *   func_020457B0 0x020457B0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201EE0C 0x0201EE0C thumb
  *   func_0201F250 0x0201F250 thumb
  */
@@ -29,8 +29,8 @@ typedef unsigned char  u8;
 extern void func_021C0FF8(u8 *p, int visible);
 extern void func_021C0F78(u8 *p, struct U16Vec *text);
 extern void *func_02045EC0(struct MsgBank *,unsigned);
-extern struct U16Vec *func_020457B0(unsigned,unsigned);
-extern void func_02045808(struct U16Vec *);
+extern struct U16Vec *STRBUF_Create(unsigned,unsigned);
+extern void STRBUF_Delete(struct U16Vec *);
 extern void func_0201EE0C(struct WordSet *,unsigned,const void *,unsigned,unsigned,unsigned);
 extern void func_0201F250(struct WordSet *,void *,void *);
 void func_021BF264(char *p)
@@ -44,12 +44,12 @@ void func_021BF264(char *p)
     index=func_021BF910((unsigned char *)p);
     a=func_02045EC0(*(struct MsgBank * *)&((struct Obj00021 *)p)->fC,14);
     b=func_02045EC0(*(struct MsgBank * *)&((struct Obj00021 *)p)->f14,index);
-    buf=func_020457B0(128,((struct Obj00021 *)p)->f4);
+    buf=STRBUF_Create(128,((struct Obj00021 *)p)->f4);
     func_0201EE0C(*(struct WordSet * *)&((struct Obj00021 *)p)->f18,0,b,0,1,2);
     func_0201F250(*(struct WordSet * *)&((struct Obj00021 *)p)->f18,buf,a);
     func_021C0FF8((u8 *)(((struct Obj00021 *)p)->f358),1);
     func_021C0F78((u8 *)(((struct Obj00021 *)p)->f358),buf);
-    func_02045808(a);
-    func_02045808(buf);
-    func_02045808(b);
+    STRBUF_Delete(a);
+    STRBUF_Delete(buf);
+    STRBUF_Delete(b);
 }

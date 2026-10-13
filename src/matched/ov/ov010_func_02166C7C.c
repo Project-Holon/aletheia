@@ -1,5 +1,5 @@
 /*
- * function: func_02166C7C
+ * function: SYMBOL_MAP_ResolveZoneId
  * address:  0x02166C7C
  * packet:   pkt_ov010_02166C7C
  * region:   ov010
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02013E40  0x02013E40  thumb
- *   func_02012894  0x02012894  thumb
- *   d_02171F2C  0x02171F2C  data  ov010  a4
+ *   GAME_DATA_GetSpecialLocation  0x02012894  thumb
+ *   g_ZoneRemapTable  0x02171F2C  data  ov010  a4
  */
 
 typedef unsigned short u16;
@@ -29,19 +29,19 @@ struct P {
 };
 
 extern u32 func_02013E40(u32 a);
-extern struct P *func_02012894(void *a);
-extern struct E d_02171F2C[2];
+extern struct P *GAME_DATA_GetSpecialLocation(void *a);
+extern struct E g_ZoneRemapTable[2];
 
-u32 func_02166C7C(void *a, u32 b)
+u32 SYMBOL_MAP_ResolveZoneId(void *a, u32 b)
 {
     u32 v = func_02013E40(b);
     u32 r;
     int i;
     if (v == 0x1A6)
-        return func_02013E40(func_02012894(a)->f4);
+        return func_02013E40(GAME_DATA_GetSpecialLocation(a)->f4);
     for (i = 0; i < 2; i++) {
-        if (d_02171F2C[i].key == v) {
-            r = (u16)*(u32 *)((char *)d_02171F2C + i * 8);
+        if (g_ZoneRemapTable[i].key == v) {
+            r = (u16)*(u32 *)((char *)g_ZoneRemapTable + i * 8);
             goto done;
         }
     }

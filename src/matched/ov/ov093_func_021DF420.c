@@ -1,5 +1,5 @@
 /*
- * function: func_021DF420
+ * function: BTL_HANDLER_ITEM_AmuletCoinFlagDoublePrizeOnEnterDone
  * address: 0x021DF420
  * packet: pkt_ov093_021DF420
  * region: ov093
@@ -17,12 +17,12 @@
 
 typedef unsigned char u8;
 extern void func_021C8408(u8 *, int);
-void func_021DF420(int a, u8 *b, int c);
+void BTL_HANDLER_ITEM_AmuletCoinFlagDoublePrizeOnEnterDone(int a, u8 *b, int c);
 
 /*
  * Sibling of func_021DF3B0 against the func_021DFE08 probe.
  */
-void func_021DF420(int a, u8 *b, int c)
+void BTL_HANDLER_ITEM_AmuletCoinFlagDoublePrizeOnEnterDone(int a, u8 *b, int c)
 {
     func_021C8408(b, c);
 }

@@ -13,7 +13,7 @@
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   func_020355C4 0x020355C4 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_021F9260 0x021F9260 thumb ov135
  *   func_021F8908 0x021F8908 thumb ov135
@@ -41,7 +41,7 @@ extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 m
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern u8 func_020355C4(void);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 struct Obj;
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_0204B92C(struct Obj *,u32);
@@ -73,11 +73,11 @@ int func_021FBA84(u8 *p)
     else
         func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->f8,1);
     if(pages==1) {
-        func_0204B878((struct Obj *)(((struct Obj00437 *)p)->fC),0x3D);
-        func_0204B878((struct Obj *)(((struct Obj00437 *)p)->f10),0x3E);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00437 *)p)->fC),0x3D);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00437 *)p)->f10),0x3E);
     } else {
-        func_0204B878((struct Obj *)(((struct Obj00437 *)p)->fC),0x26);
-        func_0204B878((struct Obj *)(((struct Obj00437 *)p)->f10),0x27);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00437 *)p)->fC),0x26);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00437 *)p)->f10),0x27);
     }
     func_0204B92C((struct Obj *)((struct Obj00437 *)p)->fC,0);
     func_0204B92C((struct Obj *)((struct Obj00437 *)p)->f10,0);

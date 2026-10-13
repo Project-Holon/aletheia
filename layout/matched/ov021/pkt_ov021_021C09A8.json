@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C09A8",
+   "name": "EVENT_RECOVERY_SetBallsStep",
    "address": "0x021C09A8",
    "kind": "game",
    "region": "ov021",

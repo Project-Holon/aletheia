@@ -1,5 +1,5 @@
 /*
- * function: func_0216566C
+ * function: GAME_BEACON_SEARCH_SetWordClear
  * address:  0x0216566C
  * packet:   pkt_0216566C
  * region:   ov010
@@ -16,7 +16,7 @@
  *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
  *   GAME_BEACON_RequestSend   0x02026FB8  thumb
  *   GAME_BEACON_Work      0x02146940  data
- *   func_02165690   0x02165690  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetInfoWordClear   0x02165690  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern u32 GAME_BEACON_CheckActionPriority(u32 a);
 extern void GAME_BEACON_RequestSend(void *);
 extern char *GAME_BEACON_Work;
-extern void func_02165690(void *);
+extern void GAME_BEACON_SEARCH_SetInfoWordClear(void *);
 
-void func_0216566C(void)
+void GAME_BEACON_SEARCH_SetWordClear(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x2A)) {
-        func_02165690(GAME_BEACON_Work + 4);
+        GAME_BEACON_SEARCH_SetInfoWordClear(GAME_BEACON_Work + 4);
         GAME_BEACON_RequestSend(GAME_BEACON_Work + 4);
     }
 }

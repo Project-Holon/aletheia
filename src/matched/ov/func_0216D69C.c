@@ -1,5 +1,5 @@
 /*
- * function: func_0216D69C
+ * function: FLDMMDL_GetMoveProcWork
  * address:  0x0216D69C
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D69C.c \
- *       --func func_0216D69C --addr 0x0216D69C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetMoveProcWork.c \
+ *       --func FLDMMDL_GetMoveProcWork --addr 0x0216D69C --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -26,4 +26,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void *func_0216D69C(void *p) { return (char *)p + 148; }
+void *FLDMMDL_GetMoveProcWork(void *p) { return (char *)p + 148; }

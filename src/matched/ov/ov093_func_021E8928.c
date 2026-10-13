@@ -1,5 +1,5 @@
 /*
- * function: func_021E8928
+ * function: BTLV_CORE_IsSlotKindNone
  * address:  0x021E8928
  * packet:   pkt_ov093_021E8928
  * region:   ov093
@@ -21,7 +21,7 @@ union Slot {
     struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 rest : 17; } s;
 };
 
-int func_021E8928(union Slot s)
+int BTLV_CORE_IsSlotKindNone(union Slot s)
 {
     if (s.s.kind == 0)
         return 1;

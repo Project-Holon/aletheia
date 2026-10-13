@@ -1,5 +1,5 @@
 /*
- * function: func_021CEA28
+ * function: COMM_ENTRY_MENU_SnapshotStates
  * address:  0x021CEA28
  * packet:   pkt_ov021_021CEA28
  * region:   ov021
@@ -24,7 +24,7 @@ typedef struct {
     u8 f550[4];
 } Work;
 
-void func_021CEA28(Work *p)
+void COMM_ENTRY_MENU_SnapshotStates(Work *p)
 {
     u8 i;
 

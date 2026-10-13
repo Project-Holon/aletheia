@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216D4F0",
+   "name": "FLDMMDL_SysGetMmdlMax",
    "address": "0x0216D4F0",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D4F4",
+   "name": "FLDMMDL_SysGetTcbPriority",
    "address": "0x0216D4F4",
    "kind": "game",
    "region": "ov010",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D514",
+   "name": "FLDMMDL_SysGetTcbSys",
    "address": "0x0216D514",
    "kind": "game",
    "region": "ov010",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D520",
+   "name": "FLDMMDL_SysGetBlActCont",
    "address": "0x0216D520",
    "kind": "game",
    "region": "ov010",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D52C",
+   "name": "FLDMMDL_SysGetG3dMapper",
    "address": "0x0216D52C",
    "kind": "game",
    "region": "ov010",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D534",
+   "name": "FLDMMDL_SysGetFieldMap",
    "address": "0x0216D534",
    "kind": "game",
    "region": "ov010",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D564",
+   "name": "FLDMMDL_GetMoveBit",
    "address": "0x0216D564",
    "kind": "game",
    "region": "ov010",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D568",
+   "name": "FLDMMDL_SetMoveBit",
    "address": "0x0216D568",
    "kind": "game",
    "region": "ov010",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D57C",
+   "name": "FLDMMDL_CheckMoveBit",
    "address": "0x0216D57C",
    "kind": "game",
    "region": "ov010",
@@ -115,7 +115,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D584",
+   "name": "FLDMMDL_SetObjId",
    "address": "0x0216D584",
    "kind": "game",
    "region": "ov010",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D588",
+   "name": "FLDMMDL_GetObjId",
    "address": "0x0216D588",
    "kind": "game",
    "region": "ov010",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D58C",
+   "name": "FLDMMDL_SetZoneId",
    "address": "0x0216D58C",
    "kind": "game",
    "region": "ov010",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D590",
+   "name": "FLDMMDL_GetZoneId",
    "address": "0x0216D590",
    "kind": "game",
    "region": "ov010",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D594",
+   "name": "FLDMMDL_SetObjCode",
    "address": "0x0216D594",
    "kind": "game",
    "region": "ov010",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D598",
+   "name": "FLDMMDL_GetObjCode",
    "address": "0x0216D598",
    "kind": "game",
    "region": "ov010",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D59C",
+   "name": "FLDMMDL_SetMoveCode",
    "address": "0x0216D59C",
    "kind": "game",
    "region": "ov010",
@@ -199,7 +199,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D5A0",
+   "name": "FLDMMDL_GetMoveCode",
    "address": "0x0216D5A0",
    "kind": "game",
    "region": "ov010",
@@ -211,7 +211,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D5A4",
+   "name": "FLDMMDL_SetEventType",
    "address": "0x0216D5A4",
    "kind": "game",
    "region": "ov010",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D5AC",
+   "name": "FLDMMDL_SetEventFlag",
    "address": "0x0216D5AC",
    "kind": "game",
    "region": "ov010",
@@ -235,7 +235,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D5B4",
+   "name": "FLDMMDL_SetEventId",
    "address": "0x0216D5B4",
    "kind": "game",
    "region": "ov010",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D5B8",
+   "name": "FLDMMDL_GetEventId",
    "address": "0x0216D5B8",
    "kind": "game",
    "region": "ov010",
@@ -259,7 +259,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D5D4",
+   "name": "FLDMMDL_GetDirHeader",
    "address": "0x0216D5D4",
    "kind": "game",
    "region": "ov010",
@@ -271,7 +271,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D5F8",
+   "name": "FLDMMDL_GetDirDisp",
    "address": "0x0216D5F8",
    "kind": "game",
    "region": "ov010",
@@ -283,7 +283,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D608",
+   "name": "FLDMMDL_GetDirMove",
    "address": "0x0216D608",
    "kind": "game",
    "region": "ov010",
@@ -295,7 +295,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D65C",
+   "name": "FLDMMDL_SetMoveLimitX",
    "address": "0x0216D65C",
    "kind": "game",
    "region": "ov010",
@@ -307,7 +307,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D660",
+   "name": "FLDMMDL_GetMoveLimitX",
    "address": "0x0216D660",
    "kind": "game",
    "region": "ov010",
@@ -319,7 +319,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D668",
+   "name": "FLDMMDL_SetMoveLimitZ",
    "address": "0x0216D668",
    "kind": "game",
    "region": "ov010",
@@ -331,7 +331,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D66C",
+   "name": "FLDMMDL_GetMoveLimitZ",
    "address": "0x0216D66C",
    "kind": "game",
    "region": "ov010",
@@ -343,7 +343,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D674",
+   "name": "FLDMMDL_SetDrawStatus",
    "address": "0x0216D674",
    "kind": "game",
    "region": "ov010",
@@ -355,7 +355,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D69C",
+   "name": "FLDMMDL_GetMoveProcWork",
    "address": "0x0216D69C",
    "kind": "game",
    "region": "ov010",
@@ -367,7 +367,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D6B8",
+   "name": "FLDMMDL_GetMoveSubProcWork",
    "address": "0x0216D6B8",
    "kind": "game",
    "region": "ov010",
@@ -379,7 +379,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D6D4",
+   "name": "FLDMMDL_GetMoveCmdWork",
    "address": "0x0216D6D4",
    "kind": "game",
    "region": "ov010",
@@ -391,7 +391,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D6F0",
+   "name": "FLDMMDL_GetDrawProcWork",
    "address": "0x0216D6F0",
    "kind": "game",
    "region": "ov010",
@@ -403,7 +403,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7C0",
+   "name": "FLDMMDL_SetAcmdCode",
    "address": "0x0216D7C0",
    "kind": "game",
    "region": "ov010",
@@ -415,7 +415,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7C8",
+   "name": "FLDMMDL_SetAcmdSeq",
    "address": "0x0216D7C8",
    "kind": "game",
    "region": "ov010",
@@ -427,7 +427,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7D8",
+   "name": "FLDMMDL_SetNowAttr",
    "address": "0x0216D7D8",
    "kind": "game",
    "region": "ov010",
@@ -439,7 +439,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7DC",
+   "name": "FLDMMDL_GetNowAttr",
    "address": "0x0216D7DC",
    "kind": "game",
    "region": "ov010",
@@ -451,7 +451,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7E0",
+   "name": "FLDMMDL_SetOldAttr",
    "address": "0x0216D7E0",
    "kind": "game",
    "region": "ov010",
@@ -463,7 +463,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7E4",
+   "name": "FLDMMDL_GetOldAttr",
    "address": "0x0216D7E4",
    "kind": "game",
    "region": "ov010",
@@ -475,7 +475,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7E8",
+   "name": "FLDMMDL_GetGridInitX",
    "address": "0x0216D7E8",
    "kind": "game",
    "region": "ov010",
@@ -487,7 +487,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D7F0",
+   "name": "FLDMMDL_SetGridInitX",
    "address": "0x0216D7F0",
    "kind": "game",
    "region": "ov010",
@@ -499,7 +499,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7F4",
+   "name": "FLDMMDL_SetGridInitY",
    "address": "0x0216D7F4",
    "kind": "game",
    "region": "ov010",
@@ -511,7 +511,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D7F8",
+   "name": "FLDMMDL_GetGridInitZ",
    "address": "0x0216D7F8",
    "kind": "game",
    "region": "ov010",
@@ -523,7 +523,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D800",
+   "name": "FLDMMDL_SetGridInitZ",
    "address": "0x0216D800",
    "kind": "game",
    "region": "ov010",
@@ -535,7 +535,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D804",
+   "name": "FLDMMDL_GetGridOldX",
    "address": "0x0216D804",
    "kind": "game",
    "region": "ov010",
@@ -547,7 +547,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D80C",
+   "name": "FLDMMDL_SetGridOldX",
    "address": "0x0216D80C",
    "kind": "game",
    "region": "ov010",
@@ -559,7 +559,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D810",
+   "name": "FLDMMDL_GetGridOldY",
    "address": "0x0216D810",
    "kind": "game",
    "region": "ov010",
@@ -571,7 +571,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D818",
+   "name": "FLDMMDL_SetGridOldY",
    "address": "0x0216D818",
    "kind": "game",
    "region": "ov010",
@@ -583,7 +583,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D81C",
+   "name": "FLDMMDL_GetGridOldZ",
    "address": "0x0216D81C",
    "kind": "game",
    "region": "ov010",
@@ -595,7 +595,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D824",
+   "name": "FLDMMDL_SetGridOldZ",
    "address": "0x0216D824",
    "kind": "game",
    "region": "ov010",
@@ -607,7 +607,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D83C",
+   "name": "FLDMMDL_GetGridNowX",
    "address": "0x0216D83C",
    "kind": "game",
    "region": "ov010",
@@ -619,7 +619,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D844",
+   "name": "FLDMMDL_SetGridNowX",
    "address": "0x0216D844",
    "kind": "game",
    "region": "ov010",
@@ -631,7 +631,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D854",
+   "name": "FLDMMDL_GetGridNowY",
    "address": "0x0216D854",
    "kind": "game",
    "region": "ov010",
@@ -643,7 +643,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D85C",
+   "name": "FLDMMDL_SetGridNowY",
    "address": "0x0216D85C",
    "kind": "game",
    "region": "ov010",
@@ -655,7 +655,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D86C",
+   "name": "FLDMMDL_GetGridNowZ",
    "address": "0x0216D86C",
    "kind": "game",
    "region": "ov010",
@@ -667,7 +667,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0216D888",
+   "name": "FLDMMDL_GetPosPtr",
    "address": "0x0216D888",
    "kind": "game",
    "region": "ov010",
@@ -679,7 +679,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216D8AC",
+   "name": "FLDMMDL_GetPosY",
    "address": "0x0216D8AC",
    "kind": "game",
    "region": "ov010",

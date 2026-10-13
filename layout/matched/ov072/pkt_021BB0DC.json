@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BB0DC",
-    "func_021BB0E0"
+    "TOWNMAP_IsScrollZoomDone",
+    "TOWNMAP_IsScrollZooming"
+   ],
+   "addresses": [
+    "0x021BB0DC",
+    "0x021BB0E0"
    ]
   }
  ]

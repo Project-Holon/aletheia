@@ -12,17 +12,17 @@
  * Script command: stores func_021FDBB0(s, arg) at 4 of the state.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021FDBB0 0x021FDBB0 thumb ov094
  */
 #include "../include/Obj13595.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FDBB0(char *, int);
 
 int func_021FBE74(void *a, char *s)
 {
-    ((struct Obj13595 *)s)->f4 = func_021FDBB0(s, func_0201134C(a));
+    ((struct Obj13595 *)s)->f4 = func_021FDBB0(s, VM_GetU32(a));
     return ((struct Obj13595 *)s)->f23C;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02012AD4
+ * function: GAME_DATA_SetPlayerDirectionType
  * address:  0x02012AD4
  * packet:   pkt_02012AD4
  * region:   arm9
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 
 extern const u16 data_0209DFA8[];
 
-void func_02012AD4(u8 *p, int i)
+void GAME_DATA_SetPlayerDirectionType(u8 *p, int i)
 {
     ((struct Obj15629 *)p)->f18 = data_0209DFA8[i];
 }

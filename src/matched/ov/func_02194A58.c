@@ -1,5 +1,5 @@
 /*
- * function: func_02194A58
+ * function: TALKMSGWIN_InitEntry
  * address:  0x02194A58
  * packet:   pkt_02194A58
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_02194A58(u32 a)
+int TALKMSGWIN_InitEntry(u32 a)
 {
 ((struct Obj02343 *)((u8 *)(a)))->f0 = 0;
 ((struct Obj02343 *)((u8 *)(a)))->f8 = 0;

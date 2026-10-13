@@ -1,39 +1,39 @@
 /*
- * function: func_0215D06C
+ * function: SCRCMD_PROC_GetDaycareMonGender
  * address: 0x0215D06C
  * packet: pkt_ov010_0215D06C
  * region: ov010
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * interface: func_021C34F8 has two observed inputs. Its full ov021 body
+ * interface: SODATEYA_GetPokemon has two observed inputs. Its full ov021 body
  * and 0200BCA8/0200BC2C read r0/r1 only; legacy trailing r2/r3 are omitted.
  * status: EXACT
  * symbols:
- *   func_02159AE8 0x02159AE8 thumb ov010
- *   func_02159B10 0x02159B10 thumb ov010
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_0201210C 0x0201210C thumb
- *   func_02188D50 0x02188D50 thumb ov021
- *   func_021C34F8 0x021C34F8 thumb ov021
- *   func_02017E1C 0x02017E1C thumb
+ *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
+ *   SCRIPT_WORK_ReadWorkValue 0x02159B10 thumb ov010
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
+ *   FIELDMAP_GetSodateya 0x02188D50 thumb ov021
+ *   SODATEYA_GetPokemon 0x021C34F8 thumb ov021
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  */
 typedef unsigned short u16;
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Ctx;
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D50(unsigned char *);
-extern void *func_021C34F8(void *, unsigned int);
-extern unsigned int func_02017E1C(void *, unsigned int, unsigned int);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetSodateya(unsigned char *);
+extern void *SODATEYA_GetPokemon(void *, unsigned int);
+extern unsigned int POKE_TOOL_GetPartyValue(void *, unsigned int, unsigned int);
 
-int func_0215D06C(void *a, void *b)
+int SCRCMD_PROC_GetDaycareMonGender(void *a, void *b)
 {
-    u16 *p = func_02159AE8(a, b);
-    int v = func_02159B10(a, b);
-    void *q = func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC(b))), v);
-    *p = func_02017E1C(q, 110, 0);
+    u16 *p = SCRIPT_WORK_ReadWorkPointer(a, b);
+    int v = SCRIPT_WORK_ReadWorkValue(a, b);
+    void *q = SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(b))), v);
+    *p = POKE_TOOL_GetPartyValue(q, 110, 0);
 
     return 0;
 }

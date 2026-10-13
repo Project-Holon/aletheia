@@ -8,12 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
  */
 
 typedef struct { char pad[0x68]; unsigned int f68; } W;
-extern W **func_02030EE8(void *h);
+extern W **TCBL_IsDeletePending(void *h);
 
 void func_02206710(void *h)
 {
-    (*func_02030EE8(h))->f68 &= 0x7fffffff;
+    (*TCBL_IsDeletePending(h))->f68 &= 0x7fffffff;
 }

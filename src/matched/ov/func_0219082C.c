@@ -1,5 +1,5 @@
 /*
- * function: func_0219082C
+ * function: FIELD_MSGBG_DeleteInfoMsgWin
  * address:  0x0219082C
  * packet:   pkt_0219082C
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02192BC0  0x02192BC0  thumb  ov021
- *   func_02190538  0x02190538  thumb  ov021
+ *   FIELD_MSGBG_DeleteSysFrameWindow  0x02192BC0  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgPrint  0x02190538  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -26,13 +26,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 struct Slot;
-extern void func_02190538(struct Slot *s);
-extern void func_02192BC0(u8 *p);
+extern void FIELD_MSGBG_DeleteMsgPrint(struct Slot *s);
+extern void FIELD_MSGBG_DeleteSysFrameWindow(u8 *p);
 
-int func_0219082C(void *a)
+int FIELD_MSGBG_DeleteInfoMsgWin(void *a)
 {
-func_02192BC0((u8 *)(((struct Obj12067 *)((u8 *)(a)))->f0));
-func_02190538((struct Slot *)(((struct Obj12067 *)((u8 *)(a)))->f4));
+FIELD_MSGBG_DeleteSysFrameWindow((u8 *)(((struct Obj12067 *)((u8 *)(a)))->f0));
+FIELD_MSGBG_DeleteMsgPrint((struct Slot *)(((struct Obj12067 *)((u8 *)(a)))->f4));
 return func_020307B0(a);
 }
 

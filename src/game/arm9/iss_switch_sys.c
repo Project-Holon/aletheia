@@ -1,7 +1,7 @@
 /*
  * file:     iss_switch_sys.c
  * unit:     yes
- * function: ISS_SWITCH_SYS_Create, ISS_SWITCH_SYS_Delete, ISS_SWITCH_SYS_Main, ISS_SWITCH_SYS_On, ISS_SWITCH_SYS_Off, ISS_SWITCH_SYS_ZoneChange, func_0202C0D0, func_0202C0E4, func_0202C0F8, func_0202C110, ISS_SWITCH_SYS_Init, ISS_SWITCH_SYS_Alloc, ISS_SWITCH_SYS_Free, ISS_SWITCH_SYS_CreateSets, ISS_SWITCH_SYS_DeleteSets, ISS_SWITCH_SYS_UpdateActiveSet, ISS_SWITCH_SYS_TurnOn, ISS_SWITCH_SYS_TurnOff, ISS_SWITCH_SYS_CheckZoneChange, ISS_SWITCH_SYS_GetSetCount, ISS_SWITCH_SYS_GetSet, ISS_SWITCH_SYS_GetActiveSet, ISS_SWITCH_SYS_IsActiveSetZone, ISS_SWITCH_SYS_FindSetByBgm, ISS_SWITCH_SYS_ChangeActiveSet, ISS_SWITCH_SYS_UpdateVolume, ISS_SWITCH_SYS_GetPlayingBgm, ISS_SWITCH_SYS_IsOn, ISS_SWITCH_SYS_ResetActiveSet, ISS_SWITCH_SET_Create, ISS_SWITCH_SET_Delete, ISS_SWITCH_SET_Load, ISS_SWITCH_SET_Main, ISS_SWITCH_SET_SwitchOn, ISS_SWITCH_SET_SwitchOff, ISS_SWITCH_SET_ResetSwitch, ISS_SWITCH_SET_GetBgmNo, ISS_SWITCH_SET_IsValidZone, ISS_SWITCH_SET_IsSwitchOn, ISS_SWITCH_SET_UpdateVolume, ISS_SWITCH_SET_Init, ISS_SWITCH_SET_Alloc, ISS_SWITCH_SET_Free, ISS_SWITCH_SET_CreateSwitches, ISS_SWITCH_SET_DeleteSwitches, ISS_SWITCH_SET_LoadData, ISS_SWITCH_SET_UpdateSwitches, ISS_SWITCH_SET_StartSwitchOn, ISS_SWITCH_SET_StartSwitchOff, ISS_SWITCH_SET_ResetSwitches, ISS_SWITCH_SET_ReadBgmNo, ISS_SWITCH_SET_GetZoneCount, ISS_SWITCH_SET_GetZone, ISS_SWITCH_SET_CheckZone, ISS_SWITCH_SET_CheckSwitchOn, ISS_SWITCH_SET_GetSwitch, ISS_SWITCH_SET_ApplySwitchVolumes, ISS_SWITCH_Create, ISS_SWITCH_Delete, ISS_SWITCH_Setup, ISS_SWITCH_IsOn, ISS_SWITCH_On, ISS_SWITCH_Off, ISS_SWITCH_ForceOn, ISS_SWITCH_ForceOff, ISS_SWITCH_Main, ISS_SWITCH_SetVolume, ISS_SWITCH_Alloc, ISS_SWITCH_Free, ISS_SWITCH_Init, ISS_SWITCH_SetParam, ISS_SWITCH_CountUpFade, ISS_SWITCH_IsFadeEnd, ISS_SWITCH_Update, ISS_SWITCH_UpdateOn, ISS_SWITCH_UpdateOff, ISS_SWITCH_UpdateFadeIn, ISS_SWITCH_UpdateFadeOut, ISS_SWITCH_StartFadeIn, ISS_SWITCH_StartFadeOut, ISS_SWITCH_SetOnState, ISS_SWITCH_SetOffState, ISS_SWITCH_GetState, ISS_SWITCH_SetState, ISS_SWITCH_GetVolume, ISS_SWITCH_ApplyVolume, ISS_SWITCH_IsOnState, ISS_SWITCH_IsOffState, func_0202C794, func_0202C824, func_0202C83C, func_0202C860, func_0202C8B8, func_0202C934, func_0202C970, BGWINFRM_Create, BGWINFRM_Delete, BGWINFRM_AddFrame, BGWINFRM_SetFrameData, BGWINFRM_SetFrameDataArc, BGWINFRM_SetFrameDataArcHandle, BGWINFRM_PutFrame, BGWINFRM_ShowFrame, BGWINFRM_HideFrame, BGWINFRM_StartMove, BGWINFRM_UpdateMoves, BGWINFRM_UpdateMove, BGWINFRM_IsMoving, BGWINFRM_ChangePalette, BGWINFRM_PutBmpWin, BGWINFRM_GetFrameBuffer, BGWINFRM_GetBgFrame, BGWINFRM_GetPos, BGWINFRM_GetSize, BGWINFRM_SetClipArea, func_0202D018, func_0202D01C, func_0202D034, func_0202D060, func_0202D064, POKEGRA_GetCbrArcIndex, func_0202D0D4, POKEGRA_GetCelArcIndex, POKEGRA_GetAnmArcIndex, POKEGRA_GetMCelArcIndex, POKEGRA_GetMAnmArcIndex, POKEGRA_GetNcecArcIndex, POKEGRA_ConvertCharTo2D, POKEGRA_ConvertCharTo1D, POKEGRA_DrawSpindaSpots, POKEGRA_CalcArcIndex, POKEGRA_GetTrainerArcID, POKEGRA_GetTrainerCgrArcIndex, POKEGRA_GetTrainerCbrArcIndex, POKEGRA_GetTrainerPalArcIndex, POKEGRA_GetTrainerCelArcIndex, POKEGRA_GetTrainerAnmArcIndex, POKEGRA_GetTrainerMCelArcIndex, POKEGRA_GetTrainerMAnmArcIndex, POKEGRA_GetTrainerNcecArcIndex, POKEGRA_LoadCharDataPP, POKEGRA_LoadCharData, func_0202D7C8, func_0202D7D8, func_0202D81C, func_0202D898, func_0202D8D0, func_0202D934, func_0202D9A4, POKEGRA_OpenTrainerHandle, POKEGRA_RegisterTrainerPalette, POKEGRA_RegisterTrainerCgr, POKEGRA_RegisterTrainerCellAnim, POKEGRA_LoadTrainerGraphics, PMS_DRAW_Create, PMS_DRAW_Main, PMS_DRAW_Delete, PMS_DRAW_Print, PMS_DRAW_PrintOffset, PMS_DRAW_IsPrintEnd, PMS_DRAW_Clear, PMS_DRAW_SetVisible, PMS_DRAW_IsActive, PMS_DRAW_SetDecoVisible, PMS_DRAW_SetDecoPriority, PMS_DRAW_Copy, PMS_DRAW_SetNullColorPalette, PMS_DRAW_SetPrintColor, PMS_DRAW_SetFollowBgScroll, PMS_DRAW_CalcDecoPos, PMS_DRAW_GetDecoCgrIndex, PMS_DRAW_GetDecoCelIndex, PMS_DRAW_GetDecoAnmIndex, PMS_DRAW_LoadResources, PMS_DRAW_ReleaseResources, PMS_DRAW_CreateDecoActor, PMS_DRAW_PlaceDecoActor, PMS_DRAW_InitElem, PMS_DRAW_DeleteElem, PMS_DRAW_UpdateElem, PMS_DRAW_PrintElem, PMS_DRAW_ClearElem, PMS_DRAW_SetElemVisible, PMS_DRAW_GetFrameSurface, func_0202E43C, func_0202E448, BAG_PARAM_Create
+ * function: ISS_SWITCH_SYS_Create, ISS_SWITCH_SYS_Delete, ISS_SWITCH_SYS_Main, ISS_SWITCH_SYS_On, ISS_SWITCH_SYS_Off, ISS_SWITCH_SYS_ZoneChange, ISS_SWITCH_SYS_SwitchOn, ISS_SWITCH_SYS_SwitchOff, ISS_SWITCH_SYS_IsSwitchOn, ISS_SWITCH_SYS_ResetSwitch, ISS_SWITCH_SYS_Init, ISS_SWITCH_SYS_Alloc, ISS_SWITCH_SYS_Free, ISS_SWITCH_SYS_CreateSets, ISS_SWITCH_SYS_DeleteSets, ISS_SWITCH_SYS_UpdateActiveSet, ISS_SWITCH_SYS_TurnOn, ISS_SWITCH_SYS_TurnOff, ISS_SWITCH_SYS_CheckZoneChange, ISS_SWITCH_SYS_GetSetCount, ISS_SWITCH_SYS_GetSet, ISS_SWITCH_SYS_GetActiveSet, ISS_SWITCH_SYS_IsActiveSetZone, ISS_SWITCH_SYS_FindSetByBgm, ISS_SWITCH_SYS_ChangeActiveSet, ISS_SWITCH_SYS_UpdateVolume, ISS_SWITCH_SYS_GetPlayingBgm, ISS_SWITCH_SYS_IsOn, ISS_SWITCH_SYS_ResetActiveSet, ISS_SWITCH_SET_Create, ISS_SWITCH_SET_Delete, ISS_SWITCH_SET_Load, ISS_SWITCH_SET_Main, ISS_SWITCH_SET_SwitchOn, ISS_SWITCH_SET_SwitchOff, ISS_SWITCH_SET_ResetSwitch, ISS_SWITCH_SET_GetBgmNo, ISS_SWITCH_SET_IsValidZone, ISS_SWITCH_SET_IsSwitchOn, ISS_SWITCH_SET_UpdateVolume, ISS_SWITCH_SET_Init, ISS_SWITCH_SET_Alloc, ISS_SWITCH_SET_Free, ISS_SWITCH_SET_CreateSwitches, ISS_SWITCH_SET_DeleteSwitches, ISS_SWITCH_SET_LoadData, ISS_SWITCH_SET_UpdateSwitches, ISS_SWITCH_SET_StartSwitchOn, ISS_SWITCH_SET_StartSwitchOff, ISS_SWITCH_SET_ResetSwitches, ISS_SWITCH_SET_ReadBgmNo, ISS_SWITCH_SET_GetZoneCount, ISS_SWITCH_SET_GetZone, ISS_SWITCH_SET_CheckZone, ISS_SWITCH_SET_CheckSwitchOn, ISS_SWITCH_SET_GetSwitch, ISS_SWITCH_SET_ApplySwitchVolumes, ISS_SWITCH_Create, ISS_SWITCH_Delete, ISS_SWITCH_Setup, ISS_SWITCH_IsOn, ISS_SWITCH_On, ISS_SWITCH_Off, ISS_SWITCH_ForceOn, ISS_SWITCH_ForceOff, ISS_SWITCH_Main, ISS_SWITCH_SetVolume, ISS_SWITCH_Alloc, ISS_SWITCH_Free, ISS_SWITCH_Init, ISS_SWITCH_SetParam, ISS_SWITCH_CountUpFade, ISS_SWITCH_IsFadeEnd, ISS_SWITCH_Update, ISS_SWITCH_UpdateOn, ISS_SWITCH_UpdateOff, ISS_SWITCH_UpdateFadeIn, ISS_SWITCH_UpdateFadeOut, ISS_SWITCH_StartFadeIn, ISS_SWITCH_StartFadeOut, ISS_SWITCH_SetOnState, ISS_SWITCH_SetOffState, ISS_SWITCH_GetState, ISS_SWITCH_SetState, ISS_SWITCH_GetVolume, ISS_SWITCH_ApplyVolume, ISS_SWITCH_IsOnState, ISS_SWITCH_IsOffState, func_0202C794, func_0202C824, func_0202C83C, func_0202C860, func_0202C8B8, func_0202C934, func_0202C970, BGWINFRM_Create, BGWINFRM_Delete, BGWINFRM_AddFrame, BGWINFRM_SetFrameData, BGWINFRM_SetFrameDataArc, BGWINFRM_SetFrameDataArcHandle, BGWINFRM_PutFrame, BGWINFRM_ShowFrame, BGWINFRM_HideFrame, BGWINFRM_StartMove, BGWINFRM_UpdateMoves, BGWINFRM_UpdateMove, BGWINFRM_IsMoving, BGWINFRM_ChangePalette, BGWINFRM_PutBmpWin, BGWINFRM_GetFrameBuffer, BGWINFRM_GetBgFrame, BGWINFRM_GetPos, BGWINFRM_GetSize, BGWINFRM_SetClipArea, func_0202D018, func_0202D01C, func_0202D034, POKEGRA_GetArcID, POKEGRA_GetCgrArcIndex, POKEGRA_GetCbrArcIndex, POKEGRA_GetPalArcIndex, POKEGRA_GetCelArcIndex, POKEGRA_GetAnmArcIndex, POKEGRA_GetMCelArcIndex, POKEGRA_GetMAnmArcIndex, POKEGRA_GetNcecArcIndex, POKEGRA_ConvertCharTo2D, POKEGRA_ConvertCharTo1D, POKEGRA_DrawSpindaSpots, POKEGRA_CalcArcIndex, POKEGRA_GetTrainerArcID, POKEGRA_GetTrainerCgrArcIndex, POKEGRA_GetTrainerCbrArcIndex, POKEGRA_GetTrainerPalArcIndex, POKEGRA_GetTrainerCelArcIndex, POKEGRA_GetTrainerAnmArcIndex, POKEGRA_GetTrainerMCelArcIndex, POKEGRA_GetTrainerMAnmArcIndex, POKEGRA_GetTrainerNcecArcIndex, POKEGRA_LoadCharDataPP, POKEGRA_LoadCharData, POKEGRA_OpenHandle, POKEGRA_RegisterPalette, POKEGRA_RegisterCgr, POKEGRA_RegisterCellAnim, POKEGRA_RegisterPalettePP, POKEGRA_RegisterCgrPP, POKEGRA_RegisterCellAnimPP, POKEGRA_OpenTrainerHandle, POKEGRA_RegisterTrainerPalette, POKEGRA_RegisterTrainerCgr, POKEGRA_RegisterTrainerCellAnim, POKEGRA_LoadTrainerGraphics, PMS_DRAW_Create, PMS_DRAW_Main, PMS_DRAW_Delete, PMS_DRAW_Print, PMS_DRAW_PrintOffset, PMS_DRAW_IsPrintEnd, PMS_DRAW_Clear, PMS_DRAW_SetVisible, PMS_DRAW_IsActive, PMS_DRAW_SetDecoVisible, PMS_DRAW_SetDecoPriority, PMS_DRAW_Copy, PMS_DRAW_SetNullColorPalette, PMS_DRAW_SetPrintColor, PMS_DRAW_SetFollowBgScroll, PMS_DRAW_CalcDecoPos, PMS_DRAW_GetDecoCgrIndex, PMS_DRAW_GetDecoCelIndex, PMS_DRAW_GetDecoAnmIndex, PMS_DRAW_LoadResources, PMS_DRAW_ReleaseResources, PMS_DRAW_CreateDecoActor, PMS_DRAW_PlaceDecoActor, PMS_DRAW_InitElem, PMS_DRAW_DeleteElem, PMS_DRAW_UpdateElem, PMS_DRAW_PrintElem, PMS_DRAW_ClearElem, PMS_DRAW_SetElemVisible, PMS_DRAW_GetFrameSurface, func_0202E43C, func_0202E448, BAG_PARAM_Create
  * address:  0x0202C070
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -24,17 +24,17 @@
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   func_020120F4  0x020120F4  thumb
  *   GAME_DATA_GetMusicalWork  0x0201297C  thumb
- *   func_0215E6A8  0x0215E6A8  thumb
- *   func_021647E8  0x021647E8  thumb  ov010
+ *   MOVE_POKEMON_FindEntryByZone  0x0215E6A8  thumb
+ *   CALENDER_GetWeatherThunk  0x021647E8  thumb  ov010
  *   ZONEDATA_GetWeatherId  0x02013C10  thumb
- *   func_0215E6F8  0x0215E6F8  thumb ov010
+ *   MOVE_POKEMON_IsAnyEntryActive  0x0215E6F8  thumb ov010
  *   func_02012994  0x02012994  thumb
  *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
  *   func_0201296C  0x0201296C  thumb
  *   func_02012138  0x02012138  thumb
- *   func_02013D74  0x02013D74  thumb
- *   func_020142E8  0x020142E8  thumb
- *   func_0215843C  0x0215843C  thumb
+ *   ZONEDATA_IsZoneGroup118To13C  0x02013D74  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
+ *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb
  *   gTbl_0209FFF4  0x0209FFF4  data
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
@@ -58,53 +58,53 @@
  *   MIi_CpuCopyFast 0x02082B0C  arm
  *   SpindaSpotTables  0x020A779C  data
  *   func_02019C90  0x02019C90  thumb
- *   func_020490A8  0x020490A8  arm
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   TrainerGraIndexTable  0x020A023C  data
  *   func_02017E88   0x02017E88  thumb
  *   POKE_TOOL_IsBoxShiny   0x02017EB4  thumb
  *   func_02049E34   0x02049E34  arm
- *   func_0204AC18  0x0204AC18  arm
- *   func_0204A6C8   0x0204A6C8  arm
- *   func_0204A9D0   0x0204A9D0  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
+ *   CLACT_RegisterCharacter   0x0204A6C8  arm
+ *   CLACT_TransferCharacter   0x0204A9D0  arm
  *   func_02027710   0x02027710  thumb
  *   func_02027714   0x02027714  thumb
  *   func_020275E4   0x020275E4  thumb
  *   func_020490F4   0x020490F4  arm
- *   func_0204AF28   0x0204AF28  arm
- *   func_02049238   0x02049238  arm
- *   func_02049250  0x02049250  arm
+ *   CLACT_RegisterCellAnim   0x0204AF28  arm
+ *   ARC_TOOL_DeleteHandle   0x02049238  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   func_02049E74  0x02049E74  arm
- *   func_0204ADEC  0x0204ADEC  arm
+ *   CLACT_TransferPalette  0x0204ADEC  arm
  *   func_02062A98  0x02062A98  arm
  *   MI_CpuFill8    0x02082BCC  arm
  *   PmsDrawFileName   0x020A77B8  data  a1
  *   func_0204B688  0x0204B688  arm
  *   func_02045770  0x02045770  arm
- *   func_02043814  0x02043814  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_CopyPixels  0x02043814  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_02035630  0x02035630  arm
- *   func_0204B954  0x0204B954  arm
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   func_020416D4  0x020416D4  arm
- *   func_0204B84C  0x0204B84C  arm
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02041648  0x02041648  arm
  *   func_02041664  0x02041664  arm
- *   func_0204B53C  0x0204B53C  arm
- *   func_0204B528  0x0204B528  arm
+ *   CLACT_GetActorPos  0x0204B53C  arm
+ *   CLACT_SetActorPos  0x0204B528  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
  *   PMSI_PARAM_Validate  0x0202465C  thumb
  *   PMSI_PARAM_GetSourceString  0x0202441C  thumb
@@ -114,14 +114,16 @@
  *   PMSI_PARAM_ToStringWords  0x02024368  thumb
  *   func_0201D528  0x0201D528  thumb
  *   func_0201D4BC  0x0201D4BC  thumb
- *   func_02043B5C  0x02043B5C  arm
- *   func_0201C724  0x0201C724  thumb
- *   func_02043AF4  0x02043AF4  arm
- *   func_02045808  0x02045808  arm
- *   func_020456F8  0x020456F8  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
+ *   BMP_FillRect  0x02043AF4  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_020409B4  0x020409B4  arm
  *   ItemValueTable  0x020A02A8  data
  *   BagParamFileName  0x020A77C4  data
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  */
 
 struct IssSwitchSys;
@@ -338,24 +340,24 @@ struct ItemValueEntry {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern u32 func_02049030(u32 a);
+extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 extern u16 GFL_USE_GetBgmNo(void);
 extern u32 FSi_ConvertStringSjisToUnicode(void *dst, u32 term, void *src,
                                            u32 srcOffset, u32 dstSize);
 extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 GAME_DATA_GetMusicalWork(const struct BigObj *p);
-extern u32 func_0215E6A8(void *a, u16 b);
-extern u32 func_021647E8(void *arg, unsigned int b);
+extern u32 MOVE_POKEMON_FindEntryByZone(void *a, u16 b);
+extern u32 CALENDER_GetWeatherThunk(void *arg, unsigned int b);
 extern u32 ZONEDATA_GetWeatherId(u32 id);
 extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
-extern int func_0215E6F8(int a0);
+extern int MOVE_POKEMON_IsAnyEntryActive(int a0);
 extern u8 func_02012994(const struct BigObj *p);
 extern u32 func_0201296C(const struct BigObj *p);
 extern u32 func_02012138(const struct Ctx *p);
-extern int func_02013D74(u32 key);
-extern u32 func_020142E8(void *bitmap, s32 id);
-extern s32 func_0215843C(u32 a);
+extern int ZONEDATA_IsZoneGroup118To13C(u32 key);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
+extern s32 INTRUDE_COMM_GetAreaOwnerVersion(u32 a);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 extern void func_0203F4E4(struct RtcDate *date);
@@ -376,54 +378,54 @@ extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
-extern u32 func_020490A8(u32 a, u32 b);
+extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern u32 func_02017E88(void *mon, u32 id, u32 v);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 extern void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u32 func_0204AC18(void *h, u32 a1, u32 engine, u32 a3, u32 s0, u32 s1, u32 s2);
-extern u32 func_0204A6C8(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
-extern void func_0204A9D0(int a, struct Sub0204A9D0 *b);
+extern u32 CLACT_RegisterPaletteEx(void *h, u32 a1, u32 engine, u32 a3, u32 s0, u32 s1, u32 s2);
+extern u32 CLACT_RegisterCharacter(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
+extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_02027710(int a);
 extern int func_02027714(int a);
 extern u32   func_020275E4(void);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void  func_02049238(void *h);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void  ARC_TOOL_DeleteHandle(void *h);
 extern int func_02027718(int a);
 extern int func_0202771C(int a);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void  func_0204ADEC(void *dst, void *src, u32 flag);
+extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 extern void func_0204B688(struct Actor *actor, u32 val);
 extern void *func_02045770(struct Descriptor *h);
-extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Actor *p, const struct Vec2 *delta, u32 which);
 extern u16 CLACT_GetActorAnimSeq(struct Actor *p);
-extern void func_0204B878(struct Actor *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
 extern void func_0204B3DC(struct Actor *p, u32 v);
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern struct Actor *func_0204B294(void *a, u32 b, u32 c, u32 d,
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern struct Actor *CLACT_CreateActor(void *a, u32 b, u32 c, u32 d,
                                 const void *e, u16 f, u16 g);
 extern void func_0204B92C(struct Actor *p, u32 v);
 extern u8 func_02035630(void);
-extern void func_0204B954(struct Actor *a, u32 v);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern u8 func_020416D4(u32 layer);
-extern void  func_0204B84C(void *h, u32 a);
-extern void func_0204B3B4(struct Actor *p);
+extern void  CLACT_SetActorBgPriority(void *h, u32 a);
+extern void CLACT_DeleteActor(struct Actor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern u32 func_02041648(u8 channel);
 extern u32 func_02041664(u8 channel);
-extern void func_0204B53C(const struct Actor *actor, struct PmsPoint *out);
-extern void func_0204B528(struct Actor *actor, const struct PmsPoint *src);
+extern void CLACT_GetActorPos(const struct Actor *actor, struct PmsPoint *out);
+extern void CLACT_SetActorPos(struct Actor *actor, const struct PmsPoint *src);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
 extern u32 PMSI_PARAM_Validate(struct T *p, u32 a1, u32 a2);
 extern void *PMSI_PARAM_GetSourceString(const struct Struct_0202441C *obj, u32 heapId);
@@ -433,13 +435,13 @@ extern u16 PMSI_PARAM_GetWordId(void *obj, u32 idx);
 extern void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count);
 extern u32 func_0201D528(void *s, u8 b, void *c, u32 d);
 extern u32   func_0201D4BC(void *s, u8 idx);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void  func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void  BMP_FillRect(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_020409B4(u32 index);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 *func_02012944(void *p);
 extern unsigned int GAME_DATA_GetMapMatrix(const struct BigObj *p);
@@ -453,10 +455,10 @@ void ISS_SWITCH_SYS_Main(u8 *sys);
 void ISS_SWITCH_SYS_On(u8 *sys);
 void ISS_SWITCH_SYS_Off(u32 *sys);
 void ISS_SWITCH_SYS_ZoneChange(u32 *sys, u32 zoneId);
-void func_0202C0D0(u8 *sys, u32 switchIdx);
-void func_0202C0E4(u8 *sys, u32 switchIdx);
-u32 func_0202C0F8(struct IssSwitchSys *sys, u32 switchIdx);
-void func_0202C110(void *sys);
+void ISS_SWITCH_SYS_SwitchOn(u8 *sys, u32 switchIdx);
+void ISS_SWITCH_SYS_SwitchOff(u8 *sys, u32 switchIdx);
+u32 ISS_SWITCH_SYS_IsSwitchOn(struct IssSwitchSys *sys, u32 switchIdx);
+void ISS_SWITCH_SYS_ResetSwitch(void *sys);
 void ISS_SWITCH_SYS_Init(void *obj);
 void *ISS_SWITCH_SYS_Alloc(u32 heapId);
 void ISS_SWITCH_SYS_Free(void *sys);
@@ -565,10 +567,10 @@ void BGWINFRM_SetClipArea(struct BgWinFrmWork *wk, u32 idx, s8 xmin, s8 xmax, s8
 void func_0202D018(void);
 u8 func_0202D01C(u32 a, u32 b, u32 c);
 int func_0202D034(u32 a, u32 b);
-int func_0202D060(void);
-s32 func_0202D064(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+int POKEGRA_GetArcID(void);
+s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
 s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-s32 func_0202D0D4(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
+s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
 s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
 s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
 s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
@@ -589,13 +591,13 @@ u32 POKEGRA_GetTrainerMAnmArcIndex(u32 trType, u32 flags);
 u32 POKEGRA_GetTrainerNcecArcIndex(u32 trType, u32 flags);
 void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId);
 void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, volatile u16 heapId);
-void *func_0202D7C8(u32 heapId);
-int func_0202D7D8(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
-u32 func_0202D81C(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId);
-u32 func_0202D898(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 mapping, volatile u32 unusedArg, volatile u16 heapId);
-int func_0202D8D0(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId);
-int func_0202D934(int handle, void *pp, int dir, int drawType, unsigned short heapId);
-u32 func_0202D9A4(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
+void *POKEGRA_OpenHandle(u32 heapId);
+int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
+u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId);
+u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 mapping, volatile u32 unusedArg, volatile u16 heapId);
+int POKEGRA_RegisterPalettePP(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId);
+int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned short heapId);
+u32 POKEGRA_RegisterCellAnimPP(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
 void *POKEGRA_OpenTrainerHandle(u32 heapId);
 s32 POKEGRA_RegisterTrainerPalette(u32 handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
 void POKEGRA_RegisterTrainerCgr(u32 handle, u32 trType, u32 drawType, u32 heapId);
@@ -749,10 +751,10 @@ void ISS_SWITCH_SYS_ZoneChange(u32 *sys, u32 zoneId)
  * argument through ISS_SWITCH_SET_SwitchOn.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C0D0.c \
- *       --func func_0202C0D0 --addr 0x0202C0D0 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_SwitchOn.c \
+ *       --func ISS_SWITCH_SYS_SwitchOn --addr 0x0202C0D0 --thumb --cc 1.1p1
  */
-void func_0202C0D0(u8 *sys, u32 switchIdx)
+void ISS_SWITCH_SYS_SwitchOn(u8 *sys, u32 switchIdx)
 {
     u32 set = ISS_SWITCH_SYS_GetActiveSet((struct IssSwitchSys *)sys);
 
@@ -766,10 +768,10 @@ void func_0202C0D0(u8 *sys, u32 switchIdx)
  * argument through ISS_SWITCH_SET_SwitchOff.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C0E4.c \
- *       --func func_0202C0E4 --addr 0x0202C0E4 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_SwitchOff.c \
+ *       --func ISS_SWITCH_SYS_SwitchOff --addr 0x0202C0E4 --thumb --cc 1.1p1
  */
-void func_0202C0E4(u8 *sys, u32 switchIdx)
+void ISS_SWITCH_SYS_SwitchOff(u8 *sys, u32 switchIdx)
 {
     u32 set = ISS_SWITCH_SYS_GetActiveSet((struct IssSwitchSys *)sys);
 
@@ -778,7 +780,7 @@ void func_0202C0E4(u8 *sys, u32 switchIdx)
     }
 }
 
-u32 func_0202C0F8(struct IssSwitchSys *sys, u32 switchIdx)
+u32 ISS_SWITCH_SYS_IsSwitchOn(struct IssSwitchSys *sys, u32 switchIdx)
 {
     u32 set = ISS_SWITCH_SYS_GetActiveSet(sys);
 
@@ -796,10 +798,10 @@ u32 func_0202C0F8(struct IssSwitchSys *sys, u32 switchIdx)
  * an existing manifest entry - and filed from the bytes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202C110.c \
- *       --func func_0202C110 --addr 0x0202C110 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_ResetSwitch.c \
+ *       --func ISS_SWITCH_SYS_ResetSwitch --addr 0x0202C110 --thumb --cc 1.1p1
  */
-void func_0202C110(void *sys)
+void ISS_SWITCH_SYS_ResetSwitch(void *sys)
 {
     ISS_SWITCH_SYS_ResetActiveSet(sys);
 }
@@ -832,7 +834,7 @@ void ISS_SWITCH_SYS_Free(void *sys)
 }
 
 /*
- * Build the unit table of a block: n = func_02049030(0x93) members, the
+ * Build the unit table of a block: n = ARC_TOOL_GetArchiveFileCount(0x93) members, the
  * count stored at +4, an n-word pointer array allocated from heapId at +8
  * (file word 0x020A7758, line 0x13A), then one unit per slot from
  * ISS_SWITCH_SET_Create(heapId), initialised by ISS_SWITCH_SET_Load(unit, i, heapId).
@@ -854,7 +856,7 @@ void ISS_SWITCH_SYS_CreateSets(u8 *p, u16 heapId)
     u32 i;
     int n;
 
-    n = func_02049030(0x93);
+    n = ARC_TOOL_GetArchiveFileCount(0x93);
     sys->setCount = (u8)n;
     sys->sets = func_02030734(heapId, (u32)(n << 2), 0,
                               IssSwitchSysFileName, 0x13a);
@@ -1559,7 +1561,7 @@ u32 ISS_SWITCH_IsOffState(void *sw)
 
 /*
  * note:     wave 16: promoted.  0x021647E8 is the unlabelled ov010 tail-call
- *           thunk matched in src/matched/func_021647E8.c (`matched, overlay`
+ *           thunk matched in src/matched/CALENDER_GetWeatherThunk.c (`matched, overlay`
  *           under the ov010 hint); 0x0202C8B8 now resolves as `matched`.
  *
  * A chain of four probes, each returning a u8 reason code unless it comes
@@ -1572,7 +1574,7 @@ u32 func_0202C794(void *a0, u32 a1)
     u32 saved = GAME_DATA_GetMusicalWork((const struct BigObj *)ctx);
     u32 r;
 
-    r = func_0215E6A8((void *)ctx, (u16)a1);
+    r = MOVE_POKEMON_FindEntryByZone((void *)ctx, (u16)a1);
     if (r != 0xffff) {
         return (u8)r;
     }
@@ -1589,7 +1591,7 @@ u32 func_0202C794(void *a0, u32 a1)
         return (u8)r;
     }
     if (func_0202C824(ctx) != 0) {
-        return (u8)func_021647E8((void *)saved, (u16)a1);
+        return (u8)CALENDER_GetWeatherThunk((void *)saved, (u16)a1);
     }
     return (u8)ZONEDATA_GetWeatherId((u16)a1);
 }
@@ -1610,7 +1612,7 @@ void func_0202C83C(struct Ctx *p, u32 a1)
  *
  * Blocked at MATCH on the `label`/`matched` classes: all 82 concrete bytes
  * are correct (88-byte extent, the last 6 bytes being the pool word 0xffff),
- * but the PC-relative call at +0x0034 to func_0215E6F8 in ov010 has no
+ * but the PC-relative call at +0x0034 to MOVE_POKEMON_IsAnyEntryActive in ov010 has no
  * witness: 0x0215E6F8 has exactly one branch reference image-wide and it is
  * that call, so no cut frees it, and the address is inside BOTH ov009's and
  * ov010's windows, so the `label` class refuses it even with the ov010 hint
@@ -1624,7 +1626,7 @@ void func_0202C83C(struct Ctx *p, u32 a1)
  * difference with `lsls r0, r0, #0x10; lsrs r0, r0, #0x10` first.
  *
  * The first call takes the actor pointer as well as the truncated id,
- * `func_0215E6A8(a0, (u16)a1)`: r0 is still r0 at the call and the id is
+ * `MOVE_POKEMON_FindEntryByZone(a0, (u16)a1)`: r0 is still r0 at the call and the id is
  * built in r1.  Declaring it as a one-argument call puts the id in r0 and
  * shifts the whole prologue.
  */
@@ -1633,7 +1635,7 @@ void func_0202C860(u8 *a0, int a1)
     u32 v;
     u16 r;
 
-    v = func_0215E6A8(a0, (u16)a1);
+    v = MOVE_POKEMON_FindEntryByZone(a0, (u16)a1);
     r = (u16)(u32)func_02012994((const struct BigObj *)a0);
     if (v != 0xffff) {
         GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)v);
@@ -1642,7 +1644,7 @@ void func_0202C860(u8 *a0, int a1)
     if ((u32)(r - 6) > 1) {
         return;
     }
-    if (func_0215E6F8((int)a0) != 1) {
+    if (MOVE_POKEMON_IsAnyEntryActive((int)a0) != 1) {
         return;
     }
     GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)ZONEDATA_GetWeatherId((u16)a1));
@@ -1663,16 +1665,16 @@ s32 func_0202C8B8(void *a0, u32 a1, u32 a2)
 
     r6 = func_0201296C((const struct BigObj *)a1);
     r4 = func_02012138(a0);
-    if (func_02013D74((u16)a2) == 0 || r4 == 0) {
+    if (ZONEDATA_IsZoneGroup118To13C((u16)a2) == 0 || r4 == 0) {
         goto done;
     }
     for (i = 0; i < 0x19; i++) {
         if (a2 == gTbl_0209FFF4[i].a) {
-            if (func_020142E8((void *)r6, gTbl_0209FFF4[i].b) == 0) {
-                if (func_0215843C(r4) == 0x14) return 0xd;
+            if (ZONEDATA_CheckEventFlag((void *)r6, gTbl_0209FFF4[i].b) == 0) {
+                if (INTRUDE_COMM_GetAreaOwnerVersion(r4) == 0x14) return 0xd;
                 return 0xe;
             }
-            if (func_0215843C(r4) == 0x14) return 0xa;
+            if (INTRUDE_COMM_GetAreaOwnerVersion(r4) == 0x14) return 0xa;
             return 0xb;
         }
     }
@@ -1685,7 +1687,7 @@ s32 func_0202C934(void *a0, u32 a1, u32 a2)
     u32 r = func_0201296C((const struct BigObj *)a1);
 
     if (a2 == 0x151) {
-        if (func_020142E8((void *)r, 0x96f) != 0) {
+        if (ZONEDATA_CheckEventFlag((void *)r, 0x96f) != 0) {
             if (GPOWER_GetSpecialPowerId() == 0x15) return 7;
             return 6;
         }
@@ -2130,7 +2132,7 @@ int func_0202D034(u32 a, u32 b)
     return 3;
 }
 
-int func_0202D060(void){ return 4; }
+int POKEGRA_GetArcID(void){ return 4; }
 
 /*
  * The two consecutive three-out-pointer wrappers around the 13-argument
@@ -2143,7 +2145,7 @@ int func_0202D060(void){ return 4; }
  *   python tools/match.py tu --src src/matched/unit_0202D064.c \
  *       --addr 0x0202D064 --cc 1.1p1 --thumb
  */
-s32 func_0202D064(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
+s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
     s32 index;
     s32 dirOffset;
@@ -2170,10 +2172,10 @@ s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare,
  * a status word, and folds the results into a single returned extent.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202D0D4.c \
- *       --func func_0202D0D4 --addr 0x0202D0D4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKEGRA_GetPalArcIndex.c \
+ *       --func POKEGRA_GetPalArcIndex --addr 0x0202D0D4 --cc 1.1p1 --thumb
  */
-s32 func_0202D0D4(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
+s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
 {
     s32 index;
     s32 rareOffset;
@@ -2453,7 +2455,7 @@ void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex,
     case 0:
         break;
     case 1:
-        formCount = func_020490A8((u32)arcId, (u32)(index + sexFileOffset + 1));
+        formCount = ARC_TOOL_GetMemberSize((u32)arcId, (u32)(index + sexFileOffset + 1));
         sex = 1;
         if (formCount == 0) {
             sex = 0;
@@ -2625,7 +2627,7 @@ void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId)
 }
 
 /*
- * Builds a sprite/resource request: func_0202D064 turns the mon
+ * Builds a sprite/resource request: POKEGRA_GetCgrArcIndex turns the mon
  * descriptor (species/form/gender plus the three stack words) into a
  * resource id, which func_02049E34 instantiates with the caller's
  * out-slot `a0` as its a3 payload.  When the species word a1 is the
@@ -2633,7 +2635,7 @@ void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId)
  * POKEGRA_ConvertCharTo2D / POKEGRA_DrawSpindaSpots / POKEGRA_ConvertCharTo1D triple, which is why
  * `*a0` is re-read before each of them (POKEGRA_DrawSpindaSpots may store through
  * it, so the load cannot be cached).  This answers the open question in
- * docs/notes/func_0202D81C.c.txt: a0 is a genuine out-parameter, written
+ * docs/notes/POKEGRA_RegisterCgr.c.txt: a0 is a genuine out-parameter, written
  * by func_02049E34 via its a3, not read-only.
  *
  * Blocked at MATCH: every concrete byte is identical.  2026-09-21, unblock
@@ -2654,8 +2656,8 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
     u32 arcIndex;
     void *file;
 
-    arcIndex = func_0202D064(func_0202D060(), monsNo, formNo, sex, rare, dir, egg);
-    file = func_02049E34(func_0202D060(), arcIndex, 1, (u32)outCharData, heapId);
+    arcIndex = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, rare, dir, egg);
+    file = func_02049E34(POKEGRA_GetArcID(), arcIndex, 1, (u32)outCharData, heapId);
     if (monsNo == 0x147) {
         POKEGRA_ConvertCharTo2D((void *)(*outCharData), heapId);
         POKEGRA_DrawSpindaSpots((struct NNSG2dCharacterData *)(*outCharData), personality);
@@ -2664,38 +2666,38 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
     return file;
 }
 
-void *func_0202D7C8(u32 heapId)
+void *POKEGRA_OpenHandle(u32 heapId)
 {
-    return func_020490F4(func_0202D060(), heapId);
+    return func_020490F4(POKEGRA_GetArcID(), heapId);
 }
 
-int func_0202D7D8(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType,
+int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rare, int dir, int egg, int drawType,
                    unsigned short palOffset, unsigned short heapId)
 {
-    int arcId = func_0202D060();
-    int palIndex = func_0202D0D4(arcId, monsNo, formNo, sex, rare, dir, egg);
-    return func_0204AC18((void *)handle, palIndex, drawType, palOffset, 0, 1, heapId);
+    int arcId = POKEGRA_GetArcID();
+    int palIndex = POKEGRA_GetPalArcIndex(arcId, monsNo, formNo, sex, rare, dir, egg);
+    return CLACT_RegisterPaletteEx((void *)handle, palIndex, drawType, palOffset, 0, 1, heapId);
 }
 
 /*
- * Issues a request through func_0204A6C8 built from a by-value tail struct
+ * Issues a request through CLACT_RegisterCharacter built from a by-value tail struct
  * in the caller's frame (five words plus a u16 key at +0x14) and the
- * context func_0202D060()/func_0202D064() pair; when a1 is the sentinel
+ * context POKEGRA_GetArcID()/POKEGRA_GetCgrArcIndex() pair; when a1 is the sentinel
  * 0x147 it additionally runs the same tail through POKEGRA_LoadCharData with the
- * address of a local out-slot, hands that slot's word to func_0204A9D0
+ * address of a local out-slot, hands that slot's word to CLACT_TransferCharacter
  * alongside the request handle, and releases POKEGRA_LoadCharData's result through
  * func_020307B0. The request handle is returned either way.
  *
  * Three things the C has to say exactly, all found this session (the
- * earlier DIFF is docs/notes/func_0202D81C.c.txt):
+ * earlier DIFF is docs/notes/POKEGRA_RegisterCgr.c.txt):
  *   - the tail parameter must be `volatile`. Without it the front end
  *     re-homes the register arguments into the frame, grows `sub sp` from
  *     0x18 to 0x28 and 89 bytes differ.
  *   - the key sits at +0x14 of the tail, not +0x10: the struct carries five
- *     u32 words (s0..s4) ahead of it, and s4 is func_0204A6C8's own stack
+ *     u32 words (s0..s4) ahead of it, and s4 is CLACT_RegisterCharacter's own stack
  *     argument read from [sp,#0x40].
  *   - `k` and `v` must be separate named locals read in that order just
- *     before the func_0204A6C8 call. Passing `t.key`/`t.s4` inline (in
+ *     before the CLACT_RegisterCharacter call. Passing `t.key`/`t.s4` inline (in
  *     either order, with or without a cast away from volatile, and with the
  *     stack arg typed u16) schedules `ldr r3,[sp,#0x40]` after the
  *     `movs r2,#1`/`str r0,[sp]` pair instead of before it: the last 6 bytes
@@ -2707,7 +2709,7 @@ int func_0202D7D8(int handle, int monsNo, int formNo, int sex, int rare, int dir
  * open question about a hidden write inside POKEGRA_LoadCharData is resolved as
  * "there is none, and the C does not need one".
  */
-u32 func_0202D81C(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir,
+u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir,
                   volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId)
 {
     u32 charFile;
@@ -2717,13 +2719,13 @@ u32 func_0202D81C(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare
     u32 vramType;
     void *charData;
 
-    cgrArcIndex = func_0202D064(func_0202D060(), monsNo, formNo, sex, rare, dir, egg);
+    cgrArcIndex = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, rare, dir, egg);
     heap = heapId;
     vramType = drawType;
-    cgrIndex = func_0204A6C8((void *)handle, cgrArcIndex, 1, vramType, heap);
+    cgrIndex = CLACT_RegisterCharacter((void *)handle, cgrArcIndex, 1, vramType, heap);
     if (monsNo == 0x147) {
         charFile = (u32)POKEGRA_LoadCharData((u32 *)(&charData), monsNo, formNo, sex, rare, dir, egg, personality, heapId);
-        func_0204A9D0(cgrIndex, (struct Sub0204A9D0 *)((u32)charData));
+        CLACT_TransferCharacter(cgrIndex, (struct Sub0204A9D0 *)((u32)charData));
         func_020307B0((void *)charFile);
     }
     return cgrIndex;
@@ -2733,7 +2735,7 @@ u32 func_0202D81C(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare
  * Builds a record out of an argument struct passed by value in the caller's
  * frame: both cursors come from func_02027710/func_02027714 on the same +8
  * word, the handle from func_020490F4 keyed on the +0x10 halfword with the
- * mode word from func_020275E4, and func_0204AF28 assembles the pair into
+ * mode word from func_020275E4, and CLACT_RegisterCellAnim assembles the pair into
  * it; the handle is released before the assembled record is returned.
  *
  * The `volatile` on the by-value struct parameter is load-bearing, not
@@ -2744,13 +2746,13 @@ u32 func_0202D81C(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare
  * parameter (rather than aliasing it through a volatile pointer, which
  * turns the two w2 loads into `[r5,#8]` and loses the `add r7,sp,#0x18`)
  * reproduces the reload, the argument scheduling and both `ldrh`s exactly.
- * See docs/notes/func_0202D898.c.txt for the DIFF this replaces.
+ * See docs/notes/POKEGRA_RegisterCellAnim.c.txt for the DIFF this replaces.
  *
  * EXACT* only: the follower at 0x0202D8D0 is unlabelled, so the inferred
  * extent runs 2 bytes long over the alignment halfword. Never a byte
  * difference.
  */
-u32 func_0202D898(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, volatile u32 egg,
+u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, volatile u32 egg,
                   volatile u32 mapping, volatile u32 unusedArg, volatile u16 heapId)
 {
     u32 cellDatId;
@@ -2761,12 +2763,12 @@ u32 func_0202D898(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, v
     cellDatId = func_02027710(mapping);
     anmDatId = func_02027714(mapping);
     handle = func_020490F4(func_020275E4(), heapId);
-    cellIndex = func_0204AF28(handle, cellDatId, anmDatId, heapId);
-    func_02049238(handle);
+    cellIndex = CLACT_RegisterCellAnim(handle, cellDatId, anmDatId, heapId);
+    ARC_TOOL_DeleteHandle(handle);
     return cellIndex;
 }
 
-int func_0202D8D0(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId)
+int POKEGRA_RegisterPalettePP(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId)
 {
     int monsNo = func_02017E88(pp, 5, 0);
     int formNo = func_02017E88(pp, 0x6f, 0);
@@ -2774,10 +2776,10 @@ int func_0202D8D0(int handle, void *pp, int dir, int drawType, unsigned short pa
     int rare = POKE_TOOL_IsBoxShiny(pp);
     int egg = func_02017E88(pp, 0x4c, 0);
 
-    return func_0202D7D8(handle, monsNo, formNo, sex, rare, dir, egg, drawType, palOffset, heapId);
+    return POKEGRA_RegisterPalette(handle, monsNo, formNo, sex, rare, dir, egg, drawType, palOffset, heapId);
 }
 
-int func_0202D934(int handle, void *pp, int dir, int drawType, unsigned short heapId)
+int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned short heapId)
 {
     int monsNo = func_02017E88(pp, 5, 0);
     int formNo = func_02017E88(pp, 0x6f, 0);
@@ -2786,16 +2788,16 @@ int func_0202D934(int handle, void *pp, int dir, int drawType, unsigned short he
     int egg = func_02017E88(pp, 0x4c, 0);
     int personality = func_02017E88(pp, 0, 0);
 
-    return func_0202D81C(handle, monsNo, formNo, sex, rare, dir, egg, personality, drawType, heapId);
+    return POKEGRA_RegisterCgr(handle, monsNo, formNo, sex, rare, dir, egg, personality, drawType, heapId);
 }
 
 /*
  * Collects five properties off the handle (func_02017E88 with selectors 5,
  * 0x6f, 0x6e and 0x4c, plus POKE_TOOL_IsBoxShiny) and forwards them into
- * func_0202D898 together with this function's own three trailing words and
- * its u16 key, tail-position, returning what func_0202D898 returns.
+ * POKEGRA_RegisterCellAnim together with this function's own three trailing words and
+ * its u16 key, tail-position, returning what POKEGRA_RegisterCellAnim returns.
  *
- * Arity note (this is what the earlier note was blocked on): func_0202D898
+ * Arity note (this is what the earlier note was blocked on): POKEGRA_RegisterCellAnim
  * itself is written with a by-value `volatile struct Args` trailing
  * parameter, because that is the only shape that reproduces ITS body -- but
  * the caller must NOT be written that way. Declaring the extern with the
@@ -2811,7 +2813,7 @@ int func_0202D934(int handle, void *pp, int dir, int drawType, unsigned short he
  * EXACT* only: the follower at 0x0202DA04 is unlabelled, so the inferred
  * extent runs over the trailing alignment halfword. Never a byte difference.
  */
-u32 func_0202D9A4(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId)
+u32 POKEGRA_RegisterCellAnimPP(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId)
 {
     u32 monsNo;
     u32 formNo;
@@ -2823,7 +2825,7 @@ u32 func_0202D9A4(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId)
     sex = func_02017E88((void *)pp, 0x6e, 0);
     rare = POKE_TOOL_IsBoxShiny((void *)pp);
 
-    return func_0202D898(monsNo, formNo, sex, rare,
+    return POKEGRA_RegisterCellAnim(monsNo, formNo, sex, rare,
                          dir, func_02017E88((void *)pp, 0x4c, 0), mapping, unusedArg, heapId);
 }
 
@@ -2834,12 +2836,12 @@ void *POKEGRA_OpenTrainerHandle(u32 heapId)
 
 s32 POKEGRA_RegisterTrainerPalette(u32 handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId)
 {
-    return func_0204AC18((void *)handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), drawType, palOffset, 0, 1, heapId);
+    return CLACT_RegisterPaletteEx((void *)handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), drawType, palOffset, 0, 1, heapId);
 }
 
 void POKEGRA_RegisterTrainerCgr(u32 handle, u32 trType, u32 drawType, u32 heapId)
 {
-    func_0204A6C8((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, drawType, heapId);
+    CLACT_RegisterCharacter((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, drawType, heapId);
 }
 
 s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId)
@@ -2852,8 +2854,8 @@ s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u1
     cellDatId = func_02027718(mapping);
     anmDatId = func_0202771C(mapping);
     handle = func_020490F4(func_020275E4(), heapId);
-    cellIndex = func_0204AF28(handle, cellDatId, anmDatId, heapId);
-    func_02049238(handle);
+    cellIndex = CLACT_RegisterCellAnim(handle, cellDatId, anmDatId, heapId);
+    ARC_TOOL_DeleteHandle(handle);
     return cellIndex;
 }
 
@@ -2875,13 +2877,13 @@ void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *
     void *palData;
     void *charData;
 
-    file = func_02049250(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), heapId);
+    file = ARC_TOOL_LoadHandleMember(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), heapId);
     func_02062A98(file, &palData);
-    func_0204ADEC(palDst, palData, 1);
+    CLACT_TransferPalette(palDst, palData, 1);
     func_020307B0(file);
 
     file = func_02049E74(handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (u32)(&charData), heapId);
-    func_0204A9D0((int)charDst, charData);
+    CLACT_TransferCharacter((int)charDst, charData);
     func_020307B0(file);
 }
 
@@ -3079,19 +3081,19 @@ void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId)
     dst = &wk->elems[dstId];
     dx = func_02045758(dst->bmpWin) - func_02045758(src->bmpWin);
     dy = func_02045760(dst->bmpWin) - func_02045760(src->bmpWin);
-    func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)src->bmpWin)), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)dst->bmpWin)));
+    BMP_CopyPixels((struct Bmp *)((u32)func_02045770((struct Descriptor *)src->bmpWin)), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)dst->bmpWin)));
     bmpWin = dst->bmpWin;
-    func_02045334(bmpWin);
-    func_02045374(bmpWin);
+    BMP_WIN_TransferChars(bmpWin);
+    BMP_WIN_MakeScreen(bmpWin);
     func_02041B6C(func_02045730(bmpWin));
 
     for (i = 0; i < 2; i++) {
         surface = PMS_DRAW_GetFrameSurface(func_02045730(src->bmpWin));
-        func_0204B454(src->decoActor[i], (struct PtS *)&pt, (u16)surface);
+        CLACT_GetActorSurfacePos(src->decoActor[i], (struct PtS *)&pt, (u16)surface);
         pt.x += dx * 8;
         pt.y += dy * 8;
         func_0204B404(dst->decoActor[i], (const struct Vec2 *)(&pt), (u16)surface);
-        func_0204B878(dst->decoActor[i], CLACT_GetActorAnimSeq(src->decoActor[i]));
+        CLACT_SetActorAnimSeq(dst->decoActor[i], CLACT_GetActorAnimSeq(src->decoActor[i]));
         func_0204B3DC(dst->decoActor[i], src->isDeco[i]);
     }
     dst->printing = src->printing;
@@ -3188,7 +3190,7 @@ u32 PMS_DRAW_GetDecoAnmIndex(u32 engine)
  * Builds the four handles of the pms_draw sub-object at +0x10 of its
  * owner: the three VRAM-bank queries of unit_0202DE9C are taken first
  * (off the engine word at +4), a 0x2b resource set is opened on the
- * caller's heap, and ENV_SetResourceSet / func_0204A6C8 / func_0204AF28
+ * caller's heap, and ENV_SetResourceSet / CLACT_RegisterCharacter / CLACT_RegisterCellAnim
  * fill +8, +0xc and +0x10 before the set is closed again.
  *
  * The screen-size argument to ENV_SetResourceSet is `(u16)(a1 << 5)`, the
@@ -3206,17 +3208,17 @@ void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u32 heapId)
     celDatId = PMS_DRAW_GetDecoCelIndex(res[1]);
     anmDatId = PMS_DRAW_GetDecoAnmIndex(res[1]);
     handle = func_020490F4(0x2b, heapId);
-    res[2] = func_0204AC18(handle, 1, res[1], (u16)(plttOffset << 5), 0, 5, heapId);
-    res[3] = func_0204A6C8(handle, anmDatId, 0, res[1], heapId);
-    res[4] = func_0204AF28(handle, cgrDatId, celDatId, heapId);
-    func_02049238(handle);
+    res[2] = CLACT_RegisterPaletteEx(handle, 1, res[1], (u16)(plttOffset << 5), 0, 5, heapId);
+    res[3] = CLACT_RegisterCharacter(handle, anmDatId, 0, res[1], heapId);
+    res[4] = CLACT_RegisterCellAnim(handle, cgrDatId, celDatId, heapId);
+    ARC_TOOL_DeleteHandle(handle);
 }
 
 void PMS_DRAW_ReleaseResources(struct PmsDrawRes *res)
 {
-    func_0204ADA4(res->plttIndex);
-    func_0204A8D4(res->cgrIndex);
-    func_0204AFD8(res->cellAnmIndex);
+    CLACT_ReleasePalette(res->plttIndex);
+    CLACT_ReleaseCharacter(res->cgrIndex);
+    CLACT_ReleaseCellAnim(res->cellAnmIndex);
 }
 
 /*
@@ -3253,12 +3255,12 @@ void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
     void *actor;
     u32 one;
 
-    actor = func_0204B294((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, &init, (u16)res->drawType, heapId);
+    actor = CLACT_CreateActor((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, &init, (u16)res->drawType, heapId);
     func_0204B3DC(actor, 0);
     one = 1;
     func_0204B92C(actor, 1);
     if (func_02035630() == 0x1e) {
-        func_0204B954(actor, one << 0xd);
+        CLACT_SetActorAutoAnimSpeed(actor, one << 0xd);
     }
     return actor;
 }
@@ -3282,8 +3284,8 @@ void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, 
     pt.y = (u16)pos.y;
     frame = func_02045730(bmpWin);
     func_0204B404(actor, (const struct Vec2 *)(&pt), (u16)PMS_DRAW_GetFrameSurface(frame));
-    func_0204B84C(actor, func_020416D4(frame));
-    func_0204B878(actor, (u16)(wordId - 1));
+    CLACT_SetActorBgPriority(actor, func_020416D4(frame));
+    CLACT_SetActorAnimSeq(actor, (u16)(wordId - 1));
 }
 
 /*
@@ -3305,7 +3307,7 @@ void PMS_DRAW_DeleteElem(struct PmsElem *elem)
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        func_0204B3B4(elem->decoActor[i]);
+        CLACT_DeleteActor(elem->decoActor[i]);
     }
 }
 
@@ -3316,7 +3318,7 @@ int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll
 
     if (elem->printing != 0) {
         if (func_0201C6C4(printQue, func_02045770(elem->bmpWin)) == 0) {
-            func_02045334(elem->bmpWin);
+            BMP_WIN_TransferChars(elem->bmpWin);
             elem->printing = 0;
         }
     }
@@ -3355,10 +3357,10 @@ int PMS_DRAW_UpdateElem(struct PmsElem *elem, void *printQue, int followBgScroll
 
         if (diff.x != 0 || diff.y != 0) {
             for (i = 0; i < 2; i++) {
-                func_0204B53C(elem->decoActor[i], &pos);
+                CLACT_GetActorPos(elem->decoActor[i], &pos);
                 pos.x += diff.x;
                 pos.y += diff.y;
-                func_0204B528(elem->decoActor[i], &pos);
+                CLACT_SetActorPos(elem->decoActor[i], &pos);
             }
         }
     }
@@ -3420,8 +3422,8 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
         }
     }
     word = PMSI_PARAM_ToStringWords((u16 *)param, heapID, wordCount);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)elem->bmpWin)), nullColorPalette);
-    func_0201C724(printQue, (u32)func_02045770((struct Descriptor *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (u32)word, font, color);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)elem->bmpWin)), nullColorPalette);
+    PRINTSYS_PrintQueColor(printQue, (u32)func_02045770((struct Descriptor *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (u32)word, font, color);
     elem->printing = 1;
     for (i = 0; i < wordCount; i++) {
         if (elem->isDeco[i] == 1) {
@@ -3431,12 +3433,12 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
         } else if (isBlank[i] == 1) {
             u32 x = func_0201D528(word, i, (void *)font, 0);
             u32 y = func_0201D4BC(word, i);
-            func_02043AF4((u32)func_02045770((struct Descriptor *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
+            BMP_FillRect((u32)func_02045770((struct Descriptor *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
         }
     }
-    func_02045808(word);
-    func_02045808(str);
-    func_02045374((struct Cfg *)elem->bmpWin);
+    STRBUF_Delete(word);
+    STRBUF_Delete(str);
+    BMP_WIN_MakeScreen((struct Cfg *)elem->bmpWin);
     func_02041B6C(func_02045730((struct Descriptor *)elem->bmpWin));
     elem->flags.bits.active = 1;
     elem->flags.bits.visible = 1;
@@ -3452,11 +3454,11 @@ void PMS_DRAW_ClearElem(struct PmsElem *elem, u32 isTrans)
     void *h;
     int i;
 
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)elem->bmpWin)), 0);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)elem->bmpWin)), 0);
     if (isTrans != 0) {
-        func_02045334((struct Descriptor *)elem->bmpWin);
+        BMP_WIN_TransferChars((struct Descriptor *)elem->bmpWin);
         h = elem->bmpWin;
-        func_020456F8((struct Descriptor *)h);
+        BMP_WIN_ClearScreen((struct Descriptor *)h);
         func_020409B4(func_02045730((struct Descriptor *)h));
     }
     for (i = 0; i < 2; i++) {
@@ -3480,9 +3482,9 @@ void PMS_DRAW_SetElemVisible(struct PmsElem *elem, u32 visible)
 
     elem->flags.word = (elem->flags.word & ~2) | ((visible & 1) << 1);
     if (visible != 0)
-        func_02045374((struct Cfg *)elem->bmpWin);
+        BMP_WIN_MakeScreen((struct Cfg *)elem->bmpWin);
     else
-        func_020456F8((struct Descriptor *)elem->bmpWin);
+        BMP_WIN_ClearScreen((struct Descriptor *)elem->bmpWin);
     func_02041B6C(func_02045730((struct Descriptor *)elem->bmpWin));
     for (i = 0; i < 2; i++) {
         if (elem->isDeco[i] != 0)
@@ -3535,7 +3537,7 @@ u32 func_0202E448(u32 id)
  */
 void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, int heapId)
 {
-    int   saveControl = (int)func_02012EBC((struct Big *)gameData);
+    int   saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)gameData);
     struct BagParam *param = func_02030734(heapId, 0x3c, 1, BagParamFileName, 0x37);
 
     param->gameData = (void *)gameData;

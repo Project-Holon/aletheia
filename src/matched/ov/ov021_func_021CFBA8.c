@@ -1,5 +1,5 @@
 /*
- * function: func_021CFBA8
+ * function: INTRUDE_OfferEventMain
  * address:  0x021CFBA8
  * packet:   pkt_ov021_021CFBA8
  * region:   ov021
@@ -13,12 +13,12 @@
  * first 8 bytes on to func_0201EE0C.
  *
  * symbols:
- *   func_021587B0  0x021587B0  thumb  ov010
- *   func_02159058  0x02159058  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
- *   func_02045808  0x02045808  arm
+ *   SCRIPT_SYS_ChangeScriptEvent  0x021587B0  thumb  ov010
+ *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201EE0C  0x0201EE0C  thumb
  * Addresses are Black-image addresses.
  */
@@ -31,30 +31,30 @@ typedef struct Rec {
     u16 v[10];
 } Rec;
 
-extern int func_021587B0(int a0, int a1, int a2, int a3);
-extern int func_02159058(int a, int b, int c, int d, u16 e);
+extern int SCRIPT_SYS_ChangeScriptEvent(int a0, int a1, int a2, int a3);
+extern int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
 struct U16Vec;
-extern void *func_02158F74(void *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Strbuf;
-extern void func_02045994(struct Strbuf *dst, const u16 *src, u32 len);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_SetStringN(struct Strbuf *dst, const u16 *src, u32 len);
+extern void STRBUF_Delete(struct U16Vec *vec);
 struct WordSet;
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 
-int func_021CFBA8(u32 a, u32 unused, const Rec *src)
+int INTRUDE_OfferEventMain(u32 a, u32 unused, const Rec *src)
 {
     Rec r = *src;
     u32 h;
     u32 x;
     u32 buf;
 
-    h = func_021587B0(a, 0x0AFC, 0, 0x15);
-    func_02159058(h, r.v[8], 0, 0, 0);
-    x = (u32)func_02158F74((void *)h);
-    buf = (u32)func_020457B0(8, 0x15);
-    func_02045994((struct Strbuf *)buf, (const u16 *)&r, 8);
+    h = SCRIPT_SYS_ChangeScriptEvent(a, 0x0AFC, 0, 0x15);
+    SCRIPT_WORK_SetParams(h, r.v[8], 0, 0, 0);
+    x = (u32)SCRIPT_WORK_GetWordSet((void *)h);
+    buf = (u32)STRBUF_Create(8, 0x15);
+    STRBUF_SetStringN((struct Strbuf *)buf, (const u16 *)&r, 8);
     func_0201EE0C((struct WordSet *)x, 3, (const void *)buf, 1, 1, 2);
-    func_02045808((struct U16Vec *)buf);
+    STRBUF_Delete((struct U16Vec *)buf);
     return 0;
 }

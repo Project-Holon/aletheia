@@ -1,5 +1,5 @@
 /*
- * function: func_021D4800
+ * function: BTL_NET_FreeAfterPartyUse
  * address: 0x021D4800
  * packet: pkt_ov093_021D4800
  * region: ov093
@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4A6C 0x021D4A6C thumb ov093
+ *   BTL_NET_FreeRecvBuffers 0x021D4A6C thumb ov093
  */
-extern void func_021D4A6C(void);
-void func_021D4800(void)
+extern void BTL_NET_FreeRecvBuffers(void);
+void BTL_NET_FreeAfterPartyUse(void)
 {
-    func_021D4A6C();
+    BTL_NET_FreeRecvBuffers();
 }

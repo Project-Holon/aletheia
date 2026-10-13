@@ -1,5 +1,5 @@
 /*
- * function: func_0215DE44
+ * function: SCRCMD_MUSICAL_CloseCommSession
  * address:  0x0215DE44
  * packet:   pkt_0215DE44
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int func_021FC684(int a0);
 
-void func_0215DE44(int a0)
+void SCRCMD_MUSICAL_CloseCommSession(int a0)
 {
     int t4;
 

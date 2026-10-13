@@ -1,5 +1,5 @@
 /*
- * function: func_021622F4
+ * function: EVENT_FIELD_PROCLINK_ClearReturnDefaultSlot
  * address:  0x021622F4
  * packet:   pkt_021622F4
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int func_02082BCC();
 
-int func_021622F4(int a0, int a1, int a2)
+int EVENT_FIELD_PROCLINK_ClearReturnDefaultSlot(int a0, int a1, int a2)
 {
     int t4;
 

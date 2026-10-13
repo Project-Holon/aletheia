@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj00007.h"
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-void func_021F0B64(char *p) { func_02043B5C(((struct Obj00007 *)p)->f194,0x40); func_02045334(((struct Obj00007 *)p)->f190); }
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+void func_021F0B64(char *p) { BMP_Clear(((struct Obj00007 *)p)->f194,0x40); BMP_WIN_TransferChars(((struct Obj00007 *)p)->f190); }

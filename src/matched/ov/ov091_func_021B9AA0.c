@@ -1,5 +1,5 @@
 /*
- * function: func_021B9AA0
+ * function: POKELIST_IsNotItemUseMode
  * address: 0x021B9AA0
  * packet: pkt_ov091_021B9AA0
  * region: ov091
@@ -10,7 +10,7 @@
  */
 #include "../include/Obj20861.h"
 typedef unsigned int u32;
-int func_021B9AA0(u32 p) {
+int POKELIST_IsNotItemUseMode(u32 p) {
     if (*(u32 *)(((struct Obj20861 *)p)->f280 + 52) != 1) return 1;
     return 0;
 }

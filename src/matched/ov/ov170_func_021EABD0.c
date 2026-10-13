@@ -10,8 +10,8 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj23962.h"
 #define WORK(p) (*(char **)((p)+0x2C))
@@ -22,13 +22,13 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
 typedef unsigned short u16;
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021EABD0(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,unsigned font,unsigned short color) {
  void *s; unsigned print;
  s=func_02045EC0(bank,idx);
  print=((struct Obj23962 *)w)->f8C;
- func_0201C724((void *)print,(u32)func_02045770(*(void **)(w+0x94+i*8)),(short)x,(short)y,(u32)s,font,color);
+ PRINTSYS_PrintQueColor((void *)print,(u32)func_02045770(*(void **)(w+0x94+i*8)),(short)x,(short)y,(u32)s,font,color);
  *(w+i*8+0x98)=1;
- func_02045808(s);
+ STRBUF_Delete(s);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020221A4
+ * function: WIPE_SYS_EndCheck
  * address:  0x020221A4
  * packet:   pkt_02022174
  * region:   arm9
@@ -26,8 +26,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020221A4.c \
- *       --func func_020221A4 --addr 0x020221A4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SYS_EndCheck.c \
+ *       --func WIPE_SYS_EndCheck --addr 0x020221A4 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_021467A4.h"
@@ -38,7 +38,7 @@ typedef unsigned int   u32;
 
 extern struct G_021467A4 g_wipeSys;
 
-u32 func_020221A4(void)
+u32 WIPE_SYS_EndCheck(void)
 {
     if (g_wipeSys.f14C == 0)
         return 1;

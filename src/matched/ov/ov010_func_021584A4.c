@@ -1,5 +1,5 @@
 /*
- * function: func_021584A4
+ * function: INTRUDE_COMM_IsStepToOwnArea
  * address:  0x021584A4
  * packet:   pkt_ov010_021584A4
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02158344  0x02158344  thumb
- *   func_02012B58  0x02012B58  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
  */
 
 typedef unsigned char u8;
@@ -20,12 +20,12 @@ typedef unsigned short u16;
 typedef struct { u16 f : 3; u16 g : 13; } Fh;
 
 struct BigObj;
-extern int func_02158344(int a0);
-extern u8 func_02012B58(const struct BigObj *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 
-int func_021584A4(int unused, int a, int mode)
+int INTRUDE_COMM_IsStepToOwnArea(int unused, int a, int mode)
 {
-    u8 *q = (u8 *)func_02158344(unused);
+    u8 *q = (u8 *)INTRUDE_COMM_GetWorkIfRunning(unused);
     int n;
     int cur;
     if (q == 0)
@@ -40,7 +40,7 @@ int func_021584A4(int unused, int a, int mode)
         if (n >= q[0x901] + 1)
             n = 0;
     }
-    if (n == func_02012B58((const struct BigObj *)a))
+    if (n == GAME_DATA_GetExitMode((const struct BigObj *)a))
         return 1;
     return 0;
 }

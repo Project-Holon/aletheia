@@ -1,5 +1,5 @@
 /*
- * function: func_02189734
+ * function: FIELDMAP_CheckCommExit
  * address:  0x02189734
  * packet:   pkt_02189734
  * region:   ov021
@@ -14,7 +14,7 @@
  * symbols:
  *   func_02026454  0x02026454  thumb
  *   func_02026460  0x02026460  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -24,17 +24,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Comm;
-extern void func_02026400(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern u32 func_02026454(void *obj);
 extern u32 func_02026460(void *obj);
 
-int func_02189734(u32 a, u32 b, u32 c, u32 d)
+int FIELDMAP_CheckCommExit(u32 a, u32 b, u32 c, u32 d)
 {
 if (func_02026454((void *)a) == 0) {
     return 1;
 }
 if (func_02026460((void *)a) == 0) {
-    func_02026400((struct Comm *)a);
+    GAME_COMM_RequestExitNoCallback((struct Comm *)a);
 }
 return 0;
 }

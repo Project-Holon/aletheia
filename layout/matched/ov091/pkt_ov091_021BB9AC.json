@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BB9AC",
-    "func_021BB9BC"
+    "PLIST_MESSAGE_SetWordSetItem",
+    "PLIST_MESSAGE_SetWordSetHeldItem"
+   ],
+   "addresses": [
+    "0x021BB9AC",
+    "0x021BB9BC"
    ]
   }
  ]

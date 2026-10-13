@@ -1,5 +1,5 @@
 /*
- * function: func_02162748
+ * function: EVENTDATA_SYSTEM_SetNpcGridPos
  * address:  0x02162748
  * packet:   pkt_ov010_02162748
  * region:   ov010
@@ -45,7 +45,7 @@ typedef struct {
     Rec *tbl;
 } Own;
 
-void func_02162748(Own *o, u32 idx, u16 a, u16 b, u32 w, u16 h)
+void EVENTDATA_SYSTEM_SetNpcGridPos(Own *o, u32 idx, u16 a, u16 b, u32 w, u16 h)
 {
     if (idx < o->n) {
         if (o->tbl[idx].busy == 0) {

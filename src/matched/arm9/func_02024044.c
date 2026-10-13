@@ -19,7 +19,7 @@
  *   - `hh` is a u32 parameter narrowed by an EXPLICIT (u16) cast at the
  *     allocator call.  A u16 parameter gives `ldrh` at +0x08 where the
  *     original loads a full word and narrows with lsls/lsrs #0x10.
- *   - func_020142E8 returns u32 and the result is narrowed by an explicit
+ *   - ZONEDATA_CheckEventFlag returns u32 and the result is narrowed by an explicit
  *     (u8) cast before the bitfield store.  Declaring the return u8 folds
  *     the `lsls #0x18 / lsrs #0x18` pair away and loses 4 bytes.
  *   - `flag` is likewise u32 with an explicit (u8) cast into the bitfield:
@@ -42,9 +42,9 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_020071CC  0x020071CC  thumb
- *   func_02024988  0x02024988  thumb
+ *   PMS_WORD_GetSaveData  0x02024988  thumb
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
- *   func_020142E8  0x020142E8  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   PMSI_PARAM_InitSentence  0x020242A4  thumb
  *   MI_CpuCopy8    0x02082D44  arm
  *   file_020A745C  0x020A745C  data
@@ -78,9 +78,9 @@ struct Obj {
 extern void *func_02030734(u32 heap, u32 sz, int c, const char *file, u16 line);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_02024988(int a0);
+extern void *PMS_WORD_GetSaveData(int a0);
 extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *a0);
-extern u32 func_020142E8(void *bitmap, s32 id);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern void  PMSI_PARAM_InitSentence(void *obj, u32 id);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
@@ -95,8 +95,8 @@ struct Obj *PMSI_PARAM_Create(u32 kind, u32 a1, void *src, u32 flag,
     o = (struct Obj *)func_02030734((u16)hh, 0x20, 1, (const char *)file_020A745C, 0x56);
     o->kind = (u8)kind;
     o->f08 = func_020071CC(sys, 0x37);
-    o->f0c = func_02024988((int)sys);
-    o->b0 = (u8)func_020142E8((void *)GAME_DATA_GetEventWorkFromSave(sys), 0x960);
+    o->f0c = PMS_WORD_GetSaveData((int)sys);
+    o->b0 = (u8)ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWorkFromSave(sys), 0x960);
     o->b1 = 0;
     o->f01 = 1;
     o->f02 = 0;

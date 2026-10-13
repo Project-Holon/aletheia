@@ -1,5 +1,5 @@
 /*
- * function: func_021D4CB8
+ * function: BTL_NET_RecvServerCmd
  * address: 0x021D4CB8
  * packet: pkt_ov093_021D4CB8
  * region: ov093
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov093/btl_net.c and filed here.
  *
  * symbols:
- *   d_021F3B88 0x021F3B88 data ov093 a4
+ *   gBtlNet 0x021F3B88 data ov093 a4
  */
 
 struct BtlNet;
@@ -64,17 +64,17 @@ struct BtlNet {
     struct BtlNetSync sync;     /* 0x3b20 */
 };
 
-void func_021D4CB8(int unused, u32 v);
-extern struct BtlNet *d_021F3B88;
+void BTL_NET_RecvServerCmd(int unused, u32 v);
+extern struct BtlNet *gBtlNet;
 
-void func_021D4CB8(int unused, u32 v)
+void BTL_NET_RecvServerCmd(int unused, u32 v)
 {
-    struct BtlNet *d = d_021F3B88;
+    struct BtlNet *d = gBtlNet;
 
     if (d->f0d == 0) {
         struct BtlNetRec *r = &d->rec0;
         r->fBB8 = (u16)v;
         r->fBBA = 0;
-        d_021F3B88->f0d = 1;
+        gBtlNet->f0d = 1;
     }
 }

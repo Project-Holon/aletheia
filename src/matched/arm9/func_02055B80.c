@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * symbols:
- *   func_0207BC08        0x0207BC08  arm
+ *   MTX_MultVec43        0x0207BC08  arm
  *   func_0207D918        0x0207D918  arm
  *   func_020565C8        0x020565C8  arm
  *   func_02055B80_Verts  0x020A1B38  data
@@ -18,7 +18,7 @@
  * docs/families/cluster_02052F58.h): a Z-rotation billboard.  Same top as
  * func_0205429C (POLYGON_ATTR, the three-way scale switch), then instead of
  * the basis hooks it transforms the particle position by the current matrix
- * (MTX_MultVec43, func_0207BC08), reads sin/cos from the Verts table at
+ * (MTX_MultVec43, MTX_MultVec43), reads sin/cos from the Verts table at
  * s->f20 >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
  * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + func_0207D918), mixes
  * the colour and calls the quad emitter func_020565C8 DIRECTLY.
@@ -144,7 +144,7 @@ struct Frame {
 };
 
 extern const s16 func_02055B80_Verts[];
-extern void func_0207BC08(const void *v, const void *m, void *out);
+extern void MTX_MultVec43(const void *v, const void *m, void *out);
 extern void func_0207D918(const void *);
 extern void func_020565C8(s32, s32, s32, s32);
 
@@ -206,7 +206,7 @@ void func_02055B80(struct Obj *obj, struct S *s)
         f.t.x = s->p1.x + s->f38;
         f.t.y = s->p1.y + s->f3c;
         f.t.z = s->p1.z + s->f40;
-        func_0207BC08(&f.t, mtx, &f.t);
+        MTX_MultVec43(&f.t, mtx, &f.t);
         i = (s32)s->f20 >> 4;
         sn = func_02055B80_Verts[2 * i];
         cs = func_02055B80_Verts[2 * i + 1];
@@ -228,7 +228,7 @@ void func_02055B80(struct Obj *obj, struct S *s)
         f.t.x = s->p1.x + s->f38 - p->f04;
         f.t.y = s->p1.y + s->f3c - obj->f40->f20->f00->f08;
         f.t.z = s->p1.z + s->f40 - obj->f40->f20->f00->f0c;
-        func_0207BC08(&f.t, mtx, &f.t);
+        MTX_MultVec43(&f.t, mtx, &f.t);
         i = (s32)s->f20 >> 4;
         sn = func_02055B80_Verts[2 * i];
         cs = func_02055B80_Verts[2 * i + 1];

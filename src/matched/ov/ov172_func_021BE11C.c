@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027778 0x02027778 thumb
- *   func_02045808 0x02045808 arm
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj08262.h"
 typedef unsigned char u8;
@@ -23,8 +23,8 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_02045808(struct U16Vec *vec);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern void STRBUF_Delete(struct U16Vec *vec);
 u32 func_021BE11C(u8 *p)
 {
     Descriptor x={0};
@@ -44,8 +44,8 @@ u32 func_021BE11C(u8 *p)
     x.c=8;
     x.d=3;
     x.zero=0;
-    result=(u32)func_02027778((struct TaskMenuTmpl *)(&x),(void *)(((struct Obj08262 *)p)->f1D4));
-    func_02045808((struct U16Vec *)items[0].handle);
-    func_02045808((struct U16Vec *)items[1].handle);
+    result=(u32)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&x),(void *)(((struct Obj08262 *)p)->f1D4));
+    STRBUF_Delete((struct U16Vec *)items[0].handle);
+    STRBUF_Delete((struct U16Vec *)items[1].handle);
     return result;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F0114
+ * function: NO_GEAR_Hook
  * address:  0x021F0114
  * packet:   pkt_021F0114
  * region:   ov030
@@ -15,6 +15,6 @@
  *   (none)
  */
 
-void func_021F0114(void)
+void NO_GEAR_Hook(void)
 {
 }

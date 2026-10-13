@@ -1,5 +1,5 @@
 /*
- * function: func_02165D50
+ * function: GAME_BEACON_ACCESSOR_GetGreeting
  * address:  0x02165D50
  * packet:   pkt_02165D50
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   STRBUF_Clear  0x0204581C  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  */
 
 typedef unsigned char u8;
@@ -22,10 +22,10 @@ struct Rec;
 struct Strbuf;
 struct U16Vec;
 extern void STRBUF_Clear(struct U16Vec *vec);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
-void func_02165D50(struct Rec *r, struct Strbuf *buf)
+void GAME_BEACON_ACCESSOR_GetGreeting(struct Rec *r, struct Strbuf *buf)
 {
     STRBUF_Clear((struct U16Vec *)buf);
-    func_02045994(buf, (const u16 *)((char *)r + 0x20), 9);
+    STRBUF_SetStringN(buf, (const u16 *)((char *)r + 0x20), 9);
 }

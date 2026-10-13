@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD10
+ * function: FIELD_G3D_MAPPER_SlotResGetHeapId
  * address:  0x0218DD10
  * packet:   pkt_0218DC6C
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_0218DD10(u8 *p)
+u16 FIELD_G3D_MAPPER_SlotResGetHeapId(u8 *p)
 {
     return ((struct Obj17899 *)p)->f10;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B538C
+ * function: SCRCMD_PROC_FLD_ResetFieldRegionA
  * address:  0x021B538C
  * packet:   pkt_021B538C
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -25,14 +25,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_02188C58(void *p);
-extern void func_0218EC54(u8 *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *FIELDMAP_GetCamera(void *p);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
 
-int func_021B538C(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_PROC_FLD_ResetFieldRegionA(u32 a, u32 b, u32 c, u32 d)
 {
-func_0218EC54(func_02188C58(func_0201210C(func_0215A5DC((void *)b))));
+FIELD_CAMERA_StopTargetTrace(FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))));
 return 0;
 }
 

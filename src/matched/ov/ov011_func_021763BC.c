@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021763D8  0x021763D8  thumb  ov011
+ *   INTRUDE_COMM_PickEntryForKind  0x021763D8  thumb  ov011
  *
  * Zeroes the six bytes at +6 one at a time, and after each store lets
- * func_021763D8 fill p[key] for key 0..5.  Called from arm9 func_0200BDE4
+ * INTRUDE_COMM_PickEntryForKind fill p[key] for key 0..5.  Called from arm9 func_0200BDE4
  * (bl at 0x0200BDF2) and from ov011 at 0x0217644C.
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_021763D8(u8 *p, u32 key);
+extern void INTRUDE_COMM_PickEntryForKind(u8 *p, u32 key);
 
 void INTRUDE_COMM_ResetOutcomes(u8 *p)
 {
@@ -28,6 +28,6 @@ void INTRUDE_COMM_ResetOutcomes(u8 *p)
 
     for (i = 0; i < 6; i++) {
         p[i + 6] = 0;
-        func_021763D8(p, i);
+        INTRUDE_COMM_PickEntryForKind(p, i);
     }
 }

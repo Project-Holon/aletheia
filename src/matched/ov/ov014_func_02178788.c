@@ -26,7 +26,7 @@
  *   WIH_DWC_Dummy       0x02010884  thumb
  *   DC_InvalidateRange  0x020862B8  arm
  *   MI_CpuCopy8         0x02082D44  arm
- *   func_0203D650       0x0203D650  arm
+ *   GFL_NET_GetUserArg       0x0203D650  arm
  *   func_02034714       0x02034714  arm
  */
 
@@ -45,7 +45,7 @@ extern void WIH_DWC_RequestAlertLevel(u32 v);
 extern void WIH_DWC_Dummy(void);
 extern void DC_InvalidateRange(void *p, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32 func_0203D650(void);
+extern u32 GFL_NET_GetUserArg(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
 typedef struct ScanExCb {
@@ -101,7 +101,7 @@ void DWCi_MOV_WH_StateOutStartScan(void *arg)
             MI_CpuCopy8(cb->bssDesc[i], w + 0xF40, 0xC0);
             WIH_DWC_RequestAlertLevel((u8)cb->linkLevel[i]);
             if (*(FoundFn *)(g_021797A8 + 0x1E88) != 0)
-                (*(FoundFn *)(g_021797A8 + 0x1E88))(w + 0xF40, func_0203D650(),
+                (*(FoundFn *)(g_021797A8 + 0x1E88))(w + 0xF40, GFL_NET_GetUserArg(),
                                                     cb->linkLevel[i]);
             if (WIH_IsMatchingParent(w + 0xF40) != 0) {
                 if (*(FilterFn *)(g_021797A8 + 0x1E94) == 0)

@@ -1,5 +1,5 @@
 /*
- * function: func_021800A4
+ * function: EVENT_COMM_COMMON_TalkedEventMain
  * address:  0x021800A4
  * packet:   pkt_ov018_021800A4
  * region:   ov018
@@ -9,35 +9,35 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Task callback in the shape of func_02182AA4: a 12-state sequence driving
+ * Task callback in the shape of EVENT_COMM_COMMON_MsgScriptEventMain: a 12-state sequence driving
  * the Ov018Obj at +0x10, with an early skip to state 10 while the owner
  * object is absent.
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0217553C  0x0217553C  thumb  ov011
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_02012950  0x02012950  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   INTRUDE_COMM_ClearRequestResult  0x0217553C  thumb  ov011
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   func_0201F02C  0x0201F02C  thumb
- *   func_0217F3C4  0x0217F3C4  thumb
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D480  0x0216D480  thumb  ov010
- *   func_02174258  0x02174258  thumb  ov011
- *   func_02175C40  0x02175C40  thumb  ov011
- *   func_02173AE0  0x02173AE0  thumb  ov011
- *   func_0217F40C  0x0217F40C  thumb
- *   func_02175514  0x02175514  thumb  ov011
- *   func_02173C04  0x02173C04  thumb  ov011
- *   func_0217537C  0x0217537C  thumb  ov011
- *   func_0218034C  0x0218034C  thumb
- *   func_0217F420  0x0217F420  thumb
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_0217FE38  0x0217FE38  thumb
+ *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   INTRUDE_CMD_SendReadyNotice  0x02174258  thumb  ov011
+ *   INTRUDE_COMM_TakeNoticeState  0x02175C40  thumb  ov011
+ *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
+ *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
+ *   INTRUDE_COMM_TakeRequestResult  0x02175514  thumb  ov011
+ *   INTRUDE_COMM_SendNoticeBytes  0x02173C04  thumb  ov011
+ *   INTRUDE_COMM_GetNotice  0x0217537C  thumb  ov011
+ *   EVENT_COMM_COMMON_ChangeTalkedTypeEvent  0x0218034C  thumb
+ *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
+ *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb
  */
 
 typedef unsigned char u8;
@@ -78,31 +78,31 @@ struct Rec44;
 struct Sub24;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
-u32 func_02012138(const struct Ctx *p);
-void *func_020120F4(const struct Ctx *p);
-int func_02158344(int a0);
-void func_0217553C(u8 *);
-void *func_02188C7C(u8 *p);
-void func_0216D9A0(void *);
-struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+int INTRUDE_COMM_GetWorkIfRunning(int a0);
+void INTRUDE_COMM_ClearRequestResult(u8 *);
+void *FIELDMAP_GetMmdlSys(u8 *p);
+void FLDMMDL_SysPauseMove(void *);
+struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
-void func_0217F3C4(Ov018Obj *p, int a);
-int func_0216D3CC(int a0);
-void func_0216D410(void *, int);
-int func_0216D480(char *p);
-int func_02174258(char *a);
-int func_02175C40(void *p);
-int func_02173AE0(int a, int b, int c, int d);
-int func_0217F40C(Ov018Obj *p);
-int func_02175514(u8 *);
-int func_02173C04(int, int);
-u8 *func_0217537C(u8 *);
-void func_0218034C(void *, Outer *, u8 *);
-int func_0217F420(void);
-u32 *func_0216D9E4(void *c);
-void func_0217FE38(u8 *v, Outer *c);
+void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
+int FLDMMDL_CheckPossibleAcmd(int a0);
+void FLDMMDL_SetAcmd(void *, int);
+int FLDMMDL_EndAcmd(char *p);
+int INTRUDE_CMD_SendReadyNotice(char *a);
+int INTRUDE_COMM_TakeNoticeState(void *p);
+int INTRUDE_COMM_SendReply(int a, int b, int c, int d);
+int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
+int INTRUDE_COMM_TakeRequestResult(u8 *);
+int INTRUDE_COMM_SendNoticeBytes(int, int);
+u8 *INTRUDE_COMM_GetNotice(u8 *);
+void EVENT_COMM_COMMON_ChangeTalkedTypeEvent(void *, Outer *, u8 *);
+int EVENT_COMM_COMMON_IsKeyTrg(void);
+u32 *FLDMMDL_SysResumeMove(void *c);
+void EVENT_COMM_COMMON_ExitCommonWork(u8 *v, Outer *c);
 
-int func_021800A4(void *a, int *state, Outer *c)
+int EVENT_COMM_COMMON_TalkedEventMain(void *a, int *state, Outer *c)
 {
     void *sub;
     void *t;
@@ -114,29 +114,29 @@ int func_021800A4(void *a, int *state, Outer *c)
     int flag;
 
     sub = func_020124E4(a);
-    t = (void *)func_02012138(sub);
-    w = func_020120F4(sub);
-    v = (u8 *)func_02158344((int)t);
+    t = (void *)GAMESYSTEM_GetGameComm(sub);
+    w = GAMESYSTEM_GetGameData(sub);
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)t);
     if (v == 0) {
-        if (func_0217F40C(&c->obj) == 0) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 0) {
             return 0;
         }
         if (*state < 10) {
-            func_0217F3C4(&c->obj, 4);
+            EVENT_COMM_COMMON_PrintMsg(&c->obj, 4);
             *state = 10;
             return 0;
         }
     }
     switch (*state) {
     case 0:
-        func_0217553C(v);
-        func_0216D9A0(func_02188C7C(c->f0C));
-        func_0201F02C(c->obj.f00, 0, func_02012950(w, v[0x154]));
-        func_0217F3C4(&c->obj, 1);
+        INTRUDE_COMM_ClearRequestResult(v);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(c->f0C));
+        func_0201F02C(c->obj.f00, 0, GAME_DATA_GetPlayerStatus(w, v[0x154]));
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, 1);
         (*state)++;
         break;
     case 1:
-        if (func_0216D3CC((int)c->f04) == 1) {
+        if (FLDMMDL_CheckPossibleAcmd((int)c->f04) == 1) {
             k = *(u16 *)(v + c->f40 * 0x1C + 0x9C);
             if (k == 2) {
                 m = 3;
@@ -148,22 +148,22 @@ int func_021800A4(void *a, int *state, Outer *c)
                     m = 1;
                 }
             }
-            func_0216D410(c->f04, m);
+            FLDMMDL_SetAcmd(c->f04, m);
             (*state)++;
         }
         break;
     case 2:
-        if (func_0216D480(c->f04) == 1) {
+        if (FLDMMDL_EndAcmd(c->f04) == 1) {
             (*state)++;
         }
         break;
     case 3:
-        if (func_02174258((char *)v) == 1) {
+        if (INTRUDE_CMD_SendReadyNotice((char *)v) == 1) {
             (*state)++;
         }
         break;
     case 4:
-        switch (func_02175C40(v + 0x1AC)) {
+        switch (INTRUDE_COMM_TakeNoticeState(v + 0x1AC)) {
         case 1:
             c->f99 = 1;
             (*state)++;
@@ -174,13 +174,13 @@ int func_021800A4(void *a, int *state, Outer *c)
         }
         break;
     case 5:
-        if (func_02173AE0((int)v, v[0x154], v[0x156], v[0x158]) == 1) {
+        if (INTRUDE_COMM_SendReply((int)v, v[0x154], v[0x156], v[0x158]) == 1) {
             (*state)++;
         }
         break;
     case 6:
-        if (func_0217F40C(&c->obj) == 1) {
-            k = func_02175514(v);
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
+            k = INTRUDE_COMM_TakeRequestResult(v);
             flag = 0;
             switch (k) {
             case 0:
@@ -195,18 +195,18 @@ int func_021800A4(void *a, int *state, Outer *c)
                 break;
             }
             if (flag == 1) {
-                func_0217F3C4(&c->obj, 4);
+                EVENT_COMM_COMMON_PrintMsg(&c->obj, 4);
                 *state = 10;
             }
         }
         break;
     case 7:
-        if (func_02173C04(v[0x154], c->f99) == 1) {
+        if (INTRUDE_COMM_SendNoticeBytes(v[0x154], c->f99) == 1) {
             (*state)++;
         }
         break;
     case 8:
-        p = func_0217537C(v);
+        p = INTRUDE_COMM_GetNotice(v);
         if (p != 0) {
             if (p[1] != c->f99 || c->f99 == 1) {
                 c->f41 = 0;
@@ -215,17 +215,17 @@ int func_021800A4(void *a, int *state, Outer *c)
         }
         break;
     case 9:
-        func_0218034C(a, c, v);
+        EVENT_COMM_COMMON_ChangeTalkedTypeEvent(a, c, v);
         return 0;
     case 10:
-        if (func_0217F420() == 1) {
+        if (EVENT_COMM_COMMON_IsKeyTrg() == 1) {
             *state = 11;
         }
         break;
     case 11:
-        if (func_0217F40C(&c->obj) == 1) {
-            func_0216D9E4(func_02188C7C(c->f0C));
-            func_0217FE38(v, c);
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
+            FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(c->f0C));
+            EVENT_COMM_COMMON_ExitCommonWork(v, c);
             return 1;
         }
         break;

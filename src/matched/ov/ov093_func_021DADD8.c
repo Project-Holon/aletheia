@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DADD8, func_021DADF8
+ * function: BTL_ABILITY_TruantClearLoafing, BTL_ABILITY_GetTruantHandlers
  * address: 0x021DADD8
  * packet: pkt_ov093_021DADD8
  * region: ov093
@@ -10,10 +10,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0B94 0x021F0B94 data a4
- *   func_021D775C 0x021D775C thumb ov093
+ *   gTruantHandlerTable 0x021F0B94 data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  */
-extern const unsigned int d_021F0B94[];
-extern int func_021D775C(int);
-void func_021DADD8(int a, int b, int c, int *d) { if (c == func_021D775C(2) && func_021D775C(12) == 7) *d = 0; }
-const unsigned int *func_021DADF8(int *n) { *n = 4; return d_021F0B94; }
+extern const unsigned int gTruantHandlerTable[];
+extern int BTL_EVENT_GetVar(int);
+void BTL_ABILITY_TruantClearLoafing(int a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(2) && BTL_EVENT_GetVar(12) == 7) *d = 0; }
+const unsigned int *BTL_ABILITY_GetTruantHandlers(int *n) { *n = 4; return gTruantHandlerTable; }

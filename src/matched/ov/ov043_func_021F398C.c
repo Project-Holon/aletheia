@@ -1,5 +1,5 @@
 /*
- * function: func_021F398C
+ * function: GIMMICK43_CallLiftEvent
  * address:  0x021F398C
  * packet:   pkt_ov043_021F398C
  * region:   ov043
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F398C  0x021F398C  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
+ *   GIMMICK43_CallLiftEvent  0x021F398C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   func_020122C0  0x020122C0  thumb
- *   func_021F3AC0  0x021F3AC0  thumb
- *   d_021F4490    0x021F4490  data  a4
+ *   GIMMICK43_LiftEventMain  0x021F3AC0  thumb
+ *   sGimmick43LiftHeights    0x021F4490  data  a4
  */
 
 typedef unsigned int u32;
@@ -30,43 +30,43 @@ typedef struct {
     int pad[4];
 } E;
 
-extern E d_021F4490[];
+extern E sGimmick43LiftHeights[];
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 typedef unsigned char  u8;
 struct Big;
 struct Desc;
-extern void *func_02188C80(void *p);
-extern int *func_021897BC(char *p, int idx);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F3AC0(void *a, int *b);
+extern int GIMMICK43_LiftEventMain(void *a, int *b);
 
-int func_021F398C(void *a, int b)
+int GIMMICK43_CallLiftEvent(void *a, int b)
 {
     void *s;
     int *q;
     int *p;
     int step;
 
-    s = func_0201210C((void *)a);
-    q = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(s))), 7);
-    p = func_021897BC(s, 1);
+    s = GAMESYSTEM_GetFieldMap((void *)a);
+    q = GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(s))), 7);
+    p = FIELDMAP_GetCommonWork(s, 1);
     if (b >= 6) {
         return 0;
     }
     p[0] = b;
     if (q[b] != 0) {
-        p[1] = d_021F4490[b].b;
-        p[2] = d_021F4490[b].a;
+        p[1] = sGimmick43LiftHeights[b].b;
+        p[2] = sGimmick43LiftHeights[b].a;
     } else {
-        p[1] = d_021F4490[b].a;
-        p[2] = d_021F4490[b].b;
+        p[1] = sGimmick43LiftHeights[b].a;
+        p[2] = sGimmick43LiftHeights[b].b;
     }
     if (b == 5) {
         step = 0x8000;
@@ -81,5 +81,5 @@ int func_021F398C(void *a, int b)
         p[3] = step;
     }
     p[16] = 0;
-    return (int)func_020122C0(a, 0, func_021F3AC0, 0);
+    return (int)func_020122C0(a, 0, GIMMICK43_LiftEventMain, 0);
 }

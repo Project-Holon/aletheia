@@ -1,5 +1,5 @@
 /*
- * function: func_02194984
+ * function: TALKMSGWIN_GetPrintStream
  * address:  0x02194984
  * packet:   pkt_02194984
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-u32 func_02194984(u32 a, u32 b)
+u32 TALKMSGWIN_GetPrintStream(u32 a, u32 b)
 {
 return *(u32 *)((u8 *)((a + (b * 100))) + 32);
 }

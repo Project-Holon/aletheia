@@ -1,5 +1,5 @@
 /*
- * function: func_02161340
+ * function: EVENT_FIELD_PROCLINK_ReturnConfig
  * address: 0x02161340
  * packet: pkt_ov010_02161340
  * region: ov010
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov010/event_field_proclink_p07.c and filed here.
  */
 
-int func_02161340(int a0, int *a1);
+int EVENT_FIELD_PROCLINK_ReturnConfig(int a0, int *a1);
 
-int func_02161340(int a0, int *a1)
+int EVENT_FIELD_PROCLINK_ReturnConfig(int a0, int *a1)
 {
     if (*a1 != 0)
         return 1;

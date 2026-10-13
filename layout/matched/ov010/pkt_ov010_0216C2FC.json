@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216C2FC",
+   "name": "NAMEIN_SETUP_RunLandEvent",
    "address": "0x0216C2FC",
    "kind": "game",
    "region": "ov010",

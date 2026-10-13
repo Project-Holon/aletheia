@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021E9100  0x021E9100  thumb  ov093
- *   func_021B8BEC  0x021B8BEC  thumb  ov093
+ *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
  *   func_021B8E70  0x021B8E70  thumb  ov093
  *   func_021EAB18  0x021EAB18  thumb  ov093
  */
@@ -29,7 +29,7 @@ typedef struct {
 } CbSlot;
 
 extern u8 *func_021E9100(u8 *p, int n);
-extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
+extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern int func_021EAB18(int *st, u8 *b);
 
@@ -41,9 +41,9 @@ void func_021EAA6C(CbSlot *s, u32 k, u32 n)
         t = func_021E9100((u8 *)s, 8);
         t[0] = k;
         t[1] = n;
-        t[5] = func_021B8BEC(s->battle, k, 0);
-        t[6] = func_021B8BEC(s->battle, k, 1);
-        t[7] = func_021B8BEC(s->battle, k, 2);
+        t[5] = BTL_MAIN_GetClientTrainerIndex(s->battle, k, 0);
+        t[6] = BTL_MAIN_GetClientTrainerIndex(s->battle, k, 1);
+        t[7] = BTL_MAIN_GetClientTrainerIndex(s->battle, k, 2);
         t[2] = func_021B8E70(s->battle, t[5]);
         t[3] = func_021B8E70(s->battle, t[6]);
         t[4] = func_021B8E70(s->battle, t[7]);

@@ -17,8 +17,8 @@
  *   func_020311B8 0x020311B8 arm
  *   TCBL_GetWork 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02165E24 0x02165E24 thumb ov010
- *   func_02165FC0 0x02165FC0 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetActionNo 0x02165E24 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetActionViewVariant 0x02165FC0 thumb ov010
  */
 #include "../include/Obj00225.h"
 #include "../include/Obj05121.h"
@@ -35,8 +35,8 @@ extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_02165E24(int a0);
-extern u8 func_02165FC0(u32 type);
+extern int GAME_BEACON_ACCESSOR_GetActionNo(int a0);
+extern u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 type);
 
 void func_021F1E40(char *p, char *q, void *x, int flag)
 {
@@ -53,7 +53,7 @@ void func_021F1E40(char *p, char *q, void *x, int flag)
     if (flag)
         ((struct Obj05121 *)r)->fC = 1;
     else
-        ((struct Obj05121 *)r)->fC = func_02165E24((int)x);
-    func_021F0FC8(p, (u8 *)q, func_02165FC0(((struct Obj05121 *)r)->fC));
+        ((struct Obj05121 *)r)->fC = GAME_BEACON_ACCESSOR_GetActionNo((int)x);
+    func_021F0FC8(p, (u8 *)q, GAME_BEACON_ACCESSOR_GetActionViewVariant(((struct Obj05121 *)r)->fC));
     func_021F0ED0(q, flag ? 0 : 1);
 }

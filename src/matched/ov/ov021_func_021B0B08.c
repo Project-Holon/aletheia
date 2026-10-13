@@ -1,5 +1,5 @@
 /*
- * function: func_021B0B08
+ * function: SCRCMD_MSGWIN_UpdateBalloonPos
  * address:  0x021B0B08
  * packet:   pkt_ov021_021B0B08
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B0B08  0x021B0B08  thumb
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_0215A63C  0x0215A63C  thumb  ov010
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218EC2C  0x0218EC2C  thumb  ov021
- *   func_0215A66C  0x0215A66C  thumb  ov010
- *   func_021B0960  0x021B0960  thumb
+ *   SCRCMD_MSGWIN_UpdateBalloonPos  0x021B0B08  thumb
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetWordSetWork  0x0215A63C  thumb  ov010
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
+ *   SCRCMD_WORK_GetWindowKind  0x0215A66C  thumb  ov010
+ *   SCRCMD_MSGWIN_SelectBalloonOffset  0x021B0960  thumb
  */
 
 typedef unsigned short u16;
@@ -38,38 +38,38 @@ typedef struct S {
     V3 b;
 } S;
 
-extern void *func_0215A5EC(void *);
-extern unsigned char *func_0215A63C(unsigned char *p);
+extern void *SCRCMD_WORK_GetOccupyInfo(void *);
+extern unsigned char *SCRCMD_WORK_GetWordSetWork(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_0216DE94(void *map, u32 id);
-extern u16 func_0216D5F8(void *p);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern u16 FLDMMDL_GetDirDisp(void *p);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C58(void *p);
-extern u32 func_0218EC2C(u8 *p);
-extern u8 func_0215A66C(u8 *p);
-extern void func_021B0960(V3 *, V3 *, int, int, int);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetCamera(void *p);
+extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
+extern u8 SCRCMD_WORK_GetWindowKind(u8 *p);
+extern void SCRCMD_MSGWIN_SelectBalloonOffset(V3 *, V3 *, int, int, int);
 
-void func_021B0B08(void *a, int b)
+void SCRCMD_MSGWIN_UpdateBalloonPos(void *a, int b)
 {
-    void *t = func_0215A5EC(a);
-    S *s = (S *)func_0215A63C(a);
-    void *o = func_0216DE94(t, s->id);
+    void *t = SCRCMD_WORK_GetOccupyInfo(a);
+    S *s = (S *)SCRCMD_WORK_GetWordSetWork(a);
+    void *o = FLDMMDL_SysSearchObjId(t, s->id);
     V3 v;
     if (o != 0) {
-        func_0216D5F8(o);
-        func_0216D88C(o, (struct VecFx32 *)&v);
+        FLDMMDL_GetDirDisp(o);
+        FLDMMDL_GetPos(o, (struct VecFx32 *)&v);
         if (b == 1 || v.x != s->a.x || v.y != s->a.y || v.z != s->a.z) {
             int p, q;
             s->a = v;
-            p = (int)func_02188C58(func_0201210C(func_0215A5DC(a)));
-            q = func_0218EC2C((void *)p);
-            func_021B0960(&s->a, &s->b, q, p, func_0215A66C(a));
+            p = (int)FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(a)));
+            q = FIELD_CAMERA_GetG3dCamera((void *)p);
+            SCRCMD_MSGWIN_SelectBalloonOffset(&s->a, &s->b, q, p, SCRCMD_WORK_GetWindowKind(a));
         }
         s->sum.x = s->a.x + s->b.x;
         s->sum.y = s->a.y + s->b.y;

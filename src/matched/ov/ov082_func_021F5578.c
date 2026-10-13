@@ -1,5 +1,5 @@
 /*
- * function: func_021F5578
+ * function: FLD_FACEUP_Delete
  * address: 0x021F5578
  * packet: pkt_ov082_021F5578
  * region: ov082
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02189A60 0x02189A60 thumb ov021
- *   func_021F5648 0x021F5648 thumb ov082
+ *   FIELDMAP_GetFaceUpWorkPtr 0x02189A60 thumb ov021
+ *   FLD_FACEUP_Release 0x021F5648 thumb ov082
  */
 typedef unsigned char u8;
-extern void **func_02189A60(u8 *p);
-extern void func_021F5648(int p, void *w);
-void func_021F5578(u8 *p) { void *w = *func_02189A60(p); func_021F5648((int)p, w); }
+extern void **FIELDMAP_GetFaceUpWorkPtr(u8 *p);
+extern void FLD_FACEUP_Release(int p, void *w);
+void FLD_FACEUP_Delete(u8 *p) { void *w = *FIELDMAP_GetFaceUpWorkPtr(p); FLD_FACEUP_Release((int)p, w); }

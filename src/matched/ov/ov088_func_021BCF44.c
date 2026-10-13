@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF44
+ * function: STARTMENU_SaveEraseClearVram
  * address:  0x021BCF44
  * packet:   pkt_ov088_021BCF44
  * region:   ov088
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021BD9B0     0x021BD9B0  data  a4
  */
 
@@ -25,12 +25,12 @@ extern Banks d_021BD9B0;
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-void func_021BCF44(void)
+void STARTMENU_SaveEraseClearVram(void)
 {
     Banks b = d_021BD9B0;
 
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((const struct DispVram *)(&b));
+    BG_SYS_SetVramBanks((const struct DispVram *)(&b));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02162BCC
+ * function: EVENTDATA_SYSTEM_CalcConnectRailExitOffset
  * address:  0x02162BCC
  * packet:   pkt_ov010_02162BCC
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02162C54  0x02162C54  thumb  ov010
+ *   EVENTDATA_SYSTEM_ConnectExitDirToDir  0x02162C54  thumb  ov010
  */
 
 typedef unsigned short u16;
@@ -37,14 +37,14 @@ struct Q {
 };
 
 typedef unsigned char  u8;
-extern int func_02162C54(u8 *p);
+extern int EVENTDATA_SYSTEM_ConnectExitDirToDir(u8 *p);
 
-u16 func_02162BCC(struct Box *b, struct Q *q)
+u16 EVENTDATA_SYSTEM_CalcConnectRailExitOffset(struct Box *b, struct Q *q)
 {
     struct Sub *s = &b->s;
     int a = 0;
     int c = 0;
-    int m = func_02162C54((u8 *)b);
+    int m = EVENTDATA_SYSTEM_ConnectExitDirToDir((u8 *)b);
     int d;
     switch (s->fa) {
     case 0:

@@ -1,5 +1,5 @@
 /*
- * function: func_021F38B0
+ * function: GIMMICK54_SaveAnimeFrames
  * address: 0x021F38B0
  * packet: pkt_ov054_021F38B0
  * region: ov054
@@ -9,22 +9,22 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02188C80 0x02188C80 thumb ov021
- *   func_020120F4 0x020120F4 thumb
- *   func_02012EC4 0x02012EC4 thumb
- *   func_0200B3A4 0x0200B3A4 thumb
- *   func_021C4E20 0x021C4E20 thumb ov021
+ *   FIELDMAP_GetGameSystem 0x02188C80 thumb ov021
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
+ *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
+ *   SOUND_OBJ_GetAnimeFrame 0x021C4E20 thumb ov021
  */
 
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern int func_021C4E20(void *);
-void func_021F38B0(char *p,int a) { int *q=func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))),11); int i; for(i=0;i<2;i++) { int offset=4*i; int v=func_021C4E20(*(void **)(p+8+offset)); *(int *)((char *)q+offset)=v>>12; } }
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern int SOUND_OBJ_GetAnimeFrame(void *);
+void GIMMICK54_SaveAnimeFrames(char *p,int a) { int *q=GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))),11); int i; for(i=0;i<2;i++) { int offset=4*i; int v=SOUND_OBJ_GetAnimeFrame(*(void **)(p+8+offset)); *(int *)((char *)q+offset)=v>>12; } }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021C88FC  0x021C88FC  data
  *
  * Addresses are Black-image addresses.
@@ -26,11 +26,11 @@ static inline void GX_SetDispSelect(GXDispSelect sel)
 }
 
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern const unsigned char d_021C88FC[];
 
 void func_021C7208(void)
 {
-    func_020433E0((const struct DispVram *)d_021C88FC);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021C88FC);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3BC8",
+   "name": "GIMMICK46_CalcUnitPose",
    "address": "0x021F3BC8",
    "kind": "game",
    "region": "ov046",

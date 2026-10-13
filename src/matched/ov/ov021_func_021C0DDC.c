@@ -1,5 +1,5 @@
 /*
- * function: func_021C0DDC
+ * function: FIELD_PLAYER_GRID_EVENT_StartBoulderDrop
  * address:  0x021C0DDC
  * packet:   pkt_ov021_021C0DDC
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C19B4  0x021C19B4  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216E5FC  0x0216E5FC  thumb  ov010
- *   func_021A5728  0x021A5728  thumb  ov021
- *   func_021A395C  0x021A395C  thumb  ov021
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_021C0D08  0x021C0D08  thumb  ov021
- *   func_021639C0  0x021639C0  thumb  ov010
- *   func_021C0E4C  0x021C0E4C  thumb  ov021
+ *   FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr  0x021C19B4  thumb  ov021
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_IsMovedPosObjCode  0x0216E5FC  thumb  ov010
+ *   FIELD_PLAYER_GRID_GetCore  0x021A5728  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFieldMap  0x021A395C  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_PLAYER_GRID_EVENT_GetHoleCoverage  0x021C0D08  thumb  ov021
+ *   FLDMMDL_MOVE_HitCheckMoveDir  0x021639C0  thumb  ov010
+ *   FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent  0x021C0E4C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -26,28 +26,28 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021C19B4(u8 *a, u32 b);
-extern u16 func_0216D598(void *p);
-extern int func_0216E5FC(u16 id);
-extern u32 func_021A5728(u8 *p);
-extern u32 func_021A395C(u8 *p);
-extern u32 func_02188C98(u8 *p);
-extern int func_021C0D08(void *obj, u32 dir, void *map);
-extern u32 func_021639C0(u32 a, u32 b);
-extern void *func_021C0E4C(u32 a, u32 b, u32 c, u32 d);
+extern u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(u8 *a, u32 b);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern int FLDMMDL_IsMovedPosObjCode(u16 id);
+extern u32 FIELD_PLAYER_GRID_GetCore(u8 *p);
+extern u32 FIELD_PLAYER_CORE_GetFieldMap(u8 *p);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern int FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(void *obj, u32 dir, void *map);
+extern u32 FLDMMDL_MOVE_HitCheckMoveDir(u32 a, u32 b);
+extern void *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(u32 a, u32 b, u32 c, u32 d);
 
-int func_021C0DDC(u8 *a, u32 b, int c)
+int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(u8 *a, u32 b, int c)
 {
     u32 r6;
     u32 r4;
     u32 f;
 
     if (c == 1) {
-        r6 = func_021C19B4(a, b);
+        r6 = FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(a, b);
         if (r6 != 0) {
-            if (func_0216E5FC(func_0216D598((void *)r6)) == 1) {
-                r4 = func_021C0D08((void *)r6, b, (void *)func_02188C98((u8 *)func_021A395C((u8 *)func_021A5728((u8 *)a))));
-                f = func_021639C0(r6, b);
+            if (FLDMMDL_IsMovedPosObjCode(FLDMMDL_GetObjCode((void *)r6)) == 1) {
+                r4 = FIELD_PLAYER_GRID_EVENT_GetHoleCoverage((void *)r6, b, (void *)FIELDMAP_GetG3dMapper((u8 *)FIELD_PLAYER_CORE_GetFieldMap((u8 *)FIELD_PLAYER_GRID_GetCore((u8 *)a))));
+                f = FLDMMDL_MOVE_HitCheckMoveDir(r6, b);
                 f &= ~1;
                 if ((f & 2) && r4 - 2 <= 1)
                     f &= ~2;
@@ -55,7 +55,7 @@ int func_021C0DDC(u8 *a, u32 b, int c)
                     int k = 0;
                     if (r4 == 3)
                         k = 1;
-                    return (int)func_021C0E4C((u32)a, b, r6, k);
+                    return (int)FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent((u32)a, b, r6, k);
                 }
             }
         }

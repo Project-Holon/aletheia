@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD9C
+ * function: ENTRANCE_CAMERA_CreateAnime
  * address:  0x021BDD9C
  * packet:   pkt_ov021_021BDD9C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218FE80  0x0218FE80  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Create  0x0218FE80  thumb  ov021
  */
 
 typedef struct {
@@ -19,9 +19,9 @@ typedef struct {
     void *f54;
 } Obj;
 
-extern void *func_0218FE80(void *a);
+extern void *FIELD_CAMERA_ANIME_Create(void *a);
 
-void func_021BDD9C(Obj *p)
+void ENTRANCE_CAMERA_CreateAnime(Obj *p)
 {
-    p->f54 = func_0218FE80(p->f0);
+    p->f54 = FIELD_CAMERA_ANIME_Create(p->f0);
 }

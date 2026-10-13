@@ -1,5 +1,5 @@
 /*
- * function: func_021B51BC
+ * function: SCRCMD_PROC_FLD_StoreRandomUniqueEntry
  * address:  0x021B51BC
  * packet:   pkt_ov021_021B51BC
  * region:   ov021
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_0215E2B8 clears and fills a 0xE8-byte record (its own memset size).
+ * FIELD_ENCOUNT_ST_LoadEncountData clears and fills a 0xE8-byte record (its own memset size).
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215E2B8  0x0215E2B8  thumb  ov010
- *   func_021B5190  0x021B5190  thumb  ov021
- *   func_02012984  0x02012984  thumb
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   FIELD_ENCOUNT_ST_LoadEncountData  0x0215E2B8  thumb  ov010
+ *   SCRCMD_PROC_FLD_AddUniqueU16  0x021B5190  thumb  ov021
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   func_02005728  0x02005728  thumb
  *   func_020490F4  0x020490F4  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   d_021DE234     0x021DE234  data  a1
@@ -49,19 +49,19 @@ typedef struct {
 extern const char d_021DE234[];
 extern const u16 d_021D98D0[];
 
-extern void *func_0215A5E4(void *vm);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0215E2B8(Rec *r, void *h, u32 k, u32 x);
+extern void *SCRCMD_WORK_GetGameData(void *vm);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern int FIELD_ENCOUNT_ST_LoadEncountData(Rec *r, void *h, u32 k, u32 x);
 struct BigObj;
-extern u16 func_021B5190(u16 *arr, u16 n, u16 v);
-extern u8 func_02012984(const struct BigObj *p);
+extern u16 SCRCMD_PROC_FLD_AddUniqueU16(u16 *arr, u16 n, u16 v);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern u32 func_02005728(u32 range);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02049238(void *h);
+extern void ARC_TOOL_DeleteHandle(void *h);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 
-int func_021B51BC(void *a, void *b)
+int SCRCMD_PROC_FLD_StoreRandomUniqueEntry(void *a, void *b)
 {
     Rec rec;
     u32 x;
@@ -74,27 +74,27 @@ int func_021B51BC(void *a, void *b)
     u16 n;
 
     n = 0;
-    sys = func_0215A5E4(b);
-    out = func_02159AE8(a, b);
-    x = func_02012984(sys);
+    sys = SCRCMD_WORK_GetGameData(b);
+    out = SCRIPT_WORK_ReadWorkPointer(a, b);
+    x = GAME_DATA_GetSeason(sys);
     h = func_020490F4(0x7e, 0x8015);
     list = func_02030734(0x8015, 0x78, 1, d_021DE234, 0xf8);
     for (i = 0; i < 6; i++) {
-        if (func_0215E2B8(&rec, h, d_021D98D0[i], x)) {
+        if (FIELD_ENCOUNT_ST_LoadEncountData(&rec, h, d_021D98D0[i], x)) {
             if (rec.hasA) {
                 for (j = 0; j < 5; j++) {
-                    n = func_021B5190(list, n, rec.a[j].id);
+                    n = SCRCMD_PROC_FLD_AddUniqueU16(list, n, rec.a[j].id);
                 }
             }
             if (rec.hasB) {
                 for (j = 0; j < 5; j++) {
-                    n = func_021B5190(list, n, rec.b[j].id);
+                    n = SCRCMD_PROC_FLD_AddUniqueU16(list, n, rec.b[j].id);
                 }
             }
         }
     }
     *out = list[func_02005728(n)];
     func_020307B0(list);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     return 0;
 }

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_02030EAC  0x02030EAC  arm
  */
 typedef unsigned int u32;
@@ -27,7 +27,7 @@ typedef struct {
 } W;
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
@@ -39,7 +39,7 @@ void func_02209458(W *w)
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 6; j++) {
             if (w->r[i].f[j + 2] != 0) {
-                func_0204B3B4((struct Obj *)w->r[i].f[j + 2]);
+                CLACT_DeleteActor((struct Obj *)w->r[i].f[j + 2]);
                 w->r[i].f[j + 2] = 0;
             }
         }

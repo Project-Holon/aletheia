@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021927FC",
+   "name": "FIELD_MSGBG_ClearCursor",
    "address": "0x021927FC",
    "kind": "game",
    "region": "ov021",

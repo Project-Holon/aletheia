@@ -12,18 +12,18 @@
  * Script command: no-op that skips 4 arguments.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  */
 #include "../include/Obj21664.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 
 int func_021FB500(void *a, char *s)
 {
-    func_0201134C(a);
-    func_0201134C(a);
-    func_0201134C(a);
-    func_0201134C(a);
+    VM_GetU32(a);
+    VM_GetU32(a);
+    VM_GetU32(a);
+    VM_GetU32(a);
     return ((struct Obj21664 *)s)->f23C;
 }

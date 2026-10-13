@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CD4FC",
+   "name": "BTL_SERVER_CMD_Reserve",
    "address": "0x021CD4FC",
    "kind": "game",
    "region": "ov093",

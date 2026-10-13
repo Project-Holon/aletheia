@@ -1,5 +1,5 @@
 /*
- * function: func_021C1C4C
+ * function: FLD3D_CI_DrawEffect
  * address:  0x021C1C4C
  * packet:   pkt_ov021_021C1C4C
  * region:   ov021
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02048AD0  0x02048AD0  arm
+ *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   func_020489F4  0x020489F4  arm
  *   func_02048A00  0x02048A00  arm
  *   func_02048A18  0x02048A18  arm
- *   func_02047A60  0x02047A60  arm
+ *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  */
 #include "../include/Obj03141.h"
 
@@ -22,14 +22,14 @@ typedef unsigned short u16;
 
 struct Arg;
 struct Light;
-void func_02048AD0(struct Light *l);
+void G3D_CAMERA_Reset(struct Light *l);
 typedef unsigned int   u32;
 u32 func_020489F4(u8 *a0, int i);
 u32 func_02048A00(u8 *a0, int i);
 u32 func_02048A18(u8 *a0, int i);
-void func_02047A60(void *a0, struct Arg *a1);
+void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
-void func_021C1C4C(char *p)
+void FLD3D_CI_DrawEffect(char *p)
 {
     int a;
     int n;
@@ -37,15 +37,15 @@ void func_021C1C4C(char *p)
     u8 k;
 
     if (((struct Obj03141 *)p)->fC == 0)
-        func_02048AD0((struct Light *)(((struct Obj03141 *)p)->f4));
+        G3D_CAMERA_Reset((struct Light *)(((struct Obj03141 *)p)->f4));
     else
-        func_02048AD0((struct Light *)(((struct Obj03141 *)p)->f8));
+        G3D_CAMERA_Reset((struct Light *)(((struct Obj03141 *)p)->f8));
     if (((struct Obj03141 *)p)->f18 != -1) {
         a = (int)func_020489F4((u8 *)(((struct Obj03141 *)p)->f14), (u16)(((struct Obj03141 *)p)->f18));
         n = (int)func_02048A00((u8 *)(((struct Obj03141 *)p)->f14), (u16)(((struct Obj03141 *)p)->f18));
         for (k = 0; k < n; k++) {
             i = (int)func_02048A18((u8 *)(((struct Obj03141 *)p)->f14), (u16)(a + k));
-            func_02047A60((void *)i, (struct Arg *)(p + 0x1c));
+            G3D_SYSTEM_DrawObject((void *)i, (struct Arg *)(p + 0x1c));
         }
     }
 }

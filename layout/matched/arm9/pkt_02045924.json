@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02045924",
+   "name": "STRBUF_SetString",
    "address": "0x02045924",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02045994",
+   "name": "STRBUF_SetStringN",
    "address": "0x02045994",
    "kind": "game",
    "region": "arm9",

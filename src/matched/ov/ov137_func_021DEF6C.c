@@ -9,8 +9,9 @@
  * status: EXACT*
  * trailing: two zero alignment bytes at 0x021DEFB2.
  * symbols:
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_0200ED48 0x0200ED48 thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  */
 #include "../include/Obj10621.h"
 #include "../include/Obj23750.h"
@@ -22,9 +23,9 @@ typedef unsigned int   u32;
 struct Big;
 struct L0200ED54;
 struct Sub0200852CObj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200ED48(void *);
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 void func_021DEF6C(Obj *obj)
@@ -32,9 +33,9 @@ void func_021DEF6C(Obj *obj)
     u8 *p = (u8 *)obj;
     void *q;
     int i;
-    q = func_0200ED48(func_02012EBC(((struct Obj23751 *)(*(u8 * *)&((struct Obj23750 *)(*(u8 * *)&((struct Obj10621 *)p)->fD8))->f14))->f4));
+    q = func_0200ED48(GAME_DATA_GetSaveControl(((struct Obj23751 *)(*(u8 * *)&((struct Obj23750 *)(*(u8 * *)&((struct Obj10621 *)p)->fD8))->f14))->f4));
     for (i = 0; i < 5; i++) {
-        if (obj->slots[i] && i != func_02039338())
+        if (obj->slots[i] && i != GFL_NET_SYSTEM_GetCurrentAid())
             func_0200ED54(q, func_02008530(obj->slots[i]));
     }
 }

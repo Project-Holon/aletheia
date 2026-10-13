@@ -1,5 +1,5 @@
 /*
- * function: func_0219DC18
+ * function: FLDMMDL_RAIL_MOVE_AcEnd
  * address:  0x0219DC18
  * packet:   pkt_0219DC18
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D568  0x0216D568  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D568(void *p, u32 v);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 
-int func_0219DC18(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_RAIL_MOVE_AcEnd(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D568((void *)a, (1 << 10));
+FLDMMDL_SetMoveBit((void *)a, (1 << 10));
 return 0;
 }
 

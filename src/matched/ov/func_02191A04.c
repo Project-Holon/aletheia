@@ -1,5 +1,5 @@
 /*
- * function: func_02191A04
+ * function: FIELD_MSGBG_CreateBgWin
  * address:  0x02191A04
  * packet:   pkt_02191A04
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call passing the object, a pass-through argument and the word at +8.
  *
  * symbols:
- *   func_02191A10  0x02191A10  thumb  ov021
+ *   FIELD_MSGBG_CreateBgWinFont  0x02191A10  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 *func_02191A10(u16 *a, u32 b, u32 c);
+extern u32 *FIELD_MSGBG_CreateBgWinFont(u16 *a, u32 b, u32 c);
 
-void func_02191A04(u8 *p, int a)
+void FIELD_MSGBG_CreateBgWin(u8 *p, int a)
 {
-    func_02191A10((u16 *)p, a, ((struct Obj17935 *)p)->f8);
+    FIELD_MSGBG_CreateBgWinFont((u16 *)p, a, ((struct Obj17935 *)p)->f8);
 }

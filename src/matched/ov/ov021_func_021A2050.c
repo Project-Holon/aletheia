@@ -1,5 +1,5 @@
 /*
- * function: func_021A2050
+ * function: WEATHER_TASK_RequestEnd
  * address:  0x021A2050
  * packet:   pkt_ov021_021A2050
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A273C  0x021A273C  thumb  ov021
+ *   WEATHER_TASK_GetStagePhase  0x021A273C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -26,14 +26,14 @@ typedef struct O {
     u8  f26;
 } O;
 
-extern u8 func_021A273C(u8 *p);
+extern u8 WEATHER_TASK_GetStagePhase(u8 *p);
 
-void func_021A2050(O *p, u32 a, u32 b)
+void WEATHER_TASK_RequestEnd(O *p, u32 a, u32 b)
 {
     u32 r;
     u32 s;
 
-    r = func_021A273C((u8 *)p);
+    r = WEATHER_TASK_GetStagePhase((u8 *)p);
     s = p->f26;
     if (s == 0) {
         return;

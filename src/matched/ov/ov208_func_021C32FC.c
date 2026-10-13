@@ -10,7 +10,7 @@
  * symbols:
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  */
 #include "../include/Obj00146.h"
 typedef unsigned char u8;
@@ -19,10 +19,10 @@ typedef unsigned int u32;
 struct PrintSys; struct Descriptor; struct CharBuf;
 extern void func_0201C6EC(struct PrintSys *print);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *p, u8 v);
+extern void BMP_Clear(struct CharBuf *p, u8 v);
 void func_021C32FC(u16 *heap, u8 *p, int key)
 {
     ((struct Obj00146 *)p)->f10 = 0;
     func_0201C6EC(*(struct PrintSys * *)&((struct Obj00146 *)p)->f8);
-    func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj00146 *)p)->fC), 0);
+    BMP_Clear(func_02045770(*(struct Descriptor * *)&((struct Obj00146 *)p)->fC), 0);
 }

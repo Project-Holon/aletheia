@@ -1,5 +1,5 @@
 /*
- * function: func_02163FC0
+ * function: FLDMMDL_MOVE_AddDirVectorPos
  * address:  0x02163FC0
  * packet:   pkt_ov010_02163FC0
  * region:   ov010
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D88C  0x0216D88C  thumb
- *   func_0216D89C  0x0216D89C  thumb
+ *   FLDMMDL_GetPos  0x0216D88C  thumb
+ *   FLDMMDL_SetPos  0x0216D89C  thumb
  */
 
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *p);
-extern void func_0216D89C(int a, int *p);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *p);
+extern void FLDMMDL_SetPos(int a, int *p);
 
-void func_02163FC0(int a, int dir, int amt)
+void FLDMMDL_MOVE_AddDirVectorPos(int a, int dir, int amt)
 {
     int buf[3];
 
-    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)buf);
+    FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)buf);
     switch (dir) {
     case 0:
         buf[2] -= amt;
@@ -38,5 +38,5 @@ void func_02163FC0(int a, int dir, int amt)
         buf[0] += amt;
         break;
     }
-    func_0216D89C(a, buf);
+    FLDMMDL_SetPos(a, buf);
 }

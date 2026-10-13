@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE3C
+ * function: STARTMENU_SaveEraseStepSecondConfirm
  * address:  0x021BCE3C
  * packet:   pkt_ov088_021BCE3C
  * region:   ov088
@@ -14,28 +14,28 @@
  * The switch value is unsigned so that case 0xFFFFFFFE sorts after case 0.
  *
  * symbols:
- *   func_0201FEBC  0x0201FEBC  thumb
- *   func_021BD118  0x021BD118  thumb  ov088
- *   func_021BD23C  0x021BD23C  thumb  ov088
+ *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
+ *   STARTMENU_SaveEraseStartMessage  0x021BD118  thumb  ov088
+ *   STARTMENU_SaveEraseStartFadeOut  0x021BD23C  thumb  ov088
  */
 #include "../include/Obj00578.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_0201FEBC(u8 *p);
-extern void func_021BD118(int *p, u32 mode);
-extern void func_021BD23C(void);
+extern u32 BMP_MENU_ProcessYesNo(u8 *p);
+extern void STARTMENU_SaveEraseStartMessage(int *p, u32 mode);
+extern void STARTMENU_SaveEraseStartFadeOut(void);
 
-void func_021BCE3C(char *p, int *out)
+void STARTMENU_SaveEraseStepSecondConfirm(char *p, int *out)
 {
-    unsigned r = func_0201FEBC((u8 *)(*(char * *)&((struct Obj00578 *)p)->f20));
+    unsigned r = BMP_MENU_ProcessYesNo((u8 *)(*(char * *)&((struct Obj00578 *)p)->f20));
     switch (r) {
     case 0:
-        func_021BD118((int *)p, 2);
+        STARTMENU_SaveEraseStartMessage((int *)p, 2);
         *out = 6;
         break;
     case 0xFFFFFFFE:
-        func_021BD23C();
+        STARTMENU_SaveEraseStartFadeOut();
         *out = 7;
         break;
     }

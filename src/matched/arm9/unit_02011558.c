@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02011558
+ * function: ICA_ANIME_Delete
  * address:  0x02011558
  * packet:   pkt_020113F0
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02049238     0x02049238  arm
+ *   ARC_TOOL_DeleteHandle     0x02049238  arm
  *   func_020307B0     0x020307B0  arm
  *
  * ica_anime.c: destroy.  The one field that is a plain pointer (+0x04) goes
@@ -43,12 +43,12 @@ struct IcaAnime {
     u32 f34;        /* +0x34 */
 };
 
-extern void func_02049238(u32 h);
+extern void ARC_TOOL_DeleteHandle(u32 h);
 extern u32 func_020307B0(void *p);
 
-void func_02011558(struct IcaAnime *p)
+void ICA_ANIME_Delete(struct IcaAnime *p)
 {
-    func_02049238(p->f4);
+    ARC_TOOL_DeleteHandle(p->f4);
     if (p->f34 != 0) {
         if (p->f1c != 0)
             func_020307B0((void *)p->f1c);

@@ -1,5 +1,5 @@
 /*
- * function: func_021B4710
+ * function: SCRCMD_PROC_FLD_ReturnZero
  * address:  0x021B4710
  * packet:   pkt_021B4710
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021B4710(void)
+int SCRCMD_PROC_FLD_ReturnZero(void)
 {
     return 0;
 }

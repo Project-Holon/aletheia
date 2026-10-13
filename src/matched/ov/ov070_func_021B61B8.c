@@ -1,5 +1,5 @@
 /*
- * function: func_021B61B8
+ * function: ITEMMENU_GetCursorIndex
  * address: 0x021B61B8
  * packet: pkt_ov070_021B61B8
  * region: ov070
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj00002.h"
 typedef unsigned char u8;
-int func_021B61B8(u8 *p)
+int ITEMMENU_GetCursorIndex(u8 *p)
 {
     return (int)(*(unsigned int *)&((struct Obj00002 *)p)->f810 + *(unsigned int *)&((struct Obj00002 *)p)->f814 + 1U);
 }

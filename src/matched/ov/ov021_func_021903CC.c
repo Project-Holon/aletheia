@@ -1,5 +1,5 @@
 /*
- * function: func_021903CC
+ * function: FIELD_MSGBG_IsSetupDone
  * address:  0x021903CC
  * packet:   pkt_ov021_021903CC
  * region:   ov021
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf predicate, called from func_021BEF8C.
+ * Unlabelled leaf predicate, called from EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn.
  */
 #include "../include/Obj19582.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-int func_021903CC(u8 *p)
+int FIELD_MSGBG_IsSetupDone(u8 *p)
 {
     if (((struct Obj19582 *)p)->f16C == 0)
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021AFA38
+ * function: SCRCMD_BufferDaycareMonNickname
  * address:  0x021AFA38
  * packet:   pkt_ov021_021AFA38
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D50  0x02188D50  thumb  ov021
- *   func_021C34F8  0x021C34F8  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetSodateya  0x02188D50  thumb  ov021
+ *   SODATEYA_GetPokemon  0x021C34F8  thumb  ov021
  *   func_0201EEF4  0x0201EEF4  thumb
  * Addresses are Black-image addresses.
  */
@@ -30,25 +30,25 @@ typedef struct {
     u8 *cur;
 } Script;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_02158F74(void *p);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct Ctx;
 struct WordSet;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188D50(u8 *);
-extern void *func_021C34F8(void *, u32);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetSodateya(u8 *);
+extern void *SODATEYA_GetPokemon(void *, u32);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
-int func_021AFA38(Script *a, u32 b)
+int SCRCMD_BufferDaycareMonNickname(Script *a, u32 b)
 {
-    u32 x = (u32)func_02158F74(func_0215A5F4((void *)b));
+    u32 x = (u32)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork((void *)b));
     u8 *p = a->cur;
     u32 v = *p;
     u32 e;
     a->cur = p + 1;
-    e = func_02159B10(a, (void *)b);
-    func_0201EEF4((void *)x, v, func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC((void *)b))), e));
+    e = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
+    func_0201EEF4((void *)x, v, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))), e));
     return 0;
 }

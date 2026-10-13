@@ -1,5 +1,5 @@
 /*
- * function: func_02047738
+ * function: G3D_SYSTEM_DeleteObject
  * address:  0x02047738
  * packet:   pkt_02047564
  * region:   arm9
@@ -19,8 +19,8 @@
  * two pool words at the end of the function.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047738.c \
- *       --func func_02047738 --addr 0x02047738 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_DeleteObject.c \
+ *       --func G3D_SYSTEM_DeleteObject --addr 0x02047738 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -35,7 +35,7 @@ struct Rec {
 
 extern u32 func_020307B0(void *p);
 
-void func_02047738(struct Rec *p)
+void G3D_SYSTEM_DeleteObject(struct Rec *p)
 {
     if (p == 0)
         return;

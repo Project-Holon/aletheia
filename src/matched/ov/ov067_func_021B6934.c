@@ -1,5 +1,5 @@
 /*
- * function: func_021B6934
+ * function: TOUCHBAR_CheckButtonPressed
  * address:  0x021B6934
  * packet:   pkt_ov067_021B6934
  * region:   ov067
@@ -39,7 +39,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 
-int func_021B6934(S *p)
+int TOUCHBAR_CheckButtonPressed(S *p)
 {
     u32 x;
     u32 y;

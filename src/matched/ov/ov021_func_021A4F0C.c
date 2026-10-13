@@ -1,5 +1,5 @@
 /*
- * function: func_021A4F0C
+ * function: FIELD_PLAYER_GRID_StartHopOnFoot
  * address:  0x021A4F0C
  * packet:   pkt_ov021_021A4F0C
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A5630  0x021A5630  thumb  ov021
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216DB4C  0x0216DB4C  thumb  ov010
- *   func_0216DCE8  0x0216DCE8  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
+ *   FIELD_PLAYER_GRID_FindHopDir  0x021A5630  thumb  ov021
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_SetStatusBitHeightGetOff  0x0216DB4C  thumb  ov010
+ *   FLDMMDL_SetMoveBitShadowVanish  0x0216DCE8  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19794.h"
@@ -25,22 +25,22 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A5630(u32);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D410(u32, u32);
-extern int func_0216DB4C(void *a0, int a1);
-extern int func_0216DCE8(void *a0, int a1);
-extern void *func_0216D568(void *p, u32 v);
+extern u32 FIELD_PLAYER_GRID_FindHopDir(u32);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetAcmd(u32, u32);
+extern int FLDMMDL_SetStatusBitHeightGetOff(void *a0, int a1);
+extern int FLDMMDL_SetMoveBitShadowVanish(void *a0, int a1);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 
-void func_021A4F0C(u32 a, void *b, u32 c)
+void FIELD_PLAYER_GRID_StartHopOnFoot(u32 a, void *b, u32 c)
 {
     u32 x = ((struct Obj19795 *)c)->f8;
     if (x == 9) {
-        x = func_021A5630(a);
+        x = FIELD_PLAYER_GRID_FindHopDir(a);
     }
-    func_0216D410((u32)b, func_02197E7C(x, 0x34));
-    func_0216DB4C(b, 1);
-    func_0216DCE8((void *)b, 1);
-    func_0216D568((void *)b, 0x8000);
+    FLDMMDL_SetAcmd((u32)b, FLDMMDL_ACMD_ConvertCodeByDir(x, 0x34));
+    FLDMMDL_SetStatusBitHeightGetOff(b, 1);
+    FLDMMDL_SetMoveBitShadowVanish((void *)b, 1);
+    FLDMMDL_SetMoveBit((void *)b, 0x8000);
     ((struct Obj19794 *)a)->f0 = 5;
 }

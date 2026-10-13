@@ -1,5 +1,5 @@
 /*
- * function: func_0218FEA4
+ * function: FIELD_CAMERA_ANIME_Setup
  * address:  0x0218FEA4
  * packet:   pkt_0218FEA4
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0218FFE8  0x0218FFE8  thumb  ov021
- *   func_02190058  0x02190058  thumb  ov021
- *   func_021900A8  0x021900A8  thumb  ov021
- *   func_0218FF78  0x0218FF78  thumb  ov021
+ *   FIELD_CAMERA_ANIME_SaveCameraMode  0x0218FFE8  thumb  ov021
+ *   FIELD_CAMERA_ANIME_SetAnglesFromPos  0x02190058  thumb  ov021
+ *   FIELD_CAMERA_ANIME_SetTargetFromCurrent  0x021900A8  thumb  ov021
+ *   FIELD_CAMERA_ANIME_SaveCameraState  0x0218FF78  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02372.h"
@@ -25,16 +25,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0218FF78(u32 *p);
-extern void func_0218FFE8(u8 *a, u32 a1, u32 a2, u32 a3);
-extern void func_02190058(u8 *o);
-extern void func_021900A8(void *a);
+extern u32 FIELD_CAMERA_ANIME_SaveCameraState(u32 *p);
+extern void FIELD_CAMERA_ANIME_SaveCameraMode(u8 *a, u32 a1, u32 a2, u32 a3);
+extern void FIELD_CAMERA_ANIME_SetAnglesFromPos(u8 *o);
+extern void FIELD_CAMERA_ANIME_SetTargetFromCurrent(void *a);
 
-int func_0218FEA4(u32 a, u32 b, u32 c, u32 d)
+int FIELD_CAMERA_ANIME_Setup(u32 a, u32 b, u32 c, u32 d)
 {
-func_0218FFE8((u8 *)a, b, c, d);
-func_02190058((u8 *)(*(u32 *)&((struct Obj02372 *)((u8 *)(a)))->f4));
-func_021900A8((void *)(*(u32 *)&((struct Obj02372 *)((u8 *)(a)))->f4));
-return func_0218FF78((u32 *)a);
+FIELD_CAMERA_ANIME_SaveCameraMode((u8 *)a, b, c, d);
+FIELD_CAMERA_ANIME_SetAnglesFromPos((u8 *)(*(u32 *)&((struct Obj02372 *)((u8 *)(a)))->f4));
+FIELD_CAMERA_ANIME_SetTargetFromCurrent((void *)(*(u32 *)&((struct Obj02372 *)((u8 *)(a)))->f4));
+return FIELD_CAMERA_ANIME_SaveCameraState((u32 *)a);
 }
 

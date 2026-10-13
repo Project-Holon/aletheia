@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219027C",
+   "name": "FIELD_MSGBG_SetupBgDelayed",
    "address": "0x0219027C",
    "kind": "game",
    "region": "ov021",

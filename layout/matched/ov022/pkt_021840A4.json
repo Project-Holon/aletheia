@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021840A4",
+   "name": "UNION_APP_OnMemberDropped",
    "address": "0x021840A4",
    "kind": "game",
    "region": "ov022",

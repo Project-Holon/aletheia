@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02194128",
+   "name": "FIELD_WFBC_BLOCK_BuildGrid",
    "address": "0x02194128",
    "kind": "game",
    "region": "ov021",

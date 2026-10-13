@@ -12,8 +12,8 @@
  * symbols:
  *   func_021B8D8C  0x021B8D8C  thumb  ov093
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
- *   func_021D6C2C  0x021D6C2C  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
+ *   BTL_POKEPARAM_ClearIllusion  0x021D6C2C  thumb  ov093
  *   func_021EA868  0x021EA868  thumb  ov093
  *   func_021EA878  0x021EA878  thumb  ov093
  */
@@ -24,9 +24,9 @@ typedef unsigned int u32;
 
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u8 *func_021B9934(char *p, int i);
-extern u32 func_021CD9E0(u8 *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 struct Unk021D6C2C;
-extern void func_021D6C2C(struct Unk021D6C2C *p);
+extern void BTL_POKEPARAM_ClearIllusion(struct Unk021D6C2C *p);
 extern void func_021EA868(u32 *p, u32 a2, u32 a3);
 extern int func_021EA878(u32 *p);
 
@@ -42,8 +42,8 @@ int func_021D344C(u32 *a, int *b, u32 *c)
         u = (u8)c[0];
         s = func_021B8D8C((void *)a[0], (void *)a[1], u);
         m = func_021B9934((char *)a[1], u);
-        f = func_021CD9E0((u8 *)a);
-        func_021D6C2C((struct Unk021D6C2C *)m);
+        f = BTL_CLIENT_IsMainStepActive((u8 *)a);
+        BTL_POKEPARAM_ClearIllusion((struct Unk021D6C2C *)m);
         func_021EA868((u32 *)a[0x15], s, f);
         (*b)++;
         break;

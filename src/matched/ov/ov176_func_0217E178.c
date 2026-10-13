@@ -9,26 +9,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203CEAC 0x0203CEAC arm
- *   func_0203CDBC 0x0203CDBC arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_IsSessionNull 0x0203CDBC arm
  */
-extern int func_0203CD98(void);
-extern int func_0203CEAC(int a0);
-extern int func_0203CDBC(void);
+extern int GFL_NET_GetRunState(void);
+extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_IsSessionNull(void);
 int func_0217E178(int *p)
 {
     switch (*p) {
     case 0:
-        if (func_0203CD98()) {
-            func_0203CEAC(0);
+        if (GFL_NET_GetRunState()) {
+            GFL_NET_Exit(0);
             *p = 1;
         } else {
             *p = 2;
         }
         break;
     case 1:
-        if (func_0203CDBC())
+        if (GFL_NET_IsSessionNull())
             *p = 2;
         break;
     case 2:

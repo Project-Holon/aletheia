@@ -11,7 +11,7 @@
  * before x-store changes all four coordinate write blocks (28 bytes).
  * symbols:
  *   func_021BAFF8 0x021BAFF8 thumb ov225
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021BB05C 0x021BB05C thumb ov225
  *   func_021BB044 0x021BB044 thumb ov225
  *   func_020355C4 0x020355C4 arm
@@ -34,7 +34,7 @@ typedef unsigned u32;
 struct State {u16 a,b,count,c;void *data;u16 top,selected;};
 struct Obj;struct Vec2 {short x,y;};
 extern void func_021BAFF8(u8 *);
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern u16 func_021BB05C(u16 **),func_021BB044(u16 **),func_021BB034(u16 **),func_021BB074(u16 **);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
@@ -53,7 +53,7 @@ int func_021BAABC(char *p)
     int hit;
     u16 count,last,y;
     func_021BAFF8(rect);
-    hit=func_02035C08(rect);
+    hit=TOUCHPANEL_HitTrg(rect);
     count=func_021BB05C((u16 **)p);
     last=func_021BB044((u16 **)p);
     if(func_020355C4()==0) {

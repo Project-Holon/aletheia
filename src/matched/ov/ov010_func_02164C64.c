@@ -1,5 +1,5 @@
 /*
- * function: func_02164C64
+ * function: GAME_BEACON_SEARCH_Update
  * address:  0x02164C64
  * packet:   pkt_ov010_02164C64
  * region:   ov010
@@ -11,8 +11,8 @@
  *
  * Per-frame poll of the wireless exchange while the field runs: stops the
  * field when a shutdown is pending, pulls the next received record
- * (func_02164D6C) and, for a new kind-2 record on an open lid with a free
- * field, starts the func_02164FD0 event with a 12-byte hand-off; any
+ * (GAME_BEACON_SEARCH_PollScanResult) and, for a new kind-2 record on an open lid with a free
+ * field, starts the GAME_BEACON_SEARCH_StartConnectEvent event with a 12-byte hand-off; any
  * other kind-2 record is dropped and its sender answered.
  *
  * MATCH (2026-09-28 tree_ov010_4): bytes exact with the kind-2 path as
@@ -23,26 +23,26 @@
  * symbols:
  *   func_02012138  0x02012138  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_02012E40  0x02012E40  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02026400  0x02026400  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02035390  0x02035390  arm
  *   func_020353B0  0x020353B0  arm
  *   GAME_BEACON_SendIfRequested  0x020267FC  thumb
- *   func_02164D6C  0x02164D6C  thumb  ov010
+ *   GAME_BEACON_SEARCH_PollScanResult  0x02164D6C  thumb  ov010
  *   GAME_COMM_GetNotifyFlag  0x020264AC  thumb
  *   func_02012B70  0x02012B70  thumb
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb
- *   func_02158570  0x02158570  thumb  ov010
+ *   INTRUDE_COMM_IsListedId  0x02158570  thumb  ov010
  *   func_02030734  0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   func_0202640C  0x0202640C  thumb
- *   func_02164FD0  0x02164FD0  thumb  ov010
+ *   GAME_COMM_RequestExit  0x0202640C  thumb
+ *   GAME_BEACON_SEARCH_StartConnectEvent  0x02164FD0  thumb  ov010
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02177BF4  0x02177BF4  thumb  ov014
  *   func_02010498  0x02010498  thumb
- *   d_021729BC     0x021729BC  data  a1
+ *   GAME_BEACON_SEARCH_FileName     0x021729BC  data  a1
  
  * 2026-10-05 (D8 lane 15): the ov011 hint on func_02177BF4 was wrong; the label is in ov014, so the symbols line now says ov014 and every relocation resolves.
  */
@@ -79,34 +79,34 @@ struct Rec44;
 struct SaveBlock;
 extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012E40(const u8 *o);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern u32 func_0200FB24(void);
-extern void func_02026400(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern int func_02035390(void);
 extern int func_020353B0(void);
 extern void GAME_BEACON_SendIfRequested(void);
-extern u8 *func_02164D6C(u8 *obj, int *arg);
+extern u8 *GAME_BEACON_SEARCH_PollScanResult(u8 *obj, int *arg);
 extern u32 GAME_COMM_GetNotifyFlag(void *obj);
 struct BigObj;
 extern int func_02012B70(const struct BigObj *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
-extern int func_02158570(u16 v);
+extern int INTRUDE_COMM_IsListedId(u16 v);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0202640C(struct Comm *p, u32 a, u32 b);
-extern void func_02164FD0(u8 *obj, int flag);
+extern void GAME_COMM_RequestExit(struct Comm *p, u32 a, u32 b);
+extern void GAME_BEACON_SEARCH_StartConnectEvent(u8 *obj, int flag);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void func_02177BF4(u32 id);
 extern void func_02010498(void);
-extern const char d_021729BC[];
+extern const char GAME_BEACON_SEARCH_FileName[];
 
 static inline int PAD_DetectFold(void)
 {
     return (*(vu16 *)0x02FFFFA8 & 0x8000) >> 15;
 }
 
-void func_02164C64(void *unused, void *sys, PollWork *w)
+void GAME_BEACON_SEARCH_Update(void *unused, void *sys, PollWork *w)
 {
     void *field;
     void *p;
@@ -118,31 +118,31 @@ void func_02164C64(void *unused, void *sys, PollWork *w)
     field = (void *)func_02012138(sys);
     p = func_020120F4(sys);
     id = 0;
-    if (func_02012E40(p) == 1)
+    if (GAME_DATA_IsSaving(p) == 1)
         return;
     if (func_0200FB24()) {
-        func_02026400(field);
+        GAME_COMM_RequestExitNoCallback(field);
         return;
     }
     if (func_02035390() == 1 && func_020353B0() == 1) {
-        func_02026400(field);
+        GAME_COMM_RequestExitNoCallback(field);
         return;
     }
     if (w->cooldown != 0)
         w->cooldown--;
     GAME_BEACON_SendIfRequested();
-    rec = (LinkRec *)func_02164D6C((u8 *)w, (int *)(&id));
+    rec = (LinkRec *)GAME_BEACON_SEARCH_PollScanResult((u8 *)w, (int *)(&id));
     if (rec != 0) {
         if (rec->kind == 2) {
             if (!PAD_DetectFold() && !GAME_COMM_GetNotifyFlag(field) && !func_02012B70(p)) {
                 v = func_02012AC8(func_020127A4(p));
                 if (v != w->last) {
                     w->last = v;
-                    if (func_02158570(v) == 1) {
-                        h = func_02030734(0x8005, sizeof(Handoff12), 1, d_021729BC, 0x154);
+                    if (INTRUDE_COMM_IsListedId(v) == 1) {
+                        h = func_02030734(0x8005, sizeof(Handoff12), 1, GAME_BEACON_SEARCH_FileName, 0x154);
                         h->sys = sys;
                         MI_CpuCopy8(rec->data, h->data, 6);
-                        func_0202640C(field, (u32)func_02164FD0, (u32)h);
+                        GAME_COMM_RequestExit(field, (u32)GAME_BEACON_SEARCH_StartConnectEvent, (u32)h);
                         goto end;
                     }
                 }

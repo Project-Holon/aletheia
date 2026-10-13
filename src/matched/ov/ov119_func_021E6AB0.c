@@ -11,9 +11,9 @@
  *         register swap without them. Permuter budget 300, 271 compiles.
  * output: 0204B454 and its full getter chain write both coordinate halfwords.
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   func_0204047C 0x0204047C arm
  */
 #include "../include/Obj22816.h"
@@ -21,12 +21,12 @@ typedef struct { short x,y; } Pt;
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void func_0204B84C(void *,unsigned int);
+extern void CLACT_SetActorBgPriority(void *,unsigned int);
 extern void func_0204047C(int,unsigned short);
 void func_021E6AB0(const char *p)
 {
@@ -37,16 +37,16 @@ void func_021E6AB0(const char *p)
     for(i=0;i<8;i++) {
         tmp1=p+i*4;
         tmp1=tmp1+0x10cc;
-        func_0204B454(((struct Obj22816 *)tmp1)->f0,(struct PtS *)&a,1);
+        CLACT_GetActorSurfacePos(((struct Obj22816 *)tmp1)->f0,(struct PtS *)&a,1);
         if(i/4) {
             a.x-=128;
-            func_0204B84C(*(void **)(p+i*4+0x10cc),3);
+            CLACT_SetActorBgPriority(*(void **)(p+i*4+0x10cc),3);
         } else a.x+=128;
         func_0204B404(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1008)) {
-            func_0204B454(*(void **)(p+i*4+0x1008),(struct PtS *)&b,1);
+            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1008),(struct PtS *)&b,1);
             b.x+=128;
             tmp=i;
             tmp=tmp*4;
@@ -55,10 +55,10 @@ void func_021E6AB0(const char *p)
     }
     for(j=0;j<3;j++) {
         if(*(void **)(p+j*4+0x1014)) {
-            func_0204B454(*(void **)(p+j*4+0x1014),(struct PtS *)&c,1);
+            CLACT_GetActorSurfacePos(*(void **)(p+j*4+0x1014),(struct PtS *)&c,1);
             c.x-=128;
             func_0204B404(*(void **)(p+j*4+0x1014),(const struct Vec2 *)(&c),1);
-            func_0204B84C(*(void **)(p+j*4+0x1014),3);
+            CLACT_SetActorBgPriority(*(void **)(p+j*4+0x1014),3);
         }
     }
     func_0204047C(4,2);

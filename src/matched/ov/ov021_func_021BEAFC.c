@@ -1,5 +1,5 @@
 /*
- * function: func_021BEAFC
+ * function: EVENT_FIELDMAP_CONTROL_CreateFadeOutEventForEffect
  * address:  0x021BEAFC
  * packet:   pkt_ov021_021BEAFC
  * region:   ov021
@@ -12,8 +12,8 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021BEE74  0x021BEE74  thumb  ov021
- *   func_021BEA6C  0x021BEA6C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunFadeOut  0x021BEE74  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_GetFadeKind  0x021BEA6C  thumb  ov021
  */
 
 typedef struct {
@@ -31,17 +31,17 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern int func_021BEE74(u32 p0, int *st, u8 *q);
-extern int func_021BEA6C(int a);
+extern int EVENT_FIELDMAP_CONTROL_RunFadeOut(u32 p0, int *st, u8 *q);
+extern int EVENT_FIELDMAP_CONTROL_GetFadeKind(int a);
 
-void *func_021BEAFC(int a, int b, int c, int d)
+void *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventForEffect(int a, int b, int c, int d)
 {
-    void *t = func_020122C0((void *)a, 0, func_021BEE74, 0x2c);
+    void *t = func_020122C0((void *)a, 0, EVENT_FIELDMAP_CONTROL_RunFadeOut, 0x2c);
     Work *w = func_020124E8(t);
     w->f0 = a;
     w->f4 = b;
     w->f8 = c;
     w->f14 = d;
-    w->fC = func_021BEA6C(c);
+    w->fC = EVENT_FIELDMAP_CONTROL_GetFadeKind(c);
     return t;
 }

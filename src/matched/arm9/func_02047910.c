@@ -1,5 +1,5 @@
 /*
- * function: func_02047910
+ * function: G3D_SYSTEM_LoopObjectAnimeFrame
  * address:  0x02047910
  * packet:   pkt_02047910
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Unlabelled ARM leaf: the sibling of func_020478B8 with a different clamp
+ * Unlabelled ARM leaf: the sibling of G3D_SYSTEM_IncObjectAnimeFrame with a different clamp
  * policy.  Advance the counter of the run state reached through a's table slot
  * [idx]; if it reaches the descriptor limit it pins the counter to zero and
  * returns 0, if it goes negative it pins it to the limit and returns 0,
@@ -33,7 +33,7 @@ struct Obj {
     struct Run *run;
 };
 
-int func_02047910(void *a, int idx, int amount)
+int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount)
 {
     struct Obj **tbl = *(struct Obj ** *)&((struct Obj06972 *)a)->f8;
     struct Obj *e = tbl[idx];

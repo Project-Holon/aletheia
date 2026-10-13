@@ -1,5 +1,5 @@
 /*
- * function: func_021A2120
+ * function: WEATHER_TASK_ResetLight
  * address:  0x021A2120
  * packet:   pkt_ov021_021A2120
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A05D8  0x021A05D8  thumb  ov021
+ *   FIELD_LIGHT_ReloadZoneTable  0x021A05D8  thumb  ov021
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-void func_021A05D8(u8 *a);
+void FIELD_LIGHT_ReloadZoneTable(u8 *a);
 
-void func_021A2120(u32 *p, int x)
+void WEATHER_TASK_ResetLight(u32 *p, int x)
 {
     if (x == 1)
-        func_021A05D8((u8 *)p[2]);
+        FIELD_LIGHT_ReloadZoneTable((u8 *)p[2]);
 }

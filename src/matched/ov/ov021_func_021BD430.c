@@ -1,5 +1,5 @@
 /*
- * function: func_021BD430
+ * function: PLACE_NAME_LETTER_StepY
  * address:  0x021BD430
  * packet:   pkt_ov021_021BD430
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021BD394  0x021BD394  thumb  ov021
+ *   PLACE_NAME_LETTER_IsYDone  0x021BD394  thumb  ov021
  *   _fdiv          0x0209CE10  arm
  *   _fadd          0x0209C95C  arm
  */
@@ -32,13 +32,13 @@ typedef struct {
     T t;
 } S;
 
-extern int func_021BD394(void *p);
+extern int PLACE_NAME_LETTER_IsYDone(void *p);
 
-void func_021BD430(S *p)
+void PLACE_NAME_LETTER_StepY(S *p)
 {
     T *q;
 
-    if (func_021BD394(p) == 1) {
+    if (PLACE_NAME_LETTER_IsYDone(p) == 1) {
         return;
     }
     q = &p->t;

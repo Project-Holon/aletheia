@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012104     0x02012104  thumb
+ *   GAMESYSTEM_GetEvent     0x02012104  thumb
  *   GAMESYSTEM_SetEvent     0x02012108  thumb
  *
- * The packet's driver: reject when func_02012104 says the object is busy,
+ * The packet's driver: reject when GAMESYSTEM_GetEvent says the object is busy,
  * reject a null callback, run the callback with the object and the second
  * argument, reject a zero result, hand a non-zero result to GAMESYSTEM_SetEvent and
  * report 1.
@@ -21,7 +21,7 @@
  * The two spellings differ by four bytes of layout.  Written with the
  * "invert the guard" shape
  *
- *     if (func_02012104(o) != 0) return 0;
+ *     if (GAMESYSTEM_GetEvent(o) != 0) return 0;
  *     if (fn == 0) return 0;
  *     r = fn(o, a2);
  *     if (r != 0) { GAMESYSTEM_SetEvent(o, r); return 1; }
@@ -42,14 +42,14 @@
 typedef unsigned int u32;
 
 struct Ctx;
-extern u32 func_02012104(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetEvent(const struct Ctx *p);
 extern void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v);
 
 int GAME_EVENT_StartByCreator(void *o, u32 (*fn)(void *, void *), void *a2)
 {
     u32 r;
 
-    if (func_02012104(o) != 0)
+    if (GAMESYSTEM_GetEvent(o) != 0)
         return 0;
     if (fn == 0)
         return 0;

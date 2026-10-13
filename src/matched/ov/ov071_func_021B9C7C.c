@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C7C
+ * function: MONOLITH_TOOL_ProcessListInput
  * address:  0x021B9C7C
  * packet:   pkt_ov071_021B9C7C
  * region:   ov071
@@ -20,9 +20,9 @@
  *   func_0203633C  0x0203633C  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020061E4  0x020061E4  thumb
- *   func_02035C60  0x02035C60  arm
- *   func_021B9F2C  0x021B9F2C  thumb  ov071
- *   func_021BA1DC  0x021BA1DC  thumb  ov071
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   MONOLITH_TOOL_SetCursor  0x021B9F2C  thumb  ov071
+ *   MONOLITH_TOOL_GetRowAtY  0x021BA1DC  thumb  ov071
  */
 
 typedef unsigned char u8;
@@ -49,11 +49,11 @@ extern u32 func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
-extern int func_02035C60(void);
-extern int func_021B9F2C(u8 *p, int i, int v);
-extern int func_021BA1DC(char *p, unsigned a);
+extern int TOUCHPANEL_GetTrg(void);
+extern int MONOLITH_TOOL_SetCursor(u8 *p, int i, int v);
+extern int MONOLITH_TOOL_GetRowAtY(char *p, unsigned a);
 
-int func_021B9C7C(void *a, S *p)
+int MONOLITH_TOOL_ProcessListInput(void *a, S *p)
 {
     int ret;
     int sel;
@@ -90,15 +90,15 @@ int func_021B9C7C(void *a, S *p)
                 row = 1;
             }
             if (row >= p->f27c - 2) {
-                func_021B9F2C((u8 *)p, p->f27c - 2, 1);
+                MONOLITH_TOOL_SetCursor((u8 *)p, p->f27c - 2, 1);
             } else {
-                func_021B9F2C((u8 *)p, row, 1);
+                MONOLITH_TOOL_SetCursor((u8 *)p, row, 1);
             }
             func_020061E4(0x548);
             return 0;
         }
         if (func_020362DC() & 1) {
-            func_021B9F2C((u8 *)p, p->f2f4, 1);
+            MONOLITH_TOOL_SetCursor((u8 *)p, p->f2f4, 1);
             func_020355D8(0);
             if (p->f1b4[p->f2f4] == 0) {
                 func_020061E4(0x54c);
@@ -109,7 +109,7 @@ int func_021B9C7C(void *a, S *p)
             if (rem != 0) {
                 row++;
             }
-            if (func_021B9F2C((u8 *)p, p->f2f4 - 1, 1) == 1) {
+            if (MONOLITH_TOOL_SetCursor((u8 *)p, p->f2f4 - 1, 1) == 1) {
                 func_020061E4(0x548);
             }
             if (p->f2f4 < row) {
@@ -119,7 +119,7 @@ int func_021B9C7C(void *a, S *p)
         }
         if (func_0203633C() & 0x80) {
             row = ((p->f2d8 >> 8) + 0xa8) / 32;
-            if (func_021B9F2C((u8 *)p, p->f2f4 + 1, 1) == 1) {
+            if (MONOLITH_TOOL_SetCursor((u8 *)p, p->f2f4 + 1, 1) == 1) {
                 func_020061E4(0x548);
             }
             if (p->f2f4 >= row) {
@@ -134,8 +134,8 @@ int func_021B9C7C(void *a, S *p)
                 p->f2dc = 1;
                 p->f2e8 = y;
                 p->f2ec = y;
-                func_021B9F2C((u8 *)p, 0xffff, 0);
-            } else if (func_02035C60() == 1 && p->f2f4 != 0xffff
+                MONOLITH_TOOL_SetCursor((u8 *)p, 0xffff, 0);
+            } else if (TOUCHPANEL_GetTrg() == 1 && p->f2f4 != 0xffff
                        && x >= 0x10 && x <= 0x70 && y >= 0xac && y <= 0xbc) {
                 ret = 1;
                 sel = p->f2f4;
@@ -162,7 +162,7 @@ int func_021B9C7C(void *a, S *p)
                 d = -d;
             }
             if (d < 4) {
-                r = func_021BA1DC((char *)p, p->f2e8);
+                r = MONOLITH_TOOL_GetRowAtY((char *)p, p->f2e8);
                 if (r != 0xffff) {
                     ret = 1;
                     sel = r;
@@ -186,7 +186,7 @@ int func_021B9C7C(void *a, S *p)
     }
     if (ret == 1) {
         p->f2e0 = 0;
-        func_021B9F2C((u8 *)p, sel, 2);
+        MONOLITH_TOOL_SetCursor((u8 *)p, sel, 2);
     }
     return ret;
 }

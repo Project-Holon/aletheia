@@ -1,5 +1,5 @@
 /*
- * function: func_0219971C
+ * function: FLDMMDL_ACMD_DashStepDownFaceLeft4F
  * address:  0x0219971C
  * packet:   pkt_ov021_0219971C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219912C  0x0219912C  thumb  ov021
+ *   FLDMMDL_ACMD_StepInit  0x0219912C  thumb  ov021
  *   d_021D4B20  0x021D4B20  data  a4
  */
 
@@ -21,11 +21,11 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
 extern const Vec d_021D4B20;
-extern void func_0219912C(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f);
+extern void FLDMMDL_ACMD_StepInit(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f);
 
-int func_0219971C(u32 a)
+int FLDMMDL_ACMD_DashStepDownFaceLeft4F(u32 a)
 {
     Vec t = d_021D4B20;
-    func_0219912C(a, &t, 2, 1, 4, 10);
+    FLDMMDL_ACMD_StepInit(a, &t, 2, 1, 4, 10);
     return 1;
 }

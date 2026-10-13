@@ -11,12 +11,12 @@
  * symbols:
  *   func_021D8AA8 0x021D8AA8 thumb ov119
  *   func_021D8FA4 0x021D8FA4 thumb ov119
- *   func_02012984 0x02012984 thumb
- *   func_0201B2B0 0x0201B2B0 thumb
+ *   GAME_DATA_GetSeason 0x02012984 thumb
+ *   SHINKA_CHECK_CheckEvolution 0x0201B2B0 thumb
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021D9434 0x021D9434 thumb ov119
  *   func_021DFD64 0x021DFD64 thumb ov119
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021E1030 0x021E1030 thumb ov119
  *   func_021E0BA4 0x021E0BA4 thumb ov119
@@ -33,13 +33,13 @@ typedef unsigned int u32;
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *,int);
 struct BigObj;
-extern u8 func_02012984(const struct BigObj *p);
-extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 struct MsgBank;
 extern void func_021D8E84(void *,int);
 extern void func_021D9434(void *);
 extern void func_021DFD64(void *);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
 extern void func_021E1030(char *p);
 extern void func_021E0BA4(void *);
@@ -57,7 +57,7 @@ void func_021E0A64(char *p)
     if(*(int *)&((struct Obj00906 *)p)->f8!=0) {
         if(func_021D8AA8(p)) {a=func_021D8FA4(p,0);b=func_021D8FA4(p,1);}
         else {a=func_021D8FA4(p,1);b=func_021D8FA4(p,0);}
-        result=func_0201B2B0(0,a,1,(u32)b,func_02012984(((struct Obj00906 *)p)->f82C),&out,((struct Obj00906 *)p)->f5F4);
+        result=SHINKA_CHECK_CheckEvolution(0,a,1,(u32)b,GAME_DATA_GetSeason(((struct Obj00906 *)p)->f82C),&out,((struct Obj00906 *)p)->f5F4);
         if(result) {
             ((struct Obj22766 *)(*(char * *)&((struct Obj00906 *)p)->f8))->f8=1;
             ((struct Obj22767 *)(*(char * *)&((struct Obj00906 *)p)->f8))->fC=result;
@@ -67,7 +67,7 @@ void func_021E0A64(char *p)
             return;
         }
     }
-    func_02045CAC((struct MsgBank *)(((struct Obj00906 *)p)->f720),50,(void *)(((struct Obj00906 *)p)->f738));
+    MSGDATA_ReadString((struct MsgBank *)(((struct Obj00906 *)p)->f720),50,(void *)(((struct Obj00906 *)p)->f738));
     func_021E1024(p);func_021E1030(p);
     func_021D8E84(p,(int)func_021E0BA4);
     }

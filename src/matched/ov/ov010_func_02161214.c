@@ -1,5 +1,5 @@
 /*
- * function: func_02161214
+ * function: EVENT_FIELD_PROCLINK_CreateTownMapParam
  * address:  0x02161214
  * packet:   pkt_ov010_02161214
  * region:   ov010
@@ -14,10 +14,10 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_020128B8  0x020128B8  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetEscapeLocation  0x020128B8  thumb
  *   d_02172978     0x02172978  data  a1
  */
 #include "../include/Obj18932.h"
@@ -55,24 +55,24 @@ struct Ctx;
 struct Rec1C;
 struct Rec44;
 struct SaveBlock;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern struct Rec1C *func_020128B8(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
+extern struct Rec1C *GAME_DATA_GetEscapeLocation(const struct BigObj *p);
 
 extern const char d_02172978[];
 
-Rec *func_02161214(Work *w)
+Rec *EVENT_FIELD_PROCLINK_CreateTownMapParam(Work *w)
 {
     Rec *r = func_02030734(4, 0x18, 1, d_02172978, 0x68A);
     void *a;
     void *b;
     r->f00 = 1;
     r->f14 = (u32)w->f18->f00;
-    a = func_020127A4(func_020120F4(w->f18->f00));
-    b = func_020120F4(w->f18->f00);
-    r->f08 = func_02012AC8(a);
-    r->f0A = ((struct Obj18932 *)((u8 *)func_020128B8(b)))->f4;
+    a = GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(w->f18->f00));
+    b = GAMESYSTEM_GetGameData(w->f18->f00);
+    r->f08 = GAME_DATA_GetPlayerZoneId(a);
+    r->f0A = ((struct Obj18932 *)((u8 *)GAME_DATA_GetEscapeLocation(b)))->f4;
     if (w->f18->f0C == 0)
         r->f00 = 0;
     else

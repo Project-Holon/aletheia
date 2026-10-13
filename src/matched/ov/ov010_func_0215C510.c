@@ -1,5 +1,5 @@
 /*
- * function: func_0215C510
+ * function: SCRCMD_PROC_AddMonToParty
  * address:  0x0215C510
  * packet:   pkt_ov010_0215C510
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA14  0x0201AA14  thumb
  *   func_0201AA18  0x0201AA18  thumb
- *   func_0215C40C  0x0215C40C  thumb  ov010
+ *   SCRCMD_PROC_CreateMonFromSpec  0x0215C40C  thumb  ov010
  *   func_0201A98C  0x0201A98C  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CDE0  0x0200CDE0  thumb
@@ -28,25 +28,25 @@ struct BigObj;
 struct Blk37;
 struct Party;
 struct PartyMon;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA14(void *p);
 extern u32 func_0201AA18(void *p);
 struct Spec;
-extern void *func_0215C40C(void *a, struct Spec *s);
+extern void *SCRCMD_PROC_CreateMonFromSpec(void *a, struct Spec *s);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern u32 func_020307B0(void *p);
 
-int func_0215C510(void *a, void *b)
+int SCRCMD_PROC_AddMonToParty(void *a, void *b)
 {
     void *r6;
     void *r5;
 
-    r6 = func_02012934(a);
+    r6 = GAME_DATA_GetMyParty(a);
     if ((int)func_0201AA14(r6) <= (int)func_0201AA18(r6))
         return 0;
-    r5 = func_0215C40C(a, b);
+    r5 = SCRCMD_PROC_CreateMonFromSpec(a, b);
     func_0201A98C(r6, r5);
     func_0200CDE0(func_0200CA1C(a), r5);
     func_020307B0(r5);

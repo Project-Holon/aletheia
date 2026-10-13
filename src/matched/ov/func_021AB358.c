@@ -1,5 +1,5 @@
 /*
- * function: func_021AB358
+ * function: MAP_ATTR_IsIce
  * address:  0x021AB358
  * packet:   pkt_021AB358
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021AB358(int x)
+int MAP_ATTR_IsIce(int x)
 {
     return x == 0x10;
 }

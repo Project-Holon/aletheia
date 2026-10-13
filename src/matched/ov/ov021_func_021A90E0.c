@@ -1,5 +1,5 @@
 /*
- * function: func_021A90E0
+ * function: FIELD_MENU_UpdateSelection
  * address:  0x021A90E0
  * packet:   pkt_ov021_021A90E0
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  *
  * symbols:
- *   func_0204B878  0x0204B878  arm
- *   func_021A9080  0x021A9080  thumb  ov021
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   FIELD_MENU_PlaceCursor  0x021A9080  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -47,23 +47,23 @@ struct W {
 };
 
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021A9080(struct W *w, u32 a, u32 b);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void FIELD_MENU_PlaceCursor(struct W *w, u32 a, u32 b);
 
-void func_021A90E0(struct W *w)
+void FIELD_MENU_UpdateSelection(struct W *w)
 {
     struct Slot *old;
 
     if (w->f24 == 1) {
         old = w->cur;
         w->cur = &w->slots[w->f1E + w->f1F * 2];
-        func_0204B878(w->f124, 0);
-        func_021A9080(w, w->cur->f14, w->cur->f15);
+        CLACT_SetActorAnimSeq(w->f124, 0);
+        FIELD_MENU_PlaceCursor(w, w->cur->f14, w->cur->f15);
         if (w->cur->f18 != 0 && w->f2C == 1) {
-            func_0204B878(w->cur->f18, 1);
+            CLACT_SetActorAnimSeq(w->cur->f18, 1);
         }
         if (old != 0 && old->f18 != 0) {
-            func_0204B878(old->f18, 0);
+            CLACT_SetActorAnimSeq(old->f18, 0);
         }
         w->f24 = 0;
     }

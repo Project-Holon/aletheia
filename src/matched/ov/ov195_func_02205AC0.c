@@ -14,7 +14,7 @@
  *   d_02208D1C 0x02208D1C data a4
  *   func_02082BCC 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -40,7 +40,7 @@ extern u8 d_02208CA0[];
 extern struct G_02208D1C d_02208D1C[];
 extern void func_02082BCC(void *, int, int);
 extern void func_0203F8F4(void *);
-extern void func_02045088(void *);
+extern void BMP_WIN_Init(void *);
 struct BgTemplate;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
@@ -54,7 +54,7 @@ void func_02205AC0(void *a, void *b)
 
     func_02082BCC(a, 0, 4);
     func_0203F8F4(b);
-    func_02045088(b);
+    BMP_WIN_Init(b);
     func_0203FC28((struct DispConfig *)d_02208CA0);
     for (i = 0; i < 6; i++) {
         u32 v = d_02208D1C[(int)i].id;

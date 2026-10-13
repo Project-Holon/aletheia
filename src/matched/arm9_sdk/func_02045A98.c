@@ -1,5 +1,5 @@
 /*
- * function: func_02045A98
+ * function: STRBUF_GetEosChar
  * address:  0x02045A98
  * packet:   pkt_02045A98
  * region:   arm9
@@ -18,15 +18,15 @@
  * referring sites, none of them this 16-byte range.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045A98.c \
- *       --func func_02045A98 --addr 0x02045A98 --cc 1.1p1 --arm --region arm9
+ *   python tools/match.py one --src src/matched/STRBUF_GetEosChar.c \
+ *       --func STRBUF_GetEosChar --addr 0x02045A98 --cc 1.1p1 --arm --region arm9
  */
 
 typedef unsigned short u16;
 
 extern volatile u16 d_020A7E7C;
 
-u16 func_02045A98(void)
+u16 STRBUF_GetEosChar(void)
 {
     return d_020A7E7C;
 }

@@ -11,9 +11,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012B58  0x02012B58  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02012950  0x02012950  thumb
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   func_020084BC  0x020084BC  thumb
  *   func_02008500  0x02008500  thumb
  *   func_02008550  0x02008550  thumb
@@ -22,7 +22,7 @@
  * +0x3c of the sprite object (0xc bytes per slot, write cursor at +0x85,
  * fill count at +0x84).  Each of the two handle arguments is resolved
  * against the owner's current id: equal to it means the "self" handle
- * (func_02012944), otherwise the by-id lookup (func_02012950).  If either
+ * (GAME_DATA_GetMyStatus), otherwise the by-id lookup (GAME_DATA_GetPlayerStatus).  If either
  * handle is busy (func_020084BC == 1) the whole push is abandoned before
  * anything is written.
  */
@@ -55,11 +55,11 @@ struct Obj {
 };
 
 struct BigObj;
-extern u8 func_02012B58(const struct BigObj *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 struct Rec44;
 struct Sub24;
-extern u8 *func_02012944(void *p);
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 extern int func_020084BC(const u16 *values);
 extern void func_02008500(void *a, void *b);
 struct Sub0200852CObj;
@@ -73,15 +73,15 @@ void GAME_COMM_PushInfoMessage(struct Obj *o, u32 id0, u32 id1, u32 v)
     struct Slot *s;
 
     r = &o->ring;
-    if (id0 == func_02012B58((void *)o->owner)) {
-        h0 = (u32)func_02012944((void *)o->owner);
+    if (id0 == GAME_DATA_GetExitMode((void *)o->owner)) {
+        h0 = (u32)GAME_DATA_GetMyStatus((void *)o->owner);
     } else {
-        h0 = (u32)func_02012950((void *)o->owner, id0);
+        h0 = (u32)GAME_DATA_GetPlayerStatus((void *)o->owner, id0);
     }
-    if (id1 == func_02012B58((void *)o->owner)) {
-        h1 = (u32)func_02012944((void *)o->owner);
+    if (id1 == GAME_DATA_GetExitMode((void *)o->owner)) {
+        h1 = (u32)GAME_DATA_GetMyStatus((void *)o->owner);
     } else {
-        h1 = (u32)func_02012950((void *)o->owner, id1);
+        h1 = (u32)GAME_DATA_GetPlayerStatus((void *)o->owner, id1);
     }
     if (func_020084BC((const u16 *)h0) == 1) {
         return;

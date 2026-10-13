@@ -38,8 +38,8 @@
  *   TCBL_DeleteTask 0x02031194 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
- *   func_0201DD78 0x0201DD78 thumb
- *   func_0201CCE4 0x0201CCE4 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
@@ -50,17 +50,17 @@
  *   sub_02040588 0x02040588 arm
  *   func_0201F5DC 0x0201F5DC thumb
  *   func_02049B40 0x02049B40 arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_0201CE48 0x0201CE48 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201DD68 0x0201DD68 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
  *   func_020452E8 0x020452E8 arm
  *   func_0201F614 0x0201F614 thumb
  *   func_02040588 0x02040588 arm
- *   d_0209DF08 0x0209DF08 data a1
+ *   GAME_VERSION_Code 0x0209DF08 data a1
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   func_02049990 0x02049990 arm
  *   func_0207D63C 0x0207D63C arm
@@ -72,17 +72,17 @@
  *   func_02030734 0x02030734 arm
  *   d_021C3D4C 0x021C3D4C data a4
  *   func_021BE9A4 0x021BE9A4 thumb ov203
- *   func_020310C4 0x020310C4 arm
+ *   TCBL_Main 0x020310C4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_021BE990 0x021BE990 thumb ov203
- *   func_0203101C 0x0203101C arm
- *   func_0201D7EC 0x0201D7EC thumb
+ *   TCBL_Create 0x0203101C arm
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_020490F4 0x020490F4 arm
  *   func_02012FFC 0x02012FFC thumb
  *   TCBL_DeleteAllTasks 0x0203115C arm
- *   func_02049238 0x02049238 arm
- *   func_0201D83C 0x0201D83C thumb
- *   func_02031140 0x02031140 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   GF_FONT_Delete 0x0201D83C thumb
+ *   TCBL_Destroy 0x02031140 arm
  *   d_021C3D00 0x021C3D00 data a4
  */
 #include "../../matched/include/Obj03917.h"
@@ -174,9 +174,9 @@ extern void func_021BDF88(char *p, int a, int b);
 extern void TCBL_DeleteTask(struct TcblNode *);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
 extern void *MSGDATA_AllocString(struct MsgBank *,u32);
-extern void func_0201DD78(u32,u32,u32);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 /* The caller stores the live r0 result, although the matched wrapper was typed void. */
-extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
+extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
@@ -186,12 +186,12 @@ extern u32 sub_02045C04(struct Rec *rec);
 extern void func_0204047C(int,u16);
 extern void sub_02040588(unsigned char which, unsigned char enable);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_0201F5DC(void *,unsigned,unsigned,unsigned);
 extern void *func_02045770(struct Descriptor *);
-extern unsigned func_020450F0(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
+extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201DD68(void);
 extern void func_0201F7A8(void *,unsigned);
 extern u32 func_020452E8(struct Descriptor *d);
@@ -207,17 +207,17 @@ extern void *func_021BE9B8(void *p, unsigned a, unsigned b);
 extern void func_021BE9E8(int);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_021BE9A4(u32 id);
-extern void func_020310C4(struct Tcbl *p);
+extern void TCBL_Main(struct Tcbl *p);
 extern u32 func_020307B0(void *p);
 extern Record *func_021BE990(int);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
-extern struct GfFont *func_0201D7EC(int,int,int,int,unsigned);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
+extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 extern void *func_020490F4(u32 id, u32 heap);
 extern signed char func_02012FFC(void);
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
-extern void func_02049238(void *);
-extern u32 func_0201D83C(void *ptr);
-extern void func_02031140(struct S02031140 *p);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern u32 GF_FONT_Delete(void *ptr);
+extern void TCBL_Destroy(struct S02031140 *p);
 void func_021BEE1C(char *p,int unused,int *s);
 void func_021BEE40(char *p,int unused,int *s);
 void func_021BEE8C(char *p,int channel,int start,int end,unsigned mode);
@@ -250,7 +250,7 @@ void func_021BF8E8(char *p);
 void func_021BF924(char *p);
 int func_021BF964(char *p,char *owner,int *index);
 void func_021BF9B8(Context *ctx,char *owner,Record *r);
-extern const unsigned char d_0209DF08;
+extern const unsigned char GAME_VERSION_Code;
 extern const char d_021C3D4C[];
 
 
@@ -480,8 +480,8 @@ void func_021BF320(struct TcblNode *task, struct Context_021BF290 *ctx)
         struct MsgBank *bank = MSGDATA_CreateFromArchive(0,2,(u16)ctx->file,cfg->a2);
         void *desc;
         ctx->text = MSGDATA_AllocString(bank,ctx->index);
-        func_0201DD78(1,2,15);
-        ctx->printer = func_0201CCE4((u32)ctx->desc,0,0,(u32)ctx->text,cfg->a24,cfg->a18,cfg->a20,0,cfg->a0,15);
+        GF_FONT_SetTextColor(1,2,15);
+        ctx->printer = PRINTSYS_PrintStream((u32)ctx->desc,0,0,(u32)ctx->text,cfg->a24,cfg->a18,cfg->a20,0,cfg->a0,15);
         desc = ctx->desc;
         BMP_WIN_TransferChars(desc);
         BMP_WIN_MakeScreen(desc);
@@ -515,8 +515,8 @@ void func_021BF404(char *p,Work_021BF290 *out,int a,int b,int c,unsigned char d,
     out->a=a;out->c=c;out->ctx=p;out->b=b;
     out->text=func_0201F5DC((void *)1,0,1,((struct Obj14596 *)p)->f2);
     func_02049B40(23,5,0,32,32,((struct Obj14596 *)p)->f2);
-    out->window=(void *)func_020450F0(1,d,e,f,g,1,0);
-    func_02043B5C(func_02045770(out->window),15);
+    out->window=(void *)BMP_WIN_Create(1,d,e,f,g,1,0);
+    BMP_Clear(func_02045770(out->window),15);
 }
 
 
@@ -531,7 +531,7 @@ void func_021BF404(char *p,Work_021BF290 *out,int a,int b,int c,unsigned char d,
 void func_021BF470(char *p)
 {
     if(*(void **)(p+0x20)) func_0201CE48(*(void **)(p+0x20));
-    func_02045808(*(void **)(p+0x24));func_0201DD68();
+    STRBUF_Delete(*(void **)(p+0x24));func_0201DD68();
     func_0201F7A8(*(void **)(p+0x1C),1);func_020452E8(*(void **)(p+0x1C));
     func_0201F614(1,*(int *)(p+0x18));func_02082BCC(p,0,0x28);
     func_0204047C(1,1);func_0204047C(0,0);func_02040588(1,0);
@@ -546,7 +546,7 @@ void func_021BF470(char *p)
 void func_021BF4C4(char *p,int unused,int *record)
 {
     int a,b,c;
-    if(record[0]==0xFF || record[0]==d_0209DF08) {
+    if(record[0]==0xFF || record[0]==GAME_VERSION_Code) {
         a=func_021BF7AC(p,record[4]);b=func_021BF7AC(p,record[5]);c=func_021BF7AC(p,record[6]);
         func_021BF510(p,record[1],record[2],record[3],a,b,c);
     }
@@ -731,7 +731,7 @@ void func_021BF810(char *p)
         func_021BF9B8((Context *)p,(char *)owner,r);
     }
     ((struct Obj02250 *)p)->fC=1;
-    func_020310C4(((struct Obj02250 *)p)->f20);func_021BF924(p);func_020307B0(p);
+    TCBL_Main(((struct Obj02250 *)p)->f20);func_021BF924(p);func_020307B0(p);
 }
 
 
@@ -742,7 +742,7 @@ void func_021BF858(Context *p,int time,int flag)
     int i;
     owner=p->owner;
     p->flags[2]=flag?1:0;
-    func_020310C4(p->task);
+    TCBL_Main(p->task);
     if(p->ended==0 && time!=-4096) {
         r=func_021BE990(p->config)+p->index;
         time>>=12;
@@ -765,7 +765,7 @@ void func_021BF858(Context *p,int time,int flag)
 extern void (*d_021C3D00[])(Context *, char *, int *);
 
 
-void func_021BF8E8(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=func_0203101C(((struct Obj01776 *)p)->f0,((struct Obj01776 *)p)->f0,16,128);*(struct GfFont * *)&((struct Obj01776 *)p)->f24=func_0201D7EC(23,0,0,0,((struct Obj01776 *)p)->f0);((struct Obj01776 *)p)->f28=func_020490F4(161,((struct Obj01776 *)p)->f0);p[0x18]=func_02012FFC();}
+void func_021BF8E8(char *p){*(struct Tcbl * *)&((struct Obj01776 *)p)->f20=TCBL_Create(((struct Obj01776 *)p)->f0,((struct Obj01776 *)p)->f0,16,128);*(struct GfFont * *)&((struct Obj01776 *)p)->f24=GF_FONT_Create(23,0,0,0,((struct Obj01776 *)p)->f0);((struct Obj01776 *)p)->f28=func_020490F4(161,((struct Obj01776 *)p)->f0);p[0x18]=func_02012FFC();}
 
 
 void func_021BF924(char *p)
@@ -775,7 +775,7 @@ void func_021BF924(char *p)
     if(((struct Obj02250 *)p)->f19) {
         GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(60);
     }
-    func_02049238(((struct Obj02250 *)p)->f28);func_0201D83C(((struct Obj02250 *)p)->f24);func_02031140(((struct Obj02250 *)p)->f20);
+    ARC_TOOL_DeleteHandle(((struct Obj02250 *)p)->f28);GF_FONT_Delete(((struct Obj02250 *)p)->f24);TCBL_Destroy(((struct Obj02250 *)p)->f20);
 }
 
 

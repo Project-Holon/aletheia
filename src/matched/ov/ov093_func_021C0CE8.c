@@ -1,5 +1,5 @@
 /*
- * function: func_021C0CE8
+ * function: BTL_SERVER_FLOW_UnpackHitEntries
  * address:  0x021C0CE8
  * packet:   pkt_ov093_021C0CE8
  * region:   ov093
@@ -48,7 +48,7 @@ struct Ent {
 };
 struct Q { u8 pad0[2]; u8 n; u8 pad3; struct Ent e[1]; };
 
-int func_021C0CE8(u8 *p, const struct Q *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5)
+int BTL_SERVER_FLOW_UnpackHitEntries(u8 *p, const struct Q *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u8 *o5)
 {
     u32 i = 0;
     u32 n = 0;

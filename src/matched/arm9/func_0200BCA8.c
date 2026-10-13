@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C36B0
+ * Unlabelled arm9 leaf, filed as the relocation witness for ov021 SODATEYA_CompactSlots
  * (wave A1, lane 13).
  */
 

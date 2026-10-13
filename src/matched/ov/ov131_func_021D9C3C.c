@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   P_STA_SKILL_WindowTemplates 0x021DC2C2 data a1
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_SetPalette 0x02045798 arm
  *   P_STA_SKILL_PrintStatsPage 0x021D9E30 thumb ov131
  *   P_STA_SKILL_InitSlotText 0x021DB7D4 thumb ov131
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 P_STA_SKILL_WindowTemplates[];
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void BMP_WIN_SetPalette(struct Descriptor *p, u8 v);
 extern void P_STA_SKILL_PrintStatsPage(void *a, int b);
@@ -27,7 +27,7 @@ void P_STA_SKILL_InitStatsPage(void *a,u8 *p)
 {
     u8 i;
     for(i=0;i<13;i++) {
-        *(void **)(p+0x5c+i*4)=(void *)func_020450F0(4,P_STA_SKILL_WindowTemplates[i*4],P_STA_SKILL_WindowTemplates[i*4+1],P_STA_SKILL_WindowTemplates[i*4+2],P_STA_SKILL_WindowTemplates[i*4+3],14,1);
+        *(void **)(p+0x5c+i*4)=(void *)BMP_WIN_Create(4,P_STA_SKILL_WindowTemplates[i*4],P_STA_SKILL_WindowTemplates[i*4+1],P_STA_SKILL_WindowTemplates[i*4+2],P_STA_SKILL_WindowTemplates[i*4+3],14,1);
     }
     BMP_WIN_SetPalette(((struct Obj04511 *)p)->f60,13);
     P_STA_SKILL_PrintStatsPage(a,(int)p);

@@ -1,5 +1,5 @@
 /*
- * function: func_021F5708
+ * function: FLD_FACEUP_StepFadeIn
  * address:  0x021F5708
  * packet:   pkt_ov082_021F5708
  * region:   ov082
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 
 extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
 
-int func_021F5708(char *p)
+int FLD_FACEUP_StepFadeIn(char *p)
 {
     int q;
 

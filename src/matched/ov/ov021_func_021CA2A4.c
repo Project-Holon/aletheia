@@ -1,5 +1,5 @@
 /*
- * function: func_021CA2A4
+ * function: BSUBWAY_SCR_IsTrainerNoUsed
  * address:  0x021CA2A4
  * packet:   pkt_ov021_021CA2A4
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021CA2A4(const u16 *arr, u16 val, u16 n)
+int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *arr, u16 val, u16 n)
 {
     u16 i;
     for (i = 0; i < n; i++) {

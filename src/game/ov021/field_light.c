@@ -1,7 +1,7 @@
 /*
  * file:     field_light.c
  * unit:     yes
- * function: func_021A03D0, func_021A0448, func_021A0458, func_021A0568, func_021A0590, func_021A05D8, func_021A0618, func_021A063C, func_021A065C, func_021A066C, func_021A0734, func_021A0748, func_021A07B0, func_021A07B4, func_021A07F8, func_021A0818, func_021A0860, func_021A08CC, func_021A0918, func_021A0974, func_021A0980, func_021A0A50, func_021A0B14, func_021A0B34, func_021A0B4C, func_021A0C50, func_021A0C60, func_021A0C74, func_021A0CE4
+ * function: FIELD_LIGHT_Create, FIELD_LIGHT_Delete, FIELD_LIGHT_Main, FIELD_LIGHT_Reflect, FIELD_LIGHT_ChangeTable, FIELD_LIGHT_ReloadZoneTable, FIELD_LIGHT_StartColorFade, FIELD_LIGHT_StartColorFadeHold, FIELD_LIGHT_IsColorFading, FIELD_LIGHT_Apply, FIELD_LIGHT_LoadZoneTable, FIELD_LIGHT_LoadTable, FIELD_LIGHT_Dummy, FIELD_LIGHT_FindKeyframe, FIELD_LIGHT_GetKeyframeSeconds, FIELD_LIGHT_InitColorLerp, FIELD_LIGHT_EvalColorLerp, FIELD_LIGHT_InitDirLerp, FIELD_LIGHT_EvalDirLerp, FIELD_LIGHT_BeginBlendDefault, FIELD_LIGHT_BeginBlend, FIELD_LIGHT_BeginColorBlend, FIELD_LIGHT_StepBlend, FIELD_LIGHT_IsBlending, FIELD_LIGHT_EvalBlend, FIELD_LIGHT_FADE_Init, FIELD_LIGHT_FADE_InitHold, FIELD_LIGHT_FADE_Update, FIELD_LIGHT_FADE_IsActive
  * address:  0x021A03D0
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -20,24 +20,24 @@
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02082D44  0x02082D44  arm
- *   d_021DDE38  0x021DDE38  data  ov021
+ *   sFieldLightSourceName  0x021DDE38  data  ov021
  *   func_02048CA4  0x02048CA4  arm
  *   func_02048CDC  0x02048CDC  arm
- *   func_0206AA8C  0x0206AA8C  arm
- *   func_0206AAB0  0x0206AAB0  arm
- *   func_0207DD24  0x0207DD24  arm
- *   func_020490A8  0x020490A8  arm
- *   func_02048F4C  0x02048F4C  arm
- *   func_0207CDB8  0x0207CDB8  arm
+ *   NNS_G3dGlbMaterialColorDiffAmb  0x0206AA8C  arm
+ *   NNS_G3dGlbMaterialColorSpecEmi  0x0206AAB0  arm
+ *   G3X_SetClearColor  0x0207DD24  arm
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
+ *   VEC_Fx16Normalize  0x0207CDB8  arm
  *   func_02011400  0x02011400  thumb
  *   func_0207CB68  0x0207CB68  arm
- *   func_0207CAA4  0x0207CAA4  arm
- *   func_0207D184  0x0207D184  arm
- *   func_0207B65C  0x0207B65C  arm
- *   func_0207BC08  0x0207BC08  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   VEC_Fx16DotProduct  0x0207CAA4  arm
+ *   FX_AcosIdx  0x0207D184  arm
+ *   MTX_RotAxis43  0x0207B65C  arm
+ *   MTX_MultVec43  0x0207BC08  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   d_020A1B38  0x020A1B38  data  a2
- *   func_021A01C4  0x021A01C4  thumb  ov021
+ *   FIELD_FOG_SetColorRgb  0x021A01C4  thumb  ov021
  */
 #define GX_RGB(r, g, b) ((u16)(((r) << 0) | ((g) << 5) | ((b) << 10)))
 
@@ -156,52 +156,52 @@ extern u32 func_020307B0(void *p);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_02048CA4(struct LightSlot *slots, u8 index, const FieldLightDir *dir);
 extern void func_02048CDC(struct LightSlot *slots, u32 index, u16 *color);
-extern void func_0206AA8C(u32 diffuse, u32 ambient, u32 flag);
-extern void func_0206AAB0(u32 specular, u32 emission, u32 flag);
-extern void func_0207DD24(u16 color, int alpha, int depth, int polygonId, int fog);
-extern u32 func_020490A8(u32 arcId, u32 memberId);
-extern void func_02048F4C(void *dst, u32 arcId, u32 memberId);
-extern void func_0207CDB8(void *src, void *dst);
+extern void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 flag);
+extern void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 flag);
+extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int fog);
+extern u32 ARC_TOOL_GetMemberSize(u32 arcId, u32 memberId);
+extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 memberId);
+extern void VEC_Fx16Normalize(void *src, void *dst);
 extern u8 func_02011400(int season, int hour);
 extern void func_0207CB68(const s16 *a, const s16 *b, s16 *out);
-extern s32 func_0207CAA4(const s16 *a, const s16 *b);
-extern u16 func_0207D184(s32 cosine);
-extern void func_0207B65C(void *mtx, const void *axis, s32 sin, s32 cos);
-extern void func_0207BC08(const void *vec, const void *mtx, void *out);
-extern void func_0207CCA4(void *src, void *dst);
-void func_021A01C4(void *fog, u32 colorRgb);
-void func_021A066C(const FieldLight *light, void *fog, struct LightSlot *slots);
-void func_021A0734(FieldLight *light, u32 tableId);
-void func_021A0748(FieldLight *light, u32 arcId, u32 memberId);
-void func_021A07B0(void);
-u32 func_021A07B4(FieldLight *light, int seconds);
-int func_021A07F8(u32 season, const FieldLightKeyframe *keyframe);
-void func_021A0818(FieldLightColorLerp *lerp, s32 from, u32 to);
-u16 func_021A0860(FieldLightColorLerp *lerp, int step, int stepCount);
-void func_021A08CC(FieldLightDirLerp *lerp, const s16 *from, const s16 *to);
-void func_021A0918(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s16 *out);
-void func_021A0974(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to);
-void func_021A0980(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to, u32 frames);
-void func_021A0A50(FieldLightBlend *blend, FieldLightKeyframe *from, u32 color, u32 frames);
-void func_021A0B14(FieldLightBlend *blend);
-int func_021A0B34(const FieldLightBlend *blend);
-void func_021A0B4C(const FieldLightBlend *blend, FieldLightKeyframe *out);
-FieldLightFade *func_021A0C50(FieldLightFade *fade, u16 frames, u32 returnFrames, u32 color);
-void func_021A0C60(FieldLightFade *fade, u16 frames, u16 color);
-s32 func_021A0C74(FieldLightFade *fade, FieldLightBlend *blend, FieldLightKeyframe *current, FieldLightKeyframe *target);
-int func_021A0CE4(FieldLightFade *fade);
-extern u8 d_021DDE38[];
+extern s32 VEC_Fx16DotProduct(const s16 *a, const s16 *b);
+extern u16 FX_AcosIdx(s32 cosine);
+extern void MTX_RotAxis43(void *mtx, const void *axis, s32 sin, s32 cos);
+extern void MTX_MultVec43(const void *vec, const void *mtx, void *out);
+extern void VEC_Normalize(void *src, void *dst);
+void FIELD_FOG_SetColorRgb(void *fog, u32 colorRgb);
+void FIELD_LIGHT_Apply(const FieldLight *light, void *fog, struct LightSlot *slots);
+void FIELD_LIGHT_LoadZoneTable(FieldLight *light, u32 tableId);
+void FIELD_LIGHT_LoadTable(FieldLight *light, u32 arcId, u32 memberId);
+void FIELD_LIGHT_Dummy(void);
+u32 FIELD_LIGHT_FindKeyframe(FieldLight *light, int seconds);
+int FIELD_LIGHT_GetKeyframeSeconds(u32 season, const FieldLightKeyframe *keyframe);
+void FIELD_LIGHT_InitColorLerp(FieldLightColorLerp *lerp, s32 from, u32 to);
+u16 FIELD_LIGHT_EvalColorLerp(FieldLightColorLerp *lerp, int step, int stepCount);
+void FIELD_LIGHT_InitDirLerp(FieldLightDirLerp *lerp, const s16 *from, const s16 *to);
+void FIELD_LIGHT_EvalDirLerp(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s16 *out);
+void FIELD_LIGHT_BeginBlendDefault(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to);
+void FIELD_LIGHT_BeginBlend(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to, u32 frames);
+void FIELD_LIGHT_BeginColorBlend(FieldLightBlend *blend, FieldLightKeyframe *from, u32 color, u32 frames);
+void FIELD_LIGHT_StepBlend(FieldLightBlend *blend);
+int FIELD_LIGHT_IsBlending(const FieldLightBlend *blend);
+void FIELD_LIGHT_EvalBlend(const FieldLightBlend *blend, FieldLightKeyframe *out);
+FieldLightFade *FIELD_LIGHT_FADE_Init(FieldLightFade *fade, u16 frames, u32 returnFrames, u32 color);
+void FIELD_LIGHT_FADE_InitHold(FieldLightFade *fade, u16 frames, u16 color);
+s32 FIELD_LIGHT_FADE_Update(FieldLightFade *fade, FieldLightBlend *blend, FieldLightKeyframe *current, FieldLightKeyframe *target);
+int FIELD_LIGHT_FADE_IsActive(FieldLightFade *fade);
+extern u8 sFieldLightSourceName[];
 extern s16 d_020A1B38[];
 
-FieldLight *func_021A03D0(u32 tableId, u32 seconds, u32 season, void *fog, struct LightSlot *slots, u16 heapId)
+FieldLight *FIELD_LIGHT_Create(u32 tableId, u32 seconds, u32 season, void *fog, struct LightSlot *slots, u16 heapId)
 {
     FieldLight *light;
 
-    light = func_02030734(heapId, sizeof(FieldLight), 1, (const char *)d_021DDE38, 0x167);
+    light = func_02030734(heapId, sizeof(FieldLight), 1, (const char *)sFieldLightSourceName, 0x167);
     light->season = season;
-    func_021A0734(light, tableId);
+    FIELD_LIGHT_LoadZoneTable(light, tableId);
     light->active = 1;
-    light->keyframeIndex = func_021A07B4(light, seconds);
+    light->keyframeIndex = FIELD_LIGHT_FindKeyframe(light, seconds);
     func_02082D44(&light->keyframes[light->keyframeIndex], &light->current, sizeof(FieldLightKeyframe));
     light->dirty = 1;
     light->fog = fog;
@@ -209,15 +209,15 @@ FieldLight *func_021A03D0(u32 tableId, u32 seconds, u32 season, void *fog, struc
     return light;
 }
 
-void func_021A0448(FieldLight *light)
+void FIELD_LIGHT_Delete(FieldLight *light)
 {
-    func_021A07B0();
+    FIELD_LIGHT_Dummy();
     func_020307B0(light);
 }
 
 /* Steps the light for the current time of day: advances to the next keyframe when its time is
  * reached (starting a blend), runs a script fade, and steps a running blend. */
-void func_021A0458(FieldLight *light, s32 seconds)
+void FIELD_LIGHT_Main(FieldLight *light, s32 seconds)
 {
     s32 prevSeconds;
     s32 curSeconds;
@@ -230,92 +230,92 @@ void func_021A0458(FieldLight *light, s32 seconds)
         return;
     switch (light->mode) {
     case FIELD_LIGHT_MODE_FOLLOW:
-        curSeconds = func_021A07F8(light->season, &light->keyframes[light->keyframeIndex]);
+        curSeconds = FIELD_LIGHT_GetKeyframeSeconds(light->season, &light->keyframes[light->keyframeIndex]);
         wrapped = 0;
         prevIndex = light->keyframeIndex - 1;
         if (prevIndex < 0) {
             prevSeconds = 0;
-            lastSeconds = func_021A07F8(light->season, &light->keyframes[(s32)light->keyframeCount - 1]);
+            lastSeconds = FIELD_LIGHT_GetKeyframeSeconds(light->season, &light->keyframes[(s32)light->keyframeCount - 1]);
             if (lastSeconds <= seconds) {
                 prevSeconds = lastSeconds;
                 wrapped = 1;
                 curSeconds += FIELD_LIGHT_SECONDS_PER_DAY;
             }
         } else {
-            prevSeconds = func_021A07F8(light->season, &light->keyframes[prevIndex]);
+            prevSeconds = FIELD_LIGHT_GetKeyframeSeconds(light->season, &light->keyframes[prevIndex]);
         }
         if ((prevSeconds > seconds || curSeconds <= seconds) && wrapped == 0) {
             nextIndex = (light->keyframeIndex + 1) % light->keyframeCount;
             light->keyframeIndex = nextIndex;
-            func_021A0974(&light->blend, &light->current, &light->keyframes[nextIndex]);
+            FIELD_LIGHT_BeginBlendDefault(&light->blend, &light->current, &light->keyframes[nextIndex]);
         }
         break;
     case FIELD_LIGHT_MODE_FADE:
-        if (func_021A0C74(&light->fade, &light->blend, &light->current, &light->keyframes[light->keyframeIndex]))
+        if (FIELD_LIGHT_FADE_Update(&light->fade, &light->blend, &light->current, &light->keyframes[light->keyframeIndex]))
             light->mode = FIELD_LIGHT_MODE_FOLLOW;
         break;
     }
-    if (func_021A0B34(&light->blend)) {
-        func_021A0B14(&light->blend);
-        func_021A0B4C(&light->blend, &light->current);
+    if (FIELD_LIGHT_IsBlending(&light->blend)) {
+        FIELD_LIGHT_StepBlend(&light->blend);
+        FIELD_LIGHT_EvalBlend(&light->blend, &light->current);
         light->dirty = 1;
     }
     light->lastSeconds = seconds;
 }
 
-void func_021A0568(FieldLight *light, int force)
+void FIELD_LIGHT_Reflect(FieldLight *light, int force)
 {
     if (light->dirty != 0 || force != 0) {
-        func_021A066C(light, light->fog, light->slots);
+        FIELD_LIGHT_Apply(light, light->fog, light->slots);
         light->dirty = 0;
     }
 }
 
 /* Loads another light table and blends to the keyframe for the last time of day. */
-void func_021A0590(FieldLight *light, u32 arcId, u32 memberId, u32 frames)
+void FIELD_LIGHT_ChangeTable(FieldLight *light, u32 arcId, u32 memberId, u32 frames)
 {
     u32 index;
 
-    func_021A07B0();
-    func_021A0748(light, arcId, memberId);
-    index = func_021A07B4(light, light->lastSeconds);
+    FIELD_LIGHT_Dummy();
+    FIELD_LIGHT_LoadTable(light, arcId, memberId);
+    index = FIELD_LIGHT_FindKeyframe(light, light->lastSeconds);
     light->keyframeIndex = index;
-    func_021A0980(&light->blend, &light->current, &light->keyframes[index], frames);
+    FIELD_LIGHT_BeginBlend(&light->blend, &light->current, &light->keyframes[index], frames);
 }
 
 /* Reloads the zone's own light table and blends to it. */
-void func_021A05D8(FieldLight *light)
+void FIELD_LIGHT_ReloadZoneTable(FieldLight *light)
 {
     u32 index;
 
-    func_021A07B0();
-    func_021A0734(light, light->tableId);
-    index = func_021A07B4(light, light->lastSeconds);
+    FIELD_LIGHT_Dummy();
+    FIELD_LIGHT_LoadZoneTable(light, light->tableId);
+    index = FIELD_LIGHT_FindKeyframe(light, light->lastSeconds);
     light->keyframeIndex = index;
-    func_021A0974(&light->blend, &light->current, &light->keyframes[index]);
+    FIELD_LIGHT_BeginBlendDefault(&light->blend, &light->current, &light->keyframes[index]);
 }
 
 /* Fades to a flat color over frames, then back to the keyframe light over returnFrames. */
-void func_021A0618(FieldLight *light, u32 color, u32 frames, u32 returnFrames)
+void FIELD_LIGHT_StartColorFade(FieldLight *light, u32 color, u32 frames, u32 returnFrames)
 {
-    func_021A0C50(&light->fade, frames, (u16)returnFrames, color);
+    FIELD_LIGHT_FADE_Init(&light->fade, frames, (u16)returnFrames, color);
     light->mode = FIELD_LIGHT_MODE_FADE;
 }
 
 /* Fades to a flat color over frames and stays there. */
-void func_021A063C(FieldLight *light, u16 color, u32 frames)
+void FIELD_LIGHT_StartColorFadeHold(FieldLight *light, u16 color, u32 frames)
 {
-    func_021A0C60(&light->fade, frames, color);
+    FIELD_LIGHT_FADE_InitHold(&light->fade, frames, color);
     light->mode = FIELD_LIGHT_MODE_FADE;
 }
 
-int func_021A065C(FieldLight *light)
+int FIELD_LIGHT_IsColorFading(FieldLight *light)
 {
-    return func_021A0CE4(&light->fade);
+    return FIELD_LIGHT_FADE_IsActive(&light->fade);
 }
 
 /* Writes the current keyframe to the 3D engine: light slots, material colors, fog and clear color. */
-void func_021A066C(const FieldLight *light, void *fog, struct LightSlot *slots)
+void FIELD_LIGHT_Apply(const FieldLight *light, void *fog, struct LightSlot *slots)
 {
     int i;
     FieldLightDir zeroDir = {0, 0, 0};
@@ -333,47 +333,47 @@ void func_021A066C(const FieldLight *light, void *fog, struct LightSlot *slots)
             func_02048CDC(slots, (u8)i, &zeroColor);
         }
     }
-    func_0206AA8C(light->current.materialDiffuse, light->current.materialAmbient, 1);
-    func_0206AAB0(light->current.materialSpecular, light->current.materialEmission, 0);
-    func_021A01C4(fog, light->current.fogColor);
-    func_0207DD24(light->current.clearColor, 0x1F, 0x7FFF, 0, 0);
+    NNS_G3dGlbMaterialColorDiffAmb(light->current.materialDiffuse, light->current.materialAmbient, 1);
+    NNS_G3dGlbMaterialColorSpecEmi(light->current.materialSpecular, light->current.materialEmission, 0);
+    FIELD_FOG_SetColorRgb(fog, light->current.fogColor);
+    G3X_SetClearColor(light->current.clearColor, 0x1F, 0x7FFF, 0, 0);
 }
 
-void func_021A0734(FieldLight *light, u32 tableId)
+void FIELD_LIGHT_LoadZoneTable(FieldLight *light, u32 tableId)
 {
     light->tableId = tableId;
-    func_021A0748(light, FIELD_LIGHT_ARC_ID, tableId);
+    FIELD_LIGHT_LoadTable(light, FIELD_LIGHT_ARC_ID, tableId);
 }
 
 /* Reads a light table into the keyframes and normalizes every slot direction. */
-void func_021A0748(FieldLight *light, u32 arcId, u32 memberId)
+void FIELD_LIGHT_LoadTable(FieldLight *light, u32 arcId, u32 memberId)
 {
     u32 i;
     s32 j;
     FieldLightDir *dir;
 
-    light->keyframeCount = func_020490A8(arcId, memberId) / sizeof(FieldLightKeyframe);
-    func_02048F4C(light->keyframes, arcId, memberId);
+    light->keyframeCount = ARC_TOOL_GetMemberSize(arcId, memberId) / sizeof(FieldLightKeyframe);
+    ARC_TOOL_ReadMember(light->keyframes, arcId, memberId);
     for (i = 0; i < light->keyframeCount; i++) {
         dir = light->keyframes[i].slotDir;
         for (j = 0; j < FIELD_LIGHT_SLOT_COUNT; j++) {
-            func_0207CDB8(&dir[j], &dir[j]);
+            VEC_Fx16Normalize(&dir[j], &dir[j]);
         }
     }
 }
 
-void func_021A07B0(void)
+void FIELD_LIGHT_Dummy(void)
 {
 }
 
 /* Index of the keyframe whose time span contains the given second of the day, 0 if none. */
-u32 func_021A07B4(FieldLight *light, int seconds)
+u32 FIELD_LIGHT_FindKeyframe(FieldLight *light, int seconds)
 {
     int prevSeconds = 0;
     u32 i;
     int keyframeSeconds;
     for (i = 0; i < light->keyframeCount; i++) {
-        keyframeSeconds = func_021A07F8(light->season, &light->keyframes[i]);
+        keyframeSeconds = FIELD_LIGHT_GetKeyframeSeconds(light->season, &light->keyframes[i]);
         if (prevSeconds <= seconds && keyframeSeconds > seconds)
             return i;
         prevSeconds = keyframeSeconds;
@@ -382,14 +382,14 @@ u32 func_021A07B4(FieldLight *light, int seconds)
 }
 
 /* Second of the day of a keyframe; the hour is remapped by the season. */
-int func_021A07F8(u32 season, const FieldLightKeyframe *keyframe)
+int FIELD_LIGHT_GetKeyframeSeconds(u32 season, const FieldLightKeyframe *keyframe)
 {
     int hour = func_02011400(season, keyframe->hour);
     return hour * 3600 + keyframe->minute * 60;
 }
 
 /* Splits two GX_RGB colors into per-channel start and delta. */
-void func_021A0818(FieldLightColorLerp *lerp, s32 from, u32 to)
+void FIELD_LIGHT_InitColorLerp(FieldLightColorLerp *lerp, s32 from, u32 to)
 {
     lerp->r.base = from & 0x1f;
     lerp->r.delta = (s16)(to & 0x1f) - (u16)lerp->r.base;
@@ -405,7 +405,7 @@ void func_021A0818(FieldLightColorLerp *lerp, s32 from, u32 to)
  * single-expression initialiser lets the compiler hoist all three divisions and
  * evaluate them right to left.
  */
-u16 func_021A0860(FieldLightColorLerp *lerp, int step, int stepCount)
+u16 FIELD_LIGHT_EvalColorLerp(FieldLightColorLerp *lerp, int step, int stepCount)
 {
     s16 r = (s16)(lerp->r.delta * step / stepCount);
     s16 g, b;
@@ -431,18 +431,18 @@ static inline void setVec(FieldLightVec32 *vec, s32 x, s32 y, s32 z)
  * The `const` on `from` is what puts its three loads ahead of the stores in
  * the original's order (from[2], from[1], from[0]; stores axis y, z, then x).
  */
-void func_021A08CC(FieldLightDirLerp *lerp, const s16 *from, const s16 *to)
+void FIELD_LIGHT_InitDirLerp(FieldLightDirLerp *lerp, const s16 *from, const s16 *to)
 {
     s16 axis[3];
 
     setVec(&lerp->start, from[0], from[1], from[2]);
     func_0207CB68(from, to, axis);
     setVec(&lerp->axis, axis[0], axis[1], axis[2]);
-    lerp->angle = func_0207D184(func_0207CAA4(from, to));
+    lerp->angle = FX_AcosIdx(VEC_Fx16DotProduct(from, to));
 }
 
 /* Rotates the start vector about the axis by angle * step / stepCount and normalizes it. */
-void func_021A0918(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s16 *out)
+void FIELD_LIGHT_EvalDirLerp(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s16 *out)
 {
     s32 mtx[12];
     s32 vec[3];
@@ -450,9 +450,9 @@ void func_021A0918(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s16 *out)
     u32 sinCosIndex;
 
     sinCosIndex = (u16)(lerp->angle * step / stepCount) >> 4;
-    func_0207B65C(mtx, &lerp->axis, d_020A1B38[sinCosIndex * 2], d_020A1B38[sinCosIndex * 2 + 1]);
-    func_0207BC08(lerp, mtx, vec);
-    func_0207CCA4(vec, vec);
+    MTX_RotAxis43(mtx, &lerp->axis, d_020A1B38[sinCosIndex * 2], d_020A1B38[sinCosIndex * 2 + 1]);
+    MTX_MultVec43(lerp, mtx, vec);
+    VEC_Normalize(vec, vec);
     vz = vec[2];
     vy = vec[1];
     vx = vec[0];
@@ -461,13 +461,13 @@ void func_021A0918(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s16 *out)
     out[2] = vz;
 }
 
-void func_021A0974(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to)
+void FIELD_LIGHT_BeginBlendDefault(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to)
 {
-    func_021A0980(blend, from, to, FIELD_LIGHT_BLEND_FRAMES);
+    FIELD_LIGHT_BeginBlend(blend, from, to, FIELD_LIGHT_BLEND_FRAMES);
 }
 
 /* Starts a blend from one keyframe to another over the given number of frames. */
-void func_021A0980(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to, u32 frames)
+void FIELD_LIGHT_BeginBlend(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to, u32 frames)
 {
     FieldLightDir *toDir;
     FieldLightDir *fromDir;
@@ -485,20 +485,20 @@ void func_021A0980(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightK
     fromDir = from->slotDir;
     toDir = to->slotDir;
     for (; i < FIELD_LIGHT_SLOT_COUNT; i++) {
-        func_021A0818(&colorLerp[i], from->slotColor[i], to->slotColor[i]);
-        func_021A08CC(&dirLerp[i], (const s16 *)&fromDir[i], (const s16 *)&toDir[i]);
+        FIELD_LIGHT_InitColorLerp(&colorLerp[i], from->slotColor[i], to->slotColor[i]);
+        FIELD_LIGHT_InitDirLerp(&dirLerp[i], (const s16 *)&fromDir[i], (const s16 *)&toDir[i]);
         blend->slotUsed[i] = to->slotUsed[i];
     }
-    func_021A0818(&blend->materialDiffuse, from->materialDiffuse, to->materialDiffuse);
-    func_021A0818(&blend->materialAmbient, from->materialAmbient, to->materialAmbient);
-    func_021A0818(&blend->materialSpecular, from->materialSpecular, to->materialSpecular);
-    func_021A0818(&blend->materialEmission, from->materialEmission, to->materialEmission);
-    func_021A0818(&blend->fogColor, from->fogColor, to->fogColor);
-    func_021A0818(&blend->clearColor, from->clearColor, to->clearColor);
+    FIELD_LIGHT_InitColorLerp(&blend->materialDiffuse, from->materialDiffuse, to->materialDiffuse);
+    FIELD_LIGHT_InitColorLerp(&blend->materialAmbient, from->materialAmbient, to->materialAmbient);
+    FIELD_LIGHT_InitColorLerp(&blend->materialSpecular, from->materialSpecular, to->materialSpecular);
+    FIELD_LIGHT_InitColorLerp(&blend->materialEmission, from->materialEmission, to->materialEmission);
+    FIELD_LIGHT_InitColorLerp(&blend->fogColor, from->fogColor, to->fogColor);
+    FIELD_LIGHT_InitColorLerp(&blend->clearColor, from->clearColor, to->clearColor);
 }
 
 /* Starts a blend from a keyframe to one flat color (slot directions stay). */
-void func_021A0A50(FieldLightBlend *blend, FieldLightKeyframe *from, u32 color, u32 frames)
+void FIELD_LIGHT_BeginColorBlend(FieldLightBlend *blend, FieldLightKeyframe *from, u32 color, u32 frames)
 {
     s32 i;
 
@@ -507,25 +507,25 @@ void func_021A0A50(FieldLightBlend *blend, FieldLightKeyframe *from, u32 color, 
     blend->hour = from->hour;
     blend->minute = from->minute;
     for (i = 0; i < FIELD_LIGHT_SLOT_COUNT; i++) {
-        func_021A0818(&blend->slotColor[i], from->slotColor[i], color);
-        func_021A08CC(&blend->slotDir[i], (const s16 *)&from->slotDir[i], (const s16 *)&from->slotDir[i]);
+        FIELD_LIGHT_InitColorLerp(&blend->slotColor[i], from->slotColor[i], color);
+        FIELD_LIGHT_InitDirLerp(&blend->slotDir[i], (const s16 *)&from->slotDir[i], (const s16 *)&from->slotDir[i]);
         blend->slotUsed[i] = from->slotUsed[i];
     }
-    func_021A0818(&blend->materialDiffuse, from->materialDiffuse, color);
-    func_021A0818(&blend->materialAmbient, from->materialAmbient, color);
-    func_021A0818(&blend->materialSpecular, from->materialSpecular, color);
-    func_021A0818(&blend->materialEmission, from->materialEmission, color);
-    func_021A0818(&blend->fogColor, from->fogColor, color);
-    func_021A0818(&blend->clearColor, from->clearColor, color);
+    FIELD_LIGHT_InitColorLerp(&blend->materialDiffuse, from->materialDiffuse, color);
+    FIELD_LIGHT_InitColorLerp(&blend->materialAmbient, from->materialAmbient, color);
+    FIELD_LIGHT_InitColorLerp(&blend->materialSpecular, from->materialSpecular, color);
+    FIELD_LIGHT_InitColorLerp(&blend->materialEmission, from->materialEmission, color);
+    FIELD_LIGHT_InitColorLerp(&blend->fogColor, from->fogColor, color);
+    FIELD_LIGHT_InitColorLerp(&blend->clearColor, from->clearColor, color);
 }
 
-void func_021A0B14(FieldLightBlend *blend)
+void FIELD_LIGHT_StepBlend(FieldLightBlend *blend)
 {
     if (blend->step < blend->stepCount)
         blend->step++;
 }
 
-int func_021A0B34(const FieldLightBlend *blend)
+int FIELD_LIGHT_IsBlending(const FieldLightBlend *blend)
 {
     if (blend->step < blend->stepCount) {
         return 1;
@@ -538,7 +538,7 @@ int func_021A0B34(const FieldLightBlend *blend)
  * must be const: without it the six trailing strh stores are scheduled ahead of
  * the next call's `adds rN, #0xf0/#0xf2` address setup (24 bytes differ).
  */
-void func_021A0B4C(const FieldLightBlend *blend, FieldLightKeyframe *out)
+void FIELD_LIGHT_EvalBlend(const FieldLightBlend *blend, FieldLightKeyframe *out)
 {
     s32 i;
     u16 color;
@@ -546,25 +546,25 @@ void func_021A0B4C(const FieldLightBlend *blend, FieldLightKeyframe *out)
     out->hour = blend->hour;
     out->minute = blend->minute;
     for (i = 0; i < FIELD_LIGHT_SLOT_COUNT; i++) {
-        out->slotColor[i] = func_021A0860((FieldLightColorLerp *)&blend->slotColor[i], blend->step, blend->stepCount);
-        func_021A0918((FieldLightDirLerp *)&blend->slotDir[i], blend->step, blend->stepCount, (s16 *)&out->slotDir[i]);
+        out->slotColor[i] = FIELD_LIGHT_EvalColorLerp((FieldLightColorLerp *)&blend->slotColor[i], blend->step, blend->stepCount);
+        FIELD_LIGHT_EvalDirLerp((FieldLightDirLerp *)&blend->slotDir[i], blend->step, blend->stepCount, (s16 *)&out->slotDir[i]);
         out->slotUsed[i] = blend->slotUsed[i];
     }
-    color = func_021A0860((FieldLightColorLerp *)&blend->materialDiffuse, blend->step, blend->stepCount);
+    color = FIELD_LIGHT_EvalColorLerp((FieldLightColorLerp *)&blend->materialDiffuse, blend->step, blend->stepCount);
     out->materialDiffuse = color;
-    color = func_021A0860((FieldLightColorLerp *)&blend->materialAmbient, blend->step, blend->stepCount);
+    color = FIELD_LIGHT_EvalColorLerp((FieldLightColorLerp *)&blend->materialAmbient, blend->step, blend->stepCount);
     out->materialAmbient = color;
-    color = func_021A0860((FieldLightColorLerp *)&blend->materialSpecular, blend->step, blend->stepCount);
+    color = FIELD_LIGHT_EvalColorLerp((FieldLightColorLerp *)&blend->materialSpecular, blend->step, blend->stepCount);
     out->materialSpecular = color;
-    color = func_021A0860((FieldLightColorLerp *)&blend->materialEmission, blend->step, blend->stepCount);
+    color = FIELD_LIGHT_EvalColorLerp((FieldLightColorLerp *)&blend->materialEmission, blend->step, blend->stepCount);
     out->materialEmission = color;
-    color = func_021A0860((FieldLightColorLerp *)&blend->fogColor, blend->step, blend->stepCount);
+    color = FIELD_LIGHT_EvalColorLerp((FieldLightColorLerp *)&blend->fogColor, blend->step, blend->stepCount);
     out->fogColor = color;
-    color = func_021A0860((FieldLightColorLerp *)&blend->clearColor, blend->step, blend->stepCount);
+    color = FIELD_LIGHT_EvalColorLerp((FieldLightColorLerp *)&blend->clearColor, blend->step, blend->stepCount);
     out->clearColor = color;
 }
 
-FieldLightFade *func_021A0C50(FieldLightFade *fade, u16 frames, u32 returnFrames, u32 color)
+FieldLightFade *FIELD_LIGHT_FADE_Init(FieldLightFade *fade, u16 frames, u32 returnFrames, u32 color)
 {
     fade->state = FIELD_LIGHT_FADE_START;
     fade->frames = frames;
@@ -573,7 +573,7 @@ FieldLightFade *func_021A0C50(FieldLightFade *fade, u16 frames, u32 returnFrames
     return fade;
 }
 
-void func_021A0C60(FieldLightFade *fade, u16 frames, u16 color)
+void FIELD_LIGHT_FADE_InitHold(FieldLightFade *fade, u16 frames, u16 color)
 {
     fade->state = FIELD_LIGHT_FADE_START;
     fade->frames = frames;
@@ -582,23 +582,23 @@ void func_021A0C60(FieldLightFade *fade, u16 frames, u16 color)
 }
 
 /* Runs the fade state machine; returns 1 when no fade is active. */
-s32 func_021A0C74(FieldLightFade *fade, FieldLightBlend *blend, FieldLightKeyframe *current, FieldLightKeyframe *target)
+s32 FIELD_LIGHT_FADE_Update(FieldLightFade *fade, FieldLightBlend *blend, FieldLightKeyframe *current, FieldLightKeyframe *target)
 {
     switch (fade->state) {
     case FIELD_LIGHT_FADE_START:
-        func_021A0A50(blend, current, fade->color, fade->frames);
+        FIELD_LIGHT_BeginColorBlend(blend, current, fade->color, fade->frames);
         fade->state = FIELD_LIGHT_FADE_HOLD;
         break;
     case FIELD_LIGHT_FADE_HOLD:
-        if (func_021A0B34(blend) == 0) {
+        if (FIELD_LIGHT_IsBlending(blend) == 0) {
             if (fade->returnFrames != FIELD_LIGHT_FADE_NO_RETURN) {
-                func_021A0980(blend, current, target, fade->returnFrames);
+                FIELD_LIGHT_BeginBlend(blend, current, target, fade->returnFrames);
             }
             fade->state = FIELD_LIGHT_FADE_RETURN;
         }
         break;
     case FIELD_LIGHT_FADE_RETURN:
-        if (func_021A0B34(blend) == 0) {
+        if (FIELD_LIGHT_IsBlending(blend) == 0) {
             fade->state = FIELD_LIGHT_FADE_IDLE;
         }
         break;
@@ -608,7 +608,7 @@ s32 func_021A0C74(FieldLightFade *fade, FieldLightBlend *blend, FieldLightKeyfra
     return 0;
 }
 
-int func_021A0CE4(FieldLightFade *fade)
+int FIELD_LIGHT_FADE_IsActive(FieldLightFade *fade)
 {
     if (fade->state != 0) {
         return 1;

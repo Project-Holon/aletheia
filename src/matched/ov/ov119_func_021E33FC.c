@@ -16,7 +16,7 @@
  * The empty-then if/else on *dir gives the original `bge; b` shape.
  *
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   MCSS_GetSizeX 0x02015F04 thumb
  *   MCSS_GetOfsX 0x02015F14 thumb
@@ -51,7 +51,7 @@ extern Entry d_021E7B9C[4];
 typedef signed short   s16;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u8 POKE_TOOL_GetGender(void *p);
 extern u16 MCSS_GetSizeX(void *p);
 extern s16 MCSS_GetOfsX(void *p);
@@ -68,8 +68,8 @@ void func_021E33FC(void *p0, int *dir, int p2, void *mon)
     u8 i;
     float f;
 
-    a = func_02017E1C(mon, 5, 0);
-    b = func_02017E1C(mon, 0x6f, 0);
+    a = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    b = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
     c = POKE_TOOL_GetGender(mon);
     if (p2 == 0)
         flag = 1;

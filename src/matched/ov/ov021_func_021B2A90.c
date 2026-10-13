@@ -1,5 +1,5 @@
 /*
- * function: func_021B2A90
+ * function: SCRCMD_SCREENEFFECTS_WaitBrightness
  * address:  0x021B2A90
  * packet:   pkt_ov021_021B2A90
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020113D0  0x020113D0  thumb
- *   func_021B2860  0x021B2860  thumb  ov021
+ *   VM_SetWait  0x020113D0  thumb
+ *   SCRCMD_SCREENEFFECTS_CheckBrightnessDone  0x021B2860  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void func_020113D0(char *p, int val);
-extern int func_021B2860(u32 a, u32 b, u32 c, u32 d);
+extern void VM_SetWait(char *p, int val);
+extern int SCRCMD_SCREENEFFECTS_CheckBrightnessDone(u32 a, u32 b, u32 c, u32 d);
 
-int func_021B2A90(u32 a)
+int SCRCMD_SCREENEFFECTS_WaitBrightness(u32 a)
 {
-    func_020113D0((char *)a, (u32)func_021B2860);
+    VM_SetWait((char *)a, (u32)SCRCMD_SCREENEFFECTS_CheckBrightnessDone);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C2B5C
+ * function: FLD3D_CI_FadeInTask
  * address:  0x021C2B5C
  * packet:   pkt_ov021_021C2B5C
  * region:   ov021
@@ -10,6 +10,11 @@
  * status:   EXACT
  *
  * Fade-out state step: start the fade, then wait for it to finish.
+ *
+ * symbols:
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb  arm9
+ *   FADE_Start  0x0204E720  arm  arm9
+ *   FADE_IsActive  0x0204E804  arm  arm9
  */
 
 typedef unsigned int u32;
@@ -18,21 +23,21 @@ struct Obj;
 struct Ctx;
 
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 typedef signed int     s32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
 
-int func_021C2B5C(void *t, int *st)
+int FLD3D_CI_FadeInTask(void *t, int *st)
 {
-    func_0201210C(func_020124E4(t));
+    GAMESYSTEM_GetFieldMap(func_020124E4(t));
     switch (*st) {
     case 0:
-        func_0204E720(4, 0x10, 0, -1);
+        FADE_Start(4, 0x10, 0, -1);
         (*st)++;
         break;
     case 1:
-        if (func_0204E804() == 0)
+        if (FADE_IsActive() == 0)
             return 1;
         break;
     }

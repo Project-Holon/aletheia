@@ -1,5 +1,5 @@
 /*
- * function: func_021C6054
+ * function: FISHING_EndRodEffect
  * address:  0x021C6054
  * packet:   pkt_ov021_021C6054
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  */
 
 typedef unsigned int u32;
-extern void func_021AC154(u32 a);
-void func_021C6054(u32 *p)
+extern void FIELD_EFFECT_DeleteObject(u32 a);
+void FISHING_EndRodEffect(u32 *p)
 {
     if (p[12] != 0) {
-        func_021AC154(p[12]);
+        FIELD_EFFECT_DeleteObject(p[12]);
         p[12] = 0;
     }
 }

@@ -16,7 +16,7 @@
  *   ENV_SetResourceSet  0x020307B0  arm
  *
  * The archive-loader wrapper of src/matched/sub_0202CB18.c with a different
- * loader entry point: ARC_UTIL_LoadPaletteDataFromArchive instead of func_02049EF4. Loads one
+ * loader entry point: ARC_UTIL_LoadPaletteDataFromArchive instead of ARC_UTIL_LoadPaletteDataFromHandle. Loads one
  * archive member, copies the tile image 0xc bytes into it through
  * src/matched/sub_0202CAC4.c, and releases the allocation again through
  * ENV_SetResourceSet. The window manager's u32 heap id at +8 is narrowed to

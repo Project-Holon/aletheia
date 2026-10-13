@@ -1,5 +1,5 @@
 /*
- * function: func_021842BC
+ * function: OEKAKI_RecvStrokes
  * address:  0x021842BC
  * packet:   pkt_ov023_021842BC
  * region:   ov023
@@ -14,7 +14,7 @@
 
 typedef unsigned char u8;
 
-void func_021842BC(int a0, int a1, const u8 *src, char *p)
+void OEKAKI_RecvStrokes(int a0, int a1, const u8 *src, char *p)
 {
     int i;
     u8 *d;

@@ -15,35 +15,35 @@
  * 2026-10-05 (wD6 lane15): EXACT*. func_021C7E14 takes u8 a, u8 b (as in matched func_02189D48)
  *   and x, y are u8 locals; that fixes the stack-argument store order in the loop call.
  * symbols:
- *   func_0201134C 0x0201134C thumb
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
+ *   VM_GetU32 0x0201134C thumb
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
  *   func_021C7E14 0x021C7E14 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
-extern u8 func_021D5440(u8 *);
+extern u32 VM_GetU32(struct Cursor *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 struct QG;
-extern u8 func_021D5448(struct QG *p);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern u16 func_021C7E14(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
 u32 func_02188D5C(struct Cursor *a, u8 *p)
 {
-    int t = func_0201134C(a);
-    u8 x = func_021D5440(*(u8 **)(p + 0xBC));
-    u8 y = func_021D5440(*(u8 **)(p + 0xC0));
+    int t = VM_GetU32(a);
+    u8 x = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xBC));
+    u8 y = BTL_POKEPARAM_GetPokeId(*(u8 **)(p + 0xC0));
     u32 best = func_021C7E14(*(u8 **)(p + 0xB4), x, y, *(u16 *)(p + 2), 1, t);
     int i;
     if (best == 0) {
         *(u32 *)(p + 0x38) = 0;
     } else {
         *(u32 *)(p + 0x38) = 2;
-        for (i = 0; i < func_021D5448((struct QG *)(*(u8 **)(p + 0xBC))); i++) {
-            u16 c = func_021D54C0(*(u8 **)(p + 0xBC), (u8)i);
+        for (i = 0; i < BTL_POKEPARAM_GetMoveCount((struct QG *)(*(u8 **)(p + 0xBC))); i++) {
+            u16 c = BTL_POKEPARAM_GetMoveId(*(u8 **)(p + 0xBC), (u8)i);
             if (i != p[1]) {
                 u32 r = func_021C7E14(*(u8 **)(p + 0xB4), x, y, c, 1, t);
                 if (r > best) {

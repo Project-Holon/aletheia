@@ -1,5 +1,5 @@
 /*
- * function: func_021BBF74
+ * function: FLDEFF_FOOTMARK_DrawTask
  * address: 0x021BBF74
  * packet: pkt_ov021_021BBF74
  * region: ov021
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov021/field_place_name.c and filed here.
  */
 
-void func_021BBF74(void);
+void FLDEFF_FOOTMARK_DrawTask(void);
 
-void func_021BBF74(void) {}
+void FLDEFF_FOOTMARK_DrawTask(void) {}

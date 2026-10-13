@@ -1,5 +1,5 @@
 /*
- * function: func_021C8268
+ * function: FLD_WIPE_3DOBJ_CreateMapChangeEvent
  * address:  0x021C8268
  * packet:   pkt_ov021_021C8268
  * region:   ov021
@@ -16,8 +16,8 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02014204  0x02014204  thumb
- *   func_021C82C4  0x021C82C4  thumb  ov021
+ *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
+ *   FLD_WIPE_3DOBJ_MapChangeEventMain  0x021C82C4  thumb  ov021
  */
 
 struct Desc;
@@ -32,19 +32,19 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 struct t;
-extern void func_02014204(struct t *p, int id);
+extern void ZONEDATA_SetZoneStartLocation(struct t *p, int id);
 typedef unsigned int   u32;
 struct Ctx;
 struct TaskCtx;
-extern int func_021C82C4(u32 a, int *st, struct TaskCtx *c);
+extern int FLD_WIPE_3DOBJ_MapChangeEventMain(u32 a, int *st, struct TaskCtx *c);
 
-int func_021C8268(void *a, int b, int c)
+int FLD_WIPE_3DOBJ_CreateMapChangeEvent(void *a, int b, int c)
 {
     int r7;
     int *r4;
     int v;
 
-    r7 = (int)func_020122C0(a, 0, func_021C82C4, 0x30);
+    r7 = (int)func_020122C0(a, 0, FLD_WIPE_3DOBJ_MapChangeEventMain, 0x30);
     r4 = func_020124E8((struct Obj *)r7);
     func_02082BCC(r4, 0, 0x30);
     r4[0] = (int)a;
@@ -57,6 +57,6 @@ int func_021C8268(void *a, int b, int c)
         v = 19;
     }
     r4[11] = v;
-    func_02014204((struct t *)(r4 + 3), (unsigned short)c);
+    ZONEDATA_SetZoneStartLocation((struct t *)(r4 + 3), (unsigned short)c);
     return r7;
 }

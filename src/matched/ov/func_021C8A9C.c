@@ -1,5 +1,5 @@
 /*
- * function: func_021C8A9C
+ * function: FIELD_TILE_MOVE_GetSpinInterval
  * address:  0x021C8A9C
  * packet:   pkt_021C8A9C
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C8A9C(u32 a)
+int FIELD_TILE_MOVE_GetSpinInterval(u32 a)
 {
 if (((struct Obj12134 *)((u8 *)(a)))->f10 != 0) {
     return *(u16 *)((u8 *)(((struct Obj12134 *)((u8 *)(a)))->f10) + 6);

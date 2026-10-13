@@ -10,18 +10,18 @@
  * status: EXACT* (two bytes alignment padding)
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D6008 0x021D6008 thumb ov093
+ *   BTL_POKEPARAM_ClearContFlag 0x021D6008 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct UtilWork;
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D6008(u8 *, u32);
+extern void BTL_POKEPARAM_ClearContFlag(u8 *, u32);
 int func_021D3A98(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D6008(x, c[1]);
+    BTL_POKEPARAM_ClearContFlag(x, c[1]);
     return 1;
 }

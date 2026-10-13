@@ -1,5 +1,5 @@
 /*
- * function: func_021F405C
+ * function: CROWD_SpawnInitialPeople
  * address:  0x021F405C
  * packet:   pkt_ov055_021F405C
  * region:   ov055
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021F3B20  0x021F3B20  thumb  ov055
- *   func_021F3F9C  0x021F3F9C  thumb  ov055
+ *   CROWD_FindFreePerson  0x021F3B20  thumb  ov055
+ *   CROWD_SpawnPerson  0x021F3F9C  thumb  ov055
  */
 
 typedef unsigned char u8;
@@ -26,10 +26,10 @@ typedef struct S {
     short cnt[2];
 } S;
 
-extern u8 *func_021F3B20(u8 *p);
-extern void func_021F3F9C(const char *a, int b, const u16 *c, u8 *d, u16 e);
+extern u8 *CROWD_FindFreePerson(u8 *p);
+extern void CROWD_SpawnPerson(const char *a, int b, const u16 *c, u8 *d, u16 e);
 
-void func_021F405C(S *p, char *q, int k)
+void CROWD_SpawnInitialPeople(S *p, char *q, int k)
 {
     int i, j, n, acc;
 
@@ -37,9 +37,9 @@ void func_021F405C(S *p, char *q, int k)
         n = (p->ent[i].w * 6) / p->lim[k];
         acc = 0;
         for (j = 0; j < n; j++) {
-            u8 *e = func_021F3B20((u8 *)q);
+            u8 *e = CROWD_FindFreePerson((u8 *)q);
             if (e) {
-                func_021F3F9C(q, (int)p, (const u16 *)(&p->ent[i]), e, (u16)(acc / 6));
+                CROWD_SpawnPerson(q, (int)p, (const u16 *)(&p->ent[i]), e, (u16)(acc / 6));
                 acc += p->lim[k];
             }
         }

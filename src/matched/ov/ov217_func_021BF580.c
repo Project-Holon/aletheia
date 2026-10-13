@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Indexed getter + passthrough, tail call to ARM func_02025774.
+ * Indexed getter + passthrough, tail call to ARM BMP_OAM_SetEnabled.
  *
  * symbols:
- *   func_02025774  0x02025774  thumb  
+ *   BMP_OAM_SetEnabled  0x02025774  thumb  
 
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02025774(u8 *g, u32 a);
+extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
 void func_021BF580(u8 *p, u32 i, u32 j)
 {
-    func_02025774((u8 *)(*(u32 *)(p + i * 4 + 0x3a8)), j);
+    BMP_OAM_SetEnabled((u8 *)(*(u32 *)(p + i * 4 + 0x3a8)), j);
 }
 

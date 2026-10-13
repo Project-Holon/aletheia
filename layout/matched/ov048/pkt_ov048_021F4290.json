@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F4290",
+   "name": "GIMMICK_OBJ_ELBOARD_AddWeekdayMessage",
    "address": "0x021F4290",
    "kind": "game",
    "region": "ov048",

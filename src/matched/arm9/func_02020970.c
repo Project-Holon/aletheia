@@ -15,7 +15,7 @@
  *   BMP_MENULIST_DrawCursor  0x020206C0  thumb
  *   BMP_MENULIST_ScrollRows  0x020208B8  thumb
  *   BMP_MENULIST_NotifyCursor  0x02020A34  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BMP_MENULIST_MoveCursor.c \
@@ -64,7 +64,7 @@ extern void BMP_MENULIST_DrawCursor(struct Obj *obj);
 extern void BMP_MENULIST_ScrollRows(struct Obj *obj, int n, u32 flag);
 extern void BMP_MENULIST_NotifyCursor(struct Obj *obj, void *arg);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *win);
+extern void BMP_WIN_TransferChars(struct Descriptor *win);
 
 u32 BMP_MENULIST_MoveCursor(struct Obj *obj, u8 notify, u8 count, u8 dir)
 {
@@ -100,7 +100,7 @@ u32 BMP_MENULIST_MoveCursor(struct Obj *obj, u8 notify, u8 count, u8 dir)
             BMP_MENULIST_EraseCursor(obj, saved);
             BMP_MENULIST_DrawCursor(obj);
             BMP_MENULIST_NotifyCursor(obj, 0);
-            func_02045334((struct Descriptor *)obj->unk0C);
+            BMP_WIN_TransferChars((struct Descriptor *)obj->unk0C);
             break;
         case 2:
         case 3:

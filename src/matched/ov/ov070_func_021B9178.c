@@ -1,5 +1,5 @@
 /*
- * function: func_021B9178
+ * function: ITEMMENU_LoadBagGraphics
  * address:  0x021B9178
  * packet:   pkt_ov070_021B9178
  * region:   ov070
@@ -13,7 +13,7 @@
  *   func_02008550  0x02008550  thumb
  *   func_02049B68  0x02049B68  arm
  *   func_02049740  0x02049740  arm
- *   func_02049990  0x02049990  arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  */
 #include "../include/Obj06174.h"
 
@@ -24,9 +24,9 @@ struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 
-u32 func_021B9178(char *p, int bg)
+u32 ITEMMENU_LoadBagGraphics(char *p, int bg)
 {
     int a, b, c, t;
     int r = func_02008550((const struct Sub0200852CObj *)(((struct Obj06174 *)p)->f8));
@@ -42,5 +42,5 @@ u32 func_021B9178(char *p, int bg)
     func_02049B68((void *)bg, a, 0, 0, 0x20, ((struct Obj06174 *)p)->f544);
     t = func_02049740((void *)bg, b, 0, 0, 0, ((struct Obj06174 *)p)->f544);
     ((struct Obj06174 *)p)->f7F8 = t;
-    return func_02049990((void *)bg, c, 0, 0, (unsigned short)t, 0, 0, ((struct Obj06174 *)p)->f544);
+    return ARC_UTIL_UploadBgPaletteAddFromHandle((void *)bg, c, 0, 0, (unsigned short)t, 0, 0, ((struct Obj06174 *)p)->f544);
 }

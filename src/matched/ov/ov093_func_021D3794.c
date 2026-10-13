@@ -1,5 +1,5 @@
 /*
- * function: func_021D3794
+ * function: BTL_CLIENT_CmdPpPlusOriginal
  * address: 0x021D3794
  * packet: pkt_ov093_021D3794
  * region: ov093
@@ -10,18 +10,18 @@
  * status: EXACT
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D5674 0x021D5674 thumb ov093
+ *   BTL_POKEPARAM_RestoreMovePP 0x021D5674 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
-extern u16 func_021D5674(u8 *p, u32 i, u8 n);
-int func_021D3794(u32 *a, int b, u32 *c)
+extern u16 BTL_POKEPARAM_RestoreMovePP(u8 *p, u32 i, u8 n);
+int BTL_CLIENT_CmdPpPlusOriginal(u32 *a, int b, u32 *c)
 {
     u8 *m;
 
     m = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5674(m, (u8)c[1], c[2]);
+    BTL_POKEPARAM_RestoreMovePP(m, (u8)c[1], c[2]);
     return 1;
 }

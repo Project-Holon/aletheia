@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020310C4 0x020310C4 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   TCBL_Main 0x020310C4 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 #include "../include/Obj14621.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Tcbl;struct PrintSys;
-extern void func_020310C4(struct Tcbl*);
-extern u32 func_0201C4E4(struct PrintSys*);
-void func_021BF228(u8*p){func_020310C4(*(struct Tcbl* *)&((struct Obj14621 *)p)->f18);func_0201C4E4(*(struct PrintSys* *)&((struct Obj14621 *)p)->f4);}
+extern void TCBL_Main(struct Tcbl*);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys*);
+void func_021BF228(u8*p){TCBL_Main(*(struct Tcbl* *)&((struct Obj14621 *)p)->f18);PRINTSYS_QUE_Main(*(struct PrintSys* *)&((struct Obj14621 *)p)->f4);}

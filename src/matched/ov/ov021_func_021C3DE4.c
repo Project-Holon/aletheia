@@ -1,5 +1,5 @@
 /*
- * function: func_021C3DE4
+ * function: SODATEYA_SetAbilityFromSlot
  * address:  0x021C3DE4
  * packet:   pkt_ov021_021C3DE4
  * region:   ov021
@@ -22,7 +22,7 @@ struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
 
-void func_021C3DE4(u32 *a, u32 *p, u32 heap)
+void SODATEYA_SetAbilityFromSlot(u32 *a, u32 *p, u32 heap)
 {
     u32 s[3];
     u32 x = (u32)func_0201ADE4((u16)p[0], (u16)p[1], heap);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C3C
+ * function: BTL_POKEPARAM_SetPokeParam
  * address: 0x021D6C3C
  * packet: pkt_ov093_021D6C3C
  * region: ov093
@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02017E1C(void *,u32,u32);
-void func_021D6C3C(void **p,void *q) { func_02017E1C(q,5,0); *p=q; }
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+void BTL_POKEPARAM_SetPokeParam(void **p,void *q) { POKE_TOOL_GetPartyValue(q,5,0); *p=q; }

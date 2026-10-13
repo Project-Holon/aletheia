@@ -1,5 +1,5 @@
 /*
- * function: func_021F38BC
+ * function: GIMMICK65_CallWaitEvent
  * address: 0x021F38BC
  * packet: pkt_ov065_021F38BC
  * region: ov065
@@ -10,14 +10,14 @@
  * status: EXACT
  * symbols:
  *   func_020122C0 0x020122C0 thumb
- *   func_021F38D0 0x021F38D0 thumb ov065
+ *   GIMMICK65_WaitEffectEventMain 0x021F38D0 thumb ov065
  */
 typedef unsigned int   u32;
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F38D0(void *p);
+extern int GIMMICK65_WaitEffectEventMain(void *p);
 
-void *func_021F38BC(void *p)
+void *GIMMICK65_CallWaitEvent(void *p)
 {
-    return func_020122C0(p, 0, (void *)func_021F38D0, 0);
+    return func_020122C0(p, 0, (void *)GIMMICK65_WaitEffectEventMain, 0);
 }

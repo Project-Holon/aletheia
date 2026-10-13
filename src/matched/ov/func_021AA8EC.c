@@ -1,5 +1,5 @@
 /*
- * function: func_021AA8EC
+ * function: EFFECT_ENCOUNT_Reset
  * address:  0x021AA8EC
  * packet:   pkt_021AA8EC
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call with the object and the word at +0x10.
  *
  * symbols:
- *   func_021AAFA0  0x021AAFA0  thumb  ov021
+ *   EFFECT_ENCOUNT_ClearSpot  0x021AAFA0  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021AAFA0(u8 *p, u32 v);
+extern void EFFECT_ENCOUNT_ClearSpot(u8 *p, u32 v);
 
-void func_021AA8EC(u8 *p)
+void EFFECT_ENCOUNT_Reset(u8 *p)
 {
-    func_021AAFA0(p, ((struct Obj18072 *)p)->f10);
+    EFFECT_ENCOUNT_ClearSpot(p, ((struct Obj18072 *)p)->f10);
 }

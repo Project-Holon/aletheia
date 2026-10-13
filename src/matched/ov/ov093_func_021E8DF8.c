@@ -1,5 +1,5 @@
 /*
- * function: func_021E8DF8
+ * function: BTLV_CORE_UnloadOverlays
  * address:  0x021E8DF8
  * packet:   pkt_ov093_021E8DF8
  * region:   ov093
@@ -13,19 +13,19 @@
  *   ov094_id       0x0000005E  data
  *   ov095_id       0x0000005F  data
  *   ov096_id       0x00000060  data
- *   func_021E8F08  0x021E8F08  thumb  ov093
+ *   BTLV_CORE_ExitDisplay  0x021E8F08  thumb  ov093
  *   func_02034A5C  0x02034A5C  arm
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  */
 extern char ov094_id[], ov095_id[], ov096_id[];
-extern void func_021E8F08(void);
+extern void BTLV_CORE_ExitDisplay(void);
 extern void func_02034A5C(int id);
 typedef unsigned int   u32;
 extern u32 GFL_NET_IsNetTypeWifi(void);
 
-void func_021E8DF8(void)
+void BTLV_CORE_UnloadOverlays(void)
 {
-    func_021E8F08();
+    BTLV_CORE_ExitDisplay();
     func_02034A5C((int)ov094_id);
     func_02034A5C((int)ov095_id);
     if (GFL_NET_IsNetTypeWifi() == 0) {

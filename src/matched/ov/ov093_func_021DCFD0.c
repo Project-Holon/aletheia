@@ -1,5 +1,5 @@
 /*
- * function: func_021DCFD0
+ * function: BTL_HANDLER_ITEM_RollChance
  * address: 0x021DCFD0
  * packet: pkt_ov093_021DCFD0
  * region: ov093
@@ -11,9 +11,9 @@
  * interface: 021C82B8 forwards r1=2 unchanged to 021B911C; r0 is consumed
  * after the call at 021DCFEA, requiring a result despite its legacy void extern.
  * symbols:
- *   func_021D7AF0 0x021D7AF0 thumb ov093
+ *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
  *   func_021C82B8 0x021C82B8 thumb ov093
  */
-extern int func_021D7AF0(unsigned int);
+extern int BTL_CALC_RollPercent(unsigned int);
 extern int func_021C82B8(int *,int);
-int func_021DCFD0(int *a,unsigned int b) { if(func_021D7AF0(b)) return 1; if(func_021C82B8(a,2)) return 1; return 0; }
+int BTL_HANDLER_ITEM_RollChance(int *a,unsigned int b) { if(BTL_CALC_RollPercent(b)) return 1; if(func_021C82B8(a,2)) return 1; return 0; }

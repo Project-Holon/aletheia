@@ -1,5 +1,5 @@
 /*
- * function: func_021F5518
+ * function: ENCEFF_ScreenTexEventMain
  * address:  0x021F5518
  * packet:   pkt_ov075_021F5518
  * region:   ov075
@@ -9,24 +9,24 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Four-state proc; its states 1-3 are func_021F536C's states 4-6, and the
- * shape follows ov073's func_021F53C8.
+ * Four-state proc; its states 1-3 are ENCEFF_ScreenTexFlashEventMain's states 4-6, and the
+ * shape follows ov073's ENCEFF_NameCutInEventMain.
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_021F54A0  0x021F54A0  thumb  ov075
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   ENCEFF_RequestScreenCapture  0x021F54A0  thumb  ov075
  *   func_0204047C  0x0204047C  arm
- *   func_021899F0  0x021899F0  thumb  ov021
+ *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   func_02080C44  0x02080C44  arm
  *   func_02080B98  0x02080B98  arm
  *   func_02080294  0x02080294  arm
- *   func_021F54E0  0x021F54E0  thumb  ov075
+ *   ENCEFF_GetScreenTexParam  0x021F54E0  thumb  ov075
  *   func_02040588  0x02040588  arm
- *   func_021899F8  0x021899F8  thumb  ov021
- *   func_02189A08  0x02189A08  thumb  ov021
- *   func_021CF560  0x021CF560  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
+ *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
+ *   ENCEFF_GetWork  0x021CF560  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,22 +47,22 @@ typedef struct Work {
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_021F54A0(char *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void ENCEFF_RequestScreenCapture(char *p);
 extern void func_0204047C(int idx, u16 val);
-extern u32 func_021899F0(u8 *p);
+extern u32 FIELDMAP_GetDrawMode(u8 *p);
 extern u16 func_02080C44(void);
 extern void func_02080B98(void);
 extern void func_02080294(u32 bank);
-extern u32 func_021F54E0(void);
+extern u32 ENCEFF_GetScreenTexParam(void);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_021899F8(u8 *p, u32 v);
+extern void FIELDMAP_SetDrawMode(u8 *p, u32 v);
 struct Evt;
-extern int func_02189A08(unsigned char *p);
-extern u32 func_021CF560(u32 *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int FIELDMAP_GetEncEff(unsigned char *p);
+extern u32 ENCEFF_GetWork(u32 *p);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-int func_021F5518(void *task, int *st, Work *w)
+int ENCEFF_ScreenTexEventMain(void *task, int *st, Work *w)
 {
     void *t;
     void *v;
@@ -70,17 +70,17 @@ int func_021F5518(void *task, int *st, Work *w)
     int r;
 
     t = func_020124E4(task);
-    v = func_0201210C(t);
+    v = GAMESYSTEM_GetFieldMap(t);
     switch (*st) {
     case 0:
-        func_021F54A0((char *)w);
+        ENCEFF_RequestScreenCapture((char *)w);
         *st = *st + 1;
         break;
     case 1:
         if (w->f10 != 0) {
             func_0204047C(0, 0);
             func_0204047C(2, 3);
-            w->fC = func_021899F0((u8 *)v);
+            w->fC = FIELDMAP_GetDrawMode((u8 *)v);
             bank = func_02080C44();
             w->f4 = bank;
             w->f8 = 0;
@@ -90,17 +90,17 @@ int func_021F5518(void *task, int *st, Work *w)
             }
             func_02080B98();
             func_02080294(w->f4);
-            w->f14 = func_021F54E0();
+            w->f14 = ENCEFF_GetScreenTexParam();
             *st = *st + 1;
         }
         break;
     case 2:
         func_02040588(2, 1);
         func_02040588(0, 1);
-        func_021899F8((u8 *)v, 2);
+        FIELDMAP_SetDrawMode((u8 *)v, 2);
         r = w->f28(t);
-        w->f24 = func_021CF560((u32 *)func_02189A08((unsigned char *)((int)v)));
-        func_02012374(task, (struct Evt **)r);
+        w->f24 = ENCEFF_GetWork((u32 *)FIELDMAP_GetEncEff((unsigned char *)((int)v)));
+        GAME_EVENT_CallEvent(task, (struct Evt **)r);
         *st = *st + 1;
         break;
     case 3:
@@ -108,7 +108,7 @@ int func_021F5518(void *task, int *st, Work *w)
             w->f4 &= ~8;
             func_02080294(w->f4);
         }
-        func_021899F8((u8 *)v, w->fC);
+        FIELDMAP_SetDrawMode((u8 *)v, w->fC);
         return 1;
     }
     return 0;

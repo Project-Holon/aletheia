@@ -16,7 +16,7 @@
  *   func_0218A310 0x0218A310 thumb ov096
  *   func_0218A324 0x0218A324 thumb ov096
  *   func_021885BC 0x021885BC thumb ov096
- *   func_021D5448 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
  *   func_020870D0 0x020870D0 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
@@ -31,7 +31,7 @@ extern void func_0218A310(unsigned int a);
 extern void func_0218A324(u8 *);
 extern void func_021885BC(int, u8 *);
 struct QG;
-extern u8 func_021D5448(struct QG *p);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u64 func_020870D0(void);
 extern u32 func_0203F0A8(void);
 inline static u32 draw_below(u32 n) { u64 random=func_0203F0A8(); if(n!=0) random=(random*n)>>32; return random; }
@@ -80,7 +80,7 @@ int func_0218814C(int a, Obj *b)
         scores[0] = b->scores[0];
         ids[0] = 0;
         for (i = 1; i < 4; i++) {
-            if (i < func_021D5448((struct QG *)b->fbc)) {
+            if (i < BTL_POKEPARAM_GetMoveCount((struct QG *)b->fbc)) {
                 v = b->scores[i];
                 if (scores[0] == v) {
                     scores[n] = v;

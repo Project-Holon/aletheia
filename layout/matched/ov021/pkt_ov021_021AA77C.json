@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AA77C",
+   "name": "EFFECT_ENCOUNT_Create",
    "address": "0x021AA77C",
    "kind": "game",
    "region": "ov021",

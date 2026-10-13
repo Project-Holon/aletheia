@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_02039CB4 0x02039CB4 arm
  *   func_021DD24C 0x021DD24C thumb ov119
  *   func_021DD294 0x021DD294 thumb ov119
  *   func_021D8E84 0x021D8E84 thumb ov119
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021E1030 0x021E1030 thumb ov119
  *   func_021D9AD8 0x021D9AD8 thumb ov119
@@ -29,9 +29,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int func_021D8A24(void *p);
 struct Link;
 extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
@@ -39,7 +39,7 @@ extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
 extern void func_021D8E84(void *p, int next);
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *p);
 extern void func_021E1030(char *p);
 extern void func_021D9AD8(char *p);
@@ -53,13 +53,13 @@ void func_021D9C00(char *p)
     u32 me;
     u32 a;
 
-    me = func_0203D1A4((struct Link *)func_020399A8());
+    me = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
     other = 1 - me;
     if (func_021D8A24(p) == 0) {
         me = 0;
         other = 1;
     }
-    if (func_021D8A24(p) != 0 && func_02039CB4((struct Link *)func_020399A8(), 0x1a, 8) == 0) {
+    if (func_021D8A24(p) != 0 && func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1a, 8) == 0) {
         func_021DD24C(p);
         return;
     }
@@ -71,7 +71,7 @@ void func_021D9C00(char *p)
     }
     if (a == 4 && ((u8 *)p + other)[0x11e0] == 4) {
         ((struct Obj22727 *)(*(char * *)&((struct Obj03772 *)p)->f8))->f8 = 3;
-        func_02045CAC((struct MsgBank *)(((struct Obj03772 *)p)->f720), 0x8d, (void *)(((struct Obj03772 *)p)->f738));
+        MSGDATA_ReadString((struct MsgBank *)(((struct Obj03772 *)p)->f720), 0x8d, (void *)(((struct Obj03772 *)p)->f738));
         func_021E1024(p);
         func_021E1030(p);
         ((struct Obj03772 *)p)->fF2C = 0;
@@ -82,7 +82,7 @@ void func_021D9C00(char *p)
         cmd = 0x61;
     else if (a == 4)
         cmd = 0x66;
-    func_02045CAC((struct MsgBank *)(((struct Obj03772 *)p)->f720), cmd, (void *)(((struct Obj03772 *)p)->f738));
+    MSGDATA_ReadString((struct MsgBank *)(((struct Obj03772 *)p)->f720), cmd, (void *)(((struct Obj03772 *)p)->f738));
     func_021E1024(p);
     p[0x11e0] = 0;
     p[0x11e1] = 0;

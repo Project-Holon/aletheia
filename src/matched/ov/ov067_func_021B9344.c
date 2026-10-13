@@ -1,5 +1,5 @@
 /*
- * function: func_021B9344
+ * function: FRAME_LIST_UpdateWindows
  * address:  0x021B9344
  * packet:   pkt_021B9344
  * region:   ov067
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C4E4  0x0201C4E4  thumb
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02045770  0x02045770  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  */
 
 typedef unsigned char u8;
@@ -34,24 +34,24 @@ struct S {
 };
 
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
-void func_021B9344(struct S *s)
+void FRAME_LIST_UpdateWindows(struct S *s)
 {
     u32 i;
 
-    func_0201C4E4((struct PrintSys *)s->f34);
+    PRINTSYS_QUE_Main((struct PrintSys *)s->f34);
     for (i = 0; i < s->count; i++) {
         struct Elem *e = &s->arr[i];
         int a = s->f34;
 
         if (e->flag != 0) {
             if (func_0201C6C4((struct PrintSys *)a, (void *)((int)func_02045770((struct Descriptor *)e->p))) == 0) {
-                func_02045334((struct Descriptor *)e->p);
+                BMP_WIN_TransferChars((struct Descriptor *)e->p);
                 e->flag = 0;
             }
         }

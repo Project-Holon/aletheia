@@ -1,5 +1,5 @@
 /*
- * function: func_0219CEAC
+ * function: FLDMMDL_BLACT_RegisterAddRes
  * address:  0x0219CEAC
  * packet:   pkt_ov021_0219CEAC
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219CB24  0x0219CB24  thumb  ov021
+ *   FLDMMDL_BLACT_AddRes  0x0219CB24  thumb  ov021
  */
 #include "../include/Obj03117.h"
 #include "../include/Obj07477.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_0219CB24(u8 *o, u32 a, u32 b, u32 c, u8 s0, u32 s1);
+extern void FLDMMDL_BLACT_AddRes(u8 *o, u32 a, u32 b, u32 c, u8 s0, u32 s1);
 
-void func_0219CEAC(int *obj)
+void FLDMMDL_BLACT_RegisterAddRes(int *obj)
 {
     unsigned int i;
     int *p;
@@ -35,7 +35,7 @@ void func_0219CEAC(int *obj)
         for (; i < ((struct Obj07477 *)t)->f6; i++, p += 5) {
             if (p[4] != 0 && ((struct Obj03117 *)p)->f0 == 1) {
                 ((struct Obj03117 *)p)->f0 = 0;
-                func_0219CB24((u8 *)obj, p[4], ((struct Obj03117 *)p)->f8, *((unsigned char *)p + 0xa),
+                FLDMMDL_BLACT_AddRes((u8 *)obj, p[4], ((struct Obj03117 *)p)->f8, *((unsigned char *)p + 0xa),
                               *((unsigned char *)p + 0xb), p[1]);
                 p[4] = 0;
             }

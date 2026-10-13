@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D7040  0x021D7040  thumb
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb
  *   g_0689E7E0     0x0689E7E0  data
- *   func_021D70A8  0x021D70A8  thumb
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb
  */
 typedef unsigned int u32;
 
@@ -36,8 +36,8 @@ typedef struct {
     E e[14];
 } Row;
 
-extern void func_021D7040(void *p);
-extern int func_021D70A8(int);
+extern void BTL_EVENT_RemoveFactor(void *p);
+extern int BTL_EVENT_GetFactorKey(int);
 u32 func_06898CE0(u32 a, u32 b);
 int func_06898CF4(int a, int b);
 int func_06898D10(u32 a, u32 b);
@@ -65,7 +65,7 @@ int func_06898D10(u32 a, u32 b)
 {
     E *e = &g_0689E7E0[a].e[b];
     if (e->p != 0) {
-        func_021D7040(e->p);
+        BTL_EVENT_RemoveFactor(e->p);
         e->p = 0;
         e->en = 0;
         e->type = 0;
@@ -94,7 +94,7 @@ void func_06898D54(void (*cb)(u8, u32, u32), u32 arg)
                 if (e->n >= e->lim) {
                     e->en = 0;
                     e->type = 0;
-                    func_021D7040(e->p);
+                    BTL_EVENT_RemoveFactor(e->p);
                     e->p = 0;
                     cb(j, i, arg);
                 }
@@ -106,7 +106,7 @@ void func_06898D54(void (*cb)(u8, u32, u32), u32 arg)
 int func_06898DE0(int a, u32 b)
 {
     int index;
-    index = func_021D70A8(a);
+    index = BTL_EVENT_GetFactorKey(a);
     if (index < 14 && b < 2)
         return (u8)g_0689E7E0[b].e[index].en;
     return 0;

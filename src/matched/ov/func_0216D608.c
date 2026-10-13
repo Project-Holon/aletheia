@@ -1,5 +1,5 @@
 /*
- * function: func_0216D608
+ * function: FLDMMDL_GetDirMove
  * address:  0x0216D608
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D608.c \
- *       --func func_0216D608 --addr 0x0216D608 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetDirMove.c \
+ *       --func FLDMMDL_GetDirMove --addr 0x0216D608 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17808.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u16 func_0216D608(void *p) { return ((struct Obj17808 *)p)->f1A; }
+u16 FLDMMDL_GetDirMove(void *p) { return ((struct Obj17808 *)p)->f1A; }

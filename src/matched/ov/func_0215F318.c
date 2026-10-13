@@ -1,5 +1,5 @@
 /*
- * function: func_0215F318
+ * function: SCRCMD_NETWORK_CmdFreeNpcTable
  * address:  0x0215F318
  * packet:   pkt_0215F318
  * region:   ov010
@@ -10,35 +10,35 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215911C  0x0215911C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetReturnFlag  0x0215911C  thumb  ov010
  *   func_020307B0  0x020307B0  arm
- *   func_02159114  0x02159114  thumb  ov010
+ *   SCRIPT_WORK_SetReturnFlag  0x02159114  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern u32 func_0215911C(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern u32 SCRIPT_WORK_GetReturnFlag(void *p);
 extern u32 func_020307B0(void *p);
-extern void *func_02159114(void *p, u32 v);
+extern void *SCRIPT_WORK_SetReturnFlag(void *p, u32 v);
 
-int func_0215F318(void *a0, int a1)
+int SCRCMD_NETWORK_CmdFreeNpcTable(void *a0, int a1)
 {    void *v0;
 
 a0 = (void *)(a1 + 0);
-    v0 = func_0215A5F4((void *)a0);
+    v0 = SCRCMD_WORK_GetScriptWork((void *)a0);
 loc_0215F320:
-    a0 = (void *)func_0215911C(v0);
+    a0 = (void *)SCRIPT_WORK_GetReturnFlag(v0);
 loc_0215F326:
     if (a0 == 0) goto loc_0215F336;
 loc_0215F32A:
     a0 = (void *)func_020307B0(a0);
 loc_0215F32E:
 a1 = 0;
-    a0 = (void *)func_02159114(v0, a1);
+    a0 = (void *)SCRIPT_WORK_SetReturnFlag(v0, a1);
 loc_0215F336:
 a0 = 0;
     return (int)a0;}

@@ -1,5 +1,5 @@
 /*
- * function: func_0218684C
+ * function: FIELD_WFBC_DATA_LOCAL_GetItemPositionPair
  * address:  0x0218684C
  * packet:   pkt_0218684C
  * region:   ov020
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-char *func_0218684C(char *p, int i)
+char *FIELD_WFBC_DATA_LOCAL_GetItemPositionPair(char *p, int i)
 {
     return p + (i + 0xa) * 2;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02186888
+ * function: OEKAKI_AdvanceQueueTailIfUsed
  * address:  0x02186888
  * packet:   pkt_ov023_02186888
  * region:   ov023
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02186878  0x02186878  thumb
+ *   OEKAKI_GetPrevQueueIndex  0x02186878  thumb
  */
 #include "../include/Obj07611.h"
 
@@ -23,12 +23,12 @@ typedef struct {
     u8 pad;
 } Rec;
 
-extern int func_02186878(char *p);
+extern int OEKAKI_GetPrevQueueIndex(char *p);
 
-void func_02186888(char *p)
+void OEKAKI_AdvanceQueueTailIfUsed(char *p)
 {
     if (((Rec *)(p + ((struct Obj07611 *)p)->fBBC * 30))->mid != 0
-        || ((Rec *)(p + func_02186878(p) * 30))->mid != 0) {
+        || ((Rec *)(p + OEKAKI_GetPrevQueueIndex(p) * 30))->mid != 0) {
         ((struct Obj07611 *)p)->fBBC += 1;
         if (((struct Obj07611 *)p)->fBBC >= 100) {
             ((struct Obj07611 *)p)->fBBC = 0;

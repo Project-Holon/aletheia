@@ -1,5 +1,5 @@
 /*
- * function: func_0215A678
+ * function: SCRCMD_WORK_SetWindowKind
  * address:  0x0215A678
  * packet:   pkt_ov010_0215A678
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Writes the byte at +0x105 of the object at +0x20 (setter twin of
- * func_0215A66C). Unlabelled leaf, blocker of ov021 func_021B0BAC.
+ * SCRCMD_WORK_GetWindowKind). Unlabelled leaf, blocker of ov021 SCRCMD_MSGWIN_OpenBalloonWinMsg.
  *
  * symbols:
  *   (none)
@@ -18,7 +18,7 @@
 
 typedef unsigned char u8;
 
-void func_0215A678(u8 *p, u8 v)
+void SCRCMD_WORK_SetWindowKind(u8 *p, u8 v)
 {
     (*(u8 **)(p + 0x20))[0x105] = v;
 }

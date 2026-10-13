@@ -27,6 +27,9 @@
  *   ARC_UTIL_LoadAnimBankFromArchive  0x0204A0BC  arm
  *   ARC_UTIL_LoadMultiAnimBankFromArchive  0x0204A13C  arm
  *   MCSS_SetAnimeIndex  0x02016028  thumb
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
+ *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  */
 #include "../include/Obj01018.h"
 
@@ -41,9 +44,9 @@ extern void *ARC_UTIL_LoadCellBankFromArchive(void *a0, void *a1, u32 a2, void *
 extern void *ARC_UTIL_LoadMultiCellBankFromArchive(void *a0, void *a1, u32 a2, void *a3, u32 a4);
 extern void *ARC_UTIL_LoadAnimBankFromArchive(void *a0, void *a1, u32 a2, void *a3, u32 a4);
 extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(void *a0, void *a1, u32 a2, void *a3, u32 a4);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
-extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 struct Task;
 struct Work;
 extern void func_02063790(u32 *p);
@@ -132,7 +135,7 @@ void MCSS_LoadResource(struct Ctx *a0, u32 idx, const struct Src *a2)
     ((struct Obj01018 *)a1)->f24 = ARC_UTIL_LoadMultiAnimBankFromArchive(a2->f00, a2->f18, 0, a1 + 0x28, h);
     MCSS_SetAnimeIndex(a1, 0);
 
-    q = func_02048F60((u32)a2->f00, (u32)a2->f1c, h);
+    q = ARC_TOOL_LoadMember((u32)a2->f00, (u32)a2->f1c, h);
     *(u32 * *)&((struct Obj01018 *)a1)->f2C = q;
     *(u32 * *)&((struct Obj01018 *)a1)->f30 = (u32 *)((u8 *)q + ((0x30 * q[0] + 0xC) & ~3u));
 
@@ -149,9 +152,9 @@ void MCSS_LoadResource(struct Ctx *a0, u32 idx, const struct Src *a2)
     p->f1c = a0->f34 + (idx << 5);
     p->f24 = a1;
 
-    p->f10 = func_02049DB4((u32)a2->f00, (u32)a2->f04, 1, (u32)p,
+    p->f10 = ARC_UTIL_LoadBgCharDataFromArchive((u32)a2->f00, (u32)a2->f04, 1, (u32)p,
                            (u16)(((u16)((struct Obj01018 *)a1)->f14C & 0x7FFF) | 0x8000));
-    p->f14 = func_02049F34((u32)a2->f00, (u32)a2->f08, (u32)(&p->f04),
+    p->f14 = ARC_UTIL_LoadPaletteBlockFromArchive((u32)a2->f00, (u32)a2->f08, (u32)(&p->f04),
                            (u16)(((u16)((struct Obj01018 *)a1)->f14C & 0x7FFF) | 0x8000));
 
     ((struct Obj01018 *)a1)->fD4 = func_02030734(h,

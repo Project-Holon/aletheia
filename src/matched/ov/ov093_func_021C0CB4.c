@@ -1,5 +1,5 @@
 /*
- * function: func_021C0CB4
+ * function: BTL_SERVER_FLOW_UnpackEntryPokes
  * address: 0x021C0CB4
  * packet: pkt_ov093_021C0CB4
  * region: ov093
@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * Record shape follows the matched unpacker func_021C0CE8.
+ * Record shape follows the matched unpacker BTL_SERVER_FLOW_UnpackHitEntries.
  * The byte count admits multiple four-byte trailing records (q+4+i*4);
  * a flexible array models that extent without imposing a one-record bound.
  * The original narrows the five-bit field to u8 before the call.
@@ -30,7 +30,7 @@ struct Ent {
     u16 f:1;
 };
 struct Q { u8 pad0[2]; u8 n; u8 pad3; struct Ent e[]; };
-int func_021C0CB4(u8 *p, const struct Q *q, u32 *out)
+int BTL_SERVER_FLOW_UnpackEntryPokes(u8 *p, const struct Q *q, u32 *out)
 {
     u32 i = 0;
     for (; i < q->n; i++)

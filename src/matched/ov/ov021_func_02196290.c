@@ -1,5 +1,5 @@
 /*
- * function: func_02196290
+ * function: IRCBATTLEMENU_CreateTimeIcon
  * address:  0x02196290
  * packet:   pkt_ov021_02196290
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202F038  0x0202F038  thumb
- *   func_0202EE8C  0x0202EE8C  thumb
+ *   TIME_ICON_Delete  0x0202F038  thumb
+ *   TIME_ICON_CreateNode  0x0202EE8C  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00094.h"
@@ -22,14 +22,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void func_0202F038(u8 *p);
-extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
+extern void TIME_ICON_Delete(u8 *p);
+extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
 
-void func_02196290(u8 *a)
+void IRCBATTLEMENU_CreateTimeIcon(u8 *a)
 {
     if (((struct Obj00094 *)a)->f2E8 != 0) {
-        func_0202F038((u8 *)(((struct Obj00094 *)a)->f2E8));
+        TIME_ICON_Delete((u8 *)(((struct Obj00094 *)a)->f2E8));
         ((struct Obj00094 *)a)->f2E8 = 0;
     }
-    ((struct Obj00094 *)a)->f2E8 = (u32)func_0202EE8C(((struct Obj00094 *)a)->f2B8, (void *)(*(u32 *)&((struct Obj00094 *)a)->f2B0), 15, 16, ((struct Obj00094 *)a)->f10);
+    ((struct Obj00094 *)a)->f2E8 = (u32)TIME_ICON_CreateNode(((struct Obj00094 *)a)->f2B8, (void *)(*(u32 *)&((struct Obj00094 *)a)->f2B0), 15, 16, ((struct Obj00094 *)a)->f10);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A273C
+ * function: WEATHER_TASK_GetStagePhase
  * address:  0x021A273C
  * packet:   pkt_ov021_021A273C
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   data_021D88E8  0x021D88E8  data  a1
+ *   gWeatherStagePhase  0x021D88E8  data  a1
  */
 
 typedef unsigned char u8;
 
-extern const u8 data_021D88E8[];
+extern const u8 gWeatherStagePhase[];
 
-u8 func_021A273C(u8 *p)
+u8 WEATHER_TASK_GetStagePhase(u8 *p)
 {
-    return data_021D88E8[p[0x26]];
+    return gWeatherStagePhase[p[0x26]];
 }

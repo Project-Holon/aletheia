@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A78EC",
+   "name": "FIELD_GROUND_ANIME_GetModelTexVramOffset",
    "address": "0x021A78EC",
    "kind": "game",
    "region": "ov021",

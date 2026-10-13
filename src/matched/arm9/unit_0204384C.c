@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0204384C
+ * function: BMP_CreateFromArchive
  * address:  0x0204384C
  * packet:   pkt_0204384C
  * region:   arm9
@@ -14,7 +14,7 @@
  *   func_0204384C_File  0x020A7E68  data
  *   func_02030734       0x02030734  arm
  *   func_020307B0       0x020307B0  arm
- *   func_0204A1BC       0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember       0x0204A1BC  arm
  *   func_02062A4C       0x02062A4C  arm
  *   BMP_InitFromCharData       0x02043900  arm
  *   OS_Terminate        0x02088234  arm
@@ -71,19 +71,19 @@ struct BmpInfo;
 struct NitroFileHeader;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void BMP_InitFromCharData(struct Bmp *b, struct BmpInfo *info, u32 heap);
 extern void  OS_Terminate(void);
 
-struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap)
+struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap)
 {
     struct Bmp *b;
     void       *handle;
     void       *info;
 
     b = (struct Bmp *)func_02030734(heap, 0xC, 0, func_0204384C_File, 266);
-    handle = (void *)func_0204A1BC((u32)arc, (u32)member, (u32)heap2, (u16)((heap & 0x7FFF) | 0x8000));
+    handle = (void *)ARC_UTIL_LoadMember((u32)arc, (u32)member, (u32)heap2, (u16)((heap & 0x7FFF) | 0x8000));
     if (func_02062A4C(handle, &info) == 0) {
         OS_Terminate();
         return 0;

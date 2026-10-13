@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043668  0x02043668  arm
+ *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_020435F4  0x020435F4  arm
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_020414EC  0x020414EC  arm
  *   func_02040588  0x02040588  arm
@@ -22,6 +22,7 @@
  *   g_02202D04  0x02202D04  data  ov135
  *   g_02202CA4  0x02202CA4  data  ov135
  *   g_02202CC4  0x02202CC4  data  ov135
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm  arm9
  *
  * Five-layer bring-up: the saved display config, then layers 0, 2 and 3
  * through 020414EC and layers 0 and 3 cleared through 02040B94.
@@ -55,10 +56,10 @@ struct BgTemplate {
     u32 unk_1c;
 };
 
-extern u32 func_02043668(void);
+extern u32 BG_SYS_GetSubVisiblePlanes(void);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_020435F4(u32 a);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubVisiblePlanes(u32 a);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
@@ -77,10 +78,10 @@ extern struct BgTemplate g_02202CC4;
 void func_021F5250(void)
 {
     struct DispConfig c = g_02202C94;
-    u32 v = func_02043668();
+    u32 v = BG_SYS_GetSubVisiblePlanes();
 
     func_0203FC28(&c);
-    func_020435F4(v);
+    BG_SYS_SetSubVisiblePlanes(v);
     {
         struct BgTemplate t = g_02202CE4;
         func_0203FCA0(0, &t, 0);

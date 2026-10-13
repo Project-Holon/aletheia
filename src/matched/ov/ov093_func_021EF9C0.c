@@ -1,5 +1,5 @@
 /*
- * function: func_021EF9C0
+ * function: BTL_FIELD_StoreCountdown
  * address:  0x021EF9C0
  * packet:   pkt_021EF9C0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-int *func_021EF9C0(int *p, int a, int b)
+int *BTL_FIELD_StoreCountdown(int *p, int a, int b)
 {
     p[0] = a;
     p[1] = b;

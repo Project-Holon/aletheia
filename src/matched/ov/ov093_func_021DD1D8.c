@@ -1,5 +1,5 @@
 /*
- * function: func_021DD1D8
+ * function: BTL_HANDLER_ITEM_CheckHasSick
  * address:  0x021DD1D8
  * packet:   pkt_ov093_021DD1D8
  * region:   ov093
@@ -11,36 +11,36 @@
  *
  * symbols:
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D7E10  0x021D7E10  thumb  ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_CALC_FindMajorSick  0x021D7E10  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct Unk021D62A8;
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D62A8(struct Unk021D62A8 *p);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern int func_021D7E10(struct Unk021D62A8 *p);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern int BTL_CALC_FindMajorSick(struct Unk021D62A8 *p);
 
-int func_021DD1D8(u8 *a, int b, int c)
+int BTL_HANDLER_ITEM_CheckHasSick(u8 *a, int b, int c)
 {
     u8 *m = func_021C7CF4((int *)a, b);
     switch (c) {
     case 0x25:
-        if (func_021D62A8((struct Unk021D62A8 *)m) == 0 && func_021D62C4((struct Unk021D62A8 *)m, 6) == 0)
+        if (BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)m) == 0 && BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)m, 6) == 0)
             break;
         return 1;
     case 0x24:
-        if (func_021D62A8((struct Unk021D62A8 *)m) != 0)
+        if (BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)m) != 0)
             return 1;
         return 0;
     case 0x26:
-        if (func_021D7E10((struct Unk021D62A8 *)m) != 0)
+        if (BTL_CALC_FindMajorSick((struct Unk021D62A8 *)m) != 0)
             return 1;
         return 0;
     default:
-        return func_021D62C4((struct Unk021D62A8 *)m, c);
+        return BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)m, c);
     }
     return 0;
 }

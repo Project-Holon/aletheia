@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT
  * calls: preserves incoming r0 at the tail call; callers load its argument
- *   even though func_0204A648's own body ignores that register.
+ *   even though CLACT_VBlankSystem's own body ignores that register.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_0204A648(void);
-void func_021C665C(void *p) { func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void func_021C665C(void *p) { CLACT_VBlankSystem(); }

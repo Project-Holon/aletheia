@@ -1,5 +1,5 @@
 /*
- * function: func_021B28E0
+ * function: SCRCMD_SCREENEFFECTS_FadeInSlow
  * address:  0x021B28E0
  * packet:   pkt_ov021_021B28E0
  * region:   ov021
@@ -10,26 +10,26 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021B2EBC  0x021B2EBC  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_SCREENEFFECTS_CreateFadeTask  0x021B2EBC  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void func_021B2EBC(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void SCRCMD_SCREENEFFECTS_CreateFadeTask(u32 a, u32 b, u32 c, u32 d, u32 e);
 
-int func_021B28E0(u32 a, u32 b)
+int SCRCMD_SCREENEFFECTS_FadeInSlow(u32 a, u32 b)
 {
     void *d;
 
-    func_0215A5F4((void *)b);
-    d = func_0215A5DC((void *)b);
-    func_021B2EBC((u32)d, (u32)func_0201210C((void *)d), 0, 0, 0);
+    SCRCMD_WORK_GetScriptWork((void *)b);
+    d = SCRCMD_WORK_GetGameSystem((void *)b);
+    SCRCMD_SCREENEFFECTS_CreateFadeTask((u32)d, (u32)GAMESYSTEM_GetFieldMap((void *)d), 0, 0, 0);
     return 0;
 }

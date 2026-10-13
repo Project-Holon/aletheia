@@ -13,7 +13,7 @@
  *   table 0x021F7384 data a4
  *   MCSS_TOOL_AddPokeMcss 0x02017270 thumb
  *   MCSS_SetShadowVanishFlag 0x02015FF0 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   MCSS_SetPosition 0x02015C48 thumb
  *   MCSS_SetScale 0x02015CAC thumb
  *   MCSS_GetSizeY 0x02015F0C thumb
@@ -40,7 +40,7 @@ typedef struct {u32 species;float x,y;} Entry;
 extern const Entry table[];
 extern void *MCSS_TOOL_AddPokeMcss(void *,void *,u32,u32,u32,u32);
 extern void MCSS_SetShadowVanishFlag(char *,int);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void MCSS_SetPosition(void *,u32 *);
 extern void MCSS_SetScale(void *,u32 *);
 extern u16 MCSS_GetSizeY(void *);
@@ -57,7 +57,7 @@ void func_021F6AEC(char *p)
     float angle,y,x;
     ((struct Obj02262 *)p)->f34=MCSS_TOOL_AddPokeMcss(((struct Obj02262 *)p)->f30,((struct Obj02262 *)p)->f4,0,0,0xfff42000,0xffce0000);
     MCSS_SetShadowVanishFlag(*(char * *)&((struct Obj02262 *)p)->f34,1);
-    species=func_02017E1C(((struct Obj02262 *)p)->f4,171,0);
+    species=POKE_TOOL_GetPartyValue(((struct Obj02262 *)p)->f4,171,0);
     if(species!=650){
         for(;i<4;i++){
             if(species==table[i].species){

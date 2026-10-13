@@ -1,5 +1,5 @@
 /*
- * function: func_02169998
+ * function: FIELD_G3D_MAP_ClearRenderObjModel
  * address:  0x02169998
  * packet:   pkt_02169998
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02169998(int a0, int a1)
+int FIELD_G3D_MAP_ClearRenderObjModel(int a0, int a1)
 {
 
 a1 = 0;

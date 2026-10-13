@@ -13,12 +13,12 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02034714 0x02034714 arm
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0200AE54 0x0200AE54 thumb
- *   func_0200BA38 0x0200BA38 thumb
+ *   BATTLE_REC_IsVersionSupported 0x0200BA38 thumb
  *   d_02213D04 0x02213D04 data a1 ov199
  *   d_02213D00 0x02213D00 data a1 ov199
  */
@@ -32,12 +32,12 @@ struct Big;
 struct Rec160;
 struct Reg;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200AE14(void *);
 extern u32 func_0200AE54(struct Reg *p, u32 id);
-extern unsigned func_0200BA38(unsigned);
+extern unsigned BATTLE_REC_IsVersionSupported(unsigned);
 extern const char d_02213D04[], d_02213D00[];
 unsigned *func_02213134(int unused, unsigned heap, u8 *p)
 {
@@ -57,7 +57,7 @@ unsigned *func_02213134(int unused, unsigned heap, u8 *p)
         if (((struct Obj02248 *)p)->f1C == 0) index = zero;
         else if (((struct Obj02248 *)p)->f1C == 1) index = 1;
         else func_02034714(d_02213D00, zero, d_02213D00);
-        reg = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj02248 *)p)->f4)), index));
+        reg = func_0200AE14(func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj02248 *)p)->f4)), index));
         a = func_0200AE54(reg, 0xd);
         b = func_0200AE54(reg, 0x15);
         if (a >= 2) a = 1;
@@ -79,7 +79,7 @@ unsigned *func_02213134(int unused, unsigned heap, u8 *p)
         }
         out[3] = flag;
     }
-    if (func_0200BA38((u8)((struct Obj25295 *)(*(u8 * *)&((struct Obj02248 *)p)->f2C))->f44) != 0) out[1] = 1;
+    if (BATTLE_REC_IsVersionSupported((u8)((struct Obj25295 *)(*(u8 * *)&((struct Obj02248 *)p)->f2C))->f44) != 0) out[1] = 1;
     else out[1] = 0;
     return out;
 }

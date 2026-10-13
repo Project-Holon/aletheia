@@ -1,5 +1,5 @@
 /*
- * function: func_021904C8
+ * function: FIELD_MSGBG_DeleteMsgData
  * address:  0x021904C8
  * packet:   pkt_02190490
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_02045C04 with no argument change.
+ * Tail-call thunk: forwards to MSGDATA_Delete with no argument change.
  *
  * symbols:
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Rec;
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
-u32 func_021904C8(struct Rec *a0)
+u32 FIELD_MSGBG_DeleteMsgData(struct Rec *a0)
 {
-    return func_02045C04(a0);
+    return MSGDATA_Delete(a0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CCEE4
+ * function: PARTY_SELECT_LIST_FreeMessageResources
  * address:  0x021CCEE4
  * packet:   pkt_021CCEE4
  * region:   ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0201ED04  0x0201ED04  thumb
- *   func_021904C8  0x021904C8  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -25,11 +25,11 @@ typedef signed char    s8;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
 struct Rec;
-extern u32 func_021904C8(struct Rec *a0);
+extern u32 FIELD_MSGBG_DeleteMsgData(struct Rec *a0);
 
-int func_021CCEE4(u32 a)
+int PARTY_SELECT_LIST_FreeMessageResources(u32 a)
 {
 func_0201ED04((struct WordSet *)(*(u32 *)((u8 *)((a + 160)))));
-return func_021904C8((struct Rec *)(*(u32 *)((u8 *)((a + 168)))));
+return FIELD_MSGBG_DeleteMsgData((struct Rec *)(*(u32 *)((u8 *)((a + 168)))));
 }
 

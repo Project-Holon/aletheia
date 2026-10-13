@@ -1,5 +1,5 @@
 /*
- * function: func_021F3F7C
+ * function: FIELD_FK_SOUND_ANIME_ExitAmbientSoundA
  * address:  0x021F3F7C
  * packet:   pkt_ov056_021F3F7C
  * region:   ov056
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02028B50  0x02028B50  thumb
+ *   FIELD_SOUND_SYSTEM_ReleaseSlot  0x02028B50  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02028B50(u8 *p, int a0);
+extern void FIELD_SOUND_SYSTEM_ReleaseSlot(u8 *p, int a0);
 
-void func_021F3F7C(void *a, void *b, u8 *c)
+void FIELD_FK_SOUND_ANIME_ExitAmbientSoundA(void *a, void *b, u8 *c)
 {
     if (*(u16 *)(c + 4) == 0) {
-        func_02028B50(*(u8 **)(c + 0xc), 0x756);
+        FIELD_SOUND_SYSTEM_ReleaseSlot(*(u8 **)(c + 0xc), 0x756);
     }
 }

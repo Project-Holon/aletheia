@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_021DD24C 0x021DD24C thumb ov119
  *   func_020173EC 0x020173EC thumb
@@ -20,7 +20,7 @@
  */
 #include "../include/Obj10354.h"
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *,unsigned,unsigned);
 typedef unsigned int   u32;
@@ -33,7 +33,7 @@ extern void func_021D8E84(void *,int);
 extern void func_021DBA80(char *p);
 void func_021DAE2C(char *p) {
  int i;
- if(func_02039CB4((struct Link *)func_020399A8(),25,8)==0) {func_021DD24C(p);return;}
+ if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),25,8)==0) {func_021DD24C(p);return;}
  func_021DD294(p,1,1);func_021E1098(p);
  p[0x11e0]=0;p[0x11e1]=0;p[0x11e8]=0;p[0x11e9]=0;
  for(i=0;i<6;i++) {

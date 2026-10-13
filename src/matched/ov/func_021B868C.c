@@ -1,5 +1,5 @@
 /*
- * function: func_021B868C
+ * function: FIELD_RAIL_LINE_EndsAtPoint
  * address:  0x021B868C
  * packet:   pkt_021B868C
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B87D8  0x021B87D8  thumb
+ *   FIELD_RAIL_SETTING_GetPoint  0x021B87D8  thumb
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u8 *func_021B87D8(u8 *p, u32 idx);
+u8 *FIELD_RAIL_SETTING_GetPoint(u8 *p, u32 idx);
 
-int func_021B868C(u8 *p, u32 *q, void *v)
+int FIELD_RAIL_LINE_EndsAtPoint(u8 *p, u32 *q, void *v)
 {
-    return func_021B87D8(p, q[1]) == (u8 *)v;
+    return FIELD_RAIL_SETTING_GetPoint(p, q[1]) == (u8 *)v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0206E9A4
+ * function: NNS_G3dGetAnmByIdx
  * address:  0x0206E9A4
  * packet:   pkt_0206E9A4
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206E9A4.c \
- *       --func func_0206E9A4 --addr 0x0206E9A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGetAnmByIdx.c \
+ *       --func NNS_G3dGetAnmByIdx --addr 0x0206E9A4 --cc 1.1p1 --arm
  */
 #include "../include/Obj11640.h"
 #include "../include/Obj16616.h"
@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_0206E9A4(u8 *p, u32 idx)
+u8 *NNS_G3dGetAnmByIdx(u8 *p, u32 idx)
 {
     u8 *q;
     u8 *h;

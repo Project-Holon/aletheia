@@ -1,5 +1,5 @@
 /*
- * function: func_02161E84
+ * function: EVENT_FIELD_PROCLINK_IsReturnEntryAllowed
  * address:  0x02161E84
  * packet:   pkt_ov010_02161E84
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  */
 
 typedef unsigned char u8;
@@ -25,11 +25,11 @@ typedef struct {
     u16 ids[8];
 } T;
 
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 
-int func_02161E84(T *p)
+int EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(T *p)
 {
-    int id = func_02045A98();
+    int id = STRBUF_GetEosChar();
     int i;
     int found;
     if (p->b1 >= 30) return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02012F2C
+ * function: GAME_DATA_GetTrainerRecord
  * address:  0x02012F2C
  * packet:   pkt_02012F2C
  * region:   arm9
@@ -12,7 +12,7 @@
 
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, unsigned int id);
-void *func_02012F2C(int *p)
+void *GAME_DATA_GetTrainerRecord(int *p)
 {
     return func_020071CC((struct Sub020071CCCtrl *)*p, 0x26);
 }

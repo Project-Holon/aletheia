@@ -1,5 +1,5 @@
 /*
- * function: func_021AB634
+ * function: FLD_SCENEAREA_SetData
  * address:  0x021AB634
  * packet:   pkt_ov021_021AB634
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AB650  0x021AB650  thumb
+ *   FLD_SCENEAREA_ClearData  0x021AB650  thumb
  */
 
 typedef struct {
@@ -21,11 +21,11 @@ typedef struct {
     int f14;
 } S;
 
-extern void func_021AB650(S *s);
+extern void FLD_SCENEAREA_ClearData(S *s);
 
-void func_021AB634(S *s, int a, int b, int c)
+void FLD_SCENEAREA_SetData(S *s, int a, int b, int c)
 {
-    func_021AB650(s);
+    FLD_SCENEAREA_ClearData(s);
     s->f8 = a;
     s->fc = c;
     s->f10 = b;

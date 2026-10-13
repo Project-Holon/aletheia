@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02158378",
-    "func_0215839C"
+    "INTRUDE_COMM_GetPlayerNetId",
+    "INTRUDE_COMM_TogglePeerFlags"
+   ],
+   "addresses": [
+    "0x02158378",
+    "0x0215839C"
    ]
   }
  ]

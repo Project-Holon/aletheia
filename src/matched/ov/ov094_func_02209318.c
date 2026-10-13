@@ -11,7 +11,7 @@
  *   its home store and swaps it with the explicit handle-offset spill.
  *   Aggregate locals are declared icons, values, pos, types in that order.
  * symbols:
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_020870D0 0x020870D0 arm
  *   func_022094BC 0x022094BC thumb ov094
@@ -40,7 +40,7 @@ extern const Pair d_0220ABC0;
 extern const Six d_0220ABC8;
 extern const Twelve d_0220ABE0;
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u64 func_020870D0(void);
 typedef unsigned char  u8;
@@ -70,7 +70,7 @@ void func_02209318(Work *m, int a, int b)
                 pos.x = icons.v[j];
                 pos.y = y;
                 pos.z = row[j];
-                m->e[i].h[j] = (u32)func_0204B294((void *)*(u32 *)((char *)m + off), m->obj40, m->obj48, m->obj44, &pos, 0, m->heap);
+                m->e[i].h[j] = (u32)CLACT_CreateActor((void *)*(u32 *)((char *)m + off), m->obj40, m->obj48, m->obj44, &pos, 0, m->heap);
                 func_0204B92C((struct Obj *)m->e[i].h[j], 1);
             }
         }

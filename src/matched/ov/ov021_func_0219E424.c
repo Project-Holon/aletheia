@@ -1,5 +1,5 @@
 /*
- * function: func_0219E424
+ * function: FLDMMDL_RAIL_GetHitBitsDir
  * address:  0x0219E424
  * packet:   pkt_ov021_0219E424
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D530  0x0216D530  thumb  ov010
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_021BB480  0x021BB480  thumb  ov021
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb  ov021
  *   func_021B7DC0  0x021B7DC0  thumb  ov021
- *   func_021B7E60  0x021B7E60  thumb  ov021
- *   func_021B7CD8  0x021B7CD8  thumb  ov021
- *   func_0219E938  0x0219E938  thumb  ov021
- *   func_0219E398  0x0219E398  thumb  ov021
+ *   FIELD_RAIL_WORK_QueryStep  0x021B7E60  thumb  ov021
+ *   FIELD_RAIL_TryStepLocation  0x021B7CD8  thumb  ov021
+ *   FLDMMDL_RAIL_DirToRailKey  0x0219E938  thumb  ov021
+ *   FLDMMDL_RAIL_GetHitBitsLocation  0x0219E398  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -27,18 +27,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0216D67C(void *a0);
-extern void *func_0216D530(void *p);
-extern void *func_0216D69C(void *p);
-extern u16 func_0216D5F8(void *p);
-extern void *func_021BB480(void *p);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_SysGetNogridMapper(void *p);
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *p);
 extern void func_021B7DC0();
-extern int func_021B7E60();
-extern int func_021B7CD8();
-extern u32 func_0219E938(int a0);
-extern u32 func_0219E398(u32 o, u32 a, char *b, u32 *out);
+extern int FIELD_RAIL_WORK_QueryStep();
+extern int FIELD_RAIL_TryStepLocation();
+extern u32 FLDMMDL_RAIL_DirToRailKey(int a0);
+extern u32 FLDMMDL_RAIL_GetHitBitsLocation(u32 o, u32 a, char *b, u32 *out);
 
-int func_0219E424(u32 o, u32 k, u32 x)
+int FLDMMDL_RAIL_GetHitBitsDir(u32 o, u32 k, u32 x)
 {
     u32 v;
     u32 **p;
@@ -47,17 +47,17 @@ int func_0219E424(u32 o, u32 k, u32 x)
     int r;
     u32 t;
 
-    v = (u32)func_021BB480(func_0216D530(func_0216D67C((void *)o)));
-    p = func_0216D69C((void *)o);
+    v = (u32)FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys((void *)o)));
+    p = FLDMMDL_GetMoveProcWork((void *)o);
     func_021B7DC0(*p, a);
-    t = func_0216D5F8((void *)o);
+    t = FLDMMDL_GetDirDisp((void *)o);
     if (t == k) {
-        r = func_021B7E60(*p, func_0219E938(k), b, 0);
+        r = FIELD_RAIL_WORK_QueryStep(*p, FLDMMDL_RAIL_DirToRailKey(k), b, 0);
     } else {
-        r = func_021B7CD8(v, a, func_0219E938(k), b);
+        r = FIELD_RAIL_TryStepLocation(v, a, FLDMMDL_RAIL_DirToRailKey(k), b);
     }
     if (r) {
-        return func_0219E398(o, (u32)a, (char *)b, (u32 *)x);
+        return FLDMMDL_RAIL_GetHitBitsLocation(o, (u32)a, (char *)b, (u32 *)x);
     }
     return 1;
 }

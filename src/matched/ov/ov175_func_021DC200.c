@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  */
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
-extern unsigned long func_0203D3F8(unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern unsigned long GFL_NET_SendData(unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long);
 extern int POKE_REGULATION_GetDataSize(void);
 u32 func_021DC200(char *p,unsigned long data)
 {
-    unsigned long busy=func_0203D1A4((struct Link *)((unsigned long)func_020399A8()));
+    unsigned long busy=GFL_NET_GetHandleNetID((struct Link *)((unsigned long)GFL_NET_HANDLE_GetCurrentHandle()));
     int flag=1;
     if(busy!=0) flag=0;
-    return func_0203D3F8((unsigned long)func_020399A8(),(unsigned char)flag,0x2403,POKE_REGULATION_GetDataSize(),data,1,1,1);
+    return GFL_NET_SendData((unsigned long)GFL_NET_HANDLE_GetCurrentHandle(),(unsigned char)flag,0x2403,POKE_REGULATION_GetDataSize(),data,1,1,1);
 }

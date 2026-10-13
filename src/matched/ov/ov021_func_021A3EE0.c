@@ -1,5 +1,5 @@
 /*
- * function: func_021A3EE0
+ * function: FIELD_PLAYER_CORE_FormStepRestoreModel
  * address:  0x021A3EE0
  * packet:   pkt_ov021_021A3EE0
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A398C  0x021A398C  thumb  ov021
- *   func_021A31A4  0x021A31A4  thumb  ov021
- *   func_021A3D08  0x021A3D08  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetSex  0x021A398C  thumb  ov021
+ *   FIELD_PLAYER_GetObjCodeOfFormCode  0x021A31A4  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChangeToObjCode  0x021A3D08  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -30,16 +30,16 @@ typedef struct {
     u16 done;
 } Obj021A3EE0;
 
-u32 func_021A3974(u8 *p);
-u32 func_021A398C(u8 *p);
-int func_021A31A4(int i, int v);
-int func_021A3D08(u8 *p, u32 v);
+u32 FIELD_PLAYER_CORE_GetFormCode(u8 *p);
+u32 FIELD_PLAYER_CORE_GetSex(u8 *p);
+int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
+int FIELD_PLAYER_CORE_ChangeToObjCode(u8 *p, u32 v);
 
-int func_021A3EE0(Obj021A3EE0 *p)
+int FIELD_PLAYER_CORE_FormStepRestoreModel(Obj021A3EE0 *p)
 {
-    int a = func_021A3974((u8 *)p);
+    int a = FIELD_PLAYER_CORE_GetFormCode((u8 *)p);
 
-    if (func_021A3D08((u8 *)p, func_021A31A4(func_021A398C((u8 *)p), a)) != 1)
+    if (FIELD_PLAYER_CORE_ChangeToObjCode((u8 *)p, FIELD_PLAYER_GetObjCodeOfFormCode(FIELD_PLAYER_CORE_GetSex((u8 *)p), a)) != 1)
         p->step++;
     return 0;
 }

@@ -13,6 +13,7 @@
  *
  * symbols:
  *   func_021C0C40  0x021C0C40  thumb  ov217
+ *   PALANM_Create  0x02021518  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -25,9 +26,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_02021518(u32 heap);
+extern void *PALANM_Create(u32 heap);
 void func_021C0C40(u32 a0)
 {
-    *(u32 *)&((struct Obj00791 *)(((u8*)a0 + 0)))->f28 = (u32)func_02021518(((struct Obj00791 *)((u8*)a0))->f0);
+    *(u32 *)&((struct Obj00791 *)(((u8*)a0 + 0)))->f28 = (u32)PALANM_Create(((struct Obj00791 *)((u8*)a0))->f0);
 }
 

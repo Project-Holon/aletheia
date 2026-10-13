@@ -1,5 +1,5 @@
 /*
- * function: func_021A3FC0
+ * function: FIELD_PLAYER_CORE_FormStepSlot9
  * address:  0x021A3FC0
  * packet:   pkt_ov021_021A3FC0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3D50  0x021A3D50  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChangeToFormSlot  0x021A3D50  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -21,11 +21,11 @@ typedef struct {
 } Obj021A3FC0;
 
 typedef unsigned int   u32;
-int func_021A3D50(u32 a, u32 b);
+int FIELD_PLAYER_CORE_ChangeToFormSlot(u32 a, u32 b);
 
-int func_021A3FC0(Obj021A3FC0 *p)
+int FIELD_PLAYER_CORE_FormStepSlot9(Obj021A3FC0 *p)
 {
-    if (func_021A3D50((u32)p, 9) != 1)
+    if (FIELD_PLAYER_CORE_ChangeToFormSlot((u32)p, 9) != 1)
         p->step++;
     return 0;
 }

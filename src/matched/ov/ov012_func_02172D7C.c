@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203CBAC  0x0203CBAC  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
+ *   GFL_NET_StartSession  0x0203CBAC  arm
  *   GFL_NET_EndDeviceWrapper  0x0203D0FC  arm
  *   UNION_COMM_ExitCallback  0x02172D14  thumb  ov012
  *   UNION_COMM_SessionStartCallback  0x02172C98  thumb  ov012
@@ -21,8 +21,8 @@ typedef unsigned char u8;
 
 typedef unsigned int   u32;
 struct Req;
-extern int func_0203CEAC(int a0);
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
+extern int GFL_NET_Exit(int a0);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern void GFL_NET_EndDeviceWrapper(int a);
 extern void UNION_COMM_ExitCallback(u8 *p);
 extern void UNION_COMM_SessionStartCallback(u8 *p);
@@ -52,7 +52,7 @@ int UNION_COMM_UpdateReset(u8 *p)
         break;
     case 2:
         p[0x3560] = 4;
-        if (func_0203CEAC((int)UNION_COMM_ExitCallback) == 0) {
+        if (GFL_NET_Exit((int)UNION_COMM_ExitCallback) == 0) {
             UNION_COMM_ExitCallback(p);
         }
         p[0x3561]++;
@@ -68,7 +68,7 @@ int UNION_COMM_UpdateReset(u8 *p)
         break;
     case 4:
         p[0x3560] = 1;
-        func_0203CBAC((struct Req *)d_02175380, (u32)UNION_COMM_SessionStartCallback, (u32)p);
+        GFL_NET_StartSession((struct Req *)d_02175380, (u32)UNION_COMM_SessionStartCallback, (u32)p);
         p[0x3561]++;
         break;
     case 5:

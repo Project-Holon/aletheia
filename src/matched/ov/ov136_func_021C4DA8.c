@@ -13,7 +13,7 @@
  *   func_021C4DA8 0x021C4DA8 thumb
  *   PMS_DRAW_Delete 0x0202DC08 thumb
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_0204B1CC 0x0204B1CC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
  */
 #include "../include/Obj01751.h"
 typedef unsigned char u8;
@@ -23,11 +23,11 @@ struct PrintSys;
 extern void PMS_DRAW_Delete(struct Obj *p);
 extern void func_0201C4C0(struct PrintSys *p);
 typedef unsigned int   u32;
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 void func_021C4DA8(u8 *p)
 {
     PMS_DRAW_Delete(((struct Obj01751 *)p)->f148);
     func_0201C4C0(((struct Obj01751 *)p)->f158);
     ((struct Obj01751 *)p)->f158 = 0;
-    func_0204B1CC(((struct Obj01751 *)p)->f154);
+    CLACT_DeleteUnit(((struct Obj01751 *)p)->f154);
 }

@@ -14,42 +14,42 @@
  *
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D6730 0x021D6730 thumb ov093
- *   func_021D6744 0x021D6744 thumb ov093
- *   func_021D5FE4 0x021D5FE4 thumb ov093
- *   func_021D6008 0x021D6008 thumb ov093
- *   func_021D5FC0 0x021D5FC0 thumb ov093
- *   func_021D6440 0x021D6440 thumb ov093
- *   func_021D66D0 0x021D66D0 thumb ov093
- *   func_021D64F0   0x021D64F0  thumb
- *   func_021EF9F4 0x021EF9F4 thumb ov093
+ *   BTL_POKEPARAM_ConsumeHeldItem 0x021D6730 thumb ov093
+ *   BTL_POKEPARAM_RecordMoveUse 0x021D6744 thumb ov093
+ *   BTL_POKEPARAM_SetContFlag 0x021D5FE4 thumb ov093
+ *   BTL_POKEPARAM_ClearContFlag 0x021D6008 thumb ov093
+ *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
+ *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
+ *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
+ *   BTL_POKEPARAM_ResetEffectsOnSwitchOut   0x021D64F0  thumb
+ *   BTL_FIELD_RegisterSlot 0x021EF9F4 thumb ov093
  *   func_021EFAD8 0x021EFAD8 thumb ov093
  *   func_021EFB34 0x021EFB34 thumb ov093
  *   func_021EFA94 0x021EFA94 thumb ov093
  *   func_021D69A0 0x021D69A0 thumb ov093
- *   func_021D65C8 0x021D65C8 thumb ov093
- *   func_021D6D5C 0x021D6D5C thumb ov093
- *   func_021D6D70   0x021D6D70  thumb
- *   func_021CD9F4 0x021CD9F4 thumb ov093
+ *   BTL_POKEPARAM_PassEffects 0x021D65C8 thumb ov093
+ *   BTL_POKEPARAM_SetSubstituteHp 0x021D6D5C thumb ov093
+ *   BTL_POKEPARAM_ClearSubstitute   0x021D6D70  thumb
+ *   BTL_CLIENT_AddPoints 0x021CD9F4 thumb ov093
  *   func_021B9B10 0x021B9B10 thumb ov093
  *   func_021B9AEC 0x021B9AEC thumb ov093
  *   func_021B9D10 0x021B9D10 thumb ov093
- *   func_021D6738   0x021D6738  thumb
- *   func_021D6264 0x021D6264 thumb ov093
- *   func_021D6848 0x021D6848 thumb ov093
- *   func_021D6408 0x021D6408 thumb ov093
- *   func_021D6E88 0x021D6E88 thumb ov093
+ *   BTL_POKEPARAM_ClearConsumedItem   0x021D6738  thumb
+ *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
+ *   BTL_POKEPARAM_AddHitRecord 0x021D6848 thumb ov093
+ *   BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
+ *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
  *   func_021EFC78   0x021EFC78  thumb
- *   func_021D67D8 0x021D67D8 thumb ov093
- *   func_021EF9A8 0x021EF9A8 thumb ov093
+ *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
+ *   BTL_FIELD_GetCountdownByte 0x021EF9A8 thumb ov093
  *   func_021B9F84 0x021B9F84 thumb ov093
  *   d_021EFF74  0x021EFF74  data  a1
  *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   func_021D805C  0x021D805C  thumb  ov093
- *   func_021D7B60  0x021D7B60  thumb  ov093
+ *   BTL_CALC_DivideMaxHp  0x021D7B60  thumb  ov093
  *   d_021EFF94  0x021EFF94  data  ov093  a1
- *   func_021D5F14  0x021D5F14  thumb  ov093
+ *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
  *   d_021EFFA0 0x021EFFA0 data a1
  *   func_021EAE74 0x021EAE74 thumb ov093
  *   func_021EAE64 0x021EAE64 thumb ov093
@@ -61,15 +61,15 @@
  *   func_021F8B10 0x021F8B10 thumb ov094
  *   func_021B92A0 0x021B92A0 thumb ov093
  *   func_021EAE14 0x021EAE14 thumb ov093
- *   d_021F3B88 0x021F3B88 data ov093 a4
- *   d_021F3A98 0x021F3A98 data ov093 a4
+ *   gBtlNet 0x021F3B88 data ov093 a4
+ *   gBtlNetSourceName 0x021F3A98 data ov093 a4
  *   func_02030734 0x02030734 arm
- *   func_0203D1A4 0x0203D1A4 arm
- *   func_0203D1B4 0x0203D1B4 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203D3A8  0x0203D3A8  arm
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   sub_02030734   0x02030734  arm
  *   func_02007B50  0x02007B50  thumb
@@ -77,9 +77,9 @@
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02008468 0x02008468 thumb
- *   func_021F3A98   0x021F3A98  data
- *   func_02045A98  0x02045A98  arm
+ *   MYSTATUS_GetSize 0x02008468 thumb
+ *   FIELD_GIMMICK_GATE_IsSaveBlockListOn   0x021F3A98  data
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   MIi_CpuClear16 0x02082A48  arm
  *   STRBUF_GetLength   0x020458F8  arm
  *   STRBUF_GetChars   0x02045A90  arm
@@ -91,20 +91,20 @@
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02019C90  0x02019C90  thumb
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
- *   func_021D63B8  0x021D63B8  thumb  ov093
- *   func_021D7D18  0x021D7D18  thumb  ov093
- *   func_021D67F4  0x021D67F4  thumb  ov093
+ *   BTL_POKEPARAM_ClearSickConts  0x021D63B8  thumb  ov093
+ *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
+ *   BTL_POKEPARAM_ClearHitHistory  0x021D67F4  thumb  ov093
  *   func_021D6DC4  0x021D6DC4  thumb  ov093
  *   d_021F3AA4     0x021F3AA4  data  a1
  *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
  *   func_020181F4  0x020181F4  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_GetGender  0x02017F00  thumb
- *   func_021E8CE0  0x021E8CE0  thumb  ov093
- *   func_021EF948 0x021EF948 thumb ov093
- *   func_021D78E4  0x021D78E4  thumb  ov093
+ *   BTLV_CORE_PackBytes  0x021E8CE0  thumb  ov093
+ *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
+ *   BTL_CALC_ApplyStatStage  0x021D78E4  thumb  ov093
  *   data_021F040C  0x021F040C  data  ov093
  *   _dflt   0x0209B750  arm
  *   _dfltu  0x0209B790  arm
@@ -115,10 +115,10 @@
  *   _dsub   0x0209AF34  arm
  *   _dfix   0x0209C508  arm
  *   func_021D3D84  0x021D3D84  thumb
- *   func_021D5734  0x021D5734  thumb
- *   func_021D5970  0x021D5970  thumb
+ *   BTL_POKEPARAM_ReplaceMove  0x021D5734  thumb
+ *   BTL_POKEPARAM_SetStat  0x021D5970  thumb
  *   func_021D59B4  0x021D59B4  thumb
- *   func_021D5B44  0x021D5B44  thumb
+ *   BTL_POKEPARAM_SetItem  0x021D5B44  thumb
  *   func_021D5D14  0x021D5D14  thumb
  */
 #include "../../matched/include/Obj13430.h"
@@ -226,39 +226,39 @@ typedef struct {
 } Hdr_021D4CB8;
 
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D6730(struct QK *p, u16 v);
-extern void func_021D6744(u8 *p, u8 a, int f, u8 b, u16 c, u16 d);
-extern void func_021D5FE4(u8 *, u32);
-extern void func_021D6008(u8 *, u32);
-extern void func_021D5FC0(struct BtlPokeParam *, u32);
-extern void func_021D6440(u8 *, u32);
-extern void func_021D66D0(struct QJ *p, u32 v);
-extern void func_021D64F0(void *p);
-extern int func_021EF9F4(void *, u32, Slot, int);
+extern void BTL_POKEPARAM_ConsumeHeldItem(struct QK *p, u16 v);
+extern void BTL_POKEPARAM_RecordMoveUse(u8 *p, u8 a, int f, u8 b, u16 c, u16 d);
+extern void BTL_POKEPARAM_SetContFlag(u8 *, u32);
+extern void BTL_POKEPARAM_ClearContFlag(u8 *, u32);
+extern void BTL_POKEPARAM_SetTurnFlag(struct BtlPokeParam *, u32);
+extern void BTL_POKEPARAM_ClearTurnFlag(u8 *, u32);
+extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
+extern void BTL_POKEPARAM_ResetEffectsOnSwitchOut(void *p);
+extern int BTL_FIELD_RegisterSlot(void *, u32, Slot, int);
 extern int func_021EFAD8(char *a, u32 b, u32 c);
 extern void func_021EFB34(struct BtlNet *, u8);
 extern int func_021EFA94(void *, int);
 extern void func_021D69A0(u8 *, int, u8);
-extern void func_021D65C8(struct BtlPokeParam *, struct BtlPokeParam *);
-extern void func_021D6D5C(u8 *, u16);
-extern void func_021D6D70(unsigned char *p);
-extern void func_021CD9F4(u8 *p, u8 n);
+extern void BTL_POKEPARAM_PassEffects(struct BtlPokeParam *, struct BtlPokeParam *);
+extern void BTL_POKEPARAM_SetSubstituteHp(u8 *, u16);
+extern void BTL_POKEPARAM_ClearSubstitute(unsigned char *p);
+extern void BTL_CLIENT_AddPoints(u8 *p, u8 n);
 extern void func_021B9B10(u8 *, u8, int);
 extern char *func_021B9AEC(char *, int);
 extern void func_021B9D10(char *, struct Arr *, int);
-extern void func_021D6738(u8 *p);
-extern void func_021D6264(struct UtilSlots *p, int v);
-extern void func_021D6848(u8 *p, struct Rec *r);
-extern void func_021D6408(u8 *);
-extern void func_021D6E88(u8 *);
-extern void func_021D67D8(u8 *p, u32 n);
-extern u8 func_021EF9A8(u32 *);
+extern void BTL_POKEPARAM_ClearConsumedItem(u8 *p);
+extern void BTL_POKEPARAM_CureSickBySource(struct UtilSlots *p, int v);
+extern void BTL_POKEPARAM_AddHitRecord(u8 *p, struct Rec *r);
+extern void BTL_POKEPARAM_AdvanceTurn(u8 *);
+extern void BTL_EVENT_ClearClientReservedChoice(u8 *);
+extern void BTL_POKEPARAM_SetWeight(u8 *p, u32 n);
+extern u8 BTL_FIELD_GetCountdownByte(u32 *);
 extern u16 func_021B9F84(char *p, int i, unsigned int j);
 extern u8 func_021B9B94(struct Q1 *p);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern u32 func_021D805C(void *p, u32 n);
-extern u32 func_021D7B60(void *p, u32 b);
-extern u8 func_021D5F14(struct BtlPokeParam *p);
+extern u32 BTL_CALC_DivideMaxHp(void *p, u32 b);
+extern u8 BTL_POKEPARAM_GetCritStage(struct BtlPokeParam *p);
 extern void func_021EAE74(char *p, u32 a, u32 b);
 extern int func_021EAE64(void *);
 extern void func_021EAE04(u32 *p);
@@ -331,16 +331,16 @@ int func_021D3FAC(struct BtlNetEntry *p);
 void func_021D3FC4(struct BtlNetEntry *p);
 void func_021D3FD0(unsigned char *p);
 void func_021D3FDC(u8 *p, struct Q *q);
-void func_021D5734(struct BtlPokeParam *p, u8 i, u16 a, u8 b, u32 c);
-void func_021D5970(u8 *p, int k, u16 v);
+void BTL_POKEPARAM_ReplaceMove(struct BtlPokeParam *p, u8 i, u16 a, u8 b, u32 c);
+void BTL_POKEPARAM_SetStat(u8 *p, int k, u16 v);
 int func_021D59B4(u8 *p, int k);
-void func_021D5B44(struct BtlPokeParam *p, u16 v);
+void BTL_POKEPARAM_SetItem(struct BtlPokeParam *p, u16 v);
 int func_021D5D14(s8 *p, int i, int sign);
 extern u8 d_021EFF74[];
 extern Pair_021D3E70 d_021EFF94[];
 extern Pair_021D3EC8 d_021EFFA0[];
-extern struct BtlNet *d_021F3B88;
-extern const char d_021F3A98[];
+extern struct BtlNet *gBtlNet;
+extern const char gBtlNetSourceName[];
 extern const char d_021F3AA4[];
 extern const u32 data_021F040C[4];
 
@@ -380,7 +380,7 @@ int func_021D3A20(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D6730((struct QK *)x, c[1]);
+    BTL_POKEPARAM_ConsumeHeldItem((struct QK *)x, c[1]);
     return 1;
 }
 
@@ -419,7 +419,7 @@ int func_021D3A40(u32 *a, int *b, const u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D6744(x, c[1], c[2], c[3], c[4], c[5]);
+    BTL_POKEPARAM_RecordMoveUse(x, c[1], c[2], c[3], c[4], c[5]);
     return 1;
 }
 
@@ -458,7 +458,7 @@ int func_021D3A7C(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5FE4(x, c[1]);
+    BTL_POKEPARAM_SetContFlag(x, c[1]);
     return 1;
 }
 
@@ -497,7 +497,7 @@ int func_021D3A98(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D6008(x, c[1]);
+    BTL_POKEPARAM_ClearContFlag(x, c[1]);
     return 1;
 }
 
@@ -536,7 +536,7 @@ int func_021D3AB4(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5FC0((struct BtlPokeParam *)x, c[1]);
+    BTL_POKEPARAM_SetTurnFlag((struct BtlPokeParam *)x, c[1]);
     return 1;
 }
 
@@ -575,7 +575,7 @@ int func_021D3AD0(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D6440(x, c[1]);
+    BTL_POKEPARAM_ClearTurnFlag(x, c[1]);
     return 1;
 }
 
@@ -614,7 +614,7 @@ int func_021D3AEC(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D66D0((struct QJ *)x, c[1]);
+    BTL_POKEPARAM_SetAbility((struct QJ *)x, c[1]);
     return 1;
 }
 
@@ -653,7 +653,7 @@ int func_021D3B08(u32 *a, int *b, u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5B44((struct BtlPokeParam *)x, c[1]);
+    BTL_POKEPARAM_SetItem((struct BtlPokeParam *)x, c[1]);
     return 1;
 }
 
@@ -692,7 +692,7 @@ int func_021D3B28(u32 *a, int *b, const u32 *c)
 {
     u8 *x;
     x = func_021B9934((char *)a[1], (u8)c[0]);
-    func_021D5734((struct BtlPokeParam *)x, c[1], c[4], c[2], c[3]);
+    BTL_POKEPARAM_ReplaceMove((struct BtlPokeParam *)x, c[1], c[4], c[2], c[3]);
     return 1;
 }
 
@@ -729,11 +729,11 @@ int func_021D3B28(u32 *a, int *b, const u32 *c)
 
 
 /*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D64F0; movs r0, #1; pop {r3, pc}.
+ * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl BTL_POKEPARAM_ResetEffectsOnSwitchOut; movs r0, #1; pop {r3, pc}.
  */
 int func_021D3B5C(u8 *p, int b, u32 *q)
 {
-    func_021D64F0(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
+    BTL_POKEPARAM_ResetEffectsOnSwitchOut(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -772,7 +772,7 @@ int func_021D3B74(u32 *a, int *b, u32 *c)
 {
     Slot s;
     s.v = c[1];
-    func_021EF9F4((void *)a[13], c[0], s, 0);
+    BTL_FIELD_RegisterSlot((void *)a[13], c[0], s, 0);
     return 1;
 }
 
@@ -971,7 +971,7 @@ int func_021D3BE0(char *p, int unused, unsigned int *a)
 {
     u8 *first = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     u8 *second = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[1]);
-    func_021D65C8((struct BtlPokeParam *)second, (struct BtlPokeParam *)first);
+    BTL_POKEPARAM_PassEffects((struct BtlPokeParam *)second, (struct BtlPokeParam *)first);
     return 1;
 }
 
@@ -1009,7 +1009,7 @@ int func_021D3BE0(char *p, int unused, unsigned int *a)
 int func_021D3C0C(char *p, int unused, unsigned int *a)
 {
     u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
-    func_021D6D5C(obj, a[1]);
+    BTL_POKEPARAM_SetSubstituteHp(obj, a[1]);
     return 1;
 }
 
@@ -1046,11 +1046,11 @@ int func_021D3C0C(char *p, int unused, unsigned int *a)
 
 
 /*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D6D70; movs r0, #1; pop {r3, pc}.
+ * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl BTL_POKEPARAM_ClearSubstitute; movs r0, #1; pop {r3, pc}.
  */
 int func_021D3C2C(u8 *p, int b, u32 *q)
 {
-    func_021D6D70(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
+    BTL_POKEPARAM_ClearSubstitute(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -1089,7 +1089,7 @@ int func_021D3C44(u8 *p, int unused, unsigned int *a)
 {
     u8 index = a[0];
     u8 value = a[1];
-    if (index == p[0x1a6]) func_021CD9F4(p, value);
+    if (index == p[0x1a6]) BTL_CLIENT_AddPoints(p, value);
     else func_021B9B10(*(u8 * *)&((struct BtlNetCtx *)p)->f00, index, value);
     return 1;
 }
@@ -1166,11 +1166,11 @@ int func_021D3C70(char *p, int unused, unsigned int *a)
 
 
 /*
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D6738; movs r0, #1; pop {r3, pc}.
+ * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl BTL_POKEPARAM_ClearConsumedItem; movs r0, #1; pop {r3, pc}.
  */
 int func_021D3C90(u8 *p, int b, u32 *q)
 {
-    func_021D6738(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
+    BTL_POKEPARAM_ClearConsumedItem(func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)*q));
     return 1;
 }
 
@@ -1208,7 +1208,7 @@ int func_021D3C90(u8 *p, int b, u32 *q)
 int func_021D3CA8(char *p, int unused, unsigned int *a)
 {
     u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
-    func_021D6264((struct UtilSlots *)obj, (u8)a[1]);
+    BTL_POKEPARAM_CureSickBySource((struct UtilSlots *)obj, (u8)a[1]);
     return 1;
 }
 
@@ -1257,7 +1257,7 @@ int func_021D3CC8(char *p, int unused, const unsigned int *a)
     obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
     x = a[4]; y = a[5]; z = a[3]; w = a[2]; v = a[1];
     r.a = x; r.b = y; r.c = z; r.d = v; r.e = w;
-    func_021D6848(obj, (struct Rec *)((struct HalfRec *)&r));
+    BTL_POKEPARAM_AddHitRecord(obj, (struct Rec *)((struct HalfRec *)&r));
     return 1;
 }
 
@@ -1295,8 +1295,8 @@ int func_021D3CC8(char *p, int unused, const unsigned int *a)
 int func_021D3CFC(char *p, int unused, unsigned int *a)
 {
     u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
-    func_021D6408(obj);
-    func_021D6E88(obj);
+    BTL_POKEPARAM_AdvanceTurn(obj);
+    BTL_EVENT_ClearClientReservedChoice(obj);
     return 1;
 }
 
@@ -1377,7 +1377,7 @@ int func_021D3D2C(char *p, int unused, unsigned int *a)
 {
     int index = a[1];
     u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
-    func_021D5970(obj, index, a[2]);
+    BTL_POKEPARAM_SetStat(obj, index, a[2]);
     return 1;
 }
 
@@ -1415,7 +1415,7 @@ int func_021D3D2C(char *p, int unused, unsigned int *a)
 int func_021D3D50(char *p, int unused, unsigned int *a)
 {
     u8 *obj = func_021B9934(*(char * *)&((struct BtlNetCtx *)p)->f04, (u8)a[0]);
-    func_021D67D8(obj, (u16)a[1]);
+    BTL_POKEPARAM_SetWeight(obj, (u16)a[1]);
     return 1;
 }
 
@@ -1526,7 +1526,7 @@ u32 func_021D3D7C(u8 *p) { return ((struct BtlNetCtx *)p)->f118; }
 
 
 
-u8 func_021D3D84(u8 *p) { return func_021EF9A8(*(u32 * *)&((struct BtlNetCtx *)p)->f34); }
+u8 func_021D3D84(u8 *p) { return BTL_FIELD_GetCountdownByte(*(u32 * *)&((struct BtlNetCtx *)p)->f34); }
 
 
 
@@ -1649,7 +1649,7 @@ u32 func_021D3DC4(u8 *a, void *b, void *c)
     u8 *t;
 
     lim = func_021B9B94(c);
-    if (func_021D62C4(b, 0x13) != 0)
+    if (BTL_POKEPARAM_HasSick(b, 0x13) != 0)
         return 0;
     for (i = 0; i < 4; i++) {
         if (d_021EFF74[i] < lim)
@@ -1659,7 +1659,7 @@ u32 func_021D3DC4(u8 *a, void *b, void *c)
             r = 0;
             if (func_021D805C((void *)(u32)*(u16 *)(a + off + 0xe8), 0x29) != 0) {
                 r = func_021D59B4(b, 0xd);
-                if (r > func_021D7B60(b, 4))
+                if (r > BTL_CALC_DivideMaxHp(b, 4))
                     continue;
                 r = 1;
             } else {
@@ -1719,7 +1719,7 @@ int func_021D3E70(void *s, void *m)
         if (func_021D805C(s, d_021EFF94[i].a) != 0 && func_021D5D14(m, d_021EFF94[i].b, 1) != 0)
             return 1;
     }
-    if (func_021D805C(s, 0x24) != 0 && func_021D5F14(m) == 0)
+    if (func_021D805C(s, 0x24) != 0 && BTL_POKEPARAM_GetCritStage(m) == 0)
         return 1;
     return 0;
 }
@@ -1755,7 +1755,7 @@ int func_021D3E70(void *s, void *m)
 
 
 
-int func_021D3EC8(void *s,struct Unk021D62A8 *m) { u32 i; for(i=0;i<7;i++) if(func_021D805C(s,d_021EFFA0[i].a) && func_021D62C4(m,d_021EFFA0[i].b)) return 1; return 0; }
+int func_021D3EC8(void *s,struct Unk021D62A8 *m) { u32 i; for(i=0;i<7;i++) if(func_021D805C(s,d_021EFFA0[i].a) && BTL_POKEPARAM_HasSick(m,d_021EFFA0[i].b)) return 1; return 0; }
 
 
 

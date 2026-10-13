@@ -14,10 +14,10 @@
  *   func_022043C0 0x022043C0 thumb ov094
  *   func_022044C0 0x022044C0 thumb ov094
  *   PALANM_RequestFade 0x0202173C thumb
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02045808 0x02045808 arm
- *   func_02045374 0x02045374 arm
- *   func_02045334 0x02045334 arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_020409B4 0x020409B4 arm
  *   func_0220687C 0x0220687C thumb ov094
  */
@@ -44,13 +44,13 @@ extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_022043C0(Main *, int, int, int, int);
 extern void func_022044C0(Main *, int, int, int, int);
 extern int PALANM_RequestFade(void *, u16, u16, s16, u8, u8, u16, void *);
-extern void func_0201C7A4(void *, s16, s16, void *, void *);
+extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
 struct Cfg;
 struct Descriptor;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *d);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_020409B4(u32 index);
 extern void func_0220687C(char *p, void *q);
 void func_02203FDC(void *h, Ctx *c)
@@ -70,12 +70,12 @@ void func_02203FDC(void *h, Ctx *c)
     default:
         if (c->main->st == 0) {
             if (c->obj1c != 0) {
-                func_0201C7A4(c->main->obj22c, 0x18, 0x38, c->obj1c, c->main->obj224);
-                func_02045808(c->obj1c);
+                PRINTSYS_Print(c->main->obj22c, 0x18, 0x38, c->obj1c, c->main->obj224);
+                STRBUF_Delete(c->obj1c);
             }
-            func_02045374(c->main->obj228);
+            BMP_WIN_MakeScreen(c->main->obj228);
             func_020409B4(6);
-            func_02045334(c->main->obj228);
+            BMP_WIN_TransferChars(c->main->obj228);
             func_02204960(c->main, 4, c->f10, c->f14, 1, 1, 2, 0);
             func_0220687C((char *)c->main, h);
         }

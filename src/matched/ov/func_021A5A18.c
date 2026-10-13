@@ -1,5 +1,5 @@
 /*
- * function: func_021A5A18
+ * function: FIELD_PLAYER_NOGRID_GetRailLocationByDir
  * address:  0x021A5A18
  * packet:   pkt_021A5A00
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards the object's word at +0x1c to func_0219E664.
+ * Tail-call thunk: forwards the object's word at +0x1c to FLDMMDL_RAIL_GetLocationByDir.
  *
  * symbols:
- *   func_0219E664  0x0219E664  thumb  ov021
+ *   FLDMMDL_RAIL_GetLocationByDir  0x0219E664  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0219E664(void *o, u32 k, void *buf);
+extern int FLDMMDL_RAIL_GetLocationByDir(void *o, u32 k, void *buf);
 
-int func_021A5A18(u8 *p, u32 k, void *buf)
+int FIELD_PLAYER_NOGRID_GetRailLocationByDir(u8 *p, u32 k, void *buf)
 {
-    return func_0219E664(((struct Obj18057 *)p)->f1C, k, buf);
+    return FLDMMDL_RAIL_GetLocationByDir(((struct Obj18057 *)p)->f1C, k, buf);
 }

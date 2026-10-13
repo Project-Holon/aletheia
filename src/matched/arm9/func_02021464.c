@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Palette-animation tick pump.  g_02146788 is the same state block
- * func_02021444 resets; unk_04, unk_0c and tick are 4-aligned u64 fields
+ * PALANM_StartTimer resets; unk_04, unk_0c and tick are 4-aligned u64 fields
  * (docs/idioms/long-long-aligns-to-four.md).  The divisor 0x01FF6210 is the
  * OS tick-to-unit scale applied after a <<6, through _ll_udiv
  * (docs/idioms/runtime-helper-reloc.md).

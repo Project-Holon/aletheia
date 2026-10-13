@@ -1,5 +1,5 @@
 /*
- * function: func_02192CF0
+ * function: FIELD_MSGBG_InitBgTwoLayer
  * address:  0x02192CF0
  * packet:   pkt_ov021_02192CF0
  * region:   ov021
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Two-layer twin of func_02192E0C.
+ * Two-layer twin of FIELD_MSGBG_InitBgOneLayer.
  *
  * symbols:
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_02040C14  0x02040C14  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
- *   func_02192FA4  0x02192FA4  thumb  ov021
- *   func_02194670  0x02194670  thumb  ov021
+ *   FIELD_MSGBG_LoadWindowGraphicsAll  0x02192FA4  thumb  ov021
+ *   TALKMSGWIN_Create  0x02194670  thumb  ov021
  *   func_0207D63C  0x0207D63C  arm
  *   func_02040588  0x02040588  arm
  *   d_021D3ED8     0x021D3ED8  data  a4
@@ -39,12 +39,12 @@ typedef unsigned int   u32;
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
-extern void func_02192FA4(int, int);
-extern void *func_02194670(u16 *a);
+extern void FIELD_MSGBG_LoadWindowGraphicsAll(int, int);
+extern void *TALKMSGWIN_Create(u16 *a);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_02192CF0(char *p, int flag)
+void FIELD_MSGBG_InitBgTwoLayer(char *p, int flag)
 {
     B32 tmp1;
     B32 tmp2;
@@ -62,7 +62,7 @@ void func_02192CF0(char *p, int flag)
     func_020409B4(((struct Obj01031 *)p)->f2 & 0xff);
     func_020409B4(((struct Obj01031 *)p)->f4 & 0xff);
     if (flag)
-        func_02192FA4(((struct Obj01031 *)p)->f2, ((struct Obj01031 *)p)->f0);
+        FIELD_MSGBG_LoadWindowGraphicsAll(((struct Obj01031 *)p)->f2, ((struct Obj01031 *)p)->f0);
     if (((struct Obj01031 *)p)->f168 != 0) {
         r.a = ((struct Obj01031 *)p)->f0;
         r.b = ((struct Obj01031 *)p)->f168;
@@ -71,7 +71,7 @@ void func_02192CF0(char *p, int flag)
         r.e = 1;
         r.f = 0xc;
         r.g = 0xb;
-        ((struct Obj01031 *)p)->f15C = (int)func_02194670((u16 *)(&r));
+        ((struct Obj01031 *)p)->f15C = (int)TALKMSGWIN_Create((u16 *)(&r));
     }
     func_0207D63C(0x04000050, 4, 0x1b, 0x10, 4);
     func_02040588(((struct Obj01031 *)p)->f2 & 0xff, 1);

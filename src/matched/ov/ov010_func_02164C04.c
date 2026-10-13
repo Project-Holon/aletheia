@@ -1,5 +1,5 @@
 /*
- * function: func_02164C04
+ * function: GAME_BEACON_SEARCH_OnSessionStarted
  * address: 0x02164C04
  * packet: pkt_ov010_02164C04
  * region: ov010
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *func_02010360(int idx, void *heap);
-void func_02164C04(u8 *p){((struct Obj12363 *)p)->f4=1; ((struct Obj12363 *)p)->f80=func_02010360(4,(void *)0x8005);}
+void GAME_BEACON_SEARCH_OnSessionStarted(u8 *p){((struct Obj12363 *)p)->f4=1; ((struct Obj12363 *)p)->f80=func_02010360(4,(void *)0x8005);}

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAA50",
+   "name": "PLIST_PLATE_CreateMonIcon",
    "address": "0x021BAA50",
    "kind": "game",
    "region": "ov091",

@@ -1,5 +1,5 @@
 /*
- * function: func_021AACD4
+ * function: EFFECT_ENCOUNT_CollectCandidates
  * address:  0x021AACD4
  * packet:   pkt_ov021_021AACD4
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188C98  0x02188C98  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
- *   func_0218D168  0x0218D168  thumb  ov021
- *   func_0218DBD4  0x0218DBD4  thumb  ov021
- *   func_021AABF4  0x021AABF4  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetFocusSlot  0x0218D168  thumb  ov021
+ *   FIELD_G3D_MAPPER_CheckSlotReady  0x0218DBD4  thumb  ov021
+ *   EFFECT_ENCOUNT_MakeSearchArea  0x021AABF4  thumb  ov021
  *   func_0209BDBC  0x0209BDBC  arm
  *   func_0209C95C  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
- *   func_0218DBAC  0x0218DBAC  thumb  ov021
- *   func_021AB504  0x021AB504  thumb  ov021
+ *   FIELD_G3D_MAPPER_QuerySlotPlane  0x0218DBAC  thumb  ov021
+ *   MAP_ATTR_GetEncounterEffectKind  0x021AB504  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -70,20 +70,20 @@ struct Enc {
     struct Spot spots[121];
 };
 
-extern u32 func_02188C98(u8 *p);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_0218D168(char *p);
-extern int func_0218DBD4(char *p, int i);
+extern int FIELD_G3D_MAPPER_GetFocusSlot(char *p);
+extern int FIELD_G3D_MAPPER_CheckSlotReady(char *p, int i);
 struct Ctx;
-extern void func_021AABF4(struct Ctx *ctx, void *unused, struct Area *a);
+extern void EFFECT_ENCOUNT_MakeSearchArea(struct Ctx *ctx, void *unused, struct Area *a);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
-extern int func_0218DBAC(u8 *a, int idx, u32 c, u8 *d);
-extern int func_021AB504(u32 attr);
+extern int FIELD_G3D_MAPPER_QuerySlotPlane(u8 *a, int idx, u32 c, u8 *d);
+extern int MAP_ATTR_GetEncounterEffectKind(u32 attr);
 
-void func_021AACD4(void **ctx, struct Enc *e)
+void EFFECT_ENCOUNT_CollectCandidates(void **ctx, struct Enc *e)
 {
     Vec v;
     struct Area a;
@@ -96,13 +96,13 @@ void func_021AACD4(void **ctx, struct Enc *e)
     int r;
     int k;
 
-    m = func_02188C98(ctx[0]);
+    m = FIELDMAP_GetG3dMapper(ctx[0]);
     func_02082BCC(&e->count, 0, 0x5B0);
     v.y = 0;
-    idx = func_0218D168((char *)m);
-    if (func_0218DBD4((char *)m, idx) == 0)
+    idx = FIELD_G3D_MAPPER_GetFocusSlot((char *)m);
+    if (FIELD_G3D_MAPPER_CheckSlotReady((char *)m, idx) == 0)
         return;
-    func_021AABF4((struct Ctx *)ctx, e, &a);
+    EFFECT_ENCOUNT_MakeSearchArea((struct Ctx *)ctx, e, &a);
     y = a.y0;
     if ((y << 4) > 0)
         r = func_0209C95C(0x3f000000, func_0209BDBC(y << 16));
@@ -117,8 +117,8 @@ void func_021AACD4(void **ctx, struct Enc *e)
     for (; y <= a.y1; y++) {
         v.x = xs;
         for (x = a.x0; x <= a.x1; x++) {
-            func_0218DBAC((u8 *)m, idx, (u32)(&v), (u8 *)(&c));
-            k = func_021AB504(c.f08);
+            FIELD_G3D_MAPPER_QuerySlotPlane((u8 *)m, idx, (u32)(&v), (u8 *)(&c));
+            k = MAP_ATTR_GetEncounterEffectKind(c.f08);
             if (k != 8) {
                 e->spots[e->count].kind = k;
                 e->spots[e->count].x = x;

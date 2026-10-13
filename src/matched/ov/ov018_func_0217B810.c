@@ -1,5 +1,5 @@
 /*
- * function: func_0217B810
+ * function: INTRUDE_FIELD_CreateNoticeEvent
  * address: 0x0217B810
  * packet: pkt_ov018_0217B810
  * region: ov018
@@ -12,8 +12,8 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_02082BCC 0x02082BCC arm
- *   func_021A3074 0x021A3074 thumb ov021
- *   func_0217B82C 0x0217B82C thumb ov018
+ *   FIELD_PLAYER_GetMmdl 0x021A3074 thumb ov021
+ *   INTRUDE_FIELD_EventNotice 0x0217B82C thumb ov018
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -21,13 +21,13 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0217B82C();
+extern void INTRUDE_FIELD_EventNotice();
 extern void func_02082BCC(void *, int, int);
-extern void *func_021A3074(u8 *p);
-void *func_0217B810(void *a, u8 *pos) {
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+void *INTRUDE_FIELD_CreateNoticeEvent(void *a, u8 *pos) {
     void *t;
     u8 *p;
-    t = func_020122C0(a, 0, func_0217B82C, 0x20);
+    t = func_020122C0(a, 0, INTRUDE_FIELD_EventNotice, 0x20);
     p = func_020124E8(t);
     return t;
 }

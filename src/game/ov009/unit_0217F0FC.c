@@ -1,7 +1,7 @@
 /*
  * file:     unit_0217F0FC.c
  * unit:     yes
- * function: func_0217F0FC, gsiEnterCriticalSection, gsiLeaveCriticalSection, gsiDeleteCriticalSection, gsiStringToInt64
+ * function: gsiInitializeCriticalSection, gsiEnterCriticalSection, gsiLeaveCriticalSection, gsiDeleteCriticalSection, gsiStringToInt64
  * address:  0x0217F0FC
  * region:   ov009
  * compiler: dsi/1.1p1
@@ -19,14 +19,14 @@ extern void func_02086004(void *criticalSection);
 extern void func_02086028(void *criticalSection);
 extern void func_02086078(void *criticalSection);
 extern long long func_020964F4(unsigned int string);
-void func_0217F0FC(void *criticalSection);
+void gsiInitializeCriticalSection(void *criticalSection);
 void gsiEnterCriticalSection(void *criticalSection);
 void gsiLeaveCriticalSection(void *criticalSection);
 void gsiDeleteCriticalSection(void *criticalSection);
 long long gsiStringToInt64(unsigned int string);
 
 
-void func_0217F0FC(void *criticalSection)
+void gsiInitializeCriticalSection(void *criticalSection)
 {
     func_02086004(criticalSection);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02166B0C
+ * function: SYMBOL_MAP_StartBg2Scale
  * address:  0x02166B0C
  * packet:   pkt_ov010_02166B0C
  * region:   ov010
@@ -10,23 +10,23 @@
  * status:   EXACT
  *
  * Unlabelled leaf: stores 0x3F800000 and 0 into a two-word datum, then
- * tail-calls func_02005654(func_02166A6C, 0).
+ * tail-calls func_02005654(SYMBOL_MAP_UpdateBg2Scale, 0).
  *
  * symbols:
  *   func_02005654  0x02005654  thumb
- *   func_02166A6C  0x02166A6C  thumb  ov010
- *   d_02172BA4     0x02172BA4  data  ov010  a4
+ *   SYMBOL_MAP_UpdateBg2Scale  0x02166A6C  thumb  ov010
+ *   g_Bg2ScaleState     0x02172BA4  data  ov010  a4
  */
 
 typedef unsigned int u32;
 
 extern int func_02005654(int a, int b);
-extern void func_02166A6C(void);
-extern u32 d_02172BA4[2];
+extern void SYMBOL_MAP_UpdateBg2Scale(void);
+extern u32 g_Bg2ScaleState[2];
 
-void func_02166B0C(void)
+void SYMBOL_MAP_StartBg2Scale(void)
 {
-    d_02172BA4[0] = 0x3F800000;
-    d_02172BA4[1] = 0;
-    func_02005654((int)func_02166A6C, 0);
+    g_Bg2ScaleState[0] = 0x3F800000;
+    g_Bg2ScaleState[1] = 0;
+    func_02005654((int)SYMBOL_MAP_UpdateBg2Scale, 0);
 }

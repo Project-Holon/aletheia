@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BF740 0x021BF740 thumb ov217
  *   func_021BF8B0 0x021BF8B0 thumb ov217
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200E394 0x0200E394 thumb
  *   func_0200E44C 0x0200E44C thumb
  *   func_0200E458 0x0200E458 thumb
@@ -63,7 +63,7 @@ extern u8 d_021C3994[];
 struct Big;
 extern u32 func_021BF740(u8 *a0);
 extern u8 func_021BF8B0(u8 *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E394(void *a0);
 extern int func_0200E44C(int p0, int p1);
 extern u16 func_0200E458(const u16 *p, int i);
@@ -83,7 +83,7 @@ void func_021BFC60(char *p)
     int i, j, k;
     void *h;
     u8 first;
-    h = func_0200E394(func_02012EBC((struct Big *)func_021BF740((u8 *)p)));
+    h = func_0200E394(GAME_DATA_GetSaveControl((struct Big *)func_021BF740((u8 *)p)));
     first = func_021BF8B0((u8 *)p);
     i = 0;
     grp[0] = func_0200E44C((int)h, 0);

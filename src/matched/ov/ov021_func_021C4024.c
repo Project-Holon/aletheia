@@ -1,5 +1,5 @@
 /*
- * function: func_021C4024
+ * function: SODATEYA_RollPersonalRnd
  * address:  0x021C4024
  * packet:   pkt_021C4024
  * region:   ov021
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021C4078  0x021C4078  thumb
+ *   SODATEYA_RollRandomU32  0x021C4078  thumb
  */
 #include "../include/Obj20194.h"
 
 typedef unsigned int u32;
 
-u32 func_021C4078(void);
+u32 SODATEYA_RollRandomU32(void);
 
-void func_021C4024(int a, char *p)
+void SODATEYA_RollPersonalRnd(int a, char *p)
 {
-    ((struct Obj20194 *)p)->f34 = func_021C4078();
+    ((struct Obj20194 *)p)->f34 = SODATEYA_RollRandomU32();
 }

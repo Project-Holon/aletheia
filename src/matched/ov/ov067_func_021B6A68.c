@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A68
+ * function: TOUCHBAR_SetEnabledPlain
  * address: 0x021B6A68
  * packet: pkt_ov067_021B6A68
  * region: ov067
@@ -10,7 +10,7 @@
  * status: EXACT*
  * extent: trailing two-byte alignment padding at 0x021B6A96.
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,14 +25,14 @@ typedef struct S {
     u16 f2a;
 } S;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
-void func_021B6A68(S *p, u32 flag)
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+void TOUCHBAR_SetEnabledPlain(S *p, u32 flag)
 {
     p->f04 = flag;
     if (flag) {
         if (p->f08 == p->f2a) p->f08 = p->f26;
-        func_0204B878(p->f00, p->f08);
+        CLACT_SetActorAnimSeq(p->f00, p->f08);
     } else {
-        func_0204B878(p->f00, p->f28);
+        CLACT_SetActorAnimSeq(p->f00, p->f28);
     }
 }

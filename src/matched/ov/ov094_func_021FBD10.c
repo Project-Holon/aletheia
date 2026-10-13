@@ -12,21 +12,21 @@
  * Script command: stores one argument at 0x1e4, waits on func_021FC9D0, and suspends.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
- *   func_020113D0 0x020113D0 thumb
+ *   VM_GetU32 0x0201134C thumb
+ *   VM_SetWait 0x020113D0 thumb
  *   func_021FC9D0 0x021FC9D0 thumb ov094
  */
 #include "../include/Obj13593.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
-extern void func_020113D0(char *p, int val);
+extern u32 VM_GetU32(struct Cursor *p);
+extern void VM_SetWait(char *p, int val);
 extern int func_021FC9D0(void *a, char *s);
 
 int func_021FBD10(void *a, char *s)
 {
-    ((struct Obj13593 *)s)->f1E4 = func_0201134C(a);
-    func_020113D0(a, (int)func_021FC9D0);
+    ((struct Obj13593 *)s)->f1E4 = VM_GetU32(a);
+    VM_SetWait(a, (int)func_021FC9D0);
     ((struct Obj13593 *)s)->f23C = 1;
     return 1;
 }

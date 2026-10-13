@@ -19,17 +19,17 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
- *   func_02017EAC 0x02017EAC thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
+ *   POKE_TOOL_IsShiny 0x02017EAC thumb
  *   POKERUS_IsCured 0x0201B280 thumb
  *   func_020275E4 0x020275E4 thumb
  *   func_02027748 0x02027748 thumb
  *   func_0202774C 0x0202774C thumb
  *   func_02027750 0x02027750 thumb
  *   func_02027754 0x02027754 thumb
- *   func_021B6208 0x021B6208 thumb ov067
- *   func_021B629C 0x021B629C thumb ov067
- *   func_0204B878 0x0204B878 arm
+ *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
+ *   UI_SCENE_CreateActor 0x021B629C thumb ov067
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   d_021E7EC4 0x021E7EC4 data a4
  *   d_021E7F84 0x021E7F84 data a4
@@ -44,17 +44,17 @@ typedef struct { int v[8]; } Coords;
 typedef struct { int v[8][2]; } States;
 extern const Coords d_021E7EC4;
 extern const States d_021E7F84;
-extern u32 func_02017E1C(void *,u32,u32);
-extern u32 func_02017EAC(void *);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern u32 POKE_TOOL_IsShiny(void *);
 extern u32 POKERUS_IsCured(void *);
 extern u32 func_020275E4(void);
 extern int func_02027748(void);
 extern int func_0202774C(int);
 extern int func_02027750(int);
 extern int func_02027754(int);
-extern void func_021B6208(void *,In *,int,u16);
-extern int func_021B629C(void *,int,u8,u16,u8,u16);
-extern void func_0204B878(struct Obj *,u16);
+extern void UI_SCENE_LoadActorGfx(void *,In *,int,u16);
+extern int UI_SCENE_CreateActor(void *,int,u8,u16,u8,u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void func_0204B3DC(struct Obj *,u32);
 void func_021E60BC(char *p,void *mon,int flag)
 {
@@ -66,7 +66,7 @@ void func_021E60BC(char *p,void *mon,int flag)
     long i;
     int state,sprite;
     int *row;
-    bits=func_02017E1C(mon,11,0);
+    bits=POKE_TOOL_GetPartyValue(mon,11,0);
     coords=d_021E7EC4;
     states=d_021E7F84;
     in.f0=0; in.f4=0;
@@ -76,10 +76,10 @@ void func_021E60BC(char *p,void *mon,int flag)
     in.f14=func_02027750(2);
     in.f18=func_02027754(2);
     in.b1c=13; in.b1d=0; in.b1e=1;
-    if (!flag && func_02017EAC(mon)) bits|=64;
+    if (!flag && POKE_TOOL_IsShiny(mon)) bits|=64;
     if (POKERUS_IsCured(mon)) bits|=128;
     if (!((struct Obj00001 *)p)->f99C) {
-        func_021B6208((void *)(p+0x98c),&in,((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f5F4);
+        UI_SCENE_LoadActorGfx((void *)(p+0x98c),&in,((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f5F4);
         ((struct Obj00001 *)p)->f99C=1;
     }
     offOwner=0x98c+0x38;
@@ -93,9 +93,9 @@ void func_021E60BC(char *p,void *mon,int flag)
         if (sprite) {
             if (state==-1) func_0204B3DC((struct Obj *)sprite,0);
             else if (flag && i==6) func_0204B3DC((struct Obj *)sprite,0);
-            else { func_0204B878((struct Obj *)sprite,state); func_0204B3DC((struct Obj *)sprite,1); }
+            else { CLACT_SetActorAnimSeq((struct Obj *)sprite,state); func_0204B3DC((struct Obj *)sprite,1); }
         } else {
-            *(int *)(p+(unsigned long)i*4+offStore)=func_021B629C((void *)(p+0x98c),*(int *)(p+offOwner),coords.v[(unsigned long)i]*8,101,state==-1?row[0]:state,((struct Obj00001 *)p)->f5F4);
+            *(int *)(p+(unsigned long)i*4+offStore)=UI_SCENE_CreateActor((void *)(p+0x98c),*(int *)(p+offOwner),coords.v[(unsigned long)i]*8,101,state==-1?row[0]:state,((struct Obj00001 *)p)->f5F4);
             sprite=*(int *)(p+(unsigned long)i*4+offLoad);
             if (state==-1) func_0204B3DC((struct Obj *)sprite,0);
             else if (flag && i==6) func_0204B3DC((struct Obj *)sprite,0);

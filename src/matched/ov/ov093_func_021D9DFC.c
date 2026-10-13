@@ -1,5 +1,5 @@
 /*
- * function: func_021D9DFC
+ * function: HAND_TOKUSEI_AddEffectSpore
  * address: 0x021D9DFC
  * packet: pkt_ov093_021D9DFC
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F0830 0x021F0830 data ov093 a4
  */
 
-int *func_021D9DFC(int *p);
+int *HAND_TOKUSEI_AddEffectSpore(int *p);
 extern int d_021F0830[];
 
-int *func_021D9DFC(int *p)
+int *HAND_TOKUSEI_AddEffectSpore(int *p)
 {
     *p = 1;
     return d_021F0830;

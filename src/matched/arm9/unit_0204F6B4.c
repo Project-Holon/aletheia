@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_0204F6B4, func_0204F6DC, BILLBOARD_GetElemVisible
+ * function: BILLBOARD_SetElemAlpha, BILLBOARD_SetElemPolyId, BILLBOARD_GetElemVisible
  * address:  0x0204F6B4
  * packet:   pkt_0204F684
  * region:   arm9
@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * The three accessors that follow func_0204F684, 0x0204F6B4..0x0204F720, on
+ * The three accessors that follow BILLBOARD_SetElemScale, 0x0204F6B4..0x0204F720, on
  * the three bitfields of the packed halfword at +0x18 of one 0x1c-byte entry
  * of the descriptor's +8 array: five bits at bit 0, four bits at bit 5, and
  * the single bit at bit 9.
@@ -46,14 +46,14 @@ struct Ent {
     u8  pad_1a[2];
 };
 
-void func_0204F6B4(u8 *a0, int i, u8 *px)
+void BILLBOARD_SetElemAlpha(u8 *a0, int i, u8 *px)
 {
     struct Ent *e = &((struct Ent *)((struct Obj17359 *)a0)->f8)[i];
 
     e->f0 = *px;
 }
 
-void func_0204F6DC(u8 *a0, int i, u8 *px)
+void BILLBOARD_SetElemPolyId(u8 *a0, int i, u8 *px)
 {
     struct Ent *e = &((struct Ent *)((struct Obj17361 *)a0)->f8)[i];
 

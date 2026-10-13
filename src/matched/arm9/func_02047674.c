@@ -1,5 +1,5 @@
 /*
- * function: func_02047674
+ * function: G3D_SYSTEM_GetAnimeObj
  * address:  0x02047674
  * packet:   pkt_02047674
  * region:   arm9
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj16042.h"
 
-int func_02047674(int p)
+int G3D_SYSTEM_GetAnimeObj(int p)
 {
     return ((struct Obj16042 *)p)->f4;
 }

@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F00BC  0x021F00BC  thumb  ov034
+ *   REPORT_StartSaveAnim  0x021F00BC  thumb  ov034
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern void func_021F00BC(int *p);
+extern void REPORT_StartSaveAnim(int *p);
 
 void func_021A1530(u32 *p)
 {
-    func_021F00BC((int *)p[8]);
+    REPORT_StartSaveAnim((int *)p[8]);
 }

@@ -11,7 +11,7 @@
  *   func_02030734 0x02030734 arm
  *   d_021C3C58 0x021C3C58 data a1
  *   func_021BF6D4 0x021BF6D4 thumb ov110
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045B38 0x02045B38 arm
  *   BMP_CURSOR_Create 0x02020D18 thumb
  *   BGWINFRM_Create 0x0202C9B4 thumb
@@ -26,7 +26,7 @@ extern const char d_021C3C58[];
 extern u8 *func_021BF6D4(u8 *);
 struct MsgBank;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *BMP_CURSOR_Create(unsigned);
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
@@ -41,7 +41,7 @@ u8 *func_021BBC5C(void *a, u8 *b, void *c)
     ((struct Obj01392 *)p)->f14 = 0;
     ((struct Obj01392 *)p)->f18 = 0;
     ((struct Obj01392 *)p)->f1A4 = 0;
-    ((struct Obj01392 *)p)->f30 = func_020457B0(128, 42);
+    ((struct Obj01392 *)p)->f30 = STRBUF_Create(128, 42);
     ((struct Obj01392 *)p)->f2C = func_02045B38(0, 2, 146, 42);
     ((struct Obj01392 *)p)->f34 = BMP_CURSOR_Create(42);
     ((struct Obj01392 *)p)->f198 = 0;

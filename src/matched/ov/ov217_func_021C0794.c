@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0202570C  0x0202570C  thumb
+ *   BMP_OAM_Delete  0x0202570C  thumb
  *
  * Addresses are Black-image addresses.
  */
 
 struct Grid;
-extern void func_0202570C(struct Grid *g);
+extern void BMP_OAM_Delete(struct Grid *g);
 
 void func_021C0794(int *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        func_0202570C((struct Grid *)p[i + 0xEA]);
+        BMP_OAM_Delete((struct Grid *)p[i + 0xEA]);
 }

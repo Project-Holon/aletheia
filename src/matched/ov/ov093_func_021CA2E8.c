@@ -11,8 +11,8 @@
  * extent: two zero bytes at 021CA316 are alignment padding.
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
- *   func_021D67D8 0x021D67D8 thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  *   func_021C99A0 0x021C99A0 thumb ov093
  */
 #include "../include/Obj00003.h"
@@ -20,14 +20,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D67D8(u8 *, u32);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void BTL_POKEPARAM_SetWeight(u8 *, u32);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 struct Msg;
 extern int func_021C99A0(void *, const struct Msg *);
 int func_021CA2E8(u8 *p, const u8 *q)
 {
-    func_021D67D8(func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[4]), *(const u16 *)(q + 6));
-    func_021CD4B0(((struct Obj00003 *)p)->fC, 20, q[4], *(const u16 *)(q + 6));
+    BTL_POKEPARAM_SetWeight(func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[4]), *(const u16 *)(q + 6));
+    BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 20, q[4], *(const u16 *)(q + 6));
     func_021C99A0(p, (const struct Msg *)(q + 8));
     return 1;
 }

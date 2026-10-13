@@ -1,5 +1,5 @@
 /*
- * function: func_02188CE0
+ * function: FIELDMAP_GetUnionEff
  * address:  0x02188CE0
  * packet:   pkt_ov021_02188CE0
  * region:   ov021
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf getter at +0x98 (between func_02188CD8 and
- * func_02188CE8); sole blocker of ov019 func_0217B264's call.
+ * Unlabelled leaf getter at +0x98 (between FIELDMAP_GetG3dObjCtrl and
+ * FIELDMAP_GetEncount); sole blocker of ov019 UNION_CHARA_Main's call.
  *
  * Addresses are Black-image addresses.
  */
@@ -19,7 +19,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-u32 func_02188CE0(u8 *p)
+u32 FIELDMAP_GetUnionEff(u8 *p)
 {
     return ((struct Obj19490 *)p)->f98;
 }

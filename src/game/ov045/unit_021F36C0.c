@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F36C0.c
  * unit:     yes
- * function: func_021F36C0, func_021F37F8, func_021F381C, func_021F384C, func_021F3888, func_021F38C4, func_021F3908, func_021F3938, func_021F39A8, func_021F39B8
+ * function: func_021F36C0, GIMMICK45_Exit, GIMMICK45_Update, GIMMICK45_StartSecondarySwitchEvent, GIMMICK45_StartSwitchToggleEvent, GIMMICK45_ReplacePlayerIfRequirementMet, GIMMICK45_IsRequirementMet, GIMMICK45_SetSwitchModelPose, GIMMICK45_IsSwitchOn, GIMMICK45_SecondarySwitchEventProc
  * address:  0x021F36C0
  * region:   ov045
  * compiler: dsi/1.1p1
@@ -16,34 +16,34 @@
  *   d_021F3B50     0x021F3B50  data  ov045
  *   d_021F3B80     0x021F3B80  data  ov045  a4
  *   d_021F3BA4     0x021F3BA4  data  ov045  a4
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE4A4  0x021BE4A4  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B8  0x021BE6B8  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
- *   func_021897BC 0x021897BC thumb ov021
- *   func_021897A0 0x021897A0 thumb ov021
- *   func_021BE418 0x021BE418 thumb ov021
- *   func_021BE580 0x021BE580 thumb ov021
- *   func_021F3A68 0x021F3A68 thumb ov045
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CF0  0x02188CF0  thumb  ov021
- *   func_02188CA4  0x02188CA4  thumb  ov021
- *   func_021A6DC4  0x021A6DC4  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
+ *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
+ *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
+ *   FLD_EXP_OBJ_RemoveUnit 0x021BE418 thumb ov021
+ *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
+ *   GIMMICK45_SwitchToggleEventProc 0x021F3A68 thumb ov045
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCtrlType  0x02188CF0  thumb  ov021
+ *   FIELDMAP_GetCtrlWork  0x02188CA4  thumb  ov021
+ *   FIELDMAP_CTRL_HYBRID_ReplacePlayer  0x021A6DC4  thumb  ov021
  *   d_021F3B60  0x021F3B60  data  ov045
  *   d_021F3B62  0x021F3B62  data
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE6CC  0x021BE6CC  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
  *   func_020124E4  0x020124E4  thumb
- *   func_021BE6BC  0x021BE6BC  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
  */
 #include "unit_021F36C0_types.h"
 
@@ -58,44 +58,44 @@ struct GameEvent;
 
 typedef int (*GameEventFunc)(struct GameEvent *event, int *state);
 
-extern struct FldExpObj *func_02188D2C(struct FieldMap *fieldMap);
-extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct FieldSave *func_02012EC4(struct GameData *gameData);
-extern Gimmick45Save *func_0200B3A4(struct FieldSave *fieldSave, u32 blockId);
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern void *func_02189764(struct FieldMap *fieldMap, int workId, int heapId, int size);
-extern void func_021BE760(struct FldExpObj *expObj, struct FldExpUnitDesc *desc, int unitIndex);
-extern Vec3Fx *func_021BE480(struct FldExpObj *expObj, int unitIndex, u16 modelIndex);
-extern void func_021BE4A4(struct FldExpObj *expObj, int unitIndex, int modelIndex, int cullDraw);
-extern struct FldExpAnime *func_021BE674(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex);
-extern void func_021BE6B8(struct FldExpAnime *anime, int loop);
-extern void func_021BE6B0(struct FldExpAnime *anime, int paused);
-extern Gimmick45Work *func_021897BC(struct FieldMap *fieldMap, int workId);
-extern void func_021897A0(struct FieldMap *fieldMap, int workId);
-extern void func_021BE418(struct FldExpObj *expObj, u16 unitIndex);
-extern void func_021BE580(struct FldExpObj *expObj);
-extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
+extern struct FldExpObj *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct FieldSave *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern Gimmick45Save *GIMMICK_WORK_GetSaveArea(struct FieldSave *fieldSave, u32 blockId);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int workId, int heapId, int size);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObj *expObj, struct FldExpUnitDesc *desc, int unitIndex);
+extern Vec3Fx *FLD_EXP_OBJ_GetModelStatus(struct FldExpObj *expObj, int unitIndex, u16 modelIndex);
+extern void FLD_EXP_OBJ_SetModelCullDraw(struct FldExpObj *expObj, int unitIndex, int modelIndex, int cullDraw);
+extern struct FldExpAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex);
+extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpAnime *anime, int loop);
+extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpAnime *anime, int paused);
+extern Gimmick45Work *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int workId);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int workId);
+extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObj *expObj, u16 unitIndex);
+extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObj *expObj);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
-extern int func_021F3A68(struct GameEvent *event, int *state);
-extern int func_02188CF0(struct FieldMap *fieldMap);
-extern void *func_02188CA4(struct FieldMap *fieldMap);
-extern void func_021A6DC4(void *ctrlWork, struct FieldMap *fieldMap);
-extern void func_021BE700(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int enabled);
-extern void func_021BE6CC(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int frame);
+extern int GIMMICK45_SwitchToggleEventProc(struct GameEvent *event, int *state);
+extern int FIELDMAP_GetCtrlType(struct FieldMap *fieldMap);
+extern void *FIELDMAP_GetCtrlWork(struct FieldMap *fieldMap);
+extern void FIELDMAP_CTRL_HYBRID_ReplacePlayer(void *ctrlWork, struct FieldMap *fieldMap);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int enabled);
+extern void FLD_EXP_OBJ_SetAnimeFrame(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int frame);
 extern struct GameSystem *func_020124E4(struct GameEvent *event);
-extern int func_021BE6BC(struct FldExpAnime *anime);
+extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpAnime *anime);
 
 void func_021F36C0(struct FieldMap *fieldMap);
-void func_021F37F8(struct FieldMap *fieldMap);
-void func_021F381C(struct FieldMap *fieldMap);
-struct GameEvent *func_021F384C(struct GameSystem *gameSystem, int switchIndex);
-struct GameEvent *func_021F3888(struct GameSystem *gameSystem, int switchIndex);
-void func_021F38C4(struct GameSystem *gameSystem, int requirementIndex);
-int func_021F3908(Gimmick45Save *save, int requirementIndex);
-void func_021F3938(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel);
-int func_021F39A8(Gimmick45Save *save, int switchIndex);
-int func_021F39B8(struct GameEvent *event, int *state);
+void GIMMICK45_Exit(struct FieldMap *fieldMap);
+void GIMMICK45_Update(struct FieldMap *fieldMap);
+struct GameEvent *GIMMICK45_StartSecondarySwitchEvent(struct GameSystem *gameSystem, int switchIndex);
+struct GameEvent *GIMMICK45_StartSwitchToggleEvent(struct GameSystem *gameSystem, int switchIndex);
+void GIMMICK45_ReplacePlayerIfRequirementMet(struct GameSystem *gameSystem, int requirementIndex);
+int GIMMICK45_IsRequirementMet(Gimmick45Save *save, int requirementIndex);
+void GIMMICK45_SetSwitchModelPose(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel);
+int GIMMICK45_IsSwitchOn(Gimmick45Save *save, int switchIndex);
+int GIMMICK45_SecondarySwitchEventProc(struct GameEvent *event, int *state);
 
 extern struct FldExpUnitDesc d_021F3B50;
 extern Vec3Fx d_021F3B80[];
@@ -117,99 +117,99 @@ void func_021F36C0(struct FieldMap *fieldMap)
     int secondaryIdx;
     int animIdx;
 
-    expObj = func_02188D2C(fieldMap);
-    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
-    func_02189764(fieldMap, 1, func_02188C84(fieldMap), sizeof(Gimmick45Work));
-    func_021BE760(expObj, &d_021F3B50, 0);
+    expObj = FIELDMAP_GetExpObj(fieldMap);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
+    FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(Gimmick45Work));
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &d_021F3B50, 0);
     for (switchIdx = 0; switchIdx < GIMMICK45_SWITCH_COUNT; switchIdx++) {
-        modelPos = func_021BE480(expObj, 0, switchIdx);
+        modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, switchIdx);
         *modelPos = d_021F3B80[switchIdx];
-        func_021BE4A4(expObj, 0, (u16)switchIdx, 1);
+        FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u16)switchIdx, 1);
         for (animIdx = 0; animIdx < 2; animIdx++) {
-            anime = func_021BE674(expObj, 0, switchIdx, animIdx);
-            func_021BE6B8(anime, 0);
-            func_021BE6B0(anime, 1);
+            anime = FLD_EXP_OBJ_GetAnime(expObj, 0, switchIdx, animIdx);
+            FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
+            FLD_EXP_OBJ_SetAnimePaused(anime, 1);
         }
         secondaryIdx = switchIdx + GIMMICK45_SECONDARY_MODEL_OFFSET;
-        modelPos = func_021BE480(expObj, 0, secondaryIdx);
+        modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, secondaryIdx);
         *modelPos = d_021F3BA4[switchIdx];
-        func_021BE4A4(expObj, 0, (u16)secondaryIdx, 1);
+        FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, (u16)secondaryIdx, 1);
         for (animIdx = 0; animIdx < 2; animIdx++) {
-            anime = func_021BE674(expObj, 0, secondaryIdx, animIdx);
-            func_021BE6B8(anime, 0);
-            func_021BE6B0(anime, 1);
+            anime = FLD_EXP_OBJ_GetAnime(expObj, 0, secondaryIdx, animIdx);
+            FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
+            FLD_EXP_OBJ_SetAnimePaused(anime, 1);
         }
-        func_021F3938(expObj, save->switchOn[switchIdx], switchIdx, 1);
-        func_021F3938(expObj, save->switchOn[switchIdx], switchIdx, 0);
+        GIMMICK45_SetSwitchModelPose(expObj, save->switchOn[switchIdx], switchIdx, 1);
+        GIMMICK45_SetSwitchModelPose(expObj, save->switchOn[switchIdx], switchIdx, 0);
     }
 }
 
-void func_021F37F8(struct FieldMap *fieldMap)
+void GIMMICK45_Exit(struct FieldMap *fieldMap)
 {
-    struct FldExpObj *expObj = func_02188D2C(fieldMap);
+    struct FldExpObj *expObj = FIELDMAP_GetExpObj(fieldMap);
 
-    func_021897BC(fieldMap, 1);
-    func_021897A0(fieldMap, 1);
-    func_021BE418(expObj, 0);
+    FIELDMAP_GetCommonWork(fieldMap, 1);
+    FIELDMAP_FreeCommonWork(fieldMap, 1);
+    FLD_EXP_OBJ_RemoveUnit(expObj, 0);
 }
 
-void func_021F381C(struct FieldMap *fieldMap)
+void GIMMICK45_Update(struct FieldMap *fieldMap)
 {
     struct FldExpObj *expObj;
 
-    expObj = func_02188D2C(fieldMap);
-    func_021897BC(fieldMap, 1);
-    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
-    func_021BE580(expObj);
+    expObj = FIELDMAP_GetExpObj(fieldMap);
+    FIELDMAP_GetCommonWork(fieldMap, 1);
+    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
+    FLD_EXP_OBJ_UpdateAnimes(expObj);
 }
 
-struct GameEvent *func_021F384C(struct GameSystem *gameSystem, int switchIndex)
+struct GameEvent *GIMMICK45_StartSecondarySwitchEvent(struct GameSystem *gameSystem, int switchIndex)
 {
     struct FieldMap *fieldMap;
     Gimmick45Work *work;
 
-    fieldMap = func_0201210C(gameSystem);
-    func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
-    work = func_021897BC(fieldMap, 1);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    work = FIELDMAP_GetCommonWork(fieldMap, 1);
     if (switchIndex >= GIMMICK45_SWITCH_COUNT)
         return 0;
     work->switchIndex = switchIndex;
-    return func_020122C0(gameSystem, 0, func_021F39B8, 0);
+    return func_020122C0(gameSystem, 0, GIMMICK45_SecondarySwitchEventProc, 0);
 }
 
-struct GameEvent *func_021F3888(struct GameSystem *gameSystem, int switchIndex)
+struct GameEvent *GIMMICK45_StartSwitchToggleEvent(struct GameSystem *gameSystem, int switchIndex)
 {
     struct FieldMap *fieldMap;
     Gimmick45Work *work;
 
-    fieldMap = func_0201210C(gameSystem);
-    func_02012EC4(func_020120F4(func_02188C80(fieldMap)));
-    work = func_021897BC(fieldMap, 1);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    work = FIELDMAP_GetCommonWork(fieldMap, 1);
     if (switchIndex >= GIMMICK45_SWITCH_COUNT)
         return 0;
     work->switchIndex = switchIndex;
-    return func_020122C0(gameSystem, 0, func_021F3A68, 0);
+    return func_020122C0(gameSystem, 0, GIMMICK45_SwitchToggleEventProc, 0);
 }
 
 
-void func_021F38C4(struct GameSystem *gameSystem, int requirementIndex)
+void GIMMICK45_ReplacePlayerIfRequirementMet(struct GameSystem *gameSystem, int requirementIndex)
 {
     struct FieldMap *fieldMap;
     int ctrlType;
     Gimmick45Save *save;
 
-    fieldMap = func_0201210C(gameSystem);
-    ctrlType = func_02188CF0(fieldMap);
-    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
+    ctrlType = FIELDMAP_GetCtrlType(fieldMap);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
     if (requirementIndex < GIMMICK45_REQUIREMENT_COUNT && ctrlType == GIMMICK45_CTRL_TYPE_HYBRID) {
-        if (func_021F3908(save, requirementIndex)) {
-            func_021A6DC4(func_02188CA4(fieldMap), fieldMap);
+        if (GIMMICK45_IsRequirementMet(save, requirementIndex)) {
+            FIELDMAP_CTRL_HYBRID_ReplacePlayer(FIELDMAP_GetCtrlWork(fieldMap), fieldMap);
         }
     }
 }
 
 
-int func_021F3908(Gimmick45Save *save, int requirementIndex)
+int GIMMICK45_IsRequirementMet(Gimmick45Save *save, int requirementIndex)
 {
     u16 switchIsOn = (u16)(save->switchOn[d_021F3B60[requirementIndex * 2]] != 0);
 
@@ -217,7 +217,7 @@ int func_021F3908(Gimmick45Save *save, int requirementIndex)
 }
 
 
-void func_021F3938(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel)
+void GIMMICK45_SetSwitchModelPose(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel)
 {
     int onAnim, offAnim;
 
@@ -231,19 +231,19 @@ void func_021F3938(struct FldExpObj *expObj, int switchOn, int switchIndex, int 
     if (usePrimaryModel != 1) {
         switchIndex += GIMMICK45_SECONDARY_MODEL_OFFSET;
     }
-    func_021BE700(expObj, 0, switchIndex, onAnim, 1);
-    func_021BE700(expObj, 0, switchIndex, offAnim, 0);
-    func_021BE6CC(expObj, 0, (u16)switchIndex, (u16)onAnim, 0);
-    func_021BE6B0(func_021BE674(expObj, 0, switchIndex, onAnim), 1);
+    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, switchIndex, onAnim, 1);
+    FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, switchIndex, offAnim, 0);
+    FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, (u16)switchIndex, (u16)onAnim, 0);
+    FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, switchIndex, onAnim), 1);
 }
 
-int func_021F39A8(Gimmick45Save *save, int switchIndex)
+int GIMMICK45_IsSwitchOn(Gimmick45Save *save, int switchIndex)
 {
     return save->switchOn[switchIndex] != 0;
 }
 
 
-int func_021F39B8(struct GameEvent *event, int *state)
+int GIMMICK45_SecondarySwitchEventProc(struct GameEvent *event, int *state)
 {
     struct FieldMap *fieldMap;
     struct FldExpObj *expObj;
@@ -253,26 +253,26 @@ int func_021F39B8(struct GameEvent *event, int *state)
     int switchIdx;
     u8 curState;
 
-    fieldMap = func_0201210C(func_020124E4(event));
-    expObj = func_02188D2C(fieldMap);
-    work = func_021897BC(fieldMap, 1);
+    fieldMap = GAMESYSTEM_GetFieldMap(func_020124E4(event));
+    expObj = FIELDMAP_GetExpObj(fieldMap);
+    work = FIELDMAP_GetCommonWork(fieldMap, 1);
     newState = 1;
-    save = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), GIMMICK45_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         switchIdx = work->switchIndex;
-        curState = func_021F39A8(save, switchIdx);
-        func_021BE6B0(func_021BE674(expObj, 0, (u8)(switchIdx + GIMMICK45_SECONDARY_MODEL_OFFSET), curState), 0);
+        curState = GIMMICK45_IsSwitchOn(save, switchIdx);
+        FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, (u8)(switchIdx + GIMMICK45_SECONDARY_MODEL_OFFSET), curState), 0);
         *state = *state + 1;
         break;
     case 1:
         switchIdx = work->switchIndex;
-        curState = func_021F39A8(save, switchIdx);
-        if (func_021BE6BC(func_021BE674(expObj, 0, (u8)(switchIdx + GIMMICK45_SECONDARY_MODEL_OFFSET), curState))) {
+        curState = GIMMICK45_IsSwitchOn(save, switchIdx);
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, (u8)(switchIdx + GIMMICK45_SECONDARY_MODEL_OFFSET), curState))) {
             if (save->switchOn[work->switchIndex]) {
                 newState = 0;
             }
-            func_021F3938(expObj, newState, work->switchIndex, 0);
+            GIMMICK45_SetSwitchModelPose(expObj, newState, work->switchIndex, 0);
             return 1;
         }
         break;

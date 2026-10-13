@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021590D4",
+   "name": "SCRIPT_WORK_RestoreLocalWork",
    "address": "0x021590D4",
    "kind": "game",
    "region": "ov010",

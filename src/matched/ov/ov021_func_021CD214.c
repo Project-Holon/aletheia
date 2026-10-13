@@ -1,5 +1,5 @@
 /*
- * function: func_021CD214
+ * function: FIELD_BBD_COLOR_Apply
  * address:  0x021CD214
  * packet:   pkt_ov021_021CD214
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0207CDB8  0x0207CDB8  arm
+ *   VEC_Fx16Normalize  0x0207CDB8  arm
  *   func_0204ED4C  0x0204ED4C  arm
  *   func_0204ED80  0x0204ED80  arm
  *   func_0204ED8C  0x0204ED8C  arm
@@ -22,14 +22,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_0207CDB8(u16 *a, u16 *b);
+extern void VEC_Fx16Normalize(u16 *a, u16 *b);
 extern void func_0204ED4C(u8 *a0, short *a1);
 extern void func_0204ED80(u8 *dst, u16 *src);
 extern void func_0204ED8C(u8 *dst, u16 *src);
 extern void func_0204ED98(u8 *dst, u16 *src);
 extern void func_0204EDA4(u8 *dst, u16 *src);
 
-void func_021CD214(u8 *s, void *o)
+void FIELD_BBD_COLOR_Apply(u8 *s, void *o)
 {
     u16 v[3];
     u16 c[4];
@@ -37,7 +37,7 @@ void func_021CD214(u8 *s, void *o)
     v[0] = ((struct Obj01220 *)s)->f4;
     v[1] = ((struct Obj01220 *)s)->f8;
     v[2] = ((struct Obj01220 *)s)->fC;
-    func_0207CDB8(v, v);
+    VEC_Fx16Normalize(v, v);
     func_0204ED4C(o, (short int *)v);
     c[3] = ((struct Obj01220 *)s)->f10 | (((struct Obj01220 *)s)->f12 << 5) | (((struct Obj01220 *)s)->f14 << 10);
     func_0204ED80(o, &c[3]);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D33F8
+ * function: FIELD_PALACE_SYS_GetPalTable
  * address:  0x021D33F8
  * packet:   pkt_021D33F8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Getter: returns the word at +0x08.  Unlabelled in the listing; called
- * from func_021881D8.
+ * from FIELDMAP_SeqCreateSubsystems.
  *
  * Addresses are Black-image addresses.
  */
@@ -18,7 +18,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_021D33F8(u32 *p)
+void *FIELD_PALACE_SYS_GetPalTable(u32 *p)
 {
     return (void *)p[2];
 }

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   g_021469F4     0x021469F4  data
  *
  * net_lower_data.c: end offset (+0x00 base plus +0x0C length) of record
  * idx (0xFF meaning 0) in the table g_021469F4 points to, re-checked after
- * func_0203D798; 0 when the table or record is missing.  Same double guard
+ * GFL_NET_GetInitParam; 0 when the table or record is missing.  Same double guard
  * as the matched GFL_NET_LOWER_DATA_RecvChunk, but the FIRST guard is a wrapping positive
  * test (`!= 0 && != 0`) whose failure falls through to the one trailing
  * return 0, which is the shared null-exit block the earlier note wanted.
@@ -34,7 +34,7 @@ struct Tbl {
 };
 
 extern struct Tbl *g_021469F4;
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 
 u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 idx)
 {
@@ -43,7 +43,7 @@ u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 idx)
         idx = 0;
     }
     if (g_021469F4 != 0 && g_021469F4->ent[idx] != 0) {
-        func_0203D798();
+        GFL_NET_GetInitParam();
         if (g_021469F4 == 0 || g_021469F4->ent[idx] == 0) {
             return 0;
         }

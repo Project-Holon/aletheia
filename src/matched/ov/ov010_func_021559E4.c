@@ -12,10 +12,10 @@
  * symbols:
  *   func_02155478  0x02155478  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
- *   func_0201232C  0x0201232C  thumb
+ *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0201A920  0x0201A920  thumb
  */
 #include "../include/Obj05876.h"
@@ -40,10 +40,10 @@ struct Desc;
 struct Obj;
 struct Party;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void func_0201232C(char *p, int a1, int a2);
+extern void GAME_EVENT_Change(char *p, int a1, int a2);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Party *func_0201A920(u32 heap);
 
 void *func_021559E4(void *a, int b, void *c, int d)
@@ -54,10 +54,10 @@ void *func_021559E4(void *a, int b, void *c, int d)
     if (d != 0)
         c = func_020122C0(a, 0, func_02155478, 0xE8);
     else
-        func_0201232C(c, (int)func_02155478, 0xE8);
+        GAME_EVENT_Change(c, (int)func_02155478, 0xE8);
     t = func_020124E8(c);
-    ((struct Obj05876 *)t)->f4C = func_02012EBC(func_020120F4(a));
-    t->f04 = func_020120F4(a);
+    ((struct Obj05876 *)t)->f4C = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(a));
+    t->f04 = GAMESYSTEM_GetGameData(a);
     t->f00 = a;
     for (i = 0; i < 4; i++)
         t->f3c[i] = func_0201A920(4);

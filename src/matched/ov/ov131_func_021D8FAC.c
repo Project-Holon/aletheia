@@ -15,7 +15,7 @@
  *   func_020410D0 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_02040AE0 0x02040AE0 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   P_STA_RIBBON_GetRowY 0x021D9440 thumb ov131
  *   P_STA_OAM_SetBitmapActorsPos 0x021DBE2C thumb ov131
  *   P_STA_OAM_SetBitmapActorsEnabled 0x021DBCA4 thumb ov131
@@ -34,7 +34,7 @@ extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
 struct Obj;
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern s16 P_STA_RIBBON_GetRowY(u8 *,u32);
 extern void P_STA_OAM_SetBitmapActorsPos(u8 *,s16,s16);
 extern void P_STA_OAM_SetBitmapActorsEnabled(u8 *,int);
@@ -63,5 +63,5 @@ void P_STA_RIBBON_Show(u8 *a,u8 *p)
     p[0x5a]=255;
     ((struct Obj01548 *)p)->f0=1;
     ((struct Obj01548 *)p)->fC=1;
-    func_0204B878(((struct Obj23149 *)a)->f180,5);
+    CLACT_SetActorAnimSeq(((struct Obj23149 *)a)->f180,5);
 }

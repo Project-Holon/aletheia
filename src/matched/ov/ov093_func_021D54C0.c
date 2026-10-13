@@ -1,5 +1,5 @@
 /*
- * function: func_021D54C0
+ * function: BTL_POKEPARAM_GetMoveId
  * address:  0x021D54C0
  * packet:   pkt_ov093_021D54C0
  * region:   ov093
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 a; u8 b; u8 c; u8 pad[10]; } Ent;
 
-u16 func_021D54C0(u8 *p, int i)
+u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i)
 {
     return ((Ent *)(p + 0x10a))[i].a;
 }

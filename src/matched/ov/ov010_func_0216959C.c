@@ -1,5 +1,5 @@
 /*
- * function: func_0216959C
+ * function: FIELD_G3D_MAP_ResetLoadState
  * address:  0x0216959C
  * packet:   pkt_ov010_0216959C
  * region:   ov010
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_0216959C(u8 *p)
+void FIELD_G3D_MAP_ResetLoadState(u8 *p)
 {
     *(u32 *)(p + 0xB4) = 0;
     *(u32 *)(p + 0xC0) = 0;

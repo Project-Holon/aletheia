@@ -1,5 +1,5 @@
 /*
- * function: func_021B7A4C
+ * function: FRAME_LIST_LoadPalettes
  * address: 0x021B7A4C
  * packet: pkt_ov067_021B7A4C
  * region: ov067
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct CodeIn;
 extern void BLINK_PALANM_LoadPalettes(struct CodeIn *, u8 *, u32, u32, u32);
-void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d)
+void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d)
 {
     BLINK_PALANM_LoadPalettes(*(struct CodeIn * *)&((struct Obj20621 *)p)->f30, a, b, c << 4, d << 4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215EF40
+ * function: MOVE_POKEMON_StartSweetScent
  * address:  0x0215EF40
  * packet:   pkt_0215EF40
  * region:   ov010
@@ -13,8 +13,8 @@
  * fields to the overlay pair call.
  *
  * symbols:
- *   func_02165534   0x02165534  thumb  ov010
- *   func_021D1C24   0x021D1C24  thumb
+ *   GAME_BEACON_SEARCH_SetCountValue   0x02165534  thumb  ov010
+ *   EVENT_PERAP_RECORD_Create   0x021D1C24  thumb
  */
 #include "../include/Obj12044.h"
 #include "../include/Obj17700.h"
@@ -23,13 +23,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02165534(void *a0);
-extern void func_021D1C24(int, int, unsigned);
+extern void GAME_BEACON_SEARCH_SetCountValue(void *a0);
+extern void EVENT_PERAP_RECORD_Create(int, int, unsigned);
 
-void func_0215EF40(void *a0, void *a1)
+void MOVE_POKEMON_StartSweetScent(void *a0, void *a1)
 {
-    func_02165534((void *)0x1C0);
-    func_021D1C24(((struct Obj12044 *)a1)->f8, ((struct Obj12044 *)a1)->f10,
+    GAME_BEACON_SEARCH_SetCountValue((void *)0x1C0);
+    EVENT_PERAP_RECORD_Create(((struct Obj12044 *)a1)->f8, ((struct Obj12044 *)a1)->f10,
                  (u8)((struct Obj17700 *)a0)->f0);
 }
 

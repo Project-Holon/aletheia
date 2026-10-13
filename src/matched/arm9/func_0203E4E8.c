@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203CEAC  0x0203CEAC  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
  *   gNetIrcWirelessLink     0x021469F0  data
  *
  * Gated state step: only a context whose +0x109 state is 0x10 advances, and
@@ -31,7 +31,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_0203CEAC(int a0);
+extern int GFL_NET_Exit(int a0);
 extern struct Ctx *gNetIrcWirelessLink;
 
 u32 GFL_NET_IRC_WIRELESS_RetryStep(void)
@@ -43,7 +43,7 @@ u32 GFL_NET_IRC_WIRELESS_RetryStep(void)
     if (p[0x109] != 0x10)
         return 0;
     p[0x107] = p[0x108] + 1;
-    func_0203CEAC(0);
+    GFL_NET_Exit(0);
     ((u8 *)gNetIrcWirelessLink)[0x109] = 9;
     return 1;
 }

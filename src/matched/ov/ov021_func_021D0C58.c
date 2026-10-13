@@ -12,22 +12,22 @@
  * Callee witnesses filed in wave A1 (witness lane).
  *
  * symbols:
- *   func_021576D0  0x021576D0  thumb  ov010
- *   func_021578A0  0x021578A0  thumb  ov010
+ *   DELIVERY_BEACON_Create  0x021576D0  thumb  ov010
+ *   DELIVERY_BEACON_Start  0x021578A0  thumb  ov010
  *   func_020362DC  0x020362DC  arm
- *   func_02157928  0x02157928  thumb  ov010
- *   func_021578F0  0x021578F0  thumb  ov010
- *   func_02157910  0x02157910  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   DELIVERY_BEACON_RunStep  0x02157928  thumb  ov010
+ *   DELIVERY_BEACON_HasAnyPiece  0x021578F0  thumb  ov010
+ *   DELIVERY_BEACON_TryComplete  0x02157910  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E8F8  0x0200E8F8  thumb
  *   func_0200E5E4  0x0200E5E4  thumb
  *   func_0200E5A0  0x0200E5A0  thumb
  *   func_021D1058  0x021D1058  thumb  ov021
  *   func_021D1080  0x021D1080  thumb  ov021
  *   func_0200E608  0x0200E608  thumb
- *   func_02157938  0x02157938  thumb  ov010
- *   func_0203D210  0x0203D210  arm
+ *   DELIVERY_BEACON_Delete  0x02157938  thumb  ov010
+ *   GFL_NET_IsIdle  0x0203D210  arm
  *   func_021D09D0  0x021D09D0  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -48,25 +48,25 @@ typedef struct {
 } W;
 
 struct Flags;
-extern void *func_021576D0(u8 *p);
+extern void *DELIVERY_BEACON_Create(u8 *p);
 struct Big;
 struct Ctx;
 struct Flags;
-extern int func_021578A0(u32 *p);
+extern int DELIVERY_BEACON_Start(u32 *p);
 extern u32 func_020362DC(void);
-extern void func_02157928(u8 *p);
-extern int func_021578F0(void *p);
-extern int func_02157910(u8 *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void DELIVERY_BEACON_RunStep(u8 *p);
+extern int DELIVERY_BEACON_HasAnyPiece(void *p);
+extern int DELIVERY_BEACON_TryComplete(u8 *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E8F8(void *sys);
 extern u16 func_0200E5E4(void *p);
 extern int func_0200E5A0(void *a0);
 extern u8 func_021D1058(struct Flags *p, u32 n);
 extern void func_021D1080(struct Flags *p, u32 n);
 extern void func_0200E608(void *sys, void *dst, u32 heap);
-extern int func_02157938(void *a0);
-extern u32 func_0203D210(void);
+extern int DELIVERY_BEACON_Delete(void *a0);
+extern u32 GFL_NET_IsIdle(void);
 extern void func_021D09D0(int a, char *out);
 
 int func_021D0C58(u32 unused, u32 *state, W *w)
@@ -79,8 +79,8 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
     x = w->f80;
     switch (*state) {
     case 0:
-        w->f7c = (u32)func_021576D0((u8 *)w);
-        if (func_021578A0((u32 *)w->f7c) == 0) {
+        w->f7c = (u32)DELIVERY_BEACON_Create((u8 *)w);
+        if (DELIVERY_BEACON_Start((u32 *)w->f7c) == 0) {
             *w->f88 = 0;
             *state = 4;
         } else {
@@ -93,7 +93,7 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
             *state = 4;
             break;
         }
-        func_02157928((u8 *)w->f7c);
+        DELIVERY_BEACON_RunStep((u8 *)w->f7c);
         if (++w->f8c > 120) {
             *state = 2;
         }
@@ -104,8 +104,8 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
             *state = 4;
             break;
         }
-        func_02157928((u8 *)w->f7c);
-        if (func_021578F0((void *)w->f7c)) {
+        DELIVERY_BEACON_RunStep((u8 *)w->f7c);
+        if (DELIVERY_BEACON_HasAnyPiece((void *)w->f7c)) {
             *state = 3;
         } else {
             *w->f88 = 0;
@@ -118,12 +118,12 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
             *state = 4;
             break;
         }
-        func_02157928((u8 *)w->f7c);
-        if (func_02157910((u8 *)w->f7c) == 0) {
+        DELIVERY_BEACON_RunStep((u8 *)w->f7c);
+        if (DELIVERY_BEACON_TryComplete((u8 *)w->f7c) == 0) {
             break;
         }
-        h = (u32)func_020120F4((const struct Ctx *)x);
-        rec = func_0200E8F8(func_02012EBC((struct Big *)h));
+        h = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)x);
+        rec = func_0200E8F8(GAME_DATA_GetSaveControl((struct Big *)h));
         sv = ((struct Obj20300 *)(w->f84))->f14C;
         n = func_0200E5E4((void *)sv);
         ok = func_0200E5A0((void *)sv);
@@ -140,11 +140,11 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
         *state = 4;
         break;
     case 4:
-        func_02157938((void *)w->f7c);
+        DELIVERY_BEACON_Delete((void *)w->f7c);
         *state = 5;
         break;
     case 5:
-        if (func_0203D210()) {
+        if (GFL_NET_IsIdle()) {
             *state = 6;
         }
         break;

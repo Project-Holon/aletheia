@@ -192,7 +192,7 @@
    }
   },
   {
-   "name": "func_0216BBDC",
+   "name": "DWCi_GetGT2ConnectionByProfileID",
    "address": "0x0216BBDC",
    "kind": "sdk",
    "region": "ov009",

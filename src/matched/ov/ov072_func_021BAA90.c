@@ -1,5 +1,5 @@
 /*
- * function: func_021BAA90
+ * function: TOWNMAP_TownHitTest
  * address:  0x021BAA90
  * packet:   pkt_ov072_021BAA90
  * region:   ov072
@@ -14,7 +14,7 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   func_021BA774  0x021BA774  thumb  ov072
+ *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
  *   BUTTON_MAN_InitSphere  0x02051F1C  arm
  *   BUTTON_MAN_InitSegment  0x0205207C  arm
  *   BUTTON_MAN_SegmentSphereTest  0x02051F34  arm
@@ -51,7 +51,7 @@ typedef struct {
     int f40;
 } W;
 
-extern int func_021BA774(W *p, int i);
+extern int TOWNMAP_TownGetField(W *p, int i);
 struct Out;
 struct S12;
 struct Vec;
@@ -59,7 +59,7 @@ extern void BUTTON_MAN_InitSphere(struct Ball *dst, struct Vec *src, unsigned ra
 extern void BUTTON_MAN_InitSegment(char *p, struct S12 *q, struct S12 *r, u32 v);
 extern u32 BUTTON_MAN_SegmentSphereTest(struct Seg *seg, struct Ball *b, struct Out *out);
 
-u32 func_021BAA90(W *p, int *a, int *b)
+u32 TOWNMAP_TownHitTest(W *p, int *a, int *b)
 {
     struct Ball ball;
     struct Seg seg;
@@ -70,13 +70,13 @@ u32 func_021BAA90(W *p, int *a, int *b)
     v0.y = FX_F32_TO_FX32(a[1]);
     v0.z = 0;
     BUTTON_MAN_InitSphere(&ball, (struct Vec *)(&v0), 0);
-    v0.x = FX_F32_TO_FX32(b[0] + func_021BA774(p, 6));
-    v0.y = FX_F32_TO_FX32(b[1] + func_021BA774(p, 7));
+    v0.x = FX_F32_TO_FX32(b[0] + TOWNMAP_TownGetField(p, 6));
+    v0.y = FX_F32_TO_FX32(b[1] + TOWNMAP_TownGetField(p, 7));
     v0.z = 0;
-    v1.x = FX_F32_TO_FX32(b[0] + func_021BA774(p, 8));
-    v1.y = FX_F32_TO_FX32(b[1] + func_021BA774(p, 9));
+    v1.x = FX_F32_TO_FX32(b[0] + TOWNMAP_TownGetField(p, 8));
+    v1.y = FX_F32_TO_FX32(b[1] + TOWNMAP_TownGetField(p, 9));
     v1.z = 0;
-    BUTTON_MAN_InitSegment((char *)(&seg), (struct S12 *)(&v0), (struct S12 *)(&v1), FX_F32_TO_FX32(func_021BA774(p, 10)));
+    BUTTON_MAN_InitSegment((char *)(&seg), (struct S12 *)(&v0), (struct S12 *)(&v1), FX_F32_TO_FX32(TOWNMAP_TownGetField(p, 10)));
     if (p->f40 != 0)
         return 0;
     return BUTTON_MAN_SegmentSphereTest(&seg, &ball, 0);

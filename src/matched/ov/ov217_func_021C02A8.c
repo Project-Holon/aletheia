@@ -13,6 +13,9 @@
  *
  * symbols:
  *   func_021C02A8  0x021C02A8  thumb  ov217
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
+ *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -25,13 +28,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern u32 func_0204AFD8();
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern u32 CLACT_ReleaseCellAnim();
 u32 func_021C02A8(u32 a0)
 {
-    func_0204A8D4(((struct Obj10960 *)(((u8*)a0)))->f378);
-    func_0204ADA4(((struct Obj10960 *)(((u8*)a0)))->f37C);
-    return func_0204AFD8(((struct Obj10960 *)(((u8*)a0)))->f380);
+    CLACT_ReleaseCharacter(((struct Obj10960 *)(((u8*)a0)))->f378);
+    CLACT_ReleasePalette(((struct Obj10960 *)(((u8*)a0)))->f37C);
+    return CLACT_ReleaseCellAnim(((struct Obj10960 *)(((u8*)a0)))->f380);
 }
 

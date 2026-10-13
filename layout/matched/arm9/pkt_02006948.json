@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02006984",
+   "name": "PM_VOICE_Play",
    "address": "0x02006984",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02006A8C",
+   "name": "PM_VOICE_AddVolume",
    "address": "0x02006A8C",
    "kind": "game",
    "region": "arm9",

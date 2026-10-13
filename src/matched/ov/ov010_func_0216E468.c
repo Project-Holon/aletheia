@@ -1,5 +1,5 @@
 /*
- * function: func_0216E468
+ * function: FLDMMDL_MoveProcDummy
  * address:  0x0216E468
  * packet:   pkt_0216E468
  * region:   ov010
@@ -15,6 +15,6 @@
  *   (none)
  */
 
-void func_0216E468(void)
+void FLDMMDL_MoveProcDummy(void)
 {
 }

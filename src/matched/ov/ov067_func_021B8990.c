@@ -1,5 +1,5 @@
 /*
- * function: func_021B8990
+ * function: FRAME_LIST_BeginScrollBarDrag
  * address:  0x021B8990
  * packet:   pkt_ov067_021B8990
  * region:   ov067
@@ -45,7 +45,7 @@ struct S {
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
-void func_021B8990(struct S *s, int idx)
+void FRAME_LIST_BeginScrollBarDrag(struct S *s, int idx)
 {
     int buf;
     u8 *e;

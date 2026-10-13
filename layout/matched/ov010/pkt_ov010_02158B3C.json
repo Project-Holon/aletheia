@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02158B3C",
+   "name": "SCRIPT_SYS_FindSpecialScript",
    "address": "0x02158B3C",
    "kind": "game",
    "region": "ov010",

@@ -4,7 +4,7 @@
 /*
  * Mystery gift handlers of the Pokemon field script commands
  * (scrcmd_pokemon_fld.c). The script command that reads a received gift
- * (func_021B6BDC) picks a row of the kind table by the gift type of the
+ * (SCRCMD_POKEMON_FLD_HandleMysteryGift) picks a row of the kind table by the gift type of the
  * card and runs one handler of it.
  */
 

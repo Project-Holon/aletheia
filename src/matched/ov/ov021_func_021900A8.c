@@ -1,5 +1,5 @@
 /*
- * function: func_021900A8
+ * function: FIELD_CAMERA_ANIME_SetTargetFromCurrent
  * address:  0x021900A8
  * packet:   pkt_ov021_021900A8
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218F18C  0x0218F18C  thumb
- *   func_0218EC90  0x0218EC90  thumb
+ *   FIELD_CAMERA_GetTarget  0x0218F18C  thumb
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb
  */
 
 typedef unsigned char  u8;
@@ -23,12 +23,12 @@ typedef signed int     s32;
 
 typedef struct { u32 a, b, c; } Vec3;
 
-extern void func_0218F18C(void *a, Vec3 *out);
-extern void func_0218EC90(void *a, const Vec3 *p);
+extern void FIELD_CAMERA_GetTarget(void *a, Vec3 *out);
+extern void FIELD_CAMERA_SetTarget(void *a, const Vec3 *p);
 
-void func_021900A8(void *a)
+void FIELD_CAMERA_ANIME_SetTargetFromCurrent(void *a)
 {
     Vec3 t;
-    func_0218F18C(a, &t);
-    func_0218EC90(a, &t);
+    FIELD_CAMERA_GetTarget(a, &t);
+    FIELD_CAMERA_SetTarget(a, &t);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB954
+ * function: FIELD_SUBPROC_MGR_RunDraw
  * address:  0x021BB954
  * packet:   pkt_021BB954
  * region:   ov021
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct Ctx;
 extern void func_02030D28(struct Ctx *c);
 
-void func_021BB954(u8 *p)
+void FIELD_SUBPROC_MGR_RunDraw(u8 *p)
 {
     func_02030D28((struct Ctx *)(((struct Obj18175 *)p)->f14));
 }

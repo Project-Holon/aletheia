@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02173420",
+   "name": "UNION_COMM_ReleaseWorks",
    "address": "0x02173420",
    "kind": "game",
    "region": "ov012",

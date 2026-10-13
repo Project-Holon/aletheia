@@ -1,5 +1,5 @@
 /*
- * function: func_021BD1E0
+ * function: BTL_SERVER_FLOW_InitTurnState
  * address:  0x021BD1E0
  * packet:   pkt_ov093_021BD1E0
  * region:   ov093
@@ -23,7 +23,7 @@ struct Unk021BD1E0 {
     u8 rest : 6;
 };
 
-void func_021BD1E0(struct Unk021BD1E0 *p)
+void BTL_SERVER_FLOW_InitTurnState(struct Unk021BD1E0 *p)
 {
     p->f0 = 0;
     p->f2 = 6;

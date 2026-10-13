@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A28
+ * function: TOUCHBAR_OnPressPlain
  * address: 0x021B6A28
  * packet: pkt_ov067_021B6A28
  * region: ov067
@@ -10,7 +10,7 @@
  * status: EXACT*
  * extent: trailing two-byte alignment padding at 0x021B6A42.
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020061E4 0x020061E4 thumb
  */
 #include "../include/Obj05146.h"
@@ -18,11 +18,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_020061E4(u32 a);
-void func_021B6A28(u8 *p)
+void TOUCHBAR_OnPressPlain(u8 *p)
 {
     ((struct Obj05146 *)p)->f8 = ((struct Obj05146 *)p)->f2A;
-    func_0204B878(((struct Obj05146 *)p)->f0, ((struct Obj05146 *)p)->f8);
+    CLACT_SetActorAnimSeq(((struct Obj05146 *)p)->f0, ((struct Obj05146 *)p)->f8);
     if (((struct Obj05146 *)p)->f34) func_020061E4((u32)(((struct Obj05146 *)p)->f34));
 }

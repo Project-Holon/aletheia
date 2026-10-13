@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E3C
+ * function: POKELIST_EndMessageToExit
  * address:  0x021B9E3C
  * packet:   pkt_ov091_021B9E3C
  * region:   ov091
@@ -12,7 +12,7 @@
  * Unlabelled leaf: sets the state byte at +0xc to 0x13.
  */
 
-void func_021B9E3C(char *p)
+void POKELIST_EndMessageToExit(char *p)
 {
     p[0xc] = 0x13;
 }

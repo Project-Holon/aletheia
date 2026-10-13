@@ -12,7 +12,7 @@
  *   func_021E8A78 0x021E8A78 thumb ov177
  *   func_0217DE60 0x0217DE60 thumb ov176
  *   func_0201ED04 0x0201ED04 thumb
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
@@ -23,6 +23,6 @@ struct WordSet;
 extern void func_021E8A78(void *p);
 extern void func_0217DE60(int *);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
-void func_0217D410(int *p) {func_021E8A78((void *)p[4]);func_0217DE60(p);func_0201ED04((struct WordSet *)p[1]);func_02045C04((struct Rec *)p[0]);func_020307B0(p);}
+void func_0217D410(int *p) {func_021E8A78((void *)p[4]);func_0217DE60(p);func_0201ED04((struct WordSet *)p[1]);MSGDATA_Delete((struct Rec *)p[0]);func_020307B0(p);}

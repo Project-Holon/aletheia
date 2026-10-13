@@ -5,7 +5,7 @@
  * status:   EXACT
  * symbols:
  *   lbl_021469D0   0x021469D0  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   func_0203F1FC  0x0203F1FC  arm
  *   GFL_NET_SYSTEM_SetError  0x02039548  arm
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u8 *lbl_021469D0;
-extern int func_0203D798(void);
+extern int GFL_NET_GetInitParam(void);
 extern void GFL_NET_GetChildSendSize(void);
 extern u16 func_0203F1FC(u8 *p, s32 n);
 extern void GFL_NET_SYSTEM_SetError(void);
@@ -38,7 +38,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 a0, u8 *p, s32 n)
     s32 len;
     int r;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     GFL_NET_GetChildSendSize();
     g = lbl_021469D0;
     ((struct Obj11355 *)g)->f1B0 = ((struct Obj11355 *)g)->f1B0 - 1;

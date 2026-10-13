@@ -1,5 +1,5 @@
 /*
- * function: func_021938F4
+ * function: FIELD_WFBC_GetPeopleNum
  * address:  0x021938F4
  * packet:   pkt_021938F4
  * region:   ov021
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02193D08  0x02193D08  thumb  ov021
+ *   FIELD_WFBC_CountPeople  0x02193D08  thumb  ov021
  *
  * Unblocked by matching the leaf at 0x02193D08 in ov021; the tail-call site
  * now resolves via `matched`.
  */
 
-int func_02193D08(unsigned char *p);
+int FIELD_WFBC_CountPeople(unsigned char *p);
 
-int func_021938F4(unsigned char *p)
+int FIELD_WFBC_GetPeopleNum(unsigned char *p)
 {
-    return func_02193D08(p);
+    return FIELD_WFBC_CountPeople(p);
 }

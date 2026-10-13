@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F23CC",
+   "name": "C_GEAR_LoadCustomBackground",
    "address": "0x021F23CC",
    "kind": "game",
    "region": "ov029",

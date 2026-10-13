@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02043668  0x02043668  arm
+ *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
  *   func_0203FC28  0x0203FC28  arm
- *   func_020435F4  0x020435F4  arm
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_020414EC  0x020414EC  arm
  *   func_02040588  0x02040588  arm
@@ -22,6 +22,7 @@
  *   g_02203864  0x02203864  data  ov135
  *   g_02203804  0x02203804  data  ov135
  *   g_02203824  0x02203824  data  ov135
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm  arm9
  *
  * Four-layer bring-up, every layer 020414EC'd, with the tilemap clears for
  * layers 2, 0 and 3 in that order.
@@ -55,10 +56,10 @@ struct BgTemplate {
     u32 unk_1c;
 };
 
-extern u32 func_02043668(void);
+extern u32 BG_SYS_GetSubVisiblePlanes(void);
 extern void func_0203FC28(struct DispConfig *cfg);
-extern void func_020435F4(u32 a);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubVisiblePlanes(u32 a);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414EC(u32 i);
@@ -77,10 +78,10 @@ extern struct BgTemplate g_02203824;
 void func_021FDBCC(void)
 {
     struct DispConfig c = g_022037F4;
-    u32 v = func_02043668();
+    u32 v = BG_SYS_GetSubVisiblePlanes();
 
     func_0203FC28(&c);
-    func_020435F4(v);
+    BG_SYS_SetSubVisiblePlanes(v);
     {
         struct BgTemplate t = g_02203844;
         func_0203FCA0(0, &t, 0);

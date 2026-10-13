@@ -18,11 +18,13 @@
  *   _s32_div_f 0x0209C0A4 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045770 0x02045770 arm
- *   func_02045808 0x02045808 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   d_021DC24C 0x021DC24C data
  *   d_021DC264 0x021DC264 data
  *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  */
 #include "../include/Obj00112.h"
 #include "../include/Obj01547.h"
@@ -39,14 +41,14 @@ struct StrObj;
 struct U16Vec;
 struct WordSet;
 extern int func_0202F498(void *a0, int a1);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *, void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045808(struct U16Vec *vec);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -113,15 +115,15 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
     fl2 = func_0202F498(mon, 2);
     fl3 = func_0202F498(mon, 3);
     flags = fl0 | fl1 | fl2 | fl3;
-    known = POKE_TOOL_IsBoxOwnedByPlayer(mon, func_02012944(((struct Obj23146 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f8));
+    known = POKE_TOOL_IsBoxOwnedByPlayer(mon, GAME_DATA_GetMyStatus(((struct Obj23146 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f8));
 
     if (isEgg == 0) {
         t = func_02045EC0(((struct Obj01547 *)p)->f38, v5c);
-        func_0201C724(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)1, (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
-        func_02045808(t);
+        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)1, (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
+        STRBUF_Delete(t);
         y = 0x10;
     }
-    str = func_020457B0(0x100, ((struct Obj00112 *)a)->f0);
+    str = STRBUF_Create(0x100, ((struct Obj00112 *)a)->f0);
     ws = func_0201EC74(10, 0x20, ((struct Obj00112 *)a)->f0);
     if (isEgg == 0) {
         if (f96 == 0x7531) {
@@ -210,13 +212,13 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
     func_0201EE0C(ws, 8, s68, best, 1, 2);
     t = func_02045EC0(((struct Obj01547 *)p)->f38, msg);
     func_0201F250(ws, str, t);
-    func_0201C724(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)str, (u32)(((struct Obj00112 *)a)->f80), 0x440);
+    PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)str, (u32)(((struct Obj00112 *)a)->f80), 0x440);
     func_0201ED04(ws);
     y += sub_0201D2C8(str) << 4;
-    func_02045808(s68);
-    func_02045808(s6c);
-    func_02045808(t);
-    func_02045808(str);
+    STRBUF_Delete(s68);
+    STRBUF_Delete(s6c);
+    STRBUF_Delete(t);
+    STRBUF_Delete(str);
     if (isEgg == 0) {
         struct Tbl6 ids;
         struct Tbl36 rows;
@@ -237,8 +239,8 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
             }
         }
         t = func_02045EC0(((struct Obj01547 *)p)->f38, best * 5 + 0x35 + max % 5);
-        func_0201C724(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
-        func_02045808(t);
+        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
+        STRBUF_Delete(t);
     } else {
         u32 id;
         if (v4c <= 5) {
@@ -251,7 +253,7 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
             id = 0x5a;
         }
         t = func_02045EC0(((struct Obj01547 *)p)->f38, id);
-        func_0201C724(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
-        func_02045808(t);
+        PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)func_02045770(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)t, (u32)(((struct Obj00112 *)a)->f80), 0x440);
+        STRBUF_Delete(t);
     }
 }

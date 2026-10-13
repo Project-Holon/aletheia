@@ -1,5 +1,5 @@
 /*
- * function: func_020508EC
+ * function: BILLBOARD_ACT_GetEntryLastCommand
  * address:  0x020508EC
  * packet:   pkt_020508EC
  * region:   arm9
@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_020508EC(u8 *p, int i, u16 *out)
+u32 BILLBOARD_ACT_GetEntryLastCommand(u8 *p, int i, u16 *out)
 {
     u16 v = *(u16 *)(*(u8 * *)&((struct Obj16161 *)p)->f18 + i * 40 + 0x1c);
     *out = v;

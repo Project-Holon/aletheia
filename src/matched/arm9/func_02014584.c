@@ -10,9 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188BE8  0x02188BE8  thumb ov021
+ *   FIELDMAP_IsReady  0x02188BE8  thumb ov021
  *   GAMESYSTEM_CallFieldProc  0x020120C0  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *
  * blocker:  020120C0 - unresolved (thumb, from name): no witness outside
  *           02014584..020145CA.  This is the chain class of the band brief:
@@ -26,11 +27,11 @@
  * Byte-correct at all 70 concrete bytes; 3 of 4 relocation sites resolved.
  *
  * Two spelling points that were needed to get this far:
- *   - func_02188BE8 lives in ov021 and is THUMB.  Left to the name-based
+ *   - FIELDMAP_IsReady lives in ov021 and is THUMB.  Left to the name-based
  *     fallback it is inferred `arm` and match.py stops with an ISA conflict
  *     ("the source declares arm, the image says thumb"), which reads like a
  *     compile failure but is a symbols: block omission.  Naming the region
- *     (`func_02188BE8  0x02188BE8  thumb ov021`) resolves the site through
+ *     (`FIELDMAP_IsReady  0x02188BE8  thumb ov021`) resolves the site through
  *     `label` (9 outside branches, e.g. 0x02012078).
  *   - `switch (*a1)` with `break` in the arms, not `return 0`: the original
  *     has exactly one `movs r0,#0 / pop` epilogue, shared by the arms and by
@@ -48,8 +49,8 @@ struct IcaAnime;
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void GAMESYSTEM_CallFieldProc(struct IcaAnime *p);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern int  func_02188BE8(void *v);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int  FIELDMAP_IsReady(void *v);
 
 int FIELD_STATUS_FieldOpenEvent(int a0, int *a1, int *a2)
 {
@@ -63,7 +64,7 @@ int FIELD_STATUS_FieldOpenEvent(int a0, int *a1, int *a2)
         }
         break;
     case 1:
-        if (func_02188BE8(func_0201210C((void *)v)) != 0) {
+        if (FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap((void *)v)) != 0) {
             *a1 = *a1 + 1;
         }
         break;

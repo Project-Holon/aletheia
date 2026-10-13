@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6B8
+ * function: FLD_EXP_OBJ_SetAnimeLoop
  * address:  0x021BE6B8
  * packet:   pkt_ov021_021BE6B8
  * region:   ov021
@@ -12,10 +12,10 @@
  * Unlabelled leaf: strb r1, [r0, #1].
  *
  * symbols:
- *   func_021BE6B8  0x021BE6B8  thumb
+ *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb
  */
 
-void func_021BE6B8(unsigned char *p, int v)
+void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v)
 {
     p[1] = v;
 }

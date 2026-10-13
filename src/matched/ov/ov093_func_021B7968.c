@@ -1,5 +1,5 @@
 /*
- * function: func_021B7968
+ * function: BTL_MAIN_SeqExchangePlayers
  * address: 0x021B7968
  * packet: pkt_ov093_021B7968
  * region: ov093
@@ -14,27 +14,27 @@
  * leaves: ov093 021D49B0 (+0x1E4) and 021D49CC (+0x1EC) resolve through
  *   their own shards pkt_ov093_021D49B0/pkt_ov093_021D49CC (W82 R11).
  * symbols:
- *   func_021D4270 0x021D4270 thumb ov093
- *   func_021D4AF4 0x021D4AF4 thumb ov093
- *   func_021D4B18 0x021D4B18 thumb ov093
- *   func_021D4808 0x021D4808 thumb ov093
- *   func_021D4898 0x021D4898 thumb ov093
- *   func_021D48CC 0x021D48CC thumb ov093
- *   func_021D4908 0x021D4908 thumb ov093
- *   func_021D49B0 0x021D49B0 thumb ov093
- *   func_021D49CC 0x021D49CC thumb ov093
- *   func_021D49E0 0x021D49E0 thumb ov093
- *   func_021D4A04 0x021D4A04 thumb ov093
+ *   BTL_NET_HasCommError 0x021D4270 thumb ov093
+ *   BTL_NET_BeginSync 0x021D4AF4 thumb ov093
+ *   BTL_NET_PollSync 0x021D4B18 thumb ov093
+ *   BTL_NET_SendPlayerInfo 0x021D4808 thumb ov093
+ *   BTL_NET_IsPlayerInfoReceived 0x021D4898 thumb ov093
+ *   BTL_NET_GetPlayerInfo 0x021D48CC thumb ov093
+ *   BTL_NET_SendRelayedPlayerInfo 0x021D4908 thumb ov093
+ *   BTL_NET_IsRelayedPlayerInfoReceived 0x021D49B0 thumb ov093
+ *   BTL_NET_GetRelayedPlayerInfo 0x021D49CC thumb ov093
+ *   BTL_NET_FreeRelayedPlayerInfo 0x021D49E0 thumb ov093
+ *   BTL_NET_FreeAfterPlayerInfoUse 0x021D4A04 thumb ov093
  *   func_021B9E38 0x021B9E38 thumb ov093
  *   func_021B9EF0 0x021B9EF0 thumb ov093
  *   func_021BA670 0x021BA670 thumb ov093
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_020458F8 0x020458F8 arm
- *   func_02045A98 0x02045A98 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_GetLength 0x020458F8 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020084D4 0x020084D4 thumb
  */
 typedef unsigned char u8;
@@ -42,19 +42,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { START, END = 15 } Index;
 typedef struct { u8 a:1; u8 b:1; u8 c:1; } Bits;
-extern int func_021D4270(void);
+extern int BTL_NET_HasCommError(void);
 struct A;
 struct B;
-extern void func_021D4AF4(int a);
-extern int func_021D4B18(int a);
-extern int func_021D4808(u32 a);
-extern int func_021D4898(void);
-extern void *func_021D48CC(u8);
-extern u32 func_021D4908(void *);
-extern int func_021D49B0(void);
-extern void *func_021D49CC(void);
-extern void func_021D49E0(void);
-extern void func_021D4A04(void);
+extern void BTL_NET_BeginSync(int a);
+extern int BTL_NET_PollSync(int a);
+extern int BTL_NET_SendPlayerInfo(u32 a);
+extern int BTL_NET_IsPlayerInfoReceived(void);
+extern void *BTL_NET_GetPlayerInfo(u8);
+extern u32 BTL_NET_SendRelayedPlayerInfo(void *);
+extern int BTL_NET_IsRelayedPlayerInfoReceived(void);
+extern void *BTL_NET_GetRelayedPlayerInfo(void);
+extern void BTL_NET_FreeRelayedPlayerInfo(void);
+extern void BTL_NET_FreeAfterPlayerInfoUse(void);
 extern void func_021B9E38(char *p, int a, int b);
 extern void func_021B9EF0(struct A *p, const struct B *src);
 extern void func_021BA670(char *p, u8 k, void *dst);
@@ -63,13 +63,13 @@ struct Rec;
 struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 func_02045A98(void);
-extern void func_02045808(struct U16Vec *vec);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
+extern u16 STRBUF_GetEosChar(void);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020084D4(u32 value, void *dst);
-int func_021B7968(u8 *p,u32 *state)
+int BTL_MAIN_SeqExchangePlayers(u8 *p,u32 *state)
 {
     u8 *q;
     u32 i;
@@ -82,25 +82,25 @@ int func_021B7968(u8 *p,u32 *state)
     u16 buf[16];
     int k;
     q = *(u8 **)p;
-    if (func_021D4270()) {
+    if (BTL_NET_HasCommError()) {
         ((Bits *)(p + 0x473))->a = 1;
         return 1;
     }
     switch (*state) {
     case 0:
-        func_021D4AF4((u8)4);
+        BTL_NET_BeginSync((u8)4);
         ++*state;
         break;
     case 1:
-        if (func_021D4B18((u8)4)) ++*state;
+        if (BTL_NET_PollSync((u8)4)) ++*state;
         break;
     case 2:
-        if (func_021D4808((u32)(*(void **)(p + 0xc0)))) ++*state;
+        if (BTL_NET_SendPlayerInfo((u32)(*(void **)(p + 0xc0)))) ++*state;
         break;
     case 3:
-        if (func_021D4898()) {
+        if (BTL_NET_IsPlayerInfoReceived()) {
             for (i = 0; i < p[0x46b]; ++i) {
-                s = func_021D48CC(i);
+                s = BTL_NET_GetPlayerInfo(i);
                 if (s) {
                     offset = i * 0x28;
                     func_021B9E38((char *)(p + 0x20 + offset),*(u16 *)(p + 0x468),(int)s);
@@ -109,17 +109,17 @@ int func_021B7968(u8 *p,u32 *state)
                         int j;
                         bank = func_02045B38(0,2,0x51,*(u16 *)(p + 0x468));
                         str = func_02045EC0(bank,15);
-                        func_02045C04(bank);
+                        MSGDATA_Delete(bank);
                         src = STRBUF_GetChars(str);
-                        for (j = START; j < END && (u32)j < func_020458F8(str); ++j) buf[j] = src[j];
+                        for (j = START; j < END && (u32)j < STRBUF_GetLength(str); ++j) buf[j] = src[j];
                         dst = buf;
-                        dst[j] = func_02045A98();
-                        func_02045808(str);
+                        dst[j] = STRBUF_GetEosChar();
+                        STRBUF_Delete(str);
                         func_020084D4((u32)(*(void **)(p + offset + 0x20)),dst);
-                        func_02045808(*(void **)(p + offset + 0x24));
+                        STRBUF_Delete(*(void **)(p + offset + 0x24));
                         bank = func_02045B38(0,2,0x51,*(u16 *)(p + 0x468));
                         s2 = func_02045EC0(bank,15);
-                        func_02045C04(bank);
+                        MSGDATA_Delete(bank);
                         *(void **)(p + offset + 0x24) = s2;
                     }
                     func_021BA670((char *)p,i,*(void **)(p + offset + 0x20));
@@ -133,29 +133,29 @@ int func_021B7968(u8 *p,u32 *state)
         else { p[0x470] = 0; ++*state; }
         break;
     case 5:
-        func_021D4AF4((u8)(p[0x470] + 8));
+        BTL_NET_BeginSync((u8)(p[0x470] + 8));
         ++*state;
         break;
     case 6:
-        if (func_021D4B18((u8)(p[0x470] + 8))) ++*state;
+        if (BTL_NET_PollSync((u8)(p[0x470] + 8))) ++*state;
         break;
     case 7:
         k = 1;
         if (p[0x470]) k = 3;
         p[0x472] = k;
-        if (p[0x46e] && !func_021D4908(*(void **)(q + p[0x472] * 4 + 0x48))) break;
+        if (p[0x46e] && !BTL_NET_SendRelayedPlayerInfo(*(void **)(q + p[0x472] * 4 + 0x48))) break;
         ++*state;
     case 8:
-        if (func_021D49B0()) {
-            func_021B9EF0((struct A *)(p + 0x20 + p[0x472] * 0x28),func_021D49CC());
-            func_021D49E0();
+        if (BTL_NET_IsRelayedPlayerInfoReceived()) {
+            func_021B9EF0((struct A *)(p + 0x20 + p[0x472] * 0x28),BTL_NET_GetRelayedPlayerInfo());
+            BTL_NET_FreeRelayedPlayerInfo();
             ++p[0x470];
             if (p[0x470] >= p[0x471]) *state = 10;
             else *state = 5;
         }
         break;
     case 10:
-        func_021D4A04();
+        BTL_NET_FreeAfterPlayerInfoUse();
         ++*state;
         break;
     default:

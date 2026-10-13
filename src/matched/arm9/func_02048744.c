@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046F50  0x02046F50  arm
- *   func_02046FF8  0x02046FF8  arm
+ *   G3D_SYSTEM_CheckResourceType  0x02046F50  arm
+ *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
  *   G3D_SYSTEM_IsTextureInVram  0x02047348  arm
- *   func_02047400  0x02047400  arm
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   g3d_util_file  0x020A7EB8  data
@@ -23,8 +23,8 @@
  * g3d_util.c, same utility object as G3D_UTIL_BuildUnitObjects (see that file and
  * docs/families/g3d_util.h).  Build the render objects of one unit whose
  * resources are already loaded: per object, mark the model resource used,
- * resolve the texture resource (mark it used when func_02046F50 reports type
- * 1, else release it through func_02046FF8; a shared model/texture resource is
+ * resolve the texture resource (mark it used when G3D_SYSTEM_CheckResourceType reports type
+ * 1, else release it through G3D_SYSTEM_TransVramTexture; a shared model/texture resource is
  * released when G3D_SYSTEM_IsTextureInVram reports 0), create the render object, allocate
  * and fill its animation array (0xff = no animation), bind them into the
  * object slot, and free the array.
@@ -89,12 +89,12 @@ struct G3dOwner;
 struct G3dRec;
 struct Layer;
 struct Tagged;
-extern u32 func_02046F50(struct Tagged *p, u32 sel);
-extern int func_02046FF8(int *self);
+extern u32 G3D_SYSTEM_CheckResourceType(struct Tagged *p, u32 sel);
+extern int G3D_SYSTEM_TransVramTexture(int *self);
 extern int G3D_SYSTEM_IsTextureInVram(struct Layer *layer);
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
+extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 
 static inline void *getRes(Util *util, u16 resIdx, u16 idx)
 {
@@ -124,29 +124,29 @@ void G3D_UTIL_BuildUnitObjectsLoaded(Util *util, u16 unitIdx, const Setup *setup
         os = &setup->objTbl[i];
         mdl = useRes(util, resIdx, setup->objTbl[i].mdlResIdx);
         if (os->texResIdx != setup->objTbl[i].mdlResIdx) {
-            if (func_02046F50(getRes(util, resIdx, os->texResIdx), 1) == 1) {
+            if (G3D_SYSTEM_CheckResourceType(getRes(util, resIdx, os->texResIdx), 1) == 1) {
                 tex = useRes(util, resIdx, os->texResIdx);
             } else {
                 tex = getRes(util, resIdx, os->texResIdx);
-                func_02046FF8(tex);
+                G3D_SYSTEM_TransVramTexture(tex);
             }
         } else {
             tex = mdl;
             if (G3D_SYSTEM_IsTextureInVram(mdl) == 0)
-                func_02046FF8(mdl);
+                G3D_SYSTEM_TransVramTexture(mdl);
         }
-        rnd = func_02047400(mdl, os->mdlDatIdx, tex);
+        rnd = G3D_SYSTEM_CreateRender(mdl, os->mdlDatIdx, tex);
         anm = func_02030734((heapID & 0x7fff) | 0x8000, os->anmCount * 4, 1,
                             g3d_util_file, 609);
         for (j = 0; j < os->anmCount; j++) {
             if (os->anmTbl[j].anmResIdx == 0xff)
                 a = 0;
             else
-                a = func_02047564(rnd, getRes(util, resIdx, os->anmTbl[j].anmResIdx),
+                a = G3D_SYSTEM_CreateAnime(rnd, getRes(util, resIdx, os->anmTbl[j].anmResIdx),
                                   os->anmTbl[j].anmDatIdx);
             anm[j] = a;
         }
-        util->obj[objIdx + i] = func_0204767C((u32)rnd, (u32 *)anm, os->anmCount);
+        util->obj[objIdx + i] = G3D_SYSTEM_CreateObject((u32)rnd, (u32 *)anm, os->anmCount);
         func_020307B0(anm);
     }
 }

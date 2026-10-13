@@ -1,5 +1,5 @@
 /*
- * function: func_021F3958
+ * function: FIELD_GIMMICK_D06_CreateSlideEvent
  * address:  0x021F3958
  * packet:   pkt_ov051_021F3958
  * region:   ov051
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F3D6C  0x021F3D6C  thumb  ov051
- *   func_021F3C98  0x021F3C98  thumb  ov051
- *   func_021F3C84  0x021F3C84  thumb  ov051
- *   func_021F39F8  0x021F39F8  thumb  ov051
- *   func_021F3AB4  0x021F3AB4  thumb  ov051
- *   func_02188C80  0x02188C80  thumb
+ *   FIELD_GIMMICK_D06_GetWork  0x021F3D6C  thumb  ov051
+ *   FIELD_GIMMICK_D06_IsStoneNextToPanel  0x021F3C98  thumb  ov051
+ *   FIELD_GIMMICK_D06_GetSlideSteps  0x021F3C84  thumb  ov051
+ *   FIELD_GIMMICK_D06_EventSlideStone  0x021F39F8  thumb  ov051
+ *   FIELD_GIMMICK_D06_EventStoneBlocked  0x021F3AB4  thumb  ov051
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082C60  0x02082C60  arm
  */
 #include "../include/Obj06158.h"
 
-extern void *func_021F3D6C(int a);
-extern int func_021F3C98(int *a, int *b);
-extern int func_021F3C84(int *a, int *b, int c);
-extern int func_021F39F8(int a, int *s, int *t);
-extern int func_021F3AB4(int a, int *s, int *t);
-extern int func_02188C80(int a);
+extern void *FIELD_GIMMICK_D06_GetWork(int a);
+extern int FIELD_GIMMICK_D06_IsStoneNextToPanel(int *a, int *b);
+extern int FIELD_GIMMICK_D06_GetSlideSteps(int *a, int *b, int c);
+extern int FIELD_GIMMICK_D06_EventSlideStone(int a, int *s, int *t);
+extern int FIELD_GIMMICK_D06_EventStoneBlocked(int a, int *s, int *t);
+extern int FIELDMAP_GetGameSystem(int a);
 typedef unsigned int   u32;
 struct Desc;
 struct Obj;
@@ -35,7 +35,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082C60(void *a, int b, int c);
 
-int func_021F3958(int a, int id, int arg)
+int FIELD_GIMMICK_D06_CreateSlideEvent(int a, int id, int arg)
 {
     int sp3;
     int sp8;
@@ -46,8 +46,8 @@ int func_021F3958(int a, int id, int arg)
     char *r7;
     unsigned short *r6;
 
-    r5 = func_021F3D6C(a);
-    sp8 = func_02188C80(a);
+    r5 = FIELD_GIMMICK_D06_GetWork(a);
+    sp8 = FIELDMAP_GetGameSystem(a);
     for (i = 0; i < 12; i++) {
         v = *(int *)(r5 + 12 + i * 8);
         if (v == id)
@@ -56,13 +56,13 @@ int func_021F3958(int a, int id, int arg)
     if (i >= 12)
         i = 0;
     r7 = r5 + 12 + i * 8;
-    if (func_021F3C98((int *)r5, (int *)r7) == 1)
+    if (FIELD_GIMMICK_D06_IsStoneNextToPanel((int *)r5, (int *)r7) == 1)
         return 0;
-    sp3 = func_021F3C84((int *)r5, (int *)r7, arg);
+    sp3 = FIELD_GIMMICK_D06_GetSlideSteps((int *)r5, (int *)r7, arg);
     if (sp3 == 0)
-        sp1 = (int)func_020122C0((void *)sp8, 0, func_021F3AB4, 0x10);
+        sp1 = (int)func_020122C0((void *)sp8, 0, FIELD_GIMMICK_D06_EventStoneBlocked, 0x10);
     else
-        sp1 = (int)func_020122C0((void *)sp8, 0, func_021F39F8, 0x10);
+        sp1 = (int)func_020122C0((void *)sp8, 0, FIELD_GIMMICK_D06_EventSlideStone, 0x10);
     r6 = func_020124E8((struct Obj *)sp1);
     func_02082C60(r6, 0, 0x10);
     r6[0] = arg;

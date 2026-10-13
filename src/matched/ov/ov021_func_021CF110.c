@@ -1,5 +1,5 @@
 /*
- * function: func_021CF110
+ * function: COMM_ENTRY_StoreJoinReply
  * address:  0x021CF110
  * packet:   pkt_ov021_021CF110
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02008494  0x02008494  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  */
 #include "../include/Obj20269.h"
 
@@ -18,10 +18,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02008494(void *a, void *b);
+extern void MYSTATUS_Copy(void *a, void *b);
 
-void func_021CF110(u8 *p, u32 v, void *a)
+void COMM_ENTRY_StoreJoinReply(u8 *p, u32 v, void *a)
 {
     ((struct Obj20269 *)p)->f52C = v;
-    func_02008494(a, p + 0x530);
+    MYSTATUS_Copy(a, p + 0x530);
 }

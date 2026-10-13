@@ -1,5 +1,5 @@
 /*
- * function: func_02159144
+ * function: SCRIPT_WORK_SetCheckFlag
  * address: 0x02159144
  * packet: pkt_ov010_02159144
  * region: ov010
@@ -12,12 +12,12 @@
  * 021AEE1E passes 13). No traced setter call supplies a negative ID.
  * These primary paths make 1 << n defined; no new bound is assumed.
  * symbols:
- *   func_02159198 0x02159198 thumb ov010
- *   d_02172BA0 0x02172BA0 data a4
+ *   SCRIPT_WORK_IsCheckFlagSet 0x02159198 thumb ov010
+ *   gScriptCheckFlags 0x02172BA0 data a4
  */
-extern int d_02172BA0;
-extern int func_02159198(int);
-void func_02159144(int n)
+extern int gScriptCheckFlags;
+extern int SCRIPT_WORK_IsCheckFlagSet(int);
+void SCRIPT_WORK_SetCheckFlag(int n)
 {
-    if (n < 14 && !func_02159198(n)) d_02172BA0 |= 1 << n;
+    if (n < 14 && !SCRIPT_WORK_IsCheckFlagSet(n)) gScriptCheckFlags |= 1 << n;
 }

@@ -11,6 +11,7 @@
  * symbols:
  *   POKE_TOOL_GetBoxParamSize 0x020173E8 thumb
  *   func_02082D44 0x02082D44 arm
+ *   MYSTATUS_GetSize  0x02008468  thumb  arm9
  */
 #include "../include/Obj08175.h"
 #include "../include/Obj14128.h"
@@ -18,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 typedef unsigned short u16;
-extern int func_02008468(void);
+extern int MYSTATUS_GetSize(void);
 extern int func_020084BC(const u16 *values);
 extern void func_02082D44(void *,void *,u32);
 void func_021FD2B8(int a,int b,int c,char *p)
@@ -29,11 +30,11 @@ void func_021FD2B8(int a,int b,int c,char *p)
     char *q,*s;
     int flag;
     for(i=0;i<4;i++) {
-        m=func_02008468();
+        m=MYSTATUS_GetSize();
         n=POKE_TOOL_GetBoxParamSize();
         q=*(char * *)&((struct Obj14128 *)p)->f13C;
         k=i*(m+4+n);
-        m=func_02008468();
+        m=MYSTATUS_GetSize();
         n=m+4+POKE_TOOL_GetBoxParamSize();
         s=p+i*0x30;
         func_02082D44(q+k,((struct Obj08175 *)s)->f8C,n);

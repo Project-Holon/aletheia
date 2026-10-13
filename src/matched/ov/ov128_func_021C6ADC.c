@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
- *   func_02045CAC 0x02045CAC arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
- *   func_021B6AE4 0x021B6AE4 thumb ov067
+ *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   func_021CA4B4 0x021CA4B4 thumb ov128
  */
 #include "../include/Obj00329.h"
@@ -26,18 +26,18 @@ struct Descriptor;
 struct MsgBank;
 struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 extern void func_021CA4B4(char *p);
 void func_021C6ADC(u8 *p,u8 *q,unsigned v)
 {
-    func_02043B5C(func_02045770(((struct Obj05378 *)q)->f0),0);
-    func_02045334(((struct Obj05378 *)q)->f0);
-    func_02045CAC(((struct Obj00329 *)p)->f4,v,((struct Obj00329 *)p)->f18);
+    BMP_Clear(func_02045770(((struct Obj05378 *)q)->f0),0);
+    BMP_WIN_TransferChars(((struct Obj05378 *)q)->f0);
+    MSGDATA_ReadString(((struct Obj00329 *)p)->f4,v,((struct Obj00329 *)p)->f18);
     func_0201F250(((struct Obj00329 *)p)->f0,((struct Obj00329 *)p)->f14,((struct Obj00329 *)p)->f18);
-    func_021B6AE4(q,(void *)(((struct Obj00329 *)p)->f34),0,4,(u32)(((struct Obj00329 *)p)->f14),(u32)(((struct Obj00329 *)p)->f17C),0x3c40,0);
+    TOUCHBAR_PrintAligned(q,(void *)(((struct Obj00329 *)p)->f34),0,4,(u32)(((struct Obj00329 *)p)->f14),(u32)(((struct Obj00329 *)p)->f17C),0x3c40,0);
     func_021CA4B4(((struct Obj05378 *)q)->f0);
 }

@@ -24,7 +24,7 @@
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   func_021BBB3C 0x021BBB3C thumb ov072
+ *   TOWNMAP_GRH_GetTownInfoValue 0x021BBB3C thumb ov072
  *   BUTTON_MAN_InitSphere 0x02051F1C arm
  *   BUTTON_MAN_InitSegment 0x0205207C arm
  *   BUTTON_MAN_SegmentSphereTest 0x02051F34 arm
@@ -36,13 +36,13 @@ struct Vec { int x,y,z; };
 struct Ball { struct Vec p; int radius; };
 struct Seg { struct Vec a,b; int radius; };
 struct Out { u32 hit; struct Vec n; int distance; };
-extern u16 func_021BBB3C(char *,int,int);
+extern u16 TOWNMAP_GRH_GetTownInfoValue(char *,int,int);
 extern void BUTTON_MAN_InitSphere(struct Ball *,struct Vec *,u32);
 struct S12;
 extern void BUTTON_MAN_InitSegment(char *p, struct S12 *q, struct S12 *r, u32 v);
 extern u32 BUTTON_MAN_SegmentSphereTest(struct Seg *,struct Ball *,struct Out *);
 #define FX(x) ((int)(((x)>0) ? ((float)((int)(x)<<12)+0.5f) : ((float)((int)(x)<<12)-0.5f)))
-#define FIELD(n) func_021BBB3C(*(char **)(p+0x3c8),i,n)
+#define FIELD(n) TOWNMAP_GRH_GetTownInfoValue(*(char **)(p+0x3c8),i,n)
 u8 func_021C0D5C(void *unused,char *p,int unused2,u8 x,u8 y)
 {
     struct Ball ball;

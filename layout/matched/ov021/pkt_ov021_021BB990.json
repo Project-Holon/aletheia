@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB990",
+   "name": "FIELD_SUBPROC_Start",
    "address": "0x021BB990",
    "kind": "game",
    "region": "ov021",

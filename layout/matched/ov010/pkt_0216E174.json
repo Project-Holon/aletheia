@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216E174",
+   "name": "FLDMMDL_ResetDrawStatusBits",
    "address": "0x0216E174",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0216E180",
+   "name": "FLDMMDL_ClearMmdlWork",
    "address": "0x0216E180",
    "kind": "game",
    "region": "ov010",

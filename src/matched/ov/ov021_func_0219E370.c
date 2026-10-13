@@ -1,5 +1,5 @@
 /*
- * function: func_0219E370
+ * function: FLDMMDL_RAIL_SetMoveRequest
  * address:  0x0219E370
  * packet:   pkt_ov021_0219E370
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0219E938  0x0219E938  thumb  ov021
- *   func_0219E940  0x0219E940  thumb  ov021
- *   func_021B80E0  0x021B80E0  thumb  ov021
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_RAIL_DirToRailKey  0x0219E938  thumb  ov021
+ *   FLDMMDL_RAIL_RailKeyToDir  0x0219E940  thumb  ov021
+ *   FIELD_RAIL_WORK_StartStep  0x021B80E0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,14 +22,14 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void *func_0216D69C(void *p);
-extern u32 func_0219E938(int a0);
-extern u32 func_0219E940(int x);
-extern void func_021B80E0(void *p, u32 a, u32 b);
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern u32 FLDMMDL_RAIL_DirToRailKey(int a0);
+extern u32 FLDMMDL_RAIL_RailKeyToDir(int x);
+extern void FIELD_RAIL_WORK_StartStep(void *p, u32 a, u32 b);
 
-void func_0219E370(u32 a, u32 b, u32 c)
+void FLDMMDL_RAIL_SetMoveRequest(u32 a, u32 b, u32 c)
 {
-    u32 *p = func_0216D69C((void *)a);
-    u32 x = func_0219E938(b);
-    func_021B80E0((void *)*p, func_0219E940(c), x);
+    u32 *p = FLDMMDL_GetMoveProcWork((void *)a);
+    u32 x = FLDMMDL_RAIL_DirToRailKey(b);
+    FIELD_RAIL_WORK_StartStep((void *)*p, FLDMMDL_RAIL_RailKeyToDir(c), x);
 }

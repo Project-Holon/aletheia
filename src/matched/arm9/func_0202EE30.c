@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0202EE30
+ * function: TIME_ICON_Create
  * address:  0x0202EE30
  * packet:   pkt_0202EE0C
  * region:   arm9
@@ -17,7 +17,7 @@
  * record is registered with func_02030DA8 against the tag 0x0202F099 and
  * that call's result lands at +0; otherwise +0 is zeroed.
  *
- * Sibling of func_0202EE8C (docs/notes/pkt_0202EE0C.c.txt), which builds
+ * Sibling of TIME_ICON_CreateNode (docs/notes/pkt_0202EE0C.c.txt), which builds
  * the same record through the func_020311B8 allocator instead.
  *
  * symbols:
@@ -40,7 +40,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32   func_02030DA8(void *owner, u8 *tag, void *p, u32 a3);
 extern void  TIME_ICON_Init(u8 *p, void *a1, u8 a2, u8 a3, u16 a4);
 
-u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap)
+u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap)
 {
     u8 *p;
 

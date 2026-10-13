@@ -55,6 +55,9 @@
  *    docs/idioms/long-long-aligns-to-four.md: func_0200C37C returns the
  *    64-bit value and func_0200C384 stores the two halves from two register
  *    arguments.
+ *
+ * symbols:
+ *   STRBUF_ToChars  0x02045A38  arm
  */
 
 typedef unsigned char  u8;
@@ -64,7 +67,7 @@ typedef signed int     s32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 struct U16Vec;
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
@@ -209,7 +212,7 @@ u16 *func_0200C1F4(struct Blk34 *p)
 
 void func_0200C1F8(struct Blk34 *p, const u16 *src)
 {
-    func_02045A38((struct U16Vec *)src, p->unk20, 9);
+    STRBUF_ToChars((struct U16Vec *)src, p->unk20, 9);
 }
 
 u16 *func_0200C20C(struct Blk34 *p)
@@ -219,7 +222,7 @@ u16 *func_0200C20C(struct Blk34 *p)
 
 void func_0200C210(struct Blk34 *p, const u16 *src)
 {
-    func_02045A38((struct U16Vec *)src, p->unk32, 9);
+    STRBUF_ToChars((struct U16Vec *)src, p->unk32, 9);
 }
 
 u8 func_0200C224(struct Blk34 *p)

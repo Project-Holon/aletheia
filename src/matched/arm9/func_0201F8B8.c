@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Claims a slot in the same eight-byte-stride table func_0201F8F4 walks: it
+ * Claims a slot in the same eight-byte-stride table BMP_MENUWORK_ReleaseItems walks: it
  * scans for the first empty entry, gives up if the 0xFFFFFFFF terminator
  * arrives first, then runs on to the terminator record and hands its tag word
  * back through the out-parameter.  The empty slot is the return value, null on
@@ -17,7 +17,7 @@
  *
  * Both loops read the word once per iteration and share the load between the
  * zero test and the terminator test, which is why this function needs no
- * union where func_0201F8F4 does: here both tests are u32.  The terminator
+ * union where BMP_MENUWORK_ReleaseItems does: here both tests are u32.  The terminator
  * constant is rematerialised with its own `movs`/`mvns` pair in each of the
  * two blocks that needs it rather than kept live across the first loop; see
  * docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md.

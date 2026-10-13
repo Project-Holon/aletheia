@@ -1,5 +1,5 @@
 /*
- * function: func_021B6AE0
+ * function: SCRCMD_POKEMON_FLD_SetWarpTable
  * address:  0x021B6AE0
  * packet:   pkt_ov021_021B6AE0
  * region:   ov021
@@ -12,8 +12,8 @@
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
- *   func_0215A6D0  0x0215A6D0  thumb ov010
+ *   VM_GetU32  0x0201134C  thumb
+ *   SCRCMD_WORK_SetFadeState  0x0215A6D0  thumb ov010
  */
 
 typedef unsigned char  u8;
@@ -26,11 +26,11 @@ typedef struct {
 } Ctx;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
-extern void func_0215A6D0(void *p, u32 v);
+extern u32 VM_GetU32(struct Cursor *p);
+extern void SCRCMD_WORK_SetFadeState(void *p, u32 v);
 
-int func_021B6AE0(Ctx *c, void *b)
+int SCRCMD_POKEMON_FLD_SetWarpTable(Ctx *c, void *b)
 {
-    func_0215A6D0(b, (u32)(c->p + func_0201134C((struct Cursor *)c)));
+    SCRCMD_WORK_SetFadeState(b, (u32)(c->p + VM_GetU32((struct Cursor *)c)));
     return 0;
 }

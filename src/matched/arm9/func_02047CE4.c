@@ -1,5 +1,5 @@
 /*
- * function: func_02047CE4
+ * function: G3D_SYSTEM_ResetDrawCounts
  * address:  0x02047CE4
  * packet:   pkt_020479D8
  * region:   arm9
@@ -20,8 +20,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047CE4.c \
- *       --func func_02047CE4 --addr 0x02047CE4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_ResetDrawCounts.c \
+ *       --func G3D_SYSTEM_ResetDrawCounts --addr 0x02047CE4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ struct G02146A5C {
 
 extern struct G02146A5C _G3dSystem;
 
-void func_02047CE4(void)
+void G3D_SYSTEM_ResetDrawCounts(void)
 {
     _G3dSystem.f4 = 0;
     _G3dSystem.f8 = 0;

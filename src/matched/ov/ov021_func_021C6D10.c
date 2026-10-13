@@ -1,5 +1,5 @@
 /*
- * function: func_021C6D10
+ * function: FIELD_TASK_MANAGER_Create
  * address:  0x021C6D10
  * packet:   pkt_ov021_021C6D10
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int d_021DE4E4;
 
-u8 *func_021C6D10(int n, int heap)
+u8 *FIELD_TASK_MANAGER_Create(int n, int heap)
 {
     u8 *p = (u8 *)func_02030734(heap, 12, 0, (const char *)&d_021DE4E4, 0x34);
 

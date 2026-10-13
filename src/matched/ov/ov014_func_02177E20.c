@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data  ov014  a4
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02178E4C  0x02178E4C  thumb  ov014
  *   DWCi_MOV_WH_EndScan  0x021788FC  thumb  ov014
  *   func_0217727C  0x0217727C  thumb
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 *g_pWhPipeWork;
-void *func_0203D798(void);
+void *GFL_NET_GetInitParam(void);
 int func_02178E4C(void);
 int DWCi_MOV_WH_EndScan(void);
 void func_0217727C(u32 *p, u32 v);
@@ -32,7 +32,7 @@ void func_02082D44(void *d, void *s, u32 n);
 
 int NET_WHPIPE_StartChild(u32 a, u8 *b, u32 c, u32 d)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (*(u32 *)g_pWhPipeWork != 0)
         return 0;
     if (func_02178E4C() == 2) {

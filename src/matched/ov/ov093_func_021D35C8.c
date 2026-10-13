@@ -1,5 +1,5 @@
 /*
- * function: func_021D35C8
+ * function: BTL_CLIENT_CmdChangeForm
  * address:  0x021D35C8
  * packet:   pkt_ov093_021D35C8
  * region:   ov093
@@ -13,7 +13,7 @@
  *   func_021B8D8C  0x021B8D8C  thumb  ov093
  *   func_021B8E70  0x021B8E70  thumb  ov093
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021D66D8  0x021D66D8  thumb  ov093
+ *   BTL_POKEPARAM_ChangeForm  0x021D66D8  thumb  ov093
  *   func_021EA888  0x021EA888  thumb  ov093
  *   func_021EA8A4  0x021EA8A4  thumb  ov093
  */
@@ -25,18 +25,18 @@ typedef unsigned int u32;
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D66D8(u8 *m, u8 v);
+extern void BTL_POKEPARAM_ChangeForm(u8 *m, u8 v);
 extern void func_021EA888(char *ctx, int a);
 extern int func_021EA8A4(u32 *p);
 
-int func_021D35C8(u32 *a, int *b, u32 *c)
+int BTL_CLIENT_CmdChangeForm(u32 *a, int *b, u32 *c)
 {
     int x;
 
     switch (*b) {
     case 0:
         x = func_021B8E70((u8 *)a[0], func_021B8D8C((void *)a[0], (void *)a[1], (u8)c[0]));
-        func_021D66D8(func_021B9934((char *)a[1], (u8)c[0]), (u8)c[1]);
+        BTL_POKEPARAM_ChangeForm(func_021B9934((char *)a[1], (u8)c[0]), (u8)c[1]);
         func_021EA888((char *)a[0x15], x);
         (*b)++;
         break;

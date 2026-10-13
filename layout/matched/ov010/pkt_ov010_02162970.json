@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02162970",
+   "name": "EVENTDATA_SYSTEM_SearchBgEventScriptId",
    "address": "0x02162970",
    "kind": "game",
    "region": "ov010",

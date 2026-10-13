@@ -1,5 +1,5 @@
 /*
- * function: func_021D096C
+ * function: TRIAL_HOUSE_CreateWork
  * address:  0x021D096C
  * packet:   pkt_ov021_021D096C
  * region:   ov021
@@ -13,8 +13,8 @@
  *
  * symbols:
  *   func_0200E588  0x0200E588  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
  *   func_0201A920  0x0201A920  thumb
  *   func_021D09D0  0x021D09D0  thumb  ov021
@@ -31,19 +31,19 @@ extern u32 func_0200E588(void);
 struct Big;
 struct Ctx;
 struct Party;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_021D09D0(int a, char *out);
 
-void *func_021D096C(int a)
+void *TRIAL_HOUSE_CreateWork(int a)
 {
     char *p;
     int r7;
 
     r7 = func_0200E588();
-    func_02012EBC(func_020120F4((const struct Ctx *)a));
+    GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)a));
     p = func_02030734(5, 0x154, 1, (const char *)&d_021DE674, 0x5D);
     ((struct Obj07595 *)p)->f120 = 5;
     ((struct Obj07595 *)p)->f14C = (int)func_02030734(5, r7, 1, (const char *)&d_021DE674, 0x5F);

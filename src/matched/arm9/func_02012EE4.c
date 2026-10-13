@@ -1,5 +1,5 @@
 /*
- * function: func_02012EE4
+ * function: GAME_DATA_SetCurrentEvent
  * address:  0x02012EE4
  * packet:   pkt_02012EE4
  * region:   arm9
@@ -12,11 +12,11 @@
  * Unlabelled leaf accessor: stores v at base + 0x688.
  *
  * symbols:
- *   func_02012EE4  0x02012EE4  thumb
+ *   GAME_DATA_SetCurrentEvent  0x02012EE4  thumb
  */
 #include "../include/Obj15631.h"
 
-char *func_02012EE4(char *base, int v)
+char *GAME_DATA_SetCurrentEvent(char *base, int v)
 {
     ((struct Obj15631 *)base)->f688 = v;
     return base;

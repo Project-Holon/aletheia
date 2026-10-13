@@ -13,7 +13,7 @@
  *   func_020355C4 0x020355C4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021F4FF4 0x021F4FF4 thumb ov135
  */
 #include "../include/Obj01745.h"
@@ -27,7 +27,7 @@ extern u8 func_020355C4(void);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32, u32, u32);
 int func_021FAC8C(u8 *p)
 {
@@ -39,8 +39,8 @@ int func_021FAC8C(u8 *p)
         if (((struct Obj01745 *)p)->f54 == 2) {
             func_0204B92C(((struct Obj01745 *)p)->fC, 0);
             func_0204B92C(((struct Obj01745 *)p)->f10, 0);
-            func_0204B878(((struct Obj01745 *)p)->fC, 38);
-            func_0204B878(((struct Obj01745 *)p)->f10, 39);
+            CLACT_SetActorAnimSeq(((struct Obj01745 *)p)->fC, 38);
+            CLACT_SetActorAnimSeq(((struct Obj01745 *)p)->f10, 39);
             func_021F4FF4(*(u32 *)&((struct Obj01745 *)p)->fC, 228, 120);
             func_021F4FF4(*(u32 *)&((struct Obj01745 *)p)->f10, 154, 120);
             func_0204B3DC(((struct Obj01745 *)p)->fC, 1);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02190D2C",
+   "name": "FIELD_MSGBG_CreateMsgStream",
    "address": "0x02190D2C",
    "kind": "game",
    "region": "ov021",

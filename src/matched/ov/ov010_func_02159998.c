@@ -1,5 +1,5 @@
 /*
- * function: func_02159998
+ * function: SCRIPT_WORK_CmdWaitKeyAny
  * address: 0x02159998
  * packet: pkt_ov010_02159998
  * region: ov010
@@ -8,12 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02159984 0x02159984 thumb ov010
+ *   SCRIPT_WORK_WaitKeyAny 0x02159984 thumb ov010
+ *   VM_SetWait  0x020113D0  thumb  arm9
  */
-extern int func_02159984(int a0, int a1);
-extern void func_020113D0(char *, int);
-int func_02159998(char *p)
+extern int SCRIPT_WORK_WaitKeyAny(int a0, int a1);
+extern void VM_SetWait(char *, int);
+int SCRIPT_WORK_CmdWaitKeyAny(char *p)
 {
-    func_020113D0(p, (int)func_02159984);
+    VM_SetWait(p, (int)SCRIPT_WORK_WaitKeyAny);
     return 1;
 }

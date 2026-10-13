@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B64
+ * function: FIELD_GIMMICK_GATE_ReadSaveBlockValues
  * address:  0x021F3B64
  * packet:   pkt_ov048_021F3B64
  * region:   ov048
@@ -13,8 +13,8 @@
  *   GAME_DATA_GetSaveBlock42  0x02012F68  thumb
  *   func_0200EC14  0x0200EC14  thumb
  *   func_0200EC2C  0x0200EC2C  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_Delete  0x02045808  arm
  */
 
 typedef unsigned char u8;
@@ -36,10 +36,10 @@ extern int func_0200EC14(char *p);
 struct Src0200EC2C;
 struct Dst0200EC2C;
 extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021F3B64(u16 *p, u32 *out, int *cnt)
+void FIELD_GIMMICK_GATE_ReadSaveBlockValues(u16 *p, u32 *out, int *cnt)
 {
     void *s;
     int i;
@@ -48,11 +48,11 @@ void func_021F3B64(u16 *p, u32 *out, int *cnt)
     s = GAME_DATA_GetSaveBlock42((void **)(((int *)p)[2]));
     *cnt = func_0200EC14(s);
     for (i = 0; i < *cnt; i++) {
-        st.p0 = func_020457B0(0x40, p[0]);
-        st.p1 = func_020457B0(0x40, p[0]);
+        st.p0 = STRBUF_Create(0x40, p[0]);
+        st.p1 = STRBUF_Create(0x40, p[0]);
         func_0200EC2C(s, i, (struct Dst0200EC2C *)&st);
         out[i] = st.c;
-        func_02045808(st.p0);
-        func_02045808(st.p1);
+        STRBUF_Delete(st.p0);
+        STRBUF_Delete(st.p1);
     }
 }

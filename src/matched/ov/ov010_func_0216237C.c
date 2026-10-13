@@ -1,5 +1,5 @@
 /*
- * function: func_0216237C
+ * function: EVENTDATA_SYSTEM_Create
  * address:  0x0216237C
  * packet:   pkt_ov010_0216237C
  * region:   ov010
@@ -21,7 +21,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern char d_0217299C[];
 
-int func_0216237C(int a)
+int EVENTDATA_SYSTEM_Create(int a)
 {
     void **p = (void **)func_02030734(a, 0xAA8, 1, d_0217299C, 0xAF);
     p[1] = func_020490F4(0x7D, a);

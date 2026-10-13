@@ -1,5 +1,5 @@
 /*
- * function: func_021B8618
+ * function: MONOLITH_TOOL_SUMMARY_Destroy
  * address: 0x021B8618
  * packet: pkt_ov071_021B8618
  * region: ov071
@@ -28,7 +28,7 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_021B8750(void **);
 extern void func_021B869C(void);
 extern void func_021B878C(void *);
-int func_021B8618(void *a, void *b, char *c, void **d)
+int MONOLITH_TOOL_SUMMARY_Destroy(void *a, void *b, char *c, void **d)
 {
     if (func_0201C6B4(((struct Obj20734 *)(*(char * *)&((struct Obj20733 *)c)->f4))->f8) == 0) return 0;
     func_02043534(8);

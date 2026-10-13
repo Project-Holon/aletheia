@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A5390  0x021A5390  thumb  ov021
- *   func_021A56F4  0x021A56F4  thumb  ov021
- *   func_0219F7CC  0x0219F7CC  thumb  ov021
- *   func_021A5708  0x021A5708  thumb  ov021
- *   func_021A53A4  0x021A53A4  thumb  ov021
- *   func_021A47B4  0x021A47B4  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsHoldFlagSet  0x021A5390  thumb  ov021
+ *   FIELD_PLAYER_GRID_StartHold  0x021A56F4  thumb  ov021
+ *   FLDMMDL_DRAW_GetFrameGroup  0x0219F7CC  thumb  ov021
+ *   FIELD_PLAYER_GRID_EndHold  0x021A5708  thumb  ov021
+ *   FIELD_PLAYER_GRID_SetHopFlag  0x021A53A4  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetWalkResultOnFootHop  0x021A47B4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02083.h"
@@ -24,33 +24,33 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_021A5390(u32 a);
-extern int func_021A56F4(u32 a);
-extern int func_0219F7CC(u32, u32);
-extern int func_021A5708(u32 a);
-extern void func_021A53A4(u32 *p, int on);
-extern int func_021A47B4(u8 *, u32, u8 *);
+extern int FIELD_PLAYER_GRID_IsHoldFlagSet(u32 a);
+extern int FIELD_PLAYER_GRID_StartHold(u32 a);
+extern int FLDMMDL_DRAW_GetFrameGroup(u32, u32);
+extern int FIELD_PLAYER_GRID_EndHold(u32 a);
+extern void FIELD_PLAYER_GRID_SetHopFlag(u32 *p, int on);
+extern int FIELD_PLAYER_GRID_GetWalkResultOnFootHop(u8 *, u32, u8 *);
 
 int ov021_func_021A482C(u8 *a, u32 b, u8 *c)
 {
     if (((struct Obj19788 *)c)->f8 == 9) {
-        if (func_021A5390((u32)a) == 0) {
-            func_021A56F4((u32)a);
+        if (FIELD_PLAYER_GRID_IsHoldFlagSet((u32)a) == 0) {
+            FIELD_PLAYER_GRID_StartHold((u32)a);
         }
         if (((struct Obj02083 *)a)->f16 == 1) {
-            if (func_0219F7CC(b, ((struct Obj02083 *)a)->f14) != 0) {
+            if (FLDMMDL_DRAW_GetFrameGroup(b, ((struct Obj02083 *)a)->f14) != 0) {
                 ((struct Obj02083 *)a)->f16 = 0;
             }
         }
         ((struct Obj02083 *)a)->f14 = ((struct Obj02083 *)a)->f14 + 1;
         if (((struct Obj02083 *)a)->f14 == 60) {
-            func_021A5708((u32)a);
-            func_021A53A4((u32 *)a, 1);
+            FIELD_PLAYER_GRID_EndHold((u32)a);
+            FIELD_PLAYER_GRID_SetHopFlag((u32 *)a, 1);
             return 7;
         }
     } else {
-        func_021A5708((u32)a);
-        return func_021A47B4(a, b, c);
+        FIELD_PLAYER_GRID_EndHold((u32)a);
+        return FIELD_PLAYER_GRID_GetWalkResultOnFootHop(a, b, c);
     }
     return 6;
 }

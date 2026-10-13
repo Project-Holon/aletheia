@@ -1,5 +1,5 @@
 /*
- * function: func_021D8564
+ * function: BTL_CALC_SwapAbilityHandlers
  * address:  0x021D8564
  * packet:   pkt_ov093_021D8564
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D732C  0x021D732C  thumb  ov093
- *   func_021D7040  0x021D7040  thumb  ov093
- *   func_021D8484  0x021D8484  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_EVENT_FindFactor  0x021D732C  thumb  ov093
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
+ *   BTL_CALC_AddAbilityHandlers  0x021D8484  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -23,23 +23,23 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct Node;
-struct Node *func_021D732C(int id, int sub);
-void func_021D7040(struct Node *n);
-void *func_021D8484(void *a);
+struct Node *BTL_EVENT_FindFactor(int id, int sub);
+void BTL_EVENT_RemoveFactor(struct Node *n);
+void *BTL_CALC_AddAbilityHandlers(void *a);
 
-void func_021D8564(int a, int b)
+void BTL_CALC_SwapAbilityHandlers(int a, int b)
 {
-    int sa = func_021D5440((u8 *)a);
-    int sb = func_021D5440((u8 *)b);
-    void *x = func_021D732C(4, sa);
-    void *y = func_021D732C(4, sb);
+    int sa = BTL_POKEPARAM_GetPokeId((u8 *)a);
+    int sb = BTL_POKEPARAM_GetPokeId((u8 *)b);
+    void *x = BTL_EVENT_FindFactor(4, sa);
+    void *y = BTL_EVENT_FindFactor(4, sb);
 
     if (x != 0)
-        func_021D7040(x);
+        BTL_EVENT_RemoveFactor(x);
     if (y != 0)
-        func_021D7040(y);
-    func_021D8484((void *)a);
-    func_021D8484((void *)b);
+        BTL_EVENT_RemoveFactor(y);
+    BTL_CALC_AddAbilityHandlers((void *)a);
+    BTL_CALC_AddAbilityHandlers((void *)b);
 }

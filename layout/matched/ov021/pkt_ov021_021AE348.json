@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021AE348",
-    "func_021AE360",
-    "func_021AE394",
-    "func_021AE3C8",
-    "func_021AE3FC"
+    "EVENT_TRAINER_EYE_CheckSight",
+    "EVENT_TRAINER_EYE_CheckSightUp",
+    "EVENT_TRAINER_EYE_CheckSightDown",
+    "EVENT_TRAINER_EYE_CheckSightLeft",
+    "EVENT_TRAINER_EYE_CheckSightRight"
+   ],
+   "addresses": [
+    "0x021AE348",
+    "0x021AE360",
+    "0x021AE394",
+    "0x021AE3C8",
+    "0x021AE3FC"
    ],
    "evidence": {
     "sole-ref": [

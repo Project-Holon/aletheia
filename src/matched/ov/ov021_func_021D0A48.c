@@ -1,5 +1,5 @@
 /*
- * function: func_021D0A48
+ * function: TRIAL_HOUSE_DeleteWork
  * address:  0x021D0A48
  * packet:   pkt_ov021_021D0A48
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021D0A48(void *a, u8 **pp)
+void TRIAL_HOUSE_DeleteWork(void *a, u8 **pp)
 {
     if (*pp != 0) {
         func_020307B0(((struct Obj20290 *)(*pp))->f14C);

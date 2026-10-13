@@ -1,5 +1,5 @@
 /*
- * function: func_021A6C64
+ * function: FIELD_PLAYER_NOGRID_IsInputHoldKept
  * address:  0x021A6C64
  * packet:   pkt_021A6C64
  * region:   ov021
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u32 func_021A6C64(u8 *p)
+u32 FIELD_PLAYER_NOGRID_IsInputHoldKept(u8 *p)
 {
     return ((u32)*p << 30) >> 31;
 }

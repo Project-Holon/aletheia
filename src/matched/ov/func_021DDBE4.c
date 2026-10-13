@@ -1,5 +1,5 @@
 /*
- * function: func_021DDBE4
+ * function: BTL_ITEM_WeakenDamagePsychic
  * address:  0x021DDBE4
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021DDBE4   0x021DDBE4  thumb
- *   func_021DDCD8   0x021DDCD8  thumb
- * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #0xd; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl func_021DDCD8; add sp, #8; pop {r4, pc}.
+ *   BTL_ITEM_WeakenDamagePsychic   0x021DDBE4  thumb
+ *   BTL_HANDLER_ITEM_WeakenHitOfType   0x021DDCD8  thumb
+ * Leaf with no calls and no pool; 9 instructions, 20 bytes: push {r4, lr}; sub sp, #8; movs r4, #0xd; str r4, [sp]; movs r4, #0; str r4, [sp, #4]; bl BTL_HANDLER_ITEM_WeakenHitOfType; add sp, #8; pop {r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -23,8 +23,8 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021DDBE4  shape F2: two stack constants (0xd, 0) */
-void func_021DDBE4(int a, int b, int c, int d)
+void BTL_ITEM_WeakenDamagePsychic(int a, int b, int c, int d)
 {
-    func_021DDCD8(a, b, c, d, 0xd, 0);
+    BTL_HANDLER_ITEM_WeakenHitOfType(a, b, c, d, 0xd, 0);
 }
 

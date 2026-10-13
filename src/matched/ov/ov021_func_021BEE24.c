@@ -1,5 +1,5 @@
 /*
- * function: func_021BEE24
+ * function: EVENT_FIELDMAP_CONTROL_StartFadeInByFacing
  * address:  0x021BEE24
  * packet:   pkt_ov021_021BEE24
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
- *   func_021BED44  0x021BED44  thumb  ov021
- *   func_021BEDA4  0x021BEDA4  thumb  ov021
- *   func_021BEC84  0x021BEC84  thumb  ov021
- *   func_021BECE4  0x021BECE4  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7  0x021BED44  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8  0x021BEDA4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5  0x021BEC84  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6  0x021BECE4  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -23,28 +23,28 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_021A3050(u8 *p);
-extern void *func_021BED44(int a, int b);
-extern int func_021BEDA4(int a, int b);
-extern void *func_021BEC84(void *a, u32 b);
-extern void *func_021BECE4(int a, int b);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
+extern void *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(int a, int b);
+extern int EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(int a, int b);
+extern void *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(void *a, u32 b);
+extern void *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(int a, int b);
 
-void func_021BEE24(void *a, void *b)
+void EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(void *a, void *b)
 {
-    switch (func_021A3050(func_02188CB4(b))) {
+    switch (FIELD_PLAYER_GetDirDisp(FIELDMAP_GetFieldPlayer(b))) {
     case 2:
     default:
-        func_021BED44((int)a, (int)b);
+        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7((int)a, (int)b);
         break;
     case 3:
-        func_021BEDA4((int)a, (int)b);
+        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8((int)a, (int)b);
         break;
     case 0:
-        func_021BEC84(a, (u32)b);
+        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(a, (u32)b);
         break;
     case 1:
-        func_021BECE4((int)a, (int)b);
+        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6((int)a, (int)b);
         break;
     }
 }

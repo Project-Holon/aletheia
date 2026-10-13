@@ -45,10 +45,10 @@
  *   BATTLE_REC_GetModeLayout  0x0200B784  thumb
  *   BATTLE_REC_GetBody  0x0200B91C  thumb
  *   BATTLE_REC_SetBodyCrc  0x0200BA44  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   d_021D8D28  0x021D8D28  data a4
- *   d_020A7370  0x020A7370  data
+ *   gSpeciesNameBank  0x020A7370  data
  */
 
 typedef unsigned char u8;
@@ -57,7 +57,7 @@ typedef unsigned int u32;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021D8D28[];
-extern void *d_020A7370;
+extern void *gSpeciesNameBank;
 extern char *func_021D7700(void);
 extern int func_021D7154(int, int, int *, int *);
 extern void func_021D75C0(void);
@@ -93,8 +93,8 @@ extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern void BATTLE_REC_GetModeLayout(u16, int *, int *);
 extern u8 *BATTLE_REC_GetBody(void);
 extern void BATTLE_REC_SetBodyCrc(struct RecC4 *p);
-extern u8 *func_02012944(void *p);
-extern void *func_02012EBC(struct Big *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -132,7 +132,7 @@ int func_021D6B40(u8 *p, int *done)
             base = func_021D7700();
             if (OBJ != 0)
                 func_02034714(d_021D8D28, ret, d_021D8D28);
-            OBJ = func_021B9800((u16)W(0x13c), func_0200853C((const struct Sub0200852CObj *)func_02012944((void *)W(0))), W(0x494));
+            OBJ = func_021B9800((u16)W(0x13c), func_0200853C((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)W(0))), W(0x494));
             func_021B98A0(OBJ, (u16)W(0x13c), 0x540, 3);
             BATTLE_REC_GetModeLayout(*(u16 *)(base + 0xa6), &n, &m);
             B(0x490) = 0;
@@ -183,7 +183,7 @@ int func_021D6B40(u8 *p, int *done)
                                 break;
                             {
                                 char *e = base2 + 0xd00 + idx * 0x2a4 + sub * 0x70;
-                                MSGDATA_ReadUnits(d_020A7370, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
+                                MSGDATA_ReadUnits(gSpeciesNameBank, *(u16 *)(e + 6), (u16 *)(e + 0x32), 11);
                             }
                             W(0x5a0) = 1;
                         }
@@ -210,7 +210,7 @@ int func_021D6B40(u8 *p, int *done)
             }
             return 0;
         case 2:
-            func_02012EBC((struct Big *)W(0));
+            GAME_DATA_GetSaveControl((struct Big *)W(0));
             func_021D75C0();
             B(0x402)++;
             break;

@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02175B34 0x02175B34 thumb ov011
+ *   INTRUDE_COMM_GetActiveSessionRequest 0x02175B34 thumb ov011
  */
 #include "../include/Obj19193.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *func_02175B34(u8 *p);
+extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
 void INTRUDE_COMM_ClearSessionTicks(u8 *p)
 {
-    u8 *q = func_02175B34(p);
+    u8 *q = INTRUDE_COMM_GetActiveSessionRequest(p);
     if (q != 0) ((struct Obj19193 *)q)->f30 = 0;
 }

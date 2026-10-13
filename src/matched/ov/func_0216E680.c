@@ -1,5 +1,5 @@
 /*
- * function: func_0216E680
+ * function: EVENT_BATTLE_CallAndInvert
  * address:  0x0216E680
  * packet:   pkt_0216E680
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216E680(int a0)
+int EVENT_BATTLE_CallAndInvert(int a0)
 {
     int t4;
 

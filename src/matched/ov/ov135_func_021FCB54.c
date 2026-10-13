@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020185F0  0x020185F0  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   POKEGRA_LoadCharDataPP  0x0202D6F4  thumb
  *   func_020862F0  0x020862F0  arm
  *   func_0207E780  0x0207E780  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0202D060  0x0202D060  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017EAC  0x02017EAC  thumb
- *   func_0202D0D4  0x0202D0D4  thumb
+ *   POKEGRA_GetArcID  0x0202D060  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_IsShiny  0x02017EAC  thumb
+ *   POKEGRA_GetPalArcIndex  0x0202D0D4  thumb
  *   func_02049B40  0x02049B40  arm
  */
 
@@ -33,16 +33,16 @@ typedef struct {
     void *data;
 } PalFile;
 
-extern void *func_020185F0(void);
+extern void *POKE_TOOL_Dummy(void);
 extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
 extern void func_020862F0(void *p, u32 n);
 extern void func_0207E780(void *src, u32 dst, u32 n);
 extern u32 func_020307B0(void *p);
 typedef signed int     s32;
-extern int func_0202D060(void);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern u32 func_02017EAC(void *mon);
-extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern int POKEGRA_GetArcID(void);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_IsShiny(void *mon);
+extern s32 POKEGRA_GetPalArcIndex(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021FCB54(void *mon)
@@ -55,14 +55,14 @@ void func_021FCB54(void *mon)
     u32 shiny;
     u32 id;
 
-    h = (void *)POKEGRA_LoadCharDataPP(&pal, func_020185F0(), 0, 0x48);
+    h = (void *)POKEGRA_LoadCharDataPP(&pal, POKE_TOOL_Dummy(), 0, 0x48);
     func_020862F0(pal->data, 0x1200);
     func_0207E780(pal->data, 0x3F80, 0x1200);
     func_020307B0(h);
-    arc = func_0202D060();
-    species = func_02017E1C(mon, 5, 0);
-    form = func_02017E1C(mon, 0x6F, 0);
-    shiny = func_02017E1C(mon, 0x6E, 0);
-    id = func_0202D0D4(arc, species, form, shiny, func_02017EAC(mon), 0, 0);
-    func_02049B40(func_0202D060(), id, 1, 0x1A0, 0x20, 0x48);
+    arc = POKEGRA_GetArcID();
+    species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+    shiny = POKE_TOOL_GetPartyValue(mon, 0x6E, 0);
+    id = POKEGRA_GetPalArcIndex(arc, species, form, shiny, POKE_TOOL_IsShiny(mon), 0, 0);
+    func_02049B40(POKEGRA_GetArcID(), id, 1, 0x1A0, 0x20, 0x48);
 }

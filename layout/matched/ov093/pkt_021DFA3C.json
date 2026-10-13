@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFA3C",
+   "name": "BTL_HANDLER_ITEM_IronBallGroundCheck",
    "address": "0x021DFA3C",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021DFB94",
+   "name": "BTL_HANDLER_ITEM_AirBalloonGroundCheck",
    "address": "0x021DFB94",
    "kind": "game",
    "region": "ov093",

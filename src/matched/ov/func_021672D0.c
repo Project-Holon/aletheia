@@ -1,5 +1,5 @@
 /*
- * function: func_021672D0
+ * function: EVENT_RESEARCH_RADAR_GetReportKind
  * address:  0x021672D0
  * packet:   pkt_021672D0
  * region:   ov010
@@ -27,7 +27,7 @@ extern void *func_0200C0E8(void *sys);
 struct Blk34;
 extern u8 func_0200C224(struct Blk34 *p);
 
-int func_021672D0(int a0)
+int EVENT_RESEARCH_RADAR_GetReportKind(int a0)
 {
     void *big;
     void *sys;

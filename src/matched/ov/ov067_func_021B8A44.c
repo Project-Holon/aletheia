@@ -1,5 +1,5 @@
 /*
- * function: func_021B8A44
+ * function: FRAME_LIST_GetScrollBarRow
  * address:  0x021B8A44
  * packet:   pkt_ov067_021B8A44
  * region:   ov067
@@ -33,7 +33,7 @@ struct S {
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 func_0202EDE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
-u32 func_021B8A44(struct S *s)
+u32 FRAME_LIST_GetScrollBarRow(struct S *s)
 {
     int a;
     int b;

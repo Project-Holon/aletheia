@@ -11,9 +11,9 @@
  *   func_02030734 0x02030734 arm
  *   func_021F44F8 0x021F44F8 thumb ov112
  *   func_021F46A8 0x021F46A8 thumb ov112
- *   func_02027F60 0x02027F60 thumb
- *   func_0203D34C 0x0203D34C arm
- *   func_02043598 0x02043598 arm
+ *   APP_TASKMENU_RES_Create 0x02027F60 thumb
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021F8394 0x021F8394 data a1
  */
 typedef unsigned char u8;
@@ -24,9 +24,9 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 struct R;
 extern void func_021F44F8(u8 *p);
 extern void func_021F46A8(u8 *p);
-extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_02043598(u32 mask, u32 enable);
+extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 typedef struct { u16 v; u16 pad; } H16;
 void *func_021F4284(u32 a, u32 b, u32 c, u32 d, H16 heap)
 {
@@ -41,8 +41,8 @@ void *func_021F4284(u32 a, u32 b, u32 c, u32 d, H16 heap)
     if (c == 1) *(u32 *)(p + 4) = 0; else *(u32 *)(p + 4) = 1;
     func_021F44F8(p);
     func_021F46A8(p);
-    *(u32 *)(p + 0x40) = (u32)func_02027F60(4, 12, *(u32 *)(p + 0x20), *(u32 *)(p + 0x38), *(u16 *)p);
-    func_0203D34C(0, *(u16 *)&heap);
-    func_02043598(16, 1);
+    *(u32 *)(p + 0x40) = (u32)APP_TASKMENU_RES_Create(4, 12, *(u32 *)(p + 0x20), *(u32 *)(p + 0x38), *(u16 *)p);
+    GFL_NET_RestartWithDefaultTimeout(0, *(u16 *)&heap);
+    BG_SYS_SetSubPlaneVisible(16, 1);
     return p;
 }

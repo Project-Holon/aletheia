@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0C8
+ * function: STARTMENU_SaveEraseDeleteWindow
  * address:  0x021BD0C8
  * packet:   pkt_ov088_021BD0C8
  * region:   ov088
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_020452E8  0x020452E8  arm
- *   func_020450C8  0x020450C8  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  */
 #include "../include/Obj04351.h"
 
 struct Descriptor;
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 
-void func_021BD0C8(unsigned char *p)
+void STARTMENU_SaveEraseDeleteWindow(unsigned char *p)
 {
     func_020452E8(((struct Obj04351 *)p)->f1C);
-    func_020450C8();
+    BMP_WIN_Exit();
 }

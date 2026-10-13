@@ -13,7 +13,7 @@
  *   statement and used once more), and idx*4 is the first operand of the final add, so e shares idx*4's
  *   register (r0) and row takes r4 as in the original.
  * symbols:
- *   func_02048F60 0x02048F60 arm
+ *   ARC_TOOL_LoadMember 0x02048F60 arm
  *   func_020081DC 0x020081DC thumb
  *   func_020307B0 0x020307B0 arm
  *   d_0220DB3C 0x0220DB3C data a4
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Item;
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern struct Item *func_020081DC(u8 *base, u32 id, u32 index);
 extern u32 func_020307B0(void *p);
 extern const u8 d_0220DB3C[];
@@ -36,7 +36,7 @@ void func_0220BA2C(u8 *p)
     u16 *r;
     u32 i, j, k;
 
-    tbl = func_02048F60(0xE8, 0, *(u16 *)(*(u8 **)p + 0xC));
+    tbl = ARC_TOOL_LoadMember(0xE8, 0, *(u16 *)(*(u8 **)p + 0xC));
     i = 0;
     do {
         j = 0;

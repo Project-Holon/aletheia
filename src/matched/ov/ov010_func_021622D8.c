@@ -1,5 +1,5 @@
 /*
- * function: func_021622D8
+ * function: EVENT_FIELD_PROCLINK_GetReturnPendingSlotSub
  * address: 0x021622D8
  * packet: pkt_ov010_021622D8
  * region: ov010
@@ -13,7 +13,7 @@
 #include "../include/Obj18956.h"
 typedef unsigned short u16;
 extern void func_02082D44(void *, void *, unsigned);
-int func_021622D8(char *p, void *out)
+int EVENT_FIELD_PROCLINK_GetReturnPendingSlotSub(char *p, void *out)
 {
     int result = 0;
     if (((struct Obj18956 *)p)->f2 & 16) {

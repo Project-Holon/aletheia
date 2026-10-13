@@ -12,7 +12,7 @@
  *   d_021C320C 0x021C320C data a4
  *   func_021BC714 0x021BC714 thumb ov217
  *   func_021BC708 0x021BC708 thumb ov217
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
 #include "../include/Obj14733.h"
@@ -27,7 +27,7 @@ extern const struct Entry d_021C320C[];
 extern u32 func_021BC714(void *,u32);
 extern u32 func_021BC708(void *,u32);
 struct Obj;
-extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
+extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 void func_021BCFD0(u8 *p)
 {
@@ -44,7 +44,7 @@ void func_021BCFD0(u8 *p)
         c=func_021BC708(p,q->e);
         d=func_021BC708(p,q->f);
         dest=p+i*4;
-        ((struct Obj14733 *)dest)->f120=(u32)func_0204B294((void *)a,b,c,d,&arg,q->g,((struct Obj25882 *)p)->f8);
+        ((struct Obj14733 *)dest)->f120=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct Obj25882 *)p)->f8);
         func_0204B3DC((struct Obj *)((struct Obj14733 *)dest)->f120,0);
     }
 }

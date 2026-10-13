@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCDE8",
+   "name": "PLIST_MENU_UpdateTimer",
    "address": "0x021BCDE8",
    "kind": "game",
    "region": "ov091",

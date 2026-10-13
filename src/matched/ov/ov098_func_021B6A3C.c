@@ -16,9 +16,9 @@
  *   func_0201CE30 0x0201CE30 thumb
  *   func_0201CE38 0x0201CE38 thumb
  *   func_0201CE48 0x0201CE48 thumb
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  */
 #include "../include/Obj00466.h"
 typedef unsigned char u8;
@@ -31,9 +31,9 @@ extern void PRINTSYS_PrintStreamRun(void *);
 extern u32 func_0201CE30(void *);
 extern void func_0201CE38(void *);
 extern void func_0201CE48(struct Rec3 *);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 int func_021B6A3C(u8 *p)
 {
     switch (p[0x39]) {
@@ -58,7 +58,7 @@ int func_021B6A3C(u8 *p)
         } else return 1;
         break;
     case 3:
-        if ((func_020362DC() & 3) || func_02035C60()) ((struct Obj00466 *)p)->f40 = 0;
+        if ((func_020362DC() & 3) || TOUCHPANEL_GetTrg()) ((struct Obj00466 *)p)->f40 = 0;
         if (((struct Obj00466 *)p)->f40) (((struct Obj00466 *)p)->f40)--;
         else p[0x39] = 5;
         break;
@@ -68,7 +68,7 @@ int func_021B6A3C(u8 *p)
         break;
     case 5:
         if (((struct Obj00466 *)p)->f3C == 2) {
-            func_0201DD68();
+            GF_FONT_SetDefaultTextColor();
             func_0201CE48(*(struct Rec3 * *)&((struct Obj00466 *)p)->f0);
             ((struct Obj00466 *)p)->f0 = 0;
             p[0x39] = 6;

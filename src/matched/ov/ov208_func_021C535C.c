@@ -11,8 +11,8 @@
  *
  * symbols:
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0201BB5C  0x0201BB5C  thumb
  *   func_0204B6F4  0x0204B6F4  arm
@@ -36,9 +36,9 @@ extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 is
 typedef signed int     s32;
 struct Actor;
 struct Obj;
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int res, unsigned int j, unsigned int k, const void *pos, unsigned short f, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int res, unsigned int j, unsigned int k, const void *pos, unsigned short f, unsigned short heap);
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern u32  func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
@@ -55,8 +55,8 @@ u32 ov208_func_021C535C(u32 arc, u32 *res, u32 j, u32 k, u32 owner, u16 heap, u3
     pos.z = 1;
     pos.b6 = 1;
     pos.b7 = 0;
-    *res = func_0204A6C8((void *)arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), 0, 1, heap);
-    obj = (u32)func_0204B294((void *)owner, *res, j, k, &pos, 1, heap);
+    *res = CLACT_RegisterCharacter((void *)arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), 0, 1, heap);
+    obj = (u32)CLACT_CreateActor((void *)owner, *res, j, k, &pos, 1, heap);
     func_0204B92C((struct Obj *)obj, 0);
     func_0204B6F4((struct Obj *)obj, func_0201BB5C(species, form, gender, isEgg), 0);
     func_0204B688((struct Actor *)obj, 0);

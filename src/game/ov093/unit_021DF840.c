@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DF840.c
  * unit:     yes
- * function: func_021DF840, func_021DF84C, func_021DF858, func_021DF864
+ * function: BTL_HANDLER_ITEM_NeverMeltIceBoostPower, BTL_HANDLER_ITEM_GetSpellTagHandlers, BTL_HANDLER_ITEM_SpellTagBoostPower, BTL_HANDLER_ITEM_GetTwistedSpoonHandlers
  * address:  0x021DF840
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,42 +13,42 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021DF93C  0x021DF93C  thumb  ov093
- *   d_021F15BC     0x021F15BC  data   ov093  a4
- *   d_021F1484     0x021F1484  data   ov093  a4
+ *   BTL_HANDLER_ITEM_BoostMovePowerOfType  0x021DF93C  thumb  ov093
+ *   gSpellTagHandlers     0x021F15BC  data   ov093  a4
+ *   gTwistedSpoonHandlers     0x021F1484  data   ov093  a4
  */
 #include "unit_021DF3A4_types.h"
 
-extern const BtlEventHandler d_021F15BC[];
-extern const BtlEventHandler d_021F1484[];
+extern const BtlEventHandler gSpellTagHandlers[];
+extern const BtlEventHandler gTwistedSpoonHandlers[];
 
-void func_021DF840(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
-const BtlEventHandler *func_021DF84C(int *handlerCount);
-void func_021DF858(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
-const BtlEventHandler *func_021DF864(int *handlerCount);
+void BTL_HANDLER_ITEM_NeverMeltIceBoostPower(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *BTL_HANDLER_ITEM_GetSpellTagHandlers(int *handlerCount);
+void BTL_HANDLER_ITEM_SpellTagBoostPower(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId);
+const BtlEventHandler *BTL_HANDLER_ITEM_GetTwistedSpoonHandlers(int *handlerCount);
 
 /* Never-Melt Ice. */
-void func_021DF840(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+void BTL_HANDLER_ITEM_NeverMeltIceBoostPower(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(factor, flow, pokeId, BTL_TYPE_ICE);
+    BTL_HANDLER_ITEM_BoostMovePowerOfType(factor, flow, pokeId, BTL_TYPE_ICE);
 }
 
 /* Spell Tag. */
-const BtlEventHandler *func_021DF84C(int *handlerCount)
+const BtlEventHandler *BTL_HANDLER_ITEM_GetSpellTagHandlers(int *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F15BC;
+    return gSpellTagHandlers;
 }
 
 /* Spell Tag. */
-void func_021DF858(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
+void BTL_HANDLER_ITEM_SpellTagBoostPower(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId)
 {
-    func_021DF93C(factor, flow, pokeId, BTL_TYPE_GHOST);
+    BTL_HANDLER_ITEM_BoostMovePowerOfType(factor, flow, pokeId, BTL_TYPE_GHOST);
 }
 
 /* Twisted Spoon. */
-const BtlEventHandler *func_021DF864(int *handlerCount)
+const BtlEventHandler *BTL_HANDLER_ITEM_GetTwistedSpoonHandlers(int *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F1484;
+    return gTwistedSpoonHandlers;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D2CE8
+ * function: SCRCMD_GREETING_AdjustMessageIdByMisc
  * address:  0x021D2CE8
  * packet:   pkt_ov021_021D2CE8
  * region:   ov021
@@ -20,7 +20,7 @@
  *   func_020056EC  0x020056EC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200C234  0x0200C234  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  */
 
 typedef unsigned char u8;
@@ -28,16 +28,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *p);
 extern int func_0200C234(void *p);
 extern u32 func_020056EC(u32 v);
 extern u32 d_021DD718[];
 
-u32 func_021D2CE8(void *a, int i)
+u32 SCRCMD_GREETING_AdjustMessageIdByMisc(void *a, int i)
 {
     u32 v = i;
-    void *h = func_0200C0F0(func_02012EBC(a));
+    void *h = func_0200C0F0(GAME_DATA_GetSaveControl(a));
 
     for (i = 0; i < 8; i++) {
         if (v == d_021DD718[i]) {

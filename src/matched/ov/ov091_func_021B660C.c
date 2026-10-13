@@ -1,5 +1,5 @@
 /*
- * function: func_021B660C
+ * function: POKELIST_InitWork
  * address:  0x021B660C
  * packet:   pkt_ov091_021B660C
  * region:   ov091
@@ -18,24 +18,24 @@
  *   func_0201AA18  0x0201AA18  thumb
  *   func_020355C4  0x020355C4  arm
  *   func_020212B0  0x020212B0  thumb
- *   func_021B6D90  0x021B6D90  thumb  ov091
- *   func_021B7298  0x021B7298  thumb  ov091
- *   func_021B71E4  0x021B71E4  thumb  ov091
+ *   POKELIST_SetupDisplay  0x021B6D90  thumb  ov091
+ *   POKELIST_LoadGraphics  0x021B7298  thumb  ov091
+ *   POKELIST_CreateFonts  0x021B71E4  thumb  ov091
  *   func_0201AB28  0x0201AB28  thumb
- *   func_021BA6A0  0x021BA6A0  thumb  ov091
- *   func_021BA81C  0x021BA81C  thumb  ov091
- *   func_021BB43C  0x021BB43C  thumb  ov091
- *   func_02027F60  0x02027F60  thumb
- *   func_021B709C  0x021B709C  thumb  ov091
- *   func_021B9A84  0x021B9A84  thumb  ov091
- *   func_021BCCCC  0x021BCCCC  thumb  ov091
+ *   PLIST_PLATE_Create  0x021BA6A0  thumb  ov091
+ *   PLIST_PLATE_CreateEmpty  0x021BA81C  thumb  ov091
+ *   PLIST_PLATE_GetLabelState  0x021BB43C  thumb  ov091
+ *   APP_TASKMENU_RES_Create  0x02027F60  thumb
+ *   POKELIST_CreateClactUnit  0x021B709C  thumb  ov091
+ *   POKELIST_IsItemMode  0x021B9A84  thumb  ov091
+ *   PLIST_MENU_InitTimer  0x021BCCCC  thumb  ov091
  *   func_020056A0  0x020056A0  thumb
- *   func_021B6D64  0x021B6D64  thumb  ov091
- *   func_021BB594  0x021BB594  thumb  ov091
- *   func_021BBA8C  0x021BBA8C  thumb  ov091
- *   func_021B7698  0x021B7698  thumb  ov091
+ *   POKELIST_UpdateWindowMaskTask  0x021B6D64  thumb  ov091
+ *   PLIST_MESSAGE_Create  0x021BB594  thumb  ov091
+ *   PLIST_MENU_Create  0x021BBA8C  thumb  ov091
+ *   POKELIST_StartMode  0x021B7698  thumb  ov091
  *   func_02041B6C  0x02041B6C  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  */
 #include "../include/Obj04352.h"
 
@@ -46,30 +46,30 @@ typedef unsigned int u32;
 extern u32 func_0201AA18(void *);
 extern u8 func_020355C4(void);
 extern u16 func_020212B0(u16 id);
-extern void func_021B6D90(u8 *p);
-extern void func_021B7298(u8 *p);
-extern void func_021B71E4(char *p);
+extern void POKELIST_SetupDisplay(u8 *p);
+extern void POKELIST_LoadGraphics(u8 *p);
+extern void POKELIST_CreateFonts(char *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u8 *func_021BA6A0(u8 *p, int k, void *mon);
-extern int func_021BA81C(u8 *p, int k);
+extern u8 *PLIST_PLATE_Create(u8 *p, int k, void *mon);
+extern int PLIST_PLATE_CreateEmpty(u8 *p, int k);
 struct R;
-extern int func_021BB43C(int *p);
-extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void func_021B709C(u8 *p);
-extern int func_021B9A84(u32 p);
-extern void func_021BCCCC(int p);
+extern int PLIST_PLATE_GetLabelState(int *p);
+extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern void POKELIST_CreateClactUnit(u8 *p);
+extern int POKELIST_IsItemMode(u32 p);
+extern void PLIST_MENU_InitTimer(int p);
 extern int func_020056A0(void (*cb)(void *, u8 *), u8 *p, int pri);
-extern void func_021B6D64(void *tcb, u8 *p);
-extern u32 *func_021BB594(u16 *h);
-extern u32 *func_021BBA8C(u16 *h);
-extern void func_021B7698(u8 *p);
+extern void POKELIST_UpdateWindowMaskTask(void *tcb, u8 *p);
+extern u32 *PLIST_MESSAGE_Create(u16 *h);
+extern u32 *PLIST_MENU_Create(u16 *h);
+extern void POKELIST_StartMode(u8 *p);
 extern void func_02041B6C(u32 id);
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 #define W(o) (*(int *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
 
-int func_021B660C(u8 *p)
+int POKELIST_InitWork(u8 *p)
 {
     u8 n;
     u8 i;
@@ -124,29 +124,29 @@ int func_021B660C(u8 *p)
     q = (u8 *)W(0x280);
     if (((struct Obj04352 *)q)->f34 == 6 && ((struct Obj04352 *)q)->f46 == 0)
         *(u16 *)(W(0x280) + 0x46) = func_020212B0(((struct Obj04352 *)q)->f44);
-    func_021B6D90(p);
-    func_021B7298(p);
-    func_021B71E4((char *)p);
+    POKELIST_SetupDisplay(p);
+    POKELIST_LoadGraphics(p);
+    POKELIST_CreateFonts((char *)p);
     for (i = 0; i < 6; i++) {
         if (i < n) {
             e = (int)func_0201AB28(*(void **)W(0x280), i);
-            *(int *)(p + i * 4 + 0x160) = (int)func_021BA6A0(p, i, (void *)e);
+            *(int *)(p + i * 4 + 0x160) = (int)PLIST_PLATE_Create(p, i, (void *)e);
         } else
-            *(int *)(p + i * 4 + 0x160) = func_021BA81C(p, i);
-        if (func_021BB43C((int *)(*(int *)(p + i * 4 + 0x160))) <= 5)
+            *(int *)(p + i * 4 + 0x160) = PLIST_PLATE_CreateEmpty(p, i);
+        if (PLIST_PLATE_GetLabelState((int *)(*(int *)(p + i * 4 + 0x160))) <= 5)
             p[0x105]++;
     }
-    W(0x254) = (int)func_02027F60(0, 1, W(0x138), W(0x140), H(0));
-    func_021B709C(p);
-    if (func_021B9A84((u32)p) == 1)
-        func_021BCCCC((int)p);
-    W(4) = func_020056A0(func_021B6D64, p, 8);
-    W(0x150) = (int)func_021BB594((u16 *)p);
-    W(0x154) = (int)func_021BBA8C((u16 *)p);
-    func_021B7698(p);
+    W(0x254) = (int)APP_TASKMENU_RES_Create(0, 1, W(0x138), W(0x140), H(0));
+    POKELIST_CreateClactUnit(p);
+    if (POKELIST_IsItemMode((u32)p) == 1)
+        PLIST_MENU_InitTimer((int)p);
+    W(4) = func_020056A0(POKELIST_UpdateWindowMaskTask, p, 8);
+    W(0x150) = (int)PLIST_MESSAGE_Create((u16 *)p);
+    W(0x154) = (int)PLIST_MENU_Create((u16 *)p);
+    POKELIST_StartMode(p);
     func_02041B6C(3);
     func_02041B6C(2);
     func_02041B6C(7);
-    func_0203D34C(1, H(0));
+    GFL_NET_RestartWithDefaultTimeout(1, H(0));
     return 1;
 }

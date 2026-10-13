@@ -16,7 +16,7 @@
  *   func_021FF660 0x021FF660 thumb ov186
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021F88B0 0x021F88B0 thumb ov185
@@ -39,7 +39,7 @@ extern int func_021FF648(char *),func_021FF72C(char *,int *),func_021FF660(char 
 extern void func_021FD860(int,int,Pair *);
 extern int *func_021FD73C(int *p, int v);
 extern void func_021FD170(char *p, char *q, void *text);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
 extern void func_021F88B0(int a, int *state, char *p);
@@ -78,7 +78,7 @@ void func_021F8790(int *task,unsigned *state,char *p)
         }
         break;
     case 3:
-        if(func_02035C60()) {
+        if(TOUCHPANEL_GetTrg()) {
             func_02035D20((u32 *)(&x),(u32 *)(&y));
             pair.x=x;pair.y=y;
             func_021FD860(((struct Obj01276 *)p)->f3C,1,&pair);

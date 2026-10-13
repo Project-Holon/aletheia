@@ -1,5 +1,5 @@
 /*
- * function: func_02190490
+ * function: FIELD_MSGBG_ClearPrintQue
  * address:  0x02190490
  * packet:   pkt_02190490
  * region:   ov021
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 
-void func_02190490(u8 *p)
+void FIELD_MSGBG_ClearPrintQue(u8 *p)
 {
     func_0201C6EC((struct PrintSys *)(((struct Obj17921 *)p)->fC));
 }

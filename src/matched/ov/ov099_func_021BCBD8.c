@@ -10,17 +10,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * blocker: the THM_CALL at +0x50 to func_0201A354 (arm9, unlabelled Thumb
+ * blocker: the THM_CALL at +0x50 to POKE_REGULATION_Load (arm9, unlabelled Thumb
  * tail-call stub, the integrator's) has no witness outside the unit. Verified C for it
  * (match.py one --thumb, no --region, EXACT, 16 bytes):
- *   extern int func_02048F60(int a, int b, int c);   (0x02048F60 arm)
- *   int func_0201A354(int a, int b) { return func_02048F60(0x69, a, b); }
+ *   extern int ARC_TOOL_LoadMember(int a, int b, int c);   (0x02048F60 arm)
+ *   int POKE_REGULATION_Load(int a, int b) { return ARC_TOOL_LoadMember(0x69, a, b); }
  * The caller passes (t, 0x21).
  *
  * symbols:
  *   d_021C3A30     0x021C3A30  data  a4
  *   func_020307B0  0x020307B0  arm
- *   func_0201A354  0x0201A354  thumb
+ *   POKE_REGULATION_Load  0x0201A354  thumb
  *
  * Unit of the lead function plus the unlabelled 12-byte tail-call stub at
  * 0x021BCC4C (mode 0 -> func_021BCBD8).
@@ -32,7 +32,7 @@ typedef unsigned long  u32;
 
 extern const u32 d_021C3A30[];
 extern u32 func_020307B0(void *p);
-extern void *func_0201A354(int a, int b);
+extern void *POKE_REGULATION_Load(int a, int b);
 
 u32 func_021BCBD8(char *p, int m);
 
@@ -60,7 +60,7 @@ u32 func_021BCBD8(char *p, int m)
     if (*(int *)(p + 0x1348) != 0) {
         func_020307B0((void *)(*(int *)(p + 0x1348)));
     }
-    *(int *)(p + 0x1348) = (int)func_0201A354(t, 0x21);
+    *(int *)(p + 0x1348) = (int)POKE_REGULATION_Load(t, 0x21);
     if (c != 0) {
         t |= 0x80000000;
     }

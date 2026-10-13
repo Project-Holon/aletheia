@@ -24,7 +24,7 @@
  *   func_0207D4B0  0x0207D4B0  arm
  *   func_0207E24C  0x0207E24C  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_0204A1BC  0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
  *   func_020862F0  0x020862F0  arm
  *   func_02082A60  0x02082A60  arm
@@ -35,14 +35,14 @@
  *   func_02062A98  0x02062A98  arm
  *   func_02082A48  0x02082A48  arm
  *   BMP_CreateFromVram  0x02043754  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201C7D0  0x0201C7D0  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
- *   func_0201D83C  0x0201D83C  thumb
- *   func_020437AC  0x020437AC  arm
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   GF_FONT_Delete  0x0201D83C  thumb
+ *   BMP_Delete  0x020437AC  arm
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -98,7 +98,7 @@ extern void func_0207FDCC(int mode);
 extern void func_0207D4B0(int layer, int x, int y);
 extern void *func_0207E24C(void);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
-extern int func_0204A1BC(int arcId, int fileId, int resident, int heapId);
+extern int ARC_UTIL_LoadMember(int arcId, int fileId, int resident, int heapId);
 extern signed int func_02062A4C(struct NitroFileHeader *file, void **out);
 extern void func_020862F0(void *data, u32 size);
 extern void func_02082A60(void *src, void *dst, u32 size);
@@ -109,14 +109,14 @@ extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern void func_02082A48(int value, u32 dst, u32 size);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
-extern struct GfFont *func_0201D7EC(int fontId, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int fontId, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Strbuf *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C7D0(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void func_02045808(struct Strbuf *str);
-extern u32 func_02045C04(struct MsgBank *bank);
-extern u32 func_0201D83C(struct GfFont *font);
-extern void func_020437AC(struct Bmp *bmp);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern void STRBUF_Delete(struct Strbuf *str);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+extern void BMP_Delete(struct Bmp *bmp);
 void ERROR_SCREEN_ShowAndWait(void);
 void ERROR_SCREEN_Setup(int messageIndex);
 void ERROR_SCREEN_LoadBackground(void);
@@ -195,21 +195,21 @@ void ERROR_SCREEN_LoadBackground(void)
 
     func_02082A7C(0, func_0207E24C(), 0x4000);
 
-    file = (void *)func_0204A1BC(0x16, 1, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
     if (func_02062A4C(file, (void **)(&charData))) {
         func_020862F0(charData->pixels, charData->sizeBytes);
         CopyToVram(charData->pixels, func_0207E24C(), charData->sizeBytes);
     }
     func_020307B0(file);
 
-    file = (void *)func_0204A1BC(0x16, 2, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(0x16, 2, 0, 1);
     if (func_02062B30(file, (void **)(&screenData))) {
         func_020862F0(screenData->tiles, screenData->sizeBytes);
         CopyToVram(screenData->tiles, func_0207DFB4(), screenData->sizeBytes);
     }
     func_020307B0(file);
 
-    file = (void *)func_0204A1BC(0x16, 0, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(0x16, 0, 0, 1);
     func_02062AD4(file, &unusedBlock);
     if (func_02062A98(file, (void **)(&paletteData))) {
         func_020862F0(paletteData->colors, 0x20);
@@ -239,12 +239,12 @@ void ERROR_SCREEN_PrintMessage(int messageIndex)
     }
     func_02082A48(0x7777, (u32)func_0207E24C() + 0x400, 0x3C00);
     bmp = BMP_CreateFromVram((void *)((u32)func_0207E24C() + 0x400), 30, 16, 32, 1);
-    font = func_0201D7EC(0x17, 0, 0, 0, 1);
+    font = GF_FONT_Create(0x17, 0, 0, 0, 1);
     bank = func_02045B38(0, 2, 0xe8, 1);
     message = func_02045EC0(bank, messageIndex);
-    func_0201C7D0(bmp, 0, 0, message, font, 0x1167);
-    func_02045808(message);
-    func_02045C04(bank);
-    func_0201D83C(font);
-    func_020437AC(bmp);
+    PRINTSYS_PrintColor(bmp, 0, 0, message, font, 0x1167);
+    STRBUF_Delete(message);
+    MSGDATA_Delete(bank);
+    GF_FONT_Delete(font);
+    BMP_Delete(bmp);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02048010
+ * function: G3D_UTIL_AddUnitFromArchive
  * address:  0x02048010
  * packet:   pkt_02047E88
  * region:   arm9
@@ -24,7 +24,7 @@
  * argument forwarded from this function's third parameter.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02048010.c --func func_02048010 --addr 0x02048010 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_UTIL_AddUnitFromArchive.c --func G3D_UTIL_AddUnitFromArchive --addr 0x02048010 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -61,7 +61,7 @@ struct Owner;
 extern void G3D_UTIL_LoadUnitResourcesFromArchive(struct Owner *owner, u16 index, struct Holder *p, u32 a4, u32 a5);
 extern void G3D_UTIL_BuildUnitObjectsLoaded(Util *u, u16 idx, const Setup *s, u16 heapID);
 
-u16 func_02048010(Util *util, const Setup *setup, u32 extra)
+u16 G3D_UTIL_AddUnitFromArchive(Util *util, const Setup *setup, u32 extra)
 {
     u16 resIdx = 0;
     u16 objIdx = 0;

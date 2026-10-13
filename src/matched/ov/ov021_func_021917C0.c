@@ -1,5 +1,5 @@
 /*
- * function: func_021917C0
+ * function: FIELD_MSGBG_GetPlainWinStreamState
  * address:  0x021917C0
  * packet:   pkt_ov021_021917C0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021917C0(int *p)
+int FIELD_MSGBG_GetPlainWinStreamState(int *p)
 {
     return p[9];
 }

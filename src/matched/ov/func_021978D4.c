@@ -1,5 +1,5 @@
 /*
- * function: func_021978D4
+ * function: IRCBATTLEMENU_VBlankTask
  * address:  0x021978D4
  * packet:   pkt_021978D4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Untraced thunk: tail call into the ARM9 image.
  *
  * symbols:
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
 
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
-void func_021978D4(void)
+void IRCBATTLEMENU_VBlankTask(void)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

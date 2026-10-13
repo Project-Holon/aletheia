@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B7AB0",
+   "name": "FRAME_LIST_Update",
    "address": "0x021B7AB0",
    "kind": "game",
    "region": "ov067",

@@ -1,5 +1,5 @@
 /*
- * function: func_0216282C
+ * function: EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight
  * address:  0x0216282C
  * packet:   pkt_ov010_0216282C
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216279C  0x0216279C  thumb  ov010
- *   func_02162F74  0x02162F74  thumb  ov010
+ *   EVENTDATA_SYSTEM_DirToPosEventType  0x0216279C  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight  0x02162F74  thumb  ov010
  *   func_020143CC  0x020143CC  thumb
  */
 
@@ -32,12 +32,12 @@ struct Ctx {
     struct Rec *f28;
 };
 
-extern u16 func_0216279C(int mode);
-extern int func_02162F74(char *p, int *v);
+extern u16 EVENTDATA_SYSTEM_DirToPosEventType(int mode);
+extern int EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(char *p, int *v);
 typedef unsigned int   u32;
 extern u32 func_020143CC(u32 a, u32 b);
 
-struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode)
+struct Rec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(struct Ctx *c, void *a, int *key, int mode)
 {
     struct Rec *r = c->f28;
     u16 v;
@@ -45,11 +45,11 @@ struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode)
     u16 i;
     u16 n;
     if (r != 0) {
-        t = func_0216279C(mode);
+        t = EVENTDATA_SYSTEM_DirToPosEventType(mode);
         i = 0;
         n = c->f18;
         for (; i < n; i++, r++) {
-            if (func_02162F74((char *)r, key) != 0 && r->f6 == t) {
+            if (EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight((char *)r, key) != 0 && r->f6 == t) {
                 if (r->f4 == 0)
                     return r;
                 v = *((u16 *)func_020143CC((u32)a, r->f4));

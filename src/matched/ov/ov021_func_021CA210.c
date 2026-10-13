@@ -1,5 +1,5 @@
 /*
- * function: func_021CA210
+ * function: BSUBWAY_SCR_GetParty
  * address:  0x021CA210
  * packet:   pkt_ov021_021CA210
  * region:   ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0200D884  0x0200D884  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00116.h"
@@ -25,11 +25,11 @@ typedef unsigned int   u32;
 struct Blk3C;
 extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 
-void *func_021CA210(u8 *p)
+void *BSUBWAY_SCR_GetParty(u8 *p)
 {
     if (func_0200D884((struct Blk3C *)(((struct Obj00116 *)p)->f70), 10, 0) == 0)
-        return func_02012934(((struct Obj00116 *)p)->f6C);
+        return GAME_DATA_GetMyParty(((struct Obj00116 *)p)->f6C);
     return ((struct Obj00116 *)p)->f7C8;
 }

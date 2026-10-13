@@ -1,5 +1,5 @@
 /*
- * function: func_021AA248
+ * function: FIELD_ENCOUNT_CheckWfbcEncount
  * address:  0x021AA248
  * packet:   pkt_ov021_021AA248
  * region:   ov021
@@ -11,21 +11,21 @@
  *
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_02012A38  0x02012A38  thumb
- *   func_021AA728  0x021AA728  thumb  ov021
- *   func_02193920  0x02193920  thumb  ov021
- *   func_021AA42C  0x021AA42C  thumb  ov021
- *   func_021AA35C  0x021AA35C  thumb  ov021
- *   func_02188C6C  0x02188C6C  thumb  ov021
- *   func_021A1BF4  0x021A1BF4  thumb  ov021
- *   func_021A9350  0x021A9350  thumb  ov021
+ *   FIELD_ENCOUNT_UpdateStepWork  0x021AA728  thumb  ov021
+ *   FIELD_WFBC_IsBackPeople  0x02193920  thumb  ov021
+ *   FIELD_ENCOUNT_CheckWfbcRoll  0x021AA42C  thumb  ov021
+ *   FIELD_ENCOUNT_GetEncountType  0x021AA35C  thumb  ov021
+ *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
+ *   WEATHER_GetWeatherId  0x021A1BF4  thumb  ov021
+ *   FIELD_ENCOUNT_SetupParam  0x021A9350  thumb  ov021
  *   func_02082BCC  0x02082BCC  arm
- *   func_021A9604  0x021A9604  thumb  ov021
- *   func_02013090  0x02013090  thumb
- *   func_021AA490  0x021AA490  thumb  ov021
- *   func_021AA6F8  0x021AA6F8  thumb  ov021
- *   func_0216E7C8  0x0216E7C8  thumb  ov010
+ *   FIELD_ENCOUNT_PickWfbcMon  0x021A9604  thumb  ov021
+ *   BTL_SETUP_Create  0x02013090  thumb
+ *   FIELD_ENCOUNT_SetupWildBattle  0x021AA490  thumb  ov021
+ *   FIELD_ENCOUNT_ResetStepWork  0x021AA6F8  thumb  ov021
+ *   EVENT_BATTLE_CreateScriptedBattle  0x0216E7C8  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -57,26 +57,26 @@ struct Sel {
 
 struct Pos;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct BigObj;
 struct Out;
 struct Unit;
 extern u32 func_02012A38(const struct BigObj *p);
-extern void func_021AA728(struct Pos *p, void *q);
-extern u8 func_02193920(u8 *p);
-extern int func_021AA42C(void *a, void *b);
-extern int func_021AA35C(void **ctx, int mode, u8 *out);
-extern u32 func_02188C6C(u8 *p);
-extern u16 func_021A1BF4(u8 *p);
-extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
+extern void FIELD_ENCOUNT_UpdateStepWork(struct Pos *p, void *q);
+extern u8 FIELD_WFBC_IsBackPeople(u8 *p);
+extern int FIELD_ENCOUNT_CheckWfbcRoll(void *a, void *b);
+extern int FIELD_ENCOUNT_GetEncountType(void **ctx, int mode, u8 *out);
+extern u32 FIELDMAP_GetWeather(u8 *p);
+extern u16 WEATHER_GetWeatherId(u8 *p);
+extern void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d);
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_021A9604(int obj, struct Sel *sel, struct Out *out);
-extern void *func_02013090(u32 heap);
-extern void func_021AA490(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
-extern void func_021AA6F8(struct Pos *p, void *q);
-extern int func_0216E7C8(int a0, int a1, int a2, int a3, int a4);
+extern u32 FIELD_ENCOUNT_PickWfbcMon(int obj, struct Sel *sel, struct Out *out);
+extern void *BTL_SETUP_Create(u32 heap);
+extern void FIELD_ENCOUNT_SetupWildBattle(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots);
+extern void FIELD_ENCOUNT_ResetStepWork(struct Pos *p, void *q);
+extern int EVENT_BATTLE_CreateScriptedBattle(int a0, int a1, int a2, int a3, int a4);
 
-int func_021AA248(struct Ctx *ctx, void *b)
+int FIELD_ENCOUNT_CheckWfbcEncount(struct Ctx *ctx, void *b)
 {
     struct Slot14 slots[2];
     struct Sel sel;
@@ -86,24 +86,24 @@ int func_021AA248(struct Ctx *ctx, void *b)
     int m;
     void *h;
 
-    q = func_02188CB4(ctx->f00);
+    q = FIELDMAP_GetFieldPlayer(ctx->f00);
     p = (void *)func_02012A38(ctx->f08);
-    func_021AA728(p, q);
-    if (func_02193920(b) == 1) {
+    FIELD_ENCOUNT_UpdateStepWork(p, q);
+    if (FIELD_WFBC_IsBackPeople(b) == 1) {
         return 0;
     }
-    if (!func_021AA42C(p, b)) {
+    if (!FIELD_ENCOUNT_CheckWfbcRoll(p, b)) {
         return 0;
     }
     loc = 0;
-    m = func_021AA35C((void **)ctx, 3, &loc);
-    func_021A9350(&sel, ctx->f08, m, 3, func_021A1BF4((u8 *)func_02188C6C(ctx->f00)));
+    m = FIELD_ENCOUNT_GetEncountType((void **)ctx, 3, &loc);
+    FIELD_ENCOUNT_SetupParam(&sel, ctx->f08, m, 3, WEATHER_GetWeatherId((u8 *)FIELDMAP_GetWeather(ctx->f00)));
     func_02082BCC(slots, 0, 0x28);
-    if (!func_021A9604((int)b, &sel, (struct Out *)slots)) {
+    if (!FIELD_ENCOUNT_PickWfbcMon((int)b, &sel, (struct Out *)slots)) {
         return 0;
     }
-    h = func_02013090(4);
-    func_021AA490(ctx, (struct Unit *)(&sel), h, 4, slots);
-    func_021AA6F8(p, q);
-    return func_0216E7C8(ctx->f04, (int)ctx->f00, (int)h, 0, 3);
+    h = BTL_SETUP_Create(4);
+    FIELD_ENCOUNT_SetupWildBattle(ctx, (struct Unit *)(&sel), h, 4, slots);
+    FIELD_ENCOUNT_ResetStepWork(p, q);
+    return EVENT_BATTLE_CreateScriptedBattle(ctx->f04, (int)ctx->f00, (int)h, 0, 3);
 }

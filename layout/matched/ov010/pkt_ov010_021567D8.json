@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021567D8",
+   "name": "MUSICAL_EVENT_SpawnSeatEffect",
    "address": "0x021567D8",
    "kind": "game",
    "region": "ov010",

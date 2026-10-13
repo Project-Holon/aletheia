@@ -10,11 +10,14 @@
  * status:   EXACT
  *
  * Tail-call thunk to the ARM function at 0x0204A600.
+ *
+ * symbols:
+ *   CLACT_DrawSystem  0x0204A600  arm  arm9
  */
 
-extern void func_0204A600(void);
+extern void CLACT_DrawSystem(void);
 
 void func_021B7FE4(void *a0)
 {
-    func_0204A600();
+    CLACT_DrawSystem();
 }

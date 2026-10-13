@@ -1,5 +1,5 @@
 /*
- * function: func_021B7C58
+ * function: FIELD_RAIL_MakeLineLocation
  * address:  0x021B7C58
  * packet:   pkt_ov021_021B7C58
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B7EE4  0x021B7EE4  thumb ov021
+ *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb ov021
  */
 
 typedef unsigned char  u8;
@@ -37,9 +37,9 @@ typedef struct {
     Inner *x1c;
 } Outer;
 
-extern void func_021B7EE4(Inner *, Arg *);
+extern void FIELD_RAIL_WORK_SetLocation(Inner *, Arg *);
 
-void func_021B7C58(Outer *o, void *a1, u16 a2, u16 a3, u16 a4, Arg *out)
+void FIELD_RAIL_MakeLineLocation(Outer *o, void *a1, u16 a2, u16 a3, u16 a4, Arg *out)
 {
     Inner *t = o->x1c;
 
@@ -48,7 +48,7 @@ void func_021B7C58(Outer *o, void *a1, u16 a2, u16 a3, u16 a4, Arg *out)
     out->b2 = 1;
     out->h4 = 0;
     out->h6 = a3;
-    func_021B7EE4(t, out);
+    FIELD_RAIL_WORK_SetLocation(t, out);
     out->h4 = a4 - t->x18 / 16;
     t->x24 = (u8 *)o + 0x20;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02156BAC
+ * function: MUSICAL_EVENT_CheckNetError
  * address:  0x02156BAC
  * packet:   pkt_02156BAC
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern u32 func_0200FB24(void);
 
-void func_02156BAC(void *p)
+void MUSICAL_EVENT_CheckNetError(void *p)
 {
     int v = *(int *)&((struct Obj00005 *)p)->f14;
 

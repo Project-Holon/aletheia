@@ -1,7 +1,7 @@
 /*
  * file:     field_wfbc.c
  * unit:     yes
- * function: func_021938AC, func_021938D4, func_021938F4, func_021938FC, func_02193904, func_0219390C, func_0219391C, func_02193920, func_02193924, func_021939C0, func_02193ABC, func_02193AFC, func_02193B04, func_02193B20, func_02193B40, func_02193B68, func_02193BC4, func_02193BE4, func_02193C00, func_02193C04, func_02193C08, func_02193C80, func_02193CBC, func_02193D08, func_02193D30, func_02193E54, func_02193EB4, func_02193EE8, func_02193EFC, func_02193F34, func_02193F6C, func_02193F80, func_02193FBC, func_02193FD4, func_02193FE8, func_02194014, func_02194038, func_02194044, func_02194078, func_02194084, func_02194128
+ * function: FIELD_WFBC_Create, FIELD_WFBC_Delete, FIELD_WFBC_GetPeopleNum, FIELD_WFBC_WriteSaveData, FIELD_WFBC_ReloadSaveData, FIELD_WFBC_GetPeople, FIELD_WFBC_GetCityType, FIELD_WFBC_IsBackPeople, FIELD_WFBC_PatchLandData, FIELD_WFBC_DisableUnusedConnects, FIELD_WFBC_SetUpCamera, FIELD_WFBC_SetMmdlSys, FIELD_WFBC_SetUp, FIELD_WFBC_RemovePeople, FIELD_WFBC_ApplyGiftMood, FIELD_WFBC_SetWordSetParentName, FIELD_WFBC_ClearPeopleArrivalFlag, FIELD_WFBC_GetPeopleArrivalFlag, FIELD_WFBC_PEOPLE_GetNpcRecord, FIELD_WFBC_PEOPLE_GetPersonData, FIELD_WFBC_LoadResources, FIELD_WFBC_FreeResources, FIELD_WFBC_Clear, FIELD_WFBC_CountPeople, FIELD_WFBC_SetUpPeople, FIELD_WFBC_CopyPeopleToSaveData, FIELD_WFBC_LoadSaveData, FIELD_WFBC_StoreSaveData, FIELD_WFBC_FindPeople, FIELD_WFBC_FindPeopleByNpcId, FIELD_WFBC_PEOPLE_Clear, FIELD_WFBC_PEOPLE_SetUp, FIELD_WFBC_PEOPLE_LoadPerson, FIELD_WFBC_PEOPLE_StorePerson, FIELD_WFBC_BLOCK_ClearGrid, FIELD_WFBC_BLOCK_SetCell, FIELD_WFBC_BLOCK_GetCell, FIELD_WFBC_BLOCK_IsPlaced, FIELD_WFBC_BLOCK_ClearRand, FIELD_WFBC_BLOCK_InitRand, FIELD_WFBC_BLOCK_BuildGrid
  * address:  0x021938AC
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -17,45 +17,45 @@
  * symbols:
  *   func_02030734  0x02030734  arm  arm9
  *   sFieldWfbcFileName     0x021DDA60  data   ov021  a1
- *   func_0216D974  0x0216D974  thumb  ov010
+ *   FLDMMDL_SysSetDrawEnable  0x0216D974  thumb  ov010
  *   func_020307B0  0x020307B0  arm
- *   func_021C939C  0x021C939C  thumb  ov021
- *   func_021C93E4  0x021C93E4  thumb  ov021
- *   func_021C9450  0x021C9450  thumb  ov021
- *   func_021C93D0  0x021C93D0  thumb  ov021
- *   func_020493D4  0x020493D4  arm
- *   func_02049250  0x02049250  arm
- *   func_0216245C  0x0216245C  thumb  ov010
+ *   LAND_DATA_PATCH_Create  0x021C939C  thumb  ov021
+ *   LAND_DATA_PATCH_OverwriteAttr  0x021C93E4  thumb  ov021
+ *   LAND_DATA_PATCH_AddBuildModels  0x021C9450  thumb  ov021
+ *   LAND_DATA_PATCH_Delete  0x021C93D0  thumb  ov021
+ *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   EVENTDATA_SYSTEM_DisableConnect  0x0216245C  thumb  ov010
  *   sConnectListMemberIds     0x021D3F60  data  a4
- *   func_0204A380  0x0204A380  arm
- *   func_0218E17C  0x0218E17C  thumb  ov021
- *   func_02186748  0x02186748  thumb  ov020
- *   func_0200846C  0x0200846C  thumb
- *   func_020084A0  0x020084A0  thumb
+ *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
+ *   FIELD_CAMERA_SetSetting  0x0218E17C  thumb  ov021
+ *   FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus  0x02186748  thumb  ov020
+ *   MYSTATUS_Create  0x0200846C  thumb
+ *   MYSTATUS_Init  0x020084A0  thumb
  *   func_020084D4  0x020084D4  thumb
  *   func_0200852C  0x0200852C  thumb
  *   func_0201F02C  0x0201F02C  thumb
- *   func_02186764  0x02186764  thumb
- *   func_02186770  0x02186770  thumb
- *   func_021867C4  0x021867C4  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag  0x02186764  thumb
+ *   FIELD_WFBC_DATA_LOCAL_HasArrivalFlag  0x02186770  thumb
+ *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
  *   func_020490F4  0x020490F4  arm
- *   func_02186830  0x02186830  thumb
- *   func_02049238  0x02049238  arm  arm9
- *   func_02186804  0x02186804  thumb  ov020
- *   func_0218683C  0x0218683C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable  0x02186830  thumb
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
+ *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable  0x0218683C  thumb  ov020
  *   func_02082BCC  0x02082BCC  arm
- *   func_0218625C  0x0218625C  thumb  ov020
- *   func_02161ECC  0x02161ECC  thumb  ov010
- *   func_02186818  0x02186818  thumb  ov020
- *   func_02186844  0x02186844  thumb  ov020
- *   func_0218682C  0x0218682C  thumb  ov020
- *   func_0204932C  0x0204932C  arm
+ *   FIELD_WFBC_DATA_LOCAL_IsDataComplete  0x0218625C  thumb  ov020
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_LoadNpcData  0x02186818  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetPositionPair  0x02186844  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetNpcRecord  0x0218682C  thumb  ov020
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  *   sBlockTableMemberIds     0x021D3F58  data  a4
- *   func_0218609C  0x0218609C  thumb  ov020
- *   func_021860B8  0x021860B8  thumb  ov020
- *   func_021867B0  0x021867B0  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_ClearPeopleList  0x0218609C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList  0x021860B8  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetNpcId  0x021867B0  thumb  ov020
  *   func_02082D44  0x02082D44  arm  arm9
- *   func_02186278  0x02186278  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
  */
 struct ArcHandle;
 struct EventDataSystem;
@@ -77,142 +77,142 @@ typedef unsigned long long u64;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void func_0216D974(struct MmdlSys *mmdlSys, int flag);
-extern struct LandDataPatch *func_021C939C(u32 blockId, u32 heapId);
-extern void func_021C93E4(struct LandDataPatch *patch, void *attrBuf, u32 srcX, u32 srcZ, u32 dstX, u32 dstZ, u32 sizeX, u32 sizeZ);
-extern int func_021C9450(struct LandDataPatch *patch, int buildModelMan, int mapBlockIndex, int modelNum, int dstX, int dstZ);
-extern void func_021C93D0(struct LandDataPatch *patch);
-extern u32 func_020493D4(struct ArcHandle *arc, u32 member);
-extern FieldWfbcConnectEntry *func_02049250(struct ArcHandle *arc, int member, u16 heapId);
-extern void func_0216245C(struct EventDataSystem *eventData, u16 index);
-extern void *func_0204A380(struct ArcHandle *arc, u32 member, u32 compressed, u32 heapId);
-extern void func_0218E17C(u32 *camera, u32 value);
-extern void func_02186748(WfbcPerson *person);
-extern struct MyStatus *func_0200846C(int heapId);
-extern void func_020084A0(struct MyStatus *myStatus);
+extern void FLDMMDL_SysSetDrawEnable(struct MmdlSys *mmdlSys, int flag);
+extern struct LandDataPatch *LAND_DATA_PATCH_Create(u32 blockId, u32 heapId);
+extern void LAND_DATA_PATCH_OverwriteAttr(struct LandDataPatch *patch, void *attrBuf, u32 srcX, u32 srcZ, u32 dstX, u32 dstZ, u32 sizeX, u32 sizeZ);
+extern int LAND_DATA_PATCH_AddBuildModels(struct LandDataPatch *patch, int buildModelMan, int mapBlockIndex, int modelNum, int dstX, int dstZ);
+extern void LAND_DATA_PATCH_Delete(struct LandDataPatch *patch);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 member);
+extern FieldWfbcConnectEntry *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, int member, u16 heapId);
+extern void EVENTDATA_SYSTEM_DisableConnect(struct EventDataSystem *eventData, u16 index);
+extern void *ARC_UTIL_LoadHandleMember(struct ArcHandle *arc, u32 member, u32 compressed, u32 heapId);
+extern void FIELD_CAMERA_SetSetting(u32 *camera, u32 value);
+extern void FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus(WfbcPerson *person);
+extern struct MyStatus *MYSTATUS_Create(int heapId);
+extern void MYSTATUS_Init(struct MyStatus *myStatus);
 extern u32 func_020084D4(struct MyStatus *myStatus, const u16 *name);
 extern void func_0200852C(struct MyStatus *myStatus, u32 id);
 extern void func_0201F02C(struct WordSet *wordSet, u32 bufIndex, struct MyStatus *myStatus);
-extern void func_02186764(WfbcPerson *person);
-extern int func_02186770(WfbcPerson *person);
-extern struct WfbcNpcData *func_021867C4(int type, int heapId);
+extern void FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(WfbcPerson *person);
+extern int FIELD_WFBC_DATA_LOCAL_HasArrivalFlag(WfbcPerson *person);
+extern struct WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int type, int heapId);
 extern struct ArcHandle *func_020490F4(unsigned int arcId, unsigned int heapId);
-extern u8 *func_02186830(struct WfbcNpcData *npcData, int cityType, int heapId);
-extern void func_0218683C(u8 *posTable);
-extern void func_02049238(struct ArcHandle *arc);
-extern void func_02186804(struct WfbcNpcData *npcData);
+extern u8 *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct WfbcNpcData *npcData, int cityType, int heapId);
+extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(u8 *posTable);
+extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
+extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(struct WfbcNpcData *npcData);
 extern u32 func_02082BCC(void *dst, int value, int size);
-extern int func_0218625C(WfbcData *data);
-extern int func_02161ECC(const WfbcPerson *person);
-extern void func_02186818(struct WfbcNpcData *npcData, u32 npcId);
-extern u8 *func_02186844(u8 *posTable, int index);
-extern WfbcNpcRecord *func_0218682C(struct WfbcNpcData *npcData);
-extern void func_0204932C(struct ArcHandle *arc, u32 member, void *dst);
-extern void func_0218609C(WfbcData *data);
-extern void func_021860B8(WfbcData *data);
-extern int func_021867B0(const WfbcPerson *person);
+extern int FIELD_WFBC_DATA_LOCAL_IsDataComplete(WfbcData *data);
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(const WfbcPerson *person);
+extern void FIELD_WFBC_DATA_LOCAL_LoadNpcData(struct WfbcNpcData *npcData, u32 npcId);
+extern u8 *FIELD_WFBC_DATA_LOCAL_GetPositionPair(u8 *posTable, int index);
+extern WfbcNpcRecord *FIELD_WFBC_DATA_LOCAL_GetNpcRecord(struct WfbcNpcData *npcData);
+extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
+extern void FIELD_WFBC_DATA_LOCAL_ClearPeopleList(WfbcData *data);
+extern void FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList(WfbcData *data);
+extern int FIELD_WFBC_DATA_LOCAL_GetNpcId(const WfbcPerson *person);
 extern void func_02082D44(const void *src, void *dst, int size);
-extern int func_02186278(const WfbcData *data, int which);
-FieldWfbc *func_021938AC(u32 heapId);
-u32 func_021938D4(FieldWfbc *wfbc);
-int func_021938F4(FieldWfbc *wfbc);
-void func_021938FC(FieldWfbc *wfbc, WfbcData *saveData);
-FieldWfbcPeople *func_0219390C(FieldWfbc *wfbc, u32 npcId);
-u8 func_0219391C(FieldWfbc *wfbc);
-u8 func_02193920(FieldWfbc *wfbc);
-int func_02193924(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
-void func_021939C0(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip, u32 heapId);
-void func_02193ABC(FieldWfbc *wfbc, int camera, int heapId);
-void func_02193AFC(FieldWfbc *wfbc, struct MmdlSys *mmdlSys);
-void func_02193B04(FieldWfbc *wfbc, WfbcData *saveData, u32 isBackPeople, u32 heapId);
-void func_02193B20(FieldWfbc *wfbc, u32 npcId);
-void func_02193B40(FieldWfbc *wfbc, u32 npcId);
-void func_02193B68(FieldWfbc *wfbc, struct WordSet *wordSet, int npcId, int bufIndex, u16 heapId);
-void func_02193BC4(FieldWfbc *wfbc, u32 npcId);
-int func_02193BE4(FieldWfbc *wfbc, u32 npcId);
-WfbcNpcRecord *func_02193C00(FieldWfbcPeople *people);
-WfbcPerson *func_02193C04(FieldWfbcPeople *people);
-void func_02193C08(FieldWfbc *wfbc, int heapId);
-void func_02193C80(FieldWfbc *wfbc);
-void func_02193CBC(FieldWfbc *wfbc);
-int func_02193D08(FieldWfbc *wfbc);
-void func_02193D30(FieldWfbc *wfbc, WfbcData *saveData, int isBackPeople);
-void func_02193E54(FieldWfbc *wfbc, WfbcData *saveData);
-void func_02193EB4(FieldWfbc *wfbc);
-void func_02193EE8(FieldWfbc *wfbc);
-FieldWfbcPeople *func_02193EFC(FieldWfbc *wfbc, u32 npcId);
-FieldWfbcPeople *func_02193F34(FieldWfbc *wfbc, u32 npcId);
-void func_02193F6C(FieldWfbcPeople *people);
-void func_02193F80(FieldWfbcPeople *people, const WfbcPerson *person, u8 *gridPos, const WfbcNpcRecord *npcRecord);
-void func_02193FBC(FieldWfbcPeople *people, const WfbcPerson *src);
-void func_02193FD4(FieldWfbcPeople *people, WfbcPerson *dst);
-void func_02193FE8(FieldWfbcBlock (*blocks)[8]);
-void func_02194014(FieldWfbcBlock (*blocks)[8], int x, int z, FieldWfbcBlockPos pos, u16 blockId);
-FieldWfbcBlock func_02194038(FieldWfbcBlock (*blocks)[8], int x, int z);
-int func_02194044(FieldWfbcBlock (*blocks)[8], u16 type, u16 blockId);
-void func_02194078(FieldWfbcBlockRand *blockRand);
-void func_02194084(FieldWfbcBlockRand *blockRand, WfbcData *data, struct WfbcNpcData *npcData);
-void func_02194128(FieldWfbcBlockRand *blockRand, FieldWfbcBlockTable *table, FieldWfbcBlock (*blocks)[8]);
+extern int FIELD_WFBC_DATA_LOCAL_CountPeople(const WfbcData *data, int which);
+FieldWfbc *FIELD_WFBC_Create(u32 heapId);
+u32 FIELD_WFBC_Delete(FieldWfbc *wfbc);
+int FIELD_WFBC_GetPeopleNum(FieldWfbc *wfbc);
+void FIELD_WFBC_WriteSaveData(FieldWfbc *wfbc, WfbcData *saveData);
+FieldWfbcPeople *FIELD_WFBC_GetPeople(FieldWfbc *wfbc, u32 npcId);
+u8 FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
+u8 FIELD_WFBC_IsBackPeople(FieldWfbc *wfbc);
+int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
+void FIELD_WFBC_DisableUnusedConnects(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip, u32 heapId);
+void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, int camera, int heapId);
+void FIELD_WFBC_SetMmdlSys(FieldWfbc *wfbc, struct MmdlSys *mmdlSys);
+void FIELD_WFBC_SetUp(FieldWfbc *wfbc, WfbcData *saveData, u32 isBackPeople, u32 heapId);
+void FIELD_WFBC_RemovePeople(FieldWfbc *wfbc, u32 npcId);
+void FIELD_WFBC_ApplyGiftMood(FieldWfbc *wfbc, u32 npcId);
+void FIELD_WFBC_SetWordSetParentName(FieldWfbc *wfbc, struct WordSet *wordSet, int npcId, int bufIndex, u16 heapId);
+void FIELD_WFBC_ClearPeopleArrivalFlag(FieldWfbc *wfbc, u32 npcId);
+int FIELD_WFBC_GetPeopleArrivalFlag(FieldWfbc *wfbc, u32 npcId);
+WfbcNpcRecord *FIELD_WFBC_PEOPLE_GetNpcRecord(FieldWfbcPeople *people);
+WfbcPerson *FIELD_WFBC_PEOPLE_GetPersonData(FieldWfbcPeople *people);
+void FIELD_WFBC_LoadResources(FieldWfbc *wfbc, int heapId);
+void FIELD_WFBC_FreeResources(FieldWfbc *wfbc);
+void FIELD_WFBC_Clear(FieldWfbc *wfbc);
+int FIELD_WFBC_CountPeople(FieldWfbc *wfbc);
+void FIELD_WFBC_SetUpPeople(FieldWfbc *wfbc, WfbcData *saveData, int isBackPeople);
+void FIELD_WFBC_CopyPeopleToSaveData(FieldWfbc *wfbc, WfbcData *saveData);
+void FIELD_WFBC_LoadSaveData(FieldWfbc *wfbc);
+void FIELD_WFBC_StoreSaveData(FieldWfbc *wfbc);
+FieldWfbcPeople *FIELD_WFBC_FindPeople(FieldWfbc *wfbc, u32 npcId);
+FieldWfbcPeople *FIELD_WFBC_FindPeopleByNpcId(FieldWfbc *wfbc, u32 npcId);
+void FIELD_WFBC_PEOPLE_Clear(FieldWfbcPeople *people);
+void FIELD_WFBC_PEOPLE_SetUp(FieldWfbcPeople *people, const WfbcPerson *person, u8 *gridPos, const WfbcNpcRecord *npcRecord);
+void FIELD_WFBC_PEOPLE_LoadPerson(FieldWfbcPeople *people, const WfbcPerson *src);
+void FIELD_WFBC_PEOPLE_StorePerson(FieldWfbcPeople *people, WfbcPerson *dst);
+void FIELD_WFBC_BLOCK_ClearGrid(FieldWfbcBlock (*blocks)[8]);
+void FIELD_WFBC_BLOCK_SetCell(FieldWfbcBlock (*blocks)[8], int x, int z, FieldWfbcBlockPos pos, u16 blockId);
+FieldWfbcBlock FIELD_WFBC_BLOCK_GetCell(FieldWfbcBlock (*blocks)[8], int x, int z);
+int FIELD_WFBC_BLOCK_IsPlaced(FieldWfbcBlock (*blocks)[8], u16 type, u16 blockId);
+void FIELD_WFBC_BLOCK_ClearRand(FieldWfbcBlockRand *blockRand);
+void FIELD_WFBC_BLOCK_InitRand(FieldWfbcBlockRand *blockRand, WfbcData *data, struct WfbcNpcData *npcData);
+void FIELD_WFBC_BLOCK_BuildGrid(FieldWfbcBlockRand *blockRand, FieldWfbcBlockTable *table, FieldWfbcBlock (*blocks)[8]);
 extern char sFieldWfbcFileName[];
 extern int sConnectListMemberIds[];
 extern int sBlockTableMemberIds[];
 
-FieldWfbc *func_021938AC(u32 heapId)
+FieldWfbc *FIELD_WFBC_Create(u32 heapId)
 {
     FieldWfbc *wfbc = func_02030734(heapId, sizeof(FieldWfbc), 1, sFieldWfbcFileName, 0x12A);
-    func_02193CBC(wfbc);
+    FIELD_WFBC_Clear(wfbc);
     return wfbc;
 }
 
-u32 func_021938D4(FieldWfbc *wfbc)
+u32 FIELD_WFBC_Delete(FieldWfbc *wfbc)
 {
-    func_02193C80(wfbc);
+    FIELD_WFBC_FreeResources(wfbc);
     if (wfbc->mmdlSys != 0) {
-        func_0216D974(wfbc->mmdlSys, 1);
+        FLDMMDL_SysSetDrawEnable(wfbc->mmdlSys, 1);
     }
     return func_020307B0(wfbc);
 }
 
-int func_021938F4(FieldWfbc *wfbc)
+int FIELD_WFBC_GetPeopleNum(FieldWfbc *wfbc)
 {
-    return func_02193D08(wfbc);
+    return FIELD_WFBC_CountPeople(wfbc);
 }
 
-void func_021938FC(FieldWfbc *wfbc, WfbcData *saveData)
+void FIELD_WFBC_WriteSaveData(FieldWfbc *wfbc, WfbcData *saveData)
 {
-    func_02193E54(wfbc, saveData);
+    FIELD_WFBC_CopyPeopleToSaveData(wfbc, saveData);
 }
 
-void func_02193904(FieldWfbc *wfbc)
+void FIELD_WFBC_ReloadSaveData(FieldWfbc *wfbc)
 {
-    func_02193EB4(wfbc);
+    FIELD_WFBC_LoadSaveData(wfbc);
 }
 
-FieldWfbcPeople *func_0219390C(FieldWfbc *wfbc, u32 npcId)
+FieldWfbcPeople *FIELD_WFBC_GetPeople(FieldWfbc *wfbc, u32 npcId)
 {
     if (npcId < 30) {
-        return func_02193F34(wfbc, npcId);
+        return FIELD_WFBC_FindPeopleByNpcId(wfbc, npcId);
     }
     return 0;
 }
 
-u8 func_0219391C(FieldWfbc *wfbc)
+u8 FIELD_WFBC_GetCityType(FieldWfbc *wfbc)
 {
     return wfbc->cityType;
 }
 
-u8 func_02193920(FieldWfbc *wfbc)
+u8 FIELD_WFBC_IsBackPeople(FieldWfbc *wfbc)
 {
     return wfbc->isBackPeople;
 }
 
 /*
- * The cell comes back from func_02194038 as a 4-byte struct in r0; the high
+ * The cell comes back from FIELD_WFBC_BLOCK_GetCell as a 4-byte struct in r0; the high
  * nibble is read before the low one.
  */
-int func_02193924(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId)
+int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId)
 {
-    FieldWfbcBlock cell = func_02194038(wfbc->blocks, cellX, cellZ);
+    FieldWfbcBlock cell = FIELD_WFBC_BLOCK_GetCell(wfbc->blocks, cellX, cellZ);
     struct LandDataPatch *patch;
     int dstX, dstZ;
     int offsetX, offsetZ;
@@ -220,19 +220,19 @@ int func_02193924(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBloc
     if (cell.pos.type != 0xFF) {
         dstX = (cellX * 8) & 0x1F;
         dstZ = (cellZ * 8) & 0x1F;
-        patch = func_021C939C(cell.blockId, (u16)((heapId & 0x7FFF) | 0x8000));
+        patch = LAND_DATA_PATCH_Create(cell.blockId, (u16)((heapId & 0x7FFF) | 0x8000));
         offsetZ = cell.pos.offsetZ;
         offsetX = cell.pos.offsetX;
-        func_021C93E4(patch, attrBuf, offsetX * 8, offsetZ * 8, dstX, dstZ, 8, 8);
+        LAND_DATA_PATCH_OverwriteAttr(patch, attrBuf, offsetX * 8, offsetZ * 8, dstX, dstZ, 8, 8);
         if (offsetX == 0 && offsetZ == 0) {
-            modelNum = func_021C9450(patch, buildModelMan, mapBlockIndex, modelNum, dstX, dstZ);
+            modelNum = LAND_DATA_PATCH_AddBuildModels(patch, buildModelMan, mapBlockIndex, modelNum, dstX, dstZ);
         }
-        func_021C93D0(patch);
+        LAND_DATA_PATCH_Delete(patch);
     }
     return modelNum;
 }
 
-void func_021939C0(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip, u32 heapId)
+void FIELD_WFBC_DisableUnusedConnects(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip, u32 heapId)
 {
     u32 entryNum;
     FieldWfbcConnectEntry *entries;
@@ -244,15 +244,15 @@ void func_021939C0(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip,
 
     if (skip != 0)
         return;
-    entryNum = func_020493D4(wfbc->arcHandle, sConnectListMemberIds[wfbc->cityType]);
+    entryNum = ARC_TOOL_GetHandleMemberSize(wfbc->arcHandle, sConnectListMemberIds[wfbc->cityType]);
     heapId = (heapId & 0x7FFF) | 0x8000;
-    entries = func_02049250(wfbc->arcHandle, sConnectListMemberIds[wfbc->cityType], (u16)heapId);
+    entries = ARC_TOOL_LoadHandleMember(wfbc->arcHandle, sConnectListMemberIds[wfbc->cityType], (u16)heapId);
     entryNum >>= 3;
     placedConnects = func_02030734((u16)heapId, entryNum * 4, 1, sFieldWfbcFileName, 0x208);
     placedNum = 0;
     for (i = 0; i < entryNum; i++) {
         cur = &entries[i];
-        if (func_02194044(wfbc->blocks, entries[i].blockType, cur->blockId)) {
+        if (FIELD_WFBC_BLOCK_IsPlaced(wfbc->blocks, entries[i].blockType, cur->blockId)) {
             placedConnects[placedNum] = cur->connectIndex;
             placedNum++;
         } else {
@@ -266,7 +266,7 @@ void func_021939C0(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip,
                         break;
                 }
                 if (j >= entryNum)
-                    func_0216245C(eventData, (u16)cur->connectIndex);
+                    EVENTDATA_SYSTEM_DisableConnect(eventData, (u16)cur->connectIndex);
             }
         }
     }
@@ -274,103 +274,103 @@ void func_021939C0(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip,
     func_020307B0(entries);
 }
 
-void func_02193ABC(FieldWfbc *wfbc, int camera, int heapId)
+void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, int camera, int heapId)
 {
     u16 *values;
-    values = func_0204A380(wfbc->arcHandle, 0x24, 0, (u16)((heapId & 0x7fff) | 0x8000));
-    func_0218E17C((u32 *)camera, values[func_021938F4(wfbc)]);
+    values = ARC_UTIL_LoadHandleMember(wfbc->arcHandle, 0x24, 0, (u16)((heapId & 0x7fff) | 0x8000));
+    FIELD_CAMERA_SetSetting((u32 *)camera, values[FIELD_WFBC_GetPeopleNum(wfbc)]);
     func_020307B0(values);
 }
 
-void func_02193AFC(FieldWfbc *wfbc, struct MmdlSys *mmdlSys)
+void FIELD_WFBC_SetMmdlSys(FieldWfbc *wfbc, struct MmdlSys *mmdlSys)
 {
     wfbc->mmdlSys = mmdlSys;
 }
 
-void func_02193B04(FieldWfbc *wfbc, WfbcData *saveData, u32 isBackPeople, u32 heapId)
+void FIELD_WFBC_SetUp(FieldWfbc *wfbc, WfbcData *saveData, u32 isBackPeople, u32 heapId)
 {
-    func_02193C08(wfbc, heapId);
-    func_02193D30(wfbc, saveData, isBackPeople);
+    FIELD_WFBC_LoadResources(wfbc, heapId);
+    FIELD_WFBC_SetUpPeople(wfbc, saveData, isBackPeople);
 }
 
-void func_02193B20(FieldWfbc *wfbc, u32 npcId)
+void FIELD_WFBC_RemovePeople(FieldWfbc *wfbc, u32 npcId)
 {
-    func_02193EB4(wfbc);
-    func_02193F6C(func_02193EFC(wfbc, npcId));
-    func_02193EE8(wfbc);
+    FIELD_WFBC_LoadSaveData(wfbc);
+    FIELD_WFBC_PEOPLE_Clear(FIELD_WFBC_FindPeople(wfbc, npcId));
+    FIELD_WFBC_StoreSaveData(wfbc);
 }
 
-void func_02193B40(FieldWfbc *wfbc, u32 npcId)
+void FIELD_WFBC_ApplyGiftMood(FieldWfbc *wfbc, u32 npcId)
 {
     FieldWfbcPeople *people;
-    func_02193EB4(wfbc);
-    people = func_02193EFC(wfbc, npcId);
+    FIELD_WFBC_LoadSaveData(wfbc);
+    people = FIELD_WFBC_FindPeople(wfbc, npcId);
     if (wfbc->isBackPeople == 0) {
-        func_02186748(&people->person);
-        func_02193EE8(wfbc);
+        FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus(&people->person);
+        FIELD_WFBC_StoreSaveData(wfbc);
     }
 }
 
-void func_02193B68(FieldWfbc *wfbc, struct WordSet *wordSet, int npcId, int bufIndex, u16 heapId)
+void FIELD_WFBC_SetWordSetParentName(FieldWfbc *wfbc, struct WordSet *wordSet, int npcId, int bufIndex, u16 heapId)
 {
     FieldWfbcPeople *people;
     struct MyStatus *myStatus;
-    func_02193EB4(wfbc);
-    people = func_02193F34(wfbc, npcId);
-    myStatus = func_0200846C((u16)((heapId & 0x7fff) | 0x8000));
-    func_020084A0(myStatus);
+    FIELD_WFBC_LoadSaveData(wfbc);
+    people = FIELD_WFBC_FindPeopleByNpcId(wfbc, npcId);
+    myStatus = MYSTATUS_Create((u16)((heapId & 0x7fff) | 0x8000));
+    MYSTATUS_Init(myStatus);
     func_020084D4(myStatus, people->person.parentName);
     func_0200852C(myStatus, people->person.parentId);
     func_0201F02C(wordSet, bufIndex, myStatus);
     func_020307B0(myStatus);
 }
 
-void func_02193BC4(FieldWfbc *wfbc, u32 npcId)
+void FIELD_WFBC_ClearPeopleArrivalFlag(FieldWfbc *wfbc, u32 npcId)
 {
-    func_02193EB4(wfbc);
-    func_02186764(&func_02193EFC(wfbc, npcId)->person);
-    func_02193EE8(wfbc);
+    FIELD_WFBC_LoadSaveData(wfbc);
+    FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(&FIELD_WFBC_FindPeople(wfbc, npcId)->person);
+    FIELD_WFBC_StoreSaveData(wfbc);
 }
 
-int func_02193BE4(FieldWfbc *wfbc, u32 npcId)
+int FIELD_WFBC_GetPeopleArrivalFlag(FieldWfbc *wfbc, u32 npcId)
 {
-    func_02193EB4(wfbc);
-    return func_02186770(&func_02193F34(wfbc, npcId)->person);
+    FIELD_WFBC_LoadSaveData(wfbc);
+    return FIELD_WFBC_DATA_LOCAL_HasArrivalFlag(&FIELD_WFBC_FindPeopleByNpcId(wfbc, npcId)->person);
 }
 
-WfbcNpcRecord *func_02193C00(FieldWfbcPeople *people)
+WfbcNpcRecord *FIELD_WFBC_PEOPLE_GetNpcRecord(FieldWfbcPeople *people)
 {
     return &people->npcRecord;
 }
 
-WfbcPerson *func_02193C04(FieldWfbcPeople *people)
+WfbcPerson *FIELD_WFBC_PEOPLE_GetPersonData(FieldWfbcPeople *people)
 {
     return &people->person;
 }
 
-void func_02193C08(FieldWfbc *wfbc, int heapId)
+void FIELD_WFBC_LoadResources(FieldWfbc *wfbc, int heapId)
 {
     int i;
     if (wfbc->npcData == 0) {
         i = 0;
-        wfbc->npcData = func_021867C4(0, heapId);
+        wfbc->npcData = FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, heapId);
         wfbc->people = func_02030734(heapId, 10 * sizeof(FieldWfbcPeople), 1, sFieldWfbcFileName, 0x39e);
         for (i = 0; i < 10; i++) {
-            func_02193F6C(&wfbc->people[i]);
+            FIELD_WFBC_PEOPLE_Clear(&wfbc->people[i]);
         }
         wfbc->arcHandle = func_020490F4(0x9a, heapId);
         wfbc->blockTable = func_02030734(heapId, sizeof(FieldWfbcBlockTable), 1, sFieldWfbcFileName, 0x3ab);
-        wfbc->mmdlPosTable = func_02186830(wfbc->npcData, wfbc->cityType, heapId);
+        wfbc->mmdlPosTable = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(wfbc->npcData, wfbc->cityType, heapId);
     }
 }
 
-void func_02193C80(FieldWfbc *wfbc)
+void FIELD_WFBC_FreeResources(FieldWfbc *wfbc)
 {
     if (wfbc->npcData != 0) {
-        func_0218683C(wfbc->mmdlPosTable);
+        FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(wfbc->mmdlPosTable);
         func_020307B0(wfbc->blockTable);
-        func_02049238(wfbc->arcHandle);
-        func_02186804(wfbc->npcData);
+        ARC_TOOL_DeleteHandle(wfbc->arcHandle);
+        FIELD_WFBC_DATA_LOCAL_CloseNpcData(wfbc->npcData);
         func_020307B0(wfbc->people);
         wfbc->npcData = 0;
         wfbc->people = 0;
@@ -380,7 +380,7 @@ void func_02193C80(FieldWfbc *wfbc)
     }
 }
 
-void func_02193CBC(FieldWfbc *wfbc)
+void FIELD_WFBC_Clear(FieldWfbc *wfbc)
 {
     int i;
     FieldWfbcPeople *people = wfbc->people;
@@ -389,15 +389,15 @@ void func_02193CBC(FieldWfbc *wfbc)
     wfbc->saveData = 0;
     if (people != 0) {
         for (i = 0; i < 10; i++)
-            func_02193F6C(&wfbc->people[i]);
+            FIELD_WFBC_PEOPLE_Clear(&wfbc->people[i]);
     }
     if (wfbc->blockTable != 0)
         func_02082BCC(wfbc->blockTable, 0, sizeof(FieldWfbcBlockTable));
-    func_02193FE8(wfbc->blocks);
-    func_02194078(&wfbc->blockRand);
+    FIELD_WFBC_BLOCK_ClearGrid(wfbc->blocks);
+    FIELD_WFBC_BLOCK_ClearRand(&wfbc->blockRand);
 }
 
-int func_02193D08(FieldWfbc *wfbc)
+int FIELD_WFBC_CountPeople(FieldWfbc *wfbc)
 {
     int count = 0;
     int i;
@@ -412,110 +412,110 @@ int func_02193D08(FieldWfbc *wfbc)
 }
 
 /*
- * The back-list branch calls func_0218682C once more before the call whose
+ * The back-list branch calls FIELD_WFBC_DATA_LOCAL_GetNpcRecord once more before the call whose
  * result it passes; the call is kept (the original code makes it).
  */
-void func_02193D30(FieldWfbc *wfbc, WfbcData *saveData, int isBackPeople)
+void FIELD_WFBC_SetUpPeople(FieldWfbc *wfbc, WfbcData *saveData, int isBackPeople)
 {
     int i;
     u8 *gridPos;
-    func_0218625C(saveData);
-    func_02193CBC(wfbc);
+    FIELD_WFBC_DATA_LOCAL_IsDataComplete(saveData);
+    FIELD_WFBC_Clear(wfbc);
     wfbc->cityType = saveData->cityType;
     wfbc->isBackPeople = isBackPeople;
     for (i = 0; i < 10; i++) {
         if (isBackPeople == 0) {
-            if (func_02161ECC(&saveData->people[i])) {
-                func_02186818(wfbc->npcData, saveData->people[i].npcId);
-                func_02193F80(&wfbc->people[i], &saveData->people[i],
-                              func_02186844(wfbc->mmdlPosTable, i),
-                              func_0218682C(wfbc->npcData));
+            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&saveData->people[i])) {
+                FIELD_WFBC_DATA_LOCAL_LoadNpcData(wfbc->npcData, saveData->people[i].npcId);
+                FIELD_WFBC_PEOPLE_SetUp(&wfbc->people[i], &saveData->people[i],
+                              FIELD_WFBC_DATA_LOCAL_GetPositionPair(wfbc->mmdlPosTable, i),
+                              FIELD_WFBC_DATA_LOCAL_GetNpcRecord(wfbc->npcData));
             }
         } else {
-            if (func_02161ECC(&saveData->backPeople[i])) {
-                func_02186818(wfbc->npcData, saveData->backPeople[i].npcId);
-                gridPos = func_02186844(wfbc->mmdlPosTable, i);
-                func_0218682C(wfbc->npcData);
-                func_02193F80(&wfbc->people[i], &saveData->backPeople[i],
-                              gridPos, func_0218682C(wfbc->npcData));
+            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&saveData->backPeople[i])) {
+                FIELD_WFBC_DATA_LOCAL_LoadNpcData(wfbc->npcData, saveData->backPeople[i].npcId);
+                gridPos = FIELD_WFBC_DATA_LOCAL_GetPositionPair(wfbc->mmdlPosTable, i);
+                FIELD_WFBC_DATA_LOCAL_GetNpcRecord(wfbc->npcData);
+                FIELD_WFBC_PEOPLE_SetUp(&wfbc->people[i], &saveData->backPeople[i],
+                              gridPos, FIELD_WFBC_DATA_LOCAL_GetNpcRecord(wfbc->npcData));
             }
         }
     }
-    func_02194084(&wfbc->blockRand, saveData, wfbc->npcData);
+    FIELD_WFBC_BLOCK_InitRand(&wfbc->blockRand, saveData, wfbc->npcData);
     if (isBackPeople == 0)
         wfbc->saveData = saveData;
     else
         wfbc->saveData = 0;
-    func_020493D4(wfbc->arcHandle, sBlockTableMemberIds[wfbc->cityType]);
-    func_0204932C(wfbc->arcHandle, sBlockTableMemberIds[wfbc->cityType], wfbc->blockTable);
-    func_02194128(&wfbc->blockRand, wfbc->blockTable, wfbc->blocks);
+    ARC_TOOL_GetHandleMemberSize(wfbc->arcHandle, sBlockTableMemberIds[wfbc->cityType]);
+    ARC_TOOL_ReadHandleMember(wfbc->arcHandle, sBlockTableMemberIds[wfbc->cityType], wfbc->blockTable);
+    FIELD_WFBC_BLOCK_BuildGrid(&wfbc->blockRand, wfbc->blockTable, wfbc->blocks);
 }
 
-void func_02193E54(FieldWfbc *wfbc, WfbcData *saveData)
+void FIELD_WFBC_CopyPeopleToSaveData(FieldWfbc *wfbc, WfbcData *saveData)
 {
     int i;
     saveData->isValid = 1;
     saveData->cityType = wfbc->cityType;
     if (wfbc->isBackPeople == 0) {
-        func_0218609C(saveData);
+        FIELD_WFBC_DATA_LOCAL_ClearPeopleList(saveData);
         for (i = 0; i < 10; i++)
-            func_02193FD4(&wfbc->people[i], &saveData->people[i]);
+            FIELD_WFBC_PEOPLE_StorePerson(&wfbc->people[i], &saveData->people[i]);
     } else {
-        func_021860B8(saveData);
+        FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList(saveData);
         for (i = 0; i < 10; i++)
-            func_02193FD4(&wfbc->people[i], &saveData->backPeople[i]);
+            FIELD_WFBC_PEOPLE_StorePerson(&wfbc->people[i], &saveData->backPeople[i]);
     }
 }
 
-void func_02193EB4(FieldWfbc *wfbc)
+void FIELD_WFBC_LoadSaveData(FieldWfbc *wfbc)
 {
     int i;
     if (wfbc->isBackPeople == 0 && wfbc->saveData != 0) {
         for (i = 0; i < 10; i++)
-            func_02193FBC(&wfbc->people[i], &wfbc->saveData->people[i]);
+            FIELD_WFBC_PEOPLE_LoadPerson(&wfbc->people[i], &wfbc->saveData->people[i]);
     }
 }
 
-void func_02193EE8(FieldWfbc *wfbc)
+void FIELD_WFBC_StoreSaveData(FieldWfbc *wfbc)
 {
     if (wfbc->isBackPeople == 0 && wfbc->saveData != 0)
-        func_021938FC(wfbc, wfbc->saveData);
+        FIELD_WFBC_WriteSaveData(wfbc, wfbc->saveData);
 }
 
-FieldWfbcPeople *func_02193EFC(FieldWfbc *wfbc, u32 npcId)
+FieldWfbcPeople *FIELD_WFBC_FindPeople(FieldWfbc *wfbc, u32 npcId)
 {
     int i;
     if (wfbc->people != 0) {
         for (i = 0; i < 10; i++) {
-            if (wfbc->people[i].isActive != 0 && npcId == func_021867B0(&wfbc->people[i].person))
+            if (wfbc->people[i].isActive != 0 && npcId == FIELD_WFBC_DATA_LOCAL_GetNpcId(&wfbc->people[i].person))
                 return &wfbc->people[i];
         }
     }
     return 0;
 }
 
-/* Same code as func_02193EFC; the callers use both. */
-FieldWfbcPeople *func_02193F34(FieldWfbc *wfbc, u32 npcId)
+/* Same code as FIELD_WFBC_FindPeople; the callers use both. */
+FieldWfbcPeople *FIELD_WFBC_FindPeopleByNpcId(FieldWfbc *wfbc, u32 npcId)
 {
     int i;
     if (wfbc->people != 0) {
         for (i = 0; i < 10; i++) {
-            if (wfbc->people[i].isActive != 0 && npcId == func_021867B0(&wfbc->people[i].person))
+            if (wfbc->people[i].isActive != 0 && npcId == FIELD_WFBC_DATA_LOCAL_GetNpcId(&wfbc->people[i].person))
                 return &wfbc->people[i];
         }
     }
     return 0;
 }
 
-void func_02193F6C(FieldWfbcPeople *people)
+void FIELD_WFBC_PEOPLE_Clear(FieldWfbcPeople *people)
 {
     func_02082BCC(people, 0, sizeof(FieldWfbcPeople));
     people->isActive = 0;
 }
 
-void func_02193F80(FieldWfbcPeople *people, const WfbcPerson *person, u8 *gridPos, const WfbcNpcRecord *npcRecord)
+void FIELD_WFBC_PEOPLE_SetUp(FieldWfbcPeople *people, const WfbcPerson *person, u8 *gridPos, const WfbcNpcRecord *npcRecord)
 {
-    func_02161ECC(person);
+    EVENT_FIELD_PROCLINK_IsReturnEntryValid(person);
     people->isActive = 1;
     func_02082D44(person, &people->person, sizeof(WfbcPerson));
     func_02082D44(npcRecord, &people->npcRecord, sizeof(WfbcNpcRecord));
@@ -523,21 +523,21 @@ void func_02193F80(FieldWfbcPeople *people, const WfbcPerson *person, u8 *gridPo
     people->gridZ = gridPos[1];
 }
 
-void func_02193FBC(FieldWfbcPeople *people, const WfbcPerson *src)
+void FIELD_WFBC_PEOPLE_LoadPerson(FieldWfbcPeople *people, const WfbcPerson *src)
 {
     if (people->isActive == 1) {
         func_02082D44(src, &people->person, sizeof(WfbcPerson));
     }
 }
 
-void func_02193FD4(FieldWfbcPeople *people, WfbcPerson *dst)
+void FIELD_WFBC_PEOPLE_StorePerson(FieldWfbcPeople *people, WfbcPerson *dst)
 {
     if (people->isActive == 1) {
         func_02082D44(&people->person, dst, sizeof(WfbcPerson));
     }
 }
 
-void func_02193FE8(FieldWfbcBlock (*blocks)[8])
+void FIELD_WFBC_BLOCK_ClearGrid(FieldWfbcBlock (*blocks)[8])
 {
     int z;
     int x;
@@ -554,18 +554,18 @@ void func_02193FE8(FieldWfbcBlock (*blocks)[8])
  * blocks[z][x].pos = pos emits the two byte stores, the first one addressed
  * [x*4, row].
  */
-void func_02194014(FieldWfbcBlock (*blocks)[8], int x, int z, FieldWfbcBlockPos pos, u16 blockId)
+void FIELD_WFBC_BLOCK_SetCell(FieldWfbcBlock (*blocks)[8], int x, int z, FieldWfbcBlockPos pos, u16 blockId)
 {
     blocks[z][x].pos = pos;
     blocks[z][x].blockId = blockId;
 }
 
-FieldWfbcBlock func_02194038(FieldWfbcBlock (*blocks)[8], int x, int z)
+FieldWfbcBlock FIELD_WFBC_BLOCK_GetCell(FieldWfbcBlock (*blocks)[8], int x, int z)
 {
     return blocks[z][x];
 }
 
-int func_02194044(FieldWfbcBlock (*blocks)[8], u16 type, u16 blockId)
+int FIELD_WFBC_BLOCK_IsPlaced(FieldWfbcBlock (*blocks)[8], u16 type, u16 blockId)
 {
     int z;
     int x;
@@ -579,7 +579,7 @@ int func_02194044(FieldWfbcBlock (*blocks)[8], u16 type, u16 blockId)
     return 0;
 }
 
-void func_02194078(FieldWfbcBlockRand *blockRand)
+void FIELD_WFBC_BLOCK_ClearRand(FieldWfbcBlockRand *blockRand)
 {
     func_02082BCC(blockRand, 0, sizeof(FieldWfbcBlockRand));
 }
@@ -588,7 +588,7 @@ void func_02194078(FieldWfbcBlockRand *blockRand)
  * WfbcNpcRecord+0x2E (pad2E in the ov020 header) is summed into the random
  * range here; it is read raw until the header owner names it.
  */
-void func_02194084(FieldWfbcBlockRand *blockRand, WfbcData *data, struct WfbcNpcData *npcData)
+void FIELD_WFBC_BLOCK_InitRand(FieldWfbcBlockRand *blockRand, WfbcData *data, struct WfbcNpcData *npcData)
 {
     int recordSum;
     int npcIdSum;
@@ -596,13 +596,13 @@ void func_02194084(FieldWfbcBlockRand *blockRand, WfbcData *data, struct WfbcNpc
     recordSum = 0;
     npcIdSum = 0;
     for (i = 0; i < 10; i++) {
-        if (func_02161ECC(&data->people[i]) != 0) {
-            func_02186818(npcData, data->people[i].npcId);
-            recordSum += *(u16 *)((u8 *)func_0218682C(npcData) + 0x2E);
+        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&data->people[i]) != 0) {
+            FIELD_WFBC_DATA_LOCAL_LoadNpcData(npcData, data->people[i].npcId);
+            recordSum += *(u16 *)((u8 *)FIELD_WFBC_DATA_LOCAL_GetNpcRecord(npcData) + 0x2E);
             npcIdSum += data->people[i].npcId;
         }
     }
-    blockRand->peopleNum = func_02186278(data, 0);
+    blockRand->peopleNum = FIELD_WFBC_DATA_LOCAL_CountPeople(data, 0);
     blockRand->rand.x = data->playerId;
     blockRand->rand.mul = 0x5D588B656C078965ULL;
     blockRand->rand.add = 0x269EC3;
@@ -635,12 +635,12 @@ static inline u32 MATH_Rand32(MATHRandContext32 *context, u32 max)
 /*
  * Seeds a NitroSDK MATHRandContext32 at the head of blockRand
  * (MATH_InitRand32 inline) and fills the 8x8 block grid through
- * func_02194014. Spill-slot order (u64 max temp at the top, then row, z,
+ * FIELD_WFBC_BLOCK_SetCell. Spill-slot order (u64 max temp at the top, then row, z,
  * type, variant) needs the explicit locals in this declaration order; the
  * index `index += variant * 8` must be folded into index before the call or
  * the tail's loads schedule differently.
  */
-void func_02194128(FieldWfbcBlockRand *blockRand, FieldWfbcBlockTable *table, FieldWfbcBlock (*blocks)[8])
+void FIELD_WFBC_BLOCK_BuildGrid(FieldWfbcBlockRand *blockRand, FieldWfbcBlockTable *table, FieldWfbcBlock (*blocks)[8])
 {
     FieldWfbcBlockPos pos;
     u32 range;
@@ -662,7 +662,7 @@ void func_02194128(FieldWfbcBlockRand *blockRand, FieldWfbcBlockTable *table, Fi
                 continue;
             }
             if (pos.offsetX != 0 || pos.offsetZ != 0) {
-                func_02194014(blocks, x, z, pos, blocks[z - pos.offsetZ][x - pos.offsetX].blockId);
+                FIELD_WFBC_BLOCK_SetCell(blocks, x, z, pos, blocks[z - pos.offsetZ][x - pos.offsetX].blockId);
             } else {
                 originX = x - pos.offsetX;
                 originZ = z - pos.offsetZ;
@@ -674,7 +674,7 @@ void func_02194128(FieldWfbcBlockRand *blockRand, FieldWfbcBlockTable *table, Fi
                     index = 7;
                 }
                 index += variant * 8;
-                func_02194014(blocks, x, z, pos, table->blockIds[type][index]);
+                FIELD_WFBC_BLOCK_SetCell(blocks, x, z, pos, table->blockIds[type][index]);
             }
         }
     }

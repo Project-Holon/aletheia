@@ -1,5 +1,5 @@
 /*
- * function: func_021D70DC
+ * function: BTL_EVENT_SetFactorWork
  * address:  0x021D70DC
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D70DC   0x021D70DC  thumb
+ *   BTL_EVENT_SetFactorWork   0x021D70DC  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: lsls r1, r1, #2; adds r0, r0, r1; str r2, [r0, #0x1c]; bx lr.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D70DC  lsls r1,#2; adds r0,r0,r1; str r2,[r0,#0x1c] */
-void func_021D70DC(u8 *p, int i, u32 v) { *(u32 *)(p + i * 4 + 0x1c) = v; }
+void BTL_EVENT_SetFactorWork(u8 *p, int i, u32 v) { *(u32 *)(p + i * 4 + 0x1c) = v; }
 

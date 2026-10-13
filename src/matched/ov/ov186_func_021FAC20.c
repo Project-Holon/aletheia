@@ -13,7 +13,7 @@
  * symbols:
  *   func_02034714 0x02034714 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02045874 0x02045874 arm
+ *   STRBUF_Clone 0x02045874 arm
  *   func_021FB7B0 0x021FB7B0 thumb ov186
  *   func_021FC124 0x021FC124 thumb ov186
  *   func_021FC20C 0x021FC20C thumb ov186
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, int, unsigned);
 struct U16Vec;
-extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
+extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern int func_021FB7B0(void *p, int i);
 extern void func_021FC124(void *, unsigned, void *);
 extern unsigned func_021FC20C(char *p);
@@ -56,7 +56,7 @@ void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *o
     ctx->heap = heap_value;
     ctx->a = a;
     ctx->b = b;
-    ctx->work = (unsigned)func_02045874((struct U16Vec *)work, heap_value);
+    ctx->work = (unsigned)STRBUF_Clone((struct U16Vec *)work, heap_value);
     func_02082BCC(&config, 0, 8);
     config.x = func_021FB7B0((void *)ctx->object, 0);
     config.y = func_021FB7B0((void *)ctx->object, 1);

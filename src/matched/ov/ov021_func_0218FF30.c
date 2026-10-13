@@ -1,5 +1,5 @@
 /*
- * function: func_0218FF30
+ * function: FIELD_CAMERA_ANIME_Alloc
  * address:  0x0218FF30
  * packet:   pkt_ov021_0218FF30
  * region:   ov021
@@ -23,7 +23,7 @@ typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021DDA38[];
 
-void *func_0218FF30(u32 heap)
+void *FIELD_CAMERA_ANIME_Alloc(u32 heap)
 {
     return func_02030734(heap, 0x20, 0, d_021DDA38, 0xee);
 }

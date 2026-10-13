@@ -1,5 +1,5 @@
 /*
- * function: func_021A03A4
+ * function: FIELD_ZONEFOG_GetFogOffset
  * address:  0x021A03A4
  * packet:   pkt_ov021_021A03A4
  * region:   ov021
@@ -12,10 +12,10 @@
  * Unlabelled leaf, filed as a blocker of the ov024/ov025 lane S26.
  *
  * symbols:
- *   func_021A03A4  0x021A03A4  thumb  ov021
+ *   FIELD_ZONEFOG_GetFogOffset  0x021A03A4  thumb  ov021
  */
 
-int func_021A03A4(int *p)
+int FIELD_ZONEFOG_GetFogOffset(int *p)
 {
     int *q = (int *)p[1];
 

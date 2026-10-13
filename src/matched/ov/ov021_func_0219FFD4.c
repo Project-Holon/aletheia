@@ -1,5 +1,5 @@
 /*
- * function: func_0219FFD4
+ * function: FLDMMDL_DRAW_GetDirIndex
  * address:  0x0219FFD4
  * packet:   pkt_ov021_0219FFD4
  * region:   ov021
@@ -12,12 +12,12 @@
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D538  0x0216D538  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
- *   func_0219D738  0x0219D738  thumb  ov021
- *   func_021642D4  0x021642D4  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysGetAreaId  0x0216D538  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
+ *   FLDMMDL_RAIL_MOVE_GetDirByAngle  0x0219D738  thumb  ov021
+ *   FLDMMDL_MOVE_GetRelativeDirCode  0x021642D4  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -26,19 +26,19 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void *func_0216D67C(void *a0);
-extern u32 func_0216D538(u8 *p);
-extern u16 func_0216D5F8(void *p);
-extern int func_0216D55C(int a0, int a1);
-extern u32 func_0219D738(u32 a, int b);
-extern u8 func_021642D4(int i, int v);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern u32 FLDMMDL_SysGetAreaId(u8 *p);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
+extern u32 FLDMMDL_RAIL_MOVE_GetDirByAngle(u32 a, int b);
+extern u8 FLDMMDL_MOVE_GetRelativeDirCode(int i, int v);
 
-void func_0219FFD4(u32 a)
+void FLDMMDL_DRAW_GetDirIndex(u32 a)
 {
-    u32 x = func_0216D538(func_0216D67C((void *)a));
-    u32 y = func_0216D5F8((void *)a);
-    if (func_0216D55C(a, 0x2000))
-        func_0219D738(a, x);
+    u32 x = FLDMMDL_SysGetAreaId(FLDMMDL_GetMmdlSys((void *)a));
+    u32 y = FLDMMDL_GetDirDisp((void *)a);
+    if (FLDMMDL_CheckStatusBit(a, 0x2000))
+        FLDMMDL_RAIL_MOVE_GetDirByAngle(a, x);
     else
-        func_021642D4(y, x);
+        FLDMMDL_MOVE_GetRelativeDirCode(y, x);
 }

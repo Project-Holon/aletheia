@@ -1,5 +1,5 @@
 /*
- * function: func_021A9BE8
+ * function: FIELD_ENCOUNT_ApplyHighLevelBias
  * address:  0x021A9BE8
  * packet:   pkt_ov021_021A9BE8
  * region:   ov021
@@ -31,7 +31,7 @@ struct Unit {
     u32 b14 : 1;
 };
 
-void func_021A9BE8(const struct Unit *u, const struct Spec *specs, struct Slot14 *s)
+void FIELD_ENCOUNT_ApplyHighLevelBias(const struct Unit *u, const struct Spec *specs, struct Slot14 *s)
 {
     int i;
     u8 max;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218AF90
+ * function: FIELD_EVENT_CHECK_CheckFrontTileEvents
  * address:  0x0218AF90
  * packet:   pkt_ov021_0218AF90
  * region:   ov021
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218AE48  0x0218AE48  thumb  ov021
- *   func_021BE288  0x021BE288  thumb  ov021
- *   func_021F3A88  0x021F3A88  thumb  ov038
- *   func_021F38A4  0x021F38A4  thumb  ov051
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_021AB0D4  0x021AB0D4  thumb  ov021
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
- *   func_021A3098  0x021A3098  thumb  ov021
- *   func_0218B630  0x0218B630  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB310  0x021AB310  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_02164208  0x02164208  thumb  ov010
- *   func_02163E58  0x02163E58  thumb  ov010
- *   func_02158768  0x02158768  thumb  ov010
- *   func_0218AE04  0x0218AE04  thumb  ov021
- *   func_021F404C  0x021F404C  thumb  ov039
- *   func_021F37E0  0x021F37E0  thumb  ov041
+ *   FIELD_EVENT_CHECK_GetFrontPos  0x0218AE48  thumb  ov021
+ *   FIELD_GIMMICK_IsGimmickId  0x021BE288  thumb  ov021
+ *   GIMMICK38_StartDoorEvent  0x021F3A88  thumb  ov038
+ *   FIELD_GIMMICK_D06_CheckPushStone  0x021F38A4  thumb  ov051
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   MAP_ATTR_GetAt  0x021AB0D4  thumb  ov021
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
+ *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
+ *   FIELD_EVENT_CHECK_FindPartyMemberWithMove  0x0218B630  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_IsWaterfall  0x021AB310  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb  ov010
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
+ *   FIELD_EVENT_CHECK_FindGridConnectId  0x0218AE04  thumb  ov021
+ *   GIMMICK39_CheckRideEvent  0x021F404C  thumb  ov039
+ *   GIMMICK41_CreateLaunchEvent  0x021F37E0  thumb  ov041
  * Addresses are Black-image addresses.
  */
 
@@ -54,27 +54,27 @@ struct FieldInput {
 typedef struct Vec { int x, y, z; } Vec;
 
 struct Obj;
-extern void func_0218AE48(struct Obj *p, struct Vec *out);
-extern int func_021BE288(u8 *pos, int k);
+extern void FIELD_EVENT_CHECK_GetFrontPos(struct Obj *p, struct Vec *out);
+extern int FIELD_GIMMICK_IsGimmickId(u8 *pos, int k);
 struct Desc;
-extern int func_021F3A88(int a0, int a1, int a2);
-extern int func_021F38A4(int a, int b);
-extern u32 func_02188C98(u8 *p);
-extern int func_021AB0D4(void *a, void *b);
-extern u16 func_021AB0F8(u32 attr);
-extern u32 func_021A3098(u8 *p);
-extern int func_0218B630(void *p, u32 move);
-extern u16 func_021AB0F0(u32 a);
-extern int func_021AB310(u16 a);
-extern void *func_021A3074(unsigned char *p);
-extern void func_02164208(int dir, int *p, int amt);
-extern int func_02163E58(void *m, Vec *pos, int *h);
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-extern u32 func_0218AE04(u8 *p, void *arg);
-extern int func_021F404C(void *a);
-extern int func_021F37E0(void *a);
+extern int GIMMICK38_StartDoorEvent(int a0, int a1, int a2);
+extern int FIELD_GIMMICK_D06_CheckPushStone(int a, int b);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern int MAP_ATTR_GetAt(void *a, void *b);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern u32 FIELD_PLAYER_GetFormCode(u8 *p);
+extern int FIELD_EVENT_CHECK_FindPartyMemberWithMove(void *p, u32 move);
+extern u16 MAP_ATTR_GetTerrainId(u32 a);
+extern int MAP_ATTR_IsWaterfall(u16 a);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern void FLDMMDL_MOVE_AddDirVector(int dir, int *p, int amt);
+extern int FLDMMDL_MOVE_GetMapHeight(void *m, Vec *pos, int *h);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+extern u32 FIELD_EVENT_CHECK_FindGridConnectId(u8 *p, void *arg);
+extern int GIMMICK39_CheckRideEvent(void *a);
+extern int GIMMICK41_CreateLaunchEvent(void *a);
 
-int func_0218AF90(struct FieldInput *p, void *a, u8 *pos)
+int FIELD_EVENT_CHECK_CheckFrontTileEvents(struct FieldInput *p, void *a, u8 *pos)
 {
     Vec v;
     Vec w;
@@ -82,27 +82,27 @@ int func_0218AF90(struct FieldInput *p, void *a, u8 *pos)
     u32 attr;
     void *m;
 
-    func_0218AE48((struct Obj *)p, &v);
-    if (func_021BE288(pos, 6))
-        return func_021F3A88((int)a, v.x / 0x10000, v.z / 0x10000);
-    if (func_021BE288(pos, 0x19) || func_021BE288(pos, 0x1A) || func_021BE288(pos, 0x1B))
-        return func_021F38A4((int)pos, p->f24);
-    attr = func_021AB0D4((void *)func_02188C98(pos), &v);
-    if ((func_021AB0F8(attr) & 1) == 0)
+    FIELD_EVENT_CHECK_GetFrontPos((struct Obj *)p, &v);
+    if (FIELD_GIMMICK_IsGimmickId(pos, 6))
+        return GIMMICK38_StartDoorEvent((int)a, v.x / 0x10000, v.z / 0x10000);
+    if (FIELD_GIMMICK_IsGimmickId(pos, 0x19) || FIELD_GIMMICK_IsGimmickId(pos, 0x1A) || FIELD_GIMMICK_IsGimmickId(pos, 0x1B))
+        return FIELD_GIMMICK_D06_CheckPushStone((int)pos, p->f24);
+    attr = MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(pos), &v);
+    if ((MAP_ATTR_GetFlags(attr) & 1) == 0)
         return 0;
-    if (func_021A3098(p->f18) == 2 && func_0218B630(p->f8, 0x7F) != 6
-        && func_021AB310(func_021AB0F0(attr)) == 1) {
+    if (FIELD_PLAYER_GetFormCode(p->f18) == 2 && FIELD_EVENT_CHECK_FindPartyMemberWithMove(p->f8, 0x7F) != 6
+        && MAP_ATTR_IsWaterfall(MAP_ATTR_GetTerrainId(attr)) == 1) {
         w = v;
-        m = func_021A3074(p->f18);
-        func_02164208(p->f24, (int *)(&w), 0x10000);
-        if (func_02163E58(m, &w, &h) == 1 && v.y > h)
-            return (int)func_02158768((int)p->sys, 0x271F, 0, p->f0);
+        m = FIELD_PLAYER_GetMmdl(p->f18);
+        FLDMMDL_MOVE_AddDirVector(p->f24, (int *)(&w), 0x10000);
+        if (FLDMMDL_MOVE_GetMapHeight(m, &w, &h) == 1 && v.y > h)
+            return (int)SCRIPT_SYS_CreateScriptEventSimple((int)p->sys, 0x271F, 0, p->f0);
     }
-    if (func_0218AE04((u8 *)p, &v) == 0xFFFF) {
-        if (func_021BE288(pos, 2))
-            return func_021F404C(a);
-        if (func_021BE288(pos, 5))
-            return func_021F37E0(a);
+    if (FIELD_EVENT_CHECK_FindGridConnectId((u8 *)p, &v) == 0xFFFF) {
+        if (FIELD_GIMMICK_IsGimmickId(pos, 2))
+            return GIMMICK39_CheckRideEvent(a);
+        if (FIELD_GIMMICK_IsGimmickId(pos, 5))
+            return GIMMICK41_CreateLaunchEvent(a);
     }
     return 0;
 }

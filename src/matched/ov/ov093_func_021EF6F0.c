@@ -1,5 +1,5 @@
 /*
- * function: func_021EF6F0
+ * function: BTL_MSG_BuildTrainerStringBody
  * address:  0x021EF6F0
  * packet:   pkt_ov093_021EF6F0
  * region:   ov093
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EEFE0  0x021EEFE0  thumb  ov093
- *   func_02045CAC  0x02045CAC  arm
+ *   BTL_MSG_ExpandTags  0x021EEFE0  thumb  ov093
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   d_021F6398     0x021F6398  data   a4
+ *   gBtlMsgState     0x021F6398  data   a4
  *
  * Unlabelled leaf, callee of the tail stub 0x021EF6E8 that func_021EA55C calls.
- * Twin of func_021EF6B0 without the +0x5a flag stores, using the +0x28 slot.
+ * Twin of BTL_MSG_BuildUiStringFlagged without the +0x5a flag stores, using the +0x28 slot.
  */
 
 typedef unsigned char u8;
@@ -43,14 +43,14 @@ typedef struct {
 
 struct MsgBank;
 struct WordSet;
-extern void func_021EEFE0(void *s, const u32 *values, void *w);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern D d_021F6398;
+extern D gBtlMsgState;
 
-void func_021EF6F0(u32 a, u32 b, u32 c)
+void BTL_MSG_BuildTrainerStringBody(u32 a, u32 b, u32 c)
 {
-    func_02045CAC((struct MsgBank *)d_021F6398.f28, b, (void *)d_021F6398.fc);
-    func_021EEFE0((void *)d_021F6398.fc, (const u32 *)c, (void *)d_021F6398.f8);
-    func_0201F250((struct WordSet *)d_021F6398.f8, (void *)a, (void *)d_021F6398.fc);
+    MSGDATA_ReadString((struct MsgBank *)gBtlMsgState.f28, b, (void *)gBtlMsgState.fc);
+    BTL_MSG_ExpandTags((void *)gBtlMsgState.fc, (const u32 *)c, (void *)gBtlMsgState.f8);
+    func_0201F250((struct WordSet *)gBtlMsgState.f8, (void *)a, (void *)gBtlMsgState.fc);
 }

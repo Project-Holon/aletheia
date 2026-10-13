@@ -1,5 +1,5 @@
 /*
- * function: func_020500F0
+ * function: BILLBOARD_ACT_CreateSlots
  * address:  0x020500F0
  * packet:   pkt_020500F0
  * region:   arm9
@@ -46,7 +46,7 @@ extern s32 AREAMAN_Alloc(struct AreaMan *p, u32 len);
 extern u16  BILLBOARD_AddImage(void *board, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 extern void BILLBOARD_TrimImageResource(void *board, u32 id);
 
-u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n)
+u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *o, const struct BbActRec *recs, u32 n)
 {
     int base;
     u32 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_0219BA2C
+ * function: FLDMMDL_MOVE_GetTurnAcmdBase
  * address:  0x0219BA2C
  * packet:   pkt_ov021_0219BA2C
  * region:   ov021
@@ -10,24 +10,24 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216DEE0  0x0216DEE0  thumb  ov010
- *   func_0216D7C4  0x0216D7C4  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
+ *   FLDMMDL_GetAcmdCode  0x0216D7C4  thumb  ov010
  */
 
 typedef unsigned short u16;
 
 typedef unsigned char  u8;
-extern void *func_0216D67C(void *a0);
-extern void *func_0216DEE0(void *a0);
-extern u16 func_0216D7C4(u8 *p);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_SysSearchPlayer(void *a0);
+extern u16 FLDMMDL_GetAcmdCode(u8 *p);
 
-int func_0219BA2C(int a)
+int FLDMMDL_MOVE_GetTurnAcmdBase(int a)
 {
     int v;
 
-    func_0216DEE0(func_0216D67C((void *)a));
-    v = func_0216D7C4((u8 *)a);
+    FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)a));
+    v = FLDMMDL_GetAcmdCode((u8 *)a);
     switch (v) {
     case 0x58:
         return 0x10;

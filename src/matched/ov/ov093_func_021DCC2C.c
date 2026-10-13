@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DCC2C,func_021DCC50
+ * function: BTL_HANDLER_TOKUSEI_ContraryInvertStatChange,BTL_HANDLER_TOKUSEI_AddContrary
  * address: 0x021DCC2C
  * packet: pkt_ov093_021DCC2C
  * region: ov093
@@ -10,12 +10,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0708 0x021F0708 data a4
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   gHandlerTableContrary 0x021F0708 data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
-extern unsigned char d_021F0708[];
-extern int func_021D775C(int);
-extern int func_021D76BC(int,unsigned int);
-void func_021DCC2C(int a, int b, int c, int *d) { if (c == func_021D775C(2)) *d = func_021D76BC(32,-func_021D775C(32)); }
-void *func_021DCC50(int *p) { *p = 1; return d_021F0708; }
+extern unsigned char gHandlerTableContrary[];
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int,unsigned int);
+void BTL_HANDLER_TOKUSEI_ContraryInvertStatChange(int a, int b, int c, int *d) { if (c == BTL_EVENT_GetVar(2)) *d = BTL_EVENT_OverwriteVar(32,-BTL_EVENT_GetVar(32)); }
+void *BTL_HANDLER_TOKUSEI_AddContrary(int *p) { *p = 1; return gHandlerTableContrary; }

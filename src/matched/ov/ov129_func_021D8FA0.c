@@ -33,7 +33,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_0203633C 0x0203633C arm
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021D9E98 0x021D9E98 thumb ov129
  *   func_021D93D4 0x021D93D4 thumb ov129
  *   func_021D9320 0x021D9320 thumb ov129
@@ -55,7 +55,7 @@ extern u32 func_020362DC(void);
 extern u32 func_0203633C(void);
 typedef unsigned char  u8;
 extern void func_020061E4(u32 a);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021D9E98(char *p, int i);
 extern void func_021D93D4(char *p);
 extern int func_021D9320(u8 *p);
@@ -132,8 +132,8 @@ void func_021D8FA0(char *p)
             func_021D9E48(p, 1, 0);
             func_021D9E48(p, 2, 1);
             func_021D9EE8(p, cur, 2);
-            func_0204B878(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
-            func_0204B878(*(struct Obj **)(p + 0x1CC), 3);
+            CLACT_SetActorAnimSeq(r[idx].handle, func_021DA158(r[idx].state, r[idx].flag));
+            CLACT_SetActorAnimSeq(*(struct Obj **)(p + 0x1CC), 3);
             n = r[idx].value;
             if (idx + 1 == *(int *)(p + 0x23C)) {
                 *(int *)(p + 0x31C) = 1;

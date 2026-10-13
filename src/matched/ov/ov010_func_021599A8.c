@@ -1,5 +1,5 @@
 /*
- * function: func_021599A8
+ * function: SCRIPT_WORK_WaitReportSave
  * address:  0x021599A8
  * packet:   pkt_ov010_021599A8
  * region:   ov010
@@ -10,80 +10,80 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CCC  0x02188CCC  thumb
- *   func_02012E40  0x02012E40  thumb
- *   func_02012DD0  0x02012DD0  thumb
- *   func_021A0F90  0x021A0F90  thumb  ov021
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
+ *   GAME_DATA_SaveMain  0x02012DD0  thumb
+ *   FIELD_SUBSCREEN_GetMode  0x021A0F90  thumb  ov021
  *   func_021A153C  0x021A153C  thumb  ov021
  *   func_021A1548  0x021A1548  thumb  ov021
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_021590FC  0x021590FC  thumb  ov010
- *   func_021D11D8  0x021D11D8  thumb
- *   func_021D1194  0x021D1194  thumb
- *   func_021590F4  0x021590F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_GetReturnScriptId  0x021590FC  thumb  ov010
+ *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb
+ *   FIELD_SAVEANIME_Delete  0x021D1194  thumb
+ *   SCRIPT_WORK_SetReturnScriptId  0x021590F4  thumb  ov010
  */
 
 typedef unsigned short u16;
 
-extern void *func_0215A5E4(void *a0);
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188CCC(void *);
-extern u8 func_02012E40(const u8 *o);
-extern int func_02012DD0(u8 *p);
-extern u32 func_021A0F90(u8 *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetSubscreen(void *);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
+extern int GAME_DATA_SaveMain(u8 *p);
+extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
 extern int func_021A153C(u32 *p);
 extern void func_021A1548(u32 *p);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_021590FC(void *p);
-extern void func_021D11D8(int);
-extern void func_021D1194(int);
-extern void func_021590F4(void *p, u32 v);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u32 SCRIPT_WORK_GetReturnScriptId(void *p);
+extern void FIELD_SAVEANIME_Stop(int);
+extern void FIELD_SAVEANIME_Delete(int);
+extern void SCRIPT_WORK_SetReturnScriptId(void *p, u32 v);
 
-int func_021599A8(int a, int b)
+int SCRIPT_WORK_WaitReportSave(int a, int b)
 {
-    void *s4 = func_0215A5E4((void *)b);
-    void *s0 = func_0215A5F4((void *)b);
+    void *s4 = SCRCMD_WORK_GetGameData((void *)b);
+    void *s0 = SCRCMD_WORK_GetScriptWork((void *)b);
     int h;
     int ret;
-    h = func_02188CCC(func_0201210C(func_0215A5DC((void *)b)));
-    if (func_02012E40(s4) == 0) {
+    h = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b)));
+    if (GAME_DATA_IsSaving(s4) == 0) {
         ret = 1;
-        if (func_021A0F90((u8 *)h) == 7) {
+        if (FIELD_SUBSCREEN_GetMode((u8 *)h) == 7) {
             if (func_021A153C((u32 *)h) == 0)
                 ret = 0;
         }
     } else {
-        switch (func_02012DD0(s4)) {
+        switch (GAME_DATA_SaveMain(s4)) {
         case 0:
         case 1:
             ret = 0;
             break;
         case 2:
-            *func_02159AE8((void *)a, (void *)b) = 1;
+            *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = 1;
             ret = 0;
             break;
         case 3:
-            *func_02159AE8((void *)a, (void *)b) = 0;
+            *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = 0;
             ret = 1;
-            if (func_021A0F90((u8 *)h) == 7)
+            if (FIELD_SUBSCREEN_GetMode((u8 *)h) == 7)
                 func_021A1548((u32 *)h);
             break;
         }
     }
     if (ret == 1) {
-        int t = func_021590FC(s0);
-        func_021D11D8(t);
-        func_021D1194(t);
-        func_021590F4(s0, 0);
+        int t = SCRIPT_WORK_GetReturnScriptId(s0);
+        FIELD_SAVEANIME_Stop(t);
+        FIELD_SAVEANIME_Delete(t);
+        SCRIPT_WORK_SetReturnScriptId(s0, 0);
     }
     return ret;
 }

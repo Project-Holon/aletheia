@@ -1,5 +1,5 @@
 /*
- * function: func_021D74BC
+ * function: BTL_EVENT_ClearFactor
  * address:  0x021D74BC
  * packet:   pkt_ov093_021D74BC
  * region:   ov093
@@ -15,7 +15,7 @@
 
 void func_02082BCC(int, int, int);
 
-void func_021D74BC(int a)
+void BTL_EVENT_ClearFactor(int a)
 {
     func_02082BCC(a, 0, 0x3c);
 }

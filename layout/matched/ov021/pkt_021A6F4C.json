@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A6F4C",
+   "name": "FIELDMAP_CTRL_HYBRID_GetTargetPos",
    "address": "0x021A6F4C",
    "kind": "game",
    "region": "ov021",

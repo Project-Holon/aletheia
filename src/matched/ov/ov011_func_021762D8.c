@@ -1,5 +1,5 @@
 /*
- * function: func_021762D8
+ * function: INTRUDE_COMM_SetWordSetRequest
  * address:  0x021762D8
  * packet:   pkt_ov011_021762D8
  * region:   ov011
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021762C0  0x021762C0  thumb  ov011
+ *   INTRUDE_COMM_SetWordSetMemberName  0x021762C0  thumb  ov011
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201EF40  0x0201EF40  thumb
  *   func_0201F184  0x0201F184  thumb
@@ -33,43 +33,43 @@ typedef struct {
     Pos pos;
 } Obj;
 
-extern void func_021762C0(void *a, int b, void *c, void *d);
+extern void INTRUDE_COMM_SetWordSetMemberName(void *a, int b, void *c, void *d);
 typedef signed int     s32;
 struct WordSet;
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 
-void func_021762D8(const Obj *obj, void *a1, void *a2, void *a3)
+void INTRUDE_COMM_SetWordSetRequest(const Obj *obj, void *a1, void *a2, void *a3)
 {
     int v;
 
     switch (obj->kind) {
     case 0:
-        func_021762C0(a2, 0, a1, a3);
+        INTRUDE_COMM_SetWordSetMemberName(a2, 0, a1, a3);
         func_0201EFA4(a2, 1, obj->pos.x, 3, 0, 1);
         break;
     case 1:
-        func_021762C0(a2, 0, a1, a3);
+        INTRUDE_COMM_SetWordSetMemberName(a2, 0, a1, a3);
         func_0201F184(a2, 1, obj->pos.x);
         break;
     case 2:
-        func_021762C0(a2, 0, a1, a3);
+        INTRUDE_COMM_SetWordSetMemberName(a2, 0, a1, a3);
         func_0201F184(a2, 1, obj->pos.x);
         break;
     case 3: {
         const Pos *pos = &obj->pos;
-        func_021762C0(a2, 0, a1, a3);
+        INTRUDE_COMM_SetWordSetMemberName(a2, 0, a1, a3);
         func_0201EF40(a2, 1, pos->x);
         func_0201EFA4(a2, 2, pos->y, 5, 0, 1);
         break;
     }
     case 4:
         func_0201EF40(a2, 0, obj->pos.y);
-        func_021762C0(a2, 1, a1, a3);
+        INTRUDE_COMM_SetWordSetMemberName(a2, 1, a1, a3);
         break;
     case 5:
-        func_021762C0(a2, 0, a1, a3);
+        INTRUDE_COMM_SetWordSetMemberName(a2, 0, a1, a3);
         break;
     }
     func_0201EFA4(a2, 2, obj->f0_22, 4, 0, 1);

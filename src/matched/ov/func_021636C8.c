@@ -1,5 +1,5 @@
 /*
- * function: func_021636C8
+ * function: FLDMMDL_MOVE_IsShadowAttr
  * address:  0x021636C8
  * packet:   pkt_021636C8
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB3D4  0x021AB3D4  thumb
+ *   MAP_ATTR_IsPuddle  0x021AB3D4  thumb
  */
 #include "../include/Obj07203.h"
 
@@ -18,9 +18,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021AB3D4();
+extern int MAP_ATTR_IsPuddle();
 
-int func_021636C8(int a0, int a1, int a2)
+int FLDMMDL_MOVE_IsShadowAttr(int a0, int a1, int a2)
 {
 
 a2 = ((struct Obj07203 *)a0)->fE;
@@ -34,7 +34,7 @@ a1 = ((struct Obj07203 *)a0)->f18;
     if (a1 != 3) goto loc_021636EA;
 loc_021636DC:
 a0 = ((struct Obj07203 *)a0)->fA;
-    a0 = func_021AB3D4(a0);
+    a0 = MAP_ATTR_IsPuddle(a0);
 loc_021636E2:
     if (a0 == 0) goto loc_021636EA;
 loc_021636E6:

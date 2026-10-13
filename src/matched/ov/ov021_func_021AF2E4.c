@@ -1,5 +1,5 @@
 /*
- * function: func_021AF2E4
+ * function: SCRCMD_StartWaitSeStopped
  * address:  0x021AF2E4
  * packet:   pkt_ov021_021AF2E4
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AF2CC  0x021AF2CC  thumb  ov021
+ *   SCRCMD_WaitSeStopped  0x021AF2CC  thumb  ov021
+ *   VM_SetWait  0x020113D0  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -19,11 +20,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void func_020113D0(char *p, int val);
-extern int func_021AF2CC(u32 a, u32 b, u32 c, u32 d);
+extern void VM_SetWait(char *p, int val);
+extern int SCRCMD_WaitSeStopped(u32 a, u32 b, u32 c, u32 d);
 
-int func_021AF2E4(u32 a)
+int SCRCMD_StartWaitSeStopped(u32 a)
 {
-    func_020113D0((char *)a, (int)func_021AF2CC);
+    VM_SetWait((char *)a, (int)SCRCMD_WaitSeStopped);
     return 1;
 }

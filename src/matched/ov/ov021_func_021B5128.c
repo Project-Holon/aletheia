@@ -1,5 +1,5 @@
 /*
- * function: func_021B5128
+ * function: SCRCMD_PROC_FLD_StoreCameraValue
  * address:  0x021B5128
  * packet:   pkt_ov021_021B5128
  * region:   ov021
@@ -10,29 +10,29 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02188CE8  0x02188CE8  thumb  ov021
- *   func_021AAB48  0x021AAB48  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
+ *   EFFECT_ENCOUNT_GetItemId  0x021AAB48  thumb  ov021
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02188CE8(u8 *p);
-extern u16 func_021AAB48(char *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u32 FIELDMAP_GetEncount(u8 *p);
+extern u16 EFFECT_ENCOUNT_GetItemId(char *p);
 
-int func_021B5128(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StoreCameraValue(u32 a, u32 b)
 {
-    void *w = func_0201210C(func_0215A5DC((void *)b));
-    u16 *o = func_02159AE8((void *)a, (void *)b);
+    void *w = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b));
+    u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
 
-    *o = func_021AAB48((char *)func_02188CE8(w));
+    *o = EFFECT_ENCOUNT_GetItemId((char *)FIELDMAP_GetEncount(w));
     return 0;
 }

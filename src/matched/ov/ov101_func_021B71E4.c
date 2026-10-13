@@ -16,7 +16,7 @@
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb
  *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
- *   func_02028178  0x02028178  thumb
+ *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  */
 #include "../include/Obj02158.h"
 
@@ -29,7 +29,7 @@ extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
-extern void func_02028178(u8 *p);
+extern void APP_TASKMENU_WIN_Update(u8 *p);
 
 void func_021B71E4(int a)
 {
@@ -54,6 +54,6 @@ void func_021B71E4(int a)
             ((struct Obj02158 *)a)->f44 = 1;
             break;
         }
-        func_02028178((u8 *)(((struct Obj02158 *)a)->f0));
+        APP_TASKMENU_WIN_Update((u8 *)(((struct Obj02158 *)a)->f0));
     }
 }

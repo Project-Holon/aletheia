@@ -1,5 +1,5 @@
 /*
- * function: func_021BA384
+ * function: BSUBWAY_RECORD_LIST_UpdateArrowVisibility
  * address:  0x021BA384
  * packet:   pkt_ov069_021BA384
  * region:   ov069
@@ -17,7 +17,7 @@
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
-void func_021BA384(char *o, int i, int n)
+void BSUBWAY_RECORD_LIST_UpdateArrowVisibility(char *o, int i, int n)
 {
     if (n == 1) {
         func_0204B3DC((struct Obj *)((struct Obj03659 *)o)->f12C, 0);

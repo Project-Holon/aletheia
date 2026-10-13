@@ -1,5 +1,5 @@
 /*
- * function: func_02185F18
+ * function: EVENT_MAPCHANGE_CopySpecialLocation
  * address: 0x02185F18
  * packet: pkt_ov020_02185F18
  * region: ov020
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0201284C 0x0201284C thumb
+ *   GAME_DATA_GetStartLocation 0x0201284C thumb
  *   func_02013FEC 0x02013FEC thumb
- *   func_02012894 0x02012894 thumb
+ *   GAME_DATA_GetSpecialLocation 0x02012894 thumb
  */
 typedef struct { int f[7]; } S7;
-extern unsigned short *func_0201284C(void *);
+extern unsigned short *GAME_DATA_GetStartLocation(void *);
 typedef unsigned int   u32;
 extern u32 func_02013FEC(u32 id);
-extern S7 *func_02012894(void *);
-void func_02185F18(void *p,S7 *out) { if (func_02013FEC(func_0201284C(p)[2])) *out=*func_02012894(p); }
+extern S7 *GAME_DATA_GetSpecialLocation(void *);
+void EVENT_MAPCHANGE_CopySpecialLocation(void *p,S7 *out) { if (func_02013FEC(GAME_DATA_GetStartLocation(p)[2])) *out=*GAME_DATA_GetSpecialLocation(p); }

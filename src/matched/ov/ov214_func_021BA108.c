@@ -12,12 +12,12 @@
  * extent-tail: 021BA16A alignment padding (two zero bytes).
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045808 0x02045808 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201CE48 0x0201CE48 thumb
  *   func_02012FFC 0x02012FFC thumb
- *   func_0201CCE4 0x0201CCE4 thumb
+ *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  */
 #include "../include/Obj01782.h"
 typedef unsigned char u8;
@@ -29,20 +29,20 @@ struct MsgBank;
 struct Rec3;
 struct U16Vec;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern signed char func_02012FFC(void);
-extern void*func_0201CCE4(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
+extern void*PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 void func_021BA108(int unused,char*p,unsigned entry,int v)
 {
     int x;
-    func_02043B5C(func_02045770(*(void* *)&((struct Obj01782 *)p)->f6C),15);
+    BMP_Clear(func_02045770(*(void* *)&((struct Obj01782 *)p)->f6C),15);
     if(*(void* *)&((struct Obj01782 *)p)->f5C)func_0201CE48(*(void* *)&((struct Obj01782 *)p)->f5C);
-    if(*(void* *)&((struct Obj01782 *)p)->f78)func_02045808(*(void* *)&((struct Obj01782 *)p)->f78);
+    if(*(void* *)&((struct Obj01782 *)p)->f78)STRBUF_Delete(*(void* *)&((struct Obj01782 *)p)->f78);
     *(void* *)&((struct Obj01782 *)p)->f78=func_02045EC0(*(void* *)&((struct Obj01782 *)p)->f58,entry);
     x=func_02012FFC();
-    *(void* *)&((struct Obj01782 *)p)->f5C=func_0201CCE4(*(unsigned *)&((struct Obj01782 *)p)->f6C,0,0,*(unsigned *)&((struct Obj01782 *)p)->f78,((struct Obj01782 *)p)->f8,x,((struct Obj01782 *)p)->f68,2,((struct Obj01782 *)p)->f0,15);
+    *(void* *)&((struct Obj01782 *)p)->f5C=PRINTSYS_PrintStream(*(unsigned *)&((struct Obj01782 *)p)->f6C,0,0,*(unsigned *)&((struct Obj01782 *)p)->f78,((struct Obj01782 *)p)->f8,x,((struct Obj01782 *)p)->f68,2,((struct Obj01782 *)p)->f0,15);
     ((struct Obj01782 *)p)->f60=v;
 }

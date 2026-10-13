@@ -10,7 +10,7 @@
  * symbols:
  *   d_021D8990 0x021D8990 data a4
  *   func_02082BCC 0x02082BCC arm
- *   func_021B62E0 0x021B62E0 thumb ov067
+ *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  */
 #include "../include/Obj00199.h"
 typedef unsigned char u8;
@@ -20,7 +20,7 @@ typedef struct Data { u32 w[8]; } Data;
 typedef struct Config { Data *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1c; } Config;
 extern const Data d_021D8990;
 extern void func_02082BCC(void *, u32, u32);
-extern void *func_021B62E0(Config *, int);
+extern void *TOUCHBAR_Create(Config *, int);
 void func_021D692C(u8 *p, int n)
 {
     Data data = d_021D8990;
@@ -34,5 +34,5 @@ void func_021D692C(u8 *p, int n)
     c.f18 = 2;
     c.f1c = 0;
     c.f14 = n;
-    ((struct Obj00199 *)p)->fC = func_021B62E0(&c, ((struct Obj00199 *)p)->fF4);
+    ((struct Obj00199 *)p)->fC = TOUCHBAR_Create(&c, ((struct Obj00199 *)p)->fF4);
 }

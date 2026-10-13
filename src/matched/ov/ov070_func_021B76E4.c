@@ -1,5 +1,5 @@
 /*
- * function: func_021B76E4
+ * function: ITEMMENU_TaskBeginReturnToList
  * address: 0x021B76E4
  * packet: pkt_ov070_021B76E4
  * region: ov070
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BADF0 0x021BADF0 thumb ov070
- *   func_021B6100 0x021B6100 thumb ov070
- *   func_021B7688 0x021B7688 thumb ov070
+ *   ITEMMENU_IsMessageFinished 0x021BADF0 thumb ov070
+ *   ITEMMENU_SetTask 0x021B6100 thumb ov070
+ *   ITEMMENU_TaskReturnToListAfterMessage 0x021B7688 thumb ov070
  */
 
-extern int func_021BADF0(int p);
-extern void func_021B6100(char *p, int k);
+extern int ITEMMENU_IsMessageFinished(int p);
+extern void ITEMMENU_SetTask(char *p, int k);
 struct Obj;
-extern void func_021B7688(struct Obj *o);
-void func_021B76E4(int p) { if (func_021BADF0(p)) func_021B6100((void *)p,(int)((void *)func_021B7688)); }
+extern void ITEMMENU_TaskReturnToListAfterMessage(struct Obj *o);
+void ITEMMENU_TaskBeginReturnToList(int p) { if (ITEMMENU_IsMessageFinished(p)) ITEMMENU_SetTask((void *)p,(int)((void *)ITEMMENU_TaskReturnToListAfterMessage)); }

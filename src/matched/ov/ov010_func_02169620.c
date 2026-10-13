@@ -1,5 +1,5 @@
 /*
- * function: func_02169620
+ * function: FIELD_G3D_MAP_ReadNextChunk
  * address:  0x02169620
  * packet:   pkt_ov010_02169620
  * region:   ov010
@@ -32,7 +32,7 @@ typedef struct S {
     u32 base;
 } S;
 
-int func_02169620(S *p)
+int FIELD_G3D_MAP_ReadNextChunk(S *p)
 {
     u32 base;
     u32 cur;

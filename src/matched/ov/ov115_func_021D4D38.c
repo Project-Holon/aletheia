@@ -11,11 +11,11 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
- *   func_0204363C 0x0204363C arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   func_0207D46C 0x0207D46C arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_021D4FA4 0x021D4FA4 thumb ov115
  *   func_021D5214 0x021D5214 thumb ov115
@@ -37,13 +37,13 @@ extern u32 d_021D65E4[];
 extern u32 d_021D65D4[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02043534(u32);
-extern void func_020435F4(u32);
-extern void func_0204363C(u32);
+extern void BG_SYS_SetSubVisiblePlanes(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void func_0207D46C(void);
 extern void func_0203F8F4(u16);
 struct DispConfig;
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021D4FA4(void *,u32);
 extern void func_021D5214(void *,u32);
@@ -58,13 +58,13 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
     ((struct Obj00198 *)p)->fC=heap;
     ((struct Obj00198 *)p)->f8=mode;
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050=0;
-    func_0204363C(1);
+    BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
     func_0207D46C();
     func_0203F8F4(((struct Obj00198 *)p)->fC);
-    func_020433E0((const struct DispVram *)d_021D65E4);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021D65E4);
     func_0203FC28((struct DispConfig *)d_021D65D4);
     switch (((struct Obj00198 *)p)->f8) {
     case 1:
@@ -79,7 +79,7 @@ u8 *func_021D4D38(u16 heap, u32 mode, int a2) {
         func_021D532C((char *)p);
         break;
     }
-    func_020435F4(31);
+    BG_SYS_SetSubVisiblePlanes(31);
     func_02043534(31);
     return p;
 }

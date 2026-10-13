@@ -1,5 +1,5 @@
 /*
- * function: func_0216B3A8
+ * function: FIELD_G3D_MAP_StartSymbolEntry
  * address:  0x0216B3A8
  * packet:   pkt_ov010_0216B3A8
  * region:   ov010
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A3074  0x021A3074  thumb
- *   func_0216D888  0x0216D888  thumb  ov010
- *   func_0216B2E4  0x0216B2E4  thumb  ov010
- *   func_0216B340  0x0216B340  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
+ *   FIELD_G3D_MAP_GetEdgePosition  0x0216B2E4  thumb  ov010
+ *   FIELD_G3D_MAP_CreateSymbolEntryEvent  0x0216B340  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,21 +26,21 @@ typedef unsigned int u32;
 struct Desc;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02188CB4(u8 *p);
-extern void *func_021A3074(u8 *p);
-extern void *func_0216D888(void *p);
-extern void func_0216B2E4();
-extern struct Desc *func_0216B340(int a0, int a1, void *a2, int a3, int a4);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *FIELDMAP_GetFieldPlayer(u8 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void *FLDMMDL_GetPosPtr(void *p);
+extern void FIELD_G3D_MAP_GetEdgePosition();
+extern struct Desc *FIELD_G3D_MAP_CreateSymbolEntryEvent(int a0, int a1, void *a2, int a3, int a4);
 
-struct Desc *func_0216B3A8(int a0, int a1, int a2)
+struct Desc *FIELD_G3D_MAP_StartSymbolEntry(int a0, int a1, int a2)
 {
     int buf[3];
     void *t;
 
-    t = func_0201210C((void *)a0);
-    func_020120F4((const struct Ctx *)a0);
-    func_0216B2E4(func_0216D888(func_021A3074(func_02188CB4(t))), a1, buf);
-    return func_0216B340(a0, a1 != 9, buf, a1, a2);
+    t = GAMESYSTEM_GetFieldMap((void *)a0);
+    GAMESYSTEM_GetGameData((const struct Ctx *)a0);
+    FIELD_G3D_MAP_GetEdgePosition(FLDMMDL_GetPosPtr(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(t))), a1, buf);
+    return FIELD_G3D_MAP_CreateSymbolEntryEvent(a0, a1 != 9, buf, a1, a2);
 }

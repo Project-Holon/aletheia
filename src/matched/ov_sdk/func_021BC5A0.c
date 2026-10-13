@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021BC5A0   0x021BC5A0  thumb
- *   func_021DCFD0   0x021DCFD0  data
+ *   BTL_HANDLER_ITEM_RollChance   0x021DCFD0  data
 
  *
  * Allocate a*b bytes through entry 1 of the 0x021DCFD0 dispatch table, clear them, and return the block.
@@ -28,14 +28,14 @@
  *       --func func_021BC5A0 --addr 0x021BC5A0 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern void *(*func_021DCFD0[])(int);
+extern void *(*BTL_HANDLER_ITEM_RollChance[])(int);
 typedef unsigned int   u32;
 extern void *func_020923B0(void *p, int c, u32 n);
 
 void *func_021BC5A0(int a, int b)
 {
     int n = a * b;
-    void *p = func_021DCFD0[1](n);
+    void *p = BTL_HANDLER_ITEM_RollChance[1](n);
 
     if (p)
         func_020923B0(p, 0, n);

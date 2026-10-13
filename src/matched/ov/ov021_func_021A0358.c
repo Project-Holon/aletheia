@@ -1,5 +1,5 @@
 /*
- * function: func_021A0358
+ * function: FIELD_ZONEFOG_Clear
  * address:  0x021A0358
  * packet:   pkt_ov021_021A0358
  * region:   ov021
@@ -25,7 +25,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021A0358(S *s)
+void FIELD_ZONEFOG_Clear(S *s)
 {
     if (s->buf != 0) {
         func_020307B0(s->buf);

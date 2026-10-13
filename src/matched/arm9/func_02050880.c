@@ -1,5 +1,5 @@
 /*
- * function: func_02050880
+ * function: BILLBOARD_ACT_GetEntryCursor
  * address:  0x02050880
  * packet:   pkt_02050880
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_02050880(u8 *p, int i)
+u16 BILLBOARD_ACT_GetEntryCursor(u8 *p, int i)
 {
     return *(u16 *)(*(u8 * *)&((struct Obj11455 *)p)->f18 + i * 40 + 0x10);
 }

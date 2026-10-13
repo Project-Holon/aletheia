@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A6B50",
+   "name": "FIELD_PLAYER_NOGRID_AdvanceSpin",
    "address": "0x021A6B50",
    "kind": "game",
    "region": "ov021",

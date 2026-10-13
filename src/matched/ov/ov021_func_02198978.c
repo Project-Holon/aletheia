@@ -1,5 +1,5 @@
 /*
- * function: func_02198978
+ * function: FLDMMDL_ACMD_WaitMove
  * address:  0x02198978
  * packet:   pkt_ov021_02198978
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6D4 0x0216D6D4  thumb  ov010
- *   func_0216D7CC 0x0216D7CC  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork 0x0216D6D4  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq 0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -20,18 +20,18 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_0216D6D4(void *p);
-extern void func_0216D7CC(u8 *p);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
+extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
-int func_02198978(u32 a)
+int FLDMMDL_ACMD_WaitMove(u32 a)
 {
     int *p;
 
-    p = (int *)func_0216D6D4((void *)a);
+    p = (int *)FLDMMDL_GetMoveCmdWork((void *)a);
     if (*p != 0) {
         *p -= 1;
         return 0;
     }
-    func_0216D7CC((u8 *)a);
+    FLDMMDL_IncAcmdSeq((u8 *)a);
     return 1;
 }

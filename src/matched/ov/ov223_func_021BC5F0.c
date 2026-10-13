@@ -14,17 +14,17 @@
  * start) and the ROM word at the site 0x021BC62C already names it, so
  * `sole-ref/self` is the right class.  It only failed because the `ov223`
  * token on the symbols line made the hint contested (ov088 also starts a
- * func_021BC944 there) and this function loads no overlay id, so
+ * STARTMENU_ConfigPromptPulseColor there) and this function loads no overlay id, so
  * self_hint_accepted() refused.  Dropping the token lets the function's own
  * region pick ov223 and the site resolves `sole-ref` with no outside evidence.
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_0204A48C  0x0204A48C  arm
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_InitSystem  0x0204A48C  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   d_021BC944     0x021BC944  data  a4
  */
 
@@ -32,21 +32,21 @@ extern void func_02082BCC(void *, int, int);
 typedef unsigned char  u8;
 struct Bank;
 struct Cfg;
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 typedef unsigned int   u32;
 struct Bank;
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern int d_021BC944;
 
 void func_021BC5F0(int *out, int a, int b)
 {
     func_02082BCC(out, 0, 4);
-    func_0204A48C((const struct Cfg *)(&d_021BC944), a, b);
-    *out = (int)func_0204B100(0x80, 0, b);
+    CLACT_InitSystem((const struct Cfg *)(&d_021BC944), a, b);
+    *out = (int)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)*out);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

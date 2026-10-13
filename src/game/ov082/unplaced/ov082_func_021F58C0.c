@@ -1,5 +1,5 @@
 /*
- * function: func_021F58C0
+ * function: FLD_FACEUP_InitAnim
  * address:  0x021F58C0
  * packet:   pkt_021F58C0
  * region:   ov082
@@ -11,7 +11,7 @@
  */
 #include "../fld_faceup_types.h"
 
-void func_021F58C0(FaceupAnim *anim)
+void FLD_FACEUP_InitAnim(FaceupAnim *anim)
 {
     anim->idle = 1;
     anim->uploadPending = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021AF130
+ * function: SCRCMD_PopBgm
  * address:  0x021AF130
  * packet:   pkt_ov021_021AF130
  * region:   ov021
@@ -10,34 +10,34 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02029620  0x02029620  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02159168  0x02159168  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
-extern unsigned int func_02159B10(void *a, void *b);
-extern void *func_02029620(void *a, u32 b, u32 c);
-extern void func_0215897C(void *vm, void *task);
-extern void func_02159168(int n);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(void *a, u32 b, u32 c);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 
-int func_021AF130(u32 a, u32 b)
+int SCRCMD_PopBgm(u32 a, u32 b)
 {
     u32 u;
     void *x;
     void *p;
 
-    x = func_0215A5DC((void *)b);
-    p = func_0215A5F4((void *)b);
-    u = func_02159B10((void *)a, (void *)b);
-    func_0215897C(p, (void *)func_02029620(x, u, func_02159B10((void *)a, (void *)b)));
-    func_02159168(10);
+    x = SCRCMD_WORK_GetGameSystem((void *)b);
+    p = SCRCMD_WORK_GetScriptWork((void *)b);
+    u = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    SCRIPT_SYS_CallEvent(p, (void *)FIELD_SOUND_SYSTEM_StartPopAndWaitTask(x, u, SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b)));
+    SCRIPT_WORK_ResetCheckFlag(10);
     return 1;
 }

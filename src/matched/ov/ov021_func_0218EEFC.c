@@ -1,5 +1,5 @@
 /*
- * function: func_0218EEFC
+ * function: FIELD_CAMERA_CreateDelay
  * address:  0x0218EEFC
  * packet:   pkt_ov021_0218EEFC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DDA28  0x021DDA28  data  a4
+ *   gFieldCameraFileName  0x021DDA28  data  a4
  *
  * The fifth (stack) parameter is a void pointer reassigned to the address of
  * its +0xec slot before the store: the cast keeps it a live variable homed in
@@ -43,15 +43,15 @@ typedef struct {
 } Track;
 
 extern void *func_02030734(u16 heap, u32 size, u32 flag, const void *file, u32 line);
-extern const char d_021DDA28[];
+extern const char gFieldCameraFileName[];
 
-void func_0218EEFC(int n, u32 x, u32 flags, u32 heap, void *a)
+void FIELD_CAMERA_CreateDelay(int n, u32 x, u32 flags, u32 heap, void *a)
 {
     if (((struct Obj12593 *)a)->f1C != 0) {
         int i = 0;
-        Track *t = func_02030734(heap, sizeof(Track), 0, d_021DDA28, 0x6aa);
-        t->bufA = func_02030734(heap, n * sizeof(Vec3), 0, d_021DDA28, 0x6ab);
-        t->bufB = func_02030734(heap, n * sizeof(Vec3), 0, d_021DDA28, 0x6ac);
+        Track *t = func_02030734(heap, sizeof(Track), 0, gFieldCameraFileName, 0x6aa);
+        t->bufA = func_02030734(heap, n * sizeof(Vec3), 0, gFieldCameraFileName, 0x6ab);
+        t->bufB = func_02030734(heap, n * sizeof(Vec3), 0, gFieldCameraFileName, 0x6ac);
         for (; i < n; i++) {
             Vec3 *v = &t->bufA[i];
             v->x = 0;

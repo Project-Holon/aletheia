@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A572C",
+   "name": "FIELD_PLAYER_GRID_GetMmdl",
    "address": "0x021A572C",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A575C",
+   "name": "FIELD_PLAYER_GRID_StopForcedMove",
    "address": "0x021A575C",
    "kind": "game",
    "region": "ov021",

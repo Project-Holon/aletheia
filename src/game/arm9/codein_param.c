@@ -15,17 +15,17 @@
  *
  * symbols:
  *   func_02030734    0x02030734  arm
- *   func_020457B0    0x020457B0  arm
+ *   STRBUF_Create    0x020457B0  arm
  *   codein_param_File 0x020A77D0  data
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
  *   SCREENTEX_WorkTemplate     0x020A033C  data
  *   screentex_File     0x020A77E0  data
- *   func_02046C94  0x02046C94  arm
+ *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   func_02046C9C  0x02046C9C  arm
  *   func_02069FD0  0x02069FD0  arm
  *   func_02069FF8  0x02069FF8  arm
- *   func_0206E964  0x0206E964  arm
+ *   NNS_G3dGetTex  0x0206E964  arm
  *   func_02080C44  0x02080C44  arm
  *   func_02082D44  0x02082D44  arm
  *   SCREENTEX_CaptureBanks      0x020A02D0  data
@@ -41,13 +41,13 @@
  *   SCREENTEX_CameraBlockTemplate        0x020A0300  data
  *   FX_SinCosTable_   0x020A1B38  data
  *   SCREENTEX_RotationSinCos        0x020A2B38  data
- *   g_02148B54        0x02148B54  data
- *   g_02148B98        0x02148B98  data
- *   g_02148BCC        0x02148BCC  data
+ *   SCREENTEX_ProjectionMatrix        0x02148B54  data
+ *   g_renderStateDrawParams        0x02148B98  data
+ *   SCREENTEX_CameraState        0x02148BCC  data
  *   SCREENTEX_CameraPositionOut        0x02148D8C  data
  *   SCREENTEX_CameraTargetOut        0x02148D98  data
  *   SCREENTEX_CameraUpOut        0x02148DA4  data
- *   func_02047A60     0x02047A60  arm
+ *   G3D_SYSTEM_DrawObject     0x02047A60  arm
  *   MTX_PerspectiveW  0x0207C408  arm
  *   MTX_LookAt        0x0207BCA0  arm
  *   MTX_RotX33_       0x0207AF00  thumb
@@ -96,13 +96,13 @@ typedef struct {
 } CameraBlock;
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Strbuf *func_020457B0(u32 capacity, u16 heapId);
-extern void func_02045808(struct Strbuf *str);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u16 heapId);
+extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 func_020307B0(void *p);
-extern int func_02046C94(void);
+extern int G3D_SYSTEM_GetResourceSize(void);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 extern void func_02046C9C(void *control, u32 kind, u32 value);
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern int func_02069FD0(int p);
 extern u16 func_02080C44(void);
 extern void func_02069FF8(char *p, int a, int b);
@@ -113,7 +113,7 @@ extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
 extern void func_02087AE4(void);
 extern void func_02080B98(void);
 extern int func_02080964(void);
-extern void func_02047A60(void *dst, const u32 *params);
+extern void G3D_SYSTEM_DrawObject(void *dst, const u32 *params);
 extern void MTX_PerspectiveW(fx32 a, fx32 b, fx32 c, fx32 d, fx32 e, fx32 f, void *g);
 extern void MTX_LookAt(const VecFx32 *cam, const VecFx32 *tgt,
                        const VecFx32 *up, void *mtx);
@@ -132,9 +132,9 @@ extern VecFx32 SCREENTEX_CameraTarget;
 extern CameraBlock SCREENTEX_CameraBlockTemplate;
 extern const s16 FX_SinCosTable_[];
 extern s16      SCREENTEX_RotationSinCos[];
-extern u32      g_02148B54[];
-extern u32      g_02148B98[];
-extern u32      g_02148BCC[];
+extern u32      SCREENTEX_ProjectionMatrix[];
+extern u32      g_renderStateDrawParams[];
+extern u32      SCREENTEX_CameraState[];
 extern VecFx32  SCREENTEX_CameraPositionOut;
 extern VecFx32  SCREENTEX_CameraTargetOut;
 extern VecFx32  SCREENTEX_CameraUpOut;
@@ -169,7 +169,7 @@ struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u
     param = func_02030734((u16)heapId, sizeof(struct CodeinParam), 0, codein_param_File, 0x37);
     param->mode = mode;
     param->maxLength = maxLength;
-    param->text = func_020457B0(maxLength + 1, (u16)heapId);
+    param->text = STRBUF_Create(maxLength + 1, (u16)heapId);
     param->initialPage = initialPage;
     for (i = 0; i < 3; i++) {
         param->values[i] = values[i];
@@ -203,7 +203,7 @@ struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u
  */
 void CODEIN_PARAM_Delete(struct CodeinParam *param)
 {
-    func_02045808(param->text);
+    STRBUF_Delete(param->text);
     func_020307B0(param);
 }
 
@@ -221,7 +221,7 @@ void CODEIN_PARAM_Delete(struct CodeinParam *param)
  * MI_CpuCopy8 (func_02082D44), binds it to the control block, then builds a
  * packed VRAM descriptor: bits of the bank word returned by func_02080C44
  * are folded into an accumulator under a fall-through switch on a1, and the
- * result is combined with the texture size from func_0206E964 /
+ * result is combined with the texture size from NNS_G3dGetTex /
  * func_02069FD0 before the final publish through func_02069FF8.
  *
  * BLOCKED: every concrete byte is correct; the single unresolved relocation
@@ -248,11 +248,11 @@ void *SCREENTEX_Create(u32 heapId, u32 slotCount)
     u32 vramBanks;
     u32 slotBits;
 
-    control = func_02030734(heapId, func_02046C94(), 0, screentex_File, 0x3b);
+    control = func_02030734(heapId, G3D_SYSTEM_GetResourceSize(), 0, screentex_File, 0x3b);
     work = func_02030734(heapId, 0x8c, 0, screentex_File, 0x3c);
     func_02082D44(SCREENTEX_WorkTemplate, work, 0x8c);
     func_02046C9C(control, 2, (u32)work);
-    texHeader = func_0206E964(work);
+    texHeader = NNS_G3dGetTex(work);
     texSize = func_02069FD0((int)texHeader);
     vramBanks = func_02080C44();
     slotBits = 0;
@@ -411,13 +411,13 @@ void SCREENTEX_SetupCamera(u32 dst)
     CameraBlock block = SCREENTEX_CameraBlockTemplate;
 
     MTX_Perspective(FX_SinIdx(0xE38), FX_CosIdx(0xE38), 0x1555, 0x1000,
-                    0x400000, g_02148B54);
-    g_02148BCC[31] &= ~0x50u;
+                    0x400000, SCREENTEX_ProjectionMatrix);
+    SCREENTEX_CameraState[31] &= ~0x50u;
     SCREENTEX_CameraPositionOut = cam;
     SCREENTEX_CameraTargetOut = tgt;
     SCREENTEX_CameraUpOut = up;
-    MTX_LookAt(&cam, &tgt, &up, g_02148B98);
-    g_02148BCC[31] &= ~0xe8u;
+    MTX_LookAt(&cam, &tgt, &up, g_renderStateDrawParams);
+    SCREENTEX_CameraState[31] &= ~0xe8u;
     MTX_RotX33_(&block.rotation, SCREENTEX_RotationSinCos[0], SCREENTEX_RotationSinCos[1]);
-    func_02047A60((void *)dst, block.params);
+    G3D_SYSTEM_DrawObject((void *)dst, block.params);
 }

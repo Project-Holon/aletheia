@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02048C4C 0x02048C4C arm
- *   func_02046788 0x02046788 arm
+ *   G3D_LIGHT_DeleteSlots 0x02048C4C arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
  */
 
-extern int func_02048C4C(int);
-extern void func_02046788(int);
+extern int G3D_LIGHT_DeleteSlots(int);
+extern void G3D_SYSTEM_Exit(int);
 
 void func_021BE12C(int *p)
 {
-    func_02046788(func_02048C4C(p[1]));
+    G3D_SYSTEM_Exit(G3D_LIGHT_DeleteSlots(p[1]));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020127B8
+ * function: GAME_DATA_GetLastBattleRecSlot
  * address:  0x020127B8
  * packet:   pkt_020127B8
  * region:   arm9
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020127AC  0x020127AC  thumb
+ *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
  *
- * Promoted from src/pending/func_020127B8.c (was MATCH, blocker 0x020127AC,
+ * Promoted from src/pending/GAME_DATA_GetLastBattleRecSlot.c (was MATCH, blocker 0x020127AC,
  * declared by the naming convention, which defaults to ARM).  The pool word
  * is 0x020127AD, so the target is Thumb; declared `thumb` the `matched`
  * class fires on the EXACT unit entry for 0x020127AC
@@ -22,15 +22,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020127B8.c \
- *       --func func_020127B8 --addr 0x020127B8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_GetLastBattleRecSlot.c \
+ *       --func GAME_DATA_GetLastBattleRecSlot --addr 0x020127B8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int   u32;
 struct SaveBlock;
-extern void *func_020127AC(struct SaveBlock *p, u32 idx);
+extern void *GAME_DATA_GetBattleRecSlot(struct SaveBlock *p, u32 idx);
 
-void *func_020127B8(void *p)
+void *GAME_DATA_GetLastBattleRecSlot(void *p)
 {
-    return func_020127AC(p, 3);
+    return GAME_DATA_GetBattleRecSlot(p, 3);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218C924
+ * function: FIELD_BUILDMODEL_GetNodeModelKind
  * address:  0x0218C924
  * packet:   pkt_ov021_0218C924
  * region:   ov021
@@ -13,7 +13,7 @@
 
 typedef struct { unsigned short a, b; } E;
 
-unsigned short func_0218C924(unsigned char *p)
+unsigned short FIELD_BUILDMODEL_GetNodeModelKind(unsigned char *p)
 {
     if (p == 0)
         return 0;

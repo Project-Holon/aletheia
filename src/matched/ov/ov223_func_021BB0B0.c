@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_0203630C  0x0203630C  arm
- *   func_02035C38  0x02035C38  arm
+ *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  */
 #include "../include/Obj00084.h"
 
@@ -25,9 +25,9 @@ extern u32 func_0201CE30(void *p);
 extern void func_0201CE5C(struct Rec *p, s32 v);
 extern void func_0201CE38(void *p);
 extern unsigned int func_0203630C(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 
 int func_021BB0B0(char *a)
 {
@@ -35,7 +35,7 @@ int func_021BB0B0(char *a)
 
     switch (func_0201CE30((void *)(*(u32 *)&((struct Obj00084 *)a)->f250))) {
     case 0:
-        if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
+        if ((func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
             func_0201CE5C((struct Rec *)(*(u32 *)&((struct Obj00084 *)a)->f250), 0);
             if ((func_0203630C() & 3) != 0)
                 ((struct Obj00084 *)a)->f8 = 0;
@@ -44,7 +44,7 @@ int func_021BB0B0(char *a)
         }
         break;
     case 1:
-        if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
+        if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
             func_0201CE38((void *)(*(u32 *)&((struct Obj00084 *)a)->f250));
             if ((func_020362DC() & 3) != 0)
                 ((struct Obj00084 *)a)->f8 = 0;

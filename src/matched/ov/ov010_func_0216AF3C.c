@@ -1,5 +1,5 @@
 /*
- * function: func_0216AF3C
+ * function: SCRCMD_SYMBOL_SendEntryFlag
  * address:  0x0216AF3C
  * packet:   pkt_0216AF3C
  * region:   ov010
@@ -13,13 +13,13 @@
  * 
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E0B0  0x0200E0B0  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_02012FB0  0x02012FB0  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
  *   INTRUDE_COMM_SetPendingValue  0x0217688C  thumb  ov011
  */
 
@@ -29,17 +29,17 @@ typedef unsigned int u32;
 
 struct Big;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02012EBC(struct Big *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E0B0(void *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_02158344(int a0);
-extern int func_02012FB0(unsigned char *base);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
+extern int GAME_DATA_GetSymbolMapFlag(unsigned char *base);
 extern int INTRUDE_COMM_SetPendingValue();
 
-void func_0216AF3C(int a0)
+void SCRCMD_SYMBOL_SendEntryFlag(int a0)
 {
     int a1;
     int t4;
@@ -49,23 +49,23 @@ void func_0216AF3C(int a0)
     void *w;
 
 t5 = a0 + 0;
-    c = func_0215A5DC((void *)a0);
+    c = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0216AF44:
 a0 = t5 + 0;
-    e = func_0215A5E4((void *)a0);
+    e = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0216AF4C:
-    w = func_02012EBC(e);
+    w = GAME_DATA_GetSaveControl(e);
 loc_0216AF52:
     func_0200E0B0(w);
 loc_0216AF56:
-    a0 = func_02012138(c);
+    a0 = GAMESYSTEM_GetGameComm(c);
 loc_0216AF5C:
-    a0 = func_02158344(a0);
+    a0 = INTRUDE_COMM_GetWorkIfRunning(a0);
 loc_0216AF60:
 t4 = a0 + 0;
     if (t4 == 0) goto loc_0216AF72;
 loc_0216AF64:
-    a0 = func_02012FB0(e);
+    a0 = GAME_DATA_GetSymbolMapFlag(e);
 loc_0216AF6A:
 a1 = a0 + 0;
 a0 = t4 + 0;

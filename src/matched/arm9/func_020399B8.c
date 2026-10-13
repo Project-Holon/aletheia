@@ -1,5 +1,5 @@
 /*
- * function: func_020399B8
+ * function: GFL_NET_HANDLE_IsNegotiationDone
  * address:  0x020399B8
  * packet:   pkt_020399B8
  * region:   arm9
@@ -20,14 +20,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020399B8.c \
- *       --func func_020399B8 --addr 0x020399B8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_IsNegotiationDone.c \
+ *       --func GFL_NET_HANDLE_IsNegotiationDone --addr 0x020399B8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_020399B8(u8 *p)
+u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p)
 {
     if (p != 0)
         return p[0x4A] == 5;

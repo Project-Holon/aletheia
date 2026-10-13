@@ -1,5 +1,5 @@
 /*
- * function: func_021A0B34
+ * function: FIELD_LIGHT_IsBlending
  * address:  0x021A0B34
  * packet:   pkt_021A0B34
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A0B34(u32 a)
+int FIELD_LIGHT_IsBlending(u32 a)
 {
 if (*(u16 *)((u8 *)((a + 240))) < *(u16 *)((u8 *)((a + 242)))) {
     return 1;

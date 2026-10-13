@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021F86F0  0x021F86F0  thumb  ov094
  *   func_02201D5C  0x02201D5C  thumb  ov094
  */
 #include "../include/Obj21670.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021F86F0(void);
 extern void func_02201D5C(char *o, int idx, int c, void *d, int s1, int s2, int s3);
 
@@ -26,14 +26,14 @@ int func_021FB7F8(struct Cursor *a, char *b)
     int arr[3];
     int t0, t1, t3, t4, t5;
 
-    t0 = func_0201134C(a);
-    t1 = func_0201134C(a);
-    arr[0] = func_0201134C(a);
-    arr[1] = func_0201134C(a);
+    t0 = VM_GetU32(a);
+    t1 = VM_GetU32(a);
+    arr[0] = VM_GetU32(a);
+    arr[1] = VM_GetU32(a);
     arr[2] = 0x1000;
-    t3 = func_0201134C(a);
-    t4 = func_0201134C(a);
-    t5 = func_0201134C(a);
+    t3 = VM_GetU32(a);
+    t4 = VM_GetU32(a);
+    t5 = VM_GetU32(a);
     func_02201D5C((char *)func_021F86F0(), *(int *)(b + t0 * 4 + 0xcc), t1, arr, t3, t4, t5);
     return ((struct Obj21670 *)b)->f23C;
 }

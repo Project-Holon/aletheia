@@ -1,5 +1,5 @@
 /*
- * function: func_02159B48
+ * function: MAP_MATRIX_Create
  * address:  0x02159B48
  * packet:   pkt_ov010_02159B48
  * region:   ov010
@@ -23,7 +23,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082A7C(int, void *, int);
 extern const char d_021728AC[];
 
-u16 *func_02159B48(int a)
+u16 *MAP_MATRIX_Create(int a)
 {
     u16 *p = func_02030734(a, 0x152c, 1, d_021728AC, 0x4b);
     *p = a;

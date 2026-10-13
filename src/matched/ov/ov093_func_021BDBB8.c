@@ -1,5 +1,5 @@
 /*
- * function: func_021BDBB8
+ * function: BTL_SERVER_FLOW_DispatchPokeEntryEventToType4
  * address: 0x021BDBB8
  * packet: pkt_ov093_021BDBB8
  * region: ov093
@@ -9,23 +9,23 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D70FC 0x021D70FC thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
+ *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093
+ *   BTL_EVENT_DispatchEventToType 0x021D70FC thumb ov093
+ *   BTL_EVENT_PopVarFrame 0x021D7540 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021D74F8(int);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int, u32);
-extern void func_021D70FC(int a, int b, int c);
-extern void func_021D7540(int);
-void func_021BDBB8(u8 *p, u8 *a)
+extern void BTL_EVENT_PushVarFrame(int);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_EVENT_SetVarReadOnly(int, u32);
+extern void BTL_EVENT_DispatchEventToType(int a, int b, int c);
+extern void BTL_EVENT_PopVarFrame(int);
+void BTL_SERVER_FLOW_DispatchPokeEntryEventToType4(u8 *p, u8 *a)
 {
-    func_021D74F8(0xc55);
-    func_021D75EC(2, func_021D5440(a));
-    func_021D70FC((int)p, 0x55, 4);
-    func_021D7540(0xc58);
+    BTL_EVENT_PushVarFrame(0xc55);
+    BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(a));
+    BTL_EVENT_DispatchEventToType((int)p, 0x55, 4);
+    BTL_EVENT_PopVarFrame(0xc58);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD74
+ * function: ENTRANCE_CAMERA_FreeWork
  * address:  0x021BDD74
  * packet:   pkt_021BDD34
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021BDD74(void *p)
+void ENTRANCE_CAMERA_FreeWork(void *p)
 {
     func_020307B0(p);
 }

@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *
  * Three teardown calls on three consecutive pointer fields, each a
  * different ARM entry point, in the order the fields sit in the struct.
@@ -33,13 +33,13 @@ struct Obj0202DFD4 {
 };
 
 typedef unsigned int   u32;
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 
 void sub_0202DFD4(struct Obj0202DFD4 *p)
 {
-    func_0204ADA4((u32)p->unk08);
-    func_0204A8D4((u32)p->unk0C);
-    func_0204AFD8((u32)p->unk10);
+    CLACT_ReleasePalette((u32)p->unk08);
+    CLACT_ReleaseCharacter((u32)p->unk0C);
+    CLACT_ReleaseCellAnim((u32)p->unk10);
 }

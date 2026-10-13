@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3CCC",
+   "name": "FIELD_GIMMICK_D06_AddPanelPulse",
    "address": "0x021F3CCC",
    "kind": "game",
    "region": "ov051",

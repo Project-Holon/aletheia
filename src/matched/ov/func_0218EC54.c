@@ -1,5 +1,5 @@
 /*
- * function: func_0218EC54
+ * function: FIELD_CAMERA_StopTargetTrace
  * address:  0x0218EC54
  * packet:   pkt_0218EC54
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_0218EC54(u8 *p)
+void FIELD_CAMERA_StopTargetTrace(u8 *p)
 {
     ((struct Obj17907 *)p)->f1C = 0;
 }

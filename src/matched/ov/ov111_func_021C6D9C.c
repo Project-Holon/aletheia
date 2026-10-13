@@ -11,21 +11,21 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0204A48C  0x0204A48C  arm
- *   func_0204B100  0x0204B100  arm
- *   func_0204AC18  0x0204AC18  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204AF28  0x0204AF28  arm
- *   func_02049238  0x02049238  arm
+ *   CLACT_InitSystem  0x0204A48C  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020275E4  0x020275E4  thumb
  *   func_02027614  0x02027614  thumb
  *   func_02027618  0x02027618  thumb
  *   func_0202761C  0x0202761C  thumb
  *   func_02027620  0x02027620  thumb
- *   func_0204ABF0  0x0204ABF0  arm
+ *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
- *   d_020A1448     0x020A1448  data
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
+ *   gClActorInitParam     0x020A1448  data
  *
  * Addresses are Black-image addresses.
  */
@@ -49,40 +49,40 @@ typedef struct {
 
 extern void *func_020490F4(u32 id, u32 heap);
 struct Cfg;
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
-extern const u8 d_020A1448[];
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern const u8 gClActorInitParam[];
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 typedef signed int     s32;
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *h);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *h);
 extern u32 func_020275E4(void);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
-extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
+extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 void func_021C6D9C(Anim *a, u32 x)
 {
     void *h;
 
     h = func_020490F4(0x28, a->heap);
-    func_0204A48C((const struct Cfg *)d_020A1448, x, a->heap);
-    a->f4 = (u32)func_0204B100(0x23, 0, a->heap);
-    a->fB8 = func_0204AC18(h, 0xC, 1, 0, 0, 5, a->heap);
-    a->fBC = func_0204A6C8(h, 0x1D, 0, 1, a->heap);
-    a->fC0 = func_0204AF28(h, 0x2E, 0x30, a->heap);
-    func_02049238(h);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam, x, a->heap);
+    a->f4 = (u32)CLACT_CreateUnit(0x23, 0, a->heap);
+    a->fB8 = CLACT_RegisterPaletteEx(h, 0xC, 1, 0, 0, 5, a->heap);
+    a->fBC = CLACT_RegisterCharacter(h, 0x1D, 0, 1, a->heap);
+    a->fC0 = CLACT_RegisterCellAnim(h, 0x2E, 0x30, a->heap);
+    ARC_TOOL_DeleteHandle(h);
     h = func_020490F4(func_020275E4(), a->heap);
-    a->fC4 = func_0204ABF0(h, func_02027614(), 1, 0xA0, a->heap);
-    a->fC8 = func_0204A6C8(h, func_02027618(), 0, 1, a->heap);
-    a->fCC = func_0204AF28(h, func_0202761C(0), func_02027620(0), a->heap);
-    func_02049238(h);
+    a->fC4 = CLACT_RegisterPalette(h, func_02027614(), 1, 0xA0, a->heap);
+    a->fC8 = CLACT_RegisterCharacter(h, func_02027618(), 0, 1, a->heap);
+    a->fCC = CLACT_RegisterCellAnim(h, func_0202761C(0), func_02027620(0), a->heap);
+    ARC_TOOL_DeleteHandle(h);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

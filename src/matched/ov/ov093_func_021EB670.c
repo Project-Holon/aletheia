@@ -1,5 +1,5 @@
 /*
- * function: func_021EB670
+ * function: BTLV_SCU_ProcQuickEntryDouble
  * address:  0x021EB670
  * packet:   pkt_ov093_021EB670
  * region:   ov093
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EB5B4  0x021EB5B4  thumb  ov093
- *   d_021F38AE  0x021F38AE  data  a4
+ *   BTLV_SCU_ProcQuickEntry  0x021EB5B4  thumb  ov093
+ *   gBtlvScuQuickSidesDouble  0x021F38AE  data  a4
  */
 typedef unsigned char u8;
-extern int func_021EB5B4(u8 *, int *, u8 *, u8);
-extern u8 d_021F38AE[];
-int func_021EB670(u8 *p, int *state)
+extern int BTLV_SCU_ProcQuickEntry(u8 *, int *, u8 *, u8);
+extern u8 gBtlvScuQuickSidesDouble[];
+int BTLV_SCU_ProcQuickEntryDouble(u8 *p, int *state)
 {
-    return func_021EB5B4(p, state, d_021F38AE, 4);
+    return BTLV_SCU_ProcQuickEntry(p, state, gBtlvScuQuickSidesDouble, 4);
 }

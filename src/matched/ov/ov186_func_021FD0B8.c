@@ -9,14 +9,14 @@
  * status: EXACT*
  * extent: accessor at 021FD110 filed separately, then two zero alignment bytes.
  * symbols:
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_02035D20 0x02035D20 arm
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_020061E4 0x020061E4 thumb
  */
 #include "../include/Obj05504.h"
 typedef struct {int x,y;} Pair;
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 typedef unsigned int   u32;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_021FD860(int,int,Pair *);
@@ -27,7 +27,7 @@ void func_021FD0B8(char *p)
     Pair pair;
     int result;
     ((struct Obj05504 *)p)->f48=-1;
-    result=func_02035C08(p+0x5C);
+    result=TOUCHPANEL_HitTrg(p+0x5C);
     if(result!=-1) {
         if(((struct Obj05504 *)p)->f20) {
             func_02035D20((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;

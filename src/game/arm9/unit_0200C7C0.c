@@ -27,6 +27,7 @@
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   POKE_TOOL_GetGender  0x02017F00  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  */
 struct Big;
 struct Sub020071CCCtrl;
@@ -110,7 +111,7 @@ struct Blk38 {
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0201ADE4(u32 a, int b, u32 c);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
@@ -466,7 +467,7 @@ void *func_0200CA10(void *sys)
 
 void *func_0200CA1C(void *a)
 {
-    return func_0200CA10(func_02012EBC(a));
+    return func_0200CA10(GAME_DATA_GetSaveControl(a));
 }
 
 

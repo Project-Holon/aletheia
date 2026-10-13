@@ -16,7 +16,7 @@
  *   gsiCoreGetManager  0x0217CA20  arm  ov009
  *   msleep  0x0217F2BC  arm  ov009
  *   func_0217F0B4  0x0217F0B4  arm  ov009
- *   func_0217F0FC  0x0217F0FC  arm  ov009
+ *   gsiInitializeCriticalSection  0x0217F0FC  arm  ov009
  *   func_020912A8  0x020912A8  arm
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
@@ -69,7 +69,7 @@ extern char *gsiCoreGetManager(void);
 extern void gsiDeleteCriticalSection(void *p);
 extern void msleep(unsigned int msec);
 extern unsigned int func_0217F0B4(unsigned int *value);
-extern void func_0217F0FC(void *mutex);
+extern void gsiInitializeCriticalSection(void *mutex);
 extern u32 func_020912A8(u32 a0);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
@@ -124,7 +124,7 @@ void func_0217CA40(void)
         msleep(100);
     if (func_0217F0B4(&aCore->mRefCount) == 1) {
         if (!aCore->mIsStaticInitComplete) {
-            func_0217F0FC(aCore->mQueueCrit);
+            gsiInitializeCriticalSection(aCore->mQueueCrit);
             func_020912A8((u32)func_0217CA2C);
             aCore->mIsStaticInitComplete = 1;
         }

@@ -73,7 +73,7 @@
  *   func_02166358    0x02166358  arm  ov009
  *   WM_Disconnect    0x0208F938  arm
  *   func_021676E4    0x021676E4  arm  ov009
- *   func_021656D0    0x021656D0  arm  ov009
+ *   WCM_UpdateOption    0x021656D0  arm  ov009
  *   WCMi_GetNextScanChannel    0x02165918  arm  ov009
  *   func_0208EFC4    0x0208EFC4  arm
  *   MI_CpuCopy8      0x02082D44  arm
@@ -207,7 +207,7 @@ extern long WM_StartDCF(void (*callback)(void *), void *recvBuf, unsigned short 
 extern void func_02166804(unsigned char rssi);
 extern void func_02166358(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
 extern long WM_Disconnect(void (*callback)(void *), unsigned long arg);
-extern unsigned long func_021656D0(unsigned long option);
+extern unsigned long WCM_UpdateOption(unsigned long option);
 extern unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 extern unsigned short func_0208EFC4(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
@@ -1031,7 +1031,7 @@ void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long opt
     unsigned short t;
 
     wcmw = WCMi_GetSystemWork();
-    func_021656D0(option);
+    WCM_UpdateOption(option);
     wcmw->scanParam.scanBuf = wcmw->recvBuf;
     wcmw->scanParam.scanBufSize = 0x400;
     wcmw->scanParam.channelList = (1 << WCMi_GetNextScanChannel(0)) >> 1;

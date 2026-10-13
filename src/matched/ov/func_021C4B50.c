@@ -1,5 +1,5 @@
 /*
- * function: func_021C4B50
+ * function: FLDEFF_SPLASH_DeleteModelRes
  * address:  0x021C4B50
  * packet:   pkt_021C4B50
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021C4BC4  0x021C4BC4  thumb  ov021
+ *   FLDEFF_SPLASH_UnloadModel  0x021C4BC4  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021C4BC4(void *p);
+extern void FLDEFF_SPLASH_UnloadModel(void *p);
 extern u32 func_020307B0(void *p);
 
-void func_021C4B50(u32 a, u8 *p)
+void FLDEFF_SPLASH_DeleteModelRes(u32 a, u8 *p)
 {
-    func_021C4BC4(p);
+    FLDEFF_SPLASH_UnloadModel(p);
     func_020307B0(p);
 }

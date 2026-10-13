@@ -14,14 +14,14 @@
  *   func_0207E24C  0x0207E24C  arm
  *   func_02082A48  0x02082A48  arm
  *   BMP_CreateFromVram  0x02043754  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0201C7D0  0x0201C7D0  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
- *   func_0201D83C  0x0201D83C  thumb
- *   func_020437AC  0x020437AC  arm
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   GF_FONT_Delete  0x0201D83C  thumb
+ *   BMP_Delete  0x020437AC  arm
  */
 
 typedef unsigned short u16;
@@ -38,14 +38,14 @@ struct Obj020437AC;
 struct Rec;
 struct U16Vec;
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
-extern u32 func_0201D83C(void *ptr);
-extern void func_020437AC(struct Obj020437AC *p);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 GF_FONT_Delete(void *ptr);
+extern void BMP_Delete(struct Obj020437AC *p);
 
 void ERROR_SCREEN_PrintMessage(int a)
 {
@@ -64,12 +64,12 @@ void ERROR_SCREEN_PrintMessage(int a)
     }
     func_02082A48(0x7777, func_0207E24C() + 0x400, 0x3C00);
     p = (int)BMP_CreateFromVram((void *)(func_0207E24C() + 0x400), 30, 16, 32, 1);
-    q = (int)func_0201D7EC(0x17, 0, 0, 0, 1);
+    q = (int)GF_FONT_Create(0x17, 0, 0, 0, 1);
     r = (int)func_02045B38(0, 2, 0xe8, 1);
     s = (int)func_02045EC0((struct MsgBank *)r, a);
-    func_0201C7D0((void *)p, 0, 0, (void *)s, (void *)q, 0x1167);
-    func_02045808((struct U16Vec *)s);
-    func_02045C04((struct Rec *)r);
-    func_0201D83C((void *)q);
-    func_020437AC((struct Obj020437AC *)p);
+    PRINTSYS_PrintColor((void *)p, 0, 0, (void *)s, (void *)q, 0x1167);
+    STRBUF_Delete((struct U16Vec *)s);
+    MSGDATA_Delete((struct Rec *)r);
+    GF_FONT_Delete((void *)q);
+    BMP_Delete((struct Obj020437AC *)p);
 }

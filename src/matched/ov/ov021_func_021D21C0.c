@@ -1,5 +1,5 @@
 /*
- * function: func_021D21C0
+ * function: SCRCMD_FindRegisteredEntry
  * address:  0x021D21C0
  * packet:   pkt_ov021_021D21C0
  * region:   ov021
@@ -23,7 +23,7 @@ typedef struct Ent021DD614 Ent021DD614;
 
 extern struct Ent021DD614 d_021DD614[];
 
-int func_021D21C0(u32 id)
+int SCRCMD_FindRegisteredEntry(u32 id)
 {
     u32 i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C9E8C
+ * function: BSUBWAY_SCR_DrawTrainerNos
  * address:  0x021C9E8C
  * packet:   pkt_ov021_021C9E8C
  * region:   ov021
@@ -12,10 +12,10 @@
  * Fills the +0x32 halfword list with distinct draws: 14 for kinds 2, 3, 7, 8, else 7.
  *
  * symbols:
- *   func_021CA234  0x021CA234  thumb
- *   func_021CA2CC  0x021CA2CC  thumb
- *   func_021CBD90  0x021CBD90  thumb
- *   func_021CA2A4  0x021CA2A4  thumb
+ *   BSUBWAY_SCR_GetWinCount  0x021CA234  thumb
+ *   BSUBWAY_SCR_GetStageNo  0x021CA2CC  thumb
+ *   BSUBWAY_SCR_DrawTrainerNo  0x021CBD90  thumb
+ *   BSUBWAY_SCR_IsTrainerNoUsed  0x021CA2A4  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj05094.h"
@@ -24,15 +24,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_021CA234(u8 *p);
-extern u16 func_021CA2CC(u16 v);
-extern u16 func_021CBD90(void *ctx, u32 round, u32 stage, u32 line, u8 alt);
-extern int func_021CA2A4(const u16 *arr, u16 val, u16 n);
+extern u16 BSUBWAY_SCR_GetWinCount(u8 *p);
+extern u16 BSUBWAY_SCR_GetStageNo(u16 v);
+extern u16 BSUBWAY_SCR_DrawTrainerNo(void *ctx, u32 round, u32 stage, u32 line, u8 alt);
+extern int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *arr, u16 val, u16 n);
 
-void func_021C9E8C(u8 *p)
+void BSUBWAY_SCR_DrawTrainerNos(u8 *p)
 {
     u8 kind = p[9];
-    u16 lim = func_021CA2CC(func_021CA234(p));
+    u16 lim = BSUBWAY_SCR_GetStageNo(BSUBWAY_SCR_GetWinCount(p));
     int i;
     u16 v;
 
@@ -41,15 +41,15 @@ void func_021C9E8C(u8 *p)
             lim = ((struct Obj05094 *)p)->f18;
         for (i = 0; i < 14; i++) {
             do {
-                v = func_021CBD90(p, lim, (u8)(i / 2), kind, (u8)(i & 1));
-            } while (func_021CA2A4((u16 *)(p + 0x32), v, i));
+                v = BSUBWAY_SCR_DrawTrainerNo(p, lim, (u8)(i / 2), kind, (u8)(i & 1));
+            } while (BSUBWAY_SCR_IsTrainerNoUsed((u16 *)(p + 0x32), v, i));
             ((u16 *)(p + 0x32))[i] = v;
         }
     } else {
         for (i = 0; i < 7; i++) {
             do {
-                v = func_021CBD90(p, lim, (u8)i, p[9], 0);
-            } while (func_021CA2A4((u16 *)(p + 0x32), v, i));
+                v = BSUBWAY_SCR_DrawTrainerNo(p, lim, (u8)i, p[9], 0);
+            } while (BSUBWAY_SCR_IsTrainerNoUsed((u16 *)(p + 0x32), v, i));
             ((u16 *)(p + 0x32))[i] = v;
         }
     }

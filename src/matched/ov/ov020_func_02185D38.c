@@ -1,5 +1,5 @@
 /*
- * function: func_02185D38
+ * function: EVENT_MAPCHANGE_RunIntrudeSessionEvent
  * address:  0x02185D38
  * packet:   pkt_ov020_02185D38
  * region:   ov020
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0217C070  0x0217C070  thumb  ov018
- *   func_02158630  0x02158630  thumb  ov010
- *   func_021D2750  0x021D2750  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02158780  0x02158780  thumb  ov010
- *   func_02158590  0x02158590  thumb  ov010
- *   func_02026400  0x02026400  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   INTRUDE_FIELD_IsStartRequested  0x0217C070  thumb  ov018
+ *   INTRUDE_COMM_GetRequestState  0x02158630  thumb  ov010
+ *   FIELD_CheckPlayerPositionFree  0x021D2750  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
+ *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026484  0x02026484  thumb
- *   func_0217574C  0x0217574C  thumb  ov011
- *   func_02175710  0x02175710  thumb  ov011
- *   func_02175B4C  0x02175B4C  thumb  ov011
- *   func_02012B78  0x02012B78  thumb
- *   func_02039338  0x02039338  arm
- *   func_02012B64  0x02012B64  thumb
- *   func_02185C4C  0x02185C4C  thumb  ov020
- *   func_02012374  0x02012374  thumb
+ *   INTRUDE_COMM_SetSuspended  0x0217574C  thumb  ov011
+ *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb  ov011
+ *   INTRUDE_COMM_AcceptSession  0x02175B4C  thumb  ov011
+ *   GAME_DATA_SetIntrudeCount  0x02012B78  thumb
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   GAME_DATA_SetExitMode  0x02012B64  thumb
+ *   EVENT_MAPCHANGE_CreateIntrudeArriveEvent  0x02185C4C  thumb  ov020
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
 typedef unsigned char  u8;
@@ -44,31 +44,31 @@ typedef struct {
 } Ctx;
 
 struct Ctx;
-extern unsigned int func_02012138(const struct Ctx *a);
+extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *a);
 struct Comm;
 struct Evt;
-extern int func_02158344(int a0);
-extern int func_0217C070(u8 *o);
-extern int func_02158630(int h);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
+extern int INTRUDE_FIELD_IsStartRequested(u8 *o);
+extern int INTRUDE_COMM_GetRequestState(int h);
 typedef unsigned int   u32;
-extern int func_021D2750(u32 a);
-extern u16 func_02188C84(u8 *p);
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
-extern int func_02158590(void *p);
-extern void func_02026400(struct Comm *p);
+extern int FIELD_CheckPlayerPositionFree(u32 a);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
+extern int INTRUDE_COMM_HasUnlockFlags(void *p);
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern u32 func_02026454(void *obj);
 extern void func_02026484(void *obj);
-extern void func_0217574C(u8 *o, u32 v);
-extern void func_02175710(u8 *o, u32 v);
-extern void func_02175B4C(u8 *o, u8 *p);
+extern void INTRUDE_COMM_SetSuspended(u8 *o, u32 v);
+extern void INTRUDE_COMM_SetIntrudeId(u8 *o, u32 v);
+extern void INTRUDE_COMM_AcceptSession(u8 *o, u8 *p);
 struct BigObj;
-extern struct BigObj *func_02012B78(struct BigObj *p, u8 v);
-extern int func_02039338(int a);
-extern void func_02012B64(int a, int b);
-extern int func_02185C4C(int a, int b, Ctx *c);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern struct BigObj *GAME_DATA_SetIntrudeCount(struct BigObj *p, u8 v);
+extern int GFL_NET_SYSTEM_GetCurrentAid(int a);
+extern void GAME_DATA_SetExitMode(int a, int b);
+extern int EVENT_MAPCHANGE_CreateIntrudeArriveEvent(int a, int b, Ctx *c);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-int func_02185D38(int a0, int *state, Ctx *c)
+int EVENT_MAPCHANGE_RunIntrudeSessionEvent(int a0, int *state, Ctx *c)
 {
     int r;
     int h;
@@ -76,55 +76,55 @@ int func_02185D38(int a0, int *state, Ctx *c)
     int id;
     u8 *obj;
 
-    h = func_02012138((const struct Ctx *)c->f1c);
+    h = GAMESYSTEM_GetGameComm((const struct Ctx *)c->f1c);
     switch (*state) {
     case 0:
-        obj = (u8 *)func_02158344(h);
+        obj = (u8 *)INTRUDE_COMM_GetWorkIfRunning(h);
         flag = 0;
         r = 0;
         if (obj != 0) {
-            r = func_0217C070(obj);
-            if (func_02158630(h) == 3)
+            r = INTRUDE_FIELD_IsStartRequested(obj);
+            if (INTRUDE_COMM_GetRequestState(h) == 3)
                 flag = 1;
         }
-        if (r == 0 && func_021D2750(c->f1c) != 0) {
+        if (r == 0 && FIELD_CheckPlayerPositionFree(c->f1c) != 0) {
             id = !flag ? 0x279A : 0x279B;
-            func_02158780((void *)a0, id, 0, 0, func_02188C84((u8 *)c->f24));
-            if (func_02158590((void *)c->f20) == 0)
-                func_02026400((struct Comm *)h);
+            SCRIPT_SYS_CallScriptEvent((void *)a0, id, 0, 0, FIELDMAP_GetHeapId((u8 *)c->f24));
+            if (INTRUDE_COMM_HasUnlockFlags((void *)c->f20) == 0)
+                GAME_COMM_RequestExitNoCallback((struct Comm *)h);
             *state = 1;
         } else {
             id = !r ? 0x279C : 0x279D;
-            func_02158780((void *)a0, id, 0, 0, func_02188C84((u8 *)c->f24));
+            SCRIPT_SYS_CallScriptEvent((void *)a0, id, 0, 0, FIELDMAP_GetHeapId((u8 *)c->f24));
             *state = 3;
         }
         break;
     case 1:
-        if (func_02158590((void *)c->f20) == 0) {
+        if (INTRUDE_COMM_HasUnlockFlags((void *)c->f20) == 0) {
             if (func_02026454((void *)h) != 0)
                 break;
             func_02026484((void *)h);
         }
-        if (c->f28 == 1 && func_02158630(h) != 3) {
-            func_02158780((void *)a0, 0x279F, 0, 0, func_02188C84((u8 *)c->f24));
+        if (c->f28 == 1 && INTRUDE_COMM_GetRequestState(h) != 3) {
+            SCRIPT_SYS_CallScriptEvent((void *)a0, 0x279F, 0, 0, FIELDMAP_GetHeapId((u8 *)c->f24));
             *state = 3;
             break;
         }
-        obj = (u8 *)func_02158344(h);
+        obj = (u8 *)INTRUDE_COMM_GetWorkIfRunning(h);
         if (obj != 0) {
-            func_0217574C(obj, 1);
-            func_02175710(obj, c->b2c);
+            INTRUDE_COMM_SetSuspended(obj, 1);
+            INTRUDE_COMM_SetIntrudeId(obj, c->b2c);
             if (c->f28 == 1)
-                func_02175B4C(obj, obj + 0x1AC);
+                INTRUDE_COMM_AcceptSession(obj, obj + 0x1AC);
         }
-        func_02012B64(c->f20, func_02039338((int)func_02012B78((struct BigObj *)c->f20, 1)));
-        func_02012374((struct Evt *)a0, (struct Evt **)func_02185C4C(c->f1c, c->f24, c));
+        GAME_DATA_SetExitMode(c->f20, GFL_NET_SYSTEM_GetCurrentAid((int)GAME_DATA_SetIntrudeCount((struct BigObj *)c->f20, 1)));
+        GAME_EVENT_CallEvent((struct Evt *)a0, (struct Evt **)EVENT_MAPCHANGE_CreateIntrudeArriveEvent(c->f1c, c->f24, c));
         *state = 2;
         break;
     case 2:
-        obj = (u8 *)func_02158344(h);
+        obj = (u8 *)INTRUDE_COMM_GetWorkIfRunning(h);
         if (obj != 0)
-            func_0217574C(obj, 0);
+            INTRUDE_COMM_SetSuspended(obj, 0);
         *state = 3;
         break;
     case 3:

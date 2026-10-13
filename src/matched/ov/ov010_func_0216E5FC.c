@@ -1,5 +1,5 @@
 /*
- * function: func_0216E5FC
+ * function: FLDMMDL_IsMovedPosObjCode
  * address:  0x0216E5FC
  * packet:   pkt_ov010_0216E5FC
  * region:   ov010
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-int func_0216E5FC(u16 id)
+int FLDMMDL_IsMovedPosObjCode(u16 id)
 {
     if (id == 0x6D || (u16)(id + 0xDFFD) <= 2)
         return 1;

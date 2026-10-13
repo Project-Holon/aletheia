@@ -1,5 +1,5 @@
 /*
- * function: func_02167BB4
+ * function: BSUBWAY_COMM_SetSendRetireSelect
  * address:  0x02167BB4
  * packet:   pkt_ov010_02167BB4
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 func_02167BFC.
+ * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 BSUBWAY_COMM_SetSendData.
  *
  * symbols:
  *   (none)
@@ -29,7 +29,7 @@ typedef struct Obj {
     u16 h668;
 } Obj;
 
-void func_02167BB4(Obj *o, u16 v)
+void BSUBWAY_COMM_SetSendRetireSelect(Obj *o, u16 v)
 {
     o->b3 = v;
     o->h668 = v;

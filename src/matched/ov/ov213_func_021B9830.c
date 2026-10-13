@@ -10,16 +10,16 @@
  * symbols:
  *   func_021BA408 0x021BA408 thumb ov213
  *   func_021BA624 0x021BA624 thumb ov213
- *   func_021B61F8 0x021B61F8 thumb ov067
+ *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021BA408(char *);
 extern void func_021BA624(char *);
-extern void func_021B61F8(unsigned char *task, int value);
+extern void UI_SCENE_SetNextScene(unsigned char *task, int value);
 void func_021B9830(u8 *task, char *p) {
     func_021BA408(p);
     func_021BA624(p + 0x498C);
-    func_021B61F8(task,65534);
+    UI_SCENE_SetNextScene(task,65534);
 }

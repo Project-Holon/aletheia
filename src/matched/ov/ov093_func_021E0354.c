@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D732C  0x021D732C  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
- *   func_021D7360  0x021D7360  thumb  ov093
+ *   BTL_EVENT_FindFactor  0x021D732C  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_FindNextFactor  0x021D7360  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -40,16 +40,16 @@ struct Node {
 };
 struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x84]; };
 extern struct NodeList data_021F3CB0;
-extern struct Node *func_021D732C(int id, int sub);
+extern struct Node *BTL_EVENT_FindFactor(int id, int sub);
 struct QQ;
-extern u16 func_021D70A8(struct QQ *p);
-extern struct Node *func_021D7360(struct Node *n);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
+extern struct Node *BTL_EVENT_FindNextFactor(struct Node *n);
 int func_021E0354(int sub, int key, u8 *found)
 {
     struct Node *n;
     u32 i = 0;
-    for (n = func_021D732C(0, sub); n != 0; n = func_021D7360(n)) {
-        if (key == func_021D70A8((struct QQ *)n)) {
+    for (n = BTL_EVENT_FindFactor(0, sub); n != 0; n = BTL_EVENT_FindNextFactor(n)) {
+        if (key == BTL_EVENT_GetFactorKey((struct QQ *)n)) {
             *found = 1;
             return 0;
         }

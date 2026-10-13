@@ -1,5 +1,5 @@
 /*
- * function: func_0215E804
+ * function: MOVE_POKEMON_FindEntryBySpecies
  * address:  0x0215E804
  * packet:   pkt_0215E804
  * region:   ov010
@@ -26,7 +26,7 @@ extern u8 func_0200D488(struct Blk38 *p, u32 i);
 extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
 extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
 
-struct GdsEnt *func_0215E804(int a0, int a1)
+struct GdsEnt *MOVE_POKEMON_FindEntryBySpecies(int a0, int a1)
 {
     int t4;
     int t5;

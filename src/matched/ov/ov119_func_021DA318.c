@@ -15,14 +15,14 @@
  * consumed here despite the legacy void forwarder declarations.
  * symbols:
  *   APP_TASKMENU_IsDecide 0x02027A20 thumb
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020355D8 0x020355D8 arm
  *   func_021D8C84 0x021D8C84 thumb ov119
- *   func_021B63D0 0x021B63D0 thumb ov067
- *   func_021B6470 0x021B6470 thumb ov067
+ *   TOUCHBAR_Update 0x021B63D0 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   func_020355C4 0x020355C4 arm
  *   APP_TASKMENU_SetCursorActive 0x02027A08 thumb
- *   func_021B6448 0x021B6448 thumb ov067
+ *   TOUCHBAR_GetPressedButtonIdIfDone 0x021B6448 thumb ov067
  *   func_02035D20 0x02035D20 arm
  *   func_021D9EBC 0x021D9EBC thumb ov119
  *   func_020061E4 0x020061E4 thumb
@@ -30,10 +30,10 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DA158 0x021DA158 thumb ov119
  *   func_021D8C0C 0x021D8C0C thumb ov119
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_021D8B54 0x021D8B54 thumb ov119
- *   func_020279E8 0x020279E8 thumb
- *   func_02027A04 0x02027A04 thumb
+ *   APP_TASKMENU_IsFinish 0x020279E8 thumb
+ *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   func_021D8DD0 0x021D8DD0 thumb ov119
  *   func_021DBD70 0x021DBD70 thumb ov119
  *   func_021D8AA8 0x021D8AA8 thumb ov119
@@ -62,13 +62,13 @@ struct TaskMenu;
 struct S;
 struct Obj;
 extern unsigned APP_TASKMENU_IsDecide(char *p);
-extern int func_02035C60(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern int TOUCHPANEL_GetCont(void);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8),func_021D8C84(void *),func_021B63D0(struct S *);
-extern int func_021B6470(u8 *),func_021B6448(u8 *);
-extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *,u32),func_02035D20(u32 *,u32 *),func_020279E8(struct TaskMenu *);
-extern u8 func_02027A04(const u8 *);
+extern void func_020355D8(u8),func_021D8C84(void *),TOUCHBAR_Update(struct S *);
+extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *),TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
+extern u32 APP_TASKMENU_SetCursorActive(struct TaskMenu *,u32),func_02035D20(u32 *,u32 *),APP_TASKMENU_IsFinish(struct TaskMenu *);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern int func_021D9EBC(char *,int *,int *,int *,int *);
 extern void func_020061E4(u32),func_021E2484(char *,int),func_021D8E84(void *,int),func_021D8C0C(void *),func_021D8B54(void *);
 extern void *func_021D8DD0(void *a, int b, int c, char *p);
@@ -104,12 +104,12 @@ void func_021DA318(char *p)
     int active=0;
     int n;
     if(!APP_TASKMENU_IsDecide(P(0x64c))) {
-        n=func_02035C60();
+        n=TOUCHPANEL_GetTrg();
         if(n) func_020355D8(keep);
         if(n) func_021D8C84(p);
-        func_021B63D0(P(0x9c0));
-        if(func_021B6470(P(0x9c0))==9 && func_020355C4()) APP_TASKMENU_SetCursorActive(P(0x64c),0);
-        if(func_021B6448(P(0x9c0))==9) {
+        TOUCHBAR_Update(P(0x9c0));
+        if(TOUCHBAR_GetPressedButtonIdIfPressing(P(0x9c0))==9 && func_020355C4()) APP_TASKMENU_SetCursorActive(P(0x64c),0);
+        if(TOUCHBAR_GetPressedButtonIdIfDone(P(0x9c0))==9) {
             changed=1;
             ((struct Obj04475 *)p)->f10A0=1U-((struct Obj04475 *)p)->f10A0;
         }
@@ -131,7 +131,7 @@ void func_021DA318(char *p)
             return;
         }
         func_021D8C0C(p);
-        if(!active && !func_02035C38() && I(0xf34)) {
+        if(!active && !TOUCHPANEL_GetCont() && I(0xf34)) {
             if(I(0xf60) && I(0xf5c)) {
                 func_020061E4(0x72a);
                 choice=0;
@@ -141,8 +141,8 @@ void func_021DA318(char *p)
         func_021D8B54(p);
         func_021D8C0C(p);
     }
-    if(func_020279E8(P(0x64c))) {
-        choice=func_02027A04(P(0x64c));
+    if(APP_TASKMENU_IsFinish(P(0x64c))) {
+        choice=APP_TASKMENU_GetCursorPos(P(0x64c));
         active=1;
     }
     if(active) {
@@ -198,5 +198,5 @@ void func_021DA318(char *p)
         func_021E12F8(p);
         P(0x64c)=0;
     }
-    I(0xf34)=func_02035C38();
+    I(0xf34)=TOUCHPANEL_GetCont();
 }

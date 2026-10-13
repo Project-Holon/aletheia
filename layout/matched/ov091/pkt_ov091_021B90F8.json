@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B90F8",
+   "name": "POKELIST_CloseContextMenu",
    "address": "0x021B90F8",
    "kind": "game",
    "region": "ov091",

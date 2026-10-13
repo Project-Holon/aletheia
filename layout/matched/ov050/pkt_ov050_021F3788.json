@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3788",
+   "name": "GIMMICK50_HideModel1",
    "address": "0x021F3788",
    "kind": "game",
    "region": "ov050",

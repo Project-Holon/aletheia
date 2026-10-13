@@ -11,6 +11,7 @@
  * an unsigned cast drops the narrowing shift pair, a bitfield shifts 24/25.
  * symbols:
  *   func_021C44FC 0x021C44FC thumb ov136
+ *   PALANM_BlendChannel  0x02021FD8  thumb  arm9
  */
 #include "../include/Obj01065.h"
 typedef unsigned char u8;
@@ -18,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021C44FC(u8 *);
 struct Chan02021FD8;
-extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 void func_021C4B88(void *unused, u8 *p)
 {
     u8 old;
@@ -28,7 +29,7 @@ void func_021C4B88(void *unused, u8 *p)
         func_021C44FC(p);
         p[0x1B] = p[0x1A];
     }
-    func_02021FD8(((struct Obj01065 *)p)->f38, 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);
+    PALANM_BlendChannel(((struct Obj01065 *)p)->f38, 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);
     direction = p[0x19];
     old = p[0x18];
     if (direction != 0) {

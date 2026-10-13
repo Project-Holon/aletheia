@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  * extent: 8-byte tail stub; labelled function 021D43F8 follows.
  */
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 void func_021D43F0(void)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

@@ -12,7 +12,7 @@
  * symbols:
  *   func_021B63AC  0x021B63AC  thumb  ov173
  *   func_021B7ADC  0x021B7ADC  thumb  ov173
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  */
 #include "../include/Obj06566.h"
 
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021B63AC(u8 *p);
 extern void func_021B7ADC(unsigned char *p, u32 idx, int unused);
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 int func_021B7C00(void *p)
 {
@@ -28,7 +28,7 @@ int func_021B7C00(void *p)
 
     func_021B63AC(p);
     func_021B7ADC(p, (unsigned char)(*(unsigned short *)(((struct Obj06566 *)p)->f0 + 0x14)), 3);
-    func_0203D34C(1, 0x4f);
+    GFL_NET_RestartWithDefaultTimeout(1, 0x4f);
     v = ((struct Obj06566 *)p)->f192;
     if (v == 0) {
         v = ((struct Obj06566 *)p)->f191;

@@ -1,5 +1,5 @@
 /*
- * function: func_02175FB4
+ * function: INTRUDE_COMM_GetMemberNameNetId
  * address:  0x02175FB4
  * packet:   pkt_ov011_02175FB4
  * region:   ov011
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-int func_02175FB4(u8 *p)
+int INTRUDE_COMM_GetMemberNameNetId(u8 *p)
 {
     return p[0x10];
 }

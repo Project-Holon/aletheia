@@ -1,5 +1,5 @@
 /*
- * function: func_021F2E5C
+ * function: C_GEAR_DeleteFadeFx
  * address:  0x021F2E5C
  * packet:   pkt_021F2E5C
  * region:   ov029
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F2E5C 0x021F2E5C thumb
- *   func_0204B3B4 0x0204B3B4 arm
+ *   C_GEAR_DeleteFadeFx 0x021F2E5C thumb
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 #include "../include/Obj20399.h"
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021F2E5C(char *p)
+void C_GEAR_DeleteFadeFx(char *p)
 {
-    func_0204B3B4((struct Obj *)(((struct Obj20399 *)p)->f8));
+    CLACT_DeleteActor((struct Obj *)(((struct Obj20399 *)p)->f8));
 }

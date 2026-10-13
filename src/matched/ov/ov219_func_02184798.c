@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   d_02185E00 0x02185E00 data a4
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_021848F4 0x021848F4 thumb ov219
  */
 #include "../include/Obj00302.h"
 extern const char d_02185E00[];
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_021848F4(const char *,int,int,int *,int *,int *,int *);
 void func_02184798(char *p)
 {
@@ -22,7 +22,7 @@ void func_02184798(char *p)
     int result;
     int xf,dx,yf,dy;
     ((struct Obj00302 *)p)->fC320=0;
-    result=func_02035C08(d_02185E00);
+    result=TOUCHPANEL_HitTrg(d_02185E00);
     if(result==0)flag=0x400;
     else if(result==1)flag=2;
     if(((struct Obj00302 *)p)->fC35C!=0){

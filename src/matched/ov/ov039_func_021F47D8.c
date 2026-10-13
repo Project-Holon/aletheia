@@ -1,5 +1,5 @@
 /*
- * function: func_021F47D8
+ * function: GIMMICK39_SwapCartAnimes
  * address:  0x021F47D8
  * packet:   pkt_ov039_021F47D8
  * region:   ov039
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F47D8  0x021F47D8  thumb
- *   func_021F3DE4  0x021F3DE4  thumb
- *   func_021F3E04  0x021F3E04  thumb
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B4  0x021BE6B4  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
+ *   GIMMICK39_SwapCartAnimes  0x021F47D8  thumb
+ *   GIMMICK39_GetAnimeFrame  0x021F3DE4  thumb
+ *   GIMMICK39_SetAnimeFrame  0x021F3E04  thumb
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimePaused  0x021BE6B4  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_021F3DE4(void *p, u16 delta, u16 i);
-extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
-extern void func_021BE700(void *a, int b, int c, int d, int e);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern u8 func_021BE6B4(u8 *p);
-extern void func_021BE6B0(u8 *p, int v);
+extern int GIMMICK39_GetAnimeFrame(void *p, u16 delta, u16 i);
+extern void GIMMICK39_SetAnimeFrame(void *p, u8 delta, u16 i, int frame);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *a, int b, int c, int d, int e);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern u8 FLD_EXP_OBJ_IsAnimePaused(u8 *p);
+extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
 
-void func_021F47D8(void *a, int f, int i)
+void GIMMICK39_SwapCartAnimes(void *a, int f, int i)
 {
     u8 r7;
     u8 r6;
@@ -45,10 +45,10 @@ void func_021F47D8(void *a, int f, int i)
         r7 = r6 + 1;
     }
     r4 = i;
-    d = func_021F3DE4(a, r4, r7);
-    func_021BE700(a, 0, r4, r7, 0);
-    func_021BE700(a, 0, r4, r6, 1);
-    func_021F3E04(a, r4, r6, d);
-    v = func_021BE6B4(func_021BE674(a, 0, r4, r7));
-    func_021BE6B0(func_021BE674(a, 0, r4, r6), v);
+    d = GIMMICK39_GetAnimeFrame(a, r4, r7);
+    FLD_EXP_OBJ_SetAnimeEnabled(a, 0, r4, r7, 0);
+    FLD_EXP_OBJ_SetAnimeEnabled(a, 0, r4, r6, 1);
+    GIMMICK39_SetAnimeFrame(a, r4, r6, d);
+    v = FLD_EXP_OBJ_IsAnimePaused(FLD_EXP_OBJ_GetAnime(a, 0, r4, r7));
+    FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(a, 0, r4, r6), v);
 }

@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  */
 
 typedef signed char s8;
@@ -42,11 +42,11 @@ typedef struct {
 
 extern void func_02082BCC(void *p, int v, int n);
 struct Obj;
-extern struct Obj *func_0204B294(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, unsigned short f, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, unsigned short f, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
 void func_021FD08C(Obj *p)
 {
@@ -55,9 +55,9 @@ void func_021FD08C(Obj *p)
     func_02082BCC(&pos, 0, sizeof(pos));
     pos.x = 0xD0;
     pos.y = 0x3A;
-    p->obj = func_0204B294(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
+    p->obj = CLACT_CreateActor(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
     func_0204B92C(p->obj, 1);
-    func_0204B878(p->obj, 0x24);
+    CLACT_SetActorAnimSeq(p->obj, 0x24);
     func_0204B3DC(p->obj, 1);
-    func_0203D34C(0, 0x48);
+    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
 }

@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_0220B1D4 0x0220B1D4 thumb ov197
  */
 #include "../include/Obj00314.h"
@@ -19,12 +19,12 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 typedef unsigned char  u8;
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void func_0220B1D4(char *,int,int,int,unsigned short);
 void func_0220B6C4(char *p)
 {
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj00314 *)p)->f110)),0);
+    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj00314 *)p)->f110)),0);
     if(((struct Obj25004 *)(*(char * *)&((struct Obj00314 *)p)->f0))->f8!=1) {
         switch(((unsigned char *)p)[0x533]) {
         case 0:func_0220B1D4(p,29,22,4,0x3c40);func_0220B1D4(p,29,23,20,0x3c40);break;
@@ -32,5 +32,5 @@ void func_0220B6C4(char *p)
         case 2:func_0220B1D4(p,29,26,12,0x3c40);break;
         case 3:func_0220B1D4(p,29,27,12,0x3c40);break;
         }
-    } else func_02045334((struct Descriptor *)((struct Obj00314 *)p)->f110);
+    } else BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00314 *)p)->f110);
 }

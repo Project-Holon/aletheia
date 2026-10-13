@@ -1,5 +1,5 @@
 /*
- * function: func_021593DC
+ * function: SCRIPT_WORK_CmdPushConst
  * address:  0x021593DC
  * packet:   pkt_021593DC
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011330  0x02011330  thumb
+ *   VM_GetU16  0x02011330  thumb
  *   VM_PushStack  0x0201137C  thumb
  */
 
@@ -19,15 +19,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
+extern u16 VM_GetU16(struct Stream *s);
 extern int VM_PushStack();
 
-int func_021593DC(int a0, int a1)
+int SCRIPT_WORK_CmdPushConst(int a0, int a1)
 {
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_02011330((struct Stream *)a0);
+    a0 = VM_GetU16((struct Stream *)a0);
 loc_021593E4:
 a1 = a0 + 0;
 a0 = t4 + 0;

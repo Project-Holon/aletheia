@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203D4D0
+ * function: GFL_NET_SendDataMask
  * address:  0x0203D4D0
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_IsHandleReady  0x0203D394  arm
  *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   GFL_NET_SYSTEM_IsSendQueueEntry  0x02039468  arm
@@ -19,7 +19,7 @@
  *
  * TU: net.c.
  *
- * The explicit-mask sibling of func_0203D3F8: identical guards, but the
+ * The explicit-mask sibling of GFL_NET_SendData: identical guards, but the
  * destination bitmask arrives as the second parameter instead of being
  * derived from a send id, so there is no assert and no `lsl`, and the mask
  * stays in r6 across the whole body.  The two stack arguments that live
@@ -33,13 +33,13 @@
  * file.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D4D0.c \
- *       --func func_0203D4D0 --addr 0x0203D4D0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SendDataMask.c \
+ *       --func GFL_NET_SendDataMask --addr 0x0203D4D0 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct NetEntry;
 extern u32 GFL_NET_IsHandleReady(struct NetEntry *e);
 struct Entry;
@@ -47,10 +47,10 @@ extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 extern u32   GFL_NET_SYSTEM_IsSendQueueEntry(u32 a, u32 b);
 extern int GFL_NET_SYSTEM_SetSendQueue(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
-u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g,
+u32 GFL_NET_SendDataMask(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g,
                   u32 h)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (GFL_NET_IsHandleReady((struct NetEntry *)entry) == 0 && c >= 0x11) {
         return 0;
     }

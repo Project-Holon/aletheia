@@ -1,5 +1,5 @@
 /*
- * function: func_021F5270
+ * function: ENCEFF_BuildModelSceneKind01
  * address: 0x021F5270
  * packet: pkt_ov076_021F5270
  * region: ov076
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021F52D8 0x021F52D8 thumb ov076
+ *   ENCEFF_StartModelScene 0x021F52D8 thumb ov076
  */
 typedef unsigned int u32;
-extern void *func_021F52D8(void *, u32, u32, u32, int);
-void *func_021F5270(void *a, u32 b, int c) { return func_021F52D8(a,b,9,8,c); }
+extern void *ENCEFF_StartModelScene(void *, u32, u32, u32, int);
+void *ENCEFF_BuildModelSceneKind01(void *a, u32 b, int c) { return ENCEFF_StartModelScene(a,b,9,8,c); }

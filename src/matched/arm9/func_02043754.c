@@ -12,7 +12,7 @@
  * TU: bmp.c (__FILE__ 0x020A7E68, line 148).
  *
  * Wrap a pixel buffer the caller already owns in a fresh descriptor: same
- * 0xc-byte descriptor func_02043678 builds, but nothing is allocated for
+ * 0xc-byte descriptor BMP_Create builds, but nothing is allocated for
  * the pixels and the kind byte at +0x0a is 2.  The heap id is the fifth
  * argument and arrives on the stack as a halfword.
  *

@@ -17,10 +17,10 @@
  *   func_021C8B90 0x021C8B90 thumb ov128
  *   func_021C40BC 0x021C40BC thumb ov127
  *   func_021C42A8 0x021C42A8 thumb ov127
- *   func_020457B0 0x020457B0 arm
- *   func_02045924 0x02045924 arm
- *   func_02045808 0x02045808 arm
- *   func_021B6AE4 0x021B6AE4 thumb ov067
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_SetString 0x02045924 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   d_021CA6C8 0x021CA6C8 data a2
  */
 #include "../include/Obj05381.h"
@@ -40,11 +40,11 @@ struct obj;
 extern void func_021C42A8(struct obj *p, int idx, int a);
 struct Strbuf;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Sub020097BCEnt *func_020099D4(struct Sub020097BCObj *obj, int i);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_021B6AE4(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx, u16 heap)
 {
     struct { u16 colors[3]; s16 pos[4]; } local;
@@ -65,9 +65,9 @@ void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx
         *(void **)(p + 12 + (int)((u32)i * 4u)) = func_021C40BC(a, local.pos, result8, heap);
         func_021C42A8(*(void **)(p + 12 + (int)((u32)i * 4u)), 0, 1);
     }
-    str = func_020457B0(128, heap);
-    func_02045924(str, (const u16 *)func_020099D4(base, idx));
-    func_021B6AE4(*(u8 * *)&((struct Obj05381 *)p)->f8, (void *)(((struct Obj05382 *)b)->f34), d_021CA6C8[i].x * 8,
+    str = STRBUF_Create(128, heap);
+    STRBUF_SetString(str, (const u16 *)func_020099D4(base, idx));
+    TOUCHBAR_PrintAligned(*(u8 * *)&((struct Obj05381 *)p)->f8, (void *)(((struct Obj05382 *)b)->f34), d_021CA6C8[i].x * 8,
                  d_021CA6C8[i].y * 8 - 24, (u32)str, ((struct Obj05382 *)b)->f17C, *(u16 *)((u8 *)&local + result9 * 2), 0);
-    func_02045808(str);
+    STRBUF_Delete(str);
 }

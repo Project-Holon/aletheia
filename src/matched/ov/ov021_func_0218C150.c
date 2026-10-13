@@ -1,5 +1,5 @@
 /*
- * function: func_0218C150
+ * function: FIELD_BUILDMODEL_AnimSetKindDummy
  * address: 0x0218C150
  * packet: pkt_ov021_0218C150
  * region: ov021
@@ -12,8 +12,8 @@
  * Function with no listing label, matched inside src/game/ov021/field_msgbg.c and filed here.
  */
 
-void func_0218C150(void);
+void FIELD_BUILDMODEL_AnimSetKindDummy(void);
 
-void func_0218C150(void)
+void FIELD_BUILDMODEL_AnimSetKindDummy(void)
 {
 }

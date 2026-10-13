@@ -1,5 +1,5 @@
 /*
- * function: func_0202590C
+ * function: BMP_OAM_SetPos
  * address:  0x0202590C
  * packet:   pkt_0202590C
  * region:   arm9
@@ -43,7 +43,7 @@ struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_0202590C(struct Grid *g, s16 x, s16 y)
+void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y)
 {
     struct Point pt;
     int i, j;

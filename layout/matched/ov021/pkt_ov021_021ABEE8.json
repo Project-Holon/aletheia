@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ABEE8",
+   "name": "FIELD_EFFECT_FreeResourceTable",
    "address": "0x021ABEE8",
    "kind": "game",
    "region": "ov021",

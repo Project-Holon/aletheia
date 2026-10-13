@@ -1,5 +1,5 @@
 /*
- * function: func_021980F0
+ * function: FLDMMDL_ACMD_WalkRight16F
  * address:  0x021980F0
  * packet:   pkt_021980F0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_02197FC0  0x02197FC0  thumb  ov021
+ *   FLDMMDL_ACMD_WalkInit  0x02197FC0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -20,10 +20,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_02197FC0(u8 *a, u32 b, u32 c, u16 d, u16 e);
+extern void FLDMMDL_ACMD_WalkInit(u8 *a, u32 b, u32 c, u16 d, u16 e);
 
-int func_021980F0(u32 a)
+int FLDMMDL_ACMD_WalkRight16F(u32 a)
 {
-    func_02197FC0((u8 *)a, 0x3, 0x1000, 0x10, 0x2);
+    FLDMMDL_ACMD_WalkInit((u8 *)a, 0x3, 0x1000, 0x10, 0x2);
     return 1;
 }

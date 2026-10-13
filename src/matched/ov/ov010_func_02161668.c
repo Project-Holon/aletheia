@@ -1,5 +1,5 @@
 /*
- * function: func_02161668
+ * function: EVENT_FIELD_PROCLINK_ReturnReport
  * address: 0x02161668
  * packet: pkt_ov010_02161668
  * region: ov010
@@ -16,9 +16,9 @@ typedef unsigned char u8;
 typedef struct { u8 pad00[0xc]; int f0C; } Sub_02161668;
 typedef struct { u8 pad00[0xc]; int f0C; u8 pad10[8]; Sub_02161668 *f18; } Work_02161668;
 typedef struct { u8 pad00[0xc]; int f0C; } Evt_02161668;
-int func_02161668(Work_02161668 *w, Evt_02161668 *e);
+int EVENT_FIELD_PROCLINK_ReturnReport(Work_02161668 *w, Evt_02161668 *e);
 
-int func_02161668(Work_02161668 *w, Evt_02161668 *e)
+int EVENT_FIELD_PROCLINK_ReturnReport(Work_02161668 *w, Evt_02161668 *e)
 {
     if (w->f18->f0C == 0xb) {
         switch (e->f0C) {

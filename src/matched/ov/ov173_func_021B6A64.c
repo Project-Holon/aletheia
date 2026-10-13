@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02027778 0x02027778 thumb
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   func_021B81B0 0x021B81B0 thumb ov173
  */
 #include "../include/Obj14313.h"
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 a,b,c,d; } Descriptor;
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_021B81B0(int);
 int func_021B6A64(u8 *p)
 {
@@ -30,7 +30,7 @@ int func_021B6A64(u8 *p)
     x.b = 8;
     x.c = 10;
     x.d = 3;
-    ((struct Obj14313 *)p)->f1E0 = (unsigned int)func_02027778((struct TaskMenuTmpl *)(&x), (void *)(((struct Obj14313 *)p)->f1DC));
+    ((struct Obj14313 *)p)->f1E0 = (unsigned int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&x), (void *)(((struct Obj14313 *)p)->f1DC));
     func_021B81B0(1);
     return 4;
 }

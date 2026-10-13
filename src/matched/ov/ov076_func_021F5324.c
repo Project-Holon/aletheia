@@ -1,5 +1,5 @@
 /*
- * function: func_021F5324
+ * function: ENCEFF_UpdateModelScene
  * address: 0x021F5324
  * packet: pkt_ov076_021F5324
  * region: ov076
@@ -10,10 +10,10 @@
  * status: EXACT*
  * Extent tail: two bytes of alignment padding.
  * symbols:
- *   func_021CF560 0x021CF560 thumb ov021
+ *   ENCEFF_GetWork 0x021CF560 thumb ov021
  *   SCREENTEX_SetupCamera 0x0202E688 thumb
  */
 typedef unsigned int u32;
-extern u32 func_021CF560(u32 *);
+extern u32 ENCEFF_GetWork(u32 *);
 extern void SCREENTEX_SetupCamera(u32);
-void func_021F5324(u32 *p) { SCREENTEX_SetupCamera(*(u32 *)(func_021CF560(p) + 0x28)); }
+void ENCEFF_UpdateModelScene(u32 *p) { SCREENTEX_SetupCamera(*(u32 *)(ENCEFF_GetWork(p) + 0x28)); }

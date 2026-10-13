@@ -1,5 +1,5 @@
 /*
- * function: func_021BD068
+ * function: FIELD_PLACE_NAME_DeleteMessage
  * address:  0x021BD068
  * packet:   pkt_021BD068
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00575.h"
@@ -22,13 +22,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_021BD068(u8 *p)
+void FIELD_PLACE_NAME_DeleteMessage(u8 *p)
 {
     u32 v = ((struct Obj00575 *)p)->f1C;
     if (v != 0) {
-        func_02045808((struct U16Vec *)v);
+        STRBUF_Delete((struct U16Vec *)v);
         ((struct Obj00575 *)p)->f1C = 0;
     }
 }

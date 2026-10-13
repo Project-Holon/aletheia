@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021F64",
+   "name": "PALANM_BlendColors",
    "address": "0x02021F64",
    "kind": "game",
    "region": "arm9",

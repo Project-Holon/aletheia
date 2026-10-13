@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217DC94",
+   "name": "UNION_ONESELF_EntryMenuRemoveMember",
    "address": "0x0217DC94",
    "kind": "game",
    "region": "ov019",

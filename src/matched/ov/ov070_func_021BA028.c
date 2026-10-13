@@ -1,5 +1,5 @@
 /*
- * function: func_021BA028
+ * function: ITEMMENU_CreateCursorActors
  * address:  0x021BA028
  * packet:   pkt_ov070_021BA028
  * region:   ov070
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_021BA6A4  0x021BA6A4  thumb  ov070
+ *   ITEMMENU_MoveCursorToRow  0x021BA6A4  thumb  ov070
  */
 #include "../include/Obj00002.h"
 
@@ -26,13 +26,13 @@ typedef struct {
 } Rect;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
-extern void func_021BA6A4(char *);
+extern void ITEMMENU_MoveCursorToRow(char *);
 
-void func_021BA028(char *p)
+void ITEMMENU_CreateCursorActors(char *p)
 {
     Rect r1;
     Rect r2;
@@ -44,16 +44,16 @@ void func_021BA028(char *p)
     r1.d = 1;
     r1.e = 2;
     r1.c = 0;
-    *(int *)&((struct Obj00002 *)p)->f6A8 = (int)func_0204B294((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f560, ((struct Obj00002 *)p)->f554, ((struct Obj00002 *)p)->f568, &r1, 0, ((struct Obj00002 *)p)->f544);
+    *(int *)&((struct Obj00002 *)p)->f6A8 = (int)CLACT_CreateActor((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f560, ((struct Obj00002 *)p)->f554, ((struct Obj00002 *)p)->f568, &r1, 0, ((struct Obj00002 *)p)->f544);
     func_0204B3DC((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
     func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
-    func_021BA6A4(p);
+    ITEMMENU_MoveCursorToRow(p);
     r2.a = 0x8c;
     r2.b = 0x30;
     r2.d = 1;
     r2.e = 2;
     r2.c = 1;
-    *(int *)&((struct Obj00002 *)p)->f6A4 = (int)func_0204B294((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f560, ((struct Obj00002 *)p)->f554, ((struct Obj00002 *)p)->f568, &r2, 0, ((struct Obj00002 *)p)->f544);
+    *(int *)&((struct Obj00002 *)p)->f6A4 = (int)CLACT_CreateActor((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f560, ((struct Obj00002 *)p)->f554, ((struct Obj00002 *)p)->f568, &r2, 0, ((struct Obj00002 *)p)->f544);
     func_0204B3DC((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A4, 1);
     func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A4, 1);
     for (i = 0; i < 8; i++) {
@@ -62,10 +62,10 @@ void func_021BA028(char *p)
         r3.d = 0xa;
         r3.e = 3;
         r3.c = 0;
-        *(int *)(p + i * 4 + 0x634) = (int)func_0204B294((void *)((struct Obj00002 *)p)->f69C, *(int *)(p + i * 4 + 0x5F4), ((struct Obj00002 *)p)->f588, ((struct Obj00002 *)p)->f56C, &r3, 0, ((struct Obj00002 *)p)->f544);
+        *(int *)(p + i * 4 + 0x634) = (int)CLACT_CreateActor((void *)((struct Obj00002 *)p)->f69C, *(int *)(p + i * 4 + 0x5F4), ((struct Obj00002 *)p)->f588, ((struct Obj00002 *)p)->f56C, &r3, 0, ((struct Obj00002 *)p)->f544);
         r3.a -= 0x18;
         r3.c = 1;
-        *(int *)(p + i * 4 + 0x674) = (int)func_0204B294((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f578, ((struct Obj00002 *)p)->f574, ((struct Obj00002 *)p)->f57C, &r3, 0, ((struct Obj00002 *)p)->f544);
+        *(int *)(p + i * 4 + 0x674) = (int)CLACT_CreateActor((void *)((struct Obj00002 *)p)->f69C, ((struct Obj00002 *)p)->f578, ((struct Obj00002 *)p)->f574, ((struct Obj00002 *)p)->f57C, &r3, 0, ((struct Obj00002 *)p)->f544);
         func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x634), 0);
         func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x674), 0);
     }

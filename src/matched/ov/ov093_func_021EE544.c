@@ -1,5 +1,5 @@
 /*
- * function: func_021EE544
+ * function: BTLV_SCU_StepBallWindowClose
  * address:  0x021EE544
  * packet:   pkt_ov093_021EE544
  * region:   ov093
@@ -40,7 +40,7 @@ extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6
 extern void func_020061E4(u32 a);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 
-int func_021EE544(int *st, struct C *c)
+int BTLV_SCU_StepBallWindowClose(int *st, struct C *c)
 {
     int a;
     int b;

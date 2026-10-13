@@ -1,5 +1,5 @@
 /*
- * function: func_0218DE78
+ * function: FIELD_G3D_MAPPER_BeginDrawOrder
  * address:  0x0218DE78
  * packet:   pkt_ov021_0218DE78
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 
 extern void func_02082BCC(void *p, int v, int n);
 
-void func_0218DE78(char *p)
+void FIELD_G3D_MAPPER_BeginDrawOrder(char *p)
 {
     int v;
 

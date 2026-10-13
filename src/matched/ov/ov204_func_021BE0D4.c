@@ -10,6 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
+ *   G3D_SYSTEM_Exit  0x02046788  arm  arm9
+ *   G3D_CAMERA_Delete  0x02048AC4  arm  arm9
+ *   G3D_LIGHT_DeleteSlots  0x02048C4C  arm  arm9
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj14603.h"
@@ -19,14 +22,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_02048C4C(u32);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02046788(void);
+extern void G3D_LIGHT_DeleteSlots(u32);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(void);
 
 void func_021BE0D4(u8 *p)
 {
-    func_02048C4C(((struct Obj14603 *)p)->f4);
-    func_02048AC4((void *)(((struct Obj14603 *)p)->f0));
-    func_02046788();
+    G3D_LIGHT_DeleteSlots(((struct Obj14603 *)p)->f4);
+    G3D_CAMERA_Delete((void *)(((struct Obj14603 *)p)->f0));
+    G3D_SYSTEM_Exit();
 }
 

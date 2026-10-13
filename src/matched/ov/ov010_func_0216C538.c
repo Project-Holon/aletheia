@@ -1,5 +1,5 @@
 /*
- * function: func_0216C538
+ * function: NAMEIN_SETUP_StartPartyPickEvent
  * address:  0x0216C538
  * packet:   pkt_ov010_0216C538
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Starts the func_0216C484 task over a 0xD8-byte work: points it at the
+ * Starts the NAMEIN_SETUP_RunPartyPickEvent task over a 0xD8-byte work: points it at the
  * caller's result fields, picks the party (the player's, or the one at
  * +0x7C8 when `useOwn` is set), and fills the party-screen and summary
  * argument blocks; the screen mode (0x14, 0x15 or 0x16) follows the
@@ -26,10 +26,10 @@
  *   func_0201210C  0x0201210C  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0216C484  0x0216C484  thumb  ov010
+ *   NAMEIN_SETUP_RunPartyPickEvent  0x0216C484  thumb  ov010
  *   func_02012934  0x02012934  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_0201A354  0x0201A354  thumb
+ *   POKE_REGULATION_Load  0x0201A354  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0200CA38  0x0200CA38  thumb
@@ -93,16 +93,16 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_0216C484(int a, int *st, int *o);
+extern int NAMEIN_SETUP_RunPartyPickEvent(int a, int *st, int *o);
 extern void *func_02012934(const struct BigObj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void *func_0201A354(int a, int b);
+extern void *POKE_REGULATION_Load(int a, int b);
 extern void *func_0200CA1C(void *p);
 extern u32 func_0201AA18(void *p);
 struct Blk37;
 extern u32 func_0200CA38(struct Blk37 *p);
 
-void *func_0216C538(PartyCaller *c, void *sys, u8 useOwn)
+void *NAMEIN_SETUP_StartPartyPickEvent(PartyCaller *c, void *sys, u8 useOwn)
 {
     void *q;
     void *task;
@@ -117,7 +117,7 @@ void *func_0216C538(PartyCaller *c, void *sys, u8 useOwn)
 
     p = func_020120F4(sys);
     q = func_0201210C(sys);
-    task = func_020122C0(sys, 0, func_0216C484, sizeof(PartyTaskWork));
+    task = func_020122C0(sys, 0, NAMEIN_SETUP_RunPartyPickEvent, sizeof(PartyTaskWork));
     w = func_020124E8(task);
     w->sys = sys;
     w->q = q;
@@ -147,7 +147,7 @@ void *func_0216C538(PartyCaller *c, void *sys, u8 useOwn)
         sel = 2;
         break;
     }
-    pa->f14 = func_0201A354(mode, 4);
+    pa->f14 = POKE_REGULATION_Load(mode, 4);
     pa->f34 = 0x16;
     pa->f38 = sel;
     sum = &w->sum;

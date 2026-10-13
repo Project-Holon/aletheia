@@ -1,7 +1,7 @@
 /*
  * file:     unit_0206E954.c
  * unit:     yes
- * function: func_0206E954, func_0206E964, func_0206E9A4
+ * function: NNS_G3dGetMdlSet, NNS_G3dGetTex, NNS_G3dGetAnmByIdx
  * address:  0x0206E954
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -47,13 +47,13 @@ typedef struct {
 
 #define BTX0_SIGNATURE 0x30585442u
 
-int func_0206E954(int pFile);
-unsigned char *func_0206E964(unsigned char *pFile);
-u8 *func_0206E9A4(u8 *pFile, u32 resIdx);
+int NNS_G3dGetMdlSet(int pFile);
+unsigned char *NNS_G3dGetTex(unsigned char *pFile);
+u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx);
 
 
 /* NNS_G3dGetMdlSet: the file header plus the offset of its first block. */
-int func_0206E954(int pFile){ return (pFile + *(int *)((pFile + (((ResFileHeader *)pFile)->headerSize << 0)))); }
+int NNS_G3dGetMdlSet(int pFile){ return (pFile + *(int *)((pFile + (((ResFileHeader *)pFile)->headerSize << 0)))); }
 
 
 /*
@@ -62,9 +62,9 @@ int func_0206E954(int pFile){ return (pFile + *(int *)((pFile + (((ResFileHeader
  * the halfword at +14 is the block count (1 = a file that holds one block:
  * the BTX0 form, when the magic matches).
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206E964.c  *       --func func_0206E964 --addr 0x0206E964 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGetTex.c  *       --func NNS_G3dGetTex --addr 0x0206E964 --cc 1.1p1 --arm
  */
-unsigned char *func_0206E964(unsigned char *pFile)
+unsigned char *NNS_G3dGetTex(unsigned char *pFile)
 {
     unsigned char *pBlockOffsets = pFile + ((ResFileHeader *)pFile)->headerSize;
 
@@ -82,9 +82,9 @@ unsigned char *func_0206E964(unsigned char *pFile)
  * of an animation file through its dictionary; resIdx is reused for the
  * dictionary record address (the register allocation depends on it).
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0206E9A4.c  *       --func func_0206E9A4 --addr 0x0206E9A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/NNS_G3dGetAnmByIdx.c  *       --func NNS_G3dGetAnmByIdx --addr 0x0206E9A4 --cc 1.1p1 --arm
  */
-u8 *func_0206E9A4(u8 *pFile, u32 resIdx)
+u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx)
 {
     u8 *pBlock;
     u8 *pDict;

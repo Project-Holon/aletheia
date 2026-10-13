@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   _pNetSys     0x021469D0  data
  *
  * Returns 1 while the state byte at +0x65 is one to four, but only while the
@@ -35,13 +35,13 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void *GFL_NET_GetSession(void);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern struct LinkState *_pNetSys;
 
 int GFL_NET_SYSTEM_IsDeviceReady(void)
 {
     u8 *s = GFL_NET_GetSession();
-    u8 *p = func_0203D798();
+    u8 *p = GFL_NET_GetInitParam();
 
     if ((*(u32 *)&_pNetSys) != 0 && (u8)(p[0x65] + 0xFF) <= 3)
         return 1;

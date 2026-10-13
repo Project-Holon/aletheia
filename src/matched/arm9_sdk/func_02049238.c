@@ -1,5 +1,5 @@
 /*
- * function: func_02049238
+ * function: ARC_TOOL_DeleteHandle
  * address:  0x02049238
  * packet:   pkt_02049238
  * region:   arm9
@@ -17,7 +17,7 @@
 extern void func_02078A80(void *p);
 extern unsigned int func_020307B0(void *p);
 
-void func_02049238(void *arc)
+void ARC_TOOL_DeleteHandle(void *arc)
 {
     func_02078A80(arc);
     func_020307B0(arc);

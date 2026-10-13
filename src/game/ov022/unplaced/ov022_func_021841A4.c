@@ -1,5 +1,5 @@
 /*
- * function: func_021841A4
+ * function: UNION_APP_GetMemberCount
  * address:  0x021841A4
  * packet:   pkt_ov022_021841A4
  * region:   ov022
@@ -14,7 +14,7 @@
 
 extern int func_02080D24(unsigned int x);
 
-int func_021841A4(unsigned char *p)
+int UNION_APP_GetMemberCount(unsigned char *p)
 {
     return func_02080D24(p[1]);
 }

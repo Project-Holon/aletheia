@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_021EAAE4 0x021EAAE4 thumb ov170
  *   func_021EAC28 0x021EAC28 thumb ov170
  *   func_0201D304 0x0201D304 thumb
@@ -27,7 +27,7 @@ struct Descriptor;
 struct StrObj;
 struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021EAAE4(unsigned char *p, unsigned i);
 extern void func_021EAC28(char *,int,void *,u32,int,int,u32,u16);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
@@ -38,7 +38,7 @@ void func_021EAFBC(char *p,const Entry *e,u32 i)
 {
     u16 n;
     u32 text;
-    func_02043B5C(func_02045770(*(void **)(W(p)+i*8+148)),0);
+    BMP_Clear(func_02045770(*(void **)(W(p)+i*8+148)),0);
     if (e->high == 0) {
         if (*(u32 *)(W(p)+380) == 1)
             n = ((struct Obj06549 *)e)->f4;

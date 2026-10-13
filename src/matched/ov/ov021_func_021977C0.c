@@ -1,5 +1,5 @@
 /*
- * function: func_021977C0
+ * function: IRCBATTLEMENU_SeqWaitTouchExit
  * address:  0x021977C0
  * packet:   pkt_ov021_021977C0
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021975D0  0x021975D0  thumb  ov021
- *   func_02035C60  0x02035C60  arm
- *   func_02196228  0x02196228  thumb  ov021
+ *   IRCBATTLEMENU_IsMessageEnd  0x021975D0  thumb  ov021
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   IRCBATTLEMENU_SetSubPaletteActive  0x02196228  thumb  ov021
  *   func_020414EC  0x020414EC  arm
- *   func_021962F4  0x021962F4  thumb  ov021
- *   func_02196034  0x02196034  thumb  ov021
- *   func_02196A4C  0x02196A4C  thumb  ov021
+ *   IRCBATTLEMENU_DeleteMsgWin  0x021962F4  thumb  ov021
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_SeqUpdateTouchTop  0x02196A4C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00094.h"
@@ -25,21 +25,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021975D0(u8 *p);
-extern int func_02035C60(void);
-extern void func_02196228(u8 *p, int flag);
+extern int IRCBATTLEMENU_IsMessageEnd(u8 *p);
+extern int TOUCHPANEL_GetTrg(void);
+extern void IRCBATTLEMENU_SetSubPaletteActive(u8 *p, int flag);
 extern void func_020414EC(u32);
-extern void func_021962F4(u8 *);
-extern void func_02196034(u8 *, void (*)(), u32);
-extern void func_02196A4C(u8 *a);
+extern void IRCBATTLEMENU_DeleteMsgWin(u8 *);
+extern void IRCBATTLEMENU_SetSeq(u8 *, void (*)(), u32);
+extern void IRCBATTLEMENU_SeqUpdateTouchTop(u8 *a);
 
-void func_021977C0(u8 *a)
+void IRCBATTLEMENU_SeqWaitTouchExit(u8 *a)
 {
-    if (func_021975D0(a) != 0 && func_02035C60() != 0) {
-        func_02196228(a, 0);
+    if (IRCBATTLEMENU_IsMessageEnd(a) != 0 && TOUCHPANEL_GetTrg() != 0) {
+        IRCBATTLEMENU_SetSubPaletteActive(a, 0);
         func_020414EC(3);
-        func_021962F4(a);
+        IRCBATTLEMENU_DeleteMsgWin(a);
         ((struct Obj00094 *)a)->f8 = 12;
-        func_02196034(a, func_02196A4C, 0x7a2);
+        IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqUpdateTouchTop, 0x7a2);
     }
 }

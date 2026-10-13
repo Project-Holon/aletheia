@@ -1,5 +1,5 @@
 /*
- * function: func_021F5950
+ * function: ENCEFF_StepRipple
  * address:  0x021F5950
  * packet:   pkt_ov078_021F5950
  * region:   ov078
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  *
- * One step of the ripple over the 33 x 25 grid func_021F5698 /
- * func_021F5AFC allocate (0x19E0 bytes); the vertex list is drawn by
- * func_021F5800.
+ * One step of the ripple over the 33 x 25 grid ENCEFF_StartRipple /
+ * ENCEFF_StartRippleBurst allocate (0x19E0 bytes); the vertex list is drawn by
+ * ENCEFF_DrawRipple.
  * Levers: period/next are u16 (ldrh); each neighbour coordinate is a
  * temporary (x = col - 1, ...) so the +-1 is not folded into the load
  * offset; the element pointer p is a named local declared before col/row
@@ -37,7 +37,7 @@ typedef struct {
     int height;
 } Grid;
 
-int func_021F5950(Grid *w)
+int ENCEFF_StepRipple(Grid *w)
 {
     s16 z[825];
     int i;

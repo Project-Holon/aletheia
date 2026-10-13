@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B716C",
+   "name": "SCRCMD_POKEMON_FLD_CheckTableItemInBag",
    "address": "0x021B716C",
    "kind": "game",
    "region": "ov021",

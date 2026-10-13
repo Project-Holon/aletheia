@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02161E4C",
+   "name": "EVENT_FIELD_PROCLINK_HasEventdataEntry",
    "address": "0x02161E4C",
    "kind": "sdk",
    "region": "ov010",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C748C",
+   "name": "FIELD_TASK_UpdateSpinEaseIn",
    "address": "0x021C748C",
    "kind": "game",
    "region": "ov021",

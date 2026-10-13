@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02194A58",
+   "name": "TALKMSGWIN_InitEntry",
    "address": "0x02194A58",
    "kind": "game",
    "region": "ov021",

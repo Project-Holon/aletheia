@@ -1,5 +1,5 @@
 /*
- * function: func_02160A64
+ * function: EVENT_SHORTCUT_MENU_CallSuspendHook
  * address:  0x02160A64
  * packet:   pkt_ov010_02160A64
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Runs the fn1 hook of the callback record func_02160A28 fills, or
+ * Runs the fn1 hook of the callback record EVENT_SHORTCUT_MENU_InitHooks fills, or
  * returns 1 when the hook is empty.
  */
 
@@ -25,7 +25,7 @@ typedef struct Callbacks {
     void *ctx;          /* 0x10 */
 } Callbacks;
 
-int func_02160A64(Callbacks *c)
+int EVENT_SHORTCUT_MENU_CallSuspendHook(Callbacks *c)
 {
     if (c->fn1 != 0)
         return c->fn1(c->ctx, c->arg);

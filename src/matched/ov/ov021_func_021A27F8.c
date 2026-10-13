@@ -1,5 +1,5 @@
 /*
- * function: func_021A27F8
+ * function: WEATHER_TASK_UpdateParticles
  * address:  0x021A27F8
  * packet:   pkt_ov021_021A27F8
  * region:   ov021
@@ -33,7 +33,7 @@ typedef struct {
     Node021A27F8 *head;
 } Obj021A27F8;
 
-void func_021A27F8(Obj021A27F8 *p)
+void WEATHER_TASK_UpdateParticles(Obj021A27F8 *p)
 {
     Node021A27F8 *cur = p->head;
     Node021A27F8 *nx;

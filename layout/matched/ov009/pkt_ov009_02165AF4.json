@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02165B5C",
+   "name": "WcmKeepAliveAlarm",
    "address": "0x02165B5C",
    "kind": "sdk",
    "region": "ov009",

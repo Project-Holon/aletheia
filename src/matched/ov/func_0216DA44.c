@@ -1,5 +1,5 @@
 /*
- * function: func_0216DA44
+ * function: FLDMMDL_OnMoveBitMove
  * address:  0x0216DA44
  * packet:   pkt_0216DA44
  * region:   ov010
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_0216D568 with a masked second argument.
+ * Tail call to FLDMMDL_SetMoveBit with a masked second argument.
  *
  * symbols:
- *   func_0216D568  0x0216D568  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
 
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_0216D568(void *p, u32 v);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 
 
-void func_0216DA44(u32 a)
+void FLDMMDL_OnMoveBitMove(u32 a)
 {
-    func_0216D568((void *)a, 0x10);
+    FLDMMDL_SetMoveBit((void *)a, 0x10);
 }
 

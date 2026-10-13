@@ -1,5 +1,5 @@
 /*
- * function: func_021D55D8
+ * function: BTL_POKEPARAM_IsMovePPFull
  * address:  0x021D55D8
  * packet:   pkt_ov093_021D55D8
  * region:   ov093
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 a; u8 b; u8 c; u8 pad[10]; } Ent;
-int func_021D55D8(u8 *p, int i, int s)
+int BTL_POKEPARAM_IsMovePPFull(u8 *p, int i, int s)
 {
     Ent *e;
     if (s) e = (Ent *)(p + 0x104) + i; else e = (Ent *)(p + 0x10a) + i;

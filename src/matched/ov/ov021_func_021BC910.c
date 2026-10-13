@@ -1,5 +1,5 @@
 /*
- * function: func_021BC910
+ * function: FIELD_PLACE_NAME_IsAllSpawned
  * address:  0x021BC910
  * packet:   pkt_ov021_021BC910
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD138  0x021BD138  thumb  ov021
+ *   FIELD_PLACE_NAME_GetMessageLength  0x021BD138  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -20,11 +20,11 @@ typedef struct {
     u8 b148;
 } Obj;
 
-extern u8 func_021BD138(u8 *p);
+extern u8 FIELD_PLACE_NAME_GetMessageLength(u8 *p);
 
-int func_021BC910(Obj *p)
+int FIELD_PLACE_NAME_IsAllSpawned(Obj *p)
 {
-    if (func_021BD138((u8 *)p) <= p->b148) {
+    if (FIELD_PLACE_NAME_GetMessageLength((u8 *)p) <= p->b148) {
         return 1;
     }
     return 0;

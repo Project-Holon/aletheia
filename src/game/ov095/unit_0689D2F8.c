@@ -15,12 +15,12 @@
  * symbols:
  *   func_021B9AB0  0x021B9AB0  thumb
  *   func_021B9AC8  0x021B9AC8  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021D5B68  0x021D5B68  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   func_0689D544 0x0689D544 thumb ov095
  *   func_021B9934  0x021B9934  thumb
  *   func_021B9A24  0x021B9A24  thumb
- *   func_021D6DCC  0x021D6DCC  thumb
+ *   BTL_POKEPARAM_AddFoughtPoke  0x021D6DCC  thumb
  */
 typedef unsigned char u8;
 
@@ -32,12 +32,12 @@ typedef struct { Rec r[6]; u8 idx[6]; } T;
 
 extern int func_021B9AB0(int);
 extern int func_021B9AC8(int);
-extern int func_021D5B68(int);
-extern int func_021D5440(int);
+extern int BTL_POKEPARAM_IsFainted(int);
+extern int BTL_POKEPARAM_GetPokeId(int);
 extern void func_0689D544(T *, int);
 extern int func_021B9A24(int, int);
 extern int func_021B9934(int, int);
-extern int func_021D6DCC(int, int);
+extern int BTL_POKEPARAM_AddFoughtPoke(int, int);
 void func_0689D2F8(T *p, int b);
 void func_0689D320(T *p, int b, int c, int d);
 void func_0689D338(T *p, u32 size, u32 category, int key, int extra);
@@ -97,8 +97,8 @@ void func_0689D338(T *p, u32 size, u32 category, int key, int extra)
     tr = p->r[idx[0]];
     p->r[idx[first]] = p->r[idx[second]];
     p->r[idx[second]] = tr;
-    if (func_021D5B68(key) == 0)
-        func_0689D320(p, idx[0], func_021D5440(key), extra);
+    if (BTL_POKEPARAM_IsFainted(key) == 0)
+        func_0689D320(p, idx[0], BTL_POKEPARAM_GetPokeId(key), extra);
     else
         p->r[i].c = 0x1f;
     for (i = 0; i < n; i++) func_0689D544(p, idx[i]);
@@ -120,7 +120,7 @@ void func_0689D448(T *a, int b, int c)
             continue;
         if (func_021B9A24(q->c, k) != 0)
             continue;
-        func_021D6DCC(func_021B9934(c, q->c), k);
-        func_021D6DCC(func_021B9934(c, k), q->c);
+        BTL_POKEPARAM_AddFoughtPoke(func_021B9934(c, q->c), k);
+        BTL_POKEPARAM_AddFoughtPoke(func_021B9934(c, k), q->c);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215AAF4
+ * function: SCRCMD_WORK_CmdGetSaveRecord
  * address:  0x0215AAF4
  * packet:   pkt_0215AAF4
  * region:   ov010
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0216F830  0x0216F830  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   TRCARD_SYS_CountStars  0x0216F830  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0216F830(void *save);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern int TRCARD_SYS_CountStars(void *save);
 
-int func_0215AAF4(int a0, int a1)
+int SCRCMD_WORK_CmdGetSaveRecord(int a0, int a1)
 {    int t5;
     int t6;
     u16 *q;
@@ -32,13 +32,13 @@ int func_0215AAF4(int a0, int a1)
 t6 = a1 + 0;
 t5 = a0 + 0;
 a0 = t6 + 0;
-    v0 = func_0215A5E4((void *)a0);
+    v0 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0215AB00:
 a0 = t5 + 0;
 a1 = t6 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
+    q = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_0215AB0A:
-    a0 = func_0216F830(v0);
+    a0 = TRCARD_SYS_CountStars(v0);
 loc_0215AB12:
 *q = a0;
 a0 = 0;

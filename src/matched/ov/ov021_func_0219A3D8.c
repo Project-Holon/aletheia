@@ -1,5 +1,5 @@
 /*
- * function: func_0219A3D8
+ * function: FLDMMDL_MOVECODE_GetMoveRect
  * address:  0x0219A3D8
  * packet:   pkt_ov021_0219A3D8
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D7E8  0x0216D7E8  thumb  ov010
- *   func_0216D7F8  0x0216D7F8  thumb  ov010
- *   func_0216D660  0x0216D660  thumb  ov010
- *   func_0216D66C  0x0216D66C  thumb  ov010
- *   func_0216D5A0  0x0216D5A0  thumb  ov010
+ *   FLDMMDL_GetGridInitX  0x0216D7E8  thumb  ov010
+ *   FLDMMDL_GetGridInitZ  0x0216D7F8  thumb  ov010
+ *   FLDMMDL_GetMoveLimitX  0x0216D660  thumb  ov010
+ *   FLDMMDL_GetMoveLimitZ  0x0216D66C  thumb  ov010
+ *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
  * Addresses are Black-image addresses.
  * Store order in each arm is left, right, top, bottom (x pair, then y pair);
  * the field order left, top, right, bottom puts stores to +0/+8 first.
@@ -24,24 +24,24 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef struct { int left, top, right, bottom; } Rect;
-extern int func_0216D7E8(void *p);
-extern int func_0216D7F8(void *p);
-extern int func_0216D660(void *p);
-extern int func_0216D66C(void *p);
-extern u16 func_0216D5A0(void *p);
+extern int FLDMMDL_GetGridInitX(void *p);
+extern int FLDMMDL_GetGridInitZ(void *p);
+extern int FLDMMDL_GetMoveLimitX(void *p);
+extern int FLDMMDL_GetMoveLimitZ(void *p);
+extern u16 FLDMMDL_GetMoveCode(void *p);
 
-void func_0219A3D8(u32 a, Rect *r)
+void FLDMMDL_MOVECODE_GetMoveRect(u32 a, Rect *r)
 {
     int x;
     int y;
     int w;
     int h;
 
-    x = func_0216D7E8((void *)a);
-    y = func_0216D7F8((void *)a);
-    w = func_0216D660((void *)a);
-    h = func_0216D66C((void *)a);
-    switch (func_0216D5A0((void *)a)) {
+    x = FLDMMDL_GetGridInitX((void *)a);
+    y = FLDMMDL_GetGridInitZ((void *)a);
+    w = FLDMMDL_GetMoveLimitX((void *)a);
+    h = FLDMMDL_GetMoveLimitZ((void *)a);
+    switch (FLDMMDL_GetMoveCode((void *)a)) {
     case 6:
         r->left = x - w;
         r->right = x;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D70FC",
+   "name": "BTL_EVENT_DispatchEventToType",
    "address": "0x021D70FC",
    "kind": "game",
    "region": "ov093",

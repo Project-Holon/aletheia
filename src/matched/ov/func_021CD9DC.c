@@ -1,5 +1,5 @@
 /*
- * function: func_021CD9DC
+ * function: BTL_CLIENT_GetQueuedCommandWord
  * address:  0x021CD9DC
  * packet:   pkt_021CC95C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD9DC   0x021CD9DC  thumb
+ *   BTL_CLIENT_GetQueuedCommandWord   0x021CD9DC  thumb
  *
  * Reads the u16 field at #0x22 of the argument and returns it.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021CD9DC  ldrh r0,[r0,#0x22] */
 struct QD { u8 pad[0x22]; u16 v; };
-u16 func_021CD9DC(struct QD *p) { return p->v; }
+u16 BTL_CLIENT_GetQueuedCommandWord(struct QD *p) { return p->v; }
 

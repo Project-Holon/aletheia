@@ -1,5 +1,5 @@
 /*
- * function: func_0215BBD0
+ * function: SCRCMD_PROC_AddMonToPartyDetailed
  * address:  0x0215BBD0
  * packet:   pkt_ov010_0215BBD0
  * region:   ov010
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Sibling of func_0215BB50 (same request record, eight reads instead of
- * three, three of them clamped to 2), and of func_0215C200: the u16 locals
+ * Sibling of SCRCMD_PROC_AddMonToPartySimple (same request record, eight reads instead of
+ * three, three of them clamped to 2), and of SCRCMD_PROC_AddMonToBoxDetailed: the u16 locals
  * are what make the second clamp reload its value from the spill slot.
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5CC  0x0215A5CC  thumb  ov010
- *   func_02012934  0x02012934  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215C510  0x0215C510  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_PROC_AddMonToParty  0x0215C510  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -40,17 +40,17 @@ typedef struct {
     int c3;
 } Req;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5E4(void *a0);
-extern u16 func_0215A5CC(void *);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern u16 SCRCMD_WORK_GetHeapId(void *);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u16 func_02159B10(void *, void *);
-extern int func_0215C510(void *a, void *b);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern int SCRCMD_PROC_AddMonToParty(void *a, void *b);
 
-int func_0215BBD0(void *a0, void *a1)
+int SCRCMD_PROC_AddMonToPartyDetailed(void *a0, void *a1)
 {
     void *h;
     u16 n;
@@ -65,20 +65,20 @@ int func_0215BBD0(void *a0, void *a1)
     u16 t8;
     Req r;
 
-    func_0215A5DC(a1);
-    h = func_0215A5E4(a1);
-    n = func_0215A5CC(a1);
-    func_02012934(h);
-    func_02012944(h);
-    out = func_02159AE8(a0, a1);
-    t1 = func_02159B10(a0, a1);
-    t2 = func_02159B10(a0, a1);
-    t3 = func_02159B10(a0, a1);
-    t4 = func_02159B10(a0, a1);
-    t5 = func_02159B10(a0, a1);
-    t6 = func_02159B10(a0, a1);
-    t7 = func_02159B10(a0, a1);
-    t8 = func_02159B10(a0, a1);
+    SCRCMD_WORK_GetGameSystem(a1);
+    h = SCRCMD_WORK_GetGameData(a1);
+    n = SCRCMD_WORK_GetHeapId(a1);
+    GAME_DATA_GetMyParty(h);
+    GAME_DATA_GetMyStatus(h);
+    out = SCRIPT_WORK_ReadWorkPointer(a0, a1);
+    t1 = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    t2 = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    t3 = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    t4 = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    t5 = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    t6 = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    t7 = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    t8 = SCRIPT_WORK_ReadWorkValue(a0, a1);
     r.h = n;
     r.p0 = t1;
     r.p1 = t2;
@@ -94,6 +94,6 @@ int func_0215BBD0(void *a0, void *a1)
     if (r.c2 >= 3)
         r.c2 = 2;
     r.c3 = t8;
-    *out = func_0215C510(h, &r);
+    *out = SCRCMD_PROC_AddMonToParty(h, &r);
     return 0;
 }

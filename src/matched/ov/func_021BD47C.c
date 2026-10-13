@@ -1,5 +1,5 @@
 /*
- * function: func_021BD47C
+ * function: PLACE_NAME_LETTER_Deactivate
  * address:  0x021BD47C
  * packet:   pkt_021BD47C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021BD47C(u8 *p)
+void PLACE_NAME_LETTER_Deactivate(u8 *p)
 {
     ((struct Obj18232 *)p)->f44 = 0;
 }

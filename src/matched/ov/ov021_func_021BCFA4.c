@@ -1,5 +1,5 @@
 /*
- * function: func_021BCFA4
+ * function: FIELD_PLACE_NAME_InitWork
  * address:  0x021BCFA4
  * packet:   pkt_ov021_021BCFA4
  * region:   ov021
@@ -21,7 +21,7 @@ typedef struct { u32 f0; u32 f4; u32 pad8[8]; int f28; u32 pad2C[6]; u16 f44; u1
 extern void func_02082BCC(void *, int, int);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
-void func_021BCFA4(X *x, u32 b)
+void FIELD_PLACE_NAME_InitWork(X *x, u32 b)
 {
     func_02082BCC(x, 0, 0x154);
     x->f0 = b;

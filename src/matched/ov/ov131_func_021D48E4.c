@@ -13,12 +13,12 @@
  * symbols:
  *   func_02061C30 0x02061C30 arm
  *   MCSS_Exit 0x02014BA8 thumb
- *   func_02048AC4 0x02048AC4 arm
- *   func_02046788 0x02046788 arm
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  */
 #include "../include/Obj10503.h"
@@ -26,22 +26,22 @@ extern void func_02061C30(void);
 typedef unsigned char  u8;
 struct Bank;
 extern void MCSS_Exit(u8 *a0);
-extern unsigned int func_02048AC4(void *ptr);
-extern void func_02046788(void);
+extern unsigned int G3D_CAMERA_Delete(void *ptr);
+extern void G3D_SYSTEM_Exit(void);
 typedef unsigned int   u32;
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 extern void func_020403F4(unsigned int);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 void P_STATUS_ExitGraphics(char *p)
 {
     func_02061C30();
     MCSS_Exit(((struct Obj10503 *)p)->f78);
-    func_02048AC4(((struct Obj10503 *)p)->f70);
-    func_02046788();
-    func_0204B1CC(((struct Obj10503 *)p)->f174);
-    func_0204A5AC();
+    G3D_CAMERA_Delete(((struct Obj10503 *)p)->f70);
+    G3D_SYSTEM_Exit();
+    CLACT_DeleteUnit(((struct Obj10503 *)p)->f174);
+    CLACT_ExitSystem();
     func_020403F4(5);
     func_020403F4(6);
     func_020403F4(7);
@@ -49,6 +49,6 @@ void P_STATUS_ExitGraphics(char *p)
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
 }

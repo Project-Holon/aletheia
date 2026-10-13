@@ -1,5 +1,5 @@
 /*
- * function: func_021D50B4
+ * function: BTL_POKEPARAM_SyncMovesFromMon
  * address:  0x021D50B4
  * packet:   pkt_ov093_021D50B4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5244  0x021D5244  thumb  ov093
+ *   BTL_POKEPARAM_LoadMoveInfo  0x021D5244  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -30,15 +30,15 @@ struct Work {
     u8 n140;
 };
 
-extern int func_021D5244(struct Ent *e, void *h, u8 k);
+extern int BTL_POKEPARAM_LoadMoveInfo(struct Ent *e, void *h, u8 k);
 
-void func_021D50B4(struct Work *p)
+void BTL_POKEPARAM_SyncMovesFromMon(struct Work *p)
 {
     void *h = p->h;
     u32 i;
     p->n140 = 0;
     for (i = 0; i < 4; i++) {
-        if (func_021D5244(&p->e[i], h, i)) p->n140++;
+        if (BTL_POKEPARAM_LoadMoveInfo(&p->e[i], h, i)) p->n140++;
         if (p->e[i].fC != 0) {
             p->e[i].h[3] = p->e[i].h[0];
             p->e[i].h[4] = p->e[i].h[1];

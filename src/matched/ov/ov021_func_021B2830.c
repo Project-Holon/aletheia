@@ -1,5 +1,5 @@
 /*
- * function: func_021B2830
+ * function: SCRCMD_SCREENEFFECTS_StartBrightnessChange
  * address:  0x021B2830
  * packet:   pkt_ov021_021B2830
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011330  0x02011330  thumb
- *   func_0204E720  0x0204E720  arm
+ *   VM_GetU16  0x02011330  thumb
+ *   FADE_Start  0x0204E720  arm
  */
 
 typedef unsigned int u32;
 
 typedef unsigned short u16;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
+extern u16 VM_GetU16(struct Stream *s);
 typedef signed int     s32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
-int func_021B2830(u32 a)
+int SCRCMD_SCREENEFFECTS_StartBrightnessChange(u32 a)
 {
-    u32 w = func_02011330((struct Stream *)a);
-    u32 x = func_02011330((struct Stream *)a);
-    u32 y = func_02011330((struct Stream *)a);
-    u32 z = func_02011330((struct Stream *)a);
+    u32 w = VM_GetU16((struct Stream *)a);
+    u32 x = VM_GetU16((struct Stream *)a);
+    u32 y = VM_GetU16((struct Stream *)a);
+    u32 z = VM_GetU16((struct Stream *)a);
 
-    func_0204E720(w, x, y, z);
+    FADE_Start(w, x, y, z);
     return 0;
 }

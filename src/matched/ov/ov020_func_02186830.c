@@ -1,5 +1,5 @@
 /*
- * function: func_02186830
+ * function: FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable
  * address:  0x02186830
  * packet:   pkt_02186830
  * region:   ov020
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  */
 
 struct ArcFile;
 
-extern void *func_02049250(struct ArcFile *arc, unsigned int member,
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, unsigned int member,
                            unsigned int heap);
 
-void *func_02186830(struct ArcFile **p, int b, unsigned int heap)
+void *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct ArcFile **p, int b, unsigned int heap)
 {
-    return func_02049250(*p, b + 0x22, heap);
+    return ARC_TOOL_LoadHandleMember(*p, b + 0x22, heap);
 }

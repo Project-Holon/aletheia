@@ -1,5 +1,5 @@
 /*
- * function: func_021D5FE4
+ * function: BTL_POKEPARAM_SetContFlag
  * address: 0x021D5FE4
  * packet: pkt_ov093_021D5FE4
  * region: ov093
@@ -11,7 +11,7 @@
  * lever: index the offset base (p + 0x155), preserving its separate add.
  */
 typedef unsigned char u8;
-void func_021D5FE4(u8 *p, unsigned int n)
+void BTL_POKEPARAM_SetContFlag(u8 *p, unsigned int n)
 {
     (p + 0x155)[(u8)(n >> 3)] |= (u8)(1 << (n & 7));
 }

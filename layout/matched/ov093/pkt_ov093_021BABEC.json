@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BABEC",
+   "name": "BTL_SERVER_SetHandler",
    "address": "0x021BABEC",
    "kind": "game",
    "region": "ov093",

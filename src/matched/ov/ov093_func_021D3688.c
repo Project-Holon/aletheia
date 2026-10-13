@@ -1,5 +1,5 @@
 /*
- * function: func_021D3688
+ * function: BTL_CLIENT_CmdHideStatusPanel
  * address:  0x021D3688
  * packet:   pkt_ov093_021D3688
  * region:   ov093
@@ -23,7 +23,7 @@ extern int func_021B8D8C(void *p, void *a, u32 b);
 extern void func_021EA788(u32 *p, u32 a2);
 extern int func_021EA798(u32 *p, u32 a2);
 
-int func_021D3688(u32 *a, int *b, u32 *c)
+int BTL_CLIENT_CmdHideStatusPanel(u32 *a, int *b, u32 *c)
 {
     int s;
 

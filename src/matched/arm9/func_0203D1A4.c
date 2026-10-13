@@ -1,5 +1,5 @@
 /*
- * function: func_0203D1A4
+ * function: GFL_NET_GetHandleNetID
  * address:  0x0203D1A4
  * packet:   pkt_0203CDD4
  * region:   arm9
@@ -17,8 +17,8 @@
  * `bl` here as a real function rather than a wildcarded relocation.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D1A4.c \
- *       --func func_0203D1A4 --addr 0x0203D1A4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_GetHandleNetID.c \
+ *       --func GFL_NET_GetHandleNetID --addr 0x0203D1A4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -28,7 +28,7 @@ struct Link;
 struct Entry;
 extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 
-u32 func_0203D1A4(struct Link *p)
+u32 GFL_NET_GetHandleNetID(struct Link *p)
 {
     return GFL_NET_HANDLE_GetNetHandleID((struct Entry *)p) & 0xff;
 }

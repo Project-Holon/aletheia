@@ -33,8 +33,8 @@
  *   func_021D7B64 0x021D7B64 thumb ov116
  *   func_021D7CF4 0x021D7CF4 thumb ov116
  *   func_021C8FA8 0x021C8FA8 arm ov114
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
@@ -62,9 +62,9 @@ extern void GFL_USE_FadeInBgmFull(unsigned);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void func_021D737C(u8 *);
 extern void func_021D7B70(u8 *,u32);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void func_021D7A3C(u8 *);
-extern int func_021D73D4(u8 *),func_0204E804(void),func_021D7A94(u8 *),func_021D80CC(void *);
+extern int func_021D73D4(u8 *),FADE_IsActive(void),func_021D7A94(u8 *),func_021D80CC(void *);
 extern void func_021D8010(void *,u32);
 extern void func_021D8190(u8 *p);
 extern void func_021D6B88(u8 *,void *,int);
@@ -85,8 +85,8 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
     case 2: func_021D737C(p); ++*state; break;
     case 3: if(func_021D73D4(p)==0) ++*state; else { ((struct Obj22612 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; *state=17; } break;
-    case 4: func_021D7B70(p+4,125); func_0204E720(3,16,0,1); ++*state; break;
-    case 5: if(func_0204E804()==0) ++*state; break;
+    case 4: func_021D7B70(p+4,125); FADE_Start(3,16,0,1); ++*state; break;
+    case 5: if(FADE_IsActive()==0) ++*state; break;
     case 6: func_021D7A3C(p); func_021D8010(p+4,26); func_021D8190(p+4); ++*state; break;
     case 7: if(func_021D7A94(p)!=0) ++*state; break;
     case 8: if(func_021D80CC(p+4)!=0) ++*state; break;
@@ -95,8 +95,8 @@ int func_021D6710(void *a,int *state,int b,u8 *p)
     case 11: func_021D6CBC(p+0x1610,((struct Obj00671 *)p)->f1844,p+0x182c); ++*state; break;
     case 12: if(func_021D6D18(p+0x1610,p+0x182c)!=0) ++*state; break;
     case 13: v=func_021D7424(p,125); if(v==1) { ((struct Obj22613 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=0; ++*state; } else if(v==2) { ((struct Obj22614 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; ++*state; } break;
-    case 14: func_021D7AA8(p); func_0204E720(3,0,16,1); ++*state; break;
-    case 15: if(func_021D7AC8(p)!=0 && func_0204E804()==0) { func_021D7C58(p+4); ++*state; } break;
+    case 14: func_021D7AA8(p); FADE_Start(3,0,16,1); ++*state; break;
+    case 15: if(func_021D7AC8(p)!=0 && FADE_IsActive()==0) { func_021D7C58(p+4); ++*state; } break;
     case 16: if(GFL_NET_ERR_ShowScreen(0)==0) func_021D73E0(p); ++*state; break;
     case 17: GFL_USE_FadeOutBgm(6); ++*state; break;
     case 18: if(GFL_USE_IsBgmFading()==0) ++*state; break;

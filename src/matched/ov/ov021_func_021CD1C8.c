@@ -1,5 +1,5 @@
 /*
- * function: func_021CD1C8
+ * function: FIELD_BBD_COLOR_Create
  * address:  0x021CD1C8
  * packet:   pkt_ov021_021CD1C8
  * region:   ov021
@@ -29,7 +29,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern const char d_021DE5D4[];
 
-Holder *func_021CD1C8(u32 heap)
+Holder *FIELD_BBD_COLOR_Create(u32 heap)
 {
     Holder *h = func_02030734(heap, 0x28, 1, d_021DE5D4, 0x5b);
     h->arc = func_020490F4(0xaf, heap);

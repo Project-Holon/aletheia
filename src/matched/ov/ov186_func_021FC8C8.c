@@ -13,17 +13,17 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02034714 0x02034714 arm
- *   func_020450F0 0x020450F0 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B688 0x0204B688 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_02043678 0x02043678 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_0201C7D0 0x0201C7D0 thumb
+ *   BMP_Create 0x02043678 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_021FC124 0x021FC124 thumb ov186
@@ -54,24 +54,24 @@ extern const char d_02200D5C[],d_02200D68[];
 extern const Pair d_02200B0C[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32),func_02034714(const char *,u32,const char *);
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Actor;
 struct Cfg;
 struct Descriptor;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern u8 func_02045730(struct Descriptor *p);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *,u32);
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C7D0(void *,short,short,void *,void *,u16);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
 extern void func_021FD860(char *,u32,const Pair *),func_021FBE54(char *,u32,u32);
 extern int func_021FC124(char *,int,Triple *);
 extern unsigned func_021FC20C(char *p);
@@ -119,8 +119,8 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         p->methods[0]=(void (*)(void))func_021FCFE0;p->methods[1]=(void (*)(void))func_021FD0A8;p->methods[2]=(void (*)(void))func_021FD110;
         if(p->cfg.cursor) func_021FD860((char *)p->cfg.cursor,5,&d_02200B0C[p->index]);
     }
-    p->descriptor=func_020450F0(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
-    func_02045374((struct Cfg *)p->descriptor);
+    p->descriptor=BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
+    BMP_WIN_MakeScreen((struct Cfg *)p->descriptor);
     func_02041B6C(func_02045730((struct Descriptor *)p->descriptor));
     i=0;
     func_02082BCC(&arrow,0,8);
@@ -140,7 +140,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         if(cfg->mode==0) arrow.y=i==0?16:128;
         else arrow.y=i==0?64:184;
         arrow.id=i;
-        p->handles[i]=(u32)func_0204B294((void *)cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
+        p->handles[i]=(u32)CLACT_CreateActor((void *)cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
         func_0204B92C((struct Obj *)p->handles[i],1);func_0204B688((struct Actor *)p->handles[i],1);
     }
     i=0;
@@ -150,7 +150,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     if(!func_021FC124(p->cfg.resources,6,&marks)) func_02034714(d_02200D68,0,d_02200D68);
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
-        p->handles[i]=(u32)func_0204B294((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
+        p->handles[i]=(u32)CLACT_CreateActor((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
         func_0204B688((struct Actor *)p->handles[i],1);
     }
     font=func_021FC20C(p->cfg.resources);
@@ -158,9 +158,9 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         void *text;
         text=p->cfg.list[i].text;
         if(text) {
-            p->bitmaps[i]=func_02043678(p->cfg.width,p->cfg.spacing,32,heap);
-            func_02043B5C(p->bitmaps[i],0);
-            func_0201C7D0(p->bitmaps[i],0,0,text,(void *)font,0x3da0);
+            p->bitmaps[i]=BMP_Create(p->cfg.width,p->cfg.spacing,32,heap);
+            BMP_Clear(p->bitmaps[i],0);
+            PRINTSYS_PrintColor(p->bitmaps[i],0,0,text,(void *)font,0x3da0);
         }
     }
     func_021FCE60((char *)p,p->start);

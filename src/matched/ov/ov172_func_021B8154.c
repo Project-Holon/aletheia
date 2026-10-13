@@ -12,9 +12,9 @@
  *   (one-member u8[0x21] struct); the slot stores go in offset order (0x74 = 0, 0x78 = 0xff, 0x7c = 0);
  *   in the j loop `hit = 1` comes before the slot store.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
- *   func_0203D1B4 0x0203D1B4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   GFL_NET_LOWER_DATA_IsSendFinished 0x0203EA54 arm
  *   GFL_NET_LOWER_DATA_SetSendData 0x0203E758 arm
  *   func_02082A90 0x02082A90 arm
@@ -41,9 +41,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Entry;
 struct Link;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *p);
-extern int func_0203D1B4(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_LOWER_DATA_IsSendFinished(void);
 extern void GFL_NET_LOWER_DATA_SetSendData(int, int, int, int);
 extern void func_02082A90(const void *, void *, u32);
@@ -77,7 +77,7 @@ void func_021B8154(void *a, char *b)
     u32 s18, s1c, s20, s24;
     int res;
     int hit;
-    busy = func_0203D1A4((struct Link *)func_020399A8());
+    busy = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
     if (W(0x174) == 2) {
         if (W(0x64) == 0) {
             u32 v = func_021BDFDC(a);
@@ -94,7 +94,7 @@ void func_021B8154(void *a, char *b)
             func_021B7740(a, (char *)v, 0, 0);
         }
     } else {
-        cur = func_0203D1B4();
+        cur = GFL_NET_GetNegotiationNum();
         if (B(4) != cur) {
             func_021B8454(a, b);
             func_021BE1A4(a);

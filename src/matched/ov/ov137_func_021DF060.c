@@ -15,7 +15,7 @@
  *   func_021E04C4 0x021E04C4 thumb ov137
  *   func_021E140C 0x021E140C thumb ov137
  *   func_021DCBC4 0x021DCBC4 thumb ov137
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021E1204 0x021E1204 thumb ov137
  *   func_021E0634 0x021E0634 thumb ov137
  *   func_021E1604 0x021E1604 thumb ov137
@@ -36,7 +36,7 @@ extern void func_021E140C(char *);
 extern void func_021E0634(u8 *p, int a);
 extern void func_021E1604(char *,int);
 extern int func_021DCBC4(void *,int,void *,int);
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 int func_021DF060(char *p)
 {
     char *s;
@@ -56,7 +56,7 @@ int func_021DF060(char *p)
         }
     }
     s=p+0xe0;
-    if(func_02039338()==0) {
+    if(GFL_NET_SYSTEM_GetCurrentAid()==0) {
         if(((struct Obj01415 *)p)->f8<300) {
             ((struct Obj05429 *)s)->f48+=95;
             if(((struct Obj05429 *)s)->f48>=0x7000) ((struct Obj05429 *)s)->f48=0x7000;
@@ -65,14 +65,14 @@ int func_021DF060(char *p)
             if(((struct Obj05429 *)s)->f48<0x4000) ((struct Obj05429 *)s)->f48=0x4000;
         }
     }
-    if(func_02039338()==0) {
+    if(GFL_NET_SYSTEM_GetCurrentAid()==0) {
         msg.a=((struct Obj01415 *)p)->f11C;
         msg.flag=((struct Obj01415 *)p)->f20;
         msg.b=((struct Obj01415 *)p)->f33C;
         for(i=0;i<((struct Obj01415 *)p)->f30;i++) msg.values[i]=*(int *)(p+i*0xb4+0x2fc)/4096;
         func_021DCBC4(((struct Obj01415 *)p)->fDC,0x2808,&msg,20);
     }
-    if(func_02039338()==0) {
+    if(GFL_NET_SYSTEM_GetCurrentAid()==0) {
         rate=((struct Obj01415 *)p)->f128;
         if(func_021E1204(p)==1) func_021E0634((u8 *)(p+0xe0),rate*2);
         else func_021E1604(p,rate);

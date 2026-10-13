@@ -27,9 +27,9 @@
  *
  *     void func_0200A848(struct Rec2DC *p)
  *     {
- *         func_02161D98(p);
- *         func_02161EEC(p->unk1E8);
- *         func_02161F00(p->unk1FC);
+ *         EVENT_FIELD_PROCLINK_InitEventdataSystem(p);
+ *         EVENT_FIELD_PROCLINK_InitIdList(p->unk1E8);
+ *         EVENT_FIELD_PROCLINK_InitReturnHeader(p->unk1FC);
  *     }
  *
  * and all three callees live in overlay space.  0x02161D98 is attested by the

@@ -12,8 +12,8 @@
  * symbols:
  *   func_021F1004  0x021F1004  thumb
  *   func_021F0FE8  0x021F0FE8  thumb  ov032
- *   func_02165CC0  0x02165CC0  thumb  ov010
- *   func_02021F64  0x02021F64  thumb
+ *   GAME_BEACON_ACCESSOR_GetFavoriteColorRgb  0x02165CC0  thumb  ov010
+ *   PALANM_BlendColors  0x02021F64  thumb
  *   PALANM_CopyToSlot  0x020215BC  thumb
  */
 #include "../include/Obj00007.h"
@@ -24,8 +24,8 @@ typedef unsigned int u32;
 
 extern int func_021F0FE8(int a);
 struct PalAnmSlot;
-extern void func_02165CC0(int a0, int a1);
-extern void func_02021F64(u16 *, u16 *, int, u8, u16);
+extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int a0, int a1);
+extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
 void func_021F1004(char *p, u8 *q, int r)
@@ -41,7 +41,7 @@ void func_021F1004(char *p, u8 *q, int r)
     a[0] = t[b];
     a[1] = t[b + 1];
     a[2] = t[b + 2];
-    func_02165CC0((int)(&a[3]), r);
-    func_02021F64(&a[3], &a[4], 1, 3, 0);
+    GAME_BEACON_ACCESSOR_GetFavoriteColorRgb((int)(&a[3]), r);
+    PALANM_BlendColors(&a[3], &a[4], 1, 3, 0);
     PALANM_CopyToSlot((struct PalAnmSlot *)(*(int *)&((struct Obj00007 *)p)->fAC), a, 3, (u16)((q[0] + 4) * 16 + 1), 10);
 }

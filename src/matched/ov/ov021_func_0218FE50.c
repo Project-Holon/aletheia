@@ -1,5 +1,5 @@
 /*
- * function: func_0218FE50
+ * function: FIELD_CAMERA_IsMoving
  * address:  0x0218FE50
  * packet:   pkt_ov021_0218FE50
  * region:   ov021
@@ -25,7 +25,7 @@ typedef struct {
     u32 unk9c;
 } Sub;
 
-int func_0218FE50(u8 *a)
+int FIELD_CAMERA_IsMoving(u8 *a)
 {
     Sub *s = (Sub *)(a + 0xf0);
     if (((struct Obj19576 *)a)->f1AC != 0 && s->unk9c != 0)

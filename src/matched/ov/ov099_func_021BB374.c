@@ -18,8 +18,8 @@
  *   POKEGRA_RegisterTrainerCgr  0x0202DA48  thumb
  *   POKEGRA_RegisterTrainerPalette  0x0202DA18  thumb
  *   POKEGRA_RegisterTrainerCellAnim  0x0202DA6C  thumb
- *   func_02049238  0x02049238  arm
- *   func_0204B294  0x0204B294  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  */
 #include "../include/Obj00008.h"
 
@@ -40,9 +40,9 @@ extern void *POKEGRA_RegisterTrainerCgr(void *a, int b, int c, u16 d);
 typedef signed int     s32;
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern int POKEGRA_RegisterTrainerCellAnim(int a0, int a1, int a2, unsigned short a3);
-extern void func_02049238(void *o);
+extern void ARC_TOOL_DeleteHandle(void *o);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
 void func_021BB374(char *p, int a, int b)
 {
@@ -59,6 +59,6 @@ void func_021BB374(char *p, int a, int b)
     ((struct Obj00008 *)p)->f184 = POKEGRA_RegisterTrainerCgr(o, r, 1, b);
     ((struct Obj00008 *)p)->f188 = (void *)POKEGRA_RegisterTrainerPalette((u32)o, r, 1, 0, b);
     ((struct Obj00008 *)p)->f18C = (void *)POKEGRA_RegisterTrainerCellAnim(r, 2, 1, b);
-    func_02049238(o);
-    ((struct Obj00008 *)p)->f180 = func_0204B294(((struct Obj00008 *)p)->f110, (unsigned int)((struct Obj00008 *)p)->f184, (unsigned int)((struct Obj00008 *)p)->f188, (unsigned int)((struct Obj00008 *)p)->f18C, &t, 1, b);
+    ARC_TOOL_DeleteHandle(o);
+    ((struct Obj00008 *)p)->f180 = CLACT_CreateActor(((struct Obj00008 *)p)->f110, (unsigned int)((struct Obj00008 *)p)->f184, (unsigned int)((struct Obj00008 *)p)->f188, (unsigned int)((struct Obj00008 *)p)->f18C, &t, 1, b);
 }

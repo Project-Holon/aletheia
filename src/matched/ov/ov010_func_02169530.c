@@ -1,5 +1,5 @@
 /*
- * function: func_02169530
+ * function: FIELD_G3D_MAP_GetMemberIndex
  * address:  0x02169530
  * packet:   pkt_ov010_02169530
  * region:   ov010
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj19045.h"
 
-void func_02169530(unsigned char *a, int *out)
+void FIELD_G3D_MAP_GetMemberIndex(unsigned char *a, int *out)
 {
     *out = ((struct Obj19045 *)a)->f14;
 }

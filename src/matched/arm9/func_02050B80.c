@@ -1,5 +1,5 @@
 /*
- * function: func_02050B80
+ * function: PARTICLE_InitManager
  * address:  0x02050B80
  * packet:   pkt_02050A70
  * region:   arm9
@@ -40,7 +40,7 @@ extern const char sParticleFile[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void func_02050B80(u32 heap)
+void PARTICLE_InitManager(u32 heap)
 {
     int i = 0;
 

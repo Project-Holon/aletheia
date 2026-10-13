@@ -15,7 +15,7 @@
  * symbols:
  *   func_021ED918  0x021ED918  thumb  ov170
  *   func_020061E4 0x020061E4 thumb
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021DD16C 0x021DD16C thumb
  *   func_021DD930 0x021DD930 thumb
@@ -62,7 +62,7 @@ extern u32 BGWINFRM_UpdateMove(struct WinMgr *mgr, u32 idx);
 extern void func_021ED918(char *, int);
 extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_021EF400(unsigned char *p);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021EF480(struct WinMgr *mgr);
 extern void func_021ED888(char *p, int v);
@@ -116,7 +116,7 @@ int func_021E0200(unsigned char *p)
     unsigned y;
     switch (b->state) {
     case 0:
-        if (func_02035C38() == 1)
+        if (TOUCHPANEL_GetCont() == 1)
             func_021EF57C(MGR(p));
         b->state = 1;
         break;

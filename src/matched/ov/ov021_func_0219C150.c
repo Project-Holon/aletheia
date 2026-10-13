@@ -1,5 +1,5 @@
 /*
- * function: func_0219C150
+ * function: FLDMMDL_MOVE_WallWalkTryStep
  * address:  0x0219C150
  * packet:   pkt_ov021_0219C150
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219C338  0x0219C338  thumb  ov021
+ *   FLDMMDL_MOVE_WallWalkStepOnce  0x0219C338  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -18,11 +18,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0219C338(char *a, u32 *s, u32 c);
+extern int FLDMMDL_MOVE_WallWalkStepOnce(char *a, u32 *s, u32 c);
 
-int func_0219C150(char *a, u8 *s)
+int FLDMMDL_MOVE_WallWalkTryStep(char *a, u8 *s)
 {
-    func_0219C338(a, (u32 *)s, 12);
+    FLDMMDL_MOVE_WallWalkStepOnce(a, (u32 *)s, 12);
     s[0]++;
     return 1;
 }

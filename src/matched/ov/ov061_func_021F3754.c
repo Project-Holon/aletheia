@@ -1,5 +1,5 @@
 /*
- * function: func_021F3754
+ * function: GIMMICK61_Exit
  * address:  0x021F3754
  * packet:   pkt_ov061_021F3754
  * region:   ov061
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE418  0x021BE418  thumb  ov021
- *   func_021897A0  0x021897A0  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
+ *   FIELDMAP_FreeCommonWork  0x021897A0  thumb  ov021
  */
 
-extern int func_02188D2C(int *p);
-extern void func_021BE418(unsigned char *p, unsigned short i);
-extern void func_021897A0(unsigned char *p, int id);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void FLD_EXP_OBJ_RemoveUnit(unsigned char *p, unsigned short i);
+extern void FIELDMAP_FreeCommonWork(unsigned char *p, int id);
 
-void func_021F3754(unsigned char *p)
+void GIMMICK61_Exit(unsigned char *p)
 {
-    func_021BE418((unsigned char *)func_02188D2C((int *)p), 0);
-    func_021897A0(p, 0);
+    FLD_EXP_OBJ_RemoveUnit((unsigned char *)FIELDMAP_GetExpObj((int *)p), 0);
+    FIELDMAP_FreeCommonWork(p, 0);
 }

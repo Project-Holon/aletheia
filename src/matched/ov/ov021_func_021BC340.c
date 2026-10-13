@@ -1,5 +1,5 @@
 /*
- * function: func_021BC340
+ * function: FLDEFF_REFLECT_GetZoneHeightOffset
  * address:  0x021BC340
  * packet:   pkt_ov021_021BC340
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BC340(int a, int b)
+int FLDEFF_REFLECT_GetZoneHeightOffset(int a, int b)
 {
     int r = 0;
 

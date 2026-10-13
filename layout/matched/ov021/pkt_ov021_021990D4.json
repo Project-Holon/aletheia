@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021990D4",
+   "name": "FLDMMDL_ACMD_BounceMove",
    "address": "0x021990D4",
    "kind": "game",
    "region": "ov021",

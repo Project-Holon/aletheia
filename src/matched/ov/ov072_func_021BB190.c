@@ -1,5 +1,5 @@
 /*
- * function: func_021BB190
+ * function: TOWNMAP_GetScrollPosition
  * address:  0x021BB190
  * packet:   pkt_021BB190
  * region:   ov072
@@ -19,7 +19,7 @@ typedef struct {
     int b;
 } S;
 
-void func_021BB190(char *p, int *o)
+void TOWNMAP_GetScrollPosition(char *p, int *o)
 {
     *(S *)o = *(S *)(p + 0x20);
 }

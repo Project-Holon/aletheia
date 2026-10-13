@@ -1,5 +1,5 @@
 /*
- * function: func_021D9DB0
+ * function: HAND_TOKUSEI_EffectSporeOnDamageReaction
  * address:  0x021D9DB0
  * packet:   pkt_ov093_021D9DB0
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C   0x021D775C  thumb ov093
- *   func_021D78AC   0x021D78AC  thumb ov093
- *   func_021D7D18   0x021D7D18  thumb ov093
- *   func_021D9E08   0x021D9E08  thumb ov093
+ *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
+ *   BTL_CALC_Random   0x021D78AC  thumb ov093
+ *   BTL_CALC_MakeDefaultSickCont   0x021D7D18  thumb ov093
+ *   HAND_TOKUSEI_TryAddContactSick   0x021D9E08  thumb ov093
  */
 
 typedef unsigned char u8;
@@ -28,22 +28,22 @@ union USlot {
     struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 rest : 17; } s;
 };
 
-extern int func_021D775C(int a);
-extern u32 func_021D78AC(u32 range);
-extern union USlot func_021D7D18(int x);
-extern void func_021D9E08(int a, int b, int c, union USlot d, int e);
+extern int BTL_EVENT_GetVar(int a);
+extern u32 BTL_CALC_Random(u32 range);
+extern union USlot BTL_CALC_MakeDefaultSickCont(int x);
+extern void HAND_TOKUSEI_TryAddContactSick(int a, int b, int c, union USlot d, int e);
 
-void func_021D9DB0(int a, int b, int c)
+void HAND_TOKUSEI_EffectSporeOnDamageReaction(int a, int b, int c)
 {
     u32 r;
     int k;
     union USlot s;
 
-    if (c != func_021D775C(4))
+    if (c != BTL_EVENT_GetVar(4))
         return;
-    if (func_021D775C(0x46) != 0)
+    if (BTL_EVENT_GetVar(0x46) != 0)
         return;
-    r = func_021D78AC(0x1e);
+    r = BTL_CALC_Random(0x1e);
     if (r > 0x14) {
         k = 5;
     } else {
@@ -51,6 +51,6 @@ void func_021D9DB0(int a, int b, int c)
         if (r <= 10)
             k = 2;
     }
-    s = func_021D7D18(k);
-    func_021D9E08(b, c, k, s, 0x1e);
+    s = BTL_CALC_MakeDefaultSickCont(k);
+    HAND_TOKUSEI_TryAddContactSick(b, c, k, s, 0x1e);
 }

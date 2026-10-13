@@ -1,5 +1,5 @@
 /*
- * function: func_02157954
+ * function: DELIVERY_IRC_SetStep
  * address:  0x02157954
  * packet:   pkt_ov010_02157954
  * region:   ov010
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_02157954(u8 *p, int v, int a2)
+void DELIVERY_IRC_SetStep(u8 *p, int v, int a2)
 {
     ((struct Obj18739 *)p)->f678 = v;
 }

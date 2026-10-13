@@ -17,7 +17,7 @@
  *   func_021882A0  0x021882A0  arm  ov230d
  *   func_02188354  0x02188354  arm  ov230d
  *   func_02188390  0x02188390  arm  ov230d
- *   func_0215FA00  0x0215FA00  thumb  ov010
+ *   SCRCMD_NETWORK_CreateOv020Event  0x0215FA00  thumb  ov010
  *   _u32_div_f     0x0209C2B0  arm
  *   GAMESYSTEM_CallIfSet  0x02011D28  thumb
  *   GAMESYSTEM_LeakHeapPenalty  0x02011D40  thumb
@@ -26,11 +26,14 @@
  *   GAMESYSTEM_GetWorkSize  0x02011F24  thumb
  *   GAMESYSTEM_Setup  0x02011FB8  thumb
  *   GAMESYSTEM_SetEvent  0x02012108  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *
  * ica_anime.c: scene bring-up.  Loads overlay 230, runs three checksum
  * probes over this family's own code (GAMESYSTEM_CallIfSet to GAMESYSTEM_LeakHeapPenalty,
  * GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat; each result compared with the complement of
- * the end address), creates three heaps through func_0203064C, allocates
+ * the end address), creates three heaps through GFL_HEAP_CreateChildHeap, allocates
  * the work block and publishes it to _GameSystemGlobal, then, when the probe
  * results do not add up to a multiple of 0x12AF, runs a func_0200C258-counted
  * loop of GAMESYSTEM_LeakHeapPenalty.
@@ -54,7 +57,7 @@
  * decryptor (every range checked to be a clean ARM function ending in a
  * return) and asm/ov230d/ov230d.s lists the result.  With the `ov230d`
  * token on the three symbols: lines they resolve as sole-ref/code against
- * that listing: 25 of 25 sites (ov230_id as overlay_id, func_0215FA00
+ * that listing: 25 of 25 sites (ov230_id as overlay_id, SCRCMD_NETWORK_CreateOv020Event
  * sole-ref/code with the ov010 hint).
  */
 
@@ -76,24 +79,24 @@ extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
 //P
 extern void  func_02034A5C(s32 id);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void  func_02082BCC(void *p, u32 v, u32 size);
 extern struct G02146248 _GameSystemGlobal;
 struct Blk34;
 struct Ctx;
 struct IcaAnime;
 extern void GAMESYSTEM_Setup(struct IcaAnime *p, u16 id, u32 a2);
-extern u32   func_0215FA00(void *p, u32 a);
+extern u32   SCRCMD_NETWORK_CreateOv020Event(void *p, u32 a);
 extern void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012F08(int *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C258(struct Blk34 *p);
 extern void  GAMESYSTEM_LeakHeapPenalty(void);
 extern u32 GAMESYSTEM_CallIfSet(u32 (*fn)(void));
 extern void  GAMESYSTEM_ProbeHeapCreate(void);
 extern void  GAMESYSTEM_LeakHeapPenaltyRepeat(void);
 
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
 u32 GAMESYSTEM_ProcInit(void *a0, u32 a1, u32 a2)
 {
@@ -114,24 +117,24 @@ u32 GAMESYSTEM_ProcInit(void *a0, u32 a1, u32 a2)
     if (func_021882A0((void (*)(void))start, GAMESYSTEM_LeakHeapPenalty, 0) == ~(u32)GAMESYSTEM_LeakHeapPenalty)
         flag = 1;
     base += flag * 0x47;
-    func_0203064C(1, 3, 0xa << 12);
+    GFL_HEAP_CreateChildHeap(1, 3, 0xa << 12);
     flag = 1;
     if (func_02188354((void (*)(void))start, GAMESYSTEM_ProbeHeapCreate, 0) != ~(u32)GAMESYSTEM_ProbeHeapCreate)
         flag = 0;
     off = 0;
     if (flag == 0)
         off = 0x191;
-    func_0203064C(1, 4, 4 << 14);
+    GFL_HEAP_CreateChildHeap(1, 4, 4 << 14);
     func_02188390((void (*)(void))start, GAMESYSTEM_LeakHeapPenaltyRepeat, 0);
-    func_0203064C(9, 5, 5 << 10);
+    GFL_HEAP_CreateChildHeap(9, 5, 5 << 10);
     func_02034A5C((s32)ov230_id);
-    p = func_0203159C(a0, size, 3);
+    p = PROCSYS_AllocProcWork(a0, size, 3);
     func_02082BCC(p, 0, size);
     (*(void * *)&_GameSystemGlobal) = p;
     GAMESYSTEM_Setup(p, 3, a2);
-    GAMESYSTEM_SetEvent(p, func_0215FA00(p, a2));
+    GAMESYSTEM_SetEvent(p, SCRCMD_NETWORK_CreateOv020Event(p, a2));
     if ((base + off) % 0x12af != 0) {
-        n = func_0200C258(func_02012F08(func_020120F4(p)));
+        n = func_0200C258(GAME_DATA_GetMiscSave(func_020120F4(p)));
         for (i = 0; i < n; i++)
             GAMESYSTEM_LeakHeapPenalty();
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C3158
+ * function: FLD3D_CI_PlayCueSound
  * address:  0x021C3158
  * packet:   pkt_ov021_021C3158
  * region:   ov021
@@ -29,7 +29,7 @@ typedef struct {
 extern Ent *d_021DA720[];
 extern void func_020061E4(u32 a);
 
-void func_021C3158(u8 *p)
+void FLD3D_CI_PlayCueSound(u8 *p)
 {
     Ent *t = d_021DA720[((struct Obj00576 *)p)->f66];
 

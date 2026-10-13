@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_021F91A0  0x021F91A0  thumb
  */
 
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern int func_021F91A0(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
 
 void func_021F8010(void *win, void *bank, void *bank2, u32 index, u32 y, u32 x, u16 color, void *g)
@@ -34,10 +34,10 @@ void func_021F8010(void *win, void *bank, void *bank2, u32 index, u32 y, u32 x, 
     if (index != 0) {
         str = func_02045EC0(bank, index);
         func_021F91A0(win, (u32)str, 0, x, y, color, (u32)g);
-        func_02045808(str);
+        STRBUF_Delete(str);
     } else {
         str = func_02045EC0(bank2, 0xBB);
         func_021F91A0(win, (u32)str, 0, x, y, color, (u32)g);
-        func_02045808(str);
+        STRBUF_Delete(str);
     }
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Resets the 24-byte two-entry callback block at +0x74 of the dual-screen
- * text object (the buffer func_0202208C hands to both screen builders):
+ * text object (the buffer WIPE_SYS_Start hands to both screen builders):
  * three parallel two-element arrays, the context pointers at +0x00, the
  * handlers at +0x08 and the user words at +0x10.  Both handler slots are
  * armed with the do-nothing WIPE_DummyHBlank rather than a null, so the

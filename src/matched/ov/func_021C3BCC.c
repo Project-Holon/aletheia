@@ -1,5 +1,5 @@
 /*
- * function: func_021C3BCC
+ * function: SODATEYA_ResetEggForm
  * address:  0x021C3BCC
  * packet:   pkt_021C3BCC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C3BCC(u32 a, u32 b)
+int SODATEYA_ResetEggForm(u32 a, u32 b)
 {
 ((struct Obj18303 *)((u8 *)(b)))->f4 = 0;
 return 0;

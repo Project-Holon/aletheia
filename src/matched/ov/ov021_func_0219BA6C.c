@@ -1,5 +1,5 @@
 /*
- * function: func_0219BA6C
+ * function: FLDMMDL_MOVE_TurnToPlayer
  * address:  0x0219BA6C
  * packet:   pkt_ov021_0219BA6C
  * region:   ov021
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216DEE0  0x0216DEE0  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_0216D804  0x0216D804  thumb  ov010
- *   func_0216D81C  0x0216D81C  thumb  ov010
- *   func_0219BA2C  0x0219BA2C  thumb  ov021
- *   func_021642B4  0x021642B4  thumb  ov010
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D438  0x0216D438  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_GetGridOldX  0x0216D804  thumb  ov010
+ *   FLDMMDL_GetGridOldZ  0x0216D81C  thumb  ov010
+ *   FLDMMDL_MOVE_GetTurnAcmdBase  0x0219BA2C  thumb  ov021
+ *   FLDMMDL_MOVE_GetDirFromPoints  0x021642B4  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetLocalAcmd  0x0216D438  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0216D67C(void *a0);
-extern void *func_0216DEE0(void *a0);
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
-extern int func_0216D804(void *p);
-extern int func_0216D81C(void *p);
-extern int func_0219BA2C(int a);
-extern u16 func_021642B4(int x0, int y0, int x1, int y1);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D438(char *a0, int a1);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_SysSearchPlayer(void *a0);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern int FLDMMDL_GetGridOldX(void *p);
+extern int FLDMMDL_GetGridOldZ(void *p);
+extern int FLDMMDL_MOVE_GetTurnAcmdBase(int a);
+extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int y0, int x1, int y1);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetLocalAcmd(char *a0, int a1);
 
-int func_0219BA6C(char *a)
+int FLDMMDL_MOVE_TurnToPlayer(char *a)
 {
     int o;
     int x;
@@ -45,14 +45,14 @@ int func_0219BA6C(char *a)
     int ty;
     int k;
 
-    o = (int)func_0216DEE0(func_0216D67C((void *)a));
-    x = func_0216D83C((void *)a);
-    y = func_0216D86C((void *)a);
-    tx = func_0216D804((void *)o);
-    ty = func_0216D81C((void *)o);
+    o = (int)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)a));
+    x = FLDMMDL_GetGridNowX((void *)a);
+    y = FLDMMDL_GetGridNowZ((void *)a);
+    tx = FLDMMDL_GetGridOldX((void *)o);
+    ty = FLDMMDL_GetGridOldZ((void *)o);
     if (x != tx || y != ty) {
-        k = func_0219BA2C((int)a);
-        func_0216D438(a, (u16)((u32)func_02197E7C((u16)((int)func_021642B4(x, y, tx, ty)), (u16)k)));
+        k = FLDMMDL_MOVE_GetTurnAcmdBase((int)a);
+        FLDMMDL_SetLocalAcmd(a, (u16)((u32)FLDMMDL_ACMD_ConvertCodeByDir((u16)((int)FLDMMDL_MOVE_GetDirFromPoints(x, y, tx, ty)), (u16)k)));
         return 1;
     }
     return 0;

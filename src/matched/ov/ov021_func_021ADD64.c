@@ -1,5 +1,5 @@
 /*
- * function: func_021ADD64
+ * function: FLDEFF_IWAKUDAKI_UploadTexturesTask
  * address:  0x021ADD64
  * packet:   pkt_ov021_021ADD64
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   G3D_SYSTEM_TransAllocatedTexture  0x02047204  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -19,12 +22,12 @@ typedef signed char    s8;
 typedef struct Q { u32 f0; u32 f4; u32 arr[4]; u32 f18; u32 f1c; } Q;
 
 struct Tagged;
-extern u32 func_02047204(struct Tagged *p);
+extern u32 G3D_SYSTEM_TransAllocatedTexture(struct Tagged *p);
 
-void func_021ADD64(u32 a, Q *q)
+void FLDEFF_IWAKUDAKI_UploadTexturesTask(u32 a, Q *q)
 {
     if (q->f1c == 0) {
-        func_02047204((struct Tagged *)q->f4);
+        G3D_SYSTEM_TransAllocatedTexture((struct Tagged *)q->f4);
         q->f1c = 1;
     }
 }

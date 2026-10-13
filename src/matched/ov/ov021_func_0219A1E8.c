@@ -1,5 +1,5 @@
 /*
- * function: func_0219A1E8
+ * function: FLDMMDL_MOVECODE_GetNextDirInRotation
  * address:  0x0219A1E8
  * packet:   pkt_ov021_0219A1E8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D5074  0x021D5074  data  a4
+ *   gMmdlRotationDirRows  0x021D5074  data  a4
  *
  * Row lookup: find the 6-halfword record whose key matches, then return the
  * entry after v in its 9-terminated list (wrapping to entry 1).  The row is
@@ -22,7 +22,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern u16 d_021D5074[][6];
+extern u16 gMmdlRotationDirRows[][6];
 
 static inline u16 NextInRow(u16 *row, u16 v)
 {
@@ -39,15 +39,15 @@ static inline u16 NextInRow(u16 *row, u16 v)
     return 9;
 }
 
-u16 func_0219A1E8(u16 key, u16 v)
+u16 FLDMMDL_MOVECODE_GetNextDirInRotation(u16 key, u16 v)
 {
     int i = 0;
 
     do {
-        if (key == d_021D5074[i][0]) {
-            return NextInRow((u16 *)((u8 *)d_021D5074 + i * 12), v);
+        if (key == gMmdlRotationDirRows[i][0]) {
+            return NextInRow((u16 *)((u8 *)gMmdlRotationDirRows + i * 12), v);
         }
         i++;
-    } while (d_021D5074[i][0] != 0xFF);
+    } while (gMmdlRotationDirRows[i][0] != 0xFF);
     return 9;
 }

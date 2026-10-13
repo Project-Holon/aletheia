@@ -14,6 +14,7 @@
  *   func_021DF864 0x021DF864 thumb ov137
  *   func_021DEA68 0x021DEA68 thumb ov137
  *   func_02030D28 0x02030D28 arm
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  */
 #include "../include/Obj23742.h"
 typedef unsigned char u8;
@@ -25,7 +26,7 @@ extern void func_021E07A4(char *p);
 extern void func_021DF864(u8 *p);
 extern void func_021DEA68(char *p);
 extern void func_02030D28(struct Ctx *c);
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern u32 func_0200FB24(void);
 int func_021DEA0C(int a, int b, int c, u8 *p)
 {
@@ -37,6 +38,6 @@ int func_021DEA0C(int a, int b, int c, u8 *p)
     func_021DF864(p);
     func_021DEA68((char *)p);
     func_02030D28(((struct Obj23742 *)p)->fD98);
-    if (func_020221A4() && func_0200FB24()) return 1;
+    if (WIPE_SYS_EndCheck() && func_0200FB24()) return 1;
     return 0;
 }

@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02046AFC",
+   "name": "G3D_SYSTEM_GetLookAt",
    "address": "0x02046AFC",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02046BE0",
+   "name": "G3D_SYSTEM_SetSwapBuffersMode",
    "address": "0x02046BE0",
    "kind": "game",
    "region": "arm9",

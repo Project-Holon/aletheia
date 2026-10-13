@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0204384C  0x0204384C  arm
+ *   BMP_CreateFromArchive  0x0204384C  arm
  *   g_020A7814     0x020A7814  data
  */
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ struct Obj {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Bmp;
-extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
+extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
 extern const char g_020A7814[];
 
 struct Obj *TIME_ICON_Alloc(u32 heap)
@@ -36,7 +36,7 @@ struct Obj *TIME_ICON_Alloc(u32 heap)
     struct Obj *obj = func_02030734(heap, 0x1c, 0, g_020A7814, 0xa6);
 
     obj->unk10 = (u16)heap;
-    obj->unk0C = (u32)func_0204384C(0xc6, 0, 1, obj->unk10);
+    obj->unk0C = (u32)BMP_CreateFromArchive(0xc6, 0, 1, obj->unk10);
     obj->unk08 = 0;
     obj->unk00 = 0;
     obj->unk04 = 0;

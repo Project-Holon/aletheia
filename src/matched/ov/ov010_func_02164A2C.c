@@ -1,5 +1,5 @@
 /*
- * function: func_02164A2C
+ * function: CALENDER_OverlaySequenceEvent
  * address:  0x02164A2C
  * packet:   pkt_ov010_02164A2C
  * region:   ov010
@@ -22,8 +22,8 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_SOUND_SYSTEM_StartPushAndChangeTask  0x020297AC  thumb
  *   MI_CpuFill8    0x02082BCC  arm
@@ -31,9 +31,9 @@
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   FIELD_SOUND_SYSTEM_StartPopTask  0x02029690  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   func_02188CCC  0x02188CCC  thumb  ov021
- *   func_021A0F40  0x021A0F40  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
+ *   FIELD_SUBSCREEN_ChangeModeNow  0x021A0F40  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
  *   ov216_id       0x000000D8  data
  *   d_021BDB40     0x021BDB40  data  a1 ov216
@@ -66,8 +66,8 @@ struct Evt;
 struct IcaAnime;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_021BE8D4(void *a, int b, int sel, int d);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(void *sys, u32 a, u32 b, u32 c);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
@@ -75,14 +75,14 @@ extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void *FIELD_SOUND_SYSTEM_StartPopTask(void *sys, u32 a, u32 b);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *sys);
-extern u32 func_02188CCC(u8 *p);
-extern void func_021A0F40(u32 *p, u32 v);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
+extern void FIELD_SUBSCREEN_ChangeModeNow(u32 *p, u32 v);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *sys);
 extern u8 ov216_id[];
 extern const u8 d_021BDB40[];
 
-int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
+int CALENDER_OverlaySequenceEvent(void *evt, u32 *seq, SeqWork2 *w)
 {
     void *sys;
     void *p;
@@ -92,15 +92,15 @@ int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
     p = func_0201210C(sys);
     switch (*seq) {
     case 0:
-        func_02012374(evt, (struct Evt **)func_021BE8D4(sys, (int)p, 0, 0));
+        GAME_EVENT_CallEvent(evt, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeOut(sys, (int)p, 0, 0));
         (*seq)++;
         break;
     case 1:
-        func_02012374(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)sys, (int)p));
+        GAME_EVENT_CallEvent(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)sys, (int)p));
         (*seq)++;
         break;
     case 2:
-        func_02012374(evt, FIELD_SOUND_SYSTEM_StartPushAndChangeTask(sys, 0x483, 6, 0));
+        GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartPushAndChangeTask(sys, 0x483, 6, 0));
         (*seq)++;
     case 3:
         MI_CpuFill8(&w->sub, 0, sizeof(SubArgs));
@@ -112,22 +112,22 @@ int func_02164A2C(void *evt, u32 *seq, SeqWork2 *w)
         break;
     case 4:
         if (GAMESYSTEM_GetProcStatus(sys) == 0) {
-            func_02012374(evt, FIELD_SOUND_SYSTEM_StartPopTask(sys, 6, 0x3C));
+            GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartPopTask(sys, 6, 0x3C));
             (*seq)++;
         }
         break;
     case 5:
-        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent(sys));
+        GAME_EVENT_CallEvent(evt, FIELD_STATUS_CreateFieldOpenEvent(sys));
         (*seq)++;
         break;
     case 6:
         if (w->sub.flag != 0)
-            func_021A0F40((u32 *)func_02188CCC(p), 0);
-        func_02012374(evt, (struct Evt **)func_021BE92C(sys, (int)p, 0, 0, 1, 0, 0));
+            FIELD_SUBSCREEN_ChangeModeNow((u32 *)FIELDMAP_GetSubscreen(p), 0);
+        GAME_EVENT_CallEvent(evt, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeIn(sys, (int)p, 0, 0, 1, 0, 0));
         (*seq)++;
         break;
     case 7:
-        func_02012374(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(sys));
+        GAME_EVENT_CallEvent(evt, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(sys));
         (*seq)++;
         break;
     case 8:

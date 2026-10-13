@@ -1,5 +1,5 @@
 /*
- * function: func_021C4974
+ * function: FLDEFF_RIPPLE_DrawObj
  * address: 0x021C4974
  * packet: pkt_ov021_021C4974
  * region: ov021
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov021/fldeff_splash.c and filed here.
  */
 
-void func_021C4974(void);
+void FLDEFF_RIPPLE_DrawObj(void);
 
-void func_021C4974(void) {}
+void FLDEFF_RIPPLE_DrawObj(void) {}

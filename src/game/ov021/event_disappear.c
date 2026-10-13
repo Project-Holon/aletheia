@@ -1,7 +1,7 @@
 /*
  * file:     event_disappear.c
  * unit:     yes
- * function: func_021BFD34, func_021BFD70, func_021BFDA0, func_021BFDD0, func_021BFE00, func_021BFE2C, func_021C00C8, func_021C0140, func_021C017C, func_021C01E4, func_021C01F8, func_021C021C, func_021C029C, func_021C02F8, func_021C0360, func_021C0374, func_021C0398, func_021C04C0
+ * function: EVENT_DISAPPEAR_CreateWalkFall, EVENT_DISAPPEAR_CreateSpinZoom, EVENT_DISAPPEAR_CreateSpinZoomEffect, EVENT_DISAPPEAR_CreateSpinFade, EVENT_DISAPPEAR_CreateRisingSpin, EVENT_DISAPPEAR_RunWalkFall, EVENT_DISAPPEAR_RunSpinZoom, EVENT_DISAPPEAR_StartSpin, EVENT_DISAPPEAR_StartZoomIn, EVENT_DISAPPEAR_EndZoomIn, EVENT_DISAPPEAR_CreateFadeOut, EVENT_DISAPPEAR_RunSpinZoomEffect, EVENT_DISAPPEAR_StartSpinAndEffect, EVENT_DISAPPEAR_StartZoomInAlt, EVENT_DISAPPEAR_EndZoomInAlt, EVENT_DISAPPEAR_CreateFadeOutAlt, EVENT_DISAPPEAR_RunSpinFade, EVENT_DISAPPEAR_RunRisingSpin
  * address:  0x021BFD34
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,53 +14,53 @@
  * Split from field_player_grid_event.c at 0x021BFD34 (lane CL118, name guess, no __FILE__ anchor: five 0x7C-byte player disappear events (spin ease-in, rise, fade) and their handlers).
  *
  * symbols:
- *   func_0204E804  0x0204E804  arm
- *   func_02012374  0x02012374  thumb
+ *   FADE_IsActive  0x0204E804  arm
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0218E138  0x0218E138  thumb  ov021
- *   func_0218E13C  0x0218E13C  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_021C6DE0  0x021C6DE0  thumb  ov021
- *   func_021C6E48  0x021C6E48  thumb  ov021
- *   func_0218FE80 0x0218FE80 thumb ov021
- *   func_0218FEA0 0x0218FEA0 thumb ov021
- *   func_0218FEA4 0x0218FEA4 thumb ov021
- *   func_0218FE78 0x0218FE78 thumb ov021
- *   func_0218FEC0 0x0218FEC0 thumb ov021
- *   func_0218FF00 0x0218FF00 thumb ov021
- *   func_0218FF20  0x0218FF20  thumb  ov021
- *   func_0218FE98  0x0218FE98  thumb  ov021
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_021AC528  0x021AC528  thumb  ov021
- *   func_021C71D4  0x021C71D4  thumb  ov021
- *   func_021C7858  0x021C7858  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
+ *   FIELD_TASK_MANAGER_IsEmpty  0x021C6E48  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Create 0x0218FE80 thumb ov021
+ *   FIELD_CAMERA_ANIME_SetData 0x0218FEA0 thumb ov021
+ *   FIELD_CAMERA_ANIME_Setup 0x0218FEA4 thumb ov021
+ *   FIELD_CAMERA_ANIME_GetCurrentParam 0x0218FE78 thumb ov021
+ *   FIELD_CAMERA_ANIME_ApplyStartParam 0x0218FEC0 thumb ov021
+ *   FIELD_CAMERA_ANIME_Start 0x0218FF00 thumb ov021
+ *   FIELD_CAMERA_ANIME_Restore  0x0218FF20  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Delete  0x0218FE98  thumb  ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDEFF_KEMURI_Start  0x021AC528  thumb  ov021
+ *   FIELD_TASK_CreatePlayerSpinLinear  0x021C71D4  thumb  ov021
+ *   FIELD_TASK_CreatePlayerDrawOffsetTween  0x021C7858  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_02006148  0x02006148  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   func_0200616C  0x0200616C  thumb
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_0218DC6C  0x0218DC6C  thumb  ov021
- *   func_0218C584  0x0218C584  thumb  ov021
- *   func_0218C724  0x0218C724  thumb  ov021
- *   func_0218C88C  0x0218C88C  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
+ *   FIELD_BUILDMODEL_CollectEntriesInRect  0x0218C584  thumb  ov021
+ *   FIELD_BUILDMODEL_CreateNodeFromEntry  0x0218C724  thumb  ov021
+ *   FIELD_BUILDMODEL_PlayNodeSlot  0x0218C88C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021C754C  0x021C754C  thumb  ov021
- *   func_0218C8FC  0x0218C8FC  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_TASK_CreatePlayerPosTween  0x021C754C  thumb  ov021
+ *   FIELD_BUILDMODEL_IsNodeSlotIdle  0x0218C8FC  thumb  ov021
  *   func_0203630C  0x0203630C  arm
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_021C6F00  0x021C6F00  thumb  ov021
- *   func_021C7814  0x021C7814  thumb  ov021
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FIELD_TASK_CreateCameraDistanceTween  0x021C6F00  thumb  ov021
+ *   FIELD_TASK_CreateFade  0x021C7814  thumb  ov021
  *   func_020061F8  0x020061F8  thumb
- *   func_0218C860  0x0218C860  thumb  ov021
- *   func_021C7260  0x021C7260  thumb  ov021
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021C7D28  0x021C7D28  thumb  ov021
- *   func_021C77D8  0x021C77D8  thumb  ov021
+ *   FIELD_BUILDMODEL_DeleteNode  0x0218C860  thumb  ov021
+ *   FIELD_TASK_CreatePlayerSpinEaseIn  0x021C7260  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   FIELD_TASK_CreateRepeatPlayerEffect  0x021C7D28  thumb  ov021
+ *   FIELD_TASK_CreateWait  0x021C77D8  thumb  ov021
  */
 /*
  * Player disappear events of a map change (EVENT_DISAPPEAR_*). They run on
@@ -191,70 +191,70 @@ enum {
 
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EventDisappearFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
-extern void func_02012374(GameEvent *parent, GameEvent *child);
-extern struct FieldCamera *func_02188C58(FieldMap *fieldMap);
-extern struct FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern FieldTaskManager *func_02188D38(FieldMap *fieldMap);
-extern struct FieldEffectCtrl *func_02188CD0(FieldMap *fieldMap);
-extern struct FieldG3dMapper *func_02188C98(FieldMap *fieldMap);
-extern Mmdl *func_021A3074(struct FieldPlayer *player);
-extern void func_021A3038(struct FieldPlayer *player, VecFx32 *out);
-extern unsigned int func_0218E138(struct FieldCamera *camera);
-extern void func_0218E13C(struct FieldCamera *camera, unsigned int mode);
-extern void func_0216D410(Mmdl *mmdl, u16 acmdCode);
-extern void func_0216D568(Mmdl *mmdl, u32 bit);
-extern GameEvent *func_021BE8D4(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait);
-extern FieldTask *func_021C7260(FieldMap *fieldMap, u16 frames, int spins);
-extern FieldTask *func_021C71D4(FieldMap *fieldMap, u32 frames, u32 spins);
-extern FieldTask *func_021C7858(FieldMap *fieldMap, int frames, const VecFx32 *offset);
-extern FieldTask *func_021C754C(FieldMap *fieldMap, u32 frames, VecFx32 *to);
-extern FieldTask *func_021C6F00(FieldMap *fieldMap, u16 frames, int targetDistance);
-extern FieldTask *func_021C7814(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait);
-extern FieldTask *func_021C77D8(FieldMap *fieldMap, u16 frames);
-extern FieldTask *func_021C7D28(FieldMap *fieldMap, Mmdl *mmdl, u16 frames, u16 interval);
-extern void func_021C6DE0(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
-extern int func_021C6E48(FieldTaskManager *manager);
-extern struct FieldCameraAnime *func_0218FE80(FieldMap *fieldMap);
-extern void func_0218FEA0(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
-extern int func_0218FEA4(struct FieldCameraAnime *anime);
-extern void func_0218FE78(struct FieldCamera *camera, FieldCameraParam *param);
-extern void func_0218FEC0(struct FieldCameraAnime *anime);
-extern int func_0218FF00(struct FieldCameraAnime *anime);
-extern void func_0218FF20(struct FieldCameraAnime *anime);
-extern void func_0218FE98(struct FieldCameraAnime *anime);
-extern struct BuildModelMan *func_0218DC6C(struct FieldG3dMapper *mapper);
-extern struct BuildModelEntry **func_0218C584(struct BuildModelMan *man, EventDisappearRect *rect, int kind, int *count);
-extern struct BuildModelNode *func_0218C724(struct BuildModelMan *man, struct BuildModelEntry *entry);
-extern void func_0218C88C(struct BuildModelNode *node, int slot, int mode);
-extern int func_0218C8FC(struct BuildModelNode *node, int slot);
-extern void func_0218C860(struct BuildModelNode *node);
-extern void func_021AC528(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
+extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
+extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
+extern struct FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
+extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+extern unsigned int FIELD_CAMERA_GetMode(struct FieldCamera *camera);
+extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, unsigned int mode);
+extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmdCode);
+extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bit);
+extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait);
+extern FieldTask *FIELD_TASK_CreatePlayerSpinEaseIn(FieldMap *fieldMap, u16 frames, int spins);
+extern FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 frames, u32 spins);
+extern FieldTask *FIELD_TASK_CreatePlayerDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset);
+extern FieldTask *FIELD_TASK_CreatePlayerPosTween(FieldMap *fieldMap, u32 frames, VecFx32 *to);
+extern FieldTask *FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, int targetDistance);
+extern FieldTask *FIELD_TASK_CreateFade(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait);
+extern FieldTask *FIELD_TASK_CreateWait(FieldMap *fieldMap, u16 frames);
+extern FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, Mmdl *mmdl, u16 frames, u16 interval);
+extern void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
+extern int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager);
+extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
+extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
+extern int FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
+extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
+extern int FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
+extern struct BuildModelMan *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+extern struct BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(struct BuildModelMan *man, EventDisappearRect *rect, int kind, int *count);
+extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(struct BuildModelMan *man, struct BuildModelEntry *entry);
+extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
+extern int FIELD_BUILDMODEL_IsNodeSlotIdle(struct BuildModelNode *node, int slot);
+extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
+extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
 extern unsigned int func_020307B0(void *block);
 extern unsigned int func_0203630C(void);
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 extern void func_020061E4(u32 seId);
 extern void func_020061F8(int slot);
 extern void func_0200616C(u32 seqNo, int slot);
-extern int func_02006148(u32 seqNo);
+extern int GFL_USE_GetSeSlot(u32 seqNo);
 
-GameEvent *func_021BFD34(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos);
-GameEvent *func_021BFD70(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged);
-GameEvent *func_021BFDA0(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged);
-GameEvent *func_021BFDD0(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant);
-GameEvent *func_021BFE00(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
-int func_021BFE2C(GameEvent *event, int *seq, EventDisappearWork *work);
-int func_021C00C8(GameEvent *event, int *seq, EventDisappearWork *work);
-void func_021C0140(EventDisappearWork *work);
-void func_021C017C(EventDisappearWork *work);
-void func_021C01E4(EventDisappearWork *work);
-GameEvent *func_021C01F8(EventDisappearWork *work);
-int func_021C021C(GameEvent *event, int *seq, EventDisappearWork *work);
-void func_021C029C(EventDisappearWork *work);
-void func_021C02F8(EventDisappearWork *work);
-void func_021C0360(EventDisappearWork *work);
-GameEvent *func_021C0374(EventDisappearWork *work);
-int func_021C0398(GameEvent *event, int *seq, EventDisappearWork *work);
-int func_021C04C0(GameEvent *event, int *seq, EventDisappearWork *work);
+GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos);
+GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged);
+GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged);
+GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant);
+GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
+int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunSpinZoom(GameEvent *event, int *seq, EventDisappearWork *work);
+void EVENT_DISAPPEAR_StartSpin(EventDisappearWork *work);
+void EVENT_DISAPPEAR_StartZoomIn(EventDisappearWork *work);
+void EVENT_DISAPPEAR_EndZoomIn(EventDisappearWork *work);
+GameEvent *EVENT_DISAPPEAR_CreateFadeOut(EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunSpinZoomEffect(GameEvent *event, int *seq, EventDisappearWork *work);
+void EVENT_DISAPPEAR_StartSpinAndEffect(EventDisappearWork *work);
+void EVENT_DISAPPEAR_StartZoomInAlt(EventDisappearWork *work);
+void EVENT_DISAPPEAR_EndZoomInAlt(EventDisappearWork *work);
+GameEvent *EVENT_DISAPPEAR_CreateFadeOutAlt(EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunSpinFade(GameEvent *event, int *seq, EventDisappearWork *work);
+int EVENT_DISAPPEAR_RunRisingSpin(GameEvent *event, int *seq, EventDisappearWork *work);
 
 /* Same as VEC_Set of the SDK. */
 static inline void VEC_Set(VecFx32 *dst, int x, int y, int z)
@@ -265,9 +265,9 @@ static inline void VEC_Set(VecFx32 *dst, int x, int y, int z)
 }
 
 /* Creates the walk event: the player walks to targetPos and falls. */
-GameEvent *func_021BFD34(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos)
+GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021BFE2C, 0x7C);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunWalkFall, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -279,9 +279,9 @@ GameEvent *func_021BFD34(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Creates the spin zoom event. */
-GameEvent *func_021BFD70(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
+GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021C00C8, 0x7C);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoom, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -293,9 +293,9 @@ GameEvent *func_021BFD70(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Creates the spin zoom event with the player effect. */
-GameEvent *func_021BFDA0(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
+GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021C021C, 0x7C);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoomEffect, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -307,9 +307,9 @@ GameEvent *func_021BFDA0(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Creates the spin fade event. */
-GameEvent *func_021BFDD0(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant)
+GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021C0398, 0x7C);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunSpinFade, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -320,9 +320,9 @@ GameEvent *func_021BFDD0(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
 }
 
 /* Creates the rising spin event. */
-GameEvent *func_021BFE00(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, parent, func_021C04C0, 0x7C);
+    GameEvent *event = func_020122C0(gameSystem, parent, EVENT_DISAPPEAR_RunRisingSpin, 0x7C);
     EventDisappearWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -338,7 +338,7 @@ GameEvent *func_021BFE00(GameEvent *parent, GameSystem *gameSystem, FieldMap *fi
  * the camera moves away and the screen fades out. Waits are skipped when the
  * player already stands on the position.
  */
-int func_021BFE2C(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *work)
 {
     struct FieldPlayer *player;
     Mmdl *mmdl;
@@ -362,27 +362,27 @@ int func_021BFE2C(GameEvent *event, int *seq, EventDisappearWork *work)
     VecFx32 playerPos;
     VecFx32 fallOffset;
 
-    player = func_02188CB4(work->fieldMap);
-    mmdl = func_021A3074(player);
-    effectCtrl = func_02188CD0(work->fieldMap);
-    camera = func_02188C58(work->fieldMap);
+    player = FIELDMAP_GetFieldPlayer(work->fieldMap);
+    mmdl = FIELD_PLAYER_GetMmdl(player);
+    effectCtrl = FIELDMAP_GetEffect(work->fieldMap);
+    camera = FIELDMAP_GetCamera(work->fieldMap);
     switch (*seq) {
     case EVENT_DISAPPEAR_WALK_START:
-        work->savedCameraMode = func_0218E138(camera);
-        func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+        work->savedCameraMode = FIELD_CAMERA_GetMode(camera);
+        FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
         *seq = EVENT_DISAPPEAR_WALK_FIND_NODE;
         break;
     case EVENT_DISAPPEAR_WALK_FIND_NODE:
-        func_0200616C(EVENT_DISAPPEAR_SE_WALK_LOOP, func_02006148(EVENT_DISAPPEAR_SE_WALK_LOOP));
-        buildModelMan = func_0218DC6C(func_02188C98(work->fieldMap));
+        func_0200616C(EVENT_DISAPPEAR_SE_WALK_LOOP, GFL_USE_GetSeSlot(EVENT_DISAPPEAR_SE_WALK_LOOP));
+        buildModelMan = FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->fieldMap));
         rect.xMin = work->targetPos.x - 0x20000;
         rect.xMax = work->targetPos.x + 0x20000;
         rect.zMin = work->targetPos.z - 0x20000;
         rect.zMax = work->targetPos.z + 0x20000;
-        entries = func_0218C584(buildModelMan, &rect, 2, &count);
+        entries = FIELD_BUILDMODEL_CollectEntriesInRect(buildModelMan, &rect, 2, &count);
         if (*entries != 0) {
-            work->buildNode = func_0218C724(buildModelMan, *entries);
-            func_0218C88C(work->buildNode, 0, 0);
+            work->buildNode = FIELD_BUILDMODEL_CreateNodeFromEntry(buildModelMan, *entries);
+            FIELD_BUILDMODEL_PlayNodeSlot(work->buildNode, 0, 0);
         } else {
             work->buildNode = 0;
         }
@@ -390,7 +390,7 @@ int func_021BFE2C(GameEvent *event, int *seq, EventDisappearWork *work)
         *seq = EVENT_DISAPPEAR_WALK_MOVE;
         break;
     case EVENT_DISAPPEAR_WALK_MOVE:
-        func_021A3038(player, &playerPos);
+        FIELD_PLAYER_GetPos(player, &playerPos);
         dx = (playerPos.x >> 12) / 16 - (work->targetPos.x >> 12) / 16;
         dz = (playerPos.z >> 12) / 16 - (work->targetPos.z >> 12) / 16;
         if (dx < 0)
@@ -404,8 +404,8 @@ int func_021BFE2C(GameEvent *event, int *seq, EventDisappearWork *work)
         else
             walkFrames = 0x78;
         if (walkFrames > 0) {
-            task = func_021C754C(work->fieldMap, walkFrames, &work->targetPos);
-            func_021C6DE0(func_02188D38(work->fieldMap), task, 0);
+            task = FIELD_TASK_CreatePlayerPosTween(work->fieldMap, walkFrames, &work->targetPos);
+            FIELD_TASK_MANAGER_AddTask(FIELDMAP_GetTaskManager(work->fieldMap), task, 0);
             *seq = EVENT_DISAPPEAR_WALK_WAIT;
         } else {
             *seq = EVENT_DISAPPEAR_WALK_FALL;
@@ -413,51 +413,51 @@ int func_021BFE2C(GameEvent *event, int *seq, EventDisappearWork *work)
         work->frame = 0;
         break;
     case EVENT_DISAPPEAR_WALK_WAIT:
-        if (work->buildNode != 0 && func_0218C8FC(work->buildNode, 0) != 0)
-            func_0218C88C(work->buildNode, 0, 0);
+        if (work->buildNode != 0 && FIELD_BUILDMODEL_IsNodeSlotIdle(work->buildNode, 0) != 0)
+            FIELD_BUILDMODEL_PlayNodeSlot(work->buildNode, 0, 0);
         keys = func_0203630C();
         if (keys & EVENT_DISAPPEAR_PAD_UP)
-            func_0216D410(mmdl, EVENT_DISAPPEAR_ACMD_WALK_UP);
+            FLDMMDL_SetAcmd(mmdl, EVENT_DISAPPEAR_ACMD_WALK_UP);
         if (keys & EVENT_DISAPPEAR_PAD_DOWN)
-            func_0216D410(mmdl, EVENT_DISAPPEAR_ACMD_WALK_DOWN);
+            FLDMMDL_SetAcmd(mmdl, EVENT_DISAPPEAR_ACMD_WALK_DOWN);
         if (keys & EVENT_DISAPPEAR_PAD_LEFT)
-            func_0216D410(mmdl, EVENT_DISAPPEAR_ACMD_WALK_LEFT);
+            FLDMMDL_SetAcmd(mmdl, EVENT_DISAPPEAR_ACMD_WALK_LEFT);
         if (keys & EVENT_DISAPPEAR_PAD_RIGHT)
-            func_0216D410(mmdl, EVENT_DISAPPEAR_ACMD_WALK_RIGHT);
+            FLDMMDL_SetAcmd(mmdl, EVENT_DISAPPEAR_ACMD_WALK_RIGHT);
         frame = work->frame;
         work->frame = frame + 1;
         if (frame % 10 == 0)
-            func_021AC528(mmdl, effectCtrl);
-        if (func_021C6E48(func_02188D38(work->fieldMap)) != 0)
+            FLDEFF_KEMURI_Start(mmdl, effectCtrl);
+        if (FIELD_TASK_MANAGER_IsEmpty(FIELDMAP_GetTaskManager(work->fieldMap)) != 0)
             *seq = EVENT_DISAPPEAR_WALK_FALL;
         break;
     case EVENT_DISAPPEAR_WALK_FALL:
         func_020061E4(EVENT_DISAPPEAR_SE_FALL);
-        func_0216D568(mmdl, MMDL_MOVEBIT_SHOAL_SET);
+        FLDMMDL_SetMoveBit(mmdl, MMDL_MOVEBIT_SHOAL_SET);
         fallOffset.x = 0;
         fallOffset.y = -0x1E000;
         fallOffset.z = 0;
-        offsetTask = func_021C7858(work->fieldMap, 0x22, &fallOffset);
-        spinTask = func_021C71D4(work->fieldMap, 0x22, 5);
-        distanceTask = func_021C6F00(work->fieldMap, 0x1e, 0xB4000);
-        fadeTask = func_021C7814(work->fieldMap, 3, 0, 0x10, 0);
-        taskManager = func_02188D38(work->fieldMap);
-        func_021C6DE0(taskManager, offsetTask, 0);
-        func_021C6DE0(taskManager, spinTask, 0);
-        func_021C6DE0(taskManager, distanceTask, 0);
-        func_021C6DE0(taskManager, fadeTask, distanceTask);
+        offsetTask = FIELD_TASK_CreatePlayerDrawOffsetTween(work->fieldMap, 0x22, &fallOffset);
+        spinTask = FIELD_TASK_CreatePlayerSpinLinear(work->fieldMap, 0x22, 5);
+        distanceTask = FIELD_TASK_CreateCameraDistanceTween(work->fieldMap, 0x1e, 0xB4000);
+        fadeTask = FIELD_TASK_CreateFade(work->fieldMap, 3, 0, 0x10, 0);
+        taskManager = FIELDMAP_GetTaskManager(work->fieldMap);
+        FIELD_TASK_MANAGER_AddTask(taskManager, offsetTask, 0);
+        FIELD_TASK_MANAGER_AddTask(taskManager, spinTask, 0);
+        FIELD_TASK_MANAGER_AddTask(taskManager, distanceTask, 0);
+        FIELD_TASK_MANAGER_AddTask(taskManager, fadeTask, distanceTask);
         work->frame = 0;
         *seq = EVENT_DISAPPEAR_WALK_FALL_WAIT;
         break;
     case EVENT_DISAPPEAR_WALK_FALL_WAIT:
-        if (func_021C6E48(func_02188D38(work->fieldMap)) != 0)
+        if (FIELD_TASK_MANAGER_IsEmpty(FIELDMAP_GetTaskManager(work->fieldMap)) != 0)
             *seq = EVENT_DISAPPEAR_WALK_END;
         break;
     case EVENT_DISAPPEAR_WALK_END:
-        func_020061F8(func_02006148(EVENT_DISAPPEAR_SE_WALK_LOOP));
-        func_0218E13C(camera, work->savedCameraMode);
+        func_020061F8(GFL_USE_GetSeSlot(EVENT_DISAPPEAR_SE_WALK_LOOP));
+        FIELD_CAMERA_SetMode(camera, work->savedCameraMode);
         if (work->buildNode != 0)
-            func_0218C860(work->buildNode);
+            FIELD_BUILDMODEL_DeleteNode(work->buildNode);
         return EVENT_DISAPPEAR_FINISHED;
     }
     return EVENT_DISAPPEAR_CONTINUE;
@@ -465,92 +465,92 @@ int func_021BFE2C(GameEvent *event, int *seq, EventDisappearWork *work)
 
 /*
  * Spin zoom: the player spins away and the camera zooms in. After 35 frames
- * the fade-out event starts. func_021C6E48 takes the task manager that stays
+ * the fade-out event starts. FIELD_TASK_MANAGER_IsEmpty takes the task manager that stays
  * live across the switch, which puts the step number in r1.
  */
-int func_021C00C8(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunSpinZoom(GameEvent *event, int *seq, EventDisappearWork *work)
 {
     FieldTaskManager *taskManager;
     int frame;
 
-    taskManager = func_02188D38(work->fieldMap);
+    taskManager = FIELDMAP_GetTaskManager(work->fieldMap);
     switch (*seq) {
     case EVENT_DISAPPEAR_ZOOM_START:
-        func_021C0140(work);
-        func_021C017C(work);
+        EVENT_DISAPPEAR_StartSpin(work);
+        EVENT_DISAPPEAR_StartZoomIn(work);
         (*seq)++;
         break;
     case EVENT_DISAPPEAR_ZOOM_COUNT:
         frame = work->waitFrames;
         work->waitFrames = frame + 1;
         if (frame > EVENT_DISAPPEAR_FADE_DELAY_FRAMES) {
-            func_02012374(event, func_021C01F8(work));
+            GAME_EVENT_CallEvent(event, EVENT_DISAPPEAR_CreateFadeOut(work));
             (*seq)++;
             break;
         }
     case EVENT_DISAPPEAR_ZOOM_WAIT:
-        if (func_021C6E48(taskManager) != 0) {
+        if (FIELD_TASK_MANAGER_IsEmpty(taskManager) != 0) {
             func_020061E4(EVENT_DISAPPEAR_SE_SPIN_END);
             (*seq)++;
         }
         break;
     case EVENT_DISAPPEAR_ZOOM_END:
-        func_021C01E4(work);
+        EVENT_DISAPPEAR_EndZoomIn(work);
         return EVENT_DISAPPEAR_FINISHED;
     }
     return EVENT_DISAPPEAR_CONTINUE;
 }
 
 /* Starts the eased spin and the linear spin that follows it. */
-void func_021C0140(EventDisappearWork *work)
+void EVENT_DISAPPEAR_StartSpin(EventDisappearWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
-    FieldTaskManager *taskManager = func_02188D38(fieldMap);
-    FieldTask *easeTask = func_021C7260(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_EASE_IN_COUNT);
-    FieldTask *linearTask = func_021C71D4(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_LINEAR_COUNT);
+    FieldTaskManager *taskManager = FIELDMAP_GetTaskManager(fieldMap);
+    FieldTask *easeTask = FIELD_TASK_CreatePlayerSpinEaseIn(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_EASE_IN_COUNT);
+    FieldTask *linearTask = FIELD_TASK_CreatePlayerSpinLinear(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_LINEAR_COUNT);
 
-    func_021C6DE0(taskManager, easeTask, 0);
-    func_021C6DE0(taskManager, linearTask, easeTask);
+    FIELD_TASK_MANAGER_AddTask(taskManager, easeTask, 0);
+    FIELD_TASK_MANAGER_AddTask(taskManager, linearTask, easeTask);
 }
 
 /* Starts the camera zoom: from the current pose to a pose closer to the target. */
-void func_021C017C(EventDisappearWork *work)
+void EVENT_DISAPPEAR_StartZoomIn(EventDisappearWork *work)
 {
     struct FieldCamera *camera;
     struct FieldCameraAnime *anime;
 
-    camera = func_02188C58(work->fieldMap);
-    anime = func_0218FE80(work->fieldMap);
+    camera = FIELDMAP_GetCamera(work->fieldMap);
+    anime = FIELD_CAMERA_ANIME_Create(work->fieldMap);
     work->cameraAnime.frames = EVENT_DISAPPEAR_ZOOM_FRAMES;
     work->cameraAnime.detachTarget = 1;
     work->cameraAnime.stopTrace = 1;
     work->cameraAnimeHandle = anime;
-    func_0218FEA0(anime, &work->cameraAnime);
-    func_0218FEA4(work->cameraAnimeHandle);
-    func_0218FE78(camera, &work->cameraAnime.start);
+    FIELD_CAMERA_ANIME_SetData(anime, &work->cameraAnime);
+    FIELD_CAMERA_ANIME_Setup(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_GetCurrentParam(camera, &work->cameraAnime.start);
     work->cameraAnime.end = work->cameraAnime.start;
     work->cameraAnime.end.distance -= EVENT_DISAPPEAR_ZOOM_DISTANCE;
-    func_0218FEC0(work->cameraAnimeHandle);
-    func_0218FF00(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_ApplyStartParam(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Start(work->cameraAnimeHandle);
 }
 
 /* Ends the camera zoom and frees its handle. */
-void func_021C01E4(EventDisappearWork *work)
+void EVENT_DISAPPEAR_EndZoomIn(EventDisappearWork *work)
 {
-    func_0218FF20(work->cameraAnimeHandle);
-    func_0218FE98(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Restore(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Delete(work->cameraAnimeHandle);
 }
 
 /* Starts the fade-out: effect 0 when the season changes, else effect 1. */
-GameEvent *func_021C01F8(EventDisappearWork *work)
+GameEvent *EVENT_DISAPPEAR_CreateFadeOut(EventDisappearWork *work)
 {
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
 
     if (work->seasonChanged != 0)
-        return func_021BE8D4(gameSystem, fieldMap, 0, 0);
+        return EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 0, 0);
     else
-        return func_021BE8D4(gameSystem, fieldMap, 1, 0);
+        return EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 1, 0);
 }
 
 /*
@@ -558,16 +558,16 @@ GameEvent *func_021C01F8(EventDisappearWork *work)
  * player effect start together, the camera zooms in and after 35 frames the
  * fade-out event starts.
  */
-int func_021C021C(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunSpinZoomEffect(GameEvent *event, int *seq, EventDisappearWork *work)
 {
     int frame;
     FieldTaskManager *taskManager;
 
-    taskManager = func_02188D38(work->fieldMap);
+    taskManager = FIELDMAP_GetTaskManager(work->fieldMap);
     switch (*seq) {
     case EVENT_DISAPPEAR_ZOOM_START:
-        func_021C029C(work);
-        func_021C02F8(work);
+        EVENT_DISAPPEAR_StartSpinAndEffect(work);
+        EVENT_DISAPPEAR_StartZoomInAlt(work);
         func_020061E4(EVENT_DISAPPEAR_SE_SPIN_START);
         *seq = *seq + 1;
         break;
@@ -575,25 +575,25 @@ int func_021C021C(GameEvent *event, int *seq, EventDisappearWork *work)
         frame = work->waitFrames;
         work->waitFrames = frame + 1;
         if (frame > 0x23) {
-            func_02012374(event, func_021C0374(work));
+            GAME_EVENT_CallEvent(event, EVENT_DISAPPEAR_CreateFadeOutAlt(work));
             *seq = *seq + 1;
             break;
         }
     case EVENT_DISAPPEAR_ZOOM_WAIT:
-        if (func_021C6E48(taskManager)) {
+        if (FIELD_TASK_MANAGER_IsEmpty(taskManager)) {
             func_020061E4(EVENT_DISAPPEAR_SE_SPIN_END);
             *seq = *seq + 1;
         }
         break;
     case EVENT_DISAPPEAR_ZOOM_END:
-        func_021C0360(work);
+        EVENT_DISAPPEAR_EndZoomInAlt(work);
         return EVENT_DISAPPEAR_FINISHED;
     }
     return EVENT_DISAPPEAR_CONTINUE;
 }
 
 /* Starts the player effect, the eased spin and the linear spin that follows it. */
-void func_021C029C(EventDisappearWork *work)
+void EVENT_DISAPPEAR_StartSpinAndEffect(EventDisappearWork *work)
 {
     FieldMap *fieldMap;
     FieldTaskManager *taskManager;
@@ -602,60 +602,60 @@ void func_021C029C(EventDisappearWork *work)
     FieldTask *linearTask;
 
     fieldMap = work->fieldMap;
-    taskManager = func_02188D38(fieldMap);
-    effectTask = func_021C7D28(fieldMap, func_021A3074(func_02188CB4(fieldMap)), 0x28, 6);
-    easeTask = func_021C7260(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, 4);
-    linearTask = func_021C71D4(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_LINEAR_COUNT);
-    func_021C6DE0(taskManager, effectTask, 0);
-    func_021C6DE0(taskManager, easeTask, 0);
-    func_021C6DE0(taskManager, linearTask, easeTask);
+    taskManager = FIELDMAP_GetTaskManager(fieldMap);
+    effectTask = FIELD_TASK_CreateRepeatPlayerEffect(fieldMap, FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 0x28, 6);
+    easeTask = FIELD_TASK_CreatePlayerSpinEaseIn(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, 4);
+    linearTask = FIELD_TASK_CreatePlayerSpinLinear(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_LINEAR_COUNT);
+    FIELD_TASK_MANAGER_AddTask(taskManager, effectTask, 0);
+    FIELD_TASK_MANAGER_AddTask(taskManager, easeTask, 0);
+    FIELD_TASK_MANAGER_AddTask(taskManager, linearTask, easeTask);
 }
 
-/* Copy of func_021C017C. */
-void func_021C02F8(EventDisappearWork *work)
+/* Copy of EVENT_DISAPPEAR_StartZoomIn. */
+void EVENT_DISAPPEAR_StartZoomInAlt(EventDisappearWork *work)
 {
     struct FieldCamera *camera;
     struct FieldCameraAnime *anime;
 
-    camera = func_02188C58(work->fieldMap);
-    anime = func_0218FE80(work->fieldMap);
+    camera = FIELDMAP_GetCamera(work->fieldMap);
+    anime = FIELD_CAMERA_ANIME_Create(work->fieldMap);
     work->cameraAnime.frames = EVENT_DISAPPEAR_ZOOM_FRAMES;
     work->cameraAnime.detachTarget = 1;
     work->cameraAnime.stopTrace = 1;
     work->cameraAnimeHandle = anime;
-    func_0218FEA0(anime, &work->cameraAnime);
-    func_0218FEA4(work->cameraAnimeHandle);
-    func_0218FE78(camera, &work->cameraAnime.start);
+    FIELD_CAMERA_ANIME_SetData(anime, &work->cameraAnime);
+    FIELD_CAMERA_ANIME_Setup(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_GetCurrentParam(camera, &work->cameraAnime.start);
     work->cameraAnime.end = work->cameraAnime.start;
     work->cameraAnime.end.distance -= EVENT_DISAPPEAR_ZOOM_DISTANCE;
-    func_0218FEC0(work->cameraAnimeHandle);
-    func_0218FF00(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_ApplyStartParam(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Start(work->cameraAnimeHandle);
 }
 
-/* Copy of func_021C01E4. */
-void func_021C0360(EventDisappearWork *work)
+/* Copy of EVENT_DISAPPEAR_EndZoomIn. */
+void EVENT_DISAPPEAR_EndZoomInAlt(EventDisappearWork *work)
 {
-    func_0218FF20(work->cameraAnimeHandle);
-    func_0218FE98(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Restore(work->cameraAnimeHandle);
+    FIELD_CAMERA_ANIME_Delete(work->cameraAnimeHandle);
 }
 
-/* Copy of func_021C01F8. */
-GameEvent *func_021C0374(EventDisappearWork *work)
+/* Copy of EVENT_DISAPPEAR_CreateFadeOut. */
+GameEvent *EVENT_DISAPPEAR_CreateFadeOutAlt(EventDisappearWork *work)
 {
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
 
     if (work->seasonChanged != 0)
-        return func_021BE8D4(gameSystem, fieldMap, 0, 0);
+        return EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 0, 0);
     else
-        return func_021BE8D4(gameSystem, fieldMap, 1, 0);
+        return EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 1, 0);
 }
 
 /*
  * Spin fade: the spin tasks and a fade start together (the fade waits 30
  * frames), the sound depends on soundVariant, and the camera zooms in.
  */
-int func_021C0398(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunSpinFade(GameEvent *event, int *seq, EventDisappearWork *work)
 {
     FieldMap *fieldMap;
     struct FieldPlayer *player;
@@ -668,44 +668,44 @@ int func_021C0398(GameEvent *event, int *seq, EventDisappearWork *work)
     struct FieldCameraAnime *anime;
 
     fieldMap = work->fieldMap;
-    player = func_02188CB4(fieldMap);
-    camera = func_02188C58(work->fieldMap);
-    taskManager = func_02188D38(fieldMap);
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
+    camera = FIELDMAP_GetCamera(work->fieldMap);
+    taskManager = FIELDMAP_GetTaskManager(fieldMap);
     switch (*seq) {
     case EVENT_DISAPPEAR_FADE_START:
-        easeTask = func_021C7260(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_EASE_IN_COUNT);
-        linearTask = func_021C71D4(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_LINEAR_COUNT);
-        waitTask = func_021C77D8(fieldMap, 0x1e);
-        fadeTask = func_021C7814(fieldMap, 3, 0, 0x10, 1);
-        func_021C6DE0(taskManager, easeTask, 0);
-        func_021C6DE0(taskManager, linearTask, easeTask);
-        func_021C6DE0(taskManager, waitTask, 0);
-        func_021C6DE0(taskManager, fadeTask, waitTask);
+        easeTask = FIELD_TASK_CreatePlayerSpinEaseIn(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_EASE_IN_COUNT);
+        linearTask = FIELD_TASK_CreatePlayerSpinLinear(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_LINEAR_COUNT);
+        waitTask = FIELD_TASK_CreateWait(fieldMap, 0x1e);
+        fadeTask = FIELD_TASK_CreateFade(fieldMap, 3, 0, 0x10, 1);
+        FIELD_TASK_MANAGER_AddTask(taskManager, easeTask, 0);
+        FIELD_TASK_MANAGER_AddTask(taskManager, linearTask, easeTask);
+        FIELD_TASK_MANAGER_AddTask(taskManager, waitTask, 0);
+        FIELD_TASK_MANAGER_AddTask(taskManager, fadeTask, waitTask);
         if (work->soundVariant != 0)
             func_020061E4(EVENT_DISAPPEAR_SE_FADE_ALT);
         else
             func_020061E4(EVENT_DISAPPEAR_SE_FADE);
-        anime = func_0218FE80(fieldMap);
+        anime = FIELD_CAMERA_ANIME_Create(fieldMap);
         work->cameraAnime.frames = EVENT_DISAPPEAR_ZOOM_FRAMES;
         work->cameraAnime.detachTarget = 1;
         work->cameraAnime.stopTrace = 1;
         work->cameraAnimeHandle = anime;
-        func_0218FEA0(anime, &work->cameraAnime);
-        func_0218FEA4(work->cameraAnimeHandle);
-        func_0218FE78(camera, &work->cameraAnime.start);
+        FIELD_CAMERA_ANIME_SetData(anime, &work->cameraAnime);
+        FIELD_CAMERA_ANIME_Setup(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_GetCurrentParam(camera, &work->cameraAnime.start);
         work->cameraAnime.end = work->cameraAnime.start;
         work->cameraAnime.end.distance -= EVENT_DISAPPEAR_ZOOM_DISTANCE;
-        func_0218FEC0(work->cameraAnimeHandle);
-        func_0218FF00(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_ApplyStartParam(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_Start(work->cameraAnimeHandle);
         *seq = *seq + 1;
         break;
     case EVENT_DISAPPEAR_FADE_WAIT:
-        if (func_021C6E48(taskManager))
+        if (FIELD_TASK_MANAGER_IsEmpty(taskManager))
             *seq = *seq + 1;
         break;
     case EVENT_DISAPPEAR_FADE_END:
-        func_0218FF20(work->cameraAnimeHandle);
-        func_0218FE98(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_Restore(work->cameraAnimeHandle);
+        FIELD_CAMERA_ANIME_Delete(work->cameraAnimeHandle);
         return EVENT_DISAPPEAR_FINISHED;
     }
     return EVENT_DISAPPEAR_CONTINUE;
@@ -716,7 +716,7 @@ int func_021C0398(GameEvent *event, int *seq, EventDisappearWork *work)
  * screen fades out. It is the mirror of the descending spin of
  * event_appear.c.
  */
-int func_021C04C0(GameEvent *event, int *seq, EventDisappearWork *work)
+int EVENT_DISAPPEAR_RunRisingSpin(GameEvent *event, int *seq, EventDisappearWork *work)
 {
     FieldMap *fieldMap;
     struct FieldPlayer *player;
@@ -727,34 +727,34 @@ int func_021C04C0(GameEvent *event, int *seq, EventDisappearWork *work)
     FieldTaskManager *taskManager;
 
     fieldMap = work->fieldMap;
-    player = func_02188CB4(fieldMap);
-    camera = func_02188C58(fieldMap);
+    player = FIELDMAP_GetFieldPlayer(fieldMap);
+    camera = FIELDMAP_GetCamera(fieldMap);
     switch (*seq) {
     case EVENT_DISAPPEAR_RISE_START:
-        work->savedCameraMode = func_0218E138(camera);
-        func_0218E13C(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
+        work->savedCameraMode = FIELD_CAMERA_GetMode(camera);
+        FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
         {
             VecFx32 riseOffset;
             riseOffset.y = 0x96000;
             riseOffset.x = 0;
             riseOffset.z = 0;
-            spinTask = func_021C71D4(fieldMap, 0x18, 3);
-            fadeTask = func_021C7814(fieldMap, 3, 0, 0x10, 1);
-            offsetTask = func_021C7858(fieldMap, 0x18, &riseOffset);
+            spinTask = FIELD_TASK_CreatePlayerSpinLinear(fieldMap, 0x18, 3);
+            fadeTask = FIELD_TASK_CreateFade(fieldMap, 3, 0, 0x10, 1);
+            offsetTask = FIELD_TASK_CreatePlayerDrawOffsetTween(fieldMap, 0x18, &riseOffset);
         }
-        taskManager = func_02188D38(fieldMap);
-        func_021C6DE0(taskManager, spinTask, 0);
-        func_021C6DE0(taskManager, offsetTask, 0);
-        func_021C6DE0(taskManager, fadeTask, offsetTask);
+        taskManager = FIELDMAP_GetTaskManager(fieldMap);
+        FIELD_TASK_MANAGER_AddTask(taskManager, spinTask, 0);
+        FIELD_TASK_MANAGER_AddTask(taskManager, offsetTask, 0);
+        FIELD_TASK_MANAGER_AddTask(taskManager, fadeTask, offsetTask);
         func_020061E4(EVENT_DISAPPEAR_SE_FADE);
         (*seq)++;
         break;
     case EVENT_DISAPPEAR_RISE_WAIT:
-        if (func_021C6E48(func_02188D38(fieldMap)) != 0 && func_0204E804() == 0)
+        if (FIELD_TASK_MANAGER_IsEmpty(FIELDMAP_GetTaskManager(fieldMap)) != 0 && FADE_IsActive() == 0)
             (*seq)++;
         break;
     case EVENT_DISAPPEAR_RISE_RESTORE:
-        func_0218E13C(camera, work->savedCameraMode);
+        FIELD_CAMERA_SetMode(camera, work->savedCameraMode);
         (*seq)++;
         break;
     case EVENT_DISAPPEAR_RISE_END:

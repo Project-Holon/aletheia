@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9C8
+ * function: STARTMENU_RemoveVblankTask
  * address:  0x021BA9C8
  * packet:   pkt_021BA9C8
  * region:   ov088
@@ -16,7 +16,7 @@
 struct Node;
 void func_02030EAC(struct Node *n);
 
-void func_021BA9C8(int *p)
+void STARTMENU_RemoveVblankTask(int *p)
 {
     func_02030EAC((struct Node *)p[5]);
 }

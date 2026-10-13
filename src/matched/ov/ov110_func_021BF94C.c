@@ -13,9 +13,9 @@
  *   func_021BAC64 0x021BAC64 thumb ov110
  *   func_021BAC78 0x021BAC78 thumb ov110
  *   func_021BAC50 0x021BAC50 thumb ov110
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,9 +28,9 @@ struct V3;
 extern void func_021BAC50(char *p, struct V3 *out, int i);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B84C(void *,int);
+extern void CLACT_SetActorBgPriority(void *,int);
 void func_021BF94C(Obj *p) {
     Triple t;
     Triple s;
@@ -39,17 +39,17 @@ void func_021BF94C(Obj *p) {
     i=0;
     func_021BAC64(p->root,&t,0,0);
     p->first=func_021BAC78(p->root,(unsigned int *)(&t),62,24,4,1);
-    func_0204B878(p->first,8);
+    CLACT_SetActorAnimSeq(p->first,8);
     func_0204B3DC(p->first,0);
     p->second=func_021BAC78(p->root,(unsigned int *)(&t),244,18,5,1);
-    func_0204B878(p->second,18);
+    CLACT_SetActorAnimSeq(p->second,18);
     func_0204B3DC(p->second,0);
     z=i;
     for(;i<10;i++) {
         func_021BAC50(p->root,(struct V3 *)(&s),z);
         p->items[i]=func_021BAC78(p->root,(unsigned int *)(&s),z,z,z,1);
-        func_0204B878(p->items[i],i);
+        CLACT_SetActorAnimSeq(p->items[i],i);
         func_0204B3DC(p->items[i],z);
-        func_0204B84C(p->items[i],1);
+        CLACT_SetActorBgPriority(p->items[i],1);
     }
 }

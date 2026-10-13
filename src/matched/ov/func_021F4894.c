@@ -10,16 +10,17 @@
  * status:   EXACT
  *
  * symbols:
+ *   BG_SYS_SetVramBanks  0x020433E0  arm  arm9
  *
 
  *
- * Tail-call thunk to func_020433E0.
+ * Tail-call thunk to BG_SYS_SetVramBanks.
  */
 
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 void func_021F4894(const struct DispVram *a0)
 {
-    func_020433E0(a0);
+    BG_SYS_SetVramBanks(a0);
 }

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0201ADE4 0x0201ADE4 thumb
  *   func_0201AE1C 0x0201AE1C thumb
  *   func_0201AE14 0x0201AE14 thumb
@@ -36,7 +36,7 @@ typedef struct {
 } Work;
 extern const Vec data_021E7B00;
 extern const Table data_021E7B0C;
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
@@ -52,8 +52,8 @@ void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
     Vec v = data_021E7B00;
     Table t = data_021E7B0C;
     if (flag) {
-        u16 species = func_02017E1C(mon, 5, 0);
-        u16 form = func_02017E1C(mon, 0x6f, 0);
+        u16 species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        u16 form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
         void *h = func_0201ADE4(species, form, p->heap);
         u32 r = func_0201AE1C(h, 0x22);
         func_0201AE14(h);

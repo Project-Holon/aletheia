@@ -1,5 +1,5 @@
 /*
- * function: func_021C3D1C
+ * function: SODATEYA_RollAbilitySlot
  * address:  0x021C3D1C
  * packet:   pkt_ov021_021C3D1C
  * region:   ov021
@@ -9,25 +9,25 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02005728  0x02005728  thumb  ov021
- *   func_021C452C  0x021C452C  thumb  ov021
+ *   SODATEYA_GetAbilitySlot  0x021C452C  thumb  ov021
  */
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern u32 func_02017E1C(void *a, u32 b, u32 c);
+extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 extern u32 func_02005728(u32 n);
 typedef unsigned char  u8;
-extern u8 func_021C452C(u32 a, u32 b, u32 c, u32 d);
+extern u8 SODATEYA_GetAbilitySlot(u32 a, u32 b, u32 c, u32 d);
 
-void func_021C3D1C(u32 *p, u32 *q, u32 d)
+void SODATEYA_RollAbilitySlot(u32 *p, u32 *q, u32 d)
 {
-    u32 a = func_02017E1C((void *)p[1], 5, 0);
-    u32 b = func_02017E1C((void *)p[1], 0x6f, 0);
-    u32 c = func_02017E1C((void *)p[1], 0xa, 0);
-    u32 k = (u32)func_021C452C((u16)a, (u16)b, (u16)c, d);
+    u32 a = POKE_TOOL_GetPartyValue((void *)p[1], 5, 0);
+    u32 b = POKE_TOOL_GetPartyValue((void *)p[1], 0x6f, 0);
+    u32 c = POKE_TOOL_GetPartyValue((void *)p[1], 0xa, 0);
+    u32 k = (u32)SODATEYA_GetAbilitySlot((u16)a, (u16)b, (u16)c, d);
     u32 r = func_02005728(100);
 
     switch (k) {

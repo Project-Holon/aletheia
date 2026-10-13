@@ -1,5 +1,5 @@
 /*
- * function: func_021D08B0
+ * function: FLDEFF_BUBBLE_ClearBubble
  * address:  0x021D08B0
  * packet:   pkt_021D08B0
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02082BCC();
 
-void func_021D08B0(u32 a)
+void FLDEFF_BUBBLE_ClearBubble(u32 a)
 {
     func_02082BCC(a, 0, 20);
 }

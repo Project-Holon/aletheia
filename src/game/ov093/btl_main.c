@@ -1,7 +1,7 @@
 /*
  * file:     btl_main.c
  * unit:     yes
- * function: func_021B6100, func_021B6434, func_021B64CC, func_021B6500, func_021B66D4, func_021B6804, func_021B6818, func_021B6848, func_021B68D8, func_021B6954, func_021B6994, func_021B69FC, func_021B6A3C, func_021B6A70, func_021B6AAC, func_021B6C08, func_021B6C5C, func_021B6DD0, func_021B7050, func_021B71D4, func_021B734C, func_021B73C4, func_021B7488, func_021B7518, func_021B75A8, func_021B7758, func_021B7968, func_021B7BB0, func_021B7CB4, func_021B7E18, func_021B8070, func_021B81DC, func_021B835C, func_021B83F4, func_021B8434, func_021B84D8, func_021B8548, func_021B8564, func_021B8588, func_021B8590, func_021B85A0, func_021B85A8, func_021B85DC, func_021B85EC, func_021B8630, func_021B8640, func_021B8670, func_021B86A0, func_021B86B8, func_021B86C0, func_021B86C8, func_021B86DC, func_021B86E4, func_021B8714, func_021B871C, func_021B8724, func_021B873C, func_021B8748, func_021B8750, func_021B8778, func_021B87E8, func_021B8834, func_021B88EC, func_021B8B78, func_021B8B9C, func_021B8BC4, func_021B8BD0, func_021B8BEC, func_021B8C20, func_021B8C38, func_021B8C50, func_021B8C5C
+ * function: BTL_MAIN_ProcInit, BTL_MAIN_ProcMain, BTL_MAIN_IsRecordPlaybackDone, BTL_MAIN_ProcExit, BTL_MAIN_StartSetupTask, BTL_MAIN_StartCleanupTask, BTL_MAIN_IsCommCompetitor, BTL_MAIN_SetupOwnClient, BTL_MAIN_InitClientParties, BTL_MAIN_InitTrainerSlot, BTL_MAIN_GetPositionsPerClient, BTL_MAIN_InitFirstTwoTrainerSlots, func_021B6A3C, BTL_MAIN_CreateViewCore, BTL_MAIN_TaskSetupSingle, func_021B6C08, BTL_MAIN_TaskSetupDouble, BTL_MAIN_TaskSetupMulti, BTL_MAIN_TaskSetupTriple, BTL_MAIN_TaskSetupRotation, BTL_MAIN_TaskCommSingle, BTL_MAIN_TaskCommDouble, BTL_MAIN_RunSetupSeqKind1, BTL_MAIN_RunSetupSeqKind3, BTL_MAIN_SeqSyncRules, BTL_MAIN_SeqExchangeRegulation, BTL_MAIN_SeqExchangePlayers, BTL_MAIN_SeqExchangePerapVoice, BTL_MAIN_SeqCreateClientsKind1Solo, BTL_MAIN_SeqCreateClientsByMulti, BTL_MAIN_SeqCreateClientsKind3, BTL_MAIN_SeqCreateClientsKind1, BTL_MAIN_SeqCreateView, BTL_MAIN_StepClientsSolo, BTL_MAIN_StepParent, BTL_MAIN_StepChild, BTL_MAIN_MarkClientsDisconnected, BTL_MAIN_CheckAllClientsReady, BTL_MAIN_GetRule, BTL_MAIN_CheckSceneOff, BTL_MAIN_GetBadgeCount, BTL_MAIN_CheckShiftModePrompt, BTL_MAIN_GetTextSpeedFrames, BTL_MAIN_CheckEventOverlayAllowed, BTL_MAIN_GetPmsWork, BTL_MAIN_GetRuleSlotSpan, BTL_MAIN_GetActivePosPerSide, BTL_MAIN_CheckFrontPos, BTL_MAIN_GetCompetitor, BTL_MAIN_GetCommPos, BTL_MAIN_IsMultiMode, BTL_MAIN_GetWinBgm, BTL_MAIN_GetCompetitorKind, BTL_MAIN_GetFieldSituation, func_021B871C, BTL_MAIN_CheckZukanSeen, BTL_MAIN_GetZukanSeenCount, BTL_MAIN_GetGameData, BTL_MAIN_RegisterZukanSeen, BTL_MAIN_DecodeMessageCode, BTL_MAIN_DecodeMessageCodeBasic, BTL_MAIN_ExpandPosDouble, BTL_MAIN_ExpandPosTriple, BTL_MAIN_CountClientTrainers, BTL_MAIN_IsClientUsed, BTL_MAIN_GetClientSide, BTL_MAIN_IsLocalSide, BTL_MAIN_GetClientTrainerIndex, BTL_MAIN_GetEnemyLanePos, BTL_MAIN_GetOwnLanePos, BTL_MAIN_GetEnemyLanePosFromWork, BTL_MAIN_GetFacingPos
  * address:  0x021B6100
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,29 +13,29 @@
  * Battle main module (BTL_MAIN; the file name is a guess, no __FILE__ string before btl_server.c).
  *
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082A7C 0x02082A7C arm
- *   func_021E8DC4 0x021E8DC4 thumb ov093
- *   func_021E88CC 0x021E88CC thumb ov093
+ *   BTLV_CORE_LoadOverlays 0x021E8DC4 thumb ov093
+ *   BTLV_CORE_LoadDsiOverlay 0x021E88CC thumb ov093
  *   GFL_USE_IsMuteHookActive 0x020057C4 thumb
  *   GFL_USE_SetSleepVolumeHooks 0x020057AC thumb
  *   CONFIG_GetTextSpeed 0x02008374 thumb
  *   CONFIG_GetBattleScene 0x020083AC thumb
  *   CONFIG_GetBattleStyle 0x020083C8 thumb
- *   func_021EF958 0x021EF958 thumb ov093
+ *   BTL_FIELD_Create 0x021EF958 thumb ov093
  *   func_021B93E0 0x021B93E0 thumb ov093
  *   func_021BA82C 0x021BA82C thumb ov093
  *   func_0203F258 0x0203F258 arm
- *   func_021D7840 0x021D7840 thumb ov093
- *   func_021CD6EC 0x021CD6EC thumb ov093
- *   func_021D7F88 0x021D7F88 thumb ov093
- *   func_021D8230 0x021D8230 thumb ov093
- *   func_021D4150 0x021D4150 thumb ov093
- *   func_021D804C 0x021D804C thumb ov093
- *   func_021D4270 0x021D4270 thumb ov093
- *   func_021D4230 0x021D4230 thumb ov093
- *   func_021EEA30 0x021EEA30 thumb ov093
+ *   BTL_CALC_Init 0x021D7840 thumb ov093
+ *   BTL_SERVER_CMD_Dummy 0x021CD6EC thumb ov093
+ *   BTL_CALC_CalcPrizeMoney 0x021D7F88 thumb ov093
+ *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
+ *   BTL_NET_Init 0x021D4150 thumb ov093
+ *   BTL_CALC_SetHeapId 0x021D804C thumb ov093
+ *   BTL_NET_HasCommError 0x021D4270 thumb ov093
+ *   BTL_NET_IsInitialSyncDone 0x021D4230 thumb ov093
+ *   BTL_ADAPTER_ClearSlots 0x021EEA30 thumb ov093
  *   func_021B9DB8 0x021B9DB8 thumb ov093
  *   func_021BA094 0x021BA094 thumb ov093
  *   func_021BA1B4 0x021BA1B4 thumb ov093
@@ -44,24 +44,24 @@
  *   func_021BA6C0 0x021BA6C0 thumb ov093
  *   func_021BA878 0x021BA878 thumb ov093
  *   func_021BA2E4 0x021BA2E4 thumb ov093
- *   func_021EE894 0x021EE894 thumb ov093
+ *   BTL_REC_IsChannelDone 0x021EE894 thumb ov093
  *   func_0207D55C 0x0207D55C arm
  *   func_0207D534 0x0207D534 arm
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
- *   func_021EF980 0x021EF980 thumb ov093
- *   func_021D4D5C 0x021D4D5C thumb ov093
- *   func_021D7894 0x021D7894 thumb ov093
+ *   BTL_FIELD_Delete 0x021EF980 thumb ov093
+ *   BTL_NET_FreeRelayPacket 0x021D4D5C thumb ov093
+ *   BTL_CALC_Exit 0x021D7894 thumb ov093
  *   func_021BA0CC 0x021BA0CC thumb ov093
  *   func_021B9DE8 0x021B9DE8 thumb ov093
- *   func_021EEA54 0x021EEA54 thumb ov093
- *   func_021D4254 0x021D4254 thumb ov093
- *   func_021D8058 0x021D8058 thumb ov093
- *   func_021E8DF8 0x021E8DF8 thumb ov093
- *   func_021E88F8 0x021E88F8 thumb ov093
- *   func_02012EBC 0x02012EBC thumb
+ *   BTL_ADAPTER_NoOp 0x021EEA54 thumb ov093
+ *   BTL_NET_Exit 0x021D4254 thumb ov093
+ *   BTL_CALC_NoOp 0x021D8058 thumb ov093
+ *   BTLV_CORE_UnloadOverlays 0x021E8DF8 thumb ov093
+ *   BTLV_CORE_UnloadDsiOverlay 0x021E88F8 thumb ov093
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02007B44 0x02007B44 thumb
  *   func_02007B20 0x02007B20 thumb
  *   func_02007C20 0x02007C20 thumb
@@ -71,22 +71,22 @@
  *   func_021B9E7C 0x021B9E7C thumb ov093
  *   func_021B9E38 0x021B9E38 thumb ov093
  *   func_0201AA18 0x0201AA18 thumb
- *   func_021EE644 0x021EE644 thumb ov093
- *   func_021CD938 0x021CD938 thumb ov093
- *   func_021E8F20 0x021E8F20 thumb ov093
- *   func_021CD95C 0x021CD95C thumb ov093
+ *   BTL_REC_InitReader 0x021EE644 thumb ov093
+ *   BTL_CLIENT_AttachRemoteLink 0x021CD938 thumb ov093
+ *   BTLV_CORE_Create 0x021E8F20 thumb ov093
+ *   BTL_CLIENT_SetView 0x021CD95C thumb ov093
  *   func_021B9460 0x021B9460 thumb ov093
- *   func_021BA9C8 0x021BA9C8 thumb ov093
- *   func_021CD6F0 0x021CD6F0 thumb ov093
- *   func_021CD978 0x021CD978 thumb ov093
- *   func_021BAA94 0x021BAA94 thumb ov093
- *   func_021BAB40 0x021BAB40 thumb ov093
+ *   BTL_SERVER_Create 0x021BA9C8 thumb ov093
+ *   BTL_CLIENT_Create 0x021CD6F0 thumb ov093
+ *   BTL_CLIENT_GetNetChannel 0x021CD978 thumb ov093
+ *   BTL_SERVER_SetClientAdapter 0x021BAA94 thumb ov093
+ *   BTL_SERVER_Restart 0x021BAB40 thumb ov093
  *   func_021E9034 0x021E9034 thumb ov093
- *   func_021CD8E0 0x021CD8E0 thumb ov093
+ *   BTL_CLIENT_Delete 0x021CD8E0 thumb ov093
  *   func_021B9674 0x021B9674 thumb ov093
- *   func_021BAB5C 0x021BAB5C thumb ov093
- *   d_021EFD1C 0x021EFD1C data a4
- *   d_021EFD00 0x021EFD00 data a4
+ *   BTL_SERVER_Delete 0x021BAB5C thumb ov093
+ *   gBtlMainCommSingleSteps 0x021EFD1C data a4
+ *   gBtlMainCommDoubleSteps 0x021EFD00 data a4
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb arm9
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb arm9
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb arm9
@@ -94,71 +94,71 @@
  *   RINGTONE_SYS_RegisterSleepCallbacks 0x02029F6C thumb arm9
  *   d_021EFD38 0x021EFD38 data a4
  *   d_021EFD54 0x021EFD54 data a4
- *   func_021D4294 0x021D4294 thumb ov093
- *   func_021D4348 0x021D4348 thumb ov093
- *   func_021D4360 0x021D4360 thumb ov093
- *   func_021D4378 0x021D4378 thumb ov093
+ *   BTL_NET_SendEntry 0x021D4294 thumb ov093
+ *   BTL_NET_IsLeaderKnown 0x021D4348 thumb ov093
+ *   BTL_NET_IsLeader 0x021D4360 thumb ov093
+ *   BTL_NET_GetLeaderValue 0x021D4378 thumb ov093
  *   func_021BA1A8 0x021BA1A8 thumb ov093
- *   func_021D43B8 0x021D43B8 thumb ov093
- *   func_021D440C 0x021D440C thumb ov093
- *   func_021D4AF4 0x021D4AF4 thumb ov093
- *   func_021D4B18 0x021D4B18 thumb ov093
- *   func_021D4438 0x021D4438 thumb ov093
- *   func_021D44CC 0x021D44CC thumb ov093
- *   func_021D4D24 0x021D4D24 thumb ov093
- *   func_021D4D64 0x021D4D64 thumb ov093
- *   func_021D4680 0x021D4680 thumb ov093
- *   func_021D4784 0x021D4784 thumb ov093
- *   func_021D47A4 0x021D47A4 thumb ov093
- *   func_021D4800 0x021D4800 thumb ov093
+ *   BTL_NET_SendSetup 0x021D43B8 thumb ov093
+ *   BTL_NET_GetSetup 0x021D440C thumb ov093
+ *   BTL_NET_BeginSync 0x021D4AF4 thumb ov093
+ *   BTL_NET_PollSync 0x021D4B18 thumb ov093
+ *   BTL_NET_SendParty 0x021D4438 thumb ov093
+ *   BTL_NET_IsPartyReceived 0x021D44CC thumb ov093
+ *   BTL_NET_AllocRelayPacket 0x021D4D24 thumb ov093
+ *   BTL_NET_FillRelayPacket 0x021D4D64 thumb ov093
+ *   BTL_NET_SendRelayedParty 0x021D4680 thumb ov093
+ *   BTL_NET_IsRelayedPartyReceived 0x021D4784 thumb ov093
+ *   BTL_NET_GetParty 0x021D47A4 thumb ov093
+ *   BTL_NET_FreeAfterPartyUse 0x021D4800 thumb ov093
  *   func_021BA648 0x021BA648 thumb ov093
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   func_021D4808 0x021D4808 thumb ov093
- *   func_021D4898 0x021D4898 thumb ov093
- *   func_021D48CC 0x021D48CC thumb ov093
- *   func_021D4908 0x021D4908 thumb ov093
- *   func_021D49B0 0x021D49B0 thumb ov093
- *   func_021D49CC 0x021D49CC thumb ov093
- *   func_021D49E0 0x021D49E0 thumb ov093
- *   func_021D4A04 0x021D4A04 thumb ov093
+ *   BTL_NET_SendPlayerInfo 0x021D4808 thumb ov093
+ *   BTL_NET_IsPlayerInfoReceived 0x021D4898 thumb ov093
+ *   BTL_NET_GetPlayerInfo 0x021D48CC thumb ov093
+ *   BTL_NET_SendRelayedPlayerInfo 0x021D4908 thumb ov093
+ *   BTL_NET_IsRelayedPlayerInfoReceived 0x021D49B0 thumb ov093
+ *   BTL_NET_GetRelayedPlayerInfo 0x021D49CC thumb ov093
+ *   BTL_NET_FreeRelayedPlayerInfo 0x021D49E0 thumb ov093
+ *   BTL_NET_FreeAfterPlayerInfoUse 0x021D4A04 thumb ov093
  *   func_021B9EF0 0x021B9EF0 thumb ov093
  *   func_021BA670 0x021BA670 thumb ov093
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   func_020458F8 0x020458F8 arm
- *   func_02045A98 0x02045A98 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_GetLength 0x020458F8 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020084D4 0x020084D4 thumb
- *   func_021D4500 0x021D4500 thumb ov093
- *   func_021D450C 0x021D450C thumb ov093
- *   func_021D45FC 0x021D45FC thumb ov093
- *   func_021D4648 0x021D4648 thumb ov093
- *   func_021D4674 0x021D4674 thumb ov093
+ *   BTL_NET_ResetAfterParty 0x021D4500 thumb ov093
+ *   BTL_NET_SendPerapVoice 0x021D450C thumb ov093
+ *   BTL_NET_IsPerapVoiceReceived 0x021D45FC thumb ov093
+ *   BTL_NET_GetPerapVoice 0x021D4648 thumb ov093
+ *   BTL_NET_ResetAfterPerapVoice 0x021D4674 thumb ov093
  *   func_021B9F70 0x021B9F70 thumb ov093
  *   func_021BA698 0x021BA698 thumb ov093
  *   func_02007B00 0x02007B00 thumb
  *   func_02082D44 0x02082D44 arm
- *   func_021BAACC 0x021BAACC thumb ov093
- *   func_021BAB10 0x021BAB10 thumb ov093
- *   func_021CD960 0x021CD960 thumb ov093
+ *   BTL_SERVER_CreateClientAdapter 0x021BAACC thumb ov093
+ *   BTL_SERVER_SetClientWithoutAdapter 0x021BAB10 thumb ov093
+ *   BTL_CLIENT_SetRequestParam 0x021CD960 thumb ov093
  *   func_021B9010 0x021B9010 thumb ov093
- *   func_021BAB9C 0x021BAB9C thumb ov093
- *   func_021CD97C 0x021CD97C thumb ov093
+ *   BTL_SERVER_Update 0x021BAB9C thumb ov093
+ *   BTL_CLIENT_RunTick 0x021CD97C thumb ov093
  *   func_021CDD94 0x021CDD94 thumb ov093
  *   func_021E908C 0x021E908C thumb ov093
- *   func_021BABDC 0x021BABDC thumb ov093
- *   func_021CD914 0x021CD914 thumb ov093
+ *   BTL_SERVER_GetFinalData 0x021BABDC thumb ov093
+ *   BTL_CLIENT_MarkCommandIssued 0x021CD914 thumb ov093
  *   func_02013080 0x02013080 thumb
  *   ov231_id 0x000000E7 data
  *   func_02034AC4 0x02034AC4 arm
  *   func_02034A5C 0x02034A5C arm
  *   func_021809D8 0x021809D8 thumb ov231
- *   func_021D5444 0x021D5444 thumb ov093
+ *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   func_0200CED4 0x0200CED4 thumb
  *   func_0200CF28 0x0200CF28 thumb
- *   func_021D5844 0x021D5844 thumb ov093
+ *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
  *   func_0200CFA0 0x0200CFA0 thumb
  *   func_021B8CB0 0x021B8CB0 thumb ov093
  *   func_021B99F0 0x021B99F0 thumb ov093
@@ -192,29 +192,29 @@ struct ProcHandle
  * rule: bit 0 is the side of the client.
  */
 
-extern void func_0203064C(u32, u32, u32);
-extern void *func_0203159C(struct ProcHandle *proc, u32 size, u32 heapId);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
+extern void *PROCSYS_AllocProcWork(struct ProcHandle *proc, u32 size, u32 heapId);
 extern void func_02082A7C(u32, void *, u32);
-extern void func_021E8DC4(unsigned short heapId);
-extern void func_021E88CC(void);
+extern void BTLV_CORE_LoadOverlays(unsigned short heapId);
+extern void BTLV_CORE_LoadDsiOverlay(void);
 extern int GFL_USE_IsMuteHookActive(void);
 extern void GFL_USE_SetSleepVolumeHooks(void);
 extern u32 CONFIG_GetTextSpeed(struct Config *config);
 extern u32 CONFIG_GetBattleScene(struct Config *config);
 extern u32 CONFIG_GetBattleStyle(struct Config *config);
-extern struct BtlField *func_021EF958(u32 heapId);
+extern struct BtlField *BTL_FIELD_Create(u32 heapId);
 extern void func_021B93E0(struct BtlSide *side, struct BtlMain *main, u32 sideIndex);
 extern void func_021BA82C(struct BattleSetupParam *setup);
 extern void func_0203F258(struct BattleRngState *rng);
-extern void func_021D7840(struct BattleRngState *rng, u32 heapId);
-extern void func_021CD6EC(void);
-extern u32 func_021D7F88(struct BattleSetupParam *setup);
-extern void func_021D8230(struct BtlClientSet *set);
-extern void func_021D4150(unsigned int netHandle, u16 mask, u16 heapId);
-extern void func_021D804C(u32 heapId);
-extern int func_021D4270(void);
-extern int func_021D4230(void);
-extern void func_021EEA30(int commPos);
+extern void BTL_CALC_Init(struct BattleRngState *rng, u32 heapId);
+extern void BTL_SERVER_CMD_Dummy(void);
+extern u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup);
+extern void BTL_CLIENT_SET_Clear(struct BtlClientSet *set);
+extern void BTL_NET_Init(unsigned int netHandle, u16 mask, u16 heapId);
+extern void BTL_CALC_SetHeapId(u32 heapId);
+extern int BTL_NET_HasCommError(void);
+extern int BTL_NET_IsInitialSyncDone(void);
+extern void BTL_ADAPTER_ClearSlots(int commPos);
 extern void func_021B9DB8(struct BtlMain *main);
 extern void func_021BA094(struct BtlMain *main);
 extern void func_021BA1B4(struct BtlMain *main, int arg);
@@ -223,29 +223,29 @@ extern int func_021BA54C(struct BtlMain *main);
 extern void func_021BA6C0(struct BtlMain *main);
 extern void func_021BA878(struct BtlMain *main);
 extern void func_021BA2E4(struct BtlMain *main);
-extern int func_021EE894(void *reader, u8 client);
+extern int BTL_REC_IsChannelDone(void *reader, u8 client);
 extern void GFL_USE_FadeOutBgm(u32);
 extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern int func_0207D55C(volatile u16 *reg);
 extern void func_0207D534(volatile u16 *reg, int level);
-extern void func_021EF980(struct BtlField *field);
+extern void BTL_FIELD_Delete(struct BtlField *field);
 extern u32 func_020307B0(void *p);
-extern void func_021D4D5C(void *p);
-extern void func_021D7894(void);
+extern void BTL_NET_FreeRelayPacket(void *p);
+extern void BTL_CALC_Exit(void);
 extern void func_021BA0CC(struct BtlMain *main);
 extern void func_021B9DE8(struct BtlMain *main);
-extern void func_021EEA54(void);
-extern void func_021D4254(void);
-extern void func_021D8058(void);
-extern void func_021E8DF8(void);
+extern void BTL_ADAPTER_NoOp(void);
+extern void BTL_NET_Exit(void);
+extern void BTL_CALC_NoOp(void);
+extern void BTLV_CORE_UnloadOverlays(void);
 extern void GFL_USE_SetPlayersAudible(int, u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
 extern void func_020315D4(struct ProcHandle *proc);
 extern void func_020306F0(unsigned int);
-extern void func_021E88F8(void);
-extern void *func_02012EBC(struct GameData *gameData);
+extern void BTLV_CORE_UnloadDsiOverlay(void);
+extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern const struct PerapVoice *func_02007B44(void *sys);
 extern struct PerapVoice *func_02007B20(u32 heapId);
 extern void func_02007C20(struct PerapVoice *dest, const struct PerapVoice *src);
@@ -255,166 +255,166 @@ extern void func_021BA128(struct BtlMain *main, int client, struct Party *party)
 extern void func_021B9E7C(struct BtlTrainerSlot *slot, struct BattleTrainerData *trainer);
 extern void func_021B9E38(struct BtlTrainerSlot *slot, int heapId, void *playerStatus);
 extern u32 func_0201AA18(void *party);
-extern void func_021EE644(void *reader, void *recordBuffer, int size);
-extern void func_021CD938(struct BtlClient *client, void *reader);
-extern struct BtlvCore *func_021E8F20(struct BtlMain *main, struct BtlClient *client, struct BtlSide *side, int isComm, u16 heapId);
-extern void func_021CD95C(struct BtlClient *client, struct BtlvCore *viewCore);
+extern void BTL_REC_InitReader(void *reader, void *recordBuffer, int size);
+extern void BTL_CLIENT_AttachRemoteLink(struct BtlClient *client, void *reader);
+extern struct BtlvCore *BTLV_CORE_Create(struct BtlMain *main, struct BtlClient *client, struct BtlSide *side, int isComm, u16 heapId);
+extern void BTL_CLIENT_SetView(struct BtlClient *client, struct BtlvCore *viewCore);
 extern void func_021B9460(struct BtlSide *side, struct BtlMain *main, u8 slot);
-extern struct BtlServer *func_021BA9C8(struct BtlMain *main, struct BattleRngState *rng, struct BtlSide *side, int isComm, u16 heapId);
-extern struct BtlClient *func_021CD6F0(struct BtlMain *main, struct BtlSide *side, int unused, int netHandle, u16 clientId, u16 slotCount, u8 isOpponent, int isComm, int ownsSlots, struct BattleRngState *rng, u16 heapId);
-extern u32 func_021CD978(struct BtlClient *client);
-extern void func_021BAA94(struct BtlServer *server, int clientRef, u8 clientId, u8 slotCount);
-extern void func_021BAB40(struct BtlServer *server);
+extern struct BtlServer *BTL_SERVER_Create(struct BtlMain *main, struct BattleRngState *rng, struct BtlSide *side, int isComm, u16 heapId);
+extern struct BtlClient *BTL_CLIENT_Create(struct BtlMain *main, struct BtlSide *side, int unused, int netHandle, u16 clientId, u16 slotCount, u8 isOpponent, int isComm, int ownsSlots, struct BattleRngState *rng, u16 heapId);
+extern u32 BTL_CLIENT_GetNetChannel(struct BtlClient *client);
+extern void BTL_SERVER_SetClientAdapter(struct BtlServer *server, int clientRef, u8 clientId, u8 slotCount);
+extern void BTL_SERVER_Restart(struct BtlServer *server);
 extern void func_021E9034(struct BtlvCore *viewCore);
-extern void func_021CD8E0(struct BtlClient *client);
+extern void BTL_CLIENT_Delete(struct BtlClient *client);
 extern void func_021B9674(struct BtlSide *side);
-extern void func_021BAB5C(struct BtlServer *server);
+extern void BTL_SERVER_Delete(struct BtlServer *server);
 extern int (*d_021EFD38[7])(struct BtlMain *, u32 *);
-extern int func_021D4294(u16 v);
-extern int func_021D4348(void);
-extern int func_021D4360(void);
-extern u8 func_021D4378(void);
+extern int BTL_NET_SendEntry(u16 v);
+extern int BTL_NET_IsLeaderKnown(void);
+extern int BTL_NET_IsLeader(void);
+extern u8 BTL_NET_GetLeaderValue(void);
 extern int func_021BA1A8(struct BtlMain *main, int mask);
-extern u32 func_021D43B8(u32 a);
-extern int func_021D440C(void *);
-extern void func_021D4AF4(int a);
-extern int func_021D4B18(int a);
-extern u8 func_021D4438(u32 a);
-extern int func_021D44CC(void);
-extern void *func_021D4D24(u32,u16);
-extern void func_021D4D64(u32 *p, const void *src, u32 a);
-extern u32 func_021D4680(u32 *a);
-extern int func_021D4784(u32 a);
-extern void *func_021D47A4(u8);
-extern void func_021D4800(void);
+extern u32 BTL_NET_SendSetup(u32 a);
+extern int BTL_NET_GetSetup(void *);
+extern void BTL_NET_BeginSync(int a);
+extern int BTL_NET_PollSync(int a);
+extern u8 BTL_NET_SendParty(u32 a);
+extern int BTL_NET_IsPartyReceived(void);
+extern void *BTL_NET_AllocRelayPacket(u32,u16);
+extern void BTL_NET_FillRelayPacket(u32 *p, const void *src, u32 a);
+extern u32 BTL_NET_SendRelayedParty(u32 *a);
+extern int BTL_NET_IsRelayedPartyReceived(u32 a);
+extern void *BTL_NET_GetParty(u8);
+extern void BTL_NET_FreeAfterPartyUse(void);
 extern void func_021BA648(struct BtlMain *main, u8 client, void *dst);
 extern int POKE_REGULATION_GetDataSize(void);
-extern int func_021D4808(u32 a);
-extern int func_021D4898(void);
-extern void *func_021D48CC(u8);
-extern u32 func_021D4908(void *);
-extern int func_021D49B0(void);
-extern void *func_021D49CC(void);
-extern void func_021D49E0(void);
-extern void func_021D4A04(void);
+extern int BTL_NET_SendPlayerInfo(u32 a);
+extern int BTL_NET_IsPlayerInfoReceived(void);
+extern void *BTL_NET_GetPlayerInfo(u8);
+extern u32 BTL_NET_SendRelayedPlayerInfo(void *);
+extern int BTL_NET_IsRelayedPlayerInfoReceived(void);
+extern void *BTL_NET_GetRelayedPlayerInfo(void);
+extern void BTL_NET_FreeRelayedPlayerInfo(void);
+extern void BTL_NET_FreeAfterPlayerInfoUse(void);
 extern void func_021B9EF0(struct BtlTrainerSlot *slot, const void *src);
 extern void func_021BA670(struct BtlMain *main, u8 client, void *src);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(void *bank);
+extern u32 MSGDATA_Delete(void *bank);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 func_02045A98(void);
-extern void func_02045808(struct U16Vec *vec);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
+extern u16 STRBUF_GetEosChar(void);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_020084D4(u32 value, void *dst);
-extern void func_021D4500(void);
-extern u32 func_021D450C(u32 *);
-extern int func_021D45FC(void);
-extern u32 func_021D4648(u32 a);
-extern void func_021D4674(void);
+extern void BTL_NET_ResetAfterParty(void);
+extern u32 BTL_NET_SendPerapVoice(u32 *);
+extern int BTL_NET_IsPerapVoiceReceived(void);
+extern u32 BTL_NET_GetPerapVoice(u32 a);
+extern void BTL_NET_ResetAfterPerapVoice(void);
 extern int func_021B9F70(struct BtlMain *main, int slot);
 extern void func_021BA698(struct BtlMain *main, int client);
 extern u32 func_02007B00(void);
 extern void func_02082D44(const void *,void *,u32);
-extern void func_021BAACC(struct BtlServer *server, int unused, int netId, int clientId, u8 slotCount);
-extern void func_021BAB10(struct BtlServer *server, u8 clientId, int slotCount);
-extern void func_021CD960(struct BtlClient *client, struct BtlServer *server);
+extern void BTL_SERVER_CreateClientAdapter(struct BtlServer *server, int unused, int netId, int clientId, u8 slotCount);
+extern void BTL_SERVER_SetClientWithoutAdapter(struct BtlServer *server, u8 clientId, int slotCount);
+extern void BTL_CLIENT_SetRequestParam(struct BtlClient *client, struct BtlServer *server);
 extern u8 func_021B9010(struct BtlMain *main, u8 clientId);
-extern int func_021BAB9C(struct BtlServer *server);
-extern int func_021CD97C(struct BtlClient *client);
+extern int BTL_SERVER_Update(struct BtlServer *server);
+extern int BTL_CLIENT_RunTick(struct BtlClient *client);
 extern void func_021CDD94(struct BtlClient *client, void *buf);
 extern void func_021E908C(struct BtlvCore *viewCore);
-extern void func_021BABDC(struct BtlServer *server, void *buf);
-extern void func_021CD914(struct BtlClient *client);
+extern void BTL_SERVER_GetFinalData(struct BtlServer *server, void *buf);
+extern void BTL_CLIENT_MarkCommandIssued(struct BtlClient *client);
 extern signed char func_02013080(u32 idx);
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
 extern int func_021809D8(void);
-extern u16 func_021D5444(void *mon);
+extern u16 BTL_POKEPARAM_GetSpecies(void *mon);
 extern int func_0200CED4(void *,unsigned int);
 extern u16 func_0200CF28(void *zukanWork);
-extern void *func_021D5844(void *);
+extern void *BTL_POKEPARAM_GetMon(void *);
 extern void func_0200CFA0(void *zukanWork, void *mon);
 extern u8 ov231_id[];
 extern int (*d_021EFD54[7])(struct BtlMain *, u32 *);
 extern u8 func_021B8CB0(struct BtlMain *main, u8 basePos);
 extern u32 func_021B99F0(u32 basePos);
 
-int func_021B6100(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main);
-int func_021B6434(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main);
-int func_021B64CC(struct BtlMain *main);
-int func_021B6500(struct ProcHandle *proc, u32 *step, int unused, struct BtlMain *main);
-void func_021B66D4(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup);
-void func_021B6804(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup);
-u8 func_021B6818(struct BattleSetupParam *setup);
-void func_021B6848(struct BtlMain *main, struct BattleSetupParam *setup);
-void func_021B68D8(struct BtlMain *main, struct BattleSetupParam *setup);
-void func_021B6954(struct BtlMain *main, int slot);
-int func_021B6994(struct BtlMain *main, u32 clientId);
-void func_021B69FC(struct BtlMain *main, struct BattleSetupParam *setup);
+int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main);
+int BTL_MAIN_ProcMain(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main);
+int BTL_MAIN_IsRecordPlaybackDone(struct BtlMain *main);
+int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct BtlMain *main);
+void BTL_MAIN_StartSetupTask(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup);
+void BTL_MAIN_StartCleanupTask(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup);
+u8 BTL_MAIN_IsCommCompetitor(struct BattleSetupParam *setup);
+void BTL_MAIN_SetupOwnClient(struct BtlMain *main, struct BattleSetupParam *setup);
+void BTL_MAIN_InitClientParties(struct BtlMain *main, struct BattleSetupParam *setup);
+void BTL_MAIN_InitTrainerSlot(struct BtlMain *main, int slot);
+int BTL_MAIN_GetPositionsPerClient(struct BtlMain *main, u32 clientId);
+void BTL_MAIN_InitFirstTwoTrainerSlots(struct BtlMain *main, struct BattleSetupParam *setup);
 void func_021B6A3C(struct BtlMain *main, struct BattleSetupParam *setup);
-void func_021B6A70(struct BtlMain *main, struct BattleSetupParam *setup, int isComm);
-int func_021B6AAC(u32 *unused, void *arg);
+void BTL_MAIN_CreateViewCore(struct BtlMain *main, struct BattleSetupParam *setup, int isComm);
+int BTL_MAIN_TaskSetupSingle(u32 *unused, void *arg);
 int func_021B6C08(u32 *unused, void *arg);
-int func_021B6C5C(u32 *unused, void *arg);
-int func_021B6DD0(u32 *unused, void *arg);
-int func_021B7050(u32 *unused, void *arg);
-int func_021B71D4(u32 *unused, void *arg);
-int func_021B734C(u32 *step, void *arg);
-int func_021B73C4(u32 *step, void *arg);
-int func_021B7488(u32 *step, void *arg);
-int func_021B7518(u32 *step, void *arg);
-int func_021B75A8(struct BtlMain *main, u32 *state);
-int func_021B7758(struct BtlMain *main, u32 *state);
-int func_021B7968(struct BtlMain *main, u32 *state);
-int func_021B7BB0(struct BtlMain *main, u32 *state);
-int func_021B7CB4(struct BtlMain *main);
-int func_021B7E18(struct BtlMain *main);
-int func_021B8070(struct BtlMain *main);
-int func_021B81DC(struct BtlMain *main);
-int func_021B835C(struct BtlMain *main, int *step);
-int func_021B83F4(struct BtlMain *main);
-int func_021B8434(struct BtlMain *main);
-int func_021B84D8(struct BtlMain *main);
-void func_021B8548(struct BtlMain *main);
-int func_021B8564(struct BtlMain *main);
-u32 func_021B8588(struct BtlMain *main);
-unsigned int func_021B8590(struct BtlMain *main);
-u8 func_021B85A0(struct BtlMain *main);
-int func_021B85A8(struct BtlMain *main);
-int func_021B85DC(struct BtlMain *main);
-int func_021B85EC(struct BtlMain *main);
-u32 func_021B8630(struct BtlMain *main);
-unsigned int func_021B8640(struct BtlMain *main);
-unsigned int func_021B8670(struct BtlMain *main);
-int func_021B86A0(struct BtlMain *main, unsigned int posIdx);
-u32 func_021B86B8(struct BtlMain *main);
-u8 func_021B86C0(struct BtlMain *main);
-int func_021B86C8(struct BtlMain *main);
-u16 func_021B86DC(struct BtlMain *main);
-int func_021B86E4(struct BtlMain *main);
-struct FieldSituation *func_021B8714(struct BtlMain *main);
+int BTL_MAIN_TaskSetupDouble(u32 *unused, void *arg);
+int BTL_MAIN_TaskSetupMulti(u32 *unused, void *arg);
+int BTL_MAIN_TaskSetupTriple(u32 *unused, void *arg);
+int BTL_MAIN_TaskSetupRotation(u32 *unused, void *arg);
+int BTL_MAIN_TaskCommSingle(u32 *step, void *arg);
+int BTL_MAIN_TaskCommDouble(u32 *step, void *arg);
+int BTL_MAIN_RunSetupSeqKind1(u32 *step, void *arg);
+int BTL_MAIN_RunSetupSeqKind3(u32 *step, void *arg);
+int BTL_MAIN_SeqSyncRules(struct BtlMain *main, u32 *state);
+int BTL_MAIN_SeqExchangeRegulation(struct BtlMain *main, u32 *state);
+int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state);
+int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state);
+int BTL_MAIN_SeqCreateClientsKind1Solo(struct BtlMain *main);
+int BTL_MAIN_SeqCreateClientsByMulti(struct BtlMain *main);
+int BTL_MAIN_SeqCreateClientsKind3(struct BtlMain *main);
+int BTL_MAIN_SeqCreateClientsKind1(struct BtlMain *main);
+int BTL_MAIN_SeqCreateView(struct BtlMain *main, int *step);
+int BTL_MAIN_StepClientsSolo(struct BtlMain *main);
+int BTL_MAIN_StepParent(struct BtlMain *main);
+int BTL_MAIN_StepChild(struct BtlMain *main);
+void BTL_MAIN_MarkClientsDisconnected(struct BtlMain *main);
+int BTL_MAIN_CheckAllClientsReady(struct BtlMain *main);
+u32 BTL_MAIN_GetRule(struct BtlMain *main);
+unsigned int BTL_MAIN_CheckSceneOff(struct BtlMain *main);
+u8 BTL_MAIN_GetBadgeCount(struct BtlMain *main);
+int BTL_MAIN_CheckShiftModePrompt(struct BtlMain *main);
+int BTL_MAIN_GetTextSpeedFrames(struct BtlMain *main);
+int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main);
+u32 BTL_MAIN_GetPmsWork(struct BtlMain *main);
+unsigned int BTL_MAIN_GetRuleSlotSpan(struct BtlMain *main);
+unsigned int BTL_MAIN_GetActivePosPerSide(struct BtlMain *main);
+int BTL_MAIN_CheckFrontPos(struct BtlMain *main, unsigned int posIdx);
+u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
+u8 BTL_MAIN_GetCommPos(struct BtlMain *main);
+int BTL_MAIN_IsMultiMode(struct BtlMain *main);
+u16 BTL_MAIN_GetWinBgm(struct BtlMain *main);
+int BTL_MAIN_GetCompetitorKind(struct BtlMain *main);
+struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
 int func_021B871C(struct BtlMain *main);
-int func_021B8724(struct BtlMain *main, void *mon);
-u32 func_021B873C(struct BtlMain *main);
-u32 func_021B8748(struct BtlMain *main);
-void func_021B8750(struct BtlMain *main, unsigned char doRegister, void *mon);
-u8 func_021B8778(struct BtlMain *main, int code, u8 *out);
-u8 func_021B87E8(struct BtlMain *main, u32 k, u32 v, u8 *out);
-u8 func_021B8834(struct BtlMain *main, u32 rangeType, u8 basePos, u8 *out);
-u8 func_021B88EC(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out);
-unsigned int func_021B8B78(struct BtlMain *main, int clientId);
-int func_021B8B9C(struct BtlMain *main, unsigned char clientId);
-unsigned char func_021B8BC4(int unusedWork, unsigned int clientId);
-int func_021B8BD0(struct BtlMain *main, unsigned char side);
-u8 func_021B8BEC(struct BtlMain *main, u32 clientId, u8 nth);
-u8 func_021B8C20(int rule, u32 basePos, u32 lane);
-u8 func_021B8C38(u32 basePos, u32 lane);
-u8 func_021B8C50(struct BtlMain *main, u32 basePos, int lane);
-u8 func_021B8C5C(int rule, u32 basePos);
+int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon);
+u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main);
+u32 BTL_MAIN_GetGameData(struct BtlMain *main);
+void BTL_MAIN_RegisterZukanSeen(struct BtlMain *main, unsigned char doRegister, void *mon);
+u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out);
+u8 BTL_MAIN_DecodeMessageCodeBasic(struct BtlMain *main, u32 k, u32 v, u8 *out);
+u8 BTL_MAIN_ExpandPosDouble(struct BtlMain *main, u32 rangeType, u8 basePos, u8 *out);
+u8 BTL_MAIN_ExpandPosTriple(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out);
+unsigned int BTL_MAIN_CountClientTrainers(struct BtlMain *main, int clientId);
+int BTL_MAIN_IsClientUsed(struct BtlMain *main, unsigned char clientId);
+unsigned char BTL_MAIN_GetClientSide(int unusedWork, unsigned int clientId);
+int BTL_MAIN_IsLocalSide(struct BtlMain *main, unsigned char side);
+u8 BTL_MAIN_GetClientTrainerIndex(struct BtlMain *main, u32 clientId, u8 nth);
+u8 BTL_MAIN_GetEnemyLanePos(int rule, u32 basePos, u32 lane);
+u8 BTL_MAIN_GetOwnLanePos(u32 basePos, u32 lane);
+u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlMain *main, u32 basePos, int lane);
+u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos);
 
 
-int func_021B6100(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main)
+int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main)
 {
   u32 flagBit;
   u32 i;
@@ -423,13 +423,13 @@ int func_021B6100(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *s
   switch (*step)
   {
     case 0:
-      func_0203064C(1, 0x12, 0x20000);
-      func_0203064C(1, 0x14, 0x8000);
-      func_0203064C(1, 0x13, 0xab100);
-      main = func_0203159C(proc, 0x474, 0x12);
+      GFL_HEAP_CreateChildHeap(1, 0x12, 0x20000);
+      GFL_HEAP_CreateChildHeap(1, 0x14, 0x8000);
+      GFL_HEAP_CreateChildHeap(1, 0x13, 0xab100);
+      main = PROCSYS_AllocProcWork(proc, 0x474, 0x12);
       func_02082A7C(0, main, 0x474);
-      func_021E8DC4(0x13);
-      func_021E88CC();
+      BTLV_CORE_LoadOverlays(0x13);
+      BTLV_CORE_LoadDsiOverlay();
       if (!GFL_USE_IsMuteHookActive())
       {
         GFL_USE_SetSleepVolumeHooks();
@@ -456,7 +456,7 @@ int func_021B6100(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *s
       if (CONFIG_GetBattleScene(setup->config) == 0)
         flagBit = 1;
       main->flags.noBattleAnim = (u8) flagBit;
-      main->field = func_021EF958(main->heapId);
+      main->field = BTL_FIELD_Create(main->heapId);
       func_021B93E0(&main->sides[0], main, 0);
       func_021B93E0(&main->sides[1], main, 1);
       func_021BA82C(main->setup);
@@ -466,9 +466,9 @@ int func_021B6100(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *s
         func_0203F258(&main->rng);
       else
         main->rng = setup->rng;
-      func_021D7840(&main->rng, main->heapId);
-      func_021CD6EC();
-      main->prizeMoney = func_021D7F88(setup);
+      BTL_CALC_Init(&main->rng, main->heapId);
+      BTL_SERVER_CMD_Dummy();
+      main->prizeMoney = BTL_CALC_CalcPrizeMoney(setup);
       main->bonusMoney = 0;
       main->penaltyMoney = 0;
       if (main->setup->ownsSlots == 0)
@@ -476,28 +476,28 @@ int func_021B6100(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *s
         for (i = 0; i < 4; i++)
           main->setup->voiceFlags[i] = 0;
       }
-      func_021D8230(&main->defeatedClients);
+      BTL_CLIENT_SET_Clear(&main->defeatedClients);
       battleStyle = CONFIG_GetBattleStyle(setup->config);
       flagBit = 0;
       if (battleStyle != 0)
         flagBit = 1;
       main->isSetStyle = flagBit;
-      func_021D4150(setup->netHandle, setup->levelCap, 0x14);
-      func_021D804C(0x12);
+      BTL_NET_Init(setup->netHandle, setup->levelCap, 0x14);
+      BTL_CALC_SetHeapId(0x12);
       (*step)++;
       break;
 
     case 1:
-      if (main->setup->netHandle != 0 && func_021D4270())
+      if (main->setup->netHandle != 0 && BTL_NET_HasCommError())
       {
         main->flags.commLost = 1;
         main->flags.commLostHandled = 1;
         return 1;
       }
-      if (func_021D4230())
+      if (BTL_NET_IsInitialSyncDone())
       {
-        func_021EEA30(main->setup->commPos);
-        func_021B66D4(&main->task, main, main->setup);
+        BTL_ADAPTER_ClearSlots(main->setup->commPos);
+        BTL_MAIN_StartSetupTask(&main->task, main, main->setup);
         main->subStep = 0;
         func_021B9DB8(main);
         func_021BA094(main);
@@ -544,7 +544,7 @@ int func_021B6100(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *s
   return 0;
 }
 
-int func_021B6434(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main)
+int BTL_MAIN_ProcMain(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main)
 {
     u32 result;
     u32 recordDone;
@@ -568,7 +568,7 @@ int func_021B6434(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *s
                 break;
             }
         } else {
-            recordDone = func_021B64CC(main);
+            recordDone = BTL_MAIN_IsRecordPlaybackDone(main);
             main->setup->bits.recordComplete = recordDone;
         }
         return 1;
@@ -576,12 +576,12 @@ int func_021B6434(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *s
     return 0;
 }
 
-int func_021B64CC(struct BtlMain *main)
+int BTL_MAIN_IsRecordPlaybackDone(struct BtlMain *main)
 {
     unsigned int client;
     for (client = 0; client < 4; client++) {
-        if (func_021B8B9C(main, client)) {
-            if (!func_021EE894(main->recordReader, client)) return 0;
+        if (BTL_MAIN_IsClientUsed(main, client)) {
+            if (!BTL_REC_IsChannelDone(main->recordReader, client)) return 0;
         }
     }
     return 1;
@@ -605,7 +605,7 @@ static inline int runTask(struct BtlMain *main)
 /*
  * lever: cache each re-read fade level for the comparison and setter; associate callback integer offsets before adding the base.
  */
-int func_021B6500(struct ProcHandle *proc, u32 *step, int unused, struct BtlMain *main)
+int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct BtlMain *main)
 {
     switch (*step) {
     case 0:
@@ -636,23 +636,23 @@ int func_021B6500(struct ProcHandle *proc, u32 *step, int unused, struct BtlMain
         } else *step += 1;
         break;
     case 3:
-        if (main->field) { func_021EF980(main->field); main->field = 0; }
+        if (main->field) { BTL_FIELD_Delete(main->field); main->field = 0; }
         if (main->tempBuffer) { func_020307B0(main->tempBuffer); main->tempBuffer = 0; }
-        if (main->netBuffer) { func_021D4D5C(main->netBuffer); main->netBuffer = 0; }
-        func_021D7894();
+        if (main->netBuffer) { BTL_NET_FreeRelayPacket(main->netBuffer); main->netBuffer = 0; }
+        BTL_CALC_Exit();
         func_021BA0CC(main);
         func_021B9DE8(main);
-        func_021B6804(&main->task, main, main->setup);
+        BTL_MAIN_StartCleanupTask(&main->task, main, main->setup);
         *step += 1;
         break;
     case 4:
         if (runTask(main)) {
-            func_021EEA54(); func_021D4254(); func_021D8058();
+            BTL_ADAPTER_NoOp(); BTL_NET_Exit(); BTL_CALC_NoOp();
             *step += 1;
         }
         break;
     case 5:
-        func_021E8DF8();
+        BTLV_CORE_UnloadOverlays();
         GFL_USE_SetPlayersAudible(1, 62);
         PM_VOICE_ResetMasterVolume();
         if (main->flags.sleepHooksSet) { RINGTONE_SYS_RegisterSleepCallbacks(); main->flags.sleepHooksSet = 0; }
@@ -660,7 +660,7 @@ int func_021B6500(struct ProcHandle *proc, u32 *step, int unused, struct BtlMain
         func_020306F0(19);
         func_020306F0(20);
         func_020306F0(18);
-        func_021E88F8();
+        BTLV_CORE_UnloadDsiOverlay();
         return 1;
     }
     return 0;
@@ -671,27 +671,27 @@ static inline void startTask(struct BtlTask *task, struct BtlMain *main, BtlStep
     task->current = fn; task->queued = 0; task->arg = main; task->step = 0;
 }
 
-void func_021B66D4(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup)
+void BTL_MAIN_StartSetupTask(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup)
 {
     u32 slot;
     for (slot = 0; slot < 6; slot++) main->slotClientIds[slot] = 4;
     if (!setup->commPos) {
         switch (setup->rule) {
-        case 0: startTask(task, main, func_021B6AAC); return;
+        case 0: startTask(task, main, BTL_MAIN_TaskSetupSingle); return;
         case 1:
-            if (!setup->multiMode) { startTask(task, main, func_021B6C5C); return; }
-            else { startTask(task, main, func_021B6DD0); return; }
-        case 2: startTask(task, main, func_021B7050); return;
-        case 3: startTask(task, main, func_021B71D4); return;
-        default: startTask(task, main, func_021B6AAC); return;
+            if (!setup->multiMode) { startTask(task, main, BTL_MAIN_TaskSetupDouble); return; }
+            else { startTask(task, main, BTL_MAIN_TaskSetupMulti); return; }
+        case 2: startTask(task, main, BTL_MAIN_TaskSetupTriple); return;
+        case 3: startTask(task, main, BTL_MAIN_TaskSetupRotation); return;
+        default: startTask(task, main, BTL_MAIN_TaskSetupSingle); return;
         }
     } else {
         switch (setup->rule) {
-        case 0: startTask(task, main, func_021B734C); return;
-        case 1: startTask(task, main, func_021B73C4); return;
-        case 2: startTask(task, main, func_021B7518); return;
-        case 3: startTask(task, main, func_021B7488); return;
-        default: startTask(task, main, func_021B6AAC); return;
+        case 0: startTask(task, main, BTL_MAIN_TaskCommSingle); return;
+        case 1: startTask(task, main, BTL_MAIN_TaskCommDouble); return;
+        case 2: startTask(task, main, BTL_MAIN_RunSetupSeqKind3); return;
+        case 3: startTask(task, main, BTL_MAIN_RunSetupSeqKind1); return;
+        default: startTask(task, main, BTL_MAIN_TaskSetupSingle); return;
         }
     }
 }
@@ -700,12 +700,12 @@ void func_021B66D4(struct BtlTask *task, struct BtlMain *main, struct BattleSetu
  * size: 324
  * lever: initializer stores first, second, object, state; object-first reallocates all tails.
  */
-void func_021B6804(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup)
+void BTL_MAIN_StartCleanupTask(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup)
 {
     startTask(task, main, func_021B6C08);
 }
 
-u8 func_021B6818(struct BattleSetupParam *setup)
+u8 BTL_MAIN_IsCommCompetitor(struct BattleSetupParam *setup)
 {
     switch (setup->competitor) {
     case 0: return 0;
@@ -716,7 +716,7 @@ u8 func_021B6818(struct BattleSetupParam *setup)
     }
 }
 
-void func_021B6848(struct BtlMain *main, struct BattleSetupParam *setup)
+void BTL_MAIN_SetupOwnClient(struct BtlMain *main, struct BattleSetupParam *setup)
 {
     u32 client;
     const struct PerapVoice *srcVoice;
@@ -725,10 +725,10 @@ void func_021B6848(struct BtlMain *main, struct BattleSetupParam *setup)
 
     client = 0;
     main->ownClientId = ownClientId;
-    main->ownFirstSlot = func_021B8BEC(main, ownClientId, 0);
-    func_021B68D8(main, setup);
+    main->ownFirstSlot = BTL_MAIN_GetClientTrainerIndex(main, ownClientId, 0);
+    BTL_MAIN_InitClientParties(main, setup);
     if (func_021B9114(main) == 0) {
-        srcVoice = func_02007B44(func_02012EBC(setup->gameData));
+        srcVoice = func_02007B44(GAME_DATA_GetSaveControl(setup->gameData));
         main->voices[0] = func_02007B20(main->heapId);
         func_02007C20(main->voices[0], srcVoice);
         main->setup->voiceFlags[0] = func_021B997C(main, client);
@@ -742,7 +742,7 @@ void func_021B6848(struct BtlMain *main, struct BattleSetupParam *setup)
     }
 }
 
-void func_021B68D8(struct BtlMain *main, struct BattleSetupParam *setup)
+void BTL_MAIN_InitClientParties(struct BtlMain *main, struct BattleSetupParam *setup)
 {
     int firstSrc, secondSrc, thirdSrc, fourthSrc;
 
@@ -760,7 +760,7 @@ void func_021B68D8(struct BtlMain *main, struct BattleSetupParam *setup)
     }
 }
 
-void func_021B6954(struct BtlMain *main, int slot)
+void BTL_MAIN_InitTrainerSlot(struct BtlMain *main, int slot)
 {
     struct BattleSetupParam *setup = main->setup;
     int source = func_021BA710(main->ownClientId, slot);
@@ -772,7 +772,7 @@ void func_021B6954(struct BtlMain *main, int slot)
         func_021B9E38(trainerSlot, main->heapId, setup->playerStatus[source]);
 }
 
-int func_021B6994(struct BtlMain *main, u32 clientId)
+int BTL_MAIN_GetPositionsPerClient(struct BtlMain *main, u32 clientId)
 {
     struct BattleSetupParam *setup = main->setup;
     struct Party *partner;
@@ -800,30 +800,30 @@ int func_021B6994(struct BtlMain *main, u32 clientId)
     return 1;
 }
 
-void func_021B69FC(struct BtlMain *main, struct BattleSetupParam *setup)
+void BTL_MAIN_InitFirstTwoTrainerSlots(struct BtlMain *main, struct BattleSetupParam *setup)
 {
     if (setup->ownsSlots == 0) {
         func_021B9E38(&main->trainers[0], main->heapId, main->playerStatus);
         func_021B9E7C(&main->trainers[1], setup->trainerData[1]);
     } else {
-        func_021B6954(main, 0);
-        func_021B6954(main, 1);
+        BTL_MAIN_InitTrainerSlot(main, 0);
+        BTL_MAIN_InitTrainerSlot(main, 1);
     }
 }
 
 void func_021B6A3C(struct BtlMain *main, struct BattleSetupParam *setup)
 {
     if (setup->ownsSlots) {
-        func_021EE644(main->recordReader, setup->recordBuffer, setup->recordSize);
-        func_021CD938(main->clients[0], main->recordReader);
-        func_021CD938(main->clients[1], main->recordReader);
+        BTL_REC_InitReader(main->recordReader, setup->recordBuffer, setup->recordSize);
+        BTL_CLIENT_AttachRemoteLink(main->clients[0], main->recordReader);
+        BTL_CLIENT_AttachRemoteLink(main->clients[1], main->recordReader);
     }
 }
 
 /*
  * extent: final two zero bytes are alignment padding before the next labelled function.
  */
-void func_021B6A70(struct BtlMain *main, struct BattleSetupParam *setup, int isComm)
+void BTL_MAIN_CreateViewCore(struct BtlMain *main, struct BattleSetupParam *setup, int isComm)
 {
     struct BtlClient *client;
     struct BtlvCore *viewCore;
@@ -831,39 +831,39 @@ void func_021B6A70(struct BtlMain *main, struct BattleSetupParam *setup, int isC
         client = main->clients[setup->netId];
     else
         client = main->clients[0];
-    viewCore = func_021E8F20(main, client, &main->sides[0], isComm, 0x13);
+    viewCore = BTLV_CORE_Create(main, client, &main->sides[0], isComm, 0x13);
     main->viewCore = viewCore;
-    func_021CD95C(client, viewCore);
+    BTL_CLIENT_SetView(client, viewCore);
 }
 
-int func_021B6AAC(u32 *unused, void *arg)
+int BTL_MAIN_TaskSetupSingle(u32 *unused, void *arg)
 {
     struct BtlMain *main = arg;
     struct BattleSetupParam *setup;
     int isComm;
     setup = main->setup;
-    isComm = func_021B6818(setup);
+    isComm = BTL_MAIN_IsCommCompetitor(setup);
     main->clientCount = 2;
     main->slotClientIds[0] = 0;
     main->slotClientIds[1] = 1;
-    func_021B6848(main, setup);
+    BTL_MAIN_SetupOwnClient(main, setup);
     func_021B93E0(&main->sides[0], main, 0);
     func_021B9460(&main->sides[0], main, 0);
     func_021B9460(&main->sides[0], main, 1);
     func_021B93E0(&main->sides[1], main, 1);
     func_021B9460(&main->sides[1], main, 0);
     func_021B9460(&main->sides[1], main, 1);
-    main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+    main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
     main->hostsServer = 1;
-    func_021B69FC(main, setup);
-    main->clients[0] = func_021CD6F0(main, &main->sides[0], 0, setup->netHandle, 0, 1, 0, isComm, setup->ownsSlots, &main->rng, main->heapId);
-    main->clients[1] = func_021CD6F0(main, &main->sides[0], 0, setup->netHandle, 1, 1, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
+    BTL_MAIN_InitFirstTwoTrainerSlots(main, setup);
+    main->clients[0] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 0, 1, 0, isComm, setup->ownsSlots, &main->rng, main->heapId);
+    main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 1, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     func_021B6A3C(main, setup);
-    func_021B6A70(main, setup, isComm);
-    func_021BAA94(main->server, func_021CD978(main->clients[0]), 0, 1);
-    func_021BAA94(main->server, func_021CD978(main->clients[1]), 1, 1);
-    func_021BAB40(main->server);
-    main->tick = func_021B83F4;
+    BTL_MAIN_CreateViewCore(main, setup, isComm);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 1);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 1);
+    BTL_SERVER_Restart(main->server);
+    main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
 }
 
@@ -878,51 +878,51 @@ int func_021B6C08(u32 *unused, void *arg)
     }
     for (client = 0; client < 4; client++) {
         if (main->clients[client] != 0) {
-            func_021CD8E0(main->clients[client]);
+            BTL_CLIENT_Delete(main->clients[client]);
         }
     }
     func_021B9674(&main->sides[0]);
     func_021B9674(&main->sides[1]);
     if (main->server != 0) {
-        func_021BAB5C(main->server);
+        BTL_SERVER_Delete(main->server);
     }
     if (main->subServer != 0) {
-        func_021BAB5C(main->subServer);
+        BTL_SERVER_Delete(main->subServer);
     }
     return 1;
 }
 
-int func_021B6C5C(u32 *unused, void *arg)
+int BTL_MAIN_TaskSetupDouble(u32 *unused, void *arg)
 {
     struct BtlMain *main = arg;
     struct BattleSetupParam *setup;
     int isComm;
     setup = main->setup;
-    isComm = func_021B6818(setup);
+    isComm = BTL_MAIN_IsCommCompetitor(setup);
     main->ownClientId = 0;
     main->clientCount = 2;
     main->slotClientIds[0] = 0;
     main->slotClientIds[1] = 1;
     main->slotClientIds[2] = 0;
     main->slotClientIds[3] = 1;
-    func_021B6848(main, setup);
+    BTL_MAIN_SetupOwnClient(main, setup);
     func_021B93E0(&main->sides[0], main, 0);
     func_021B9460(&main->sides[0], main, 0);
     func_021B9460(&main->sides[0], main, 1);
     func_021B93E0(&main->sides[1], main, 1);
     func_021B9460(&main->sides[1], main, 0);
     func_021B9460(&main->sides[1], main, 1);
-    func_021B69FC(main, setup);
-    main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+    BTL_MAIN_InitFirstTwoTrainerSlots(main, setup);
+    main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
     main->hostsServer = 1;
-    main->clients[0] = func_021CD6F0(main, &main->sides[0], 0, setup->netHandle, 0, 2, 0, isComm, setup->ownsSlots, &main->rng, main->heapId);
-    main->clients[1] = func_021CD6F0(main, &main->sides[0], 0, setup->netHandle, 1, 2, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
+    main->clients[0] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 0, 2, 0, isComm, setup->ownsSlots, &main->rng, main->heapId);
+    main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 2, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     func_021B6A3C(main, setup);
-    func_021B6A70(main, setup, isComm);
-    func_021BAA94(main->server, func_021CD978(main->clients[0]), 0, 2);
-    func_021BAA94(main->server, func_021CD978(main->clients[1]), 1, 2);
-    func_021BAB40(main->server);
-    main->tick = func_021B83F4;
+    BTL_MAIN_CreateViewCore(main, setup, isComm);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 2);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 2);
+    BTL_SERVER_Restart(main->server);
+    main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
 }
 
@@ -934,7 +934,7 @@ int func_021B6C5C(u32 *unused, void *arg)
  * c99 and --lang c: the output bytes do not change. Older text in this
  * header that asks for the double assignment is superseded.
  */
-int func_021B6DD0(u32 *unused, void *arg)
+int BTL_MAIN_TaskSetupMulti(u32 *unused, void *arg)
 {
     struct BtlMain *main = arg;
     struct BattleSetupParam *setup;
@@ -945,7 +945,7 @@ int func_021B6DD0(u32 *unused, void *arg)
     struct BattleRngState *rngState;
     int isComm;
     setup = main->setup;
-    isComm = func_021B6818(setup);
+    isComm = BTL_MAIN_IsCommCompetitor(setup);
     main->ownClientId = 0;
     main->clientCount = 2;
     main->slotClientIds[0] = 0;
@@ -964,11 +964,11 @@ int func_021B6DD0(u32 *unused, void *arg)
         main->clientCount = 3;
         break;
     }
-    func_021B6848(main, setup);
+    BTL_MAIN_SetupOwnClient(main, setup);
     func_021B93E0(&main->sides[0], main, 0);
     func_021B93E0(&main->sides[1], main, 1);
     for (client = 0; client < 4; client++) {
-        if (func_021B8B9C(main, client)) {
+        if (BTL_MAIN_IsClientUsed(main, client)) {
             func_021B9460(&main->sides[0], main, client);
             func_021B9460(&main->sides[1], main, client);
         }
@@ -976,50 +976,50 @@ int func_021B6DD0(u32 *unused, void *arg)
     if (!setup->ownsSlots) {
         func_021B9E38(&main->trainers[0], main->heapId, main->playerStatus);
         func_021B9E7C(&main->trainers[1], setup->trainerData[1]);
-        if (func_021B8B9C(main, 2)) func_021B9E7C(&main->trainers[2], setup->trainerData[2]);
-        if (func_021B8B9C(main, 3)) func_021B9E7C(&main->trainers[3], setup->trainerData[3]);
+        if (BTL_MAIN_IsClientUsed(main, 2)) func_021B9E7C(&main->trainers[2], setup->trainerData[2]);
+        if (BTL_MAIN_IsClientUsed(main, 3)) func_021B9E7C(&main->trainers[3], setup->trainerData[3]);
     } else {
         for (client = 0; client < 4; client++) {
-            if (func_021B8B9C(main, client)) func_021B6954(main, (u8)client);
+            if (BTL_MAIN_IsClientUsed(main, client)) BTL_MAIN_InitTrainerSlot(main, (u8)client);
         }
     }
-    main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+    main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
     main->hostsServer = 1;
     rngState = &main->rng;
     sideBlock = &main->sides[0];
     for (client = 0; client < 4; client++) {
-        if (func_021B8B9C(main, client)) {
-            slotCount = func_021B8B78(main, (u8)client);
+        if (BTL_MAIN_IsClientUsed(main, client)) {
+            slotCount = BTL_MAIN_CountClientTrainers(main, (u8)client);
             isOpponent = 0;
             if (client != 0) isOpponent = 1;
-            main->clients[client] = func_021CD6F0(main, sideBlock, 0, setup->netHandle, client, slotCount, isOpponent, isComm, setup->ownsSlots, rngState, main->heapId);
+            main->clients[client] = BTL_CLIENT_Create(main, sideBlock, 0, setup->netHandle, client, slotCount, isOpponent, isComm, setup->ownsSlots, rngState, main->heapId);
         }
     }
     if (setup->ownsSlots) {
-        func_021EE644(main->recordReader, setup->recordBuffer, setup->recordSize);
+        BTL_REC_InitReader(main->recordReader, setup->recordBuffer, setup->recordSize);
         for (client = 0; client < 4; client++) {
-            if (func_021B8B9C(main, client)) func_021CD938(main->clients[client], main->recordReader);
+            if (BTL_MAIN_IsClientUsed(main, client)) BTL_CLIENT_AttachRemoteLink(main->clients[client], main->recordReader);
         }
     }
-    func_021B6A70(main, setup, isComm);
+    BTL_MAIN_CreateViewCore(main, setup, isComm);
     for (client = 0; client < 4; client++) {
-        if (func_021B8B9C(main, client)) {
-            slotCount = func_021B8B78(main, (u8)client);
-            func_021BAA94(main->server, func_021CD978(main->clients[client]), client, slotCount);
+        if (BTL_MAIN_IsClientUsed(main, client)) {
+            slotCount = BTL_MAIN_CountClientTrainers(main, (u8)client);
+            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[client]), client, slotCount);
         }
     }
-    func_021BAB40(main->server);
-    main->tick = func_021B83F4;
+    BTL_SERVER_Restart(main->server);
+    main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
 }
 
-int func_021B7050(u32 *unused, void *arg)
+int BTL_MAIN_TaskSetupTriple(u32 *unused, void *arg)
 {
     struct BtlMain *main = arg;
     struct BattleSetupParam *setup;
     int isComm;
     setup = main->setup;
-    isComm = func_021B6818(setup);
+    isComm = BTL_MAIN_IsCommCompetitor(setup);
     main->clientCount = 2;
     main->hostsServer = 1;
     main->slotClientIds[0] = 0;
@@ -1028,34 +1028,34 @@ int func_021B7050(u32 *unused, void *arg)
     main->slotClientIds[3] = 1;
     main->slotClientIds[4] = 0;
     main->slotClientIds[5] = 1;
-    func_021B6848(main, setup);
+    BTL_MAIN_SetupOwnClient(main, setup);
     func_021B93E0(&main->sides[0], main, 0);
     func_021B9460(&main->sides[0], main, 0);
     func_021B9460(&main->sides[0], main, 1);
     func_021B93E0(&main->sides[1], main, 1);
     func_021B9460(&main->sides[1], main, 0);
     func_021B9460(&main->sides[1], main, 1);
-    func_021B69FC(main, setup);
-    main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+    BTL_MAIN_InitFirstTwoTrainerSlots(main, setup);
+    main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
     main->hostsServer = 1;
-    main->clients[0] = func_021CD6F0(main, &main->sides[0], 0, setup->netHandle, 0, 3, 0, isComm, setup->ownsSlots, &main->rng, main->heapId);
-    main->clients[1] = func_021CD6F0(main, &main->sides[0], 0, setup->netHandle, 1, 3, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
+    main->clients[0] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 0, 3, 0, isComm, setup->ownsSlots, &main->rng, main->heapId);
+    main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 3, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     func_021B6A3C(main, setup);
-    func_021B6A70(main, setup, isComm);
-    func_021BAA94(main->server, func_021CD978(main->clients[0]), 0, 3);
-    func_021BAA94(main->server, func_021CD978(main->clients[1]), 1, 3);
-    func_021BAB40(main->server);
-    main->tick = func_021B83F4;
+    BTL_MAIN_CreateViewCore(main, setup, isComm);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 3);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 3);
+    BTL_SERVER_Restart(main->server);
+    main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
 }
 
-int func_021B71D4(u32 *unused, void *arg)
+int BTL_MAIN_TaskSetupRotation(u32 *unused, void *arg)
 {
     struct BtlMain *main = arg;
     struct BattleSetupParam *setup;
     int isComm;
     setup = main->setup;
-    isComm = func_021B6818(setup);
+    isComm = BTL_MAIN_IsCommCompetitor(setup);
     main->clientCount = 2;
     main->slotClientIds[0] = 0;
     main->slotClientIds[1] = 1;
@@ -1063,30 +1063,30 @@ int func_021B71D4(u32 *unused, void *arg)
     main->slotClientIds[3] = 1;
     main->slotClientIds[4] = 0;
     main->slotClientIds[5] = 1;
-    func_021B6848(main, setup);
+    BTL_MAIN_SetupOwnClient(main, setup);
     func_021B93E0(&main->sides[0], main, 0);
     func_021B9460(&main->sides[0], main, 0);
     func_021B9460(&main->sides[0], main, 1);
     func_021B93E0(&main->sides[1], main, 1);
     func_021B9460(&main->sides[1], main, 0);
     func_021B9460(&main->sides[1], main, 1);
-    main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+    main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
     main->hostsServer = 1;
-    func_021B69FC(main, setup);
-    main->clients[0] = func_021CD6F0(main, &main->sides[0], 0, setup->netHandle, 0, 1, 0, isComm, setup->ownsSlots, &main->rng, main->heapId);
-    main->clients[1] = func_021CD6F0(main, &main->sides[0], 0, setup->netHandle, 1, 1, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
+    BTL_MAIN_InitFirstTwoTrainerSlots(main, setup);
+    main->clients[0] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 0, 1, 0, isComm, setup->ownsSlots, &main->rng, main->heapId);
+    main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 1, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     func_021B6A3C(main, setup);
-    func_021B6A70(main, setup, isComm);
-    func_021BAA94(main->server, func_021CD978(main->clients[0]), 0, 1);
-    func_021BAA94(main->server, func_021CD978(main->clients[1]), 1, 1);
-    func_021BAB40(main->server);
-    main->tick = func_021B83F4;
+    BTL_MAIN_CreateViewCore(main, setup, isComm);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 1);
+    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 1);
+    BTL_SERVER_Restart(main->server);
+    main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
 }
 
-extern int (*d_021EFD1C[7])(struct BtlMain *, u32 *);
+extern int (*gBtlMainCommSingleSteps[7])(struct BtlMain *, u32 *);
 
-int func_021B734C(u32 *step, void *arg)
+int BTL_MAIN_TaskCommSingle(u32 *step, void *arg)
 {
     struct BtlMain *main = arg;
     if (*step == 0) {
@@ -1094,12 +1094,12 @@ int func_021B734C(u32 *step, void *arg)
         main->slotClientIds[0] = 0;
         main->slotClientIds[1] = 1;
         main->ownClientId = main->setup->netId;
-        main->ownFirstSlot = func_021B8BEC(main, main->ownClientId, 0);
+        main->ownFirstSlot = BTL_MAIN_GetClientTrainerIndex(main, main->ownClientId, 0);
         *step = *step + 1;
         return 0;
     }
     if (*step < 7) {
-        if (d_021EFD1C[*step](main, &main->subStep) != 0) {
+        if (gBtlMainCommSingleSteps[*step](main, &main->subStep) != 0) {
             main->subStep = 0;
             *step = *step + 1;
         }
@@ -1108,9 +1108,9 @@ int func_021B734C(u32 *step, void *arg)
     return 1;
 }
 
-extern int (*d_021EFD00[7])(struct BtlMain *, u32 *);
+extern int (*gBtlMainCommDoubleSteps[7])(struct BtlMain *, u32 *);
 
-int func_021B73C4(u32 *step, void *arg)
+int BTL_MAIN_TaskCommDouble(u32 *step, void *arg)
 {
     struct BtlMain *main = arg;
     if (*step == 0) {
@@ -1134,12 +1134,12 @@ int func_021B73C4(u32 *step, void *arg)
             break;
         }
         main->ownClientId = main->setup->netId;
-        main->ownFirstSlot = func_021B8BEC(main, main->ownClientId, 0);
+        main->ownFirstSlot = BTL_MAIN_GetClientTrainerIndex(main, main->ownClientId, 0);
         *step = *step + 1;
         return 0;
     }
     if (*step < 7) {
-        if (d_021EFD00[*step](main, &main->subStep) != 0) {
+        if (gBtlMainCommDoubleSteps[*step](main, &main->subStep) != 0) {
             main->subStep = 0;
             *step = *step + 1;
         }
@@ -1149,7 +1149,7 @@ int func_021B73C4(u32 *step, void *arg)
 }
 
 
-int func_021B7488(u32 *step, void *arg)
+int BTL_MAIN_RunSetupSeqKind1(u32 *step, void *arg)
 {
     struct BtlMain *main = arg;
 
@@ -1162,7 +1162,7 @@ int func_021B7488(u32 *step, void *arg)
         main->slotClientIds[4] = 0;
         main->slotClientIds[5] = 1;
         main->ownClientId = main->setup->netId;
-        main->ownFirstSlot = func_021B8BEC(main, main->ownClientId, 0);
+        main->ownFirstSlot = BTL_MAIN_GetClientTrainerIndex(main, main->ownClientId, 0);
         *step = *step + 1;
         return 0;
     }
@@ -1181,7 +1181,7 @@ int func_021B7488(u32 *step, void *arg)
 
 
 
-int func_021B7518(u32 *step, void *arg)
+int BTL_MAIN_RunSetupSeqKind3(u32 *step, void *arg)
 {
     struct BtlMain *main = arg;
 
@@ -1194,7 +1194,7 @@ int func_021B7518(u32 *step, void *arg)
         main->slotClientIds[4] = 0;
         main->slotClientIds[5] = 1;
         main->ownClientId = main->setup->netId;
-        main->ownFirstSlot = func_021B8BEC(main, main->ownClientId, 0);
+        main->ownFirstSlot = BTL_MAIN_GetClientTrainerIndex(main, main->ownClientId, 0);
         *step = *step + 1;
         return 0;
     }
@@ -1211,23 +1211,23 @@ int func_021B7518(u32 *step, void *arg)
 
 
 
-int func_021B75A8(struct BtlMain *main, u32 *state)
+int BTL_MAIN_SeqSyncRules(struct BtlMain *main, u32 *state)
 {
     struct BattleSetupParam *setup;
-    if (func_021D4270()) {
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     switch (*state) {
     case 0:
-        if (func_021D4294(main->ownClientId)) ++*state;
+        if (BTL_NET_SendEntry(main->ownClientId)) ++*state;
         break;
     case 1:
-        if (func_021D4348()) {
+        if (BTL_NET_IsLeaderKnown()) {
             main->pad46A = 0;
-            main->hostsServer = func_021D4360();
-            main->setup->resultValue[1] = func_021D4378();
-            if (func_021D4360()) *state = 2;
+            main->hostsServer = BTL_NET_IsLeader();
+            main->setup->resultValue[1] = BTL_NET_GetLeaderValue();
+            if (BTL_NET_IsLeader()) *state = 2;
             else *state = 3;
         }
         break;
@@ -1243,10 +1243,10 @@ int func_021B75A8(struct BtlMain *main, u32 *state)
             main->ruleExchange.textSpeed = 2;
             main->ruleExchange.sceneOff = 1;
         }
-        if (func_021D43B8((u32)&main->ruleExchange)) ++*state;
+        if (BTL_NET_SendSetup((u32)&main->ruleExchange)) ++*state;
         break;
     case 3:
-        if (func_021D440C(&main->ruleExchange)) {
+        if (BTL_NET_GetSetup(&main->ruleExchange)) {
             setup = main->setup;
             setup->resultCount = main->ruleExchange.resultCount;
             setup->rng = *(struct BattleRngState *)&main->ruleExchange;
@@ -1268,34 +1268,34 @@ int func_021B75A8(struct BtlMain *main, u32 *state)
 /*
  * lever: slot starts at 1 and is conditionally assigned 3; ternary reverses the short branch.
  */
-int func_021B7758(struct BtlMain *main, u32 *state)
+int BTL_MAIN_SeqExchangeRegulation(struct BtlMain *main, u32 *state)
 {
     struct BattleSetupParam *setup;
     u32 i;
     struct BtlSide *side;
     int slot;
     setup = main->setup;
-    if (func_021D4270()) {
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     switch (*state) {
     case 0:
-        func_021D4AF4((u8)2);
+        BTL_NET_BeginSync((u8)2);
         ++*state;
         break;
     case 1:
-        if (func_021D4B18((u8)2)) ++*state;
+        if (BTL_NET_PollSync((u8)2)) ++*state;
         break;
     case 2:
-        if (func_021D4438((u32)(setup->party[0]))) ++*state;
+        if (BTL_NET_SendParty((u32)(setup->party[0]))) ++*state;
         break;
     case 3:
-        if (func_021D44CC()) {
+        if (BTL_NET_IsPartyReceived()) {
             if (!main->multiState) *state = 10;
             else {
                 if (main->hostsServer) {
-                    main->netBuffer = func_021D4D24(POKE_REGULATION_GetDataSize(), (main->heapId & 0x7fff) | 0x8000);
+                    main->netBuffer = BTL_NET_AllocRelayPacket(POKE_REGULATION_GetDataSize(), (main->heapId & 0x7fff) | 0x8000);
                 }
                 main->exchangeIndex = 0;
                 ++*state;
@@ -1306,22 +1306,22 @@ int func_021B7758(struct BtlMain *main, u32 *state)
         slot = 1;
         if (main->exchangeIndex) slot = 3;
         main->exchangeSlot = slot;
-        if (main->hostsServer) func_021D4D64(main->netBuffer, setup->party[main->exchangeSlot], main->exchangeSlot);
-        func_021D4AF4((u8)(main->exchangeIndex + 6));
+        if (main->hostsServer) BTL_NET_FillRelayPacket(main->netBuffer, setup->party[main->exchangeSlot], main->exchangeSlot);
+        BTL_NET_BeginSync((u8)(main->exchangeIndex + 6));
         ++*state;
         break;
     case 5:
-        if (func_021D4B18((u8)(main->exchangeIndex + 6))) ++*state;
+        if (BTL_NET_PollSync((u8)(main->exchangeIndex + 6))) ++*state;
         break;
     case 6:
-        if (!main->hostsServer || func_021D4680(main->netBuffer)) ++*state;
+        if (!main->hostsServer || BTL_NET_SendRelayedParty(main->netBuffer)) ++*state;
         break;
     case 7:
-        if (func_021D4784(main->exchangeSlot)) {
+        if (BTL_NET_IsRelayedPartyReceived(main->exchangeSlot)) {
             ++main->exchangeIndex;
             if (main->exchangeIndex >= main->multiState) {
                 if (main->hostsServer) {
-                    func_021D4D5C(main->netBuffer);
+                    BTL_NET_FreeRelayPacket(main->netBuffer);
                     main->netBuffer = 0;
                 }
                 *state = 10;
@@ -1332,9 +1332,9 @@ int func_021B7758(struct BtlMain *main, u32 *state)
         func_021B93E0(&main->sides[0], main, 0);
         side = &main->sides[0];
         for (i = 0; i < 4; ++i) {
-            if (func_021B8B9C(main, i)) {
-                func_021BA128(main, (u8)i, func_021D47A4(i));
-                func_021BA648(main, i, func_021D47A4(i));
+            if (BTL_MAIN_IsClientUsed(main, i)) {
+                func_021BA128(main, (u8)i, BTL_NET_GetParty(i));
+                func_021BA648(main, i, BTL_NET_GetParty(i));
                 func_021B9460(side, main, i);
             }
         }
@@ -1343,12 +1343,12 @@ int func_021B7758(struct BtlMain *main, u32 *state)
     case 11:
         func_021B93E0(&main->sides[1], main, 1);
         for (i = 0; i < 4; ++i) {
-            if (func_021B8B9C(main, i)) func_021B9460(&main->sides[1], main, i);
+            if (BTL_MAIN_IsClientUsed(main, i)) func_021B9460(&main->sides[1], main, i);
         }
         ++*state;
         break;
     case 12:
-        func_021D4800();
+        BTL_NET_FreeAfterPartyUse();
         ++*state;
         break;
     default:
@@ -1360,7 +1360,7 @@ int func_021B7758(struct BtlMain *main, u32 *state)
 
 
 
-int func_021B7968(struct BtlMain *main, u32 *state)
+int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state)
 {
     struct BattleSetupParam *setup;
     u32 i;
@@ -1372,42 +1372,42 @@ int func_021B7968(struct BtlMain *main, u32 *state)
     u16 buf[16];
     int slot;
     setup = main->setup;
-    if (func_021D4270()) {
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     switch (*state) {
     case 0:
-        func_021D4AF4((u8)4);
+        BTL_NET_BeginSync((u8)4);
         ++*state;
         break;
     case 1:
-        if (func_021D4B18((u8)4)) ++*state;
+        if (BTL_NET_PollSync((u8)4)) ++*state;
         break;
     case 2:
-        if (func_021D4808((u32)(main->playerStatus))) ++*state;
+        if (BTL_NET_SendPlayerInfo((u32)(main->playerStatus))) ++*state;
         break;
     case 3:
-        if (func_021D4898()) {
+        if (BTL_NET_IsPlayerInfoReceived()) {
             for (i = 0; i < main->clientCount; ++i) {
-                void *status = func_021D48CC(i);
+                void *status = BTL_NET_GetPlayerInfo(i);
                 if (status) {
                     func_021B9E38(&main->trainers[i], main->heapId, status);
                     if (i != main->ownClientId && setup->bits.hidePlayerNames) {
                         int j;
                         bank = func_02045B38(0, 2, 0x51, main->heapId);
                         nameStr = func_02045EC0(bank, 15);
-                        func_02045C04(bank);
+                        MSGDATA_Delete(bank);
                         src = STRBUF_GetChars(nameStr);
-                        for (j = 0; j < 15 && (u32)j < func_020458F8(nameStr); ++j) buf[j] = src[j];
+                        for (j = 0; j < 15 && (u32)j < STRBUF_GetLength(nameStr); ++j) buf[j] = src[j];
                         dst = buf;
-                        dst[j] = func_02045A98();
-                        func_02045808(nameStr);
+                        dst[j] = STRBUF_GetEosChar();
+                        STRBUF_Delete(nameStr);
                         func_020084D4((u32)(main->trainers[i].handle), dst);
-                        func_02045808(main->trainers[i].name);
+                        STRBUF_Delete(main->trainers[i].name);
                         bank = func_02045B38(0, 2, 0x51, main->heapId);
                         defaultName = func_02045EC0(bank, 15);
-                        func_02045C04(bank);
+                        MSGDATA_Delete(bank);
                         main->trainers[i].name = defaultName;
                     }
                     func_021BA670(main, i, main->trainers[i].handle);
@@ -1421,29 +1421,29 @@ int func_021B7968(struct BtlMain *main, u32 *state)
         else { main->exchangeIndex = 0; ++*state; }
         break;
     case 5:
-        func_021D4AF4((u8)(main->exchangeIndex + 8));
+        BTL_NET_BeginSync((u8)(main->exchangeIndex + 8));
         ++*state;
         break;
     case 6:
-        if (func_021D4B18((u8)(main->exchangeIndex + 8))) ++*state;
+        if (BTL_NET_PollSync((u8)(main->exchangeIndex + 8))) ++*state;
         break;
     case 7:
         slot = 1;
         if (main->exchangeIndex) slot = 3;
         main->exchangeSlot = slot;
-        if (main->hostsServer && !func_021D4908(setup->trainerData[main->exchangeSlot])) break;
+        if (main->hostsServer && !BTL_NET_SendRelayedPlayerInfo(setup->trainerData[main->exchangeSlot])) break;
         ++*state;
     case 8:
-        if (func_021D49B0()) {
-            func_021B9EF0(&main->trainers[main->exchangeSlot], func_021D49CC());
-            func_021D49E0();
+        if (BTL_NET_IsRelayedPlayerInfoReceived()) {
+            func_021B9EF0(&main->trainers[main->exchangeSlot], BTL_NET_GetRelayedPlayerInfo());
+            BTL_NET_FreeRelayedPlayerInfo();
             ++main->exchangeIndex;
             if (main->exchangeIndex >= main->multiState) *state = 10;
             else *state = 5;
         }
         break;
     case 10:
-        func_021D4A04();
+        BTL_NET_FreeAfterPlayerInfoUse();
         ++*state;
         break;
     default:
@@ -1455,33 +1455,33 @@ int func_021B7968(struct BtlMain *main, u32 *state)
 
 
 
-int func_021B7BB0(struct BtlMain *main, u32 *state)
+int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state)
 {
     struct BattleSetupParam *setup;
     u32 i;
     const struct PerapVoice *src;
     setup = main->setup;
-    if (func_021D4270()) {
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     switch (*state) {
     case 0:
-        func_021D4500();
-        func_021D4AF4(3);
+        BTL_NET_ResetAfterParty();
+        BTL_NET_BeginSync(3);
         ++*state;
         break;
     case 1:
-        if (func_021D4B18(3)) ++*state;
+        if (BTL_NET_PollSync(3)) ++*state;
         break;
     case 2:
-        if (func_021D450C((u32 *)func_02007B44(func_02012EBC(setup->gameData)))) ++*state;
+        if (BTL_NET_SendPerapVoice((u32 *)func_02007B44(GAME_DATA_GetSaveControl(setup->gameData)))) ++*state;
         break;
     case 3:
-        if (func_021D45FC()) {
+        if (BTL_NET_IsPerapVoiceReceived()) {
             for (i = 0; i < 4; ++i) {
-                if (func_021B8B9C(main, i) && !func_021B9F70(main, (u8)i)) {
-                    src = (void *)func_021D4648((u8)i);
+                if (BTL_MAIN_IsClientUsed(main, i) && !func_021B9F70(main, (u8)i)) {
+                    src = (void *)BTL_NET_GetPerapVoice((u8)i);
                     if (src) {
                         main->voices[i] = func_02007B20(main->heapId);
                         func_02082D44(src, main->voices[i], func_02007B00());
@@ -1489,7 +1489,7 @@ int func_021B7BB0(struct BtlMain *main, u32 *state)
                 }
                 func_021BA698(main, (u8)i);
             }
-            func_021D4674();
+            BTL_NET_ResetAfterPerapVoice();
             ++*state;
         }
         break;
@@ -1502,7 +1502,7 @@ int func_021B7BB0(struct BtlMain *main, u32 *state)
 
 
 
-int func_021B7CB4(struct BtlMain *main)
+int BTL_MAIN_SeqCreateClientsKind1Solo(struct BtlMain *main)
 {
     struct BattleSetupParam *setup;
     u8 clientId;
@@ -1510,26 +1510,26 @@ int func_021B7CB4(struct BtlMain *main)
     u32 i, flag;
     setup = main->setup;
     clientId = main->ownClientId;
-    isComm = (int)func_021B6818(setup);
-    if (func_021D4270()) {
+    isComm = (int)BTL_MAIN_IsCommCompetitor(setup);
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     if (main->hostsServer) {
-        main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
-        main->clients[clientId] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
-        func_021BAA94(main->server, func_021CD978(main->clients[clientId]), clientId, 1);
+        main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
+        main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
+        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 1);
         flag = 1;
         if (clientId != 0) flag = 0;
-        func_021BAACC(main->server, setup->commPos, setup->netHandle, (u8)flag, 1);
+        BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)flag, 1);
     } else {
-        main->clients[clientId] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
-        main->subServer = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+        main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
+        main->subServer = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         for (i = 0; i < 4; i++) {
-            if (func_021B8B9C(main, i))
-                func_021BAB10(main->subServer, i, 1);
+            if (BTL_MAIN_IsClientUsed(main, i))
+                BTL_SERVER_SetClientWithoutAdapter(main->subServer, i, 1);
         }
-        func_021CD960(main->clients[clientId], main->subServer);
+        BTL_CLIENT_SetRequestParam(main->clients[clientId], main->subServer);
     }
     return 1;
 }
@@ -1538,13 +1538,13 @@ int func_021B7CB4(struct BtlMain *main)
 
 
 /*
- * Twin of func_021B8070 and func_021B7CB4 (same callees). The locals clientId, slotCount
- * and isComm must be u8 and func_021B6818 must return u8 (it returns only 0 or 1): mwcc keeps
+ * Twin of BTL_MAIN_SeqCreateClientsKind3 and BTL_MAIN_SeqCreateClientsKind1Solo (same callees). The locals clientId, slotCount
+ * and isComm must be u8 and BTL_MAIN_IsCommCompetitor must return u8 (it returns only 0 or 1): mwcc keeps
  * the reload of a spilled narrow local below the outgoing stack stores, see
  * docs/idioms/a-reload-kept-below-outgoing-stack-stores-is-a-narrow-local.md. With an int
  * isComm it hoisted the reload and the argument setup order differed (69 bytes).
  */
-int func_021B7E18(struct BtlMain *main)
+int BTL_MAIN_SeqCreateClientsByMulti(struct BtlMain *main)
 {
     struct BattleSetupParam *setup;
     u8 clientId;
@@ -1554,37 +1554,37 @@ int func_021B7E18(struct BtlMain *main)
     u8 x;
     setup = main->setup;
     clientId = main->ownClientId;
-    isComm = func_021B6818(setup);
+    isComm = BTL_MAIN_IsCommCompetitor(setup);
     slotCount = (setup->multiMode == 0) ? 2 : 1;
-    if (func_021D4270()) {
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     if (main->hostsServer) {
-        main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
-        main->clients[clientId] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)slotCount, 0, isComm, (u8)0, &main->rng, main->heapId);
-        func_021BAA94(main->server, func_021CD978(main->clients[clientId]), clientId, slotCount);
+        main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
+        main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)slotCount, 0, isComm, (u8)0, &main->rng, main->heapId);
+        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, slotCount);
         if (setup->multiMode == 2) {
             x = func_021B9010(main, clientId);
-            main->clients[1] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, 1, (u8)slotCount, 1, isComm, (u8)0, &main->rng, main->heapId);
-            func_021BAA94(main->server, func_021CD978(main->clients[1]), 1, slotCount);
-            main->clients[3] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, 3, (u8)slotCount, 1, isComm, (u8)0, &main->rng, main->heapId);
-            func_021BAA94(main->server, func_021CD978(main->clients[3]), 3, slotCount);
-            func_021BAACC(main->server, setup->commPos, setup->netHandle, (u8)x, slotCount);
+            main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, 1, (u8)slotCount, 1, isComm, (u8)0, &main->rng, main->heapId);
+            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, slotCount);
+            main->clients[3] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, 3, (u8)slotCount, 1, isComm, (u8)0, &main->rng, main->heapId);
+            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[3]), 3, slotCount);
+            BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)x, slotCount);
         } else {
             for (i = 0; i < main->clientCount; i++) {
                 if (i != clientId)
-                    func_021BAACC(main->server, setup->commPos, setup->netHandle, (u8)i, slotCount);
+                    BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)i, slotCount);
             }
         }
     } else {
-        main->clients[clientId] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)slotCount, 0, isComm, (u8)0, &main->rng, main->heapId);
-        main->subServer = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+        main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)slotCount, 0, isComm, (u8)0, &main->rng, main->heapId);
+        main->subServer = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         for (i = 0; i < 4; i++) {
-            if (func_021B8B9C(main, i))
-                func_021BAB10(main->subServer, i, func_021B6994(main, (u8)i));
+            if (BTL_MAIN_IsClientUsed(main, i))
+                BTL_SERVER_SetClientWithoutAdapter(main->subServer, i, BTL_MAIN_GetPositionsPerClient(main, (u8)i));
         }
-        func_021CD960(main->clients[clientId], main->subServer);
+        BTL_CLIENT_SetRequestParam(main->clients[clientId], main->subServer);
     }
     return 1;
 }
@@ -1593,7 +1593,7 @@ int func_021B7E18(struct BtlMain *main)
 
 
 
-int func_021B8070(struct BtlMain *main)
+int BTL_MAIN_SeqCreateClientsKind3(struct BtlMain *main)
 {
     struct BattleSetupParam *setup;
     u8 clientId;
@@ -1601,26 +1601,26 @@ int func_021B8070(struct BtlMain *main)
     u32 i, flag;
     setup = main->setup;
     clientId = main->ownClientId;
-    isComm = (int)func_021B6818(setup);
-    if (func_021D4270()) {
+    isComm = (int)BTL_MAIN_IsCommCompetitor(setup);
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     if (main->hostsServer) {
-        main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
-        main->clients[clientId] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)3, 0, isComm, (u8)0, &main->rng, main->heapId);
-        func_021BAA94(main->server, func_021CD978(main->clients[clientId]), clientId, 3);
+        main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
+        main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)3, 0, isComm, (u8)0, &main->rng, main->heapId);
+        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 3);
         flag = 0;
         if (clientId == 0) flag = 1;
-        func_021BAACC(main->server, setup->commPos, setup->netHandle, (u8)flag, 3);
+        BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)flag, 3);
     } else {
-        main->clients[clientId] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)3, 0, isComm, (u8)0, &main->rng, main->heapId);
-        main->subServer = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+        main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)3, 0, isComm, (u8)0, &main->rng, main->heapId);
+        main->subServer = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         for (i = 0; i < 4; i++) {
-            if (func_021B8B9C(main, i))
-                func_021BAB10(main->subServer, i, func_021B6994(main, (u8)i));
+            if (BTL_MAIN_IsClientUsed(main, i))
+                BTL_SERVER_SetClientWithoutAdapter(main->subServer, i, BTL_MAIN_GetPositionsPerClient(main, (u8)i));
         }
-        func_021CD960(main->clients[clientId], main->subServer);
+        BTL_CLIENT_SetRequestParam(main->clients[clientId], main->subServer);
     }
     return 1;
 }
@@ -1629,7 +1629,7 @@ int func_021B8070(struct BtlMain *main)
 
 
 
-int func_021B81DC(struct BtlMain *main)
+int BTL_MAIN_SeqCreateClientsKind1(struct BtlMain *main)
 {
     u8 clientId;
     struct BattleSetupParam *setup;
@@ -1637,27 +1637,27 @@ int func_021B81DC(struct BtlMain *main)
     u32 i;
     clientId = main->ownClientId;
     setup = main->setup;
-    isComm = (int)func_021B6818(setup);
-    if (func_021D4270()) {
+    isComm = (int)BTL_MAIN_IsCommCompetitor(setup);
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     if (main->hostsServer) {
-        main->server = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
-        main->clients[clientId] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
-        func_021BAA94(main->server, func_021CD978(main->clients[clientId]), clientId, 1);
+        main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
+        main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
+        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 1);
         for (i = 0; i < main->clientCount; i++) {
             if (i != clientId)
-                func_021BAACC(main->server, setup->commPos, setup->netHandle, (u8)i, 1);
+                BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)i, 1);
         }
     } else {
-        main->clients[clientId] = func_021CD6F0(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
-        main->subServer = func_021BA9C8(main, &main->rng, &main->sides[1], isComm, main->heapId);
+        main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
+        main->subServer = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         for (i = 0; i < 4; i++) {
-            if (func_021B8B9C(main, i))
-                func_021BAB10(main->subServer, i, func_021B6994(main, (u8)i));
+            if (BTL_MAIN_IsClientUsed(main, i))
+                BTL_SERVER_SetClientWithoutAdapter(main->subServer, i, BTL_MAIN_GetPositionsPerClient(main, (u8)i));
         }
-        func_021CD960(main->clients[clientId], main->subServer);
+        BTL_CLIENT_SetRequestParam(main->clients[clientId], main->subServer);
     }
     return 1;
 }
@@ -1666,24 +1666,24 @@ int func_021B81DC(struct BtlMain *main)
 
 
 
-int func_021B835C(struct BtlMain *main, int *step)
+int BTL_MAIN_SeqCreateView(struct BtlMain *main, int *step)
 {
     int isComm;
     struct BtlvCore *viewCore;
-    if (func_021D4270()) {
+    if (BTL_NET_HasCommError()) {
         main->flags.commLost = 1;
         return 1;
     }
     if (*step == 0) {
-        isComm = func_021B6818(main->setup);
-        viewCore = func_021E8F20(main, main->clients[main->ownClientId], &main->sides[0], isComm, 0x13);
+        isComm = BTL_MAIN_IsCommCompetitor(main->setup);
+        viewCore = BTLV_CORE_Create(main, main->clients[main->ownClientId], &main->sides[0], isComm, 0x13);
         main->viewCore = viewCore;
-        func_021CD95C(main->clients[main->ownClientId], viewCore);
+        BTL_CLIENT_SetView(main->clients[main->ownClientId], viewCore);
         if (main->hostsServer) {
-            main->tick = func_021B8434;
-            func_021BAB40(main->server);
+            main->tick = BTL_MAIN_StepParent;
+            BTL_SERVER_Restart(main->server);
         } else {
-            main->tick = func_021B84D8;
+            main->tick = BTL_MAIN_StepChild;
         }
         *step = *step + 1;
     } else {
@@ -1697,13 +1697,13 @@ int func_021B835C(struct BtlMain *main, int *step)
 
 
 
-int func_021B83F4(struct BtlMain *main)
+int BTL_MAIN_StepClientsSolo(struct BtlMain *main)
 {
     int i, found = 0;
-    func_021BAB9C(main->server);
+    BTL_SERVER_Update(main->server);
     for (i = 0; i < 4; i++) {
         if (main->clients[i] != 0 &&
-            func_021CD97C(main->clients[i]) != 0) {
+            BTL_CLIENT_RunTick(main->clients[i]) != 0) {
             func_021CDD94(main->clients[i], &main->defeatedClients);
             found = 1;
         }
@@ -1717,27 +1717,27 @@ int func_021B83F4(struct BtlMain *main)
 
 
 
-int func_021B8434(struct BtlMain *main)
+int BTL_MAIN_StepParent(struct BtlMain *main)
 {
     int r, i;
     if (main->flags.commLost == 0) {
-        if (func_021D4270()) {
+        if (BTL_NET_HasCommError()) {
             main->flags.commLost = 1;
-            func_021B8548(main);
+            BTL_MAIN_MarkClientsDisconnected(main);
         }
     } else if (main->flags.commLostHandled != 0) {
         return 1;
     }
-    r = func_021BAB9C(main->server);
+    r = BTL_SERVER_Update(main->server);
     if (r) {
-        func_021BABDC(main->server, &main->defeatedClients);
+        BTL_SERVER_GetFinalData(main->server, &main->defeatedClients);
     }
     for (i = 0; i < 4; i++) {
         if (main->clients[i] != 0 && main->clientReady[i] == 0) {
-            main->clientReady[i] = func_021CD97C(main->clients[i]);
+            main->clientReady[i] = BTL_CLIENT_RunTick(main->clients[i]);
         }
     }
-    if (func_021B8564(main)) {
+    if (BTL_MAIN_CheckAllClientsReady(main)) {
         func_021CDD94(main->clients[main->ownClientId], &main->defeatedClients);
         r = 1;
     }
@@ -1750,13 +1750,13 @@ int func_021B8434(struct BtlMain *main)
 
 
 
-int func_021B84D8(struct BtlMain *main)
+int BTL_MAIN_StepChild(struct BtlMain *main)
 {
     int r, i;
     if (main->flags.commLost == 0) {
-        if (func_021D4270()) {
+        if (BTL_NET_HasCommError()) {
             main->flags.commLost = 1;
-            func_021B8548(main);
+            BTL_MAIN_MarkClientsDisconnected(main);
         }
     } else if (main->flags.commLostHandled != 0) {
         return 1;
@@ -1764,7 +1764,7 @@ int func_021B84D8(struct BtlMain *main)
     r = 0;
     for (i = 0; i < 4; i++) {
         if (main->clients[i] != 0 &&
-            func_021CD97C(main->clients[i]) != 0) {
+            BTL_CLIENT_RunTick(main->clients[i]) != 0) {
             func_021CDD94(main->clients[i], &main->defeatedClients);
             r = 1;
         }
@@ -1777,12 +1777,12 @@ int func_021B84D8(struct BtlMain *main)
 
 
 
-void func_021B8548(struct BtlMain *main)
+void BTL_MAIN_MarkClientsDisconnected(struct BtlMain *main)
 {
     unsigned int i;
     for (i = 0; i < 4; i++) {
         void *client = main->clients[i];
-        if (client) func_021CD914(client);
+        if (client) BTL_CLIENT_MarkCommandIssued(client);
     }
 }
 
@@ -1790,7 +1790,7 @@ void func_021B8548(struct BtlMain *main)
 
 
 
-int func_021B8564(struct BtlMain *main)
+int BTL_MAIN_CheckAllClientsReady(struct BtlMain *main)
 {
     unsigned int i;
     for (i = 0; i < 4; i++) {
@@ -1804,7 +1804,7 @@ int func_021B8564(struct BtlMain *main)
 
 
 
-u32 func_021B8588(struct BtlMain *main)
+u32 BTL_MAIN_GetRule(struct BtlMain *main)
 {
     return main->setup->rule;
 }
@@ -1813,7 +1813,7 @@ u32 func_021B8588(struct BtlMain *main)
 
 
 
-unsigned int func_021B8590(struct BtlMain *main) { return main->flags.noBattleAnim; }
+unsigned int BTL_MAIN_CheckSceneOff(struct BtlMain *main) { return main->flags.noBattleAnim; }
 
 
 
@@ -1823,7 +1823,7 @@ unsigned int func_021B8590(struct BtlMain *main) { return main->flags.noBattleAn
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0]; adds r0, #0x80; ldrb r0, [r0]; bx lr.
  */
-u8 func_021B85A0(struct BtlMain *main) { return main->setup->badgeCount; }
+u8 BTL_MAIN_GetBadgeCount(struct BtlMain *main) { return main->setup->badgeCount; }
 
 
 
@@ -1832,9 +1832,9 @@ u8 func_021B85A0(struct BtlMain *main) { return main->setup->badgeCount; }
 /*
  * note 2026-10-05: the arm9 witness src/matched/arm9/CONFIG_GetBattleStyle.c exists (EXACT); the only wildcard is that bl, so this lifts to EXACT after the integrator regenerates the manifest/labels.
  */
-int func_021B85A8(struct BtlMain *main)
+int BTL_MAIN_CheckShiftModePrompt(struct BtlMain *main)
 {
-    if (func_021B86B8(main) == 1 && func_021B8588(main) == 0 && func_021B86C0(main) == 0 && CONFIG_GetBattleStyle(main->setup->config) == 0) return 1;
+    if (BTL_MAIN_GetCompetitor(main) == 1 && BTL_MAIN_GetRule(main) == 0 && BTL_MAIN_GetCommPos(main) == 0 && CONFIG_GetBattleStyle(main->setup->config) == 0) return 1;
     return 0;
 }
 
@@ -1842,14 +1842,14 @@ int func_021B85A8(struct BtlMain *main)
 
 
 
-int func_021B85DC(struct BtlMain *main) { return func_02013080(main->textSpeed); }
+int BTL_MAIN_GetTextSpeedFrames(struct BtlMain *main) { return func_02013080(main->textSpeed); }
 
 
 
 
 
 
-int func_021B85EC(struct BtlMain *main)
+int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main)
 {
     int r;
     if (main->setup->competitor <= 1) {
@@ -1876,7 +1876,7 @@ int func_021B85EC(struct BtlMain *main)
 /*
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: ldr r1, [r0]; ldr r0, [r1]; cmp r0, #1; bhi loc_021B863C; ldr r0, [r1, #0x70]; bx lr; movs r0, #0; bx lr.
  */
-u32 func_021B8630(struct BtlMain *main)
+u32 BTL_MAIN_GetPmsWork(struct BtlMain *main)
 {
     struct BattleSetupParam *setup = main->setup;
     if (setup->competitor <= 1)
@@ -1888,25 +1888,25 @@ u32 func_021B8630(struct BtlMain *main)
 
 
 
-unsigned int func_021B8640(struct BtlMain *main) { switch (main->setup->rule) { case 0:return 1; case 1:return 3; case 2:return 5; case 3:return 5; default:return 5; } }
+unsigned int BTL_MAIN_GetRuleSlotSpan(struct BtlMain *main) { switch (main->setup->rule) { case 0:return 1; case 1:return 3; case 2:return 5; case 3:return 5; default:return 5; } }
 
 
 
 
 
-unsigned int func_021B8670(struct BtlMain *main) { switch (main->setup->rule) { case 0:return 1; case 1:return 2; case 2:return 3; case 3:return 1; default:return 1; } }
+unsigned int BTL_MAIN_GetActivePosPerSide(struct BtlMain *main) { switch (main->setup->rule) { case 0:return 1; case 1:return 2; case 2:return 3; case 3:return 1; default:return 1; } }
 
 
 
 
 
-int func_021B86A0(struct BtlMain *main, unsigned int posIdx) { if (posIdx < func_021B8670(main)*2) return 1; return 0; }
+int BTL_MAIN_CheckFrontPos(struct BtlMain *main, unsigned int posIdx) { if (posIdx < BTL_MAIN_GetActivePosPerSide(main)*2) return 1; return 0; }
 
 
 
 
 
-u32 func_021B86B8(struct BtlMain *main)
+u32 BTL_MAIN_GetCompetitor(struct BtlMain *main)
 {
     return main->setup->competitor;
 }
@@ -1919,7 +1919,7 @@ u32 func_021B86B8(struct BtlMain *main)
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0]; adds r0, #0x20; ldrb r0, [r0]; bx lr.
  */
-u8 func_021B86C0(struct BtlMain *main) { return main->setup->commPos; }
+u8 BTL_MAIN_GetCommPos(struct BtlMain *main) { return main->setup->commPos; }
 
 
 
@@ -1930,22 +1930,22 @@ u8 func_021B86C0(struct BtlMain *main) { return main->setup->commPos; }
  * That address lies inside this function (adds #0x22 after the ldr): it is not a separate entry.
  * The final two zero bytes are alignment padding before the next function.
  */
-int func_021B86C8(struct BtlMain *main) { if (main->setup->multiMode) return 1; return 0; }
+int BTL_MAIN_IsMultiMode(struct BtlMain *main) { if (main->setup->multiMode) return 1; return 0; }
 
 
 
 
 
-u16 func_021B86DC(struct BtlMain *main)
+u16 BTL_MAIN_GetWinBgm(struct BtlMain *main)
 {
     return main->setup->bgmWin;
 }
 
 
-int func_021B86E4(struct BtlMain *main) { switch(main->setup->competitor) { case 0:return 0; case 1:return 1; case 2:return 2; case 3:return 2; default:return 1; } }
+int BTL_MAIN_GetCompetitorKind(struct BtlMain *main) { switch(main->setup->competitor) { case 0:return 0; case 1:return 1; case 2:return 2; case 3:return 2; default:return 1; } }
 
 
-struct FieldSituation *func_021B8714(struct BtlMain *main)
+struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main)
 {
     return &main->setup->fieldSituation;
 }
@@ -1958,27 +1958,27 @@ int func_021B871C(struct BtlMain *main)
 }
 
 
-int func_021B8724(struct BtlMain *main, void *mon) { unsigned int species=func_021D5444(mon); return func_0200CED4(main->setup->zukanWork,species); }
+int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon) { unsigned int species=BTL_POKEPARAM_GetSpecies(mon); return func_0200CED4(main->setup->zukanWork,species); }
 
 
-u32 func_021B873C(struct BtlMain *main)
+u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main)
 {
     return func_0200CF28((struct Blk37 *)(main->setup->zukanWork));
 }
 
 
 
-u32 func_021B8748(struct BtlMain *main)
+u32 BTL_MAIN_GetGameData(struct BtlMain *main)
 {
     return (u32)main->setup->gameData;
 }
 
 
-void func_021B8750(struct BtlMain *main, unsigned char doRegister, void *mon) { if(func_021B86B8(main)<=1 && doRegister!=0) func_0200CFA0(main->setup->zukanWork,func_021D5844(mon)); }
+void BTL_MAIN_RegisterZukanSeen(struct BtlMain *main, unsigned char doRegister, void *mon) { if(BTL_MAIN_GetCompetitor(main)<=1 && doRegister!=0) func_0200CFA0(main->setup->zukanWork,BTL_POKEPARAM_GetMon(mon)); }
 
 
 
-u8 func_021B8778(struct BtlMain *main, int code, u8 *out)
+u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out)
 {
     u8 hi = code >> 8;
     u8 lo = code;
@@ -1991,13 +1991,13 @@ u8 func_021B8778(struct BtlMain *main, int code, u8 *out)
         switch (main->setup->rule) {
         case 0:
         default:
-            return func_021B87E8(main, hi, lo, out);
+            return BTL_MAIN_DecodeMessageCodeBasic(main, hi, lo, out);
         case 1:
-            return func_021B8834(main, hi, lo, out);
+            return BTL_MAIN_ExpandPosDouble(main, hi, lo, out);
         case 2:
-            return func_021B88EC(main, hi, lo, out);
+            return BTL_MAIN_ExpandPosTriple(main, hi, lo, out);
         case 3:
-            return func_021B87E8(main, hi, lo, out);
+            return BTL_MAIN_DecodeMessageCodeBasic(main, hi, lo, out);
         }
     }
     *out = 6;
@@ -2006,7 +2006,7 @@ u8 func_021B8778(struct BtlMain *main, int code, u8 *out)
 
 
 
-u8 func_021B87E8(struct BtlMain *main, u32 k, u32 v, u8 *out)
+u8 BTL_MAIN_DecodeMessageCodeBasic(struct BtlMain *main, u32 k, u32 v, u8 *out)
 {
     switch (k) {
     case 0:
@@ -2017,7 +2017,7 @@ u8 func_021B87E8(struct BtlMain *main, u32 k, u32 v, u8 *out)
     case 1:
     case 2:
     case 6:
-        *out = func_021B8C50(main, v, 0);
+        *out = BTL_MAIN_GetEnemyLanePosFromWork(main, v, 0);
         break;
     case 3:
         *out = v;
@@ -2036,7 +2036,7 @@ u8 func_021B87E8(struct BtlMain *main, u32 k, u32 v, u8 *out)
  * Double battle: fill out[] with the positions that a range kind reaches
  * from basePos and return how many were written.
  */
-u8 func_021B8834(struct BtlMain *main, u32 rangeType, u8 basePos, u8 *out)
+u8 BTL_MAIN_ExpandPosDouble(struct BtlMain *main, u32 rangeType, u8 basePos, u8 *out)
 {
     u8 tmp;
 
@@ -2046,12 +2046,12 @@ u8 func_021B8834(struct BtlMain *main, u32 rangeType, u8 basePos, u8 *out)
         return 0;
     case BTL_RANGE_ENEMIES_IN_REACH:
     case BTL_RANGE_ALL_ENEMIES:
-        out[0] = func_021B8C50(main, basePos, 0);
-        out[1] = func_021B8C50(main, basePos, 1);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 0);
+        out[1] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
         return 2;
     case BTL_RANGE_OTHERS_IN_REACH:
-        out[0] = func_021B8C50(main, basePos, 0);
-        out[1] = func_021B8C50(main, basePos, 1);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 0);
+        out[1] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
         out[2] = func_021B8CB0(main, basePos);
         return 3;
     case BTL_RANGE_SELF_AND_ALLIES_IN_REACH:
@@ -2089,7 +2089,7 @@ u8 func_021B8834(struct BtlMain *main, u32 rangeType, u8 basePos, u8 *out)
  * in an outer row reaches the centre lane and the lane that faces it.
  * The facing-lane swap is written out in each case, as in the original.
  */
-u8 func_021B88EC(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out)
+u8 BTL_MAIN_ExpandPosTriple(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out)
 {
     u8 inMiddleRow = func_021B99F0(basePos);
     u8 facingLane;
@@ -2099,93 +2099,93 @@ u8 func_021B88EC(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out)
     case BTL_RANGE_ENEMIES_IN_REACH:
     default:
         if (inMiddleRow) {
-            out[0] = func_021B8C50(main, basePos, 0);
-            out[1] = func_021B8C50(main, basePos, 1);
-            out[2] = func_021B8C50(main, basePos, 2);
+            out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 0);
+            out[1] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
+            out[2] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 2);
             return 3;
         }
-        out[0] = func_021B8C50(main, basePos, 1);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
         facingLane = (u8)(basePos >> 1);
         if (facingLane == 0) facingLane = 2;
         else if (facingLane == 2) facingLane = 0;
-        out[1] = func_021B8C20(2, basePos, facingLane);
+        out[1] = BTL_MAIN_GetEnemyLanePos(2, basePos, facingLane);
         return 2;
     case BTL_RANGE_ALL_ENEMIES:
-        out[0] = func_021B8C50(main, basePos, 0);
-        out[1] = func_021B8C50(main, basePos, 1);
-        out[2] = func_021B8C50(main, basePos, 2);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 0);
+        out[1] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
+        out[2] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 2);
         return 3;
     case BTL_RANGE_ALL_ALLIES:
-        out[0] = func_021B8C38(basePos, 0);
-        out[1] = func_021B8C38(basePos, 1);
-        out[2] = func_021B8C38(basePos, 2);
+        out[0] = BTL_MAIN_GetOwnLanePos(basePos, 0);
+        out[1] = BTL_MAIN_GetOwnLanePos(basePos, 1);
+        out[2] = BTL_MAIN_GetOwnLanePos(basePos, 2);
         return 3;
     case BTL_RANGE_EVERY_POSITION:
-        out[0] = func_021B8C50(main, basePos, 0);
-        out[1] = func_021B8C50(main, basePos, 1);
-        out[2] = func_021B8C50(main, basePos, 2);
-        out[3] = func_021B8C38(basePos, 0);
-        out[4] = func_021B8C38(basePos, 1);
-        out[5] = func_021B8C38(basePos, 2);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 0);
+        out[1] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
+        out[2] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 2);
+        out[3] = BTL_MAIN_GetOwnLanePos(basePos, 0);
+        out[4] = BTL_MAIN_GetOwnLanePos(basePos, 1);
+        out[5] = BTL_MAIN_GetOwnLanePos(basePos, 2);
         return 6;
     case BTL_RANGE_OTHERS_IN_REACH:
         if (inMiddleRow) {
-            out[0] = func_021B8C50(main, basePos, 0);
-            out[1] = func_021B8C50(main, basePos, 1);
-            out[2] = func_021B8C50(main, basePos, 2);
-            out[3] = func_021B8C38(basePos, 0);
-            out[4] = func_021B8C38(basePos, 2);
+            out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 0);
+            out[1] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
+            out[2] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 2);
+            out[3] = BTL_MAIN_GetOwnLanePos(basePos, 0);
+            out[4] = BTL_MAIN_GetOwnLanePos(basePos, 2);
             return 5;
         }
-        out[0] = func_021B8C50(main, basePos, 1);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
         facingLane = (u8)(basePos >> 1);
         if (facingLane == 0) facingLane = 2;
         else if (facingLane == 2) facingLane = 0;
-        out[1] = func_021B8C20(2, basePos, facingLane);
-        out[2] = func_021B8C38(basePos, 1);
+        out[1] = BTL_MAIN_GetEnemyLanePos(2, basePos, facingLane);
+        out[2] = BTL_MAIN_GetOwnLanePos(basePos, 1);
         return 3;
     case BTL_RANGE_SELF_AND_ALLIES_IN_REACH:
         if (inMiddleRow) {
             out[0] = basePos;
-            out[1] = func_021B8C38(basePos, 0);
-            out[2] = func_021B8C38(basePos, 2);
+            out[1] = BTL_MAIN_GetOwnLanePos(basePos, 0);
+            out[2] = BTL_MAIN_GetOwnLanePos(basePos, 2);
             return 3;
         }
         out[0] = basePos;
-        out[1] = func_021B8C38(basePos, 1);
+        out[1] = BTL_MAIN_GetOwnLanePos(basePos, 1);
         return 2;
     case BTL_RANGE_ALLIES_IN_REACH_ALT:
         if (inMiddleRow) {
-            out[0] = func_021B8C38(basePos, 0);
-            out[1] = func_021B8C38(basePos, 2);
+            out[0] = BTL_MAIN_GetOwnLanePos(basePos, 0);
+            out[1] = BTL_MAIN_GetOwnLanePos(basePos, 2);
             return 2;
         }
-        out[0] = func_021B8C38(basePos, 1);
+        out[0] = BTL_MAIN_GetOwnLanePos(basePos, 1);
         return 1;
     case BTL_RANGE_ALLIES_IN_REACH:
         if (inMiddleRow) {
-            out[0] = func_021B8C38(basePos, 0);
-            out[1] = func_021B8C38(basePos, 2);
+            out[0] = BTL_MAIN_GetOwnLanePos(basePos, 0);
+            out[1] = BTL_MAIN_GetOwnLanePos(basePos, 2);
             return 2;
         }
-        out[0] = func_021B8C38(basePos, 1);
+        out[0] = BTL_MAIN_GetOwnLanePos(basePos, 1);
         return 1;
     case BTL_RANGE_ALL_IN_REACH:
         if (inMiddleRow) {
-            out[0] = func_021B8C50(main, basePos, 0);
-            out[1] = func_021B8C50(main, basePos, 1);
-            out[2] = func_021B8C50(main, basePos, 2);
-            out[3] = func_021B8C38(basePos, 0);
-            out[4] = func_021B8C38(basePos, 2);
+            out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 0);
+            out[1] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
+            out[2] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 2);
+            out[3] = BTL_MAIN_GetOwnLanePos(basePos, 0);
+            out[4] = BTL_MAIN_GetOwnLanePos(basePos, 2);
             out[5] = basePos;
             return 6;
         }
-        out[0] = func_021B8C50(main, basePos, 1);
+        out[0] = BTL_MAIN_GetEnemyLanePosFromWork(main, basePos, 1);
         facingLane = (u8)(basePos >> 1);
         if (facingLane == 0) facingLane = 2;
         else if (facingLane == 2) facingLane = 0;
-        out[1] = func_021B8C20(2, basePos, facingLane);
-        out[2] = func_021B8C38(basePos, 1);
+        out[1] = BTL_MAIN_GetEnemyLanePos(2, basePos, facingLane);
+        out[2] = BTL_MAIN_GetOwnLanePos(basePos, 1);
         out[3] = basePos;
         return 4;
     }
@@ -2193,7 +2193,7 @@ u8 func_021B88EC(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out)
 
 
 /* Number of trainer entries that are controlled by clientId. */
-unsigned int func_021B8B78(struct BtlMain *main, int clientId)
+unsigned int BTL_MAIN_CountClientTrainers(struct BtlMain *main, int clientId)
 {
     unsigned int count;
     unsigned int i;
@@ -2209,7 +2209,7 @@ unsigned int func_021B8B78(struct BtlMain *main, int clientId)
 }
 
 /* Nonzero when clientId (0..3) controls at least one trainer entry. */
-int func_021B8B9C(struct BtlMain *main, unsigned char clientId)
+int BTL_MAIN_IsClientUsed(struct BtlMain *main, unsigned char clientId)
 {
     unsigned int i;
 
@@ -2224,16 +2224,16 @@ int func_021B8B9C(struct BtlMain *main, unsigned char clientId)
 }
 
 /* Side of a client: bit 0 of its id. The main pointer is not read. */
-unsigned char func_021B8BC4(int unusedWork, unsigned int clientId)
+unsigned char BTL_MAIN_GetClientSide(int unusedWork, unsigned int clientId)
 {
     (void)unusedWork;
     return clientId & 1;
 }
 
 /* Nonzero when side is the side of the local network id. */
-int func_021B8BD0(struct BtlMain *main, unsigned char side)
+int BTL_MAIN_IsLocalSide(struct BtlMain *main, unsigned char side)
 {
-    if (side == func_021B8BC4((int)main, main->ownClientId)) {
+    if (side == BTL_MAIN_GetClientSide((int)main, main->ownClientId)) {
         return 1;
     }
     return 0;
@@ -2241,7 +2241,7 @@ int func_021B8BD0(struct BtlMain *main, unsigned char side)
 
 
 /* Index of the nth trainer entry that clientId controls, or 6 when none. */
-u8 func_021B8BEC(struct BtlMain *main, u32 clientId, u8 nth)
+u8 BTL_MAIN_GetClientTrainerIndex(struct BtlMain *main, u32 clientId, u8 nth)
 {
     u8 i;
 
@@ -2259,9 +2259,9 @@ u8 func_021B8BEC(struct BtlMain *main, u32 clientId, u8 nth)
 
 /*
  * Position of a lane on the side opposite to basePos. The rule argument is
- * not read here; it keeps the call shape of func_021B8C50.
+ * not read here; it keeps the call shape of BTL_MAIN_GetEnemyLanePosFromWork.
  */
-u8 func_021B8C20(int rule, u32 basePos, u32 lane)
+u8 BTL_MAIN_GetEnemyLanePos(int rule, u32 basePos, u32 lane)
 {
     if ((basePos & 1) == 0) {
         return lane * 2 + 1;
@@ -2271,7 +2271,7 @@ u8 func_021B8C20(int rule, u32 basePos, u32 lane)
 
 
 /* Position of a lane on the same side as basePos. */
-u8 func_021B8C38(u32 basePos, u32 lane)
+u8 BTL_MAIN_GetOwnLanePos(u32 basePos, u32 lane)
 {
     if ((basePos & 1) == 0) {
         return lane * 2;
@@ -2281,24 +2281,24 @@ u8 func_021B8C38(u32 basePos, u32 lane)
 
 
 /* Enemy side lane position, with the battle rule taken from the setup. */
-u8 func_021B8C50(struct BtlMain *main, u32 basePos, int lane)
+u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlMain *main, u32 basePos, int lane)
 {
-    return func_021B8C20(main->setup->rule, basePos, lane);
+    return BTL_MAIN_GetEnemyLanePos(main->setup->rule, basePos, lane);
 }
 
 
 /* Position that faces basePos across the field, by battle rule. */
-u8 func_021B8C5C(int rule, u32 basePos)
+u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos)
 {
     u8 lane;
 
     switch (rule) {
     default:
     case 0:
-        return func_021B8C20(rule, basePos, 0);
+        return BTL_MAIN_GetEnemyLanePos(rule, basePos, 0);
     case 1:
         lane = basePos >> 1;
-        return func_021B8C20(rule, basePos, (u8)(1 ^ lane));
+        return BTL_MAIN_GetEnemyLanePos(rule, basePos, (u8)(1 ^ lane));
     case 2:
         lane = basePos >> 1;
         if (lane == 0) {
@@ -2306,8 +2306,8 @@ u8 func_021B8C5C(int rule, u32 basePos)
         } else if (lane == 2) {
             lane = 0;
         }
-        return func_021B8C20(rule, basePos, lane);
+        return BTL_MAIN_GetEnemyLanePos(rule, basePos, lane);
     case 3:
-        return func_021B8C20(rule, basePos, 0);
+        return BTL_MAIN_GetEnemyLanePos(rule, basePos, 0);
     }
 }

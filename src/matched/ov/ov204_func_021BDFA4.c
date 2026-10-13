@@ -14,12 +14,12 @@
  * the original's unnarrowed full-word stack stores; u16/s16/u32 each add a
  * lsls/asr|lsr pair (156-160 bytes). Twin: ov204_func_021BE03C.c.
  * symbols:
- *   func_02046440 0x02046440 arm
- *   func_02048A24 0x02048A24 arm
- *   func_02048B6C 0x02048B6C arm
- *   func_02048B60 0x02048B60 arm
- *   func_02048BC4 0x02048BC4 arm
- *   func_02048C58 0x02048C58 arm
+ *   G3D_SYSTEM_Init 0x02046440 arm
+ *   G3D_CAMERA_Create 0x02048A24 arm
+ *   G3D_CAMERA_SetRoll 0x02048B6C arm
+ *   G3D_CAMERA_SetScale 0x02048B60 arm
+ *   G3D_LIGHT_CreateSlots 0x02048BC4 arm
+ *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   func_021BDB70 0x021BDB70 thumb ov204
  *   d_021BFD68 0x021BFD68 data a4
  *   d_021BFD5C 0x021BFD5C data a4
@@ -38,14 +38,14 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef struct { u32 x, y, z; } Vec3;
 struct Light; struct LightSet; struct LightSlot;
-extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
+extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u16 fifoSize, s16 heap, void (*setup)(void));
-extern u32 *func_02048A24(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
+extern u32 *G3D_CAMERA_Create(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                           Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap);
-extern void func_02048B6C(struct Light *l, const u32 *in);
-extern void func_02048B60(struct Light *l, const u32 *in);
-extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
-extern void func_02048C58(struct LightSlot *slots);
+extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
+extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
+extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void func_021BDB70(void);
 extern struct G_021BFD68 d_021BFD68;
 extern struct G_021BFD5C d_021BFD5C;
@@ -55,12 +55,12 @@ extern const struct LightSet d_021BFD4C;
 void func_021BDFA4(char *p, u8 heap)
 {
     u32 far_clip, near_clip;
-    func_02046440(0, 4, 0, 2, 0, heap, func_021BDB70);
-    *(u32 **)p = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&d_021BFD68), ((Vec3 *)&d_021BFD5C), ((Vec3 *)&d_021BFD74), heap);
+    G3D_SYSTEM_Init(0, 4, 0, 2, 0, heap, func_021BDB70);
+    *(u32 **)p = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, ((Vec3 *)&d_021BFD68), ((Vec3 *)&d_021BFD5C), ((Vec3 *)&d_021BFD74), heap);
     far_clip = 0x800000;
     near_clip = 0x19A;
-    func_02048B6C(*(struct Light **)p, &far_clip);
-    func_02048B60(*(struct Light **)p, &near_clip);
-    *(struct LightSlot **)(p + 4) = func_02048BC4(&d_021BFD4C, heap);
-    func_02048C58(*(struct LightSlot **)(p + 4));
+    G3D_CAMERA_SetRoll(*(struct Light **)p, &far_clip);
+    G3D_CAMERA_SetScale(*(struct Light **)p, &near_clip);
+    *(struct LightSlot **)(p + 4) = G3D_LIGHT_CreateSlots(&d_021BFD4C, heap);
+    G3D_LIGHT_ApplySlots(*(struct LightSlot **)(p + 4));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0215A6AC
+ * function: SCRCMD_WORK_GetFadeParam
  * address:  0x0215A6AC
  * packet:   pkt_0215A6AC
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-u32 func_0215A6AC(u8 *p)
+u32 SCRCMD_WORK_GetFadeParam(u8 *p)
 {
 return *(u32 *)((u8 *)((struct Obj17664 *)p)->f20 + 0x108);
 }

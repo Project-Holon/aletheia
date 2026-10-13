@@ -1,5 +1,5 @@
 /*
- * function: func_021942C8
+ * function: FIELD_COMM_ACTOR_CTRL_Delete
  * address:  0x021942C8
  * packet:   pkt_ov021_021942C8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02194418  0x02194418  thumb  ov021
+ *   FIELD_COMM_ACTOR_DeleteActor  0x02194418  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef signed char    s8;
 
 typedef struct { u32 key; u32 x4; u32 x8; } Item;
 typedef struct { u16 n; u16 pad; u32 x4; Item *items; } List;
-extern int func_02194418(u32 a);
+extern int FIELD_COMM_ACTOR_DeleteActor(u32 a);
 extern u32 func_020307B0(void *p);
 
-void func_021942C8(List *p)
+void FIELD_COMM_ACTOR_CTRL_Delete(List *p)
 {
     u16 i;
     Item *it;
@@ -36,7 +36,7 @@ void func_021942C8(List *p)
     if (i < p->n) {
         for (; i < p->n; i++) {
             if (it->x8 != 0) {
-                func_02194418((u32)it);
+                FIELD_COMM_ACTOR_DeleteActor((u32)it);
             }
             it++;
         }

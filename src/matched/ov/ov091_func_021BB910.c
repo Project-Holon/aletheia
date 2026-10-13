@@ -1,5 +1,5 @@
 /*
- * function: func_021BB910
+ * function: PLIST_MESSAGE_StreamCallback
  * address:  0x021BB910
  * packet:   pkt_ov091_021BB910
  * region:   ov091
@@ -30,7 +30,7 @@ extern int func_02005F38(void);
 extern int GFL_USE_PopBgm(void);
 extern int func_02006238(void);
 
-int func_021BB910(int k)
+int PLIST_MESSAGE_StreamCallback(int k)
 {
     switch (k) {
     case 2:

@@ -1,5 +1,5 @@
 /*
- * function: func_021C15D4
+ * function: BTL_SERVER_FLOW_ClampDamageToHp
  * address: 0x021C15D4
  * packet: pkt_ov093_021C15D4
  * region: ov093
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern int func_021D59B4(u8 *p, int k);
 
-u32 func_021C15D4(void *p, u32 n)
+u32 BTL_SERVER_FLOW_ClampDamageToHp(void *p, u32 n)
 {
     u32 v = func_021D59B4(p, 13);
     if (n > v) n = v;

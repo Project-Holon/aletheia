@@ -1,5 +1,5 @@
 /*
- * function: func_021D67C4
+ * function: BTL_POKEPARAM_GetLastMoveSlot
  * address:  0x021D67C4
  * packet:   pkt_021D67C4
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D67C4   0x021D67C4  thumb ov093
+ *   BTL_POKEPARAM_GetLastMoveSlot   0x021D67C4  thumb ov093
  *
  * ldrb at #0x152 (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 func_021D67C4(u8 *p)
+u8 BTL_POKEPARAM_GetLastMoveSlot(u8 *p)
 {
     return ((struct Obj18418 *)p)->f152;
 }

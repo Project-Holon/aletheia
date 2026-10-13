@@ -1,5 +1,5 @@
 /*
- * function: func_021B1700
+ * function: SCRCMD_FLDMMDL_GetMmdlMoveCode
  * address:  0x021B1700
  * packet:   pkt_ov021_021B1700
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_0216D5A0  0x0216D5A0  thumb  ov010
- *   func_0216DE94  0x0216DE94  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5EC(void *p);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_0216DE94(void *map, u32 id);
-extern u16 func_0216D5A0(void *p);
+extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern u16 FLDMMDL_GetMoveCode(void *p);
 
-int func_021B1700(u32 a, u32 b)
+int SCRCMD_FLDMMDL_GetMmdlMoveCode(u32 a, u32 b)
 {
-    u32 t = (u32)func_0215A5EC((void *)b);
-    u16 *o = func_02159AE8((void *)a, (void *)b);
+    u32 t = (u32)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
 
     *o = 0;
-    *o = func_0216D5A0(func_0216DE94((void *)t, func_02159B10((void *)a, (void *)b)));
+    *o = FLDMMDL_GetMoveCode(FLDMMDL_SysSearchObjId((void *)t, SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b)));
     return 0;
 }

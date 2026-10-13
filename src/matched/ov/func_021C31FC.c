@@ -1,5 +1,5 @@
 /*
- * function: func_021C31FC
+ * function: SODATEYA_Delete
  * address:  0x021C31FC
  * packet:   pkt_021C31FC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021C31FC(u32 a)
+void SODATEYA_Delete(u32 a)
 {
     func_020307B0((void *)a);
 }

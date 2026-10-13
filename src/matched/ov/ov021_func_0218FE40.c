@@ -1,5 +1,5 @@
 /*
- * function: func_0218FE40
+ * function: FIELD_CAMERA_ClearMoveCallback
  * address:  0x0218FE40
  * packet:   pkt_ov021_0218FE40
  * region:   ov021
@@ -18,7 +18,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-void func_0218FE40(u8 *a)
+void FIELD_CAMERA_ClearMoveCallback(u8 *a)
 {
     ((struct Obj01491 *)a)->f1AC = 0;
     ((struct Obj01491 *)a)->f1A8 = 0;

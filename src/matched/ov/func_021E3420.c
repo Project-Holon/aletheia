@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_021E3420   0x021E3420  thumb ov093
- *   func_021D775C   0x021D775C  thumb ov093
- *   func_021E86E8   0x021E86E8  thumb ov093
+ *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
+ *   BTLV_CORE_CheckEitherSlotPair   0x021E86E8  thumb ov093
  *   func_021C7CF4   0x021C7CF4  thumb ov093
- *   func_021D5B40   0x021D5B40  thumb ov093
+ *   BTL_POKEPARAM_GetItem   0x021D5B40  thumb ov093
  *   func_021C88A4   0x021C88A4  thumb ov093
  *   func_021C8838   0x021C8838  thumb ov093
  *   func_021C8860   0x021C8860  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
  *
- * Gate on func_021D775C(3), then func_021E86E8(b,c,(u8)func_021D775C(6))
- * must be zero and the (u16) of func_021D5B40(func_021C7CF4(b,k)) non-zero.
+ * Gate on BTL_EVENT_GetVar(3), then BTLV_CORE_CheckEitherSlotPair(b,c,(u8)BTL_EVENT_GetVar(6))
+ * must be zero and the (u16) of BTL_POKEPARAM_GetItem(func_021C7CF4(b,k)) non-zero.
  * Record #0x20 carries k, a zero halfword and a three-string tail (c, k and
  * that halfword).
  */
@@ -34,11 +34,11 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021D775C(int a);
-int func_021E86E8(void *a, int b, int c);
+int BTL_EVENT_GetVar(int a);
+int BTLV_CORE_CheckEitherSlotPair(void *a, int b, int c);
 void *func_021C7CF4(int *p, int i);
 struct QI;
-u16 func_021D5B40(struct QI *p);
+u16 BTL_POKEPARAM_GetItem(struct QI *p);
 void *func_021C88A4(char *p, int a, int b);
 void func_021C8838(void *p, int a, int b);
 struct S;
@@ -51,12 +51,12 @@ void func_021E3420(void *a, int b, int c)
     u16 v;
     u8 *p;
 
-    if (c != func_021D775C(3))
+    if (c != BTL_EVENT_GetVar(3))
         return;
-    k = (u8)func_021D775C(6);
-    if (func_021E86E8((void *)b, c, k) != 0)
+    k = (u8)BTL_EVENT_GetVar(6);
+    if (BTLV_CORE_CheckEitherSlotPair((void *)b, c, k) != 0)
         return;
-    v = (u16)(int)func_021D5B40(func_021C7CF4((int *)b, k));
+    v = (u16)(int)BTL_POKEPARAM_GetItem(func_021C7CF4((int *)b, k));
     if (v == 0)
         return;
     p = func_021C88A4((char *)b, 0x20, c);

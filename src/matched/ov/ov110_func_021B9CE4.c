@@ -26,12 +26,12 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02049658 0x02049658 arm
  *   func_02040588 0x02040588 arm
- *   func_02049BDC 0x02049BDC arm
+ *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   func_02061CA4 0x02061CA4 arm
  *   func_020413B0 0x020413B0 arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_021BF7C4 0x021BF7C4 thumb ov110
  *   func_021BF6D8 0x021BF6D8 thumb ov110
  *   func_021BAD68 0x021BAD68 thumb ov110
@@ -39,9 +39,9 @@
  *   func_021BC990 0x021BC990 thumb ov110
  *   func_021BCB50 0x021BCB50 thumb ov110
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_0207D46C 0x0207D46C arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
 #include "../include/Obj00135.h"
@@ -77,14 +77,14 @@ extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 struct Object;
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern int func_02061CA4(void *,u32,u32,int);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u32 func_021BF7C4(u8 *);
 extern u32 func_021BF6D8(u8 *);
 extern void func_021BAD68(u8 *,int);
@@ -92,9 +92,9 @@ extern void func_021BAD2C(u8 *,int);
 extern u8 *func_021BC990(u8 *,u8 *,void *);
 extern void func_021BCB50(struct Object *p);
 extern void func_020434DC(u32,u32);
-extern void func_02043598(u32,u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void func_0207D46C(void);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_021B9CBC(u8 *);
 void func_021B9CE4(void *unused,u8 *p) {
     void *h;
@@ -121,7 +121,7 @@ void func_021B9CE4(void *unused,u8 *p) {
     func_020498F4((void *)((u32)h),31,6,0,0,0,42);
     func_02049658((void *)((u32)h),18,6,0,0,0,42);
     func_02040588(6,0);
-    func_02049BDC((void *)((u32)h),4,4,128,160,32,42);
+    ARC_UTIL_UploadPaletteFromHandle((void *)((u32)h),4,4,128,160,32,42);
     ((struct Obj22321 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f68=0x294b;
     func_02061CA4((void *)31,188,(u32)(*(u8 * *)&((struct Obj00135 *)p)->f0+0x68),2);
     ((struct Obj22322 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6A=0x5694;
@@ -129,8 +129,8 @@ void func_021B9CE4(void *unused,u8 *p) {
     func_02049658((void *)((u32)h),18,7,0,0,0,42);
     func_020498F4((void *)((u32)h),24,7,0,0,0,42);
     func_020413B0(7,0,0,32,32,5);
-    ((struct Obj22323 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6C=func_020450F0(7,3,5,26,7,5,1);
-    func_02043B5C(func_02045770((struct Descriptor *)((struct Obj22324 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6C),7);
+    ((struct Obj22323 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6C=BMP_WIN_Create(7,3,5,26,7,5,1);
+    BMP_Clear(func_02045770((struct Descriptor *)((struct Obj22324 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6C),7);
     ((struct Obj22325 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f70=0;
     if(func_021BF7C4(*(u8 * *)&((struct Obj00135 *)p)->f4) || func_021BF6D8(*(u8 * *)&((struct Obj00135 *)p)->f4)!=2) func_021BAD68(p,1);
     else func_021BAD68(p,0);
@@ -139,10 +139,10 @@ void func_021B9CE4(void *unused,u8 *p) {
     func_021BCB50((struct Object *)(*(u8 * *)&((struct Obj22327 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f64));
     func_02040588(0,1);
     func_020434DC(16,1);
-    func_02043598(16,1);
+    BG_SYS_SetSubPlaneVisible(16,1);
     func_0207D46C();
     func_02049658((void *)((u32)h),16,3,0,0,0,42);
     func_02049658((void *)((u32)h),17,3,96,0,0,42);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     func_021B9CBC(p);
 }

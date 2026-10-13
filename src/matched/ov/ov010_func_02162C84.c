@@ -1,5 +1,5 @@
 /*
- * function: func_02162C84
+ * function: EVENTDATA_SYSTEM_GetConnectExitGridPos
  * address:  0x02162C84
  * packet:   pkt_ov010_02162C84
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02162C54  0x02162C54  thumb  ov010
- *   func_02162AA4  0x02162AA4  thumb  ov010
+ *   EVENTDATA_SYSTEM_ConnectExitDirToDir  0x02162C54  thumb  ov010
+ *   EVENTDATA_SYSTEM_CalcExitOffset  0x02162AA4  thumb  ov010
  */
 
 typedef unsigned short u16;
@@ -31,19 +31,19 @@ struct Box {
 };
 
 typedef unsigned char  u8;
-extern int func_02162C54(u8 *p);
-extern u16 func_02162AA4(int q, int m, int a, int b, u16 n);
+extern int EVENTDATA_SYSTEM_ConnectExitDirToDir(u8 *p);
+extern u16 EVENTDATA_SYSTEM_CalcExitOffset(int q, int m, int a, int b, u16 n);
 
-void func_02162C84(struct Box *b, int q, int *out)
+void EVENTDATA_SYSTEM_GetConnectExitGridPos(struct Box *b, int q, int *out)
 {
     struct Sub *s = &b->s;
-    int m = func_02162C54((u8 *)b);
+    int m = EVENTDATA_SYSTEM_ConnectExitDirToDir((u8 *)b);
     out[0] = b->s.f0 << 12;
     out[1] = s->f2 << 12;
     out[2] = s->f4 << 12;
     if (s->f6 > 1) {
-        out[0] += func_02162AA4(q, m, 0, 0, s->f6) << 16;
+        out[0] += EVENTDATA_SYSTEM_CalcExitOffset(q, m, 0, 0, s->f6) << 16;
     } else if (s->f8 > 1) {
-        out[2] += func_02162AA4(q, m, 0, 0, s->f8) << 16;
+        out[2] += EVENTDATA_SYSTEM_CalcExitOffset(q, m, 0, 0, s->f8) << 16;
     }
 }

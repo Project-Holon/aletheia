@@ -1,5 +1,5 @@
 /*
- * function: func_021AC140
+ * function: FIELD_EFFECT_InitObject
  * address:  0x021AC140
  * packet:   pkt_ov021_021AC140
  * region:   ov021
@@ -33,7 +33,7 @@ struct Obj {
     void *fd0;
 };
 
-void func_021AC140(Obj *o)
+void FIELD_EFFECT_InitObject(Obj *o)
 {
     if (o != 0)
         o->init(o, o->work);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021FCA04  0x021FCA04  thumb  ov094
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_021FFA18  0x021FFA18  thumb  ov094
@@ -36,7 +36,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FCA04(State *s, int id, int *out);
 extern int func_021F8694(void);
 extern void func_021FFA18(void *w, Req *r);
@@ -48,15 +48,15 @@ int func_021FAD2C(void *a, State *s)
     int n;
     int i;
 
-    n = func_021FCA04(s, (int)func_0201134C(a), buf);
-    q.f8 = (int)func_0201134C(a);
-    q.fc = (int)func_0201134C(a);
-    q.f10 = (int)func_0201134C(a);
-    q.f14 = (int)func_0201134C(a);
-    q.f18 = (int)func_0201134C(a) >> 12;
-    q.f1c = (int)func_0201134C(a) >> 12;
-    q.f20 = (int)func_0201134C(a) >> 12;
-    q.f24 = (int)func_0201134C(a);
+    n = func_021FCA04(s, (int)VM_GetU32(a), buf);
+    q.f8 = (int)VM_GetU32(a);
+    q.fc = (int)VM_GetU32(a);
+    q.f10 = (int)VM_GetU32(a);
+    q.f14 = (int)VM_GetU32(a);
+    q.f18 = (int)VM_GetU32(a) >> 12;
+    q.f1c = (int)VM_GetU32(a) >> 12;
+    q.f20 = (int)VM_GetU32(a) >> 12;
+    q.f24 = (int)VM_GetU32(a);
     if (n != 0 && q.f20 != 0) {
         for (i = 0; i < n; i++) {
             q.item = buf[i];

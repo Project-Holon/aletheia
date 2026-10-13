@@ -1,5 +1,5 @@
 /*
- * function: func_0202B578
+ * function: ISS_SYS_GetSwitchSys
  * address:  0x0202B578
  * packet:   pkt_0202B578
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-u32 func_0202B578(u32 *p)
+u32 ISS_SYS_GetSwitchSys(u32 *p)
 {
     return p[8];
 }

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0201EFA4   0x0201EFA4  thumb
- *   func_020457B0   0x020457B0  arm
- *   func_02045CAC   0x02045CAC  arm
+ *   STRBUF_Create   0x020457B0  arm
+ *   MSGDATA_ReadString   0x02045CAC  arm
  *   func_0201F250   0x0201F250  thumb
  *
  * poke_tool.c tail (wave 13), the twin of POKE_REGULATION_BuildPartySizeLine: pick the sprite
@@ -40,8 +40,8 @@ struct MsgBank;
 struct WordSet;
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 void *POKE_REGULATION_BuildLevelLine(const u8 *a0, u32 a1, u32 *a2, u32 a3, u16 a4)
@@ -65,8 +65,8 @@ void *POKE_REGULATION_BuildLevelLine(const u8 *a0, u32 a1, u32 *a2, u32 a3, u16 
         mode = 6;
     }
     func_0201EFA4((struct WordSet *)a1, 0, a0[4], 3, 0, 1);
-    p = func_020457B0(0x40, a4);
-    func_02045CAC((struct MsgBank *)(*a2), mode, (void *)a3);
+    p = STRBUF_Create(0x40, a4);
+    MSGDATA_ReadString((struct MsgBank *)(*a2), mode, (void *)a3);
     func_0201F250((struct WordSet *)a1, p, (void *)a3);
     return p;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02188D4C
+ * function: FIELDMAP_SetInfoWindow
  * address:  0x02188D4C
  * packet:   pkt_02188D4C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02188D4C(u8 *p, u32 v)
+void FIELDMAP_SetInfoWindow(u8 *p, u32 v)
 {
     ((struct Obj17882 *)p)->f2C = v;
 }

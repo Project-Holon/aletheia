@@ -1,5 +1,5 @@
 /*
- * function: func_02050080
+ * function: BILLBOARD_ACT_GetBoard
  * address:  0x02050080
  * packet:   pkt_02050080
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-u32 func_02050080(u32 *p)
+u32 BILLBOARD_ACT_GetBoard(u32 *p)
 {
     return p[1];
 }

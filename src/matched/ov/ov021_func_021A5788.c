@@ -1,5 +1,5 @@
 /*
- * function: func_021A5788
+ * function: FIELD_PLAYER_GRID_GetAttrAtDir
  * address:  0x021A5788
  * packet:   pkt_ov021_021A5788
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3898  0x021A3898  thumb  ov021
- *   func_02164208  0x02164208  thumb  ov010
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_02163E34  0x02163E34  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetPos  0x021A3898  thumb  ov021
+ *   FLDMMDL_MOVE_AddDirVector  0x02164208  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_MOVE_GetMapAttr  0x02163E34  thumb  ov010
  */
 #include "../include/Obj09571.h"
 
@@ -26,17 +26,17 @@ typedef struct {
 } Vec021A5788;
 
 struct VecFx32;
-void func_021A3898(unsigned char *p, struct VecFx32 *out);
-void func_02164208(int dir, int *p, int amt);
-void *func_021A3960(unsigned char *p);
-void func_02163E34(void *h, Vec021A5788 *v, int *out);
+void FIELD_PLAYER_CORE_GetPos(unsigned char *p, struct VecFx32 *out);
+void FLDMMDL_MOVE_AddDirVector(int dir, int *p, int amt);
+void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+void FLDMMDL_MOVE_GetMapAttr(void *h, Vec021A5788 *v, int *out);
 
-void func_021A5788(u32 *p, int k, int *out)
+void FIELD_PLAYER_GRID_GetAttrAtDir(u32 *p, int k, int *out)
 {
     Vec021A5788 v;
 
-    func_021A3898(*(unsigned char * *)&((struct Obj09571 *)p)->fC, (struct VecFx32 *)&v);
+    FIELD_PLAYER_CORE_GetPos(*(unsigned char * *)&((struct Obj09571 *)p)->fC, (struct VecFx32 *)&v);
     if (k != 9)
-        func_02164208(k, (int *)(&v), 0x10000);
-    func_02163E34(func_021A3960(*(unsigned char * *)&((struct Obj09571 *)p)->fC), &v, out);
+        FLDMMDL_MOVE_AddDirVector(k, (int *)(&v), 0x10000);
+    FLDMMDL_MOVE_GetMapAttr(FIELD_PLAYER_CORE_GetMmdl(*(unsigned char * *)&((struct Obj09571 *)p)->fC), &v, out);
 }

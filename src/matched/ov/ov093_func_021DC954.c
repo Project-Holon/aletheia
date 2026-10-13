@@ -1,5 +1,5 @@
 /*
- * function: func_021DC954
+ * function: BTL_ABILITY_GetRattledHandlers
  * address: 0x021DC954
  * packet: pkt_ov093_021DC954
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DC6EC.c and filed here.
  *
  * symbols:
- *   d_021F05B0 0x021F05B0 data ov093 a4
+ *   gRattledHandlers 0x021F05B0 data ov093 a4
  */
 
-int *func_021DC954(int *p);
-extern int d_021F05B0[];
+int *BTL_ABILITY_GetRattledHandlers(int *p);
+extern int gRattledHandlers[];
 
-int *func_021DC954(int *p)
+int *BTL_ABILITY_GetRattledHandlers(int *p)
 {
     *p = 1;
-    return d_021F05B0;
+    return gRattledHandlers;
 }

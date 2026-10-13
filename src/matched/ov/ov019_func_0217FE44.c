@@ -1,5 +1,5 @@
 /*
- * function: func_0217FE44
+ * function: COLOSSEUM_GetStandPosIndex
  * address:  0x0217FE44
  * packet:   pkt_ov019_0217FE44
  * region:   ov019
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  *   d_02180794     0x02180794  data  ov019  a4
  *   d_0218079C     0x0218079C  data  ov019  a4
  */
@@ -21,14 +21,14 @@
 typedef short s16;
 
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern int func_0216D83C(void *);
-extern int func_0216D86C(void *);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern int FLDMMDL_GetGridNowX(void *);
+extern int FLDMMDL_GetGridNowZ(void *);
 extern s16 d_02180794[][2];
 extern s16 d_0218079C[][2];
 
-int func_0217FE44(int a, int mode, unsigned *out)
+int COLOSSEUM_GetStandPosIndex(int a, int mode, unsigned *out)
 {
     unsigned i;
     int x;
@@ -36,11 +36,11 @@ int func_0217FE44(int a, int mode, unsigned *out)
     int y2;
     void *h;
 
-    h = func_02188CB4((void *)a);
+    h = FIELDMAP_GetFieldPlayer((void *)a);
     *out = 0;
-    y = func_021A3074((void *)h);
-    x = func_0216D83C(y);
-    y2 = func_0216D86C(y);
+    y = FIELD_PLAYER_GetMmdl((void *)h);
+    x = FLDMMDL_GetGridNowX(y);
+    y2 = FLDMMDL_GetGridNowZ(y);
     if (mode == 2) {
         for (i = 0; i < 2; i++) {
             if (d_02180794[i][0] == x && d_02180794[i][1] == y2) {

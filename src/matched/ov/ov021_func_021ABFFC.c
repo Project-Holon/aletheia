@@ -1,5 +1,5 @@
 /*
- * function: func_021ABFFC
+ * function: FIELD_EFFECT_CreateObjectMgr
  * address:  0x021ABFFC
  * packet:   pkt_ov021_021ABFFC
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021DE018[];
 
-char *func_021ABFFC(u16 heap, int b, int cnt)
+char *FIELD_EFFECT_CreateObjectMgr(u16 heap, int b, int cnt)
 {
     char *p;
 

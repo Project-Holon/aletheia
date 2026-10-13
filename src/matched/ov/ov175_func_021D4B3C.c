@@ -26,12 +26,12 @@
  *   func_021DC1E4 0x021DC1E4 thumb ov175
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02082D44 0x02082D44 arm
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_02045B38 0x02045B38 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045A38 0x02045A38 arm
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   STRBUF_ToChars 0x02045A38 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_02025BEC 0x02025BEC thumb
  *   PMSI_PARAM_IsValid 0x020245D4 thumb
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
@@ -57,13 +57,13 @@
  *   func_021D56D4 0x021D56D4 thumb ov175
  *   func_021D6550 0x021D6550 thumb ov175
  *   func_021D65DC 0x021D65DC thumb ov175
- *   func_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb
  *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb
  *   func_021DA5B0 0x021DA5B0 thumb ov175
  *   func_021DA6B8 0x021DA6B8 thumb ov175
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009EC8 0x02009EC8 thumb
  */
 typedef unsigned long u32;
@@ -93,12 +93,12 @@ extern u32 func_021DC1A0(char *obj, u32 data);
 extern u32 func_021DC1E4(char *, char **);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void func_02082D44(const void *, void *, u32);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern struct MsgBank *func_02045B38(u32, u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *, u32);
-extern void func_02045A38(struct U16Vec *, u16 *, unsigned int);
-extern void func_02045808(struct U16Vec *);
-extern u32 func_02045C04(struct Rec *rec);
+extern void STRBUF_ToChars(struct U16Vec *, u16 *, unsigned int);
+extern void STRBUF_Delete(struct U16Vec *);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
 extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
 extern void PMSI_PARAM_InitSentence(void *, unsigned int);
@@ -119,13 +119,13 @@ extern int func_021E8844(const int *);
 extern void func_021E8AB8(unsigned);
 extern void func_021D6550(u32 *p, int mode);
 extern int func_021D65DC(char *obj);
-extern void func_0203064C(u32, u32, u32);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void DWC_RAPCOMMON_CreateSubHeap(int, int, int, int);
 extern void DWC_RAPCOMMON_SetHeapTag(int);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 extern void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot);
 extern int func_021DA6B8(char *p, u32 *out);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_02009EC8(void *sys);
 #define P(k) (*(int *)(p + (k)))
 #define Q(k) (*(int *)(q + (k)))
@@ -194,14 +194,14 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
             func_02082D44(incoming, data, size);
             fixed = 0;
             empty = 1;
-            for (i = 0; i < 8; i++) if (((u16 *)data)[i] == func_02045A98()) empty = 0;
+            for (i = 0; i < 8; i++) if (((u16 *)data)[i] == STRBUF_GetEosChar()) empty = 0;
             if (empty) {
                 fixed++;
                 bank = func_02045B38(0, 2, 0xd2, 0x8057);
                 str = func_02045EC0(bank, 0x8057);
-                func_02045A38(str, (u16 *)data, 8);
-                func_02045808(str);
-                func_02045C04((struct Rec *)bank);
+                STRBUF_ToChars(str, (u16 *)data, 8);
+                STRBUF_Delete(str);
+                MSGDATA_Delete((struct Rec *)bank);
             }
             if ((u8)data[0x1d] != 0 && (u8)data[0x1d] != 1) { data[0x1d] = 0; fixed++; }
             if ((u8)data[0x1c] >= 16) {
@@ -212,7 +212,7 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
                 data[0x18] = 0; data[0x19] = 0; fixed++;
             }
             if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) { PMSI_PARAM_InitSentence(data + 0x38, 1); fixed++; }
-            if (fixed == 0) func_02009EC8(func_02012EBC(*(struct Big **)Q(8)));
+            if (fixed == 0) func_02009EC8(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
             TIMEOUT = 0; *state = 5;
         }
         timed = 1; break;
@@ -264,7 +264,7 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
     case 14: if (func_021D6460(p)) *state = 15; break;
     case 15: if (TIMER++ > 0) { TIMER = 0; *state = 16; } break;
     case 16:
-        func_0203064C(1, 0x86, 0x60000);
+        GFL_HEAP_CreateChildHeap(1, 0x86, 0x60000);
         DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
         DWC_RAPCOMMON_SetHeapTag(0x86);
         func_021DA5B0((char *)P(0x30), 0, 2, 0, 0, 0);

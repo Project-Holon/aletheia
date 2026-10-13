@@ -1,5 +1,5 @@
 /*
- * function: func_021BCA88
+ * function: FIELD_PLACE_NAME_GetForceShowRequest
  * address:  0x021BCA88
  * packet:   pkt_021BCA74
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021BCA88(u8 *p)
+u32 FIELD_PLACE_NAME_GetForceShowRequest(u8 *p)
 {
     return ((struct Obj18200 *)p)->f4C;
 }

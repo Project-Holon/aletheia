@@ -1,5 +1,5 @@
 /*
- * function: func_0219C9D0
+ * function: FLDMMDL_BLACT_EntryHook
  * address:  0x0219C9D0
  * packet:   pkt_ov021_0219C9D0
  * region:   ov021
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_0219C9D0(u32 a, u32 b, u8 *p)
+void FLDMMDL_BLACT_EntryHook(u32 a, u32 b, u8 *p)
 {
     *p |= 1;
 }

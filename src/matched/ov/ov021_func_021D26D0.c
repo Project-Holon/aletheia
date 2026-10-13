@@ -1,5 +1,5 @@
 /*
- * function: func_021D26D0
+ * function: SCRCMD_POKE_ICON_Task
  * address:  0x021D26D0
  * packet:   pkt_ov021_021D26D0
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm
- *   func_021D26AC  0x021D26AC  thumb  ov021
- *   func_021D25E8  0x021D25E8  thumb  ov021
+ *   SCRCMD_POKE_ICON_DeleteIcon  0x021D26AC  thumb  ov021
+ *   SCRCMD_POKE_ICON_ShowWindow  0x021D25E8  thumb  ov021
  *   func_020452E8  0x020452E8  arm
  * Addresses are Black-image addresses.
  */
@@ -20,18 +20,18 @@
 typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
-extern int func_021D26AC(u32 *a);
-extern void func_021D25E8(u32 *p);
+extern int SCRCMD_POKE_ICON_DeleteIcon(u32 *a);
+extern void SCRCMD_POKE_ICON_ShowWindow(u32 *p);
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
 
-u32 func_021D26D0(u32 a, u32 *st, u32 *p)
+u32 SCRCMD_POKE_ICON_Task(u32 a, u32 *st, u32 *p)
 {
     switch (st[0]) {
     case 0:
         if (func_020362DC() & 3) {
-            func_021D26AC(p);
-            func_021D25E8(p);
+            SCRCMD_POKE_ICON_DeleteIcon(p);
+            SCRCMD_POKE_ICON_ShowWindow(p);
             st[0]++;
         }
         break;

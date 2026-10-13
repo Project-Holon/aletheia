@@ -1,5 +1,5 @@
 /*
- * function: func_021B8820
+ * function: FIELD_RAIL_SETTING_GetCamera
  * address:  0x021B8820
  * packet:   pkt_ov021_021B8820
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D9A0C     0x021D9A0C  data  a4
+ *   gRailDefaultCamera     0x021D9A0C  data  a4
  */
 
 #include "../include/G_Elem.h"
@@ -40,9 +40,9 @@ typedef struct {
     void **p28;
 } Table;
 
-extern struct Elem d_021D9A0C;
+extern struct Elem gRailDefaultCamera;
 
-Elem *func_021B8820(Table *t, u16 i)
+Elem *FIELD_RAIL_SETTING_GetCamera(Table *t, u16 i)
 {
     if (t->n4 > i) {
         return &t->p18[i];
@@ -50,5 +50,5 @@ Elem *func_021B8820(Table *t, u16 i)
     if (i == 0xFFFF) {
         return 0;
     }
-    return ((Elem *)&d_021D9A0C);
+    return ((Elem *)&gRailDefaultCamera);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02159420",
+   "name": "SCRIPT_WORK_CmdPopDiscard",
    "address": "0x02159420",
    "kind": "game",
    "region": "ov010",

@@ -13,7 +13,7 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_020260E4 0x020260E4 thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021DCFC0 0x021DCFC0 thumb
  *   func_021DD090 0x021DD090 thumb
@@ -83,7 +83,7 @@ typedef unsigned char  u8;
 struct Sound;
 extern int func_021E01C4(char *p);
 extern int func_021EF5C4(struct WinMgr *mgr);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern void func_021EF57C(struct WinMgr *mgr);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021EF770(struct WinMgr *mgr);
@@ -155,7 +155,7 @@ int func_021DFA30(unsigned char *p)
     r = func_021EF5C4(MGR(p));
     switch (b->state) {
     case 0:
-        if (func_02035C38() == 1)
+        if (TOUCHPANEL_GetCont() == 1)
             func_021EF57C(MGR(p));
         b->state = 1;
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216DAA0
+ * function: FLDMMDL_CheckMoveBitDrawInitComp
  * address:  0x0216DAA0
  * packet:   pkt_0216DA5C
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   func_0216D57C  0x0216D57C  thumb  ov010
+ *   FLDMMDL_CheckMoveBit  0x0216D57C  thumb  ov010
 
  *
  * generated: lane O24 (ov010 leaf/wrapper sweep)
@@ -23,19 +23,19 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216DAA0.c \
- *       --func func_0216DAA0 --addr 0x0216DAA0 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_CheckMoveBitDrawInitComp.c \
+ *       --func FLDMMDL_CheckMoveBitDrawInitComp --addr 0x0216DAA0 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0216D57C(void *p, u32 v);
+extern u32 FLDMMDL_CheckMoveBit(void *p, u32 v);
 
-int func_0216DAA0(void *a0)
+int FLDMMDL_CheckMoveBitDrawInitComp(void *a0)
 {
-    if (func_0216D57C(a0, 2))
+    if (FLDMMDL_CheckMoveBit(a0, 2))
         return 1;
     return 0;
 }

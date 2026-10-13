@@ -82,11 +82,11 @@ typedef struct HandExPokeNotice {
 } HandExPokeNotice;
 
 /* Services of the battle server flow and the event factor list used by several of these files. */
-extern int func_021D70A8(struct BtlEventFactor *factor);
-extern u8 func_021D70AC(struct BtlEventFactor *factor);
-extern void func_021D7090(struct BtlEventFactor *factor);
-extern void func_021D7320(struct BtlEventFactor *factor, u32 skipCheck);
-extern void func_021D7324(struct BtlEventFactor *factor);
+extern int BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
+extern u8 BTL_EVENT_GetFactorPokeId(struct BtlEventFactor *factor);
+extern void BTL_EVENT_MarkFactorDead(struct BtlEventFactor *factor);
+extern void BTL_EVENT_SetFactorSkipCheck(struct BtlEventFactor *factor, u32 skipCheck);
+extern void BTL_EVENT_ClearFactorSkipCheck(struct BtlEventFactor *factor);
 extern void func_021C88B4(struct BtlSvFlow *flow, int kind, int pokeId);
 extern void func_021C888C(void *str, u32 extra);
 extern int func_021B9A24(u32 pokeIdA, u32 pokeIdB);

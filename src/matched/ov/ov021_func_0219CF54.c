@@ -1,5 +1,5 @@
 /*
- * function: func_0219CF54
+ * function: FLDMMDL_BLACT_CancelReservedRes
  * address:  0x0219CF54
  * packet:   pkt_ov021_0219CF54
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  */
 #include "../include/Obj00429.h"
 #include "../include/Obj06001.h"
 #include "../include/Obj12676.h"
 
 struct Tagged;
-extern void func_02046EFC(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
-int func_0219CF54(int *t, unsigned int id)
+int FLDMMDL_BLACT_CancelReservedRes(int *t, unsigned int id)
 {
     unsigned int i;
     unsigned char *p;
@@ -44,7 +44,7 @@ int func_0219CF54(int *t, unsigned int id)
     for (; j < m; j++, q += 20) {
         if (*(int *)&((struct Obj06001 *)q)->f10 != 0 && ((struct Obj06001 *)q)->f8 == id) {
             *q = 0;
-            func_02046EFC(((struct Obj06001 *)q)->f10);
+            G3D_SYSTEM_DeleteResource(((struct Obj06001 *)q)->f10);
             *(int *)&((struct Obj06001 *)q)->f10 = 0;
             return 1;
         }

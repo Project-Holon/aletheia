@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DBE6C.c and filed here.
  *
  * symbols:
- *   d_021F0688 0x021F0688 data ov093 a4
+ *   gDefiantHandlers 0x021F0688 data ov093 a4
  */
 
 int *func_021DC0B0(int *p);
-extern int d_021F0688[];
+extern int gDefiantHandlers[];
 
 int *func_021DC0B0(int *p)
 {
     *p = 1;
-    return d_021F0688;
+    return gDefiantHandlers;
 }

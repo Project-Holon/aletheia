@@ -27,7 +27,7 @@
  *   OSi_ReferSymbol  0x02004EB0  arm
  *   d_02005108     0x02005108  data
  *   func_02082BCC  0x02082BCC  arm
- *   d_021B60CC     0x021B60CC  data ov013
+ *   gVctState     0x021B60CC  data ov013
  *   gVctSession     0x021B60D8  data ov013
  *   VCT_SESSION_Init  0x021B0508  arm ov013
  *   VCT_SESSION_InitPeerPool  0x021B22B4  arm ov013
@@ -35,7 +35,7 @@
  *   VCT_POOL_InitFrames  0x021B2ED8  arm ov013
  *   VCT_POOL_Reset  0x021B2F98  arm ov013
  *   VCT_SESSION_ClearMemberCount  0x021B0600  arm ov013
- *   func_021B23E0  0x021B23E0  arm ov013
+ *   VCT_SESSION_CheckAnnounceTimeout  0x021B23E0  arm ov013
  *   VCT_AUDIO_SendFrameStep  0x021B11E8  arm ov013
  *   VCT_AUDIO_DecodePendingFrames  0x021B111C  arm ov013
  *   VCT_AUDIO_ReceiveFrame  0x021B0F38  arm
@@ -63,7 +63,7 @@ extern void VCT_SESSION_ClearPeerLists(void);
 extern int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size);
 extern void VCT_POOL_Reset(void);
 extern void VCT_SESSION_ClearMemberCount(void);
-extern void func_021B23E0(void);
+extern void VCT_SESSION_CheckAnnounceTimeout(void);
 extern int VCT_AUDIO_SendFrameStep(void);
 extern int VCT_AUDIO_DecodePendingFrames(void);
 extern unsigned long long func_020870D0(void);
@@ -497,7 +497,7 @@ int VCT_Init(VctInitParams *params)
     OSi_ReferSymbol(d_02005108);
     if (params == 0)
         return 0;
-    if (d_021B60CC.initialized != 0)
+    if (gVctState.initialized != 0)
         return 1;
     if (params->mode != 1 && params->mode != 2 && params->mode != 3)
         return 0;
@@ -508,13 +508,13 @@ int VCT_Init(VctInitParams *params)
     if (params->frameBuffer % 32 != 0)
         return 0;
     func_02082BCC(&gVctSession, 0, sizeof(VctSession));
-    d_021B60CC.session.eventCallback = params->eventCallback;
-    d_021B60CC.session.callbackArg = params->callbackArg;
-    d_021B60CC.session.mode = params->mode;
-    d_021B60CC.session.sharedSession = 0;
+    gVctState.session.eventCallback = params->eventCallback;
+    gVctState.session.callbackArg = params->callbackArg;
+    gVctState.session.mode = params->mode;
+    gVctState.session.sharedSession = 0;
     if (params->localId >= 0x20)
         return 0;
-    d_021B60CC.session.localId = params->localId;
+    gVctState.session.localId = params->localId;
     if (VCT_POOL_InitFrames((VctRxPacket *)params->frameBuffer, params->frameBufferSize) == 0) {
         VCT_POOL_Reset();
         return 0;
@@ -524,7 +524,7 @@ int VCT_Init(VctInitParams *params)
         return 0;
     }
     if (VCT_SESSION_Init() != 0) {
-        d_021B60CC.initialized = 1;
+        gVctState.initialized = 1;
         return 1;
     }
     VCT_SESSION_ClearPeerLists();
@@ -541,19 +541,19 @@ void VCT_Exit(void)
     VCT_SESSION_ClearMemberCount();
     VCT_SESSION_ClearPeerLists();
     VCT_POOL_Reset();
-    d_021B60CC.session.mode = 0;
-    d_021B60CC.initialized = 0;
+    gVctState.session.mode = 0;
+    gVctState.initialized = 0;
 }
 
 
 
 void VCT_Update(void)
 {
-    if (d_021B60CC.initialized == 0)
+    if (gVctState.initialized == 0)
         return;
-    d_021B60CC.tickCount++;
-    if ((d_021B60CC.tickCount & 0xf) == 0)
-        func_021B23E0();
+    gVctState.tickCount++;
+    if ((gVctState.tickCount & 0xf) == 0)
+        VCT_SESSION_CheckAnnounceTimeout();
     if (VCT_AUDIO_SendFrameStep())
         VCT_AUDIO_DecodePendingFrames();
 }
@@ -568,7 +568,7 @@ int VCT_ReceiveFrame(int senderId, VctFrameHeader *frame, int length)
     case 0:
         break;
     case 1:
-        d_021B60CC.session.eventCallback(senderId, event.code, event.peer, d_021B60CC.session.callbackArg);
+        gVctState.session.eventCallback(senderId, event.code, event.peer, gVctState.session.callbackArg);
         return 1;
     case 2:
         return 0;
@@ -588,13 +588,13 @@ int VCT_ParseFrame(int senderId, VctFrameHeader *header, int length, VctEvent *e
         return 0;
     if (header->magic != 0x5F564354)
         return 2;
-    if (d_021B60CC.session.mode == 0 || d_021B60CC.initialized == 0)
+    if (gVctState.session.mode == 0 || gVctState.initialized == 0)
         return 0;
     eventOut->code = 0;
     eventOut->peer = 0;
     tick = func_020870D0();
     if ((header->type & 0xf0) == 0x40) {
-        d_021B60CC.audioFrameCount++;
+        gVctState.audioFrameCount++;
         VCT_AUDIO_ReceiveFrame(senderId, (VctAudioFrame *)header, length, tick);
         return 0;
     }

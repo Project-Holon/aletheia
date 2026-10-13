@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0202D7D8",
+   "name": "POKEGRA_RegisterPalette",
    "address": "0x0202D7D8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202D81C",
+   "name": "POKEGRA_RegisterCgr",
    "address": "0x0202D81C",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202D898",
+   "name": "POKEGRA_RegisterCellAnim",
    "address": "0x0202D898",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0202D8D0",
+   "name": "POKEGRA_RegisterPalettePP",
    "address": "0x0202D8D0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202D934",
+   "name": "POKEGRA_RegisterCgrPP",
    "address": "0x0202D934",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202D9A4",
+   "name": "POKEGRA_RegisterCellAnimPP",
    "address": "0x0202D9A4",
    "kind": "game",
    "region": "arm9",

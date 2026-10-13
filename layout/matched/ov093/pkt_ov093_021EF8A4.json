@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWC_StartUtilityEx",
+   "name": "BTL_FIELD_SetCountdown",
    "address": "0x021EF8A4",
    "kind": "sdk",
    "region": "ov093",

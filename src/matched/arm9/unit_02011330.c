@@ -8,23 +8,23 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02011330, func_0201134C, VM_PushStack, VM_PopStack,
+ * function: VM_GetU16, VM_GetU32, VM_PushStack, VM_PopStack,
  *           VM_Jump, VM_Call, VM_Return
  *
  * Seven functions, no external calls at all, over two small structs read and
  * written by cursor.  Two of the seven carry no label in the generated
- * listing at all: func_0201134C and VM_Jump, both leaves whose
+ * listing at all: VM_GetU32 and VM_Jump, both leaves whose
  * prologue (or total absence of one) saves no `lr`
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * VM_Jump is four bytes, `str r1, [r0, #0x14]; bx lr`: the plain
  * setter of the +0x14 field that VM_Call and VM_Return reach only
  * through a history ring.
  *
- * func_02011330 and func_0201134C are a matched pair, a little-endian u16
+ * VM_GetU16 and VM_GetU32 are a matched pair, a little-endian u16
  * and u32 read off a byte cursor at +0x14, advancing it by 2 and by 4.
- * func_0201134C carries no label in the generated listing: it opens with
+ * VM_GetU32 carries no label in the generated listing: it opens with
  * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
- * fires on it and its 48 bytes print as a `.word` run between func_02011330
+ * fires on it and its 48 bytes print as a `.word` run between VM_GetU16
  * and VM_PushStack (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * Its four byte reads are built MSB-first through a Horner chain
  * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
@@ -64,7 +64,7 @@ struct Stream {
     u8 *cursor;
 };
 
-u16 func_02011330(struct Stream *s)
+u16 VM_GetU16(struct Stream *s)
 {
     u8  b0, b1;
     u16 t;
@@ -77,7 +77,7 @@ u16 func_02011330(struct Stream *s)
     return b0 + t;
 }
 
-u32 func_0201134C(struct Stream *s)
+u32 VM_GetU32(struct Stream *s)
 {
     u8  b0, b1, b2, b3;
     u32 v;

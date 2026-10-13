@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02027858
+ * function: APP_TASKMENU_CloseMenu
  * address:  0x02027858
  * packet:   pkt_02027778
  * region:   arm9
@@ -11,12 +11,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201C4E4  0x0201C4E4  thumb
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_020452E8  0x020452E8  arm
- *   func_020456F8  0x020456F8  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02045730  0x02045730  arm
  *   func_02045770  0x02045770  arm
  *
@@ -40,8 +40,8 @@
  * label.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02027858.c \
- *       --func func_02027858 --addr 0x02027858 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/APP_TASKMENU_CloseMenu.c \
+ *       --func APP_TASKMENU_CloseMenu --addr 0x02027858 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -64,16 +64,16 @@ struct TaskMenu {
 
 struct Descriptor;
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern u32 func_020307B0(void *p);
 extern void func_02041B6C(u32 bit);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
 
-void func_02027858(struct TaskMenu *m)
+void APP_TASKMENU_CloseMenu(struct TaskMenu *m)
 {
     void *owner;
     u8 i;
@@ -84,12 +84,12 @@ void func_02027858(struct TaskMenu *m)
     for (i = 0; i < m->count; i++) {
         while (func_0201C6C4(m->unk_34->unk_14,
                              func_02045770(m->cells[i])) != 0) {
-            func_0201C4E4(m->unk_34->unk_14);
+            PRINTSYS_QUE_Main(m->unk_34->unk_14);
         }
     }
 
     for (j = 0; j < m->count; j++) {
-        func_020456F8(m->cells[j]);
+        BMP_WIN_ClearScreen(m->cells[j]);
         func_020452E8(m->cells[j]);
     }
 

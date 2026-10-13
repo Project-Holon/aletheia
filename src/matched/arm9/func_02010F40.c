@@ -1,5 +1,5 @@
 /*
- * function: func_02010F40
+ * function: GPOWER_ClearByPowerId
  * address:  0x02010F40
  * packet:   pkt_02010F18
  * region:   arm9
@@ -26,7 +26,7 @@ typedef struct {
 
 extern void GPOWER_ClearType(int idx);
 
-void func_02010F40(int idx, Entry *tbl)
+void GPOWER_ClearByPowerId(int idx, Entry *tbl)
 {
     GPOWER_ClearType(tbl[idx].slot);
 }

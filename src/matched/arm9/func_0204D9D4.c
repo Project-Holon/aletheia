@@ -11,13 +11,13 @@
  *
  * symbols:
  *   s_clact_c      0x020A7F74  data
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   func_020834C0  0x020834C0  arm
  *   sub_02030734   0x02030734  arm
  *   sub_020307B0   0x020307B0  arm
  *
  * Load an archive member, optionally decompressing it.  Both arms read the
- * member with func_02049250 into a scratch block taken from the far end of
+ * member with ARC_TOOL_LoadHandleMember into a scratch block taken from the far end of
  * the caller's heap, (heapId & 0x7fff) | 0x8000, the same "allocate high"
  * form src/matched/unit_02045C44.c uses.  When the third argument is set the
  * block is treated as a compressed image: its first word carries the
@@ -58,7 +58,7 @@ struct CompHeader {
 extern char s_clact_c[];
 
 struct ArcFile;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern u32 sub_020307B0(void *p);
@@ -70,13 +70,13 @@ void *CLACT_LoadArchiveData(void *owner, u32 which, u32 compressed, u32 heapId)
     struct CompHeader *raw;
 
     if (compressed != 0) {
-        raw = (struct CompHeader *)func_02049250(owner, which,
+        raw = (struct CompHeader *)ARC_TOOL_LoadHandleMember(owner, which,
                   (u16)((heapId & 0x7fff) | 0x8000));
         out = sub_02030734(heapId, raw->header >> 8, 0, s_clact_c, 0x1ba5);
         func_020834C0(raw, out);
         sub_020307B0(raw);
     } else {
-        out = func_02049250(owner, which,
+        out = ARC_TOOL_LoadHandleMember(owner, which,
                   (u16)((heapId & 0x7fff) | 0x8000));
     }
     return out;

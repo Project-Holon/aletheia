@@ -8,30 +8,30 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020433E0 0x020433E0 arm
- *   func_0204A48C 0x0204A48C arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
+ *   CLACT_InitSystem 0x0204A48C arm
  *   func_021E57E8 0x021E57E8 thumb
  *   func_02043534 0x02043534 arm
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   d_021E7D40 0x021E7D40 data a4
  *   d_021E7CC8 0x021E7CC8 data a4
  */
 #include "../include/Obj22814.h"
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 struct Cfg;
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern void func_021E57E8(int);
 typedef unsigned int   u32;
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern const char d_021E7D40[];
 extern const char d_021E7CC8[];
 void func_021E53F8(char *p)
 {
-    func_020433E0((const struct DispVram *)d_021E7D40);
-    func_0204A48C((const struct Cfg *)d_021E7CC8, (unsigned int)d_021E7D40, ((struct Obj22814 *)p)->f5F4);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021E7D40);
+    CLACT_InitSystem((const struct Cfg *)d_021E7CC8, (unsigned int)d_021E7D40, ((struct Obj22814 *)p)->f5F4);
     func_021E57E8(0);
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
 }

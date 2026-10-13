@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B8B9C 0x021B8B9C thumb ov093
+ *   BTL_MAIN_IsClientUsed 0x021B8B9C thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B8B9C(unsigned char *p, unsigned char k);
-u32 func_021B9064(u8 *p, int k, int x) { u8 m; k &= 1; k ^= 1; if(x) { m=k+((x&1)<<1); if(func_021B8B9C(p,m)) k=m; } return k; }
+extern int BTL_MAIN_IsClientUsed(unsigned char *p, unsigned char k);
+u32 func_021B9064(u8 *p, int k, int x) { u8 m; k &= 1; k ^= 1; if(x) { m=k+((x&1)<<1); if(BTL_MAIN_IsClientUsed(p,m)) k=m; } return k; }

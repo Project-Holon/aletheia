@@ -21,11 +21,11 @@
  * handle to `archive_id`, size the member, take a block of exactly that size
  * from the caller's heap, read the member into it, close the handle and hand
  * the block back.  The __FILE__ argument is "arc_tool.c" at 0x020A7EE0, the
- * same string src/matched/sub_020490F4.c already pins, with line 0xbb.
+ * same string src/matched/ARC_TOOL_CreateHandle.c already pins, with line 0xbb.
  *
- * This is the function the whole map-model path goes through: func_02048F60
+ * This is the function the whole map-model path goes through: ARC_TOOL_LoadMember
  * calls it as ARC_TOOL_LoadMemberRangeImpl(9, matrix_id, heap, 0, NULL), and ov010's
- * func_02159B94 is what supplies archive id 9 (a/0/0/9) and the matrix id
+ * MAP_MATRIX_Load is what supplies archive id 9 (a/0/0/9) and the matrix id
  * read out of the zone record's +0x04 lane.  See docs/ASSETS.md.
  *
  * Addresses are Black-image addresses.

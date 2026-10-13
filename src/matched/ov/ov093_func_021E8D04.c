@@ -1,5 +1,5 @@
 /*
- * function: func_021E8D04
+ * function: BTLV_CORE_GetLowByte
  * address:  0x021E8D04
  * packet:   pkt_021E8D04
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-int func_021E8D04(int x)
+int BTLV_CORE_GetLowByte(int x)
 {
     return (unsigned char)x;
 }

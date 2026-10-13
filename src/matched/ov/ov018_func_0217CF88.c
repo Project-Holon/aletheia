@@ -1,5 +1,5 @@
 /*
- * function: func_0217CF88
+ * function: INTRUDE_SUBDISP_ScriptApplyCommState
  * address:  0x0217CF88
  * packet:   pkt_ov018_0217CF88
  * region:   ov018
@@ -10,53 +10,53 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012138  0x02012138  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026474  0x02026474  thumb
- *   func_0217BBCC  0x0217BBCC  thumb  ov018
- *   func_0217BBD8  0x0217BBD8  thumb  ov018
- *   func_0217BC94  0x0217BC94  thumb  ov018
- *   func_0217C194  0x0217C194  thumb  ov018
+ *   INTRUDE_FIELD_ResetExtraAreaCount  0x0217BBCC  thumb  ov018
+ *   INTRUDE_FIELD_AddAreaMaps  0x0217BBD8  thumb  ov018
+ *   INTRUDE_FIELD_AddAreaMapCount  0x0217BC94  thumb  ov018
+ *   INTRUDE_FIELD_AddMarkerMmdls  0x0217C194  thumb  ov018
  */
 
 struct Ctx;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned int   u32;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012138(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned char  u8;
 extern u32 func_02026454(void *obj);
 extern u32 func_02026474(void *obj);
-extern void func_0217BBCC(int a, int b, char *p);
-extern void func_0217BBD8(u8 *a, int b, u8 *c);
-extern void func_0217BC94(int a, int n);
-extern void func_0217C194();
+extern void INTRUDE_FIELD_ResetExtraAreaCount(int a, int b, char *p);
+extern void INTRUDE_FIELD_AddAreaMaps(u8 *a, int b, u8 *c);
+extern void INTRUDE_FIELD_AddAreaMapCount(int a, int n);
+extern void INTRUDE_FIELD_AddMarkerMmdls();
 
-int func_0217CF88(int a0, int a1)
+int INTRUDE_SUBDISP_ScriptApplyCommState(int a0, int a1)
 {
     void *w;
     void *c;
     int h;
     int v;
 
-    w = func_0215A5DC((void *)a1);
-    func_020120F4((const struct Ctx *)w);
-    c = func_0201210C((void *)w);
-    h = func_02012138(w);
+    w = SCRCMD_WORK_GetGameSystem((void *)a1);
+    GAMESYSTEM_GetGameData((const struct Ctx *)w);
+    c = GAMESYSTEM_GetFieldMap((void *)w);
+    h = GAMESYSTEM_GetGameComm(w);
     v = 0;
     if (func_02026454((void *)h) == 2)
         v = func_02026474((void *)h);
     if (v != 0) {
-        func_0217BBCC((int)c, (int)w, (char *)v);
-        func_0217BBD8((u8 *)c, (int)w, (u8 *)v);
+        INTRUDE_FIELD_ResetExtraAreaCount((int)c, (int)w, (char *)v);
+        INTRUDE_FIELD_AddAreaMaps((u8 *)c, (int)w, (u8 *)v);
     } else {
-        func_0217BC94((int)c, 1);
+        INTRUDE_FIELD_AddAreaMapCount((int)c, 1);
     }
-    func_0217C194(c);
+    INTRUDE_FIELD_AddMarkerMmdls(c);
     return 0;
 }

@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   BMP_WIN_Exit  0x020450C8  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -18,5 +21,5 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_0203F9B4(void);
-extern void func_020450C8(void);
-void func_021BA640(int a0) { func_0203F9B4(); func_020450C8(); }
+extern void BMP_WIN_Exit(void);
+void func_021BA640(int a0) { func_0203F9B4(); BMP_WIN_Exit(); }

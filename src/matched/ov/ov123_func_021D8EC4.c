@@ -14,6 +14,7 @@
  *   func_021D62B4 0x021D62B4 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8E98 0x021D8E98 thumb ov123
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
  */
 #include "../include/Obj01545.h"
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u32 func_020307B0(void *p);
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
-extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void func_02009294(struct Sub02009210Obj *obj, const void *src);
 extern void func_02007664(void *save, u32 box, u32 slot);
 extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
@@ -45,7 +46,7 @@ void func_021D8EC4(char *p)
     }
     t=func_02007A18(((struct Obj01545 *)p)->f24,((struct Obj01545 *)p)->f48,((struct Obj01545 *)p)->f4C);
     if (t) {
-        q=func_0201747C(t,((struct Obj01545 *)p)->f0);
+        q=POKE_TOOL_CreateFromBoxParam(t,((struct Obj01545 *)p)->f0);
         func_02009294(v,q);
         ((struct Obj01545 *)p)->fC=q;
         func_02007664(((struct Obj01545 *)p)->f24,((struct Obj01545 *)p)->f48,((struct Obj01545 *)p)->f4C);

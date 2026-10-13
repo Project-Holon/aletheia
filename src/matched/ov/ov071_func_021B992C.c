@@ -1,5 +1,5 @@
 /*
- * function: func_021B992C
+ * function: MONOLITH_TOOL_LIST_FitBackground
  * address:  0x021B992C
  * packet:   pkt_ov071_021B992C
  * region:   ov071
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 extern void func_02041300(u32 a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g);
 extern void func_020409B4(u32 a);
 
-void func_021B992C(char *a)
+void MONOLITH_TOOL_LIST_FitBackground(char *a)
 {
     int x;
     int t;

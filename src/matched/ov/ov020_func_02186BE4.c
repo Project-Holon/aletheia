@@ -1,5 +1,5 @@
 /*
- * function: func_02186BE4
+ * function: FIELD_WFBC_DATA_LOCAL_ScrCmdMarkFacingPerson
  * address:  0x02186BE4
  * packet:   pkt_ov020_02186BE4
  * region:   ov020
@@ -10,38 +10,39 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_0218DC70  0x0218DC70  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_021A3460  0x021A3460  thumb  ov021
- *   func_0216DDC0  0x0216DDC0  thumb  ov010
- *   func_02186090  0x02186090  thumb
- *   func_02193B40  0x02193B40  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetWfbc  0x0218DC70  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
+ *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl  0x02186090  thumb
+ *   FIELD_WFBC_ApplyGiftMood  0x02193B40  thumb  ov021
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  */
 
 typedef short s16;
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_02158F58(int a0);
-extern u32 func_02188C98(unsigned char *p);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u32 FIELDMAP_GetG3dMapper(unsigned char *p);
 typedef unsigned char  u8;
-extern void *func_0218DC70(u8 *p);
-extern void *func_0215A5E4(void *a0);
+extern void *FIELD_G3D_MAPPER_GetWfbc(u8 *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02188C7C(u8 *p);
-extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
-extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
-extern int func_02186090(void *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern int FIELD_PLAYER_GetFrontGridPos(u32 a, u32 b, u32 c, u32 d);
+extern void *FLDMMDL_SysSearchGridPos(u32 a, u32 b, u32 c, u32 d);
+extern int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(void *p);
 struct V;
-extern void func_02193B40(struct V *v, u32 key);
+extern void FIELD_WFBC_ApplyGiftMood(struct V *v, u32 key);
 
-int func_02186BE4(int a0, int a1)
+int FIELD_WFBC_DATA_LOCAL_ScrCmdMarkFacingPerson(int a0, int a1)
 {
     int *s;
     void *a;
@@ -50,12 +51,12 @@ int func_02186BE4(int a0, int a1)
     int e;
     s16 v[3];
 
-    s = (int *)func_02158F58((int)func_0215A5F4((void *)a1));
-    a = func_0218DC70((u8 *)func_02188C98((unsigned char *)s[1]));
-    c = func_02188CB4((struct Obj00020 *)s[1]);
-    d = func_02188C7C((u8 *)s[1]);
-    func_021A3460((u32)c, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
-    e = func_02186090(func_0216DDC0((u32)d, v[2], v[0], 0));
-    func_02193B40(a, e);
+    s = (int *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)a1));
+    a = FIELD_G3D_MAPPER_GetWfbc((u8 *)FIELDMAP_GetG3dMapper((unsigned char *)s[1]));
+    c = FIELDMAP_GetFieldPlayer((struct Obj00020 *)s[1]);
+    d = FIELDMAP_GetMmdlSys((u8 *)s[1]);
+    FIELD_PLAYER_GetFrontGridPos((u32)c, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
+    e = FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(FLDMMDL_SysSearchGridPos((u32)d, v[2], v[0], 0));
+    FIELD_WFBC_ApplyGiftMood(a, e);
     return 0;
 }

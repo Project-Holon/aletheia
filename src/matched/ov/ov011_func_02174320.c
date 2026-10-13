@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_020127AC  0x020127AC  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
  *   func_02082D44  0x02082D44  arm
  */
 
@@ -26,9 +26,9 @@ struct Link;
 struct SaveBlock;
 u32 func_02026478(void *obj);
 struct Entry;
-struct Entry *func_020399A8(void);
-u32 func_0203D1A4(struct Link *p);
-void *func_020127AC(struct SaveBlock *p, u32 idx);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+u32 GFL_NET_GetHandleNetID(struct Link *p);
+void *GAME_DATA_GetBattleRecSlot(struct SaveBlock *p, u32 idx);
 void func_02082D44(void *d, int s, int n);
 
 void INTRUDE_CMD_RecvProfile(int a, int b, void *c, char *d)
@@ -36,8 +36,8 @@ void INTRUDE_CMD_RecvProfile(int a, int b, void *c, char *d)
     int p;
 
     p = func_02026478((void *)(((int *)d)[1]));
-    if (a != func_0203D1A4((struct Link *)((int)func_020399A8())) && ((unsigned char)d[0x8fb] & (1 << a))) {
-        func_02082D44(c, (int)func_020127AC((struct SaveBlock *)p, a), 0x10);
+    if (a != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) && ((unsigned char)d[0x8fb] & (1 << a))) {
+        func_02082D44(c, (int)GAME_DATA_GetBattleRecSlot((struct SaveBlock *)p, a), 0x10);
         if (a == ((H *)(d + 0x86))->f) {
             d[0x8fb + 0xb] = 1;
         }

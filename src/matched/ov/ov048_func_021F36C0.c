@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: FIELD_GIMMICK_GATE_Init
  * address:  0x021F36C0
  * packet:   pkt_ov048_021F36C0
  * region:   ov048
@@ -10,63 +10,63 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
- *   func_021F3880  0x021F3880  thumb  ov048
- *   func_021F392C  0x021F392C  thumb  ov048
- *   func_021F3BC0  0x021F3BC0  thumb  ov048
- *   func_021F37FC  0x021F37FC  thumb  ov048
- *   func_021F3908  0x021F3908  thumb  ov048
- *   func_021F3818  0x021F3818  thumb  ov048
- *   func_021F3830  0x021F3830  thumb  ov048
- *   func_021F3D78  0x021F3D78  thumb  ov048
- *   func_021F3870  0x021F3870  thumb  ov048
- *   func_021F39E4  0x021F39E4  thumb  ov048
- *   func_021F39BC  0x021F39BC  thumb  ov048
- *   d_021F4E94     0x021F4E94  data  a4
+ *   FIELD_GIMMICK_GATE_CreateWork  0x021F3880  thumb  ov048
+ *   FIELD_GIMMICK_GATE_LoadBoardRecord  0x021F392C  thumb  ov048
+ *   FIELD_GIMMICK_GATE_LoadNewsList  0x021F3BC0  thumb  ov048
+ *   FIELD_GIMMICK_GATE_LoadState  0x021F37FC  thumb  ov048
+ *   FIELD_GIMMICK_GATE_InitMiscSaveValue  0x021F3908  thumb  ov048
+ *   FIELD_GIMMICK_GATE_StoreMiscSaveValue  0x021F3818  thumb  ov048
+ *   FIELD_GIMMICK_GATE_RestoreLoggedFlags  0x021F3830  thumb  ov048
+ *   GIMMICK_OBJ_ELBOARD_FillMessages  0x021F3D78  thumb  ov048
+ *   FIELD_GIMMICK_GATE_ApplyBoardScroll  0x021F3870  thumb  ov048
+ *   FIELD_GIMMICK_GATE_PlaceBoardModel  0x021F39E4  thumb  ov048
+ *   FIELD_GIMMICK_GATE_StartBoardAnime  0x021F39BC  thumb  ov048
+ *   gGateExpObjSetups     0x021F4E94  data  a4
  */
 
 typedef unsigned char u8;
 
-extern u8 d_021F4E94[];
+extern u8 gGateExpObjSetups[];
 
 struct Big;
 struct Ctx;
 struct Sub02008700Obj;
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern void func_021BE760(int a, void *b, int c);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(int a, void *b, int c);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int CONFIG_GetAppliedFlag(unsigned short *p);
 struct Obj;
-extern struct Obj *func_021F3880(int a);
-extern void func_021F392C(struct Obj *o);
-extern void func_021F3BC0(u8 *p);
-extern void func_021F37FC(int *p);
-extern void func_021F3908(int *p);
-extern void func_021F3818(int *p);
-extern void func_021F3830(int *p);
-extern void func_021F3D78(void *p);
-extern void func_021F3870(int *p);
-extern void func_021F39E4(int *p);
-extern void func_021F39BC(int *p);
+extern struct Obj *FIELD_GIMMICK_GATE_CreateWork(int a);
+extern void FIELD_GIMMICK_GATE_LoadBoardRecord(struct Obj *o);
+extern void FIELD_GIMMICK_GATE_LoadNewsList(u8 *p);
+extern void FIELD_GIMMICK_GATE_LoadState(int *p);
+extern void FIELD_GIMMICK_GATE_InitMiscSaveValue(int *p);
+extern void FIELD_GIMMICK_GATE_StoreMiscSaveValue(int *p);
+extern void FIELD_GIMMICK_GATE_RestoreLoggedFlags(int *p);
+extern void GIMMICK_OBJ_ELBOARD_FillMessages(void *p);
+extern void FIELD_GIMMICK_GATE_ApplyBoardScroll(int *p);
+extern void FIELD_GIMMICK_GATE_PlaceBoardModel(int *p);
+extern void FIELD_GIMMICK_GATE_StartBoardAnime(int *p);
 
-void func_021F36C0(int a)
+void FIELD_GIMMICK_GATE_Init(int a)
 {
     int r6;
     int r4;
     int *p;
     int v;
 
-    r6 = func_02188D2C((int *)a);
-    v = CONFIG_GetAppliedFlag((short unsigned int *)func_0200873C(func_02012EBC(func_020120F4(func_02188C80((void *)a)))));
+    r6 = FIELDMAP_GetExpObj((int *)a);
+    v = CONFIG_GetAppliedFlag((short unsigned int *)func_0200873C(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a)))));
     if (v != 0) {
         if (v == 1) {
             r4 = 0;
@@ -74,19 +74,19 @@ void func_021F36C0(int a)
     } else {
         r4 = 1;
     }
-    func_021BE760(r6, d_021F4E94 + r4 * 16, 1);
-    p = (int *)func_021F3880(a);
-    func_021F392C((struct Obj *)p);
-    func_021F3BC0((u8 *)p);
-    func_021F37FC(p);
+    FLD_EXP_OBJ_AddUnitFromArchive(r6, gGateExpObjSetups + r4 * 16, 1);
+    p = (int *)FIELD_GIMMICK_GATE_CreateWork(a);
+    FIELD_GIMMICK_GATE_LoadBoardRecord((struct Obj *)p);
+    FIELD_GIMMICK_GATE_LoadNewsList((u8 *)p);
+    FIELD_GIMMICK_GATE_LoadState(p);
     if (p[4] == 0) {
-        func_021F3908(p);
+        FIELD_GIMMICK_GATE_InitMiscSaveValue(p);
     } else {
-        func_021F3818(p);
-        func_021F3830(p);
+        FIELD_GIMMICK_GATE_StoreMiscSaveValue(p);
+        FIELD_GIMMICK_GATE_RestoreLoggedFlags(p);
     }
-    func_021F3D78(p);
-    func_021F3870(p);
-    func_021F39E4(p);
-    func_021F39BC(p);
+    GIMMICK_OBJ_ELBOARD_FillMessages(p);
+    FIELD_GIMMICK_GATE_ApplyBoardScroll(p);
+    FIELD_GIMMICK_GATE_PlaceBoardModel(p);
+    FIELD_GIMMICK_GATE_StartBoardAnime(p);
 }

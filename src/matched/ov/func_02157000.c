@@ -1,5 +1,5 @@
 /*
- * function: func_02157000
+ * function: MUSICAL_STAGE_SYS_SetRemotePerformer
  * address:  0x02157000
  * packet:   pkt_02157000
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02157000(int a0, int a1, int a2)
+int MUSICAL_STAGE_SYS_SetRemotePerformer(int a0, int a1, int a2)
 {
     int a3;
 

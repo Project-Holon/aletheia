@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02047970 0x02047970 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
-extern void func_02047970(void);
-void func_021BC6F0(unsigned char *unused){func_02047970();}
+extern void G3D_SYSTEM_DrawEnd(void);
+void func_021BC6F0(unsigned char *unused){G3D_SYSTEM_DrawEnd();}

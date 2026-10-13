@@ -1,5 +1,5 @@
 /*
- * function: func_021A1B50
+ * function: WEATHER_IsTaskActive
  * address:  0x021A1B50
  * packet:   pkt_ov021_021A1B50
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A21B0  0x021A21B0  thumb  ov021
+ *   WEATHER_TASK_GetPhase  0x021A21B0  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -21,15 +21,15 @@ typedef struct {
     u32 items[2];
 } Obj021A1B50;
 
-int func_021A21B0(u8 *a0);
+int WEATHER_TASK_GetPhase(u8 *a0);
 
-int func_021A1B50(Obj021A1B50 *p)
+int WEATHER_IsTaskActive(Obj021A1B50 *p)
 {
     int i;
 
     if (p != 0) {
         for (i = 0; i < 2; i++) {
-            if (func_021A21B0((u8 *)p->items[i]) == 1)
+            if (WEATHER_TASK_GetPhase((u8 *)p->items[i]) == 1)
                 return 1;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D8C30
+ * function: BTL_CALC_GetAdaptabilityHandlers
  * address: 0x021D8C30
  * packet: pkt_ov093_021D8C30
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D8B50.c and filed here.
  *
  * symbols:
- *   d_021F07D8 0x021F07D8 data ov093 a4
+ *   gAdaptabilityHandlers 0x021F07D8 data ov093 a4
  */
 
-int *func_021D8C30(int *p);
-extern int d_021F07D8[];
+int *BTL_CALC_GetAdaptabilityHandlers(int *p);
+extern int gAdaptabilityHandlers[];
 
-int *func_021D8C30(int *p)
+int *BTL_CALC_GetAdaptabilityHandlers(int *p)
 {
     *p = 1;
-    return d_021F07D8;
+    return gAdaptabilityHandlers;
 }

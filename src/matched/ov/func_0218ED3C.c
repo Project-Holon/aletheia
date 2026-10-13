@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED3C
+ * function: FIELD_CAMERA_GetViewPitchPtr
  * address:  0x0218ED3C
  * packet:   pkt_0218EC2C
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_0218ED3C(u8 *p)
+u8 *FIELD_CAMERA_GetViewPitchPtr(u8 *p)
 {
     return p + 0x84;
 }

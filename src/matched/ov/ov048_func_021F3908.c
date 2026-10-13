@@ -1,5 +1,5 @@
 /*
- * function: func_021F3908
+ * function: FIELD_GIMMICK_GATE_InitMiscSaveValue
  * address: 0x021F3908
  * packet: pkt_ov048_021F3908
  * region: ov048
@@ -20,4 +20,4 @@ struct Blk34;
 extern void *GAME_DATA_GetSaveControlWork(struct Big *p);
 extern void *func_0200C0E8(void *p);
 extern u16 func_0200C3B0(struct Blk34 *p);
-void func_021F3908(int *p) { if(p[4]==0) { ((struct Obj00377 *)p)->f64=func_0200C3B0(func_0200C0E8(GAME_DATA_GetSaveControlWork((void *)p[2]))); p[4]=1; } }
+void FIELD_GIMMICK_GATE_InitMiscSaveValue(int *p) { if(p[4]==0) { ((struct Obj00377 *)p)->f64=func_0200C3B0(func_0200C0E8(GAME_DATA_GetSaveControlWork((void *)p[2]))); p[4]=1; } }

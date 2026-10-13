@@ -1,5 +1,5 @@
 /*
- * function: func_02186D48
+ * function: FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue
  * address:  0x02186D48
  * packet:   pkt_ov020_02186D48
  * region:   ov020
@@ -10,34 +10,34 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_020127C4  0x020127C4  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02186278  0x02186278  thumb  ov020
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_0218DC70  0x0218DC70  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_020127F0  0x020127F0  thumb
- *   func_021A3460  0x021A3460  thumb  ov021
- *   func_0216DDC0  0x0216DDC0  thumb  ov010
- *   func_02186090  0x02186090  thumb  ov020
- *   func_0216D588  0x0216D588  thumb  ov010
- *   func_02193904  0x02193904  thumb  ov021
- *   func_0219390C  0x0219390C  thumb  ov021
- *   func_02193C00  0x02193C00  thumb  ov021
- *   func_02193C04  0x02193C04  thumb  ov021
- *   func_021867B4  0x021867B4  thumb  ov020
- *   func_021867A8  0x021867A8  thumb  ov020
- *   func_021869AC  0x021869AC  thumb  ov020
- *   func_021869B8  0x021869B8  thumb  ov020
- *   func_021938F4  0x021938F4  thumb  ov021
- *   func_021869D8  0x021869D8  thumb  ov020
- *   func_021869D0  0x021869D0  thumb  ov020
- *   func_02193BE4  0x02193BE4  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetWfbc  0x0218DC70  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
+ *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl  0x02186090  thumb  ov020
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
+ *   FIELD_WFBC_ReloadSaveData  0x02193904  thumb  ov021
+ *   FIELD_WFBC_GetPeople  0x0219390C  thumb  ov021
+ *   FIELD_WFBC_PEOPLE_GetNpcRecord  0x02193C00  thumb  ov021
+ *   FIELD_WFBC_PEOPLE_GetPersonData  0x02193C04  thumb  ov021
+ *   FIELD_WFBC_DATA_LOCAL_IsMoodLow  0x021867B4  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_HasParent  0x021867A8  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetCounter  0x021869AC  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetValue  0x021869B8  thumb  ov020
+ *   FIELD_WFBC_GetPeopleNum  0x021938F4  thumb  ov021
+ *   FIELD_WFBC_DATA_LOCAL_ReadCounter  0x021869D8  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_ReadValue  0x021869D0  thumb  ov020
+ *   FIELD_WFBC_GetPeopleArrivalFlag  0x02193BE4  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -49,38 +49,38 @@ typedef struct {
     int f4;
 } Ent;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
-extern u8 *func_020127C4(void *p);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 typedef unsigned int   u32;
-extern int func_02186278(char *p, int which);
-extern int func_02158F58(int a0);
-extern u32 func_02188C98(u8 *p);
-extern void *func_0218DC70(u8 *p);
+extern int FIELD_WFBC_DATA_LOCAL_CountPeople(char *p, int which);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern void *FIELD_G3D_MAPPER_GetWfbc(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02188C7C(u8 *p);
-extern int func_020127F0(int a0);
-extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
-extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
-extern int func_02186090(void *p);
-extern u16 func_0216D588(void *p);
-extern int func_02193904(void *p);
-extern void *func_0219390C(void *a, unsigned int b);
-extern char *func_02193C00(char *p);
-extern void *func_02193C04(u8 *p);
-extern int func_021867B4(u8 *p);
-extern int func_021867A8(void *a);
-extern u16 func_021869AC(u16 *p);
-extern u16 func_021869B8(u16 *p);
-extern int func_021938F4(unsigned char *a);
-extern u16 func_021869D8(u16 *p);
-extern u16 func_021869D0(char *p);
-extern int func_02193BE4(void *a, unsigned int b);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern int GAME_DATA_GetMysteryRecvFlagB(int a0);
+extern int FIELD_PLAYER_GetFrontGridPos(u32 a, u32 b, u32 c, u32 d);
+extern void *FLDMMDL_SysSearchGridPos(u32 a, u32 b, u32 c, u32 d);
+extern int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(void *p);
+extern u16 FLDMMDL_GetObjId(void *p);
+extern int FIELD_WFBC_ReloadSaveData(void *p);
+extern void *FIELD_WFBC_GetPeople(void *a, unsigned int b);
+extern char *FIELD_WFBC_PEOPLE_GetNpcRecord(char *p);
+extern void *FIELD_WFBC_PEOPLE_GetPersonData(u8 *p);
+extern int FIELD_WFBC_DATA_LOCAL_IsMoodLow(u8 *p);
+extern int FIELD_WFBC_DATA_LOCAL_HasParent(void *a);
+extern u16 FIELD_WFBC_DATA_LOCAL_GetCounter(u16 *p);
+extern u16 FIELD_WFBC_DATA_LOCAL_GetValue(u16 *p);
+extern int FIELD_WFBC_GetPeopleNum(unsigned char *a);
+extern u16 FIELD_WFBC_DATA_LOCAL_ReadCounter(u16 *p);
+extern u16 FIELD_WFBC_DATA_LOCAL_ReadValue(char *p);
+extern int FIELD_WFBC_GetPeopleArrivalFlag(void *a, unsigned int b);
 
-int func_02186D48(int a0, int a1)
+int FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue(int a0, int a1)
 {
     int cur;
     int st;
@@ -99,29 +99,29 @@ int func_02186D48(int a0, int a1)
     void *s;
     s16 v[3];
 
-    m = func_0215A5F4((void *)a1);
-    b = func_0215A5E4((void *)a1);
-    c = (int)func_020127C4(b);
-    kind = func_02159B10((void *)a0, (void *)a1);
-    out = func_02159AE8((void *)a0, (void *)a1);
+    m = SCRCMD_WORK_GetScriptWork((void *)a1);
+    b = SCRCMD_WORK_GetGameData((void *)a1);
+    c = (int)GAME_DATA_GetSecondUnionInfo(b);
+    kind = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    out = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
     if (kind == 3) {
-        *out = func_02186278((char *)c, 0);
+        *out = FIELD_WFBC_DATA_LOCAL_CountPeople((char *)c, 0);
     } else {
-    ent = (Ent *)func_02158F58((int)m);
-    m = func_0218DC70((u8 *)func_02188C98((u8 *)ent->f4));
-    d = func_02188CB4((struct Obj00020 *)ent->f4);
-    w = func_02188C7C((u8 *)ent->f4);
-    s = (void *)func_020127F0((int)b);
-    func_021A3460((u32)d, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
-    obj = func_0216DDC0((u32)w, v[2], v[0], 0);
+    ent = (Ent *)SCRIPT_WORK_ResetFieldParam((int)m);
+    m = FIELD_G3D_MAPPER_GetWfbc((u8 *)FIELDMAP_GetG3dMapper((u8 *)ent->f4));
+    d = FIELDMAP_GetFieldPlayer((struct Obj00020 *)ent->f4);
+    w = FIELDMAP_GetMmdlSys((u8 *)ent->f4);
+    s = (void *)GAME_DATA_GetMysteryRecvFlagB((int)b);
+    FIELD_PLAYER_GetFrontGridPos((u32)d, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
+    obj = FLDMMDL_SysSearchGridPos((u32)w, v[2], v[0], 0);
     if (obj != 0) {
-        cur = func_02186090(obj);
-        st = func_0216D588(obj);
-        func_02193904(m);
-        sub = func_0219390C(m, cur);
+        cur = FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(obj);
+        st = FLDMMDL_GetObjId(obj);
+        FIELD_WFBC_ReloadSaveData(m);
+        sub = FIELD_WFBC_GetPeople(m, cur);
         if (sub != 0) {
-            rec = (int *)func_02193C00(sub);
-            id = func_02193C04(sub);
+            rec = (int *)FIELD_WFBC_PEOPLE_GetNpcRecord(sub);
+            id = FIELD_WFBC_PEOPLE_GetPersonData(sub);
         }
     }
     switch (kind) {
@@ -129,36 +129,36 @@ int func_02186D48(int a0, int a1)
         *out = rec[6];
         break;
     case 1:
-        *out = func_021867B4(id);
+        *out = FIELD_WFBC_DATA_LOCAL_IsMoodLow(id);
         break;
     case 2:
-        *out = func_021867A8(id);
+        *out = FIELD_WFBC_DATA_LOCAL_HasParent(id);
         break;
     case 3:
         break;
     case 4:
-        *out = func_021869AC(s);
+        *out = FIELD_WFBC_DATA_LOCAL_GetCounter(s);
         break;
     case 5:
-        *out = func_021869B8(s);
+        *out = FIELD_WFBC_DATA_LOCAL_GetValue(s);
         break;
     case 6:
-        if (func_021938F4(m) == 0)
+        if (FIELD_WFBC_GetPeopleNum(m) == 0)
             *out = 0;
         else
             *out = 1;
         break;
     case 7:
-        *out = func_021869D8(s);
+        *out = FIELD_WFBC_DATA_LOCAL_ReadCounter(s);
         break;
     case 8:
-        *out = func_021869D0(s);
+        *out = FIELD_WFBC_DATA_LOCAL_ReadValue(s);
         break;
     case 9:
         *out = cur;
         break;
     case 10:
-        *out = func_02193BE4(m, cur);
+        *out = FIELD_WFBC_GetPeopleArrivalFlag(m, cur);
         break;
     case 11:
         *out = st;

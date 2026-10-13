@@ -1,5 +1,5 @@
 /*
- * function: func_0218FDD4
+ * function: FIELD_CAMERA_LerpFx32
  * address:  0x0218FDD4
  * packet:   pkt_ov021_0218FDD4
  * region:   ov021
@@ -17,7 +17,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-int func_0218FDD4(int *p, int *q, int n, int d)
+int FIELD_CAMERA_LerpFx32(int *p, int *q, int n, int d)
 {
     int x0 = *p;
     int x1 = *q;

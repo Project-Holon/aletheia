@@ -1,5 +1,5 @@
 /*
- * function: func_0215A644
+ * function: SCRCMD_WORK_SetTargetObject
  * address:  0x0215A644
  * packet:   pkt_ov010_0215A644
  * region:   ov010
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * Unlabelled leaf (setter through the pointer at +0x20), filed as a blocker
- * of ov021 func_021C459C / func_021C4628.
+ * of ov021 SCRCMD_PLAYER_GRID_EVENT_StartA / SCRCMD_PLAYER_GRID_EVENT_StartB.
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj18789.h"
 
 typedef unsigned int u32;
 
-void func_0215A644(void *p, u32 v)
+void SCRCMD_WORK_SetTargetObject(void *p, u32 v)
 {
     ((struct Obj18789 *)(*(char * *)&((struct Obj00005 *)p)->f20))->f10 = v;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02159340
+ * function: SCRIPT_WORK_CmdCompareRegs
  * address: 0x02159340
  * packet: pkt_ov010_02159340
  * region: ov010
@@ -11,23 +11,23 @@
  * lever: inline byte reader binds the load before incrementing the cursor;
  * a postincrement expression schedules the cursor store before the load.
  * symbols:
- *   func_0215932C 0x0215932C thumb ov010
+ *   SCRIPT_WORK_CompareValues 0x0215932C thumb ov010
  */
 #include "../include/Obj12274.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_0215932C(unsigned int, unsigned int);
+extern int SCRIPT_WORK_CompareValues(unsigned int, unsigned int);
 static inline int ReadByte(u8 *p)
 {
     int v = **(u8 * *)&((struct Obj12274 *)p)->f14;
     (*(u8 * *)&((struct Obj12274 *)p)->f14)++;
     return v;
 }
-int func_02159340(u8 *p)
+int SCRIPT_WORK_CmdCompareRegs(u8 *p)
 {
     u8 a, b;
     a = (*(u32 **)(p + 28))[ReadByte(p)];
     b = (*(u32 **)(p + 28))[ReadByte(p)];
-    p[14] = func_0215932C(a, b);
+    p[14] = SCRIPT_WORK_CompareValues(a, b);
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F44D8
+ * function: GIMMICK_OBJ_ELBOARD_CollectHighlights
  * address:  0x021F44D8
  * packet:   pkt_ov048_021F44D8
  * region:   ov048
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F44B8  0x021F44B8  thumb  ov048
- *   func_021F4590  0x021F4590  thumb  ov048
- *   func_021F45F0  0x021F45F0  thumb  ov048
- *   func_02188C70  0x02188C70  thumb  ov021
+ *   GIMMICK_OBJ_ELBOARD_ClearHighlights  0x021F44B8  thumb  ov048
+ *   GIMMICK_OBJ_ELBOARD_CollectTableHighlights  0x021F4590  thumb  ov048
+ *   GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight  0x021F45F0  thumb  ov048
+ *   FIELDMAP_QueryIssSwitch  0x02188C70  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -24,21 +24,21 @@ typedef struct {
     u8  b[4];
 } Slots;
 
-extern void func_021F44B8(u8 *p);
-extern void func_021F4590(int *p, u8 *out);
-extern void func_021F45F0(int *a, void *b);
-extern int func_02188C70(int *p, int b);
+extern void GIMMICK_OBJ_ELBOARD_ClearHighlights(u8 *p);
+extern void GIMMICK_OBJ_ELBOARD_CollectTableHighlights(int *p, u8 *out);
+extern void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(int *a, void *b);
+extern int FIELDMAP_QueryIssSwitch(int *p, int b);
 
-void func_021F44D8(int *p, Slots *q)
+void GIMMICK_OBJ_ELBOARD_CollectHighlights(int *p, Slots *q)
 {
     Slots s2;
     Slots s1;
     int n, j, k;
 
     n = 0;
-    func_021F44B8((u8 *)q);
-    func_021F4590(p, (u8 *)(&s2));
-    func_021F45F0(p, &s1);
+    GIMMICK_OBJ_ELBOARD_ClearHighlights((u8 *)q);
+    GIMMICK_OBJ_ELBOARD_CollectTableHighlights(p, (u8 *)(&s2));
+    GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(p, &s1);
     for (j = 0; j < 4; j++) {
         if (s1.h[j] == 0x1AB)
             break;
@@ -70,5 +70,5 @@ void func_021F44D8(int *p, Slots *q)
         q->h[3] = r[0x70 / 4];
     }
     for (k = 0; k < 4; k++)
-        q->b[k] = func_02188C70((int *)p[1], q->h[k]);
+        q->b[k] = FIELDMAP_QueryIssSwitch((int *)p[1], q->h[k]);
 }

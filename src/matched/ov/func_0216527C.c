@@ -1,5 +1,5 @@
 /*
- * function: func_0216527C
+ * function: GAME_BEACON_SEARCH_SetInfoBattleBigFourStart
  * address:  0x0216527C
  * packet:   pkt_0216527C
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_SetDetailsBattleBigFour(void *, unsigned);
 
-void func_0216527C(void *a0, unsigned a1)
+void GAME_BEACON_SEARCH_SetInfoBattleBigFourStart(void *a0, unsigned a1)
 {
     ((struct Obj05720 *)a0)->f30 = 0xA;
     ((struct Obj05720 *)a0)->f34 = a1;

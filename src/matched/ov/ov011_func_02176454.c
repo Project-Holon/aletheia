@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203159C  0x0203159C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  *   PROCSYS_Create  0x02031324  arm
  *   func_020120F4  0x020120F4  thumb
@@ -39,7 +39,7 @@ typedef struct {
 
 extern u8 d_02177010[];
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *PROCSYS_Create(int heap);
 struct Ctx;
@@ -66,7 +66,7 @@ int INTRUDE_COMM_PartyProcInit(struct Obj0203159C *a0, int a1, Arg *arg)
     int cnt;
 
     cnt = 0;
-    w = func_0203159C(a0, 0x100, 4);
+    w = PROCSYS_AllocProcWork(a0, 0x100, 4);
     func_02082BCC(w, 0, 0x100);
     ((struct Obj07335 *)w)->fF4 = PROCSYS_Create(4);
     list = func_02012934(func_020120F4((const struct Ctx *)arg->w0));

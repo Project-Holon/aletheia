@@ -1,5 +1,5 @@
 /*
- * function: func_021BB6E4
+ * function: TOWNMAP_GRH_EmptyTask
  * address:  0x021BB6E4
  * packet:   pkt_ov072_021BB6E4
  * region:   ov072
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * Unlabelled empty task callback (a lone `bx lr`) whose address
- * func_021B95A0 passes to func_020056A0 through its pool word 0x021BB6E5.
+ * TOWNMAP_Create passes to func_020056A0 through its pool word 0x021BB6E5.
  */
 
-void func_021BB6E4(void *a, void *b)
+void TOWNMAP_GRH_EmptyTask(void *a, void *b)
 {
 }

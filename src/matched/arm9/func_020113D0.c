@@ -1,5 +1,5 @@
 /*
- * function: func_020113D0
+ * function: VM_SetWait
  * address:  0x020113D0
  * packet:   pkt_020113D0
  * region:   arm9
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj00005.h"
 
-void func_020113D0(char *p, int val)
+void VM_SetWait(char *p, int val)
 {
     p[0xd] = 2;
     *(int *)&((struct Obj00005 *)p)->f10 = val;

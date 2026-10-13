@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F388C",
+   "name": "FIELD_GIMMICK_BSUBWAY_HaltTrainSway",
    "address": "0x021F388C",
    "kind": "game",
    "region": "ov052",

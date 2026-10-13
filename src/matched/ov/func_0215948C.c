@@ -1,5 +1,5 @@
 /*
- * function: func_0215948C
+ * function: SCRIPT_WORK_CmdDiv
  * address:  0x0215948C
  * packet:   pkt_0215948C
  * region:   ov010
@@ -24,7 +24,7 @@ extern u32 VM_PopStack(struct Ring *r);
 extern int func_0209C2B0();
 extern int VM_PushStack();
 
-int func_0215948C(int a0, int a1)
+int SCRIPT_WORK_CmdDiv(int a0, int a1)
 {
     int t4;
     int t5;

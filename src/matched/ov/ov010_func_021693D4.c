@@ -1,5 +1,5 @@
 /*
- * function: func_021693D4
+ * function: FIELD_G3D_MAP_SetPlacement
  * address:  0x021693D4
  * packet:   pkt_ov010_021693D4
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (blocker of ov021 func_0218C4A0).  Stores a 0x14-byte
+ * Unlabelled leaf (blocker of ov021 FIELD_BUILDMODEL_AddEntry).  Stores a 0x14-byte
  * record (word, 12 bytes, halfword) into entry idx of the table at +0x9C.
  */
 #include "../include/Obj05901.h"
@@ -23,7 +23,7 @@ typedef struct V3 {
     u32 a, b, c;
 } V3;
 
-void func_021693D4(u8 *base, u8 *src, u32 idx)
+void FIELD_G3D_MAP_SetPlacement(u8 *base, u8 *src, u32 idx)
 {
     *(u32 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14) = ((struct Obj12385 *)src)->f0;
     *(V3 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14 + 4) = *(V3 *)(src + 4);

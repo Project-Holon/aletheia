@@ -1,5 +1,5 @@
 /*
- * function: func_021ABEE8
+ * function: FIELD_EFFECT_FreeResourceTable
  * address:  0x021ABEE8
  * packet:   pkt_ov021_021ABEE8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021ABF48  0x021ABF48  thumb  ov021
+ *   FIELD_EFFECT_GetResourceDef  0x021ABF48  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -33,11 +33,11 @@ typedef struct {
     void (*fn)(O *o, int arg);
 } T;
 
-extern T *func_021ABF48(int kind);
+extern T *FIELD_EFFECT_GetResourceDef(int kind);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021ABEE8(O *o)
+void FIELD_EFFECT_FreeResourceTable(O *o)
 {
     int i;
     E *e;
@@ -47,7 +47,7 @@ void func_021ABEE8(O *o)
     if (i < o->n) {
         for (; i < o->n; i++, e++) {
             if (e->kind != 0x18) {
-                func_021ABF48(e->kind)->fn(o, e->arg);
+                FIELD_EFFECT_GetResourceDef(e->kind)->fn(o, e->arg);
                 e->kind = 0x18;
                 e->arg = 0;
             }

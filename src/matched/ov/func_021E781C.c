@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_021E781C   0x021E781C  thumb ov093
- *   func_021D775C   0x021D775C  thumb ov093
+ *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   func_021C7CF4   0x021C7CF4  thumb ov093
  *   func_021C88A4   0x021C88A4  thumb ov093
- *   func_021D57FC   0x021D57FC  thumb ov093
+ *   BTL_POKEPARAM_GetTypePair   0x021D57FC  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
  *   func_021C8838   0x021C8838  thumb ov093
  *   func_021C8860   0x021C8860  thumb ov093
  *
- * Gate on func_021D775C(3); the (u8) of func_021D775C(6) keys func_021C7CF4,
- * whose result is halfword-stored through func_021D57FC in record #0x14.  A
+ * Gate on BTL_EVENT_GetVar(3); the (u8) of BTL_EVENT_GetVar(6) keys func_021C7CF4,
+ * whose result is halfword-stored through BTL_POKEPARAM_GetTypePair in record #0x14.  A
  * second record #4 gets the 4<<22 flag in its header word and the two-string
  * tail (c and the key).
  */
@@ -33,10 +33,10 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021D775C(int a);
+int BTL_EVENT_GetVar(int a);
 void *func_021C7CF4(int *p, int i);
 void *func_021C88A4(char *p, int a, int b);
-u16 func_021D57FC(void *p);
+u16 BTL_POKEPARAM_GetTypePair(void *p);
 void func_021C88C8(void *a, void *b);
 void func_021C8838(void *p, int a, int b);
 struct S;
@@ -48,13 +48,13 @@ void func_021E781C(void *a, int b, int c)
     void *r;
     u8 *p;
 
-    if (c != func_021D775C(3))
+    if (c != BTL_EVENT_GetVar(3))
         return;
-    k = (u8)func_021D775C(6);
+    k = (u8)BTL_EVENT_GetVar(6);
     r = func_021C7CF4((int *)b, k);
     p = func_021C88A4((char *)b, 0x14, c);
     ((struct Obj07237 *)p)->f6 = c;
-    ((struct Obj07237 *)p)->f4 = func_021D57FC(r);
+    ((struct Obj07237 *)p)->f4 = BTL_POKEPARAM_GetTypePair(r);
     ((struct Obj07237 *)p)->f7 = 1;
     func_021C88C8((void *)b, p);
     p = func_021C88A4((char *)b, 4, c);

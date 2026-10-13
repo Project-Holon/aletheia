@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj14680.h"
@@ -21,13 +22,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Cfg;
 struct Descriptor;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 
 void func_021BE49C(u8 *p)
 {
-    func_02045374((struct Cfg *)(((struct Obj14680 *)p)->f0));
+    BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj14680 *)p)->f0));
     func_02041B6C(func_02045730((struct Descriptor *)(((struct Obj14680 *)p)->f0)));
 }
 

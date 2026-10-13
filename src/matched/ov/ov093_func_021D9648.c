@@ -1,5 +1,5 @@
 /*
- * function: func_021D9648
+ * function: BTL_TOKUSEI_BlockSickIfTargeted
  * address: 0x021D9648
  * packet: pkt_ov093_021D9648
  * region: ov093
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  */
-extern int func_021D775C(int);
-extern int func_021D76BC(int, unsigned int);
-int func_021D9648(int a, int b, int c)
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int, unsigned int);
+int BTL_TOKUSEI_BlockSickIfTargeted(int a, int b, int c)
 {
-    if (b == func_021D775C(4) && c == func_021D775C(0x1d))
-        return func_021D76BC(0x41, 1);
+    if (b == BTL_EVENT_GetVar(4) && c == BTL_EVENT_GetVar(0x1d))
+        return BTL_EVENT_OverwriteVar(0x41, 1);
     return 0;
 }

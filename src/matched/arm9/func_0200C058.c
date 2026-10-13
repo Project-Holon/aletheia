@@ -13,9 +13,9 @@
  *   func_0200C10C    0x0200C10C  thumb
  *   func_02045B38    0x02045B38  arm
  *   func_02045EC0    0x02045EC0  arm
- *   func_02045A38    0x02045A38  arm
- *   func_02045808    0x02045808  arm
- *   func_02045C04    0x02045C04  arm
+ *   STRBUF_ToChars    0x02045A38  arm
+ *   STRBUF_Delete    0x02045808  arm
+ *   MSGDATA_Delete    0x02045C04  arm
  *   memset           0x02082BCC  arm
  */
 
@@ -43,9 +43,9 @@ struct Rec;
 struct U16Vec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 struct Blk34;
 extern void func_0200C10C(struct Blk34 *p);
 extern void *memset(void *dst, int c, u32 n);
@@ -61,12 +61,12 @@ void func_0200C058(Obj *p)
     p->f14 &= 0xf0000000;
     a = func_02045B38(0, 3, 0x2f, 0x8007);
     b = func_02045EC0(a, 0x151);
-    func_02045A38(b, (u16 *)p->f20, 9);
-    func_02045808(b);
+    STRBUF_ToChars(b, (u16 *)p->f20, 9);
+    STRBUF_Delete(b);
     c = func_02045EC0(a, 0x159);
-    func_02045A38(c, (u16 *)p->f32, 9);
-    func_02045808(c);
-    func_02045C04(a);
+    STRBUF_ToChars(c, (u16 *)p->f32, 9);
+    STRBUF_Delete(c);
+    MSGDATA_Delete(a);
     p->f44 = 0;
     p->f46 = 0;
     p->f47 = 0xff;

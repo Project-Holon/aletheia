@@ -1,5 +1,5 @@
 /*
- * function: func_02014728
+ * function: FIELD_STATUS_CreateSubProcNoFadeEvent
  * address:  0x02014728
  * packet:   pkt_02014628
  * region:   arm9
@@ -22,7 +22,7 @@ struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern u32 FIELD_STATUS_SubProcNoFadeEvent(void *obj, u32 *mode, u32 *args);
 
-void *func_02014728(char *a0, int a1, int a2, int a3, int a4)
+void *FIELD_STATUS_CreateSubProcNoFadeEvent(char *a0, int a1, int a2, int a3, int a4)
 {
     void *r = func_020122C0(a0, 0, (void *)((int)FIELD_STATUS_SubProcNoFadeEvent), 0x14);
     u32 *p = func_020124E8(r);

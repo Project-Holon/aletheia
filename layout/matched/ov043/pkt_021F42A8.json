@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F42A8",
+   "name": "GIMMICK43_SnapElevatorToTop",
    "address": "0x021F42A8",
    "kind": "game",
    "region": "ov043",

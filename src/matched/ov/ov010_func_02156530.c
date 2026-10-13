@@ -1,5 +1,5 @@
 /*
- * function: func_02156530
+ * function: MUSICAL_EVENT_RollProgramRewards
  * address:  0x02156530
  * packet:   pkt_ov010_02156530
  * region:   ov010
@@ -26,16 +26,16 @@
  *   func_02030734  0x02030734  arm
  *   func_0200A750  0x0200A750  thumb
  *   func_0200A81C  0x0200A81C  thumb
- *   func_02156934  0x02156934  thumb  ov010
- *   func_021568E8  0x021568E8  thumb  ov010
+ *   MUSICAL_EVENT_GetScoreCapped  0x02156934  thumb  ov010
+ *   MUSICAL_EVENT_GetPlayerOfSlot  0x021568E8  thumb  ov010
  *   func_021FD8F8  0x021FD8F8  thumb  ov132
  *   func_021FD4F8  0x021FD4F8  thumb  ov132
- *   func_0215736C  0x0215736C  thumb  ov010
+ *   MUSICAL_PROGRAM_GetPropRow  0x0215736C  thumb  ov010
  *   func_0200A644  0x0200A644  thumb
- *   func_021572C0  0x021572C0  thumb  ov010
+ *   MUSICAL_PROGRAM_GetBestCategory  0x021572C0  thumb  ov010
  *   func_02005728  0x02005728  thumb
  *   func_020307B0  0x020307B0  arm
- *   d_02172714  0x02172714  data
+ *   sMusicalEventFileName  0x02172714  data
  *   d_0216FF14  0x0216FF14  data
  *   d_0216FF28  0x0216FF28  data
  */
@@ -93,21 +93,21 @@ struct Ctx;
 struct Deal;
 extern struct BigSub4 *func_0200A750(struct Big *p, u32 index);
 extern u16 func_0200A81C(struct Big *p);
-extern u8 func_02156934(Work *w, u8 idx);
-extern int func_021568E8(int a0, u8 a1);
+extern u8 MUSICAL_EVENT_GetScoreCapped(Work *w, u8 idx);
+extern int MUSICAL_EVENT_GetPlayerOfSlot(int a0, u8 a1);
 extern u32 func_021FD8F8(char *p, u32 index);
 extern u32 func_021FD4F8(struct Ctx *p, u8 key);
-extern int func_0215736C(int a0);
+extern int MUSICAL_PROGRAM_GetPropRow(int a0);
 extern u32 func_0200A644(struct Big *p, u8 index);
-extern u8 func_021572C0(struct Deal *d);
+extern u8 MUSICAL_PROGRAM_GetBestCategory(struct Deal *d);
 extern u32 func_02005728(u32 range);
 extern u32 func_020307B0(void *p);
 
-extern const char d_02172714[];
+extern const char sMusicalEventFileName[];
 extern const u16 d_0216FF14[10];
 extern const u8 d_0216FF28[7][0x28];
 
-void func_02156530(Work *w)
+void MUSICAL_EVENT_RollProgramRewards(Work *w)
 {
     u8 order[10];
     u8 *buf;
@@ -126,7 +126,7 @@ void func_02156530(Work *w)
     const u8 *row;
     u8 t;
 
-    buf = func_02030734(4, 0x28, 1, d_02172714, 0x3F9);
+    buf = func_02030734(4, 0x28, 1, sMusicalEventFileName, 0x3F9);
     sum = 0;
     for (i = 0; i < 10; i++) {
         e = (Slot *)func_0200A750(w->f40, i);
@@ -135,13 +135,13 @@ void func_02156530(Work *w)
         e->f02 = 0;
     }
     if (w->f14 == 0) {
-        sum = func_0200A81C(w->f40) + func_02156934(w, w->f4C);
+        sum = func_0200A81C(w->f40) + MUSICAL_EVENT_GetScoreCapped(w, w->f4C);
     } else {
         for (j = 0; j < 4; j++) {
-            pv = (u16 *)func_021FD8F8(w->f28, func_021568E8((int)w, j));
+            pv = (u16 *)func_021FD8F8(w->f28, MUSICAL_EVENT_GetPlayerOfSlot((int)w, j));
             if (func_021FD4F8(w->f28, j) != 0) {
                 sum += *pv;
-                sum += func_02156934(w, j);
+                sum += MUSICAL_EVENT_GetScoreCapped(w, j);
             }
         }
     }
@@ -151,7 +151,7 @@ void func_02156530(Work *w)
             break;
         }
     }
-    r = func_0215736C((int)w->f38);
+    r = MUSICAL_PROGRAM_GetPropRow((int)w->f38);
     if (r < 7) {
         n = 0;
         for (j = 0, row = d_0216FF28[r]; j < 0x28; j++) {
@@ -162,7 +162,7 @@ void func_02156530(Work *w)
             }
         }
     }
-    q = func_021572C0(w->f38);
+    q = MUSICAL_PROGRAM_GetBestCategory(w->f38);
     for (i = 0; i < 10; i++)
         order[i] = i;
     for (t = 0; t < 10; t++) {
@@ -175,7 +175,7 @@ void func_02156530(Work *w)
     }
     for (i = 0; i < lvl; i++) {
         e = (Slot *)func_0200A750(w->f40, order[i]);
-        c = func_02156934(w, w->f4C);
+        c = MUSICAL_EVENT_GetScoreCapped(w, w->f4C);
         e->f00 = q;
         if ((u8)func_02005728(100) < c && n != 0) {
             x = func_02005728(n);

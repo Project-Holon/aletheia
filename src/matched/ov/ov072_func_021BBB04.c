@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB04
+ * function: TOWNMAP_GRH_VBlankSprites
  * address: 0x021BBB04
  * packet: pkt_ov072_021BBB04
  * region: ov072
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_0204A648(void);
-void func_021BBB04(void *p) { func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void TOWNMAP_GRH_VBlankSprites(void *p) { CLACT_VBlankSystem(); }

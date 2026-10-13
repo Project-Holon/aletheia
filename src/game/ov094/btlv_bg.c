@@ -16,15 +16,15 @@
  *   func_02030734  0x02030734  arm
  *   d_0220AEE0     0x0220AEE0  data  ov094
  *   func_020490F4  0x020490F4  arm
- *   func_0204B100  0x0204B100  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204AF28  0x0204AF28  arm
- *   func_0204ABF0  0x0204ABF0  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
+ *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   func_021F86E0  0x021F86E0  thumb  ov094
  *   CLACT_GetPaletteVramAddress  0x0204AEF4  arm
- *   func_020216D4  0x020216D4  thumb
- *   func_02049238  0x02049238  arm
- *   func_0204B294 0x0204B294 arm
+ *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_020870D0 0x020870D0 arm
  *   func_021F86D4 0x021F86D4 thumb ov094
@@ -32,7 +32,7 @@
  *   d_0220ABC0 0x0220ABC0 data a4
  *   d_0220ABC8 0x0220ABC8 data a4
  *   d_0220ABE0 0x0220ABE0 data a4
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_02030EAC  0x02030EAC  arm
  *   func_0204B22C  0x0204B22C  arm
  *   _ll_udiv       0x0209C00C  arm
@@ -51,8 +51,13 @@
  *   _ffix 0x0209C494 arm
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_021F89BC  0x021F89BC  thumb  ov094
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   func_02040618  0x02040618  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
+ *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
+ *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  */
 #include "../../matched/include/Obj13628.h"
 
@@ -192,28 +197,28 @@ typedef struct {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(u32 id, u32 heap);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_021F86E0(void);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void func_02049238(void * h);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern void func_0204ADA4(u32 i);
-extern u32 func_0204B1CC(struct Bank *bank);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void ARC_TOOL_DeleteHandle(void * h);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern u32 func_020307B0(void *p);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern u64 func_020870D0(void);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern void func_02030EAC(struct Node *n);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void *func_020056A0(void (*cb)(void *), void *ctx, int pri);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
@@ -227,7 +232,7 @@ extern float _fsub(float, float);
 extern int _ffix(float);
 extern int func_021F9260(void *m, int *out);
 extern void func_021F89BC(void *h);
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 W_02209224 *func_02209224(u16 heap);
 void func_022092E8(W_022092E8 *w);
@@ -271,14 +276,14 @@ W_02209224 *func_02209224(u16 heap)
     w = func_02030734(heap, 0x78, 1, d_0220AEE0, 0x81);
     w->heap = heap;
     a = func_020490F4(0xb, (u16)((w->heap & 0x7fff) | 0x8000));
-    w->h0 = (int)func_0204B100(6, 0, w->heap);
-    w->h4 = (int)func_0204B100(6, 0, w->heap);
-    w->h40 = func_0204A6C8(a, 0x7a, 0, 0, w->heap);
-    w->h44 = func_0204AF28(a, 0x7b, 0x7c, w->heap);
-    w->h48 = func_0204ABF0(a, 0xa2, 0, 0xe0, w->heap);
+    w->h0 = (int)CLACT_CreateUnit(6, 0, w->heap);
+    w->h4 = (int)CLACT_CreateUnit(6, 0, w->heap);
+    w->h40 = CLACT_RegisterCharacter(a, 0x7a, 0, 0, w->heap);
+    w->h44 = CLACT_RegisterCellAnim(a, 0x7b, 0x7c, w->heap);
+    w->h48 = CLACT_RegisterPalette(a, 0xa2, 0, 0xe0, w->heap);
     s = (void *)func_021F86E0();
-    func_020216D4(s, 2, (u16)(CLACT_GetPaletteVramAddress(w->h48, 0) >> 1), 0x20);
-    func_02049238(a);
+    PALANM_CopyHwPaletteToSlot(s, 2, (u16)(CLACT_GetPaletteVramAddress(w->h48, 0) >> 1), 0x20);
+    ARC_TOOL_DeleteHandle(a);
     return w;
 }
 
@@ -290,11 +295,11 @@ W_02209224 *func_02209224(u16 heap)
 void func_022092E8(W_022092E8 *w)
 {
     func_02209458((W *)w);
-    func_0204A8D4(w->h40);
-    func_0204AFD8(w->h44);
-    func_0204ADA4(w->h48);
-    func_0204B1CC((struct Bank *)w->h0);
-    func_0204B1CC((struct Bank *)w->h4);
+    CLACT_ReleaseCharacter(w->h40);
+    CLACT_ReleaseCellAnim(w->h44);
+    CLACT_ReleasePalette(w->h48);
+    CLACT_DeleteUnit((struct Bank *)w->h0);
+    CLACT_DeleteUnit((struct Bank *)w->h4);
     func_020307B0(w);
 }
 
@@ -329,7 +334,7 @@ void func_02209318(Work *m, int a, int b)
                 pos.x = icons.v[j];
                 pos.y = y;
                 pos.z = row[j];
-                m->e[i].h[j] = (u32)func_0204B294((void *)*(u32 *)((char *)m + off), m->obj40, m->obj48, m->obj44, &pos, 0, m->heap);
+                m->e[i].h[j] = (u32)CLACT_CreateActor((void *)*(u32 *)((char *)m + off), m->obj40, m->obj48, m->obj44, &pos, 0, m->heap);
                 func_0204B92C((struct Obj *)m->e[i].h[j], 1);
             }
         }
@@ -358,7 +363,7 @@ void func_02209458(W *w)
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 6; j++) {
             if (w->r[i].f[j + 2] != 0) {
-                func_0204B3B4((struct Obj *)w->r[i].f[j + 2]);
+                CLACT_DeleteActor((struct Obj *)w->r[i].f[j + 2]);
                 w->r[i].f[j + 2] = 0;
             }
         }
@@ -429,12 +434,12 @@ void func_02209540(Timer *p, int idx)
     s1 = sec % 10;
     if (r == tbl.v[idx])
         p->base[idx] = 13;
-    func_0204B878(p->d[idx].icon, icon + p->base[idx]);
+    CLACT_SetActorAnimSeq(p->d[idx].icon, icon + p->base[idx]);
     if (m10 == 0) {
         func_0204B3DC(p->d[idx].m10, 0);
     } else {
         func_0204B3DC(p->d[idx].m10, 1);
-        func_0204B878(p->d[idx].m10, m10 + 3 + p->base[idx]);
+        CLACT_SetActorAnimSeq(p->d[idx].m10, m10 + 3 + p->base[idx]);
     }
     if (m10 == 0 && m1 == 0) {
         func_0204B3DC(p->d[idx].m1, 0);
@@ -442,16 +447,16 @@ void func_02209540(Timer *p, int idx)
     } else {
         func_0204B3DC(p->d[idx].m1, 1);
         func_0204B3DC(p->d[idx].colon, 1);
-        func_0204B878(p->d[idx].m1, m1 + 3 + p->base[idx]);
-        func_0204B878(p->d[idx].colon, p->base[idx] + 2);
+        CLACT_SetActorAnimSeq(p->d[idx].m1, m1 + 3 + p->base[idx]);
+        CLACT_SetActorAnimSeq(p->d[idx].colon, p->base[idx] + 2);
     }
     if (m10 == 0 && m1 == 0 && s10 == 0) {
         func_0204B3DC(p->d[idx].s10, 0);
     } else {
         func_0204B3DC(p->d[idx].s10, 1);
-        func_0204B878(p->d[idx].s10, s10 + 3 + p->base[idx]);
+        CLACT_SetActorAnimSeq(p->d[idx].s10, s10 + 3 + p->base[idx]);
     }
-    func_0204B878(p->d[idx].s1, s1 + 3 + p->base[idx]);
+    CLACT_SetActorAnimSeq(p->d[idx].s1, s1 + 3 + p->base[idx]);
 }
 
 
@@ -612,7 +617,7 @@ void func_022099E8(void *h, void *arg)
 
 void func_02209A40(void *h)
 {
-    int *w = *((int **)func_02030EE8(h));
+    int *w = *((int **)TCBL_IsDeletePending(h));
     w[1] &= ~1;
 }
 
@@ -624,7 +629,7 @@ void func_02209A40(void *h)
  */
 void func_02209A54(void *h)
 {
-    int *p = (int *)func_02030EE8(h);
+    int *p = (int *)TCBL_IsDeletePending(h);
 
     func_02040618(3, 0, p[0]);
     func_02040618(3, 3, p[1]);

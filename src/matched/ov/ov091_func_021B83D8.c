@@ -1,5 +1,5 @@
 /*
- * function: func_021B83D8
+ * function: POKELIST_UpdateInputStage
  * address:  0x021B83D8
  * packet:   pkt_ov091_021B83D8
  * region:   ov091
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8A8C  0x021B8A8C  thumb  ov091
- *   func_021B86D8  0x021B86D8  thumb  ov091
- *   func_021B8758  0x021B8758  thumb  ov091
- *   func_021B8508  0x021B8508  thumb  ov091
+ *   POKELIST_UpdateCursorInput  0x021B8A8C  thumb  ov091
+ *   POKELIST_UpdateSwapCommand  0x021B86D8  thumb  ov091
+ *   POKELIST_UpdateHealShareCommand  0x021B8758  thumb  ov091
+ *   POKELIST_HandleCommand  0x021B8508  thumb  ov091
  */
 
 typedef unsigned char u8;
 
-extern void func_021B8A8C(u8 *p);
-extern void func_021B86D8(u8 *p);
-extern void func_021B8758(u8 *p);
-extern void func_021B8508(u8 *p);
+extern void POKELIST_UpdateCursorInput(u8 *p);
+extern void POKELIST_UpdateSwapCommand(u8 *p);
+extern void POKELIST_UpdateHealShareCommand(u8 *p);
+extern void POKELIST_HandleCommand(u8 *p);
 
-void func_021B83D8(u8 *p)
+void POKELIST_UpdateInputStage(u8 *p)
 {
     switch (p[0xe]) {
     case 0:
@@ -31,15 +31,15 @@ void func_021B83D8(u8 *p)
         p[0xf] = 4;
         break;
     case 1:
-        func_021B8A8C(p);
+        POKELIST_UpdateCursorInput(p);
         break;
     case 2:
         if (p[0xc] == 3) {
-            func_021B86D8(p);
+            POKELIST_UpdateSwapCommand(p);
         } else if (p[0xc] == 4) {
-            func_021B8758(p);
+            POKELIST_UpdateHealShareCommand(p);
         } else {
-            func_021B8508(p);
+            POKELIST_HandleCommand(p);
         }
         break;
     }

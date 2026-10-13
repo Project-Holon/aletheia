@@ -1,5 +1,5 @@
 /*
- * function: func_0215A610
+ * function: SCRCMD_WORK_GetMsgDataId
  * address:  0x0215A610
  * packet:   pkt_0215A5D0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0215A610.c \
- *       --func func_0215A610 --addr 0x0215A610 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRCMD_WORK_GetMsgDataId.c \
+ *       --func SCRCMD_WORK_GetMsgDataId --addr 0x0215A610 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17662.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u16 func_0215A610(void *p) { return ((struct Obj17662 *)p)->f18; }
+u16 SCRCMD_WORK_GetMsgDataId(void *p) { return ((struct Obj17662 *)p)->f18; }

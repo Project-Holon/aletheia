@@ -1,5 +1,5 @@
 /*
- * function: func_021896F4
+ * function: FIELDMAP_GetCommKind
  * address:  0x021896F4
  * packet:   pkt_ov021_021896F4
  * region:   ov021
@@ -20,7 +20,7 @@ extern u32 func_02026454(void *obj);
 extern u32 func_0200FB24(void);
 extern u32 func_0202647C(void *obj);
 
-int func_021896F4(void *p)
+int FIELDMAP_GetCommKind(void *p)
 {
     int r = func_02026454(p);
 

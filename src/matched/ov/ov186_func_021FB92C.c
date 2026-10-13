@@ -10,8 +10,8 @@
  * symbols:
  *   func_021FC1F8 0x021FC1F8 thumb ov186
  *   func_0201ED04 0x0201ED04 thumb
- *   func_02045C04 0x02045C04 arm
- *   func_0201D83C 0x0201D83C thumb
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   GF_FONT_Delete 0x0201D83C thumb
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10788.h"
@@ -19,8 +19,8 @@ struct Rec {void *a,*b;unsigned char pad[12];void *handle;};
 struct WordSet;
 extern void func_021FC1F8(int *,int);
 extern unsigned int func_0201ED04(struct WordSet *p);
-extern unsigned int func_02045C04(struct Rec *rec);
-extern unsigned int func_0201D83C(void *ptr);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
+extern unsigned int GF_FONT_Delete(void *ptr);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021FB92C(char *p) {func_021FC1F8((int *)p,0);func_021FC1F8((int *)p,1);func_0201ED04(((struct Obj10788 *)p)->fF0);func_02045C04(*(struct Rec * *)&((struct Obj10788 *)p)->fEC);func_0201D83C(((struct Obj10788 *)p)->fE8);func_020307B0(p);}
+void func_021FB92C(char *p) {func_021FC1F8((int *)p,0);func_021FC1F8((int *)p,1);func_0201ED04(((struct Obj10788 *)p)->fF0);MSGDATA_Delete(*(struct Rec * *)&((struct Obj10788 *)p)->fEC);GF_FONT_Delete(((struct Obj10788 *)p)->fE8);func_020307B0(p);}

@@ -1,5 +1,5 @@
 /*
- * function: func_021B61E8
+ * function: PLIST_COMM_StartSync
  * address: 0x021B61E8
  * packet: pkt_ov090_021B61E8
  * region: ov090
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  */
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
-void func_021B61E8(void *a, int b) { func_02039C68((struct Link *)func_020399A8(), b, 45); }
+void PLIST_COMM_StartSync(void *a, int b) { func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), b, 45); }

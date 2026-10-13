@@ -1,5 +1,5 @@
 /*
- * function: func_021C978C
+ * function: FIELD_DOOR_ANIME_StartOpen
  * address:  0x021C978C
  * packet:   pkt_ov021_021C978C
  * region:   ov021
@@ -12,7 +12,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021C96CC  0x021C96CC  thumb  ov021
+ *   FIELD_DOOR_ANIME_OpenTask  0x021C96CC  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -24,10 +24,10 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern int func_021C96CC(u32 a, u32 *q, u32 *p);
-u32 func_021C978C(u32 a, u32 b, u32 c)
+extern int FIELD_DOOR_ANIME_OpenTask(u32 a, u32 *q, u32 *p);
+u32 FIELD_DOOR_ANIME_StartOpen(u32 a, u32 b, u32 c)
 {
-    u32 t = (u32)func_020122C0((void *)b, (void *)a, func_021C96CC, 0x14);
+    u32 t = (u32)func_020122C0((void *)b, (void *)a, FIELD_DOOR_ANIME_OpenTask, 0x14);
     W *w = func_020124E8((struct Obj *)t);
     w->f0 = b;
     w->f4 = c;

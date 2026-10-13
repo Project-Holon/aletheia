@@ -1,5 +1,5 @@
 /*
- * function: func_02166C4C
+ * function: SYMBOL_MAP_CreatePokeEventTask
  * address: 0x02166C4C
  * packet: pkt_ov010_02166C4C
  * region: ov010
@@ -8,25 +8,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02166B58 0x02166B58 thumb ov010
+ *   SYMBOL_MAP_PokeEventTaskMain 0x02166B58 thumb ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb  arm9
  */
 typedef unsigned char u8;
-extern unsigned int func_02166B58(void *, unsigned int *, unsigned int *);
+extern unsigned int SYMBOL_MAP_PokeEventTaskMain(void *, unsigned int *, unsigned int *);
 typedef unsigned int   u32;
 struct Ctx;
 struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
-void *func_02166C4C(void *a, void *b, void *c) {
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void *SYMBOL_MAP_CreatePokeEventTask(void *a, void *b, void *c) {
     void *task;
     void **w;
-    task = func_020122C0(a, 0, func_02166B58, 24);
+    task = func_020122C0(a, 0, SYMBOL_MAP_PokeEventTaskMain, 24);
     w = func_020124E8(task);
     w[0] = a;
     w[2] = b;
-    w[1] = func_020120F4(a);
+    w[1] = GAMESYSTEM_GetGameData(a);
     w[3] = c;
     return task;
 }

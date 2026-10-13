@@ -1,5 +1,5 @@
 /*
- * function: func_0216E290
+ * function: FLDMMDL_CloseObjCodeArc
  * address:  0x0216E290
  * packet:   pkt_ov010_0216E290
  * region:   ov010
@@ -12,13 +12,13 @@
  * Forwards the pointer at +0x14 to the arm9 routine at 0x02049238.
  *
  * symbols:
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 #include "../include/Obj19134.h"
 
-extern void func_02049238(void *p);
+extern void ARC_TOOL_DeleteHandle(void *p);
 
-void func_0216E290(char *p)
+void FLDMMDL_CloseObjCodeArc(char *p)
 {
-    func_02049238(((struct Obj19134 *)p)->f14);
+    ARC_TOOL_DeleteHandle(((struct Obj19134 *)p)->f14);
 }

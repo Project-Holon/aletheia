@@ -1,5 +1,5 @@
 /*
- * function: func_021CFCF4
+ * function: SCRCMD_GetPartnerCandidateHistoryIndex
  * address:  0x021CFCF4
  * packet:   pkt_ov021_021CFCF4
  * region:   ov021
@@ -21,7 +21,7 @@ typedef struct Tbl021CFCF4 {
     u8 v[5];
 } Tbl021CFCF4;
 
-u8 func_021CFCF4(Tbl021CFCF4 *p, u32 i)
+u8 SCRCMD_GetPartnerCandidateHistoryIndex(Tbl021CFCF4 *p, u32 i)
 {
     u8 r = 0xff;
 

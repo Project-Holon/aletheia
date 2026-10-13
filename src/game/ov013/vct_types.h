@@ -94,7 +94,7 @@ typedef struct VctSession {
     u32 sessionFlags;
 } VctSession;
 
-/* d_021B60CC: library state. The session sits at +0xC; gVctSession names the same bytes. */
+/* gVctState: library state. The session sits at +0xC; gVctSession names the same bytes. */
 typedef struct VctLibState {
     s32 tickCount;
     s32 audioFrameCount;
@@ -192,7 +192,7 @@ typedef struct VctSendBuffer {
     int scheduleRow;        /* 0x8D4: peer count - 1 */
 } VctSendBuffer;
 
-/* d_021B3C84: send side state. The two request flags are volatile: other code
+/* gVctSendState: send side state. The two request flags are volatile: other code
  * (the send switch, the peer add and remove paths) sets them while the encoder runs. */
 typedef struct VctSendState {
     u16 sequence;
@@ -237,7 +237,7 @@ typedef struct VctRxPacketList {
     VctRxPacket *tail;
 } VctRxPacketList;
 
-/* d_021B4C24: frame buffer pool. */
+/* gVoiceFramePool: frame buffer pool. */
 typedef struct VctFramePool {
     VctRxPacket *freeHead;
     VctRxPacket *base;
@@ -377,11 +377,11 @@ struct EchoState {
 
 
 /* ---- data shared between the files of the library ---- */
-extern VctLibState d_021B60CC;
+extern VctLibState gVctState;
 extern VctSession gVctSession;
 extern VctPeerPool gVctPeerPool;
-extern VctFramePool d_021B4C24;
-extern VctSendState d_021B3C84;
+extern VctFramePool gVoiceFramePool;
+extern VctSendState gVctSendState;
 extern VctSendBuffer d_021B42C0;
 extern VctReceiveSource d_021B3CBC[3];
 extern const VctFrameSpec d_021B3AD0[];

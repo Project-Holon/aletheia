@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A9F28",
+   "name": "FIELD_ENCOUNT_Delete",
    "address": "0x021A9F28",
    "kind": "game",
    "region": "ov021",

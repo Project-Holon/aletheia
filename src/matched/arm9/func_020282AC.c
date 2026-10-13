@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BMP_WIN_SetPalette  0x02045798  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -31,7 +31,7 @@ struct T {
 struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_SetPalette(struct Descriptor *p, u8 v);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
@@ -41,6 +41,6 @@ void APP_TASKMENU_WIN_ChangePalette(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4
     p->f1c = a3;
     p->f1e = a4;
     BMP_WIN_SetPalette((void *)p->f00, (u8)(a2 + 1));
-    func_02045374((void *)p->f00);
+    BMP_WIN_MakeScreen((void *)p->f00);
     func_02041B6C(func_02045730((void *)p->f00));
 }

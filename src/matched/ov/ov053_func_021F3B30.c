@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B30
+ * function: GIMMICK53_ClearSlideSe
  * address: 0x021F3B30
  * packet: pkt_ov053_021F3B30
  * region: ov053
@@ -13,4 +13,4 @@
  */
 
 extern void func_02082A7C(int, void *, unsigned int);
-void func_021F3B30(void *p) { func_02082A7C(0,p,0x90); }
+void GIMMICK53_ClearSlideSe(void *p) { func_02082A7C(0,p,0x90); }

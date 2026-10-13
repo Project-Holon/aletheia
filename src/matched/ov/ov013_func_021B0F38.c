@@ -14,10 +14,10 @@
  * register at entry.
  *
  * symbols:
- *   d_021B3C84  0x021B3C84  data  ov013  a4
+ *   gVctSendState  0x021B3C84  data  ov013  a4
  *   d_021B3CBC  0x021B3CBC  data  ov013  a4
  *   d_021B3AD0  0x021B3AD0  data  ov013  a1
- *   func_021B2FB0  0x021B2FB0  arm  ov013
+ *   VCT_POOL_AllocFrame  0x021B2FB0  arm  ov013
  *   VCT_AUDIO_FlushReadyQueue  0x021B1720  arm  ov013
  *   VCT_AUDIO_FlushPendingSlot  0x021B133C  arm  ov013
  *   VCT_AUDIO_FlushAllReadyQueues  0x021B1790  arm  ov013
@@ -87,11 +87,11 @@ typedef struct Voice {
     void *f474;
 } Voice;
 
-extern Ctx3C84 d_021B3C84;
+extern Ctx3C84 gVctSendState;
 extern Chan d_021B3CBC[3];
 extern SizeEnt d_021B3AD0[];
 
-extern Voice *func_021B2FB0(void);
+extern Voice *VCT_POOL_AllocFrame(void);
 extern void VCT_AUDIO_FlushReadyQueue(u32 x);
 extern void VCT_AUDIO_FlushPendingSlot(u32 x);
 extern void VCT_AUDIO_FlushAllReadyQueues(void);
@@ -113,7 +113,7 @@ int VCT_AUDIO_ReceiveFrame(u32 id, Frame *hdr, u32 size, u64 tick)
     u8 *dst;
 
     ch = 0;
-    if (d_021B3C84.f20 == 0)
+    if (gVctSendState.f20 == 0)
         return 0;
 
     for (i = 0; i < 3; i++) {
@@ -140,16 +140,16 @@ int VCT_AUDIO_ReceiveFrame(u32 id, Frame *hdr, u32 size, u64 tick)
         return 0;
     if (size != d_021B3AD0[mode].a * 0x44 + d_021B3AD0[mode].b + 0xc)
         return 0;
-    if ((d_021B3C84.f4 & (id != 0 ? 1 << id : 1)) == 0)
+    if ((gVctSendState.f4 & (id != 0 ? 1 << id : 1)) == 0)
         return 0;
 
-    if ((v = func_021B2FB0()) == 0) {
+    if ((v = VCT_POOL_AllocFrame()) == 0) {
         VCT_AUDIO_FlushReadyQueue(ch->f34);
         VCT_AUDIO_FlushPendingSlot(ch->f34);
-        if ((v = func_021B2FB0()) == 0) {
+        if ((v = VCT_POOL_AllocFrame()) == 0) {
             VCT_AUDIO_FlushAllReadyQueues();
             VCT_AUDIO_FlushPendingAll();
-            v = func_021B2FB0();
+            v = VCT_POOL_AllocFrame();
         }
         if (v == 0)
             return 0;

@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_COMMAND_CallCommand  0x0203A770  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   d_021469D8     0x021469D8  data
  *
  * One slot of a network table: index 0xff aliases to slot 8, the incoming
- * tag must match func_020399A8(), and the entry is swept copy-then-count.
+ * tag must match GFL_NET_HANDLE_GetCurrentHandle(), and the entry is swept copy-then-count.
  * The global pointer at 0x021469D8 is re-read after every call, so the C
  * dereferences it afresh in each statement rather than keeping a local.
  *
@@ -53,7 +53,7 @@ typedef struct {
 extern Obj0203A85C *d_021469D8;
 extern void GFL_NET_COMMAND_CallCommand(u32 a, u32 b, int c, u32 d, u32 e, u32 f);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
 void GFL_NET_COMMAND_RecvHugeData(int a0, u32 a1, void *a2, int a3, volatile int a4)
@@ -63,7 +63,7 @@ void GFL_NET_COMMAND_RecvHugeData(int a0, u32 a1, void *a2, int a3, volatile int
     if (a0 == 0xff) {
         idx = 8;
     }
-    if (a4 != (u32)func_020399A8()) {
+    if (a4 != (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
         return;
     }
     if (d_021469D8->ent[idx].unk12 == 0) {

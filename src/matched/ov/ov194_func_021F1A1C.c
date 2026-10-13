@@ -12,7 +12,7 @@
  * symbols:
  *   func_020413B0 0x020413B0 arm
  *   func_020355C4 0x020355C4 arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020409B4 0x020409B4 arm
  *   func_02082BCC 0x02082BCC arm
@@ -24,7 +24,7 @@ typedef struct Rect {int left,top,right,bottom;} Rect;
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u8 func_020355C4(void);
 struct Actor;
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 struct Obj;
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_020409B4(unsigned),func_02082BCC(void *,int,int);
@@ -57,8 +57,8 @@ void func_021F1A1C(char *p,int mode,const Rect *rect,int flag,int selected)
             ((struct Obj01427 *)p)->fAE=y;
             ((struct Obj01427 *)p)->fB0=rect->right*8-7;
             ((struct Obj01427 *)p)->fB2=y;
-            func_0204B9A0(((struct Obj01427 *)p)->fA4);
-            func_0204B9A0(((struct Obj01427 *)p)->fA8);
+            CLACT_RestartActorAnim(((struct Obj01427 *)p)->fA4);
+            CLACT_RestartActorAnim(((struct Obj01427 *)p)->fA8);
             func_0204B3DC(((struct Obj01427 *)p)->fA4,1);
             func_0204B3DC(((struct Obj01427 *)p)->fA8,1);
         }

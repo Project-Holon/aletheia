@@ -10,28 +10,28 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B86B8  0x021B86B8  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   func_021B9AF8  0x021B9AF8  thumb  ov093
  *   func_021B9B94  0x021B9B94  thumb  ov093
- *   func_021B8670  0x021B8670  thumb  ov093
+ *   BTL_MAIN_GetActivePosPerSide  0x021B8670  thumb  ov093
  *   func_021B9C00  0x021B9C00  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D5C30  0x021D5C30  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_IsSemiInvulnerable  0x021D5C30  thumb  ov093
  */
 #include "../include/Obj09993.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void *func_021B86B8(void ***p);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern char *func_021B9AF8(char *p, int i);
 struct Q1;
 struct S2;
 struct UtilWork;
 extern u8 func_021B9B94(struct Q1 *p);
-extern unsigned int func_021B8670(unsigned int **p);
+extern unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **p);
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D5B68(void *m);
-extern int func_021D5C30(struct UtilWork *p);
+extern int BTL_POKEPARAM_IsFainted(void *m);
+extern int BTL_POKEPARAM_IsSemiInvulnerable(struct UtilWork *p);
 
 u32 func_021CEFFC(u8 *p)
 {
@@ -42,10 +42,10 @@ u32 func_021CEFFC(u8 *p)
     u32 c;
     u8 *w;
     u32 cnt;
-    if (func_021B86B8(*(void *** *)&((struct Obj09993 *)p)->f0) == 0) {
+    if (BTL_MAIN_GetCompetitor(*(void *** *)&((struct Obj09993 *)p)->f0) == 0) {
         arr = func_021B9AF8(*(char * *)&((struct Obj09993 *)p)->f4, 1);
         cnt = func_021B9B94((struct Q1 *)arr);
-        lim = func_021B8670((unsigned int **)(*(void *** *)&((struct Obj09993 *)p)->f0));
+        lim = BTL_MAIN_GetActivePosPerSide((unsigned int **)(*(void *** *)&((struct Obj09993 *)p)->f0));
         if (lim > cnt) {
             lim = cnt;
         }
@@ -53,9 +53,9 @@ u32 func_021CEFFC(u8 *p)
         c = 0;
         for (i = 0; i < lim; i++) {
             w = func_021B9C00((struct S2 *)arr, (u8)i);
-            if (func_021D5B68(w) == 0) {
+            if (BTL_POKEPARAM_IsFainted(w) == 0) {
                 c++;
-                if (func_021D5C30((struct UtilWork *)w) != 0) {
+                if (BTL_POKEPARAM_IsSemiInvulnerable((struct UtilWork *)w) != 0) {
                     flag = 1;
                 }
             }

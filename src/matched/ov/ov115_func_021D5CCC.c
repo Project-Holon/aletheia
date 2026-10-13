@@ -9,13 +9,13 @@
  * status: EXACT*
  * extent: two zero padding bytes at 0x021D5D3A follow the return.
  * symbols:
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045CAC 0x02045CAC arm
- *   func_0201C7D0 0x0201C7D0 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj04468.h"
@@ -23,26 +23,26 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 void func_021D5CCC(u8 *p, u32 n) {
     void *w;
-    if (((struct Obj04468 *)p)->f34==0) ((struct Obj04468 *)p)->f34=(void *)func_020450F0(1,4,7,24,2,11,1);
+    if (((struct Obj04468 *)p)->f34==0) ((struct Obj04468 *)p)->f34=(void *)BMP_WIN_Create(1,4,7,24,2,11,1);
     w=((struct Obj04468 *)p)->f34;
-    func_02043B5C(func_02045770(w),0);
-    func_02045CAC(((struct Obj04468 *)p)->f1C,n,((struct Obj04468 *)p)->f28);
-    func_0201C7D0(func_02045770(w),0,0,((struct Obj04468 *)p)->f28,((struct Obj04468 *)p)->f24,0x3cc0);
-    func_02045334(w);
-    func_02045374(w);
+    BMP_Clear(func_02045770(w),0);
+    MSGDATA_ReadString(((struct Obj04468 *)p)->f1C,n,((struct Obj04468 *)p)->f28);
+    PRINTSYS_PrintColor(func_02045770(w),0,0,((struct Obj04468 *)p)->f28,((struct Obj04468 *)p)->f24,0x3cc0);
+    BMP_WIN_TransferChars(w);
+    BMP_WIN_MakeScreen(w);
     func_02041B6C(1);
 }

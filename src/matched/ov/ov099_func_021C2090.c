@@ -10,7 +10,7 @@
  * status: EXACT
  * Logic read from the listing: state at p+0x8F4 (1 -> clear, flag = 1, call func_020414AC(7)); loop i over 8 slots, idx = i + row(p+0x8EC)*8 + 1; mode = byte p[0x8CB+idx] ? (func_02009864(p->f4, idx-1, 9) != 0) : 2; sel = idx == p[0x8ED] 
  * 
- *  idx == p[0x8F3]; slot = idx == p[0x8ED] ? p[0x8EE] : 0; redraw when flag == 1 or sel; func_021C2224 then (mode != 2) func_021C2274 + func_02045374 + func_021C22E8, else the clear loop (func_02045770, func_02043B5C(.,0), func_02045334 over the slot object and 2 sub objects at p+0x918+i*8+j*4). End: func_02041B6C(7), (6), func_02043598(2,1), (8,1). Pool words verified against the listing.
+ *  idx == p[0x8F3]; slot = idx == p[0x8ED] ? p[0x8EE] : 0; redraw when flag == 1 or sel; func_021C2224 then (mode != 2) func_021C2274 + BMP_WIN_MakeScreen + func_021C22E8, else the clear loop (func_02045770, BMP_Clear(.,0), BMP_WIN_TransferChars over the slot object and 2 sub objects at p+0x918+i*8+j*4). End: func_02041B6C(7), (6), BG_SYS_SetSubPlaneVisible(2,1), (8,1). Pool words verified against the listing.
  * 2026-10-05 wave D4 lane 04: EXACT. Fixes: window loads written as *(void **)(p + i*4 + 0x8F8) at each use (no w locals), px*16 and py*6 written inline at both calls (CSE temps, not named locals), px/py declared before sel.
  * func_021C2274 is called with 5 arguments here (p, obj, idx, slot, i) though its matched C reads 3; func_021C22E8 takes (p, window, idx, slot, x, y).
  * symbols:
@@ -19,12 +19,12 @@
  *   func_021C2274 0x021C2274 thumb ov099
  *   func_021C22E8 0x021C22E8 thumb ov099
  *   func_020414AC 0x020414AC arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -37,12 +37,12 @@ extern void func_021C2224(char *p, u32 a1, u32 a2, u32 mode, u8 slot);
 extern void func_021C2274(char *p, void *window, int id, int slot, int i);
 extern void func_021C22E8(char *p, void *window, int id, int flag, int x, int y);
 extern void func_020414AC(u32 a);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 void func_021C2090(char *p)
 {
@@ -89,21 +89,21 @@ void func_021C2090(char *p)
             func_021C2224(p, (u8)(px * 16), (u8)(py * 6), (u8)mode, (u8)slot);
             if (mode != 2) {
                 func_021C2274(p, *(void **)(p + i * 4 + 0x8F8), idx, slot, i);
-                func_02045374(*(void **)(p + i * 4 + 0x8F8));
+                BMP_WIN_MakeScreen(*(void **)(p + i * 4 + 0x8F8));
                 func_021C22E8(p, p + 0x918 + i * 8, idx, slot, px * 16, py * 6);
             } else {
                 int j;
-                func_02043B5C(func_02045770(*(void **)(p + i * 4 + 0x8F8)), 0);
-                func_02045334(*(void **)(p + i * 4 + 0x8F8));
+                BMP_Clear(func_02045770(*(void **)(p + i * 4 + 0x8F8)), 0);
+                BMP_WIN_TransferChars(*(void **)(p + i * 4 + 0x8F8));
                 for (j = 0; j < 2; j++) {
-                    func_02043B5C(func_02045770(*(void **)(p + i * 8 + j * 4 + 0x918)), 0);
-                    func_02045334(*(void **)(p + i * 8 + j * 4 + 0x918));
+                    BMP_Clear(func_02045770(*(void **)(p + i * 8 + j * 4 + 0x918)), 0);
+                    BMP_WIN_TransferChars(*(void **)(p + i * 8 + j * 4 + 0x918));
                 }
             }
         }
     }
     func_02041B6C(7);
     func_02041B6C(6);
-    func_02043598(2, 1);
-    func_02043598(8, 1);
+    BG_SYS_SetSubPlaneVisible(2, 1);
+    BG_SYS_SetSubPlaneVisible(8, 1);
 }

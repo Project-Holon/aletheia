@@ -1,5 +1,5 @@
 /*
- * function: func_021C447C
+ * function: SODATEYA_CanLearnTm
  * address:  0x021C447C
  * packet:   pkt_ov021_021C447C
  * region:   ov021
@@ -25,7 +25,7 @@ struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
 
-int func_021C447C(u32 a, u32 b, u32 c, u32 d)
+int SODATEYA_CanLearnTm(u32 a, u32 b, u32 c, u32 d)
 {
     u32 y, x, v;
 

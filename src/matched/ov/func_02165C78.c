@@ -1,5 +1,5 @@
 /*
- * function: func_02165C78
+ * function: GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst
  * address:  0x02165C78
  * packet:   pkt_02165C78
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 func_0200E3A4(const u8 *bits, int id);
 
-int func_02165C78(int a0)
+int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(int a0)
 {
     int a1;
 

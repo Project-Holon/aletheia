@@ -1,5 +1,5 @@
 /*
- * function: func_021654D4
+ * function: GAME_BEACON_SEARCH_SetInfoEventBattleNameC
  * address:  0x021654D4
  * packet:   pkt_021654D4
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern int GAME_BEACON_CopyStrbufCodes();
 extern int GAME_BEACON_ResetDetails();
 
-int func_021654D4(int a0, int a1)
+int GAME_BEACON_SEARCH_SetInfoEventBattleNameC(int a0, int a1)
 {
     int t4;
 

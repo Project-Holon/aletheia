@@ -1,5 +1,5 @@
 /*
- * function: func_021854CC
+ * function: EVENT_MAPCHANGE_CreateWarpEventToLocation
  * address:  0x021854CC
  * packet:   pkt_ov020_021854CC
  * region:   ov020
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012B2C  0x02012B2C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_SetPlayerObjectCode  0x02012B2C  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02184504  0x02184504  thumb  ov020
- *   func_02184CEC  0x02184CEC  thumb  ov020
- *   func_02185EB0  0x02185EB0  thumb  ov020
+ *   EVENT_MAPCHANGE_DetachedTailEvent  0x02184504  thumb  ov020
+ *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
+ *   EVENT_MAPCHANGE_UpdateEscapeLocation  0x02185EB0  thumb  ov020
  */
 #include "../include/Obj00248.h"
 
@@ -34,27 +34,27 @@ struct Rec44;
 struct SaveBlock;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
-void *func_020120F4(const struct Ctx *p);
-void *func_020127A4(struct SaveBlock *p);
-void func_02012B2C(struct Rec44 *p, u32 v);
-int func_02184504(int a, int *state, u8 *p);
-void func_02184CEC(void **o, void *p);
-void func_02185EB0(int a, u16 *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+void GAME_DATA_SetPlayerObjectCode(struct Rec44 *p, u32 v);
+int EVENT_MAPCHANGE_DetachedTailEvent(int a, int *state, u8 *p);
+void EVENT_MAPCHANGE_InitWork(void **o, void *p);
+void EVENT_MAPCHANGE_UpdateEscapeLocation(int a, u16 *p);
 
-void *func_021854CC(void *p, int u, int u2, const S7 *src, u16 h)
+void *EVENT_MAPCHANGE_CreateWarpEventToLocation(void *p, int u, int u2, const S7 *src, u16 h)
 {
-    void *r7 = func_020120F4(p);
+    void *r7 = GAMESYSTEM_GetGameData(p);
     void *r0v;
     char *r4;
 
-    func_02012B2C(func_020127A4(r7), 0);
-    r0v = func_020122C0(p, 0, func_02184504, 0x9c);
+    GAME_DATA_SetPlayerObjectCode(GAME_DATA_GetMyPlayerWork(r7), 0);
+    r0v = func_020122C0(p, 0, EVENT_MAPCHANGE_DetachedTailEvent, 0x9c);
     r4 = func_020124E8(r0v);
-    func_02184CEC((void **)r4, p);
+    EVENT_MAPCHANGE_InitWork((void **)r4, p);
     *(S7 *)(r4 + 0x10) = *src;
     ((struct Obj00248 *)r4)->f18 = h;
     ((struct Obj00248 *)r4)->f2C = 0;
     ((struct Obj00248 *)r4)->f30 = 1;
-    func_02185EB0((int)r7, (u16 *)(r4 + 0x10));
+    EVENT_MAPCHANGE_UpdateEscapeLocation((int)r7, (u16 *)(r4 + 0x10));
     return r0v;
 }

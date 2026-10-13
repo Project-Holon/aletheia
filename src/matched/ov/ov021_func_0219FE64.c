@@ -1,5 +1,5 @@
 /*
- * function: func_0219FE64
+ * function: FLDMMDL_DRAW_ResetBlactAnime
  * address:  0x0219FE64
  * packet:   pkt_ov021_0219FE64
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216D7A8  0x0216D7A8  thumb  ov010
- *   func_0216D910  0x0216D910  thumb  ov010
- *   func_0219C9DC  0x0219C9DC  thumb  ov021
- *   func_0205085C  0x0205085C  arm
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_CallDrawGetProc  0x0216D7A8  thumb  ov010
+ *   FLDMMDL_GetBlActCont  0x0216D910  thumb  ov010
+ *   FLDMMDL_BLACT_GetBbActSys  0x0219C9DC  thumb  ov021
+ *   BILLBOARD_ACT_SetEntryCursor  0x0205085C  arm
  * Addresses are Black-image addresses.
  */
 
@@ -23,21 +23,21 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern u16 func_0216D598(void *p);
-extern int func_0216D7A8(void *p, unsigned int v);
-extern int func_0216D910(int a0);
-extern u32 func_0219C9DC(u8 *p);
-extern void func_0205085C(void *p, int idx, u32 v);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern int FLDMMDL_CallDrawGetProc(void *p, unsigned int v);
+extern int FLDMMDL_GetBlActCont(int a0);
+extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *p);
+extern void BILLBOARD_ACT_SetEntryCursor(void *p, int idx, u32 v);
 
-void func_0219FE64(u32 a)
+void FLDMMDL_DRAW_ResetBlactAnime(u32 a)
 {
     u16 v;
     u16 z;
-    if (func_0216D598((void *)a) == 0x7B) {
+    if (FLDMMDL_GetObjCode((void *)a) == 0x7B) {
         z = 0;
-        v = func_0216D7A8((void *)a, 0);
+        v = FLDMMDL_CallDrawGetProc((void *)a, 0);
         if (v != 0xFFFF) {
-            func_0205085C((void *)func_0219C9DC((u8 *)func_0216D910(a)), v, z);
+            BILLBOARD_ACT_SetEntryCursor((void *)FLDMMDL_BLACT_GetBbActSys((u8 *)FLDMMDL_GetBlActCont(a)), v, z);
         }
     }
 }

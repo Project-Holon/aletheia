@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B6374",
+   "name": "ITEMMENU_MoveCursorUp",
    "address": "0x021B6374",
    "kind": "game",
    "region": "ov070",

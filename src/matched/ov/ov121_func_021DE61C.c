@@ -8,26 +8,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CBAC 0x0203CBAC arm
- *   func_02043598 0x02043598 arm
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_StartSession 0x0203CBAC arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02010360 0x02010360 thumb
- *   func_0203D010 0x0203D010 arm
+ *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE6F8 0x021DE6F8 thumb ov121
  *   d_021DFABC 0x021DFABC data a4
  */
 #include "../include/Obj10424.h"
 struct Req;
-extern void func_0203CBAC(struct Req *req, unsigned int a2, unsigned int a3);
+extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int a3);
 typedef unsigned int   u32;
-extern void func_02043598(u32 mask, u32 enable);
-extern int func_0203CD98(void);
-extern void func_0203D34C(unsigned, unsigned);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
 typedef unsigned char  u8;
 extern u8 *func_02010360(int idx, void *heap);
-extern void func_0203D010(void);
+extern void GFL_NET_BeaconScanStart(void);
 extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE6F8(int, int, char *);
 extern unsigned d_021DFABC[];
@@ -35,20 +35,20 @@ void func_021DE61C(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_0203CBAC((struct Req *)d_021DFABC, 0, (unsigned)p);
-        func_02043598(0x10, 0);
+        GFL_NET_StartSession((struct Req *)d_021DFABC, 0, (unsigned)p);
+        BG_SYS_SetSubPlaneVisible(0x10, 0);
         *state = 1;
         break;
     case 1:
-        if (func_0203CD98()) {
-            func_0203D34C(1, ((struct Obj10424 *)p)->f58);
+        if (GFL_NET_GetRunState()) {
+            GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj10424 *)p)->f58);
             ((struct Obj10424 *)p)->f10 = func_02010360(4, (void *)(((struct Obj10424 *)p)->f58));
-            func_0203D010();
+            GFL_NET_BeaconScanStart();
             *state = 2;
         }
         break;
     case 2:
-        func_02043598(0x10, 1);
+        BG_SYS_SetSubPlaneVisible(0x10, 1);
         func_021DEEA4(a, func_021DE6F8);
         break;
     }

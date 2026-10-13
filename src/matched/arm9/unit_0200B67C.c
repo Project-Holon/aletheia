@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: BATTLE_REC_SaveSeq, func_0200B6E0
+ * function: BATTLE_REC_SaveSeq, BATTLE_REC_Save
  *
  * 264 bytes, 0x0200B67C..0x0200B784, 2 functions, both labelled.  Every
  * concrete byte reproduces.
@@ -17,7 +17,7 @@
  * caller in the whole image and that caller is here:
  *
  *   0x02007324  reached only from 0x0200B6A6, inside BATTLE_REC_SaveSeq
- *   0x0200B7D8  reached only from 0x0200B71A, inside func_0200B6E0
+ *   0x0200B7D8  reached only from 0x0200B71A, inside BATTLE_REC_Save
  *
  * Shrinking the range to one function keeps the call that needs the witness in
  * it, which is the limit `docs/MATCHING.md` states for the cut remedy, so no
@@ -29,15 +29,15 @@
  * wrong anyway: the two belong to different original files.
  *
  * alias: inside "battle_rec.c"; the two steps of the record-save state machine
- * that BATTLE_REC_LoadToWork and func_0200B5CC read back.
+ * that BATTLE_REC_LoadToWork and BATTLE_REC_CheckSaved read back.
  *
  * Three things cost time here.
  *
- *  - func_02012EBC is declared with **one** parameter, not four.  The call
+ *  - GAME_DATA_GetSaveControl is declared with **one** parameter, not four.  The call
  *    leaves r1 through r3 holding this function's own second, third and fourth
  *    arguments, which reads like a four-argument call and is not one: declaring
  *    four parameters keeps `b` live from the entry and the whole of
- *    func_0200B6E0's case 0 is then allocated the other way round, with the two
+ *    BATTLE_REC_Save's case 0 is then allocated the other way round, with the two
  *    sub-record pointers sharing registers with `b` instead of with `a`.  Seven
  *    bytes, and none of them in the arithmetic.  src/matched/unit_0200C9EC.c
  *    declares the same extern with one parameter.
@@ -56,6 +56,9 @@
  *   BATTLE_REC_MakeHeader  0x0200B7D8  thumb
  *   BATTLE_REC_Encode  0x0200B908  thumb
  *   BATTLE_REC_SetBodyCrc  0x0200BA44  thumb
+ *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
+ *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  */
 
 typedef unsigned char  u8;
@@ -96,10 +99,10 @@ extern struct BattleRec *pBattleRec;
 
 struct Big;
 struct Sub02007324Ctrl;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void func_02007324(struct Sub02007324Ctrl *ctrl, u32 id, u32 heap, u32 a, u32 b);
-extern void  func_02012E4C(u8 *a, u32 c);
-extern int func_02012E7C(char *p, int a1);
+extern void  GAME_DATA_PartSaveStart(u8 *a, u32 c);
+extern int GAME_DATA_PartSaveMain(char *p, int a1);
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 extern void  BATTLE_REC_SetBodyCrc(struct RecC4 *p);
 extern void  BATTLE_REC_Encode(void *a, u32 b, u32 c);
@@ -108,17 +111,17 @@ extern void  BATTLE_REC_MakeHeader(void *h, struct QRec *q, const struct RecC4 *
 
 u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
 {
-    void *h = func_02012EBC(a);
+    void *h = GAME_DATA_GetSaveControl(a);
     u32 r;
 
     switch (*state) {
     case 0:
         func_02007324(h, c, e, (u32)pBattleRec, 0x2000);
-        func_02012E4C(a, c);
+        GAME_DATA_PartSaveStart(a, c);
         (*state)++;
         break;
     case 1:
-        r = func_02012E7C(a, c);
+        r = GAME_DATA_PartSaveMain(a, c);
         if (r == 2 || r == 3) {
             func_0200734C(h, c);
             return r;
@@ -128,7 +131,7 @@ u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
     return 0;
 }
 
-u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
+u32 BATTLE_REC_Save(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
 {
     void *h;
     struct BattleRec *p;
@@ -136,7 +139,7 @@ u32 func_0200B6E0(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
     struct RecC4 *r;
     u16 v;
 
-    h = func_02012EBC(a);
+    h = GAME_DATA_GetSaveControl(a);
 
     switch (*state) {
     case 0:

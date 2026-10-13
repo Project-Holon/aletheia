@@ -1,5 +1,5 @@
 /*
- * function: func_021B8FE4
+ * function: FRAME_LIST_UploadRowTiles
  * address:  0x021B8FE4
  * packet:   pkt_ov067_021B8FE4
  * region:   ov067
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BGWINFRM_GetBgFrame  0x0202CF8C  thumb
- *   func_021B8FA0  0x021B8FA0  thumb  ov067
+ *   FRAME_LIST_ClampBgFrameId  0x021B8FA0  thumb  ov067
  *   BUTTON_MAN_CallHandlerById  0x02051B0C  arm
  *   BGWINFRM_SetFrameData  0x0202CAC4  thumb
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
@@ -20,7 +20,7 @@
  *   func_02045758  0x02045758  arm
  *   func_02045760  0x02045760  arm
  *   func_02045770  0x02045770  arm
- *   func_020437D4  0x020437D4  arm
+ *   BMP_GetPixels  0x020437D4  arm
  *   func_02082A90  0x02082A90  arm
  */
 
@@ -46,7 +46,7 @@ struct S {
 
 struct WinMgr;
 extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
-extern int func_021B8FA0(int x);
+extern int FRAME_LIST_ClampBgFrameId(int x);
 extern int BUTTON_MAN_CallHandlerById(int i);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
@@ -57,10 +57,10 @@ extern u8 func_02045750(struct Descriptor *p);
 extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 
-void func_021B8FE4(struct S *s, u32 a1, u32 a2)
+void FRAME_LIST_UploadRowTiles(struct S *s, u32 a1, u32 a2)
 {
     u8 *gfx;
     int vram;
@@ -76,7 +76,7 @@ void func_021B8FE4(struct S *s, u32 a1, u32 a2)
 
     res = (void *)s->f38[a2].f0;
     map = s->f40[s->f28[a1].f0];
-    vram = BUTTON_MAN_CallHandlerById(func_021B8FA0(BGWINFRM_GetBgFrame(s->f3c, a2)));
+    vram = BUTTON_MAN_CallHandlerById(FRAME_LIST_ClampBgFrameId(BGWINFRM_GetBgFrame(s->f3c, a2)));
     BGWINFRM_SetFrameData(s->f3c, a2, map);
     BGWINFRM_PutBmpWin(s->f3c, a2, res);
     stride = s->f4;
@@ -84,7 +84,7 @@ void func_021B8FE4(struct S *s, u32 a1, u32 a2)
     h = func_02045750(res);
     x0 = func_02045758(res);
     y0 = func_02045760(res);
-    gfx = func_020437D4(func_02045770(res));
+    gfx = BMP_GetPixels(func_02045770(res));
     for (i = 0; i < h; i++) {
         for (j = 0; j < w; j++) {
             func_02082A90((u8 *)vram + (map[x0 + j + (i + y0) * stride] & 0x3ff) * 32,

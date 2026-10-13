@@ -1,5 +1,5 @@
 /*
- * function: func_021BD1FC
+ * function: PLACE_NAME_LETTER_GetX
  * address:  0x021BD1FC
  * packet:   pkt_021BD1FC
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021BD2DC with no argument change.
+ * Tail-call thunk: forwards to PLACE_NAME_LETTER_GetIntX with no argument change.
  *
  * symbols:
- *   func_021BD2DC  0x021BD2DC  thumb  ov021
+ *   PLACE_NAME_LETTER_GetIntX  0x021BD2DC  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021BD2DC(u32 *p);
+extern void PLACE_NAME_LETTER_GetIntX(u32 *p);
 
-void func_021BD1FC(u32 *a0)
+void PLACE_NAME_LETTER_GetX(u32 *a0)
 {
-    func_021BD2DC(a0);
+    PLACE_NAME_LETTER_GetIntX(a0);
 }

@@ -12,8 +12,8 @@
  * 31324 forwards r0 to matched 31354(int), which returns allocation.
  * 3064C visibly receives three inputs here; retain caller's r2 size.
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   func_021C9288 0x021C9288 thumb ov212
@@ -32,8 +32,8 @@
 #include "../include/Obj25650.h"
 typedef unsigned short u16;
 struct Obj0203159C;struct Blk37;
-extern void func_0203064C(unsigned,unsigned,unsigned);
-extern void *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
+extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,unsigned char,unsigned);
 extern void *PROCSYS_Create(int);
 extern u16 func_021C9288(struct Blk37 *,u16 **,unsigned);
@@ -42,8 +42,8 @@ extern void func_021C9380(struct Blk37 *,unsigned char *);
 int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
 {
     char *p;
-    func_0203064C(1,105,0x8000);
-    p=func_0203159C(obj,44,105);
+    GFL_HEAP_CreateChildHeap(1,105,0x8000);
+    p=PROCSYS_AllocProcWork(obj,44,105);
     func_02082BCC(p,0,44);
     ((struct Obj00635 *)p)->f0=ctx;
     ((struct Obj00635 *)p)->f4=PROCSYS_Create(105);

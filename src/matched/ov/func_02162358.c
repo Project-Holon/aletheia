@@ -1,5 +1,5 @@
 /*
- * function: func_02162358
+ * function: EVENT_FIELD_PROCLINK_ClearReturnPendingSlot
  * address:  0x02162358
  * packet:   pkt_02162358
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int func_02082BCC();
 
-void func_02162358(int a0)
+void EVENT_FIELD_PROCLINK_ClearReturnPendingSlot(int a0)
 {
     int a1;
     int a2;

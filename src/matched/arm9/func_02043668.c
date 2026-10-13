@@ -1,5 +1,5 @@
 /*
- * function: func_02043668
+ * function: BG_SYS_GetSubVisiblePlanes
  * address:  0x02043668
  * packet:   pkt_0204361C
  * region:   arm9
@@ -18,15 +18,15 @@
  *   gVisiblePlane  0x02146A48  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02043668.c \
- *       --func func_02043668 --addr 0x02043668 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_GetSubVisiblePlanes.c \
+ *       --func BG_SYS_GetSubVisiblePlanes --addr 0x02043668 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern u32 gVisiblePlane[2];
 
-u32 func_02043668(void)
+u32 BG_SYS_GetSubVisiblePlanes(void)
 {
     return gVisiblePlane[0];
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBC2C",
+   "name": "UNION_CHAT_LOG_GetLine",
    "address": "0x021BBC2C",
    "kind": "game",
    "region": "ov021",

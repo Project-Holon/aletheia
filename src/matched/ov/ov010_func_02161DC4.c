@@ -1,5 +1,5 @@
 /*
- * function: func_02161DC4
+ * function: EVENT_FIELD_PROCLINK_GetEventdataEntry
  * address:  0x02161DC4
  * packet:   pkt_ov010_02161DC4
  * region:   ov010
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02161ECC  0x02161ECC  thumb
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb
  */
 
 typedef unsigned char u8;
 
-extern int func_02161ECC(char *);
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(char *);
 
-char *func_02161DC4(char *p, int id, unsigned mode)
+char *EVENT_FIELD_PROCLINK_GetEventdataEntry(char *p, int id, unsigned mode)
 {
     int i;
     char *b;
@@ -31,11 +31,11 @@ char *func_02161DC4(char *p, int id, unsigned mode)
 
     for (; i < 10; i++) {
         if (mode == 0 || mode == 2) {
-            if (func_02161ECC(a + i * 0x18) != 0 && (u8)p[i * 0x18 + 9] == id)
+            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(a + i * 0x18) != 0 && (u8)p[i * 0x18 + 9] == id)
                 return p + 8 + i * 0x18;
         }
         if (m1 <= 1) {
-            if (func_02161ECC(b + i * 0x18) != 0 && (u8)p[i * 0x18 + 0xF9] == id)
+            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(b + i * 0x18) != 0 && (u8)p[i * 0x18 + 0xF9] == id)
                 return p + 0xF8 + i * 0x18;
         }
     }

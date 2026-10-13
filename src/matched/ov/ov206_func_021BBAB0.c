@@ -10,8 +10,8 @@
  * symbols:
  *   func_021BC0E4 0x021BC0E4 thumb ov206
  *   func_021BC0B0 0x021BC0B0 thumb ov206
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B688 0x0204B688 arm
  *   func_021BBC04 0x021BBC04 thumb ov206
@@ -49,9 +49,9 @@ typedef struct S {
 extern u32 func_021BC0E4(u32 a, u32 b);
 extern int func_021BC0B0(int v);
 typedef signed int     s32;
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
-extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pt, u16 f, u16 g);
+extern struct Obj *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pt, u16 f, u16 g);
 struct Actor;
 struct Node;
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
@@ -72,9 +72,9 @@ void func_021BBAB0(S *p, u32 a, u32 b, u32 idx)
     v = func_021BC0E4(a, b);
     if (v == 0xFFFF) {
         w = p->f1d8;
-        p->a174[idx] = func_0204A6C8((void *)w, func_021BC0B0(a), 1, flag, p->id);
+        p->a174[idx] = CLACT_RegisterCharacter((void *)w, func_021BC0B0(a), 1, flag, p->id);
     } else {
-        p->a174[idx] = func_0204A6C8((void *)p->f1dc, v, 1, flag, p->id);
+        p->a174[idx] = CLACT_RegisterCharacter((void *)p->f1dc, v, 1, flag, p->id);
     }
     pt.x = 0x78;
     pt.y = p->f1b4 + 0x58;
@@ -82,9 +82,9 @@ void func_021BBAB0(S *p, u32 a, u32 b, u32 idx)
     pt.f6 = 1;
     pt.f7 = 0;
     if (a <= 0x1ED && v != 0xFFFF)
-        p->a188[idx] = (u32)func_0204B294((void *)p->f24, p->a174[idx], p->f17c, p->f180, &pt, flag2, p->id);
+        p->a188[idx] = (u32)CLACT_CreateActor((void *)p->f24, p->a174[idx], p->f17c, p->f180, &pt, flag2, p->id);
     else
-        p->a188[idx] = (u32)func_0204B294((void *)p->f24, p->a174[idx], p->f17c, p->f184, &pt, flag2, p->id);
+        p->a188[idx] = (u32)CLACT_CreateActor((void *)p->f24, p->a174[idx], p->f17c, p->f184, &pt, flag2, p->id);
     CLACT_SetActorDrawPriority((void *)p->a188[idx], 1);
     func_0204B688((void *)p->a188[idx], 1);
     func_021BBC04(p);

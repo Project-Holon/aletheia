@@ -30,15 +30,15 @@
  *   func_02045758  0x02045758  arm
  *   func_02045760  0x02045760  arm
  *   func_02045770  0x02045770  arm
- *   func_02043814  0x02043814  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_CopyPixels  0x02043814  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
 typedef unsigned char  u8;
@@ -70,18 +70,18 @@ extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *h);
 struct Bmp;
-extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void PMS_DRAW_Copy(struct PmsDraw *p, u32 i, u32 j)
@@ -99,19 +99,19 @@ void PMS_DRAW_Copy(struct PmsDraw *p, u32 i, u32 j)
     dst = &p->elems[j];
     dx = func_02045758(dst->handle) - func_02045758(src->handle);
     dy = func_02045760(dst->handle) - func_02045760(src->handle);
-    func_02043814((struct Bmp *)((u32)func_02045770((struct Descriptor *)src->handle)), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)dst->handle)));
+    BMP_CopyPixels((struct Bmp *)((u32)func_02045770((struct Descriptor *)src->handle)), (const struct Bmp *)((u32)func_02045770((struct Descriptor *)dst->handle)));
     h = dst->handle;
-    func_02045334(h);
-    func_02045374(h);
+    BMP_WIN_TransferChars(h);
+    BMP_WIN_MakeScreen(h);
     func_02041B6C(func_02045730(h));
 
     for (k = 0; k < 2; k++) {
         v = sub_0202E430(func_02045730(src->handle));
-        func_0204B454(src->actor[k], (struct PtS *)&pt, (u16)v);
+        CLACT_GetActorSurfacePos(src->actor[k], (struct PtS *)&pt, (u16)v);
         pt.x += dx * 8;
         pt.y += dy * 8;
         func_0204B404(dst->actor[k], (const struct Vec2 *)(&pt), (u16)v);
-        func_0204B878(dst->actor[k], CLACT_GetActorAnimSeq(src->actor[k]));
+        CLACT_SetActorAnimSeq(dst->actor[k], CLACT_GetActorAnimSeq(src->actor[k]));
         func_0204B3DC(dst->actor[k], src->enabled[k]);
     }
     dst->live = src->live;

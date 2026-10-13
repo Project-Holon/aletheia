@@ -38,6 +38,7 @@
  *   _pGlyphBmp   0x02146558  data
  *   GF_FONT_ReadGlyph  0x0201DB04  thumb
  *   BMP_BlitPaletteOffset  0x02043AAC  arm
+ *   BMP_GetPixels  0x020437D4  arm
  */
 
 typedef unsigned char  u8;
@@ -48,13 +49,13 @@ typedef signed int     s32;
 extern void *_pGlyphBmp;
 
 struct Bmp;
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 struct Font;
 extern void BMP_BlitPaletteOffset(struct Bmp *dst, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u16 a10);
 extern void GF_FONT_ReadGlyph(struct Font *p, u16 ch, void *c, void *d);
 
 void PRINTSYS_PutGlyph8bpp(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f)
 {
-    GF_FONT_ReadGlyph((struct Font *)d, e, func_020437D4(_pGlyphBmp), (void *)f);
+    GF_FONT_ReadGlyph((struct Font *)d, e, BMP_GetPixels(_pGlyphBmp), (void *)f);
     BMP_BlitPaletteOffset(_pGlyphBmp, (u32)a, 0, 0, b + f[0], c, f[1], f[3], 0xF, 0);
 }

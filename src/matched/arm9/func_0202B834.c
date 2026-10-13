@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Compares the +8 field against ISS_SYS_GetCurrentBgmId() (the +4 field by way of
- * func_020127A4) and returns 1 when they differ, 0 when they match.
+ * GAME_DATA_GetMyPlayerWork) and returns 1 when they differ, 0 when they match.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ISS_SYS_HasBgmChanged.c \

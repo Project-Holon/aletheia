@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  */
 #include "../include/Obj10502.h"
 typedef short s16;
@@ -17,7 +17,7 @@ typedef struct { s16 x,y; } Pair;
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 void func_021DA320(char *p)
 {
     int i;
@@ -31,7 +31,7 @@ void func_021DA320(char *p)
             x=4;
             y=8;
         }
-        func_0204B454(*(void **)(p+i*0x1c+12),(struct PtS *)&s,0);
+        CLACT_GetActorSurfacePos(*(void **)(p+i*0x1c+12),(struct PtS *)&s,0);
         (*(u8 **)(p+i*0x1c+16))[0]=s.y-y;
         (*(u8 **)(p+i*0x1c+16))[2]=s.x-x;
         (*(u8 **)(p+i*0x1c+16))[1]=s.y+y;

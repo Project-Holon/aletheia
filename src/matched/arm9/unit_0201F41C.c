@@ -12,7 +12,7 @@
  *
  * Two wide-string helpers.  func_0201F41C is a bounded copy that always
  * terminates the destination; func_0201F448 is an equality test.  Both read
- * the terminator character from func_02045A98 rather than from a constant,
+ * the terminator character from STRBUF_GetEosChar rather than from a constant,
  * and both hold it in a named local, which is what puts the call result in
  * the left slot of func_0201F41C's `cmp r0, r1`
  * (docs/idioms/cmp-operand-order-names-the-temporary.md).
@@ -30,16 +30,19 @@
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201F41C.c  *       --addr 0x0201F41C --thumb
+ *
+ * symbols:
+ *   STRBUF_GetEosChar  0x02045A98  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 
 void func_0201F41C(const u16 *src, u16 *dst, u32 n)
 {
-    u16 eos = func_02045A98();
+    u16 eos = STRBUF_GetEosChar();
     u32 i;
 
     for (i = 0; i < n; i++) {
@@ -53,7 +56,7 @@ void func_0201F41C(const u16 *src, u16 *dst, u32 n)
 
 u32 func_0201F448(const u16 *a, const u16 *b)
 {
-    u16 eos = func_02045A98();
+    u16 eos = STRBUF_GetEosChar();
 
     while (*a != eos) {
         if (*a != *b) {

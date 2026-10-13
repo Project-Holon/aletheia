@@ -14,21 +14,21 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0204B100 0x0204B100 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_0204ABF0 0x0204ABF0 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
- *   func_020216D4 0x020216D4 thumb
- *   func_0204B294 0x0204B294 arm
- *   func_0204B454 0x0204B454 arm
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
+ *   CLACT_CreateActor 0x0204B294 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
  *   func_021F896C 0x021F896C thumb ov094
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_022090B4 0x022090B4 thumb ov094
  *   func_02209214 0x02209214 thumb ov094
@@ -57,26 +57,26 @@ extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *func_020490F4(u32 id, u32 heap);
 typedef unsigned char  u8;
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 typedef signed int     s32;
 struct Obj;
 struct PalAnmSlot;
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern s32 func_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int func_021F86E0(void);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_020061E4(u32 a);
 extern void func_022090B4(void *, void *);
 extern void func_02209214(void *);
@@ -93,11 +93,11 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     w = func_02030734(heap, 0xe4, 1, d_0220AED0, 0x7a);
     arc = func_020490F4(0xb, (u16)heap);
     w->heap = heap;
-    w->h0 = (u32)func_0204B100(7, 0, w->heap);
-    w->h4 = func_0204A6C8(arc, 0xbd, 0, 0, w->heap);
-    w->h8 = func_0204AF28(arc, 0xbf, 0xc0, w->heap);
-    w->hc = func_0204ABF0(arc, 0xbe, 0, 0xc0, w->heap);
-    func_020216D4((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(w->hc, 0) >> 1), 0x20);
+    w->h0 = (u32)CLACT_CreateUnit(7, 0, w->heap);
+    w->h4 = CLACT_RegisterCharacter(arc, 0xbd, 0, 0, w->heap);
+    w->h8 = CLACT_RegisterCellAnim(arc, 0xbf, 0xc0, w->heap);
+    w->hc = CLACT_RegisterPalette(arc, 0xbe, 0, 0xc0, w->heap);
+    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)func_021F86E0(), 2, (u16)(CLACT_GetPaletteVramAddress(w->hc, 0) >> 1), 0x20);
     {
     Pos pos = {0, 0, 0, 0};
     int side = arg->side;
@@ -105,10 +105,10 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     pos.x = base + (side == 0 ? 0x80 : -0x80);
     pos.y = d_0220AB6C[arg->side].y0;
     for (i = 0; i < 6; i++) {
-        w->e[i].h = func_0204B294((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
-        func_0204B454(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
+        w->e[i].h = CLACT_CreateActor((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
+        CLACT_GetActorSurfacePos(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
         func_0204B92C(w->e[i].h, 1);
-        func_0204B878(w->e[i].h, d_0220AB7C[arg->side][arg->idx[i]]);
+        CLACT_SetActorAnimSeq(w->e[i].h, d_0220AB7C[arg->side][arg->idx[i]]);
         w->e[i].frame = d_0220AB7C[2][arg->idx[i]];
         w->e[i].wait = (i + 1) * 6;
         w->e[i].home = base;
@@ -118,10 +118,10 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     }
     pos.x = d_0220AB6C[arg->side].x1 + (arg->side == 0 ? 0x80 : -0x80);
     pos.y = d_0220AB6C[arg->side].y1;
-    w->e[i].h = func_0204B294((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
-    func_0204B454(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
+    w->e[i].h = CLACT_CreateActor((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
+    CLACT_GetActorSurfacePos(w->e[i].h, (struct PtS *)&w->e[i].pos, 0);
     func_0204B92C(w->e[i].h, 1);
-    func_0204B878(w->e[i].h, d_0220AB7C[arg->side][4]);
+    CLACT_SetActorAnimSeq(w->e[i].h, d_0220AB7C[arg->side][4]);
     w->e[i].frame = d_0220AB7C[arg->side][4];
     w->e[i].wait = 0;
     w->e[i].home = w->e[i].goal = d_0220AB6C[arg->side].x1;
@@ -130,7 +130,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     *ctx = w;
     func_021F896C(func_02030DA8(func_021F86D4(), func_022090B4, ctx, 0), func_02209214, 0);
     w->active = 1;
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
     func_020061E4(0x570);
     return w;
     }

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DD0D4",
-    "func_021DD0E0"
+    "BTL_HANDLER_ITEM_AspearBerryOnEaten",
+    "BTL_HANDLER_ITEM_AddAspearBerry"
+   ],
+   "addresses": [
+    "0x021DD0D4",
+    "0x021DD0E0"
    ],
    "evidence": {
     "sole-ref": [

@@ -10,26 +10,26 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 struct UtilWork;
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D5BDC(struct UtilWork *p, u32 n);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E612C(int a, void *b, int c)
 {
-    if (c == func_021D775C(2)) {
-        if (func_021D5BDC(func_021C7CF4(b, c), 0) != 0)
-            func_021D76BC(0x22, 0x1a);
+    if (c == BTL_EVENT_GetVar(2)) {
+        if (BTL_POKEPARAM_TestContFlag(func_021C7CF4(b, c), 0) != 0)
+            BTL_EVENT_OverwriteVar(0x22, 0x1a);
     }
 }

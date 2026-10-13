@@ -1,5 +1,5 @@
 /*
- * function: func_021BD120
+ * function: FIELD_PLACE_NAME_SetZoneId
  * address:  0x021BD120
  * packet:   pkt_ov021_021BD120
  * region:   ov021
@@ -18,7 +18,7 @@ typedef struct {
     u16 h46;
 } Obj;
 
-void func_021BD120(Obj *p, u16 v)
+void FIELD_PLACE_NAME_SetZoneId(Obj *p, u16 v)
 {
     p->h44 = p->h46;
     p->h46 = v;

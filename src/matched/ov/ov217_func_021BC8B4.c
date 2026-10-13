@@ -13,6 +13,7 @@
  *
  * symbols:
  *   func_021BC8B4  0x021BC8B4  thumb  ov217
+ *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -26,10 +27,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct GfFont;
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 void func_021BC8B4(u32 a0)
 {
     u8 s[4];
-    *(u32 *)&((struct Obj00025 *)(((u8*)a0)))->fC = (u32)func_0201D7EC(23, 0, 0, 0, (u32)(((struct Obj00025 *)(((u8*)a0)))->f8));
+    *(u32 *)&((struct Obj00025 *)(((u8*)a0)))->fC = (u32)GF_FONT_Create(23, 0, 0, 0, (u32)(((struct Obj00025 *)(((u8*)a0)))->f8));
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D028C
+ * function: FLDEFF_BTRAIN_SetHidden
  * address:  0x021D028C
  * packet:   pkt_ov021_021D028C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Stores v at +1 of the object's state.
  *
  * symbols:
- *   func_021AC1E0  0x021AC1E0  thumb
+ *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -20,10 +20,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021AC1E0(u32 a);
+extern int FIELD_EFFECT_GetObjectWork(u32 a);
 
-void func_021D028C(void *obj, u32 v)
+void FLDEFF_BTRAIN_SetHidden(void *obj, u32 v)
 {
     if (obj != 0)
-        ((u8 *)func_021AC1E0((u32)obj))[1] = v;
+        ((u8 *)FIELD_EFFECT_GetObjectWork((u32)obj))[1] = v;
 }

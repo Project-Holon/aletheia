@@ -1,5 +1,5 @@
 /*
- * function: func_021EF884
+ * function: BTL_FIELD_GetCountdownValue
  * address:  0x021EF884
  * packet:   pkt_ov093_021EF884
  * region:   ov093
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF9A8  0x021EF9A8  thumb  ov093
- *   d_021F63F4  0x021F63F4  data  a4
+ *   BTL_FIELD_GetCountdownByte  0x021EF9A8  thumb  ov093
+ *   gBtlFieldCountdown  0x021F63F4  data  a4
  */
 
 #include "../include/G_Countdown.h"
 
-extern struct Countdown d_021F63F4;
+extern struct Countdown gBtlFieldCountdown;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u8 func_021EF9A8(u32 *p);
+extern u8 BTL_FIELD_GetCountdownByte(u32 *p);
 
-int func_021EF884(void)
+int BTL_FIELD_GetCountdownValue(void)
 {
-    return func_021EF9A8((u32 *)(&(*(char *)&d_021F63F4)));
+    return BTL_FIELD_GetCountdownByte((u32 *)(&(*(char *)&gBtlFieldCountdown)));
 }

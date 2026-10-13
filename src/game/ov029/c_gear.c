@@ -1,7 +1,7 @@
 /*
  * file:     c_gear.c
  * unit:     yes
- * function: func_021EFEC0, func_021EFEE4, func_021EFEF8, func_021EFF00, func_021EFF58, func_021F0000, func_021F0064, func_021F009C, func_021F0194, func_021F020C, func_021F0298, func_021F0300, func_021F0370, func_021F0390, func_021F05B4, func_021F05D0, func_021F06B8, func_021F0728, func_021F07AC, func_021F07EC, func_021F0824, func_021F0858, func_021F088C, func_021F08BC, func_021F09B4, func_021F09DC, func_021F0A0C, func_021F0A38, func_021F0A68, func_021F0AA0, func_021F0AC8, func_021F0AE0, func_021F0B00, func_021F0B7C, func_021F0B88, func_021F0C00, func_021F0C68, func_021F0C70, func_021F0CA0, func_021F0CB8, func_021F0CDC, func_021F0CF0, func_021F0D00, func_021F0D08, func_021F0D10, func_021F0D14, func_021F0D48, func_021F0D80, func_021F0DB4, func_021F0E70, func_021F0EB0, func_021F0F28, func_021F0F70, func_021F0FB0, func_021F0FF0, func_021F1000, func_021F1010, func_021F1060, func_021F11B4, func_021F122C, func_021F1290, func_021F133C, func_021F13FC, func_021F1458, func_021F1574, func_021F15FC, func_021F1624, func_021F1740, func_021F1758, func_021F18F0, func_021F1910, func_021F1950, func_021F1A44, func_021F1A64, func_021F1B30, func_021F1B50, func_021F1BBC, func_021F1BE4, func_021F1C0C, func_021F1CD8, func_021F1DB0, func_021F1DE8, func_021F1E98, func_021F1F24, func_021F1F70, func_021F1F80, func_021F20AC, func_021F2130, func_021F2180, func_021F21B4, func_021F21F8, func_021F2370, func_021F23CC, func_021F24C0, func_021F24FC, func_021F2508, func_021F251C, func_021F26E0, func_021F279C, func_021F27D8, func_021F2848, func_021F2980, func_021F2984, func_021F2994, func_021F29D8, func_021F2AB8, func_021F2AD4, func_021F2AEC, func_021F2B9C, func_021F2BB8, func_021F2BD4, CTRDG_IsAgbCartridge, func_021F2C10, func_021F2C78, func_021F2CD4, func_021F2CD8, func_021F2CF4, func_021F2D10, func_021F2D30, func_021F2D50, func_021F2D84, func_021F2DA8, func_021F2DC8, func_021F2E10, func_021F2E5C, func_021F2E68, func_021F2E8C, func_021F2EEC, func_021F2F60, func_021F3098, func_021F30C8, func_021F30EC, func_021F3118, func_021F3144, func_021F3190
+ * function: func_021EFEC0, C_GEAR_SetStepFunc, C_GEAR_ChangeStep, C_GEAR_GetHexNeighbors, C_GEAR_SpawnRippleActor, C_GEAR_AcquireActorSlot, C_GEAR_IsTileActorIdle, C_GEAR_StepRipple, func_021F0194, C_GEAR_HitTestTile, C_GEAR_InitTabTimersPowerOn, C_GEAR_InitTabTimersPowerOff, C_GEAR_ResetTabPalettes, C_GEAR_UpdateTabInput, C_GEAR_IsCallTabActive, C_GEAR_TickTabTimers, C_GEAR_SetTabMode, C_GEAR_UpdateTabPalettes, C_GEAR_UpdateTabPaletteKind3, C_GEAR_UpdateTabPaletteKind1, C_GEAR_UpdateTabPaletteKind2, C_GEAR_UpdateTabPaletteKind0, C_GEAR_UpdateTabPaletteKind4, C_GEAR_BlendTabPalette, C_GEAR_LoadTargetPalette, C_GEAR_SelectTabPalette, C_GEAR_InitTiles, C_GEAR_StepTiles, C_GEAR_IsAnyTileFlashing, C_GEAR_StopTileFlashes, C_GEAR_InitTile, C_GEAR_ResetTileFlash, C_GEAR_StartTileFlash, C_GEAR_StopTileFlash, C_GEAR_StepTileFlash, C_GEAR_SetTileFlashStep, C_GEAR_IsTileFlashing, C_GEAR_GetTilePalette, C_GEAR_InitTabTimer, C_GEAR_TickTabTimer, C_GEAR_IsTabTimerFull, C_GEAR_ResetTabTimerCount, func_021F0D00, func_021F0D08, func_021F0D10, C_GEAR_TileToScreen, C_GEAR_IsIdleForInput, C_GEAR_CountCellsOfKind, C_GEAR_TintPalettes, C_GEAR_StartFlashFade, C_GEAR_FadeBackground, C_GEAR_FadeAccentColors, C_GEAR_StartFadeOut, C_GEAR_StartFadeIn, C_GEAR_StopFade, C_GEAR_GetFadeRequestBits, C_GEAR_DrawEmptyBoard, C_GEAR_StepIntroTiles, C_GEAR_StepOutroTiles, C_GEAR_ResetAllTiles, C_GEAR_DrawTile, C_GEAR_FindCellOfKind, C_GEAR_DrawAllCells, C_GEAR_LoadSkin, C_GEAR_LoadSpriteResources, C_GEAR_LoadFrameGraphics, C_GEAR_SetupBackgrounds, C_GEAR_SetupSubScreenBlend, C_GEAR_HandleButton, C_GEAR_OnButtonEvent, C_GEAR_SetPaintModeIcon, C_GEAR_CreateHudActors, C_GEAR_SetTileMarkersVisible, C_GEAR_SetAllActorsVisible, C_GEAR_SetSplashActorsVisible, C_GEAR_CreateSplashActors, C_GEAR_DeleteSplashActors, C_GEAR_IsSplashDone, C_GEAR_CreateBarActors, C_GEAR_UpdateBeaconColors, C_GEAR_DeleteBarActors, C_GEAR_LoadGraphics, C_GEAR_DeleteActors, C_GEAR_FreeGraphics, C_GEAR_GetBatteryFrame, C_GEAR_UpdateClock, C_GEAR_UpdateTileMarkers, C_GEAR_RunFrame, C_GEAR_StepIdle, C_GEAR_StepIntroEnd, C_GEAR_StepOpen, C_GEAR_StepClose, C_GEAR_LoadCustomBackground, C_GEAR_OnCommDisconnect, C_GEAR_OnCommEvent, C_GEAR_TransferPalettesTask, C_GEAR_Init, C_GEAR_Cleanup, C_GEAR_Create, C_GEAR_Open, C_GEAR_Update, C_GEAR_Nop, C_GEAR_Destroy, C_GEAR_Restart, C_GEAR_HandleCommand, C_GEAR_IsLastCommandKind5, C_GEAR_StopRingtone, C_GEAR_SetCellKind, C_GEAR_GetCellKind, C_GEAR_IsCellMarked, C_GEAR_IsCellKind, CTRDG_IsAgbCartridge, C_GEAR_StepIconAnim, C_GEAR_StepFadeIcon, C_GEAR_NoOp, C_GEAR_ShowOffIndicator, C_GEAR_ShowCommIndicator, C_GEAR_HideCommIndicator, C_GEAR_HideOffIndicator, C_GEAR_TickIndicators, C_GEAR_ApplyIndicators, C_GEAR_IsAnyIndicatorShown, C_GEAR_TickTabFrame, C_GEAR_CreateFadeFx, C_GEAR_DeleteFadeFx, C_GEAR_StartFadeFx, C_GEAR_StepFadeFx, C_GEAR_StartPanelEvent, C_GEAR_PanelEventMain, func_021F3098, C_GEAR_DeleteActorSlots, C_GEAR_AreActorSlotsIdle, C_GEAR_StepWaitSlots, C_GEAR_SetPowerState, C_GEAR_LoadSkinMember
  * address:  0x021EFEC0
  * region:   ov029
  * compiler: dsi/1.1p1
@@ -13,15 +13,15 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0204B878  0x0204B878  arm
- *   func_0204B9A0  0x0204B9A0  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm
  *   CLACT_SetActorSurfacePosAxis  0x0204B49C  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
  *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   d_021F333C     0x021F333C  data  a4
  *   d_021F334C     0x021F334C  data  a4
  *   d_021F31BC     0x021F31BC  data  ov029  a2
@@ -30,8 +30,8 @@
  *   func_02012138  0x02012138  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_0201283C  0x0201283C  thumb
- *   func_0201058C  0x0201058C  thumb
- *   func_02158630  0x02158630  thumb  ov010
+ *   WIH_DWC_PollStatus  0x0201058C  thumb
+ *   INTRUDE_COMM_GetRequestState  0x02158630  thumb  ov010
  *   _s32_div_f     0x0209C0A4  arm
  *   d_021F31EC     0x021F31EC  data  ov029  a4
  *   d_021F31F8     0x021F31F8  data  ov029  a4
@@ -47,13 +47,13 @@
  *   d_021F323C     0x021F323C  data  a1
  *   d_021F32B3 0x021F32B3 data a1
  *   d_021F3344     0x021F3344  data  a4
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_0207D55C 0x0207D55C arm
  *   func_0201210C 0x0201210C thumb
- *   func_02189A48 0x02189A48 thumb ov021
+ *   FIELDMAP_GetSubscreenBusy 0x02189A48 thumb ov021
  *   PALANM_GetDefaultWork  0x02021728  thumb
- *   func_02021730  0x02021730  thumb
- *   func_02021F64  0x02021F64  thumb
+ *   PALANM_GetTransWork  0x02021730  thumb
+ *   PALANM_BlendColors  0x02021F64  thumb
  *   func_02082D44  0x02082D44  arm
  *   d_021F31B6     0x021F31B6  data  a2
  *   PALANM_RequestFade  0x0202173C  thumb
@@ -78,11 +78,11 @@
  *   func_02049990  0x02049990  arm
  *   d_021F31E0     0x021F31E0  data  a4
  *   d_021F32E0     0x021F32E0  data  a4
- *   func_0204ABF0  0x0204ABF0  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204AF28  0x0204AF28  arm
+ *   CLACT_RegisterPalette  0x0204ABF0  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   GFL_NET_RestartWithTimeout  0x0203D88C  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   d_021F31C8     0x021F31C8  data  a4
  *   d_021F33CC     0x021F33CC  data  a4
  *   func_02040588  0x02040588  arm
@@ -99,45 +99,45 @@
  *   func_0203FB44  0x0203FB44  arm
  *   func_020090E8  0x020090E8  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
- *   func_0204B954  0x0204B954  arm
- *   func_02043598  0x02043598  arm
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_0204BA20  0x0204BA20  arm
+ *   CLACT_SetActorVisible  0x0204BA20  arm
  *   d_021F3526     0x021F3526  data  ov029  a1
  *   d_021F3531     0x021F3531  data  ov029  a1
  *   d_021F353C     0x021F353C  data  ov029  a1
  *   d_021F3548     0x021F3548  data  ov029  a4
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   GAME_BEACON_GetReceiveCount  0x02026C8C  thumb
  *   GAME_BEACON_GetNextNewLogIndex  0x02026CA0  thumb
  *   GAME_BEACON_GetLogByReceiveNo  0x02026C78  thumb
- *   func_02165CD8  0x02165CD8  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetFavoriteColorIndex  0x02165CD8  thumb  ov010
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  *   func_020090F0  0x020090F0  thumb
- *   func_0204B100  0x0204B100  arm
- *   func_0204B034  0x0204B034  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   CLACT_CreateRenderer  0x0204B034  arm
  *   func_0204B258  0x0204B258  arm
- *   func_02051B84  0x02051B84  arm
+ *   BUTTON_MAN_Create  0x02051B84  arm
  *   d_021F3214     0x021F3214  data  a4
  *   d_021F3272     0x021F3272  data  a2
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_02051C6C  0x02051C6C  arm
- *   func_0204B084  0x0204B084  arm
- *   func_0204B1CC  0x0204B1CC  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   BUTTON_MAN_Delete  0x02051C6C  arm
+ *   CLACT_DeleteRenderer  0x0204B084  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
  *   func_020403F4  0x020403F4  arm
  *   UI_GetPowerState 0x0203568C arm
  *   d_021F3520 0x021F3520 data a1
  *   func_0203F4CC  0x0203F4CC  arm
  *   func_0204B404  0x0204B404  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
- *   func_02051C88  0x02051C88  arm
+ *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   func_021F2BF0  0x021F2BF0  thumb  ov029
  *   func_02030734  0x02030734  arm
- *   func_02012EBC  0x02012EBC  thumb
- *   func_020072CC  0x020072CC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_0203F1FC  0x0203F1FC  arm
  *   func_02009210  0x02009210  thumb
  *   func_0200910C  0x0200910C  thumb
@@ -154,50 +154,50 @@
  *   func_02030CB0  0x02030CB0  arm
  *   func_02030CBC  0x02030CBC  arm
  *   func_02009100  0x02009100  thumb
- *   func_02021518  0x02021518  thumb
+ *   PALANM_Create  0x02021518  thumb
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb
- *   func_0202155C  0x0202155C  thumb
- *   func_020216D4  0x020216D4  thumb
+ *   PALANM_AllocSlotBuffers  0x0202155C  thumb
+ *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
  *   func_020056A0  0x020056A0  thumb
  *   func_02035010  0x02035010  arm
  *   func_02035040  0x02035040  arm
- *   func_020120D8  0x020120D8  thumb
- *   func_021585E0  0x021585E0  thumb  ov010
- *   func_02158614  0x02158614  thumb  ov010
+ *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
+ *   INTRUDE_COMM_GetVisitProgress  0x021585E0  thumb  ov010
+ *   INTRUDE_COMM_SetCompleted  0x02158614  thumb  ov010
  *   GFL_NET_RestartNoTimeout  0x0203D8AC  arm
- *   func_020215A0  0x020215A0  thumb
- *   func_02021540  0x02021540  thumb
+ *   PALANM_FreeSlotBuffers  0x020215A0  thumb
+ *   PALANM_Delete  0x02021540  thumb
  *   func_02030DA4  0x02030DA4  arm
  *   func_02030EAC  0x02030EAC  arm
  *   func_02012A30  0x02012A30  thumb
  *   func_02028A70  0x02028A70  thumb
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020056EC  0x020056EC  thumb
  *   FIELD_SOUND_SYSTEM_StartRingtone  0x02028A64  thumb
- *   func_0202223C  0x0202223C  thumb
+ *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  *   WIPE_ResetBrightness  0x02022230  thumb
  *   func_02009110 0x02009110 thumb
  *   func_02009134 0x02009134 thumb
  *   func_02009160 0x02009160 thumb
- *   d_021F3224     0x021F3224  data  a4
+ *   gCGearFadeSteps     0x021F3224  data  a4
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020124AC  0x020124AC  thumb
+ *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   EVENT_GSYNC_Entry  0x02154668  thumb  ov000
  *   abs_id_0       0x00000000  data
  *   func_021559E4  0x021559E4  thumb  ov010
- *   func_0215FBF4  0x0215FBF4  thumb  ov010
- *   func_02167044  0x02167044  thumb  ov010
+ *   SCRCMD_NETWORK_CreateWifiProcEvent  0x0215FBF4  thumb  ov010
+ *   EVENT_RESEARCH_RADAR_CreateTopTask  0x02167044  thumb  ov010
  *   func_021945A4  0x021945A4  thumb  ov021
- *   func_02014808  0x02014808  thumb
+ *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
  *   abs_id_124     0x0000007C  data
  *   d_021D4D40     0x021D4D40  data  ov124  a4
- *   func_021D297C  0x021D297C  thumb  ov021
- *   func_0201235C  0x0201235C  thumb
- *   func_0203CD98  0x0203CD98  arm
+ *   FIELD_SUBSCREEN_CreateAnimTask  0x021D297C  thumb  ov021
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   CTRDGi_IsAgbCartridgeAtInit 0x02035c60 arm
  *   func_020091FC  0x020091FC  thumb
- *   func_0204932C  0x0204932C  arm
+ *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -245,31 +245,31 @@ typedef struct {
     u32 second;
 } RtcTime;
 
-extern void func_0204B878(struct Actor *p, u16 value);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
-extern struct Actor *func_0204B294(struct ActorSystem *system, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
+extern struct Actor *CLACT_CreateActor(struct ActorSystem *system, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
 extern void func_0204B92C(struct Actor *p, u32 v);
 extern void func_0204B3DC(struct Actor *p, u32 v);
 extern u16 CLACT_GetActorAnimSeqCount(struct Actor *p);
 extern u32 CLACT_GetActorAnimFrame(struct Actor *p);
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void *func_02012138(const struct GameSystem *gameSystem);
 extern void *func_020120F4(const struct GameSystem *p);
 extern void *func_0201283C(const void *gameData);
-extern u32 func_0201058C(void *key);
-extern int func_02158630(void *eventWork);
+extern u32 WIH_DWC_PollStatus(void *key);
+extern int INTRUDE_COMM_GetRequestState(void *eventWork);
 extern void PALANM_CopyToSlot(struct PalAnm *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void func_02082BCC(void *, int, int);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(unsigned int index);
-extern unsigned int func_020221A4(void);
+extern unsigned int WIPE_SYS_EndCheck(void);
 extern int func_0207D55C(volatile u16 *reg);
 extern void *func_0201210C(const struct GameSystem *p);
-extern int func_02189A48(void *gameData);
+extern int FIELDMAP_GetSubscreenBusy(void *gameData);
 extern char *PALANM_GetDefaultWork(struct PalAnm *palAnm, int bank);
-extern char *func_02021730(struct PalAnm *palAnm, int bank);
-extern void func_02021F64(u16 *src, u16 *dst, int count, int weight, u16 color);
+extern char *PALANM_GetTransWork(struct PalAnm *palAnm, int bank);
+extern void PALANM_BlendColors(u16 *src, u16 *dst, int count, int weight, u16 color);
 extern void func_02082D44(void *src, void *dst, int n);
 extern int PALANM_RequestFade(struct PalAnm *palAnm, u16 mask, u16 color, s16 step, u8 startLevel, u8 endLevel, u16 tint, struct FadeCtx *fadeCtx);
 extern void PALANM_ForceStopFade(struct PalAnm *o);
@@ -283,11 +283,11 @@ extern u32 func_020307B0(void *p);
 extern u32 func_0203FA08(u32 a, u32 b, u32 c);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern s32 func_0204ABF0(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
-extern s32 func_0204A6C8(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
-extern s32 func_0204AF28(void *owner, unsigned int first, unsigned int second, unsigned int mode);
+extern s32 CLACT_RegisterPalette(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
+extern s32 CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
 extern void GFL_NET_RestartWithTimeout(u32 a, u32 b);
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_0204047C(int idx, unsigned short val);
@@ -296,43 +296,43 @@ extern void func_0207D63C(u32, int, int, int, int);
 extern void func_020355D8(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
 extern void func_020061E4(u32 id);
-extern int func_021F2DA8(CGearWork *work);
+extern int C_GEAR_IsAnyIndicatorShown(CGearWork *work);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020090E8(struct HexMap *obj, u8 value);
 extern void CLACT_SetActorAnimIndex(struct Actor *actor, int index);
-extern void func_0204B954(struct Actor *a, u32 v);
-extern void func_02043598(u32 mask, u32 enable);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern int OS_IsRunOnTwl(void);
-extern void func_0204BA20(struct Actor *a, u32 v);
-extern void func_0204B3B4(struct Actor *p);
+extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
+extern void CLACT_DeleteActor(struct Actor *p);
 extern u32 GAME_BEACON_GetReceiveCount(void);
 extern int GAME_BEACON_GetNextNewLogIndex(int *p);
 extern void *GAME_BEACON_GetLogByReceiveNo(int n);
-extern u8 func_02165CD8(struct BeaconLog *p);
+extern u8 GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(struct BeaconLog *p);
 extern struct PlayerSettings *func_02012944(void *gameData);
 extern unsigned char func_02008550(const struct PlayerSettings *obj);
 extern unsigned char func_020090F0(const struct HexMap *obj);
-extern struct ActorSystem *func_0204B100(int count, unsigned char flag, u32 heapId);
-extern struct ActorResources *func_0204B034(const char *name, u32 flag, u32 heapId);
+extern struct ActorSystem *CLACT_CreateUnit(int count, unsigned char flag, u32 heapId);
+extern struct ActorResources *CLACT_CreateRenderer(const char *name, u32 flag, u32 heapId);
 extern void func_0204B258(struct ActorSystem *system, struct ActorResources *resources);
-extern struct ButtonTask *func_02051B84(const char *name, void (*callback)(int, int, CGearWork *), CGearWork *work, u32 heapId);
-extern void func_0204AFD8(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_02051C6C(struct ButtonTask *task);
-extern void func_0204B084(struct ActorResources *resources);
-extern u32 func_0204B1CC(struct ActorSystem *bank);
+extern struct ButtonTask *BUTTON_MAN_Create(const char *name, void (*callback)(int, int, CGearWork *), CGearWork *work, u32 heapId);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void BUTTON_MAN_Delete(struct ButtonTask *task);
+extern void CLACT_DeleteRenderer(struct ActorResources *resources);
+extern u32 CLACT_DeleteUnit(struct ActorSystem *bank);
 extern void func_020403F4(u32 i);
 extern int UI_GetPowerState(void);
 extern void func_0203F4CC(RtcTime *time);
 extern void func_0204B404(struct Actor *actor, const CGearPos *delta, u32 which);
 extern void CLACT_SetActorDrawPriority(struct Actor *node, u32 val);
-extern s32 func_02051C88(struct ButtonTask *task);
-extern void func_021F2D50(CGearWork *work);
-extern void func_021F2DC8(CGearWork *work);
+extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
+extern void C_GEAR_TickIndicators(CGearWork *work);
+extern void C_GEAR_TickTabFrame(CGearWork *work);
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
-extern struct SaveCtrl *func_02012EBC(void *gameData);
-extern u32 func_020072CC(struct SaveCtrl *sv, u32 id, u8 heap, void *buf, u32 size);
+extern struct SaveCtrl *GAME_DATA_GetSaveControl(void *gameData);
+extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveCtrl *sv, u32 id, u8 heap, void *buf, u32 size);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern struct HexMap *func_02009210(void *saveSys);
 extern u16 func_0200910C(const struct HexMap *obj);
@@ -348,150 +348,150 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02030CB0(u32 n);
 extern struct FadeCtx *func_02030CBC(u32 capacity, void *mem);
 extern u8 func_02009100(const struct HexMap *obj);
-extern struct PalAnm *func_02021518(u32 heapId);
+extern struct PalAnm *PALANM_Create(u32 heapId);
 extern void PALANM_SetAutoTransfer(struct PalAnm *o, int v);
-extern void func_0202155C(struct PalAnm *slots, u32 idx, u32 size, u32 heap);
-extern void func_020216D4(struct PalAnm *slots, u32 bank, u32 off, u32 size);
+extern void PALANM_AllocSlotBuffers(struct PalAnm *slots, u32 idx, u32 size, u32 heap);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnm *slots, u32 bank, u32 off, u32 size);
 extern struct VBlankTask *func_020056A0(void (*callback)(void *, CGearWork *), CGearWork *work, int priority);
 extern void func_02035010(void (*callback)(CGearWork *), CGearWork *work);
 extern void func_02035040(void (*callback)(CGearWork *), CGearWork *work);
-extern void func_021F2E10(CGearWork *work, CGearFadeFx *fx);
-extern int func_020120D8(const struct GameSystem *gameSystem);
-extern void func_021F3144(CGearWork *work, int powerOn);
-extern void func_021F2D84(CGearWork *work);
-extern int func_021585E0(void *eventWork);
-extern void func_02158614(void *p);
-extern void func_021F2E5C(CGearFadeFx *fx);
+extern void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx);
+extern int GAMESYSTEM_IsEventActive(const struct GameSystem *gameSystem);
+extern void C_GEAR_SetPowerState(CGearWork *work, int powerOn);
+extern void C_GEAR_ApplyIndicators(CGearWork *work);
+extern int INTRUDE_COMM_GetVisitProgress(void *eventWork);
+extern void INTRUDE_COMM_SetCompleted(void *p);
+extern void C_GEAR_DeleteFadeFx(CGearFadeFx *fx);
 extern void GFL_NET_RestartNoTimeout(void);
-extern void func_020215A0(struct PalAnm *slots, u32 idx);
-extern u32 func_02021540(struct PalAnm *palAnm);
+extern void PALANM_FreeSlotBuffers(struct PalAnm *slots, u32 idx);
+extern u32 PALANM_Delete(struct PalAnm *palAnm);
 extern void func_02030DA4(struct FadeCtx *ctx);
 extern void func_02030EAC(struct VBlankTask *task);
 extern struct SoundSys *func_02012A30(const void *gameData);
 extern void func_02028A70(struct SoundSys *sys);
-extern void func_02049238(void *archive);
+extern void ARC_TOOL_DeleteHandle(void *archive);
 extern u32 func_020056EC(u32 range);
 extern void FIELD_SOUND_SYSTEM_StartRingtone(struct SoundSys *sys);
-extern void func_0202223C(u32 a, u32 color);
+extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern void WIPE_ResetBrightness(u32 which);
 extern void func_021F3098(CGearWork *work);
-extern void func_021F3118(CGearWork *work);
-extern struct GameEvent *func_021F2EEC(CGearWork *work, int kind);
-void func_021F2CD4(CGearWork *work);
+extern void C_GEAR_StepWaitSlots(CGearWork *work);
+extern struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind);
+void C_GEAR_NoOp(CGearWork *work);
 extern u32 func_02009110(const struct HexMap *obj, int row, int col);
 extern int func_02009134(const struct HexMap *obj, int row, int col);
 extern u32 func_02009160(const struct HexMap *obj, int row, int col, int kind);
 int func_021EFEC0(int col, int row);
-void func_021EFEE4(CGearWork *work, CGearStepFunc stepFunc);
-void func_021EFEF8(CGearWork *work, CGearStepFunc stepFunc, int line);
-void func_021EFF00(int col, int row, int *outCols, int *outRows);
-void func_021EFF58(CGearWork *work, int col, int row);
-CGearActorSlot *func_021F0000(CGearWork *work);
-int func_021F0064(CGearWork *work, int col, int row);
-int func_021F009C(CGearWork *work);
+void C_GEAR_SetStepFunc(CGearWork *work, CGearStepFunc stepFunc);
+void C_GEAR_ChangeStep(CGearWork *work, CGearStepFunc stepFunc, int line);
+void C_GEAR_GetHexNeighbors(int col, int row, int *outCols, int *outRows);
+void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row);
+CGearActorSlot *C_GEAR_AcquireActorSlot(CGearWork *work);
+int C_GEAR_IsTileActorIdle(CGearWork *work, int col, int row);
+int C_GEAR_StepRipple(CGearWork *work);
 void func_021F0194(CGearWork *work);
-int func_021F020C(const CGearWork *work, int touchX, int touchY, int *outCol, int *outRow);
-void func_021F0298(CGearWork *work);
-void func_021F0300(CGearWork *work);
-void func_021F0370(CGearWork *work);
-void func_021F0390(CGearWork *work, int tabKind, int slot, int resetPriorities, int modeEnabled);
-int func_021F05B4(CGearWork *work);
-void func_021F05D0(CGearWork *work);
-void func_021F06B8(CGearWork *work, int mode, int variant);
-void func_021F0728(CGearWork *work);
-void func_021F07AC(CGearWork *work, int slot, CGearTabTimer *timer);
-void func_021F07EC(CGearWork *work, int slot, CGearTabTimer *timer);
-void func_021F0824(CGearWork *work, int slot, CGearTabTimer *timer);
-void func_021F0858(CGearWork *work, int slot, CGearTabTimer *timer);
-void func_021F088C(CGearWork *work, int slot, CGearTabTimer *timer);
-void func_021F08BC(CGearWork *work, int slot, int step, int steps);
-void func_021F09B4(CGearWork *work, const u8 *paletteFile, int bank);
-int func_021F09DC(CGearWork *work, int slot, int paletteIndex, int kind, int wantedKind, int wantedSlot);
-void func_021F0A0C(CGearWork *work);
-void func_021F0A38(CGearWork *work);
-int func_021F0A68(CGearWork *work);
-void func_021F0AA0(CGearWork *work);
-void func_021F0AC8(CGearTile *tile, int col, int row);
-void func_021F0AE0(CGearTile *tile, CGearWork *work, int surfaceVariant);
-void func_021F0B00(CGearTile *tile, CGearWork *work, int palRow, int mode, int variant, u16 stepPeriod);
-void func_021F0B7C(CGearTile *tile);
-void func_021F0B88(CGearTile *tile, CGearWork *work);
-void func_021F0C00(CGearTile *tile, int step);
-int func_021F0C68(CGearTile *tile);
-int func_021F0C70(CGearWork *work, int palRow, int col, int row);
-void func_021F0CA0(CGearTabTimer *timer, u16 limit, u8 stagger, u8 resetOnFire);
-void func_021F0CB8(CGearTabTimer *timer);
-int func_021F0CDC(CGearTabTimer *timer, int slot);
-void func_021F0CF0(CGearTabTimer *timer, int slot);
+int C_GEAR_HitTestTile(const CGearWork *work, int touchX, int touchY, int *outCol, int *outRow);
+void C_GEAR_InitTabTimersPowerOn(CGearWork *work);
+void C_GEAR_InitTabTimersPowerOff(CGearWork *work);
+void C_GEAR_ResetTabPalettes(CGearWork *work);
+void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPriorities, int modeEnabled);
+int C_GEAR_IsCallTabActive(CGearWork *work);
+void C_GEAR_TickTabTimers(CGearWork *work);
+void C_GEAR_SetTabMode(CGearWork *work, int mode, int variant);
+void C_GEAR_UpdateTabPalettes(CGearWork *work);
+void C_GEAR_UpdateTabPaletteKind3(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_UpdateTabPaletteKind1(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_UpdateTabPaletteKind2(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_UpdateTabPaletteKind0(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_UpdateTabPaletteKind4(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_BlendTabPalette(CGearWork *work, int slot, int step, int steps);
+void C_GEAR_LoadTargetPalette(CGearWork *work, const u8 *paletteFile, int bank);
+int C_GEAR_SelectTabPalette(CGearWork *work, int slot, int paletteIndex, int kind, int wantedKind, int wantedSlot);
+void C_GEAR_InitTiles(CGearWork *work);
+void C_GEAR_StepTiles(CGearWork *work);
+int C_GEAR_IsAnyTileFlashing(CGearWork *work);
+void C_GEAR_StopTileFlashes(CGearWork *work);
+void C_GEAR_InitTile(CGearTile *tile, int col, int row);
+void C_GEAR_ResetTileFlash(CGearTile *tile, CGearWork *work, int surfaceVariant);
+void C_GEAR_StartTileFlash(CGearTile *tile, CGearWork *work, int palRow, int mode, int variant, u16 stepPeriod);
+void C_GEAR_StopTileFlash(CGearTile *tile);
+void C_GEAR_StepTileFlash(CGearTile *tile, CGearWork *work);
+void C_GEAR_SetTileFlashStep(CGearTile *tile, int step);
+int C_GEAR_IsTileFlashing(CGearTile *tile);
+int C_GEAR_GetTilePalette(CGearWork *work, int palRow, int col, int row);
+void C_GEAR_InitTabTimer(CGearTabTimer *timer, u16 limit, u8 stagger, u8 resetOnFire);
+void C_GEAR_TickTabTimer(CGearTabTimer *timer);
+int C_GEAR_IsTabTimerFull(CGearTabTimer *timer, int slot);
+void C_GEAR_ResetTabTimerCount(CGearTabTimer *timer, int slot);
 void func_021F0D00(CGearTabTimer *timer, int slot);
 u16 func_021F0D08(CGearTabTimer *timer, int slot);
 void func_021F0D10(CGearTabTimer *timer, char running);
-void func_021F0D14(int col, int row, int *outX, int *outY);
-int func_021F0D48(CGearWork *work);
-int func_021F0D80(CGearWork *work, int kind);
-void func_021F0DB4(CGearWork *work, int commEnabled);
-void func_021F0E70(CGearWork *work);
-void func_021F0EB0(CGearWork *work, int faded);
-void func_021F0F28(CGearWork *work, int faded);
-void func_021F0F70(CGearWork *work);
-void func_021F0FB0(CGearWork *work);
-void func_021F0FF0(CGearWork *work);
-int func_021F1000(CGearWork *work);
-void func_021F1010(CGearWork *work);
-int func_021F1060(CGearWork *work);
-int func_021F11B4(CGearWork *work);
-void func_021F122C(CGearWork *work);
-void func_021F1290(CGearWork *work, int col, int row, int kind);
-int func_021F133C(CGearWork *work, int kind, int *outX, int *outY);
-void func_021F13FC(CGearWork *work);
-u32 func_021F1458(CGearWork *work, int theme, int skin, int loadPalettes);
-void func_021F1574(CGearWork *work, int theme);
-void func_021F15FC(CGearWork *work, int customBgLoaded);
-void func_021F1624(CGearWork *work);
-void func_021F1740(CGearWork *work);
-void func_021F1758(CGearWork *work, int key);
-void func_021F18F0(int key, int buttonState, CGearWork *work);
-void func_021F1910(CGearWork *work, int paintMode);
-void func_021F1950(CGearWork *work);
-void func_021F1A44(CGearWork *work, int visible);
-void func_021F1A64(CGearWork *work, int visible);
-void func_021F1B30(CGearWork *work, int visible);
-void func_021F1B50(CGearWork *work);
-void func_021F1BBC(CGearWork *work);
-int func_021F1BE4(CGearWork *work);
-void func_021F1C0C(CGearWork *work);
-void func_021F1CD8(CGearWork *work);
-void func_021F1DB0(CGearWork *work);
-void func_021F1DE8(CGearWork *work, int introMode);
-void func_021F1E98(CGearWork *work);
-void func_021F1F24(CGearWork *work);
-u8 func_021F1F70(void);
-void func_021F1F80(CGearWork *work);
-void func_021F20AC(CGearWork *work);
-void func_021F2130(CGearWork *work);
-void func_021F2180(CGearWork *work);
-void func_021F21B4(CGearWork *work);
-void func_021F21F8(CGearWork *work);
-void func_021F2370(CGearWork *work);
-int func_021F23CC(CGearWork *work, struct GameSystem *gameSystem);
-void func_021F24C0(CGearWork *work);
-void func_021F24FC(CGearWork *work);
-void func_021F2508(void *task, CGearWork *work);
-void func_021F251C(CGearWork *work, struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode);
-void func_021F26E0(CGearWork *work);
-CGearWork *func_021F279C(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode);
-CGearWork *func_021F27D8(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, void (*callback)(int), int callbackArg, int introMode);
-void func_021F2848(CGearWork *work, u8 powerOn);
-void func_021F2980(void);
-void func_021F2984(CGearWork *work);
-int func_021F2994(CGearWork *work);
-struct GameEvent *func_021F29D8(CGearWork *work, int enabled);
-int func_021F2AB8(CGearWork *work);
-void func_021F2AD4(CGearWork *work);
-void func_021F2AEC(CGearWork *work, struct HexMap *hexMap, int col, int row, int kind);
-u32 func_021F2B9C(const CGearWork *work, int col, int row);
-int func_021F2BB8(const CGearWork *work, int col, int row);
-int func_021F2BD4(const CGearWork *work, int col, int row, int kind);
+void C_GEAR_TileToScreen(int col, int row, int *outX, int *outY);
+int C_GEAR_IsIdleForInput(CGearWork *work);
+int C_GEAR_CountCellsOfKind(CGearWork *work, int kind);
+void C_GEAR_TintPalettes(CGearWork *work, int commEnabled);
+void C_GEAR_StartFlashFade(CGearWork *work);
+void C_GEAR_FadeBackground(CGearWork *work, int faded);
+void C_GEAR_FadeAccentColors(CGearWork *work, int faded);
+void C_GEAR_StartFadeOut(CGearWork *work);
+void C_GEAR_StartFadeIn(CGearWork *work);
+void C_GEAR_StopFade(CGearWork *work);
+int C_GEAR_GetFadeRequestBits(CGearWork *work);
+void C_GEAR_DrawEmptyBoard(CGearWork *work);
+int C_GEAR_StepIntroTiles(CGearWork *work);
+int C_GEAR_StepOutroTiles(CGearWork *work);
+void C_GEAR_ResetAllTiles(CGearWork *work);
+void C_GEAR_DrawTile(CGearWork *work, int col, int row, int kind);
+int C_GEAR_FindCellOfKind(CGearWork *work, int kind, int *outX, int *outY);
+void C_GEAR_DrawAllCells(CGearWork *work);
+u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes);
+void C_GEAR_LoadSpriteResources(CGearWork *work, int theme);
+void C_GEAR_LoadFrameGraphics(CGearWork *work, int customBgLoaded);
+void C_GEAR_SetupBackgrounds(CGearWork *work);
+void C_GEAR_SetupSubScreenBlend(CGearWork *work);
+void C_GEAR_HandleButton(CGearWork *work, int key);
+void C_GEAR_OnButtonEvent(int key, int buttonState, CGearWork *work);
+void C_GEAR_SetPaintModeIcon(CGearWork *work, int paintMode);
+void C_GEAR_CreateHudActors(CGearWork *work);
+void C_GEAR_SetTileMarkersVisible(CGearWork *work, int visible);
+void C_GEAR_SetAllActorsVisible(CGearWork *work, int visible);
+void C_GEAR_SetSplashActorsVisible(CGearWork *work, int visible);
+void C_GEAR_CreateSplashActors(CGearWork *work);
+void C_GEAR_DeleteSplashActors(CGearWork *work);
+int C_GEAR_IsSplashDone(CGearWork *work);
+void C_GEAR_CreateBarActors(CGearWork *work);
+void C_GEAR_UpdateBeaconColors(CGearWork *work);
+void C_GEAR_DeleteBarActors(CGearWork *work);
+void C_GEAR_LoadGraphics(CGearWork *work, int introMode);
+void C_GEAR_DeleteActors(CGearWork *work);
+void C_GEAR_FreeGraphics(CGearWork *work);
+u8 C_GEAR_GetBatteryFrame(void);
+void C_GEAR_UpdateClock(CGearWork *work);
+void C_GEAR_UpdateTileMarkers(CGearWork *work);
+void C_GEAR_RunFrame(CGearWork *work);
+void C_GEAR_StepIdle(CGearWork *work);
+void C_GEAR_StepIntroEnd(CGearWork *work);
+void C_GEAR_StepOpen(CGearWork *work);
+void C_GEAR_StepClose(CGearWork *work);
+int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem);
+void C_GEAR_OnCommDisconnect(CGearWork *work);
+void C_GEAR_OnCommEvent(CGearWork *work);
+void C_GEAR_TransferPalettesTask(void *task, CGearWork *work);
+void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode);
+void C_GEAR_Cleanup(CGearWork *work);
+CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode);
+CGearWork *C_GEAR_Open(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, void (*callback)(int), int callbackArg, int introMode);
+void C_GEAR_Update(CGearWork *work, u8 powerOn);
+void C_GEAR_Nop(void);
+void C_GEAR_Destroy(CGearWork *work);
+int C_GEAR_Restart(CGearWork *work);
+struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled);
+int C_GEAR_IsLastCommandKind5(CGearWork *work);
+void C_GEAR_StopRingtone(CGearWork *work);
+void C_GEAR_SetCellKind(CGearWork *work, struct HexMap *hexMap, int col, int row, int kind);
+u32 C_GEAR_GetCellKind(const CGearWork *work, int col, int row);
+int C_GEAR_IsCellMarked(const CGearWork *work, int col, int row);
+int C_GEAR_IsCellKind(const CGearWork *work, int col, int row, int kind);
 extern CGearParityPair d_021F333C;
 extern CGearParityPair d_021F334C;
 extern u16 d_021F31BC[];
@@ -533,40 +533,40 @@ extern const char d_021F3554[];
 typedef struct GameEvent *(*GameEventCreatorFn)(struct GameSystem *gameSystem, void *arg);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, void *handler, u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern struct GameEvent *func_020124AC(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
+extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
 extern struct GameEvent *EVENT_GSYNC_Entry(struct GameSystem *gameSystem, void *arg);
 extern struct GameEvent *func_021559E4(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
-extern struct GameEvent *func_0215FBF4(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
-extern struct GameEvent *func_02167044(struct GameSystem *gameSystem, void *fieldMap);
+extern struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
+extern struct GameEvent *EVENT_RESEARCH_RADAR_CreateTopTask(struct GameSystem *gameSystem, void *fieldMap);
 extern struct GameEvent *func_021945A4(struct GameSystem *gameSystem, void *fieldMap, u32 a);
-extern struct GameEvent *func_02014808(struct GameSystem *gameSystem, void *fieldMap, u32 overlayId, const void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
-extern struct GameEvent *func_021D297C(struct GameSystem *gameSystem);
-extern void func_0201235C(struct GameEvent *now, struct GameEvent *next);
-extern int func_0203CD98(void);
-int func_021F2C10(CGearWork *work);
-int func_021F2C78(CGearWork *work);
-void func_021F2CD8(CGearWork *work);
-void func_021F2CF4(CGearWork *work);
-void func_021F2D10(CGearWork *work);
-void func_021F2D30(CGearWork *work);
-void func_021F2E68(CGearFadeFx *fx, int palette);
-int func_021F2E8C(CGearFadeFx *fx);
-struct GameEvent *func_021F2EEC(CGearWork *work, int kind);
-int func_021F2F60(struct GameEvent *event, int *seq, CGearEventWork *req);
-void func_021F30C8(CGearWork *work);
-int func_021F30EC(CGearWork *work);
-extern const unsigned int d_021F3224[];
+extern struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSystem, void *fieldMap, u32 overlayId, const void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
+extern struct GameEvent *FIELD_SUBSCREEN_CreateAnimTask(struct GameSystem *gameSystem);
+extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
+extern int GFL_NET_GetRunState(void);
+int C_GEAR_StepIconAnim(CGearWork *work);
+int C_GEAR_StepFadeIcon(CGearWork *work);
+void C_GEAR_ShowOffIndicator(CGearWork *work);
+void C_GEAR_ShowCommIndicator(CGearWork *work);
+void C_GEAR_HideCommIndicator(CGearWork *work);
+void C_GEAR_HideOffIndicator(CGearWork *work);
+void C_GEAR_StartFadeFx(CGearFadeFx *fx, int palette);
+int C_GEAR_StepFadeFx(CGearFadeFx *fx);
+struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind);
+int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req);
+void C_GEAR_DeleteActorSlots(CGearWork *work);
+int C_GEAR_AreActorSlotsIdle(CGearWork *work);
+extern const unsigned int gCGearFadeSteps[];
 /* Overlay ids are absolute link-time symbols (pool words), so no literal. */
 extern u8 abs_id_0[];
 extern u8 abs_id_124[];
 extern const u8 d_021D4D40[];
 struct ArcFile;
 struct HexMap;
-void func_021F3190(struct HexMap *hexMap, struct ArcFile *arc, int skinIndex, int heapId);
+void C_GEAR_LoadSkinMember(struct HexMap *hexMap, struct ArcFile *arc, int skinIndex, int heapId);
 int CTRDG_IsAgbCartridge(CGearWork *work);
 extern int CTRDGi_IsAgbCartridgeAtInit(void);
 extern void *func_020091FC(void *cgearSave);
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
+extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 
 
 
@@ -594,7 +594,7 @@ int func_021EFEC0(int col, int row)
 
 
 
-void func_021EFEE4(CGearWork *work, CGearStepFunc stepFunc)
+void C_GEAR_SetStepFunc(CGearWork *work, CGearStepFunc stepFunc)
 {
     work->stepFunc = stepFunc;
     work->phaseTimer = 0;
@@ -608,7 +608,7 @@ void func_021EFEE4(CGearWork *work, CGearStepFunc stepFunc)
 
 
 /*
- * evidence: func_021EFEE4 is ov029's own code (a store leaf ending in bx lr
+ * evidence: C_GEAR_SetStepFunc is ov029's own code (a store leaf ending in bx lr
  * after the bx lr at 0x021EFEE0), inside ov029's window, so only ov029 can be
  * resident there when this pool word is used.  Its start is seeded in
  * layout/function_starts.txt from this pointer word, the only reference; it
@@ -617,9 +617,9 @@ void func_021EFEE4(CGearWork *work, CGearStepFunc stepFunc)
  * `line`: every caller loads r2 with a constant, but the callee never
  * reads it, so the thunk takes it and drops it.
  */
-void func_021EFEF8(CGearWork *work, CGearStepFunc stepFunc, int line)
+void C_GEAR_ChangeStep(CGearWork *work, CGearStepFunc stepFunc, int line)
 {
-    func_021EFEE4(work, stepFunc);
+    C_GEAR_SetStepFunc(work, stepFunc);
 }
 
 
@@ -627,7 +627,7 @@ void func_021EFEF8(CGearWork *work, CGearStepFunc stepFunc, int line)
 
 
 
-void func_021EFF00(int col, int row, int *outCols, int *outRows)
+void C_GEAR_GetHexNeighbors(int col, int row, int *outCols, int *outRows)
 {
     int parity = col % 2;
 
@@ -666,27 +666,27 @@ void func_021EFF00(int col, int row, int *outCols, int *outRows)
 
 
 
-void func_021EFF58(CGearWork *work, int col, int row)
+void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row)
 {
     CGearActorDesc desc;
     int screenX;
     int screenY;
     CGearActorSlot *slot;
 
-    func_021F0D14(col, row, &screenX, &screenY);
+    C_GEAR_TileToScreen(col, row, &screenX, &screenY);
     desc.x = screenX * 8 + 16;
     desc.y = screenY * 8 + 16;
     desc.animIndex = work->rippleKind + 10;
     desc.palOffset = 0;
     desc.surface = 2;
-    slot = func_021F0000(work);
+    slot = C_GEAR_AcquireActorSlot(work);
     if (slot->actor != 0) {
-        func_0204B878(slot->actor, desc.animIndex);
-        func_0204B9A0(slot->actor);
+        CLACT_SetActorAnimSeq(slot->actor, desc.animIndex);
+        CLACT_RestartActorAnim(slot->actor);
         CLACT_SetActorSurfacePosAxis(slot->actor, desc.x, 0, 0);
         CLACT_SetActorSurfacePosAxis(slot->actor, desc.y, 0, 1);
     } else {
-        slot->actor = func_0204B294(work->spriteSystem, work->spriteCharRes, work->spritePlttRes, work->spriteAnimRes, &desc, 0, work->heapId);
+        slot->actor = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes, work->spriteAnimRes, &desc, 0, work->heapId);
         func_0204B92C(slot->actor, 1);
         func_0204B3DC(slot->actor, 1);
     }
@@ -700,7 +700,7 @@ void func_021EFF58(CGearWork *work, int col, int row)
 
 
 
-CGearActorSlot *func_021F0000(CGearWork *work)
+CGearActorSlot *C_GEAR_AcquireActorSlot(CGearWork *work)
 {
     int bestSeq = -1;
     int bestFrame = -1;
@@ -729,12 +729,12 @@ CGearActorSlot *func_021F0000(CGearWork *work)
 
 
 
-int func_021F0064(CGearWork *work, int col, int row)
+int C_GEAR_IsTileActorIdle(CGearWork *work, int col, int row)
 {
     int i;
     for (i = 0; i < 20; i++) {
         if (work->actorSlots[i].actor != 0 && work->actorSlots[i].col == col && work->actorSlots[i].row == row) {
-            if (func_0204B98C(work->actorSlots[i].actor) != 0) return 0;
+            if (CLACT_IsActorAnimActive(work->actorSlots[i].actor) != 0) return 0;
         }
     }
     return 1;
@@ -746,7 +746,7 @@ int func_021F0064(CGearWork *work, int col, int row)
 
 
 
-int func_021F009C(CGearWork *work)
+int C_GEAR_StepRipple(CGearWork *work)
 {
     int y;
     int x;
@@ -756,11 +756,11 @@ int func_021F009C(CGearWork *work)
 
     for (y = 0; y < 4; y++) {
         for (x = 0; x < 9; x++) {
-            if (work->grid[x][y] == 4 && func_021F0064(work, x, y) != 0) {
+            if (work->grid[x][y] == 4 && C_GEAR_IsTileActorIdle(work, x, y) != 0) {
                 work->grid[x][y] = 5;
             }
             if (work->grid[x][y] == 2) {
-                func_021EFF58(work, x, y);
+                C_GEAR_SpawnRippleActor(work, x, y);
                 work->grid[x][y] = 3;
             }
         }
@@ -773,7 +773,7 @@ int func_021F009C(CGearWork *work)
         for (x = 0; x < 9; x++) {
             if (work->grid[x][y] == 3) {
                 work->grid[x][y] = 4;
-                func_021EFF00(x, y, neighborCols, neighborRows);
+                C_GEAR_GetHexNeighbors(x, y, neighborCols, neighborRows);
                 for (k = 0; k < 6; k++) {
                     if (neighborCols[k] >= 0 && neighborCols[k] < 9 && neighborRows[k] >= 0 && neighborRows[k] < 4) {
                         if (work->grid[neighborCols[k]][neighborRows[k]] == 1) {
@@ -801,19 +801,19 @@ void func_021F0194(CGearWork *work)
     int j;
     int i;
 
-    kind = func_021F2B9C(work, work->selectedCol, work->selectedRow);
+    kind = C_GEAR_GetCellKind(work, work->selectedCol, work->selectedRow);
     work->rippleKind = kind;
     i = 0;
     work->rippleStep = i;
     for (; i < 4; i++) {
         for (j = 0; j < 9; j++) {
-            if (kind == func_021F2B9C(work, j, i)) {
+            if (kind == C_GEAR_GetCellKind(work, j, i)) {
                 work->grid[j][i] = 1;
             }
         }
     }
     work->grid[work->selectedCol][work->selectedRow] = 2;
-    func_021F009C(work);
+    C_GEAR_StepRipple(work);
 }
 
 
@@ -827,7 +827,7 @@ void func_021F0194(CGearWork *work)
  * `adds r4,r1,#0` copy), b for the b/8 - lo[m] intermediate, and two 8-byte
  * struct copies of the tables (ldm r5,{r3,r5}).
  */
-int func_021F020C(const CGearWork *work, int touchX, int touchY, int *outCol, int *outRow)
+int C_GEAR_HitTestTile(const CGearWork *work, int touchX, int touchY, int *outCol, int *outRow)
 {
     int row;
     CGearParityPair rowOffset;
@@ -848,7 +848,7 @@ int func_021F020C(const CGearWork *work, int touchX, int touchY, int *outCol, in
     }
     row = touchY / 4;
     if (touchX < 9 && row < rowCount.value[parity]) {
-        kind = func_021F2B9C(work, touchX, row);
+        kind = C_GEAR_GetCellKind(work, touchX, row);
     }
     *outCol = touchX;
     *outRow = row;
@@ -861,21 +861,21 @@ int func_021F020C(const CGearWork *work, int touchX, int touchY, int *outCol, in
 
 
 
-void func_021F0298(CGearWork *work)
+void C_GEAR_InitTabTimersPowerOn(CGearWork *work)
 {
     CGearTabTimer *timers = work->tabTimers;
     int i;
     int j;
 
     for (i = 0; i < 5; i++) {
-        func_021F0CA0(&timers[i], d_021F31BC[i], d_021F31AB[i], d_021F31B0[i]);
+        C_GEAR_InitTabTimer(&timers[i], d_021F31BC[i], d_021F31AB[i], d_021F31B0[i]);
         if (i == 0) {
             func_021F0D10(&timers[i], 0);
         }
     }
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 3; j++) {
-            func_021F0390(work, i, j, 0, 0);
+            C_GEAR_UpdateTabInput(work, i, j, 0, 0);
         }
     }
 }
@@ -886,21 +886,21 @@ void func_021F0298(CGearWork *work)
 
 
 
-void func_021F0300(CGearWork *work)
+void C_GEAR_InitTabTimersPowerOff(CGearWork *work)
 {
     CGearTabTimer *timers = work->tabTimers;
     int i;
     int j;
 
     for (i = 0; i < 5; i++) {
-        func_021F0CA0(&timers[i], d_021F31BC[i], d_021F31AB[i], d_021F31B0[i]);
+        C_GEAR_InitTabTimer(&timers[i], d_021F31BC[i], d_021F31AB[i], d_021F31B0[i]);
         if (i != 0) {
             func_021F0D10(&timers[i], 0);
         }
     }
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 3; j++) {
-            func_021F0390(work, i, j, 1, work->tabMode);
+            C_GEAR_UpdateTabInput(work, i, j, 1, work->tabMode);
         }
     }
 }
@@ -910,10 +910,10 @@ void func_021F0300(CGearWork *work)
 
 
 
-void func_021F0370(CGearWork *work)
+void C_GEAR_ResetTabPalettes(CGearWork *work)
 {
     int i;
-    for (i = 0; i < 3; i++) func_021F08BC(work, i, 0, 31);
+    for (i = 0; i < 3; i++) C_GEAR_BlendTabPalette(work, i, 0, 31);
 }
 
 
@@ -928,7 +928,7 @@ void func_021F0370(CGearWork *work)
  * without it). The four-way reset is `s18 = s8 = sc = s14 = 0`: the chain
  * stores right to left.
  */
-void func_021F0390(CGearWork *work, int tabKind, int slot, int resetPriorities, int modeEnabled)
+void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPriorities, int modeEnabled)
 {
     void *eventWork;
     int keyGroups;
@@ -952,14 +952,14 @@ void func_021F0390(CGearWork *work, int tabKind, int slot, int resetPriorities, 
     if (resetPriorities != 0) {
         kind4 = kind1 = kind2 = kind3 = 0;
     }
-    padKeys = func_0201058C(func_0201283C(func_020120F4(work->gameSystem)));
-    linkMode = func_02158630(eventWork);
+    padKeys = WIH_DWC_PollStatus(func_0201283C(func_020120F4(work->gameSystem)));
+    linkMode = INTRUDE_COMM_GetRequestState(eventWork);
     if (modeEnabled != 0) {
         if (linkMode == 3) {
-            func_021F09DC(work, 2, 3, kind3, tabKind, slot);
+            C_GEAR_SelectTabPalette(work, 2, 3, kind3, tabKind, slot);
         } else if (padKeys & 8) {
             keyGroups |= 4;
-            func_021F09DC(work, 2, 2, kind3, tabKind, slot);
+            C_GEAR_SelectTabPalette(work, 2, 2, kind3, tabKind, slot);
         }
     }
     if (keyGroups == 0) {
@@ -974,24 +974,24 @@ void func_021F0390(CGearWork *work, int tabKind, int slot, int resetPriorities, 
             keyGroups |= 8;
         }
         if (padKeys & 0x40) {
-            func_021F09DC(work, 1, 3, kind2, tabKind, slot);
+            C_GEAR_SelectTabPalette(work, 1, 3, kind2, tabKind, slot);
         } else if (padKeys & 0x100) {
-            func_021F09DC(work, 1, 0, kind2, tabKind, slot);
+            C_GEAR_SelectTabPalette(work, 1, 0, kind2, tabKind, slot);
         } else if (padKeys & 0x80) {
-            func_021F09DC(work, 1, 1, kind2, tabKind, slot);
+            C_GEAR_SelectTabPalette(work, 1, 1, kind2, tabKind, slot);
         } else if (padKeys & 0x200) {
-            func_021F09DC(work, 1, 0, kind2, tabKind, slot);
+            C_GEAR_SelectTabPalette(work, 1, 0, kind2, tabKind, slot);
         }
         if (linkMode != 0) {
             if (linkMode != 3) {
-                func_021F09DC(work, 2, 3, kind2, tabKind, slot);
+                C_GEAR_SelectTabPalette(work, 2, 3, kind2, tabKind, slot);
             }
         } else {
             for (i = 0; i < 3; i++) {
                 work->keyCycle = (work->keyCycle + 1) % 3;
                 cycleIdx = work->keyCycle;
                 if ((d_021F31EC[cycleIdx] & padKeys) || (cycleIdx == 2 && work->beaconPending != 0)) {
-                    if (func_021F09DC(work, 2, d_021F31F8[cycleIdx], kind2, tabKind, slot) != 0) {
+                    if (C_GEAR_SelectTabPalette(work, 2, d_021F31F8[cycleIdx], kind2, tabKind, slot) != 0) {
                         if (work->keyCycle == 2) {
                             work->beaconPending = 0;
                         }
@@ -1000,21 +1000,21 @@ void func_021F0390(CGearWork *work, int tabKind, int slot, int resetPriorities, 
                 }
             }
             if (i == 3) {
-                func_021F09DC(work, 2, 8, kind1, tabKind, slot);
+                C_GEAR_SelectTabPalette(work, 2, 8, kind1, tabKind, slot);
             }
         }
     }
     if (keysHeld == 0) {
-        func_021F09DC(work, 0, 6, kind1, tabKind, slot);
+        C_GEAR_SelectTabPalette(work, 0, 6, kind1, tabKind, slot);
         if (!(keyGroups & 8)) {
-            func_021F09DC(work, 1, 7, kind1, tabKind, slot);
+            C_GEAR_SelectTabPalette(work, 1, 7, kind1, tabKind, slot);
         }
         if (!(keyGroups & 4)) {
-            func_021F09DC(work, 2, 8, kind1, tabKind, slot);
+            C_GEAR_SelectTabPalette(work, 2, 8, kind1, tabKind, slot);
         }
     } else {
-        func_021F09DC(work, 0, 5, kind4, tabKind, slot);
-        func_021F09DC(work, 1, 5, kind4, tabKind, slot);
+        C_GEAR_SelectTabPalette(work, 0, 5, kind4, tabKind, slot);
+        C_GEAR_SelectTabPalette(work, 1, 5, kind4, tabKind, slot);
     }
 }
 
@@ -1023,7 +1023,7 @@ void func_021F0390(CGearWork *work, int tabKind, int slot, int resetPriorities, 
 
 
 
-int func_021F05B4(CGearWork *work)
+int C_GEAR_IsCallTabActive(CGearWork *work)
 {
     if (work->tabVariant == 1 && work->tabMode == 1) return 1;
     return 0;
@@ -1035,7 +1035,7 @@ int func_021F05B4(CGearWork *work)
 
 
 
-void func_021F05D0(CGearWork *work)
+void C_GEAR_TickTabTimers(CGearWork *work)
 {
     CGearTabTimer *timers2;
     CGearTabTimer *timers;
@@ -1046,15 +1046,15 @@ void func_021F05D0(CGearWork *work)
     flag = 0;
     for (i = 0; i < 5; i++) {
         timers = work->tabTimers;
-        func_021F0CB8(&timers[i]);
+        C_GEAR_TickTabTimer(&timers[i]);
         for (j = 0; j < 3; j++) {
-            if (func_021F0CDC(&timers[i], j) || work->refreshFlag) {
-                func_021F0390(work, i, j, 0, work->tabMode);
+            if (C_GEAR_IsTabTimerFull(&timers[i], j) || work->refreshFlag) {
+                C_GEAR_UpdateTabInput(work, i, j, 0, work->tabMode);
                 if (i == 0) {
                     flag = 1;
                 }
-                if (func_021F0CDC(&timers[i], j)) {
-                    func_021F0CF0(&timers[i], j);
+                if (C_GEAR_IsTabTimerFull(&timers[i], j)) {
+                    C_GEAR_ResetTabTimerCount(&timers[i], j);
                 }
             }
         }
@@ -1065,7 +1065,7 @@ void func_021F05D0(CGearWork *work)
             if (i != 0) {
                 func_021F0D10(&timers2[i], 1);
                 for (j = 0; j < 3; j++) {
-                    func_021F0390(work, i, j, 0, work->tabMode);
+                    C_GEAR_UpdateTabInput(work, i, j, 0, work->tabMode);
                 }
             } else {
                 func_021F0D10(&timers2[i], 0);
@@ -1081,7 +1081,7 @@ void func_021F05D0(CGearWork *work)
 
 
 
-void func_021F06B8(CGearWork *work, int mode, int variant)
+void C_GEAR_SetTabMode(CGearWork *work, int mode, int variant)
 {
     CGearTabTimer *timers;
     int i;
@@ -1089,7 +1089,7 @@ void func_021F06B8(CGearWork *work, int mode, int variant)
     int k;
 
     for (i = 0; i < 3; i++) {
-        func_021F08BC(work, i, 0, 0x1f);
+        C_GEAR_BlendTabPalette(work, i, 0, 0x1f);
     }
     timers = work->tabTimers;
     for (j = 0; j < 5; j++) {
@@ -1110,7 +1110,7 @@ void func_021F06B8(CGearWork *work, int mode, int variant)
 
 
 
-void func_021F0728(CGearWork *work)
+void C_GEAR_UpdateTabPalettes(CGearWork *work)
 {
     CGearTabTimer *timers = work->tabTimers;
     int i;
@@ -1120,19 +1120,19 @@ void func_021F0728(CGearWork *work)
 
         switch (kind) {
         case 3:
-            func_021F07AC(work, i, &timers[kind]);
+            C_GEAR_UpdateTabPaletteKind3(work, i, &timers[kind]);
             break;
         case 1:
-            func_021F07EC(work, i, &timers[kind]);
+            C_GEAR_UpdateTabPaletteKind1(work, i, &timers[kind]);
             break;
         case 2:
-            func_021F0824(work, i, &timers[kind]);
+            C_GEAR_UpdateTabPaletteKind2(work, i, &timers[kind]);
             break;
         case 0:
-            func_021F0858(work, i, &timers[kind]);
+            C_GEAR_UpdateTabPaletteKind0(work, i, &timers[kind]);
             break;
         case 4:
-            func_021F088C(work, i, &timers[kind]);
+            C_GEAR_UpdateTabPaletteKind4(work, i, &timers[kind]);
             break;
         }
     }
@@ -1144,14 +1144,14 @@ void func_021F0728(CGearWork *work)
 
 
 
-void func_021F07AC(CGearWork *work, int slot, CGearTabTimer *timer)
+void C_GEAR_UpdateTabPaletteKind3(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = func_021F0D08(timer, slot);
     if (value > 0x24 || value < 4) return;
     value = (u16)(value - 4);
     value = (unsigned)(((int)value % 8) * 28) >> 3;
     value = d_021F3255[value];
-    func_021F08BC(work, slot, value, 0x1f);
+    C_GEAR_BlendTabPalette(work, slot, value, 0x1f);
 }
 
 
@@ -1159,13 +1159,13 @@ void func_021F07AC(CGearWork *work, int slot, CGearTabTimer *timer)
 
 
 
-void func_021F07EC(CGearWork *work, int slot, CGearTabTimer *timer)
+void C_GEAR_UpdateTabPaletteKind1(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = func_021F0D08(timer, slot);
     if (value > 112 || value < 12) return;
     value = (unsigned)((unsigned short)(value - 12)) * 28 / 100;
     value = d_021F3255[value];
-    func_021F08BC(work, slot, value, 31);
+    C_GEAR_BlendTabPalette(work, slot, value, 31);
 }
 
 
@@ -1173,13 +1173,13 @@ void func_021F07EC(CGearWork *work, int slot, CGearTabTimer *timer)
 
 
 
-void func_021F0824(CGearWork *work, int slot, CGearTabTimer *timer)
+void C_GEAR_UpdateTabPaletteKind2(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = func_021F0D08(timer, slot);
     if (value > 78 || value < 8) return;
     value = (unsigned)((unsigned short)(value - 8)) * 32 / 70;
     value = d_021F3292[value];
-    func_021F08BC(work, slot, value, 31);
+    C_GEAR_BlendTabPalette(work, slot, value, 31);
 }
 
 
@@ -1187,13 +1187,13 @@ void func_021F0824(CGearWork *work, int slot, CGearTabTimer *timer)
 
 
 
-void func_021F0858(CGearWork *work, int slot, CGearTabTimer *timer)
+void C_GEAR_UpdateTabPaletteKind0(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = func_021F0D08(timer, slot);
     if (value > 20) return;
     value = (unsigned)(((int)value % 10) * 28) / 10;
     value = d_021F3255[value];
-    func_021F08BC(work, slot, value, 31);
+    C_GEAR_BlendTabPalette(work, slot, value, 31);
 }
 
 
@@ -1201,13 +1201,13 @@ void func_021F0858(CGearWork *work, int slot, CGearTabTimer *timer)
 
 
 
-void func_021F088C(CGearWork *work, int slot, CGearTabTimer *timer)
+void C_GEAR_UpdateTabPaletteKind4(CGearWork *work, int slot, CGearTabTimer *timer)
 {
     unsigned int value = func_021F0D08(timer, slot);
     if (value > 15) return;
     value = (unsigned)(value * 12) / 15;
     value = d_021F3204[value];
-    func_021F08BC(work, slot, value, 31);
+    C_GEAR_BlendTabPalette(work, slot, value, 31);
 }
 
 
@@ -1216,7 +1216,7 @@ void func_021F088C(CGearWork *work, int slot, CGearTabTimer *timer)
 
 
 
-void func_021F08BC(CGearWork *work, int slot, int step, int steps)
+void C_GEAR_BlendTabPalette(CGearWork *work, int slot, int step, int steps)
 {
     int colorIdx;
     int channel;
@@ -1239,7 +1239,7 @@ void func_021F08BC(CGearWork *work, int slot, int step, int steps)
 
 
 
-void func_021F09B4(CGearWork *work, const u8 *paletteFile, int bank)
+void C_GEAR_LoadTargetPalette(CGearWork *work, const u8 *paletteFile, int bank)
 {
     int i;
     for (i = 0; i < 5; i++) work->targetPalette[bank][i] = ((const u16 *)(paletteFile + bank * 32 + 0x16))[i];
@@ -1250,7 +1250,7 @@ void func_021F09B4(CGearWork *work, const u8 *paletteFile, int bank)
 
 
 
-int func_021F09DC(CGearWork *work, int slot, int paletteIndex, int kind, int wantedKind, int wantedSlot)
+int C_GEAR_SelectTabPalette(CGearWork *work, int slot, int paletteIndex, int kind, int wantedKind, int wantedSlot)
 {
     if (kind == wantedKind && slot == wantedSlot) {
         work->targetPalIndex[slot] = paletteIndex;
@@ -1265,11 +1265,11 @@ int func_021F09DC(CGearWork *work, int slot, int paletteIndex, int kind, int wan
 
 
 
-void func_021F0A0C(CGearWork *work)
+void C_GEAR_InitTiles(CGearWork *work)
 {
     int i, j;
     for (i = 0; i < 9; i++) {
-        for (j = 0; j < 4; j++) func_021F0AC8(&work->tiles[i][j], i, j);
+        for (j = 0; j < 4; j++) C_GEAR_InitTile(&work->tiles[i][j], i, j);
     }
 }
 
@@ -1278,11 +1278,11 @@ void func_021F0A0C(CGearWork *work)
 
 
 
-void func_021F0A38(CGearWork *work)
+void C_GEAR_StepTiles(CGearWork *work)
 {
     int i, j;
     for (i = 0; i < 9; i++) {
-        for (j = 0; j < 4; j++) func_021F0B88(&work->tiles[i][j], work);
+        for (j = 0; j < 4; j++) C_GEAR_StepTileFlash(&work->tiles[i][j], work);
     }
 }
 
@@ -1291,13 +1291,13 @@ void func_021F0A38(CGearWork *work)
 
 
 
-int func_021F0A68(CGearWork *work)
+int C_GEAR_IsAnyTileFlashing(CGearWork *work)
 {
     int result, i, j;
     result = 0;
     for (i = 0; i < 9; i++) {
         for (j = 0; j < 4; j++) {
-            if (func_021F0C68(&work->tiles[i][j])) {
+            if (C_GEAR_IsTileFlashing(&work->tiles[i][j])) {
                 result = 1;
                 break;
             }
@@ -1311,12 +1311,12 @@ int func_021F0A68(CGearWork *work)
 
 
 
-void func_021F0AA0(CGearWork *work)
+void C_GEAR_StopTileFlashes(CGearWork *work)
 {
     int i, j;
     for (i = 0; i < 9; i++) {
         for (j = 0; j < 4; j++) {
-            func_021F0B7C(&work->tiles[i][j]);
+            C_GEAR_StopTileFlash(&work->tiles[i][j]);
         }
     }
 }
@@ -1324,7 +1324,7 @@ void func_021F0AA0(CGearWork *work)
 
 
 
-void func_021F0AC8(CGearTile *tile, int col, int row)
+void C_GEAR_InitTile(CGearTile *tile, int col, int row)
 {
     func_02082BCC(tile, 0, 8);
     tile->col = col;
@@ -1333,11 +1333,11 @@ void func_021F0AC8(CGearTile *tile, int col, int row)
 
 
 
-void func_021F0AE0(CGearTile *tile, CGearWork *work, int surfaceVariant)
+void C_GEAR_ResetTileFlash(CGearTile *tile, CGearWork *work, int surfaceVariant)
 {
     tile->palRow = 0;
-    func_021F1290(work, tile->col, tile->row, surfaceVariant);
-    func_021F0C00(tile, 0);
+    C_GEAR_DrawTile(work, tile->col, tile->row, surfaceVariant);
+    C_GEAR_SetTileFlashStep(tile, 0);
 }
 
 
@@ -1346,7 +1346,7 @@ void func_021F0AE0(CGearTile *tile, CGearWork *work, int surfaceVariant)
  * note:     `t = 0` must come first: set after the stores, the third parameter stays in r2
  *           instead of moving to r1 at entry (27 bytes out).
  */
-void func_021F0B00(CGearTile *tile, CGearWork *work, int palRow, int mode, int variant, u16 stepPeriod)
+void C_GEAR_StartTileFlash(CGearTile *tile, CGearWork *work, int palRow, int mode, int variant, u16 stepPeriod)
 {
     int lastStep;
 
@@ -1360,12 +1360,12 @@ void func_021F0B00(CGearTile *tile, CGearWork *work, int palRow, int mode, int v
     } else if (mode == 1) {
         tile->stopStep = 4;
     } else if (mode == 2) {
-        tile->stopStep = func_021F0C70(work, palRow, tile->col, tile->row);
+        tile->stopStep = C_GEAR_GetTilePalette(work, palRow, tile->col, tile->row);
         tile->tick = stepPeriod * 5;
         lastStep = 4;
     }
-    func_021F1290(work, tile->col, tile->row, variant);
-    func_021F0C00(tile, lastStep);
+    C_GEAR_DrawTile(work, tile->col, tile->row, variant);
+    C_GEAR_SetTileFlashStep(tile, lastStep);
 }
 
 
@@ -1377,7 +1377,7 @@ void func_021F0B00(CGearTile *tile, CGearWork *work, int palRow, int mode, int v
 
 
 
-void func_021F0B7C(CGearTile *tile)
+void C_GEAR_StopTileFlash(CGearTile *tile)
 {
     tile->active = 0;
 }
@@ -1391,7 +1391,7 @@ void func_021F0B7C(CGearTile *tile)
 
 
 
-void func_021F0B88(CGearTile *tile, CGearWork *work)
+void C_GEAR_StepTileFlash(CGearTile *tile, CGearWork *work)
 {
     unsigned int step;
     int redraw;
@@ -1410,7 +1410,7 @@ void func_021F0B88(CGearTile *tile, CGearWork *work)
                 redraw = 1;
         }
         if (redraw)
-            func_021F0C00(tile, step);
+            C_GEAR_SetTileFlashStep(tile, step);
     }
 }
 
@@ -1423,13 +1423,13 @@ void func_021F0B88(CGearTile *tile, CGearWork *work)
 
 
 
-void func_021F0C00(CGearTile *tile, int step)
+void C_GEAR_SetTileFlashStep(CGearTile *tile, int step)
 {
     int tileX, tileY, width;
     int palette;
 
     palette = (d_021F323C + tile->palRow * 5)[step];
-    func_021F0D14(tile->col, tile->row, &tileX, &tileY);
+    C_GEAR_TileToScreen(tile->col, tile->row, &tileX, &tileY);
     width = 4;
     if (tileX < 0) {
         width = tileX + 4;
@@ -1449,7 +1449,7 @@ void func_021F0C00(CGearTile *tile, int step)
 
 
 
-int func_021F0C68(CGearTile *tile)
+int C_GEAR_IsTileFlashing(CGearTile *tile)
 {
     return tile->active;
 }
@@ -1462,9 +1462,9 @@ int func_021F0C68(CGearTile *tile)
 
 
 
-int func_021F0C70(CGearWork *work, int palRow, int col, int row)
+int C_GEAR_GetTilePalette(CGearWork *work, int palRow, int col, int row)
 {
-    if (func_021F2BB8(work, col, row)) return d_021F32B3[palRow][4];
+    if (C_GEAR_IsCellMarked(work, col, row)) return d_021F32B3[palRow][4];
     return d_021F32B3[palRow][col];
 }
 
@@ -1480,7 +1480,7 @@ int func_021F0C70(CGearWork *work, int palRow, int col, int row)
  * lever: enum zero and f2,f4,f0,f6 logical store order recover the
  * original scheduling; the previous f2,f0,f4,f6 order differed at two stores.
  */
-void func_021F0CA0(CGearTabTimer *timer, u16 limit, u8 stagger, u8 resetOnFire)
+void C_GEAR_InitTabTimer(CGearTabTimer *timer, u16 limit, u8 stagger, u8 resetOnFire)
 {
     ZeroValue zero;
     zero = Zero;
@@ -1500,7 +1500,7 @@ void func_021F0CA0(CGearTabTimer *timer, u16 limit, u8 stagger, u8 resetOnFire)
 
 
 
-void func_021F0CB8(CGearTabTimer *timer)
+void C_GEAR_TickTabTimer(CGearTabTimer *timer)
 {
     int i;
     if (timer->running) {
@@ -1519,7 +1519,7 @@ void func_021F0CB8(CGearTabTimer *timer)
 
 
 
-int func_021F0CDC(CGearTabTimer *timer, int slot)
+int C_GEAR_IsTabTimerFull(CGearTabTimer *timer, int slot)
 {
     if (timer->count[slot] >= timer->limit) return 1;
     return 0;
@@ -1533,7 +1533,7 @@ int func_021F0CDC(CGearTabTimer *timer, int slot)
 
 
 
-void func_021F0CF0(CGearTabTimer *timer, int slot)
+void C_GEAR_ResetTabTimerCount(CGearTabTimer *timer, int slot)
 {
     if (timer->resetOnFire != 0) timer->count[slot] = 0;
 }
@@ -1588,7 +1588,7 @@ void func_021F0D10(CGearTabTimer *timer, char running)
 
 
 
-void func_021F0D14(int col, int row, int *outX, int *outY)
+void C_GEAR_TileToScreen(int col, int row, int *outX, int *outY)
 {
     CGearParityPair rowShift = d_021F3344;
     *outX = col * 4 - 2;
@@ -1611,11 +1611,11 @@ void func_021F0D14(int col, int row, int *outX, int *outY)
  * interface: 0201210C returns the full word at +0x20; it is passed directly
  * to 02189A48, whose ov021 body reads the full word at +0x144. No value lost.
  */
-int func_021F0D48(CGearWork *work)
+int C_GEAR_IsIdleForInput(CGearWork *work)
 {
-    if (!func_020221A4()) return 0;
+    if (!WIPE_SYS_EndCheck()) return 0;
     if (func_0207D55C(&REG_DB_MASTER_BRIGHT)) return 0;
-    if (!func_02189A48(func_0201210C(work->gameSystem))) return 1;
+    if (!FIELDMAP_GetSubscreenBusy(func_0201210C(work->gameSystem))) return 1;
     return 0;
 }
 
@@ -1627,14 +1627,14 @@ int func_021F0D48(CGearWork *work)
 
 
 
-int func_021F0D80(CGearWork *work, int kind)
+int C_GEAR_CountCellsOfKind(CGearWork *work, int kind)
 {
     int j, i, count;
     if (kind == 4) return 1;
     count = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 9; j++) {
-            if (kind == func_021F2B9C(work, j, i)) count++;
+            if (kind == C_GEAR_GetCellKind(work, j, i)) count++;
         }
     }
     return count;
@@ -1649,26 +1649,26 @@ int func_021F0D80(CGearWork *work, int kind)
 
 
 
-void func_021F0DB4(CGearWork *work, int commEnabled)
+void C_GEAR_TintPalettes(CGearWork *work, int commEnabled)
 {
     char *srcPal, *dstPal;
     int i;
 
     if (commEnabled == 0) {
         srcPal = PALANM_GetDefaultWork(work->palAnm, 3);
-        dstPal = func_02021730(work->palAnm, 3);
+        dstPal = PALANM_GetTransWork(work->palAnm, 3);
         for (i = 0; i < 14; i++) {
             if (0xFBEE & (1 << i)) {
-                func_02021F64((u16 *)(srcPal + i * 0x20), (u16 *)(srcPal + i * 0x20), 0x10, 8,
+                PALANM_BlendColors((u16 *)(srcPal + i * 0x20), (u16 *)(srcPal + i * 0x20), 0x10, 8,
                               d_021F31B6[work->colorTheme]);
                 func_02082D44(srcPal + i * 0x20, dstPal + i * 0x20, 0x20);
             }
         }
         srcPal = PALANM_GetDefaultWork(work->palAnm, 1);
-        dstPal = func_02021730(work->palAnm, 1);
+        dstPal = PALANM_GetTransWork(work->palAnm, 1);
         for (i = 0; i < 14; i++) {
             if (0x3E & (1 << i)) {
-                func_02021F64((u16 *)(srcPal + i * 0x20), (u16 *)(srcPal + i * 0x20), 0x10, 8,
+                PALANM_BlendColors((u16 *)(srcPal + i * 0x20), (u16 *)(srcPal + i * 0x20), 0x10, 8,
                               d_021F31B6[work->colorTheme]);
                 func_02082D44(srcPal + i * 0x20, dstPal + i * 0x20, 0x20);
             }
@@ -1685,7 +1685,7 @@ void func_021F0DB4(CGearWork *work, int commEnabled)
 
 
 
-void func_021F0E70(CGearWork *work)
+void C_GEAR_StartFlashFade(CGearWork *work)
 {
     PALANM_RequestFade(work->palAnm, 8, 0xFFFF, -120, 0, 0x10,
                   d_021F31B6[work->colorTheme], work->fadeCtx);
@@ -1700,7 +1700,7 @@ void func_021F0E70(CGearWork *work)
 
 
 
-void func_021F0EB0(CGearWork *work, int faded)
+void C_GEAR_FadeBackground(CGearWork *work, int faded)
 {
     int endLevel = 8;
     if (faded == 0)
@@ -1720,7 +1720,7 @@ void func_021F0EB0(CGearWork *work, int faded)
 
 
 
-void func_021F0F28(CGearWork *work, int faded)
+void C_GEAR_FadeAccentColors(CGearWork *work, int faded)
 {
     int endLevel = 8;
     if (faded == 0)
@@ -1738,7 +1738,7 @@ void func_021F0F28(CGearWork *work, int faded)
 
 
 
-void func_021F0F70(CGearWork *work)
+void C_GEAR_StartFadeOut(CGearWork *work)
 {
     PALANM_RequestFade(work->palAnm, 8, 0xFFFF, 1, 0, 0x10,
                   d_021F31B6[work->colorTheme], work->fadeCtx);
@@ -1753,7 +1753,7 @@ void func_021F0F70(CGearWork *work)
 
 
 
-void func_021F0FB0(CGearWork *work)
+void C_GEAR_StartFadeIn(CGearWork *work)
 {
     PALANM_RequestFade(work->palAnm, 8, 0xFFFF, 1, 0x10, 0,
                   d_021F31B6[work->colorTheme], work->fadeCtx);
@@ -1770,7 +1770,7 @@ void func_021F0FB0(CGearWork *work)
 /*
  * extent: followed by existing ov029_func_021F1000.c.
  */
-void func_021F0FF0(CGearWork *work)
+void C_GEAR_StopFade(CGearWork *work)
 {
     PALANM_ForceStopFade(work->palAnm);
 }
@@ -1784,7 +1784,7 @@ void func_021F0FF0(CGearWork *work)
 
 
 
-int func_021F1000(CGearWork *work)
+int C_GEAR_GetFadeRequestBits(CGearWork *work)
 {
     return PALANM_GetFadeRequestBits(work->palAnm);
 }
@@ -1797,7 +1797,7 @@ int func_021F1000(CGearWork *work)
 
 
 
-void func_021F1010(CGearWork *work)
+void C_GEAR_DrawEmptyBoard(CGearWork *work)
 {
     CGearParityPair columnRows = d_021F3324;
     int i, j, rows;
@@ -1805,7 +1805,7 @@ void func_021F1010(CGearWork *work)
     for (i = 0; i < 9; i++) {
         rows = columnRows.value[i % 2];
         for (j = 0; j < rows; j++)
-            func_021F1290(work, i, j, 0);
+            C_GEAR_DrawTile(work, i, j, 0);
     }
     func_020409B4(4);
 }
@@ -1818,7 +1818,7 @@ void func_021F1010(CGearWork *work)
 
 
 
-int func_021F1060(CGearWork *work)
+int C_GEAR_StepIntroTiles(CGearWork *work)
 {
     CGearParityPair columnRows = d_021F331C;
     int i, j, rows;
@@ -1833,12 +1833,12 @@ int func_021F1060(CGearWork *work)
         for (i = 0; i < 9; i++) {
             rows = columnRows.value[i % 2];
             for (j = 0; j < rows; j++)
-                func_021F0B00(&work->tiles[i][j], work, 4, 1, 4, 2);
+                C_GEAR_StartTileFlash(&work->tiles[i][j], work, 4, 1, 4, 2);
         }
         work->phase++;
         break;
     case 1:
-        if (func_021F0A68(work) == 0)
+        if (C_GEAR_IsAnyTileFlashing(work) == 0)
             work->phase++;
         break;
     case 2:
@@ -1847,23 +1847,23 @@ int func_021F1060(CGearWork *work)
             if (work->phaseTimer == d_021F3410[stepIdx].startTick) {
                 tileRow = step->row;
                 tileCol = step->col;
-                kind = func_021F2B9C(work, tileCol, tileRow);
-                func_021F0B00(&work->tiles[tileCol][tileRow], work, (u8)d_021F31D4[kind], 2, kind, step->stepPeriod);
+                kind = C_GEAR_GetCellKind(work, tileCol, tileRow);
+                C_GEAR_StartTileFlash(&work->tiles[tileCol][tileRow], work, (u8)d_021F31D4[kind], 2, kind, step->stepPeriod);
             }
         }
         if (work->phaseTimer >= 4) {
-            func_021F0FB0(work);
-            func_021F1A44(work, 1);
+            C_GEAR_StartFadeIn(work);
+            C_GEAR_SetTileMarkersVisible(work, 1);
             work->phase++;
         }
         work->phaseTimer++;
         break;
     case 3:
-        if (func_021F0A68(work) == 0 && func_021F1000(work) == 0)
+        if (C_GEAR_IsAnyTileFlashing(work) == 0 && C_GEAR_GetFadeRequestBits(work) == 0)
             return 1;
         break;
     }
-    func_021F0A38(work);
+    C_GEAR_StepTiles(work);
     return 0;
 }
 
@@ -1879,22 +1879,22 @@ int func_021F1060(CGearWork *work)
  * The byte phaseTimer must be spelled out at each use (no cached pointer
  * local): a local pointer makes the increment reload the pool constant.
  */
-int func_021F11B4(CGearWork *work)
+int C_GEAR_StepOutroTiles(CGearWork *work)
 {
     unsigned int i;
 
     if (work->phaseTimer <= 0x7E) {
         for (i = 0; i < 0x24; i++) {
             if (work->phaseTimer == d_021F348C[i].startTick)
-                func_021F0B00(&work->tiles[d_021F348C[i].col][d_021F348C[i].row],
+                C_GEAR_StartTileFlash(&work->tiles[d_021F348C[i].col][d_021F348C[i].row],
                               work, 4, 0, 4, d_021F348C[i].stepPeriod);
         }
         work->phaseTimer = work->phaseTimer + 1;
     } else {
-        if (func_021F0A68(work) == 0)
+        if (C_GEAR_IsAnyTileFlashing(work) == 0)
             return 1;
     }
-    func_021F0A38(work);
+    C_GEAR_StepTiles(work);
     return 0;
 }
 
@@ -1906,7 +1906,7 @@ int func_021F11B4(CGearWork *work)
 
 
 
-void func_021F122C(CGearWork *work)
+void C_GEAR_ResetAllTiles(CGearWork *work)
 {
     CGearParityPair columnRows = d_021F3334;
     int i, j, rows;
@@ -1915,7 +1915,7 @@ void func_021F122C(CGearWork *work)
     for (; i < 9; i++) {
         rows = columnRows.value[i % 2];
         for (j = 0; j < rows; j++)
-            func_021F0AE0(&work->tiles[i][j], work, 4);
+            C_GEAR_ResetTileFlash(&work->tiles[i][j], work, 4);
     }
 }
 
@@ -1932,16 +1932,16 @@ void func_021F122C(CGearWork *work)
  *   store block. mwcc puts a named local first in `w + o` (adds r0,r0,r4); the plain t.w[c] load
  *   is a temp and goes second, which was the last 2-byte residue.
  */
-void func_021F1290(CGearWork *work, int col, int row, int kind)
+void C_GEAR_DrawTile(CGearWork *work, int col, int row, int kind)
 {
     CGearTileBases tileBases = d_021F3354;
     int mapCol, mapRow, mapRowIdx, palRow, palette, i, mapColIdx, j;
     u16 *tilemap;
 
     tilemap = (u16 *)func_0204162C(4);
-    func_021F0D14(col, row, &mapCol, &mapRow);
+    C_GEAR_TileToScreen(col, row, &mapCol, &mapRow);
     palRow = d_021F31D4[kind];
-    palette = func_021F0C70(work, palRow, col, row);
+    palette = C_GEAR_GetTilePalette(work, palRow, col, row);
     mapRowIdx = mapRow;
     for (i = 0; i < 4; i++) {
         int o = i * 32;
@@ -1966,7 +1966,7 @@ void func_021F1290(CGearWork *work, int col, int row, int kind)
 
 
 
-int func_021F133C(CGearWork *work, int kind, int *outX, int *outY)
+int C_GEAR_FindCellOfKind(CGearWork *work, int kind, int *outX, int *outY)
 {
     int firstCol = 0;
     int firstRow = 0;
@@ -1976,17 +1976,17 @@ int func_021F133C(CGearWork *work, int kind, int *outX, int *outY)
 
     for (row = 0; row < 4; row++) {
         for (col = 0; col < 9; col++) {
-            if (kind == func_021F2B9C(work, col, row)) {
+            if (kind == C_GEAR_GetCellKind(work, col, row)) {
                 if (found == 0) {
                     firstCol = col;
                     firstRow = row;
                     found = 1;
                 }
-                if (func_021F2BB8(work, col, row)) {
-                    func_021F0D14(col, row, outX, outY);
+                if (C_GEAR_IsCellMarked(work, col, row)) {
+                    C_GEAR_TileToScreen(col, row, outX, outY);
                     return 1;
                 }
-                if (func_021F2BD4(work, col, row, kind)) {
+                if (C_GEAR_IsCellKind(work, col, row, kind)) {
                     firstCol = col;
                     firstRow = row;
                     found = 1;
@@ -1995,9 +1995,9 @@ int func_021F133C(CGearWork *work, int kind, int *outX, int *outY)
         }
     }
     if (found) {
-        func_021F0D14(firstCol, firstRow, outX, outY);
+        C_GEAR_TileToScreen(firstCol, firstRow, outX, outY);
         func_020091AC(work->hexMap, firstCol, firstRow, kind, 1, 0);
-        func_021F1290(work, firstCol, firstRow, kind);
+        C_GEAR_DrawTile(work, firstCol, firstRow, kind);
         func_020409B4(4);
         return 1;
     }
@@ -2012,7 +2012,7 @@ int func_021F133C(CGearWork *work, int kind, int *outX, int *outY)
 
 
 
-void func_021F13FC(CGearWork *work)
+void C_GEAR_DrawAllCells(CGearWork *work)
 {
     int columnRows[2];
     int i;
@@ -2024,7 +2024,7 @@ void func_021F13FC(CGearWork *work)
     for (i = 0; i < 9; i++) {
         rows = columnRows[i % 2];
         for (j = 0; j < rows; j++)
-            func_021F1290(work, i, j, func_021F2B9C(work, i, j));
+            C_GEAR_DrawTile(work, i, j, C_GEAR_GetCellKind(work, i, j));
     }
     func_020409B4(4);
 }
@@ -2042,7 +2042,7 @@ void func_021F13FC(CGearWork *work)
  * the table address in ip and spills the source pointer instead. `n` is declared
  * before `r` so the counter lands at [sp,#0x20] and the handle at [sp,#0x1c].
  */
-u32 func_021F1458(CGearWork *work, int theme, int skin, int loadPalettes)
+u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes)
 {
     int colorIdx;
     void *handle;
@@ -2066,7 +2066,7 @@ u32 func_021F1458(CGearWork *work, int theme, int skin, int loadPalettes)
         func_020307B0(handle);
         handle = func_02049F78(work->archive, 0x17, &file, 0x8070);
         for (k = 0; k < 9; k++) {
-            func_021F09B4(work, file->data, k);
+            C_GEAR_LoadTargetPalette(work, file->data, k);
         }
         func_020307B0(handle);
     }
@@ -2090,7 +2090,7 @@ u32 func_021F1458(CGearWork *work, int theme, int skin, int loadPalettes)
  *           stack-argument store (4 bytes out). The loop needs i = 0 hoisted first, the
  *           base hoisted and the destination pointer stepped by 4.
  */
-void func_021F1574(CGearWork *work, int theme)
+void C_GEAR_LoadSpriteResources(CGearWork *work, int theme)
 {
     int i;
     void *handle;
@@ -2098,9 +2098,9 @@ void func_021F1574(CGearWork *work, int theme)
     int *base;
 
     i = 0;
-    work->spritePlttRes = func_0204ABF0(work->archive, d_021F31C8[theme], 1, 0, 0x70);
-    work->spriteCharRes = func_0204A6C8(work->archive, 0x16, 0, 1, 0x70);
-    work->spriteAnimRes = func_0204AF28(work->archive, 0x15, 0x14, work->heapId);
+    work->spritePlttRes = CLACT_RegisterPalette(work->archive, d_021F31C8[theme], 1, 0, 0x70);
+    work->spriteCharRes = CLACT_RegisterCharacter(work->archive, 0x16, 0, 1, 0x70);
+    work->spriteAnimRes = CLACT_RegisterCellAnim(work->archive, 0x15, 0x14, work->heapId);
     handle = func_02049F78(work->archive, 0x18, &file, work->heapId);
     base = (int *)file->data;
     for (; i < 17; i++) {
@@ -2108,7 +2108,7 @@ void func_021F1574(CGearWork *work, int theme)
     }
     func_020307B0(handle);
     GFL_NET_RestartWithTimeout(0xda, 0xe);
-    func_0203D34C(0, work->heapId);
+    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
 }
 
 
@@ -2118,7 +2118,7 @@ void func_021F1574(CGearWork *work, int theme)
 
 
 
-void func_021F15FC(CGearWork *work, int customBgLoaded)
+void C_GEAR_LoadFrameGraphics(CGearWork *work, int customBgLoaded)
 {
     if (customBgLoaded == 0)
         func_02049990(work->archive, 1, 5, 0, (u16)work->bgCharBlock, 0, 0, 0x70);
@@ -2135,11 +2135,11 @@ void func_021F15FC(CGearWork *work, int customBgLoaded)
 /*
  * volatile: 0x021F1722 ldr / 0x021F1726 str of 0x04001000 (REG_DB_DISPCNT_SUB read-modify-write, hardware register)
  *
- * Twin of ov030 func_021EFF54 (same three BgTemplate blocks), plus the
- * func_021F1740 call and the sub-screen window-mask clear. d_021F33AC's
+ * Twin of ov030 NO_GEAR_SetupBackgrounds (same three BgTemplate blocks), plus the
+ * C_GEAR_SetupSubScreenBlend call and the sub-screen window-mask clear. d_021F33AC's
  * ov029 hint is contested by another overlay, so its line carries only a4.
  */
-void func_021F1624(CGearWork *work)
+void C_GEAR_SetupBackgrounds(CGearWork *work)
 {
     int i;
 
@@ -2170,7 +2170,7 @@ void func_021F1624(CGearWork *work)
         func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
         func_020409B4(4);
     }
-    func_021F1740(work);
+    C_GEAR_SetupSubScreenBlend(work);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
 }
 
@@ -2181,7 +2181,7 @@ void func_021F1624(CGearWork *work)
 
 
 
-void func_021F1740(CGearWork *work)
+void C_GEAR_SetupSubScreenBlend(CGearWork *work)
 {
     func_0207D63C(0x04001050, 2, 0x15, 9, 0x10);
 }
@@ -2199,7 +2199,7 @@ void func_021F1740(CGearWork *work)
  * The inner switch lists case 3 before case 2 (bodies 1, 6, 5 in the image).
  * func_021EFEC0 is the unlabelled ov029 leaf filed as ov029_func_021EFEC0.c.
  */
-void func_021F1758(CGearWork *work, int key)
+void C_GEAR_HandleButton(CGearWork *work, int key)
 {
     int touchCol;
     int touchRow;
@@ -2216,16 +2216,16 @@ void func_021F1758(CGearWork *work, int key)
     switch (key) {
     case 0:
         TOUCHPANEL_GetPointCont(&touchX, &touchY);
-        kind = func_021F020C(work, touchX, touchY, &touchCol, &touchRow);
+        kind = C_GEAR_HitTestTile(work, touchX, touchY, &touchCol, &touchRow);
         if (work->paintMode != 0) {
             work->touchX = touchX;
             work->touchY = touchY;
-            if ((func_021F0D80(work, kind) > 1 || kind == 4) && func_021EFEC0(touchCol, touchRow) != 0) {
-                func_021F2AEC(work, work->hexMap, touchCol, touchRow, (kind + 1) % 5);
+            if ((C_GEAR_CountCellsOfKind(work, kind) > 1 || kind == 4) && func_021EFEC0(touchCol, touchRow) != 0) {
+                C_GEAR_SetCellKind(work, work->hexMap, touchCol, touchRow, (kind + 1) % 5);
                 func_020409B4(4);
                 func_020061E4(0x628);
             }
-        } else if (func_021F2DA8(work) == 0) {
+        } else if (C_GEAR_IsAnyIndicatorShown(work) == 0) {
             work->selectedCol = touchCol;
             work->selectedRow = touchRow;
             switch (kind) {
@@ -2244,7 +2244,7 @@ void func_021F1758(CGearWork *work, int key)
     case 1:
         func_020061E4(0x628);
         work->paintMode ^= 1;
-        func_021F1910(work, work->paintMode);
+        C_GEAR_SetPaintModeIcon(work, work->paintMode);
         break;
     case 2:
         work->command = 0xC;
@@ -2262,9 +2262,9 @@ void func_021F1758(CGearWork *work, int key)
         work->skinIndex++;
         work->skinIndex = work->skinIndex % 5;
         func_020090E8(work->hexMap, work->skinIndex);
-        func_021F1458(work, work->colorTheme, work->skinIndex, 0);
-        func_021F13FC(work);
-        func_021F1A44(work, 1);
+        C_GEAR_LoadSkin(work, work->colorTheme, work->skinIndex, 0);
+        C_GEAR_DrawAllCells(work);
+        C_GEAR_SetTileMarkersVisible(work, 1);
         break;
     case 6:
         work->command = 0xD;
@@ -2279,10 +2279,10 @@ void func_021F1758(CGearWork *work, int key)
 
 
 
-void func_021F18F0(int key, int buttonState, CGearWork *work)
+void C_GEAR_OnButtonEvent(int key, int buttonState, CGearWork *work)
 {
-    if (func_021F2DA8(work) == 0 && buttonState == 0)
-        func_021F1758(work, key);
+    if (C_GEAR_IsAnyIndicatorShown(work) == 0 && buttonState == 0)
+        C_GEAR_HandleButton(work, key);
 }
 
 
@@ -2293,11 +2293,11 @@ void func_021F18F0(int key, int buttonState, CGearWork *work)
 
 
 
-void func_021F1910(CGearWork *work, int paintMode)
+void C_GEAR_SetPaintModeIcon(CGearWork *work, int paintMode)
 {
     if (paintMode) {
         CLACT_SetActorAnimIndex(work->hudActors[9], 0);
-        func_0204B954(work->hudActors[9], 0x2000);
+        CLACT_SetActorAutoAnimSpeed(work->hudActors[9], 0x2000);
         func_0204B92C(work->hudActors[9], 1);
     } else {
         func_0204B92C(work->hudActors[9], 0);
@@ -2313,13 +2313,13 @@ void func_021F1910(CGearWork *work, int paintMode)
 
 
 
-void func_021F1950(CGearWork *work)
+void C_GEAR_CreateHudActors(CGearWork *work)
 {
     int i;
     int j;
     CGearActorDesc desc;
 
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
     j = 0;
     for (i = 0; i < 11; i++) {
         desc.x = d_021F3531[i];
@@ -2330,25 +2330,25 @@ void func_021F1950(CGearWork *work)
         }
         desc.palOffset = 0;
         desc.surface = 2;
-        work->hudActors[i] = func_0204B294(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
+        work->hudActors[i] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
         func_0204B3DC(work->hudActors[i], 0);
-        func_0204BA20(work->hudActors[i], 0);
+        CLACT_SetActorVisible(work->hudActors[i], 0);
     }
-    func_021F1910(work, 0);
+    C_GEAR_SetPaintModeIcon(work, 0);
     for (j = 0; j < 3; j++) {
         desc.x = 8;
         desc.y = 8;
         desc.animIndex = d_021F3548[j];
         desc.palOffset = 0;
         desc.surface = 2;
-        work->tileMarkerActors[j] = func_0204B294(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
+        work->tileMarkerActors[j] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
         func_0204B3DC(work->tileMarkerActors[j], 0);
-        func_0204BA20(work->tileMarkerActors[j], 0);
+        CLACT_SetActorVisible(work->tileMarkerActors[j], 0);
     }
-    func_021F1F80(work);
-    func_021F20AC(work);
+    C_GEAR_UpdateClock(work);
+    C_GEAR_UpdateTileMarkers(work);
 }
 
 
@@ -2358,7 +2358,7 @@ void func_021F1950(CGearWork *work)
 
 
 
-void func_021F1A44(CGearWork *work, int visible)
+void C_GEAR_SetTileMarkersVisible(CGearWork *work, int visible)
 {
     int i;
     for (i = 0; i < 3; i++)
@@ -2373,7 +2373,7 @@ void func_021F1A44(CGearWork *work, int visible)
 
 
 
-void func_021F1A64(CGearWork *work, int visible)
+void C_GEAR_SetAllActorsVisible(CGearWork *work, int visible)
 {
     int i;
 
@@ -2408,7 +2408,7 @@ void func_021F1A64(CGearWork *work, int visible)
         func_0204B3DC(work->barActors[2], visible);
     }
     if (visible == 1) {
-        func_021F1F80(work);
+        C_GEAR_UpdateClock(work);
     }
 }
 
@@ -2419,7 +2419,7 @@ void func_021F1A64(CGearWork *work, int visible)
 
 
 
-void func_021F1B30(CGearWork *work, int visible)
+void C_GEAR_SetSplashActorsVisible(CGearWork *work, int visible)
 {
     int i;
     for (i = 0; i < 18; i++)
@@ -2434,7 +2434,7 @@ void func_021F1B30(CGearWork *work, int visible)
 
 
 
-void func_021F1B50(CGearWork *work)
+void C_GEAR_CreateSplashActors(CGearWork *work)
 {
     int i;
     CGearActorDesc desc;
@@ -2445,11 +2445,11 @@ void func_021F1B50(CGearWork *work)
         desc.animIndex = i + 0x12;
         desc.palOffset = 0;
         desc.surface = 2;
-        work->splashActors[i] = func_0204B294(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
+        work->splashActors[i] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
         func_0204B3DC(work->splashActors[i], 0);
-        func_0204B954(work->splashActors[i], 0x2000);
-        func_0204B9A0(work->splashActors[i]);
+        CLACT_SetActorAutoAnimSpeed(work->splashActors[i], 0x2000);
+        CLACT_RestartActorAnim(work->splashActors[i]);
         func_0204B92C(work->splashActors[i], 1);
     }
 }
@@ -2461,12 +2461,12 @@ void func_021F1B50(CGearWork *work)
 
 
 
-void func_021F1BBC(CGearWork *work)
+void C_GEAR_DeleteSplashActors(CGearWork *work)
 {
     int i;
     if (work->splashActors[0] != 0) {
         for (i = 0; i < 18; i++) {
-            func_0204B3B4(work->splashActors[i]);
+            CLACT_DeleteActor(work->splashActors[i]);
             work->splashActors[i] = 0;
         }
     }
@@ -2479,11 +2479,11 @@ void func_021F1BBC(CGearWork *work)
 
 
 
-int func_021F1BE4(CGearWork *work)
+int C_GEAR_IsSplashDone(CGearWork *work)
 {
     int i;
     for (i = 0; i < 18; i++) {
-        if (func_0204B98C(work->splashActors[i]) == 1)
+        if (CLACT_IsActorAnimActive(work->splashActors[i]) == 1)
             return 0;
     }
     return 1;
@@ -2497,7 +2497,7 @@ int func_021F1BE4(CGearWork *work)
 
 
 
-void func_021F1C0C(CGearWork *work)
+void C_GEAR_CreateBarActors(CGearWork *work)
 {
     CGearActorDesc desc;
 
@@ -2506,30 +2506,30 @@ void func_021F1C0C(CGearWork *work)
     desc.animIndex = 0x28;
     desc.palOffset = 0;
     desc.surface = 2;
-    work->barActors[0] = func_0204B294(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
+    work->barActors[0] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
     func_0204B3DC(work->barActors[0], 0);
-    func_0204BA20(work->barActors[0], 0);
+    CLACT_SetActorVisible(work->barActors[0], 0);
 
     desc.x = 0x68;
     desc.y = 0xaa;
     desc.animIndex = 0x27;
     desc.palOffset = 0x14;
     desc.surface = 2;
-    work->barActors[1] = func_0204B294(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
+    work->barActors[1] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
     func_0204B3DC(work->barActors[1], 0);
-    func_0204BA20(work->barActors[1], 0);
+    CLACT_SetActorVisible(work->barActors[1], 0);
 
     desc.x = 0x22;
     desc.y = 0xaa;
     desc.animIndex = 0x10;
     desc.palOffset = 0;
     desc.surface = 2;
-    work->barActors[2] = func_0204B294(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
+    work->barActors[2] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
     func_0204B3DC(work->barActors[2], 0);
-    func_0204BA20(work->barActors[2], 0);
+    CLACT_SetActorVisible(work->barActors[2], 0);
 }
 
 
@@ -2540,7 +2540,7 @@ void func_021F1C0C(CGearWork *work)
 
 
 
-void func_021F1CD8(CGearWork *work)
+void C_GEAR_UpdateBeaconColors(CGearWork *work)
 {
     int receiveNo;
     int slotCount;
@@ -2552,7 +2552,7 @@ void func_021F1CD8(CGearWork *work)
     if (work->commEnabled == 0) {
         return;
     }
-    if (func_021F05B4(work) != 0) {
+    if (C_GEAR_IsCallTabActive(work) != 0) {
         return;
     }
     receiveNo = GAME_BEACON_GetReceiveCount();
@@ -2573,7 +2573,7 @@ void func_021F1CD8(CGearWork *work)
         } else {
             log = GAME_BEACON_GetLogByReceiveNo(receiveNo);
             if (log != 0) {
-                PALANM_CopyToSlot(work->palAnm, &work->beaconColors[func_02165CD8(log)], 3,
+                PALANM_CopyToSlot(work->palAnm, &work->beaconColors[GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(log)], 3,
                               (u16)(d_021F33CC[slotCount] * 2 + 0x60), 4);
                 slotCount++;
             }
@@ -2589,16 +2589,16 @@ void func_021F1CD8(CGearWork *work)
 
 
 
-void func_021F1DB0(CGearWork *work)
+void C_GEAR_DeleteBarActors(CGearWork *work)
 {
     if (work->barActors[0] != 0) {
-        func_0204B3B4(work->barActors[0]);
+        CLACT_DeleteActor(work->barActors[0]);
         work->barActors[0] = 0;
     }
     if (work->barActors[1] != 0)
-        func_0204B3B4(work->barActors[1]);
+        CLACT_DeleteActor(work->barActors[1]);
     if (work->barActors[2] != 0) {
-        func_0204B3B4(work->barActors[2]);
+        CLACT_DeleteActor(work->barActors[2]);
         work->barActors[2] = 0;
     }
 }
@@ -2611,28 +2611,28 @@ void func_021F1DB0(CGearWork *work)
 
 
 
-void func_021F1DE8(CGearWork *work, int introMode)
+void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
 {
     int z;
 
     work->colorTheme = func_02008550(func_02012944(func_020120F4(work->gameSystem)));
     work->skinIndex = func_020090F0(work->hexMap);
     z = 0;
-    work->spriteSystem = func_0204B100(0x44, 0, work->heapId);
-    work->spriteResList = func_0204B034(d_021F3214, 1, work->heapId);
+    work->spriteSystem = CLACT_CreateUnit(0x44, 0, work->heapId);
+    work->spriteResList = CLACT_CreateRenderer(d_021F3214, 1, work->heapId);
     func_0204B258(work->spriteSystem, work->spriteResList);
-    func_021F1458(work, work->colorTheme, work->skinIndex, 1);
-    func_021F1574(work, work->colorTheme);
-    func_021F1950(work);
-    func_021F1C0C(work);
-    work->buttonTask = func_02051B84(d_021F3272, func_021F18F0, work, work->heapId);
+    C_GEAR_LoadSkin(work, work->colorTheme, work->skinIndex, 1);
+    C_GEAR_LoadSpriteResources(work, work->colorTheme);
+    C_GEAR_CreateHudActors(work);
+    C_GEAR_CreateBarActors(work);
+    work->buttonTask = BUTTON_MAN_Create(d_021F3272, C_GEAR_OnButtonEvent, work, work->heapId);
     if (introMode) {
-        func_021F1010(work);
-        func_021F1A64(work, z);
+        C_GEAR_DrawEmptyBoard(work);
+        C_GEAR_SetAllActorsVisible(work, z);
     } else {
-        func_021F13FC(work);
-        func_021F1A64(work, 1);
-        func_021F1A44(work, 1);
+        C_GEAR_DrawAllCells(work);
+        C_GEAR_SetAllActorsVisible(work, 1);
+        C_GEAR_SetTileMarkersVisible(work, 1);
     }
 }
 
@@ -2644,34 +2644,34 @@ void func_021F1DE8(CGearWork *work, int introMode)
 
 
 
-void func_021F1E98(CGearWork *work)
+void C_GEAR_DeleteActors(CGearWork *work)
 {
     int i;
     unsigned int v;
 
-    func_021F1DB0(work);
-    func_021F1BBC(work);
+    C_GEAR_DeleteBarActors(work);
+    C_GEAR_DeleteSplashActors(work);
     for (i = 0; i < 11; i++) {
         if (work->hudActors[i] != 0) {
-            func_0204B3B4(work->hudActors[i]);
+            CLACT_DeleteActor(work->hudActors[i]);
             work->hudActors[i] = 0;
         }
     }
     for (i = 0; i < 3; i++) {
         if (work->tileMarkerActors[i] != 0) {
-            func_0204B3B4(work->tileMarkerActors[i]);
+            CLACT_DeleteActor(work->tileMarkerActors[i]);
             work->tileMarkerActors[i] = 0;
         }
     }
     for (i = 0; i < 20; i++) {
         if (work->actorSlots[i].actor != 0) {
-            func_0204B3B4(work->actorSlots[i].actor);
+            CLACT_DeleteActor(work->actorSlots[i].actor);
             work->actorSlots[i].actor = 0;
         }
     }
-    func_0204AFD8(work->spriteAnimRes);
-    func_0204A8D4(work->spriteCharRes);
-    func_0204ADA4(work->spritePlttRes);
+    CLACT_ReleaseCellAnim(work->spriteAnimRes);
+    CLACT_ReleaseCharacter(work->spriteCharRes);
+    CLACT_ReleasePalette(work->spritePlttRes);
     v = work->bgCharBlock;
     func_0203FB44(6, (unsigned short)v, (unsigned short)(v >> 16));
 }
@@ -2683,13 +2683,13 @@ void func_021F1E98(CGearWork *work)
 
 
 
-void func_021F1F24(CGearWork *work)
+void C_GEAR_FreeGraphics(CGearWork *work)
 {
     if (work->buttonTask)
-        func_02051C6C(work->buttonTask);
-    func_021F1E98(work);
-    func_0204B084(work->spriteResList);
-    func_0204B1CC(work->spriteSystem);
+        BUTTON_MAN_Delete(work->buttonTask);
+    C_GEAR_DeleteActors(work);
+    CLACT_DeleteRenderer(work->spriteResList);
+    CLACT_DeleteUnit(work->spriteSystem);
     func_020403F4(4);
     func_020403F4(5);
     func_020403F4(6);
@@ -2704,7 +2704,7 @@ void func_021F1F24(CGearWork *work)
 
 
 
-u8 func_021F1F70(void)
+u8 C_GEAR_GetBatteryFrame(void)
 {
     return d_021F3520[UI_GetPowerState()];
 }
@@ -2730,7 +2730,7 @@ static inline void SetActorAnimFrame(struct Actor *actor, int frame)
 
 
 
-void func_021F1F80(CGearWork *work)
+void C_GEAR_UpdateClock(CGearWork *work)
 {
     RtcTime time;
     struct Actor *actor;
@@ -2763,7 +2763,7 @@ void func_021F1F80(CGearWork *work)
 
     actor = work->hudActors[6];
     if (OS_IsRunOnTwl()) {
-        SetActorAnimFrame(actor, func_021F1F70());
+        SetActorAnimFrame(actor, C_GEAR_GetBatteryFrame());
     } else {
         SetActorAnimFrame(actor, UI_GetPowerState() == 5);
     }
@@ -2776,7 +2776,7 @@ void func_021F1F80(CGearWork *work)
 
 
 
-void func_021F20AC(CGearWork *work)
+void C_GEAR_UpdateTileMarkers(CGearWork *work)
 {
     int i;
     int pixelX;
@@ -2784,7 +2784,7 @@ void func_021F20AC(CGearWork *work)
     CGearPos pos;
 
     for (i = 0; i < 3; i++) {
-        if (func_021F133C(work, i + 1, &pixelX, &pixelY)) {
+        if (C_GEAR_FindCellOfKind(work, i + 1, &pixelX, &pixelY)) {
             pixelX = pixelX * 8;
             pixelY = pixelY * 8;
             pos.x = pixelX + 0x10;
@@ -2807,17 +2807,17 @@ void func_021F20AC(CGearWork *work)
 
 
 
-void func_021F2130(CGearWork *work)
+void C_GEAR_RunFrame(CGearWork *work)
 {
-    func_02051C88(work->buttonTask);
-    func_021F2D50(work);
-    func_021F2DC8(work);
-    func_021F1F80(work);
-    if (func_021F2DA8(work) == 0) {
+    BUTTON_MAN_UpdateSlots(work->buttonTask);
+    C_GEAR_TickIndicators(work);
+    C_GEAR_TickTabFrame(work);
+    C_GEAR_UpdateClock(work);
+    if (C_GEAR_IsAnyIndicatorShown(work) == 0) {
         if (work->commEnabled) {
-            func_021F05D0(work);
-            func_021F0728(work);
-            func_021F1CD8(work);
+            C_GEAR_TickTabTimers(work);
+            C_GEAR_UpdateTabPalettes(work);
+            C_GEAR_UpdateBeaconColors(work);
         }
     } else {
         work->command = 0;
@@ -2830,14 +2830,14 @@ void func_021F2130(CGearWork *work)
 
 
 
-void func_021F2180(CGearWork *work)
+void C_GEAR_StepIdle(CGearWork *work)
 {
     if (work->endCallback != 0)
         (work->endCallback)(work->endCallbackArg);
     work->endCallback = 0;
     work->endCallbackArg = 0;
-    if (func_021F0D48(work))
-        func_021F2130(work);
+    if (C_GEAR_IsIdleForInput(work))
+        C_GEAR_RunFrame(work);
 }
 
 
@@ -2847,11 +2847,11 @@ void func_021F2180(CGearWork *work)
 
 
 
-void func_021F21B4(CGearWork *work)
+void C_GEAR_StepIntroEnd(CGearWork *work)
 {
     void (*callback)(int);
 
-    if (func_021F1060(work) == 0) {
+    if (C_GEAR_StepIntroTiles(work) == 0) {
         callback = work->endCallback;
         if (callback)
             callback(work->endCallbackArg);
@@ -2859,8 +2859,8 @@ void func_021F21B4(CGearWork *work)
         work->endCallbackArg = 0;
         return;
     }
-    func_021F0300(work);
-    func_021EFEF8(work, func_021F2180, 0xF92);
+    C_GEAR_InitTabTimersPowerOff(work);
+    C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 0xF92);
 }
 
 
@@ -2870,26 +2870,26 @@ void func_021F21B4(CGearWork *work)
 
 
 
-void func_021F21F8(CGearWork *work)
+void C_GEAR_StepOpen(CGearWork *work)
 {
     switch (work->phase) {
     case 0:
-        func_021F1010(work);
-        func_021F0370(work);
-        func_021F1A64(work, 0);
+        C_GEAR_DrawEmptyBoard(work);
+        C_GEAR_ResetTabPalettes(work);
+        C_GEAR_SetAllActorsVisible(work, 0);
         (work->phase)++;
         return;
     case 1:
-        if (func_021F0D48(work)) {
-            func_021F1B50(work);
-            func_021F1B30(work, 1);
+        if (C_GEAR_IsIdleForInput(work)) {
+            C_GEAR_CreateSplashActors(work);
+            C_GEAR_SetSplashActorsVisible(work, 1);
             (work->phase)++;
             return;
         }
         break;
     case 2:
-        if (func_021F1BE4(work)) {
-            func_021F0F70(work);
+        if (C_GEAR_IsSplashDone(work)) {
+            C_GEAR_StartFadeOut(work);
             work->phaseTimer = 0;
             (work->phase)++;
             return;
@@ -2897,7 +2897,7 @@ void func_021F21F8(CGearWork *work)
         break;
     case 3:
         if (CTRDG_IsAgbCartridge(work)) {
-            func_021F0FF0(work);
+            C_GEAR_StopFade(work);
             work->phase = 7;
             return;
         }
@@ -2905,9 +2905,9 @@ void func_021F21F8(CGearWork *work)
             (work->phaseTimer)++;
             return;
         }
-        func_021F1B30(work, 0);
-        func_021F1BBC(work);
-        func_021F0E70(work);
+        C_GEAR_SetSplashActorsVisible(work, 0);
+        C_GEAR_DeleteSplashActors(work);
+        C_GEAR_StartFlashFade(work);
         (work->phase)++;
         work->phaseTimer = 0;
         return;
@@ -2916,7 +2916,7 @@ void func_021F21F8(CGearWork *work)
             work->phase = 7;
             return;
         }
-        if (func_021F11B4(work) == 1) {
+        if (C_GEAR_StepOutroTiles(work) == 1) {
             work->phaseTimer = 0;
             (work->phase)++;
             return;
@@ -2929,7 +2929,7 @@ void func_021F21F8(CGearWork *work)
         }
         (work->phaseTimer)++;
         if (work->phaseTimer >= 8) {
-            func_021F122C(work);
+            C_GEAR_ResetAllTiles(work);
             work->phaseTimer = 0;
             (work->phase)++;
             return;
@@ -2938,17 +2938,17 @@ void func_021F21F8(CGearWork *work)
     case 6:
         (work->phaseTimer)++;
         if (work->phaseTimer >= 8) {
-            func_021F1A64(work, 1);
-            func_021F1A44(work, 0);
-            func_021EFEF8(work, func_021F21B4, 0x100b);
+            C_GEAR_SetAllActorsVisible(work, 1);
+            C_GEAR_SetTileMarkersVisible(work, 0);
+            C_GEAR_ChangeStep(work, C_GEAR_StepIntroEnd, 0x100b);
             return;
         }
         break;
     case 7:
-        func_021F1BBC(work);
-        func_021F0E70(work);
-        func_021F0AA0(work);
-        func_021F122C(work);
+        C_GEAR_DeleteSplashActors(work);
+        C_GEAR_StartFlashFade(work);
+        C_GEAR_StopTileFlashes(work);
+        C_GEAR_ResetAllTiles(work);
         work->phaseTimer = 8;
         work->phase = 6;
         break;
@@ -2962,20 +2962,20 @@ void func_021F21F8(CGearWork *work)
 
 
 
-void func_021F2370(CGearWork *work)
+void C_GEAR_StepClose(CGearWork *work)
 {
     if (work->phaseTimer == 0) {
-        func_021F0E70(work);
-        func_021F1A64(work, 1);
-        func_021F1A44(work, 0);
-        func_021F1BBC(work);
-        func_021F1010(work);
-        func_021F0370(work);
+        C_GEAR_StartFlashFade(work);
+        C_GEAR_SetAllActorsVisible(work, 1);
+        C_GEAR_SetTileMarkersVisible(work, 0);
+        C_GEAR_DeleteSplashActors(work);
+        C_GEAR_DrawEmptyBoard(work);
+        C_GEAR_ResetTabPalettes(work);
     }
     work->phaseTimer += 1;
     if (work->phaseTimer >= 0x10) {
         work->phaseTimer = 0;
-        func_021EFEF8(work, func_021F21B4, 0x1041);
+        C_GEAR_ChangeStep(work, C_GEAR_StepIntroEnd, 0x1041);
     }
 }
 
@@ -2992,7 +2992,7 @@ void func_021F2370(CGearWork *work)
  * local before base is loaded (the load sits between the call and cmp);
  * declaring i before buf gives i r4 and buf r5.
  */
-int func_021F23CC(CGearWork *work, struct GameSystem *gameSystem)
+int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
 {
     int result;
     struct SaveCtrl *saveSys;
@@ -3005,8 +3005,8 @@ int func_021F23CC(CGearWork *work, struct GameSystem *gameSystem)
 
     result = 0;
     buf = func_02030734(0x70, 0x3000, 0, d_021F3554, 0x104E);
-    saveSys = func_02012EBC(func_020120F4(gameSystem));
-    if (func_020072CC(saveSys, 4, 0x70, buf, 0x3000) == 1) {
+    saveSys = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
+    if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveSys, 4, 0x70, buf, 0x3000) == 1) {
         crc = func_0203F1FC(buf, 0x2600);
         savedCrc = func_0200910C(func_02009210(saveSys));
         charBase = (u16)work->bgCharBlock;
@@ -3036,13 +3036,13 @@ int func_021F23CC(CGearWork *work, struct GameSystem *gameSystem)
 
 
 
-void func_021F24C0(CGearWork *work)
+void C_GEAR_OnCommDisconnect(CGearWork *work)
 {
-    func_021F0FF0(work);
+    C_GEAR_StopFade(work);
     if (work->fadeCtx != 0)
         func_02030D28(work->fadeCtx);
-    func_021F0E70(work);
-    func_021F1010(work);
+    C_GEAR_StartFlashFade(work);
+    C_GEAR_DrawEmptyBoard(work);
     if (work->fadeCtx != 0)
         func_02030D28(work->fadeCtx);
     work->commEvent = 1;
@@ -3054,7 +3054,7 @@ void func_021F24C0(CGearWork *work)
 
 
 
-void func_021F24FC(CGearWork *work)
+void C_GEAR_OnCommEvent(CGearWork *work)
 {
     work->commEvent = 2;
 }
@@ -3065,7 +3065,7 @@ void func_021F24FC(CGearWork *work)
 
 
 
-void func_021F2508(void *task, CGearWork *work)
+void C_GEAR_TransferPalettesTask(void *task, CGearWork *work)
 {
     if (work->palAnm != 0)
         PALANM_TransferPalettes(work->palAnm);
@@ -3079,7 +3079,7 @@ void func_021F2508(void *task, CGearWork *work)
 /*
  * 2026-10-05 (wave D5 lane 02): arm9 func_02035010/func_02035040 and their setters func_02035004/func_02035034 are now filed in src/matched/arm9/; the wrappers show MATCH only until the labels exist. Re-run after the integrator labels them.
  * 2026-10-04 (wD2 lane 09): bytes are identical; 3 of 41 relocations open.
- * Filed leaf func_021F24FC as matched ov029_func_021F24FC.c (EXACT).
+ * Filed leaf C_GEAR_OnCommEvent as matched ov029_func_021F24FC.c (EXACT).
  * Open: ABS32 +01C0 to 021F24FC (witness index not yet regenerated),
  * and THM_CALL +0128/+0130 to unlabelled arm9 02035010 and 02035040 (arm9 wrappers:
  * r2=*(0x021469BC), tail call to 02035004/02035034 style stubs, no source or label yet).
@@ -3096,17 +3096,17 @@ void func_021F2508(void *task, CGearWork *work)
  *     (str r1,[r0,#0x10]; str r2,[r0,#0x28]; bx lr), MATCH likewise:
  *       void func_02035040(void *cb, void *arg)
  *       { func_02035034(d_021469BC, cb, arg); }
- *   +01C0 ABS32 func_021F24FC (ov029): unlabelled leaf
- *     `void func_021F24FC(CGearWork *work) { work->commEvent = 2; }` (ldr r1,=0x451;
+ *   +01C0 ABS32 C_GEAR_OnCommEvent (ov029): unlabelled leaf
+ *     `void C_GEAR_OnCommEvent(CGearWork *work) { work->commEvent = 2; }` (ldr r1,=0x451;
  *     movs r2,#2; strb r2,[r0,r1]; bx lr).
  * Levers: r = 0 at the top shares the zero register with the command/lastCommand
- * stores; t = 1 assigned after the func_02021518 store keeps t in a stack
- * slot and 0x1C0 in r7; commEnabled is a u8 field (ldrb); func_021F3144's second
+ * stores; t = 1 assigned after the PALANM_Create store keeps t in a stack
+ * slot and 0x1C0 in r7; commEnabled is a u8 field (ldrb); C_GEAR_SetPowerState's second
  * argument is int here (no narrowing before the call).
  *
  * 2026-10-05 (wD4 lane 15): re-run, still MATCH. Open: unlabelled arm9 02035010 and 02035040 (no source change possible here).
  */
-void func_021F251C(CGearWork *work, struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode)
+void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode)
 {
     int customBgLoaded = 0;
     int powerOn;
@@ -3125,45 +3125,45 @@ void func_021F251C(CGearWork *work, struct HexMap *hexMap, int parentWork, struc
     work->fadeMem = func_02030734(0x70, func_02030CB0(4), 1, d_021F3554, 4280);
     work->fadeCtx = func_02030CBC(4, work->fadeMem);
     if (introMode != 0) {
-        func_021EFEF8(work, func_021F21F8, 4284);
+        C_GEAR_ChangeStep(work, C_GEAR_StepOpen, 4284);
     } else {
-        func_021F0298(work);
-        func_021EFEF8(work, func_021F2180, 4287);
+        C_GEAR_InitTabTimersPowerOn(work);
+        C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 4287);
     }
-    func_021F1624(work);
-    func_021F1DE8(work, introMode);
+    C_GEAR_SetupBackgrounds(work);
+    C_GEAR_LoadGraphics(work, introMode);
     if (func_02009100(work->hexMap) != 0)
-        customBgLoaded = func_021F23CC(work, gameSystem);
-    func_021F15FC(work, customBgLoaded);
-    func_021F0A0C(work);
-    work->palAnm = func_02021518(0x70);
+        customBgLoaded = C_GEAR_LoadCustomBackground(work, gameSystem);
+    C_GEAR_LoadFrameGraphics(work, customBgLoaded);
+    C_GEAR_InitTiles(work);
+    work->palAnm = PALANM_Create(0x70);
     powerOn = 1;
     PALANM_SetAutoTransfer(work->palAnm, 1);
-    func_0202155C(work->palAnm, 3, 0x1C0, 0x70);
-    func_0202155C(work->palAnm, 1, 0x1C0, 0x70);
-    func_020216D4(work->palAnm, 3, 0, 0x1C0);
-    func_020216D4(work->palAnm, 1, 0, 0x1C0);
-    func_021F0DB4(work, work->commEnabled);
+    PALANM_AllocSlotBuffers(work->palAnm, 3, 0x1C0, 0x70);
+    PALANM_AllocSlotBuffers(work->palAnm, 1, 0x1C0, 0x70);
+    PALANM_CopyHwPaletteToSlot(work->palAnm, 3, 0, 0x1C0);
+    PALANM_CopyHwPaletteToSlot(work->palAnm, 1, 0, 0x1C0);
+    C_GEAR_TintPalettes(work, work->commEnabled);
     PALANM_TransferPalettes(work->palAnm);
-    work->palTransferTask = func_020056A0(func_021F2508, work, 1);
-    func_02035010(func_021F24C0, work);
-    func_02035040(func_021F24FC, work);
-    func_021F2E10(work, &work->fadeFx);
-    func_021F1CD8(work);
-    func_021F1F80(work);
+    work->palTransferTask = func_020056A0(C_GEAR_TransferPalettesTask, work, 1);
+    func_02035010(C_GEAR_OnCommDisconnect, work);
+    func_02035040(C_GEAR_OnCommEvent, work);
+    C_GEAR_CreateFadeFx(work, &work->fadeFx);
+    C_GEAR_UpdateBeaconColors(work);
+    C_GEAR_UpdateClock(work);
     if (introMode == 0) {
-        if (func_020120D8(gameSystem) != 0)
+        if (GAMESYSTEM_IsEventActive(gameSystem) != 0)
             powerOn = 0;
-        func_021F3144(work, powerOn);
-        func_021F2D84(work);
+        C_GEAR_SetPowerState(work, powerOn);
+        C_GEAR_ApplyIndicators(work);
     } else {
-        func_021F21F8(work);
+        C_GEAR_StepOpen(work);
     }
     if (work->fadeCtx != 0)
         func_02030D28(work->fadeCtx);
     eventWork = func_02012138(gameSystem);
-    if (eventWork != 0 && func_021585E0(eventWork) == 2)
-        func_02158614(eventWork);
+    if (eventWork != 0 && INTRUDE_COMM_GetVisitProgress(eventWork) == 2)
+        INTRUDE_COMM_SetCompleted(eventWork);
 }
 
 
@@ -3171,30 +3171,30 @@ void func_021F251C(CGearWork *work, struct HexMap *hexMap, int parentWork, struc
 
 
 
-void func_021F26E0(CGearWork *work)
+void C_GEAR_Cleanup(CGearWork *work)
 {
     void *r = func_02012138(work->gameSystem);
 
     if (r != 0) {
-        if (func_021585E0(r) == 2)
-            func_02158614(r);
+        if (INTRUDE_COMM_GetVisitProgress(r) == 2)
+            INTRUDE_COMM_SetCompleted(r);
     }
-    func_021F2E5C(&work->fadeFx);
+    C_GEAR_DeleteFadeFx(&work->fadeFx);
     func_02035010(0, 0);
     func_02035040(0, 0);
     GFL_NET_RestartNoTimeout();
-    func_0203D34C(0, work->heapId);
-    func_020215A0(work->palAnm, 3);
-    func_020215A0(work->palAnm, 1);
-    func_02021540(work->palAnm);
+    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
+    PALANM_FreeSlotBuffers(work->palAnm, 3);
+    PALANM_FreeSlotBuffers(work->palAnm, 1);
+    PALANM_Delete(work->palAnm);
     func_02030DA4(work->fadeCtx);
     func_020307B0(work->fadeMem);
     func_02030EAC(work->palTransferTask);
     if (work->lastCommand != 5) {
         func_02028A70(func_02012A30(func_020120F4(work->gameSystem)));
     }
-    func_02049238(work->archive);
-    func_021F1F24(work);
+    ARC_TOOL_DeleteHandle(work->archive);
+    C_GEAR_FreeGraphics(work);
     REG_DB_BLDCNT = 0;
     func_02082BCC(work, 0, sizeof(CGearWork));
 }
@@ -3203,11 +3203,11 @@ void func_021F26E0(CGearWork *work)
 
 
 
-CGearWork *func_021F279C(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode)
+CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode)
 {
     CGearWork *work;
     work = func_02030734(0x70, sizeof(CGearWork), 1, d_021F3554, 0x1147);
-    func_021F251C(work, hexMap, parentWork, gameSystem, introMode);
+    C_GEAR_Init(work, hexMap, parentWork, gameSystem, introMode);
     return work;
 }
 
@@ -3215,14 +3215,14 @@ CGearWork *func_021F279C(struct HexMap *hexMap, int parentWork, struct GameSyste
 
 
 
-CGearWork *func_021F27D8(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, void (*callback)(int), int callbackArg, int introMode)
+CGearWork *C_GEAR_Open(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, void (*callback)(int), int callbackArg, int introMode)
 {
-    CGearWork *work = func_021F279C(hexMap, parentWork, gameSystem, introMode);
+    CGearWork *work = C_GEAR_Create(hexMap, parentWork, gameSystem, introMode);
 
     work->endCallback = callback;
     work->endCallbackArg = callbackArg;
     if (introMode != 0) {
-        func_021EFEF8(work, func_021F21F8, 0x1160);
+        C_GEAR_ChangeStep(work, C_GEAR_StepOpen, 0x1160);
         work->agbSlotPresent = 0;
     } else {
         if (work->endCallback != 0)
@@ -3230,8 +3230,8 @@ CGearWork *func_021F27D8(struct HexMap *hexMap, int parentWork, struct GameSyste
         work->endCallback = 0;
         work->endCallbackArg = 0;
     }
-    func_021F3190(hexMap, work->archive, func_020056EC(10), 0x70);
-    func_021F20AC(work);
+    C_GEAR_LoadSkinMember(hexMap, work->archive, func_020056EC(10), 0x70);
+    C_GEAR_UpdateTileMarkers(work);
     return work;
 }
 
@@ -3241,10 +3241,10 @@ CGearWork *func_021F27D8(struct HexMap *hexMap, int parentWork, struct GameSyste
 
 /*
  * The listing extent (316 B) runs over an unlabelled 4-byte follower at
- * 0x021F2980 (`bx lr`); the function is 312 B.  func_021F3144's second
+ * 0x021F2980 (`bx lr`); the function is 312 B.  C_GEAR_SetPowerState's second
  * argument is this function's r1, forwarded untouched.
  */
-void func_021F2848(CGearWork *work, u8 powerOn)
+void C_GEAR_Update(CGearWork *work, u8 powerOn)
 {
     int linkMode;
     u32 padKeys;
@@ -3253,48 +3253,48 @@ void func_021F2848(CGearWork *work, u8 powerOn)
     if (work->commEvent == 1)
         return;
 
-    func_021F3144(work, powerOn);
-    if (func_021F2DA8(work) == 0) {
-        linkMode = func_02158630(func_02012138(work->gameSystem));
+    C_GEAR_SetPowerState(work, powerOn);
+    if (C_GEAR_IsAnyIndicatorShown(work) == 0) {
+        linkMode = INTRUDE_COMM_GetRequestState(func_02012138(work->gameSystem));
         if (linkMode == 3) {
             if (work->callTabShown == 0) {
-                func_021F06B8(work, 1, 0);
+                C_GEAR_SetTabMode(work, 1, 0);
                 work->callTabShown = 1;
             }
         } else {
             if (work->callTabShown == 1) {
-                func_021F06B8(work, 0, 0);
+                C_GEAR_SetTabMode(work, 0, 0);
                 work->callTabShown = 0;
             }
         }
         if (linkMode == 0) {
-            padKeys = func_0201058C(func_0201283C(func_020120F4(work->gameSystem)));
+            padKeys = WIH_DWC_PollStatus(func_0201283C(func_020120F4(work->gameSystem)));
             soundSys = func_02012A30(func_020120F4(work->gameSystem));
             if (padKeys & 8) {
                 if (work->ringtoneActive == 0) {
                     work->ringtoneActive = 1;
-                    func_021F06B8(work, 1, 1);
+                    C_GEAR_SetTabMode(work, 1, 1);
                 }
                 FIELD_SOUND_SYSTEM_StartRingtone(soundSys);
             } else if ((padKeys & 8) == 0 && work->ringtoneActive != 0) {
                 func_02028A70(soundSys);
                 work->ringtoneActive = 0;
-                func_021F06B8(work, 0, 0);
+                C_GEAR_SetTabMode(work, 0, 0);
             }
         }
     }
 
     if (work->commEvent == 2) {
         work->commEvent = 0;
-        if (func_021F2DA8(work) == 0) {
-            func_021EFEF8(work, func_021F2370, 0x11C5);
+        if (C_GEAR_IsAnyIndicatorShown(work) == 0) {
+            C_GEAR_ChangeStep(work, C_GEAR_StepClose, 0x11C5);
         } else {
-            func_021F1BBC(work);
-            func_021F1A64(work, 1);
-            func_021F13FC(work);
-            func_021F0EB0(work, func_021F2DA8(work));
-            func_021F0298(work);
-            func_021EFEF8(work, func_021F2180, 0x11D4);
+            C_GEAR_DeleteSplashActors(work);
+            C_GEAR_SetAllActorsVisible(work, 1);
+            C_GEAR_DrawAllCells(work);
+            C_GEAR_FadeBackground(work, C_GEAR_IsAnyIndicatorShown(work));
+            C_GEAR_InitTabTimersPowerOn(work);
+            C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 0x11D4);
         }
     }
 
@@ -3307,14 +3307,14 @@ void func_021F2848(CGearWork *work, u8 powerOn)
 
 
 
-void func_021F2980(void)
+void C_GEAR_Nop(void)
 {
 }
 
 
-void func_021F2984(CGearWork *work)
+void C_GEAR_Destroy(CGearWork *work)
 {
-    func_021F26E0(work);
+    C_GEAR_Cleanup(work);
     func_020307B0(work);
 }
 
@@ -3322,16 +3322,16 @@ void func_021F2984(CGearWork *work)
 
 
 
-int func_021F2994(CGearWork *work)
+int C_GEAR_Restart(CGearWork *work)
 {
     struct HexMap *hexMap = work->hexMap;
     int parentWork = work->parentWork;
     struct GameSystem *gameSystem = work->gameSystem;
 
-    if (work->stepFunc == func_021F2180) {
-        func_0202223C(1, 0);
-        func_021F26E0(work);
-        func_021F251C(work, hexMap, parentWork, gameSystem, 0);
+    if (work->stepFunc == C_GEAR_StepIdle) {
+        WIPE_SetBrightnessFadeOut(1, 0);
+        C_GEAR_Cleanup(work);
+        C_GEAR_Init(work, hexMap, parentWork, gameSystem, 0);
         WIPE_ResetBrightness(1);
         return 1;
     }
@@ -3345,9 +3345,9 @@ int func_021F2994(CGearWork *work)
 /*
  * The listing extent (252 B) runs over the matched follower 0x021F2AB8;
  * the function is 224 B.  Case order 1/6, 5, 12/13, 7/11 is the table's
- * code order; the shared "sound; r = func_021F2EEC" tails are cross-jumped.
+ * code order; the shared "sound; r = C_GEAR_StartPanelEvent" tails are cross-jumped.
  */
-struct GameEvent *func_021F29D8(CGearWork *work, int enabled)
+struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled)
 {
     struct GameEvent *event = 0;
     void *handlerData;
@@ -3360,29 +3360,29 @@ struct GameEvent *func_021F29D8(CGearWork *work, int enabled)
     switch (work->command) {
     case 1:
     case 6:
-        if (func_021F05B4(work) == 0) {
+        if (C_GEAR_IsCallTabActive(work) == 0) {
             func_020061E4(0x54E);
-            event = func_021F2EEC(work, work->command);
+            event = C_GEAR_StartPanelEvent(work, work->command);
         } else {
             func_020061E4(0x7E3);
             func_021F3098(work);
-            func_021EFEF8(work, func_021F3118, 0x1238);
+            C_GEAR_ChangeStep(work, C_GEAR_StepWaitSlots, 0x1238);
         }
         break;
     case 5:
         func_020061E4(0x54E);
-        event = func_021F2EEC(work, work->command);
+        event = C_GEAR_StartPanelEvent(work, work->command);
         break;
     case 12:
     case 13:
         func_020061E4(0x628);
-        event = func_021F2EEC(work, work->command);
+        event = C_GEAR_StartPanelEvent(work, work->command);
         break;
     case 7:
     case 11:
-        if (func_021F05B4(work) == 0) {
+        if (C_GEAR_IsCallTabActive(work) == 0) {
             func_020061E4(0x628);
-            event = func_021F2EEC(work, work->command);
+            event = C_GEAR_StartPanelEvent(work, work->command);
         } else {
             func_020061E4(0x7E3);
         }
@@ -3391,7 +3391,7 @@ struct GameEvent *func_021F29D8(CGearWork *work, int enabled)
 
     if (event != 0) {
         work->lastCommand = work->command;
-        func_021EFEF8(work, func_021F2CD4, 0x1256);
+        C_GEAR_ChangeStep(work, C_GEAR_NoOp, 0x1256);
     }
     work->command = 0;
     return event;
@@ -3402,9 +3402,9 @@ struct GameEvent *func_021F29D8(CGearWork *work, int enabled)
 
 
 /*
- * Unlabelled leaf, sole blocker of ov021 func_0218A6E8.
+ * Unlabelled leaf, sole blocker of ov021 FIELD_EVENT_CHECK_StopSoundAfterEvent.
  */
-int func_021F2AB8(CGearWork *work)
+int C_GEAR_IsLastCommandKind5(CGearWork *work)
 {
     if (work == 0)
         return 0;
@@ -3416,11 +3416,11 @@ int func_021F2AB8(CGearWork *work)
 
 
 
-void func_021F2AD4(CGearWork *work)
+void C_GEAR_StopRingtone(CGearWork *work)
 {
     if (work != 0) {
         work->ringtoneActive = 0;
-        func_021F06B8(work, 0, 0);
+        C_GEAR_SetTabMode(work, 0, 0);
     }
 }
 
@@ -3428,33 +3428,33 @@ void func_021F2AD4(CGearWork *work)
 
 
 
-void func_021F2AEC(CGearWork *work, struct HexMap *hexMap, int col, int row, int kind)
+void C_GEAR_SetCellKind(CGearWork *work, struct HexMap *hexMap, int col, int row, int kind)
 {
     int scanRow;
     int scanCol;
 
     for (scanRow = 0; scanRow < 4; scanRow++) {
         for (scanCol = 0; scanCol < 9; scanCol++) {
-            if (kind == func_021F2B9C(work, scanCol, scanRow)) {
-                if (func_021F2BB8(work, scanCol, scanRow) != 0) {
+            if (kind == C_GEAR_GetCellKind(work, scanCol, scanRow)) {
+                if (C_GEAR_IsCellMarked(work, scanCol, scanRow) != 0) {
                     func_020091AC(hexMap, scanCol, scanRow, kind, 0, 1);
-                    func_021F1290(work, scanCol, scanRow, kind);
-                } else if (func_021F2BD4(work, scanCol, scanRow, kind) != 0) {
+                    C_GEAR_DrawTile(work, scanCol, scanRow, kind);
+                } else if (C_GEAR_IsCellKind(work, scanCol, scanRow, kind) != 0) {
                     func_020091AC(hexMap, scanCol, scanRow, kind, 0, 0);
                 }
             }
         }
     }
     func_020091AC(hexMap, col, row, kind, 1, 0);
-    func_021F1290(work, col, row, kind);
+    C_GEAR_DrawTile(work, col, row, kind);
     func_020409B4(4);
-    func_021F20AC(work);
+    C_GEAR_UpdateTileMarkers(work);
 }
 
 
 
 
-u32 func_021F2B9C(const CGearWork *work, int col, int row)
+u32 C_GEAR_GetCellKind(const CGearWork *work, int col, int row)
 {
     if (work->commEnabled != 0)
         return func_02009110(work->hexMap, col, row);
@@ -3464,7 +3464,7 @@ u32 func_021F2B9C(const CGearWork *work, int col, int row)
 
 
 
-int func_021F2BB8(const CGearWork *work, int col, int row)
+int C_GEAR_IsCellMarked(const CGearWork *work, int col, int row)
 {
     if (work->commEnabled != 0)
         return func_02009134(work->hexMap, col, row);
@@ -3474,7 +3474,7 @@ int func_021F2BB8(const CGearWork *work, int col, int row)
 
 
 
-int func_021F2BD4(const CGearWork *work, int col, int row, int kind)
+int C_GEAR_IsCellKind(const CGearWork *work, int col, int row, int kind)
 {
     if (work->commEnabled != 0)
         return func_02009160(work->hexMap, col, row, kind);
@@ -3494,16 +3494,16 @@ int CTRDG_IsAgbCartridge(CGearWork *work)
 
 
 
-int func_021F2C10(CGearWork *work)
+int C_GEAR_StepIconAnim(CGearWork *work)
 {
     switch (work->phase) {
     case 0:
         func_0204B92C(work->hudActors[work->activeIcon], 1);
-        func_0204B954(work->hudActors[work->activeIcon], 1 << 13);
+        CLACT_SetActorAutoAnimSpeed(work->hudActors[work->activeIcon], 1 << 13);
         work->phase += 1;
         break;
     case 1:
-        if (func_0204B98C(work->hudActors[work->activeIcon]) == 0)
+        if (CLACT_IsActorAnimActive(work->hudActors[work->activeIcon]) == 0)
             return 1;
         break;
     }
@@ -3511,22 +3511,22 @@ int func_021F2C10(CGearWork *work)
 }
 
 
-int func_021F2C78(CGearWork *work)
+int C_GEAR_StepFadeIcon(CGearWork *work)
 {
     switch (work->phase) {
     case 0:
         switch (work->activeIcon) {
         case 3:
-            func_021F2E68(&work->fadeFx, 0x1c0);
+            C_GEAR_StartFadeFx(&work->fadeFx, 0x1c0);
             break;
         case 4:
-            func_021F2E68(&work->fadeFx, 0x200);
+            C_GEAR_StartFadeFx(&work->fadeFx, 0x200);
             break;
         }
         work->phase += 1;
         break;
     case 1:
-        if (func_021F2E8C(&work->fadeFx) != 0)
+        if (C_GEAR_StepFadeFx(&work->fadeFx) != 0)
             return 1;
         break;
     }
@@ -3535,14 +3535,14 @@ int func_021F2C78(CGearWork *work)
 
 /*
  * Unlabelled empty callback (bx lr), printed as a pool word; its only
- * referrer is the pool word in func_021F29D8, which it blocks.
+ * referrer is the pool word in C_GEAR_HandleCommand, which it blocks.
  */
-void func_021F2CD4(CGearWork *work)
+void C_GEAR_NoOp(CGearWork *work)
 {
 }
 
 
-void func_021F2CD8(CGearWork *work)
+void C_GEAR_ShowOffIndicator(CGearWork *work)
 {
     if (work->offIndicator == 0) {
         work->offIndicator = 1;
@@ -3551,7 +3551,7 @@ void func_021F2CD8(CGearWork *work)
     }
 }
 
-void func_021F2CF4(CGearWork *work)
+void C_GEAR_ShowCommIndicator(CGearWork *work)
 {
     if (work->commIndicator == 0) {
         work->commIndicator = 1;
@@ -3560,7 +3560,7 @@ void func_021F2CF4(CGearWork *work)
     }
 }
 
-void func_021F2D10(CGearWork *work)
+void C_GEAR_HideCommIndicator(CGearWork *work)
 {
     if (work->commIndicator != 0) {
         work->commIndicator = 0;
@@ -3569,7 +3569,7 @@ void func_021F2D10(CGearWork *work)
     }
 }
 
-void func_021F2D30(CGearWork *work)
+void C_GEAR_HideOffIndicator(CGearWork *work)
 {
     if (work->offIndicator == 1) {
         work->offIndicator = 0;
@@ -3578,26 +3578,26 @@ void func_021F2D30(CGearWork *work)
     }
 }
 
-void func_021F2D50(CGearWork *work)
+void C_GEAR_TickIndicators(CGearWork *work)
 {
     if (work->indicatorDirty != 0) {
         work->indicatorTimer++;
         if (work->indicatorTimer >= 8) {
-            func_021F0EB0(work, func_021F2DA8(work));
+            C_GEAR_FadeBackground(work, C_GEAR_IsAnyIndicatorShown(work));
             work->indicatorDirty = 0;
         }
     }
 }
 
-void func_021F2D84(CGearWork *work)
+void C_GEAR_ApplyIndicators(CGearWork *work)
 {
     if (work->indicatorDirty != 0) {
-        func_021F0EB0(work, func_021F2DA8(work));
+        C_GEAR_FadeBackground(work, C_GEAR_IsAnyIndicatorShown(work));
         work->indicatorDirty = 0;
     }
 }
 
-int func_021F2DA8(CGearWork *work)
+int C_GEAR_IsAnyIndicatorShown(CGearWork *work)
 {
     if (work->offIndicator != 0)
         return 1;
@@ -3607,22 +3607,22 @@ int func_021F2DA8(CGearWork *work)
 }
 
 
-void func_021F2DC8(CGearWork *work)
+void C_GEAR_TickTabFrame(CGearWork *work)
 {
-    if (func_021F2DA8(work) == 0 && work->tabActive != 0) {
+    if (C_GEAR_IsAnyIndicatorShown(work) == 0 && work->tabActive != 0) {
         work->tabFrame += 1;
         if (work->tabFrame >= 8) {
-            if (func_021F05B4(work) != 0)
-                func_021F0F28(work, 1);
+            if (C_GEAR_IsCallTabActive(work) != 0)
+                C_GEAR_FadeAccentColors(work, 1);
             else
-                func_021F0F28(work, 0);
+                C_GEAR_FadeAccentColors(work, 0);
             work->tabActive = 0;
         }
     }
 }
 
 
-void func_021F2E10(CGearWork *work, CGearFadeFx *fx)
+void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx)
 {
     struct {
         unsigned short a;
@@ -3637,7 +3637,7 @@ void func_021F2E10(CGearWork *work, CGearFadeFx *fx)
     header.c = 0x25;
     header.d = 0;
     header.e = 2;
-    fx->actor = func_0204B294(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
+    fx->actor = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                               work->spriteAnimRes, &header, 0, work->heapId);
     func_0204B3DC(fx->actor, 0);
     fx->palAnm = work->palAnm;
@@ -3645,39 +3645,39 @@ void func_021F2E10(CGearWork *work, CGearFadeFx *fx)
 }
 
 
-void func_021F2E5C(CGearFadeFx *fx)
+void C_GEAR_DeleteFadeFx(CGearFadeFx *fx)
 {
-    func_0204B3B4(fx->actor);
+    CLACT_DeleteActor(fx->actor);
 }
 
-void func_021F2E68(CGearFadeFx *fx, int palette)
+void C_GEAR_StartFadeFx(CGearFadeFx *fx, int palette)
 {
-    func_0204B9A0(fx->actor);
+    CLACT_RestartActorAnim(fx->actor);
     func_0204B92C(fx->actor, 1);
-    func_0204B954(fx->actor, 0x2000);
+    CLACT_SetActorAutoAnimSpeed(fx->actor, 0x2000);
     fx->active = 1;
     fx->palette = palette;
 }
 
 
-int func_021F2E8C(CGearFadeFx *fx)
+int C_GEAR_StepFadeFx(CGearFadeFx *fx)
 {
     if (fx->active == 0)
         return 1;
-    if (func_0204B98C(fx->actor) == 0) {
+    if (CLACT_IsActorAnimActive(fx->actor) == 0) {
         fx->active = 0;
         return 1;
     }
     PALANM_RequestFade(fx->palAnm, 8, fx->palette, -0x78, 0,
-                       (u8)d_021F3224[CLACT_GetActorAnimSeqCount(fx->actor)], 0,
+                       (u8)gCGearFadeSteps[CLACT_GetActorAnimSeqCount(fx->actor)], 0,
                        fx->fadeCtx);
     return 0;
 }
 
 
-struct GameEvent *func_021F2EEC(CGearWork *work, int kind)
+struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind)
 {
-    struct GameEvent *event = func_020122C0(work->gameSystem, 0, func_021F2F60, 8);
+    struct GameEvent *event = func_020122C0(work->gameSystem, 0, C_GEAR_PanelEventMain, 8);
     CGearEventWork *req = func_020124E8(event);
 
     req->work = work;
@@ -3705,7 +3705,7 @@ struct GameEvent *func_021F2EEC(CGearWork *work, int kind)
 }
 
 
-int func_021F2F60(struct GameEvent *event, int *seq, CGearEventWork *req)
+int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req)
 {
     CGearWork *work;
     void *fieldMap;
@@ -3720,15 +3720,15 @@ int func_021F2F60(struct GameEvent *event, int *seq, CGearEventWork *req)
     case 1:
     case 5:
     case 6:
-        done = func_021F009C(req->work);
+        done = C_GEAR_StepRipple(req->work);
         break;
     case 7:
     case 11:
-        done = func_021F2C78(req->work);
+        done = C_GEAR_StepFadeIcon(req->work);
         break;
     case 12:
     case 13:
-        done = func_021F2C10(req->work);
+        done = C_GEAR_StepIconAnim(req->work);
         break;
     }
     if (done == 0)
@@ -3736,16 +3736,16 @@ int func_021F2F60(struct GameEvent *event, int *seq, CGearEventWork *req)
 
     switch (req->kind) {
     case 6:
-        next = func_020124AC(work->gameSystem, (u32)abs_id_0, EVENT_GSYNC_Entry, fieldMap);
+        next = GAME_EVENT_CreateOverlayEvent(work->gameSystem, (u32)abs_id_0, EVENT_GSYNC_Entry, fieldMap);
         break;
     case 1:
         next = func_021559E4(work->gameSystem, fieldMap, 0, 1);
         break;
     case 5:
-        next = func_0215FBF4(work->gameSystem, fieldMap, 0, 1);
+        next = SCRCMD_NETWORK_CreateWifiProcEvent(work->gameSystem, fieldMap, 0, 1);
         break;
     case 11:
-        next = func_02167044(work->gameSystem, fieldMap);
+        next = EVENT_RESEARCH_RADAR_CreateTopTask(work->gameSystem, fieldMap);
         break;
     case 7:
         next = func_021945A4(work->gameSystem, fieldMap, 4);
@@ -3754,44 +3754,44 @@ int func_021F2F60(struct GameEvent *event, int *seq, CGearEventWork *req)
         args = func_02030734(4, 8, 1, d_021F3554, 0x14B7);
         args->playerData = (u8 *)func_02012944(func_020120F4(work->gameSystem));
         args->gameSystem = work->gameSystem;
-        next = func_02014808(work->gameSystem, fieldMap, (u32)abs_id_124, d_021D4D40, args, 0, args);
+        next = FIELD_STATUS_CreateSubProcCallbackEvent(work->gameSystem, fieldMap, (u32)abs_id_124, d_021D4D40, args, 0, args);
         break;
     case 13:
-        next = func_021D297C(work->gameSystem);
+        next = FIELD_SUBSCREEN_CreateAnimTask(work->gameSystem);
         break;
     }
-    func_0201235C(event, next);
+    GAME_EVENT_ChangeEvent(event, next);
     return 0;
 }
 
 void func_021F3098(CGearWork *work)
 {
-    work->rippleKind = func_021F2B9C(work, work->selectedCol, work->selectedRow);
+    work->rippleKind = C_GEAR_GetCellKind(work, work->selectedCol, work->selectedRow);
     work->rippleStep = 0;
-    func_021EFF58(work, work->selectedCol, work->selectedRow);
+    C_GEAR_SpawnRippleActor(work, work->selectedCol, work->selectedRow);
 }
 
 /*
  * extent: trailing two-byte zero alignment padding.
  */
-void func_021F30C8(CGearWork *work)
+void C_GEAR_DeleteActorSlots(CGearWork *work)
 {
     int i;
     for (i = 0; i < 20; i++) {
         if (work->actorSlots[i].actor) {
-            func_0204B3B4(work->actorSlots[i].actor);
+            CLACT_DeleteActor(work->actorSlots[i].actor);
             work->actorSlots[i].actor = 0;
         }
     }
 }
 
-int func_021F30EC(CGearWork *work)
+int C_GEAR_AreActorSlotsIdle(CGearWork *work)
 {
     int result = 1;
     int i;
     for (i = 0; i < 20; i++) {
         if (work->actorSlots[i].actor) {
-            if (func_0204B98C(work->actorSlots[i].actor)) {
+            if (CLACT_IsActorAnimActive(work->actorSlots[i].actor)) {
                 result = 0;
                 break;
             }
@@ -3804,36 +3804,36 @@ int func_021F30EC(CGearWork *work)
  * interface: caller sets r2=0x1514 despite two-input thunk/leaf; retained
  * in the caller extern to reproduce original argument setup.
  */
-void func_021F3118(CGearWork *work)
+void C_GEAR_StepWaitSlots(CGearWork *work)
 {
-    func_021F2130(work);
-    if (func_021F30EC(work)) {
-        func_021F30C8(work);
-        func_021EFEF8(work, func_021F2180, 0x1514);
+    C_GEAR_RunFrame(work);
+    if (C_GEAR_AreActorSlotsIdle(work)) {
+        C_GEAR_DeleteActorSlots(work);
+        C_GEAR_ChangeStep(work, C_GEAR_StepIdle, 0x1514);
     }
 }
 
 
-void func_021F3144(CGearWork *work, int powerOn)
+void C_GEAR_SetPowerState(CGearWork *work, int powerOn)
 {
-    if (func_0203CD98() == 0 && work->commEnabled != 0)
-        func_021F2CF4(work);
+    if (GFL_NET_GetRunState() == 0 && work->commEnabled != 0)
+        C_GEAR_ShowCommIndicator(work);
     else
-        func_021F2D10(work);
+        C_GEAR_HideCommIndicator(work);
     if (work->powerOn != powerOn) {
         if (powerOn == 0)
-            func_021F2CD8(work);
+            C_GEAR_ShowOffIndicator(work);
         else
-            func_021F2D30(work);
+            C_GEAR_HideOffIndicator(work);
         work->powerOn = powerOn;
     }
 }
 
 
 /* Reads archive member (skinIndex + 0x19) into the buffer of the C-Gear save. */
-void func_021F3190(struct HexMap *hexMap, struct ArcFile *arc, int skinIndex, int heapId)
+void C_GEAR_LoadSkinMember(struct HexMap *hexMap, struct ArcFile *arc, int skinIndex, int heapId)
 {
     void *skinBuffer = func_020091FC(hexMap);
 
-    func_0204932C(arc, skinIndex + 0x19, skinBuffer);
+    ARC_TOOL_ReadHandleMember(arc, skinIndex + 0x19, skinBuffer);
 }

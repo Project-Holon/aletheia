@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020257D0
+ * function: BMP_OAM_UploadChars
  * address:  0x020257D0
  * packet:   pkt_020257D0
  * region:   arm9
@@ -12,12 +12,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020437D4  0x020437D4  arm
- *   func_020437EC  0x020437EC  arm
+ *   BMP_GetPixels  0x020437D4  arm
+ *   BMP_GetByteSize  0x020437EC  arm
  *   func_020862F0  0x020862F0  arm
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
- *   func_0204ABBC  0x0204ABBC  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
+ *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
  *   GX_LoadOBJ     0x0207E780  arm
  *   GXS_LoadOBJ    0x0207E804  arm
  *
@@ -49,17 +49,17 @@ struct Obj {
 };
 
 struct Bmp;
-extern void *func_020437D4(const struct Bmp *bmp);
-extern u32 func_020437EC(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void  func_020862F0(void *p, u32 n);
 typedef unsigned short u16;
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern int func_0204ABBC(u32 idx, u32 flag);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 extern void  GX_LoadOBJ(void *src, u32 off, u32 n);
 extern void  GXS_LoadOBJ(void *src, u32 off, u32 n);
 
-void func_020257D0(struct Obj *o)
+void BMP_OAM_UploadChars(struct Obj *o)
 {
     void (*load)(void *, u32, u32);
     u8 *base;
@@ -75,16 +75,16 @@ void func_020257D0(struct Obj *o)
     u32 rowsz;
     void *src;
 
-    base = (u8 *)func_020437D4(o->bmp);
-    func_020862F0(base, func_020437EC(o->bmp));
+    base = (u8 *)BMP_GetPixels(o->bmp);
+    func_020862F0(base, BMP_GetByteSize(o->bmp));
     if (o->engine == 0) {
         load = GX_LoadOBJ;
     } else {
         load = GXS_LoadOBJ;
     }
-    cols = (s32)((u32)func_020437DC(o->bmp) >> 3);
-    rows = (s32)((u32)func_020437E4(o->bmp) >> 3);
-    last = (u32)((((s32)(u32)func_020437DC(o->bmp) % 32) / 8) * 32);
+    cols = (s32)((u32)BMP_GetWidth(o->bmp) >> 3);
+    rows = (s32)((u32)BMP_GetHeight(o->bmp) >> 3);
+    last = (u32)((((s32)(u32)BMP_GetWidth(o->bmp) % 32) / 8) * 32);
     if (last == 0) {
         last = 0x80;
     }
@@ -106,7 +106,7 @@ void func_020257D0(struct Obj *o)
             } else {
                 n = 0x80;
             }
-            src = (void *)func_0204ABBC(o->cell[x + y * o->cols], o->engine);
+            src = (void *)CLACT_GetCharacterVramAddress(o->cell[x + y * o->cols], o->engine);
             vram = (u32)src;
             load(base + off, vram, n);
             if (y == o->rows - 1 && odd != 0) {

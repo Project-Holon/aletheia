@@ -1,5 +1,5 @@
 /*
- * function: func_0219E570
+ * function: FLDMMDL_RAIL_SearchMmdlByLocation
  * address:  0x0219E570
  * packet:   pkt_ov021_0219E570
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D530  0x0216D530  thumb  ov010
- *   func_021BB480  0x021BB480  thumb  ov021
- *   func_021B7D38  0x021B7D38  thumb  ov021
- *   func_021B7C38  0x021B7C38  thumb  ov021
+ *   FLDMMDL_SysGetNogridMapper  0x0216D530  thumb  ov010
+ *   FIELD_NOGRID_MAPPER_GetRailMan  0x021BB480  thumb  ov021
+ *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb  ov021
+ *   FIELD_RAIL_GetUnitScale  0x021B7C38  thumb  ov021
  *   func_0207C768  0x0207C768  arm
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
- *   func_0219E334  0x0219E334  thumb  ov021
- *   func_021B83B0  0x021B83B0  thumb  ov021
- *   func_0219E2F4  0x0219E2F4  thumb  ov021
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
+ *   FLDMMDL_RAIL_GetNowLocation  0x0219E334  thumb  ov021
+ *   FIELD_RAIL_IsPosNear  0x021B83B0  thumb  ov021
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -30,18 +30,18 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 struct Ctx;
 struct Rec;
-extern void *func_0216D530(void *p);
-extern void *func_021BB480(void *p);
-extern void func_021B7D38();
-extern int func_021B7C38(u8 *o);
+extern void *FLDMMDL_SysGetNogridMapper(void *p);
+extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *p);
+extern void FIELD_RAIL_GetLocationPos();
+extern int FIELD_RAIL_GetUnitScale(u8 *o);
 extern u32 func_0207C768(u32 a, u32 b);
-extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
-extern int func_0216D55C(int a0, int a1);
-extern int func_0219E334(u32 a, u32 b);
-extern int func_021B83B0(const s32 *a, const s32 *b, s32 r);
-extern void func_0219E2F4(void *o, void *out);
+extern int FLDMMDL_SysSearchUseMmdl(struct Ctx *c, struct Rec **out, u32 *iter);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
+extern int FLDMMDL_RAIL_GetNowLocation(u32 a, u32 b);
+extern int FIELD_RAIL_IsPosNear(const s32 *a, const s32 *b, s32 r);
+extern void FLDMMDL_RAIL_GetNextLocation(void *o, void *out);
 
-u32 func_0219E570(u32 o, u32 k, u32 flag)
+u32 FLDMMDL_RAIL_SearchMmdlByLocation(u32 o, u32 k, u32 flag)
 {
     u32 h;
     u32 m;
@@ -55,23 +55,23 @@ u32 func_0219E570(u32 o, u32 k, u32 flag)
     int z;
 
     st = 0;
-    h = (u32)func_021BB480(func_0216D530((void *)o));
-    func_021B7D38(h, k, rec);
-    m = func_0207C768(func_021B7C38((u8 *)h), 0x4000);
-    while (func_0216DD1C((struct Ctx *)o, (struct Rec **)(&cur), &st) == 1) {
+    h = (u32)FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper((void *)o));
+    FIELD_RAIL_GetLocationPos(h, k, rec);
+    m = func_0207C768(FIELD_RAIL_GetUnitScale((u8 *)h), 0x4000);
+    while (FLDMMDL_SysSearchUseMmdl((struct Ctx *)o, (struct Rec **)(&cur), &st) == 1) {
         lim = 0x4000 >> 1;
-        z = (func_0216D55C(cur, lim) == 0);
+        z = (FLDMMDL_CheckStatusBit(cur, lim) == 0);
         if (!z) {
             if (flag) {
-                func_0219E334(cur, (u32)tB);
-                func_021B7D38(h, tB, buf);
-                if (func_021B83B0((const s32 *)rec, (const s32 *)buf, m)) {
+                FLDMMDL_RAIL_GetNowLocation(cur, (u32)tB);
+                FIELD_RAIL_GetLocationPos(h, tB, buf);
+                if (FIELD_RAIL_IsPosNear((const s32 *)rec, (const s32 *)buf, m)) {
                     return cur;
                 }
             }
-            func_0219E2F4((void *)cur, tA);
-            func_021B7D38(h, tA, buf);
-            if (func_021B83B0((const s32 *)rec, (const s32 *)buf, m)) {
+            FLDMMDL_RAIL_GetNextLocation((void *)cur, tA);
+            FIELD_RAIL_GetLocationPos(h, tA, buf);
+            if (FIELD_RAIL_IsPosNear((const s32 *)rec, (const s32 *)buf, m)) {
                 return cur;
             }
         }

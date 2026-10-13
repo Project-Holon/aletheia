@@ -1,5 +1,5 @@
 /*
- * function: func_02169A14
+ * function: FIELD_G3D_MAP_RunBoxTest
  * address:  0x02169A14
  * packet:   pkt_ov010_02169A14
  * region:   ov010
@@ -22,7 +22,7 @@ extern void func_0206DB80(void);
 typedef signed int     s32;
 extern int func_0207DEA4(s32 *in);
 
-u32 func_02169A14(u32 a)
+u32 FIELD_G3D_MAP_RunBoxTest(u32 a)
 {
     u32 x;
     u32 y;

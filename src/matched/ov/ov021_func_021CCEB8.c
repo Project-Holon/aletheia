@@ -1,5 +1,5 @@
 /*
- * function: func_021CCEB8
+ * function: PARTY_SELECT_LIST_InitMessageResources
  * address:  0x021CCEB8
  * packet:   pkt_ov021_021CCEB8
  * region:   ov021
@@ -12,8 +12,8 @@
  * Fetches three handles for the work block: an ov021 object, a 0x54 sub-entry of it, and the record for the work's id.
  *
  * symbols:
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_021904B0  0x021904B0  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   func_0201EC64  0x0201EC64  thumb
  * Addresses are Black-image addresses.
  */
@@ -32,15 +32,15 @@ typedef struct {
     void *fA8;
 } Work;
 
-extern u32 func_02188C54(u8 *p);
-extern int func_021904B0(u32 a, u32 b);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 
-void func_021CCEB8(Work *w)
+void PARTY_SELECT_LIST_InitMessageResources(Work *w)
 {
-    void *o = (void *)func_02188C54(w->f0);
-    w->fA8 = (void *)func_021904B0((u32)o, 0x54);
+    void *o = (void *)FIELDMAP_GetMsgBg(w->f0);
+    w->fA8 = (void *)FIELD_MSGBG_CreateMsgData((u32)o, 0x54);
     w->fA4 = o;
     w->fA0 = func_0201EC64(w->hC);
 }

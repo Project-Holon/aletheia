@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * Unlabelled overlay leaf blocking ov010 func_02157760.
+ * Unlabelled overlay leaf blocking ov010 DELIVERY_BEACON_StepCollectPieces.
  * symbols:
  *   d_021797A4 0x021797A4 data ov014 a4
  *   WIH_SetScanTarget 0x02178714 thumb ov014

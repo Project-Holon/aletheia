@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02163580",
+   "name": "FLDMMDL_MOVE_AttrEffectGround",
    "address": "0x02163580",
    "kind": "game",
    "region": "ov010",

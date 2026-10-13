@@ -1,5 +1,5 @@
 /*
- * function: func_02196D94
+ * function: IRCBATTLEMENU_TouchPartyMenu
  * address:  0x02196D94
  * packet:   pkt_ov021_02196D94
  * region:   ov021
@@ -12,8 +12,8 @@
  * Handler: stores the request at +0x300 and dispatches on it.
  *
  * symbols:
- *   func_02196034  0x02196034  thumb  ov021
- *   func_02196D24  0x02196D24  thumb  ov021
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_SeqPressPartyButton  0x02196D24  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  *
  * Addresses are Black-image addresses.
@@ -25,12 +25,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02196034(u8 *p, void *fn, u32 n);
+extern void IRCBATTLEMENU_SetSeq(u8 *p, void *fn, u32 n);
 struct Obj;
-extern void func_02196D24(struct Obj *a);
+extern void IRCBATTLEMENU_SeqPressPartyButton(struct Obj *a);
 extern void func_020061E4(u32 a);
 
-int func_02196D94(u32 v, u8 *p)
+int IRCBATTLEMENU_TouchPartyMenu(u32 v, u8 *p)
 {
     int r = 0;
 
@@ -39,19 +39,19 @@ int func_02196D94(u32 v, u8 *p)
     case 1:
         func_020061E4(0x73B);
         ((struct Obj07463 *)p)->fC = 0;
-        func_02196034(p, func_02196D24, 0x524);
+        IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressPartyButton, 0x524);
         r = 1;
         break;
     case 0:
         func_020061E4(0x73B);
         r = 1;
         ((struct Obj07463 *)p)->fC = 1;
-        func_02196034(p, func_02196D24, 0x52A);
+        IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressPartyButton, 0x52A);
         break;
     case 2:
         func_020061E4(0x73C);
         ((struct Obj07463 *)p)->fC = 2;
-        func_02196034(p, func_02196D24, 0x530);
+        IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqPressPartyButton, 0x530);
         break;
     }
     return r;

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF634
+ * function: BTL_HANDLER_ITEM_GetFlameOrbHandlers
  * address: 0x021DF634
  * packet: pkt_ov093_021DF634
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF48C.c and filed here.
  *
  * symbols:
- *   d_021F169C 0x021F169C data ov093 a4
+ *   gFlameOrbHandlers 0x021F169C data ov093 a4
  */
 
-int *func_021DF634(int *p);
-extern int d_021F169C[];
+int *BTL_HANDLER_ITEM_GetFlameOrbHandlers(int *p);
+extern int gFlameOrbHandlers[];
 
-int *func_021DF634(int *p)
+int *BTL_HANDLER_ITEM_GetFlameOrbHandlers(int *p)
 {
     *p = 2;
-    return d_021F169C;
+    return gFlameOrbHandlers;
 }

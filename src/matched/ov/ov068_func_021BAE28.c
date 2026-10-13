@@ -1,5 +1,5 @@
 /*
- * function: func_021BAE28
+ * function: OPTION_MENU_UpdateMessageBox
  * address:  0x021BAE28
  * packet:   pkt_ov068_021BAE28
  * region:   ov068
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BA31C  0x021BA31C  thumb  ov068
- *   func_02027778  0x02027778  thumb
- *   func_02027974  0x02027974  thumb
- *   func_020279E8  0x020279E8  thumb
- *   func_02027A04  0x02027A04  thumb
- *   func_02027858  0x02027858  thumb
+ *   OPTION_MENU_IsTextDone  0x021BA31C  thumb  ov068
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  */
 #include "../include/Obj02417.h"
 
@@ -24,32 +24,32 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct TaskMenu;
-extern int func_021BA31C(u8 *p);
+extern int OPTION_MENU_IsTextDone(u8 *p);
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void  func_02027974(void *p);
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8    func_02027A04(const u8 *p);
-extern void func_02027858(struct TaskMenu *m);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern void  APP_TASKMENU_UpdateMenu(void *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8    APP_TASKMENU_GetCursorPos(const u8 *p);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 
-void func_021BAE28(u8 *p)
+void OPTION_MENU_UpdateMessageBox(u8 *p)
 {
     switch (((struct Obj02417 *)p)->f56) {
     case 0:
-        if (func_021BA31C(p) != 0) {
+        if (OPTION_MENU_IsTextDone(p) != 0) {
             ((struct Obj02417 *)p)->f56 = 1;
         }
         break;
     case 1:
-        ((struct Obj02417 *)p)->f38 = func_02027778((struct TaskMenuTmpl *)(p + 0x58), ((struct Obj02417 *)p)->f6C);
+        ((struct Obj02417 *)p)->f38 = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(p + 0x58), ((struct Obj02417 *)p)->f6C);
         ((struct Obj02417 *)p)->f56 = 2;
         break;
     case 2:
-        func_02027974(((struct Obj02417 *)p)->f38);
-        if (func_020279E8(((struct Obj02417 *)p)->f38) != 0) {
-            ((struct Obj02417 *)p)->f54 = func_02027A04(*(u8 * *)&((struct Obj02417 *)p)->f38) + 1;
+        APP_TASKMENU_UpdateMenu(((struct Obj02417 *)p)->f38);
+        if (APP_TASKMENU_IsFinish(((struct Obj02417 *)p)->f38) != 0) {
+            ((struct Obj02417 *)p)->f54 = APP_TASKMENU_GetCursorPos(*(u8 * *)&((struct Obj02417 *)p)->f38) + 1;
             ((struct Obj02417 *)p)->f56 = 3;
-            func_02027858(((struct Obj02417 *)p)->f38);
+            APP_TASKMENU_CloseMenu(((struct Obj02417 *)p)->f38);
         }
         break;
     }

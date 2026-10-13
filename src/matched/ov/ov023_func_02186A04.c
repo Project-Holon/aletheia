@@ -1,5 +1,5 @@
 /*
- * function: func_02186A04
+ * function: OEKAKI_FillSendGroup
  * address:  0x02186A04
  * packet:   pkt_ov023_02186A04
  * region:   ov023
@@ -21,7 +21,7 @@ typedef struct {
     u8 b5;
 } Rec;
 
-void func_02186A04(Rec *d, char *p)
+void OEKAKI_FillSendGroup(Rec *d, char *p)
 {
     int i;
     if (((struct Obj09773 *)p)->fBB8 != ((struct Obj09773 *)p)->fBBC) {

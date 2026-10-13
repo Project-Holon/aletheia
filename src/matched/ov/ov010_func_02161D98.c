@@ -1,5 +1,5 @@
 /*
- * function: func_02161D98
+ * function: EVENT_FIELD_PROCLINK_InitEventdataSystem
  * address: 0x02161D98
  * packet: pkt_ov010_02161D98
  * region: ov010
@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02161E78 0x02161E78 thumb ov010
+ *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
  */
 #include "../include/Obj12329.h"
 typedef unsigned short u16;
-extern void func_02161E78(void *a0);
-void func_02161D98(char *p)
+extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(void *a0);
+void EVENT_FIELD_PROCLINK_InitEventdataSystem(char *p)
 {
     int i;
     char *b;
@@ -23,7 +23,7 @@ void func_02161D98(char *p)
     a = p + 8;
     b = p + 0xF8;
     for (i = 0; i < 10; i++) {
-        func_02161E78((unsigned char *)(a + i * 24));
-        func_02161E78((unsigned char *)(b + i * 24));
+        EVENT_FIELD_PROCLINK_ClearReturnEntry((unsigned char *)(a + i * 24));
+        EVENT_FIELD_PROCLINK_ClearReturnEntry((unsigned char *)(b + i * 24));
     }
 }

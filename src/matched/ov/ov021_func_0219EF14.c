@@ -1,5 +1,5 @@
 /*
- * function: func_0219EF14
+ * function: FIELD_RAIL_LOADER_InitSetting
  * address:  0x0219EF14
  * packet:   pkt_ov021_0219EF14
  * region:   ov021
@@ -28,7 +28,7 @@ extern char d_021DDDA0[];
 extern char d_021DDDAC[];
 extern void func_02082BCC(void *, int, int);
 
-void func_0219EF14(u8 *p)
+void FIELD_RAIL_LOADER_InitSetting(u8 *p)
 {
     func_02082BCC(p, 0, 0x30);
     ((struct Obj05014 *)p)->f8 = 0x14;

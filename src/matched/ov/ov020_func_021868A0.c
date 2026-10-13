@@ -1,5 +1,5 @@
 /*
- * function: func_021868A0
+ * function: FIELD_WFBC_DATA_LOCAL_IsItemSlotUsed
  * address: 0x021868A0
  * packet: pkt_ov020_021868A0
  * region: ov020
@@ -11,4 +11,4 @@
  */
 
 typedef unsigned short u16;
-int func_021868A0(u16 *p, int i) { if (p[i] != 0xFFFF) return 1; return 0; }
+int FIELD_WFBC_DATA_LOCAL_IsItemSlotUsed(u16 *p, int i) { if (p[i] != 0xFFFF) return 1; return 0; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB220
+ * function: TOWNMAP_DrawSelection
  * address:  0x021BB220
  * packet:   pkt_ov072_021BB220
  * region:   ov072
@@ -15,16 +15,16 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_021BA774  0x021BA774  thumb  ov072
+ *   BMP_Clear  0x02043B5C  arm
+ *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
  *   func_02013E4C  0x02013E4C  thumb
- *   func_02045CAC  0x02045CAC  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_02045738  0x02045738  arm
  *   func_0201D304  0x0201D304  thumb
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_021BA834  0x021BA834  thumb  ov072
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   TOWNMAP_TownIsRevealed  0x021BA834  thumb  ov072
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
@@ -41,20 +41,20 @@ struct Cfg;
 struct CharBuf;
 struct MsgBank;
 struct StrObj;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern int func_021BA774(char *p, int i);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern int TOWNMAP_TownGetField(char *p, int i);
 extern u32 func_02013E4C(u32 id);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u8 func_02045738(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern int func_021BA834(char *p);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern int TOWNMAP_TownIsRevealed(char *p);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
-void func_021BB220(u32 *p, W *w)
+void TOWNMAP_DrawSelection(u32 *p, W *w)
 {
     u32 win;
     s16 cx;
@@ -63,53 +63,53 @@ void func_021BB220(u32 *p, W *w)
     u32 h;
 
     win = (u32)func_02045770((struct Descriptor *)p[0]);
-    func_02043B5C((struct CharBuf *)win, 0);
+    BMP_Clear((struct CharBuf *)win, 0);
     if (w != 0) {
-        func_02045CAC((struct MsgBank *)p[3], func_02013E4C((u16)func_021BA774((char *)w, 0)), (void *)p[1]);
+        MSGDATA_ReadString((struct MsgBank *)p[3], func_02013E4C((u16)TOWNMAP_TownGetField((char *)w, 0)), (void *)p[1]);
         cx = ((u32)func_02045738((struct Descriptor *)p[0]) << 3) / 2;
         hw = func_0201D304((struct StrObj *)p[1], p[2], 0) >> 1;
         cx = cx - hw;
-        func_0201C7A4((void *)win, cx, 0x30, (void *)p[1], (void *)p[2]);
-        id = func_021BA774((char *)w, 0x11);
+        PRINTSYS_Print((void *)win, cx, 0x30, (void *)p[1], (void *)p[2]);
+        id = TOWNMAP_TownGetField((char *)w, 0x11);
         if (id != 0xFFFF) {
-            func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
-            func_0201C7A4((void *)win, 0x1c, 0x50, (void *)p[1], (void *)p[2]);
+            MSGDATA_ReadString((struct MsgBank *)p[4], id, (void *)p[1]);
+            PRINTSYS_Print((void *)win, 0x1c, 0x50, (void *)p[1], (void *)p[2]);
         }
-        if (func_021BA834((char *)w)) {
-            id = func_021BA774((char *)w, 0x12);
+        if (TOWNMAP_TownIsRevealed((char *)w)) {
+            id = TOWNMAP_TownGetField((char *)w, 0x12);
             if (id != 0xFFFF) {
-                func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
-                func_0201C7A4((void *)win, 0x10, 0x80, (void *)p[1], (void *)p[2]);
+                MSGDATA_ReadString((struct MsgBank *)p[4], id, (void *)p[1]);
+                PRINTSYS_Print((void *)win, 0x10, 0x80, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774((char *)w, 0x13);
+            id = TOWNMAP_TownGetField((char *)w, 0x13);
             if (id != 0xFFFF) {
-                func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
-                func_0201C7A4((void *)win, 0x10, 0x90, (void *)p[1], (void *)p[2]);
+                MSGDATA_ReadString((struct MsgBank *)p[4], id, (void *)p[1]);
+                PRINTSYS_Print((void *)win, 0x10, 0x90, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774((char *)w, 0x14);
+            id = TOWNMAP_TownGetField((char *)w, 0x14);
             if (id != 0xFFFF) {
-                func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
-                func_0201C7A4((void *)win, 0x10, 0xa0, (void *)p[1], (void *)p[2]);
+                MSGDATA_ReadString((struct MsgBank *)p[4], id, (void *)p[1]);
+                PRINTSYS_Print((void *)win, 0x10, 0xa0, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774((char *)w, 0x15);
+            id = TOWNMAP_TownGetField((char *)w, 0x15);
             if (id != 0xFFFF) {
-                func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
-                func_0201C7A4((void *)win, 0x88, 0x80, (void *)p[1], (void *)p[2]);
+                MSGDATA_ReadString((struct MsgBank *)p[4], id, (void *)p[1]);
+                PRINTSYS_Print((void *)win, 0x88, 0x80, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774((char *)w, 0x16);
+            id = TOWNMAP_TownGetField((char *)w, 0x16);
             if (id != 0xFFFF) {
-                func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
-                func_0201C7A4((void *)win, 0x88, 0x90, (void *)p[1], (void *)p[2]);
+                MSGDATA_ReadString((struct MsgBank *)p[4], id, (void *)p[1]);
+                PRINTSYS_Print((void *)win, 0x88, 0x90, (void *)p[1], (void *)p[2]);
             }
-            id = func_021BA774((char *)w, 0x17);
+            id = TOWNMAP_TownGetField((char *)w, 0x17);
             if (id != 0xFFFF) {
-                func_02045CAC((struct MsgBank *)p[4], id, (void *)p[1]);
-                func_0201C7A4((void *)win, 0x88, 0xa0, (void *)p[1], (void *)p[2]);
+                MSGDATA_ReadString((struct MsgBank *)p[4], id, (void *)p[1]);
+                PRINTSYS_Print((void *)win, 0x88, 0xa0, (void *)p[1], (void *)p[2]);
             }
         }
     }
     h = p[0];
-    func_02045334((struct Descriptor *)h);
-    func_02045374((struct Cfg *)h);
+    BMP_WIN_TransferChars((struct Descriptor *)h);
+    BMP_WIN_MakeScreen((struct Cfg *)h);
     func_02041B6C(func_02045730((struct Descriptor *)h));
 }

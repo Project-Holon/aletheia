@@ -1,5 +1,5 @@
 /*
- * function: func_021C4978
+ * function: FLDEFF_SPLASH_CreateBoardRes
  * address:  0x021C4978
  * packet:   pkt_ov021_021C4978
  * region:   ov021
@@ -13,10 +13,10 @@
  * it.
  *
  * symbols:
- *   func_021ABE14  0x021ABE14  thumb  ov021
- *   func_02188C90  0x02188C90  thumb  ov021
- *   func_021C49C0  0x021C49C0  thumb  ov021
- *   d_021DE47C     0x021DE47C  data  ov021
+ *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
+ *   FIELDMAP_GetGroundBbdAct  0x02188C90  thumb  ov021
+ *   FLDEFF_SPLASH_LoadBoardImage  0x021C49C0  thumb  ov021
+ *   gFldeffSplashFileName     0x021DE47C  data  ov021
  */
 
 typedef unsigned char u8;
@@ -30,18 +30,18 @@ typedef struct {
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_021ABE14(u8 *p);
-extern u32 func_02188C90(u8 *p);
+extern u32 FIELD_EFFECT_GetFieldMap(u8 *p);
+extern u32 FIELDMAP_GetGroundBbdAct(u8 *p);
 struct P;
-extern void func_021C49C0(struct P *p);
-extern char d_021DE47C[];
+extern void FLDEFF_SPLASH_LoadBoardImage(struct P *p);
+extern char gFldeffSplashFileName[];
 
-R *func_021C4978(u8 *owner, u32 heap)
+R *FLDEFF_SPLASH_CreateBoardRes(u8 *owner, u32 heap)
 {
-    R *r = func_02030734(heap, 0xC, 1, d_021DE47C, 0x7D);
+    R *r = func_02030734(heap, 0xC, 1, gFldeffSplashFileName, 0x7D);
 
     r->owner = owner;
-    r->obj = func_02188C90((u8 *)func_021ABE14(owner));
-    func_021C49C0((struct P *)r);
+    r->obj = FIELDMAP_GetGroundBbdAct((u8 *)FIELD_EFFECT_GetFieldMap(owner));
+    FLDEFF_SPLASH_LoadBoardImage((struct P *)r);
     return r;
 }

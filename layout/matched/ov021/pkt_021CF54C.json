@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CF54C",
+   "name": "ENCEFF_FreeWork",
    "address": "0x021CF54C",
    "kind": "game",
    "region": "ov021",

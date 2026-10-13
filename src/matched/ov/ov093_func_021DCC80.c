@@ -1,5 +1,5 @@
 /*
- * function: func_021DCC80
+ * function: BTL_HANDLER_TOKUSEI_UnnerveAnnounce
  * address:  0x021DCC80
  * packet:   pkt_ov093_021DCC80
  * region:   ov093
@@ -17,8 +17,8 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
- *   func_021D7320  0x021D7320  thumb  ov093
- *   func_021DCCEC  0x021DCCEC  thumb  ov093
+ *   BTL_EVENT_SetFactorSkipCheck  0x021D7320  thumb  ov093
+ *   BTL_HANDLER_TOKUSEI_UnnerveSkipBerry  0x021DCCEC  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -34,10 +34,10 @@ struct S;
 extern void func_021C8860(struct S *p, u32 v);
 extern void func_021C88C8(void *a, void *b);
 struct QS;
-extern void func_021D7320(struct QS *p, u32 v);
-extern void func_021DCCEC(void);
+extern void BTL_EVENT_SetFactorSkipCheck(struct QS *p, u32 v);
+extern void BTL_HANDLER_TOKUSEI_UnnerveSkipBerry(void);
 
-void func_021DCC80(void *a, void *b, int c, int *d)
+void BTL_HANDLER_TOKUSEI_UnnerveAnnounce(void *a, void *b, int c, int *d)
 {
     u8 *m;
     u32 x;
@@ -50,7 +50,7 @@ void func_021DCC80(void *a, void *b, int c, int *d)
         func_021C8860((struct S *)(m + 4), x);
         func_021C88C8(b, m);
         func_021C88B4(b, 3, c);
-        func_021D7320(a, (u32)((void *)func_021DCCEC));
+        BTL_EVENT_SetFactorSkipCheck(a, (u32)((void *)BTL_HANDLER_TOKUSEI_UnnerveSkipBerry));
         *d = 1;
     }
 }

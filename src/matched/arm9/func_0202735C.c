@@ -1,5 +1,5 @@
 /*
- * function: func_0202735C
+ * function: GAME_BEACON_SetZone
  * address:  0x0202735C
  * packet:   pkt_0202735C
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 extern char *GAME_BEACON_Work;
 extern void GAME_BEACON_SetInfoZone(u32 *p, u32 a1, u32 a2);
 
-void func_0202735C(u32 a0, u32 a1)
+void GAME_BEACON_SetZone(u32 a0, u32 a1)
 {
     GAME_BEACON_SetInfoZone((u32 *)(GAME_BEACON_Work + 4), a0, a1);
     *(u8 *)(GAME_BEACON_Work + 0x62) = 1;

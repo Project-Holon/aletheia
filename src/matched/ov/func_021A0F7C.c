@@ -1,5 +1,5 @@
 /*
- * function: func_021A0F7C
+ * function: FIELD_SUBSCREEN_RequestModeWithCallback
  * address:  0x021A0F7C
  * packet:   pkt_021A0F7C
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_021A0EE4(u32, u32, u32, u32);
 
-int func_021A0F7C(u32 a, u32 b, u32 c, u32 d)
+int FIELD_SUBSCREEN_RequestModeWithCallback(u32 a, u32 b, u32 c, u32 d)
 {
 ((struct Obj07215 *)((u8 *)(a)))->f18 = c;
 ((struct Obj07215 *)((u8 *)(a)))->f1C = d;

@@ -11,11 +11,11 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021B9900 0x021B9900 thumb ov225
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201C440 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_020490F4 0x020490F4 arm
- *   func_02049B90 0x02049B90 arm
+ *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
  *   func_021B9B3C 0x021B9B3C thumb ov225
  *   func_021B9EE8 0x021B9EE8 thumb ov225
  *   func_021B9CDC 0x021B9CDC thumb ov225
@@ -36,11 +36,11 @@ struct State {
 extern const char d_021BC004[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_021B9900(u32,u32);
-extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
+extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 func_0201C440(void *);
 extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_02049B90(u32,u32,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
 extern void *func_021B9B3C(void *,u32);
 extern void func_021B9EE8(void *);
 extern int func_021B9CDC(void *);
@@ -51,7 +51,7 @@ void *func_021B9D18(void *owner,u16 heap)
     struct State *p=func_02030734(heap,0x38,1,d_021BC004,0x4b);
     p->owner=owner; p->heap=heap;
     p->screen=func_021B9900(1,p->heap);
-    p->font=func_0201D7EC(23,0,0,0,p->heap);
+    p->font=GF_FONT_Create(23,0,0,0,p->heap);
     p->str10=func_0201C440((void *)(u32)p->heap);
     p->str14=func_0201C440((void *)(u32)p->heap);
     p->str18=func_0201C440((void *)(u32)p->heap);
@@ -59,7 +59,7 @@ void *func_021B9D18(void *owner,u16 heap)
     p->bank2=func_02045B38(0,2,62,p->heap);
     p->arc1=func_020490F4(223,p->heap);
     p->arc2=func_020490F4(231,p->heap);
-    func_02049B90(23,5,4,0,64,32,p->heap);
+    ARC_UTIL_UploadPaletteFromArchive(23,5,4,0,64,32,p->heap);
     p->assets=func_021B9B3C(p->arc1,p->heap);
     func_021B9EE8(p);
     p->id=65535;

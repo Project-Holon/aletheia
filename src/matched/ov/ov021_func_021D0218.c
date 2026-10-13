@@ -1,5 +1,5 @@
 /*
- * function: func_021D0218
+ * function: FLDEFF_BTRAIN_Start
  * address:  0x021D0218
  * packet:   pkt_ov021_021D0218
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DB8DC     0x021DB8DC  data  ov021  a4
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   func_021D0174  0x021D0174  thumb  ov021
+ *   sBtrainFuncs     0x021DB8DC  data  ov021  a4
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   FLDEFF_BTRAIN_LoadResources  0x021D0174  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -26,17 +26,17 @@ typedef struct Arg021D0218 {
 } Arg021D0218;
 
 struct B;
-extern int func_021ABEA0(u32 a, u32 b);
-extern void func_021D0174(struct B *p, int i);
-extern void func_021ABFA8(void *a, void *b, u32 c, u32 d, void *e, u32 f);
-extern char d_021DB8DC[];
+extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
+extern void FLDEFF_BTRAIN_LoadResources(struct B *p, int i);
+extern void FIELD_EFFECT_AddObject(void *a, void *b, u32 c, u32 d, void *e, u32 f);
+extern char sBtrainFuncs[];
 
-void func_021D0218(void *a, u32 v, u32 c)
+void FLDEFF_BTRAIN_Start(void *a, u32 v, u32 c)
 {
     Arg021D0218 arg;
 
-    arg.h = func_021ABEA0((u32)a, 0xe);
+    arg.h = FIELD_EFFECT_GetResource((u32)a, 0xe);
     arg.v = v;
-    func_021D0174((struct B *)arg.h, v);
-    func_021ABFA8(a, d_021DB8DC, c, 0, &arg, 0);
+    FLDEFF_BTRAIN_LoadResources((struct B *)arg.h, v);
+    FIELD_EFFECT_AddObject(a, sBtrainFuncs, c, 0, &arg, 0);
 }

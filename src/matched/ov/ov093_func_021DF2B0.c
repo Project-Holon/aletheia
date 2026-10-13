@@ -1,5 +1,5 @@
 /*
- * function: func_021DF2B0
+ * function: BTL_HANDLER_ITEM_GetSplashPlateHandlers
  * address: 0x021DF2B0
  * packet: pkt_ov093_021DF2B0
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F147C[];
-int *func_021DF2B0(int *p);
+int *BTL_HANDLER_ITEM_GetSplashPlateHandlers(int *p);
 
-int *func_021DF2B0(int *p)
+int *BTL_HANDLER_ITEM_GetSplashPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F147C;

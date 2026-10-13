@@ -1,5 +1,5 @@
 /*
- * function: func_021B7640
+ * function: PDW_POSTMAN_CreateReceivableList
  * address:  0x021B7640
  * packet:   pkt_ov021_021B7640
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201292C  0x0201292C  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02030734  0x02030734  arm
  *   func_02009310  0x02009310  thumb
  *   func_02009330  0x02009330  thumb
  *   func_02007E3C  0x02007E3C  thumb
- *   d_021DE288     0x021DE288  data   ov021  a1
+ *   sPdwPostmanFileName     0x021DE288  data   ov021  a1
  * Addresses are Black-image addresses.
  */
 
@@ -30,14 +30,14 @@ typedef struct Pair {
 
 struct BigObj;
 struct Sub02009210Obj;
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *func_02030734(u32 heap, u32 size, int a, const char *file, u16 line);
 extern u16 func_02009310(const struct Sub02009210Obj *obj, int i);
 extern u8 func_02009330(const struct Sub02009210Obj *obj, int i);
 extern int func_02007E3C(void *a, u32 b, u32 c, u32 d);
-extern u8 d_021DE288[];
+extern u8 sPdwPostmanFileName[];
 
-Pair *func_021B7640(u32 a, u32 b, u32 c, int *d)
+Pair *PDW_POSTMAN_CreateReceivableList(u32 a, u32 b, u32 c, int *d)
 {
     Pair *buf;
     void *h;
@@ -46,8 +46,8 @@ Pair *func_021B7640(u32 a, u32 b, u32 c, int *d)
     u16 x;
     u16 y;
 
-    h = func_0201292C((const struct BigObj *)a);
-    buf = func_02030734(b, 0x50, 1, (const char *)d_021DE288, 0x14d);
+    h = GAME_DATA_GetMyItem((const struct BigObj *)a);
+    buf = func_02030734(b, 0x50, 1, (const char *)sPdwPostmanFileName, 0x14d);
     i = 0;
     n = 0;
     for (; i < 0x14; i++) {

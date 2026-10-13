@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_020099C8  0x020099C8  thumb
  *
  * Two arm9 calls: the pointer at +0xC4 goes through the first and the answer into the second with a zero selector.
@@ -26,12 +26,12 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct BigObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 
 void func_021BDCE0(char *p)
 {
-    func_020099C8((struct Sub020097BCObj *)func_0201283C(((struct Obj18250 *)p)->fC4), 0);
+    func_020099C8((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj18250 *)p)->fC4), 0);
 }

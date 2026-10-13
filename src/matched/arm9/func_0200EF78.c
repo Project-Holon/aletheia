@@ -12,7 +12,7 @@
  * symbols:
  *   MI_CpuFill8     0x02082BCC  arm
  *   MI_CpuCopy8     0x02082D44  arm
- *   func_0216E2E8   0x0216E2E8  thumb  ov010
+ *   FLDMMDL_LoadObjCodeParam   0x0216E2E8  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -109,7 +109,7 @@ typedef struct {
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 struct Record;
-extern void func_0216E2E8(const char *ctx, u32 id, struct Record *out);
+extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out);
 
 void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2) {
     MI_CpuFill8(dst, 0, 0x100);
@@ -161,7 +161,7 @@ void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2) {
     }
 
     dst->flags &= ~1;
-    func_0216E2E8(arg2, dst->fc, (struct Record *)&dst->fe4);
+    FLDMMDL_LoadObjCodeParam(arg2, dst->fc, (struct Record *)&dst->fe4);
     dst->flags |= 1;
 
     {

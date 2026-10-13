@@ -1,5 +1,5 @@
 /*
- * function: func_021A2F60
+ * function: FIELD_PLAYER_FinishFormChange
  * address:  0x021A2F60
  * packet:   pkt_ov021_021A2F60
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * Unlabelled leaf (a .word run in the ov021 listing): tail-calls
- * func_021A3CE8 with the word at offset 4.  Callee of func_0218B32C.
+ * FIELD_PLAYER_CORE_FinishFormChange with the word at offset 4.  Callee of FIELD_EVENT_CHECK_LedgeJumpTaskMain.
  *
  * symbols:
- *   func_021A3CE8  0x021A3CE8  thumb
+ *   FIELD_PLAYER_CORE_FinishFormChange  0x021A3CE8  thumb
  * Addresses are Black-image addresses.
  */
 
-extern void func_021A3CE8(int a);
+extern void FIELD_PLAYER_CORE_FinishFormChange(int a);
 
-void func_021A2F60(int *p)
+void FIELD_PLAYER_FinishFormChange(int *p)
 {
-    func_021A3CE8(p[1]);
+    FIELD_PLAYER_CORE_FinishFormChange(p[1]);
 }

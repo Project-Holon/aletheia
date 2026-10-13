@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BADB8",
+   "name": "ITEMMENU_ShowItemUseMessage",
    "address": "0x021BADB8",
    "kind": "game",
    "region": "ov070",

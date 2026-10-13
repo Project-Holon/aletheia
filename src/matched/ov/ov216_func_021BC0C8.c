@@ -8,39 +8,39 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203101C 0x0203101C arm
+ *   TCBL_Create 0x0203101C arm
  *   func_020490F4 0x020490F4 arm
- *   func_0201DD78 0x0201DD78 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_0201C450 0x0201C450 thumb
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201EC74 0x0201EC74 thumb
  *   func_02045B38 0x02045B38 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  */
 #include "../include/Obj00366.h"
 typedef unsigned short u16;
 
 struct Tcbl; struct GfFont; struct WordSet; struct MsgBank; struct U16Vec;
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0201DD78(unsigned,unsigned,unsigned);
+extern void GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
 extern void *func_0201C450(unsigned short,unsigned);
-extern struct GfFont *func_0201D7EC(int,int,int,int,unsigned);
+extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap);
 extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
-extern struct U16Vec *func_020457B0(unsigned,unsigned);
+extern struct U16Vec *STRBUF_Create(unsigned,unsigned);
 void func_021BC0C8(char *p)
 {
-    *(struct Tcbl * *)&((struct Obj00366 *)p)->f18=func_0203101C(((struct Obj00366 *)p)->f0,((struct Obj00366 *)p)->f0,64,128);
+    *(struct Tcbl * *)&((struct Obj00366 *)p)->f18=TCBL_Create(((struct Obj00366 *)p)->f0,((struct Obj00366 *)p)->f0,64,128);
     ((struct Obj00366 *)p)->f54=func_020490F4(173,((struct Obj00366 *)p)->f0);
-    func_0201DD78(7,8,15);
+    GF_FONT_SetTextColor(7,8,15);
     ((struct Obj00366 *)p)->f12C=func_0201C450(2048,((struct Obj00366 *)p)->f0);
-    *(struct GfFont * *)&((struct Obj00366 *)p)->f128=func_0201D7EC(23,0,0,0,((struct Obj00366 *)p)->f0);
+    *(struct GfFont * *)&((struct Obj00366 *)p)->f128=GF_FONT_Create(23,0,0,0,((struct Obj00366 *)p)->f0);
     *(struct WordSet * *)&((struct Obj00366 *)p)->f138=func_0201EC74(8,64,((struct Obj00366 *)p)->f0);
     *(struct MsgBank * *)&((struct Obj00366 *)p)->f130=func_02045B38(0,2,7,((struct Obj00366 *)p)->f0);
     *(struct MsgBank * *)&((struct Obj00366 *)p)->f134=func_02045B38(0,2,231,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f13C=func_020457B0(109,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f140=func_020457B0(109,((struct Obj00366 *)p)->f0);
-    *(struct U16Vec * *)&((struct Obj00366 *)p)->f144=func_020457B0(109,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f13C=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f140=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f144=STRBUF_Create(109,((struct Obj00366 *)p)->f0);
 }

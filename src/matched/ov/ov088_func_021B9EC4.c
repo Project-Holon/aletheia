@@ -1,5 +1,5 @@
 /*
- * function: func_021B9EC4
+ * function: STARTMENU_SpritesInit
  * address:  0x021B9EC4
  * packet:   pkt_ov088_021B9EC4
  * region:   ov088
@@ -11,17 +11,17 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0204A48C  0x0204A48C  arm
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_InitSystem  0x0204A48C  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer  0x0204B270  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204ABF0  0x0204ABF0  arm
- *   func_0204AF28  0x0204AF28  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterPalette  0x0204ABF0  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_02043598  0x02043598  arm
- *   func_02049238  0x02049238  arm
- *   d_020A1448     0x020A1448  data  a4
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   gClActorInitParam     0x020A1448  data  a4
  *   d_021BD508     0x021BD508  data  ov088  a4
  */
 
@@ -33,46 +33,46 @@ typedef struct {
     unsigned char e;
 } Local;
 
-extern char d_020A1448[];
+extern char gClActorInitParam[];
 extern char d_021BD508[];
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned char  u8;
 struct Bank;
 struct Cfg;
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Bank;
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern int func_0204A6C8(void *, int, int, int, int);
-extern int func_0204ABF0(void *, int, int, int, int);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern int func_0204B294(int, int, int, int, Local *, int, int);
+extern int CLACT_RegisterCharacter(void *, int, int, int, int);
+extern int CLACT_RegisterPalette(void *, int, int, int, int);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern int CLACT_CreateActor(int, int, int, int, Local *, int, int);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_02043598(u32 mask, u32 enable);
-extern void func_02049238(void *);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern void ARC_TOOL_DeleteHandle(void *);
 
-void func_021B9EC4(int *p, int heap)
+void STARTMENU_SpritesInit(int *p, int heap)
 {
     Local s;
     void *h;
     h = func_020490F4(0x1a, heap);
-    func_0204A48C((const struct Cfg *)d_020A1448, (unsigned int)d_021BD508, heap);
-    p[0] = (int)func_0204B100(0x40, 0, heap);
+    CLACT_InitSystem((const struct Cfg *)gClActorInitParam, (unsigned int)d_021BD508, heap);
+    p[0] = (int)CLACT_CreateUnit(0x40, 0, heap);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
-    p[12] = func_0204A6C8(h, 5, 1, 1, heap);
-    p[11] = func_0204ABF0(h, 4, 1, 0, heap);
-    p[13] = func_0204AF28(h, 6, 7, heap);
+    p[12] = CLACT_RegisterCharacter(h, 5, 1, 1, heap);
+    p[11] = CLACT_RegisterPalette(h, 4, 1, 0, heap);
+    p[13] = CLACT_RegisterCellAnim(h, 6, 7, heap);
     s.a = 0x80;
     s.b = 0x60;
     s.c = 0;
     s.e = 0;
     s.d = 0;
-    p[1] = func_0204B294(p[0], p[12], p[11], p[13], &s, 1, heap);
+    p[1] = CLACT_CreateActor(p[0], p[12], p[11], p[13], &s, 1, heap);
     func_0204B92C((struct Obj *)p[1], 1);
-    func_02043598(0x10, 1);
-    func_02049238(h);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
+    ARC_TOOL_DeleteHandle(h);
 }

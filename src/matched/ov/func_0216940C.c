@@ -1,5 +1,5 @@
 /*
- * function: func_0216940C
+ * function: FIELD_G3D_MAP_ClearPlacement
  * address:  0x0216940C
  * packet:   pkt_0216940C
  * region:   ov010
@@ -37,7 +37,7 @@ u32 f_a0;
 u16 count;
 } Obj;
 
-void func_0216940C(Obj *o, u32 i)
+void FIELD_G3D_MAP_ClearPlacement(Obj *o, u32 i)
 {
 Entry *e;
 if (i == 0xffffffff)

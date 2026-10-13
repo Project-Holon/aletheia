@@ -1,5 +1,5 @@
 /*
- * function: func_0215E334
+ * function: FIELD_ENCOUNT_ST_Delete
  * address:  0x0215E334
  * packet:   pkt_0215E334
  * region:   ov010
@@ -21,7 +21,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0215E334(void *ptr)
+void FIELD_ENCOUNT_ST_Delete(void *ptr)
 {
     func_020307B0(ptr);
 }

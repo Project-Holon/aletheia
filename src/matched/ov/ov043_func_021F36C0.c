@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: GIMMICK43_Init
  * address:  0x021F36C0
  * packet:   pkt_ov043_021F36C0
  * region:   ov043
@@ -16,38 +16,38 @@
  * unlabelled ov021 leaves filed alongside.
  *
  * symbols:
- *   d_021F4510     0x021F4510  data  a4
- *   d_021F4480     0x021F4480  data  a4
- *   d_021F4318     0x021F4318  data  a4
- *   d_021F4358     0x021F4358  data  a4
- *   d_021F434C     0x021F434C  data  a4
- *   d_021F4340     0x021F4340  data  a4
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C64  0x02188C64  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_0218CEE0  0x0218CEE0  thumb  ov021
- *   func_02189764  0x02189764  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_021C0628  0x021C0628  thumb  ov021
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE4A4  0x021BE4A4  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B8  0x021BE6B8  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE748  0x021BE748  thumb  ov021
- *   func_021BE6CC  0x021BE6CC  thumb  ov021
- *   func_021F3F38  0x021F3F38  thumb  ov043
- *   func_021F4174  0x021F4174  thumb  ov043
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_021A01BC  0x021A01BC  thumb  ov021
- *   func_021A01B4  0x021A01B4  thumb  ov021
+ *   sGimmick43FixedHeightAreas     0x021F4510  data  a4
+ *   sGimmick43LiftZones     0x021F4480  data  a4
+ *   sGimmick43ExpObjUnitDesc     0x021F4318  data  a4
+ *   sGimmick43LiftStartPos     0x021F4358  data  a4
+ *   sGimmick43ElevatorStartPos     0x021F434C  data  a4
+ *   sGimmick43ObstacleStartPos     0x021F4340  data  a4
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetFog  0x02188C64  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetHeightEx  0x0218CEE0  thumb  ov021
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   HEIGHT_EX_SetArea  0x021C0628  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnimeLastFrame  0x021BE748  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
+ *   GIMMICK43_ShowLiftAnime  0x021F3F38  thumb  ov043
+ *   GIMMICK43_ShowElevatorIdleAnime  0x021F4174  thumb  ov043
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_FOG_SetOffset  0x021A01BC  thumb  ov021
+ *   FIELD_FOG_SetSlope  0x021A01B4  thumb  ov021
  *   sub_02030344   0x02030344  arm
  */
 
@@ -77,48 +77,48 @@ typedef struct {
     int f10[2];
 } EB;
 
-extern const EA d_021F4510[];
-extern const EB d_021F4480[];
-extern int d_021F4318;
-extern const V d_021F4358[];
-extern const V d_021F434C;
-extern const V d_021F4340;
+extern const EA sGimmick43FixedHeightAreas[];
+extern const EB sGimmick43LiftZones[];
+extern int sGimmick43ExpObjUnitDesc;
+extern const V sGimmick43LiftStartPos[];
+extern const V sGimmick43ElevatorStartPos;
+extern const V sGimmick43ObstacleStartPos;
 
 struct Big;
 struct Ctx;
-extern int func_02188D2C(int *p);
-extern u32 func_02188C64(u8 *p);
-extern void *func_02188C80(void *p);
-extern u16 func_02188C84(u8 *p);
-extern u32 func_02188C98(u8 *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern u32 FIELDMAP_GetFog(u8 *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_0218CEE0(void *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_G3D_MAPPER_GetHeightEx(void *p);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void  func_021C0628(u8 i, int a, int b, int c, int d, int e, int f, void *t);
-extern void  func_021BE760(void *p, void *a, int b);
-extern V    *func_021BE480(void *p, int i, u16 j);
-extern void func_021BE4A4(char *p, int i, int j, int v);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void func_021BE6B8(unsigned char *p, int v);
-extern void func_021BE6B0(unsigned char *p, int v);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern int func_021BE748(u32 a);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
-extern void  func_021F3F38(int *a, void *b, int c);
-extern void  func_021F4174(void *p);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern void  HEIGHT_EX_SetArea(u8 i, int a, int b, int c, int d, int e, int f, void *t);
+extern void  FLD_EXP_OBJ_AddUnitFromArchive(void *p, void *a, int b);
+extern V    *FLD_EXP_OBJ_GetModelStatus(void *p, int i, u16 j);
+extern void FLD_EXP_OBJ_SetModelCullDraw(char *p, int i, int j, int v);
+extern void *FLD_EXP_OBJ_GetAnime(void *p, int i, u16 j, u16 k);
+extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v);
+extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *p, int v);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
+extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 a);
+extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
+extern void  GIMMICK43_ShowLiftAnime(int *a, void *b, int c);
+extern void  GIMMICK43_ShowElevatorIdleAnime(void *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern int   func_021A01BC(u32 a, u32 b);
-extern int   func_021A01B4(u32 a, u32 b);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern int   FIELD_FOG_SetOffset(u32 a, u32 b);
+extern int   FIELD_FOG_SetSlope(u32 a, u32 b);
 extern void *sub_02030344(u32 heapId);
 
-void func_021F36C0(void *a0)
+void GIMMICK43_Init(void *a0)
 {
     void *s;
     int *q;
@@ -132,14 +132,14 @@ void func_021F36C0(void *a0)
     u8 x;
     int pos[3];
 
-    s = (void *)func_02188D2C(a0);
-    g = func_02188C64(a0);
-    q = func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(a0))), 7);
-    func_02189764(a0, 1, func_02188C84(a0), 0x58);
-    w = func_0218CEE0((void *)func_02188C98(a0));
+    s = (void *)FIELDMAP_GetExpObj(a0);
+    g = FIELDMAP_GetFog(a0);
+    q = GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a0))), 7);
+    FIELDMAP_AllocCommonWork(a0, 1, FIELDMAP_GetHeapId(a0), 0x58);
+    w = FIELD_G3D_MAPPER_GetHeightEx((void *)FIELDMAP_GetG3dMapper(a0));
     for (i = 0; i < 8; i++) {
-        func_021C0628(i, d_021F4510[i].f0, d_021F4510[i].f4, d_021F4510[i].f8,
-                      d_021F4510[i].fc, d_021F4510[i].f10, 0x800000, w);
+        HEIGHT_EX_SetArea(i, sGimmick43FixedHeightAreas[i].f0, sGimmick43FixedHeightAreas[i].f4, sGimmick43FixedHeightAreas[i].f8,
+                      sGimmick43FixedHeightAreas[i].fc, sGimmick43FixedHeightAreas[i].f10, 0x800000, w);
     }
     for (i = 0; i < 6; i++) {
         x = i + 8;
@@ -148,46 +148,46 @@ void func_021F36C0(void *a0)
         } else {
             flag = 0;
         }
-        func_021C0628(x, d_021F4480[i].f0, d_021F4480[i].f4, d_021F4480[i].f8,
-                      d_021F4480[i].fc, d_021F4480[i].f10[flag], 0x800000, w);
+        HEIGHT_EX_SetArea(x, sGimmick43LiftZones[i].f0, sGimmick43LiftZones[i].f4, sGimmick43LiftZones[i].f8,
+                      sGimmick43LiftZones[i].fc, sGimmick43LiftZones[i].f10[flag], 0x800000, w);
     }
-    func_021BE760(s, &d_021F4318, 0);
+    FLD_EXP_OBJ_AddUnitFromArchive(s, &sGimmick43ExpObjUnitDesc, 0);
     for (i = 0; i < 6; i++) {
-        e = func_021BE480(s, 0, i);
-        *e = d_021F4358[i];
+        e = FLD_EXP_OBJ_GetModelStatus(s, 0, i);
+        *e = sGimmick43LiftStartPos[i];
         flag = q[i] ? 1 : 0;
-        e->b = d_021F4480[i].f10[flag];
-        func_021BE4A4(s, 0, (u16)i, 1);
+        e->b = sGimmick43LiftZones[i].f10[flag];
+        FLD_EXP_OBJ_SetModelCullDraw(s, 0, (u16)i, 1);
         for (k = 0; k < 2; k++) {
-            b = func_021BE674(s, 0, i, k);
-            func_021BE6B8(b, 0);
-            func_021BE6B0(b, 1);
+            b = FLD_EXP_OBJ_GetAnime(s, 0, i, k);
+            FLD_EXP_OBJ_SetAnimeLoop(b, 0);
+            FLD_EXP_OBJ_SetAnimePaused(b, 1);
         }
-        func_021F3F38(q, s, i);
+        GIMMICK43_ShowLiftAnime(q, s, i);
     }
-    e = func_021BE480(s, 0, 7);
-    *e = d_021F434C;
-    func_021BE4A4(s, 0, (u16)7, 1);
+    e = FLD_EXP_OBJ_GetModelStatus(s, 0, 7);
+    *e = sGimmick43ElevatorStartPos;
+    FLD_EXP_OBJ_SetModelCullDraw(s, 0, (u16)7, 1);
     for (k = 0; k < 2; k++) {
-        b = func_021BE674(s, 0, 7, k);
-        func_021BE6B8(b, 0);
-        func_021BE6B0(b, 1);
+        b = FLD_EXP_OBJ_GetAnime(s, 0, 7, k);
+        FLD_EXP_OBJ_SetAnimeLoop(b, 0);
+        FLD_EXP_OBJ_SetAnimePaused(b, 1);
     }
-    func_021F4174(s);
-    e = func_021BE480(s, 0, 6);
-    *e = d_021F4340;
-    func_021BE4A4(s, 0, (u16)6, 1);
-    func_021BE700(s, 0, 6, 0, 1);
-    b = func_021BE674(s, 0, 6, 0);
-    func_021BE6B8(b, 0);
-    func_021BE6B0(b, 1);
+    GIMMICK43_ShowElevatorIdleAnime(s);
+    e = FLD_EXP_OBJ_GetModelStatus(s, 0, 6);
+    *e = sGimmick43ObstacleStartPos;
+    FLD_EXP_OBJ_SetModelCullDraw(s, 0, (u16)6, 1);
+    FLD_EXP_OBJ_SetAnimeEnabled(s, 0, 6, 0, 1);
+    b = FLD_EXP_OBJ_GetAnime(s, 0, 6, 0);
+    FLD_EXP_OBJ_SetAnimeLoop(b, 0);
+    FLD_EXP_OBJ_SetAnimePaused(b, 1);
     if (q[6]) {
-        func_021BE6CC((int)s, 0, 6, 0, func_021BE748((u32)b));
+        FLD_EXP_OBJ_SetAnimeFrame((int)s, 0, 6, 0, FLD_EXP_OBJ_GetAnimeLastFrame((u32)b));
     }
-    func_021A3038(func_02188CB4(a0), (struct VecFx32 *)pos);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(a0), (struct VecFx32 *)pos);
     if (pos[1] <= -0x280000) {
-        func_021A01BC(g, 0x7FDF);
-        func_021A01B4(g, 9);
+        FIELD_FOG_SetOffset(g, 0x7FDF);
+        FIELD_FOG_SetSlope(g, 9);
     }
     sub_02030344(0x15);
 }

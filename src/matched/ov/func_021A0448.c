@@ -1,5 +1,5 @@
 /*
- * function: func_021A0448
+ * function: FIELD_LIGHT_Delete
  * address:  0x021A0448
  * packet:   pkt_021A0448
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021A07B0  0x021A07B0  thumb  ov021
+ *   FIELD_LIGHT_Dummy  0x021A07B0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021A07B0(void);
+extern void FIELD_LIGHT_Dummy(void);
 extern u32 func_020307B0(void *p);
 
-void func_021A0448(u8 *p)
+void FIELD_LIGHT_Delete(u8 *p)
 {
-    func_021A07B0();
+    FIELD_LIGHT_Dummy();
     func_020307B0(p);
 }

@@ -18,11 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02046EFC"
+    "G3D_SYSTEM_DeleteResource"
+   ],
+   "addresses": [
+    "0x02046EFC"
    ]
   },
   {
-   "name": "func_02046F48",
+   "name": "G3D_SYSTEM_GetResourceFile",
    "address": "0x02046F48",
    "kind": "game",
    "region": "arm9",
@@ -34,7 +37,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02046F50",
+   "name": "G3D_SYSTEM_CheckResourceType",
    "address": "0x02046F50",
    "kind": "game",
    "region": "arm9",
@@ -58,7 +61,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020470A8",
+   "name": "G3D_SYSTEM_TransVramTextureAndCut",
    "address": "0x020470A8",
    "kind": "game",
    "region": "arm9",
@@ -70,7 +73,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047204",
+   "name": "G3D_SYSTEM_TransAllocatedTexture",
    "address": "0x02047204",
    "kind": "game",
    "region": "arm9",

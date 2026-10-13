@@ -1,5 +1,5 @@
 /*
- * function: func_021DEEF0
+ * function: BTL_HANDLER_ITEM_GetLeftoversHandlers
  * address: 0x021DEEF0
  * packet: pkt_ov093_021DEEF0
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F16EC 0x021F16EC data ov093 a4
  */
 
-int *func_021DEEF0(int *p);
+int *BTL_HANDLER_ITEM_GetLeftoversHandlers(int *p);
 extern int d_021F16EC[];
 
-int *func_021DEEF0(int *p)
+int *BTL_HANDLER_ITEM_GetLeftoversHandlers(int *p)
 {
     *p = 2;
     return d_021F16EC;

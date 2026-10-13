@@ -1,5 +1,5 @@
 /*
- * function: func_021EEB70
+ * function: BTL_ADAPTER_Cancel
  * address:  0x021EEB70
  * packet:   pkt_ov093_021EEB70
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4C58  0x021D4C58  thumb  ov093
+ *   BTL_NET_ExpectReplies  0x021D4C58  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -31,11 +31,11 @@ typedef struct {
     u8 d[1];
 } W;
 
-extern void func_021D4C58(u32 a);
+extern void BTL_NET_ExpectReplies(u32 a);
 
-void func_021EEB70(W *p)
+void BTL_ADAPTER_Cancel(W *p)
 {
     p->mode = 0;
     if (p->hi != 0)
-        func_021D4C58(p->hi);
+        BTL_NET_ExpectReplies(p->hi);
 }

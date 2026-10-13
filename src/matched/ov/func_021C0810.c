@@ -1,5 +1,5 @@
 /*
- * function: func_021C0810
+ * function: EVENT_COMM_ERROR_SubProcEnd
  * address:  0x021C0810
  * packet:   pkt_021C0810
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02012124  0x02012124  thumb
+ *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -22,11 +22,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
-extern void func_02012124(struct Ctx *p, u32 v);
+extern void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v);
 
-int func_021C0810(u32 a, u32 b, u32 c, u32 d)
+int EVENT_COMM_ERROR_SubProcEnd(u32 a, u32 b, u32 c, u32 d)
 {
-func_02012124((struct Ctx *)c, 0);
+GAMESYSTEM_SetFieldMapState((struct Ctx *)c, 0);
 return 1;
 }
 

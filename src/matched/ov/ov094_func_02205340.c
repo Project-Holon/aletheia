@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201DD78  0x0201DD78  thumb
- *   func_0201C7A4  0x0201C7A4  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
+ *   PRINTSYS_Print  0x0201C7A4  thumb
  *   func_020498F4  0x020498F4  arm
  *   func_02204C98  0x02204C98  thumb  ov094
  */
@@ -33,8 +33,8 @@ typedef struct Main {
 } Main;
 
 typedef unsigned int   u32;
-extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 struct StrObj;
 extern void func_02204C98(struct StrObj *a, int b, int *outn, int *outq);
@@ -44,11 +44,11 @@ void func_02205340(Main *m, const int *c)
     int w;
     int h;
 
-    func_0201DD78(1, 2, 0);
+    GF_FONT_SetTextColor(1, 2, 0);
     func_02204C98((struct StrObj *)c[0], m->o224, &w, &h);
-    func_0201C7A4((void *)m->o22c, 0x80 - w / 2, 0x10, (void *)c[0], (void *)m->o224);
+    PRINTSYS_Print((void *)m->o22c, 0x80 - w / 2, 0x10, (void *)c[0], (void *)m->o224);
     func_02204C98((struct StrObj *)c[1], m->o224, &w, &h);
-    func_0201C7A4((void *)m->o22c, 0x80 - w / 2, 0x40, (void *)c[1], (void *)m->o224);
+    PRINTSYS_Print((void *)m->o22c, 0x80 - w / 2, 0x40, (void *)c[1], (void *)m->o224);
     m->b25a = 1;
     m->b25b = 1;
     func_020498F4((void *)m->f48, 0x6b, 5, 0, 0, 0, m->h240);

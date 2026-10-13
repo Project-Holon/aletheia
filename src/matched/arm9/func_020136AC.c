@@ -1,5 +1,5 @@
 /*
- * function: func_020136AC
+ * function: BTL_SETUP_SetupTrainerRotation
  * address:  0x020136AC
  * packet:   pkt_02013528
  * region:   arm9
@@ -19,8 +19,8 @@
  * argument arrives on the stack.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020136AC.c \
- *       --func func_020136AC --addr 0x020136AC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BTL_SETUP_SetupTrainerRotation.c \
+ *       --func BTL_SETUP_SetupTrainerRotation --addr 0x020136AC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 extern void BTL_SETUP_SetupTrainerBase(u8 *p, u32 a, u32 id, u32 c, u16 d);
 extern void BTL_SETUP_SetTrainer(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h);
 
-void func_020136AC(u8 *p, u32 a, u32 b, u32 c, u16 d)
+void BTL_SETUP_SetupTrainerRotation(u8 *p, u32 a, u32 b, u32 c, u16 d)
 {
     BTL_SETUP_SetupTrainerBase(p, a, 3, b, d);
     BTL_SETUP_SetTrainer(p, (u32 *)a, 1, (u32 *)(p + 0x28), c, d);

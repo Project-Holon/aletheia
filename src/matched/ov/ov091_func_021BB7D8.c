@@ -1,5 +1,5 @@
 /*
- * function: func_021BB7D8
+ * function: PLIST_MESSAGE_IsWindowOpen
  * address: 0x021BB7D8
  * packet: pkt_ov091_021BB7D8
  * region: ov091
@@ -10,4 +10,4 @@
  */
 #include "../include/Obj20887.h"
 typedef unsigned int u32;
-int func_021BB7D8(void *unused, u32 p) { if (((struct Obj20887 *)p)->f0 != 4) return 1; return 0; }
+int PLIST_MESSAGE_IsWindowOpen(void *unused, u32 p) { if (((struct Obj20887 *)p)->f0 != 4) return 1; return 0; }

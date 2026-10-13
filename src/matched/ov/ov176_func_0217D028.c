@@ -11,7 +11,7 @@
  * extent: two zero alignment bytes at 0217D15E before existing 0217D160.
  * ABI: 0200AE14 is an empty void callee leaving its supplied pointer in r0; caller reads it.
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0200B358 0x0200B358 thumb
@@ -35,7 +35,7 @@ typedef struct { u8 image[0x94]; u32 f94, f98; int f9c; u16 fa0, fa2, fa4, fa6, 
 typedef signed int     s32;
 struct Big;
 struct Reg2;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern int func_0200AE14(void *);
 extern void *func_0200B358(void *);
@@ -60,7 +60,7 @@ void func_0217D028(u8 *p)
     void *base;
     int box, aux, x, table, a, b, c, d;
     if (*(int *)&((struct Obj00053 *)p)->f10) return;
-    base = func_02012EBC(((struct Obj00053 *)p)->f1B8);
+    base = GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8);
     func_0200BAC8(base);
     box = func_0200AE14(((struct Obj00053 *)p)->f38);
     aux = (int)func_0200B204(func_0200B358(base), 1);

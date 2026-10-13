@@ -1,5 +1,5 @@
 /*
- * function: func_0218A824
+ * function: FIELD_EVENT_CHECK_CheckPosEventHeldDir
  * address:  0x0218A824
  * packet:   pkt_ov021_0218A824
  * region:   ov021
@@ -11,10 +11,10 @@
  *
  * Maps the held d-pad bits (up, down, left, right) to a direction and, unless
  * it is the current facing, none, or the movement mode is 1 or 2, tries
- * func_0218A784 with it. The two-value mode test is a switch.
+ * FIELD_EVENT_CHECK_CheckPosEventForDir with it. The two-value mode test is a switch.
  *
  * symbols:
- *   func_0218A784  0x0218A784  thumb
+ *   FIELD_EVENT_CHECK_CheckPosEventForDir  0x0218A784  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -40,9 +40,9 @@ struct FieldCtx {
 };
 
 struct Ctx784;
-extern int func_0218A784(struct Ctx784 *c, int a);
+extern int FIELD_EVENT_CHECK_CheckPosEventForDir(struct Ctx784 *c, int a);
 
-int func_0218A824(struct FieldCtx *p)
+int FIELD_EVENT_CHECK_CheckPosEventHeldDir(struct FieldCtx *p)
 {
     u32 keys = p->f2C;
     u32 mode = p->f1C;
@@ -65,5 +65,5 @@ int func_0218A824(struct FieldCtx *p)
     case 2:
         return 0;
     }
-    return func_0218A784((struct Ctx784 *)p, dir);
+    return FIELD_EVENT_CHECK_CheckPosEventForDir((struct Ctx784 *)p, dir);
 }

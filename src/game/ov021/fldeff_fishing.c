@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_fishing.c
  * unit:     yes
- * function: func_021ADEDC, func_021ADF00, func_021ADF14, func_021ADF68, func_021ADF94, func_021AE01C, func_021AE030, func_021AE04C, func_021AE050, func_021AE090
+ * function: FLDEFF_FISHING_Create, FLDEFF_FISHING_Delete, FLDEFF_FISHING_LoadResources, FLDEFF_FISHING_FreeResources, FLDEFF_FISHING_Start, FLDEFF_FISHING_SetAnimeSpeed, FLDEFF_FISHING_Init, FLDEFF_FISHING_Exit, FLDEFF_FISHING_Update, FLDEFF_FISHING_Draw
  * address:  0x021ADEDC
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,36 +15,36 @@
  *
  * symbols:
  *   func_0207ADC4  0x0207ADC4  arm
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   func_02047AC8  0x02047AC8  arm
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  *   func_020307B0  0x020307B0  arm
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_02046E24  0x02046E24  arm
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   d_021DE124  0x021DE124  data
- *   func_02046FF8  0x02046FF8  arm
- *   func_02047400  0x02047400  arm
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
- *   func_020477A4  0x020477A4  arm
- *   d_021DE120     0x021DE120  data  a2
- *   func_02047738  0x02047738  arm
- *   func_0204762C  0x0204762C  arm
- *   func_02047504  0x02047504  arm
- *   func_02046EFC  0x02046EFC  arm
- *   func_020470D0  0x020470D0  arm
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   sFldeffFishingFileName  0x021DE124  data
+ *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
+ *   sFishingAnimeFile     0x021DE120  data  a2
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
  *   func_0209BDBC  0x0209BDBC  arm
  *   func_0209C95C  0x0209C95C  arm
  *   func_0209CB8C  0x0209CB8C  arm
  *   func_0209C494  0x0209C494  arm
- *   d_021D92E0     0x021D92E0  data  a1
- *   d_021D92E8     0x021D92E8  data  a4
- *   func_021AC1E0  0x021AC1E0  thumb  ov021
- *   func_02047910  0x02047910  arm
- *   d_021D92FC  0x021D92FC  data
+ *   sFishingRodOffsets     0x021D92E0  data  a1
+ *   sFishingFuncs     0x021D92E8  data  a4
+ *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
+ *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
+ *   sFishingDrawStatus  0x021D92FC  data
  *   func_02030734  0x02030734  arm
  */
 #include "../ov010/fldmmdl_types.h"
@@ -80,7 +80,7 @@ typedef struct FishingRodOffsets {
     u8 offset[2][4];
 } FishingRodOffsets;
 
-/* Resources of the fishing rod effect (allocated 0x18 bytes by func_021ADEDC). */
+/* Resources of the fishing rod effect (allocated 0x18 bytes by FLDEFF_FISHING_Create). */
 typedef struct FishingRodRes {
     FieldEffectSys *fieldEffect;                   /* 0x00 */
     G3dResource *model;                            /* 0x04 */
@@ -114,96 +114,96 @@ typedef struct GridPos {
 typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const GridPos *targetPos);
 
 extern void func_0207ADC4(MtxFx33 *mtx);
-extern void func_021AC1B8(FieldEffectObj *effect, VecFx32 *out);
-extern int func_02047AC8(G3dObject *obj, G3dObjectStatus *status);
+extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
+extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
-extern ArcHandle *func_021ABE24(FieldEffectSys *fieldEffect);
-extern G3dResource *func_02046E24(ArcHandle *arc, u32 fileId);
-extern int func_02046FF8(G3dResource *res);
-extern void func_02046EFC(G3dResource *res);
-extern int func_020470D0(G3dResource *res);
-extern void *func_021ABEA0(FieldEffectSys *fieldEffect, u32 effectId);
-extern void func_021ABFA8(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
-extern void *func_021AC1AC(FieldEffectObj *effect);
-extern void func_021AC1CC(FieldEffectObj *effect, const VecFx32 *pos);
-extern void *func_021AC1E0(FieldEffectObj *effect);
-extern G3dRender *func_02047400(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *func_02047564(G3dRender *render, const G3dResource *anmRes, int anmIdx);
-extern G3dObject *func_0204767C(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 func_020477A4(G3dObject *obj, u32 anmIdx);
-extern void func_0204762C(G3dAnime *anime);
-extern void func_02047738(G3dObject *obj);
-extern void func_02047504(G3dRender *render);
-extern int func_02047910(G3dObject *obj, int anmIdx, fx32 step);
+extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
+extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
+extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
+extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
+extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
+extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
+extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
+extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
+extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
+extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
+extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern int func_0209C494(int a);
 
-FishingRodRes *func_021ADEDC(FieldEffectSys *fieldEffect, u32 heapId);
-void func_021ADF00(FieldEffectSys *fieldEffect, FishingRodRes *res);
-void func_021ADF14(FishingRodRes *res);
-void func_021ADF68(FishingRodRes *res);
-void func_021ADF94(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind, u32 side);
-void func_021AE01C(FieldEffectObj *effect, u16 animeSpeed);
-void func_021AE030(FieldEffectObj *effect, FishingRodWork *work);
-void func_021AE04C(void);
-void func_021AE050(FieldEffectObj *effect, FishingRodWork *work);
-void func_021AE090(FieldEffectObj *effect, FishingRodWork *work);
+FishingRodRes *FLDEFF_FISHING_Create(FieldEffectSys *fieldEffect, u32 heapId);
+void FLDEFF_FISHING_Delete(FieldEffectSys *fieldEffect, FishingRodRes *res);
+void FLDEFF_FISHING_LoadResources(FishingRodRes *res);
+void FLDEFF_FISHING_FreeResources(FishingRodRes *res);
+void FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind, u32 side);
+void FLDEFF_FISHING_SetAnimeSpeed(FieldEffectObj *effect, u16 animeSpeed);
+void FLDEFF_FISHING_Init(FieldEffectObj *effect, FishingRodWork *work);
+void FLDEFF_FISHING_Exit(void);
+void FLDEFF_FISHING_Update(FieldEffectObj *effect, FishingRodWork *work);
+void FLDEFF_FISHING_Draw(FieldEffectObj *effect, FishingRodWork *work);
 
-extern char d_021DE124[];                              /* source file name for the heap allocator */
-extern u16 d_021DE120;                                 /* animation file id */
-extern FishingRodOffsets d_021D92E0;                   /* rod depth offsets */
-extern const FieldEffectObjFuncs d_021D92E8;           /* fishing rod effect callbacks */
-extern G3dObjectStatus d_021D92FC;                     /* draw status template */
+extern char sFldeffFishingFileName[];                              /* source file name for the heap allocator */
+extern u16 sFishingAnimeFile;                                 /* animation file id */
+extern FishingRodOffsets sFishingRodOffsets;                   /* rod depth offsets */
+extern const FieldEffectObjFuncs sFishingFuncs;           /* fishing rod effect callbacks */
+extern G3dObjectStatus sFishingDrawStatus;                     /* draw status template */
 /* Loads the resources of the fishing rod effect. */
-FishingRodRes *func_021ADEDC(FieldEffectSys *fieldEffect, u32 heapId)
+FishingRodRes *FLDEFF_FISHING_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    FishingRodRes *res = func_02030734(heapId, 0x18, 1, d_021DE124, 0x60);
+    FishingRodRes *res = func_02030734(heapId, 0x18, 1, sFldeffFishingFileName, 0x60);
     res->fieldEffect = fieldEffect;
-    func_021ADF14(res);
+    FLDEFF_FISHING_LoadResources(res);
     return res;
 }
 
-void func_021ADF00(FieldEffectSys *fieldEffect, FishingRodRes *res)
+void FLDEFF_FISHING_Delete(FieldEffectSys *fieldEffect, FishingRodRes *res)
 {
-    func_021ADF68(res);
+    FLDEFF_FISHING_FreeResources(res);
     func_020307B0(res);
 }
 
-void func_021ADF14(FishingRodRes *res)
+void FLDEFF_FISHING_LoadResources(FishingRodRes *res)
 {
-    ArcHandle *arc = func_021ABE24(res->fieldEffect);
+    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
 
-    res->model = func_02046E24(arc, FISHING_MODEL_FILE);
-    func_02046FF8(res->model);
-    res->anime = func_02046E24(arc, d_021DE120);
-    res->render = func_02047400(res->model, 0, res->model);
-    res->animeObj = func_02047564(res->render, res->anime, 0);
-    res->object = func_0204767C(res->render, &res->animeObj, 1);
-    func_020477A4(res->object, 0);
+    res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, FISHING_MODEL_FILE);
+    G3D_SYSTEM_TransVramTexture(res->model);
+    res->anime = G3D_SYSTEM_CreateResourceArcHandle(arc, sFishingAnimeFile);
+    res->render = G3D_SYSTEM_CreateRender(res->model, 0, res->model);
+    res->animeObj = G3D_SYSTEM_CreateAnime(res->render, res->anime, 0);
+    res->object = G3D_SYSTEM_CreateObject(res->render, &res->animeObj, 1);
+    G3D_SYSTEM_EnableObjectAnime(res->object, 0);
 }
 
-void func_021ADF68(FishingRodRes *res)
+void FLDEFF_FISHING_FreeResources(FishingRodRes *res)
 {
-    func_02047738(res->object);
-    func_0204762C(res->animeObj);
-    func_02047504(res->render);
-    func_02046EFC(res->anime);
-    func_020470D0(res->model);
-    func_02046EFC(res->model);
+    G3D_SYSTEM_DeleteObject(res->object);
+    G3D_SYSTEM_DeleteAnime(res->animeObj);
+    G3D_SYSTEM_DeleteRender(res->render);
+    G3D_SYSTEM_DeleteResource(res->anime);
+    G3D_SYSTEM_FreeVramTexture(res->model);
+    G3D_SYSTEM_DeleteResource(res->model);
 }
 
 /* Starts the rod effect; the depth depends on the rod kind and the side of the cast. */
-void func_021ADF94(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind, u32 side)
+void FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind, u32 side)
 {
-    FishingRodOffsets offsets = d_021D92E0;
+    FishingRodOffsets offsets = sFishingRodOffsets;
     FishingRodStartParam param;
     int offset;
     int fixed;
 
-    param.res = func_021ABEA0(fieldEffect, FLDEFF_ID_FISHING);
+    param.res = FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_FISHING);
     param.pos = *pos;
     offset = offsets.offset[side][rodKind];
     if (offset != 0) {
@@ -212,49 +212,49 @@ void func_021ADF94(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind,
         fixed = func_0209CB8C(func_0209BDBC(offset << 12), 0x3f000000);
     }
     param.pos.z += func_0209C494(fixed);
-    func_021ABFA8(fieldEffect, &d_021D92E8, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(fieldEffect, &sFishingFuncs, 0, 0, &param, 0);
 }
 
 /* Sets the animation speed level of the rod effect (1 when a fish bites). */
-void func_021AE01C(FieldEffectObj *effect, u16 animeSpeed)
+void FLDEFF_FISHING_SetAnimeSpeed(FieldEffectObj *effect, u16 animeSpeed)
 {
     FishingRodWork *work;
 
     if (effect != 0) {
-        work = func_021AC1E0(effect);
+        work = FIELD_EFFECT_GetObjectWork(effect);
         work->animeSpeedSet = 1;
         work->animeSpeed = animeSpeed;
     }
 }
 
 /* Effect init. */
-void func_021AE030(FieldEffectObj *effect, FishingRodWork *work)
+void FLDEFF_FISHING_Init(FieldEffectObj *effect, FishingRodWork *work)
 {
-    FishingRodStartParam *param = func_021AC1AC(effect);
+    FishingRodStartParam *param = FIELD_EFFECT_GetObjectParam(effect);
 
     work->res = param->res;
-    func_021AC1CC(effect, &param->pos);
+    FIELD_EFFECT_SetObjectPos(effect, &param->pos);
 }
 
 /* Effect exit. */
-void func_021AE04C(void)
+void FLDEFF_FISHING_Exit(void)
 {
 }
 
 /* Effect update: loops the animation at a speed of 2 * animeSpeed + 1 frames. */
-void func_021AE050(FieldEffectObj *effect, FishingRodWork *work)
+void FLDEFF_FISHING_Update(FieldEffectObj *effect, FishingRodWork *work)
 {
     FishingRodRes *res = work->res;
-    func_02047910(res->object, 0, FX_F32_TO_FX32(work->animeSpeed * 2 + 1));
+    G3D_SYSTEM_LoopObjectAnimeFrame(res->object, 0, FX_F32_TO_FX32(work->animeSpeed * 2 + 1));
 }
 
 /* Effect draw. */
-void func_021AE090(FieldEffectObj *effect, FishingRodWork *work)
+void FLDEFF_FISHING_Draw(FieldEffectObj *effect, FishingRodWork *work)
 {
     FishingRodRes *res = work->res;
-    G3dObjectStatus status = d_021D92FC;
+    G3dObjectStatus status = sFishingDrawStatus;
 
     func_0207ADC4(&status.rotate);
-    func_021AC1B8(effect, &status.trans);
-    func_02047AC8(res->object, &status);
+    FIELD_EFFECT_GetObjectPos(effect, &status.trans);
+    G3D_SYSTEM_DrawObjectCulling(res->object, &status);
 }

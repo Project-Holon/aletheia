@@ -1,5 +1,5 @@
 /*
- * function: func_021BB90C
+ * function: FIELD_SUBPROC_MGR_Delete
  * address:  0x021BB90C
  * packet:   pkt_ov021_021BB90C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BBA1C  0x021BBA1C  thumb  ov021
+ *   FIELD_SUBPROC_End  0x021BBA1C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -27,16 +27,16 @@ typedef struct {
     void *f14;
 } Obj;
 
-extern void func_021BBA1C(int *p);
+extern void FIELD_SUBPROC_End(int *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BB90C(Obj *p)
+void FIELD_SUBPROC_MGR_Delete(Obj *p)
 {
     int i;
 
     for (i = 0; i < p->n; i++) {
-        func_021BBA1C((int *)(&p->arr[i]));
+        FIELD_SUBPROC_End((int *)(&p->arr[i]));
     }
     func_020307B0(p->arr);
     func_020307B0(p->f10);

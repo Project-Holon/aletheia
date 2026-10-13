@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EEE80  0x021EEE80  thumb  ov093
- *   func_021EEEF4  0x021EEEF4  thumb  ov093
- *   func_021EF694  0x021EF694  thumb  ov093
- *   func_021EF6A8  0x021EF6A8  thumb  ov093
- *   func_021EF6E8  0x021EF6E8  thumb  ov093
- *   func_021EF5E8  0x021EF5E8  thumb  ov093
- *   func_021EF664  0x021EF664  thumb  ov093
+ *   BTL_MSG_FormatWithSide  0x021EEE80  thumb  ov093
+ *   BTL_MSG_DispatchTagged  0x021EEEF4  thumb  ov093
+ *   BTL_MSG_GetUiString  0x021EF694  thumb  ov093
+ *   BTL_MSG_BuildUiString  0x021EF6A8  thumb  ov093
+ *   BTL_MSG_BuildTrainerString  0x021EF6E8  thumb  ov093
+ *   BTL_MSG_BuildItemUse  0x021EF5E8  thumb  ov093
+ *   BTL_MSG_BuildPlainEntry  0x021EF664  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -32,37 +32,37 @@ struct H {
     int f8;
 };
 
-extern void func_021EEE80(u32 a, u16 k, u32 *p);
-extern void func_021EEEF4(u32 a, u16 b, u32 c);
-extern void func_021EF694(u32 a, u32 b);
-extern void func_021EF6A8(u32 a, u32 b, u32 c);
-extern void func_021EF6E8(u32 a, u32 b, u32 c);
-extern void func_021EF5E8(u32 a, u8 b, u16 c);
-extern void func_021EF664(int a, u16 b, int c);
+extern void BTL_MSG_FormatWithSide(u32 a, u16 k, u32 *p);
+extern void BTL_MSG_DispatchTagged(u32 a, u16 b, u32 c);
+extern void BTL_MSG_GetUiString(u32 a, u32 b);
+extern void BTL_MSG_BuildUiString(u32 a, u32 b, u32 c);
+extern void BTL_MSG_BuildTrainerString(u32 a, u32 b, u32 c);
+extern void BTL_MSG_BuildItemUse(u32 a, u8 b, u16 c);
+extern void BTL_MSG_BuildPlainEntry(int a, u16 b, int c);
 
 void func_021EA55C(struct H *p, int a)
 {
     switch (p->op) {
     case 1:
-        func_021EEE80(a, p->h0, (u32 *)(&p->f4));
+        BTL_MSG_FormatWithSide(a, p->h0, (u32 *)(&p->f4));
         break;
     case 2:
-        func_021EEEF4(a, p->h0, (u32)(&p->f4));
+        BTL_MSG_DispatchTagged(a, p->h0, (u32)(&p->f4));
         break;
     case 3:
-        func_021EF694(a, p->h0);
+        BTL_MSG_GetUiString(a, p->h0);
         break;
     case 5:
-        func_021EF6A8(a, p->h0, (u32)(&p->f4));
+        BTL_MSG_BuildUiString(a, p->h0, (u32)(&p->f4));
         break;
     case 6:
-        func_021EF6E8(a, p->h0, (u32)(&p->f4));
+        BTL_MSG_BuildTrainerString(a, p->h0, (u32)(&p->f4));
         break;
     case 4:
-        func_021EF5E8(a, p->f4, p->f8);
+        BTL_MSG_BuildItemUse(a, p->f4, p->f8);
         break;
     case 7:
-        func_021EF664(a, p->f4, p->f8);
+        BTL_MSG_BuildPlainEntry(a, p->f4, p->f8);
         break;
     }
 }

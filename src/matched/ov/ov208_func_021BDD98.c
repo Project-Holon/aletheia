@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0204AC18  0x0204AC18  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_0204AF28  0x0204AF28  arm
- *   func_02049238  0x02049238  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_021BD148  0x021BD148  thumb
  *   func_021BD3C0  0x021BD3C0  thumb
@@ -109,10 +109,10 @@ struct Ov208Scene {
 
 extern void *func_020490F4(u32 id, u32 heap);
 typedef signed int     s32;
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *h);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *h);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern u32  func_021BD148(struct Ov208ActList *list, u32 heap);
 extern int func_021BD3C0(void *mgr, int key);
@@ -134,10 +134,10 @@ void ov208_func_021BDD98(struct Ov208Scene *p)
     int v;
 
     h = func_020490F4(0x9f, p->heap);
-    p->f44 = func_0204AC18(h, 3, 0, 0x160, 0, 3, p->heap);
-    p->f48 = func_0204A6C8(h, 0xd, 0, 0, p->heap);
-    p->f4c = func_0204AF28(h, 0x1b, 0x2c, p->heap);
-    func_02049238(h);
+    p->f44 = CLACT_RegisterPaletteEx(h, 3, 0, 0x160, 0, 3, p->heap);
+    p->f48 = CLACT_RegisterCharacter(h, 0xd, 0, 0, p->heap);
+    p->f4c = CLACT_RegisterCellAnim(h, 0x1b, 0x2c, p->heap);
+    ARC_TOOL_DeleteHandle(h);
     p->count = 9;
     for (i = 0; i < p->count; i++)
         p->slots[i].src = &data_021C8440[i];

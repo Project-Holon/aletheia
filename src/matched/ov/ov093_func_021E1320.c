@@ -10,31 +10,31 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
- *   func_021E8B28  0x021E8B28  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
+ *   BTLV_CORE_SetSlotValue  0x021E8B28  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
 typedef unsigned short u16;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 typedef unsigned int   u32;
 struct QQ;
-extern u16 func_021D70A8(struct QQ *p);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 union U;
-extern void func_021E8B28(union U *p, u16 v);
-extern int func_021D76BC(int key, u32 val);
+extern void BTLV_CORE_SetSlotValue(union U *p, u16 v);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E1320(void *a, int b, int c)
 {
     int v;
     u16 n;
 
-    if (c != func_021D775C(3))
+    if (c != BTL_EVENT_GetVar(3))
         return;
-    n = func_021D70A8(a);
-    v = func_021D775C(30);
-    func_021E8B28((union U *)(&v), n);
-    func_021D76BC(30, v);
+    n = BTL_EVENT_GetFactorKey(a);
+    v = BTL_EVENT_GetVar(30);
+    BTLV_CORE_SetSlotValue((union U *)(&v), n);
+    BTL_EVENT_OverwriteVar(30, v);
 }

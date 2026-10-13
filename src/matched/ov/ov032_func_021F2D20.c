@@ -18,11 +18,11 @@
  *   func_020490F4  0x020490F4  arm
  *   PALANM_LoadHandlePaletteToSlot  0x020216B4  thumb
  *   PALANM_LoadArcPaletteToSlot  0x02021640  thumb
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   func_02062A98  0x02062A98  arm
  *   func_02062A00  0x02062A00  arm
  *   DC_FlushAll    0x02086284  arm
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_021F35BC     0x021F35BC  data  ov032  a2
  *   d_021F35C8     0x021F35C8  data  ov032  a2
  *   d_021F35D4     0x021F35D4  data  ov032  a2
@@ -88,11 +88,11 @@ extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32
 typedef signed int     s32;
 struct ArcFile;
 struct NitroFileHeader;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 extern s32 func_02062A00(struct NitroFileHeader *file, void **out);
 extern void DC_FlushAll(void);
-extern void func_02049238(void *h);
+extern void ARC_TOOL_DeleteHandle(void *h);
 
 void func_021F2D20(Work *p, void *h)
 {
@@ -111,20 +111,20 @@ void func_021F2D20(Work *p, void *h)
     func_021F30D4(p, p->l14c, c.s, h2);
     PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)p->fac, h, 0, p->heap, 3, 0x1c0, 0);
     PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
-    p->r3c4.res = func_02049250(h, 4, p->heap2);
+    p->r3c4.res = ARC_TOOL_LoadHandleMember(h, 4, p->heap2);
     func_02062A98(p->r3c4.res, (void **)(&p->r3c4.hdr));
     p->r3c4.data = ((struct Obj20461 *)(p->r3c4.hdr))->fC;
-    p->r3b8.res = func_02049250(h2, 0, p->heap2);
+    p->r3b8.res = ARC_TOOL_LoadHandleMember(h2, 0, p->heap2);
     func_02062A98(p->r3b8.res, (void **)(&p->r3b8.hdr));
     p->r3b8.data = ((struct Obj20462 *)(p->r3b8.hdr))->fC;
     for (i = 0; i < 16; i++) {
-        p->e1[i].res = func_02049250(h2, i + 0x31, p->heap2);
+        p->e1[i].res = ARC_TOOL_LoadHandleMember(h2, i + 0x31, p->heap2);
         func_02062A00(p->e1[i].res, &p->e1[i].data);
     }
     for (i = 0; i < 12; i++) {
-        p->e2[i].res = func_02049250(h, i + 7, p->heap2);
+        p->e2[i].res = ARC_TOOL_LoadHandleMember(h, i + 7, p->heap2);
         func_02062A00(p->e2[i].res, &p->e2[i].data);
     }
     DC_FlushAll();
-    func_02049238(h2);
+    ARC_TOOL_DeleteHandle(h2);
 }

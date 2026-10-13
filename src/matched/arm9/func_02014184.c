@@ -1,5 +1,5 @@
 /*
- * function: func_02014184
+ * function: ZONEDATA_SetDirectLocation
  * address:  0x02014184
  * packet:   pkt_02014184
  * region:   arm9
@@ -32,7 +32,7 @@ typedef struct {
     u32 c;
 } Rec1C;
 
-void func_02014184(Rec1C *r, u16 id, s16 count, u32 a, u32 b, u32 c)
+void ZONEDATA_SetDirectLocation(Rec1C *r, u16 id, s16 count, u32 a, u32 b, u32 c)
 {
     r->live = 1;
     r->id = id;

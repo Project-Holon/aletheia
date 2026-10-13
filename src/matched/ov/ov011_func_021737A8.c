@@ -10,19 +10,19 @@
  * status: EXACT
  * symbols:
  *   INTRUDE_COMM_IsLinked 0x021736D8 thumb ov011
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  * Return-valued externs reflect r0 consumed after both forwarding calls.
  */
 extern int INTRUDE_COMM_IsLinked(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 int INTRUDE_COMM_SendRecordRequest(void)
 {
     if (INTRUDE_COMM_IsLinked() == 0)
         return 0;
-    return func_0203D3A8((struct Entry *)((unsigned int)func_020399A8()), 0x202, 0, 0);
+    return GFL_NET_SendToHandle((struct Entry *)((unsigned int)GFL_NET_HANDLE_GetCurrentHandle()), 0x202, 0, 0);
 }

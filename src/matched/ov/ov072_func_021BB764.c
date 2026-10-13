@@ -1,5 +1,5 @@
 /*
- * function: func_021BB764
+ * function: TOWNMAP_GRH_GetBgId
  * address: 0x021BB764
  * packet: pkt_ov072_021BB764
  * region: ov072
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021BBC28 0x021BBC28 data a4
+ *   sTownMapGrhBgTable 0x021BBC28 data a4
  */
 
 #include "../include/G_Ent.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern struct Ent d_021BBC28;
-u8 func_021BB764(int unused, u32 i) { return *(u32 *)((u32)&(*(u32 *)&d_021BBC28) + i*40); }
+extern struct Ent sTownMapGrhBgTable;
+u8 TOWNMAP_GRH_GetBgId(int unused, u32 i) { return *(u32 *)((u32)&(*(u32 *)&sTownMapGrhBgTable) + i*40); }

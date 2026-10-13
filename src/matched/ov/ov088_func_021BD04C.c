@@ -1,5 +1,5 @@
 /*
- * function: func_021BD04C
+ * function: STARTMENU_SaveEraseFreeResources
  * address:  0x021BD04C
  * packet:   pkt_ov088_021BD04C
  * region:   ov088
@@ -10,32 +10,32 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02028604  0x02028604  thumb
- *   func_02031140  0x02031140  arm
- *   func_02045808  0x02045808  arm
- *   func_0201D83C  0x0201D83C  thumb
- *   func_02045C04  0x02045C04  arm
+ *   APP_KEYCURSOR_Delete  0x02028604  thumb
+ *   TCBL_Destroy  0x02031140  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   GF_FONT_Delete  0x0201D83C  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_020461D4  0x020461D4  arm
  */
 #include "../include/Obj04351.h"
 
-extern int func_02028604(int a0);
+extern int APP_KEYCURSOR_Delete(int a0);
 struct Rec;
 struct S02031140;
 struct U16Vec;
-extern void func_02031140(struct S02031140 *p);
-extern void func_02045808(struct U16Vec *vec);
+extern void TCBL_Destroy(struct S02031140 *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned int   u32;
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 GF_FONT_Delete(void *ptr);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020461D4(unsigned char);
 
-void func_021BD04C(unsigned char *p)
+void STARTMENU_SaveEraseFreeResources(unsigned char *p)
 {
-    func_02028604((int)(((struct Obj04351 *)p)->f24));
-    func_02031140(((struct Obj04351 *)p)->f18);
-    func_02045808(((struct Obj04351 *)p)->f10);
-    func_0201D83C(((struct Obj04351 *)p)->f4);
-    func_02045C04(((struct Obj04351 *)p)->f8);
+    APP_KEYCURSOR_Delete((int)(((struct Obj04351 *)p)->f24));
+    TCBL_Destroy(((struct Obj04351 *)p)->f18);
+    STRBUF_Delete(((struct Obj04351 *)p)->f10);
+    GF_FONT_Delete(((struct Obj04351 *)p)->f4);
+    MSGDATA_Delete(((struct Obj04351 *)p)->f8);
     func_020461D4(p[0x0C]);
 }

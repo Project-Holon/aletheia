@@ -12,8 +12,8 @@
  * symbols:
  *   func_021D3B5C   0x021D3B5C  thumb
  *   func_021B9934   0x021B9934  thumb
- *   func_021D64F0   0x021D64F0  thumb
- * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D64F0; movs r0, #1; pop {r3, pc}.
+ *   BTL_POKEPARAM_ResetEffectsOnSwitchOut   0x021D64F0  thumb
+ * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl BTL_POKEPARAM_ResetEffectsOnSwitchOut; movs r0, #1; pop {r3, pc}.
  */
 #include "../include/Obj18389.h"
 
@@ -24,13 +24,13 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021D3B5C  shape F4: (u8) of a word arg, then func_021D64F0 */
+/* 021D3B5C  shape F4: (u8) of a word arg, then BTL_POKEPARAM_ResetEffectsOnSwitchOut */
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D64F0(void *p);
+extern void BTL_POKEPARAM_ResetEffectsOnSwitchOut(void *p);
 
 int func_021D3B5C(u8 *p, int b, u32 *q)
 {
-    func_021D64F0(func_021B9934(*(char * *)&((struct Obj18389 *)p)->f4, (u8)*q));
+    BTL_POKEPARAM_ResetEffectsOnSwitchOut(func_021B9934(*(char * *)&((struct Obj18389 *)p)->f4, (u8)*q));
     return 1;
 }
 

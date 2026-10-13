@@ -13,8 +13,8 @@
  * caller immediately uses this result as its workspace.
  * symbols:
  *   func_02034714 0x02034714 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02082D44 0x02082D44 arm
  *   GAME_DATA_Create 0x020124F4 thumb
@@ -25,7 +25,7 @@
  *   func_02213808 0x02213808 thumb ov199
  *   func_02012934 0x02012934 thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
  *   func_020307B0 0x020307B0 arm
@@ -41,9 +41,9 @@ struct Big;
 struct BigObj;
 struct Party;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_0203064C(unsigned, unsigned, unsigned);
+extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_02082D44(const void *, void *, unsigned);
 extern void *GAME_DATA_Create(u16);
@@ -54,7 +54,7 @@ extern void *func_022136E4(void *, void *, void *, int);
 extern void func_02213808(char *p, int value);
 extern void *func_02012934(const struct BigObj *p);
 extern int POKE_REGULATION_GetDataSize(void);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern void *func_0200BAF4(int a0, int a1);
 extern u32 func_020307B0(void *p);
@@ -71,8 +71,8 @@ int func_02212560(void *a, int unused, u8 *arg)
     case 0: kind = 1; break;
     default: func_02034714(d_02213D00, 0, d_02213D00); break;
     }
-    func_0203064C(kind, 0x56, 0x8000);
-    p = func_0203159C(a, 0x8b0, 0x56);
+    GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
+    p = PROCSYS_AllocProcWork(a, 0x8b0, 0x56);
     func_02082BCC(p, 0, 0x8b0);
     func_02082D44(arg, p + 4, 0x14);
     ((struct Obj01177 *)p)->f20 = 0;
@@ -105,7 +105,7 @@ int func_02212560(void *a, int unused, u8 *arg)
         func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         break;
     case 1:
-        v = func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj01177 *)p)->f4)), 0x8056);
+        v = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj01177 *)p)->f4)), 0x8056);
         func_02082D44(v, dst + 0xd4, POKE_REGULATION_GetDataSize());
         func_020307B0(v);
         break;

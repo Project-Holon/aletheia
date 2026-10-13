@@ -25,7 +25,7 @@
  *   func_021D8C84 0x021D8C84 thumb ov119
  *   func_02017E88 0x02017E88 thumb
  *   func_021DD0CC 0x021DD0CC thumb ov119
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_021E0FF4 0x021E0FF4 thumb ov119
  *   func_021DA064 0x021DA064 thumb ov119
  *   func_021D8CCC 0x021D8CCC thumb ov119
@@ -46,7 +46,7 @@ extern void func_021D8E84(void *,int);
 extern void func_021DB9B4(char *p);
 extern void func_021DF708(void *p);
 extern void func_021D8C84(void *);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E0FF4(void *p, int a, int flag);
 extern void func_021DA064(char *p);
 extern void func_021D8CCC(void *,int,int,int,int);
@@ -68,7 +68,7 @@ int func_021D9F24(char *p,int save)
    func_021D8C84(p);
    if(e && func_02017E88((void *)e,0xa9,0)) {
     if(func_021DD0CC(p,e)) {
-     func_02045CAC((struct MsgBank *)I(0x720),0x8e,(void *)I(0x738));func_021E0FF4(p,1,0);func_021D8E84(p,(int)func_021DA064);return 2;
+     MSGDATA_ReadString((struct MsgBank *)I(0x720),0x8e,(void *)I(0x738));func_021E0FF4(p,1,0);func_021D8E84(p,(int)func_021DA064);return 2;
     }
     func_021D8CCC(p,hit,c,b,e);func_021D9EA8(p,a,b);
     if(save) {I(0xf98)=I(0xf80);I(0xf94)=I(0xf7c);}

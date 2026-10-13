@@ -1,5 +1,5 @@
 /*
- * function: func_021AA6F8
+ * function: FIELD_ENCOUNT_ResetStepWork
  * address:  0x021AA6F8
  * packet:   pkt_ov021_021AA6F8
  * region:   ov021
@@ -11,10 +11,10 @@
  *
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021A3074  0x021A3074  thumb
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
@@ -28,18 +28,18 @@ typedef signed int     s32;
 
 struct Pos { u16 x, y, z; u16 f06; u32 f08; };
 
-extern void *func_021A3074(u8 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern int func_0216D83C(void *p);
-extern int func_0216D854(void *p);
-extern int func_0216D86C(void *p);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowY(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
 
-void func_021AA6F8(struct Pos *p, void *q)
+void FIELD_ENCOUNT_ResetStepWork(struct Pos *p, void *q)
 {
-    void *o = func_021A3074(q);
+    void *o = FIELD_PLAYER_GetMmdl(q);
 
     MI_CpuFill8(p, 0, sizeof(*p));
-    p->x = func_0216D83C(o);
-    p->y = func_0216D854(o);
-    p->z = func_0216D86C(o);
+    p->x = FLDMMDL_GetGridNowX(o);
+    p->y = FLDMMDL_GetGridNowY(o);
+    p->z = FLDMMDL_GetGridNowZ(o);
 }

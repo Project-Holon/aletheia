@@ -13,14 +13,14 @@
  * distinct function and gets its own shard.
  *
  * symbols:
- *   func_020115EC  0x020115EC  thumb
+ *   ICA_ANIME_SetFrame  0x020115EC  thumb
  *
  * Addresses are Black-image addresses.
  */
 
-extern int func_020115EC(int, int);
+extern int ICA_ANIME_SetFrame(int, int);
 
 int func_021B95A0(int a0, int a1)
 {
-    return func_020115EC(a0, a1 / 2);
+    return ICA_ANIME_SetFrame(a0, a1 / 2);
 }

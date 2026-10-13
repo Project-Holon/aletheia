@@ -1,5 +1,5 @@
 /*
- * function: func_021A3968
+ * function: FIELD_PLAYER_CORE_GetStepKind
  * address:  0x021A3968
  * packet:   pkt_021A3968
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A3968(u32 *p)
+u32 FIELD_PLAYER_CORE_GetStepKind(u32 *p)
 {
     return p[5];
 }

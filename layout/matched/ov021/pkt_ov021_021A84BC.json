@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A84BC",
+   "name": "FIELD_MENU_Delete",
    "address": "0x021A84BC",
    "kind": "game",
    "region": "ov021",

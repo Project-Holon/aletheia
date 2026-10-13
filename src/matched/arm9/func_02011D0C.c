@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011610  0x02011610  thumb
- *   func_02048B44  0x02048B44  arm
+ *   ICA_ANIME_GetTranslate  0x02011610  thumb
+ *   G3D_CAMERA_SetUp  0x02048B44  arm
  *
- * Identical to ICA_ANIME_SetCameraPos except for the second callee, func_02048B44.
+ * Identical to ICA_ANIME_SetCameraPos except for the second callee, G3D_CAMERA_SetUp.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ICA_ANIME_SetCameraTarget.c \
@@ -24,13 +24,13 @@ typedef unsigned char u8;
 
 struct IcaAnime;
 struct Rec12;
-extern unsigned int func_02011610(struct IcaAnime *a1, struct Rec12 *buf);
-extern void func_02048B44(void *a0, const u8 *buf);
+extern unsigned int ICA_ANIME_GetTranslate(struct IcaAnime *a1, struct Rec12 *buf);
+extern void G3D_CAMERA_SetUp(void *a0, const u8 *buf);
 
 void ICA_ANIME_SetCameraTarget(void *a0, void *a1)
 {
     u8 buf[0xc];
 
-    func_02011610(a1, (struct Rec12 *)buf);
-    func_02048B44(a0, buf);
+    ICA_ANIME_GetTranslate(a1, (struct Rec12 *)buf);
+    G3D_CAMERA_SetUp(a0, buf);
 }

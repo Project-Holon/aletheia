@@ -1,5 +1,5 @@
 /*
- * function: func_0215EA30
+ * function: MOVE_POKEMON_InitSkillTarget
  * address:  0x0215EA30
  * packet:   pkt_ov010_0215EA30
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf after func_0215E840's pool (bl from 0x0215FE3C).
+ * Unlabelled leaf after MOVE_POKEMON_InitSkillInfo's pool (bl from 0x0215FE3C).
  */
 
 typedef unsigned short u16;
@@ -21,7 +21,7 @@ typedef struct Query {
     u32 c;              /* 0x04 */
 } Query;
 
-void func_0215EA30(Query *q, u16 a, u16 b, u32 c)
+void MOVE_POKEMON_InitSkillTarget(Query *q, u16 a, u16 b, u32 c)
 {
     q->a = a;
     q->b = b;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F0680",
+   "name": "UNION_SUBDISP_UpdateChatLines",
    "address": "0x021F0680",
    "kind": "game",
    "region": "ov031",

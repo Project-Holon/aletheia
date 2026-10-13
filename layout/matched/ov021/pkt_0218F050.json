@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218F050",
+   "name": "FIELD_CAMERA_StopDelayLog",
    "address": "0x0218F050",
    "kind": "game",
    "region": "ov021",

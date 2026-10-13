@@ -1,5 +1,5 @@
 /*
- * function: func_021542C0
+ * function: EVENT_GTSNEGO_Main
  * address:  0x021542C0
  * packet:   pkt_ov001_021542C0
  * region:   ov001
@@ -9,28 +9,28 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Stage machine on *mode (17 states), same family as ov003 func_021542C0.
+ * Stage machine on *mode (17 states), same family as ov003 EVENT_GTSNEGO_Main.
  * Pooled small words 0x73/0x78/0x77/0xC3 are linker overlay ids
  * (ov115/ov120/ov119/ov195) handed to GAMESYSTEM_CallProc with a table in that
  * overlay's window.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_02026454  0x02026454  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   func_0203CD98  0x0203CD98  arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
- *   func_0203D7BC  0x0203D7BC  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
@@ -55,26 +55,26 @@ typedef unsigned int   u32;
 
 struct Ctx;
 struct IcaAnime;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
 struct Evt;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 a);
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u32 func_02026454(void *obj);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
-extern int   func_0203CD98(void);
+extern int   GFL_NET_GetRunState(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void  func_02039C68(struct Link *a0, u32 a1, u32 a2);
 extern u32   func_02039CB4(struct Link *a0, u32 a1, u32 a2);
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 a0);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
@@ -105,11 +105,11 @@ typedef struct Req {
 
 #define F(o) (*(u32 *)(args + (o)))
 
-u32 func_021542C0(void *obj, u32 *mode, char *args)
+u32 EVENT_GTSNEGO_Main(void *obj, u32 *mode, char *args)
 {
     u32 h = F(0x17c);
-    u32 v08 = (u32)func_020120F4((const struct Ctx *)h);
-    void *v0c = func_0201210C((void *)h);
+    u32 v08 = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)h);
+    void *v0c = GAMESYSTEM_GetFieldMap((void *)h);
     Req *p;
 
     switch (*mode) {
@@ -119,8 +119,8 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         (*mode)++;
         break;
     case 1:
-        if (func_02026454((void *)func_02012138((const struct Ctx *)h)) == 0) {
-            func_02012374(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, (int)v0c));
+        if (func_02026454((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)h)) == 0) {
+            GAME_EVENT_CallEvent(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(h, (int)v0c));
             (*mode)++;
         }
         break;
@@ -165,7 +165,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         break;
     case 7:
         if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
-            if (func_0203CD98() == 0) {
+            if (GFL_NET_GetRunState() == 0) {
                 F(0x37c) = 1;
                 *mode = 2;
             } else if (F(0x340) == 2) {
@@ -173,9 +173,9 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
             } else if (F(0x340) == 1) {
                 *mode = 10;
             } else {
-                func_02039C68((struct Link *)func_020399A8(), 1, 0xc);
+                func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc);
                 GFL_NET_SetAutoExit(0);
-                func_0203D7BC(0);
+                GFL_NET_SetLoginOption(0);
                 F(0x4) = 100;
                 *mode = 8;
             }
@@ -183,7 +183,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         break;
     case 8:
         F(0x4)--;
-        if (func_02039CB4((struct Link *)func_020399A8(), 1, 0xc))
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0xc))
             *mode = 9;
         if ((int)F(0x4) < 0)
             *mode = 9;
@@ -208,7 +208,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
     case 11:
         if (GAMESYSTEM_GetProcStatus((const struct Ctx *)h) == 0) {
             func_020307B0((void *)F(0x358));
-            if (func_0203CD98() == 0) {
+            if (GFL_NET_GetRunState() == 0) {
                 F(0x37c) = 1;
                 *mode = 2;
             } else {
@@ -231,7 +231,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         func_020307B0((void *)F(0x3ac));
         GFL_USE_CancelChangeAndPlayBgm(F(0x0), 0xFFFF);
         GFL_USE_FadeInBgmFull(0x3C);
-        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)h));
+        GAME_EVENT_CallEvent(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)h));
         (*mode)++;
         break;
     case 15:

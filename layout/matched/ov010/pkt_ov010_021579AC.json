@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021579AC",
+   "name": "DELIVERY_IRC_StepEnd",
    "address": "0x021579AC",
    "kind": "game",
    "region": "ov010",

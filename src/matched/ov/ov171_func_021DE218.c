@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204ADA4 0x0204ADA4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_0204ADA4(u32);
+extern void CLACT_ReleasePalette(u32);
 void func_021DE218(char *p,int i)
 {
     if(*(u32 *)((u32)p+0xbe8+(u32)i*4)!=(u32)-1) {
-        func_0204ADA4(*(u32 *)((u32)p+0xbe8+(u32)i*4));
+        CLACT_ReleasePalette(*(u32 *)((u32)p+0xbe8+(u32)i*4));
         *(u32 *)((u32)p+0xbe8+(u32)i*4)=(u32)-1;
     }
 }

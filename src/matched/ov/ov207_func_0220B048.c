@@ -19,6 +19,7 @@
  *   func_0220B3B8 0x0220B3B8 thumb ov207
  *   overlay206 0x000000CE data
  *   overlay67 0x00000043 data
+ *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  */
 typedef unsigned int   u32;
 struct Node;
@@ -30,7 +31,7 @@ extern void func_0220B6E4(unsigned *p);
 extern void func_021BA2CC(char *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_0220B3B8(unsigned *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
@@ -45,7 +46,7 @@ int func_0220B048(void *a,int b,int c,unsigned *p)
     func_021BA2CC((void *)p[8]);
     func_0201C6EC((void *)p[3]);
     func_0201C4C0((void *)p[3]);
-    func_0201D83C((void *)p[2]);
+    GF_FONT_Delete((void *)p[2]);
     func_0220B3B8((void *)p[1]);
     func_020315D4(a);
     func_020306F0(106);

@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA04 0x0200EA04 thumb
  *   GFL_USE_GetBgmNo 0x02005C44 thumb
@@ -24,7 +24,7 @@ extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short
 extern void func_02082BCC(void *, int, int);
 typedef unsigned short u16;
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
 extern u16 GFL_USE_GetBgmNo(void);
@@ -53,7 +53,7 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
     p[14] = (int)(ctx + 0x778);
     p[16] = (int)(ctx + 0x8ac);
     {
-        void *q = func_02012EBC(((struct Obj06657 *)ctx)->f4);
+        void *q = GAME_DATA_GetSaveControl(((struct Obj06657 *)ctx)->f4);
         p[4] = func_0200EA04((int)func_0200E9F4(q));
     }
     if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);

@@ -22,7 +22,7 @@
  * note 2026-10-04 (wD2 lane18): still MATCH, only unresolved relocations remain: callee GFL_NET_IRC_WIRELESS_SetSessionParam (veneer to 0x0203DA68) still has no witness; GFL_NET_IRC_WIRELESS_SetSessionParamValue filed EXACT as src/matched/arm9/GFL_NET_IRC_WIRELESS_SetSessionParamValue.c, integrator must regenerate labels so the veneer resolves.
  * symbols:
  *   d_021BB83C 0x021BB83C data a4
- *   func_0203CBAC 0x0203CBAC arm
+ *   GFL_NET_StartSession 0x0203CBAC arm
  *   GFL_NET_IRC_WIRELESS_SetSessionParam 0x0203D0C4 arm
  *   GFL_NET_IRC_WIRELESS_SetRetryRequest 0x0203D164 arm
  *   GFL_NET_SetGameKindOverride 0x0203D0AC arm
@@ -41,7 +41,7 @@ struct Req {
     u16 value,limit;
 };
 extern const struct Req d_021BB83C;
-extern void func_0203CBAC(struct Req *,u32,u32);
+extern void GFL_NET_StartSession(struct Req *,u32,u32);
 extern void GFL_NET_IRC_WIRELESS_SetSessionParam(u32);
 extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
 extern void GFL_NET_SetGameKindOverride(int);
@@ -94,7 +94,7 @@ void func_021BAB08(int p)
         break;
     }
     zero=0;
-    func_0203CBAC(&req,0,p);
+    GFL_NET_StartSession(&req,0,p);
     switch(*(int *)(p+0x24c)) {
     case 10:
         GFL_NET_IRC_WIRELESS_SetSessionParam((u32)func_021BAAEC);

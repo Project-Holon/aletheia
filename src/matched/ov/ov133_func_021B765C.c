@@ -143,9 +143,9 @@
  *   func_021F4EB4 0x021F4EB4 thumb ov112
  *   func_021F4E6C 0x021F4E6C thumb ov112
  *   func_020061E4 0x020061E4 thumb
- *   func_0204F638 0x0204F638 arm
- *   func_0204F684 0x0204F684 arm
- *   func_0204F720 0x0204F720 arm
+ *   BILLBOARD_SetElemPos 0x0204F638 arm
+ *   BILLBOARD_SetElemScale 0x0204F684 arm
+ *   BILLBOARD_SetElemVisible 0x0204F720 arm
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
  *   _ffix 0x0209C494 arm
@@ -176,9 +176,9 @@ extern void func_021F4ED4(u32 unused, u32 p, u16 v);
 extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
 extern void func_020061E4(u32);
-extern void func_0204F638(u8 *a0, int i, struct Trip *src);
-extern void func_0204F684(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14);
-extern void func_0204F720(void *p, u32 idx, u32 *flag);
+extern void BILLBOARD_SetElemPos(u8 *a0, int i, struct Trip *src);
+extern void BILLBOARD_SetElemScale(struct Manager0204F684 *mgr, int idx, const s16 *p12, const s16 *p14);
+extern void BILLBOARD_SetElemVisible(void *p, u32 idx, u32 *flag);
 static inline int GetTimer(u8 *p) { return *(u16 *)(p + 0x94); }
 void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
 {
@@ -280,11 +280,11 @@ void *func_021B765C(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
             w.x = v.x / 16;
             w.y = (sh - (v.y + 0x8000)) / 16;
             w.z = v.z + (sh >> 9);
-            func_0204F638((u8 *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (struct Trip *)(&w));
-            func_0204F684((struct Manager0204F684 *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), &sc, &sc);
-            func_0204F720((void *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (u32 *)d_021BA3E8);
+            BILLBOARD_SetElemPos((u8 *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (struct Trip *)(&w));
+            BILLBOARD_SetElemScale((struct Manager0204F684 *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), &sc, &sc);
+            BILLBOARD_SetElemVisible((void *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (u32 *)d_021BA3E8);
         } else {
-            func_0204F720((void *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (u32 *)d_021BA3E4);
+            BILLBOARD_SetElemVisible((void *)(*(int *)(p + 0x188C)), *(int *)(p + idx * 4 + 0x5C), (u32 *)d_021BA3E4);
         }
         e = (u8 *)func_021BA208(e);
         idx++;

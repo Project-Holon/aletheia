@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020121CC
+ * function: GAMESYSTEM_TryStartAutoComm
  * address:  0x020121CC
  * packet:   pkt_02012158
  * region:   arm9
@@ -11,21 +11,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012138     0x02012138  thumb
- *   func_0203CD98     0x0203CD98  arm
+ *   GAMESYSTEM_GetGameComm     0x02012138  thumb
+ *   GFL_NET_GetRunState     0x0203CD98  arm
  *   func_02026454     0x02026454  thumb
  *   GAMESYSTEM_CanStartAutoComm     0x02012164  thumb
- *   func_020263D8     0x020263D8  thumb
+ *   GAME_COMM_Start     0x020263D8  thumb
  *
- * Three tests, one epilogue: the handle returned by func_02012138(p) is
+ * Three tests, one epilogue: the handle returned by GAMESYSTEM_GetGameComm(p) is
  * checked with two externals (both called with it - r0 is not reloaded), then
  * the object is driven through GAMESYSTEM_CanStartAutoComm and only a result of exactly 1
- * reaches func_020263D8(handle, 1, p).  The nested ifs are what give all
+ * reaches GAME_COMM_Start(handle, 1, p).  The nested ifs are what give all
  * three the same `return 0` at the end.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020121CC.c \
- *       --func func_020121CC --addr 0x020121CC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAMESYSTEM_TryStartAutoComm.c \
+ *       --func GAMESYSTEM_TryStartAutoComm --addr 0x020121CC --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -37,21 +37,21 @@ struct IcaAnime {
 };
 
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_0203CD98(void);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int GFL_NET_GetRunState(void);
 struct Comm;
 extern u32 func_02026454(void *obj);
 extern u32 GAMESYSTEM_CanStartAutoComm(struct IcaAnime *p);
-extern void func_020263D8(struct Comm *p, u32 a1, u32 a2);
+extern void GAME_COMM_Start(struct Comm *p, u32 a1, u32 a2);
 
-u32 func_020121CC(struct IcaAnime *p)
+u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p)
 {
-    u32 h = func_02012138((const struct Ctx *)p);
+    u32 h = GAMESYSTEM_GetGameComm((const struct Ctx *)p);
 
-    if (func_0203CD98() == 0) {
+    if (GFL_NET_GetRunState() == 0) {
         if (func_02026454((void *)h) == 0) {
             if (GAMESYSTEM_CanStartAutoComm(p) == 1) {
-                func_020263D8((struct Comm *)h, 1, (u32)p);
+                GAME_COMM_Start((struct Comm *)h, 1, (u32)p);
                 return 1;
             }
         }

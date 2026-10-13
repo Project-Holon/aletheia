@@ -1,7 +1,7 @@
 /*
  * file:     btl_rec.c
  * unit:     yes
- * function: func_021EE5E4, func_021EE600, func_021EE608, func_021EE638, func_021EE63C, func_021EE644, func_021EE674, func_021EE688, func_021EE6B8, func_021EE830, func_021EE894, func_021EE8B4, func_021EE8D8, func_021EE8F4, func_021EE96C, func_021EE9A4, func_021EE9B4, func_021EE9E4
+ * function: BTL_REC_CreateBuffer, BTL_REC_DeleteBuffer, BTL_REC_AppendPacket, BTL_REC_GetPacketId, BTL_REC_ReadEntry, BTL_REC_InitReader, BTL_REC_ResetReader, BTL_REC_ReadSkipFlag, BTL_REC_ReadRecord, BTL_REC_CountFlaggedRecords, BTL_REC_IsChannelDone, BTL_REC_InitPacket, BTL_REC_MakeSkipPacket, BTL_REC_AddRecord, BTL_REC_FinishPacket, BTL_REC_MakeResetPacket, BTL_REC_LoadPacket, BTL_REC_NextRecord
  * address:  0x021EE5E4
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -18,65 +18,65 @@
  *   func_021B9AF8 0x021B9AF8 thumb ov093
  *   func_021B9B94 0x021B9B94 thumb ov093
  *   func_021B9C00 0x021B9C00 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021D62A8 0x021D62A8 thumb ov093
- *   func_021D5B7C 0x021D5B7C thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
+ *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   func_021ECEB8  0x021ECEB8  thumb  ov093
  *   func_021ECF68   0x021ECF68  thumb  ov093
- *   func_0204E720  0x0204E720  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   FADE_Start  0x0204E720  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_021EB318  0x021EB318  thumb  ov093
- *   func_0201DD78 0x0201DD78 thumb
- *   func_02045374 0x02045374 arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_0201C7A4 0x0201C7A4 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_02040618 0x02040618 arm
  *   func_020061E4 0x020061E4 thumb
- *   func_021D590C  0x021D590C  thumb  ov093
+ *   BTL_POKEPARAM_ReadStatsFromMon  0x021D590C  thumb  ov093
  *   func_02045758  0x02045758  arm
  *   func_02045760  0x02045760  arm
  *   func_02045738  0x02045738  arm
  *   func_02045740  0x02045740  arm
  *   func_02041300  0x02041300  arm
  *   func_02030734  0x02030734  arm
- *   d_021F3ADC  0x021F3ADC  data  a4
+ *   gBtlRecFileName  0x021F3ADC  data  a4
  *   func_020307B0   0x020307B0  arm arm9
  *   func_02082D44  0x02082D44  arm
- *   func_021D8470  0x021D8470  thumb
- *   func_021D845C  0x021D845C  thumb
- *   d_021F6388  0x021F6388  data  a4
- *   d_021F6384  0x021F6384  data  a4
+ *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
+ *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
+ *   gBtlAdapterSlots  0x021F6388  data  a4
+ *   gBtlAdapterMode  0x021F6384  data  a4
  *   sub_02030734   0x02030734  arm
- *   d_021F3AE8     0x021F3AE8  data  ov093  a4
- *   func_021D4C58   0x021D4C58  thumb
- *   func_021D4B58  0x021D4B58  thumb  ov093
- *   func_021D4B98  0x021D4B98  thumb  ov093
- *   func_021D4BD4  0x021D4BD4  thumb  ov093
- *   func_021D4C60  0x021D4C60  thumb  ov093
- *   func_021D4C6C  0x021D4C6C  thumb  ov093
- *   func_021D4C84  0x021D4C84  thumb  ov093
+ *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
+ *   BTL_NET_ExpectReplies   0x021D4C58  thumb
+ *   BTL_NET_SendServerCmd  0x021D4B58  thumb  ov093
+ *   BTL_NET_AreAllRepliesReceived  0x021D4B98  thumb  ov093
+ *   BTL_NET_GetClientReply  0x021D4BD4  thumb  ov093
+ *   BTL_NET_HasServerCmd  0x021D4C60  thumb  ov093
+ *   BTL_NET_GetServerCmd  0x021D4C6C  thumb  ov093
+ *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  *   func_021BA1A8  0x021BA1A8  thumb  ov093
  *   func_0201EC64  0x0201EC64  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045B38  0x02045B38  arm
- *   d_021F6398     0x021F6398  data  ov093  a4
+ *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   d_021F63D8     0x021F63D8  data  ov093  a4
- *   d_021F3990     0x021F3990  data  ov093  a2
+ *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_021B9940  0x021B9940  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
  *   func_0201EEF4  0x0201EEF4  thumb
- *   func_021D5844  0x021D5844  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   func_0201EE84  0x0201EE84  thumb
  *   func_021BA020  0x021BA020  thumb  ov093
  *   func_0201F0F8  0x0201F0F8  thumb
  *   func_021B9F70  0x021B9F70  thumb  ov093
- *   func_021B86B8  0x021B86B8  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   func_021BA004  0x021BA004  thumb  ov093
  *   func_021B9FAC  0x021B9FAC  thumb  ov093
  *   func_021BA064  0x021BA064  thumb  ov093
@@ -86,13 +86,13 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   func_0201F134  0x0201F134  thumb
  *   d_021F63C8     0x021F63C8  data  a4
- *   func_021B8BD0  0x021B8BD0  thumb  ov093
+ *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  *   d_021F39A0     0x021F39A0  data  a2
  *   func_02045CAC  0x02045CAC  arm
  *   func_0201F250  0x0201F250  thumb
- *   d_021F39D8  0x021F39D8  data  a4
+ *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_0201D5C4  0x0201D5C4  thumb
  *   func_0201D5CC  0x0201D5CC  thumb
  *   func_0201D670  0x0201D670  thumb
@@ -108,16 +108,16 @@
  *   func_021B8DDC  0x021B8DDC  thumb  ov093
  *   func_021B8CE8  0x021B8CE8  thumb  ov093
  *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021E8918  0x021E8918  thumb  ov093
- *   d_021F63F4  0x021F63F4  data  a4
+ *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
+ *   gBtlFieldCountdown  0x021F63F4  data  a4
  *   func_021EFA94  0x021EFA94  thumb  ov093
  *   func_021EFAD8  0x021EFAD8  thumb  ov093
  *   func_021EFB34  0x021EFB34  thumb  ov093
  *   func_021EFC1C  0x021EFC1C  thumb  ov093
  *   func_021EFC78  0x021EFC78  thumb  ov093
  *   func_021EFCE4  0x021EFCE4  thumb  ov093
- *   d_021F3AF8  0x021F3AF8  data  a4
- *   func_021E8A98  0x021E8A98  thumb  ov093
+ *   gBtlFieldFileName  0x021F3AF8  data  a4
+ *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -160,26 +160,26 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void func_02082BCC(void *dst, u8 value, u32 size);
 extern void func_02082D44(const void *src, void *dst, u32 size);
-void func_021D8470(u32 *record);
-void func_021D845C(u32 *record);
-extern char d_021F3ADC[];
+void BTL_CALC_ActionSetRecordError(u32 *record);
+void BTL_CALC_ActionSetRecordReset(u32 *record);
+extern char gBtlRecFileName[];
 
-void *func_021EE5E4(u32 heapId)
+void *BTL_REC_CreateBuffer(u32 heapId)
 {
-    return func_02030734(heapId, 0xC08, 1, d_021F3ADC, 0x6b);
+    return func_02030734(heapId, 0xC08, 1, gBtlRecFileName, 0x6b);
 }
 
 
 /*
  * tail-call thunk to func_020307B0
  */
-void func_021EE600(void *buffer)
+void BTL_REC_DeleteBuffer(void *buffer)
 {
     func_020307B0(buffer);
 }
 
 
-void func_021EE608(BtlRecBuffer *buffer, const u8 *src, int size)
+void BTL_REC_AppendPacket(BtlRecBuffer *buffer, const u8 *src, int size)
 {
     u32 offset;
     u32 end;
@@ -201,17 +201,17 @@ void func_021EE608(BtlRecBuffer *buffer, const u8 *src, int size)
 /*
  * Reads the u8 field at offset 0 of the argument and returns it.
  */
-u8 func_021EE638(u8 *src) { return *src; }
+u8 BTL_REC_GetPacketId(u8 *src) { return *src; }
 
 
-unsigned short *func_021EE63C(unsigned short *entry, unsigned int *outValue)
+unsigned short *BTL_REC_ReadEntry(unsigned short *entry, unsigned int *outValue)
 {
     *outValue = *entry;
     return entry + 4;
 }
 
 
-void func_021EE644(BtlRecReader *reader, u32 bytesAddr, u32 size)
+void BTL_REC_InitReader(BtlRecReader *reader, u32 bytesAddr, u32 size)
 {
     u32 channel;
 
@@ -223,7 +223,7 @@ void func_021EE644(BtlRecReader *reader, u32 bytesAddr, u32 size)
 }
 
 
-void func_021EE674(BtlRecReader *reader)
+void BTL_REC_ResetReader(BtlRecReader *reader)
 {
     u32 channel;
 
@@ -239,7 +239,7 @@ void func_021EE674(BtlRecReader *reader)
  * fix the order: type cannot be forwarded past the redefinition of v, and
  * the u8 cast lands at the assignment, not at the return.
  */
-int func_021EE688(BtlRecReader *reader, int channel)
+int BTL_REC_ReadSkipFlag(BtlRecReader *reader, int channel)
 {
     int v;
     int type;
@@ -264,12 +264,12 @@ int func_021EE688(BtlRecReader *reader, int channel)
  * into separate locals: that keeps the size shift pair ahead of the position
  * load.
  */
-u32 *func_021EE6B8(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outFlag)
+u32 *BTL_REC_ReadRecord(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outFlag)
 {
     u32 *readPos;
     u32 start;
     if (reader->failed) {
-        func_021D8470(reader->lastRecord[channel]);
+        BTL_CALC_ActionSetRecordError(reader->lastRecord[channel]);
         *outSize = 1;
         *outFlag = 0;
         return reader->lastRecord[channel];
@@ -309,7 +309,7 @@ u32 *func_021EE6B8(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outFlag)
                 return found;
         } else if (type == 3) {
             u32 *record = reader->lastRecord[channel];
-            func_021D845C(record);
+            BTL_CALC_ActionSetRecordReset(record);
             *outSize = 1;
             *outFlag = 0;
             return record;
@@ -324,7 +324,7 @@ u32 *func_021EE6B8(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outFlag)
         }
     }
     reader->failed = 1;
-    func_021D8470(reader->lastRecord[channel]);
+    BTL_CALC_ActionSetRecordError(reader->lastRecord[channel]);
     *outSize = 1;
     *outFlag = 0;
     return reader->lastRecord[channel];
@@ -338,7 +338,7 @@ u32 *func_021EE6B8(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outFlag)
  * pos/size last; these set the register colours. pos++ sits right after
  * the byte load.
  */
-int func_021EE830(BtlRecReader *reader)
+int BTL_REC_CountFlaggedRecords(BtlRecReader *reader)
 {
     int count;
     u8 header;
@@ -380,7 +380,7 @@ int func_021EE830(BtlRecReader *reader)
 }
 
 
-int func_021EE894(BtlRecReader *reader, int channel)
+int BTL_REC_IsChannelDone(BtlRecReader *reader, int channel)
 {
     u32 pos;
 
@@ -394,14 +394,14 @@ int func_021EE894(BtlRecReader *reader, int channel)
 }
 
 
-void func_021EE8B4(BtlRecPacket *packet, int flag)
+void BTL_REC_InitPacket(BtlRecPacket *packet, int flag)
 {
     func_02082BCC(packet, 0, 0x40);
     packet->flag = (u8)flag;
 }
 
 
-u8 *func_021EE8D8(BtlRecPacket *packet, u32 *outSize, int flag)
+u8 *BTL_REC_MakeSkipPacket(BtlRecPacket *packet, u32 *outSize, int flag)
 {
     packet->data[0] = 4;
     packet->data[1] = 0x20 | (((u8)flag & 1) << 7);
@@ -410,7 +410,7 @@ u8 *func_021EE8D8(BtlRecPacket *packet, u32 *outSize, int flag)
 }
 
 
-void func_021EE8F4(BtlRecPacket *packet, u8 channel, const void *words, u32 count)
+void BTL_REC_AddRecord(BtlRecPacket *packet, u8 channel, const void *words, u32 count)
 {
     u8 mask;
     int size;
@@ -437,7 +437,7 @@ void func_021EE8F4(BtlRecPacket *packet, u8 channel, const void *words, u32 coun
 }
 
 
-u8 *func_021EE96C(BtlRecPacket *packet, u8 id, u32 *outSize)
+u8 *BTL_REC_FinishPacket(BtlRecPacket *packet, u8 id, u32 *outSize)
 {
     u8 type;
 
@@ -453,7 +453,7 @@ u8 *func_021EE96C(BtlRecPacket *packet, u8 id, u32 *outSize)
 }
 
 
-u8 *func_021EE9A4(BtlRecPacket *packet, u32 *outSize)
+u8 *BTL_REC_MakeResetPacket(BtlRecPacket *packet, u32 *outSize)
 {
     packet->data[0] = 0;
     packet->data[1] = 0x30;
@@ -462,7 +462,7 @@ u8 *func_021EE9A4(BtlRecPacket *packet, u32 *outSize)
 }
 
 
-void func_021EE9B4(BtlRecPacket *packet, const void *src, int size)
+void BTL_REC_LoadPacket(BtlRecPacket *packet, const void *src, int size)
 {
     func_02082D44(src, packet->data, size);
     packet->used = size;
@@ -474,7 +474,7 @@ void func_021EE9B4(BtlRecPacket *packet, const void *src, int size)
 }
 
 
-int func_021EE9E4(BtlRecPacket *packet, u32 *pos, u8 *outChannel, u8 *outWords, u32 *dst)
+int BTL_REC_NextRecord(BtlRecPacket *packet, u32 *pos, u8 *outChannel, u8 *outWords, u32 *dst)
 {
     u8 header;
     int size;

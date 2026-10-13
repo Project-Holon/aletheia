@@ -1,5 +1,5 @@
 /*
- * function: func_0216DB24
+ * function: FLDMMDL_CheckDrawInitComp
  * address:  0x0216DB24
  * packet:   pkt_0216DB24
  * region:   ov010
@@ -10,27 +10,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D948  0x0216D948  thumb  ov010
- *   func_0216DAA0  0x0216DAA0  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysCheckDrawInit  0x0216D948  thumb  ov010
+ *   FLDMMDL_CheckMoveBitDrawInitComp  0x0216DAA0  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0216D67C(void *a0);
-extern int func_0216D948(int a0);
-extern int func_0216DAA0(void *a0);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern int FLDMMDL_SysCheckDrawInit(int a0);
+extern int FLDMMDL_CheckMoveBitDrawInitComp(void *a0);
 
-int func_0216DB24(int a0)
+int FLDMMDL_CheckDrawInitComp(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
-    a0 = (int)func_0216D67C((void *)a0);
+    a0 = (int)FLDMMDL_GetMmdlSys((void *)a0);
 loc_0216DB2C:
-    a0 = func_0216D948(a0);
+    a0 = FLDMMDL_SysCheckDrawInit(a0);
 loc_0216DB30:
     if (a0 != 0) goto loc_0216DB38;
 loc_0216DB34:
@@ -38,7 +38,7 @@ a0 = 0;
     return a0;
 loc_0216DB38:
 a0 = t4 + 0;
-    a0 = func_0216DAA0((void *)a0);
+    a0 = FLDMMDL_CheckMoveBitDrawInitComp((void *)a0);
 loc_0216DB3E:
     if (a0 == 0) goto loc_0216DB46;
 loc_0216DB42:

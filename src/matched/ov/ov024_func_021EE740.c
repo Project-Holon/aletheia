@@ -1,5 +1,5 @@
 /*
- * function: func_021EE740
+ * function: WEATHER_CLEAR_Begin
  * address:  0x021EE740
  * packet:   pkt_ov024_021EE740
  * region:   ov024
@@ -9,31 +9,31 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021A23D4  0x021A23D4  thumb  ov021
- *   func_021A21B8  0x021A21B8  thumb  ov021
- *   func_021A23E8  0x021A23E8  thumb  ov021
- *   func_021A2400  0x021A2400  thumb  ov021
- *   func_021A240C  0x021A240C  thumb  ov021
- *   func_021A22E0  0x021A22E0  thumb  ov021
+ *   WEATHER_TASK_IsZoneFogActive  0x021A23D4  thumb  ov021
+ *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
+ *   WEATHER_TASK_CheckZoneFogA  0x021A23E8  thumb  ov021
+ *   WEATHER_TASK_GetZoneFogC  0x021A2400  thumb  ov021
+ *   WEATHER_TASK_GetZoneFogD  0x021A240C  thumb  ov021
+ *   WEATHER_TASK_InitFog  0x021A22E0  thumb  ov021
  */
 
-int func_021A23D4(int *p);
-int *func_021A21B8(int *p);
-int func_021A23E8(int *p);
-int func_021A2400(int *p);
-int func_021A240C(int *p);
+int WEATHER_TASK_IsZoneFogActive(int *p);
+int *WEATHER_TASK_GetWorkBuffer(int *p);
+int WEATHER_TASK_CheckZoneFogA(int *p);
+int WEATHER_TASK_GetZoneFogC(int *p);
+int WEATHER_TASK_GetZoneFogD(int *p);
 typedef unsigned int   u32;
-void func_021A22E0(u32 *p, int a, int b, int c);
+void WEATHER_TASK_InitFog(u32 *p, int a, int b, int c);
 
-int func_021EE740(int *p, int v)
+int WEATHER_CLEAR_Begin(int *p, int v)
 {
-    if (func_021A23D4(p)) {
+    if (WEATHER_TASK_IsZoneFogActive(p)) {
         return 0;
     }
-    *func_021A21B8(p) = 0;
-    if (func_021A23E8(p)) {
-        func_021A2400(p);
-        func_021A22E0((u32 *)p, func_021A240C(p), 0x7FFF, v);
+    *WEATHER_TASK_GetWorkBuffer(p) = 0;
+    if (WEATHER_TASK_CheckZoneFogA(p)) {
+        WEATHER_TASK_GetZoneFogC(p);
+        WEATHER_TASK_InitFog((u32 *)p, WEATHER_TASK_GetZoneFogD(p), 0x7FFF, v);
     }
     return 1;
 }

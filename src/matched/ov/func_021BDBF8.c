@@ -1,5 +1,5 @@
 /*
- * function: func_021BDBF8
+ * function: EVENT_ENTRANCE_OUT_PostBgmFadeIn
  * address:  0x021BDBF8
  * packet:   pkt_021BDBF8
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02012A30  0x02012A30  thumb
- *   func_02029D7C  0x02029D7C  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_PostFadeIn  0x02029D7C  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02661.h"
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
-extern u32 func_02029D7C(u32, u32);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern u32 FIELD_SOUND_SYSTEM_PostFadeIn(u32, u32);
 
-int func_021BDBF8(u32 a)
+int EVENT_ENTRANCE_OUT_PostBgmFadeIn(u32 a)
 {
-return func_02029D7C(func_02012A30((const struct BigObj *)*(u32 *)((u8 *)(*(u32 *)&((struct Obj02661 *)((u8 *)(a)))->f0) + 8)), *(u32 *)((u8 *)(*(u32 *)&((struct Obj02661 *)((u8 *)(a)))->f0) + 8));
+return FIELD_SOUND_SYSTEM_PostFadeIn(GAME_DATA_GetBgmInfo((const struct BigObj *)*(u32 *)((u8 *)(*(u32 *)&((struct Obj02661 *)((u8 *)(a)))->f0) + 8)), *(u32 *)((u8 *)(*(u32 *)&((struct Obj02661 *)((u8 *)(a)))->f0) + 8));
 }
 

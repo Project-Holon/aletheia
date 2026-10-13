@@ -1,5 +1,5 @@
 /*
- * function: func_021B4BA4
+ * function: SCRCMD_PROC_FLD_SetQuantityMask
  * address:  0x021B4BA4
  * packet:   pkt_ov021_021B4BA4
  * region:   ov021
@@ -34,7 +34,7 @@ typedef struct {
 extern const Rect d_021D9654[];
 extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
 
-void func_021B4BA4(int i)
+void SCRCMD_PROC_FLD_SetQuantityMask(int i)
 {
     func_02041300(1, 0, d_021D9654[i].x, d_021D9654[i].y, d_021D9654[i].w, d_021D9654[i].h, 0);
 }

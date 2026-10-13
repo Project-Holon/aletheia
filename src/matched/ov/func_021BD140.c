@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047970 0x02047970  arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970  arm
  *
  * Tail call to the ARM9 function at 0x02047970, forwarding the first argument.
  */
 
-extern void func_02047970(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 
 void func_021BD140(char *p)
 {
-    func_02047970();
+    G3D_SYSTEM_DrawEnd();
 }

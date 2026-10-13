@@ -1,5 +1,5 @@
 /*
- * function: func_0219CAD8
+ * function: FLDMMDL_BLACT_CreateResTable
  * address:  0x0219CAD8
  * packet:   pkt_0219CAD8
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT*
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0216D4F8 (0x0216D4F8) is a matched manifest entry, so the `matched`
+ * FLDMMDL_SysGetHeapId (0x0216D4F8) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D4F8  0x0216D4F8  thumb
- *   func_0219CA00  0x0219CA00  thumb  ov021
+ *   FLDMMDL_SysGetHeapId  0x0216D4F8  thumb
+ *   FLDMMDL_BLACT_InitResTable  0x0219CA00  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj17970.h"
@@ -28,11 +28,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D4F8(u32, u32, u32, u32);
-extern u32 func_0219CA00(u32, u32, u32);
+extern u32 FLDMMDL_SysGetHeapId(u32, u32, u32, u32);
+extern u32 FLDMMDL_BLACT_InitResTable(u32, u32, u32);
 
-int func_0219CAD8(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_BLACT_CreateResTable(u32 a, u32 b, u32 c, u32 d)
 {
-return func_0219CA00((a + 20), b, func_0216D4F8(((struct Obj17970 *)((u8 *)(a)))->f10, b, c, d));
+return FLDMMDL_BLACT_InitResTable((a + 20), b, FLDMMDL_SysGetHeapId(((struct Obj17970 *)((u8 *)(a)))->f10, b, c, d));
 }
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AC1AC",
+   "name": "FIELD_EFFECT_GetObjectParam",
    "address": "0x021AC1AC",
    "kind": "game",
    "region": "ov021",

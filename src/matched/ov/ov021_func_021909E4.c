@@ -1,5 +1,5 @@
 /*
- * function: func_021909E4
+ * function: FIELD_MSGBG_MenuFuncMain
  * address:  0x021909E4
  * packet:   pkt_ov021_021909E4
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020200CC  0x020200CC  thumb  arm9
- *   func_0219049C  0x0219049C  thumb  ov021
- *   func_02190860  0x02190860  thumb  ov021
+ *   BMP_MENULIST_Main  0x020200CC  thumb  arm9
+ *   FIELD_MSGBG_IsPrintQueFinished  0x0219049C  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuFuncPalette  0x02190860  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -29,19 +29,19 @@ typedef struct Handle {
     u32 obj;
 } Handle;
 
-extern Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
-extern int func_0219049C(u8 *p);
+extern Handle *FIELD_MSGBG_CreateMenuFuncPalette(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
+extern int FIELD_MSGBG_IsPrintQueFinished(u8 *p);
 typedef signed int     s32;
 struct Obj;
-extern s32 func_020200CC(struct Obj *o);
+extern s32 BMP_MENULIST_Main(struct Obj *o);
 
-int func_021909E4(Handle *h)
+int FIELD_MSGBG_MenuFuncMain(Handle *h)
 {
     int v;
 
-    if (func_0219049C((u8 *)h->owner) == 0)
+    if (FIELD_MSGBG_IsPrintQueFinished((u8 *)h->owner) == 0)
         return -1;
-    v = func_020200CC((struct Obj *)h->obj);
+    v = BMP_MENULIST_Main((struct Obj *)h->obj);
     if (v == -1)
         return -1;
     if (v == -2)

@@ -11,14 +11,14 @@
  *
  * symbols:
  *   gModeTable     0x0209F87C  data
- *   func_0204AF28  0x0204AF28  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BMP_OAM_AcquireModeSlot.c \
  *       --func BMP_OAM_AcquireModeSlot --addr 0x02025A9C --thumb
  *
  * Map the engine's DISPCNT OBJ-mapping bits (mask 0x00300010) to a slot
- * index 0/1/2 and lazily fill that slot through func_0204AF28 with the
+ * index 0/1/2 and lazily fill that slot through CLACT_RegisterCellAnim with the
  * gModeTable record's two ids (docs/families/bmp_oam.h, section 5).
  *
  * Closed in wave 13.  The two bytes the 2026-09-21 note could not move
@@ -51,7 +51,7 @@ struct ModeEntry {
 extern const struct ModeEntry gModeTable[];
 
 typedef signed int     s32;
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 u32 BMP_OAM_AcquireModeSlot(struct Obj *obj, u32 engine, u32 arg)
 {
@@ -83,7 +83,7 @@ u32 BMP_OAM_AcquireModeSlot(struct Obj *obj, u32 engine, u32 arg)
         return mode;
     }
 
-    obj->slot[mode] = (u32)func_0204AF28((void *)arg, gModeTable[mode].a,
+    obj->slot[mode] = (u32)CLACT_RegisterCellAnim((void *)arg, gModeTable[mode].a,
                                          gModeTable[mode].b, obj->field_4);
     return mode;
 }

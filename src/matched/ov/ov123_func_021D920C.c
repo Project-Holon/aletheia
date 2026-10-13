@@ -13,7 +13,7 @@
  *   func_021D5644 0x021D5644 thumb ov123
  *   func_021D5E8C 0x021D5E8C thumb ov123
  *   func_021D5B70 0x021D5B70 thumb ov123
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   func_021B9838 0x021B9838 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
@@ -21,19 +21,21 @@
  *   func_020306F0 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov114_id 0x00000072 data
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
  */
 #include "../include/Obj00990.h"
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 typedef unsigned char  u8;
 struct S020315D4;
 struct TaskMenu;
-extern void func_02027858(struct TaskMenu *m);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 func_020307B0(void *p);
 extern void func_021D5644(char *p);
 extern void func_021D5E8C(u8 *p);
 extern void func_021D5B70(char *p);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern void func_021B9838(u8 *p);
 extern void DWC_RAP_SetErrorCallback(int,int);
@@ -43,8 +45,8 @@ extern void func_02034A5C(int handle);
 extern char ov114_id[];
 int func_021D920C(void *a, int b, int c, char *p)
 {
-    if (!func_020221A4()) return 0;
-    if (((struct Obj00990 *)p)->f1C) func_02027858(((struct Obj00990 *)p)->f1C);
+    if (!WIPE_SYS_EndCheck()) return 0;
+    if (((struct Obj00990 *)p)->f1C) APP_TASKMENU_CloseMenu(((struct Obj00990 *)p)->f1C);
     if (((struct Obj00990 *)p)->f38) {
         func_020307B0(((struct Obj00990 *)p)->f38);
         ((struct Obj00990 *)p)->f38=0;
@@ -57,7 +59,7 @@ int func_021D920C(void *a, int b, int c, char *p)
     if (((struct Obj00990 *)p)->f40) func_020307B0(((struct Obj00990 *)p)->f40);
     if (((struct Obj00990 *)p)->fC) func_020307B0(((struct Obj00990 *)p)->fC);
     if (((struct Obj00990 *)p)->f44) func_020307B0(((struct Obj00990 *)p)->f44);
-    if (func_0203CD98()) DWC_RAP_SetErrorHookCallback(0,0);
+    if (GFL_NET_GetRunState()) DWC_RAP_SetErrorHookCallback(0,0);
     if (((struct Obj00990 *)p)->f10) {
         func_021B9838(((struct Obj00990 *)p)->f10);
         DWC_RAP_SetErrorCallback(0,0);

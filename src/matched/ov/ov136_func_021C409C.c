@@ -11,9 +11,9 @@
  *   func_02030734 0x02030734 arm
  *   func_02082AC0 0x02082AC0 arm
  *   func_02008F80 0x02008F80 thumb
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02008F84 0x02008F84 thumb
- *   func_02045924 0x02045924 arm
+ *   STRBUF_SetString 0x02045924 arm
  *   func_02008FA4 0x02008FA4 thumb
  *   func_02008FB0 0x02008FB0 thumb
  *   func_02008FB8 0x02008FB8 thumb
@@ -31,12 +31,12 @@ extern void func_02082AC0(unsigned, void *, unsigned);
 typedef unsigned int   u32;
 struct Sub02008F80Obj;
 extern u32 func_02008F80(const struct Sub02008F80Obj *obj);
-extern void *func_020457B0(unsigned, u16);
+extern void *STRBUF_Create(unsigned, u16);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
 struct Rec8;
 struct Strbuf;
 struct Sub02008F80Entry;
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u8 func_02008FB0(const struct Sub02008F80Obj *obj);
 extern u8 func_02008FB8(const struct Sub02008F80Obj *obj);
@@ -52,8 +52,8 @@ void *func_021C409C(void *a, unsigned heap)
     func_02082AC0(0, p, 0x34);
     ((struct Obj03834 *)p)->f0 = i;
     ((struct Obj03834 *)p)->f4 = func_02008F80(a);
-    ((struct Obj03834 *)p)->fC = func_020457B0(0x10, heap);
-    func_02045924(((struct Obj03834 *)p)->fC, (const u16 *)func_02008F84(a));
+    ((struct Obj03834 *)p)->fC = STRBUF_Create(0x10, heap);
+    STRBUF_SetString(((struct Obj03834 *)p)->fC, (const u16 *)func_02008F84(a));
     p[0xB] = func_02008FA4(a);
     p[9] = func_02008FB0(a);
     p[0xA] = func_02008FB8(a);

@@ -1,5 +1,5 @@
 /*
- * function: func_021613CC
+ * function: EVENT_FIELD_PROCLINK_CreateMailParam
  * address:  0x021613CC
  * packet:   pkt_ov010_021613CC
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_02034AC4  0x02034AC4  arm
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0202138C  0x0202138C  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_021C3CC0  0x021C3CC0  thumb  ov136
@@ -48,18 +48,18 @@ typedef struct Src {
 
 extern u8 ov136_id[];
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef signed int     s32;
 struct BigObj;
 extern int func_02034AC4(s32 handle);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u8 func_0202138C(u16 v);
 extern void *func_0201AB28(void *a, u32 b);
 extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 extern void *func_021C3D44(void *a, void *b, unsigned heap);
 extern void *func_021C3DA4(void *a, void *b, unsigned heap);
 
-int func_021613CC(Ctx *c, int a1, int mode, const Src *src)
+int EVENT_FIELD_PROCLINK_CreateMailParam(Ctx *c, int a1, int mode, const Src *src)
 {
     void *sv;
     void *t;
@@ -67,10 +67,10 @@ int func_021613CC(Ctx *c, int a1, int mode, const Src *src)
     int r;
     u16 h;
 
-    sv = func_020120F4((const struct Ctx *)(*c->f18));
+    sv = GAMESYSTEM_GetGameData((const struct Ctx *)(*c->f18));
     func_02034AC4((u32)ov136_id);
     if (mode == 0) {
-        t = func_02012934(sv);
+        t = GAME_DATA_GetMyParty(sv);
         v = src->f3c;
         c->f60 = v;
         h = src->f44;

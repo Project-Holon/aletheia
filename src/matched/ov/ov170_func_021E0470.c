@@ -12,7 +12,7 @@
  * symbols:
  *   func_021EF5C4 0x021EF5C4 thumb
  *   func_021EF400 0x021EF400 thumb
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   func_021EF57C 0x021EF57C thumb
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   func_021EF45C 0x021EF45C thumb
@@ -50,7 +50,7 @@ typedef struct {
 struct WinMgr;
 extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_021EF400(unsigned char *p);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern void func_021EF57C(struct WinMgr *mgr);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
 extern int func_021EF45C(struct WinMgr *mgr);
@@ -86,7 +86,7 @@ int func_021E0470(unsigned char *p)
     unsigned y;
     switch (b->state) {
     case 0:
-        if (func_02035C38() == 1)
+        if (TOUCHPANEL_GetCont() == 1)
             func_021EF57C(MGR(p));
         b->state = 1;
         break;

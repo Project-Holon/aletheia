@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201214C     0x0201214C  thumb
+ *   GAMESYSTEM_GetAlwaysNetFlag     0x0201214C  thumb
  *   GAMESYSTEM_SetAlwaysNetFlag     0x02012158  thumb
  *
- * ica_anime.c: when func_0201214C(p) says yes, stop the playback
+ * ica_anime.c: when GAMESYSTEM_GetAlwaysNetFlag(p) says yes, stop the playback
  * (GAMESYSTEM_SetAlwaysNetFlag(p, 0), which is the tail call in the pending file
  * src/pending/GAMESYSTEM_SetAlwaysNetFlag.c) and set bit 0 of the byte at +0x33.
  *
@@ -36,12 +36,12 @@ struct IcaAnime {
 };
 
 struct Ctx;
-extern u32 func_0201214C(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *p);
 extern void GAMESYSTEM_SetAlwaysNetFlag(char *p, unsigned int v);
 
 void GAMESYSTEM_OnSleep(struct IcaAnime *p)
 {
-    if (func_0201214C((const struct Ctx *)p) != 0) {
+    if (GAMESYSTEM_GetAlwaysNetFlag((const struct Ctx *)p) != 0) {
         GAMESYSTEM_SetAlwaysNetFlag((char *)p, 0);
         p->f33 = (p->f33 & ~1) | 1;
     }

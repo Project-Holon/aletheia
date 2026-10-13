@@ -1,5 +1,5 @@
 /*
- * function: func_0217F914
+ * function: EVENT_COMM_COMMON_CmdCallMissionInfoEvent
  * address: 0x0217F914
  * packet: pkt_ov018_0217F914
  * region: ov018
@@ -10,19 +10,19 @@
  * status: EXACT*
  * extent: two bytes of zero alignment padding follow at 0x0217F936.
  * symbols:
- *   func_0215A5F4 0x0215A5F4 thumb ov010
- *   func_0215A5DC 0x0215A5DC thumb ov010
- *   func_0215897C 0x0215897C thumb ov010
- *   func_0217F938 0x0217F938 thumb ov018
+ *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
+ *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
+ *   SCRIPT_SYS_CallEvent 0x0215897C thumb ov010
+ *   EVENT_COMM_COMMON_CreateMissionInfoEvent 0x0217F938 thumb ov018
  */
-extern void *func_0215A5F4(void *);
-extern void *func_0215A5DC(void *);
-extern void func_0215897C(void *, void *);
-extern void *func_0217F938(void *);
-int func_0217F914(void *unused, void *vm)
+extern void *SCRCMD_WORK_GetScriptWork(void *);
+extern void *SCRCMD_WORK_GetGameSystem(void *);
+extern void SCRIPT_SYS_CallEvent(void *, void *);
+extern void *EVENT_COMM_COMMON_CreateMissionInfoEvent(void *);
+int EVENT_COMM_COMMON_CmdCallMissionInfoEvent(void *unused, void *vm)
 {
     void *owner;
-    owner = func_0215A5F4(vm);
-    func_0215897C(owner, func_0217F938(func_0215A5DC(vm)));
+    owner = SCRCMD_WORK_GetScriptWork(vm);
+    SCRIPT_SYS_CallEvent(owner, EVENT_COMM_COMMON_CreateMissionInfoEvent(SCRCMD_WORK_GetGameSystem(vm)));
     return 1;
 }

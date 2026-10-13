@@ -12,11 +12,11 @@
  * symbols:
  *   func_021C4EC4 0x021C4EC4 thumb
  *   func_020403F4 0x020403F4 arm
- *   func_0204363C 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  */
 typedef unsigned int   u32;
 extern void func_020403F4(u32 i);
-extern void func_0204363C(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 void func_021C4EC4(void *p)
 {
     func_020403F4(4);
@@ -24,5 +24,5 @@ void func_021C4EC4(void *p)
     func_020403F4(2);
     func_020403F4(1);
     func_020403F4(0);
-    func_0204363C(1);
+    BG_SYS_SetLcdSwap(1);
 }

@@ -8,19 +8,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GF_FONT_GetFixedWidth, func_0201DD60, func_0201DD68
+ * function: GF_FONT_GetFixedWidth, GF_FONT_ResetTextColor, GF_FONT_SetDefaultTextColor
  *
  * Three unlabelled leaves of gf_font.c: the accessor for the byte at +0x5E and
  * a two-step thunk that resets the text colour to (1, 2, 0).
  *
- * func_0201DD60 and func_0201DD68 are both the pool-word-and-bx shape
+ * GF_FONT_ResetTextColor and GF_FONT_SetDefaultTextColor are both the pool-word-and-bx shape
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes, and neither carries
  * a label, because a tail call saves nothing and the prologue sweep never fires.
- * The chain is real: func_0201DD60 tail-calls func_0201DD68, which tail-calls
- * func_0201DD78 with three constants.  Writing it as one function that calls
- * func_0201DD78 directly loses eight bytes.
+ * The chain is real: GF_FONT_ResetTextColor tail-calls GF_FONT_SetDefaultTextColor, which tail-calls
+ * GF_FONT_SetTextColor with three constants.  Writing it as one function that calls
+ * GF_FONT_SetTextColor directly loses eight bytes.
  *
- * func_0201DD78 itself, the 4x4x4x4 colour expansion at 0x0201DD78, is still
+ * GF_FONT_SetTextColor itself, the 4x4x4x4 colour expansion at 0x0201DD78, is still
  * open: the original keeps its two outer loop counters in ip and lr and spills
  * only the third, and no declaration order tried reproduces that split.
  *
@@ -31,7 +31,8 @@
  *       --addr 0x0201DD58 --thumb
  *
  * symbols:
- *   func_0201DD68  0x0201DD68  thumb
+ *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  */
 
 typedef unsigned char  u8;
@@ -68,21 +69,21 @@ struct Font {
     void *unk90;
 };
 
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
-void func_0201DD68(void);
+void GF_FONT_SetDefaultTextColor(void);
 
 u32 GF_FONT_GetFixedWidth(struct Font *p)
 {
     return p->unk58[6];
 }
 
-void func_0201DD60(void)
+void GF_FONT_ResetTextColor(void)
 {
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
 }
 
-void func_0201DD68(void)
+void GF_FONT_SetDefaultTextColor(void)
 {
-    func_0201DD78(1, 2, 0);
+    GF_FONT_SetTextColor(1, 2, 0);
 }

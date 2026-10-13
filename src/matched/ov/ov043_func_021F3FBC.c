@@ -1,5 +1,5 @@
 /*
- * function: func_021F3FBC
+ * function: GIMMICK43_GetLiftAnimeIndex
  * address:  0x021F3FBC
  * packet:   pkt_ov043_021F3FBC
  * region:   ov043
@@ -9,27 +9,27 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf called only from func_021F3AC0. The result goes through
+ * Unlabelled leaf called only from GIMMICK43_LiftEventMain. The result goes through
  * the local r: four direct returns invert the first arm's branch (3 bytes).
  *
  * symbols:
- *   d_021F4328     0x021F4328  data  ov043
+ *   sGimmick43LiftAnimeFlip     0x021F4328  data  ov043
  */
 
-extern int d_021F4328[];
+extern int sGimmick43LiftAnimeFlip[];
 
-int func_021F3FBC(int *a, int i)
+int GIMMICK43_GetLiftAnimeIndex(int *a, int i)
 {
     int r;
 
     if (a[i]) {
-        if (d_021F4328[i]) {
+        if (sGimmick43LiftAnimeFlip[i]) {
             r = 0;
         } else {
             r = 1;
         }
     } else {
-        if (d_021F4328[i]) {
+        if (sGimmick43LiftAnimeFlip[i]) {
             r = 1;
         } else {
             r = 0;

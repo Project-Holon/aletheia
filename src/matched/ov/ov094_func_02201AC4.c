@@ -10,12 +10,13 @@
  *
  * symbols:
  *   func_02201CA4  0x02201CA4  thumb  ov094
+ *   CLACT_DeleteUnit  0x0204B1CC  arm  arm9
  */
 typedef struct Ent { void *h8; void *hc; void *h10; void *h14; } Ent;
 typedef struct Res { void *owner; void *h; Ent e[7]; } Res;
 extern void func_02201CA4(Res *r, int i);
 struct Bank;
-extern unsigned int func_0204B1CC(struct Bank *bank);
+extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
@@ -26,6 +27,6 @@ void func_02201AC4(Res *r)
         if (r->e[i].h8 != 0)
             func_02201CA4(r, i);
     }
-    func_0204B1CC(r->h);
+    CLACT_DeleteUnit(r->h);
     func_020307B0(r);
 }

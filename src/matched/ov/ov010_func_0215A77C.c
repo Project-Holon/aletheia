@@ -1,5 +1,5 @@
 /*
- * function: func_0215A77C
+ * function: SCRCMD_WORK_InitMenu
  * address:  0x0215A77C
  * packet:   pkt_ov010_0215A77C
  * region:   ov010
@@ -13,7 +13,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_02082A7C  0x02082A7C  arm
  *   func_02045B38  0x02045B38  arm
- *   func_02190A20  0x02190A20  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuItems  0x02190A20  thumb  ov021
  */
 #include "../include/Obj00005.h"
 #include "../include/Obj18799.h"
@@ -43,9 +43,9 @@ extern void func_02082A7C(int, void *, int);
 typedef unsigned int   u32;
 struct MsgBank;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern int func_02190A20(int, int);
+extern int FIELD_MSGBG_CreateMenuItems(int, int);
 
-void func_0215A77C(unsigned short *p, unsigned short a, unsigned short b,
+void SCRCMD_WORK_InitMenu(unsigned short *p, unsigned short a, unsigned short b,
                    unsigned short c, unsigned short d, int e, int f, int g,
                    int h)
 {
@@ -66,5 +66,5 @@ void func_0215A77C(unsigned short *p, unsigned short a, unsigned short b,
         q->h = 1;
         q->i = (int)func_02045B38(0, 3, 0x80 + 0x86, *p);
     }
-    q->j = func_02190A20(0x20, *p);
+    q->j = FIELD_MSGBG_CreateMenuItems(0x20, *p);
 }

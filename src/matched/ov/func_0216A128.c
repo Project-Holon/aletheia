@@ -1,5 +1,5 @@
 /*
- * function: func_0216A128
+ * function: REPORT_EVENT_DeleteMenuResources
  * address:  0x0216A128
  * packet:   pkt_0216A128
  * region:   ov010
@@ -12,8 +12,8 @@
  * Three teardown calls on the three arm9 handles the object carries.
  *
  * symbols:
- *   func_02027FD8   0x02027FD8  thumb
- *   func_02045808   0x02045808  arm
+ *   APP_TASKMENU_RES_Delete   0x02027FD8  thumb
+ *   STRBUF_Delete   0x02045808  arm
  */
 #include "../include/Obj09164.h"
 #include "../include/Obj17748.h"
@@ -26,13 +26,13 @@ typedef unsigned int u32;
 
 struct TaskMenuState;
 struct U16Vec;
-extern u32 func_02027FD8(struct TaskMenuState *s);
-extern void func_02045808(struct U16Vec *vec);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_0216A128(void *p)
+void REPORT_EVENT_DeleteMenuResources(void *p)
 {
-    func_02027FD8(((struct Obj17748 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f3C);
-    func_02045808(((struct Obj17749 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f30);
-    func_02045808(((struct Obj17750 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f24);
+    APP_TASKMENU_RES_Delete(((struct Obj17748 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f3C);
+    STRBUF_Delete(((struct Obj17749 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f30);
+    STRBUF_Delete(((struct Obj17750 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f24);
 }
 

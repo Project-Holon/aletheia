@@ -1,5 +1,5 @@
 /*
- * function: func_021DF2C8
+ * function: BTL_HANDLER_ITEM_GetMeadowPlateHandlers
  * address: 0x021DF2C8
  * packet: pkt_ov093_021DF2C8
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F15D4[];
-int *func_021DF2C8(int *p);
+int *BTL_HANDLER_ITEM_GetMeadowPlateHandlers(int *p);
 
-int *func_021DF2C8(int *p)
+int *BTL_HANDLER_ITEM_GetMeadowPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F15D4;

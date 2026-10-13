@@ -1,5 +1,5 @@
 /*
- * function: func_0217B908
+ * function: UNION_ONESELF_GetRegulationId
  * address:  0x0217B908
  * packet:   pkt_ov019_0217B908
  * region:   ov019
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_0217B908(int x)
+int UNION_ONESELF_GetRegulationId(int x)
 {
     switch (x) {
     case 0: case 1: case 2: case 3:

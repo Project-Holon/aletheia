@@ -1,5 +1,5 @@
 /*
- * function: func_021613A4
+ * function: EVENT_FIELD_PROCLINK_ReturnTrainerCard
  * address: 0x021613A4
  * packet: pkt_ov010_021613A4
  * region: ov010
@@ -16,9 +16,9 @@ typedef unsigned char u8;
 typedef struct { u8 pad00[0xc]; int f0C; } Sub_021613A4;
 typedef struct { u8 pad00[0xc]; int f0C; u8 pad10[8]; Sub_021613A4 *f18; } Work_021613A4;
 typedef struct { u8 pad00[4]; int f04; } Evt_021613A4;
-int func_021613A4(Work_021613A4 *w, Evt_021613A4 *e);
+int EVENT_FIELD_PROCLINK_ReturnTrainerCard(Work_021613A4 *w, Evt_021613A4 *e);
 
-int func_021613A4(Work_021613A4 *w, Evt_021613A4 *e)
+int EVENT_FIELD_PROCLINK_ReturnTrainerCard(Work_021613A4 *w, Evt_021613A4 *e)
 {
     if (w->f18->f0C == 8) {
         switch (e->f04) {

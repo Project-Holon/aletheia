@@ -1,5 +1,5 @@
 /*
- * function: func_02167A74
+ * function: COMM_PLAYER_CreateSys
  * address:  0x02167A74
  * packet:   pkt_02167A74
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188BE8  0x02188BE8  thumb
- *   func_02188C7C  0x02188C7C  thumb
- *   func_02194284  0x02194284  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_IsReady  0x02188BE8  thumb
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
+ *   FIELD_COMM_ACTOR_CTRL_Create  0x02194284  thumb
  */
 #include "../include/Obj00020.h"
 
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188BE8(void *a);
-extern void *func_02188C7C(unsigned char *p);
-extern void *func_02194284(int a, void *b, int heap, int c);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_IsReady(void *a);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
+extern void *FIELD_COMM_ACTOR_CTRL_Create(int a, void *b, int heap, int c);
 
-void func_02167A74(int a0, int a1)
+void COMM_PLAYER_CreateSys(int a0, int a1)
 {
     int a2;
     int a3;
@@ -40,15 +40,15 @@ t4 = a1 + 0;
 a1 = *(int *)&((struct Obj00020 *)t4)->f4;
     if (a1 != 0) goto loc_02167AAE;
 loc_02167A7E:
-    v0 = func_0201210C((void *)a0);
+    v0 = GAMESYSTEM_GetFieldMap((void *)a0);
 loc_02167A82:
     if (v0 == 0) goto loc_02167AAE;
 loc_02167A86:
-    a0 = func_02188BE8(v0);
+    a0 = FIELDMAP_IsReady(v0);
 loc_02167A8A:
     if (a0 == 0) goto loc_02167AAE;
 loc_02167A8E:
-    v1 = func_02188C7C(v0);
+    v1 = FIELDMAP_GetMmdlSys(v0);
 loc_02167A94:
 a0 = t4 + 0;
 a2 = t4 + 0;
@@ -59,7 +59,7 @@ a3 = a3 + 0x90;
 a0 = *(u8 *)&((struct Obj00020 *)((char *)a0))->f0;
 a2 = *(u16 *)&((struct Obj00020 *)((char *)a2))->f0;
 a3 = *(u8 *)&((struct Obj00020 *)((char *)a3))->f0;
-    res = func_02194284(a0, v1, a2, a3);
+    res = FIELD_COMM_ACTOR_CTRL_Create(a0, v1, a2, a3);
 loc_02167AAC:
 ((struct Obj00020 *)t4)->f4 = res;
 loc_02167AAE:

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB088
+ * function: RAIL_ATTR_Create
  * address:  0x021BB088
  * packet:   pkt_ov021_021BB088
  * region:   ov021
@@ -19,7 +19,7 @@ extern int d_021DE2C4;
 
 extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 
-void *func_021BB088(int a)
+void *RAIL_ATTR_Create(int a)
 {
     return func_02030734((u16)a, 0x10, 1, (const char *)&d_021DE2C4, 0x5C);
 }

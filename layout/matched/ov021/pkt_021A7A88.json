@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A7A88",
+   "name": "FIELD_GROUND_ANIME_KeyTableGetGroupCount",
    "address": "0x021A7A88",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A7A8C",
+   "name": "FIELD_GROUND_ANIME_KeyTableGetDuration",
    "address": "0x021A7A8C",
    "kind": "game",
    "region": "ov021",

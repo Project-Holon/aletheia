@@ -27,14 +27,14 @@
  *   0203D7B0/0203D7BC keep the visible r0 argument; 021C2864's
  *   r1 stays full-width because neither call site truncates it.
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
  *   func_020362DC 0x020362DC arm
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
- *   func_0203D7BC 0x0203D7BC arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_02005728 0x02005728 thumb
  *   func_020061E4 0x020061E4 thumb
  *   func_0200616C 0x0200616C thumb
@@ -80,7 +80,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern int GFL_NET_STATE_IsFatalError(void);
 extern void GFL_NET_STATE_SetError(int, u32, u32, u32);
 extern int GFL_NET_STATE_GetWifiState(void);
@@ -88,7 +88,7 @@ typedef signed short   s16;
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 extern u32 func_020362DC(void);
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 a0);
 extern u32 func_02005728(u32);
 extern void func_020061E4(u32 a);
 extern void func_0200616C(void *arg, int i);
@@ -136,7 +136,7 @@ int func_021BF2C4(char *p, int ret)
     int index, i, key, value;
     void *record;
     *(u8 *)(p + 0x1356) = 0;
-    if (func_020221A4() == 0) return ret;
+    if (WIPE_SYS_EndCheck() == 0) return ret;
     if (GFL_NET_STATE_IsFatalError()) { func_021BE900(p); return ret; }
     if (*(int *)(p + 0x1f0) != -1) {
         if (++*(int *)(p + 0x1c8) > 0xe10) { GFL_NET_STATE_SetError(0, 0, 0, 0x3f1); return ret; }
@@ -186,7 +186,7 @@ int func_021BF2C4(char *p, int ret)
     if (func_021BF03C(p) && *(int *)(p + 0x1f0) != -1) {
         func_0200616C((void *)0x806, 0);
         GFL_NET_SetAutoExit(1);
-        func_0203D7BC(1);
+        GFL_NET_SetLoginOption(1);
         *(int *)(p + 0x1cc) = 40;
         return ret;
     }

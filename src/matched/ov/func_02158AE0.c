@@ -1,5 +1,5 @@
 /*
- * function: func_02158AE0
+ * function: SCRIPT_SYS_RunZoneChangeScript
  * address:  0x02158AE0
  * packet:   pkt_02158AE0
  * region:   ov010
@@ -12,10 +12,10 @@
  * Two arm9 frame calls, an overlay reset, then the four-argument submit.
  *
  * symbols:
- *   func_020120F4   0x020120F4  thumb
- *   func_0201296C   0x0201296C  thumb
- *   func_021589F4   0x021589F4  thumb  ov010
- *   func_02158A90   0x02158A90  thumb  ov010
+ *   GAMESYSTEM_GetGameData   0x020120F4  thumb
+ *   GAME_DATA_GetEventWork   0x0201296C  thumb
+ *   SCRIPT_SYS_ClearLocalWork   0x021589F4  thumb  ov010
+ *   SCRIPT_SYS_RunSpecialScript   0x02158A90  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -24,14 +24,14 @@ typedef unsigned int u32;
 
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern int func_021589F4(int a0);
-extern int func_02158A90(void *a, int unused, int key, int d);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern int SCRIPT_SYS_ClearLocalWork(int a0);
+extern int SCRIPT_SYS_RunSpecialScript(void *a, int unused, int key, int d);
 
-void func_02158AE0(void *a0, void *a1)
+void SCRIPT_SYS_RunZoneChangeScript(void *a0, void *a1)
 {
-    func_021589F4(func_0201296C(func_020120F4(a0)));
-    func_02158A90(a0, (int)a1, 2, 2);
+    SCRIPT_SYS_ClearLocalWork(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(a0)));
+    SCRIPT_SYS_RunSpecialScript(a0, (int)a1, 2, 2);
 }
 

@@ -12,8 +12,8 @@
  *   func_021BFED0 0x021BFED0 thumb ov110
  *   func_021BF734 0x021BF734 thumb ov110
  *   func_021BFF7C 0x021BFF7C thumb ov110
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_021BC78C 0x021BC78C thumb ov110
  */
 #include "../include/Obj03756.h"
@@ -22,9 +22,9 @@ extern void func_021BFED0(u8 *,int);
 extern unsigned func_021BF734(u8 *);
 extern void func_021BFF7C(u8 *,unsigned,unsigned);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_021BC78C(u8 *,int,int,int,int);
 void func_021BFCA4(u8 *p,int amount) {
     int count,i;
@@ -53,7 +53,7 @@ void func_021BFCA4(u8 *p,int amount) {
     }
     ((struct Obj03756 *)p)->f94=newy;
     ((struct Obj03756 *)p)->f98=newstart;
-    func_02045334((struct Descriptor *)((struct Obj03756 *)p)->fC);
-    func_02045374((struct Cfg *)(((struct Obj03756 *)p)->fC));
+    BMP_WIN_TransferChars((struct Descriptor *)((struct Obj03756 *)p)->fC);
+    BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj03756 *)p)->fC));
     func_021BC78C(p+0x6c,2,1,step,amount);
 }

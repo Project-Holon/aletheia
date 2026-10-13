@@ -1,5 +1,5 @@
 /*
- * function: func_02167CB4
+ * function: BSUBWAY_COMM_SendData
  * address:  0x02167CB4
  * packet:   pkt_ov010_02167CB4
  * region:   ov010
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0200FB24  0x0200FB24  thumb
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3A8  0x0203D3A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
  */
 
 typedef unsigned char u8;
@@ -29,10 +29,10 @@ typedef struct Obj {
 
 extern u32 func_0200FB24(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
-int func_02167CB4(Obj *o)
+int BSUBWAY_COMM_SendData(Obj *o)
 {
     u16 h;
 
@@ -41,7 +41,7 @@ int func_02167CB4(Obj *o)
     h = o->h12;
     if (h >= 0x2C08)
         return 1;
-    if (func_0203D3A8(func_020399A8(), h, 0x46, (u32)o->b668) == 1)
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), h, 0x46, (u32)o->b668) == 1)
         return 1;
     return 0;
 }

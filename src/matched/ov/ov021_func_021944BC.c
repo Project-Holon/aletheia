@@ -1,5 +1,5 @@
 /*
- * function: func_021944BC
+ * function: FIELD_COMM_ACTOR_MoveInit
  * address: 0x021944BC
  * packet: pkt_ov021_021944BC
  * region: ov021
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov021/field_wfbc_p04.c and filed here.
  *
  * symbols:
- *   func_0216D684 0x0216D684 thumb ov010
+ *   FLDMMDL_InitMoveProcWork 0x0216D684 thumb ov010
  */
 
-void *func_0216D684(int a0, int a1);
-void *func_021944BC(int a);
+void *FLDMMDL_InitMoveProcWork(int a0, int a1);
+void *FIELD_COMM_ACTOR_MoveInit(int a);
 
-void *func_021944BC(int a)
+void *FIELD_COMM_ACTOR_MoveInit(int a)
 {
-    return func_0216D684(a, 0x10);
+    return FLDMMDL_InitMoveProcWork(a, 0x10);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218C43C
+ * function: FIELD_BUILDMODEL_IsSlotIdle
  * address:  0x0218C43C
  * packet:   pkt_ov021_0218C43C
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_0218C43C(u32 *st, int i)
+int FIELD_BUILDMODEL_IsSlotIdle(u32 *st, int i)
 {
     u8 j = i;
 

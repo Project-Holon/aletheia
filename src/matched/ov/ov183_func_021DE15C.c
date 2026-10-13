@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021E3358 0x021E3358 data a4
  */
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 d_021E3358[];
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void func_021DE15C(char *p, u32 value)
 {
     u8 temp = value;
@@ -29,7 +29,7 @@ void func_021DE15C(char *p, u32 value)
             temp /= 10;
         }
     }
-    for (i = 0; i < 4; i++) func_0204B878(*(void **)(p + i * 4 + 4), 0);
+    for (i = 0; i < 4; i++) CLACT_SetActorAnimSeq(*(void **)(p + i * 4 + 4), 0);
     for (j = 0; j < 4; j++)
-        func_0204B878(*(void **)(p + (3 - j) * 4 + 4), value % d_021E3358[j + 1] / d_021E3358[j]);
+        CLACT_SetActorAnimSeq(*(void **)(p + (3 - j) * 4 + 4), value % d_021E3358[j + 1] / d_021E3358[j]);
 }

@@ -15,10 +15,10 @@
  *   MUSICAL_DIST_SAVE_Delete 0x0200C5A4 thumb
  *   ARC_TOOL_CreateHandleFromMemory 0x0204913C arm
  *   func_020490F4 0x020490F4 arm
- *   func_0204A39C 0x0204A39C arm
- *   func_020493D4 0x020493D4 arm
- *   func_0204932C 0x0204932C arm
- *   func_02049238 0x02049238 arm
+ *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
+ *   ARC_TOOL_GetHandleMemberSize 0x020493D4 arm
+ *   ARC_TOOL_ReadHandleMember 0x0204932C arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   d_021F83E4 0x021F83E4 data a1
  */
 typedef unsigned char u8;
@@ -34,10 +34,10 @@ extern u32 MUSICAL_DIST_SAVE_GetPayload(struct Blk2C *p);
 extern u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct Blk2C *p);
 extern void *ARC_TOOL_CreateHandleFromMemory(void *a0, u32 a1, u32 heap);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
-extern void func_02049238(void *arc);
+extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
+extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p);
 void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
 {
@@ -52,12 +52,12 @@ void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
     } else {
         arc = func_020490F4(kind + 0x6f, (u16)((heap & 0x7fff) | 0x8000));
     }
-    *(void **)(p + 4) = func_0204A39C(arc, 0, 0, heap, (u32 *)(p + 0x20));
-    *(void **)(p + 8) = func_0204A39C(arc, 1, 0, heap, (u32 *)(p + 0x24));
-    *(void **)(p + 0xc) = func_0204A39C(arc, 2, 0, heap, (u32 *)(p + 0x28));
-    c = func_020493D4(arc, 4);
-    d = func_020493D4(arc, 3);
-    e = func_020493D4(arc, 5);
+    *(void **)(p + 4) = ARC_UTIL_LoadHandleMemberWithSize(arc, 0, 0, heap, (u32 *)(p + 0x20));
+    *(void **)(p + 8) = ARC_UTIL_LoadHandleMemberWithSize(arc, 1, 0, heap, (u32 *)(p + 0x24));
+    *(void **)(p + 0xc) = ARC_UTIL_LoadHandleMemberWithSize(arc, 2, 0, heap, (u32 *)(p + 0x28));
+    c = ARC_TOOL_GetHandleMemberSize(arc, 4);
+    d = ARC_TOOL_GetHandleMemberSize(arc, 3);
+    e = ARC_TOOL_GetHandleMemberSize(arc, 5);
     *(u32 *)(p + 0x2c) = c + 0xc + d + e;
     q = func_02030734(heap, *(u32 *)(p + 0x2c), 1, d_021F83E4, 0x104);
     *(u8 **)(p + 0x10) = q;
@@ -67,9 +67,9 @@ void func_021F68BC(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
     *(u32 *)q = c;
     *(u32 *)(q + 4) = d;
     *(u32 *)(q + 8) = e;
-    func_0204932C(arc, 4, *(void **)(p + 0x14));
-    func_0204932C(arc, 3, *(void **)(p + 0x18));
-    func_0204932C(arc, 5, *(void **)(p + 0x1c));
-    func_02049238(arc);
+    ARC_TOOL_ReadHandleMember(arc, 4, *(void **)(p + 0x14));
+    ARC_TOOL_ReadHandleMember(arc, 3, *(void **)(p + 0x18));
+    ARC_TOOL_ReadHandleMember(arc, 5, *(void **)(p + 0x1c));
+    ARC_TOOL_DeleteHandle(arc);
     if (kind >= 4) MUSICAL_DIST_SAVE_Delete(x);
 }

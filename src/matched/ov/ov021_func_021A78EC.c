@@ -1,5 +1,5 @@
 /*
- * function: func_021A78EC
+ * function: FIELD_GROUND_ANIME_GetModelTexVramOffset
  * address:  0x021A78EC
  * packet:   pkt_ov021_021A78EC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02047250  0x02047250  arm
+ *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
  *   func_0206E7EC  0x0206E7EC  arm
  */
 
@@ -39,7 +39,7 @@ typedef struct Res {
     Dict dict;
 } Res;
 
-extern Res *func_02047250(void *p);
+extern Res *G3D_SYSTEM_GetResourceTex(void *p);
 extern int func_0206E7EC(const Dict *d, const void *name);
 
 static inline void *DictGetByIdx(const Dict *d, u32 idx)
@@ -60,7 +60,7 @@ static inline void *DictGetNameByIdx(const Dict *d, u32 idx)
     return 0;
 }
 
-int func_021A78EC(void *a, void *b, u32 idx)
+int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *a, void *b, u32 idx)
 {
     Res *ra;
     Res *rb;
@@ -68,8 +68,8 @@ int func_021A78EC(void *a, void *b, u32 idx)
     int k;
     u32 *e;
 
-    ra = func_02047250(a);
-    rb = func_02047250(b);
+    ra = G3D_SYSTEM_GetResourceTex(a);
+    rb = G3D_SYSTEM_GetResourceTex(b);
     name = rb ? DictGetNameByIdx(&rb->dict, idx) : 0;
     if (ra) {
         k = func_0206E7EC(&ra->dict, name);

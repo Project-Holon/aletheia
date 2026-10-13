@@ -10,18 +10,18 @@
  * extent: Two zero alignment bytes at 021E0302.
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_02045CAC 0x02045CAC arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_0201EF40 0x0201EF40 thumb
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj02871.h"
 typedef unsigned char u8;
@@ -33,19 +33,19 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Cfg;
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021E026C(u8 *p,int message,unsigned value)
 {
     u8 *s;
@@ -53,17 +53,17 @@ void func_021E026C(u8 *p,int message,unsigned value)
     s=p+3296;
     window=((struct Obj02871 *)s)->f10;
     func_0201EF40(((struct Obj02871 *)s)->fC,0,value);
-    text=func_020457B0(256,114);
-    func_02045CAC(((struct Obj02871 *)s)->f8,message,text);
+    text=STRBUF_Create(256,114);
+    MSGDATA_ReadString(((struct Obj02871 *)s)->f8,message,text);
     func_0201F250(((struct Obj02871 *)s)->fC,((struct Obj02871 *)s)->f5C,text);
-    func_02045808(text);
+    STRBUF_Delete(text);
     func_0201F73C(window,2,1,14);
-    func_02043B5C(func_02045770(window),15);
+    BMP_Clear(func_02045770(window),15);
     owner=((struct Obj02871 *)s)->f58;
     data=func_02045770(((struct Obj02871 *)s)->f28);
-    func_0201C724(owner,(u32)data,0,0,(u32)(((struct Obj02871 *)s)->f5C),(u32)(((struct Obj02871 *)s)->f4),1088);
+    PRINTSYS_PrintQueColor(owner,(u32)data,0,0,(u32)(((struct Obj02871 *)s)->f5C),(u32)(((struct Obj02871 *)s)->f4),1088);
     ((struct Obj02871 *)s)->f2C=1;
-    func_02045334(window);
-    func_02045374(window);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     func_02041B6C(func_02045730(window));
 }

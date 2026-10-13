@@ -1,5 +1,5 @@
 /*
- * function: func_021B2AA0
+ * function: VCT_SESSION_HandlePairedPacket
  * address:  0x021B2AA0
  * packet:   pkt_ov013_021B2AA0
  * region:   ov013
@@ -75,7 +75,7 @@ extern void VCT_SESSION_InitPeer(u8 *p, u8 v);
 extern int VCT_SESSION_SendReply(int a, int b);
 extern int VCT_SESSION_FreePeerRecord(struct Node *p);
 
-int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
+int VCT_SESSION_HandlePairedPacket(struct Pkt *pkt, struct Event *ev)
 {
     struct Node *node;
     int r;

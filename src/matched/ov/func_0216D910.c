@@ -1,5 +1,5 @@
 /*
- * function: func_0216D910
+ * function: FLDMMDL_GetBlActCont
  * address:  0x0216D910
  * packet:   pkt_0216D910
  * region:   ov010
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D520  0x0216D520  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysGetBlActCont  0x0216D520  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0216D67C(void *a0);
-extern u32 func_0216D520(void *p);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern u32 FLDMMDL_SysGetBlActCont(void *p);
 
-int func_0216D910(int a0)
+int FLDMMDL_GetBlActCont(int a0)
 {
 
-    a0 = (int)func_0216D67C((void *)a0);
+    a0 = (int)FLDMMDL_GetMmdlSys((void *)a0);
 loc_0216D916:
-    a0 = func_0216D520((void *)a0);
+    a0 = FLDMMDL_SysGetBlActCont((void *)a0);
 loc_0216D91A:
     return a0;}

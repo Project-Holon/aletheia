@@ -1,5 +1,5 @@
 /*
- * function: func_02050BE8
+ * function: PARTICLE_Main
  * address:  0x02050BE8
  * packet:   pkt_02050340
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050BE8.c \
- *       --func func_02050BE8 --addr 0x02050BE8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_Main.c \
+ *       --func PARTICLE_Main --addr 0x02050BE8 --cc 1.1p1 --arm
  *
  * symbols:
  *   PARTICLE_CountSystems  0x02051504  arm
@@ -23,7 +23,7 @@ extern int PARTICLE_CountSystems(void);
 extern int PARTICLE_DrawAllSystems(void);
 extern int PARTICLE_UpdateAllSystems(void);
 
-void func_02050BE8(void)
+void PARTICLE_Main(void)
 {
     if (PARTICLE_CountSystems() == 0)
         return;

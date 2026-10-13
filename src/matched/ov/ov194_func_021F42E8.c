@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_02035D20 0x02035D20 arm
  *   func_021F4450 0x021F4450 thumb ov194
  *   func_021F4394 0x021F4394 thumb ov194
@@ -18,7 +18,7 @@
 typedef struct {short x,y;} Vec2;
 struct Actor; struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern unsigned func_02035D20(unsigned *,unsigned *);
 extern int func_021F4450(int *,int *);
 extern void func_021F4394(unsigned char *p);
@@ -30,7 +30,7 @@ void func_021F42E8(char *p) {
     int point[2];
     switch (((struct Obj01576 *)p)->f18) {
     case 0:
-        func_0204B454((struct Actor *)((struct Obj01576 *)p)->f0,(struct PtS *)&pos,0);
+        CLACT_GetActorSurfacePos((struct Actor *)((struct Obj01576 *)p)->f0,(struct PtS *)&pos,0);
         ((struct Obj01576 *)p)->f14=0;
         if (func_02035D20(&x,&y)) {
             rect[0]=pos.x-16; rect[1]=pos.y-16;

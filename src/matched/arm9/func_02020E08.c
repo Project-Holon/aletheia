@@ -33,8 +33,8 @@
  * enclosing translation unit for both this function and FILE_UTIL_OpenById is
  * file_util.c.
  *
- * The only caller in the image is sub_0201407C, the a/0/1/3 record reader
- * (src/matched/sub_0201407C.c), which passes archive_id 13 with size 10:
+ * The only caller in the image is ZONEDATA_CreateAreaData, the a/0/1/3 record reader
+ * (src/matched/ZONEDATA_CreateAreaData.c), which passes archive_id 13 with size 10:
  * a/0/1/3 is a flat 2820-byte file, not a NARC, so it cannot go through
  * the member API at all.  See the "Archive readers traced by call graph"
  * section of docs/ASSETS.md.

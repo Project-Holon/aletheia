@@ -1,5 +1,5 @@
 /*
- * function: func_0219A89C
+ * function: FLDMMDL_MOVECODE_MoveBackForth
  * address:  0x0219A89C
  * packet:   pkt_ov021_0219A89C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   d_021D4D60  0x021D4D60  data  a4
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   gMmdlBackForthSteps  0x021D4D60  data  a4
  */
 
 typedef unsigned char  u8;
@@ -20,12 +20,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef int (*Step)(u32, u8 *);
-extern void *func_0216D69C(void *p);
-extern Step d_021D4D60[];
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern Step gMmdlBackForthSteps[];
 
-void func_0219A89C(u32 a)
+void FLDMMDL_MOVECODE_MoveBackForth(u32 a)
 {
-    u8 *p = func_0216D69C((void *)a);
-    while (d_021D4D60[p[0]](a, p) == 1) {
+    u8 *p = FLDMMDL_GetMoveProcWork((void *)a);
+    while (gMmdlBackForthSteps[p[0]](a, p) == 1) {
     }
 }

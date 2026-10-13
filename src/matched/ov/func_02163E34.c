@@ -1,5 +1,5 @@
 /*
- * function: func_02163E34
+ * function: FLDMMDL_MOVE_GetMapAttr
  * address:  0x02163E34
  * packet:   pkt_02163E34
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02163E1C  0x02163E1C  thumb  ov010
+ *   FLDMMDL_MOVE_GetMapAttrInfo  0x02163E1C  thumb  ov010
  */
 #include "../include/Obj17719.h"
 
@@ -20,9 +20,9 @@ typedef unsigned int u32;
 
 typedef struct { int x, y, z; } VecFx32;
 
-extern int func_02163E1C(void *a, char *b, void *c);
+extern int FLDMMDL_MOVE_GetMapAttrInfo(void *a, char *b, void *c);
 
-int func_02163E34(void *a0, VecFx32 *a1, u32 *a2)
+int FLDMMDL_MOVE_GetMapAttr(void *a0, VecFx32 *a1, u32 *a2)
 {
     unsigned char fr[16];
     u32 *t4;
@@ -31,7 +31,7 @@ int func_02163E34(void *a0, VecFx32 *a1, u32 *a2)
 t4 = a2;
 t5 = 0;
 *t4 = t5;
-    r = func_02163E1C(a0, (char *)a1, fr);
+    r = FLDMMDL_MOVE_GetMapAttrInfo(a0, (char *)a1, fr);
 loc_02163E44:
     if (r != 1) goto loc_02163E52;
 loc_02163E48:

@@ -1,5 +1,5 @@
 /*
- * function: func_021BBC2C
+ * function: UNION_CHAT_LOG_GetLine
  * address:  0x021BBC2C
  * packet:   pkt_ov021_021BBC2C
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _u32_div_f     0x0209C2B0  arm
- *   d_021D9AE0     0x021D9AE0  data  a4
+ *   gUnionChatEmptyMac     0x021D9AE0  data  a4
  */
 
 typedef struct {
@@ -19,18 +19,18 @@ typedef struct {
     char s1A[10];
 } Entry;
 
-extern char d_021D9AE0[];
+extern char gUnionChatEmptyMac[];
 
 typedef signed int     s32;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
-Entry *func_021BBC2C(Entry *tab, unsigned int i)
+Entry *UNION_CHAT_LOG_GetLine(Entry *tab, unsigned int i)
 {
     Entry *e = &tab[i % 30];
 
-    if (func_0203EFC8((const u8 *)e->s1A, (const u8 *)d_021D9AE0, 6) == 0) {
+    if (func_0203EFC8((const u8 *)e->s1A, (const u8 *)gUnionChatEmptyMac, 6) == 0) {
         e = 0;
     }
     return e;

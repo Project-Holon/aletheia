@@ -1,5 +1,5 @@
 /*
- * function: func_021ADB6C
+ * function: FLDEFF_ENCOUNT_Init
  * address:  0x021ADB6C
  * packet:   pkt_ov021_021ADB6C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_021AC1A0  0x021AC1A0  thumb  ov021
- *   func_021AC178  0x021AC178  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   FIELD_EFFECT_GetObjectMode  0x021AC1A0  thumb  ov021
+ *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
  */
 typedef unsigned short u16;
 
@@ -29,21 +29,21 @@ typedef struct Dst {
     int f34;
 } Dst;
 
-extern int func_021AC1AC(unsigned int a);
-extern void func_021AC1CC(int a, int *b);
+extern int FIELD_EFFECT_GetObjectParam(unsigned int a);
+extern void FIELD_EFFECT_SetObjectPos(int a, int *b);
 typedef unsigned int   u32;
-extern int func_021AC1A0(u32 a);
-extern void func_021AC178(int a);
+extern int FIELD_EFFECT_GetObjectMode(u32 a);
+extern void FIELD_EFFECT_UpdateObject(int a);
 
-void func_021ADB6C(int a, Dst *b)
+void FLDEFF_ENCOUNT_Init(int a, Dst *b)
 {
-    int *s = (int *)func_021AC1AC(a);
+    int *s = (int *)FIELD_EFFECT_GetObjectParam(a);
 
     b->f34 = s[0];
     b->s4 = *(S40 *)s;
-    func_021AC1CC(a, s + 7);
-    if (func_021AC1A0(a) == 0) {
+    FIELD_EFFECT_SetObjectPos(a, s + 7);
+    if (FIELD_EFFECT_GetObjectMode(a) == 0) {
         b->h0 = 1;
     }
-    func_021AC178(a);
+    FIELD_EFFECT_UpdateObject(a);
 }

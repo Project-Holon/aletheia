@@ -11,13 +11,13 @@
  *   ov112_id 0x00000070 data
  *   func_02034AC4 0x02034AC4 arm
  *   func_021F9B9C 0x021F9B9C thumb ov186
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0201C440 0x0201C440 thumb
  *   func_021FC4DC 0x021FC4DC thumb ov186
- *   func_02025538 0x02025538 thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021FD760 0x021FD760 thumb ov186
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200A5F8 0x0200A5F8 thumb
  *   func_0200A640 0x0200A640 thumb
  *   func_021F88A4 0x021F88A4 thumb ov184
@@ -35,15 +35,15 @@ extern char ov112_id[];
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern u32 func_0201C440(void *);
 typedef unsigned char  u8;
 struct Big;
 extern u32 func_021FC4DC(u8 *p);
-extern void *func_02025538(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200A5F8(void *sys);
 extern int func_0200A640(int);
 extern void func_021F88A4(char *,char *);
@@ -56,15 +56,15 @@ int func_021F8480(void *obj,int b,char *q)
     void *v;
     int i;
     func_02034AC4((int)ov112_id);
-    p=func_0203159C(obj,0x34,func_021F9B9C(((struct Obj06617 *)q)->f10));
+    p=PROCSYS_AllocProcWork(obj,0x34,func_021F9B9C(((struct Obj06617 *)q)->f10));
     func_02082BCC(p,0,0x34);
     ((struct Obj02898 *)p)->f24=func_021F9B9C(((struct Obj06617 *)q)->f10);
     *(char * *)&((struct Obj02898 *)p)->f30=q;
     ((struct Obj02898 *)p)->f20=func_0201C440((void *)(unsigned int)((struct Obj02898 *)p)->f24);
     v=(void *)func_021FC4DC(((struct Obj06617 *)q)->f8);
-    ((struct Obj02898 *)p)->f1C=func_02025538(((struct Obj02898 *)p)->f24,v);
+    ((struct Obj02898 *)p)->f1C=BMP_OAM_CreateSys(((struct Obj02898 *)p)->f24,v);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x14)=func_021FD760((unsigned int)v,(char *)(((struct Obj06617 *)q)->fC),i,((struct Obj02898 *)p)->f24);
-    ((struct Obj02898 *)p)->f28=func_0200A640((int)func_0200A5F8((void *)func_02012EBC((struct Big *)(((struct Obj06617 *)q)->f18))));
+    ((struct Obj02898 *)p)->f28=func_0200A640((int)func_0200A5F8((void *)GAME_DATA_GetSaveControl((struct Big *)(((struct Obj06617 *)q)->f18))));
     func_021F88A4(p,q);
     func_021F891C(p,q);
     ((struct Obj02898 *)p)->fC=func_021FD6D8((int)p,(int)func_021F85DC,((struct Obj02898 *)p)->f24);

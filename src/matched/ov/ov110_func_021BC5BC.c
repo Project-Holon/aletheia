@@ -23,15 +23,15 @@
  *   func_021BC6D0 0x021BC6D0 thumb ov110
  *   func_02045758 0x02045758 arm
  *   func_02045760 0x02045760 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020416D4 0x020416D4 arm
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   PMS_WORD_LoadString 0x02024838 thumb
- *   func_0201DD78 0x0201DD78 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02045770 0x02045770 arm
- *   func_0201C7A4 0x0201C7A4 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
  */
 #include "../include/Obj10277.h"
 typedef unsigned char u8;
@@ -49,15 +49,15 @@ extern u8 func_02045730(struct Descriptor *);
 extern u32 func_021BC6D0(u32);
 extern u8 func_02045758(struct Descriptor *);
 extern u8 func_02045760(struct Descriptor *);
-extern void func_0204B878(struct Obj *,u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *,u32);
 extern u8 func_020416D4(u32);
-extern void func_0204B84C(struct Obj *,u32);
+extern void CLACT_SetActorBgPriority(struct Obj *,u32);
 extern void PMS_WORD_LoadString(u32,void *,u32);
-extern void func_0201DD78(u32,u32,u32);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void *func_02045770(struct Descriptor *);
-extern void func_0201C7A4(void *,s16,s16,void *,void *);
+extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,struct Obj *sprite)
 {
     Vec2 base;
@@ -74,13 +74,13 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,stru
         pos.x=base.x+func_02045758(window)*8;
         pos.y=base.y+func_02045760(window)*8;
         if(layer==1) pos.y+=192;
-        func_0204B878(sprite,index);
+        CLACT_SetActorAnimSeq(sprite,index);
         func_0204B404(sprite,&pos,(u16)layer);
         func_0204B3DC(sprite,1);
-        func_0204B84C(sprite,func_020416D4(func_02045730(window)));
+        CLACT_SetActorBgPriority(sprite,func_020416D4(func_02045730(window)));
     } else {
         PMS_WORD_LoadString(id,((struct Obj10277 *)p)->f30,42);
-        func_0201DD78(3,4,14);
-        func_0201C7A4(func_02045770(window),base.x,base.y,((struct Obj10277 *)p)->f30,(void *)font);
+        GF_FONT_SetTextColor(3,4,14);
+        PRINTSYS_Print(func_02045770(window),base.x,base.y,((struct Obj10277 *)p)->f30,(void *)font);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4BC4
+ * function: FLDEFF_SPLASH_UnloadModel
  * address:  0x021C4BC4
  * packet:   pkt_ov021_021C4BC4
  * region:   ov021
@@ -12,9 +12,9 @@
  * Applies the record's two parameters to the owner's map object.
  *
  * symbols:
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C6628  0x021C6628  thumb  ov021
- *   func_021C6580  0x021C6580  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_DeleteObject  0x021C6628  thumb  ov021
+ *   FIELD_G3DOBJ_DeleteResource  0x021C6580  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -26,15 +26,15 @@ typedef struct {
     u16 h6;
 } S;
 
-extern u32 func_021ABE18(unsigned char *p);
-extern void func_021C6628(u32 o, u16 v);
+extern u32 FIELD_EFFECT_GetFieldMapData(unsigned char *p);
+extern void FIELD_G3DOBJ_DeleteObject(u32 o, u16 v);
 typedef unsigned char  u8;
-extern void func_021C6580(u8 *p, int i);
+extern void FIELD_G3DOBJ_DeleteResource(u8 *p, int i);
 
-void func_021C4BC4(S *s)
+void FLDEFF_SPLASH_UnloadModel(S *s)
 {
-    u32 o = func_021ABE18((unsigned char *)s->owner);
+    u32 o = FIELD_EFFECT_GetFieldMapData((unsigned char *)s->owner);
 
-    func_021C6628(o, s->h6);
-    func_021C6580((u8 *)o, s->h4);
+    FIELD_G3DOBJ_DeleteObject(o, s->h6);
+    FIELD_G3DOBJ_DeleteResource((u8 *)o, s->h4);
 }

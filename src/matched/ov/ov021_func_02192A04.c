@@ -1,5 +1,5 @@
 /*
- * function: func_02192A04
+ * function: FIELD_MSGBG_DrawSysWindowFrame
  * address:  0x02192A04
  * packet:   pkt_ov021_02192A04
  * region:   ov021
@@ -35,7 +35,7 @@ extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041300(u32 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 
-void func_02192A04(u32 win)
+void FIELD_MSGBG_DrawSysWindowFrame(u32 win)
 {
     u8 x;
     u8 y;

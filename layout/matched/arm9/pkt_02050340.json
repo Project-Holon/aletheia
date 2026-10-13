@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02050340",
+   "name": "BILLBOARD_ACT_CreateEntries",
    "address": "0x02050340",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050468",
+   "name": "BILLBOARD_ACT_DeleteEntries",
    "address": "0x02050468",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020504D8",
+   "name": "BILLBOARD_ACT_UpdateEntries",
    "address": "0x020504D8",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020507A0",
+   "name": "BILLBOARD_ACT_SetEntryFlags",
    "address": "0x020507A0",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050804",
+   "name": "BILLBOARD_ACT_SetEntryCommands",
    "address": "0x02050804",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205085C",
+   "name": "BILLBOARD_ACT_SetEntryCursor",
    "address": "0x0205085C",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050BE8",
+   "name": "PARTICLE_Main",
    "address": "0x02050BE8",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02050C04",
+   "name": "PARTICLE_CreateSystemDefault",
    "address": "0x02050C04",
    "kind": "game",
    "region": "arm9",

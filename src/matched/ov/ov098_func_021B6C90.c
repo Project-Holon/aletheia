@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  */
 #include "../include/Obj03220.h"
 
@@ -21,15 +21,15 @@ typedef unsigned char u8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 void func_021B6C90(char *p, int flag)
 {
     if ((u8)(((struct Obj03220 *)p)->f14 + 0xff) <= 1) {
         if (flag == 0) {
-            func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj03220 *)p)->f0)), 0xc);
-            func_02045334((struct Descriptor *)((struct Obj03220 *)p)->f0);
+            BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj03220 *)p)->f0)), 0xc);
+            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj03220 *)p)->f0);
         }
         ((struct Obj03220 *)p)->f4 = 0;
         ((struct Obj03220 *)p)->f8 = 0x10000;

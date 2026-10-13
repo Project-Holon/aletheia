@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   func_0220E684 0x0220E684 thumb ov198
- *   func_0203D34C 0x0203D34C arm
- *   func_020216D4 0x020216D4 thumb
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_0220E7E4 0x0220E7E4 thumb ov198
  *   d_02211DFC 0x02211DFC data a4
  */
@@ -21,20 +21,20 @@
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern unsigned func_0220E684(char *,const int *);
 typedef unsigned int   u32;
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 struct PalAnmSlot;
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_0220E7E4(void *);
 extern const int d_02211DFC[][5];
 void func_0220E6E0(char *p)
 {
     unsigned i;
-    ((struct Obj00172 *)p)->f1EB8=(unsigned int)func_0204B100((unsigned)45,(unsigned)0,(u16)((((struct Obj25221 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000));
+    ((struct Obj00172 *)p)->f1EB8=(unsigned int)CLACT_CreateUnit((unsigned)45,(unsigned)0,(u16)((((struct Obj25221 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000));
     for(i=0;i<41;i++) *(unsigned *)(p+i*4+0x1ebc)=func_0220E684(p,d_02211DFC[i]);
-    func_0203D34C(0,((struct Obj25222 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
-    func_020216D4((struct PalAnmSlot *)(((struct Obj00172 *)p)->f1D8),(int)3,(int)0,(int)0x1e0);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj25222 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)(((struct Obj00172 *)p)->f1D8),(int)3,(int)0,(int)0x1e0);
     func_0220E7E4(p);
 }

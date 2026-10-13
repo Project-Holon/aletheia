@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BDFE4  0x021BDFE4  thumb  ov172
  *   func_021B8108  0x021B8108  thumb  ov172
- *   func_0203CF10  0x0203CF10  arm
+ *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   func_02177B80  0x02177B80  thumb
  *   func_020084F4  0x020084F4  thumb
@@ -76,7 +76,7 @@ struct Bits2 {
 
 extern u32 func_021BDFE4(void *p);
 extern int func_021B8108(void *unused, void *p);
-extern u32 func_0203CF10(u32 a);
+extern u32 GFL_NET_GetScanResult(u32 a);
 extern void *GFL_NET_GetScanResultMac(u32 a);
 extern u8 func_02177B80(int i);
 struct Sub0200852CObj;
@@ -149,7 +149,7 @@ void func_021BC7FC(void *ctx, u8 *list)
         for (j = 0; j < 16; j++) {
             found = 0;
             diff = 0;
-            p = (struct Rec *)func_0203CF10(j);
+            p = (struct Rec *)GFL_NET_GetScanResult(j);
             if (p == 0)
                 continue;
             slot = 0xff;

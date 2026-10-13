@@ -29,7 +29,7 @@
    ]
   },
   {
-   "name": "func_0201FDA0",
+   "name": "BMP_MENU_CreateYesNo",
    "address": "0x0201FDA0",
    "kind": "game",
    "region": "arm9",
@@ -41,7 +41,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201FEBC",
+   "name": "BMP_MENU_ProcessYesNo",
    "address": "0x0201FEBC",
    "kind": "game",
    "region": "arm9",

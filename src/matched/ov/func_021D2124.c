@@ -1,5 +1,5 @@
 /*
- * function: func_021D2124
+ * function: EVENT_PERAP_RECORD_Cleanup
  * address:  0x021D2124
  * packet:   pkt_021D2124
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021D201C  0x021D201C  thumb  ov021
+ *   EVENT_PERAP_RECORD_DeletePokeIcon  0x021D201C  thumb  ov021
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_020452E8  0x020452E8  arm
  * Addresses are Black-image addresses.
@@ -27,11 +27,11 @@ typedef signed char    s8;
 extern void func_0201F7A8(void *desc, u32 kind);
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
-extern int func_021D201C(u32 a, u32 b, u32 c, u32 d);
+extern int EVENT_PERAP_RECORD_DeletePokeIcon(u32 a, u32 b, u32 c, u32 d);
 
-int func_021D2124(u32 a, u32 b, u32 c, u32 d)
+int EVENT_PERAP_RECORD_Cleanup(u32 a, u32 b, u32 c, u32 d)
 {
-func_021D201C(a, b, c, d);
+EVENT_PERAP_RECORD_DeletePokeIcon(a, b, c, d);
 func_0201F7A8((void *)(((struct Obj04135 *)((u8 *)(a)))->f30), 1);
 return func_020452E8((struct Descriptor *)(((struct Obj04135 *)((u8 *)(a)))->f30));
 }

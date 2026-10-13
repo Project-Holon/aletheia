@@ -1,5 +1,5 @@
 /*
- * function: func_021A8E78
+ * function: FIELD_MENU_GetSlotIndex
  * address:  0x021A8E78
  * packet:   pkt_021A8E78
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A8E78(u32 a, u32 b)
+int FIELD_MENU_GetSlotIndex(u32 a, u32 b)
 {
 return (a + (b << 1));
 }

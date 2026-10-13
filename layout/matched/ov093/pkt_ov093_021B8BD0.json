@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8BD0",
+   "name": "BTL_MAIN_IsLocalSide",
    "address": "0x021B8BD0",
    "kind": "game",
    "region": "ov093",

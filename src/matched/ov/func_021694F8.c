@@ -1,5 +1,5 @@
 /*
- * function: func_021694F8
+ * function: FIELD_G3D_MAP_SetVisible
  * address:  0x021694F8
  * packet:   pkt_021694F8
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-void func_021694F8(u8 *p, u16 v)
+void FIELD_G3D_MAP_SetVisible(u8 *p, u16 v)
 {
     ((struct Obj17742 *)p)->f0 = v;
 }

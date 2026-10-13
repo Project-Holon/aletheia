@@ -1,5 +1,5 @@
 /*
- * function: func_02024ABC
+ * function: INFOWIN_Update
  * address:  0x02024ABC
  * packet:   pkt_02024ABC
  * region:   arm9
@@ -18,11 +18,11 @@
  * symbols:
  *   INFOWIN_UpdateClock       0x020252A8  thumb
  *   UI_GetPowerState       0x0203568C  arm
- *   func_0203CD98       0x0203CD98  arm
- *   func_0203D798       0x0203D798  arm
- *   func_0203D1B4       0x0203D1B4  arm
+ *   GFL_NET_GetRunState       0x0203CD98  arm
+ *   GFL_NET_GetInitParam       0x0203D798  arm
+ *   GFL_NET_GetNegotiationNum       0x0203D1B4  arm
  *   GFL_NET_IsNetTypeWifi       0x0203D29C  arm
- *   func_0201058C       0x0201058C  thumb
+ *   WIH_DWC_PollStatus       0x0201058C  thumb
  *   GAME_BEACON_GetNextNewLogIndex       0x02026CA0  thumb
  *   gInfoWin            0x0214693C  data
  */
@@ -62,14 +62,14 @@ extern struct InfoWin *gInfoWin;
 
 extern void  INFOWIN_UpdateClock(void);
 extern int   UI_GetPowerState(void);
-extern int   func_0203CD98(void);
-extern void *func_0203D798(void);
-extern int   func_0203D1B4(void);
+extern int   GFL_NET_GetRunState(void);
+extern void *GFL_NET_GetInitParam(void);
+extern int   GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
-extern u32 func_0201058C(void *key);
+extern u32 WIH_DWC_PollStatus(void *key);
 extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
 
-void func_02024ABC(void)
+void INFOWIN_Update(void)
 {
     int flag = 0;
     u8 n = 0;
@@ -91,15 +91,15 @@ void func_02024ABC(void)
         gInfoWin->f1E = 0;
     }
 
-    if (func_0203CD98() == 1) {
-        link = func_0203D798();
-        n = func_0203D1B4();
+    if (GFL_NET_GetRunState() == 1) {
+        link = GFL_NET_GetInitParam();
+        n = GFL_NET_GetNegotiationNum();
         if (GFL_NET_IsNetTypeWifi() == 1)
             flag = 1;
     }
 
     if (n < 2 && flag == 0) {
-        bits = func_0201058C((void *)gInfoWin->f0C);
+        bits = WIH_DWC_PollStatus((void *)gInfoWin->f0C);
         idx = 0;
         if (gInfoWin->f10 == 1 && GAME_BEACON_GetNextNewLogIndex(&idx) != 0x1E) {
             gInfoWin->f04 = (u16)(gInfoWin->f04 | 0x10);

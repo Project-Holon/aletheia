@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021C8234   0x021C8234  thumb  ov093
- *   func_021C6F0C   0x021C6F0C  thumb  ov093
+ *   BTL_SERVER_FLOW_IsPokeGrounded   0x021C6F0C  thumb  ov093
  *   func_021B9934   0x021B9934  thumb  ov093
  * Wrapper family member; the body is the hand-checked shape of the family's first instance with only the member's constants substituted, per the family uniformity assertion in o36/report.md.
  */
@@ -27,7 +27,7 @@ typedef signed int s32;
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021C6F0C(u8 *p, u8 *a, int k);
+extern int BTL_SERVER_FLOW_IsPokeGrounded(u8 *p, u8 *a, int k);
 
-int func_021C8234(u8 *p, int i) { return func_021C6F0C(p, func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
+int func_021C8234(u8 *p, int i) { return BTL_SERVER_FLOW_IsPokeGrounded(p, func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, i), 1); }
 

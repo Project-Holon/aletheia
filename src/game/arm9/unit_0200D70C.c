@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   _s32_div_f  0x0209C0A4  arm
@@ -127,8 +127,8 @@ extern u32 func_02025C30(u32 a, u32 b, u32 c);
 extern int PMS_WORD_SplitWordId(u32 v, u32 *a1, u32 *a2);
 extern void  PMSI_PARAM_InitSentence(void *rec, u32 n);
 extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 u32 func_0200D6EC(struct RecGet *p);
@@ -339,9 +339,9 @@ void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
         }
         return 0;
     } else {
-        void *h = func_020457B0(0x28, (u16)tag);
+        void *h = STRBUF_Create(0x28, (u16)tag);
 
-        func_02045994(h, (const u16 *)&p->unk20, sizeof(p->unk20));
+        STRBUF_SetStringN(h, (const u16 *)&p->unk20, sizeof(p->unk20));
         return h;
     }
 }

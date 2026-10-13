@@ -19,7 +19,7 @@
  * byte casts followed by placement shifts compile to 584 bytes.
  * AE14's empty body leaves its incoming pointer in r0; caller saves it.
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200B358 0x0200B358 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_0200B204 0x0200B204 thumb
@@ -53,7 +53,7 @@ typedef struct {
     union { u32 total; struct { u16 a4, a6; } h; } v;
     u16 a8, aa;
 } Rec;
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_0200B358(void *);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *, u32);
 extern struct Rec1E *func_0200B204(struct RecBig *, u32);
@@ -85,8 +85,8 @@ void func_0217DC28(int *p)
     u8 *win;
     int flag;
     if (p[2] == 0) {
-        save = func_02012EBC((struct Big *)p[12]);
-        base = func_0200B358(func_02012EBC((struct Big *)p[12]));
+        save = GAME_DATA_GetSaveControl((struct Big *)p[12]);
+        base = func_0200B358(GAME_DATA_GetSaveControl((struct Big *)p[12]));
         obj = (struct Reg2 *)func_0200B1D4(base, p[5]);
         sub = func_0200B204((struct RecBig *)base, p[5]);
         reg = func_0200AE14(obj);

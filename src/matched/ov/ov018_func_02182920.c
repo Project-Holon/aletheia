@@ -1,5 +1,5 @@
 /*
- * function: func_02182920
+ * function: EVENT_COMM_COMMON_MsgEventMain
  * address:  0x02182920
  * packet:   pkt_ov018_02182920
  * region:   ov018
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Task callback in the shape of func_021809A4: a 4-state sequence driving
+ * Task callback in the shape of EVENT_COMM_COMMON_TalkPowerGiftTargetEventMain: a 4-state sequence driving
  * the Ov018Obj at +0x10.
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0217F3C4  0x0217F3C4  thumb  ov018
- *   func_0217F40C  0x0217F40C  thumb  ov018
- *   func_0217F420  0x0217F420  thumb  ov018
- *   func_0217FE38  0x0217FE38  thumb  ov018
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb  ov018
+ *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb  ov018
+ *   EVENT_COMM_COMMON_IsKeyTrg  0x0217F420  thumb  ov018
+ *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb  ov018
  */
 
 typedef unsigned char u8;
@@ -53,35 +53,35 @@ typedef struct {
 struct Obj;
 struct Ctx;
 void *func_020124E4(struct Obj *p);
-unsigned int func_02012138(const struct Ctx *p);
-int func_02158344(int a0);
-void func_0217F3C4(Ov018Obj *p, int a);
-int func_0217F40C(Ov018Obj *p);
-int func_0217F420(void);
-void func_0217FE38(u8 *v, Outer *c);
+unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
+int INTRUDE_COMM_GetWorkIfRunning(int a0);
+void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
+int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
+int EVENT_COMM_COMMON_IsKeyTrg(void);
+void EVENT_COMM_COMMON_ExitCommonWork(u8 *v, Outer *c);
 
-int func_02182920(void *a, int *state, Outer *c)
+int EVENT_COMM_COMMON_MsgEventMain(void *a, int *state, Outer *c)
 {
     u8 *v;
 
-    v = (u8 *)func_02158344((int)((void *)func_02012138(func_020124E4(a))));
+    v = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(func_020124E4(a))));
     switch (*state) {
     case 0:
-        func_0217F3C4(&c->obj, c->f9C);
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, c->f9C);
         (*state)++;
         break;
     case 1:
-        if (func_0217F40C(&c->obj) == 1) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
             (*state)++;
         }
         break;
     case 2:
-        if (func_0217F420() == 1) {
+        if (EVENT_COMM_COMMON_IsKeyTrg() == 1) {
             *state = 3;
         }
         break;
     case 3:
-        func_0217FE38(v, c);
+        EVENT_COMM_COMMON_ExitCommonWork(v, c);
         return 1;
     }
     return 0;

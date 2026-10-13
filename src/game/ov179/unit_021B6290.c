@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0202208C  0x0202208C  thumb
- *   func_02049F78  0x02049F78  arm
+ *   WIPE_SYS_Start  0x0202208C  thumb
+ *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   func_02082A90  0x02082A90  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020362DC 0x020362DC arm
@@ -33,8 +33,8 @@
 
 typedef unsigned int u32;
 
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082A90(int, int, int);
 extern u32 func_020307B0(void *p);
 extern u32 func_020362DC(void);
@@ -50,28 +50,28 @@ int func_021B6380(char *p);
 
 void func_021B6290(char *p, u32 a, u32 b, u32 c)
 {
-    func_0202208C(0, 1, 1, 0, a, b, 0x7f);
+    WIPE_SYS_Start(0, 1, 1, 0, a, b, 0x7f);
     ((struct Obj24466 *)p)->f6054 = c;
 }
 
 
 void func_021B62B8(char *p, u32 a, u32 b, u32 c)
 {
-    func_0202208C(0, 0, 0, 0, a, b, 0x7f);
+    WIPE_SYS_Start(0, 0, 0, 0, a, b, 0x7f);
     ((struct Obj24467 *)p)->f6054 = c;
 }
 
 
 void func_021B62E0(char *p, u32 a, u32 b, u32 c)
 {
-    func_0202208C(0, 1, 1, 0x7fff, a, b, 0x7f);
+    WIPE_SYS_Start(0, 1, 1, 0x7fff, a, b, 0x7f);
     ((struct Obj24468 *)p)->f6054 = c;
 }
 
 
 void func_021B630C(char *p, u32 a, u32 b, u32 c)
 {
-    func_0202208C(0, 0, 0, 0x7fff, a, b, 0x7f);
+    WIPE_SYS_Start(0, 0, 0, 0x7fff, a, b, 0x7f);
     ((struct Obj24469 *)p)->f6054 = c;
 }
 
@@ -82,7 +82,7 @@ void func_021B6338(void *obj, int a, int b)
     int t;
     char *p;
 
-    t = (int)func_02049F78((void *)(((struct Obj24470 *)obj)->f4), b, (u32)(&ptr), 0x807f);
+    t = (int)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(((struct Obj24470 *)obj)->f4), b, (u32)(&ptr), 0x807f);
     p = (char *)obj + 8 + a * 0x2004;
     ((struct Obj14385 *)p)->f2000 = ((struct Obj14384 *)ptr)->f8;
     func_02082A90(((struct Obj14384 *)ptr)->fC, (int)p, ((struct Obj14385 *)p)->f2000);

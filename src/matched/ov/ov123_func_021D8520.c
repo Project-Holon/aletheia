@@ -17,10 +17,10 @@
  *   }
  *   symbols: BACKUP_SYSTEM_GetWork 0x02031994 arm
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_021B95D4 0x021B95D4 thumb ov114
  *   func_021B973C 0x021B973C thumb ov114
  *   func_021B9748 0x021B9748 thumb ov114
@@ -28,11 +28,11 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8490 0x021D8490 thumb ov123
  */
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern int func_021B95D4(int index, u8 *p);
 extern int func_021B973C(char *p);
 extern int func_021B9748(u8 *p);
@@ -45,7 +45,7 @@ void func_021D8520(char *p)
 {
     int x;
     unsigned int v;
-    if (func_0203CD98()) {
+    if (GFL_NET_GetRunState()) {
         if (func_021B95D4(9,*(void **)(p+0x10))) {
             v=(unsigned int)SAVE_CONTROL_GetWorkArea(*(void **)(p+0x28),&x);
             func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)v,0x80000);
@@ -53,7 +53,7 @@ void func_021D8520(char *p)
                 func_021D6EE0((u8 *)p,(int)func_021D8490,0x6fa);
         }
     } else {
-        if (func_020362DC() || func_02035C60())
+        if (func_020362DC() || TOUCHPANEL_GetTrg())
             func_021D6EE0((u8 *)p,(int)func_021D8490,0x700);
     }
 }

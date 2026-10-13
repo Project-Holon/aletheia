@@ -1,5 +1,5 @@
 /*
- * function: func_02182AA4
+ * function: EVENT_COMM_COMMON_MsgScriptEventMain
  * address:  0x02182AA4
  * packet:   pkt_ov018_02182AA4
  * region:   ov018
@@ -10,18 +10,18 @@
  * status:   EXACT
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0217F3C4  0x0217F3C4  thumb
- *   func_0217F40C  0x0217F40C  thumb
- *   func_0217F318  0x0217F318  thumb
- *   func_02158768  0x02158768  thumb  ov010
- *   func_021589D0  0x021589D0  thumb  ov010
- *   func_02159058  0x02159058  thumb  ov010
- *   func_02012374  0x02012374  thumb
- *   func_0217FE38  0x0217FE38  thumb
- *   func_0217CA84  0x0217CA84  thumb
- *   func_0201235C  0x0201235C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
+ *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb
+ *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
+ *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010
+ *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   EVENT_COMM_COMMON_ExitCommonWork  0x0217FE38  thumb
+ *   INTRUDE_SUBDISP_CreateDisconnectEvent  0x0217CA84  thumb
+ *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  */
 
 typedef struct {
@@ -52,53 +52,53 @@ struct Evt;
 struct Obj;
 struct Ctx;
 void *func_020124E4(struct Obj *p);
-unsigned int func_02012138(const struct Ctx *p);
+unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Desc;
 struct S0201235C;
-int func_02158344(int a0);
-void func_0217F3C4(Ov018Obj *p, int a);
-int func_0217F40C(Ov018Obj *p);
-void func_0217F318(Ov018Obj *p);
-struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-int func_021589D0(int a0);
-int func_02159058(int a, int b, int c, int d, u16 e);
-void func_02012374(struct Evt *evt, struct Evt **out);
-void func_0217FE38(int v, Ov018Outer *c);
-int func_0217CA84(void *a, int b);
-void func_0201235C(struct S0201235C *o, u32 *out);
+int INTRUDE_COMM_GetWorkIfRunning(int a0);
+void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
+int EVENT_COMM_COMMON_IsPrintFinished(Ov018Obj *p);
+void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
+struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+int SCRIPT_SYS_GetEventScriptWork(int a0);
+int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
+void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+void EVENT_COMM_COMMON_ExitCommonWork(int v, Ov018Outer *c);
+int INTRUDE_SUBDISP_CreateDisconnectEvent(void *a, int b);
+void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 
-int func_02182AA4(void *a, int *state, Ov018Outer *c)
+int EVENT_COMM_COMMON_MsgScriptEventMain(void *a, int *state, Ov018Outer *c)
 {
     void *sub;
     int v;
     void *w;
 
     sub = func_020124E4(a);
-    v = func_02158344((int)((void *)func_02012138(sub)));
+    v = INTRUDE_COMM_GetWorkIfRunning((int)((void *)GAMESYSTEM_GetGameComm(sub)));
     switch (*state) {
     case 0:
-        func_0217F3C4(&c->obj, c->f9C);
+        EVENT_COMM_COMMON_PrintMsg(&c->obj, c->f9C);
         (*state)++;
         break;
     case 1:
-        if (func_0217F40C(&c->obj) == 1) {
+        if (EVENT_COMM_COMMON_IsPrintFinished(&c->obj) == 1) {
             (*state)++;
         }
         break;
     case 2:
-        func_0217F318(&c->obj);
-        w = func_02158768((int)sub, 0xAFD, 0, 4);
-        func_02159058(func_021589D0((int)w), 0x23F, 1, 0, 0);
-        func_02012374(a, w);
+        EVENT_COMM_COMMON_ExitMsgBox(&c->obj);
+        w = SCRIPT_SYS_CreateScriptEventSimple((int)sub, 0xAFD, 0, 4);
+        SCRIPT_WORK_SetParams(SCRIPT_SYS_GetEventScriptWork((int)w), 0x23F, 1, 0, 0);
+        GAME_EVENT_CallEvent(a, w);
         (*state)++;
         break;
     case 3:
         *state = 4;
         break;
     case 4:
-        func_0217FE38(v, c);
-        func_0201235C(a, (u32 *)func_0217CA84(sub, 0));
+        EVENT_COMM_COMMON_ExitCommonWork(v, c);
+        GAME_EVENT_ChangeEvent(a, (u32 *)INTRUDE_SUBDISP_CreateDisconnectEvent(sub, 0));
         return 0;
     }
     return 0;

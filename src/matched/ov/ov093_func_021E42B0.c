@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021B9A40  0x021B9A40  thumb  ov093
  *   func_021B9A5C  0x021B9A5C  thumb  ov093
  *   func_021C82C4  0x021C82C4  thumb  ov093
@@ -20,7 +20,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern unsigned char func_021B9A40(unsigned int x);
 extern u8 func_021B9A5C(u32 x);
 extern int func_021C82C4(int a, int b, int c);
@@ -33,7 +33,7 @@ void func_021E42B0(int a0, u8 *s, int k, int *pf)
     u32 i;
     u8 *e;
 
-    if (k == func_021D775C(3)) {
+    if (k == BTL_EVENT_GetVar(3)) {
         v = func_021B9A5C(func_021B9A40(k));
         if (func_021C82C4((int)s, v, 9) != 0 || func_021C82C4((int)s, v, 10) != 0) {
             e = func_021C88A4((char *)s, 0x1a, k);

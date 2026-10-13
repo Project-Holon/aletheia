@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B9944, func_021B9950, func_021B995C, func_021B9964
+ * function: OPTION_MENU_GetScreenActor, OPTION_MENU_GetScreenActorUnit, OPTION_MENU_GetScreenWindow, OPTION_MENU_RestartScreenBlink
  * address:  0x021B9944
  * packet:   pkt_ov068_021B9944
  * region:   ov068
@@ -17,32 +17,32 @@
  * _021B9D58.c; those entries attest the pool-word sites (`matched`).
  *
  * symbols:
- *   func_021BA018  0x021BA018  thumb  ov068
- *   func_021BA020  0x021BA020  thumb  ov068
- *   func_021B9BFC  0x021B9BFC  thumb  ov068
- *   func_021B9D58  0x021B9D58  thumb  ov068
+ *   OPTION_MENU_GetSpriteActor  0x021BA018  thumb  ov068
+ *   OPTION_MENU_GetSpriteUnit  0x021BA020  thumb  ov068
+ *   OPTION_MENU_GetGfxWindow  0x021B9BFC  thumb  ov068
+ *   OPTION_MENU_RestartGfxBlink  0x021B9D58  thumb  ov068
  */
 
-int func_021B9944(void *p, int i)
+int OPTION_MENU_GetScreenActor(void *p, int i)
 {
-    int func_021BA018(char *, int);
-    return func_021BA018((char *)p + 0x7c, i);
+    int OPTION_MENU_GetSpriteActor(char *, int);
+    return OPTION_MENU_GetSpriteActor((char *)p + 0x7c, i);
 }
 
-int func_021B9950(void *p)
+int OPTION_MENU_GetScreenActorUnit(void *p)
 {
-    int func_021BA020(int *p);
-    return func_021BA020((int *)((char *)p + 0x7c));
+    int OPTION_MENU_GetSpriteUnit(int *p);
+    return OPTION_MENU_GetSpriteUnit((int *)((char *)p + 0x7c));
 }
 
-int func_021B995C(int *p, int i)
+int OPTION_MENU_GetScreenWindow(int *p, int i)
 {
-    int func_021B9BFC(int *, int);
-    return func_021B9BFC(p, i);
+    int OPTION_MENU_GetGfxWindow(int *, int);
+    return OPTION_MENU_GetGfxWindow(p, i);
 }
 
-void func_021B9964(char *p)
+void OPTION_MENU_RestartScreenBlink(char *p)
 {
-    void func_021B9D58(char *);
-    func_021B9D58(p);
+    void OPTION_MENU_RestartGfxBlink(char *);
+    OPTION_MENU_RestartGfxBlink(p);
 }

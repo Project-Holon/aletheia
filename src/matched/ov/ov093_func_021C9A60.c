@@ -11,19 +11,19 @@
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021C9BA8 0x021C9BA8 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  *   func_021C99A0 0x021C99A0 thumb ov093
  *   func_021CC8D8 0x021CC8D8 thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
  *   func_021C7B3C 0x021C7B3C thumb ov093
  *   func_021C7B7C 0x021C7B7C thumb ov093
- *   func_021D8510 0x021D8510 thumb ov093
- *   func_021D66D0 0x021D66D0 thumb ov093
- *   func_021D8484 0x021D8484 thumb ov093
- *   func_021D62C4 0x021D62C4 thumb ov093
- *   func_021C195C 0x021C195C thumb ov093
- *   func_021C3FDC 0x021C3FDC thumb ov093
+ *   BTL_CALC_RemoveAbilityHandlers 0x021D8510 thumb ov093
+ *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
+ *   BTL_CALC_AddAbilityHandlers 0x021D8484 thumb ov093
+ *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
+ *   BTL_SERVER_FLOW_ProcDamagedItemReaction 0x021C195C thumb ov093
+ *   BTL_SERVER_FLOW_RecheckOpponentAbilityEffects 0x021C3FDC thumb ov093
  */
 #include "../include/Obj00003.h"
 typedef unsigned char u8;
@@ -33,8 +33,8 @@ typedef struct { u32 low:8,index:5,pad:10,flag:1,high:8; u16 value; u8 id,a; u8 
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021C9BA8(u16);
-extern int func_021D5B68(void *);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 struct Msg;
 struct Unk021D62A8;
 extern int func_021C99A0(void *w, const struct Msg *m);
@@ -42,13 +42,13 @@ extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(u32 *p, u32 v, int line);
 extern void func_021C7B3C(u8 *p, u32 a, u16 b, u16 c);
 extern void func_021C7B7C(u8 *p, unsigned int i);
-extern void func_021D8510(void *p);
+extern void BTL_CALC_RemoveAbilityHandlers(void *p);
 struct QJ;
-extern void func_021D66D0(struct QJ *p, u32 v);
-extern void *func_021D8484(void *);
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern void func_021C195C(u8 *p, u8 *q, u32 n);
-extern void func_021C3FDC(u8 *, u8 *);
+extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
+extern void *BTL_CALC_AddAbilityHandlers(void *);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern void BTL_SERVER_FLOW_ProcDamagedItemReaction(u8 *p, u8 *q, u32 n);
+extern void BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(u8 *, u8 *);
 int func_021C9A60(u8 *p, const Ent *e)
 {
     u8 *a;
@@ -59,30 +59,30 @@ int func_021C9A60(u8 *p, const Ent *e)
     a = func_021B9934(((struct Obj00003 *)p)->f8, e->id);
     x = func_021D59B4(a, 16);
     if (func_021C9BA8(x)) return 0;
-    if (func_021D5B68(a)) return 0;
+    if (BTL_POKEPARAM_IsFainted(a)) return 0;
     if (e->a || e->value != x) {
-        if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 87, (u8)e->index);
-        func_021CD4B0(((struct Obj00003 *)p)->fC, 73, e->id, e->value);
+        if (e->flag) BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 87, (u8)e->index);
+        BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 73, e->id, e->value);
         func_021C99A0(p, (const struct Msg *)e->msg);
         line = 15561;
         s = func_021CC8D8(p + 0x1d74, line);
         func_021C7B3C(p, e->id, x, e->value);
         func_021CC95C((u32 *)(p + 0x1d74), s, line + 2);
-        func_021D8510(a);
-        func_021D66D0((struct QJ *)a, e->value);
-        func_021CD4B0(((struct Obj00003 *)p)->fC, 29, e->id, e->value);
-        func_021D8484(a);
-        func_021CD4B0(((struct Obj00003 *)p)->fC, 88, e->id);
+        BTL_CALC_RemoveAbilityHandlers(a);
+        BTL_POKEPARAM_SetAbility((struct QJ *)a, e->value);
+        BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 29, e->id, e->value);
+        BTL_CALC_AddAbilityHandlers(a);
+        BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 88, e->id);
         if (x != e->value) {
             t = func_021CC8D8(p + 0x1d74, line + 16);
             func_021C7B7C(p, e->id);
             line += 18;
             func_021CC95C((u32 *)(p + 0x1d74), t, line);
         }
-        if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 88, (u8)e->index);
-        if (!func_021D62C4((struct Unk021D62A8 *)a, 16)) {
-            if (x == 103) func_021C195C(p, a, 0);
-            if (x == 127) func_021C3FDC(p, a);
+        if (e->flag) BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 88, (u8)e->index);
+        if (!BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 16)) {
+            if (x == 103) BTL_SERVER_FLOW_ProcDamagedItemReaction(p, a, 0);
+            if (x == 127) BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(p, a);
         }
         return 1;
     }

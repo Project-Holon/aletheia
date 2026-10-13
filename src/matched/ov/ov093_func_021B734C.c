@@ -1,5 +1,5 @@
 /*
- * function: func_021B734C
+ * function: BTL_MAIN_TaskCommSingle
  * address:  0x021B734C
  * packet:   pkt_ov093_021B734C
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8BEC  0x021B8BEC  thumb  ov093
- *   d_021EFD1C     0x021EFD1C  data  a4
+ *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
+ *   gBtlMainCommSingleSteps     0x021EFD1C  data  a4
  */
 
 typedef unsigned char u8;
@@ -35,22 +35,22 @@ struct S {
     u8 f46d;
 };
 
-extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
-extern int (*d_021EFD1C[7])(struct S *, u32 *);
+extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
+extern int (*gBtlMainCommSingleSteps[7])(struct S *, u32 *);
 
-int func_021B734C(u32 *pp, struct S *s)
+int BTL_MAIN_TaskCommSingle(u32 *pp, struct S *s)
 {
     if (*pp == 0) {
         s->f46b = 2;
         s->f428[0] = 0;
         s->f428[1] = 1;
         s->f46c = s->f00->f21;
-        s->f46d = func_021B8BEC((u8 *)s, s->f46c, 0);
+        s->f46d = BTL_MAIN_GetClientTrainerIndex((u8 *)s, s->f46c, 0);
         *pp = *pp + 1;
         return 0;
     }
     if (*pp < 7) {
-        if (d_021EFD1C[*pp](s, &s->f460) != 0) {
+        if (gBtlMainCommSingleSteps[*pp](s, &s->f460) != 0) {
             s->f460 = 0;
             *pp = *pp + 1;
         }

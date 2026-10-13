@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     infowin redraw task (the TCB callback func_02024A20 registers):
+ * note:     infowin redraw task (the TCB callback INFOWIN_Init registers):
  *           clock digits, battery/link/wireless icons, per dirty bit of
  *           +0x04.  Levers, in the order they closed it: tens use `/ 10`
  *           and ones `% 10` (the remainder comes back in r1); every access

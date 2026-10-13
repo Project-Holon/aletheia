@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_0201C7D0  0x0201C7D0  thumb
+ *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
  *   func_021C6BD4  0x021C6BD4  thumb  ov111
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 struct Descriptor;
 struct PlayTime;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern void func_021C6BD4(void *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx);
@@ -57,7 +57,7 @@ void func_021C6C7C(Work *p, void *a, int y, const Info *info, void *s, int idx)
     if (info->f1C == 0) {
         func_021C6BD4(p, a, 0xD8, 0, y, s, info->b2E, 2, 2, 0xD0, 0x10, idx);
         func_021C6BD4(p, a, 0xD8, 0x13, y, s, info->h2A, 3, 1, 0xAD, 0x1B, idx);
-        func_0201C7D0(func_02045770(a), 0xC6, y, p->f320C, p->f31FC, d_021C8768[idx]);
+        PRINTSYS_PrintColor(func_02045770(a), 0xC6, y, p->f320C, p->f31FC, d_021C8768[idx]);
     } else {
         v = func_0200864C(info->f1C);
         if (v > 999) {
@@ -65,6 +65,6 @@ void func_021C6C7C(Work *p, void *a, int y, const Info *info, void *s, int idx)
         }
         func_021C6BD4(p, a, 0xD8, 0, y, s, func_02008650(info->f1C), 2, 2, 0xD0, 0x10, idx);
         func_021C6BD4(p, a, 0xD8, 0x13, y, s, v, 3, 1, 0xAD, 0x1B, idx);
-        func_0201C7D0(func_02045770(a), 0xC6, y, p->f320C, p->f31FC, d_021C8768[idx]);
+        PRINTSYS_PrintColor(func_02045770(a), 0xC6, y, p->f320C, p->f31FC, d_021C8768[idx]);
     }
 }

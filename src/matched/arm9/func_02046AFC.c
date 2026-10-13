@@ -1,5 +1,5 @@
 /*
- * function: func_02046AFC
+ * function: G3D_SYSTEM_GetLookAt
  * address:  0x02046AFC
  * packet:   pkt_02046858
  * region:   arm9
@@ -23,8 +23,8 @@
  * lr while the first two destinations are built into r0/r3.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02046AFC.c \
- *       --func func_02046AFC --addr 0x02046AFC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_GetLookAt.c \
+ *       --func G3D_SYSTEM_GetLookAt --addr 0x02046AFC --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ struct Tri {
 
 extern u8 *_G3dSystem;
 
-void func_02046AFC(u8 *dst)
+void G3D_SYSTEM_GetLookAt(u8 *dst)
 {
     *(struct Tri *)(dst + 0x00) = *(struct Tri *)(_G3dSystem + 0x5c);
     *(struct Tri *)(dst + 0x0c) = *(struct Tri *)(_G3dSystem + 0x68);

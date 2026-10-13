@@ -1,5 +1,5 @@
 /*
- * function: func_02195588
+ * function: TALKMSGWIN_ReloadFrameGraphics
  * address:  0x02195588
  * packet:   pkt_ov021_02195588
  * region:   ov021
@@ -12,7 +12,7 @@
  * symbols:
  *   func_020414EC  0x020414EC  arm
  *   func_02049B40  0x02049B40  arm
- *   func_02049624  0x02049624  arm
+ *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  */
 #include "../include/Obj04219.h"
 
@@ -22,9 +22,9 @@ typedef unsigned int   u32;
 
 extern void func_020414EC(u32 a);
 extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 func_02049624(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *a0, void *a1, void *a2, void *a3, u32 a4, u32 a5, u16 a6);
 
-void func_02195588(u8 *p)
+void TALKMSGWIN_ReloadFrameGraphics(u8 *p)
 {
     u32 r;
     u32 v;
@@ -46,5 +46,5 @@ void func_02195588(u8 *p)
         break;
     }
     func_02049B40(5, 0, r, (u32)p[0x14] << 5, 0x20, ((struct Obj04219 *)p)->f0);
-    func_02049624((void *)5, (void *)5, (void *)(((struct Obj04219 *)p)->f10), (void *)(((struct Obj04219 *)p)->fC), 0, 0, ((struct Obj04219 *)p)->f0);
+    ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)5, (void *)(((struct Obj04219 *)p)->f10), (void *)(((struct Obj04219 *)p)->fC), 0, 0, ((struct Obj04219 *)p)->f0);
 }

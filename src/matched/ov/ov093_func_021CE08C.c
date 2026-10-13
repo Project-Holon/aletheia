@@ -1,5 +1,5 @@
 /*
- * function: func_021CE08C
+ * function: BTL_CLIENT_PollTimeLimitReady
  * address: 0x021CE08C
  * packet: pkt_ov093_021CE08C
  * region: ov093
@@ -17,4 +17,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021F8524(int);
-int func_021CE08C(u8 *p) { if(*(u16 *)(p+0xe4)!=0) { if(p[0x1ad]==0) { if(func_021F8524(1)) p[0x1ad]=1; } return p[0x1ad]; } return 0; }
+int BTL_CLIENT_PollTimeLimitReady(u8 *p) { if(*(u16 *)(p+0xe4)!=0) { if(p[0x1ad]==0) { if(func_021F8524(1)) p[0x1ad]=1; } return p[0x1ad]; } return 0; }

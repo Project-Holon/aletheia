@@ -12,7 +12,7 @@
  * symbols:
  *   str_020A7A24   0x020A7A24  data
  *   str_020A7A50   0x020A7A50  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_RING_BUFF_GetDataSize  0x020365E8  arm
  *   GFL_NET_RING_BUFF_ReadU16  0x02036540  arm
  *   GFL_NET_RING_BUFF_ReadByte  0x02036500  arm
@@ -70,7 +70,7 @@ struct St {
 
 extern const u8 str_020A7A24[];
 extern const u8 str_020A7A50[];
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern int GFL_NET_RING_BUFF_GetDataSize(char *p);
 extern u32 GFL_NET_RING_BUFF_ReadU16(u32 a);
 extern u32 GFL_NET_RING_BUFF_ReadByte(u32 a);
@@ -91,7 +91,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(struct Src *src, u32 a1, u8 *buf, struct St 
     u32 h;
     int cnt;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     while (GFL_NET_RING_BUFF_GetDataSize((char *)src) != 0) {
         h = st->h;
         if (h == 0) {

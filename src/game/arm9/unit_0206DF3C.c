@@ -14,7 +14,7 @@
  *
  * symbols:
  *   g_renderState     0x02148B4C  data
- *   func_0207BC08  0x0207BC08  arm
+ *   MTX_MultVec43  0x0207BC08  arm
  *   func_0207C8A0  0x0207C8A0  arm
  *   func_0207C848  0x0207C848  arm
  *   func_0206AE94  0x0206AE94  arm
@@ -72,7 +72,7 @@ typedef struct
 
 typedef unsigned int   u32;
 
-extern void func_0207BC08(const VecFx32_0206DF3C *src, const MtxFx43 *m, VecFx32_0206DF3C *dst);
+extern void MTX_MultVec43(const VecFx32_0206DF3C *src, const MtxFx43 *m, VecFx32_0206DF3C *dst);
 extern void func_0207C8A0(fx32 d);
 extern fx64c func_0207C848(void);
 extern void func_0206AE94(u32 *a0, u32 *a1, u32 *a2, u32 *a3);
@@ -114,7 +114,7 @@ int func_0206DF3C(const VecFx32_0206DF3C *pWorld, int *px, int *py)
     fx32 ty;
 
     m = &g_renderState.prjMtx;
-    func_0207BC08(pWorld, &g_renderState.cameraMtx, &vec);   /* MTX_MultVec43 */
+    MTX_MultVec43(pWorld, &g_renderState.cameraMtx, &vec);   /* MTX_MultVec43 */
 
     {
         fx32 tw = (fx32)(((fx64)vec.x * m->_03 + (fx64)vec.y * m->_13 + (fx64)vec.z * m->_23) >> 12);

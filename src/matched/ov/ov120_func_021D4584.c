@@ -8,19 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021D880C 0x021D880C thumb ov120
  *   func_021D74B0 0x021D74B0 thumb ov120
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D4544 0x021D4544 thumb ov120
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "../include/Obj04484.h"
 #include "../include/Obj06433.h"
 typedef unsigned char u8;
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned int   u32;
 struct Sub0200852CObj;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern void func_021D880C(char *p, void *q, u32 n);
@@ -32,8 +33,8 @@ void func_021D4584(u8 *p)
     u8 *q = *(u8 * *)&((struct Obj06433 *)p)->f48;
     int value;
     int mode = 2;
-    if (func_0203CD98() == 0) {
-        value = (int)func_02012944((void *)(((struct Obj04484 *)q)->f0));
+    if (GFL_NET_GetRunState() == 0) {
+        value = (int)GAME_DATA_GetMyStatus((void *)(((struct Obj04484 *)q)->f0));
     } else {
         value = ((struct Obj04484 *)q)->f18;
         mode = ((struct Obj06433 *)p)->f17C;

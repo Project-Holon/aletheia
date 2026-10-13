@@ -1,5 +1,5 @@
 /*
- * function: func_021BB380
+ * function: STARTMENU_CreateFrameManager
  * address:  0x021BB380
  * packet:   pkt_ov088_021BB380
  * region:   ov088
@@ -17,7 +17,7 @@
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
- *   d_021BD5EC     0x021BD5EC  data  a4
+ *   gStartMenuRowInfo     0x021BD5EC  data  a4
  */
 #include "../include/Obj00014.h"
 
@@ -30,19 +30,19 @@ struct Ent {
 };
 
 struct WinMgr;
-extern const struct Ent d_021BD5EC[];
+extern const struct Ent gStartMenuRowInfo[];
 
 extern struct WinMgr *BGWINFRM_Create(u32 a0, u32 a1, u32 heap);
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 
-void func_021BB380(char *p)
+void STARTMENU_CreateFrameManager(char *p)
 {
     u32 i;
 
     ((struct Obj00014 *)p)->f118 = BGWINFRM_Create(0, 8, 0xb);
     for (i = 0; i < 8; i++)
-        BGWINFRM_AddFrame(((struct Obj00014 *)p)->f118, i, 1, 0x1a, d_021BD5EC[i].f2);
+        BGWINFRM_AddFrame(((struct Obj00014 *)p)->f118, i, 1, 0x1a, gStartMenuRowInfo[i].f2);
     BGWINFRM_PutBmpWin(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->f80);
     BGWINFRM_PutBmpWin(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->f88);
     BGWINFRM_PutBmpWin(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->f90);

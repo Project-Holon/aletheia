@@ -1,7 +1,7 @@
 /*
  * file:     rail_attr.c
  * unit:     yes
- * function: func_021BB088, func_021BB0A4, func_021BB0B4, func_021BB11C, func_021BB13C, func_021BB188, func_021BB1A0, func_021BB1AC, func_021BB1B8, func_021BB1C4, func_021BB1D0, func_021BB1DC, func_021BB1E8
+ * function: RAIL_ATTR_Create, RAIL_ATTR_Delete, RAIL_ATTR_Load, RAIL_ATTR_Release, RAIL_ATTR_GetAttribute, RAIL_ATTR_IsSignBoard, RAIL_ATTR_IsJumpStart, RAIL_ATTR_IsForceMoveUp, RAIL_ATTR_IsForceMoveDown, RAIL_ATTR_IsForceMoveLeft, RAIL_ATTR_IsForceMoveRight, RAIL_ATTR_IsForceMoveStop, RAIL_ATTR_IsSlipDown
  * address:  0x021BB088
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   d_021DE2C4     0x021DE2C4  data  a4
  *   func_020307B0  0x020307B0  arm
- *   func_0204A298  0x0204A298  arm
+ *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   func_02030734  0x02030734  arm
  */
 #include "fldmmdl_rail_types.h"
@@ -44,33 +44,33 @@ typedef struct RailAttr {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void func_020307B0(void *p);
-extern void *func_0204A298(int arcId, int dataId, int compressed, int heapId, u32 *outSize);
+extern void *ARC_UTIL_LoadMemberWithSize(int arcId, int dataId, int compressed, int heapId, u32 *outSize);
 
-RailAttr *func_021BB088(int heapId);
-void func_021BB0A4(RailAttr *attr);
-void func_021BB0B4(RailAttr *attr, u32 dataId, u32 heapId);
-void func_021BB11C(RailAttr *attr);
-int func_021BB13C(const RailAttr *attr, const RailLocation *location);
+RailAttr *RAIL_ATTR_Create(int heapId);
+void RAIL_ATTR_Delete(RailAttr *attr);
+void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId);
+void RAIL_ATTR_Release(RailAttr *attr);
+int RAIL_ATTR_GetAttribute(const RailAttr *attr, const RailLocation *location);
 
 extern int d_021DE2C4;
 
-RailAttr *func_021BB088(int heapId)
+RailAttr *RAIL_ATTR_Create(int heapId)
 {
     return func_02030734((u16)heapId, sizeof(RailAttr), 1, (const char *)&d_021DE2C4, 0x5C);
 }
 
-void func_021BB0A4(RailAttr *attr)
+void RAIL_ATTR_Delete(RailAttr *attr)
 {
-    func_021BB11C(attr);
+    RAIL_ATTR_Release(attr);
     func_020307B0(attr);
 }
 
-void func_021BB0B4(RailAttr *attr, u32 dataId, u32 heapId)
+void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId)
 {
     u32 i = 0;
     u32 offset;
 
-    attr->data = func_0204A298(RAIL_ATTR_ARC_ID, dataId, 0, (u16)heapId, &attr->dataSize);
+    attr->data = ARC_UTIL_LoadMemberWithSize(RAIL_ATTR_ARC_ID, dataId, 0, (u16)heapId, &attr->dataSize);
     attr->lineCount = *(u32 *)attr->data;
     attr->lines = func_02030734((u16)heapId, attr->lineCount * 4, 1, (const char *)&d_021DE2C4, 0x86);
     offset = 4;
@@ -83,7 +83,7 @@ void func_021BB0B4(RailAttr *attr, u32 dataId, u32 heapId)
     }
 }
 
-void func_021BB11C(RailAttr *attr)
+void RAIL_ATTR_Release(RailAttr *attr)
 {
     if (attr->data != 0) {
         func_020307B0(attr->lines);
@@ -94,7 +94,7 @@ void func_021BB11C(RailAttr *attr)
     }
 }
 
-int func_021BB13C(const RailAttr *attr, const RailLocation *location)
+int RAIL_ATTR_GetAttribute(const RailAttr *attr, const RailLocation *location)
 {
     int result = RAIL_ATTR_NONE;
     if (location->type == RAIL_LOCATION_TYPE_LINE) {
@@ -113,7 +113,7 @@ int func_021BB13C(const RailAttr *attr, const RailLocation *location)
 
 /* Attribute value checks (values of the attribute words above). */
 
-int func_021BB188(u16 value)
+int RAIL_ATTR_IsSignBoard(u16 value)
 {
     if ((u16)(value + 0xFF60) <= 1) {
         return 1;
@@ -121,49 +121,49 @@ int func_021BB188(u16 value)
     return 0;
 }
 
-int func_021BB1A0(int value)
+int RAIL_ATTR_IsJumpStart(int value)
 {
     if (value == 163)
         return 1;
     return 0;
 }
 
-int func_021BB1AC(int value)
+int RAIL_ATTR_IsForceMoveUp(int value)
 {
     if (value == 165)
         return 1;
     return 0;
 }
 
-int func_021BB1B8(int value)
+int RAIL_ATTR_IsForceMoveDown(int value)
 {
     if (value == 164)
         return 1;
     return 0;
 }
 
-int func_021BB1C4(int value)
+int RAIL_ATTR_IsForceMoveLeft(int value)
 {
     if (value == 167)
         return 1;
     return 0;
 }
 
-int func_021BB1D0(int value)
+int RAIL_ATTR_IsForceMoveRight(int value)
 {
     if (value == 166)
         return 1;
     return 0;
 }
 
-int func_021BB1DC(int value)
+int RAIL_ATTR_IsForceMoveStop(int value)
 {
     if (value == 168)
         return 1;
     return 0;
 }
 
-int func_021BB1E8(int value)
+int RAIL_ATTR_IsSlipDown(int value)
 {
     if (value == 176)
         return 1;

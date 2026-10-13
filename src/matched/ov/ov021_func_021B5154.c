@@ -1,5 +1,5 @@
 /*
- * function: func_021B5154
+ * function: SCRCMD_PROC_FLD_SetFlagIfClear
  * address:  0x021B5154
  * packet:   pkt_ov021_021B5154
  * region:   ov021
@@ -12,32 +12,32 @@
  * symbols:
  *   func_0200D418  0x0200D418  thumb
  *   func_0200D488  0x0200D488  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215E440  0x0215E440  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   MOVE_POKEMON_SpawnEntry  0x0215E440  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Big;
 struct Blk38;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200D418(void *sys);
-extern unsigned int func_02159B10(void *, void *);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern u8 func_0200D488(struct Blk38 *p, u32 i);
-extern void func_0215E440(void *sys, u8 which);
+extern void MOVE_POKEMON_SpawnEntry(void *sys, u8 which);
 
-int func_021B5154(u32 a, u32 b)
+int SCRCMD_PROC_FLD_SetFlagIfClear(u32 a, u32 b)
 {
-    void *e = func_0215A5E4((void *)b);
-    u32 g = (u32)func_0200D418(func_02012EBC(e));
-    u8 k = func_02159B10((void *)a, (void *)b);
+    void *e = SCRCMD_WORK_GetGameData((void *)b);
+    u32 g = (u32)func_0200D418(GAME_DATA_GetSaveControl(e));
+    u8 k = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
 
     if (func_0200D488((struct Blk38 *)g, k) == 0) {
-        func_0215E440(e, k);
+        MOVE_POKEMON_SpawnEntry(e, k);
     }
     return 0;
 }

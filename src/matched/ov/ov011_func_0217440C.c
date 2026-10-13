@@ -10,18 +10,18 @@
  * status: EXACT
  * symbols:
  *   INTRUDE_COMM_IsLinked 0x021736D8 thumb ov011
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  */
 typedef unsigned int u32;
 int INTRUDE_COMM_IsLinked(void);
 struct Entry;
-struct Entry *func_020399A8(void);
-u32 func_0203D3F8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+u32 GFL_NET_SendData(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 u32 INTRUDE_COMM_SendBusyBegin(void)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3F8((u32)func_020399A8(), 0, 0x21e, 0, 0, 0, 0, 0);
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0, 0x21e, 0, 0, 0, 0, 0);
 }

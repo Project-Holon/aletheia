@@ -1,5 +1,5 @@
 /*
- * function: func_021CD60C
+ * function: COMM_ENTRY_MENU_SetCallbacks
  * address:  0x021CD60C
  * packet:   pkt_ov021_021CD60C
  * region:   ov021
@@ -19,7 +19,7 @@ typedef struct {
     void *f490;
 } Obj;
 
-void func_021CD60C(Obj *p, void *a, void *b, void *c)
+void COMM_ENTRY_MENU_SetCallbacks(Obj *p, void *a, void *b, void *c)
 {
     p->f488 = a;
     p->f48c = b;

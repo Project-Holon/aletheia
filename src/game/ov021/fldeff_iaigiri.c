@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_iaigiri.c
  * unit:     yes
- * function: func_021C94BC, func_021C94E0, func_021C94F4, func_021C952C, func_021C9550, func_021C95D8, func_021C963C, func_021C9660, func_021C9690
+ * function: FLDEFF_IAIGIRI_Create, FLDEFF_IAIGIRI_Delete, FLDEFF_IAIGIRI_LoadResources, FLDEFF_IAIGIRI_FreeResources, FLDEFF_IAIGIRI_Start, FLDEFF_IAIGIRI_Init, FLDEFF_IAIGIRI_Exit, FLDEFF_IAIGIRI_Update, FLDEFF_IAIGIRI_Draw
  * address:  0x021C94BC
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,35 +14,35 @@
  * Split from bsubway_scr.c at 0x021C94BC: fldeff_iaigiri.c __FILE__ anchor at 0x021C94BC.
  *
  * symbols:
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_02046E24  0x02046E24  arm
- *   func_02046FF8  0x02046FF8  arm
- *   func_02047400  0x02047400  arm
- *   func_02047564  0x02047564  arm
- *   func_0204767C  0x0204767C  arm
- *   func_020477A4  0x020477A4  arm
- *   func_0204762C  0x0204762C  arm
- *   func_02047738  0x02047738  arm
- *   func_02047504  0x02047504  arm
- *   func_020470D0  0x020470D0  arm
- *   func_02046EFC  0x02046EFC  arm
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_020478B8  0x020478B8  arm
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateAnime  0x02047564  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
+ *   G3D_SYSTEM_DeleteAnime  0x0204762C  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   func_0207ADC4  0x0207ADC4  arm
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   func_02047AC8  0x02047AC8  arm
- *   d_021DE578  0x021DE578  data  ov021  a4
- *   d_021DE56C  0x021DE56C  data  ov021  a4
- *   d_021DAC80     0x021DAC80  data  a4
- *   d_021DAC94  0x021DAC94  data  ov021  a4
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
+ *   sFldeffIaigiriFileName  0x021DE578  data  ov021  a4
+ *   sIaigiriAnimeFiles  0x021DE56C  data  ov021  a4
+ *   sIaigiriFuncs     0x021DAC80  data  a4
+ *   sIaigiriDrawStatus  0x021DAC94  data  ov021  a4
  */
 #include "../ov010/fldmmdl_types.h"
 
@@ -92,7 +92,7 @@ typedef struct G3dObjectStatus {
 /* Fixed-point step added to the animation frame each update (one frame). */
 #define IAIGIRI_ANIME_STEP 0x1000
 
-/* Resources of the Cut effect (allocated 0x1C bytes by func_021C94BC). */
+/* Resources of the Cut effect (allocated 0x1C bytes by FLDEFF_IAIGIRI_Create). */
 typedef struct IaigiriRes {
     FieldEffectSys *fieldEffect;                   /* 0x00 */
     G3dResource *model;                            /* 0x04 */
@@ -114,45 +114,45 @@ typedef struct IaigiriTaskWork {
     G3dRender *render;                             /* 0x14 */
 } IaigiriTaskWork;
 
-extern u16 func_0216D5F8(const Mmdl *mmdl);
+extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
-extern ArcHandle *func_021ABE24(FieldEffectSys *fieldEffect);
-extern G3dResource *func_02046E24(ArcHandle *arc, u32 fileId);
-extern int func_02046FF8(G3dResource *res);
-extern G3dRender *func_02047400(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *func_02047564(G3dRender *render, const G3dResource *anmRes, int anmIdx);
-extern G3dObject *func_0204767C(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 func_020477A4(G3dObject *obj, u32 anmIdx);
-extern void func_0204762C(G3dAnime *anime);
-extern void func_02047738(G3dObject *obj);
-extern void func_02047504(G3dRender *render);
-extern int func_020470D0(G3dResource *res);
-extern void func_02046EFC(G3dResource *res);
-extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *out);
-extern void *func_021ABEA0(FieldEffectSys *fieldEffect, u32 effectId);
-extern void func_021ABFA8(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
-extern void *func_021AC1AC(FieldEffectObj *effect);
-extern void func_021AC1CC(FieldEffectObj *effect, const VecFx32 *pos);
-extern void func_021AC154(FieldEffectObj *effect);
-extern int func_020478B8(G3dObject *obj, int anmIdx, fx32 step);
+extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
+extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
+extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
+extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
+extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
+extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
+extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
+extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 arg4, void *param, u32 priority);
+extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
+extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
+extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
 extern void func_0207ADC4(MtxFx33 *mtx);
-extern void func_021AC1B8(FieldEffectObj *effect, VecFx32 *out);
-extern int func_02047AC8(G3dObject *obj, G3dObjectStatus *status);
+extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
+extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 
-IaigiriRes *func_021C94BC(FieldEffectSys *fieldEffect, u32 heapId);
-void func_021C94E0(FieldEffectSys *fieldEffect, IaigiriRes *res);
-void func_021C94F4(IaigiriRes *res);
-void func_021C952C(IaigiriRes *res);
-void func_021C9550(const Mmdl *mmdl, FieldEffectSys *fieldEffect);
-void func_021C95D8(FieldEffectObj *effect, IaigiriTaskWork *work);
-void func_021C963C(void *task, IaigiriTaskWork *work);
-void func_021C9660(FieldEffectObj *effect, IaigiriTaskWork *work);
-void func_021C9690(FieldEffectObj *effect, IaigiriTaskWork *work);
-extern char d_021DE578[];                              /* source file name for the heap allocator */
-extern u32 d_021DE56C[IAIGIRI_ANIME_COUNT];            /* animation file ids */
-extern const FieldEffectObjFuncs d_021DAC80;           /* effect callbacks */
-extern G3dObjectStatus d_021DAC94;                     /* draw status template */
+IaigiriRes *FLDEFF_IAIGIRI_Create(FieldEffectSys *fieldEffect, u32 heapId);
+void FLDEFF_IAIGIRI_Delete(FieldEffectSys *fieldEffect, IaigiriRes *res);
+void FLDEFF_IAIGIRI_LoadResources(IaigiriRes *res);
+void FLDEFF_IAIGIRI_FreeResources(IaigiriRes *res);
+void FLDEFF_IAIGIRI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect);
+void FLDEFF_IAIGIRI_Init(FieldEffectObj *effect, IaigiriTaskWork *work);
+void FLDEFF_IAIGIRI_Exit(void *task, IaigiriTaskWork *work);
+void FLDEFF_IAIGIRI_Update(FieldEffectObj *effect, IaigiriTaskWork *work);
+void FLDEFF_IAIGIRI_Draw(FieldEffectObj *effect, IaigiriTaskWork *work);
+extern char sFldeffIaigiriFileName[];                              /* source file name for the heap allocator */
+extern u32 sIaigiriAnimeFiles[IAIGIRI_ANIME_COUNT];            /* animation file ids */
+extern const FieldEffectObjFuncs sIaigiriFuncs;           /* effect callbacks */
+extern G3dObjectStatus sIaigiriDrawStatus;                     /* draw status template */
 
 
 
@@ -160,11 +160,11 @@ extern G3dObjectStatus d_021DAC94;                     /* draw status template *
 
 
 /* Loads the resources of the Cut effect. */
-IaigiriRes *func_021C94BC(FieldEffectSys *fieldEffect, u32 heapId)
+IaigiriRes *FLDEFF_IAIGIRI_Create(FieldEffectSys *fieldEffect, u32 heapId)
 {
-    IaigiriRes *res = func_02030734(heapId, 0x1c, 1, d_021DE578, 0x66);
+    IaigiriRes *res = func_02030734(heapId, 0x1c, 1, sFldeffIaigiriFileName, 0x66);
     res->fieldEffect = fieldEffect;
-    func_021C94F4(res);
+    FLDEFF_IAIGIRI_LoadResources(res);
     return res;
 }
 
@@ -173,9 +173,9 @@ IaigiriRes *func_021C94BC(FieldEffectSys *fieldEffect, u32 heapId)
 
 
 
-void func_021C94E0(FieldEffectSys *fieldEffect, IaigiriRes *res)
+void FLDEFF_IAIGIRI_Delete(FieldEffectSys *fieldEffect, IaigiriRes *res)
 {
-    func_021C952C(res);
+    FLDEFF_IAIGIRI_FreeResources(res);
     func_020307B0(res);
 }
 
@@ -184,14 +184,14 @@ void func_021C94E0(FieldEffectSys *fieldEffect, IaigiriRes *res)
 
 
 
-void func_021C94F4(IaigiriRes *res)
+void FLDEFF_IAIGIRI_LoadResources(IaigiriRes *res)
 {
-    ArcHandle *arc = func_021ABE24(res->fieldEffect);
+    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     int i;
-    res->model = func_02046E24(arc, IAIGIRI_MODEL_FILE);
-    func_02046FF8(res->model);
+    res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, IAIGIRI_MODEL_FILE);
+    G3D_SYSTEM_TransVramTexture(res->model);
     for (i = 0; i < IAIGIRI_ANIME_COUNT; i++)
-        res->anime[i] = func_02046E24(arc, d_021DE56C[i]);
+        res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, sIaigiriAnimeFiles[i]);
 }
 
 
@@ -199,13 +199,13 @@ void func_021C94F4(IaigiriRes *res)
 
 
 
-void func_021C952C(IaigiriRes *res)
+void FLDEFF_IAIGIRI_FreeResources(IaigiriRes *res)
 {
     int i;
     for (i = 0; i < IAIGIRI_ANIME_COUNT; i++)
-        func_02046EFC(res->anime[i]);
-    func_020470D0(res->model);
-    func_02046EFC(res->model);
+        G3D_SYSTEM_DeleteResource(res->anime[i]);
+    G3D_SYSTEM_FreeVramTexture(res->model);
+    G3D_SYSTEM_DeleteResource(res->model);
 }
 
 
@@ -214,13 +214,13 @@ void func_021C952C(IaigiriRes *res)
 
 
 /* Starts the effect on the tile in front of the model. */
-void func_021C9550(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
+void FLDEFF_IAIGIRI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
 {
     VecFx32 pos;
     IaigiriStartParam param;
 
-    func_0216D88C(mmdl, &pos);
-    switch (func_0216D5F8(mmdl)) {
+    FLDMMDL_GetPos(mmdl, &pos);
+    switch (FLDMMDL_GetDirDisp(mmdl)) {
     case IAIGIRI_DIR_UP:
         pos.z -= IAIGIRI_TILE_SIZE;
         break;
@@ -234,9 +234,9 @@ void func_021C9550(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
         pos.x += IAIGIRI_TILE_SIZE;
         break;
     }
-    param.res = func_021ABEA0(fieldEffect, FLDEFF_ID_IAIGIRI);
+    param.res = FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_IAIGIRI);
     param.pos = pos;
-    func_021ABFA8(fieldEffect, &d_021DAC80, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(fieldEffect, &sIaigiriFuncs, 0, 0, &param, 0);
 }
 
 
@@ -249,19 +249,19 @@ void func_021C9550(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
  * loop's counter initialised to 0 and shared as the first loop's constant 0
  * argument; both loops use one counter i.
  */
-void func_021C95D8(FieldEffectObj *effect, IaigiriTaskWork *work)
+void FLDEFF_IAIGIRI_Init(FieldEffectObj *effect, IaigiriTaskWork *work)
 {
-    IaigiriStartParam *param = func_021AC1AC(effect);
+    IaigiriStartParam *param = FIELD_EFFECT_GetObjectParam(effect);
     int i;
 
     work->res = param->res;
-    func_021AC1CC(effect, &param->pos);
-    work->render = func_02047400(work->res->model, 0, work->res->model);
+    FIELD_EFFECT_SetObjectPos(effect, &param->pos);
+    work->render = G3D_SYSTEM_CreateRender(work->res->model, 0, work->res->model);
     for (i = 0; i < IAIGIRI_ANIME_COUNT; i++)
-        work->anime[i] = func_02047564(work->render, work->res->anime[i], 0);
-    work->object = func_0204767C(work->render, work->anime, IAIGIRI_ANIME_COUNT);
+        work->anime[i] = G3D_SYSTEM_CreateAnime(work->render, work->res->anime[i], 0);
+    work->object = G3D_SYSTEM_CreateObject(work->render, work->anime, IAIGIRI_ANIME_COUNT);
     for (i = 0; i < IAIGIRI_ANIME_COUNT; i++)
-        func_020477A4(work->object, (u16)i);
+        G3D_SYSTEM_EnableObjectAnime(work->object, (u16)i);
 }
 
 
@@ -270,13 +270,13 @@ void func_021C95D8(FieldEffectObj *effect, IaigiriTaskWork *work)
 
 
 /* Effect exit. */
-void func_021C963C(void *task, IaigiriTaskWork *work)
+void FLDEFF_IAIGIRI_Exit(void *task, IaigiriTaskWork *work)
 {
     int i;
     for (i = 0; i < IAIGIRI_ANIME_COUNT; i++)
-        func_0204762C(work->anime[i]);
-    func_02047738(work->object);
-    func_02047504(work->render);
+        G3D_SYSTEM_DeleteAnime(work->anime[i]);
+    G3D_SYSTEM_DeleteObject(work->object);
+    G3D_SYSTEM_DeleteRender(work->render);
 }
 
 
@@ -285,16 +285,16 @@ void func_021C963C(void *task, IaigiriTaskWork *work)
 
 
 /* Effect update: advances the animations and ends the effect when all are done. */
-void func_021C9660(FieldEffectObj *effect, IaigiriTaskWork *work)
+void FLDEFF_IAIGIRI_Update(FieldEffectObj *effect, IaigiriTaskWork *work)
 {
     int done = 1;
     int i;
     for (i = 0; i < IAIGIRI_ANIME_COUNT; i++) {
-        if (func_020478B8(work->object, (u16)i, IAIGIRI_ANIME_STEP) == 1)
+        if (G3D_SYSTEM_IncObjectAnimeFrame(work->object, (u16)i, IAIGIRI_ANIME_STEP) == 1)
             done = 0;
     }
     if (done)
-        func_021AC154(effect);
+        FIELD_EFFECT_DeleteObject(effect);
 }
 
 
@@ -303,10 +303,10 @@ void func_021C9660(FieldEffectObj *effect, IaigiriTaskWork *work)
 
 
 /* Effect draw. */
-void func_021C9690(FieldEffectObj *effect, IaigiriTaskWork *work)
+void FLDEFF_IAIGIRI_Draw(FieldEffectObj *effect, IaigiriTaskWork *work)
 {
-    G3dObjectStatus status = d_021DAC94;
+    G3dObjectStatus status = sIaigiriDrawStatus;
     func_0207ADC4(&status.rotate);
-    func_021AC1B8(effect, &status.trans);
-    func_02047AC8(work->object, &status);
+    FIELD_EFFECT_GetObjectPos(effect, &status.trans);
+    G3D_SYSTEM_DrawObjectCulling(work->object, &status);
 }

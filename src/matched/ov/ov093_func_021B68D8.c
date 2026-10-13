@@ -1,5 +1,5 @@
 /*
- * function: func_021B68D8
+ * function: BTL_MAIN_InitClientParties
  * address:  0x021B68D8
  * packet:   pkt_ov093_021B68D8
  * region:   ov093
@@ -27,7 +27,7 @@ extern u8 func_021BA710(int a, int b);
 struct S;
 extern void func_021BA128(struct S *p, int i, void *x);
 
-void func_021B68D8(u8 *s, struct T *t)
+void BTL_MAIN_InitClientParties(u8 *s, struct T *t)
 {
     int a, b, c, d;
 

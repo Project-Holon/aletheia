@@ -13,7 +13,7 @@
  *   TCBL_GetWork 0x02031290 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   func_021BD768 0x021BD768 thumb ov216
- *   func_021B64A8 0x021B64A8 thumb ov067
+ *   TOUCHBAR_SetAllButtonsEnabled 0x021B64A8 thumb ov067
  */
 #include "../include/Obj10949.h"
 #include "../include/Obj14720.h"
@@ -26,7 +26,7 @@ extern struct TcblNode *sub_020311B8(struct Tcbl *, void (*)(struct TcblNode *, 
 extern void *TCBL_GetWork(struct S02030FB4 *);
 extern void MI_CpuFill8(void *, int, int);
 extern void func_021BD768(struct TcblNode *, void *);
-extern void func_021B64A8(u8 *, u32);
+extern void TOUCHBAR_SetAllButtonsEnabled(u8 *, u32);
 void func_021BD6FC(char *owner, int *counter)
 {
     char *work;
@@ -34,7 +34,7 @@ void func_021BD6FC(char *owner, int *counter)
     MI_CpuFill8(work, 0, 16);
     *(char * *)&((struct Obj10949 *)work)->f8 = owner;
     ((struct Obj10949 *)work)->f1 = 150;
-    func_021B64A8(*(u8 * *)&((struct Obj14720 *)owner)->f124, 0);
+    TOUCHBAR_SetAllButtonsEnabled(*(u8 * *)&((struct Obj14720 *)owner)->f124, 0);
     *(int * *)&((struct Obj10949 *)work)->fC = counter;
     ++*counter;
 }

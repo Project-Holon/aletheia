@@ -17,8 +17,8 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02040618 0x02040618 arm
  *   func_02049658 0x02049658 arm
- *   func_020450F0 0x020450F0 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BGWINFRM_AddFrame 0x0202CA3C thumb
  *   BGWINFRM_SetFrameDataArcHandle 0x0202CB18 thumb
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
@@ -36,9 +36,9 @@ extern void func_021BC068(u8 *,void *);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02040618(u32,u32,u32);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Cfg;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_021BC120(u8 *);
 extern void func_021BC160(void *);
 extern void func_021BC23C(void *);
@@ -57,10 +57,10 @@ void func_021BBD60(u8 *p,u32 a)
     func_02040618(4,3,((struct Obj01922 *)p)->f19A);
     func_02049658((void *)a,14,0,0,0,0,42);
     func_02049658((void *)a,14,4,0,0,0,42);
-    *(u32 *)&((struct Obj01922 *)p)->fC=func_020450F0(0,3,1,28,4,0,1);
-    *(u32 *)&((struct Obj01922 *)p)->f10=func_020450F0(4,3,1,28,4,0,1);
-    func_02045374(((struct Obj01922 *)p)->fC);
-    func_02045374(((struct Obj01922 *)p)->f10);
+    *(u32 *)&((struct Obj01922 *)p)->fC=BMP_WIN_Create(0,3,1,28,4,0,1);
+    *(u32 *)&((struct Obj01922 *)p)->f10=BMP_WIN_Create(4,3,1,28,4,0,1);
+    BMP_WIN_MakeScreen(((struct Obj01922 *)p)->fC);
+    BMP_WIN_MakeScreen(((struct Obj01922 *)p)->f10);
     func_021BC120(p);
     func_021BC160(p);
     func_021BC23C(p);

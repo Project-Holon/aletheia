@@ -1,5 +1,5 @@
 /*
- * function: func_0218C490
+ * function: FIELD_BUILDMODEL_ClearEntry
  * address:  0x0218C490
  * packet:   pkt_ov021_0218C490
  * region:   ov021
@@ -18,7 +18,7 @@ typedef struct {
     int e;
 } S;
 
-void func_0218C490(int unused, S *s)
+void FIELD_BUILDMODEL_ClearEntry(int unused, S *s)
 {
     s->a = 0;
     s->b = -1;

@@ -12,9 +12,9 @@
  * Six-window twin of func_021B86E8.
  *
  * symbols:
- *   func_020450F0  0x020450F0  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
  */
 
@@ -32,30 +32,30 @@ struct Descriptor;
 struct Cfg;
 void func_021B8B08(int unused, P *p)
 {
-    extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-    extern void func_02045334(struct Descriptor *);
-    extern void func_02045374(struct Cfg *cfg);
+    extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+    extern void BMP_WIN_TransferChars(struct Descriptor *);
+    extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
     extern void func_020409B4(u32 index);
     int i;
 
-    p->h[0] = func_020450F0(4, 2, 0, 0x1e, 3, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[0]);
-    func_02045374((struct Cfg *)p->h[0]);
-    p->h[1] = func_020450F0(4, 2, 5, 0x1e, 2, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[1]);
-    func_02045374((struct Cfg *)p->h[1]);
-    p->h[2] = func_020450F0(4, 2, 8, 0x1e, 2, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[2]);
-    func_02045374((struct Cfg *)p->h[2]);
-    p->h[3] = func_020450F0(4, 2, 0xe, 0x1e, 4, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[3]);
-    func_02045374((struct Cfg *)p->h[3]);
-    p->h[4] = func_020450F0(4, 2, 0x10, 0x1e, 2, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[4]);
-    func_02045374((struct Cfg *)p->h[4]);
-    p->h[5] = func_020450F0(4, 2, 0x12, 0x1e, 2, 0xd, 1);
-    func_02045334((struct Descriptor *)p->h[5]);
-    func_02045374((struct Cfg *)p->h[5]);
+    p->h[0] = BMP_WIN_Create(4, 2, 0, 0x1e, 3, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[0]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[0]);
+    p->h[1] = BMP_WIN_Create(4, 2, 5, 0x1e, 2, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[1]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[1]);
+    p->h[2] = BMP_WIN_Create(4, 2, 8, 0x1e, 2, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[2]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[2]);
+    p->h[3] = BMP_WIN_Create(4, 2, 0xe, 0x1e, 4, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[3]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[3]);
+    p->h[4] = BMP_WIN_Create(4, 2, 0x10, 0x1e, 2, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[4]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[4]);
+    p->h[5] = BMP_WIN_Create(4, 2, 0x12, 0x1e, 2, 0xd, 1);
+    BMP_WIN_TransferChars((struct Descriptor *)p->h[5]);
+    BMP_WIN_MakeScreen((struct Cfg *)p->h[5]);
     for (i = 0; i < 6; i++) {
         p->e[i].h = p->h[i];
         p->e[i].on = 0;

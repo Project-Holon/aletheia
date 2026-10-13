@@ -1,5 +1,5 @@
 /*
- * function: func_021BE288
+ * function: FIELD_GIMMICK_IsGimmickId
  * address:  0x021BE288
  * packet:   pkt_021BE288
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   func_0200B3AC  0x0200B3AC  thumb
  * Addresses are Black-image addresses.
  */
@@ -29,13 +29,13 @@ struct Big;
 struct Ctx;
 struct Rec94;
 extern s32 func_0200B3AC(struct Rec94 *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern void *func_02188C80(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
 
-int func_021BE288(u8 *a, int b)
+int FIELD_GIMMICK_IsGimmickId(u8 *a, int b)
 {
-if (b == func_0200B3AC((struct Rec94 *)func_02012EC4(func_020120F4((const struct Ctx *)func_02188C80((void *)a))))) {
+if (b == func_0200B3AC((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem((void *)a))))) {
     return 1;
 }
 return 0;

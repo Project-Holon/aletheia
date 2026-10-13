@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02082A48  0x02082A48  arm
- *   func_021B8588  0x021B8588  thumb
+ *   BTL_MAIN_GetRule  0x021B8588  thumb
  *   func_021B86B8  0x021B86B8  thumb
  *   func_021B8D8C  0x021B8D8C  thumb
  *   func_021B8E70  0x021B8E70  thumb
@@ -28,20 +28,20 @@
  *   func_021B9B94  0x021B9B94  thumb
  *   func_021B9C00  0x021B9C00  thumb
  *   func_021D3D84  0x021D3D84  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021D5444  0x021D5444  thumb
- *   func_021D5864  0x021D5864  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb
  *   func_021D59B4  0x021D59B4  thumb
- *   func_021D5B68  0x021D5B68  thumb
- *   func_021D5B7C  0x021D5B7C  thumb
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
+ *   BTL_POKEPARAM_IsAbleToBattle  0x021D5B7C  thumb
  *   func_021D62A8  0x021D62A8  thumb
  *   func_021F81EC  0x021F81EC  thumb
  *   func_0220270C  0x0220270C  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_022021F4  0x022021F4  thumb
- *   func_021D8434  0x021D8434  thumb
+ *   BTL_CALC_ActionSetNone  0x021D8434  thumb
  *   func_0689A76C  0x0689A76C  thumb  ov095
  *   func_0689A84C  0x0689A84C  thumb  ov095
  *   func_0689A988 0x0689A988 thumb ov095
@@ -100,7 +100,7 @@ typedef struct { u8 bytes[12]; } Rec;
 typedef struct { Rec rows[2][6]; u32 f90, f94; u32 ids[3], names[3], values[3]; u32 fbc, fc0; u8 fc4, fc5, pad[2]; } Payload;
 
 extern void func_0201C4C0(u32);
-extern void func_02045808(u32);
+extern void STRBUF_Delete(u32);
 extern void func_022021F4(u32);
 extern void func_020307B0(void *);
 extern int func_0689A76C(void *, void *);
@@ -109,31 +109,31 @@ extern int func_0689A988(void *, void *);
 extern int func_0689A878(void *, void *);
 extern int func_0689ABA0(void *, void *);
 extern int func_0689AB48(void *, void *);
-extern void func_021D8434(void *);
+extern void BTL_CALC_ActionSetNone(void *);
 extern int func_0689B0D4(void *, void *);
 extern int func_0689B1E4(void *, void *);
 extern void func_02082A48(u32, void *, u32);
-extern u8 func_021D5440(void *);
+extern u8 BTL_POKEPARAM_GetPokeId(void *);
 extern u32 func_021B8D8C(void *, void *, u32);
 extern u8 func_021B8E70(void *, u32);
 extern void func_021F81EC(u32);
-extern u32 func_021B8588(void *);
+extern u32 BTL_MAIN_GetRule(void *);
 extern u32 func_021B8FF4(void *);
 extern u32 func_021B9000(void *);
 extern void *func_021B9AF8(void *, int);
 extern u32 func_021B9B94(void *);
 extern u8 func_021B8ED8(void *, u32);
 extern void *func_021B98AC(void *, u32);
-extern int func_021D5B68(void *);
-extern u32 func_021D5444(void *);
-extern void *func_021D5864(void *);
-extern u32 func_02017E1C(void *, int, int);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern u32 BTL_POKEPARAM_GetSpecies(void *);
+extern void *BTL_POKEPARAM_GetDisplayMon(void *);
+extern u32 POKE_TOOL_GetPartyValue(void *, int, int);
 extern u32 func_021D59B4(void *, int);
 extern u32 func_021B86B8(void *);
 extern u8 func_021B904C(void *, int);
 extern void *func_021B9C00(void *, u8);
 extern int func_021D62A8(void *);
-extern int func_021D5B7C(void *);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *);
 extern u8 func_021D3D84(void *);
 extern void func_0220270C(void *, int, void *);
 void func_06899DD8(unsigned char *p);
@@ -155,7 +155,7 @@ int func_0689A030(void *unused, void *arg);
 
 void func_06899DD8(unsigned char *p) {
  func_0201C4C0(((struct Obj10162 *)p)->f14);
- func_02045808(((struct Obj10162 *)p)->fC);
+ STRBUF_Delete(((struct Obj10162 *)p)->fC);
  func_022021F4(((struct Obj10162 *)p)->fB0);
  func_020307B0(p);
 }
@@ -265,9 +265,9 @@ void func_06899F64(Obj *s, u8 *a, void *b)
     s->f7c = a;
     s->f70 = b;
     s->f68 = (void *)func_0689ABA0;
-    func_021D8434(b);
-    func_021D8434(a + 0x18);
-    func_021D8434(a + 0x1c);
+    BTL_CALC_ActionSetNone(b);
+    BTL_CALC_ActionSetNone(a + 0x18);
+    BTL_CALC_ActionSetNone(a + 0x1c);
     func_06899E48(s, func_0689AB48, func_0689ABA0);
 }
 
@@ -334,11 +334,11 @@ int func_0689A030(void *unused, void *arg)
     func_02082A48(0, &out, 200);
     out.fc0 = p[0x90];
     out.fc4 = p[0x91];
-    first = func_021D5440(*(void **)(p + 0x6c));
+    first = BTL_POKEPARAM_GetPokeId(*(void **)(p + 0x6c));
     first = func_021B8D8C(*(void **)(p + 0xa0), *(void **)(p + 0xa4), first);
     out.fbc = func_021B8E70(*(void **)(p + 0xa0), first);
     func_021F81EC(out.fbc);
-    mode = func_021B8588(*(void **)(p + 0xa0));
+    mode = BTL_MAIN_GetRule(*(void **)(p + 0xa0));
     for (; pass < 2; pass++) {
         groups[0] = 0;
         groups[1] = 0;
@@ -365,33 +365,33 @@ int func_0689A030(void *unused, void *arg)
             case 0:
                 slot = func_021B8ED8(*(void **)(p + 0xa0), 0);
                 mon = func_021B98AC(*(void **)(p + 0xa4), slot);
-                if (func_021D5B68(mon) == 0) {
-                    out.ids[0] = func_021D5444(mon);
-                    out.names[0] = func_02017E1C(func_021D5864(mon), 111, 0);
+                if (BTL_POKEPARAM_IsFainted(mon) == 0) {
+                    out.ids[0] = BTL_POKEPARAM_GetSpecies(mon);
+                    out.names[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
                     out.values[0] = func_021D59B4(mon, 18);
                 }
                 break;
             case 2:
                 slot = func_021B8ED8(*(void **)(p + 0xa0), 6);
                 mon = func_021B98AC(*(void **)(p + 0xa4), slot);
-                if (func_021D5B68(mon) == 0) {
-                    out.ids[2] = func_021D5444(mon);
-                    out.names[2] = func_02017E1C(func_021D5864(mon), 111, 0);
+                if (BTL_POKEPARAM_IsFainted(mon) == 0) {
+                    out.ids[2] = BTL_POKEPARAM_GetSpecies(mon);
+                    out.names[2] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
                     out.values[2] = func_021D59B4(mon, 18);
                 }
             case 1: case 3:
                 slot = func_021B8ED8(*(void **)(p + 0xa0), 2);
                 mon = func_021B98AC(*(void **)(p + 0xa4), slot);
-                if (func_021D5B68(mon) == 0) {
-                    out.ids[0] = func_021D5444(mon);
-                    out.names[0] = func_02017E1C(func_021D5864(mon), 111, 0);
+                if (BTL_POKEPARAM_IsFainted(mon) == 0) {
+                    out.ids[0] = BTL_POKEPARAM_GetSpecies(mon);
+                    out.names[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
                     out.values[0] = func_021D59B4(mon, 18);
                 }
                 slot = func_021B8ED8(*(void **)(p + 0xa0), 4);
                 mon = func_021B98AC(*(void **)(p + 0xa4), slot);
-                if (func_021D5B68(mon) == 0) {
-                    out.ids[1] = func_021D5444(mon);
-                    out.names[1] = func_02017E1C(func_021D5864(mon), 111, 0);
+                if (BTL_POKEPARAM_IsFainted(mon) == 0) {
+                    out.ids[1] = BTL_POKEPARAM_GetSpecies(mon);
+                    out.names[1] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
                     out.values[1] = func_021D59B4(mon, 18);
                 }
                 break;
@@ -419,9 +419,9 @@ int func_0689A030(void *unused, void *arg)
             if (index < counts[0]) { side = 0; slot = index; }
             else { side = 1; slot = index - counts[0]; }
             mon = func_021B9C00(groups[side], slot);
-            if (func_021D5B68(mon) == 0) {
+            if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                 if (func_021D62A8(mon) != 0) out.rows[pass][side * 3 + slot].bytes[1] = 3;
-                else if (func_021D5B7C(mon) == 0) out.rows[pass][side * 3 + slot].bytes[1] = 0;
+                else if (BTL_POKEPARAM_IsAbleToBattle(mon) == 0) out.rows[pass][side * 3 + slot].bytes[1] = 0;
                 else out.rows[pass][side * 3 + slot].bytes[1] = 1;
             } else out.rows[pass][side * 3 + slot].bytes[1] = 2;
         }

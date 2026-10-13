@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled arm9 leaf, filed as the relocation witness for arm9 func_0202B934 (ov021 func_021C4E34)
+ * Unlabelled arm9 leaf, filed as the relocation witness for arm9 ISS_3DS_SYS_SetSourcePos (ov021 SOUND_OBJ_ApplyPosition)
  * (wave A1, lane 13).
  */
 

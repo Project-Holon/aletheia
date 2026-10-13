@@ -1,5 +1,5 @@
 /*
- * function: func_02165EBC
+ * function: GAME_BEACON_ACCESSOR_GetDistributionSerial
  * address:  0x02165EBC
  * packet:   pkt_ov010_02165EBC
  * region:   ov010
@@ -27,7 +27,7 @@ typedef struct Rec {
     u16 f38;            /* 0x38 */
 } Rec;
 
-u16 func_02165EBC(Rec *r)
+u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(Rec *r)
 {
     if (r->type == 0x32)
         return r->f38;

@@ -1,5 +1,5 @@
 /*
- * function: func_021CC098
+ * function: FLD_TRADE_BuildPokemon
  * address:  0x021CC098
  * packet:   pkt_ov021_021CC098
  * region:   ov021
@@ -14,18 +14,18 @@
  * set the two nickname strings and the trainer info, recalc.
  *
  * symbols:
- *   func_0201862C  0x0201862C  thumb
- *   func_02017588  0x02017588  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_021CC23C  0x021CC23C  thumb  ov021
- *   func_021CC070  0x021CC070  thumb  ov021
- *   func_02045808  0x02045808  arm
+ *   POKE_TOOL_AdjustPersonalRnd  0x0201862C  thumb
+ *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   FLD_TRADE_DumpPokemonParams  0x021CC23C  thumb  ov021
+ *   FLD_TRADE_GetMessageString  0x021CC070  thumb  ov021
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201ADE4  0x0201ADE4  thumb
  *   func_0201AE1C  0x0201AE1C  thumb
  *   func_0201AE14  0x0201AE14  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_0202F190  0x0202F190  thumb
- *   func_020185C4  0x020185C4  thumb
+ *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -55,42 +55,42 @@ typedef struct {
     u32 f68;
 } Spec;
 
-extern u32 func_0201862C(u32 id, u16 species, u16 level, u8 a3, u8 a4, int a5);
+extern u32 POKE_TOOL_AdjustPersonalRnd(u32 id, u16 species, u16 level, u8 a3, u8 a4, int a5);
 struct Mon;
-extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void func_02017E40(void *mon, u32 field, u32 v);
+extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
+extern void POKE_TOOL_SetPartyValue(void *mon, u32 field, u32 v);
 struct Personal;
 struct U16Vec;
-extern void func_021CC23C(int obj);
-extern void *func_021CC070(u32 file, u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void FLD_TRADE_DumpPokemonParams(int obj);
+extern void *FLD_TRADE_GetMessageString(u32 file, u32 index);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_0202F190(void *mon, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void func_020185C4(void *mon);
+extern void POKE_TOOL_RecalcParam(void *mon);
 
-void func_021CC098(void *sys, u16 b, void *mon, Spec *d)
+void FLD_TRADE_BuildPokemon(void *sys, u16 b, void *mon, Spec *d)
 {
     u32 pid;
     u32 s;
     u32 x;
     u32 v[3];
 
-    pid = func_0201862C(d->id, d->species, d->level, d->f30, 0, 0);
-    func_02017588(mon, d->species, d->f0C, d->id, 0xFFFFFFFF, pid);
-    func_02017E40(mon, 0x6F, d->level);
-    func_021CC23C((int)mon);
-    s = (u32)func_021CC070(b, d->f64);
-    func_02017E40(mon, 0x73, s);
-    func_02045808((struct U16Vec *)s);
-    func_02017E40(mon, 0x46, d->f10[0]);
-    func_02017E40(mon, 0x47, d->f10[1]);
-    func_02017E40(mon, 0x48, d->f10[2]);
-    func_02017E40(mon, 0x49, d->f10[3]);
-    func_02017E40(mon, 0x4A, d->f10[4]);
-    func_02017E40(mon, 0x4B, d->f10[5]);
+    pid = POKE_TOOL_AdjustPersonalRnd(d->id, d->species, d->level, d->f30, 0, 0);
+    POKE_TOOL_SetupPartyParamEx(mon, d->species, d->f0C, d->id, 0xFFFFFFFF, pid);
+    POKE_TOOL_SetPartyValue(mon, 0x6F, d->level);
+    FLD_TRADE_DumpPokemonParams((int)mon);
+    s = (u32)FLD_TRADE_GetMessageString(b, d->f64);
+    POKE_TOOL_SetPartyValue(mon, 0x73, s);
+    STRBUF_Delete((struct U16Vec *)s);
+    POKE_TOOL_SetPartyValue(mon, 0x46, d->f10[0]);
+    POKE_TOOL_SetPartyValue(mon, 0x47, d->f10[1]);
+    POKE_TOOL_SetPartyValue(mon, 0x48, d->f10[2]);
+    POKE_TOOL_SetPartyValue(mon, 0x49, d->f10[3]);
+    POKE_TOOL_SetPartyValue(mon, 0x4A, d->f10[4]);
+    POKE_TOOL_SetPartyValue(mon, 0x4B, d->f10[5]);
     x = (u32)func_0201ADE4((u16)d->species, (u16)d->level, b);
     v[0] = func_0201AE1C((const struct Personal *)x, 0x1A);
     v[1] = func_0201AE1C((const struct Personal *)x, 0x1B);
@@ -106,20 +106,20 @@ void func_021CC098(void *sys, u16 b, void *mon, Spec *d)
         v[0] = v[2];
         break;
     }
-    func_02017E40(mon, 0xA, v[0]);
-    func_02017E40(mon, 0x70, d->f2C);
-    func_02017E40(mon, 0x13, d->f38[0]);
-    func_02017E40(mon, 0x14, d->f38[1]);
-    func_02017E40(mon, 0x15, d->f38[2]);
-    func_02017E40(mon, 0x16, d->f38[3]);
-    func_02017E40(mon, 0x17, d->f38[4]);
-    func_02017E40(mon, 0x6, d->f4C);
-    s = (u32)func_021CC070(b, d->f68);
-    func_02017E40(mon, 0x8D, s);
-    func_02045808((struct U16Vec *)s);
-    func_02017E40(mon, 0x9A, d->f50);
-    func_02017E40(mon, 0xC, d->f58);
-    func_0202F190(mon, 1, (u32)func_02012944(sys), 0x7532, b);
-    func_021CC23C((int)mon);
-    func_020185C4(mon);
+    POKE_TOOL_SetPartyValue(mon, 0xA, v[0]);
+    POKE_TOOL_SetPartyValue(mon, 0x70, d->f2C);
+    POKE_TOOL_SetPartyValue(mon, 0x13, d->f38[0]);
+    POKE_TOOL_SetPartyValue(mon, 0x14, d->f38[1]);
+    POKE_TOOL_SetPartyValue(mon, 0x15, d->f38[2]);
+    POKE_TOOL_SetPartyValue(mon, 0x16, d->f38[3]);
+    POKE_TOOL_SetPartyValue(mon, 0x17, d->f38[4]);
+    POKE_TOOL_SetPartyValue(mon, 0x6, d->f4C);
+    s = (u32)FLD_TRADE_GetMessageString(b, d->f68);
+    POKE_TOOL_SetPartyValue(mon, 0x8D, s);
+    STRBUF_Delete((struct U16Vec *)s);
+    POKE_TOOL_SetPartyValue(mon, 0x9A, d->f50);
+    POKE_TOOL_SetPartyValue(mon, 0xC, d->f58);
+    func_0202F190(mon, 1, (u32)GAME_DATA_GetMyStatus(sys), 0x7532, b);
+    FLD_TRADE_DumpPokemonParams((int)mon);
+    POKE_TOOL_RecalcParam(mon);
 }

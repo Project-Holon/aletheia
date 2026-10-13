@@ -1,5 +1,5 @@
 /*
- * function: func_021D4F84
+ * function: BTL_POKEPARAM_LoadMoves
  * address: 0x021D4F84
  * packet: pkt_ov093_021D4F84
  * region: ov093
@@ -10,7 +10,7 @@
  * symbols:
  *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
- *   func_021D5244 0x021D5244 thumb ov093
+ *   BTL_POKEPARAM_LoadMoveInfo 0x021D5244 thumb ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct Ent {u16 h[6]; u8 fC,fD;};
@@ -18,8 +18,8 @@ struct Bits {u8 lo:4,hi:4;};
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-extern int func_021D5244(struct Ent *,void *,u8);
-int func_021D4F84(u8 *p, void *h, int reset)
+extern int BTL_POKEPARAM_LoadMoveInfo(struct Ent *,void *,u8);
+int BTL_POKEPARAM_LoadMoves(u8 *p, void *h, int reset)
 {
     u8 t = POKE_TOOL_DecodePartyParam(h);
     u32 count = 0;
@@ -31,7 +31,7 @@ int func_021D4F84(u8 *p, void *h, int reset)
         }
     }
     for (i = 0; i < 4; i++) {
-        if (func_021D5244(&((struct Ent *)(p + 0x104))[i],h,i)) count++;
+        if (BTL_POKEPARAM_LoadMoveInfo(&((struct Ent *)(p + 0x104))[i],h,i)) count++;
     }
     if (reset) {
         for (i = 0; i < 4; i++) {

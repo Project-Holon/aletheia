@@ -15,20 +15,20 @@
  * func_020061F8.
  *
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   func_020061F8 0x020061F8 thumb
  */
 #include "../include/Obj21673.h"
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void GFL_USE_StopAllSe(void);
 extern void func_020061F8(int i);
 
 int func_021FBAD8(void *a, char *s)
 {
-    int r = func_0201134C(a);
+    int r = VM_GetU32(a);
 
     if (r == 5)
         GFL_USE_StopAllSe();

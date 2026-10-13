@@ -52,7 +52,7 @@
    "status": "EXACT",
    "functions": [
     "POKE_TOOL_RecoverBoxAllPP",
-    "func_020181F4",
+    "POKE_TOOL_SetMoveSlot",
     "POKE_TOOL_SetBoxMoveSlot"
    ],
    "addresses": [
@@ -93,7 +93,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_0201850C"
+    "POKE_TOOL_CalcLevelFromExp"
+   ],
+   "addresses": [
+    "0x0201850C"
    ]
   }
  ]

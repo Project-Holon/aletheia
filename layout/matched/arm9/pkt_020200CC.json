@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020200CC",
+   "name": "BMP_MENULIST_Main",
    "address": "0x020200CC",
    "kind": "game",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AA3FC",
+   "name": "FIELD_ENCOUNT_CheckEncountRoll",
    "address": "0x021AA3FC",
    "kind": "game",
    "region": "ov021",

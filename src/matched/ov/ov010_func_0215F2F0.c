@@ -1,5 +1,5 @@
 /*
- * function: func_0215F2F0
+ * function: SCRCMD_NETWORK_CmdLoadNpcTable
  * address: 0x0215F2F0
  * packet: pkt_ov010_0215F2F0
  * region: ov010
@@ -8,13 +8,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0215A5F4 0x0215A5F4 thumb ov010
- *   func_0204A1BC 0x0204A1BC arm
- *   func_02159114 0x02159114 thumb ov010
+ *   SCRCMD_WORK_GetScriptWork 0x0215A5F4 thumb ov010
+ *   ARC_UTIL_LoadMember 0x0204A1BC arm
+ *   SCRIPT_WORK_SetReturnFlag 0x02159114 thumb ov010
  */
 
-extern void *func_0215A5F4(void *p);
-extern int func_0204A1BC(int,int,int,int);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern int ARC_UTIL_LoadMember(int,int,int,int);
 typedef unsigned int   u32;
-extern void *func_02159114(void *p, u32 v);
-int func_0215F2F0(void *a, void *b) { void *p = func_0215A5F4(b); func_02159114(p,func_0204A1BC(0xd1,0,0,0x8004)); return 0; }
+extern void *SCRIPT_WORK_SetReturnFlag(void *p, u32 v);
+int SCRCMD_NETWORK_CmdLoadNpcTable(void *a, void *b) { void *p = SCRCMD_WORK_GetScriptWork(b); SCRIPT_WORK_SetReturnFlag(p,ARC_UTIL_LoadMember(0xd1,0,0,0x8004)); return 0; }

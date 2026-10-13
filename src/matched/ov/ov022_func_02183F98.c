@@ -1,5 +1,5 @@
 /*
- * function: func_02183F98
+ * function: UNION_APP_SetSetting
  * address:  0x02183F98
  * packet:   pkt_ov022_02183F98
  * region:   ov022
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void func_02082D44(const void *src, void *dst, u32 len);
 
-void func_02183F98(void *p, const void *value)
+void UNION_APP_SetSetting(void *p, const void *value)
 {
     func_02082D44(value, p, 4);
 }

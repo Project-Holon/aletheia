@@ -1,5 +1,5 @@
 /*
- * function: func_021D3068
+ * function: SCRCMD_StartEffectTaskB
  * address:  0x021D3068
  * packet:   pkt_ov021_021D3068
  * region:   ov021
@@ -10,29 +10,29 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021F3ADC  0x021F3ADC  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GIMMICK64_CreateWaitEndEvent  0x021F3ADC  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_021F3ADC(void *a);
-extern void func_0215897C(void *, void *);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *GIMMICK64_CreateWaitEndEvent(void *a);
+extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int func_021D3068(u32 a, u32 b)
+int SCRCMD_StartEffectTaskB(u32 a, u32 b)
 {
-    void *x = func_0215A5F4((void *)b);
-    void *t = func_021F3ADC(func_0215A5DC((void *)b));
+    void *x = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *t = GIMMICK64_CreateWaitEndEvent(SCRCMD_WORK_GetGameSystem((void *)b));
 
     if (t == 0) {
         return 1;
     }
-    func_0215897C(x, t);
+    SCRIPT_SYS_CallEvent(x, t);
     return 1;
 }

@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  *   func_021F9B9C 0x021F9B9C thumb ov186
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
- *   func_02025538 0x02025538 thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_0201C440 0x0201C440 thumb
  *   func_021FD760 0x021FD760 thumb ov186
  *   func_021FD6D8 0x021FD6D8 thumb ov186
@@ -26,9 +26,9 @@ typedef unsigned short u16;
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *, int, unsigned int);
-extern void *func_02025538(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 typedef unsigned int   u32;
 extern u32 func_0201C440(void *p);
 extern char *func_021FD760(unsigned owner, char *resources, int index, int heap);
@@ -38,12 +38,12 @@ extern void func_021DF0DC(int *p, int *state, char *q);
 extern void func_021DEB4C(int *task, int *state, char *p);
 int func_021DE9A0(void *a, int b, char *q)
 {
-    char *p = func_0203159C(a, 0x10C, func_021F9B9C(((struct Obj06605 *)q)->f14));
+    char *p = PROCSYS_AllocProcWork(a, 0x10C, func_021F9B9C(((struct Obj06605 *)q)->f14));
     int i;
     func_02082BCC(p, 0, 0x10C);
     *(char * *)&((struct Obj02229 *)p)->f108 = q;
     ((struct Obj02229 *)p)->f18 = func_021F9B9C(((struct Obj06605 *)q)->f14);
-    ((struct Obj02229 *)p)->f0 = func_02025538(((struct Obj02229 *)p)->f18, ((struct Obj06605 *)q)->fC);
+    ((struct Obj02229 *)p)->f0 = BMP_OAM_CreateSys(((struct Obj02229 *)p)->f18, ((struct Obj06605 *)q)->fC);
     ((struct Obj02229 *)p)->f14 = (void *)func_0201C440((void *)(((struct Obj02229 *)p)->f18));
     for (i = 0; i < 2; i++)
         *(void **)(p + i * 4 + 0x1C) = func_021FD760((unsigned int)(((struct Obj06605 *)q)->fC), (char *)(((struct Obj06605 *)q)->f10), i, ((struct Obj02229 *)p)->f18);

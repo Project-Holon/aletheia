@@ -9,7 +9,7 @@
  * status: EXACT
  * note: Loop bound remains g*h in the condition; caching the product adds a register copy and shifts the body. Callee widths follow caller truncations.
  * symbols:
- * func_0204A380 0x0204A380 arm
+ * ARC_UTIL_LoadHandleMember 0x0204A380 arm
  * func_02062B30 0x02062B30 arm
  * func_0204169C 0x0204169C arm
  * func_0204162C 0x0204162C arm
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern int func_02062B30(void *file, void **out);
 extern u8 func_0204169C(int channel);
 extern u32 func_0204162C(int channel);
@@ -35,7 +35,7 @@ void func_021B8FA0(int a,int b,int c,int d,u8 e,u8 f,u8 g,u8 h,u8 i,u8 j,u8 k,u8
  u8 *data;
  u16 *p;
  int count;
- handle=func_0204A380((void *)a,b,n,(u16)((o&0x7fff)|0x8000));
+ handle=ARC_UTIL_LoadHandleMember((void *)a,b,n,(u16)((o&0x7fff)|0x8000));
  func_02062B30(handle,(void **)(&data));
  if(d && !func_0204169C((u8)c)) {
   count=h*g;

@@ -1,5 +1,5 @@
 /*
- * function: func_02029DFC
+ * function: FIELD_SOUND_SYSTEM_GetFinalBgm
  * address:  0x02029DFC
  * packet:   pkt_02029DFC
  * region:   arm9
@@ -12,6 +12,7 @@
  *
  * symbols:
  *   FIELD_SOUND_SYSTEM_GetFinalValue  0x02028900  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,10 +21,10 @@ typedef unsigned int   u32;
 
 
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void *FIELD_SOUND_SYSTEM_GetFinalValue(void *p);
 
-void *func_02029DFC(const void *p)
+void *FIELD_SOUND_SYSTEM_GetFinalBgm(const void *p)
 {
-    return FIELD_SOUND_SYSTEM_GetFinalValue((void *)func_02012A30(p));
+    return FIELD_SOUND_SYSTEM_GetFinalValue((void *)GAME_DATA_GetBgmInfo(p));
 }

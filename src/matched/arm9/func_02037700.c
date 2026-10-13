@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_SYSTEM_InitWork  0x02037288  arm
  *   g_020387A0     0x020387A0  data
@@ -45,14 +45,14 @@ struct Oth {
     u16 f56;           /* 0x56 */
 };
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetSession(void);
 extern int GFL_NET_SYSTEM_InitWork(u32 a0, u32 heap, u32 c);
 extern u8   g_020387A0[];
 
 int GFL_NET_SYSTEM_InitDevice(u32 a0, u32 a1)
 {
-    struct Oth *o = (struct Oth *)func_0203D798();
+    struct Oth *o = (struct Oth *)GFL_NET_GetInitParam();
     struct Ctx *c = GFL_NET_GetSession();
     u32 flag = 0;
 

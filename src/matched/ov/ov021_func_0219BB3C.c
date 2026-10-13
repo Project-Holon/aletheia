@@ -1,5 +1,5 @@
 /*
- * function: func_0219BB3C
+ * function: FLDMMDL_MOVE_ClearFellowTracking
  * address:  0x0219BB3C
  * packet:   pkt_0219BB3C
  * region:   ov021
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb
  */
 
-void *func_0216D69C(void);
+void *FLDMMDL_GetMoveProcWork(void);
 
-void func_0219BB3C(void)
+void FLDMMDL_MOVE_ClearFellowTracking(void)
 {
-    char *p = func_0216D69C();
+    char *p = FLDMMDL_GetMoveProcWork();
 
     p[1] = 0;
 }

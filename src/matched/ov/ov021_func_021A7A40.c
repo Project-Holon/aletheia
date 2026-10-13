@@ -1,5 +1,5 @@
 /*
- * function: func_021A7A40
+ * function: FIELD_GROUND_ANIME_KeyTableGetKey
  * address:  0x021A7A40
  * packet:   pkt_ov021_021A7A40
  * region:   ov021
@@ -27,7 +27,7 @@ typedef struct Tbl {
     u32 count;
 } Tbl;
 
-Pair func_021A7A40(const Tbl *t, u32 idx, u32 key)
+Pair FIELD_GROUND_ANIME_KeyTableGetKey(const Tbl *t, u32 idx, u32 key)
 {
     Pair r;
     u8 *g;

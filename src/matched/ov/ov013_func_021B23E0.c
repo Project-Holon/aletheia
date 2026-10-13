@@ -1,5 +1,5 @@
 /*
- * function: func_021B23E0
+ * function: VCT_SESSION_CheckAnnounceTimeout
  * address:  0x021B23E0
  * packet:   pkt_ov013_021B23E0
  * region:   ov013
@@ -45,7 +45,7 @@ extern char d_021B4C0C;
 extern u64 func_020870D0(void);
 extern void VCT_SESSION_BroadcastState(int);
 
-void func_021B23E0(void)
+void VCT_SESSION_CheckAnnounceTimeout(void)
 {
     u64 now;
 

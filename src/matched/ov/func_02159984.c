@@ -1,5 +1,5 @@
 /*
- * function: func_02159984
+ * function: SCRIPT_WORK_WaitKeyAny
  * address:  0x02159984
  * packet:   pkt_02159984
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
 
-int func_02159984(int a0, int a1)
+int SCRIPT_WORK_WaitKeyAny(int a0, int a1)
 {
 
     a0 = func_020362DC();

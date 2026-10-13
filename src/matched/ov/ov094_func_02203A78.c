@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_020498F4  0x020498F4  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_0220687C  0x0220687C  thumb  ov094
  */
 typedef unsigned short u16;
@@ -39,9 +39,9 @@ extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int 
 typedef unsigned int   u32;
 struct Cfg;
 struct Descriptor;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(u32 index);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_0220687C(char *p, void *q);
 
 void func_02203A78(int a0, Ctx *c)
@@ -50,13 +50,13 @@ void func_02203A78(int a0, Ctx *c)
 
     func_020498F4((void *)c->main->f48, 0x5d, 4, 0, z, z, c->main->h240);
     func_020498F4((void *)c->main->f48, c->f0c, 4, 0x440, 0x380, z, c->main->h240);
-    func_02045374(c->main->obj228);
+    BMP_WIN_MakeScreen(c->main->obj228);
     func_020409B4(6);
     if (c->main->f50 == 2) {
         func_020498F4((void *)c->main->f48, 0x6a, 5, 0, z, z, c->main->h240);
     } else {
         func_020498F4((void *)c->main->f48, 0x69, 5, 0, z, z, c->main->h240);
     }
-    func_02045334(c->main->obj228);
+    BMP_WIN_TransferChars(c->main->obj228);
     func_0220687C((char *)c->main, (void *)a0);
 }

@@ -11,9 +11,10 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_020457B0 0x020457B0 arm
- *   func_02043678 0x02043678 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   BMP_Create 0x02043678 arm
  *   d_021DFBA0 0x021DFBA0 data a4
+ *   BMP_OAM_Create  0x020255A0  thumb  arm9
  */
 #include "../include/Obj06451.h"
 #include "../include/Obj08095.h"
@@ -25,21 +26,21 @@ extern char d_021DFBA0[];
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
-extern void *func_020457B0(int,u16);
+extern void *STRBUF_Create(int,u16);
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct Grid;
 struct Param;
 struct Sys;
-extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap)
 {
     Desc desc;
     char *out=func_02030734(heap,36,0,d_021DFBA0,0x6b1);
     func_02082BCC(out,0,36);
     ((struct Obj06451 *)out)->f20=g;
-    ((struct Obj06451 *)out)->f18=func_020457B0(128,heap);
-    ((struct Obj06451 *)out)->f0=func_02043678(a,b,32,heap);
+    ((struct Obj06451 *)out)->f18=STRBUF_Create(128,heap);
+    ((struct Obj06451 *)out)->f0=BMP_Create(a,b,32,heap);
     func_02082BCC(&desc,0,24);
     desc.win=((struct Obj06451 *)out)->f0;
     desc.x=((struct Obj08095 *)p)->f0;
@@ -50,6 +51,6 @@ void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u
     desc.d=e;
     desc.b=((struct Obj08095 *)p)->f7;
     desc.pal=d;
-    ((struct Obj06451 *)out)->f1C=func_020255A0(f,(const struct Param *)(&desc));
+    ((struct Obj06451 *)out)->f1C=BMP_OAM_Create(f,(const struct Param *)(&desc));
     return out;
 }

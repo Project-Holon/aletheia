@@ -13,28 +13,28 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_Create  0x02031324  arm
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_0203133C  0x0203133C  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   PROCSYS_Main  0x02031330  arm
  *   PROCSYS_Push  0x02031348  arm
- *   func_0203A5E4  0x0203A5E4  arm
- *   func_0203A574  0x0203A574  arm
+ *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_02034AC4  0x02034AC4  arm
- *   func_0200B424  0x0200B424  thumb
+ *   BATTLE_REC_FreeWork  0x0200B424  thumb
  *   BATTLE_REC_AllocWork  0x0200B400  thumb
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_StartTimingSync  0x0203D594  arm
  *   GFL_NET_CheckTimingSync  0x0203D5A0  arm
- *   func_0200BA58  0x0200BA58  thumb
- *   func_0200BA68  0x0200BA68  thumb
- *   func_0200BA38  0x0200BA38  thumb
+ *   BATTLE_REC_LoadToolOverlay  0x0200BA58  thumb
+ *   BATTLE_REC_UnloadToolOverlay  0x0200BA68  thumb
+ *   BATTLE_REC_IsVersionSupported  0x0200BA38  thumb
  *   func_021EEE78  0x021EEE78  thumb  ov188
  *   ov093_id       0x0000005D  data   a1
  *   ov097_id       0x00000061  data   a1
@@ -115,28 +115,28 @@ typedef struct {
 
 typedef signed int     s32;
 
-extern void  func_0203064C(unsigned int a, unsigned int b, unsigned int c);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int a0);
 extern u32 func_0200FB24(void);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 extern unsigned int PROCSYS_Main(void *p);
 extern void PROCSYS_Push(int h, u32 id, void *a, void *b);
-extern void func_0203A5E4(u32 key);
-extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void func_02034A5C(s32 handle);
 extern int func_02034AC4(s32 handle);
-extern void func_0200B424(void);
+extern void BATTLE_REC_FreeWork(void);
 extern void BATTLE_REC_AllocWork(u32 heap);
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_StartTimingSync(int a, int b);
 extern int  GFL_NET_CheckTimingSync(int a, int b);
-extern void func_0200BA58(void);
-extern void func_0200BA68(void);
-extern u32 func_0200BA38(u32 v);
+extern void BATTLE_REC_LoadToolOverlay(void);
+extern void BATTLE_REC_UnloadToolOverlay(void);
+extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 extern void func_021EEE78(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
@@ -161,8 +161,8 @@ int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
 {
     u8 *procWork;
 
-    func_0203064C(1, 0x76, 0x4000);
-    procWork = func_0203159C(procsysOwner, 0x1c, 0x76);
+    GFL_HEAP_CreateChildHeap(1, 0x76, 0x4000);
+    procWork = PROCSYS_AllocProcWork(procsysOwner, 0x1c, 0x76);
     ((struct Obj18644 *)procWork)->f0 = (unsigned int)PROCSYS_Create(0x76);
     return 1;
 }
@@ -172,7 +172,7 @@ int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, i
 {
     if (((struct Obj18645 *)taskWork)->f14 == 1) {
         if (func_0200FB24() != 0)
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
     }
     func_0203133C((struct S020314B8 *)*procsys);
     func_020315D4(procWork);
@@ -200,11 +200,11 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
 
     if (procsysBusy != 1 && func_0200FB24() != 0 && *stage >= 0 && *stage < 13) {
         if (ctx->cmdTableAdded == 1)
-            func_0203A5E4(0x100);
+            GFL_NET_COMMAND_DeleteCommandTable(0x100);
         if (ctx->overlayLoaded == 1)
             func_02034A5C((u32)ov093_id);
         if (ctx->recordWorkAllocated == 1)
-            func_0200B424();
+            BATTLE_REC_FreeWork();
         return 1;
     }
 
@@ -226,11 +226,11 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             *stage = 2;
         break;
     case 2:
-        GFL_NET_StartTimingSync((int)func_020399A8(), 0xC9);
+        GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC9);
         *stage = 3;
         break;
     case 3:
-        if (GFL_NET_CheckTimingSync((int)func_020399A8(), 0xC9) == 0)
+        if (GFL_NET_CheckTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC9) == 0)
             break;
         *stage = 4;
         break;
@@ -256,12 +256,12 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         ctx->overlayLoaded = 1;
         func_02034AC4((u32)ov093_id);
         ctx->cmdTableAdded = 1;
-        func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
-        GFL_NET_StartTimingSync((int)func_020399A8(), 0xC8);
+        GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
+        GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC8);
         *stage = 7;
         break;
     case 7:
-        if (GFL_NET_CheckTimingSync((int)func_020399A8(), 0xC8) == 0)
+        if (GFL_NET_CheckTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC8) == 0)
             break;
         *stage = 8;
         break;
@@ -280,19 +280,19 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         *stage = 11;
         break;
     case 11:
-        GFL_NET_StartTimingSync((int)func_020399A8(), 0xCA);
+        GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xCA);
         *stage = 12;
         break;
     case 12:
-        if (GFL_NET_CheckTimingSync((int)func_020399A8(), 0xCA) == 0)
+        if (GFL_NET_CheckTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xCA) == 0)
             break;
-        func_0203A5E4(0x100);
+        GFL_NET_COMMAND_DeleteCommandTable(0x100);
         ctx->cmdTableAdded = 0;
         func_02034A5C((u32)ov093_id);
         ctx->overlayLoaded = 0;
-        func_0200BA58();
+        BATTLE_REC_LoadToolOverlay();
         func_021EEE78(work->info);
-        func_0200BA68();
+        BATTLE_REC_UnloadToolOverlay();
         *stage = 13;
         break;
     case 13:
@@ -358,7 +358,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         *stage = 15;
         break;
     case 15:
-        if (work->info->hasRecord == 0) nameRow = 0; else { versionOk = func_0200BA38(work->info->recordVersion); nameRow = 1; if (versionOk == 0) nameRow = 0; }
+        if (work->info->hasRecord == 0) nameRow = 0; else { versionOk = BATTLE_REC_IsVersionSupported(work->info->recordVersion); nameRow = 1; if (versionOk == 0) nameRow = 0; }
         work->recordSupported = nameRow;
         work->resultGameSystem = work->gameSystem;
         work->isCommBattle = 1;
@@ -371,7 +371,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
     case 16:
         if (procsysBusy == 1)
             break;
-        func_0200B424();
+        BATTLE_REC_FreeWork();
         ctx->recordWorkAllocated = 0;
         *stage = 17;
         break;

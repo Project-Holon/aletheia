@@ -1,5 +1,5 @@
 /*
- * function: func_021B53BC
+ * function: SCRCMD_PROC_FLD_SetFieldRegionFromStream
  * address:  0x021B53BC
  * packet:   pkt_ov021_021B53BC
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02011330  0x02011330  thumb
- *   func_0201134C  0x0201134C  thumb
- *   func_0218F900  0x0218F900  thumb  ov021
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   VM_GetU16  0x02011330  thumb
+ *   VM_GetU32  0x0201134C  thumb
+ *   FIELD_CAMERA_StartMove  0x0218F900  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -35,34 +35,34 @@ typedef struct {
     u32 w30[6];
 } Out;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Stream;
-extern void *func_02188C58(void *p);
-extern u16 func_02011330(struct Stream *s);
+extern void *FIELDMAP_GetCamera(void *p);
+extern u16 VM_GetU16(struct Stream *s);
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
-extern void func_0218F900(u8 *a, void *p, int n);
+extern u32 VM_GetU32(struct Cursor *p);
+extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
 
-int func_021B53BC(struct Cursor *a0, int a1)
+int SCRCMD_PROC_FLD_SetFieldRegionFromStream(struct Cursor *a0, int a1)
 {
     Out o;
     int r4;
 
-    r4 = (int)func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
-    o.h24 = func_02011330((struct Stream *)a0);
-    o.h26 = func_02011330((struct Stream *)a0);
-    o.f28 = func_0201134C(a0);
-    o.f0c = func_0201134C(a0);
-    o.f10 = func_0201134C(a0);
-    o.f14 = func_0201134C(a0);
+    r4 = (int)FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)a1)));
+    o.h24 = VM_GetU16((struct Stream *)a0);
+    o.h26 = VM_GetU16((struct Stream *)a0);
+    o.f28 = VM_GetU32(a0);
+    o.f0c = VM_GetU32(a0);
+    o.f10 = VM_GetU32(a0);
+    o.f14 = VM_GetU32(a0);
     o.w30[0] = 0;
     o.w30[1] = 1;
     o.w30[2] = 1;
     o.w30[3] = 1;
     o.w30[4] = 0;
     o.w30[5] = 1;
-    func_0218F900((u8 *)r4, &o, func_02011330((struct Stream *)a0));
+    FIELD_CAMERA_StartMove((u8 *)r4, &o, VM_GetU16((struct Stream *)a0));
     return 0;
 }

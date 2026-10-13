@@ -1,5 +1,5 @@
 /*
- * function: func_02192E0C
+ * function: FIELD_MSGBG_InitBgOneLayer
  * address:  0x02192E0C
  * packet:   pkt_ov021_02192E0C
  * region:   ov021
@@ -14,8 +14,8 @@
  *   func_02040C14  0x02040C14  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
- *   func_02192FA4  0x02192FA4  thumb  ov021
- *   func_02194670  0x02194670  thumb  ov021
+ *   FIELD_MSGBG_LoadWindowGraphicsAll  0x02192FA4  thumb  ov021
+ *   TALKMSGWIN_Create  0x02194670  thumb  ov021
  *   func_02040588  0x02040588  arm
  *   d_021D3EB8     0x021D3EB8  data  a4
  */
@@ -33,11 +33,11 @@ typedef unsigned int   u32;
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern void func_020409B4(u32 index);
-extern void func_02192FA4(int, int);
-extern void *func_02194670(u16 *a);
+extern void FIELD_MSGBG_LoadWindowGraphicsAll(int, int);
+extern void *TALKMSGWIN_Create(u16 *a);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_02192E0C(u32 *p)
+void FIELD_MSGBG_InitBgOneLayer(u32 *p)
 {
     B32 tmp;
     Req r;
@@ -48,7 +48,7 @@ void func_02192E0C(u32 *p)
     func_02040C14(((struct Obj01654 *)p)->f2, 0, 1, 0);
     func_02041300(((struct Obj01654 *)p)->f2 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
     func_020409B4(((struct Obj01654 *)p)->f2 & 0xff);
-    func_02192FA4(((struct Obj01654 *)p)->f2, ((struct Obj01654 *)p)->f0);
+    FIELD_MSGBG_LoadWindowGraphicsAll(((struct Obj01654 *)p)->f2, ((struct Obj01654 *)p)->f0);
     if (((struct Obj01654 *)p)->f168 != 0) {
         r.a = ((struct Obj01654 *)p)->f0;
         r.b = ((struct Obj01654 *)p)->f168;
@@ -57,7 +57,7 @@ void func_02192E0C(u32 *p)
         r.e = 1;
         r.f = 0xc;
         r.g = 0xb;
-        ((struct Obj01654 *)p)->f15C = (int)func_02194670((u16 *)(&r));
+        ((struct Obj01654 *)p)->f15C = (int)TALKMSGWIN_Create((u16 *)(&r));
     }
     func_02040588(((struct Obj01654 *)p)->f2 & 0xff, 1);
     ((struct Obj01654 *)p)->f6 = 0xe;

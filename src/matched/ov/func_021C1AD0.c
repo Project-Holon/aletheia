@@ -1,5 +1,5 @@
 /*
- * function: func_021C1AD0
+ * function: FLD_PARTICLE_Delete
  * address:  0x021C1AD0
  * packet:   pkt_021C1AD0
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021C1A84  0x021C1A84  thumb  ov021
- *   func_02050ED4  0x02050ED4  arm
+ *   FLD_PARTICLE_DeleteEffect  0x021C1A84  thumb  ov021
+ *   PARTICLE_ExitManager  0x02050ED4  arm
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -25,12 +25,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern u32 func_02050ED4(u32);
-extern u32 func_021C1A84(u32, u32, u32, u32);
+extern u32 PARTICLE_ExitManager(u32);
+extern u32 FLD_PARTICLE_DeleteEffect(u32, u32, u32, u32);
 
-int func_021C1AD0(void *a, u32 b, u32 c, u32 d)
+int FLD_PARTICLE_Delete(void *a, u32 b, u32 c, u32 d)
 {
-func_02050ED4(func_021C1A84((u32)a, b, c, d));
+PARTICLE_ExitManager(FLD_PARTICLE_DeleteEffect((u32)a, b, c, d));
 func_020307B0((void *)(((struct Obj09206 *)((u8 *)(a)))->f8));
 return func_020307B0(a);
 }

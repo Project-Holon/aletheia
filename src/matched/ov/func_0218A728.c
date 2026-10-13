@@ -1,5 +1,5 @@
 /*
- * function: func_0218A728
+ * function: FIELD_EVENT_CHECK_AddStepRecord
  * address:  0x0218A728
  * packet:   pkt_0218A728
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02012F2C  0x02012F2C  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
  * Addresses are Black-image addresses.
  */
@@ -24,10 +24,10 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Sub02008C20Obj;
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 
-int func_0218A728(void *a)
+int FIELD_EVENT_CHECK_AddStepRecord(void *a)
 {
-return func_02008DF0((struct Sub02008C20Obj *)func_02012F2C((int *)a), 0);
+return func_02008DF0((struct Sub02008C20Obj *)GAME_DATA_GetTrainerRecord((int *)a), 0);
 }
 

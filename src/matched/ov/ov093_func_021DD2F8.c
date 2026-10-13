@@ -1,5 +1,5 @@
 /*
- * function: func_021DD2F8
+ * function: BTL_HANDLER_ITEM_LeppaBerryOnEaten
  * address: 0x021DD2F8
  * packet: pkt_ov093_021DD2F8
  * region: ov093
@@ -11,12 +11,12 @@
  * extent: trailing two-byte alignment padding.
  * prototype: third DD39C input widened to full register width; no truncation at call.
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021DD39C 0x021DD39C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_HANDLER_ITEM_PushRecoverPp 0x021DD39C thumb ov093
  */
-extern int func_021D775C(int);
-extern int func_021DD39C(int, void *, int, int, int);
-void func_021DD2F8(int a, void *b, int c, int *d)
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_HANDLER_ITEM_PushRecoverPp(int, void *, int, int, int);
+void BTL_HANDLER_ITEM_LeppaBerryOnEaten(int a, void *b, int c, int *d)
 {
-    if (c == func_021D775C(2)) func_021DD39C(a, b, c, (int)d, 0);
+    if (c == BTL_EVENT_GetVar(2)) BTL_HANDLER_ITEM_PushRecoverPp(a, b, c, (int)d, 0);
 }

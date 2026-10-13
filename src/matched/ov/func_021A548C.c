@@ -1,5 +1,5 @@
 /*
- * function: func_021A548C
+ * function: FIELD_PLAYER_GRID_IsOnForcedMoveTile
  * address:  0x021A548C
  * packet:   pkt_021A548C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A5458  0x021A5458  thumb  ov021
+ *   FIELD_PLAYER_GRID_CheckForcedMoveTile  0x021A5458  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021A5458(u32, u32, u32, u32);
+extern u32 FIELD_PLAYER_GRID_CheckForcedMoveTile(u32, u32, u32, u32);
 
-int func_021A548C(u32 a, u32 b, u32 c, u32 d)
+int FIELD_PLAYER_GRID_IsOnForcedMoveTile(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021A5458(a, 9, c, d) != 0) {
+if (FIELD_PLAYER_GRID_CheckForcedMoveTile(a, 9, c, d) != 0) {
     return 1;
 }
 return 0;

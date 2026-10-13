@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D80A8  0x021D80A8  thumb  ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern int func_021D80A8(void *p);
+extern int BTL_CALC_GetCurseTargetKind(void *p);
 typedef unsigned int   u32;
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E0E00(int a, int b, int c)
 {
-    if (c == func_021D775C(2))
-        func_021D76BC(27, func_021D80A8(func_021C7CF4((int *)b, c)));
+    if (c == BTL_EVENT_GetVar(2))
+        BTL_EVENT_OverwriteVar(27, BTL_CALC_GetCurseTargetKind(func_021C7CF4((int *)b, c)));
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218C4EC",
+   "name": "FIELD_BUILDMODEL_RemoveEntriesByObject",
    "address": "0x0218C4EC",
    "kind": "game",
    "region": "ov021",

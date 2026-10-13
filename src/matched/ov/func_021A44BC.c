@@ -1,5 +1,5 @@
 /*
- * function: func_021A44BC
+ * function: FIELD_PLAYER_GRID_CheckCoreAction
  * address:  0x021A44BC
  * packet:   pkt_021A44BC
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0xc.
  *
  * symbols:
- *   func_021A3AA0  0x021A3AA0  thumb
+ *   FIELD_PLAYER_CORE_CheckAcmdPossible  0x021A3AA0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A3AA0(u32 a);
+extern int FIELD_PLAYER_CORE_CheckAcmdPossible(u32 a);
 
-void func_021A44BC(u8 *p)
+void FIELD_PLAYER_GRID_CheckCoreAction(u8 *p)
 {
-    func_021A3AA0(((struct Obj18048 *)p)->fC);
+    FIELD_PLAYER_CORE_CheckAcmdPossible(((struct Obj18048 *)p)->fC);
 }

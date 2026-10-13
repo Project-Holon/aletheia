@@ -1,5 +1,5 @@
 /*
- * function: func_021F3798
+ * function: GIMMICK40_Update
  * address:  0x021F3798
  * packet:   pkt_021F3798
  * region:   ov040
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F3798 0x021F3798 thumb
- *   func_02188D2C 0x02188D2C thumb  ov021
- *   func_021BE580 0x021BE580 thumb ov021
+ *   GIMMICK40_Update 0x021F3798 thumb
+ *   FIELDMAP_GetExpObj 0x02188D2C thumb  ov021
+ *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
 */
 
-extern int func_02188D2C(int *p);
-extern void func_021BE580(void *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void FLD_EXP_OBJ_UpdateAnimes(void *p);
 
-void func_021F3798(int *p)
+void GIMMICK40_Update(int *p)
 {
-    func_021BE580((void *)func_02188D2C(p));
+    FLD_EXP_OBJ_UpdateAnimes((void *)FIELDMAP_GetExpObj(p));
 }

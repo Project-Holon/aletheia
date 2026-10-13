@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021F86F0  0x021F86F0  thumb  ov094
  *   func_02201DB4  0x02201DB4  thumb  ov094
  */
@@ -26,17 +26,17 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021F86F0(void);
 extern void func_02201DB4(char *base, int idx, u8 b, u8 c, s8 step, u16 d);
 
 int func_021FB894(struct Cursor *a, State *s)
 {
-    int v0 = func_0201134C(a);
-    int v1 = func_0201134C(a);
-    int v2 = func_0201134C(a);
-    int v3 = func_0201134C(a);
-    int v4 = func_0201134C(a);
+    int v0 = VM_GetU32(a);
+    int v1 = VM_GetU32(a);
+    int v2 = VM_GetU32(a);
+    int v3 = VM_GetU32(a);
+    int v4 = VM_GetU32(a);
 
     func_02201DB4((char *)func_021F86F0(), s->t[v0], v1, v2, v3, v4);
     return s->f23c;

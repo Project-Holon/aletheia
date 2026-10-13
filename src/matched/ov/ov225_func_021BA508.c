@@ -13,9 +13,9 @@
  *   func_0203633C 0x0203633C arm
  *   func_020355D8 0x020355D8 arm
  *   func_02035D20 0x02035D20 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_020061E4 0x020061E4 thumb
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   d_021BBF14 0x021BBF14 data a4
  */
 #include "../include/Obj00367.h"
@@ -29,9 +29,9 @@ extern u32 func_0204B3F4(struct Obj *);
 extern u32 func_0203633C(void);
 extern void func_020355D8(u8);
 extern u32 func_02035D20(u32 *,u32 *);
-extern void func_0204B878(struct Obj *,u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void func_020061E4(u32);
-extern u32 func_0204B98C(struct Actor *);
+extern u32 CLACT_IsActorAnimActive(struct Actor *);
 void func_021BA508(char *p)
 {
  u8 i;
@@ -60,15 +60,15 @@ void func_021BA508(char *p)
    }
   }
   if(found) {
-   func_0204B878(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].active);
+   CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].active);
    if(d_021BBF14[*(u8 *)(p+0x40)].sound) func_020061E4(d_021BBF14[*(u8 *)(p+0x40)].sound);
    ((struct Obj00367 *)p)->f44=1;
   }
   break;
  case 1: ((struct Obj00367 *)p)->f44=2; break;
  case 2:
-  if(!func_0204B98C(*(struct Actor **)(p+((struct Obj00367 *)p)->f40*4+0x38))) {
-   func_0204B878(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].normal);
+  if(!CLACT_IsActorAnimActive(*(struct Actor **)(p+((struct Obj00367 *)p)->f40*4+0x38))) {
+   CLACT_SetActorAnimSeq(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].normal);
    ((struct Obj00367 *)p)->f44=3;
   }
   break;

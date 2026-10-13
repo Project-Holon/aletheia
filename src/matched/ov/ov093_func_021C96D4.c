@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021C5A1C  0x021C5A1C  thumb  ov093
- *   func_021C5A34  0x021C5A34  thumb  ov093
+ *   BTL_SERVER_FLOW_PushAbilityPopupIn  0x021C5A1C  thumb  ov093
+ *   BTL_SERVER_FLOW_PushAbilityPopupOut  0x021C5A34  thumb  ov093
  *   func_021C99A0  0x021C99A0  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -27,8 +27,8 @@ struct Cmd {
 };
 
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021C5A1C(u8 *p, u8 *a);
-extern void func_021C5A34(u8 *p, u8 *a);
+extern void BTL_SERVER_FLOW_PushAbilityPopupIn(u8 *p, u8 *a);
+extern void BTL_SERVER_FLOW_PushAbilityPopupOut(u8 *p, u8 *a);
 struct Msg;
 extern int func_021C99A0(void *w, const struct Msg *m);
 
@@ -39,8 +39,8 @@ int func_021C96D4(char *w, struct Cmd *c)
     if (id != 0x1F) {
         r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, (u8)id);
     }
-    if (c->flag && r) func_021C5A1C((u8 *)w, r);
+    if (c->flag && r) BTL_SERVER_FLOW_PushAbilityPopupIn((u8 *)w, r);
     func_021C99A0(w, (const struct Msg *)((u8 *)c + 4));
-    if (c->flag && r) func_021C5A34((u8 *)w, r);
+    if (c->flag && r) BTL_SERVER_FLOW_PushAbilityPopupOut((u8 *)w, r);
     return 1;
 }

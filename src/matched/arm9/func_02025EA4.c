@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020261C4  0x020261C4  thumb
  *   func_020355D8  0x020355D8  arm
  *   g_0209FB58     0x0209FB58  data
@@ -18,7 +18,7 @@
  * field_sound_system.c.  Scan the entry table hanging off the object for a
  * live record: each 12-byte entry's tag word (bytes 8..11) is copied into
  * the low half of a 8-byte stack scratch whose high half is preloaded from
- * the four-byte template g_0209FB58, then handed to func_02035C08.  A hit
+ * the four-byte template g_0209FB58, then handed to TOUCHPANEL_HitTrg.  A hit
  * that also passes the bitmap test at +0x10 commits the entry: the previous
  * slot id is shifted to +0xe, the new index becomes +0xd, an in-flight
  * request (field_4 == 1 with field_C == 1) is cancelled through the record's
@@ -70,7 +70,7 @@ struct Sound {
     u32 field_1C;
 };
 
-extern int func_02035C08(const void *key);
+extern int TOUCHPANEL_HitTrg(const void *key);
 extern int func_020261C4(const u32 *bitmap, u32 bit);
 extern void func_020355D8(u8 v);
 extern const u8 g_0209FB58[4];
@@ -101,7 +101,7 @@ int func_02025EA4(struct Sound *obj, int *out)
         key[1] = e->tag[1];
         key[2] = e->tag[2];
         key[3] = e->tag[3];
-        if (func_02035C08(key) != -1) {
+        if (TOUCHPANEL_HitTrg(key) != -1) {
             res = 1;
             if (func_020261C4(bitmap, i) == 1) {
                 obj->field_E = obj->field_D;

@@ -13,7 +13,7 @@
  *   func_0208068C 0x0208068C arm
  *   func_02082AC0 0x02082AC0 arm
  *   func_02080B98 0x02080B98 arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_02185F4C 0x02185F4C data ov219 a4
  */
 typedef enum {GX_VRAM_NONE=0} GXVRam;
@@ -21,7 +21,7 @@ typedef enum {GX_OBJVRAMMODE_CHAR_2D=0,GX_OBJVRAMMODE_CHAR_1D_32K=0x10,GX_OBJVRA
 struct DispVram {GXVRam main_bg,main_bg_expltt,sub_bg,sub_bg_expltt,main_obj,main_obj_expltt,sub_obj,sub_obj_expltt,teximage,texpltt;GXOBJVRamModeChar main_mapping,sub_mapping;};
 extern const struct DispVram d_02185F4C;
 extern void func_0208068C(unsigned),func_02082AC0(unsigned,void *,unsigned),func_02080B98(void);
-extern void func_020433E0(const struct DispVram *);
+extern void BG_SYS_SetVramBanks(const struct DispVram *);
 void func_021844E4(void)
 {
     struct DispVram cfg=d_02185F4C;
@@ -31,5 +31,5 @@ void func_021844E4(void)
     func_02082AC0(0,(void *)0x05000000,0x400);
     func_02082AC0(0xc0,(void *)0x07000400,0x400);
     func_02082AC0(0,(void *)0x05000400,0x400);
-    func_020433E0(&cfg);
+    BG_SYS_SetVramBanks(&cfg);
 }

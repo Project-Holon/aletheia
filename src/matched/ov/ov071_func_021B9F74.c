@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F74
+ * function: MONOLITH_TOOL_SetRowHighlight
  * address:  0x021B9F74
  * packet:   pkt_ov071_021B9F74
  * region:   ov071
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-void func_021B9F74(u8 *p, int i, int v)
+void MONOLITH_TOOL_SetRowHighlight(u8 *p, int i, int v)
 {
     int x;
     int q;

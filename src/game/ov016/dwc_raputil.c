@@ -20,7 +20,7 @@
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   func_021C0970  0x021C0970  arm
  *   d_021DAAA0  0x021DAAA0  data  a1
- *   func_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_0200F17C 0x0200F17C thumb
  *   func_02034AC4 0x02034AC4 arm
  *   ov107_id 0x0000006B data a1
@@ -39,7 +39,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern int OS_IsRunOnTwl(void);
 extern int func_021C0970(void *work, int language, int param);
-extern void func_0203064C(u32, u32, u32);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern int func_0200F17C(u32);
 extern int func_02034AC4(int);
 extern void func_02087BCC(unsigned int);
@@ -74,7 +74,7 @@ void DWC_RAPUTIL_RunUtility(int heapId)
     REG_IME = 1;
 }
 
-int DWC_RAPUTIL_Init(void) { func_0203064C(1, 15, 0x40100); func_0200F17C(1); func_02034AC4((int)ov107_id); return 1; }
+int DWC_RAPUTIL_Init(void) { GFL_HEAP_CreateChildHeap(1, 15, 0x40100); func_0200F17C(1); func_02034AC4((int)ov107_id); return 1; }
 
 
 int DWC_RAPUTIL_Main(void)

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DE5DC",
-    "func_021DE614"
+    "BTL_HANDLER_ITEM_StickRaiseCriticalRankFarfetchd",
+    "BTL_HANDLER_ITEM_GetZoomLensHandlers"
+   ],
+   "addresses": [
+    "0x021DE5DC",
+    "0x021DE614"
    ],
    "evidence": {
     "sole-ref": [

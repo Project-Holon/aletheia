@@ -1,5 +1,5 @@
 /*
- * function: func_02156F24
+ * function: MUSICAL_STAGE_SYS_Main
  * address:  0x02156F24
  * packet:   pkt_ov010_02156F24
  * region:   ov010
@@ -20,7 +20,7 @@ extern u8 *func_021F8480(u8 *input, int heap);
 extern int func_021F879C(int);
 extern void func_021F8640(int);
 
-int func_02156F24(int a, int *state, int c, int *d)
+int MUSICAL_STAGE_SYS_Main(int a, int *state, int c, int *d)
 {
     switch (*state) {
     case 0:

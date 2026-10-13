@@ -15,7 +15,7 @@
  * symbols:
  *   func_020355C4 0x020355C4 arm
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   func_0201747C 0x0201747C thumb
+ *   POKE_TOOL_CreateFromBoxParam 0x0201747C thumb
  *   P_STATUS_InitGraphics 0x021D46EC thumb ov131
  *   P_STA_SUB_Create 0x021D65D8 thumb ov131
  *   P_STA_INFO_AllocWork 0x021D7B00 thumb ov131
@@ -35,7 +35,7 @@
  *   P_STA_SKILL_InitStatsPage 0x021D9C3C thumb ov131
  *   P_STA_RIBBON_Init 0x021D8F50 thumb ov131
  *   P_STA_INFO_Setup 0x021D7C38 thumb ov131
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  */
 #include "../include/Obj00238.h"
 #include "../include/Obj23119.h"
@@ -45,7 +45,7 @@ typedef unsigned int u32;
 extern u8 func_020355C4(void);
 extern void *P_STATUS_GetPokePara(u8 *);
 struct Mon;
-extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void P_STATUS_InitGraphics(char *);
 extern void *P_STA_SUB_Create(void *);
 struct Context;
@@ -66,7 +66,7 @@ extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
 extern void P_STA_SKILL_InitStatsPage(void *,u8 *);
 extern void P_STA_RIBBON_Init(void *,u8 *);
 extern void P_STA_INFO_Setup(void *,u8 *);
-extern void func_0203D34C(u32,u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 int P_STATUS_InitWork(char *p)
 {
     u8 i;
@@ -91,7 +91,7 @@ int P_STATUS_InitWork(char *p)
         (*(u8 **)(p+8))[13]=2;
         ((struct Obj00238 *)p)->f14=1;
     }
-    if ((*(u8 **)(p+8))[12]==2) ((struct Obj00238 *)p)->f258=func_0201747C(P_STATUS_GetPokePara((u8 *)p),((struct Obj00238 *)p)->f0);
+    if ((*(u8 **)(p+8))[12]==2) ((struct Obj00238 *)p)->f258=POKE_TOOL_CreateFromBoxParam(P_STATUS_GetPokePara((u8 *)p),((struct Obj00238 *)p)->f0);
     else ((struct Obj00238 *)p)->f258=0;
     P_STATUS_InitGraphics(p);
     ((struct Obj00238 *)p)->f88=P_STA_SUB_Create(p);
@@ -128,6 +128,6 @@ int P_STATUS_InitWork(char *p)
             P_STA_INFO_Setup(p,*(u8 * *)&((struct Obj00238 *)p)->f8C); break;
         }
     }
-    func_0203D34C(1,((struct Obj00238 *)p)->f0);
+    GFL_NET_RestartWithDefaultTimeout(1,((struct Obj00238 *)p)->f0);
     return 1;
 }

@@ -16,8 +16,8 @@
  * extent: 158 bytes code; +0x9E 00 00 alignment padding, next labelled
  *   function 021DC900 starts at +0xA0. No follower or unit.
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02007698 0x02007698 thumb
  *   func_020076A4 0x020076A4 thumb
@@ -29,9 +29,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum { B0=0, B8=8, B16=16 } Bound;
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern unsigned func_02007698(void *);
 extern u8 func_020076A4(void *);
@@ -44,8 +44,8 @@ int func_021DC860(void *manager, int unused, void **context)
     u8 *p;
     u16 max;
     u16 i;
-    func_0203064C(1,75,0x10000);
-    p = func_0203159C(manager,0x30,75);
+    GFL_HEAP_CreateChildHeap(1,75,0x10000);
+    p = PROCSYS_AllocProcWork(manager,0x30,75);
     func_02082BCC(p,0,0x30);
     *(void ** *)&((struct Obj01948 *)p)->f0 = context;
     p[0x14] = func_02007698(context[1]);

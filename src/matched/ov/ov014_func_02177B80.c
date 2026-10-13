@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Recursive MATCH unblocker: the unlabelled ov014 leaf that the arm9
- * wih_dwc.c pollers call (WIH_DWC_FindSlotByKey +001E, func_0201058C +005C).  Reads
+ * wih_dwc.c pollers call (WIH_DWC_FindSlotByKey +001E, WIH_DWC_PollStatus +005C).  Reads
  * the per-slot u16 flag array at g_pWhPipeWork+0xC40 (stride 2) and returns the
  * slot's u8 state at +0x5C of the 0xC0-byte record, or 0 when the global or
  * the flag is clear.  NET_WHPIPE_GetEntryKind is byte-identical.

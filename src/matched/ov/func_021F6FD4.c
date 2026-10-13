@@ -17,7 +17,7 @@
  *   func_02017E1C  0x02017E1C  thumb
  *   func_020120F4  0x020120F4  thumb
  *   func_02012984  0x02012984  thumb
- *   func_0201B2B0  0x0201B2B0  thumb
+ *   SHINKA_CHECK_CheckEvolution  0x0201B2B0  thumb
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
@@ -37,7 +37,7 @@
  * Two-state step. State 0, once the +0x12F4 busy word clears: for kind 9
  * (or kinds 8/10 when the stored entry differs from the one rebuilt from
  * the save data by func_02202608/func_0200AD9C) build a 0x14-byte request
- * (func_0201B2B0 result, list holding the entry, out byte) at +0x10DC,
+ * (SHINKA_CHECK_CheckEvolution result, list holding the entry, out byte) at +0x10DC,
  * load overlay 67 and start the overlay-195 task (d_02208C40, hinted to
  * ov195 because this function names ov195_id), then go to state 1; any
  * failure calls func_021F4EC0(p, 1, 0) and returns 3. State 1 copies the
@@ -100,7 +100,7 @@ struct PartyMon;
 struct RecDC;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 func_02012984(const struct BigObj *p);
-extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
@@ -128,7 +128,7 @@ int func_021F6FD4(Obj *p)
             u32 r;
 
             func_02017E1C(e, 6, 0);
-            r = func_0201B2B0(0, e, 1, (u32)p->fEA4, func_02012984(func_020120F4(p->ctx->f40)), &out, 0x48);
+            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->fEA4, func_02012984(func_020120F4(p->ctx->f40)), &out, 0x48);
             if (r != 0) {
                 Req *w;
 
@@ -167,7 +167,7 @@ int func_021F6FD4(Obj *p)
                 r = 0;
                 if (p->f12F8 != 0) {
                     p->f12F8 = 0;
-                    r = func_0201B2B0(0, e, 1, (u32)mon, func_02012984(func_020120F4(p->ctx->f40)), &out, 0x48);
+                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)mon, func_02012984(func_020120F4(p->ctx->f40)), &out, 0x48);
                 }
                 if (r != 0) {
                     Req *w;

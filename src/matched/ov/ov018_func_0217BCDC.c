@@ -1,5 +1,5 @@
 /*
- * function: func_0217BCDC
+ * function: INTRUDE_FIELD_ChangePlayerLook
  * address:  0x0217BCDC
  * packet:   pkt_ov018_0217BCDC
  * region:   ov018
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012114  0x02012114  thumb
- *   func_02012944  0x02012944  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_02175598  0x02175598  thumb  ov011
- *   func_0201210C  0x0201210C  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3220  0x021A3220  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_021A322C  0x021A322C  thumb  ov021
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   INTRUDE_COMM_GetPlayerObjCode  0x02175598  thumb  ov011
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_SetObjCode  0x021A3220  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FIELD_PLAYER_ClearRememberedObjCode  0x021A322C  thumb  ov021
  */
 #include "../include/Obj09388.h"
 
@@ -34,38 +34,38 @@ typedef struct { int x, y, z; } Vec;
 struct BigObj;
 struct Ctx;
 struct Sub0200852CObj;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Ctx;
-extern u32 func_02012114(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
+extern u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u8 func_02012B58(const struct BigObj *p);
-extern u16 func_02175598(u8 *o, u32 id);
-extern void *func_0201210C(const struct Ctx *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u16 INTRUDE_COMM_GetPlayerObjCode(u8 *o, u32 id);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void func_021A3220(u8 *p, u32 res);
-extern void *func_021A3074(unsigned char *p);
-extern void func_0216D8C0(void *, Vec *);
-extern void func_021A322C(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void FIELD_PLAYER_SetObjCode(u8 *p, u32 res);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern void FLDMMDL_SetDrawOffset(void *, Vec *);
+extern void FIELD_PLAYER_ClearRememberedObjCode(u8 *p);
 
-void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
+void INTRUDE_FIELD_ChangePlayerLook(u8 *p, void *a1, int id, u8 kind, u8 flag)
 {
     int res;
     void *obj;
     int has;
     int x;
-    int y = (int)func_020120F4(a1);
+    int y = (int)GAMESYSTEM_GetGameData(a1);
     Vec v = { 0, 0, 0 };
 
-    if (func_02012114(a1) == 0)
+    if (GAMESYSTEM_IsFieldMapExist(a1) == 0)
         return;
-    x = (int)func_02012944(func_020120F4(a1));
+    x = (int)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(a1));
     has = func_02008550((const struct Sub0200852CObj *)x);
     if (p != 0) {
         if (id == 0xFFFF) {
-            if (((Fh *)(p + 0x86))->f == func_02012B58((const struct BigObj *)y))
+            if (((Fh *)(p + 0x86))->f == GAME_DATA_GetExitMode((const struct BigObj *)y))
                 id = 0;
         }
         if (id == 0) {
@@ -78,16 +78,16 @@ void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
         ((Fb *)(p + 0x8A))->lo = kind;
         ((Fb *)(p + 0x8A))->b4 = flag;
         p[0x900] = 1;
-        res = func_02175598(p + 0x70, x);
+        res = INTRUDE_COMM_GetPlayerObjCode(p + 0x70, x);
     } else {
         id = 0;
         res = 1;
         if (has)
             res = 4;
     }
-    obj = func_02188CB4(func_0201210C(a1));
-    func_021A3220(obj, (u16)res);
-    func_0216D8C0(func_021A3074(obj), &v);
+    obj = FIELDMAP_GetFieldPlayer(GAMESYSTEM_GetFieldMap(a1));
+    FIELD_PLAYER_SetObjCode(obj, (u16)res);
+    FLDMMDL_SetDrawOffset(FIELD_PLAYER_GetMmdl(obj), &v);
     if (id == 0)
-        func_021A322C(obj);
+        FIELD_PLAYER_ClearRememberedObjCode(obj);
 }

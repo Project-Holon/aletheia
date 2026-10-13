@@ -1,5 +1,5 @@
 /*
- * function: func_02189A80
+ * function: FIELDMAP_CalcCameraPitchScale
  * address:  0x02189A80
  * packet:   pkt_ov021_02189A80
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218ED3C  0x0218ED3C  thumb  ov021
+ *   FIELD_CAMERA_GetViewPitchPtr  0x0218ED3C  thumb  ov021
  *   d_020A1B38     0x020A1B38  data  a2
  */
 #include "../include/Obj19508.h"
 
 extern short d_020A1B38[];
 typedef unsigned char  u8;
-extern u8 *func_0218ED3C(u8 *p);
+extern u8 *FIELD_CAMERA_GetViewPitchPtr(u8 *p);
 
-int func_02189A80(char *p)
+int FIELDMAP_CalcCameraPitchScale(char *p)
 {
-    unsigned short *q = (short unsigned int *)func_0218ED3C(((struct Obj19508 *)p)->f10);
+    unsigned short *q = (short unsigned int *)FIELD_CAMERA_GetViewPitchPtr(((struct Obj19508 *)p)->f10);
     int i = (*q >> 4) * 2 + 1;
     int s = d_020A1B38[i];
     long long v;

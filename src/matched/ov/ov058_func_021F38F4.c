@@ -1,5 +1,5 @@
 /*
- * function: func_021F38F4
+ * function: GIMMICK58_PlaceTrains
  * address:  0x021F38F4
  * packet:   pkt_ov058_021F38F4
  * region:   ov058
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021F391C  0x021F391C  thumb  ov058
+ *   GIMMICK58_PlaceLaneTrains  0x021F391C  thumb  ov058
  */
 
-extern void func_021F391C(void *unused, void *a, int i, int j);
+extern void GIMMICK58_PlaceLaneTrains(void *unused, void *a, int i, int j);
 
-void func_021F38F4(void *unused, void *a)
+void GIMMICK58_PlaceTrains(void *unused, void *a)
 {
-    func_021F391C(unused, a, 0, 1);
-    func_021F391C(unused, a, 4, 5);
-    func_021F391C(unused, a, 8, 9);
+    GIMMICK58_PlaceLaneTrains(unused, a, 0, 1);
+    GIMMICK58_PlaceLaneTrains(unused, a, 4, 5);
+    GIMMICK58_PlaceLaneTrains(unused, a, 8, 9);
 }

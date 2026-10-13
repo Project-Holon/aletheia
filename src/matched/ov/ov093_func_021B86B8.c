@@ -1,5 +1,5 @@
 /*
- * function: func_021B86B8
+ * function: BTL_MAIN_GetCompetitor
  * address:  0x021B86B8
  * packet:   pkt_021B86B8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent 8, compiled 6, trailing padding)
  */
 
-void *func_021B86B8(void ***p)
+void *BTL_MAIN_GetCompetitor(void ***p)
 {
     return **p;
 }

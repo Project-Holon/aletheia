@@ -10,8 +10,8 @@
  * symbols:
  *   func_021CA444 0x021CA444 thumb ov128
  *   func_021CA458 0x021CA458 thumb ov128
- *   func_02027FD8 0x02027FD8 thumb
- *   func_02045808 0x02045808 arm
+ *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -22,8 +22,8 @@ extern void func_021CA458(char *p, void *q);
 struct Descriptor;
 struct TaskMenuState;
 struct U16Vec;
-extern unsigned int func_02027FD8(struct TaskMenuState *s);
-extern void func_02045808(struct U16Vec *vec);
+extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int func_020452E8(struct Descriptor *d);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -31,10 +31,10 @@ void func_021C72A0(u8 *p, u8 *unused, u8 *q)
 {
     func_021CA444((char *)q);
     func_021CA458((char *)q,q+12);
-    func_02027FD8(((struct Obj04505 *)p)->f48);
-    func_02045808(((struct Obj04505 *)p)->f30);
-    func_02045808(((struct Obj04505 *)p)->f3C);
-    func_02045808(((struct Obj04505 *)p)->f2C);
+    APP_TASKMENU_RES_Delete(((struct Obj04505 *)p)->f48);
+    STRBUF_Delete(((struct Obj04505 *)p)->f30);
+    STRBUF_Delete(((struct Obj04505 *)p)->f3C);
+    STRBUF_Delete(((struct Obj04505 *)p)->f2C);
     func_020452E8(((struct Obj04505 *)p)->f1C);
     func_020452E8(((struct Obj04505 *)p)->fC);
     func_020307B0(((struct Obj04505 *)p)->f14);

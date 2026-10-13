@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F536C",
+   "name": "ENCEFF_ScreenTexFlashEventMain",
    "address": "0x021F536C",
    "kind": "game",
    "region": "ov075",

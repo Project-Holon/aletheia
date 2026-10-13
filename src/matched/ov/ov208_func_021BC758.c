@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020216D4  0x020216D4  thumb
+ *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
  */
 
 typedef unsigned short u16;
@@ -24,16 +24,16 @@ struct Ov208PalFade {
 };
 
 struct PalAnmSlot;
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 
 void ov208_func_021BC758(struct Ov208PalFade *p)
 {
     if (p->mask & 1)
-        func_020216D4(p->slots, 0, 0, 0x1a0);
+        PALANM_CopyHwPaletteToSlot(p->slots, 0, 0, 0x1a0);
     if (p->mask & 4)
-        func_020216D4(p->slots, 2, 0, 0x100);
+        PALANM_CopyHwPaletteToSlot(p->slots, 2, 0, 0x100);
     if (p->mask & 2)
-        func_020216D4(p->slots, 1, 0, 0x1a0);
+        PALANM_CopyHwPaletteToSlot(p->slots, 1, 0, 0x1a0);
     if (p->mask & 8)
-        func_020216D4(p->slots, 3, 0, 0x1c0);
+        PALANM_CopyHwPaletteToSlot(p->slots, 3, 0, 0x1c0);
 }

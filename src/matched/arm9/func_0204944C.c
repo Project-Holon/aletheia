@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204944C
+ * function: ARC_TOOL_ReadHandleMemberRange
  * address:  0x0204944C
  * packet:   pkt_02049250
  * region:   arm9
@@ -27,12 +27,12 @@
  * puts the caller's offset on the left of the source expression
  * (docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md).
  *
- * The bounds assertion is the same five-argument call func_02049250 uses:
+ * The bounds assertion is the same five-argument call ARC_TOOL_LoadHandleMember uses:
  * the count is already in r3 from the guard's own `cmp`, so only the member
  * reaches the stack (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204944C.c  *       --func func_0204944C --addr 0x0204944C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_ReadHandleMemberRange.c  *       --func ARC_TOOL_ReadHandleMemberRange --addr 0x0204944C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -55,7 +55,7 @@ struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size,
+void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size,
                    void *dst)
 {
     u32 start;

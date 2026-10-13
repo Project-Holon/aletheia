@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
- *   func_0201A2A8 0x0201A2A8 thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
+ *   POKE_REGULATION_AdjustPartyLevels 0x0201A2A8 thumb
  *   func_0200873C 0x0200873C thumb
  *   func_02034AC4 0x02034AC4 arm
- *   func_021B6100 0x021B6100 thumb ov090
+ *   PLIST_COMM_Start 0x021B6100 thumb ov090
  *   ov90_id 0x0000005A data a1
  */
 typedef unsigned char u8;
@@ -41,12 +41,12 @@ typedef struct {
     u8 f94;
 } Output;
 struct Big;
-extern void *func_02012EBC(struct Big *p);
-extern void func_0201A2A8(void *, void *);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern void POKE_REGULATION_AdjustPartyLevels(void *, void *);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int func_02034AC4(int);
-extern void func_021B6100(u8 *);
+extern void PLIST_COMM_Start(u8 *);
 extern const char ov90_id[];
 void func_021DCB48(Args *p, void *unused, Output *out)
 {
@@ -54,9 +54,9 @@ void func_021DCB48(Args *p, void *unused, Output *out)
     void *b;
     u8 i;
     a = p->a;
-    b = func_02012EBC(p->save);
+    b = GAME_DATA_GetSaveControl(p->save);
     out->party = p->party;
-    func_0201A2A8(a, out->party);
+    POKE_REGULATION_AdjustPartyLevels(a, out->party);
     out->f4 = 0;
     out->f8 = 0;
     out->fC = (u32)func_0200873C(b);
@@ -108,5 +108,5 @@ void func_021DCB48(Args *p, void *unused, Output *out)
     }
     out->f94 = 0;
     func_02034AC4((int)ov90_id);
-    func_021B6100((u8 *)out);
+    PLIST_COMM_Start((u8 *)out);
 }

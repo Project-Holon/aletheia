@@ -1,7 +1,7 @@
 /*
  * file:     field_player_nogrid.c
  * unit:     yes
- * function: func_021A5880, func_021A5920, func_021A5928, func_021A5964, func_021A596C, func_021A59DC, func_021A59EC, func_021A5A00, func_021A5A0C, func_021A5A18, func_021A5A24, func_021A5A30, func_021A5A34, func_021A5A68, func_021A5AD4, func_021A5B4C, func_021A5B6C, func_021A5B7C, func_021A5BC0, func_021A5C3C, func_021A5CA4, func_021A5D04, func_021A5DD8, func_021A5E28, func_021A5EA0, func_021A5EA4, func_021A5EDC, func_021A5F14, func_021A5F38, func_021A5F74, func_021A5F98, func_021A6014, func_021A607C, func_021A60DC, func_021A61B0, func_021A6200, func_021A6278, func_021A627C, func_021A62B4, func_021A62D8, func_021A62FC, func_021A6338, func_021A635C, func_021A63EC, func_021A63F0, func_021A6428, func_021A6454, func_021A6478, func_021A64B4, func_021A652C, func_021A658C, func_021A661C, func_021A666C, func_021A66E4, func_021A66EC, func_021A66F8, func_021A6708, func_021A6714, func_021A6720, func_021A672C, func_021A6738, func_021A6744, func_021A6750, func_021A675C, func_021A6768, func_021A6774, func_021A6780, func_021A678C, func_021A6798, func_021A67A4, func_021A682C, func_021A6870, func_021A6908, func_021A6974, func_021A69D8, func_021A6A3C, func_021A6A64, func_021A6A8C, func_021A6AA0, func_021A6B08, func_021A6B30, func_021A6B50, func_021A6B88, func_021A6B9C, func_021A6BAC, func_021A6BB4, func_021A6C30, func_021A6C4C, func_021A6C64, func_021A6C6C
+ * function: FIELD_PLAYER_NOGRID_Create, FIELD_PLAYER_NOGRID_Delete, FIELD_PLAYER_NOGRID_AttachMmdl, FIELD_PLAYER_NOGRID_ClearRailWork, FIELD_PLAYER_NOGRID_Update, FIELD_PLAYER_NOGRID_IsBlocked, FIELD_PLAYER_NOGRID_IsForcedMove, FIELD_PLAYER_NOGRID_SetRailLocation, FIELD_PLAYER_NOGRID_GetNextRailLocation, FIELD_PLAYER_NOGRID_GetRailLocationByDir, FIELD_PLAYER_NOGRID_GetRailPos, FIELD_PLAYER_NOGRID_GetRailWork, FIELD_PLAYER_NOGRID_EndBlockedWalk, FIELD_PLAYER_NOGRID_CheckAction, FIELD_PLAYER_NOGRID_StartAction, FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck, FIELD_PLAYER_NOGRID_GetHitBits, FIELD_PLAYER_NOGRID_UpdateSpin, FIELD_PLAYER_NOGRID_StartActionWalk, FIELD_PLAYER_NOGRID_CheckActionWalk, FIELD_PLAYER_NOGRID_CheckWalkFromStand, FIELD_PLAYER_NOGRID_CheckWalkStep, FIELD_PLAYER_NOGRID_CheckWalkFromTurn, FIELD_PLAYER_NOGRID_CheckWalkFromBlocked, FIELD_PLAYER_NOGRID_StartWalkNone, FIELD_PLAYER_NOGRID_StartWalkStand, FIELD_PLAYER_NOGRID_StartWalkStep, FIELD_PLAYER_NOGRID_StartWalkTurn, FIELD_PLAYER_NOGRID_StartWalkBlocked, FIELD_PLAYER_NOGRID_StartWalkLedgeJump, FIELD_PLAYER_NOGRID_StartActionSlow, FIELD_PLAYER_NOGRID_CheckActionSlow, FIELD_PLAYER_NOGRID_CheckSlowFromStand, FIELD_PLAYER_NOGRID_CheckSlowStep, FIELD_PLAYER_NOGRID_CheckSlowFromTurn, FIELD_PLAYER_NOGRID_CheckSlowFromBlocked, FIELD_PLAYER_NOGRID_StartSlowNone, FIELD_PLAYER_NOGRID_StartSlowStand, FIELD_PLAYER_NOGRID_StartSlowStep, FIELD_PLAYER_NOGRID_StartSlowTurn, FIELD_PLAYER_NOGRID_StartSlowBlocked, FIELD_PLAYER_NOGRID_StartSlowLedgeJump, FIELD_PLAYER_NOGRID_StartActionRail, FIELD_PLAYER_NOGRID_StartRailNone, FIELD_PLAYER_NOGRID_StartRailStand, FIELD_PLAYER_NOGRID_StartRailStep, FIELD_PLAYER_NOGRID_StartRailTurn, FIELD_PLAYER_NOGRID_StartRailBlocked, FIELD_PLAYER_NOGRID_CheckActionRail, FIELD_PLAYER_NOGRID_CheckRailFromStand, FIELD_PLAYER_NOGRID_CheckRailStep, FIELD_PLAYER_NOGRID_CheckRailFromTurn, FIELD_PLAYER_NOGRID_CheckRailFromBlocked, FIELD_PLAYER_NOGRID_SetFlags, FIELD_PLAYER_NOGRID_ClearFlags, FIELD_PLAYER_NOGRID_HasFlags, FIELD_PLAYER_NOGRID_SetForcedMove, FIELD_PLAYER_NOGRID_ClearForcedMove, FIELD_PLAYER_NOGRID_SetForcedMoveEnded, FIELD_PLAYER_NOGRID_ClearForcedMoveEnded, FIELD_PLAYER_NOGRID_ClearPending, FIELD_PLAYER_NOGRID_SetSpinA, FIELD_PLAYER_NOGRID_ClearSpinA, FIELD_PLAYER_NOGRID_SetSpinB, FIELD_PLAYER_NOGRID_ClearSpinB, FIELD_PLAYER_NOGRID_SetFaceRight, FIELD_PLAYER_NOGRID_ClearFaceRight, FIELD_PLAYER_NOGRID_SetInputHold, FIELD_PLAYER_NOGRID_ClearInputHold, FIELD_PLAYER_NOGRID_GetForcedMoveKind, FIELD_PLAYER_NOGRID_RunForcedMove, FIELD_PLAYER_NOGRID_EndForcedMove, FIELD_PLAYER_NOGRID_ForcedSlide, FIELD_PLAYER_NOGRID_ForcedSlideSpinA, FIELD_PLAYER_NOGRID_ForcedSlideSpinB, FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2, FIELD_PLAYER_NOGRID_ForcedSlideWarnDir3, FIELD_PLAYER_NOGRID_ForcedSlideFaceRight, FIELD_PLAYER_NOGRID_ForcedInputHold, FIELD_PLAYER_NOGRID_StartSpin, FIELD_PLAYER_NOGRID_StopSpin, FIELD_PLAYER_NOGRID_AdvanceSpin, FIELD_PLAYER_NOGRID_InitInputHold, FIELD_PLAYER_NOGRID_EnableInputHold, FIELD_PLAYER_NOGRID_ResetInputHold, FIELD_PLAYER_NOGRID_UpdateInputHold, FIELD_PLAYER_NOGRID_EndInputHoldFrame, FIELD_PLAYER_NOGRID_GetInputHoldDir, FIELD_PLAYER_NOGRID_IsInputHoldKept, FIELD_PLAYER_NOGRID_HasConnectionAhead
  * address:  0x021A5880
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -18,63 +18,63 @@
  *   func_02030734  0x02030734  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_02006148  0x02006148  thumb
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   func_020061F8  0x020061F8  thumb
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0219E2F4  0x0219E2F4  thumb
- *   func_0219E664  0x0219E664  thumb
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb
+ *   FLDMMDL_RAIL_GetLocationByDir  0x0219E664  thumb
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
  *   func_020120F4  0x020120F4  thumb
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216D608  0x0216D608  thumb  ov010
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
- *   func_021AB158  0x021AB158  thumb  ov021
- *   func_021AB164  0x021AB164  thumb  ov021
- *   func_021AB170  0x021AB170  thumb  ov021
- *   func_021AB17C  0x021AB17C  thumb  ov021
- *   func_0216D4B4  0x0216D4B4  thumb  ov010
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7DC  0x0216D7DC  thumb  ov010
- *   func_021AB348  0x021AB348  thumb  ov021
- *   func_0216D550  0x0216D550  thumb  ov010
- *   func_0216D548  0x0216D548  thumb  ov010
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_GetDirMove  0x0216D608  thumb  ov010
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
+ *   MAP_ATTR_IsLedgeNorth  0x021AB158  thumb  ov021
+ *   MAP_ATTR_IsLedgeSouth  0x021AB164  thumb  ov021
+ *   MAP_ATTR_IsLedgeWest  0x021AB170  thumb  ov021
+ *   MAP_ATTR_IsLedgeEast  0x021AB17C  thumb  ov021
+ *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_GetNowAttr  0x0216D7DC  thumb  ov010
+ *   MAP_ATTR_IsForcedSlide  0x021AB348  thumb  ov021
+ *   FLDMMDL_ClearStatusBit  0x0216D550  thumb  ov010
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
  *   func_02012844  0x02012844  thumb
- *   func_0216D5A0  0x0216D5A0  thumb  ov010
- *   func_0216E0AC  0x0216E0AC  thumb  ov010
- *   func_0219E348  0x0219E348  thumb  ov021
- *   func_0219E2C0  0x0219E2C0  thumb  ov021
+ *   FLDMMDL_GetMoveCode  0x0216D5A0  thumb  ov010
+ *   FLDMMDL_ChangeHeader  0x0216E0AC  thumb  ov010
+ *   FLDMMDL_RAIL_GetRailWork  0x0219E348  thumb  ov021
+ *   FLDMMDL_RAIL_SetLocation  0x0219E2C0  thumb  ov021
  *   d_021DDF04     0x021DDF04  data  a4
- *   d_021DDEE0     0x021DDEE0  data  a4
+ *   gFieldPlayerNogridMmdlHeader     0x021DDEE0  data  a4
  *   d_021DDEE0b    0x021DDEE0  data  a4
- *   func_021B8028  0x021B8028  thumb  ov021
- *   func_0219E424  0x0219E424  thumb  ov021
- *   func_0219D724  0x0219D724  thumb  ov021
- *   func_021BB1AC  0x021BB1AC  thumb  ov021
- *   func_021BB1B8  0x021BB1B8  thumb  ov021
- *   func_021BB1C4  0x021BB1C4  thumb  ov021
- *   func_021BB1D0  0x021BB1D0  thumb  ov021
- *   func_021BB1DC  0x021BB1DC  thumb  ov021
- *   func_021BB1E8  0x021BB1E8  thumb  ov021
- *   data_021D8AB8  0x021D8AB8  data  a4
- *   func_021642A4  0x021642A4  thumb  ov010
- *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_0216D5D8  0x0216D5D8  thumb
- *   d_021D8AB0  0x021D8AB0  data  ov021  a4
- *   func_02162598  0x02162598  thumb  ov010
- *   func_021A395C  0x021A395C  thumb  ov021
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A3964  0x021A3964  thumb  ov021
- *   func_021A3974  0x021A3974  thumb  ov021
- *   func_021A3AB8  0x021A3AB8  thumb  ov021
- *   func_021A3AC4  0x021A3AC4  thumb  ov021
- *   func_021A3CB0  0x021A3CB0  thumb  ov021
- *   func_021A3CC0  0x021A3CC0  thumb  ov021
- *   func_021A3CE8  0x021A3CE8  thumb  ov021
+ *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb  ov021
+ *   FLDMMDL_RAIL_GetHitBitsDir  0x0219E424  thumb  ov021
+ *   FLDMMDL_RAIL_MOVE_GetLocationAttr  0x0219D724  thumb  ov021
+ *   RAIL_ATTR_IsForceMoveUp  0x021BB1AC  thumb  ov021
+ *   RAIL_ATTR_IsForceMoveDown  0x021BB1B8  thumb  ov021
+ *   RAIL_ATTR_IsForceMoveLeft  0x021BB1C4  thumb  ov021
+ *   RAIL_ATTR_IsForceMoveRight  0x021BB1D0  thumb  ov021
+ *   RAIL_ATTR_IsForceMoveStop  0x021BB1DC  thumb  ov021
+ *   RAIL_ATTR_IsSlipDown  0x021BB1E8  thumb  ov021
+ *   gFieldPlayerNogridForcedMoveFuncs  0x021D8AB8  data  a4
+ *   FLDMMDL_MOVE_GetDirTableValue  0x021642A4  thumb  ov010
+ *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
+ *   FLDMMDL_SetDirDisp  0x0216D5D8  thumb
+ *   gFieldPlayerNogridSpinDirs  0x021D8AB0  data  ov021  a4
+ *   EVENTDATA_SYSTEM_SearchConnectIdByRailLocation  0x02162598  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetFieldMap  0x021A395C  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELD_PLAYER_CORE_SetStepKind  0x021A3964  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetFormCode  0x021A3974  thumb  ov021
+ *   FIELD_PLAYER_CORE_ChooseMoveDirFromKeys  0x021A3AB8  thumb  ov021
+ *   FIELD_PLAYER_CORE_RememberKeyDirs  0x021A3AC4  thumb  ov021
+ *   FIELD_PLAYER_CORE_StartFormChange  0x021A3CB0  thumb  ov021
+ *   FIELD_PLAYER_CORE_StepFormChange  0x021A3CC0  thumb  ov021
+ *   FIELD_PLAYER_CORE_FinishFormChange  0x021A3CE8  thumb  ov021
  */
 #include "field_player_nogrid_types.h"
 
@@ -85,197 +85,197 @@ extern u32 func_020307B0(void *block);
 extern void *func_02030734(u32 heapId, u32 size, int a, const char *file, u16 line);
 void func_020061E4(u32 seId);
 void func_02082BCC(void *dst, int value, int size);
-int func_02006148(u32 seId);
+int GFL_USE_GetSeSlot(u32 seId);
 void func_020061F8(int slot);
 
 /* Field model (ov010). */
-void func_0216D5E0(Mmdl *mmdl, int dir);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-u16 func_0216D598(Mmdl *mmdl);
-extern u16 func_0216D608(Mmdl *mmdl);
-extern int func_0216D3CC(Mmdl *mmdl);
-extern void *func_0216D4B4(Mmdl *mmdl);
-void func_0216D410(Mmdl *mmdl, int acmdCode);
-void func_0216D674(Mmdl *mmdl, u16 value);
-u32 func_0216D7DC(Mmdl *mmdl);
-u32 *func_0216D550(Mmdl *mmdl, u32 bits);
-extern u32 *func_0216D548(Mmdl *mmdl, u32 bits); /* its third parameter is a scratch it never reads */
-extern u16 func_0216D5A0(Mmdl *mmdl);
-extern void func_0216E0AC(Mmdl *mmdl, void *header);
-extern u16 func_021642A4(int dir);
-extern int func_0216D60C(Mmdl *mmdl, int dir);
-extern void func_0216D5D8(Mmdl *mmdl, int dir);
-int func_02197E7C(int dir, int baseCode);
+void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
+extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
+extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
+extern void *FLDMMDL_FreeAcmd(Mmdl *mmdl);
+void FLDMMDL_SetAcmd(Mmdl *mmdl, int acmdCode);
+void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 value);
+u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
+u32 *FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bits);
+extern u32 *FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bits); /* its third parameter is a scratch it never reads */
+extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
+extern void FLDMMDL_ChangeHeader(Mmdl *mmdl, void *header);
+extern u16 FLDMMDL_MOVE_GetDirTableValue(int dir);
+extern int FLDMMDL_SetDirAll(Mmdl *mmdl, int dir);
+extern void FLDMMDL_SetDirDisp(Mmdl *mmdl, int dir);
+int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int baseCode);
 
 /* Field model on rails (ov021). */
-extern void func_0219E2F4(Mmdl *mmdl, RailLocation *outLocation);
-extern int func_0219E664(Mmdl *mmdl, u32 dir, RailLocation *outLocation);
-extern struct RailWork *func_0219E348(Mmdl *mmdl);
-extern void func_0219E2C0(Mmdl *mmdl, RailLocation *location);
-extern int func_0219E424(Mmdl *mmdl, u32 dir, int *outAttr);
-extern int func_0219D724(Mmdl *mmdl, RailLocation *location);
-extern void func_021B8028(struct RailWork *railWork, void *outPos);
+extern void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *outLocation);
+extern int FLDMMDL_RAIL_GetLocationByDir(Mmdl *mmdl, u32 dir, RailLocation *outLocation);
+extern struct RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
+extern void FLDMMDL_RAIL_SetLocation(Mmdl *mmdl, RailLocation *location);
+extern int FLDMMDL_RAIL_GetHitBitsDir(Mmdl *mmdl, u32 dir, int *outAttr);
+extern int FLDMMDL_RAIL_MOVE_GetLocationAttr(Mmdl *mmdl, RailLocation *location);
+extern void FIELD_RAIL_WORK_GetPos(struct RailWork *railWork, void *outPos);
 
 /* Tile attributes. */
-u16 func_021AB0F0(u32 attr);
-extern u16 func_021AB0F8(u32);
-extern int func_021AB158(u16);
-extern int func_021AB164(u16);
-extern int func_021AB170(u16);
-extern int func_021AB17C(u16);
-int func_021AB348(u32 attr);
-extern int func_021BB1AC(int attr);
-extern int func_021BB1B8(int attr);
-extern int func_021BB1C4(int attr);
-extern int func_021BB1D0(int attr);
-extern int func_021BB1DC(int attr);
-extern int func_021BB1E8(int attr);
+u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern u16 MAP_ATTR_GetFlags(u32);
+extern int MAP_ATTR_IsLedgeNorth(u16);
+extern int MAP_ATTR_IsLedgeSouth(u16);
+extern int MAP_ATTR_IsLedgeWest(u16);
+extern int MAP_ATTR_IsLedgeEast(u16);
+int MAP_ATTR_IsForcedSlide(u32 attr);
+extern int RAIL_ATTR_IsForceMoveUp(int attr);
+extern int RAIL_ATTR_IsForceMoveDown(int attr);
+extern int RAIL_ATTR_IsForceMoveLeft(int attr);
+extern int RAIL_ATTR_IsForceMoveRight(int attr);
+extern int RAIL_ATTR_IsForceMoveStop(int attr);
+extern int RAIL_ATTR_IsSlipDown(int attr);
 
 /* Game system and event data. */
 void *func_020120F4(void *gameSystem);
-extern void *func_02188C80(struct FieldMap *fieldMap);
+extern void *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern void *func_02012844(void *gameData);
-extern int func_02162598(void *eventData, RailLocation *location);
+extern int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(void *eventData, RailLocation *location);
 
 /* Player core (field_player_core.c). */
-struct FieldMap *func_021A395C(struct FieldPlayerCore *core);
-Mmdl *func_021A3960(struct FieldPlayerCore *core);
-void func_021A3964(struct FieldPlayerCore *core, u32 state);
-u32 func_021A3974(struct FieldPlayerCore *core);
-u16 func_021A3AB8(struct FieldPlayerCore *core, u32 keyCont);
-void func_021A3AC4(struct FieldPlayerCore *core, u32 keyCont);
-int func_021A3CB0(struct FieldPlayerCore *core, u32 flags);
-int func_021A3CC0(struct FieldPlayerCore *core);
-void func_021A3CE8(struct FieldPlayerCore *core);
+struct FieldMap *FIELD_PLAYER_CORE_GetFieldMap(struct FieldPlayerCore *core);
+Mmdl *FIELD_PLAYER_CORE_GetMmdl(struct FieldPlayerCore *core);
+void FIELD_PLAYER_CORE_SetStepKind(struct FieldPlayerCore *core, u32 state);
+u32 FIELD_PLAYER_CORE_GetFormCode(struct FieldPlayerCore *core);
+u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(struct FieldPlayerCore *core, u32 keyCont);
+void FIELD_PLAYER_CORE_RememberKeyDirs(struct FieldPlayerCore *core, u32 keyCont);
+int FIELD_PLAYER_CORE_StartFormChange(struct FieldPlayerCore *core, u32 flags);
+int FIELD_PLAYER_CORE_StepFormChange(struct FieldPlayerCore *core);
+void FIELD_PLAYER_CORE_FinishFormChange(struct FieldPlayerCore *core);
 
 /* This file. */
-FieldPlayerNogrid *func_021A5880(struct FieldPlayerCore *core, int heapId);
-void func_021A5920(FieldPlayerNogrid *player);
-void func_021A5928(FieldPlayerNogrid *player, RailLocation *location);
-void func_021A5964(FieldPlayerNogrid *player);
-void func_021A596C(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont);
-int func_021A59DC(FieldPlayerNogrid *player);
-u32 func_021A59EC(FieldPlayerNogrid *player);
-void func_021A5A00(FieldPlayerNogrid *player, RailLocation *location);
-void func_021A5A0C(FieldPlayerNogrid *player, RailLocation *outLocation);
-int func_021A5A18(FieldPlayerNogrid *player, u32 dir, RailLocation *outLocation);
-void func_021A5A24(FieldPlayerNogrid *player, void *outPos);
-struct RailWork *func_021A5A30(FieldPlayerNogrid *player);
-void func_021A5A34(FieldPlayerNogrid *player);
-int func_021A5A68(FieldPlayerNogrid *player, u32 dir, u32 keyTrg, u32 keyCont, u32 forced);
-void func_021A5AD4(FieldPlayerNogrid *player, u32 action, u32 dir, u32 keyTrg, u32 keyCont, u32 forced);
-void func_021A5B4C(FieldPlayerNogrid *player, u32 keyCont, int action);
-int func_021A5B6C(FieldPlayerNogrid *player, Mmdl *mmdl, u32 dir, int *outAttr);
-void func_021A5B7C(FieldPlayerNogrid *player);
-void func_021A5BC0(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
-int func_021A5C3C(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
-int func_021A5CA4(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
-int func_021A5D04(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A5DD8(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A5E28(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A5EA0(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced);
-void func_021A5EA4(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A5EDC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A5F14(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A5F38(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A5F74(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A5F98(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
-int func_021A6014(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A607C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A60DC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A61B0(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A6200(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A6278(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced);
-void func_021A627C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A62B4(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A62D8(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A62FC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A6338(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A635C(FieldPlayerNogrid *player, int action, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A63EC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced);
-void func_021A63F0(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A6428(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A6454(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-void func_021A6478(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A64B4(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A652C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A658C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-int func_021A661C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
-u32 func_021A666C(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
-void func_021A66E4(FieldPlayerNogrid *player, u32 mask);
-void func_021A66EC(FieldPlayerNogrid *player, u32 mask);
-int func_021A66F8(FieldPlayerNogrid *player, int mask);
-void func_021A6708(FieldPlayerNogrid *player);
-void func_021A6714(FieldPlayerNogrid *player);
-void func_021A6720(FieldPlayerNogrid *player);
-void func_021A672C(FieldPlayerNogrid *player);
-void func_021A6738(FieldPlayerNogrid *player);
-void func_021A6744(FieldPlayerNogrid *player);
-void func_021A6750(FieldPlayerNogrid *player);
-void func_021A675C(FieldPlayerNogrid *player);
-void func_021A6768(FieldPlayerNogrid *player);
-void func_021A6774(FieldPlayerNogrid *player);
-void func_021A6780(FieldPlayerNogrid *player);
-void func_021A678C(FieldPlayerNogrid *player);
-void func_021A6798(FieldPlayerNogrid *player);
-u32 func_021A67A4(FieldPlayerNogrid *player);
-u32 func_021A682C(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind);
-void func_021A6870(FieldPlayerNogrid *player);
-u32 func_021A6908(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind);
-u32 func_021A6974(FieldPlayerNogrid *player, u32 dir);
-u32 func_021A69D8(FieldPlayerNogrid *player, u32 dir);
-int func_021A6A3C(FieldPlayerNogrid *player, int dir, int skipTileKind);
-int func_021A6A64(FieldPlayerNogrid *player, int dir, int skipTileKind);
-int func_021A6A8C(FieldPlayerNogrid *player, int dir, int skipTileKind);
-u32 func_021A6AA0(FieldPlayerNogrid *player, u32 dir);
-void func_021A6B08(NogridSpin *spin, u8 variant);
-void func_021A6B30(NogridSpin *spin);
-void func_021A6B50(NogridSpin *spin, Mmdl *mmdl);
-int func_021A6B88(NogridInputHold *hold);
-void func_021A6B9C(NogridInputHold *hold);
-int func_021A6BAC(NogridInputHold *hold);
-void func_021A6BB4(NogridInputHold *hold, u32 dir, Mmdl *mmdl);
-void func_021A6C30(NogridInputHold *hold);
-int func_021A6C4C(NogridInputHold *hold, int dir);
-u32 func_021A6C64(NogridInputHold *hold);
-int func_021A6C6C(FieldPlayerNogrid *player, u32 dir);
+FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int heapId);
+void FIELD_PLAYER_NOGRID_Delete(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_AttachMmdl(FieldPlayerNogrid *player, RailLocation *location);
+void FIELD_PLAYER_NOGRID_ClearRailWork(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_Update(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont);
+int FIELD_PLAYER_NOGRID_IsBlocked(FieldPlayerNogrid *player);
+u32 FIELD_PLAYER_NOGRID_IsForcedMove(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_SetRailLocation(FieldPlayerNogrid *player, RailLocation *location);
+void FIELD_PLAYER_NOGRID_GetNextRailLocation(FieldPlayerNogrid *player, RailLocation *outLocation);
+int FIELD_PLAYER_NOGRID_GetRailLocationByDir(FieldPlayerNogrid *player, u32 dir, RailLocation *outLocation);
+void FIELD_PLAYER_NOGRID_GetRailPos(FieldPlayerNogrid *player, void *outPos);
+struct RailWork *FIELD_PLAYER_NOGRID_GetRailWork(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_EndBlockedWalk(FieldPlayerNogrid *player);
+int FIELD_PLAYER_NOGRID_CheckAction(FieldPlayerNogrid *player, u32 dir, u32 keyTrg, u32 keyCont, u32 forced);
+void FIELD_PLAYER_NOGRID_StartAction(FieldPlayerNogrid *player, u32 action, u32 dir, u32 keyTrg, u32 keyCont, u32 forced);
+void FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck(FieldPlayerNogrid *player, u32 keyCont, int action);
+int FIELD_PLAYER_NOGRID_GetHitBits(FieldPlayerNogrid *player, Mmdl *mmdl, u32 dir, int *outAttr);
+void FIELD_PLAYER_NOGRID_UpdateSpin(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_StartActionWalk(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
+int FIELD_PLAYER_NOGRID_CheckActionWalk(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
+int FIELD_PLAYER_NOGRID_CheckWalkFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
+int FIELD_PLAYER_NOGRID_CheckWalkStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckWalkFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckWalkFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartWalkNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced);
+void FIELD_PLAYER_NOGRID_StartWalkStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartWalkStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartWalkTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartWalkBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartWalkLedgeJump(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartActionSlow(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
+int FIELD_PLAYER_NOGRID_CheckActionSlow(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckSlowFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckSlowStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckSlowFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckSlowFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartSlowNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced);
+void FIELD_PLAYER_NOGRID_StartSlowStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartSlowStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartSlowTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartSlowBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartSlowLedgeJump(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartActionRail(FieldPlayerNogrid *player, int action, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartRailNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced);
+void FIELD_PLAYER_NOGRID_StartRailStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartRailStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartRailTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+void FIELD_PLAYER_NOGRID_StartRailBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckActionRail(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckRailFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckRailStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+int FIELD_PLAYER_NOGRID_CheckRailFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced);
+u32 FIELD_PLAYER_NOGRID_CheckRailFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced);
+void FIELD_PLAYER_NOGRID_SetFlags(FieldPlayerNogrid *player, u32 mask);
+void FIELD_PLAYER_NOGRID_ClearFlags(FieldPlayerNogrid *player, u32 mask);
+int FIELD_PLAYER_NOGRID_HasFlags(FieldPlayerNogrid *player, int mask);
+void FIELD_PLAYER_NOGRID_SetForcedMove(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_ClearForcedMove(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_SetForcedMoveEnded(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_ClearForcedMoveEnded(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_ClearPending(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_SetSpinA(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_ClearSpinA(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_SetSpinB(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_ClearSpinB(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_SetFaceRight(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_ClearFaceRight(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_SetInputHold(FieldPlayerNogrid *player);
+void FIELD_PLAYER_NOGRID_ClearInputHold(FieldPlayerNogrid *player);
+u32 FIELD_PLAYER_NOGRID_GetForcedMoveKind(FieldPlayerNogrid *player);
+u32 FIELD_PLAYER_NOGRID_RunForcedMove(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind);
+void FIELD_PLAYER_NOGRID_EndForcedMove(FieldPlayerNogrid *player);
+u32 FIELD_PLAYER_NOGRID_ForcedSlide(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind);
+u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinA(FieldPlayerNogrid *player, u32 dir);
+u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinB(FieldPlayerNogrid *player, u32 dir);
+int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2(FieldPlayerNogrid *player, int dir, int skipTileKind);
+int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir3(FieldPlayerNogrid *player, int dir, int skipTileKind);
+int FIELD_PLAYER_NOGRID_ForcedSlideFaceRight(FieldPlayerNogrid *player, int dir, int skipTileKind);
+u32 FIELD_PLAYER_NOGRID_ForcedInputHold(FieldPlayerNogrid *player, u32 dir);
+void FIELD_PLAYER_NOGRID_StartSpin(NogridSpin *spin, u8 variant);
+void FIELD_PLAYER_NOGRID_StopSpin(NogridSpin *spin);
+void FIELD_PLAYER_NOGRID_AdvanceSpin(NogridSpin *spin, Mmdl *mmdl);
+int FIELD_PLAYER_NOGRID_InitInputHold(NogridInputHold *hold);
+void FIELD_PLAYER_NOGRID_EnableInputHold(NogridInputHold *hold);
+int FIELD_PLAYER_NOGRID_ResetInputHold(NogridInputHold *hold);
+void FIELD_PLAYER_NOGRID_UpdateInputHold(NogridInputHold *hold, u32 dir, Mmdl *mmdl);
+void FIELD_PLAYER_NOGRID_EndInputHoldFrame(NogridInputHold *hold);
+int FIELD_PLAYER_NOGRID_GetInputHoldDir(NogridInputHold *hold, int dir);
+u32 FIELD_PLAYER_NOGRID_IsInputHoldKept(NogridInputHold *hold);
+int FIELD_PLAYER_NOGRID_HasConnectionAhead(FieldPlayerNogrid *player, u32 dir);
 
 extern char d_021DDF04;                /* source file name string used by the heap allocation */
-extern u16  d_021DDEE0[2];             /* header record handed to func_0216E0AC; [1] is the object code */
+extern u16  gFieldPlayerNogridMmdlHeader[2];             /* header record handed to FLDMMDL_ChangeHeader; [1] is the object code */
 extern u16  d_021DDEE0b[2];            /* second symbol at the same address (the pool needs both) */
-extern const NogridForcedMoveFunc data_021D8AB8[];  /* forced move handlers, indexed by tile kind */
-extern const u8 d_021D8AB0[][4];       /* spin tile direction sequences */
+extern const NogridForcedMoveFunc gFieldPlayerNogridForcedMoveFuncs[];  /* forced move handlers, indexed by tile kind */
+extern const u8 gFieldPlayerNogridSpinDirs[][4];       /* spin tile direction sequences */
 
 
 /* Creates the controller for the player core and attaches the player's field model. */
-FieldPlayerNogrid *func_021A5880(struct FieldPlayerCore *core, int heapId)
+FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int heapId)
 {
     FieldPlayerNogrid *player;
 
     player = func_02030734(heapId, 0x24, 1, &d_021DDF04, 0x1a0);
     player->core = core;
-    player->fieldMap = func_021A395C(core);
-    player->mmdl = func_021A3960(player->core);
-    if (func_0216D5A0(player->mmdl) != 0x45) {
-        d_021DDEE0[1] = func_0216D598(player->mmdl);
-        func_0216E0AC(player->mmdl, d_021DDEE0b);
+    player->fieldMap = FIELD_PLAYER_CORE_GetFieldMap(core);
+    player->mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
+    if (FLDMMDL_GetMoveCode(player->mmdl) != 0x45) {
+        gFieldPlayerNogridMmdlHeader[1] = FLDMMDL_GetObjCode(player->mmdl);
+        FLDMMDL_ChangeHeader(player->mmdl, d_021DDEE0b);
     }
-    player->railWork = func_0219E348(player->mmdl);
+    player->railWork = FLDMMDL_RAIL_GetRailWork(player->mmdl);
     {
         RailLocation location = {0, 0, 0, 0, 0};
-        func_0219E2C0(player->mmdl, &location);
+        FLDMMDL_RAIL_SetLocation(player->mmdl, &location);
     }
-    func_021A6B88(&player->inputHold);
+    FIELD_PLAYER_NOGRID_InitInputHold(&player->inputHold);
     {
-        int kind = func_021A3974(player->core);
+        int kind = FIELD_PLAYER_CORE_GetFormCode(player->core);
         switch (kind) {
         case 2:
-            func_021A3CB0(player->core, 4);
-            func_021A3CE8(player->core);
+            FIELD_PLAYER_CORE_StartFormChange(player->core, 4);
+            FIELD_PLAYER_CORE_FinishFormChange(player->core);
             break;
         case 3:
-            func_021A3CB0(player->core, 0x100);
-            func_021A3CE8(player->core);
+            FIELD_PLAYER_CORE_StartFormChange(player->core, 0x100);
+            FIELD_PLAYER_CORE_FinishFormChange(player->core);
             break;
         }
     }
@@ -283,50 +283,50 @@ FieldPlayerNogrid *func_021A5880(struct FieldPlayerCore *core, int heapId)
 }
 
 
-void func_021A5920(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_Delete(FieldPlayerNogrid *player)
 {
     func_020307B0(player);
 }
 
 
 /* Attaches the model again after its header changed and stores its rail location. */
-void func_021A5928(FieldPlayerNogrid *player, RailLocation *location)
+void FIELD_PLAYER_NOGRID_AttachMmdl(FieldPlayerNogrid *player, RailLocation *location)
 {
-    if (func_0216D5A0(player->mmdl) != 0x45) {
-        d_021DDEE0[1] = func_0216D598(player->mmdl);
-        func_0216E0AC(player->mmdl, d_021DDEE0b);
+    if (FLDMMDL_GetMoveCode(player->mmdl) != 0x45) {
+        gFieldPlayerNogridMmdlHeader[1] = FLDMMDL_GetObjCode(player->mmdl);
+        FLDMMDL_ChangeHeader(player->mmdl, d_021DDEE0b);
     }
-    player->railWork = func_0219E348(player->mmdl);
-    func_0219E2C0(player->mmdl, location);
+    player->railWork = FLDMMDL_RAIL_GetRailWork(player->mmdl);
+    FLDMMDL_RAIL_SetLocation(player->mmdl, location);
 }
 
 
-void func_021A5964(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_ClearRailWork(FieldPlayerNogrid *player)
 {
     player->railWork = 0;
 }
 
 
 /* One frame: keys to direction, forced move, check, execute, bookkeeping. */
-void func_021A596C(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont)
+void FIELD_PLAYER_NOGRID_Update(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont)
 {
     u32 inputDir;
     u32 moveDir;
     u32 action;
 
-    inputDir = func_021A3AB8(player->core, keyCont);
-    func_021A3CC0(player->core);
-    func_021A6BB4(&player->inputHold, inputDir, player->mmdl);
-    moveDir = func_021A682C(player, inputDir, 0);
-    action = func_021A5A68(player, moveDir, keyTrg, keyCont, 0);
-    func_021A5B4C(player, keyCont, action);
-    func_021A5AD4(player, action, moveDir, keyTrg, keyCont, 0);
-    func_021A5B7C(player);
-    func_021A6C30(&player->inputHold);
+    inputDir = FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(player->core, keyCont);
+    FIELD_PLAYER_CORE_StepFormChange(player->core);
+    FIELD_PLAYER_NOGRID_UpdateInputHold(&player->inputHold, inputDir, player->mmdl);
+    moveDir = FIELD_PLAYER_NOGRID_RunForcedMove(player, inputDir, 0);
+    action = FIELD_PLAYER_NOGRID_CheckAction(player, moveDir, keyTrg, keyCont, 0);
+    FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck(player, keyCont, action);
+    FIELD_PLAYER_NOGRID_StartAction(player, action, moveDir, keyTrg, keyCont, 0);
+    FIELD_PLAYER_NOGRID_UpdateSpin(player);
+    FIELD_PLAYER_NOGRID_EndInputHoldFrame(&player->inputHold);
 }
 
 
-int func_021A59DC(FieldPlayerNogrid *player)
+int FIELD_PLAYER_NOGRID_IsBlocked(FieldPlayerNogrid *player)
 {
     if (player->moveMode == FIELD_PLAYER_NOGRID_MODE_BLOCKED) {
         return 1;
@@ -335,78 +335,78 @@ int func_021A59DC(FieldPlayerNogrid *player)
 }
 
 
-u32 func_021A59EC(FieldPlayerNogrid *player)
+u32 FIELD_PLAYER_NOGRID_IsForcedMove(FieldPlayerNogrid *player)
 {
     u32 result = 1;
-    if (func_021A66F8(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE) == 0) {
+    if (FIELD_PLAYER_NOGRID_HasFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE) == 0) {
         result = 0;
     }
     return result;
 }
 
 
-void func_021A5A00(FieldPlayerNogrid *player, RailLocation *location)
+void FIELD_PLAYER_NOGRID_SetRailLocation(FieldPlayerNogrid *player, RailLocation *location)
 {
-    func_0219E2C0(player->mmdl, location);
+    FLDMMDL_RAIL_SetLocation(player->mmdl, location);
 }
 
 
-void func_021A5A0C(FieldPlayerNogrid *player, RailLocation *outLocation)
+void FIELD_PLAYER_NOGRID_GetNextRailLocation(FieldPlayerNogrid *player, RailLocation *outLocation)
 {
-    func_0219E2F4(player->mmdl, outLocation);
+    FLDMMDL_RAIL_GetNextLocation(player->mmdl, outLocation);
 }
 
 
-int func_021A5A18(FieldPlayerNogrid *player, u32 dir, RailLocation *outLocation)
+int FIELD_PLAYER_NOGRID_GetRailLocationByDir(FieldPlayerNogrid *player, u32 dir, RailLocation *outLocation)
 {
-    return func_0219E664(player->mmdl, dir, outLocation);
+    return FLDMMDL_RAIL_GetLocationByDir(player->mmdl, dir, outLocation);
 }
 
 
-void func_021A5A24(FieldPlayerNogrid *player, void *outPos)
+void FIELD_PLAYER_NOGRID_GetRailPos(FieldPlayerNogrid *player, void *outPos)
 {
-    func_021B8028(player->railWork, outPos);
+    FIELD_RAIL_WORK_GetPos(player->railWork, outPos);
 }
 
 
-struct RailWork *func_021A5A30(FieldPlayerNogrid *player)
+struct RailWork *FIELD_PLAYER_NOGRID_GetRailWork(FieldPlayerNogrid *player)
 {
     return player->railWork;
 }
 
 
 /* Ends a blocked walk: frees the command, restores the facing direction. */
-void func_021A5A34(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_EndBlockedWalk(FieldPlayerNogrid *player)
 {
     Mmdl *mmdl;
     int dir;
 
     if (player->moveMode == FIELD_PLAYER_NOGRID_MODE_BLOCKED) {
         mmdl = player->mmdl;
-        dir = func_0216D5F8(mmdl);
-        func_0216D4B4(mmdl);
-        func_0216D5E0(mmdl, dir);
-        func_0216D674(mmdl, 0);
-        func_021A3964(player->core, 0);
+        dir = FLDMMDL_GetDirDisp(mmdl);
+        FLDMMDL_FreeAcmd(mmdl);
+        FLDMMDL_SetDirDispCheckPause(mmdl, dir);
+        FLDMMDL_SetDrawStatus(mmdl, 0);
+        FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
     }
 }
 
 
 /* Picks the check function of the core's movement kind. */
-int func_021A5A68(FieldPlayerNogrid *player, u32 dir, u32 keyTrg, u32 keyCont, u32 forced)
+int FIELD_PLAYER_NOGRID_CheckAction(FieldPlayerNogrid *player, u32 dir, u32 keyTrg, u32 keyCont, u32 forced)
 {
     int action;
 
-    switch (func_021A3974(player->core)) {
+    switch (FIELD_PLAYER_CORE_GetFormCode(player->core)) {
     case FIELD_PLAYER_NOGRID_KIND_WALK:
-        action = func_021A5C3C(player, keyTrg, keyCont, dir, forced);
+        action = FIELD_PLAYER_NOGRID_CheckActionWalk(player, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_KIND_SLOW:
-        action = func_021A6014(player, keyTrg, keyCont, dir, forced);
+        action = FIELD_PLAYER_NOGRID_CheckActionSlow(player, keyTrg, keyCont, dir, forced);
         break;
     case 2:
     case 3:
-        action = func_021A64B4(player, keyTrg, keyCont, dir, forced);
+        action = FIELD_PLAYER_NOGRID_CheckActionRail(player, keyTrg, keyCont, dir, forced);
         break;
     }
     return action;
@@ -414,82 +414,82 @@ int func_021A5A68(FieldPlayerNogrid *player, u32 dir, u32 keyTrg, u32 keyCont, u
 
 
 /* Picks the start function of the core's movement kind. */
-void func_021A5AD4(FieldPlayerNogrid *player, u32 action, u32 dir, u32 keyTrg, u32 keyCont, u32 forced)
+void FIELD_PLAYER_NOGRID_StartAction(FieldPlayerNogrid *player, u32 action, u32 dir, u32 keyTrg, u32 keyCont, u32 forced)
 {
-    switch (func_021A3974(player->core)) {
+    switch (FIELD_PLAYER_CORE_GetFormCode(player->core)) {
     case FIELD_PLAYER_NOGRID_KIND_WALK:
-        func_021A5BC0(player, action, keyTrg, keyCont, (u16)dir, forced);
+        FIELD_PLAYER_NOGRID_StartActionWalk(player, action, keyTrg, keyCont, (u16)dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_KIND_SLOW:
-        func_021A5F98(player, action, keyTrg, keyCont, dir, forced);
+        FIELD_PLAYER_NOGRID_StartActionSlow(player, action, keyTrg, keyCont, dir, forced);
         break;
     case 2:
     case 3:
-        func_021A635C(player, action, keyTrg, keyCont, (u16)dir, forced);
+        FIELD_PLAYER_NOGRID_StartActionRail(player, action, keyTrg, keyCont, (u16)dir, forced);
         break;
     }
 }
 
 
-void func_021A5B4C(FieldPlayerNogrid *player, u32 keyCont, int action)
+void FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck(FieldPlayerNogrid *player, u32 keyCont, int action)
 {
-    func_021A3AC4(player->core, keyCont);
-    func_021A6738(player);
+    FIELD_PLAYER_CORE_RememberKeyDirs(player->core, keyCont);
+    FIELD_PLAYER_NOGRID_ClearPending(player);
     if (action == FIELD_PLAYER_NOGRID_ACTION_WALK)
-        func_021A672C(player);
+        FIELD_PLAYER_NOGRID_ClearForcedMoveEnded(player);
 }
 
 
 /* Returns the hit bits of the tile next to the model in a direction. */
-int func_021A5B6C(FieldPlayerNogrid *player, Mmdl *mmdl, u32 dir, int *outAttr)
+int FIELD_PLAYER_NOGRID_GetHitBits(FieldPlayerNogrid *player, Mmdl *mmdl, u32 dir, int *outAttr)
 {
-    return func_0219E424(mmdl, dir, outAttr);
+    return FLDMMDL_RAIL_GetHitBitsDir(mmdl, dir, outAttr);
 }
 
 
 /* Starts or stops the spin tile animation by the spin flags, then steps it. */
-void func_021A5B7C(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_UpdateSpin(FieldPlayerNogrid *player)
 {
-    if (func_021A66F8(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_A)) {
-        func_021A6B08(&player->spin, 0);
-    } else if (func_021A66F8(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_B)) {
-        func_021A6B08(&player->spin, 1);
+    if (FIELD_PLAYER_NOGRID_HasFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_A)) {
+        FIELD_PLAYER_NOGRID_StartSpin(&player->spin, 0);
+    } else if (FIELD_PLAYER_NOGRID_HasFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_B)) {
+        FIELD_PLAYER_NOGRID_StartSpin(&player->spin, 1);
     } else {
-        func_021A6B30(&player->spin);
+        FIELD_PLAYER_NOGRID_StopSpin(&player->spin);
     }
-    func_021A6B50(&player->spin, player->mmdl);
+    FIELD_PLAYER_NOGRID_AdvanceSpin(&player->spin, player->mmdl);
 }
 
 
-void func_021A5BC0(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
+void FIELD_PLAYER_NOGRID_StartActionWalk(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
     Mmdl *mmdl = player->mmdl;
 
     switch (action) {
     case FIELD_PLAYER_NOGRID_ACTION_NONE:
-        func_021A5EA0(player, mmdl, keyTrg, keyCont, dir, forced);
+        FIELD_PLAYER_NOGRID_StartWalkNone(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_ACTION_STAND:
-        func_021A5EA4(player, mmdl, keyTrg, keyCont, dir, forced);
+        FIELD_PLAYER_NOGRID_StartWalkStand(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_ACTION_WALK:
-        func_021A5EDC(player, mmdl, keyTrg, keyCont, dir, forced);
+        FIELD_PLAYER_NOGRID_StartWalkStep(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_ACTION_TURN:
-        func_021A5F14(player, mmdl, keyTrg, keyCont, dir, forced);
+        FIELD_PLAYER_NOGRID_StartWalkTurn(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_ACTION_BLOCKED:
-        func_021A5F38(player, mmdl, keyTrg, keyCont, dir, forced);
+        FIELD_PLAYER_NOGRID_StartWalkBlocked(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_ACTION_LEDGE_JUMP:
-        func_021A5F74(player, mmdl, keyTrg, keyCont, dir, forced);
+        FIELD_PLAYER_NOGRID_StartWalkLedgeJump(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     }
 }
 
 
 /* Check for the walk kind: by the running mode. */
-int func_021A5C3C(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
+int FIELD_PLAYER_NOGRID_CheckActionWalk(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
     int mode = player->moveMode;
     int action = 0;
@@ -497,16 +497,16 @@ int func_021A5C3C(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont, u16 dir, u
 
     switch (mode) {
     case FIELD_PLAYER_NOGRID_MODE_STAND:
-        action = func_021A5CA4(player, mmdl, keyTrg, keyCont, dir, forced);
+        action = FIELD_PLAYER_NOGRID_CheckWalkFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_MODE_WALK:
-        action = func_021A5D04(player, mmdl, keyTrg, keyCont, dir, forced);
+        action = FIELD_PLAYER_NOGRID_CheckWalkStep(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_MODE_TURN:
-        action = func_021A5DD8(player, mmdl, keyTrg, keyCont, dir, forced);
+        action = FIELD_PLAYER_NOGRID_CheckWalkFromTurn(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     case FIELD_PLAYER_NOGRID_MODE_BLOCKED:
-        action = func_021A5E28(player, mmdl, keyTrg, keyCont, dir, forced);
+        action = FIELD_PLAYER_NOGRID_CheckWalkFromBlocked(player, mmdl, keyTrg, keyCont, dir, forced);
         break;
     }
     return action;
@@ -514,14 +514,14 @@ int func_021A5C3C(FieldPlayerNogrid *player, u32 keyTrg, u32 keyCont, u16 dir, u
 
 
 /* Walk kind, model standing: stand, turn first, or check the step. */
-int func_021A5CA4(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
+int FIELD_PLAYER_NOGRID_CheckWalkFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
-    if (func_0216D3CC(mmdl) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
         if (dir != FIELD_PLAYER_NOGRID_DIR_NONE) {
-            if (dir != func_0216D5F8(mmdl) && forced == 0) {
+            if (dir != FLDMMDL_GetDirDisp(mmdl) && forced == 0) {
                 return FIELD_PLAYER_NOGRID_ACTION_TURN;
             }
-            return func_021A5D04(player, mmdl, keyTrg, keyCont, dir, forced);
+            return FIELD_PLAYER_NOGRID_CheckWalkStep(player, mmdl, keyTrg, keyCont, dir, forced);
         }
         return FIELD_PLAYER_NOGRID_ACTION_STAND;
     }
@@ -530,7 +530,7 @@ int func_021A5CA4(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont
 
 
 /* Walk kind, step check: walk, bump into a wall or jump a ledge by the hit bits of the next tile. */
-int func_021A5D04(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckWalkStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     RailLocation nextLocation;
     u32 hitBits;
@@ -538,13 +538,13 @@ int func_021A5D04(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
     u16 attrKind;
     int ledgeDir;
 
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     }
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        return func_021A5CA4(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckWalkFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    hitBits = func_021A5B6C(player, mmdl, dir, 0);
+    hitBits = FIELD_PLAYER_NOGRID_GetHitBits(player, mmdl, dir, 0);
     if (forced == 1 && (hitBits & 2)) {
         hitBits = 0;
     }
@@ -552,18 +552,18 @@ int func_021A5D04(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
         return FIELD_PLAYER_NOGRID_ACTION_WALK;
     }
     if (hitBits & 2) {
-        func_0219E664(mmdl, dir, &nextLocation);
-        attr = func_0219D724(mmdl, &nextLocation);
+        FLDMMDL_RAIL_GetLocationByDir(mmdl, dir, &nextLocation);
+        attr = FLDMMDL_RAIL_MOVE_GetLocationAttr(mmdl, &nextLocation);
         ledgeDir = FIELD_PLAYER_NOGRID_DIR_NONE;
-        attrKind = func_021AB0F0(attr);
-        func_021AB0F8(attr);
-        if (func_021AB158(attrKind)) {
+        attrKind = MAP_ATTR_GetTerrainId(attr);
+        MAP_ATTR_GetFlags(attr);
+        if (MAP_ATTR_IsLedgeNorth(attrKind)) {
             ledgeDir = 0;
-        } else if (func_021AB164(attrKind)) {
+        } else if (MAP_ATTR_IsLedgeSouth(attrKind)) {
             ledgeDir = 1;
-        } else if (func_021AB170(attrKind)) {
+        } else if (MAP_ATTR_IsLedgeWest(attrKind)) {
             ledgeDir = 2;
-        } else if (func_021AB17C(attrKind)) {
+        } else if (MAP_ATTR_IsLedgeEast(attrKind)) {
             ledgeDir = 3;
         }
         if (ledgeDir != FIELD_PLAYER_NOGRID_DIR_NONE && ledgeDir == dir) {
@@ -575,56 +575,56 @@ int func_021A5D04(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
 
 
 /* Walk kind, model turning. */
-int func_021A5DD8(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckWalkFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     }
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        return func_021A5CA4(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckWalkFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    return func_021A5D04(player, mmdl, keyTrg, keyCont, dir, forced);
+    return FIELD_PLAYER_NOGRID_CheckWalkStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
 
 /* Walk kind, model walking into a wall: a new direction frees the command first. */
-int func_021A5E28(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckWalkFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    int facing = func_0216D5F8(mmdl);
+    int facing = FLDMMDL_GetDirDisp(mmdl);
     if (dir != FIELD_PLAYER_NOGRID_DIR_NONE && dir != facing) {
-        func_0216D4B4(mmdl);
-        return func_021A5D04(player, mmdl, keyTrg, keyCont, dir, forced);
+        FLDMMDL_FreeAcmd(mmdl);
+        return FIELD_PLAYER_NOGRID_CheckWalkStep(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     }
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        return func_021A5CA4(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckWalkFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    return func_021A5D04(player, mmdl, keyTrg, keyCont, dir, forced);
+    return FIELD_PLAYER_NOGRID_CheckWalkStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
 
 /* Walk kind, no action. */
-void func_021A5EA0(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
+void FIELD_PLAYER_NOGRID_StartWalkNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
 {
 }
 
 
 /* Walk kind, stand: face the direction (the model's own one when no key). */
-void func_021A5EA4(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartWalkStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        dir = func_0216D5F8(mmdl);
+        dir = FLDMMDL_GetDirDisp(mmdl);
     }
-    func_0216D410(mmdl, func_02197E7C(dir, 0));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_STAND;
-    func_021A3964(player->core, 0);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
 }
 
 
 /* Walk kind, step: forced step, run (B held) or walk. */
-void func_021A5EDC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartWalkStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     int acmdBase;
     if (forced == 1) {
@@ -634,78 +634,78 @@ void func_021A5EDC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCon
     } else {
         acmdBase = 0xc;
     }
-    func_0216D410(mmdl, func_02197E7C(dir, acmdBase));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, acmdBase));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
-    func_021A3964(player->core, 1);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
 
 
-void func_021A5F14(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartWalkTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x28));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x28));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_TURN;
-    func_021A3964(player->core, 2);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 2);
 }
 
 
 /* Walk kind, blocked: bump animation; the bump sound plays when the map has no connection there. */
-void func_021A5F38(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartWalkBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x1c));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x1c));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_BLOCKED;
-    func_021A3964(player->core, 0);
-    if (func_021A6C6C(player, dir) == 0) {
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
+    if (FIELD_PLAYER_NOGRID_HasConnectionAhead(player, dir) == 0) {
         func_020061E4(0x55a);
     }
 }
 
 
-void func_021A5F74(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartWalkLedgeJump(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x38));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x38));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
-    func_021A3964(player->core, 1);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
 
 
-void func_021A5F98(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
+void FIELD_PLAYER_NOGRID_StartActionSlow(FieldPlayerNogrid *player, u32 action, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
     Mmdl *mmdl = player->mmdl;
     switch (action) {
-    case 0: func_021A6278(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 1: func_021A627C(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 2: func_021A62B4(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 3: func_021A62D8(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 4: func_021A62FC(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 5: func_021A6338(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 0: FIELD_PLAYER_NOGRID_StartSlowNone(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 1: FIELD_PLAYER_NOGRID_StartSlowStand(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 2: FIELD_PLAYER_NOGRID_StartSlowStep(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 3: FIELD_PLAYER_NOGRID_StartSlowTurn(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 4: FIELD_PLAYER_NOGRID_StartSlowBlocked(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 5: FIELD_PLAYER_NOGRID_StartSlowLedgeJump(player, mmdl, keyTrg, keyCont, dir, forced); break;
     }
 }
 
 
-int func_021A6014(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckActionSlow(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced)
 {
     int mode = player->moveMode;
     int action = 0;
     Mmdl *mmdl = player->mmdl;
     switch (mode) {
-    case 0: action = func_021A607C(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 1: action = func_021A60DC(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 2: action = func_021A61B0(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 3: action = func_021A6200(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 0: action = FIELD_PLAYER_NOGRID_CheckSlowFromStand(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 1: action = FIELD_PLAYER_NOGRID_CheckSlowStep(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 2: action = FIELD_PLAYER_NOGRID_CheckSlowFromTurn(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 3: action = FIELD_PLAYER_NOGRID_CheckSlowFromBlocked(player, mmdl, keyTrg, keyCont, dir, forced); break;
     }
     return action;
 }
 
 
 /* Slow kind, same checks as the walk kind. */
-int func_021A607C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckSlowFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    if (func_0216D3CC(mmdl) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
         if (dir != FIELD_PLAYER_NOGRID_DIR_NONE) {
-            if (dir != func_0216D5F8(mmdl) && forced == 0) {
+            if (dir != FLDMMDL_GetDirDisp(mmdl) && forced == 0) {
                 return FIELD_PLAYER_NOGRID_ACTION_TURN;
             }
-            return func_021A60DC(player, mmdl, keyTrg, keyCont, dir, forced);
+            return FIELD_PLAYER_NOGRID_CheckSlowStep(player, mmdl, keyTrg, keyCont, dir, forced);
         }
         return FIELD_PLAYER_NOGRID_ACTION_STAND;
     }
@@ -713,7 +713,7 @@ int func_021A607C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
 }
 
 
-int func_021A60DC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckSlowStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     RailLocation nextLocation;
     u32 hitBits;
@@ -721,13 +721,13 @@ int func_021A60DC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
     u16 attrKind;
     int ledgeDir;
 
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     }
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        return func_021A607C(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckSlowFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    hitBits = func_021A5B6C(player, mmdl, dir, 0);
+    hitBits = FIELD_PLAYER_NOGRID_GetHitBits(player, mmdl, dir, 0);
     if (forced == 1 && (hitBits & 2)) {
         hitBits = 0;
     }
@@ -735,18 +735,18 @@ int func_021A60DC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
         return FIELD_PLAYER_NOGRID_ACTION_WALK;
     }
     if (hitBits & 2) {
-        func_0219E664(mmdl, dir, &nextLocation);
-        attr = func_0219D724(mmdl, &nextLocation);
+        FLDMMDL_RAIL_GetLocationByDir(mmdl, dir, &nextLocation);
+        attr = FLDMMDL_RAIL_MOVE_GetLocationAttr(mmdl, &nextLocation);
         ledgeDir = FIELD_PLAYER_NOGRID_DIR_NONE;
-        attrKind = func_021AB0F0(attr);
-        func_021AB0F8(attr);
-        if (func_021AB158(attrKind)) {
+        attrKind = MAP_ATTR_GetTerrainId(attr);
+        MAP_ATTR_GetFlags(attr);
+        if (MAP_ATTR_IsLedgeNorth(attrKind)) {
             ledgeDir = 0;
-        } else if (func_021AB164(attrKind)) {
+        } else if (MAP_ATTR_IsLedgeSouth(attrKind)) {
             ledgeDir = 1;
-        } else if (func_021AB170(attrKind)) {
+        } else if (MAP_ATTR_IsLedgeWest(attrKind)) {
             ledgeDir = 2;
-        } else if (func_021AB17C(attrKind)) {
+        } else if (MAP_ATTR_IsLedgeEast(attrKind)) {
             ledgeDir = 3;
         }
         if (ledgeDir != FIELD_PLAYER_NOGRID_DIR_NONE && ledgeDir == dir) {
@@ -757,167 +757,167 @@ int func_021A60DC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
 }
 
 
-int func_021A61B0(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckSlowFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     }
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        return func_021A607C(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckSlowFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    return func_021A60DC(player, mmdl, keyTrg, keyCont, dir, forced);
+    return FIELD_PLAYER_NOGRID_CheckSlowStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
 
-int func_021A6200(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckSlowFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    int facing = func_0216D5F8(mmdl);
+    int facing = FLDMMDL_GetDirDisp(mmdl);
     if (dir != FIELD_PLAYER_NOGRID_DIR_NONE && dir != facing) {
-        func_0216D4B4(mmdl);
-        return func_021A60DC(player, mmdl, keyTrg, keyCont, dir, forced);
+        FLDMMDL_FreeAcmd(mmdl);
+        return FIELD_PLAYER_NOGRID_CheckSlowStep(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     }
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        return func_021A607C(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckSlowFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    return func_021A60DC(player, mmdl, keyTrg, keyCont, dir, forced);
+    return FIELD_PLAYER_NOGRID_CheckSlowStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
 
 /* Slow kind, no action. */
-void func_021A6278(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
+void FIELD_PLAYER_NOGRID_StartSlowNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
 {
 }
 
 
-void func_021A627C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartSlowStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        dir = func_0216D5F8(mmdl);
+        dir = FLDMMDL_GetDirDisp(mmdl);
     }
-    func_0216D410(mmdl, func_02197E7C(dir, 0));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_STAND;
-    func_021A3964(player->core, 0);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
 }
 
 
-void func_021A62B4(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartSlowStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x14));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x14));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
-    func_021A3964(player->core, 1);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
 
 
-void func_021A62D8(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartSlowTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x28));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x28));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_TURN;
-    func_021A3964(player->core, 2);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 2);
 }
 
 
-void func_021A62FC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartSlowBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x1c));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x1c));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_BLOCKED;
-    func_021A3964(player->core, 0);
-    if (func_021A6C6C(player, dir) == 0) {
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
+    if (FIELD_PLAYER_NOGRID_HasConnectionAhead(player, dir) == 0) {
         func_020061E4(0x55a);
     }
 }
 
 
-void func_021A6338(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartSlowLedgeJump(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x38));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x38));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
-    func_021A3964(player->core, 1);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
 
 
-void func_021A635C(FieldPlayerNogrid *player, int action, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartActionRail(FieldPlayerNogrid *player, int action, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    Mmdl *mmdl = func_021A3960(player->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
     switch (action) {
-    case 0: func_021A63EC(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 1: func_021A63F0(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 2: func_021A6428(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 3: func_021A6454(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 4: func_021A6478(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 0: FIELD_PLAYER_NOGRID_StartRailNone(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 1: FIELD_PLAYER_NOGRID_StartRailStand(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 2: FIELD_PLAYER_NOGRID_StartRailStep(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 3: FIELD_PLAYER_NOGRID_StartRailTurn(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 4: FIELD_PLAYER_NOGRID_StartRailBlocked(player, mmdl, keyTrg, keyCont, dir, forced); break;
     }
 }
 
 
 /* Rail kind, no action. */
-void func_021A63EC(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
+void FIELD_PLAYER_NOGRID_StartRailNone(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, int dir, int forced)
 {
 }
 
 
-void func_021A63F0(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartRailStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        dir = func_0216D5F8(mmdl);
+        dir = FLDMMDL_GetDirDisp(mmdl);
     }
-    func_0216D410(mmdl, func_02197E7C(dir, 0));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_STAND;
-    func_021A3964(player->core, 0);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
 }
 
 
-void func_021A6428(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartRailStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, (forced == 1) ? 0x14 : 0x10));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, (forced == 1) ? 0x14 : 0x10));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
-    func_021A3964(player->core, 1);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
 }
 
 
-void func_021A6454(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartRailTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x28));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x28));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_TURN;
-    func_021A3964(player->core, 2);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 2);
 }
 
 
-void func_021A6478(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+void FIELD_PLAYER_NOGRID_StartRailBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    func_0216D410(mmdl, func_02197E7C(dir, 0x1c));
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(dir, 0x1c));
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_BLOCKED;
-    func_021A3964(player->core, 0);
-    if (func_021A6C6C(player, dir) == 0) {
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
+    if (FIELD_PLAYER_NOGRID_HasConnectionAhead(player, dir) == 0) {
         func_020061E4(0x55a);
     }
 }
 
 
 /* Check for the rail kinds: by the running mode, on the core's model. */
-int func_021A64B4(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckActionRail(FieldPlayerNogrid *player, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    Mmdl *mmdl = func_021A3960(player->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
     int action = 0;
     switch (player->moveMode) {
-    case 0: action = func_021A652C(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 1: action = func_021A658C(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 2: action = func_021A661C(player, mmdl, keyTrg, keyCont, dir, forced); break;
-    case 3: action = func_021A666C(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 0: action = FIELD_PLAYER_NOGRID_CheckRailFromStand(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 1: action = FIELD_PLAYER_NOGRID_CheckRailStep(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 2: action = FIELD_PLAYER_NOGRID_CheckRailFromTurn(player, mmdl, keyTrg, keyCont, dir, forced); break;
+    case 3: action = FIELD_PLAYER_NOGRID_CheckRailFromBlocked(player, mmdl, keyTrg, keyCont, dir, forced); break;
     }
     return action;
 }
 
 
-int func_021A652C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckRailFromStand(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    if (func_0216D3CC(mmdl) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
         if (dir != FIELD_PLAYER_NOGRID_DIR_NONE) {
-            if (dir != func_0216D5F8(mmdl) && forced == 0) {
+            if (dir != FLDMMDL_GetDirDisp(mmdl) && forced == 0) {
                 return FIELD_PLAYER_NOGRID_ACTION_TURN;
             }
-            return func_021A658C(player, mmdl, keyTrg, keyCont, dir, forced);
+            return FIELD_PLAYER_NOGRID_CheckRailStep(player, mmdl, keyTrg, keyCont, dir, forced);
         }
         return FIELD_PLAYER_NOGRID_ACTION_STAND;
     }
@@ -926,24 +926,24 @@ int func_021A652C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
 
 
 /* Rail kind, step check: the next tile's attribute decides between walk and bump. */
-int func_021A658C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckRailStep(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
     int hitBits;
     int attr;
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     }
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        return func_021A652C(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckRailFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    hitBits = func_021A5B6C(player, mmdl, dir, &attr);
+    hitBits = FIELD_PLAYER_NOGRID_GetHitBits(player, mmdl, dir, &attr);
     if (forced == 1 && hitBits != 0 && (hitBits & 0x10) == 0) {
         hitBits = 0;
     }
     if (attr != -1) {
         int attrBits;
-        func_021AB0F0(attr);
-        attrBits = func_021AB0F8(attr);
+        MAP_ATTR_GetTerrainId(attr);
+        attrBits = MAP_ATTR_GetFlags(attr);
         if (hitBits == 0) {
             if (attrBits & 2) {
                 return FIELD_PLAYER_NOGRID_ACTION_WALK;
@@ -957,47 +957,47 @@ int func_021A658C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont
 }
 
 
-int func_021A661C(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
+int FIELD_PLAYER_NOGRID_CheckRailFromTurn(FieldPlayerNogrid *player, Mmdl *mmdl, int keyTrg, int keyCont, u16 dir, int forced)
 {
-    if (func_0216D3CC(mmdl) == 0) {
+    if (FLDMMDL_CheckPossibleAcmd(mmdl) == 0) {
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     }
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE) {
-        return func_021A652C(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckRailFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    return func_021A658C(player, mmdl, keyTrg, keyCont, dir, forced);
+    return FIELD_PLAYER_NOGRID_CheckRailStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
 
-u32 func_021A666C(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
+u32 FIELD_PLAYER_NOGRID_CheckRailFromBlocked(FieldPlayerNogrid *player, Mmdl *mmdl, u32 keyTrg, u32 keyCont, u16 dir, u32 forced)
 {
-    u32 facing = func_0216D5F8(mmdl);
+    u32 facing = FLDMMDL_GetDirDisp(mmdl);
 
     if (dir != FIELD_PLAYER_NOGRID_DIR_NONE && dir != facing) {
-        func_0216D4B4(mmdl);
-        return func_021A658C(player, mmdl, keyTrg, keyCont, dir, forced);
+        FLDMMDL_FreeAcmd(mmdl);
+        return FIELD_PLAYER_NOGRID_CheckRailStep(player, mmdl, keyTrg, keyCont, dir, forced);
     }
-    if (!func_0216D3CC(mmdl))
+    if (!FLDMMDL_CheckPossibleAcmd(mmdl))
         return FIELD_PLAYER_NOGRID_ACTION_NONE;
     if (dir == FIELD_PLAYER_NOGRID_DIR_NONE)
-        return func_021A652C(player, mmdl, keyTrg, keyCont, dir, forced);
-    return func_021A658C(player, mmdl, keyTrg, keyCont, dir, forced);
+        return FIELD_PLAYER_NOGRID_CheckRailFromStand(player, mmdl, keyTrg, keyCont, dir, forced);
+    return FIELD_PLAYER_NOGRID_CheckRailStep(player, mmdl, keyTrg, keyCont, dir, forced);
 }
 
 
-void func_021A66E4(FieldPlayerNogrid *player, u32 mask)
+void FIELD_PLAYER_NOGRID_SetFlags(FieldPlayerNogrid *player, u32 mask)
 {
     player->flags |= mask;
 }
 
 
-void func_021A66EC(FieldPlayerNogrid *player, u32 mask)
+void FIELD_PLAYER_NOGRID_ClearFlags(FieldPlayerNogrid *player, u32 mask)
 {
     player->flags &= ~mask;
 }
 
 
-int func_021A66F8(FieldPlayerNogrid *player, int mask)
+int FIELD_PLAYER_NOGRID_HasFlags(FieldPlayerNogrid *player, int mask)
 {
     if (player->flags & mask) {
         return 1;
@@ -1006,105 +1006,105 @@ int func_021A66F8(FieldPlayerNogrid *player, int mask)
 }
 
 
-void func_021A6708(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_SetForcedMove(FieldPlayerNogrid *player)
 {
-    func_021A66E4(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE);
+    FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE);
 }
 
 
-void func_021A6714(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_ClearForcedMove(FieldPlayerNogrid *player)
 {
-    func_021A66EC(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE);
+    FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE);
 }
 
 
-void func_021A6720(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_SetForcedMoveEnded(FieldPlayerNogrid *player)
 {
-    func_021A66E4(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE_ENDED);
+    FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE_ENDED);
 }
 
 
-void func_021A672C(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_ClearForcedMoveEnded(FieldPlayerNogrid *player)
 {
-    func_021A66EC(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE_ENDED);
+    FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE_ENDED);
 }
 
 
-void func_021A6738(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_ClearPending(FieldPlayerNogrid *player)
 {
-    func_021A66EC(player, FIELD_PLAYER_NOGRID_FLAG_PENDING);
+    FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_PENDING);
 }
 
 
-void func_021A6744(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_SetSpinA(FieldPlayerNogrid *player)
 {
-    func_021A66E4(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_A);
+    FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_A);
 }
 
 
-void func_021A6750(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_ClearSpinA(FieldPlayerNogrid *player)
 {
-    func_021A66EC(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_A);
+    FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_A);
 }
 
 
-void func_021A675C(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_SetSpinB(FieldPlayerNogrid *player)
 {
-    func_021A66E4(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_B);
+    FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_B);
 }
 
 
-void func_021A6768(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_ClearSpinB(FieldPlayerNogrid *player)
 {
-    func_021A66EC(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_B);
+    FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_SPIN_B);
 }
 
 
-void func_021A6774(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_SetFaceRight(FieldPlayerNogrid *player)
 {
-    func_021A66E4(player, FIELD_PLAYER_NOGRID_FLAG_FACE_RIGHT);
+    FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_FACE_RIGHT);
 }
 
 
-void func_021A6780(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_ClearFaceRight(FieldPlayerNogrid *player)
 {
-    func_021A66EC(player, FIELD_PLAYER_NOGRID_FLAG_FACE_RIGHT);
+    FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_FACE_RIGHT);
 }
 
 
-void func_021A678C(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_SetInputHold(FieldPlayerNogrid *player)
 {
-    func_021A66E4(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD);
+    FIELD_PLAYER_NOGRID_SetFlags(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD);
 }
 
 
-void func_021A6798(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_ClearInputHold(FieldPlayerNogrid *player)
 {
-    func_021A66EC(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD);
+    FIELD_PLAYER_NOGRID_ClearFlags(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD);
 }
 
 
 /* Reads the tile under the model; returns the forced move kind (an index of the
  * handler table, 0 for none). */
-u32 func_021A67A4(FieldPlayerNogrid *player)
+u32 FIELD_PLAYER_NOGRID_GetForcedMoveKind(FieldPlayerNogrid *player)
 {
-    u32 attr = func_0216D7DC(player->mmdl);
+    u32 attr = FLDMMDL_GetNowAttr(player->mmdl);
 
-    if (!func_021A66F8(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE_ENDED)) {
-        attr = func_021AB0F0(attr);
-        if (func_021AB348(attr) == 1)
+    if (!FIELD_PLAYER_NOGRID_HasFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE_ENDED)) {
+        attr = MAP_ATTR_GetTerrainId(attr);
+        if (MAP_ATTR_IsForcedSlide(attr) == 1)
             return 1;
-        if (func_021BB1AC(attr) == 1)
+        if (RAIL_ATTR_IsForceMoveUp(attr) == 1)
             return 2;
-        if (func_021BB1B8(attr) == 1)
+        if (RAIL_ATTR_IsForceMoveDown(attr) == 1)
             return 3;
-        if (func_021BB1C4(attr) == 1)
+        if (RAIL_ATTR_IsForceMoveLeft(attr) == 1)
             return 4;
-        if (func_021BB1D0(attr) == 1)
+        if (RAIL_ATTR_IsForceMoveRight(attr) == 1)
             return 5;
-        if (func_021BB1DC(attr) == 1)
+        if (RAIL_ATTR_IsForceMoveStop(attr) == 1)
             return 6;
-        if (func_021BB1E8(attr) == 1)
+        if (RAIL_ATTR_IsSlipDown(attr) == 1)
             return 7;
     }
     return 0;
@@ -1112,167 +1112,167 @@ u32 func_021A67A4(FieldPlayerNogrid *player)
 
 
 /* Runs the forced move of the tile under the model, or ends a running one. */
-u32 func_021A682C(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind)
+u32 FIELD_PLAYER_NOGRID_RunForcedMove(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind)
 {
     u32 kind;
 
-    if (!func_0216D3CC(player->mmdl))
+    if (!FLDMMDL_CheckPossibleAcmd(player->mmdl))
         return dir;
     if (skipTileKind == 0) {
-        kind = func_021A67A4(player);
+        kind = FIELD_PLAYER_NOGRID_GetForcedMoveKind(player);
         if (kind != 0)
-            return data_021D8AB8[kind](player, dir, skipTileKind);
+            return gFieldPlayerNogridForcedMoveFuncs[kind](player, dir, skipTileKind);
     }
-    func_021A6870(player);
+    FIELD_PLAYER_NOGRID_EndForcedMove(player);
     return dir;
 }
 
 
 /* Ends every forced move state that is set. */
-void func_021A6870(FieldPlayerNogrid *player)
+void FIELD_PLAYER_NOGRID_EndForcedMove(FieldPlayerNogrid *player)
 {
     Mmdl *mmdl = player->mmdl;
 
-    if (func_021A66F8(player, 0x59))
-        func_0216D550(mmdl, 0x18);
-    if (func_021A66F8(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE)) {
-        func_021A6714(player);
-        func_021A6720(player);
-        func_021A3964(player->core, 0);
+    if (FIELD_PLAYER_NOGRID_HasFlags(player, 0x59))
+        FLDMMDL_ClearStatusBit(mmdl, 0x18);
+    if (FIELD_PLAYER_NOGRID_HasFlags(player, FIELD_PLAYER_NOGRID_FLAG_FORCED_MOVE)) {
+        FIELD_PLAYER_NOGRID_ClearForcedMove(player);
+        FIELD_PLAYER_NOGRID_SetForcedMoveEnded(player);
+        FIELD_PLAYER_CORE_SetStepKind(player->core, 0);
     }
-    if (func_021A66F8(player, 0x18)) {
-        func_021A6750(player);
-        func_021A6768(player);
-        func_0216D60C(mmdl, func_021642A4(func_0216D608(mmdl)));
+    if (FIELD_PLAYER_NOGRID_HasFlags(player, 0x18)) {
+        FIELD_PLAYER_NOGRID_ClearSpinA(player);
+        FIELD_PLAYER_NOGRID_ClearSpinB(player);
+        FLDMMDL_SetDirAll(mmdl, FLDMMDL_MOVE_GetDirTableValue(FLDMMDL_GetDirMove(mmdl)));
     }
-    if (func_021A66F8(player, FIELD_PLAYER_NOGRID_FLAG_FACE_RIGHT)) {
-        func_021A6780(player);
-        func_0216D60C(mmdl, 3);
+    if (FIELD_PLAYER_NOGRID_HasFlags(player, FIELD_PLAYER_NOGRID_FLAG_FACE_RIGHT)) {
+        FIELD_PLAYER_NOGRID_ClearFaceRight(player);
+        FLDMMDL_SetDirAll(mmdl, 3);
     }
-    if (func_021A66F8(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD)) {
-        func_021A6798(player);
-        func_021A6BAC(&player->inputHold);
+    if (FIELD_PLAYER_NOGRID_HasFlags(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD)) {
+        FIELD_PLAYER_NOGRID_ClearInputHold(player);
+        FIELD_PLAYER_NOGRID_ResetInputHold(&player->inputHold);
     }
 }
 
 
 /* Forced move: keep sliding in the model's move direction until blocked. */
-u32 func_021A6908(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind)
+u32 FIELD_PLAYER_NOGRID_ForcedSlide(FieldPlayerNogrid *player, u32 dir, u32 skipTileKind)
 {
     Mmdl *mmdl = player->mmdl;
-    u32 moveDir = func_0216D608(mmdl);
+    u32 moveDir = FLDMMDL_GetDirMove(mmdl);
 
-    if (func_021A5B6C(player, mmdl, moveDir, 0)) {
-        func_021A6870(player);
+    if (FIELD_PLAYER_NOGRID_GetHitBits(player, mmdl, moveDir, 0)) {
+        FIELD_PLAYER_NOGRID_EndForcedMove(player);
         return dir;
     }
-    func_021A6708(player);
-    func_021A6750(player);
-    func_021A6768(player);
-    func_0216D5E0(mmdl, moveDir);
-    func_0216D410(mmdl, func_02197E7C(moveDir, 0x10));
-    func_0216D548(mmdl, 0x18);
+    FIELD_PLAYER_NOGRID_SetForcedMove(player);
+    FIELD_PLAYER_NOGRID_ClearSpinA(player);
+    FIELD_PLAYER_NOGRID_ClearSpinB(player);
+    FLDMMDL_SetDirDispCheckPause(mmdl, moveDir);
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(moveDir, 0x10));
+    FLDMMDL_SetStatusBit(mmdl, 0x18);
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
-    func_021A3964(player->core, 1);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
     return moveDir;
 }
 
 
 /* Forced move: slide with the first spin animation. */
-u32 func_021A6974(FieldPlayerNogrid *player, u32 dir)
+u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinA(FieldPlayerNogrid *player, u32 dir)
 {
     Mmdl *mmdl = player->mmdl;
-    u32 moveDir = func_0216D608(mmdl);
+    u32 moveDir = FLDMMDL_GetDirMove(mmdl);
 
-    if (func_021A5B6C(player, mmdl, moveDir, 0)) {
-        func_021A6870(player);
+    if (FIELD_PLAYER_NOGRID_GetHitBits(player, mmdl, moveDir, 0)) {
+        FIELD_PLAYER_NOGRID_EndForcedMove(player);
         return dir;
     }
-    func_021A6708(player);
-    func_021A6744(player);
-    func_021A6768(player);
-    func_0216D410(mmdl, func_02197E7C(moveDir, 0x10));
-    func_0216D548(mmdl, 0x18);
+    FIELD_PLAYER_NOGRID_SetForcedMove(player);
+    FIELD_PLAYER_NOGRID_SetSpinA(player);
+    FIELD_PLAYER_NOGRID_ClearSpinB(player);
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(moveDir, 0x10));
+    FLDMMDL_SetStatusBit(mmdl, 0x18);
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
-    func_021A3964(player->core, 1);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
     return moveDir;
 }
 
 
 /* Forced move: slide with the second spin animation. */
-u32 func_021A69D8(FieldPlayerNogrid *player, u32 dir)
+u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinB(FieldPlayerNogrid *player, u32 dir)
 {
     Mmdl *mmdl = player->mmdl;
-    u32 moveDir = func_0216D608(mmdl);
+    u32 moveDir = FLDMMDL_GetDirMove(mmdl);
 
-    if (func_021A5B6C(player, mmdl, moveDir, 0)) {
-        func_021A6870(player);
+    if (FIELD_PLAYER_NOGRID_GetHitBits(player, mmdl, moveDir, 0)) {
+        FIELD_PLAYER_NOGRID_EndForcedMove(player);
         return dir;
     }
-    func_021A6708(player);
-    func_021A675C(player);
-    func_021A6750(player);
-    func_0216D410(mmdl, func_02197E7C(moveDir, 0x10));
-    func_0216D548(mmdl, 0x18);
+    FIELD_PLAYER_NOGRID_SetForcedMove(player);
+    FIELD_PLAYER_NOGRID_SetSpinB(player);
+    FIELD_PLAYER_NOGRID_ClearSpinA(player);
+    FLDMMDL_SetAcmd(mmdl, FLDMMDL_ACMD_ConvertCodeByDir(moveDir, 0x10));
+    FLDMMDL_SetStatusBit(mmdl, 0x18);
     player->moveMode = FIELD_PLAYER_NOGRID_MODE_WALK;
-    func_021A3964(player->core, 1);
+    FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
     return moveDir;
 }
 
 
 /* Forced move: a slide that the model must not enter with move direction 2. */
-int func_021A6A3C(FieldPlayerNogrid *player, int dir, int skipTileKind)
+int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir2(FieldPlayerNogrid *player, int dir, int skipTileKind)
 {
-    if (func_0216D608(player->mmdl) == 2) {
+    if (FLDMMDL_GetDirMove(player->mmdl) == 2) {
         func_020061E4(0x55e);
     }
-    return func_021A6908(player, dir, skipTileKind);
+    return FIELD_PLAYER_NOGRID_ForcedSlide(player, dir, skipTileKind);
 }
 
 
 /* Forced move: a slide that the model must not enter with move direction 3. */
-int func_021A6A64(FieldPlayerNogrid *player, int dir, int skipTileKind)
+int FIELD_PLAYER_NOGRID_ForcedSlideWarnDir3(FieldPlayerNogrid *player, int dir, int skipTileKind)
 {
-    if (func_0216D608(player->mmdl) == 3) {
+    if (FLDMMDL_GetDirMove(player->mmdl) == 3) {
         func_020061E4(0x55e);
     }
-    return func_021A6908(player, dir, skipTileKind);
+    return FIELD_PLAYER_NOGRID_ForcedSlide(player, dir, skipTileKind);
 }
 
 
 /* Forced move: a slide that ends facing right. */
-int func_021A6A8C(FieldPlayerNogrid *player, int dir, int skipTileKind)
+int FIELD_PLAYER_NOGRID_ForcedSlideFaceRight(FieldPlayerNogrid *player, int dir, int skipTileKind)
 {
-    int result = func_021A6908(player, dir, skipTileKind);
-    func_021A6774(player);
+    int result = FIELD_PLAYER_NOGRID_ForcedSlide(player, dir, skipTileKind);
+    FIELD_PLAYER_NOGRID_SetFaceRight(player);
     return result;
 }
 
 
 /* Forced move: the held direction keeps the model going while the keys are idle. */
-u32 func_021A6AA0(FieldPlayerNogrid *player, u32 dir)
+u32 FIELD_PLAYER_NOGRID_ForcedInputHold(FieldPlayerNogrid *player, u32 dir)
 {
     u32 result;
 
-    if (!func_021A66F8(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD)) {
-        func_021A678C(player);
-        func_021A6B9C(&player->inputHold);
+    if (!FIELD_PLAYER_NOGRID_HasFlags(player, FIELD_PLAYER_NOGRID_FLAG_INPUT_HOLD)) {
+        FIELD_PLAYER_NOGRID_SetInputHold(player);
+        FIELD_PLAYER_NOGRID_EnableInputHold(&player->inputHold);
     }
-    result = (u16)func_021A6C4C(&player->inputHold, dir);
-    if (func_021A6C64(&player->inputHold)) {
-        func_0216D548(player->mmdl, 0x18);
-        func_0216D410(player->mmdl, func_02197E7C(result, 8));
-        func_021A3964(player->core, 1);
+    result = (u16)FIELD_PLAYER_NOGRID_GetInputHoldDir(&player->inputHold, dir);
+    if (FIELD_PLAYER_NOGRID_IsInputHoldKept(&player->inputHold)) {
+        FLDMMDL_SetStatusBit(player->mmdl, 0x18);
+        FLDMMDL_SetAcmd(player->mmdl, FLDMMDL_ACMD_ConvertCodeByDir(result, 8));
+        FIELD_PLAYER_CORE_SetStepKind(player->core, 1);
         result = FIELD_PLAYER_NOGRID_DIR_NONE;
     } else {
-        func_0216D550(player->mmdl, 0x18);
+        FLDMMDL_ClearStatusBit(player->mmdl, 0x18);
     }
     return result;
 }
 
 
 /* Starts the spin animation of a variant (or keeps it running). */
-void func_021A6B08(NogridSpin *spin, u8 variant)
+void FIELD_PLAYER_NOGRID_StartSpin(NogridSpin *spin, u8 variant)
 {
     if (spin->active != 1 || variant != spin->variant) {
         func_020061E4(0x6d1);
@@ -1283,27 +1283,27 @@ void func_021A6B08(NogridSpin *spin, u8 variant)
 }
 
 
-void func_021A6B30(NogridSpin *spin)
+void FIELD_PLAYER_NOGRID_StopSpin(NogridSpin *spin)
 {
     if (spin->active) {
         spin->active = 0;
         spin->phase = 0;
-        func_020061F8(func_02006148(0x6d1));
+        func_020061F8(GFL_USE_GetSeSlot(0x6d1));
     }
 }
 
 
 /* Turns the model to the next direction of the spin sequence. */
-void func_021A6B50(NogridSpin *spin, Mmdl *mmdl)
+void FIELD_PLAYER_NOGRID_AdvanceSpin(NogridSpin *spin, Mmdl *mmdl)
 {
     if (spin->active) {
         spin->phase = (spin->phase + 1) % 4;
-        func_0216D5D8(mmdl, d_021D8AB0[spin->variant][spin->phase]);
+        FLDMMDL_SetDirDisp(mmdl, gFieldPlayerNogridSpinDirs[spin->variant][spin->phase]);
     }
 }
 
 
-int func_021A6B88(NogridInputHold *hold)
+int FIELD_PLAYER_NOGRID_InitInputHold(NogridInputHold *hold)
 {
     func_02082BCC(hold, 0, 8);
     hold->heldDir = FIELD_PLAYER_NOGRID_DIR_NONE;
@@ -1311,20 +1311,20 @@ int func_021A6B88(NogridInputHold *hold)
 }
 
 
-void func_021A6B9C(NogridInputHold *hold)
+void FIELD_PLAYER_NOGRID_EnableInputHold(NogridInputHold *hold)
 {
     hold->enabled = 1;
 }
 
 
-int func_021A6BAC(NogridInputHold *hold)
+int FIELD_PLAYER_NOGRID_ResetInputHold(NogridInputHold *hold)
 {
-    return func_021A6B88(hold);
+    return FIELD_PLAYER_NOGRID_InitInputHold(hold);
 }
 
 
 /* Counts the frames without a direction key; after 30 the hold is armed. */
-void func_021A6BB4(NogridInputHold *hold, u32 dir, Mmdl *mmdl)
+void FIELD_PLAYER_NOGRID_UpdateInputHold(NogridInputHold *hold, u32 dir, Mmdl *mmdl)
 {
     if (hold->enabled) {
         if (hold->idleDone != 0) {
@@ -1340,7 +1340,7 @@ void func_021A6BB4(NogridInputHold *hold, u32 dir, Mmdl *mmdl)
             else
                 hold->idleDone = 1;
         }
-        if (func_0216D3CC(mmdl) == 1) {
+        if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
             if (hold->idleDone == 0) {
                 hold->keepDir = 0;
                 hold->held = 0;
@@ -1353,7 +1353,7 @@ void func_021A6BB4(NogridInputHold *hold, u32 dir, Mmdl *mmdl)
 }
 
 
-void func_021A6C30(NogridInputHold *hold)
+void FIELD_PLAYER_NOGRID_EndInputHoldFrame(NogridInputHold *hold)
 {
     if (hold->held) {
         hold->held = 0;
@@ -1364,7 +1364,7 @@ void func_021A6C30(NogridInputHold *hold)
 }
 
 
-int func_021A6C4C(NogridInputHold *hold, int dir)
+int FIELD_PLAYER_NOGRID_GetInputHoldDir(NogridInputHold *hold, int dir)
 {
     int result;
     if (hold->held) {
@@ -1378,20 +1378,20 @@ int func_021A6C4C(NogridInputHold *hold, int dir)
 }
 
 
-u32 func_021A6C64(NogridInputHold *hold)
+u32 FIELD_PLAYER_NOGRID_IsInputHoldKept(NogridInputHold *hold)
 {
     return hold->keepDir;
 }
 
 
 /* True when the map has a connection at the tile ahead of the model in a direction. */
-int func_021A6C6C(FieldPlayerNogrid *player, u32 dir)
+int FIELD_PLAYER_NOGRID_HasConnectionAhead(FieldPlayerNogrid *player, u32 dir)
 {
     RailLocation location;
-    Mmdl *mmdl = func_021A3960(player->core);
+    Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
     void *eventData;
 
-    eventData = func_02012844(func_020120F4(func_02188C80(player->fieldMap)));
-    func_0219E664(mmdl, dir, &location);
-    return func_02162598(eventData, &location) != 0xFFFF;
+    eventData = func_02012844(func_020120F4(FIELDMAP_GetGameSystem(player->fieldMap)));
+    FLDMMDL_RAIL_GetLocationByDir(mmdl, dir, &location);
+    return EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(eventData, &location) != 0xFFFF;
 }

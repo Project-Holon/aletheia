@@ -1,5 +1,5 @@
 /*
- * function: func_02158FD0
+ * function: SCRIPT_WORK_GetLocalWork
  * address:  0x02158FD0
  * packet:   pkt_02158FD0
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_02158FD0(int a0, u32 a1, int a2)
+int SCRIPT_WORK_GetLocalWork(int a0, u32 a1, int a2)
 {
 
 a2 = 2;

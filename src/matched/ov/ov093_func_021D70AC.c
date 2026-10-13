@@ -1,5 +1,5 @@
 /*
- * function: func_021D70AC
+ * function: BTL_EVENT_GetFactorPokeId
  * address:  0x021D70AC
  * packet:   pkt_021D70AC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-unsigned char func_021D70AC(unsigned char *p)
+unsigned char BTL_EVENT_GetFactorPokeId(unsigned char *p)
 {
     return p[0x3b];
 }

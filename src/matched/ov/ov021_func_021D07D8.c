@@ -1,5 +1,5 @@
 /*
- * function: func_021D07D8
+ * function: FLDEFF_BUBBLE_Draw
  * address:  0x021D07D8
  * packet:   pkt_ov021_021D07D8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D08D8  0x021D08D8  thumb  ov021
+ *   FLDEFF_BUBBLE_DrawBubble  0x021D08D8  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -30,13 +30,13 @@ typedef struct S {
 } S;
 
 struct Row;
-extern void func_021D08D8(struct Row *r, int a);
+extern void FLDEFF_BUBBLE_DrawBubble(struct Row *r, int a);
 
-void func_021D07D8(void *a, S *s)
+void FLDEFF_BUBBLE_Draw(void *a, S *s)
 {
     int i;
 
     for (i = 0; i < 6; i++) {
-        func_021D08D8((struct Row *)s->rows[i], s->f0[7]);
+        FLDEFF_BUBBLE_DrawBubble((struct Row *)s->rows[i], s->f0[7]);
     }
 }

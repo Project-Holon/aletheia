@@ -8,33 +8,35 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CBAC 0x0203CBAC arm
+ *   GFL_NET_StartSession 0x0203CBAC arm
  *   func_02087C6C 0x02087C6C arm
  *   d_021FDE4C 0x021FDE4C data a4
  *   d_021FDDEC 0x021FDDEC data a4
  *   func_021FCAA0 0x021FCAA0 thumb ov132
+ *   MYSTATUS_Copy  0x02008494  thumb  arm9
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "../include/Obj06493.h"
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 typedef unsigned int   u32;
 struct Req;
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern void func_02008494(void *, void *);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern void MYSTATUS_Copy(void *, void *);
 extern void func_02087C6C(void *);
 extern void func_021FCAA0(char *p);
 extern char d_021FDE4C[];
 extern char d_021FDDEC[];
 void *func_021FC694(int a,char *p)
 {
-    ((struct Obj06493 *)p)->f5C=func_02012944(((struct Obj06493 *)p)->f58);
+    ((struct Obj06493 *)p)->f5C=GAME_DATA_GetMyStatus(((struct Obj06493 *)p)->f58);
     if(((struct Obj06493 *)p)->fC==1) d_021FDE4C[5]=4;
     else {
         d_021FDE4C[5]=0;
-        func_0203CBAC((struct Req *)d_021FDDEC,(u32)func_021FCAA0,(u32)p);
+        GFL_NET_StartSession((struct Req *)d_021FDDEC,(u32)func_021FCAA0,(u32)p);
     }
-    func_02008494(((struct Obj06493 *)p)->f5C,p+0x20);
+    MYSTATUS_Copy(((struct Obj06493 *)p)->f5C,p+0x20);
     func_02087C6C(p+0x40);
     ((struct Obj06493 *)p)->f46=0x3a0b;
     return p;

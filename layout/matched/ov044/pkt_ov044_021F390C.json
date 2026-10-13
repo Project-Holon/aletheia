@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F390C",
+   "name": "GIMMICK44_IsLiftArrived",
    "address": "0x021F390C",
    "kind": "game",
    "region": "ov044",

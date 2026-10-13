@@ -1,5 +1,5 @@
 /*
- * function: func_021F3724
+ * function: GIMMICK60_Exit
  * address:  0x021F3724
  * packet:   pkt_ov060_021F3724
  * region:   ov060
@@ -9,27 +9,27 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE418  0x021BE418  thumb  ov021
- *   func_021897A0  0x021897A0  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_RemoveUnit  0x021BE418  thumb  ov021
+ *   FIELDMAP_FreeCommonWork  0x021897A0  thumb  ov021
  */
 
-extern void *func_02188C80(void *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern int func_02188D2C(int *p);
-extern void func_021BE418(unsigned char *p, unsigned short i);
-extern void func_021897A0(unsigned char *p, int id);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void FLD_EXP_OBJ_RemoveUnit(unsigned char *p, unsigned short i);
+extern void FIELDMAP_FreeCommonWork(unsigned char *p, int id);
 
-void func_021F3724(unsigned char *p)
+void GIMMICK60_Exit(unsigned char *p)
 {
-    func_02012EC4(func_020120F4(func_02188C80(p)));
-    func_021BE418((unsigned char *)func_02188D2C((int *)p), 0);
-    func_021897A0(p, 0);
+    GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(p)));
+    FLD_EXP_OBJ_RemoveUnit((unsigned char *)FIELDMAP_GetExpObj((int *)p), 0);
+    FIELDMAP_FreeCommonWork(p, 0);
 }

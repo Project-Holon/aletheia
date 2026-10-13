@@ -1,5 +1,5 @@
 /*
- * function: func_02157364
+ * function: MUSICAL_PROGRAM_GetBaseProgramId
  * address:  0x02157364
  * packet:   pkt_02157364
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u8 func_02157364(char *a0)
+u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0)
 {
     return ((struct Obj18733 *)(((struct Obj18732 *)a0)->fC))->f0;
 }

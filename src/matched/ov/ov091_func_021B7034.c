@@ -1,5 +1,5 @@
 /*
- * function: func_021B7034
+ * function: POKELIST_ShutdownBgPlane0
  * address:  0x021B7034
  * packet:   pkt_021B7034
  * region:   ov091
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 void func_020403F4(u32 i);
 
-void func_021B7034(void)
+void POKELIST_ShutdownBgPlane0(void)
 {
     func_020403F4(0);
 }

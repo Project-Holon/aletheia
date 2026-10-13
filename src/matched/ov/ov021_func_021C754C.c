@@ -1,5 +1,5 @@
 /*
- * function: func_021C754C
+ * function: FIELD_TASK_CreatePlayerPosTween
  * address:  0x021C754C
  * packet:   pkt_ov021_021C754C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_021C6C70  0x021C6C70  thumb  ov021
- *   func_021C6CCC  0x021C6CCC  thumb  ov021
- *   func_021C7584  0x021C7584  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELD_TASK_Create  0x021C6C70  thumb  ov021
+ *   FIELD_TASK_GetWork  0x021C6CCC  thumb  ov021
+ *   FIELD_TASK_UpdatePlayerPosTween  0x021C7584  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -21,21 +21,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Q Q;
 typedef struct { u32 x, y, z; } V;
-extern u16 func_02188C84(u8 *p);
-extern Q *func_021C6C70(u32 heap, u32 size, void *fn);
-extern u32 func_021C6CCC(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern Q *FIELD_TASK_Create(u32 heap, u32 size, void *fn);
+extern u32 FIELD_TASK_GetWork(u8 *p);
 typedef struct { u8 f0; u32 f4; u32 f8; u32 fC; u8 pad[0xc]; V f1C; } X;
-extern int func_021C7584(X *x);
+extern int FIELD_TASK_UpdatePlayerPosTween(X *x);
 static inline void set3(V *d, u32 x, u32 y, u32 z)
 {
     d->x = x;
     d->y = y;
     d->z = z;
 }
-Q *func_021C754C(u32 a, u32 b, V *v)
+Q *FIELD_TASK_CreatePlayerPosTween(u32 a, u32 b, V *v)
 {
-    Q *q = func_021C6C70(func_02188C84((u8 *)a), 0x28, func_021C7584);
-    X *x = (X *)func_021C6CCC((u8 *)q);
+    Q *q = FIELD_TASK_Create(FIELDMAP_GetHeapId((u8 *)a), 0x28, FIELD_TASK_UpdatePlayerPosTween);
+    X *x = (X *)FIELD_TASK_GetWork((u8 *)q);
     x->f0 = 0;
     x->f4 = a;
     x->f8 = 0;

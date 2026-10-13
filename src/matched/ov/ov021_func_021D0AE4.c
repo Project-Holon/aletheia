@@ -1,5 +1,5 @@
 /*
- * function: func_021D0AE4
+ * function: TRIAL_HOUSE_BuildTrainerFromMode
  * address:  0x021D0AE4
  * packet:   pkt_ov021_021D0AE4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   func_020056EC  0x020056EC  thumb
- *   func_02168878  0x02168878  thumb  ov010
+ *   FLD_BTL_INST_TOOL_CreateTrainer  0x02168878  thumb  ov010
  */
 #include "../include/Obj13002.h"
 
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
 typedef unsigned char  u8;
-extern int func_02168878(u8 *a, int b, int c, int d, int e, int f, u16 g);
+extern int FLD_BTL_INST_TOOL_CreateTrainer(u8 *a, int b, int c, int d, int e, int f, u16 g);
 
-void func_021D0AE4(char *p, u32 mode)
+void TRIAL_HOUSE_BuildTrainerFromMode(char *p, u32 mode)
 {
     int a;
     int b;
@@ -56,5 +56,5 @@ void func_021D0AE4(char *p, u32 mode)
     }
     s = a + func_020056EC(b);
     v = ((struct Obj13002 *)p)->f120;
-    func_02168878((u8 *)p, (u16)s, ((struct Obj13002 *)p)->f124, 0, 0, 0, (v & 0x7FFF) | 0x8000);
+    FLD_BTL_INST_TOOL_CreateTrainer((u8 *)p, (u16)s, ((struct Obj13002 *)p)->f124, 0, 0, 0, (v & 0x7FFF) | 0x8000);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021690F0",
+   "name": "FIELD_CLOCK_GetWeek",
    "address": "0x021690F0",
    "kind": "game",
    "region": "ov010",

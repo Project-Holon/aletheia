@@ -1,5 +1,5 @@
 /*
- * function: func_02166618
+ * function: SYMBOL_MAP_IsHomeCell
  * address:  0x02166618
  * packet:   pkt_ov010_02166618
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_02166618(int a0)
+int SYMBOL_MAP_IsHomeCell(int a0)
 {
     if ((u8)(a0 + 1) == 1)
         return 1;

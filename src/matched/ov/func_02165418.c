@@ -1,5 +1,5 @@
 /*
- * function: func_02165418
+ * function: GAME_BEACON_SEARCH_SetInfoPokeEvent
  * address:  0x02165418
  * packet:   pkt_02165418
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_ResetDetails(void *dst);
 
-void func_02165418(void *a0)
+void GAME_BEACON_SEARCH_SetInfoPokeEvent(void *a0)
 {
     ((struct Obj00121 *)a0)->f30 = 0x1E;
     GAME_BEACON_ResetDetails(a0);

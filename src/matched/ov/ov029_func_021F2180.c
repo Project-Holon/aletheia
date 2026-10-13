@@ -1,5 +1,5 @@
 /*
- * function: func_021F2180
+ * function: C_GEAR_StepIdle
  * address: 0x021F2180
  * packet: pkt_ov029_021F2180
  * region: ov029
@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021F0D48 0x021F0D48 thumb ov029
- *   func_021F2130 0x021F2130 thumb ov029
+ *   C_GEAR_IsIdleForInput 0x021F0D48 thumb ov029
+ *   C_GEAR_RunFrame 0x021F2130 thumb ov029
  */
 #include "../include/Obj00042.h"
-extern int func_021F0D48(char *p);
-extern void func_021F2130(char *p);
-void func_021F2180(char *p)
+extern int C_GEAR_IsIdleForInput(char *p);
+extern void C_GEAR_RunFrame(char *p);
+void C_GEAR_StepIdle(char *p)
 {
     if (*(void (**)(void *))(p + 0x1fc) != 0)
         (*(void (**)(void *))(p + 0x1fc))(((struct Obj00042 *)p)->f200);
     *(void (**)(void *))(p + 0x1fc) = 0;
     ((struct Obj00042 *)p)->f200 = 0;
-    if (func_021F0D48(p))
-        func_021F2130(p);
+    if (C_GEAR_IsIdleForInput(p))
+        C_GEAR_RunFrame(p);
 }

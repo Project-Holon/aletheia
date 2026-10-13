@@ -1,5 +1,5 @@
 /*
- * function: func_02167FB4
+ * function: FLD_BTL_INST_TOOL_PokeListEventMain
  * address:  0x02167FB4
  * packet:   pkt_ov010_02167FB4
  * region:   ov010
@@ -19,12 +19,12 @@
  * reload it).
  *
  * symbols:
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   func_02014910  0x02014910  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_0201AA14  0x0201AA14  thumb
  *   func_0201AB28  0x0201AB28  thumb
@@ -52,21 +52,21 @@ typedef struct SeqWork {
     void *party194;     /* 0x194 */
 } SeqWork;
 
-extern int func_021BE8D4(void *a, int b, int sel, int d);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
 struct Evt;
 struct Party;
 struct PartyMon;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *func_02014910(char *a0, int a1, int a2, int a3);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_0201AA14(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 
-int func_02167FB4(void *evt, u32 *seq, SeqWork *w)
+int FLD_BTL_INST_TOOL_PokeListEventMain(void *evt, u32 *seq, SeqWork *w)
 {
     int n;
     int i;
@@ -76,23 +76,23 @@ int func_02167FB4(void *evt, u32 *seq, SeqWork *w)
     heap = w->heap;
     switch (*seq) {
     case 0:
-        func_02012374(evt, (struct Evt **)func_021BE8D4((void *)heap, (int)w->arg, 0, 0));
+        GAME_EVENT_CallEvent(evt, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)heap, (int)w->arg, 0, 0));
         (*seq)++;
         break;
     case 1:
-        func_02012374(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(heap, (int)w->arg));
+        GAME_EVENT_CallEvent(evt, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(heap, (int)w->arg));
         (*seq)++;
         break;
     case 2:
-        func_02012374(evt, func_02014910((char *)heap, (int)w->arg, (int)w->f30, (int)w->f08));
+        GAME_EVENT_CallEvent(evt, func_02014910((char *)heap, (int)w->arg, (int)w->f30, (int)w->f08));
         (*seq)++;
         break;
     case 3:
-        func_02012374(evt, FIELD_STATUS_CreateFieldOpenEvent((void *)heap));
+        GAME_EVENT_CallEvent(evt, FIELD_STATUS_CreateFieldOpenEvent((void *)heap));
         (*seq)++;
         break;
     case 4:
-        func_02012374(evt, (struct Evt **)func_021BE92C((void *)heap, (int)w->arg, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(evt, (struct Evt **)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)heap, (int)w->arg, 0, 0, 1, 0, 0));
         MI_CpuCopy8(w->order, w->order18c, 6);
         *w->out188 = w->f6c;
         *w->out184 = w->f70;

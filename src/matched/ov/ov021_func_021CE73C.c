@@ -1,5 +1,5 @@
 /*
- * function: func_021CE73C
+ * function: COMM_ENTRY_MENU_CountAcceptedMembers
  * address:  0x021CE73C
  * packet:   pkt_ov021_021CE73C
  * region:   ov021
@@ -28,7 +28,7 @@ typedef struct {
     Entry ent[4];
 } Mgr;
 
-int func_021CE73C(Mgr *m)
+int COMM_ENTRY_MENU_CountAcceptedMembers(Mgr *m)
 {
     int i;
     int n = 0;

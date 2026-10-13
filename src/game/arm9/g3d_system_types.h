@@ -23,7 +23,7 @@
 #define G3D_RES_TYPE_TEX    3   /* BTX0 */
 #define G3D_RES_TYPE_ANM    4   /* BCA0, BVA0, BMA0, BTP0, BTA0 */
 
-/* kinds for func_02046C9C and func_02046F50 */
+/* kinds for func_02046C9C and G3D_SYSTEM_CheckResourceType */
 #define G3D_RES_KIND_NONE 0
 #define G3D_RES_KIND_MDL  1
 #define G3D_RES_KIND_TEX  2
@@ -98,7 +98,7 @@ typedef struct G3dLookAt {
     VecFx32 target;
 } G3dLookAt;
 
-/* The 3D system work (0xA0 bytes, allocated by func_02046440). */
+/* The 3D system work (0xA0 bytes, allocated by G3D_SYSTEM_Init). */
 typedef struct G3dSystemWork {
     NNSFndAllocator allocator;          /* 0x00: heap allocator for render and animation objects */
     void           *plttManagerWork;    /* 0x10 */

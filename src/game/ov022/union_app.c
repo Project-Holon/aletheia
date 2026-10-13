@@ -1,7 +1,7 @@
 /*
  * file:     union_app.c
  * unit:     yes
- * function: func_02183B60, func_02183BE0, func_02183BE8, func_02183C3C, func_02183CC0, func_02183D34, func_02183D4C, func_02183D94, func_02183DAC, func_02183DDC, func_02183E48, func_02183EE0, func_02183F6C, func_02183F7C, func_02183F84, func_02183F88, func_02183F98, func_02183FA8, func_02183FB8, func_0218401C, func_0218402C, func_02184060, func_021840A4, func_021840A8, func_021840AC, func_021840C8, func_021840FC, func_02184114, func_02184134, func_02184148, func_0218416C, func_02184174, func_0218417C, func_02184180, func_021841A0
+ * function: UNION_APP_Create, UNION_APP_Delete, UNION_APP_TryAcceptMember, UNION_APP_Update, UNION_APP_DropDisconnectedMembers, UNION_APP_SendSetting, UNION_APP_SelectQuitRequester, UNION_APP_SendQuitAccept, UNION_APP_SendOwnEntry, UNION_APP_ConfirmJoins, UNION_APP_UpdateLeaves, UNION_APP_ClearDisconnectedPending, UNION_APP_AddQuitRequest, UNION_APP_SetQuitAccepted, UNION_APP_IsQuitAccepted, UNION_APP_AddSettingTarget, UNION_APP_SetSetting, UNION_APP_AddEntryTarget, UNION_APP_SetMemberEntry, UNION_APP_HasMembers, UNION_APP_IsAllEntriesReceived, UNION_APP_QueueJoinConfirm, UNION_APP_OnMemberDropped, UNION_APP_GetSettingSize, UNION_APP_AddSelfToJoined, UNION_APP_IsClosed, UNION_APP_SetCallbacks, UNION_APP_Close, UNION_APP_Open, UNION_APP_OpenLimited, UNION_APP_SetReady, UNION_APP_RequestReset, UNION_APP_IsResetDone, UNION_APP_GetMemberEntry, UNION_APP_GetJoinedBits
  * address:  0x02183B60
  * region:   ov022
  * compiler: dsi/1.1p1
@@ -14,29 +14,29 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_02087C6C  0x02087C6C  arm
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   d_021841C0     0x021841C0  data  a1
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   sUnionAppFile     0x021841C0  data  a1
  *   func_020307B0  0x020307B0  arm
  *   func_02080D24  0x02080D24  arm
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02172D38  0x02172D38  thumb  ov012
- *   func_02172D68  0x02172D68  thumb  ov012
- *   func_0203D1C0  0x0203D1C0  arm
+ *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
+ *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  *   INTRUDE_CMD_RecvResultRecord  0x0217410C  thumb  ov011
  *   UNION_COMMAND_SendAppSetting 0x02173F20 thumb ov012
  *   UNION_COMMAND_SendAppQuitAccept 0x02173E68 thumb ov012
  *   UNION_COMMAND_SendAppData 0x02174010 thumb ov012
- *   func_02173614  0x02173614  thumb  ov012
+ *   UNION_COMM_RemoveMember  0x02173614  thumb  ov012
  *   func_02082D44  0x02082D44  arm
  *   func_02008550  0x02008550  thumb
  *   func_02008554  0x02008554  thumb
- *   func_0217357C  0x0217357C  thumb  ov012
- *   func_0203D1E8  0x0203D1E8  arm
- *   func_0203CD98 0x0203CD98 arm
+ *   UNION_COMM_AddMember  0x0217357C  thumb  ov012
+ *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,72 +53,72 @@ struct Link;
 struct Sub0200852CObj;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, unsigned short line);
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02087C6C(void *p);
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *p);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern u32 func_020307B0(void *p);
 extern u32 func_02080D24(u32 a);
 extern u32 func_0200FB24(void);
-extern void func_02172D38(UnionRoomWork *work);
-extern int func_02172D68(UnionRoomWork *work);
-extern u32 func_0203D1C0(u32 index);
+extern void UNION_COMM_RequestShutdown(UnionRoomWork *work);
+extern int UNION_COMM_IsResetting(UnionRoomWork *work);
+extern u32 GFL_NET_IsConnectMember(u32 index);
 extern int INTRUDE_CMD_RecvResultRecord(int a, int b);
 extern u32 UNION_COMMAND_SendAppSetting(void *p, u32 a);
 extern u32 UNION_COMMAND_SendAppQuitAccept(u32 a);
 extern u32 UNION_COMMAND_SendAppData(u32 a, void *p);
-extern void func_02173614(UnionConnectInfo *connect, const u8 *mac);
+extern void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac);
 extern void func_02082D44(const void *src, void *dst, u32 len);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
-extern int func_0217357C(UnionConnectInfo *connect, const u8 *mac, u32 a2, u32 a3);
-extern void func_0203D1E8(u32 unused, void *arg);
-extern int func_0203CD98(void);
-UnionAppWork *func_02183B60(UnionRoomWork *work, int heapId, int maxMembers, UnionAppStatusCopy *myStatus);
-void func_02183BE0(UnionAppWork *app);
-int func_02183BE8(UnionAppWork *app, int netId);
-void func_02183C3C(UnionAppWork *app, UnionRoomWork *work);
-void func_02183CC0(UnionAppWork *app);
-void func_02183D34(UnionAppWork *app);
-void func_02183D4C(UnionAppWork *app);
-void func_02183D94(UnionAppWork *app);
-void func_02183DAC(UnionAppWork *app);
-void func_02183DDC(UnionAppWork *app);
-void func_02183E48(UnionAppWork *app, UnionRoomWork *work);
-void func_02183EE0(UnionAppWork *app, UnionRoomWork *work);
-void func_02183F6C(UnionAppWork *app, u8 netId);
-void func_02183F7C(UnionAppWork *app);
-u8 func_02183F84(UnionAppWork *app);
-void func_02183F88(UnionAppWork *app, u8 netId);
-void func_02183F98(UnionAppWork *app, const void *setting);
-void func_02183FA8(UnionAppWork *app, u8 netId);
-void func_02183FB8(UnionAppWork *app, UnionRoomWork *work, u32 netId, const UnionAppEntry *src);
-int func_0218401C(UnionAppWork *app);
-int func_0218402C(UnionAppWork *app);
-void func_02184060(UnionAppWork *app, int netId);
-void func_021840A4(UnionAppWork *app, int netId);
-unsigned int func_021840A8(unsigned int entry);
-void func_021840AC(UnionAppWork *app);
-int func_021840C8(UnionAppWork *app);
-void func_021840FC(UnionAppWork *app, UnionAppMemberCallback joinCallback, UnionAppMemberCallback leaveCallback, void *callbackArg);
-int func_02184114(UnionAppWork *app);
-void func_02184134(UnionAppWork *app);
-void func_02184148(UnionAppWork *app, int maxCount);
-void func_0218416C(UnionAppWork *app);
-void func_02184174(UnionAppWork *app);
-u32 func_0218417C(UnionAppWork *app);
-UnionAppEntry *func_02184180(UnionAppWork *app, int netId);
-unsigned char func_021841A0(UnionAppWork *app);
-extern u8 d_021841C0[];
+extern int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 a2, u32 a3);
+extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+extern int GFL_NET_GetRunState(void);
+UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, UnionAppStatusCopy *myStatus);
+void UNION_APP_Delete(UnionAppWork *app);
+int UNION_APP_TryAcceptMember(UnionAppWork *app, int netId);
+void UNION_APP_Update(UnionAppWork *app, UnionRoomWork *work);
+void UNION_APP_DropDisconnectedMembers(UnionAppWork *app);
+void UNION_APP_SendSetting(UnionAppWork *app);
+void UNION_APP_SelectQuitRequester(UnionAppWork *app);
+void UNION_APP_SendQuitAccept(UnionAppWork *app);
+void UNION_APP_SendOwnEntry(UnionAppWork *app);
+void UNION_APP_ConfirmJoins(UnionAppWork *app);
+void UNION_APP_UpdateLeaves(UnionAppWork *app, UnionRoomWork *work);
+void UNION_APP_ClearDisconnectedPending(UnionAppWork *app, UnionRoomWork *work);
+void UNION_APP_AddQuitRequest(UnionAppWork *app, u8 netId);
+void UNION_APP_SetQuitAccepted(UnionAppWork *app);
+u8 UNION_APP_IsQuitAccepted(UnionAppWork *app);
+void UNION_APP_AddSettingTarget(UnionAppWork *app, u8 netId);
+void UNION_APP_SetSetting(UnionAppWork *app, const void *setting);
+void UNION_APP_AddEntryTarget(UnionAppWork *app, u8 netId);
+void UNION_APP_SetMemberEntry(UnionAppWork *app, UnionRoomWork *work, u32 netId, const UnionAppEntry *src);
+int UNION_APP_HasMembers(UnionAppWork *app);
+int UNION_APP_IsAllEntriesReceived(UnionAppWork *app);
+void UNION_APP_QueueJoinConfirm(UnionAppWork *app, int netId);
+void UNION_APP_OnMemberDropped(UnionAppWork *app, int netId);
+unsigned int UNION_APP_GetSettingSize(unsigned int entry);
+void UNION_APP_AddSelfToJoined(UnionAppWork *app);
+int UNION_APP_IsClosed(UnionAppWork *app);
+void UNION_APP_SetCallbacks(UnionAppWork *app, UnionAppMemberCallback joinCallback, UnionAppMemberCallback leaveCallback, void *callbackArg);
+int UNION_APP_Close(UnionAppWork *app);
+void UNION_APP_Open(UnionAppWork *app);
+void UNION_APP_OpenLimited(UnionAppWork *app, int maxCount);
+void UNION_APP_SetReady(UnionAppWork *app);
+void UNION_APP_RequestReset(UnionAppWork *app);
+u32 UNION_APP_IsResetDone(UnionAppWork *app);
+UnionAppEntry *UNION_APP_GetMemberEntry(UnionAppWork *app, int netId);
+unsigned char UNION_APP_GetJoinedBits(UnionAppWork *app);
+extern u8 sUnionAppFile[];
 
-UnionAppWork *func_02183B60(UnionRoomWork *work, int heapId, int maxMembers, UnionAppStatusCopy *myStatus)
+UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, UnionAppStatusCopy *myStatus)
 {
     UnionAppWork *app;
     UnionAppEntry entry;
 
-    app = func_02030734(heapId, UNION_APP_WORK_SIZE, 1, (const char *)d_021841C0, 0x4d);
-    if (func_0203D378() == 1) {
+    app = func_02030734(heapId, UNION_APP_WORK_SIZE, 1, (const char *)sUnionAppFile, 0x4d);
+    if (GFL_NET_IsParentAid() == 1) {
         app->joinedBits = 3;
     }
     app->maxMembers = maxMembers;
@@ -127,9 +127,9 @@ UnionAppWork *func_02183B60(UnionRoomWork *work, int heapId, int maxMembers, Uni
     func_02082BCC(&entry, 0, sizeof(UnionAppEntry));
     entry.status = *myStatus;
     func_02087C6C(entry.mac);
-    func_02183FB8(app, work, func_0203D1A4((struct Link *)((u32)func_020399A8())), &entry);
-    func_02184114(app);
-    func_0218416C(app);
+    UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())), &entry);
+    UNION_APP_Close(app);
+    UNION_APP_SetReady(app);
     return app;
 }
 
@@ -137,7 +137,7 @@ UnionAppWork *func_02183B60(UnionRoomWork *work, int heapId, int maxMembers, Uni
  * Unlabelled tail-call thunk (ldr r3 / bx r3 / pool) in ov022; blocker of
  * ov012 UNION_MAIN_StepGroupActivity.
  */
-void func_02183BE0(UnionAppWork *app)
+void UNION_APP_Delete(UnionAppWork *app)
 {
     func_020307B0(app);
 }
@@ -145,7 +145,7 @@ void func_02183BE0(UnionAppWork *app)
 /*
  * Addresses are Black-image addresses.
  */
-int func_02183BE8(UnionAppWork *app, int netId)
+int UNION_APP_TryAcceptMember(UnionAppWork *app, int netId)
 {
     u32 memberCount;
     u32 limitedCount;
@@ -170,7 +170,7 @@ int func_02183BE8(UnionAppWork *app, int netId)
     return 0;
 }
 
-void func_02183C3C(UnionAppWork *app, UnionRoomWork *work)
+void UNION_APP_Update(UnionAppWork *app, UnionRoomWork *work)
 {
     if (func_0200FB24() != 0) {
         return;
@@ -179,31 +179,31 @@ void func_02183C3C(UnionAppWork *app, UnionRoomWork *work)
         return;
     }
     if (app->resetRequest == 1) {
-        func_02172D38(work);
+        UNION_COMM_RequestShutdown(work);
         app->resetRequest = 0;
         app->resetRunning = 1;
         return;
     }
     if (app->resetRunning == 1) {
-        if (func_02172D68(work) == 0) {
+        if (UNION_COMM_IsResetting(work) == 0) {
             app->resetRunning = 0;
             app->resetDone = 1;
         }
         return;
     }
-    if (func_0203D378() == 1) {
-        func_02183EE0(app, work);
-        func_02183D34(app);
-        func_02183CC0(app);
-        func_02183D4C(app);
-        func_02183D94(app);
+    if (GFL_NET_IsParentAid() == 1) {
+        UNION_APP_ClearDisconnectedPending(app, work);
+        UNION_APP_SendSetting(app);
+        UNION_APP_DropDisconnectedMembers(app);
+        UNION_APP_SelectQuitRequester(app);
+        UNION_APP_SendQuitAccept(app);
     }
-    func_02183DAC(app);
-    func_02183DDC(app);
-    func_02183E48(app, work);
+    UNION_APP_SendOwnEntry(app);
+    UNION_APP_ConfirmJoins(app);
+    UNION_APP_UpdateLeaves(app, work);
 }
 
-void func_02183CC0(UnionAppWork *app)
+void UNION_APP_DropDisconnectedMembers(UnionAppWork *app)
 {
     int netId;
     u32 bit;
@@ -215,7 +215,7 @@ void func_02183CC0(UnionAppWork *app)
         for (netId = 0; netId < UNION_APP_MEMBER_MAX; netId++) {
             bit = 1 << netId;
             if (app->joinedBits & bit) {
-                if (func_0203D1C0((u8)netId) == 0) {
+                if (GFL_NET_IsConnectMember((u8)netId) == 0) {
                     stillConnected ^= bit;
                 }
             }
@@ -227,7 +227,7 @@ void func_02183CC0(UnionAppWork *app)
                 if (app->joinedBits & bit) {
                     if (!(stillConnected & bit)) {
                         if (INTRUDE_CMD_RecvResultRecord(stillConnectedBits, netId & 0xff) == 1) {
-                            func_021840A4(app, (u8)netId);
+                            UNION_APP_OnMemberDropped(app, (u8)netId);
                             app->joinedBits = app->joinedBits ^ (u8)bit;
                         }
                     }
@@ -237,18 +237,18 @@ void func_02183CC0(UnionAppWork *app)
     }
 }
 
-void func_02183D34(UnionAppWork *app)
+void UNION_APP_SendSetting(UnionAppWork *app)
 {
     if (app->settingSendBits != 0 && UNION_COMMAND_SendAppSetting(app, app->settingSendBits) == 1) app->settingSendBits = 0;
 }
 
-void func_02183D4C(UnionAppWork *app)
+void UNION_APP_SelectQuitRequester(UnionAppWork *app)
 {
     int netId;
     u8 bits;
 
     if (app->quitRequester != UNION_APP_NO_MEMBER) {
-        if (func_0203D1C0(app->quitRequester) != 0) {
+        if (GFL_NET_IsConnectMember(app->quitRequester) != 0) {
             return;
         }
         app->quitRequester = UNION_APP_NO_MEMBER;
@@ -269,23 +269,23 @@ void func_02183D4C(UnionAppWork *app)
 
 /*
  * Callee's filed definition says void; original caller reads r0 at
- * 02183DA2, and ov012 callee leaves func_0203D3F8 result live.
+ * 02183DA2, and ov012 callee leaves GFL_NET_SendData result live.
  */
-void func_02183D94(UnionAppWork *app)
+void UNION_APP_SendQuitAccept(UnionAppWork *app)
 {
     if (app->quitAcceptTarget != 255 && UNION_COMMAND_SendAppQuitAccept(app->quitAcceptTarget) == 1) app->quitAcceptTarget = 255;
 }
 
-void func_02183DAC(UnionAppWork *app)
+void UNION_APP_SendOwnEntry(UnionAppWork *app)
 {
     u32 myNetId;
     if (app->dataSendBits != 0) {
-        myNetId = func_0203D1A4((struct Link *)func_020399A8());
+        myNetId = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
         if (UNION_COMMAND_SendAppData(app->dataSendBits, &app->entry[myNetId]) == 1) app->dataSendBits = 0;
     }
 }
 
-void func_02183DDC(UnionAppWork *app)
+void UNION_APP_ConfirmJoins(UnionAppWork *app)
 {
     int netId;
     u32 bit;
@@ -313,7 +313,7 @@ void func_02183DDC(UnionAppWork *app)
     }
 }
 
-void func_02183E48(UnionAppWork *app, UnionRoomWork *work)
+void UNION_APP_UpdateLeaves(UnionAppWork *app, UnionRoomWork *work)
 {
     int netId;
     u32 bit;
@@ -322,8 +322,8 @@ void func_02183E48(UnionAppWork *app, UnionRoomWork *work)
     for (netId = 0; netId < UNION_APP_MEMBER_MAX; netId++) {
         bit = 1 << netId;
         if (app->entryReceivedBits & bit) {
-            if (func_0203D1C0((u8)netId) == 0) {
-                if (func_0203D378() == 1 || (app->joinedBits & bit)) {
+            if (GFL_NET_IsConnectMember((u8)netId) == 0) {
+                if (GFL_NET_IsParentAid() == 1 || (app->joinedBits & bit)) {
                     callback = app->leaveCallback;
                     if (callback != 0) {
                         callback(netId & 0xff, &app->entry[netId], app->callbackArg);
@@ -331,13 +331,13 @@ void func_02183E48(UnionAppWork *app, UnionRoomWork *work)
                     app->joinedBits &= (u8)(bit ^ 0xff);
                     app->entryReceivedBits &= (u8)(bit ^ 0xff);
                 }
-                func_02173614(&work->mySituation.connect, app->entry[netId].mac);
+                UNION_COMM_RemoveMember(&work->mySituation.connect, app->entry[netId].mac);
             }
         }
     }
 }
 
-void func_02183EE0(UnionAppWork *app, UnionRoomWork *work)
+void UNION_APP_ClearDisconnectedPending(UnionAppWork *app, UnionRoomWork *work)
 {
     u8 netId;
     u32 bit;
@@ -345,11 +345,11 @@ void func_02183EE0(UnionAppWork *app, UnionRoomWork *work)
     for (netId = 0; netId < UNION_APP_MEMBER_MAX; netId++) {
         bit = 1 << netId;
         if (app->pendingBits & bit) {
-            if (func_0203D1C0(netId) == 0) {
+            if (GFL_NET_IsConnectMember(netId) == 0) {
                 app->pendingBits ^= (u8)bit;
                 if (app->entryReceivedBits & bit) {
                     app->entryReceivedBits &= (u8)(bit ^ 0xff);
-                    func_02173614(&work->mySituation.connect, app->entry[netId].mac);
+                    UNION_COMM_RemoveMember(&work->mySituation.connect, app->entry[netId].mac);
                 }
                 if (app->phase == UNION_APP_PHASE_LIMITED && app->limitedCount != 0) {
                     app->limitedCount--;
@@ -359,7 +359,7 @@ void func_02183EE0(UnionAppWork *app, UnionRoomWork *work)
     }
 }
 
-void func_02183F6C(UnionAppWork *app, u8 netId)
+void UNION_APP_AddQuitRequest(UnionAppWork *app, u8 netId)
 {
     app->quitRequestBits |= (u8)(1 << netId);
 }
@@ -367,7 +367,7 @@ void func_02183F6C(UnionAppWork *app, u8 netId)
 /*
  * leaf:     Sole game blocker of assigned ov012 caller; root claim granted.
  */
-void func_02183F7C(UnionAppWork *app)
+void UNION_APP_SetQuitAccepted(UnionAppWork *app)
 {
     app->quitAccepted = 1;
 }
@@ -376,17 +376,17 @@ void func_02183F7C(UnionAppWork *app)
  * Unlabelled leaf (a .word run in asm/overlays/ov022.s); blocker of ov012
  * UNION_MAIN_StepGroupActivity.
  */
-u8 func_02183F84(UnionAppWork *app)
+u8 UNION_APP_IsQuitAccepted(UnionAppWork *app)
 {
     return app->quitAccepted;
 }
 
-void func_02183F88(UnionAppWork *app, u8 netId)
+void UNION_APP_AddSettingTarget(UnionAppWork *app, u8 netId)
 {
     app->settingSendBits |= (u8)(1 << netId);
 }
 
-void func_02183F98(UnionAppWork *app, const void *setting)
+void UNION_APP_SetSetting(UnionAppWork *app, const void *setting)
 {
     func_02082D44(setting, app, 4);
 }
@@ -394,44 +394,44 @@ void func_02183F98(UnionAppWork *app, const void *setting)
 /*
  * Unlabelled bit-set leaf; follower 02183FB8 is separate labelled code.
  */
-void func_02183FA8(UnionAppWork *app, u8 netId)
+void UNION_APP_AddEntryTarget(UnionAppWork *app, u8 netId)
 {
     app->dataSendBits = app->dataSendBits | (u8)(1 << netId);
 }
 
-void func_02183FB8(UnionAppWork *app, UnionRoomWork *work, u32 netId, const UnionAppEntry *src)
+void UNION_APP_SetMemberEntry(UnionAppWork *app, UnionRoomWork *work, u32 netId, const UnionAppEntry *src)
 {
     UnionMySituation *situation = &work->mySituation;
     app->entry[netId] = *src;
     app->entryReceivedBits |= (u8)(1 << netId);
-    if (netId != func_0203D1A4((struct Link *)func_020399A8())) {
+    if (netId != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
         u32 trainerView = func_02008554((const struct Sub0200852CObj *)src);
         u32 sex = func_02008550((const struct Sub0200852CObj *)src);
-        func_0217357C(&situation->connect, src->mac, trainerView, (u8)sex);
+        UNION_COMM_AddMember(&situation->connect, src->mac, trainerView, (u8)sex);
     }
 }
 
-int func_0218401C(UnionAppWork *app)
+int UNION_APP_HasMembers(UnionAppWork *app)
 {
     if (app->joinedBits != 0)
         return 1;
     return 0;
 }
 
-int func_0218402C(UnionAppWork *app)
+int UNION_APP_IsAllEntriesReceived(UnionAppWork *app)
 {
     int netId;
     u32 bit;
     for (netId = 0; netId < UNION_APP_MEMBER_MAX; netId++) {
         bit = 1 << netId;
-        if ((app->joinedBits & bit) && func_0203D1C0((u8)netId) == 1 && !(app->entryReceivedBits & bit)) return 0;
+        if ((app->joinedBits & bit) && GFL_NET_IsConnectMember((u8)netId) == 1 && !(app->entryReceivedBits & bit)) return 0;
     }
     return 1;
 }
 
-void func_02184060(UnionAppWork *app, int netId)
+void UNION_APP_QueueJoinConfirm(UnionAppWork *app, int netId)
 {
-    if (func_0203D378() == 1) {
+    if (GFL_NET_IsParentAid() == 1) {
         if ((app->entryReceivedBits & (1 << netId)) && (app->pendingBits & (1 << netId))) {
             app->confirmBits |= (u8)(1 << netId);
         }
@@ -441,21 +441,21 @@ void func_02184060(UnionAppWork *app, int netId)
     }
 }
 
-void func_021840A4(UnionAppWork *app, int netId)
+void UNION_APP_OnMemberDropped(UnionAppWork *app, int netId)
 {
 }
 
 /*
  * Unlabelled size-return leaf. Extent follower 021840AC already filed separately.
  */
-unsigned int func_021840A8(unsigned int entry)
+unsigned int UNION_APP_GetSettingSize(unsigned int entry)
 {
     return 4;
 }
 
-void func_021840AC(UnionAppWork *app)
+void UNION_APP_AddSelfToJoined(UnionAppWork *app)
 {
-    app->joinedBits = app->joinedBits | (u8)(1 << func_0203D1A4((struct Link *)((u32)func_020399A8())));
+    app->joinedBits = app->joinedBits | (u8)(1 << GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())));
 }
 
 /*
@@ -463,7 +463,7 @@ void func_021840AC(UnionAppWork *app)
  * sole blocker of ov012 UNION_COMM_BuildBeacon's MATCH. Of the five overlays whose
  * window holds 0x021840C8 only ov022 has a function start there.
  */
-int func_021840C8(UnionAppWork *app)
+int UNION_APP_IsClosed(UnionAppWork *app)
 {
     if (app == 0)
         return 0;
@@ -483,19 +483,19 @@ int func_021840C8(UnionAppWork *app)
 /*
  * Unlabelled leaf (a .word run in asm/overlays/ov022.s): stores the two
  * callbacks and their argument at 0xf4/0xf8/0xfc (the fields
- * func_02183E48 reads). Blocker of ov023 func_02184674.
+ * UNION_APP_UpdateLeaves reads). Blocker of ov023 OEKAKI_Main.
  */
-void func_021840FC(UnionAppWork *app, UnionAppMemberCallback joinCallback, UnionAppMemberCallback leaveCallback, void *callbackArg)
+void UNION_APP_SetCallbacks(UnionAppWork *app, UnionAppMemberCallback joinCallback, UnionAppMemberCallback leaveCallback, void *callbackArg)
 {
     app->joinCallback = joinCallback;
     app->leaveCallback = leaveCallback;
     app->callbackArg = callbackArg;
 }
 
-int func_02184114(UnionAppWork *app)
+int UNION_APP_Close(UnionAppWork *app)
 {
     if (app->pendingBits == 0) {
-        func_0203D1E8((u32)func_020399A8(), 0);
+        GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
         app->phase = UNION_APP_PHASE_CLOSED;
         return 1;
     }
@@ -506,16 +506,16 @@ int func_02184114(UnionAppWork *app)
  * Original r0 return from 020399A8 flows into unused parameter 0 of
  * 0203D1E8; its r1 argument is literal payload 1. No implicit arguments.
  */
-void func_02184134(UnionAppWork *app)
+void UNION_APP_Open(UnionAppWork *app)
 {
-    func_0203D1E8((u32)func_020399A8(), (void *)1);
+    GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
     app->phase = UNION_APP_PHASE_OPEN;
 }
 
-void func_02184148(UnionAppWork *app, int maxCount)
+void UNION_APP_OpenLimited(UnionAppWork *app, int maxCount)
 {
-    if (func_0203CD98()) {
-        func_0203D1E8((int)func_020399A8(), (void *)1);
+    if (GFL_NET_GetRunState()) {
+        GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
         app->phase = UNION_APP_PHASE_LIMITED;
         app->limitedMax = maxCount;
         app->limitedCount = 0;
@@ -525,33 +525,33 @@ void func_02184148(UnionAppWork *app, int maxCount)
 /*
  * Extent followers 0x02184174, 0x0218417C and 0x02184180 are matched separately.
  */
-void func_0218416C(UnionAppWork *app)
+void UNION_APP_SetReady(UnionAppWork *app)
 {
     app->ready = 1;
 }
 
 /*
  * Unlabelled leaf (a .word run in asm/overlays/ov022.s): sets the word at
- * 0x20. Blocker of ov023 func_02184674.
+ * 0x20. Blocker of ov023 OEKAKI_Main.
  */
-void func_02184174(UnionAppWork *app)
+void UNION_APP_RequestReset(UnionAppWork *app)
 {
     app->resetRequest = 1;
 }
 
 /*
  * Unlabelled leaf (a .word run in asm/overlays/ov022.s): returns the word
- * at 0x28. Blocker of ov023 func_02184674.
+ * at 0x28. Blocker of ov023 OEKAKI_Main.
  */
-u32 func_0218417C(UnionAppWork *app)
+u32 UNION_APP_IsResetDone(UnionAppWork *app)
 {
     return app->resetDone;
 }
 
 /*
- * Unlabelled leaf; callers in ov023 (func_02186170, func_02185EA0).
+ * Unlabelled leaf; callers in ov023 (OEKAKI_UpdateMemberSlots, OEKAKI_UpdateRemoteCursors).
  */
-UnionAppEntry *func_02184180(UnionAppWork *app, int netId)
+UnionAppEntry *UNION_APP_GetMemberEntry(UnionAppWork *app, int netId)
 {
     int bit;
 
@@ -561,7 +561,7 @@ UnionAppEntry *func_02184180(UnionAppWork *app, int netId)
     return &app->entry[netId];
 }
 
-unsigned char func_021841A0(UnionAppWork *app)
+unsigned char UNION_APP_GetJoinedBits(UnionAppWork *app)
 {
     return app->joinedBits;
 }

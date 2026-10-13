@@ -1,7 +1,7 @@
 /*
  * file:     musical_dressup_sys.c
  * unit:     yes
- * function: func_02155478, func_021559E4, func_02155A4C, func_02155A6C, func_02155A8C, func_02155A90, func_02155A94, func_02155A98, func_02155C0C, func_02155F24, func_02155F4C, func_02155F9C, func_02155FB4, func_02155FC8, func_02156074, func_0215611C, func_02156420, func_02156530, func_02156710, func_02156770, func_021567D8, func_02156824, func_02156888, func_021568A8, func_021568E0, func_021568E8, func_02156908, func_02156914, func_02156934, func_02156954, func_02156978, func_0215699C, func_021569A4, func_021569EC, func_02156A3C, func_02156AD4, func_02156B74, func_02156BAC, func_02156BCC, func_02156BD0, func_02156C28, func_02156C4C, func_02156CAC, func_02156CD8, func_02156CE0, func_02156EDC, func_02156F24, func_02156F68, func_02156F98, func_02156FC4, func_02156FD0, func_02157000, func_0215700C, func_02157028, func_0215716C, func_02157174, func_0215725C, func_02157260, func_02157278, func_02157298, func_021572A8, func_021572C0, func_021572E4, func_02157364, func_0215736C, func_02157374, func_02157384, func_02157394, func_0215739C, func_02157450, func_02157650, func_0215765C, func_02157660, func_02157664, func_02157668
+ * function: func_02155478, func_021559E4, func_02155A4C, func_02155A6C, func_02155A8C, func_02155A90, func_02155A94, MUSICAL_EVENT_Create, MUSICAL_EVENT_Main, MUSICAL_EVENT_CreateLocalPerformer, MUSICAL_EVENT_Free, MUSICAL_EVENT_CreateDressupParam, MUSICAL_EVENT_SendLocalPerformer, MUSICAL_EVENT_CreateStage, MUSICAL_EVENT_ScorePerformers, MUSICAL_EVENT_CreateShowRecord, MUSICAL_EVENT_ApplyResults, MUSICAL_EVENT_RollProgramRewards, MUSICAL_EVENT_RunLeaveSequence, MUSICAL_EVENT_RunEnterSequence, MUSICAL_EVENT_SpawnSeatEffect, MUSICAL_EVENT_SpawnExitEffect, MUSICAL_EVENT_ShowMessage, MUSICAL_EVENT_CountNpcSlotsBelow, MUSICAL_EVENT_GetLocalSlot, MUSICAL_EVENT_GetPlayerOfSlot, MUSICAL_EVENT_GetProgramBestCategory, MUSICAL_EVENT_AllocTitleString, MUSICAL_EVENT_GetScoreCapped, MUSICAL_EVENT_GetMaxScore, MUSICAL_EVENT_GetMinScore, MUSICAL_EVENT_GetSlotOfRank, MUSICAL_EVENT_GetBestAppealCategory, MUSICAL_EVENT_GetPortraitClass, MUSICAL_EVENT_SetPlayerNameWord, MUSICAL_EVENT_SetPokemonNameWord, MUSICAL_EVENT_ReceiveShowProgram, MUSICAL_EVENT_CheckNetError, MUSICAL_EVENT_IsAborted, MUSICAL_DRESSUP_SYS_Init, MUSICAL_DRESSUP_SYS_Exit, MUSICAL_DRESSUP_SYS_Main, MUSICAL_DRESSUP_SYS_Create, MUSICAL_DRESSUP_SYS_Delete, MUSICAL_STAGE_SYS_Init, MUSICAL_STAGE_SYS_Exit, MUSICAL_STAGE_SYS_Main, MUSICAL_STAGE_SYS_Create, MUSICAL_STAGE_SYS_Delete, MUSICAL_STAGE_SYS_SetLocalPerformer, MUSICAL_STAGE_SYS_CreateNpcPerformer, MUSICAL_STAGE_SYS_SetRemotePerformer, MUSICAL_STAGE_SYS_SetPerformerProp, MUSICAL_PROGRAM_Create, MUSICAL_PROGRAM_Delete, MUSICAL_PROGRAM_SplitBonus, MUSICAL_PROGRAM_GetCategoryBonus, MUSICAL_PROGRAM_PackBonus, MUSICAL_PROGRAM_UnpackBonus, MUSICAL_PROGRAM_PackPicks, MUSICAL_PROGRAM_UnpackPicks, MUSICAL_PROGRAM_GetBestCategory, MUSICAL_PROGRAM_CreateNpcPerformer, MUSICAL_PROGRAM_GetBaseProgramId, MUSICAL_PROGRAM_GetPropRow, MUSICAL_PROGRAM_GetNpcPortraitClass, MUSICAL_PROGRAM_GetNpcNameId, MUSICAL_PROGRAM_GetCategoryShare, func_0215739C, func_02157450, func_02157650, func_0215765C, func_02157660, func_02157664, func_02157668
  * address:  0x02155478
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -13,16 +13,16 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_0203A574  0x0203A574  arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_0200FB24  0x0200FB24  thumb
@@ -30,35 +30,35 @@
  *   GFL_NET_ERR_ShowSimpleScreen  0x0200F83C  thumb
  *   func_0200FA84  0x0200FA84  thumb
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_02013090  0x02013090  thumb
- *   func_02012F2C  0x02012F2C  thumb
+ *   BTL_SETUP_Create  0x02013090  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
  *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
  *   BTL_SETUP_SetupCommTriple  0x02013864  thumb
  *   BTL_SETUP_SetupCommRotation  0x02013894  thumb
  *   BTL_SETUP_SetupCommMulti  0x020137F0  thumb
- *   func_0203D1A4  0x0203D1A4  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   BTL_SETUP_SetParty  0x02013128  thumb
  *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   func_020130B4  0x020130B4  thumb
- *   func_0203D378  0x0203D378  arm
- *   func_020124AC  0x020124AC  thumb
+ *   BTL_SETUP_Delete  0x020130B4  thumb
+ *   GFL_NET_IsParentAid  0x0203D378  arm
+ *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_0203CD98  0x0203CD98  arm
- *   func_0203CEAC  0x0203CEAC  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   EVENT_BATTLE_REC_SAVE_Start  0x021550A0  thumb  ov008
- *   func_0215518C  0x0215518C  thumb  ov010
- *   func_02155224  0x02155224  thumb  ov010
- *   func_02155244  0x02155244  thumb  ov010
- *   func_02155328  0x02155328  thumb  ov010
+ *   MUSICAL_EVENT_BuildParty  0x0215518C  thumb  ov010
+ *   MUSICAL_EVENT_TrimAllPartiesToThree  0x02155224  thumb  ov010
+ *   MUSICAL_EVENT_UpdateFriendRecords  0x02155244  thumb  ov010
+ *   MUSICAL_EVENT_BindParticipantSlots  0x02155328  thumb  ov010
  *   ov008_id       0x00000008  data
  *   ov021_id       0x00000015  data
  *   ov093_id       0x0000005D  data
@@ -75,27 +75,27 @@
  *   d_021B74AC     0x021B74AC  data  ov101
  *   d_0216FEE0     0x0216FEE0  data
  *   func_020122C0  0x020122C0  thumb
- *   func_0201232C  0x0201232C  thumb
+ *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0201A920  0x0201A920  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
- *   func_0216576C  0x0216576C  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
  *   func_021F685C  0x021F685C  thumb  ov112
  *   func_021F68BC  0x021F68BC  thumb  ov112
  *   func_021FD904  0x021FD904  thumb  ov132
  *   func_021FC848  0x021FC848  thumb  ov132
- *   func_0203064C  0x0203064C  arm
- *   func_02012138  0x02012138  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02012934  0x02012934  thumb
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   STRBUF_Create  0x020457B0  arm
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02045808  0x02045808  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   func_0200A7C8  0x0200A7C8  thumb
- *   func_02012944  0x02012944  thumb
- *   func_020185F0  0x020185F0  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   func_0200A81C  0x0200A81C  thumb
  *   func_02005728  0x02005728  thumb
  *   func_021FD908  0x021FD908  thumb  ov132
@@ -107,11 +107,11 @@
  *   func_0200ED48  0x0200ED48  thumb
  *   func_0200ED54  0x0200ED54  thumb
  *   func_02008530  0x02008530  thumb
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_02030B50  0x02030B50  arm
  *   func_020306F0  0x020306F0  arm
- *   d_02172724     0x02172724  data
- *   d_02172748     0x02172748  data
+ *   MUSICAL_DRESSUP_SYS_ProcTable     0x02172724  data
+ *   MUSICAL_STAGE_SYS_ProcTable     0x02172748  data
  *   d_021F8360     0x021F8360  data
  *   func_021F675C  0x021F675C  thumb
  *   func_021FD938  0x021FD938  thumb  ov132
@@ -123,19 +123,19 @@
  *   func_021F5140  0x021F5140  thumb  ov112
  *   func_021F4F40  0x021F4F40  thumb  ov112
  *   func_0203F4E4  0x0203F4E4  arm
- *   func_02045A38  0x02045A38  arm
+ *   STRBUF_ToChars  0x02045A38  arm
  *   func_02082D44  0x02082D44  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_0200A5F8  0x0200A5F8  thumb
- *   d_02172714  0x02172714  data
+ *   sMusicalEventFileName  0x02172714  data
  *   func_0200A768  0x0200A768  thumb
  *   func_0200A788  0x0200A788  thumb
  *   func_0200A7C0  0x0200A7C0  thumb
  *   func_0200A800  0x0200A800  thumb
  *   func_0200A7AC  0x0200A7AC  thumb
- *   func_020127A4  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   NATSUKI_Calc  0x0201B7A0  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   func_02008DAC  0x02008DAC  thumb
@@ -144,17 +144,17 @@
  *   func_0200A644  0x0200A644  thumb
  *   d_0216FF14  0x0216FF14  data
  *   d_0216FF28  0x0216FF28  data
- *   func_02012A30  0x02012A30  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_StartPopTask  0x02029690  thumb
  *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
- *   func_020295A4  0x020295A4  thumb
- *   func_02029C64  0x02029C64  thumb
- *   func_021854B0  0x021854B0  thumb  ov020
+ *   FIELD_SOUND_SYSTEM_StartPushTask  0x020295A4  thumb
+ *   FIELD_SOUND_SYSTEM_StartWaitSettledTask  0x02029C64  thumb
+ *   EVENT_MAPCHANGE_CreateWarpEventDefaultTransition  0x021854B0  thumb  ov020
  *   d_0216FEFC  0x0216FEFC  data
  *   d_0216FEF0  0x0216FEF0  data
  *   d_0216FF08  0x0216FF08  data
- *   func_02158768   0x02158768  thumb  ov010
- *   func_021589D0   0x021589D0  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple   0x02158768  thumb  ov010
+ *   SCRIPT_SYS_GetEventScriptWork   0x021589D0  thumb  ov010
  *   MSGDATA_CreateFromMemory  0x02045C44  arm
  *   func_02008550  0x02008550  thumb
  *   func_0201F02C  0x0201F02C  thumb
@@ -164,8 +164,8 @@
  *   func_0201EF14  0x0201EF14  thumb
  *   func_021FD954  0x021FD954  thumb  ov132
  *   func_021FD95C  0x021FD95C  thumb  ov132
- *   func_0203159C  0x0203159C  arm
- *   d_02172730  0x02172730  data
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
+ *   sMusicalDressupSysFileName  0x02172730  data
  *   ov133_id  0x00000085  data
  *   func_020315D4 0x020315D4 arm
  *   func_021B6100  0x021B6100  thumb ov133
@@ -176,12 +176,12 @@
  *   func_021F8480  0x021F8480  thumb ov132
  *   func_021F879C  0x021F879C  thumb
  *   func_021F8640  0x021F8640  thumb
- *   d_02172754  0x02172754  data
+ *   sMusicalStageSysFileName  0x02172754  data
  *   func_021F67E0  0x021F67E0  thumb  ov112
  *   _s32_div_f  0x0209C0A4  arm
  *   func_0203F0A8  0x0203F0A8  arm
  *   _ull_mul  0x0209C054  arm
- *   d_02172768  0x02172768  data
+ *   sMusicalProgramFileName  0x02172768  data
  *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
  *   BTL_SETUP_FreeSlots  0x020130DC  thumb
  *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
@@ -572,16 +572,16 @@ typedef struct RtcDate {
 typedef struct Tbl4 { u32 v[4]; } Tbl4;
 
 /* Callees outside this file (named tree-wide by the integrator's rename map). */
-extern void *func_0201210C(void *gameSys);
-extern void func_02012374(void *parentEvent, void *childEvent);
+extern void *GAMESYSTEM_GetFieldMap(void *gameSys);
+extern void GAME_EVENT_CallEvent(void *parentEvent, void *childEvent);
 extern void *FIELD_STATUS_CreateFieldCloseEvent(void *gameSys, void *fieldMap);
 extern void GAMESYSTEM_CallProc(void *gameSys, u32 overlayId, void *procTable, void *procArg);
 extern u32 GAMESYSTEM_GetProcStatus(void *gameSys);
-extern void *func_020120F4(void *gameSys);
+extern void *GAMESYSTEM_GetGameData(void *gameSys);
 extern int func_02034AC4(s32 overlayId);
 extern void func_02034A5C(s32 overlayId);
-extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
-extern struct NetHandle *func_020399A8(void);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
+extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_02039C68(struct NetHandle *handle, u32 timing, u32 range);
 extern u32 func_02039CB4(struct NetHandle *handle, u32 timing, u32 range);
 extern u32 func_0200FB24(void);
@@ -589,56 +589,56 @@ extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FA84(void);
 extern void func_0200FBA0(void);
-extern struct BattleSetupParam *func_02013090(u32 heapId);
-extern void *func_02012F2C(void *gameData);
+extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
+extern void *GAME_DATA_GetTrainerRecord(void *gameData);
 extern void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
 extern void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
 extern void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
 extern void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
 extern void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u8 team, u16 heapId);
-extern u32 func_0203D1A4(struct NetHandle *handle);
+extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
 extern void BTL_SETUP_SetParty(struct BattleSetupParam *setup, void *party, int index);
 extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *setup, u32 flag);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u16 fadeFrames);
-extern int func_020130B4(struct BattleSetupParam *setup);
-extern u32 func_0203D378(void);
-extern struct GameEvent *func_020124AC(void *gameSys, u32 overlayId, void *proc, void *procArg);
+extern int BTL_SETUP_Delete(struct BattleSetupParam *setup);
+extern u32 GFL_NET_IsParentAid(void);
+extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(void *gameSys, u32 overlayId, void *proc, void *procArg);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 func_020307B0(void *ptr);
-extern int func_0203CD98(void);
-extern int func_0203CEAC(int a0);
+extern int GFL_NET_GetRunState(void);
+extern int GFL_NET_Exit(int a0);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSys);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
-extern void *func_021BE8D4(void *gameSys, void *fieldMap, int sel, int d);
-extern void *func_021BE92C(void *gameSys, void *fieldMap, int sel, int d, int e, u8 f, u8 g);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSys, void *fieldMap, int sel, int d);
+extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSys, void *fieldMap, int sel, int d, int e, u8 f, u8 g);
 extern void *EVENT_BATTLE_REC_SAVE_Start(void *a, const int *p);
-extern void func_0215518C(int mode, IrcBattleEntryWork *work);
-extern void func_02155224(IrcBattleEntryWork *work);
-extern void func_02155244(IrcBattleEntryWork *work, void *gameData);
-extern void func_02155328(IrcBattleEntryWork *work, void *gameSys);
+extern void MUSICAL_EVENT_BuildParty(int mode, IrcBattleEntryWork *work);
+extern void MUSICAL_EVENT_TrimAllPartiesToThree(IrcBattleEntryWork *work);
+extern void MUSICAL_EVENT_UpdateFriendRecords(IrcBattleEntryWork *work, void *gameData);
+extern void MUSICAL_EVENT_BindParticipantSlots(IrcBattleEntryWork *work, void *gameSys);
 extern struct GameEvent *func_020122C0(void *gameSys, void *a, void *proc, u32 size);
-extern void func_0201232C(void *event, void *proc, u32 size);
+extern void GAME_EVENT_Change(void *event, void *proc, u32 size);
 extern void *func_020124E8(struct GameEvent *event);
-extern void *func_02012EBC(void *gameData);
+extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *func_0201A920(u32 heapId);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_02012138(void *gameSys);
-extern void *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02012934(void *gameData);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+extern void *GAMESYSTEM_GetGameComm(void *gameSys);
+extern void *STRBUF_Create(u32 capacity, u32 heapId);
+extern void *GAME_DATA_GetMyParty(void *gameData);
 extern void *func_0201AB28(void *party, u32 index);
-extern u32 func_02017E1C(void *mon, u32 id, void *value);
-extern void func_0216576C(void *strbuf);
-extern void func_02045808(void *strbuf);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, void *value);
+extern void GAME_BEACON_SEARCH_SetNamedEvent(void *strbuf);
+extern void STRBUF_Delete(void *strbuf);
 extern void *GAME_DATA_GetSaveBlock2A(void *gameData);
 extern void *func_021F685C(u32 heapId);
 extern int func_021FD904(void *session);
 extern u8 func_0200A7C8(struct MusicalSave *save);
 extern void func_021F68BC(void *musicalSystem, void *saveControl, void *session, u8 kind, u16 heapId);
-extern void *func_02012944(void *gameData);
-extern void *func_020185F0(void *mon);
+extern void *GAME_DATA_GetMyStatus(void *gameData);
+extern void *POKE_TOOL_Dummy(void *mon);
 extern void func_021FC848(void *session, void *myStatus, void *monData, void *gameComm, void *musicalSystem, u16 heapId);
 extern u16 func_0200A81C(struct MusicalSave *save);
 extern u32 func_02005728(u32 n);
@@ -651,7 +651,7 @@ extern u32 func_021FD83C(void *session);
 extern void *func_0200ED48(void *saveControl);
 extern void func_0200ED54(void *list, u32 id);
 extern u32 func_02008530(const void *myStatus);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_02030B50(void *p);
 extern void func_020306F0(u32 heapId);
 extern void *func_021F675C(void *mon, int heapId);
@@ -664,32 +664,32 @@ extern void *func_021F4F14(int heapId);
 extern unsigned char func_021F5140(void *table, int propId);
 extern void func_021F4F40(void **table);
 extern void func_0203F4E4(RtcDate *date);
-extern void func_02045A38(void *strbuf, u16 *out, u32 n);
+extern void STRBUF_ToChars(void *strbuf, u16 *out, u32 n);
 extern void func_02082D44(void *src, void *dst, u32 size);
 extern void *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(void *msgData, u32 index);
-extern void func_02045C04(void *msgData);
+extern void MSGDATA_Delete(void *msgData);
 extern void *func_0200A5F8(void *saveControl);
 extern void func_0200A768(struct MusicalSave *save);
 extern void func_0200A788(struct MusicalSave *save);
 extern void func_0200A7C0(struct MusicalSave *save, u8 value);
 extern void func_0200A800(struct MusicalSave *save, s32 delta);
 extern void func_0200A7AC(struct MusicalSave *save, u32 index, u8 value);
-extern u16 *func_020127A4(void *gameData);
+extern u16 *GAME_DATA_GetMyPlayerWork(void *gameData);
 extern void NATSUKI_Calc(void *mon, int a1, int a2, int a3);
 extern u32 func_02008DF0(void *trainerRecord, int id);
 extern u32 func_02008DAC(void *trainerRecord, int id, u32 delta);
 extern struct MusicalProgram *func_0200A750(struct MusicalSave *save, u32 index);
 extern u16 *func_021FD8F8(void *session, u32 index);
 extern u32 func_0200A644(struct MusicalSave *save, u8 prop);
-extern void *func_02012A30(void *gameData);
+extern void *GAME_DATA_GetBgmInfo(void *gameData);
 extern void *FIELD_SOUND_SYSTEM_StartPopTask(void *gameSys, u32 a, u32 b);
 extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *gameSys);
-extern void *func_020295A4(void *gameSys, u32 a);
-extern void *func_02029C64(void *gameSys);
-extern void *func_021854B0(void *gameSys, void *fieldMap, s16 effectId, const Float3 *pos, u16 x);
-extern struct GameEvent *func_02158768(void *gameSys, int messageId, int c, int d);
-extern int func_021589D0(void *event);
+extern void *FIELD_SOUND_SYSTEM_StartPushTask(void *gameSys, u32 a);
+extern void *FIELD_SOUND_SYSTEM_StartWaitSettledTask(void *gameSys);
+extern void *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(void *gameSys, void *fieldMap, s16 effectId, const Float3 *pos, u16 x);
+extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *gameSys, int messageId, int c, int d);
+extern int SCRIPT_SYS_GetEventScriptWork(void *event);
 extern void *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 extern u8 func_02008550(const void *myStatus);
 extern void func_0201F02C(void *wordSet, u32 slot, void *myStatus);
@@ -699,7 +699,7 @@ extern void func_0201EEF4(void *wordSet, u32 slot, void *mon);
 extern void func_0201EF14(void *wordSet, u32 slot, void *mon);
 extern u32 func_021FD954(void *session);
 extern u32 func_021FD95C(void *session);
-extern void *func_0203159C(void *proc, u32 size, u32 heapId);
+extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void func_020315D4(void *proc);
 extern void *func_021B6100(void *param, int heapId);
 extern int func_021B63BC(void *ui);
@@ -737,13 +737,13 @@ extern u8 d_021F8360[];
 
 /* Data of this overlay. */
 extern const char d_02172700[];
-extern const char d_02172714[];
-extern const char d_02172730[];
-extern const char d_02172754[];
-extern const char d_02172768[];
+extern const char sMusicalEventFileName[];
+extern const char sMusicalDressupSysFileName[];
+extern const char sMusicalStageSysFileName[];
+extern const char sMusicalProgramFileName[];
 extern const Tbl4 d_0216FEE0;
-extern u8 d_02172724[];
-extern u8 d_02172748[];
+extern u8 MUSICAL_DRESSUP_SYS_ProcTable[];
+extern u8 MUSICAL_STAGE_SYS_ProcTable[];
 extern const u16 d_0216FF14[10];
 extern const u8 d_0216FF28[7][0x28];
 extern const Float3 d_0216FEFC;
@@ -759,67 +759,67 @@ void func_02155A6C(IrcBattleEntryWork *work);
 void func_02155A8C(IrcBattleEntryWork *work, u32 mode);
 void *func_02155A90(IrcBattleEntryWork *work);
 void *func_02155A94(IrcBattleEntryWork *work);
-struct GameEvent *func_02155A98(void *gameSys, void *gameData, u8 partyIndex, u32 linkMode, MusicalLink *link);
-int func_02155C0C(void *event, void *unused, MusicalEventWork *work);
-void func_02155F24(MusicalEventWork *work);
-int func_02155F4C(MusicalEventWork *work);
-MusicalDressupParam *func_02155F9C(MusicalEventWork *work);
-void func_02155FB4(MusicalEventWork *work);
-void func_02155FC8(MusicalEventWork *work);
-void func_02156074(MusicalEventWork *work);
-void func_0215611C(MusicalEventWork *work);
-void func_02156420(MusicalEventWork *work);
-void func_02156530(MusicalEventWork *work);
-int func_02156710(void *event, MusicalEventWork *work);
-int func_02156770(void *event, MusicalEventWork *work);
-void func_021567D8(void *event, MusicalEventWork *work);
-void func_02156824(void *event, MusicalEventWork *work);
-void func_02156888(void *event, MusicalEventWork *work, int messageId);
-u8 func_021568A8(MusicalEventWork *work, u8 n);
-u8 func_021568E0(MusicalEventWork *work);
-u8 func_021568E8(MusicalEventWork *work, u8 slot);
-u8 func_02156908(MusicalEventWork *work);
-void *func_02156914(MusicalEventWork *work, int heapId);
-u8 func_02156934(MusicalEventWork *work, u8 slot);
-u16 func_02156954(MusicalEventWork *work);
-u16 func_02156978(MusicalEventWork *work);
-u8 func_0215699C(MusicalEventWork *work, u8 rank);
-u8 func_021569A4(MusicalEventWork *work, u8 slot);
-u8 func_021569EC(MusicalEventWork *work, u8 slot);
-void func_02156A3C(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex);
-void func_02156AD4(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex);
-void func_02156B74(MusicalEventWork *work);
-void func_02156BAC(MusicalEventWork *work);
-u32 func_02156BCC(MusicalEventWork *work);
-int func_02156BD0(void *proc, u32 *state, MusicalDressupParam *param);
-int func_02156C28(void *proc, int unused1, int unused2, MusicalDressupWork *work);
-int func_02156C4C(void *proc, int *state, int unused, MusicalDressupWork *work);
-MusicalDressupParam *func_02156CAC(int heapId, MusicalPerformer *performer, void *saveControl);
-void func_02156CD8(MusicalDressupParam *param);
-int func_02156CE0(void *proc, void *unused, MusicalStage *prevStage);
-int func_02156EDC(void *proc, int unused, int keepStage, MusicalStageWork *work);
-int func_02156F24(void *proc, int *state, int unused, MusicalStageWork *work);
-MusicalStage *func_02156F68(u32 heapId, void *session);
-int func_02156F98(MusicalStage *stage);
-int func_02156FC4(MusicalStage *stage, int slot, MusicalPerformer *performer);
-void func_02156FD0(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 personality, u16 appealBase, u16 heapId);
-int func_02157000(MusicalStage *stage, int slot, MusicalPerformer *performer);
-void func_0215700C(MusicalStage *stage, u8 slot, u8 bodySlot, u16 propId, s16 offset, u8 order);
-MusicalShowProgram *func_02157028(u32 heapId, MusicalSystemHead *musicalSystem, u16 maxLevel);
-int func_0215716C(MusicalShowProgram *program);
-void func_02157174(u32 heapId, MusicalShowProgram *program, MusicalStage *stage);
-u8 func_0215725C(MusicalShowProgram *program, int index);
-u32 func_02157260(const MusicalShowProgram *program);
-void func_02157278(MusicalShowProgram *program, u32 packed);
-u32 func_02157298(const MusicalShowProgram *program);
-void func_021572A8(MusicalShowProgram *program, u32 packed);
-u8 func_021572C0(MusicalShowProgram *program);
-void func_021572E4(MusicalShowProgram *program, MusicalStage *stage, u8 slot, u8 npcIndex, u16 heapId);
-u8 func_02157364(MusicalShowProgram *program);
-int func_0215736C(MusicalShowProgram *program);
-u8 func_02157374(MusicalShowProgram *program, u8 npcIndex);
-u8 func_02157384(MusicalShowProgram *program, int npcIndex);
-u16 func_02157394(MusicalShowProgram *program, int category);
+struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIndex, u32 linkMode, MusicalLink *link);
+int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work);
+void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work);
+int MUSICAL_EVENT_Free(MusicalEventWork *work);
+MusicalDressupParam *MUSICAL_EVENT_CreateDressupParam(MusicalEventWork *work);
+void MUSICAL_EVENT_SendLocalPerformer(MusicalEventWork *work);
+void MUSICAL_EVENT_CreateStage(MusicalEventWork *work);
+void MUSICAL_EVENT_ScorePerformers(MusicalEventWork *work);
+void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work);
+void MUSICAL_EVENT_ApplyResults(MusicalEventWork *work);
+void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work);
+int MUSICAL_EVENT_RunLeaveSequence(void *event, MusicalEventWork *work);
+int MUSICAL_EVENT_RunEnterSequence(void *event, MusicalEventWork *work);
+void MUSICAL_EVENT_SpawnSeatEffect(void *event, MusicalEventWork *work);
+void MUSICAL_EVENT_SpawnExitEffect(void *event, MusicalEventWork *work);
+void MUSICAL_EVENT_ShowMessage(void *event, MusicalEventWork *work, int messageId);
+u8 MUSICAL_EVENT_CountNpcSlotsBelow(MusicalEventWork *work, u8 n);
+u8 MUSICAL_EVENT_GetLocalSlot(MusicalEventWork *work);
+u8 MUSICAL_EVENT_GetPlayerOfSlot(MusicalEventWork *work, u8 slot);
+u8 MUSICAL_EVENT_GetProgramBestCategory(MusicalEventWork *work);
+void *MUSICAL_EVENT_AllocTitleString(MusicalEventWork *work, int heapId);
+u8 MUSICAL_EVENT_GetScoreCapped(MusicalEventWork *work, u8 slot);
+u16 MUSICAL_EVENT_GetMaxScore(MusicalEventWork *work);
+u16 MUSICAL_EVENT_GetMinScore(MusicalEventWork *work);
+u8 MUSICAL_EVENT_GetSlotOfRank(MusicalEventWork *work, u8 rank);
+u8 MUSICAL_EVENT_GetBestAppealCategory(MusicalEventWork *work, u8 slot);
+u8 MUSICAL_EVENT_GetPortraitClass(MusicalEventWork *work, u8 slot);
+void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex);
+void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex);
+void MUSICAL_EVENT_ReceiveShowProgram(MusicalEventWork *work);
+void MUSICAL_EVENT_CheckNetError(MusicalEventWork *work);
+u32 MUSICAL_EVENT_IsAborted(MusicalEventWork *work);
+int MUSICAL_DRESSUP_SYS_Init(void *proc, u32 *state, MusicalDressupParam *param);
+int MUSICAL_DRESSUP_SYS_Exit(void *proc, int unused1, int unused2, MusicalDressupWork *work);
+int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupWork *work);
+MusicalDressupParam *MUSICAL_DRESSUP_SYS_Create(int heapId, MusicalPerformer *performer, void *saveControl);
+void MUSICAL_DRESSUP_SYS_Delete(MusicalDressupParam *param);
+int MUSICAL_STAGE_SYS_Init(void *proc, void *unused, MusicalStage *prevStage);
+int MUSICAL_STAGE_SYS_Exit(void *proc, int unused, int keepStage, MusicalStageWork *work);
+int MUSICAL_STAGE_SYS_Main(void *proc, int *state, int unused, MusicalStageWork *work);
+MusicalStage *MUSICAL_STAGE_SYS_Create(u32 heapId, void *session);
+int MUSICAL_STAGE_SYS_Delete(MusicalStage *stage);
+int MUSICAL_STAGE_SYS_SetLocalPerformer(MusicalStage *stage, int slot, MusicalPerformer *performer);
+void MUSICAL_STAGE_SYS_CreateNpcPerformer(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 personality, u16 appealBase, u16 heapId);
+int MUSICAL_STAGE_SYS_SetRemotePerformer(MusicalStage *stage, int slot, MusicalPerformer *performer);
+void MUSICAL_STAGE_SYS_SetPerformerProp(MusicalStage *stage, u8 slot, u8 bodySlot, u16 propId, s16 offset, u8 order);
+MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musicalSystem, u16 maxLevel);
+int MUSICAL_PROGRAM_Delete(MusicalShowProgram *program);
+void MUSICAL_PROGRAM_SplitBonus(u32 heapId, MusicalShowProgram *program, MusicalStage *stage);
+u8 MUSICAL_PROGRAM_GetCategoryBonus(MusicalShowProgram *program, int index);
+u32 MUSICAL_PROGRAM_PackBonus(const MusicalShowProgram *program);
+void MUSICAL_PROGRAM_UnpackBonus(MusicalShowProgram *program, u32 packed);
+u32 MUSICAL_PROGRAM_PackPicks(const MusicalShowProgram *program);
+void MUSICAL_PROGRAM_UnpackPicks(MusicalShowProgram *program, u32 packed);
+u8 MUSICAL_PROGRAM_GetBestCategory(MusicalShowProgram *program);
+void MUSICAL_PROGRAM_CreateNpcPerformer(MusicalShowProgram *program, MusicalStage *stage, u8 slot, u8 npcIndex, u16 heapId);
+u8 MUSICAL_PROGRAM_GetBaseProgramId(MusicalShowProgram *program);
+int MUSICAL_PROGRAM_GetPropRow(MusicalShowProgram *program);
+u8 MUSICAL_PROGRAM_GetNpcPortraitClass(MusicalShowProgram *program, u8 npcIndex);
+u8 MUSICAL_PROGRAM_GetNpcNameId(MusicalShowProgram *program, int npcIndex);
+u16 MUSICAL_PROGRAM_GetCategoryShare(MusicalShowProgram *program, int category);
 int func_0215739C(void *event, u32 *state, IrcBattleTaskWork *work);
 struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request);
 void func_02157650(int *formation, int value);
@@ -832,7 +832,7 @@ void func_02157668(void);
 /*
  * The IR battle entry sequence: a 28-state machine over *step that loads the
  * sub-overlays (21, 100, 119, 195, 101, 8, 93) as child procs, sets up the
- * party/slot records through func_0215518C/func_02155328/func_02155244,
+ * party/slot records through MUSICAL_EVENT_BuildParty/MUSICAL_EVENT_BindParticipantSlots/MUSICAL_EVENT_UpdateFriendRecords,
  * runs the fade and wireless-sync waits, and tears everything down in
  * states 21 to 23.
  *
@@ -850,14 +850,14 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
     IrcBattleDetailArgs *detail;
 
     gameSys = work->gameSys;
-    fieldMap = func_0201210C(gameSys);
+    fieldMap = GAMESYSTEM_GetFieldMap(gameSys);
     switch (*step) {
     case 0:
-        func_02012374(parentEvent, func_021BE8D4(gameSys, fieldMap, 0, 0));
+        GAME_EVENT_CallEvent(parentEvent, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSys, fieldMap, 0, 0));
         (*step)++;
         break;
     case 1:
-        func_02012374(parentEvent, FIELD_STATUS_CreateFieldCloseEvent(gameSys, fieldMap));
+        GAME_EVENT_CallEvent(parentEvent, FIELD_STATUS_CreateFieldCloseEvent(gameSys, fieldMap));
         *step = 2;
         break;
     case 2:
@@ -879,7 +879,7 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         (*step)++;
         break;
     case 5:
-        func_0215518C(work->partyMode, work);
+        MUSICAL_EVENT_BuildParty(work->partyMode, work);
         work->menuArgs.gameData = work->gameData;
         work->menuArgs.ownParty = work->ownParty;
         work->menuArgs.linkParties[0] = work->linkParties[0];
@@ -915,12 +915,12 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         break;
     case 7:
         func_02034AC4((u32)ov093_id);
-        func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
-        func_02039C68(func_020399A8(), 0x6e, 12);
+        GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12);
         (*step)++;
         break;
     case 8:
-        if (func_02039CB4(func_020399A8(), 0x6e, 12))
+        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12))
             (*step)++;
         if (func_0200FB24()) {
             if (func_0200FBB0() == 1)
@@ -932,8 +932,8 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         }
         break;
     case 9:
-        work->setup = func_02013090(4);
-        work->trainerRecord = func_02012F2C(work->gameData);
+        work->setup = BTL_SETUP_Create(4);
+        work->trainerRecord = GAME_DATA_GetTrainerRecord(work->gameData);
         work->ruleOffset = 0;
         switch (work->mode) {
         case 0:
@@ -941,44 +941,44 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         case 1:
             work->ruleCategory = 1;
             work->ruleBase = 2;
-            BTL_SETUP_SetupCommSingle(work->setup, work->gameData, func_020399A8(), 1, 4);
+            BTL_SETUP_SetupCommSingle(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
             break;
         case 2:
             work->ruleCategory = 1;
             work->ruleBase = 6;
-            BTL_SETUP_SetupCommDouble(work->setup, work->gameData, func_020399A8(), 1, 4);
+            BTL_SETUP_SetupCommDouble(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
             break;
         case 3:
             work->ruleCategory = 1;
             work->ruleBase = 10;
-            BTL_SETUP_SetupCommTriple(work->setup, work->gameData, func_020399A8(), 1, 4);
+            BTL_SETUP_SetupCommTriple(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
             break;
         case 4:
             work->ruleCategory = 1;
             work->ruleBase = 14;
-            BTL_SETUP_SetupCommRotation(work->setup, work->gameData, func_020399A8(), 1, 4);
+            BTL_SETUP_SetupCommRotation(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
             break;
         case 5:
             ruleTable = d_0216FEE0;
             work->ruleCategory = 3;
             work->ruleBase = 18;
-            BTL_SETUP_SetupCommMulti(work->setup, work->gameData, func_020399A8(), 1,
-                          ruleTable.v[work->menuArgs.teamByNetId[func_0203D1A4(func_020399A8())]], 4);
+            BTL_SETUP_SetupCommMulti(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1,
+                          ruleTable.v[work->menuArgs.teamByNetId[GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())]], 4);
             work->setup->multiMode = 1;
             work->setup->rule = 1;
-            func_02155224(work);
+            MUSICAL_EVENT_TrimAllPartiesToThree(work);
             break;
         }
         BTL_SETUP_SetParty(work->setup, work->ownParty, 0);
         BTL_SETUP_AllocRecordBuffer(work->setup, 1);
         work->savedBgm = GFL_USE_GetBgmNo();
         GFL_USE_CancelChangeAndStopBgm();
-        func_02039C68(func_020399A8(), 10, 12);
+        func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12);
         (*step)++;
         break;
     case 10:
         if (func_0200FB24()) {
-            func_020130B4(work->setup);
+            BTL_SETUP_Delete(work->setup);
             work->setup = 0;
             if (func_0200FBB0() == 1)
                 GFL_NET_ERR_ShowSimpleScreen();
@@ -986,8 +986,8 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
                 func_0200FA84();
             func_02034A5C((u32)ov093_id);
             *step = 20;
-        } else if (func_02039CB4(func_020399A8(), 10, 12)) {
-            if (func_0203D378())
+        } else if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12)) {
+            if (GFL_NET_IsParentAid())
                 GFL_USE_CancelChangeAndPlayBgm(0x48B, 0xFFFF);
             else
                 GFL_USE_CancelChangeAndPlayBgm(0x48C, 0xFFFF);
@@ -995,18 +995,18 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         }
         break;
     case 11:
-        func_02155328(work, gameSys);
+        MUSICAL_EVENT_BindParticipantSlots(work, gameSys);
         func_02034A5C((u32)ov093_id);
         recArgs.setup = work->setup;
         recArgs.slotData = work->recorderSlots;
         recArgs.flag = 1;
-        func_02012374(parentEvent, func_020124AC(gameSys, (u32)ov008_id, EVENT_BATTLE_REC_SAVE_Start, &recArgs));
+        GAME_EVENT_CallEvent(parentEvent, GAME_EVENT_CreateOverlayEvent(gameSys, (u32)ov008_id, EVENT_BATTLE_REC_SAVE_Start, &recArgs));
         (*step)++;
         break;
     case 12:
         if (GAMESYSTEM_GetProcStatus(gameSys) == 0) {
-            func_02155244(work, func_020120F4(gameSys));
-            func_020130B4(work->setup);
+            MUSICAL_EVENT_UpdateFriendRecords(work, GAMESYSTEM_GetGameData(gameSys));
+            BTL_SETUP_Delete(work->setup);
             work->setup = 0;
             GFL_USE_CancelChangeAndStopBgm();
             func_02155A6C(work);
@@ -1048,13 +1048,13 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         }
         break;
     case 17:
-        if (func_0203CD98() && func_0200FB24() == 0)
-            func_02039C68(func_020399A8(), 0xdc, 12);
+        if (GFL_NET_GetRunState() && func_0200FB24() == 0)
+            func_02039C68(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12);
         (*step)++;
         break;
     case 18:
-        if (func_0203CD98() && func_0200FB24() == 0) {
-            if (func_02039CB4(func_020399A8(), 0xdc, 12) == 0)
+        if (GFL_NET_GetRunState() && func_0200FB24() == 0) {
+            if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12) == 0)
                 break;
             work->waitFrames = 0;
             (*step)++;
@@ -1064,29 +1064,29 @@ int func_02155478(void *parentEvent, int *step, IrcBattleEntryWork *work)
         }
         break;
     case 19:
-        if (func_0203CD98()) {
+        if (GFL_NET_GetRunState()) {
             work->waitFrames++;
             if (work->waitFrames < 60)
                 break;
-            func_0203CEAC(0);
+            GFL_NET_Exit(0);
             (*step)++;
         } else {
             (*step)++;
         }
         break;
     case 20:
-        if (func_0203CD98() == 0) {
+        if (GFL_NET_GetRunState() == 0) {
             func_0200FBA0();
             *step = 21;
         }
         break;
     case 21:
         func_02155A6C(work);
-        func_02012374(parentEvent, FIELD_STATUS_CreateFieldOpenEvent(gameSys));
+        GAME_EVENT_CallEvent(parentEvent, FIELD_STATUS_CreateFieldOpenEvent(gameSys));
         (*step)++;
         break;
     case 22:
-        func_02012374(parentEvent, func_021BE92C(gameSys, fieldMap, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(parentEvent, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSys, fieldMap, 0, 0, 1, 0, 0));
         (*step)++;
         break;
     case 23:
@@ -1127,10 +1127,10 @@ struct GameEvent *func_021559E4(void *gameSys, int unused, struct GameEvent *eve
     if (create != 0)
         event = func_020122C0(gameSys, 0, func_02155478, 0xE8);
     else
-        func_0201232C(event, func_02155478, 0xE8);
+        GAME_EVENT_Change(event, func_02155478, 0xE8);
     task = func_020124E8(event);
-    task->saveControl = func_02012EBC(func_020120F4(gameSys));
-    task->gameData = func_020120F4(gameSys);
+    task->saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSys));
+    task->gameData = GAMESYSTEM_GetGameData(gameSys);
     task->gameSys = gameSys;
     for (i = 0; i < 4; i++)
         task->linkParties[i] = func_0201A920(4);
@@ -1187,37 +1187,37 @@ void *func_02155A94(IrcBattleEntryWork *work)
 }
 
 /*
- * Creates the musical show event task (func_02155C0C over a
+ * Creates the musical show event task (MUSICAL_EVENT_Main over a
  * MusicalEventWork) and either starts the wireless exchange (state 11) or
  * shuffles the four player slots and deals locally (state 13). The owner
  * back-pointer is stored through work->link while the session is read
  * through the parameter: storing through the parameter enregisters it
  * instead.
  */
-struct GameEvent *func_02155A98(void *gameSys, void *gameData, u8 partyIndex, u32 linkMode, MusicalLink *link)
+struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIndex, u32 linkMode, MusicalLink *link)
 {
     struct GameEvent *event;
     MusicalEventWork *work;
     void *nickname;
 
-    func_0203064C(1, 0x802C, 0x42000);
-    event = func_020122C0(gameSys, 0, func_02155C0C, sizeof(MusicalEventWork));
+    GFL_HEAP_CreateChildHeap(1, 0x802C, 0x42000);
+    event = func_020122C0(gameSys, 0, MUSICAL_EVENT_Main, sizeof(MusicalEventWork));
     work = func_020124E8(event);
     work->gameSys = gameSys;
     work->gameData = gameData;
     work->linkMode = linkMode;
-    work->saveControl = func_02012EBC(gameData);
-    work->gameComm = func_02012138(gameSys);
+    work->saveControl = GAME_DATA_GetSaveControl(gameData);
+    work->gameComm = GAMESYSTEM_GetGameComm(gameSys);
     work->link = link;
     work->link->owner = work;
     work->session = link->session;
     work->aborted = 0;
     work->program = 0;
-    nickname = func_020457B0(11, 4);
-    work->ownMon = func_0201AB28(func_02012934(work->gameData), partyIndex);
-    func_02017E1C(work->ownMon, 0x73, nickname);
-    func_0216576C(nickname);
-    func_02045808(nickname);
+    nickname = STRBUF_Create(11, 4);
+    work->ownMon = func_0201AB28(GAME_DATA_GetMyParty(work->gameData), partyIndex);
+    POKE_TOOL_GetPartyValue(work->ownMon, 0x73, nickname);
+    GAME_BEACON_SEARCH_SetNamedEvent(nickname);
+    STRBUF_Delete(nickname);
     work->dressup = 0;
     work->stage = 0;
     work->result = 0;
@@ -1228,7 +1228,7 @@ struct GameEvent *func_02155A98(void *gameSys, void *gameData, u8 partyIndex, u3
     if (work->linkMode == 1) {
         work->state = MUSICAL_EVENT_STATE_LINK_WAIT_PEERS;
         work->step = 0;
-        func_021FC848(work->session, func_02012944(work->gameData), func_020185F0(work->ownMon), work->gameComm, work->musicalSystem, 4);
+        func_021FC848(work->session, GAME_DATA_GetMyStatus(work->gameData), POKE_TOOL_Dummy(work->ownMon), work->gameComm, work->musicalSystem, 4);
     } else {
         u16 maxLevel = func_0200A81C(work->save);
         u8 i;
@@ -1247,7 +1247,7 @@ struct GameEvent *func_02155A98(void *gameSys, void *gameData, u8 partyIndex, u3
             }
         }
         work->localSlot = work->playerSlot[0];
-        work->program = func_02157028(4, work->musicalSystem, maxLevel);
+        work->program = MUSICAL_PROGRAM_Create(4, work->musicalSystem, maxLevel);
         work->state = MUSICAL_EVENT_STATE_SPAWN_MARKER;
         work->step = 0;
     }
@@ -1258,9 +1258,9 @@ struct GameEvent *func_02155A98(void *gameSys, void *gameData, u8 partyIndex, u3
  * Task callback of the musical show event: the whole show flow, from the
  * wireless handshake through dress-up, stage, result screen and cleanup.
  */
-int func_02155C0C(void *event, void *unused, MusicalEventWork *work)
+int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
 {
-    func_02156BAC(work);
+    MUSICAL_EVENT_CheckNetError(work);
     switch (work->state) {
     case MUSICAL_EVENT_STATE_LINK_WAIT_PEERS:
         if (func_021FD908(work->link->session) == 1) {
@@ -1270,9 +1270,9 @@ int func_02155C0C(void *event, void *unused, MusicalEventWork *work)
             u8 i;
 
             if (func_021FD904(work->link->session) == 1) {
-                work->program = func_02157028(4, work->musicalSystem, func_0200A81C(work->save));
-                packedBonus = func_02157260(work->program);
-                packedPicks = func_02157298(work->program);
+                work->program = MUSICAL_PROGRAM_Create(4, work->musicalSystem, func_0200A81C(work->save));
+                packedBonus = MUSICAL_PROGRAM_PackBonus(work->program);
+                packedPicks = MUSICAL_PROGRAM_PackPicks(work->program);
             }
             func_021FD918(work->link->session, packedBonus, packedPicks);
             work->state = MUSICAL_EVENT_STATE_LINK_WAIT_START;
@@ -1296,24 +1296,24 @@ int func_02155C0C(void *event, void *unused, MusicalEventWork *work)
             for (i = 0; i < 4; i++)
                 work->playerSlot[i] = func_021FD8EC(work->link->session, i);
             work->localSlot = func_021FD8D4(work->link->session);
-            func_02156B74(work);
+            MUSICAL_EVENT_ReceiveShowProgram(work);
         } else if (work->aborted == 1) {
             work->state = MUSICAL_EVENT_STATE_ABORT_NET;
         }
         break;
     case MUSICAL_EVENT_STATE_SPAWN_MARKER:
-        func_021567D8(event, work);
+        MUSICAL_EVENT_SpawnSeatEffect(event, work);
         work->state = MUSICAL_EVENT_STATE_CREATE_PERFORMER;
         break;
     case MUSICAL_EVENT_STATE_CREATE_PERFORMER:
-        func_02155F24(work);
-        func_02156888(event, work, 3);
+        MUSICAL_EVENT_CreateLocalPerformer(work);
+        MUSICAL_EVENT_ShowMessage(event, work, 3);
         work->state = MUSICAL_EVENT_STATE_ENTER_CLOSE;
         break;
     case MUSICAL_EVENT_STATE_ENTER_CLOSE:
         if (work->aborted == 1 && work->step == 0) {
             work->state = MUSICAL_EVENT_STATE_ABORT_NET;
-        } else if (func_02156770(event, work) == 1) {
+        } else if (MUSICAL_EVENT_RunEnterSequence(event, work) == 1) {
             work->step = 0;
             work->state = MUSICAL_EVENT_STATE_ENTER_DONE;
         }
@@ -1322,18 +1322,18 @@ int func_02155C0C(void *event, void *unused, MusicalEventWork *work)
         work->state = MUSICAL_EVENT_STATE_START_DRESSUP;
         break;
     case MUSICAL_EVENT_STATE_START_DRESSUP:
-        func_02155F9C(work);
-        GAMESYSTEM_CallProc(work->gameSys, ~0u, d_02172724, work->dressup);
+        MUSICAL_EVENT_CreateDressupParam(work);
+        GAMESYSTEM_CallProc(work->gameSys, ~0u, MUSICAL_DRESSUP_SYS_ProcTable, work->dressup);
         work->state = MUSICAL_EVENT_STATE_WAIT_DRESSUP;
         break;
     case MUSICAL_EVENT_STATE_WAIT_DRESSUP:
         if (GAMESYSTEM_GetProcStatus(work->gameSys) == 0) {
-            func_02155FB4(work);
+            MUSICAL_EVENT_SendLocalPerformer(work);
             work->state = MUSICAL_EVENT_STATE_LEAVE_DRESSUP;
         }
         break;
     case MUSICAL_EVENT_STATE_LEAVE_DRESSUP:
-        if (func_02156710(event, work) == 1) {
+        if (MUSICAL_EVENT_RunLeaveSequence(event, work) == 1) {
             work->step = 0;
             work->state = MUSICAL_EVENT_STATE_MESSAGE_STAGE;
             if (work->aborted == 1)
@@ -1341,32 +1341,32 @@ int func_02155C0C(void *event, void *unused, MusicalEventWork *work)
         }
         break;
     case MUSICAL_EVENT_STATE_MESSAGE_STAGE:
-        func_02156888(event, work, 4);
+        MUSICAL_EVENT_ShowMessage(event, work, 4);
         work->state = MUSICAL_EVENT_STATE_ENTER_STAGE;
         break;
     case MUSICAL_EVENT_STATE_ENTER_STAGE:
         if (work->aborted == 1 && work->step == 0) {
             work->state = MUSICAL_EVENT_STATE_ABORT_NET;
-        } else if (func_02156770(event, work) == 1) {
+        } else if (MUSICAL_EVENT_RunEnterSequence(event, work) == 1) {
             work->step = 0;
             work->state = MUSICAL_EVENT_STATE_START_STAGE;
         }
         break;
     case MUSICAL_EVENT_STATE_START_STAGE:
-        func_02155FC8(work);
-        GAMESYSTEM_CallProc(work->gameSys, ~0u, d_02172748, work->stage);
+        MUSICAL_EVENT_CreateStage(work);
+        GAMESYSTEM_CallProc(work->gameSys, ~0u, MUSICAL_STAGE_SYS_ProcTable, work->stage);
         work->state = MUSICAL_EVENT_STATE_WAIT_STAGE;
         break;
     case MUSICAL_EVENT_STATE_WAIT_STAGE:
         if (GAMESYSTEM_GetProcStatus(work->gameSys) == 0) {
-            func_02156074(work);
+            MUSICAL_EVENT_ScorePerformers(work);
             work->state = MUSICAL_EVENT_STATE_START_SHOW;
             if (work->aborted == 1)
                 work->state = MUSICAL_EVENT_STATE_ABORT_LEAVE;
         }
         break;
     case MUSICAL_EVENT_STATE_START_SHOW:
-        func_0215611C(work);
+        MUSICAL_EVENT_CreateShowRecord(work);
         GAMESYSTEM_CallProc(work->gameSys, ~0u, d_021F8360, work->result);
         work->state = MUSICAL_EVENT_STATE_WAIT_SHOW;
         break;
@@ -1378,28 +1378,28 @@ int func_02155C0C(void *event, void *unused, MusicalEventWork *work)
         }
         break;
     case MUSICAL_EVENT_STATE_LEAVE_SHOW:
-        if (func_02156710(event, work) == 1) {
+        if (MUSICAL_EVENT_RunLeaveSequence(event, work) == 1) {
             work->step = 0;
             work->state = MUSICAL_EVENT_STATE_MESSAGE_SHOW;
-            func_02156530(work);
-            func_02156420(work);
+            MUSICAL_EVENT_RollProgramRewards(work);
+            MUSICAL_EVENT_ApplyResults(work);
         }
         break;
     case MUSICAL_EVENT_STATE_MESSAGE_SHOW:
-        func_02156888(event, work, 5);
+        MUSICAL_EVENT_ShowMessage(event, work, 5);
         work->state = MUSICAL_EVENT_STATE_FINISH;
         break;
     case MUSICAL_EVENT_STATE_FINISH:
         if (work->aborted == 1) {
             work->state = MUSICAL_EVENT_STATE_ABORT_NET;
         } else {
-            func_02155F4C(work);
-            func_02156824(event, work);
+            MUSICAL_EVENT_Free(work);
+            MUSICAL_EVENT_SpawnExitEffect(event, work);
             work->state = MUSICAL_EVENT_STATE_THANKS;
         }
         break;
     case MUSICAL_EVENT_STATE_THANKS:
-        func_02156888(event, work, 0x28CC);
+        MUSICAL_EVENT_ShowMessage(event, work, 0x28CC);
         work->state = MUSICAL_EVENT_STATE_END;
         break;
     case MUSICAL_EVENT_STATE_END:
@@ -1407,23 +1407,23 @@ int func_02155C0C(void *event, void *unused, MusicalEventWork *work)
         func_020306F0(0x2C);
         return 1;
     case MUSICAL_EVENT_STATE_ABORT_LEAVE:
-        if (func_02156710(event, work) == 1)
+        if (MUSICAL_EVENT_RunLeaveSequence(event, work) == 1)
             work->state = MUSICAL_EVENT_STATE_ABORT_NET;
         break;
     case MUSICAL_EVENT_STATE_ABORT_NET:
-        func_0200FB38();
+        GFL_NET_ERR_RequestScreen();
         work->state = MUSICAL_EVENT_STATE_ABORT_CLEANUP;
         break;
     case MUSICAL_EVENT_STATE_ABORT_CLEANUP:
-        func_02155F4C(work);
-        func_02156824(event, work);
+        MUSICAL_EVENT_Free(work);
+        MUSICAL_EVENT_SpawnExitEffect(event, work);
         work->state = MUSICAL_EVENT_STATE_ABORT_WAIT;
         break;
     case MUSICAL_EVENT_STATE_ABORT_WAIT:
         work->state = MUSICAL_EVENT_STATE_ABORT_MESSAGE;
         break;
     case MUSICAL_EVENT_STATE_ABORT_MESSAGE:
-        func_02156888(event, work, 0x28CD);
+        MUSICAL_EVENT_ShowMessage(event, work, 0x28CD);
         work->state = MUSICAL_EVENT_STATE_END;
         break;
     }
@@ -1435,7 +1435,7 @@ int func_02155C0C(void *event, void *unused, MusicalEventWork *work)
  * the two session calls follow; the first one's result is unused (the call
  * is kept: the session object is read through it).
  */
-void func_02155F24(MusicalEventWork *work)
+void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work)
 {
     work->localPerformer = func_021F675C(work->ownMon, 4);
     if (work->linkMode != 0) {
@@ -1449,14 +1449,14 @@ void func_02155F24(MusicalEventWork *work)
  * record, musical system, local performer and program, then clears the
  * owner back pointer in the link. Returns the link (r0 left as is).
  */
-int func_02155F4C(MusicalEventWork *work)
+int MUSICAL_EVENT_Free(MusicalEventWork *work)
 {
     MusicalLink *link;
 
     if (work->dressup != 0)
-        func_02156CD8(work->dressup);
+        MUSICAL_DRESSUP_SYS_Delete(work->dressup);
     if (work->stage != 0)
-        func_02156F98(work->stage);
+        MUSICAL_STAGE_SYS_Delete(work->stage);
     if (work->result != 0) {
         func_020307B0(work->result->record);
         func_020307B0(work->result);
@@ -1466,7 +1466,7 @@ int func_02155F4C(MusicalEventWork *work)
     if (work->localPerformer != 0)
         func_020307B0(work->localPerformer);
     if (work->program != 0)
-        func_0215716C(work->program);
+        MUSICAL_PROGRAM_Delete(work->program);
     link = work->link;
     link->owner = 0;
     return (int)link;
@@ -1475,11 +1475,11 @@ int func_02155F4C(MusicalEventWork *work)
 /*
  * Creates the dress-up parameter block for the local performer.
  */
-MusicalDressupParam *func_02155F9C(MusicalEventWork *work)
+MusicalDressupParam *MUSICAL_EVENT_CreateDressupParam(MusicalEventWork *work)
 {
     MusicalDressupParam *param;
 
-    param = func_02156CAC(4, work->localPerformer, work->saveControl);
+    param = MUSICAL_DRESSUP_SYS_Create(4, work->localPerformer, work->saveControl);
     work->dressup = param;
     param->session = work->session;
     return param;
@@ -1488,7 +1488,7 @@ MusicalDressupParam *func_02155F9C(MusicalEventWork *work)
 /*
  * Sends the local performer to the peers of a wireless session.
  */
-void func_02155FB4(MusicalEventWork *work)
+void MUSICAL_EVENT_SendLocalPerformer(MusicalEventWork *work)
 {
     if (work->linkMode == 1)
         func_021FD948(work->session, work->localPerformer);
@@ -1499,35 +1499,35 @@ void func_02155FB4(MusicalEventWork *work)
  * or the peers' performers (wireless show, NPCs fill the empty slots), then
  * the program and its bonus split.
  */
-void func_02155FC8(MusicalEventWork *work)
+void MUSICAL_EVENT_CreateStage(MusicalEventWork *work)
 {
     u8 i;
     u8 npc;
     MusicalPerformer *peer;
 
-    work->stage = func_02156F68(4, work->session);
+    work->stage = MUSICAL_STAGE_SYS_Create(4, work->session);
     if (work->linkMode == 0) {
         for (i = 0; i < 4; i++) {
             if (i == 0)
-                func_02156FC4(work->stage, work->playerSlot[i], work->localPerformer);
+                MUSICAL_STAGE_SYS_SetLocalPerformer(work->stage, work->playerSlot[i], work->localPerformer);
             else
-                func_021572E4(work->program, work->stage, work->playerSlot[i], i - 1, 4);
+                MUSICAL_PROGRAM_CreateNpcPerformer(work->program, work->stage, work->playerSlot[i], i - 1, 4);
         }
     } else {
         npc = 0;
         for (i = 0; i < 4; i++) {
             peer = func_021FD4F8(work->session, work->playerSlot[i]);
             if (peer != 0) {
-                func_02157000(work->stage, work->playerSlot[i], peer);
+                MUSICAL_STAGE_SYS_SetRemotePerformer(work->stage, work->playerSlot[i], peer);
             } else {
-                func_021572E4(work->program, work->stage, work->playerSlot[i], npc, 4);
+                MUSICAL_PROGRAM_CreateNpcPerformer(work->program, work->stage, work->playerSlot[i], npc, 4);
                 npc++;
             }
         }
     }
     work->stage->musicalSystem = work->musicalSystem;
     work->stage->program = work->program;
-    func_02157174(4, work->program, work->stage);
+    MUSICAL_PROGRAM_SplitBonus(4, work->program, work->stage);
 }
 
 /*
@@ -1536,7 +1536,7 @@ void func_02155FC8(MusicalEventWork *work)
  * are marked first. The u8 local category is what puts the truncation of
  * func_021F5140's result ahead of the work->program load.
  */
-void func_02156074(MusicalEventWork *work)
+void MUSICAL_EVENT_ScorePerformers(MusicalEventWork *work)
 {
     MusicalPerformer *performer;
     void *propTable;
@@ -1561,7 +1561,7 @@ void func_02156074(MusicalEventWork *work)
         for (j = 0; j < 9; j++) {
             if (performer->equipUsed[j] == 1) {
                 category = (u32)func_021F5140(propTable, (u16)performer->equips[j].propId);
-                performer->totalScore += func_02157394(work->program, category);
+                performer->totalScore += MUSICAL_PROGRAM_GetCategoryShare(work->program, category);
             }
         }
     }
@@ -1573,7 +1573,7 @@ void func_02156074(MusicalEventWork *work)
  * their props) for the result screen and orders the performers by score
  * into rankOrder.
  */
-void func_0215611C(MusicalEventWork *work)
+void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
 {
     MusicalShowRecord *record;
     RtcDate date;
@@ -1593,19 +1593,19 @@ void func_0215611C(MusicalEventWork *work)
     u8 right;
     u8 k;
 
-    work->result = func_02030734(4, 0x14, 0, d_02172714, 0x312);
-    work->result->record = func_02030734(4, 0x1b0, 1, d_02172714, 0x313);
+    work->result = func_02030734(4, 0x14, 0, sMusicalEventFileName, 0x312);
+    work->result->record = func_02030734(4, 0x1b0, 1, sMusicalEventFileName, 0x313);
     work->result->state = 0;
     work->result->session = work->session;
     record = work->result->record;
     func_0203F4E4(&date);
-    record->programId = func_02157364(work->program);
+    record->programId = MUSICAL_PROGRAM_GetBaseProgramId(work->program);
     record->year = date.year;
     record->month = date.month;
     record->day = date.day;
-    title = func_02156914(work, 4);
-    func_02045A38(title, record->title, 0x25);
-    func_02045808(title);
+    title = MUSICAL_EVENT_AllocTitleString(work, 4);
+    STRBUF_ToChars(title, record->title, 0x25);
+    STRBUF_Delete(title);
     record->reserved = 0;
     record->showType = 0x15;
     record->valid = 1;
@@ -1629,19 +1629,19 @@ void func_0215611C(MusicalEventWork *work)
         record->performers[i].form = performer->form;
         record->performers[i].personality = performer->personality;
         if (i == work->localSlot)
-            peerName = func_02012944(work->gameData);
+            peerName = GAME_DATA_GetMyStatus(work->gameData);
         else if (work->linkMode == 1)
-            peerName = func_021FCE28(work->session, func_021568E8(work, i));
+            peerName = func_021FCE28(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, i));
         if (peerName != 0) {
             func_02082D44(peerName, record->performers[i].name, 0x10);
         } else {
-            u8 nameId = func_02157384(work->program, func_021568A8(work, func_021568E8(work, i)));
+            u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, MUSICAL_EVENT_GetPlayerOfSlot(work, i)));
 
             msgData = func_02045B38(0, 2, 0x4C, 4);
             title = func_02045EC0(msgData, nameId);
-            func_02045A38(title, (u16 *)record->performers[i].name, 8);
-            func_02045808(title);
-            func_02045C04(msgData);
+            STRBUF_ToChars(title, (u16 *)record->performers[i].name, 8);
+            STRBUF_Delete(title);
+            MSGDATA_Delete(msgData);
         }
         for (j = 0; j < 8; j++) {
             record->performers[i].props[j].propId = 0xFF;
@@ -1659,7 +1659,7 @@ void func_0215611C(MusicalEventWork *work)
         }
     }
     work->result->ready = 1;
-    work->result->save = func_0200A5F8(func_02012EBC(func_020120F4(work->gameSys)));
+    work->result->save = func_0200A5F8(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->gameSys)));
     for (k = 0; k < 4; k++) {
         sortScore[k] = work->stage->performers[k]->totalScore;
         work->rankOrder[k] = k;
@@ -1682,12 +1682,12 @@ void func_0215611C(MusicalEventWork *work)
 
 /*
  * Writes the show results into the musical save, the trainer record and the
- * friendship of the own Pokemon. The u16 read through func_020127A4's result
+ * friendship of the own Pokemon. The u16 read through GAME_DATA_GetMyPlayerWork's result
  * goes through a local; passed inline it is copied to r2 before the ldrh.
  * The tally array is `u8 count[4] = {0, ...}` in a nested block (as in
- * func_02157028).
+ * MUSICAL_PROGRAM_Create).
  */
-void func_02156420(MusicalEventWork *work)
+void MUSICAL_EVENT_ApplyResults(MusicalEventWork *work)
 {
     u8 localScore;
     u8 topScore;
@@ -1697,8 +1697,8 @@ void func_02156420(MusicalEventWork *work)
     void *trainerRecord;
     u16 zoneId;
 
-    localScore = func_02156934(work, work->localSlot);
-    topScore = func_02156934(work, work->rankOrder[0]);
+    localScore = MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
+    topScore = MUSICAL_EVENT_GetScoreCapped(work, work->rankOrder[0]);
     func_0200A768(work->save);
     if (localScore == topScore && localScore != 0)
         func_0200A788(work->save);
@@ -1717,9 +1717,9 @@ void func_02156420(MusicalEventWork *work)
             func_0200A7AC(work->save, j, count[j]);
     }
     func_021F4F40(propTable);
-    zoneId = *func_020127A4(work->gameData);
+    zoneId = *GAME_DATA_GetMyPlayerWork(work->gameData);
     NATSUKI_Calc(work->ownMon, 6, zoneId, 4);
-    trainerRecord = func_02012F2C(work->gameData);
+    trainerRecord = GAME_DATA_GetTrainerRecord(work->gameData);
     if (work->linkMode == 0) {
         func_02008DF0(trainerRecord, 0x72);
         if (localScore == topScore && localScore != 0)
@@ -1741,7 +1741,7 @@ void func_02156420(MusicalEventWork *work)
  * and the table row pointer is set in the for-initialiser after j (a
  * separate statement stores it before `j = 0`).
  */
-void func_02156530(MusicalEventWork *work)
+void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
 {
     u8 shuffle[10];
     u8 *candidates;
@@ -1760,7 +1760,7 @@ void func_02156530(MusicalEventWork *work)
     const u8 *row;
     u8 round;
 
-    candidates = func_02030734(4, 0x28, 1, d_02172714, 0x3F9);
+    candidates = func_02030734(4, 0x28, 1, sMusicalEventFileName, 0x3F9);
     scoreSum = 0;
     for (i = 0; i < 10; i++) {
         program = func_0200A750(work->save, i);
@@ -1769,13 +1769,13 @@ void func_02156530(MusicalEventWork *work)
         program->prop = 0;
     }
     if (work->linkMode == 0) {
-        scoreSum = func_0200A81C(work->save) + func_02156934(work, work->localSlot);
+        scoreSum = func_0200A81C(work->save) + MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
     } else {
         for (j = 0; j < 4; j++) {
-            peerValue = func_021FD8F8(work->session, func_021568E8(work, j));
+            peerValue = func_021FD8F8(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, j));
             if (func_021FD4F8(work->session, j) != 0) {
                 scoreSum += *peerValue;
-                scoreSum += func_02156934(work, j);
+                scoreSum += MUSICAL_EVENT_GetScoreCapped(work, j);
             }
         }
     }
@@ -1785,7 +1785,7 @@ void func_02156530(MusicalEventWork *work)
             break;
         }
     }
-    propRow = func_0215736C(work->program);
+    propRow = MUSICAL_PROGRAM_GetPropRow(work->program);
     if (propRow < 7) {
         candidateCount = 0;
         for (j = 0, row = d_0216FF28[propRow]; j < 0x28; j++) {
@@ -1796,7 +1796,7 @@ void func_02156530(MusicalEventWork *work)
             }
         }
     }
-    category = func_021572C0(work->program);
+    category = MUSICAL_PROGRAM_GetBestCategory(work->program);
     for (i = 0; i < 10; i++)
         shuffle[i] = i;
     for (round = 0; round < 10; round++) {
@@ -1809,7 +1809,7 @@ void func_02156530(MusicalEventWork *work)
     }
     for (i = 0; i < level; i++) {
         program = func_0200A750(work->save, shuffle[i]);
-        chance = func_02156934(work, work->localSlot);
+        chance = MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
         program->state = category;
         if ((u8)func_02005728(100) < chance && candidateCount != 0) {
             pick = func_02005728(candidateCount);
@@ -1827,23 +1827,23 @@ void func_02156530(MusicalEventWork *work)
  * Return sequence after a screen: pop the sound, reopen the field, wait
  * for the sound request to be accepted. Returns 1 when done.
  */
-int func_02156710(void *event, MusicalEventWork *work)
+int MUSICAL_EVENT_RunLeaveSequence(void *event, MusicalEventWork *work)
 {
-    func_02012A30(func_020120F4(work->gameSys));
+    GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSys));
     switch (work->step) {
     case 0:
-        func_02012374(event, FIELD_SOUND_SYSTEM_StartPopTask(work->gameSys, 0, 0x3C));
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopTask(work->gameSys, 0, 0x3C));
         work->step++;
         break;
     case 1:
-        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(work->gameSys));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(work->gameSys));
         work->step++;
         break;
     case 2:
         work->step++;
         break;
     case 3:
-        func_02012374(event, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(work->gameSys));
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(work->gameSys));
         work->step++;
         break;
     case 4:
@@ -1856,26 +1856,26 @@ int func_02156710(void *event, MusicalEventWork *work)
  * Enter sequence before a screen: push the sound, close the field, wait
  * until the sound settles. Returns 1 when done.
  */
-int func_02156770(void *event, MusicalEventWork *work)
+int MUSICAL_EVENT_RunEnterSequence(void *event, MusicalEventWork *work)
 {
     void *fieldMap;
 
-    func_02012A30(func_020120F4(work->gameSys));
-    fieldMap = func_0201210C(work->gameSys);
+    GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSys));
+    fieldMap = GAMESYSTEM_GetFieldMap(work->gameSys);
     switch (work->step) {
     case 0:
         work->step++;
         break;
     case 1:
-        func_02012374(event, func_020295A4(work->gameSys, 30));
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPushTask(work->gameSys, 30));
         work->step++;
         break;
     case 2:
-        func_02012374(event, FIELD_STATUS_CreateFieldCloseEvent(work->gameSys, fieldMap));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldCloseEvent(work->gameSys, fieldMap));
         work->step++;
         break;
     case 3:
-        func_02012374(event, func_02029C64(work->gameSys));
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartWaitSettledTask(work->gameSys));
         work->step++;
         break;
     case 4:
@@ -1887,56 +1887,56 @@ int func_02156770(void *event, MusicalEventWork *work)
 /*
  * Spawns the effect object (id 0x4E) at the position of the local slot.
  */
-void func_021567D8(void *event, MusicalEventWork *work)
+void MUSICAL_EVENT_SpawnSeatEffect(void *event, MusicalEventWork *work)
 {
     void *fieldMap;
     Float3 pos;
 
-    fieldMap = func_0201210C(work->gameSys);
+    fieldMap = GAMESYSTEM_GetFieldMap(work->gameSys);
     pos = d_0216FEFC;
     pos.x += work->localSlot << 17;
-    func_02012374(event, func_021854B0(work->gameSys, fieldMap, 0x4E, &pos, 0));
+    GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(work->gameSys, fieldMap, 0x4E, &pos, 0));
 }
 
 /*
  * Spawns the effect object (id 0x4D) at the exit position (one position for
  * a wireless show, one for a local show). The call result goes through a
- * local so both arms share one func_02012374 call (calling it in each arm
+ * local so both arms share one GAME_EVENT_CallEvent call (calling it in each arm
  * keeps event in r6).
  */
-void func_02156824(void *event, MusicalEventWork *work)
+void MUSICAL_EVENT_SpawnExitEffect(void *event, MusicalEventWork *work)
 {
     void *fieldMap;
     Float3 localPos;
     void *effect;
     Float3 linkPos;
 
-    fieldMap = func_0201210C(work->gameSys);
+    fieldMap = GAMESYSTEM_GetFieldMap(work->gameSys);
     localPos = d_0216FEF0;
     linkPos = d_0216FF08;
     if (work->linkMode == 1)
-        effect = func_021854B0(work->gameSys, fieldMap, 0x4D, &linkPos, 1);
+        effect = EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(work->gameSys, fieldMap, 0x4D, &linkPos, 1);
     else
-        effect = func_021854B0(work->gameSys, fieldMap, 0x4D, &localPos, 1);
-    func_02012374(event, effect);
+        effect = EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(work->gameSys, fieldMap, 0x4D, &localPos, 1);
+    GAME_EVENT_CallEvent(event, effect);
 }
 
 /*
  * Shows a field message window and attaches it to the event.
  */
-void func_02156888(void *event, MusicalEventWork *work, int messageId)
+void MUSICAL_EVENT_ShowMessage(void *event, MusicalEventWork *work, int messageId)
 {
-    struct GameEvent *message = func_02158768(work->gameSys, messageId, 0, 0x15);
+    struct GameEvent *message = SCRIPT_SYS_CreateScriptEventSimple(work->gameSys, messageId, 0, 0x15);
 
-    func_021589D0(message);
-    func_02012374(event, message);
+    SCRIPT_SYS_GetEventScriptWork(message);
+    GAME_EVENT_CallEvent(event, message);
 }
 
 /*
  * Counts the NPC slots below n: without a session every slot but 0, with a
  * session the slots that have no peer record.
  */
-u8 func_021568A8(MusicalEventWork *work, u8 n)
+u8 MUSICAL_EVENT_CountNpcSlotsBelow(MusicalEventWork *work, u8 n)
 {
     u8 i;
     u8 count;
@@ -1957,7 +1957,7 @@ u8 func_021568A8(MusicalEventWork *work, u8 n)
 /*
  * Returns the stage slot of the local player.
  */
-u8 func_021568E0(MusicalEventWork *work)
+u8 MUSICAL_EVENT_GetLocalSlot(MusicalEventWork *work)
 {
     return work->localSlot;
 }
@@ -1965,7 +1965,7 @@ u8 func_021568E0(MusicalEventWork *work)
 /*
  * Returns the player whose stage slot is slot.
  */
-u8 func_021568E8(MusicalEventWork *work, u8 slot)
+u8 MUSICAL_EVENT_GetPlayerOfSlot(MusicalEventWork *work, u8 slot)
 {
     u8 i;
 
@@ -1979,30 +1979,30 @@ u8 func_021568E8(MusicalEventWork *work, u8 slot)
 /*
  * Returns the best appeal category of the show program.
  */
-u8 func_02156908(MusicalEventWork *work)
+u8 MUSICAL_EVENT_GetProgramBestCategory(MusicalEventWork *work)
 {
-    return func_021572C0(work->program);
+    return MUSICAL_PROGRAM_GetBestCategory(work->program);
 }
 
 /*
  * Allocates the show title string (entry 0 of the musical system's
  * message file).
  */
-void *func_02156914(MusicalEventWork *work, int heapId)
+void *MUSICAL_EVENT_AllocTitleString(MusicalEventWork *work, int heapId)
 {
     void *title;
     void *msgData;
 
     msgData = MSGDATA_CreateFromMemory(work->musicalSystem->msgFile, heapId);
     title = func_02045EC0(msgData, 0);
-    func_02045C04(msgData);
+    MSGDATA_Delete(msgData);
     return title;
 }
 
 /*
  * Returns the total score of the performer in slot, capped to 255.
  */
-u8 func_02156934(MusicalEventWork *work, u8 slot)
+u8 MUSICAL_EVENT_GetScoreCapped(MusicalEventWork *work, u8 slot)
 {
     u16 score;
 
@@ -2015,7 +2015,7 @@ u8 func_02156934(MusicalEventWork *work, u8 slot)
 /*
  * Returns the highest total score of the four performers.
  */
-u16 func_02156954(MusicalEventWork *work)
+u16 MUSICAL_EVENT_GetMaxScore(MusicalEventWork *work)
 {
     u16 best = 0;
     u8 i;
@@ -2030,7 +2030,7 @@ u16 func_02156954(MusicalEventWork *work)
 /*
  * Returns the lowest total score of the four performers (255 at most).
  */
-u16 func_02156978(MusicalEventWork *work)
+u16 MUSICAL_EVENT_GetMinScore(MusicalEventWork *work)
 {
     u16 lowest = 0xFF;
     u8 i;
@@ -2045,7 +2045,7 @@ u16 func_02156978(MusicalEventWork *work)
 /*
  * Returns the stage slot of the performer at the given rank.
  */
-u8 func_0215699C(MusicalEventWork *work, u8 rank)
+u8 MUSICAL_EVENT_GetSlotOfRank(MusicalEventWork *work, u8 rank)
 {
     return work->rankOrder[rank];
 }
@@ -2057,7 +2057,7 @@ u8 func_0215699C(MusicalEventWork *work, u8 rank)
  * uses (r6, shared with performer). Setting i in the for-init is 2 bytes
  * out.
  */
-u8 func_021569A4(MusicalEventWork *work, u8 slot)
+u8 MUSICAL_EVENT_GetBestAppealCategory(MusicalEventWork *work, u8 slot)
 {
     u8 best;
     u8 i;
@@ -2089,9 +2089,9 @@ u8 func_021569A4(MusicalEventWork *work, u8 slot)
  * from the peer's outfit variant in a wireless show, else the class byte of
  * its NPC template.
  */
-u8 func_021569EC(MusicalEventWork *work, u8 slot)
+u8 MUSICAL_EVENT_GetPortraitClass(MusicalEventWork *work, u8 slot)
 {
-    u8 player = func_021568E8(work, slot);
+    u8 player = MUSICAL_EVENT_GetPlayerOfSlot(work, slot);
     void *peerStatus;
 
     if (slot == work->localSlot)
@@ -2104,21 +2104,21 @@ u8 func_021569EC(MusicalEventWork *work, u8 slot)
             return 4;
         }
     }
-    return func_02157374(work->program, func_021568A8(work, player));
+    return MUSICAL_PROGRAM_GetNpcPortraitClass(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, player));
 }
 
 /*
  * Registers the name of the player in slot as word wordIndex: the own
  * trainer, a peer's trainer, or the NPC name from message bank 0x4C.
  */
-void func_02156A3C(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex)
+void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex)
 {
     int done = 0;
-    u8 player = func_021568E8(work, slot);
+    u8 player = MUSICAL_EVENT_GetPlayerOfSlot(work, slot);
     void *peerStatus;
 
     if (slot == work->localSlot) {
-        func_0201F02C(wordSet, wordIndex, func_02012944(work->gameData));
+        func_0201F02C(wordSet, wordIndex, GAME_DATA_GetMyStatus(work->gameData));
         done = 1;
     } else if (work->linkMode == 1) {
         peerStatus = func_021FCE28(work->session, player);
@@ -2128,29 +2128,29 @@ void func_02156A3C(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex
         }
     }
     if (!done) {
-        u8 nameId = func_02157384(work->program, func_021568A8(work, player));
+        u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, player));
         void *msgData = func_02045B38(0, 2, 0x4C, 4);
         void *str = func_02045EC0(msgData, nameId);
 
         func_0201EE0C(wordSet, wordIndex, str, 0, 1, 2);
-        func_02045808(str);
-        func_02045C04(msgData);
+        STRBUF_Delete(str);
+        MSGDATA_Delete(msgData);
     }
 }
 
 /*
- * Twin of func_02156A3C for the Pokemon name: the own Pokemon, the peer's
+ * Twin of MUSICAL_EVENT_SetPlayerNameWord for the Pokemon name: the own Pokemon, the peer's
  * Pokemon (func_021FCE44), or failing both the NPC Pokemon name from message
  * bank 0x4D.
  */
-void func_02156AD4(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex)
+void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex)
 {
     int done = 0;
-    u8 player = func_021568E8(work, slot);
+    u8 player = MUSICAL_EVENT_GetPlayerOfSlot(work, slot);
     void *peerMon;
 
     if (slot == work->localSlot) {
-        func_02012944(work->gameData);
+        GAME_DATA_GetMyStatus(work->gameData);
         func_0201EEF4(wordSet, wordIndex, work->ownMon);
         done = 1;
     } else if (work->linkMode == 1) {
@@ -2161,13 +2161,13 @@ void func_02156AD4(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex
         }
     }
     if (!done) {
-        u8 nameId = func_02157384(work->program, func_021568A8(work, player));
+        u8 nameId = MUSICAL_PROGRAM_GetNpcNameId(work->program, MUSICAL_EVENT_CountNpcSlotsBelow(work, player));
         void *msgData = func_02045B38(0, 2, 0x4D, 4);
         void *str = func_02045EC0(msgData, nameId);
 
         func_0201EE0C(wordSet, wordIndex, str, 0, 1, 2);
-        func_02045808(str);
-        func_02045C04(msgData);
+        STRBUF_Delete(str);
+        MSGDATA_Delete(msgData);
     }
 }
 
@@ -2176,7 +2176,7 @@ void func_02156AD4(MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex
  * are read from the session and unpacked into the program (created first
  * if this machine has none yet).
  */
-void func_02156B74(MusicalEventWork *work)
+void MUSICAL_EVENT_ReceiveShowProgram(MusicalEventWork *work)
 {
     u32 packedBonus;
     u32 packedPicks;
@@ -2184,16 +2184,16 @@ void func_02156B74(MusicalEventWork *work)
     packedBonus = func_021FD954(work->session);
     packedPicks = func_021FD95C(work->session);
     if (work->program == 0)
-        work->program = func_02157028(4, work->musicalSystem, 0);
-    func_02157278(work->program, packedBonus);
-    func_021572A8(work->program, packedPicks);
+        work->program = MUSICAL_PROGRAM_Create(4, work->musicalSystem, 0);
+    MUSICAL_PROGRAM_UnpackBonus(work->program, packedBonus);
+    MUSICAL_PROGRAM_UnpackPicks(work->program, packedPicks);
 }
 
 /*
  * One-shot network error test: only when the session is wireless and the
  * network reports an error does the aborted flag get set.
  */
-void func_02156BAC(MusicalEventWork *work)
+void MUSICAL_EVENT_CheckNetError(MusicalEventWork *work)
 {
     int linkMode = work->linkMode;
 
@@ -2209,20 +2209,20 @@ void func_02156BAC(MusicalEventWork *work)
 /*
  * Reads the aborted flag.
  */
-u32 func_02156BCC(MusicalEventWork *work) { return work->aborted; }
+u32 MUSICAL_EVENT_IsAborted(MusicalEventWork *work) { return work->aborted; }
 
 /*
  * Init of the dress-up proc: loads overlay 133 and copies the parameter
  * block to a heap copy the UI keeps.
  */
-int func_02156BD0(void *proc, u32 *state, MusicalDressupParam *param)
+int MUSICAL_DRESSUP_SYS_Init(void *proc, u32 *state, MusicalDressupParam *param)
 {
     MusicalDressupWork *work;
     *state = 0;
     func_02034AC4((u32)ov133_id);
-    func_0203064C(1, 0x2d, 1 << 18);
-    work = func_0203159C(proc, 0x10, 0x2d);
-    work->paramCopy = func_02030734(0x2d, 0xc, 0, d_02172730, 0x4e);
+    GFL_HEAP_CreateChildHeap(1, 0x2d, 1 << 18);
+    work = PROCSYS_AllocProcWork(proc, 0x10, 0x2d);
+    work->paramCopy = func_02030734(0x2d, 0xc, 0, sMusicalDressupSysFileName, 0x4e);
     work->param = param;
     work->paramCopy[0] = ((u32 *)param)[0];
     work->paramCopy[1] = ((u32 *)param)[1];
@@ -2234,7 +2234,7 @@ int func_02156BD0(void *proc, u32 *state, MusicalDressupParam *param)
  * Exit of the dress-up proc: frees the parameter copy and the proc work,
  * unloads overlay 133.
  */
-int func_02156C28(void *proc, int unused1, int unused2, MusicalDressupWork *work)
+int MUSICAL_DRESSUP_SYS_Exit(void *proc, int unused1, int unused2, MusicalDressupWork *work)
 {
     func_020307B0(work->paramCopy);
     func_020315D4(proc);
@@ -2247,7 +2247,7 @@ int func_02156C28(void *proc, int unused1, int unused2, MusicalDressupWork *work
  * Main of the dress-up proc: start the UI over the parameter copy, wait for
  * its result, close it. In a wireless session the host side is told first.
  */
-int func_02156C4C(void *proc, int *state, int unused, MusicalDressupWork *work)
+int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupWork *work)
 {
     switch (*state) {
     case 0:
@@ -2276,12 +2276,12 @@ int func_02156C4C(void *proc, int *state, int unused, MusicalDressupWork *work)
 /*
  * Creates the dress-up parameter block.
  */
-MusicalDressupParam *func_02156CAC(int heapId, MusicalPerformer *performer, void *saveControl)
+MusicalDressupParam *MUSICAL_DRESSUP_SYS_Create(int heapId, MusicalPerformer *performer, void *saveControl)
 {
     MusicalDressupParam *param;
     int zero = 0;
 
-    param = func_02030734(heapId, 12, 0, d_02172730, 0xa7);
+    param = func_02030734(heapId, 12, 0, sMusicalDressupSysFileName, 0xa7);
     param->session = (void *)zero;
     param->save = func_0200A5F8(saveControl);
     param->performer = performer;
@@ -2292,7 +2292,7 @@ MusicalDressupParam *func_02156CAC(int heapId, MusicalPerformer *performer, void
  * Frees the dress-up parameter block (tail call through a pool word and
  * `bx r3`: docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  */
-void func_02156CD8(MusicalDressupParam *param)
+void MUSICAL_DRESSUP_SYS_Delete(MusicalDressupParam *param)
 {
     func_020307B0(param);
 }
@@ -2303,40 +2303,40 @@ void func_02156CD8(MusicalDressupParam *param)
  * pooled 0x70 is ov112_id and the three colour masks come from one `mask`
  * local shifted.
  */
-int func_02156CE0(void *proc, void *unused, MusicalStage *prevStage)
+int MUSICAL_STAGE_SYS_Init(void *proc, void *unused, MusicalStage *prevStage)
 {
     MusicalStageWork *work;
     u32 mask;
 
-    func_0203064C(1, 0x2E, 0xA8000);
-    work = func_0203159C(proc, sizeof(MusicalStageWork), 0x2E);
+    GFL_HEAP_CreateChildHeap(1, 0x2E, 0xA8000);
+    work = PROCSYS_AllocProcWork(proc, sizeof(MusicalStageWork), 0x2E);
     if (prevStage == 0) {
         func_02034AC4((u32)ov112_id);
-        work->stage = func_02156F68(0x2E, 0);
+        work->stage = MUSICAL_STAGE_SYS_Create(0x2E, 0);
         mask = 0xFF000000;
-        func_02156FD0(work->stage, 0, 0x147, 0, mask, 60, 0x2E);
-        func_02156FD0(work->stage, 1, 0x147, 0, mask >> 8, 120, 0x2E);
-        func_02156FD0(work->stage, 2, 0x147, 0, mask >> 16, -3, 0x2E);
-        func_02156FD0(work->stage, 3, 0x147, 0, 0x000000FF, -1, 0x2E);
-        func_0215700C(work->stage, 0, 7, 0x13, 0, 0);
-        func_0215700C(work->stage, 0, 8, 0x13, 0, 1);
-        func_0215700C(work->stage, 0, 2, 0x10, 0, 2);
-        func_0215700C(work->stage, 1, 1, 0x07, 0, 0);
-        func_0215700C(work->stage, 1, 5, 0x09, 0, 1);
-        func_0215700C(work->stage, 1, 7, 0x18, 0, 2);
-        func_0215700C(work->stage, 1, 8, 0x2B, 0, 3);
-        func_0215700C(work->stage, 2, 7, 0x1F, 0, 0);
-        func_0215700C(work->stage, 2, 8, 0x1E, 0, 1);
-        func_0215700C(work->stage, 2, 2, 0x0F, 0, 2);
-        func_0215700C(work->stage, 3, 7, 0x1E, 0, 0);
-        func_0215700C(work->stage, 3, 8, 0x1E, 0, 1);
-        func_0215700C(work->stage, 3, 2, 0x15, 0, 2);
+        MUSICAL_STAGE_SYS_CreateNpcPerformer(work->stage, 0, 0x147, 0, mask, 60, 0x2E);
+        MUSICAL_STAGE_SYS_CreateNpcPerformer(work->stage, 1, 0x147, 0, mask >> 8, 120, 0x2E);
+        MUSICAL_STAGE_SYS_CreateNpcPerformer(work->stage, 2, 0x147, 0, mask >> 16, -3, 0x2E);
+        MUSICAL_STAGE_SYS_CreateNpcPerformer(work->stage, 3, 0x147, 0, 0x000000FF, -1, 0x2E);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 0, 7, 0x13, 0, 0);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 0, 8, 0x13, 0, 1);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 0, 2, 0x10, 0, 2);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 1, 1, 0x07, 0, 0);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 1, 5, 0x09, 0, 1);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 1, 7, 0x18, 0, 2);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 1, 8, 0x2B, 0, 3);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 2, 7, 0x1F, 0, 0);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 2, 8, 0x1E, 0, 1);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 2, 2, 0x0F, 0, 2);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 3, 7, 0x1E, 0, 0);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 3, 8, 0x1E, 0, 1);
+        MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 3, 2, 0x15, 0, 2);
         work->stage->performers[1]->origin = MUSICAL_PERFORMER_LOCAL;
-        func_0203064C(1, 0x802C, 0x80000);
+        GFL_HEAP_CreateChildHeap(1, 0x802C, 0x80000);
         work->stage->musicalSystem = func_021F685C(1);
         func_021F68BC(work->stage->musicalSystem, 0, 0, 0, 0x2C);
-        work->stage->program = func_02157028(0x2E, work->stage->musicalSystem, 0);
-        func_02157174(0x2E, work->stage->program, work->stage);
+        work->stage->program = MUSICAL_PROGRAM_Create(0x2E, work->stage->musicalSystem, 0);
+        MUSICAL_PROGRAM_SplitBonus(0x2E, work->stage->program, work->stage);
         work->stage->performers[0]->totalScore = 75;
         work->stage->performers[1]->totalScore = 45;
         work->stage->performers[2]->totalScore = 30;
@@ -2352,14 +2352,14 @@ int func_02156CE0(void *proc, void *unused, MusicalStage *prevStage)
  * owns is freed here (performer 1 is flagged as an NPC performer first so
  * the stage frees it too).
  */
-int func_02156EDC(void *proc, int unused, int keepStage, MusicalStageWork *work)
+int MUSICAL_STAGE_SYS_Exit(void *proc, int unused, int keepStage, MusicalStageWork *work)
 {
     if (keepStage == 0) {
-        func_0215716C(work->stage->program);
+        MUSICAL_PROGRAM_Delete(work->stage->program);
         func_021F6888(work->stage->musicalSystem);
         func_020306F0(0x2c);
         work->stage->performers[1]->origin = MUSICAL_PERFORMER_NPC;
-        func_02156F98(work->stage);
+        MUSICAL_STAGE_SYS_Delete(work->stage);
         func_02034A5C((u32)ov112_id);
     }
     func_020315D4(proc);
@@ -2370,7 +2370,7 @@ int func_02156EDC(void *proc, int unused, int keepStage, MusicalStageWork *work)
 /*
  * Main of the stage proc: start the stage UI, wait for it, close it.
  */
-int func_02156F24(void *proc, int *state, int unused, MusicalStageWork *work)
+int MUSICAL_STAGE_SYS_Main(void *proc, int *state, int unused, MusicalStageWork *work)
 {
     switch (*state) {
     case 0:
@@ -2391,12 +2391,12 @@ int func_02156F24(void *proc, int *state, int unused, MusicalStageWork *work)
 /*
  * Creates an empty stage for a session.
  */
-MusicalStage *func_02156F68(u32 heapId, void *session)
+MusicalStage *MUSICAL_STAGE_SYS_Create(u32 heapId, void *session)
 {
     MusicalStage *stage;
     u8 i;
 
-    stage = func_02030734(heapId, 0x20, 0, d_02172754, 0xBE);
+    stage = func_02030734(heapId, 0x20, 0, sMusicalStageSysFileName, 0xBE);
     stage->session = session;
     for (i = 0; i < 4; i++)
         stage->performers[i] = 0;
@@ -2406,7 +2406,7 @@ MusicalStage *func_02156F68(u32 heapId, void *session)
 /*
  * Frees the NPC performers of the stage and the stage itself.
  */
-int func_02156F98(MusicalStage *stage){
+int MUSICAL_STAGE_SYS_Delete(MusicalStage *stage){
     u8 i;
 
     for (i = 0; i < 4; i++) {
@@ -2422,7 +2422,7 @@ int func_02156F98(MusicalStage *stage){
  * offset) is the only one that keeps the base add ahead of the shift; the
  * plain stage->performers[slot] form compiles to shift, add, store.
  */
-int func_02156FC4(MusicalStage *stage, int slot, MusicalPerformer *performer)
+int MUSICAL_STAGE_SYS_SetLocalPerformer(MusicalStage *stage, int slot, MusicalPerformer *performer)
 {
     int list;
     int offset;
@@ -2438,7 +2438,7 @@ int func_02156FC4(MusicalStage *stage, int slot, MusicalPerformer *performer)
  * Creates an NPC performer (species, form, personality, appeal base) in a
  * stage slot.
  */
-void func_02156FD0(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 personality, u16 appealBase, u16 heapId)
+void MUSICAL_STAGE_SYS_CreateNpcPerformer(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 personality, u16 appealBase, u16 heapId)
 {
     stage->performers[slot] = func_021F67E0(monsNo, form, 0, 0, personality, heapId);
     stage->performers[slot]->origin = MUSICAL_PERFORMER_NPC;
@@ -2447,9 +2447,9 @@ void func_02156FD0(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 person
 
 /*
  * Puts a peer's performer in a stage slot. Same integer form as
- * func_02156FC4 (stand-in, same reason).
+ * MUSICAL_STAGE_SYS_SetLocalPerformer (stand-in, same reason).
  */
-int func_02157000(MusicalStage *stage, int slot, MusicalPerformer *performer)
+int MUSICAL_STAGE_SYS_SetRemotePerformer(MusicalStage *stage, int slot, MusicalPerformer *performer)
 {
     int list;
     int offset;
@@ -2464,7 +2464,7 @@ int func_02157000(MusicalStage *stage, int slot, MusicalPerformer *performer)
 /*
  * Equips a prop on a performer: body slot, prop, offset, list order.
  */
-void func_0215700C(MusicalStage *stage, u8 slot, u8 bodySlot, u16 propId, s16 offset, u8 order)
+void MUSICAL_STAGE_SYS_SetPerformerProp(MusicalStage *stage, u8 slot, u8 bodySlot, u16 propId, s16 offset, u8 order)
 {
     MusicalPerformer *performer;
 
@@ -2493,7 +2493,7 @@ static inline u32 RandBelow(u32 n)
  * block-scope array hoists catalog out of it. RandBelow is the inline
  * `(u64)rand * n >> 32` helper; its n != 0 test folds away for constant n.
  */
-MusicalShowProgram *func_02157028(u32 heapId, MusicalSystemHead *musicalSystem, u16 maxLevel)
+MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musicalSystem, u16 maxLevel)
 {
     MusicalShowProgram *program;
     u8 i;
@@ -2504,7 +2504,7 @@ MusicalShowProgram *func_02157028(u32 heapId, MusicalSystemHead *musicalSystem, 
     u8 second;
     u8 round;
 
-    program = func_02030734(heapId, 0x10, 0, d_02172768, 100);
+    program = func_02030734(heapId, 0x10, 0, sMusicalProgramFileName, 100);
     program->catalog.programs = musicalSystem->programs;
     for (i = 0; i < 4; i++) {
         program->categoryBonus[i] = 0;
@@ -2553,7 +2553,7 @@ MusicalShowProgram *func_02157028(u32 heapId, MusicalSystemHead *musicalSystem, 
  * Frees the show program (tail call through a pool word and `bx r3`:
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  */
-int func_0215716C(MusicalShowProgram *program){
+int MUSICAL_PROGRAM_Delete(MusicalShowProgram *program){
 
     func_020307B0(program);
 }
@@ -2567,7 +2567,7 @@ int func_0215716C(MusicalShowProgram *program){
  * body, u8 j inside the loop 2 body). Function-scope declarations gave 21
  * bytes of register swaps.
  */
-void func_02157174(u32 heapId, MusicalShowProgram *program, MusicalStage *stage)
+void MUSICAL_PROGRAM_SplitBonus(u32 heapId, MusicalShowProgram *program, MusicalStage *stage)
 {
     void *propTable;
     u8 i;
@@ -2610,13 +2610,13 @@ void func_02157174(u32 heapId, MusicalShowProgram *program, MusicalStage *stage)
 /*
  * Reads the category bonus byte at index.
  */
-u8 func_0215725C(MusicalShowProgram *program, int index) { return program->categoryBonus[index]; }
+u8 MUSICAL_PROGRAM_GetCategoryBonus(MusicalShowProgram *program, int index) { return program->categoryBonus[index]; }
 
 /*
  * Little-endian 32-bit read of the category bonuses (inverse of
- * func_02157278).
+ * MUSICAL_PROGRAM_UnpackBonus).
  */
-u32 func_02157260(const MusicalShowProgram *program)
+u32 MUSICAL_PROGRAM_PackBonus(const MusicalShowProgram *program)
 {
     return program->categoryBonus[0] + (program->categoryBonus[1] << 8) + (program->categoryBonus[2] << 16) + (program->categoryBonus[3] << 24);
 }
@@ -2624,7 +2624,7 @@ u32 func_02157260(const MusicalShowProgram *program)
 /*
  * Stores a packed 32-bit word into the category bonuses.
  */
-void func_02157278(MusicalShowProgram *program, u32 packed)
+void MUSICAL_PROGRAM_UnpackBonus(MusicalShowProgram *program, u32 packed)
 {
     program->categoryBonus[0] = packed;
     program->categoryBonus[1] = (packed & 0xFF00) >> 8;
@@ -2633,9 +2633,9 @@ void func_02157278(MusicalShowProgram *program, u32 packed)
 }
 
 /*
- * Little-endian 24-bit read of the three picks (inverse of func_021572A8).
+ * Little-endian 24-bit read of the three picks (inverse of MUSICAL_PROGRAM_UnpackPicks).
  */
-u32 func_02157298(const MusicalShowProgram *program)
+u32 MUSICAL_PROGRAM_PackPicks(const MusicalShowProgram *program)
 {
     return program->picks[0] + (program->picks[1] << 8) + (program->picks[2] << 16);
 }
@@ -2643,7 +2643,7 @@ u32 func_02157298(const MusicalShowProgram *program)
 /*
  * Stores a packed 24-bit word into the three picks.
  */
-void func_021572A8(MusicalShowProgram *program, u32 packed)
+void MUSICAL_PROGRAM_UnpackPicks(MusicalShowProgram *program, u32 packed)
 {
     program->picks[0] = packed;
     program->picks[1] = (packed & 0xFF00) >> 8;
@@ -2654,7 +2654,7 @@ void func_021572A8(MusicalShowProgram *program, u32 packed)
  * Index of the category with the highest bonus (first one on a tie).
  * Declaration order i, best, index is what colours them r2, r3, r4.
  */
-u8 func_021572C0(MusicalShowProgram *program)
+u8 MUSICAL_PROGRAM_GetBestCategory(MusicalShowProgram *program)
 {
     u8 i;
     u8 best;
@@ -2679,23 +2679,23 @@ u8 func_021572C0(MusicalShowProgram *program)
  * through an inline reader, so the top byte is loaded once and kept in ip
  * for the fourth argument.
  */
-void func_021572E4(MusicalShowProgram *program, MusicalStage *stage, u8 slot, u8 npcIndex, u16 heapId)
+void MUSICAL_PROGRAM_CreateNpcPerformer(MusicalShowProgram *program, MusicalStage *stage, u8 slot, u8 npcIndex, u16 heapId)
 {
     MusicalRivalEntry *rival;
     u8 j;
 
     rival = &program->catalog.rivals->entries[program->picks[npcIndex]];
-    func_02156FD0(stage, slot, rival->monsNo, rival->personality[3], rival->personality[0] + (rival->personality[1] << 8) + (rival->personality[2] << 16) + (rival->personality[3] << 24), rival->appealBase, heapId);
+    MUSICAL_STAGE_SYS_CreateNpcPerformer(stage, slot, rival->monsNo, rival->personality[3], rival->personality[0] + (rival->personality[1] << 8) + (rival->personality[2] << 16) + (rival->personality[3] << 24), rival->appealBase, heapId);
     for (j = 0; j < 8; j++) {
         if (rival->props[j].propId != 0x1FE && rival->props[j].propId != 0x1FF)
-            func_0215700C(stage, slot, rival->props[j].bodySlot, rival->props[j].propId, 0, j);
+            MUSICAL_STAGE_SYS_SetPerformerProp(stage, slot, rival->props[j].bodySlot, rival->props[j].propId, 0, j);
     }
 }
 
 /*
  * Id of the base program (first catalog entry).
  */
-u8 func_02157364(MusicalShowProgram *program)
+u8 MUSICAL_PROGRAM_GetBaseProgramId(MusicalShowProgram *program)
 {
     return program->catalog.programs->id;
 }
@@ -2703,7 +2703,7 @@ u8 func_02157364(MusicalShowProgram *program)
 /*
  * Prop row of the base program (selects the row of the reward prop table).
  */
-int func_0215736C(MusicalShowProgram *program)
+int MUSICAL_PROGRAM_GetPropRow(MusicalShowProgram *program)
 {
     return program->catalog.programs->propRow;
 }
@@ -2711,7 +2711,7 @@ int func_0215736C(MusicalShowProgram *program)
 /*
  * Portrait class byte of the picked NPC template npcIndex.
  */
-u8 func_02157374(MusicalShowProgram *program, u8 npcIndex)
+u8 MUSICAL_PROGRAM_GetNpcPortraitClass(MusicalShowProgram *program, u8 npcIndex)
 {
     return program->catalog.npcInfo[program->picks[npcIndex]].portraitClass;
 }
@@ -2719,7 +2719,7 @@ u8 func_02157374(MusicalShowProgram *program, u8 npcIndex)
 /*
  * Name id byte of the picked NPC template npcIndex.
  */
-u8 func_02157384(MusicalShowProgram *program, int npcIndex)
+u8 MUSICAL_PROGRAM_GetNpcNameId(MusicalShowProgram *program, int npcIndex)
 {
     return program->catalog.npcInfo[program->picks[npcIndex]].nameId;
 }
@@ -2727,7 +2727,7 @@ u8 func_02157384(MusicalShowProgram *program, int npcIndex)
 /*
  * Share of the bonus per prop for a category.
  */
-u16 func_02157394(MusicalShowProgram *program, int category)
+u16 MUSICAL_PROGRAM_GetCategoryShare(MusicalShowProgram *program, int category)
 {
     return program->sharePerProp[category];
 }
@@ -2749,7 +2749,7 @@ int func_0215739C(void *event, u32 *state, IrcBattleTaskWork *work)
     case 2:
         break;
     case 3:
-        func_02012374(event, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(gameSys, work->setup.bgmBattle));
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(gameSys, work->setup.bgmBattle));
         (*state)++;
         break;
     case 4: {
@@ -2758,25 +2758,25 @@ int func_0215739C(void *event, u32 *state, IrcBattleTaskWork *work)
         args.setup = &work->setup;
         args.slotData = work->slot;
         args.flag = 0;
-        func_02012374(event, func_020124AC(gameSys, (u32)ov008_id, EVENT_BATTLE_REC_SAVE_Start, &args));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_CreateOverlayEvent(gameSys, (u32)ov008_id, EVENT_BATTLE_REC_SAVE_Start, &args));
         (*state)++;
         break;
     }
     case 5:
         BTL_SETUP_FreeSlots(&work->setup);
-        func_02012374(event, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(gameSys));
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(gameSys));
         (*state)++;
         break;
     case 6:
-        func_02012374(event, FIELD_STATUS_CreateFieldOpenEvent(gameSys));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSys));
         (*state)++;
         break;
     case 7:
-        func_02012374(event, func_021BE92C(gameSys, work->gameData, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSys, work->gameData, 0, 0, 1, 0, 0));
         (*state)++;
         break;
     case 8:
-        func_02012374(event, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(gameSys));
+        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(gameSys));
         (*state)++;
         break;
     case 9:
@@ -2812,8 +2812,8 @@ struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBatt
         func_02157650(&formation, 1);
     case 6:
         func_02157650(&formation, 3);
-        sysData = func_020120F4(gameSys);
-        BTL_SETUP_SetupCommSingle(setup, sysData, func_020399A8(), 1, 4);
+        sysData = GAMESYSTEM_GetGameData(gameSys);
+        BTL_SETUP_SetupCommSingle(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 9:
         func_02157650(&formation, 4);
@@ -2823,8 +2823,8 @@ struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBatt
         func_02157650(&formation, 5);
     case 10:
         func_02157650(&formation, 7);
-        sysData = func_020120F4(gameSys);
-        BTL_SETUP_SetupCommDouble(setup, sysData, func_020399A8(), 1, 4);
+        sysData = GAMESYSTEM_GetGameData(gameSys);
+        BTL_SETUP_SetupCommDouble(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 13:
         func_02157650(&formation, 8);
@@ -2834,8 +2834,8 @@ struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBatt
         func_02157650(&formation, 9);
     case 14:
         func_02157650(&formation, 11);
-        sysData = func_020120F4(gameSys);
-        BTL_SETUP_SetupCommTriple(setup, sysData, func_020399A8(), 1, 4);
+        sysData = GAMESYSTEM_GetGameData(gameSys);
+        BTL_SETUP_SetupCommTriple(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 17:
         func_02157650(&formation, 12);
@@ -2845,8 +2845,8 @@ struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBatt
         func_02157650(&formation, 13);
     case 18:
         func_02157650(&formation, 15);
-        sysData = func_020120F4(gameSys);
-        BTL_SETUP_SetupCommRotation(setup, sysData, func_020399A8(), 1, 4);
+        sysData = GAMESYSTEM_GetGameData(gameSys);
+        BTL_SETUP_SetupCommRotation(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 21:
         func_02157650(&formation, 16);
@@ -2856,8 +2856,8 @@ struct GameEvent *func_02157450(void *gameSys, void *gameData, u32 kind, IrcBatt
         func_02157650(&formation, 17);
     case 22:
         func_02157650(&formation, 19);
-        sysData = func_020120F4(gameSys);
-        BTL_SETUP_SetupCommMulti(setup, sysData, func_020399A8(), 1, request->multiTeam, 4);
+        sysData = GAMESYSTEM_GetGameData(gameSys);
+        BTL_SETUP_SetupCommMulti(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, request->multiTeam, 4);
         break;
     default:
         func_02034714((const char *)d_0217277C, 0, (const char *)d_0217277C);

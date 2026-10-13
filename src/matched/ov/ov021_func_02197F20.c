@@ -1,5 +1,5 @@
 /*
- * function: func_02197F20
+ * function: FLDMMDL_ACMD_RunCmdStep
  * address:  0x02197F20
  * packet:   pkt_ov021_02197F20
  * region:   ov021
@@ -19,7 +19,7 @@
  *   window) fixes the overlay; with the hint the tool refused it as contested.
  *
  * symbols:
- *   func_0216D55C  0x0216D55C  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
  *   d_021D624C     0x021D624C  data  a4
  *   d_021D5F58     0x021D5F58  data  a4
  * Addresses are Black-image addresses.
@@ -31,13 +31,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern int func_0216D55C(int a0, int a1);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
 extern int (**const d_021D624C[])(u32);
 extern int (**const d_021D5F58[])(u32);
 
-int func_02197F20(u32 a, u32 b, u32 c)
+int FLDMMDL_ACMD_RunCmdStep(u32 a, u32 b, u32 c)
 {
-    if (func_0216D55C(a, 0x2000) != 0) {
+    if (FLDMMDL_CheckStatusBit(a, 0x2000) != 0) {
         return d_021D624C[b][c](a);
     }
     return d_021D5F58[b][c](a);

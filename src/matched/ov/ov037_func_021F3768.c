@@ -1,5 +1,5 @@
 /*
- * function: func_021F3768
+ * function: GIMMICK_INIT_RestoreGimmick38State
  * address:  0x021F3768
  * packet:   pkt_ov037_021F3768
  * region:   ov037
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_0200B3A8  0x0200B3A8  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetProgress  0x0200B3A8  thumb
  *   d_021F3840     0x021F3840  data ov037 a1
- *   d_021F3834     0x021F3834  data a1
+ *   gGimmick38DoorPlates     0x021F3834  data a1
  */
 
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, unsigned int b);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, unsigned int b);
 typedef unsigned int   u32;
 struct Rec94;
-extern u8 *func_0200B3A8(struct Rec94 *p, u32 a1);
+extern u8 *GIMMICK_WORK_GetProgress(struct Rec94 *p, u32 a1);
 extern signed char d_021F3840[][2];
-extern unsigned char d_021F3834[][2];
+extern unsigned char gGimmick38DoorPlates[][2];
 
-void func_021F3768(unsigned int a0, unsigned short **a1)
+void GIMMICK_INIT_RestoreGimmick38State(unsigned int a0, unsigned short **a1)
 {
-    unsigned int t = (unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)a0));
-    int *p = func_0200B3A4((struct Rec94 *)t, 6);
-    unsigned short *q = (short unsigned int *)func_0200B3A8((struct Rec94 *)t, 6);
+    unsigned int t = (unsigned int)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct Ctx *)a0));
+    int *p = GIMMICK_WORK_GetSaveArea((struct Rec94 *)t, 6);
+    unsigned short *q = (short unsigned int *)GIMMICK_WORK_GetProgress((struct Rec94 *)t, 6);
     int i;
     int j;
     int k;
@@ -54,7 +54,7 @@ void func_021F3768(unsigned int a0, unsigned short **a1)
     }
     for (i = 0; i < 6; i++) {
         for (j = 0; j < 2; j++) {
-            if (p[8 + d_021F3834[i][j]] == 0)
+            if (p[8 + gGimmick38DoorPlates[i][j]] == 0)
                 break;
         }
         if (j == 2)

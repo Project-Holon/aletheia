@@ -1,5 +1,5 @@
 /*
- * function: func_021EF6A8
+ * function: BTL_MSG_BuildUiString
  * address:  0x021EF6A8
  * packet:   pkt_ov093_021EF6A8
  * region:   ov093
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF6B0  0x021EF6B0  thumb  ov093
+ *   BTL_MSG_BuildUiStringFlagged  0x021EF6B0  thumb  ov093
  *
- * Tail-call stub (ldr r3,[pc]; bx r3) to func_021EF6B0; callee of func_021EA55C case 5.
+ * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildUiStringFlagged; callee of func_021EA55C case 5.
  */
 
 typedef unsigned int u32;
 
-extern void func_021EF6B0(u32 a, u32 b, u32 c);
+extern void BTL_MSG_BuildUiStringFlagged(u32 a, u32 b, u32 c);
 
-void func_021EF6A8(u32 a, u32 b, u32 c)
+void BTL_MSG_BuildUiString(u32 a, u32 b, u32 c)
 {
-    func_021EF6B0(a, b, c);
+    BTL_MSG_BuildUiStringFlagged(a, b, c);
 }

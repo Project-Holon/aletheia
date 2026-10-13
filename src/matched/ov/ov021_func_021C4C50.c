@@ -1,5 +1,5 @@
 /*
- * function: func_021C4C50
+ * function: FLDEFF_SPLASH_ExitModelObj
  * address: 0x021C4C50
  * packet: pkt_ov021_021C4C50
  * region: ov021
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov021/fldeff_splash.c and filed here.
  */
 
-void func_021C4C50(void);
+void FLDEFF_SPLASH_ExitModelObj(void);
 
-void func_021C4C50(void) {}
+void FLDEFF_SPLASH_ExitModelObj(void) {}

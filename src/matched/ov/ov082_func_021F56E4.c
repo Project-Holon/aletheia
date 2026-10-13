@@ -1,5 +1,5 @@
 /*
- * function: func_021F56E4
+ * function: FLD_FACEUP_RestoreBgPriorities
  * address: 0x021F56E4
  * packet: pkt_ov082_021F56E4
  * region: ov082
@@ -13,4 +13,4 @@
  */
 typedef unsigned char u8;
 extern void func_0204047C(int idx, unsigned short val);
-void func_021F56E4(u8 *p) { int i; for(i=0;i<4;i++) func_0204047C((u8)i,p[i]); }
+void FLD_FACEUP_RestoreBgPriorities(u8 *p) { int i; for(i=0;i<4;i++) func_0204047C((u8)i,p[i]); }

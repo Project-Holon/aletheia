@@ -13,7 +13,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_021FD820 0x021FD820 thumb ov186
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_02025588 0x02025588 thumb
+ *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   func_020315D4 0x020315D4 arm
  */
 #include "../include/Obj10738.h"
@@ -25,7 +25,7 @@ struct S020315D4;
 extern void func_020409B4(u32 index);
 extern void func_021FD820(char *r5);
 extern void func_0201C4C0(struct PrintSys *p);
-extern void func_02025588(void *);
+extern void BMP_OAM_DeleteSys(void *);
 extern void func_020315D4(struct S020315D4 *p);
 int func_021DE234(void *a, int b, char *q, char *p)
 {
@@ -35,7 +35,7 @@ int func_021DE234(void *a, int b, char *q, char *p)
     func_020409B4(1);
     func_021FD820(((struct Obj10738 *)p)->f64);
     func_0201C4C0(((struct Obj10738 *)p)->f4);
-    func_02025588(((struct Obj10738 *)p)->f0);
+    BMP_OAM_DeleteSys(((struct Obj10738 *)p)->f0);
     func_020315D4(a);
     return 1;
 }

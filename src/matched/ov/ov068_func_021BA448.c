@@ -1,5 +1,5 @@
 /*
- * function: func_021BA448
+ * function: OPTION_MENU_UpdateButtons
  * address:  0x021BA448
  * packet:   pkt_ov068_021BA448
  * hint:     both of lane B9's levers measured by lane R1 (unprototyped/int callee, inline returning the id): the case-8 residue is the pair-or-merge trade in the retry paragraph; look for a spelling that makes the two calls differ in the IR (a call whose result is used on one path) rather than a type
@@ -22,7 +22,7 @@
  *   Retain baseline 508/5, 27/28 relocs, exhausted this authorized retry.
  *   Need evidence-backed IR asymmetry of the two sound paths; invented sound
  *   aliases and old permuter searches remain prohibited/consumed.
- * checks:   1 arity from matched files (func_021BA9DC (p) and func_021BA194 (p, int, int *) from their ov068 matched files; ov067 021B63D0/6470/6448 (int) and 021B65A8 (int,int) from their callers; 020355C4/020355D8 from ov068_func_021BA03C, EXACT this lane); 2 no twin (no other ov068 handler with this case-8 sound pick); 3 sound id u16 (best, 5 bytes), int (4 bytes short, 245-byte shifted diff), flag/f10 store order in case 8, snd local, (u16) cast of the ternary: no gain; 4 cross-jump idioms read (a-labelled-function-and-the-unlabelled-store-and-return-address-leaf..., an-argument-bound-through-an-inline-wrapper...): a static inline sound helper tried, no gain; 5 re-listed docs/idioms (ls -t), nothing new fits; retry R1: 1 every other matched caller (ov064/065/067/068/069) declares func_020061E4 with one 32-bit parameter, so u16 here is only a lever; 2 ov068_func_021BA7C0 shares 021BA194/020355C4/D8/020061E4 but has no two-path sound call; 3 sound id int/unprototyped/u16 local/inline u16 return measured (above); 4 cross-jump idioms (a-shared-bl-b-tail..., a-call-before-a-goto..., a-flag-dispatch-four-bytes-short...) read: the if/else arm order they suggest does not unmerge it; 5 ls -t docs/idioms again, nothing new
+ * checks:   1 arity from matched files (OPTION_MENU_GetListCursor (p) and OPTION_MENU_GetInputPoint (p, int, int *) from their ov068 matched files; ov067 021B63D0/6470/6448 (int) and 021B65A8 (int,int) from their callers; 020355C4/020355D8 from ov068_func_021BA03C, EXACT this lane); 2 no twin (no other ov068 handler with this case-8 sound pick); 3 sound id u16 (best, 5 bytes), int (4 bytes short, 245-byte shifted diff), flag/f10 store order in case 8, snd local, (u16) cast of the ternary: no gain; 4 cross-jump idioms read (a-labelled-function-and-the-unlabelled-store-and-return-address-leaf..., an-argument-bound-through-an-inline-wrapper...): a static inline sound helper tried, no gain; 5 re-listed docs/idioms (ls -t), nothing new fits; retry R1: 1 every other matched caller (ov064/065/067/068/069) declares func_020061E4 with one 32-bit parameter, so u16 here is only a lever; 2 ov068_func_021BA7C0 shares 021BA194/020355C4/D8/020061E4 but has no two-path sound call; 3 sound id int/unprototyped/u16 local/inline u16 return measured (above); 4 cross-jump idioms (a-shared-bl-b-tail..., a-call-before-a-goto..., a-flag-dispatch-four-bytes-short...) read: the if/else arm order they suggest does not unmerge it; 5 ls -t docs/idioms again, nothing new
  * runs:     12 + 2x permuter (permuter on this draft and on the int-param draft, seed 7: no candidate beat either)
  *   wave75 R28: 5 one calls (3 iteration, 2 check-3), no sweeps/permuter.
  *   Renewed checks: 1 own files/callers re-derived all arities, including
@@ -45,7 +45,7 @@
  *   case 1 (worse), break inside the arm, (u16) cast on the ternary, a static inline helper,
  *   a snd local then one call. Structure fixes that did shrink it: switch (v) for cases
  *   4..11, the nested r != 0 { r == 6 } else layout for 6470/6448, the ternary sound id.
- *   Data: d_021BB550 prints "ov068 hint contested" (another overlay starts an object
+ *   Data: gOptionMenuConfirmRect prints "ov068 hint contested" (another overlay starts an object
  *   there); recheck its evidence once the function matches.
  *   Next: source-level asymmetry between the two call paths supported by
  *   image evidence, without invented aliases; integer and enum parameter
@@ -63,7 +63,7 @@
  *   `extern void func_020061E4(int id);` plus a second name for the same address,
  *   `extern void func_020061E4_2(int id);` with the symbols line
  *   `func_020061E4_2  0x020061E4  thumb`, call the second name only in case 8's
- *   ternary arm, and drop the ov068 token from d_021BB550 (`data  a4`, then it resolves
+ *   ternary arm, and drop the ov068 token from gOptionMenuConfirmRect (`data  a4`, then it resolves
  *   as sole-ref).  match.py one: EXACT* (492 of the 508 compiled bytes; the tail is the
  *   16-byte pool the listing labels func_021BA634), every relocation resolved, the two
  *   case-8 calls label-attested at 0x020061E4.  Two symbols stop the 1.1p1 cross-jump;
@@ -86,24 +86,24 @@
  *   only because each arm returns; no twin keeps two identical `bl; movs; b` apart.
  *
  * symbols:
- *   func_021BA190  0x021BA190  thumb  ov068
- *   func_021BA9DC  0x021BA9DC  thumb  ov068
- *   func_021BA194  0x021BA194  thumb  ov068
- *   func_021BB508  0x021BB508  thumb  ov068
+ *   OPTION_MENU_GetInputCommand  0x021BA190  thumb  ov068
+ *   OPTION_MENU_GetListCursor  0x021BA9DC  thumb  ov068
+ *   OPTION_MENU_GetInputPoint  0x021BA194  thumb  ov068
+ *   OPTION_MENU_IsPointInRect  0x021BB508  thumb  ov068
  *   func_02040588  0x02040588  arm
  *   func_020061E4  0x020061E4  thumb
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   func_021B63D0  0x021B63D0  thumb  ov067
- *   func_021B6470  0x021B6470  thumb  ov067
- *   func_021B6448  0x021B6448  thumb  ov067
- *   func_021B65A8  0x021B65A8  thumb  ov067
+ *   TOUCHBAR_Update  0x021B63D0  thumb  ov067
+ *   TOUCHBAR_GetPressedButtonIdIfPressing  0x021B6470  thumb  ov067
+ *   TOUCHBAR_GetPressedButtonIdIfDone  0x021B6448  thumb  ov067
+ *   TOUCHBAR_IsButtonToggled  0x021B65A8  thumb  ov067
  *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
- *   d_021BB550     0x021BB550  data  a4
+ *   gOptionMenuConfirmRect     0x021BB550  data  a4
  *   func_020061E4_2  0x020061E4  thumb
- *   d_021BB560     0x021BB560  data  ov068  a4
+ *   gOptionMenuCancelRect     0x021BB560  data  ov068  a4
  */
 
 typedef unsigned char  u8;
@@ -120,15 +120,15 @@ typedef struct {
     int f40;
 } W;
 
-extern int d_021BB550[];
-extern int d_021BB560[];
+extern int gOptionMenuConfirmRect[];
+extern int gOptionMenuCancelRect[];
 
 struct Obj;
 struct S;
-extern int func_021BA190(const int *p);
-extern int  func_021BA9DC(void *p);
-extern void func_021BA194(const u8 *p, int which, int *out);
-extern int  func_021BB508(int *rect, void *b);
+extern int OPTION_MENU_GetInputCommand(const int *p);
+extern int  OPTION_MENU_GetListCursor(void *p);
+extern void OPTION_MENU_GetInputPoint(const u8 *p, int which, int *out);
+extern int  OPTION_MENU_IsPointInRect(int *rect, void *b);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020061E4(u32 a);
 extern void func_020061E4_2(int id);
@@ -136,13 +136,13 @@ extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern void func_021B63D0(struct S *p);
-extern int func_021B6470(u8 *p);
-extern int func_021B6448(u8 *p);
-extern int func_021B65A8(unsigned char *p, int id);
+extern void TOUCHBAR_Update(struct S *p);
+extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *p);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *p);
+extern int TOUCHBAR_IsButtonToggled(unsigned char *p, int id);
 extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
 
-void func_021BA448(W *p, void *obj, void *arg)
+void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
 {
     int cmd;
     int flag;
@@ -155,8 +155,8 @@ void func_021BA448(W *p, void *obj, void *arg)
     if (p->f10 != 0)
         cmd = 0;
     else
-        cmd = func_021BA190(obj);
-    v = func_021BA9DC(arg);
+        cmd = OPTION_MENU_GetInputCommand(obj);
+    v = OPTION_MENU_GetListCursor(arg);
     switch (cmd) {
     case 0:
     case 1:
@@ -167,8 +167,8 @@ void func_021BA448(W *p, void *obj, void *arg)
     case 14:
         return;
     case 3:
-        func_021BA194(obj, 0, pt);
-        if (func_021BB508(d_021BB550, pt) && p->fC != 0) {
+        OPTION_MENU_GetInputPoint(obj, 0, pt);
+        if (OPTION_MENU_IsPointInRect(gOptionMenuConfirmRect, pt) && p->fC != 0) {
             func_02040588(4, 0);
             func_020061E4(0x54c);
             p->fC = 0;
@@ -176,7 +176,7 @@ void func_021BA448(W *p, void *obj, void *arg)
             p->f40 = 1;
             if (func_020355C4() == 0)
                 func_020355D8(1);
-        } else if (func_021BB508(d_021BB560, pt) && p->fC != 1) {
+        } else if (OPTION_MENU_IsPointInRect(gOptionMenuCancelRect, pt) && p->fC != 1) {
             func_02040588(4, 0);
             func_020061E4(0x551);
             p->fC = 1;
@@ -239,8 +239,8 @@ void func_021BA448(W *p, void *obj, void *arg)
         }
     }
     if (p->f10 == 0) {
-        func_021B63D0((struct S *)p->f8);
-        r = func_021B6470((u8 *)p->f8);
+        TOUCHBAR_Update((struct S *)p->f8);
+        r = TOUCHBAR_GetPressedButtonIdIfPressing((u8 *)p->f8);
         if (r != 0) {
             if (r == 6 && func_020355C4() == 1)
                 p->f40 = 1;
@@ -248,10 +248,10 @@ void func_021BA448(W *p, void *obj, void *arg)
             if (func_020355C4() == 1)
                 p->f40 = 1;
         }
-        r = func_021B6448((u8 *)p->f8);
+        r = TOUCHBAR_GetPressedButtonIdIfDone((u8 *)p->f8);
         if (r != 0) {
             if (r == 6) {
-                if (func_021B65A8((unsigned char *)p->f8, 6))
+                if (TOUCHBAR_IsButtonToggled((unsigned char *)p->f8, 6))
                     GAME_DATA_SetSaveFlag((void *)p->f3C, 0x18, 1);
                 else
                     GAME_DATA_SetSaveFlag((void *)p->f3C, 0x18, 0);

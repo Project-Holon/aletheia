@@ -1,5 +1,5 @@
 /*
- * function: func_0215EAC8
+ * function: MOVE_POKEMON_CheckFly
  * address:  0x0215EAC8
  * packet:   pkt_0215EAC8
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215F104  0x0215F104  thumb  ov010
+ *   MOVE_POKEMON_IsSkillUsable  0x0215F104  thumb  ov010
  */
 #include "../include/Obj17698.h"
 
@@ -18,9 +18,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215F104(int a0, int a1);
+extern int MOVE_POKEMON_IsSkillUsable(int a0, int a1);
 
-int func_0215EAC8(int a0, int a1)
+int MOVE_POKEMON_CheckFly(int a0, int a1)
 {
     int t4;
 
@@ -37,7 +37,7 @@ a0 = 1;
 loc_0215EADC:
 a1 = 1;
 t4 = 1;
-    a0 = func_0215F104(a0, a1);
+    a0 = MOVE_POKEMON_IsSkillUsable(a0, a1);
 loc_0215EAE4:
     if (a0 == 0) goto loc_0215EAEA;
 loc_0215EAE8:

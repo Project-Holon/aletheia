@@ -13,7 +13,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   func_02012944  0x02012944  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200B358  0x0200B358  thumb
  *   func_0200B204  0x0200B204  thumb
  *   func_0200B074  0x0200B074  thumb
@@ -79,7 +79,7 @@ struct RecBig;
 struct Reg2;
 struct Sub0200852CObj;
 extern u8 *func_02012944(void *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200B358(void *sys);
 extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
 extern u8 *func_0200B074(struct Reg2 *p);
@@ -104,7 +104,7 @@ void func_021D965C(struct Obj *obj)
         data = obj->f108;
         sys = (u32)func_02012944((void *)(*obj->f104->f08));
         id = func_021E5548((int *)obj->f00);
-        kind = (u32)func_0200B204(func_0200B358(func_02012EBC((struct Big *)(*obj->f104->f08))), 0);
+        kind = (u32)func_0200B204(func_0200B358(GAME_DATA_GetSaveControl((struct Big *)(*obj->f104->f08))), 0);
         MI_CpuFill8(&prof, 0, sizeof(prof));
         MI_CpuCopy8(func_0200B074((struct Reg2 *)data), &prof, 0x92);
         a = func_0200B078((struct Reg2 *)data, 6);

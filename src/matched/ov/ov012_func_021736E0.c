@@ -1,5 +1,5 @@
 /*
- * function: func_021736E0
+ * function: UNION_COMM_SetGameKindByStatus
  * address:  0x021736E0
  * packet:   pkt_ov012_021736E0
  * region:   ov012
@@ -14,7 +14,7 @@
 
 extern void GFL_NET_SetGameKind(int a, int b);
 
-void func_021736E0(unsigned int x)
+void UNION_COMM_SetGameKindByStatus(unsigned int x)
 {
     switch (x) {
     case 0x14:

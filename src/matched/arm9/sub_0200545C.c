@@ -36,6 +36,8 @@
  *   TEXTPRINT_Init  0x0204E130  arm
  *   FADE_Create  0x0204E5E8  arm
  *   FADE_SetSpeed  0x0204E6F4  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
  *
  * gfl_use.c, the file's __FILE__ anchor function: system boot set-up.  On a
  * non-TWL console, carve the main arena into the OS heap (Hi read before Lo,
@@ -92,8 +94,8 @@ extern u32   OS_GetConsoleType(void);
 
 extern void GFL_HEAP_Init(u32 a, u32 b, u32 c, u32 d);
 extern void  func_02030BA4(u32 a);
-extern void  func_0203064C(u32 a, u32 b, u32 c);
-extern void  func_02030678(void *a, u32 b, u32 c);
+extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+extern void  GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
 extern void  func_0203EF5C(u32 a);
 extern void ARC_TOOL_SetTable(u32 a, u32 b);
 typedef signed int     s32;
@@ -134,12 +136,12 @@ void GFL_USE_InitSystem(void)
     }
 
     func_02030BA4(0x2000);
-    func_0203064C(1, 7, 0x25000);
+    GFL_HEAP_CreateChildHeap(1, 7, 0x25000);
 
     if (OS_IsRunOnTwl() == 0) {
-        func_02030678(_GflUse.unk14, 0x3F00, 9);
+        GFL_HEAP_RegisterBlockHeap(_GflUse.unk14, 0x3F00, 9);
     } else {
-        func_0203064C(1, 9, 0x3F00);
+        GFL_HEAP_CreateChildHeap(1, 9, 0x3F00);
     }
 
     func_0203EF5C(0);

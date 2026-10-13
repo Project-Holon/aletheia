@@ -1,5 +1,5 @@
 /*
- * function: func_021ABE28
+ * function: FIELD_EFFECT_GetModelBaseOffset
  * address:  0x021ABE28
  * packet:   pkt_021AB764
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_021ABE28(u8 *p)
+u8 FIELD_EFFECT_GetModelBaseOffset(u8 *p)
 {
     return ((struct Obj18082 *)p)->f16;
 }

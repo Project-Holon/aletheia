@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA488",
+   "name": "TOWNMAP_CursorGetHoverTown",
    "address": "0x021BA488",
    "kind": "game",
    "region": "ov072",

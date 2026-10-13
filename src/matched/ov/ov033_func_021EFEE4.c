@@ -1,5 +1,5 @@
 /*
- * function: func_021EFEE4
+ * function: DOWSING_DeleteSearch
  * address:  0x021EFEE4
  * packet:   pkt_021EFEE4
  * region:   ov033
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EFEE4 0x021EFEE4 thumb
+ *   DOWSING_DeleteSearch 0x021EFEE4 thumb
  *   func_020307B0 0x020307B0 arm
  */
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021EFEE4(void *p)
+void DOWSING_DeleteSearch(void *p)
 {
     func_020307B0(p);
 }

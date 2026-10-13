@@ -18,13 +18,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021AB404",
-    "func_021AB410",
+    "MAP_ATTR_IsDeepSand",
+    "MAP_ATTR_IsDeepSandB",
     "func_021AB41C",
     "func_021AB428",
     "func_021AB434",
     "func_021AB440",
     "func_021AB44C"
+   ],
+   "addresses": [
+    "0x021AB404",
+    "0x021AB410",
+    "0x021AB41C",
+    "0x021AB428",
+    "0x021AB434",
+    "0x021AB440",
+    "0x021AB44C"
    ]
   }
  ]

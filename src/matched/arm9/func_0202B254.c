@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Compares the 12 bytes at +0xc against the record func_02012AA0 returns from
+ * Compares the 12 bytes at +0xc against the record GAME_DATA_GetPlayerPosition returns from
  * the pointer at +8, then copies the record over them either way, and reports
  * whether they differed.
  *
@@ -28,6 +28,9 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_HasPlayerMoved.c \
  *       --func ISS_ROAD_SYS_HasPlayerMoved --addr 0x0202B254 --thumb --cc 1.1p1
+ *
+ * symbols:
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  */
 #include "../include/Obj03001.h"
 
@@ -42,11 +45,11 @@ struct S {
 
 struct Rec44;
 struct Vec12;
-extern struct Vec12 *func_02012AA0(struct Rec44 *p);
+extern struct Vec12 *GAME_DATA_GetPlayerPosition(struct Rec44 *p);
 
 u32 ISS_ROAD_SYS_HasPlayerMoved(u8 *p)
 {
-    u32 *s = (u32 *)func_02012AA0((struct Rec44 *)(((struct Obj03001 *)p)->f8));
+    u32 *s = (u32 *)GAME_DATA_GetPlayerPosition((struct Rec44 *)(((struct Obj03001 *)p)->f8));
     int differ;
 
     if (s[0] == ((struct Obj03001 *)p)->fC && s[1] == ((struct Obj03001 *)p)->f10 &&

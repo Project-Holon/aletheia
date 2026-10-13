@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_021B99DC 0x021B99DC thumb ov114
  *   func_021B9790 0x021B9790 thumb ov114
  *   func_021B97F4 0x021B97F4 thumb ov114
@@ -22,7 +22,7 @@
 #include "../include/Obj22978.h"
 #include "../include/Obj22979.h"
 #include "../include/Obj22980.h"
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 typedef unsigned char  u8;
 extern int func_021B99DC(u8 *p);
 extern int func_021B9790(u8 *p);
@@ -37,7 +37,7 @@ void func_021D88C0(char *p)
 {
     char *q;
     int state;
-    if (func_0203CD98()) {
+    if (GFL_NET_GetRunState()) {
         if (func_021D6E08(p,func_021B99DC(((struct Obj00063 *)p)->f10))) return;
         if (func_021B9790(((struct Obj00063 *)p)->f10)) return;
         q=func_021B97F4(((struct Obj00063 *)p)->f10);

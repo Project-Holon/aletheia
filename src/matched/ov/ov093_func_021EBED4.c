@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EB680  0x021EB680  thumb  ov093
+ *   BTLV_SCU_ProcQuickEntryTriple  0x021EB680  thumb  ov093
  *   d_021F38C4  0x021F38C4  data  a4
  */
 
 typedef unsigned char u8;
 
-extern int func_021EB680(u8 *, int *);
+extern int BTLV_SCU_ProcQuickEntryTriple(u8 *, int *);
 extern int (*const d_021F38C4[])(u8 *, int *);
 
 
 int func_021EBED4(int *a, u8 *b)
 {
     if (b[0x150] != 0)
-        return func_021EB680(b, a);
+        return BTLV_SCU_ProcQuickEntryTriple(b, a);
     if (b[0x14f] < 3) {
         if (d_021F38C4[b[0x14f]](b, a) != 0) {
             b[0x14f] = b[0x14f] + 1;

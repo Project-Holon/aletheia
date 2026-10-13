@@ -1,5 +1,5 @@
 /*
- * function: func_021C06C0
+ * function: HEIGHT_EX_SetAreaHeight
  * address:  0x021C06C0
  * packet:   pkt_ov021_021C06C0
  * region:   ov021
@@ -20,7 +20,7 @@ typedef struct {
     int pad2[2];
 } E;
 
-void func_021C06C0(u8 i, int v, int *p)
+void HEIGHT_EX_SetAreaHeight(u8 i, int v, int *p)
 {
     ((E *)p[1])[i].v = v;
 }

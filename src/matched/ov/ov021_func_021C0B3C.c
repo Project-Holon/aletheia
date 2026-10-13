@@ -1,5 +1,5 @@
 /*
- * function: func_021C0B3C
+ * function: EVENT_RECOVERY_InitParty
  * address:  0x021C0B3C
  * packet:   pkt_ov021_021C0B3C
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_021C0C94  0x021C0C94  thumb  ov021
- *   func_0218DC6C  0x0218DC6C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0218C584  0x0218C584  thumb  ov021
- *   func_0218C6D0  0x0218C6D0  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   EVENT_RECOVERY_GetPartyBallCount  0x021C0C94  thumb  ov021
+ *   FIELD_G3D_MAPPER_GetBuildModel  0x0218DC6C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELD_BUILDMODEL_CollectEntriesInRect  0x0218C584  thumb  ov021
+ *   FIELD_BUILDMODEL_GetEntryWorldPos  0x0218C6D0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
- *   func_0218C724  0x0218C724  thumb  ov021
+ *   FIELD_BUILDMODEL_CreateNodeFromEntry  0x0218C724  thumb  ov021
  */
 #include "../include/Obj01505.h"
 
@@ -29,21 +29,21 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u16 func_02188C84(u8 *p);
-extern u32 func_02188C98(u8 *p);
-extern u32 func_021C0C94(u32 a);
-extern u32 func_0218DC6C(u8 *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern u32 EVENT_RECOVERY_GetPartyBallCount(u32 a);
+extern u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *a, struct VecFx32 *pos);
-extern u32 *func_0218C584(u32 a, int *rect, u32 n, int *cnt);
-extern void func_0218C6D0(int *p, int b);
+extern void FIELD_PLAYER_GetPos(unsigned char *a, struct VecFx32 *pos);
+extern u32 *FIELD_BUILDMODEL_CollectEntriesInRect(u32 a, int *rect, u32 n, int *cnt);
+extern void FIELD_BUILDMODEL_GetEntryWorldPos(int *p, int b);
 extern u32 func_020307B0(void *p);
-extern u8 *func_0218C724(u8 *owner, u32 *obj);
+extern u8 *FIELD_BUILDMODEL_CreateNodeFromEntry(u8 *owner, u32 *obj);
 
-void func_021C0B3C(u8 *p, u32 a)
+void EVENT_RECOVERY_InitParty(u8 *p, u32 a)
 {
     void *s;
     u32 t;
@@ -52,29 +52,29 @@ void func_021C0B3C(u8 *p, u32 a)
     int rect[4];
     int cnt;
 
-    s = func_0201210C((void *)a);
-    t = func_02188C98(s);
-    ((struct Obj01505 *)p)->f0 = func_02188C84(s);
+    s = GAMESYSTEM_GetFieldMap((void *)a);
+    t = FIELDMAP_GetG3dMapper(s);
+    ((struct Obj01505 *)p)->f0 = FIELDMAP_GetHeapId(s);
     ((struct Obj01505 *)p)->f4 = s;
-    p[0x14] = func_021C0C94(a);
+    p[0x14] = EVENT_RECOVERY_GetPartyBallCount(a);
     p[0x15] = 0;
-    ((struct Obj01505 *)p)->f18 = func_0218DC6C((u8 *)t);
+    ((struct Obj01505 *)p)->f18 = FIELD_G3D_MAPPER_GetBuildModel((u8 *)t);
     ((struct Obj01505 *)p)->f34 = 0;
     if (p[0x14] > 6) {
         p[0x14] = 6;
     }
-    func_021A3038(func_02188CB4(((struct Obj01505 *)p)->f4), (struct VecFx32 *)pos);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(((struct Obj01505 *)p)->f4), (struct VecFx32 *)pos);
     rect[0] = pos[2] - 0x50000;
     rect[1] = pos[2] + 0x50000;
     rect[2] = pos[0] - 0x50000;
     rect[3] = pos[0] + 0x50000;
-    r = func_0218C584(((struct Obj01505 *)p)->f18, rect, 8, &cnt);
+    r = FIELD_BUILDMODEL_CollectEntriesInRect(((struct Obj01505 *)p)->f18, rect, 8, &cnt);
     if (r) {
         ((struct Obj01505 *)p)->f34 = *r;
-        func_0218C6D0((int *)(*r), (int)(p + 8));
+        FIELD_BUILDMODEL_GetEntryWorldPos((int *)(*r), (int)(p + 8));
     }
     func_020307B0(r);
     if (((struct Obj01505 *)p)->f34 != 0) {
-        ((struct Obj01505 *)p)->f38 = (u32)func_0218C724((u8 *)(((struct Obj01505 *)p)->f18), (u32 *)(((struct Obj01505 *)p)->f34));
+        ((struct Obj01505 *)p)->f38 = (u32)FIELD_BUILDMODEL_CreateNodeFromEntry((u8 *)(((struct Obj01505 *)p)->f18), (u32 *)(((struct Obj01505 *)p)->f34));
     }
 }

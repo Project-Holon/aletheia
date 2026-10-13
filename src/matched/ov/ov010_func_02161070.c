@@ -1,5 +1,5 @@
 /*
- * function: func_02161070
+ * function: EVENT_FIELD_PROCLINK_ReturnBag
  * address:  0x02161070
  * packet:   pkt_ov010_02161070
  * region:   ov010
@@ -18,10 +18,10 @@
  * so w->ctx is reloaded after the calls.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0202136C  0x0202136C  thumb
  */
 
@@ -55,13 +55,13 @@ typedef struct MenuSel {
 
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
 
-int func_02161070(MenuWork *w, MenuSel *sel)
+int EVENT_FIELD_PROCLINK_ReturnBag(MenuWork *w, MenuSel *sel)
 {
     void *party;
 
@@ -106,8 +106,8 @@ int func_02161070(MenuWork *w, MenuSel *sel)
         w->next = 9;
         return 4;
     case 18:
-        party = func_02012934(func_020120F4(w->ctx->sys));
-        if (func_02017E1C(func_0201AB28(party, w->ctx->slot), 6, 0) != 0)
+        party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(w->ctx->sys));
+        if (POKE_TOOL_GetPartyValue(func_0201AB28(party, w->ctx->slot), 6, 0) != 0)
             w->next = 0;
         else
             w->next = 9;

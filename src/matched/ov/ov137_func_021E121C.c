@@ -11,8 +11,8 @@
  *   d_021E203C 0x021E203C data a4
  *   func_020061E4 0x020061E4 thumb
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
- *   func_0204B98C 0x0204B98C arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02030EAC 0x02030EAC arm
  */
@@ -24,8 +24,8 @@ struct Node;
 extern void func_020061E4(u32 a);
 struct Obj;
 extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
-extern u32 func_0204B98C(struct Actor *);
-extern void func_0204B3B4(struct Obj *p);
+extern u32 CLACT_IsActorAnimActive(struct Actor *);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
 void func_021E121C(void *task, int *p)
@@ -42,10 +42,10 @@ void func_021E121C(void *task, int *p)
             }
         }
         CLACT_AddActorAnimFrame((struct Obj *)p[5], 0x1800);
-        if (func_0204B98C((struct Actor *)p[5]) == 0) p[0]++;
+        if (CLACT_IsActorAnimActive((struct Actor *)p[5]) == 0) p[0]++;
         break;
     case 1:
-        func_0204B3B4((struct Obj *)p[5]);
+        CLACT_DeleteActor((struct Obj *)p[5]);
         func_020307B0(p);
         func_02030EAC(task);
         break;

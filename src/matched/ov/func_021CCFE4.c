@@ -1,5 +1,5 @@
 /*
- * function: func_021CCFE4
+ * function: PARTY_SELECT_LIST_PrintText
  * address:  0x021CCFE4
  * packet:   pkt_021CCFE4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02190E74  0x02190E74  thumb  ov021
+ *   FIELD_MSGBG_SysWinPrintMsg  0x02190E74  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02190E74(u32, u32, u32, u32);
+extern u32 FIELD_MSGBG_SysWinPrintMsg(u32, u32, u32, u32);
 
-int func_021CCFE4(u32 a, u32 b)
+int PARTY_SELECT_LIST_PrintText(u32 a, u32 b)
 {
-return func_02190E74(*(u32 *)((u8 *)((a + 176))), 0, 0, b);
+return FIELD_MSGBG_SysWinPrintMsg(*(u32 *)((u8 *)((a + 176))), 0, 0, b);
 }
 

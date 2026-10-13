@@ -12,7 +12,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_02045760 0x02045760 arm
  *   BMP_WIN_SetPosY 0x02045788 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj08083.h"
@@ -24,7 +24,7 @@ struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
 extern u8 func_02045760(struct Descriptor *p);
 extern void BMP_WIN_SetPosY(struct Descriptor *p, u8 v);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void func_021D824C(char *p)
 {
@@ -35,7 +35,7 @@ void func_021D824C(char *p)
         t=p+4*i;
         if(((struct Obj08084 *)t)->f6C) {
             BMP_WIN_SetPosY(((struct Obj08084 *)t)->f6C,func_02045760(((struct Obj08084 *)t)->f6C)-6);
-            func_02045374(((struct Obj08084 *)t)->f6C);
+            BMP_WIN_MakeScreen(((struct Obj08084 *)t)->f6C);
         }
     }
     func_02041B6C(6);

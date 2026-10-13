@@ -1,7 +1,7 @@
 /*
  * file:     field_zonefog.c
  * unit:     yes
- * function: func_021A02C4, func_021A02F4, func_021A030C, func_021A0338, func_021A0354, func_021A0358, func_021A0380, func_021A0390, func_021A03A4, func_021A03B8, func_021A03CC
+ * function: FIELD_ZONEFOG_Create, FIELD_ZONEFOG_Delete, FIELD_ZONEFOG_Main, FIELD_ZONEFOG_SetUp, FIELD_ZONEFOG_IsLoadRequest, FIELD_ZONEFOG_Clear, FIELD_ZONEFOG_IsFog, FIELD_ZONEFOG_IsLight, FIELD_ZONEFOG_GetFogOffset, FIELD_ZONEFOG_GetFogSlope, FIELD_ZONEFOG_GetLightId
  * address:  0x021A02C4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -18,8 +18,8 @@
  *   func_020307B0  0x020307B0  arm
  *   func_020490F4  0x020490F4  arm
  *   d_021DDE28     0x021DDE28  data
- *   func_02049238  0x02049238  arm
- *   func_0204A380  0x0204A380  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,12 +48,12 @@ typedef struct {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 extern void *func_020490F4(u32 arcId, u32 heapId);
-extern void func_02049238(void *arcHandle);
-extern void *func_0204A380(void *arcHandle, u32 dataId, u32 heapLow, u32 heapId);
-void func_021A0358(FieldZoneFog *zoneFog);
+extern void ARC_TOOL_DeleteHandle(void *arcHandle);
+extern void *ARC_UTIL_LoadHandleMember(void *arcHandle, u32 dataId, u32 heapLow, u32 heapId);
+void FIELD_ZONEFOG_Clear(FieldZoneFog *zoneFog);
 extern char d_021DDE28[];
 
-FieldZoneFog *func_021A02C4(u16 heapId)
+FieldZoneFog *FIELD_ZONEFOG_Create(u16 heapId)
 {
     FieldZoneFog *zoneFog = (FieldZoneFog *)func_02030734(heapId, sizeof(FieldZoneFog), 1, d_021DDE28, 0x51);
     zoneFog->lightId = ZONEFOG_ID_NONE;
@@ -61,26 +61,26 @@ FieldZoneFog *func_021A02C4(u16 heapId)
     return zoneFog;
 }
 
-int func_021A02F4(FieldZoneFog *zoneFog)
+int FIELD_ZONEFOG_Delete(FieldZoneFog *zoneFog)
 {
-    func_02049238(zoneFog->arcHandle);
-    func_021A0358(zoneFog);
+    ARC_TOOL_DeleteHandle(zoneFog->arcHandle);
+    FIELD_ZONEFOG_Clear(zoneFog);
     return func_020307B0(zoneFog);
 }
 
 /* Loads the requested fog record once the wait count reaches zero. */
-void func_021A030C(FieldZoneFog *zoneFog, u32 heapId)
+void FIELD_ZONEFOG_Main(FieldZoneFog *zoneFog, u32 heapId)
 {
     if (zoneFog->loadRequest == 1) {
         zoneFog->loadWait--;
         if (zoneFog->loadWait <= 0) {
-            zoneFog->data = func_0204A380(zoneFog->arcHandle, zoneFog->fogId, 0, heapId);
+            zoneFog->data = ARC_UTIL_LoadHandleMember(zoneFog->arcHandle, zoneFog->fogId, 0, heapId);
             zoneFog->loadRequest = 0;
         }
     }
 }
 
-void func_021A0338(FieldZoneFog *zoneFog, u32 fogId, u32 lightId, u8 loadWait)
+void FIELD_ZONEFOG_SetUp(FieldZoneFog *zoneFog, u32 fogId, u32 lightId, u8 loadWait)
 {
     if (fogId != ZONEFOG_ID_NONE) {
         zoneFog->loadRequest = 1;
@@ -90,12 +90,12 @@ void func_021A0338(FieldZoneFog *zoneFog, u32 fogId, u32 lightId, u8 loadWait)
     zoneFog->lightId = lightId;
 }
 
-u8 func_021A0354(FieldZoneFog *zoneFog)
+u8 FIELD_ZONEFOG_IsLoadRequest(FieldZoneFog *zoneFog)
 {
     return zoneFog->loadRequest;
 }
 
-void func_021A0358(FieldZoneFog *zoneFog)
+void FIELD_ZONEFOG_Clear(FieldZoneFog *zoneFog)
 {
     if (zoneFog->data != 0) {
         func_020307B0(zoneFog->data);
@@ -107,17 +107,17 @@ void func_021A0358(FieldZoneFog *zoneFog)
     }
 }
 
-int func_021A0380(FieldZoneFog *zoneFog)
+int FIELD_ZONEFOG_IsFog(FieldZoneFog *zoneFog)
 {
     return zoneFog->data != 0 ? 1 : 0;
 }
 
-int func_021A0390(FieldZoneFog *zoneFog)
+int FIELD_ZONEFOG_IsLight(FieldZoneFog *zoneFog)
 {
     return zoneFog->lightId != ZONEFOG_ID_NONE ? 1 : 0;
 }
 
-int func_021A03A4(FieldZoneFog *zoneFog)
+int FIELD_ZONEFOG_GetFogOffset(FieldZoneFog *zoneFog)
 {
     ZoneFogData *data = zoneFog->data;
 
@@ -127,7 +127,7 @@ int func_021A03A4(FieldZoneFog *zoneFog)
     return ZONEFOG_ID_NONE;
 }
 
-int func_021A03B8(FieldZoneFog *zoneFog)
+int FIELD_ZONEFOG_GetFogSlope(FieldZoneFog *zoneFog)
 {
     ZoneFogData *data = zoneFog->data;
 
@@ -137,7 +137,7 @@ int func_021A03B8(FieldZoneFog *zoneFog)
     return ZONEFOG_ID_NONE;
 }
 
-int func_021A03CC(FieldZoneFog *zoneFog)
+int FIELD_ZONEFOG_GetLightId(FieldZoneFog *zoneFog)
 {
     return zoneFog->lightId;
 }

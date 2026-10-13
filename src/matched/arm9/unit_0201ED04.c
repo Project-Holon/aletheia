@@ -18,11 +18,15 @@
  *           func_0201EFA4, func_0201EFC8
  *
  * symbols:
- *   unk_020A7370   0x020A7370  data
+ *   gSpeciesNameBank   0x020A7370  data
  *   PMSI_PARAM_ValidateWord  0x020246C8  thumb
  *   PMSI_PARAM_ValidateDecoValue  0x0202473C  thumb
  *   PMS_WORD_LoadString  0x02024838  thumb
  *   STRBUF_Clear  0x0204581C  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   STRBUF_Copy  0x02045838  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *
  * 760 bytes, 0x0201ED04..0x0201EFFC, 22 functions, the body of wordset.c.
  * The file name is attested at the constructor 0x0201EC74, which is just
@@ -74,7 +78,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *unk_020A7370;
+extern void *gSpeciesNameBank;
 
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern u32 func_020307B0(void *p);
@@ -84,12 +88,12 @@ typedef signed int     s32;
 struct MsgBank;
 struct Rec;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void STRBUF_Clear(struct U16Vec *vec);
-extern void func_02045838(struct U16Vec *dst, struct U16Vec *src);
+extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 PMSI_PARAM_ValidateWord(u16 *p, u32 mode, u32 flag);
 extern u32 PMSI_PARAM_ValidateDecoValue(u32 *p, u32 a);
@@ -136,12 +140,12 @@ u32 func_0201ED04(struct WordSet *p)
             if (p->entries[i].str == 0) {
                 break;
             }
-            func_02045808(p->entries[i].str);
+            STRBUF_Delete(p->entries[i].str);
         }
         func_020307B0(p->entries);
     }
     if (p->buf != 0) {
-        func_02045808(p->buf);
+        STRBUF_Delete(p->buf);
     }
     p->count = 0;
     return func_020307B0(p);
@@ -168,7 +172,7 @@ void func_0201ED84(struct WordSet *p, u32 i, const void *src,
         } else {
             func_0201ED50(&p->entries[i].tag);
         }
-        func_02045838(p->entries[i].str, (struct U16Vec *)src);
+        STRBUF_Copy(p->entries[i].str, (struct U16Vec *)src);
     }
 }
 
@@ -179,7 +183,7 @@ void func_0201EDD0(struct WordSet *p, u32 i, u32 id, u32 v)
     if (s != 0) {
         func_02045CAC(s, v, p->buf);
         func_0201ED84(p, i, p->buf, 0);
-        func_02045C04(s);
+        MSGDATA_Delete(s);
     }
 }
 
@@ -195,7 +199,7 @@ void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 
 
 void func_0201EE60(struct WordSet *p, u32 i, u16 v)
 {
-    func_02045CAC(unk_020A7370, v, p->buf);
+    func_02045CAC(gSpeciesNameBank, v, p->buf);
     func_0201ED84(p, i, p->buf, 0);
 }
 

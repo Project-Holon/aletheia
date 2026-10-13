@@ -1,5 +1,5 @@
 /*
- * function: func_021F55D4
+ * function: GPOWER_EVENT_PrintPowerList
  * address:  0x021F55D4
  * packet:   pkt_ov083_021F55D4
  * region:   ov083
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
  *   func_0200BF10  0x0200BF10  thumb
- *   func_02045CAC  0x02045CAC  arm
- *   func_02190844  0x02190844  thumb  ov021
- *   func_021F556C  0x021F556C  thumb  ov083
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   FIELD_MSGBG_InfoMsgWinPrintStr  0x02190844  thumb  ov021
+ *   GPOWER_EVENT_PrintPowerRow  0x021F556C  thumb  ov083
  *   func_02010EB4  0x02010EB4  thumb
  *   GPOWER_GetMinutesLeftByType  0x02010EC0  thumb
  */
@@ -31,16 +31,16 @@ struct MsgData;
 struct Strbuf;
 struct InfoMsgWin;
 
-extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct GPowerSave *func_0200BE48(struct SaveControl *saveControl);
 extern u8 func_0200BF10(struct GPowerSave *gpowerSave);
-extern void func_02045CAC(struct MsgData *msgData, u32 msgId, struct Strbuf *dst);
-extern void func_02190844(struct InfoMsgWin *win, int x, int y, struct Strbuf *str);
-extern void func_021F556C(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row);
+extern void MSGDATA_ReadString(struct MsgData *msgData, u32 msgId, struct Strbuf *dst);
+extern void FIELD_MSGBG_InfoMsgWinPrintStr(struct InfoMsgWin *win, int x, int y, struct Strbuf *str);
+extern void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr, u32 powerId, int minutes, u8 row);
 extern u8 func_02010EB4(int type);
 extern u32 GPOWER_GetMinutesLeftByType(u32 type);
 
-void func_021F55D4(GPowerListWork *work)
+void GPOWER_EVENT_PrintPowerList(GPowerListWork *work)
 {
     u8 powerIds[13];
     u8 order[13];
@@ -52,17 +52,17 @@ void func_021F55D4(GPowerListWork *work)
     u8 count;
     u8 swapTmp;
 
-    gpowerSave = func_0200BE48(func_02012EBC(work->gameData));
-    func_02045CAC(work->msgData, 4, work->templateStr);
-    func_02190844(work->infoMsgWin, 0, 0, work->templateStr);
-    func_02045CAC(work->msgData, 6, work->templateStr);
+    gpowerSave = func_0200BE48(GAME_DATA_GetSaveControl(work->gameData));
+    MSGDATA_ReadString(work->msgData, 4, work->templateStr);
+    FIELD_MSGBG_InfoMsgWinPrintStr(work->infoMsgWin, 0, 0, work->templateStr);
+    MSGDATA_ReadString(work->msgData, 6, work->templateStr);
     powerId = (int)func_0200BF10(gpowerSave);
     if (powerId != GPOWER_ID_NONE) {
-        func_021F556C(work, work->templateStr, powerId, 0, 1);
+        GPOWER_EVENT_PrintPowerRow(work, work->templateStr, powerId, 0, 1);
     }
-    func_02045CAC(work->msgData, 5, work->templateStr);
-    func_02190844(work->infoMsgWin, 0, 0x30, work->templateStr);
-    func_02045CAC(work->msgData, 7, work->templateStr);
+    MSGDATA_ReadString(work->msgData, 5, work->templateStr);
+    FIELD_MSGBG_InfoMsgWinPrintStr(work->infoMsgWin, 0, 0x30, work->templateStr);
+    MSGDATA_ReadString(work->msgData, 7, work->templateStr);
 
     /* The `for (i = 0, count = 0; ...)` form (not `count = 0;` before the loop) keeps the constant zero in r4 across the calls and seeds i from it. */
     for (i = 0, count = 0; i < 13; i++) {
@@ -86,6 +86,6 @@ void func_021F55D4(GPowerListWork *work)
     }
 
     for (i = 0; i < count; i++) {
-        func_021F556C(work, work->templateStr, powerIds[order[i]], minutesLeft[order[i]], i + 4);
+        GPOWER_EVENT_PrintPowerRow(work, work->templateStr, powerIds[order[i]], minutesLeft[order[i]], i + 4);
     }
 }

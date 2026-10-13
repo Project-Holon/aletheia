@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED9C
+ * function: FIELD_CAMERA_StepDelay
  * address:  0x0218ED9C
  * packet:   pkt_ov021_0218ED9C
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _s32_div_f     0x0209C0A4  arm
- *   func_0218F050  0x0218F050  thumb ov021
+ *   FIELD_CAMERA_StopDelayLog  0x0218F050  thumb ov021
  */
 
 typedef struct {
@@ -36,9 +36,9 @@ typedef struct {
 } Delay;
 
 typedef unsigned int   u32;
-extern int func_0218F050(u32 a);
+extern int FIELD_CAMERA_StopDelayLog(u32 a);
 
-void func_0218ED9C(Delay *d, Vec *inA, Vec *inB, Vec *outA, Vec *outB)
+void FIELD_CAMERA_StepDelay(Delay *d, Vec *inA, Vec *inB, Vec *outA, Vec *outB)
 {
     int rd;
     int wr;
@@ -73,7 +73,7 @@ void func_0218ED9C(Delay *d, Vec *inA, Vec *inB, Vec *outA, Vec *outB)
         if (rd != wr) {
             rd = (rd + 1) % d->n;
             if (rd == wr)
-                func_0218F050((u32)d);
+                FIELD_CAMERA_StopDelayLog((u32)d);
         }
     } else {
         rd = (rd + 1) % d->n;

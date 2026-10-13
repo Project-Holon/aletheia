@@ -1,5 +1,5 @@
 /*
- * function: func_021A2724
+ * function: WEATHER_TASK_CallStageFunc
  * address:  0x021A2724
  * packet:   pkt_ov021_021A2724
  * region:   ov021
@@ -18,7 +18,7 @@ typedef struct {
     u8 hi : 4;
 } Obj021A2724;
 
-int func_021A2724(Obj021A2724 *p, int (*cb)(Obj021A2724 *, int, int), int x)
+int WEATHER_TASK_CallStageFunc(Obj021A2724 *p, int (*cb)(Obj021A2724 *, int, int), int x)
 {
     if (cb != 0)
         return cb(p, p->lo, x);

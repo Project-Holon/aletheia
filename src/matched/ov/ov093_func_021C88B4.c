@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Named by the parked ov093 files (func_021D85F4 / func_021DF0C4 /
- * func_021DFABC / func_021E4A70 / func_021E7388).  EXACT*: both calls resolve
+ * Named by the parked ov093 files (BTL_CALC_IntimidateOnEnter / BTL_HANDLER_ITEM_DestinyKnot_Infatuate /
+ * BTL_HANDLER_ITEM_RockyHelmetDamageReaction / func_021E4A70 / func_021E7388).  EXACT*: both calls resolve
  * (func_021C88A4 by `label`, func_021C88C8 by `label`), the extent runs two
  * bytes long into the unlabelled follower.
  *

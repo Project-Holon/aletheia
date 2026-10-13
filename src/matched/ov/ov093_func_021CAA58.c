@@ -12,11 +12,11 @@
  * extent: 458-byte function, two bytes alignment, thirteen 16-byte veneers.
  * body: no concrete differences; 21 of 34 relocations resolve.
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
  *   func_021CAA24 0x021CAA24 thumb ov093
  *   func_021B98A4 0x021B98A4 thumb ov093
- *   func_021D78AC 0x021D78AC thumb ov093
+ *   BTL_CALC_Random 0x021D78AC thumb ov093
  *   func_021CB174 0x021CB174 thumb ov093
  *   func_021CB1A4 0x021CB1A4 thumb ov093
  *   func_021B9934 0x021B9934 thumb ov093
@@ -38,11 +38,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_021D5440(u8 *);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021CAA24(u8 *, u8 *, u8 *, int, u16);
 extern u8 *func_021B98A4(char * const *q, u8 b);
-extern u32 func_021D78AC(u32);
+extern u32 BTL_CALC_Random(u32);
 extern void *func_021CB174(u8 *p, unsigned int n, int k);
 extern u8 *func_021CB1A4(u8 *, int);
 extern u8 *func_021B9934(char *p, int i);
@@ -62,7 +62,7 @@ extern void func_021CACD4(void *, void *);
 extern void func_021CACE4(void *, void *);
 int func_021CAA58(u8 *p, u8 *a, u16 move, u8 *q, int id, void *out)
 {
-    int n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a));
+    int n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), BTL_POKEPARAM_GetPokeId(a));
     u8 key = func_021CAA24(p, q, a, n, move);
     u8 *b;
     u8 selected;
@@ -74,7 +74,7 @@ int func_021CAA58(u8 *p, u8 *a, u16 move, u8 *q, int id, void *out)
         b = func_021B98A4(*(void **)(p + 8), key);
         break;
     case 9:
-        b = func_021CB174(p, (int)n, (u8)func_021D78AC(2));
+        b = func_021CB174(p, (int)n, (u8)BTL_CALC_Random(2));
         break;
     case 5:
         func_021CAC24(out, func_021CB174(p, (int)n, (u8)0));
@@ -111,7 +111,7 @@ int func_021CAA58(u8 *p, u8 *a, u16 move, u8 *q, int id, void *out)
         return 0;
     }
     if (b) {
-        selected = func_021CB1D4(p, a, q, func_021D5440(b));
+        selected = func_021CB1D4(p, a, q, BTL_POKEPARAM_GetPokeId(b));
         if (selected != 31) b = (u8 *)func_021B9934(*(char **)(p + 8), selected);
         func_021CACE4(out, b);
         return 1;

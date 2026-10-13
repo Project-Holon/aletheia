@@ -12,8 +12,8 @@
  *   Config.size). The u32 parameter let the scheduler hoist the size reload above the e[2].term store.
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027778 0x02027778 thumb
- *   func_02045808 0x02045808 arm
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   d_021C3C94 0x021C3C94 data ov110
  */
 typedef unsigned char u8;
@@ -27,8 +27,8 @@ struct TaskMenu;
 struct TaskMenuTmpl;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_02045808(struct U16Vec *vec);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern void STRBUF_Delete(struct U16Vec *vec);
 int func_021C0AC8(void *parent, void *bank, u16 size)
 {
     Config c;
@@ -49,8 +49,8 @@ int func_021C0AC8(void *parent, void *bank, u16 size)
     c.y = 0x18;
     c.z = 13;
     c.w = 3;
-    r = (int)func_02027778((struct TaskMenuTmpl *)(&c), parent);
+    r = (int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&c), parent);
     for (i = 0; i < 3; i++)
-        func_02045808(e[i].str);
+        STRBUF_Delete(e[i].str);
     return r;
 }

@@ -10,20 +10,20 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D4D0  0x0203D4D0  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendDataMask  0x0203D4D0  arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D4D0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendDataMask(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 int UNION_COMMAND_SendAppEntryRefused(u32 a)
 {
-    return func_0203D4D0((u32)func_020399A8(), a, 0x140B, 0, 0, 1, 0, 0);
+    return GFL_NET_SendDataMask((u32)GFL_NET_HANDLE_GetCurrentHandle(), a, 0x140B, 0, 0, 1, 0, 0);
 }
 
 void UNION_COMMAND_RecvAppEntryAccepted(int a, int b, int c, u8 *p)

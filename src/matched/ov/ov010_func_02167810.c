@@ -1,5 +1,5 @@
 /*
- * function: func_02167810
+ * function: COMM_PLAYER_GetObjCode
  * address:  0x02167810
  * packet:   pkt_ov010_02167810
  * region:   ov010
@@ -45,7 +45,7 @@ typedef struct Work {
 extern u8 d_02172A28[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-u16 func_02167810(Work *w, int i)
+u16 COMM_PLAYER_GetObjCode(Work *w, int i)
 {
     if (w == 0 || i >= 4 || w->e[i].used != 1)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);

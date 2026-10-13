@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B834C",
+   "name": "FIELD_RAIL_WORK_GetEndPoint",
    "address": "0x021B834C",
    "kind": "game",
    "region": "ov021",

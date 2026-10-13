@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215850C",
+   "name": "INTRUDE_COMM_GetAreaOwnerVersionClass",
    "address": "0x0215850C",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: func_02186804
+ * function: FIELD_WFBC_DATA_LOCAL_CloseNpcData
  * address: 0x02186804
  * packet: pkt_ov020_02186804
  * region: ov020
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void func_02049238(void *p);
+extern void ARC_TOOL_DeleteHandle(void *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_02186804(void **p) { func_02049238(p[0]); func_020307B0(p); }
+void FIELD_WFBC_DATA_LOCAL_CloseNpcData(void **p) { ARC_TOOL_DeleteHandle(p[0]); func_020307B0(p); }

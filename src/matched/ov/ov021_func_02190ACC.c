@@ -1,5 +1,5 @@
 /*
- * function: func_02190ACC
+ * function: FIELD_MSGBG_GetMenuItemsWidthChars
  * address:  0x02190ACC
  * packet:   pkt_ov021_02190ACC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02190A74  0x02190A74  thumb  ov021
+ *   FIELD_MSGBG_GetMenuItemsMaxWidth  0x02190A74  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -19,15 +19,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef short          s16;
 
-extern u32 func_02190A74(u32 *obj, u32 *tab, u32 *out, u32 key);
+extern u32 FIELD_MSGBG_GetMenuItemsMaxWidth(u32 *obj, u32 *tab, u32 *out, u32 key);
 
-u32 func_02190ACC(u32 *obj, u32 *tab, u32 unused, u32 key)
+u32 FIELD_MSGBG_GetMenuItemsWidthChars(u32 *obj, u32 *tab, u32 unused, u32 key)
 {
     u32 tmp;
     u32 x;
     u32 r;
 
-    x = func_02190A74(obj, tab, &tmp, key);
+    x = FIELD_MSGBG_GetMenuItemsMaxWidth(obj, tab, &tmp, key);
     x += key + 0x10;
     r = x >> 3;
     if (x & 7)

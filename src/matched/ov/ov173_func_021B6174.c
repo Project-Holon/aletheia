@@ -26,9 +26,9 @@
  *   func_021B815C 0x021B815C thumb ov173
  *   func_021B817C 0x021B817C thumb ov173
  *   func_021B6390 0x021B6390 thumb ov173
- *   func_0204A600 0x0204A600 arm
- *   func_020310C4 0x020310C4 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   TCBL_Main 0x020310C4 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 #include "../include/Obj06564.h"
 typedef unsigned char u8;
@@ -50,10 +50,10 @@ extern int func_021B8110(u8 *p);
 extern int func_021B815C(char *p);
 extern int func_021B817C(char *p);
 extern void func_021B6390(int *p);
-extern void func_0204A600(void);
-extern void func_020310C4(struct Tcbl *p);
+extern void CLACT_DrawSystem(void);
+extern void TCBL_Main(struct Tcbl *p);
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 int func_021B6174(void *unused0,u32 *state,void *unused2,u8 *p)
 {
     switch(*state) {
@@ -75,8 +75,8 @@ int func_021B6174(void *unused0,u32 *state,void *unused2,u8 *p)
     case 15: *state=func_021B817C((char *)p);break;
     }
     func_021B6390((int *)p);
-    func_0204A600();
-    func_020310C4(((struct Obj06564 *)p)->f64);
-    func_0201C4E4(((struct Obj06564 *)p)->f218);
+    CLACT_DrawSystem();
+    TCBL_Main(((struct Obj06564 *)p)->f64);
+    PRINTSYS_QUE_Main(((struct Obj06564 *)p)->f218);
     return 0;
 }

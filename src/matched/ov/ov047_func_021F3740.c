@@ -1,5 +1,5 @@
 /*
- * function: func_021F3740
+ * function: FIELD_GIMMICK_BRIDGE_Update
  * address:  0x021F3740
  * packet:   pkt_ov047_021F3740
  * region:   ov047
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021F381C  0x021F381C  thumb  ov047
- *   func_0216D8E0  0x0216D8E0  thumb  ov010
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELD_GIMMICK_BRIDGE_IsOnSwayTile  0x021F381C  thumb  ov047
+ *   FLDMMDL_SetDrawOffsetOutside  0x0216D8E0  thumb  ov010
  *   func_02005728  0x02005728  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
  *   func_0203F684  0x0203F684  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
@@ -45,23 +45,23 @@ extern u8 d_021F3840[];
 
 struct Big;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern int *func_021897BC(char *p, int idx);
-extern int func_021F381C(int *p);
-extern void func_0216D8E0(u8 *p, Rec12 *src);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern int FIELD_GIMMICK_BRIDGE_IsOnSwayTile(int *p);
+extern void FLDMMDL_SetDrawOffsetOutside(u8 *p, Rec12 *src);
 typedef unsigned int   u32;
 extern u32 func_02005728(u32 range);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
 extern short func_0203F684(unsigned short x);
 extern int _fflt(int a);
 extern int _fadd(int a, int b);
 extern int _fsub(int a, int b);
 extern int _ffix(int a);
 
-void func_021F3740(int a)
+void FIELD_GIMMICK_BRIDGE_Update(int a)
 {
     s16 *p;
     Obj *o;
@@ -69,12 +69,12 @@ void func_021F3740(int a)
     int v;
     s32 x;
 
-    p = (s16 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80((void *)a))), 0x1f);
-    o = (Obj *)func_021897BC((char *)a, 1);
-    if (func_021F381C((int *)o) == 0) {
+    p = (s16 *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a))), 0x1f);
+    o = (Obj *)FIELDMAP_GetCommonWork((char *)a, 1);
+    if (FIELD_GIMMICK_BRIDGE_IsOnSwayTile((int *)o) == 0) {
         o->r.b = 0;
         p[0] = 0;
-        func_0216D8E0(o->f04, &o->r);
+        FLDMMDL_SetDrawOffsetOutside(o->f04, &o->r);
         return;
     }
     if (p[0] == 0) {
@@ -89,6 +89,6 @@ void func_021F3740(int a)
     r = _ffix(r);
     x = func_0203F684((u16)p[0]);
     o->r.b = (s32)(((s64)x * r + 0x800) >> 12);
-    func_0216D8E0(o->f04, &o->r);
+    FLDMMDL_SetDrawOffsetOutside(o->f04, &o->r);
     p[0] = (p[0] + 8) % 360;
 }

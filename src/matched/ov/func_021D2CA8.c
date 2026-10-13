@@ -16,16 +16,16 @@
  *   GFL_USE_PushBgm   0x02005E64  thumb
  *   GFL_USE_PopBgm   0x02005E9C  thumb
  *   func_02005F38   0x02005F38  thumb
- *   func_02017E1C   0x02017E1C  thumb
- *   func_020181F4   0x020181F4  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
+ *   POKE_TOOL_SetMoveSlot   0x020181F4  thumb
  *   POKE_TOOL_GetLevelUpMove   0x02018328  thumb
  *   func_021B9934   0x021B9934  thumb ov093
  *   func_021B9AF8   0x021B9AF8  thumb ov093
  *   func_021B9CBC   0x021B9CBC  thumb ov093
  *   func_021D2C7C   0x021D2C7C  thumb ov093
- *   func_021D5440   0x021D5440  thumb ov093
- *   func_021D5844   0x021D5844  thumb ov093
- *   func_021D6BFC   0x021D6BFC  thumb ov093
+ *   BTL_POKEPARAM_GetPokeId   0x021D5440  thumb ov093
+ *   BTL_POKEPARAM_GetMon   0x021D5844  thumb ov093
+ *   BTL_POKEPARAM_ReloadFromParam   0x021D6BFC  thumb ov093
  *   func_021EA614   0x021EA614  thumb ov093
  *   func_021EA638   0x021EA638  thumb ov093
  *   func_021EA710   0x021EA710  thumb ov093
@@ -64,11 +64,11 @@ typedef struct {
 
 extern struct StateData g_021F3B64;
 
-extern u8 func_021D5440(u8 *p);
-extern void *func_021D5844(void *mon);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void *BTL_POKEPARAM_GetMon(void *mon);
 extern u16 POKE_TOOL_GetLevelUpMove(void *p, u32 *idx, u32 heap);
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D6BFC(u8 *p);
+extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
 struct H;
 struct L;
 extern void func_021EAF18(struct L *p, int kind, int id);
@@ -89,13 +89,13 @@ extern char *func_021B9AF8(char *p, int i);
 extern int func_021B9CBC(u8 *p, int v);
 extern void func_021EAC64(u8 *p, u8 a, int c);
 extern int func_021EAC80(u8 *p, u8 *out);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_020181F4(void *p, u16 move, u32 slot);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot);
 extern int func_021D2C7C(int n);
 
 int func_021D2CA8(LearnSeq *s, int *state, void *mon)
 {
-    int idx = func_021D5440(mon);
+    int idx = BTL_POKEPARAM_GetPokeId(mon);
 
     switch (*state) {
     case 0:
@@ -103,7 +103,7 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         g_021F3B64.move = 0;
         *state = 1;
     case 1:
-        g_021F3B64.move = POKE_TOOL_GetLevelUpMove(func_021D5844(mon), &g_021F3B64.iter, s->level);
+        g_021F3B64.move = POKE_TOOL_GetLevelUpMove(BTL_POKEPARAM_GetMon(mon), &g_021F3B64.iter, s->level);
         if (g_021F3B64.move == 0)
             return 1;
         if (g_021F3B64.move == 0xFFFE)
@@ -117,8 +117,8 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
         break;
     case 2: {
         void *p = func_021B9934(s->party, idx);
-        func_021D5844(p);
-        func_021D6BFC(p);
+        BTL_POKEPARAM_GetMon(p);
+        BTL_POKEPARAM_ReloadFromParam(p);
         func_021EAF18((struct L *)(&s->msg), 5, 3);
         func_021EAF50((struct L *)(&s->msg), idx);
         func_021EAF50((struct L *)(&s->msg), g_021F3B64.move);
@@ -180,9 +180,9 @@ int func_021D2CA8(LearnSeq *s, int *state, void *mon)
             *state = 5;
             break;
         }
-        pp = func_021D5844(func_021B9934(s->party, idx));
-        old = func_02017E1C(pp, slot + 54, 0);
-        func_020181F4(pp, g_021F3B64.move, slot);
+        pp = BTL_POKEPARAM_GetMon(func_021B9934(s->party, idx));
+        old = POKE_TOOL_GetPartyValue(pp, slot + 54, 0);
+        POKE_TOOL_SetMoveSlot(pp, g_021F3B64.move, slot);
         func_021EAF18((struct L *)(&s->msg), 5, 5);
         func_021EAF50((struct L *)(&s->msg), idx);
         func_021EAF50((struct L *)(&s->msg), old);

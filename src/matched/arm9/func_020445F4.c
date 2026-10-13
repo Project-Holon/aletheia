@@ -12,7 +12,7 @@
  * bmp.c blit worker, 4bpp tiled source onto a 4bpp tiled destination that
  * is written a HALFWORD at a time (BMP_FillRect4bppVram's read-modify-write
  * store), with an optional colour key (0xFFFF = none).  Reached from the
- * blit dispatcher func_020439A0's kind == 2 arm, whose shift pairs give
+ * blit dispatcher BMP_Blit's kind == 2 arm, whose shift pairs give
  * the narrow parameter types (x, y, w, h u16; dx, dy s16); the key is
  * loaded with ldrh here, so it is u16 on this side.  The plain and keyed
  * loops are written out in full, each with its OWN pair of tile-row

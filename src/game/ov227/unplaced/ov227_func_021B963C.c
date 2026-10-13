@@ -26,19 +26,19 @@
  *   func_0200CDE0  0x0200CDE0  thumb
  *   func_0200CED4  0x0200CED4  thumb
  *   func_0200CFA0  0x0200CFA0  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012934  0x02012934  thumb
- *   func_0201293C  0x0201293C  thumb
- *   func_02012944  0x02012944  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02012F2C  0x02012F2C  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02013E4C  0x02013E4C  thumb
- *   func_020142E8  0x020142E8  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_020185F0  0x020185F0  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_0201AA14  0x0201AA14  thumb
  *   func_0201AA18  0x0201AA18  thumb
@@ -48,12 +48,12 @@
  *   ov207_id  0x000000CF  data
  *   ov194_id  0x000000C2  data
  *   func_02045B38  0x02045B38  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_0216C0A4  0x0216C0A4  thumb  ov010
- *   func_0216C0C0  0x0216C0C0  thumb  ov010
- *   func_0216C0D4  0x0216C0D4  thumb  ov010
- *   func_0216C0E4  0x0216C0E4  thumb  ov010
+ *   NAMEIN_SETUP_CreateCaptureArgs  0x0216C0A4  thumb  ov010
+ *   NAMEIN_SETUP_FreeArgs  0x0216C0C0  thumb  ov010
+ *   NAMEIN_SETUP_CopyName  0x0216C0D4  thumb  ov010
+ *   NAMEIN_SETUP_IsCanceled  0x0216C0E4  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -98,40 +98,40 @@ extern unsigned int PROCSYS_Main(void *p);
 extern unsigned char ov207_id[];
 extern unsigned char ov194_id[];
 extern u32 PROCSYS_Push(u32 a, u32 b, u32 c, void *d);
-extern void *func_02012934(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *func_0200CA1C(void *a);
-extern u32 func_0201293C(const struct BigObj *p);
-extern void *func_02012F2C(int *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void func_02008500(void *a, void *b);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_0201AA18(void *p);
 extern u32 func_0201AA14(void *p);
 extern u32 func_02007698(void *save);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020142E8(void *bitmap, s32 id);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 func_02013E4C(u32 a);
 extern void func_0202F190(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_0200CED4(struct Blk37 *p, u16 id);
 extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_0200CDE0(struct Blk37 *p, void *m);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *sys);
-extern int *func_0216C0A4(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
-extern int func_0216C0E4(int *p);
-extern void func_0216C0D4(int *p, int a1);
-extern int func_0216C0C0(int a0);
+extern int *NAMEIN_SETUP_CreateCaptureArgs(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
+extern int NAMEIN_SETUP_IsCanceled(int *p);
+extern void NAMEIN_SETUP_CopyName(int *p, int a1);
+extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
-extern u32 func_020185F0(u32 a);
+extern u32 POKE_TOOL_Dummy(u32 a);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 
 u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
@@ -145,16 +145,16 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
     }
     switch (*state) {
     case 0:
-        x24 = (u32)func_02012934((const struct BigObj *)c->f0);
-        x20 = (u32)func_02012944((void *)c->f0);
+        x24 = (u32)GAME_DATA_GetMyParty((const struct BigObj *)c->f0);
+        x20 = (u32)GAME_DATA_GetMyStatus((void *)c->f0);
         r7 = (u32)func_0200CA1C((void *)c->f0);
-        x1c = func_0201293C((const struct BigObj *)c->f0);
+        x1c = GAME_DATA_GetBoxManager((const struct BigObj *)c->f0);
         if (c->f1 == 1) {
-            x28 = (u32)func_02012F2C((int *)c->f0);
+            x28 = (u32)GAME_DATA_GetTrainerRecord((int *)c->f0);
             func_02008DF0((struct Sub02008C20Obj *)x28, (u32)7);
             func_02008DF0((struct Sub02008C20Obj *)x28, (u32)0x54);
             func_02008500((void *)x20, (void *)g->f04);
-            func_02017E40((void *)c->f2, 0x8d, g->f04);
+            POKE_TOOL_SetPartyValue((void *)c->f2, 0x8d, g->f04);
             x2c = (int)func_0201AA18((void *)x24);
             if (x2c >= (int)func_0201AA14((void *)x24)) {
                 u32 a, b;
@@ -163,14 +163,14 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
                 func_020076D0((void *)x1c, (int *)(&a), (int *)(&b));
                 g->f2c = a;
                 h = (u32)func_02045B38(0, 2, 0xea, 0x8b);
-                g->f28 = (u32)func_02045EC0((struct MsgBank *)h, func_020142E8((void *)func_0201296C((const struct BigObj *)c->f0), (u32)0x96d) != 0 ? 0xb1 : 0xb0);
-                func_02045C04((struct Rec *)h);
+                g->f28 = (u32)func_02045EC0((struct MsgBank *)h, ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct BigObj *)c->f0), (u32)0x96d) != 0 ? 0xb1 : 0xb0);
+                MSGDATA_Delete((struct Rec *)h);
             }
-            x30 = func_02013E4C((u32)func_02012AC8(func_020127A4((struct SaveBlock *)c->f0)));
+            x30 = func_02013E4C((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)c->f0)));
             func_0202F190((void *)c->f2, 0, x20, x30, (u32)g->f30);
             fl = 0;
             x18 = func_0200CA38((struct Blk37 *)r7);
-            if (func_0200CED4((struct Blk37 *)r7, (u16)func_02017E1C((void *)c->f2, 5, 0)) == 0) {
+            if (func_0200CED4((struct Blk37 *)r7, (u16)POKE_TOOL_GetPartyValue((void *)c->f2, 5, 0)) == 0) {
                 fl = 1;
             }
             func_0200CFA0((struct Blk37 *)r7, (void *)c->f2);
@@ -197,13 +197,13 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
         break;
     case 1:
         if (r != 1) {
-        r7 = func_0201293C((const struct BigObj *)c->f0);
+        r7 = GAME_DATA_GetBoxManager((const struct BigObj *)c->f0);
         ok = 0;
         if (g->f24 == 1) {
             ok = 1;
         }
         if (ok) {
-            g->f00 = (u32)func_0216C0A4((u32)g->f30, (u32)c->f2, (u32)0xa, (u32)0, (u32)g->f28, (u32)r7, (u32)g->f2c, (u32)func_0200C0F0(func_02012EBC((struct Big *)c->f0)));
+            g->f00 = (u32)NAMEIN_SETUP_CreateCaptureArgs((u32)g->f30, (u32)c->f2, (u32)0xa, (u32)0, (u32)g->f28, (u32)r7, (u32)g->f2c, (u32)func_0200C0F0(GAME_DATA_GetSaveControl((struct Big *)c->f0)));
             PROCSYS_Push(g->f34, (u32)ov194_id, 0x021F5580, (void *)g->f00);
             (*state)++;
             break;
@@ -214,24 +214,24 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
         return 0;
     case 2:
         if (r != 1) {
-        if ((u32)func_0216C0E4((int *)g->f00) == 0) {
-            func_0216C0D4((int *)g->f00, (u32)g->f04);
-            func_02017E40((void *)c->f2, 0x73, g->f04);
-            func_02008DF0(func_02012F2C((int *)c->f0), (u32)0x1e);
+        if ((u32)NAMEIN_SETUP_IsCanceled((int *)g->f00) == 0) {
+            NAMEIN_SETUP_CopyName((int *)g->f00, (u32)g->f04);
+            POKE_TOOL_SetPartyValue((void *)c->f2, 0x73, g->f04);
+            func_02008DF0(GAME_DATA_GetTrainerRecord((int *)c->f0), (u32)0x1e);
         }
-        func_0216C0C0((u32)g->f00);
+        NAMEIN_SETUP_FreeArgs((u32)g->f00);
         g->f00 = 0;
         (*state)++;
         break;
         }
         return 0;
     case 3:
-        x24 = (u32)func_02012934((const struct BigObj *)c->f0);
+        x24 = (u32)GAME_DATA_GetMyParty((const struct BigObj *)c->f0);
         if (g->f28 == 0) {
             func_0201A98C((struct Party *)x24, (const struct PartyMon *)c->f2);
         } else {
-            r7 = func_0201293C((const struct BigObj *)c->f0);
-            func_020074D8((void **)r7, (const struct Sub02007454Entry *)func_020185F0(c->f2));
+            r7 = GAME_DATA_GetBoxManager((const struct BigObj *)c->f0);
+            func_020074D8((void **)r7, (const struct Sub02007454Entry *)POKE_TOOL_Dummy(c->f2));
         }
         (*state)++;
         break;

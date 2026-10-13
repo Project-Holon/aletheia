@@ -1,5 +1,5 @@
 /*
- * function: func_0216D92C
+ * function: FLDMMDL_GetModelOffset
  * address:  0x0216D92C
  * packet:   pkt_ov010_0216D92C
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed char    s8;
 typedef signed int     s32;
 
-void func_0216D92C(u8 *p, s32 *q)
+void FLDMMDL_GetModelOffset(u8 *p, s32 *q)
 {
     q[0] = ((struct Obj09334 *)p)->f7E << 12;
     q[1] = ((struct Obj09334 *)p)->f7F << 12;

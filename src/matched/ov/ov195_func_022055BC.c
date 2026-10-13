@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02205620 0x02205620 thumb ov195
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj03903.h"
 
@@ -20,15 +20,15 @@ typedef unsigned int u32;
 
 extern u32 func_02205620(u32, u32, u32, u32, u32, u32, u32);
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
 void func_022055BC(char *a, u32 a1, u32 a2, u32 k0, u32 v0, u32 k1, u32 v1,
                    u32 b1, u32 b2, u32 m0, u32 w0, u32 m1, u32 w1)
 {
     if (((struct Obj03903 *)a)->f94 != 0)
-        func_02045808((struct U16Vec *)(((struct Obj03903 *)a)->f94));
+        STRBUF_Delete((struct U16Vec *)(((struct Obj03903 *)a)->f94));
     if (((struct Obj03903 *)a)->f98 != 0)
-        func_02045808((struct U16Vec *)(((struct Obj03903 *)a)->f98));
+        STRBUF_Delete((struct U16Vec *)(((struct Obj03903 *)a)->f98));
     ((struct Obj03903 *)a)->f94 = func_02205620(((struct Obj03903 *)a)->f2, a1, a2, k0, v0, k1, v1);
     ((struct Obj03903 *)a)->f98 = func_02205620(((struct Obj03903 *)a)->f2, b1, b2, m0, w0, m1, w1);
 }

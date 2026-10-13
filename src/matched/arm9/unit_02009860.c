@@ -16,8 +16,8 @@
  *
  * symbols:
  *   DWC_IsValidFriendData 0x020596D8  arm
- *   func_02045994         0x02045994  arm
- *   func_02045A38         0x02045A38  arm
+ *   STRBUF_SetStringN         0x02045994  arm
+ *   STRBUF_ToChars         0x02045A38  arm
  *
  * alias: wifilist.c, the body of the record whose size and copy are in
  * src/matched/unit_020097BC.c and src/matched/unit_020097F0.c.  The record is
@@ -73,9 +73,9 @@ typedef unsigned int   u32;
 
 extern int  DWC_IsValidFriendData(const void *friendData);
 struct Strbuf;
-extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
+extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 struct U16Vec;
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
 
 struct Sub020097BCFriend {
     u8 unk00[0xC];
@@ -186,12 +186,12 @@ struct Sub020097BCEnt *WIFILIST_GetFriendInfo(struct Sub020097BCObj *obj, int i)
 
 void WIFILIST_CopyFriendNameToStrbuf(struct Sub020097BCObj *obj, int i, void *dest)
 {
-    func_02045994(dest, (const u16 *)&obj->unk1C0[i], 0x10);
+    STRBUF_SetStringN(dest, (const u16 *)&obj->unk1C0[i], 0x10);
 }
 
 void WIFILIST_StoreFriendNameFromStrbuf(struct Sub020097BCObj *obj, int i, void *dest)
 {
-    func_02045A38(dest, (u16 *)(&obj->unk1C0[i]), 0x10);
+    STRBUF_ToChars(dest, (u16 *)(&obj->unk1C0[i]), 0x10);
 }
 
 int WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i)

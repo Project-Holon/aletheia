@@ -1,5 +1,5 @@
 /*
- * function: func_021F3C2C
+ * function: CROWD_CreatePerson
  * address:  0x021F3C2C
  * packet:   pkt_ov055_021F3C2C
  * region:   ov055
@@ -15,13 +15,13 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   d_021F4620     0x021F4620  data  ov055  a4
+ *   gCrowdMmdlHeader     0x021F4620  data  ov055  a4
  *   d_021F4620_b   0x021F4620  data  ov055  a4
- *   func_0216CE60  0x0216CE60  thumb  ov010
- *   func_021F40F4  0x021F40F4  thumb  ov055
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
- *   func_0216DCCC  0x0216DCCC  thumb  ov010
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
+ *   CROWD_GetWalkCmdBase  0x021F40F4  thumb  ov055
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   FLDMMDL_SetMoveBitAttrEffectOff  0x0216DCCC  thumb  ov010
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
  */
 
 #include "../include/G_V.h"
@@ -60,17 +60,17 @@ typedef struct T {
     u32 f3c;
 } T;
 
-extern struct V d_021F4620;
+extern struct V gCrowdMmdlHeader;
 extern struct V d_021F4620_b;
 
 extern u32 func_020056EC(u32);
-extern int func_0216CE60(int, void *, int);
-extern u32 func_021F40F4(u8 *p);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-extern int func_0216DCCC(void *a0, int a1);
-extern void func_0216D8C0(int, int *);
+extern int FLDMMDL_AddMmdl(int, void *, int);
+extern u32 CROWD_GetWalkCmdBase(u8 *p);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
+extern int FLDMMDL_SetMoveBitAttrEffectOff(void *a0, int a1);
+extern void FLDMMDL_SetDrawOffset(int, int *);
 
-void func_021F3C2C(O *o, int a, int b, const T *s, int i)
+void CROWD_CreatePerson(O *o, int a, int b, const T *s, int i)
 {
     u32 k;
     u32 r;
@@ -78,7 +78,7 @@ void func_021F3C2C(O *o, int a, int b, const T *s, int i)
 
     k = 0;
     x = s->h[func_020056EC(0) % s->n];
-    d_021F4620.h2 = x;
+    gCrowdMmdlHeader.h2 = x;
     r = func_020056EC(0);
     o->h8 = i + 0x30;
     for (k = 0; k < s->f3c; k++) {
@@ -87,17 +87,17 @@ void func_021F3C2C(O *o, int a, int b, const T *s, int i)
             break;
         }
     }
-    o->fc = func_0216CE60(a, &d_021F4620_b, b);
+    o->fc = FLDMMDL_AddMmdl(a, &d_021F4620_b, b);
     o->f0 = 0;
     o->f1 = 0;
     o->f2 = 0;
     o->f3 = 0;
-    o->ha = func_021F40F4((u8 *)s);
-    func_0216DAC8((unsigned int *)o->fc, 1);
-    func_0216DCCC((void *)o->fc, 1);
+    o->ha = CROWD_GetWalkCmdBase((u8 *)s);
+    FLDMMDL_SetStatusBitVanish((unsigned int *)o->fc, 1);
+    FLDMMDL_SetMoveBitAttrEffectOff((void *)o->fc, 1);
     {
         int v[3] = {0, 0, 0};
         v[0] = func_020056EC(0x8000) - 0x4000;
-        func_0216D8C0(o->fc, v);
+        FLDMMDL_SetDrawOffset(o->fc, v);
     }
 }

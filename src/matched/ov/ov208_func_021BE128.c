@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02049F34  0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   func_02082D44  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  */
@@ -25,7 +25,7 @@ struct Ov208Pltt {
     u8 *data;
 };
 
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(void *src, void *dst, u32 size);
 extern u32 func_020307B0(void *p);
 
@@ -35,7 +35,7 @@ void ov208_func_021BE128(u8 *p)
     u32 file;
     u8 *data;
 
-    file = (u32)func_02049F34(0x9f, 3, (u32)(&pltt), ((struct Obj14652 *)p)->f0);
+    file = (u32)ARC_UTIL_LoadPaletteBlockFromArchive(0x9f, 3, (u32)(&pltt), ((struct Obj14652 *)p)->f0);
     data = pltt->data;
     func_02082D44(data + 0x20, p + 0xb6, 0x20);
     func_02082D44(data + 0x60, p + 0xd6, 0x20);

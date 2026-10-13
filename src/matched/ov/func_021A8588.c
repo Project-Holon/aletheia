@@ -1,5 +1,5 @@
 /*
- * function: func_021A8588
+ * function: FIELD_MENU_ShowBgLayers
  * address:  0x021A8588
  * packet:   pkt_021A8588
  * region:   ov021
@@ -25,7 +25,7 @@ typedef signed char    s8;
 extern u32 func_02040588(u32, u32);
 extern void func_020409B4(u32 index);
 
-int func_021A8588(void)
+int FIELD_MENU_ShowBgLayers(void)
 {
 func_020409B4(6);
 func_02040588(4, 1);

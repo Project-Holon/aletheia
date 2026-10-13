@@ -1,5 +1,5 @@
 /*
- * function: func_0218BF84
+ * function: FIELD_BUILDMODEL_FreeModel
  * address:  0x0218BF84
  * packet:   pkt_ov021_0218BF84
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct {
 typedef unsigned int   u32;
 u32 func_020307B0(void *p);
 
-void func_0218BF84(S *p)
+void FIELD_BUILDMODEL_FreeModel(S *p)
 {
     int i;
     for (i = 0; i < 4; i++) {

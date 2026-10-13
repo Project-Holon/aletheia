@@ -1,5 +1,5 @@
 /*
- * function: func_021BEBD8
+ * function: BTL_SERVER_FLOW_PushMoveExecCmd
  * address: 0x021BEBD8
  * packet: pkt_ov093_021BEBD8
  * region: ov093
@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
- *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
  */
 #include "../include/Obj09964.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021B8D8C(void *,void *,u32);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
-void func_021BEBD8(u8 *p,u8 *a,int c,int d)
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
+void BTL_SERVER_FLOW_PushMoveExecCmd(u8 *p,u8 *a,int c,int d)
 {
     int n;
-    n=func_021B8D8C(((struct Obj09964 *)p)->f4,((struct Obj09964 *)p)->f8,func_021D5440(a));
-    func_021CD4B0(((struct Obj09964 *)p)->fC,0x30,n,d,c,0);
+    n=func_021B8D8C(((struct Obj09964 *)p)->f4,((struct Obj09964 *)p)->f8,BTL_POKEPARAM_GetPokeId(a));
+    BTL_SERVER_CMD_Push(((struct Obj09964 *)p)->fC,0x30,n,d,c,0);
 }

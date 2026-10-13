@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: func_020470D0
+ * function: G3D_SYSTEM_FreeVramTexture
  * address:  0x020470D0
  * packet:   pkt_020470D0
  * region:   arm9
@@ -40,6 +40,9 @@
  * The three callbacks are called through globals at 0x020A8144 and
  * 0x020A814C, written as numeric casts so the pool word stays a plain
  * literal rather than a relocation.
+ *
+ * symbols:
+ *   NNS_G3dGetTex  0x0206E964  arm
  */
 #include "../include/Obj03459.h"
 
@@ -47,12 +50,12 @@ typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 struct Tex;
 extern void func_0206A0C4(struct Tex *t, u32 *a, u32 *b);
 extern u32   func_0206A17C(u8 *p);
 
-int func_020470D0(u32 *p)
+int G3D_SYSTEM_FreeVramTexture(u32 *p)
 {
     u8  *r;
     int  f1;
@@ -60,7 +63,7 @@ int func_020470D0(u32 *p)
     u32  x;
     u32  y;
 
-    r = func_0206E964((unsigned char *)p[1]);
+    r = NNS_G3dGetTex((unsigned char *)p[1]);
     f1 = 0;
     f2 = 0;
     if (((struct Obj03459 *)r)->f10 & 1)

@@ -9,18 +9,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020146F8 0x020146F8 thumb
+ *   FIELD_STATUS_CreateSubProcEvent 0x020146F8 thumb
  *   ov110_id 0x0000006E data a1
  *   gPmsInputProcData 0x021C39D4 data ov110 a4
  */
 typedef unsigned char u8;
-extern void *func_020146F8(char *, int, int, int, int);
+extern void *FIELD_STATUS_CreateSubProcEvent(char *, int, int, int, int);
 extern u8 ov110_id[];
 extern const int gPmsInputProcData[];
 int UNION_MAIN_StepStartPmsInput(char *a, u8 *p, int b, int c, int x, void **out, u8 *state)
 {
     if (*state == 0) {
-        *out = func_020146F8(a, b, (int)ov110_id, (int)gPmsInputProcData, c);
+        *out = FIELD_STATUS_CreateSubProcEvent(a, b, (int)ov110_id, (int)gPmsInputProcData, c);
     } else {
         return 1;
     }

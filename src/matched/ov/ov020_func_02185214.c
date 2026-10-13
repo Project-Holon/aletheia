@@ -1,5 +1,5 @@
 /*
- * function: func_02185214
+ * function: EVENT_MAPCHANGE_CreateIntrudeReturnEvent
  * address:  0x02185214
  * packet:   pkt_ov020_02185214
  * region:   ov020
@@ -9,33 +9,33 @@
  * isa:      thumb
  * status:   EXACT
  * Lever: func_0202648C reads its pointer argument in the matched ARM9
- * unit_02026454.c. The original forwards func_02012138(a) in r0 with
+ * unit_02026454.c. The original forwards GAMESYSTEM_GetGameComm(a) in r0 with
  * no intervening argument setup. Explicitly passing h restores the
  * return-value spill and all frame/register choices (DIFF22 -> EXACT).
  * Runs this retry: 2; the prior consumed permuter was not repeated.
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_020128DC  0x020128DC  thumb
- *   func_02013DD0  0x02013DD0  thumb
- *   func_02014204  0x02014204  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetWarpLocation  0x020128DC  thumb
+ *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
+ *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200BE48  0x0200BE48  thumb
- *   func_02012FCC  0x02012FCC  thumb
+ *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_0200BFA4  0x0200BFA4  thumb
- *   func_02012138  0x02012138  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   func_0202648C  0x0202648C  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026484  0x02026484  thumb
- *   func_02012B78  0x02012B78  thumb
- *   func_02012B64  0x02012B64  thumb
- *   func_02012B8C  0x02012B8C  thumb
- *   func_02012B4C  0x02012B4C  thumb
- *   func_02185C4C  0x02185C4C  thumb  ov020
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3238  0x021A3238  thumb  ov021
- *   func_0217BCDC  0x0217BCDC  thumb  ov018
- *   func_02158344  0x02158344  thumb  ov010
+ *   GAME_DATA_SetIntrudeCount  0x02012B78  thumb
+ *   GAME_DATA_SetExitMode  0x02012B64  thumb
+ *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
+ *   GAME_DATA_SetEnterMode  0x02012B4C  thumb
+ *   EVENT_MAPCHANGE_CreateIntrudeArriveEvent  0x02185C4C  thumb  ov020
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_CheckFormModel  0x021A3238  thumb  ov021
+ *   INTRUDE_FIELD_ChangePlayerLook  0x0217BCDC  thumb  ov018
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -45,65 +45,65 @@ typedef struct { int f00; u16 f04, f06; int f08[5]; } Rec;
 struct Big;
 struct BigObj;
 struct Ctx;
-void *func_020120F4(const struct Ctx *p);
-void *func_0201210C(const struct Ctx *p);
-Rec *func_020128DC(void *p);
-int func_02013DD0(int v);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+Rec *GAME_DATA_GetWarpLocation(void *p);
+int ZONEDATA_IsZoneInTableDFC0(int v);
 struct t;
-void func_02014204(struct t *p, int id);
-void *func_02012EBC(struct Big *p);
+void ZONEDATA_SetZoneStartLocation(struct t *p, int id);
+void *GAME_DATA_GetSaveControl(struct Big *p);
 u16 *func_0200BE48(void *p);
-int func_02012FCC(int p0);
+int GAME_DATA_GetPlayTime(int p0);
 u64 func_0200BFA4(u8 *p, void *x, u32 n);
-u32 func_02012138(const struct Ctx *p);
+u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 u32 func_0202648C(void *p);
 u32 func_02026454(void *obj);
 void func_02026484(void *p);
-struct BigObj *func_02012B78(struct BigObj *p, u8 v);
-void func_02012B64(struct BigObj *p, u8 v);
-void func_02012B8C(struct BigObj *p, u32 v);
-void func_02012B4C(struct BigObj *p, u8 v);
-void *func_02185C4C(void *p, void *a1, Rec *r);
+struct BigObj *GAME_DATA_SetIntrudeCount(struct BigObj *p, u8 v);
+void GAME_DATA_SetExitMode(struct BigObj *p, u8 v);
+void GAME_DATA_SetIntrudeId(struct BigObj *p, u32 v);
+void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v);
+void *EVENT_MAPCHANGE_CreateIntrudeArriveEvent(void *p, void *a1, Rec *r);
 struct Obj00020;
-void *func_02188CB4(struct Obj00020 *p);
-int func_021A3238(u8 *p);
-void func_0217BCDC(u8 *a, void *b, int c, u8 d, u8 e);
-int func_02158344(int a0);
+void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+int FIELD_PLAYER_CheckFormModel(u8 *p);
+void INTRUDE_FIELD_ChangePlayerLook(u8 *a, void *b, int c, u8 d, u8 e);
+int INTRUDE_COMM_GetWorkIfRunning(int a0);
 static inline void create_result(void *a, void *r6, Rec *s, void **out)
 {
-    *out = func_02185C4C(a, r6, s);
+    *out = EVENT_MAPCHANGE_CreateIntrudeArriveEvent(a, r6, s);
 }
 static inline void *finish(void *a, void *r4, void *r6, void *ret)
 {
     u16 *t;
     void *h;
-    t = func_0200BE48(func_02012EBC(r4));
-    func_0200BFA4((u8 *)t, (void *)func_02012FCC((int)r4), 1);
-    h = (void *)func_02012138(a);
+    t = func_0200BE48(GAME_DATA_GetSaveControl(r4));
+    func_0200BFA4((u8 *)t, (void *)GAME_DATA_GetPlayTime((int)r4), 1);
+    h = (void *)GAMESYSTEM_GetGameComm(a);
     func_0202648C(h);
     if (func_02026454(h) == 0)
         func_02026484(h);
-    if (func_021A3238(func_02188CB4(r6)) == 0)
-        func_0217BCDC(0, a, 0, 0, 0);
-    func_02012B78(r4, 0);
-    if (func_02158344(func_02012138(a)) == 0) {
-        func_02012B64(r4, 0);
-        func_02012B8C(r4, 0);
-        func_02012B4C(r4, 1);
+    if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(r6)) == 0)
+        INTRUDE_FIELD_ChangePlayerLook(0, a, 0, 0, 0);
+    GAME_DATA_SetIntrudeCount(r4, 0);
+    if (INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(a)) == 0) {
+        GAME_DATA_SetExitMode(r4, 0);
+        GAME_DATA_SetIntrudeId(r4, 0);
+        GAME_DATA_SetEnterMode(r4, 1);
     }
     return ret;
 }
-void *func_02185214(void *a)
+void *EVENT_MAPCHANGE_CreateIntrudeReturnEvent(void *a)
 {
     void *r4;
     void *r6;
     Rec s;
     void *ret;
-    r4 = func_020120F4(a);
-    r6 = func_0201210C(a);
-    s = *func_020128DC(r4);
-    if (func_02013DD0(s.f04) == 1)
-        func_02014204((struct t *)(&s), s.f04);
+    r4 = GAMESYSTEM_GetGameData(a);
+    r6 = GAMESYSTEM_GetFieldMap(a);
+    s = *GAME_DATA_GetWarpLocation(r4);
+    if (ZONEDATA_IsZoneInTableDFC0(s.f04) == 1)
+        ZONEDATA_SetZoneStartLocation((struct t *)(&s), s.f04);
     create_result(a, r6, &s, &ret);
     return finish(a, r4, r6, ret);
 }

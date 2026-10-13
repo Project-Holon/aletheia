@@ -1,5 +1,5 @@
 /*
- * function: func_02168F54
+ * function: FIELD_CLOCK_CalcElapsed
  * address:  0x02168F54
  * packet:   pkt_ov010_02168F54
  * region:   ov010
@@ -34,7 +34,7 @@ struct RTCTime;
 extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
 extern s32 func_02088F58(struct RTCDate *date);
 
-int func_02168F54(A *a, Date *b, Time *c, int *d, int *e)
+int FIELD_CLOCK_CalcElapsed(A *a, Date *b, Time *c, int *d, int *e)
 {
     s64 sa = func_02089004((struct RTCDate *)(&a->date), (struct RTCTime *)(&a->time));
     s64 sb = func_02089004((struct RTCDate *)b, (struct RTCTime *)c);

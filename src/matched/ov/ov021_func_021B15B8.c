@@ -1,5 +1,5 @@
 /*
- * function: func_021B15B8
+ * function: SCRCMD_MSGWIN_CmdWaitMsgKey
  * address:  0x021B15B8
  * packet:   pkt_ov021_021B15B8
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020113D0  0x020113D0  thumb
- *   func_021B1550  0x021B1550  thumb  ov021
+ *   VM_SetWait  0x020113D0  thumb
+ *   SCRCMD_MSGWIN_WaitKeyWithCursor  0x021B1550  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void func_020113D0(char *p, int val);
-extern int func_021B1550(int a, int b);
+extern void VM_SetWait(char *p, int val);
+extern int SCRCMD_MSGWIN_WaitKeyWithCursor(int a, int b);
 
-int func_021B15B8(u32 a)
+int SCRCMD_MSGWIN_CmdWaitMsgKey(u32 a)
 {
-    func_020113D0((char *)a, (u32)func_021B1550);
+    VM_SetWait((char *)a, (u32)SCRCMD_MSGWIN_WaitKeyWithCursor);
     return 1;
 }

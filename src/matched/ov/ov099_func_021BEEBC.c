@@ -16,8 +16,8 @@
  *   func_021C0290 0x021C0290 thumb ov099
  *   func_02082BCC 0x02082BCC arm
  *   func_020452E8 0x020452E8 arm
- *   func_0202020C 0x0202020C thumb
- *   func_0201F868 0x0201F868 thumb
+ *   BMP_MENULIST_Delete 0x0202020C thumb
+ *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   func_021B96CC 0x021B96CC thumb ov099
  *   func_02012944 0x02012944 thumb
  *   func_02008550 0x02008550 thumb
@@ -33,8 +33,8 @@
  *   func_021BE788 0x021BE788 thumb ov099
  *   func_021BEDA0 0x021BEDA0 thumb ov099
  *   func_021BDD0C 0x021BDD0C thumb ov099
- *   func_02049238 0x02049238 arm
- *   func_0202208C 0x0202208C thumb
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   WIPE_SYS_Start 0x0202208C thumb
  */
 #include "../include/Obj00008.h"
 typedef unsigned char u8;
@@ -51,8 +51,8 @@ extern void func_021C19A8(char *);
 extern void func_021C0290(char *);
 extern void func_02082BCC(void *,int,int);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern u32 func_0201F868(void *p);
+extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
+extern u32 BMP_MENUWORK_Delete(void *p);
 extern int func_021B96CC(int *p);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
@@ -68,8 +68,8 @@ extern void func_021BA8EC(char *);
 extern int func_021BE788(char *);
 extern void func_021BEDA0(char *);
 extern void func_021BDD0C(void *p, int on);
-extern void func_02049238(void *);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 void func_021BEEBC(char *p)
 {
     void *h;
@@ -81,9 +81,9 @@ void func_021BEEBC(char *p)
     func_02082BCC(p+0x30,0,32);
     if(((struct Obj00008 *)p)->fB0){
         func_020452E8(((struct Obj00008 *)p)->f1A0);
-        func_0202020C(((struct Obj00008 *)p)->fB4,0,0);
+        BMP_MENULIST_Delete(((struct Obj00008 *)p)->fB4,0,0);
         ((struct Obj00008 *)p)->fB4=0;
-        func_0201F868(((struct Obj00008 *)p)->fB0);
+        BMP_MENUWORK_Delete(((struct Obj00008 *)p)->fB0);
         ((struct Obj00008 *)p)->fB0=0;
     }
     if(!func_021B96CC((int *)(p+0x274))){
@@ -103,6 +103,6 @@ void func_021BEEBC(char *p)
     func_021BEDA0(p);
     func_021BDD0C(p,0);
     ((struct Obj00008 *)p)->f1F0=-1;
-    func_02049238(h);
-    func_0202208C(0,1,1,0,6,1,33);
+    ARC_TOOL_DeleteHandle(h);
+    WIPE_SYS_Start(0,1,1,0,6,1,33);
 }

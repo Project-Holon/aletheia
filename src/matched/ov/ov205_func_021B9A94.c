@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012F2C 0x02012F2C thumb
- *   func_02012FCC 0x02012FCC thumb
+ *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
+ *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   func_0200864C 0x0200864C thumb
  *   func_02008650 0x02008650 thumb
  *   func_02008654 0x02008654 thumb
@@ -21,8 +21,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct PlayTime;
 struct Sub02008C20Obj;
-extern void *func_02012F2C(int *p);
-extern int func_02012FCC(int p0);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
+extern int GAME_DATA_GetPlayTime(int p0);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u8 func_02008654(const struct PlayTime *p);
@@ -31,8 +31,8 @@ void func_021B9A94(char *p)
 {
     void *counter,*date;
     unsigned year,month,day;
-    counter=func_02012F2C(((struct Obj14631 *)p)->f4);
-    date=(void *)func_02012FCC((int)(((struct Obj14631 *)p)->f4));
+    counter=GAME_DATA_GetTrainerRecord(((struct Obj14631 *)p)->f4);
+    date=(void *)GAME_DATA_GetPlayTime((int)(((struct Obj14631 *)p)->f4));
     year=func_0200864C(date);
     month=func_02008650(date);
     day=func_02008654(date);

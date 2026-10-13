@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DBE6C.c and filed here.
  *
  * symbols:
- *   d_021F07D0 0x021F07D0 data ov093 a4
+ *   gWeakArmorHandlers 0x021F07D0 data ov093 a4
  */
 
 int *func_021DBF1C(int *p);
-extern int d_021F07D0[];
+extern int gWeakArmorHandlers[];
 
 int *func_021DBF1C(int *p)
 {
     *p = 1;
-    return d_021F07D0;
+    return gWeakArmorHandlers;
 }

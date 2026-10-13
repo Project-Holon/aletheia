@@ -20,7 +20,7 @@
  *   d_021DA638 0x021DA638 data a1
  *   d_021DA634 0x021DA634 data a1
  *   d_021DA63C 0x021DA63C data a1
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B688 0x0204B688 arm
@@ -33,7 +33,7 @@ struct Point { u16 x, y, z; u8 a, b; };
 struct Triple { u8 v[3]; };
 extern const struct Triple d_021DA638, d_021DA634, d_021DA63C;
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -59,7 +59,7 @@ void func_021D478C(char *p)
     for (; i < 3; i++) {
         pt.x = x.v[i]; pt.y = y.v[i]; pt.z = z.v[i];
         pt.a = 0; pt.b = 2;
-        *(void **)(p + i * 4 + o4) = func_0204B294((void *)((struct Obj00471 *)p)->f2AC, (unsigned int)*(void **)(p + o1), *(u32 *)(p + o2), *(u32 *)(p + o3), &pt, 1, ((struct Obj00471 *)p)->fC);
+        *(void **)(p + i * 4 + o4) = CLACT_CreateActor((void *)((struct Obj00471 *)p)->f2AC, (unsigned int)*(void **)(p + o1), *(u32 *)(p + o2), *(u32 *)(p + o3), &pt, 1, ((struct Obj00471 *)p)->fC);
         func_0204B92C(*(void **)(p + i * 4 + o5), 0);
         func_0204B3DC(*(void **)(p + i * 4 + o6), 1);
         func_0204B688(*(void **)(p + i * 4 + o7), 1);

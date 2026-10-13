@@ -1,5 +1,5 @@
 /*
- * function: func_021C4678
+ * function: SCRCMD_IAIGIRI_StartOnPlayer
  * address:  0x021C4678
  * packet:   pkt_ov021_021C4678
  * region:   ov021
@@ -12,30 +12,31 @@
  * Refreshes the field object from the day-care state (EXACT*: pad).
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_02188CD0  0x02188CD0  thumb  ov021
- *   func_021C9550  0x021C9550  thumb  ov021
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
+ *   FLDEFF_IAIGIRI_Start  0x021C9550  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb  arm9
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern u32 func_02188CD0(u8 *p);
-extern void func_021C9550(u32 a, u32 b);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern u32 FIELDMAP_GetEffect(u8 *p);
+extern void FLDEFF_IAIGIRI_Start(u32 a, u32 b);
 
-int func_021C4678(void *a, void *b)
+int SCRCMD_IAIGIRI_StartOnPlayer(void *a, void *b)
 {
-    void *g = func_0201210C(func_0215A5DC(b));
-    void *h = func_021A3074(func_02188CB4((void *)g));
+    void *g = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(b));
+    void *h = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)g));
 
-    func_021C9550((u32)h, func_02188CD0(g));
+    FLDEFF_IAIGIRI_Start((u32)h, FIELDMAP_GetEffect(g));
     return 0;
 }

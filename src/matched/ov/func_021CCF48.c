@@ -1,5 +1,5 @@
 /*
- * function: func_021CCF48
+ * function: PARTY_SELECT_LIST_ProcessMenu
  * address:  0x021CCF48
  * packet:   pkt_021CCF48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail call on the word at +0xac.
  *
  * symbols:
- *   func_021909BC  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021909BC(void *a);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
 
-void func_021CCF48(u8 *p)
+void PARTY_SELECT_LIST_ProcessMenu(u8 *p)
 {
-    func_021909BC((void *)(((struct Obj18357 *)p)->fAC));
+    FIELD_MSGBG_DeleteMenuFunc((void *)(((struct Obj18357 *)p)->fAC));
 }

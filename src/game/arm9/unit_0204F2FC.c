@@ -1,7 +1,7 @@
 /*
  * file:     unit_0204F2FC.c
  * unit:     yes
- * function: BILLBOARD_SetImageTexAddr, func_0204F32C, BILLBOARD_CalcImageFrameRange, BILLBOARD_AddElem, BILLBOARD_FreeElem, func_0204F5E4, func_0204F604, func_0204F638, func_0204F654, func_0204F66C, func_0204F684, func_0204F6B4, BILLBOARD_GetElemVisible
+ * function: BILLBOARD_SetImageTexAddr, func_0204F32C, BILLBOARD_CalcImageFrameRange, BILLBOARD_AddElem, BILLBOARD_FreeElem, BILLBOARD_GetElemId, BILLBOARD_SetElemId, BILLBOARD_SetElemPos, BILLBOARD_GetElemCell, BILLBOARD_SetElemCell, BILLBOARD_SetElemScale, BILLBOARD_SetElemAlpha, BILLBOARD_GetElemVisible
  * address:  0x0204F2FC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -21,12 +21,12 @@ void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey
 void func_0204F32C(struct BbBoard *board, int imageIndex, u32 *outPlttKey);
 void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex);
 void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex);
-void func_0204F5E4(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex);
-void func_0204F604(struct BbBoard *board, u32 elemIndex, u16 *imageIndex);
-void func_0204F654(struct BbBoard *board, int elemIndex, u16 *outCell);
-void func_0204F66C(struct BbBoard *board, int elemIndex, u16 *cell);
-void func_0204F6B4(struct BbBoard *board, int elemIndex, u8 *alpha);
-void func_0204F6DC(struct BbBoard *board, int elemIndex, u8 *polyId);
+void BILLBOARD_GetElemId(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex);
+void BILLBOARD_SetElemId(struct BbBoard *board, u32 elemIndex, u16 *imageIndex);
+void BILLBOARD_GetElemCell(struct BbBoard *board, int elemIndex, u16 *outCell);
+void BILLBOARD_SetElemCell(struct BbBoard *board, int elemIndex, u16 *cell);
+void BILLBOARD_SetElemAlpha(struct BbBoard *board, int elemIndex, u8 *alpha);
+void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemIndex, u8 *polyId);
 u32 BILLBOARD_GetElemVisible(struct BbBoard *board, int elemIndex);
 
 void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey)
@@ -123,7 +123,7 @@ void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex)
  * equal `lsl #0x12` / `lsr #0x12`, and the stride is spelled as byte
  * arithmetic so it comes out as `mul` rather than `mla`.
  */
-void func_0204F5E4(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex)
+void BILLBOARD_GetElemId(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex)
 {
     *outImageIndex = ((struct BbElem *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem)))->imageIndex;
 }
@@ -134,7 +134,7 @@ void func_0204F5E4(struct BbBoard *board, u32 elemIndex, u16 *outImageIndex)
  * from the caller's u16. The compiler reuses the inverted mask it already
  * needed as `lsr #18` rather than materialising 0x3fff twice.
  */
-void func_0204F604(struct BbBoard *board, u32 elemIndex, u16 *imageIndex)
+void BILLBOARD_SetElemId(struct BbBoard *board, u32 elemIndex, u16 *imageIndex)
 {
     u16 *packed = (u16 *)((u8 *)board->elems + elemIndex * sizeof(struct BbElem));
 
@@ -146,7 +146,7 @@ void func_0204F604(struct BbBoard *board, u32 elemIndex, u16 *imageIndex)
  * Twelve-byte aggregate copy out of the caller's vector into the position
  * of one element: one `ldm`/`stm` of three registers.
  */
-void func_0204F638(struct BbBoard *board, int elemIndex, VecFx32 *pos)
+void BILLBOARD_SetElemPos(struct BbBoard *board, int elemIndex, VecFx32 *pos)
 {
     struct BbElem *elem = &board->elems[elemIndex];
 
@@ -154,19 +154,19 @@ void func_0204F638(struct BbBoard *board, int elemIndex, VecFx32 *pos)
 }
 
 
-void func_0204F654(struct BbBoard *board, int elemIndex, u16 *outCell)
+void BILLBOARD_GetElemCell(struct BbBoard *board, int elemIndex, u16 *outCell)
 {
     *outCell = board->elems[elemIndex].cell;
 }
 
 
-void func_0204F66C(struct BbBoard *board, int elemIndex, u16 *cell)
+void BILLBOARD_SetElemCell(struct BbBoard *board, int elemIndex, u16 *cell)
 {
     ((struct BbElem *)(elemIndex * sizeof(struct BbElem) + (int)board->elems))->cell = *cell;
 }
 
 
-void func_0204F684(struct BbBoard *board, int elemIndex, const s16 *scaleX, const s16 *scaleY)
+void BILLBOARD_SetElemScale(struct BbBoard *board, int elemIndex, const s16 *scaleX, const s16 *scaleY)
 {
     board->elems[elemIndex].scaleX = *scaleX;
     board->elems[elemIndex].scaleY = *scaleY;
@@ -174,7 +174,7 @@ void func_0204F684(struct BbBoard *board, int elemIndex, const s16 *scaleX, cons
 
 
 /*
- * The three accessors that follow func_0204F684, 0x0204F6B4..0x0204F720, on
+ * The three accessors that follow BILLBOARD_SetElemScale, 0x0204F6B4..0x0204F720, on
  * the bitfields of the packed halfword at +0x18 of one element: five bits
  * at bit 0 (alpha), four bits at bit 5 (polygon id offset), and the single
  * bit at bit 9 (visible).
@@ -187,7 +187,7 @@ void func_0204F684(struct BbBoard *board, int elemIndex, const s16 *scaleX, cons
  * Each one is a read-modify-write of the whole halfword, which is what a
  * bitfield assignment costs.
  */
-void func_0204F6B4(struct BbBoard *board, int elemIndex, u8 *alpha)
+void BILLBOARD_SetElemAlpha(struct BbBoard *board, int elemIndex, u8 *alpha)
 {
     struct BbElem *elem = &board->elems[elemIndex];
 
@@ -195,7 +195,7 @@ void func_0204F6B4(struct BbBoard *board, int elemIndex, u8 *alpha)
 }
 
 
-void func_0204F6DC(struct BbBoard *board, int elemIndex, u8 *polyId)
+void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemIndex, u8 *polyId)
 {
     struct BbElem *elem = &board->elems[elemIndex];
 

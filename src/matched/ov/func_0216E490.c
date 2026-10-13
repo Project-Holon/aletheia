@@ -1,5 +1,5 @@
 /*
- * function: func_0216E490
+ * function: FLDMMDL_IsMovedPosSet
  * address:  0x0216E490
  * packet:   pkt_0216E490
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216E490(int a0)
+int FLDMMDL_IsMovedPosSet(int a0)
 {
     int a1;
     int a2;

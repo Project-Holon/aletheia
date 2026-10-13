@@ -1,5 +1,5 @@
 /*
- * function: func_021BB9D0
+ * function: BTL_SERVER_FLOW_Reset
  * address:  0x021BB9D0
  * packet:   pkt_021BB9D0
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB9D8   0x021BB9D8  thumb ov093
- *   func_021BB9D0   0x021BB9D0  thumb ov093
+ *   BTL_SERVER_FLOW_InitState   0x021BB9D8  thumb ov093
+ *   BTL_SERVER_FLOW_Reset   0x021BB9D0  thumb ov093
  *
- * tail-call thunk to func_021BB9D8
+ * tail-call thunk to BTL_SERVER_FLOW_InitState
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern void func_021BB9D8(u8 *p);
+extern void BTL_SERVER_FLOW_InitState(u8 *p);
 
-void func_021BB9D0(u8 *p)
+void BTL_SERVER_FLOW_Reset(u8 *p)
 {
-    func_021BB9D8(p);
+    BTL_SERVER_FLOW_InitState(p);
 }

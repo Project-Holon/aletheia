@@ -1,5 +1,5 @@
 /*
- * function: func_021BB968
+ * function: BTL_SERVER_FLOW_Create
  * address: 0x021BB968
  * packet: pkt_ov093_021BB968
  * region: ov093
@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   SHINKA_CHECK_OpenHandle 0x0201B70C thumb
- *   func_021BB9D8 0x021BB9D8 thumb ov093
+ *   BTL_SERVER_FLOW_InitState 0x021BB9D8 thumb ov093
  *   d_021F3A70 0x021F3A70 data a4
  */
 typedef unsigned char u8;
@@ -20,9 +20,9 @@ typedef unsigned int u32;
 extern u8 d_021F3A70[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *SHINKA_CHECK_OpenHandle(u16 heap);
-extern void func_021BB9D8(u8 *p);
+extern void BTL_SERVER_FLOW_InitState(u8 *p);
 
-u8 *func_021BB968(void *a, void *b, void *c, void *d, int e, u16 heap)
+u8 *BTL_SERVER_FLOW_Create(void *a, void *b, void *c, void *d, int e, u16 heap)
 {
     u8 *p;
     p = func_02030734(heap, 0x212c, 1, (const char *)d_021F3A70, 0x245);
@@ -36,6 +36,6 @@ u8 *func_021BB968(void *a, void *b, void *c, void *d, int e, u16 heap)
     *(u16 *)(p + 0x780) = heap;
     *(int *)(p + 0x18) = e;
     *(void **)(p + 0x4a4) = SHINKA_CHECK_OpenHandle(heap);
-    func_021BB9D8(p);
+    BTL_SERVER_FLOW_InitState(p);
     return p;
 }

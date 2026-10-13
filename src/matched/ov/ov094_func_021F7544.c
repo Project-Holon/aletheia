@@ -20,11 +20,11 @@
  *   d_0220AF20     0x0220AF20  data   a4
  *   d_0220AC90     0x0220AC90  data   a1
  *   func_021F93F4  0x021F93F4  thumb  ov094
- *   func_02021518  0x02021518  thumb
+ *   PALANM_Create  0x02021518  thumb
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb
- *   func_0202155C  0x0202155C  thumb
+ *   PALANM_AllocSlotBuffers  0x0202155C  thumb
  *   func_021FEAC0  0x021FEAC0  thumb  ov094
- *   func_02048F60  0x02048F60  arm
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_021F6560  0x021F6560  thumb  ov094
  *   func_021BA1A8  0x021BA1A8  thumb  ov093
  *   func_021F6B04  0x021F6B04  thumb  ov094
@@ -36,7 +36,7 @@
  *   func_02209224  0x02209224  thumb  ov094
  *   func_0220975C  0x0220975C  thumb  ov094
  *   func_021FF16C  0x021FF16C  thumb  ov094
- *   func_02050B80  0x02050B80  arm
+ *   PARTICLE_InitManager  0x02050B80  arm
  *   func_020056A0  0x020056A0  thumb
  *   PM_VOICE_AllocBuffers  0x02006674  thumb
  *   func_021F8B90  0x021F8B90  thumb  ov094
@@ -116,11 +116,11 @@ extern u32 func_020307B0(void *p);
 extern void *func_021F93F4(void *a, u32 b);
 struct Obj02021EE4;
 struct PalAnmSlot;
-extern void *func_02021518(u32 heap);
+extern void *PALANM_Create(u32 heap);
 extern void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v);
-extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void *func_021FEAC0(int mode, void *a1, u16 a2);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern void *func_021F6560(int, u8, u8, u16);
 extern int func_021BA1A8(char **p, int m);
 extern void *func_021F6B04(int unused, int group, u8 variant, u16 heap);
@@ -132,7 +132,7 @@ extern void *func_02206BC8(int, u16);
 extern void *func_02209224(u16 heap);
 extern void *func_0220975C(void *a, u16 heap);
 extern void func_021FF16C(void *);
-extern void func_02050B80(u32);
+extern void PARTICLE_InitManager(u32);
 extern void *func_020056A0(void (*cb)(void), void *ctx, int pri);
 extern void PM_VOICE_AllocBuffers(int n, u32 heap);
 extern void func_021F8B90(void);
@@ -153,15 +153,15 @@ void func_021F7544(Param *p, int arg, u16 heap)
     d_0220AF20->buf = sub_02030734(heap, func_02030CB0(0x20), 1, d_0220AC90, 0x11c);
     d_0220AF20->owner = func_02030CBC(0x20, d_0220AF20->buf);
     d_0220AF20->h188 = func_021F93F4(d_0220AF20->owner, heap);
-    d_0220AF20->h18c = (int)func_02021518(heap);
+    d_0220AF20->h18c = (int)PALANM_Create(heap);
     PALANM_SetAutoTransfer((struct Obj02021EE4 *)d_0220AF20->h18c, 1);
-    func_0202155C((struct PalAnmSlot *)d_0220AF20->h18c, 0, 0x200, heap);
-    func_0202155C((struct PalAnmSlot *)d_0220AF20->h18c, 1, 0x1e0, heap);
-    func_0202155C((struct PalAnmSlot *)d_0220AF20->h18c, 2, 0x200, heap);
-    func_0202155C((struct PalAnmSlot *)d_0220AF20->h18c, 3, 0x1e0, heap);
+    PALANM_AllocSlotBuffers((struct PalAnmSlot *)d_0220AF20->h18c, 0, 0x200, heap);
+    PALANM_AllocSlotBuffers((struct PalAnmSlot *)d_0220AF20->h18c, 1, 0x1e0, heap);
+    PALANM_AllocSlotBuffers((struct PalAnmSlot *)d_0220AF20->h18c, 2, 0x200, heap);
+    PALANM_AllocSlotBuffers((struct PalAnmSlot *)d_0220AF20->h18c, 3, 0x1e0, heap);
     v = 0;
     d_0220AF20->h190 = func_021FEAC0(p->f0, d_0220AF20->owner, heap);
-    tbl = func_02048F60(0x98, 0, (u16)((d_0220AF20->heap & 0x7fff) | 0x8000));
+    tbl = ARC_TOOL_LoadMember(0x98, 0, (u16)((d_0220AF20->heap & 0x7fff) | 0x8000));
     if (tbl[p->f8].f1 != 0) {
         v = p->f11;
     }
@@ -186,7 +186,7 @@ void func_021F7544(Param *p, int arg, u16 heap)
     d_0220AF20->h1b0 = func_02209224(heap);
     d_0220AF20->h1b4 = func_0220975C(d_0220AF20->owner, heap);
     func_021FF16C(d_0220AF20->h190);
-    func_02050B80(heap);
+    PARTICLE_InitManager(heap);
     for (i = 0; i < 8; i++) {
         d_0220AF20->slots[i] = -1;
     }

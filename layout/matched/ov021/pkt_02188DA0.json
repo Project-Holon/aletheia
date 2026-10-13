@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02188DA0",
+   "name": "FIELDMAP_SetBgMode",
    "address": "0x02188DA0",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021EEA58
+ * function: BTL_ADAPTER_Create
  * address:  0x021EEA58
  * packet:   pkt_ov093_021EEA58
  * region:   ov093
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   sub_02030734   0x02030734  arm
- *   d_021F6388     0x021F6388  data  ov093  a4
- *   d_021F3AE8     0x021F3AE8  data  ov093  a4
- *   d_021F6384     0x021F6384  data  ov093  a4
+ *   gBtlAdapterSlots     0x021F6388  data  ov093  a4
+ *   gBtlAdapterFileName     0x021F3AE8  data  ov093  a4
+ *   gBtlAdapterMode     0x021F6384  data  ov093  a4
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -28,17 +28,17 @@ typedef struct {
 } Obj;
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern Obj *d_021F6388[];
-extern const char d_021F3AE8[];
-extern int d_021F6384;
+extern Obj *gBtlAdapterSlots[];
+extern const char gBtlAdapterFileName[];
+extern int gBtlAdapterMode;
 
-Obj *func_021EEA58(u32 a, int idx, u32 v, u32 heap)
+Obj *BTL_ADAPTER_Create(u32 a, int idx, u32 v, u32 heap)
 {
     Obj *o;
 
     o = 0;
-    if (d_021F6388[idx] == 0) {
-        o = sub_02030734(heap, 0xbd0, 1, d_021F3AE8, 0x7e);
+    if (gBtlAdapterSlots[idx] == 0) {
+        o = sub_02030734(heap, 0xbd0, 1, gBtlAdapterFileName, 0x7e);
         o->f00 = a;
         o->idx = idx;
         o->hi = (u8)v;
@@ -46,11 +46,11 @@ Obj *func_021EEA58(u32 a, int idx, u32 v, u32 heap)
         o->f = 0;
         o->lo = 0;
     }
-    if (d_021F6384 == 0) {
-        if (d_021F6388[idx] == 0)
-            d_021F6388[idx] = o;
-        return d_021F6388[idx];
+    if (gBtlAdapterMode == 0) {
+        if (gBtlAdapterSlots[idx] == 0)
+            gBtlAdapterSlots[idx] = o;
+        return gBtlAdapterSlots[idx];
     }
-    d_021F6388[idx] = o;
+    gBtlAdapterSlots[idx] = o;
     return o;
 }

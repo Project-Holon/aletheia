@@ -1,5 +1,5 @@
 /*
- * function: func_021BA48C
+ * function: TOWNMAP_CursorSetSnapToTown
  * address:  0x021BA48C
  * packet:   pkt_021BA48C
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021BA48C(int *p, int x)
+void TOWNMAP_CursorSetSnapToTown(int *p, int x)
 {
     p[4] = x;
 }

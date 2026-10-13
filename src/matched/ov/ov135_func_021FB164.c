@@ -10,7 +10,7 @@
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021F9CDC 0x021F9CDC thumb ov135
  */
 #include "../include/Obj00194.h"
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021F9CDC(void *p, u8 *flags);
 int func_021FB164(u8 *p)
 {
@@ -30,13 +30,13 @@ int func_021FB164(u8 *p)
     switch ((u32)r) {
     case 0: case 1: case 2: case 3: case 4:
         func_0204B3DC((struct Obj *)((struct Obj00194 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00194 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj00194 *)p)->f8)) + 9);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00194 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj00194 *)p)->f8)) + 9);
         ((struct Obj00194 *)p)->f48 = 12;
         ((struct Obj00194 *)p)->f3A = r;
         break;
     case -2:
         func_0204B3DC((struct Obj *)((struct Obj00194 *)p)->f8, 1);
-        func_0204B878((struct Obj *)(((struct Obj00194 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj00194 *)p)->f8)) + 9);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj00194 *)p)->f8), CLACT_GetActorAnimSeq((struct Obj *)(((struct Obj00194 *)p)->f8)) + 9);
         ((struct Obj00194 *)p)->f48 = 12;
         ((struct Obj00194 *)p)->f3A = -1;
         break;

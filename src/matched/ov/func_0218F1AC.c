@@ -1,5 +1,5 @@
 /*
- * function: func_0218F1AC
+ * function: FIELD_CAMERA_SetAreasEnabled
  * address:  0x0218F1AC
  * packet:   pkt_0218F1AC
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0218F1AC(u8 *p, u32 v)
+void FIELD_CAMERA_SetAreasEnabled(u8 *p, u32 v)
 {
     ((struct Obj17915 *)p)->fE9 = v;
 }

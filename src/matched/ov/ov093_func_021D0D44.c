@@ -1,5 +1,5 @@
 /*
- * function: func_021D0D44
+ * function: BTL_CLIENT_StepChoiceMode1
  * address: 0x021D0D44
  * packet: pkt_ov093_021D0D44
  * region: ov093
@@ -16,10 +16,10 @@
  */
 
 typedef unsigned char u8;
-int func_021D0D44(u8 *p, int *state);
+int BTL_CLIENT_StepChoiceMode1(u8 *p, int *state);
 int func_021D0E7C(u8 *p, int *state, u8 param);
 
-int func_021D0D44(u8 *p, int *state)
+int BTL_CLIENT_StepChoiceMode1(u8 *p, int *state)
 {
     return func_021D0E7C(p, state, 1);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0201CD10
+ * function: PRINTSYS_PrintStreamCallBack
  * address:  0x0201CD10
  * packet:   pkt_0201CD10
  * region:   arm9
@@ -100,7 +100,7 @@ extern void  func_0201CEE0(void *task, struct Rec *p);
 extern void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
 extern void  PRINTSYS_SplitWait(s32 v, u8 *out);
 
-struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,
+struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3,
                           u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9,
                           u32 a10)
 {

@@ -1,5 +1,5 @@
 /*
- * function: func_021A75DC
+ * function: FIELD_GROUND_ANIME_TexAnmSetInit
  * address:  0x021A75DC
  * packet:   pkt_ov021_021A75DC
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A1BC  0x0204A1BC  arm
- *   func_021A7678  0x021A7678  thumb  ov021
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm
+ *   FIELD_GROUND_ANIME_TexAnmInit  0x021A7678  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -23,13 +23,13 @@ typedef unsigned int   u32;
 typedef struct T { u32 n; } T;
 typedef struct W { u8 a[0x400]; T *tbl; } W;
 
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
-extern void func_021A7678(u8 *a, T *b, u32 c, u32 d, u32 e);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
+extern void FIELD_GROUND_ANIME_TexAnmInit(u8 *a, T *b, u32 c, u32 d, u32 e);
 
-void func_021A75DC(W *w, u32 a, u32 b, u32 c, u32 heap)
+void FIELD_GROUND_ANIME_TexAnmSetInit(W *w, u32 a, u32 b, u32 c, u32 heap)
 {
     u32 i;
-    w->tbl = (T *)func_0204A1BC(a, b, 0, heap);
+    w->tbl = (T *)ARC_UTIL_LoadMember(a, b, 0, heap);
     for (i = 0; i < w->tbl->n; i++)
-        func_021A7678(&w->a[i * 64], w->tbl, i, c, heap);
+        FIELD_GROUND_ANIME_TexAnmInit(&w->a[i * 64], w->tbl, i, c, heap);
 }

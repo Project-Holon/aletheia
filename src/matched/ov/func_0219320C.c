@@ -1,5 +1,5 @@
 /*
- * function: func_0219320C
+ * function: FIELD_MSGBG_KeyWaitGetAuto
  * address:  0x0219320C
  * packet:   pkt_0219320C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_0219320C(u8 *p)
+u8 FIELD_MSGBG_KeyWaitGetAuto(u8 *p)
 {
     return ((struct Obj17938 *)p)->f0;
 }

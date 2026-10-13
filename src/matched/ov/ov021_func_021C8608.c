@@ -1,5 +1,5 @@
 /*
- * function: func_021C8608
+ * function: PLEASURE_BOAT_Create
  * address:  0x021C8608
  * packet:   pkt_ov021_021C8608
  * region:   ov021
@@ -14,12 +14,12 @@
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_021F36C0  0x021F36C0  thumb  ov037
- *   d_021DE534     0x021DE534  data  a4
+ *   gPleasureBoatFileName     0x021DE534  data  a4
  *   d_00000024     0x00000024  data  a4
  */
 #include "../include/Obj03616.h"
 
-extern char d_021DE534;
+extern char gPleasureBoatFileName;
 extern char d_00000024[];
 
 typedef signed int     s32;
@@ -30,9 +30,9 @@ extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(int a);
 extern void func_021F36C0(char *p);
 
-char *func_021C8608(void)
+char *PLEASURE_BOAT_Create(void)
 {
-    char *p = func_02030734(5, 0x1b8, 1, &d_021DE534, 0x31);
+    char *p = func_02030734(5, 0x1b8, 1, &gPleasureBoatFileName, 0x31);
 
     ((struct Obj03616 *)p)->f0 = 0;
     ((struct Obj03616 *)p)->f4 = 0;

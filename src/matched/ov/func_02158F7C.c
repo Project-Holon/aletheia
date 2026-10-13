@@ -1,5 +1,5 @@
 /*
- * function: func_02158F7C
+ * function: SCRIPT_WORK_GetTempBuffer
  * address:  0x02158F7C
  * packet:   pkt_02158F7C
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u32 func_02158F7C(u8 *p)
+u32 SCRIPT_WORK_GetTempBuffer(u8 *p)
 {
     return ((struct Obj17633 *)p)->f34;
 }

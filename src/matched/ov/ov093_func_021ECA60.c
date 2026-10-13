@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021EE104 0x021EE104 thumb ov093
+ *   BTLV_SCU_GetBallStates 0x021EE104 thumb ov093
  *   func_021F823C 0x021F823C thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
@@ -17,15 +17,15 @@
  *   func_021B8FE4 0x021B8FE4 thumb ov093
  *   func_021B8ED8 0x021B8ED8 thumb ov093
  *   func_021B98AC 0x021B98AC thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   func_021B9F70 0x021B9F70 thumb ov093
- *   func_021EEE24 0x021EEE24 thumb ov093
+ *   BTL_MSG_FormatArgs 0x021EEE24 thumb ov093
  *   func_021ECEB8 0x021ECEB8 thumb ov093
  *   func_021ECF68 0x021ECF68 thumb ov093
  *   func_021F8260 0x021F8260 thumb ov094
  *   func_021ED798 0x021ED798 thumb ov093
  *   func_021ED814 0x021ED814 thumb ov093
- *   func_021D5864 0x021D5864 thumb ov093
+ *   BTL_POKEPARAM_GetDisplayMon 0x021D5864 thumb ov093
  *   func_021F7EE8 0x021F7EE8 thumb ov094
  *   func_021EDA04 0x021EDA04 thumb ov093
  */
@@ -34,7 +34,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021EE104(u8 *, u32 *, u32, u32, u32);
+extern void BTLV_SCU_GetBallStates(u8 *, u32 *, u32, u32, u32);
 extern void func_021F823C(u32 *);
 extern int func_021F7EB4(void);
 extern void func_021F7998(u32);
@@ -43,10 +43,10 @@ extern u8 func_021B8FF4(u8 *);
 extern u8 func_021B8FE4(u8 *);
 extern u8 func_021B8ED8(u8 *p, u8 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct Work;
 extern int func_021B9F70(u8 *p, int i);
-extern void func_021EEE24(u32, u16, u32, ...);
+extern void BTL_MSG_FormatArgs(u32, u16, u32, ...);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
 struct E;
 struct S;
@@ -55,7 +55,7 @@ extern int func_021ECF68(struct T *p);
 extern void func_021F8260(u32 i);
 extern void func_021ED798(struct S *s);
 extern int func_021ED814(struct S *s);
-extern void *func_021D5864(struct Work *p);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern void func_021F7EE8(void *, int);
 extern void func_021EDA04(struct E *e);
 int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
@@ -68,8 +68,8 @@ int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
     u16 msg;
     switch (*state) {
     case 0:
-        if (a < c) func_021EE104(p, buf, a, c, 0);
-        else func_021EE104(p, buf, c, a, 0);
+        if (a < c) BTLV_SCU_GetBallStates(p, buf, a, c, 0);
+        else BTLV_SCU_GetBallStates(p, buf, c, a, 0);
         func_021F823C(buf);
         (*state)++;
         break;
@@ -88,10 +88,10 @@ int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
             for (i = 0; i < 2U; i++) {
                 b[8 + i] = func_021B8ED8(*(u8 * *)&((struct Obj00027 *)p)->f134, b[10 + i]);
                 ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj00027 *)p)->f138, b[8 + i]);
-                b[12 + i] = func_021D5440(((u8 **)b)[i]);
+                b[12 + i] = BTL_POKEPARAM_GetPokeId(((u8 **)b)[i]);
             }
             msg = func_021B9F70(((struct Obj00027 *)p)->f134, c) ? 14 : 17;
-            func_021EEE24(((struct Obj00027 *)p)->f34, msg, 2, c, (b + side)[12]);
+            BTL_MSG_FormatArgs(((struct Obj00027 *)p)->f34, msg, 2, c, (b + side)[12]);
             func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }
@@ -106,10 +106,10 @@ int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
     case 4:
         if (func_021ED814((struct S *)(p + 0x154))) {
             winner = func_021B8FE4(*(u8 * *)&((struct Obj00027 *)p)->f134);
-            func_021F7EE8(func_021D5864(*(void **)b), b[10]);
-            func_021F7EE8(func_021D5864(((struct Obj01523 *)b)->f4), b[11]);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(*(void **)b), b[10]);
+            func_021F7EE8(BTL_POKEPARAM_GetDisplayMon(((struct Obj01523 *)b)->f4), b[11]);
             func_021F7998(0x234);
-            func_021EEE24(((struct Obj00027 *)p)->f34, 11, 1, (b + winner)[12]);
+            BTL_MSG_FormatArgs(((struct Obj00027 *)p)->f34, 11, 1, (b + winner)[12]);
             func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }

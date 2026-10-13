@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203CDBC  0x0203CDBC  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  */
 
-extern int func_0203CDBC(void);
-int func_021F1010(void *p) { return func_0203CDBC(); }
+extern int GFL_NET_IsSessionNull(void);
+int func_021F1010(void *p) { return GFL_NET_IsSessionNull(); }

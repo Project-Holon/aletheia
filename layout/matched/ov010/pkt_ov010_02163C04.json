@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02163C04",
+   "name": "FLDMMDL_MOVE_IsGridInObjectRect",
    "address": "0x02163C04",
    "kind": "game",
    "region": "ov010",

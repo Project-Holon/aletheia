@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9E54",
+   "name": "STARTMENU_Demo3dDelete",
    "address": "0x021B9E54",
    "kind": "game",
    "region": "ov088",

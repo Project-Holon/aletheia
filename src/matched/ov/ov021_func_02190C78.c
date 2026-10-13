@@ -1,5 +1,5 @@
 /*
- * function: func_02190C78
+ * function: FIELD_MSGBG_YesNoMenuMain
  * address:  0x02190C78
  * packet:   pkt_ov021_02190C78
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02190860  0x02190860  thumb  ov021
- *   func_021909E4  0x021909E4  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuFuncPalette  0x02190860  thumb  ov021
+ *   FIELD_MSGBG_MenuFuncMain  0x021909E4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -28,12 +28,12 @@ typedef struct Handle {
     u32 obj;
 } Handle;
 
-extern Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
-extern int func_021909E4(Handle *h);
+extern Handle *FIELD_MSGBG_CreateMenuFuncPalette(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
+extern int FIELD_MSGBG_MenuFuncMain(Handle *h);
 
-int func_02190C78(Handle *h)
+int FIELD_MSGBG_YesNoMenuMain(Handle *h)
 {
-    int v = func_021909E4(h);
+    int v = FIELD_MSGBG_MenuFuncMain(h);
     if (v == -1)
         return 2;
     if (v == -2)

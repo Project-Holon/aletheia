@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021757A8",
+   "name": "INTRUDE_COMM_ClearSessionEntries",
    "address": "0x021757A8",
    "kind": "game",
    "region": "ov011",

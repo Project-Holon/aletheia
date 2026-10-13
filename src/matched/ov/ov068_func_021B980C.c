@@ -1,5 +1,5 @@
 /*
- * function: func_021B980C
+ * function: OPTION_MENU_Main
  * address:  0x021B980C
  * packet:   pkt_ov068_021B980C
  * region:   ov068
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BB120  0x021BB120  thumb
- *   func_021B9930  0x021B9930  thumb
- *   func_0201C4E4  0x0201C4E4  thumb
- *   func_020310C4  0x020310C4  arm
- *   func_021BA644  0x021BA644  thumb
- *   func_021BB134  0x021BB134  thumb
+ *   OPTION_MENU_UpdateRunner  0x021BB120  thumb
+ *   OPTION_MENU_UpdateScreen  0x021B9930  thumb
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   TCBL_Main  0x020310C4  arm
+ *   OPTION_MENU_UpdateButtonWindows  0x021BA644  thumb
+ *   OPTION_MENU_IsRunnerFinished  0x021BB134  thumb
  */
 #include "../include/Obj13137.h"
 
@@ -24,21 +24,21 @@ typedef unsigned int u32;
 
 struct PrintSys;
 struct Tcbl;
-extern void func_021BB120(u8 *p);
-extern void func_021B9930(u8 *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_020310C4(struct Tcbl *p);
-extern void func_021BA644(u8 *p);
-extern int func_021BB134(void *p);
+extern void OPTION_MENU_UpdateRunner(u8 *p);
+extern void OPTION_MENU_UpdateScreen(u8 *p);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void TCBL_Main(struct Tcbl *p);
+extern void OPTION_MENU_UpdateButtonWindows(u8 *p);
+extern int OPTION_MENU_IsRunnerFinished(void *p);
 
-int func_021B980C(u32 a, u32 b, u32 c, u8 *w)
+int OPTION_MENU_Main(u32 a, u32 b, u32 c, u8 *w)
 {
-    func_021BB120(w + 0xd4);
-    func_021B9930(w);
-    func_0201C4E4(((struct Obj13137 *)w)->f258);
-    func_020310C4(((struct Obj13137 *)w)->f268);
-    func_021BA644(w + 0x104);
-    if (func_021BB134(w + 0xd4) != 0)
+    OPTION_MENU_UpdateRunner(w + 0xd4);
+    OPTION_MENU_UpdateScreen(w);
+    PRINTSYS_QUE_Main(((struct Obj13137 *)w)->f258);
+    TCBL_Main(((struct Obj13137 *)w)->f268);
+    OPTION_MENU_UpdateButtonWindows(w + 0x104);
+    if (OPTION_MENU_IsRunnerFinished(w + 0xd4) != 0)
         return 1;
     return 0;
 }

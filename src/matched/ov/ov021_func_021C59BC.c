@@ -1,5 +1,5 @@
 /*
- * function: func_021C59BC
+ * function: SHORTCUT_MENU_ScrollStep
  * address:  0x021C59BC
  * packet:   pkt_ov021_021C59BC
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern void func_02040618(u32 layer, u32 a, u32 b);
 
-void func_021C59BC(void *a, u8 *p)
+void SHORTCUT_MENU_ScrollStep(void *a, u8 *p)
 {
     u16 n = ((struct Obj09688 *)p)->f72;
     int v = n * 0xC0 / 4 - 0xC0;

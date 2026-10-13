@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020470D0   0x020470D0  arm
- *   func_02046EFC   0x02046EFC  arm
+ *   G3D_SYSTEM_FreeVramTexture   0x020470D0  arm
+ *   G3D_SYSTEM_DeleteResource   0x02046EFC  arm
  *
  * The direct form of the entry teardown: release the 0x28-byte entry's first
  * word if it is live, zero it, and stamp 5 into the halfword-style state word
@@ -24,7 +24,7 @@
  * first call receives, which is why there is no reload between them.
  *
  * The sibling entry points are BILLBOARD_ReleaseImageVramIfUsed (guarded, through two
- * function-pointer globals) and func_0204F214 (unguarded, same two globals);
+ * function-pointer globals) and BILLBOARD_ReleaseImageVram (unguarded, same two globals);
  * neither is contiguous with this one.
  */
 #include "../include/Obj05758.h"
@@ -34,16 +34,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Tagged;
-extern int func_020470D0(u32 *p);
-extern void func_02046EFC(struct Tagged *p);
+extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
 void BILLBOARD_DeleteImage(u8 *a0, int i)
 {
     u32 off = i * 0x28;
 
     if (*(u32 *)(((struct Obj05758 *)a0)->f4 + off) != 0) {
-        func_020470D0((u32 *)(*(u32 *)(((struct Obj05758 *)a0)->f4 + off)));
-        func_02046EFC((struct Tagged *)(*(u32 *)(((struct Obj05758 *)a0)->f4 + off)));
+        G3D_SYSTEM_FreeVramTexture((u32 *)(*(u32 *)(((struct Obj05758 *)a0)->f4 + off)));
+        G3D_SYSTEM_DeleteResource((struct Tagged *)(*(u32 *)(((struct Obj05758 *)a0)->f4 + off)));
         *(u32 *)(((struct Obj05758 *)a0)->f4 + off) = 0;
     }
     *(u32 *)(((struct Obj05758 *)a0)->f4 + off + 0x14) = 5;

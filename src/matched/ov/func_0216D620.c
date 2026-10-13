@@ -1,5 +1,5 @@
 /*
- * function: func_0216D620
+ * function: FLDMMDL_SetParam
  * address:  0x0216D620
  * packet:   pkt_0216D620
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D620(int a0, int a1, int a2)
+int FLDMMDL_SetParam(int a0, int a1, int a2)
 {
 
     if (a2 == 0) goto loc_0216D62E;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02198AFC",
+   "name": "FLDMMDL_ACMD_DirPauseOn",
    "address": "0x02198AFC",
    "kind": "game",
    "region": "ov021",

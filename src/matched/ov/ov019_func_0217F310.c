@@ -1,5 +1,5 @@
 /*
- * function: func_0217F310
+ * function: UNION_MSG_SelectMenu
  * address:  0x0217F310
  * packet:   pkt_ov019_0217F310
  * region:   ov019
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02034714  0x02034714  arm
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_0219049C  0x0219049C  thumb  ov021
- *   func_021909E4  0x021909E4  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_IsPrintQueFinished  0x0219049C  thumb  ov021
+ *   FIELD_MSGBG_MenuFuncMain  0x021909E4  thumb  ov021
  *   d_021807F8     0x021807F8  data   ov019 a4
  * Addresses are Black-image addresses.
  */
@@ -25,23 +25,23 @@ typedef unsigned int   u32;
 
 extern void func_02034714(const char *a, u32 b, const char *c);
 struct Handle;
-extern u32 func_02188C54(u8 *p);
-extern int func_0219049C(u8 *p);
-extern int func_021909E4(struct Handle *h);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern int FIELD_MSGBG_IsPrintQueFinished(u8 *p);
+extern int FIELD_MSGBG_MenuFuncMain(struct Handle *h);
 extern u32 d_021807F8[];
 
-int func_0217F310(char *p, u32 a1)
+int UNION_MSG_SelectMenu(char *p, u32 a1)
 {
-    u32 h = func_02188C54((u8 *)a1);
+    u32 h = FIELDMAP_GetMsgBg((u8 *)a1);
 
     if (h == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    if (h != 0 && func_0219049C((u8 *)h) == 0) {
+    if (h != 0 && FIELD_MSGBG_IsPrintQueFinished((u8 *)h) == 0) {
         return -1;
     }
     if (((struct Obj12529 *)p)->f2810 == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    return func_021909E4((struct Handle *)(((struct Obj12529 *)p)->f2810));
+    return FIELD_MSGBG_MenuFuncMain((struct Handle *)(((struct Obj12529 *)p)->f2810));
 }

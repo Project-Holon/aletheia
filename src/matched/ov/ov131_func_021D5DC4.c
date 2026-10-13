@@ -32,11 +32,11 @@
  *   P_STATUS_GetPokeParaSource 0x021D60A4 thumb ov131
  *   func_0201C6B4 0x0201C6B4 thumb
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   PM_VOICE_StopSlot 0x02006BB4 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02006CAC 0x02006CAC thumb
- *   func_02006984 0x02006984 thumb
+ *   PM_VOICE_Play 0x02006984 thumb
  */
 #include "../include/Obj00035.h"
 typedef unsigned char u8;
@@ -56,14 +56,14 @@ extern void P_STA_SKILL_ShowStatsPage(u8 *,u8 *);
 extern void P_STA_RIBBON_Show(u8 *,u8 *);
 extern void P_STA_SKILL_ShowMovesPage(u8 *,u8 *);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int P_STATUS_SearchPokemon(u8 *,int,u16 *);
 extern int P_STATUS_CanUseButtons(char *);
 extern void PM_VOICE_StopSlot(u32);
 extern int P_STATUS_GetPokeParaSource(char *p);
-extern u32 func_02017E1C(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void func_02006CAC(void **);
-extern u32 func_02006984(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
 void P_STATUS_UpdateRefresh(u8 *p)
 {
     void *q;
@@ -113,27 +113,27 @@ void P_STATUS_UpdateRefresh(u8 *p)
             func_0204B3DC(((struct Obj00035 *)p)->f180,0);
         }
         if (*(u32 *)&((struct Obj00035 *)p)->f48==0) {
-            if (P_STATUS_SearchPokemon(p,0,0)==1) func_0204B878(((struct Obj00035 *)p)->f188,3);
-            else func_0204B878(((struct Obj00035 *)p)->f188,17);
+            if (P_STATUS_SearchPokemon(p,0,0)==1) CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f188,3);
+            else CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f188,17);
         }
         if (*(u32 *)&((struct Obj00035 *)p)->f4C==0) {
-            if (P_STATUS_SearchPokemon(p,1,0)==1) func_0204B878(((struct Obj00035 *)p)->f18C,2);
-            else func_0204B878(((struct Obj00035 *)p)->f18C,16);
+            if (P_STATUS_SearchPokemon(p,1,0)==1) CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f18C,2);
+            else CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f18C,16);
         }
         if (*(int *)&((struct Obj00035 *)p)->f58<3 && P_STATUS_CanUseButtons((char *)p)==1) {
             if (*(u32 *)((u32)p + (u32)*(int *)&((struct Obj00035 *)p)->f58*4 + 0x60)==1)
-                func_0204B878(((struct Obj00035 *)p)->f184,7);
-            else func_0204B878(((struct Obj00035 *)p)->f184,6);
+                CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f184,7);
+            else CLACT_SetActorAnimSeq(((struct Obj00035 *)p)->f184,6);
         }
         if (((struct Obj00035 *)p)->f10==1) {
             ((struct Obj00035 *)p)->f10=0;
             PM_VOICE_StopSlot(0);
             if (((struct Obj00035 *)p)->f38==0) {
                 q=(void *)P_STATUS_GetPokeParaSource((char *)p);
-                a=func_02017E1C(q,5,0);
-                b=func_02017E1C(q,111,0);
+                a=POKE_TOOL_GetPartyValue(q,5,0);
+                b=POKE_TOOL_GetPartyValue(q,111,0);
                 func_02006CAC(&out);
-                func_02006984(a,b,64,0,0,0,0,(u32)&out);
+                PM_VOICE_Play(a,b,64,0,0,0,0,(u32)&out);
             }
         }
         if (((struct Obj00035 *)p)->f25C==2) {

@@ -9,12 +9,12 @@
  * status: EXACT
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_0201F73C 0x0201F73C thumb
- *   func_02045CAC 0x02045CAC arm
- *   func_0201C724 0x0201C724 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -26,13 +26,13 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct Cfg;
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 void func_021E03D8(u8 *p,void *text,int index,int color)
@@ -42,12 +42,12 @@ void func_021E03D8(u8 *p,void *text,int index,int color)
     s=p+3296;
     window=*(void **)(s+20+index*4);
     func_0201F73C(window,2,1,14);
-    func_02043B5C(func_02045770(window),15);
+    BMP_Clear(func_02045770(window),15);
     owner=((struct Obj14231 *)s)->f58;
     data=func_02045770(*(void **)(s+48+index*8));
-    func_0201C724(owner,(u32)data,4,1,(u32)text,(u32)(((struct Obj14231 *)s)->f4),color);
+    PRINTSYS_PrintQueColor(owner,(u32)data,4,1,(u32)text,(u32)(((struct Obj14231 *)s)->f4),color);
     *(u8 *)(s+52+index*8)=1;
-    func_02045334(window);
-    func_02045374(window);
+    BMP_WIN_TransferChars(window);
+    BMP_WIN_MakeScreen(window);
     func_02041B6C(func_02045730(window));
 }

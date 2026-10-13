@@ -12,14 +12,14 @@
  * symbols:
  *   func_021C3E04 0x021C3E04 thumb
  *   func_021C3E00 0x021C3E00 thumb
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  */
 typedef unsigned int u32;
 extern u32 func_021C3E00(u32 *p);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 int func_021C3E04(u32 *p, void *q)
 {
     if (func_021C3E00(p) == 0) return 0;
-    func_02017E40(q, 0xa7, p[5]);
+    POKE_TOOL_SetPartyValue(q, 0xa7, p[5]);
     return 1;
 }

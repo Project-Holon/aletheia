@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC2B0   0x021BC2B0  thumb ov093
+ *   BTL_SERVER_FLOW_CheckShowdown   0x021BC2B0  thumb ov093
  *   func_021C83D4   0x021C83D4  thumb ov093
  *
- * tail-call thunk to func_021BC2B0
+ * tail-call thunk to BTL_SERVER_FLOW_CheckShowdown
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern int func_021BC2B0(u8 *p);
+extern int BTL_SERVER_FLOW_CheckShowdown(u8 *p);
 
 int func_021C83D4(u8 *p)
 {
-    return func_021BC2B0(p);
+    return BTL_SERVER_FLOW_CheckShowdown(p);
 }

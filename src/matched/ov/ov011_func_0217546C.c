@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021754B4  0x021754B4  thumb ov011
- *   func_020120D8  0x020120D8  thumb
- *   func_0217538C  0x0217538C  thumb ov011
- *   func_0217545C  0x0217545C  thumb ov011
+ *   INTRUDE_COMM_GetActiveRequestTarget  0x021754B4  thumb ov011
+ *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
+ *   INTRUDE_COMM_InitRequest  0x0217538C  thumb ov011
+ *   INTRUDE_COMM_ClearRequestOpen  0x0217545C  thumb ov011
  */
 #include "../include/Obj00566.h"
 
 typedef unsigned char u8;
 
-int func_021754B4(u8 *p, int *out);
-int func_020120D8(char *p);
-void func_0217538C(u8 *p, int a);
-void func_0217545C(u8 *p);
+int INTRUDE_COMM_GetActiveRequestTarget(u8 *p, int *out);
+int GAMESYSTEM_IsEventActive(char *p);
+void INTRUDE_COMM_InitRequest(u8 *p, int a);
+void INTRUDE_COMM_ClearRequestOpen(u8 *p);
 
 void INTRUDE_COMM_UpdateRequest(u8 *p)
 {
@@ -30,13 +30,13 @@ void INTRUDE_COMM_UpdateRequest(u8 *p)
     u8 *q;
     int i;
 
-    if (func_021754B4(p, (int *)buf) == 1 && func_020120D8((char *)((struct Obj00566 *)p)->f0) == 1) {
+    if (INTRUDE_COMM_GetActiveRequestTarget(p, (int *)buf) == 1 && GAMESYSTEM_IsEventActive((char *)((struct Obj00566 *)p)->f0) == 1) {
         q = p + 0x945;
         i = p[0x154];
         if (q[i] == 0) {
             q[i] = p[0x158];
         }
-        func_0217538C(p, 4);
-        func_0217545C(p);
+        INTRUDE_COMM_InitRequest(p, 4);
+        INTRUDE_COMM_ClearRequestOpen(p);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3894
+ * function: GIMMICK50_ExitExtra
  * address: 0x021F3894
  * packet: pkt_ov050_021F3894
  * region: ov050
@@ -11,6 +11,6 @@
  * note: 2026-10-05 integrator: label left open after the pengy waves; written from the listing.
  */
 
-void func_021F3894(int *a0, char *a1)
+void GIMMICK50_ExitExtra(int *a0, char *a1)
 {
 }

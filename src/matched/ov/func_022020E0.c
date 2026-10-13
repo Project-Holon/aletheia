@@ -10,6 +10,8 @@
  * status:   EXACT
  *
  * symbols:
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb  arm9
+ *   GAME_DATA_SaveStart  0x02012DAC  thumb  arm9
  *
 
  *
@@ -22,12 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern int func_02012DAC(int a0);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern int GAME_DATA_SaveStart(int a0);
 
 int func_022020E0(u8 *p)
 {
-    func_02012DAC((int)func_020120F4((const struct Ctx *)(*(u32 *)(((struct Obj12245 *)p)->f0 + 0x40))));
+    GAME_DATA_SaveStart((int)GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)(((struct Obj12245 *)p)->f0 + 0x40))));
     ((struct Obj12245 *)p)->f28 = 0x27;
     return 2;
 }

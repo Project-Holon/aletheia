@@ -1,5 +1,5 @@
 /*
- * function: func_02196C68
+ * function: IRCBATTLEMENU_SeqSetupRuleMenu
  * address:  0x02196C68
  * packet:   pkt_ov021_02196C68
  * region:   ov021
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * State setup: like func_02196A60 with a 16-byte record and other handlers.
+ * State setup: like IRCBATTLEMENU_SeqSetupKindMenu with a 16-byte record and other handlers.
  *
  * symbols:
- *   func_02196034  0x02196034  thumb  ov021
- *   func_0219630C  0x0219630C  thumb  ov021
- *   func_021966B0  0x021966B0  thumb  ov021
- *   func_0219728C  0x0219728C  thumb  ov021
- *   func_0219649C  0x0219649C  thumb  ov021
- *   func_02196F44  0x02196F44  thumb  ov021
- *   func_02196FF0  0x02196FF0  thumb  ov021
- *   func_02051B84  0x02051B84  arm
- *   d_021D4080     0x021D4080  data  ov021  a4
- *   d_021D4034     0x021D4034  data  ov021  a4
- *   d_021DDB44     0x021DDB44  data  ov021  a4
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_CreateButtonWindows  0x0219630C  thumb  ov021
+ *   IRCBATTLEMENU_LoadSubBgScreen  0x021966B0  thumb  ov021
+ *   IRCBATTLEMENU_CreateMainMenuActors  0x0219728C  thumb  ov021
+ *   IRCBATTLEMENU_TouchCallback  0x0219649C  thumb  ov021
+ *   IRCBATTLEMENU_TouchRuleMenu  0x02196F44  thumb  ov021
+ *   IRCBATTLEMENU_SeqUpdateTouchSub  0x02196FF0  thumb  ov021
+ *   BUTTON_MAN_Create  0x02051B84  arm
+ *   sRuleMenuMsgIds     0x021D4080  data  ov021  a4
+ *   sRuleMenuTouchRects     0x021D4034  data  ov021  a4
+ *   sRuleMenuWinDescs     0x021DDB44  data  ov021  a4
  *
  * Addresses are Black-image addresses.
  */
@@ -35,27 +35,27 @@ typedef signed int     s32;
 
 struct Rec16 { u32 a; u32 b; u32 c; u32 d; };
 
-extern void func_02196034(u8 *p, void *fn, u32 n);
-extern void func_0219630C(u32 a, void *b, u8 *c, void *d, u32 e, u32 f);
-extern void func_021966B0(u8 *p, u32 n);
-extern void func_0219728C(u8 *p);
+extern void IRCBATTLEMENU_SetSeq(u8 *p, void *fn, u32 n);
+extern void IRCBATTLEMENU_CreateButtonWindows(u32 a, void *b, u8 *c, void *d, u32 e, u32 f);
+extern void IRCBATTLEMENU_LoadSubBgScreen(u8 *p, u32 n);
+extern void IRCBATTLEMENU_CreateMainMenuActors(u8 *p);
 struct Cb;
-extern void func_0219649C(void *a, int b, struct Cb *c);
-extern int func_02196F44(u32 v, u8 *p);
-extern void func_02196FF0(u8 *p);
-extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
-extern struct Rec16 d_021D4080;
-extern u8 d_021D4034[];
-extern u8 d_021DDB44[];
+extern void IRCBATTLEMENU_TouchCallback(void *a, int b, struct Cb *c);
+extern int IRCBATTLEMENU_TouchRuleMenu(u32 v, u8 *p);
+extern void IRCBATTLEMENU_SeqUpdateTouchSub(u8 *p);
+extern void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3);
+extern struct Rec16 sRuleMenuMsgIds;
+extern u8 sRuleMenuTouchRects[];
+extern u8 sRuleMenuWinDescs[];
 
-void func_02196C68(u8 *p)
+void IRCBATTLEMENU_SeqSetupRuleMenu(u8 *p)
 {
-    struct Rec16 loc = d_021D4080;
+    struct Rec16 loc = sRuleMenuMsgIds;
 
-    func_0219728C(p);
-    func_021966B0(p, 0xD);
-    func_0219630C(4, &loc, p, d_021DDB44, 0, 0);
-    ((struct Obj00093 *)p)->f24 = func_02051B84(d_021D4034, (int)func_0219649C, (int)p, ((struct Obj00093 *)p)->f10);
-    ((struct Obj00093 *)p)->f4 = func_02196F44;
-    func_02196034(p, func_02196FF0, 0x4CC);
+    IRCBATTLEMENU_CreateMainMenuActors(p);
+    IRCBATTLEMENU_LoadSubBgScreen(p, 0xD);
+    IRCBATTLEMENU_CreateButtonWindows(4, &loc, p, sRuleMenuWinDescs, 0, 0);
+    ((struct Obj00093 *)p)->f24 = BUTTON_MAN_Create(sRuleMenuTouchRects, (int)IRCBATTLEMENU_TouchCallback, (int)p, ((struct Obj00093 *)p)->f10);
+    ((struct Obj00093 *)p)->f4 = IRCBATTLEMENU_TouchRuleMenu;
+    IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqUpdateTouchSub, 0x4CC);
 }

@@ -12,13 +12,13 @@
  * symbols:
  *   func_021F2F44 0x021F2F44 thumb
  *   d_021F35E0 0x021F35E0 data ov032 a4
- *   func_0204B100 0x0204B100 arm
- *   func_0204B034 0x0204B034 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   CLACT_CreateRenderer 0x0204B034 arm
  *   func_0204B258 0x0204B258 arm
- *   func_02025538 0x02025538 thumb
+ *   BMP_OAM_CreateSys 0x02025538 thumb
  *   func_021F3264 0x021F3264 thumb ov032
  *   func_021F32F8 0x021F32F8 thumb ov032
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
 #include "../include/Obj00007.h"
 
@@ -28,28 +28,28 @@ extern T16 d_021F35E0;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct Obj;
-extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
+extern struct Obj *CLACT_CreateRenderer(u8 *a0, u32 a1, u32 heap);
 extern void func_0204B258(struct Bank *bank, void *p);
-extern void *func_02025538(unsigned int a0, void *a1);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 extern void func_021F3264(char *);
 extern void func_021F32F8(char *, unsigned char);
-extern void func_02043598(unsigned, unsigned);
+extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 
 void func_021F2F44(char *p, void *a)
 {
     T16 t;
     int i;
 
-    ((struct Obj00007 *)p)->f128 = func_0204B100(0x40, 0, ((struct Obj00007 *)p)->f94);
+    ((struct Obj00007 *)p)->f128 = CLACT_CreateUnit(0x40, 0, ((struct Obj00007 *)p)->f94);
     t = d_021F35E0;
-    ((struct Obj00007 *)p)->f12C = func_0204B034((u8 *)(&t), 1, ((struct Obj00007 *)p)->f98);
+    ((struct Obj00007 *)p)->f12C = CLACT_CreateRenderer((u8 *)(&t), 1, ((struct Obj00007 *)p)->f98);
     func_0204B258(((struct Obj00007 *)p)->f128, ((struct Obj00007 *)p)->f12C);
-    ((struct Obj00007 *)p)->f124 = func_02025538(((struct Obj00007 *)p)->f98, ((struct Obj00007 *)p)->f128);
+    ((struct Obj00007 *)p)->f124 = BMP_OAM_CreateSys(((struct Obj00007 *)p)->f98, ((struct Obj00007 *)p)->f128);
     func_021F3264(p);
     for (i = 0; i < 5; i++) {
         func_021F32F8(p, i);
     }
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

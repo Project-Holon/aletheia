@@ -1,5 +1,5 @@
 /*
- * function: func_021C8848
+ * function: PLEASURE_BOAT_ScrCmdDelete
  * address:  0x021C8848
  * packet:   pkt_021C8848
  * region:   ov021
@@ -12,12 +12,12 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012ED0  0x02012ED0  thumb
- *   func_021666A4  0x021666A4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventState  0x02012ED0  thumb
+ *   SYMBOL_MAP_DeleteLinkRecord  0x021666A4  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -28,17 +28,17 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u8 *func_02012ED0(struct Big *p);
-extern void *func_0215A5DC(void *a0);
-extern void func_021666A4(int a0);
-extern void *func_02188C80(void *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u8 *GAME_DATA_GetEventState(struct Big *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void SYMBOL_MAP_DeleteLinkRecord(int a0);
+extern void *FIELDMAP_GetGameSystem(void *p);
 
-int func_021C8848(u32 a, u32 b, u32 c, u32 d)
+int PLEASURE_BOAT_ScrCmdDelete(u32 a, u32 b, u32 c, u32 d)
 {
-func_021666A4((int)func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)b))))));
+SYMBOL_MAP_DeleteLinkRecord((int)GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))))));
 return 0;
 }
 

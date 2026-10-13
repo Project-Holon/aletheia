@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F52D8",
+   "name": "ENCEFF_StartModelScene",
    "address": "0x021F52D8",
    "kind": "game",
    "region": "ov076",

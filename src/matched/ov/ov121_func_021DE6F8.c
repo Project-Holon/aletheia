@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02010498  0x02010498  thumb
- *   func_0201058C  0x0201058C  thumb
+ *   WIH_DWC_PollStatus  0x0201058C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -20,10 +20,10 @@
 typedef unsigned int u32;
 
 extern void func_02010498(void);
-extern u32 func_0201058C(void *key);
+extern u32 WIH_DWC_PollStatus(void *key);
 
 void func_021DE6F8(int a, int b, char *c)
 {
     func_02010498();
-    ((struct Obj22915 *)c)->f54 = func_0201058C(0);
+    ((struct Obj22915 *)c)->f54 = WIH_DWC_PollStatus(0);
 }

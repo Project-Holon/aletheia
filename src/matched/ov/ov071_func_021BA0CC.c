@@ -1,5 +1,5 @@
 /*
- * function: func_021BA0CC
+ * function: MONOLITH_TOOL_ScrollBy
  * address:  0x021BA0CC
  * packet:   pkt_ov071_021BA0CC
  * region:   ov071
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf following func_021BA01C inside its listing extent.
+ * Unlabelled leaf following MONOLITH_TOOL_ApplyCursorChange inside its listing extent.
  */
 #include "../include/Obj00044.h"
 
 typedef unsigned char u8;
 
-int func_021BA0CC(u8 *p, int d)
+int MONOLITH_TOOL_ScrollBy(u8 *p, int d)
 {
     int lim;
     int old;

@@ -42,8 +42,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020127A4",
-    "func_020127AC"
+    "GAME_DATA_GetMyPlayerWork",
+    "GAME_DATA_GetBattleRecSlot"
+   ],
+   "addresses": [
+    "0x020127A4",
+    "0x020127AC"
    ]
   }
  ]

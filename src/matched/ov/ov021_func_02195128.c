@@ -1,5 +1,5 @@
 /*
- * function: func_02195128
+ * function: TALKMSGWIN_GetWindowCornerPoints
  * address:  0x02195128
  * packet:   pkt_ov021_02195128
  * region:   ov021
@@ -30,7 +30,7 @@ extern u8 func_02045748(struct Descriptor *p);
 extern u8 func_02045750(struct Descriptor *p);
 extern void func_0206E0C4(int x, int y, u32 c, int z);
 
-void func_02195128(u8 *p, u32 c0, u32 c1, u32 c2, u32 c3)
+void TALKMSGWIN_GetWindowCornerPoints(u8 *p, u32 c0, u32 c1, u32 c2, u32 c3)
 {
     int x;
     int y;

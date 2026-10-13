@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DC13C.c and filed here.
  *
  * symbols:
- *   d_021F05E8 0x021F05E8 data ov093 a4
+ *   gTelepathyHandlers 0x021F05E8 data ov093 a4
  */
 
 int *func_021DC320(int *p);
-extern int d_021F05E8[];
+extern int gTelepathyHandlers[];
 
 int *func_021DC320(int *p)
 {
     *p = 1;
-    return d_021F05E8;
+    return gTelepathyHandlers;
 }

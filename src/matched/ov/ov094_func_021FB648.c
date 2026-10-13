@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_02030734  0x02030734  arm
  *   func_02040588  0x02040588  arm
  *   func_02030DA8  0x02030DA8  arm
@@ -25,7 +25,7 @@ typedef unsigned short u16;
 extern char d_0220AE68[];
 
 struct Cursor;
-extern unsigned int func_0201134C(struct Cursor *p);
+extern unsigned int VM_GetU32(struct Cursor *p);
 extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *file, u16 line);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
@@ -40,13 +40,13 @@ int func_021FB648(struct Cursor *a, char *b)
 
     p = func_02030734((u16)((((struct Obj07879 *)b)->f238 & 0x7fff) | 0x8000), 0x28, 1, d_0220AE68, 0xd88);
     p[0] = (int)b;
-    p[2] = func_0201134C(a);
-    p[3] = func_0201134C(a);
-    p[4] = func_0201134C(a);
-    p[5] = func_0201134C(a);
-    p[6] = func_0201134C(a);
-    p[8] = func_0201134C(a);
-    p[9] = func_0201134C(a);
+    p[2] = VM_GetU32(a);
+    p[3] = VM_GetU32(a);
+    p[4] = VM_GetU32(a);
+    p[5] = VM_GetU32(a);
+    p[6] = VM_GetU32(a);
+    p[8] = VM_GetU32(a);
+    p[9] = VM_GetU32(a);
     func_02040588(1, 0);
     func_02040588(2, 0);
     func_021F896C((void *)func_02030DA8(((struct Obj07879 *)b)->f8, (void (*)(void))func_021FE79C, p, 0), func_021FE8AC, 1);

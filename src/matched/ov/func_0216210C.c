@@ -1,5 +1,5 @@
 /*
- * function: func_0216210C
+ * function: EVENT_FIELD_PROCLINK_IsNetConnected
  * address:  0x0216210C
  * packet:   pkt_0216210C
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 func_0200FB24(void);
 
-int func_0216210C(int a0)
+int EVENT_FIELD_PROCLINK_IsNetConnected(int a0)
 {
 
     a0 = func_0200FB24();

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021CE2E8 0x021CE2E8 thumb ov093
- *   func_021EE6B8 0x021EE6B8 thumb ov093
+ *   BTL_CLIENT_ResetActionCursor 0x021CE2E8 thumb ov093
+ *   BTL_REC_ReadRecord 0x021EE6B8 thumb ov093
  *   func_021D3F54 0x021D3F54 thumb ov093
  *   func_021D3FD0 0x021D3FD0 thumb ov093
  *   func_021EAF18 0x021EAF18 thumb ov093
@@ -21,8 +21,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 a : 5; u8 flag : 1; } Flags;
 typedef struct { u32 kind : 4; u32 rest : 28; } Command;
-extern void func_021CE2E8(u8 *);
-extern u32 *func_021EE6B8(void *,u8,u8 *,u8 *);
+extern void BTL_CLIENT_ResetActionCursor(u8 *);
+extern u32 *BTL_REC_ReadRecord(void *,u8,u8 *,u8 *);
 extern void func_021D3F54(u8 *p);
 extern void func_021D3FD0(unsigned char *p);
 typedef unsigned short u16;
@@ -39,10 +39,10 @@ int func_021CE1B0(u8 *p,int *state)
     switch (*state) {
     case 0:
         if (((Flags *)(p+0x1b2))->flag) {
-            func_021CE2E8(p);
+            BTL_CLIENT_ResetActionCursor(p);
             return 1;
         }
-        data = func_021EE6B8(((struct Obj01893 *)p)->f14,p[0x1a6],&count,&flag);
+        data = BTL_REC_ReadRecord(((struct Obj01893 *)p)->f14,p[0x1a6],&count,&flag);
         if (flag) func_021D3F54(p+0x18);
         *(u32 * *)&((struct Obj01893 *)p)->fD8 = data;
         ((struct Obj01893 *)p)->fDC = count * 4;
@@ -53,7 +53,7 @@ int func_021CE1B0(u8 *p,int *state)
                 func_021EA614(((struct Obj01893 *)p)->f54,(struct H *)(p+0x58));
                 (*state)++;
             } else {
-                func_021CE2E8(p);
+                BTL_CLIENT_ResetActionCursor(p);
                 p[0x1b2] |= 0x10;
                 return 1;
             }
@@ -65,21 +65,21 @@ int func_021CE1B0(u8 *p,int *state)
                 func_021EA614(((struct Obj01893 *)p)->f54,(struct H *)(p+0x58));
                 *state += 2;
             } else {
-                func_021CE2E8(p);
+                BTL_CLIENT_ResetActionCursor(p);
                 return 1;
             }
         } else return 1;
         break;
     case 1:
         if (func_021EA710(((struct Obj01893 *)p)->f54)) {
-            func_021CE2E8(p);
+            BTL_CLIENT_ResetActionCursor(p);
             p[0x1b2] |= 0x10;
             return 1;
         }
         break;
     case 2:
         if (func_021EA710(((struct Obj01893 *)p)->f54)) {
-            func_021CE2E8(p);
+            BTL_CLIENT_ResetActionCursor(p);
             return 1;
         }
         break;

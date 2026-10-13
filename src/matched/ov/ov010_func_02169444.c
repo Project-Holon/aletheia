@@ -1,5 +1,5 @@
 /*
- * function: func_02169444
+ * function: FIELD_G3D_MAP_GetPlacement
  * address:  0x02169444
  * packet:   pkt_ov010_02169444
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf (blocker of ov021 func_0218C4A0).  Returns the 0x14-byte
+ * Unlabelled leaf (blocker of ov021 FIELD_BUILDMODEL_AddEntry).  Returns the 0x14-byte
  * entry idx of the table at +0x9C, or 0 if idx is out of range or the
  * entry is unused (first word -1).
  */
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 *func_02169444(u8 *base, u32 idx)
+u32 *FIELD_G3D_MAP_GetPlacement(u8 *base, u32 idx)
 {
     u32 *e;
 

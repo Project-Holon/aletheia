@@ -1,5 +1,5 @@
 /*
- * function: func_02188D40
+ * function: FIELDMAP_SetTargetPos
  * address:  0x02188D40
  * packet:   pkt_02188D40
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02188D40(u8 *p, u32 v)
+void FIELDMAP_SetTargetPos(u8 *p, u32 v)
 {
     ((struct Obj17880 *)p)->fF0 = v;
 }

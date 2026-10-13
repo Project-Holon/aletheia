@@ -1,5 +1,5 @@
 /*
- * function: func_020433E0
+ * function: BG_SYS_SetVramBanks
  * address:  0x020433E0
  * packet:   pkt_020433E0
  * region:   arm9
@@ -40,7 +40,7 @@
  * descriptor is `const`.  With u32 fields and parameters the same body is
  * 33 bytes out; with a non-const or volatile descriptor 29; every earlier
  * spelling (locals a/b, volatile struct) capped at 6 (r3/ip pair in the
- * DISPCNT tail, docs/notes/func_020433E0.c.txt).
+ * DISPCNT tail, docs/notes/BG_SYS_SetVramBanks.c.txt).
  */
 typedef unsigned int u32;
 
@@ -103,7 +103,7 @@ static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
     reg_GXS_DB_DISPCNT = (u32)(reg_GXS_DB_DISPCNT & ~(0x00300000 | 0x00000010) | mode);
 }
 
-void func_020433E0(const struct DispVram *c)
+void BG_SYS_SetVramBanks(const struct DispVram *c)
 {
     func_020808F4();
     func_0208091C();

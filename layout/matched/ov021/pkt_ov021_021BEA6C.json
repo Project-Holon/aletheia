@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BEA6C",
+   "name": "EVENT_FIELDMAP_CONTROL_GetFadeKind",
    "address": "0x021BEA6C",
    "kind": "game",
    "region": "ov021",

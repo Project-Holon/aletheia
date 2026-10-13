@@ -1,5 +1,5 @@
 /*
- * function: func_0218D970
+ * function: FIELD_G3D_MAPPER_GetWindowStartOdd
  * address:  0x0218D970
  * packet:   pkt_ov021_0218D970
  * region:   ov021
@@ -17,7 +17,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-int func_0218D970(u32 a, int b, int c)
+int FIELD_G3D_MAPPER_GetWindowStartOdd(u32 a, int b, int c)
 {
     int r = -(int)(a >> 1);
     r += c / b;

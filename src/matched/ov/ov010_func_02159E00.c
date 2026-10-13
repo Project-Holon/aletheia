@@ -1,5 +1,5 @@
 /*
- * function: func_02159E00
+ * function: MAP_REPLACE_CheckRecord
  * address:  0x02159E00
  * packet:   pkt_ov010_02159E00
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159E60  0x02159E60  thumb  ov010
+ *   MAP_REPLACE_GetFlagIndex  0x02159E60  thumb  ov010
  */
 #include "../include/Obj07280.h"
 
@@ -18,9 +18,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02159E60(int);
+extern int MAP_REPLACE_GetFlagIndex(int);
 
-int func_02159E00(u8 *a, u32 *b, u32 *c)
+int MAP_REPLACE_CheckRecord(u8 *a, u32 *b, u32 *c)
 {
     u8 *r4 = a + 0x1a;
     u8 *r5 = a + 0xc;
@@ -39,7 +39,7 @@ int func_02159E00(u8 *a, u32 *b, u32 *c)
         idx = r5[2];
         break;
     default:
-        idx = (r5 + func_02159E60(sel))[3];
+        idx = (r5 + MAP_REPLACE_GetFlagIndex(sel))[3];
         break;
     }
     cur = *(u16 *)(r4 + idx * 2 + 4);

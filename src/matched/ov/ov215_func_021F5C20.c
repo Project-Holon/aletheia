@@ -10,7 +10,7 @@
  * symbols:
  *   func_02040588 0x02040588 arm
  *   func_021F63CC 0x021F63CC thumb ov215
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201C440 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021F5C08 0x021F5C08 thumb ov215
@@ -31,7 +31,7 @@ typedef unsigned int u32;
 struct Context; struct GfFont;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern char *func_021F63CC(u32,u16);
-extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
+extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 func_0201C440(void *);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021F5C08(void *unused, char *p);
@@ -48,7 +48,7 @@ void func_021F5C20(int a,char *p)
     u8 i;
     for (i=0;i<=7;i++) func_02040588(i,0);
     ((struct Obj03372 *)p)->f4=func_021F63CC(1,((struct Obj03372 *)p)->f0);
-    ((struct Obj03372 *)p)->f8=func_0201D7EC(23,0,0,0,((struct Obj03372 *)p)->f0);
+    ((struct Obj03372 *)p)->f8=GF_FONT_Create(23,0,0,0,((struct Obj03372 *)p)->f0);
     ((struct Obj03372 *)p)->fC=func_0201C440((void *)(u32)((struct Obj03372 *)p)->f0);
     ((struct Obj03372 *)p)->f28=func_020056A0((u32)func_021F5C08,(u32)p,1);
     func_021F5D4C(a,p);

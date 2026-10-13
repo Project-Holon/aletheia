@@ -1,5 +1,5 @@
 /*
- * function: func_021EFF48
+ * function: DOWSING_FindNextTarget
  * address:  0x021EFF48
  * packet:   pkt_ov033_021EFF48
  * region:   ov033
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216476C 0x0216476C thumb ov010
- *   func_021EFEEC 0x021EFEEC thumb ov033
- *   func_021CFB68 0x021CFB68 thumb ov021
+ *   EVENTDATA_SYSTEM_GetHiddenItemTable 0x0216476C thumb ov010
+ *   DOWSING_IsTargetAvailable 0x021EFEEC thumb ov033
+ *   INTRUDE_GetNextOfferSpot 0x021CFB68 thumb ov021
  */
 
 typedef struct {
@@ -30,11 +30,11 @@ typedef struct {
     unsigned short hc;
 } T;
 
-extern char *func_0216476C(unsigned short *);
-extern int func_021EFEEC(char *p, int *q);
-extern unsigned func_021CFB68(unsigned, unsigned *);
+extern char *EVENTDATA_SYSTEM_GetHiddenItemTable(unsigned short *);
+extern int DOWSING_IsTargetAvailable(char *p, int *q);
+extern unsigned INTRUDE_GetNextOfferSpot(unsigned, unsigned *);
 
-int func_021EFF48(T *p, unsigned *out, int mode)
+int DOWSING_FindNextTarget(T *p, unsigned *out, int mode)
 {
     unsigned short cnt;
     unsigned idx;
@@ -44,13 +44,13 @@ int func_021EFF48(T *p, unsigned *out, int mode)
     int found;
 
     found = 0;
-    tbl = func_0216476C(&cnt);
+    tbl = EVENTDATA_SYSTEM_GetHiddenItemTable(&cnt);
     idx = p->hc;
     if (mode == 0 || mode == 1) {
         while (p->h4 < cnt) {
             rec.kind = 1;
             rec.a = (unsigned)(tbl + p->h4 * 10);
-            if (func_021EFEEC((char *)p, (int *)(&rec))) {
+            if (DOWSING_IsTargetAvailable((char *)p, (int *)(&rec))) {
                 out[0] = rec.kind;
                 out[1] = rec.a;
                 found = 1;
@@ -61,19 +61,19 @@ int func_021EFF48(T *p, unsigned *out, int mode)
         }
     }
     if (mode == 0 || mode == 2) {
-        v = func_021CFB68(p->f8, &idx);
+        v = INTRUDE_GetNextOfferSpot(p->f8, &idx);
         p->hc = idx;
         while (v != 0) {
             rec.b = v;
             rec.kind = 2;
-            if (func_021EFEEC((char *)p, (int *)(&rec))) {
+            if (DOWSING_IsTargetAvailable((char *)p, (int *)(&rec))) {
                 out[0] = rec.kind;
                 out[2] = rec.b;
                 found = 1;
             }
             if (found)
                 return 1;
-            v = func_021CFB68(p->f8, &idx);
+            v = INTRUDE_GetNextOfferSpot(p->f8, &idx);
             p->hc = idx;
         }
     }

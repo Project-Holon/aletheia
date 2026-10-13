@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02166618",
+   "name": "SYMBOL_MAP_IsHomeCell",
    "address": "0x02166618",
    "kind": "game",
    "region": "ov010",

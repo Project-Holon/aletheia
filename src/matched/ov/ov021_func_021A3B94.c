@@ -1,5 +1,5 @@
 /*
- * function: func_021A3B94
+ * function: FIELD_PLAYER_CORE_CheckDrawProcReady
  * address:  0x021A3B94
  * packet:   pkt_ov021_021A3B94
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D7A8  0x0216D7A8  thumb  ov010
+ *   FLDMMDL_CallDrawGetProc  0x0216D7A8  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_0216D7A8(void *p, unsigned int v);
+int FLDMMDL_CallDrawGetProc(void *p, unsigned int v);
 
-int func_021A3B94(u32 *p)
+int FIELD_PLAYER_CORE_CheckDrawProcReady(u32 *p)
 {
     int r = 0;
 
-    if ((u16)func_0216D7A8((void *)p[7], 0) != 0xFFFF)
+    if ((u16)FLDMMDL_CallDrawGetProc((void *)p[7], 0) != 0xFFFF)
         r = 1;
     return r;
 }

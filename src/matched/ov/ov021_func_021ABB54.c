@@ -1,5 +1,5 @@
 /*
- * function: func_021ABB54
+ * function: FLD_SCENEAREA_LOADER_ApplyStripCameraStop
  * address:  0x021ABB54
  * packet:   pkt_ov021_021ABB54
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB760  0x021AB760  thumb
- *   func_0218F0D4  0x0218F0D4  thumb
- *   func_021ABABC  0x021ABABC  thumb
+ *   FLD_SCENEAREA_GetCamera  0x021AB760  thumb
+ *   FIELD_CAMERA_StopDelay  0x0218F0D4  thumb
+ *   FLD_SCENEAREA_LOADER_ApplyStripCamera  0x021ABABC  thumb
  */
 
 typedef struct {
@@ -22,16 +22,16 @@ typedef struct {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_021AB760(u8 *p);
-extern void func_0218F0D4(u8 *a, int b);
+extern u32 FLD_SCENEAREA_GetCamera(u8 *p);
+extern void FIELD_CAMERA_StopDelay(u8 *a, int b);
 typedef unsigned short u16;
-extern void func_021ABABC(int a0, const u16 *p, void *q);
+extern void FLD_SCENEAREA_LOADER_ApplyStripCamera(int a0, const u16 *p, void *q);
 
-void func_021ABB54(int a, S *s, int c)
+void FLD_SCENEAREA_LOADER_ApplyStripCameraStop(int a, S *s, int c)
 {
-    int h = func_021AB760((u8 *)a);
+    int h = FLD_SCENEAREA_GetCamera((u8 *)a);
     if (s->f1c != 0) {
-        func_0218F0D4((u8 *)h, s->f1c);
+        FIELD_CAMERA_StopDelay((u8 *)h, s->f1c);
     }
-    func_021ABABC(a, (const u16 *)s, (void *)c);
+    FLD_SCENEAREA_LOADER_ApplyStripCamera(a, (const u16 *)s, (void *)c);
 }

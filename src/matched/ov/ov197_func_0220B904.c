@@ -12,7 +12,7 @@
  * symbols:
  *   func_0201F73C 0x0201F73C thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_0220B928 0x0220B928 thumb
  */
 #include "../include/Obj14543.h"
@@ -22,12 +22,12 @@ typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_0220B928(char *p);
 
 void func_0220B904(char *p)
 {
     func_0201F73C(((struct Obj14543 *)p)->f24, 2, 1, 0xb);
-    func_02043B5C(func_02045770(((struct Obj14543 *)p)->f24), 0xf);
+    BMP_Clear(func_02045770(((struct Obj14543 *)p)->f24), 0xf);
     func_0220B928(p);
 }

@@ -13,14 +13,14 @@
  * int PALANM_GetDefaultWork(char *p, int i) { return *(int *)(p + i * 0x14); }
  * symbols:
  *   func_0201EC64 0x0201EC64 thumb
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   GF_FONT_GetTextColor 0x0201DE00 thumb
- *   func_0201DD78 0x0201DD78 thumb
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02045808 0x02045808 arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   PALANM_GetDefaultWork 0x02021728 thumb
@@ -37,14 +37,14 @@ extern struct WordSet *func_0201EC64(u32 heap);
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void GF_FONT_GetTextColor(u8 *, u8 *, u8 *);
-extern void func_0201DD78(u32, u32, u32);
+extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
 extern int func_021F86E0(void);
 extern int PALANM_GetDefaultWork(char *, int);
@@ -57,25 +57,25 @@ void func_0220558C(char *s, const int *b)
     void *extra;
     u8 c[3];
     h = (int)func_0201EC64(((struct Obj02440 *)s)->f240);
-    v = func_020457B0(8, ((struct Obj02440 *)s)->f240);
+    v = STRBUF_Create(8, ((struct Obj02440 *)s)->f240);
     w = func_02045EC0(((struct Obj02440 *)s)->f5C, 6);
     GF_FONT_GetTextColor(&c[2], &c[1], &c[0]);
-    func_0201DD78(9, 10, 0);
+    GF_FONT_SetTextColor(9, 10, 0);
     func_0201EFA4(h, 0, b[2], 3, 2, 1);
     func_0201F250((void *)h, v, w);
-    func_0201C7A4((void *)(((struct Obj02440 *)s)->f22C), 0x8c, 8, v, (void *)(((struct Obj02440 *)s)->f224));
+    PRINTSYS_Print((void *)(((struct Obj02440 *)s)->f22C), 0x8c, 8, v, (void *)(((struct Obj02440 *)s)->f224));
     if (b[0] != b[1])
-        func_0201DD78(7, 8, 0);
+        GF_FONT_SetTextColor(7, 8, 0);
     func_0201EFA4(h, 0, b[1], 3, 2, 1);
     func_0201F250((void *)h, v, w);
-    func_0201C7A4((void *)(((struct Obj02440 *)s)->f22C), 0x60, 8, v, (void *)(((struct Obj02440 *)s)->f224));
-    func_0201DD78(1, 2, 0);
+    PRINTSYS_Print((void *)(((struct Obj02440 *)s)->f22C), 0x60, 8, v, (void *)(((struct Obj02440 *)s)->f224));
+    GF_FONT_SetTextColor(1, 2, 0);
     extra = func_02045EC0(((struct Obj02440 *)s)->f5C, 7);
-    func_0201C7A4((void *)(((struct Obj02440 *)s)->f22C), 0x7c, 8, extra, (void *)(((struct Obj02440 *)s)->f224));
-    func_02045808(extra);
-    func_0201DD78(c[2], c[1], c[0]);
+    PRINTSYS_Print((void *)(((struct Obj02440 *)s)->f22C), 0x7c, 8, extra, (void *)(((struct Obj02440 *)s)->f224));
+    STRBUF_Delete(extra);
+    GF_FONT_SetTextColor(c[2], c[1], c[0]);
     func_0201ED04((struct WordSet *)h);
-    func_02045808(w);
-    func_02045808(v);
+    STRBUF_Delete(w);
+    STRBUF_Delete(v);
     PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj02440 *)s)->f64), (u16 *)(PALANM_GetDefaultWork((char *)func_021F86E0(), 1) + 0x40), 1, 0x70, 0x20);
 }

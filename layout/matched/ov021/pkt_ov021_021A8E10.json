@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A8E10",
+   "name": "FIELD_MENU_GetSelectedButtonId",
    "address": "0x021A8E10",
    "kind": "game",
    "region": "ov021",

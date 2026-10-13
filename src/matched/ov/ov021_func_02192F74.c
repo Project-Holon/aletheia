@@ -1,5 +1,5 @@
 /*
- * function: func_02192F74
+ * function: FIELD_MSGBG_SetupSysFrame
  * address:  0x02192F74
  * packet:   pkt_ov021_02192F74
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020403F4  0x020403F4  arm  arm9
- *   func_02192EE0  0x02192EE0  thumb  ov021
+ *   FIELD_MSGBG_SetupSysFrameBg  0x02192EE0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -29,18 +29,18 @@ typedef struct W {
 } W;
 
 extern void func_020403F4(u32 a);
-extern void func_02192EE0(int a);
+extern void FIELD_MSGBG_SetupSysFrameBg(int a);
 
-void func_02192F74(W *w)
+void FIELD_MSGBG_SetupSysFrame(W *w)
 {
     if (w->f170 != 0) {
         w->f170 = 0;
         if (w->f04 == 0xFF) {
             func_020403F4(2);
-            func_02192EE0(1);
+            FIELD_MSGBG_SetupSysFrameBg(1);
             w->f04 = 2;
         } else {
-            func_02192EE0(0);
+            FIELD_MSGBG_SetupSysFrameBg(0);
         }
     }
 }

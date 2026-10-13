@@ -1,5 +1,5 @@
 /*
- * function: func_0217D4DC
+ * function: INTRUDE_SUBDISP_EventCheck
  * address:  0x0217D4DC
  * packet:   pkt_ov018_0217D4DC
  * region:   ov018
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_02158378  0x02158378  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   INTRUDE_COMM_GetPlayerNetId  0x02158378  thumb  ov010
  *   func_020061E4  0x020061E4  thumb
- *   func_0217F174  0x0217F174  thumb  ov018
- *   func_0217F0C4  0x0217F0C4  thumb  ov018
- *   func_0217CEE8  0x0217CEE8  thumb  ov018
- *   func_0217CE08  0x0217CE08  thumb  ov018
- *   func_0217CE6C  0x0217CE6C  thumb  ov018
+ *   INTRUDE_SUBDISP_StartButtonBlink  0x0217F174  thumb  ov018
+ *   INTRUDE_SUBDISP_StartTownBlink  0x0217F0C4  thumb  ov018
+ *   INTRUDE_SUBDISP_CreateBrightFadeEvent  0x0217CEE8  thumb  ov018
+ *   INTRUDE_SUBDISP_CreateTownWarpEvent  0x0217CE08  thumb  ov018
+ *   INTRUDE_SUBDISP_CreatePlayerWarpEvent  0x0217CE6C  thumb  ov018
  */
 
 typedef struct {
@@ -33,51 +33,51 @@ typedef struct {
 } Ov018Menu;
 
 struct Ctx;
-unsigned int func_02012138(const struct Ctx *p);
+unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
 struct Ctx;
-void *func_020120F4(const struct Ctx *p);
-void *func_0201210C(const struct Ctx *p);
-int func_02012B70(const struct BigObj *p);
-int func_02158344(int a0);
-int func_02158378(void *);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
+int INTRUDE_COMM_GetWorkIfRunning(int a0);
+int INTRUDE_COMM_GetPlayerNetId(void *);
 void func_020061E4(u32 a);
-void func_0217F174(u8 *p);
-void func_0217F0C4(u8 *p);
-void *func_0217CEE8(void *p, int a, int b);
-void *func_0217CE08(void *, void *, int, int);
-void *func_0217CE6C(void *, void *, int);
+void INTRUDE_SUBDISP_StartButtonBlink(u8 *p);
+void INTRUDE_SUBDISP_StartTownBlink(u8 *p);
+void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b);
+void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *, void *, int, int);
+void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *, void *, int);
 
-void *func_0217D4DC(Ov018Menu *w, int b, int c)
+void *INTRUDE_SUBDISP_EventCheck(Ov018Menu *w, int b, int c)
 {
     void *s1;
     void *s2;
     void *r;
     void *ret;
 
-    s1 = (void *)func_02012138(w->f0);
-    s2 = func_020120F4(w->f0);
-    r = func_0201210C(w->f0);
+    s1 = (void *)GAMESYSTEM_GetGameComm(w->f0);
+    s2 = GAMESYSTEM_GetGameData(w->f0);
+    r = GAMESYSTEM_GetFieldMap(w->f0);
     ret = 0;
     if (b == 0 || r == 0) {
         return 0;
     }
-    if (w->f168 == 1 || (func_02012B70(s2) == 0 && func_02158344((int)s1) == 0)) {
+    if (w->f168 == 1 || (GAME_DATA_GetIntrudeCount(s2) == 0 && INTRUDE_COMM_GetWorkIfRunning((int)s1) == 0)) {
         func_020061E4(0x551);
-        func_0217F174((u8 *)w);
-        return func_0217CEE8(w->f0, (int)r, c);
+        INTRUDE_SUBDISP_StartButtonBlink((u8 *)w);
+        return INTRUDE_SUBDISP_CreateBrightFadeEvent(w->f0, (int)r, c);
     }
     switch (w->f112) {
     case 1:
         func_020061E4(0x737);
-        func_0217F0C4((u8 *)w);
-        ret = func_0217CE08(w->f0, r, w->f110, 0);
+        INTRUDE_SUBDISP_StartTownBlink((u8 *)w);
+        ret = INTRUDE_SUBDISP_CreateTownWarpEvent(w->f0, r, w->f110, 0);
         break;
     case 2:
         func_020061E4(0x737);
-        ret = func_0217CE6C(w->f0, r, func_02158378(s1));
+        ret = INTRUDE_SUBDISP_CreatePlayerWarpEvent(w->f0, r, INTRUDE_COMM_GetPlayerNetId(s1));
         break;
     }
     if (ret != 0) {

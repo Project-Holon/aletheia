@@ -11,7 +11,7 @@
  * supplies full pooled 0x807E, without truncation. 073D8 legacy void
  * leaves a pointer in r0 consumed immediately by E8D8; preserve it.
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_0200E8D8 0x0200E8D8 thumb
@@ -31,7 +31,7 @@
 #include "../include/Obj10925.h"
 typedef unsigned u32;typedef unsigned char u8;
 struct Big;struct Ctrl;struct Sub020073D8Ctrl;struct Sub020072A4Ctrl;
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
 extern void *func_020073D8(struct Sub020073D8Ctrl *,u32,u32);
 extern u32 func_0200E8D8(const void *obj);
@@ -45,7 +45,7 @@ extern void func_020072A4(struct Sub020072A4Ctrl *,u32);
 void func_021BC5B0(char *p)
 {
     void *save,*block,*tiles,*palette;
-    save=func_02012EBC(*(struct Big **)*(char * *)&((struct Obj10925 *)p)->f0);
+    save=GAME_DATA_GetSaveControl(*(struct Big **)*(char * *)&((struct Obj10925 *)p)->f0);
     if(SAVE_CONTROL_LoadExtraSave(save,7,0x807e)==1){
         block=func_020073D8(save,7,0);
         if(block!=0&&func_0200E8D8(block)==1){

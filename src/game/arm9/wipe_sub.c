@@ -39,6 +39,7 @@
  *   WIPE_SetBrightness  0x020222CC  thumb
  *   WIPE_RequestSetHBlankSlot  0x02022518  thumb
  *   WIPE_RequestClearHBlankSlot  0x02022568  thumb
+ *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  */
 /* Hardware registers (display engine A, engine B and the double-buffer aliases). */
 #define REG_VCOUNT  (*(volatile u16 *)0x04000006)
@@ -248,7 +249,7 @@ extern s32 func_0209C0A4(s32 shifted, s32 c);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern s32 FX_Sqrt(s32 x);
 void WIPE_ResetWndMask(void *win);
-void func_0202223C(u32 a, u32 color);
+void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 void WIPE_SetBackColor(u32 a);
 void WIPE_SetBrightness(u32 which, int brightness);
 void WIPE_RequestSetHBlankSlot(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
@@ -396,7 +397,7 @@ static inline void ApplyLineMaskRow(struct LineMask *mask, struct LineMaskHalf *
 /*
  * Sentinel resolver for the dual-screen text cluster: 0xFFFF in the caller's
  * value means "use the object's own default", which lives in the u16 at
- * +0x150, the same sentinel colour slot func_0202223C and WIPE_SetMstBrightColor read.
+ * +0x150, the same sentinel colour slot WIPE_SetBrightnessFadeOut and WIPE_SetMstBrightColor read.
  * Any other value passes through untouched.  Value and result are both u16:
  * a u16 result needs no re-truncation by the caller that feeds it on as u16.
  *
@@ -462,7 +463,7 @@ void WIPE_SUB_ResetBrightnessTask(void *task, struct WipePanel *panel)
 }
 
 /*
- * Arms the deferred screen task for one of the two sub-objects func_0202208C
+ * Arms the deferred screen task for one of the two sub-objects WIPE_SYS_Start
  * built, but only for a screen that is still idle: the task handle at +0x28
  * must be null, the resolved sentinel value at +0x24 must be either the
  * pass-through 0x7FFF or zero, and the second handle at +0x2C must be null
@@ -503,7 +504,7 @@ void WIPE_SUB_RequestBrightnessReset(struct WipePanel *panel)
 void WIPE_SUB_ApplyEndBrightness(struct WipePanel *panel)
 {
     if (panel->fadeOut == 1 && (panel->color == 0x7FFF || panel->color == 0) && panel->usesBrightness == 0) {
-        func_0202223C(panel->screen, panel->color);
+        WIPE_SetBrightnessFadeOut(panel->screen, panel->color);
         WIPE_ResetWndMask((void *)panel->screen);
     }
 }
@@ -1166,7 +1167,7 @@ void WIPE_SUB_CreateLineBuffers(struct LineBuffers *lines, u32 windowSelect, u32
 
 /*
  * Blocked: 02022D78 (thumb, from header) has no witness outside 02022D70..02022D78. Every concrete byte reproduces.
- * closed:   blocker func_020294C0.c is now a manifest entry (matched class)
+ * closed:   blocker FIELD_SOUND_SYSTEM_StartFadeInTask.c is now a manifest entry (matched class)
  */
 void WIPE_SUB_DeleteLineBuffers(struct LineBuffers *lines)
 {

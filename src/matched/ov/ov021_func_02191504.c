@@ -1,5 +1,5 @@
 /*
- * function: func_02191504
+ * function: FIELD_MSGBG_SetupPlainWin
  * address:  0x02191504
  * packet:   pkt_ov021_02191504
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02193170  0x02193170  thumb  ov021
- *   func_02193044  0x02193044  thumb  ov021
- *   func_02194A00  0x02194A00  thumb  ov021
- *   func_021927C0  0x021927C0  thumb  ov021
+ *   FIELD_MSGBG_LoadMenuGraphicsUpper  0x02193170  thumb  ov021
+ *   FIELD_MSGBG_SetBlend  0x02193044  thumb  ov021
+ *   TALKMSGWIN_AddFrameWindow  0x02194A00  thumb  ov021
+ *   FIELD_MSGBG_InitCursor  0x021927C0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00126.h"
@@ -22,19 +22,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02193170(u32);
-extern void func_02193044(u32);
-extern u32 func_02194A00(u32, u8, u8, u8, u8, u32);
+extern void FIELD_MSGBG_LoadMenuGraphicsUpper(u32);
+extern void FIELD_MSGBG_SetBlend(u32);
+extern u32 TALKMSGWIN_AddFrameWindow(u32, u8, u8, u8, u8, u32);
 struct Fx;
 struct G;
-extern void func_021927C0(struct G *g, struct Fx *a);
+extern void FIELD_MSGBG_InitCursor(struct G *g, struct Fx *a);
 
-void func_02191504(u16 *a, u32 *b, u32 c, u32 d, u16 e, u16 f, u32 g)
+void FIELD_MSGBG_SetupPlainWin(u16 *a, u32 *b, u32 c, u32 d, u16 e, u16 f, u32 g)
 {
     a[3] = 11;
     b[4] = ((struct Obj00126 *)a)->f15C;
-    func_02193170(a[0]);
-    func_02193044(0);
-    b[6] = func_02194A00(b[4], c, d, e, f, g);
-    func_021927C0((struct G *)b, (struct Fx *)a);
+    FIELD_MSGBG_LoadMenuGraphicsUpper(a[0]);
+    FIELD_MSGBG_SetBlend(0);
+    b[6] = TALKMSGWIN_AddFrameWindow(b[4], c, d, e, f, g);
+    FIELD_MSGBG_InitCursor((struct G *)b, (struct Fx *)a);
 }

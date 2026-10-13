@@ -1,5 +1,5 @@
 /*
- * function: func_0216230C
+ * function: EVENT_FIELD_PROCLINK_ClearReturnSlot
  * address: 0x0216230C
  * packet: pkt_ov010_0216230C
  * region: ov010
@@ -19,4 +19,4 @@
 #include "../include/Obj07292.h"
 typedef unsigned short u16;
 extern void func_02082BCC(void *, int, int);
-void func_0216230C(char *p, unsigned i) { func_02082BCC(p+8+i*8,0,8); ((struct Obj07292 *)p)->f2 = ((struct Obj07292 *)p)->f2 & ~(1<<i); }
+void EVENT_FIELD_PROCLINK_ClearReturnSlot(char *p, unsigned i) { func_02082BCC(p+8+i*8,0,8); ((struct Obj07292 *)p)->f2 = ((struct Obj07292 *)p)->f2 & ~(1<<i); }

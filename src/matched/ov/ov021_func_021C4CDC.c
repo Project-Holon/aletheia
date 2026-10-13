@@ -1,5 +1,5 @@
 /*
- * function: func_021C4CDC
+ * function: FLDEFF_SPLASH_DrawModelObj
  * address:  0x021C4CDC
  * packet:   pkt_ov021_021C4CDC
  * region:   ov021
@@ -12,10 +12,10 @@
  * Copies the owner's current position into map-object slot id.
  *
  * symbols:
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C6658  0x021C6658  thumb  ov021
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   func_021C67F4  0x021C67F4  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_GetObjectTrans  0x021C6658  thumb  ov021
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   FIELD_G3DOBJ_DrawObject  0x021C67F4  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -32,19 +32,19 @@ typedef struct {
 } S;
 
 typedef unsigned char  u8;
-extern u32 func_021ABE18(u8 *p);
-extern int func_021C6658(u32 a, u32 b);
-extern void func_021AC1B8(void *a, V3 *v);
-extern void func_021C67F4(u32 o, u16 id);
+extern u32 FIELD_EFFECT_GetFieldMapData(u8 *p);
+extern int FIELD_G3DOBJ_GetObjectTrans(u32 a, u32 b);
+extern void FIELD_EFFECT_GetObjectPos(void *a, V3 *v);
+extern void FIELD_G3DOBJ_DrawObject(u32 o, u16 id);
 
-void func_021C4CDC(void *a, S *s)
+void FLDEFF_SPLASH_DrawModelObj(void *a, S *s)
 {
     u16 id = s->id;
-    u32 o = func_021ABE18((u8 *)(*s->owner));
-    V3 *dst = (V3 *)func_021C6658(o, id);
+    u32 o = FIELD_EFFECT_GetFieldMapData((u8 *)(*s->owner));
+    V3 *dst = (V3 *)FIELD_G3DOBJ_GetObjectTrans(o, id);
     V3 t;
 
-    func_021AC1B8(a, &t);
+    FIELD_EFFECT_GetObjectPos(a, &t);
     *dst = t;
-    func_021C67F4(o, id);
+    FIELD_G3DOBJ_DrawObject(o, id);
 }

@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012114 0x02012114 thumb
- *   func_0201210C 0x0201210C thumb
- *   func_02188BE8 0x02188BE8 thumb ov021
+ *   GAMESYSTEM_IsFieldMapExist 0x02012114 thumb
+ *   GAMESYSTEM_GetFieldMap 0x0201210C thumb
+ *   FIELDMAP_IsReady 0x02188BE8 thumb ov021
  */
 #include "../include/Obj09361.h"
 #include "../include/Obj19235.h"
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Ctx;
-extern u32 func_02012114(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188BE8(void *a);
-int UNION_MAIN_IsFieldReady(u8 *p) { if(p[0x282a]==1 && func_02012114(*(const struct Ctx * *)&((struct Obj19235 *)(*(u8 * *)&((struct Obj09361 *)p)->f0))->fC)==1 && func_02188BE8(func_0201210C(*(const struct Ctx * *)&((struct Obj19236 *)(*(u8 * *)&((struct Obj09361 *)p)->f0))->fC))==1) return 1; return 0; }
+extern u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_IsReady(void *a);
+int UNION_MAIN_IsFieldReady(u8 *p) { if(p[0x282a]==1 && GAMESYSTEM_IsFieldMapExist(*(const struct Ctx * *)&((struct Obj19235 *)(*(u8 * *)&((struct Obj09361 *)p)->f0))->fC)==1 && FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap(*(const struct Ctx * *)&((struct Obj19236 *)(*(u8 * *)&((struct Obj09361 *)p)->f0))->fC))==1) return 1; return 0; }

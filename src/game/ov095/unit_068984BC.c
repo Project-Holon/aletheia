@@ -19,13 +19,13 @@
  *   func_021C8860  0x021C8860  thumb
  *   func_021C88A4  0x021C88A4  thumb
  *   func_021C88C8  0x021C88C8  thumb
- *   func_021D5448  0x021D5448  thumb
- *   func_021D554C  0x021D554C  thumb
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
+ *   BTL_POKEPARAM_GetMovePPLost  0x021D554C  thumb
  *   func_021D59B4  0x021D59B4  thumb
- *   func_021D5B48  0x021D5B48  thumb
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb
  *   func_021D62A8  0x021D62A8  thumb
- *   func_021D7040  0x021D7040  thumb
- *   func_021D775C  0x021D775C  thumb
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
  *   d_0689D6B8 0x0689D6B8 data ov095 a4
  */
 #include "../../matched/include/Obj02149.h"
@@ -36,19 +36,19 @@ typedef unsigned char u8;
 
 typedef unsigned short u16;
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern int func_021C8010(void *, u32);
 extern void *func_021C7CF4(void *, int);
-extern int func_021D5B48(void *);
+extern int BTL_POKEPARAM_IsHpFull(void *);
 extern int func_021D62A8(void *);
-extern u32 func_021D5448(void *);
-extern u8 func_021D554C(void *, u8);
+extern u32 BTL_POKEPARAM_GetMoveCount(void *);
+extern u8 BTL_POKEPARAM_GetMovePPLost(void *, u8);
 extern u8 *func_021C88A4(void *, int, int);
 extern void func_021C8838(void *, int, int);
 extern void func_021C8860(void *, u32);
 extern void func_021C88C8(void *, void *);
 extern int func_021D59B4(void *, int);
-extern void func_021D7040(void *);
+extern void BTL_EVENT_RemoveFactor(void *);
 u32 *func_068984BC(u32 *p);
 void func_068984C8(void *a, void *b, u8 c);
 extern u32 d_0689D6B8[];
@@ -78,17 +78,17 @@ void func_068984C8(void *a, void *b, u8 c)
     int value;
     u32 n2;
     u8 v;
-    slot = (u8)func_021D775C(2);
+    slot = (u8)BTL_EVENT_GetVar(2);
     if (c == func_021C8010(b, slot)) {
         m = func_021C7CF4(b, slot);
         flag = 0;
-        if (func_021D5B48(m) == 0)
+        if (BTL_POKEPARAM_IsHpFull(m) == 0)
             flag = 1;
         if (func_021D62A8(m) != 0)
             flag = 1;
-        n = func_021D5448(m);
+        n = BTL_POKEPARAM_GetMoveCount(m);
         for (i = 0; i < n; i++) {
-            if (func_021D554C(m, i) != 0)
+            if (BTL_POKEPARAM_GetMovePPLost(m, i) != 0)
                 flag = 1;
         }
         if (flag != 0) {
@@ -100,7 +100,7 @@ void func_068984C8(void *a, void *b, u8 c)
             func_021C8838(p + 12, 2, 0x2b6);
             func_021C8860(p + 12, slot);
             func_021C88C8(b, p);
-            if (func_021D5B48(m) == 0) {
+            if (BTL_POKEPARAM_IsHpFull(m) == 0) {
                 p = func_021C88A4(b, 5, slot);
                 p[6] = slot;
                 value = func_021D59B4(m, 14);
@@ -114,9 +114,9 @@ void func_068984C8(void *a, void *b, u8 c)
                 *(int *)(p + 4) = 36;
                 func_021C88C8(b, p);
             }
-            n2 = func_021D5448(m);
+            n2 = BTL_POKEPARAM_GetMoveCount(m);
             for (j = 0; j < n2; j++) {
-                v = func_021D554C(m, j);
+                v = BTL_POKEPARAM_GetMovePPLost(m, j);
                 if (v != 0) {
                     p = func_021C88A4(b, 9, slot);
                     p[5] = slot;
@@ -126,6 +126,6 @@ void func_068984C8(void *a, void *b, u8 c)
                 }
             }
         }
-        func_021D7040(a);
+        BTL_EVENT_RemoveFactor(a);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02165DF0
+ * function: GAME_BEACON_ACCESSOR_GetDetailsMonsNo
  * address: 0x02165DF0
  * packet: pkt_ov010_02165DF0
  * region: ov010
@@ -11,7 +11,7 @@
  * overlapping ov009 address is interior ARM code, as explicit shows prove.
  */
 #include "../include/Obj07306.h"
-unsigned short func_02165DF0(const char *p)
+unsigned short GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const char *p)
 {
     unsigned a=(unsigned char)*(const unsigned short *)&((struct Obj07306 *)p)->f48;
     unsigned b=*(const unsigned short *)&((struct Obj07306 *)p)->f4E;

@@ -13,18 +13,18 @@
  *   off never changes and all additions promote to int, preserving offsets.
  *   C3-u16 EXACT216 after five iterations, manual order/extraction cap2.
  * symbols:
- *   func_020221A4 0x020221A4 thumb
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203A5E4 0x0203A5E4 arm
- *   func_02027858 0x02027858 thumb
- *   func_02028148 0x02028148 thumb
- *   func_02051C6C 0x02051C6C arm
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
+ *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
+ *   BUTTON_MAN_Delete 0x02051C6C arm
  *   func_020307B0 0x020307B0 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   func_021BAC08 0x021BAC08 thumb ov100
  *   func_02030EAC 0x02030EAC arm
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
@@ -35,18 +35,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct TaskMenu;struct WordSet;struct PrintSys;struct Node;struct Bank;struct S020315D4;
-extern u32 func_020221A4(void);
-extern int func_0203CD98(void);
-extern void func_0203A5E4(u32);
-extern void func_02027858(struct TaskMenu *);
-extern void func_02028148(u8 *);
-extern void func_02051C6C(void *);
+extern u32 WIPE_SYS_EndCheck(void);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
+extern void APP_TASKMENU_WIN_Delete(u8 *);
+extern void BUTTON_MAN_Delete(void *);
 extern u32 func_020307B0(void *p);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void func_021BAC08(int);
 extern void func_02030EAC(struct Node *);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
 extern void func_0201C6EC(struct PrintSys *);
 extern void func_0201C4C0(struct PrintSys *);
 extern void func_020315D4(struct S020315D4 *);
@@ -61,12 +61,12 @@ int func_021BB584(struct S020315D4 *a,int b,int c,u8 *p)
 {
     u16 off;
     long zero;
-    if(!func_020221A4()) return 0;
-    if(func_0203CD98()) func_0203A5E4(0xc00);
-    if(*(struct TaskMenu * *)&((struct Obj02805 *)p)->fCC0) func_02027858(*(struct TaskMenu * *)&((struct Obj02805 *)p)->fCC0);
-    if(*(u8 * *)&((struct Obj02805 *)p)->fCE0) func_02028148(*(u8 * *)&((struct Obj02805 *)p)->fCE0);
-    if(*(u8 * *)&((struct Obj02805 *)p)->fCE4) func_02028148(*(u8 * *)&((struct Obj02805 *)p)->fCE4);
-    if(((struct Obj02805 *)p)->fCA4) func_02051C6C(((struct Obj02805 *)p)->fCA4);
+    if(!WIPE_SYS_EndCheck()) return 0;
+    if(GFL_NET_GetRunState()) GFL_NET_COMMAND_DeleteCommandTable(0xc00);
+    if(*(struct TaskMenu * *)&((struct Obj02805 *)p)->fCC0) APP_TASKMENU_CloseMenu(*(struct TaskMenu * *)&((struct Obj02805 *)p)->fCC0);
+    if(*(u8 * *)&((struct Obj02805 *)p)->fCE0) APP_TASKMENU_WIN_Delete(*(u8 * *)&((struct Obj02805 *)p)->fCE0);
+    if(*(u8 * *)&((struct Obj02805 *)p)->fCE4) APP_TASKMENU_WIN_Delete(*(u8 * *)&((struct Obj02805 *)p)->fCE4);
+    if(((struct Obj02805 *)p)->fCA4) BUTTON_MAN_Delete(((struct Obj02805 *)p)->fCA4);
     func_020307B0(((struct Obj02805 *)p)->fCB4);
     off=Words;
     zero=Clear;
@@ -74,8 +74,8 @@ int func_021BB584(struct S020315D4 *a,int b,int c,u8 *p)
     func_0201ED04(*(struct WordSet **)(p+off));
     func_021BAC08((int)p);
     func_02030EAC(*(struct Node **)(p+(off+0x24)));
-    func_0204B1CC(*(struct Bank **)(p+(off+0x28)));
-    func_0204A5AC();
+    CLACT_DeleteUnit(*(struct Bank **)(p+(off+0x28)));
+    CLACT_ExitSystem();
     func_0201C6EC(printSys(p));
     func_0201C4C0(printSys(p));
     if(node(p,off)) {

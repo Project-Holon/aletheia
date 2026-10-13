@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A41A8",
+   "name": "FIELD_PLAYER_GRID_Delete",
    "address": "0x021A41A8",
    "kind": "game",
    "region": "ov021",

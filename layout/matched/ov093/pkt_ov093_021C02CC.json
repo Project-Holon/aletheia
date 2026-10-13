@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C02CC",
+   "name": "BTL_SERVER_FLOW_QueryMoveFailReasonEvent",
    "address": "0x021C02CC",
    "kind": "game",
    "region": "ov093",

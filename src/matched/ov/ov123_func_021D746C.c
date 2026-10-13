@@ -17,6 +17,7 @@
  *   func_021D7D18 0x021D7D18 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D7430 0x021D7430 thumb ov123
+ *   GAME_DATA_SaveStart  0x02012DAC  thumb  arm9
  */
 #include "../include/Obj03269.h"
 #include "../include/Obj06465.h"
@@ -35,7 +36,7 @@ typedef unsigned int   u32;
 extern u32 func_020056EC(u32 range);
 extern void func_021D7D18(u8 *p, int unused, int species, int gender, int form, int n, int value);
 extern void func_02009348(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
-extern int func_02012DAC(int a0);
+extern int GAME_DATA_SaveStart(int a0);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D7430(u8 *p);
 void func_021D746C(int a)
@@ -57,6 +58,6 @@ void func_021D746C(int a)
         for(i=0;i<20;i++) func_02009348((struct Sub02009210Obj *)b,i,*(u16 *)(p+8+i*2),p[0x30+i]);
     }
     ((struct Obj03269 *)a)->fAD=1;
-    func_02012DAC(((struct Obj03269 *)a)->f2C);
+    GAME_DATA_SaveStart(((struct Obj03269 *)a)->f2C);
     func_021D6EE0((u8 *)a,(int)func_021D7430,0x311);
 }

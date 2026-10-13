@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021EE318, func_021EE370
+ * function: BTLV_SCU_UpdateBallWindowRefresh, BTLV_SCU_StartBallWindowClose
  * address:  0x021EE318
  * packet:   pkt_ov093_021EE318
  * region:   ov093
@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EE544  0x021EE544  thumb  ov093
+ *   BTLV_SCU_StepBallWindowClose  0x021EE544  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -25,9 +25,9 @@ struct O {
 };
 
 struct C;
-extern int func_021EE544(int *st, struct C *c);
+extern int BTLV_SCU_StepBallWindowClose(int *st, struct C *c);
 
-int func_021EE318(struct O *o)
+int BTLV_SCU_UpdateBallWindowRefresh(struct O *o)
 {
     if (o->fe0 != 0) {
         if (o->fe0(&o->fec, o->fe8) != 0) {
@@ -46,10 +46,10 @@ int func_021EE318(struct O *o)
     return 1;
 }
 
-void func_021EE370(struct O *o)
+void BTLV_SCU_StartBallWindowClose(struct O *o)
 {
     o->fe0 = 0;
-    o->fe4 = (int (*)(void *, void *))func_021EE544;
+    o->fe4 = (int (*)(void *, void *))BTLV_SCU_StepBallWindowClose;
     o->fe8 = o;
     o->fec = 0;
 }

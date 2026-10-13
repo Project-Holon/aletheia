@@ -1,5 +1,5 @@
 /*
- * function: func_02155FC8
+ * function: MUSICAL_EVENT_CreateStage
  * address:  0x02155FC8
  * packet:   pkt_ov010_02155FC8
  * region:   ov010
@@ -16,12 +16,12 @@
  *   witness src/matched/ov/ov132_func_021FD4F8.c (50 bytes, finds the entry with a given id byte); symbols line now names ov132. Bytes unchanged. Stays MATCH only until that file gets its shard.
  *
  * symbols:
- *   func_02156F68  0x02156F68  thumb  ov010
- *   func_02156FC4  0x02156FC4  thumb  ov010
- *   func_021572E4  0x021572E4  thumb  ov010
+ *   MUSICAL_STAGE_SYS_Create  0x02156F68  thumb  ov010
+ *   MUSICAL_STAGE_SYS_SetLocalPerformer  0x02156FC4  thumb  ov010
+ *   MUSICAL_PROGRAM_CreateNpcPerformer  0x021572E4  thumb  ov010
  *   func_021FD4F8  0x021FD4F8  thumb  ov132
- *   func_02157000  0x02157000  thumb  ov010
- *   func_02157174  0x02157174  thumb  ov010
+ *   MUSICAL_STAGE_SYS_SetRemotePerformer  0x02157000  thumb  ov010
+ *   MUSICAL_PROGRAM_SplitBonus  0x02157174  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -50,43 +50,43 @@ typedef struct Work {
     u8 f44[4];          /* 0x44 */
 } Work;
 
-extern Stage *func_02156F68(u32 heap, void *p);
-extern int func_02156FC4(int a0, int a1, int a2);
+extern Stage *MUSICAL_STAGE_SYS_Create(u32 heap, void *p);
+extern int MUSICAL_STAGE_SYS_SetLocalPerformer(int a0, int a1, int a2);
 struct Deal;
 struct Party;
-extern void func_021572E4(struct Deal *d, void *a, u8 b, u8 slot, u16 y);
+extern void MUSICAL_PROGRAM_CreateNpcPerformer(struct Deal *d, void *a, u8 b, u8 slot, u16 y);
 struct Ctx;
 extern u32 func_021FD4F8(struct Ctx *p, u8 key);
-extern int func_02157000(int a0, int a1, int a2);
-extern void func_02157174(u32 heap, struct Deal *d, struct Party *party);
+extern int MUSICAL_STAGE_SYS_SetRemotePerformer(int a0, int a1, int a2);
+extern void MUSICAL_PROGRAM_SplitBonus(u32 heap, struct Deal *d, struct Party *party);
 
-void func_02155FC8(Work *w)
+void MUSICAL_EVENT_CreateStage(Work *w)
 {
     u8 i;
     u8 j;
     u32 r;
 
-    w->f30 = func_02156F68(4, w->f28);
+    w->f30 = MUSICAL_STAGE_SYS_Create(4, w->f28);
     if (w->f14 == 0) {
         for (i = 0; i < 4; i++) {
             if (i == 0)
-                func_02156FC4((int)w->f30, w->f44[i], (int)w->f3C);
+                MUSICAL_STAGE_SYS_SetLocalPerformer((int)w->f30, w->f44[i], (int)w->f3C);
             else
-                func_021572E4(w->f38, w->f30, w->f44[i], i - 1, 4);
+                MUSICAL_PROGRAM_CreateNpcPerformer(w->f38, w->f30, w->f44[i], i - 1, 4);
         }
     } else {
         j = 0;
         for (i = 0; i < 4; i++) {
             r = func_021FD4F8(w->f28, w->f44[i]);
             if (r != 0) {
-                func_02157000((int)w->f30, w->f44[i], r);
+                MUSICAL_STAGE_SYS_SetRemotePerformer((int)w->f30, w->f44[i], r);
             } else {
-                func_021572E4(w->f38, w->f30, w->f44[i], j, 4);
+                MUSICAL_PROGRAM_CreateNpcPerformer(w->f38, w->f30, w->f44[i], j, 4);
                 j++;
             }
         }
     }
     w->f30->f18 = w->f24;
     w->f30->f14 = w->f38;
-    func_02157174(4, w->f38, (struct Party *)w->f30);
+    MUSICAL_PROGRAM_SplitBonus(4, w->f38, (struct Party *)w->f30);
 }

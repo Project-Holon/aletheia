@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A2F48",
+   "name": "FIELD_PLAYER_StartFormChange",
    "address": "0x021A2F48",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A2F54",
+   "name": "FIELD_PLAYER_StepFormChange",
    "address": "0x021A2F54",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A2F98",
+   "name": "FIELD_PLAYER_GetRideEffect",
    "address": "0x021A2F98",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A2FA4",
+   "name": "FIELD_PLAYER_ChooseMoveDirFromKeys",
    "address": "0x021A2FA4",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3038",
+   "name": "FIELD_PLAYER_GetPos",
    "address": "0x021A3038",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3044",
+   "name": "FIELD_PLAYER_SetPos",
    "address": "0x021A3044",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3050",
+   "name": "FIELD_PLAYER_GetDirDisp",
    "address": "0x021A3050",
    "kind": "game",
    "region": "ov021",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3068",
+   "name": "FIELD_PLAYER_GetFieldMap",
    "address": "0x021A3068",
    "kind": "game",
    "region": "ov021",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3074",
+   "name": "FIELD_PLAYER_GetMmdl",
    "address": "0x021A3074",
    "kind": "game",
    "region": "ov021",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A3098",
+   "name": "FIELD_PLAYER_GetFormCode",
    "address": "0x021A3098",
    "kind": "game",
    "region": "ov021",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021A30BC",
+   "name": "FIELD_PLAYER_GetGameSystem",
    "address": "0x021A30BC",
    "kind": "game",
    "region": "ov021",

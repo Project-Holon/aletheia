@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B91BC",
+   "name": "FRAME_LIST_WrapIndex",
    "address": "0x021B91BC",
    "kind": "game",
    "region": "ov067",

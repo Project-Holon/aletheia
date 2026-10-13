@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E54
+ * function: STARTMENU_Demo3dDelete
  * address:  0x021B9E54
  * packet:   pkt_ov088_021B9E54
  * region:   ov088
@@ -12,28 +12,28 @@
  *           trailing alignment padding, no byte difference.
  *
  * symbols:
- *   func_02011558  0x02011558  thumb
- *   func_02048AC4  0x02048AC4  arm
- *   func_02048C4C  0x02048C4C  arm
- *   func_020480E4  0x020480E4  arm
- *   func_02047E54  0x02047E54  arm
+ *   ICA_ANIME_Delete  0x02011558  thumb
+ *   G3D_CAMERA_Delete  0x02048AC4  arm
+ *   G3D_LIGHT_DeleteSlots  0x02048C4C  arm
+ *   G3D_UTIL_RemoveUnit  0x020480E4  arm
+ *   G3D_UTIL_Delete  0x02047E54  arm
  */
 
 typedef unsigned int   u32;
 struct Ctx;
 struct IcaAnime;
 struct Rec;
-extern void func_02011558(struct IcaAnime *p);
-extern u32 func_02048AC4(void *ptr);
-extern void func_02048C4C(int);
-extern void func_020480E4(struct Ctx *c, u32 i);
-extern void func_02047E54(struct Rec *p);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_LIGHT_DeleteSlots(int);
+extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
+extern void G3D_UTIL_Delete(struct Rec *p);
 
-void func_021B9E54(int *p)
+void STARTMENU_Demo3dDelete(int *p)
 {
-    func_02011558((struct IcaAnime *)p[3]);
-    func_02048AC4((void *)p[4]);
-    func_02048C4C(p[2]);
-    func_020480E4((struct Ctx *)p[0], ((unsigned short *)p)[2]);
-    func_02047E54((struct Rec *)p[0]);
+    ICA_ANIME_Delete((struct IcaAnime *)p[3]);
+    G3D_CAMERA_Delete((void *)p[4]);
+    G3D_LIGHT_DeleteSlots(p[2]);
+    G3D_UTIL_RemoveUnit((struct Ctx *)p[0], ((unsigned short *)p)[2]);
+    G3D_UTIL_Delete((struct Rec *)p[0]);
 }

@@ -148,7 +148,7 @@ struct BtlMain {
 
 /*
  * Target range kinds that BTL_MAIN expands into lists of battle positions
- * (double battles in func_021B8834, triple battles in func_021B88EC, both in btl_main.c).
+ * (double battles in BTL_MAIN_ExpandPosDouble, triple battles in BTL_MAIN_ExpandPosTriple, both in btl_main.c).
  * The second kind of each pair (6/7/8/9 against 1/3/5/4) gives the same
  * list in a double battle; triple battles tell some of them apart.
  */

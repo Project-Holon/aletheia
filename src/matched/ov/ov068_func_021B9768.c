@@ -1,5 +1,5 @@
 /*
- * function: func_021B9768
+ * function: OPTION_MENU_Exit
  * address:  0x021B9768
  * packet:   pkt_ov068_021B9768
  * region:   ov068
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BADFC  0x021BADFC  thumb
- *   func_021BA254  0x021BA254  thumb
- *   func_021BA030  0x021BA030  thumb
- *   func_021BA7B4  0x021BA7B4  thumb
- *   func_021BA410  0x021BA410  thumb
- *   func_021BB114  0x021BB114  thumb
- *   func_021BAF9C  0x021BAF9C  thumb
- *   func_021B98E0  0x021B98E0  thumb
- *   func_02031140  0x02031140  arm
- *   func_02045C04  0x02045C04  arm
+ *   OPTION_MENU_ExitMessageBox  0x021BADFC  thumb
+ *   OPTION_MENU_ExitTextBox  0x021BA254  thumb
+ *   OPTION_MENU_ExitInput  0x021BA030  thumb
+ *   OPTION_MENU_ExitList  0x021BA7B4  thumb
+ *   OPTION_MENU_ExitButtons  0x021BA410  thumb
+ *   OPTION_MENU_ExitRunner  0x021BB114  thumb
+ *   OPTION_MENU_ExitSettings  0x021BAF9C  thumb
+ *   OPTION_MENU_ExitScreen  0x021B98E0  thumb
+ *   TCBL_Destroy  0x02031140  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  *   func_02034A5C  0x02034A5C  arm
- *   func_02027FD8  0x02027FD8  thumb
+ *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
- *   func_0201D83C  0x0201D83C  thumb
+ *   GF_FONT_Delete  0x0201D83C  thumb
  *   ov067_id       0x00000043  data
  */
 #include "../include/Obj05149.h"
@@ -38,40 +38,40 @@ struct Rec;
 struct S02031140;
 struct S020315D4;
 struct TaskMenuState;
-extern void func_021BADFC(u8 *p);
-extern void func_021BA254(u8 *p);
-extern void func_021BA030(void *p);
-extern void func_021BA7B4(void *p);
-extern void func_021BA410(u8 *p);
-extern void func_021BB114(void *p);
-extern void func_021BAF9C(void *p);
-extern void func_021B98E0(u8 *p);
-extern void func_02031140(struct S02031140 *p);
-extern u32 func_02045C04(struct Rec *rec);
+extern void OPTION_MENU_ExitMessageBox(u8 *p);
+extern void OPTION_MENU_ExitTextBox(u8 *p);
+extern void OPTION_MENU_ExitInput(void *p);
+extern void OPTION_MENU_ExitList(void *p);
+extern void OPTION_MENU_ExitButtons(u8 *p);
+extern void OPTION_MENU_ExitRunner(void *p);
+extern void OPTION_MENU_ExitSettings(void *p);
+extern void OPTION_MENU_ExitScreen(u8 *p);
+extern void TCBL_Destroy(struct S02031140 *p);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int a);
-extern u32 func_02027FD8(struct TaskMenuState *s);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern u8 ov067_id[];
 
-int func_021B9768(void *a, u32 b, u32 c, u8 *w)
+int OPTION_MENU_Exit(void *a, u32 b, u32 c, u8 *w)
 {
-    func_021BADFC(w + 0x1d8);
-    func_021BA254(w + 0x1a0);
-    func_021BA030(w + 0xe4);
-    func_021BA7B4(w + 0x148);
-    func_021BA410(w + 0x104);
-    func_021BB114(w + 0xd4);
-    func_021BAF9C(w + 0x248);
-    func_02031140(((struct Obj05149 *)w)->f268);
-    func_02045C04(((struct Obj05149 *)w)->f25C);
-    func_02027FD8(((struct Obj05149 *)w)->f264);
-    func_02027FD8(((struct Obj05149 *)w)->f260);
+    OPTION_MENU_ExitMessageBox(w + 0x1d8);
+    OPTION_MENU_ExitTextBox(w + 0x1a0);
+    OPTION_MENU_ExitInput(w + 0xe4);
+    OPTION_MENU_ExitList(w + 0x148);
+    OPTION_MENU_ExitButtons(w + 0x104);
+    OPTION_MENU_ExitRunner(w + 0xd4);
+    OPTION_MENU_ExitSettings(w + 0x248);
+    TCBL_Destroy(((struct Obj05149 *)w)->f268);
+    MSGDATA_Delete(((struct Obj05149 *)w)->f25C);
+    APP_TASKMENU_RES_Delete(((struct Obj05149 *)w)->f264);
+    APP_TASKMENU_RES_Delete(((struct Obj05149 *)w)->f260);
     func_0201C4C0(((struct Obj05149 *)w)->f258);
-    func_0201D83C(((struct Obj05149 *)w)->f254);
-    func_021B98E0(w);
+    GF_FONT_Delete(((struct Obj05149 *)w)->f254);
+    OPTION_MENU_ExitScreen(w);
     func_020315D4(a);
     func_020306F0(0x1c);
     func_02034A5C((int)ov067_id);

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE310  0x021BE310  thumb  ov021
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021F37B4  0x021F37B4  thumb  ov054
- *   func_021F38E4  0x021F38E4  thumb  ov054
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnit  0x021BE310  thumb  ov021
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   GIMMICK54_CreateSoundObjs  0x021F37B4  thumb  ov054
+ *   FIELD_GIMMICK_BSUBWAY_ExitTrainSway  0x021F38E4  thumb  ov054
  *   ISS_3DS_SYS_SetVolume  0x0202B914  thumb
  *   d_021F39A0     0x021F39A0  data  a4
  */
@@ -26,13 +26,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern void func_021BE310(unsigned a, void *b, int c);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void FLD_EXP_OBJ_AddUnit(unsigned a, void *b, int c);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
 struct O;
-extern void func_021F37B4(struct O *o, u32 q);
-extern void func_021F38E4(char *p, int a);
+extern void GIMMICK54_CreateSoundObjs(struct O *o, u32 q);
+extern void FIELD_GIMMICK_BSUBWAY_ExitTrainSway(char *p, int a);
 extern void ISS_3DS_SYS_SetVolume(struct Obj *o, u32 v);
 
 void func_021F36C0(unsigned a)
@@ -40,10 +40,10 @@ void func_021F36C0(unsigned a)
     unsigned r5;
     int *p;
 
-    r5 = func_02188C84((u8 *)a);
-    func_021BE310(func_02188D2C((int *)a), d_021F39A0, 0);
-    p = func_02189764((unsigned char *)a, 0, r5, 0x28);
-    func_021F37B4((struct O *)p, a);
-    func_021F38E4((char *)p, a);
+    r5 = FIELDMAP_GetHeapId((u8 *)a);
+    FLD_EXP_OBJ_AddUnit(FIELDMAP_GetExpObj((int *)a), d_021F39A0, 0);
+    p = FIELDMAP_AllocCommonWork((unsigned char *)a, 0, r5, 0x28);
+    GIMMICK54_CreateSoundObjs((struct O *)p, a);
+    FIELD_GIMMICK_BSUBWAY_ExitTrainSway((char *)p, a);
     ISS_3DS_SYS_SetVolume((struct Obj *)p[1], 0x7f);
 }

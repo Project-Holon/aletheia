@@ -1,5 +1,5 @@
 /*
- * function: func_021576A8
+ * function: DELIVERY_BEACON_GetSlotSize
  * address: 0x021576A8
  * packet: pkt_ov010_021576A8
  * region: ov010
@@ -12,4 +12,4 @@
  * Function with no listing label, matched inside src/game/ov010/delivery_beacon.c and filed here.
  */
 
-int func_021576A8(void) { return 100; }
+int DELIVERY_BEACON_GetSlotSize(void) { return 100; }

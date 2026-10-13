@@ -1,5 +1,5 @@
 /*
- * function: func_0216F940
+ * function: WAZA_OSHIE_Delete
  * address:  0x0216F940
  * packet:   pkt_0216F940
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216F940.c \
- *       --func func_0216F940 --addr 0x0216F940 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WAZA_OSHIE_Delete.c \
+ *       --func WAZA_OSHIE_Delete --addr 0x0216F940 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ typedef unsigned int u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_0216F940(void *a0, unsigned a1, unsigned a2, unsigned a3)
+void WAZA_OSHIE_Delete(void *a0, unsigned a1, unsigned a2, unsigned a3)
 {
 
     func_020307B0(a0);

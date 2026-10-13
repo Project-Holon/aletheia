@@ -1,5 +1,5 @@
 /*
- * function: func_021A5340
+ * function: FIELD_PLAYER_GRID_IsForcedMoveFlagSet
  * address:  0x021A5340
  * packet:   pkt_ov021_021A5340
  * region:   ov021
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A5318  0x021A5318  thumb  ov021
+ *   FIELD_PLAYER_GRID_HasFlag  0x021A5318  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-int func_021A5318(u32 *p, u32 m);
+int FIELD_PLAYER_GRID_HasFlag(u32 *p, u32 m);
 
-int func_021A5340(u32 *p)
+int FIELD_PLAYER_GRID_IsForcedMoveFlagSet(u32 *p)
 {
     int r = 1;
 
-    if (func_021A5318(p, 1) == 0)
+    if (FIELD_PLAYER_GRID_HasFlag(p, 1) == 0)
         r = 0;
     return r;
 }

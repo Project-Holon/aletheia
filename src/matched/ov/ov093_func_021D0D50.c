@@ -19,13 +19,13 @@
  *   func_021D0980 0x021D0980 thumb ov093
  *   func_021CFD50 0x021CFD50 thumb ov093
  *   func_021D09E0 0x021D09E0 thumb ov093
- *   func_021B8588 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   func_021D1058 0x021D1058 thumb ov093
  *   func_021B8E28 0x021B8E28 thumb ov093
- *   func_021D8394 0x021D8394 thumb ov093
- *   func_021D102C 0x021D102C thumb ov093
- *   func_021D83C4 0x021D83C4 thumb ov093
- *   func_021D8434 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
+ *   BTL_CLIENT_IsDoubleBattleLeadAlive 0x021D102C thumb ov093
+ *   BTL_ACTION_SetChangeDepleted 0x021D83C4 thumb ov093
+ *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
  */
 #include "../include/Obj01236.h"
 typedef unsigned char u8;
@@ -35,13 +35,13 @@ extern u8 func_021D0980(u8 *,u8 *);
 struct G;
 extern u8 *func_021CFD50(struct G *g, int k);
 extern void func_021D09E0(u8 *p, u8 *order, u8 count, void *target);
-extern u32 func_021B8588(void **);
+extern u32 BTL_MAIN_GetRule(void **);
 extern int func_021D1058(u8 *,void *);
 extern void func_021B8E28(u8 *,u8,u8 *,u8 *);
-extern void func_021D8394(void *,u8,u8);
-extern int func_021D102C(char *p);
-extern void func_021D83C4(u32 *p);
-extern void func_021D8434(u32 *p);
+extern void BTL_ACTION_SetChange(void *,u8,u8);
+extern int BTL_CLIENT_IsDoubleBattleLeadAlive(char *p);
+extern void BTL_ACTION_SetChangeDepleted(u32 *p);
+extern void BTL_CALC_ActionSetNone(u32 *p);
 int func_021D0D50(u8 *p)
 {
     u8 order[6];
@@ -59,7 +59,7 @@ int func_021D0D50(u8 *p)
             target = func_021CFD50((struct G *)p,p[0x1b5]);
             if (target) func_021D09E0(p,order,n,target);
             if (count > n) {
-                if (func_021B8588(*(void ** *)&((struct Obj01236 *)p)->f0) == 3) {
+                if (BTL_MAIN_GetRule(*(void ** *)&((struct Obj01236 *)p)->f0) == 3) {
                     result = func_021D1058(p,p+0x124);
                     if (result) {
                         *(int *)&((struct Obj01236 *)p)->fDC = result;
@@ -71,12 +71,12 @@ int func_021D0D50(u8 *p)
             }
             for (i=0;i<count;i++) {
                 func_021B8E28(*(u8 * *)&((struct Obj01236 *)p)->f0,p[0x1b5+i],pair,pair+1);
-                func_021D8394(p+0x124+i*4,pair[1],order[i]);
+                BTL_ACTION_SetChange(p+0x124+i*4,pair[1],order[i]);
             }
             ((struct Obj01236 *)p)->fD8 = p+0x124;
             ((struct Obj01236 *)p)->fDC = count*4;
         } else {
-            if (func_021D102C((char *)p)) {
+            if (BTL_CLIENT_IsDoubleBattleLeadAlive((char *)p)) {
                 result = func_021D1058(p,p+0x124);
                 if (result) {
                     *(int *)&((struct Obj01236 *)p)->fDC = result;
@@ -84,12 +84,12 @@ int func_021D0D50(u8 *p)
                     return 1;
                 }
             }
-            func_021D83C4((u32 *)(p+0x124));
+            BTL_ACTION_SetChangeDepleted((u32 *)(p+0x124));
             ((struct Obj01236 *)p)->fD8 = p+0x124;
             ((struct Obj01236 *)p)->fDC = 4;
         }
     } else {
-        func_021D8434((u32 *)(p+0x124));
+        BTL_CALC_ActionSetNone((u32 *)(p+0x124));
         ((struct Obj01236 *)p)->fD8 = p+0x124;
         ((struct Obj01236 *)p)->fDC = 4;
     }

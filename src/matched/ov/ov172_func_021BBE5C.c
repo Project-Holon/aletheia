@@ -13,12 +13,12 @@
  * 0xf by 0x1c record ring and the 0xf by 0x24 handle ring.
  *
  * symbols:
- *   func_02028148  0x02028148  thumb
- *   func_020456F8  0x020456F8  arm
+ *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *   func_020452E8  0x020452E8  arm
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020414EC  0x020414EC  arm
  *   func_02041EE4  0x02041EE4  arm
@@ -33,12 +33,12 @@ typedef unsigned int   u32;
 
 struct Descriptor;
 struct Obj;
-extern void func_02028148(u8 *p);
-extern void func_020456F8(struct Descriptor *d);
+extern void APP_TASKMENU_WIN_Delete(u8 *p);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 func_020307B0(void *p);
 extern void func_020414EC(u32 i);
 extern void func_02041EE4(u32 index, u32 a, u32 b);
@@ -49,30 +49,30 @@ void func_021BBE5C(void *a0, char *a1)
     u8 i, j;
 
     if (((struct Obj03316 *)a1)->f1C != 0) {
-        func_02028148((u8 *)(*(u32 *)&((struct Obj03316 *)a1)->f1C));
+        APP_TASKMENU_WIN_Delete((u8 *)(*(u32 *)&((struct Obj03316 *)a1)->f1C));
         *(u32 *)&((struct Obj03316 *)a1)->f1C = 0;
     }
 
     p = ((struct Obj03316 *)a1)->f2C;
-    func_020456F8((struct Descriptor *)p);
+    BMP_WIN_ClearScreen((struct Descriptor *)p);
     func_020409B4(func_02045730((struct Descriptor *)p));
     func_020452E8((struct Descriptor *)(((struct Obj03316 *)a1)->f2C));
 
     p = ((struct Obj03316 *)a1)->f30;
-    func_020456F8((struct Descriptor *)p);
+    BMP_WIN_ClearScreen((struct Descriptor *)p);
     func_020409B4(func_02045730((struct Descriptor *)p));
     func_020452E8((struct Descriptor *)(((struct Obj03316 *)a1)->f30));
 
-    func_0204B3B4((struct Obj *)(((struct Obj03316 *)a1)->f404));
-    func_0204B3B4((struct Obj *)(((struct Obj03316 *)a1)->f400));
+    CLACT_DeleteActor((struct Obj *)(((struct Obj03316 *)a1)->f404));
+    CLACT_DeleteActor((struct Obj *)(((struct Obj03316 *)a1)->f400));
 
     for (i = 0; i < 0xf; i++) {
         char *q = a1 + i * 0x1c;
 
         func_020452E8((struct Descriptor *)(((struct Obj08261 *)q)->f54));
-        func_0204B3B4((struct Obj *)(((struct Obj08261 *)q)->f50));
-        func_0204B3B4((struct Obj *)(((struct Obj08261 *)q)->f4C));
-        func_0204B3B4((struct Obj *)(((struct Obj08261 *)q)->f48));
+        CLACT_DeleteActor((struct Obj *)(((struct Obj08261 *)q)->f50));
+        CLACT_DeleteActor((struct Obj *)(((struct Obj08261 *)q)->f4C));
+        CLACT_DeleteActor((struct Obj *)(((struct Obj08261 *)q)->f48));
     }
 
     for (j = 0; j < 0xf; j++)

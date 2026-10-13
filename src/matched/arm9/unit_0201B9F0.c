@@ -57,6 +57,8 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_IsPPRestorable  0x0201B920  thumb
  *   POKE_TOOL_RestorePP  0x0201B970  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  */
 
 typedef unsigned char  u8;
@@ -64,8 +66,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern u32  func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32  POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u8   POKE_TOOL_IsPPRestorable(void *mon, u32 slot);
 extern u32  POKE_TOOL_RestorePP(void *mon, u32 slot, u32 amount);
 extern u32 POKEPARTY_GetCount(void *p);
@@ -75,8 +77,8 @@ void POKE_TOOL_HealFull(void *mon)
 {
     s32 i;
 
-    func_02017E40(mon, 0xA0, func_02017E1C(mon, 0xA1, 0));
-    func_02017E40(mon, 0x9D, 0);
+    POKE_TOOL_SetPartyValue(mon, 0xA0, POKE_TOOL_GetPartyValue(mon, 0xA1, 0));
+    POKE_TOOL_SetPartyValue(mon, 0x9D, 0);
     for (i = 0; i < 4; i++) {
         if (POKE_TOOL_IsPPRestorable(mon, i) == 1) {
             POKE_TOOL_RestorePP(mon, i, 0x7F);
@@ -93,7 +95,7 @@ void POKE_TOOL_HealParty(void *party)
     n = POKEPARTY_GetCount(party);
     for (i = 0; i < n; i++) {
         mon = POKEPARTY_GetMember(party, i);
-        if (func_02017E1C(mon, 0xA9, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0) {
             POKE_TOOL_HealFull(mon);
         }
     }

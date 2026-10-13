@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0D8
+ * function: STARTMENU_SaveEraseVblankTask
  * address:  0x021BD0D8
  * packet:   pkt_ov088_021BD0D8
  * region:   ov088
@@ -17,7 +17,7 @@
 extern void func_020419E4(void);
 extern unsigned int SDK_AUTOLOAD_DTCM_START;
 
-void func_021BD0D8(void)
+void STARTMENU_SaveEraseVblankTask(void)
 {
     func_020419E4();
     *(volatile unsigned int *)((char *)&SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;

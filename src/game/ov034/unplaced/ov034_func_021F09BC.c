@@ -1,5 +1,5 @@
 /*
- * function: func_021F09BC
+ * function: REPORT_UpdateSaveAnim
  * address:  0x021F09BC
  * packet:   pkt_ov034_021F09BC
  * region:   ov034
@@ -24,13 +24,13 @@
  * then it is EXACT with no change to the C.
  *
  * symbols:
- *   func_021F09BC 0x021F09BC thumb
+ *   REPORT_UpdateSaveAnim 0x021F09BC thumb
  *   SAVE_CONTROL_GetWrittenSize 0x020071C0 thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204A600 0x0204A600 arm
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 
 #include "../report_types.h"
@@ -40,12 +40,12 @@ struct ClactActor;
 
 extern u32 SAVE_CONTROL_GetWrittenSize(void *saveControl);
 extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 value);
-extern void func_0204B878(struct ClactActor *actor, u16 value);
+extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
 extern void func_0204B92C(struct ClactActor *actor, u32 v);
-extern void func_0204A600(void);
-extern void func_0204A648(void);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
 
-void func_021F09BC(struct Task *task, ReportWork *work)
+void REPORT_UpdateSaveAnim(struct Task *task, ReportWork *work)
 {
     u32 writtenSize;
 
@@ -58,11 +58,11 @@ void func_021F09BC(struct Task *task, ReportWork *work)
             work->progressTarget += work->progressStep;
             work->pieceFrameDelay = 0;
             CLACT_SetActorAnimFrame(work->actors[work->barPiecesLit + 6], 0);
-            func_0204B878(work->actors[work->barPiecesLit + 6], 1);
+            CLACT_SetActorAnimSeq(work->actors[work->barPiecesLit + 6], 1);
             func_0204B92C(work->actors[work->barPiecesLit + 6], 1);
             work->barPiecesLit++;
         }
-        func_0204A600();
-        func_0204A648();
+        CLACT_DrawSystem();
+        CLACT_VBlankSystem();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02185A34
+ * function: EVENT_MAPCHANGE_SetMapEffectMask
  * address: 0x02185A34
  * packet: pkt_ov020_02185A34
  * region: ov020
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012B38 0x02012B38 thumb
+ *   GAME_DATA_GetMoveModelSys 0x02012B38 thumb
  *   func_02013F6C 0x02013F6C thumb
  *   func_02014468 0x02014468 thumb
  *   func_0201446C 0x0201446C thumb
@@ -18,15 +18,15 @@
 typedef unsigned char  u8;
 struct BigObj;
 struct Sub02014444Obj;
-extern void *func_02012B38(const struct BigObj *p);
+extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern unsigned int func_02013F6C(unsigned int id);
 extern u8 func_02014468(struct Sub02014444Obj *o);
 extern void func_0201446C(void *p, unsigned int value);
-void func_02185A34(void *p, unsigned int id)
+void EVENT_MAPCHANGE_SetMapEffectMask(void *p, unsigned int id)
 {
     void *object;
     unsigned int flags;
-    object = func_02012B38(p);
+    object = GAME_DATA_GetMoveModelSys(p);
     flags = func_02013F6C(id);
     if ((flags & 1) && func_02014468(object)) {
         flags &= ~1;

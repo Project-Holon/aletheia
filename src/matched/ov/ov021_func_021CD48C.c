@@ -1,5 +1,5 @@
 /*
- * function: func_021CD48C
+ * function: COMM_ENTRY_MENU_Create
  * address:  0x021CD48C
  * packet:   pkt_ov021_021CD48C
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C54  0x02188C54  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_0201EC64  0x0201EC64  thumb
- *   func_021904B0  0x021904B0  thumb  ov021
- *   func_02190F64  0x02190F64  thumb  ov021
- *   func_020457B0  0x020457B0  arm
+ *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
+ *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02008494  0x02008494  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_021CF164  0x021CF164  thumb  ov021
- *   func_0203D798  0x0203D798  arm
- *   func_0203D650  0x0203D650  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   COMM_ENTRY_StartNetCommands  0x021CF164  thumb  ov021
+ *   GFL_NET_GetInitParam  0x0203D798  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
  *   d_021DE5E8     0x021DE5E8  data   ov021  a1
  */
 
@@ -73,43 +73,43 @@ typedef struct {
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
-extern u32 func_02188C54(u8 *p);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern void *func_02030734(u32 heap, u32 size, int a, const char *file, u16 line);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern int func_021904B0(u32 a, u32 b);
+extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 struct Fx;
 struct Obj2;
-extern struct Obj2 *func_02190F64(struct Fx *a, u32 b);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct Obj2 *FIELD_MSGBG_CreateBottomSysWin(struct Fx *a, u32 b);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02008494(void *src, void *dst);
+extern void MYSTATUS_Copy(void *src, void *dst);
 extern void func_02082D44(void *src, void *dst, u32 n);
-extern void func_0203D7BC(u8 a0);
-extern void func_021CF164(u32 a);
-extern void *func_0203D798(void);
-extern u32 func_0203D650(void);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern void COMM_ENTRY_StartNetCommands(u32 a);
+extern void *GFL_NET_GetInitParam(void);
+extern u32 GFL_NET_GetUserArg(void);
 extern u8 d_021DE5E8[];
 
-Work *func_021CD48C(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u32 a6, void *a7)
+Work *COMM_ENTRY_MENU_Create(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u32 a6, void *a7)
 {
     u32 t;
     Work *w;
     Sys *s;
 
-    t = func_02188C54((u8 *)a1);
+    t = FIELDMAP_GetMsgBg((u8 *)a1);
     w = func_02030734(heap, 0x580, 1, (const char *)d_021DE5E8, 0x179);
     w->f4 = (u32)func_0201EC64(heap);
-    w->f8 = func_021904B0(t, 0x1e);
-    w->f14 = (u32)func_02190F64((struct Fx *)t, w->f8);
-    w->f18 = (u32)func_020457B0(0x64, heap);
+    w->f8 = FIELD_MSGBG_CreateMsgData(t, 0x1e);
+    w->f14 = (u32)FIELD_MSGBG_CreateBottomSysWin((struct Fx *)t, w->f8);
+    w->f18 = (u32)STRBUF_Create(0x64, heap);
     w->f1C = (u32)func_02045EC0((struct MsgBank *)w->f8, 7);
-    w->f20 = (u32)func_020457B0(0x40, heap);
+    w->f20 = (u32)STRBUF_Create(0x40, heap);
     if (a6 == 1) {
         w->f24 = (u32)func_02045EC0((struct MsgBank *)w->f8, 3);
     } else {
         w->f24 = (u32)func_02045EC0((struct MsgBank *)w->f8, 2);
     }
-    w->f28 = (u32)func_020457B0(0x20, heap);
+    w->f28 = (u32)STRBUF_Create(0x20, heap);
     w->f51C = a2;
     w->f51D = a3;
     w->f0 = a1;
@@ -118,16 +118,16 @@ Work *func_021CD48C(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u32 a6, vo
     w->f528 = heap;
     w->f572 = -1;
     w->f574 = 0xffff;
-    func_02008494((void *)a0, w->f30);
+    MYSTATUS_Copy((void *)a0, w->f30);
     if (a7 != 0) {
         func_02082D44(a7, w->f554, 6);
     }
-    func_0203D7BC(0);
-    func_021CF164((u32)w);
+    GFL_NET_SetLoginOption(0);
+    COMM_ENTRY_StartNetCommands((u32)w);
     if (a6 == 1) {
         w->f51B = 1;
     }
-    s = func_0203D798();
-    s->f18(func_0203D650())->f26 = 0x3a0b;
+    s = GFL_NET_GetInitParam();
+    s->f18(GFL_NET_GetUserArg())->f26 = 0x3a0b;
     return w;
 }

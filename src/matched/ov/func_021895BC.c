@@ -1,5 +1,5 @@
 /*
- * function: func_021895BC
+ * function: FIELDMAP_SetPlayerZoneId
  * address:  0x021895BC
  * packet:   pkt_021895BC
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC4  0x02012AC4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_SetPlayerZoneId  0x02012AC4  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -23,12 +23,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct SaveBlock;
-extern void *func_020127A4(struct SaveBlock *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 struct Rec44;
-extern struct Rec44 *func_02012AC4(struct Rec44 *p, u16 v);
+extern struct Rec44 *GAME_DATA_SetPlayerZoneId(struct Rec44 *p, u16 v);
 
-int func_021895BC(void *a, u32 b)
+int FIELDMAP_SetPlayerZoneId(void *a, u32 b)
 {
-return (int)func_02012AC4((struct Rec44 *)func_020127A4((struct SaveBlock *)a), ((b << 16) >> 16));
+return (int)GAME_DATA_SetPlayerZoneId((struct Rec44 *)GAME_DATA_GetMyPlayerWork((struct SaveBlock *)a), ((b << 16) >> 16));
 }
 

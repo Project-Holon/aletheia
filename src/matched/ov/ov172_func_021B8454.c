@@ -11,9 +11,9 @@
  * note 2026-10-05 wD4 lane05: EXACT. w is a u32 local (callee keeps its real u16 return) declared
  *   between me and base: declaration order me, w, base, e gives slots 0x10, 0xC, 8, 4.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
- *   func_0203D1C0 0x0203D1C0 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
+ *   GFL_NET_IsConnectMember 0x0203D1C0 arm
  *   GFL_NET_LOWER_DATA_CreatePostWork 0x0203E808 arm
  *   GFL_NET_LOWER_DATA_DeletePostWork 0x0203E8C8 arm
  *   func_021BE00C 0x021BE00C thumb ov172
@@ -29,9 +29,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Entry;
 struct Link;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *p);
-extern u32 func_0203D1C0(u32 index);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern u32 GFL_NET_IsConnectMember(u32 index);
 extern void GFL_NET_LOWER_DATA_CreatePostWork(u32 a, int b, u32 c, u32 d);
 extern void GFL_NET_LOWER_DATA_DeletePostWork(int a);
 extern u16 func_021BE00C(u16 *p);
@@ -52,10 +52,10 @@ void func_021B8454(void *a, char *q)
     u32 base;
     char *e;
 
-    me = func_0203D1A4((struct Link *)func_020399A8());
+    me = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
     w = func_021BE00C((u16 *)a);
     for (i = 0; i < 4; i++) {
-        if (func_0203D1C0(i) == 1) {
+        if (GFL_NET_IsConnectMember(i) == 1) {
             e = q + i * 64;
             if (*(u32 *)(e + 0x64) == 0) {
                 base = func_021BDFDC(a);

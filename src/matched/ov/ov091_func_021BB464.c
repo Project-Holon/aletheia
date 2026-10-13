@@ -1,5 +1,5 @@
 /*
- * function: func_021BB464
+ * function: PLIST_PLATE_GetHp
  * address:  0x021BB464
  * packet:   pkt_021BB464
  * region:   ov091
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-unsigned short func_021BB464(int unused, unsigned short *p)
+unsigned short PLIST_PLATE_GetHp(int unused, unsigned short *p)
 {
     (void)unused;
     return p[3];

@@ -1,5 +1,5 @@
 /*
- * function: func_021A3964
+ * function: FIELD_PLAYER_CORE_SetStepKind
  * address:  0x021A3964
  * packet:   pkt_021A3964
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021A3964(u8 *p, u32 v)
+void FIELD_PLAYER_CORE_SetStepKind(u8 *p, u32 v)
 {
     ((struct Obj18037 *)p)->f14 = v;
 }

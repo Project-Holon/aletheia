@@ -10,14 +10,14 @@
  * volatile: DISP3DCNT 0x04000060 re-read at 021DFA70,76,82,8A,96; GXSTAT written 021DFABA.
  * symbols:
  *   func_0207DCF8 0x0207DCF8 arm
- *   func_0207DD24 0x0207DD24 arm
+ *   G3X_SetClearColor 0x0207DD24 arm
  *   d_021E1D90 0x021E1D90 data a2
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { GX_SHADING_TOON = 0, GX_SHADING_HIGHLIGHT = 1 } GXShading;
 extern void func_0207DCF8(const u16 *);
-extern void func_0207DD24(u16, int, int, int, int);
+extern void G3X_SetClearColor(u16, int, int, int, int);
 extern const u16 d_021E1D90[];
 #define DISP3D (*(volatile u16 *)0x04000060)
 static inline void G3X_SetShading(GXShading shading)
@@ -54,6 +54,6 @@ void func_021DFA68(void)
     G3X_AlphaBlend(1);
     G3X_EdgeMarking(1);
     func_0207DCF8(d_021E1D90);
-    func_0207DD24(0x7fff, 0, 0x7fff, 63, 0);
+    G3X_SetClearColor(0x7fff, 0, 0x7fff, 63, 0);
     *(volatile u32 *)0x04000580 = 0xbfff0000;
 }

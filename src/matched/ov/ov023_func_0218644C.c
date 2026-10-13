@@ -1,5 +1,5 @@
 /*
- * function: func_0218644C
+ * function: OEKAKI_ApplySceneChange
  * address: 0x0218644C
  * packet: pkt_ov023_0218644C
  * region: ov023
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj07610.h"
 extern int d_02186E84[][2];
-void func_0218644C(char *p, int mode)
+void OEKAKI_ApplySceneChange(char *p, int mode)
 {
     int n;
     n = ((struct Obj07610 *)p)->f19C;

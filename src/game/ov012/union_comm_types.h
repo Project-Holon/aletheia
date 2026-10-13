@@ -42,7 +42,7 @@ typedef struct UnionPmsData {
     u16 word[4];
 } UnionPmsData;
 
-/* Parameters the field gives the union comm (0x10 bytes, func_02173744). */
+/* Parameters the field gives the union comm (0x10 bytes, UNION_MAIN_StartComm). */
 typedef struct UnionParentWork {
     struct MyStatus *myStatus;      /* 0x00 */
     struct GameComm *gameComm;      /* 0x04 */

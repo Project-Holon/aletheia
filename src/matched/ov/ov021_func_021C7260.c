@@ -1,5 +1,5 @@
 /*
- * function: func_021C7260
+ * function: FIELD_TASK_CreatePlayerSpinEaseIn
  * address:  0x021C7260
  * packet:   pkt_ov021_021C7260
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021C6C70  0x021C6C70  thumb  ov021
- *   func_021C6CCC  0x021C6CCC  thumb  ov021
- *   func_021C748C  0x021C748C  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_TASK_Create  0x021C6C70  thumb  ov021
+ *   FIELD_TASK_GetWork  0x021C6CCC  thumb  ov021
+ *   FIELD_TASK_UpdateSpinEaseIn  0x021C748C  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  */
 #include "../include/Obj05088.h"
 
@@ -24,16 +24,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_02188C84(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern void *func_021C6C70(u32 h, int size, void *fn);
-extern u32 func_021C6CCC(u8 *p);
-extern void func_021C748C(void);
-extern u16 func_0216D5F8(void *a);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern void *FIELD_TASK_Create(u32 h, int size, void *fn);
+extern u32 FIELD_TASK_GetWork(u8 *p);
+extern void FIELD_TASK_UpdateSpinEaseIn(void);
+extern u16 FLDMMDL_GetDirDisp(void *a);
 
-void *func_021C7260(u32 a, u16 b, int c)
+void *FIELD_TASK_CreatePlayerSpinEaseIn(u32 a, u16 b, int c)
 {
     void *o;
     u8 *p;
@@ -41,16 +41,16 @@ void *func_021C7260(u32 a, u16 b, int c)
     void *q;
     void *t;
 
-    h = func_02188C84((u8 *)a);
-    q = func_02188CB4((void *)a);
-    o = func_021C6C70(h, 0x10, (void *)func_021C748C);
-    p = (u8 *)func_021C6CCC(o);
+    h = FIELDMAP_GetHeapId((u8 *)a);
+    q = FIELDMAP_GetFieldPlayer((void *)a);
+    o = FIELD_TASK_Create(h, 0x10, (void *)FIELD_TASK_UpdateSpinEaseIn);
+    p = (u8 *)FIELD_TASK_GetWork(o);
     ((struct Obj05088 *)p)->f0 = a;
-    t = func_021A3074((void *)q);
+    t = FIELD_PLAYER_GetMmdl((void *)q);
     ((struct Obj05088 *)p)->f4 = t;
     ((struct Obj05088 *)p)->f8 = 0;
     ((struct Obj05088 *)p)->fA = b;
     p[0xc] = c;
-    ((struct Obj05088 *)p)->fE = func_0216D5F8(t);
+    ((struct Obj05088 *)p)->fE = FLDMMDL_GetDirDisp(t);
     return o;
 }

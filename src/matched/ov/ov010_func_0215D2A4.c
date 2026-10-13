@@ -1,5 +1,5 @@
 /*
- * function: func_0215D2A4
+ * function: SCRCMD_SODATEYA_Create
  * address:  0x0215D2A4
  * packet:   pkt_ov010_0215D2A4
  * region:   ov010
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   func_02030734  0x02030734  arm
  *   func_0201AA18  0x0201AA18  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0215D1E4  0x0215D1E4  thumb  ov010
- *   d_02172900     0x02172900  data
+ *   SCRCMD_SODATEYA_RunPartyMenuEvent  0x0215D1E4  thumb  ov010
+ *   sAllocSiteScrcmdSodateya     0x02172900  data
  */
 
 typedef unsigned int u32;
@@ -61,8 +61,8 @@ struct BigObj;
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 struct Blk37;
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CA38(struct Blk37 *p);
@@ -70,15 +70,15 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_0201AA18(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_0215D1E4(void *, u32 *, Ctx *);
-extern const char d_02172900[];
+extern int SCRCMD_SODATEYA_RunPartyMenuEvent(void *, u32 *, Ctx *);
+extern const char sAllocSiteScrcmdSodateya[];
 
-void *func_0215D2A4(void *a, u32 b, u32 c)
+void *SCRCMD_SODATEYA_Create(void *a, u32 b, u32 c)
 {
-    void *r7 = func_020120F4(a);
-    void *v = func_02012934(r7);
+    void *r7 = GAMESYSTEM_GetGameData(a);
+    void *v = GAME_DATA_GetMyParty(r7);
     u32 w = (u32)func_0200CA1C(r7);
-    A *x = func_02030734(4, 0x98, 0, d_02172900, 0x22B);
+    A *x = func_02030734(4, 0x98, 0, sAllocSiteScrcmdSodateya, 0x22B);
     B *y;
     Ctx *ctx;
     void *h;
@@ -86,7 +86,7 @@ void *func_0215D2A4(void *a, u32 b, u32 c)
     x->f34 = 0x12;
     x->f38 = 0;
     x->f3c = 0;
-    y = func_02030734(4, 0x28, 0, d_02172900, 0x232);
+    y = func_02030734(4, 0x28, 0, sAllocSiteScrcmdSodateya, 0x232);
     y->f00 = x->f00;
     y->f04 = x->f0c;
     y->f08 = (u32)r7;
@@ -96,7 +96,7 @@ void *func_0215D2A4(void *a, u32 b, u32 c)
     y->f10 = 0;
     y->f0f = 0;
     y->f18 = func_0200CA38((struct Blk37 *)w);
-    h = func_020122C0(a, 0, (void *)func_0215D1E4, 0x14);
+    h = func_020122C0(a, 0, (void *)SCRCMD_SODATEYA_RunPartyMenuEvent, 0x14);
     ctx = func_020124E8(h);
     ctx->f0 = a;
     ctx->f4 = b;

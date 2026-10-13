@@ -1,5 +1,5 @@
 /*
- * function: func_021A652C
+ * function: FIELD_PLAYER_NOGRID_CheckRailFromStand
  * address:  0x021A652C
  * packet:   pkt_ov021_021A652C
  * region:   ov021
@@ -12,27 +12,27 @@
  * 
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_021A658C  0x021A658C  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FIELD_PLAYER_NOGRID_CheckRailStep  0x021A658C  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D3CC(int a0);
-extern u16 func_0216D5F8(void *p);
-extern int func_021A658C(void *a, void *b, int c, int d, u16 e, int f);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FIELD_PLAYER_NOGRID_CheckRailStep(void *a, void *b, int c, int d, u16 e, int f);
 
-int func_021A652C(void *a, void *b, int c, int d, u16 e, int f)
+int FIELD_PLAYER_NOGRID_CheckRailFromStand(void *a, void *b, int c, int d, u16 e, int f)
 {
-    if (func_0216D3CC((int)b) == 1) {
+    if (FLDMMDL_CheckPossibleAcmd((int)b) == 1) {
         if (e != 9) {
-            if (e != func_0216D5F8(b) && f == 0) {
+            if (e != FLDMMDL_GetDirDisp(b) && f == 0) {
                 return 3;
             }
-            return func_021A658C(a, b, c, d, e, f);
+            return FIELD_PLAYER_NOGRID_CheckRailStep(a, b, c, d, e, f);
         }
         return 1;
     }

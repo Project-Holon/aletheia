@@ -1,5 +1,5 @@
 /*
- * function: func_021B8F0C
+ * function: ITEMMENU_TaskWaitMessageThenList
  * address:  0x021B8F0C
  * packet:   pkt_ov070_021B8F0C
  * region:   ov070
@@ -11,42 +11,42 @@
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
- *   func_021B80C4  0x021B80C4  thumb  ov070
- *   func_021B6138  0x021B6138  thumb  ov070
- *   func_021BA9AC  0x021BA9AC  thumb  ov070
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
+ *   ITEMMENU_RedrawList  0x021B6138  thumb  ov070
+ *   ITEMMENU_ClearMessageWindow  0x021BA9AC  thumb  ov070
  *   func_0204B92C  0x0204B92C  arm
- *   func_021BB3F4  0x021BB3F4  thumb  ov070
- *   func_021B8AF4  0x021B8AF4  thumb  ov070
+ *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
+ *   ITEMMENU_ReturnToBagMain  0x021B8AF4  thumb  ov070
  */
 #include "../include/Obj00002.h"
 
 typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
-extern int func_02035C60();
+extern int TOUCHPANEL_GetTrg();
 struct Obj;
-extern void func_021B80C4(struct Obj *o, int flag);
-extern void func_021B6138(char *p);
-extern void func_021BA9AC(char *p);
+extern void ITEMMENU_SetCursorActive(struct Obj *o, int flag);
+extern void ITEMMENU_RedrawList(char *p);
+extern void ITEMMENU_ClearMessageWindow(char *p);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
-extern void func_021BB3F4(int p, int mode);
-extern void func_021B8AF4(void *p);
+extern void ITEMMENU_UpdateSideButtons(int p, int mode);
+extern void ITEMMENU_ReturnToBagMain(void *p);
 
-void func_021B8F0C(int p)
+void ITEMMENU_TaskWaitMessageThenList(int p)
 {
     if (func_020362DC() & 3) {
-        func_021B80C4((struct Obj *)p, 1);
-    } else if (func_02035C60()) {
-        func_021B80C4((struct Obj *)p, 0);
+        ITEMMENU_SetCursorActive((struct Obj *)p, 1);
+    } else if (TOUCHPANEL_GetTrg()) {
+        ITEMMENU_SetCursorActive((struct Obj *)p, 0);
     } else {
         return;
     }
     ((struct Obj00002 *)p)->f818 = 0xFFFF;
-    func_021B6138((char *)p);
-    func_021BA9AC((char *)p);
+    ITEMMENU_RedrawList((char *)p);
+    ITEMMENU_ClearMessageWindow((char *)p);
     func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
-    func_021BB3F4(p, 1);
-    func_021B8AF4((void *)p);
+    ITEMMENU_UpdateSideButtons(p, 1);
+    ITEMMENU_ReturnToBagMain((void *)p);
 }

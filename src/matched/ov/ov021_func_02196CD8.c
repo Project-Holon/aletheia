@@ -1,5 +1,5 @@
 /*
- * function: func_02196CD8
+ * function: IRCBATTLEMENU_HookPartyMenuPressed
  * address:  0x02196CD8
  * packet:   pkt_ov021_02196CD8
  * region:   ov021
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  *
- * State step: registers the next handler through func_02196034.
+ * State step: registers the next handler through IRCBATTLEMENU_SetSeq.
  *
  * symbols:
- *   func_02196034  0x02196034  thumb  ov021
- *   func_02196A60  0x02196A60  thumb  ov021
- *   func_02196C68  0x02196C68  thumb  ov021
- *   func_02196804  0x02196804  thumb  ov021
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_SeqSetupKindMenu  0x02196A60  thumb  ov021
+ *   IRCBATTLEMENU_SeqSetupRuleMenu  0x02196C68  thumb  ov021
+ *   IRCBATTLEMENU_SeqStartFadeOut  0x02196804  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -26,21 +26,21 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02196034(u8 *p, void *fn, u32 n);
-extern void func_02196A60(u8 *p);
-extern void func_02196C68(u8 *p);
-extern void func_02196804(u8 *p);
+extern void IRCBATTLEMENU_SetSeq(u8 *p, void *fn, u32 n);
+extern void IRCBATTLEMENU_SeqSetupKindMenu(u8 *p);
+extern void IRCBATTLEMENU_SeqSetupRuleMenu(u8 *p);
+extern void IRCBATTLEMENU_SeqStartFadeOut(u8 *p);
 
-void func_02196CD8(u8 *p)
+void IRCBATTLEMENU_HookPartyMenuPressed(u8 *p)
 {
     if (((struct Obj09494 *)p)->fC == 2) {
         if (((struct Obj09494 *)p)->f8 == 5) {
             ((struct Obj09494 *)p)->f8 = 1;
-            func_02196034(p, func_02196A60, 0x4DD);
+            IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqSetupKindMenu, 0x4DD);
         } else {
-            func_02196034(p, func_02196C68, 0x4E1);
+            IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqSetupRuleMenu, 0x4E1);
         }
     } else {
-        func_02196034(p, func_02196804, 0x4E5);
+        IRCBATTLEMENU_SetSeq(p, IRCBATTLEMENU_SeqStartFadeOut, 0x4E5);
     }
 }

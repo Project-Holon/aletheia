@@ -1,5 +1,5 @@
 /*
- * function: func_02188C7C
+ * function: FIELDMAP_GetMmdlSys
  * address:  0x02188C7C
  * packet:   pkt_02188C54
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_02188C7C(u8 *p)
+void *FIELDMAP_GetMmdlSys(u8 *p)
 {
     return ((struct Obj00020 *)p)->f38;
 }

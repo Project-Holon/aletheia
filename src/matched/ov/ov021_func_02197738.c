@@ -1,5 +1,5 @@
 /*
- * function: func_02197738
+ * function: IRCBATTLEMENU_SeqSaveMain
  * address:  0x02197738
  * packet:   pkt_ov021_02197738
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012DD0  0x02012DD0  thumb
- *   func_02196228  0x02196228  thumb  ov021
+ *   GAME_DATA_SaveMain  0x02012DD0  thumb
+ *   IRCBATTLEMENU_SetSubPaletteActive  0x02196228  thumb  ov021
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020456F8  0x020456F8  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02041B6C  0x02041B6C  arm
- *   func_02196034  0x02196034  thumb  ov021
- *   func_02196A60  0x02196A60  thumb  ov021
- *   func_02196804  0x02196804  thumb  ov021
+ *   IRCBATTLEMENU_SetSeq  0x02196034  thumb  ov021
+ *   IRCBATTLEMENU_SeqSetupKindMenu  0x02196A60  thumb  ov021
+ *   IRCBATTLEMENU_SeqStartFadeOut  0x02196804  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj05989.h"
@@ -26,27 +26,27 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02012DD0(u8 *p);
-extern void func_02196228(u8 *p, int flag);
+extern int GAME_DATA_SaveMain(u8 *p);
+extern void IRCBATTLEMENU_SetSubPaletteActive(u8 *p, int flag);
 struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern void func_02041B6C(u32);
-extern void func_02196034(u8 *, void (*)(), u32);
-extern void func_02196A60(u8 *p);
-extern void func_02196804(u8 *p);
+extern void IRCBATTLEMENU_SetSeq(u8 *, void (*)(), u32);
+extern void IRCBATTLEMENU_SeqSetupKindMenu(u8 *p);
+extern void IRCBATTLEMENU_SeqStartFadeOut(u8 *p);
 
-void func_02197738(u8 *a)
+void IRCBATTLEMENU_SeqSaveMain(u8 *a)
 {
-    if (func_02012DD0(*(u8 * *)&((struct Obj05989 *)a)->f30) == 2) {
-        func_02196228(a, 0);
+    if (GAME_DATA_SaveMain(*(u8 * *)&((struct Obj05989 *)a)->f30) == 2) {
+        IRCBATTLEMENU_SetSubPaletteActive(a, 0);
         func_0201F7A8((void *)(((struct Obj05989 *)a)->f2B0), 2);
-        func_020456F8((struct Descriptor *)(((struct Obj05989 *)a)->f2B0));
+        BMP_WIN_ClearScreen((struct Descriptor *)(((struct Obj05989 *)a)->f2B0));
         func_02041B6C(5);
         if (((struct Obj05989 *)a)->f8 == 1) {
-            func_02196034(a, func_02196A60, 0x776);
+            IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqSetupKindMenu, 0x776);
         } else {
-            func_02196034(a, func_02196804, 0x779);
+            IRCBATTLEMENU_SetSeq(a, IRCBATTLEMENU_SeqStartFadeOut, 0x779);
         }
         ((struct Obj05989 *)a)->f2F8 = 1;
     }

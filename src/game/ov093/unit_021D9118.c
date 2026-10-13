@@ -1,7 +1,7 @@
 /*
  * file:     unit_021D9118.c
  * unit:     yes
- * function: func_021D9118, func_021D9148, func_021D9154, func_021D9190, func_021D919C, func_021D91D8, func_021D91E4, func_021D91FC, func_021D9208, func_021D9214, func_021D9224, func_021D9234, func_021D9240, func_021D9250, func_021D9260, func_021D926C, func_021D927C, func_021D928C, func_021D92CC, func_021D9340, func_021D936C, func_021D93A8
+ * function: func_021D9118, func_021D9148, BTL_ABILITY_RecklessBoostRecoilPower, BTL_ABILITY_GetRecklessHandlers, func_021D919C, func_021D91D8, BTL_ABILITY_MoldBreakerSetIgnoreAbilities, BTL_ABILITY_GetMoldBreakerHandlers, BTL_ABILITY_GetIndirectGuardCause1Handlers, BTL_ABILITY_IndirectGuardCause1Block, BTL_ABILITY_IndirectGuardCause1ShowMessage, BTL_ABILITY_GetIndirectGuardCause6Handlers, BTL_ABILITY_IndirectGuardCause6Block, BTL_ABILITY_IndirectGuardCause6ShowMessage, BTL_ABILITY_GetIndirectGuardCause8Handlers, BTL_ABILITY_IndirectGuardCause8Block, BTL_ABILITY_IndirectGuardCause8ShowMessage, BTL_ABILITY_BlockIndirectDamage, BTL_ABILITY_ShowIndirectGuardMessage, func_021D9340, BTL_ABILITY_LeafGuardBlockStatus, func_021D93A8
  * address:  0x021D9118
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,29 +13,29 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D7704 0x021D7704 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
  *   WAZA_TOOL_GetFlag 0x0201BEB8 thumb
- *   d_021F0758 0x021F0758 data a4
+ *   gIronFistHandlerTable 0x021F0758 data a4
  *   func_0201BD28  0x0201BD28  thumb
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D62A8  0x021D62A8  thumb  ov093
- *   d_021F06A8     0x021F06A8  data   ov093  a4
- *   func_021D76BC   0x021D76BC  thumb
- *   d_021F0720     0x021F0720  data   ov093  a4
- *   d_021F0618     0x021F0618  data   ov093  a4
- *   d_021F0880     0x021F0880  data   ov093  a4
- *   d_021F0890     0x021F0890  data   ov093  a4
+ *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
+ *   gMarvelScaleHandlerTable     0x021F06A8  data   ov093  a4
+ *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
+ *   gRecklessHandlerTable     0x021F0720  data   ov093  a4
+ *   gMoldBreakerHandlerTable     0x021F0618  data   ov093  a4
+ *   gIndirectGuardCause1HandlerTable     0x021F0880  data   ov093  a4
+ *   gIndirectGuardCause6HandlerTable     0x021F0890  data   ov093  a4
  *   func_021C88B4  0x021C88B4  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
- *   d_021F06B8 0x021F06B8 data a4
+ *   gHalveResidualDamageHandlerTable 0x021F06B8 data a4
  *   func_021C8288 0x021C8288 thumb ov093
- *   func_021D7D6C 0x021D7D6C thumb ov093
- *   d_021F0A40 0x021F0A40 data a4
- *   d_021F08A0     0x021F08A0  data   ov093  a4
+ *   BTL_CALC_HasDefaultSickCont 0x021D7D6C thumb ov093
+ *   gLeafGuardHandlerTable 0x021F0A40 data a4
+ *   gIndirectGuardCause8HandlerTable     0x021F08A0  data   ov093  a4
  */
 struct BtlPokeParam;
 struct BtlMessage;
@@ -52,88 +52,88 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern int func_021D775C(int key);
-extern void func_021D7704(int key, int multiplier);
+extern int BTL_EVENT_GetVar(int key);
+extern void BTL_EVENT_MultiplyVar(int key, int multiplier);
 extern unsigned int WAZA_TOOL_GetFlag(unsigned short moveId, unsigned int flagBit);
 extern u32 func_0201BD28(u16 moveId, u32 field);
 extern void *func_021C7CF4(void *server, int pokeId);
-extern int func_021D62A8(struct BtlPokeParam *pokeParam);
-extern int func_021D76BC(int key, u32 value);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *pokeParam);
+extern int BTL_EVENT_OverwriteVar(int key, u32 value);
 extern void func_021C88B4(void *server, int phase, int pokeId);
 extern void *func_021C88A4(char *server, int cmdKind, int pokeId);
 extern void func_021C8838(void *message, int kind, int stringId);
 extern void func_021C8860(struct BtlMessage *message, u32 arg);
 extern void func_021C88C8(void *server, void *cmd);
 extern int func_021C8288(void *server);
-extern int func_021D7D6C(int condition);
+extern int BTL_CALC_HasDefaultSickCont(int condition);
 void func_021D9118(struct BtlEventFactor *factor, void *server, int pokeId);
 void *func_021D9148(int *handlerCount);
-void func_021D9154(struct BtlEventFactor *factor, void *server, int pokeId);
-int *func_021D9190(int *handlerCount);
+void BTL_ABILITY_RecklessBoostRecoilPower(struct BtlEventFactor *factor, void *server, int pokeId);
+int *BTL_ABILITY_GetRecklessHandlers(int *handlerCount);
 void func_021D919C(struct BtlEventFactor *factor, void *server, int pokeId);
 int *func_021D91D8(int *handlerCount);
-void func_021D91E4(struct BtlEventFactor *factor, void *server, int pokeId);
-int *func_021D91FC(int *handlerCount);
-int *func_021D9208(int *handlerCount);
-void func_021D9214(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
-void func_021D9224(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
-int *func_021D9234(int *handlerCount);
-void func_021D9240(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
-void func_021D9250(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
-int *func_021D9260(int *handlerCount);
-void func_021D926C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
-void func_021D927C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
-void func_021D928C(void *server, int pokeId, int *work, int blockedCause);
-void func_021D92CC(void *server, int pokeId, int *work, int stringId);
+void BTL_ABILITY_MoldBreakerSetIgnoreAbilities(struct BtlEventFactor *factor, void *server, int pokeId);
+int *BTL_ABILITY_GetMoldBreakerHandlers(int *handlerCount);
+int *BTL_ABILITY_GetIndirectGuardCause1Handlers(int *handlerCount);
+void BTL_ABILITY_IndirectGuardCause1Block(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void BTL_ABILITY_IndirectGuardCause1ShowMessage(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+int *BTL_ABILITY_GetIndirectGuardCause6Handlers(int *handlerCount);
+void BTL_ABILITY_IndirectGuardCause6Block(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void BTL_ABILITY_IndirectGuardCause6ShowMessage(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+int *BTL_ABILITY_GetIndirectGuardCause8Handlers(int *handlerCount);
+void BTL_ABILITY_IndirectGuardCause8Block(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void BTL_ABILITY_IndirectGuardCause8ShowMessage(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void BTL_ABILITY_BlockIndirectDamage(void *server, int pokeId, int *work, int blockedCause);
+void BTL_ABILITY_ShowIndirectGuardMessage(void *server, int pokeId, int *work, int stringId);
 void func_021D9340(struct BtlEventFactor *factor, void *server, int pokeId);
 void *func_021D9360(int *handlerCount);
-void func_021D936C(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void BTL_ABILITY_LeafGuardBlockStatus(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 void func_021D93A8(struct BtlEventFactor *factor, void *server, int pokeId);
 void *func_021D93CC(int *handlerCount);
-extern unsigned int d_021F0758;
-extern int d_021F06A8[];
-extern int d_021F0720[];
-extern int d_021F0618[];
-extern int d_021F0880[];
-extern int d_021F0890[];
-extern unsigned int d_021F06B8;
-extern unsigned int d_021F0A40;
-extern int d_021F08A0[];
+extern unsigned int gIronFistHandlerTable;
+extern int gMarvelScaleHandlerTable[];
+extern int gRecklessHandlerTable[];
+extern int gMoldBreakerHandlerTable[];
+extern int gIndirectGuardCause1HandlerTable[];
+extern int gIndirectGuardCause6HandlerTable[];
+extern unsigned int gHalveResidualDamageHandlerTable;
+extern unsigned int gLeafGuardHandlerTable;
+extern int gIndirectGuardCause8HandlerTable[];
 
 /* Iron Fist: punching moves (move flag 7) x1.2. */
 void func_021D9118(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    if (pokeId == func_021D775C(3) && WAZA_TOOL_GetFlag(func_021D775C(0x12), 7)) func_021D7704(0x31, 0x1333);
+    if (pokeId == BTL_EVENT_GetVar(3) && WAZA_TOOL_GetFlag(BTL_EVENT_GetVar(0x12), 7)) BTL_EVENT_MultiplyVar(0x31, 0x1333);
 }
 
-void *func_021D9148(int *handlerCount) { *handlerCount = 1; return &d_021F0758; }
+void *func_021D9148(int *handlerCount) { *handlerCount = 1; return &gIronFistHandlerTable; }
 
 /* Reckless: recoil moves, Jump Kick and Hi Jump Kick x1.2. */
-void func_021D9154(struct BtlEventFactor *factor, void *server, int pokeId)
+void BTL_ABILITY_RecklessBoostRecoilPower(struct BtlEventFactor *factor, void *server, int pokeId)
 {
     u16 moveId;
 
-    if (pokeId == func_021D775C(3)) {
-        moveId = func_021D775C(0x12);
+    if (pokeId == BTL_EVENT_GetVar(3)) {
+        moveId = BTL_EVENT_GetVar(0x12);
         if (func_0201BD28(moveId, 0x1e) != 0 || moveId == 0x1a || moveId == 0x88)
-            func_021D7704(0x31, 0x1333);
+            BTL_EVENT_MultiplyVar(0x31, 0x1333);
     }
 }
 
-int *func_021D9190(int *handlerCount)
+int *BTL_ABILITY_GetRecklessHandlers(int *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F0720;
+    return gRecklessHandlerTable;
 }
 
 /* Marvel Scale: defender has a status condition, physical move: defense x1.5. */
 void func_021D919C(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    if (pokeId == func_021D775C(4)) {
-        if (func_021D62A8(func_021C7CF4(server, pokeId))) {
-            func_021D775C(0x12);
-            if (func_021D775C(0x1a) == 1)
-                func_021D7704(0x35, 0x1800);
+    if (pokeId == BTL_EVENT_GetVar(4)) {
+        if (BTL_POKEPARAM_GetMajorStatusIndex(func_021C7CF4(server, pokeId))) {
+            BTL_EVENT_GetVar(0x12);
+            if (BTL_EVENT_GetVar(0x1a) == 1)
+                BTL_EVENT_MultiplyVar(0x35, 0x1800);
         }
     }
 }
@@ -141,89 +141,89 @@ void func_021D919C(struct BtlEventFactor *factor, void *server, int pokeId)
 int *func_021D91D8(int *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F06A8;
+    return gMarvelScaleHandlerTable;
 }
 
 /* Mold Breaker: sets the ignore-ability flag while the owner attacks. */
-void func_021D91E4(struct BtlEventFactor *factor, void *server, int pokeId)
+void BTL_ABILITY_MoldBreakerSetIgnoreAbilities(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    if (pokeId == func_021D775C(3))
-        func_021D76BC(0x51, 1);
+    if (pokeId == BTL_EVENT_GetVar(3))
+        BTL_EVENT_OverwriteVar(0x51, 1);
 }
 
-int *func_021D91FC(int *handlerCount)
+int *BTL_ABILITY_GetMoldBreakerHandlers(int *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F0618;
+    return gMoldBreakerHandlerTable;
 }
 
-int *func_021D9208(int *handlerCount)
+int *BTL_ABILITY_GetIndirectGuardCause1Handlers(int *handlerCount)
 {
     *handlerCount = 2;
-    return d_021F0880;
+    return gIndirectGuardCause1HandlerTable;
 }
 
-void func_021D9214(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void BTL_ABILITY_IndirectGuardCause1Block(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    func_021D928C(server, pokeId, work, 0x1);
+    BTL_ABILITY_BlockIndirectDamage(server, pokeId, work, 0x1);
 }
 
-void func_021D9224(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void BTL_ABILITY_IndirectGuardCause1ShowMessage(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    func_021D92CC(server, pokeId, work, 0xc9);
+    BTL_ABILITY_ShowIndirectGuardMessage(server, pokeId, work, 0xc9);
 }
 
-int *func_021D9234(int *handlerCount)
-{
-    *handlerCount = 2;
-    return d_021F0890;
-}
-
-void func_021D9240(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
-{
-    func_021D928C(server, pokeId, work, 0x6);
-}
-
-void func_021D9250(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
-{
-    func_021D92CC(server, pokeId, work, 0xcf);
-}
-
-int *func_021D9260(int *handlerCount)
+int *BTL_ABILITY_GetIndirectGuardCause6Handlers(int *handlerCount)
 {
     *handlerCount = 2;
-    return d_021F08A0;
+    return gIndirectGuardCause6HandlerTable;
 }
 
-void func_021D926C(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void BTL_ABILITY_IndirectGuardCause6Block(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    func_021D928C(server, pokeId, work, 0x8);
+    BTL_ABILITY_BlockIndirectDamage(server, pokeId, work, 0x6);
 }
 
-void func_021D927C(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void BTL_ABILITY_IndirectGuardCause6ShowMessage(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
-    func_021D92CC(server, pokeId, work, 0xc6);
+    BTL_ABILITY_ShowIndirectGuardMessage(server, pokeId, work, 0xcf);
+}
+
+int *BTL_ABILITY_GetIndirectGuardCause8Handlers(int *handlerCount)
+{
+    *handlerCount = 2;
+    return gIndirectGuardCause8HandlerTable;
+}
+
+void BTL_ABILITY_IndirectGuardCause8Block(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+{
+    BTL_ABILITY_BlockIndirectDamage(server, pokeId, work, 0x8);
+}
+
+void BTL_ABILITY_IndirectGuardCause8ShowMessage(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+{
+    BTL_ABILITY_ShowIndirectGuardMessage(server, pokeId, work, 0xc6);
 }
 
 /* Indirect damage guard: when the owner takes damage of cause 8 or blockedCause, cancel it and arm the work flag. */
-void func_021D928C(void *server, int pokeId, int *work, int blockedCause)
+void BTL_ABILITY_BlockIndirectDamage(void *server, int pokeId, int *work, int blockedCause)
 {
-    if (pokeId == func_021D775C(2) && pokeId != func_021D775C(3)) {
-        if (blockedCause == 8 || blockedCause == func_021D775C(0x1f)) {
-            if (func_021D775C(0x20) < 0)
-                work[0] = func_021D76BC(0x41, 1);
+    if (pokeId == BTL_EVENT_GetVar(2) && pokeId != BTL_EVENT_GetVar(3)) {
+        if (blockedCause == 8 || blockedCause == BTL_EVENT_GetVar(0x1f)) {
+            if (BTL_EVENT_GetVar(0x20) < 0)
+                work[0] = BTL_EVENT_OverwriteVar(0x41, 1);
         }
     }
 }
 
 /* Shows the guard message once; work[0] is the armed flag, work[1] the weather of the last message. */
-void func_021D92CC(void *server, int pokeId, int *work, int stringId)
+void BTL_ABILITY_ShowIndirectGuardMessage(void *server, int pokeId, int *work, int stringId)
 {
     int weather;
     u8 *cmd;
 
-    if (pokeId == func_021D775C(2) && work[0] != 0) {
-        weather = func_021D775C(0x19);
+    if (pokeId == BTL_EVENT_GetVar(2) && work[0] != 0) {
+        weather = BTL_EVENT_GetVar(0x19);
         if (weather == 0 || work[1] != weather) {
             func_021C88B4(server, 2, pokeId);
             cmd = func_021C88A4(server, 4, pokeId);
@@ -240,25 +240,25 @@ void func_021D92CC(void *server, int pokeId, int *work, int stringId)
 /* Halves residual damage: doubles the damage divisor of the owner. */
 void func_021D9340(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    if (pokeId == func_021D775C(2)) func_021D76BC(0x20, func_021D775C(0x20) << 1);
+    if (pokeId == BTL_EVENT_GetVar(2)) BTL_EVENT_OverwriteVar(0x20, BTL_EVENT_GetVar(0x20) << 1);
 }
 
-void *func_021D9360(int *handlerCount) { *handlerCount = 1; return &d_021F06B8; }
+void *func_021D9360(int *handlerCount) { *handlerCount = 1; return &gHalveResidualDamageHandlerTable; }
 
 /* Leaf Guard: in sun, the defender cannot get a major status condition or the condition 0xe. */
-void func_021D936C(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void BTL_ABILITY_LeafGuardBlockStatus(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
     int condition;
-    if (pokeId == func_021D775C(4) && func_021C8288(server) == 1) {
-        condition = func_021D775C(0x1d);
-        if (func_021D7D6C(condition) || condition == 0xe) *work = func_021D76BC(0x41, 1);
+    if (pokeId == BTL_EVENT_GetVar(4) && func_021C8288(server) == 1) {
+        condition = BTL_EVENT_GetVar(0x1d);
+        if (BTL_CALC_HasDefaultSickCont(condition) || condition == 0xe) *work = BTL_EVENT_OverwriteVar(0x41, 1);
     }
 }
 
 /* Leaf Guard: in sun, cancels the event for the owner. */
 void func_021D93A8(struct BtlEventFactor *factor, void *server, int pokeId)
 {
-    if (pokeId == func_021D775C(2) && func_021C8288(server) == 1) func_021D76BC(0x41, 1);
+    if (pokeId == BTL_EVENT_GetVar(2) && func_021C8288(server) == 1) BTL_EVENT_OverwriteVar(0x41, 1);
 }
 
-void *func_021D93CC(int *handlerCount) { *handlerCount = 3; return &d_021F0A40; }
+void *func_021D93CC(int *handlerCount) { *handlerCount = 3; return &gLeafGuardHandlerTable; }

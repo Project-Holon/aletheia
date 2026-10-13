@@ -1,5 +1,5 @@
 /*
- * function: func_021F3F30
+ * function: CROWD_UpdateSpawns
  * address:  0x021F3F30
  * packet:   pkt_ov055_021F3F30
  * region:   ov055
@@ -14,8 +14,8 @@
  * and the else arm CSEs the load; struct member access matches.
  *
  * symbols:
- *   func_021F3B20  0x021F3B20  thumb  ov055
- *   func_021F3F9C  0x021F3F9C  thumb  ov055
+ *   CROWD_FindFreePerson  0x021F3B20  thumb  ov055
+ *   CROWD_SpawnPerson  0x021F3F9C  thumb  ov055
  */
 
 typedef unsigned char u8;
@@ -30,19 +30,19 @@ typedef struct S {
     short cnt[2];
 } S;
 
-extern u8 *func_021F3B20(u8 *p);
-extern void func_021F3F9C(const char *a, int b, const u16 *c, u8 *d, u16 e);
+extern u8 *CROWD_FindFreePerson(u8 *p);
+extern void CROWD_SpawnPerson(const char *a, int b, const u16 *c, u8 *d, u16 e);
 
-void func_021F3F30(S *p, char *q, int k)
+void CROWD_UpdateSpawns(S *p, char *q, int k)
 {
     int i;
 
     for (i = 0; i < p->n; i++) {
         u8 *e;
         if (p->cnt[i] >= p->lim[k]) {
-            e = func_021F3B20((u8 *)q);
+            e = CROWD_FindFreePerson((u8 *)q);
             if (e) {
-                func_021F3F9C(q, (int)p, (const u16 *)(&p->ent[i]), e, 0);
+                CROWD_SpawnPerson(q, (int)p, (const u16 *)(&p->ent[i]), e, 0);
                 p->cnt[i] = 0;
             }
         } else {

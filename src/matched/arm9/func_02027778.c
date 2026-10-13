@@ -1,5 +1,5 @@
 /*
- * function: func_02027778
+ * function: APP_TASKMENU_OpenMenu
  * address:  0x02027778
  * packet:   pkt_02027778
  * region:   arm9
@@ -70,7 +70,7 @@ extern u8 func_020355c4(void);
 struct S;
 extern void func_02027b30(u32 a0, struct S *s, int mode);
 extern char app_taskmenu_File[];
-struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1)
+struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1)
 {
   struct TaskMenu *m;
   m = func_02030734((u16) tmpl->heapId, 0x38, 0, app_taskmenu_File, 162);

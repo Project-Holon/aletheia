@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02159DC8",
+   "name": "MAP_REPLACE_GetRecordCount",
    "address": "0x02159DC8",
    "kind": "game",
    "region": "ov010",

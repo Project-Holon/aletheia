@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02012AC8  0x02012AC8  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *
  */
 
 typedef unsigned int u32;
 
 struct Rec44;
-extern unsigned short func_02012AC8(const struct Rec44 *p);
+extern unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 
 u32 ISS_CITY_SYS_GetPlayerZoneId(u32 *p)
 {
-    return func_02012AC8((const struct Rec44 *)*p);
+    return GAME_DATA_GetPlayerZoneId((const struct Rec44 *)*p);
 }

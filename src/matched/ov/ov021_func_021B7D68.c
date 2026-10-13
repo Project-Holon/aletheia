@@ -1,5 +1,5 @@
 /*
- * function: func_021B7D68
+ * function: FIELD_RAIL_UpdateCameraAtLocation
  * address:  0x021B7D68
  * packet:   pkt_ov021_021B7D68
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7EE4  0x021B7EE4  thumb
- *   func_021B8820  0x021B8820  thumb
- *   func_021B8870  0x021B8870  thumb
+ *   FIELD_RAIL_WORK_SetLocation  0x021B7EE4  thumb
+ *   FIELD_RAIL_SETTING_GetCamera  0x021B8820  thumb
+ *   FIELD_RAIL_SETTING_GetCameraFunc  0x021B8870  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -24,18 +24,18 @@ struct Sub { u16 f0; u16 pad2; struct Info *f4; char pad08[0x1C]; void *f24; };
 typedef void (*Cb)(void *);
 struct Obj { char pad00[0x14]; struct Sub *f14; char pad18[4]; struct Sub *f1C; };
 
-extern void func_021B7EE4(struct Sub *s, void *r);
-extern u32 *func_021B8820(void *p);
-extern Cb func_021B8870(void *p, u32 v);
+extern void FIELD_RAIL_WORK_SetLocation(struct Sub *s, void *r);
+extern u32 *FIELD_RAIL_SETTING_GetCamera(void *p);
+extern Cb FIELD_RAIL_SETTING_GetCameraFunc(void *p, u32 v);
 
-void func_021B7D68(struct Obj *o, void *r)
+void FIELD_RAIL_UpdateCameraAtLocation(struct Obj *o, void *r)
 {
     Cb cb;
     struct Sub *keep;
     struct Sub *t;
 
     cb = 0;
-    func_021B7EE4(o->f1C, r);
+    FIELD_RAIL_WORK_SetLocation(o->f1C, r);
     keep = o->f14;
     t = o->f1C;
     o->f14 = t;
@@ -48,7 +48,7 @@ void func_021B7D68(struct Obj *o, void *r)
         if (t->f4->f10 == 0xFFFF)
             break;
 lookup:
-        cb = func_021B8870(t->f24, *func_021B8820(t->f24));
+        cb = FIELD_RAIL_SETTING_GetCameraFunc(t->f24, *FIELD_RAIL_SETTING_GetCamera(t->f24));
         break;
     }
     if (cb)

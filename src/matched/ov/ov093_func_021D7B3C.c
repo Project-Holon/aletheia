@@ -1,5 +1,5 @@
 /*
- * function: func_021D7B3C
+ * function: BTL_CALC_MulPercent
  * address: 0x021D7B3C
  * packet: pkt_ov093_021D7B3C
  * region: ov093
@@ -13,4 +13,4 @@
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
-u32 func_021D7B3C(u32 a,u32 b) { u32 m; a*=b; m=a%100; a/=100; if(m>=50) ++a; return a; }
+u32 BTL_CALC_MulPercent(u32 a,u32 b) { u32 m; a*=b; m=a%100; a/=100; if(m>=50) ++a; return a; }

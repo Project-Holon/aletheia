@@ -1,5 +1,5 @@
 /*
- * function: func_0218DBD4
+ * function: FIELD_G3D_MAPPER_CheckSlotReady
  * address:  0x0218DBD4
  * packet:   pkt_ov021_0218DBD4
  * region:   ov021
@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021694FC  0x021694FC  thumb ov010
- *   func_021697E0  0x021697E0  thumb ov010
+ *   FIELD_G3D_MAP_IsVisible  0x021694FC  thumb ov010
+ *   FIELD_G3D_MAP_CanQueryHits  0x021697E0  thumb ov010
  */
 #include "../include/Obj01846.h"
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u16 func_021694FC(u8 *p);
-extern int func_021697E0(char *p);
+extern u16 FIELD_G3D_MAP_IsVisible(u8 *p);
+extern int FIELD_G3D_MAP_CanQueryHits(char *p);
 
-int func_0218DBD4(char *p, int i)
+int FIELD_G3D_MAPPER_CheckSlotReady(char *p, int i)
 {
     if (((struct Obj01846 *)p)->f1C == 0)
         return 0;
-    if (func_021694FC((u8 *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28))) == 0)
+    if (FIELD_G3D_MAP_IsVisible((u8 *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28))) == 0)
         return 0;
-    return func_021697E0((char *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28)));
+    return FIELD_G3D_MAP_CanQueryHits((char *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28)));
 }

@@ -24,13 +24,13 @@
  *   func_020362DC  0x020362DC  arm
  *   func_020355D8  0x020355D8  arm
  *   func_0203633C  0x0203633C  arm
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   func_020261C4  0x020261C4  thumb
  *   g_0209FB58  0x0209FB58  data
  *   UI_SetInputMode  0x020355D8  arm
  *   func_02030734   0x02030734  arm
- *   func_02012944   0x02012944  thumb
- *   func_020457B0   0x020457B0  arm
+ *   GAME_DATA_GetMyStatus   0x02012944  thumb
+ *   STRBUF_Create   0x020457B0  arm
  *   func_02008500   0x02008500  thumb
  *   g_020A74B0      0x020A74B0  data
  *   STRBUF_Delete  0x02045808  arm
@@ -141,9 +141,9 @@ extern void UI_SetInputMode(u8 v);
 extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);
 extern unsigned int func_0203633C(void);
-extern int func_02035C08(const void *key);
-extern u8 *func_02012944(void *a0);
-extern struct U16Vec *func_020457B0(u32 a0, u32 a1);
+extern int TOUCHPANEL_HitTrg(const void *key);
+extern u8 *GAME_DATA_GetMyStatus(void *a0);
+extern struct U16Vec *STRBUF_Create(u32 a0, u32 a1);
 extern void func_02008500(void *a0, void *a1);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 sub_020307B0(void *p);
@@ -393,7 +393,7 @@ int func_02025DE8(struct Cursor *obj)
  * Scan the entry table hanging off the object for a live record: each
  * entry's tag word is copied into the low half of a 8-byte stack scratch
  * whose high half is preloaded from the four-byte template g_0209FB58, then
- * handed to func_02035C08.  A hit that also passes the bitmap test commits
+ * handed to TOUCHPANEL_HitTrg.  A hit that also passes the bitmap test commits
  * the entry: the previous slot id is shifted to prev, the new index becomes
  * cur, an in-flight request (state == 1 with field_C == 1) is cancelled
  * through the vtable slot 4 before the normal slot C notification, and the
@@ -403,7 +403,7 @@ int func_02025DE8(struct Cursor *obj)
  * field_sound_system.c.  Scan the entry table hanging off the object for a
  * live record: each 12-byte entry's tag word (bytes 8..11) is copied into
  * the low half of a 8-byte stack scratch whose high half is preloaded from
- * the four-byte template g_0209FB58, then handed to func_02035C08.  A hit
+ * the four-byte template g_0209FB58, then handed to TOUCHPANEL_HitTrg.  A hit
  * that also passes the bitmap test at +0x10 commits the entry: the previous
  * slot id is shifted to +0xe, the new index becomes +0xd, an in-flight
  * request (field_4 == 1 with field_C == 1) is cancelled through the record's
@@ -447,7 +447,7 @@ int func_02025EA4(struct Cursor *obj, int *out)
         key[1] = e->tag[1];
         key[2] = e->tag[2];
         key[3] = e->tag[3];
-        if (func_02035C08(key) != -1) {
+        if (TOUCHPANEL_HitTrg(key) != -1) {
             res = 1;
             if (func_020261C4(bitmap, i) == 1) {
                 obj->prev = obj->cur;
@@ -715,7 +715,7 @@ int func_020261C4(const u32 *bitmap, u32 bit)
  * Allocate the 0x88-byte sprite for a1 (tag 0xe0), keep a1 as its first word,
  * then attach six sub-buffers: each starts at +0x3c with a 0xc stride, gets
  * two 8-byte allocations out of the a0 heap and registers both with the
- * resource handle func_02012944 returned for a1.
+ * resource handle GAME_DATA_GetMyStatus returned for a1.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020261E4.c \
@@ -731,12 +731,12 @@ struct VecSet *func_020261E4(u32 a0, void *a1)
 
     p = (struct VecSet *)sub_02030734(a0, 0x88, 1, (const char *)g_020A74B0, 0xe0);
     p->owner = a1;
-    q = func_02012944(a1);
+    q = GAME_DATA_GetMyStatus(a1);
     base = p->items;
     for (i = 0; i < 6; i++) {
         e = base + i;
-        e->vec1 = func_020457B0(8, a0);
-        e->vec2 = func_020457B0(8, a0);
+        e->vec1 = STRBUF_Create(8, a0);
+        e->vec2 = STRBUF_Create(8, a0);
         func_02008500(q, e->vec1);
         func_02008500(q, e->vec2);
     }
@@ -759,7 +759,7 @@ void func_02026250(struct VecSet *obj)
 /*
  * game_comm.c: the per-frame request state machine.  The request kind
  * (+5) selects a 0x1C-byte record of callbacks in the table at 0x0209FB5C
- * (func_02026388 and func_020263B0 read its words at +0x14 and +0x18); the
+ * (func_02026388 and GAME_COMM_CallKindNotify read its words at +0x14 and +0x18); the
  * state byte of the 8-byte sub-object at +0xC is the dense switch.
  *
  * Closed 2026-09-24 (wave 21, lane E) after the DIFF 10 recorded in

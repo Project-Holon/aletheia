@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AB018",
+   "name": "EFFECT_ENCOUNT_PickItemKind4",
    "address": "0x021AB018",
    "kind": "game",
    "region": "ov021",

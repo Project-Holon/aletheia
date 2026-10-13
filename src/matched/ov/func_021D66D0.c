@@ -1,5 +1,5 @@
 /*
- * function: func_021D66D0
+ * function: BTL_POKEPARAM_SetAbility
  * address:  0x021D66D0
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D66D0   0x021D66D0  thumb
+ *   BTL_POKEPARAM_SetAbility   0x021D66D0  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r2, #0x4f; lsls r2, r2, #2; strh r1, [r0, r2]; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021D66D0  movs r2,#0x4f; lsls r2,#2; strh r1,[r0,r2] */
 struct QJ { u8 pad[0x13c]; u16 v; };
-void func_021D66D0(struct QJ *p, u32 v) { p->v = v; }
+void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v) { p->v = v; }
 

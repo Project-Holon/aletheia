@@ -23,13 +23,13 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  *   ov114_id 0x00000072 data
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021E5440 0x021E5440 thumb ov177
  *   func_021E5548 0x021E5548 thumb ov177
  *   func_021E567C 0x021E567C thumb ov177
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201C440 0x0201C440 thumb
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC74 0x0201EC74 thumb
@@ -41,16 +41,16 @@
  *   func_021E8A78 0x021E8A78 thumb ov177
  *   func_021E8628 0x021E8628 thumb ov177
  *   func_0201ED04 0x0201ED04 thumb
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_0201C4C0 0x0201C4C0 thumb
- *   func_0201D83C 0x0201D83C thumb
+ *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021E5868 0x021E5868 thumb ov177
  *   func_021E54E0 0x021E54E0 thumb ov177
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021E8A80 0x021E8A80 thumb ov177
  *   func_021E8A90 0x021E8A90 thumb ov177
  *   func_021E5534 0x021E5534 thumb ov177
@@ -64,15 +64,15 @@
  *   func_021E8AB4 0x021E8AB4 thumb ov177
  *   func_021E8844 0x021E8844 thumb ov177
  *   func_021E8AB8 0x021E8AB8 thumb ov177
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009448 0x02009448 thumb
  *   func_020092EC 0x020092EC thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_02082D44 0x02082D44 arm
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045A38 0x02045A38 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_ToChars 0x02045A38 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_02025BEC 0x02025BEC thumb
  *   PMSI_PARAM_IsValid 0x020245D4 thumb
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
@@ -87,8 +87,8 @@
  *   func_0200ED48 0x0200ED48 thumb
  *   func_0200ED54 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_0200FBB0 0x0200FBB0 thumb
  *   func_02012944 0x02012944 thumb
  *   BSUBWAY_SAVEDATA_GetStat 0x0200DFD8 thumb
@@ -107,7 +107,7 @@
  *   BSUBWAY_SAVEDATA_SetStat 0x0200DFE4 thumb
  *   BSUBWAY_SAVEDATA_IncStat  0x0200E008  thumb
  *   func_021E888C 0x021E888C thumb ov177
- *   func_02008468 0x02008468 thumb
+ *   MYSTATUS_GetSize 0x02008468 thumb
  *   func_0200E6E8 0x0200E6E8 thumb
  *   func_0200E6FC 0x0200E6FC thumb
  *   func_0201283C 0x0201283C thumb
@@ -121,7 +121,7 @@
  *   func_021B9A8C 0x021B9A8C thumb ov114
  *   func_020362DC                0x020362DC  arm
  *   func_0200FB24                0x0200FB24  thumb
- *   func_0203CD98                0x0203CD98  arm
+ *   GFL_NET_GetRunState                0x0203CD98  arm
  *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
  *   func_0200B358 0x0200B358 thumb
  *   func_0200B1D4 0x0200B1D4 thumb
@@ -130,7 +130,7 @@
  *   func_021E84F8 0x021E84F8 thumb ov177
  *   func_0201AA50 0x0201AA50 thumb
  *   func_0200AE14 0x0200AE14 thumb
- *   func_0201A090 0x0201A090 thumb
+ *   POKE_REGULATION_CheckParty 0x0201A090 thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200B204 0x0200B204 thumb
  *   func_0200BAF4 0x0200BAF4 thumb
@@ -158,7 +158,7 @@
  *   func_021E8420 0x021E8420 thumb ov177
  *   func_021E88B0 0x021E88B0 thumb ov177
  *   POKEPARTY_Init 0x0201A948 thumb
- *   func_02008494  0x02008494  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *   func_0200B1C4  0x0200B1C4  thumb
  *   func_020185F0  0x020185F0  thumb
  *   POKE_TOOL_GetBoxParamSize  0x020173E8  thumb
@@ -166,20 +166,20 @@
  *   func_02030734 0x02030734 arm
  *   func_02009860 0x02009860 thumb
  *   func_0200853C 0x0200853C thumb
- *   func_0203A574 0x0203A574 arm
+ *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   GFL_NET_SetWaitMode 0x0203D644 arm
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   d_021E2EE0 0x021E2EE0 data a4
  *   d_021E2EF8 0x021E2EF8 data a4
  *   d_021E2C90 0x021E2C90 data a4
- *   func_0203A5E4 0x0203A5E4 arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_02012E40  0x02012E40  thumb
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   func_0200F7C0  0x0200F7C0  thumb
  *   DWC_RAPCOMMON_HandleNetError  0x02157170  thumb
@@ -189,7 +189,7 @@
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   func_0200FAAC  0x0200FAAC  thumb
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   STD_TSPrintf                 0x0208D7E0  arm
  *   d_021E2EFC                   0x021E2EFC  data
  *   DWC_RAP_StartMatchWithFilter  0x0215580C  thumb
@@ -198,10 +198,10 @@
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
- *   func_02039338  0x02039338  arm
- *   func_02039ACC  0x02039ACC  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
  *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   DWC_RAP_IsStateInSession  0x02156CD0  thumb  ov009
  *   g_021E2C8C     0x021E2C8C  data
  *   DWC_AddMatchKeyInt  0x0216C8DC  arm  ov009
@@ -214,7 +214,7 @@
  *   func_021DF20C 0x021DF20C arm ov175
  *   func_021DEFDC 0x021DEFDC arm ov175
  *   func_021DF224 0x021DF224 arm ov175
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   func_021DF1C8 0x021DF1C8 arm ov175
  *   func_021DF09C 0x021DF09C arm ov175
  *   func_021DF130 0x021DF130 arm ov175
@@ -230,7 +230,7 @@
  *   func_021DF420 0x021DF420 arm ov175
  *   func_021DF3E8 0x021DF3E8 arm ov175
  *   DWC_ScReportAddByteValue  0x021DF3E8  arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   func_02012950 0x02012950 thumb
  *   g_021E2EF8  0x021E2EF8  data
  *   d_021E2DF4     0x021E2DF4  data
@@ -262,7 +262,7 @@
  *   func_021E1454 0x021E1454 arm ov175
  *   func_021E11F0 0x021E11F0 arm ov175
  *   func_021E1464 0x021E1464 arm ov175
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  *   func_0208D7E0 0x0208D7E0 arm
  *   d_021E2FA4 0x021E2FA4 data a1
  *   func_021C5928 0x021C5928 arm ov114
@@ -290,7 +290,7 @@
  *   func_021BE79C 0x021BE79C arm ov114
  *   func_02008510              0x02008510  thumb
  *   STRBUF_GetChars              0x02045A90  arm
- *   func_020458F8              0x020458F8  arm
+ *   STRBUF_GetLength              0x020458F8  arm
  *   DWC_CheckProfanityExAsync  0x0217BC44  arm  ov009
  *   DWC_CheckProfanityProcess  0x0217BC90  arm  ov009
  *   func_020084E4  0x020084E4  thumb
@@ -301,7 +301,7 @@
  *   func_021B99F0 0x021B99F0 thumb ov114
  *   func_021B99F4 0x021B99F4 thumb ov114
  *   func_021B9A14 0x021B9A14 thumb ov114
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   d_021E3270  0x021E3270  data
  *   d_021E3250  0x021E3250  data
  *   g_021E32C4   0x021E32C4  data
@@ -1034,13 +1034,13 @@ extern int func_02034AC4(s32 handle);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02034A5C(int);
 extern void GFL_USE_StopAllSe(void);
-extern void func_0203064C(u32, u32, u32);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *, int, u32);
 extern int *func_021E5440(unsigned, int);
 extern int func_021E5548(int *);
 extern u32 *func_021E567C(int unused, int mode, int heap);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(void *);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC74(u32 n, u32 size, unsigned short heap);
@@ -1052,16 +1052,16 @@ extern void func_021E7DF0(int *p);
 extern void func_021E8A78(void *p);
 extern void func_021E8628(char *p);
 extern unsigned int func_0201ED04(struct WordSet *p);
-extern unsigned int func_02045C04(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void func_0201C4C0(struct PrintSys *p);
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021E5868(int);
 extern void func_021E54E0(char *p);
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021E8A80(unsigned);
 extern int func_021E8A90(int **p);
 extern void func_021E5534(u8 *p);
@@ -1075,15 +1075,15 @@ extern void func_021E8738(int *, int, int, int);
 extern void func_021E8AB4(u32, u32);
 extern int func_021E8844(const int *);
 extern void func_021E8AB8(u32);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern struct Sub02009448Obj *func_02009448(void *);
 extern u8 func_020092EC(const struct Sub02009210Obj *);
 extern int POKE_REGULATION_GetDataSize();
 extern void func_02082D44(const void *, void *, u32_021D4B3C);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern void *func_02045EC0(struct MsgBank *, u32_021D4B3C);
-extern void func_02045A38(struct U16Vec *, u16 *, unsigned int);
-extern void func_02045808(struct U16Vec *);
+extern void STRBUF_ToChars(struct U16Vec *, u16 *, unsigned int);
+extern void STRBUF_Delete(struct U16Vec *);
 extern unsigned int func_02025BEC(unsigned int, unsigned int, unsigned int);
 extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
 extern void PMSI_PARAM_InitSentence(void *, unsigned int);
@@ -1098,8 +1098,8 @@ extern void func_021E8AC0(int, int);
 extern void *func_0200ED48(void *);
 extern void func_0200ED54(struct L0200ED54 *, u32_021D51BC);
 extern u32_021D51BC func_02008530(const struct Sub0200852CObj *obj);
-extern int func_02012DAC(int);
-extern int func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(u8 *);
 extern u32_021D4B3C func_0200FBB0(void);
 extern u8 *func_02012944(void *p);
 extern u32_021D62A4 BSUBWAY_SAVEDATA_GetStat(u32_021D62A4,u32_021D62A4,u32_021D62A4);
@@ -1116,7 +1116,7 @@ extern void BSUBWAY_SAVEDATA_IncStat(u8 *base, int a, int idx);
 extern u32_021D6550 func_021E888C(void *, u32_021D6550);
 extern void func_021E89D0(u32_021D65C8 p);
 extern int func_021E8A00(u32_021D65DC p);
-extern int func_02008468(void);
+extern int MYSTATUS_GetSize(void);
 extern void *func_0200E6E8(u32_021D6698 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32_021D6698 func_0201283C(const struct BigObj *p);
@@ -1130,7 +1130,7 @@ extern int func_021B9A1C(void *a, int b, int c, char *d, u16 e);
 extern void func_021B9A8C(void *);
 extern u32_021D6854 func_020362DC(void);
 extern u32_021D6854 func_0200FB24(void);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void DWC_CloseAllConnectionsHard(void);
 extern void *func_0200B358(void *sys);
 extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32_021D6964 index);
@@ -1139,7 +1139,7 @@ extern u32 func_020307B0(void *p);
 extern int func_021E84F8(char *p, void *q);
 extern u32 func_0201AA50(void *p);
 extern int func_0200AE14();
-extern int func_0201A090(void *rules, void *party, u32 *mask);
+extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern void * func_0200BAC8(void *);
 extern struct Rec1E *func_0200B204(struct RecBig *p, u32 index);
 extern void *func_0200BAF4(int a0, int a1);
@@ -1169,7 +1169,7 @@ extern int func_021E8338(Work *);
 extern int func_021E8420(Work *);
 extern u32_021D98E4 func_021E88B0(Desc_021D76D4 *, int, unsigned char, int, int, int);
 extern void *POKEPARTY_Init(void *);
-extern void func_02008494(void *src, void *dst);
+extern void MYSTATUS_Copy(void *src, void *dst);
 extern u16 func_0200B1C4(struct Reg2 *p);
 extern u8 *func_020185F0(u32_021D9BC4 entry);
 extern u32_021D9BC4 POKE_TOOL_GetBoxParamSize(void);
@@ -1177,17 +1177,17 @@ extern int func_0203EFC8(const u8 *a, const u8 *b, u32_021D9BC4 n);
 extern void *func_02030734(u32_021D9DC8 heapId, u32_021D9DC8 size, int clear, const char *site, u16 tag);
 extern u32_021D9DC8 func_02009860(void);
 extern u32_021D9DC8 func_0200853C(const struct Sub0200852CObj *obj);
-extern void func_0203A574(u32_021D9DC8, u32_021D9DC8, u32_021D9DC8, u32_021D9DC8);
+extern void GFL_NET_COMMAND_AddCommandTable(u32_021D9DC8, u32_021D9DC8, u32_021D9DC8, u32_021D9DC8);
 extern void GFL_NET_SetWaitMode(int);
 extern void DWC_RAP_SetErrorCallback(int, int);
 extern void DWC_RAP_SetErrorHookCallback(int, int);
-extern void func_0203A5E4(u32_021D9EA0);
-extern struct Entry *func_020399A8(void);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32_021D9EA0);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 extern unsigned int func_02039CB4(struct Link *tick, unsigned int value, unsigned int line);
 extern void GFL_NET_SetAutoExit(int a);
-extern void func_0203D7BC(int a);
-extern u8 func_02012E40(const u8 *o);
+extern void GFL_NET_SetLoginOption(int a);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0200F7C0(u32_021D9F04 value);
 extern int DWC_RAPCOMMON_HandleNetError(void *a, void *b);
@@ -1197,7 +1197,7 @@ extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_SetError(int a, u32_021D9F04 b, u32_021D9F04 c, u32_021D9F04 d);
 extern void func_0200FAAC(void);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern int STD_TSPrintf(char *dst, const char *fmt, ...);
 extern int DWC_RAP_StartMatchWithFilter(char *filter, int n, void *cb, char *obj);
 extern u32_021DA1E4 GFL_NET_STATE_WifiEnterRandomMatch(void);
@@ -1205,12 +1205,12 @@ extern void DWC_RAP_SetVchatEnabled(int v);
 extern void GFL_NET_STATE_WifiDisconnect(u32_021DA1E4 a);
 extern int GFL_NET_STATE_GetWifiState(void);
 extern u32_021DA1E4 GFL_NET_STATE_GetError(void);
-extern u16 func_02039338(void);
-extern int func_02039ACC(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
-extern u32_021DA1E4 func_0203D378(void);
+extern u32_021DA1E4 GFL_NET_IsParentAid(void);
 extern int DWC_RAP_IsStateInSession(void);
-extern int func_0203D3A8(struct Entry *a, u32_021DA434 b, u32_021DA434 c, u32_021DA434 d);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32_021DA434 b, u32_021DA434 c, u32_021DA434 d);
 extern u8 DWC_AddMatchKeyInt(u8 keyID, const char *keyString, const int *valueSrc);
 extern int DWC_GetMatchIntValue(int index, const char *key, int idefault);
 extern int func_021DEE3C(int theGameId, int ssl_type);
@@ -1234,7 +1234,7 @@ extern int func_021DF3B0(u32_021DAE54 h, u32_021DAE54 a, int flag);
 extern int func_021DF420(int,int,int);
 extern int func_021DF3E8(int,int,int);
 extern int DWC_ScReportAddByteValue(u32_021DB218 report, u16 keyId, s8 value);
-extern u32_021DB258 func_0203D1A4(struct Link *p);
+extern u32_021DB258 GFL_NET_GetHandleNetID(struct Link *p);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32_021DB294 i);
 extern int DWC_GdbInitialize(u32_021DB478 gameId, u32_021DB478 user, int ssl);
 extern int DWC_GdbGetMyRecordsAsync(const char *table, void *fields, int nfields, void *cb, void *param);
@@ -1252,7 +1252,7 @@ extern int func_021E1434(void);
 extern u32_021DBDAC func_021E1454(void);
 extern int func_021E11F0(void);
 extern int func_021E1464(char *,void *,int,int *);
-extern u32_021DC1A0 func_0203D3F8(u32_021DC1A0 a, u32_021DC1A0 b, u32_021DC1A0 c, u32_021DC1A0 d, u32_021DC1A0 e, u32_021DC1A0 f, u32_021DC1A0 g, u32_021DC1A0 h);
+extern u32_021DC1A0 GFL_NET_SendData(u32_021DC1A0 a, u32_021DC1A0 b, u32_021DC1A0 c, u32_021DC1A0 d, u32_021DC1A0 e, u32_021DC1A0 f, u32_021DC1A0 g, u32_021DC1A0 h);
 extern int func_0208D7E0(char *,const char *,...);
 extern int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd);
 extern int func_021C5C04(char *,char *,char *);
@@ -1276,7 +1276,7 @@ extern int func_021B973C(char *);
 extern int func_021BE79C(void *handle, void *value_p, unsigned int length);
 extern void *func_02008510(void *a, int tag);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u16 func_020458F8(struct U16Vec *vec);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern int DWC_CheckProfanityExAsync(u16 **words, int wordsnum, char *reserved, int timeout,
                                      char *result, int *badwordsnum, int region);
 extern int DWC_CheckProfanityProcess(void);
@@ -1288,7 +1288,7 @@ extern void func_021B99B8(u8 *);
 extern int func_021B99F0(u8 *p);
 extern u32_021DCC28 func_021B99F4(u32_021DCC28 p, u32_021DCC28 i);
 extern u8 *func_021B9A14(u8 *,u32_021DCC28);
-extern void func_0203D34C(u32_021DD008 a, u32_021DD008 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32_021DD008 a, u32_021DD008 b);
 int func_021D4240(int a,int b,int *p,int d);
 int func_021D429C(int a,int b,int *p,int d);
 int func_021D42E0(int a,int b,int *p,int d);
@@ -1597,14 +1597,14 @@ int func_021D4318(void *sys, int *state, u32 *ctx)
     u32 *p;
     func_02034AC4((int)ov067_id);
     func_02034AC4((int)ov114_id);
-    func_0203064C(1, 87, 0x35000);
-    p = func_0203159C(sys, 0x100, 87);
+    GFL_HEAP_CreateChildHeap(1, 87, 0x35000);
+    p = PROCSYS_AllocProcWork(sys, 0x100, 87);
     func_02082BCC(p, 0, 0x100);
     p[16] = (u32)ctx;
     p[0] = (u32)func_021E5440(1, 87);
     p[1] = (u32)func_021E567C(func_021E5548((int *)p[0]), 2, 87);
     func_021D6698((u32_021D6698 *)((u32 *)ctx[5]), (u32_021D6698 *)p);
-    p[2] = (u32)func_0201D7EC(23, 0, 0, 0, 87);
+    p[2] = (u32)GF_FONT_Create(23, 0, 0, 0, 87);
     p[3] = func_0201C440((void *)87);
     p[4] = (u32)func_02045B38(0, 2, 210, 87);
     p[5] = (u32)func_0201EC74(8, 64, 87);
@@ -1643,9 +1643,9 @@ int func_021D4448(int sys,int unused,int unused2,int *p)
     func_021D639C((char *)p);
     func_021D65C8((char *)p);
     func_0201ED04((struct WordSet *)p[5]);
-    func_02045C04((void *)p[4]);
+    MSGDATA_Delete((void *)p[4]);
     func_0201C4C0((struct PrintSys *)p[3]);
-    func_0201D83C((void *)p[2]);
+    GF_FONT_Delete((void *)p[2]);
     func_021E5868(p[1]);
     func_021E54E0((char *)p[0]);
     func_020315D4((struct S020315D4 *)sys);
@@ -1665,18 +1665,18 @@ int func_021D4448(int sys,int unused,int unused2,int *p)
 int func_021D44D4(unsigned sys,int *state,int unused,int *p)
 {
     switch(*state) {
-    case 0: func_0204E720(3,16,0,0); *state=1; break;
-    case 1: if(func_0204E804()==0) *state=2; break;
+    case 0: FADE_Start(3,16,0,0); *state=1; break;
+    case 1: if(FADE_IsActive()==0) *state=2; break;
     case 2:
         func_021E8A80(p[13]);
         if(func_021E8A90((int **)p[13])) *state=3;
         if(p[12]) func_021D9ED0(p[12]);
         break;
-    case 3: func_0204E720(3,0,16,0); *state=4; break;
-    case 4: if(func_0204E804()==0) return 1; break;
+    case 3: FADE_Start(3,0,16,0); *state=4; break;
+    case 4: if(FADE_IsActive()==0) return 1; break;
     }
     func_021E5534((u8 *)p[0]);
-    func_0201C4E4((struct PrintSys *)p[3]);
+    PRINTSYS_QUE_Main((struct PrintSys *)p[3]);
     func_021E867C((char *)p[9]);
     func_021E7E08(p[8]);
     func_021E5980(p[1]);
@@ -1760,7 +1760,7 @@ void func_021D4730(u32 sys, int *state, u32 *p)
     u32 result;
     switch (*state) {
     case 0:
-        if (func_020092EC((const struct Sub02009210Obj *)func_02009448(func_02012EBC((struct Big *)*(u32 *)ctx[2])))) *state = 1;
+        if (func_020092EC((const struct Sub02009210Obj *)func_02009448(GAME_DATA_GetSaveControl((struct Big *)*(u32 *)ctx[2])))) *state = 1;
         else *state = 6;
         break;
     case 1: func_021E8738((int *)p[9], p[4], 41, 1); *state = 14; func_021E8AB4(sys, 2); break;
@@ -2002,14 +2002,14 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
             func_02082D44(incoming, data, size);
             fixed = 0;
             empty = 1;
-            for (i = 0; i < 8; i++) if (((u16 *)data)[i] == func_02045A98()) empty = 0;
+            for (i = 0; i < 8; i++) if (((u16 *)data)[i] == STRBUF_GetEosChar()) empty = 0;
             if (empty) {
                 fixed++;
                 bank = func_02045B38(0, 2, 0xd2, 0x8057);
                 str = func_02045EC0(bank, 0x8057);
-                func_02045A38(str, (u16 *)data, 8);
-                func_02045808(str);
-                func_02045C04((struct Rec *)bank);
+                STRBUF_ToChars(str, (u16 *)data, 8);
+                STRBUF_Delete(str);
+                MSGDATA_Delete((struct Rec *)bank);
             }
             if ((u8)data[0x1d] != 0 && (u8)data[0x1d] != 1) { data[0x1d] = 0; fixed++; }
             if ((u8)data[0x1c] >= 16) {
@@ -2020,7 +2020,7 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
                 data[0x18] = 0; data[0x19] = 0; fixed++;
             }
             if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) { PMSI_PARAM_InitSentence(data + 0x38, 1); fixed++; }
-            if (fixed == 0) func_02009EC8(func_02012EBC(*(struct Big **)Q(8)));
+            if (fixed == 0) func_02009EC8(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
             TIMEOUT = 0; *state = 5;
         }
         timed = 1; break;
@@ -2072,7 +2072,7 @@ void func_021D4B3C(unsigned sys, int *state, char *p)
     case 14: if (func_021D6460(p)) *state = 15; break;
     case 15: if (TIMER++ > 0) { TIMER = 0; *state = 16; } break;
     case 16:
-        func_0203064C(1, 0x86, 0x60000);
+        GFL_HEAP_CreateChildHeap(1, 0x86, 0x60000);
         DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
         DWC_RAPCOMMON_SetHeapTag(0x86);
         func_021DA5B0((char *)P(0x30), 0, 2, 0, (u32_021D4B3C *)0, 0);
@@ -2192,7 +2192,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
             return;
         }
         P(0xf8) = 0;
-        func_0203064C(1, 0x86, 0x60000);
+        GFL_HEAP_CreateChildHeap(1, 0x86, 0x60000);
         DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
         DWC_RAPCOMMON_SetHeapTag(0x86);
         *state = 1;
@@ -2234,7 +2234,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         else *state = 5;
         break;
     case 5:
-        list = func_0200ED48(func_02012EBC(*(struct Big **)Q(8)));
+        list = func_0200ED48(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
         func_0200ED54(list, func_02008530((void *)Q(0x18)));
         *state = 6;
         func_021DA384((char *)P(0x30));
@@ -2293,11 +2293,11 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         func_021E8AB4(sys, 12);
         break;
     case 12:
-        func_02012DAC(*(int *)Q(8));
+        GAME_DATA_SaveStart(*(int *)Q(8));
         *state = 13;
         break;
     case 13:
-        switch (func_02012DD0(*(u8 **)Q(8))) {
+        switch (GAME_DATA_SaveMain(*(u8 **)Q(8))) {
         case 0: case 1: break;
         case 2: case 3:
             Q(4) = 2;
@@ -2735,11 +2735,11 @@ void func_021D56D4(unsigned sys, int *state, int *p)
         *state = 7;
         break;
     case 1:
-        func_02012DAC(**(int * *)&((struct Obj08273 *)q)->f8);
+        GAME_DATA_SaveStart(**(int * *)&((struct Obj08273 *)q)->f8);
         *state = 2;
         break;
     case 2:
-        if (func_02012DD0((u8 *)**(int * *)&((struct Obj08273 *)q)->f8) == 2) *state = 3;
+        if (GAME_DATA_SaveMain((u8 *)**(int * *)&((struct Obj08273 *)q)->f8) == 2) *state = 3;
         break;
     case 3:
         func_021E8738((int *)p[9], p[4], 37, 2);
@@ -2932,13 +2932,13 @@ void func_021D5908(unsigned sys, int *state, char *p)
             size = POKE_REGULATION_GetDataSize() + 0xd4;
             func_02082D44(incoming, data, size);
             empty = 1;
-            for (i = 0; i < 8; i++) if (((u16 *)data)[i] == func_02045A98()) empty = 0;
+            for (i = 0; i < 8; i++) if (((u16 *)data)[i] == STRBUF_GetEosChar()) empty = 0;
             if (empty) {
                 bank = func_02045B38(0, 2, 0xd2, 0x8057);
                 str = func_02045EC0(bank, 0x8057);
-                func_02045A38(str, (u16 *)data, 8);
-                func_02045808(str);
-                func_02045C04((struct Rec *)bank);
+                STRBUF_ToChars(str, (u16 *)data, 8);
+                STRBUF_Delete(str);
+                MSGDATA_Delete((struct Rec *)bank);
             }
             if ((u8)data[0x1d] != 0 && (u8)data[0x1d] != 1) data[0x1d] = 0;
             if ((u8)data[0x1c] >= 16) {
@@ -3193,7 +3193,7 @@ void func_021D5E24(unsigned sys, int *state, char *p)
         }
         break;
     case 4:
-        list = func_0200ED48(func_02012EBC((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
+        list = func_0200ED48(GAME_DATA_GetSaveControl((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
         func_0200ED54(list, func_02008530(((struct Obj02885 *)q)->f18));
         func_021E8AC0(**(int * *)&((struct Obj02885 *)q)->f8, **(int * *)&((struct Obj02885 *)q)->f2C);
         func_021DA384((char *)P(0x30));
@@ -3219,11 +3219,11 @@ void func_021D5E24(unsigned sys, int *state, char *p)
         func_021E8AB4(sys, 9);
         break;
     case 9:
-        func_02012DAC(**(int * *)&((struct Obj02885 *)q)->f8);
+        GAME_DATA_SaveStart(**(int * *)&((struct Obj02885 *)q)->f8);
         *state = 10;
         break;
     case 10:
-        switch (func_02012DD0((u8 *)**(int * *)&((struct Obj02885 *)q)->f8)) {
+        switch (GAME_DATA_SaveMain((u8 *)**(int * *)&((struct Obj02885 *)q)->f8)) {
         case 0: case 1: break;
         case 2: case 3: ((struct Obj02885 *)q)->f4 = 2; func_021E8AA8(sys); break;
         }
@@ -3805,12 +3805,12 @@ void func_021D65F0(u32_021D65F0 *p,u32_021D65F0 *q)
 void func_021D6698(u32_021D6698 *p,u32_021D6698 *q)
 {
     u32_021D6698 save=((u32_021D6698 *)((u32_021D6698 *)q[16])[2])[0];
-    u32_021D6698 profile=(u32_021D6698)func_02012EBC((struct Big *)save);
+    u32_021D6698 profile=(u32_021D6698)GAME_DATA_GetSaveControl((struct Big *)save);
     u32_021D6698 blob;
     u32_021D6698 *ctx;
     p[17]=100;
     blob=(u32_021D6698)func_02012944((void *)save);
-    func_02082D44((void *)blob,p,func_02008468());
+    func_02082D44((void *)blob,p,MYSTATUS_GetSize());
     func_0200E6FC(func_0200E6E8(profile),0,(struct Rec0200E6FC *)((char *)(p+14)));
     ctx=(u32_021D6698 *)q[16];
     if(ctx[0]==0) {
@@ -3987,7 +3987,7 @@ int func_021D6854(char *obj, int trigger, int go)
         ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         func_021E7E0C((void **)(((struct Obj00171 *)obj)->f20), 0);
         func_021DA36C((void *)(((struct Obj00171 *)obj)->f30));
-        if (!func_0200FB24() && func_0203CD98())
+        if (!func_0200FB24() && GFL_NET_GetRunState())
             DWC_CloseAllConnectionsHard();
         break;
     case 7:
@@ -4021,20 +4021,20 @@ void func_021D6954(char *obj)
 
 
 /*
- * func_0203159C's r0 is read after the call, requiring a returning declaration.
+ * PROCSYS_AllocProcWork's r0 is read after the call, requiring a returning declaration.
  */
 int func_021D6964(void *sys,int unused,u32_021D6964 *ctx)
 {
     u32_021D6964 *p;
     func_02034AC4((int)ov067_id); func_02034AC4((int)ov114_id);
-    func_0203064C(1,87,0x30000);
-    p=func_0203159C(sys,0x270,87); func_02082BCC(p,0,0x270);
+    GFL_HEAP_CreateChildHeap(1,87,0x30000);
+    p=PROCSYS_AllocProcWork(sys,0x270,87); func_02082BCC(p,0,0x270);
     p[0x104/4]=(u32_021D6964)ctx;
-    p[0x108/4]=(u32_021D6964)func_0200B1D4(func_0200B358(func_02012EBC((struct Big *)(*(u32_021D6964 *)ctx[2]))),0);
+    p[0x108/4]=(u32_021D6964)func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl((struct Big *)(*(u32_021D6964 *)ctx[2]))),0);
     p[0]=(u32_021D6964)func_021E5440(1,87);
     p[1]=(u32_021D6964)(u32_021D6964 *)func_021E567C(func_021E5548((int *)p[0]),0,87);
-    p[2]=(u32_021D6964)func_0201D7EC(0x17,0,0,0,87);
-    p[3]=(u32_021D6964)func_0201D7EC(0x17,3,0,0,87);
+    p[2]=(u32_021D6964)GF_FONT_Create(0x17,0,0,0,87);
+    p[3]=(u32_021D6964)GF_FONT_Create(0x17,3,0,0,87);
     p[4]=func_0201C440((void *)87); p[5]=(u32_021D6964)func_02045B38(0,2,0xd2,87);
     p[6]=(u32_021D6964)func_0201EC74(8,0x40,87);
     p[0x34/4]=(u32_021D6964)func_021D9DC8(((u32_021D6964 *)p[0x104/4])[0xf],(void *)(*(u32_021D6964 *)ctx[2]),ctx[7],87);
@@ -4061,8 +4061,8 @@ int func_021D6A98(u32 sys,u32 unused,u32 arg,char *p)
     func_021E8628((char *)(((u32 *)p)[11]));
     if(((u32 *)p)[13]) func_021D9EA0((u8 *)(((u32 *)p)[13]));
     func_021D98B8(p); func_021D9854(p); func_021D97A4(p); func_021D99F4(p);
-    func_0201ED04((struct WordSet *)(((u32 *)p)[6])); func_02045C04((struct Rec *)(((u32 *)p)[5]));
-    func_0201C4C0((struct PrintSys *)(((u32 *)p)[4])); func_0201D83C((void *)(((u32 *)p)[3])); func_0201D83C((void *)(((u32 *)p)[2]));
+    func_0201ED04((struct WordSet *)(((u32 *)p)[6])); MSGDATA_Delete((struct Rec *)(((u32 *)p)[5]));
+    func_0201C4C0((struct PrintSys *)(((u32 *)p)[4])); GF_FONT_Delete((void *)(((u32 *)p)[3])); GF_FONT_Delete((void *)(((u32 *)p)[2]));
     func_021E5868(((u32 *)p)[1]); func_021E54E0((char *)(((u32 *)p)[0]));
     func_020315D4((struct S020315D4 *)sys); func_020306F0(87);
     func_02034A5C((int)ov114_id); func_02034A5C((int)ov067_id);
@@ -4077,13 +4077,13 @@ int func_021D6A98(u32 sys,u32 unused,u32 arg,char *p)
 int func_021D6B38(unsigned sys,int *state,int unused,int *p)
 {
     switch(*state) {
-    case 0: func_0204E720(3,16,0,0); *state=1; break;
-    case 1: if(func_0204E804()==0) *state=2; break;
+    case 0: FADE_Start(3,16,0,0); *state=1; break;
+    case 1: if(FADE_IsActive()==0) *state=2; break;
     case 2: func_021E8A80(p[14]); if(func_021E8A90((int * *)((u32_021D679C)((int **)p[14])))) *state=3; break;
-    case 3: func_0204E720(3,0,16,0); *state=4; break;
-    case 4: if(func_0204E804()==0) return 1; break;
+    case 3: FADE_Start(3,0,16,0); *state=4; break;
+    case 4: if(FADE_IsActive()==0) return 1; break;
     }
-    func_021E5534((u8 *)p[0]); func_0201C4E4((struct PrintSys *)p[4]); func_021E867C((char *)p[11]);
+    func_021E5534((u8 *)p[0]); PRINTSYS_QUE_Main((struct PrintSys *)p[4]); func_021E867C((char *)p[11]);
     func_021E7E08(p[10]); func_021E5980(p[1]); func_021D9ED0(p[13]);
     if(p[7]) func_021E64C0((unsigned char *)p[7],(void *)p[4]);
     if(p[8]) func_021E7774((void *)p[8],(void *)p[4]);
@@ -4119,7 +4119,7 @@ void func_021D6C54(u32 sys,int *state,u32 *p)
     int r;
     switch(*state) {
     case 0:
-        if(func_020092EC((const struct Sub02009210Obj *)func_02009448(func_02012EBC((struct Big *)(*(u32 *)ctx[2]))))) *state=1;
+        if(func_020092EC((const struct Sub02009210Obj *)func_02009448(GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))))) *state=1;
         else *state=5;
         break;
     case 1: func_021E8738((int *)p[0x2c/4],p[5],0x36,2); *state=2; break;
@@ -4233,10 +4233,10 @@ void func_021D6DB8(int *sys,int *state,char *p)
     case 19:if(func_0200B078((struct Reg2 *)aux,2)==0)*state=42;else *state=20;break;
     case 20:
         func_021D965C((struct Obj_021D8EC8 *)((struct Obj *)p));
-        if(func_0200BBFC(func_0200BAC8((void *)func_02012EBC((struct Big *)(*(u32 *)ctx[2]))),1))func_021D97E4(p,0);else func_021D97E4(p,1);
+        if(func_0200BBFC(func_0200BAC8((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),1))func_021D97E4(p,0);else func_021D97E4(p,1);
         *state=21;break;
     case 21:if(func_021D97B8(p))*state=22;break;
-    case 22:if(func_0200BBFC(func_0200BAC8((void *)func_02012EBC((struct Big *)(*(u32 *)ctx[2]))),1))*state=23;else *state=29;break;
+    case 22:if(func_0200BBFC(func_0200BAC8((void *)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))),1))*state=23;else *state=29;break;
     case 23:func_021E8738((int *)W(0x2c),W(0x14),0x3d,1);func_021E8AB4((u32)sys,24);*state=56;break;
     case 24:func_021D98E4((u32_021D98E4 *)p, 0);*state=25;break;
     case 25:r=func_021D9A08(p);if(r!=-1){func_021D99F4(p);switch(r){case 0:*state=35;break;case 1:*state=26;break;}}break;
@@ -4265,13 +4265,13 @@ void func_021D6DB8(int *sys,int *state,char *p)
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
     case 42:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,43);*state=56;break;
     case 43:
-        saved=(u32)func_02012EBC((struct Big *)(*(u32 *)ctx[2]));box=func_0200BAC8((void *)saved);
+        saved=(u32)GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]));box=func_0200BAC8((void *)saved);
         item=(u32)func_0200B204((struct RecBig *)func_0200B358((void *)saved),0);
         func_02082D44(p+0x10c,(void *)W(0x108),0x160);
         func_0200BBD8(box,1);func_0200B110((struct Reg2 *)W(0x108),10,1);
         BSUBWAY_SAVEDATA_SetStat(ctx[4],10,0,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,1,0);BSUBWAY_SAVEDATA_SetStat(ctx[4],10,2,0);
-        func_0200B1F8((struct Rec1E *)item);func_02012DAC(*(u32 *)ctx[2]);*state=44;break;
-    case 44:r=func_02012DD0((unsigned char *)*(u32 *)ctx[2]);if(r==2)*state=37;else if(r==3)*state=45;break;
+        func_0200B1F8((struct Rec1E *)item);GAME_DATA_SaveStart(*(u32 *)ctx[2]);*state=44;break;
+    case 44:r=GAME_DATA_SaveMain((unsigned char *)*(u32 *)ctx[2]);if(r==2)*state=37;else if(r==3)*state=45;break;
     case 45:func_021E8738((int *)W(0x2c),W(0x14),0x40,1);func_021E8AB4((u32)sys,55);*state=56;break;
     case 46:func_021E8738((int *)W(0x2c),W(0x14),0x5a,2);func_021E8AB4((u32)sys,47);*state=56;break;
     case 47:if(*(u32 *)ctx[8]==0){func_021DB3A4(H,-1,1,ctx[13]);*state=48;}break;
@@ -4280,8 +4280,8 @@ void func_021D6DB8(int *sys,int *state,char *p)
         if(r!=0)switch(func_021D9F04(H,(void *)1,0)){case 1:case 2:func_021E8AA0(sys,(int)func_021D9064);break;}break;
     case 49:if(((u32 *)CTX[13])[4]!=BSUBWAY_SAVEDATA_GetStat(ctx[4],10,0))*state=50;else *state=55;break;
     case 50:func_021E8738((int *)W(0x2c),W(0x14),0x3a,2);func_021E8AB4((u32)sys,51);*state=56;break;
-    case 51:func_021D9D50(p,(void *)ctx[13]);func_02012DAC(*(u32 *)ctx[2]);*state=52;break;
-    case 52:if(func_02012DD0((unsigned char *)*(u32 *)ctx[2])==2)*state=55;break;
+    case 51:func_021D9D50(p,(void *)ctx[13]);GAME_DATA_SaveStart(*(u32 *)ctx[2]);*state=52;break;
+    case 52:if(GAME_DATA_SaveMain((unsigned char *)*(u32 *)ctx[2])==2)*state=55;break;
     case 53:func_021E8AA0(sys,(int)func_021D76D4);break;
     case 54:func_021E8AA0(sys,(int)func_021D7BE4);break;
     case 55:ctx[1]=0;func_021E8AA0(sys,(int)func_021D905C);break;
@@ -4322,7 +4322,7 @@ void func_021D76D4(u32_021D76D4 sys,int *state,char *p)
     case 12:
         rec=(char *)ctx[5]; func_021D9A50(rec,p);
         if(func_0201AA50(rec+0xd4)==0) *state=14;
-        else {out=0; if(func_0201A090((void *)func_0200AE14(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
+        else {out=0; if(POKE_REGULATION_CheckParty((void *)func_0200AE14(W(0x108)),rec+0xd4,&out)==0) *state=15; else *state=13;}
         break;
     case 13: func_021E8738((int *)W(0x2c),W(0x14),0x49,1); func_021E8AB4(sys,29); *state=30; break;
     case 14: func_021E8738((int *)W(0x2c),W(0x14),0x61,1); func_021E8AB4(sys,29); *state=30; break;
@@ -4348,13 +4348,13 @@ void func_021D76D4(u32_021D76D4 sys,int *state,char *p)
         if(r!=0) switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;}
         break;
     case 22:
-        saved=(u32_021D76D4)func_02012EBC((struct Big *)(*(u32_021D76D4 *)ctx[2])); box=func_0200BAC8((void *)saved);
+        saved=(u32_021D76D4)GAME_DATA_GetSaveControl((struct Big *)(*(u32_021D76D4 *)ctx[2])); box=func_0200BAC8((void *)saved);
         tmp=(u32_021D76D4)func_0200B204(func_0200B358((void *)saved),0);
         saved=(u32_021D76D4)func_0200BAF4((int)box,0x8056); func_0200BBC8(box, 1);
         func_0200B110((struct Reg2 *)W(0x108),10,2); func_0200B2A4(tmp,saved); func_020307B0((void *)saved);
         *state=23; break;
-    case 23: func_02012DAC(*(u32_021D76D4 *)ctx[2]); *state=24; break;
-    case 24: r=func_02012DD0((unsigned char *)*(u32_021D76D4 *)ctx[2]); if(r==2) *state=25; else if(r==3) *state=29; break;
+    case 23: GAME_DATA_SaveStart(*(u32_021D76D4 *)ctx[2]); *state=24; break;
+    case 24: r=GAME_DATA_SaveMain((unsigned char *)*(u32_021D76D4 *)ctx[2]); if(r==2) *state=25; else if(r==3) *state=29; break;
     case 25:
         func_02082BCC(&request,0,8); request.b=2; request.id=func_021DD020((char *)W(0x34));
         ((unsigned char *)((u32_021D76D4 *)W(0x104))[12])[5]=2;
@@ -4659,16 +4659,16 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
             bad = 0;
             fresh = 1;
             for (i = 0; i < 8; i++) {
-                if (((u16 *)r)[i] == func_02045A98())
+                if (((u16 *)r)[i] == STRBUF_GetEosChar())
                     fresh = 0;
             }
             if (fresh) {
                 bad++;
                 msg = func_02045B38(0, 2, 0xd2, 0x8057);
                 str = func_02045EC0(msg, 0x8057);
-                func_02045A38(str, (u16 *)r, 8);
-                func_02045808(str);
-                func_02045C04(msg);
+                STRBUF_ToChars(str, (u16 *)r, 8);
+                STRBUF_Delete(str);
+                MSGDATA_Delete(msg);
             }
             if (r[0x1d] != 0 && r[0x1d] != 1) {
                 r[0x1d] = 0;
@@ -4688,7 +4688,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
                 bad++;
             }
             if (bad == 0)
-                func_02009EC8(func_02012EBC((struct Big *)(*w18->f08)));
+                func_02009EC8(GAME_DATA_GetSaveControl((struct Big *)(*w18->f08)));
             *state = 0xf;
         }
         flag = 1;
@@ -4704,7 +4704,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
         break;
     case 0x10:
         mask = 0;
-        if (func_0201A090((void *)func_0200AE14(obj->f108), w18->f18 + 0xd4, (u32_021D76D4 *)&mask) == 0) {
+        if (POKE_REGULATION_CheckParty((void *)func_0200AE14(obj->f108), w18->f18 + 0xd4, (u32_021D76D4 *)&mask) == 0) {
             *state = 0x11;
         } else {
             obj->fe4++;
@@ -4872,7 +4872,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
         }
         break;
     case 0x23:
-        func_0203064C(1, 0x86, 0x60000);
+        GFL_HEAP_CreateChildHeap(1, 0x86, 0x60000);
         DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
         DWC_RAPCOMMON_SetHeapTag(0x86);
         func_021DA5B0(obj->f34, 0, 0, 0, 0, 0);
@@ -5037,7 +5037,7 @@ void func_021D7E18(u32_021D7E18 sys, int *state, struct Obj_021D76D4 *obj)
             i = 1;
         if (i) {
             func_021DA36C(obj->f34);
-            if (func_0200FB24() == 0 && func_0203CD98() != 0)
+            if (func_0200FB24() == 0 && GFL_NET_GetRunState() != 0)
                 DWC_CloseAllConnectionsHard();
             *state = 0xa;
         }
@@ -5072,7 +5072,7 @@ void func_021D8904(u32_021D8904 sys,int *state,char *p)
     case 0:if(((struct Obj02512 *)q)->fC==2 && ((struct Obj00477 *)p)->f100==0) func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else {
             ((struct Obj00477 *)p)->f100=0;
-            func_0203064C(1,134,0x60000);
+            GFL_HEAP_CreateChildHeap(1,134,0x60000);
             DWC_RAPCOMMON_CreateSubHeap(9,0x60000,1000,134);
             DWC_RAPCOMMON_SetHeapTag(134);*state=1;
         }break;
@@ -5098,7 +5098,7 @@ void func_021D8904(u32_021D8904 sys,int *state,char *p)
     case 4:DWC_RAPCOMMON_DestroySubHeap();
         if(((struct Obj02512 *)q)->fC==2)func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else *state=5;break;
-    case 5:list=func_0200ED48(func_02012EBC(**(void ** *)&((struct Obj02512 *)q)->f8));
+    case 5:list=func_0200ED48(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
         func_0200ED54(list,func_02008530(((struct Obj02512 *)q)->f18));
         func_021DA384(*(char * *)&((struct Obj00477 *)p)->f34);*state=6;break;
     case 6:if(func_021DA390(*(char * *)&((struct Obj00477 *)p)->f34)) *state=7;
@@ -5148,11 +5148,11 @@ void func_021D8BC4(int *a, int *state, char *ctx)
         return;
     case 1:
         func_021D9D50(ctx, *(void **)(sub + 0x34));
-        func_02012DAC(**(int **)(sub + 8));
+        GAME_DATA_SaveStart(**(int **)(sub + 8));
         *state = 2;
         return;
     case 2:
-        r = func_02012DD0(**(u8 ***)(sub + 8));
+        r = GAME_DATA_SaveMain(**(u8 ***)(sub + 8));
         if (r == 2) {
             *state = 3;
             return;
@@ -5289,8 +5289,8 @@ void func_021D8EC8(u32_021D8EC8 sys,int *state,char *p)
     switch(*state) {
     case 0:func_021E8738((int *)(((struct Obj02886 *)p)->f2C),((struct Obj02886 *)p)->f14,40,2);
         func_021E8AB4(sys,1);*state=7;break;
-    case 1:func_02012DAC((int)(**(void ** *)&((struct Obj10683 *)q)->f8));*state=2;break;
-    case 2:if(func_02012DD0(**(void ** *)&((struct Obj10683 *)q)->f8)==2) *state=3;break;
+    case 1:GAME_DATA_SaveStart((int)(**(void ** *)&((struct Obj10683 *)q)->f8));*state=2;break;
+    case 2:if(GAME_DATA_SaveMain(**(void ** *)&((struct Obj10683 *)q)->f8)==2) *state=3;break;
     case 3:func_021E8738((int *)(((struct Obj02886 *)p)->f2C),((struct Obj02886 *)p)->f14,37,2);
         func_021E8AB4(sys,4);*state=7;break;
     case 4:if(**(u32_021D8EC8 * *)&((struct Obj10683 *)q)->f20==0) {func_021DBC04(((struct Obj02886 *)p)->f34,2,0);*state=5;}break;
@@ -5384,7 +5384,7 @@ void func_021D9090(u32_021D9090 sys,int *state,char *p)
     switch(*state) {
     case 0:*state=1;break;
     case 1:reg=*(struct Reg2 * *)&((struct Obj00728 *)p)->f108;
-        if(!func_0203CD98())func_0200FA84();
+        if(!GFL_NET_GetRunState())func_0200FA84();
         got=func_02167ED8((int *)&nowDate,(int *)&nowTime);
         if(got)func_020891E0(&nowDate,&nowTime,func_02089004(&nowDate,&nowTime));
         startDate.year=func_0200B078(reg,4);
@@ -5408,13 +5408,13 @@ void func_021D9090(u32_021D9090 sys,int *state,char *p)
         else *state=13;break;
     case 5:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,40,2);
         *state=14;func_021E8AB4(sys,6);break;
-    case 6:box=func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj08277 *)q)->f8));
+    case 6:box=func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
         ((struct Obj00728 *)p)->f26C=func_0200BBFC(box, 1);
         func_0200BBD8(box, 1);
         func_0200B110(*(struct Reg2 * *)&((struct Obj00728 *)p)->f108,10,3);
-        func_02012DAC(**(int * *)&((struct Obj08277 *)q)->f8);*state=7;break;
-    case 7:if(func_02012DD0(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
-    case 8:func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj08277 *)q)->f8));
+        GAME_DATA_SaveStart(**(int * *)&((struct Obj08277 *)q)->f8);*state=7;break;
+    case 7:if(GAME_DATA_SaveMain(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
+    case 8:func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
         if(((struct Obj00728 *)p)->f26C!=0) *state=9;else *state=10;break;
     case 9:func_021D97E4(p,1);
         func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,81,1);
@@ -5472,11 +5472,11 @@ void func_021D9344(u32_021D9344 sys,int *state,char *p) {
         func_021E8738(*(int * *)&((struct Obj00781 *)p)->f2C,((struct Obj00781 *)p)->f14,40,2);
         *state=16; func_021E8AB4(sys,9); break;
     case 9:
-        func_0200BBD8(func_0200BAC8(func_02012EBC(**(struct Big ** *)&((struct Obj08278 *)ctx)->f8)), 1);
+        func_0200BBD8(func_0200BAC8(GAME_DATA_GetSaveControl(**(struct Big ** *)&((struct Obj08278 *)ctx)->f8)), 1);
         func_0200B110((struct Reg2 *)(((struct Obj00781 *)p)->f108),10,4);
-        func_02012DAC(**(int * *)&((struct Obj08278 *)ctx)->f8); *state=10; break;
+        GAME_DATA_SaveStart(**(int * *)&((struct Obj08278 *)ctx)->f8); *state=10; break;
     case 10:
-        r=func_02012DD0(**(u8 ** *)&((struct Obj08278 *)ctx)->f8);
+        r=GAME_DATA_SaveMain(**(u8 ** *)&((struct Obj08278 *)ctx)->f8);
         if(r==2) { ((struct Obj00781 *)p)->f40=0; *state=11; }
         else if(r==3) *state=15;
         break;
@@ -5569,7 +5569,7 @@ void func_021D965C(struct Obj_021D8EC8 *obj)
         data = obj->f108;
         sys = (u32_021D965C)func_02012944((void *)(*obj->f104->f08));
         id = func_021E5548((int *)obj->f00);
-        kind = (u32_021D965C)func_0200B204(func_0200B358(func_02012EBC((struct Big *)(*obj->f104->f08))), 0);
+        kind = (u32_021D965C)func_0200B204(func_0200B358(GAME_DATA_GetSaveControl((struct Big *)(*obj->f104->f08))), 0);
         MI_CpuFill8(&prof, 0, sizeof(prof));
         MI_CpuCopy8(func_0200B074((struct Reg2 *)data), &prof, 0x92);
         a = func_0200B078((struct Reg2 *)data, 6);
@@ -5735,7 +5735,7 @@ void func_021D9874(char *ctx)
     int window;
     if (((struct Obj00013 *)ctx)->f24 == 0) {
         window = func_021E5548(*(int * *)&((struct Obj00013 *)ctx)->f0);
-        ((struct Obj00013 *)ctx)->f24 = func_021E7E3C(func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj24305 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), window, *(int *)&((struct Obj00013 *)ctx)->f4, ((struct Obj00013 *)ctx)->fC, *(int *)&((struct Obj00013 *)ctx)->f10, *(int *)&((struct Obj00013 *)ctx)->f14, 87);
+        ((struct Obj00013 *)ctx)->f24 = func_021E7E3C(func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24305 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), window, *(int *)&((struct Obj00013 *)ctx)->f4, ((struct Obj00013 *)ctx)->fC, *(int *)&((struct Obj00013 *)ctx)->f10, *(int *)&((struct Obj00013 *)ctx)->f14, 87);
     }
 }
 
@@ -5890,7 +5890,7 @@ void func_021D9A50(char *dest, char *ctx)
 {
     void *records;
     func_02082BCC(dest, 0, 212);
-    records = func_0200BAF4((int)func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
+    records = func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
     func_02082D44(records, dest + 212, POKE_REGULATION_GetDataSize(POKEPARTY_Init(dest + 212)));
     func_020307B0(records);
     ((struct Obj24310 *)dest)->f44 = 100;
@@ -5909,10 +5909,10 @@ void func_021D9A50(char *dest, char *ctx)
  */
 void func_021D9A9C(char *dst, char *obj)
 {
-    u32_021D9A9C st = (u32_021D9A9C)func_02012EBC((struct Big *)(*(*(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104)->sav));
+    u32_021D9A9C st = (u32_021D9A9C)GAME_DATA_GetSaveControl((struct Big *)(*(*(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104)->sav));
     u32_021D9A9C h;
 
-    func_02008494(func_02012944((void *)(*(*(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104)->sav)), dst);
+    MYSTATUS_Copy(func_02012944((void *)(*(*(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104)->sav)), dst);
     func_0200E6FC(func_0200E6E8(st), 0, (struct Rec0200E6FC *)(dst + 0x38));
     {
         const struct Save_021D9A50 *s = *(struct Save_021D9A50 * *)&((struct Obj00013 *)obj)->f104;
@@ -6049,7 +6049,7 @@ int func_021D9C34(char *obj, int trigger, int go)
         ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
         func_021E7E0C((void **)(((struct Obj00594 *)obj)->f28), 0);
         func_021DA36C(((struct Obj00594 *)obj)->f34);
-        if (!func_0200FB24() && func_0203CD98())
+        if (!func_0200FB24() && GFL_NET_GetRunState())
             DWC_CloseAllConnectionsHard();
         break;
     case 7:
@@ -6133,8 +6133,8 @@ char *func_021D9DC8(u32_021D9DC8 a, void *save, u32_021D9DC8 b, u16 heap) {
     *(int *)(p + 0x19c) = 0x573;
     *(char **)(p + 0x190) = func_02030734(heap, 0x260, 0, d_021E2EE0, 0x2c0);
     func_02082BCC(*(void **)(p + 0x190), 0, 0x260);
-    if (!func_0203CD98()) func_02034714(d_021E2EF8, 0, d_021E2EF8);
-    func_0203A574(0x2400, (u32_021D9DC8)d_021E2C90, 6, (u32_021D9DC8)p);
+    if (!GFL_NET_GetRunState()) func_02034714(d_021E2EF8, 0, d_021E2EF8);
+    GFL_NET_COMMAND_AddCommandTable(0x2400, (u32_021D9DC8)d_021E2C90, 6, (u32_021D9DC8)p);
     GFL_NET_SetWaitMode(0);
     DWC_RAP_SetErrorCallback((int)func_021DC5C8, (int)p);
     DWC_RAP_SetErrorHookCallback((int)func_021DC5F8, (int)p);
@@ -6145,7 +6145,7 @@ char *func_021D9DC8(u32_021D9DC8 a, void *save, u32_021D9DC8 b, u16 heap) {
 
 
 
-void func_021D9EA0(u8 *p) { DWC_RAP_SetErrorHookCallback(0,0); DWC_RAP_SetErrorCallback(0,0); func_0203A5E4(0x2400); func_020307B0(((struct Obj24326 *)p)->f190); func_020307B0(p); }
+void func_021D9EA0(u8 *p) { DWC_RAP_SetErrorHookCallback(0,0); DWC_RAP_SetErrorCallback(0,0); GFL_NET_COMMAND_DeleteCommandTable(0x2400); func_020307B0(((struct Obj24326 *)p)->f190); func_020307B0(p); }
 
 
 
@@ -6174,7 +6174,7 @@ void func_021D9ED0(int a0)
 void func_021D9ED4(char *obj, u32_021D9ED4 v)
 {
     ((struct Obj14331 *)obj)->f14 = v;
-    func_02039C68((struct Link *)func_020399A8(), (unsigned char)((struct Obj14331 *)obj)->f14, 0x24);
+    func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct Obj14331 *)obj)->f14, 0x24);
 }
 
 
@@ -6189,7 +6189,7 @@ void func_021D9ED4(char *obj, u32_021D9ED4 v)
  */
 int func_021D9EEC(char *obj)
 {
-    return func_02039CB4((struct Link *)func_020399A8(), (unsigned char)((struct Obj24327 *)obj)->f14, 0x24);
+    return func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), (unsigned char)((struct Obj24327 *)obj)->f14, 0x24);
 }
 
 
@@ -6206,12 +6206,12 @@ int func_021D9F04(char *ctx, void *a, void *b)
     u32_021D9F04 *rec = (u32_021D9F04 *)(ctx + 0x18);
     Res r = RES_NONE;
 
-    if (func_0203CD98()) {
+    if (GFL_NET_GetRunState()) {
         if (func_0200FB24()) {
             GFL_NET_SetAutoExit(r);
-            func_0203D7BC(r);
+            GFL_NET_SetLoginOption(r);
             GFL_USE_StopAllSe();
-            if (func_02012E40((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
+            if (GAME_DATA_IsSaving((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
                 GAME_DATA_SaveCancel((char *)(((struct Obj08279 *)ctx)->f8));
                 func_0200F7C0(0x29);
             }
@@ -6259,9 +6259,9 @@ int func_021D9F04(char *ctx, void *a, void *b)
         }
         if (r != RES_NONE) {
             GFL_NET_SetAutoExit(0);
-            func_0203D7BC(0);
+            GFL_NET_SetLoginOption(0);
             GFL_USE_StopAllSe();
-            if (func_02012E40((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
+            if (GAME_DATA_IsSaving((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
                 GAME_DATA_SaveCancel((char *)(((struct Obj08279 *)ctx)->f8));
                 func_0200F7C0(0x29);
             }
@@ -6278,7 +6278,7 @@ int func_021D9F04(char *ctx, void *a, void *b)
                 GFL_NET_STATE_SetError(0, 0, 0, 0x3F7);
                 func_0200FAAC();
             }
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             break;
         case RES_3:
             func_0200FA84();
@@ -6346,7 +6346,7 @@ void func_021DA0D4(char *obj, int mode, int extra, int group, int *rec)
 
     if (mode == 1)
         count += extra;
-    if (!func_0203CD98())
+    if (!GFL_NET_GetRunState())
         func_0200FA84();
     DWC_CloseAllConnectionsHard();
     func_021DA4B8(obj, 0, count);
@@ -6418,7 +6418,7 @@ int func_021DA1E4(char *obj)
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 3;
             GFL_NET_SetAutoExit(1);
-            func_0203D7BC(1);
+            GFL_NET_SetLoginOption(1);
             break;
         default:
             func_021DA384(obj);
@@ -6427,8 +6427,8 @@ int func_021DA1E4(char *obj)
         }
         break;
     case 3:
-        if (func_02039338()) {
-            if (func_02039ACC())
+        if (GFL_NET_SYSTEM_GetCurrentAid()) {
+            if (GFL_NET_HANDLE_CheckNegotiation())
                 ((struct Obj00839 *)obj)->f40 = 4;
             if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
                 func_021DA384(obj);
@@ -6440,7 +6440,7 @@ int func_021DA1E4(char *obj)
         }
         break;
     case 4:
-        func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
         ((struct Obj00839 *)obj)->f1A4 = 0;
         ((struct Obj00839 *)obj)->f40 = 6;
         break;
@@ -6448,8 +6448,8 @@ int func_021DA1E4(char *obj)
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
-        } else if (GFL_NET_HANDLE_GetNegotiationNum() && func_02039ACC()) {
-            func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
+        } else if (GFL_NET_HANDLE_GetNegotiationNum() && GFL_NET_HANDLE_CheckNegotiation()) {
+            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 6;
         }
@@ -6458,7 +6458,7 @@ int func_021DA1E4(char *obj)
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
-        } else if (func_02039CB4((struct Link *)func_020399A8(), 0xf, 0x24)) {
+        } else if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24)) {
             ((struct Obj00839 *)obj)->f40 = 8;
         }
         break;
@@ -6474,7 +6474,7 @@ int func_021DA1E4(char *obj)
         }
         break;
     case 8:
-        func_0203D378();
+        GFL_NET_IsParentAid();
         return 1;
     }
     return 0;
@@ -6493,7 +6493,7 @@ int func_021DA1E4(char *obj)
 void func_021DA36C()
 {
     GFL_NET_SetAutoExit(0);
-    func_0203D7BC(0);
+    GFL_NET_SetLoginOption(0);
     GFL_NET_STATE_WifiDisconnect(1);
 }
 
@@ -6536,7 +6536,7 @@ int func_021DA390(char *obj)
         break;
     case 2:
         GFL_NET_SetAutoExit(0);
-        func_0203D7BC(0);
+        GFL_NET_SetLoginOption(0);
         ((struct Obj02513 *)obj)->f134 = 0;
         (((struct Obj02513 *)obj)->f154)++;
         break;
@@ -6563,7 +6563,7 @@ int func_021DA390(char *obj)
 int func_021DA434()
 {
     if (DWC_RAP_IsStateInSession() != 0)
-        return func_0203D3A8(func_020399A8(), 0x2402, 4, (u32_021DA434)g_021E2C8C);
+        return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2402, 4, (u32_021DA434)g_021E2C8C);
     return 1;
 }
 
@@ -6594,7 +6594,7 @@ void func_021DA470(unsigned char *dest)
 {
     int date[4];
     int time[3];
-    if (!func_0203CD98()) func_0200FA84();
+    if (!GFL_NET_GetRunState()) func_0200FA84();
     if (!func_02167ED8(date, time)) func_0200FA84();
     func_02082BCC(dest, 0, 6);
     dest[0] = date[0];
@@ -6737,7 +6737,7 @@ void func_021DA5B0(char *obj, int mode, int kind, u32_021D9A50 a3, u32_021D9A50 
                 break;
             }
         } else {
-            func_0203D378();
+            GFL_NET_IsParentAid();
             ((struct Obj01069 *)obj)->f180 = a3;
             ((struct Obj01069 *)obj)->f184 = rec[0];
             ((struct Obj01069 *)obj)->f188 = rec[4];
@@ -6795,7 +6795,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
             *(u32_021D9A50 *)(p + 0x12c) = 4;
             break;
         }
-        func_02039C68((struct Link *)func_020399A8(), 4, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x24);
         *(u32_021D9A50 *)(p + 0x12c) = 1;
         break;
     case 1:
@@ -6803,7 +6803,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
             *(u32_021D9A50 *)(p + 0x12c) = 4;
             break;
         }
-        if (func_02039CB4((struct Link *)func_020399A8(), 4, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 4, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
             *(u32_021D9A50 *)(p + 0x12c) = 2;
         break;
     case 2:
@@ -6843,7 +6843,7 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
         *(u32_021D9A50 *)(p + 0x12c) = 6;
         break;
     case 6:
-        if (func_0203D378() != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
+        if (GFL_NET_IsParentAid() != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
         (*(u32_021D9A50 *)(p + 0x134))++;
         r = func_021DF018((u32_021D9A50)func_021DADB4, 100, (u32_021D9A50)p);
         *(u32_021D9A50 *)(p + 0x164) = 1;
@@ -6885,16 +6885,16 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
         dst = *(char **)(p + 0x1464) + 0x34;
         src = func_021DF224();
         func_02082D44(src, dst, 0x28);
-        func_02039C68((struct Link *)func_020399A8(), 1, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x24);
         *(u32_021D9A50 *)(p + 0x12c) = 9;
         break;
     case 9:
-        if (func_02039CB4((struct Link *)func_020399A8(), 1, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
             *(u32_021D9A50 *)(p + 0x12c) = 0xa;
         break;
     case 10:
-        if (func_0203D378() != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
-            if (func_0203D3A8(func_020399A8(), 0x2400, 0x68, *(u32_021D9A50 *)(p + 0x1464) + 4) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
+        if (GFL_NET_IsParentAid() != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
+            if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2400, 0x68, *(u32_021D9A50 *)(p + 0x1464) + 4) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
                 *(u32_021D9A50 *)(p + 0x12c) = 0xb;
         } else if (*(u32_021D9A50 *)(p + 0x138) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
             *(u32_021D9A50 *)(p + 0x138) = 0;
@@ -6943,16 +6943,16 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
             *(u32_021D9A50 *)(p + 0x12c) = 0x13;
             break;
         }
-        func_02039C68((struct Link *)func_020399A8(), 2, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x24);
         *(u32_021D9A50 *)(p + 0x12c) = 0xe;
         break;
     case 14:
-        if (func_02039CB4((struct Link *)func_020399A8(), 2, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
             *(u32_021D9A50 *)(p + 0x12c) = 0xf;
         break;
     case 15:
-        if (func_0203D378() != 0) {
-            if (func_0203D3A8(func_020399A8(), 0x2400, 0x68, *(u32_021D9A50 *)(p + 0x1464) + 4) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
+        if (GFL_NET_IsParentAid() != 0) {
+            if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2400, 0x68, *(u32_021D9A50 *)(p + 0x1464) + 4) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
                 *(u32_021D9A50 *)(p + 0x12c) = 0x10;
         } else if (*(u32_021D9A50 *)(p + 0x138) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
             if (*(u32_021D9A50 *)(p + 0x160) == 0)
@@ -6962,8 +6962,8 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
         }
         break;
     case 16:
-        if (func_0203D378() == 0) {
-            if (func_0203D3A8(func_020399A8(), 0x2400, 0x68, *(u32_021D9A50 *)(p + 0x1464) + 4) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
+        if (GFL_NET_IsParentAid() == 0) {
+            if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2400, 0x68, *(u32_021D9A50 *)(p + 0x1464) + 4) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
                 *(u32_021D9A50 *)(p + 0x12c) = 0x11;
         } else if (*(u32_021D9A50 *)(p + 0x138) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0) {
             if (*(u32_021D9A50 *)(p + 0x160) == 0)
@@ -6973,11 +6973,11 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
         }
         break;
     case 17:
-        func_02039C68((struct Link *)func_020399A8(), 3, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x24);
         *(u32_021D9A50 *)(p + 0x12c) = 0x12;
         break;
     case 18:
-        if (func_02039CB4((struct Link *)func_020399A8(), 3, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 3, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
             *(u32_021D9A50 *)(p + 0x12c) = 0x13;
         break;
     case 19:
@@ -7024,11 +7024,11 @@ int func_021DA6B8(char *p, u32_021D9A50 *out)
         *(u32_021D9A50 *)(p + 0x12c) = 0x17;
         break;
     case 23:
-        func_02039C68((struct Link *)func_020399A8(), 5, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x24);
         *(u32_021D9A50 *)(p + 0x12c) = 0x18;
         break;
     case 24:
-        if (func_02039CB4((struct Link *)func_020399A8(), 5, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 5, 0x24) != 0 || *(u32_021D9A50 *)(p + 0x160) != 0)
             *(u32_021D9A50 *)(p + 0x12c) = 0x19;
         break;
     case 25:
@@ -7371,7 +7371,7 @@ int func_021DB248(u32_021DB248 *ctx)
 
 
 
-void func_021DB258(int index,int unused,const void *src,u8 *p,int owner) { if(owner==(int)func_020399A8() && index!=func_0203D1A4((struct Link *)((int)func_020399A8()))) { func_02082D44(src,*(u8 * *)&((struct Obj14338 *)p)->f1464+0x6c,0x68); ((struct Obj14338 *)p)->f138=1; } }
+void func_021DB258(int index,int unused,const void *src,u8 *p,int owner) { if(owner==(int)GFL_NET_HANDLE_GetCurrentHandle() && index!=GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()))) { func_02082D44(src,*(u8 * *)&((struct Obj14338 *)p)->f1464+0x6c,0x68); ((struct Obj14338 *)p)->f138=1; } }
 
 
 
@@ -7385,9 +7385,9 @@ void func_021DB294(int index, int unused, void *dest, char *ctx, int owner)
 {
     void *record;
     record = func_02012950(((struct Obj14339 *)ctx)->f8, index);
-    func_02082D44(dest, record, func_02008468());
-    if (owner == (int)func_020399A8()) {
-        if (index != func_0203D1A4((struct Link *)((int)func_020399A8())))
+    func_02082D44(dest, record, MYSTATUS_GetSize());
+    if (owner == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
+        if (index != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())))
             ((struct Obj14339 *)ctx)->f13C = 1;
     }
 }
@@ -7405,7 +7405,7 @@ void func_021DB294(int index, int unused, void *dest, char *ctx, int owner)
  */
 int func_021DB2D4(int a, char *b)
 {
-    if (func_0203D1A4((struct Link *)((int)func_020399A8())) == a) {
+    if (GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) == a) {
         func_02034714((const char *)((int)g_021E2EF8), 0, (const char *)((int)g_021E2EF8));
         return 0;
     }
@@ -7428,9 +7428,9 @@ int func_021DB2D4(int a, char *b)
  */
 void func_021DB300(u32_021DB300 a, u32_021DB300 b, u32_021DB300 c, char *d, u32_021DB300 e)
 {
-    if (e != (u32_021DB300)func_020399A8())
+    if (e != (u32_021DB300)GFL_NET_HANDLE_GetCurrentHandle())
         return;
-    if (a == func_0203D1A4((struct Link *)((u32_021DB300)func_020399A8())))
+    if (a == GFL_NET_GetHandleNetID((struct Link *)((u32_021DB300)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
     ((struct Obj24337 *)d)->f140 = 1;
 }
@@ -7451,9 +7451,9 @@ void func_021DB300(u32_021DB300 a, u32_021DB300 b, u32_021DB300 c, char *d, u32_
  */
 void func_021DB328(u32_021DB328 a, u32_021DB328 b, u32_021DB328 c, char *d, u32_021DB328 e)
 {
-    if (e != (u32_021DB328)func_020399A8())
+    if (e != (u32_021DB328)GFL_NET_HANDLE_GetCurrentHandle())
         return;
-    if (a == func_0203D1A4((struct Link *)((u32_021DB328)func_020399A8())))
+    if (a == GFL_NET_GetHandleNetID((struct Link *)((u32_021DB328)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
     ((struct Obj24338 *)d)->f144 = 1;
 }
@@ -7474,9 +7474,9 @@ void func_021DB328(u32_021DB328 a, u32_021DB328 b, u32_021DB328 c, char *d, u32_
  */
 void func_021DB350(u32_021DB350 a, u32_021DB350 b, u32_021DB350 c, char *d, u32_021DB350 e)
 {
-    if (e != (u32_021DB350)func_020399A8())
+    if (e != (u32_021DB350)GFL_NET_HANDLE_GetCurrentHandle())
         return;
-    if (a == func_0203D1A4((struct Link *)((u32_021DB350)func_020399A8())))
+    if (a == GFL_NET_GetHandleNetID((struct Link *)((u32_021DB350)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
     ((struct Obj24339 *)d)->f148 = 1;
 }
@@ -7497,9 +7497,9 @@ void func_021DB378(u32_021DB378 a, u32_021DB378 b, u32_021DB378 *c, char *d, u32
 {
     u32_021DB378 v = *c;
 
-    if (e != (u32_021DB378)func_020399A8())
+    if (e != (u32_021DB378)GFL_NET_HANDLE_GetCurrentHandle())
         return;
-    if (a == func_0203D1A4((struct Link *)((u32_021DB378)func_020399A8())))
+    if (a == GFL_NET_GetHandleNetID((struct Link *)((u32_021DB378)GFL_NET_HANDLE_GetCurrentHandle())))
         return;
     ((struct Obj14340 *)d)->f150 = v;
     ((struct Obj14340 *)d)->f14C = 1;
@@ -8044,12 +8044,12 @@ u32_021DC194 func_021DC194(char *obj)
  */
 u32_021DC1A0 func_021DC1A0(char *obj, u32_021DC1A0 data)
 {
-    u32_021DC1A0 busy = func_0203D1A4((struct Link *)((u32_021DC1A0)func_020399A8()));
+    u32_021DC1A0 busy = GFL_NET_GetHandleNetID((struct Link *)((u32_021DC1A0)GFL_NET_HANDLE_GetCurrentHandle()));
     int flag = 1;
 
     if (busy != 0)
         flag = 0;
-    return func_0203D3F8((u32_021DC1A0)func_020399A8(), (u8)flag, 0x2401, POKE_REGULATION_GetDataSize() + 0xd4, data, 1, 1, 1);
+    return GFL_NET_SendData((u32_021DC1A0)GFL_NET_HANDLE_GetCurrentHandle(), (u8)flag, 0x2401, POKE_REGULATION_GetDataSize() + 0xd4, data, 1, 1, 1);
 }
 
 
@@ -8078,10 +8078,10 @@ u32_021DC1E4 func_021DC1E4(char *obj, char **out)
 
 u32_021DC200 func_021DC200(char *p,unsigned int data)
 {
-    unsigned int busy=func_0203D1A4((struct Link *)((unsigned int)func_020399A8()));
+    unsigned int busy=GFL_NET_GetHandleNetID((struct Link *)((unsigned int)GFL_NET_HANDLE_GetCurrentHandle()));
     int flag=1;
     if(busy!=0) flag=0;
-    return func_0203D3F8((unsigned int)func_020399A8(),(unsigned char)flag,0x2403,POKE_REGULATION_GetDataSize(),data,1,1,1);
+    return GFL_NET_SendData((unsigned int)GFL_NET_HANDLE_GetCurrentHandle(),(unsigned char)flag,0x2403,POKE_REGULATION_GetDataSize(),data,1,1,1);
 }
 
 
@@ -8130,12 +8130,12 @@ u32_021DC240 func_021DC240(char *obj, u32_021DC240 arg)
  */
 int func_021DC268(char *obj, u32_021DC268 data)
 {
-    u32_021DC268 busy = func_0203D1A4((struct Link *)((u32_021DC268)func_020399A8()));
+    u32_021DC268 busy = GFL_NET_GetHandleNetID((struct Link *)((u32_021DC268)GFL_NET_HANDLE_GetCurrentHandle()));
     int flag = 1;
 
     if (busy != 0)
         flag = 0;
-    return func_0203D3F8((u32_021DC268)func_020399A8(), (u8)flag, 0x2404, 4, data, 1, 1, 1);
+    return GFL_NET_SendData((u32_021DC268)GFL_NET_HANDLE_GetCurrentHandle(), (u8)flag, 0x2404, 4, data, 1, 1, 1);
 }
 
 
@@ -8168,7 +8168,7 @@ u32_021DC2A0 func_021DC2A0(char *obj, u32_021DC2A0 arg)
  */
 int func_021DC2C0(u32_021DC2C0 ignored, void *p)
 {
-    return func_0203D3A8(func_020399A8(), 0x2405, 4, (u32_021DC2C0)p);
+    return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2405, 4, (u32_021DC2C0)p);
 }
 
 
@@ -8600,9 +8600,9 @@ void func_021DCA28(char *obj, u32_021DCA28 win, u16 tag)
     MI_CpuFill8(obj + 0x1468, 0, 0x28);
     ((struct Obj06576 *)obj)->f148C = tag;
     src = STRBUF_GetChars((struct U16Vec *)str);
-    for (i = 0; i < func_020458F8((struct U16Vec *)str) + 1; i++) {
+    for (i = 0; i < STRBUF_GetLength((struct U16Vec *)str) + 1; i++) {
         u16 c = src[i];
-        if (c == func_02045A98())
+        if (c == STRBUF_GetEosChar())
             *(u16 *)(obj + 0x1468 + i * 2) = 0;
         else
             *(u16 *)(obj + 0x1468 + i * 2) = c;
@@ -8610,7 +8610,7 @@ void func_021DCA28(char *obj, u32_021DCA28 win, u16 tag)
     *(u16 * *)&((struct Obj06576 *)obj)->f1480 = (u16 *)(obj + 0x1468);
     ((struct Obj06576 *)obj)->f1488 = 0;
     DWC_CheckProfanityExAsync((u16 **)(obj + 0x1480), 1, 0, 0, obj + 0x1484, (int *)(obj + 0x1488), 0x80);
-    func_02045808((struct U16Vec *)str);
+    STRBUF_Delete((struct U16Vec *)str);
 }
 
 
@@ -8634,9 +8634,9 @@ int func_021DCAEC(char *obj, int *out)
     if (done == 1 && *out == 1) {
         u32_021DCAEC msg = (u32_021DCAEC)func_02045B38(0, 2, 0x51, ((struct Obj10693 *)obj)->f124);
         u32_021DCAEC str = (u32_021DCAEC)func_02045EC0((struct MsgBank *)msg, 0xf);
-        func_02045C04((struct Rec *)msg);
+        MSGDATA_Delete((struct Rec *)msg);
         func_020084E4((u16 *)((struct Obj10693 *)obj)->f1490, (struct U16Vec *)str);
-        func_02045808((struct U16Vec *)str);
+        STRBUF_Delete((struct U16Vec *)str);
     }
     return done;
 }
@@ -9023,7 +9023,7 @@ void func_021DD008(char *p, int flag)
 {
     if (flag == 0)
         return;
-    func_0203D34C(1, ((struct Obj24396 *)p)->f124);
+    GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj24396 *)p)->f124);
 }
 
 

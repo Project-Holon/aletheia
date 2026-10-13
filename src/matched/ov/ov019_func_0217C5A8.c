@@ -1,5 +1,5 @@
 /*
- * function: func_0217C5A8
+ * function: UNION_ONESELF_TalkChildMain
  * address:  0x0217C5A8
  * packet:   pkt_ov019_0217C5A8
  * region:   ov019
@@ -10,27 +10,27 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0217BB04  0x0217BB04  thumb ov019
- *   func_0217F1EC  0x0217F1EC  thumb ov019
- *   func_0217F210  0x0217F210  thumb ov019
+ *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb ov019
+ *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb ov019
  *   func_0217EC34  0x0217EC34  thumb ov019
  *   func_0217EC68  0x0217EC68  thumb ov019
  *   func_0217EC78  0x0217EC78  thumb ov019
  *   func_0217ECD0  0x0217ECD0  thumb ov019
- *   func_0217B8E4  0x0217B8E4  thumb ov019
- *   func_0217B9BC  0x0217B9BC  thumb ov019
- *   func_0217BA10  0x0217BA10  thumb ov019
- *   func_0217B974  0x0217B974  thumb ov019
- *   func_0217BAA8  0x0217BAA8  thumb ov019
- *   func_0217F640  0x0217F640  thumb ov019
- *   func_0217F794  0x0217F794  thumb ov019
- *   func_0217F7B8  0x0217F7B8  thumb ov019
- *   func_0217F22C  0x0217F22C  thumb ov019
- *   func_0217F268  0x0217F268  thumb ov019
- *   func_0217F24C  0x0217F24C  thumb ov019
- *   func_02173A48  0x02173A48  thumb ov012
- *   func_02012934  0x02012934  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb ov019
+ *   UNION_ONESELF_IsBattleStatus  0x0217B9BC  thumb ov019
+ *   UNION_ONESELF_LoadRegulation  0x0217BA10  thumb ov019
+ *   UNION_ONESELF_GetRegulationFlag  0x0217B974  thumb ov019
+ *   UNION_ONESELF_CheckEntryParties  0x0217BAA8  thumb ov019
+ *   UNION_MSG_SetupRegulationWindow  0x0217F640  thumb ov019
+ *   UNION_MSG_CheckRegulationPrintEnd  0x0217F794  thumb ov019
+ *   UNION_MSG_DeleteRegulationWindow  0x0217F7B8  thumb ov019
+ *   UNION_MSG_SetupYesNo  0x0217F22C  thumb ov019
+ *   UNION_MSG_SelectYesNo  0x0217F268  thumb ov019
+ *   UNION_MSG_DeleteYesNo  0x0217F24C  thumb ov019
+ *   UNION_COMMAND_SendPartnerSelectB  0x02173A48  thumb ov012
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_0201AA1C  0x0201AA1C  thumb
  *   func_0201AAD4  0x0201AAD4  thumb
  *   func_0201AA88  0x0201AA88  thumb
@@ -72,93 +72,93 @@ typedef struct {
 } Ctx;
 
 struct Self;
-int func_0217BB04(char *p);
-u32 func_0217F1EC(u8 *p);
-void func_0217F210(u8 *p, u8 *a, u32 b);
+int UNION_ONESELF_CheckNetError(char *p);
+u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
+void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 typedef unsigned short u16;
 struct BigObj;
 u16 func_0217EC34(int i);
 u16 func_0217EC68(int i);
 u16 func_0217EC78(int i);
 u16 func_0217ECD0(void ***ctx);
-int func_0217B8E4(char *p, int v);
-int func_0217B9BC(unsigned int x);
-void func_0217BA10(char *p, int x);
-int func_0217B974(int id);
-int func_0217BAA8(int a, int b, int *p, int *q);
-void func_0217F640(struct Self *self, u32 a1, u32 mask, int mode, int msg);
-u32 func_0217F794(char *p, u32 a);
-void func_0217F7B8(char *p);
-void func_0217F22C(u8 *p, u32 a);
-int func_0217F268(char *p, u32 *out);
-void func_0217F24C(u8 *p);
-int func_02173A48(int a, ...);
-void *func_02012934(const struct BigObj *p);
+int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
+int UNION_ONESELF_IsBattleStatus(unsigned int x);
+void UNION_ONESELF_LoadRegulation(char *p, int x);
+int UNION_ONESELF_GetRegulationFlag(int id);
+int UNION_ONESELF_CheckEntryParties(int a, int b, int *p, int *q);
+void UNION_MSG_SetupRegulationWindow(struct Self *self, u32 a1, u32 mask, int mode, int msg);
+u32 UNION_MSG_CheckRegulationPrintEnd(char *p, u32 a);
+void UNION_MSG_DeleteRegulationWindow(char *p);
+void UNION_MSG_SetupYesNo(u8 *p, u32 a);
+int UNION_MSG_SelectYesNo(char *p, u32 *out);
+void UNION_MSG_DeleteYesNo(u8 *p);
+int UNION_COMMAND_SendPartnerSelectB(int a, ...);
+void *GAME_DATA_GetMyParty(const struct BigObj *p);
 struct Ctx;
-void *func_020120F4(const struct Ctx *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 u32 func_0201AA1C(void *p);
 u32 func_0201AAD4(void *p);
 u32 func_0201AA88(void *p);
 u32 func_020362DC(void);
 
-int func_0217C5A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
+int UNION_ONESELF_TalkChildMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
 {
     int flag;
     void *h;
 
-    if (func_0217BB04((char *)ctx) == 1)
+    if (UNION_ONESELF_CheckNetError((char *)ctx) == 1)
         return 1;
-    if (func_0217F1EC((u8 *)ctx) == 0)
+    if (UNION_MSG_CheckTalkPrintEnd((u8 *)ctx) == 0)
         return 0;
 
     switch (*state) {
     case 0:
-        func_0217F210((u8 *)ctx, a2, 9);
+        UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, 9);
         (*state)++;
         break;
     case 1:
         if (obj->f2d == 0xff)
             break;
         if (obj->f2d == 0) {
-            func_0217F210((u8 *)ctx, a2, func_0217EC34(obj->f14->flag));
-            func_0217B8E4((char *)ctx, 0x27);
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC34(obj->f14->flag));
+            UNION_ONESELF_SetNextPlayCategory((char *)ctx, 0x27);
             return 1;
         }
         if (obj->f2d < 0x1b) {
-            func_0217F210((u8 *)ctx, a2, func_0217EC68(obj->f2d));
-            if (func_0217B9BC(obj->f2d) == 1) {
-                func_0217BA10((char *)ctx, obj->f2d);
-                func_0217F640((struct Self *)ctx, (u32)a2, 0, func_0217B974(obj->f2d), 0);
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC68(obj->f2d));
+            if (UNION_ONESELF_IsBattleStatus(obj->f2d) == 1) {
+                UNION_ONESELF_LoadRegulation((char *)ctx, obj->f2d);
+                UNION_MSG_SetupRegulationWindow((struct Self *)ctx, (u32)a2, 0, UNION_ONESELF_GetRegulationFlag(obj->f2d), 0);
                 *state = 2;
             } else {
                 *state = 3;
             }
-        } else if (func_02173A48(0) == 1) {
-            func_0217F210((u8 *)ctx, a2, 0x13d);
-            func_0217B8E4((char *)ctx, 0x27);
+        } else if (UNION_COMMAND_SendPartnerSelectB(0) == 1) {
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, 0x13d);
+            UNION_ONESELF_SetNextPlayCategory((char *)ctx, 0x27);
             return 1;
         }
         break;
     case 2:
-        if (func_0217F794((char *)ctx, (u32)a2) == 1)
+        if (UNION_MSG_CheckRegulationPrintEnd((char *)ctx, (u32)a2) == 1)
             *state = 3;
         break;
     case 3:
-        func_0217F7B8((char *)ctx);
-        func_0217F22C((u8 *)ctx, (u32)a2);
+        UNION_MSG_DeleteRegulationWindow((char *)ctx);
+        UNION_MSG_SetupYesNo((u8 *)ctx, (u32)a2);
         (*state)++;
         break;
     case 4:
         obj->f6e = 0;
-        if (func_0217F268((char *)ctx, (u32 *)(&flag)) != 1)
+        if (UNION_MSG_SelectYesNo((char *)ctx, (u32 *)(&flag)) != 1)
             break;
-        h = func_02012934((void *)ctx->sys->f8);
-        func_0217F24C((u8 *)ctx);
-        if (func_0217BAA8((int)ctx, obj->f2d, &obj->f64, &obj->f68) == 0) {
-            func_0217F210((u8 *)ctx, a2, 0x13e);
+        h = GAME_DATA_GetMyParty((void *)ctx->sys->f8);
+        UNION_MSG_DeleteYesNo((u8 *)ctx);
+        if (UNION_ONESELF_CheckEntryParties((int)ctx, obj->f2d, &obj->f64, &obj->f68) == 0) {
+            UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, 0x13e);
             flag = 0;
         } else if (obj->f2d == 0x18 && flag == 1) {
-            func_020120F4((const struct Ctx *)ctx->sys->fc);
+            GAMESYSTEM_GetGameData((const struct Ctx *)ctx->sys->fc);
             if ((int)func_0201AA1C(h) < 2) {
                 flag = 0;
                 obj->f6e = 1;
@@ -176,7 +176,7 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         (*state)++;
         break;
     case 5:
-        if (func_02173A48(obj->f2e) == 1) {
+        if (UNION_COMMAND_SendPartnerSelectB(obj->f2e) == 1) {
             if (obj->f64 != 0 && obj->f68 != 0)
                 *state = 6;
             else
@@ -184,12 +184,12 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         }
         break;
     case 6:
-        func_0217F640((struct Self *)ctx, (u32)a2, obj->f64, func_0217B974(obj->f2d), 1);
+        UNION_MSG_SetupRegulationWindow((struct Self *)ctx, (u32)a2, obj->f64, UNION_ONESELF_GetRegulationFlag(obj->f2d), 1);
         (*state)++;
         break;
     case 7:
-        if (func_0217F794((char *)ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
-            func_0217F7B8((char *)ctx);
+        if (UNION_MSG_CheckRegulationPrintEnd((char *)ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
+            UNION_MSG_DeleteRegulationWindow((char *)ctx);
             if (obj->f68 == -1)
                 *state = 10;
             else
@@ -197,29 +197,29 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
         }
         break;
     case 8:
-        func_0217F640((struct Self *)ctx, (u32)a2, obj->f64, func_0217B974(obj->f2d), 2);
+        UNION_MSG_SetupRegulationWindow((struct Self *)ctx, (u32)a2, obj->f64, UNION_ONESELF_GetRegulationFlag(obj->f2d), 2);
         (*state)++;
         break;
     case 9:
-        if (func_0217F794((char *)ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
-            func_0217F7B8((char *)ctx);
+        if (UNION_MSG_CheckRegulationPrintEnd((char *)ctx, (u32)a2) == 1 && (func_020362DC() & 3)) {
+            UNION_MSG_DeleteRegulationWindow((char *)ctx);
             *state = 10;
         }
         break;
     case 10:
         if (obj->f2e == 0) {
             if (obj->f6e == 1)
-                func_0217F210((u8 *)ctx, a2, 0x28);
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, 0x28);
             else if (obj->f6e == 2)
-                func_0217F210((u8 *)ctx, a2, 0x2f);
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, 0x2f);
             else if (obj->f6e == 3)
-                func_0217F210((u8 *)ctx, a2, func_0217ECD0((void ***)ctx));
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217ECD0((void ***)ctx));
             else
-                func_0217F210((u8 *)ctx, a2, func_0217EC78(obj->f2d));
-            func_0217B8E4((char *)ctx, 0x27);
+                UNION_MSG_SetupPrintTalkMsg((u8 *)ctx, a2, func_0217EC78(obj->f2d));
+            UNION_ONESELF_SetNextPlayCategory((char *)ctx, 0x27);
             return 1;
         }
-        func_0217B8E4((char *)ctx, obj->f2d + 11);
+        UNION_ONESELF_SetNextPlayCategory((char *)ctx, obj->f2d + 11);
         *state = 11;
         break;
     case 11:

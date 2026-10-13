@@ -1,5 +1,5 @@
 /*
- * function: func_02192EE0
+ * function: FIELD_MSGBG_SetupSysFrameBg
  * address:  0x02192EE0
  * packet:   pkt_ov021_02192EE0
  * region:   ov021
@@ -32,7 +32,7 @@ extern void func_020409B4(u32 index);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_0204047C(int idx, unsigned short val);
 
-void func_02192EE0(int a)
+void FIELD_MSGBG_SetupSysFrameBg(int a)
 {
     B32 tmp;
 

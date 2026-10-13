@@ -1,5 +1,5 @@
 /*
- * function: func_021945A0
+ * function: FIELD_COMM_ACTOR_ConvertDir
  * address:  0x021945A0
  * packet:   pkt_021945A0
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_021945A0(int x)
+int FIELD_COMM_ACTOR_ConvertDir(int x)
 {
     return x;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216025C",
+   "name": "EVENT_SHORTCUT_MENU_ReturnEvent",
    "address": "0x0216025C",
    "kind": "game",
    "region": "ov010",

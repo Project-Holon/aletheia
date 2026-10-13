@@ -1,5 +1,5 @@
 /*
- * function: func_02161D18
+ * function: EVENT_FIELD_PROCLINK_StartSeasonCommProc
  * address: 0x02161D18
  * packet: pkt_ov010_02161D18
  * region: ov010
@@ -12,26 +12,26 @@
  * Lever: c and d are u8, as in matched caller ov010_func_02161B90.c;
  * this puts the c home store before r0 is assigned b for the first call.
  * symbols:
- *   func_020120F4 0x020120F4 thumb
- *   func_02012984 0x02012984 thumb
- *   func_02169100 0x02169100 thumb ov010
- *   func_02169110 0x02169110 thumb ov010
- *   func_02161C84 0x02161C84 thumb ov010
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetSeason 0x02012984 thumb
+ *   FIELD_CLOCK_GetHour 0x02169100 thumb ov010
+ *   FIELD_CLOCK_GetMinute 0x02169110 thumb ov010
+ *   EVENT_FIELD_PROCLINK_SetCommProcParam 0x02161C84 thumb ov010
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 func_02012984(const struct BigObj *p);
-extern int func_02169100(int);
-extern int func_02169110(int);
-extern void func_02161C84(int, int, int, u8, u32, u8, u8, int);
-void func_02161D18(int a, int b, u8 c, u8 d)
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern int FIELD_CLOCK_GetHour(int);
+extern int FIELD_CLOCK_GetMinute(int);
+extern void EVENT_FIELD_PROCLINK_SetCommProcParam(int, int, int, u8, u32, u8, u8, int);
+void EVENT_FIELD_PROCLINK_StartSeasonCommProc(int a, int b, u8 c, u8 d)
 {
-    int r4 = (int)func_020120F4((const struct Ctx *)b);
-    int r6 = func_02169100(r4);
-    int r7 = func_02169110(r4);
-    int r0 = func_02012984((const struct BigObj *)r4);
-    func_02161C84(a, b, c, d, 0, (u8)r6, (u8)r7, r0);
+    int r4 = (int)GAMESYSTEM_GetGameData((const struct Ctx *)b);
+    int r6 = FIELD_CLOCK_GetHour(r4);
+    int r7 = FIELD_CLOCK_GetMinute(r4);
+    int r0 = GAME_DATA_GetSeason((const struct BigObj *)r4);
+    EVENT_FIELD_PROCLINK_SetCommProcParam(a, b, c, d, 0, (u8)r6, (u8)r7, r0);
 }

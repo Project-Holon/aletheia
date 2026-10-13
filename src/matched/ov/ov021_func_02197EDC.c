@@ -1,5 +1,5 @@
 /*
- * function: func_02197EDC
+ * function: FLDMMDL_ACMD_Update
  * address:  0x02197EDC
  * packet:   pkt_ov021_02197EDC
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D7C4  0x0216D7C4  thumb  ov010
- *   func_02197EB4  0x02197EB4  thumb  ov021
- *   func_0216D57C  0x0216D57C  thumb  ov010
- *   func_0216D570  0x0216D570  thumb  ov010
- *   func_0216D7C0  0x0216D7C0  thumb  ov010
- *   func_0216D7C8  0x0216D7C8  thumb  ov010
+ *   FLDMMDL_GetAcmdCode  0x0216D7C4  thumb  ov010
+ *   FLDMMDL_ACMD_RunCmds  0x02197EB4  thumb  ov021
+ *   FLDMMDL_CheckMoveBit  0x0216D57C  thumb  ov010
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
+ *   FLDMMDL_SetAcmdCode  0x0216D7C0  thumb  ov010
+ *   FLDMMDL_SetAcmdSeq  0x0216D7C8  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -23,23 +23,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0216D7C4(u8 *);
-extern void func_02197EB4(u32 a);
-extern u32 func_0216D57C(void *p, u32 v);
-extern char *func_0216D570(char *p, u32 v);
-extern void func_0216D7C0(void *p, u16 v);
-extern void *func_0216D7C8(void *p, u16 v);
+extern u16 FLDMMDL_GetAcmdCode(u8 *);
+extern void FLDMMDL_ACMD_RunCmds(u32 a);
+extern u32 FLDMMDL_CheckMoveBit(void *p, u32 v);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
+extern void FLDMMDL_SetAcmdCode(void *p, u16 v);
+extern void *FLDMMDL_SetAcmdSeq(void *p, u16 v);
 
-u32 func_02197EDC(u8 *p)
+u32 FLDMMDL_ACMD_Update(u8 *p)
 {
-    if (func_0216D7C4(p) != 0xff) {
-        func_02197EB4((u32)p);
-        if (func_0216D57C(p, 0x400) == 0) {
+    if (FLDMMDL_GetAcmdCode(p) != 0xff) {
+        FLDMMDL_ACMD_RunCmds((u32)p);
+        if (FLDMMDL_CheckMoveBit(p, 0x400) == 0) {
             return 0;
         }
     }
-    func_0216D570((char *)p, 0x400);
-    func_0216D7C0(p, 0xff);
-    func_0216D7C8(p, 0);
+    FLDMMDL_ClearMoveBit((char *)p, 0x400);
+    FLDMMDL_SetAcmdCode(p, 0xff);
+    FLDMMDL_SetAcmdSeq(p, 0);
     return 1;
 }

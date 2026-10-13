@@ -1,5 +1,5 @@
 /*
- * function: func_0215611C
+ * function: MUSICAL_EVENT_CreateShowRecord
  * address:  0x0215611C
  * packet:   pkt_ov010_0215611C
  * region:   ov010
@@ -25,23 +25,23 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_0203F4E4  0x0203F4E4  arm
- *   func_02157364  0x02157364  thumb  ov010
- *   func_02156914  0x02156914  thumb  ov010
- *   func_02045A38  0x02045A38  arm
- *   func_02045808  0x02045808  arm
- *   func_021568E8  0x021568E8  thumb  ov010
- *   func_021568A8  0x021568A8  thumb  ov010
- *   func_02157384  0x02157384  thumb  ov010
- *   func_02012944  0x02012944  thumb
+ *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
+ *   MUSICAL_EVENT_AllocTitleString  0x02156914  thumb  ov010
+ *   STRBUF_ToChars  0x02045A38  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MUSICAL_EVENT_GetPlayerOfSlot  0x021568E8  thumb  ov010
+ *   MUSICAL_EVENT_CountNpcSlotsBelow  0x021568A8  thumb  ov010
+ *   MUSICAL_PROGRAM_GetNpcNameId  0x02157384  thumb  ov010
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_021FCE28  0x021FCE28  thumb  ov132
  *   func_02082D44  0x02082D44  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045C04  0x02045C04  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200A5F8  0x0200A5F8  thumb
- *   d_02172714  0x02172714  data
+ *   sMusicalEventFileName  0x02172714  data
  */
 
 typedef unsigned char u8;
@@ -142,26 +142,26 @@ struct Ctx;
 struct MsgBank;
 struct Table;
 struct U16Vec;
-extern u8 func_02157364(char *a0);
-extern void *func_02156914(int a0, int a1);
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-extern void func_02045808(struct U16Vec *vec);
-extern u8 func_021568E8(Work *w, u8 idx);
-extern u8 func_021568A8(Work *w, u8 n);
-extern u8 func_02157384(struct Table *t, int i);
-extern u8 *func_02012944(void *p);
+extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
+extern void *MUSICAL_EVENT_AllocTitleString(int a0, int a1);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u8 MUSICAL_EVENT_GetPlayerOfSlot(Work *w, u8 idx);
+extern u8 MUSICAL_EVENT_CountNpcSlotsBelow(Work *w, u8 n);
+extern u8 MUSICAL_PROGRAM_GetNpcNameId(struct Table *t, int i);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int func_021FCE28(char *p, u32 index);
 extern void func_02082D44(void *src, void *dst, u32 size);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045C04(struct Rec *rec);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200A5F8(void *p);
 
-extern const char d_02172714[];
+extern const char sMusicalEventFileName[];
 
-void func_0215611C(Work *w)
+void MUSICAL_EVENT_CreateShowRecord(Work *w)
 {
     Disp *d;
     struct RtcDate date;
@@ -181,19 +181,19 @@ void func_0215611C(Work *w)
     u8 u;
     u8 a;
 
-    w->f34 = func_02030734(4, 0x14, 0, d_02172714, 0x312);
-    w->f34->f08 = func_02030734(4, 0x1b0, 1, d_02172714, 0x313);
+    w->f34 = func_02030734(4, 0x14, 0, sMusicalEventFileName, 0x312);
+    w->f34->f08 = func_02030734(4, 0x1b0, 1, sMusicalEventFileName, 0x313);
     w->f34->f04 = 0;
     w->f34->f10 = w->f28;
     d = w->f34->f08;
     func_0203F4E4(&date);
-    d->a = func_02157364(w->f38);
+    d->a = MUSICAL_PROGRAM_GetBaseProgramId(w->f38);
     d->b = date.year;
     d->c = date.month;
     d->d = date.day;
-    str = func_02156914((int)w, 4);
-    func_02045A38(str, d->text, 0x25);
-    func_02045808(str);
+    str = MUSICAL_EVENT_AllocTitleString((int)w, 4);
+    STRBUF_ToChars(str, d->text, 0x25);
+    STRBUF_Delete(str);
     d->g = 0;
     d->f1ae = 0x15;
     d->f1af = 1;
@@ -217,19 +217,19 @@ void func_0215611C(Work *w)
         d->recs[i].b3 = m->f0b;
         d->recs[i].f04 = m->f10;
         if (i == w->f4C)
-            x = func_02012944(w->f04);
+            x = GAME_DATA_GetMyStatus(w->f04);
         else if (w->f14 == 1)
-            x = (void *)func_021FCE28(w->f28, func_021568E8(w, i));
+            x = (void *)func_021FCE28(w->f28, MUSICAL_EVENT_GetPlayerOfSlot(w, i));
         if (x != 0) {
             func_02082D44(x, d->recs[i].name, 0x10);
         } else {
-            u8 val = func_02157384(w->f38, func_021568A8(w, func_021568E8(w, i)));
+            u8 val = MUSICAL_PROGRAM_GetNpcNameId(w->f38, MUSICAL_EVENT_CountNpcSlotsBelow(w, MUSICAL_EVENT_GetPlayerOfSlot(w, i)));
 
             bank = func_02045B38(0, 2, 0x4C, 4);
             str = func_02045EC0(bank, val);
-            func_02045A38(str, (u16 *)d->recs[i].name, 8);
-            func_02045808(str);
-            func_02045C04(bank);
+            STRBUF_ToChars(str, (u16 *)d->recs[i].name, 8);
+            STRBUF_Delete(str);
+            MSGDATA_Delete(bank);
         }
         for (j = 0; j < 8; j++) {
             d->recs[i].ent[j].a = 0xFF;
@@ -247,7 +247,7 @@ void func_0215611C(Work *w)
         }
     }
     w->f34->f00 = 1;
-    w->f34->f0c = func_0200A5F8(func_02012EBC(func_020120F4(w->f00)));
+    w->f34->f0c = func_0200A5F8(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(w->f00)));
     for (a = 0; a < 4; a++) {
         tmp[a] = w->party->members[a]->total;
         w->f48[a] = a;

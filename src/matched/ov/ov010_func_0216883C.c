@@ -1,5 +1,5 @@
 /*
- * function: func_0216883C
+ * function: FLD_BTL_INST_TOOL_GetIvForRank
  * address:  0x0216883C
  * packet:   pkt_ov010_0216883C
  * region:   ov010
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * IV value for a battle-facility trainer index: a step table over the
- * index (3 below 50, up to 31 from 200). Returns u8: func_02168924
+ * index (3 below 50, up to 31 from 200). Returns u8: FLD_BTL_INST_TOOL_DrawTrainerParty
  * stores the result to its u8 local without an extension.
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 func_0216883C(u32 n)
+u8 FLD_BTL_INST_TOOL_GetIvForRank(u32 n)
 {
     if (n < 50)
         return 3;

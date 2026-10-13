@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A380       0x0204A380  arm
+ *   ARC_UTIL_LoadHandleMember       0x0204A380  arm
  *   func_0204979C       0x0204979C  arm
  *   ENV_SetResourceSet  0x020307B0  arm
  *
@@ -22,12 +22,12 @@
  * stores it, so no separate `cmp` appears.
  *
  * The flag word is the sixth argument and arrives as a halfword, and
- * func_0204A380's fourth parameter is `u16`, which is what turns
+ * ARC_UTIL_LoadHandleMember's fourth parameter is `u16`, which is what turns
  * `(flags & 0x7FFF) | 0x8000` into an `and`/`orr` pair followed by a
  * `lsl #16`/`lsr #16` truncation rather than a single `orr`.
  *
- * func_0204A380 resolves through the `matched` class against
- * src/matched/func_0204A380.c; func_0204979C through the `label` class, its
+ * ARC_UTIL_LoadHandleMember resolves through the `matched` class against
+ * src/matched/ARC_UTIL_LoadHandleMember.c; func_0204979C through the `label` class, its
  * outside witness being the second caller at 0x02049724.
  *
  * Verified with:
@@ -38,7 +38,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern u32 func_0204979C(void *buf, u32 a1, u32 a2);
 extern void ENV_SetResourceSet(void *p);
 
@@ -47,7 +47,7 @@ u32 ARC_UTIL_RegisterObjCharFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4,
     void *buf;
     u32 res;
 
-    buf = func_0204A380(a0, a1, a4, (u16)((flags & 0x7FFF) | 0x8000));
+    buf = ARC_UTIL_LoadHandleMember(a0, a1, a4, (u16)((flags & 0x7FFF) | 0x8000));
     if (buf == 0) {
         return 0;
     }

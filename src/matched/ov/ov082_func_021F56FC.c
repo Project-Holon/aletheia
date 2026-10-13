@@ -1,5 +1,5 @@
 /*
- * function: func_021F56FC
+ * function: FLD_FACEUP_RestoreVisiblePlanes
  * address:  0x021F56FC
  * packet:   pkt_021F56FC
  * region:   ov082
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 void func_02043534(u32 planes);
 
-void func_021F56FC(int *p)
+void FLD_FACEUP_RestoreVisiblePlanes(int *p)
 {
     func_02043534(p[1]);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C30D4",
+   "name": "FLD3D_CI_DarkenCapturedScreen",
    "address": "0x021C30D4",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021EF958
+ * function: BTL_FIELD_Create
  * address:  0x021EF958
  * packet:   pkt_ov093_021EF958
  * region:   ov093
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   d_021F3AF8  0x021F3AF8  data  a4
- *   func_021EF988  0x021EF988  thumb  ov093
+ *   gBtlFieldFileName  0x021F3AF8  data  a4
+ *   BTL_FIELD_Init  0x021EF988  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -31,13 +31,13 @@ typedef struct {
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char d_021F3AF8[];
-extern void func_021EF988(S *p, u32 v);
+extern char gBtlFieldFileName[];
+extern void BTL_FIELD_Init(S *p, u32 v);
 
-S *func_021EF958(u32 heap)
+S *BTL_FIELD_Create(u32 heap)
 {
-    S *p = func_02030734(heap, 0x168, 1, d_021F3AF8, 0x10c);
+    S *p = func_02030734(heap, 0x168, 1, gBtlFieldFileName, 0x10c);
 
-    func_021EF988(p, 0);
+    BTL_FIELD_Init(p, 0);
     return p;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3998
+ * function: FIELD_GIMMICK_BSUBWAY_FindZoneEntry
  * address:  0x021F3998
  * packet:   pkt_ov052_021F3998
  * region:   ov052
@@ -30,7 +30,7 @@ extern BsubwayZoneEntry d_021F39DC[];
  * zone and the table index (the index of its handlers); both 0 for an
  * unknown zone.
  */
-void func_021F3998(int zoneId, int *slotId, int *handlerIndex)
+void FIELD_GIMMICK_BSUBWAY_FindZoneEntry(int zoneId, int *slotId, int *handlerIndex)
 {
     int i;
     for (i = 0; i < BSUBWAY_ZONE_ENTRY_COUNT; i++) {

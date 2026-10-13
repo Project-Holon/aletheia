@@ -1,5 +1,5 @@
 /*
- * function: func_021E8F08
+ * function: BTLV_CORE_ExitDisplay
  * address:  0x021E8F08
  * packet:   pkt_ov093_021E8F08
  * region:   ov093
@@ -11,22 +11,22 @@
  *
  * symbols:
  *   func_021F7808  0x021F7808  thumb  ov094
- *   func_0204A5AC  0x0204A5AC  arm
- *   func_020450C8  0x020450C8  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
- *   func_02046788  0x02046788  arm
+ *   G3D_SYSTEM_Exit  0x02046788  arm
  */
 extern void func_021F7808(void);
-extern void func_0204A5AC(void);
-extern void func_020450C8(void);
+extern void CLACT_ExitSystem(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-extern void func_02046788(void);
+extern void G3D_SYSTEM_Exit(void);
 
-void func_021E8F08(void)
+void BTLV_CORE_ExitDisplay(void)
 {
     func_021F7808();
-    func_0204A5AC();
-    func_020450C8();
+    CLACT_ExitSystem();
+    BMP_WIN_Exit();
     func_0203F9B4();
-    func_02046788();
+    G3D_SYSTEM_Exit();
 }

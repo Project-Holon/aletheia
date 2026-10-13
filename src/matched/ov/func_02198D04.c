@@ -1,5 +1,5 @@
 /*
- * function: func_02198D04
+ * function: FLDMMDL_ACMD_DashLeft6F
  * address:  0x02198D04
  * packet:   pkt_02198D04
  * region:   ov021
@@ -22,7 +22,7 @@ typedef int BOOL;
 
 extern void func_02198C08(u32 a1, u32 a2, u32 a3, u32 a4);
 
-u32 func_02198D04(u32 a1)
+u32 FLDMMDL_ACMD_DashLeft6F(u32 a1)
 {
     func_02198C08(a1, 0x2, 0x6, 0xb);
 

@@ -12,7 +12,7 @@
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
  *   func_021C81D0  0x021C81D0  thumb  ov093
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  */
 #include "../include/Obj10190.h"
 
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern u16 func_021C81D0(u8 *p, u8 *a, u32 y);
@@ -32,7 +32,7 @@ extern u16 func_021C81D0(u8 *p, u8 *a, u32 y);
 int func_02189A6C(struct Cursor *a, int b) {
     int t;
     u8 s;
-    t = func_0201134C(a);
+    t = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t);
     t = func_021C81D0((u8 *)(((struct Obj10190 *)b)->fB4), func_0218A2FC((u8 *)b, s), 1);
     ((struct Obj10190 *)b)->f38 = t;

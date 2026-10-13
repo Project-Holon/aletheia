@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BACAC",
-    "func_021BAE5C"
+    "BTL_SERVER_StepSelectCommands",
+    "BTL_SERVER_GetRecordInitArg"
+   ],
+   "addresses": [
+    "0x021BACAC",
+    "0x021BAE5C"
    ]
   }
  ]

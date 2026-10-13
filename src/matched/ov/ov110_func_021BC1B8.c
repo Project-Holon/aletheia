@@ -15,8 +15,8 @@
  *   func_021BAC64 0x021BAC64 thumb ov110
  *   func_021BAC78 0x021BAC78 thumb ov110
  *   func_021BC69C 0x021BC69C thumb ov110
- *   func_0204B878 0x0204B878 arm
- *   func_0204B84C 0x0204B84C arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
+ *   CLACT_SetActorBgPriority 0x0204B84C arm
  */
 #include "../include/Obj01393.h"
 typedef unsigned char u8;
@@ -29,8 +29,8 @@ extern void func_021BAC64(void *,Triple *,int,int);
 extern void *func_021BAC78(void *,Triple *,int,int,int,int);
 struct Obj;
 extern void func_021BC69C(u8 *p, int flag);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B84C(void *,int);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorBgPriority(void *,int);
 void func_021BC1B8(u8 *p)
 {
     Triple t;
@@ -39,8 +39,8 @@ void func_021BC1B8(u8 *p)
     else { pos.x=128; pos.y=24; }
     func_021BAC64(((struct Obj01393 *)p)->f0,&t,1,0);
     ((struct Obj01393 *)p)->f18=func_021BAC78(((struct Obj01393 *)p)->f0,&t,pos.x,pos.y+192,0,2);
-    func_0204B878(((struct Obj01393 *)p)->f18,1);
-    func_0204B84C(((struct Obj01393 *)p)->f18,1);
+    CLACT_SetActorAnimSeq(((struct Obj01393 *)p)->f18,1);
+    CLACT_SetActorBgPriority(((struct Obj01393 *)p)->f18,1);
     func_021BAC64(((struct Obj01393 *)p)->f0,&t,0,0);
     ((struct Obj01393 *)p)->f14=func_021BAC78(((struct Obj01393 *)p)->f0,&t,pos.x,pos.y,0,1);
     func_021BC69C(p,1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021BE480
+ * function: FLD_EXP_OBJ_GetModelStatus
  * address:  0x021BE480
  * packet:   pkt_021BE480
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb
  *
- * Unlabelled leaf in ov021, immediately after func_021BE418's epilogue
+ * Unlabelled leaf in ov021, immediately after FLD_EXP_OBJ_RemoveUnit's epilogue
  * (0x021BE47C) and before the next traced function at 0x021BE4A4; it saves
  * nothing, so disasm.py prints it inside the pool/.word run.  It is the
- * blocker target of ov010's func_0216C280 (pkt_0216C280), reached across the
+ * blocker target of ov010's NAMEIN_SETUP_SyncObjHeightToAnim (pkt_0216C280), reached across the
  * ov010/ov021 overlay pair.  Element lookup: stride 0x10, null when the +8
  * slot is zero or the index is out of range, else base + index*0x44 + 8.
  */
@@ -23,7 +23,7 @@
 
 typedef unsigned int u32;
 
-int func_021BE480(char *p, unsigned i, int j)
+int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j)
 {
     char *e = p + i * 0x10;
 

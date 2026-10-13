@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_021F38F4  0x021F38F4  thumb  ov058
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   GIMMICK58_PlaceTrains  0x021F38F4  thumb  ov058
  *   d_021F3B60  0x021F3B60  data  ov058  a4
  */
 
@@ -27,15 +27,15 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
-extern u16 func_02188C84(u8 *p);
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern int *func_021897BC(char *p, int idx);
-extern void func_021BE760(int a, void *b, int c);
-extern void func_021F38F4(void *unused, void *a);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(int a, void *b, int c);
+extern void GIMMICK58_PlaceTrains(void *unused, void *a);
 extern char d_021F3B60[];
 
 void func_021F36C0(int a)
@@ -43,11 +43,11 @@ void func_021F36C0(int a)
     int r4;
     void *r6;
 
-    func_02188C84((u8 *)a);
-    r4 = func_02188D2C((int *)a);
-    func_02012EC4(func_020120F4(func_02188C80((void *)a)));
-    func_02189764((unsigned char *)a, 1, func_02188C84((u8 *)a), 0x20);
-    r6 = func_021897BC((char *)a, 1);
-    func_021BE760(r4, d_021F3B60, 0);
-    func_021F38F4(r6, (void *)a);
+    FIELDMAP_GetHeapId((u8 *)a);
+    r4 = FIELDMAP_GetExpObj((int *)a);
+    GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)a)));
+    FIELDMAP_AllocCommonWork((unsigned char *)a, 1, FIELDMAP_GetHeapId((u8 *)a), 0x20);
+    r6 = FIELDMAP_GetCommonWork((char *)a, 1);
+    FLD_EXP_OBJ_AddUnitFromArchive(r4, d_021F3B60, 0);
+    GIMMICK58_PlaceTrains(r6, (void *)a);
 }

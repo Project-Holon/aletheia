@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   G3D_SYSTEM_DrawEnd  0x02047970  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -17,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_02047970(void);
-void func_021B7D44(void *a0) { func_02047970(); }
+extern void G3D_SYSTEM_DrawEnd(void);
+void func_021B7D44(void *a0) { G3D_SYSTEM_DrawEnd(); }

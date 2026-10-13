@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_021A491C  0x021A491C  thumb  ov021
- *   func_021A4994  0x021A4994  thumb  ov021
- *   func_021A4A74  0x021A4A74  thumb  ov021
- *   func_021A4AA8  0x021A4AA8  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetStandResultOnCycle  0x021A491C  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetWalkResultOnCycle  0x021A4994  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetTurnResultOnCycle  0x021A4A74  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetBlockedResultOnCycle  0x021A4AA8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12737.h"
@@ -22,28 +22,28 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void *func_021A3960(unsigned char *p);
-extern int func_021A491C(u8 *, void *, u32);
-extern int func_021A4994(u8 *a, void *b, u8 *c);
-extern int func_021A4A74(int a, int b, u8 *c);
-extern int func_021A4AA8(u8 *, void *, u32);
+extern void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
+extern int FIELD_PLAYER_GRID_GetStandResultOnCycle(u8 *, void *, u32);
+extern int FIELD_PLAYER_GRID_GetWalkResultOnCycle(u8 *a, void *b, u8 *c);
+extern int FIELD_PLAYER_GRID_GetTurnResultOnCycle(int a, int b, u8 *c);
+extern int FIELD_PLAYER_GRID_GetBlockedResultOnCycle(u8 *, void *, u32);
 
 int ov021_func_021A48C8(u8 *a, u32 b)
 {
-    void *r = func_021A3960(((struct Obj12737 *)a)->fC);
+    void *r = FIELD_PLAYER_CORE_GetMmdl(((struct Obj12737 *)a)->fC);
     int ret = 0;
     switch (((struct Obj12737 *)a)->f0) {
     case 0:
-        ret = func_021A491C(a, r, b);
+        ret = FIELD_PLAYER_GRID_GetStandResultOnCycle(a, r, b);
         break;
     case 1:
-        ret = func_021A4994(a, r, (u8 *)b);
+        ret = FIELD_PLAYER_GRID_GetWalkResultOnCycle(a, r, (u8 *)b);
         break;
     case 2:
-        ret = func_021A4A74((int)a, (int)r, (u8 *)b);
+        ret = FIELD_PLAYER_GRID_GetTurnResultOnCycle((int)a, (int)r, (u8 *)b);
         break;
     case 3:
-        ret = func_021A4AA8(a, r, b);
+        ret = FIELD_PLAYER_GRID_GetBlockedResultOnCycle(a, r, b);
         break;
     }
     return ret;

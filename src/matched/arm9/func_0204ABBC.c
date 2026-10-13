@@ -1,5 +1,5 @@
 /*
- * function: func_0204ABBC
+ * function: CLACT_GetCharacterVramAddress
  * address:  0x0204ABBC
  * packet:   pkt_0204A9D0
  * region:   arm9
@@ -26,7 +26,7 @@ struct Rec {
 extern void CLACT_GetCharacterProxy(u32 idx, struct Rec *dst);
 extern int func_020637B4(int *p, int i);
 
-int func_0204ABBC(u32 idx, u32 flag)
+int CLACT_GetCharacterVramAddress(u32 idx, u32 flag)
 {
     struct Rec buf;
     u32 mode = 1;

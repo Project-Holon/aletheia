@@ -1,5 +1,5 @@
 /*
- * function: func_0217E5A0
+ * function: UNION_ONESELF_ColosseumBattleMain
  * address:  0x0217E5A0
  * packet:   pkt_ov019_0217E5A0
  * region:   ov019
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217BB20  0x0217BB20  thumb  ov019
- *   func_0217F074  0x0217F074  thumb  ov019
- *   func_0217F1EC  0x0217F1EC  thumb  ov019
- *   func_0217F210  0x0217F210  thumb  ov019
- *   func_0217B8E4  0x0217B8E4  thumb  ov019
- *   func_0217422C  0x0217422C  thumb  ov012
- *   func_02174268  0x02174268  thumb  ov012
- *   func_0201292C  0x0201292C  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
+ *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
+ *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
+ *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_02030734  0x02030734  arm
@@ -69,27 +69,27 @@ typedef struct {
 } Req;
 
 struct Sub0200852CObj;
-int func_0217BB20(char *p);
+int UNION_ONESELF_CheckNetErrorExit(char *p);
 typedef unsigned int   u32;
-void func_0217F074(void *p);
-u32 func_0217F1EC(u8 *p);
-void func_0217F210(u8 *p, u8 *a, u32 b);
-int func_0217B8E4(char *p, int v);
-void func_0217422C(u8 *p, int a, int b);
-int func_02174268(u8 *w);
+void UNION_MSG_CloseAllWindows(void *p);
+u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
+void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
+int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
+void UNION_MAIN_RequestScene(u8 *p, int a, int b);
+int UNION_MAIN_IsScenePending(u8 *w);
 struct Big;
 struct BigObj;
 struct Link;
 struct Sub02008700Obj;
-void *func_0201292C(const struct BigObj *p);
-void *func_02012EBC(struct Big *p);
+void *GAME_DATA_GetMyItem(const struct BigObj *p);
+void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Sub02008700Obj *func_0200873C(void *sys);
 const void *func_020084F4(const void *p);
 u8 func_02008550(const struct Sub0200852CObj *obj);
 struct Entry;
-struct Entry *func_020399A8(void);
-u32 func_0203D1A4(struct Link *p);
-int func_0203D1B4(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+u32 GFL_NET_GetHandleNetID(struct Link *p);
+int GFL_NET_GetNegotiationNum(void);
 struct Link;
 void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
@@ -97,7 +97,7 @@ void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 u32 func_020307B0(void *p);
 extern int d_021807E8[];
 
-int func_0217E5A0(u8 *w, u8 *obj, u8 *a2, u8 *state)
+int UNION_ONESELF_ColosseumBattleMain(u8 *w, u8 *obj, u8 *a2, u8 *state)
 {
     u8 *p;
     int idx;
@@ -108,14 +108,14 @@ int func_0217E5A0(u8 *w, u8 *obj, u8 *a2, u8 *state)
     int k;
 
     p = *(u8 * *)&((struct Obj03570 *)w)->f355C;
-    idx = func_0203D1A4((struct Link *)((int)func_020399A8()));
-    if (*state < 3 && func_0217BB20((char *)w) == 1) {
-        func_0217F074(w);
+    idx = GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()));
+    if (*state < 3 && UNION_ONESELF_CheckNetErrorExit((char *)w) == 1) {
+        UNION_MSG_CloseAllWindows(w);
         return 1;
     }
     switch (*state) {
     case 0:
-        if (func_0217F1EC(w) != 1)
+        if (UNION_MSG_CheckTalkPrintEnd(w) != 1)
             break;
         switch (obj[0x2d]) {
         default:
@@ -142,31 +142,31 @@ int func_0217E5A0(u8 *w, u8 *obj, u8 *a2, u8 *state)
             msg = 0x11a;
             break;
         }
-        func_0217F210(w, a2, msg);
+        UNION_MSG_SetupPrintTalkMsg(w, a2, msg);
         (*state)++;
         break;
     case 1:
-        if (func_0217F1EC(w) == 1) {
-            func_02039C68((struct Link *)func_020399A8(), 0x11, 0x14);
+        if (UNION_MSG_CheckTalkPrintEnd(w) == 1) {
+            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14);
             (*state)++;
         }
         break;
     case 2:
-        if (func_02039CB4((struct Link *)func_020399A8(), 0x11, 0x14) == 1) {
-            func_0217F074(w);
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 0x14) == 1) {
+            UNION_MSG_CloseAllWindows(w);
             (*state)++;
         }
         break;
     case 3:
         q = func_02030734(0x41, 0xc4, 1, (const char *)d_021807E8, 0x10c4);
         q->f0 = ((int *)(p + 0x148))[idx];
-        q->f4 = func_0201292C((const struct BigObj *)((*(Sys * *)&((struct Obj03570 *)w)->f0)->f8));
-        q->fc = (int)func_0200873C(func_02012EBC((struct Big *)((*(Sys * *)&((struct Obj03570 *)w)->f0)->f8)));
+        q->f4 = GAME_DATA_GetMyItem((const struct BigObj *)((*(Sys * *)&((struct Obj03570 *)w)->f0)->f8));
+        q->fc = (int)func_0200873C(GAME_DATA_GetSaveControl((struct Big *)((*(Sys * *)&((struct Obj03570 *)w)->f0)->f8)));
         q->f34 = 0x1a;
         q->f14 = ((struct Obj03570 *)w)->f352C;
         q->fc0 = func_02030734(0x41, 0x70, 1, (const char *)d_021807E8, 0x10ce);
         cnt = 0;
-        for (i = 0; i < func_0203D1B4(); i++) {
+        for (i = 0; i < GFL_NET_GetNegotiationNum(); i++) {
             if (i == idx)
                 continue;
             if ((p[idx + 0x15c] & 1) == (p[i + 0x15c] & 1))
@@ -192,16 +192,16 @@ int func_0217E5A0(u8 *w, u8 *obj, u8 *a2, u8 *state)
         q->f90 = 0;
         q->f60 = 0;
         *(Req * *)&((struct Obj03570 *)w)->f3558 = q;
-        func_0217422C(w, 0x1a, (int)q);
+        UNION_MAIN_RequestScene(w, 0x1a, (int)q);
         (*state)++;
         break;
     case 4:
-        if (func_02174268(w) == 1)
+        if (UNION_MAIN_IsScenePending(w) == 1)
             break;
         func_020307B0((*(Req * *)&((struct Obj03570 *)w)->f3558)->fc0);
         func_020307B0(*(Req * *)&((struct Obj03570 *)w)->f3558);
         *(Req * *)&((struct Obj03570 *)w)->f3558 = 0;
-        func_0217B8E4((char *)w, 0x2c);
+        UNION_ONESELF_SetNextPlayCategory((char *)w, 0x2c);
         return 1;
     }
     return 0;

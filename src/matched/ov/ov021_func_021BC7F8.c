@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7F8
+ * function: FIELD_PLACE_NAME_DeleteLetters
  * address:  0x021BC7F8
  * packet:   pkt_ov021_021BC7F8
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD184  0x021BD184  thumb  ov021
+ *   PLACE_NAME_LETTER_Delete  0x021BD184  thumb  ov021
  */
 
 typedef struct {
@@ -18,13 +18,13 @@ typedef struct {
     void *f50[0x1E];
 } Obj;
 
-extern void func_021BD184(void *a);
+extern void PLACE_NAME_LETTER_Delete(void *a);
 
-void func_021BC7F8(Obj *p)
+void FIELD_PLACE_NAME_DeleteLetters(Obj *p)
 {
     int i;
 
     for (i = 0; i < 0x1E; i++) {
-        func_021BD184(p->f50[i]);
+        PLACE_NAME_LETTER_Delete(p->f50[i]);
     }
 }

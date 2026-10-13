@@ -1,5 +1,5 @@
 /*
- * function: func_021F47BC
+ * function: GIMMICK_OBJ_ELBOARD_SetScroll
  * address:  0x021F47BC
  * packet:   pkt_ov048_021F47BC
  * region:   ov048
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021F47BC  0x021F47BC  thumb  ov048
+ *   GIMMICK_OBJ_ELBOARD_SetScroll  0x021F47BC  thumb  ov048
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_0204784C  0x0204784C  arm
- *   func_020477A4  0x020477A4  arm
- *   func_020477D4  0x020477D4  arm
- *   d_021F523C     0x021F523C  data  ov048  a4
+ *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
+ *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
+ *   G3D_SYSTEM_DisableObjectAnime  0x020477D4  arm
+ *   gElboardFileName     0x021F523C  data  ov048  a4
  */
 
 /*
@@ -74,12 +74,12 @@ typedef signed int     s32;
 struct AnmCtl;
 struct G3dSys;
 struct Owner;
-extern u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame);
-extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
-extern int func_020477D4(struct Owner *owner, u32 index);
-extern char d_021F523C[];
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
+extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
+extern char gElboardFileName[];
 
-void func_021F47BC(struct M *p, int v)
+void GIMMICK_OBJ_ELBOARD_SetScroll(struct M *p, int v)
 {
     int *a;
     int *b;
@@ -88,8 +88,8 @@ void func_021F47BC(struct M *p, int v)
 
     q = v >> 12;
     sum = 0;
-    a = (int *)func_02030734((u16)((p->h0 & 0x7FFF) | 0x8000), p->b2 * 4, 0, d_021F523C, 0x11A);
-    b = (int *)func_02030734((u16)((p->h0 & 0x7FFF) | 0x8000), p->b2 * 4, 0, d_021F523C, 0x11C);
+    a = (int *)func_02030734((u16)((p->h0 & 0x7FFF) | 0x8000), p->b2 * 4, 0, gElboardFileName, 0x11A);
+    b = (int *)func_02030734((u16)((p->h0 & 0x7FFF) | 0x8000), p->b2 * 4, 0, gElboardFileName, 0x11C);
     p->f18 = v;
     for (i = 0; i < p->b2; i++) {
         p->fC[i] = 0;
@@ -117,17 +117,17 @@ void func_021F47BC(struct M *p, int v)
             b[i] = 0;
         }
         e->f18 = b[i] << 12;
-        func_0204784C((struct AnmCtl *)e->f10, e->h14, &e->f18);
+        G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)e->f10, e->h14, &e->f18);
         if (e->f4) {
-            func_020477A4((struct G3dSys *)e->f10, e->h14);
+            G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)e->f10, e->h14);
         } else {
-            func_020477D4((struct Owner *)e->f10, e->h14);
+            G3D_SYSTEM_DisableObjectAnime((struct Owner *)e->f10, e->h14);
         }
     }
     if (p->b2 != 0 && q == 0) {
         e = p->f8[0];
         e->f4 = 1;
-        func_020477A4((struct G3dSys *)e->f10, e->h14);
+        G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)e->f10, e->h14);
     }
     for (i = 0; i < p->b2; i++) {
         j = (i + 1) % p->b2;

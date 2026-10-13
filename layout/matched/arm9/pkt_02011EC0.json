@@ -61,20 +61,20 @@
    "status": "EXACT",
    "functions": [
     "GAMESYSTEM_GetProcStatus",
-    "func_020120F4",
-    "func_020120F8",
-    "func_02012104",
+    "GAMESYSTEM_GetGameData",
+    "GAMESYSTEM_GetMyPlayerWork",
+    "GAMESYSTEM_GetEvent",
     "GAMESYSTEM_SetEvent",
-    "func_0201210C",
-    "func_02012110",
-    "func_02012114",
-    "func_02012124",
-    "func_0201212C",
-    "func_02012134",
-    "func_02012138",
+    "GAMESYSTEM_GetFieldMap",
+    "GAMESYSTEM_SetFieldMap",
+    "GAMESYSTEM_IsFieldMapExist",
+    "GAMESYSTEM_SetFieldMapState",
+    "GAMESYSTEM_GetFieldMapState",
+    "GAMESYSTEM_GetIssSystem",
+    "GAMESYSTEM_GetGameComm",
     "GAMESYSTEM_SetCommBlocked",
     "GAMESYSTEM_IsCommBlocked",
-    "func_0201214C"
+    "GAMESYSTEM_GetAlwaysNetFlag"
    ],
    "addresses": [
     "0x020120F0",
@@ -106,8 +106,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02012204",
-    "func_02012210"
+    "GAMESYSTEM_IsNetOffBySleep",
+    "GAMESYSTEM_ClearNetOffBySleep"
+   ],
+   "addresses": [
+    "0x02012204",
+    "0x02012210"
    ]
   }
  ]

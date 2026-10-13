@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216A560",
+   "name": "SCRCMD_TRIALHOUSE_StartBattle",
    "address": "0x0216A560",
    "kind": "game",
    "region": "ov010",

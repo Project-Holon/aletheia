@@ -17,10 +17,10 @@
  *   GFL_NET_STATE_GetWifiState  0x0203C3EC  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
- *   func_0203D7BC  0x0203D7BC  arm
- *   func_02039338  0x02039338  arm
- *   func_02039ACC  0x02039ACC  arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  *   func_02039CB4  0x02039CB4  arm
@@ -29,7 +29,7 @@
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *
  * Matchmaking step (state at +0x40): 0 starts the search with the evaluation callback, then waits for the match, the peer handshake (with a 3600-tick timeout counted at +0x1a4) and the link check; returns 1 when done, 2 on a fatal error and 0 while still running.
  */
@@ -46,11 +46,11 @@ typedef unsigned short u16;
 extern u32 GFL_NET_STATE_GetError(void);
 typedef unsigned char  u8;
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
-extern u16 func_02039338(void);
-extern int func_02039ACC(void);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern int GFL_NET_HANDLE_CheckNegotiation(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
@@ -60,7 +60,7 @@ extern int func_021DA390(char *obj);
 extern void GFL_NET_STATE_SetWifiError(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 extern void func_0200FBA0(void);
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 
 int func_021DA1E4(char *obj)
 {
@@ -90,7 +90,7 @@ int func_021DA1E4(char *obj)
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 3;
             GFL_NET_SetAutoExit(1);
-            func_0203D7BC(1);
+            GFL_NET_SetLoginOption(1);
             break;
         default:
             func_021DA384(obj);
@@ -99,8 +99,8 @@ int func_021DA1E4(char *obj)
         }
         break;
     case 3:
-        if (func_02039338()) {
-            if (func_02039ACC())
+        if (GFL_NET_SYSTEM_GetCurrentAid()) {
+            if (GFL_NET_HANDLE_CheckNegotiation())
                 ((struct Obj00839 *)obj)->f40 = 4;
             if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
                 func_021DA384(obj);
@@ -112,7 +112,7 @@ int func_021DA1E4(char *obj)
         }
         break;
     case 4:
-        func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
         ((struct Obj00839 *)obj)->f1A4 = 0;
         ((struct Obj00839 *)obj)->f40 = 6;
         break;
@@ -120,8 +120,8 @@ int func_021DA1E4(char *obj)
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
-        } else if (GFL_NET_HANDLE_GetNegotiationNum() && func_02039ACC()) {
-            func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
+        } else if (GFL_NET_HANDLE_GetNegotiationNum() && GFL_NET_HANDLE_CheckNegotiation()) {
+            func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24);
             ((struct Obj00839 *)obj)->f1A4 = 0;
             ((struct Obj00839 *)obj)->f40 = 6;
         }
@@ -130,7 +130,7 @@ int func_021DA1E4(char *obj)
         if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
             ((struct Obj00839 *)obj)->f40 = 7;
-        } else if (func_02039CB4((struct Link *)func_020399A8(), 0xf, 0x24)) {
+        } else if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xf, 0x24)) {
             ((struct Obj00839 *)obj)->f40 = 8;
         }
         break;
@@ -146,7 +146,7 @@ int func_021DA1E4(char *obj)
         }
         break;
     case 8:
-        func_0203D378();
+        GFL_NET_IsParentAid();
         return 1;
     }
     return 0;

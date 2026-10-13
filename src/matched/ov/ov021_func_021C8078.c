@@ -1,5 +1,5 @@
 /*
- * function: func_021C8078
+ * function: FLD_WIPE_3DOBJ_Draw
  * address:  0x021C8078
  * packet:   pkt_ov021_021C8078
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02046AFC  0x02046AFC  arm
+ *   G3D_SYSTEM_GetLookAt  0x02046AFC  arm
  *   func_0207CA00  0x0207CA00  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   _ll_mul        0x0209C054  arm
  *   func_0206AAD4  0x0206AAD4  arm
  *   func_02082B60  0x02082B60  arm
- *   func_02047788  0x02047788  arm
- *   func_0204755C  0x0204755C  arm
- *   func_0206E394  0x0206E394  arm
- *   func_0206E4FC  0x0206E4FC  arm
- *   func_0206E484  0x0206E484  arm
- *   func_0206E574  0x0206E574  arm
- *   func_0206E40C  0x0206E40C  arm
- *   func_02047A60  0x02047A60  arm
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
+ *   G3D_SYSTEM_GetRenderObj  0x0204755C  arm
+ *   NNS_G3dMdlSetMdlLightEnableFlag  0x0206E394  arm
+ *   NNS_G3dMdlSetMdlPolygonID  0x0206E4FC  arm
+ *   NNS_G3dMdlSetMdlCullMode  0x0206E484  arm
+ *   NNS_G3dMdlSetMdlAlpha  0x0206E574  arm
+ *   NNS_G3dMdlSetMdlPolygonMode  0x0206E40C  arm
+ *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  * Addresses are Black-image addresses.
  */
 
@@ -38,21 +38,21 @@ typedef struct { int f0; void *f4; } Obj;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Arg;
-extern void func_02046AFC(u8 *dst);
+extern void G3D_SYSTEM_GetLookAt(u8 *dst);
 extern void func_0207CA00(V *, V *, V *);
-extern void func_0207CCA4(V *, V *);
+extern void VEC_Normalize(V *, V *);
 extern u32 *func_0206AAD4(void);
 extern void func_02082B60(M43 *, M *);
-extern int func_02047788(int *p);
-extern Q *func_0204755C(void *);
-extern void func_0206E394(void *, int, int);
-extern void func_0206E4FC(void *, int, int);
-extern void func_0206E484(void *, int, int);
-extern void func_0206E574(void *, int, int);
-extern void func_0206E40C(void *, int, int);
-extern void func_02047A60(void *a0, struct Arg *a1);
+extern int G3D_SYSTEM_GetObjectRender(int *p);
+extern Q *G3D_SYSTEM_GetRenderObj(void *);
+extern void NNS_G3dMdlSetMdlLightEnableFlag(void *, int, int);
+extern void NNS_G3dMdlSetMdlPolygonID(void *, int, int);
+extern void NNS_G3dMdlSetMdlCullMode(void *, int, int);
+extern void NNS_G3dMdlSetMdlAlpha(void *, int, int);
+extern void NNS_G3dMdlSetMdlPolygonMode(void *, int, int);
+extern void G3D_SYSTEM_DrawObject(void *a0, struct Arg *a1);
 
-void func_021C8078(Obj *p, int b, int c)
+void FLD_WIPE_3DOBJ_Draw(Obj *p, int b, int c)
 {
     SRT srt;
     Cam cam;
@@ -63,10 +63,10 @@ void func_021C8078(Obj *p, int b, int c)
     if (b == 0) {
         return;
     }
-    func_02046AFC((u8 *)(&cam));
+    G3D_SYSTEM_GetLookAt((u8 *)(&cam));
     srt.t = cam.pos;
     func_0207CA00(&cam.up, &cam.pos, &v);
-    func_0207CCA4(&v, &v);
+    VEC_Normalize(&v, &v);
     y = v.y;
     if (y <= 0) {
         y = -y;
@@ -75,11 +75,11 @@ void func_021C8078(Obj *p, int b, int c)
     srt.s.y = (int)(((long long)b * y + 0x800) >> 12);
     srt.s.z = 0x4000;
     func_02082B60((M43 *)func_0206AAD4(), &srt.r);
-    q = func_0204755C((void *)func_02047788(p->f4))->f4;
-    func_0206E394(q, 0, 0);
-    func_0206E4FC(q, 0, 0);
-    func_0206E484(q, 0, 2);
-    func_0206E574(q, 0, c);
-    func_0206E40C(q, 0, 0);
-    func_02047A60(p->f4, (struct Arg *)(&srt));
+    q = G3D_SYSTEM_GetRenderObj((void *)G3D_SYSTEM_GetObjectRender(p->f4))->f4;
+    NNS_G3dMdlSetMdlLightEnableFlag(q, 0, 0);
+    NNS_G3dMdlSetMdlPolygonID(q, 0, 0);
+    NNS_G3dMdlSetMdlCullMode(q, 0, 2);
+    NNS_G3dMdlSetMdlAlpha(q, 0, c);
+    NNS_G3dMdlSetMdlPolygonMode(q, 0, 0);
+    G3D_SYSTEM_DrawObject(p->f4, (struct Arg *)(&srt));
 }

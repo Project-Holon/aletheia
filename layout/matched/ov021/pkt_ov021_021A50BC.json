@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A50BC",
+   "name": "FIELD_PLAYER_GRID_StartTurnOnCycle",
    "address": "0x021A50BC",
    "kind": "game",
    "region": "ov021",

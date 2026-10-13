@@ -1,5 +1,5 @@
 /*
- * function: func_021653C4
+ * function: GAME_BEACON_SEARCH_SetFieldEvent
  * address:  0x021653C4
  * packet:   pkt_021653C4
  * region:   ov010
@@ -16,7 +16,7 @@
  *   GAME_BEACON_CheckActionPriority   0x02027060  thumb
  *   GAME_BEACON_RequestSend   0x02026FB8  thumb
  *   GAME_BEACON_Work      0x02146940  data
- *   func_021653E8   0x021653E8  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetInfoFieldEvent   0x021653E8  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern u32 GAME_BEACON_CheckActionPriority(u32 a);
 extern void GAME_BEACON_RequestSend(void *);
 extern char *GAME_BEACON_Work;
-extern void func_021653E8(void *);
+extern void GAME_BEACON_SEARCH_SetInfoFieldEvent(void *);
 
-void func_021653C4(void)
+void GAME_BEACON_SEARCH_SetFieldEvent(void)
 {
     if (GAME_BEACON_CheckActionPriority(0x17)) {
-        func_021653E8(GAME_BEACON_Work + 4);
+        GAME_BEACON_SEARCH_SetInfoFieldEvent(GAME_BEACON_Work + 4);
         GAME_BEACON_RequestSend(GAME_BEACON_Work + 4);
     }
 }

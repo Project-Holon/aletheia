@@ -1,5 +1,5 @@
 ﻿/*
- * function: func_021F39AC
+ * function: SP_POKE_GIMMICK_Update
  * address:  0x021F39AC
  * packet:   pkt_021F39AC
  * region:   ov059
@@ -12,13 +12,13 @@
  * Two-call wrapper.
  *
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE580  0x021BE580  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
 */
 
-void func_021F39AC(void *p)
+void SP_POKE_GIMMICK_Update(void *p)
 {
-    void *func_02188D2C(void *p);
-    void func_021BE580(void *p);
-    func_021BE580(func_02188D2C(p));
+    void *FIELDMAP_GetExpObj(void *p);
+    void FLD_EXP_OBJ_UpdateAnimes(void *p);
+    FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(p));
 }

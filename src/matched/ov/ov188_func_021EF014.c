@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02008494 0x02008494 thumb
+ *   MYSTATUS_Copy 0x02008494 thumb
  *   func_021EF0F4 0x021EF0F4 thumb ov188
  */
 #include "../include/Obj08341.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02008494(void *, void *);
+extern void MYSTATUS_Copy(void *, void *);
 extern void func_021EF0F4(u8 *, u8 *);
 void func_021EF014(u8 *a, u8 *b)
 {
@@ -27,7 +27,7 @@ void func_021EF014(u8 *a, u8 *b)
             p = b+i*0x44;
             ((struct Obj08341 *)p)->f16C8 = 2;
         } else if (*(void **)(a+0x34+i*4)) {
-            func_02008494(*(void **)(a+0x34+i*4), b+0x16CC+i*0x44);
+            MYSTATUS_Copy(*(void **)(a+0x34+i*4), b+0x16CC+i*0x44);
             p = b+i*0x44;
             ((struct Obj08341 *)p)->f16C8 = 1;
         } else {

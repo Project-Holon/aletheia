@@ -1,5 +1,5 @@
 /*
- * function: func_0217DE94
+ * function: gsLargeIntSquareMod
  * address:  0x0217DE94
  * packet:   pkt_ov009_0217DE94
  * region:   ov009
@@ -17,10 +17,10 @@
  * sdk:      gsLargeIntSquareMod (gslargeint.o)
  *
  * symbols:
- *   func_0217D3AC                  0x0217D3AC  arm  ov009
+ *   gsiLargeIntTimerEnter                  0x0217D3AC  arm  ov009
  *   gsiLargeIntTimerExit                  0x0217D3F8  arm  ov009
  *   gsiLargeIntAdd                  0x0217D508  arm  ov009
- *   func_0217D904                  0x0217D904  arm  ov009
+ *   gsiLargeIntDiv                  0x0217D904  arm  ov009
  */
 
 struct gsLargeInt_s {
@@ -28,17 +28,17 @@ struct gsLargeInt_s {
     unsigned int mData[64];
 };
 
-extern void func_0217D3AC(int id);
+extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
 extern int gsiLargeIntAdd(unsigned int *data1, unsigned int length1,
                          unsigned int *data2, unsigned int length2,
                          unsigned int *dest, unsigned int *lenout,
                          unsigned int maxlen);
-extern int func_0217D904(unsigned int *src, unsigned int len,
+extern int gsiLargeIntDiv(unsigned int *src, unsigned int len,
                          struct gsLargeInt_s *div, struct gsLargeInt_s *dest,
                          struct gsLargeInt_s *remainder);
 
-int func_0217DE94(const struct gsLargeInt_s *lint, struct gsLargeInt_s *mod,
+int gsLargeIntSquareMod(const struct gsLargeInt_s *lint, struct gsLargeInt_s *mod,
                   struct gsLargeInt_s *dest)
 {
     int i;
@@ -50,7 +50,7 @@ int func_0217DE94(const struct gsLargeInt_s *lint, struct gsLargeInt_s *mod,
     unsigned int squareLen = 0;
 
     len = (int)lint->mLength;
-    func_0217D3AC(7);
+    gsiLargeIntTimerEnter(7);
     {
     unsigned int squareSums[128] = {0};
     unsigned int otherSums[128] = {0};
@@ -81,7 +81,7 @@ int func_0217DE94(const struct gsLargeInt_s *lint, struct gsLargeInt_s *mod,
 
     squareLen = (unsigned int)(len * 2);
     gsiLargeIntAdd(otherSums, squareLen, squareSums, squareLen, squareSums, &squareLen, 128);
-    result = func_0217D904(squareSums, squareLen, mod, 0, dest);
+    result = gsiLargeIntDiv(squareSums, squareLen, mod, 0, dest);
     gsiLargeIntTimerExit(7);
     return result;
     }

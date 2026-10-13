@@ -1,5 +1,5 @@
 /*
- * function: func_021DFAB0
+ * function: BTL_HANDLER_ITEM_GetRockyHelmetHandlers
  * address: 0x021DFAB0
  * packet: pkt_ov093_021DFAB0
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF9C8.c and filed here.
  *
  * symbols:
- *   d_021F140C 0x021F140C data ov093 a4
+ *   gBtlHandlerItemRockyHelmetHandlers 0x021F140C data ov093 a4
  */
 
-int *func_021DFAB0(int *p);
-extern int d_021F140C[];
+int *BTL_HANDLER_ITEM_GetRockyHelmetHandlers(int *p);
+extern int gBtlHandlerItemRockyHelmetHandlers[];
 
-int *func_021DFAB0(int *p)
+int *BTL_HANDLER_ITEM_GetRockyHelmetHandlers(int *p)
 {
     *p = 1;
-    return d_021F140C;
+    return gBtlHandlerItemRockyHelmetHandlers;
 }

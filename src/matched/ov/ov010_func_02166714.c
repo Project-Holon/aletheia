@@ -1,5 +1,5 @@
 /*
- * function: func_02166714
+ * function: SYMBOL_MAP_StoreResult
  * address: 0x02166714
  * packet: pkt_ov010_02166714
  * region: ov010
@@ -11,7 +11,7 @@
 #include "../include/Obj07308.h"
 typedef signed short s16;
 typedef unsigned char u8;
-void func_02166714(u8 *p, int n) {
+void SYMBOL_MAP_StoreResult(u8 *p, int n) {
     int q;
     ((struct Obj07308 *)p)->f4 = n;
     q = ((struct Obj07308 *)p)->f4 / 1350;

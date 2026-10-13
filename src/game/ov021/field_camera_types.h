@@ -163,7 +163,7 @@ typedef struct FieldCameraMotion {
     FieldCameraUpdateFunc callback;     /* 0xBC: per frame, runs before the mode update; 0 none */
 } FieldCameraMotion;
 
-/* The field camera work (0x1B0 bytes, heap tag 0x80, func_0218E018). */
+/* The field camera work (0x1B0 bytes, heap tag 0x80, FIELD_CAMERA_Create). */
 typedef struct FieldCamera {
     unsigned short heapId;      /* 0x00 */
     unsigned char pad02[2];     /* 0x02 */

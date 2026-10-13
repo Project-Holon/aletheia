@@ -1,5 +1,5 @@
 /*
- * function: func_021B3F00
+ * function: SCRCMD_PROC_FLD_InitShopCells
  * address:  0x021B3F00
  * packet:   pkt_ov021_021B3F00
  * region:   ov021
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_0204B100  0x0204B100  arm
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   func_0204B22C  0x0204B22C  arm
- *   func_021B3C78  0x021B3C78  thumb  ov021
- *   func_021B3CFC  0x021B3CFC  thumb  ov021
- *   func_021B3DEC  0x021B3DEC  thumb  ov021
+ *   SCRCMD_PROC_FLD_LoadCursorResources  0x021B3C78  thumb  ov021
+ *   SCRCMD_PROC_FLD_LoadIconResources  0x021B3CFC  thumb  ov021
+ *   SCRCMD_PROC_FLD_CreateShopActors  0x021B3DEC  thumb  ov021
  */
 #include "../include/Obj00037.h"
 
@@ -24,19 +24,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
-extern void func_021B3C78(char *p);
+extern void SCRCMD_PROC_FLD_LoadCursorResources(char *p);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_021B3CFC(char *w);
-extern void func_021B3DEC(char *w);
+extern void SCRCMD_PROC_FLD_LoadIconResources(char *w);
+extern void SCRCMD_PROC_FLD_CreateShopActors(char *w);
 
-void func_021B3F00(u8 *w)
+void SCRCMD_PROC_FLD_InitShopCells(u8 *w)
 {
-    ((struct Obj00037 *)w)->f1BC = (u32)func_0204B100(5, 1, ((struct Obj00037 *)w)->f4);
+    ((struct Obj00037 *)w)->f1BC = (u32)CLACT_CreateUnit(5, 1, ((struct Obj00037 *)w)->f4);
     func_0204B22C((struct Bank *)(((struct Obj00037 *)w)->f1BC), 1);
-    func_021B3C78((char *)w);
+    SCRCMD_PROC_FLD_LoadCursorResources((char *)w);
     ((struct Obj00037 *)w)->f1F8 = func_020490F4(0x19, ((struct Obj00037 *)w)->f4);
-    func_021B3CFC((char *)w);
-    func_021B3DEC((char *)w);
+    SCRCMD_PROC_FLD_LoadIconResources((char *)w);
+    SCRCMD_PROC_FLD_CreateShopActors((char *)w);
 }

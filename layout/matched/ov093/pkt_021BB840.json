@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB840",
+   "name": "BTL_SERVER_SetClientAdapterSlot",
    "address": "0x021BB840",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB8A8",
+   "name": "BTL_SERVER_GetActionTableValue",
    "address": "0x021BB8A8",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB8B0",
+   "name": "BTL_SERVER_GetActionTableEntry",
    "address": "0x021BB8B0",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB964",
+   "name": "BTL_SERVER_GetFlow",
    "address": "0x021BB964",
    "kind": "game",
    "region": "ov093",

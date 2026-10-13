@@ -1,7 +1,7 @@
 /*
  * file:     unit_02175C40.c
  * unit:     yes
- * function: func_02175C40, INTRUDE_COMM_SetNoticeState, INTRUDE_COMM_FindFreeResultSlot, INTRUDE_COMM_StoreResultRecord, func_02175CF4, INTRUDE_COMM_ClearJoinStatus, INTRUDE_COMM_PromoteRequestToResult, INTRUDE_COMM_SetResultRecord, func_02175DA8, func_02175DCC, func_02175DE4, INTRUDE_COMM_RecordResultOutcome, func_02175E90, INTRUDE_COMM_IsResultConfirmed, INTRUDE_COMM_GetLeaveFlag, INTRUDE_COMM_ResetMemberName, INTRUDE_COMM_FillMemberName, INTRUDE_COMM_SetMemberEntry, func_02175FB4, INTRUDE_COMM_IsJoinRequestValid, INTRUDE_COMM_ReceiveJoinRequest, INTRUDE_COMM_SendProposalReplies, INTRUDE_COMM_SendPendingReplies, INTRUDE_COMM_StoreJoinReply, INTRUDE_COMM_TakeJoinReply, INTRUDE_COMM_ClearJoinReply, func_0217620C, func_02176230, func_02176258, INTRUDE_COMM_SetWordSetPlayerName, func_021762C0, func_021762D8, INTRUDE_COMM_ResetOutcomes, func_021763D8, INTRUDE_COMM_CountOutcomes, INTRUDE_COMM_PartyProcInit, INTRUDE_COMM_PartyProcMain
+ * function: INTRUDE_COMM_TakeNoticeState, INTRUDE_COMM_SetNoticeState, INTRUDE_COMM_FindFreeResultSlot, INTRUDE_COMM_StoreResultRecord, INTRUDE_COMM_GetJoinStatus, INTRUDE_COMM_ClearJoinStatus, INTRUDE_COMM_PromoteRequestToResult, INTRUDE_COMM_SetResultRecord, INTRUDE_COMM_HasResult, INTRUDE_COMM_GetRequestKind, INTRUDE_COMM_GetResultCount, INTRUDE_COMM_RecordResultOutcome, INTRUDE_COMM_HasResultReward, INTRUDE_COMM_IsResultConfirmed, INTRUDE_COMM_GetLeaveFlag, INTRUDE_COMM_ResetMemberName, INTRUDE_COMM_FillMemberName, INTRUDE_COMM_SetMemberEntry, INTRUDE_COMM_GetMemberNameNetId, INTRUDE_COMM_IsJoinRequestValid, INTRUDE_COMM_ReceiveJoinRequest, INTRUDE_COMM_SendProposalReplies, INTRUDE_COMM_SendPendingReplies, INTRUDE_COMM_StoreJoinReply, INTRUDE_COMM_TakeJoinReply, INTRUDE_COMM_ClearJoinReply, INTRUDE_COMM_IsRequestFromNetId, INTRUDE_COMM_GetRequesterNetId, INTRUDE_COMM_IsRequestFromSelf, INTRUDE_COMM_SetWordSetPlayerName, INTRUDE_COMM_SetWordSetMemberName, INTRUDE_COMM_SetWordSetRequest, INTRUDE_COMM_ResetOutcomes, INTRUDE_COMM_PickEntryForKind, INTRUDE_COMM_CountOutcomes, INTRUDE_COMM_PartyProcInit, INTRUDE_COMM_PartyProcMain
  * address:  0x02175C40
  * region:   ov011
  * compiler: dsi/1.1p1
@@ -14,40 +14,40 @@
  *
  * symbols:
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_021756A4 0x021756A4 thumb ov011
- *   func_02175B14 0x02175B14 thumb ov011
+ *   INTRUDE_COMM_GetPartnerTallyValid 0x021756A4 thumb ov011
+ *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
  *   func_02026478  0x02026478  thumb
  *   func_02012B58  0x02012B58  thumb
- *   func_020127B8  0x020127B8  thumb
+ *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   func_02012950  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
- *   func_021584F4  0x021584F4  thumb  ov010
- *   func_02175BCC 0x02175BCC thumb ov011
+ *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
+ *   INTRUDE_COMM_GetSessionResult 0x02175BCC thumb ov011
  *   func_02082BCC 0x02082BCC arm
- *   func_021583EC 0x021583EC thumb ov010
+ *   GAME_DATA_GetMyStatusByNetId 0x021583EC thumb ov010
  *   func_020084F8 0x020084F8 thumb
  *   func_02008550 0x02008550 thumb
- *   func_021583CC  0x021583CC  thumb  ov010
+ *   GAME_DATA_GetBattleRecSlotByNetId  0x021583CC  thumb  ov010
  *   func_0200855C  0x0200855C  thumb
  *   INTRUDE_COMM_IsValidObjCode  0x021756B0  thumb  ov011
- *   func_021756D0  0x021756D0  thumb  ov011
- *   func_020392B8  0x020392B8  arm
- *   func_0203D1B4  0x0203D1B4  arm
+ *   INTRUDE_COMM_IsValidProfileCode  0x021756D0  thumb  ov011
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   INTRUDE_COMM_SetSessionRequestSendFlag  0x02175920  thumb  ov011
  *   func_0203F4FC  0x0203F4FC  arm
  *   INTRUDE_CMD_SendJoinReply 0x02173E6C thumb ov011
  *   memset 0x02082BCC arm
  *   INTRUDE_CMD_SendProposalReply  0x021740AC  thumb  ov011
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  *   func_0201EE0C  0x0201EE0C  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201EF40  0x0201EF40  thumb
  *   func_0201F184  0x0201F184  thumb
  *   gIntrudePickTable     0x02176C4C  data  ov011  a1
  *   func_020056EC  0x020056EC  thumb
- *   func_0203159C  0x0203159C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_Create  0x02031324  arm
  *   func_020120F4  0x020120F4  thumb
  *   func_02012934  0x02012934  thumb
@@ -63,18 +63,18 @@
  *   func_02012138  0x02012138  thumb
  *   PROCSYS_Main  0x02031330  arm
  *   func_0200FB24  0x0200FB24  thumb
- *   func_0203CDBC  0x0203CDBC  arm
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
  *   BTL_SETUP_SetParty  0x02013128  thumb
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_HANDLE_SetUserInfo  0x0203A424  arm
  *   func_02039CB4  0x02039CB4  arm
  *   func_02034AC4  0x02034AC4  arm
- *   func_0203A574  0x0203A574  arm
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   PROCSYS_Push  0x02031348  arm
- *   func_0203CD98  0x0203CD98  arm
- *   func_0203A5E4  0x0203A5E4  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   BTL_SETUP_FreeSlots  0x020130DC  thumb
  *   ov093_id       0x0000005D  data  a1
@@ -153,39 +153,39 @@ typedef struct IntrudeJoinReply {
 } IntrudeJoinReply;
 
 extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
-extern u8 func_021756A4(IntrudeCommSys *w);
-extern int func_02175B14(IntrudeSession *session);
+extern u8 INTRUDE_COMM_GetPartnerTallyValid(IntrudeCommSys *w);
+extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
 extern void *func_02026478(struct GameComm *gameComm);
 extern u8 func_02012B58(const struct SaveData *saveData);
-extern IntrudeSaveSlot *func_020127B8(void *saveData);
+extern IntrudeSaveSlot *GAME_DATA_GetLastBattleRecSlot(void *saveData);
 extern struct MemberRecord *func_02012950(void *saveData, u32 index);
 extern u32 func_02008530(const struct MemberRecord *record);
-extern int func_021584F4(int a0, int a1);
-extern IntrudeResultRecord *func_02175BCC(IntrudeSession *session);
+extern int INTRUDE_COMM_NormalizeVersion(int a0, int a1);
+extern IntrudeResultRecord *INTRUDE_COMM_GetSessionResult(IntrudeSession *session);
 extern void func_02082BCC(void *, int, int);
-extern int func_021583EC(void *saveData, int index);
+extern int GAME_DATA_GetMyStatusByNetId(void *saveData, int index);
 extern u32 func_020084F8(void *record, void *dest, u32 count);
 extern int func_02008550(const struct MemberRecord *);
-extern int func_021583CC(void *saveData, int index);
+extern int GAME_DATA_GetBattleRecSlotByNetId(void *saveData, int index);
 extern u8 func_0200855C(const struct MemberRecord *record);
 extern int INTRUDE_COMM_IsValidObjCode(int value);
-extern int func_021756D0(u32 a);
-extern u32 func_020392B8(void);
-extern int func_0203D1B4(void);
+extern int INTRUDE_COMM_IsValidProfileCode(u32 a);
+extern u32 GFL_NET_SYSTEM_GetConnectNum(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern void INTRUDE_COMM_SetSessionRequestSendFlag(IntrudeSession *session);
 extern u32 func_0203F4FC(void);
 extern int INTRUDE_CMD_SendJoinReply(int a, int b, int c);
 extern void *memset(void *p, int value, unsigned int size);
 extern int INTRUDE_CMD_SendProposalReply(int a, int b, int c, ...);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 extern u32 func_020056EC(u32 a);
-extern void *func_0203159C(struct Proc *proc, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heap);
 extern void *PROCSYS_Create(int heap);
 extern void *func_020120F4(const struct GameSystem *p);
 extern void *func_02012934(const void *p);
@@ -200,40 +200,40 @@ extern void func_02034714(const char *file, u32 line, const char *expr);
 extern u32 func_02012138(const struct GameSystem *a);
 extern u32 PROCSYS_Main(void *a);
 extern u32 func_0200FB24(void);
-extern int func_0203CDBC(void);
-extern GFLNetHandle *func_020399A8(void);
+extern int GFL_NET_IsSessionNull(void);
+extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void BTL_SETUP_SetupCommSingle(u32 work, void *h, GFLNetHandle *handle, u32 p3, u16 p4);
 extern void BTL_SETUP_SetParty(void *p, void *src, int i);
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
 extern u32 func_02039CB4(GFLNetHandle *handle, u32 lo, u32 hi);
 extern int func_02034AC4(int id);
-extern void func_0203A574(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
 extern void PROCSYS_Push(u32 task, int b, void *c, IntrudePartyWork *w);
-extern int func_0203CD98(void);
-extern void func_0203A5E4(u32 groupKey);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey);
 extern void func_02034A5C(int handle);
 extern void BTL_SETUP_FreeSlots(IntrudePartyWork *w);
-int func_02175C40(IntrudeSession *session);
+int INTRUDE_COMM_TakeNoticeState(IntrudeSession *session);
 void INTRUDE_COMM_SetNoticeState(IntrudeSession *session, int noticeState);
 int INTRUDE_COMM_FindFreeResultSlot(IntrudeSession *session, IntrudeMemberRecord *record, int netId);
 int INTRUDE_COMM_StoreResultRecord(IntrudeSession *session, IntrudeMemberRecord *record, int netId);
-int func_02175CF4(IntrudeCommSys *w, IntrudeSession *session);
+int INTRUDE_COMM_GetJoinStatus(IntrudeCommSys *w, IntrudeSession *session);
 void INTRUDE_COMM_ClearJoinStatus(IntrudeSession *session);
 void INTRUDE_COMM_SetJoinStatus(IntrudeSession *session, u8 status);
 void INTRUDE_COMM_PromoteRequestToResult(void *unused, IntrudeSession *session);
 void INTRUDE_COMM_SetResultRecord(void *unused, IntrudeSession *session, IntrudeResultRecord *result);
-int func_02175DA8(IntrudeSession *session);
-int func_02175DCC(IntrudeSession *session);
-int func_02175DE4(IntrudeCommSys *w, IntrudeSession *session);
+int INTRUDE_COMM_HasResult(IntrudeSession *session);
+int INTRUDE_COMM_GetRequestKind(IntrudeSession *session);
+int INTRUDE_COMM_GetResultCount(IntrudeCommSys *w, IntrudeSession *session);
 void INTRUDE_COMM_RecordResultOutcome(void *saveData, IntrudeCommSys *w, IntrudeResultRecord *result);
-int func_02175E90(IntrudeCommSys *w, IntrudeSession *session);
+int INTRUDE_COMM_HasResultReward(IntrudeCommSys *w, IntrudeSession *session);
 int INTRUDE_COMM_IsResultConfirmed(IntrudeSession *session);
 int INTRUDE_COMM_GetLeaveFlag(IntrudeSession *session);
 void INTRUDE_COMM_ResetMemberName(IntrudeMemberName *name);
 void INTRUDE_COMM_FillMemberName(IntrudeCommSys *w, IntrudeMemberName *name, u8 netId);
 void INTRUDE_COMM_SetMemberEntry(IntrudeCommSys *w, IntrudeSession *session, u32 senderNetId, int memberIndex);
-int func_02175FB4(IntrudeMemberName *name);
+int INTRUDE_COMM_GetMemberNameNetId(IntrudeMemberName *name);
 int INTRUDE_COMM_IsJoinRequestValid(IntrudeSession *session, IntrudeJoinRequest *request);
 int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, IntrudeJoinRequest *request, int senderNetId);
 void INTRUDE_COMM_SendProposalReplies(IntrudeCommSys *w, IntrudeSession *session);
@@ -241,14 +241,14 @@ void INTRUDE_COMM_SendPendingReplies(IntrudeCommSys *w, IntrudeSession *session)
 void INTRUDE_COMM_StoreJoinReply(IntrudeSession *session, IntrudeJoinReply *reply);
 u8 INTRUDE_COMM_TakeJoinReply(IntrudeSession *session);
 void INTRUDE_COMM_ClearJoinReply(IntrudeSession *session);
-int func_0217620C(IntrudeSession *session, int netId);
-u8 func_02176230(IntrudeCommSys *w, IntrudeSession *session);
-int func_02176258(IntrudeCommSys *w);
+int INTRUDE_COMM_IsRequestFromNetId(IntrudeSession *session, int netId);
+u8 INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *w, IntrudeSession *session);
+int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *w);
 void INTRUDE_COMM_SetWordSetPlayerName(struct WordSet *wordSet, u32 slot, const IntrudeNameChars *chars, u32 size, u16 heapId, u32 gender);
-void func_021762C0(struct WordSet *wordSet, u32 slot, IntrudeMemberName *name, u16 heapId);
-void func_021762D8(const IntrudeRequestHead *head, IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId);
+void INTRUDE_COMM_SetWordSetMemberName(struct WordSet *wordSet, u32 slot, IntrudeMemberName *name, u16 heapId);
+void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId);
 void INTRUDE_COMM_ResetOutcomes(IntrudeSaveSlot *save);
-void func_021763D8(IntrudeSaveSlot *save, u32 kind);
+void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind);
 int INTRUDE_COMM_CountOutcomes(IntrudeSaveSlot *save, u8 *doneAsFirst, u8 *doneAsSecond);
 int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam *param);
 int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param, IntrudePartyWork *work);
@@ -260,7 +260,7 @@ extern char d_021EFDAC[];
 
 
 /* Return the notice state (0 none, 1 start, 2 end) and clear it. */
-int func_02175C40(IntrudeSession *session)
+int INTRUDE_COMM_TakeNoticeState(IntrudeSession *session)
 {
     int noticeState;
     noticeState = session->noticeState;
@@ -306,12 +306,12 @@ int INTRUDE_COMM_StoreResultRecord(IntrudeSession *session, IntrudeMemberRecord 
  * extent: Two alignment bytes at 02175D1E before D20.
  * note: Outer non-one guard returns the original byte, including values beyond boolean.
  */
-int func_02175CF4(IntrudeCommSys *w, IntrudeSession *session)
+int INTRUDE_COMM_GetJoinStatus(IntrudeCommSys *w, IntrudeSession *session)
 {
     int status;
     status = session->joinStatus;
     if (status == 1) {
-        if (func_02175DA8(session) == 1 && func_021756A4(w) == 1) return 1;
+        if (INTRUDE_COMM_HasResult(session) == 1 && INTRUDE_COMM_GetPartnerTallyValid(w) == 1) return 1;
         return 0;
     }
     return status;
@@ -351,7 +351,7 @@ void INTRUDE_COMM_SetResultRecord(void *unused, IntrudeSession *session, Intrude
     session->hasResult = 1;
 }
 
-int func_02175DA8(IntrudeSession *session)
+int INTRUDE_COMM_HasResult(IntrudeSession *session)
 {
     IntrudeResultRecord *result;
     result = &session->result;
@@ -360,13 +360,13 @@ int func_02175DA8(IntrudeSession *session)
 }
 
 /* Kind of the current request, or 6 when there is none. */
-int func_02175DCC(IntrudeSession *session)
+int INTRUDE_COMM_GetRequestKind(IntrudeSession *session)
 {
-    if (func_02175B14(session) == 0) return 6;
+    if (INTRUDE_COMM_IsSessionActive(session) == 0) return 6;
     return session->request.head.kind;
 }
 
-int func_02175DE4(IntrudeCommSys *w, IntrudeSession *session)
+int INTRUDE_COMM_GetResultCount(IntrudeCommSys *w, IntrudeSession *session)
 {
     IntrudeResultRecord *result;
     void *saveData;
@@ -396,10 +396,10 @@ void INTRUDE_COMM_RecordResultOutcome(void *saveData, IntrudeCommSys *w, Intrude
     int outcome;
     struct MemberRecord *partner;
 
-    save = func_020127B8(saveData);
+    save = GAME_DATA_GetLastBattleRecSlot(saveData);
     partner = func_02012950(saveData, result->partnerIds[0]);
     statusCode = w->peers[result->partnerIds[0]].statusCode;
-    outcome = func_021584F4((u8)statusCode, func_02008530(partner));
+    outcome = INTRUDE_COMM_NormalizeVersion((u8)statusCode, func_02008530(partner));
     if (outcome == 0x14) {
         save->outcomes[result->record.head.kind] = 1;
     } else if (outcome == 0x15) {
@@ -410,10 +410,10 @@ void INTRUDE_COMM_RecordResultOutcome(void *saveData, IntrudeCommSys *w, Intrude
 /*
  * interface: DE4 source declares one argument; original E90 visibly sets r1, preserved here.
  */
-int func_02175E90(IntrudeCommSys *w, IntrudeSession *session)
+int INTRUDE_COMM_HasResultReward(IntrudeCommSys *w, IntrudeSession *session)
 {
-    if (func_02175DA8(session) == 0) return 0;
-    if (func_02175DE4(w, session) > 0) return 1;
+    if (INTRUDE_COMM_HasResult(session) == 0) return 0;
+    if (INTRUDE_COMM_GetResultCount(w, session) > 0) return 1;
     return 0;
 }
 
@@ -424,7 +424,7 @@ int func_02175E90(IntrudeCommSys *w, IntrudeSession *session)
 int INTRUDE_COMM_IsResultConfirmed(IntrudeSession *session)
 {
     IntrudeResultRecord *result;
-    result = func_02175BCC(session);
+    result = INTRUDE_COMM_GetSessionResult(session);
     if (result == 0) return 0;
     if (result->confirmed == 1) return 1;
     return 0;
@@ -454,7 +454,7 @@ void INTRUDE_COMM_FillMemberName(IntrudeCommSys *w, IntrudeMemberName *name, u8 
 {
     int record;
     name->netId = netId;
-    record = func_021583EC(func_02026478(w->gameComm), name->netId);
+    record = GAME_DATA_GetMyStatusByNetId(func_02026478(w->gameComm), name->netId);
     func_020084F8((void *)record, name, 8);
     name->gender = func_02008550((const struct MemberRecord *)record);
 }
@@ -474,10 +474,10 @@ void INTRUDE_COMM_SetMemberEntry(IntrudeCommSys *w, IntrudeSession *session, u32
     saveData = func_02026478(w->gameComm);
     entry = &session->members[memberIndex];
     if (entry->filled != 1) {
-        name = (IntrudeNameChars *)func_021583CC(saveData, memberIndex);
-        record = func_021583EC(saveData, memberIndex);
+        name = (IntrudeNameChars *)GAME_DATA_GetBattleRecSlotByNetId(saveData, memberIndex);
+        record = GAME_DATA_GetMyStatusByNetId(saveData, memberIndex);
         gender = func_0200855C((const struct MemberRecord *)record);
-        genderFlag = func_021584F4(gender, func_02008530((const struct MemberRecord *)record)) == 0x15;
+        genderFlag = INTRUDE_COMM_NormalizeVersion(gender, func_02008530((const struct MemberRecord *)record)) == 0x15;
         entry->name = *name;
         entry->gender = genderFlag;
         entry->senderNetId = senderNetId;
@@ -486,7 +486,7 @@ void INTRUDE_COMM_SetMemberEntry(IntrudeCommSys *w, IntrudeSession *session, u32
     }
 }
 
-int func_02175FB4(IntrudeMemberName *name)
+int INTRUDE_COMM_GetMemberNameNetId(IntrudeMemberName *name)
 {
     return name->netId;
 }
@@ -507,9 +507,9 @@ int INTRUDE_COMM_IsJoinRequestValid(IntrudeSession *session, IntrudeJoinRequest 
     }
     for (i = 0; i < 2; i++) {
         if (head->kind == 3) {
-            if (func_021756D0(head->param.x) == 0) return 0;
+            if (INTRUDE_COMM_IsValidProfileCode(head->param.x) == 0) return 0;
         } else if (head->kind == 4) {
-            if (func_021756D0(head->param.y) == 0) return 0;
+            if (INTRUDE_COMM_IsValidProfileCode(head->param.y) == 0) return 0;
         }
     }
     return 1;
@@ -520,7 +520,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, 
     IntrudeMemberRecord *pending = &session->request;
 
     func_02082BCC(&session->slots[senderNetId], 0, sizeof(IntrudeProposalSlot));
-    if (func_02175B14(&w->session) == 1) {
+    if (INTRUDE_COMM_IsSessionActive(&w->session) == 1) {
         session->slots[senderNetId].state = 2;
         return 0;
     }
@@ -529,7 +529,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, 
         return 0;
     }
     if (request->head.kind == 0 || request->head.kind == 3) {
-        if (func_020392B8() != 2 || func_0203D1B4() != 2) {
+        if (GFL_NET_SYSTEM_GetConnectNum() != 2 || GFL_NET_GetNegotiationNum() != 2) {
             session->slots[senderNetId].state = 4;
             return 0;
         }
@@ -618,9 +618,9 @@ void INTRUDE_COMM_ClearJoinReply(IntrudeSession *session)
 /*
  * extent: two alignment bytes at 0217622E.
  */
-int func_0217620C(IntrudeSession *session, int netId)
+int INTRUDE_COMM_IsRequestFromNetId(IntrudeSession *session, int netId)
 {
-    if (func_02175B14(session) == 0) return 0;
+    if (INTRUDE_COMM_IsSessionActive(session) == 0) return 0;
     if (session->request.name.netId == netId) return 1;
     return 0;
 }
@@ -630,9 +630,9 @@ int func_0217620C(IntrudeSession *session, int netId)
  * interface: original +0x1A/+0x1C narrows the full-width call result;
  * the callee's filed u8 return removes this pair (r2: DIFF 9 bytes).
  */
-u8 func_02176230(IntrudeCommSys *w, IntrudeSession *session)
+u8 INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *w, IntrudeSession *session)
 {
-    if (func_02175B14(session) == 0) {
+    if (INTRUDE_COMM_IsSessionActive(session) == 0) {
         return (int)func_02012B58(func_02026478(w->gameComm));
     }
     return session->request.name.netId;
@@ -641,9 +641,9 @@ u8 func_02176230(IntrudeCommSys *w, IntrudeSession *session)
 /*
  * extent: two alignment bytes at 0217627E.
  */
-int func_02176258(IntrudeCommSys *w)
+int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *w)
 {
-    if (func_0217620C(&w->session, func_02012B58(func_02026478(w->gameComm))) == 1) return 1;
+    if (INTRUDE_COMM_IsRequestFromNetId(&w->session, func_02012B58(func_02026478(w->gameComm))) == 1) return 1;
     return 0;
 }
 
@@ -651,47 +651,47 @@ void INTRUDE_COMM_SetWordSetPlayerName(struct WordSet *wordSet, u32 slot, const 
 {
     struct U16Vec *buffer;
 
-    buffer = func_020457B0(size, heapId);
-    func_02045994((struct Strbuf *)buffer, chars->chars, size);
+    buffer = STRBUF_Create(size, heapId);
+    STRBUF_SetStringN((struct Strbuf *)buffer, chars->chars, size);
     func_0201EE0C(wordSet, slot, buffer, gender, 1, 2);
-    func_02045808(buffer);
+    STRBUF_Delete(buffer);
 }
 
-void func_021762C0(struct WordSet *wordSet, u32 slot, IntrudeMemberName *name, u16 heapId)
+void INTRUDE_COMM_SetWordSetMemberName(struct WordSet *wordSet, u32 slot, IntrudeMemberName *name, u16 heapId)
 {
     INTRUDE_COMM_SetWordSetPlayerName(wordSet, slot, &name->name, 8, heapId, name->gender);
 }
 
-void func_021762D8(const IntrudeRequestHead *head, IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId)
+void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId)
 {
     int count;
 
     switch (head->kind) {
     case 0:
-        func_021762C0(wordSet, 0, name, heapId);
+        INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         func_0201EFA4(wordSet, 1, head->param.x, 3, 0, 1);
         break;
     case 1:
-        func_021762C0(wordSet, 0, name, heapId);
+        INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         func_0201F184(wordSet, 1, head->param.x);
         break;
     case 2:
-        func_021762C0(wordSet, 0, name, heapId);
+        INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         func_0201F184(wordSet, 1, head->param.x);
         break;
     case 3: {
         const IntrudeParamPair *param = &head->param;
-        func_021762C0(wordSet, 0, name, heapId);
+        INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         func_0201EF40(wordSet, 1, param->x);
         func_0201EFA4(wordSet, 2, param->y, 5, 0, 1);
         break;
     }
     case 4:
         func_0201EF40(wordSet, 0, head->param.y);
-        func_021762C0(wordSet, 1, name, heapId);
+        INTRUDE_COMM_SetWordSetMemberName(wordSet, 1, name, heapId);
         break;
     case 5:
-        func_021762C0(wordSet, 0, name, heapId);
+        INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
         break;
     }
     func_0201EFA4(wordSet, 2, head->amount, 4, 0, 1);
@@ -704,7 +704,7 @@ void func_021762D8(const IntrudeRequestHead *head, IntrudeMemberName *name, stru
 
 /*
  * Zeroes the six bytes at +6 one at a time, and after each store lets
- * func_021763D8 fill p[key] for key 0..5.  Called from arm9 func_0200BDE4
+ * INTRUDE_COMM_PickEntryForKind fill p[key] for key 0..5.  Called from arm9 func_0200BDE4
  * (bl at 0x0200BDF2) and from ov011 at 0x0217644C.
  */
 void INTRUDE_COMM_ResetOutcomes(IntrudeSaveSlot *save)
@@ -713,12 +713,12 @@ void INTRUDE_COMM_ResetOutcomes(IntrudeSaveSlot *save)
 
     for (kind = 0; kind < 6; kind++) {
         save->outcomes[kind] = 0;
-        func_021763D8(save, kind);
+        INTRUDE_COMM_PickEntryForKind(save, kind);
     }
 }
 
 /* Pick the table row for one kind: the first row of that kind that the points allow. */
-void func_021763D8(IntrudeSaveSlot *save, u32 kind)
+void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind)
 {
     int points;
     u32 row;
@@ -759,7 +759,7 @@ int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam 
     int count;
 
     count = 0;
-    work = func_0203159C(proc, 0x100, 4);
+    work = PROCSYS_AllocProcWork(proc, 0x100, 4);
     func_02082BCC(work, 0, 0x100);
     work->asyncTask = PROCSYS_Create(4);
     list = func_02012934(func_020120F4(param->gameSystem));
@@ -795,44 +795,44 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
     window = func_020120F4(param->gameSystem);
     func_02012138(param->gameSystem);
     busy = PROCSYS_Main(work->asyncTask);
-    if (func_0200FB24() != 0 || func_0203CDBC() == 1) {
+    if (func_0200FB24() != 0 || GFL_NET_IsSessionNull() == 1) {
         if (*state > 0 && *state < 6) {
             *state = 7;
         }
     }
     switch (*state) {
     case 0:
-        BTL_SETUP_SetupCommSingle((u32)work, window, func_020399A8(), 1, 4);
+        BTL_SETUP_SetupCommSingle((u32)work, window, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         BTL_SETUP_SetParty(work, work->party, 0);
-        if (func_02039338() < param->partnerNetId) {
+        if (GFL_NET_SYSTEM_GetCurrentAid() < param->partnerNetId) {
             work->isParent = 0;
         } else {
             work->isParent = 1;
         }
         work->memberLimit = 15;
         work->beaconSize = 0x490;
-        work->memberMask = (1 << param->partnerNetId) | (1 << func_02039338());
+        work->memberMask = (1 << param->partnerNetId) | (1 << GFL_NET_SYSTEM_GetCurrentAid());
         work->timeoutFrames = 30;
         (*state)++;
         break;
     case 1:
-        GFL_NET_HANDLE_SetUserInfo(func_020399A8(), 0x15, 2, (u16)((1 << param->partnerNetId) | (1 << func_02039338())));
+        GFL_NET_HANDLE_SetUserInfo(GFL_NET_HANDLE_GetCurrentHandle(), 0x15, 2, (u16)((1 << param->partnerNetId) | (1 << GFL_NET_SYSTEM_GetCurrentAid())));
         (*state)++;
         break;
     case 2:
-        if (func_02039CB4(func_020399A8(), 0x15, 2) == 1) {
+        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x15, 2) == 1) {
             func_02034AC4((int)ov093_id);
             work->overlayLoaded = 1;
-            func_0203A574(0x100, (u32)d_021F03C4, 9, 0);
+            GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
             (*state)++;
         }
         break;
     case 3:
-        GFL_NET_HANDLE_SetUserInfo(func_020399A8(), 0x16, 2, (u16)((1 << param->partnerNetId) | (1 << func_02039338())));
+        GFL_NET_HANDLE_SetUserInfo(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 2, (u16)((1 << param->partnerNetId) | (1 << GFL_NET_SYSTEM_GetCurrentAid())));
         (*state)++;
         break;
     case 4:
-        if (func_02039CB4(func_020399A8(), 0x16, 2) == 1) {
+        if (func_02039CB4(GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 2) == 1) {
             (*state)++;
         }
         break;
@@ -847,8 +847,8 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
         break;
     case 7:
         if (work->overlayLoaded == 1) {
-            if (func_0203CD98() == 1) {
-                func_0203A5E4(0x100);
+            if (GFL_NET_GetRunState() == 1) {
+                GFL_NET_COMMAND_DeleteCommandTable(0x100);
             }
             func_02034A5C((int)ov093_id);
         }

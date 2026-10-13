@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DF6AC",
+   "name": "BTL_HANDLER_ITEM_FlameOrbFlingBurn",
    "address": "0x021DF6AC",
    "kind": "game",
    "region": "ov093",

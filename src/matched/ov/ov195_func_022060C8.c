@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  */
 
 typedef int fx32;
 
 typedef unsigned int   u32;
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
 fx32 func_022060C8(void *p)
 {
-    int v = func_02017E1C(p, 5, 0);
+    int v = POKE_TOOL_GetPartyValue(p, 5, 0);
     fx32 r = -0x12000;
 
     switch (v) {

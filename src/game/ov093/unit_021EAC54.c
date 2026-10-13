@@ -26,15 +26,15 @@
  *   func_0220F3E8 0x0220F3E8 thumb ov198
  *   ov196_id 0x000000C4 data
  *   ov198_id 0x000000C6 data
- *   func_021EE264 0x021EE264 thumb ov093
- *   func_021EE2A0 0x021EE2A0 thumb ov093
- *   func_021EE2F8 0x021EE2F8 thumb ov093
- *   func_021EE318 0x021EE318 thumb ov093
- *   func_021EE370 0x021EE370 thumb ov093
- *   func_021EE390 0x021EE390 thumb ov093
- *   func_021EE228   0x021EE228  thumb  ov093
- *   func_021EE25C   0x021EE25C  thumb  ov093
- *   func_021EE23C 0x021EE23C thumb ov093
+ *   BTLV_SCU_StartBallWindowOpen 0x021EE264 thumb ov093
+ *   BTLV_SCU_UpdateBallWindowOpen 0x021EE2A0 thumb ov093
+ *   BTLV_SCU_StartBallWindowRefresh 0x021EE2F8 thumb ov093
+ *   BTLV_SCU_UpdateBallWindowRefresh 0x021EE318 thumb ov093
+ *   BTLV_SCU_StartBallWindowClose 0x021EE370 thumb ov093
+ *   BTLV_SCU_UpdateBallWindowClose 0x021EE390 thumb ov093
+ *   BTLV_SCU_StartFadeIn   0x021EE228  thumb  ov093
+ *   BTLV_SCU_GetWaitState   0x021EE25C  thumb  ov093
+ *   BTLV_SCU_ClearWaitWindow 0x021EE23C thumb ov093
  *   func_0689B670   0x0689B670  thumb  ov095
  *   func_0689B69C   0x0689B69C  thumb  ov095
  *   func_0689B790   0x0689B790  thumb  ov095
@@ -76,14 +76,14 @@ extern void func_06899D30(void *);
 extern int func_02034AC4(signed int);
 extern void func_02034A5C(int);
 extern void func_0220F3E8(u8 *p);
-extern void func_021EE264(char *, int, struct T *);
-extern int func_021EE2A0(struct O *);
-extern void func_021EE2F8(struct O *);
-extern int func_021EE318(struct O *);
-extern void func_021EE370(struct O *);
-extern int func_021EE390(struct O *);
-extern void func_021EE23C(struct Q *q);
-extern int func_021EE25C(void *);
+extern void BTLV_SCU_StartBallWindowOpen(char *, int, struct T *);
+extern int BTLV_SCU_UpdateBallWindowOpen(struct O *);
+extern void BTLV_SCU_StartBallWindowRefresh(struct O *);
+extern int BTLV_SCU_UpdateBallWindowRefresh(struct O *);
+extern void BTLV_SCU_StartBallWindowClose(struct O *);
+extern int BTLV_SCU_UpdateBallWindowClose(struct O *);
+extern void BTLV_SCU_ClearWaitWindow(struct Q *q);
+extern int BTLV_SCU_GetWaitState(void *);
 extern void func_0689B780(void *a, void *b);
 void func_021EAC54(E64 *p, u32 a2);
 void func_021EAC64(u8 *p, u8 a, int c);
@@ -164,61 +164,61 @@ int func_021EAC80(u8 *p, u8 *out)
 
 void func_021EADA4(u8 *p, int a, struct T *b)
 {
-    func_021EE264(*(char * *)&((struct Obj21571 *)p)->f17C, a, b);
+    BTLV_SCU_StartBallWindowOpen(*(char * *)&((struct Obj21571 *)p)->f17C, a, b);
 }
 
 
 int func_021EADB4(u8 *p)
 {
-    return func_021EE2A0(*(struct O * *)&((struct Obj21572 *)p)->f17C);
+    return BTLV_SCU_UpdateBallWindowOpen(*(struct O * *)&((struct Obj21572 *)p)->f17C);
 }
 
 
 void func_021EADC4(u8 *p)
 {
-    func_021EE2F8(*(struct O * *)&((struct Obj21573 *)p)->f17C);
+    BTLV_SCU_StartBallWindowRefresh(*(struct O * *)&((struct Obj21573 *)p)->f17C);
 }
 
 
 int func_021EADD4(u8 *p)
 {
-    return func_021EE318(*(struct O * *)&((struct Obj21574 *)p)->f17C);
+    return BTLV_SCU_UpdateBallWindowRefresh(*(struct O * *)&((struct Obj21574 *)p)->f17C);
 }
 
 
 void func_021EADE4(u8 *p)
 {
-    func_021EE370(*(struct O * *)&((struct Obj21575 *)p)->f17C);
+    BTLV_SCU_StartBallWindowClose(*(struct O * *)&((struct Obj21575 *)p)->f17C);
 }
 
 
 int func_021EADF4(u8 *p)
 {
-    return func_021EE390(*(struct O * *)&((struct Obj21576 *)p)->f17C);
+    return BTLV_SCU_UpdateBallWindowClose(*(struct O * *)&((struct Obj21576 *)p)->f17C);
 }
 
 
 /*
  * Indexed-dispatch thunk (o18's 23-member shape): the member's whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base; only the scratch register, the index constant and the tail target differ. Tail call T(p[i]) with the index materialised as a scaled immediate.
  */
-void func_021EAE04(u32 *p) { func_021EE228(p[0x5f]); }
+void func_021EAE04(u32 *p) { BTLV_SCU_StartFadeIn(p[0x5f]); }
 
 
 /*
- * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; func_021EE25C is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
+ * Indexed-dispatch thunk (o18's 23-member shape): the whole stream is movs/lsls/ldr/ldr/bx with r0 as the load base, and one argument means the index temp is r1.  Tail call T(p[0x5f]).  The pool word names a mid-stream entry point that no listing labels, so the site caps at MATCH until the TARGET is filed; BTLV_SCU_GetWaitState is an EXACT entry in this shard, which the `matched` class accepts as the witness (brief rule 10), and the call site then attests with no change of its own.
  */
-int func_021EAE14(void **p) { return func_021EE25C(p[0x5f]); }
+int func_021EAE14(void **p) { return BTLV_SCU_GetWaitState(p[0x5f]); }
 
 
 void func_021EAE24(u8 *p)
 {
-    func_021EE23C(((struct Obj21577 *)p)->f17C);
+    BTLV_SCU_ClearWaitWindow(((struct Obj21577 *)p)->f17C);
 }
 
 
 int func_021EAE34(u8 *p)
 {
-    return func_021EE25C(((struct Obj21578 *)p)->f17C);
+    return BTLV_SCU_GetWaitState(((struct Obj21578 *)p)->f17C);
 }
 
 

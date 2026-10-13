@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02051B84",
+   "name": "BUTTON_MAN_Create",
    "address": "0x02051B84",
    "kind": "game",
    "region": "arm9",

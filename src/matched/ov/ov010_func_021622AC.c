@@ -1,5 +1,5 @@
 /*
- * function: func_021622AC
+ * function: EVENT_FIELD_PROCLINK_GetReturnResultSlotSub
  * address: 0x021622AC
  * packet: pkt_ov010_021622AC
  * region: ov010
@@ -13,7 +13,7 @@
 #include "../include/Obj18955.h"
 typedef unsigned short u16;
 extern void func_02082D44(void *, void *, unsigned);
-int func_021622AC(char *p, int index, void *out)
+int EVENT_FIELD_PROCLINK_GetReturnResultSlotSub(char *p, int index, void *out)
 {
     int result = 0;
     if (((struct Obj18955 *)p)->f2 & (1 << (index + 5))) {

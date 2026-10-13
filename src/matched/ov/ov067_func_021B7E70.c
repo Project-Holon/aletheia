@@ -1,5 +1,5 @@
 /*
- * function: func_021B7E70
+ * function: FRAME_LIST_ReadKeys
  * address:  0x021B7E70
  * packet:   pkt_ov067_021B7E70
  * region:   ov067
@@ -18,7 +18,7 @@
  *   func_020355C4  0x020355C4  arm
  *   func_020355D8  0x020355D8  arm
  *   func_0203630C  0x0203630C  arm
- *   func_021B83A0  0x021B83A0  thumb  ov067
+ *   FRAME_LIST_UpdateHoldStage  0x021B83A0  thumb  ov067
  */
 
 typedef unsigned char u8;
@@ -43,9 +43,9 @@ extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
 extern unsigned int func_0203630C(void);
-extern void func_021B83A0(S *p);
+extern void FRAME_LIST_UpdateHoldStage(S *p);
 
-int func_021B7E70(S *p)
+int FRAME_LIST_ReadKeys(S *p)
 {
     int n;
 
@@ -69,7 +69,7 @@ int func_021B7E70(S *p)
         }
         if (p->f62 != 0) {
             p->f96 = 0;
-            func_021B83A0(p);
+            FRAME_LIST_UpdateHoldStage(p);
             return 2;
         }
         return 14;
@@ -85,7 +85,7 @@ int func_021B7E70(S *p)
         }
         if (p->f62 < p->f64) {
             p->f96 = 0;
-            func_021B83A0(p);
+            FRAME_LIST_UpdateHoldStage(p);
             return 3;
         }
         return 14;

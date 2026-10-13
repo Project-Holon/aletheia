@@ -1,6 +1,6 @@
 
 /*
- * function: func_021B88DC
+ * function: FIELD_RAIL_WORK_Advance
  * address:  0x021B88DC
  * packet:   pkt_ov021_021B88DC
  * region:   ov021
@@ -24,19 +24,19 @@
  * Arm-subset compiles (only f08, f08+9404, f08+9434) matched the image's
  * allocation exactly, which isolated the 93D4 arm as the cause.
  * symbols:
- *   func_021B8514  0x021B8514  thumb  ov021
- *   func_021B854C  0x021B854C  thumb  ov021
- *   func_021B8674  0x021B8674  thumb  ov021
- *   func_021B868C  0x021B868C  thumb  ov021
- *   func_021B87D8  0x021B87D8  thumb  ov021
- *   func_021B9278  0x021B9278  thumb  ov021
- *   func_021B9280  0x021B9280  thumb  ov021
- *   func_021B9338  0x021B9338  thumb  ov021
- *   func_021B93D4  0x021B93D4  thumb  ov021
- *   func_021B9404  0x021B9404  thumb  ov021
- *   func_021B9434  0x021B9434  thumb  ov021
- *   func_021B9530  0x021B9530  thumb  ov021
- *   func_021B96AC  0x021B96AC  thumb  ov021
+ *   FIELD_RAIL_POINT_FindLine  0x021B8514  thumb  ov021
+ *   FIELD_RAIL_WORK_TryEnterLine  0x021B854C  thumb  ov021
+ *   FIELD_RAIL_LINE_StartsAtPoint  0x021B8674  thumb  ov021
+ *   FIELD_RAIL_LINE_EndsAtPoint  0x021B868C  thumb  ov021
+ *   FIELD_RAIL_SETTING_GetPoint  0x021B87D8  thumb  ov021
+ *   FIELD_RAIL_LINE_GetLength  0x021B9278  thumb  ov021
+ *   FIELD_RAIL_LINE_GetWidthAt  0x021B9280  thumb  ov021
+ *   FIELD_RAIL_WORK_ClampWidth  0x021B9338  thumb  ov021
+ *   FIELD_RAIL_KEY_Opposite  0x021B93D4  thumb  ov021
+ *   FIELD_RAIL_KEY_TurnRight  0x021B9404  thumb  ov021
+ *   FIELD_RAIL_KEY_TurnLeft  0x021B9434  thumb  ov021
+ *   FIELD_RAIL_WORK_MoveClamped  0x021B9530  thumb  ov021
+ *   FIELD_RAIL_POINT_IsConsistent  0x021B96AC  thumb  ov021
  */
 
 typedef struct {
@@ -62,21 +62,21 @@ typedef struct {
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-u8 *func_021B8514(u8 *p, u32 v, u8 *q, u16 *r, int flag);
-int func_021B854C(u8 *p, u8 *a, u32 arg3, int arg4, int arg5, int arg6, int arg7);
-int func_021B8674(u8 *p, u32 *q, u32 v);
-int func_021B868C(u8 *p, u32 *q, void *v);
-u8 *func_021B87D8(u8 *p, u32 idx);
-int func_021B9278(void *e, int a, void *map);
-int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
-int func_021B9338(u8 *p, u8 *base, u32 arg3, int arg4);
-int func_021B93D4(int dir);
-int func_021B9404(int dir);
-int func_021B9434(int dir);
-void func_021B9530(u16 *t, u8 *p, int dx, int dy, int a6);
-int func_021B96AC(u8 *a, u8 *b);
+u8 *FIELD_RAIL_POINT_FindLine(u8 *p, u32 v, u8 *q, u16 *r, int flag);
+int FIELD_RAIL_WORK_TryEnterLine(u8 *p, u8 *a, u32 arg3, int arg4, int arg5, int arg6, int arg7);
+int FIELD_RAIL_LINE_StartsAtPoint(u8 *p, u32 *q, u32 v);
+int FIELD_RAIL_LINE_EndsAtPoint(u8 *p, u32 *q, void *v);
+u8 *FIELD_RAIL_SETTING_GetPoint(u8 *p, u32 idx);
+int FIELD_RAIL_LINE_GetLength(void *e, int a, void *map);
+int FIELD_RAIL_LINE_GetWidthAt(u8 *a, u32 arg2, u32 arg3, u8 *tbl);
+int FIELD_RAIL_WORK_ClampWidth(u8 *p, u8 *base, u32 arg3, int arg4);
+int FIELD_RAIL_KEY_Opposite(int dir);
+int FIELD_RAIL_KEY_TurnRight(int dir);
+int FIELD_RAIL_KEY_TurnLeft(int dir);
+void FIELD_RAIL_WORK_MoveClamped(u16 *t, u8 *p, int dx, int dy, int a6);
+int FIELD_RAIL_POINT_IsConsistent(u8 *a, u8 *b);
 
-int func_021B88DC(Ov021Mover *p, int dir, int d)
+int FIELD_RAIL_WORK_Advance(Ov021Mover *p, int dir, int d)
 {
     int end;
     Ov021Seg *seg;
@@ -91,14 +91,14 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
         void *e2;
         int flag;
 
-        row = func_021B87D8(p->f24, seg->f04);
+        row = FIELD_RAIL_SETTING_GetPoint(p->f24, seg->f04);
         flag = 0;
-        e0 = func_021B8514(row, dir, p->f24, p->f28, flag);
-        e1 = func_021B8514(row, func_021B9434(dir), p->f24, p->f28, flag);
-        e2 = func_021B8514(row, func_021B9404(dir), p->f24, p->f28, flag);
-        func_021B9530(p->f28, (u8 *)p, d, 0, dir);
+        e0 = FIELD_RAIL_POINT_FindLine(row, dir, p->f24, p->f28, flag);
+        e1 = FIELD_RAIL_POINT_FindLine(row, FIELD_RAIL_KEY_TurnLeft(dir), p->f24, p->f28, flag);
+        e2 = FIELD_RAIL_POINT_FindLine(row, FIELD_RAIL_KEY_TurnRight(dir), p->f24, p->f28, flag);
+        FIELD_RAIL_WORK_MoveClamped(p->f28, (u8 *)p, d, 0, dir);
         if (p->f0C < end) {
-            r = func_021B9280((u8 *)seg, p->f0C, end, p->f24);
+            r = FIELD_RAIL_LINE_GetWidthAt((u8 *)seg, p->f0C, end, p->f24);
             if (r >= (p->f14 < 0 ? -p->f14 : p->f14)) {
                 return dir;
             }
@@ -107,84 +107,84 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
         if (e0 != 0 && flag == 0) {
             int len;
             int pos;
-            func_021B96AC(row, p->f24);
-            len = func_021B9278(e0, p->f1C, p->f24);
-            pos = func_021B9280(e0, p->f0C - end, len, p->f24);
-            r = func_021B854C((u8 *)p, e0, dir, p->f0C - end, p->f14, len, pos);
+            FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+            len = FIELD_RAIL_LINE_GetLength(e0, p->f1C, p->f24);
+            pos = FIELD_RAIL_LINE_GetWidthAt(e0, p->f0C - end, len, p->f24);
+            r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e0, dir, p->f0C - end, p->f14, len, pos);
             if (r != 0) {
                 return r;
             }
         }
         if (e1 != 0 && p->f14 <= 0) {
-            if (func_021B8674(p->f24, e1, (u32)row)) {
+            if (FIELD_RAIL_LINE_StartsAtPoint(p->f24, e1, (u32)row)) {
                 int len;
                 int pos;
-                func_021B96AC(row, p->f24);
-                len = func_021B9278(e1, p->f1C, p->f24);
-                pos = func_021B9280(e1, -p->f14, len, p->f24);
-                r = func_021B854C((u8 *)p, e1, dir, -p->f14, p->f0C - end, len, pos);
+                FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                len = FIELD_RAIL_LINE_GetLength(e1, p->f1C, p->f24);
+                pos = FIELD_RAIL_LINE_GetWidthAt(e1, -p->f14, len, p->f24);
+                r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e1, dir, -p->f14, p->f0C - end, len, pos);
                 if (r != 0) {
                     return r;
                 }
-            } else if (func_021B868C(p->f24, e1, row)) {
+            } else if (FIELD_RAIL_LINE_EndsAtPoint(p->f24, e1, row)) {
                 int len;
                 int pos;
-                func_021B96AC(row, p->f24);
-                len = func_021B9278(e1, p->f1C, p->f24);
-                pos = func_021B9280(e1, len + p->f14, len, p->f24);
-                r = func_021B854C((u8 *)p, e1, dir, len + p->f14, -(p->f0C - end), len, pos);
+                FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                len = FIELD_RAIL_LINE_GetLength(e1, p->f1C, p->f24);
+                pos = FIELD_RAIL_LINE_GetWidthAt(e1, len + p->f14, len, p->f24);
+                r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e1, dir, len + p->f14, -(p->f0C - end), len, pos);
                 if (r != 0) {
                     return r;
                 }
             }
         }
         if (e2 != 0 && p->f14 >= 0) {
-            if (func_021B8674(p->f24, e2, (u32)row)) {
+            if (FIELD_RAIL_LINE_StartsAtPoint(p->f24, e2, (u32)row)) {
                 int len;
                 int pos;
-                func_021B96AC(row, p->f24);
-                len = func_021B9278(e2, p->f1C, p->f24);
-                pos = func_021B9280(e2, p->f14, len, p->f24);
-                r = func_021B854C((u8 *)p, e2, dir, p->f14, -(p->f0C - end), len, pos);
+                FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                len = FIELD_RAIL_LINE_GetLength(e2, p->f1C, p->f24);
+                pos = FIELD_RAIL_LINE_GetWidthAt(e2, p->f14, len, p->f24);
+                r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e2, dir, p->f14, -(p->f0C - end), len, pos);
                 if (r != 0) {
                     return r;
                 }
-            } else if (func_021B868C(p->f24, e2, row)) {
+            } else if (FIELD_RAIL_LINE_EndsAtPoint(p->f24, e2, row)) {
                 int len;
                 int pos;
-                func_021B96AC(row, p->f24);
-                len = func_021B9278(e2, p->f1C, p->f24);
-                pos = func_021B9280(e2, len - p->f14, len, p->f24);
-                r = func_021B854C((u8 *)p, e2, dir, len - p->f14, p->f0C - end, len, pos);
+                FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                len = FIELD_RAIL_LINE_GetLength(e2, p->f1C, p->f24);
+                pos = FIELD_RAIL_LINE_GetWidthAt(e2, len - p->f14, len, p->f24);
+                r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e2, dir, len - p->f14, p->f0C - end, len, pos);
                 if (r != 0) {
                     return r;
                 }
             }
         }
         if (flag) {
-            return func_021B9338((u8 *)p, (u8 *)seg, end, dir);
+            return FIELD_RAIL_WORK_ClampWidth((u8 *)p, (u8 *)seg, end, dir);
         }
         if (p->f0C <= end) {
             return dir;
         }
         p->f0C = p->f0C - d;
         return 0;
-    } else if (dir == func_021B93D4(seg->f08)) {
+    } else if (dir == FIELD_RAIL_KEY_Opposite(seg->f08)) {
         void *row;
         void *e1;
         void *e2;
         void *e0;
         int flag;
 
-        row = func_021B87D8(p->f24, seg->f00);
-        r = func_021B9404(dir);
+        row = FIELD_RAIL_SETTING_GetPoint(p->f24, seg->f00);
+        r = FIELD_RAIL_KEY_TurnRight(dir);
         flag = 0;
-        e1 = func_021B8514(row, r, p->f24, p->f28, flag);
-        e2 = func_021B8514(row, func_021B9434(dir), p->f24, p->f28, flag);
-        e0 = func_021B8514(row, dir, p->f24, p->f28, flag);
-        func_021B9530(p->f28, (u8 *)p, -d, 0, dir);
+        e1 = FIELD_RAIL_POINT_FindLine(row, r, p->f24, p->f28, flag);
+        e2 = FIELD_RAIL_POINT_FindLine(row, FIELD_RAIL_KEY_TurnLeft(dir), p->f24, p->f28, flag);
+        e0 = FIELD_RAIL_POINT_FindLine(row, dir, p->f24, p->f28, flag);
+        FIELD_RAIL_WORK_MoveClamped(p->f28, (u8 *)p, -d, 0, dir);
         if (p->f0C >= 0) {
-            r = func_021B9280((u8 *)seg, p->f0C, end, p->f24);
+            r = FIELD_RAIL_LINE_GetWidthAt((u8 *)seg, p->f0C, end, p->f24);
             if (r >= (p->f14 < 0 ? -p->f14 : p->f14)) {
                 return dir;
             }
@@ -193,121 +193,121 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
         if (e0 != 0 && flag == 0) {
             int len;
             int pos;
-            func_021B96AC(row, p->f24);
-            len = func_021B9278(e0, p->f1C, p->f24);
-            pos = func_021B9280(e0, len - (p->f0C < 0 ? -p->f0C : p->f0C), len, p->f24);
-            r = func_021B854C((u8 *)p, e0, dir, len - (p->f0C < 0 ? -p->f0C : p->f0C), p->f14, len, pos);
+            FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+            len = FIELD_RAIL_LINE_GetLength(e0, p->f1C, p->f24);
+            pos = FIELD_RAIL_LINE_GetWidthAt(e0, len - (p->f0C < 0 ? -p->f0C : p->f0C), len, p->f24);
+            r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e0, dir, len - (p->f0C < 0 ? -p->f0C : p->f0C), p->f14, len, pos);
             if (r != 0) {
                 return r;
             }
         }
         if (e1 != 0 && p->f14 <= 0) {
-            if (func_021B8674(p->f24, e1, (u32)row)) {
+            if (FIELD_RAIL_LINE_StartsAtPoint(p->f24, e1, (u32)row)) {
                 int len;
                 int pos;
-                func_021B96AC(row, p->f24);
-                len = func_021B9278(e1, p->f1C, p->f24);
-                pos = func_021B9280(e1, -p->f14, len, p->f24);
-                r = func_021B854C((u8 *)p, e1, dir, -p->f14, p->f0C, len, pos);
+                FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                len = FIELD_RAIL_LINE_GetLength(e1, p->f1C, p->f24);
+                pos = FIELD_RAIL_LINE_GetWidthAt(e1, -p->f14, len, p->f24);
+                r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e1, dir, -p->f14, p->f0C, len, pos);
                 if (r != 0) {
                     return r;
                 }
-            } else if (func_021B868C(p->f24, e1, row)) {
+            } else if (FIELD_RAIL_LINE_EndsAtPoint(p->f24, e1, row)) {
                 int len;
                 int pos;
-                func_021B96AC(row, p->f24);
-                len = func_021B9278(e1, p->f1C, p->f24);
-                pos = func_021B9280(e1, len + p->f14, len, p->f24);
-                r = func_021B854C((u8 *)p, e1, dir, len + p->f14, -p->f0C, len, pos);
+                FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                len = FIELD_RAIL_LINE_GetLength(e1, p->f1C, p->f24);
+                pos = FIELD_RAIL_LINE_GetWidthAt(e1, len + p->f14, len, p->f24);
+                r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e1, dir, len + p->f14, -p->f0C, len, pos);
                 if (r != 0) {
                     return r;
                 }
             }
         }
         if (e2 != 0 && p->f14 >= 0) {
-            if (func_021B8674(p->f24, e2, (u32)row)) {
+            if (FIELD_RAIL_LINE_StartsAtPoint(p->f24, e2, (u32)row)) {
                 int len;
                 int pos;
-                func_021B96AC(row, p->f24);
-                len = func_021B9278(e2, p->f1C, p->f24);
-                pos = func_021B9280(e2, p->f14, len, p->f24);
-                r = func_021B854C((u8 *)p, e2, dir, p->f14, -p->f0C, len, pos);
+                FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                len = FIELD_RAIL_LINE_GetLength(e2, p->f1C, p->f24);
+                pos = FIELD_RAIL_LINE_GetWidthAt(e2, p->f14, len, p->f24);
+                r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e2, dir, p->f14, -p->f0C, len, pos);
                 if (r != 0) {
                     return r;
                 }
             }
-            if (func_021B868C(p->f24, e2, row)) {
+            if (FIELD_RAIL_LINE_EndsAtPoint(p->f24, e2, row)) {
                 int len;
                 int pos;
-                func_021B96AC(row, p->f24);
-                len = func_021B9278(e2, p->f1C, p->f24);
-                pos = func_021B9280(e2, len - p->f14, len, p->f24);
-                r = func_021B854C((u8 *)p, e2, dir, len - p->f14, p->f0C, len, pos);
+                FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                len = FIELD_RAIL_LINE_GetLength(e2, p->f1C, p->f24);
+                pos = FIELD_RAIL_LINE_GetWidthAt(e2, len - p->f14, len, p->f24);
+                r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e2, dir, len - p->f14, p->f0C, len, pos);
                 if (r != 0) {
                     return r;
                 }
             }
         }
         if (flag) {
-            return func_021B9338((u8 *)p, (u8 *)seg, end, dir);
+            return FIELD_RAIL_WORK_ClampWidth((u8 *)p, (u8 *)seg, end, dir);
         }
         p->f0C = p->f0C + d;
         return 0;
-    } else if (dir == func_021B9404(seg->f08)) {
-        func_021B9530(p->f28, (u8 *)p, 0, d, dir);
+    } else if (dir == FIELD_RAIL_KEY_TurnRight(seg->f08)) {
+        FIELD_RAIL_WORK_MoveClamped(p->f28, (u8 *)p, 0, d, dir);
         if (p->f14 > 0 && p->f14 % 16 == 0) {
             void *row;
             void *e;
             void *row2;
             void *e2;
 
-            row = func_021B87D8(p->f24, seg->f00);
-            e = func_021B8514(row, dir, p->f24, p->f28, 0);
+            row = FIELD_RAIL_SETTING_GetPoint(p->f24, seg->f00);
+            e = FIELD_RAIL_POINT_FindLine(row, dir, p->f24, p->f28, 0);
             if (e != 0) {
-                if (func_021B8674(p->f24, e, (u32)row)) {
+                if (FIELD_RAIL_LINE_StartsAtPoint(p->f24, e, (u32)row)) {
                     int len;
                     int pos;
-                    func_021B96AC(row, p->f24);
-                    len = func_021B9278(e, p->f1C, p->f24);
-                    pos = func_021B9280(e, p->f14, len, p->f24);
-                    r = func_021B854C((u8 *)p, e, dir, p->f14, -p->f0C, len, pos);
+                    FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                    len = FIELD_RAIL_LINE_GetLength(e, p->f1C, p->f24);
+                    pos = FIELD_RAIL_LINE_GetWidthAt(e, p->f14, len, p->f24);
+                    r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e, dir, p->f14, -p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
                 }
-                if (func_021B868C(p->f24, e, row)) {
+                if (FIELD_RAIL_LINE_EndsAtPoint(p->f24, e, row)) {
                     int len;
                     int pos;
-                    func_021B96AC(row, p->f24);
-                    len = func_021B9278(e, p->f1C, p->f24);
-                    pos = func_021B9280(e, len - p->f14, len, p->f24);
-                    r = func_021B854C((u8 *)p, e, dir, len - p->f14, p->f0C, len, pos);
+                    FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                    len = FIELD_RAIL_LINE_GetLength(e, p->f1C, p->f24);
+                    pos = FIELD_RAIL_LINE_GetWidthAt(e, len - p->f14, len, p->f24);
+                    r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e, dir, len - p->f14, p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
                 }
             }
-            row2 = func_021B87D8(p->f24, seg->f04);
-            e2 = func_021B8514(row2, dir, p->f24, p->f28, 0);
+            row2 = FIELD_RAIL_SETTING_GetPoint(p->f24, seg->f04);
+            e2 = FIELD_RAIL_POINT_FindLine(row2, dir, p->f24, p->f28, 0);
             if (e2 != 0) {
-                if (func_021B8674(p->f24, e2, (u32)row2)) {
+                if (FIELD_RAIL_LINE_StartsAtPoint(p->f24, e2, (u32)row2)) {
                     int len;
                     int pos;
-                    func_021B96AC(row2, p->f24);
-                    len = func_021B9278(e2, p->f1C, p->f24);
-                    pos = func_021B9280(e2, p->f14, len, p->f24);
-                    r = func_021B854C((u8 *)p, e2, dir, p->f14, end - p->f0C, len, pos);
+                    FIELD_RAIL_POINT_IsConsistent(row2, p->f24);
+                    len = FIELD_RAIL_LINE_GetLength(e2, p->f1C, p->f24);
+                    pos = FIELD_RAIL_LINE_GetWidthAt(e2, p->f14, len, p->f24);
+                    r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e2, dir, p->f14, end - p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
                 }
-                if (func_021B868C(p->f24, e2, row2)) {
+                if (FIELD_RAIL_LINE_EndsAtPoint(p->f24, e2, row2)) {
                     int len;
                     int pos;
-                    func_021B96AC(row2, p->f24);
-                    len = func_021B9278(e2, p->f1C, p->f24);
-                    pos = func_021B9280(e2, len - p->f14, len, p->f24);
-                    r = func_021B854C((u8 *)p, e2, dir, len - p->f14, -(end - p->f0C), len, pos);
+                    FIELD_RAIL_POINT_IsConsistent(row2, p->f24);
+                    len = FIELD_RAIL_LINE_GetLength(e2, p->f1C, p->f24);
+                    pos = FIELD_RAIL_LINE_GetWidthAt(e2, len - p->f14, len, p->f24);
+                    r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e2, dir, len - p->f14, -(end - p->f0C), len, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -315,11 +315,11 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             }
         }
         if (p->f14 > 0 && p->f14 <= p->f18) {
-            return func_021B9338((u8 *)p, (u8 *)seg, end, dir);
+            return FIELD_RAIL_WORK_ClampWidth((u8 *)p, (u8 *)seg, end, dir);
         }
         return dir;
-    } else if (dir == func_021B9434(seg->f08)) {
-        func_021B9530(p->f28, (u8 *)p, 0, -d, dir);
+    } else if (dir == FIELD_RAIL_KEY_TurnLeft(seg->f08)) {
+        FIELD_RAIL_WORK_MoveClamped(p->f28, (u8 *)p, 0, -d, dir);
         if (p->f14 < 0 && (p->f14 < 0 ? -p->f14 : p->f14) % 16 == 0) {
             void *row;
             void *e;
@@ -328,51 +328,51 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             int lenB;
             int lenA;
 
-            row = func_021B87D8(p->f24, seg->f00);
-            e = func_021B8514(row, dir, p->f24, p->f28, 0);
+            row = FIELD_RAIL_SETTING_GetPoint(p->f24, seg->f00);
+            e = FIELD_RAIL_POINT_FindLine(row, dir, p->f24, p->f28, 0);
             if (e != 0) {
-                if (func_021B8674(p->f24, e, (u32)row)) {
+                if (FIELD_RAIL_LINE_StartsAtPoint(p->f24, e, (u32)row)) {
                     int pos;
-                    func_021B96AC(row, p->f24);
-                    lenA = func_021B9278(e, p->f1C, p->f24);
-                    pos = func_021B9280(e, (p->f14 < 0 ? -p->f14 : p->f14), lenA, p->f24);
-                    r = func_021B854C((u8 *)p, e, dir, (p->f14 < 0 ? -p->f14 : p->f14), p->f0C, lenA, pos);
+                    FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                    lenA = FIELD_RAIL_LINE_GetLength(e, p->f1C, p->f24);
+                    pos = FIELD_RAIL_LINE_GetWidthAt(e, (p->f14 < 0 ? -p->f14 : p->f14), lenA, p->f24);
+                    r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e, dir, (p->f14 < 0 ? -p->f14 : p->f14), p->f0C, lenA, pos);
                     if (r != 0) {
                         return r;
                     }
                 }
-                if (func_021B868C(p->f24, e, row)) {
+                if (FIELD_RAIL_LINE_EndsAtPoint(p->f24, e, row)) {
                     int len;
                     int pos;
-                    func_021B96AC(row, p->f24);
-                    len = func_021B9278(e, p->f1C, p->f24);
-                    pos = func_021B9280(e, len - (p->f14 < 0 ? -p->f14 : p->f14), len, p->f24);
-                    r = func_021B854C((u8 *)p, e, dir, len - (p->f14 < 0 ? -p->f14 : p->f14), -p->f0C, len, pos);
+                    FIELD_RAIL_POINT_IsConsistent(row, p->f24);
+                    len = FIELD_RAIL_LINE_GetLength(e, p->f1C, p->f24);
+                    pos = FIELD_RAIL_LINE_GetWidthAt(e, len - (p->f14 < 0 ? -p->f14 : p->f14), len, p->f24);
+                    r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e, dir, len - (p->f14 < 0 ? -p->f14 : p->f14), -p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
                 }
             }
-            row2 = func_021B87D8(p->f24, seg->f04);
-            e2 = func_021B8514(row2, dir, p->f24, p->f28, 0);
+            row2 = FIELD_RAIL_SETTING_GetPoint(p->f24, seg->f04);
+            e2 = FIELD_RAIL_POINT_FindLine(row2, dir, p->f24, p->f28, 0);
             if (e2 != 0) {
-                if (func_021B8674(p->f24, e2, (u32)row2)) {
+                if (FIELD_RAIL_LINE_StartsAtPoint(p->f24, e2, (u32)row2)) {
                     int pos;
-                    func_021B96AC(row2, p->f24);
-                    lenB = func_021B9278(e2, p->f1C, p->f24);
-                    pos = func_021B9280(e2, (p->f14 < 0 ? -p->f14 : p->f14), lenB, p->f24);
-                    r = func_021B854C((u8 *)p, e2, dir, (p->f14 < 0 ? -p->f14 : p->f14), -(end - p->f0C), lenB, pos);
+                    FIELD_RAIL_POINT_IsConsistent(row2, p->f24);
+                    lenB = FIELD_RAIL_LINE_GetLength(e2, p->f1C, p->f24);
+                    pos = FIELD_RAIL_LINE_GetWidthAt(e2, (p->f14 < 0 ? -p->f14 : p->f14), lenB, p->f24);
+                    r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e2, dir, (p->f14 < 0 ? -p->f14 : p->f14), -(end - p->f0C), lenB, pos);
                     if (r != 0) {
                         return r;
                     }
                 }
-                if (func_021B868C(p->f24, e2, row2)) {
+                if (FIELD_RAIL_LINE_EndsAtPoint(p->f24, e2, row2)) {
                     int len;
                     int pos;
-                    func_021B96AC(row2, p->f24);
-                    len = func_021B9278(e2, p->f1C, p->f24);
-                    pos = func_021B9280(e2, len - (p->f14 < 0 ? -p->f14 : p->f14), len, p->f24);
-                    r = func_021B854C((u8 *)p, e2, dir, len - (p->f14 < 0 ? -p->f14 : p->f14), end - p->f0C, len, pos);
+                    FIELD_RAIL_POINT_IsConsistent(row2, p->f24);
+                    len = FIELD_RAIL_LINE_GetLength(e2, p->f1C, p->f24);
+                    pos = FIELD_RAIL_LINE_GetWidthAt(e2, len - (p->f14 < 0 ? -p->f14 : p->f14), len, p->f24);
+                    r = FIELD_RAIL_WORK_TryEnterLine((u8 *)p, e2, dir, len - (p->f14 < 0 ? -p->f14 : p->f14), end - p->f0C, len, pos);
                     if (r != 0) {
                         return r;
                     }
@@ -380,7 +380,7 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
             }
         }
         if (p->f14 < 0 && (p->f14 < 0 ? -p->f14 : p->f14) <= p->f18) {
-            return func_021B9338((u8 *)p, (u8 *)seg, end, dir);
+            return FIELD_RAIL_WORK_ClampWidth((u8 *)p, (u8 *)seg, end, dir);
         }
         return dir;
     }

@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F54  0x02158F54  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012ED8  0x02012ED8  thumb
- *   func_02158FE0  0x02158FE0  thumb  ov010
- *   func_02167D00  0x02167D00  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetCurrentEvent  0x02012ED8  thumb
+ *   SCRIPT_WORK_GetWorkPtr  0x02158FE0  thumb  ov010
+ *   BSUBWAY_COMM_IsRecvEnd  0x02167D00  thumb  ov010
  */
 #include "../include/Obj20240.h"
 
@@ -23,15 +23,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_02158F54(void *a);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRIPT_WORK_GetGameSystem(void *a);
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012ED8(struct Big *p);
-extern u16 *func_02158FE0(void *a, void *b, unsigned int id);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetCurrentEvent(struct Big *p);
+extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
 struct Obj;
-extern int func_02167D00(struct Obj *o, u16 *out);
+extern int BSUBWAY_COMM_IsRecvEnd(struct Obj *o, u16 *out);
 
 int func_021CB86C(u32 unused, u32 a)
 {
@@ -40,11 +40,11 @@ int func_021CB86C(u32 unused, u32 a)
     u8 *p;
     u16 *q;
 
-    s = func_0215A5F4((void *)a);
-    t = func_020120F4(func_02158F54(s));
-    p = func_02012ED8(t);
-    q = func_02158FE0(s, t, ((struct Obj20240 *)p)->f72A);
-    if (func_02167D00((struct Obj *)p, q) == 1)
+    s = SCRCMD_WORK_GetScriptWork((void *)a);
+    t = GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(s));
+    p = GAME_DATA_GetCurrentEvent(t);
+    q = SCRIPT_WORK_GetWorkPtr(s, t, ((struct Obj20240 *)p)->f72A);
+    if (BSUBWAY_COMM_IsRecvEnd((struct Obj *)p, q) == 1)
         return 1;
     return 0;
 }

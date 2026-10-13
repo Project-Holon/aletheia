@@ -1,5 +1,5 @@
 /*
- * function: func_021BB368
+ * function: ITEMMENU_PocketToSortFlag
  * address:  0x021BB368
  * packet:   pkt_ov070_021BB368
  * region:   ov070
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (no lr push) called by func_021BB5DC.
+ * Unlabelled leaf (no lr push) called by ITEMMENU_UpdateSideButtonsForMode.
  */
 
-int func_021BB368(int x)
+int ITEMMENU_PocketToSortFlag(int x)
 {
     switch (x) {
     case 0:

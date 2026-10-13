@@ -18,7 +18,7 @@
 int *func_021E2370(int *p);
 
 /*
- * lever: Word return from func_021E896C reserves the unused aggregate slot;
+ * lever: Word return from BTLV_CORE_MakeSlotKind2 reserves the unused aggregate slot;
  * u8 c schedules its stack reload after the zero store at 021E23CE.
  */
 extern int d_021F2E78[];

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB878
+ * function: BTL_SERVER_GetClientIfUsed
  * address: 0x021BB878
  * packet: pkt_ov093_021BB878
  * region: ov093
@@ -11,4 +11,4 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-u8 *func_021BB878(u8 *p, u32 i) { if (((u8 *)((u32)p+i*12))[31] != 255) return (u8 *)((u32)p+20+i*12); return 0; }
+u8 *BTL_SERVER_GetClientIfUsed(u8 *p, u32 i) { if (((u8 *)((u32)p+i*12))[31] != 255) return (u8 *)((u32)p+20+i*12); return 0; }

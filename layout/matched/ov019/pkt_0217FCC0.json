@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217FCC0",
+   "name": "UNION_EFF_UpdateIconObj",
    "address": "0x0217FCC0",
    "kind": "game",
    "region": "ov019",

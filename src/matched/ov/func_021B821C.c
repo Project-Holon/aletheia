@@ -1,5 +1,5 @@
 /*
- * function: func_021B821C
+ * function: FIELD_RAIL_GetFieldCamera
  * address:  0x021B821C
  * packet:   pkt_021B8038
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021B821C(u8 *p)
+u32 FIELD_RAIL_GetFieldCamera(u8 *p)
 {
     return ((struct Obj18106 *)p)->f10;
 }

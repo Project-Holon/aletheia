@@ -1,5 +1,5 @@
 /*
- * function: func_02163010
+ * function: FLDMMDL_MOVE_SetupMove
  * address:  0x02163010
  * packet:   pkt_02163010
  * region:   ov010
@@ -14,31 +14,31 @@
  * src/matched/ov021_func_0219B414.c, so the site attests as `matched`.
  *
  * symbols:
- *   func_0216D6F4  0x0216D6F4  thumb  ov010
- *   func_0219B414  0x0219B414  thumb  ov021
- *   func_0216D548  0x0216D548  thumb  ov010
+ *   FLDMMDL_CallMoveInitProc  0x0216D6F4  thumb  ov010
+ *   FLDMMDL_MOVECODE_InitEventTypeProcThunk  0x0219B414  thumb  ov021
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0216D6F4(void *a0);
-extern int func_0219B414(int a);
-extern u32 *func_0216D548(u32 *p, u32 v);
+extern void FLDMMDL_CallMoveInitProc(void *a0);
+extern int FLDMMDL_MOVECODE_InitEventTypeProcThunk(int a);
+extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
 
-int func_02163010(u32 *a0, int a1)
+int FLDMMDL_MOVE_SetupMove(u32 *a0, int a1)
 {
     int t4;
 
 t4 = (int)(a0 + 0);
-    func_0216D6F4((void *)a0);
+    FLDMMDL_CallMoveInitProc((void *)a0);
 loc_02163018:
 a0 = (u32 *)(t4 + 0);
-    a0 = (u32 *)func_0219B414((int)a0);
+    a0 = (u32 *)FLDMMDL_MOVECODE_InitEventTypeProcThunk((int)a0);
 loc_0216301E:
 a0 = (u32 *)(t4 + 0);
 a1 = 2;
-    a0 = (u32 *)func_0216D548(a0, a1);
+    a0 = (u32 *)FLDMMDL_SetStatusBit(a0, a1);
 loc_02163026:
     return (int)a0;}

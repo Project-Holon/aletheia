@@ -15,11 +15,11 @@
  * symbols:
  *   func_021C8838  0x021C8838  thumb
  *   func_021C8860  0x021C8860  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021D5B68  0x021D5B68  thumb
- *   func_021D6314  0x021D6314  thumb
- *   func_021D631C  0x021D631C  thumb
- *   func_021E8AFC  0x021E8AFC  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb
+ *   BTL_POKEPARAM_GetSickTurn  0x021D631C  thumb
+ *   BTLV_CORE_GetSlotLow  0x021E8AFC  thumb
  *   func_0689C104   0x0689C104  thumb  ov095
  */
 typedef unsigned short u16;
@@ -31,12 +31,12 @@ typedef unsigned char u8;
 typedef struct Word { int v; } Word;
 
 extern void func_021C8838(void *, int, u16);
-extern u32 func_021D5440(u32);
+extern u32 BTL_POKEPARAM_GetPokeId(u32);
 extern void func_021C8860(void *, u32);
-extern int func_021D5B68(void *);
-extern void func_021D6314(void *, int);
-extern Word func_021E8AFC(void);
-extern int func_021D631C(void *, int);
+extern int BTL_POKEPARAM_IsFainted(void *);
+extern void BTL_POKEPARAM_GetSickContRaw(void *, int);
+extern Word BTLV_CORE_GetSlotLow(void);
+extern int BTL_POKEPARAM_GetSickTurn(void *, int);
 extern void func_0689C104(void *, void *, u8);
 int func_0689B8CC(void *p, u32 b, int kind);
 int func_0689B92C(int a);
@@ -48,7 +48,7 @@ int func_0689B8CC(void *p, u32 b, int kind)
     message = func_0689B92C(kind);
     if (message > 0) {
         func_021C8838(p, 2, message);
-        func_021C8860(p, func_021D5440(b));
+        func_021C8860(p, BTL_POKEPARAM_GetPokeId(b));
     }
     return 0;
 }
@@ -75,10 +75,10 @@ void func_0689B974(void *a, void *b, int c)
     int t;
     int d;
 
-    if (func_021D5B68(b) == 0) {
-        func_021D6314(b, 0x14);
-        t = func_021E8AFC().v;
-        d = t - func_021D631C(b, 0x14);
+    if (BTL_POKEPARAM_IsFainted(b) == 0) {
+        BTL_POKEPARAM_GetSickContRaw(b, 0x14);
+        t = BTLV_CORE_GetSlotLow().v;
+        d = t - BTL_POKEPARAM_GetSickTurn(b, 0x14);
         if (d > 0)
             func_0689C104(a, b, d);
     }

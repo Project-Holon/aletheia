@@ -1,5 +1,5 @@
 /*
- * function: func_0202B934
+ * function: ISS_3DS_SYS_SetSourcePos
  * address:  0x0202B934
  * packet:   pkt_0202B934
  * region:   arm9
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C4E34
+ * Unlabelled arm9 leaf, filed as the relocation witness for ov021 SOUND_OBJ_ApplyPosition
  * (wave A1, lane 13).
  *
  * symbols:
@@ -20,7 +20,7 @@ typedef struct { int x, y, z; } V3;
 
 extern void ISS_3DS_SYS_SetSourcePosImpl(void *m, int i, const V3 *v);
 
-void func_0202B934(void *m, int i, const V3 *v)
+void ISS_3DS_SYS_SetSourcePos(void *m, int i, const V3 *v)
 {
     ISS_3DS_SYS_SetSourcePosImpl(m, i, v);
 }

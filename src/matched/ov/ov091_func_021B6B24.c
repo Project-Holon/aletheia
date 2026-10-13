@@ -1,5 +1,5 @@
 /*
- * function: func_021B6B24
+ * function: POKELIST_UpdatePaletteFade
  * address:  0x021B6B24
  * packet:   pkt_ov091_021B6B24
  * region:   ov091
@@ -52,7 +52,7 @@ extern void func_02082A60(void *src, void *dst, u32 size);
 typedef signed int     s32;
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_021B6B24(struct Pal *p)
+void POKELIST_UpdatePaletteFade(struct Pal *p)
 {
     u8 i;
     u8 i2;

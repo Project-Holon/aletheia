@@ -1,5 +1,5 @@
 /*
- * function: func_021BB978
+ * function: FIELD_SUBPROC_DrawTcb
  * address:  0x021BB978
  * packet:   pkt_021BB978
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-void func_021BB978(u32 a, u32 b, u32 c, u32 d)
+void FIELD_SUBPROC_DrawTcb(u32 a, u32 b, u32 c, u32 d)
 {
 if (*(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->fC) + 20) != 0) {
     ((void (*)(u32, u32, u32, u32))*(u32 *)((u8 *)(*(u32 *)((u8 *)(b) + 12)) + 20))(b, *(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->f0)), ((struct Obj07224 *)((u8 *)(b)))->f10, *(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->fC) + 20));

@@ -1,5 +1,5 @@
 /*
- * function: func_021A6C4C
+ * function: FIELD_PLAYER_NOGRID_GetInputHoldDir
  * address:  0x021A6C4C
  * packet:   pkt_ov021_021A6C4C
  * region:   ov021
@@ -22,7 +22,7 @@ typedef struct {
     int f4;
 } T;
 
-int func_021A6C4C(T *t, int x)
+int FIELD_PLAYER_NOGRID_GetInputHoldDir(T *t, int x)
 {
     int r;
     if (t->b2) {

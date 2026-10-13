@@ -1,5 +1,5 @@
 /*
- * function: func_021C48A0
+ * function: FLDEFF_RIPPLE_InitObj
  * address:  0x021C48A0
  * packet:   pkt_ov021_021C48A0
  * region:   ov021
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_0205082C and func_020507F0 are witnessed by
- * src/matched/arm9/func_0205082C.c and src/matched/arm9/func_020507F0.c.
+ * BILLBOARD_ACT_SetEntryList and BILLBOARD_ACT_SetEntryEnabled are witnessed by
+ * src/matched/arm9/BILLBOARD_ACT_SetEntryList.c and src/matched/arm9/BILLBOARD_ACT_SetEntryEnabled.c.
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_02050340  0x02050340  arm
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_02050804  0x02050804  arm
- *   func_0205082C  0x0205082C  arm
- *   func_020507F0  0x020507F0  arm
- *   d_021DE464     0x021DE464  data  a4
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   BILLBOARD_ACT_CreateEntries  0x02050340  arm
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   BILLBOARD_ACT_SetEntryCommands  0x02050804  arm
+ *   BILLBOARD_ACT_SetEntryList  0x0205082C  arm
+ *   BILLBOARD_ACT_SetEntryEnabled  0x020507F0  arm
+ *   gRippleBoardCommands     0x021DE464  data  a4
  */
 
 typedef unsigned char u8;
@@ -45,26 +45,26 @@ typedef struct Src { u32 f0; V3 v; } Src;
 typedef struct Res { u32 f0; u16 h4; } Res;
 typedef struct Head { u8 pad[4]; u32 f4; u16 h8; } Head;
 
-extern int func_021AC1AC(u32 a);
-extern void func_021AC1CC(u32 a, V3 *v);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
+extern void FIELD_EFFECT_SetObjectPos(u32 a, V3 *v);
 struct BbActDesc;
 struct BbActSys;
-extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
-extern void func_021AC154(u32 a);
-extern void func_02050804(void *p, int idx, u32 v, u16 h);
-extern void func_0205082C(void *p, int idx, u32 h);
-extern void func_020507F0(void *p, int idx, u32 v);
-extern u8 d_021DE464[];
+extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
+extern void FIELD_EFFECT_DeleteObject(u32 a);
+extern void BILLBOARD_ACT_SetEntryCommands(void *p, int idx, u32 v, u16 h);
+extern void BILLBOARD_ACT_SetEntryList(void *p, int idx, u32 h);
+extern void BILLBOARD_ACT_SetEntryEnabled(void *p, int idx, u32 v);
+extern u8 gRippleBoardCommands[];
 
-void func_021C48A0(u32 a, Res *r)
+void FLDEFF_RIPPLE_InitObj(u32 a, Res *r)
 {
-    Src *s = (Src *)func_021AC1AC(a);
+    Src *s = (Src *)FIELD_EFFECT_GetObjectParam(a);
     Head *h;
     u32 t, k;
     Desc d;
 
     r->f0 = s->f0;
-    func_021AC1CC(a, &s->v);
+    FIELD_EFFECT_SetObjectPos(a, &s->v);
     h = (Head *)r->f0;
     t = h->f4;
     d.slot = h->h8;
@@ -76,13 +76,13 @@ void func_021C48A0(u32 a, Res *r)
     d.pos = s->v;
     d.f1c = 0;
     d.f20 = (u32)r;
-    r->h4 = func_02050340((struct BbActSys *)t, 0, (const struct BbActDesc *)(&d), 1, 3);
+    r->h4 = BILLBOARD_ACT_CreateEntries((struct BbActSys *)t, 0, (const struct BbActDesc *)(&d), 1, 3);
     if (r->h4 == 0xFFFF) {
-        func_021AC154(a);
+        FIELD_EFFECT_DeleteObject(a);
         return;
     }
-    func_02050804((void *)t, r->h4, (u32)d_021DE464, 1);
+    BILLBOARD_ACT_SetEntryCommands((void *)t, r->h4, (u32)gRippleBoardCommands, 1);
     k = r->h4;
-    func_0205082C((void *)t, k, 0);
-    func_020507F0((void *)t, k, 1);
+    BILLBOARD_ACT_SetEntryList((void *)t, k, 0);
+    BILLBOARD_ACT_SetEntryEnabled((void *)t, k, 1);
 }

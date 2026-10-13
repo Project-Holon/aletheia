@@ -1,5 +1,5 @@
 /*
- * function: func_021EE3E8
+ * function: BTLV_SCU_StepBallWindowOpen
  * address:  0x021EE3E8
  * packet:   pkt_ov093_021EE3E8
  * region:   ov093
@@ -8,15 +8,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201DD78 0x0201DD78 thumb
- *   func_02045374 0x02045374 arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_DrawFrame 0x020454E0 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
- *   func_021EF71C 0x021EF71C thumb ov093
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02045334 0x02045334 arm
+ *   BTL_MSG_BuildBallStatusOpen 0x021EF71C thumb ov093
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02040618 0x02040618 arm
  *   func_020061E4 0x020061E4 thumb
  */
@@ -37,37 +37,37 @@ struct C {
 };
 struct Cfg;
 struct Descriptor;
-extern void func_0201DD78(u32 r, u32 g, u32 b);
-extern void func_02045374(struct Cfg *cfg);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_DrawFrame(struct Cfg *cfg, u16 base, u32 pal);
 typedef signed short   s16;
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern void func_021EF71C(u32, u32, u32, u32, u32, u32, u32);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045334(struct Descriptor *d);
+extern void BTL_MSG_BuildBallStatusOpen(u32, u32, u32, u32, u32, u32, u32);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020061E4(u32 a);
-int func_021EE3E8(int *st, struct C *c)
+int BTLV_SCU_StepBallWindowOpen(int *st, struct C *c)
 {
     switch (*st) {
     case 0:
-        func_0201DD78(1, 9, 12);
-        func_02045374(c->f08);
+        GF_FONT_SetTextColor(1, 9, 12);
+        BMP_WIN_MakeScreen(c->f08);
         BMP_WIN_DrawFrame(c->f08, c->f10, 3);
-        func_02043B5C((struct CharBuf *)c->f0c, 12);
+        BMP_Clear((struct CharBuf *)c->f0c, 12);
         func_020409B4(func_02045730(c->f08));
         (*st)++;
         break;
     case 1:
-        func_021EF71C(c->f34, c->f172, c->f174, c->f176, c->f178, c->f17a, c->f17c);
-        func_0201C7A4((void *)c->f0c, 0, 0, (void *)c->f34, (void *)c->f24);
+        BTL_MSG_BuildBallStatusOpen(c->f34, c->f172, c->f174, c->f176, c->f178, c->f17a, c->f17c);
+        PRINTSYS_Print((void *)c->f0c, 0, 0, (void *)c->f34, (void *)c->f24);
         (*st)++;
         break;
     case 2:
-        func_02045334(c->f08);
+        BMP_WIN_TransferChars(c->f08);
         (*st)++;
         break;
     case 3:

@@ -10,7 +10,7 @@
  * status: EXACT*
  * Extent ends with two bytes of zero alignment padding.
  * symbols:
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021DA158 0x021DA158 thumb ov129
  */
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { u16 x,y,frame; u8 speed,flag; } Params;
 struct Obj;
-extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_021DA158(int x, int flag);
 void func_021D9AB0(char *p)
@@ -35,13 +35,13 @@ void func_021D9AB0(char *p)
         q=(unsigned)p+(unsigned)k*28;
         if(i==(int)((unsigned)k+(unsigned)((struct Obj06481 *)q)->f150+1)) {
             s.x=76+(unsigned)i*8; s.y=24; s.frame=22;
-            ((struct Obj06481 *)q)->f15C=(int)func_0204B294((void *)h,((struct Obj02185 *)p)->f26C,((struct Obj02185 *)p)->f260,((struct Obj02185 *)p)->f284,&s,0,50);
+            ((struct Obj06481 *)q)->f15C=(int)CLACT_CreateActor((void *)h,((struct Obj02185 *)p)->f26C,((struct Obj02185 *)p)->f260,((struct Obj02185 *)p)->f284,&s,0,50);
             k++;
         } else {
             s.x=76+(unsigned)i*8; s.y=24;
             q=(unsigned)p+(unsigned)j*28;
             s.frame=func_021DA158(((struct Obj06481 *)q)->f0,((struct Obj06481 *)q)->f8);
-            ((struct Obj06481 *)q)->fC=(int)func_0204B294((void *)h,((struct Obj02185 *)p)->f26C,((struct Obj02185 *)p)->f260,((struct Obj02185 *)p)->f284,&s,0,50);
+            ((struct Obj06481 *)q)->fC=(int)CLACT_CreateActor((void *)h,((struct Obj02185 *)p)->f26C,((struct Obj02185 *)p)->f260,((struct Obj02185 *)p)->f284,&s,0,50);
             j++;
         }
     }

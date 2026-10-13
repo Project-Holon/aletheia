@@ -1,5 +1,5 @@
 /*
- * function: func_0217BD7C
+ * function: UNION_ONESELF_NoOpMain
  * address: 0x0217BD7C
  * packet: pkt_ov019_0217BD7C
  * region: ov019
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov019/unit_0217AE20.c and filed here.
  */
 
-int func_0217BD7C(void)
+int UNION_ONESELF_NoOpMain(void)
 {
     return 1;
 }

@@ -17,8 +17,8 @@
  *   PMSI_PARAM_IsComplete 0x02024464 thumb
  *   func_021C0250 0x021C0250 thumb ov110
  *   func_021C132C 0x021C132C thumb ov110
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021C022C 0x021C022C thumb ov110
  *   func_021C133C 0x021C133C thumb ov110
  *   func_021C1440 0x021C1440 thumb ov110
@@ -31,11 +31,11 @@
  *   func_021C15B4 0x021C15B4 thumb ov110
  *   func_02034AC4 0x02034AC4 arm
  *   func_021C0490 0x021C0490 thumb ov110
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   func_021C1154 0x021C1154 thumb ov110
@@ -56,8 +56,8 @@ extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
 extern int PMSI_PARAM_IsComplete(struct T *p, u32 a1);
 extern void func_021C0250(int *,u8 *,int);
 extern int func_021C132C(void *,u8 *);
-extern void func_0204E720(u32,int,int,int);
-extern int func_0204E804(void);
+extern void FADE_Start(u32,int,int,int);
+extern int FADE_IsActive(void);
 extern int func_021C022C(u8 *);
 extern int func_021C133C(void *,u8 *);
 extern int func_021C1440(void *,u8 *);
@@ -70,11 +70,11 @@ extern int func_021C154C(int *,u8 *);
 extern int func_021C15B4(int *,u8 *);
 extern int func_02034AC4(s32 handle);
 extern void func_021C0490(u8 *);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern void func_021C1154(char *p);
@@ -98,22 +98,22 @@ int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
         if(func_021C132C(p+0x9c,p)) func_021C0250(q,p,2);
         break;
     case 2:
-        func_0204E720(3,16,0,0);
+        FADE_Start(3,16,0,0);
         func_021C0250(q,p,3);
         break;
     case 3:
-        if(!func_0204E804()) func_021C0250(q,p,4);
+        if(!FADE_IsActive()) func_021C0250(q,p,4);
         break;
     case 4:
         if(func_021C022C(p) && func_021C133C(p+0x9c,p))
             func_021C0250(q,p,*(int *)(p+0xa0));
         break;
     case 5:
-        func_0204E720(3,0,16,0);
+        FADE_Start(3,0,16,0);
         func_021C0250(q,p,6);
         break;
     case 6:
-        if(!func_0204E804()) func_021C0250(q,p,7);
+        if(!FADE_IsActive()) func_021C0250(q,p,7);
         break;
     case 7:
         if(func_021C1440(p+0x9c,p)) func_021C0250(q,p,16);
@@ -129,12 +129,12 @@ int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
         break;
     case 11:
         if(func_021C022C(p)) {
-            func_0204E720(3,0,16,0);
+            FADE_Start(3,0,16,0);
             func_021C0250(q,p,12);
         }
         break;
     case 12:
-        if(!func_0204E804()) func_021C0250(q,p,13);
+        if(!FADE_IsActive()) func_021C0250(q,p,13);
         break;
     case 13:
         func_021C05B0((char *)p);
@@ -154,12 +154,12 @@ int func_021C025C(void *unused,int *q,void *unused2,u8 *p)
     case 16:
         return 1;
     }
-    func_0201C4E4(*(void **)(p+0x5c));
+    PRINTSYS_QUE_Main(*(void **)(p+0x5c));
     if(*(u32 *)(p+0x4c)) {
         if(!func_0201C6C4((struct PrintSys *)(*(u32 *)(p+0x5c)),func_02045770(*(void **)(p+0x48)))) {
             window=*(void **)(p+0x48);
-            func_02045334(window);
-            func_02045374(window);
+            BMP_WIN_TransferChars(window);
+            BMP_WIN_MakeScreen(window);
             func_02041B6C(func_02045730(window));
             *(u32 *)(p+0x4c)=0;
         }

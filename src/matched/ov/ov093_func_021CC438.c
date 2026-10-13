@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021CC49C  0x021CC49C  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   func_021D5D14  0x021D5D14  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
@@ -23,9 +23,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 func_021D5440(u8 *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern int func_021CC49C(void *p, int id);
-extern int func_021D5B68(void *m);
+extern int BTL_POKEPARAM_IsFainted(void *m);
 typedef signed char    s8;
 extern int func_021D5D14(s8 *p, int i, int sign);
 extern void *func_021C88A4(char *p, int a, int b);
@@ -36,9 +36,9 @@ int func_021CC438(char *p, void *m, int c, u8 d, u32 e)
     int id;
     u8 *r;
 
-    id = func_021D5440(m);
+    id = BTL_POKEPARAM_GetPokeId(m);
     if (func_021CC49C(p + 0x1ab8, id) != 6) {
-        if (func_021D5B68(m) == 0 && func_021D5D14(m, e, d) != 0) {
+        if (BTL_POKEPARAM_IsFainted(m) == 0 && func_021D5D14(m, e, d) != 0) {
             r = (u8 *)func_021C88A4(p, 14, id);
             r[0xf] = 1;
             r[0x10] = id;

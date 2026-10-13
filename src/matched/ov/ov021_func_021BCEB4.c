@@ -1,5 +1,5 @@
 /*
- * function: func_021BCEB4
+ * function: FIELD_PLACE_NAME_DrawFadeIn
  * address:  0x021BCEB4
  * packet:   pkt_ov021_021BCEB4
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern void func_0207D63C(int, int, int, int, int);
 
-void func_021BCEB4(char *p)
+void FIELD_PLACE_NAME_DrawFadeIn(char *p)
 {
     float t;
     int a;

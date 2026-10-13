@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02166980",
+   "name": "SYMBOL_MAP_ScrCmdGetSyncBlockItem",
    "address": "0x02166980",
    "kind": "game",
    "region": "ov010",

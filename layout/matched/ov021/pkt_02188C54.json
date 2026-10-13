@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02188C54",
+   "name": "FIELDMAP_GetMsgBg",
    "address": "0x02188C54",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188C58",
+   "name": "FIELDMAP_GetCamera",
    "address": "0x02188C58",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188C5C",
+   "name": "FIELDMAP_GetNogridMapper",
    "address": "0x02188C5C",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188C68",
+   "name": "FIELDMAP_GetZoneFog",
    "address": "0x02188C68",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188C6C",
+   "name": "FIELDMAP_GetWeather",
    "address": "0x02188C6C",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188C7C",
+   "name": "FIELDMAP_GetMmdlSys",
    "address": "0x02188C7C",
    "kind": "game",
    "region": "ov021",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188C80",
+   "name": "FIELDMAP_GetGameSystem",
    "address": "0x02188C80",
    "kind": "game",
    "region": "ov021",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188C88",
+   "name": "FIELDMAP_GetEffectBbdAct",
    "address": "0x02188C88",
    "kind": "game",
    "region": "ov021",
@@ -103,7 +103,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02188C90",
+   "name": "FIELDMAP_GetGroundBbdAct",
    "address": "0x02188C90",
    "kind": "game",
    "region": "ov021",
@@ -115,7 +115,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02188C98",
+   "name": "FIELDMAP_GetG3dMapper",
    "address": "0x02188C98",
    "kind": "game",
    "region": "ov021",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188C9C",
+   "name": "FIELDMAP_GetZoneId",
    "address": "0x02188C9C",
    "kind": "game",
    "region": "ov021",
@@ -139,7 +139,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02188CA4",
+   "name": "FIELDMAP_GetCtrlWork",
    "address": "0x02188CA4",
    "kind": "game",
    "region": "ov021",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188CAC",
+   "name": "FIELDMAP_SetCtrlWork",
    "address": "0x02188CAC",
    "kind": "game",
    "region": "ov021",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188CB4",
+   "name": "FIELDMAP_GetFieldPlayer",
    "address": "0x02188CB4",
    "kind": "game",
    "region": "ov021",
@@ -175,7 +175,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02188CCC",
+   "name": "FIELDMAP_GetSubscreen",
    "address": "0x02188CCC",
    "kind": "game",
    "region": "ov021",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188CD0",
+   "name": "FIELDMAP_GetEffect",
    "address": "0x02188CD0",
    "kind": "game",
    "region": "ov021",
@@ -199,7 +199,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02188CE8",
+   "name": "FIELDMAP_GetEncount",
    "address": "0x02188CE8",
    "kind": "game",
    "region": "ov021",
@@ -211,7 +211,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02188D20",
+   "name": "FIELDMAP_GetPlaceName",
    "address": "0x02188D20",
    "kind": "game",
    "region": "ov021",
@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188D24",
+   "name": "FIELDMAP_GetMapFunc",
    "address": "0x02188D24",
    "kind": "game",
    "region": "ov021",
@@ -235,7 +235,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02188D30",
+   "name": "FIELDMAP_GetTcblSys",
    "address": "0x02188D30",
    "kind": "game",
    "region": "ov021",
@@ -247,7 +247,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188D38",
+   "name": "FIELDMAP_GetTaskManager",
    "address": "0x02188D38",
    "kind": "game",
    "region": "ov021",
@@ -259,7 +259,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188D48",
+   "name": "FIELDMAP_GetInfoWindow",
    "address": "0x02188D48",
    "kind": "game",
    "region": "ov021",
@@ -271,7 +271,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188D50",
+   "name": "FIELDMAP_GetSodateya",
    "address": "0x02188D50",
    "kind": "game",
    "region": "ov021",
@@ -283,7 +283,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188D58",
+   "name": "FIELDMAP_GetAreaData",
    "address": "0x02188D58",
    "kind": "game",
    "region": "ov021",
@@ -295,7 +295,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02188E30",
+   "name": "FIELDMAP_GetVReq",
    "address": "0x02188E30",
    "kind": "game",
    "region": "ov021",

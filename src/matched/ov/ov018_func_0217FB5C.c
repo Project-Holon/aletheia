@@ -1,5 +1,5 @@
 /*
- * function: func_0217FB5C
+ * function: EVENT_COMM_COMMON_CreateTalkStartEvent
  * address: 0x0217FB5C
  * packet: pkt_ov018_0217FB5C
  * region: ov018
@@ -12,7 +12,7 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_02082BCC 0x02082BCC arm
- *   func_0217FB94 0x0217FB94 thumb ov018
+ *   EVENT_COMM_COMMON_TalkStartEventMain 0x0217FB94 thumb ov018
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,12 +23,12 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *, u8, u32);
-extern int func_0217FB94(int, int *, Req *);
-void *func_0217FB5C(void *owner, int b, int unused, int d, int e, u16 f)
+extern int EVENT_COMM_COMMON_TalkStartEventMain(int, int *, Req *);
+void *EVENT_COMM_COMMON_CreateTalkStartEvent(void *owner, int b, int unused, int d, int e, u16 f)
 {
     Req *work;
     void *task;
-    task = func_020122C0(owner, 0, func_0217FB94, 0x10);
+    task = func_020122C0(owner, 0, EVENT_COMM_COMMON_TalkStartEventMain, 0x10);
     work = func_020124E8(task);
     func_02082BCC(work, 0, 0x10);
     work->f0 = b;

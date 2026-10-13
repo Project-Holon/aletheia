@@ -1,5 +1,5 @@
 /*
- * function: func_0215466C
+ * function: EVENT_GTSNEGO_Create
  * address:  0x0215466C
  * packet:   pkt_0215466C
  * region:   ov001
@@ -15,7 +15,7 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   EVENT_GTSNEGO_InitWork  0x02154560  thumb  ov001
- *   func_021542C0  0x021542C0  thumb  ov001
+ *   EVENT_GTSNEGO_Main  0x021542C0  thumb  ov001
  */
 
 typedef unsigned char  u8;
@@ -25,11 +25,11 @@ typedef unsigned int   u32;
 struct Desc;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *EVENT_GTSNEGO_InitWork(void *obj_in, void *p, int a, int b);
-u32 func_021542C0(void *obj, u32 *mode, char *args);
+u32 EVENT_GTSNEGO_Main(void *obj, u32 *mode, char *args);
 
-void *func_0215466C(void *p, int a)
+void *EVENT_GTSNEGO_Create(void *p, int a)
 {
-    void *r6 = func_020122C0(p, 0, func_021542C0, 0x3B4);
+    void *r6 = func_020122C0(p, 0, EVENT_GTSNEGO_Main, 0x3B4);
     EVENT_GTSNEGO_InitWork(r6, p, a, 0);
     return r6;
 }

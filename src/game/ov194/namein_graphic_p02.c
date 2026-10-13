@@ -16,33 +16,33 @@
  *   FX_SinCosTable_  0x020A1B38  data
  *   func_02061CA4  0x02061CA4  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_020450F0  0x020450F0  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_021F4DBC  0x021F4DBC  thumb  ov194
  *   func_021F4F50  0x021F4F50  thumb  ov194
  *   func_021F1998  0x021F1998  thumb  ov194
- *   func_020458F8  0x020458F8  arm
- *   func_02045A98  0x02045A98  arm
- *   func_02045A38  0x02045A38  arm
- *   func_0204B878  0x0204B878  arm
+ *   STRBUF_GetLength  0x020458F8  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
+ *   STRBUF_ToChars  0x02045A38  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   CLACT_StartActorAnim  0x0204B95C  arm
  *   func_021F4F60 0x021F4F60 thumb ov194
  *   func_021F4DD0 0x021F4DD0 thumb ov194
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_020452E8 0x020452E8 arm
  *   func_0201F41C 0x0201F41C thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045994 0x02045994 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   STRBUF_SetStringN 0x02045994 arm
  *   func_0201D304 0x0201D304 thumb
- *   func_0201C724 0x0201C724 thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   func_0201C6FC 0x0201C6FC thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   GX_GetBankForLCDC 0x02045A98 arm
@@ -134,33 +134,33 @@ typedef int (*Conv)(Pair *, Pair *);
 
 extern s32 func_02061CA4(void *p, u32_021F1D58 a, u32_021F1D58 b, s32 size);
 extern void func_02082BCC(void *,unsigned,unsigned);
-extern u32_021F1E28 func_020450F0(u32_021F1E28 layer, u32_021F1E28 a, u32_021F1E28 b, u32_021F1E28 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern u32_021F1E28 BMP_WIN_Create(u32_021F1E28 layer, u32_021F1E28 a, u32_021F1E28 b, u32_021F1E28 tiles, u8 c, u8 d, u8 slot);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32_021F1E28 index);
-extern struct U16Vec *func_020457B0(u32_021F1E28 capacity, u32_021F1E28 heapId);
+extern struct U16Vec *STRBUF_Create(u32_021F1E28 capacity, u32_021F1E28 heapId);
 extern int func_021F4DBC(int a, int b);
 extern int func_021F4F50(int a);
 extern void *func_021F1998(u8 *p, u32_021F1E28 i);
-extern u16 func_020458F8(struct U16Vec *vec);
-extern u16 func_02045A98(void);
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32_021F1E28 n);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
+extern u16 STRBUF_GetEosChar(void);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32_021F1E28 n);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32_021F1E28 v);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32_021F1E28 which);
 extern void func_0204B3DC(struct Obj *p, u32_021F1E28 v);
 extern void CLACT_StartActorAnim(struct Actor *a);
 extern void func_021F4F60(void *);
 extern void func_021F4DD0(void *);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32_021F1F7C func_020452E8(struct Descriptor *d);
 extern void func_0201F41C(const u16 *,u16 *,u32_021F1FB4);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32_021F1FB4 len);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32_021F1FB4 len);
 extern u32_021F1FB4 func_0201D304(struct StrObj *s, u32_021F1FB4 a, u32_021F1FB4 b);
-extern void func_0201C724(void *owner, u32_021F1FB4 a, u32_021F1FB4 b, u32_021F1FB4 c, u32_021F1FB4 d, u32_021F1FB4 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32_021F1FB4 a, u32_021F1FB4 b, u32_021F1FB4 c, u32_021F1FB4 d, u32_021F1FB4 e, u16 f);
 extern void func_0201C6FC(struct PrintSys *p, u32_021F1FB4 a, u32_021F1FB4 b, u32_021F1FB4 c, void *s, u32_021F1FB4 e);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32_021F1FB4 value);
 extern unsigned int GX_GetBankForLCDC(void);
@@ -267,14 +267,14 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     *(int *)(p + 0x34) = c;
     *(u16 *)(p + 0x22) = b;
     *(int *)(p + 0x38) = d;
-    h = func_020450F0(0, 8, 2, 0x18, 2, 15, 1);
+    h = BMP_WIN_Create(0, 8, 2, 0x18, 2, 15, 1);
     *(int *)(p + 0x40) = h;
-    func_02045334((struct Descriptor *)h);
-    func_02045374((struct Cfg *)h);
+    BMP_WIN_TransferChars((struct Descriptor *)h);
+    BMP_WIN_MakeScreen((struct Cfg *)h);
     func_020409B4(func_02045730((struct Descriptor *)h));
     *(int *)(p + 0x2c) = *(int *)(p + 0x40);
     *(u8 *)(p + 0x30) = i;
-    *(int *)(p + 0x3c) = (int)func_020457B0(0xe, f);
+    *(int *)(p + 0x3c) = (int)STRBUF_Create(0xe, f);
     for (i = 0; i < 3; i++) {
         *(int *)(p + i * 4 + 0x84) = func_021F4DBC(i, f);
     }
@@ -282,11 +282,11 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     for (i = 0; i < 16; i++) {
         *(int *)(p + i * 4 + 0x44) = (int)func_021F1998(e, i);
     }
-    if (func_020458F8((struct U16Vec *)a) == 0) {
-        *(u16 *)p = func_02045A98();
+    if (STRBUF_GetLength((struct U16Vec *)a) == 0) {
+        *(u16 *)p = STRBUF_GetEosChar();
     } else {
-        func_02045A38((struct U16Vec *)a, (u16 *)p, b + 1);
-        *(u16 *)(p + 0x1e) = func_020458F8((struct U16Vec *)a);
+        STRBUF_ToChars((struct U16Vec *)a, (u16 *)p, b + 1);
+        *(u16 *)(p + 0x1e) = STRBUF_GetLength((struct U16Vec *)a);
     }
     pos[1] = 0x25;
     base = 0x40 - (*(u16 *)(p + 0x22) * 14) / 2;
@@ -296,7 +296,7 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
     base += 0x40;
     for (i = 0; i < 16; i++) {
         pos[0] = base + i * 14;
-        func_0204B878((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
+        CLACT_SetActorAnimSeq((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
         func_0204B92C((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
         func_0204B404((struct Obj *)(*(int *)(p + i * 4 + 0x44)), (const struct Vec2 *)pos, 0);
         func_0204B3DC((struct Obj *)(*(int *)(p + i * 4 + 0x44)), 1);
@@ -312,7 +312,7 @@ void func_021F1E28(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
 
 
 
-void func_021F1F7C(u8 *p) { int i;func_021F4F60(((struct Obj10806 *)p)->f90);for(i=0;i<3;i++)func_021F4DD0(*(void **)((u32_021F1F7C)p+(u32_021F1F7C)i*4+132));func_02045808(((struct Obj10806 *)p)->f3C);func_020452E8((struct Descriptor *)(((struct Obj10806 *)p)->f40));func_02082BCC(p,0,148); }
+void func_021F1F7C(u8 *p) { int i;func_021F4F60(((struct Obj10806 *)p)->f90);for(i=0;i<3;i++)func_021F4DD0(*(void **)((u32_021F1F7C)p+(u32_021F1F7C)i*4+132));STRBUF_Delete(((struct Obj10806 *)p)->f3C);func_020452E8((struct Descriptor *)(((struct Obj10806 *)p)->f40));func_02082BCC(p,0,148); }
 
 
 
@@ -330,33 +330,33 @@ int func_021F1FB4(u8 *p)
   if(((struct Obj00418 *)p)->f1E)func_0201F41C((u16 *)p,table,((struct Obj00418 *)p)->f1E+1);
   if(((struct Obj00418 *)p)->f20)func_0201F41C((u16 *)(p+0x16),table+((struct Obj00418 *)p)->f1E,((struct Obj00418 *)p)->f20+1);
   if(((struct Obj00418 *)p)->f1E+((struct Obj00418 *)p)->f20>0){
-   func_02043B5C(func_02045770(((struct Obj00418 *)p)->f40),0);
+   BMP_Clear(func_02045770(((struct Obj00418 *)p)->f40),0);
    for(i=0;i<((struct Obj00418 *)p)->f1E+((struct Obj00418 *)p)->f20;i++){
-    pair[0]=table[i];pair[1]=func_02045A98();
-    func_02045994(((struct Obj00418 *)p)->f3C,pair,2);
+    pair[0]=table[i];pair[1]=STRBUF_GetEosChar();
+    STRBUF_SetStringN(((struct Obj00418 *)p)->f3C,pair,2);
     x=64-(((struct Obj00418 *)p)->f22*14)/2;if(x<0)x=0;
     x+=i*14+7;
     x-=func_0201D304(((struct Obj00418 *)p)->f3C,((struct Obj00418 *)p)->f34,0)/2;
-    if(i>=((struct Obj00418 *)p)->f1E){window=((struct Obj00418 *)p)->f38;func_0201C724(window,(u32_021F1FB4)func_02045770(((struct Obj00418 *)p)->f2C),(short)x,0,(u32_021F1FB4)(((struct Obj00418 *)p)->f3C),((struct Obj00418 *)p)->f34,0xc80);}
+    if(i>=((struct Obj00418 *)p)->f1E){window=((struct Obj00418 *)p)->f38;PRINTSYS_PrintQueColor(window,(u32_021F1FB4)func_02045770(((struct Obj00418 *)p)->f2C),(short)x,0,(u32_021F1FB4)(((struct Obj00418 *)p)->f3C),((struct Obj00418 *)p)->f34,0xc80);}
     else {window=((struct Obj00418 *)p)->f38;func_0201C6FC(window,(u32_021F1FB4)func_02045770(((struct Obj00418 *)p)->f2C),(short)x,0,((struct Obj00418 *)p)->f3C,((struct Obj00418 *)p)->f34);}
     p[0x30]=1;
    }
   }else{
-   func_02043B5C(func_02045770(((struct Obj00418 *)p)->f40),0);
-   func_02045334(((struct Obj00418 *)p)->f40);
+   BMP_Clear(func_02045770(((struct Obj00418 *)p)->f40),0);
+   BMP_WIN_TransferChars(((struct Obj00418 *)p)->f40);
   }
   for(i=0;i<((struct Obj00418 *)p)->f22;i++){
    CLACT_SetActorAnimFrame(*(void **)(p+i*4+0x44),0);
-   func_0204B878(*(void **)(p+i*4+0x44),1);
+   CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x44),1);
    func_0204B3DC(*(void **)(p+i*4+0x44),1);
   }
   for(;i<16;i++){
    CLACT_SetActorAnimFrame(*(void **)(p+i*4+0x44),0);
-   func_0204B878(*(void **)(p+i*4+0x44),1);
+   CLACT_SetActorAnimSeq(*(void **)(p+i*4+0x44),1);
    func_0204B3DC(*(void **)(p+i*4+0x44),0);
   }
   for(i=0;i<=((struct Obj00418 *)p)->f1E && i<((struct Obj00418 *)p)->f22;i++)func_0204B3DC(*(void **)(p+i*4+0x44),1);
-  func_0204B878(*(void **)(p+0x44+((struct Obj00418 *)p)->f1E*4),0);
+  CLACT_SetActorAnimSeq(*(void **)(p+0x44+((struct Obj00418 *)p)->f1E*4),0);
   ((struct Obj00418 *)p)->f28=0;
  }
  return func_021F22E8(p);
@@ -371,14 +371,14 @@ int func_021F2150(unsigned char *p)
     if (((struct Obj03896 *)p)->f20 != 0) {
         ((struct Obj03896 *)p)->f20 -= 1;
         *(unsigned short *)(p + 0x16 + ((struct Obj03896 *)p)->f20 * 2) =
-            func_02045A98();
+            STRBUF_GetEosChar();
         ((struct Obj03896 *)p)->f28 = 1;
         return 1;
     }
     if (((struct Obj03896 *)p)->f1E != 0) {
         ((struct Obj03896 *)p)->f1E -= 1;
         *(unsigned short *)(p + ((struct Obj03896 *)p)->f1E * 2) =
-            func_02045A98();
+            STRBUF_GetEosChar();
         ((struct Obj03896 *)p)->f28 = 1;
         return 1;
     }
@@ -413,7 +413,7 @@ int func_021F21BC(unsigned char *p, unsigned short a, u32 b)
         *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) = a;
         ((struct Obj01574 *)p)->f20 += 1;
         *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) =
-            func_02045A98();
+            STRBUF_GetEosChar();
         func_021F23FC(p, b);
         ((struct Obj01574 *)p)->f28 = 1;
         return 1;
@@ -471,7 +471,7 @@ int func_021F22E8(unsigned char *p)
 
     if (c != 0) {
         if (func_0201C6C4((struct PrintSys *)r4, (void *)((int)func_02045770((struct Descriptor *)((struct Obj05509 *)p)->f2C))) == 0) {
-            func_02045334((struct Descriptor *)((struct Obj05509 *)p)->f2C);
+            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj05509 *)p)->f2C);
             p[0x30] = 0;
         }
     }
@@ -484,7 +484,7 @@ int func_021F22E8(unsigned char *p)
 
 void func_021F2328(char *self, struct Strbuf *dst)
 {
-    func_02045994(dst, (const u16 *)self,
+    STRBUF_SetStringN(dst, (const u16 *)self,
                  ((struct Obj24901 *)self)->f1E + 1);
 }
 
@@ -507,18 +507,18 @@ void func_021F233C(char *p)
 
 
 
-void func_021F235C(char *p) { int i; for(i=0;i<((struct Obj02909 *)p)->f20;i++)func_021F2190(p,*(u16 *)((u32)p+(u32)i*2+22));((struct Obj02909 *)p)->f20=0;*(u16 *)((u32)p+((struct Obj02909 *)p)->f20*2+22)=func_02045A98();((struct Obj02909 *)p)->f28=1; }
+void func_021F235C(char *p) { int i; for(i=0;i<((struct Obj02909 *)p)->f20;i++)func_021F2190(p,*(u16 *)((u32)p+(u32)i*2+22));((struct Obj02909 *)p)->f20=0;*(u16 *)((u32)p+((struct Obj02909 *)p)->f20*2+22)=STRBUF_GetEosChar();((struct Obj02909 *)p)->f28=1; }
 
 
 
 
-void func_021F2394(u8 *p) {if(((struct Obj03897 *)p)->f1E) {((struct Obj03897 *)p)->f1E=0;*(u16 *)(p+((struct Obj03897 *)p)->f1E*2)=func_02045A98();((struct Obj03897 *)p)->f28=1;}func_021F233C((char *)p);}
+void func_021F2394(u8 *p) {if(((struct Obj03897 *)p)->f1E) {((struct Obj03897 *)p)->f1E=0;*(u16 *)(p+((struct Obj03897 *)p)->f1E*2)=STRBUF_GetEosChar();((struct Obj03897 *)p)->f28=1;}func_021F233C((char *)p);}
 
 
 
 
 
-void func_021F23B8(char *p,const u16 *q) {while(*q!=func_02045A98()) {if(!func_021F2190(p,*q)) break;q++;}}
+void func_021F23B8(char *p,const u16 *q) {while(*q!=STRBUF_GetEosChar()) {if(!func_021F2190(p,*q)) break;q++;}}
 
 
 
@@ -569,7 +569,7 @@ int func_021F23FC(u8 *p,int direction)
    for(i=0;i<group.count;i++){
     *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=*((u16 *)((char *)&group+2)+i);
     ((struct Obj01574 *)p)->f20+=1;
-    *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=func_02045A98();
+    *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=STRBUF_GetEosChar();
    }
    return 1;
   }
@@ -664,14 +664,14 @@ void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
  void *text;
  u16 x,y;
  unsigned kind;
- text=func_020457B0(2,heap);
+ text=STRBUF_Create(2,heap);
  for(xy.y=0;xy.y<func_021F4DA0(((struct Obj10808 *)p)->f0);xy.y++){
   for(xy.x=0;xy.x<func_021F4D9C(((struct Obj10808 *)p)->f0);xy.x++){
    if(func_021F2818((char *)p, (Pair *)&xy, (Box *)&box)){
     kind=func_021F2614(p,(int *)&xy,codes);
     if(kind==1 || kind==10 || kind==11){
-     codes[1]=codes[0];codes[2]=func_02045A98();
-     func_02045994(text,codes+1,2);
+     codes[1]=codes[0];codes[2]=STRBUF_GetEosChar();
+     STRBUF_SetStringN(text,codes+1,2);
      box.x*=8;box.y*=8;box.z*=8;box.w*=8;
      x=box.x+(box.z-box.x)/2-24;
      y=box.y+(box.w-box.y)/2-40;
@@ -683,7 +683,7 @@ void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
    }
   }
  }
- func_02045808(text);
+ STRBUF_Delete(text);
 }
 
 

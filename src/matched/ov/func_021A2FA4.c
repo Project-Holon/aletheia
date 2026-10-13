@@ -1,5 +1,5 @@
 /*
- * function: func_021A2FA4
+ * function: FIELD_PLAYER_ChooseMoveDirFromKeys
  * address:  0x021A2FA4
  * packet:   pkt_021A2F48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A3AB8  0x021A3AB8  thumb
+ *   FIELD_PLAYER_CORE_ChooseMoveDirFromKeys  0x021A3AB8  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_021A3AB8(u32 a, u32 v);
+extern u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(u32 a, u32 v);
 
-u16 func_021A2FA4(u8 *p, u32 a1)
+u16 FIELD_PLAYER_ChooseMoveDirFromKeys(u8 *p, u32 a1)
 {
-    return func_021A3AB8(((struct Obj18010 *)p)->f4, a1);
+    return FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(((struct Obj18010 *)p)->f4, a1);
 }

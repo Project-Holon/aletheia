@@ -1,5 +1,5 @@
 /*
- * function: func_0215AF98
+ * function: SCRCMD_WORK_CmdGetZukanGetCount
  * address:  0x0215AF98
  * packet:   pkt_ov010_0215AF98
  * region:   ov010
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200D0CC  0x0200D0CC  thumb
  *   func_0200CF28  0x0200CF28  thumb
@@ -22,22 +22,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *func_0200CA1C(void *a);
 struct Blk37;
 extern u16 func_0200D0CC(struct Blk37 *p);
 extern u16 func_0200CF28(struct Blk37 *p);
 
-int func_0215AF98(int a0, int a1)
+int SCRCMD_WORK_CmdGetZukanGetCount(int a0, int a1)
 {
     void *v;
     int k;
     u16 *out;
-    v = func_0200CA1C((void *)func_0215A5E4((void *)a1));
-    k = (int)func_02159B10((void *)a0, (void *)a1);
-    out = func_02159AE8((void *)a0, (void *)a1);
+    v = func_0200CA1C((void *)SCRCMD_WORK_GetGameData((void *)a1));
+    k = (int)SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    out = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
     switch (k) {
     case 0:
         *out = func_0200D0CC(v);

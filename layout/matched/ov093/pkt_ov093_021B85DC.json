@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B85DC",
+   "name": "BTL_MAIN_GetTextSpeedFrames",
    "address": "0x021B85DC",
    "kind": "game",
    "region": "ov093",

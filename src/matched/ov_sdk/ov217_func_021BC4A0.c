@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Returns 1 when ARM func_0204E804() is 0.
+ * Returns 1 when ARM FADE_IsActive() is 0.
  *
  * symbols:
  *   func_021BC4A0  0x021BC4A0  thumb  ov217
+ *   FADE_IsActive  0x0204E804  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -24,9 +25,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 int func_021BC4A0(void)
 {
-    return func_0204E804() == 0;
+    return FADE_IsActive() == 0;
 }
 

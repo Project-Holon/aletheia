@@ -1,5 +1,5 @@
 /*
- * function: func_0204F604
+ * function: BILLBOARD_SetElemId
  * address:  0x0204F604
  * packet:   pkt_0204F344
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0204F604(void *p, u32 idx, u16 *src)
+void BILLBOARD_SetElemId(void *p, u32 idx, u16 *src)
 {
     u16 *q = (u16 *)(*(u8 * *)&((struct Obj08866 *)p)->f8 + idx * 0x1c);
 

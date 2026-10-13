@@ -1,5 +1,5 @@
 /*
- * function: sub_02159C00
+ * function: MAP_MATRIX_SetSize
  * address:  0x02159C00
  * packet:   pkt_02159B94
  * region:   ov010
@@ -24,8 +24,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02159C00.c \
- *       --func sub_02159C00 --addr 0x02159C00 --region ov010 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MAP_MATRIX_SetSize.c \
+ *       --func MAP_MATRIX_SetSize --addr 0x02159C00 --region ov010 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -44,7 +44,7 @@ struct MapMatrix {
     u32 map_grid[900];
 };
 
-void sub_02159C00(struct MapMatrix *m, u32 width, u32 height)
+void MAP_MATRIX_SetSize(struct MapMatrix *m, u32 width, u32 height)
 {
     u32 n = width * height;
 

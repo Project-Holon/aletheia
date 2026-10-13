@@ -1,5 +1,5 @@
 /*
- * function: func_02165CB4
+ * function: GAME_BEACON_ACCESSOR_GetResearchTeamRank
  * address:  0x02165CB4
  * packet:   pkt_ov010_02165CB4
  * region:   ov010
@@ -28,7 +28,7 @@ typedef struct {
     u32 hi : 20;
 } S;
 
-u8 func_02165CB4(S *a0)
+u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(S *a0)
 {
     return a0->f;
 }

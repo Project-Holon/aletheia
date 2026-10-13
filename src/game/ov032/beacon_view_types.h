@@ -1,7 +1,7 @@
 #ifndef BEACON_VIEW_TYPES_H
 #define BEACON_VIEW_TYPES_H
 
-/* Beacon list view: the work area allocated in func_021F2234 and the structs it holds.
+/* Beacon list view: the work area allocated in BEACON_VIEW_Create and the structs it holds.
    The including file defines u8, u16 and u32 first. */
 
 typedef struct BeaconViewResEntry {

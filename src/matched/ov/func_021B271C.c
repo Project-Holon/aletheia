@@ -1,5 +1,5 @@
 /*
- * function: func_021B271C
+ * function: SCRCMD_GIMMICK45_SetState
  * address:  0x021B271C
  * packet:   pkt_021B271C
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02011330  0x02011330  thumb
- *   func_021F38C4  0x021F38C4  thumb  ov045
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   VM_GetU16  0x02011330  thumb
+ *   GIMMICK45_ReplacePlayerIfRequirementMet  0x021F38C4  thumb  ov045
  * Addresses are Black-image addresses.
  */
 
@@ -24,13 +24,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern void *func_0215A5DC(void *a0);
-extern void func_021F38C4(void *a0, int a1);
+extern u16 VM_GetU16(struct Stream *s);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void GIMMICK45_ReplacePlayerIfRequirementMet(void *a0, int a1);
 
-int func_021B271C(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_GIMMICK45_SetState(u32 a, u32 b, u32 c, u32 d)
 {
-func_021F38C4(func_0215A5DC((void *)b), func_02011330((struct Stream *)a));
+GIMMICK45_ReplacePlayerIfRequirementMet(SCRCMD_WORK_GetGameSystem((void *)b), VM_GetU16((struct Stream *)a));
 return 0;
 }
 

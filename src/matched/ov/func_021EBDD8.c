@@ -13,6 +13,7 @@
  *   func_021EE200  0x021EE200  thumb  ov170
  *   func_021EBF50  0x021EBF50  thumb  ov170
  *   func_021EBE4C  0x021EBE4C  thumb  ov170
+ *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  *
  * Three teardown steps then the SDK pool release.
  */
@@ -21,11 +22,11 @@
 extern void func_021EE200(char *);
 extern void func_021EBF50(char *);
 extern void func_021EBE4C(char *);
-extern void func_0204A5AC(void);
+extern void CLACT_ExitSystem(void);
 void func_021EBDD8(char *p)
 {
     func_021EE200(p);
     func_021EBF50(p);
     func_021EBE4C(p);
-    func_0204A5AC();
+    CLACT_ExitSystem();
 }

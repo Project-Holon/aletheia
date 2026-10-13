@@ -1,5 +1,5 @@
 /*
- * function: func_021BB890
+ * function: BTL_SERVER_IsClientUsed
  * address: 0x021BB890
  * packet: pkt_ov093_021BB890
  * region: ov093
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BB830 0x021BB830 thumb ov093
+ *   BTL_SERVER_IsClientSlotUsed 0x021BB830 thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021BB830(u8 *);
-int func_021BB890(u8 *p, u8 i) { if (i < 4) return func_021BB830(p+20+i*12); return 0; }
+extern int BTL_SERVER_IsClientSlotUsed(u8 *);
+int BTL_SERVER_IsClientUsed(u8 *p, u8 i) { if (i < 4) return BTL_SERVER_IsClientSlotUsed(p+20+i*12); return 0; }

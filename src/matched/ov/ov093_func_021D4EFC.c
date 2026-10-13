@@ -1,5 +1,5 @@
 /*
- * function: func_021D4EFC
+ * function: BTL_POKEPARAM_ReloadFromMon
  * address:  0x021D4EFC
  * packet:   pkt_ov093_021D4EFC
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
- *   func_021D52B4  0x021D52B4  thumb ov093
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   BTL_POKEPARAM_LoadStats  0x021D52B4  thumb ov093
  *   func_02019C90  0x02019C90  thumb
  */
 
@@ -32,22 +32,22 @@ struct S {
     u8 f141;
 };
 
-extern u32 func_02017E1C(void *p, u32 id, u32 buf);
-extern void func_021D52B4(u8 *p, void *h, u32 flag);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 buf);
+extern void BTL_POKEPARAM_LoadStats(u8 *p, void *h, u32 flag);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 
-void func_021D4EFC(struct S *a, void *mon, u32 c, u32 d)
+void BTL_POKEPARAM_ReloadFromMon(struct S *a, void *mon, u32 c, u32 d)
 {
     if (c != 0) {
-        a->f10 = func_02017E1C(mon, 0xa0, 0);
-        a->f0e = func_02017E1C(mon, 0xa1, 0);
+        a->f10 = POKE_TOOL_GetPartyValue(mon, 0xa0, 0);
+        a->f0e = POKE_TOOL_GetPartyValue(mon, 0xa1, 0);
     }
-    a->f08 = func_02017E1C(mon, 8, 0);
-    func_021D52B4((u8 *)a, mon, d);
+    a->f08 = POKE_TOOL_GetPartyValue(mon, 8, 0);
+    BTL_POKEPARAM_LoadStats((u8 *)a, mon, d);
     if (d != 0) {
-        a->f13c = func_02017E1C(mon, 0xa, 0);
+        a->f13c = POKE_TOOL_GetPartyValue(mon, 0xa, 0);
     }
-    a->f141 = func_02017E1C(mon, 0x6f, 0);
+    a->f141 = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
     a->f13e = func_02019C90(a->f0c, a->f141, 0x26);
     if (a->f13e < 1) {
         a->f13e = 1;

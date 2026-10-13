@@ -1,5 +1,5 @@
 /*
- * function: func_021A682C
+ * function: FIELD_PLAYER_NOGRID_RunForcedMove
  * address:  0x021A682C
  * packet:   pkt_ov021_021A682C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A67A4  0x021A67A4  thumb  ov021
- *   func_021A6870  0x021A6870  thumb  ov021
- *   data_021D8AB8  0x021D8AB8  data  a4
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_NOGRID_GetForcedMoveKind  0x021A67A4  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_EndForcedMove  0x021A6870  thumb  ov021
+ *   gFieldPlayerNogridForcedMoveFuncs  0x021D8AB8  data  a4
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01658.h"
@@ -24,22 +24,22 @@ typedef unsigned int   u32;
 
 typedef u32 (*Fn)(u8 *p, u32 a, u32 b);
 
-extern int func_0216D3CC(int a0);
-extern u32 func_021A67A4(u8 *p);
-extern void func_021A6870(u8 *p);
-extern const Fn data_021D8AB8[];
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern u32 FIELD_PLAYER_NOGRID_GetForcedMoveKind(u8 *p);
+extern void FIELD_PLAYER_NOGRID_EndForcedMove(u8 *p);
+extern const Fn gFieldPlayerNogridForcedMoveFuncs[];
 
-u32 func_021A682C(u8 *p, u32 a1, u32 a2)
+u32 FIELD_PLAYER_NOGRID_RunForcedMove(u8 *p, u32 a1, u32 a2)
 {
     u32 k;
 
-    if (!func_0216D3CC(*(u32 *)&((struct Obj01658 *)p)->f1C))
+    if (!FLDMMDL_CheckPossibleAcmd(*(u32 *)&((struct Obj01658 *)p)->f1C))
         return a1;
     if (a2 == 0) {
-        k = func_021A67A4(p);
+        k = FIELD_PLAYER_NOGRID_GetForcedMoveKind(p);
         if (k != 0)
-            return data_021D8AB8[k](p, a1, a2);
+            return gFieldPlayerNogridForcedMoveFuncs[k](p, a1, a2);
     }
-    func_021A6870(p);
+    FIELD_PLAYER_NOGRID_EndForcedMove(p);
     return a1;
 }

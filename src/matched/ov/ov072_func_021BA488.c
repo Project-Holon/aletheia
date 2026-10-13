@@ -1,5 +1,5 @@
 /*
- * function: func_021BA488
+ * function: TOWNMAP_CursorGetHoverTown
  * address:  0x021BA488
  * packet:   pkt_021BA488
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BA488(int *p)
+int TOWNMAP_CursorGetHoverTown(int *p)
 {
     return p[5];
 }

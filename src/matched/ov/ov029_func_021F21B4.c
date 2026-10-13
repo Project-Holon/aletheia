@@ -1,5 +1,5 @@
 /*
- * function: func_021F21B4
+ * function: C_GEAR_StepIntroEnd
  * address:  0x021F21B4
  * packet:   pkt_ov029_021F21B4
  * region:   ov029
@@ -9,24 +9,24 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021F1060  0x021F1060  thumb  ov029
- *   func_021F0300  0x021F0300  thumb  ov029
- *   func_021EFEF8  0x021EFEF8  thumb  ov029
- *   func_021F2180  0x021F2180  thumb  ov029
+ *   C_GEAR_StepIntroTiles  0x021F1060  thumb  ov029
+ *   C_GEAR_InitTabTimersPowerOff  0x021F0300  thumb  ov029
+ *   C_GEAR_ChangeStep  0x021EFEF8  thumb  ov029
+ *   C_GEAR_StepIdle  0x021F2180  thumb  ov029
  */
 #include "../include/Obj00042.h"
 
 typedef unsigned char  u8;
-extern int func_021F1060(u8 *p);
-extern void func_021F0300(u8 *p);
-extern void func_021EFEF8(char *p, void (*f)(void), int line);
-extern void func_021F2180(char *p);
+extern int C_GEAR_StepIntroTiles(u8 *p);
+extern void C_GEAR_InitTabTimersPowerOff(u8 *p);
+extern void C_GEAR_ChangeStep(char *p, void (*f)(void), int line);
+extern void C_GEAR_StepIdle(char *p);
 
-void func_021F21B4(char *p)
+void C_GEAR_StepIntroEnd(char *p)
 {
     void (*f)(int);
 
-    if (func_021F1060((u8 *)p) == 0) {
+    if (C_GEAR_StepIntroTiles((u8 *)p) == 0) {
         f = *(void (**)(int))(p + 0x1fc);
         if (f)
             f(*(int *)&((struct Obj00042 *)p)->f200);
@@ -34,6 +34,6 @@ void func_021F21B4(char *p)
         *(int *)&((struct Obj00042 *)p)->f200 = 0;
         return;
     }
-    func_021F0300((u8 *)p);
-    func_021EFEF8(p, (void *)func_021F2180, 0xF92);
+    C_GEAR_InitTabTimersPowerOff((u8 *)p);
+    C_GEAR_ChangeStep(p, (void *)C_GEAR_StepIdle, 0xF92);
 }

@@ -10,7 +10,7 @@
  * symbols:
  *   func_02041300 0x02041300 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  *   func_021B8A28 0x021B8A28 thumb ov106
  */
 #include "../include/Obj01390.h"
@@ -22,14 +22,14 @@ extern void func_02041300(u32,int,int,int,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021B8A28(u32 *,u32,u32,u16);
 void func_021B8524(u8 *p) {
     int i, y;
     func_02041300(p[0x548],0,0,0,32,24,0);
     func_02041300(p[0x54a],0,0,0,32,24,0);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01390 *)p)->f568)),0);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01390 *)p)->f56C)),0);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01390 *)p)->f568)),0);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01390 *)p)->f56C)),0);
     for (i=((struct Obj01390 *)p)->f55C-1; i<((struct Obj01390 *)p)->f55C+10; i++) {
         if (i>=0 && i<((struct Obj01390 *)p)->f554) {
             y=(i-((struct Obj01390 *)p)->f55C)*3+4;

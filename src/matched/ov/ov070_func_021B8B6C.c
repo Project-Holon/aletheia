@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B6C
+ * function: ITEMMENU_DeleteBlinkPalAnm
  * address: 0x021B8B6C
  * packet: pkt_ov070_021B8B6C
  * region: ov070
@@ -15,7 +15,7 @@
 struct Obj0202EA20;
 typedef unsigned int   u32;
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
-void func_021B8B6C(char *p)
+void ITEMMENU_DeleteBlinkPalAnm(char *p)
 {
     func_0202EA20(*(struct Obj0202EA20 * *)&((struct Obj20671 *)p)->f850);
 }

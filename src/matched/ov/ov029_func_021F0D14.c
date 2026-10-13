@@ -1,5 +1,5 @@
 /*
- * function: func_021F0D14
+ * function: C_GEAR_TileToScreen
  * address:  0x021F0D14
  * packet:   pkt_ov029_021F0D14
  * region:   ov029
@@ -17,7 +17,7 @@ typedef struct { int a, b; } Pair;
 
 extern const Pair d_021F3344;
 
-void func_021F0D14(int a, int b, int *c, int *d)
+void C_GEAR_TileToScreen(int a, int b, int *c, int *d)
 {
     Pair t = d_021F3344;
     *c = a * 4 - 2;

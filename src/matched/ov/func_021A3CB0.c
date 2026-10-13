@@ -1,5 +1,5 @@
 /*
- * function: func_021A3CB0
+ * function: FIELD_PLAYER_CORE_StartFormChange
  * address:  0x021A3CB0
  * packet:   pkt_021A3CB0
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A3CB0(u32 a, u32 b)
+int FIELD_PLAYER_CORE_StartFormChange(u32 a, u32 b)
 {
 ((struct Obj05862 *)((u8 *)(a)))->f24 = b;
 ((struct Obj05862 *)((u8 *)(a)))->f30 = 0;

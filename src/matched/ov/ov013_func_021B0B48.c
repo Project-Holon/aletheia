@@ -19,7 +19,7 @@
  * original's `cmp sb,#3; moveq r4,#1; beq; bhs`.
  *
  * symbols:
- *   d_021B3C84  0x021B3C84  data  ov013  a4
+ *   gVctSendState  0x021B3C84  data  ov013  a4
  *   gVctMixScratch  0x021B3E78  data  ov013  a4
  *   VCT_SESSION_ReadChannel  0x021B0904  arm  ov013
  *   VCT_DSP_MixSaturated  0x021B3624  arm  ov013
@@ -39,7 +39,7 @@ typedef struct {
     u32 f24;
 } Ctx3C84;
 
-extern Ctx3C84 d_021B3C84;
+extern Ctx3C84 gVctSendState;
 extern u8 gVctMixScratch[];
 
 typedef signed short   s16;
@@ -59,7 +59,7 @@ int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
         *out = 0;
 
     ret = 0;
-    if (b == d_021B3C84.f24 && d_021B3C84.f20 != 0) {
+    if (b == gVctSendState.f24 && gVctSendState.f20 != 0) {
         for (i = 0; i < 3; i++) {
             if (VCT_SESSION_ReadChannel(a, b, i, (u32 *)out) == 1) {
                 ret = 1;
@@ -84,7 +84,7 @@ int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
         func_02082AC0(ret, a, b);
     }
 
-    if (d_021B3C84.f18 != 0)
+    if (gVctSendState.f18 != 0)
         VCT_DSP_SetEchoReference(a, b);
     return ret;
 }

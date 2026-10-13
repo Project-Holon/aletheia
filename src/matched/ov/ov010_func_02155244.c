@@ -1,5 +1,5 @@
 /*
- * function: func_02155244
+ * function: MUSICAL_EVENT_UpdateFriendRecords
  * address:  0x02155244
  * packet:   pkt_ov010_02155244
  * region:   ov010
@@ -14,10 +14,10 @@
  * member's display state from the mode word at +0xcc.
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_02012950  0x02012950  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009D1C  0x02009D1C  thumb
  *   func_02009BB8  0x02009BB8  thumb
  *   func_02009B80  0x02009B80  thumb
@@ -42,21 +42,21 @@ struct Ctx {
 };
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct BigObj;
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 struct Rec44;
 struct Sub020097BCObj;
 struct Sub24;
-extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-extern u32 func_0201283C(const struct BigObj *p);
+extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub0200852CObj;
 extern int func_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
 extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
 
-void func_02155244(struct Ctx *ctx, void *party)
+void MUSICAL_EVENT_UpdateFriendRecords(struct Ctx *ctx, void *party)
 {
     int sel;
     int count;
@@ -71,7 +71,7 @@ void func_02155244(struct Ctx *ctx, void *party)
         sel = sel - 1;
         count = 2;
     } else {
-        v = ctx->b78[func_0203D1A4((struct Link *)((u32)func_020399A8()))];
+        v = ctx->b78[GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()))];
         if (v < 2) {
             t = 1;
         } else {
@@ -89,17 +89,17 @@ void func_02155244(struct Ctx *ctx, void *party)
     }
 
     for (i = 0; i < count; i++) {
-        mon = func_02012950(party, i);
-        if (i != func_0203D1A4((struct Link *)((u32)func_020399A8())) && mon != 0
-            && func_02009D1C((void *)func_0201283C(party), mon, (u32 *)(&out)) != 0) {
+        mon = GAME_DATA_GetPlayerStatus(party, i);
+        if (i != GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())) && mon != 0
+            && func_02009D1C((void *)GAME_DATA_GetWifiList(party), mon, (u32 *)(&out)) != 0) {
             if (i == sel) {
-                func_02009B80((struct Sub020097BCObj *)func_0201283C(party), out);
+                func_02009B80((struct Sub020097BCObj *)GAME_DATA_GetWifiList(party), out);
             } else if (ctx->fcc == 0) {
-                func_02009BB8((struct Sub020097BCObj *)func_0201283C(party), out, 1, 0, 0);
+                func_02009BB8((struct Sub020097BCObj *)GAME_DATA_GetWifiList(party), out, 1, 0, 0);
             } else if (ctx->fcc == 1) {
-                func_02009BB8((struct Sub020097BCObj *)func_0201283C(party), out, 0, 1, 0);
+                func_02009BB8((struct Sub020097BCObj *)GAME_DATA_GetWifiList(party), out, 0, 1, 0);
             } else {
-                func_02009B80((struct Sub020097BCObj *)func_0201283C(party), out);
+                func_02009B80((struct Sub020097BCObj *)GAME_DATA_GetWifiList(party), out);
             }
         }
     }

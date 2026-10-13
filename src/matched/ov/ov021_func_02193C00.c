@@ -1,5 +1,5 @@
 /*
- * function: func_02193C00
+ * function: FIELD_WFBC_PEOPLE_GetNpcRecord
  * address:  0x02193C00
  * packet:   pkt_02193C00
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-char *func_02193C00(char *p)
+char *FIELD_WFBC_PEOPLE_GetNpcRecord(char *p)
 {
     return p + 4;
 }

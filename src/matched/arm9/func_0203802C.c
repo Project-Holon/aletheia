@@ -14,8 +14,8 @@
  *   d_020A7A20     0x020A7A20  data
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_QUEUE_IsEmpty  0x020366A8  arm
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3A8  0x0203D3A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
  *   GFL_NET_SYSTEM_PackSendData  0x02037D98  arm
  *   GFL_NET_SYSTEM_RecvParentCallback  0x020381D8  arm
@@ -48,8 +48,8 @@ struct Entry;
 extern void *GFL_NET_GetSession(void);
 struct Conn;
 extern int GFL_NET_QUEUE_IsEmpty(struct Conn *p);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-extern struct Entry *func_020399A8(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetChildSendSize(void);
 extern int GFL_NET_SYSTEM_PackSendData(int a);
 extern void GFL_NET_SYSTEM_RecvParentCallback(u32 a, u32 b);
@@ -64,7 +64,7 @@ void GFL_NET_SYSTEM_SendWifi(void)
     p = GFL_NET_GetSession();
 
     if (GFL_NET_QUEUE_IsEmpty((struct Conn *)(((u8 *)_pNetSys) + 0xCC)) != 0)
-        func_0203D3A8(func_020399A8(), 0x10, 0, 0);
+        GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0, 0);
 
     v = *(u32 *)(((struct Obj15934 *)p)->f340 + 0x9C);
     if (v != 0)

@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_0201C6EC  0x0201C6EC  thumb
- *   func_0201C724  0x0201C724  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201ED04  0x0201ED04  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_02045770  0x02045770  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_021BA4E8  0x021BA4E8  thumb  ov214
  *
@@ -63,12 +63,12 @@ struct MsgBank;
 struct PrintSys;
 struct U16Vec;
 struct WordSet;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201C6EC(struct PrintSys *p);
-extern void func_0201C724(int, int, int, int, int, int, int);
+extern void PRINTSYS_PrintQueColor(int, int, int, int, int, int, int);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 func_0201ED04(struct WordSet *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -101,35 +101,35 @@ void func_021BA794(Obj *obj, Ent *e, unsigned int v)
 
     if (state != e->fBC) {
         tmp = (int)func_02045770((struct Descriptor *)e->f94);
-        func_02043B5C((struct CharBuf *)tmp, 0);
+        BMP_Clear((struct CharBuf *)tmp, 0);
         tmp = (int)func_02045770((struct Descriptor *)e->f98);
-        func_02043B5C((struct CharBuf *)tmp, 0);
+        BMP_Clear((struct CharBuf *)tmp, 0);
     } else if (v != e->fC0) {
         tmp = (int)func_02045770((struct Descriptor *)e->f98);
-        func_02043B5C((struct CharBuf *)tmp, 0);
+        BMP_Clear((struct CharBuf *)tmp, 0);
     }
 
     if (state != e->fBC) {
         func_0201C6EC((struct PrintSys *)e->f14);
         h = (int)func_02045EC0((struct MsgBank *)e->f58, 0x10);
         p = (int)func_02045770((struct Descriptor *)e->f94);
-        func_0201C724(e->f14, p, 4, 1, h, e->f08, flag);
+        PRINTSYS_PrintQueColor(e->f14, p, 4, 1, h, e->f08, flag);
         e->fA4 = 0;
-        func_02045808((struct U16Vec *)h);
+        STRBUF_Delete((struct U16Vec *)h);
     }
 
     if (state != e->fBC || v != e->fC0) {
         x = (int)func_0201EC64(e->f00);
         h2 = (int)func_02045EC0((struct MsgBank *)e->f58, 0x12);
-        p2 = (int)func_020457B0(8, e->f00);
+        p2 = (int)STRBUF_Create(8, e->f00);
         func_0201C6EC((struct PrintSys *)e->f18);
         func_0201EFA4((struct WordSet *)x, 1, v, 2, 2, 1);
         func_0201F250((struct WordSet *)x, (void *)p2, (void *)h2);
         q = (int)func_02045770((struct Descriptor *)e->f98);
-        func_0201C724(e->f18, q, 2, 2, p2, e->f08, flag);
+        PRINTSYS_PrintQueColor(e->f18, q, 2, 2, p2, e->f08, flag);
         e->fA8 = 0;
-        func_02045808((struct U16Vec *)p2);
-        func_02045808((struct U16Vec *)h2);
+        STRBUF_Delete((struct U16Vec *)p2);
+        STRBUF_Delete((struct U16Vec *)h2);
         func_0201ED04((struct WordSet *)x);
     }
 

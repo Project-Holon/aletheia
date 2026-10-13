@@ -17,16 +17,16 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02030734 0x02030734 arm
  *   func_021BE620 0x021BE620 thumb ov203
  *   func_021BDF30 0x021BDF30 thumb ov203
- *   func_021B6208 0x021B6208 thumb ov067
- *   func_021B629C 0x021B629C thumb ov067
+ *   UI_SCENE_LoadActorGfx 0x021B6208 thumb ov067
+ *   UI_SCENE_CreateActor 0x021B629C thumb ov067
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
  *   func_02040588 0x02040588 arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021C3D5C 0x021C3D5C data a1
  *   d_021C3BD0 0x021C3BD0 data a2
  *   func_0204B404 0x0204B404 arm
@@ -49,16 +49,16 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern int func_021BE620(char *p);
 extern int func_021BDF30(char *p);
-extern void func_021B6208(Out *, In *, int, unsigned short);
-extern int func_021B629C(Out *, int, unsigned char, unsigned char, unsigned char, unsigned short);
+extern void UI_SCENE_LoadActorGfx(Out *, In *, int, unsigned short);
+extern int UI_SCENE_CreateActor(Out *, int, unsigned char, unsigned char, unsigned char, unsigned short);
 extern void func_0204B3DC(struct Obj *, unsigned);
 extern void func_0204B92C(struct Obj *, unsigned);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02043598(unsigned, unsigned);
+extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void func_0204B404(struct Obj *, const struct Vec2 *, unsigned);
 void func_021BF9D0(unsigned short heap);
 void func_021BFA20(char *p);
@@ -72,7 +72,7 @@ void func_021BF9D0(unsigned short heap)
     func_02049B68(h, 3, 4, 0, 0, heap);
     func_02049658(h, 9, 6, 0, 0, 0, heap);
     func_020498F4(h, 18, 6, 0, 0, 0, heap);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }
 
 /*
@@ -99,12 +99,12 @@ void func_021BFA20(char *p)
     config.b1c = 0;
     config.b1d = 0;
     config.b1e = 1;
-    func_021B6208((Out *)(a + 4), &config, resource, *(unsigned short *)p);
-    *(int *)(a + 0x14) = func_021B629C((Out *)(a + 4), resource, d_021C3BD0[*a].x, d_021C3BD0[*a].y, 0, *(unsigned short *)p);
+    UI_SCENE_LoadActorGfx((Out *)(a + 4), &config, resource, *(unsigned short *)p);
+    *(int *)(a + 0x14) = UI_SCENE_CreateActor((Out *)(a + 4), resource, d_021C3BD0[*a].x, d_021C3BD0[*a].y, 0, *(unsigned short *)p);
     func_0204B3DC(*(struct Obj **)(a + 0x14), 1);
     func_0204B92C(*(struct Obj **)(a + 0x14), 1);
     func_02040588(6, 1);
-    func_02043598(16, 1);
+    BG_SYS_SetSubPlaneVisible(16, 1);
 }
 
 void func_021BFAE4(char *p)

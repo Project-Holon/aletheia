@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F532C",
+   "name": "GPOWER_EVENT_CreateTimeoutScriptEvent",
    "address": "0x021F532C",
    "kind": "game",
    "region": "ov083",

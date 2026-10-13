@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_020490F4",
+   "name": "ARC_TOOL_CreateHandle",
    "address": "0x020490F4",
    "kind": "game",
    "region": "arm9",

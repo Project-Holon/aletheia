@@ -12,7 +12,7 @@
  * symbols:
  *   func_0204B404        0x0204B404  arm
  *   func_0204B3DC        0x0204B3DC  arm
- *   func_0204B878        0x0204B878  arm
+ *   CLACT_SetActorAnimSeq        0x0204B878  arm
  *
  * show is reassigned 1 in the case 0 arm, which keeps it a live register
  * compare (cmp r1, #0) instead of a folded constant.
@@ -34,7 +34,7 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 void ov208_func_021C6A10(void *unused, u8 *p)
 {
@@ -70,11 +70,11 @@ void ov208_func_021C6A10(void *unused, u8 *p)
     else
         v = 0;
     func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5EC, 1);
-    func_0204B878((struct Obj *)(((struct Obj02258 *)p)->f5EC), (u8)v);
+    CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02258 *)p)->f5EC), (u8)v);
     if (multi) {
         w = *(u32 *)(p + ((struct Obj02258 *)p)->f550 * 16 + 0x14c) == 2;
         func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5F0, 1);
-        func_0204B878((struct Obj *)(((struct Obj02258 *)p)->f5F0), (u8)w);
+        CLACT_SetActorAnimSeq((struct Obj *)(((struct Obj02258 *)p)->f5F0), (u8)w);
     } else {
         func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5F0, 0);
     }

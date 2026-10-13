@@ -1,5 +1,5 @@
 /*
- * function: func_0218F1DC
+ * function: FIELD_CAMERA_ApplyEyeArea
  * address:  0x0218F1DC
  * packet:   pkt_ov021_0218F1DC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DDA18  0x021DDA18  data  ov021  a4
+ *   gFieldCameraAreaFuncs  0x021DDA18  data  ov021  a4
  */
 
 typedef unsigned char  u8;
@@ -21,12 +21,12 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 typedef void (*Handler)(void *a, u32 b, u32 c);
-extern Handler d_021DDA18[];
+extern Handler gFieldCameraAreaFuncs[];
 
-void func_0218F1DC(u32 *a, u32 b)
+void FIELD_CAMERA_ApplyEyeArea(u32 *a, u32 b)
 {
     if (a[1] == 1) {
-        Handler fp = d_021DDA18[a[0]];
+        Handler fp = gFieldCameraAreaFuncs[a[0]];
         if (fp != 0)
             fp(a, b, b);
     }

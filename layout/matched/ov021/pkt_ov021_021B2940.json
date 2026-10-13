@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B2940",
+   "name": "SCRCMD_SCREENEFFECTS_FadeOutSlow",
    "address": "0x021B2940",
    "kind": "game",
    "region": "ov021",

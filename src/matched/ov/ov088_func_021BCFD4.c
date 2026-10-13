@@ -1,5 +1,5 @@
 /*
- * function: func_021BCFD4
+ * function: STARTMENU_SaveEraseExitGraphics
  * address:  0x021BCFD4
  * packet:   pkt_ov088_021BCFD4
  * region:   ov088
@@ -22,7 +22,7 @@ extern void func_020434DC(u32 mask, u32 enable);
 extern void func_020403F4(u32 i);
 extern void func_0203F9B4(void);
 
-void func_021BCFD4(void)
+void STARTMENU_SaveEraseExitGraphics(void)
 {
     func_020434DC(1, 0);
     func_020403F4(0);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C94AC",
+   "name": "LAND_DATA_PATCH_GetAttrBlock",
    "address": "0x021C94AC",
    "kind": "game",
    "region": "ov021",

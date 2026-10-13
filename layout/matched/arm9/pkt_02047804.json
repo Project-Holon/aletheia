@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02047804",
-    "func_02047828"
+    "G3D_SYSTEM_ResetObjectAnimeFrame",
+    "G3D_SYSTEM_GetObjectAnimeFrame"
+   ],
+   "addresses": [
+    "0x02047804",
+    "0x02047828"
    ]
   }
  ]

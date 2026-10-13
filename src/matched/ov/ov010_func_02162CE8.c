@@ -1,5 +1,5 @@
 /*
- * function: func_02162CE8
+ * function: EVENTDATA_SYSTEM_GetConnectCenterPos
  * address:  0x02162CE8
  * packet:   pkt_ov010_02162CE8
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled leaf (push {r3, r4} with no lr), reached through the ov010
- * tail-call thunk func_02162A64.  Blocker of ov061 func_021F388C.
+ * tail-call thunk EVENTDATA_SYSTEM_GetConnectCenterPosThunk.  Blocker of ov061 func_021F388C.
  * The const on both pointers keeps the first ldrsh ahead of the base
  * copy; the lsrs needs the u32 casts.
  */
@@ -39,7 +39,7 @@ typedef struct {
     Box box;
 } Obj;
 
-void func_02162CE8(const Obj *p, V3 *out)
+void EVENTDATA_SYSTEM_GetConnectCenterPos(const Obj *p, V3 *out)
 {
     const Box *b = &p->box;
 

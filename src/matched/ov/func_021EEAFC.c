@@ -1,5 +1,5 @@
 /*
- * function: func_021EEAFC
+ * function: BTL_ADAPTER_Idle
  * address:  0x021EEAFC
  * packet:   pkt_021EEAFC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EEAFC   0x021EEAFC  thumb ov093
+ *   BTL_ADAPTER_Idle   0x021EEAFC  thumb ov093
  *
  * empty function: bx lr
  */
@@ -22,6 +22,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021EEAFC(void)
+void BTL_ADAPTER_Idle(void)
 {
 }

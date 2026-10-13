@@ -9,14 +9,14 @@
  * status: EXACT
  * symbols:
  *   func_02034AC4 0x02034AC4 arm
- *   func_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_021BD5C4 0x021BD5C4 thumb ov110
  *   func_021B9BEC 0x021B9BEC thumb ov110
  *   func_021B9C74 0x021B9C74 thumb ov110
  *   func_021BABE8 0x021BABE8 thumb ov110
  *   func_021BD7A0 0x021BD7A0 thumb ov110
  *   func_021BD894 0x021BD894 thumb ov110
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_02030D28 0x02030D28 arm
  *   d_00000043 0x00000043 data a1
  */
@@ -26,7 +26,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct Ctx;
 extern int func_02034AC4(s32 handle);
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 struct Obj0203159C;
 extern u8 *func_021BD5C4(struct Obj0203159C *owner, u8 *input);
 extern void func_021B9BEC(u8 *p, int id);
@@ -35,15 +35,15 @@ extern int func_021BABE8(u8 *p);
 extern void func_021BD7A0(u8 *,int (*)(u8 *,void *));
 extern int func_021BD894(u8 *,void *);
 extern const u8 d_00000043[];
-extern void func_0203D34C(u32 a, u32 b);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void func_02030D28(struct Ctx *c);
 int func_021BD484(void *a,int *state,int c,void *p) {
     u8 *obj;
     switch(*state) {
     case 0:
         func_02034AC4((int)d_00000043);
-        func_0203064C(1,41,0x18000);
-        func_0203064C(1,42,0x32000);
+        GFL_HEAP_CreateChildHeap(1,41,0x18000);
+        GFL_HEAP_CreateChildHeap(1,42,0x32000);
         obj=func_021BD5C4(a,(u8 *)c);
         func_021B9BEC(((struct Obj03242 *)obj)->f14,0);
         ++*state;
@@ -61,7 +61,7 @@ int func_021BD484(void *a,int *state,int c,void *p) {
         obj=p;
         if(func_021B9C74((unsigned int)(((struct Obj03242 *)obj)->f14))) {
             func_021BD7A0(obj,func_021BD894);
-            func_0203D34C(1,42);
+            GFL_NET_RestartWithDefaultTimeout(1,42);
             return 1;
         }
         break;

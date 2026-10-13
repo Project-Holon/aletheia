@@ -1,5 +1,5 @@
 /*
- * function: func_021AC740
+ * function: FLDEFF_GRASS_DeleteSlots
  * address:  0x021AC740
  * packet:   pkt_ov021_021AC740
  * region:   ov021
@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -19,12 +22,12 @@ typedef signed char    s8;
 typedef struct X { u32 f0; u32 f4; u16 h[8]; } X;
 
 struct BbActSys;
-extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
+extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count);
 
-void func_021AC740(X *x)
+void FLDEFF_GRASS_DeleteSlots(X *x)
 {
     int i;
 
     for (i = 0; i < 8; i++)
-        func_02050278((struct BbActSys *)x->f4, x->h[i], 1);
+        BILLBOARD_ACT_DeleteSlots((struct BbActSys *)x->f4, x->h[i], 1);
 }

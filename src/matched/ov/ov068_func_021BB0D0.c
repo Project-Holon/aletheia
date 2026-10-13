@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021BB0D0, func_021BB0D8
+ * function: OPTION_MENU_GetTextWait, OPTION_MENU_TakeLastChanged
  * address:  0x021BB0D0
  * packet:   pkt_ov068_021BB0D0
  * region:   ov068
@@ -17,13 +17,13 @@
  */
 #include "../include/Obj13144.h"
 
-void func_021BB0D0(void)
+void OPTION_MENU_GetTextWait(void)
 {
     signed char func_02012FFC(void);
     func_02012FFC();
 }
 
-int func_021BB0D8(void *p)
+int OPTION_MENU_TakeLastChanged(void *p)
 {
     unsigned char old = ((struct Obj13144 *)p)->f5;
     ((struct Obj13144 *)p)->f5 = 0xb;

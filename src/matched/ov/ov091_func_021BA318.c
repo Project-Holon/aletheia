@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021BA318, func_021BA394
+ * function: POKELIST_UpdateHpTransfer, POKELIST_OpenTakeMailMenu
  * address:  0x021BA318
  * packet:   pkt_ov091_021BA318
  * region:   ov091
@@ -11,15 +11,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BB464  0x021BB464  thumb ov091
- *   func_021BB97C  0x021BB97C  thumb ov091
- *   func_021BB99C  0x021BB99C  thumb ov091
- *   func_021BB9EC  0x021BB9EC  thumb ov091
- *   func_021B9788  0x021B9788  thumb ov091
- *   func_021BB98C  0x021BB98C  thumb ov091
- *   func_021B9E20  0x021B9E20  thumb ov091
- *   func_021B9804  0x021B9804  thumb ov091
- *   func_021BA3A4  0x021BA3A4  thumb ov091
+ *   PLIST_PLATE_GetHp  0x021BB464  thumb ov091
+ *   PLIST_MESSAGE_CreateWordSet  0x021BB97C  thumb ov091
+ *   PLIST_MESSAGE_SetWordSetPokemon  0x021BB99C  thumb ov091
+ *   PLIST_MESSAGE_SetWordSetNumber  0x021BB9EC  thumb ov091
+ *   POKELIST_ShowMessage  0x021B9788  thumb ov091
+ *   PLIST_MESSAGE_DestroyWordSet  0x021BB98C  thumb ov091
+ *   POKELIST_EndMessageToList  0x021B9E20  thumb ov091
+ *   POKELIST_OpenChoiceMenu  0x021B9804  thumb ov091
+ *   POKELIST_OnTakeMailChoice  0x021BA3A4  thumb ov091
  */
 #include "../include/Obj13244.h"
 
@@ -29,34 +29,34 @@ typedef unsigned int   u32;
 
 #define W(o) (*(u32 *)(p + (o)))
 
-extern u16  func_021BB464(int unused, u16 *q);
-extern void func_021BB97C(u16 *p, u32 s);
-extern void func_021BB99C(int a, int b, int c, int d);
-extern void func_021BB9EC(int a, int b, int c, int d, unsigned char e);
-extern void func_021B9788(u8 *p, int a1, int a2, int a3);
-extern void func_021BB98C(void *p, u32 s);
-extern void func_021B9E20(u8 *p);
-extern void func_021B9804(u8 *p, int a1);
-extern void func_021BA3A4(u8 *p, u32 state);
+extern u16  PLIST_PLATE_GetHp(int unused, u16 *q);
+extern void PLIST_MESSAGE_CreateWordSet(u16 *p, u32 s);
+extern void PLIST_MESSAGE_SetWordSetPokemon(int a, int b, int c, int d);
+extern void PLIST_MESSAGE_SetWordSetNumber(int a, int b, int c, int d, unsigned char e);
+extern void POKELIST_ShowMessage(u8 *p, int a1, int a2, int a3);
+extern void PLIST_MESSAGE_DestroyWordSet(void *p, u32 s);
+extern void POKELIST_EndMessageToList(u8 *p);
+extern void POKELIST_OpenChoiceMenu(u8 *p, int a1);
+extern void POKELIST_OnTakeMailChoice(u8 *p, u32 state);
 
-void func_021BA318(u8 *p)
+void POKELIST_UpdateHpTransfer(u8 *p)
 {
     u16 r;
     u16 t;
 
-    r = func_021BB464((int)p, (u16 *)((u32 *)(p + 0x160))[((u32 *)W(0x280))[0x3c / 4]]);
+    r = PLIST_PLATE_GetHp((int)p, (u16 *)((u32 *)(p + 0x160))[((u32 *)W(0x280))[0x3c / 4]]);
     W(0x2c) = ((u32 *)W(0x280))[0x3c / 4];
-    func_021BB97C((u16 *)p, W(0x150));
-    func_021BB99C((int)p, W(0x150), 0, W(0x38));
+    PLIST_MESSAGE_CreateWordSet((u16 *)p, W(0x150));
+    PLIST_MESSAGE_SetWordSetPokemon((int)p, W(0x150), 0, W(0x38));
     t = ((struct Obj13244 *)p)->f11C;
     if (t) {
-        func_021BB9EC((int)p, (u32)W(0x150), (u32)1, (u16)(r - t), 3);
-        func_021B9788(p, 0x2c, 1, (int)func_021B9E20);
+        PLIST_MESSAGE_SetWordSetNumber((int)p, (u32)W(0x150), (u32)1, (u16)(r - t), 3);
+        POKELIST_ShowMessage(p, 0x2c, 1, (int)POKELIST_EndMessageToList);
     }
-    func_021BB98C(p, W(0x150));
+    PLIST_MESSAGE_DestroyWordSet(p, W(0x150));
 }
 
-void func_021BA394(u8 *p)
+void POKELIST_OpenTakeMailMenu(u8 *p)
 {
-    func_021B9804(p, (int)func_021BA3A4);
+    POKELIST_OpenChoiceMenu(p, (int)POKELIST_OnTakeMailChoice);
 }

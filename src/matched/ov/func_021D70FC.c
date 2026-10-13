@@ -1,5 +1,5 @@
 /*
- * function: func_021D70FC
+ * function: BTL_EVENT_DispatchEventToType
  * address:  0x021D70FC
  * packet:   pkt_021D70FC
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D7108  0x021D7108  thumb  ov093
+ *   BTL_EVENT_DispatchEventNested  0x021D7108  thumb  ov093
  */
 
-void func_021D7108(void *a, int id, int kind, int check);
+void BTL_EVENT_DispatchEventNested(void *a, int id, int kind, int check);
 
-void func_021D70FC(int a, int b, int c)
+void BTL_EVENT_DispatchEventToType(int a, int b, int c)
 {
-    func_021D7108((void *)a, b, c, 1);
+    BTL_EVENT_DispatchEventNested((void *)a, b, c, 1);
 }

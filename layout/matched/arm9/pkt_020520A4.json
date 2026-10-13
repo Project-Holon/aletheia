@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020520A4",
+   "name": "BUTTON_MAN_ScaleVec",
    "address": "0x020520A4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020520FC",
+   "name": "BUTTON_MAN_MakeRotMtxXYZ",
    "address": "0x020520FC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020521BC",
+   "name": "BUTTON_MAN_MakeLookAtMtx",
    "address": "0x020521BC",
    "kind": "game",
    "region": "arm9",

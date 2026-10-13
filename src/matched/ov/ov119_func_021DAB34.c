@@ -10,8 +10,8 @@
  * symbols:
  *   func_021D8A24 0x021D8A24 thumb ov119
  *   func_021D89A8 0x021D89A8 thumb ov119
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DAB0C 0x021DAB0C thumb ov119
  */
@@ -21,16 +21,16 @@ typedef unsigned short u16;
 extern int func_021D8A24(void *);
 extern int func_021D89A8(char *p);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_021D8E84(void *,int);
 extern void func_021DAB0C(char *p);
 void func_021DAB34(char *p) {
  u8 b[2];
  if(func_021D8A24(p)) {
   b[0]=((struct Obj04476 *)p)->f630;b[1]=func_021D89A8(p);
-  if(func_0203D3A8(func_020399A8(),0xc10,2,(u32)((void *)b))) {((struct Obj04476 *)p)->fF2C=0;func_021D8E84(p,(int)func_021DAB0C);}
+  if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc10,2,(u32)((void *)b))) {((struct Obj04476 *)p)->fF2C=0;func_021D8E84(p,(int)func_021DAB0C);}
  } else {
   p[0x11f2]=((struct Obj04476 *)p)->f630;((struct Obj04476 *)p)->f107E=((struct Obj04476 *)p)->f11F2*160+16;
   ((struct Obj04476 *)p)->fF2C=0;func_021D8E84(p,(int)func_021DAB0C);

@@ -16,12 +16,12 @@
  *   func_0202A230  0x0202A230  thumb
  *   func_0202A3FC  0x0202A3FC  thumb
  *   func_0202A3D8  0x0202A3D8  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A30C8  0x021A30C8  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
- *   func_021AB37C  0x021AB37C  thumb  ov021
- *   func_02188D58  0x02188D58  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
+ *   MAP_ATTR_IsSandVariant  0x021AB37C  thumb  ov021
+ *   FIELDMAP_GetAreaData  0x02188D58  thumb  ov021
  *   func_020140D8  0x020140D8  thumb
  *   d_021DB7E0     0x021DB7E0  data  ov021  a2
  *   d_021DB7F6     0x021DB7F6  data  ov021  a1
@@ -40,12 +40,12 @@ extern u32 func_0202A230(void *a, u32 idx);
 extern u8 func_0202A3FC(u32 key);
 extern u8 func_0202A3D8(u32 key);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u32 func_021A30C8(void **ctx);
-extern u16 func_021AB0F0(u32 attr);
-extern u16 func_021AB0F8(u32 attr);
-extern int func_021AB37C(u32 id);
-extern u32 func_02188D58(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern int MAP_ATTR_IsSandVariant(u32 id);
+extern u32 FIELDMAP_GetAreaData(u8 *p);
 extern u8 func_020140D8(struct Sub020140BCObj *p);
 
 void func_021CF748(u32 a, u32 x, int *out, u16 *out2)
@@ -62,15 +62,15 @@ void func_021CF748(u32 a, u32 x, int *out, u16 *out2)
         return;
     }
     {
-        u32 y = func_021A30C8(func_02188CB4((void *)x));
-        u32 z = func_021AB0F0(y);
+        u32 y = FIELD_PLAYER_GetNowAttribute(FIELDMAP_GetFieldPlayer((void *)x));
+        u32 z = MAP_ATTR_GetTerrainId(y);
 
-        if (func_021AB0F8(y) & 2) {
+        if (MAP_ATTR_GetFlags(y) & 2) {
             code = 6;
-        } else if (func_021AB37C(z) != 0) {
+        } else if (MAP_ATTR_IsSandVariant(z) != 0) {
             code = 8;
         } else {
-            if (func_020140D8((struct Sub020140BCObj *)func_02188D58((u8 *)x)) == 0) {
+            if (func_020140D8((struct Sub020140BCObj *)FIELDMAP_GetAreaData((u8 *)x)) == 0) {
                 flag = 0;
             }
             code = 5;

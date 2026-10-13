@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  * note: 2026-10-05 integrator: label left open after the pengy waves; written from the listing.
  */
 
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
 void func_021BA308(void *p)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

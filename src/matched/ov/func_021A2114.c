@@ -1,5 +1,5 @@
 /*
- * function: func_021A2114
+ * function: WEATHER_TASK_SetLight
  * address:  0x021A2114
  * packet:   pkt_021A2114
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A0590  0x021A0590  thumb  ov021
+ *   FIELD_LIGHT_ChangeTable  0x021A0590  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18001.h"
@@ -22,10 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021A0590(u32, u32, u32, u32);
+extern u32 FIELD_LIGHT_ChangeTable(u32, u32, u32, u32);
 
-int func_021A2114(u32 a, int b, u32 c)
+int WEATHER_TASK_SetLight(u32 a, int b, u32 c)
 {
-return func_021A0590(((struct Obj18001 *)((u8 *)(a)))->f8, b, c, 1);
+return FIELD_LIGHT_ChangeTable(((struct Obj18001 *)((u8 *)(a)))->f8, b, c, 1);
 }
 

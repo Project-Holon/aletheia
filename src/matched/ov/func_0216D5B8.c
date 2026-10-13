@@ -1,5 +1,5 @@
 /*
- * function: func_0216D5B8
+ * function: FLDMMDL_GetEventId
  * address:  0x0216D5B8
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D5B8.c \
- *       --func func_0216D5B8 --addr 0x0216D5B8 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetEventId.c \
+ *       --func FLDMMDL_GetEventId --addr 0x0216D5B8 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17805.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_0216D5B8(void *p) { return ((struct Obj17805 *)p)->f14; }
+u32 FLDMMDL_GetEventId(void *p) { return ((struct Obj17805 *)p)->f14; }

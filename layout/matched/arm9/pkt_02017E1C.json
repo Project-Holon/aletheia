@@ -18,7 +18,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02017E1C"
+    "POKE_TOOL_GetPartyValue"
+   ],
+   "addresses": [
+    "0x02017E1C"
    ]
   },
   {
@@ -33,7 +36,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02017E40"
+    "POKE_TOOL_SetPartyValue"
+   ],
+   "addresses": [
+    "0x02017E40"
    ]
   }
  ]

@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02013610",
+   "name": "BTL_SETUP_SetupTrainerSingle",
    "address": "0x02013610",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02013644",
+   "name": "BTL_SETUP_SetupTrainerDouble",
    "address": "0x02013644",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02013678",
+   "name": "BTL_SETUP_SetupTrainerTriple",
    "address": "0x02013678",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020136AC",
+   "name": "BTL_SETUP_SetupTrainerRotation",
    "address": "0x020136AC",
    "kind": "game",
    "region": "arm9",
@@ -236,7 +236,7 @@
    "status": "EXACT",
    "functions": [
     "ZONEDATA_GetHeader",
-    "sub_02013B10",
+    "ZONEDATA_IsZoneInTable",
     "ZONEDATA_GetAreaId",
     "ZONEDATA_GetMatrixId",
     "ZONEDATA_GetMapType",

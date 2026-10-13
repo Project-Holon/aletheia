@@ -1,5 +1,5 @@
 /*
- * function: func_021C14F8
+ * function: FIELD_PLAYER_GRID_EVENT_JumpUpRise
  * address:  0x021C14F8
  * packet:   pkt_ov021_021C14F8
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D89C  0x0216D89C  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  *   func_0209C0A4  0x0209C0A4  arm
- *   func_021C6B18  0x021C6B18  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
+ *   FIELDMAP_TCB_CAMERA_ZOOM_Create  0x021C6B18  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01506.h"
@@ -27,22 +27,22 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } Vec3;
 
-extern void *func_021A3074(unsigned char *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void func_0216D89C(void *a, Vec3 *v);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
+extern void FLDMMDL_SetPos(void *a, Vec3 *v);
 extern int func_0209C0A4(int a, int b);
-extern void func_021C6B18(u32 a, u16 b, u32 c);
-extern void func_021AC154(u32 a);
+extern void FIELDMAP_TCB_CAMERA_ZOOM_Create(u32 a, u16 b, u32 c);
+extern void FIELD_EFFECT_DeleteObject(u32 a);
 
-int func_021C14F8(u8 *p)
+int FIELD_PLAYER_GRID_EVENT_JumpUpRise(u8 *p)
 {
     Vec3 v;
     void *r4;
 
-    r4 = func_021A3074(((struct Obj01506 *)p)->f3C);
-    func_0216D88C(r4, (struct VecFx32 *)&v);
+    r4 = FIELD_PLAYER_GetMmdl(((struct Obj01506 *)p)->f3C);
+    FLDMMDL_GetPos(r4, (struct VecFx32 *)&v);
     v.y += ((struct Obj01506 *)p)->f34;
     if (v.y >= ((struct Obj01506 *)p)->f28) {
         v.y = ((struct Obj01506 *)p)->f28;
@@ -52,9 +52,9 @@ int func_021C14F8(u8 *p)
         ((struct Obj01506 *)p)->f10 = -0x8000;
         ((struct Obj01506 *)p)->f34 = 0x6000;
         ((struct Obj01506 *)p)->f10 = func_0209C0A4(-0x8000, 0xb);
-        func_021C6B18(((struct Obj01506 *)p)->f40, 0x10, (u32)-0x8000 << 2);
-        func_021AC154(((struct Obj01506 *)p)->f48);
+        FIELDMAP_TCB_CAMERA_ZOOM_Create(((struct Obj01506 *)p)->f40, 0x10, (u32)-0x8000 << 2);
+        FIELD_EFFECT_DeleteObject(((struct Obj01506 *)p)->f48);
     }
-    func_0216D89C(r4, &v);
+    FLDMMDL_SetPos(r4, &v);
     return 0;
 }

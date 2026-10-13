@@ -1,5 +1,5 @@
 /*
- * function: func_021CEB64
+ * function: COMM_ENTRY_MENU_EndYesNo
  * address:  0x021CEB64
  * packet:   pkt_ov021_021CEB64
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021909BC  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
  */
 #include "../include/Obj07591.h"
 
@@ -18,12 +18,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021909BC(void *a);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
 
-void func_021CEB64(u8 *p)
+void COMM_ENTRY_MENU_EndYesNo(u8 *p)
 {
     if (((struct Obj07591 *)p)->f140 != 0) {
-        func_021909BC((void *)(((struct Obj07591 *)p)->f140));
+        FIELD_MSGBG_DeleteMenuFunc((void *)(((struct Obj07591 *)p)->f140));
         ((struct Obj07591 *)p)->f140 = 0;
         p[0x40e] = 0;
     }

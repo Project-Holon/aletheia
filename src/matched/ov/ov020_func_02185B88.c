@@ -1,5 +1,5 @@
 /*
- * function: func_02185B88
+ * function: EVENT_MAPCHANGE_SetPlayerVanish
  * address: 0x02185B88
  * packet: pkt_ov020_02185B88
  * region: ov020
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02188CB4 0x02188CB4 thumb ov021
- *   func_021A3074 0x021A3074 thumb ov021
- *   func_0216DAC8 0x0216DAC8 thumb ov010
+ *   FIELDMAP_GetFieldPlayer 0x02188CB4 thumb ov021
+ *   FIELD_PLAYER_GetMmdl 0x021A3074 thumb ov021
+ *   FLDMMDL_SetStatusBitVanish 0x0216DAC8 thumb ov010
  */
 typedef unsigned char  u8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern void func_0216DAC8(unsigned int *, unsigned int);
-void func_02185B88(void *p, unsigned int v)
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *, unsigned int);
+void EVENT_MAPCHANGE_SetPlayerVanish(void *p, unsigned int v)
 {
-    func_0216DAC8(func_021A3074(func_02188CB4(p)), v);
+    FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(p)), v);
 }

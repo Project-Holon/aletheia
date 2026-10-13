@@ -1,5 +1,5 @@
 /*
- * function: func_021F38F0
+ * function: FIELD_GIMMICK_BSUBWAY_UpdateTrainSway
  * address:  0x021F38F0
  * packet:   pkt_ov052_021F38F0
  * region:   ov052
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_0218DC4C  0x0218DC4C  thumb  ov021
- *   d_021F39CC     0x021F39CC  data  a4
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELD_G3D_MAPPER_SetOriginOffset  0x0218DC4C  thumb  ov021
+ *   sFieldGimmickBsubwaySwayIntervals     0x021F39CC  data  a4
  */
 #include "../include/Obj01038.h"
 #include "../include/Obj20568.h"
@@ -20,18 +20,18 @@
 typedef struct { int v[4]; } T4;
 typedef struct { int x, y, z; } V3;
 
-extern T4 d_021F39CC;
+extern T4 sFieldGimmickBsubwaySwayIntervals;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_02188C98(u8 *p);
-extern void func_0218DC4C(int, V3 *);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern void FIELD_G3D_MAPPER_SetOriginOffset(int, V3 *);
 
-void func_021F38F0(char *a, int b)
+void FIELD_GIMMICK_BSUBWAY_UpdateTrainSway(char *a, int b)
 {
     V3 v = {0, 0, 0};
-    T4 t = d_021F39CC;
+    T4 t = sFieldGimmickBsubwaySwayIntervals;
     unsigned char *p = *(unsigned char * *)&((struct Obj20568 *)a)->f24;
-    int r = func_02188C98((u8 *)b);
+    int r = FIELDMAP_GetG3dMapper((u8 *)b);
 
     switch (p[1]) {
     case 0:
@@ -49,7 +49,7 @@ void func_021F38F0(char *a, int b)
         break;
     case 2:
         v.y = ((struct Obj01038 *)p)->f8 << 12;
-        func_0218DC4C(r, &v);
+        FIELD_G3D_MAPPER_SetOriginOffset(r, &v);
         if (((struct Obj01038 *)p)->f8 == 0)
             p[1] = 0;
         if (((struct Obj01038 *)p)->f8 < 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_0217B4D8
+ * function: INTRUDE_FIELD_CreateEdgeTask
  * address:  0x0217B4D8
  * packet:   pkt_ov018_0217B4D8
  * region:   ov018
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_02158344  0x02158344  thumb  ov010
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_02175BE4  0x02175BE4  thumb  ov011
- *   func_0217B044  0x0217B044  thumb  ov018
- *   func_0217B1DC  0x0217B1DC  thumb  ov018
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   INTRUDE_COMM_IsSessionBusy  0x02175BE4  thumb  ov011
+ *   INTRUDE_FIELD_CreateEdgeBlockTask  0x0217B044  thumb  ov018
+ *   INTRUDE_FIELD_CreateAreaChangeTask  0x0217B1DC  thumb  ov018
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
 struct Ctx;
-extern unsigned int func_02012138(const struct Ctx *p);
-extern int func_02158344(int a0);
-extern int func_0203D1B4();
-extern int func_02175BE4(void *a);
-extern void *func_0217B044(void *a, int b, int c, int d, int e, int f);
-extern void *func_0217B1DC();
+extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
+extern int GFL_NET_GetNegotiationNum();
+extern int INTRUDE_COMM_IsSessionBusy(void *a);
+extern void *INTRUDE_FIELD_CreateEdgeBlockTask(void *a, int b, int c, int d, int e, int f);
+extern void *INTRUDE_FIELD_CreateAreaChangeTask();
 
-void *func_0217B4D8(int a0, int a1, int a2, int *a3, int a4, u16 a5)
+void *INTRUDE_FIELD_CreateEdgeTask(int a0, int a1, int a2, int *a3, int a4, u16 a5)
 {
     u8 *p;
     int r;
@@ -38,7 +38,7 @@ void *func_0217B4D8(int a0, int a1, int a2, int *a3, int a4, u16 a5)
     int n;
     int sub;
 
-    p = (u8 *)func_02158344(func_02012138((const struct Ctx *)a0));
+    p = (u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)a0));
     r = 9;
     x = *a3;
     n = 1;
@@ -59,11 +59,11 @@ void *func_0217B4D8(int a0, int a1, int a2, int *a3, int a4, u16 a5)
             r = 3;
     }
     if (r != 9) {
-        if (p == 0 || func_0203D1B4() <= 1 || p[0x902] < 2)
-            return func_0217B044((void *)a0, a1, a2, a4, r, 0);
-        if (func_02175BE4(p + 0x1AC) == 1)
-            return func_0217B044((void *)a0, a1, a2, a4, r, 1);
-        return func_0217B1DC(a0, a1, a2, r);
+        if (p == 0 || GFL_NET_GetNegotiationNum() <= 1 || p[0x902] < 2)
+            return INTRUDE_FIELD_CreateEdgeBlockTask((void *)a0, a1, a2, a4, r, 0);
+        if (INTRUDE_COMM_IsSessionBusy(p + 0x1AC) == 1)
+            return INTRUDE_FIELD_CreateEdgeBlockTask((void *)a0, a1, a2, a4, r, 1);
+        return INTRUDE_FIELD_CreateAreaChangeTask(a0, a1, a2, r);
     }
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4BFC
+ * function: BTL_NET_GetReplySlot
  * address: 0x021D4BFC
  * packet: pkt_ov093_021D4BFC
  * region: ov093
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov093/btl_net.c and filed here.
  *
  * symbols:
- *   d_021F3B88 0x021F3B88 data ov093 a4
+ *   gBtlNet 0x021F3B88 data ov093 a4
  */
 
 struct BtlNet;
@@ -64,14 +64,14 @@ struct BtlNet {
     struct BtlNetSync sync;     /* 0x3b20 */
 };
 
-struct BtlNetRec *func_021D4BFC(int idx);
-extern struct BtlNet *d_021F3B88;
+struct BtlNetRec *BTL_NET_GetReplySlot(int idx);
+extern struct BtlNet *gBtlNet;
 
 /*
  * evidence: 0203159C leaves its allocation in r0, read here despite legacy void.
  * 021D4D38 r2 is explicitly loaded here and retained in the extern.
  */
-struct BtlNetRec *func_021D4BFC(int idx)
+struct BtlNetRec *BTL_NET_GetReplySlot(int idx)
 {
-    return &d_021F3B88->peer[idx];
+    return &gBtlNet->peer[idx];
 }

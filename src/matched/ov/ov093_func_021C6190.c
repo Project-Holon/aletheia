@@ -1,5 +1,5 @@
 /*
- * function: func_021C6190
+ * function: BTL_SERVER_FLOW_ProcPursuitBeforeSwitch
  * address: 0x021C6190
  * packet: pkt_ov093_021C6190
  * region: ov093
@@ -11,11 +11,11 @@
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021E02DC 0x021E02DC thumb ov093
  *   func_021E03D8 0x021E03D8 thumb ov093
- *   func_021D74F8 0x021D74F8 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D75EC 0x021D75EC thumb ov093
- *   func_021D70F0 0x021D70F0 thumb ov093
- *   func_021D7540 0x021D7540 thumb ov093
+ *   BTL_EVENT_PushVarFrame 0x021D74F8 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_EVENT_SetVarReadOnly 0x021D75EC thumb ov093
+ *   BTL_EVENT_DispatchEventChecked 0x021D70F0 thumb ov093
+ *   BTL_EVENT_PopVarFrame 0x021D7540 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,11 +24,11 @@ typedef struct { u8 *p; u32 type:4; u32 pad:3; u32 key:16; u32 rest:9; u8 bytes[
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021E02DC(u8 *, u16, u32);
 extern void func_021E03D8(u8 *a, int b);
-extern void func_021D74F8(int);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int, u32);
-extern void func_021D70F0(void *a, int id);
-extern void func_021D7540(int);
+extern void BTL_EVENT_PushVarFrame(int);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_EVENT_SetVarReadOnly(int, u32);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
+extern void BTL_EVENT_PopVarFrame(int);
 static inline u16 entry_key(Entry *e)
 {
     if (e->type == 1) return e->key;
@@ -37,7 +37,7 @@ static inline u16 entry_key(Entry *e)
 #define OBJECT(i) (*(u8 **)((u32)p + (i) * 16 + 0x7e0))
 #define SKIP(i) p[(i) * 16 + 0x7ed]
 #define FLAG(i) p[(i) * 16 + 0x7ee]
-int func_021C6190(u8 *p, u8 *a)
+int BTL_SERVER_FLOW_ProcPursuitBeforeSwitch(u8 *p, u8 *a)
 {
     u32 i;
     for (i = 0; i < p[0x782]; i++) {
@@ -51,10 +51,10 @@ int func_021C6190(u8 *p, u8 *a)
         }
     }
     p[0x788] = 0;
-    func_021D74F8(11288);
-    func_021D75EC(6, func_021D5440(a));
-    func_021D70F0(p, 0x53);
-    func_021D7540(11291);
+    BTL_EVENT_PushVarFrame(11288);
+    BTL_EVENT_SetVarReadOnly(6, BTL_POKEPARAM_GetPokeId(a));
+    BTL_EVENT_DispatchEventChecked(p, 0x53);
+    BTL_EVENT_PopVarFrame(11291);
     for (i = 0; i < p[0x782]; i++) {
         u16 key;
         if (FLAG(i)) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B5094
+ * function: SCRCMD_PROC_FLD_CallFieldMapEvent
  * address:  0x021B5094
  * packet:   pkt_ov021_021B5094
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 typedef unsigned char  u8;
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void func_0215897C(void *vm, void *task);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B5094(u32 a, u32 b)
+int SCRCMD_PROC_FLD_CallFieldMapEvent(u32 a, u32 b)
 {
-    void *s = func_0215A5F4((void *)b);
-    void *d = func_0215A5DC((void *)b);
+    void *s = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *d = SCRCMD_WORK_GetGameSystem((void *)b);
 
-    func_0215897C(s, (void *)func_021BE92C(d, (int)func_0201210C((void *)d), 0, 0, 1, 0, 0));
+    SCRIPT_SYS_CallEvent(s, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(d, (int)GAMESYSTEM_GetFieldMap((void *)d), 0, 0, 1, 0, 0));
     return 1;
 }

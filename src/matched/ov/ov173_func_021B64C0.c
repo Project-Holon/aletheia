@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020433E0  0x020433E0  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
  */
 
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 void func_021B64C0(void)
 {
-    func_020433E0((void *)0x021B8250);
+    BG_SYS_SetVramBanks((void *)0x021B8250);
 }

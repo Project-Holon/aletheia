@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DAE94",
+   "name": "BTL_ABILITY_DampAddSkipCheck",
    "address": "0x021DAE94",
    "kind": "game",
    "region": "ov093",

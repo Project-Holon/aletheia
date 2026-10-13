@@ -1,5 +1,5 @@
 /*
- * function: func_021AB660
+ * function: FLD_SCENEAREA_Update
  * address:  0x021AB660
  * packet:   pkt_ov021_021AB660
  * region:   ov021
@@ -16,8 +16,8 @@
  * not move it.
  *
  * symbols:
- *   func_021AB798  0x021AB798  thumb  ov021
- *   func_021AB7C0  0x021AB7C0  thumb  ov021
+ *   FLD_SCENEAREA_RunCheck  0x021AB798  thumb  ov021
+ *   FLD_SCENEAREA_RunAction  0x021AB7C0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -46,10 +46,10 @@ struct Obj {
     u32 f1C;
 };
 
-extern int func_021AB798(void *tbl, u16 id, struct Obj *o, struct Rec *r, void *arg);
-extern void func_021AB7C0(void *tbl, u16 id, struct Obj *o, struct Rec *r, void *arg);
+extern int FLD_SCENEAREA_RunCheck(void *tbl, u16 id, struct Obj *o, struct Rec *r, void *arg);
+extern void FLD_SCENEAREA_RunAction(void *tbl, u16 id, struct Obj *o, struct Rec *r, void *arg);
 
-int func_021AB660(struct Obj *o, void *arg)
+int FLD_SCENEAREA_Update(struct Obj *o, void *arg)
 {
     u32 i;
     int sel;
@@ -59,21 +59,21 @@ int func_021AB660(struct Obj *o, void *arg)
     o->f1C = 0xFFFF;
     sel = -1;
     for (i = 0; i < o->count; i++) {
-        if (func_021AB798(o->f0C, *(u16 *)((u8 *)o->recs + i * sizeof(struct Rec) + 0x40), o, &o->recs[i], arg))
+        if (FLD_SCENEAREA_RunCheck(o->f0C, *(u16 *)((u8 *)o->recs + i * sizeof(struct Rec) + 0x40), o, &o->recs[i], arg))
             sel = i;
     }
     if (sel != o->cur) {
         if (o->cur != -1) {
-            func_021AB7C0(o->f0C, o->recs[o->cur].f46, o, &o->recs[o->cur], arg);
+            FLD_SCENEAREA_RunAction(o->f0C, o->recs[o->cur].f46, o, &o->recs[o->cur], arg);
             o->f1C = o->recs[o->cur].f46;
         }
         if (sel != -1) {
-            func_021AB7C0(o->f0C, o->recs[sel].f44, o, &o->recs[sel], arg);
+            FLD_SCENEAREA_RunAction(o->f0C, o->recs[sel].f44, o, &o->recs[sel], arg);
             o->f1C = o->recs[sel].f44;
         }
         o->cur = sel;
     } else if (o->cur != -1) {
-        func_021AB7C0(o->f0C, o->recs[o->cur].f42, o, &o->recs[o->cur], arg);
+        FLD_SCENEAREA_RunAction(o->f0C, o->recs[o->cur].f42, o, &o->recs[o->cur], arg);
         o->f1C = o->recs[o->cur].f42;
     }
     return o->cur;

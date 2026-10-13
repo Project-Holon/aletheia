@@ -1,5 +1,5 @@
 /*
- * function: func_021B6554
+ * function: ITEMMENU_HandleListKeys
  * address:  0x021B6554
  * packet:   pkt_ov070_021B6554
  * region:   ov070
@@ -10,36 +10,36 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B61C8  0x021B61C8  thumb  ov070
+ *   ITEMMENU_GetItemCount  0x021B61C8  thumb  ov070
  *   func_0203633C  0x0203633C  arm
- *   func_021B6300  0x021B6300  thumb  ov070
- *   func_021B6374  0x021B6374  thumb  ov070
+ *   ITEMMENU_MoveCursorDown  0x021B6300  thumb  ov070
+ *   ITEMMENU_MoveCursorUp  0x021B6374  thumb  ov070
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
 struct Obj;
-extern int func_021B61C8(u8 *p);
+extern int ITEMMENU_GetItemCount(u8 *p);
 extern unsigned int func_0203633C(void);
-extern int func_021B6300(struct Obj *o, int n, int k);
-extern int func_021B6374(struct Obj *o, int n, int k);
+extern int ITEMMENU_MoveCursorDown(struct Obj *o, int n, int k);
+extern int ITEMMENU_MoveCursorUp(struct Obj *o, int n, int k);
 
-int func_021B6554(void *o)
+int ITEMMENU_HandleListKeys(void *o)
 {
     int res = 0;
     int k;
     u32 cnt;
 
-    k = func_021B61C8(o);
+    k = ITEMMENU_GetItemCount(o);
     if (func_0203633C() & 0x80) {
-        res = func_021B6300(o, k, 1);
+        res = ITEMMENU_MoveCursorDown(o, k, 1);
     } else if (func_0203633C() & 0x40) {
-        res = func_021B6374(o, k, 1);
+        res = ITEMMENU_MoveCursorUp(o, k, 1);
     } else if (func_0203633C() & 0x100) {
         cnt = res;
         do {
-            if (func_021B6300(o, k, 0) == 0)
+            if (ITEMMENU_MoveCursorDown(o, k, 0) == 0)
                 break;
             cnt++;
         } while (cnt < 6);
@@ -48,7 +48,7 @@ int func_021B6554(void *o)
     } else if (func_0203633C() & 0x200) {
         cnt = res;
         do {
-            if (func_021B6374(o, k, 0) == 0)
+            if (ITEMMENU_MoveCursorUp(o, k, 0) == 0)
                 break;
             cnt++;
         } while (cnt < 6);

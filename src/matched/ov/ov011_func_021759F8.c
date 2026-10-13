@@ -11,17 +11,17 @@
  * extent: follower 0x02175A24 already filed separately.
  * symbols:
  *   func_0203F4FC 0x0203F4FC arm
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  */
 #include "../include/Obj09352.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0203F4FC(void);
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 void INTRUDE_COMM_StartSessionTimer(u8 *p, int n)
 {
     p[0x1A5] |= 2;
     ((struct Obj09352 *)p)->fAA = n;
-    if (func_0203D378() == 0) ((struct Obj09352 *)p)->f190 = func_0203F4FC();
+    if (GFL_NET_IsParentAid() == 0) ((struct Obj09352 *)p)->f190 = func_0203F4FC();
 }

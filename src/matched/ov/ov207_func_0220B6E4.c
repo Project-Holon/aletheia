@@ -14,8 +14,8 @@
  *   func_0201CE48 0x0201CE48 thumb
  *   func_0203FB44 0x0203FB44 arm
  *   func_020452E8 0x020452E8 arm
- *   func_02045808 0x02045808 arm
- *   func_02031140 0x02031140 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   TCBL_Destroy 0x02031140 arm
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned short u16;
@@ -30,8 +30,8 @@ extern void func_02030EAC(struct Node *n);
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02031140(struct S02031140 *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 func_020307B0(void *p);
 void func_0220B6E4(unsigned *p)
 {
@@ -40,8 +40,8 @@ void func_0220B6E4(unsigned *p)
     func_0201CE48((void *)p[10]);
     func_0203FB44((int)3, (u16)p[12], (u16)(p[12] >> 16));
     func_020452E8((void *)p[9]);
-    func_02045808((void *)p[11]);
-    func_02031140((void *)p[13]);
+    STRBUF_Delete((void *)p[11]);
+    TCBL_Destroy((void *)p[13]);
     func_020452E8((void *)p[14]);
     func_020307B0(p);
 }

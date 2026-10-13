@@ -10,10 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B941C   0x021B941C  thumb
+ *   FRAME_LIST_HideCursor   0x021B941C  thumb
  *   func_0200CA54   0x0200CA54  thumb
  *   func_021B940C   0x021B940C  thumb ov133
  *   d_021BEAE0      0x021BEAE0  data
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
  *
  * MATCH (byte-correct, 1 relocation site wildcarded).  All concrete bytes
  * reproduce exactly.
@@ -22,7 +23,7 @@
  *       src/matched/unit_0200C9EC.c (pkt_0200C9F4), so `matched` now carries
  *       both sites.  The earlier "unlabelled leaf" reading was wrong: it is
  *       unlabelled in the listing, but the unit source already reproduces it.
- *   +0070  func_021B941C (thumb): 0x021B941C is interior to func_021B940C in
+ *   +0070  FRAME_LIST_HideCursor (thumb): 0x021B941C is interior to func_021B940C in
  *       ov133 (no `func_` label at it anywhere), so `label`/`sole-ref/code`
  *       refuse it.  Needs that address seeded as a start, or a matched entry.
  */
@@ -31,20 +32,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 struct Blk37;
 extern u32 func_020362DC(void);
 extern void func_020355D8(u8 v);
 extern u8 func_020355C4(void);
 extern u32 func_0200CA54(struct Blk37 *p);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern void func_021B941C(u32);
+extern void FRAME_LIST_HideCursor(u32);
 extern int func_021B940C(u8 *p);
 
 int func_021BE658(void *ctx_)
 {
     u8 *ctx = (u8 *)ctx_;
-    int v = func_02035C08((void *)0x021BEAE0);
+    int v = TOUCHPANEL_HitTrg((void *)0x021BEAE0);
 
     if (v != -1) {
         if (v == 8) {
@@ -62,7 +63,7 @@ int func_021BE658(void *ctx_)
                 return -1;
             if (func_020355C4() == 0) {
                 func_020355D8(1);
-                func_021B941C(*(u32 *)(ctx + 0xC2C));
+                FRAME_LIST_HideCursor(*(u32 *)(ctx + 0xC2C));
             }
         }
         func_020355D8(1);

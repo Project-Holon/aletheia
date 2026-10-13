@@ -1,5 +1,5 @@
 /*
- * function: func_021DAEAC
+ * function: BTL_ABILITY_DampRemoveSkipCheckForOwner
  * address:  0x021DAEAC
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021DAEAC   0x021DAEAC  thumb
- *   func_021D7324   0x021D7324  thumb
- *   func_021D775C   0x021D775C  thumb
- * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #2; adds r4, r2, #0; bl func_021D775C; cmp r4, r0; bne loc_021DAEC2; adds r0, r5, #0; bl func_021D7324; pop {r3, r4, r5, pc}.
+ *   BTL_ABILITY_DampRemoveSkipCheckForOwner   0x021DAEAC  thumb
+ *   BTL_EVENT_ClearFactorSkipCheck   0x021D7324  thumb
+ *   BTL_EVENT_GetVar   0x021D775C  thumb
+ * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r3, r4, r5, lr}; adds r5, r0, #0; movs r0, #2; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021DAEC2; adds r0, r5, #0; bl BTL_EVENT_ClearFactorSkipCheck; pop {r3, r4, r5, pc}.
  */
 
 typedef unsigned char u8;
@@ -23,10 +23,10 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021DAEAC  shape F3: gate on func_021D775C(2) then func_021D7324 */
-void func_021DAEAC(int a, int b, int c)
+/* 021DAEAC  shape F3: gate on BTL_EVENT_GetVar(2) then BTL_EVENT_ClearFactorSkipCheck */
+void BTL_ABILITY_DampRemoveSkipCheckForOwner(int a, int b, int c)
 {
-    if (c == func_021D775C(2))
-        func_021D7324(a);
+    if (c == BTL_EVENT_GetVar(2))
+        BTL_EVENT_ClearFactorSkipCheck(a);
 }
 

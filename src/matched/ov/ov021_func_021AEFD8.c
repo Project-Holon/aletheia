@@ -1,5 +1,5 @@
 /*
- * function: func_021AEFD8
+ * function: SCRCMD_ResumeZoneBgm
  * address:  0x021AEFD8
  * packet:   pkt_ov021_021AEFD8
  * region:   ov021
@@ -9,63 +9,63 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Blocker: func_02029DF4 (arm9, unlabelled thumb veneer: ldr r3,[pc]; bx r3;
+ * Blocker: FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx (arm9, unlabelled thumb veneer: ldr r3,[pc]; bx r3;
  * .word 0x02029EB5) has no witness outside the range (evidence class: none;
  * arm9 leaf belongs to the integrator, not filed here).
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02012984  0x02012984  thumb
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02029DF4  0x02029DF4  thumb
- *   func_020298A0  0x020298A0  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02028BDC  0x02028BDC  thumb
- *   func_02159168  0x02159168  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx  0x02029DF4  thumb
+ *   FIELD_SOUND_SYSTEM_StartChangeTask  0x020298A0  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   FIELD_SOUND_SYSTEM_ResumeSlots  0x02028BDC  thumb
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct Ctx;
 struct S;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
-extern u8 func_02012984(const struct BigObj *p);
-extern u16 func_02188C9C(u8 *p);
-extern unsigned int func_02029DF4(void *a, unsigned int id, unsigned int which);
-extern void *func_020298A0(void *a, u32 b, u32 c, u32 d);
-extern void func_0215897C(void *vm, void *task);
-extern void func_02028BDC(struct S *s, u32 mask);
-extern void func_02159168(int n);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(void *a, unsigned int id, unsigned int which);
+extern void *FIELD_SOUND_SYSTEM_StartChangeTask(void *a, u32 b, u32 c, u32 d);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern void FIELD_SOUND_SYSTEM_ResumeSlots(struct S *s, u32 mask);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 
-int func_021AEFD8(u32 a, u32 b)
+int SCRCMD_ResumeZoneBgm(u32 a, u32 b)
 {
     u32 y, m, q, s;
     void *x;
     void *l;
     void *p;
 
-    x = func_0215A5DC((void *)b);
-    y = (u32)func_020120F4(x);
-    l = func_0201210C((void *)x);
-    m = func_02012A30((const struct BigObj *)y);
-    p = func_0215A5F4((void *)b);
-    q = func_02012984((const struct BigObj *)y);
-    s = func_02029DF4((void *)y, func_02188C9C(l), q);
-    func_0215897C(p, (void *)func_020298A0(x, s, 0x5a, 0x3c));
-    func_02028BDC((struct S *)m, 2);
-    func_02159168(13);
+    x = SCRCMD_WORK_GetGameSystem((void *)b);
+    y = (u32)GAMESYSTEM_GetGameData(x);
+    l = GAMESYSTEM_GetFieldMap((void *)x);
+    m = GAME_DATA_GetBgmInfo((const struct BigObj *)y);
+    p = SCRCMD_WORK_GetScriptWork((void *)b);
+    q = GAME_DATA_GetSeason((const struct BigObj *)y);
+    s = FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx((void *)y, FIELDMAP_GetZoneId(l), q);
+    SCRIPT_SYS_CallEvent(p, (void *)FIELD_SOUND_SYSTEM_StartChangeTask(x, s, 0x5a, 0x3c));
+    FIELD_SOUND_SYSTEM_ResumeSlots((struct S *)m, 2);
+    SCRIPT_WORK_ResetCheckFlag(13);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0219EB18
+ * function: FLDMMDL_RAIL_LookAroundInit
  * address:  0x0219EB18
  * packet:   pkt_ov021_0219EB18
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219E968  0x0219E968  thumb  ov021
- *   func_0219EA10  0x0219EA10  thumb  ov021
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216DA50  0x0216DA50  thumb  ov010
+ *   FLDMMDL_RAIL_InitMoveWork  0x0219E968  thumb  ov021
+ *   FLDMMDL_RAIL_GetRandomTableEntry  0x0219EA10  thumb  ov021
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb  ov010
  *   d_021D84AC     0x021D84AC  data
  * Addresses are Black-image addresses.
  */
@@ -25,16 +25,16 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern u32 d_021D84AC[];
-extern void *func_0219E968(u32 a, u32 size);
-extern int func_0219EA10(u32 *a, int b);
-extern void func_0216D674(void *p, u16 v);
-extern void func_0216DA50(u8 *p);
+extern void *FLDMMDL_RAIL_InitMoveWork(u32 a, u32 size);
+extern int FLDMMDL_RAIL_GetRandomTableEntry(u32 *a, int b);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern void FLDMMDL_OffMoveBitMove(u8 *p);
 
-void func_0219EB18(u32 a, u16 b)
+void FLDMMDL_RAIL_LookAroundInit(u32 a, u16 b)
 {
-    u8 *q = func_0219E968(a, 16);
-    ((struct Obj12689 *)q)->fC = func_0219EA10(d_021D84AC, -1);
+    u8 *q = FLDMMDL_RAIL_InitMoveWork(a, 16);
+    ((struct Obj12689 *)q)->fC = FLDMMDL_RAIL_GetRandomTableEntry(d_021D84AC, -1);
     ((struct Obj12689 *)q)->fE = b;
-    func_0216D674((void *)a, 0);
-    func_0216DA50((u8 *)a);
+    FLDMMDL_SetDrawStatus((void *)a, 0);
+    FLDMMDL_OffMoveBitMove((u8 *)a);
 }

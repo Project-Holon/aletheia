@@ -1,5 +1,5 @@
 /*
- * function: func_0215A6C4
+ * function: SCRCMD_WORK_GetFadeState
  * address:  0x0215A6C4
  * packet:   pkt_ov010_0215A6C4
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0215A6C4(void *p)
+u32 SCRCMD_WORK_GetFadeState(void *p)
 {
     return ((struct Obj18796 *)(*(char * *)&((struct Obj00005 *)p)->f20))->f10C;
 }

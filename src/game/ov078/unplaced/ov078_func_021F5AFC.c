@@ -1,5 +1,5 @@
 /*
- * function: func_021F5AFC
+ * function: ENCEFF_StartRippleBurst
  * address:  0x021F5AFC
  * packet:   pkt_ov078_021F5AFC
  * region:   ov078
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Twin of ov078 func_021F5698 with different constants: faster, higher drops
+ * Twin of ov078 ENCEFF_StartRipple with different constants: faster, higher drops
  * and a longer wait after the last one.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02189A08  0x02189A08  thumb  ov021
- *   func_021CF52C  0x021CF52C  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
+ *   ENCEFF_AllocWork  0x021CF52C  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   func_021F5748  0x021F5748  thumb  ov078
+ *   ENCEFF_RippleEventMain  0x021F5748  thumb  ov078
  * Addresses are Black-image addresses.
  */
 #include "../../ov077/enceff_base_types.h"
@@ -28,20 +28,20 @@ struct GameEvent;
 struct EncEffWork;
 struct FieldMap;
 struct Desc;
-extern struct FieldMap *func_0201210C(struct GameSystem *gameSystem);
-extern struct EncEffWork *func_02189A08(struct FieldMap *fieldMap);
-extern void *func_021CF52C(struct EncEffWork *eff, u32 size, u32 heapId);
+extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
+extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F5748(struct GameEvent *event, int *state);
+extern int ENCEFF_RippleEventMain(struct GameEvent *event, int *state);
 
-void *func_021F5AFC(void *gameSystem)
+void *ENCEFF_StartRippleBurst(void *gameSystem)
 {
     EncEffRipple *ripple;
     void *event;
     int i;
 
-    ripple = func_021CF52C(func_02189A08(func_0201210C(gameSystem)), sizeof(EncEffRipple), 0x50);
-    event = func_020122C0(gameSystem, 0, func_021F5748, 0);
+    ripple = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
+    event = func_020122C0(gameSystem, 0, ENCEFF_RippleEventMain, 0);
     ripple->count = 7;
     ripple->wait = 0;
     ripple->period = 2;

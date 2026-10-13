@@ -16,9 +16,9 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0204363C 0x0204363C arm
- *   func_0204361C 0x0204361C arm
+ *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   func_0201DD60 0x0201DD60 thumb
@@ -30,7 +30,7 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   func_020307B0 0x020307B0 arm
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414AC 0x020414AC arm
@@ -38,19 +38,19 @@
  *   d_02200900 0x02200900 data a4
  *   d_0220099C 0x0220099C data a4
  *   func_020403F4 0x020403F4 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_020419E4 0x020419E4 arm
  *   d_02200920      0x02200920  data
- *   func_0204A48C   0x0204A48C  arm
- *   func_0204B100   0x0204B100  arm
+ *   CLACT_InitSystem   0x0204A48C  arm
+ *   CLACT_CreateUnit   0x0204B100  arm
  *   CLACT_SetUnitDefaultRenderer   0x0204B270  arm
  *   func_020434DC   0x020434DC  arm
- *   func_02043598   0x02043598  arm
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204A5AC  0x0204A5AC  arm
- *   func_0204A600 0x0204A600 arm
- *   func_0204A648 0x0204A648 arm
+ *   BG_SYS_SetSubPlaneVisible   0x02043598  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_ExitSystem  0x0204A5AC  arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  *   func_0207D4B0 0x0207D4B0 arm
  */
 #include "../../matched/include/Obj24835.h"
@@ -81,29 +81,29 @@ typedef struct BgTemplate_021FC640 {unsigned words[8];} BgTemplate_021FC640;
 extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
 extern void func_02082BCC(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void func_020433E0(const struct DispVram *);
+extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void func_0204363C(unsigned);
-extern void func_0204361C(void),BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void),func_0201DD60(void);
+extern void BG_SYS_ResetSubDisplay(void),BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void),func_0201DD60(void);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
 extern void func_02030EAC(struct Node *n);
 extern void func_0201DD68(void);
 extern u32 func_020307B0(void *p);
 extern void func_0203F8F4(unsigned);
-extern void func_02045088(unsigned);
+extern void BMP_WIN_Init(unsigned);
 extern void func_0203FC28(DispConfig *);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate_021FC3BC *tmpl, u32 type);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char,unsigned char);
 extern void func_020419E4(void);
-extern void func_0204A48C(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, unsigned int heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(void);
-extern void func_0204A600(void);
-extern void func_0204A648(void);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(void);
+extern void CLACT_DrawSystem(void);
+extern void CLACT_VBlankSystem(void);
 extern void func_020403F4(u32);
 extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 void *func_021FC3BC(unsigned mode,int setting,unsigned heap);
@@ -153,8 +153,8 @@ void *func_021FC3BC(unsigned mode,int setting,unsigned heap)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000&=~0xe000;
     *(volatile unsigned *)0x04001000&=~0xe000;
-    BG_SYS_ClearGraphicsMemory(0);func_020433E0(config);func_0204363C(setting);
-    func_0204361C();BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();func_0201DD60();
+    BG_SYS_ClearGraphicsMemory(0);BG_SYS_SetVramBanks(config);func_0204363C(setting);
+    BG_SYS_ResetSubDisplay();BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();func_0201DD60();
     func_021FC4FC(p,heap);
     func_021FC5A0((int *)(p+4),(int)config,heap);
     *(void **)(p+12)=func_020056A0((unsigned)func_021FC4E8,(unsigned)p,0);
@@ -231,7 +231,7 @@ void func_021FC4FC(void *p,unsigned heap)
     unsigned id;
     func_02082BCC(p,0,4);
     func_0203F8F4(heap);
-    func_02045088(heap);
+    BMP_WIN_Init(heap);
     func_0203FC28(&d_02200900);
     for(i=0;i<7;i++){
         r=&d_0220099C[i];id=r->id;
@@ -247,7 +247,7 @@ void func_021FC4FC(void *p,unsigned heap)
 
 
 
-void func_021FC55C(void*p){u32 i;for(i=0;i<7;i++)func_020403F4((u8)d_0220099C[i].id);func_020450C8();func_0203F9B4();func_02082BCC(p,0,4);}
+void func_021FC55C(void*p){u32 i;for(i=0;i<7;i++)func_020403F4((u8)d_0220099C[i].id);BMP_WIN_Exit();func_0203F9B4();func_02082BCC(p,0,4);}
 
 
 
@@ -274,11 +274,11 @@ void func_021FC598(void *a0){func_020419E4();}
 void func_021FC5A0(int *p, int b, int c)
 {
     func_02082BCC((void *)((int)p), 0, 4);
-    func_0204A48C((const struct Cfg *)d_02200920, b, c);
-    p[0] = (int)func_0204B100(0x80, 0, c);
+    CLACT_InitSystem((const struct Cfg *)d_02200920, b, c);
+    p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 
@@ -287,20 +287,20 @@ void func_021FC5A0(int *p, int b, int c)
 
 void func_021FC5E0(void *p)
 {
-    func_0204B1CC((struct Bank *)(((struct Obj24836 *)p)->f0));
-    func_0204A5AC();
+    CLACT_DeleteUnit((struct Bank *)(((struct Obj24836 *)p)->f0));
+    CLACT_ExitSystem();
     func_02082BCC(p, 0, 4);
 }
 
 
 
 
-void func_021FC5FC(void *a0){func_0204A600();}
+void func_021FC5FC(void *a0){CLACT_DrawSystem();}
 
 
 
 
-void func_021FC604(void *a0){func_0204A648();}
+void func_021FC604(void *a0){CLACT_VBlankSystem();}
 
 
 

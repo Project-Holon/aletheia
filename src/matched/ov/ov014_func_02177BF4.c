@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled tail-call thunk (ldr r3,[pc]; bx r3) to func_02177BAC.
- * Sole blocker of the func_02164E04 / func_02164D6C MATCHes (ov010).
+ * Sole blocker of the GAME_BEACON_SEARCH_PickBestScanResult / GAME_BEACON_SEARCH_PollScanResult MATCHes (ov010).
  *
  * symbols:
  *   func_02177BAC  0x02177BAC  thumb ov014

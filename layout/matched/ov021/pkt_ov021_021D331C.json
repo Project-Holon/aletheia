@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D331C",
-    "func_021D335C"
+    "FLD_VREQ_ApplyBlendBrightnessExt",
+    "FLD_VREQ_ApplyBlendAlphaEv"
+   ],
+   "addresses": [
+    "0x021D331C",
+    "0x021D335C"
    ]
   }
  ]

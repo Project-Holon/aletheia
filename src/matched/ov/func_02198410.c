@@ -1,5 +1,5 @@
 /*
- * function: func_02198410
+ * function: FLDMMDL_ACMD_StayWalkDown8F
  * address:  0x02198410
  * packet:   pkt_02198410
  * region:   ov021
@@ -22,7 +22,7 @@ typedef int BOOL;
 
 extern void func_02198318(u32 a, u32 b, u16 c, u16 d);
 
-u32 func_02198410(u32 a1)
+u32 FLDMMDL_ACMD_StayWalkDown8F(u32 a1)
 {
     func_02198318(a1, 0x1, 0x8, 0x3);
 

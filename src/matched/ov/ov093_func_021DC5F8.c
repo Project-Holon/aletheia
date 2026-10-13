@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DC57C.c and filed here.
  *
  * symbols:
- *   d_021F0940 0x021F0940 data ov093 a4
+ *   gIndirectGuardCause2Handlers 0x021F0940 data ov093 a4
  */
 
 int *func_021DC5F8(int *p);
-extern int d_021F0940[];
+extern int gIndirectGuardCause2Handlers[];
 
 int *func_021DC5F8(int *p)
 {
     *p = 2;
-    return d_021F0940;
+    return gIndirectGuardCause2Handlers;
 }

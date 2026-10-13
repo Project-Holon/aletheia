@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  */
-extern int func_02039338(void);
-int func_021DCD0C(void) {return func_02039338();}
+extern int GFL_NET_SYSTEM_GetCurrentAid(void);
+int func_021DCD0C(void) {return GFL_NET_SYSTEM_GetCurrentAid();}

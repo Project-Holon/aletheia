@@ -1,5 +1,5 @@
 /*
- * function: func_021CA2CC
+ * function: BSUBWAY_SCR_GetStageNo
  * address:  0x021CA2CC
  * packet:   pkt_021CA2CC
  * region:   ov021
@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int func_0209C0A4(int a, int b);
 
-u16 func_021CA2CC(u16 v)
+u16 BSUBWAY_SCR_GetStageNo(u16 v)
 {
 return (u16)func_0209C0A4(v, 7);
 }

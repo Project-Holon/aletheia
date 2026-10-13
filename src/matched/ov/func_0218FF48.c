@@ -1,5 +1,5 @@
 /*
- * function: func_0218FF48
+ * function: FIELD_CAMERA_ANIME_Free
  * address:  0x0218FF48
  * packet:   pkt_0218FF48
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_0218FF48(void *a0)
+void FIELD_CAMERA_ANIME_Free(void *a0)
 {
     func_020307B0(a0);
 }

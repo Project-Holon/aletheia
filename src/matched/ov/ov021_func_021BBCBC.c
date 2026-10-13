@@ -1,5 +1,5 @@
 /*
- * function: func_021BBCBC
+ * function: FLDEFF_FOOTMARK_Init
  * address:  0x021BBCBC
  * packet:   pkt_ov021_021BBCBC
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_021ABE14  0x021ABE14  thumb  ov021
- *   func_02188C88  0x02188C88  thumb  ov021
- *   func_021BBD0C  0x021BBD0C  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
+ *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
+ *   FLDEFF_FOOTMARK_InitResource  0x021BBD0C  thumb  ov021
  *   d_021DE30C  0x021DE30C  data
  */
 
@@ -22,9 +22,9 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef unsigned char  u8;
-extern u32 func_021ABE14(u8 *p);
-extern u32 func_02188C88(u8 *p);
-extern void func_021BBD0C(u32 *p);
+extern u32 FIELD_EFFECT_GetFieldMap(u8 *p);
+extern u32 FIELDMAP_GetEffectBbdAct(u8 *p);
+extern void FLDEFF_FOOTMARK_InitResource(u32 *p);
 extern const char d_021DE30C[];
 
 typedef struct {
@@ -34,14 +34,14 @@ typedef struct {
     int f3c;
 } Obj;
 
-Obj *func_021BBCBC(void *owner, u32 heap)
+Obj *FLDEFF_FOOTMARK_Init(void *owner, u32 heap)
 {
     Obj *o;
 
     o = func_02030734(heap, 0x40, 1, d_021DE30C, 0x9d);
     o->owner = owner;
-    o->res = (void *)func_02188C88((u8 *)func_021ABE14(owner));
-    func_021BBD0C((u32 *)o);
+    o->res = (void *)FIELDMAP_GetEffectBbdAct((u8 *)FIELD_EFFECT_GetFieldMap(owner));
+    FLDEFF_FOOTMARK_InitResource((u32 *)o);
     o->f3c = 0x2000;
     return o;
 }

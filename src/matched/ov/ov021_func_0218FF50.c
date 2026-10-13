@@ -1,5 +1,5 @@
 /*
- * function: func_0218FF50
+ * function: FIELD_CAMERA_ANIME_Init
  * address:  0x0218FF50
  * packet:   pkt_ov021_0218FF50
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188C58  0x02188C58  thumb
+ *   FIELDMAP_GetCamera  0x02188C58  thumb
  */
 
 typedef unsigned char  u8;
@@ -21,13 +21,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void func_02082BCC(void *dst, int val, u32 size);
-extern void *func_02188C58(void *p);
+extern void *FIELDMAP_GetCamera(void *p);
 
-void func_0218FF50(u32 *o, void *a)
+void FIELD_CAMERA_ANIME_Init(u32 *o, void *a)
 {
     func_02082BCC(o, 0, 0x20);
     o[0] = (u32)a;
-    o[1] = (u32)func_02188C58(a);
+    o[1] = (u32)FIELDMAP_GetCamera(a);
     o[2] = 0;
     o[3] = 0;
     o[5] = 0;

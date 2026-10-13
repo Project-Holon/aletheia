@@ -1,5 +1,5 @@
 /*
- * function: func_021B2D98
+ * function: SCRCMD_SCREENEFFECTS_DeleteBuildModelNode
  * address:  0x021B2D98
  * packet:   pkt_ov021_021B2D98
  * region:   ov021
@@ -10,26 +10,26 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0218BA98  0x0218BA98  thumb  ov021
- *   func_0218C860  0x0218C860  thumb
- *   func_021B2BD8  0x021B2BD8  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FIELD_BUILDMODEL_GetNodeByHandle  0x0218BA98  thumb  ov021
+ *   FIELD_BUILDMODEL_DeleteNode  0x0218C860  thumb
+ *   SCRCMD_SCREENEFFECTS_GetBuildModelMgr  0x021B2BD8  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern unsigned int func_02159B10(void *, void *);
-extern int func_021B2BD8(u32 a);
-extern u32 func_0218BA98(u32, u32);
-extern void func_0218C860(u32);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern int SCRCMD_SCREENEFFECTS_GetBuildModelMgr(u32 a);
+extern u32 FIELD_BUILDMODEL_GetNodeByHandle(u32, u32);
+extern void FIELD_BUILDMODEL_DeleteNode(u32);
 
-int func_021B2D98(u32 a, u32 b)
+int SCRCMD_SCREENEFFECTS_DeleteBuildModelNode(u32 a, u32 b)
 {
-    u32 x = func_02159B10((void *)a, (void *)b);
-    u32 o = func_0218BA98(func_021B2BD8(b), x);
+    u32 x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    u32 o = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(b), x);
 
     if (o != 0) {
-        func_0218C860(o);
+        FIELD_BUILDMODEL_DeleteNode(o);
     }
     return 0;
 }

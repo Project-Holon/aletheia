@@ -1,5 +1,5 @@
 /*
- * function: func_02186444
+ * function: OEKAKI_SetNextScene
  * address:  0x02186444
  * packet:   pkt_02186444
  * region:   ov023
@@ -13,7 +13,7 @@
 
 typedef unsigned int u32;
 
-void func_02186444(char *p, u32 v)
+void OEKAKI_SetNextScene(char *p, u32 v)
 {
     ((struct Obj20366 *)p)->f19C = v;
 }

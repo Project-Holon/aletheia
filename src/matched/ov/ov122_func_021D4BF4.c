@@ -10,8 +10,8 @@
  * evidence: unit pkt_ov122_021D4B74 attests callbacks 0x021D4BDC and 0x021D4BF0.
  * symbols:
  *   func_0204B92C 0x0204B92C arm
- *   func_0204BA00 0x0204BA00 arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   func_021D4BDC 0x021D4BDC thumb ov122
  *   func_021D4BF0 0x021D4BF0 thumb ov122
  *   func_021D4244 0x021D4244 thumb ov122
@@ -24,8 +24,8 @@ struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 struct Cmd;
-extern void func_0204BA00(struct Actor *a, const struct Cmd *cmd);
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_021D4BDC(char *p);
 extern void func_021D4BF0(void);
 extern void func_021D4244(void *p, u32 a, int a2);
@@ -42,7 +42,7 @@ void func_021D4BF4(char *p)
     else if (i == 4) i = 1;
     base = (void **)(p + 0x390);
     func_0204B92C(base[i], 1);
-    func_0204BA00(base[i], (const struct Cmd *)(&args));
-    func_0204B9A0(base[i]);
+    CLACT_ApplyActorAnimCommand(base[i], (const struct Cmd *)(&args));
+    CLACT_RestartActorAnim(base[i]);
     func_021D4244(p, (u32)func_021D4BF0, 0x390);
 }

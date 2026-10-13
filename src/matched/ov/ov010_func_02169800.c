@@ -1,5 +1,5 @@
 /*
- * function: func_02169800
+ * function: FIELD_G3D_MAP_QueryHits
  * address:  0x02169800
  * packet:   pkt_ov010_02169800
  * region:   ov010
@@ -21,7 +21,7 @@ typedef void (*Cb)(void *a, u32 b, u32 *c, u32 d, u32 e);
 
 extern void func_0207CA00(u32 c, void *p, u32 *out);
 
-void func_02169800(void *a, char *b, u32 c, u32 d)
+void FIELD_G3D_MAP_QueryHits(void *a, char *b, u32 c, u32 d)
 {
     u32 buf[3];
     u32 e;

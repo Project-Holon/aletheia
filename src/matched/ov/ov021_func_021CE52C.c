@@ -1,5 +1,5 @@
 /*
- * function: func_021CE52C
+ * function: COMM_ENTRY_MENU_ProcessCancel
  * address:  0x021CE52C
  * packet:   pkt_ov021_021CE52C
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02190EF0  0x02190EF0  thumb  ov021
- *   func_021CE9E4  0x021CE9E4  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02190BE4  0x02190BE4  thumb  ov021
- *   func_021CEA50  0x021CEA50  thumb  ov021
- *   func_02190C78  0x02190C78  thumb  ov021
- *   func_021909BC  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
+ *   COMM_ENTRY_MENU_PrintMessage  0x021CE9E4  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
+ *   COMM_ENTRY_MENU_StatesUnchanged  0x021CEA50  thumb  ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -31,42 +31,42 @@ typedef struct {
 
 typedef unsigned short u16;
 struct Handle;
-extern u32 func_02190EF0(u32 *p);
-extern void func_021CE9E4(u32 *p, int n);
-extern u32 func_02188C54(u8 *p);
-extern u32 *func_02190BE4(u16 *a, u32 b);
-extern int func_021CEA50(u8 *p);
-extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(void *a);
+extern u32 FIELD_MSGBG_SysWinMain(u32 *p);
+extern void COMM_ENTRY_MENU_PrintMessage(u32 *p, int n);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
+extern int COMM_ENTRY_MENU_StatesUnchanged(u8 *p);
+extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
 
-int func_021CE52C(u32 *p)
+int COMM_ENTRY_MENU_ProcessCancel(u32 *p)
 {
     Sub *q;
     u32 r;
 
     q = (Sub *)((u8 *)p + 0x130);
-    if (!func_02190EF0((u32 *)p[5])) {
+    if (!FIELD_MSGBG_SysWinMain((u32 *)p[5])) {
         return 0;
     }
     switch (q->state) {
     case 0:
-        func_021CE9E4(p, 0xb);
+        COMM_ENTRY_MENU_PrintMessage(p, 0xb);
         q->state++;
         break;
     case 1:
-        q->h = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)p[0]), 0);
+        q->h = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg((u8 *)p[0]), 0);
         q->state++;
         break;
     case 2:
-        if (!func_021CEA50((u8 *)p)) {
+        if (!COMM_ENTRY_MENU_StatesUnchanged((u8 *)p)) {
             r = 1;
         } else {
-            r = func_02190C78((struct Handle *)q->h);
+            r = FIELD_MSGBG_YesNoMenuMain((struct Handle *)q->h);
             if (r == 2) {
                 break;
             }
         }
-        func_021909BC((void *)q->h);
+        FIELD_MSGBG_DeleteMenuFunc((void *)q->h);
         q->h = 0;
         q->state = 0;
         if (r == 0) {

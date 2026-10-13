@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EFBA4",
+   "name": "WEATHER_LIGHTNING_PickShortFlashes",
    "address": "0x021EFBA4",
    "kind": "game",
    "region": "ov026",

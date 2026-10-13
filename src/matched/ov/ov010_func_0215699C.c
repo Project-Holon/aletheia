@@ -1,5 +1,5 @@
 /*
- * function: func_0215699C
+ * function: MUSICAL_EVENT_GetSlotOfRank
  * address:  0x0215699C
  * packet:   pkt_ov010_0215699C
  * region:   ov010
@@ -21,7 +21,7 @@ typedef struct Work {
     u8 order[4];        /* 0x48 */
 } Work;
 
-u8 func_0215699C(Work *w, u8 i)
+u8 MUSICAL_EVENT_GetSlotOfRank(Work *w, u8 i)
 {
     return w->order[i];
 }

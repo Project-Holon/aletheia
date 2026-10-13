@@ -1,5 +1,5 @@
 /*
- * function: func_0219CA98
+ * function: FLDMMDL_BLACT_FindResIndex
  * address:  0x0219CA98
  * packet:   pkt_ov021_0219CA98
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_0219CA98(u32 *o, u32 key, u16 *a, u16 *b)
+int FLDMMDL_BLACT_FindResIndex(u32 *o, u32 key, u16 *a, u16 *b)
 {
     int i = 0;
     u16 *e = (u16 *)o[1];

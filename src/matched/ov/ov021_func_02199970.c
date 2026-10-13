@@ -1,5 +1,5 @@
 /*
- * function: func_02199970
+ * function: FLDMMDL_ACMD_HopMove
  * address:  0x02199970
  * packet:   pkt_ov021_02199970
  * region:   ov021
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6D4  0x0216D6D4  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D89C  0x0216D89C  thumb  ov010
+ *   FLDMMDL_GetMoveCmdWork  0x0216D6D4  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  *   d_021DDBD4     0x021DDBD4  data   ov021  a4
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D80C  0x0216D80C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D818  0x0216D818  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_0216D824  0x0216D824  thumb  ov010
- *   func_0216D848  0x0216D848  thumb  ov010
- *   func_0216D860  0x0216D860  thumb  ov010
- *   func_0216D87C  0x0216D87C  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_SetGridOldX  0x0216D80C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_SetGridOldY  0x0216D818  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_SetGridOldZ  0x0216D824  thumb  ov010
+ *   FLDMMDL_AddGridNowX  0x0216D848  thumb  ov010
+ *   FLDMMDL_AddGridNowY  0x0216D860  thumb  ov010
+ *   FLDMMDL_AddGridNowZ  0x0216D87C  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -47,36 +47,36 @@ typedef struct {
     u16 angle;
     u16 step;
 } State;
-extern void *func_0216D6D4(void *p);
+extern void *FLDMMDL_GetMoveCmdWork(void *p);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern void func_0216D89C(u32, Vec *);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern void FLDMMDL_SetPos(u32, Vec *);
 extern int *d_021DDBD4[2];
-extern void func_0216D8C0(u32, Vec *);
-extern int func_0216D83C(void *p);
-extern u32 func_0216D80C(u32, u32);
-extern int func_0216D854(void *p);
-extern u32 func_0216D818(u32, u32);
-extern int func_0216D86C(void *p);
-extern u32 func_0216D824(u32, u32);
-extern void func_0216D848(char *p, short v);
-extern void func_0216D860(char *p, short v);
-extern void func_0216D87C(char *p, short v);
-extern void *func_0216D568(void *p, u32 v);
-extern int func_02163F10(int a0);
-extern void func_0216D674(void *p, u16 v);
-extern u32 func_0216D7CC(u32);
+extern void FLDMMDL_SetDrawOffset(u32, Vec *);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern u32 FLDMMDL_SetGridOldX(u32, u32);
+extern int FLDMMDL_GetGridNowY(void *p);
+extern u32 FLDMMDL_SetGridOldY(u32, u32);
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern u32 FLDMMDL_SetGridOldZ(u32, u32);
+extern void FLDMMDL_AddGridNowX(char *p, short v);
+extern void FLDMMDL_AddGridNowY(char *p, short v);
+extern void FLDMMDL_AddGridNowZ(char *p, short v);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern u32 FLDMMDL_IncAcmdSeq(u32);
 
-int func_02199970(u32 a)
+int FLDMMDL_ACMD_HopMove(u32 a)
 {
     State *p;
     Vec v;
     int t;
     int s;
 
-    p = func_0216D6D4((void *)a);
-    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
+    p = FLDMMDL_GetMoveCmdWork((void *)a);
+    FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)&v);
     switch (p->moveAxis) {
     case 0:
         v.x += p->speed;
@@ -88,7 +88,7 @@ int func_02199970(u32 a)
         v.z += p->speed;
         break;
     }
-    func_0216D89C(a, &v);
+    FLDMMDL_SetPos(a, &v);
     t = p->speed;
     if (t < 0)
         t = -t;
@@ -112,7 +112,7 @@ int func_02199970(u32 a)
         w.z = s;
         break;
     }
-    func_0216D8C0(a, &w);
+    FLDMMDL_SetDrawOffset(a, &w);
     }
     p->count--;
     if (p->accum >= 0x10000 && p->count != 0) {
@@ -122,24 +122,24 @@ int func_02199970(u32 a)
         p->accum -= 0x10000;
         dir = 1;
         b = p->speed;
-        func_0216D80C(a, func_0216D83C((void *)a));
-        func_0216D818(a, func_0216D854((void *)a));
-        func_0216D824(a, func_0216D86C((void *)a));
+        FLDMMDL_SetGridOldX(a, FLDMMDL_GetGridNowX((void *)a));
+        FLDMMDL_SetGridOldY(a, FLDMMDL_GetGridNowY((void *)a));
+        FLDMMDL_SetGridOldZ(a, FLDMMDL_GetGridNowZ((void *)a));
         switch (p->moveAxis) {
         case 0:
             if (b < 0)
                 dir = -1;
-            func_0216D848((char *)a, dir);
+            FLDMMDL_AddGridNowX((char *)a, dir);
             break;
         case 1:
             if (b < 0)
                 dir = -1;
-            func_0216D860((char *)a, dir * 2);
+            FLDMMDL_AddGridNowY((char *)a, dir * 2);
             break;
         case 2:
             if (b < 0)
                 dir = -1;
-            func_0216D87C((char *)a, dir);
+            FLDMMDL_AddGridNowZ((char *)a, dir);
             break;
         }
     }
@@ -147,11 +147,11 @@ int func_02199970(u32 a)
         return 0;
     {
         Vec z = { 0, 0, 0 };
-        func_0216D8C0(a, &z);
+        FLDMMDL_SetDrawOffset(a, &z);
     }
-    func_0216D568((void *)a, 0x540);
-    func_02163F10(a);
-    func_0216D674((void *)a, 0);
-    func_0216D7CC(a);
+    FLDMMDL_SetMoveBit((void *)a, 0x540);
+    FLDMMDL_MOVE_UpdateOldGridPos(a);
+    FLDMMDL_SetDrawStatus((void *)a, 0);
+    FLDMMDL_IncAcmdSeq(a);
     return 1;
 }

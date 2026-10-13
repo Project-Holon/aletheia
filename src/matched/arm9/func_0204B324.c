@@ -1,5 +1,5 @@
 /*
- * function: func_0204B324
+ * function: CLACT_CreateAffineActor
  * address:  0x0204B324
  * packet:   pkt_0204B324
  * region:   arm9
@@ -24,8 +24,8 @@
  * which is what names those two u16; the fifth arrives with a plain `ldr`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204B324.c \
- *       --func func_0204B324 --addr 0x0204B324 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_CreateAffineActor.c \
+ *       --func CLACT_CreateAffineActor --addr 0x0204B324 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -62,7 +62,7 @@ struct Req;
 extern struct Obj *CLACT_CreateActorFull(void *owner, const struct Req *position,
                                 void *request, u32 space, u16 heap);
 
-struct Obj *func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g)
+struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g)
 {
     struct Request req;
 

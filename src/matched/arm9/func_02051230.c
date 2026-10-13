@@ -1,5 +1,5 @@
 /*
- * function: func_02051230
+ * function: PARTICLE_SetupSystem
  * address:  0x02051230
  * packet:   pkt_02051230
  * isa:      arm
@@ -34,7 +34,7 @@ extern void func_02052A50(u32 a, u32 b);
 extern void PARTICLE_ApplyLoadHandlers(u8 *o);
 extern void func_02030DA8(u32 a, u32 b, u8 *c, u32 d);
 
-void func_02051230(u8 *o, u32 a1, u32 a2, u32 a3)
+void PARTICLE_SetupSystem(u8 *o, u32 a1, u32 a2, u32 a3)
 {
     u32 f;
     u32 v;

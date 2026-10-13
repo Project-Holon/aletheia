@@ -1,5 +1,5 @@
 /*
- * function: func_021A136C
+ * function: FIELD_SUBSCREEN_InitUnion
  * address:  0x021A136C
  * packet:   pkt_ov021_021A136C
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02034AC4  0x02034AC4  arm
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_021EFEC0  0x021EFEC0  thumb  ov031
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   UNION_SUBDISP_Create  0x021EFEC0  thumb  ov031
  *   abs_id_1f      0x0000001F  data
  * Addresses are Black-image addresses.
  */
@@ -24,11 +24,11 @@ typedef unsigned int   u32;
 
 extern unsigned char abs_id_1f[];
 extern int func_02034AC4(int);
-extern void *func_02188C80(void *p);
-extern u32 *func_021EFEC0(void *a);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern u32 *UNION_SUBDISP_Create(void *a);
 
-void func_021A136C(u32 *p)
+void FIELD_SUBSCREEN_InitUnion(u32 *p)
 {
     func_02034AC4((int)abs_id_1f);
-    p[8] = (u32)func_021EFEC0(func_02188C80((void *)p[5]));
+    p[8] = (u32)UNION_SUBDISP_Create(FIELDMAP_GetGameSystem((void *)p[5]));
 }

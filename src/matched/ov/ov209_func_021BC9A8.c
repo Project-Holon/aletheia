@@ -12,16 +12,16 @@
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_0200CA8C 0x0200CA8C thumb
- *   func_021B7754 0x021B7754 thumb ov067
- *   func_021B7A10 0x021B7A10 thumb ov067
- *   func_021B7A4C 0x021B7A4C thumb ov067
+ *   FRAME_LIST_Create 0x021B7754 thumb ov067
+ *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
+ *   FRAME_LIST_LoadPalettes 0x021B7A4C thumb ov067
  *   func_021B79E4 0x021B79E4 thumb ov067
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0200CED4 0x0200CED4 thumb
  *   func_0200D064 0x0200D064 thumb
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045874 0x02045874 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Clone 0x02045874 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   data_021BE7AC 0x021BE7AC data a4
  *   data_020A7370 0x020A7370 data a4
  */
@@ -41,16 +41,16 @@ struct U16Vec;
 extern u16 func_0200CA8C(struct Blk37 *p);
 struct S;
 struct Tmpl;
-extern struct S *func_021B7754(struct Tmpl *tmpl, u32 heap);
-extern void func_021B7A10(u8 *p, u32 a, u32 b, u32 c, u32 index);
-extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
+extern struct S *FRAME_LIST_Create(struct Tmpl *tmpl, u32 heap);
+extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
+extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 func_0200CED4(struct Blk37 *p, u16 id);
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021BC9A8(struct Context *p)
 {
     struct Template tmpl;
@@ -70,23 +70,23 @@ void func_021BC9A8(struct Context *p)
             break;
         }
     }
-    p->list=func_021B7754((struct Tmpl *)(&tmpl),107);
+    p->list=FRAME_LIST_Create((struct Tmpl *)(&tmpl),107);
     if(p->in->count<7)p->visible=p->in->count;else p->visible=7;
-    func_021B7A10(p->list,(u32)arc,66,0,0);
-    func_021B7A10(p->list,(u32)arc,67,0,1);
-    func_021B7A10(p->list,(u32)arc,68,0,2);
-    func_021B7A4C(p->list,arc,48,2,3);
-    func_02049238(arc);
+    FRAME_LIST_CopyMapToBuffer(p->list,(u32)arc,66,0,0);
+    FRAME_LIST_CopyMapToBuffer(p->list,(u32)arc,67,0,1);
+    FRAME_LIST_CopyMapToBuffer(p->list,(u32)arc,68,0,2);
+    FRAME_LIST_LoadPalettes(p->list,arc,48,2,3);
+    ARC_TOOL_DeleteHandle(arc);
     for(i=0;i<(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->count;i++){
         if(func_0200CED4((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
             str=func_02045EC0(data_020A7370,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
-            *(void **)((u32)p+i*4+0x4c)=func_02045874(str,107);
-            func_02045808(str);
+            *(void **)((u32)p+i*4+0x4c)=STRBUF_Clone(str,107);
+            STRBUF_Delete(str);
             func_021B79E4(p->list,0,0x20000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
         }else if(func_0200D064((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
             str=func_02045EC0(data_020A7370,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
-            *(void **)((u32)p+i*4+0x4c)=func_02045874(str,107);
-            func_02045808(str);
+            *(void **)((u32)p+i*4+0x4c)=STRBUF_Clone(str,107);
+            STRBUF_Delete(str);
             func_021B79E4(p->list,1,0x10000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
         }else{
             *(void **)((u32)p+i*4+0x4c)=func_02045EC0(((struct Obj00123 *)p)->f3C,7);

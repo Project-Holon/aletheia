@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CCC  0x02188CCC  thumb  ov021
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u32 func_02188CCC(u8 *p);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
 struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
@@ -37,7 +37,7 @@ void *func_021945A4(void *a, u32 b, u32 c)
     void *t;
     u32 *w;
 
-    func_02188CCC((u8 *)b);
+    FIELDMAP_GetSubscreen((u8 *)b);
     t = func_020122C0(a, 0, func_021945E0, 0x14);
     w = func_020124E8(t);
     func_02082BCC(w, 0, 0x14);

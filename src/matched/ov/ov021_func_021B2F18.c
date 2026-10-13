@@ -1,5 +1,5 @@
 /*
- * function: func_021B2F18
+ * function: SCRCMD_SCREENEFFECTS_StepFadeTask
  * address:  0x021B2F18
  * packet:   pkt_ov021_021B2F18
  * region:   ov021
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B2F18 0x021B2F18 thumb
- *   func_02043658 0x02043658 arm
- *   func_02188DA0 0x02188DA0 thumb ov021
+ *   SCRCMD_SCREENEFFECTS_StepFadeTask 0x021B2F18 thumb
+ *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
+ *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   func_02043534 0x02043534 arm
- *   func_02188DB0 0x02188DB0 thumb ov021
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
- *   func_02189A1C 0x02189A1C thumb ov021
+ *   FIELDMAP_ResetBgAffineShowMsg 0x02188DB0 thumb ov021
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
+ *   FIELDMAP_SetScriptEffectBusy 0x02189A1C thumb ov021
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  */
 
-extern unsigned int func_02043658(void);
-extern void func_02188DA0(void);
+extern unsigned int BG_SYS_GetMainVisiblePlanes(void);
+extern void FIELDMAP_SetBgMode(void);
 extern void func_02043534(unsigned int planes);
 typedef unsigned char  u8;
 struct Node;
-extern void func_02188DB0(u8 *a);
+extern void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
 typedef signed int     s32;
 typedef unsigned int   u32;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
-extern void func_02189A1C(u8 *p, u32 v);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
+extern void FIELDMAP_SetScriptEffectBusy(u8 *p, u32 v);
 extern void func_02030EAC(struct Node *n);
 extern u32 func_020307B0(void *p);
 
-void func_021B2F18(int p, int *q)
+void SCRCMD_SCREENEFFECTS_StepFadeTask(int p, int *q)
 {
     int x;
     int y;
@@ -55,10 +55,10 @@ void func_021B2F18(int p, int *q)
         if (q[4] == 0 || q[4] == 2) {
             y = 16;
             z = 0;
-            t = (void *)func_02043658();
-            func_02188DA0();
+            t = (void *)BG_SYS_GetMainVisiblePlanes();
+            FIELDMAP_SetBgMode();
             func_02043534((unsigned int)t);
-            func_02188DB0((u8 *)q[1]);
+            FIELDMAP_ResetBgAffineShowMsg((u8 *)q[1]);
         } else {
             y = 0;
             z = 16;
@@ -68,7 +68,7 @@ void func_021B2F18(int p, int *q)
         } else {
             w = 12;
         }
-        func_0204E720(w, y, z, x);
+        FADE_Start(w, y, z, x);
         q[5] = q[5] + 1;
         break;
     case 1:
@@ -76,11 +76,11 @@ void func_021B2F18(int p, int *q)
         if (q[3] == 1) {
             c = 1;
         }
-        if (func_0204E804() == 0) {
+        if (FADE_IsActive() == 0) {
             c = 1;
         }
         if (c) {
-            func_02189A1C((u8 *)q[1], 0);
+            FIELDMAP_SetScriptEffectBusy((u8 *)q[1], 0);
             func_02030EAC((struct Node *)p);
             func_020307B0(q);
         }

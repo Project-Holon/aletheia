@@ -1,5 +1,5 @@
 /*
- * function: func_021D7F2C
+ * function: BTL_CALC_GetScanStartIndex
  * address:  0x021D7F2C
  * packet:   pkt_ov093_021D7F2C
  * region:   ov093
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-u8 func_021D7F2C(u32 a, u8 b)
+u8 BTL_CALC_GetScanStartIndex(u32 a, u8 b)
 {
     if (a == 3)
         b = 3;

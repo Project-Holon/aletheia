@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02028178
+ * function: APP_TASKMENU_WIN_Update
  * address:  0x02028178
  * packet:   pkt_02028178
  * region:   arm9
@@ -14,8 +14,8 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  *   APP_TASKMENU_SetWinActive  0x02027B30  thumb
@@ -76,14 +76,14 @@ struct Cfg;
 struct PrintSys;
 struct S;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *obj);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *obj);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void APP_TASKMENU_SetWinActive(u32 a0, struct S *s, int mode);
 extern void APP_TASKMENU_UpdateCursorColorBlend(u16 *phase, u16 *out, u16 mode, u32 slot, u16 c0, u16 c1);
 
-void func_02028178(u8 *p)
+void APP_TASKMENU_WIN_Update(u8 *p)
 {
     u32 obj;
     u16 *ctx;
@@ -92,8 +92,8 @@ void func_02028178(u8 *p)
         if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(u32 *)&((struct Obj00864 *)p)->f18 + 0x14)),
                           (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00864 *)p)->f0))) == 0) {
             obj = ((struct Obj00864 *)p)->f0;
-            func_02045334((struct Descriptor *)obj);
-            func_02045374((struct Cfg *)obj);
+            BMP_WIN_TransferChars((struct Descriptor *)obj);
+            BMP_WIN_MakeScreen((struct Cfg *)obj);
             func_02041B6C(func_02045730((struct Descriptor *)obj));
             ((struct Obj00864 *)p)->fC = 0;
         }

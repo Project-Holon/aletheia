@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02048B30 0x02048B30 arm
+ *   G3D_CAMERA_GetUp 0x02048B30 arm
  *   _ll_mul 0x0209C054 arm
  *   d_020A1B38 0x020A1B38 data a2
  */
 typedef signed short s16;
 extern const s16 d_020A1B38[];
-extern void func_02048B30(int, int *);
+extern void G3D_CAMERA_GetUp(int, int *);
 #define MUL(a,b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
 
 void func_021F7108(int *p, int a, int b, int *out, int *base)
 {
-    func_02048B30(p[1], base);
+    G3D_CAMERA_GetUp(p[1], base);
     p[2] += a;
     p[3] += b;
     out[0] = MUL(d_020A1B38[(p[3] >> 4) * 2 + 1], d_020A1B38[(p[2] >> 4) * 2 + 1]);

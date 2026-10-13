@@ -1,5 +1,5 @@
 /*
- * function: func_021B1C2C
+ * function: SCRCMD_FLDMMDL_SearchMmdlAtGrid
  * address:  0x021B1C2C
  * packet:   pkt_ov021_021B1C2C
  * region:   ov021
@@ -10,30 +10,30 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216DDDC  0x0216DDDC  thumb  ov010
- *   func_0216D588  0x0216D588  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysSearchGridPosHeight  0x0216DDDC  thumb  ov010
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  */
 
 typedef signed short s16;
 
-void *func_0215A5F4(void *p);
+void *SCRCMD_WORK_GetScriptWork(void *p);
 typedef unsigned short u16;
-int func_02158F58(int a0);
-s16 *func_02159AE8(void *a0, void *a1);
-unsigned int func_02159B10(void *a, void *b);
-void *func_02188C7C(unsigned char *p);
+int SCRIPT_WORK_ResetFieldParam(int a0);
+s16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+void *FIELDMAP_GetMmdlSys(unsigned char *p);
 typedef signed int     s32;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
-u16 func_0216D588(void *p);
+u8 *FLDMMDL_SysSearchGridPosHeight(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
+u16 FLDMMDL_GetObjId(void *p);
 
-int func_021B1C2C(int a, int b)
+int SCRCMD_FLDMMDL_SearchMmdlAtGrid(int a, int b)
 {
     int r7;
     s16 *s8;
@@ -43,16 +43,16 @@ int func_021B1C2C(int a, int b)
     int r4;
     int r0;
 
-    r7 = ((int *)func_02158F58((int)func_0215A5F4((void *)b)))[1];
-    s8 = func_02159AE8((void *)a, (void *)b);
-    r6 = func_02159AE8((void *)a, (void *)b);
-    sc = func_02159B10((void *)a, (void *)b);
-    s10 = func_02159B10((void *)a, (void *)b);
-    r4 = func_02159B10((void *)a, (void *)b);
-    r0 = (int)func_0216DDDC((u32)func_02188C7C((void *)r7), (s16)sc, (s16)r4, s10 << 16, 0x8000, (int)0);
+    r7 = ((int *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)b)))[1];
+    s8 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    r6 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    sc = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    s10 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    r4 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    r0 = (int)FLDMMDL_SysSearchGridPosHeight((u32)FIELDMAP_GetMmdlSys((void *)r7), (s16)sc, (s16)r4, s10 << 16, 0x8000, (int)0);
     if (r0) {
         *r6 = 1;
-        *s8 = func_0216D588((void *)r0);
+        *s8 = FLDMMDL_GetObjId((void *)r0);
     } else {
         *r6 = 0;
     }

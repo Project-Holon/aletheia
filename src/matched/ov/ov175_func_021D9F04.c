@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm
- *   func_0203D7BC  0x0203D7BC  arm
+ *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_USE_StopAllSe  0x02006210  thumb
- *   func_02012E40  0x02012E40  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
  *   GAME_DATA_SaveCancel  0x02012E08  thumb
  *   func_0200F7C0  0x0200F7C0  thumb
  *   DWC_RAPCOMMON_HandleNetError  0x02157170  thumb
@@ -28,7 +28,7 @@
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   func_0200FAAC  0x0200FAAC  thumb
- *   func_0200FB38  0x0200FB38  thumb
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   func_0200FA84  0x0200FA84  thumb
  *   func_021DCFFC  0x021DCFFC  thumb
  *
@@ -38,13 +38,13 @@
 
 typedef unsigned long u32;
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern u32 func_0200FB24(void);
 extern void GFL_NET_SetAutoExit(int a);
-extern void func_0203D7BC(int a);
+extern void GFL_NET_SetLoginOption(int a);
 extern void GFL_USE_StopAllSe(void);
 typedef unsigned char  u8;
-extern u8 func_02012E40(const u8 *o);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void func_0200F7C0(u32 value);
 extern int DWC_RAPCOMMON_HandleNetError(void *a, void *b);
@@ -57,7 +57,7 @@ extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void func_0200FBA0(void);
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 extern void func_0200FAAC(void);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern void func_0200FA84(void);
 extern void func_021DCFFC(void *p);
 
@@ -68,12 +68,12 @@ int func_021D9F04(char *ctx, void *a, void *b)
     u32 *rec = (u32 *)(ctx + 0x18);
     Res r = RES_NONE;
 
-    if (func_0203CD98()) {
+    if (GFL_NET_GetRunState()) {
         if (func_0200FB24()) {
             GFL_NET_SetAutoExit(r);
-            func_0203D7BC(r);
+            GFL_NET_SetLoginOption(r);
             GFL_USE_StopAllSe();
-            if (func_02012E40((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
+            if (GAME_DATA_IsSaving((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
                 GAME_DATA_SaveCancel((char *)(((struct Obj08279 *)ctx)->f8));
                 func_0200F7C0(0x29);
             }
@@ -121,9 +121,9 @@ int func_021D9F04(char *ctx, void *a, void *b)
         }
         if (r != RES_NONE) {
             GFL_NET_SetAutoExit(0);
-            func_0203D7BC(0);
+            GFL_NET_SetLoginOption(0);
             GFL_USE_StopAllSe();
-            if (func_02012E40((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
+            if (GAME_DATA_IsSaving((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
                 GAME_DATA_SaveCancel((char *)(((struct Obj08279 *)ctx)->f8));
                 func_0200F7C0(0x29);
             }
@@ -140,7 +140,7 @@ int func_021D9F04(char *ctx, void *a, void *b)
                 GFL_NET_STATE_SetError(0, 0, 0, 0x3F7);
                 func_0200FAAC();
             }
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             break;
         case RES_3:
             func_0200FA84();

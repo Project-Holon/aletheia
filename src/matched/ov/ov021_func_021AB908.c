@@ -1,5 +1,5 @@
 /*
- * function: func_021AB908
+ * function: FLD_SCENEAREA_LOADER_ApplySectorCamera
  * address:  0x021AB908
  * packet:   pkt_ov021_021AB908
  * region:   ov021
@@ -16,14 +16,14 @@
  * (y r7, zero r6, table r4) and lets the final a.y reload become `mov r1, r7`.
  *
  * symbols:
- *   func_021AB760  0x021AB760  thumb  ov021
- *   func_0218E124  0x0218E124  thumb  ov021
+ *   FLD_SCENEAREA_GetCamera  0x021AB760  thumb  ov021
+ *   FIELD_CAMERA_EnterMode  0x0218E124  thumb  ov021
  *   func_0207CA00  0x0207CA00  arm
- *   func_0207CCA4  0x0207CCA4  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  *   _ll_mul        0x0209C054  arm
  *   tbl_020A1B38   0x020A1B38  data  a2
- *   func_0218EC90  0x0218EC90  thumb  ov021
- *   func_0218ECF4  0x0218ECF4  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_SetEyeRaw  0x0218ECF4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04239.h"
@@ -36,12 +36,12 @@ typedef int            s32;
 
 typedef struct Vec { s32 x, y, z; } Vec;
 
-extern u32 func_021AB760(u8 *p);
-extern void func_0218E124(u8 *a, u32 s);
+extern u32 FLD_SCENEAREA_GetCamera(u8 *p);
+extern void FIELD_CAMERA_EnterMode(u8 *a, u32 s);
 extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
-extern void func_0207CCA4(const Vec *v, Vec *out);
-extern void func_0218EC90(u32 a, Vec *v);
-extern void func_0218ECF4(u32 a, Vec *v);
+extern void VEC_Normalize(const Vec *v, Vec *out);
+extern void FIELD_CAMERA_SetTarget(u32 a, Vec *v);
+extern void FIELD_CAMERA_SetEyeRaw(u32 a, Vec *v);
 extern s16 tbl_020A1B38[];
 
 static inline s32 FX_Mul(s32 a, s32 b)
@@ -49,7 +49,7 @@ static inline s32 FX_Mul(s32 a, s32 b)
     return (s32)(((long long)a * b + 0x800LL) >> 12);
 }
 
-void func_021AB908(u32 a0, const u8 *p, const Vec *q)
+void FLD_SCENEAREA_LOADER_ApplySectorCamera(u32 a0, const u8 *p, const Vec *q)
 {
     Vec b;
     Vec a;
@@ -61,8 +61,8 @@ void func_021AB908(u32 a0, const u8 *p, const Vec *q)
     s16 t0;
     s16 t1;
 
-    obj = func_021AB760((u8 *)a0);
-    func_0218E124((u8 *)obj, 2);
+    obj = FLD_SCENEAREA_GetCamera((u8 *)a0);
+    FIELD_CAMERA_EnterMode((u8 *)obj, 2);
     a.x = *(const s32 *)&((struct Obj04239 *)p)->f10;
     a.y = *(const s32 *)&((struct Obj04239 *)p)->f14;
     a.z = *(const s32 *)&((struct Obj04239 *)p)->f18;
@@ -71,7 +71,7 @@ void func_021AB908(u32 a0, const u8 *p, const Vec *q)
     b = *q;
     b.y = 0;
     func_0207CA00(&b, &a, &b);
-    func_0207CCA4(&b, &n);
+    VEC_Normalize(&b, &n);
     t0 = tbl_020A1B38[(*(const s32 *)&((struct Obj04239 *)p)->f1C >> 4) * 2];
     a.y = y;
     out.y = FX_Mul(t0, *(const s32 *)&((struct Obj04239 *)p)->f20);
@@ -82,6 +82,6 @@ void func_021AB908(u32 a0, const u8 *p, const Vec *q)
     out.x += a.x;
     out.y += a.y;
     out.z += a.z;
-    func_0218EC90(obj, &a);
-    func_0218ECF4(obj, &out);
+    FIELD_CAMERA_SetTarget(obj, &a);
+    FIELD_CAMERA_SetEyeRaw(obj, &out);
 }

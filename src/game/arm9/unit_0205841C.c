@@ -17,7 +17,7 @@
  *
  * symbols:
  *   g_02146A8C     0x02146A8C  data
- *   func_0207CCA4  0x0207CCA4  arm
+ *   VEC_Normalize  0x0207CCA4  arm
  */
 
 typedef int fx32;
@@ -29,7 +29,7 @@ struct VecFx32 {
 };
 
 extern int g_02146A8C;
-extern void func_0207CCA4(const struct VecFx32 *src, struct VecFx32 *dst);
+extern void VEC_Normalize(const struct VecFx32 *src, struct VecFx32 *dst);
 
 void SPLRandom_VecFx32_XY(struct VecFx32 *v)
 {
@@ -38,7 +38,7 @@ void SPLRandom_VecFx32_XY(struct VecFx32 *v)
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     v->y = g_02146A8C >> 8;
     v->z = 0;
-    func_0207CCA4(v, v);
+    VEC_Normalize(v, v);
 }
 
 void SPLRandom_VecFx32(struct VecFx32 *v)
@@ -49,5 +49,5 @@ void SPLRandom_VecFx32(struct VecFx32 *v)
     v->y = g_02146A8C >> 8;
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     v->z = g_02146A8C >> 8;
-    func_0207CCA4(v, v);
+    VEC_Normalize(v, v);
 }

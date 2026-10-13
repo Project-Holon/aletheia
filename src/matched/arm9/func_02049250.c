@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02049250
+ * function: ARC_TOOL_LoadHandleMember
  * address:  0x02049250
  * packet:   pkt_02049250
  * region:   arm9
@@ -43,8 +43,8 @@
  * terminator of the string in front of it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02049250.c \
- *       --func func_02049250 --addr 0x02049250 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_LoadHandleMember.c \
+ *       --func ARC_TOOL_LoadHandleMember --addr 0x02049250 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -68,7 +68,7 @@ struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-void *func_02049250(struct ArcFile *arc, u32 member, u32 heap)
+void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap)
 {
     u32 range[2];
     void *buf;

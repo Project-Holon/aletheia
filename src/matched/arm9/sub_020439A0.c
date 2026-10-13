@@ -1,7 +1,7 @@
 /*
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
- * function: func_020439A0
+ * function: BMP_Blit
  * address:  0x020439A0
  * packet:   pkt_0204384C
  * region:   arm9
@@ -46,7 +46,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BMP_Blit.c \
- *       --func func_020439A0 --addr 0x020439A0 --cc 1.1p1 --arm
+ *       --func BMP_Blit --addr 0x020439A0 --cc 1.1p1 --arm
  */
 
 typedef short          s16;
@@ -69,7 +69,7 @@ extern void BMP_Blit4bppToVram(struct Bmp *dst, struct Bmp *src, u16 x, u16 y,
 extern void BMP_Blit8bppToVram(struct Bmp *dst, struct Bmp *src, u16 x, u16 y,
                           s16 sx, s16 sy, u16 w, u16 h, u32 key);
 
-void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
+void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
                    int sx, int sy, u32 w, u32 h, u32 key)
 {
     if (dst->unk08 != src->unk08) {

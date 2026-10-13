@@ -1,5 +1,5 @@
 /*
- * function: func_021D9874
+ * function: BTL_TOKUSEI_GetRainDishHandlers
  * address: 0x021D9874
  * packet: pkt_ov093_021D9874
  * region: ov093
@@ -12,17 +12,17 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021D93D8.c and filed here.
  *
  * symbols:
- *   d_021F0670 0x021F0670 data ov093 a4
+ *   gRainDishHandlers 0x021F0670 data ov093 a4
  */
 
-int *func_021D9874(int *p);
-extern int d_021F0670[];
+int *BTL_TOKUSEI_GetRainDishHandlers(int *p);
+extern int gRainDishHandlers[];
 
 /*
  * tail: 021D98B6..021D98B8 is two zero alignment bytes.
  */
-int *func_021D9874(int *p)
+int *BTL_TOKUSEI_GetRainDishHandlers(int *p)
 {
     *p = 1;
-    return d_021F0670;
+    return gRainDishHandlers;
 }

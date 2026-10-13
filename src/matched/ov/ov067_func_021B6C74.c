@@ -1,5 +1,5 @@
 /*
- * function: func_021B6C74
+ * function: MSGSEARCH_Create
  * address:  0x021B6C74
  * packet:   pkt_ov067_021B6C74
  * region:   ov067
@@ -22,7 +22,7 @@
  * symbols:
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   d_021B9558     0x021B9558  data  a1
  */
 
@@ -33,10 +33,10 @@ typedef unsigned short u16;
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, int v, int n);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern const char d_021B9558[];
 
-u32 *func_021B6C74(u32 *src, u32 n, u16 heap)
+u32 *MSGSEARCH_Create(u32 *src, u32 n, u16 heap)
 {
     u32 size;
     u32 *o;
@@ -50,6 +50,6 @@ u32 *func_021B6C74(u32 *src, u32 n, u16 heap)
     for (i = 0; i < n; i++) {
         o[2 + i] = src[i];
     }
-    o[0] = (u32)func_020457B0(0x80, heap);
+    o[0] = (u32)STRBUF_Create(0x80, heap);
     return o;
 }

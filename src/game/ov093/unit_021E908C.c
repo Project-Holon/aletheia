@@ -15,19 +15,19 @@
  * symbols:
  *   func_06899BE0  0x06899BE0  thumb
  *   func_0689B780  0x0689B780  thumb
- *   func_020310C4  0x020310C4  arm
+ *   TCBL_Main  0x020310C4  arm
  *   func_021F78E4  0x021F78E4  thumb  ov094
  *   d_021F3840  0x021F3840  data  a4
  *   d_021F3844  0x021F3844  data  a4
  *   func_021F745C  0x021F745C  thumb  ov094
  *   func_021F7544  0x021F7544  thumb  ov094
  *   func_020307B0  0x020307B0  arm
- *   func_021EB028  0x021EB028  thumb  ov093
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
- *   func_021EB32C  0x021EB32C  thumb  ov093
- *   func_021EB52C  0x021EB52C  thumb  ov093
- *   func_021CD9C8  0x021CD9C8  thumb  ov093
- *   func_021CD9DC  0x021CD9DC  thumb  ov093
+ *   BTLV_SCU_SetupDisplay  0x021EB028  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
+ *   BTLV_SCU_StartEntryScene  0x021EB32C  thumb  ov093
+ *   BTLV_SCU_RunProc  0x021EB52C  thumb  ov093
+ *   BTL_CLIENT_IsRemote  0x021CD9C8  thumb  ov093
+ *   BTL_CLIENT_GetQueuedCommandWord  0x021CD9DC  thumb  ov093
  */
 #include "../../matched/include/Obj21551.h"
 #include "../../matched/include/Obj01136.h"
@@ -62,18 +62,18 @@ typedef signed short s16;
 
 typedef signed int s32;
 
-extern void func_020310C4(struct Tcbl *p);
+extern void TCBL_Main(struct Tcbl *p);
 extern void func_021F78E4(void);
 extern void *func_021F745C(u8 *p, int a, u16 heap);
 extern void func_021F7544(void *p, int arg, u16 heap);
 extern u32 func_020307B0(void *p);
-extern void func_021EB028(u8 *p);
+extern void BTLV_SCU_SetupDisplay(u8 *p);
 extern void func_06899BE0(void *p);
-extern u32 func_021CD9E0(u8 *p);
-extern void func_021EB32C(u8 *p, u32 flag);
-extern int func_021EB52C(u8 *p);
-extern u32 func_021CD9C8(u8 *p);
-extern u16 func_021CD9DC(struct QD *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
+extern void BTLV_SCU_StartEntryScene(u8 *p, u32 flag);
+extern int BTLV_SCU_RunProc(u8 *p);
+extern u32 BTL_CLIENT_IsRemote(u8 *p);
+extern u16 BTL_CLIENT_GetQueuedCommandWord(struct QD *p);
 extern void func_0689B780(void *a, void *b);
 void func_021E908C(char *p);
 void func_021E90A0(unsigned int *o, unsigned int key);
@@ -86,7 +86,7 @@ extern const struct E d_021F3844[];
 
 void func_021E908C(char *p)
 {
-    func_020310C4(((struct Obj21551 *)p)->f178);
+    TCBL_Main(((struct Obj21551 *)p)->f178);
     func_021F78E4();
 }
 
@@ -136,22 +136,22 @@ int func_021E9104(u8 *p, int *st)
         r = func_021F745C(*(u8 * *)&((struct Obj01136 *)p)->f0, *(int *)&((struct Obj01136 *)p)->f17C, ((struct Obj01136 *)p)->f184);
         func_021F7544(r, ((struct Obj01136 *)p)->fB4, ((struct Obj01136 *)p)->f184);
         func_020307B0(r);
-        func_021EB028(*(u8 * *)&((struct Obj01136 *)p)->f17C);
+        BTLV_SCU_SetupDisplay(*(u8 * *)&((struct Obj01136 *)p)->f17C);
         func_06899BE0(((struct Obj01136 *)p)->f180);
         (*st)++;
         break;
     case 1:
-        func_021EB32C(*(u8 * *)&((struct Obj01136 *)p)->f17C, func_021CD9E0(*(u8 * *)&((struct Obj01136 *)p)->f4));
+        BTLV_SCU_StartEntryScene(*(u8 * *)&((struct Obj01136 *)p)->f17C, BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj01136 *)p)->f4));
         (*st)++;
         break;
     case 2:
-        if (func_021EB52C(*(u8 * *)&((struct Obj01136 *)p)->f17C) != 0) {
-            if (func_021CD9C8(*(u8 * *)&((struct Obj01136 *)p)->f4) != 0) {
+        if (BTLV_SCU_RunProc(*(u8 * *)&((struct Obj01136 *)p)->f17C) != 0) {
+            if (BTL_CLIENT_IsRemote(*(u8 * *)&((struct Obj01136 *)p)->f4) != 0) {
                 ((struct Obj01136 *)p)->f160 = 1;
                 ((struct Obj01136 *)p)->f164 = 1;
-                ((struct Obj01136 *)p)->f168 = func_021CD9DC((struct QD *)(*(u8 * *)&((struct Obj01136 *)p)->f4));
+                ((struct Obj01136 *)p)->f168 = BTL_CLIENT_GetQueuedCommandWord((struct QD *)(*(u8 * *)&((struct Obj01136 *)p)->f4));
                 ((struct Obj01136 *)p)->f16C = 0;
-                if (func_021CD9E0(*(u8 * *)&((struct Obj01136 *)p)->f4) == 0) {
+                if (BTL_CLIENT_IsMainStepActive(*(u8 * *)&((struct Obj01136 *)p)->f4) == 0) {
                     func_0689B780(((struct Obj01136 *)p)->f180, p + 0x160);
                 }
             }

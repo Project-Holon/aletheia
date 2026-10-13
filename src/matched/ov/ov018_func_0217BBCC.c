@@ -1,5 +1,5 @@
 /*
- * function: func_0217BBCC
+ * function: INTRUDE_FIELD_ResetExtraAreaCount
  * address:  0x0217BBCC
  * packet:   pkt_0217BBCC
  * region:   ov018
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_0217BBCC(int a, int b, char *p)
+void INTRUDE_FIELD_ResetExtraAreaCount(int a, int b, char *p)
 {
     p[0x901] = 0;
 }

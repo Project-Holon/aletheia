@@ -36,7 +36,7 @@
  *   int GFL_NET_STATE_IsWifiDisconnectFinal(void) { return *(unsigned char *)(d_021469DC + 0x4a); }
  *   symbols: d_021469DC 0x021469DC data.
  * symbols:
- *   func_0201A570 0x0201A570 thumb
+ *   POKE_REGULATION_DeleteText 0x0201A570 thumb
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   GFL_NET_STATE_GetWifiState 0x0203C3EC arm
  *   func_021BE900 0x021BE900 thumb ov099
@@ -44,11 +44,11 @@
  *   func_021B96CC 0x021B96CC thumb ov099
  *   func_021BE26C 0x021BE26C thumb ov099
  *   GFL_NET_STATE_IsWifiDisconnectFinal 0x0203C5EC arm
- *   func_0203D1C0 0x0203D1C0 arm
+ *   GFL_NET_IsConnectMember 0x0203D1C0 arm
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
  *   func_021BE4F0 0x021BE4F0 thumb ov099
  */
-extern void func_0201A570(void *);
+extern void POKE_REGULATION_DeleteText(void *);
 extern int GFL_NET_STATE_IsFatalError(void);
 extern int GFL_NET_STATE_GetWifiState(void);
 extern void func_021BE900(char *);
@@ -57,7 +57,7 @@ extern int func_021B96CC(int *);
 extern void func_021BE26C(char *);
 extern int GFL_NET_STATE_IsWifiDisconnectFinal(void);
 typedef unsigned int   u32;
-extern u32 func_0203D1C0(u32 index);
+extern u32 GFL_NET_IsConnectMember(u32 index);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 extern int func_021BE4F0(char *, int);
 int func_021BEC60(char *p, int ret)
@@ -67,7 +67,7 @@ int func_021BEC60(char *p, int ret)
         return ret;
     }
     if (*(void **)(p + 0x1344)) {
-        func_0201A570(*(void **)(p + 0x1344));
+        POKE_REGULATION_DeleteText(*(void **)(p + 0x1344));
         *(void **)(p + 0x1344) = 0;
     }
     if (GFL_NET_STATE_IsFatalError() || GFL_NET_STATE_GetWifiState() == 3) {
@@ -78,7 +78,7 @@ int func_021BEC60(char *p, int ret)
             *(int *)(p + 0x1cc) = func_021BE4F0(p, 0);
             goto done;
         } else {
-            if (GFL_NET_STATE_GetWifiState() < 4 && !GFL_NET_STATE_IsWifiDisconnectFinal() && func_0203D1C0(0xff)) goto done;
+            if (GFL_NET_STATE_GetWifiState() < 4 && !GFL_NET_STATE_IsWifiDisconnectFinal() && GFL_NET_IsConnectMember(0xff)) goto done;
             GFL_NET_STATE_WifiDisconnect(1);
             if (func_021B96CC((int *)(p + 0x274)) == 1) func_021BE26C(p);
         }

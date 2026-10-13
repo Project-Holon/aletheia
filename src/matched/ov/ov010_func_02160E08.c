@@ -1,5 +1,5 @@
 /*
- * function: func_02160E08
+ * function: EVENT_FIELD_PROCLINK_CreatePokeStatusParam
  * address:  0x02160E08
  * packet:   pkt_ov010_02160E08
  * region:   ov010
@@ -17,15 +17,15 @@
  *
  * symbols:
  *   sub_02030734   0x02030734  arm
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0200873C  0x0200873C  thumb
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_HasRibbonData  0x0201897C  thumb
  *   d_02172978     0x02172978  data
  */
@@ -81,19 +81,19 @@ struct Blk37;
 struct Ctx;
 struct Hdr;
 struct Sub02008700Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200CA1C(void *sys);
 extern u32 func_0200CA38(struct Blk37 *p);
 extern u32 func_0201AA18(void *party);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *func_0201AB28(void *party, u32 i);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_HasRibbonData(struct Hdr *p);
 extern const char d_02172978[];
 
-Setup *func_02160E08(Work *w, int kind, int mode, Src *src)
+Setup *EVENT_FIELD_PROCLINK_CreatePokeStatusParam(Work *w, int kind, int mode, Src *src)
 {
     Setup *s;
     void *sys;
@@ -105,8 +105,8 @@ Setup *func_02160E08(Work *w, int kind, int mode, Src *src)
     int i;
 
     s = sub_02030734(4, sizeof(Setup), 1, d_02172978, 0x4DE);
-    sys = func_020120F4(w->f18->f00);
-    save = func_02012EBC(sys);
+    sys = GAMESYSTEM_GetGameData(w->f18->f00);
+    save = GAME_DATA_GetSaveControl(sys);
     t = func_0200CA1C(sys);
     s->f0c = 1;
     s->sys = sys;
@@ -142,27 +142,27 @@ Setup *func_02160E08(Work *w, int kind, int mode, Src *src)
         }
     } else if (mode == 6) {
         s->f04 = func_0200873C(save);
-        s->party = func_02012934(sys);
-        s->count = func_0201AA18(func_02012934(sys));
+        s->party = GAME_DATA_GetMyParty(sys);
+        s->count = func_0201AA18(GAME_DATA_GetMyParty(sys));
         s->slot = 0;
         s->f0d = 0;
         s->f20 = 1;
         if (kind != -1) {
             s->kind = kind;
             if (s->kind == 2) {
-                party = func_02012934(sys);
+                party = GAME_DATA_GetMyParty(sys);
                 for (i = 0; i < (int)func_0201AA18(party); i++) {
                     mon = func_0201AB28(party, i);
-                    if (func_02017E1C(mon, 0xA9, 0) && POKE_TOOL_HasRibbonData(mon) && func_02017E1C(mon, 0x4C, 0) == 0) {
+                    if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) && POKE_TOOL_HasRibbonData(mon) && POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
                         s->slot = i;
                         break;
                     }
                 }
             } else if (s->kind == 1) {
-                party = func_02012934(sys);
+                party = GAME_DATA_GetMyParty(sys);
                 for (i = 0; i < (int)func_0201AA18(party); i++) {
                     mon = func_0201AB28(party, i);
-                    if (func_02017E1C(mon, 0xA9, 0) && func_02017E1C(mon, 0x4C, 0) == 0) {
+                    if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) && POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
                         s->slot = i;
                         break;
                     }

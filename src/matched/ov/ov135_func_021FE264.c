@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   func_0201ADE4 0x0201ADE4 thumb
  *   func_0201AE1C 0x0201AE1C thumb
  *   func_0201AE14 0x0201AE14 thumb
@@ -31,7 +31,7 @@ extern void func_0201AE14(void *p);
 extern int func_021F7B9C(u8 *p, int event);
 extern void func_021FF318(u8 *p, u32 k, int b, int c, int d);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 void func_021FE264(u8 *p, int mode)
 {
     u32 h,v;
@@ -52,7 +52,7 @@ void func_021FE264(u8 *p, int mode)
     case 4:
         if(*(u32 *)&((struct Obj00018 *)p)->fD0) {
             ((struct Obj00018 *)p)->f28=32;
-            func_0202208C(0,0,0,0,16,1,0x48);
+            WIPE_SYS_Start(0,0,0,0,16,1,0x48);
         }
         break;
     case 5: ((struct Obj00018 *)p)->f28=16; break;

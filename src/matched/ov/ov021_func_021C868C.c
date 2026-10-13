@@ -1,5 +1,5 @@
 /*
- * function: func_021C868C
+ * function: PLEASURE_BOAT_Update
  * address:  0x021C868C
  * packet:   pkt_ov021_021C868C
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C87E0  0x021C87E0  thumb  ov021
- *   func_02158768  0x02158768  thumb  ov010
+ *   PLEASURE_BOAT_GetTimeEvent  0x021C87E0  thumb  ov021
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  */
 #include "../include/Obj07575.h"
 
-extern int func_021C87E0(char *p);
+extern int PLEASURE_BOAT_GetTimeEvent(char *p);
 struct Desc;
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 
-int func_021C868C(int a, char *b)
+int PLEASURE_BOAT_Update(int a, char *b)
 {
     int r4;
     int flag;
@@ -32,14 +32,14 @@ int func_021C868C(int a, char *b)
         return 0;
     }
     ((struct Obj07575 *)b)->f4 = ((struct Obj07575 *)b)->f4 + 1;
-    v = func_021C87E0(b);
+    v = PLEASURE_BOAT_GetTimeEvent(b);
     switch (v) {
     case 1:
         ((struct Obj07575 *)b)->f0 = 1;
         flag = 0;
         break;
     case 2:
-        r4 = (int)func_02158768(a, 1, 0, 0x8015);
+        r4 = (int)SCRIPT_SYS_CreateScriptEventSimple(a, 1, 0, 0x8015);
         flag = 1;
         break;
     default:

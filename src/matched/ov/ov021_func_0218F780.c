@@ -1,5 +1,5 @@
 /*
- * function: func_0218F780
+ * function: FIELD_CAMERA_TakeView
  * address:  0x0218F780
  * packet:   pkt_ov021_0218F780
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 
 typedef struct { u32 a, b, c; } V3;
 
-void func_0218F780(u8 *s, u8 *d)
+void FIELD_CAMERA_TakeView(u8 *s, u8 *d)
 {
     *(V3 *)(d + 0)    = *(V3 *)(s + 0x24);
     *(V3 *)(d + 0xc)  = *(V3 *)(s + 0x48);

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204A1BC
+ * function: ARC_UTIL_LoadMember
  * address:  0x0204A1BC
  * packet:   pkt_0204A1BC
  * region:   arm9
@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020490A8  0x020490A8  arm
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *   func_02030734  0x02030734  arm
- *   func_02048F4C  0x02048F4C  arm
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   func_020834C0  0x020834C0  arm
  *   func_020307B0  0x020307B0  arm
  *   arc_util_file   0x020A7F30  data
@@ -28,27 +28,27 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020490A8(u32 a, u32 b);
+extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 tag);
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 extern int         func_020834C0(int a0, int a1);
 extern u32 func_020307B0(void *p);
 extern const char  arc_util_file[];
 
-int func_0204A1BC(int a0, int a1, int a2, int a3)
+int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3)
 {
     int t;
     int r;
     int t2;
 
     if (a2 != 0) {
-        t = func_020490A8(a0, a1);
+        t = ARC_TOOL_GetMemberSize(a0, a1);
         r = (int)func_02030734((u16)((a3 & 0x7fff) | 0x8000), t, 0, arc_util_file, 1599);
     } else {
-        t = func_020490A8(a0, a1);
+        t = ARC_TOOL_GetMemberSize(a0, a1);
         r = (int)func_02030734(a3, t, 0, arc_util_file, 1603);
     }
-    func_02048F4C((void *)r, a0, a1);
+    ARC_TOOL_ReadMember((void *)r, a0, a1);
     if (a2 != 0) {
         t2 = (int)func_02030734(a3, ((struct Obj16074 *)r)->f0 >> 8, 0, arc_util_file, 1611);
         func_020834C0(r, t2);

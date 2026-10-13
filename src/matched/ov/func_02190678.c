@@ -1,5 +1,5 @@
 /*
- * function: func_02190678
+ * function: FIELD_MSGBG_GetMsgPrintQue
  * address:  0x02190678
  * packet:   pkt_0218FE70
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02190678(u8 *p)
+u32 FIELD_MSGBG_GetMsgPrintQue(u8 *p)
 {
     return ((struct Obj17926 *)p)->fC;
 }

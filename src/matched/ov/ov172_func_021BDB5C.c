@@ -9,27 +9,27 @@
  * status: EXACT*
  * Extent remainder: zero alignment halfword at 021BDBC2.
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 #include "../include/Obj14310.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204ADA4(u32);
-extern void func_0204A8D4(u32);
-extern void func_0204AFD8(u32);
-extern void func_02049238(u32);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleasePalette(u32);
+extern void CLACT_ReleaseCharacter(u32);
+extern void CLACT_ReleaseCellAnim(u32);
+extern void ARC_TOOL_DeleteHandle(u32);
 void func_021BDB5C(u8 *p)
 {
     u8 i;
-    func_0204B3B4((struct Obj *)(((struct Obj14310 *)p)->f1B0));
-    for (i = 0; i < 4; i++) func_0204ADA4(*(u32 *)(p + i * 4 + 0x180));
-    for (i = 4; i < 8; i++) func_0204A8D4(*(u32 *)(p + i * 4 + 0x180));
-    for (i = 8; i < 11; i++) func_0204AFD8(*(u32 *)(p + i * 4 + 0x180));
-    func_02049238(((struct Obj14310 *)p)->f17C);
+    CLACT_DeleteActor((struct Obj *)(((struct Obj14310 *)p)->f1B0));
+    for (i = 0; i < 4; i++) CLACT_ReleasePalette(*(u32 *)(p + i * 4 + 0x180));
+    for (i = 4; i < 8; i++) CLACT_ReleaseCharacter(*(u32 *)(p + i * 4 + 0x180));
+    for (i = 8; i < 11; i++) CLACT_ReleaseCellAnim(*(u32 *)(p + i * 4 + 0x180));
+    ARC_TOOL_DeleteHandle(((struct Obj14310 *)p)->f17C);
 }

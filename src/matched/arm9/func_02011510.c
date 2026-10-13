@@ -1,5 +1,5 @@
 /*
- * function: func_02011510
+ * function: ICA_ANIME_CreateStream
  * address:  0x02011510
  * packet:   pkt_02011510
  * region:   arm9
@@ -27,8 +27,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02011510.c \
- *       --func func_02011510 --addr 0x02011510 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ICA_ANIME_CreateStream.c \
+ *       --func ICA_ANIME_CreateStream --addr 0x02011510 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -55,7 +55,7 @@ extern void ICA_ANIME_LoadFrames(struct IcaAnime *s, s32 q);
 extern u8    _IcaAnimeFileName;
 
 
-void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3)
+void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3)
 {
     struct IcaAnime *p = func_02030734(heap, 0x38, 0, (const char *)&_IcaAnimeFileName, 0xae);
 

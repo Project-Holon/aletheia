@@ -1,5 +1,5 @@
 /*
- * function: func_021A7410
+ * function: FIELD_GROUND_ANIME_BindAnm
  * address:  0x021A7410
  * packet:   pkt_021A7410
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A753C  0x021A753C  thumb  ov021
+ *   FIELD_GROUND_ANIME_AnmEntryBind  0x021A753C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,10 +22,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Ctx;
-extern u32 func_021A753C(struct Ctx *s, u32 b, u32 c, u32 d);
+extern u32 FIELD_GROUND_ANIME_AnmEntryBind(struct Ctx *s, u32 b, u32 c, u32 d);
 
-int func_021A7410(u32 a, u32 b, u32 c, u32 d)
+int FIELD_GROUND_ANIME_BindAnm(u32 a, u32 b, u32 c, u32 d)
 {
-return func_021A753C((struct Ctx *)a, b, c, d);
+return FIELD_GROUND_ANIME_AnmEntryBind((struct Ctx *)a, b, c, d);
 }
 

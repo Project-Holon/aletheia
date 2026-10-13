@@ -1,5 +1,5 @@
 /*
- * function: func_021F5B24
+ * function: ENCEFF_StepFlipCell
  * address:  0x021F5B24
  * packet:   pkt_ov079_021F5B24
  * region:   ov079
@@ -13,7 +13,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_021F5B24(int *o)
+int ENCEFF_StepFlipCell(int *o)
 {
     int s = o[12];
 

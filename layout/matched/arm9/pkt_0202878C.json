@@ -106,7 +106,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_020289B8"
+    "FIELD_SOUND_SYSTEM_IsBusy"
+   ],
+   "addresses": [
+    "0x020289B8"
    ]
   },
   {
@@ -152,9 +155,9 @@
    "status": "EXACT",
    "functions": [
     "FIELD_SOUND_SYSTEM_Reset",
-    "func_02028A58",
+    "FIELD_SOUND_SYSTEM_FadeVolume",
     "FIELD_SOUND_SYSTEM_StartRingtone",
-    "func_02028A70"
+    "FIELD_SOUND_SYSTEM_StopRingtone"
    ],
    "addresses": [
     "0x02028A50",
@@ -175,7 +178,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02028A7C"
+    "FIELD_SOUND_SYSTEM_ClaimSlot"
+   ],
+   "addresses": [
+    "0x02028A7C"
    ]
   },
   {
@@ -190,7 +196,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02028ACC"
+    "FIELD_SOUND_SYSTEM_ClaimSlotWithOwner"
+   ],
+   "addresses": [
+    "0x02028ACC"
    ]
   },
   {

@@ -1,7 +1,7 @@
 /*
  * file:     net_err.c
  * unit:     yes
- * function: func_0200F2D4, func_0200F300, func_0200F34C, func_0200F38C, func_0200F43C, func_0200F4E4, func_0200F520, func_0200F594, func_0200F5EC, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, func_0200FA84, func_0200FA94, func_0200FAAC, func_0200FB24, func_0200FB38, GFL_NET_ERR_RaiseFatal, func_0200FB6C, func_0200FBA0, func_0200FBB0, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics
+ * function: func_0200F2D4, func_0200F300, func_0200F34C, func_0200F38C, func_0200F43C, func_0200F4E4, func_0200F520, func_0200F594, func_0200F5EC, func_0200F698, func_0200F6B8, func_0200F6D8, func_0200F734, GFL_NET_ERR_ShowScreen, func_0200F7C0, func_0200F7DC, func_0200F7F4, func_0200F800, func_0200F824, GFL_NET_ERR_ShowSimpleScreen, func_0200FA84, func_0200FA94, func_0200FAAC, func_0200FB24, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, func_0200FB6C, func_0200FBA0, func_0200FBB0, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics
  * address:  0x0200F2D4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -34,7 +34,7 @@
  *   MYSTATUS_GetOutfit   0x02008554  thumb
  *   WIFILIST_SetFriendInfoField   0x02009918  thumb
  *   WIFILIST_StoreFriendNameFromStrbuf   0x02009A00  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   sub_0201283C   0x0201283C  thumb
  *   WIFILIST_IsFriendDataValid           0x02009A1C  thumb
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
@@ -42,28 +42,28 @@
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   MI_CpuFill8       0x02082BCC  arm
  *   func_02030734  0x02030734  arm
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_CheckError  0x0203D880  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
  *   GFL_NET_STATE_GetErrorMode  0x0203C990  arm
  *   GFL_NET_ClearBeaconCallbacks  0x0203D864  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
  *   DWC_RAP_GetErrorMessageClass  0x02156460  thumb  ov009
  *   GFL_USE_StopAllSe        0x02006210  thumb
  *   GX_VBlankIntr        0x0207D3E4  arm
- *   func_02037174        0x02037174  arm
+ *   GFL_NET_WM_ICON_EasyObjWindowOn        0x02037174  arm
  *   GFL_NET_WM_ICON_EasyGetEngine        0x02037200  arm
  *   func_0201034C        0x0201034C  thumb
- *   func_02037190        0x02037190  arm
+ *   GFL_NET_WM_ICON_EasyObjWindowOff        0x02037190  arm
  *   GXS_SetGraphicsMode  0x0207D518  arm
  *   func_020351A0  0x020351A0  arm
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
- *   func_0203CDBC  0x0203CDBC  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   func_020307B0  0x020307B0  arm
  *   func_020306F0  0x020306F0  arm
  *   GFL_NET_ClearExitFlag  0x0203CF04  arm
- *   func_0203CEAC  0x0203CEAC  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
  *   func_02178E4C  0x02178E4C  thumb
  *   GFL_NET_RequestDisconnect  0x0203CFA0  arm
@@ -78,13 +78,13 @@
  *   G2_GetBG1CharPtr          0x0207E24C  arm
  *   G2_GetBG1ScrPtr           0x0207DFB4  arm
  *   MIi_CpuCopy16             0x02082A60  arm
- *   func_02043668             0x02043668  arm
- *   func_020435F4             0x020435F4  arm
+ *   BG_SYS_GetSubVisiblePlanes             0x02043668  arm
+ *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   GFL_NET_GetIrcParams             0x0203D828  arm
  *   GX_SetBankForSubBG        0x020806B0  arm
  *   OS_WaitIrq                0x0208459C  arm
  *   func_02082A7C  0x02082A7C  arm
- *   func_0204A1BC  0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   func_02062A4C  0x02062A4C  arm
  *   func_020862F0  0x020862F0  arm
  *   func_02062B30  0x02062B30  arm
@@ -94,6 +94,7 @@
  *   sNetErrScreenRes  0x0209DEA0  data
  *   sWifiPollLatch    0x02146178  data
  *   GFL_NET_Main  0x0203CF5C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  */
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
@@ -188,7 +189,7 @@ typedef union {
     };
 } GXBg01Control;
 
-/* The part of the net init parameters (func_0203D798) this file reads. */
+/* The part of the net init parameters (GFL_NET_GetInitParam) this file reads. */
 typedef struct {
     u8 pad_00[0x65];
     u8 bNetType;
@@ -300,39 +301,39 @@ extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerProfileSrc *profile);
 extern u8 MYSTATUS_GetOutfit(const struct PlayerProfileSrc *profile);
 extern void WIFILIST_SetFriendInfoField(struct WifiFriendSave *save, u32 slot, u32 fieldId, u32 value);
 extern void WIFILIST_StoreFriendNameFromStrbuf(struct WifiFriendSave *save, int slot, void *name);
-extern void func_02045808(struct U16String *string);
+extern void STRBUF_Delete(struct U16String *string);
 extern u32 sub_0201283C(const struct SaveData *saveData);
 extern int WIFILIST_IsFriendDataValid(struct WifiFriendSave *save, u32 slot);
 extern u32  GFL_NET_IsNetTypeWifi(void);
 extern s16 DWC_RAP_GetVchatEnabled(void);
 extern void GFL_USE_SetBgmTrackVolume(u32 eventMask, u32 eventValue);
-extern void func_0203064C(u32 parentHeapId, u32 heapId, u32 size);
+extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 extern u32 func_02030734(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern u32  GFL_NET_CheckError(void);
 extern int GFL_NET_SYSTEM_IsError(void);
 extern u32  GFL_NET_STATE_GetErrorMode(void);
 extern void GFL_NET_ClearBeaconCallbacks(void);
-extern GFLNetInitializeStruct *func_0203D798(void);
+extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
 extern NetErrInfo *GFL_NET_STATE_GetError(void);
 extern int DWC_RAP_GetErrorMessageClass(int errorCode, int errorType);
 extern u32 GFL_NET_Main();
 extern void OS_WaitIrq(int clear, u32 irqFlags);
 extern void GFL_USE_StopAllSe(void);
 extern BOOL GX_VBlankIntr(BOOL on);
-extern void func_02037174(void);
+extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 extern u32 GFL_NET_WM_ICON_EasyGetEngine(void);
 extern int func_0201034C(void);
-extern void func_02037190(void);
+extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
 extern void GXS_SetGraphicsMode(u32 bgMode);
 extern int func_020351A0(u32 mode);
 extern void GFL_USE_PollPowerExit(void);
-extern int   func_0203CDBC(void);
+extern int   GFL_NET_IsSessionNull(void);
 extern u32 func_020307B0(void *block);
 extern void func_020306F0(u32 heapId);
 extern void GFL_NET_ClearExitFlag(void);
-extern int func_0203CEAC(int arg);
+extern int GFL_NET_Exit(int arg);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern u32  func_02178E4C(void);
 extern void GFL_NET_RequestDisconnect(void);
@@ -347,12 +348,12 @@ extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
 extern void *G2_GetBG1CharPtr(void);
 extern void *G2_GetBG1ScrPtr(void);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern u32  func_02043668(void);
-extern void func_020435F4(u32 visiblePlane);
+extern u32  BG_SYS_GetSubVisiblePlanes(void);
+extern void BG_SYS_SetSubVisiblePlanes(u32 visiblePlane);
 extern void GFL_NET_GetIrcParams(u32 *x, u32 *y);
 extern void GX_SetBankForSubBG(u32 bank);
 extern void func_02082A7C(u32 value, void *dst, u32 size);
-extern int func_0204A1BC(int arcId, int fileId, int heapId, int flag);
+extern int ARC_UTIL_LoadMember(int arcId, int fileId, int heapId, int flag);
 extern s32 func_02062A4C(struct NitroResFile *file, void **out);
 extern void func_020862F0(void *p, u32 size);
 extern int func_02062B30(void *file, void **out);
@@ -383,7 +384,7 @@ void GFL_NET_ERR_HaltIfActive(void);
 void GFL_NET_ERR_DrawAndHang(void);
 void GFL_NET_ERR_RecordError(void);
 u32 GFL_NET_ERR_GetErrorLevel(void);
-void func_0200FB38(void);
+void GFL_NET_ERR_RequestScreen(void);
 void GFL_NET_ERR_RaiseFatal(unsigned int messageId);
 void GFL_NET_ERR_ExitAndHalt(void);
 void GFL_NET_ERR_ResetState(void);
@@ -579,7 +580,7 @@ void sub_0200F520(void *saveBlock, void *profile, int slot, int heapId, int copy
     if (copyName != 0) {
         void *name = MYSTATUS_CreateNameStrbuf(profile, heapId);
         WIFILIST_StoreFriendNameFromStrbuf(saveBlock, slot, name);
-        func_02045808(name);
+        STRBUF_Delete(name);
     }
     WIFILIST_SetFriendInfoField(saveBlock, slot, 9, MYSTATUS_GetOutfitVariant(profile));
     WIFILIST_SetFriendInfoField(saveBlock, slot, 0, MYSTATUS_GetId(profile));
@@ -663,7 +664,7 @@ void sub_0200F698(void *eventMask, void *eventValue)
 /* Create the module heap and clear the work. */
 void GFL_NET_ERR_CreateHeap(void)
 {
-    func_0203064C(NET_ERR_HEAP_PARENT_ID, NET_ERR_HEAP_ID, NET_ERR_HEAP_SIZE);
+    GFL_HEAP_CreateChildHeap(NET_ERR_HEAP_PARENT_ID, NET_ERR_HEAP_ID, NET_ERR_HEAP_SIZE);
     MI_CpuFill8(&gNetErrWork, 0, sizeof(NetErrWork));
 }
 
@@ -685,7 +686,7 @@ void GFL_NET_ERR_Init(u32 heapId)
 
 /*
  * Poll for a network error and record it: bails out when an error is already
- * pending (state set), when func_0203CD98 does not report state 1, or when
+ * pending (state set), when GFL_NET_GetRunState does not report state 1, or when
  * none of three error probes says yes. Otherwise it captures the error
  * (func_0200FAAC), requires a Wi-Fi net type (1, 2 or 6), and picks the
  * message id: fixed ids 0x28 and 0xe for two reason code windows, otherwise
@@ -699,7 +700,7 @@ void GFL_NET_ERR_CheckNetError(void)
     if (work->state != 0) {
         return;
     }
-    if (func_0203CD98() != 1) {
+    if (GFL_NET_GetRunState() != 1) {
         return;
     }
     if (GFL_NET_CheckError() == 0 && GFL_NET_SYSTEM_IsError() == 0 && GFL_NET_STATE_GetErrorMode() == 0) {
@@ -710,7 +711,7 @@ void GFL_NET_ERR_CheckNetError(void)
     GFL_NET_ERR_RecordError();
 
     {
-        GFLNetInitializeStruct *netInit = func_0203D798();
+        GFLNetInitializeStruct *netInit = GFL_NET_GetInitParam();
         u8 netType = netInit->bNetType;
         if (netType != GFL_NET_TYPE_WIFI && netType != GFL_NET_TYPE_WIFI_LOBBY && netType != GFL_NET_TYPE_WIFI_GTS) {
             return;
@@ -784,7 +785,7 @@ void GFL_NET_ERR_RestoreBrightness(void)
 /* One network service step: when the link is up, run GFL_NET_Main and wait for the next V-blank. */
 void GFL_NET_ERR_UpdateNetwork(void)
 {
-    if (func_0203CD98() == 1) {
+    if (GFL_NET_GetRunState() == 1) {
         GFL_NET_Main();
         OS_WaitIrq(1, 1);
     }
@@ -926,7 +927,7 @@ void GFL_NET_ERR_ShowSimpleScreen(void)
     GFL_USE_StopAllSe();
     GFL_NET_ERR_SaveDisplayAndDraw(0, 0);
     GX_VBlankIntr(1);
-    func_02037174();
+    GFL_NET_WM_ICON_EasyObjWindowOn();
     if (GFL_NET_WM_ICON_EasyGetEngine() == 1) {
         G2_SetWndOutsidePlane(2, 0);
         G2_SetWndOBJInsidePlane(0x10, 0);
@@ -947,7 +948,7 @@ void GFL_NET_ERR_ShowSimpleScreen(void)
         GFL_NET_ERR_UpdateNetwork();
     }
     GFL_NET_ERR_RestoreDisplay(gNetErrWork.keepDarkOnRestore == 1);
-    func_02037190();
+    GFL_NET_WM_ICON_EasyObjWindowOff();
     if (GFL_NET_WM_ICON_EasyGetEngine() == 2) {
         GXS_SetGraphicsMode(dispCnt.bgMode);
         GXS_SetVisiblePlane(dispCnt.visiblePlane);
@@ -983,7 +984,7 @@ void GFL_NET_ERR_DrawAndHang(void)
 
 /*
  * Record the pending network error: if the module is active and idle, move to
- * NET_ERR_STATE_RECORDED, then (when func_0203CDBC reports 0) copy the net
+ * NET_ERR_STATE_RECORDED, then (when GFL_NET_IsSessionNull reports 0) copy the net
  * type, the error record and the error flag into the work. Wi-Fi net types
  * (1, 2, 6) get errorLevel 2 when errorType is 1 or 2 and 1 otherwise; other
  * net types get 2.
@@ -1000,10 +1001,10 @@ void GFL_NET_ERR_RecordError(void)
         return;
     }
     work->state = NET_ERR_STATE_RECORDED;
-    if (func_0203CDBC() != 0) {
+    if (GFL_NET_IsSessionNull() != 0) {
         return;
     }
-    work->netType = func_0203D798()->bNetType;
+    work->netType = GFL_NET_GetInitParam()->bNetType;
     work->errorInfo = *GFL_NET_STATE_GetError();
     work->netErrorFlag = (u8)GFL_NET_STATE_GetErrorMode();
     netType = work->netType;
@@ -1032,7 +1033,7 @@ u32 GFL_NET_ERR_GetErrorLevel(void)
 
 
 /* Request the error screen for a recorded error: RECORDED -> SHOW. */
-void func_0200FB38(void)
+void GFL_NET_ERR_RequestScreen(void)
 {
     if (gNetErrWork.state == NET_ERR_STATE_RECORDED) {
         gNetErrWork.state = NET_ERR_STATE_SHOW;
@@ -1080,8 +1081,8 @@ void GFL_NET_ERR_ResetState(void)
 
 
 /*
- * Wait for the link to close: returns 1 at once when func_0203CD98 reports 0.
- * Otherwise it resets the link counters, then polls func_0203CDBC once per
+ * Wait for the link to close: returns 1 at once when GFL_NET_GetRunState reports 0.
+ * Otherwise it resets the link counters, then polls GFL_NET_IsSessionNull once per
  * frame until it stops returning 0. For net type 0 or 5 each frame first asks
  * func_02178E4C and returns 0 on answer 0xa.
  */
@@ -1090,10 +1091,10 @@ u32 GFL_NET_ERR_WaitLinkClosed(void)
     GFLNetInitializeStruct *netInit;
     u32 waiting;
 
-    if (func_0203CD98() != 0) {
-        netInit = (GFLNetInitializeStruct *)func_0203D798();
+    if (GFL_NET_GetRunState() != 0) {
+        netInit = (GFLNetInitializeStruct *)GFL_NET_GetInitParam();
         GFL_NET_ClearExitFlag();
-        func_0203CEAC(0);
+        GFL_NET_Exit(0);
         GFL_NET_IRC_WIRELESS_Exit();
         waiting = 1;
 
@@ -1109,7 +1110,7 @@ u32 GFL_NET_ERR_WaitLinkClosed(void)
             GFL_NET_RequestDisconnect();
             func_0201034C();
             OS_WaitIrq(waiting, waiting);
-            if (func_0203CDBC() == 0) {
+            if (GFL_NET_IsSessionNull() == 0) {
                 continue;
             }
             break;
@@ -1263,8 +1264,8 @@ void GFL_NET_ERR_SaveDisplayAndDraw(u32 screenIndex, u32 isWifiLink)
     work->savedBldCnt = reg_G2S_DB_BLDCNT; /* sic: stored over savedBldCnt again, as in the image */
     reg_G2_BLDCNT = 0;
     reg_G2S_DB_BLDCNT = 0;
-    work->savedVisiblePlane = func_02043668();
-    func_020435F4(0);
+    work->savedVisiblePlane = BG_SYS_GetSubVisiblePlanes();
+    BG_SYS_SetSubVisiblePlanes(0);
     work->savedSubBackdrop = *(volatile u16 *)HW_DB_BG_PLTT;
     *(volatile u16 *)HW_DB_BG_PLTT = NET_ERR_BACKDROP_COLOR;
     if (gNetErrWork.netType == NET_ERR_NETTYPE_NO_BACKUP) {
@@ -1303,7 +1304,7 @@ void GFL_NET_ERR_RestoreDisplay(BOOL keepDark)
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, -16);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, -16);
     *(volatile u16 *)HW_DB_BG_PLTT = work->savedSubBackdrop;
-    func_020435F4(work->savedVisiblePlane);
+    BG_SYS_SetSubVisiblePlanes(work->savedVisiblePlane);
     reg_G2_BLDCNT = work->savedBldCnt;
     reg_G2S_DB_BLDCNT = work->savedSubBldCnt;
     MIi_CpuCopy16(work->bg1CharBackup, G2_GetBG1CharPtr(), NET_ERR_BG1_CHAR_SIZE);
@@ -1360,7 +1361,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     func_02082A7C(0, G2_GetBG1CharPtr(), NET_ERR_BG1_CHAR_SIZE);
 
     arcId = sNetErrScreenRes[screenIndex].arcId;
-    file = (void *)func_0204A1BC(arcId, sNetErrScreenRes[screenIndex].charFileId, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].charFileId, 0, 1);
     if (func_02062A4C(file, (void **)(&charData)) != 0) {
         u32 size;
         void *dst;
@@ -1371,7 +1372,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     }
     func_020307B0(file);
 
-    file = (void *)func_0204A1BC(arcId, sNetErrScreenRes[screenIndex].scrnFileId, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].scrnFileId, 0, 1);
     if (func_02062B30(file, (void **)(&scrnData)) != 0) {
         u32 size;
         void *dst;
@@ -1382,7 +1383,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     }
     func_020307B0(file);
 
-    file = (void *)func_0204A1BC(arcId, sNetErrScreenRes[screenIndex].plttFileId, 0, 1);
+    file = (void *)ARC_UTIL_LoadMember(arcId, sNetErrScreenRes[screenIndex].plttFileId, 0, 1);
     func_02062AD4(file, (void **)(&unusedData));
     if (func_02062A98(file, (void **)(&plttData)) != 0) {
         func_020862F0(plttData->colors, NET_ERR_PLTT_BACKUP_SIZE);

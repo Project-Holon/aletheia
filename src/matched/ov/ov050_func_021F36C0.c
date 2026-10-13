@@ -10,15 +10,15 @@
  * status: EXACT*
  * note: two-byte alignment padding at 0x021F36EA follows the return.
  * symbols:
- *   func_02188C84 0x02188C84 thumb ov021
- *   func_02189764 0x02189764 thumb ov021
- *   func_021F383C 0x021F383C thumb ov050
- *   func_021F3890 0x021F3890 thumb ov050
+ *   FIELDMAP_GetHeapId 0x02188C84 thumb ov021
+ *   FIELDMAP_AllocCommonWork 0x02189764 thumb ov021
+ *   GIMMICK50_InitModels 0x021F383C thumb ov050
+ *   GIMMICK50_InitExtra 0x021F3890 thumb ov050
  */
 #include "../include/Obj20550.h"
 
-extern unsigned short func_02188C84(unsigned char *);
-extern void *func_02189764(unsigned char *, int, int, int);
-extern void func_021F383C(int, int);
-extern void func_021F3890(void *, unsigned char *);
-void func_021F36C0(unsigned char *p) { unsigned short h; void *q; h=func_02188C84(p); q=func_02189764(p,1,h,2); ((struct Obj20550 *)q)->f0=h; func_021F383C((int)q,(int)p); func_021F3890(q,p); }
+extern unsigned short FIELDMAP_GetHeapId(unsigned char *);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *, int, int, int);
+extern void GIMMICK50_InitModels(int, int);
+extern void GIMMICK50_InitExtra(void *, unsigned char *);
+void func_021F36C0(unsigned char *p) { unsigned short h; void *q; h=FIELDMAP_GetHeapId(p); q=FIELDMAP_AllocCommonWork(p,1,h,2); ((struct Obj20550 *)q)->f0=h; GIMMICK50_InitModels((int)q,(int)p); GIMMICK50_InitExtra(q,p); }

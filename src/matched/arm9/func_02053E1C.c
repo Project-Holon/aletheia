@@ -16,7 +16,7 @@
  *   func_0207B9F0        0x0207B9F0  arm
  *   func_0207CA68        0x0207CA68  arm
  *   func_0207CAE8        0x0207CAE8  arm
- *   func_0207CCA4        0x0207CCA4  arm
+ *   VEC_Normalize        0x0207CCA4  arm
  *   func_0207D8E0        0x0207D8E0  arm
  *   func_0207D918        0x0207D918  arm
  * status:   EXACT
@@ -165,7 +165,7 @@ extern u32 func_0207B5F4(void *, s32, s32, s32);
 extern void func_0207B9F0(const void *, const void *, void *);
 extern s32 func_0207CA68(const void *, const void *);
 extern void func_0207CAE8(const void *, const void *, void *);
-extern void func_0207CCA4(const void *, void *);
+extern void VEC_Normalize(const void *, void *);
 extern void func_0207D8E0(const void *);
 extern void func_0207D918(const void *);
 
@@ -197,9 +197,9 @@ void func_02053E1C(struct Obj *obj, struct S *s)
 
     func_0207B598(&f.m4);
     if (obj->f40->f20->f14->f10.sel == 0) {
-        func_0207CCA4(&s->p2, &f.v0);
+        VEC_Normalize(&s->p2, &f.v0);
     } else {
-        func_0207CCA4(&s->p1, &f.v0);
+        VEC_Normalize(&s->p1, &f.v0);
         f.v0.x = -f.v0.x;
         f.v0.y = -f.v0.y;
         f.v0.z = -f.v0.z;

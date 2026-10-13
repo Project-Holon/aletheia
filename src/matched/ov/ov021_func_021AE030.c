@@ -1,5 +1,5 @@
 /*
- * function: func_021AE030
+ * function: FLDEFF_FISHING_Init
  * address:  0x021AE030
  * packet:   pkt_ov021_021AE030
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -20,13 +20,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern int func_021AC1AC(u32 a);
-extern void func_021AC1CC(u32 a, u32 *b);
+extern int FIELD_EFFECT_GetObjectParam(u32 a);
+extern void FIELD_EFFECT_SetObjectPos(u32 a, u32 *b);
 
-void func_021AE030(u32 a, u32 *out)
+void FLDEFF_FISHING_Init(u32 a, u32 *out)
 {
-    u32 *p = (u32 *)func_021AC1AC(a);
+    u32 *p = (u32 *)FIELD_EFFECT_GetObjectParam(a);
 
     *out = p[0];
-    func_021AC1CC(a, p + 1);
+    FIELD_EFFECT_SetObjectPos(a, p + 1);
 }

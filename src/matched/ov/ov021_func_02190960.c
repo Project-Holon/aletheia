@@ -1,5 +1,5 @@
 /*
- * function: func_02190960
+ * function: FIELD_MSGBG_CreateMenuFuncPos
  * address:  0x02190960
  * packet:   pkt_ov021_02190960
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02190860  0x02190860  thumb  ov021
- *   func_02190938  0x02190938  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuFuncPalette  0x02190860  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuFuncCallback  0x02190938  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19589.h"
@@ -29,10 +29,10 @@ typedef struct Handle {
     u32 obj;
 } Handle;
 
-extern Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
-extern Handle *func_02190938(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u32 g, u32 h, u32 i);
+extern Handle *FIELD_MSGBG_CreateMenuFuncPalette(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u32 h, u32 i);
+extern Handle *FIELD_MSGBG_CreateMenuFuncCallback(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u32 g, u32 h, u32 i);
 
-Handle *func_02190960(u16 *a, const u8 *b, u32 c, u16 d, u16 e)
+Handle *FIELD_MSGBG_CreateMenuFuncPos(u16 *a, const u8 *b, u32 c, u16 d, u16 e)
 {
-    return func_02190938(a, b, c, d, e, 0, ((struct Obj19589 *)b)->f1C, 0);
+    return FIELD_MSGBG_CreateMenuFuncCallback(a, b, c, d, e, 0, ((struct Obj19589 *)b)->f1C, 0);
 }

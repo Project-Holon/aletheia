@@ -25,6 +25,8 @@
  *
  * symbols:
  *   FIELD_SOUND_SYSTEM_FadeOutAndResetTask  0x020298E0  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  */
 
 typedef unsigned short u16;
@@ -45,20 +47,20 @@ extern u32 FIELD_SOUND_SYSTEM_FadeOutAndResetTask(void *task, u32 *state, struct
 struct Ctx;
 struct Desc;
 struct Obj;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *a);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *a);
 
 void *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(void *a, u16 b)
 {
-    void *x = func_020120F4(a);
+    void *x = GAMESYSTEM_GetGameData(a);
     void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_FadeOutAndResetTask, 0x10);
     struct Work *work = func_020124E8(task);
 
     work->unk00 = a;
-    work->unk04 = (void *)func_02012A30(x);
+    work->unk04 = (void *)GAME_DATA_GetBgmInfo(x);
     work->unk0E = b;
     return task;
 }

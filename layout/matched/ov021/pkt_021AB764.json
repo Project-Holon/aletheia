@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AB764",
+   "name": "FLD_SCENEAREA_GetFieldMap",
    "address": "0x021AB764",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021AB884",
+   "name": "FLD_SCENEAREA_LOADER_GetRecCount",
    "address": "0x021AB884",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ABE14",
+   "name": "FIELD_EFFECT_GetFieldMap",
    "address": "0x021ABE14",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ABE24",
+   "name": "FIELD_EFFECT_GetArcHandle",
    "address": "0x021ABE24",
    "kind": "game",
    "region": "ov021",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ABE28",
+   "name": "FIELD_EFFECT_GetModelBaseOffset",
    "address": "0x021ABE28",
    "kind": "game",
    "region": "ov021",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021ABE2C",
+   "name": "FIELD_EFFECT_GetModelBaseOffsetAlt",
    "address": "0x021ABE2C",
    "kind": "game",
    "region": "ov021",

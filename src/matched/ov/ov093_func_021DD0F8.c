@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DD0F8, func_021DD104
+ * function: BTL_HANDLER_ITEM_PersimBerryOnEaten, BTL_HANDLER_ITEM_AddPersimBerry
  * address: 0x021DD0F8
  * packet: pkt_ov093_021DD0F8
  * region: ov093
@@ -10,17 +10,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021DD19C 0x021DD19C thumb ov093
- *   d_021F1B3C 0x021F1B3C data a4
+ *   BTL_HANDLER_ITEM_CureSickOnEaten 0x021DD19C thumb ov093
+ *   gHandlerTablePersimBerry 0x021F1B3C data a4
  */
-extern void func_021DD19C(void *, unsigned char *, int, int);
-extern const unsigned char d_021F1B3C[];
-void func_021DD0F8(void *a, void *b, int c)
+extern void BTL_HANDLER_ITEM_CureSickOnEaten(void *, unsigned char *, int, int);
+extern const unsigned char gHandlerTablePersimBerry[];
+void BTL_HANDLER_ITEM_PersimBerryOnEaten(void *a, void *b, int c)
 {
-    func_021DD19C(a, b, c, 6);
+    BTL_HANDLER_ITEM_CureSickOnEaten(a, b, c, 6);
 }
-const void *func_021DD104(int *p)
+const void *BTL_HANDLER_ITEM_AddPersimBerry(int *p)
 {
     *p = 5;
-    return d_021F1B3C;
+    return gHandlerTablePersimBerry;
 }

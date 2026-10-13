@@ -1,5 +1,5 @@
 /*
- * function: func_02164508
+ * function: EVENTDATA_SYSTEM_CheckBicycleUsable
  * address:  0x02164508
  * packet:   pkt_02164508
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02012AC8  0x02012AC8  thumb
- *   func_02012B28  0x02012B28  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A30C8  0x021A30C8  thumb
- *   func_021AB0F0  0x021AB0F0  thumb
- *   func_021AB4B8  0x021AB4B8  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
+ *   MAP_ATTR_IsRoughGround  0x021AB4B8  thumb
  *   func_02013C20  0x02013C20  thumb
  */
 
@@ -24,15 +24,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Rec44;
-extern unsigned short func_02012AC8(const struct Rec44 *p);
-extern u32 func_02012B28(const struct Rec44 *p);
-extern void *func_02188CB4(unsigned char *p);
-extern int func_021A30C8();
-extern int func_021AB0F0();
-extern int func_021AB4B8();
+extern unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
+extern void *FIELDMAP_GetFieldPlayer(unsigned char *p);
+extern int FIELD_PLAYER_GetNowAttribute();
+extern int MAP_ATTR_GetTerrainId();
+extern int MAP_ATTR_IsRoughGround();
 extern u32 func_02013C20(u32 id);
 
-int func_02164508(int a0, int a1, int a2)
+int EVENTDATA_SYSTEM_CheckBicycleUsable(int a0, int a1, int a2)
 {
     int t4;
     int t5;
@@ -42,22 +42,22 @@ int func_02164508(int a0, int a1, int a2)
 t5 = a2 + 0;
 a0 = t5 + 0;
 t4 = a1 + 0;
-    a0 = func_02012AC8((const struct Rec44 *)a0);
+    a0 = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)a0);
 loc_02164514:
 t6 = a0 + 0;
 a0 = t5 + 0;
-    a0 = func_02012B28((const struct Rec44 *)a0);
+    a0 = GAME_DATA_GetPlayerObjectCode((const struct Rec44 *)a0);
 loc_0216451C:
 a0 = a0 << 0x18;
 t5 = (unsigned)a0 >> 0x18;
 a0 = t4 + 0;
-    v0 = func_02188CB4((void *)a0);
+    v0 = FIELDMAP_GetFieldPlayer((void *)a0);
 loc_02164526:
-    a0 = func_021A30C8(v0);
+    a0 = FIELD_PLAYER_GetNowAttribute(v0);
 loc_0216452A:
-    a0 = func_021AB0F0(a0);
+    a0 = MAP_ATTR_GetTerrainId(a0);
 loc_0216452E:
-    a0 = func_021AB4B8(a0);
+    a0 = MAP_ATTR_IsRoughGround(a0);
 loc_02164532:
 t4 = a0 + 0;
     if (t5 != 1) goto loc_02164542;

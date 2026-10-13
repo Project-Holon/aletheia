@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012204  0x02012204  thumb
- *   func_021F253C  0x021F253C  thumb  ov032
+ *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
+ *   BEACON_VIEW_RequestTransition  0x021F253C  thumb  ov032
  *   func_02035D20  0x02035D20  arm
  *   func_021F0A18  0x021F0A18  thumb  ov032
  *   func_021F08E4  0x021F08E4  thumb  ov032
@@ -27,8 +27,8 @@ typedef unsigned int u32;
 typedef struct { u32 x, y; } Pair;
 
 struct Ctx;
-extern u32 func_02012204(const struct Ctx *p);
-extern void func_021F253C(char *p, int v);
+extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
+extern void BEACON_VIEW_RequestTransition(char *p, int v);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021F0A18(u8 *p, u32 *v);
 extern int func_021F08E4(u8 *p, void *pt);
@@ -42,8 +42,8 @@ int func_021F055C(u8 *p)
     int r;
     int s;
 
-    if (func_02012204((const struct Ctx *)(((struct Obj00188 *)p)->f0)) != 0) {
-        func_021F253C((char *)p, 1);
+    if (GAMESYSTEM_IsNetOffBySleep((const struct Ctx *)(((struct Obj00188 *)p)->f0)) != 0) {
+        BEACON_VIEW_RequestTransition((char *)p, 1);
         return 6;
     }
     if (func_02035D20(&v.x, &v.y) == 0)

@@ -9,8 +9,8 @@
  * status: EXACT*
  * extent: two zero alignment bytes follow the 86-byte function.
  * symbols:
- *   func_020437DC 0x020437DC arm
- *   func_020437E4 0x020437E4 arm
+ *   BMP_GetWidth 0x020437DC arm
+ *   BMP_GetHeight 0x020437E4 arm
  *   func_0201D304 0x0201D304 thumb
  *   func_0201D42C 0x0201D42C thumb
  */
@@ -19,8 +19,8 @@ typedef unsigned int   u32;
 struct Bmp;
 typedef unsigned short u16;
 struct StrObj;
-extern u16 func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
+extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 void func_021FC870(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out)
@@ -29,7 +29,7 @@ void func_021FC870(int mode,Pair *base,const void *bmp,void *text,void *font,Pai
     switch(mode) {
     case 0:*out=*base;break;
     case 1:
-        x=(unsigned)func_020437DC(bmp)>>1;y=(unsigned)func_020437E4(bmp)>>1;
+        x=(unsigned)BMP_GetWidth(bmp)>>1;y=(unsigned)BMP_GetHeight(bmp)>>1;
         x-=func_0201D304(text,(unsigned)font,0)>>1;
         y-=func_0201D42C(text,font)>>1;
         out->x=x+base->x;out->y=y+base->y;break;

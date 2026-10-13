@@ -1,5 +1,5 @@
 /*
- * function: func_021A0224
+ * function: FIELD_FOG_FADE_InitEx
  * address:  0x021A0224
  * packet:   pkt_ov021_021A0224
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A0260  0x021A0260  thumb  ov021
+ *   FIELD_FOG_FadeStart  0x021A0260  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void func_021A0260(u8 *p, u32 a, u32 b, u16 c, u16 d, u16 e);
+extern void FIELD_FOG_FadeStart(u8 *p, u32 a, u32 b, u16 c, u16 d, u16 e);
 
-void func_021A0224(u8 *p, u32 a, u32 b, u32 c, u32 d, u16 e)
+void FIELD_FOG_FADE_InitEx(u8 *p, u32 a, u32 b, u32 c, u32 d, u16 e)
 {
-    func_021A0260(p + 0x2c, a, b, c, d, e);
+    FIELD_FOG_FadeStart(p + 0x2c, a, b, c, d, e);
 }

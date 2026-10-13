@@ -1,5 +1,5 @@
 /*
- * function: func_0216E47C
+ * function: FLDMMDL_InitMovedPosSave
  * address:  0x0216E47C
  * packet:   pkt_ov010_0216E47C
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 
-void func_0216E47C(void *block)
+void FLDMMDL_InitMovedPosSave(void *block)
 {
     MIi_CpuClear32(0xFFFFFFFF, block, 0x168);
 }

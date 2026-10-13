@@ -13,7 +13,7 @@
  *   signed halfword pointer difference; results 0/1/2/3 preserve all states.
  *   No temporary array, narrowed pointer/index or uninitialized read added.
  * symbols:
- *   func_02045994 0x02045994 arm
+ *   STRBUF_SetStringN 0x02045994 arm
  *   func_0201D670 0x0201D670 thumb
  *   func_0201D688 0x0201D688 thumb
  */
@@ -26,7 +26,7 @@ typedef struct Cursor {
     u32 f08;
     u16 f0c;
 } Cursor;
-extern void func_02045994(struct Strbuf *,const u16 *,u32);
+extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
 extern u32 func_0201D670(const u16 *,u32);
 extern u16 *func_0201D688(u16 *);
 int func_021BC490(Cursor *p,struct Strbuf *out)
@@ -44,7 +44,7 @@ int func_021BC490(Cursor *p,struct Strbuf *out)
             default: p->f04+=1; break;
             }
         }
-        func_02045994(out,start,(p->f04-start)+1);
+        STRBUF_SetStringN(out,start,(p->f04-start)+1);
         return 0;
     case 1:
         p->f0c=func_0201D670(start,0);

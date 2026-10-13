@@ -1,5 +1,5 @@
 /*
- * function: func_021D9F10
+ * function: HAND_TOKUSEI_AddRoughSkin
  * address: 0x021D9F10
  * packet: pkt_ov093_021D9F10
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F0828 0x021F0828 data ov093 a4
  */
 
-int *func_021D9F10(int *p);
+int *HAND_TOKUSEI_AddRoughSkin(int *p);
 extern int d_021F0828[];
 
-int *func_021D9F10(int *p)
+int *HAND_TOKUSEI_AddRoughSkin(int *p)
 {
     *p = 1;
     return d_021F0828;

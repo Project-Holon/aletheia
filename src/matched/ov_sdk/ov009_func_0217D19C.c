@@ -20,7 +20,7 @@
  * 5-byte row stride.
  *
  * symbols:
- *   func_0217F0FC  0x0217F0FC  arm  ov009
+ *   gsiInitializeCriticalSection  0x0217F0FC  arm  ov009
  *   gsiEnterCriticalSection  0x0217F108  arm  ov009
  *   gsiLeaveCriticalSection  0x0217F114  arm  ov009
  *   func_0217D188  0x0217D188  arm  ov009
@@ -36,7 +36,7 @@ typedef struct {
     int initialized;
 } GSIDebugState;
 
-extern void func_0217F0FC(void *mutex);
+extern void gsiInitializeCriticalSection(void *mutex);
 extern void gsiEnterCriticalSection(void *mutex);
 extern void gsiLeaveCriticalSection(void *mutex);
 extern void func_0217D188(int a, int b, int c, int d, int e);
@@ -50,7 +50,7 @@ void func_0217D19C(int cat, int type, int level, const char *fmt, va_list args)
 
     if (g_021AD000.initialized == 0) {
         g_021AD000.initialized = 1;
-        func_0217F0FC(g_021AD008);
+        gsiInitializeCriticalSection(g_021AD008);
     }
     gsiEnterCriticalSection(g_021AD008);
     enabled = g_021AD020[cat][type];

@@ -10,10 +10,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02048AC4 0x02048AC4 arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
  */
 #include "../include/Obj03842.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Descriptor;struct Cfg;struct CharBuf;struct Bank;struct Util;struct Setup;struct Ctx;
-extern u32 func_02048AC4(void *ptr);
-void func_021E04B4(u8 *p){func_02048AC4(((struct Obj03842 *)p)->fD54);}
+extern u32 G3D_CAMERA_Delete(void *ptr);
+void func_021E04B4(u8 *p){G3D_CAMERA_Delete(((struct Obj03842 *)p)->fD54);}

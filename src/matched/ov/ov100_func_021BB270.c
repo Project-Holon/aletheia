@@ -41,16 +41,16 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021B97BC 0x021B97BC thumb ov100
- *   func_0203CD98 0x0203CD98 arm
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_HANDLE_GetNegotiationState 0x020399DC arm
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021BB154 0x021BB154 thumb ov100
  *   func_021BAEE0 0x021BAEE0 thumb ov100
  *   func_021BAF4C 0x021BAF4C thumb ov100
- *   func_020279E8 0x020279E8 thumb
- *   func_02027A04 0x02027A04 thumb
- *   func_02027858 0x02027858 thumb
+ *   APP_TASKMENU_IsFinish 0x020279E8 thumb
+ *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   func_02041B6C 0x02041B6C arm
  *   GFL_NET_IRC_WIRELESS_GetRetryCount 0x0203D170 arm
  *   func_021BA530 0x021BA530 thumb ov100
@@ -68,16 +68,16 @@ extern void func_021BA64C(unsigned a, unsigned b);
 extern void func_021BA3A4(struct Word *,int);
 extern void func_0204B92C(struct Obj *,u32),func_0204B3DC(struct Obj *,u32);
 extern void func_021B97BC(int,int,int,int);
-extern int func_0203CD98(void);
-extern struct Entry *func_020399A8(void);
+extern int GFL_NET_GetRunState(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_HANDLE_GetNegotiationState(struct Entry *);
 extern void func_021B95B8(u8 *,u32);
 extern void func_021BB154(int p);
 extern void func_021BAEE0(int);
 extern void func_021BAF4C(int);
-extern u32 func_020279E8(struct TaskMenu *);
-extern u8 func_02027A04(const u8 *);
-extern void func_02027858(struct TaskMenu *),func_02041B6C(u32);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *),func_02041B6C(u32);
 extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
 extern void func_021BA530(int,int),func_021BA290(int,int);
 void func_021BB270(int p)
@@ -108,13 +108,13 @@ void func_021BB270(int p)
             *(int *)(p+0xc84)=0;
         }
     }
-    if(func_0203CD98() && GFL_NET_HANDLE_GetNegotiationState(func_020399A8())==7) {
+    if(GFL_NET_GetRunState() && GFL_NET_HANDLE_GetNegotiationState(GFL_NET_HANDLE_GetCurrentHandle())==7) {
         func_021B95B8((u8 *)p,(u32)func_021BB154);
         return;
     }
-    if(func_020279E8(*(struct TaskMenu **)(p+0xcc0))) {
-        value=func_02027A04(*(const u8 **)(p+0xcc0));
-        func_02027858(*(struct TaskMenu **)(p+0xcc0));
+    if(APP_TASKMENU_IsFinish(*(struct TaskMenu **)(p+0xcc0))) {
+        value=APP_TASKMENU_GetCursorPos(*(const u8 **)(p+0xcc0));
+        APP_TASKMENU_CloseMenu(*(struct TaskMenu **)(p+0xcc0));
         *(int *)(p+0xcc0)=0;
         func_02041B6C(6);
         if(*(int *)(p+0xcbc)) {
@@ -132,7 +132,7 @@ void func_021BB270(int p)
             *(int *)(p+0xce8)=GFL_NET_IRC_WIRELESS_GetRetryCount();
         }
         if(*(int *)(p+0xce8)>0 && *(int *)(p+0xcbc)==1) {
-            func_02027858(*(struct TaskMenu **)(p+0xcc0));
+            APP_TASKMENU_CloseMenu(*(struct TaskMenu **)(p+0xcc0));
             *(int *)(p+0xcc0)=0;
             func_021BA290(p,1);
         }

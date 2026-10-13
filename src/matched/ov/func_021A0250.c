@@ -1,5 +1,5 @@
 /*
- * function: func_021A0250
+ * function: FIELD_FOG_FadeIsRunning
  * address:  0x021A0250
  * packet:   pkt_021A0250
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A0250(u32 a)
+int FIELD_FOG_FadeIsRunning(u32 a)
 {
 if (((struct Obj12082 *)((u8 *)(a)))->f0 < ((struct Obj12082 *)((u8 *)(a)))->f2) {
     return 1;

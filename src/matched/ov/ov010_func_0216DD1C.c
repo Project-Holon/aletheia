@@ -1,5 +1,5 @@
 /*
- * function: func_0216DD1C
+ * function: FLDMMDL_SysSearchUseMmdl
  * address:  0x0216DD1C
  * packet:   pkt_ov010_0216DD1C
  * region:   ov010
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * Iterator: advances *iter over the 0x100-byte records at +0x18 and
- * returns TRUE with *out set at the next record func_0216D55C accepts.
+ * returns TRUE with *out set at the next record FLDMMDL_CheckStatusBit accepts.
  *
  * symbols:
- *   func_0216D4F0  0x0216D4F0  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
+ *   FLDMMDL_SysGetMmdlMax  0x0216D4F0  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -30,20 +30,20 @@ typedef struct Ctx {
     Rec *recs;
 } Ctx;
 
-extern u16 func_0216D4F0(void *p);
-extern int func_0216D55C(int a0, int a1);
+extern u16 FLDMMDL_SysGetMmdlMax(void *p);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
 
-int func_0216DD1C(Ctx *c, Rec **out, u32 *iter)
+int FLDMMDL_SysSearchUseMmdl(Ctx *c, Rec **out, u32 *iter)
 {
     u32 n;
     Rec *r;
 
-    n = func_0216D4F0(c);
+    n = FLDMMDL_SysGetMmdlMax(c);
     if (*iter < n) {
         r = &c->recs[*iter];
         do {
             (*iter)++;
-            if (func_0216D55C((int)r, 1)) {
+            if (FLDMMDL_CheckStatusBit((int)r, 1)) {
                 *out = r;
                 return 1;
             }

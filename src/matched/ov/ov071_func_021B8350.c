@@ -13,10 +13,10 @@
  *   func_0201F554  0x0201F554  thumb
  *   func_0201F548  0x0201F548  thumb
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
- *   func_020450F0  0x020450F0  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_0201F73C  0x0201F73C  thumb
  */
 
@@ -37,16 +37,16 @@ void func_021B8350(W *w, int *b)
     extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
     extern u8 func_0201F548(int i);
     extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-    extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+    extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
     extern void *func_02045770(struct Descriptor *p);
-    extern void func_02043B5C(struct CharBuf *buf, u8 value);
-    extern void func_02045374(struct Cfg *cfg);
+    extern void BMP_Clear(struct CharBuf *buf, u8 value);
+    extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
     extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
     func_0201F554(5, 1, 0, 0x61);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)(*b), 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
-    w->f3c = func_020450F0(5, 1, 0x13, 0x1e, 4, 0xd, 1);
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)w->f3c)), 0xff);
-    func_02045374((struct Cfg *)w->f3c);
+    w->f3c = BMP_WIN_Create(5, 1, 0x13, 0x1e, 4, 0xd, 1);
+    BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)w->f3c)), 0xff);
+    BMP_WIN_MakeScreen((struct Cfg *)w->f3c);
     func_0201F73C((void *)w->f3c, 0, 1, 0xb);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C86E8
+ * function: PLEASURE_BOAT_AdvanceTime
  * address:  0x021C86E8
  * packet:   pkt_ov021_021C86E8
  * region:   ov021
@@ -21,7 +21,7 @@ typedef struct {
     int f8;
 } S;
 
-void func_021C86E8(S *p, int b, int c)
+void PLEASURE_BOAT_AdvanceTime(S *p, int b, int c)
 {
     int r;
 

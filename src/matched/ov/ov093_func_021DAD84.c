@@ -1,5 +1,5 @@
 /*
- * function: func_021DAD84
+ * function: BTL_ABILITY_TruantShowMessage
  * address:  0x021DAD84
  * packet:   pkt_ov093_021DAD84
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -22,18 +22,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
 struct S;
 extern void func_021C8860(struct S *p, u32 v);
 
-void func_021DAD84(int unused, void *a, int id, int *f)
+void BTL_ABILITY_TruantShowMessage(int unused, void *a, int id, int *f)
 {
     u8 *r;
 
-    if (id == func_021D775C(2) && f[1] != 0) {
+    if (id == BTL_EVENT_GetVar(2) && f[1] != 0) {
         r = (u8 *)func_021C88A4(a, 4, id);
         ((struct Obj21314 *)r)->f0 |= 0x800000;
         func_021C8838(r + 4, 2, 0x1bd);

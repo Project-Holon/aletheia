@@ -1,5 +1,5 @@
 /*
- * function: func_02047888
+ * function: G3D_SYSTEM_GetObjectAnimeFrameMax
  * address:  0x02047888
  * packet:   pkt_02047888
  * region:   arm9
@@ -11,12 +11,12 @@
  *
  * Looks up entry idx of the table at a[2]; on a hit stores the u16 at
  * entry->f4->f8->f4 shifted to 20.12 fixed point and returns 1.  Filed as the
- * witness for ov021 func_021D0750.
+ * witness for ov021 FLDEFF_BUBBLE_Update.
  */
 
 typedef unsigned short u16;
 
-int func_02047888(int *a, int idx, int *out)
+int G3D_SYSTEM_GetObjectAnimeFrameMax(int *a, int idx, int *out)
 {
     int *p = ((int **)a[2])[idx];
     if (p == 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF71C
+ * function: BTL_HANDLER_ITEM_GetHardStoneHandlers
  * address: 0x021DF71C
  * packet: pkt_ov093_021DF71C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF48C.c and filed here.
  *
  * symbols:
- *   d_021F13AC 0x021F13AC data ov093 a4
+ *   gHardStoneHandlers 0x021F13AC data ov093 a4
  */
 
-int *func_021DF71C(int *p);
-extern int d_021F13AC[];
+int *BTL_HANDLER_ITEM_GetHardStoneHandlers(int *p);
+extern int gHardStoneHandlers[];
 
-int *func_021DF71C(int *p)
+int *BTL_HANDLER_ITEM_GetHardStoneHandlers(int *p)
 {
     *p = 1;
-    return d_021F13AC;
+    return gHardStoneHandlers;
 }

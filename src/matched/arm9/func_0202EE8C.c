@@ -1,5 +1,5 @@
 /*
- * function: func_0202EE8C
+ * function: TIME_ICON_CreateNode
  * address:  0x0202EE8C
  * packet:   pkt_0202EE0C
  * region:   arm9
@@ -13,9 +13,9 @@
  *           listing traces a function there (layout/function_starts.txt, IN3), so
  *           it is declared as that function, not as a data tag.
  *
- * Sibling of func_0202EE30 (src/matched, EXACT): the same 0x1c-byte IconRec, built
+ * Sibling of TIME_ICON_Create (src/matched, EXACT): the same 0x1c-byte IconRec, built
  * through the func_020311B8 node allocator instead of func_02030734.  The node is
- * stashed at +4 and +0 is zeroed, the mirror image of func_0202EE30, which registers
+ * stashed at +4 and +0 is zeroed, the mirror image of TIME_ICON_Create, which registers
  * an owner into +0 and zeroes +4.  Struct layout: docs/families/time_icon.h.
  *
  * Every concrete byte of the 64-byte extent is right; the sole wildcard is the tag
@@ -32,8 +32,8 @@
  *   TIME_ICON_Init  0x0202EECC  thumb
  *
  * Verified with:
- *   python3 tools/match.py one --src src/pending/func_0202EE8C.c \
- *       --func func_0202EE8C --addr 0x0202EE8C --cc 1.1p1 --thumb
+ *   python3 tools/match.py one --src src/pending/TIME_ICON_CreateNode.c \
+ *       --func TIME_ICON_CreateNode --addr 0x0202EE8C --cc 1.1p1 --thumb
  */
 #include "../include/Obj08812.h"
 
@@ -47,7 +47,7 @@ struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 extern void TIME_ICON_Init(u8 *p, void *a1, u8 a2, u8 a3, u16 a4);
 
-u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e)
+u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e)
 {
     void *v;
     u8 *r;

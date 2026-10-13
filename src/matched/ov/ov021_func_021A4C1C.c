@@ -1,5 +1,5 @@
 /*
- * function: func_021A4C1C
+ * function: FIELD_PLAYER_GRID_GetTurnResultOnSurf
  * address:  0x021A4C1C
  * packet:   pkt_ov021_021A4C1C
  * region:   ov021
@@ -10,24 +10,24 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_021A4B54  0x021A4B54  thumb  ov021
- *   func_021A4B98  0x021A4B98  thumb  ov021
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FIELD_PLAYER_GRID_GetStandResultOnSurf  0x021A4B54  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetWalkResultOnSurf  0x021A4B98  thumb  ov021
  */
 #include "../include/Obj19789.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-int func_0216D3CC(int b);
-int func_021A4B54(int a, int b, u8 *c);
-int func_021A4B98(int a, int b, u8 *c);
+int FLDMMDL_CheckPossibleAcmd(int b);
+int FIELD_PLAYER_GRID_GetStandResultOnSurf(int a, int b, u8 *c);
+int FIELD_PLAYER_GRID_GetWalkResultOnSurf(int a, int b, u8 *c);
 
-int func_021A4C1C(int a, int b, u8 *c)
+int FIELD_PLAYER_GRID_GetTurnResultOnSurf(int a, int b, u8 *c)
 {
-    if (func_0216D3CC(b) == 0)
+    if (FLDMMDL_CheckPossibleAcmd(b) == 0)
         return 0;
     if (((struct Obj19789 *)c)->f8 == 9)
-        return func_021A4B54(a, b, c);
-    return func_021A4B98(a, b, c);
+        return FIELD_PLAYER_GRID_GetStandResultOnSurf(a, b, c);
+    return FIELD_PLAYER_GRID_GetWalkResultOnSurf(a, b, c);
 }

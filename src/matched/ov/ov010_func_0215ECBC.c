@@ -1,5 +1,5 @@
 /*
- * function: func_0215ECBC
+ * function: MOVE_POKEMON_FlashEventMain
  * address:  0x0215ECBC
  * packet:   pkt_ov010_0215ECBC
  * region:   ov010
@@ -14,22 +14,22 @@
  * status of 3. Returns 1 when finished.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_02012B38  0x02012B38  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02189A10  0x02189A10  thumb  ov021
- *   func_021C7FBC  0x021C7FBC  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02158780  0x02158780  thumb  ov010
- *   func_02159058  0x02159058  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetMapEff  0x02189A10  thumb  ov021
+ *   FIELDSKILL_MAPEFF_GetFlash  0x021C7FBC  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
+ *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
  *   func_02014468  0x02014468  thumb
  *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
- *   func_02165534  0x02165534  thumb  ov010
- *   func_021C7E50  0x021C7E50  thumb  ov021
+ *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
+ *   FIELD_FLASH_SetPendingCommand  0x021C7E50  thumb  ov021
  *   func_02014470  0x02014470  thumb
  *   func_0201446C  0x0201446C  thumb
- *   func_021C7E54  0x021C7E54  thumb  ov021
+ *   FIELD_FLASH_GetState  0x021C7E54  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -46,24 +46,24 @@ struct BigObj;
 struct Ctx;
 struct Obj;
 struct Sub02014444Obj;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern void *func_02012B38(const struct BigObj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02189A10(struct Obj *p);
-extern void *func_021C7FBC(void **p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
-extern int func_02159058(int a, int b, int c, int d, u16 e);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetMapEff(struct Obj *p);
+extern void *FIELDSKILL_MAPEFF_GetFlash(void **p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void *SCRIPT_SYS_CallScriptEvent(void *a, u32 id, u32 b, u32 c, u32 d);
+extern int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
 extern u8 func_02014468(struct Sub02014444Obj *o);
 extern void FIELD_STATUS_SetFlashActive(struct Sub02014444Obj *o, u8 v);
-extern void func_02165534(void *a0);
-extern void func_021C7E50(u8 *p, u16 v);
+extern void GAME_BEACON_SEARCH_SetCountValue(void *a0);
+extern void FIELD_FLASH_SetPendingCommand(u8 *p, u16 v);
 extern u16 func_02014470(struct Sub02014444Obj *o);
 extern void func_0201446C(void *p, u32 v);
-extern u16 func_021C7E54(struct Obj *p);
+extern u16 FIELD_FLASH_GetState(struct Obj *p);
 
-int func_0215ECBC(void *a0, int *state, Arg *arg)
+int MOVE_POKEMON_FlashEventMain(void *a0, int *state, Arg *arg)
 {
     void *obj;
     void *obj2;
@@ -73,25 +73,25 @@ int func_0215ECBC(void *a0, int *state, Arg *arg)
     void *o;
     u16 id;
 
-    obj = func_020120F4(arg->f08);
-    func_0201296C(obj);
-    obj2 = func_02012B38(obj);
-    ctl = func_021C7FBC(func_02189A10(func_0201210C(arg->f08)));
-    d = func_02188C84(func_0201210C(arg->f08));
+    obj = GAMESYSTEM_GetGameData(arg->f08);
+    GAME_DATA_GetEventWork(obj);
+    obj2 = GAME_DATA_GetMoveModelSys(obj);
+    ctl = FIELDSKILL_MAPEFF_GetFlash(FIELDMAP_GetMapEff(GAMESYSTEM_GetFieldMap(arg->f08)));
+    d = FIELDMAP_GetHeapId(GAMESYSTEM_GetFieldMap(arg->f08));
 
     switch (*state) {
     case 0:
         id = arg->f0c;
-        msg = func_02158780(a0, 0x2718, 0, 0, d);
-        func_02159058((int)msg, id, 0, 0, 0);
+        msg = SCRIPT_SYS_CallScriptEvent(a0, 0x2718, 0, 0, d);
+        SCRIPT_WORK_SetParams((int)msg, id, 0, 0, 0);
         (*state)++;
         break;
     case 1:
         if (func_02014468(obj2) == 0) {
-            o = func_02012B38(obj);
+            o = GAME_DATA_GetMoveModelSys(obj);
             FIELD_STATUS_SetFlashActive(obj2, 1);
-            func_02165534((void *)0x94);
-            func_021C7E50(ctl, 1);
+            GAME_BEACON_SEARCH_SetCountValue((void *)0x94);
+            FIELD_FLASH_SetPendingCommand(ctl, 1);
             func_0201446C(o, (func_02014470(o) & ~1) | 2);
         } else {
             return 1;
@@ -99,7 +99,7 @@ int func_0215ECBC(void *a0, int *state, Arg *arg)
         (*state)++;
         break;
     case 2:
-        if (func_021C7E54(ctl) == 3) {
+        if (FIELD_FLASH_GetState(ctl) == 3) {
             return 1;
         }
         break;

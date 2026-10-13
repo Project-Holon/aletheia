@@ -1,5 +1,5 @@
 /*
- * function: func_021D5F38
+ * function: BTL_POKEPARAM_AddCritStage
  * address:  0x021D5F38
  * packet:   pkt_ov093_021D5F38
  * region:   ov093
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 
 struct S { u8 pad[0x142]; u8 f; };
 
-int func_021D5F38(struct S *p, int n)
+int BTL_POKEPARAM_AddCritStage(struct S *p, int n)
 {
     int k;
 

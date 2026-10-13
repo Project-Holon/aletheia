@@ -1,5 +1,5 @@
 /*
- * function: func_021C5348
+ * function: SHORTCUT_MENU_Start
  * address:  0x021C5348
  * packet:   pkt_ov021_021C5348
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_021C5348(u8 *p)
+void SHORTCUT_MENU_Start(u8 *p)
 {
     if (((struct Obj07562 *)p)->f70 == 0) {
         ((struct Obj07562 *)p)->f74 = 0;

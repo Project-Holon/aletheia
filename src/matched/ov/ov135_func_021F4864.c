@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  */
 
 typedef signed char s8;
@@ -26,12 +29,12 @@ typedef struct {
 } Work;
 
 extern void func_020419E4(void);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
 void func_021F4864(void *unused, Work *p)
 {
     func_020419E4();
-    func_0204A648();
+    CLACT_VBlankSystem();
     if (p->once != 0) {
         p->once(p);
         p->once = 0;

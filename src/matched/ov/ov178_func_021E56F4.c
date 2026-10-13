@@ -31,10 +31,10 @@
  * second call: out->f10 then out->a before out->f34 and out->f30 (code order is unchanged; the earlier
  * pcode position of the a store gives a the higher spill score, so a takes r5 and p r6).
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
  *   func_02034AC4 0x02034AC4 arm
- *   func_021B6100 0x021B6100 thumb ov090
+ *   PLIST_COMM_Start 0x021B6100 thumb ov090
  *   ov90_id 0x0000005A data a1
  */
 typedef unsigned char u8;
@@ -62,11 +62,11 @@ typedef struct {
     u32 f8C, f90;
 } Output;
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int func_02034AC4(int);
-extern void func_021B6100(u8 *);
+extern void PLIST_COMM_Start(u8 *);
 extern const char ov90_id[];
 void func_021E56F4(Args *p, Other *o, Output *out)
 {
@@ -74,7 +74,7 @@ void func_021E56F4(Args *p, Other *o, Output *out)
     void *b;
     u8 i;
     a = p->a;
-    b = func_02012EBC(p->save);
+    b = GAME_DATA_GetSaveControl(p->save);
     out->party = o->party;
     out->f4 = 0;
     out->f8 = 0;
@@ -111,5 +111,5 @@ void func_021E56F4(Args *p, Other *o, Output *out)
         out->f60 = 0;
     }
     func_02034AC4((int)ov90_id);
-    func_021B6100((u8 *)out);
+    PLIST_COMM_Start((u8 *)out);
 }

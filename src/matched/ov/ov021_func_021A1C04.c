@@ -1,5 +1,5 @@
 /*
- * function: func_021A1C04
+ * function: WEATHER_UnloadOverlay
  * address:  0x021A1C04
  * packet:   pkt_ov021_021A1C04
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 
 void func_02034A5C(int x);
 
-void func_021A1C04(u8 *p)
+void WEATHER_UnloadOverlay(u8 *p)
 {
     if (((struct Obj00755 *)p)->f28 != -1) {
         func_02034A5C(((struct Obj00755 *)p)->f28);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB968",
+   "name": "TOWNMAP_GRH_ExitBgLayers",
    "address": "0x021BB968",
    "kind": "game",
    "region": "ov072",

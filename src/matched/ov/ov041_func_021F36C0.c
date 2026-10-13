@@ -1,5 +1,5 @@
 /*
- * function: func_021F36C0
+ * function: GIMMICK40_Init
  * address:  0x021F36C0
  * packet:   pkt_ov041_021F36C0
  * region:   ov041
@@ -16,18 +16,18 @@
  * initialiser it lands after the copy loop.  s declared last puts it in r5.
  *
  * symbols:
- *   d_021F40A4     0x021F40A4  data  a4
- *   d_021F4208     0x021F4208  data  a4
- *   d_021F4660     0x021F4660  data  a1
+ *   gGimmick41UnitSetup     0x021F40A4  data  a4
+ *   gGimmick41CannonPos     0x021F4208  data  a4
+ *   gGimmick41CannonQuarterTurns     0x021F4660  data  a1
  *   d_020A1B38     0x020A1B38  data  a2
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021BE760  0x021BE760  thumb  ov021
- *   func_021BE480  0x021BE480  thumb  ov021
- *   func_021BE4A4  0x021BE4A4  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B8  0x021BE6B8  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
+ *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
  *   func_0207AF1C  0x0207AF1C  thumb
  */
 
@@ -45,22 +45,22 @@ typedef struct {
     V v[10];
 } T;
 
-extern int d_021F40A4;
-extern T d_021F4208;
-extern u8 d_021F4660[];
+extern int gGimmick41UnitSetup;
+extern T gGimmick41CannonPos;
+extern u8 gGimmick41CannonQuarterTurns[];
 extern s16 d_020A1B38[];
 
-extern int func_02188D2C(int *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void  func_021BE760(void *p, void *a, int b);
-extern int func_021BE480(char *p, unsigned i, int j);
-extern void  func_021BE4A4(void *p, int i, u16 j, int v);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B8(unsigned char *p, int v);
+extern int FIELDMAP_GetExpObj(int *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
+extern void  FLD_EXP_OBJ_AddUnitFromArchive(void *p, void *a, int b);
+extern int FLD_EXP_OBJ_GetModelStatus(char *p, unsigned i, int j);
+extern void  FLD_EXP_OBJ_SetModelCullDraw(void *p, int i, u16 j, int v);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *p, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
 
-void func_021F36C0(void *a0)
+void GIMMICK40_Init(void *a0)
 {
     char *e;
     unsigned int i;
@@ -69,20 +69,20 @@ void func_021F36C0(void *a0)
     T tbl;
     void *s;
 
-    s = (void *)func_02188D2C(a0);
-    func_02189764(a0, 1, func_02188C84(a0), 0x730);
-    func_021BE760(s, &d_021F40A4, 0);
+    s = (void *)FIELDMAP_GetExpObj(a0);
+    FIELDMAP_AllocCommonWork(a0, 1, FIELDMAP_GetHeapId(a0), 0x730);
+    FLD_EXP_OBJ_AddUnitFromArchive(s, &gGimmick41UnitSetup, 0);
     i = 0;
-    tbl = d_021F4208;
+    tbl = gGimmick41CannonPos;
     for (; i < 10; i = (u8)(i + 1)) {
-        e = (char *)func_021BE480(s, (int)0, (u16)i);
-        func_021BE4A4(s, 0, i, 1);
+        e = (char *)FLD_EXP_OBJ_GetModelStatus(s, (int)0, (u16)i);
+        FLD_EXP_OBJ_SetModelCullDraw(s, 0, i, 1);
         *(V *)e = tbl.v[i];
-        k = ((d_021F4660[i] << 14) >> 4) * 2;
+        k = ((gGimmick41CannonQuarterTurns[i] << 14) >> 4) * 2;
         func_0207AF1C(e + 0x18, d_020A1B38[k], d_020A1B38[k + 1]);
         for (j = 0; j < 4; j++) {
-            func_021BE6B8(func_021BE674(s, 0, (u16)i, (u16)(j * 2)), 0);
-            func_021BE6B8(func_021BE674(s, 0, (u16)i, (u16)(j * 2 + 1)), 0);
+            FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(s, 0, (u16)i, (u16)(j * 2)), 0);
+            FLD_EXP_OBJ_SetAnimeLoop(FLD_EXP_OBJ_GetAnime(s, 0, (u16)i, (u16)(j * 2 + 1)), 0);
         }
     }
 }

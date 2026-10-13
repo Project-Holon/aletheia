@@ -1,5 +1,5 @@
 /*
- * function: func_021E8B28
+ * function: BTLV_CORE_SetSlotValue
  * address:  0x021E8B28
  * packet:   pkt_ov093_021E8B28
  * region:   ov093
@@ -14,7 +14,7 @@ union U {
     struct { u32 kind : 3; u32 pad : 6; u32 id : 16; u32 rest : 7; } a;
     struct { u32 kind : 3; u32 pad : 12; u32 id : 16; u32 rest : 1; } b;
 };
-void func_021E8B28(union U *p, u16 v)
+void BTLV_CORE_SetSlotValue(union U *p, u16 v)
 {
     if (p->a.kind == 1) p->a.id = v;
     else if (p->a.kind == 3) p->a.id = v;

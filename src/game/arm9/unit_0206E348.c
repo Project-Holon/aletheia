@@ -1,7 +1,7 @@
 /*
  * file:     unit_0206E348.c
  * unit:     yes
- * function: NNS_G3dAllocRenderObj, NNS_G3dFreeRenderObj, NNS_G3dAllocAnmObj, NNS_G3dFreeAnmObj, func_0206E394, NNS_G3dMdlSetMdlPolygonIDAll
+ * function: NNS_G3dAllocRenderObj, NNS_G3dFreeRenderObj, NNS_G3dAllocAnmObj, NNS_G3dFreeAnmObj, NNS_G3dMdlSetMdlLightEnableFlag, NNS_G3dMdlSetMdlPolygonIDAll
  * address:  0x0206E348
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -70,11 +70,11 @@ void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator);
 void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj);
 void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl);
 void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj);
-void func_0206E394(ResMdl *pMdl, u32 matIdx, u32 lightMask);
-void func_0206E40C(ResMdl *pMdl, u32 matIdx, u32 polygonMode);
-void func_0206E484(ResMdl *pMdl, u32 matIdx, u32 cullMode);
-void func_0206E4FC(ResMdl *pMdl, u32 matIdx, u32 polygonId);
-void func_0206E574(ResMdl *pMdl, u32 matIdx, u32 alpha);
+void NNS_G3dMdlSetMdlLightEnableFlag(ResMdl *pMdl, u32 matIdx, u32 lightMask);
+void NNS_G3dMdlSetMdlPolygonMode(ResMdl *pMdl, u32 matIdx, u32 polygonMode);
+void NNS_G3dMdlSetMdlCullMode(ResMdl *pMdl, u32 matIdx, u32 cullMode);
+void NNS_G3dMdlSetMdlPolygonID(ResMdl *pMdl, u32 matIdx, u32 polygonId);
+void NNS_G3dMdlSetMdlAlpha(ResMdl *pMdl, u32 matIdx, u32 alpha);
 void NNS_G3dMdlSetMdlPolygonIDAll(ResMdl *pMdl, u32 polygonId);
 
 /* NNS_G3dAllocRenderObj: 0x54 bytes from the allocator. */
@@ -106,12 +106,12 @@ void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ func_
  * (indexed table at bank+4+off0A, element stride read as a u16 at that same
  * address), entry -> node (relative offset at entry+0). The five differ only
  * in which field of node->attr0C they clear and set:
- *   func_0206E394  bits 0..3     (mask 0x0000000f, shift 0)
- *   func_0206E40C  bits 4..5     (mask 0x00000030, shift 4)
- *   func_0206E484  bits 6..7     (mask 0x000000c0, shift 6)
- *   func_0206E4FC  bits 24..29   (mask 0x3f000000, shift 24)
- *   func_0206E574  bits 16..20   (mask 0x001f0000, shift 16)
- * NNS_G3dMdlSetMdlPolygonIDAll (already EXACT, next packet boundary) loops func_0206E4FC.
+ *   NNS_G3dMdlSetMdlLightEnableFlag  bits 0..3     (mask 0x0000000f, shift 0)
+ *   NNS_G3dMdlSetMdlPolygonMode  bits 4..5     (mask 0x00000030, shift 4)
+ *   NNS_G3dMdlSetMdlCullMode  bits 6..7     (mask 0x000000c0, shift 6)
+ *   NNS_G3dMdlSetMdlPolygonID  bits 24..29   (mask 0x3f000000, shift 24)
+ *   NNS_G3dMdlSetMdlAlpha  bits 16..20   (mask 0x001f0000, shift 16)
+ * NNS_G3dMdlSetMdlPolygonIDAll (already EXACT, next packet boundary) loops NNS_G3dMdlSetMdlPolygonID.
  *
  * Two shape notes that cost the derivation real time:
  *  - Every NULL arm shares ONE tail (`n = 0` at the very end), so each early
@@ -130,7 +130,7 @@ void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ func_
  *   python tools/match.py tu --src src/matched/unit_0206E394.c \
  *       --addr 0x0206E394 --arm
  */
-void func_0206E394(ResMdl *pMdl, u32 matIdx, u32 lightMask)
+void NNS_G3dMdlSetMdlLightEnableFlag(ResMdl *pMdl, u32 matIdx, u32 lightMask)
 {
     ResMat *pMat;
     ResMatData *pMatData;
@@ -155,7 +155,7 @@ set:
     pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_LIGHT_MASK) | lightMask;
 }
 
-void func_0206E40C(ResMdl *pMdl, u32 matIdx, u32 polygonMode)
+void NNS_G3dMdlSetMdlPolygonMode(ResMdl *pMdl, u32 matIdx, u32 polygonMode)
 {
     ResMat *pMat;
     ResMatData *pMatData;
@@ -180,7 +180,7 @@ set:
     pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_MODE_MASK) | (polygonMode << POLYATTR_MODE_SHIFT);
 }
 
-void func_0206E484(ResMdl *pMdl, u32 matIdx, u32 cullMode)
+void NNS_G3dMdlSetMdlCullMode(ResMdl *pMdl, u32 matIdx, u32 cullMode)
 {
     ResMat *pMat;
     ResMatData *pMatData;
@@ -205,7 +205,7 @@ set:
     pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_CULL_MASK) | (cullMode << POLYATTR_CULL_SHIFT);
 }
 
-void func_0206E4FC(ResMdl *pMdl, u32 matIdx, u32 polygonId)
+void NNS_G3dMdlSetMdlPolygonID(ResMdl *pMdl, u32 matIdx, u32 polygonId)
 {
     ResMat *pMat;
     ResMatData *pMatData;
@@ -230,7 +230,7 @@ set:
     pMatData->polyAttr = (pMatData->polyAttr & ~POLYATTR_ID_MASK) | (polygonId << POLYATTR_ID_SHIFT);
 }
 
-void func_0206E574(ResMdl *pMdl, u32 matIdx, u32 alpha)
+void NNS_G3dMdlSetMdlAlpha(ResMdl *pMdl, u32 matIdx, u32 alpha)
 {
     ResMat *pMat;
     ResMatData *pMatData;
@@ -256,7 +256,7 @@ set:
 }
 
 /*
- * Walks the count byte at +0x18, calling func_0206E4FC with the counter and the
+ * Walks the count byte at +0x18, calling NNS_G3dMdlSetMdlPolygonID with the counter and the
  * caller's second argument; the counter is zeroed before the entry test (which
  * is why the original's `mov r4, #0` precedes `cmp`/`popls`) and the count is
  * re-read from memory every iteration.
@@ -269,6 +269,6 @@ void NNS_G3dMdlSetMdlPolygonIDAll(ResMdl *pMdl, u32 polygonId)
 {
     u32 matIdx = 0;
     for (matIdx = 0; matIdx < pMdl->numMat; matIdx++) {
-        func_0206E4FC(pMdl, matIdx, polygonId);
+        NNS_G3dMdlSetMdlPolygonID(pMdl, matIdx, polygonId);
     }
 }

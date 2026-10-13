@@ -1,5 +1,5 @@
 /*
- * function: func_021B97F4
+ * function: BSUBWAY_RECORD_LIST_SetupBgLayers
  * address:  0x021B97F4
  * packet:   pkt_ov069_021B97F4
  * region:   ov069
@@ -16,9 +16,9 @@
  *   func_020414EC  0x020414EC  arm
  *   func_02040B94  0x02040B94  arm
  *   func_02040588  0x02040588  arm
- *   d_021BA65C  0x021BA65C  data  a4
- *   d_021BA7A0  0x021BA7A0  data  a4
- *   d_021BA60C  0x021BA60C  data  a4
+ *   sRecordListDispConfig  0x021BA65C  data  a4
+ *   sRecordListBgTemplates  0x021BA7A0  data  a4
+ *   sRecordListBgIds  0x021BA60C  data  a4
  */
 
 typedef unsigned char u8;
@@ -32,9 +32,9 @@ typedef struct B160 {
     u32 w[40];
 } B160;
 
-extern A16 d_021BA65C;
-extern B160 d_021BA7A0;
-extern u32 d_021BA60C[];
+extern A16 sRecordListDispConfig;
+extern B160 sRecordListBgTemplates;
+extern u32 sRecordListBgIds[];
 
 typedef unsigned short u16;
 extern void func_0203F8F4(u16 heapId);
@@ -46,7 +46,7 @@ extern void func_020414EC(u8);
 extern void func_02040B94(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-void func_021B97F4(void)
+void BSUBWAY_RECORD_LIST_SetupBgLayers(void)
 {
     A16 a;
     B160 b;
@@ -54,11 +54,11 @@ void func_021B97F4(void)
     u32 id;
 
     func_0203F8F4(0x80);
-    a = d_021BA65C;
+    a = sRecordListDispConfig;
     func_0203FC28((struct DispConfig *)(&a));
-    b = d_021BA7A0;
+    b = sRecordListBgTemplates;
     for (i = 0; i < 5; i++) {
-        id = d_021BA60C[i];
+        id = sRecordListBgIds[i];
         func_0203FCA0((u8)id, (const struct BgTemplate *)(&b.w[i * 8]), (int)0);
         func_020414EC(id);
         func_02040B94(id, 0x20, 0, 0x80);

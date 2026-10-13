@@ -1,5 +1,5 @@
 /*
- * function: func_02197190
+ * function: IRCBATTLEMENU_CreateKindMenuActors
  * address:  0x02197190
  * packet:   pkt_ov021_02197190
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021D3FA0     0x021D3FA0  data   a1
- *   d_021D3F8C     0x021D3F8C  data   a1
- *   d_021D3F94     0x021D3F94  data   a1
- *   func_02197058  0x02197058  thumb  ov021
- *   func_0204B294  0x0204B294  arm
+ *   sKindMenuActorPosX     0x021D3FA0  data   a1
+ *   sKindMenuActorPosY     0x021D3F8C  data   a1
+ *   sKindMenuActorAnim     0x021D3F94  data   a1
+ *   IRCBATTLEMENU_DeleteMenuActors  0x02197058  thumb  ov021
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B688  0x0204B688  arm
@@ -49,33 +49,33 @@ typedef struct {
     Sub sub;
 } Obj;
 
-extern const B3 d_021D3FA0;
-extern const B3 d_021D3F8C;
-extern const B3 d_021D3F94;
-extern void func_02197058(Obj *);
+extern const B3 sKindMenuActorPosX;
+extern const B3 sKindMenuActorPosY;
+extern const B3 sKindMenuActorAnim;
+extern void IRCBATTLEMENU_DeleteMenuActors(Obj *);
 struct Obj;
-extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3DC(struct Obj *, unsigned int);
 struct Actor;
 extern void func_0204B688(struct Actor *actor, u32 value);
 
-void func_02197190(Obj *p)
+void IRCBATTLEMENU_CreateKindMenuActors(Obj *p)
 {
-    B3 x0 = d_021D3FA0;
-    B3 x1 = d_021D3F8C;
-    B3 x2 = d_021D3F94;
+    B3 x0 = sKindMenuActorPosX;
+    B3 x1 = sKindMenuActorPosY;
+    B3 x2 = sKindMenuActorAnim;
     Rect r;
     int i;
 
-    func_02197058(p);
+    IRCBATTLEMENU_DeleteMenuActors(p);
     for (i = 0; i < 3; i++) {
         r.a = x0.v[i];
         r.b = x1.v[i];
         r.c = x2.v[i];
         r.d = 0;
         r.e = 1;
-        p->sub.arr[i] = (int)func_0204B294((void *)p->sub.f0, p->sub.f10, p->sub.f8, p->sub.f18, &r, 1, p->f10);
+        p->sub.arr[i] = (int)CLACT_CreateActor((void *)p->sub.f0, p->sub.f10, p->sub.f8, p->sub.f18, &r, 1, p->f10);
         func_0204B92C((struct Obj *)p->sub.arr[i], 0);
         func_0204B3DC((struct Obj *)p->sub.arr[i], 1);
         func_0204B688((struct Actor *)p->sub.arr[i], 1);

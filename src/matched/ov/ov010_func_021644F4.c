@@ -1,5 +1,5 @@
 /*
- * function: func_021644F4
+ * function: EVENTDATA_SYSTEM_CreateFieldLinkEvent
  * address:  0x021644F4
  * packet:   pkt_ov010_021644F4
  * region:   ov010
@@ -12,7 +12,7 @@
  * Dispatches through the eight-byte records at 0x02171504.
  *
  * symbols:
- *   d_02171504     0x02171504  data
+ *   FieldLinkEventTable     0x02171504  data
  */
 
 typedef unsigned int u32;
@@ -22,9 +22,9 @@ typedef struct Entry {
     u32 arg;
 } Entry;
 
-extern Entry d_02171504[];
+extern Entry FieldLinkEventTable[];
 
-int func_021644F4(int i, void *a, void *p)
+int EVENTDATA_SYSTEM_CreateFieldLinkEvent(int i, void *a, void *p)
 {
-    return d_02171504[i].fn(p, a);
+    return FieldLinkEventTable[i].fn(p, a);
 }

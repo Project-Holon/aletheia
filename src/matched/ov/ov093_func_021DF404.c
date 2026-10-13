@@ -1,5 +1,5 @@
 /*
- * function: func_021DF404
+ * function: BTL_HANDLER_ITEM_AmuletCoinFlagDoublePrizeOnEnter
  * address:  0x021DF404
  * packet:   pkt_ov093_021DF404
  * region:   ov093
@@ -9,14 +9,14 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C8408  0x021C8408  thumb  ov093
  */
 typedef unsigned char u8;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern void func_021C8408(u8 *, int);
-void func_021DF404(int a, u8 *b, int c)
+void BTL_HANDLER_ITEM_AmuletCoinFlagDoublePrizeOnEnter(int a, u8 *b, int c)
 {
-    if (c == func_021D775C(2))
+    if (c == BTL_EVENT_GetVar(2))
         func_021C8408(b, c);
 }

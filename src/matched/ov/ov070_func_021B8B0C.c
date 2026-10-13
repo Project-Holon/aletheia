@@ -1,5 +1,5 @@
 /*
- * function: func_021B8B0C
+ * function: ITEMMENU_ReturnToListInput
  * address: 0x021B8B0C
  * packet: pkt_ov070_021B8B0C
  * region: ov070
@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021B6100 0x021B6100 thumb ov070
- *   func_021B66FC 0x021B66FC thumb ov070
+ *   ITEMMENU_SetTask 0x021B6100 thumb ov070
+ *   ITEMMENU_TaskListInput 0x021B66FC thumb ov070
  *   KEY_SetRepeatSpeed 0x02036270 arm
  */
 typedef unsigned int u32;
-extern void func_021B6100(char *p, int k);
+extern void ITEMMENU_SetTask(char *p, int k);
 typedef unsigned char  u8;
-extern void func_021B66FC(u8 *p);
+extern void ITEMMENU_TaskListInput(u8 *p);
 extern int KEY_SetRepeatSpeed(int a0, int a1);
-int func_021B8B0C(void *p)
+int ITEMMENU_ReturnToListInput(void *p)
 {
-    func_021B6100(p, (int)func_021B66FC);
+    ITEMMENU_SetTask(p, (int)ITEMMENU_TaskListInput);
     return KEY_SetRepeatSpeed(3, 6);
 }

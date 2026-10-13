@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CDDA0  0x021CDDA0  thumb  ov093
+ *   BTL_CLIENT_IsWindowWaiting  0x021CDDA0  thumb  ov093
  */
 #include "../include/Obj07748.h"
 #include "../include/Obj21016.h"
 
 typedef unsigned char  u8;
-extern int func_021CDDA0(u8 *p);
+extern int BTL_CLIENT_IsWindowWaiting(u8 *p);
 
 int func_021BA5D8(char *p)
 {
     int *q = *(int * *)&((struct Obj07748 *)p)->f0;
     if (((struct Obj21016 *)q)->f23 == 0) {
         if (((struct Obj07748 *)p)->f440 != 0)
-            return func_021CDDA0((u8 *)(*(int *)(p + (((struct Obj07748 *)p)->f46C << 2) + 0x10)));
+            return BTL_CLIENT_IsWindowWaiting((u8 *)(*(int *)(p + (((struct Obj07748 *)p)->f46C << 2) + 0x10)));
         return 0;
     }
-    return func_021CDDA0((u8 *)(*(int *)(p + (((struct Obj07748 *)p)->f46C << 2) + 0x10)));
+    return BTL_CLIENT_IsWindowWaiting((u8 *)(*(int *)(p + (((struct Obj07748 *)p)->f46C << 2) + 0x10)));
 }

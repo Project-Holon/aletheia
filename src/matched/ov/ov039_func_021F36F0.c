@@ -1,5 +1,5 @@
 /*
- * function: func_021F36F0
+ * function: GIMMICK39_GetActiveCart
  * address:  0x021F36F0
  * packet:   pkt_ov039_021F36F0
  * region:   ov039
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-u8 func_021F36F0(u8 *p, int i)
+u8 GIMMICK39_GetActiveCart(u8 *p, int i)
 {
     return *((u8 *)p + i + 0x21EC);
 }

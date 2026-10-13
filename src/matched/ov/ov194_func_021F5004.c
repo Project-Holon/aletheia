@@ -22,7 +22,7 @@
  *   func_021F4F6C 0x021F4F6C thumb ov194
  *   func_021F4F60 0x021F4F60 thumb ov194
  *   func_021F4D34 0x021F4D34 thumb ov194
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ extern int func_021F4F68(const u16 *p);
 extern unsigned short func_021F4F6C(char *base, int i, int j);
 extern void func_021F4F60(void *p);
 extern void func_021F4D34(void *p);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 u32 func_021F5004(u16 *s, u32 x)
 {
     u8 *bufs[4];
@@ -53,7 +53,7 @@ u32 func_021F5004(u16 *s, u32 x)
     h = (u8 *)func_021F4F50(v & 0xFFFF);
     ret = 1;
     idx = 0;
-    while (s[idx] != func_02045A98()) {
+    while (s[idx] != STRBUF_GetEosChar()) {
         found = 0;
         for (k = 0; (u32)k < 4; k++) {
             j = 0;

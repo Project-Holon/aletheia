@@ -1,5 +1,5 @@
 /*
- * function: func_021CD4B0
+ * function: BTL_SERVER_CMD_Push
  * address:  0x021CD4B0
  * packet:   pkt_ov093_021CD4B0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CCC0C  0x021CCC0C  thumb  ov093
+ *   BTL_SERVER_CMD_WriteCommand  0x021CCC0C  thumb  ov093
  *   data_021EFF14  0x021EFF14  data  ov093
  *   data_021F3B44  0x021F3B44  data  ov093
  */
@@ -22,8 +22,8 @@ typedef char *va_list;
 
 extern const u8 data_021EFF14[];
 extern s32 data_021F3B44[];
-extern void func_021CCC0C(void *w, u32 id, int cmd, s32 *a);
-void func_021CD4B0(void *w, volatile u32 id, ...)
+extern void BTL_SERVER_CMD_WriteCommand(void *w, u32 id, int cmd, s32 *a);
+void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...)
 {
     va_list ap;
     u32 i = 0;
@@ -33,5 +33,5 @@ void func_021CD4B0(void *w, volatile u32 id, ...)
     for (; i < n; i++) {
         data_021F3B44[i] = va_arg(ap, s32);
     }
-    func_021CCC0C(w, id, cmd, data_021F3B44);
+    BTL_SERVER_CMD_WriteCommand(w, id, cmd, data_021F3B44);
 }

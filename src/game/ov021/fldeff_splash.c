@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_splash.c
  * unit:     yes
- * function: func_021C4978, func_021C49AC, func_021C49C0, func_021C4A00, func_021C4A10, func_021C4A3C, func_021C4AE8, func_021C4B04, func_021C4B24, func_021C4B28, func_021C4B50, func_021C4B64, func_021C4BC4, func_021C4BE0, func_021C4C0C, func_021C4C50, func_021C4C54, func_021C4CDC
+ * function: FLDEFF_SPLASH_CreateBoardRes, FLDEFF_SPLASH_DeleteBoardRes, FLDEFF_SPLASH_LoadBoardImage, FLDEFF_SPLASH_UnloadBoardImage, FLDEFF_SPLASH_AddBoard, FLDEFF_SPLASH_InitBoardObj, FLDEFF_SPLASH_ExitBoardObj, FLDEFF_SPLASH_UpdateBoardObj, FLDEFF_SPLASH_DrawBoardObj, FLDEFF_SPLASH_CreateModelRes, FLDEFF_SPLASH_DeleteModelRes, FLDEFF_SPLASH_LoadModel, FLDEFF_SPLASH_UnloadModel, FLDEFF_SPLASH_AddModel, FLDEFF_SPLASH_InitModelObj, FLDEFF_SPLASH_ExitModelObj, FLDEFF_SPLASH_UpdateModelObj, FLDEFF_SPLASH_DrawModelObj
  * address:  0x021C4978
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -13,49 +13,52 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_02050340  0x02050340  arm
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_02050804  0x02050804  arm
- *   func_0205082C  0x0205082C  arm
- *   func_020507F0  0x020507F0  arm
- *   func_021ABE14  0x021ABE14  thumb  ov021
- *   func_02188C90  0x02188C90  thumb  ov021
- *   d_021DE47C     0x021DE47C  data  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   BILLBOARD_ACT_CreateEntries  0x02050340  arm
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   BILLBOARD_ACT_SetEntryCommands  0x02050804  arm
+ *   BILLBOARD_ACT_SetEntryList  0x0205082C  arm
+ *   BILLBOARD_ACT_SetEntryEnabled  0x020507F0  arm
+ *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
+ *   FIELDMAP_GetGroundBbdAct  0x02188C90  thumb  ov021
+ *   gFldeffSplashFileName     0x021DE47C  data  ov021
  *   func_020307B0  0x020307B0  arm
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_02046E24  0x02046E24  arm
- *   func_021AC1F0  0x021AC1F0  thumb  ov021
- *   func_020500F0  0x020500F0  arm
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   d_021DAA2C     0x021DAA2C  data  ov021
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   d_021DE478     0x021DE478  data  a4
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C6AE0  0x021C6AE0  thumb  ov021
- *   func_021C6AF0  0x021C6AF0  thumb  ov021
- *   func_021C6AF8  0x021C6AF8  thumb  ov021
- *   func_021C6AFC  0x021C6AFC  thumb  ov021
- *   func_021C6574  0x021C6574  thumb  ov021
- *   func_021C6590  0x021C6590  thumb  ov021
- *   func_021C67D8  0x021C67D8  thumb  ov021
- *   func_021C6628  0x021C6628  thumb  ov021
- *   func_021C6580  0x021C6580  thumb  ov021
- *   d_021DAA18     0x021DAA18  data  ov021
- *   func_0216E1A4  0x0216E1A4  thumb  ov010
- *   func_0216E1C4  0x0216E1C4  thumb  ov010
- *   func_0216DBE8  0x0216DBE8  thumb  ov010
- *   func_021C6658  0x021C6658  thumb  ov021
- *   func_021C6844  0x021C6844  thumb  ov021
- *   func_021C66EC  0x021C66EC  thumb  ov021
- *   func_021C6828  0x021C6828  thumb  ov021
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
- *   func_021C67F4  0x021C67F4  thumb  ov021
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   FIELD_EFFECT_ApplyPaletteTable  0x021AC1F0  thumb  ov021
+ *   BILLBOARD_ACT_CreateSlots  0x020500F0  arm
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   gSplashBoardObjFuncs     0x021DAA2C  data  ov021
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   gSplashBoardCommands     0x021DE478  data  a4
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_InitResDesc  0x021C6AE0  thumb  ov021
+ *   FIELD_G3DOBJ_SetResDescModel  0x021C6AF0  thumb  ov021
+ *   FIELD_G3DOBJ_SetResDescAnimeArc  0x021C6AF8  thumb  ov021
+ *   FIELD_G3DOBJ_AddResDescAnimeFile  0x021C6AFC  thumb  ov021
+ *   FIELD_G3DOBJ_AddResourceDefaultPal  0x021C6574  thumb  ov021
+ *   FIELD_G3DOBJ_AddObject  0x021C6590  thumb  ov021
+ *   FIELD_G3DOBJ_SetObjectManualDraw  0x021C67D8  thumb  ov021
+ *   FIELD_G3DOBJ_DeleteObject  0x021C6628  thumb  ov021
+ *   FIELD_G3DOBJ_DeleteResource  0x021C6580  thumb  ov021
+ *   gSplashModelObjFuncs     0x021DAA18  data  ov021
+ *   FLDMMDL_GetCheckInfo  0x0216E1A4  thumb  ov010
+ *   FLDMMDL_CheckCheckInfo  0x0216E1C4  thumb  ov010
+ *   FLDMMDL_CheckMoveBitSplash  0x0216DBE8  thumb  ov010
+ *   FIELD_G3DOBJ_GetObjectTrans  0x021C6658  thumb  ov021
+ *   FIELD_G3DOBJ_GetObjectRedrawFlag  0x021C6844  thumb  ov021
+ *   FIELD_G3DOBJ_LoopAnimeFrame  0x021C66EC  thumb  ov021
+ *   FIELD_G3DOBJ_SetObjectRedrawFlag  0x021C6828  thumb  ov021
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
+ *   FIELD_G3DOBJ_DrawObject  0x021C67F4  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   abs_id_C2      0x000000C2  data
  *   ov171_id       0x000000AB  data  a1
+ *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm  arm9
+ *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm  arm9
+ *   BILLBOARD_ACT_GetEntryLastCommand  0x020508EC  arm  arm9
  */
 #include "field_effect_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -136,7 +139,7 @@ typedef struct BbActRec {
     u32 count;
 } BbActRec;
 
-/* Splash, billboard kind: record made by func_021C4978 (0xC bytes). */
+/* Splash, billboard kind: record made by FLDEFF_SPLASH_CreateBoardRes (0xC bytes). */
 typedef struct SplashBoardRes {
     FieldEffectSys *sys;
     struct BbActSys *actSys;
@@ -153,7 +156,7 @@ typedef struct SplashBoardWork {
     u16 entryId;
 } SplashBoardWork;
 
-/* Splash, model kind: record made by func_021C4B28 (8 bytes). */
+/* Splash, model kind: record made by FLDEFF_SPLASH_CreateModelRes (8 bytes). */
 typedef struct SplashModelRes {
     FieldEffectSys *sys;
     u16 resIdx;
@@ -171,133 +174,133 @@ typedef struct SplashModelWork {
     u16 objIdx;
 } SplashModelWork;
 
-extern void *func_021AC1AC(FieldEffectObj *obj);
-extern void func_021AC1CC(FieldEffectObj *obj, VecFx32 *pos);
-extern u16 func_02050340(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
-extern void func_021AC154(FieldEffectObj *obj);
-extern void func_02050804(void *p, int idx, u32 v, u16 h);
-extern void func_0205082C(void *p, int idx, u32 h);
-extern void func_020507F0(void *p, int idx, u32 v);
-extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
-extern u32 func_020508EC(u8 *p, int i, u16 *out);
+extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
+extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *obj, VecFx32 *pos);
+extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
+extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
+extern void BILLBOARD_ACT_SetEntryCommands(void *p, int idx, u32 v, u16 h);
+extern void BILLBOARD_ACT_SetEntryList(void *p, int idx, u32 h);
+extern void BILLBOARD_ACT_SetEntryEnabled(void *p, int idx, u32 v);
+extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
+extern u32 BILLBOARD_ACT_GetEntryLastCommand(u8 *p, int i, u16 *out);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_021ABE14(u8 *p);
-extern u32 func_02188C90(u8 *p);
+extern u32 FIELD_EFFECT_GetFieldMap(u8 *p);
+extern u32 FIELDMAP_GetGroundBbdAct(u8 *p);
 extern u32 func_020307B0(void *p);
-extern u32 func_021ABE24(u8 *p);
-extern void *func_02046E24(u32 a0, u32 a1);
-extern void func_021AC1F0(struct X *x, void *b);
-extern u16 func_020500F0(struct BbActSys *o, const struct BbActRec *recs, u32 n);
-extern void func_02050278(struct BbActSys *o, u32 first, u32 count);
-extern int func_021ABEA0(u32 a, u32 b);
-extern void func_021ABFA8(FieldEffectSys *sys, void *funcs, u32 c, u32 d, void *param, u32 f);
-extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *out);
-extern u32 func_021ABE18(unsigned char *p);
-extern void func_021C6AE0(u32 a);
-extern int func_021C6AF0(u32 a, u32 b, u32 c);
-extern void func_021C6AF8(u32 *a, u32 b);
-extern void func_021C6AFC(u32 *a, u32 b);
-extern int func_021C6574(u32 a, u32 b, u32 c);
-extern u16 func_021C6590(u32 a, u32 b, u32 c, u32 d);
-extern void func_021C67D8(u32 a, u32 b, u32 c);
-extern void func_021C6628(u32 o, u16 v);
-extern void func_021C6580(u8 *p, int i);
-extern int func_0216E1A4(Mmdl *mmdl, u32 *checkInfo);
-extern int func_0216E1C4(Mmdl *mmdl, u32 *checkInfo);
-extern int func_0216DBE8(Mmdl *mmdl);
-extern int func_021C6658(u32 a, u32 b);
-extern int func_021C6844(int a, int b);
-extern int func_021C66EC(u32 *a, int idx, int v);
-extern void func_021C6828(int a, int b, int c);
-extern void func_021AC1B8(FieldEffectObj *obj, VecFx32 *out);
-extern void func_021C67F4(u32 o, u16 id);
+extern u32 FIELD_EFFECT_GetArcHandle(u8 *p);
+extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
+extern void FIELD_EFFECT_ApplyPaletteTable(struct X *x, void *b);
+extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *o, const struct BbActRec *recs, u32 n);
+extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count);
+extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
+extern void FIELD_EFFECT_AddObject(FieldEffectSys *sys, void *funcs, u32 c, u32 d, void *param, u32 f);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
+extern u32 FIELD_EFFECT_GetFieldMapData(unsigned char *p);
+extern void FIELD_G3DOBJ_InitResDesc(u32 a);
+extern int FIELD_G3DOBJ_SetResDescModel(u32 a, u32 b, u32 c);
+extern void FIELD_G3DOBJ_SetResDescAnimeArc(u32 *a, u32 b);
+extern void FIELD_G3DOBJ_AddResDescAnimeFile(u32 *a, u32 b);
+extern int FIELD_G3DOBJ_AddResourceDefaultPal(u32 a, u32 b, u32 c);
+extern u16 FIELD_G3DOBJ_AddObject(u32 a, u32 b, u32 c, u32 d);
+extern void FIELD_G3DOBJ_SetObjectManualDraw(u32 a, u32 b, u32 c);
+extern void FIELD_G3DOBJ_DeleteObject(u32 o, u16 v);
+extern void FIELD_G3DOBJ_DeleteResource(u8 *p, int i);
+extern int FLDMMDL_GetCheckInfo(Mmdl *mmdl, u32 *checkInfo);
+extern int FLDMMDL_CheckCheckInfo(Mmdl *mmdl, u32 *checkInfo);
+extern int FLDMMDL_CheckMoveBitSplash(Mmdl *mmdl);
+extern int FIELD_G3DOBJ_GetObjectTrans(u32 a, u32 b);
+extern int FIELD_G3DOBJ_GetObjectRedrawFlag(int a, int b);
+extern int FIELD_G3DOBJ_LoopAnimeFrame(u32 *a, int idx, int v);
+extern void FIELD_G3DOBJ_SetObjectRedrawFlag(int a, int b, int c);
+extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *obj, VecFx32 *out);
+extern void FIELD_G3DOBJ_DrawObject(u32 o, u16 id);
 /* Retain the mode used to store f59 for the helper's second argument. */
-SplashBoardRes *func_021C4978(FieldEffectSys *sys, u32 heapId);
-void func_021C49AC(u32 unused, SplashBoardRes *res);
-void func_021C49C0(SplashBoardRes *res);
-void func_021C4A00(SplashBoardRes *res);
-void func_021C4A10(FieldEffectSys *sys, Mmdl *mmdl);
-void func_021C4A3C(FieldEffectObj *obj, SplashBoardWork *work);
-void func_021C4AE8(FieldEffectObj *obj, SplashBoardWork *work);
-void func_021C4B04(FieldEffectObj *obj, SplashBoardWork *work);
-void func_021C4B24(void);
-SplashModelRes *func_021C4B28(FieldEffectSys *sys, u32 heapId);
-void func_021C4B50(u32 unused, SplashModelRes *res);
-void func_021C4B64(SplashModelRes *res);
-void func_021C4BC4(SplashModelRes *res);
-void func_021C4BE0(FieldEffectSys *sys, Mmdl *mmdl);
-void func_021C4C0C(FieldEffectObj *obj, SplashModelWork *work);
-void func_021C4C50(void);
-void func_021C4C54(FieldEffectObj *obj, SplashModelWork *work);
-void func_021C4CDC(FieldEffectObj *obj, SplashModelWork *work);
-extern char d_021DE47C[];
-extern char d_021DAA2C[];
-extern u8 d_021DE478[];
-extern char d_021DAA18[];
+SplashBoardRes *FLDEFF_SPLASH_CreateBoardRes(FieldEffectSys *sys, u32 heapId);
+void FLDEFF_SPLASH_DeleteBoardRes(u32 unused, SplashBoardRes *res);
+void FLDEFF_SPLASH_LoadBoardImage(SplashBoardRes *res);
+void FLDEFF_SPLASH_UnloadBoardImage(SplashBoardRes *res);
+void FLDEFF_SPLASH_AddBoard(FieldEffectSys *sys, Mmdl *mmdl);
+void FLDEFF_SPLASH_InitBoardObj(FieldEffectObj *obj, SplashBoardWork *work);
+void FLDEFF_SPLASH_ExitBoardObj(FieldEffectObj *obj, SplashBoardWork *work);
+void FLDEFF_SPLASH_UpdateBoardObj(FieldEffectObj *obj, SplashBoardWork *work);
+void FLDEFF_SPLASH_DrawBoardObj(void);
+SplashModelRes *FLDEFF_SPLASH_CreateModelRes(FieldEffectSys *sys, u32 heapId);
+void FLDEFF_SPLASH_DeleteModelRes(u32 unused, SplashModelRes *res);
+void FLDEFF_SPLASH_LoadModel(SplashModelRes *res);
+void FLDEFF_SPLASH_UnloadModel(SplashModelRes *res);
+void FLDEFF_SPLASH_AddModel(FieldEffectSys *sys, Mmdl *mmdl);
+void FLDEFF_SPLASH_InitModelObj(FieldEffectObj *obj, SplashModelWork *work);
+void FLDEFF_SPLASH_ExitModelObj(void);
+void FLDEFF_SPLASH_UpdateModelObj(FieldEffectObj *obj, SplashModelWork *work);
+void FLDEFF_SPLASH_DrawModelObj(FieldEffectObj *obj, SplashModelWork *work);
+extern char gFldeffSplashFileName[];
+extern char gSplashBoardObjFuncs[];
+extern u8 gSplashBoardCommands[];
+extern char gSplashModelObjFuncs[];
 extern unsigned char abs_id_C2[];
 extern char ov171_id[];
 
 /* Splash, billboard kind: allocates the record (0xC bytes) and loads its image. */
-SplashBoardRes *func_021C4978(FieldEffectSys *sys, u32 heapId)
+SplashBoardRes *FLDEFF_SPLASH_CreateBoardRes(FieldEffectSys *sys, u32 heapId)
 {
-    SplashBoardRes *res = func_02030734(heapId, 0xC, 1, d_021DE47C, 0x7D);
+    SplashBoardRes *res = func_02030734(heapId, 0xC, 1, gFldeffSplashFileName, 0x7D);
 
     res->sys = sys;
-    res->actSys = (struct BbActSys *)func_02188C90((u8 *)func_021ABE14((u8 *)sys));
-    func_021C49C0(res);
+    res->actSys = (struct BbActSys *)FIELDMAP_GetGroundBbdAct((u8 *)FIELD_EFFECT_GetFieldMap((u8 *)sys));
+    FLDEFF_SPLASH_LoadBoardImage(res);
     return res;
 }
 
 /* Deletes the record. */
-void func_021C49AC(u32 unused, SplashBoardRes *res)
+void FLDEFF_SPLASH_DeleteBoardRes(u32 unused, SplashBoardRes *res)
 {
-    func_021C4A00(res);
+    FLDEFF_SPLASH_UnloadBoardImage(res);
     func_020307B0(res);
 }
 
 /* Registers the splash image in the ground billboard system. */
-void func_021C49C0(SplashBoardRes *res)
+void FLDEFF_SPLASH_LoadBoardImage(SplashBoardRes *res)
 {
     BbActRec rec;
-    u32 arcHandle = func_021ABE24((u8 *)res->sys);
+    u32 arcHandle = FIELD_EFFECT_GetArcHandle((u8 *)res->sys);
 
     rec.type = 2;
     rec.imageId = 0x13;
     rec.cellWidth = 0x10;
     rec.cellHeight = 0x10;
     rec.count = 1;
-    rec.resource = func_02046E24(arcHandle, 0x2d);
-    func_021AC1F0((struct X *)res->sys, rec.resource);
-    res->imageIdx = func_020500F0(res->actSys, &rec, 1);
+    rec.resource = G3D_SYSTEM_CreateResourceArcHandle(arcHandle, 0x2d);
+    FIELD_EFFECT_ApplyPaletteTable((struct X *)res->sys, rec.resource);
+    res->imageIdx = BILLBOARD_ACT_CreateSlots(res->actSys, &rec, 1);
 }
 
 /* Releases the splash image. */
-void func_021C4A00(SplashBoardRes *res)
+void FLDEFF_SPLASH_UnloadBoardImage(SplashBoardRes *res)
 {
-    func_02050278(res->actSys, res->imageIdx, 1);
+    BILLBOARD_ACT_DeleteSlots(res->actSys, res->imageIdx, 1);
 }
 
 /* Adds one splash board object for the model mmdl. */
-void func_021C4A10(FieldEffectSys *sys, Mmdl *mmdl)
+void FLDEFF_SPLASH_AddBoard(FieldEffectSys *sys, Mmdl *mmdl)
 {
     SplashBoardParam param;
 
-    param.res = (SplashBoardRes *)func_021ABEA0((u32)sys, 8);
+    param.res = (SplashBoardRes *)FIELD_EFFECT_GetResource((u32)sys, 8);
     param.mmdl = mmdl;
-    func_021ABFA8(sys, d_021DAA2C, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(sys, gSplashBoardObjFuncs, 0, 0, &param, 0);
 }
 
 /* Init: starts the billboard entry above the model. */
-void func_021C4A3C(FieldEffectObj *obj, SplashBoardWork *work)
+void FLDEFF_SPLASH_InitBoardObj(FieldEffectObj *obj, SplashBoardWork *work)
 {
-    SplashBoardParam *param = (SplashBoardParam *)func_021AC1AC(obj);
+    SplashBoardParam *param = (SplashBoardParam *)FIELD_EFFECT_GetObjectParam(obj);
     FldEffBbRes *bbRes;
     u32 actSys, entryId;
     VecFx32 pos;
     BbActDesc desc;
 
     work->param = *param;
-    func_0216D88C(work->param.mmdl, &pos);
+    FLDMMDL_GetPos(work->param.mmdl, &pos);
     bbRes = (FldEffBbRes *)work->param.res;
     actSys = (u32)bbRes->actSys;
     pos.y -= 0xE000;
@@ -311,143 +314,143 @@ void func_021C4A3C(FieldEffectObj *obj, SplashBoardWork *work)
     desc.pos = pos;
     desc.onEnd = 0;
     desc.userData = work;
-    work->entryId = func_02050340((struct BbActSys *)actSys, 0, &desc, 1, 3);
+    work->entryId = BILLBOARD_ACT_CreateEntries((struct BbActSys *)actSys, 0, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
-        func_021AC154(obj);
+        FIELD_EFFECT_DeleteObject(obj);
         return;
     }
-    func_02050804((void *)actSys, work->entryId, (u32)d_021DE478, 1);
+    BILLBOARD_ACT_SetEntryCommands((void *)actSys, work->entryId, (u32)gSplashBoardCommands, 1);
     entryId = work->entryId;
-    func_0205082C((void *)actSys, entryId, 0);
-    func_020507F0((void *)actSys, entryId, 1);
+    BILLBOARD_ACT_SetEntryList((void *)actSys, entryId, 0);
+    BILLBOARD_ACT_SetEntryEnabled((void *)actSys, entryId, 1);
 }
 
 /* Exit: deletes the billboard entry unless the creation failed. */
-void func_021C4AE8(FieldEffectObj *obj, SplashBoardWork *work)
+void FLDEFF_SPLASH_ExitBoardObj(FieldEffectObj *obj, SplashBoardWork *work)
 {
     u32 actSys = (u32)work->param.res->actSys;
 
     if (work->entryId != 0xFFFF)
-        func_02050468((struct BbActSys *)actSys, work->entryId, 1);
+        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)actSys, work->entryId, 1);
 }
 
 /* Update: ends the effect when the entry has run its last command. */
-void func_021C4B04(FieldEffectObj *obj, SplashBoardWork *work)
+void FLDEFF_SPLASH_UpdateBoardObj(FieldEffectObj *obj, SplashBoardWork *work)
 {
     u32 lastCommand;
 
-    if (func_020508EC((u8 *)work->param.res->actSys, work->entryId, (u16 *)(&lastCommand)) != 0)
-        func_021AC154(obj);
+    if (BILLBOARD_ACT_GetEntryLastCommand((u8 *)work->param.res->actSys, work->entryId, (u16 *)(&lastCommand)) != 0)
+        FIELD_EFFECT_DeleteObject(obj);
 }
 
 /* Draw: nothing to do. */
-void func_021C4B24(void) {}
+void FLDEFF_SPLASH_DrawBoardObj(void) {}
 
 /* Splash, model kind: allocates the record (8 bytes) and loads its model. */
-SplashModelRes *func_021C4B28(FieldEffectSys *sys, u32 heapId)
+SplashModelRes *FLDEFF_SPLASH_CreateModelRes(FieldEffectSys *sys, u32 heapId)
 {
-    SplashModelRes *res = func_02030734(heapId, 8, 1, d_021DE47C, 0x163);
+    SplashModelRes *res = func_02030734(heapId, 8, 1, gFldeffSplashFileName, 0x163);
 
     res->sys = sys;
-    func_021C4B64(res);
+    FLDEFF_SPLASH_LoadModel(res);
     return res;
 }
 
 /* Deletes the record. */
-void func_021C4B50(u32 unused, SplashModelRes *res)
+void FLDEFF_SPLASH_DeleteModelRes(u32 unused, SplashModelRes *res)
 {
-    func_021C4BC4(res);
+    FLDEFF_SPLASH_UnloadModel(res);
     func_020307B0(res);
 }
 
 /* Loads the splash model resource and creates its object (hidden from the batch draw). */
-void func_021C4B64(SplashModelRes *res)
+void FLDEFF_SPLASH_LoadModel(SplashModelRes *res)
 {
     u32 resDesc[9];
-    u32 g3dObjCtrl = func_021ABE18((unsigned char *)res->sys);
-    u32 arcHandle = func_021ABE24((u8 *)res->sys);
+    u32 g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((unsigned char *)res->sys);
+    u32 arcHandle = FIELD_EFFECT_GetArcHandle((u8 *)res->sys);
 
-    func_021C6AE0((u32)resDesc);
-    func_021C6AF0((u32)resDesc, arcHandle, 0x5f);
-    func_021C6AF8(resDesc, arcHandle);
-    func_021C6AFC(resDesc, 0x6a);
-    res->resIdx = func_021C6574(g3dObjCtrl, (u32)resDesc, 0);
-    res->objIdx = func_021C6590(g3dObjCtrl, res->resIdx, 0, 0);
-    func_021C67D8(g3dObjCtrl, res->objIdx, 1);
+    FIELD_G3DOBJ_InitResDesc((u32)resDesc);
+    FIELD_G3DOBJ_SetResDescModel((u32)resDesc, arcHandle, 0x5f);
+    FIELD_G3DOBJ_SetResDescAnimeArc(resDesc, arcHandle);
+    FIELD_G3DOBJ_AddResDescAnimeFile(resDesc, 0x6a);
+    res->resIdx = FIELD_G3DOBJ_AddResourceDefaultPal(g3dObjCtrl, (u32)resDesc, 0);
+    res->objIdx = FIELD_G3DOBJ_AddObject(g3dObjCtrl, res->resIdx, 0, 0);
+    FIELD_G3DOBJ_SetObjectManualDraw(g3dObjCtrl, res->objIdx, 1);
 }
 
 /* Deletes the model object and its resource. */
-void func_021C4BC4(SplashModelRes *res)
+void FLDEFF_SPLASH_UnloadModel(SplashModelRes *res)
 {
-    u32 g3dObjCtrl = func_021ABE18((unsigned char *)res->sys);
+    u32 g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((unsigned char *)res->sys);
 
-    func_021C6628(g3dObjCtrl, res->objIdx);
-    func_021C6580((u8 *)g3dObjCtrl, res->resIdx);
+    FIELD_G3DOBJ_DeleteObject(g3dObjCtrl, res->objIdx);
+    FIELD_G3DOBJ_DeleteResource((u8 *)g3dObjCtrl, res->resIdx);
 }
 
 /* Adds one splash model object for the model mmdl. */
-void func_021C4BE0(FieldEffectSys *sys, Mmdl *mmdl)
+void FLDEFF_SPLASH_AddModel(FieldEffectSys *sys, Mmdl *mmdl)
 {
     SplashModelParam param;
 
-    param.res = (SplashModelRes *)func_021ABEA0((u32)sys, 0x11);
+    param.res = (SplashModelRes *)FIELD_EFFECT_GetResource((u32)sys, 0x11);
     param.mmdl = mmdl;
-    func_021ABFA8(sys, d_021DAA18, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(sys, gSplashModelObjFuncs, 0, 0, &param, 0);
 }
 
 /* Init: copies the parameter and puts the object under the model. */
-void func_021C4C0C(FieldEffectObj *obj, SplashModelWork *work)
+void FLDEFF_SPLASH_InitModelObj(FieldEffectObj *obj, SplashModelWork *work)
 {
     VecFx32 pos;
-    SplashModelParam *param = (SplashModelParam *)func_021AC1AC(obj);
+    SplashModelParam *param = (SplashModelParam *)FIELD_EFFECT_GetObjectParam(obj);
 
     work->param = *param;
-    func_0216E1A4(work->param.mmdl, work->checkInfo);
-    func_0216D88C(work->param.mmdl, &pos);
+    FLDMMDL_GetCheckInfo(work->param.mmdl, work->checkInfo);
+    FLDMMDL_GetPos(work->param.mmdl, &pos);
     pos.z += 0x8000;
-    func_021AC1CC(obj, &pos);
+    FIELD_EFFECT_SetObjectPos(obj, &pos);
     work->objIdx = work->param.res->objIdx;
 }
 
 /* Exit: nothing to do. */
-void func_021C4C50(void) {}
+void FLDEFF_SPLASH_ExitModelObj(void) {}
 
 /* Update: follows the model while it stays in the water; ends the effect otherwise. */
-void func_021C4C54(FieldEffectObj *obj, SplashModelWork *work)
+void FLDEFF_SPLASH_UpdateModelObj(FieldEffectObj *obj, SplashModelWork *work)
 {
     VecFx32 pos;
     int objIdx;
     int g3dObjCtrl;
 
-    if (func_0216E1C4(work->param.mmdl, work->checkInfo) == 0) {
-        func_021AC154(obj);
+    if (FLDMMDL_CheckCheckInfo(work->param.mmdl, work->checkInfo) == 0) {
+        FIELD_EFFECT_DeleteObject(obj);
         return;
     }
-    if (func_0216DBE8(work->param.mmdl) == 0) {
-        func_021AC154(obj);
+    if (FLDMMDL_CheckMoveBitSplash(work->param.mmdl) == 0) {
+        FIELD_EFFECT_DeleteObject(obj);
         return;
     }
     objIdx = work->objIdx;
-    g3dObjCtrl = func_021ABE18((u8 *)work->param.res->sys);
-    func_021C6658(g3dObjCtrl, objIdx);
-    if (func_021C6844(g3dObjCtrl, objIdx) == 0) {
-        func_021C66EC((u32 *)g3dObjCtrl, objIdx, 0x1000);
-        func_021C6828(g3dObjCtrl, objIdx, 1);
+    g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((u8 *)work->param.res->sys);
+    FIELD_G3DOBJ_GetObjectTrans(g3dObjCtrl, objIdx);
+    if (FIELD_G3DOBJ_GetObjectRedrawFlag(g3dObjCtrl, objIdx) == 0) {
+        FIELD_G3DOBJ_LoopAnimeFrame((u32 *)g3dObjCtrl, objIdx, 0x1000);
+        FIELD_G3DOBJ_SetObjectRedrawFlag(g3dObjCtrl, objIdx, 1);
     }
-    func_0216D88C(work->param.mmdl, &pos);
+    FLDMMDL_GetPos(work->param.mmdl, &pos);
     pos.z += 0x8000;
-    func_021AC1CC(obj, &pos);
+    FIELD_EFFECT_SetObjectPos(obj, &pos);
 }
 
 /* Draw: copies the effect object position into the model object. */
-void func_021C4CDC(FieldEffectObj *obj, SplashModelWork *work)
+void FLDEFF_SPLASH_DrawModelObj(FieldEffectObj *obj, SplashModelWork *work)
 {
     u16 objIdx = work->objIdx;
-    u32 g3dObjCtrl = func_021ABE18((u8 *)work->param.res->sys);
-    VecFx32 *dst = (VecFx32 *)func_021C6658(g3dObjCtrl, objIdx);
+    u32 g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((u8 *)work->param.res->sys);
+    VecFx32 *dst = (VecFx32 *)FIELD_G3DOBJ_GetObjectTrans(g3dObjCtrl, objIdx);
     VecFx32 pos;
 
-    func_021AC1B8(obj, &pos);
+    FIELD_EFFECT_GetObjectPos(obj, &pos);
     *dst = pos;
-    func_021C67F4(g3dObjCtrl, objIdx);
+    FIELD_G3DOBJ_DrawObject(g3dObjCtrl, objIdx);
 }

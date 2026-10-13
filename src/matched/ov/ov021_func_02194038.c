@@ -1,5 +1,5 @@
 /*
- * function: func_02194038
+ * function: FIELD_WFBC_BLOCK_GetCell
  * address:  0x02194038
  * packet:   pkt_02194038
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-u32 func_02194038(char *a, int b, int c)
+u32 FIELD_WFBC_BLOCK_GetCell(char *a, int b, int c)
 {
     return *(u32 *)(a + c * 0x20 + b * 4);
 }

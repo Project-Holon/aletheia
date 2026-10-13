@@ -1,5 +1,5 @@
 /*
- * function: func_021CDECC
+ * function: BTL_CLIENT_StoreMonParam
  * address: 0x021CDECC
  * packet: pkt_ov093_021CDECC
  * region: ov093
@@ -18,4 +18,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_021CDF1C(u8 *);
 extern int func_021D59B4(u8 *p, int k);
-void func_021CDECC(u8 *p) { void *a; a=func_021CDF1C(p); if(a) ((struct Obj04362 *)p)->f19C=func_021D59B4(a,13); }
+void BTL_CLIENT_StoreMonParam(u8 *p) { void *a; a=func_021CDF1C(p); if(a) ((struct Obj04362 *)p)->f19C=func_021D59B4(a,13); }

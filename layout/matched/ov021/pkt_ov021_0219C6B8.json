@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219C6B8",
+   "name": "FLDMMDL_BLACT_AddActorPos",
    "address": "0x0219C6B8",
    "kind": "game",
    "region": "ov021",

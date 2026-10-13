@@ -1,5 +1,5 @@
 /*
- * function: func_0204A39C
+ * function: ARC_UTIL_LoadHandleMemberWithSize
  * address:  0x0204A39C
  * packet:   pkt_0204A39C
  * region:   arm9
@@ -9,9 +9,9 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   func_020493D4    0x020493D4 arm
+ *   ARC_TOOL_GetHandleMemberSize    0x020493D4 arm
  *   func_02030734    0x02030734 arm
- *   func_0204932C    0x0204932C arm
+ *   ARC_TOOL_ReadHandleMember    0x0204932C arm
  *   MI_UncompressLZ8 0x020834C0 arm
  *   func_020307B0    0x020307B0 arm
  *   arc_util_file     0x020A7F30 data
@@ -29,7 +29,7 @@
  * line 1709 and the plain arm 1713: the pool order says so.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0204A39C.c  *       --func func_0204A39C --addr 0x0204A39C --arm --cc 1.1p1
+ *   python tools/match.py one --src src/matched/ARC_UTIL_LoadHandleMemberWithSize.c  *       --func ARC_UTIL_LoadHandleMemberWithSize --addr 0x0204A39C --arm --cc 1.1p1
  */
 #include "../include/Obj16076.h"
 
@@ -37,26 +37,26 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 struct ArcFile;
-extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
+extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 extern void MI_UncompressLZ8(const void *src, void *dest);
 extern u32 func_020307B0(void *p);
 extern const char arc_util_file[];
 
-void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size)
+void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size)
 {
     void *buf;
     void *d;
 
-    *out_size = func_020493D4(narc, fileId);
+    *out_size = ARC_TOOL_GetHandleMemberSize(narc, fileId);
     if (decompress != 0) {
         buf = func_02030734((u16)(((u16)heapId & 0x7FFF) | 0x8000), *out_size, 0, arc_util_file, 1709);
     } else {
         buf = func_02030734((u16)heapId, *out_size, 0, arc_util_file, 1713);
     }
     if (buf != 0) {
-        func_0204932C(narc, fileId, buf);
+        ARC_TOOL_ReadHandleMember(narc, fileId, buf);
         if (decompress != 0) {
             *out_size = ((struct Obj16076 *)buf)->f0 >> 8;
             d = func_02030734((u16)heapId, *out_size, 0, arc_util_file, 1725);

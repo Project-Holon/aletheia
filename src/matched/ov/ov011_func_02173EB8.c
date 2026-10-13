@@ -10,8 +10,8 @@
  * status: EXACT
  * symbols:
  *   func_02026478 0x02026478 thumb
- *   func_020127A4 0x020127A4 thumb
- *   func_02012AC8 0x02012AC8 thumb
+ *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
+ *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   INTRUDE_COMM_StoreSessionRequest 0x02175954 thumb ov011
  */
 #include "../include/Obj12417.h"
@@ -20,8 +20,8 @@ typedef unsigned int u32;
 struct SaveBlock;
 struct Rec44;
 u32 func_02026478(void *obj);
-void *func_020127A4(struct SaveBlock *a);
-unsigned short func_02012AC8(const struct Rec44 *a);
+void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *a);
+unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *a);
 typedef struct Rec {
     u32 lo : 15;
     u32 a : 7;
@@ -34,6 +34,6 @@ int INTRUDE_COMM_StoreSessionRequest(void *unused, u8 *o, Rec *src);
 
 void INTRUDE_CMD_RecvGroupRecord(int a, int b, void *c, u8 *d)
 {
-    func_02012AC8(func_020127A4((struct SaveBlock *)func_02026478(((struct Obj12417 *)d)->f4)));
+    GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)func_02026478(((struct Obj12417 *)d)->f4)));
     if (INTRUDE_COMM_StoreSessionRequest(d, d + 0x1ac, c) == 1) d[0x90d] = 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6658
+ * function: FIELD_G3DOBJ_GetObjectTrans
  * address:  0x021C6658
  * packet:   pkt_021C6658
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C6658(u32 a, u32 b)
+int FIELD_G3DOBJ_GetObjectTrans(u32 a, u32 b)
 {
 return ((((struct Obj18311 *)((u8 *)(a)))->fC + (b * 104)) + 8);
 }

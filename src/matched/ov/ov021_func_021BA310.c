@@ -1,5 +1,5 @@
 /*
- * function: func_021BA310
+ * function: FIELD_RAIL_CAMERA_FixedAngleAtCentre
  * address:  0x021BA310
  * packet:   pkt_ov021_021BA310
  * region:   ov021
@@ -10,33 +10,33 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B8220  0x021B8220  thumb  ov021
- *   func_021B821C  0x021B821C  thumb  ov021
- *   func_021BA2B4  0x021BA2B4  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_021B8314  0x021B8314  thumb  ov021
- *   func_0218EC90  0x0218EC90  thumb  ov021
+ *   FIELD_RAIL_GetFocusWork  0x021B8220  thumb  ov021
+ *   FIELD_RAIL_GetFieldCamera  0x021B821C  thumb  ov021
+ *   FIELD_RAIL_CAMERA_FixedAngle  0x021BA2B4  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_RAIL_WORK_GetCentrePos  0x021B8314  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  */
 
 typedef unsigned int   u32;
-extern u32 func_021B8220(unsigned char *p);
-extern u32 func_021B821C(unsigned char *p);
+extern u32 FIELD_RAIL_GetFocusWork(unsigned char *p);
+extern u32 FIELD_RAIL_GetFieldCamera(unsigned char *p);
 typedef unsigned char  u8;
-extern void func_021BA2B4(u8 *p);
-extern void func_0218EC54(u8 *p);
-extern void func_021B8314(void *p, void *buf);
-extern void func_0218EC90(void *p, void *buf);
+extern void FIELD_RAIL_CAMERA_FixedAngle(u8 *p);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern void FIELD_RAIL_WORK_GetCentrePos(void *p, void *buf);
+extern void FIELD_CAMERA_SetTarget(void *p, void *buf);
 
-void func_021BA310(void *p)
+void FIELD_RAIL_CAMERA_FixedAngleAtCentre(void *p)
 {
     void *a;
     void *b;
     int buf[3];
 
-    a = (void *)func_021B8220(p);
-    b = (void *)func_021B821C(p);
-    func_021BA2B4(p);
-    func_0218EC54(b);
-    func_021B8314(a, buf);
-    func_0218EC90(b, buf);
+    a = (void *)FIELD_RAIL_GetFocusWork(p);
+    b = (void *)FIELD_RAIL_GetFieldCamera(p);
+    FIELD_RAIL_CAMERA_FixedAngle(p);
+    FIELD_CAMERA_StopTargetTrace(b);
+    FIELD_RAIL_WORK_GetCentrePos(a, buf);
+    FIELD_CAMERA_SetTarget(b, buf);
 }

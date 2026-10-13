@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_021F3938  0x021F3938  thumb  ov060
- *   func_02189764  0x02189764  thumb  ov021
- *   func_021BE310  0x021BE310  thumb  ov021
- *   func_021F37E4  0x021F37E4  thumb  ov060
- *   func_021F3950  0x021F3950  thumb  ov060
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GIMMICK60_GetIntrudeCommSys  0x021F3938  thumb  ov060
+ *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
+ *   FLD_EXP_OBJ_AddUnit  0x021BE310  thumb  ov021
+ *   GIMMICK60_PlaceModels  0x021F37E4  thumb  ov060
+ *   GIMMICK60_SetupEffect  0x021F3950  thumb  ov060
  *   d_021F3A34     0x021F3A34  data  a4
  */
 
@@ -30,20 +30,20 @@ extern char d_021F3A34[];
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u16 func_02188C84(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct Big;
 struct Ctx;
-extern int func_02188D2C(int *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *a);
-extern void *func_021F3938(void *p);
-extern void *func_02189764(unsigned char *p, int id, int a, int b);
-extern void func_021BE310(void *a, void *b, int c);
-extern void func_021F37E4(u8 *out, void *b, void *c, void *d);
-extern void func_021F3950(void *a, void *b);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *a);
+extern void *GIMMICK60_GetIntrudeCommSys(void *p);
+extern void *FIELDMAP_AllocCommonWork(unsigned char *p, int id, int a, int b);
+extern void FLD_EXP_OBJ_AddUnit(void *a, void *b, int c);
+extern void GIMMICK60_PlaceModels(u8 *out, void *b, void *c, void *d);
+extern void GIMMICK60_SetupEffect(void *a, void *b);
 
 void func_021F36C0(void *a)
 {
@@ -54,14 +54,14 @@ void func_021F36C0(void *a)
     void *v;
     void *o;
 
-    r6 = func_02188C84(a);
-    s = (void *)func_02188D2C(a);
-    c = (u32)func_02188C80(a);
-    h = (u32)func_020120F4((const struct Ctx *)c);
-    func_02012EC4((struct Big *)h);
-    v = func_021F3938((void *)func_02012138((const struct Ctx *)c));
-    o = func_02189764(a, 0, r6, 4);
-    func_021BE310(s, d_021F3A34, 0);
-    func_021F37E4(o, a, (void *)h, v);
-    func_021F3950(o, s);
+    r6 = FIELDMAP_GetHeapId(a);
+    s = (void *)FIELDMAP_GetExpObj(a);
+    c = (u32)FIELDMAP_GetGameSystem(a);
+    h = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)c);
+    GAME_DATA_GetFieldSave((struct Big *)h);
+    v = GIMMICK60_GetIntrudeCommSys((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)c));
+    o = FIELDMAP_AllocCommonWork(a, 0, r6, 4);
+    FLD_EXP_OBJ_AddUnit(s, d_021F3A34, 0);
+    GIMMICK60_PlaceModels(o, a, (void *)h, v);
+    GIMMICK60_SetupEffect(o, s);
 }

@@ -10,10 +10,10 @@
  * status:   EXACT
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
- *   func_02175B14  0x02175B14  thumb  ov011
+ *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  *   INTRUDE_COMM_IsJoinRequestValid  0x02175FB8  thumb  ov011
- *   func_020392B8  0x020392B8  arm
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   INTRUDE_COMM_SetSessionRequestSendFlag  0x02175920  thumb  ov011
  *   func_0203F4FC  0x0203F4FC  arm
  */
@@ -68,10 +68,10 @@ typedef struct {
 } Work;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_02175B14(u8 *p);
+extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 extern int INTRUDE_COMM_IsJoinRequestValid(void *p, Src *src);
-extern u32 func_020392B8(void);
-extern int func_0203D1B4(void);
+extern u32 GFL_NET_SYSTEM_GetConnectNum(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern void INTRUDE_COMM_SetSessionRequestSendFlag(void *p);
 extern u32 func_0203F4FC(void);
 
@@ -80,7 +80,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(u8 *a0, Work *p, Src *src, int idx)
     Rec *tmp = &p->tmp;
 
     func_02082BCC(&p->entries[idx], 0, sizeof(Entry));
-    if (func_02175B14(a0 + 0x1AC) == 1) {
+    if (INTRUDE_COMM_IsSessionActive(a0 + 0x1AC) == 1) {
         p->entries[idx].state = 2;
         return 0;
     }
@@ -89,7 +89,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(u8 *a0, Work *p, Src *src, int idx)
         return 0;
     }
     if (src->head.kind == 0 || src->head.kind == 3) {
-        if (func_020392B8() != 2 || func_0203D1B4() != 2) {
+        if (GFL_NET_SYSTEM_GetConnectNum() != 2 || GFL_NET_GetNegotiationNum() != 2) {
             p->entries[idx].state = 4;
             return 0;
         }

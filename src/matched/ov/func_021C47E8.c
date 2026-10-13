@@ -1,5 +1,5 @@
 /*
- * function: func_021C47E8
+ * function: FLDEFF_RIPPLE_Delete
  * address:  0x021C47E8
  * packet:   pkt_021C47E8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021C483C  0x021C483C  thumb  ov021
+ *   FLDEFF_RIPPLE_RemoveActor  0x021C483C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021C483C(u8 *p);
+extern void FLDEFF_RIPPLE_RemoveActor(u8 *p);
 extern u32 func_020307B0(void *p);
 
-void func_021C47E8(u32 a, u8 *p)
+void FLDEFF_RIPPLE_Delete(u32 a, u8 *p)
 {
-    func_021C483C(p);
+    FLDEFF_RIPPLE_RemoveActor(p);
     func_020307B0(p);
 }

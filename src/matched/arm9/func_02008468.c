@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02008468
+ * function: MYSTATUS_GetSize
  * address:  0x02008468
  * packet:   pkt_020082EC
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02008468(void){ return 0x20; }
+int MYSTATUS_GetSize(void){ return 0x20; }

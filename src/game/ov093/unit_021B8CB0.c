@@ -15,159 +15,159 @@
  *
  * symbols:
  *   data_021EFCF0  0x021EFCF0  data  ov093
- *   func_021B8778  0x021B8778  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021B8BEC  0x021B8BEC  thumb  ov093
+ *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
  *   d_021EFCF4  0x021EFCF4  data  ov093  a1
  *   d_021EFCFA  0x021EFCFA  data  ov093  a1
- *   func_021B86C8 0x021B86C8 thumb ov093
- *   func_021B86B8 0x021B86B8 thumb ov093
- *   func_021B8B9C  0x021B8B9C  thumb  ov093
+ *   BTL_MAIN_IsMultiMode 0x021B86C8 thumb ov093
+ *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
+ *   BTL_MAIN_IsClientUsed  0x021B8B9C  thumb  ov093
  *   func_02007F1C 0x02007F1C thumb
  *   func_02007E50 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
- *   func_02012F08  0x02012F08  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   func_0200C274  0x0200C274  thumb
- *   func_021D7FF8  0x021D7FF8  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_021B8714  0x021B8714  thumb  ov093
+ *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
+ *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_Calc  0x0201B7A0  thumb
  *   func_021D54F4 0x021D54F4 thumb ov093
- *   func_021D6C24  0x021D6C24  thumb  ov093
- *   func_021D5864  0x021D5864  thumb  ov093
- *   func_021D53B8 0x021D53B8 thumb ov093
+ *   BTL_POKEPARAM_IsIllusionActive  0x021D6C24  thumb  ov093
+ *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
+ *   BTL_POKEPARAM_Delete 0x021D53B8 thumb ov093
  *   func_0201AA18 0x0201AA18 thumb
  *   func_0201AB28 0x0201AB28 thumb
- *   func_021D4D84 0x021D4D84 thumb ov093
+ *   BTL_POKEPARAM_Create 0x021D4D84 thumb ov093
  *   func_021D59B4 0x021D59B4 thumb ov093
- *   func_021D5848 0x021D5848 thumb ov093
- *   func_021D5444 0x021D5444 thumb ov093
+ *   BTL_POKEPARAM_SetFakeMon 0x021D5848 thumb ov093
+ *   BTL_POKEPARAM_GetSpecies 0x021D5444 thumb ov093
  *   func_02017E1C 0x02017E1C thumb
- *   func_020173F0 0x020173F0 thumb
+ *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
- *   func_021D6B84 0x021D6B84 thumb ov093
+ *   BTL_POKEPARAM_WriteBackToParam 0x021D6B84 thumb ov093
  *   func_0201A98C 0x0201A98C thumb
  *   func_0201AC2C 0x0201AC2C thumb
- *   func_021D6C3C 0x021D6C3C thumb ov093
- *   func_021D67D0  0x021D67D0  thumb  ov093
+ *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
+ *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
  *   func_02007B50 0x02007B50 thumb
  *   func_02007C70 0x02007C70 thumb
- *   func_021B6994  0x021B6994  thumb  ov093
- *   func_021B8588 0x021B8588 thumb ov093
+ *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
+ *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   data_021EFD70  0x021EFD70  data  ov093
- *   func_021B8C20 0x021B8C20 thumb ov093
- *   func_021D5B7C 0x021D5B7C thumb ov093
- *   func_021B8B78  0x021B8B78  thumb  ov093
- *   func_021D5854  0x021D5854  thumb  ov093
+ *   BTL_MAIN_GetEnemyLanePos 0x021B8C20 thumb ov093
+ *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
+ *   BTL_MAIN_CountClientTrainers  0x021B8B78  thumb  ov093
+ *   BTL_POKEPARAM_ClearFakeMon  0x021D5854  thumb  ov093
  *   func_020307B0  0x020307B0  arm
- *   func_0200846C  0x0200846C  thumb
- *   func_02008494  0x02008494  thumb
+ *   MYSTATUS_Create  0x0200846C  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008510  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
- *   func_02045874  0x02045874  arm
+ *   STRBUF_Clone  0x02045874  arm
  *   func_02082D44  0x02082D44  arm
  *   PMSI_PARAM_Copy  0x02024570  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetChars  0x02045A00  arm
  *   COMM_PLAYER_SUPPORT_GetCurrent  0x0202E7DC  thumb
  *   func_0201A920 0x0201A920 thumb
  *   BTL_SETUP_CheckStatusFlag  0x02013158  thumb
  *   sub_02008DF0 0x02008DF0 thumb
  *   sub_02008DAC 0x02008DAC thumb
- *   func_021B6818 0x021B6818 thumb ov093
+ *   BTL_MAIN_IsCommCompetitor 0x021B6818 thumb ov093
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  *   NATSUKI_CalcParty 0x0201B818 thumb
- *   func_02017E40 0x02017E40 thumb
- *   func_021D7F60 0x021D7F60 thumb ov093
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
+ *   BTL_CALC_IsBossTrainer 0x021D7F60 thumb ov093
  *   func_021D805C 0x021D805C thumb ov093
- *   func_021D62A8 0x021D62A8 thumb ov093
+ *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   _u32_div_f 0x0209C2B0 arm
- *   func_021D826C  0x021D826C  thumb  ov093
- *   func_021D8270  0x021D8270  thumb  ov093
- *   func_021D787C  0x021D787C  thumb  ov093
- *   func_021B68D8  0x021B68D8  thumb  ov093
+ *   BTL_CLIENT_SET_GetCount  0x021D826C  thumb  ov093
+ *   BTL_CLIENT_SET_JudgeResult  0x021D8270  thumb  ov093
+ *   BTL_CALC_SetRngState  0x021D787C  thumb  ov093
+ *   BTL_MAIN_InitClientParties  0x021B68D8  thumb  ov093
  *   func_021E9034  0x021E9034  thumb  ov093
- *   func_021E8E28  0x021E8E28  thumb  ov093
- *   func_021E8F20  0x021E8F20  thumb  ov093
- *   func_021D54B4 0x021D54B4 thumb ov093
+ *   BTLV_CORE_ResetDisplay  0x021E8E28  thumb  ov093
+ *   BTLV_CORE_Create  0x021E8F20  thumb  ov093
+ *   BTL_POKEPARAM_GetUsedMoveTotal 0x021D54B4 thumb ov093
  *   func_02030734 0x02030734 arm
  *   d_021F3A60 0x021F3A60 data a4
- *   func_021EEA58  0x021EEA58  thumb  ov093
- *   func_02045808  0x02045808  arm
- *   func_021EEAE0  0x021EEAE0  thumb  ov093
- *   func_021B86C0 0x021B86C0 thumb ov093
- *   func_021EEB64  0x021EEB64  thumb  ov093
- *   func_021B85A8  0x021B85A8  thumb  ov093
- *   func_021D8454  0x021D8454  thumb  ov093
- *   func_021EE9A4  0x021EE9A4  thumb  ov093
- *   func_021B86DC  0x021B86DC  thumb  ov093
+ *   BTL_ADAPTER_Create  0x021EEA58  thumb  ov093
+ *   STRBUF_Delete  0x02045808  arm
+ *   BTL_ADAPTER_Delete  0x021EEAE0  thumb  ov093
+ *   BTL_MAIN_GetCommPos 0x021B86C0 thumb ov093
+ *   BTL_ADAPTER_GetSendBuffer  0x021EEB64  thumb  ov093
+ *   BTL_MAIN_CheckShiftModePrompt  0x021B85A8  thumb  ov093
+ *   BTL_CALC_ActionGetKind  0x021D8454  thumb  ov093
+ *   BTL_REC_MakeResetPacket  0x021EE9A4  thumb  ov093
+ *   BTL_MAIN_GetWinBgm  0x021B86DC  thumb  ov093
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
- *   func_021EE9B4  0x021EE9B4  thumb  ov093
- *   func_021EE9E4  0x021EE9E4  thumb  ov093
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   BTL_REC_LoadPacket  0x021EE9B4  thumb  ov093
+ *   BTL_REC_NextRecord  0x021EE9E4  thumb  ov093
  *   func_0203EFC8  0x0203EFC8  arm
- *   func_021EE8B4 0x021EE8B4 thumb ov093
- *   func_021EE8D8 0x021EE8D8 thumb ov093
- *   func_021EE8F4  0x021EE8F4  thumb  ov093
- *   func_021EE96C  0x021EE96C  thumb  ov093
- *   func_021EEAE8  0x021EEAE8  thumb  ov093
- *   func_021EEB00  0x021EEB00  thumb  ov093
- *   func_021EEAFC  0x021EEAFC  thumb  ov093
- *   func_021EEB70 0x021EEB70 thumb ov093
- *   func_021EEB2C 0x021EEB2C thumb ov093
- *   func_021EEAD0 0x021EEAD0 thumb ov093
+ *   BTL_REC_InitPacket 0x021EE8B4 thumb ov093
+ *   BTL_REC_MakeSkipPacket 0x021EE8D8 thumb ov093
+ *   BTL_REC_AddRecord  0x021EE8F4  thumb  ov093
+ *   BTL_REC_FinishPacket  0x021EE96C  thumb  ov093
+ *   BTL_ADAPTER_NotifyNet  0x021EEAE8  thumb  ov093
+ *   BTL_ADAPTER_SetSendData  0x021EEB00  thumb  ov093
+ *   BTL_ADAPTER_Idle  0x021EEAFC  thumb  ov093
+ *   BTL_ADAPTER_Cancel 0x021EEB70 thumb ov093
+ *   BTL_ADAPTER_Update 0x021EEB2C thumb ov093
+ *   BTL_ADAPTER_ResetCommand 0x021EEAD0 thumb ov093
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   GAME_BEACON_SetPokeCapture 0x020271DC thumb
  *   SHINKA_CHECK_OpenHandle 0x0201B70C thumb
  *   d_021F3A70 0x021F3A70 data a4
- *   func_021D6EAC 0x021D6EAC thumb ov093
- *   func_021EF874 0x021EF874 thumb ov093
+ *   BTL_EVENT_InitFactorList 0x021D6EAC thumb ov093
+ *   BTL_FIELD_ResetStatic 0x021EF874 thumb ov093
  *   func_0689CFF0 0x0689CFF0 thumb ov095
  *   func_0689D118 0x0689D118 thumb ov095
  *   func_0689D1FC 0x0689D1FC thumb ov095
  *   func_02082BCC 0x02082BCC arm
- *   func_021D8230 0x021D8230 thumb ov093
+ *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
  *   func_06898BFC 0x06898BFC thumb ov095
- *   func_02049238 0x02049238 arm
- *   func_021B8750 0x021B8750 thumb ov093
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   BTL_MAIN_RegisterZukanSeen 0x021B8750 thumb ov093
  *   func_0689D134 0x0689D134 thumb ov095
- *   func_021D6EE8  0x021D6EE8  thumb  ov093
- *   func_021D74E4  0x021D74E4  thumb  ov093
- *   func_021D5BDC  0x021D5BDC  thumb  ov093
+ *   BTL_EVENT_ClearSuspendedFlags  0x021D6EE8  thumb  ov093
+ *   BTL_EVENT_ResetVarStackIfUsed  0x021D74E4  thumb  ov093
+ *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  *   func_0689D174 0x0689D174 thumb ov095
- *   func_021B8BC4  0x021B8BC4  thumb  ov093
+ *   BTL_MAIN_GetClientSide  0x021B8BC4  thumb  ov093
  *   func_0689D558 0x0689D558 thumb ov095
- *   func_021EF948  0x021EF948  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021D8548  0x021D8548  thumb  ov093
- *   func_021DCFB4  0x021DCFB4  thumb  ov093
+ *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_CALC_EnableAbilityHandlers  0x021D8548  thumb  ov093
+ *   BTL_HANDLER_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
  *   func_0689D338 0x0689D338 thumb ov095
  *   func_021E02DC  0x021E02DC  thumb  ov093
  *   func_021E0394  0x021E0394  thumb  ov093
- *   func_021D83E0  0x021D83E0  thumb  ov093
- *   func_021D78AC  0x021D78AC  thumb  ov093
+ *   BTL_ACTION_IsChangeDepleted  0x021D83E0  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  *   func_0201BD28  0x0201BD28  thumb
- *   func_021D74F8  0x021D74F8  thumb  ov093
- *   func_021D75EC  0x021D75EC  thumb  ov093
- *   func_021D75A8  0x021D75A8  thumb  ov093
+ *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
+ *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
+ *   BTL_EVENT_SetVar  0x021D75A8  thumb  ov093
  *   func_021D70F0  0x021D70F0  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7540  0x021D7540  thumb  ov093
- *   func_021D7674  0x021D7674  thumb  ov093
- *   func_021D7B10  0x021D7B10  thumb  ov093
- *   func_021D8340  0x021D8340  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
+ *   BTL_EVENT_SetVarRanged  0x021D7674  thumb  ov093
+ *   BTL_CALC_MulRatio  0x021D7B10  thumb  ov093
+ *   BTL_ACTION_GetFightMove  0x021D8340  thumb  ov093
  *   func_0689D588 0x0689D588 thumb ov095
- *   func_021B86E4 0x021B86E4 thumb ov093
+ *   BTL_MAIN_GetCompetitorKind 0x021B86E4 thumb ov093
  *   func_021D69AC 0x021D69AC thumb ov093
- *   func_021D5FC0 0x021D5FC0 thumb ov093
+ *   BTL_POKEPARAM_SetTurnFlag 0x021D5FC0 thumb ov093
  *   POKE_TOOL_IsOwnedByPlayer 0x02018480 thumb
  *   func_021B871C 0x021B871C thumb ov093
- *   func_021B85A0 0x021B85A0 thumb ov093
+ *   BTL_MAIN_GetBadgeCount 0x021B85A0 thumb ov093
  *   POKE_TOOL_IsBoxOwnedByPlayer 0x02018488 thumb
- *   func_021D7630  0x021D7630  thumb  ov093
+ *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
  *   func_0689D5C8 0x0689D5C8 thumb ov095
  *   func_021D82FC  0x021D82FC  thumb  ov093
  *   func_0689CD40 0x0689CD40 thumb ov095
@@ -175,68 +175,68 @@
  *   func_0689CC70 0x0689CC70 thumb ov095
  *   func_0689D4F0 0x0689D4F0 thumb ov095
  *   func_021D58A8  0x021D58A8  thumb  ov093
- *   func_021D8244 0x021D8244 thumb ov093
+ *   BTL_CLIENT_SET_Add 0x021D8244 thumb ov093
  *   func_0689C68C 0x0689C68C thumb ov095
- *   func_021D8484 0x021D8484 thumb ov093
- *   func_021DCF5C 0x021DCF5C thumb ov093
- *   func_021D63EC 0x021D63EC thumb ov093
- *   func_021D6580 0x021D6580 thumb ov093
+ *   BTL_CALC_AddAbilityHandlers 0x021D8484 thumb ov093
+ *   BTL_HANDLER_ITEM_AddHeldItemFactor 0x021DCF5C thumb ov093
+ *   BTL_POKEPARAM_StartTurnThreshold 0x021D63EC thumb ov093
+ *   BTL_POKEPARAM_ReloadAndResetEffects 0x021D6580 thumb ov093
  *   func_0689D320 0x0689D320 thumb ov095
  *   func_0689CB3C 0x0689CB3C thumb ov095
  *   func_0689CB48 0x0689CB48 thumb ov095
  *   func_0689CF24 0x0689CF24 thumb ov095
  *   func_0689CC84 0x0689CC84 thumb ov095
  *   func_0689CC8C 0x0689CC8C thumb ov095
- *   func_021D70FC 0x021D70FC thumb ov093
- *   func_021D64F0  0x021D64F0  thumb  ov093
+ *   BTL_EVENT_DispatchEventToType 0x021D70FC thumb ov093
+ *   BTL_POKEPARAM_ResetEffectsOnSwitchOut  0x021D64F0  thumb  ov093
  *   func_0689D2F8 0x0689D2F8 thumb ov095
- *   func_021D6314  0x021D6314  thumb  ov093
- *   func_021E8B80  0x021E8B80  thumb  ov093
- *   func_021D55A0  0x021D55A0  thumb  ov093
- *   func_021D5C08 0x021D5C08 thumb ov093
- *   func_021D80BC 0x021D80BC thumb ov093
- *   func_021D82D0 0x021D82D0 thumb ov093
- *   func_021D5778 0x021D5778 thumb ov093
+ *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
+ *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb  ov093
+ *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb  ov093
+ *   BTL_POKEPARAM_GetSemiInvulnerableFlag 0x021D5C08 thumb ov093
+ *   BTL_CALC_DecideMoveTarget 0x021D80BC thumb ov093
+ *   BTL_ACTION_SetFight 0x021D82D0 thumb ov093
+ *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
  *   func_0689CEE4 0x0689CEE4 thumb ov095
  *   func_0689CD78 0x0689CD78 thumb ov095
  *   func_0689CD48 0x0689CD48 thumb ov095
  *   func_0689D01C 0x0689D01C thumb ov095
- *   func_021D6744 0x021D6744 thumb ov093
- *   func_021D5BB0 0x021D5BB0 thumb ov093
+ *   BTL_POKEPARAM_RecordMoveUse 0x021D6744 thumb ov093
+ *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb
- *   func_021D7394 0x021D7394 thumb ov093
+ *   BTL_EVENT_SuspendPokeFactors 0x021D7394 thumb ov093
  *   func_021E03D8 0x021E03D8 thumb ov093
- *   func_021D73D4 0x021D73D4 thumb ov093
+ *   BTL_EVENT_ResumePokeFactors 0x021D73D4 thumb ov093
  *   d_021EFDB8 0x021EFDB8 data a2
- *   func_021D6E74 0x021D6E74 thumb ov093
- *   func_021D6E40 0x021D6E40 thumb ov093
+ *   BTL_EVENT_HasClientReservedChoice 0x021D6E74 thumb ov093
+ *   BTL_EVENT_SetClientReservedChoice 0x021D6E40 thumb ov093
  *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
  *   func_0689CD50 0x0689CD50 thumb ov095
  *   func_0689D050 0x0689D050 thumb ov095
  *   func_0689CC14 0x0689CC14 thumb ov095
- *   func_021D6D7C  0x021D6D7C  thumb  ov093
+ *   BTL_POKEPARAM_HasSubstitute  0x021D6D7C  thumb  ov093
  *   func_0689D59C 0x0689D59C thumb ov095
- *   func_021D62D8  0x021D62D8  thumb  ov093
- *   func_021D7704 0x021D7704 thumb ov093
- *   func_021D7908 0x021D7908 thumb ov093
- *   func_021E896C 0x021E896C thumb ov093
- *   func_021D5C30 0x021D5C30 thumb ov093
- *   func_021E899C  0x021E899C  thumb  ov093
+ *   BTL_POKEPARAM_GetSickParam  0x021D62D8  thumb  ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
+ *   BTL_CALC_ApplyAccuracyStage 0x021D7908 thumb ov093
+ *   BTLV_CORE_MakeSlotKind2 0x021E896C thumb ov093
+ *   BTL_POKEPARAM_IsSemiInvulnerable 0x021D5C30 thumb ov093
+ *   BTLV_CORE_MakeSlotKind3  0x021E899C  thumb  ov093
  *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
- *   func_021D5584 0x021D5584 thumb ov093
- *   func_021D67B8 0x021D67B8 thumb ov093
- *   func_021D67A8 0x021D67A8 thumb ov093
+ *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
+ *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
+ *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
  *   func_021EF91C 0x021EF91C thumb ov093
- *   func_021D7AF0 0x021D7AF0 thumb ov093
- *   func_021D61A8  0x021D61A8  thumb  ov093
- *   func_021D6130  0x021D6130  thumb  ov093
- *   func_021D7D18 0x021D7D18 thumb ov093
+ *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
+ *   BTL_POKEPARAM_TickSlot6Turn  0x021D61A8  thumb  ov093
+ *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
+ *   BTL_CALC_MakeDefaultSickCont 0x021D7D18 thumb ov093
  *   func_021D69A0  0x021D69A0  thumb  ov093
- *   func_021D5608  0x021D5608  thumb  ov093
- *   func_021D56CC  0x021D56CC  thumb  ov093
+ *   BTL_POKEPARAM_DecrementMovePP  0x021D5608  thumb  ov093
+ *   BTL_POKEPARAM_MarkMoveUsed  0x021D56CC  thumb  ov093
  *   func_0689CDCC 0x0689CDCC thumb ov095
  *   func_0689CE58 0x0689CE58 thumb ov095
- *   func_021B8590 0x021B8590 thumb ov093
+ *   BTL_MAIN_CheckSceneOff 0x021B8590 thumb ov093
  *   func_0689CBB8 0x0689CBB8 thumb ov095
  *   d_021F3B2C  0x021F3B2C  data  ov093  a4
  *   d_021F3B20  0x021F3B20  data  ov093  a4
@@ -244,55 +244,55 @@
  *   d_021F3B26  0x021F3B26  data  ov093  a4
  *   d_021F3B23  0x021F3B23  data  ov093  a4
  *   d_021F3B20b 0x021F3B20  data  ov093  a4
- *   func_021D6848  0x021D6848  thumb  ov093
+ *   BTL_POKEPARAM_AddHitRecord  0x021D6848  thumb  ov093
  *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
- *   func_021D5B40  0x021D5B40  thumb  ov093
+ *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   func_0689CCF8 0x0689CCF8 thumb ov095
  *   func_0689CCB4 0x0689CCB4 thumb ov095
  *   sub_0201BD28   0x0201BD28  thumb
- *   func_021D7B3C  0x021D7B3C  thumb  ov093
+ *   BTL_CALC_MulPercent  0x021D7B3C  thumb  ov093
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
- *   func_021D7A44 0x021D7A44 thumb ov093
- *   func_021D7C38 0x021D7C38 thumb ov093
- *   func_021D7A6C 0x021D7A6C thumb ov093
- *   func_021D5B44  0x021D5B44  thumb  ov093
- *   func_021DCF24  0x021DCF24  thumb  ov093
- *   func_021D6730  0x021D6730  thumb  ov093
+ *   BTL_CALC_CalcBaseDamage 0x021D7A44 thumb ov093
+ *   BTL_CALC_GetWeatherMoveRatio 0x021D7C38 thumb ov093
+ *   BTL_CALC_ApplyTypeAffinity 0x021D7A6C thumb ov093
+ *   BTL_POKEPARAM_SetItem  0x021D5B44  thumb  ov093
+ *   BTL_HANDLER_ITEM_RemoveUnforcedFactors  0x021DCF24  thumb  ov093
+ *   BTL_POKEPARAM_ConsumeHeldItem  0x021D6730  thumb  ov093
  *   WAZA_TOOL_GetSickCont 0x0201BF58 thumb
- *   func_021D7C70 0x021D7C70 thumb ov093
- *   func_021D57FC 0x021D57FC thumb ov093
- *   func_021E8D24 0x021E8D24 thumb ov093
+ *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
+ *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
+ *   BTLV_CORE_HasByte 0x021E8D24 thumb ov093
  *   func_0689C364 0x0689C364 thumb ov095
- *   func_021D8510 0x021D8510 thumb ov093
- *   func_021D66D8 0x021D66D8 thumb ov093
- *   func_021D7D6C 0x021D7D6C thumb ov093
- *   func_021EF884  0x021EF884  thumb  ov093
+ *   BTL_CALC_RemoveAbilityHandlers 0x021D8510 thumb ov093
+ *   BTL_POKEPARAM_ChangeForm 0x021D66D8 thumb ov093
+ *   BTL_CALC_HasDefaultSickCont 0x021D7D6C thumb ov093
+ *   BTL_FIELD_GetCountdownValue  0x021EF884  thumb  ov093
  *   func_021D70E4 0x021D70E4 thumb ov093
  *   WAZA_TOOL_GetRankEffectCount 0x0201C020 thumb
  *   WAZA_TOOL_GetRankEffect  0x0201C0BC  thumb
  *   func_021D5D14 0x021D5D14 thumb ov093
- *   func_021D5B48  0x021D5B48  thumb  ov093
- *   func_021D7AD4 0x021D7AD4 thumb ov093
- *   func_021D5FB8  0x021D5FB8  thumb  ov093
- *   func_021D6D90  0x021D6D90  thumb  ov093
+ *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb  ov093
+ *   BTL_CALC_SummarizeTypeAffinity 0x021D7AD4 thumb ov093
+ *   BTL_POKEPARAM_ZeroHp  0x021D5FB8  thumb  ov093
+ *   BTL_POKEPARAM_GetSubstituteHp  0x021D6D90  thumb  ov093
  *   func_0689C7A4 0x0689C7A4 thumb ov095
  *   WAZA_TOOL_GetWeather  0x0201C184  thumb
- *   func_021EF894 0x021EF894 thumb ov093
+ *   BTL_FIELD_GetCountdownCount 0x021EF894 thumb ov093
  *   func_021EF8A4 0x021EF8A4 thumb ov093
- *   func_021EF8C8  0x021EF8C8  thumb  ov093
- *   func_021E8A98  0x021E8A98  thumb  ov093
- *   func_021EF8F8  0x021EF8F8  thumb  ov093
+ *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
+ *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
+ *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
  *   func_0689C954 0x0689C954 thumb ov095
- *   func_021D66D0 0x021D66D0 thumb ov093
- *   func_021D8564 0x021D8564 thumb ov093
- *   func_021D7B74  0x021D7B74  thumb  ov093
- *   func_021D6D5C  0x021D6D5C  thumb  ov093
- *   func_021D6D9C  0x021D6D9C  thumb  ov093
- *   func_021D6D70  0x021D6D70  thumb  ov093
- *   func_021D6408 0x021D6408 thumb ov093
- *   func_021D6E88 0x021D6E88 thumb ov093
- *   func_021D701C 0x021D701C thumb ov093
- *   func_021B8630 0x021B8630 thumb ov093
+ *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
+ *   BTL_CALC_SwapAbilityHandlers 0x021D8564 thumb ov093
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
+ *   BTL_POKEPARAM_SetSubstituteHp  0x021D6D5C  thumb  ov093
+ *   BTL_POKEPARAM_DamageSubstitute  0x021D6D9C  thumb  ov093
+ *   BTL_POKEPARAM_ClearSubstitute  0x021D6D70  thumb  ov093
+ *   BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
+ *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
+ *   BTL_EVENT_RemoveDeadFactors 0x021D701C thumb ov093
+ *   BTL_MAIN_GetPmsWork 0x021B8630 thumb ov093
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   COMM_PLAYER_SUPPORT_GetMode 0x0202E7E0 thumb
@@ -300,96 +300,96 @@
  *   func_0689C9F8 0x0689C9F8 thumb ov095
  *   func_0689B7A8 0x0689B7A8 thumb ov095
  *   func_021D6064 0x021D6064 thumb ov093
- *   func_021D806C 0x021D806C thumb ov093
+ *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *   func_0689B8CC 0x0689B8CC thumb ov095
  *   func_06898D54 0x06898D54 thumb ov095
- *   func_021EF934 0x021EF934 thumb ov093
+ *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
  *   func_021C4C40 0x021C4C40 thumb ov093
- *   func_021EF8B8 0x021EF8B8 thumb ov093
- *   func_021D7BD4 0x021D7BD4 thumb ov093
+ *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
+ *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
  *   func_0689D15C 0x0689D15C thumb ov095
- *   func_021D646C 0x021D646C thumb ov093
- *   func_021B8640  0x021B8640  thumb  ov093
+ *   BTL_POKEPARAM_ResetAllEffects 0x021D646C thumb ov093
+ *   BTL_MAIN_GetRuleSlotSpan  0x021B8640  thumb  ov093
  *   func_0689D5FC 0x0689D5FC thumb ov095
- *   func_021D8538 0x021D8538 thumb ov093
- *   func_021DCFA4 0x021DCFA4 thumb ov093
+ *   BTL_CALC_DisableAbilityHandlers 0x021D8538 thumb ov093
+ *   BTL_HANDLER_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
  *   func_021E0434 0x021E0434 thumb ov093
- *   func_021D6264 0x021D6264 thumb ov093
- *   func_021EF90C 0x021EF90C thumb ov093
- *   func_021B85EC 0x021B85EC thumb ov093
+ *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
+ *   BTL_FIELD_QueryStaticSlotB 0x021EF90C thumb ov093
+ *   BTL_MAIN_CheckEventOverlayAllowed 0x021B85EC thumb ov093
  *   func_0689D1A0 0x0689D1A0 thumb ov095
  *   func_0689D184 0x0689D184 thumb ov095
  *   func_0689D1BC 0x0689D1BC thumb ov095
- *   func_021D69B8 0x021D69B8 thumb ov093
- *   func_021D61F0  0x021D61F0  thumb  ov093
- *   func_021D6238  0x021D6238  thumb  ov093
- *   func_021D7E10  0x021D7E10  thumb  ov093
- *   func_021D5DC0 0x021D5DC0 thumb ov093
- *   func_021D5E38 0x021D5E38 thumb ov093
- *   func_021D5FA4  0x021D5FA4  thumb  ov093
- *   func_021D6034  0x021D6034  thumb  ov093
- *   func_021E8A78  0x021E8A78  thumb  ov093
- *   func_021D5F90 0x021D5F90 thumb ov093
- *   func_021D56A0  0x021D56A0  thumb  ov093
- *   func_021D5674  0x021D5674  thumb  ov093
- *   func_021D5FE4 0x021D5FE4 thumb ov093
- *   func_021D6008 0x021D6008 thumb ov093
+ *   BTL_POKEPARAM_AddExp 0x021D69B8 thumb ov093
+ *   BTL_POKEPARAM_ClearMajorStatus  0x021D61F0  thumb  ov093
+ *   BTL_POKEPARAM_CureSick  0x021D6238  thumb  ov093
+ *   BTL_CALC_FindMajorSick  0x021D7E10  thumb  ov093
+ *   BTL_POKEPARAM_RaiseStatStage 0x021D5DC0 thumb ov093
+ *   BTL_POKEPARAM_LowerStatStage 0x021D5E38 thumb ov093
+ *   BTL_POKEPARAM_AddHp  0x021D5FA4  thumb  ov093
+ *   BTL_POKEPARAM_SetSickCont  0x021D6034  thumb  ov093
+ *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_POKEPARAM_SubHp 0x021D5F90 thumb ov093
+ *   BTL_POKEPARAM_RestoreRealMovePP  0x021D56A0  thumb  ov093
+ *   BTL_POKEPARAM_RestoreMovePP  0x021D5674  thumb  ov093
+ *   BTL_POKEPARAM_SetContFlag 0x021D5FE4 thumb ov093
+ *   BTL_POKEPARAM_ClearContFlag 0x021D6008 thumb ov093
  *   WAZA_TOOL_GetType   0x0201C1C8  thumb
  *   WAZA_TOOL_GetDamageType   0x0201C1E8  thumb
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb
  *   WAZA_TOOL_IsAlwaysCritical  0x0201C284  thumb
- *   func_021D5F14  0x021D5F14  thumb  ov093
- *   func_021D7930  0x021D7930  thumb  ov093
- *   func_021E8CFC 0x021E8CFC thumb ov093
- *   func_021E8D04 0x021E8D04 thumb ov093
- *   func_021E8DA8 0x021E8DA8 thumb ov093
- *   func_021D79E8 0x021D79E8 thumb ov093
- *   func_021D5814  0x021D5814  thumb  ov093
+ *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
+ *   BTL_CALC_RollCriticalHit  0x021D7930  thumb  ov093
+ *   BTLV_CORE_GetHighByte 0x021E8CFC thumb ov093
+ *   BTLV_CORE_GetLowByte 0x021E8D04 thumb ov093
+ *   BTLV_CORE_BytesEqual 0x021E8DA8 thumb ov093
+ *   BTL_CALC_CombineTypeAffinity 0x021D79E8 thumb ov093
+ *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   func_0689C6E4 0x0689C6E4 thumb ov095
  *   func_0689C540 0x0689C540 thumb ov095
- *   func_021D794C  0x021D794C  thumb  ov093
- *   func_021D7BA4  0x021D7BA4  thumb  ov093
+ *   BTL_CALC_GetTypeAffinity  0x021D794C  thumb  ov093
+ *   BTL_CALC_RollHitCount  0x021D7BA4  thumb  ov093
  *   WAZA_TOOL_GetPower  0x0201C1D8  thumb
- *   func_021D5AD8 0x021D5AD8 thumb ov093
- *   func_021D76BC  0x021D76BC  thumb  ov093
- *   func_021D7B2C  0x021D7B2C  thumb  ov093
- *   func_021B86A0 0x021B86A0 thumb ov093
+ *   BTL_POKEPARAM_GetStatForCrit 0x021D5AD8 thumb ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
+ *   BTL_CALC_MulRatioMin1  0x021D7B2C  thumb  ov093
+ *   BTL_MAIN_CheckFrontPos 0x021B86A0 thumb ov093
  *   func_0689D5F4 0x0689D5F4 thumb ov095
- *   func_021B8670  0x021B8670  thumb  ov093
+ *   BTL_MAIN_GetActivePosPerSide  0x021B8670  thumb  ov093
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
  *   func_06898CF4  0x06898CF4  thumb  ov095
  *   func_06898CE0 0x06898CE0 thumb ov095
  *   func_068982AC  0x068982AC  thumb
- *   func_021D67E8 0x021D67E8 thumb ov093
- *   func_021D55D8  0x021D55D8  thumb  ov093
+ *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
+ *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
  *   func_0689C464 0x0689C464 thumb ov095
- *   func_021D5EA8  0x021D5EA8  thumb  ov093
- *   func_021D5EFC 0x021D5EFC thumb ov093
- *   func_021D5F08  0x021D5F08  thumb  ov093
- *   func_021D5970 0x021D5970 thumb ov093
+ *   BTL_POKEPARAM_SetStatStage  0x021D5EA8  thumb  ov093
+ *   BTL_POKEPARAM_RaiseLoweredStatStages 0x021D5EFC thumb ov093
+ *   BTL_POKEPARAM_ResetStatStages  0x021D5F08  thumb  ov093
+ *   BTL_POKEPARAM_SetStat 0x021D5970 thumb ov093
  *   func_0689C9C0 0x0689C9C0 thumb ov095
- *   func_021D66B0  0x021D66B0  thumb  ov093
- *   func_021D6440 0x021D6440 thumb ov093
+ *   BTL_POKEPARAM_SetTypes  0x021D66B0  thumb  ov093
+ *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
  *   func_06898C10 0x06898C10 thumb ov095
  *   func_06898D10 0x06898D10 thumb ov095
- *   func_021EF8E8 0x021EF8E8 thumb ov093
+ *   BTL_FIELD_QueryStaticSlotA 0x021EF8E8 thumb ov093
  *   func_068981F0 0x068981F0 thumb ov095
  *   func_0689C974 0x0689C974 thumb ov095
- *   func_021D6738 0x021D6738 thumb ov093
- *   func_021DCF78  0x021DCF78  thumb  ov093
- *   func_021DCF9C  0x021DCF9C  thumb  ov093
- *   func_021D5734  0x021D5734  thumb  ov093
- *   func_021D65C8  0x021D65C8  thumb  ov093
- *   func_021D67D8 0x021D67D8 thumb ov093
- *   func_021D6C50 0x021D6C50 thumb ov093
- *   func_021D6C2C  0x021D6C2C  thumb  ov093
- *   func_021D6D54  0x021D6D54  thumb  ov093
- *   func_021B8C38 0x021B8C38 thumb ov093
- *   func_021D7F00 0x021D7F00 thumb ov093
- *   func_021B8C50 0x021B8C50 thumb ov093
- *   func_021D7EB4 0x021D7EB4 thumb ov093
- *   func_021D6E04 0x021D6E04 thumb ov093
- *   func_021D6E0C 0x021D6E0C thumb ov093
+ *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
+ *   BTL_HANDLER_ITEM_AddForcedFactor  0x021DCF78  thumb  ov093
+ *   BTL_HANDLER_ITEM_RemoveFactor  0x021DCF9C  thumb  ov093
+ *   BTL_POKEPARAM_ReplaceMove  0x021D5734  thumb  ov093
+ *   BTL_POKEPARAM_PassEffects  0x021D65C8  thumb  ov093
+ *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
+ *   BTL_POKEPARAM_Transform 0x021D6C50 thumb ov093
+ *   BTL_POKEPARAM_ClearIllusion  0x021D6C2C  thumb  ov093
+ *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb  ov093
+ *   BTL_MAIN_GetOwnLanePos 0x021B8C38 thumb ov093
+ *   BTL_CALC_GetFightersPerSide 0x021D7F00 thumb ov093
+ *   BTL_MAIN_GetEnemyLanePosFromWork 0x021B8C50 thumb ov093
+ *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
+ *   BTL_EVENT_GetClientPartyCount 0x021D6E04 thumb ov093
+ *   BTL_EVENT_GetClientPartySlotId 0x021D6E0C thumb ov093
  *   func_02008564 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
@@ -397,31 +397,31 @@
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
  *   func_0207C7B4  0x0207C7B4  arm
- *   func_021D6B6C  0x021D6B6C  thumb  ov093
+ *   BTL_POKEPARAM_GetMaxLevelExp  0x021D6B6C  thumb  ov093
  *   g_021EFDC0      0x021EFDC0  data  ov093
  *   func_02019C90   0x02019C90  thumb arm9
  *   POKE_TOOL_DecodePartyParam   0x02017D30  thumb arm9
  *   POKE_TOOL_EncodePartyParam   0x02017D70  thumb arm9
  *   data_021EFDE4 0x021EFDE4 data a4
- *   func_021B8724 0x021B8724 thumb ov093
- *   func_021D6E24 0x021D6E24 thumb ov093
+ *   BTL_MAIN_CheckZukanSeen 0x021B8724 thumb ov093
+ *   BTL_EVENT_StartClientPalAnm 0x021D6E24 thumb ov093
  *   GPOWER_ApplyCaptureRate 0x020111BC thumb
  *   FX_Div 0x0207C768 arm
  *   FX_Sqrt 0x0207C7B4 arm
  *   _ll_mul 0x0209C054 arm
- *   func_021B873C  0x021B873C  thumb  ov093
+ *   BTL_MAIN_GetZukanSeenCount  0x021B873C  thumb  ov093
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
  *   func_0689C9A0 0x0689C9A0 thumb ov095
  *   _fflt 0x0209BDBC arm
  *   _s32_div_f 0x0209C0A4 arm
- *   func_021E8940  0x021E8940  thumb  ov093
- *   func_021D5F38  0x021D5F38  thumb  ov093
+ *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
+ *   BTL_POKEPARAM_AddCritStage  0x021D5F38  thumb  ov093
  *   func_021D5450  0x021D5450  thumb  ov093
- *   func_021D5568  0x021D5568  thumb  ov093
- *   func_021D54D0  0x021D54D0  thumb  ov093
+ *   BTL_POKEPARAM_GetRealMovePPLost  0x021D5568  thumb  ov093
+ *   BTL_POKEPARAM_GetRealMoveId  0x021D54D0  thumb  ov093
  *   func_0689C9E4 0x0689C9E4 thumb ov095
  *   func_0689C8FC 0x0689C8FC thumb ov095
- *   func_021E869C  0x021E869C  thumb  ov093
+ *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
  *   func_0689D1D4 0x0689D1D4 thumb ov095
  *   d_021EFE9C     0x021EFE9C  data  a4
  *   data_021F3A84 0x021F3A84 data
@@ -432,23 +432,23 @@
  *   func_021D3F04 0x021D3F04 thumb ov093
  *   func_021D3D9C 0x021D3D9C thumb ov093
  *   func_02187F00 0x02187F00 thumb ov096
- *   func_021EE5E4 0x021EE5E4 thumb ov093
- *   func_021EE600 0x021EE600 thumb ov093
+ *   BTL_REC_CreateBuffer 0x021EE5E4 thumb ov093
+ *   BTL_REC_DeleteBuffer 0x021EE600 thumb ov093
  *   func_02188080 0x02188080 thumb ov096
- *   func_021EE63C 0x021EE63C thumb ov093
- *   func_021EE830 0x021EE830 thumb ov093
+ *   BTL_REC_ReadEntry 0x021EE63C thumb ov093
+ *   BTL_REC_CountFlaggedRecords 0x021EE830 thumb ov093
  *   func_021D3F48 0x021D3F48 thumb ov093
- *   func_021EE674 0x021EE674 thumb ov093
- *   func_021EEBDC 0x021EEBDC thumb ov093
+ *   BTL_REC_ResetReader 0x021EE674 thumb ov093
+ *   BTL_ADAPTER_ClearRecvHeader 0x021EEBDC thumb ov093
  *   func_021D3F64 0x021D3F64 thumb ov093
  *   func_021D3F88 0x021D3F88 thumb ov093
  *   func_021D3FDC 0x021D3FDC thumb ov093
- *   func_021EEBE8 0x021EEBE8 thumb ov093
- *   func_021EEC20 0x021EEC20 thumb ov093
+ *   BTL_ADAPTER_GetRecvCommand 0x021EEBE8 thumb ov093
+ *   BTL_ADAPTER_GetRecvData 0x021EEC20 thumb ov093
  *   func_021D3FAC 0x021D3FAC thumb ov093
  *   func_021D3FC4 0x021D3FC4 thumb ov093
  *   func_021D3F4C 0x021D3F4C thumb ov093
- *   func_021EEC4C 0x021EEC4C thumb ov093
+ *   BTL_ADAPTER_SetRecvTarget 0x021EEC4C thumb ov093
  *   func_021D3F60 0x021D3F60 thumb ov093
  *   GFL_USE_SetPlayersAudible 0x02005CA4 thumb
  *   PM_VOICE_ResetMasterVolume 0x02006740 thumb
@@ -469,7 +469,7 @@
  *   func_021F84E8  0x021F84E8  thumb  ov094
  *   func_021F8504  0x021F8504  thumb  ov094
  *   func_021EAEA8  0x021EAEA8  thumb  ov093
- *   func_021EE688  0x021EE688  thumb  ov093
+ *   BTL_REC_ReadSkipFlag  0x021EE688  thumb  ov093
  *   func_021D3F54  0x021D3F54  thumb  ov093
  *   func_021EAA00  0x021EAA00  thumb  ov093
  *   func_021EAA5C  0x021EAA5C  thumb  ov093
@@ -477,15 +477,15 @@
  *   func_021EAF18  0x021EAF18  thumb  ov093
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EAF78  0x021EAF78  thumb  ov093
- *   func_021EE6B8 0x021EE6B8 thumb ov093
+ *   BTL_REC_ReadRecord 0x021EE6B8 thumb ov093
  *   func_021D3FD0 0x021D3FD0 thumb ov093
  *   func_021EA614 0x021EA614 thumb ov093
  *   func_021EA710 0x021EA710 thumb ov093
- *   func_021D8434 0x021D8434 thumb ov093
+ *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
  *   func_021EAE44 0x021EAE44 thumb ov093
  *   func_021EAE54 0x021EAE54 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
- *   func_021D81F8 0x021D81F8 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
+ *   BTL_CALC_PeekMoveTarget 0x021D81F8 thumb ov093
  *   func_021EA65C 0x021EA65C thumb ov093
  *   func_021E9760 0x021E9760 thumb ov093
  *   func_021E979C 0x021E979C thumb ov093
@@ -497,33 +497,33 @@
  *   func_021F7F58 0x021F7F58 thumb ov094
  *   func_021F7998 0x021F7998 thumb ov094
  *   func_021EA6B0 0x021EA6B0 thumb ov093
- *   func_021D7F38 0x021D7F38 thumb ov093
+ *   BTL_CALC_IsGymLeaderTrainer 0x021D7F38 thumb ov093
  *   func_021F87EC 0x021F87EC thumb ov094
  *   func_021F8774 0x021F8774 thumb ov094
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  *   func_0202A298 0x0202A298 thumb
- *   func_021D7B60 0x021D7B60 thumb ov093
+ *   BTL_CALC_DivideMaxHp 0x021D7B60 thumb ov093
  *   d_021EFF78 0x021EFF78 data ov093 a2
  *   func_021E97BC 0x021E97BC thumb ov093
  *   func_021E9808 0x021E9808 thumb ov093
  *   func_021E98AC 0x021E98AC thumb ov093
  *   func_021E98B4 0x021E98B4 thumb ov093
  *   func_021D832C 0x021D832C thumb ov093
- *   func_021D83FC 0x021D83FC thumb ov093
- *   func_021D7EF0 0x021D7EF0 thumb ov093
+ *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
+ *   BTL_CALC_IsMultiFighterRule 0x021D7EF0 thumb ov093
  *   func_021E98BC 0x021E98BC thumb ov093
  *   func_021E9920 0x021E9920 thumb ov093
  *   func_021E98E8 0x021E98E8 thumb ov093
  *   func_021E9858 0x021E9858 thumb ov093
- *   func_021D5448  0x021D5448  thumb  ov093
+ *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb  ov093
  *   func_021E9CE0  0x021E9CE0  thumb  ov093
  *   func_021E9B14  0x021E9B14  thumb  ov093
  *   func_021E9B20  0x021E9B20  thumb  ov093
  *   func_021E9A78 0x021E9A78 thumb ov093
  *   func_0689CB14 0x0689CB14 thumb ov095
  *   func_0689CB1C 0x0689CB1C thumb ov095
- *   func_021D8394 0x021D8394 thumb ov093
+ *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
  *   func_021E9D04 0x021E9D04 thumb ov093
  *   func_021E9E70 0x021E9E70 thumb ov093
  *   func_021E9E80 0x021E9E80 thumb ov093
@@ -531,7 +531,7 @@
  *   func_021EA044 0x021EA044 thumb ov093
  *   func_021EA030 0x021EA030 thumb ov093
  *   func_021EA04C 0x021EA04C thumb ov093
- *   func_021D8358 0x021D8358 thumb ov093
+ *   BTL_ACTION_SetItem 0x021D8358 thumb ov093
  *   func_021EA058 0x021EA058 thumb ov093
  *   func_021EA720 0x021EA720 thumb ov093
  *   func_021EABC4 0x021EABC4 thumb ov093
@@ -539,19 +539,19 @@
  *   func_021D8414 0x021D8414 thumb ov093
  *   func_021EA7FC  0x021EA7FC  thumb  ov093
  *   func_021EA814  0x021EA814  thumb  ov093
- *   func_021D8444  0x021D8444  thumb  ov093
- *   func_021D67C4  0x021D67C4  thumb  ov093
- *   func_021D5750 0x021D5750 thumb ov093
+ *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
+ *   BTL_POKEPARAM_GetLastMoveSlot  0x021D67C4  thumb  ov093
+ *   BTL_POKEPARAM_HasMove 0x021D5750 thumb ov093
  *   func_021EFCE4 0x021EFCE4 thumb ov093
  *   func_021EFC1C 0x021EFC1C thumb ov093
- *   func_021E8AFC 0x021E8AFC thumb ov093
- *   func_021D631C 0x021D631C thumb ov093
+ *   BTLV_CORE_GetSlotLow 0x021E8AFC thumb ov093
+ *   BTL_POKEPARAM_GetSickTurn 0x021D631C thumb ov093
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
- *   func_021D799C 0x021D799C thumb ov093
- *   func_021D6940 0x021D6940 thumb ov093
+ *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
+ *   BTL_POKEPARAM_GetHitRecord 0x021D6940 thumb ov093
  *   d_021EFFC2 0x021EFFC2 data ov093 a2
- *   func_021D5C44  0x021D5C44  thumb  ov093
- *   func_021D7F2C 0x021D7F2C thumb ov093
+ *   BTL_POKEPARAM_GetHpRatioFixed  0x021D5C44  thumb  ov093
+ *   BTL_CALC_GetScanStartIndex 0x021D7F2C thumb ov093
  *   func_021D3DC4 0x021D3DC4 thumb ov093
  *   func_021880BC 0x021880BC thumb ov096
  *   func_02187FB0 0x02187FB0 thumb ov096
@@ -560,9 +560,9 @@
  *   func_0689CA98 0x0689CA98 thumb ov095
  *   func_0689CAB0 0x0689CAB0 thumb ov095
  *   func_0689CAE0 0x0689CAE0 thumb ov095
- *   func_021D83C4 0x021D83C4 thumb ov093
- *   func_021EE608  0x021EE608  thumb  ov093
- *   func_021EE638  0x021EE638  thumb  ov093
+ *   BTL_ACTION_SetChangeDepleted 0x021D83C4 thumb ov093
+ *   BTL_REC_AppendPacket  0x021EE608  thumb  ov093
+ *   BTL_REC_GetPacketId  0x021EE638  thumb  ov093
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   func_021F878C   0x021F878C  thumb ov094
  *   func_021EA600 0x021EA600 thumb ov093
@@ -582,7 +582,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_021EA694  0x021EA694  thumb  ov093
  *   func_021EA6F4  0x021EA6F4  thumb  ov093
- *   func_021D80A8  0x021D80A8  thumb  ov093
+ *   BTL_CALC_GetCurseTargetKind  0x021D80A8  thumb  ov093
  *   func_021EA0A0 0x021EA0A0 thumb ov093
  *   func_021EA0E4 0x021EA0E4 thumb ov093
  *   func_021EA354  0x021EA354  thumb  ov093
@@ -600,9 +600,9 @@
  *   func_021EA7C8  0x021EA7C8  thumb  ov093
  *   func_021EA7E8  0x021EA7E8  thumb  ov093
  *   func_021EA7D8  0x021EA7D8  thumb  ov093
- *   func_021EF9C0  0x021EF9C0  thumb  ov093
+ *   BTL_FIELD_StoreCountdown  0x021EF9C0  thumb  ov093
  *   d_021EFFAE     0x021EFFAE  data   ov093  a2
- *   func_021EF9C8  0x021EF9C8  thumb  ov093
+ *   BTL_FIELD_ClearCountdown  0x021EF9C8  thumb  ov093
  *   func_021EA838  0x021EA838  thumb  ov093
  *   func_021EA850  0x021EA850  thumb  ov093
  *   func_021EA904  0x021EA904  thumb  ov093
@@ -619,8 +619,8 @@
  *   func_021F8204 0x021F8204 thumb ov094
  *   func_021F8134 0x021F8134 thumb ov094
  *   func_021F8180 0x021F8180 thumb ov094
- *   func_021D6EA0 0x021D6EA0 thumb ov093
- *   func_021D6BFC 0x021D6BFC thumb ov093
+ *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
+ *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   func_021F8150 0x021F8150 thumb ov094
  *   func_02006238 0x02006238 thumb
  *   func_021EA3B8 0x021EA3B8 thumb ov093
@@ -657,10 +657,10 @@
  *   func_021EA868  0x021EA868  thumb  ov093
  *   func_021EA878  0x021EA878  thumb  ov093
  *   func_0689C9D4 0x0689C9D4 thumb ov095
- *   func_021BAB40  0x021BAB40  thumb  ov093
- *   func_021BB8BC  0x021BB8BC  thumb  ov093
- *   func_021BB8DC  0x021BB8DC  thumb  ov093
- *   func_021BB964  0x021BB964  thumb  ov093
+ *   BTL_SERVER_Restart  0x021BAB40  thumb  ov093
+ *   BTL_SERVER_NotifyLevelUp  0x021BB8BC  thumb  ov093
+ *   BTL_SERVER_NotifyCapture  0x021BB8DC  thumb  ov093
+ *   BTL_SERVER_GetFlow  0x021BB964  thumb  ov093
  *   func_021C7CBC  0x021C7CBC  thumb  ov093
  *   func_021C7CC8  0x021C7CC8  thumb  ov093
  *   func_021C7CD4  0x021C7CD4  thumb  ov093
@@ -669,12 +669,12 @@
  *   func_021C8138  0x021C8138  thumb  ov093
  *   func_021C8140  0x021C8140  thumb  ov093
  *   func_021CD924  0x021CD924  thumb  ov093
- *   func_021CD95C  0x021CD95C  thumb  ov093
- *   func_021CD984  0x021CD984  thumb  ov093
- *   func_021CD9B0  0x021CD9B0  thumb  ov093
- *   func_021CD9F4  0x021CD9F4  thumb  ov093
- *   func_021CDDA0  0x021CDDA0  thumb  ov093
- *   func_021CDDCC  0x021CDDCC  thumb  ov093
+ *   BTL_CLIENT_SetView  0x021CD95C  thumb  ov093
+ *   BTL_CLIENT_StartRemoteStep  0x021CD984  thumb  ov093
+ *   BTL_CLIENT_StartMainStep  0x021CD9B0  thumb  ov093
+ *   BTL_CLIENT_AddPoints  0x021CD9F4  thumb  ov093
+ *   BTL_CLIENT_IsWindowWaiting  0x021CDDA0  thumb  ov093
+ *   BTL_CLIENT_IsWindowDone  0x021CDDCC  thumb  ov093
  */
 #include "../../matched/include/Obj13271.h"
 #include "../../matched/include/Obj07744.h"
@@ -1827,80 +1827,80 @@ typedef struct {
 
 union DView { struct StateDataL s; u32 w[9]; };
 
-extern u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out);
-extern int func_021D5B68(void *m);
-extern u8 func_021D5440(u8 *p);
-extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
-extern int func_021B86C8(unsigned char **p);
-extern void *func_021B86B8(void ***p);
-extern int func_021B8B9C(u8 *p, u8 k);
+extern u8 BTL_MAIN_DecodeMessageCode(struct Unk021B8CB0 **p, int k, u8 *out);
+extern int BTL_POKEPARAM_IsFainted(void *m);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern u8 BTL_MAIN_GetClientTrainerIndex(u8 *p, u32 k, u8 n);
+extern int BTL_MAIN_IsMultiMode(unsigned char **p);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
+extern int BTL_MAIN_IsClientUsed(u8 *p, u8 k);
 extern int func_02007F1C(void *,u32,int,u16);
 extern int func_02007E50(void *,u32,int,u16);
 extern u32 GPOWER_ApplyPrizeMoney(u32 v);
-extern void *func_02012F08(int *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C274(struct Blk34 *p);
-extern u32 func_021D7FF8(u32 a, void *b);
-extern void *func_021D5844(void *m);
-extern char *func_021B8714(char **p);
+extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b);
+extern void *BTL_POKEPARAM_GetMon(void *m);
+extern char *BTL_MAIN_GetFieldSituation(char **p);
 extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
 extern void func_021D54F4(struct Work *, struct Work *);
-extern int func_021D6C24(struct R4 *p);
-extern void *func_021D5864(struct Work *p);
-extern void func_021D53B8(void *);
+extern int BTL_POKEPARAM_IsIllusionActive(struct R4 *p);
+extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
+extern void BTL_POKEPARAM_Delete(void *);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern struct S_021B8CB0 *func_021D4D84(void *a, u8 b, u32 c);
+extern struct S_021B8CB0 *BTL_POKEPARAM_Create(void *a, u8 b, u32 c);
 extern int func_021D59B4(u8 *p, int k);
-extern void func_021D5848(struct QH *p, void *v);
-extern u16 func_021D5444(struct QF *p);
+extern void BTL_POKEPARAM_SetFakeMon(struct QH *p, void *v);
+extern u16 BTL_POKEPARAM_GetSpecies(struct QF *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_020173F0(u16 species, u16 level, u64 id, u16 heap);
+extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
 extern void POKEPARTY_Init(struct Party *p);
-extern void func_021D6B84(void *, int);
+extern void BTL_POKEPARAM_WriteBackToParam(void *, int);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
-extern void func_021D6C3C(void **p, void *q);
-extern int func_021D67D0(struct R3 *p);
+extern void BTL_POKEPARAM_SetPokeParam(void **p, void *q);
+extern int BTL_POKEPARAM_IsLevelUpPending(struct R3 *p);
 extern void *func_02007B50(void **p);
 extern u32 func_02007C70(struct PerapVoice *p);
-u8 func_021B6994(struct S_021B8CB0 **pp, u32 b);
-extern u32 func_021B8588(void **p);
-extern u8 func_021B8C20(int, u32, u32);
-extern int func_021D5B7C(void *);
-extern unsigned int func_021B8B78(unsigned char *p, int k);
-extern void func_021D5854(struct Work *p);
+u8 BTL_MAIN_GetPositionsPerClient(struct S_021B8CB0 **pp, u32 b);
+extern u32 BTL_MAIN_GetRule(void **p);
+extern u8 BTL_MAIN_GetEnemyLanePos(int, u32, u32);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *);
+extern unsigned int BTL_MAIN_CountClientTrainers(unsigned char *p, int k);
+extern void BTL_POKEPARAM_ClearFakeMon(struct Work *p);
 extern u32 func_020307B0(void *p);
-extern void *func_0200846C(int a);
-extern void func_02008494(void *src, void *dst);
+extern void *MYSTATUS_Create(int a);
+extern void MYSTATUS_Copy(void *src, void *dst);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_02008510(void *a, int tag);
 extern void PMSI_PARAM_ClearSentence(void *a);
-extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
+extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 extern void func_02082D44(void *, void *, int);
 extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetChars(struct Buf *buf, const void *src, u32 n);
 char *COMM_PLAYER_SUPPORT_GetCurrent(char *p);
 extern struct Party *func_0201A920(u32);
 int BTL_SETUP_CheckStatusFlag(char *base, int m);
 extern u32 sub_02008DF0(struct Sub02008C20Obj *, int);
 extern u32 sub_02008DAC(struct Sub02008C20Obj *, int, u32);
-extern unsigned int func_021B6818(unsigned int *p);
+extern unsigned int BTL_MAIN_IsCommCompetitor(unsigned int *p);
 extern void NATSUKI_CalcUseItem(void *, int, u16, u16);
-extern int func_021D7F60(u32);
+extern int BTL_CALC_IsBossTrainer(u32);
 extern void NATSUKI_CalcParty(void *a0, int a1, int a2);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_021D805C(void *p, u32 n);
-extern int func_021D62A8(struct Unk021D62A8 *p);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern u32 _u32_div_f(u32, u32);
-extern u32 func_021D826C(u32 *p);
-extern int func_021D8270(void *, int, unsigned int);
-extern void func_021D787C(void *);
-extern void func_021B68D8(u8 *s, struct T *t);
+extern u32 BTL_CLIENT_SET_GetCount(u32 *p);
+extern int BTL_CLIENT_SET_JudgeResult(void *, int, unsigned int);
+extern void BTL_CALC_SetRngState(void *);
+extern void BTL_MAIN_InitClientParties(u8 *s, struct T *t);
 extern void func_021E9034(char *p);
-extern void func_021E8E28(void *p);
-extern struct Scene *func_021E8F20(void *a, void *b, u32 c, int d, u16 heap);
-extern u8 func_021D54B4(u8 *p);
+extern void BTLV_CORE_ResetDisplay(void *p);
+extern struct Scene *BTLV_CORE_Create(void *a, void *b, u32 c, int d, u16 heap);
+extern u8 BTL_POKEPARAM_GetUsedMoveTotal(u8 *p);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void GAME_BEACON_SetPokeLevelUp(u32);
 extern void GAME_BEACON_SetPokeCapture(u16);
@@ -2086,10 +2086,10 @@ void func_021BA7F8(char *p);
 u32 func_021BA820(int *p);
 void func_021BA82C(char *p);
 void func_021BA878(u8 *p);
-void func_021BAB40(char *p);
-void func_021BB8BC(u8 *p, u32 *q);
-void func_021BB8DC(u8 *p, u32 *q);
-u32 func_021BB964(struct Q5 *p);
+void BTL_SERVER_Restart(char *p);
+void BTL_SERVER_NotifyLevelUp(u8 *p, u32 *q);
+void BTL_SERVER_NotifyCapture(u8 *p, u32 *q);
+u32 BTL_SERVER_GetFlow(struct Q5 *p);
 void CallbackForJpeg(int result, void *arg);
 u16 func_021C7CBC(u8 *p);
 u16 func_021C7CC8(u8 *p);
@@ -2099,12 +2099,12 @@ u16 func_021C7CE8(u8 *p);
 u16 func_021C8138(struct Q7 *p);
 unsigned char func_021C8140(char *p, int i);
 u16 *func_021CD924(u8 *p, u32 *out);
-void func_021CD95C(struct QA *p, u32 v);
-void func_021CD984(u8 *p,u16 n);
-void func_021CD9B0(u8 *p);
-void func_021CD9F4(u8 *p,u8 n);
-int func_021CDDA0(u8 *p);
-u32 func_021CDDCC(struct Flags_021CDDCC *p);
+void BTL_CLIENT_SetView(struct QA *p, u32 v);
+void BTL_CLIENT_StartRemoteStep(u8 *p,u16 n);
+void BTL_CLIENT_StartMainStep(u8 *p);
+void BTL_CLIENT_AddPoints(u8 *p,u8 n);
+int BTL_CLIENT_IsWindowWaiting(u8 *p);
+u32 BTL_CLIENT_IsWindowDone(struct Flags_021CDDCC *p);
 extern const u8 data_021EFCF0[4];
 extern u8 d_021EFCF4[2][3];
 extern u8 d_021EFCFA[2][3];
@@ -2235,13 +2235,13 @@ u8 func_021B8D38(void *p, int a, int k, u8 *out)
     u8 i;
     u8 *m;
 
-    n = func_021B8778(p, k, buf);
+    n = BTL_MAIN_DecodeMessageCode(p, k, buf);
     i = 0;
     cnt = 0;
     for (; i < n; i++) {
         m = func_021B98A4((char *const *)a, buf[i]);
-        if (m && !func_021D5B68(m)) {
-            out[cnt++] = func_021D5440(m);
+        if (m && !BTL_POKEPARAM_IsFainted(m)) {
+            out[cnt++] = BTL_POKEPARAM_GetPokeId(m);
         }
     }
     return cnt;
@@ -2265,7 +2265,7 @@ u8 func_021B8D8C(void *p, void *a, u32 b)
     int r = func_021B9864((int)a, i, b);
 
     if (r >= 0) {
-        u8 s = func_021B8BEC(p, i, r);
+        u8 s = BTL_MAIN_GetClientTrainerIndex(p, i, r);
         if (s != 6) return s;
     }
     return 6;
@@ -2442,7 +2442,7 @@ u8 func_021B8ED8(u8 *p, u8 k)
 
 
 
-int func_021B8F38(unsigned char *p) { unsigned int v; if(func_021B86C8((unsigned char **)p)) { v=(unsigned int)func_021B86B8((void ***)p); if(v!=1 && v!=0) return 1; } return 0; }
+int func_021B8F38(unsigned char *p) { unsigned int v; if(BTL_MAIN_IsMultiMode((unsigned char **)p)) { v=(unsigned int)BTL_MAIN_GetCompetitor((void ***)p); if(v!=1 && v!=0) return 1; } return 0; }
 
 
 
@@ -2472,9 +2472,9 @@ int func_021B8F5C(char *p,int k) { func_021B969C(p+0xc8,p,k,0); return func_021B
 int func_021B8F7C(u8 *p, u32 k)
 {
     u8 n;
-    if (func_021B86C8((unsigned char **)p)) {
+    if (BTL_MAIN_IsMultiMode((unsigned char **)p)) {
         n = (k + 2) & 3;
-        if (func_021B8B9C(p, n)) {
+        if (BTL_MAIN_IsClientUsed(p, n)) {
             func_021B969C((char *)(p + 0xc8), (char *)p, n, 0);
             return func_021B985C((char *)(p + 0xc8), n);
         }
@@ -2493,7 +2493,7 @@ int func_021B8F7C(u8 *p, u32 k)
 
 
 
-unsigned char func_021B8FC0(unsigned char *p,unsigned int k) { if(func_021B86C8((unsigned char **)p)) return (unsigned char)((k&2)!=0); return 0; }
+unsigned char func_021B8FC0(unsigned char *p,unsigned int k) { if(BTL_MAIN_IsMultiMode((unsigned char **)p)) return (unsigned char)((k&2)!=0); return 0; }
 
 
 
@@ -2552,7 +2552,7 @@ u8 func_021B9000(u8 *p) { return func_021B9010(p,p[0x46c]); }
 
 
 
-u8 func_021B9010(u8 *p, u8 k) { u8 n; n=(k+2)&3; if(!func_021B8B9C(p,n)) n=4; return n; }
+u8 func_021B9010(u8 *p, u8 k) { u8 n; n=(k+2)&3; if(!BTL_MAIN_IsClientUsed(p,n)) n=4; return n; }
 
 
 
@@ -2591,7 +2591,7 @@ u8 func_021B904C(u8 *p,int k) { return func_021B9064(p,p[0x46c],k); }
 
 
 
-u32 func_021B9064(u8 *p, int k, int x) { u8 m; k &= 1; k ^= 1; if(x) { m=k+((x&1)<<1); if(func_021B8B9C(p,m)) k=m; } return k; }
+u32 func_021B9064(u8 *p, int k, int x) { u8 m; k &= 1; k ^= 1; if(x) { m=k+((x&1)<<1); if(BTL_MAIN_IsClientUsed(p,m)) k=m; } return k; }
 
 
 
@@ -2891,8 +2891,8 @@ u32 func_021B9244(char *p)
     r = 0;
     if (((u32)((struct Obj04354 *)p)->f473 << 27 >> 31) == 0) {
         if (**(u32 * *)&((struct Obj04354 *)p)->f0 <= 1) {
-            m = func_0200C274(func_02012F08(((struct Obj20982 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f58));
-            c = func_021D7FF8(((struct Obj20983 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f80, func_021B9AF8(p + 0x1b0, ((struct Obj04354 *)p)->f46C));
+            m = func_0200C274(GAME_DATA_GetMiscSave(((struct Obj20982 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f58));
+            c = BTL_CALC_CalcDefeatMoneyLoss(((struct Obj20983 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f80, func_021B9AF8(p + 0x1b0, ((struct Obj04354 *)p)->f46C));
             if (c > m)
                 c = m;
             r = c;
@@ -2948,12 +2948,12 @@ void func_021B92D4(char *p, void *m, int c)
     void *y;
     char *e;
 
-    i = func_021D5440(m);
+    i = BTL_POKEPARAM_GetPokeId(m);
     x = func_021B9940(p + 0x1b0, i);
     y = func_021B9940(p + 0xc8, i);
-    x = func_021D5844(x);
-    y = func_021D5844(y);
-    e = func_021B8714((char **)p);
+    x = BTL_POKEPARAM_GetMon(x);
+    y = BTL_POKEPARAM_GetMon(y);
+    e = BTL_MAIN_GetFieldSituation((char **)p);
     NATSUKI_Calc(x, c, ((struct Obj13277 *)e)->fA, (u16)((((struct Obj07746 *)p)->f468 & 0x7fff) | 0x8000));
     NATSUKI_Calc(y, c, ((struct Obj13277 *)e)->fA, (u16)((((struct Obj07746 *)p)->f468 & 0x7fff) | 0x8000));
 }
@@ -2998,14 +2998,14 @@ u8 *func_021B937C(void *a, char *b, u8 *c)
     u32 n;
     u32 i;
 
-    if (func_021D6C24((struct R4 *)c)) {
-        e = func_021B8DDC(func_021D5440(c));
-        k = func_021D5864((struct Work *)c);
+    if (BTL_POKEPARAM_IsIllusionActive((struct R4 *)c)) {
+        e = func_021B8DDC(BTL_POKEPARAM_GetPokeId(c));
+        k = BTL_POKEPARAM_GetDisplayMon((struct Work *)c);
         g = func_021B9AF8(b, e);
         n = func_021B9B94((struct Q1 *)g);
         for (i = 0; i < n; i++) {
             t = func_021B9C00((struct S2 *)g, (u8)i);
-            v = func_021D5844(t);
+            v = BTL_POKEPARAM_GetMon(t);
             if (v == k)
                 return t;
         }
@@ -3057,7 +3057,7 @@ void func_021B9424(char *p)
     unsigned int i;
     for (i = 0; i < 24; i++) {
         if (*(void **)(p + i * 4 + 0x84) != 0) {
-            func_021D53B8(*(void **)(p + i * 4 + 0x84));
+            BTL_POKEPARAM_Delete(*(void **)(p + i * 4 + 0x84));
             *(void **)(p + i * 4 + 0x84) = 0;
         }
     }
@@ -3117,20 +3117,20 @@ void func_021B9460(char *a, char *b, u8 c)
     *(void **)(a + c * 4 + 0x74) = list;
     for (i = 0, y = x; i < n; i++, y++) {
         e = func_0201AB28(list, i);
-        *(void **)(a + y * 4 + 0x84) = (struct S *)func_021D4D84(e, y, 0x12);
+        *(void **)(a + y * 4 + 0x84) = (struct S *)BTL_POKEPARAM_Create(e, y, 0x12);
         func_021B9B54((struct Q1 *)(qs + qo), (u32)(*(void **)(a + y * 4 + 0x84)));
     }
     cnt = func_021B9634(list);
     if (cnt > 0) {
         for (i = 0, y = x; i < cnt; i++, y++) {
                 if (func_021D59B4(*(u8 **)(a + y * 4 + 0x84), 0x11) == 0x95)
-                    func_021D5848(*(void **)(a + y * 4 + 0x84), func_0201AB28(list, cnt));
+                    BTL_POKEPARAM_SetFakeMon(*(void **)(a + y * 4 + 0x84), func_0201AB28(list, cnt));
             }
     }
-    if (func_021B86B8((void ***)b) == 0 && c == 1) {
+    if (BTL_MAIN_GetCompetitor((void ***)b) == 0 && c == 1) {
         for (j = 0; j < n; j++, x++) {
             v = *(u8 **)(a + x * 4 + 0x84);
-            if (func_021D5444((struct QF *)v) == 0x23B && func_021D59B4(v, 0x11) == 0x95) {
+            if (BTL_POKEPARAM_GetSpecies((struct QF *)v) == 0x23B && func_021D59B4(v, 0x11) == 0x95) {
                 void *l2;
                 u8 m, q;
                 l2 = func_021BA178(b, 0, *(u32 *)(a + 0xe4));
@@ -3144,8 +3144,8 @@ void func_021B9460(char *a, char *b, u8 c)
                 }
                 if (nw != 0) {
                     if (*(void **)(b + 0x2c0) == 0)
-                        *(void **)(b + 0x2c0) = func_020173F0(nw, func_021D59B4(v, 0xf), 0, *(u16 *)(b + 0x468));
-                    func_021D5848((struct QH *)v, *(void **)(b + 0x2c0));
+                        *(void **)(b + 0x2c0) = POKE_TOOL_Create(nw, func_021D59B4(v, 0xf), 0, *(u16 *)(b + 0x468));
+                    BTL_POKEPARAM_SetFakeMon((struct QH *)v, *(void **)(b + 0x2c0));
                 }
             }
         }
@@ -3207,7 +3207,7 @@ void func_021B9674(char *p)
     unsigned int i;
     for (i = 0; i < 24; i++) {
         if (*(void **)(p + i * 4 + 0x84) != 0) {
-            func_021D53B8(*(void **)(p + i * 4 + 0x84));
+            BTL_POKEPARAM_Delete(*(void **)(p + i * 4 + 0x84));
             *(void **)(p + i * 4 + 0x84) = 0;
         }
     }
@@ -3239,12 +3239,12 @@ void func_021B969C(char *a, char *b, int k, int flag)
     for (i = 0; i < 6; i++) links[i] = 6;
     for (i = 0; i < n; i++) {
         m = (void *)func_021B9BF0((struct S2 *)g, (u8)i);
-        func_021D6B84(m, flag);
-        func_0201A98C(((struct Obj09940 *)b)->f2B8, func_021D5844(m));
-        if (func_021D6C24(m)) {
-            h = func_021D5864(m);
+        BTL_POKEPARAM_WriteBackToParam(m, flag);
+        func_0201A98C(((struct Obj09940 *)b)->f2B8, BTL_POKEPARAM_GetMon(m));
+        if (BTL_POKEPARAM_IsIllusionActive(m)) {
+            h = BTL_POKEPARAM_GetDisplayMon(m);
             for (j = 0; j < n; j++) {
-                if (h == func_021D5844((void *)func_021B9BF0((struct S2 *)g, (u8)j))) {
+                if (h == BTL_POKEPARAM_GetMon((void *)func_021B9BF0((struct S2 *)g, (u8)j))) {
                     links[i] = j;
                     break;
                 }
@@ -3255,9 +3255,9 @@ void func_021B969C(char *a, char *b, int k, int flag)
     for (i = 0; i < n; i++) {
         e = func_0201AB28(list, i);
         m = (void *)func_021B9BF0((struct S2 *)g, (u8)i);
-        func_021D6C3C(m, e);
+        BTL_POKEPARAM_SetPokeParam(m, e);
         if (links[i] != 6)
-            func_021D5848(m, func_0201AB28(list, links[i]));
+            BTL_POKEPARAM_SetFakeMon(m, func_0201AB28(list, links[i]));
     }
 }
 
@@ -3291,10 +3291,10 @@ void func_021B97A0(char *a, char *b, int k)
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
             m = (void *)func_021B9BF0((struct S2 *)g, (u8)j);
-            if (t + i == func_021D5440(m)) {
-                func_021D6B84(m, 1);
-                func_0201A98C(((struct Obj07747 *)b)->f2B8, func_021D5844(m));
-                if (func_021D67D0(m) != 0)
+            if (t + i == BTL_POKEPARAM_GetPokeId(m)) {
+                BTL_POKEPARAM_WriteBackToParam(m, 1);
+                func_0201A98C(((struct Obj07747 *)b)->f2B8, BTL_POKEPARAM_GetMon(m));
+                if (BTL_POKEPARAM_IsLevelUpPending(m) != 0)
                     *(u8 *)(*(char * *)&((struct Obj07747 *)b)->f0 + i + 0xc2) = 1;
                 break;
             }
@@ -3337,7 +3337,7 @@ int func_021B9864(int a, int b, int c)
     unsigned int n = func_021B9B94((struct Q1 *)p);
     unsigned int i;
     for (i = 0; i < n; i++) {
-        if (c == func_021D5440((u8 *)func_021B9C00((struct S2 *)p, (unsigned char)i)))
+        if (c == BTL_POKEPARAM_GetPokeId((u8 *)func_021B9C00((struct S2 *)p, (unsigned char)i)))
             return i;
     }
     return -1;
@@ -3523,7 +3523,7 @@ int func_021B997C(u8 *p, unsigned int i)
 
 int func_021B99B8(void *pp, unsigned int b)
 {
-    return func_021B6994((struct S_021B8CB0 * *)pp, b);
+    return BTL_MAIN_GetPositionsPerClient((struct S_021B8CB0 * *)pp, b);
 }
 
 
@@ -3542,8 +3542,8 @@ int func_021B99B8(void *pp, unsigned int b)
  */
 u8 func_021B99C0(struct S_021B8CB0 **p, u32 b)
 {
-    u8 result = func_021B6994((struct S_021B8CB0 * *)p, b);
-    if (func_021B8588((void **)p) == 3) result += 2;
+    u8 result = BTL_MAIN_GetPositionsPerClient((struct S_021B8CB0 * *)p, b);
+    if (BTL_MAIN_GetRule((void **)p) == 3) result += 2;
     return result;
 }
 
@@ -3595,7 +3595,7 @@ u32 func_021B99F0(u32 x) { return (x == 2 || x == 3) ? 1 : 0; }
 int func_021B9A00(u32 x, u8 *out)
 {
     if (func_021B99F0(x) == 0) {
-        *out = func_021B8C20(2, x, (u8)(x >> 1));
+        *out = BTL_MAIN_GetEnemyLanePos(2, x, (u8)(x >> 1));
         return 1;
     }
     return 0;
@@ -3850,9 +3850,9 @@ unsigned char func_021B9B04(int a, int b)
 
 void func_021B9B10(u8 *p,u8 i,u8 v) {
     void *q;
-    if(p[0x46e] && func_021B8B9C(p,i)) {
+    if(p[0x46e] && BTL_MAIN_IsClientUsed(p,i)) {
         q=*(void **)(p+i*4+16);
-        if(q) func_021CD9F4(q,v);
+        if(q) BTL_CLIENT_AddPoints(q,v);
     }
 }
 
@@ -3917,7 +3917,7 @@ void func_021B9B60(u8 *p) {
     j=0;
     i=0;
     for(;j<p[24];j++) {
-        if(func_021D5B7C(*(void **)((u32)p+(u32)i*4))) i++;
+        if(BTL_POKEPARAM_IsAbleToBattle(*(void **)((u32)p+(u32)i*4))) i++;
         else func_021B9C24(p,i);
     }
 }
@@ -3961,7 +3961,7 @@ u8 func_021B9B98(u8 *p) {
     u32 n;
     i = 0;
     n = 0;
-    for (; i < p[24]; i++) if (func_021D5B7C(((void **)p)[i])) n++;
+    for (; i < p[24]; i++) if (BTL_POKEPARAM_IsAbleToBattle(((void **)p)[i])) n++;
     return n;
 }
 
@@ -3981,7 +3981,7 @@ u8 func_021B9B98(u8 *p) {
 
 u8 func_021B9BC4(u8 *p,int i) {
     u32 n=0;
-    for(;i<p[24];i++) if(func_021D5B7C(*(void **)((u32)p+(u32)i*4))) n++;
+    for(;i<p[24];i++) if(BTL_POKEPARAM_IsAbleToBattle(*(void **)((u32)p+(u32)i*4))) n++;
     return n;
 }
 
@@ -4141,7 +4141,7 @@ int func_021B9C98(u8 *p,u32 v) {
 
 int func_021B9CBC(u8 *p, int v) {
     int i;
-    for(i=0;i<p[24];i++) if(v==func_021D5440(*(void **)((u32)p+(u32)i*4))) return i;
+    for(i=0;i<p[24];i++) if(v==BTL_POKEPARAM_GetPokeId(*(void **)((u32)p+(u32)i*4))) return i;
     return -1;
 }
 
@@ -4160,7 +4160,7 @@ int func_021B9CBC(u8 *p, int v) {
 
 void *func_021B9CE8(u8 *p) {
     int i;
-    for(i=0;i<p[24];i++) if(func_021D5B7C(*(void **)((u32)p+(u32)i*4))) return *(void **)((u32)p+(u32)i*4);
+    for(i=0;i<p[24];i++) if(BTL_POKEPARAM_IsAbleToBattle(*(void **)((u32)p+(u32)i*4))) return *(void **)((u32)p+(u32)i*4);
     return 0;
 }
 
@@ -4185,27 +4185,27 @@ void func_021B9D10(char *a, struct Arr *arr, int k)
     void *h;
 
     for (j = arr->n - 1; j > 0; j--) {
-        if (func_021D5B7C(arr->e[j]) != 0)
+        if (BTL_POKEPARAM_IsAbleToBattle(arr->e[j]) != 0)
             break;
     }
-    if (func_021B8588((void **)a) != 3)
-        k = func_021B8B78((unsigned char *)a, k);
+    if (BTL_MAIN_GetRule((void **)a) != 3)
+        k = BTL_MAIN_CountClientTrainers((unsigned char *)a, k);
     else
         k = 3;
     for (; k < arr->n; k++) {
         m = arr->e[k];
         if (func_021D59B4(m, 0x11) == 0x95) {
             if (k < j) {
-                func_021D5848(m, func_021D5844(arr->e[j]));
+                BTL_POKEPARAM_SetFakeMon(m, BTL_POKEPARAM_GetMon(arr->e[j]));
             } else {
-                h = func_021D5864(m);
+                h = BTL_POKEPARAM_GetDisplayMon(m);
                 if (h != ((struct Obj20995 *)a)->f2C0)
-                    func_021D5854(m);
+                    BTL_POKEPARAM_ClearFakeMon(m);
             }
         }
     }
     for (k = 0; k < arr->n; k++)
-        func_021D6C24(arr->e[k]);
+        BTL_POKEPARAM_IsIllusionActive(arr->e[k]);
 }
 
 
@@ -4289,10 +4289,10 @@ void func_021B9E38(char *p, int a, int b)
 {
     u16 f;
 
-    void *h = func_0200846C(a);
+    void *h = MYSTATUS_Create(a);
 
     ((struct Obj01371 *)p)->f0 = h;
-    func_02008494((void *)b, h);
+    MYSTATUS_Copy((void *)b, h);
     f = 0;
     ((struct Obj01371 *)p)->fA = 0;
     if (func_02008550(((struct Obj01371 *)p)->f0))
@@ -4324,7 +4324,7 @@ void func_021B9E7C(struct A *p, struct B_021B9A00 *src)
     if (src) {
         p->ha = src->f0;
         p->h8 = src->f4;
-        p->q = (int)func_02045874((struct U16Vec *)src->f14, 0x12);
+        p->q = (int)STRBUF_Clone((struct U16Vec *)src->f14, 0x12);
         p->c = src->f8;
         func_02082D44(src->b, p->h, 8);
         PMSI_PARAM_Copy((struct Rec8 *)(&p->s18), (const struct Rec8 *)(&src->s18));
@@ -4370,7 +4370,7 @@ void func_021B9EF0(struct A *p, const struct B_021B9EF0 *src)
     if (src) {
         p->ha = src->f0;
         p->h8 = src->f4;
-        t = (int)func_020457B0(0x20, 0x12);
+        t = (int)STRBUF_Create(0x20, 0x12);
         u = src->f68 + 1;
         p->q = t;
         STRBUF_SetChars((struct Buf *)t, (char *)src + 0x28, u);
@@ -4488,12 +4488,12 @@ u32 func_021B9FAC(u8 *p, int i, u32 *out) {
 
 int func_021B9FBC(char *p, int i)
 {
-    if (func_021B86B8((void ***)p) == 0) {
+    if (BTL_MAIN_GetCompetitor((void ***)p) == 0) {
         i = 8;
         if (func_021BA1A8((char **)p, i)) {
             return i << 8;
         }
-        if (func_021B8588((void **)p) == 1) {
+        if (BTL_MAIN_GetRule((void **)p) == 1) {
             return 0x80;
         }
     } else {
@@ -4572,7 +4572,7 @@ unsigned short func_021BA020(char *p, int i)
 
 void *func_021BA02C(char *p, int i, int mode)
 {
-    if ((int)func_021B86B8((void ***)p) == 2 && func_021B9F70((u8 *)p, i)) {
+    if ((int)BTL_MAIN_GetCompetitor((void ***)p) == 2 && func_021B9F70((u8 *)p, i)) {
         if (mode == 1) return (void *)(((u32)p + 0x40) + (u32)i * 0x28);
         return (void *)(((u32)p + 0x38) + (u32)i * 0x28);
     }
@@ -4896,7 +4896,7 @@ char *func_021BA1E4(char **p)
 BOOL func_021BA1EC(char **p)
 {
     BOOL result = FALSE;
-    if (func_021B6818((unsigned int *)((int *)*p)) == 1) {
+    if (BTL_MAIN_IsCommCompetitor((unsigned int *)((int *)*p)) == 1) {
         if (((struct Obj21004 *)(*p))->f7F) result = TRUE;
     }
     return result;
@@ -4923,8 +4923,8 @@ BOOL func_021BA1EC(char **p)
 int func_021BA20C(char **p)
 {
     int v;
-    if (func_021B6818((unsigned int *)((int *)*p)) == 1) return func_021BA1EC(p);
-    v = (int)func_021B86B8((void ***)p);
+    if (BTL_MAIN_IsCommCompetitor((unsigned int *)((int *)*p)) == 1) return func_021BA1EC(p);
+    v = (int)BTL_MAIN_GetCompetitor((void ***)p);
     switch (v) {
     case 0:
     case 1: return 1;
@@ -4952,7 +4952,7 @@ int func_021BA20C(char **p)
 void func_021BA238(char *p, void *m)
 {
     func_021B92D4(p, m, 0);
-    func_021BB8BC(((struct Obj07746 *)p)->f8, m);
+    BTL_SERVER_NotifyLevelUp(((struct Obj07746 *)p)->f8, m);
 }
 
 
@@ -4982,12 +4982,12 @@ void func_021BA250(char *p, u8 *a, int b)
     void *yv;
     char *q;
 
-    i = func_021D5440(a);
+    i = BTL_POKEPARAM_GetPokeId(a);
     x = func_021B9940(p + 0x1b0, i);
     y = func_021B9940(p + 0xc8, i);
-    xv = func_021D5844(x);
-    yv = func_021D5844(y);
-    q = func_021B8714((char **)p);
+    xv = BTL_POKEPARAM_GetMon(x);
+    yv = BTL_POKEPARAM_GetMon(y);
+    q = BTL_MAIN_GetFieldSituation((char **)p);
     NATSUKI_CalcUseItem(xv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
     NATSUKI_CalcUseItem(yv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
 }
@@ -5011,7 +5011,7 @@ void func_021BA250(char *p, u8 *a, int b)
 
 void func_021BA2D4(u32 p, u32 *q) {
     u8 *v = *(u8 **)(p + 8);
-    if (v) func_021BB8DC(v, q);
+    if (v) BTL_SERVER_NotifyCapture(v, q);
 }
 
 
@@ -5044,8 +5044,8 @@ void func_021BA2E4(char *p)
     if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 <= 1) {
         func_021B97A0(p + 0x1b0, p, (u8)p[0x46c]);
         list = (void *)func_021B985C(p + 0x1b0, (u8)p[0x46c]);
-        if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1 && func_021D7F60((u16)(u32)func_021BA020(p, 1)))
-            NATSUKI_CalcParty(list, *(u16 *)(func_021B8714((char **)p) + 10), (u16)((((struct Obj00324 *)p)->f468 & 0x7fff) | 0x8000));
+        if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1 && BTL_CALC_IsBossTrainer((u16)(u32)func_021BA020(p, 1)))
+            NATSUKI_CalcParty(list, *(u16 *)(BTL_MAIN_GetFieldSituation((char **)p) + 10), (u16)((((struct Obj00324 *)p)->f468 & 0x7fff) | 0x8000));
         if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1) {
             n = func_0201AA18(list);
             for (i0 = 0; i0 < n; i0++) {
@@ -5053,9 +5053,9 @@ void func_021BA2E4(char *p)
                 mon = func_0201AB28(list, i0);
                 move = (u16)func_02017E1C(old, 6, 0);
                 if (!func_021D805C((void *)move, 0x10))
-                    func_02017E40(mon, 6, move);
+                    POKE_TOOL_SetPartyValue(mon, 6, move);
                 else if (move != func_02017E1C(mon, 6, 0))
-                    func_02017E40(mon, 6, 0);
+                    POKE_TOOL_SetPartyValue(mon, 6, 0);
             }
         }
         func_0201AC2C(list, ((struct Obj21010 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f24);
@@ -5070,18 +5070,18 @@ void func_021BA2E4(char *p)
     for (k = 0; k < 4; k++) {
         slot = func_021BA710((u8)p[0x46c], (u8)k);
         for (j = 0; j < 6; j++) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp1 = slot * 6; *(u8 *)(j + (tmp1 + obj) + 0xc8) = 0; }
-        if (func_021B8B9C((u8 *)p, (u8)slot)) {
+        if (BTL_MAIN_IsClientUsed((u8 *)p, (u8)slot)) {
             group = func_021B9AEC(p + 0xc8, slot);
             count = func_021B9B94((struct Q1 *)group);
             total = maximum = 0;
             base = data_021EFCF0[slot];
             for (j = 0; j < count; j++) {
                 m = (u8 *)func_021B9BF0((struct S2 *)((struct S2 *)group), (u8)j);
-                i = (u8)(func_021D5440(m) - base);
+                i = (u8)(BTL_POKEPARAM_GetPokeId(m) - base);
                 total += func_021D59B4(m, 13);
                 maximum += func_021D59B4(m, 14);
-                if (func_021D5B68(m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp = slot * 6; *(u8 *)(i + (tmp + *(u32 *)&((struct Obj00324 *)p)->f0) + 0xc8) = 2; }
-                else if (func_021D62A8((struct Unk021D62A8 *)m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp2 = slot * 6; *(u8 *)(i + (tmp2 + obj) + 0xc8) = 1; }
+                if (BTL_POKEPARAM_IsFainted(m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp = slot * 6; *(u8 *)(i + (tmp + *(u32 *)&((struct Obj00324 *)p)->f0) + 0xc8) = 2; }
+                else if (BTL_POKEPARAM_GetMajorStatusIndex((struct Unk021D62A8 *)m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp2 = slot * 6; *(u8 *)(i + (tmp2 + obj) + 0xc8) = 1; }
             }
             *(u32 *)(*(char * *)&((struct Obj00324 *)p)->f0 + slot * 4 + 0xe0) = _u32_div_f(total * 100, maximum);
         }
@@ -5107,7 +5107,7 @@ void func_021BA2E4(char *p)
 
 int func_021BA534(void ***p)
 {
-    int v = (int)func_021B86B8(p);
+    int v = (int)BTL_MAIN_GetCompetitor(p);
     switch (v) {
     case 2:
     case 3: return 1;
@@ -5137,14 +5137,14 @@ int func_021BA54C(char *p)
 {
     int v;
 
-    if ((int)func_021B86B8((void ***)p) == 4) {
+    if ((int)BTL_MAIN_GetCompetitor((void ***)p) == 4) {
         v = 1;
     } else if (((struct F *)(p + 0x473))->b) {
         v = 6;
     } else if (((struct Obj21014 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f90 != 6) {
         v = 5;
-    } else if (func_021D826C((u32 *)(p + 0x448))) {
-        v = func_021D8270(p + 0x448, *(u8 *)&((struct Obj00324 *)p)->f46C, (unsigned int)func_021B86B8((void ***)p));
+    } else if (BTL_CLIENT_SET_GetCount((u32 *)(p + 0x448))) {
+        v = BTL_CLIENT_SET_JudgeResult(p + 0x448, *(u8 *)&((struct Obj00324 *)p)->f46C, (unsigned int)BTL_MAIN_GetCompetitor((void ***)p));
     } else {
         if (((struct Obj00324 *)p)->f444 == 7) {
             ((struct Obj00324 *)p)->f444 = 1;
@@ -5223,10 +5223,10 @@ int func_021BA5D8(char *p)
     int *q = *(int * *)&((struct Obj07748 *)p)->f0;
     if (((struct Obj21016 *)q)->f23 == 0) {
         if (((struct Obj07748 *)p)->f440 != 0)
-            return func_021CDDA0((u8 *)(*(int *)(p + (((struct Obj07748 *)p)->f46C << 2) + 0x10)));
+            return BTL_CLIENT_IsWindowWaiting((u8 *)(*(int *)(p + (((struct Obj07748 *)p)->f46C << 2) + 0x10)));
         return 0;
     }
-    return func_021CDDA0((u8 *)(*(int *)(p + (((struct Obj07748 *)p)->f46C << 2) + 0x10)));
+    return BTL_CLIENT_IsWindowWaiting((u8 *)(*(int *)(p + (((struct Obj07748 *)p)->f46C << 2) + 0x10)));
 }
 
 
@@ -5250,7 +5250,7 @@ int func_021BA618(char *p)
 {
     int v;
     if (((struct Obj21017 *)(*(char * *)&((struct Obj09944 *)p)->f0))->f23) {
-        v = func_021CDDCC(*(void **)(p + 0x10 + ((struct Obj09944 *)p)->f46C * 4));
+        v = BTL_CLIENT_IsWindowDone(*(void **)(p + 0x10 + ((struct Obj09944 *)p)->f46C * 4));
         if (v) ((struct Obj09944 *)p)->f444 = 2;
         return v;
     }
@@ -5306,7 +5306,7 @@ void func_021BA670(char *p, u8 k, void *dst)
  void *q;
  i = func_021BA710(((struct Obj13287 *)p)->f46C, k);
  q = *(void **)(*(char * *)&((struct Obj13287 *)p)->f0 + i * 4 + 0x34);
- if (q != 0) func_02008494((void *)dst, q);
+ if (q != 0) MYSTATUS_Copy((void *)dst, q);
 }
 
 
@@ -5413,8 +5413,8 @@ u8 func_021BA710(int a, int b)
 
 
 /*
- * func_021CD95C takes two arguments (its own file: `p->v = v`), and the
- * value passed second is the func_021E8F20 result just stored at p + 4:
+ * BTL_CLIENT_SetView takes two arguments (its own file: `p->v = v`), and the
+ * value passed second is the BTLV_CORE_Create result just stored at p + 4:
  * that is the `adds r1, r0, #0` the one-argument prototype could not
  * produce (twin: ov093_func_021B835C).
  */
@@ -5423,23 +5423,23 @@ void func_021BA73C(char *p, u16 x)
     unsigned int i;
     int t;
 
-    t = func_021B6818((unsigned int *)(*(int * *)&((struct Obj02131 *)p)->f0));
-    func_021D787C(p + 0x3f0);
-    func_021B68D8((u8 *)p, ((struct Obj02131 *)p)->f0);
+    t = BTL_MAIN_IsCommCompetitor((unsigned int *)(*(int * *)&((struct Obj02131 *)p)->f0));
+    BTL_CALC_SetRngState(p + 0x3f0);
+    BTL_MAIN_InitClientParties((u8 *)p, ((struct Obj02131 *)p)->f0);
     func_021B9424(p + 0xc8);
     func_021B9424(p + 0x1b0);
     for (i = 0; i < 4; i++) {
-        if (func_021B8B9C((unsigned char *)p, (u8)i)) {
+        if (BTL_MAIN_IsClientUsed((unsigned char *)p, (u8)i)) {
             func_021B9460(p + 0x1b0, p, i);
             func_021B9460(p + 0xc8, p, i);
-            func_021CD984(*(void **)(p + i * 4 + 0x10), x);
+            BTL_CLIENT_StartRemoteStep(*(void **)(p + i * 4 + 0x10), x);
         }
     }
     func_021E9034((char *)(((struct Obj02131 *)p)->f4));
-    func_021E8E28((void *)0x13);
-    ((struct Obj02131 *)p)->f4 = (int)func_021E8F20(p, *(void **)(p + (((struct Obj21020 *)(*(char * *)&((struct Obj02131 *)p)->f0))->f21) * 4 + 0x10), (u32)(p + 0xc8), t, 0x13);
-    func_021CD95C(*(void **)(p + (((struct Obj21021 *)(*(char * *)&((struct Obj02131 *)p)->f0))->f21) * 4 + 0x10), ((struct Obj02131 *)p)->f4);
-    func_021BAB40((char *)(((struct Obj02131 *)p)->f8));
+    BTLV_CORE_ResetDisplay((void *)0x13);
+    ((struct Obj02131 *)p)->f4 = (int)BTLV_CORE_Create(p, *(void **)(p + (((struct Obj21020 *)(*(char * *)&((struct Obj02131 *)p)->f0))->f21) * 4 + 0x10), (u32)(p + 0xc8), t, 0x13);
+    BTL_CLIENT_SetView(*(void **)(p + (((struct Obj21021 *)(*(char * *)&((struct Obj02131 *)p)->f0))->f21) * 4 + 0x10), ((struct Obj02131 *)p)->f4);
+    BTL_SERVER_Restart((char *)(((struct Obj02131 *)p)->f8));
 }
 
 
@@ -5463,7 +5463,7 @@ void func_021BA7F8(char *p)
 {
  unsigned int i;
  for (i = 0; i < 4; i++) {
-  if (func_021B8B9C((unsigned char *)p, (u8)i)) func_021CD9B0(*(void **)(p + i * 4 + 0x10));
+  if (BTL_MAIN_IsClientUsed((unsigned char *)p, (u8)i)) BTL_CLIENT_StartMainStep(*(void **)(p + i * 4 + 0x10));
  }
 }
 
@@ -5487,7 +5487,7 @@ void func_021BA7F8(char *p)
 
 u32 func_021BA820(int *p)
 {
-    return func_021BB964((struct Q5 *)p[2]);
+    return BTL_SERVER_GetFlow((struct Q5 *)p[2]);
 }
 
 
@@ -5553,7 +5553,7 @@ void func_021BA878(u8 *p)
     void *item;
     if (((struct Obj09945 *)p)->f8 == 0)
         return;
-    a = (u8 *)func_021BB964(((struct Obj09945 *)p)->f8);
+    a = (u8 *)BTL_SERVER_GetFlow(((struct Obj09945 *)p)->f8);
     q = *(u8 * *)&((struct Obj09945 *)p)->f0;
     q[0xb6] = func_021C8138((struct Q7 *)a);
     q[0xb7] = func_021C8140((char *)a, 0);
@@ -5569,7 +5569,7 @@ void func_021BA878(u8 *p)
     count = func_021B9B98((u8 *)list);
     for (i = 0; i < n; i++) {
         item = (void *)func_021B9BF0((struct S2 *)((struct S2 *)list), (u8)i);
-        q[0xc0] += func_021D54B4(item);
+        q[0xc0] += BTL_POKEPARAM_GetUsedMoveTotal(item);
         ((struct Obj01687 *)q)->fB4 += (u16)func_021D59B4(item, 13);
     }
     q[0xbf] = n - count;
@@ -5577,7 +5577,7 @@ void func_021BA878(u8 *p)
     n = func_021B9B94((struct Q1 *)list);
     count = func_021B9B98((u8 *)list);
     q[0xbe] = n - count;
-    if (func_021B8B9C(p, 3)) {
+    if (BTL_MAIN_IsClientUsed(p, 3)) {
         list = func_021B9AEC((char *)p + 0x1b0, 3);
         if (list) {
             n = func_021B9B94((struct Q1 *)list);

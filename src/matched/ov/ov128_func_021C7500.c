@@ -11,7 +11,7 @@
  *   func_021C6B38 0x021C6B38 thumb ov128
  *   func_02041300 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   func_02045730 0x02045730 arm
  */
 #include "../include/Obj23075.h"
@@ -20,7 +20,7 @@ extern void func_021C6B38(u8 *);
 extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
 extern void func_02041B6C(unsigned);
 struct Descriptor;
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 void func_021C7500(u8 *p,u8 *q)
 {
@@ -31,6 +31,6 @@ void func_021C7500(u8 *p,u8 *q)
     func_02041300(3,0,0,0,32,24,16);
     func_02041B6C(3);
     obj=((struct Obj23075 *)p)->fC;
-    func_020456F8(obj);
+    BMP_WIN_ClearScreen(obj);
     func_02041B6C(func_02045730(obj));
 }

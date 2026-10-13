@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215700C",
+   "name": "MUSICAL_STAGE_SYS_SetPerformerProp",
    "address": "0x0215700C",
    "kind": "game",
    "region": "ov010",

@@ -12,8 +12,8 @@
  * symbols:
  *   func_0201C6EC        0x0201C6EC  thumb
  *   func_02045770        0x02045770  arm
- *   func_02043B5C        0x02043B5C  arm
- *   func_02045334        0x02045334  arm
+ *   BMP_Clear        0x02043B5C  arm
+ *   BMP_WIN_TransferChars        0x02045334  arm
  *   ov208_func_021C4D68  0x021C4D68  thumb
  */
 
@@ -42,8 +42,8 @@ struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
                                 u32 *active, u16 idx);
 
@@ -51,6 +51,6 @@ void ov208_func_021C4E54(u16 *heap, struct Ov208Menu *p, int key)
 {
     p->active[3] = 0;
     func_0201C6EC((struct PrintSys *)p->print[3]);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[3])), 0);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[3])), 0);
     ov208_func_021C4D68(heap, p, key, 3, p->print[3], p->win[3], &p->active[3], p->sel);
 }

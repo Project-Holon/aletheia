@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA040",
+   "name": "TOWNMAP_BackButtonIsHeld",
    "address": "0x021BA040",
    "kind": "game",
    "region": "ov072",

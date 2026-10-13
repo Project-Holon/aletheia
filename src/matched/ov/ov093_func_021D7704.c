@@ -1,5 +1,5 @@
 /*
- * function: func_021D7704
+ * function: BTL_EVENT_MultiplyVar
  * address:  0x021D7704
  * packet:   pkt_ov093_021D7704
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021F3ECC     0x021F3ECC  data
+ *   gBtlEventVarStack     0x021F3ECC  data
  *   func_021D77E8  0x021D77E8  thumb  ov093
- *   func_021D780C  0x021D780C  thumb  ov093
+ *   BTL_EVENT_ClampVar  0x021D780C  thumb  ov093
  *   _ll_mul        0x0209C054  arm
  */
 
@@ -30,18 +30,18 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern struct Tbl g_021F3ECC;
+extern struct Tbl gBtlEventVarStack;
 extern int func_021D77E8(Tbl *p, int key);
-extern int func_021D780C(Tbl *p, int i, int v);
+extern int BTL_EVENT_ClampVar(Tbl *p, int i, int v);
 
-void func_021D7704(int key, s32 m)
+void BTL_EVENT_MultiplyVar(int key, s32 m)
 {
-    Tbl *t = ((Tbl *)&g_021F3ECC);
+    Tbl *t = ((Tbl *)&gBtlEventVarStack);
     int i = func_021D77E8(t, key);
 
     if (i >= 0 && t->c[i] == 3) {
         s32 v = t->vals[i];
         s64 prod = (s64)v * (s64)m;
-        t->vals[i] = func_021D780C(t, i, (s32)((prod + 0x800) >> 12));
+        t->vals[i] = BTL_EVENT_ClampVar(t, i, (s32)((prod + 0x800) >> 12));
     }
 }

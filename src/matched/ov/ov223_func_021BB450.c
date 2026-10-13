@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027778 0x02027778 thumb
- *   func_02045808 0x02045808 arm
- *   func_02027858 0x02027858 thumb
- *   func_02027974 0x02027974 thumb
- *   func_020279E8 0x020279E8 thumb
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   STRBUF_Delete 0x02045808 arm
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
+ *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
+ *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  * Lead EXACT* ends at BB4D8; three 16-byte load/tail-call followers
  * complete the extent. Parent cleared these starts. The value local
  * assigns zero then conditionally one; a boolean expression reverses
@@ -39,11 +39,11 @@ struct TaskMenuTmpl {
     u8 unk13;
 };
 extern void *func_02045EC0(struct MsgBank *, unsigned);
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *, void *);
-extern void func_02045808(struct U16Vec *);
-extern void func_02027858(struct TaskMenu *);
-extern void func_02027974(Obj *);
-extern unsigned func_020279E8(struct TaskMenu *);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *, void *);
+extern void STRBUF_Delete(struct U16Vec *);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
+extern void APP_TASKMENU_UpdateMenu(Obj *);
+extern unsigned APP_TASKMENU_IsFinish(struct TaskMenu *);
 void func_021BB450(char *p)
 {
     struct TaskMenuTmpl tmpl;
@@ -66,19 +66,19 @@ void func_021BB450(char *p)
     tmpl.unk12 = 9;
     tmpl.unk13 = 3;
     tmpl.unk08 = items;
-    *(struct TaskMenu * *)&((struct Obj00084 *)p)->f264 = func_02027778(&tmpl, ((struct Obj00084 *)p)->f25C);
+    *(struct TaskMenu * *)&((struct Obj00084 *)p)->f264 = APP_TASKMENU_OpenMenu(&tmpl, ((struct Obj00084 *)p)->f25C);
     for (i = 0; i < 2; i++)
-        func_02045808(items[i].text);
+        STRBUF_Delete(items[i].text);
 }
 void func_021BB4D8(char *p)
 {
-    func_02027858(*(struct TaskMenu * *)&((struct Obj00084 *)p)->f264);
+    APP_TASKMENU_CloseMenu(*(struct TaskMenu * *)&((struct Obj00084 *)p)->f264);
 }
 void func_021BB4E8(char *p)
 {
-    func_02027974(*(Obj * *)&((struct Obj00084 *)p)->f264);
+    APP_TASKMENU_UpdateMenu(*(Obj * *)&((struct Obj00084 *)p)->f264);
 }
 unsigned func_021BB4F8(char *p)
 {
-    return func_020279E8(*(struct TaskMenu * *)&((struct Obj00084 *)p)->f264);
+    return APP_TASKMENU_IsFinish(*(struct TaskMenu * *)&((struct Obj00084 *)p)->f264);
 }

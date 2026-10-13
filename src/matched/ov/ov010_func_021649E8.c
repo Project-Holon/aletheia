@@ -1,5 +1,5 @@
 /*
- * function: func_021649E8
+ * function: FLD_FACEUP_EndEvent
  * address:  0x021649E8
  * packet:   pkt_ov010_021649E8
  * region:   ov010
@@ -13,9 +13,9 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012374  0x02012374  thumb
- *   func_021F5550  0x021F5550  thumb  ov082
- *   func_02159168  0x02159168  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   FLD_FACEUP_StartClose  0x021F5550  thumb  ov082
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  *   func_02034A5C  0x02034A5C  arm
  *   ov_id_52       0x00000052  data
  *
@@ -29,22 +29,22 @@ typedef unsigned int   u32;
 struct Evt;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_021F5550(void *p);
-extern void func_02159168(int n);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern void *FLD_FACEUP_StartClose(void *p);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 extern void func_02034A5C(int a);
 extern u8 ov_id_52[];
 
-int func_021649E8(void *a, int *st)
+int FLD_FACEUP_EndEvent(void *a, int *st)
 {
     int r = (int)func_020124E4(a);
     switch (*st) {
     case 0:
-        func_02012374(a, func_021F5550((void *)r));
+        GAME_EVENT_CallEvent(a, FLD_FACEUP_StartClose((void *)r));
         (*st)++;
         break;
     case 1:
-        func_02159168(7);
+        SCRIPT_WORK_ResetCheckFlag(7);
         func_02034A5C((int)ov_id_52);
         return 1;
     }

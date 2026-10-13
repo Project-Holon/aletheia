@@ -1,5 +1,5 @@
 /*
- * function: func_021F0FF0
+ * function: C_GEAR_StopFade
  * address: 0x021F0FF0
  * packet: pkt_ov029_021F0FF0
  * region: ov029
@@ -15,7 +15,7 @@
 #include "../include/Obj20390.h"
 struct Obj02021B18;
 extern void PALANM_ForceStopFade(struct Obj02021B18 *o);
-void func_021F0FF0(char *p)
+void C_GEAR_StopFade(char *p)
 {
     PALANM_ForceStopFade(((struct Obj20390 *)p)->f210);
 }

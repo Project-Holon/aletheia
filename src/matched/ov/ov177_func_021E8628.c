@@ -9,12 +9,12 @@
  * status: EXACT*
  * symbols:
  *   func_0201CE48 0x0201CE48 thumb
- *   func_0202F038 0x0202F038 thumb
- *   func_02028604 0x02028604 thumb
- *   func_02031140 0x02031140 arm
+ *   TIME_ICON_Delete 0x0202F038 thumb
+ *   APP_KEYCURSOR_Delete 0x02028604 thumb
+ *   TCBL_Destroy 0x02031140 arm
  *   func_0201F7A8 0x0201F7A8 thumb
  *   func_020452E8 0x020452E8 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_020307B0 0x020307B0 arm
  */
@@ -25,12 +25,12 @@ struct Rec3;
 struct S02031140;
 struct U16Vec;
 extern void func_0201CE48(struct Rec3 *p);
-extern void func_0202F038(unsigned char *p);
-extern int func_02028604(int p);
-extern void func_02031140(struct S02031140 *p);
+extern void TIME_ICON_Delete(unsigned char *p);
+extern int APP_KEYCURSOR_Delete(int p);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_0201F7A8(void *p, unsigned kind);
 extern unsigned int func_020452E8(struct Descriptor *d);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201C4C0(struct PrintSys *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -41,15 +41,15 @@ void func_021E8628(char *p)
         ((struct Obj01960 *)p)->f8 = 0;
     }
     if (*(unsigned char * *)&((struct Obj01960 *)p)->f10 != 0) {
-        func_0202F038(*(unsigned char * *)&((struct Obj01960 *)p)->f10);
+        TIME_ICON_Delete(*(unsigned char * *)&((struct Obj01960 *)p)->f10);
         ((struct Obj01960 *)p)->f10 = 0;
     }
     if (((struct Obj01960 *)p)->f34 != 0)
-        func_02028604(((struct Obj01960 *)p)->f34);
-    func_02031140(((struct Obj01960 *)p)->fC);
+        APP_KEYCURSOR_Delete(((struct Obj01960 *)p)->f34);
+    TCBL_Destroy(((struct Obj01960 *)p)->fC);
     func_0201F7A8(((struct Obj01960 *)p)->f14, 0);
     func_020452E8(((struct Obj01960 *)p)->f14);
-    func_02045808(((struct Obj01960 *)p)->f18);
+    STRBUF_Delete(((struct Obj01960 *)p)->f18);
     func_0201C4C0(((struct Obj01960 *)p)->f28);
     func_020307B0(p);
 }

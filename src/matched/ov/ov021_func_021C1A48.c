@@ -1,5 +1,5 @@
 /*
- * function: func_021C1A48
+ * function: FLD_PARTICLE_CreateEffect
  * address:  0x021C1A48
  * packet:   pkt_ov021_021C1A48
  * region:   ov021
@@ -10,6 +10,12 @@
  * status:   EXACT
  *
  * Creates the effect instance and sets its two scale parameters.
+ *
+ * symbols:
+ *   G3D_CAMERA_SetScale  0x02048B60  arm  arm9
+ *   G3D_CAMERA_SetRoll  0x02048B6C  arm  arm9
+ *   PARTICLE_CreateSystemDefault  0x02050C04  arm  arm9
+ *   BUTTON_MAN_GetBlock  0x02051788  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -23,23 +29,23 @@ typedef struct {
     u32 fC;
 } S;
 
-extern int func_02050C04(int a, int b, int c, int d);
+extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 struct Light;
-extern int func_02051788(char *p);
-extern void func_02048B60(struct Light *l, const u32 *in);
-extern void func_02048B6C(struct Light *l, const u32 *in);
+extern int BUTTON_MAN_GetBlock(char *p);
+extern void G3D_CAMERA_SetScale(struct Light *l, const u32 *in);
+extern void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in);
 
-u32 func_021C1A48(S *p)
+u32 FLD_PARTICLE_CreateEffect(S *p)
 {
     u32 a;
     u32 b;
     u32 o;
 
-    p->fC = func_02050C04(p->f8, 0x4800, 1, p->f4);
-    o = func_02051788((char *)p->fC);
+    p->fC = PARTICLE_CreateSystemDefault(p->f8, 0x4800, 1, p->f4);
+    o = BUTTON_MAN_GetBlock((char *)p->fC);
     a = 1 << 12;
     b = 0x384000;
-    func_02048B60((struct Light *)o, &a);
-    func_02048B6C((struct Light *)o, &b);
+    G3D_CAMERA_SetScale((struct Light *)o, &a);
+    G3D_CAMERA_SetRoll((struct Light *)o, &b);
     return p->fC;
 }

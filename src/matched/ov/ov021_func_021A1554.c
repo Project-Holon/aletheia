@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F009C  0x021F009C  thumb  ov034
+ *   REPORT_CheckSaveCounter  0x021F009C  thumb  ov034
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern unsigned func_021F009C(char *p);
+extern unsigned REPORT_CheckSaveCounter(char *p);
 
 int func_021A1554(u32 *p)
 {
-    return func_021F009C((char *)p[8]);
+    return REPORT_CheckSaveCounter((char *)p[8]);
 }

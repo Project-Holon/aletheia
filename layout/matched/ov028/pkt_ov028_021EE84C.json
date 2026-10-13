@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021EE84C",
-    "func_021EE864"
+    "WEATHER_FOG_EndFinishFixed",
+    "WEATHER_FOG_UpdateParticleFixed"
+   ],
+   "addresses": [
+    "0x021EE84C",
+    "0x021EE864"
    ]
   }
  ]

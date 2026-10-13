@@ -1,5 +1,5 @@
 /*
- * function: func_0219A2B8
+ * function: FLDMMDL_MOVECODE_MoveWalkRandom
  * address:  0x0219A2B8
  * packet:   pkt_ov021_0219A2B8
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0216DA50  0x0216DA50  thumb  ov010
- *   func_0216DA7C  0x0216DA7C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D438  0x0216D438  thumb  ov010
- *   func_02197EDC  0x02197EDC  thumb  ov021
- *   func_0219B0F0  0x0219B0F0  thumb  ov021
- *   func_0219B104  0x0219B104  thumb  ov021
- *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_0219A4CC  0x0219A4CC  thumb  ov021
- *   func_021639C0  0x021639C0  thumb  ov010
- *   func_0216DA44  0x0216DA44  thumb  ov010
- *   d_021D4FA4     0x021D4FA4  data  a4
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_OffMoveBitMove  0x0216DA50  thumb  ov010
+ *   FLDMMDL_OffMoveBitMoveEnd  0x0216DA7C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetLocalAcmd  0x0216D438  thumb  ov010
+ *   FLDMMDL_ACMD_Update  0x02197EDC  thumb  ov021
+ *   FLDMMDL_MOVECODE_GetRandomTableEntry  0x0219B0F0  thumb  ov021
+ *   FLDMMDL_MOVECODE_GetRandomDirFromSet  0x0219B104  thumb  ov021
+ *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
+ *   FLDMMDL_MOVECODE_IsDirInsideMoveRect  0x0219A4CC  thumb  ov021
+ *   FLDMMDL_MOVE_HitCheckMoveDir  0x021639C0  thumb  ov010
+ *   FLDMMDL_OnMoveBitMove  0x0216DA44  thumb  ov010
+ *   gMmdlRandomWaitFrames     0x021D4FA4  data  a4
  * Addresses are Black-image addresses.
  */
 
@@ -38,39 +38,39 @@ typedef struct {
     u32 arg;
     u32 v;
 } St;
-extern void *func_0216D69C(void *p);
-extern void func_0216DA50(u8 *p);
-extern void func_0216DA7C(u8 *p);
-extern u16 func_0216D5F8(void *p);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D438(char *a0, int a1);
-extern u32 func_02197EDC(u8 *p);
-extern int func_0219B0F0(u32 a, u32 b);
-extern u32 func_0219B104(u32, u32);
-extern void func_0216D60C(u32, u16);
-extern int func_0219A4CC(u32, u32);
-extern int func_021639C0(u32, u16);
-extern void func_0216DA44(u32);
-extern u8 d_021D4FA4[];
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern void FLDMMDL_OffMoveBitMove(u8 *p);
+extern void FLDMMDL_OffMoveBitMoveEnd(u8 *p);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetLocalAcmd(char *a0, int a1);
+extern u32 FLDMMDL_ACMD_Update(u8 *p);
+extern int FLDMMDL_MOVECODE_GetRandomTableEntry(u32 a, u32 b);
+extern u32 FLDMMDL_MOVECODE_GetRandomDirFromSet(u32, u32);
+extern void FLDMMDL_SetDirAll(u32, u16);
+extern int FLDMMDL_MOVECODE_IsDirInsideMoveRect(u32, u32);
+extern int FLDMMDL_MOVE_HitCheckMoveDir(u32, u16);
+extern void FLDMMDL_OnMoveBitMove(u32);
+extern u8 gMmdlRandomWaitFrames[];
 
-void func_0219A2B8(u32 a)
+void FLDMMDL_MOVECODE_MoveWalkRandom(u32 a)
 {
     St *p;
     u32 r;
     int f;
 
-    p = func_0216D69C((void *)a);
+    p = FLDMMDL_GetMoveProcWork((void *)a);
     switch (p->state) {
     case 0:
-        func_0216DA50((u8 *)a);
-        func_0216DA7C((u8 *)a);
-        func_0216D438((char *)a, (u16)((u32)func_02197E7C((u16)((u32)func_0216D5F8((void *)a)), (u16)0)));
+        FLDMMDL_OffMoveBitMove((u8 *)a);
+        FLDMMDL_OffMoveBitMoveEnd((u8 *)a);
+        FLDMMDL_SetLocalAcmd((char *)a, (u16)((u32)FLDMMDL_ACMD_ConvertCodeByDir((u16)((u32)FLDMMDL_GetDirDisp((void *)a)), (u16)0)));
         p->state++;
         break;
     case 1:
-        if (func_02197EDC((u8 *)a) == 0)
+        if (FLDMMDL_ACMD_Update((u8 *)a) == 0)
             break;
-        p->timer = func_0219B0F0((u32)d_021D4FA4, -1);
+        p->timer = FLDMMDL_MOVECODE_GetRandomTableEntry((u32)gMmdlRandomWaitFrames, -1);
         p->state++;
     case 2:
         p->timer--;
@@ -78,13 +78,13 @@ void func_0219A2B8(u32 a)
             break;
         p->state++;
     case 3:
-        r = func_0219B104(p->v, 9);
-        func_0216D60C(a, r);
-        if (p->mode == 1 && func_0219A4CC(a, r) == 0) {
+        r = FLDMMDL_MOVECODE_GetRandomDirFromSet(p->v, 9);
+        FLDMMDL_SetDirAll(a, r);
+        if (p->mode == 1 && FLDMMDL_MOVECODE_IsDirInsideMoveRect(a, r) == 0) {
             p->state = 0;
             return;
         }
-        f = func_021639C0(a, r);
+        f = FLDMMDL_MOVE_HitCheckMoveDir(a, r);
         if (f != 0) {
             if (p->mode == 2) {
                 if (f & 1) {
@@ -96,12 +96,12 @@ void func_0219A2B8(u32 a)
                 return;
             }
         }
-        func_0216D438((char *)a, (u16)((u32)func_02197E7C((u16)r, (u16)p->arg)));
-        func_0216DA44(a);
+        FLDMMDL_SetLocalAcmd((char *)a, (u16)((u32)FLDMMDL_ACMD_ConvertCodeByDir((u16)r, (u16)p->arg)));
+        FLDMMDL_OnMoveBitMove(a);
         p->state++;
     case 4:
-        if (func_02197EDC((u8 *)a) != 0) {
-            func_0216DA50((u8 *)a);
+        if (FLDMMDL_ACMD_Update((u8 *)a) != 0) {
+            FLDMMDL_OffMoveBitMove((u8 *)a);
             p->state = 0;
         }
         break;

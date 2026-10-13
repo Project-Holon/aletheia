@@ -1,5 +1,5 @@
 /*
- * function: func_02190A6C
+ * function: FIELD_MSGBG_DeleteMenuItems
  * address:  0x02190A6C
  * packet:   pkt_02190A20
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_0201F8F4 with no argument change.
+ * Tail-call thunk: forwards to BMP_MENUWORK_ReleaseItems with no argument change.
  *
  * symbols:
- *   func_0201F8F4  0x0201F8F4  thumb
+ *   BMP_MENUWORK_ReleaseItems  0x0201F8F4  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Slot;
-extern void func_0201F8F4(struct Slot *s);
+extern void BMP_MENUWORK_ReleaseItems(struct Slot *s);
 
-void func_02190A6C(u32 a)
+void FIELD_MSGBG_DeleteMenuItems(u32 a)
 {
-    func_0201F8F4((struct Slot *)a);
+    BMP_MENUWORK_ReleaseItems((struct Slot *)a);
 }

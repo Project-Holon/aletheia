@@ -1,5 +1,5 @@
 /*
- * function: func_021BBE74
+ * function: PLIST_MENU_GetItemUseKind
  * address: 0x021BBE74
  * packet: pkt_ov091_021BBE74
  * region: ov091
@@ -20,7 +20,7 @@ extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 func_020307B0(void *p);
 #define GET(k) func_02021014(p,(k))
 #define DONE(k) {func_020307B0(p);return(k);}
-int func_021BBE74(int id)
+int PLIST_MENU_GetItemUseKind(int id)
 {
     void *p=func_02020F34(id,0,23);
     int mask;

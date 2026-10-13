@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD39C 0x021BD39C thumb ov088
+ *   SAVE_CONTROL_INTR_NoOp 0x021BD39C thumb ov088
  *
  * UNBLOCKED: 0x021BD39C is now an EXACT entry in layout/matched/ov088 (the
  * only overlay in the window that does not overlap the caller's ov204), so
@@ -18,10 +18,10 @@
  */
 #include "../include/Obj25362.h"
 
-extern void func_021BD39C(int);
+extern void SAVE_CONTROL_INTR_NoOp(int);
 
 int func_021BE6F8(char *a)
 {
-    func_021BD39C(((struct Obj25362 *)a)->fA4);
+    SAVE_CONTROL_INTR_NoOp(((struct Obj25362 *)a)->fA4);
     return 1;
 }

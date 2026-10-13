@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02017E1C
+ * function: POKE_TOOL_GetPartyValue
  *
  * 0x02017E1C..0x02017E40, 36 bytes, one function.
  *
@@ -46,7 +46,7 @@ extern u32 POKE_TOOL_DecodeCalcBlock(struct Sav *p);
 extern void POKE_TOOL_EncodeCalcBlock(struct Sav *p);
 extern u32 POKE_TOOL_GetPartyValueRaw(struct Mon *p, u32 id, u32 v);
 
-u32 func_02017E1C(void *p, u32 id, u32 v)
+u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v)
 {
     u32 r;
 

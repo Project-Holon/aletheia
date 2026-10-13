@@ -19,10 +19,10 @@
  *   func_021C8860  0x021C8860  thumb
  *   func_021C88A4  0x021C88A4  thumb
  *   func_021C88C8  0x021C88C8  thumb
- *   func_021D57FC  0x021D57FC  thumb
- *   func_021D775C  0x021D775C  thumb
- *   func_021D799C  0x021D799C  thumb
- *   func_021D7B74  0x021D7B74  thumb
+ *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
+ *   BTL_CALC_GetTypeAffinityVsPair  0x021D799C  thumb
+ *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
  *   d_0689D728 0x0689D728 data a4
  */
 #include "../../matched/include/Obj13632.h"
@@ -33,13 +33,13 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern int func_021D775C(int a);
+extern int BTL_EVENT_GetVar(int a);
 extern int func_021B9A40(int a);
 extern int func_021C7CF4(int p, int a);
-extern int func_021D57FC(void);
-extern int func_021D799C(int a, int b);
+extern int BTL_POKEPARAM_GetTypePair(void);
+extern int BTL_CALC_GetTypeAffinityVsPair(int a, int b);
 extern u8 *func_021C88A4(int p, int n, int m);
-extern int func_021D7B74(int a, int b);
+extern int BTL_CALC_DivideMaxHpMin1(int a, int b);
 extern void func_021C8838(u8 *p, int n, int c);
 extern void func_021C8860(u8 *p, int v);
 extern void func_021C88C8(int p, u8 *q);
@@ -66,10 +66,10 @@ void func_0689926C(int a0, int p, int x)
     u8 *t;
 
     n = 2;
-    v = func_021D775C(2);
+    v = BTL_EVENT_GetVar(2);
     if (x == func_021B9A40(v)) {
         w = func_021C7CF4(p, v);
-        switch (func_021D799C(5, func_021D57FC())) {
+        switch (BTL_CALC_GetTypeAffinityVsPair(5, BTL_POKEPARAM_GetTypePair())) {
         default:
             n = 0x20;
             break;
@@ -87,7 +87,7 @@ void func_0689926C(int a0, int p, int x)
         }
         t = func_021C88A4(p, 7, 0x1f);
         t[6] = v;
-        ((struct Obj13632 *)t)->f4 = func_021D7B74(w, n);
+        ((struct Obj13632 *)t)->f4 = BTL_CALC_DivideMaxHpMin1(w, n);
         func_021C8838(t + 0xc, 2, 0x356);
         func_021C8860(t + 0xc, v);
         func_021C88C8(p, t);

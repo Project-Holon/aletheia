@@ -1,5 +1,5 @@
 /*
- * function: func_021ADBAC
+ * function: FLDEFF_ENCOUNT_Exit
  * address: 0x021ADBAC
  * packet: pkt_ov021_021ADBAC
  * region: ov021
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov021/fldeff_namipoke.c and filed here.
  */
 
-void func_021ADBAC(void);
+void FLDEFF_ENCOUNT_Exit(void);
 
-void func_021ADBAC(void) {}
+void FLDEFF_ENCOUNT_Exit(void) {}

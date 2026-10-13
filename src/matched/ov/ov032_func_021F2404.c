@@ -17,7 +17,7 @@
  *     void BEACON_STATUS_SetViewTop(char *p, u8 v) { p[0xb0e] = v; }
  *   0x020275D0 (12 bytes incl. pool word 0x0B0C):
  *     void *BEACON_STATUS_GetViewFlags(char *p) { return p + 0xb0c; }
- * 0x53 is ov083's id (func_021F5260/func_021F5368 are ov083 children).
+ * 0x53 is ov083's id (GPOWER_EVENT_CreateActivateEvent/GPOWER_EVENT_CreateListEvent are ov083 children).
  *
  * note (2026-10-04): wave D2 filed the arm9 leaf witnesses (src/matched/arm9/BEACON_STATUS_GetLog,
  *   AC, B8, D0 EXACT); the tool still reports them unresolved, so the label seeding for
@@ -25,17 +25,17 @@
  *
  * symbols:
  *   func_021F2404 0x021F2404 thumb
- *   func_02158614 0x02158614 thumb ov010
+ *   INTRUDE_COMM_SetCompleted 0x02158614 thumb ov010
  *   BEACON_STATUS_SetViewTop 0x020275B8 thumb
  *   BEACON_STATUS_GetViewFlags 0x020275D0 thumb
  *   func_021945A4 0x021945A4 thumb ov021
  *   func_021F254C 0x021F254C thumb ov032
  *   func_021F2544 0x021F2544 thumb ov032
- *   func_02164B38 0x02164B38 thumb ov010
- *   func_020124AC 0x020124AC thumb
- *   func_021CD2A4 0x021CD2A4 thumb ov021
- *   func_021F5260 0x021F5260 thumb ov083
- *   func_021F5368 0x021F5368 thumb ov083
+ *   CALENDER_CreateTask 0x02164B38 thumb ov010
+ *   GAME_EVENT_CreateOverlayEvent 0x020124AC thumb
+ *   EVENT_NAMEIN_Create 0x021CD2A4 thumb ov021
+ *   GPOWER_EVENT_CreateActivateEvent 0x021F5260 thumb ov083
+ *   GPOWER_EVENT_CreateListEvent 0x021F5368 thumb ov083
  *   ov083_id 0x00000053 data
  */
 
@@ -50,17 +50,17 @@ typedef struct {
 
 extern u8 ov083_id[];
 struct Desc;
-extern void func_02158614(void *p);
+extern void INTRUDE_COMM_SetCompleted(void *p);
 extern void BEACON_STATUS_SetViewTop(char *p, int v);
 extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern void *func_021945A4(void *a, u32 b, u32 c);
 extern void *func_021F254C(char *p, void *task, int a, u32 b);
 extern void func_021F2544(char *p);
-extern void *func_02164B38(void *a, void *b, u8 c);
-extern struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
-extern u32 func_021CD2A4(u32 a, u32 b, u32 x, u32 c, u32 d);
-extern void *func_021F5260(void *a0, int *a1);
-extern void *func_021F5368(void *p, void *q);
+extern void *CALENDER_CreateTask(void *a, void *b, u8 c);
+extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
+extern u32 EVENT_NAMEIN_Create(u32 a, u32 b, u32 x, u32 c, u32 d);
+extern void *GPOWER_EVENT_CreateActivateEvent(void *a0, int *a1);
+extern void *GPOWER_EVENT_CreateListEvent(void *p, void *q);
 
 void *func_021F2404(char *p, int go)
 {
@@ -71,30 +71,30 @@ void *func_021F2404(char *p, int go)
         return 0;
     switch (*(u16 *)(p + 0x70)) {
     case 2:
-        func_02158614((void *)(*(int *)(p + 0x1c)));
+        INTRUDE_COMM_SetCompleted((void *)(*(int *)(p + 0x1c)));
     case 1:
     case 3:
         BEACON_STATUS_SetViewTop(*(void **)(p + 0x34), 0);
         r = func_021F254C(p, func_021945A4(*(void **)p, (u32)(*(void **)(p + 8)), 0), 0, 3);
         break;
     case 4:
-        r = func_021F254C(p, func_02164B38(*(void **)p, *(void **)(p + 8), *(u8 *)(p + 0x7e) + *(u8 *)(p + 0x7c)), 1, 0);
+        r = func_021F254C(p, CALENDER_CreateTask(*(void **)p, *(void **)(p + 8), *(u8 *)(p + 0x7e) + *(u8 *)(p + 0x7c)), 1, 0);
         break;
     case 5:
         args.a = *(u8 *)(p + 0x7f);
         args.b = *(u8 *)(p + 0x80);
-        r = func_021F254C(p, func_020124AC(*(void **)p, (u32)ov083_id, (void *)func_021F5260, (u32)(&args)), 2, *(u32 *)(p + 0xd0));
+        r = func_021F254C(p, GAME_EVENT_CreateOverlayEvent(*(void **)p, (u32)ov083_id, (void *)GPOWER_EVENT_CreateActivateEvent, (u32)(&args)), 2, *(u32 *)(p + 0xd0));
         p[0x7f] = 0x30;
         break;
     case 6:
-        r = func_021F254C(p, func_020124AC(*(void **)p, (u32)ov083_id, (void *)func_021F5368, (u32)(*(void **)(p + 8))), 2, *(u32 *)(p + 0xc0));
+        r = func_021F254C(p, GAME_EVENT_CreateOverlayEvent(*(void **)p, (u32)ov083_id, (void *)GPOWER_EVENT_CreateListEvent, (u32)(*(void **)(p + 8))), 2, *(u32 *)(p + 0xc0));
         break;
     case 7:
-        r = func_021F254C(p, func_020124AC(*(void **)p, (u32)ov083_id, (void *)func_021F5368, (u32)(*(void **)(p + 8))), 2, *(u32 *)(p + 0xf0));
+        r = func_021F254C(p, GAME_EVENT_CreateOverlayEvent(*(void **)p, (u32)ov083_id, (void *)GPOWER_EVENT_CreateListEvent, (u32)(*(void **)(p + 8))), 2, *(u32 *)(p + 0xf0));
         p[0x79] = 0;
         break;
     case 8:
-        r = func_021F254C(p, (void *)func_021CD2A4((u32)(*(void **)p), (u32)(*(void **)(p + 8)), 0, 7, (u32)BEACON_STATUS_GetViewFlags((char *)(*(int *)(p + 0x34)))), 0, 1);
+        r = func_021F254C(p, (void *)EVENT_NAMEIN_Create((u32)(*(void **)p), (u32)(*(void **)(p + 8)), 0, 7, (u32)BEACON_STATUS_GetViewFlags((char *)(*(int *)(p + 0x34)))), 0, 1);
         break;
     default:
         return 0;

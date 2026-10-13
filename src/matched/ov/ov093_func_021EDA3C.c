@@ -15,16 +15,16 @@
  *
  * symbols:
  *   func_021B9AE0  0x021B9AE0  thumb  ov093
- *   func_021B8BD0  0x021B8BD0  thumb  ov093
+ *   BTL_MAIN_IsLocalSide  0x021B8BD0  thumb  ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { B_FALSE, B_TRUE } Bool;
 extern u8 func_021B9AE0(u32);
-extern int func_021B8BD0(u8 *, u8);
+extern int BTL_MAIN_IsLocalSide(u8 *, u8);
 Bool func_021EDA3C(u8 *p, u32 x)
 {
-    if (func_021B8BD0(p, func_021B9AE0(x)) != 0)
+    if (BTL_MAIN_IsLocalSide(p, func_021B9AE0(x)) != 0)
         return B_FALSE;
     return B_TRUE;
 }

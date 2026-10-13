@@ -1,5 +1,5 @@
 /*
- * function: func_021D45FC
+ * function: BTL_NET_IsPerapVoiceReceived
  * address:  0x021D45FC
  * packet:   pkt_ov093_021D45FC
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F3B88     0x021F3B88  data  ov093
- *   func_021D4330  0x021D4330  thumb  ov093
+ *   gBtlNet     0x021F3B88  data  ov093
+ *   BTL_NET_HasEntry  0x021D4330  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -23,15 +23,15 @@ struct S {
     void *tblB[4];
 };
 
-extern struct S *d_021F3B88;
-extern u8 func_021D4330(int i);
+extern struct S *gBtlNet;
+extern u8 BTL_NET_HasEntry(int i);
 
-int func_021D45FC(void)
+int BTL_NET_IsPerapVoiceReceived(void)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (func_021D4330(i) != 0 && *(u16 *)((u8 *)d_021F3B88 + i * 0xbbc + 0x17ae) != 0 && d_021F3B88->tblB[i] == 0)
+        if (BTL_NET_HasEntry(i) != 0 && *(u16 *)((u8 *)gBtlNet + i * 0xbbc + 0x17ae) != 0 && gBtlNet->tblB[i] == 0)
             return 0;
     }
     return 1;

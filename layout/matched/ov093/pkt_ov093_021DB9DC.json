@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DB9DC",
-    "func_021DBA00"
+    "BTL_TOKUSEI_Stench_SetFlinchChance",
+    "BTL_TOKUSEI_GetShadowTagHandlers"
+   ],
+   "addresses": [
+    "0x021DB9DC",
+    "0x021DBA00"
    ],
    "evidence": {
     "sole-ref": [

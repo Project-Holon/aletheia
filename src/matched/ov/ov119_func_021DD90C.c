@@ -13,13 +13,13 @@
  *   d_021E76FC 0x021E76FC data a4
  *   func_021D8AA8 0x021D8AA8 thumb ov119
  *   func_020452E8 0x020452E8 arm
- *   func_020450F0 0x020450F0 arm
- *   func_0201DD78 0x0201DD78 thumb
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_02045CAC 0x02045CAC arm
  *   func_02045770 0x02045770 arm
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj00001.h"
@@ -33,14 +33,14 @@ struct Cfg;
 struct Descriptor;
 struct MsgBank;
 extern u32 func_020452E8(struct Descriptor *d);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_0201DD78(u32,u32,u32);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void func_021DD90C(u8 *p,int i,int msg,int force)
 {
@@ -53,13 +53,13 @@ void func_021DD90C(u8 *p,int i,int msg,int force)
         if(func_021D8AA8(p)==0) return;
     }
     if(*(int *)(p+i*4+0x5bc)) func_020452E8((struct Descriptor *)(*(int *)(p+i*4+0x5bc)));
-    items=(int *)(p+0x5bc); items[i]=(int)func_020450F0(3,(u8)(((int *)&t)[i]),16,12,2,5,0); w=items[i];
-    func_0201DD78(5,6,0);
+    items=(int *)(p+0x5bc); items[i]=(int)BMP_WIN_Create(3,(u8)(((int *)&t)[i]),16,12,2,5,0); w=items[i];
+    GF_FONT_SetTextColor(5,6,0);
     msg+=0x72;
     func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),msg,(void *)(*(int *)&((struct Obj00001 *)p)->f730));
-    func_0201C7A4(func_02045770((struct Descriptor *)w),0,0,(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f728));
-    func_02045334((struct Descriptor *)w);
-    func_02045374((struct Cfg *)w);
+    PRINTSYS_Print(func_02045770((struct Descriptor *)w),0,0,(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f728));
+    BMP_WIN_TransferChars((struct Descriptor *)w);
+    BMP_WIN_MakeScreen((struct Cfg *)w);
     func_02041B6C(3);
     (p+i)[0x11e8]=3;
 }

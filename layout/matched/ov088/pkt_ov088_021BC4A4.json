@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC4A4",
+   "name": "STARTMENU_SetNewPlayerNameAndGender",
    "address": "0x021BC4A4",
    "kind": "game",
    "region": "ov088",

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020084A0
+ * function: MYSTATUS_Init
  * address:  0x020084A0
  * packet:   pkt_0200846C
  * region:   arm9
@@ -32,7 +32,7 @@ struct Sub0200852CObj {
 extern void func_02082BCC(void *dst, u8 value, u32 size);
 extern void func_02008560(struct Sub0200852CObj *obj, u8 value);
 
-void func_020084A0(struct Sub0200852CObj *obj)
+void MYSTATUS_Init(struct Sub0200852CObj *obj)
 {
     func_02082BCC(obj, 0, 0x20);
     obj->unk1A = 2;

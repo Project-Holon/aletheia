@@ -21,21 +21,21 @@
  * (as in ov012_func_02174AD8), which loads the base before the pool offset.
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_021B6114  0x021B6114  thumb  ov090
- *   func_021B6100  0x021B6100  thumb  ov090
- *   func_021B6108  0x021B6108  thumb  ov090
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   PLIST_COMM_Update  0x021B6114  thumb  ov090
+ *   PLIST_COMM_Start  0x021B6100  thumb  ov090
+ *   PLIST_COMM_End  0x021B6108  thumb  ov090
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
  *   func_0200CA38  0x0200CA38  thumb
@@ -47,16 +47,16 @@
  *   func_0201AB28  0x0201AB28  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_02175240  0x02175240  thumb  ov012
+ *   COLOSSEUM_ResetParties  0x02175240  thumb  ov012
  *   func_02039C68  0x02039C68  arm
  *   func_02039CB4  0x02039CB4  arm
- *   func_02174D98  0x02174D98  thumb  ov012
- *   func_02175214  0x02175214  thumb  ov012
+ *   COLOSSEUM_SendParty  0x02174D98  thumb  ov012
+ *   COLOSSEUM_AllPartiesReceived  0x02175214  thumb  ov012
  *   COLOSSEUM_SetupBattleInfo  0x02175280  thumb  ov012
  *   COLOSSEUM_ClearBattleInfo  0x0217534C  thumb  ov012
  *   func_02157450  0x02157450  thumb
- *   func_0201283C  0x0201283C  thumb
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_02009D1C  0x02009D1C  thumb
  *   func_02009BB8  0x02009BB8  thumb
  *   func_02009B80  0x02009B80  thumb
@@ -136,21 +136,21 @@ struct PartyMon;
 struct Rec534;
 struct Sub0200852CObj;
 struct Sub020097BCObj;
-extern struct Entry *func_020399A8(void);
-extern u32   func_0203D1A4(struct Link *p);
-extern void func_021B6114(u8 *p);
-extern void func_021B6100(u8 *p);
-extern void func_021B6108(void *unused);
-extern int   func_021BE8D4(void *a, int b, int sel, int d);
-extern int   func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32   GFL_NET_GetHandleNetID(struct Link *p);
+extern void PLIST_COMM_Update(u8 *p);
+extern void PLIST_COMM_Start(u8 *p);
+extern void PLIST_COMM_End(void *unused);
+extern int   EVENT_FIELDMAP_CONTROL_StartFadeOut(void *a, int b, int sel, int d);
+extern int   EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int   FIELD_STATUS_CreateFieldCloseEvent(int a0, int a1);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int   func_02034AC4(signed int id);
 extern void  func_02034A5C(int id);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32   GAMESYSTEM_GetProcStatus(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32   func_0201AA18(void *p);
 extern void *func_0200CA1C(void *a);
 extern u32 func_0200CA38(struct Blk37 *p);
@@ -162,15 +162,15 @@ extern void POKEPARTY_Init(struct Party *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
-extern void func_02175240(u8 *a, int b);
+extern void COLOSSEUM_ResetParties(u8 *a, int b);
 extern void  func_02039C68(struct Link *a0, unsigned int a1, unsigned int a2);
 extern unsigned int func_02039CB4(struct Link *a0, unsigned int a1, unsigned int a2);
-extern u32 func_02174D98(u32 p);
-extern int func_02175214(u8 *p);
+extern u32 COLOSSEUM_SendParty(u32 p);
+extern int COLOSSEUM_AllPartiesReceived(u8 *p);
 extern void COLOSSEUM_SetupBattleInfo(u8 *a, void *b, u8 *out, int d);
 extern u32   func_02157450(u32 ctx, u32 a2, u8 v, Out *o);
-extern u32 func_0201283C(const struct BigObj *p);
-extern int   func_0203D1B4(void);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+extern int   GFL_NET_GetNegotiationNum(void);
 extern int func_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
 extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
@@ -189,7 +189,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
     Trade *t = *(Trade **)(self + 0x355C);
     Sub98 *s = &w->f98;
     Out *o = w->fc0;
-    u32 me = func_0203D1A4((struct Link *)func_020399A8());
+    u32 me = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
     void *party;
     void *tmp;
     int i;
@@ -199,20 +199,20 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
     u32 id;
 
     if (*state > 2 && *state < 7)
-        func_021B6114((u8 *)w);
+        PLIST_COMM_Update((u8 *)w);
 
     switch (*state) {
     case 0:
-        func_02012374(obj, (void *)func_021BE8D4((void *)a0, a2, 0, 0));
+        GAME_EVENT_CallEvent(obj, (void *)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)a0, a2, 0, 0));
         (*state)++;
         break;
     case 1:
-        func_02012374(obj, (void *)FIELD_STATUS_CreateFieldCloseEvent(a0, a2));
+        GAME_EVENT_CallEvent(obj, (void *)FIELD_STATUS_CreateFieldCloseEvent(a0, a2));
         (*state)++;
         break;
     case 2:
         func_02034AC4((int)ov090_id);
-        func_021B6100((u8 *)w);
+        PLIST_COMM_Start((u8 *)w);
         (*state)++;
         break;
     case 3:
@@ -230,7 +230,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
     case 5:
         s->f0 = w->f0;
         s->f4 = w->fc;
-        s->f8 = func_020120F4((const struct Ctx *)a0);
+        s->f8 = GAMESYSTEM_GetGameData((const struct Ctx *)a0);
         s->fc = 1;
         s->fe = func_0201AA18(w->f0);
         s->fd = 0;
@@ -247,7 +247,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
         *state = 3;
         break;
     case 7:
-        func_021B6108(w);
+        PLIST_COMM_End(w);
         func_02034A5C((int)ov090_id);
         *state = 8;
         break;
@@ -270,8 +270,8 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
             func_0201A98C(party, func_0201AB28(tmp, w->f49[i] - 1));
         }
         func_020307B0(tmp);
-        func_02175240((u8 *)t, 1);
-        func_02039C68((struct Link *)func_020399A8(), 0x16, 0x14);
+        COLOSSEUM_ResetParties((u8 *)t, 1);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14);
         (*state)++;
         break;
     case 9:
@@ -279,7 +279,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
             *state = 0x11;
             break;
         }
-        if (func_02039CB4((struct Link *)func_020399A8(), 0x16, 0x14) == 1)
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x16, 0x14) == 1)
             (*state)++;
         break;
     case 10:
@@ -287,7 +287,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
             *state = 0x11;
             break;
         }
-        if (func_02174D98((u32)t->parties[me]) == 1)
+        if (COLOSSEUM_SendParty((u32)t->parties[me]) == 1)
             (*state)++;
         break;
     case 11:
@@ -295,7 +295,7 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
             *state = 0x11;
             break;
         }
-        if (func_02175214((u8 *)t) == 1)
+        if (COLOSSEUM_AllPartiesReceived((u8 *)t) == 1)
             (*state)++;
         break;
     case 12:
@@ -312,8 +312,8 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
         break;
     case 13:
         if (func_0200FB24() == 0) {
-            obj2 = func_0201283C(func_020120F4((const struct Ctx *)a0));
-            n = func_0203D1B4();
+            obj2 = GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData((const struct Ctx *)a0));
+            n = GFL_NET_GetNegotiationNum();
             flag = t->flags[me] & 1;
             for (i = 0; i < n; i++) {
                 if (i == me)
@@ -341,11 +341,11 @@ int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *
         *state = 0x10;
         break;
     case 14:
-        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)a0));
+        GAME_EVENT_CallEvent(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)a0));
         (*state)++;
         break;
     case 15:
-        func_02012374(obj, (void *)func_021BE92C((void *)a0, a2, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent(obj, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)a0, a2, 0, 0, 1, 0, 0));
         (*state)++;
         break;
     case 16:

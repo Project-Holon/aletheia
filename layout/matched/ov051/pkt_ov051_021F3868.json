@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F3868",
-    "func_021F38A0"
+    "GIMMICK49_ExitExtra",
+    "FIELD_GIMMICK_D06_Update"
+   ],
+   "addresses": [
+    "0x021F3868",
+    "0x021F38A0"
    ]
   }
  ]

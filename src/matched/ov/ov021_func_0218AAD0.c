@@ -1,5 +1,5 @@
 /*
- * function: func_0218AAD0
+ * function: FIELD_EVENT_CHECK_UpdateEggStepCounter
  * address:  0x0218AAD0
  * packet:   pkt_ov021_0218AAD0
  * region:   ov021
@@ -9,14 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Adds func_02010FF4(0x100) to the step accumulator in the save block; once
- * it passes 0x10000 it advances the party's egg counters (func_0218AA74) and
+ * Adds GPOWER_ApplyHatchRate(0x100) to the step accumulator in the save block; once
+ * it passes 0x10000 it advances the party's egg counters (FIELD_EVENT_CHECK_DecrementEggCycles) and
  * resets it.
  *
  * symbols:
  *   func_02008970  0x02008970  thumb
  *   func_0200896C  0x0200896C  thumb
- *   func_0218AA74  0x0218AA74  thumb
+ *   FIELD_EVENT_CHECK_DecrementEggCycles  0x0218AA74  thumb
+ *   GPOWER_ApplyHatchRate  0x02010FF4  thumb  arm9
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -27,22 +29,22 @@ typedef signed short   s16;
 
 struct Big;
 struct Sub02008828Obj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern void func_02008970(const struct Sub02008828Obj *obj, u32 *out);
 extern void func_0200896C(struct Sub02008828Obj *obj, u32 value);
-extern u32 func_02010FF4(u32 v);
-extern void func_0218AA74(void *party);
+extern u32 GPOWER_ApplyHatchRate(u32 v);
+extern void FIELD_EVENT_CHECK_DecrementEggCycles(void *party);
 
-void func_0218AAD0(void *sys, void *party)
+void FIELD_EVENT_CHECK_UpdateEggStepCounter(void *sys, void *party)
 {
-    void *save = func_02008854(func_02012EBC(sys));
+    void *save = func_02008854(GAME_DATA_GetSaveControl(sys));
     u32 steps;
 
     func_02008970(save, &steps);
-    steps += func_02010FF4(0x100);
+    steps += GPOWER_ApplyHatchRate(0x100);
     if (steps > 0x10000) {
-        func_0218AA74(party);
+        FIELD_EVENT_CHECK_DecrementEggCycles(party);
         steps = 0;
     }
     func_0200896C(save, steps);

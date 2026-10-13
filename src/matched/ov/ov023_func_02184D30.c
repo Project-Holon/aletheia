@@ -1,5 +1,5 @@
 /*
- * function: func_02184D30
+ * function: OEKAKI_CreateActors
  * address:  0x02184D30
  * packet:   pkt_ov023_02184D30
  * region:   ov023
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B84C  0x0204B84C  arm
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
- *   d_02186BEC     0x02186BEC  data  ov023  a2
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
+ *   gOekakiButtonLayout     0x02186BEC  data  ov023  a2
  *
  * The three indexed runs must be struct array members (index on the base,
  * member offset after it); the extents of a60/a98 are padding to the next
@@ -46,7 +46,7 @@ typedef struct Ent {
     u16 anim;
 } Ent;
 
-extern const Ent d_02186BEC[];
+extern const Ent gOekakiButtonLayout[];
 
 typedef struct Work {
     u8  pad00[0x38];
@@ -58,17 +58,17 @@ typedef struct Work {
 } Work;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 struct Node;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-extern void func_0204B84C(u32, int);
+extern void CLACT_SetActorBgPriority(u32, int);
 extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_02184D30(Work *p)
+void OEKAKI_CreateActors(Work *p)
 {
     Pos pos;
     int i;
@@ -82,37 +82,37 @@ void func_02184D30(Work *p)
     for (i = 0; i < 5; i++) {
         pos.x = i * 0x28 + 0x18;
         pos.y = 0x40;
-        p->a60[i] = (u32)func_0204B294((void *)p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
+        p->a60[i] = (u32)CLACT_CreateActor((void *)p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
         func_0204B92C((struct Obj *)p->a60[i], 1);
-        func_0204B878((struct Obj *)p->a60[i], i);
+        CLACT_SetActorAnimSeq((struct Obj *)p->a60[i], i);
         func_0204B3DC((struct Obj *)p->a60[i], 0);
     }
     for (j = 0; j < 12; j++) {
-        pos.x = d_02186BEC[j].x;
-        pos.y = d_02186BEC[j].y;
-        p->aD0[j] = (u32)func_0204B294((void *)p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
+        pos.x = gOekakiButtonLayout[j].x;
+        pos.y = gOekakiButtonLayout[j].y;
+        p->aD0[j] = (u32)CLACT_CreateActor((void *)p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
         func_0204B92C((struct Obj *)p->aD0[j], 1);
-        func_0204B878((struct Obj *)p->aD0[j], d_02186BEC[j].anim);
+        CLACT_SetActorAnimSeq((struct Obj *)p->aD0[j], gOekakiButtonLayout[j].anim);
         if (j >= 8) {
-            func_0204B84C(p->aD0[j], 2);
+            CLACT_SetActorBgPriority(p->aD0[j], 2);
         }
     }
-    func_0204B878((struct Obj *)p->aD0[0], 6);
+    CLACT_SetActorAnimSeq((struct Obj *)p->aD0[0], 6);
     for (i = 0; i < 5; i++) {
         pos.x = 0x18;
         pos.y = i * 0x20 + 0x20 + 0x100000u;
-        p->a98[i] = (u32)func_0204B294((void *)p->f38, p->f58, p->f54, p->f5C, &pos, 1, 0x28);
+        p->a98[i] = (u32)CLACT_CreateActor((void *)p->f38, p->f58, p->f54, p->f5C, &pos, 1, 0x28);
         func_0204B92C((struct Obj *)p->a98[i], 1);
-        func_0204B878((struct Obj *)p->a98[i], i);
+        CLACT_SetActorAnimSeq((struct Obj *)p->a98[i], i);
         CLACT_SetActorDrawPriority((struct Node *)p->a98[i], 1);
         func_0204B3DC((struct Obj *)p->a98[i], 0);
     }
     pos.x = 0xD4;
     pos.y = 0xA0;
-    p->f100 = (u32)func_0204B294((void *)p->f38, p->f4C, p->f48, p->f50, &pos, 0, 0x28);
+    p->f100 = (u32)CLACT_CreateActor((void *)p->f38, p->f4C, p->f48, p->f50, &pos, 0, 0x28);
     func_0204B92C((struct Obj *)p->f100, 1);
-    func_0204B878((struct Obj *)p->f100, 1);
+    CLACT_SetActorAnimSeq((struct Obj *)p->f100, 1);
     func_0204B3DC((struct Obj *)p->f100, 1);
     func_020434DC(0x10, 1);
-    func_02043598(0x10, 1);
+    BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

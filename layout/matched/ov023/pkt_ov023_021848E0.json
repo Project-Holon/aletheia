@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021848E0",
+   "name": "OEKAKI_SetupBgs",
    "address": "0x021848E0",
    "kind": "game",
    "region": "ov023",

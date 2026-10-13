@@ -1,5 +1,5 @@
 /*
- * function: func_02175240
+ * function: COLOSSEUM_ResetParties
  * address:  0x02175240
  * packet:   pkt_ov012_02175240
  * region:   ov012
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   POKEPARTY_Init  0x0201A948  thumb
  */
 
@@ -19,18 +19,18 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 struct Party;
 extern void POKEPARTY_Init(struct Party *p);
 
-void func_02175240(u8 *a, int b)
+void COLOSSEUM_ResetParties(u8 *a, int b)
 {
     int self;
     int i;
 
-    self = func_0203D1A4((struct Link *)((u32)func_020399A8()));
+    self = GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
     for (i = 0; i < 4; i++) {
         if (b == 0 || self != i) {
             POKEPARTY_Init(*(void **)(a + i * 4 + 0x148));

@@ -1,5 +1,5 @@
 /*
- * function: func_021B07E0
+ * function: SCRCMD_MSGWIN_CmdCloseMoneyWin
  * address:  0x021B07E0
  * packet:   pkt_ov021_021B07E0
  * region:   ov021
@@ -10,10 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188D48  0x02188D48  thumb  ov021
- *   func_02188D4C  0x02188D4C  thumb  ov021
- *   func_02190728  0x02190728  thumb  ov021
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
+ *   FIELDMAP_GetInfoWindow  0x02188D48  thumb  ov021
+ *   FIELDMAP_SetInfoWindow  0x02188D4C  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -22,21 +23,21 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188D48(u8 *p);
-extern int func_02190728(void *a);
-extern void func_02188D4C(u8 *p, u32 v);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetInfoWindow(u8 *p);
+extern int FIELD_MSGBG_DeleteMsgWin(void *a);
+extern void FIELDMAP_SetInfoWindow(u8 *p, u32 v);
 
-int func_021B07E0(u32 a, u32 b)
+int SCRCMD_MSGWIN_CmdCloseMoneyWin(u32 a, u32 b)
 {
-    void *x = func_0201210C(func_0215A5DC((void *)b));
-    u32 y = func_02188D48(x);
+    void *x = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b));
+    u32 y = FIELDMAP_GetInfoWindow(x);
 
     if (y != 0) {
-        func_02190728((void *)y);
-        func_02188D4C(x, 0);
+        FIELD_MSGBG_DeleteMsgWin((void *)y);
+        FIELDMAP_SetInfoWindow(x, 0);
     }
     return 0;
 }

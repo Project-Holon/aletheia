@@ -1,5 +1,5 @@
 /*
- * function: func_021B70D4
+ * function: SCRCMD_POKEMON_FLD_PrepareGiftFlagFollowUpMessage
  * address: 0x021B70D4
  * packet: pkt_ov021_021B70D4
  * region: ov021
@@ -12,6 +12,6 @@
  * Function with no listing label, matched inside src/game/ov021/unit_021B6DC0.c and filed here.
  */
 
-int func_021B70D4(void);
+int SCRCMD_POKEMON_FLD_PrepareGiftFlagFollowUpMessage(void);
 
-int func_021B70D4(void) { return 10; }
+int SCRCMD_POKEMON_FLD_PrepareGiftFlagFollowUpMessage(void) { return 10; }

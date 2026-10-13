@@ -1,5 +1,5 @@
 /*
- * function: func_021EEF20
+ * function: BTL_MSG_FindWordTag
  * address:  0x021EEF20
  * packet:   pkt_ov093_021EEF20
  * region:   ov093
@@ -13,7 +13,7 @@
  * word reference; the guard on p wraps the whole walk (two `return 0` tails).
  *
  * symbols:
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_0201D5C4  0x0201D5C4  thumb
  *   func_0201D5CC  0x0201D5CC  thumb
  *   func_0201D670  0x0201D670  thumb
@@ -23,7 +23,7 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern u32 func_0201D5C4(void);
 extern u32 func_0201D5CC(const u16 *p);
 extern u32 func_0201D670(const u16 *p, u32 i);
@@ -31,13 +31,13 @@ extern u32 func_0201D5F4(const u16 *p);
 extern u32 func_0201D658(const u16 *p);
 extern u16 *func_0201D688(u16 *p);
 
-u16 *func_021EEF20(u16 *p, u32 *o1, u16 *o2, u8 *o3)
+u16 *BTL_MSG_FindWordTag(u16 *p, u32 *o1, u16 *o2, u8 *o3)
 {
     u16 end;
     u32 tag;
 
     if (p != 0) {
-        end = func_02045A98();
+        end = STRBUF_GetEosChar();
         tag = func_0201D5C4();
         while (*p != end) {
             if (*p == tag) {

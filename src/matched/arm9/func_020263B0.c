@@ -1,5 +1,5 @@
 /*
- * function: func_020263B0
+ * function: GAME_COMM_CallKindNotify
  * address:  0x020263B0
  * packet:   pkt_0202627C
  * region:   arm9
@@ -38,7 +38,7 @@ typedef void (*Fn)(u32 a, u32 b, u32 c);
 
 extern u8 g_0209FB74[];
 
-void func_020263B0(struct Obj *p, u32 a)
+void GAME_COMM_CallKindNotify(struct Obj *p, u32 a)
 {
     if (p->f10 != 5) {
         Fn fn = *(Fn *)(g_0209FB74 + p->f5 * 0x1C);

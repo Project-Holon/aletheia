@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A5AC 0x0204A5AC arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj24953.h"
 
 typedef unsigned int   u32;
 struct Bank;
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A5AC(int);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ExitSystem(int);
 extern void func_02082BCC(void *, int, int);
 
 void func_02205BAC(char *a)
 {
-    func_0204A5AC(func_0204B1CC((struct Bank *)(((struct Obj24953 *)a)->f0)));
+    CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((struct Obj24953 *)a)->f0)));
     func_02082BCC(a, 0, 4);
 }

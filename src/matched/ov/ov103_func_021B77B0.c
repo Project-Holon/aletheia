@@ -9,8 +9,8 @@
  * status: EXACT
  * prototype: 7FF0 tail-forwards to u32-returning 0201C4E4; caller tests live r0.
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_021B7FF0 0x021B7FF0 thumb ov103
  *   func_021B8100 0x021B8100 thumb ov103
  *   func_021B7918 0x021B7918 thumb ov103
@@ -21,8 +21,8 @@
 #include "../include/Obj22175.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_0204E720(u32, int, int, int);
-extern int func_0204E804(void);
+extern void FADE_Start(u32, int, int, int);
+extern int FADE_IsActive(void);
 extern u32 func_021B7FF0(u8 *);
 extern int func_021B8100(u8 *p, u8 *q);
 extern void func_021B7918(u8 *);
@@ -36,22 +36,22 @@ int func_021B77B0(void *unused, u32 *state, int unused2, char *p)
         *state = 1;
         break;
     case 1:
-        func_0204E720(3, 16, 0, 0);
+        FADE_Start(3, 16, 0, 0);
         *state = 2;
         break;
     case 2:
-        if (func_0204E804() == 0) *state = 3;
+        if (FADE_IsActive() == 0) *state = 3;
         break;
     case 3:
         (*(void (**)(char *, char *))(p + 0x728))(p, p + 0x72c);
         if (((struct Obj10240 *)p)->f730 != 0) *state = 4;
         break;
     case 4:
-        func_0204E720(3, 0, 16, 0);
+        FADE_Start(3, 0, 16, 0);
         *state = 5;
         break;
     case 5:
-        if (func_0204E804() == 0) *state = 6;
+        if (FADE_IsActive() == 0) *state = 6;
         break;
     case 6:
         return 1;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A9350",
+   "name": "FIELD_ENCOUNT_SetupParam",
    "address": "0x021A9350",
    "kind": "game",
    "region": "ov021",

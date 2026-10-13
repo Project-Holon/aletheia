@@ -1,5 +1,5 @@
 /*
- * function: func_021CDDA0
+ * function: BTL_CLIENT_IsWindowWaiting
  * address: 0x021CDDA0
  * packet: pkt_ov093_021CDDA0
  * region: ov093
@@ -19,4 +19,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021F8524(int);
 struct Flags { u8 pad[0x1b2]; u8 low:4; u8 flag:1; u8 high:3; };
-int func_021CDDA0(u8 *p) { if(p[0x1a7]!=2) { if(*(u16 *)(p+0xe6)) return func_021F8524(0); return 0; } return ((struct Flags *)p)->flag; }
+int BTL_CLIENT_IsWindowWaiting(u8 *p) { if(p[0x1a7]!=2) { if(*(u16 *)(p+0xe6)) return func_021F8524(0); return 0; } return ((struct Flags *)p)->flag; }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218E5F4
+ * function: FIELD_CAMERA_ClearTargetTrace
  * address: 0x0218E5F4
  * packet: pkt_ov021_0218E5F4
  * region: ov021
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned char  u8;
-void func_0218E5F4(u8 *p);
+void FIELD_CAMERA_ClearTargetTrace(u8 *p);
 
-void func_0218E5F4(u8 *p)
+void FIELD_CAMERA_ClearTargetTrace(u8 *p)
 {
     *(int *)(p + 0x1C) = 0;
 }

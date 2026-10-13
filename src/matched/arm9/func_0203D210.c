@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0203D210
+ * function: GFL_NET_IsIdle
  * address:  0x0203D210
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -23,8 +23,8 @@
  * access and not an inlined copy of the extern.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203D210.c \
- *       --func func_0203D210 --addr 0x0203D210 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_IsIdle.c \
+ *       --func GFL_NET_IsIdle --addr 0x0203D210 --cc 1.1p1 --arm
  */
 
 #include "../include/G_Singleton.h"
@@ -45,7 +45,7 @@ struct NetSys {
 extern struct Singleton gGFLNetMain;
 extern struct NetSys   *GFL_NET_GetSession(void);
 
-u32 func_0203D210(void)
+u32 GFL_NET_IsIdle(void)
 {
     if (gGFLNetMain.unk_08 == 0) {
         return 1;

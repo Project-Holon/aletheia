@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Main 0x02031330 arm
@@ -27,15 +27,15 @@
  *   d_021E1A38 0x021E1A38 data a4
  *   d_0000005B 0x0000005B data a1
  *   gPartyListProcData 0x021BED00 data ov091 a4
- *   func_0203A574 0x0203A574 arm
+ *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021E1A68 0x021E1A68 data a4
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02082D44 0x02082D44 arm
- *   func_0203D3A8 0x0203D3A8 arm
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DE08C 0x021DE08C thumb ov137
- *   func_021841A4 0x021841A4 thumb ov022
- *   func_021841A0 0x021841A0 thumb ov022
+ *   UNION_APP_GetMemberCount 0x021841A4 thumb ov022
+ *   UNION_APP_GetJoinedBits 0x021841A0 thumb ov022
  *   func_02080D24 0x02080D24 arm
  *   func_021DE17C 0x021DE17C thumb ov137
  *   func_021E172C 0x021E172C thumb ov137
@@ -46,16 +46,16 @@
  *   func_021E1814 0x021E1814 thumb ov137
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   func_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_020490F4 0x020490F4 arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_02045B38 0x02045B38 arm
- *   func_0203101C 0x0203101C arm
- *   func_0203D34C 0x0203D34C arm
- *   func_02049238 0x02049238 arm
+ *   TCBL_Create 0x0203101C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_0201EC64 0x0201EC64 thumb
- *   func_0201D7EC 0x0201D7EC thumb
- *   func_0202208C 0x0202208C thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_0201C440 0x0201C440 thumb
  *   func_021DD1E0 0x021DD1E0 thumb ov137
@@ -64,24 +64,24 @@
  *   func_021DD4A8 0x021DD4A8 thumb ov137
  *   func_021DD5AC 0x021DD5AC thumb ov137
  *   func_021DD638 0x021DD638 thumb ov137
- *   func_02184134 0x02184134 thumb ov022
- *   func_021840FC 0x021840FC thumb ov022
- *   func_02184174 0x02184174 thumb ov022
- *   func_0218417C 0x0218417C thumb ov022
+ *   UNION_APP_Open 0x02184134 thumb ov022
+ *   UNION_APP_SetCallbacks 0x021840FC thumb ov022
+ *   UNION_APP_RequestReset 0x02184174 thumb ov022
+ *   UNION_APP_IsResetDone 0x0218417C thumb ov022
  *   func_021DE248 0x021DE248 thumb ov137
  *   func_021DE5D0 0x021DE5D0 thumb ov137
  *   func_021DE738 0x021DE738 thumb ov137
- *   func_0203A5E4 0x0203A5E4 arm
- *   func_0204A600 0x0204A600 arm
- *   func_020221A4 0x020221A4 thumb
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   d_021E1C20 0x021E1C20 data a4
  *   TCBL_DeleteAllTasks 0x0203115C arm
- *   func_02031140 0x02031140 arm
+ *   TCBL_Destroy 0x02031140 arm
  *   func_021DD570 0x021DD570 thumb ov137
  *   func_021DD760 0x021DD760 thumb ov137
  *   func_021DD3B0 0x021DD3B0 thumb ov137
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_02030EAC 0x02030EAC arm
  *   func_021DE354 0x021DE354 thumb ov137
  *   func_021DE37C 0x021DE37C thumb ov137
@@ -90,17 +90,18 @@
  *   func_0207E51C 0x0207E51C arm
  *   d_021E1AEE 0x021E1AEE data a1
  *   d_021E1AEF 0x021E1AEF data a1
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
  *   func_020419E4  0x020419E4  arm
- *   func_0201C4E4  0x0201C4E4  thumb
- *   func_020310C4  0x020310C4  arm
- *   func_020433E0 0x020433E0 arm
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
+ *   TCBL_Main  0x020310C4  arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_021E1B40 0x021E1B40 data a4
  *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   d_00000083 0x00000083 data a1
  *   d_021E1A44 0x021E1A44 data a4
  *   d_021E2268 0x021E2268 data a4
  *   GFL_NET_SetAutoExit  0x0203D7B0  arm  arm9
+ *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  */
 #include "ov137_types.h"
 struct Guru2Ctx;
@@ -182,7 +183,7 @@ typedef void (*Cb)(void);
 
 struct State { u32 enable; u32 index; int counter; u32 spare; u8 *object; };
 
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
 extern void *PROCSYS_Create(int a0);
 extern u32 PROCSYS_Main(void *);
@@ -199,14 +200,14 @@ extern void GFL_NET_SetAutoExit(u8 a0);
 extern u8 *func_02012944(void *p);
 extern void *func_0200CA1C(void *);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern void func_0203A574(u32,u32,u32,u32);
-extern struct Entry *func_020399A8(void);
+extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_02082D44(const void *,void *,u32);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-extern u16 func_02039338(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021DE08C(char *p, int state, int player);
-extern int func_021841A4(unsigned char *p);
-extern unsigned char func_021841A0(unsigned char *p);
+extern int UNION_APP_GetMemberCount(unsigned char *p);
+extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 extern u32 func_02080D24(int);
 extern void func_021DE17C(char *p, int command, int player);
 extern void func_021E172C(char *p, unsigned short *q);
@@ -216,52 +217,52 @@ extern void func_021E1694(void *,void *);
 extern void func_021E1814(unsigned char *p, u16 *q);
 extern void func_021E180C(int *p, int a, int b);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_0203F8F4(u16);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_021DD1D0(void),func_021DD1E0(void);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021DD3D8(void *,void *);
 extern void *func_020056A0(u32,u32,u32);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 func_0201C440(void *);
 extern void func_021DD2E0(u8 *,void *),func_021DD4A8(u8 *,void *),func_021DD5AC(u8 *),func_021DD638(u8 *);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_02049238(void *);
-extern u32 func_020221A4(void);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void ARC_TOOL_DeleteHandle(void *);
+extern u32 WIPE_SYS_EndCheck(void);
 extern u32 func_0200FB24(void);
-extern void func_02184134(u8 *p);
-extern void func_02184174(u8 *p);
-extern u32 func_0218417C(u8 *);
-extern void func_021840FC(u8 *,Cb,Cb,void *);
+extern void UNION_APP_Open(u8 *p);
+extern void UNION_APP_RequestReset(u8 *p);
+extern u32 UNION_APP_IsResetDone(u8 *);
+extern void UNION_APP_SetCallbacks(u8 *,Cb,Cb,void *);
 extern int func_021DE248(void *,int,u16,void *);
 extern void func_021DE5D0(u8 *p);
 extern int func_021DE738(void *,int);
-extern void func_0203A5E4(unsigned),func_0204A600(void);
+extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned),CLACT_DrawSystem(void);
 extern void TCBL_DeleteAllTasks(struct Tcbl *p);
-extern void func_02031140(struct S02031140 *p);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021DD570(u8 *p);
 extern u32 func_021DD760(void *);
 extern void func_021DD3B0(u32);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_02030EAC(struct Node *n);
 extern int func_021DE354(void *p);
 extern u32 func_021DE37C(void *);
 extern void func_021DD380(u8 *p);
 extern void func_020306F0(unsigned int);
 extern void func_0207E51C(void *, int, int);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 extern void func_020419E4(void);
-extern u32 func_0201C4E4(struct PrintSys *ps);
-extern void func_020310C4(struct Tcbl *p);
-extern void func_020433E0(const struct DispVram *c);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern void TCBL_Main(struct Tcbl *p);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx);
 int func_021DC888(void *obj,int a,int b,u8 *p);
 int func_021DC8BC(void *obj,int a,int b,struct Guru2Ctx *p);
@@ -323,7 +324,7 @@ extern const u32 d_021E1B40[];
 
 
 
-int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx) { u8 *p=func_0203159C(obj,36,4); func_02082BCC(p,0,36); *(unsigned int *)&((struct Guru2MainCtx *)p)->f10=ctx->f4; ((struct Guru2MainCtx *)p)->f8=ctx; ((struct Guru2MainCtx *)p)->f20=PROCSYS_Create(1); return 1; }
+int func_021DC860(void *obj,int a,struct Guru2Ctx *ctx) { u8 *p=PROCSYS_AllocProcWork(obj,36,4); func_02082BCC(p,0,36); *(unsigned int *)&((struct Guru2MainCtx *)p)->f10=ctx->f4; ((struct Guru2MainCtx *)p)->f8=ctx; ((struct Guru2MainCtx *)p)->f20=PROCSYS_Create(1); return 1; }
 
 
 
@@ -524,7 +525,7 @@ void func_021DCB60(struct Guru2Ctx *p) {func_020307B0(p->f4C);func_020307B0(p->f
 
 
 
-void func_021DCB78(u32 a) {func_0203A574(0x2800,(u32)d_021E1A68,16,a);}
+void func_021DCB78(u32 a) {GFL_NET_COMMAND_AddCommandTable(0x2800,(u32)d_021E1A68,16,a);}
 
 
 
@@ -562,7 +563,7 @@ void func_021DCB90(void *p) { }
  * lever: separate q=(u8 *)((u32)p+4) keeps the updated buffer base;
  *   assigning p+=4 or retaining an integer parameter gave 50 bytes/DIFF.
  */
-void func_021DCB94(u8 *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=func_020399A8();q=(u8 *)((u32)p+4);func_02082D44(data,q+4,size);func_0203D3A8(v,(u16)id,(u16)(size+4),(u32)q+4);}
+void func_021DCB94(u8 *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((u32)p+4);func_02082D44(data,q+4,size);GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),(u32)q+4);}
 
 
 
@@ -611,7 +612,7 @@ void func_021DCBCC(int i,int unused,void *q,struct Guru2MainCtx2 *p) {p->f46=p->
 
 
 
-void func_021DCBFC(int a,int b,int c,struct Guru2MainCtx *p) {if(func_02039338()!=0) {*(unsigned int *)&p->f20=0;*(unsigned int *)&p->f24=1;func_021DE08C(*(char * *)&((struct Guru2MainCtx_f0 *)p->f0)->f20,27,(u8)a);}}
+void func_021DCBFC(int a,int b,int c,struct Guru2MainCtx *p) {if(GFL_NET_SYSTEM_GetCurrentAid()!=0) {*(unsigned int *)&p->f20=0;*(unsigned int *)&p->f24=1;func_021DE08C(*(char * *)&((struct Guru2MainCtx_f0 *)p->f0)->f20,27,(u8)a);}}
 
 
 
@@ -629,13 +630,13 @@ void func_021DCC24(int a,int b,u8 *c,struct Guru2MainCtx2 *p)
 {
     struct Packet s;
     if(a!=0) {
-        if(func_02039338()!=0) return;
+        if(GFL_NET_SYSTEM_GetCurrentAid()!=0) return;
         s=*(struct Packet *)c;
         s.a=a; s.b=p->f2C;
         switch(((struct Packet *)c)->c) {
         case 0:
-            if(p->f2C!=func_021841A4(func_021DCAFC(p)) ||
-               p->f2C!=func_02080D24(func_021841A0(func_021DCAFC(p)))) s.d=0;
+            if(p->f2C!=UNION_APP_GetMemberCount(func_021DCAFC(p)) ||
+               p->f2C!=func_02080D24(UNION_APP_GetJoinedBits(func_021DCAFC(p)))) s.d=0;
             else { p->f30|=1<<a; s.d=1; }
             break;
         case 1: break;
@@ -645,7 +646,7 @@ void func_021DCC24(int a,int b,u8 *c,struct Guru2MainCtx2 *p)
         switch(c[2]) {
         case 0:
             a=c[0];
-            if(a!=func_02039338()) return;
+            if(a!=GFL_NET_SYSTEM_GetCurrentAid()) return;
             if(c[3]==0) func_021DE08C(*(char * *)&((struct Guru2MainCtx2_f0 *)p->f0)->f20,8,a);
             else { p->f38=c[1]; func_021DE08C(*(char * *)&((struct Guru2MainCtx2_f0 *)p->f0)->f20,7,a); }
             break;
@@ -665,7 +666,7 @@ void func_021DCC24(int a,int b,u8 *c,struct Guru2MainCtx2 *p)
 
 
 
-void func_021DCCF0(int a,int b,int c,struct Guru2Ctx *p) {if(func_02039338()!=0) func_021DE08C(*(char * *)&((struct Guru2Ctx_f0 *)p->f0)->f20,13,0);}
+void func_021DCCF0(int a,int b,int c,struct Guru2Ctx *p) {if(GFL_NET_SYSTEM_GetCurrentAid()!=0) func_021DE08C(*(char * *)&((struct Guru2Ctx_f0 *)p->f0)->f20,13,0);}
 
 
 
@@ -678,7 +679,7 @@ void func_021DCCF0(int a,int b,int c,struct Guru2Ctx *p) {if(func_02039338()!=0)
 
 
 
-int func_021DCD0C(void) {return func_02039338();}
+int func_021DCD0C(void) {return GFL_NET_SYSTEM_GetCurrentAid();}
 
 
 
@@ -693,7 +694,7 @@ int func_021DCD0C(void) {return func_02039338();}
 void func_021DCD14(int a,int b,u8 *c,struct Guru2MainCtx *p)
 {
     func_021DE17C(((struct Guru2MainCtx_f0 *)p->f0)->f20,1,*c);
-    if(!func_02039338()) p->f34=0;
+    if(!GFL_NET_SYSTEM_GetCurrentAid()) p->f34=0;
 }
 
 
@@ -711,7 +712,7 @@ void func_021DCD14(int a,int b,u8 *c,struct Guru2MainCtx *p)
  * func_021E172C 0x021E172C thumb ov137
  * func_021E1758 0x021E1758 thumb ov137
  * func_021E168C 0x021E168C thumb ov137
- * func_02039338 0x02039338 arm
+ * GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  */
 void func_021DCD34(int a,int b,u16 *c,struct Guru2Ctx *p) { p->f40|=*c; }
 
@@ -865,21 +866,21 @@ int func_021DCE00(struct Guru2MainCtx2 *p, int i)
  * void BG_SYS_ClearSubPlanes(void) { BG_SYS_ClearSubBgPlanes(); BG_SYS_ClearSubObjPlane(); }
  * Blocker symbols: BG_SYS_ClearSubBgPlanes 0x02043558 arm; BG_SYS_ClearSubObjPlane 0x02043570 arm.
  * volatile: hardware DISPCNT reads at 021DCE34 and 021DCE3E.
- * lever: func_0203159C leaves its allocator result in r0, used by the caller.
+ * lever: PROCSYS_AllocProcWork leaves its allocator result in r0, used by the caller.
  * BG_SYS_ClearMainPlanes 0x020434CC arm
  * BG_SYS_ClearSubPlanes 0x02043588 arm
- * func_0203064C 0x0203064C arm
+ * GFL_HEAP_CreateChildHeap 0x0203064C arm
  * func_020490F4 0x020490F4 arm
- * func_0203159C 0x0203159C arm
+ * PROCSYS_AllocProcWork 0x0203159C arm
  * func_02082BCC 0x02082BCC arm
  * func_0203F8F4 0x0203F8F4 arm
  * func_02045B38 0x02045B38 arm
- * func_0203101C 0x0203101C arm
- * func_0203D34C 0x0203D34C arm
- * func_02049238 0x02049238 arm
+ * TCBL_Create 0x0203101C arm
+ * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ * ARC_TOOL_DeleteHandle 0x02049238 arm
  * func_0201EC64 0x0201EC64 thumb
- * func_0201D7EC 0x0201D7EC thumb
- * func_0202208C 0x0202208C thumb
+ * GF_FONT_Create 0x0201D7EC thumb
+ * WIPE_SYS_Start 0x0202208C thumb
  * func_020056A0 0x020056A0 thumb
  * func_0201C440 0x0201C440 thumb
  * func_021DD1D0 0x021DD1D0 thumb ov137
@@ -901,25 +902,25 @@ int func_021DCE10(void *a,u32 *state,u8 *ctx)
         BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
         *(volatile u32 *)0x04000000&=0xffffe0ff;
         *(volatile u32 *)0x04001000&=0xffffe0ff;
-        func_0203064C((u32)((void *)1),114,0x80000);
+        GFL_HEAP_CreateChildHeap((u32)((void *)1),114,0x80000);
         arc=func_020490F4(184,114);
-        p=func_0203159C(a,0x4874,114);
+        p=PROCSYS_AllocProcWork(a,0x4874,114);
         func_02082BCC(p,0,0x4874);
         *(u8 **)(ctx+32)=p; *(u8 **)(p+12)=ctx;
         *(void **)(p+16)=*(void **)(ctx+24);
         func_0203F8F4(114);
         *(void **)(p+60)=func_0201EC64(114);
         *(void **)(p+64)=func_02045B38(0,2,42,114);
-        *(void **)(p+56)=func_0201D7EC(23,0,0,0,114);
+        *(void **)(p+56)=GF_FONT_Create(23,0,0,0,114);
         func_021DD1D0(); func_021DD1E0();
-        func_0202208C(0,1,1,0,16,1,114);
+        WIPE_SYS_Start(0,1,1,0,16,1,114);
         func_021DD3D8(p,arc);
         *(void **)(p+48)=func_020056A0((u32)func_021DD1A4,(u32)p,1);
-        *(void **)(p+244)=func_0203101C(114,114,32,32);
+        *(void **)(p+244)=TCBL_Create(114,114,32,32);
         *(u32 *)(p+236)=func_0201C440((void *)114);
         func_021DD2E0(p,arc); func_021DD4A8(p,arc); func_021DD5AC(p); func_021DD638(p);
         func_021DCB78((u32)(*(void **)(ctx+24)));
-        func_0203D34C(1,114); func_02049238(arc);
+        GFL_NET_RestartWithDefaultTimeout(1,114); ARC_TOOL_DeleteHandle(arc);
         (*state)++;
         break;
     case 1:
@@ -946,7 +947,7 @@ void *func_021DCF50(u8 *p) {return **(void ** *)&((struct Guru2MainCtx2 *)((stru
 
 
 
-void func_021DCF58(int a,int b,struct Guru2Ctx *p) {u8 v;if(func_02039338()==0) {v=a;func_021DCBC4(p->f10,10240,&v,1);}}
+void func_021DCF58(int a,int b,struct Guru2Ctx *p) {u8 v;if(GFL_NET_SYSTEM_GetCurrentAid()==0) {v=a;func_021DCBC4(p->f10,10240,&v,1);}}
 
 
 
@@ -970,43 +971,43 @@ extern int (*const d_021E1C20[])(u8 *,u32);
 
 /*
  * lever: Table callbacks receive the switch value as their second argument.
- * func_02039338 0x02039338 arm
+ * GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  * func_021DCF50 0x021DCF50 thumb ov137
- * func_021841A0 0x021841A0 thumb ov022
- * func_02184134 0x02184134 thumb ov022
- * func_021840FC 0x021840FC thumb ov022
- * func_02184174 0x02184174 thumb ov022
- * func_0218417C 0x0218417C thumb ov022
+ * UNION_APP_GetJoinedBits 0x021841A0 thumb ov022
+ * UNION_APP_Open 0x02184134 thumb ov022
+ * UNION_APP_SetCallbacks 0x021840FC thumb ov022
+ * UNION_APP_RequestReset 0x02184174 thumb ov022
+ * UNION_APP_IsResetDone 0x0218417C thumb ov022
  * func_021DCF58 0x021DCF58 thumb ov137
  * func_021DCF7C 0x021DCF7C thumb ov137
  * func_021DE248 0x021DE248 thumb ov137
  * func_021DE5D0 0x021DE5D0 thumb ov137
  * func_021DE738 0x021DE738 thumb ov137
  * func_021DD1B4 0x021DD1B4 thumb ov137
- * func_0203A5E4 0x0203A5E4 arm
- * func_0204A600 0x0204A600 arm
- * func_020221A4 0x020221A4 thumb
+ * GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
+ * CLACT_DrawSystem 0x0204A600 arm
+ * WIPE_SYS_EndCheck 0x020221A4 thumb
  * func_0200FB24 0x0200FB24 thumb
  * d_021E1C20 0x021E1C20 data a4
  */
 int func_021DCF80(int a,int b,int c,u8 *p)
 {
     int v;
-    if(func_02039338()==0 && ((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f30!=0)
-        ((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f30&=func_021841A0(func_021DCF50(p));
+    if(GFL_NET_SYSTEM_GetCurrentAid()==0 && ((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f30!=0)
+        ((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f30&=UNION_APP_GetJoinedBits(func_021DCF50(p));
     switch(*(unsigned int *)&((struct Guru2MainCtx *)p)->f0) {
     case 0:
-        if(func_020221A4()) {
+        if(WIPE_SYS_EndCheck()) {
             *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=1;
-            func_02184134(func_021DCF50(p));
-            func_021840FC(func_021DCF50(p),(Cb)func_021DCF58,func_021DCF7C,p);
+            UNION_APP_Open(func_021DCF50(p));
+            UNION_APP_SetCallbacks(func_021DCF50(p),(Cb)func_021DCF58,func_021DCF7C,p);
         }
         break;
     case 1:
         if(d_021E1C20[*(unsigned int *)&((struct Guru2MainCtx *)p)->f118]) *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=d_021E1C20[*(u32 *)&((struct Guru2MainCtx *)p)->f118](p,*(unsigned int *)&((struct Guru2MainCtx *)p)->f0);
         if(((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->f10)->f24==0) func_021DE248(((struct Guru2MainCtx *)p)->fD0,0,1152,p);
         func_021DE5D0(p);
-        if(func_02039338()==0) {
+        if(GFL_NET_SYSTEM_GetCurrentAid()==0) {
             v=func_021DE738(p,1);
             if(*(unsigned int *)&((struct Guru2MainCtx *)p)->f0==1) *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=v;
         }
@@ -1015,19 +1016,19 @@ int func_021DCF80(int a,int b,int c,u8 *p)
         if(d_021E1C20[*(unsigned int *)&((struct Guru2MainCtx *)p)->f118]) *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=d_021E1C20[*(u32 *)&((struct Guru2MainCtx *)p)->f118](p,*(unsigned int *)&((struct Guru2MainCtx *)p)->f0);
         break;
     case 3:
-        if(func_020221A4()) {
+        if(WIPE_SYS_EndCheck()) {
             if(*(unsigned int *)&((struct Guru2MainCtx *)p)->f8) return 1;
-            func_0203A5E4(10240);
-            func_02184174(func_021DCF50(p));
+            GFL_NET_COMMAND_DeleteCommandTable(10240);
+            UNION_APP_RequestReset(func_021DCF50(p));
             *(unsigned int *)&((struct Guru2MainCtx *)p)->f0=4;
         }
         break;
     case 4:
-        if(func_0218417C(func_021DCF50(p))) return 1;
+        if(UNION_APP_IsResetDone(func_021DCF50(p))) return 1;
         break;
     }
-    if(func_020221A4() && func_0200FB24()) return 1;
-    func_0204A600(); func_021DD1B4(p);
+    if(WIPE_SYS_EndCheck() && func_0200FB24()) return 1;
+    CLACT_DrawSystem(); func_021DD1B4(p);
     return 0;
 }
 
@@ -1037,11 +1038,11 @@ int func_021DCF80(int a,int b,int c,u8 *p)
 /*
  * volatile: 021DD10A reads and 021DD110 writes hardware register 0x04000304
  * TCBL_DeleteAllTasks 0x0203115C arm
- * func_02031140 0x02031140 arm
+ * TCBL_Destroy 0x02031140 arm
  * func_021DD570 0x021DD570 thumb ov137
  * func_021DD760 0x021DD760 thumb ov137
  * func_021DD3B0 0x021DD3B0 thumb ov137
- * func_02045C04 0x02045C04 arm
+ * MSGDATA_Delete 0x02045C04 arm
  * func_02030EAC 0x02030EAC arm
  * func_021DE354 0x021DE354 thumb ov137
  * func_021DE37C 0x021DE37C thumb ov137
@@ -1051,10 +1052,10 @@ int func_021DCF80(int a,int b,int c,u8 *p)
  */
 int func_021DD0B8(void *a,int b,void *c,u8 *p)
 {
-    TCBL_DeleteAllTasks((struct Tcbl *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4)); func_02031140((struct S02031140 *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4));
+    TCBL_DeleteAllTasks((struct Tcbl *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4)); TCBL_Destroy((struct S02031140 *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fF4));
     func_0201C6EC((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC)); func_0201C4C0((struct PrintSys *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->fEC));
     func_021DD570(p); func_021DD3B0(func_021DD760(p));
-    func_02045C04((struct Rec *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40)); func_0201ED04((struct WordSet *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f3C)); func_0201D83C((void *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f38));
+    MSGDATA_Delete((struct Rec *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f40)); func_0201ED04((struct WordSet *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f3C)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f38));
     *(volatile u16 *)0x04000304 |= 0x8000;
     func_02030EAC((struct Node *)(*(unsigned int *)&((struct Guru2MainCtx *)p)->f30));
     *(unsigned int *)&((struct Guru2MainCtx2 *)((struct Guru2MainCtx *)p)->fC)->f10=*(unsigned int *)&((struct Guru2MainCtx *)p)->f8;
@@ -1102,7 +1103,7 @@ void func_021DD14C(void *unused, u8 *p)
 void func_021DD1A4(void *a0, void *work)
 {
     func_021DD14C(a0, work);
-    func_0204A648();
+    CLACT_VBlankSystem();
     func_020419E4();
 }
 
@@ -1112,10 +1113,10 @@ void func_021DD1A4(void *a0, void *work)
 void func_021DD1B4(u8 *p)
 {
     if (((struct Guru2MainCtx *)p)->fEC)
-        func_0201C4E4(((struct Guru2MainCtx *)p)->fEC);
-    func_020310C4(((struct Guru2MainCtx *)p)->fF4);
+        PRINTSYS_QUE_Main(((struct Guru2MainCtx *)p)->fEC);
+    TCBL_Main(((struct Guru2MainCtx *)p)->fF4);
 }
 
 
 
-void func_021DD1D0(void) {func_020433E0((const struct DispVram *)d_021E1B40);}
+void func_021DD1D0(void) {BG_SYS_SetVramBanks((const struct DispVram *)d_021E1B40);}

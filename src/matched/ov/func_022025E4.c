@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   POKE_TOOL_CreateFromBoxParam  0x0201747C  thumb  arm9
  *
 
  *
@@ -23,13 +24,13 @@ typedef signed int s32;
 typedef signed short s16;
 struct Mon;
 struct WordSet;
-extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern u32 func_020307B0(void *p);
 
 void func_022025E4(u32 a, u32 b, u32 c)
 {
-    void *blk = func_0201747C((void *)c, 0x48);
+    void *blk = POKE_TOOL_CreateFromBoxParam((void *)c, 0x48);
 
     func_0201EEF4((void *)a, b, blk);
     func_020307B0(blk);

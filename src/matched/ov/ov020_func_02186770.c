@@ -1,5 +1,5 @@
 /*
- * function: func_02186770
+ * function: FIELD_WFBC_DATA_LOCAL_HasArrivalFlag
  * address:  0x02186770
  * packet:   pkt_02186770
  * region:   ov020
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-int func_02186770(u8 *p)
+int FIELD_WFBC_DATA_LOCAL_HasArrivalFlag(u8 *p)
 {
 return (((struct Obj19460 *)p)->f3 & 1) != 0;
 }

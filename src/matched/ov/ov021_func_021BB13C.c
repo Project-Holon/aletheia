@@ -1,5 +1,5 @@
 /*
- * function: func_021BB13C
+ * function: RAIL_ATTR_GetAttribute
  * address:  0x021BB13C
  * packet:   pkt_ov021_021BB13C
  * region:   ov021
@@ -12,7 +12,7 @@
 #include "../include/Obj07530.h"
 #include "../include/Obj20092.h"
 
-int func_021BB13C(char *a, char *b)
+int RAIL_ATTR_GetAttribute(char *a, char *b)
 {
     int r = -1;
     if (((struct Obj07530 *)b)->f2 == 1) {

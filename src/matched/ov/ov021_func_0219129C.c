@@ -1,5 +1,5 @@
 /*
- * function: func_0219129C
+ * function: FIELD_MSGBG_AddTalkWin
  * address:  0x0219129C
  * packet:   pkt_ov021_0219129C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021911B8  0x021911B8  thumb  ov021
+ *   FIELD_MSGBG_SetupTalkWin  0x021911B8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -26,16 +26,16 @@ typedef struct Ent {
     u8  pad[0x28];
 } Ent;
 
-extern void func_021911B8(u8 *base, Ent *e, int idx, u32 c, u32 d, u32 f, u32 g);
+extern void FIELD_MSGBG_SetupTalkWin(u8 *base, Ent *e, int idx, u32 c, u32 d, u32 f, u32 g);
 
-Ent *func_0219129C(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g)
+Ent *FIELD_MSGBG_AddTalkWin(u8 *base, int idx, u32 c, u32 d, u32 f, u32 g)
 {
     Ent *e;
 
     if (idx < 3) {
         e = (Ent *)(base + 0xC0) + idx;
         if (e->f08 == 0) {
-            func_021911B8(base, e, idx, c, d, f, g);
+            FIELD_MSGBG_SetupTalkWin(base, e, idx, c, d, f, g);
             return e;
         }
     }

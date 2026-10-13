@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D4D0 0x0203D4D0 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendDataMask 0x0203D4D0 arm
  */
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D4D0(u32, u32, u32, u32, u32, u32, u32, u32);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendDataMask(u32, u32, u32, u32, u32, u32, u32, u32);
 u32 UNION_COMMAND_SendAppData(u32 a, void *p)
 {
-    return func_0203D4D0((u32)func_020399A8(), a, 0x1412, 0x28, (u32)p, 1, 0, 0);
+    return GFL_NET_SendDataMask((u32)GFL_NET_HANDLE_GetCurrentHandle(), a, 0x1412, 0x28, (u32)p, 1, 0, 0);
 }

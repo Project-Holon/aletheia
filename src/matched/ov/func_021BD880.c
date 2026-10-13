@@ -17,6 +17,7 @@
  * follower/alignment word), never a byte difference.
  *
  * symbols:
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  *   (none)
  */
 #include "../include/Obj05866.h"
@@ -24,7 +25,7 @@
 
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 
@@ -34,7 +35,7 @@ void func_021BD880(char *p)
     int v = ((struct Obj05866 *)p)->f0;
 
     ((struct Obj05866 *)p)->f8 = h;
-    func_0204B878((struct Obj *)v, h);
+    CLACT_SetActorAnimSeq((struct Obj *)v, h);
     if (((struct Obj05866 *)p)->f30 != 0)
         func_020061E4(((struct Obj05866 *)p)->f30);
 }

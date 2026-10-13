@@ -1,5 +1,5 @@
 /*
- * function: func_021AFCD8
+ * function: SCRCMD_WarpToPosition
  * address:  0x021AFCD8
  * packet:   pkt_ov021_021AFCD8
  * region:   ov021
@@ -10,29 +10,29 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F54  0x02158F54  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02011330  0x02011330  thumb
- *   func_02012104  0x02012104  thumb
- *   func_02012374  0x02012374  thumb
- *   func_02184D38  0x02184D38  thumb  ov020
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   VM_GetU16  0x02011330  thumb
+ *   GAMESYSTEM_GetEvent  0x02012104  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
  */
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 typedef unsigned int   u32;
 struct Ctx;
-extern void *func_02158F54(void *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *SCRIPT_WORK_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 typedef unsigned short u16;
 struct Evt;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern u32 func_02012104(const struct Ctx *p);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern void *func_02184D38();
+extern u16 VM_GetU16(struct Stream *s);
+extern u32 GAMESYSTEM_GetEvent(const struct Ctx *p);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern void *EVENT_MAPCHANGE_CreateWarpEvent();
 
-int func_021AFCD8(int a0, int a1)
+int SCRCMD_WarpToPosition(int a0, int a1)
 {
     void *h;
     void *a;
@@ -43,16 +43,16 @@ int func_021AFCD8(int a0, int a1)
     int arr[3];
     int w;
 
-    h = (void *)func_02158F54(func_0215A5F4((void *)a1));
-    a = func_0201210C(h);
-    b = func_02011330((struct Stream *)a0);
-    c = func_02011330((struct Stream *)a0);
-    d = func_02011330((struct Stream *)a0);
-    e = func_02011330((struct Stream *)a0);
+    h = (void *)SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork((void *)a1));
+    a = GAMESYSTEM_GetFieldMap(h);
+    b = VM_GetU16((struct Stream *)a0);
+    c = VM_GetU16((struct Stream *)a0);
+    d = VM_GetU16((struct Stream *)a0);
+    e = VM_GetU16((struct Stream *)a0);
     arr[0] = c << 16;
     arr[1] = 0;
     arr[2] = d << 16;
-    w = func_02012104(h);
-    func_02012374((struct Evt *)w, func_02184D38(h, a, b, arr, e, 0));
+    w = GAMESYSTEM_GetEvent(h);
+    GAME_EVENT_CallEvent((struct Evt *)w, EVENT_MAPCHANGE_CreateWarpEvent(h, a, b, arr, e, 0));
     return 1;
 }

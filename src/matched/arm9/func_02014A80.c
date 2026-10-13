@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011400  0x02011400  thumb
+ *   TIMEZONE_GetZoneLightLevel  0x02011400  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *
  * Scans the 0x34-byte-stride table at a0 for the element whose 3600*hour +
@@ -44,7 +44,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u8 func_02011400(int row, int col);
+extern u8 TIMEZONE_GetZoneLightLevel(int row, int col);
 extern u32 _u32_div_f(u32, u32);
 
 void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out)
@@ -60,7 +60,7 @@ void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out)
     if (a1 != 0) {
         do {
             e = a0 + i * 0x34;
-            v = 0xE10 * (s32)func_02011400(a3, *(u16 *)(a0 + i * 0x34));
+            v = 0xE10 * (s32)TIMEZONE_GetZoneLightLevel(a3, *(u16 *)(a0 + i * 0x34));
             v += ((struct Obj02990 *)e)->f2 * 0x3C;
             if (best <= a2 && v > a2) {
                 break;

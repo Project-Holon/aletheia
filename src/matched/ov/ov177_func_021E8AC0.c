@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008C58  0x02008C58  thumb
  *   func_02008DF0  0x02008DF0  thumb
  */
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 struct Big;
 struct Sub02008C20Obj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
@@ -26,7 +26,7 @@ void func_021E8AC0(int a, int b)
 {
     int x;
 
-    x = (int)func_02008C58(func_02012EBC((struct Big *)a));
+    x = (int)func_02008C58(GAME_DATA_GetSaveControl((struct Big *)a));
     switch (b) {
     case 1:
     case 4:

@@ -1,5 +1,5 @@
 /*
- * function: func_021869C0
+ * function: OEKAKI_PeekStroke
  * address:  0x021869C0
  * packet:   pkt_ov023_021869C0
  * region:   ov023
@@ -21,7 +21,7 @@ typedef struct {
     u8 b5;
 } Rec;
 
-void func_021869C0(Rec *d, char *p)
+void OEKAKI_PeekStroke(Rec *d, char *p)
 {
     int i = ((struct Obj13028 *)p)->fBB8;
 

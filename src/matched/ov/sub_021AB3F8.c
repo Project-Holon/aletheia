@@ -1,5 +1,5 @@
 /*
- * function: sub_021AB3F8
+ * function: MAP_ATTR_IsElectricPanel
  * address:  0x021AB3F8
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef int BOOL;
 
-BOOL sub_021AB3F8(u16 id)
+BOOL MAP_ATTR_IsElectricPanel(u16 id)
 {
     if (id == 0x32) {
         return 1;

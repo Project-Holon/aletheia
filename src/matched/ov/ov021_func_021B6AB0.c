@@ -1,5 +1,5 @@
 /*
- * function: func_021B6AB0
+ * function: SCRCMD_POKEMON_FLD_CountWarpEntries
  * address:  0x021B6AB0
  * packet:   pkt_ov021_021B6AB0
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6AA4  0x021B6AA4  thumb ov021
- *   func_021B6AAC  0x021B6AAC  thumb ov021
+ *   SCRCMD_POKEMON_FLD_GetWarpEntry  0x021B6AA4  thumb ov021
+ *   SCRCMD_POKEMON_FLD_NoopWarpEntry  0x021B6AAC  thumb ov021
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021B6AA4(u32 a, u32 b);
-extern void func_021B6AAC(u16 *);
+extern int SCRCMD_POKEMON_FLD_GetWarpEntry(u32 a, u32 b);
+extern void SCRCMD_POKEMON_FLD_NoopWarpEntry(u16 *);
 
-int func_021B6AB0(void *a)
+int SCRCMD_POKEMON_FLD_CountWarpEntries(void *a)
 {
     int i;
     u16 *p;
 
     for (i = 0; i < 8; i++) {
-        p = (u16 *)func_021B6AA4((u32)a, i);
-        func_021B6AAC(p);
+        p = (u16 *)SCRCMD_POKEMON_FLD_GetWarpEntry((u32)a, i);
+        SCRCMD_POKEMON_FLD_NoopWarpEntry(p);
         if (*p == 0xFFFF) {
             return i;
         }

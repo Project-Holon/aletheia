@@ -1,5 +1,5 @@
 /*
- * function: func_021BC92C
+ * function: FIELD_PLACE_NAME_HideLetters
  * address:  0x021BC92C
  * packet:   pkt_ov021_021BC92C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD1E4  0x021BD1E4  thumb  ov021
+ *   PLACE_NAME_LETTER_SetVisible  0x021BD1E4  thumb  ov021
  */
 
 typedef struct {
@@ -18,13 +18,13 @@ typedef struct {
     void *f50[0x1E];
 } Obj;
 
-extern void func_021BD1E4(void *a, unsigned int b);
+extern void PLACE_NAME_LETTER_SetVisible(void *a, unsigned int b);
 
-void func_021BC92C(Obj *p)
+void FIELD_PLACE_NAME_HideLetters(Obj *p)
 {
     int i;
 
     for (i = 0; i < 0x1E; i++) {
-        func_021BD1E4(p->f50[i], 0);
+        PLACE_NAME_LETTER_SetVisible(p->f50[i], 0);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02175A24
+ * function: INTRUDE_COMM_IsSessionTimeLimitSet
  * address:  0x02175A24
  * packet:   pkt_ov011_02175A24
  * region:   ov011
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf (sole blocker of ov018 func_0217C4D0): bit 1 of the
+ * Unlabelled leaf (sole blocker of ov018 INTRUDE_FIELD_EventOfferInfo): bit 1 of the
  * flag byte at +0x1A5.
  *
  * symbols:
@@ -25,7 +25,7 @@ typedef struct {
     u8 rest : 6;
 } Flags;
 
-int func_02175A24(u8 *p)
+int INTRUDE_COMM_IsSessionTimeLimitSet(u8 *p)
 {
     return ((Flags *)(p + 0x1A5))->b1;
 }

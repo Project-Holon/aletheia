@@ -1,5 +1,5 @@
 /*
- * function: func_021EEA08
+ * function: WEATHER_FOG_EndParticles
  * address: 0x021EEA08
  * packet: pkt_ov028_021EEA08
  * region: ov028
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021A21B8 0x021A21B8 thumb ov021
+ *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
  */
 
-extern int *func_021A21B8(int *);
-int func_021EEA08(int *a)
+extern int *WEATHER_TASK_GetWorkBuffer(int *);
+int WEATHER_FOG_EndParticles(int *a)
 {
     int *p;
-    p = func_021A21B8(a);
+    p = WEATHER_TASK_GetWorkBuffer(a);
     p[1] = 0;
     return 1;
 }

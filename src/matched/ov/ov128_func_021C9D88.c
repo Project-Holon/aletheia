@@ -10,7 +10,7 @@
  * extent: two-byte zero padding at 021C9E0E before next label 021C9E10.
  * lever: writing the reloaded signed byte on the left of == fixes both cmp operands.
  * symbols:
- *   func_0201283C 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   func_02009864 0x02009864 thumb
  *   _u32_div_f 0x0209C2B0 arm
  */
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
 struct BigObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 int func_021C9D88(u8 *p,int direction)
@@ -27,7 +27,7 @@ int func_021C9D88(u8 *p,int direction)
     int index;
     u32 data;
     u32 count;
-    data=func_0201283C(((struct Obj00992 *)p)->f4);
+    data=GAME_DATA_GetWifiList(((struct Obj00992 *)p)->f4);
     index=((struct Obj00992 *)p)->fB;
     if(direction==0) {
         for(count=0;count<((struct Obj00992 *)p)->f10-1;count++) {

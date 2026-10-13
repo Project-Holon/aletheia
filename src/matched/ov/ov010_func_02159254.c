@@ -1,5 +1,5 @@
 /*
- * function: func_02159254
+ * function: SCRIPT_WORK_WaitTime
  * address:  0x02159254
  * packet:   pkt_02159254
  * region:   ov010
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * Recursive MATCH unblocker: tail-call thunk at the pool word 0x0215A691
- * (func_0215A690). Matched so the ABS32 site in func_02159260 attests as
+ * (SCRCMD_WORK_CountDownWait). Matched so the ABS32 site in SCRIPT_WORK_CmdTimeWait attests as
  * `matched`.
  *
  * symbols:
- *   func_0215A690  0x0215A690  thumb  ov010
+ *   SCRCMD_WORK_CountDownWait  0x0215A690  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A690(char *);
+extern int SCRCMD_WORK_CountDownWait(char *);
 
-void func_02159254(char *a0, char *a1)
+void SCRIPT_WORK_WaitTime(char *a0, char *a1)
 {
-    func_0215A690(a1);
+    SCRCMD_WORK_CountDownWait(a1);
     (void)a0;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218B53C",
+   "name": "FIELD_EVENT_CHECK_SearchRailFrontMmdl",
    "address": "0x0218B53C",
    "kind": "game",
    "region": "ov021",

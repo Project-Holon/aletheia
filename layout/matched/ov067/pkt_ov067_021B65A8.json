@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B65A8",
-    "func_021B65B4"
+    "TOUCHBAR_IsButtonToggled",
+    "TOUCHBAR_ResetAndEnableButton"
+   ],
+   "addresses": [
+    "0x021B65A8",
+    "0x021B65B4"
    ]
   }
  ]

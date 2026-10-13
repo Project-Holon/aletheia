@@ -1,5 +1,5 @@
 /*
- * function: func_02159244
+ * function: SCRIPT_WORK_CmdDummy
  * address:  0x02159244
  * packet:   pkt_02159240
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02159244.c \
- *       --func func_02159244 --addr 0x02159244 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCRIPT_WORK_CmdDummy.c \
+ *       --func SCRIPT_WORK_CmdDummy --addr 0x02159244 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -26,4 +26,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-int func_02159244(void) { return 0; }
+int SCRIPT_WORK_CmdDummy(void) { return 0; }

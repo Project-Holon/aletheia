@@ -8,13 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note: 2026-10-05 the call to func_021B20B0 is written in each arm of the
+ * note: 2026-10-05 the call to VCT_SESSION_SendGroupCommand is written in each arm of the
  *   null test (new allocation, existing node); the compiler cross-jumps the
  *   shared tail and the first arm uses the call result register directly.
  * symbols:
  *   gVctWork 0x021B3C80 data ov013 a4
  *   VCT_SESSION_AllocPeerRecord 0x021B1F2C arm ov013
- *   func_021B20B0 0x021B20B0 arm ov013
+ *   VCT_SESSION_SendGroupCommand 0x021B20B0 arm ov013
  *   VCT_SESSION_FreePeerRecord 0x021B1F54 arm ov013
  */
 
@@ -26,7 +26,7 @@ struct Node;
 extern struct Work *gVctWork;
 
 extern struct Node *VCT_SESSION_AllocPeerRecord(unsigned int i);
-extern int func_021B20B0(int p, int x);
+extern int VCT_SESSION_SendGroupCommand(int p, int x);
 extern int VCT_SESSION_FreePeerRecord(struct Node *p);
 
 int VCT_MAIN_RequestConnection(int i)
@@ -39,9 +39,9 @@ int VCT_MAIN_RequestConnection(int i)
         if (p == 0) {
             return 0;
         }
-        r = func_021B20B0((int)p, 0);
+        r = VCT_SESSION_SendGroupCommand((int)p, 0);
     } else {
-        r = func_021B20B0((int)p, 0);
+        r = VCT_SESSION_SendGroupCommand((int)p, 0);
     }
     if (r != 0) {
         VCT_SESSION_FreePeerRecord(p);

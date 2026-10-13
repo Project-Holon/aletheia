@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F56FC",
+   "name": "FLD_FACEUP_RestoreVisiblePlanes",
    "address": "0x021F56FC",
    "kind": "game",
    "region": "ov082",

@@ -1,5 +1,5 @@
 /*
- * function: func_021AD5CC
+ * function: FLDEFF_NAMIPOKE_SPLASH_IsFinished
  * address:  0x021AD5CC
  * packet:   pkt_021AD5CC
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021AC1E0  0x021AC1E0  thumb  ov021
+ *   FIELD_EFFECT_GetObjectWork  0x021AC1E0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18088.h"
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_021AC1E0(u32 a);
+extern int FIELD_EFFECT_GetObjectWork(u32 a);
 
-int func_021AD5CC(u32 a)
+int FLDEFF_NAMIPOKE_SPLASH_IsFinished(u32 a)
 {
 if (a != 0) {
-    return ((struct Obj18088 *)((u8 *)(func_021AC1E0(a))))->fC;
+    return ((struct Obj18088 *)((u8 *)(FIELD_EFFECT_GetObjectWork(a))))->fC;
 }
 return 1;
 }

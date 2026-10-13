@@ -1,5 +1,5 @@
 /*
- * function: func_021B1DEC
+ * function: SCRCMD_FLDMMDL_StartPlayerOffsetTaskAgain
  * address:  0x021B1DEC
  * packet:   pkt_ov021_021B1DEC
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021C78DC  0x021C78DC  thumb  ov021
- *   func_021C6DE0  0x021C6DE0  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_TASK_CreateMmdlPosOffsetTween  0x021C78DC  thumb  ov021
+ *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -25,17 +25,17 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern int func_02158F58(int a0);
-extern u32 func_02188D38(u8 *p);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u32 FIELDMAP_GetTaskManager(u8 *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern u32 func_021C78DC(u32, int, void *, void *);
-extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern u32 FIELD_TASK_CreateMmdlPosOffsetTween(u32, int, void *, void *);
+extern void FIELD_TASK_MANAGER_AddTask(u8 *p, u32 *a, u32 b);
 
-int func_021B1DEC(u32 a, u32 b)
+int SCRCMD_FLDMMDL_StartPlayerOffsetTaskAgain(u32 a, u32 b)
 {
     struct { int x, y, z; } v;
     u32 x;
@@ -47,12 +47,12 @@ int func_021B1DEC(u32 a, u32 b)
     int zero;
     void *w;
 
-    x = ((u32 *)func_02158F58((int)func_0215A5F4((void *)b)))[1];
-    y = func_02188D38((u8 *)x);
-    neg = func_02159B10((void *)a, (void *)b);
-    p = func_02159B10((void *)a, (void *)b);
-    q = func_02159B10((void *)a, (void *)b);
-    z = func_02159B10((void *)a, (void *)b);
+    x = ((u32 *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)b)))[1];
+    y = FIELDMAP_GetTaskManager((u8 *)x);
+    neg = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    p = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    q = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    z = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     if (neg != 0)
         p = -p;
     if (z == 0) {
@@ -66,7 +66,7 @@ int func_021B1DEC(u32 a, u32 b)
         v.y = q << 12;
         v.z = zero;
     }
-    w = func_021A3074(func_02188CB4((void *)x));
-    func_021C6DE0((u8 *)y, (u32 *)func_021C78DC(x, p, &v, w), 0);
+    w = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)x));
+    FIELD_TASK_MANAGER_AddTask((u8 *)y, (u32 *)FIELD_TASK_CreateMmdlPosOffsetTween(x, p, &v, w), 0);
     return 0;
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C16AC",
+   "name": "FIELD_PLAYER_GRID_EVENT_UpdateJumpDown",
    "address": "0x021C16AC",
    "kind": "game",
    "region": "ov021",

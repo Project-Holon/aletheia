@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DAD84",
+   "name": "BTL_ABILITY_TruantShowMessage",
    "address": "0x021DAD84",
    "kind": "game",
    "region": "ov093",

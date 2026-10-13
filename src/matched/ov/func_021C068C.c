@@ -1,5 +1,5 @@
 /*
- * function: func_021C068C
+ * function: HEIGHT_EX_IsPointInAreaAt
  * address:  0x021C068C
  * packet:   pkt_021C068C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021C0598  0x021C0598  thumb  ov021
+ *   HEIGHT_EX_IsPointInArea  0x021C0598  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18268.h"
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_021C0598(u32, u32, u32, u32);
+extern u32 HEIGHT_EX_IsPointInArea(u32, u32, u32, u32);
 
-int func_021C068C(int a, int b, int c, u8 d)
+int HEIGHT_EX_IsPointInAreaAt(int a, int b, int c, u8 d)
 {
-if (func_021C0598(a, b, (((struct Obj18268 *)((u8 *)(c)))->f4 + (d * 28)), d) != 0) {
+if (HEIGHT_EX_IsPointInArea(a, b, (((struct Obj18268 *)((u8 *)(c)))->f4 + (d * 28)), d) != 0) {
     return 1;
 }
 return 0;

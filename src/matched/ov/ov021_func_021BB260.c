@@ -1,5 +1,5 @@
 /*
- * function: func_021BB260
+ * function: FIELD_NOGRID_MAPPER_SetActive
  * address:  0x021BB260
  * packet:   pkt_ov021_021BB260
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AB75C  0x021AB75C  thumb  ov021
+ *   FLD_SCENEAREA_SetEnabled  0x021AB75C  thumb  ov021
  */
 
 typedef struct {
@@ -22,14 +22,14 @@ typedef struct {
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void func_021AB75C(u8 *p, u32 v);
+extern void FLD_SCENEAREA_SetEnabled(u8 *p, u32 v);
 
-void func_021BB260(Obj *p, int b)
+void FIELD_NOGRID_MAPPER_SetActive(Obj *p, int b)
 {
     if (b != 0) {
         p->f14 = 0;
     } else {
         p->f14 = 1;
     }
-    func_021AB75C(p->fC, b);
+    FLD_SCENEAREA_SetEnabled(p->fC, b);
 }

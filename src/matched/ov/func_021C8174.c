@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8714  0x021B8714  thumb  ov093
+ *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  */
 #include "../include/Obj18335.h"
 #include "../include/Obj18336.h"
 
-char *func_021B8714(char **p);
+char *BTL_MAIN_GetFieldSituation(char **p);
 
 int func_021C8174(int *p)
 {
-    return ((struct Obj18336 *)((char *)func_021B8714((char **)(((struct Obj18335 *)p)->f4))))->f4;
+    return ((struct Obj18336 *)((char *)BTL_MAIN_GetFieldSituation((char **)(((struct Obj18335 *)p)->f4))))->f4;
 }

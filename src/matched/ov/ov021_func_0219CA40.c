@@ -1,5 +1,5 @@
 /*
- * function: func_0219CA40
+ * function: FLDMMDL_BLACT_AddResIndex
  * address:  0x0219CA40
  * packet:   pkt_ov021_0219CA40
  * region:   ov021
@@ -18,7 +18,7 @@ typedef signed char    s8;
 typedef struct { u16 a; u16 b; u16 c; u16 pad; } Ent;
 typedef struct { int n; Ent *e; } Tbl;
 
-void func_0219CA40(Tbl *t, u16 a, u16 b, u16 c)
+void FLDMMDL_BLACT_AddResIndex(Tbl *t, u16 a, u16 b, u16 c)
 {
     int i;
     Ent *e = t->e;

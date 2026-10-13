@@ -1,5 +1,5 @@
 /*
- * function: func_021EFF34
+ * function: REPORT_Delete
  * address: 0x021EFF34
  * packet: pkt_ov034_021EFF34
  * region: ov034
@@ -10,17 +10,17 @@
  * status: EXACT*
  * symbols:
  *   func_02030EAC 0x02030EAC arm
- *   func_021F0700 0x021F0700 thumb ov034
- *   func_021F0930 0x021F0930 thumb ov034
- *   func_021F01F8 0x021F01F8 thumb ov034
+ *   REPORT_ExitWindows 0x021F0700 thumb ov034
+ *   REPORT_ExitActors 0x021F0930 thumb ov034
+ *   REPORT_ExitBgs 0x021F01F8 thumb ov034
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj20477.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
-extern void func_021F0700(char *);
-extern void func_021F0930(int *);
-extern void func_021F01F8(void);
+extern void REPORT_ExitWindows(char *);
+extern void REPORT_ExitActors(int *);
+extern void REPORT_ExitBgs(void);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021EFF34(char *p) { func_02030EAC((struct Node *)(((struct Obj20477 *)p)->f10C)); func_021F0700(p); func_021F0930((int *)p); func_021F01F8(); func_020307B0(p); }
+void REPORT_Delete(char *p) { func_02030EAC((struct Node *)(((struct Obj20477 *)p)->f10C)); REPORT_ExitWindows(p); REPORT_ExitActors((int *)p); REPORT_ExitBgs(); func_020307B0(p); }

@@ -1,7 +1,7 @@
 /*
  * file:     plist_plate.c
  * unit:     yes
- * function: func_021BA6A0, func_021BA81C, func_021BA890, func_021BA8CC, func_021BA954, func_021BAA50, func_021BAAE4, func_021BAB04, func_021BAE94, func_021BAF28, func_021BAFA0, func_021BB050, func_021BB0C4, func_021BB1A0, func_021BB200, func_021BB2C0, func_021BB2E0, func_021BB30C, func_021BB358, func_021BB3C4, func_021BB3D4, func_021BB3FC, func_021BB43C, func_021BB440, func_021BB464, func_021BB468, func_021BB46C, func_021BB4A0, func_021BB554, func_021BB56C
+ * function: PLIST_PLATE_Create, PLIST_PLATE_CreateEmpty, PLIST_PLATE_Delete, PLIST_PLATE_Update, PLIST_PLATE_CreateActors, PLIST_PLATE_CreateMonIcon, PLIST_PLATE_Draw, PLIST_PLATE_DrawMonInfo, PLIST_PLATE_DrawHpBar, PLIST_PLATE_DrawEgg, PLIST_PLATE_SetSelected, PLIST_PLATE_SetPalette, PLIST_PLATE_SetSlideOffset, PLIST_PLATE_ClearSlideTrail, PLIST_PLATE_SetMon, PLIST_PLATE_Redraw, PLIST_PLATE_RedrawHp, PLIST_PLATE_StartHpAnim, PLIST_PLATE_StepHpAnim, PLIST_PLATE_IsOccupied, PLIST_PLATE_GetCenterPos, PLIST_PLATE_GetTouchRect, PLIST_PLATE_GetLabelState, PLIST_PLATE_SetLabelState, PLIST_PLATE_GetHp, PLIST_PLATE_IsEgg, PLIST_PLATE_UpdateLabelState, PLIST_PLATE_CheckSelection, PLIST_PLATE_GetHpBarColor, PLIST_PLATE_GetActorOffset
  * address:  0x021BA6A0
  * region:   ov091
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B404  0x0204B404  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_0201AB28 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
@@ -23,37 +23,37 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045770  0x02045770  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_02030734 0x02030734 arm
  *   func_020410D0 0x020410D0 arm
- *   func_0204B034 0x0204B034 arm
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateRenderer 0x0204B034 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   func_0204B258 0x0204B258 arm
- *   func_0204B09C 0x0204B09C arm
- *   func_020450F0 0x020450F0 arm
- *   d_021BED18 0x021BED18 data ov091 a1
- *   d_021BEC74 0x021BEC74 data ov091 a1
- *   d_021BEC75 0x021BEC75 data ov091 a1
- *   d_021BEC6C 0x021BEC6C data ov091 a1
- *   d_021BEC6D 0x021BEC6D data ov091 a1
+ *   CLACT_SetSurfacePos 0x0204B09C arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   gPlistPlateSourceName 0x021BED18 data ov091 a1
+ *   gPlistPlateTileX 0x021BEC74 data ov091 a1
+ *   gPlistPlateTileY 0x021BEC75 data ov091 a1
+ *   gPlistPlatePaletteA 0x021BEC6C data ov091 a1
+ *   gPlistPlatePaletteB 0x021BEC6D data ov091 a1
  *   func_020452E8 0x020452E8 arm
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204B084 0x0204B084 arm
- *   func_0204B1CC 0x0204B1CC arm
- *   func_0204A8D4 0x0204A8D4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_DeleteRenderer 0x0204B084 arm
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   CLACT_GetActorAnimFrame  0x0204B8F4  arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  *   func_020490F4  0x020490F4  arm
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_0201BA68  0x0201BA68  thumb
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_02049238  0x02049238  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_0201EC64  0x0201EC64  thumb
@@ -62,25 +62,25 @@
  *   func_0201ED04  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   func_0202D01C  0x0202D01C  thumb
- *   func_02043AF4  0x02043AF4  arm
- *   g_020A7370     0x020A7370  data
+ *   BMP_FillRect  0x02043AF4  arm
+ *   gSpeciesNameBank     0x020A7370  data
  *   func_0201EE0C  0x0201EE0C  thumb
  *   func_020413B0  0x020413B0  arm
  *   BMP_WIN_SetPosX 0x02045780 arm
  *   func_02041300  0x02041300  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   POKE_REGULATION_CheckPokemon 0x02019DA4 thumb
  *   func_0202D034 0x0202D034 thumb
  *   CLACT_GetSurfacePos 0x0204B0C8 arm
- *   func_021B9A84  0x021B9A84  thumb
- *   func_021B9AC8  0x021B9AC8  thumb
- *   func_021B9BF4  0x021B9BF4  thumb
- *   func_021B9C1C  0x021B9C1C  thumb
- *   func_021B9C64  0x021B9C64  thumb
- *   func_021B9CB0  0x021B9CB0  thumb
- *   func_021B9CF4  0x021B9CF4  thumb
- *   func_021B9D58  0x021B9D58  thumb
- *   func_021B9DC0  0x021B9DC0  thumb
+ *   POKELIST_IsItemMode  0x021B9A84  thumb
+ *   POKELIST_GetMoveLearnStatus  0x021B9AC8  thumb
+ *   POKELIST_CheckEvolution  0x021B9BF4  thumb
+ *   POKELIST_PrintTextMain  0x021B9C1C  thumb
+ *   POKELIST_PrintTextSub  0x021B9C64  thumb
+ *   POKELIST_PrintTextSubDirect  0x021B9CB0  thumb
+ *   POKELIST_PrintExpandedTextMain  0x021B9CF4  thumb
+ *   POKELIST_PrintExpandedTextSub  0x021B9D58  thumb
+ *   POKELIST_PrintExpandedTextSubDirect  0x021B9DC0  thumb
  */
 
 typedef unsigned char  u8;
@@ -104,7 +104,7 @@ struct CharBuf;
 
 extern void func_0204B3DC(struct Obj *actor, unsigned int visible);
 extern void func_0204B404(struct Obj *actor, const PlistPlatePos *delta, u32 which);
-extern void func_0204B878(struct Obj *actor, u16 animation);
+extern void CLACT_SetActorAnimSeq(struct Obj *actor, u16 animation);
 extern void func_02041B6C(u32 bit);
 extern u32 func_02017E1C(void *mon, u32 id, u32 value);
 extern u32 func_0202136C(u16 item);
@@ -112,32 +112,32 @@ extern u32 func_020307B0(void *mem);
 extern void *func_0201AB28(void *party, u32 idx);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02045770(struct Descriptor *window);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern struct Obj *func_0204B034(u16 *area, u32 mode, u32 heapId);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Obj *CLACT_CreateRenderer(u16 *area, u32 mode, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void func_0204B258(struct Bank *bank, void *unit);
-extern void func_0204B09C(void *unit, int index, void *offset);
-extern struct Descriptor *func_020450F0(int a0, u8 a1, u8 a2, int a3, u8 a4, u8 a5, u8 a6);
+extern void CLACT_SetSurfacePos(void *unit, int index, void *offset);
+extern struct Descriptor *BMP_WIN_Create(int a0, u8 a1, u8 a2, int a3, u8 a4, u8 a5, u8 a6);
 extern u32 func_020452E8(struct Descriptor *window);
-extern void func_0204B3B4(struct Obj *actor);
-extern void func_0204B084(void *unit);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204A8D4(u32 iconResource);
+extern void CLACT_DeleteActor(struct Obj *actor);
+extern void CLACT_DeleteRenderer(void *unit);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_ReleaseCharacter(u32 iconResource);
 extern u32 func_0201C6C4(void *printSys, void *bitmap);
-extern void func_02045334(struct Descriptor *window);
-extern void func_02045374(struct Descriptor *window);
+extern void BMP_WIN_TransferChars(struct Descriptor *window);
+extern void BMP_WIN_MakeScreen(struct Descriptor *window);
 extern u8 func_02045730(struct Descriptor *window);
 extern u32 POKE_TOOL_GetStatusCondition(void *mon);
 extern u32 CLACT_GetActorAnimFrame(struct Obj *actor);
-extern struct Obj *func_0204B294(struct Bank *bank, unsigned int a1, unsigned int a2, unsigned int a3, const PlistPlateActorSpec *spec, u16 a5, u16 heapId);
+extern struct Obj *CLACT_CreateActor(struct Bank *bank, unsigned int a1, unsigned int a2, unsigned int a3, const PlistPlateActorSpec *spec, u16 a5, u16 heapId);
 extern void func_0204B92C(struct Obj *actor, unsigned int value);
 extern void *func_020490F4(u32 id, u32 heapId);
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 extern u32 func_0201BA68(void *boxMon);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 d, u16 heapId);
-extern void func_02049238(void *a);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 d, u16 heapId);
+extern void ARC_TOOL_DeleteHandle(void *a);
 extern int POKE_TOOL_GetIconPalette(void *boxMon);
 extern void func_0204B6F4(struct Obj *actor, u32 palette, u32 flag);
 extern struct WordSet *func_0201EC64(u32 heapId);
@@ -146,75 +146,75 @@ extern void func_0201EFA4(struct WordSet *wordSet, u32 index, u32 value, u32 dig
 extern u32 func_0201ED04(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcLevel(void *mon);
 extern u8 func_0202D01C(u32 a, u32 b, u32 c);
-extern void func_02043AF4(struct Bmp *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *bmp, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_0201EE0C(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BMP_WIN_SetPosX(struct Descriptor *window, u8 x);
 extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5, u8 a6);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int POKE_REGULATION_CheckPokemon(void *regulation, void *mon);
 extern u8 func_0202D034(u32 a, u32 b);
 extern void CLACT_GetSurfacePos(struct Obj *unit, u32 index, PlistPlatePos *out);
-extern int func_021B9A84(PokelistWork *work);
-extern int func_021B9AC8(PokelistWork *work, void *mon, u8 bit);
-extern u32 func_021B9BF4(PokelistWork *work, void *mon, u32 param);
-extern void func_021B9C1C(PokelistWork *work, struct Descriptor *window, u32 id, int x, s16 y, u16 color);
-extern void func_021B9C64(PokelistWork *work, struct Descriptor *window, u32 idx, u32 x, s16 y, u16 color);
-extern void func_021B9CB0(PokelistWork *work, struct Descriptor *window, u32 idx, u32 x, s16 y, u16 color);
-extern void func_021B9CF4(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
-extern void func_021B9D58(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
-extern void func_021B9DC0(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
+extern int POKELIST_IsItemMode(PokelistWork *work);
+extern int POKELIST_GetMoveLearnStatus(PokelistWork *work, void *mon, u8 bit);
+extern u32 POKELIST_CheckEvolution(PokelistWork *work, void *mon, u32 param);
+extern void POKELIST_PrintTextMain(PokelistWork *work, struct Descriptor *window, u32 id, int x, s16 y, u16 color);
+extern void POKELIST_PrintTextSub(PokelistWork *work, struct Descriptor *window, u32 idx, u32 x, s16 y, u16 color);
+extern void POKELIST_PrintTextSubDirect(PokelistWork *work, struct Descriptor *window, u32 idx, u32 x, s16 y, u16 color);
+extern void POKELIST_PrintExpandedTextMain(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
+extern void POKELIST_PrintExpandedTextSub(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
+extern void POKELIST_PrintExpandedTextSubDirect(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
 
-PlistPlate *func_021BA6A0(PokelistWork *work, int slot, void *mon);
-PlistPlate *func_021BA81C(PokelistWork *work, int slot);
-void func_021BA890(void *unused, PlistPlate *plate);
-void func_021BA8CC(PokelistWork *work, PlistPlate *plate);
-void func_021BA954(PokelistWork *work, PlistPlate *plate);
-void func_021BAA50(PokelistWork *work, PlistPlate *plate);
-void func_021BAAE4(PokelistWork *work, PlistPlate *plate, int isRefresh);
-void func_021BAB04(PokelistWork *work, PlistPlate *plate, int isRefresh);
-void func_021BAE94(PokelistWork *work, PlistPlate *plate);
-void func_021BAF28(PokelistWork *work, PlistPlate *plate);
-void func_021BAFA0(PokelistWork *work, PlistPlate *plate, int selected);
-void func_021BB050(PokelistWork *work, PlistPlate *plate, int palette);
-void func_021BB0C4(PokelistWork *work, const PlistPlate *plate, int slideX);
-void func_021BB1A0(PokelistWork *work, PlistPlate *plate, int slideX);
-void func_021BB200(PokelistWork *work, PlistPlate *plate, void *mon, int slideX);
-void func_021BB2C0(PokelistWork *work, PlistPlate *plate);
-void func_021BB2E0(PokelistWork *work, PlistPlate *plate);
-void func_021BB30C(PokelistWork *work, PlistPlate *plate);
-int func_021BB358(PokelistWork *work, PlistPlate *plate);
-int func_021BB3C4(void *unused, PlistPlate *plate);
-void func_021BB3D4(void *unused, PlistPlate *plate, PlistPlatePos *out);
-void func_021BB3FC(PokelistWork *work, PlistPlate *plate, PlistPlateRect *out);
-int func_021BB43C(PlistPlate *plate);
-void func_021BB440(PokelistWork *work, PlistPlate *plate, int labelState);
-u16 func_021BB464(PokelistWork *work, PlistPlate *plate);
-int func_021BB468(PokelistWork *work, PlistPlate *plate);
-void func_021BB46C(PokelistWork *work, PlistPlate *plate);
-int func_021BB4A0(PokelistWork *work, PlistPlate *plate);
-u8 func_021BB554(PlistPlate *plate);
-void func_021BB56C(PlistPlate *plate, int x, int y, PlistPlatePos *out);
+PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon);
+PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot);
+void PLIST_PLATE_Delete(void *unused, PlistPlate *plate);
+void PLIST_PLATE_Update(PokelistWork *work, PlistPlate *plate);
+void PLIST_PLATE_CreateActors(PokelistWork *work, PlistPlate *plate);
+void PLIST_PLATE_CreateMonIcon(PokelistWork *work, PlistPlate *plate);
+void PLIST_PLATE_Draw(PokelistWork *work, PlistPlate *plate, int isRefresh);
+void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefresh);
+void PLIST_PLATE_DrawHpBar(PokelistWork *work, PlistPlate *plate);
+void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate);
+void PLIST_PLATE_SetSelected(PokelistWork *work, PlistPlate *plate, int selected);
+void PLIST_PLATE_SetPalette(PokelistWork *work, PlistPlate *plate, int palette);
+void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int slideX);
+void PLIST_PLATE_ClearSlideTrail(PokelistWork *work, PlistPlate *plate, int slideX);
+void PLIST_PLATE_SetMon(PokelistWork *work, PlistPlate *plate, void *mon, int slideX);
+void PLIST_PLATE_Redraw(PokelistWork *work, PlistPlate *plate);
+void PLIST_PLATE_RedrawHp(PokelistWork *work, PlistPlate *plate);
+void PLIST_PLATE_StartHpAnim(PokelistWork *work, PlistPlate *plate);
+int PLIST_PLATE_StepHpAnim(PokelistWork *work, PlistPlate *plate);
+int PLIST_PLATE_IsOccupied(void *unused, PlistPlate *plate);
+void PLIST_PLATE_GetCenterPos(void *unused, PlistPlate *plate, PlistPlatePos *out);
+void PLIST_PLATE_GetTouchRect(PokelistWork *work, PlistPlate *plate, PlistPlateRect *out);
+int PLIST_PLATE_GetLabelState(PlistPlate *plate);
+void PLIST_PLATE_SetLabelState(PokelistWork *work, PlistPlate *plate, int labelState);
+u16 PLIST_PLATE_GetHp(PokelistWork *work, PlistPlate *plate);
+int PLIST_PLATE_IsEgg(PokelistWork *work, PlistPlate *plate);
+void PLIST_PLATE_UpdateLabelState(PokelistWork *work, PlistPlate *plate);
+int PLIST_PLATE_CheckSelection(PokelistWork *work, PlistPlate *plate);
+u8 PLIST_PLATE_GetHpBarColor(PlistPlate *plate);
+void PLIST_PLATE_GetActorOffset(PlistPlate *plate, int x, int y, PlistPlatePos *out);
 
 
-extern const char d_021BED18[];
-extern const u8 d_021BEC74[];
-extern const u8 d_021BEC75[];
-extern const u8 d_021BEC6C[];
-extern const u8 d_021BEC6D[];
-extern void *g_020A7370;
+extern const char gPlistPlateSourceName[];
+extern const u8 gPlistPlateTileX[];
+extern const u8 gPlistPlateTileY[];
+extern const u8 gPlistPlatePaletteA[];
+extern const u8 gPlistPlatePaletteB[];
+extern void *gSpeciesNameBank;
 
-PlistPlate *func_021BA6A0(PokelistWork *work, int slot, void *mon)
+PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
 {
-    u8 x = d_021BEC74[slot * 2];
-    u8 y = d_021BEC75[slot * 2];
+    u8 x = gPlistPlateTileX[slot * 2];
+    u8 y = gPlistPlateTileY[slot * 2];
     u8 i;
     PlistPlate *plate;
     int tileX;
     int isOther = 0;
     enum PlateKind { PLATE_KIND_LEAD, PLATE_KIND_OTHER } kind;
     PlistPlateSurface surface;
-    plate = func_02030734(work->heapId, 0x44, 0, d_021BED18, 0x9f);
+    plate = func_02030734(work->heapId, 0x44, 0, gPlistPlateSourceName, 0x9f);
     plate->slot = slot;
     plate->mon = mon;
     plate->isEmpty = 0;
@@ -226,7 +226,7 @@ PlistPlate *func_021BA6A0(PokelistWork *work, int slot, void *mon)
     kind = slot != 0;
     tileX = x + 0x10;
     func_020410D0(2, (u8)tileX, y, 0x10, 6, (u32)((u8 *)work->paletteData + 0xc),
-                 d_021BEC6C[kind * 2], d_021BEC6D[isOther * 2], 0x20, 0x20);
+                 gPlistPlatePaletteA[kind * 2], gPlistPlatePaletteB[isOther * 2], 0x20, 0x20);
     plate->isEgg = func_02017E1C(plate->mon, POKE_TOOL_PARAM_IS_EGG, 0);
     surface.areaLeft = 0;
     surface.areaTop = 0;
@@ -234,32 +234,32 @@ PlistPlate *func_021BA6A0(PokelistWork *work, int slot, void *mon)
     surface.areaHeight = 0xc0;
     surface.priority = 0;
     surface.bgPriority = 0;
-    plate->clactUnit = func_0204B034(&surface.areaLeft, 1, work->heapId);
-    plate->clactBank = func_0204B100(6, 0, work->heapId);
+    plate->clactUnit = CLACT_CreateRenderer(&surface.areaLeft, 1, work->heapId);
+    plate->clactBank = CLACT_CreateUnit(6, 0, work->heapId);
     func_0204B258(plate->clactBank, plate->clactUnit);
-    func_021BA954(work, plate);
-    func_021BAA50(work, plate);
+    PLIST_PLATE_CreateActors(work, plate);
+    PLIST_PLATE_CreateMonIcon(work, plate);
     surface.offsetX = -x * 8;
     surface.offsetY = -y * 8;
-    func_0204B09C(plate->clactUnit, 0, &surface);
-    plate->window = func_020450F0(1, tileX, (u8)y, 0x10, 6, 0xd, 1);
-    func_021BB46C(work, plate);
-    if (func_021B9A84(work) == 1) {
+    CLACT_SetSurfacePos(plate->clactUnit, 0, &surface);
+    plate->window = BMP_WIN_Create(1, tileX, (u8)y, 0x10, 6, 0xd, 1);
+    PLIST_PLATE_UpdateLabelState(work, plate);
+    if (POKELIST_IsItemMode(work) == 1) {
         for (i = 0; i < 6; i++) {
             if (plate->slot + 1 == work->arg->slotOrder[i]) plate->labelState = i;
         }
     }
-    func_021BAFA0(work, plate, 0);
-    func_021BAAE4(work, plate, 0);
+    PLIST_PLATE_SetSelected(work, plate, 0);
+    PLIST_PLATE_Draw(work, plate, 0);
     return plate;
 }
 
-PlistPlate *func_021BA81C(PokelistWork *work, int slot)
+PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot)
 {
-    PlistPlate *plate = func_02030734(work->heapId, 0x44, 0, d_021BED18, 0xea);
+    PlistPlate *plate = func_02030734(work->heapId, 0x44, 0, gPlistPlateSourceName, 0xea);
     u8 *palette = (u8 *)work->paletteData + 0xc;
 
-    func_020410D0(2, (u8)(d_021BEC74[slot * 2] + 0x10), d_021BEC75[slot * 2], 0x10, 6,
+    func_020410D0(2, (u8)(gPlistPlateTileX[slot * 2] + 0x10), gPlistPlateTileY[slot * 2], 0x10, 6,
                   (u32)palette, 0, 0x13, 0x20, 0x20);
     plate->slot = slot;
     plate->mon = 0;
@@ -269,21 +269,21 @@ PlistPlate *func_021BA81C(PokelistWork *work, int slot)
     return plate;
 }
 
-void func_021BA890(void *unused, PlistPlate *plate)
+void PLIST_PLATE_Delete(void *unused, PlistPlate *plate)
 {
     if (!plate->isEmpty) {
         func_020452E8(plate->window);
-        func_0204B3B4(plate->monIconActor);
-        func_0204B3B4(plate->frameActor);
-        func_0204B3B4(plate->hpBarActor);
-        func_0204B084(plate->clactUnit);
-        func_0204B1CC(plate->clactBank);
-        func_0204A8D4(plate->iconResource);
+        CLACT_DeleteActor(plate->monIconActor);
+        CLACT_DeleteActor(plate->frameActor);
+        CLACT_DeleteActor(plate->hpBarActor);
+        CLACT_DeleteRenderer(plate->clactUnit);
+        CLACT_DeleteUnit(plate->clactBank);
+        CLACT_ReleaseCharacter(plate->iconResource);
     }
     func_020307B0(plate);
 }
 
-void func_021BA8CC(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_Update(PokelistWork *work, PlistPlate *plate)
 {
     PlistPlatePos offset;
     if (plate->isEmpty != 0)
@@ -295,20 +295,20 @@ void func_021BA8CC(PokelistWork *work, PlistPlate *plate)
                a separate local swaps the r4 and r5 assignment. */
             work = (PokelistWork *)plate->window;
             plate->textPending = 0;
-            func_02045334((struct Descriptor *)work);
-            func_02045374((struct Descriptor *)work);
+            BMP_WIN_TransferChars((struct Descriptor *)work);
+            BMP_WIN_MakeScreen((struct Descriptor *)work);
             func_02041B6C(func_02045730((struct Descriptor *)work));
         }
     }
     if (plate->selected == 1 && POKE_TOOL_GetStatusCondition(plate->mon) == 0 && plate->hp != 0) {
-        func_021BB56C(plate, 0x1a, 0x13, &offset);
+        PLIST_PLATE_GetActorOffset(plate, 0x1a, 0x13, &offset);
         if (CLACT_GetActorAnimFrame(plate->monIconActor) == 1)
             offset.y = offset.y - 6;
         func_0204B404(plate->monIconActor, &offset, 0);
     }
 }
 
-void func_021BA954(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_CreateActors(PokelistWork *work, PlistPlate *plate)
 {
     PlistPlateActorSpec frameSpec;
     PlistPlateActorSpec hpBarSpec;
@@ -320,7 +320,7 @@ void func_021BA954(PokelistWork *work, PlistPlate *plate)
     frameSpec.depth = 0;
     frameSpec.animation = 1;
     frameSpec.bgPriority = 2;
-    actor = func_0204B294(plate->clactBank, work->palRes[1], work->charRes[0], work->cellRes[1], &frameSpec, 0, work->heapId);
+    actor = CLACT_CreateActor(plate->clactBank, work->palRes[1], work->charRes[0], work->cellRes[1], &frameSpec, 0, work->heapId);
     plate->frameActor = actor;
     func_0204B92C(actor, 1);
     hpBarSpec.x = 0x54;
@@ -328,13 +328,13 @@ void func_021BA954(PokelistWork *work, PlistPlate *plate)
     hpBarSpec.depth = 0;
     hpBarSpec.animation = 0;
     hpBarSpec.bgPriority = 2;
-    plate->hpBarActor = func_0204B294(plate->clactBank, work->palRes[6], work->charRes[5], work->cellRes[6], &hpBarSpec, 0, work->heapId);
+    plate->hpBarActor = CLACT_CreateActor(plate->clactBank, work->palRes[6], work->charRes[5], work->cellRes[6], &hpBarSpec, 0, work->heapId);
     itemSpec.x = 32;
     itemSpec.y = 24;
     itemSpec.depth = 0;
     itemSpec.animation = 0;
     itemSpec.bgPriority = 2;
-    actor = func_0204B294(plate->clactBank, work->palRes[3], work->charRes[2], work->cellRes[3], &itemSpec, 0, work->heapId);
+    actor = CLACT_CreateActor(plate->clactBank, work->palRes[3], work->charRes[2], work->cellRes[3], &itemSpec, 0, work->heapId);
     plate->itemIconActor = actor;
     func_0204B3DC(actor, 0);
     statusSpec.x = 32;
@@ -342,12 +342,12 @@ void func_021BA954(PokelistWork *work, PlistPlate *plate)
     statusSpec.depth = 0;
     statusSpec.animation = 0;
     statusSpec.bgPriority = 2;
-    actor = func_0204B294(plate->clactBank, work->palRes[5], work->charRes[4], work->cellRes[5], &statusSpec, 0, work->heapId);
+    actor = CLACT_CreateActor(plate->clactBank, work->palRes[5], work->charRes[4], work->cellRes[5], &statusSpec, 0, work->heapId);
     plate->statusIconActor = actor;
     func_0204B3DC(actor, 0);
 }
 
-void func_021BAA50(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_CreateMonIcon(PokelistWork *work, PlistPlate *plate)
 {
     void *iconFile;
     void *boxMon;
@@ -355,8 +355,8 @@ void func_021BAA50(PokelistWork *work, PlistPlate *plate)
     PlistPlateActorSpec spec;
     iconFile = func_020490F4(7, work->heapId);
     boxMon = POKE_TOOL_GetBoxParam(func_0201AB28(work->arg->party, plate->slot));
-    plate->iconResource = func_0204A6C8(iconFile, func_0201BA68(boxMon), 0, 0, work->heapId);
-    func_02049238(iconFile);
+    plate->iconResource = CLACT_RegisterCharacter(iconFile, func_0201BA68(boxMon), 0, 0, work->heapId);
+    ARC_TOOL_DeleteHandle(iconFile);
     palette = POKE_TOOL_GetIconPalette(boxMon);
     spec.x = 0x18;
     spec.y = 0x10;
@@ -364,7 +364,7 @@ void func_021BAA50(PokelistWork *work, PlistPlate *plate)
     spec.animation = 0;
     spec.bgPriority = 2;
     {
-        struct Obj *actor = func_0204B294(plate->clactBank, plate->iconResource, work->charRes[6],
+        struct Obj *actor = CLACT_CreateActor(plate->clactBank, plate->iconResource, work->charRes[6],
                                           work->cellRes[7], &spec, 0, work->heapId);
         plate->monIconActor = actor;
         func_0204B6F4(actor, palette, 1);
@@ -372,16 +372,16 @@ void func_021BAA50(PokelistWork *work, PlistPlate *plate)
     func_0204B92C(plate->monIconActor, 1);
 }
 
-void func_021BAAE4(PokelistWork *work, PlistPlate *plate, int isRefresh)
+void PLIST_PLATE_Draw(PokelistWork *work, PlistPlate *plate, int isRefresh)
 {
     if (plate->isEgg == 0) {
-        func_021BAB04(work, plate, isRefresh);
-        func_021BAE94(work, plate);
+        PLIST_PLATE_DrawMonInfo(work, plate, isRefresh);
+        PLIST_PLATE_DrawHpBar(work, plate);
     } else
-        func_021BAF28(work, plate);
+        PLIST_PLATE_DrawEgg(work, plate);
 }
 
-void func_021BAB04(PokelistWork *work, PlistPlate *plate, int isRefresh)
+void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefresh)
 {
     int isTeachMode = 0;
     struct WordSet *wordSet;
@@ -400,16 +400,16 @@ void func_021BAB04(PokelistWork *work, PlistPlate *plate, int isRefresh)
     if (isRefresh == 0) {
         wordSet = func_0201EC64(work->heapId);
         func_0201EEF4(wordSet, 0, plate->mon);
-        func_021B9CF4(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
+        POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
         func_0201ED04(wordSet);
     }
     if (isRefresh == 0) {
         if (func_02017E1C(plate->mon, POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0) == 1) {
             value = func_02017E1C(plate->mon, POKE_TOOL_PARAM_GENDER, 0);
             if (value == 0) {
-                func_021B9C1C(work, plate->window, PLIST_PLATE_MSG_GENDER_MALE, 0x69, 9, 0x14c0);
+                POKELIST_PrintTextMain(work, plate->window, PLIST_PLATE_MSG_GENDER_MALE, 0x69, 9, 0x14c0);
             } else if (value == 1) {
-                func_021B9C1C(work, plate->window, PLIST_PLATE_MSG_GENDER_FEMALE, 0x69, 9, 0xc80);
+                POKELIST_PrintTextMain(work, plate->window, PLIST_PLATE_MSG_GENDER_FEMALE, 0x69, 9, 0xc80);
             }
         }
     }
@@ -418,22 +418,22 @@ void func_021BAB04(PokelistWork *work, PlistPlate *plate, int isRefresh)
             wordSetB = func_0201EC64(work->heapId);
             func_0201EFA4(wordSetB, 0, POKE_TOOL_CalcLevel(plate->mon), 3, 0, 1);
             if (isRefresh == 0) {
-                func_021B9D58(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
+                POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
             } else {
-                func_021B9DC0(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
+                POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
             }
             func_0201ED04(wordSetB);
             func_0204B3DC(plate->statusIconActor, 0);
         } else {
             if (plate->hp == 0) {
-                func_0204B878(plate->statusIconActor, 6);
+                CLACT_SetActorAnimSeq(plate->statusIconActor, 6);
             } else {
                 switch (POKE_TOOL_GetStatusCondition(plate->mon)) {
-                case 1: func_0204B878(plate->statusIconActor, 1); break;
-                case 2: func_0204B878(plate->statusIconActor, 3); break;
-                case 3: func_0204B878(plate->statusIconActor, 2); break;
-                case 4: func_0204B878(plate->statusIconActor, 5); break;
-                case 5: func_0204B878(plate->statusIconActor, 4); break;
+                case 1: CLACT_SetActorAnimSeq(plate->statusIconActor, 1); break;
+                case 2: CLACT_SetActorAnimSeq(plate->statusIconActor, 3); break;
+                case 3: CLACT_SetActorAnimSeq(plate->statusIconActor, 2); break;
+                case 4: CLACT_SetActorAnimSeq(plate->statusIconActor, 5); break;
+                case 5: CLACT_SetActorAnimSeq(plate->statusIconActor, 4); break;
                 }
             }
             func_0204B3DC(plate->statusIconActor, 1);
@@ -448,48 +448,48 @@ void func_021BAB04(PokelistWork *work, PlistPlate *plate, int isRefresh)
         } else {
             label = label + PLIST_PLATE_MSG_ORDER_FIRST;
         }
-        func_021B9C1C(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
+        POKELIST_PrintTextMain(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
         func_0204B3DC(plate->hpBarActor, 0);
     } else if (isTeachMode == 1) {
-        switch (func_021B9AC8(work, plate->mon, plate->slot)) {
+        switch (POKELIST_GetMoveLearnStatus(work, plate->mon, plate->slot)) {
         case 0:
         case 1: msgId = PLIST_PLATE_MSG_TEACH_ABLE; break;
         case 2: msgId = PLIST_PLATE_MSG_TEACH_KNOWN; break;
         case 3: msgId = PLIST_PLATE_MSG_TEACH_NOT_ABLE; break;
         }
-        func_021B9C1C(work, plate->window, (u16)msgId, 0x1d, 0x1f, 0x440);
+        POKELIST_PrintTextMain(work, plate->window, (u16)msgId, 0x1d, 0x1f, 0x440);
         func_0204B3DC(plate->hpBarActor, 0);
     } else {
         arg = work->arg;
         if (arg->mode == PLIST_PLATE_MODE_EVOLVE_ITEM) {
-            value = func_021B9BF4(work, plate->mon, arg->itemId);
+            value = POKELIST_CheckEvolution(work, plate->mon, arg->itemId);
             label = PLIST_PLATE_MSG_EVOLVE_NOT_ABLE;
             if (value != 0) {
                 label = PLIST_PLATE_MSG_EVOLVE_ABLE;
             }
-            func_021B9C1C(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
+            POKELIST_PrintTextMain(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
             func_0204B3DC(plate->hpBarActor, 0);
         } else {
             wordSetB = func_0201EC64(work->heapId);
             func_0201EFA4(wordSetB, 0, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
             if (isRefresh == 0) {
-                func_021B9D58(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
+                POKELIST_PrintExpandedTextSub(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
             } else {
-                func_021B9DC0(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
+                POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
             }
             func_0201ED04(wordSetB);
             wordSetC = func_0201EC64(work->heapId);
             func_0201EFA4(wordSetC, 0, plate->hp, 3, 1, 1);
             if (isRefresh == 0) {
-                func_021B9D58(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
+                POKELIST_PrintExpandedTextSub(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
             } else {
-                func_021B9DC0(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
+                POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
             }
             func_0201ED04(wordSetC);
             if (isRefresh == 0) {
-                func_021B9C64(work, plate->window, 6, 0x52, 0x23, 0x440);
+                POKELIST_PrintTextSub(work, plate->window, 6, 0x52, 0x23, 0x440);
             } else {
-                func_021B9CB0(work, plate->window, 6, 0x52, 0x23, 0x440);
+                POKELIST_PrintTextSubDirect(work, plate->window, 6, 0x52, 0x23, 0x440);
             }
         }
     }
@@ -497,14 +497,14 @@ void func_021BAB04(PokelistWork *work, PlistPlate *plate, int isRefresh)
     if (heldItem != 0) {
         func_0204B3DC(plate->itemIconActor, 1);
         if (func_0202136C(heldItem) == 1) {
-            func_0204B878(plate->itemIconActor, 1);
+            CLACT_SetActorAnimSeq(plate->itemIconActor, 1);
         } else {
-            func_0204B878(plate->itemIconActor, 0);
+            CLACT_SetActorAnimSeq(plate->itemIconActor, 0);
         }
     } else {
         func_0204B3DC(plate->itemIconActor, 0);
     }
-    hpBarColor = func_021BB554(plate);
+    hpBarColor = PLIST_PLATE_GetHpBarColor(plate);
     iconAnim = 1;
     if (hpBarColor == PLIST_PLATE_HPBAR_FULL) {
         iconAnim = 0;
@@ -517,22 +517,22 @@ void func_021BAB04(PokelistWork *work, PlistPlate *plate, int isRefresh)
     } else if (hpBarColor == PLIST_PLATE_HPBAR_RED) {
         iconAnim = 2;
     }
-    func_0204B878(plate->monIconActor, iconAnim);
+    CLACT_SetActorAnimSeq(plate->monIconActor, iconAnim);
     plate->textPending = 1;
 }
 
-void func_021BAE94(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_DrawHpBar(PokelistWork *work, PlistPlate *plate)
 {
     u8 hpBarColor;
     int paletteA;
     int paletteB;
     int filledDots;
     struct Bmp *bitmap;
-    if (func_021B9A84(work) != 0)
+    if (POKELIST_IsItemMode(work) != 0)
         return;
     if (work->arg->mode == PLIST_PLATE_MODE_BATTLE_ORDER)
         return;
-    hpBarColor = func_021BB554(plate);
+    hpBarColor = PLIST_PLATE_GetHpBarColor(plate);
     filledDots = func_0202D01C(plate->hp, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 0x30);
     bitmap = func_02045770(plate->window);
     if (hpBarColor == PLIST_PLATE_HPBAR_GREEN || hpBarColor == PLIST_PLATE_HPBAR_FULL) {
@@ -545,77 +545,77 @@ void func_021BAE94(PokelistWork *work, PlistPlate *plate)
         paletteA = 0xa;
         paletteB = 0xb;
     }
-    func_02043AF4(bitmap, 0x3d, 0x1b, filledDots, 1, paletteA);
-    func_02043AF4(bitmap, 0x3d, 0x1c, filledDots, 1, paletteB);
+    BMP_FillRect(bitmap, 0x3d, 0x1b, filledDots, 1, paletteA);
+    BMP_FillRect(bitmap, 0x3d, 0x1c, filledDots, 1, paletteB);
     func_0204B3DC(plate->hpBarActor, 1);
 }
 
-void func_021BAF28(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate)
 {
     struct WordSet *wordSet;
     void *eggText;
     wordSet = func_0201EC64(work->heapId);
-    eggText = func_02045EC0(g_020A7370, PLIST_PLATE_MSG_EGG);
+    eggText = func_02045EC0(gSpeciesNameBank, PLIST_PLATE_MSG_EGG);
     func_0201EE0C(wordSet, 0, eggText, 0, 1, 2);
-    func_021B9CF4(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
-    func_02045808(eggText);
+    POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
+    STRBUF_Delete(eggText);
     func_0201ED04(wordSet);
     func_0204B3DC(plate->hpBarActor, 0);
-    func_0204B878(plate->monIconActor, 1);
+    CLACT_SetActorAnimSeq(plate->monIconActor, 1);
     plate->textPending = 1;
 }
 
 static inline PlistPlatePos *getActorOffset(PlistPlate *plate, int x, int y, PlistPlatePos *buf)
 {
-    func_021BB56C(plate, x, y, buf);
+    PLIST_PLATE_GetActorOffset(plate, x, y, buf);
     return buf;
 }
 
-void func_021BAFA0(PokelistWork *work, PlistPlate *plate, int selected)
+void PLIST_PLATE_SetSelected(PokelistWork *work, PlistPlate *plate, int selected)
 {
     PlistPlatePos selectedOffset;
     PlistPlatePos normalOffset;
     PlistPlatePos *offset;
     if (selected == 1) {
         if (work->phase == PLIST_PLATE_PHASE_SWAP || work->phase == PLIST_PLATE_PHASE_HEAL)
-            func_021BB050(work, plate, 8);
-        else if (func_021B9A84(work) == 1 && plate->labelState < 6)
-            func_021BB050(work, plate, 8);
+            PLIST_PLATE_SetPalette(work, plate, 8);
+        else if (POKELIST_IsItemMode(work) == 1 && plate->labelState < 6)
+            PLIST_PLATE_SetPalette(work, plate, 8);
         else
-            func_021BB050(work, plate, 6);
-        func_0204B878(plate->frameActor, 1);
+            PLIST_PLATE_SetPalette(work, plate, 6);
+        CLACT_SetActorAnimSeq(plate->frameActor, 1);
         offset = getActorOffset(plate, 0x1a, 0x13, &selectedOffset);
     } else {
         if ((work->phase == PLIST_PLATE_PHASE_SWAP && work->swapSourceSlot == plate->slot) ||
             (work->phase == PLIST_PLATE_PHASE_HEAL && work->healSourceSlot == plate->slot))
-            func_021BB050(work, plate, 5);
-        else if (func_021B9A84(work) == 1 && plate->labelState < 6)
-            func_021BB050(work, plate, 5);
+            PLIST_PLATE_SetPalette(work, plate, 5);
+        else if (POKELIST_IsItemMode(work) == 1 && plate->labelState < 6)
+            PLIST_PLATE_SetPalette(work, plate, 5);
         else
-            func_021BB050(work, plate, 3);
-        func_0204B878(plate->frameActor, 0);
+            PLIST_PLATE_SetPalette(work, plate, 3);
+        CLACT_SetActorAnimSeq(plate->frameActor, 0);
         offset = getActorOffset(plate, 0x18, 0x10, &normalOffset);
     }
     func_0204B404(plate->monIconActor, offset, 0);
     plate->selected = selected;
 }
 
-void func_021BB050(PokelistWork *work, PlistPlate *plate, int palette)
+void PLIST_PLATE_SetPalette(PokelistWork *work, PlistPlate *plate, int palette)
 {
-    if (palette == 3 && func_021BB554(plate) == PLIST_PLATE_HPBAR_FULL)
-        func_020413B0(2, d_021BEC74[plate->slot * 2] + 0x10, d_021BEC75[plate->slot * 2], 0x10, 6, 4);
-    else if (palette == 6 && func_021BB554(plate) == PLIST_PLATE_HPBAR_FULL)
-        func_020413B0(2, d_021BEC74[plate->slot * 2] + 0x10, d_021BEC75[plate->slot * 2], 0x10, 6, 7);
+    if (palette == 3 && PLIST_PLATE_GetHpBarColor(plate) == PLIST_PLATE_HPBAR_FULL)
+        func_020413B0(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, 4);
+    else if (palette == 6 && PLIST_PLATE_GetHpBarColor(plate) == PLIST_PLATE_HPBAR_FULL)
+        func_020413B0(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, 7);
     else
-        func_020413B0(2, d_021BEC74[plate->slot * 2] + 0x10, d_021BEC75[plate->slot * 2], 0x10, 6, palette);
+        func_020413B0(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, palette);
     func_02041B6C(2);
 }
 
-void func_021BB0C4(PokelistWork *work, const PlistPlate *plate, int slideX)
+void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int slideX)
 {
     int slot = plate->slot;
-    int x = d_021BEC74[slot * 2];
-    u8 y = d_021BEC75[slot * 2];
+    int x = gPlistPlateTileX[slot * 2];
+    u8 y = gPlistPlateTileY[slot * 2];
     PlistPlatePos pos;
     int isOther;
     enum PlateKind { PLATE_KIND_LEAD, PLATE_KIND_OTHER } kind;
@@ -623,24 +623,24 @@ void func_021BB0C4(PokelistWork *work, const PlistPlate *plate, int slideX)
     BMP_WIN_SetPosX(plate->window, slideX + (x + 16));
     pos.x = -(x + slideX) * 8;
     pos.y = -y * 8;
-    func_0204B09C(plate->clactUnit, 0, &pos);
+    CLACT_SetSurfacePos(plate->clactUnit, 0, &pos);
     isOther = 0;
     if (plate->slot != 0) isOther = 1;
     kind = plate->slot != 0;
     x += 16;
     slideX = (unsigned)x + slideX;
-    func_020410D0(2, (u8)slideX, y, 16, 6, (u32)((u8 *)work->paletteData + 12), d_021BEC6C[kind * 2], d_021BEC6D[isOther * 2], 32, 32);
+    func_020410D0(2, (u8)slideX, y, 16, 6, (u32)((u8 *)work->paletteData + 12), gPlistPlatePaletteA[kind * 2], gPlistPlatePaletteB[isOther * 2], 32, 32);
     func_020413B0(2, slideX, y, 16, 6, 5);
-    func_02045374(plate->window);
+    BMP_WIN_MakeScreen(plate->window);
     func_02041B6C(1);
     func_02041B6C(2);
 }
 
-void func_021BB1A0(PokelistWork *work, PlistPlate *plate, int slideX)
+void PLIST_PLATE_ClearSlideTrail(PokelistWork *work, PlistPlate *plate, int slideX)
 {
     int slot = plate->slot;
-    int x = d_021BEC74[slot * 2];
-    u8 y = d_021BEC75[slot * 2];
+    int x = gPlistPlateTileX[slot * 2];
+    u8 y = gPlistPlateTileY[slot * 2];
     int left;
     if (slot % 2 == 0)
         slideX = -slideX;
@@ -649,12 +649,12 @@ void func_021BB1A0(PokelistWork *work, PlistPlate *plate, int slideX)
     func_02041300(1, 0, left, y, 0x10, 6, 5);
 }
 
-void func_021BB200(PokelistWork *work, PlistPlate *plate, void *mon, int slideX)
+void PLIST_PLATE_SetMon(PokelistWork *work, PlistPlate *plate, void *mon, int slideX)
 {
     PlistPlatePos pos[2];
     int slot = plate->slot;
-    int x = d_021BEC74[slot * 2];
-    int y = d_021BEC75[slot * 2];
+    int x = gPlistPlateTileX[slot * 2];
+    int y = gPlistPlateTileY[slot * 2];
     if (slot % 2 == 0)
         slideX = -slideX;
     plate->mon = mon;
@@ -662,34 +662,34 @@ void func_021BB200(PokelistWork *work, PlistPlate *plate, void *mon, int slideX)
     plate->isEgg = func_02017E1C(mon, POKE_TOOL_PARAM_IS_EGG, 0);
     plate->hp = func_02017E1C(plate->mon, POKE_TOOL_PARAM_HP, 0);
     plate->targetHp = plate->hp;
-    func_0204B3B4(plate->monIconActor);
-    func_0204A8D4(plate->iconResource);
-    func_02043B5C(func_02045770(plate->window), 0);
+    CLACT_DeleteActor(plate->monIconActor);
+    CLACT_ReleaseCharacter(plate->iconResource);
+    BMP_Clear(func_02045770(plate->window), 0);
     func_0204B3DC(plate->itemIconActor, 0);
     func_0204B3DC(plate->statusIconActor, 0);
     pos[1].x = 0;
     pos[1].y = 0;
-    func_0204B09C(plate->clactUnit, 0, &pos[1]);
-    func_021BAA50(work, plate);
+    CLACT_SetSurfacePos(plate->clactUnit, 0, &pos[1]);
+    PLIST_PLATE_CreateMonIcon(work, plate);
     pos[0].x = -(x + slideX) * 8;
     pos[0].y = -y * 8;
-    func_0204B09C(plate->clactUnit, 0, pos);
-    func_021BAAE4(work, plate, 0);
+    CLACT_SetSurfacePos(plate->clactUnit, 0, pos);
+    PLIST_PLATE_Draw(work, plate, 0);
 }
 
-void func_021BB2C0(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_Redraw(PokelistWork *work, PlistPlate *plate)
 {
-    func_02043B5C(func_02045770(plate->window), 0);
-    func_021BAAE4(work, plate, 0);
+    BMP_Clear(func_02045770(plate->window), 0);
+    PLIST_PLATE_Draw(work, plate, 0);
 }
 
-void func_021BB2E0(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_RedrawHp(PokelistWork *work, PlistPlate *plate)
 {
-    func_02043AF4(func_02045770(plate->window), 0, 26, 128, 22, 0);
-    func_021BAAE4(work, plate, 1);
+    BMP_FillRect(func_02045770(plate->window), 0, 26, 128, 22, 0);
+    PLIST_PLATE_Draw(work, plate, 1);
 }
 
-void func_021BB30C(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_StartHpAnim(PokelistWork *work, PlistPlate *plate)
 {
     plate->targetHp = func_02017E1C(plate->mon, POKE_TOOL_PARAM_HP, 0);
     PLIST_PLATE_HP_STEP(work) = (plate->targetHp - plate->hp) / 100;
@@ -699,11 +699,11 @@ void func_021BB30C(PokelistWork *work, PlistPlate *plate)
         PLIST_PLATE_HP_STEP(work) = PLIST_PLATE_HP_STEP(work) - 1;
 }
 
-int func_021BB358(PokelistWork *work, PlistPlate *plate)
+int PLIST_PLATE_StepHpAnim(PokelistWork *work, PlistPlate *plate)
 {
     if (plate->hp < plate->targetHp) {
         if (plate->hp == 0) {
-            func_021BB050(work, plate, 6);
+            PLIST_PLATE_SetPalette(work, plate, 6);
         }
         {
             u16 current = plate->hp;
@@ -715,7 +715,7 @@ int func_021BB358(PokelistWork *work, PlistPlate *plate)
                 plate->hp = current + (u16)step;
             }
         }
-        func_021BB2E0(work, plate);
+        PLIST_PLATE_RedrawHp(work, plate);
         return 0;
     }
     if (plate->hp > plate->targetHp) {
@@ -725,62 +725,62 @@ int func_021BB358(PokelistWork *work, PlistPlate *plate)
         } else {
             plate->hp = plate->hp + (u16)step;
         }
-        func_021BB2E0(work, plate);
+        PLIST_PLATE_RedrawHp(work, plate);
         return 0;
     }
     return 1;
 }
 
-int func_021BB3C4(void *unused, PlistPlate *plate)
+int PLIST_PLATE_IsOccupied(void *unused, PlistPlate *plate)
 {
     if (plate->isEmpty != 1) return 1;
     return 0;
 }
 
-void func_021BB3D4(void *unused, PlistPlate *plate, PlistPlatePos *out)
+void PLIST_PLATE_GetCenterPos(void *unused, PlistPlate *plate, PlistPlatePos *out)
 {
-    out->x = (d_021BEC74[plate->slot * 2] + 8) << 3;
-    out->y = (d_021BEC75[plate->slot * 2] + 3) << 3;
+    out->x = (gPlistPlateTileX[plate->slot * 2] + 8) << 3;
+    out->y = (gPlistPlateTileY[plate->slot * 2] + 3) << 3;
 }
 
-void func_021BB3FC(PokelistWork *work, PlistPlate *plate, PlistPlateRect *out)
+void PLIST_PLATE_GetTouchRect(PokelistWork *work, PlistPlate *plate, PlistPlateRect *out)
 {
-    out->left = d_021BEC74[plate->slot * 2] << 3;
-    out->top = d_021BEC75[plate->slot * 2] << 3;
-    out->right = (d_021BEC74[plate->slot * 2] + 16) << 3;
-    out->bottom = (d_021BEC75[plate->slot * 2] + 6) << 3;
+    out->left = gPlistPlateTileX[plate->slot * 2] << 3;
+    out->top = gPlistPlateTileY[plate->slot * 2] << 3;
+    out->right = (gPlistPlateTileX[plate->slot * 2] + 16) << 3;
+    out->bottom = (gPlistPlateTileY[plate->slot * 2] + 6) << 3;
 }
 
-int func_021BB43C(PlistPlate *plate)
+int PLIST_PLATE_GetLabelState(PlistPlate *plate)
 {
     return plate->labelState;
 }
 
-void func_021BB440(PokelistWork *work, PlistPlate *plate, int labelState)
+void PLIST_PLATE_SetLabelState(PokelistWork *work, PlistPlate *plate, int labelState)
 {
     if (plate->labelState != labelState) {
         if (labelState < 6) {
             plate->labelState = labelState;
         } else {
-            func_021BB46C(work, plate);
+            PLIST_PLATE_UpdateLabelState(work, plate);
         }
-        func_021BB2C0(work, plate);
+        PLIST_PLATE_Redraw(work, plate);
     }
 }
 
-u16 func_021BB464(PokelistWork *work, PlistPlate *plate)
+u16 PLIST_PLATE_GetHp(PokelistWork *work, PlistPlate *plate)
 {
     return plate->hp;
 }
 
-int func_021BB468(PokelistWork *work, PlistPlate *plate)
+int PLIST_PLATE_IsEgg(PokelistWork *work, PlistPlate *plate)
 {
     return plate->isEgg;
 }
 
-void func_021BB46C(PokelistWork *work, PlistPlate *plate)
+void PLIST_PLATE_UpdateLabelState(PokelistWork *work, PlistPlate *plate)
 {
-    if (func_021B9A84(work) == 0) {
+    if (POKELIST_IsItemMode(work) == 0) {
         plate->labelState = PLIST_PLATE_LABEL_NONE;
         return;
     }
@@ -791,7 +791,7 @@ void func_021BB46C(PokelistWork *work, PlistPlate *plate)
     plate->labelState = PLIST_PLATE_LABEL_ELIGIBLE;
 }
 
-int func_021BB4A0(PokelistWork *work, PlistPlate *plate)
+int PLIST_PLATE_CheckSelection(PokelistWork *work, PlistPlate *plate)
 {
     int species;
     int heldItem;
@@ -826,12 +826,12 @@ int func_021BB4A0(PokelistWork *work, PlistPlate *plate)
     return 0;
 }
 
-u8 func_021BB554(PlistPlate *plate)
+u8 PLIST_PLATE_GetHpBarColor(PlistPlate *plate)
 {
     return func_0202D034(plate->hp, func_02017E1C(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0));
 }
 
-void func_021BB56C(PlistPlate *plate, int x, int y, PlistPlatePos *out)
+void PLIST_PLATE_GetActorOffset(PlistPlate *plate, int x, int y, PlistPlatePos *out)
 {
     PlistPlatePos surfacePos;
     CLACT_GetSurfacePos(plate->clactUnit, 0, &surfacePos);

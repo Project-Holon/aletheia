@@ -1,5 +1,5 @@
 /*
- * function: func_0215D864
+ * function: SCRCMD_MUSICAL_AddOwnedProp
  * address:  0x0215D864
  * packet:   pkt_0215D864
  * region:   ov010
@@ -13,8 +13,8 @@
  * The slot index is truncated to a byte before the arm9 pair call.
  *
  * symbols:
- *   func_02159B10   0x02159B10  thumb  ov010
- *   func_0215A5E4   0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue   0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData   0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveBlock2A   0x02012F44  thumb
  *   func_0200A6BC   0x0200A6BC  thumb
  */
@@ -23,17 +23,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_0215A5E4(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveBlock2A(void *p);
 struct Big;
 extern void func_0200A6BC(struct Big *p, u32 index);
 
-int func_0215D864(void *a0, void *a1)
+int SCRCMD_MUSICAL_AddOwnedProp(void *a0, void *a1)
 {
-    int v = func_02159B10(a0, a1);
+    int v = SCRIPT_WORK_ReadWorkValue(a0, a1);
 
-    func_0200A6BC((struct Big *)GAME_DATA_GetSaveBlock2A(func_0215A5E4(a1)), (u8)v);
+    func_0200A6BC((struct Big *)GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(a1)), (u8)v);
 
     return 0;
 }

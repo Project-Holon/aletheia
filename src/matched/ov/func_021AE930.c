@@ -1,5 +1,5 @@
 /*
- * function: func_021AE930
+ * function: EVENT_TRAINER_EYE_CreateScriptWork
  * address:  0x021AE930
  * packet:   pkt_021AE930
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_02158768  0x02158768  thumb  ov010
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct Desc;
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-extern void *func_02188C80(void *p);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+extern void *FIELDMAP_GetGameSystem(void *p);
 
-int func_021AE930(int a, u32 b)
+int EVENT_TRAINER_EYE_CreateScriptWork(int a, u32 b)
 {
-return (int)func_02158768((int)func_02188C80((void *)a), (226 << 4), b, 1);
+return (int)SCRIPT_SYS_CreateScriptEventSimple((int)FIELDMAP_GetGameSystem((void *)a), (226 << 4), b, 1);
 }
 

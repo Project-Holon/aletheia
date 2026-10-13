@@ -12,7 +12,7 @@
  *   func_021BC8B4 0x021BC8B4 thumb ov210
  *   func_021BE83C 0x021BE83C thumb ov210
  *   func_021C0234 0x021C0234 thumb ov210
- *   func_021B7A64 0x021B7A64 thumb ov067
+ *   FRAME_LIST_UpdateInit 0x021B7A64 thumb ov067
  *   func_021BF480 0x021BF480 thumb ov210
  *   func_021BCAC8 0x021BCAC8 thumb ov210
  *   func_021BC5C8 0x021BC5C8 thumb ov210
@@ -24,7 +24,7 @@ extern void func_021BC8B4(int);
 extern void func_021BE83C(u8 *);
 extern void func_021C0234(char *ctx);
 struct S;
-extern int func_021B7A64(struct S *p);
+extern int FRAME_LIST_UpdateInit(struct S *p);
 extern void func_021BF480(int p);
 extern void func_021BCAC8(u8 *);
 extern void func_021BC5C8(void);
@@ -39,7 +39,7 @@ int func_021BD500(u8 *p)
         func_021C0234((char *)p);
         p[0x2BA]++;
     case 1:
-        if (func_021B7A64(((struct Obj06694 *)p)->f1E0) == 0) {
+        if (FRAME_LIST_UpdateInit(((struct Obj06694 *)p)->f1E0) == 0) {
             func_021BF480((int)p);
             func_021BCAC8(p);
             func_021BC5C8();

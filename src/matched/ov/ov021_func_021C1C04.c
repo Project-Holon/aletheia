@@ -1,5 +1,5 @@
 /*
- * function: func_021C1C04
+ * function: FLD3D_CI_Delete
  * address:  0x021C1C04
  * packet:   pkt_ov021_021C1C04
  * region:   ov021
@@ -10,19 +10,23 @@
  * status:   EXACT*
  *
  * Releases the effect handles and frees the object (EXACT*: trailing pad).
+ *
+ * symbols:
+ *   G3D_UTIL_Delete  0x02047E54  arm  arm9
+ *   G3D_CAMERA_Delete  0x02048AC4  arm  arm9
  */
 
 typedef unsigned int u32;
 
 struct Rec;
-extern u32 func_02048AC4(void *ptr);
-extern void func_02047E54(struct Rec *p);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_UTIL_Delete(struct Rec *p);
 extern u32 func_020307B0(void *p);
 
-void func_021C1C04(u32 *p)
+void FLD3D_CI_Delete(u32 *p)
 {
-    func_02048AC4((void *)p[1]);
-    func_02048AC4((void *)p[2]);
-    func_02047E54((struct Rec *)p[5]);
+    G3D_CAMERA_Delete((void *)p[1]);
+    G3D_CAMERA_Delete((void *)p[2]);
+    G3D_UTIL_Delete((struct Rec *)p[5]);
     func_020307B0(p);
 }

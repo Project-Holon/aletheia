@@ -1,5 +1,5 @@
 /*
- * function: func_021D7438
+ * function: BTL_EVENT_EnablePokeFactors
  * address: 0x021D7438
  * packet: pkt_ov093_021D7438
  * region: ov093
@@ -24,4 +24,4 @@ typedef struct Node {
 } Node;
 typedef struct { u32 serial; Node *head; u32 used; Node *pool[0x84]; } List;
 extern List data_021F3CB0;
-int func_021D7438(int kind, int id) { Node *n; int found=0; for(n=data_021F3CB0.head; n; n=n->next) { if(n->kind==kind && n->id==id) { n->b30=0; found=1; } } return found; }
+int BTL_EVENT_EnablePokeFactors(int kind, int id) { Node *n; int found=0; for(n=data_021F3CB0.head; n; n=n->next) { if(n->kind==kind && n->id==id) { n->b30=0; found=1; } } return found; }

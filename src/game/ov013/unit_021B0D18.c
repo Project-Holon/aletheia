@@ -14,9 +14,9 @@
  *
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
- *   d_021B3C84  0x021B3C84  data  ov013  a4
+ *   gVctSendState  0x021B3C84  data  ov013  a4
  *   d_021B3C24  0x021B3C24  data  ov013  a4
- *   d_021B3C94  0x021B3C94  data  ov013  a4
+ *   gVctAudioStateAdpcm  0x021B3C94  data  ov013  a4
  *   gVctSession  0x021B60D8  data  ov013  a1
  *   VCT_DSP_HighPassFilter  0x021B3278  arm  ov013
  *   VCT_DSP_SuppressEchoWithReference  0x021B3604  arm  ov013
@@ -27,7 +27,7 @@
  *   func_02080D24  0x02080D24  arm
  *   d_021B3CBC  0x021B3CBC  data  ov013  a4
  *   d_021B3AD0  0x021B3AD0  data  ov013  a1
- *   func_021B2FB0  0x021B2FB0  arm  ov013
+ *   VCT_POOL_AllocFrame  0x021B2FB0  arm  ov013
  *   VCT_AUDIO_FlushReadyQueue  0x021B1720  arm  ov013
  *   VCT_AUDIO_FlushAllReadyQueues  0x021B1790  arm  ov013
  *   VCT_AUDIO_TrackPacketTiming  0x021B1B94  arm  ov013
@@ -65,7 +65,7 @@ extern void VCT_ADPCM_EncodePacket(AdpcmHeader *header, void *dst, int sampleCou
 extern void VCT_AUDIO_EncodeMuLaw(unsigned char *dst, const short *src, unsigned int sampleCount);
 extern void VCT_AUDIO_ConvertPcm16ToPcm8(u8 *dst, short *src, u32 sampleCount);
 extern u8 func_02080D24(u32 mask);
-extern VctRxPacket *func_021B2FB0(void);
+extern VctRxPacket *VCT_POOL_AllocFrame(void);
 extern void VCT_AUDIO_FlushReadyQueue(u32 slot);
 extern void VCT_AUDIO_FlushAllReadyQueues(void);
 extern int VCT_AUDIO_TrackPacketTiming(VctReceiveSource *source, VctRxPacket *packet);
@@ -92,8 +92,8 @@ void VCT_AUDIO_ResetPendingList(void);
 void VCT_AUDIO_FlushPendingSlot(unsigned int slot);
 void VCT_AUDIO_FlushPendingAll(void);
 int VCT_AUDIO_QueuePending(VctRxPacket *packet);
-/* d_021B3C94 is d_021B3C84 + 0x10 (adpcmPredictor): the pool word names it separately. */
-extern AdpcmState d_021B3C94;
+/* gVctAudioStateAdpcm is gVctSendState + 0x10 (adpcmPredictor): the pool word names it separately. */
+extern AdpcmState gVctAudioStateAdpcm;
 extern u8 gVctSendSchedule[][3];
 
 
@@ -113,23 +113,23 @@ extern u8 gVctSendSchedule[][3];
  *   (all 10 bytes). No twin found. Header: status DIFF, 10 bytes.
  * recoup 2026-10-05 (lane R13): no loop counter here, so the ov013 021B0614 opt_lifetimes shape does not apply. Levers 1-2 no change
  *   (callee arities and widths already match matched callers). Lever 3/4/5: f8 block as nested if, store first, f5 = f5 | 0x80,
- *   byte temp, else-if with empty then, negated condition, f5 through a u8 pointer local: all 10 B. Pointer local for d_021B3C84
+ *   byte temp, else-if with empty then, negated condition, f5 through a u8 pointer local: all 10 B. Pointer local for gVctSendState
  *   (whole function 53 B, f8/f14 blocks only 362 B). Pragmas not repeated (header lists them). Residue unchanged: zero store
  *   scheduled before orr in the f8 block only.
  * final push 2026-10-05 G3L8 (32 compiles, 3 rounds): still DIFF 10 B. New facts: (1) scheduling off and peephole off do not change the
  *   order, so the f8 block is ordered before the scheduler (ldrb; str; orr; strb). (2) The order depends on the field offset of the reset
- *   store: fields at +0,+4,+8,+0xC of d_021B3C84 get the zero store between ldrb and orr; fields at +0x14,+0x18,+0x20,+0x24 keep source
+ *   store: fields at +0,+4,+8,+0xC of gVctSendState get the zero store between ldrb and orr; fields at +0x14,+0x18,+0x20,+0x24 keep source
  *   order; the f14 block is never wrong, also when written first. Removing the later f4/f10/f12 accesses does not change it. Tried without
  *   effect: else-if instead of &&, no && at all, raw-offset access, int f8, u32 w[4] array view, cast pointer view, early pointer local,
  *   f5 as ((u8 *)f)[5], Frame data[] start moved to +6, f as u32 arithmetic, Frame fr[2] view (changes the whole function), reversed
  *   && operand order, opt_dead_code / opt_strength_reduction / opt_loop_invariants off. No twin in the listings (orrne #0x80 hits in
  *   ov114, arm9 are stack or different shapes). Open idea: the original f8 store is not provably independent of the strb at f+5.
  * pass 2 2026-10-06 P2L22 (40 compiles, 3 rounds): still DIFF 10 B. New facts: the f8 store follows strb f5 only when mwcc
- *   cannot prove f and d_021B3C84+8 apart. f from an extern pointer or a pointer select (cond ? &d : &d + 0x460) gives the
+ *   cannot prove f and gVctSendState+8 apart. f from an extern pointer or a pointer select (cond ? &d : &d + 0x460) gives the
  *   right order but a second base and addeq (479 B). Integer forms (u32 cast, off local, if/else, inline helper, u8 *buf with
  *   opt_propagation off) keep the points-to. In a sized struct, accesses at +0x10 and up are treated as may-alias, below
  *   0x10 as independent (also for a separate global); int[]/struct[] views make f14 independent too (20 B).
- *   AdpcmState member at +0x10 with &d_021B3C84.st as the call argument also gives 10 B (pool word folds to 021B3C94).
+ *   AdpcmState member at +0x10 with &gVctSendState.st as the call argument also gives 10 B (pool word folds to 021B3C94).
  *   Notes: scratchpad wD9r/p2_P2L22/research.md.
  * pass 3 2026-10-06 P3L11 (38 compiles, 3 rounds): still DIFF 10 B. New facts: (1) one TU struct at 3C84 holding
  *   the ctx and the 42C0 frames/counters, with `Ctx42C0 *w = &big.w` for the 42C0 side, puts both reset blocks in
@@ -142,7 +142,7 @@ extern u8 gVctSendSchedule[][3];
  *   Open lead: a frame pointer the ARM backend cannot trace, still emitted as add r8, r6, r0 from the shared pool.
  *   Notes: scratchpad wD9r/p3_P3L11/research.md.
  * pass 4 2026-10-06 P4L05: closed. The frame flag byte f5 and the two reset-request flags f8 and f14 of
- *   d_021B3C84 are volatile members. The request flags are set from other paths (021B0CD8 sets f8,
+ *   gVctSendState are volatile members. The request flags are set from other paths (021B0CD8 sets f8,
  *   021B0614 and 021B074C set f14) and f5 is the flag byte of the frame buffer that the wireless layer
  *   reads. Two volatile accesses keep their source order, so the f8 reset store stays after strb f5.
  *   Volatile on f8/f14 alone (P3L11 a1) or on f5 alone stays 10 B; both sides are needed.
@@ -156,7 +156,7 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
     int mode;
     u32 pending;
 
-    mode = d_021B3C84.codecMode;
+    mode = gVctSendState.codecMode;
     pending = d_021B42C0.writeCount - d_021B42C0.readCount;
     if (pending > 1) {
         d_021B42C0.readCount = d_021B42C0.writeCount - 1;
@@ -171,19 +171,19 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
     if (mode >= 2)
         samples += 4;
 
-    energy = VCT_DSP_HighPassFilter((short *)samples, d_021B3C84.frameBytes);
+    energy = VCT_DSP_HighPassFilter((short *)samples, gVctSendState.frameBytes);
     reg_SQRTCNT = 0;
     reg_SQRT_PARAM = energy;
     while (reg_SQRTCNT & 0x8000)
         ;
     rms = reg_SQRT_RESULT;
 
-    if (d_021B3C84.echoSuppressEnabled != 0)
-        VCT_DSP_SuppressEchoWithReference((short *)samples, d_021B3C84.frameBytes, rms);
+    if (gVctSendState.echoSuppressEnabled != 0)
+        VCT_DSP_SuppressEchoWithReference((short *)samples, gVctSendState.frameBytes, rms);
 
     frame->flags = mode;
     if (d_021B3C24 != 0) {
-        switch (d_021B3C84.lastGateResult = VCT_DSP_UpdateVoiceGate(energy, rms, 0)) {
+        switch (gVctSendState.lastGateResult = VCT_DSP_UpdateVoiceGate(energy, rms, 0)) {
         case 0:
             d_021B42C0.readCount++;
             return 0;
@@ -195,29 +195,29 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
             break;
         }
     }
-    if (d_021B3C24 == 0 && d_021B3C84.markerRequestNoVad != 0) {
+    if (d_021B3C24 == 0 && gVctSendState.markerRequestNoVad != 0) {
         frame->flags |= 0x80;
-        d_021B3C84.markerRequestNoVad = 0;
+        gVctSendState.markerRequestNoVad = 0;
     }
-    if (d_021B3C84.markerRequest != 0) {
+    if (gVctSendState.markerRequest != 0) {
         frame->flags |= 0x80;
-        d_021B3C84.markerRequest = 0;
+        gVctSendState.markerRequest = 0;
     }
 
     if (mode >= 2) {
         if (frame->flags & 0x80) {
-            d_021B3C84.adpcmPredictor = 0;
-            d_021B3C84.adpcmStepIndex = 0;
+            gVctSendState.adpcmPredictor = 0;
+            gVctSendState.adpcmStepIndex = 0;
         }
-        VCT_ADPCM_EncodePacket((AdpcmHeader *)(samples - 4), samples, d_021B3C84.frameBytes >> 1, &d_021B3C94, mode);
+        VCT_ADPCM_EncodePacket((AdpcmHeader *)(samples - 4), samples, gVctSendState.frameBytes >> 1, &gVctAudioStateAdpcm, mode);
     } else if (mode == 1) {
-        VCT_AUDIO_EncodeMuLaw(samples, (short *)samples, d_021B3C84.frameBytes >> 1);
+        VCT_AUDIO_EncodeMuLaw(samples, (short *)samples, gVctSendState.frameBytes >> 1);
     } else if (mode == 0) {
-        VCT_AUDIO_ConvertPcm16ToPcm8(samples, (short *)samples, d_021B3C84.frameBytes >> 1);
+        VCT_AUDIO_ConvertPcm16ToPcm8(samples, (short *)samples, gVctSendState.frameBytes >> 1);
     }
 
-    d_021B42C0.pendingMask = d_021B3C84.memberMask;
-    d_021B42C0.pendingMask = d_021B3C84.memberMask & ~(1 << gVctSession.localId);
+    d_021B42C0.pendingMask = gVctSendState.memberMask;
+    d_021B42C0.pendingMask = gVctSendState.memberMask & ~(1 << gVctSession.localId);
     d_021B42C0.scheduleRow = func_02080D24(d_021B42C0.pendingMask) - 1;
     if (d_021B42C0.scheduleRow > 7)
         return 0;
@@ -242,7 +242,7 @@ int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 ar
     u8 *dst;
 
     source = 0;
-    if (d_021B3C84.memberCount == 0)
+    if (gVctSendState.memberCount == 0)
         return 0;
 
     for (i = 0; i < 3; i++) {
@@ -269,16 +269,16 @@ int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 ar
         return 0;
     if (size != d_021B3AD0[mode].blocks * 0x44 + d_021B3AD0[mode].extraBytes + 0xc)
         return 0;
-    if ((d_021B3C84.memberMask & (senderAid != 0 ? 1 << senderAid : 1)) == 0)
+    if ((gVctSendState.memberMask & (senderAid != 0 ? 1 << senderAid : 1)) == 0)
         return 0;
 
-    if ((packet = func_021B2FB0()) == 0) {
+    if ((packet = VCT_POOL_AllocFrame()) == 0) {
         VCT_AUDIO_FlushReadyQueue(source->queueIndex);
         VCT_AUDIO_FlushPendingSlot(source->queueIndex);
-        if ((packet = func_021B2FB0()) == 0) {
+        if ((packet = VCT_POOL_AllocFrame()) == 0) {
             VCT_AUDIO_FlushAllReadyQueues();
             VCT_AUDIO_FlushPendingAll();
-            packet = func_021B2FB0();
+            packet = VCT_POOL_AllocFrame();
         }
         if (packet == 0)
             return 0;
@@ -366,12 +366,12 @@ int VCT_AUDIO_SendFrameStep(void)
     u32 mask;
     u32 zeros;
 
-    if (d_021B3C84.memberCount == 0)
+    if (gVctSendState.memberCount == 0)
         return 1;
 
     if (d_021B42C0.sendFrame == 0) {
         d_021B42C0.sendFrame = VCT_AUDIO_EncodeSendFrame();
-        if (d_021B42C0.sendFrame != 0 && d_021B3C84.echoSuppressEnabled != 0)
+        if (d_021B42C0.sendFrame != 0 && gVctSendState.echoSuppressEnabled != 0)
             return 0;
         return 1;
     }
@@ -386,7 +386,7 @@ int VCT_AUDIO_SendFrameStep(void)
         if (zeros == 32)
             break;
         d_021B42C0.pendingMask = mask & ~(0x80000000 >> zeros);
-        func_02177044((u8)(31 - zeros), d_021B42C0.sendFrame, d_021B3C84.packetBytes);
+        func_02177044((u8)(31 - zeros), d_021B42C0.sendFrame, gVctSendState.packetBytes);
         if (d_021B42C0.pendingMask == 0) {
             d_021B42C0.readCount++;
             d_021B42C0.sendFrame = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218416C
+ * function: UNION_APP_SetReady
  * address: 0x0218416C
  * packet: pkt_ov022_0218416C
  * region: ov022
@@ -12,7 +12,7 @@
  */
 #include "../include/Obj20328.h"
 typedef unsigned int u32;
-void func_0218416C(char *p)
+void UNION_APP_SetReady(char *p)
 {
     ((struct Obj20328 *)p)->f14 = 1;
 }

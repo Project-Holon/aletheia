@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3E24",
+   "name": "GIMMICK39_CreateSwitchEvent",
    "address": "0x021F3E24",
    "kind": "game",
    "region": "ov039",

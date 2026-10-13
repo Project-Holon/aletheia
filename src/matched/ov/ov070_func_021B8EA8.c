@@ -1,5 +1,5 @@
 /*
- * function: func_021B8EA8
+ * function: ITEMMENU_TaskInputGuardMessage
  * address:  0x021B8EA8
  * packet:   pkt_ov070_021B8EA8
  * region:   ov070
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B98C  0x0204B98C  arm
- *   func_0204B878  0x0204B878  arm
- *   func_021B809C  0x021B809C  thumb  ov070
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
+ *   ITEMMENU_SortAndRedraw  0x021B809C  thumb  ov070
  *   func_0204B92C  0x0204B92C  arm
- *   func_02045CAC  0x02045CAC  arm
- *   func_021BACF0  0x021BACF0  thumb  ov070
- *   func_021BB580  0x021BB580  thumb  ov070
- *   func_021BB3F4  0x021BB3F4  thumb  ov070
- *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B8F0C  0x021B8F0C  thumb  ov070
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   ITEMMENU_ShowMessage  0x021BACF0  thumb  ov070
+ *   ITEMMENU_SetBackButtonAnim  0x021BB580  thumb  ov070
+ *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
+ *   ITEMMENU_TaskWaitMessageThenList  0x021B8F0C  thumb  ov070
  */
 #include "../include/Obj00002.h"
 
@@ -29,28 +29,28 @@ typedef unsigned char  u8;
 struct Actor;
 struct MsgBank;
 struct Obj;
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_021B809C(u8 *p);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void ITEMMENU_SortAndRedraw(u8 *p);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021BACF0(int p, int mode);
-extern void func_021BB580(char *p, int v);
-extern void func_021BB3F4(int p, int mode);
-extern void func_021B6100(char *p, int k);
-extern void func_021B8F0C(int p);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void ITEMMENU_ShowMessage(int p, int mode);
+extern void ITEMMENU_SetBackButtonAnim(char *p, int v);
+extern void ITEMMENU_UpdateSideButtons(int p, int mode);
+extern void ITEMMENU_SetTask(char *p, int k);
+extern void ITEMMENU_TaskWaitMessageThenList(int p);
 
-void func_021B8EA8(int p)
+void ITEMMENU_TaskInputGuardMessage(int p)
 {
-    if (func_0204B98C((struct Actor *)(*(int *)&((struct Obj00002 *)p)->f72C)) == 0) {
-        func_0204B878((struct Obj *)(*(int *)&((struct Obj00002 *)p)->f72C), 0);
-        func_021B809C((u8 *)p);
+    if (CLACT_IsActorAnimActive((struct Actor *)(*(int *)&((struct Obj00002 *)p)->f72C)) == 0) {
+        CLACT_SetActorAnimSeq((struct Obj *)(*(int *)&((struct Obj00002 *)p)->f72C), 0);
+        ITEMMENU_SortAndRedraw((u8 *)p);
         func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 0);
-        func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00002 *)p)->f51C), 0x8A, (void *)(*(int *)&((struct Obj00002 *)p)->f528));
-        func_021BACF0(p, 0);
-        func_021BB580((char *)p, 0);
-        func_021BB3F4(p, 0);
-        func_021B6100((char *)p, (int)func_021B8F0C);
+        MSGDATA_ReadString((struct MsgBank *)(*(int *)&((struct Obj00002 *)p)->f51C), 0x8A, (void *)(*(int *)&((struct Obj00002 *)p)->f528));
+        ITEMMENU_ShowMessage(p, 0);
+        ITEMMENU_SetBackButtonAnim((char *)p, 0);
+        ITEMMENU_UpdateSideButtons(p, 0);
+        ITEMMENU_SetTask((char *)p, (int)ITEMMENU_TaskWaitMessageThenList);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021ABBA0",
+   "name": "FLD_SCENEAREA_LOADER_GetStripProgress",
    "address": "0x021ABBA0",
    "kind": "game",
    "region": "ov021",

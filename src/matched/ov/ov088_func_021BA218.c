@@ -1,5 +1,5 @@
 /*
- * function: func_021BA218
+ * function: STARTMENU_StateWaitFade
  * address:  0x021BA218
  * packet:   pkt_ov088_021BA218
  * region:   ov088
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
  */
 #include "../include/Obj20813.h"
 
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 
-int func_021BA218(char *p)
+int STARTMENU_StateWaitFade(char *p)
 {
-    if (func_020221A4() == 1) {
+    if (WIPE_SYS_EndCheck() == 1) {
         return ((struct Obj20813 *)p)->f144;
     }
     return 2;

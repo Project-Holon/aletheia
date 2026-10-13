@@ -1,5 +1,5 @@
 /*
- * function: func_02190788
+ * function: FIELD_MSGBG_ClearMsgWin
  * address:  0x02190788
  * packet:   pkt_02190788
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_02190620  0x02190620  thumb
+ *   FIELD_MSGBG_ClearMsgPrint  0x02190620  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02190620(u32 a);
+extern int FIELD_MSGBG_ClearMsgPrint(u32 a);
 
-void func_02190788(u8 *p)
+void FIELD_MSGBG_ClearMsgWin(u8 *p)
 {
-    func_02190620(((struct Obj17929 *)p)->f4);
+    FIELD_MSGBG_ClearMsgPrint(((struct Obj17929 *)p)->f4);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4558
+ * function: BTL_NET_AllocPerapVoiceBuf
  * address:  0x021D4558
  * packet:   pkt_ov093_021D4558
  * region:   ov093
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   sub_02030734   0x02030734  arm
- *   d_021F3B88     0x021F3B88  data  ov093
- *   d_021F3A98     0x021F3A98  data  ov093  a1
+ *   gBtlNet     0x021F3B88  data  ov093
+ *   gBtlNetSourceName     0x021F3A98  data  ov093  a1
  */
 
 typedef unsigned char u8;
@@ -26,14 +26,14 @@ struct S {
     void *tblA[4];
 };
 
-extern struct S *d_021F3B88;
-extern const char d_021F3A98[];
+extern struct S *gBtlNet;
+extern const char gBtlNetSourceName[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-void *func_021D4558(int idx, int unused, u32 size)
+void *BTL_NET_AllocPerapVoiceBuf(int idx, int unused, u32 size)
 {
     if (size == 4)
-        return (u8 *)d_021F3B88 + 0xbf4 + idx * 0xbbc;
-    d_021F3B88->tblA[idx] = sub_02030734((u16)((d_021F3B88->f04 & 0x7fff) | 0x8000), size, 1, d_021F3A98, 0x21f);
-    return d_021F3B88->tblA[idx];
+        return (u8 *)gBtlNet + 0xbf4 + idx * 0xbbc;
+    gBtlNet->tblA[idx] = sub_02030734((u16)((gBtlNet->f04 & 0x7fff) | 0x8000), size, 1, gBtlNetSourceName, 0x21f);
+    return gBtlNet->tblA[idx];
 }

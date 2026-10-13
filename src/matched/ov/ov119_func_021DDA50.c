@@ -16,9 +16,9 @@
  *   func_021DEBD4  0x021DEBD4  thumb  ov119
  *   func_021E1098  0x021E1098  thumb  ov119
  *   func_021E12F8  0x021E12F8  thumb  ov119
- *   func_020279E8  0x020279E8  thumb
- *   func_02027A04  0x02027A04  thumb
- *   func_0202208C  0x0202208C  thumb
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
+ *   WIPE_SYS_Start  0x0202208C  thumb
  */
 #include "../include/Obj00001.h"
 
@@ -33,23 +33,23 @@ extern void func_021E12F8(char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct TaskMenu;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 void func_021DDA50(void *p)
 {
     int v;
 
-    if (func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C)) == 0)
+    if (APP_TASKMENU_IsFinish((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C)) == 0)
         return;
-    v = func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
+    v = APP_TASKMENU_GetCursorPos((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
     func_021E12F8(p);
     func_021E1098(p);
     *(int *)&((struct Obj00001 *)p)->f64C = 0;
     switch (v) {
     case 0:
-        func_0202208C((void *)3, 0, 0, 0, 6, 1, ((struct Obj00001 *)p)->f5F4);
+        WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, ((struct Obj00001 *)p)->f5F4);
         func_021D8E84(p, 0x021DE519);
         return;
     case 1:

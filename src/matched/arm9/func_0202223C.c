@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0202223C
+ * function: WIPE_SetBrightnessFadeOut
  *
  * symbols:
  *   g_021468E4     0x021468E4  data
@@ -33,8 +33,8 @@
  * pools in the image.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0202223C.c \
- *       --func func_0202223C --addr 0x0202223C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SetBrightnessFadeOut.c \
+ *       --func WIPE_SetBrightnessFadeOut --addr 0x0202223C --cc 1.1p1 --thumb
  */
 
 #include "../include/G_021468E4.h"
@@ -47,7 +47,7 @@ extern void WIPE_SetBrightness(u32 which, int brightness);
 
 extern struct G_021468E4 g_021468E4;
 
-void func_0202223C(u32 a, u32 color)
+void WIPE_SetBrightnessFadeOut(u32 a, u32 color)
 {
     if (color == 0xFFFF) {
         color = g_021468E4.f10;

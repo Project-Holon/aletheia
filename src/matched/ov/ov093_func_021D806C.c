@@ -1,5 +1,5 @@
 /*
- * function: func_021D806C
+ * function: BTL_CALC_PackPokeIds
  * address: 0x021D806C
  * packet: pkt_ov093_021D806C
  * region: ov093
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021D806C(const u8 *p) { u32 v=0; u32 i; for(i=0;i<6;i++) v|=(p[i]&31)<<(i*5); return v; }
+u32 BTL_CALC_PackPokeIds(const u8 *p) { u32 v=0; u32 i; for(i=0;i<6;i++) v|=(p[i]&31)<<(i*5); return v; }

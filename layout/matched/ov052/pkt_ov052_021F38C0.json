@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F38C0",
+    "FIELD_GIMMICK_BSUBWAY_InitTrainSway",
     "func_021F38E4"
+   ],
+   "addresses": [
+    "0x021F38C0",
+    "0x021F38E4"
    ],
    "evidence": {
     "sole-ref": [

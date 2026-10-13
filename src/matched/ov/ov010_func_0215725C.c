@@ -1,5 +1,5 @@
 /*
- * function: func_0215725C
+ * function: MUSICAL_PROGRAM_GetCategoryBonus
  * address: 0x0215725C
  * packet: pkt_ov010_0215725C
  * region: ov010
@@ -9,4 +9,4 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-u8 func_0215725C(u8 *p, int i) { return p[i]; }
+u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *p, int i) { return p[i]; }

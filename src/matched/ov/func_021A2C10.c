@@ -1,5 +1,5 @@
 /*
- * function: func_021A2C10
+ * function: WEATHER_TASK_DestroyParticleActor
  * address:  0x021A2C10
  * packet:   pkt_021A2C10
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12086.h"
@@ -22,13 +22,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
-void func_021A2C10(u8 *p)
+void WEATHER_TASK_DestroyParticleActor(u8 *p)
 {
     u32 v = ((struct Obj12086 *)p)->f4;
     if (v != 0) {
-        func_0204B3B4((struct Obj *)v);
+        CLACT_DeleteActor((struct Obj *)v);
         ((struct Obj12086 *)p)->f4 = 0;
     }
 }

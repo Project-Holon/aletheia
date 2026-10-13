@@ -1,5 +1,5 @@
 /*
- * function: func_0216E4B0
+ * function: FLDMMDL_FindMovedPosSlot
  * address: 0x0216E4B0
  * packet: pkt_ov010_0216E4B0
  * region: ov010
@@ -18,7 +18,7 @@
 typedef unsigned short u16;
 extern const u16 d_02172A70[][4];
 
-int func_0216E4B0(int a, int b)
+int FLDMMDL_FindMovedPosSlot(int a, int b)
 {
     int x;
     int y;

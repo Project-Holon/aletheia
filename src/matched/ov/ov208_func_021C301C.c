@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_GetActorScale 0x0204B5C0 arm
  *   func_0204B404 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
@@ -34,7 +34,7 @@ struct Pos { s16 x; s16 y; };
 struct Pair { int x; int y; };
 
 struct Actor; struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 extern void CLACT_GetActorScale(const struct Obj *o, struct Pair *p);
 struct Vec2;
@@ -53,7 +53,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
     case 2:
         break;
     case 1:
-        func_0204B454(OBJ(p), (struct PtS *)&pos, 1);
+        CLACT_GetActorSurfacePos(OBJ(p), (struct PtS *)&pos, 1);
         CLACT_GetActorScale(OBJ(p), &sc);
         f = (float)sc.y / 4096.0f;
         f += 0.01f;
@@ -70,7 +70,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         CLACT_SetActorScale(OBJ(p), &sc);
         break;
     case 3:
-        func_0204B454(OBJ(p), (struct PtS *)&pos, 1);
+        CLACT_GetActorSurfacePos(OBJ(p), (struct PtS *)&pos, 1);
         CLACT_GetActorScale(OBJ(p), &sc);
         f = (float)sc.y / 4096.0f - 0.01f;
         if (f <= 1.0f) {

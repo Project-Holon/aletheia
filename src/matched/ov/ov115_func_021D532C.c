@@ -18,12 +18,12 @@
  *   func_02049F78 0x02049F78 arm
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
- *   func_02021F64 0x02021F64 thumb
+ *   PALANM_BlendColors 0x02021F64 thumb
  *   func_020862F0 0x020862F0 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021D5528 0x021D5528 thumb ov115
  *   func_0207D63C 0x0207D63C arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,12 +36,12 @@ extern void func_02082BCC(void *, u8, u32);
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
-extern void func_02021F64(u16 *, u16 *, int, u8, u16);
+extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 extern void func_020862F0(void *, int);
 extern void *func_020056A0(void *, void *, int);
 extern void func_021D5528(void *unused, u8 *p);
 extern void func_0207D63C(void *, int, int, int, int);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021D532C(char *p)
 {
     void *record;
@@ -85,7 +85,7 @@ void func_021D532C(char *p)
         while (1) {
             dst = base0 + i * 16;
             for (m = 4; m < 11; m++) {
-                func_02021F64(dst + m, base1 + j * 16 + m, 1, (u8)(k >> 8), cur[m + 12]);
+                PALANM_BlendColors(dst + m, base1 + j * 16 + m, 1, (u8)(k >> 8), cur[m + 12]);
             }
             j++;
             if (done == 1) break;
@@ -101,5 +101,5 @@ void func_021D532C(char *p)
     *(void **)(p + 0x10) = func_020056A0((void *)func_021D5528, p + 0x10, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);
     *(u8 *)(p + 0x97c) = 0;
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

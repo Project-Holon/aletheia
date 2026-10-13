@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA238",
+   "name": "BSUBWAY_SCR_SetWinCount",
    "address": "0x021CA238",
    "kind": "game",
    "region": "ov021",

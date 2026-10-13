@@ -1,5 +1,5 @@
 /*
- * function: func_021B8028
+ * function: FIELD_RAIL_WORK_GetPos
  * address:  0x021B8028
  * packet:   pkt_ov021_021B8028
  * region:   ov021
@@ -20,7 +20,7 @@ typedef struct {
     u32 w[3];
 } Triple;
 
-void func_021B8028(u8 *o, Triple *out)
+void FIELD_RAIL_WORK_GetPos(u8 *o, Triple *out)
 {
     *out = *(Triple *)(o + 0x38);
 }

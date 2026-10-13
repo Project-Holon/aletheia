@@ -66,7 +66,7 @@ typedef struct StaOamBitmapActors {
     unsigned char rows;                 /* 0x23 */
 } StaOamBitmapActors;
 
-/* Position record read by the cell actor creator func_0204B294. */
+/* Position record read by the cell actor creator CLACT_CreateActor. */
 typedef struct StaOamActorPos {
     short x, y;
     unsigned short animSeq;

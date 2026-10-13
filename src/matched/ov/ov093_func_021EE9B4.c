@@ -1,5 +1,5 @@
 /*
- * function: func_021EE9B4
+ * function: BTL_REC_LoadPacket
  * address:  0x021EE9B4
  * packet:   pkt_ov093_021EE9B4
  * region:   ov093
@@ -27,7 +27,7 @@ typedef struct {
 
 extern void func_02082D44(const void *, void *, int);
 
-void func_021EE9B4(B *p, const void *src, int n)
+void BTL_REC_LoadPacket(B *p, const void *src, int n)
 {
     func_02082D44(src, p->d, n);
     p->len = n;

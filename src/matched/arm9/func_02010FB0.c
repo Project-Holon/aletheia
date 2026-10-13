@@ -1,5 +1,5 @@
 /*
- * function: func_02010FB0
+ * function: GPOWER_ApplyEncountRate
  * address:  0x02010FB0
  * packet:   pkt_02010EEC
  * region:   arm9
@@ -19,8 +19,8 @@
  * at one shared `pop`, which is why the compiler tail-merged them.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02010FB0.c \
- *       --func func_02010FB0 --addr 0x02010FB0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GPOWER_ApplyEncountRate.c \
+ *       --func GPOWER_ApplyEncountRate --addr 0x02010FB0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 extern u8 g_02146208[];
 extern u8 g_02146228[];
 
-u32 func_02010FB0(u32 v)
+u32 GPOWER_ApplyEncountRate(u32 v)
 {
     if (g_02146208[0x14] != 0x30) {
         v = *(u16 *)(g_02146228 + 2) * v / 100;

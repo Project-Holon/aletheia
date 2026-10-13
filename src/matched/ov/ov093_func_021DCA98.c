@@ -1,5 +1,5 @@
 /*
- * function: func_021DCA98
+ * function: BTL_ABILITY_PranksterRaiseStatusPriority
  * address:  0x021DCA98
  * packet:   pkt_ov093_021DCA98
  * region:   ov093
@@ -10,25 +10,25 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern int WAZA_TOOL_GetDamageType(int a);
-extern int func_021D76BC(int key, u32 val);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void func_021DCA98(int a, int b, int c)
+void BTL_ABILITY_PranksterRaiseStatusPriority(int a, int b, int c)
 {
     u8 v;
 
-    if (c == func_021D775C(3) && WAZA_TOOL_GetDamageType((u16)func_021D775C(0x12)) == 0) {
-        v = func_021D775C(0x18);
-        func_021D76BC(0x18, v + 1);
+    if (c == BTL_EVENT_GetVar(3) && WAZA_TOOL_GetDamageType((u16)BTL_EVENT_GetVar(0x12)) == 0) {
+        v = BTL_EVENT_GetVar(0x18);
+        BTL_EVENT_OverwriteVar(0x18, v + 1);
     }
 }

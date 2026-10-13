@@ -1,5 +1,5 @@
 /*
- * function: func_021DD8A8
+ * function: BTL_ITEM_GetRaiseSpeedOneHandlers
  * address: 0x021DD8A8
  * packet: pkt_ov093_021DD8A8
  * region: ov093
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DD87C.c and filed here.
  *
  * symbols:
- *   d_021F1D1C 0x021F1D1C data ov093 a4
+ *   gBtlItemRaiseSpeedOneHandlers 0x021F1D1C data ov093 a4
  */
 
-int *func_021DD8A8(int *p);
+int *BTL_ITEM_GetRaiseSpeedOneHandlers(int *p);
 
-/* 021DD8B4  shifted 3-arg wrapper -> func_021DD9E8(..., 0x5, 1) */
-extern int d_021F1D1C[];
+/* 021DD8B4  shifted 3-arg wrapper -> BTL_ITEM_RaiseStat(..., 0x5, 1) */
+extern int gBtlItemRaiseSpeedOneHandlers[];
 
-int *func_021DD8A8(int *p)
+int *BTL_ITEM_GetRaiseSpeedOneHandlers(int *p)
 {
     *p = 5;
-    return d_021F1D1C;
+    return gBtlItemRaiseSpeedOneHandlers;
 }

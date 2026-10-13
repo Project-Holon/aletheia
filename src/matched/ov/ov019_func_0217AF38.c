@@ -1,5 +1,5 @@
 /*
- * function: func_0217AF38
+ * function: UNION_CHARA_IsUnionObjId
  * address: 0x0217AF38
  * packet: pkt_ov019_0217AF38
  * region: ov019
@@ -11,4 +11,4 @@
  */
 
 typedef unsigned short u16;
-int func_0217AF38(u16 a) { unsigned int v; v = (unsigned char)a; if ((u16)v >= 0x20) return 1; else return 0; }
+int UNION_CHARA_IsUnionObjId(u16 a) { unsigned int v; v = (unsigned char)a; if ((u16)v >= 0x20) return 1; else return 0; }

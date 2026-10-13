@@ -1,5 +1,5 @@
 /*
- * function: func_021A6974
+ * function: FIELD_PLAYER_NOGRID_ForcedSlideSpinA
  * address:  0x021A6974
  * packet:   pkt_ov021_021A6974
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D608  0x0216D608  thumb  ov010
- *   func_021A5B6C  0x021A5B6C  thumb  ov021
- *   func_021A6870  0x021A6870  thumb  ov021
- *   func_021A6708  0x021A6708  thumb  ov021
- *   func_021A6744  0x021A6744  thumb  ov021
- *   func_021A6768  0x021A6768  thumb  ov021
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D548  0x0216D548  thumb  ov010
- *   func_021A3964  0x021A3964  thumb  ov021
+ *   FLDMMDL_GetDirMove  0x0216D608  thumb  ov010
+ *   FIELD_PLAYER_NOGRID_GetHitBits  0x021A5B6C  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_EndForcedMove  0x021A6870  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_SetForcedMove  0x021A6708  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_SetSpinA  0x021A6744  thumb  ov021
+ *   FIELD_PLAYER_NOGRID_ClearSpinB  0x021A6768  thumb  ov021
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
+ *   FIELD_PLAYER_CORE_SetStepKind  0x021A3964  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01658.h"
@@ -28,32 +28,32 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0216D608(void *o);
-extern int func_021A5B6C(u32 a, u32 b, u32 c, u32 d);
-extern void func_021A6870(u8 *p);
-extern void func_021A6708(void *a);
-extern void func_021A6744(void *a);
-extern void func_021A6768(void *a);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D410(void *o, u32 v);
-extern u32 *func_0216D548(u32 *p, u32 v);
-extern void func_021A3964(u8 *o, u32 v);
+extern u16 FLDMMDL_GetDirMove(void *o);
+extern int FIELD_PLAYER_NOGRID_GetHitBits(u32 a, u32 b, u32 c, u32 d);
+extern void FIELD_PLAYER_NOGRID_EndForcedMove(u8 *p);
+extern void FIELD_PLAYER_NOGRID_SetForcedMove(void *a);
+extern void FIELD_PLAYER_NOGRID_SetSpinA(void *a);
+extern void FIELD_PLAYER_NOGRID_ClearSpinB(void *a);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetAcmd(void *o, u32 v);
+extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
+extern void FIELD_PLAYER_CORE_SetStepKind(u8 *o, u32 v);
 
-u32 func_021A6974(u8 *p, u32 a1)
+u32 FIELD_PLAYER_NOGRID_ForcedSlideSpinA(u8 *p, u32 a1)
 {
     void *o = ((struct Obj01658 *)p)->f1C;
-    u32 r7 = func_0216D608(o);
+    u32 r7 = FLDMMDL_GetDirMove(o);
 
-    if (func_021A5B6C((u32)p, (u32)o, r7, 0)) {
-        func_021A6870(p);
+    if (FIELD_PLAYER_NOGRID_GetHitBits((u32)p, (u32)o, r7, 0)) {
+        FIELD_PLAYER_NOGRID_EndForcedMove(p);
         return a1;
     }
-    func_021A6708(p);
-    func_021A6744(p);
-    func_021A6768(p);
-    func_0216D410(o, func_02197E7C(r7, 0x10));
-    func_0216D548(o, 0x18);
+    FIELD_PLAYER_NOGRID_SetForcedMove(p);
+    FIELD_PLAYER_NOGRID_SetSpinA(p);
+    FIELD_PLAYER_NOGRID_ClearSpinB(p);
+    FLDMMDL_SetAcmd(o, FLDMMDL_ACMD_ConvertCodeByDir(r7, 0x10));
+    FLDMMDL_SetStatusBit(o, 0x18);
     ((struct Obj01658 *)p)->f0 = 1;
-    func_021A3964(*(u8 * *)&((struct Obj01658 *)p)->f14, 1);
+    FIELD_PLAYER_CORE_SetStepKind(*(u8 * *)&((struct Obj01658 *)p)->f14, 1);
     return r7;
 }

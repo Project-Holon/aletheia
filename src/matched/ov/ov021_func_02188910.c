@@ -1,5 +1,5 @@
 /*
- * function: func_02188910
+ * function: FIELDMAP_SeqUpdateTop
  * address:  0x02188910
  * packet:   pkt_ov021_02188910
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012E40  0x02012E40  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_020129F0  0x020129F0  thumb
- *   func_0218CC34  0x0218CC34  thumb
- *   func_021A0E58  0x021A0E58  thumb
- *   func_021903E0  0x021903E0  thumb
- *   func_021BC4F0  0x021BC4F0  thumb
- *   func_021890AC  0x021890AC  thumb
+ *   GAME_DATA_IsSaving  0x02012E40  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_ResetWalkCount  0x020129F0  thumb
+ *   FIELD_G3D_MAPPER_StepBlocks  0x0218CC34  thumb
+ *   FIELD_SUBSCREEN_MainNoTransition  0x021A0E58  thumb
+ *   FIELD_MSGBG_Main  0x021903E0  thumb
+ *   FIELD_PLACE_NAME_Draw  0x021BC4F0  thumb
+ *   FIELDMAP_DrawEnd  0x021890AC  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04193.h"
@@ -29,35 +29,35 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u8 func_02012E40(const u8 *o);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern void func_020129F0(struct BigObj *p);
-extern void func_0218CC34(u32 a);
-extern void func_021A0E58(u32 *a);
+extern void GAME_DATA_ResetWalkCount(struct BigObj *p);
+extern void FIELD_G3D_MAPPER_StepBlocks(u32 a);
+extern void FIELD_SUBSCREEN_MainNoTransition(u32 *a);
 struct Obj;
-extern void func_021903E0(struct Obj *p);
-extern void func_021BC4F0(int a);
-extern void func_021890AC(unsigned char *p);
+extern void FIELD_MSGBG_Main(struct Obj *p);
+extern void FIELD_PLACE_NAME_Draw(int a);
+extern void FIELDMAP_DrawEnd(unsigned char *p);
 
-u32 func_02188910(void *a, u8 *b)
+u32 FIELDMAP_SeqUpdateTop(void *a, u8 *b)
 {
-    if (func_02012E40((const u8 *)(((struct Obj04193 *)b)->f8)) != 0) {
-        func_020129F0(func_020120F4(a));
+    if (GAME_DATA_IsSaving((const u8 *)(((struct Obj04193 *)b)->f8)) != 0) {
+        GAME_DATA_ResetWalkCount(GAMESYSTEM_GetGameData(a));
         return 0;
     }
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    func_0218CC34(((struct Obj04193 *)b)->f48);
+    FIELD_G3D_MAPPER_StepBlocks(((struct Obj04193 *)b)->f48);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_021A0E58((u32 *)(((struct Obj04193 *)b)->f24));
+    FIELD_SUBSCREEN_MainNoTransition((u32 *)(((struct Obj04193 *)b)->f24));
     if (((struct Obj04193 *)b)->f28 != 0)
-        func_021903E0((struct Obj *)((struct Obj04193 *)b)->f28);
+        FIELD_MSGBG_Main((struct Obj *)((struct Obj04193 *)b)->f28);
     if (((struct Obj04193 *)b)->f30 != 0)
-        func_021BC4F0((int)((struct Obj04193 *)b)->f30);
+        FIELD_PLACE_NAME_Draw((int)((struct Obj04193 *)b)->f30);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    func_021890AC(b);
+    FIELDMAP_DrawEnd(b);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_020129F0(func_020120F4(a));
+    GAME_DATA_ResetWalkCount(GAMESYSTEM_GetGameData(a));
     return 0;
 }

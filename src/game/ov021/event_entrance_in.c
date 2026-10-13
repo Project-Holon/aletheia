@@ -1,7 +1,7 @@
 /*
  * file:     event_entrance_in.c
  * unit:     yes
- * function: func_021BD648, func_021BD6C0, func_021BD704, func_021BD734, func_021BD7A8, func_021BD7E0, func_021BD874, func_021BD8C0, func_021BD904, func_021BD93C, func_021BD94C, func_021BD96C, func_021BD988
+ * function: EVENT_ENTRANCE_IN_Create, EVENT_ENTRANCE_IN_RunPlain, EVENT_ENTRANCE_IN_RunGroundAnime, EVENT_ENTRANCE_IN_RunObjectAnime, EVENT_ENTRANCE_IN_RunAppear, EVENT_ENTRANCE_IN_RunCamera, EVENT_ENTRANCE_IN_RunFadeSe, EVENT_ENTRANCE_IN_ShouldFadeBgm, EVENT_ENTRANCE_IN_IsDungeonTransition, EVENT_ENTRANCE_IN_GetPlayerForm, EVENT_ENTRANCE_IN_ReplaceBgm, EVENT_ENTRANCE_IN_StartBgmFadeOut, EVENT_ENTRANCE_IN_CallFadeOut
  * address:  0x021BD648
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -14,30 +14,32 @@
  * Split from field_place_name.c at 0x021BD648 (lane SP3, __FILE__ anchors, certain cut).
  *
  * symbols:
- *   func_02188C58  0x02188C58  thumb  ov021
- *   d_021D9BB0     0x021D9BB0  data  ov021  a4
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   gEntranceInEventTable     0x021D9BB0  data  ov021  a4
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_020061E4  0x020061E4  thumb
  *   func_021A7E3C  0x021A7E3C  thumb  ov021
- *   func_02012374  0x02012374  thumb
- *   func_02161B1C  0x02161B1C  thumb  ov010
- *   func_02161B74  0x02161B74  thumb  ov010
- *   func_021BFE00  0x021BFE00  thumb  ov021
- *   func_0218F0F8  0x0218F0F8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
- *   func_02029E08  0x02029E08  thumb
- *   func_02029DFC  0x02029DFC  thumb
- *   func_02012134  0x02012134  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   EVENT_FIELD_PROCLINK_IsHopDone  0x02161B1C  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_IsAnimFlagSet  0x02161B74  thumb  ov010
+ *   EVENT_DISAPPEAR_CreateRisingSpin  0x021BFE00  thumb  ov021
+ *   FIELD_CAMERA_HasDelay  0x0218F0F8  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
+ *   FIELD_SOUND_SYSTEM_HasZoneBgmOverride  0x02029E08  thumb
+ *   FIELD_SOUND_SYSTEM_GetFinalBgm  0x02029DFC  thumb
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   func_0202B580  0x0202B580  thumb
- *   func_0202B434  0x0202B434  thumb
- *   func_0202B438  0x0202B438  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3098  0x021A3098  thumb  ov021
- *   func_02012A30  0x02012A30  thumb
+ *   ISS_DUNGEON_SYS_IsActive  0x0202B434  thumb
+ *   ISS_DUNGEON_SYS_HasRecord  0x0202B438  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_StartFadeOutTask  0x0202952C  thumb  arm9
+ *   FIELD_SOUND_SYSTEM_PostZoneBgmReplace  0x02029D44  thumb  arm9
  */
 
 typedef unsigned short u16;
@@ -53,50 +55,50 @@ struct IssSystem;
 struct IssDungeonSys;
 struct BgmInfo;
 
-extern struct FieldCamera *func_02188C58(FieldMap *fieldMap);
+extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, EntranceInEventFunc func, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
 extern void func_020061E4(u32 seId);
 extern GameEvent *func_021A7E3C(EntranceParam *param);
-extern void func_02012374(GameEvent *event, GameEvent *child);
-extern int func_02161B1C(FieldMap *fieldMap);
-extern int func_02161B74(int animHandle);
-extern GameEvent *func_021BFE00(int unused, GameSystem *gameSystem, FieldMap *fieldMap);
-extern int func_0218F0F8(struct FieldCamera *camera);
-extern u32 func_0218F0E8(struct FieldCamera *camera);
-extern void func_0218F0A8(struct FieldCamera *camera);
-extern void func_0218EC54(struct FieldCamera *camera);
-extern GameEvent *func_021BE8D4(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait);
-extern int func_02029E08(GameData *gameData, int zoneId);
-extern int func_02029DFC(const GameData *gameData);
-extern struct IssSystem *func_02012134(GameSystem *gameSystem);
+extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
+extern int EVENT_FIELD_PROCLINK_IsHopDone(FieldMap *fieldMap);
+extern int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int animHandle);
+extern GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(int unused, GameSystem *gameSystem, FieldMap *fieldMap);
+extern int FIELD_CAMERA_HasDelay(struct FieldCamera *camera);
+extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
+extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
+extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
+extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait);
+extern int FIELD_SOUND_SYSTEM_HasZoneBgmOverride(GameData *gameData, int zoneId);
+extern int FIELD_SOUND_SYSTEM_GetFinalBgm(const GameData *gameData);
+extern struct IssSystem *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
 extern struct IssDungeonSys *func_0202B580(struct IssSystem *issSystem);
-extern u32 func_0202B434(struct IssDungeonSys *dungeon);
-extern u32 func_0202B438(struct IssDungeonSys *dungeon, u32 zoneId);
-extern struct FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern u32 func_021A3098(struct FieldPlayer *player);
-extern struct BgmInfo *func_02012A30(const GameData *gameData);
-extern void func_02029D44(struct BgmInfo *bgmInfo, GameData *gameData, u16 zoneId, u8 season);
-extern GameEvent *func_0202952C(GameSystem *gameSystem, u32 frames);
-GameEvent *func_021BD648(EntranceParam *param);
-u32 func_021BD6C0(GameEvent *event, int *seq, EntranceInWork *work);
-u32 func_021BD704(GameEvent *event, int *seq, EntranceInWork *work);
-u32 func_021BD734(GameEvent *event, int *seq, EntranceInWork *work);
-u32 func_021BD7A8(GameEvent *event, int *seq, EntranceInWork *work);
-u32 func_021BD7E0(GameEvent *event, int *seq, EntranceInWork *work);
-u32 func_021BD874(GameEvent *event, int *seq, EntranceInWork *work);
-u32 func_021BD8C0(EntranceInWork *work);
-int func_021BD904(EntranceInWork *work);
-u32 func_021BD93C(EntranceInWork *work);
-void func_021BD94C(EntranceInWork *work);
-void func_021BD96C(EntranceInWork *work, GameEvent *event);
-void func_021BD988(EntranceInWork *work, GameEvent *event);
-extern EntranceInEventTable d_021D9BB0;
+extern u32 ISS_DUNGEON_SYS_IsActive(struct IssDungeonSys *dungeon);
+extern u32 ISS_DUNGEON_SYS_HasRecord(struct IssDungeonSys *dungeon, u32 zoneId);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern u32 FIELD_PLAYER_GetFormCode(struct FieldPlayer *player);
+extern struct BgmInfo *GAME_DATA_GetBgmInfo(const GameData *gameData);
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(struct BgmInfo *bgmInfo, GameData *gameData, u16 zoneId, u8 season);
+extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutTask(GameSystem *gameSystem, u32 frames);
+GameEvent *EVENT_ENTRANCE_IN_Create(EntranceParam *param);
+u32 EVENT_ENTRANCE_IN_RunPlain(GameEvent *event, int *seq, EntranceInWork *work);
+u32 EVENT_ENTRANCE_IN_RunGroundAnime(GameEvent *event, int *seq, EntranceInWork *work);
+u32 EVENT_ENTRANCE_IN_RunObjectAnime(GameEvent *event, int *seq, EntranceInWork *work);
+u32 EVENT_ENTRANCE_IN_RunAppear(GameEvent *event, int *seq, EntranceInWork *work);
+u32 EVENT_ENTRANCE_IN_RunCamera(GameEvent *event, int *seq, EntranceInWork *work);
+u32 EVENT_ENTRANCE_IN_RunFadeSe(GameEvent *event, int *seq, EntranceInWork *work);
+u32 EVENT_ENTRANCE_IN_ShouldFadeBgm(EntranceInWork *work);
+int EVENT_ENTRANCE_IN_IsDungeonTransition(EntranceInWork *work);
+u32 EVENT_ENTRANCE_IN_GetPlayerForm(EntranceInWork *work);
+void EVENT_ENTRANCE_IN_ReplaceBgm(EntranceInWork *work);
+void EVENT_ENTRANCE_IN_StartBgmFadeOut(EntranceInWork *work, GameEvent *event);
+void EVENT_ENTRANCE_IN_CallFadeOut(EntranceInWork *work, GameEvent *event);
+extern EntranceInEventTable gEntranceInEventTable;
 
 /* Creates the "in" event for the exit type of the connection. */
-GameEvent *func_021BD648(EntranceParam *param)
+GameEvent *EVENT_ENTRANCE_IN_Create(EntranceParam *param)
 {
-    EntranceInEventTable table = d_021D9BB0;
+    EntranceInEventTable table = gEntranceInEventTable;
     int eventKind;
     GameEvent *event;
     EntranceInWork *work;
@@ -135,16 +137,16 @@ GameEvent *func_021BD648(EntranceParam *param)
 }
 
 /* Plain "in" event: music change, door sound, fade out. */
-u32 func_021BD6C0(GameEvent *event, int *seq, EntranceInWork *work)
+u32 EVENT_ENTRANCE_IN_RunPlain(GameEvent *event, int *seq, EntranceInWork *work)
 {
     EntranceParam *param = work->param;
 
     switch (*seq) {
     case 0:
-        func_021BD94C(work);
+        EVENT_ENTRANCE_IN_ReplaceBgm(work);
         if (param->exitEffectId != ENTRANCE_EFFECT_NO_DOOR_SE)
             func_020061E4(ENTRANCE_IN_SE_DOOR);
-        func_021BD988(work, event);
+        EVENT_ENTRANCE_IN_CallFadeOut(work, event);
         (*seq)++;
         break;
     case 1:
@@ -154,13 +156,13 @@ u32 func_021BD6C0(GameEvent *event, int *seq, EntranceInWork *work)
 }
 
 /* Ground animation "in" event. */
-u32 func_021BD704(GameEvent *event, int *seq, EntranceInWork *work)
+u32 EVENT_ENTRANCE_IN_RunGroundAnime(GameEvent *event, int *seq, EntranceInWork *work)
 {
     EntranceParam *param = work->param;
 
     switch (*seq) {
     case 0:
-        func_02012374(event, func_021A7E3C(param));
+        GAME_EVENT_CallEvent(event, func_021A7E3C(param));
         (*seq)++;
         break;
     case 1:
@@ -170,25 +172,25 @@ u32 func_021BD704(GameEvent *event, int *seq, EntranceInWork *work)
 }
 
 /* Object animation "in" event: music, the object animation, then the door sound and the fade out. */
-u32 func_021BD734(GameEvent *event, int *seq, EntranceInWork *work)
+u32 EVENT_ENTRANCE_IN_RunObjectAnime(GameEvent *event, int *seq, EntranceInWork *work)
 {
     EntranceParam *param = work->param;
     FieldMap *fieldMap = param->fieldMap;
 
     switch (*seq) {
     case 0:
-        if (func_021BD8C0(work))
-            func_021BD96C(work, event);
+        if (EVENT_ENTRANCE_IN_ShouldFadeBgm(work))
+            EVENT_ENTRANCE_IN_StartBgmFadeOut(work, event);
         else
-            func_021BD94C(work);
-        work->animHandle = func_02161B1C(fieldMap);
+            EVENT_ENTRANCE_IN_ReplaceBgm(work);
+        work->animHandle = EVENT_FIELD_PROCLINK_IsHopDone(fieldMap);
         (*seq)++;
         break;
     case 1:
-        if (func_02161B74(work->animHandle)) {
+        if (EVENT_FIELD_PROCLINK_IsAnimFlagSet(work->animHandle)) {
             if (param->exitEffectId != ENTRANCE_EFFECT_NO_DOOR_SE)
                 func_020061E4(ENTRANCE_IN_SE_DOOR);
-            func_021BD988(work, event);
+            EVENT_ENTRANCE_IN_CallFadeOut(work, event);
             (*seq)++;
         }
         break;
@@ -199,7 +201,7 @@ u32 func_021BD734(GameEvent *event, int *seq, EntranceInWork *work)
 }
 
 /* Appear "in" event. */
-u32 func_021BD7A8(GameEvent *event, int *seq, EntranceInWork *work)
+u32 EVENT_ENTRANCE_IN_RunAppear(GameEvent *event, int *seq, EntranceInWork *work)
 {
     EntranceParam *param = work->param;
     GameSystem *gameSystem = param->gameSystem;
@@ -207,7 +209,7 @@ u32 func_021BD7A8(GameEvent *event, int *seq, EntranceInWork *work)
 
     switch (*seq) {
     case 0:
-        func_02012374(event, func_021BFE00(0, gameSystem, fieldMap));
+        GAME_EVENT_CallEvent(event, EVENT_DISAPPEAR_CreateRisingSpin(0, gameSystem, fieldMap));
         (*seq)++;
         break;
     case 1:
@@ -217,32 +219,32 @@ u32 func_021BD7A8(GameEvent *event, int *seq, EntranceInWork *work)
 }
 
 /* Camera "in" event: waits for the camera move, then the ground animation. */
-u32 func_021BD7E0(GameEvent *event, int *seq, EntranceInWork *work)
+u32 EVENT_ENTRANCE_IN_RunCamera(GameEvent *event, int *seq, EntranceInWork *work)
 {
     EntranceParam *param = work->param;
-    struct FieldCamera *camera = func_02188C58(param->fieldMap);
+    struct FieldCamera *camera = FIELDMAP_GetCamera(param->fieldMap);
 
     switch (*seq) {
     case 0:
-        if (func_0218F0F8(camera) && func_0218F0E8(camera)) {
-            func_0218F0A8(camera);
+        if (FIELD_CAMERA_HasDelay(camera) && FIELD_CAMERA_IsDelayEnabled(camera)) {
+            FIELD_CAMERA_EndDelay(camera);
             *seq = 1;
         } else {
             *seq = 2;
         }
         return ENTRANCE_EVENT_YIELD;
     case 1:
-        if (!func_0218F0F8(camera)) {
+        if (!FIELD_CAMERA_HasDelay(camera)) {
             *seq = 2;
             return ENTRANCE_EVENT_YIELD;
         }
-        if (func_0218F0E8(camera))
+        if (FIELD_CAMERA_IsDelayEnabled(camera))
             break;
-        func_0218EC54(camera);
+        FIELD_CAMERA_StopTargetTrace(camera);
         *seq = 2;
         return ENTRANCE_EVENT_YIELD;
     case 2:
-        func_02012374(event, func_021A7E3C(param));
+        GAME_EVENT_CallEvent(event, func_021A7E3C(param));
         *seq = 3;
         return ENTRANCE_EVENT_YIELD;
     case 3:
@@ -252,7 +254,7 @@ u32 func_021BD7E0(GameEvent *event, int *seq, EntranceInWork *work)
 }
 
 /* Fade and sound "in" event: music change, sound effect, fade out. */
-u32 func_021BD874(GameEvent *event, int *seq, EntranceInWork *work)
+u32 EVENT_ENTRANCE_IN_RunFadeSe(GameEvent *event, int *seq, EntranceInWork *work)
 {
     EntranceParam *param = work->param;
     GameSystem *gameSystem = param->gameSystem;
@@ -260,9 +262,9 @@ u32 func_021BD874(GameEvent *event, int *seq, EntranceInWork *work)
 
     switch (*seq) {
     case 0:
-        func_021BD94C(work);
+        EVENT_ENTRANCE_IN_ReplaceBgm(work);
         func_020061E4(ENTRANCE_IN_SE_FADE);
-        func_02012374(event, func_021BE8D4(gameSystem, fieldMap, 2, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 2, 0));
         (*seq)++;
         break;
     case 1:
@@ -272,59 +274,59 @@ u32 func_021BD874(GameEvent *event, int *seq, EntranceInWork *work)
 }
 
 /* Returns 1 when the zone music fades out, 0 when the destination zone music replaces it. */
-u32 func_021BD8C0(EntranceInWork *work)
+u32 EVENT_ENTRANCE_IN_ShouldFadeBgm(EntranceInWork *work)
 {
     EntranceParam *param = work->param;
     GameData *gameData = param->gameData;
 
-    if (!func_021BD904(work))
+    if (!EVENT_ENTRANCE_IN_IsDungeonTransition(work))
         return 0;
-    if (func_02029E08(gameData, param->destination.zoneId))
+    if (FIELD_SOUND_SYSTEM_HasZoneBgmOverride(gameData, param->destination.zoneId))
         return 0;
-    if (func_021BD93C(work) == 1 && func_02029DFC(gameData) == ENTRANCE_IN_BGM_KEPT)
+    if (EVENT_ENTRANCE_IN_GetPlayerForm(work) == 1 && FIELD_SOUND_SYSTEM_GetFinalBgm(gameData) == ENTRANCE_IN_BGM_KEPT)
         return 0;
     return 1;
 }
 
 /* Returns 1 when both the old and the new zone have a dungeon sound record. */
-int func_021BD904(EntranceInWork *work)
+int EVENT_ENTRANCE_IN_IsDungeonTransition(EntranceInWork *work)
 {
     EntranceParam *param = work->param;
-    struct IssDungeonSys *dungeon = func_0202B580(func_02012134(param->gameSystem));
+    struct IssDungeonSys *dungeon = func_0202B580(GAMESYSTEM_GetIssSystem(param->gameSystem));
 
-    if (func_0202B434(dungeon) && func_0202B438(dungeon, param->currentZoneId) && func_0202B438(dungeon, param->destination.zoneId)) {
+    if (ISS_DUNGEON_SYS_IsActive(dungeon) && ISS_DUNGEON_SYS_HasRecord(dungeon, param->currentZoneId) && ISS_DUNGEON_SYS_HasRecord(dungeon, param->destination.zoneId)) {
         return 1;
     }
     return 0;
 }
 
 /* Returns the movement form of the field player. */
-u32 func_021BD93C(EntranceInWork *work)
+u32 EVENT_ENTRANCE_IN_GetPlayerForm(EntranceInWork *work)
 {
-    return func_021A3098(func_02188CB4(work->param->fieldMap));
+    return FIELD_PLAYER_GetFormCode(FIELDMAP_GetFieldPlayer(work->param->fieldMap));
 }
 
 /* Posts the zone music of the destination and notes that it was replaced. */
-void func_021BD94C(EntranceInWork *work)
+void EVENT_ENTRANCE_IN_ReplaceBgm(EntranceInWork *work)
 {
     EntranceParam *param = work->param;
     GameData *gameData = param->gameData;
 
-    func_02029D44(func_02012A30(gameData), gameData, param->destination.zoneId, param->toSeason);
+    FIELD_SOUND_SYSTEM_PostZoneBgmReplace(GAME_DATA_GetBgmInfo(gameData), gameData, param->destination.zoneId, param->toSeason);
     param->bgmReplaced = 1;
 }
 
 /* Starts the music fade out and notes that it started. */
-void func_021BD96C(EntranceInWork *work, GameEvent *event)
+void EVENT_ENTRANCE_IN_StartBgmFadeOut(EntranceInWork *work, GameEvent *event)
 {
     EntranceParam *param = work->param;
 
-    func_02012374(event, func_0202952C(param->gameSystem, ENTRANCE_IN_BGM_FADE_FRAMES));
+    GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartFadeOutTask(param->gameSystem, ENTRANCE_IN_BGM_FADE_FRAMES));
     param->bgmFadeStarted = 1;
 }
 
 /* Calls the fade out: the season fade when the season changes, else the fade of the exit effect. */
-void func_021BD988(EntranceInWork *work, GameEvent *event)
+void EVENT_ENTRANCE_IN_CallFadeOut(EntranceInWork *work, GameEvent *event)
 {
     EntranceParam *param = work->param;
     int seasonChanged = param->seasonChanged;
@@ -332,8 +334,8 @@ void func_021BD988(EntranceInWork *work, GameEvent *event)
     FieldMap *fieldMap = param->fieldMap;
 
     if (seasonChanged != 0) {
-        func_02012374(event, func_021BE8D4(gameSystem, fieldMap, 0, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 0, 0));
     } else {
-        func_02012374(event, func_021BE8D4(gameSystem, fieldMap, param->exitEffectId, 0));
+        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, param->exitEffectId, 0));
     }
 }

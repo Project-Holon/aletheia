@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02012FCC
+ * function: GAME_DATA_GetPlayTime
  * address:  0x02012FCC
  * packet:   pkt_02012F08
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02012FCC(int p0){ return *(int *)((p0 + (0x6AC << 0))); }
+int GAME_DATA_GetPlayTime(int p0){ return *(int *)((p0 + (0x6AC << 0))); }

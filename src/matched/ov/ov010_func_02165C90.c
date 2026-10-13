@@ -1,5 +1,5 @@
 /*
- * function: func_02165C90
+ * function: GAME_BEACON_ACCESSOR_GetDetailsPms
  * packet: pkt_ov010_02165C90
  * address: 0x02165C90
  * region: ov010
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 struct Packed {u16 low:8,a:3,b:5;};
 struct R {u8 pad[0x48];struct Packed fields;u16 c,d;};
 struct Quad {u16 a,b,c,d;};
-void func_02165C90(const struct R *p,struct Quad *q)
+void GAME_BEACON_ACCESSOR_GetDetailsPms(const struct R *p,struct Quad *q)
 {
     q->a=p->fields.a;
     q->b=p->fields.b;

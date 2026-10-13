@@ -1,5 +1,5 @@
 /*
- * function: func_021B85DC
+ * function: BTL_MAIN_GetTextSpeedFrames
  * address: 0x021B85DC
  * packet: pkt_ov093_021B85DC
  * region: ov093
@@ -13,4 +13,4 @@
 #include "../include/Obj20952.h"
 typedef unsigned int   u32;
 extern signed char func_02013080(u32 idx);
-int func_021B85DC(unsigned char *p) { return func_02013080(((struct Obj20952 *)p)->f43C); }
+int BTL_MAIN_GetTextSpeedFrames(unsigned char *p) { return func_02013080(((struct Obj20952 *)p)->f43C); }

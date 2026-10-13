@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE20
+ * function: STARTMENU_SaveEraseStepOpenSecondYesNo
  * address:  0x021BCE20
  * packet:   pkt_ov088_021BCE20
  * region:   ov088
@@ -12,17 +12,17 @@
  * EXACT*: the extent runs two bytes long (trailing padding pair).
  *
  * symbols:
- *   func_021BD188  0x021BD188  thumb  ov088
- *   func_021BD1EC  0x021BD1EC  thumb  ov088
+ *   STARTMENU_SaveEraseUpdateMessage  0x021BD188  thumb  ov088
+ *   STARTMENU_SaveEraseOpenYesNo  0x021BD1EC  thumb  ov088
  */
 
-extern int func_021BD188(char *p);
-extern void func_021BD1EC(unsigned char *p);
+extern int STARTMENU_SaveEraseUpdateMessage(char *p);
+extern void STARTMENU_SaveEraseOpenYesNo(unsigned char *p);
 
-void func_021BCE20(void *p, int *st)
+void STARTMENU_SaveEraseStepOpenSecondYesNo(void *p, int *st)
 {
-    if (func_021BD188(p) == 0) {
-        func_021BD1EC(p);
+    if (STARTMENU_SaveEraseUpdateMessage(p) == 0) {
+        STARTMENU_SaveEraseOpenYesNo(p);
         *st = 5;
     }
 }

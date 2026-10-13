@@ -18,8 +18,8 @@
  *   full getter bodies; caller explicitly narrows to u16 before comparisons.
  * bounds: selector starts zero and is set only to 1,2,3,4; both tables have five words.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1E8 0x0203D1E8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_NotifyUserEvent 0x0203D1E8 arm
  *   func_021B97F4 0x021B97F4 thumb ov099
  *   func_021BE2A8 0x021BE2A8 thumb ov099
  *   func_021B9A60 0x021B9A60 thumb ov099
@@ -41,8 +41,8 @@ struct W; struct Work; struct Ent; struct S;
 typedef struct { int v[5]; } Messages;
 extern Messages d_021C3804, d_021C3818;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern void func_0203D1E8(u32, void *);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_NotifyUserEvent(u32, void *);
 extern u8 func_021B97F4(struct W *);
 extern void *func_021BE2A8(char *, int);
 extern unsigned char func_021B9A60(char *p);
@@ -62,7 +62,7 @@ int func_021C0750(char *p, int ret)
     char *st;
     st = p + 0x24c;
     selector = 0;
-    func_0203D1E8((u32)func_020399A8(), 0);
+    GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
     n = func_021B97F4((struct W *)(p + 0x274));
     q = func_021BE2A8(p, n);
     graphic = func_021B9A60(func_021BE2A8(p, 0));

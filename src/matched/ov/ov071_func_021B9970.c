@@ -1,5 +1,5 @@
 /*
- * function: func_021B9970
+ * function: MONOLITH_TOOL_LIST_BuildEntryList
  * address:  0x021B9970
  * packet:   pkt_ov071_021B9970
  * region:   ov071
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Builds a list at l: entry 0 is (idx 0, kind 1), then one entry per slot
- * 0..0x2F whose func_0216FE2C kind is not 2, then a closing (0, 1) entry;
- * each entry gets a fresh func_02043678(0x17, 2, 0x20, 0x61) object, and
+ * 0..0x2F whose TOWN_MAP_SPOT_Classify kind is not 2, then a closing (0, 1) entry;
+ * each entry gets a fresh BMP_Create(0x17, 2, 0x20, 0x61) object, and
  * the count byte follows the three 50-entry arrays (0x24 + 3 * 0xC8 = 0x27C).
  * The slot counter is enum-typed: as an int, mwcc folds n = i + 1 to 1 and
  * drops the loop's entry guard (cmp r4,#0x30; bge), 6 bytes short; see
@@ -21,10 +21,10 @@
  * gives the original.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_021B6F40  0x021B6F40  thumb  ov071
- *   func_02043678  0x02043678  arm
- *   func_0216FE2C  0x0216FE2C  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   MONOLITH_TOOL_GetSlotIconStates  0x021B6F40  thumb  ov071
+ *   BMP_Create  0x02043678  arm
+ *   TOWN_MAP_SPOT_Classify  0x0216FE2C  thumb  ov010
  */
 #include "../include/Obj04340.h"
 #include "../include/Obj20753.h"
@@ -43,39 +43,39 @@ typedef struct {
 } List;
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_021B6F40(u8 **p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *MONOLITH_TOOL_GetSlotIconStates(u8 **p);
 struct Bmp;
 struct Pos;
 struct Rec;
 typedef unsigned short u16;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern int func_0216FE2C(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern int TOWN_MAP_SPOT_Classify(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags);
 
-void func_021B9970(char **a, List *l, char *c)
+void MONOLITH_TOOL_LIST_BuildEntryList(char **a, List *l, char *c)
 {
     Idx i = 0;
     int n;
     int r;
     void *pos;
 
-    func_020120F4((const struct Ctx *)(**(char ** *)&((struct Obj04340 *)a)->f0));
-    pos = func_021B6F40((u8 **)a);
+    GAMESYSTEM_GetGameData((const struct Ctx *)(**(char ** *)&((struct Obj04340 *)a)->f0));
+    pos = MONOLITH_TOOL_GetSlotIconStates((u8 **)a);
     l->idx[0] = i;
     l->kind[0] = 1;
-    l->obj[0] = func_02043678(0x17, 2, 0x20, 0x61);
+    l->obj[0] = BMP_Create(0x17, 2, 0x20, 0x61);
     n = i + 1;
     for (; i < 0x30; i++) {
-        r = func_0216FE2C(((struct Obj20753 *)c)->f34, i, pos, (u8 *)(*a + 0x38));
+        r = TOWN_MAP_SPOT_Classify(((struct Obj20753 *)c)->f34, i, pos, (u8 *)(*a + 0x38));
         if (r != 2) {
             l->idx[n] = i;
             l->kind[n] = r;
-            l->obj[n] = func_02043678(0x17, 2, 0x20, 0x61);
+            l->obj[n] = BMP_Create(0x17, 2, 0x20, 0x61);
             n++;
         }
     }
     l->idx[n] = 0;
     l->kind[n] = 1;
-    l->obj[n] = func_02043678(0x17, 2, 0x20, 0x61);
+    l->obj[n] = BMP_Create(0x17, 2, 0x20, 0x61);
     l->count = n + 1;
 }

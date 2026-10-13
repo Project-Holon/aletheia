@@ -10,8 +10,8 @@
  * symbols:
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_020452E8 0x020452E8 arm
- *   func_02045808 0x02045808 arm
- *   func_02045C04 0x02045C04 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj10908.h"
@@ -20,8 +20,8 @@ typedef unsigned int u32;
 struct PrintSys; struct Descriptor; struct U16Vec; struct Rec;
 extern void func_0201C6EC(struct PrintSys *p);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_02045808(struct U16Vec *p);
-extern u32 func_02045C04(struct Rec *rec);
+extern void STRBUF_Delete(struct U16Vec *p);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 func_020307B0(void *p);
 void func_021C4A48(void *unused,u8 *p)
 {
@@ -31,8 +31,8 @@ void func_021C4A48(void *unused,u8 *p)
         func_0201C6EC(*(struct PrintSys **)(p+i*4+0x57c));
         func_020452E8(*(struct Descriptor **)(p+i*4+0x554));
     }
-    for(i=0;i<6;i++)func_02045808(*(struct U16Vec **)(p+i*4+0x59c));
-    func_02045C04(*(struct Rec * *)&((struct Obj10908 *)p)->f590);
-    func_02045C04(*(struct Rec * *)&((struct Obj10908 *)p)->f598);
+    for(i=0;i<6;i++)STRBUF_Delete(*(struct U16Vec **)(p+i*4+0x59c));
+    MSGDATA_Delete(*(struct Rec * *)&((struct Obj10908 *)p)->f590);
+    MSGDATA_Delete(*(struct Rec * *)&((struct Obj10908 *)p)->f598);
     func_020307B0(((struct Obj10908 *)p)->f594);
 }

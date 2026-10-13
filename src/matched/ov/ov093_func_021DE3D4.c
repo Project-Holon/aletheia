@@ -1,5 +1,5 @@
 /*
- * function: func_021DE3D4, func_021DE3F0
+ * function: BTL_HANDLER_ITEM_MachoBraceHalveSpeed, BTL_HANDLER_ITEM_GetQuickClawHandlers
  * address: 0x021DE3D4
  * packet: pkt_ov093_021DE3D4
  * region: ov093
@@ -10,14 +10,14 @@
  * status: EXACT
  * unit: yes
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D7704 0x021D7704 thumb ov093
- *   d_021F163C 0x021F163C data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
+ *   gQuickClawHandlerTable 0x021F163C data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D775C(int);
-extern void func_021D7704(int,int);
-void func_021DE3D4(int a, int b, int c) { int k=2; if(c == func_021D775C(k)) func_021D7704(0x35,k<<10); }
-extern u8 d_021F163C[];
-void *func_021DE3F0(int *p) { *p=2; return d_021F163C; }
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_EVENT_MultiplyVar(int,int);
+void BTL_HANDLER_ITEM_MachoBraceHalveSpeed(int a, int b, int c) { int k=2; if(c == BTL_EVENT_GetVar(k)) BTL_EVENT_MultiplyVar(0x35,k<<10); }
+extern u8 gQuickClawHandlerTable[];
+void *BTL_HANDLER_ITEM_GetQuickClawHandlers(int *p) { *p=2; return gQuickClawHandlerTable; }

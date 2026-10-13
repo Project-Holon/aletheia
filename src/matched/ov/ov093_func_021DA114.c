@@ -1,5 +1,5 @@
 /*
- * function: func_021DA114
+ * function: HAND_TOKUSEI_AddMoldBreaker
  * address: 0x021DA114
  * packet: pkt_ov093_021DA114
  * region: ov093
@@ -15,12 +15,12 @@
  *   d_021F0808 0x021F0808 data ov093 a4
  */
 
-int *func_021DA114(int *p);
+int *HAND_TOKUSEI_AddMoldBreaker(int *p);
 
-/* 021DA120  shape F1: gate on func_021D775C(2) */
+/* 021DA120  shape F1: gate on BTL_EVENT_GetVar(2) */
 extern int d_021F0808[];
 
-int *func_021DA114(int *p)
+int *HAND_TOKUSEI_AddMoldBreaker(int *p)
 {
     *p = 1;
     return d_021F0808;

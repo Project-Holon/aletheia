@@ -1,5 +1,5 @@
 /*
- * function: func_0217F420
+ * function: EVENT_COMM_COMMON_IsKeyTrg
  * address: 0x0217F420
  * packet: pkt_ov018_0217F420
  * region: ov018
@@ -12,7 +12,7 @@
  *   func_020362DC 0x020362DC arm
  */
 extern unsigned int func_020362DC(void);
-int func_0217F420(void)
+int EVENT_COMM_COMMON_IsKeyTrg(void)
 {
     if (func_020362DC() & 0xf3) return 1;
     return 0;

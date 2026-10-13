@@ -1,5 +1,5 @@
 /*
- * function: func_021D7894
+ * function: BTL_CALC_Exit
  * address: 0x021D7894
  * packet: pkt_ov093_021D7894
  * region: ov093
@@ -18,4 +18,4 @@
 extern struct _anon_State d_021F6360;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021D7894(void) { if (d_021F6360.f4) { func_020307B0(d_021F6360.f4); d_021F6360.f4 = 0; } }
+void BTL_CALC_Exit(void) { if (d_021F6360.f4) { func_020307B0(d_021F6360.f4); d_021F6360.f4 = 0; } }

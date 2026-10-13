@@ -1,5 +1,5 @@
 /*
- * function: func_021A7654
+ * function: FIELD_GROUND_ANIME_TexAnmSetUpdate
  * address:  0x021A7654
  * packet:   pkt_ov021_021A7654
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A78DC  0x021A78DC  thumb
- *   func_021A7818  0x021A7818  thumb
+ *   FIELD_GROUND_ANIME_TexAnmIsActive  0x021A78DC  thumb
+ *   FIELD_GROUND_ANIME_TexAnmUpdate  0x021A7818  thumb
  */
 
 typedef unsigned char u8;
@@ -28,16 +28,16 @@ typedef struct {
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Obj;
-extern int func_021A78DC(u32 a);
+extern int FIELD_GROUND_ANIME_TexAnmIsActive(u32 a);
 
-extern void func_021A7818(struct Obj *a, s32 dt);
+extern void FIELD_GROUND_ANIME_TexAnmUpdate(struct Obj *a, s32 dt);
 
-void func_021A7654(S *s, int x)
+void FIELD_GROUND_ANIME_TexAnmSetUpdate(S *s, int x)
 {
     int i;
     for (i = 0; i < 16; i++) {
-        if (func_021A78DC((u32)(&s->e[i]))) {
-            func_021A7818((struct Obj *)(&s->e[i]), x);
+        if (FIELD_GROUND_ANIME_TexAnmIsActive((u32)(&s->e[i]))) {
+            FIELD_GROUND_ANIME_TexAnmUpdate((struct Obj *)(&s->e[i]), x);
         }
     }
 }

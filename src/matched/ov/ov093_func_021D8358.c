@@ -1,5 +1,5 @@
 /*
- * function: func_021D8358
+ * function: BTL_ACTION_SetItem
  * address: 0x021D8358
  * packet: pkt_ov093_021D8358
  * region: ov093
@@ -13,4 +13,4 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef enum { ZERO=0 } Bits;
-void func_021D8358(u32 *p,u32 id,u32 sub,u32 val) { Bits t=ZERO; t &=~15; t|=2; t &=~0x7fff80; t|=(u16)id<<7; t &=~0x70; t|=(sub&7)<<4; t &=~0x7f800000; t|=(val&255)<<23; *p=t; }
+void BTL_ACTION_SetItem(u32 *p,u32 id,u32 sub,u32 val) { Bits t=ZERO; t &=~15; t|=2; t &=~0x7fff80; t|=(u16)id<<7; t &=~0x70; t|=(sub&7)<<4; t &=~0x7f800000; t|=(val&255)<<23; *p=t; }

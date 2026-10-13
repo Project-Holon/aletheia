@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  */
 #include "../include/Obj22143.h"
 
@@ -19,5 +22,5 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct PrintSys;
-extern u32 func_0201C4E4(struct PrintSys *ps);
-void func_021B7CB0(u8 *p) { func_0201C4E4((struct PrintSys *)(((struct Obj22143 *)p)->f8)); }
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+void func_021B7CB0(u8 *p) { PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj22143 *)p)->f8)); }

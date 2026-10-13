@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DDD8C",
+   "name": "BTL_HANDLER_ITEM_HpBerryCheckAfterDamage",
    "address": "0x021DDD8C",
    "kind": "game",
    "region": "ov093",

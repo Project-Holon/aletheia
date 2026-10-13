@@ -1,5 +1,5 @@
 /*
- * function: func_021CD914
+ * function: BTL_CLIENT_MarkCommandIssued
  * address: 0x021CD914
  * packet: pkt_ov093_021CD914
  * region: ov093
@@ -10,4 +10,4 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_021CD914(u8 *p) {p[0x1b2]|=2;}
+void BTL_CLIENT_MarkCommandIssued(u8 *p) {p[0x1b2]|=2;}

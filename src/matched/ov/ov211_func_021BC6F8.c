@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
-extern unsigned func_020221A4(void);
-int func_021BC6F8(void){if(func_020221A4()==1)return 4;return 2;}
+extern unsigned WIPE_SYS_EndCheck(void);
+int func_021BC6F8(void){if(WIPE_SYS_EndCheck()==1)return 4;return 2;}

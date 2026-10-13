@@ -1,5 +1,5 @@
 /*
- * function: func_021B8434
+ * function: FRAME_LIST_StartScroll
  * address:  0x021B8434
  * packet:   pkt_ov067_021B8434
  * region:   ov067
@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021B8434(u8 *p, int a, u8 b, u16 c, u32 d)
+void FRAME_LIST_StartScroll(u8 *p, int a, u8 b, u16 c, u32 d)
 {
     p[0x67] = a;
     p[0x68] = b;

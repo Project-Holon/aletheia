@@ -12,15 +12,15 @@
  * symbols:
  *   d_021D65D0 0x021D65D0 data a1
  *   func_02034714 0x02034714 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021D4D38 0x021D4D38 thumb ov115
  *   func_021D5984 0x021D5984 thumb ov115
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0201283C 0x0201283C thumb
- *   func_0202208C 0x0202208C thumb
- *   func_0203CD98 0x0203CD98 arm
+ *   WIPE_SYS_Start 0x0202208C thumb
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
  *   func_0200FBB0 0x0200FBB0 thumb
@@ -40,18 +40,18 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_021D65D0[];
 extern void func_02034714(const char *,u32,const char *);
-extern void func_0203064C(u32,u32,u32);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern u8 *func_021D4D38(u16,u32,int);
 struct Big;
 struct BigObj;
 extern u8 *func_021D5984(u32 heap, u32 bank, u32 mode);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 func_0201283C(const struct BigObj *p);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern int func_0203CD98(void);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_STATE_SetWifiError(void),GFL_NET_STATE_ClearErrorMode(void);
 extern u32 func_0200FBB0(void);
 extern void func_0200FBA0(void);
@@ -63,18 +63,18 @@ int func_021D4BFC(void *ctx,int unused,u8 *q)
 {
     u8 *p;
     if(((struct Obj04465 *)q)->fC==0) func_02034714(d_021D65D0,0,d_021D65D0);
-    func_0203064C(1,120,0x18000);
-    p=func_0203159C(ctx,72,120);
+    GFL_HEAP_CreateChildHeap(1,120,0x18000);
+    p=PROCSYS_AllocProcWork(ctx,72,120);
     func_02082BCC(p,0,72);
     ((struct Obj01719 *)p)->fC=120;
     ((struct Obj01719 *)p)->f44=((struct Obj04465 *)q)->f0;
     ((struct Obj01719 *)p)->f34=func_021D4D38(((struct Obj01719 *)p)->fC,((struct Obj04465 *)q)->f4,((struct Obj04465 *)q)->f8);
     ((struct Obj01719 *)p)->f38=func_021D5984(((struct Obj01719 *)p)->fC,232,((struct Obj04465 *)q)->f8);
-    ((struct Obj01719 *)p)->f2C=func_02012EBC(((struct Obj04465 *)q)->f0);
+    ((struct Obj01719 *)p)->f2C=GAME_DATA_GetSaveControl(((struct Obj04465 *)q)->f0);
     ((struct Obj01719 *)p)->f3C=func_0201283C(((struct Obj04465 *)q)->f0);
-    func_0202208C(0,1,1,0,6,1,((struct Obj01719 *)p)->fC);
+    WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj01719 *)p)->fC);
     *(u8 * *)&((struct Obj01719 *)p)->f40=q;
-    if(func_0203CD98()) {
+    if(GFL_NET_GetRunState()) {
         GFL_NET_STATE_SetWifiError();
         GFL_NET_STATE_ClearErrorMode();
         func_0200FBB0();

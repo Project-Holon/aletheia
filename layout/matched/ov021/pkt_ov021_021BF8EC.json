@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BF8EC",
+   "name": "EVENT_APPEAR_RunSpinZoomAlt",
    "address": "0x021BF8EC",
    "kind": "game",
    "region": "ov021",

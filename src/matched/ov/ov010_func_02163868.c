@@ -1,5 +1,5 @@
 /*
- * function: func_02163868
+ * function: FLDMMDL_MOVE_AttrEffectLongGrassEnd
  * address:  0x02163868
  * packet:   pkt_ov010_02163868
  * region:   ov010
@@ -10,35 +10,35 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216DC34  0x0216DC34  thumb  ov010
- *   func_02163F40  0x02163F40  thumb  ov010
- *   func_0216DC18  0x0216DC18  thumb  ov010
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
+ *   FLDMMDL_CheckMoveBitReflect  0x0216DC34  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirMapAttr  0x02163F40  thumb  ov010
+ *   FLDMMDL_SetMoveBitReflect  0x0216DC18  thumb  ov010
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
  */
 #include "../include/Obj00110.h"
 
 typedef unsigned char u8;
 
-extern int func_0216DC34(void *a0);
+extern int FLDMMDL_CheckMoveBitReflect(void *a0);
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_02163F40(int a, int dir);
-extern int func_0216DC18(void *a0, int a1);
-extern u16 func_021AB0F8(u32 attr);
+extern int FLDMMDL_MOVE_GetDirMapAttr(int a, int dir);
+extern int FLDMMDL_SetMoveBitReflect(void *a0, int a1);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
 
-void func_02163868(void *a, int q)
+void FLDMMDL_MOVE_AttrEffectLongGrassEnd(void *a, int q)
 {
     u8 *t = *(u8 * *)&((struct Obj00110 *)q)->f10;
 
-    if (t[6] != 0 && func_0216DC34((void *)a) != 0) {
-        int r = func_02163F40((int)a, 1);
+    if (t[6] != 0 && FLDMMDL_CheckMoveBitReflect((void *)a) != 0) {
+        int r = FLDMMDL_MOVE_GetDirMapAttr((int)a, 1);
 
         if (r == -1) {
-            func_0216DC18(a, 0);
+            FLDMMDL_SetMoveBitReflect(a, 0);
             return;
         }
-        if ((func_021AB0F8(r) & 0x40) == 0) {
-            func_0216DC18(a, 0);
+        if ((MAP_ATTR_GetFlags(r) & 0x40) == 0) {
+            FLDMMDL_SetMoveBitReflect(a, 0);
         }
     }
 }

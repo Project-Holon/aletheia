@@ -1,5 +1,5 @@
 /*
- * function: func_021C8018
+ * function: FLD_WIPE_3DOBJ_Create
  * address:  0x021C8018
  * packet:   pkt_ov021_021C8018
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021DE520  0x021DE520  data  ov021  a4
+ *   gFldWipe3dObjFileName  0x021DE520  data  ov021  a4
  *   func_02030734  0x02030734  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02046DB8  0x02046DB8  arm
- *   func_02047400  0x02047400  arm
- *   func_0204767C  0x0204767C  arm
+ *   G3D_SYSTEM_CreateResourceArc  0x02046DB8  arm
+ *   G3D_SYSTEM_CreateRender  0x02047400  arm
+ *   G3D_SYSTEM_CreateObject  0x0204767C  arm
  */
 
 typedef unsigned char u8;
@@ -24,15 +24,15 @@ typedef unsigned int u32;
 typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
 extern u32 func_020307B0(void *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char d_021DE520[];
-extern void *func_02046DB8(u32 a0, u32 a1);
-extern void *func_02047400(void *a0, u32 n, void *a2);
-extern void *func_0204767C(u32 a0, u32 *a1, int a2);
+extern char gFldWipe3dObjFileName[];
+extern void *G3D_SYSTEM_CreateResourceArc(u32 a0, u32 a1);
+extern void *G3D_SYSTEM_CreateRender(void *a0, u32 n, void *a2);
+extern void *G3D_SYSTEM_CreateObject(u32 a0, u32 *a1, int a2);
 typedef struct { u32 f0; u32 f4; } N;
-N *func_021C8018(u32 heap)
+N *FLD_WIPE_3DOBJ_Create(u32 heap)
 {
-    N *n = func_02030734(heap, 8, 1, d_021DE520, 0x24);
-    n->f0 = (u32)func_02046DB8(0x4a, 0);
-    n->f4 = (u32)func_0204767C((u32)func_02047400((void *)n->f0, 0, 0), 0, 0);
+    N *n = func_02030734(heap, 8, 1, gFldWipe3dObjFileName, 0x24);
+    n->f0 = (u32)G3D_SYSTEM_CreateResourceArc(0x4a, 0);
+    n->f4 = (u32)G3D_SYSTEM_CreateObject((u32)G3D_SYSTEM_CreateRender((void *)n->f0, 0, 0), 0, 0);
     return n;
 }

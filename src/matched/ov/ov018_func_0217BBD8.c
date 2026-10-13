@@ -1,5 +1,5 @@
 /*
- * function: func_0217BBD8
+ * function: INTRUDE_FIELD_AddAreaMaps
  * address:  0x0217BBD8
  * packet:   pkt_ov018_0217BBD8
  * region:   ov018
@@ -10,37 +10,37 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C98  0x02188C98  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   func_02013D5C  0x02013D5C  thumb
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_0217B94C  0x0217B94C  thumb  ov018
- *   func_02159B48  0x02159B48  thumb  ov010
- *   func_02159B94  0x02159B94  thumb  ov010
- *   func_02159BBC  0x02159BBC  thumb
- *   func_0218CD20  0x0218CD20  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   INTRUDE_FIELD_IsInEdgeMargin  0x0217B94C  thumb  ov018
+ *   MAP_MATRIX_Create  0x02159B48  thumb  ov010
+ *   MAP_MATRIX_Load  0x02159B94  thumb  ov010
+ *   MAP_MATRIX_Delete  0x02159BBC  thumb
+ *   FIELD_G3D_MAPPER_AppendMatrix  0x0218CD20  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef struct { int x, y, z; } Vec;
 
-extern unsigned int func_02188C98(u8 *p);
+extern unsigned int FIELDMAP_GetG3dMapper(u8 *p);
 typedef unsigned short u16;
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 struct VecFx32;
-extern void func_021A3038(unsigned char *, struct VecFx32 *);
-extern int func_0217B94C(int *p);
-extern u16 *func_02159B48(int a);
-extern int func_02159B94(int a0, int a1, int a2, int a3);
-extern void func_02159BBC(int);
-extern void func_0218CD20(int, int, int);
+extern void FIELD_PLAYER_GetPos(unsigned char *, struct VecFx32 *);
+extern int INTRUDE_FIELD_IsInEdgeMargin(int *p);
+extern u16 *MAP_MATRIX_Create(int a);
+extern int MAP_MATRIX_Load(int a0, int a1, int a2, int a3);
+extern void MAP_MATRIX_Delete(int);
+extern void FIELD_G3D_MAPPER_AppendMatrix(int, int, int);
 
-void func_0217BBD8(u8 *a, int b, u8 *c)
+void INTRUDE_FIELD_AddAreaMaps(u8 *a, int b, u8 *c)
 {
     Vec v;
     int n;
@@ -49,9 +49,9 @@ void func_0217BBD8(u8 *a, int b, u8 *c)
 
     if (c == 0 || a == 0)
         return;
-    if (func_02188C98(a) == 0)
+    if (FIELDMAP_GetG3dMapper(a) == 0)
         return;
-    if (func_02013D5C(func_02188C9C((u8 *)a)) == 0)
+    if (func_02013D5C(FIELDMAP_GetZoneId((u8 *)a)) == 0)
         return;
     n = c[0x902] - 1;
     if (n <= 0)
@@ -60,18 +60,18 @@ void func_0217BBD8(u8 *a, int b, u8 *c)
         n = 1;
     if (c[0x901] >= n)
         return;
-    h = func_02188CB4((void *)a);
+    h = FIELDMAP_GetFieldPlayer((void *)a);
     if (h == 0)
         return;
-    func_021A3038(h, (struct VecFx32 *)&v);
+    FIELD_PLAYER_GetPos(h, (struct VecFx32 *)&v);
     v.x = v.x % 0x400000;
-    if (func_0217B94C((int *)(&v)) == 1)
+    if (INTRUDE_FIELD_IsInEdgeMargin((int *)(&v)) == 1)
         return;
-    buf = (int)func_02159B48(0x8015);
-    func_02159B94(buf, 0x76, 0x76 + 0xa1, 0x8015);
+    buf = (int)MAP_MATRIX_Create(0x8015);
+    MAP_MATRIX_Load(buf, 0x76, 0x76 + 0xa1, 0x8015);
     do {
-        func_0218CD20((int)a, func_02188C98(a), buf);
+        FIELD_G3D_MAPPER_AppendMatrix((int)a, FIELDMAP_GetG3dMapper(a), buf);
         c[0x901]++;
     } while (c[0x901] < n);
-    func_02159BBC(buf);
+    MAP_MATRIX_Delete(buf);
 }

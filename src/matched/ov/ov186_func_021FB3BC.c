@@ -12,12 +12,12 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B688 0x0204B688 arm
- *   func_02043678 0x02043678 arm
- *   func_0201C7D0 0x0201C7D0 thumb
- *   func_020255A0 0x020255A0 thumb
- *   func_020257D0 0x020257D0 thumb
+ *   BMP_Create 0x02043678 arm
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
+ *   BMP_OAM_Create 0x020255A0 thumb
+ *   BMP_OAM_UploadChars 0x020257D0 thumb
  *   BMP_OAM_SetObjMode 0x0202597C thumb
  *   d_02200D1C 0x02200D1C data a4
  */
@@ -36,13 +36,13 @@ struct Param;
 struct Sys;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,u32);
-extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B688(struct Actor *actor, u32 value);
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
-extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
-extern void func_020257D0(struct Obj *o);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
+extern void BMP_OAM_UploadChars(struct Obj *o);
 extern void BMP_OAM_SetObjMode(u8 *,u32);
 extern const char d_02200D1C[];
 Obj *func_021FB3BC(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void *font,const Triple *triple,u16 heap)
@@ -55,17 +55,17 @@ Obj *func_021FB3BC(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void
     p=func_02030734(heap,24,0,d_02200D1C,0xA3B);
     func_02082BCC(p,0,24);
     p->a=a;p->b=value;
-    p->actor=func_0204B294((void *)c,config->y,config->z,config->x,pt,value,heap);
+    p->actor=CLACT_CreateActor((void *)c,config->y,config->z,config->x,pt,value,heap);
     func_0204B688(p->actor,1);
-    p->bmp=func_02043678(p->a>>3,2,32,heap);
-    func_0201C7D0(p->bmp,1,0,data,font,0x3DA0);
+    p->bmp=BMP_Create(p->a>>3,2,32,heap);
+    PRINTSYS_PrintColor(p->bmp,1,0,data,font,0x3DA0);
     func_02082BCC(&param,0,24);
     param.bmp=p->bmp;
     param.x=pt->x+32;param.y=pt->y-8;
     param.f8=config->z;param.f10=pt->f6-1;param.f12=value;
     param.f14=value;param.f11=pt->f7;param.fc=1;
-    p->grid=func_020255A0(owner,(const struct Param *)(&param));
-    func_020257D0(p->grid);
+    p->grid=BMP_OAM_Create(owner,(const struct Param *)(&param));
+    BMP_OAM_UploadChars(p->grid);
     BMP_OAM_SetObjMode(p->grid,1);
     return p;
 }

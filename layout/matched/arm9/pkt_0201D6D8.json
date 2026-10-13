@@ -98,7 +98,7 @@
    "status": "EXACT",
    "functions": [
     "GF_FONT_GetCharWidth",
-    "func_0201DC80"
+    "GF_FONT_GetLineHeight"
    ],
    "addresses": [
     "0x0201DC6C",
@@ -118,8 +118,8 @@
    "status": "EXACT",
    "functions": [
     "GF_FONT_GetFixedWidth",
-    "func_0201DD60",
-    "func_0201DD68"
+    "GF_FONT_ResetTextColor",
+    "GF_FONT_SetDefaultTextColor"
    ],
    "addresses": [
     "0x0201DD58",

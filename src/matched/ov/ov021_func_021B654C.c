@@ -1,5 +1,5 @@
 /*
- * function: func_021B654C
+ * function: SCRCMD_POKEMON_FLD_StartTradeEvent
  * address:  0x021B654C
  * packet:   pkt_ov021_021B654C
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_021CC500  0x021CC500  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   FLD_TRADE_CreateEvent  0x021CC500  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -22,18 +22,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern u32 func_02159B10(void *, void *);
-extern void func_0215897C(void *vm, void *task);
-extern void *func_021CC500(void *a, u32 b, u32 c);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern void *FLD_TRADE_CreateEvent(void *a, u32 b, u32 c);
 
-u32 func_021B654C(void *a, void *b)
+u32 SCRCMD_POKEMON_FLD_StartTradeEvent(void *a, void *b)
 {
-    void *r7 = func_0215A5F4(b);
-    void *x = func_0215A5DC(b);
-    u32 t = func_02159B10(a, b);
-    u32 u = func_02159B10(a, b);
-    func_0215897C(r7, func_021CC500(x, (u8)t, (u8)u));
+    void *r7 = SCRCMD_WORK_GetScriptWork(b);
+    void *x = SCRCMD_WORK_GetGameSystem(b);
+    u32 t = SCRIPT_WORK_ReadWorkValue(a, b);
+    u32 u = SCRIPT_WORK_ReadWorkValue(a, b);
+    SCRIPT_SYS_CallEvent(r7, FLD_TRADE_CreateEvent(x, (u8)t, (u8)u));
     return 1;
 }

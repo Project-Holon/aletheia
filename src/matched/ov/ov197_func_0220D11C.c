@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * blocker: integrator-owned ARM9 02045CAC has six unresolved calls; singleton TU confirms no viable cut.
- * Owner unit_02045C44.c omits func_02045CAC in function:. Verified EXACT344 C
+ * Owner unit_02045C44.c omits MSGDATA_ReadString in function:. Verified EXACT344 C
  * below copied from ov173_func_021B71C4.c, prior ov070 fixed-flag --arm one.
  * abi: BBD8 returns a zero-extended u16; int extern preserves the original signed bge against the u8 field, unlike older unsigned caller externs.
  * typedef unsigned char u8;
@@ -38,7 +38,7 @@
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -75,7 +75,7 @@
  * }
  * symbols:
  *   func_0220BBD8 0x0220BBD8 thumb ov197
- *   func_02045CAC 0x02045CAC arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0220B904 0x0220B904 thumb ov197
  *   func_02020FE4 0x02020FE4 thumb
  */
@@ -84,46 +84,46 @@ typedef unsigned short u16;
 extern int func_0220BBD8(unsigned);
 typedef unsigned int   u32;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0220B904(char *);
 extern unsigned func_02020FE4(void *, unsigned, unsigned);
 int func_0220D11C(char *p)
 {
     char *q = *(char **)p;
     if (*(int *)(q + 8) == 1 && *(u8 *)(q + 0x14) < func_0220BBD8(*(u16 *)(q + 0x16))) {
-        func_02045CAC(*(void **)(p + 0xc), 0x31, *(void **)(p + 0x14));
+        MSGDATA_ReadString(*(void **)(p + 0xc), 0x31, *(void **)(p + 0x14));
         func_0220B904(p);
         *(u8 *)(p + 0x531) = 0xd;
         return 0xe;
     }
     if (*(u8 *)(p + 0x533) == 2) {
         if (*(u8 *)(q + 0x28) == 1) {
-            func_02045CAC(*(void **)(p + 0xc), 0x2d, *(void **)(p + 0x14));
+            MSGDATA_ReadString(*(void **)(p + 0xc), 0x2d, *(void **)(p + 0x14));
             func_0220B904(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 2) {
-            func_02045CAC(*(void **)(p + 0xc), 0x2c, *(void **)(p + 0x14));
+            MSGDATA_ReadString(*(void **)(p + 0xc), 0x2c, *(void **)(p + 0x14));
             func_0220B904(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 3) {
-            func_02045CAC(*(void **)(p + 0xc), 0x33, *(void **)(p + 0x14));
+            MSGDATA_ReadString(*(void **)(p + 0xc), 0x33, *(void **)(p + 0x14));
             func_0220B904(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
         if (*(u8 *)(q + 0x28) == 4) {
-            func_02045CAC(*(void **)(p + 0xc), 0x2f, *(void **)(p + 0x14));
+            MSGDATA_ReadString(*(void **)(p + 0xc), 0x2f, *(void **)(p + 0x14));
             func_0220B904(p);
             *(u8 *)(p + 0x531) = 0xd;
             return 0xe;
         }
     }
     if (*(u8 *)(q + 0x29) == 0 && func_02020FE4((void *)(unsigned)*(u16 *)(q + 0x16), 7, *(u16 *)(q + 0xc)) == 3) {
-        func_02045CAC(*(void **)(p + 0xc), 0x32, *(void **)(p + 0x14));
+        MSGDATA_ReadString(*(void **)(p + 0xc), 0x32, *(void **)(p + 0x14));
         func_0220B904(p);
         *(u8 *)(p + 0x531) = 0xd;
         return 0xe;

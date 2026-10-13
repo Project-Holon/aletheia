@@ -1,5 +1,5 @@
 /*
- * function: func_021BB798
+ * function: STARTMENU_DrawRowFrame
  * address:  0x021BB798
  * packet:   pkt_ov088_021BB798
  * region:   ov088
@@ -28,7 +28,7 @@ extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
 extern void func_02041B6C(u32);
 
-void func_021BB798(char *p, u32 i, u32 arg)
+void STARTMENU_DrawRowFrame(char *p, u32 i, u32 arg)
 {
     u8 v = arg;
     u16 x = *(u16 *)((char *)d_021BD5EE + i * 4);

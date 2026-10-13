@@ -19,6 +19,7 @@
  *   _pNetState     0x021469DC  data
  *   GFL_NET_SYSTEM_InitDevice  0x02037700  arm
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *
  * Addresses are Black-image addresses.
  *
@@ -35,14 +36,14 @@ typedef unsigned int  u32;
 
 extern struct Sys *_pNetState;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct NetState;
 extern void GFL_NET_STATE_ChangeStateDebug(struct NetState *s, void *p, u16 v, int line);
 extern int GFL_NET_SYSTEM_InitDevice(u32 a0, u32 a1);
 
 void GFL_NET_STATE_WifiMatchStart(void)
 {
-    u8 *p = func_0203D798();
+    u8 *p = GFL_NET_GetInitParam();
 
     if (GFL_NET_SYSTEM_InitDevice(0x200, ((struct Obj15970 *)p)->f56) == 0)
         return;

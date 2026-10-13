@@ -1,5 +1,5 @@
 /*
- * function: func_021DCC10
+ * function: BTL_HANDLER_TOKUSEI_LightMetalHalveWeight
  * address: 0x021DCC10
  * packet: pkt_ov093_021DCC10
  * region: ov093
@@ -10,9 +10,9 @@
  * status: EXACT*
  * extent: trailing two-byte zero alignment at 021DCC2A.
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D7704 0x021D7704 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
  */
-extern int func_021D775C(int);
-extern void func_021D7704(int,int);
-void func_021DCC10(int a, int b, int c) { if (c == func_021D775C(2)) func_021D7704(0x35, 2048); }
+extern int BTL_EVENT_GetVar(int);
+extern void BTL_EVENT_MultiplyVar(int,int);
+void BTL_HANDLER_TOKUSEI_LightMetalHalveWeight(int a, int b, int c) { if (c == BTL_EVENT_GetVar(2)) BTL_EVENT_MultiplyVar(0x35, 2048); }

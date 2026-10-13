@@ -1,5 +1,5 @@
 /*
- * function: func_0218F878
+ * function: FIELD_CAMERA_PopState
  * address:  0x0218F878
  * packet:   pkt_ov021_0218F878
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218E13C  0x0218E13C  thumb
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb
  */
 
 typedef unsigned char  u8;
@@ -26,14 +26,14 @@ typedef struct {
     u32 active;
 } Sub;
 
-extern void func_0218E13C(u8 *a, u32 s);
+extern void FIELD_CAMERA_SetMode(u8 *a, u32 s);
 
-void func_0218F878(u8 *a)
+void FIELD_CAMERA_PopState(u8 *a)
 {
     if (a != 0) {
         Sub *s = (Sub *)(a + 0xf0);
         if (s->active != 0) {
-            func_0218E13C(a, s->saved);
+            FIELD_CAMERA_SetMode(a, s->saved);
             s->active = 0;
         }
     }

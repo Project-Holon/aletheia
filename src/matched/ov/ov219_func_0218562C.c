@@ -11,42 +11,42 @@
  * blocker: ARM9 02048C4C is the non-C veneer ldr ip,[pc]; bx ip; .word 020307B0 (show 02048C4C..02048C58). All concrete bytes match, but the veneer call has no outside witness. the integrator owns ARM9; no overlay follower filed.
  * extent: lead ends 021856CC; unlabelled initialization follower 021856CC..02185728 is omitted while ARM9 blocks the caller.
  * symbols:
- *   func_02048AC4 0x02048AC4 arm
- *   func_02048C4C 0x02048C4C arm
- *   func_02047738 0x02047738 arm
- *   func_02047504 0x02047504 arm
- *   func_020470D0 0x020470D0 arm
- *   func_02046EFC 0x02046EFC arm
+ *   G3D_CAMERA_Delete 0x02048AC4 arm
+ *   G3D_LIGHT_DeleteSlots 0x02048C4C arm
+ *   G3D_SYSTEM_DeleteObject 0x02047738 arm
+ *   G3D_SYSTEM_DeleteRender 0x02047504 arm
+ *   G3D_SYSTEM_FreeVramTexture 0x020470D0 arm
+ *   G3D_SYSTEM_DeleteResource 0x02046EFC arm
  *   d_02185E18 0x02185E18 data a2
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 index,member;} Entry;
 extern const Entry d_02185E18[];
-extern u32 func_02048AC4(void *ptr);
-extern void func_02048C4C(void *);
+extern u32 G3D_CAMERA_Delete(void *ptr);
+extern void G3D_LIGHT_DeleteSlots(void *);
 struct Rec;
 struct Tagged;
-extern void func_02047738(struct Rec *p);
-extern void func_02047504(struct Rec *p);
-extern int func_020470D0(u32 *);
-extern void func_02046EFC(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
+extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
+extern int G3D_SYSTEM_FreeVramTexture(u32 *);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 void func_0218562C(char *p)
 {
     u32 i;
     char *row;
-    func_02048AC4(*(void **)(p+0xC36C));
-    func_02048C4C(*(void **)(p+0xC370));
-    func_02047738(*(void **)(p+0xC3A4));
-    func_02047504(*(void **)(p+0xC38C));
-    func_020470D0(*(u32 **)(p+0xC374));
-    func_02046EFC(*(void **)(p+0xC374));
+    G3D_CAMERA_Delete(*(void **)(p+0xC36C));
+    G3D_LIGHT_DeleteSlots(*(void **)(p+0xC370));
+    G3D_SYSTEM_DeleteObject(*(void **)(p+0xC3A4));
+    G3D_SYSTEM_DeleteRender(*(void **)(p+0xC38C));
+    G3D_SYSTEM_FreeVramTexture(*(u32 **)(p+0xC374));
+    G3D_SYSTEM_DeleteResource(*(void **)(p+0xC374));
     for(i=0;i<4;i++) {
         row=p+d_02185E18[i].index*4;
-        func_02047738(*(void **)(row+0xC3A8));
-        func_02047504(*(void **)(row+0xC390));
-        func_020470D0(*(u32 **)(row+0xC378));
-        func_02046EFC(*(void **)(row+0xC378));
+        G3D_SYSTEM_DeleteObject(*(void **)(row+0xC3A8));
+        G3D_SYSTEM_DeleteRender(*(void **)(row+0xC390));
+        G3D_SYSTEM_FreeVramTexture(*(u32 **)(row+0xC378));
+        G3D_SYSTEM_DeleteResource(*(void **)(row+0xC378));
     }
     *(u32 *)(p+0xC3A4)=0;
 }

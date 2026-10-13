@@ -13,7 +13,7 @@
  *   func_021F1404 0x021F1404 thumb ov107
  *   func_021F0DE8 0x021F0DE8 thumb ov107
  *   func_021EF444 0x021EF444 thumb ov107
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200C0F0 0x0200C0F0 thumb
  *   func_0200C1B0 0x0200C1B0 thumb
  *   func_020056A0 0x020056A0 thumb
@@ -40,7 +40,7 @@ struct Work;
 extern struct Work *func_021F1404(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern struct Object *func_021F0DE8(u16);
 extern void func_021EF444(u8 *);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_0200C0F0(void *);
 extern void func_0200C1B0(struct Blk34 *,u32);
 extern void *func_020056A0(u32,u32,u32);
@@ -64,7 +64,7 @@ void func_021EE740(u8 *p) {
  ((struct Obj00057 *)p)->f60=0;
  func_021EF444(p);
  if(!p[0x28]) {
-  ((struct Obj00057 *)p)->f4C=func_0200C0F0(func_02012EBC(*(struct Big * *)&((struct Obj22273 *)(*(u8 * *)&((struct Obj00057 *)p)->f8))->f4));
+  ((struct Obj00057 *)p)->f4C=func_0200C0F0(GAME_DATA_GetSaveControl(*(struct Big * *)&((struct Obj22273 *)(*(u8 * *)&((struct Obj00057 *)p)->f8))->f4));
   func_0200C1B0(*(struct Blk34 * *)&((struct Obj00057 *)p)->f4C,4);
  } else {
   *(u32 *)&((struct Obj00057 *)p)->f4C=0;

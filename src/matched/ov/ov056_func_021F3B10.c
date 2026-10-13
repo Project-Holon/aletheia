@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B10
+ * function: FIELD_FK_DEMO_InitModel
  * address:  0x021F3B10
  * packet:   pkt_ov056_021F3B10
  * region:   ov056
@@ -18,15 +18,15 @@
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
- *   func_021A3074  0x021A3074  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   func_0207ADC4  0x0207ADC4  arm
  *   func_02008550  0x02008550  thumb
- *   func_02046E24  0x02046E24  arm
- *   func_02047180  0x02047180  arm
- *   func_02049238  0x02049238  arm
- *   d_021F4308     0x021F4308  data  a4
- *   d_021F4264     0x021F4264  data  a2
- *   d_021F426C     0x021F426C  data  ov056  a4
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   gFkDemoEndTile     0x021F4308  data  a4
+ *   gFkDemoEndDir     0x021F4264  data  a2
+ *   gFkDemoOrigin     0x021F426C  data  ov056  a4
  */
 
 typedef unsigned char  u8;
@@ -63,19 +63,19 @@ typedef struct Obj {
 } Obj;
 
 extern void *func_020490F4(u32 id, u32 heap);
-extern void *func_021A3074(unsigned char *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern void func_0207ADC4(Mtx33 *m);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void *func_02046E24(u32 a0, u32 a1);
-extern int func_02047180(u32 *p);
-extern void func_02049238(void *);
+extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1);
+extern int G3D_SYSTEM_AllocVramTexture(u32 *p);
+extern void ARC_TOOL_DeleteHandle(void *);
 
-extern const Vec d_021F4308[];
-extern const u16 d_021F4264[];
-extern const Vec d_021F426C;
+extern const Vec gFkDemoEndTile[];
+extern const u16 gFkDemoEndDir[];
+extern const Vec gFkDemoOrigin;
 
-void func_021F3B10(Obj *o, void *a1, int a2, int a3, int idx)
+void FIELD_FK_DEMO_InitModel(Obj *o, void *a1, int a2, int a3, int idx)
 {
     void *h;
     int k;
@@ -84,27 +84,27 @@ void func_021F3B10(Obj *o, void *a1, int a2, int a3, int idx)
     h = func_020490F4(0x96, (u16)((a3 & 0x7fff) | 0x8000));
     o->f7c = 0;
     o->f5c = 0;
-    o->f6c = d_021F4308[idx];
+    o->f6c = gFkDemoEndTile[idx];
     o->f60 = a2;
-    o->f78 = d_021F4264[idx];
+    o->f78 = gFkDemoEndDir[idx];
     o->f64 = a1;
-    o->f68 = func_021A3074(a1);
-    o->pos = d_021F426C;
+    o->f68 = FIELD_PLAYER_GetMmdl(a1);
+    o->pos = gFkDemoOrigin;
     o->scale.x = 0x1000;
     o->scale.y = 0x1000;
     o->scale.z = 0x1000;
     func_0207ADC4(&o->rot);
     if (func_02008550((const struct Sub0200852CObj *)a2) == 0) {
         k = idx * 6;
-        o->res0 = func_02046E24((u32)h, k + 3);
-        o->res2 = func_02046E24((u32)h, k + 4);
+        o->res0 = G3D_SYSTEM_CreateResourceArcHandle((u32)h, k + 3);
+        o->res2 = G3D_SYSTEM_CreateResourceArcHandle((u32)h, k + 4);
     } else {
         k = idx * 6;
-        o->res0 = func_02046E24((u32)h, k + 1);
-        o->res2 = func_02046E24((u32)h, k + 2);
+        o->res0 = G3D_SYSTEM_CreateResourceArcHandle((u32)h, k + 1);
+        o->res2 = G3D_SYSTEM_CreateResourceArcHandle((u32)h, k + 2);
     }
-    o->res1 = func_02046E24((u32)h, k + 5);
-    func_02047180(o->res0);
+    o->res1 = G3D_SYSTEM_CreateResourceArcHandle((u32)h, k + 5);
+    G3D_SYSTEM_AllocVramTexture(o->res0);
     o->f0c = 1;
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

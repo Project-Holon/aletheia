@@ -1,5 +1,5 @@
 /*
- * function: func_02165C10
+ * function: GAME_BEACON_ACCESSOR_IsDistributionAction
  * address:  0x02165C10
  * packet:   pkt_ov010_02165C10
  * region:   ov010
@@ -14,7 +14,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-int func_02165C10(u8 *p)
+int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *p)
 {
     switch (((struct Obj18996 *)p)->f30) {
     case 0x19:

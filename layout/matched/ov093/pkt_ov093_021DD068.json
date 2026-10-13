@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DD068",
-    "func_021DD074"
+    "BTL_HANDLER_ITEM_CheriBerryOnEaten",
+    "BTL_HANDLER_ITEM_AddCheriBerry"
+   ],
+   "addresses": [
+    "0x021DD068",
+    "0x021DD074"
    ],
    "evidence": {
     "sole-ref": [

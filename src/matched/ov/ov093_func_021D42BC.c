@@ -1,5 +1,5 @@
 /*
- * function: func_021D42BC
+ * function: BTL_NET_RecvEntry
  * address: 0x021D42BC
  * packet: pkt_ov093_021D42BC
  * region: ov093
@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov093/btl_net.c and filed here.
  *
  * symbols:
- *   d_021F3B88 0x021F3B88 data ov093 a4
+ *   gBtlNet 0x021F3B88 data ov093 a4
  */
 
 struct BtlNet;
@@ -64,12 +64,12 @@ struct BtlNet {
     struct BtlNetSync sync;     /* 0x3b20 */
 };
 
-void func_021D42BC(int idx, int unused, u16 *data);
-extern struct BtlNet *d_021F3B88;
+void BTL_NET_RecvEntry(int idx, int unused, u16 *data);
+extern struct BtlNet *gBtlNet;
 
-void func_021D42BC(int idx, int unused, u16 *data)
+void BTL_NET_RecvEntry(int idx, int unused, u16 *data)
 {
-    struct BtlNet *d = d_021F3B88;
+    struct BtlNet *d = gBtlNet;
     struct BtlNetSync *s = &d->sync;
     int i;
 
@@ -81,11 +81,11 @@ void func_021D42BC(int idx, int unused, u16 *data)
         if (s->mx < v)
             s->mx = v;
         s->n++;
-        if (s->n >= d_021F3B88->count) {
-            d_021F3B88->f07 = 0x28;
+        if (s->n >= gBtlNet->count) {
+            gBtlNet->f07 = 0x28;
             for (i = 0; i < 4; i++) {
                 if (s->e[i].ok != 0 && s->mx == s->e[i].val) {
-                    d_021F3B88->f07 = i;
+                    gBtlNet->f07 = i;
                     return;
                 }
             }

@@ -1,5 +1,5 @@
 /*
- * function: func_02181A74
+ * function: EVENT_COMM_COMMON_ChangeTalkedSearchAsTargetEvent
  * address:  0x02181A74
  * packet:   pkt_ov018_02181A74
  * region:   ov018
@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * Callback pointer is copied unchanged by func_0201232C into task +4;
+ * Callback pointer is copied unchanged by GAME_EVENT_Change into task +4;
  * its legacy int parameter represents the same full-word payload.
  * symbols:
- *   func_0201232C  0x0201232C  thumb
+ *   GAME_EVENT_Change  0x0201232C  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_02181A98  0x02181A98  thumb ov018
+ *   EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain  0x02181A98  thumb ov018
  */
 
 typedef unsigned int u32;
@@ -26,17 +26,17 @@ typedef struct {
     void *unk_10;
 } Obj;
 
-extern void func_0201232C(char *p, int a1, int a2);
+extern void GAME_EVENT_Change(char *p, int a1, int a2);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(const void *, void *, u32);
-extern int func_02181A98(void *, int *, void *);
+extern int EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain(void *, int *, void *);
 
-void func_02181A74(Obj *task, const void *src)
+void EVENT_COMM_COMMON_ChangeTalkedSearchAsTargetEvent(Obj *task, const void *src)
 {
     void *dst;
 
-    func_0201232C((char *)task, (int)func_02181A98, 0xA4);
+    GAME_EVENT_Change((char *)task, (int)EVENT_COMM_COMMON_TalkedSearchAsTargetEventMain, 0xA4);
     dst = func_020124E8((struct Obj *)task);
     func_02082D44(src, dst, 0x98);
 }

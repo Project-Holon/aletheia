@@ -1,5 +1,5 @@
 /*
- * function: func_021A0390
+ * function: FIELD_ZONEFOG_IsLight
  * address:  0x021A0390
  * packet:   pkt_ov021_021A0390
  * region:   ov021
@@ -12,10 +12,10 @@
  * Unlabelled leaf, filed as a blocker of the ov024/ov025 lane S26.
  *
  * symbols:
- *   func_021A0390  0x021A0390  thumb  ov021
+ *   FIELD_ZONEFOG_IsLight  0x021A0390  thumb  ov021
  */
 
-int func_021A0390(int *p)
+int FIELD_ZONEFOG_IsLight(int *p)
 {
     return p[2] != 0x0FFFFFFF ? 1 : 0;
 }

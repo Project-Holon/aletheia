@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02006BD0  0x02006BD0  thumb
+ *   PM_VOICE_IsActive  0x02006BD0  thumb
  *   func_021FE410  0x021FE410  thumb  ov094
  *   func_021F89BC  0x021F89BC  thumb  ov094
  */
@@ -25,7 +25,7 @@ typedef struct {
 } Obj;
 
 typedef unsigned int   u32;
-extern u32 func_02006BD0(u32 i);
+extern u32 PM_VOICE_IsActive(u32 i);
 extern void func_021FE410(Obj *o, int a, int b, int n);
 extern void func_021F89BC(void *h);
 
@@ -35,7 +35,7 @@ void func_021FE8D8(void *h, Obj **pp)
 
     for (i = 0; i < 6; i++) {
         if ((*pp)->tbl[i] != -1) {
-            if (func_02006BD0((*pp)->tbl[i]) != 0)
+            if (PM_VOICE_IsActive((*pp)->tbl[i]) != 0)
                 return;
             (*pp)->tbl[i] = -1;
         }

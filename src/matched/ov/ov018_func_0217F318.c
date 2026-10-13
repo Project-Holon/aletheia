@@ -1,5 +1,5 @@
 /*
- * function: func_0217F318
+ * function: EVENT_COMM_COMMON_ExitMsgBox
  * address:  0x0217F318
  * packet:   pkt_ov018_0217F318
  * region:   ov018
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0217F390  0x0217F390  thumb
- *   func_0217F58C  0x0217F58C  thumb
- *   func_0217F45C  0x0217F45C  thumb
- *   func_02190E40  0x02190E40  thumb  ov021
- *   func_021904C8  0x021904C8  thumb  ov021
- *   func_02045808  0x02045808  arm
+ *   EVENT_COMM_COMMON_DeletePrintWin  0x0217F390  thumb
+ *   EVENT_COMM_COMMON_DeleteListWindowB  0x0217F58C  thumb
+ *   EVENT_COMM_COMMON_DeleteListWindow  0x0217F45C  thumb
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201ED04  0x0201ED04  thumb
  */
 
@@ -34,33 +34,33 @@ typedef struct {
     void *f2C;
 } Ov018Obj;
 
-void func_0217F390(Ov018Obj *p);
-void func_0217F58C(Ov018Obj *p);
-void func_0217F45C(Ov018Obj *p);
+void EVENT_COMM_COMMON_DeletePrintWin(Ov018Obj *p);
+void EVENT_COMM_COMMON_DeleteListWindowB(Ov018Obj *p);
+void EVENT_COMM_COMMON_DeleteListWindow(Ov018Obj *p);
 typedef unsigned int   u32;
-int func_02190E40(u32 a);
+int FIELD_MSGBG_DeleteSysWin(u32 a);
 struct Rec;
-u32 func_021904C8(struct Rec *a0);
+u32 FIELD_MSGBG_DeleteMsgData(struct Rec *a0);
 struct U16Vec;
 struct WordSet;
-void func_02045808(struct U16Vec *vec);
+void STRBUF_Delete(struct U16Vec *vec);
 u32 func_0201ED04(struct WordSet *p);
 
-void func_0217F318(Ov018Obj *p)
+void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p)
 {
-    func_0217F390(p);
-    func_0217F58C(p);
-    func_0217F45C(p);
+    EVENT_COMM_COMMON_DeletePrintWin(p);
+    EVENT_COMM_COMMON_DeleteListWindowB(p);
+    EVENT_COMM_COMMON_DeleteListWindow(p);
     if (p->f00 != 0) {
         if (p->f18 != 0) {
-            func_02190E40((u32)p->f18);
+            FIELD_MSGBG_DeleteSysWin((u32)p->f18);
             p->f18 = 0;
         }
-        func_021904C8(p->f0C);
-        func_021904C8(p->f10);
-        func_021904C8(p->f14);
-        func_02045808(p->f08);
-        func_02045808(p->f04);
+        FIELD_MSGBG_DeleteMsgData(p->f0C);
+        FIELD_MSGBG_DeleteMsgData(p->f10);
+        FIELD_MSGBG_DeleteMsgData(p->f14);
+        STRBUF_Delete(p->f08);
+        STRBUF_Delete(p->f04);
         func_0201ED04(p->f00);
         p->f00 = 0;
     }

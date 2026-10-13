@@ -10,20 +10,20 @@
  * status: EXACT
  * extent: existing follower ov011_func_02174660.c stays separate.
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GAME_COMM_PushPairMessage 0x020266AC thumb
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-u32 func_0203D1A4(struct Link *p);
+u32 GFL_NET_GetHandleNetID(struct Link *p);
 void GAME_COMM_PushPairMessage(u32 a, u32 b, u32 c);
 void INTRUDE_COMM_RecvPairMessage(int a, int b, u8 *c, u8 *p)
 {
-    if (a != func_0203D1A4((struct Link *)((u32)func_020399A8())) && (p[0x8fb] & (1 << a))) {
+    if (a != GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())) && (p[0x8fb] & (1 << a))) {
         GAME_COMM_PushPairMessage(((u32 *)p)[1], a, *c);
     }
 }

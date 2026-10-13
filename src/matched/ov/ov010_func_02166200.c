@@ -1,5 +1,5 @@
 /*
- * function: func_02166200
+ * function: GAME_BEACON_ACCESSOR_IsDistributionMonsNoInvalid
  * address:  0x02166200
  * packet:   pkt_ov010_02166200
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_02166200(Rec *r)
+int GAME_BEACON_ACCESSOR_IsDistributionMonsNoInvalid(Rec *r)
 {
     if (r->f34 == 0 || r->f34 > 0x289)
         return 1;

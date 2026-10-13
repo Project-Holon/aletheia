@@ -13,14 +13,14 @@
  *   func_021BF734 0x021BF734 thumb ov110
  *   func_021BF6DC 0x021BF6DC thumb ov110
  *   func_021BF724 0x021BF724 thumb ov110
- *   func_0204B528 0x0204B528 arm
+ *   CLACT_SetActorPos 0x0204B528 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021BF758 0x021BF758 thumb ov110
- *   func_0201DD68 0x0201DD68 thumb
+ *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   func_02045770 0x02045770 arm
- *   func_0201C7A4 0x0201C7A4 thumb
- *   func_02043B5C 0x02043B5C arm
- *   func_020439A0 0x020439A0 arm
+ *   PRINTSYS_Print 0x0201C7A4 thumb
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_Blit 0x020439A0 arm
  */
 #include "../include/Obj01533.h"
 typedef unsigned char u8;
@@ -37,14 +37,14 @@ extern u32 func_021BAC44(u8 *);
 extern u32 func_021BF734(u8 *);
 extern u8 func_021BF6DC(u8 *);
 extern u16 func_021BF724(u8 *);
-extern void func_0204B528(struct Actor *, const struct Pt *);
+extern void CLACT_SetActorPos(struct Actor *, const struct Pt *);
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_021BF758(u8 *p, u32 a, int b);
-extern void func_0201DD68(void);
+extern void GF_FONT_SetDefaultTextColor(void);
 extern void *func_02045770(struct Descriptor *);
-extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void func_02043B5C(struct CharBuf *, u8);
-extern void func_020439A0(struct Bmp *, struct Bmp *, u32, u32, int, int, u32, u32, u32);
+extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
+extern void BMP_Clear(struct CharBuf *, u8);
+extern void BMP_Blit(struct Bmp *, struct Bmp *, u32, u32, int, int, u32, u32, u32);
 void func_021BFF7C(u8 *p, u32 n, u32 y)
 {
     u32 font;
@@ -59,22 +59,22 @@ void func_021BFF7C(u8 *p, u32 n, u32 y)
         pos.x = x;
         pos.y = y - 8;
         p += 32;
-        func_0204B528(*(struct Actor **)(p + n), &pos);
+        CLACT_SetActorPos(*(struct Actor **)(p + n), &pos);
         func_0204B3DC(*(struct Obj **)(p + n), 1);
         return;
     }
     func_021BF758(*(u8 * *)&((struct Obj01533 *)p)->f4, n - 2, (int)(((struct Obj01533 *)p)->f48));
-    func_0201DD68();
+    GF_FONT_SetDefaultTextColor();
     if (y <= 240) {
-        func_0201C7A4(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 112 * ((n - 2) & 1), y, ((struct Obj01533 *)p)->f48, (void *)font);
+        PRINTSYS_Print(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 112 * ((n - 2) & 1), y, ((struct Obj01533 *)p)->f48, (void *)font);
     } else {
         wrap = 256 - y;
-        func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10), 0);
-        func_0201C7A4(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10), 0, 0, ((struct Obj01533 *)p)->f48, (void *)font);
+        BMP_Clear(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10), 0);
+        PRINTSYS_Print(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10), 0, 0, ((struct Obj01533 *)p)->f48, (void *)font);
         n = 112 * ((n - 2) & 1);
         dest = func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10);
-        func_020439A0(dest, func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 0, 0, n, y, 96, wrap, 65535);
+        BMP_Blit(dest, func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 0, 0, n, y, 96, wrap, 65535);
         dest = func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10);
-        func_020439A0(dest, func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 0, wrap, n, 0, 96, 16 - wrap, 65535);
+        BMP_Blit(dest, func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 0, wrap, n, 0, 96, 16 - wrap, 65535);
     }
 }

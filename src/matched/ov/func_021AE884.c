@@ -1,5 +1,5 @@
 /*
- * function: func_021AE884
+ * function: EVENT_TRAINER_EYE_GetTrainerId
  * address:  0x021AE884
  * packet:   pkt_021AE884
  * region:   ov021
@@ -17,7 +17,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D5B8  0x0216D5B8  thumb  ov010
+ *   FLDMMDL_GetEventId  0x0216D5B8  thumb  ov010
  *   func_0215A460  0x0215A460  thumb
  * Addresses are Black-image addresses.
  */
@@ -28,10 +28,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0215A460(u32);
-extern u32 func_0216D5B8(void *p);
+extern u32 FLDMMDL_GetEventId(void *p);
 
-int func_021AE884(u32 a)
+int EVENT_TRAINER_EYE_GetTrainerId(u32 a)
 {
-return func_0215A460(func_0216D5B8((void *)a));
+return func_0215A460(FLDMMDL_GetEventId((void *)a));
 }
 

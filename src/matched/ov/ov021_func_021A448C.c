@@ -1,5 +1,5 @@
 /*
- * function: func_021A448C
+ * function: FIELD_PLAYER_GRID_GetDirChangeKind
  * address:  0x021A448C
  * packet:   pkt_ov021_021A448C
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  */
 
 typedef unsigned int u32;
 
-void *func_021A3960(unsigned char *p);
+void *FIELD_PLAYER_CORE_GetMmdl(unsigned char *p);
 typedef unsigned short u16;
-u16 func_0216D5F8(void *p);
+u16 FLDMMDL_GetDirDisp(void *p);
 
-int func_021A448C(u32 *p, int a)
+int FIELD_PLAYER_GRID_GetDirChangeKind(u32 *p, int a)
 {
-    int r = func_0216D5F8(func_021A3960((unsigned char *)p[3]));
+    int r = FLDMMDL_GetDirDisp(FIELD_PLAYER_CORE_GetMmdl((unsigned char *)p[3]));
 
     if (a == 9)
         return 0;

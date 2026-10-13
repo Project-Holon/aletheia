@@ -1,5 +1,5 @@
 /*
- * function: func_02050894
+ * function: BILLBOARD_ACT_SetEntryPaletteFromSlot
  * address:  0x02050894
  * packet:   pkt_02050894
  * region:   arm9
@@ -12,7 +12,7 @@
  * symbols:
  *   BILLBOARD_ACT_UploadSlotPalette   0x02050738  arm
  *
- * PROMOTED from src/pending/func_02050894.c: it was parked at MATCH because
+ * PROMOTED from src/pending/BILLBOARD_ACT_SetEntryPaletteFromSlot.c: it was parked at MATCH because
  * the only branch in the image to 0x02050738 is the one inside this function.
  * 0x02050738 (88 bytes, pkt_02050340) is now matched, so the site resolves by
  * the `matched` class with no change to the C.  The file's packet id is
@@ -28,8 +28,8 @@
  * unlabelled leaf accessor (no prologue that saves lr).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02050894.c \
- *       --func func_02050894 --addr 0x02050894 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_SetEntryPaletteFromSlot.c \
+ *       --func BILLBOARD_ACT_SetEntryPaletteFromSlot --addr 0x02050894 --cc 1.1p1 --arm
  */
 #include "../include/Obj11456.h"
 
@@ -58,7 +58,7 @@ struct S40 {
 
 extern u32 BILLBOARD_ACT_UploadSlotPalette(void *p, void *q);
 
-int func_02050894(void *p, int idx, int j)
+int BILLBOARD_ACT_SetEntryPaletteFromSlot(void *p, int idx, int j)
 {
     struct S8  *arr = *(struct S8 * *)&((struct Obj11456 *)p)->fC;
     struct S40 *rec = *(struct S40 * *)&((struct Obj11456 *)p)->f18;

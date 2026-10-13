@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216282C",
+   "name": "EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight",
    "address": "0x0216282C",
    "kind": "game",
    "region": "ov010",

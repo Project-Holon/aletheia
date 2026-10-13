@@ -6,9 +6,9 @@
  * symbols:
  *   lbl_021469D0   0x021469D0  data
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_SYSTEM_IsDeviceReady  0x020392EC  arm
- *   func_02039338  0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  */
 
 typedef unsigned char  u8;
@@ -17,9 +17,9 @@ typedef unsigned int   u32;
 
 extern u8 *lbl_021469D0;
 extern int GFL_NET_GetSession(void);
-extern int func_0203D798(void);
+extern int GFL_NET_GetInitParam(void);
 extern int GFL_NET_SYSTEM_IsDeviceReady(void);
-extern int func_02039338(void);
+extern int GFL_NET_SYSTEM_GetCurrentAid(void);
 
 int GFL_NET_SYSTEM_IsConnectMember(u32 mode)
 {
@@ -30,7 +30,7 @@ int GFL_NET_SYSTEM_IsConnectMember(u32 mode)
     u16 m;
 
     p5 = (u8 *)GFL_NET_GetSession();
-    p4 = (u8 *)func_0203D798();
+    p4 = (u8 *)GFL_NET_GetInitParam();
     g = lbl_021469D0;
     if (g == 0)
         return 0;
@@ -58,9 +58,9 @@ int GFL_NET_SYSTEM_IsConnectMember(u32 mode)
         return 0;
     if (((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x70)))() == 0)
         return 0;
-    if (mode == (u32)func_02039338())
+    if (mode == (u32)GFL_NET_SYSTEM_GetCurrentAid())
         return 1;
-    if (func_02039338() == 0 || p4[0x64] == 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() == 0 || p4[0x64] == 0) {
         m = (u16)((int (*)(void))(*(u32 *)(*(u32 *)(p5 + 0x340) + 0x7c)))();
         if (((1 << mode) & m) != 0)
             return 1;

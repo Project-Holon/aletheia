@@ -1,5 +1,5 @@
 /*
- * function: func_02165CC0
+ * function: GAME_BEACON_ACCESSOR_GetFavoriteColorRgb
  * address:  0x02165CC0
  * packet:   pkt_02165CC0
  * region:   ov010
@@ -37,7 +37,7 @@ typedef unsigned int u32;
 
 extern char *OSi_GetOwnerInfoExBuffer(void);
 
-void func_02165CC0(int a0, int a1)
+void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int a0, int a1)
 {
     int t4;
     int t5;

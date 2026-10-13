@@ -8,26 +8,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020362DC 0x020362DC arm
  *   func_020355C4 0x020355C4 arm
- *   func_021B940C 0x021B940C thumb ov067
+ *   FRAME_LIST_ShowCursor 0x021B940C thumb ov067
  *   d_021C0B3C 0x021C0B3C data a4
  */
 #include "../include/Obj00085.h"
 
 typedef unsigned int u32;
 extern const unsigned d_021C0B3C[];
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_020355D8(unsigned char);
 extern u32 func_020362DC(void);
 extern unsigned char func_020355C4(void);
 struct S;
-extern void func_021B940C(struct S *s);
+extern void FRAME_LIST_ShowCursor(struct S *s);
 int func_021C014C(char *ctx)
 {
-    int result = func_02035C08(d_021C0B3C);
+    int result = TOUCHPANEL_HitTrg(d_021C0B3C);
     if (result != -1) {
         func_020355D8(1);
         return result;
@@ -43,7 +43,7 @@ int func_021C014C(char *ctx)
     if (func_020362DC() & 4) {
         if (func_020355C4() == 1) {
             func_020355D8(0);
-            func_021B940C(((struct Obj00085 *)ctx)->f1E0);
+            FRAME_LIST_ShowCursor(((struct Obj00085 *)ctx)->f1E0);
         }
         return 9;
     }

@@ -11,14 +11,14 @@
  * symbols:
  *   func_02040588 0x02040588 arm
  *   func_020434DC 0x020434DC arm
- *   func_02043598 0x02043598 arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   func_0207D63C 0x0207D63C arm
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void func_0207D63C(unsigned, int, int, int, int);
 static inline void G2_SetBG0Priority(int priority)
 {
@@ -35,7 +35,7 @@ void func_021DF998(char *a0)
     func_02040588(6, 1);
     func_02040588(7, 1);
     func_020434DC(16, 1);
-    func_02043598(16, 1);
+    BG_SYS_SetSubPlaneVisible(16, 1);
     G2_SetBG0Priority(1);
     func_0207D63C(0x04000050, 4, 40, 11, 10);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5880
+ * function: SHORTCUT_MENU_ClampListWindow
  * address:  0x021C5880
  * packet:   pkt_ov021_021C5880
  * region:   ov021
@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021C5880(u16 *a, u16 *b, u16 c)
+void SHORTCUT_MENU_ClampListWindow(u16 *a, u16 *b, u16 c)
 {
     int s = *a + *b;
 

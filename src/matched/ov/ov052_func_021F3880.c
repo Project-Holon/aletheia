@@ -1,5 +1,5 @@
 /*
- * function: func_021F3880
+ * function: FIELD_GIMMICK_BSUBWAY_ExitTrain
  * address: 0x021F3880
  * packet: pkt_ov052_021F3880
  * region: ov052
@@ -19,9 +19,9 @@
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021F3880(char *a);
+void FIELD_GIMMICK_BSUBWAY_ExitTrain(char *a);
 
-void func_021F3880(char *a)
+void FIELD_GIMMICK_BSUBWAY_ExitTrain(char *a)
 {
     func_020307B0(((struct Obj20567 *)a)->f24);
 }

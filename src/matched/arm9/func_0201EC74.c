@@ -13,7 +13,7 @@
  * calls with the default counts (8 slots, 0x20 bytes of string each).  It
  * allocates a 0x10-byte header and an array of `n` 0xc-byte Entry records
  * through the debug allocator func_02030734(heap, size, flag, file, line),
- * gives the header and every entry a string object from func_020457B0, and
+ * gives the header and every entry a string object from STRBUF_Create, and
  * returns 0 as soon as any allocation fails.
  *
  * The `__FILE__` argument is 0x020A7364, "wordset.c", and IS attestable by
@@ -56,7 +56,7 @@
  *      baseline  DIFF   asm=855  bytes-out=14  size=144/144
  *      244       EXACT  asm=0    bytes-out=0   size=144/144
  *
- * func_020457B0 is ARM, not Thumb.
+ * STRBUF_Create is ARM, not Thumb.
  *
  * Addresses are Black-image addresses.  Nothing here reads a version flag or
  * a species table; the two counts are the caller's, not content constants.
@@ -64,7 +64,7 @@
  * symbols:
  *   sFile_020A7364  0x020A7364  data  a1
  *   func_02030734   0x02030734  arm
- *   func_020457B0   0x020457B0  arm
+ *   STRBUF_Create   0x020457B0  arm
  *   func_0201ED50   0x0201ED50  thumb
  *
  * Verified with:
@@ -79,7 +79,7 @@ extern char sFile_020A7364[];
 typedef unsigned short u16;
 struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 struct Tag {
     u8 unk00;
@@ -115,7 +115,7 @@ struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap)
     }
     p->count = n;
     p->heap = heap;
-    p->str0 = func_020457B0(size, heap);
+    p->str0 = STRBUF_Create(size, heap);
     if (p->str0 == 0) {
         goto fail;
     }
@@ -125,7 +125,7 @@ struct WordSet *func_0201EC74(u32 n, u32 size, u16 heap)
     }
     while (i < n) {
         func_0201ED50(&p->entries[i].tag);
-        p->entries[i].str = func_020457B0(size, heap);
+        p->entries[i].str = STRBUF_Create(size, heap);
         if (p->entries[i].str == 0) {
             break;
         }

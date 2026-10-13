@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Delete  0x020437AC  arm
  *   P_STA_OAM_DeleteBitmapActors  0x021DBC3C  thumb
  *
  * Addresses are Black-image addresses.
@@ -23,11 +23,11 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 struct Obj020437AC;
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 extern void P_STA_OAM_DeleteBitmapActors(u8 *p);
 
 void P_STA_SKILL_FreeSlot(void *a, void *b, u8 *p)
 {
-    func_020437AC(((struct Obj14077 *)p)->f10);
+    BMP_Delete(((struct Obj14077 *)p)->f10);
     P_STA_OAM_DeleteBitmapActors(((struct Obj14077 *)p)->f14);
 }

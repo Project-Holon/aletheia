@@ -1,5 +1,5 @@
 /*
- * function: func_021AAFA0
+ * function: EFFECT_ENCOUNT_ClearSpot
  * address:  0x021AAFA0
  * packet:   pkt_ov021_021AAFA0
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02012A38  0x02012A38  thumb
- *   func_021AAFFC  0x021AAFFC  thumb
+ *   EFFECT_ENCOUNT_DeleteEffectObj  0x021AAFFC  thumb
  *   func_02082BCC  0x02082BCC  arm
  */
 
@@ -36,12 +36,12 @@ typedef struct D D;
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 func_02012A38(const struct BigObj *p);
-extern void func_021AAFFC(D *d);
+extern void EFFECT_ENCOUNT_DeleteEffectObj(D *d);
 extern void func_02082BCC(void *p, int v, int n);
 
-void func_021AAFA0(S *s, D *d)
+void EFFECT_ENCOUNT_ClearSpot(S *s, D *d)
 {
     T *t = (T *)func_02012A38((const struct BigObj *)s->f8);
-    func_021AAFFC(d);
+    EFFECT_ENCOUNT_DeleteEffectObj(d);
     func_02082BCC(&t->sub, 0, 0x10);
 }

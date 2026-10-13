@@ -1,5 +1,5 @@
 /*
- * function: func_021EED78
+ * function: WEATHER_BLIZZARD_UpdateParticle
  * address:  0x021EED78
  * packet:   pkt_ov025_021EED78
  * region:   ov025
@@ -10,11 +10,11 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EED78 0x021EED78 thumb ov025
- *   func_021A2630 0x021A2630 thumb ov021
- *   func_021A2638 0x021A2638 thumb ov021
- *   func_021A21E0 0x021A21E0 thumb ov021
- *   func_0204B454 0x0204B454 arm
+ *   WEATHER_BLIZZARD_UpdateParticle 0x021EED78 thumb ov025
+ *   WEATHER_TASK_GetParticleWork 0x021A2630 thumb ov021
+ *   WEATHER_TASK_GetParticleActor 0x021A2638 thumb ov021
+ *   WEATHER_TASK_RemoveParticle 0x021A21E0 thumb ov021
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
 
@@ -23,24 +23,24 @@ typedef signed short s16;
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
-extern unsigned char *func_021A2630(unsigned char *o);
-extern unsigned int func_021A2638(unsigned char *o);
-extern void func_021A21E0(u32 *p);
+extern unsigned char *WEATHER_TASK_GetParticleWork(unsigned char *o);
+extern unsigned int WEATHER_TASK_GetParticleActor(unsigned char *o);
+extern void WEATHER_TASK_RemoveParticle(u32 *p);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021EED78(int a)
+void WEATHER_BLIZZARD_UpdateParticle(int a)
 {
     int *p;
     int q;
     s16 v[2];
 
-    p = (int *)func_021A2630((unsigned char *)a);
-    q = func_021A2638((unsigned char *)a);
-    func_0204B454((struct Actor *)q, (struct PtS *)v, 0);
+    p = (int *)WEATHER_TASK_GetParticleWork((unsigned char *)a);
+    q = WEATHER_TASK_GetParticleActor((unsigned char *)a);
+    CLACT_GetActorSurfacePos((struct Actor *)q, (struct PtS *)v, 0);
     switch (p[3]) {
     case 0:
         v[0] = v[0] + (s16)p[4];
@@ -57,7 +57,7 @@ void func_021EED78(int a)
         func_0204B404((struct Obj *)q, (const struct Vec2 *)v, 0);
         break;
     case 1:
-        func_021A21E0((u32 *)a);
+        WEATHER_TASK_RemoveParticle((u32 *)a);
         break;
     }
 }

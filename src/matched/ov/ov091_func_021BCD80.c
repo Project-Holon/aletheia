@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD80
+ * function: PLIST_MENU_ExitTimer
  * address:  0x021BCD80
  * packet:   pkt_ov091_021BCD80
  * region:   ov091
@@ -10,37 +10,37 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD61C  0x021BD61C  thumb  ov091
- *   func_021BD18C  0x021BD18C  thumb  ov091
- *   func_021BD058  0x021BD058  thumb  ov091
- *   func_021BCE9C  0x021BCE9C  thumb  ov091
+ *   PLIST_BATTLE_DeleteTimerWindows  0x021BD61C  thumb  ov091
+ *   PLIST_BATTLE_DeleteTeamPanel  0x021BD18C  thumb  ov091
+ *   PLIST_MENU_Nop  0x021BD058  thumb  ov091
+ *   PLIST_MENU_DeleteBank  0x021BCE9C  thumb  ov091
  */
 #include "../include/Obj01888.h"
 #include "../include/Obj20910.h"
 #include "../include/Obj20911.h"
 #include "../include/Obj20912.h"
 
-extern void func_021BD61C(char *a);
-extern void func_021BD18C(char *a, char *p);
-extern void func_021BD058(char *a);
-extern void func_021BCE9C(unsigned int p);
+extern void PLIST_BATTLE_DeleteTimerWindows(char *a);
+extern void PLIST_BATTLE_DeleteTeamPanel(char *a, char *p);
+extern void PLIST_MENU_Nop(char *a);
+extern void PLIST_MENU_DeleteBank(unsigned int p);
 
-void func_021BCD80(char *a)
+void PLIST_MENU_ExitTimer(char *a)
 {
     if (((struct Obj20910 *)(*(char * *)&((struct Obj01888 *)a)->f280))->f90 == 1)
-        func_021BD61C(a);
+        PLIST_BATTLE_DeleteTimerWindows(a);
     if (((struct Obj20911 *)(*(char * *)&((struct Obj01888 *)a)->f280))->f8C == 1) {
         switch (((struct Obj20912 *)(*(char * *)&((struct Obj01888 *)a)->f280))->f64) {
         case 1:
-            func_021BD18C(a, (char *)(((struct Obj01888 *)a)->f1F4));
+            PLIST_BATTLE_DeleteTeamPanel(a, (char *)(((struct Obj01888 *)a)->f1F4));
             break;
         case 2:
-            func_021BD18C(a, (char *)(((struct Obj01888 *)a)->f1F0));
-            func_021BD18C(a, (char *)(((struct Obj01888 *)a)->f1F4));
-            func_021BD18C(a, (char *)(((struct Obj01888 *)a)->f1F8));
+            PLIST_BATTLE_DeleteTeamPanel(a, (char *)(((struct Obj01888 *)a)->f1F0));
+            PLIST_BATTLE_DeleteTeamPanel(a, (char *)(((struct Obj01888 *)a)->f1F4));
+            PLIST_BATTLE_DeleteTeamPanel(a, (char *)(((struct Obj01888 *)a)->f1F8));
             break;
         }
     }
-    func_021BD058(a);
-    func_021BCE9C((unsigned int)a);
+    PLIST_MENU_Nop(a);
+    PLIST_MENU_DeleteBank((unsigned int)a);
 }

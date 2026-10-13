@@ -1,5 +1,5 @@
 /*
- * function: func_0218A240
+ * function: FIELD_EVENT_CHECK_RunRail
  * address:  0x0218A240
  * packet:   pkt_ov021_0218A240
  * region:   ov021
@@ -10,37 +10,37 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218A278  0x0218A278  thumb  ov021
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D20  0x02188D20  thumb  ov021
- *   func_021BC5BC  0x021BC5BC  thumb  ov021
- *   func_02189A70  0x02189A70  thumb  ov021
- *   func_021F3B10  0x021F3B10  thumb  ov053
- *   func_0218A6E8  0x0218A6E8  thumb  ov021
+ *   FIELD_EVENT_CHECK_CheckRailEvents  0x0218A278  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
+ *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
+ *   FIELDMAP_GetZoneEffectWork  0x02189A70  thumb  ov021
+ *   GIMMICK53_RaiseBgmVolume  0x021F3B10  thumb  ov053
+ *   FIELD_EVENT_CHECK_StopSoundAfterEvent  0x0218A6E8  thumb  ov021
  */
 
 struct Obj00020;
-int func_0218A278(void *sys, struct Obj00020 *pos);
+int FIELD_EVENT_CHECK_CheckRailEvents(void *sys, struct Obj00020 *pos);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Ctx;
-void *func_0201210C(const struct Ctx *p);
-u32 func_02188D20(u8 *p);
-int func_021BC5BC(u8 *a);
-u32 func_02189A70(u8 *p);
-void func_021F3B10(void);
-void func_0218A6E8(void *p, void *h);
+void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+u32 FIELDMAP_GetPlaceName(u8 *p);
+int FIELD_PLACE_NAME_Cancel(u8 *a);
+u32 FIELDMAP_GetZoneEffectWork(u8 *p);
+void GIMMICK53_RaiseBgmVolume(void);
+void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *p, void *h);
 
-int func_0218A240(void *p, struct Obj00020 *pos)
+int FIELD_EVENT_CHECK_RunRail(void *p, struct Obj00020 *pos)
 {
     void *h;
-    int r = func_0218A278(p, pos);
+    int r = FIELD_EVENT_CHECK_CheckRailEvents(p, pos);
     if (r != 0) {
-        h = func_0201210C(p);
-        func_021BC5BC((u8 *)func_02188D20(h));
-        if (func_02189A70(h) != 0)
-            func_021F3B10();
-        func_0218A6E8(p, h);
+        h = GAMESYSTEM_GetFieldMap(p);
+        FIELD_PLACE_NAME_Cancel((u8 *)FIELDMAP_GetPlaceName(h));
+        if (FIELDMAP_GetZoneEffectWork(h) != 0)
+            GIMMICK53_RaiseBgmVolume();
+        FIELD_EVENT_CHECK_StopSoundAfterEvent(p, h);
     }
     return r;
 }

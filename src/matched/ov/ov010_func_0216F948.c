@@ -1,5 +1,5 @@
 /*
- * function: func_0216F948
+ * function: WAZA_OSHIE_CreateMoveList
  * address:  0x0216F948
  * packet:   pkt_ov010_0216F948
  * region:   ov010
@@ -30,7 +30,7 @@
  *   - The file name pool word is d_02172B74 (the old header said 02173B74).
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_02030734  0x02030734  arm
  *   func_0201ADD0  0x0201ADD0  thumb
  *   func_020307B0  0x020307B0  arm
@@ -46,7 +46,7 @@ typedef struct Ent {
     u16 level;
 } Ent;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0201ADD0(unsigned int a, int b, void *buf);
 extern u32 func_020307B0(void *p);
@@ -67,7 +67,7 @@ static inline u16 Ent_Move(Ent x)
     return x.move;
 }
 
-u16 *func_0216F948(void *mon, u32 heap)
+u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap)
 {
     Ent *tbl;
     u16 cur[4];
@@ -81,11 +81,11 @@ u16 *func_0216F948(void *mon, u32 heap)
     u8 m;
     u16 *out;
 
-    species = func_02017E1C(mon, 5, 0);
-    form = func_02017E1C(mon, 0x6F, 0);
-    level = func_02017E1C(mon, 0x9E, 0);
+    species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+    form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
+    level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
     for (i = 0; i < 4; i++)
-        cur[i] = func_02017E1C(mon, 0x36 + i, 0);
+        cur[i] = POKE_TOOL_GetPartyValue(mon, 0x36 + i, 0);
     tbl = (Ent *)func_02030734(heap, 0x68, 0, d_02172B74, 0x55);
     out = (u16 *)func_02030734(heap, 0x34, 0, d_02172B74, 0x56);
     func_0201ADD0(species, form, tbl);

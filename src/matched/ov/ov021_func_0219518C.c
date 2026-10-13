@@ -1,5 +1,5 @@
 /*
- * function: func_0219518C
+ * function: TALKMSGWIN_BuildShape
  * address:  0x0219518C
  * packet:   pkt_ov021_0219518C
  * region:   ov021
@@ -42,7 +42,7 @@ static inline void set3(s16 *o, s16 x, s16 y, s16 z)
     o[2] = z;
 }
 
-void func_0219518C(u8 *p, u8 *e, const V *a, V *b, V *c, V *d, V *f, V *g, V *h)
+void TALKMSGWIN_BuildShape(u8 *p, u8 *e, const V *a, V *b, V *c, V *d, V *f, V *g, V *h)
 {
     V l0;
     V l1;

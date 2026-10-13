@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B9C1C",
+   "name": "MONOLITH_TOOL_DeleteScrollArrows",
    "address": "0x021B9C1C",
    "kind": "game",
    "region": "ov071",

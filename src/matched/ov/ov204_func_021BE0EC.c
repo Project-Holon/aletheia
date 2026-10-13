@@ -10,18 +10,18 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02048AD0 0x02048AD0 arm
- *   func_02047964 0x02047964 arm
- *   func_020479D8 0x020479D8 arm
- *   func_02047970 0x02047970 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
+ *   G3D_SYSTEM_DrawStart 0x02047964 arm
+ *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
+ *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
 #include "../include/Obj25337.h"
 struct Light;
 /* Original consumes 02048AD0's live r0 through the next veneer call. */
-extern void *func_02048AD0(struct Light *);
-extern void func_02047964(void *);
-extern void func_020479D8(void);
-void func_021BE0EC(char *p){func_02047964(func_02048AD0(*(struct Light * *)&((struct Obj25337 *)p)->f0));func_020479D8();}
-extern void func_02047970(void);
-void func_021BE100(char *unused){func_02047970();}
+extern void *G3D_CAMERA_Reset(struct Light *);
+extern void G3D_SYSTEM_DrawStart(void *);
+extern void G3D_SYSTEM_ApplyLookAt(void);
+void func_021BE0EC(char *p){G3D_SYSTEM_DrawStart(G3D_CAMERA_Reset(*(struct Light * *)&((struct Obj25337 *)p)->f0));G3D_SYSTEM_ApplyLookAt();}
+extern void G3D_SYSTEM_DrawEnd(void);
+void func_021BE100(char *unused){G3D_SYSTEM_DrawEnd();}
 int func_021BE108(void){return 1;}

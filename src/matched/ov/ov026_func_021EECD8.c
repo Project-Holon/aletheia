@@ -1,5 +1,5 @@
 /*
- * function: func_021EECD8
+ * function: WEATHER_THUNDERSTORM_Run
  * address: 0x021EECD8
  * packet: pkt_ov026_021EECD8
  * region: ov026
@@ -9,26 +9,26 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021A21B8 0x021A21B8 thumb ov021
- *   func_021A2248 0x021A2248 thumb ov021
- *   func_021EF9D8 0x021EF9D8 thumb ov026
- *   func_021EEF0C 0x021EEF0C thumb ov026
+ *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
+ *   WEATHER_TASK_StepSpawnTimer 0x021A2248 thumb ov021
+ *   WEATHER_LIGHTNING_Update 0x021EF9D8 thumb ov026
+ *   WEATHER_THUNDERSTORM_ScrollLayers 0x021EEF0C thumb ov026
  */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int *func_021A21B8(int *);
-extern int func_021A2248(u8 *, int);
-extern void func_021EF9D8(void *, int);
-extern void func_021EEF0C(int, int *);
+extern int *WEATHER_TASK_GetWorkBuffer(int *);
+extern int WEATHER_TASK_StepSpawnTimer(u8 *, int);
+extern void WEATHER_LIGHTNING_Update(void *, int);
+extern void WEATHER_THUNDERSTORM_ScrollLayers(int, int *);
 
-int func_021EECD8(u8 *a, int b, int c)
+int WEATHER_THUNDERSTORM_Run(u8 *a, int b, int c)
 {
     int *p;
-    p = func_021A21B8((int *)a);
+    p = WEATHER_TASK_GetWorkBuffer((int *)a);
     p[2] = (p[2] + 1) % 300;
-    func_021A2248(a, c);
-    func_021EF9D8(p + 3, (int)a);
-    func_021EEF0C((int)a, p);
+    WEATHER_TASK_StepSpawnTimer(a, c);
+    WEATHER_LIGHTNING_Update(p + 3, (int)a);
+    WEATHER_THUNDERSTORM_ScrollLayers((int)a, p);
     return 0;
 }

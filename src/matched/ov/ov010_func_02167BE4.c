@@ -1,5 +1,5 @@
 /*
- * function: func_02167BE4
+ * function: BSUBWAY_COMM_SetSendWord6
  * address:  0x02167BE4
  * packet:   pkt_ov010_02167BE4
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 func_02167BFC.
+ * Unlabelled Thumb leaf hidden in a word run (no lr saved); callee of ov010 BSUBWAY_COMM_SetSendData.
  *
  * symbols:
  *   (none)
@@ -25,7 +25,7 @@ typedef struct Obj {
     u32 w668;
 } Obj;
 
-void func_02167BE4(Obj *o, u32 v)
+void BSUBWAY_COMM_SetSendWord6(Obj *o, u32 v)
 {
     o->w668 = v;
 }

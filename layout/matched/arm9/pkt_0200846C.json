@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0200846C",
+   "name": "MYSTATUS_Create",
    "address": "0x0200846C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020084A0",
+   "name": "MYSTATUS_Init",
    "address": "0x020084A0",
    "kind": "game",
    "region": "arm9",

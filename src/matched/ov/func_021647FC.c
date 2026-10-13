@@ -1,5 +1,5 @@
 /*
- * function: func_021647FC
+ * function: CALENDER_OpenArchive
  * address:  0x021647FC
  * packet:   pkt_021647FC
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern void *func_020490F4(u32 id, u32 heap);
 
-void *func_021647FC(int a0)
+void *CALENDER_OpenArchive(int a0)
 {
     int a1;
     int t4;

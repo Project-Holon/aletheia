@@ -1,5 +1,5 @@
 /*
- * function: func_021B75A8
+ * function: BTL_MAIN_SeqSyncRules
  * address: 0x021B75A8
  * packet: pkt_ov093_021B75A8
  * region: ov093
@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D4270 0x021D4270 thumb ov093
- *   func_021D4294 0x021D4294 thumb ov093
- *   func_021D4348 0x021D4348 thumb ov093
- *   func_021D4360 0x021D4360 thumb ov093
- *   func_021D4378 0x021D4378 thumb ov093
+ *   BTL_NET_HasCommError 0x021D4270 thumb ov093
+ *   BTL_NET_SendEntry 0x021D4294 thumb ov093
+ *   BTL_NET_IsLeaderKnown 0x021D4348 thumb ov093
+ *   BTL_NET_IsLeader 0x021D4360 thumb ov093
+ *   BTL_NET_GetLeaderValue 0x021D4378 thumb ov093
  *   func_021BA1A8 0x021BA1A8 thumb ov093
- *   func_021D43B8 0x021D43B8 thumb ov093
- *   func_021D440C 0x021D440C thumb ov093
+ *   BTL_NET_SendSetup 0x021D43B8 thumb ov093
+ *   BTL_NET_GetSetup 0x021D440C thumb ov093
  */
 #include "../include/Obj00966.h"
 #include "../include/Obj20944.h"
@@ -28,31 +28,31 @@ typedef unsigned int u32;
 typedef struct { u32 w[6]; } Copy;
 typedef struct { u8 a:1; u8 b:1; u8 c:1; } Bits;
 typedef struct { u8 a:4; u8 b:4; } Nibbles;
-extern int func_021D4270(void);
-extern int func_021D4294(u16 v);
-extern int func_021D4348(void);
-extern int func_021D4360(void);
-extern u8 func_021D4378(void);
+extern int BTL_NET_HasCommError(void);
+extern int BTL_NET_SendEntry(u16 v);
+extern int BTL_NET_IsLeaderKnown(void);
+extern int BTL_NET_IsLeader(void);
+extern u8 BTL_NET_GetLeaderValue(void);
 extern int func_021BA1A8(char **p, int m);
-extern u32 func_021D43B8(u32 a);
-extern int func_021D440C(void *);
-int func_021B75A8(u8 *p,u32 *state)
+extern u32 BTL_NET_SendSetup(u32 a);
+extern int BTL_NET_GetSetup(void *);
+int BTL_MAIN_SeqSyncRules(u8 *p,u32 *state)
 {
     u8 *q;
-    if (func_021D4270()) {
+    if (BTL_NET_HasCommError()) {
         ((Bits *)(p + 0x473))->a = 1;
         return 1;
     }
     switch (*state) {
     case 0:
-        if (func_021D4294(p[0x46c])) ++*state;
+        if (BTL_NET_SendEntry(p[0x46c])) ++*state;
         break;
     case 1:
-        if (func_021D4348()) {
+        if (BTL_NET_IsLeaderKnown()) {
             p[0x46a] = 0;
-            p[0x46e] = func_021D4360();
-            (*(u8 **)p)[0x91] = func_021D4378();
-            if (func_021D4360()) *state = 2;
+            p[0x46e] = BTL_NET_IsLeader();
+            (*(u8 **)p)[0x91] = BTL_NET_GetLeaderValue();
+            if (BTL_NET_IsLeader()) *state = 2;
             else *state = 3;
         }
         break;
@@ -68,10 +68,10 @@ int func_021B75A8(u8 *p,u32 *state)
             p[0x426] = 2;
             ((Nibbles *)(p + 0x427))->a = 1;
         }
-        if (func_021D43B8((u32)(p + 0x408))) ++*state;
+        if (BTL_NET_SendSetup((u32)(p + 0x408))) ++*state;
         break;
     case 3:
-        if (func_021D440C(p + 0x408)) {
+        if (BTL_NET_GetSetup(p + 0x408)) {
             q = *(u8 * *)&((struct Obj00966 *)p)->f0;
             ((struct Obj20947 *)q)->f86 = ((struct Obj00966 *)p)->f420;
             *(Copy *)(q + 0x9c) = *(Copy *)(p + 0x408);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AE79C",
+   "name": "EVENT_TRAINER_EYE_GetSightType",
    "address": "0x021AE79C",
    "kind": "game",
    "region": "ov021",

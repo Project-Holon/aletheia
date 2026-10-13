@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AEFD8",
+   "name": "SCRCMD_ResumeZoneBgm",
    "address": "0x021AEFD8",
    "kind": "game",
    "region": "ov021",

@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021D4330",
-    "func_021D4348",
-    "func_021D4360",
-    "func_021D4378"
+    "BTL_NET_HasEntry",
+    "BTL_NET_IsLeaderKnown",
+    "BTL_NET_IsLeader",
+    "BTL_NET_GetLeaderValue"
+   ],
+   "addresses": [
+    "0x021D4330",
+    "0x021D4348",
+    "0x021D4360",
+    "0x021D4378"
    ],
    "evidence": {
     "sole-ref": [

@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_02184D38  0x02184D38  thumb  ov020
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
  */
 
 typedef unsigned char u8;
@@ -25,11 +25,11 @@ typedef struct {
 } P;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 typedef unsigned short u16;
-extern void *func_02184D38(void *p, int unused, int a, const int *q, u16 s, int t);
+extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const int *q, u16 s, int t);
 
 int UNION_MAIN_StepPlayEffectAtSeatLow(int a, int b, int c, int d, int e, int *out, u8 *cnt)
 {
@@ -37,11 +37,11 @@ int UNION_MAIN_StepPlayEffectAtSeatLow(int a, int b, int c, int d, int e, int *o
     int z;
 
     if (*cnt == 0) {
-        s.a = (int)((func_0203D1A4((struct Link *)((u32)func_020399A8())) * 16 + 0x58) << 12);
+        s.a = (int)((GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())) * 16 + 0x58) << 12);
         z = 0;
         s.b = z;
         s.c = 0x26 << 14;
-        *out = (int)func_02184D38((void *)a, c, 0x97, (const int *)(&s), z, z);
+        *out = (int)EVENT_MAPCHANGE_CreateWarpEvent((void *)a, c, 0x97, (const int *)(&s), z, z);
     } else {
         return 1;
     }

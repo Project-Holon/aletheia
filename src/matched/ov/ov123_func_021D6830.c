@@ -10,7 +10,7 @@
  * lever: spelled-out x assignments reuse its already-loaded halfword.
  * symbols:
  *   d_020A1B38 0x020A1B38 data a2
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   CLACT_GetActorScale 0x0204B5C0 arm
@@ -26,7 +26,7 @@ struct Pair { int x,y; };
 extern const s16 d_020A1B38[][2];
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, unsigned int which);
@@ -47,7 +47,7 @@ void func_021D6830(struct Record *p)
     a = (s16)(d_020A1B38[p->a >> 4][0] * 4) >> 12;
     b = (s16)(d_020A1B38[p->b >> 4][0] * 3) >> 12;
     if (p->h) {
-        func_0204B454(p->h, (struct PtS *)&pos, 0);
+        CLACT_GetActorSurfacePos(p->h, (struct PtS *)&pos, 0);
         pos.x = p->x + a + b;
         pos.y = (p->y + a + b + p->age) >> 2;
         if (p->age % 8 == 0) {

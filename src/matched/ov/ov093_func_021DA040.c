@@ -1,5 +1,5 @@
 /*
- * function: func_021DA040
+ * function: HAND_TOKUSEI_AddForecast
  * address: 0x021DA040
  * packet: pkt_ov093_021DA040
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F0818 0x021F0818 data ov093 a4
  */
 
-int *func_021DA040(int *p);
+int *HAND_TOKUSEI_AddForecast(int *p);
 extern int d_021F0818[];
 
-int *func_021DA040(int *p)
+int *HAND_TOKUSEI_AddForecast(int *p)
 {
     *p = 1;
     return d_021F0818;

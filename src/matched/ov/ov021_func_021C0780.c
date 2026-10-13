@@ -1,5 +1,5 @@
 /*
- * function: func_021C0780
+ * function: EVENT_COMM_ERROR_RunCommExit
  * address:  0x021C0780
  * packet:   pkt_ov021_021C0780
  * region:   ov021
@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_02012138  0x02012138  thumb
- *   func_0203CD98  0x0203CD98  arm
- *   func_0203CEAC  0x0203CEAC  arm
- *   func_0203CDBC  0x0203CDBC  arm
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
+ *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   func_0200FBA0  0x0200FBA0  thumb
- *   func_02012124  0x02012124  thumb
- *   func_020121CC  0x020121CC  thumb
+ *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
+ *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   func_02026474  0x02026474  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02164FC4  0x02164FC4  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetStartDelay  0x02164FC4  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -29,42 +29,42 @@ typedef unsigned int   u32;
 struct Obj;
 struct Ctx;
 extern void *func_020124E4(struct Obj *p);
-extern u32 func_02012138(const struct Ctx *a);
-extern int func_0203CD98(void);
-extern int func_0203CEAC(int a0);
-extern int func_0203CDBC(void);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *a);
+extern int GFL_NET_GetRunState(void);
+extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_IsSessionNull(void);
 extern void func_0200FBA0(void);
 struct IcaAnime;
-extern void func_02012124(struct Ctx *p, u32 v);
-extern u32 func_020121CC(struct IcaAnime *p);
+extern void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v);
+extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern u32 func_02026474(void *obj);
 extern u32 func_02026454(void *obj);
-extern void func_02164FC4(char *p);
+extern void GAME_BEACON_SEARCH_SetStartDelay(char *p);
 
-int func_021C0780(u32 a, int *st)
+int EVENT_COMM_ERROR_RunCommExit(u32 a, int *st)
 {
     u32 x;
     u32 y;
     u32 z;
 
     x = (u32)func_020124E4((struct Obj *)a);
-    y = func_02012138((const struct Ctx *)x);
+    y = GAMESYSTEM_GetGameComm((const struct Ctx *)x);
     switch (*st) {
     case 0:
-        if (func_0203CD98()) {
-            func_0203CEAC(0);
+        if (GFL_NET_GetRunState()) {
+            GFL_NET_Exit(0);
         }
         *st = *st + 1;
         break;
     case 1:
-        if (func_0203CDBC() == 1) {
+        if (GFL_NET_IsSessionNull() == 1) {
             func_0200FBA0();
-            func_02012124((struct Ctx *)x, 0);
+            GAMESYSTEM_SetFieldMapState((struct Ctx *)x, 0);
             *st = *st + 1;
         }
         break;
     case 2:
-        if (func_020121CC((struct IcaAnime *)x) == 1) {
+        if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)x) == 1) {
             *st = *st + 1;
             break;
         }
@@ -72,7 +72,7 @@ int func_021C0780(u32 a, int *st)
     case 3:
         z = func_02026474((void *)y);
         if (z && func_02026454((void *)y)) {
-            func_02164FC4((char *)z);
+            GAME_BEACON_SEARCH_SetStartDelay((char *)z);
             return 1;
         }
         break;

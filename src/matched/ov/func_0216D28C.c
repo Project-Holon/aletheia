@@ -1,5 +1,5 @@
 /*
- * function: func_0216D28C
+ * function: FLDMMDL_UpdateMove
  * address:  0x0216D28C
  * packet:   pkt_0216D28C
  * region:   ov010
@@ -13,24 +13,24 @@
  * field setter.
  *
  * symbols:
- *   func_0216D55C   0x0216D55C  thumb  ov010
- *   func_02163028   0x02163028  thumb  ov010
- *   func_0219D6CC   0x0219D6CC  thumb
+ *   FLDMMDL_CheckStatusBit   0x0216D55C  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateMove   0x02163028  thumb  ov010
+ *   FLDMMDL_RAIL_MOVE_UpdateMove   0x0219D6CC  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D55C(int a0, int a1);
-extern void func_02163028(void *a);
-extern void func_0219D6CC(void *);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
+extern void FLDMMDL_MOVE_UpdateMove(void *a);
+extern void FLDMMDL_RAIL_MOVE_UpdateMove(void *);
 
-void func_0216D28C(void *a0)
+void FLDMMDL_UpdateMove(void *a0)
 {
-    if (func_0216D55C((int)a0, 0x2000) == 0) {
-        func_02163028((void *)a0);
+    if (FLDMMDL_CheckStatusBit((int)a0, 0x2000) == 0) {
+        FLDMMDL_MOVE_UpdateMove((void *)a0);
     } else {
-        func_0219D6CC(a0);
+        FLDMMDL_RAIL_MOVE_UpdateMove(a0);
     }
 }

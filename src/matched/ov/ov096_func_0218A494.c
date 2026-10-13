@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   D_0218A7C0     0x0218A7C0  data
  */
 #include "../include/Obj04408.h"
@@ -28,7 +28,7 @@ typedef struct {
 
 extern struct Slot *D_0218A7C0;
 struct ArcFile;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 
 void *func_0218A494(u8 *a)
 {
@@ -51,6 +51,6 @@ void *func_0218A494(u8 *a)
         x = ((struct Obj04408 *)a)->fA0;
     D_0218A7C0->id[i] = a[0x45];
     D_0218A7C0->ref[i]++;
-    D_0218A7C0->obj[i] = func_02049250(((struct Obj04408 *)a)->fA4, a[0x45], (u16)x);
+    D_0218A7C0->obj[i] = ARC_TOOL_LoadHandleMember(((struct Obj04408 *)a)->fA4, a[0x45], (u16)x);
     return D_0218A7C0->obj[i];
 }

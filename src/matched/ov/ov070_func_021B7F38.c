@@ -1,5 +1,5 @@
 /*
- * function: func_021B7F38
+ * function: ITEMMENU_CompareSortEntries
  * address:  0x021B7F38
  * packet:   pkt_ov070_021B7F38
  * region:   ov070
@@ -11,7 +11,7 @@
  *
  * Unlabelled leaf: MATH_QSort comparator over 8-byte entries, ordering by
  * the unsigned key word at +4. Its only reference is the pool word
- * 0x021B7F39 in func_021B7F54.
+ * 0x021B7F39 in ITEMMENU_SortPocket.
  */
 
 typedef unsigned short u16;
@@ -23,7 +23,7 @@ typedef struct Ent {
     u32 key;
 } Ent;
 
-int func_021B7F38(Ent *a, Ent *b)
+int ITEMMENU_CompareSortEntries(Ent *a, Ent *b)
 {
     if (a->key == b->key)
         return 0;

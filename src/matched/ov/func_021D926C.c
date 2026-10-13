@@ -1,5 +1,5 @@
 /*
- * function: func_021D926C
+ * function: BTL_ABILITY_IndirectGuardCause8Block
  * address:  0x021D926C
  * packet:   pkt_021D8A8C
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D926C   0x021D926C  thumb
- *   func_021D928C   0x021D928C  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; adds r2, r3, #0; movs r3, #8; bl func_021D928C; pop {r3, pc}.
+ *   BTL_ABILITY_IndirectGuardCause8Block   0x021D926C  thumb
+ *   BTL_ABILITY_BlockIndirectDamage   0x021D928C  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; adds r2, r3, #0; movs r3, #8; bl BTL_ABILITY_BlockIndirectDamage; pop {r3, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021D926C  shifted 4-arg wrapper -> func_021D928C(..., 0x8) */
-void func_021D926C(int a, int b, int c, int d)
+/* 021D926C  shifted 4-arg wrapper -> BTL_ABILITY_BlockIndirectDamage(..., 0x8) */
+void BTL_ABILITY_IndirectGuardCause8Block(int a, int b, int c, int d)
 {
-    func_021D928C(b, c, d, 0x8);
+    BTL_ABILITY_BlockIndirectDamage(b, c, d, 0x8);
 }
 

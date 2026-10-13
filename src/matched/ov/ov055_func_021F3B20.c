@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B20
+ * function: CROWD_FindFreePerson
  * address:  0x021F3B20
  * packet:   pkt_021F3B20
  * region:   ov055
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 *func_021F3B20(u8 *p)
+u8 *CROWD_FindFreePerson(u8 *p)
 {
     int i;
 

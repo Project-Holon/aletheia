@@ -14,7 +14,7 @@
  *   func_021FD15C 0x021FD15C thumb ov186
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_021FD714 0x021FD714 thumb ov186
- *   func_02025588 0x02025588 thumb
+ *   BMP_OAM_DeleteSys 0x02025588 thumb
  *   func_021F9BA0 0x021F9BA0 thumb ov186
  *   func_020315D4 0x020315D4 arm
  */
@@ -27,7 +27,7 @@ extern void func_021FD820(char *);
 extern void func_021FD15C(void *,int);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021FD714(void *p);
-extern void func_02025588(void *p);
+extern void BMP_OAM_DeleteSys(void *p);
 extern void func_021F9BA0(unsigned *ctx);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
@@ -42,7 +42,7 @@ int func_021E25E4(int obj,int b,int c,char *p)
     }
     func_0201C4C0((struct PrintSys *)(((struct Obj03333 *)p)->f4));
     func_021FD714((void *)(((struct Obj03333 *)p)->fC));
-    func_02025588((void *)(((struct Obj03333 *)p)->f0));
+    BMP_OAM_DeleteSys((void *)(((struct Obj03333 *)p)->f0));
     func_021F9BA0((unsigned int *)(((struct Obj24672 *)(*(char * *)&((struct Obj03333 *)p)->f3C))->f10));
     func_020315D4((struct S020315D4 *)obj);
     return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB5AC
+ * function: TOWNMAP_GRH_SetLabelTown
  * address:  0x021BB5AC
  * packet:   pkt_021BB5AC
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021BB5AC(int *p, int x)
+void TOWNMAP_GRH_SetLabelTown(int *p, int x)
 {
     p[7] = 1;
     p[5] = x;

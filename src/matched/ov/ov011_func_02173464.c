@@ -11,14 +11,14 @@
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
- *   func_02012B58  0x02012B58  thumb
- *   func_02012B70  0x02012B70  thumb
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_0217C11C  0x0217C11C  thumb  ov018
- *   func_02167794  0x02167794  thumb  ov010
- *   func_021676E4  0x021676E4  thumb  ov010
- *   func_021677E4  0x021677E4  thumb  ov010
- *   func_02167848  0x02167848  thumb  ov010
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   INTRUDE_FIELD_IsListedZone  0x0217C11C  thumb  ov018
+ *   COMM_PLAYER_ClearPending  0x02167794  thumb  ov010
+ *   COMM_PLAYER_Resume  0x021676E4  thumb  ov010
+ *   COMM_PLAYER_CheckOccupy  0x021677E4  thumb  ov010
+ *   COMM_PLAYER_SetPackage  0x02167848  thumb  ov010
  *   INTRUDE_COMM_StorePlayerRecord  0x02174F54  thumb  ov011
  *
  * Addresses are Black-image addresses.
@@ -57,14 +57,14 @@ typedef struct Obj {
 struct BigObj;
 struct Work;
 extern u32 func_02026478(void *obj);
-extern u8 func_02012B58(const struct BigObj *p);
-extern int func_02012B70(const struct BigObj *p);
-extern u16 func_02188C9C(u8 *p);
-extern int func_0217C11C(u32 value);
-extern void func_02167794(struct Work *w);
-extern void func_021676E4(struct Work *w);
-extern int func_021677E4(void *p, int i);
-extern void func_02167848(char *a0, int a1, char *a2);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern int INTRUDE_FIELD_IsListedZone(u32 value);
+extern void COMM_PLAYER_ClearPending(struct Work *w);
+extern void COMM_PLAYER_Resume(struct Work *w);
+extern int COMM_PLAYER_CheckOccupy(void *p, int i);
+extern void COMM_PLAYER_SetPackage(char *a0, int a1, char *a2);
 struct Ent;
 extern void INTRUDE_COMM_StorePlayerRecord(u8 *p, int idx, const struct Ent *src, int arg);
 
@@ -79,22 +79,22 @@ void INTRUDE_COMM_SyncPlayers(u8 *a0, Obj *p, int a2)
         return;
     }
     h = func_02026478((void *)(((struct Obj19161 *)a0)->f4));
-    me = func_02012B58((const struct BigObj *)h);
-    if (func_02012B70((const struct BigObj *)h) == 0) {
-        if (func_0217C11C(func_02188C9C((u8 *)a2)) == 1) {
-            func_021676E4((struct Work *)p->f8);
+    me = GAME_DATA_GetExitMode((const struct BigObj *)h);
+    if (GAME_DATA_GetIntrudeCount((const struct BigObj *)h) == 0) {
+        if (INTRUDE_FIELD_IsListedZone(FIELDMAP_GetZoneId((u8 *)a2)) == 1) {
+            COMM_PLAYER_Resume((struct Work *)p->f8);
         } else {
-            func_02167794((struct Work *)p->f8);
+            COMM_PLAYER_ClearPending((struct Work *)p->f8);
         }
     } else {
-        func_021676E4((struct Work *)p->f8);
+        COMM_PLAYER_Resume((struct Work *)p->f8);
     }
     for (i = 0; i < 3; i++) {
-        if (i != me && func_021677E4((void *)p->f8, i) == 1) {
+        if (i != me && COMM_PLAYER_CheckOccupy((void *)p->f8, i) == 1) {
             p->ents[i].h.f0 = p->ents[i].hi;
             tmp = p->ents[i].h;
             tmp.f0 = 1;
-            func_02167848((char *)p->f8, i, (char *)(&tmp));
+            COMM_PLAYER_SetPackage((char *)p->f8, i, (char *)(&tmp));
         }
     }
     for (i = 0; i < 3; i++) {

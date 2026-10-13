@@ -9,45 +9,45 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021A21B8  0x021A21B8  thumb  ov021
- *   func_021A23E8  0x021A23E8  thumb  ov021
- *   func_021A2400  0x021A2400  thumb  ov021
- *   func_021A240C  0x021A240C  thumb  ov021
- *   func_021A232C  0x021A232C  thumb  ov021
- *   func_021A23F4  0x021A23F4  thumb  ov021
- *   func_021A2418  0x021A2418  thumb  ov021
- *   func_021A2108  0x021A2108  thumb  ov021
- *   func_021A23B0  0x021A23B0  thumb  ov021
+ *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
+ *   WEATHER_TASK_CheckZoneFogA  0x021A23E8  thumb  ov021
+ *   WEATHER_TASK_GetZoneFogC  0x021A2400  thumb  ov021
+ *   WEATHER_TASK_GetZoneFogD  0x021A240C  thumb  ov021
+ *   WEATHER_TASK_ChangeFog  0x021A232C  thumb  ov021
+ *   WEATHER_TASK_CheckZoneFogB  0x021A23F4  thumb  ov021
+ *   WEATHER_TASK_GetZoneFogE  0x021A2418  thumb  ov021
+ *   WEATHER_TASK_FadeLight  0x021A2108  thumb  ov021
+ *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  */
 
-int *func_021A21B8(int *p);
-int func_021A23E8(int *p);
-int func_021A2400(int *p);
-int func_021A240C(int *p);
+int *WEATHER_TASK_GetWorkBuffer(int *p);
+int WEATHER_TASK_CheckZoneFogA(int *p);
+int WEATHER_TASK_GetZoneFogC(int *p);
+int WEATHER_TASK_GetZoneFogD(int *p);
 typedef unsigned char  u8;
-void func_021A232C(u8 *p, int a, int b, int c, int d);
-int func_021A23F4(int *p);
-int func_021A2418(int *p);
+void WEATHER_TASK_ChangeFog(u8 *p, int a, int b, int c, int d);
+int WEATHER_TASK_CheckZoneFogB(int *p);
+int WEATHER_TASK_GetZoneFogE(int *p);
 typedef unsigned int   u32;
-int func_021A2108(u32 a, int b, int c);
-int func_021A23B0(u32 a);
+int WEATHER_TASK_FadeLight(u32 a, int b, int c);
+int WEATHER_TASK_IsFogIdle(u32 a);
 
 int func_021EE788(int *p, int v)
 {
-    int *s = func_021A21B8(p);
+    int *s = WEATHER_TASK_GetWorkBuffer(p);
     int t;
 
     if (*s == 0) {
-        if (func_021A23E8(p)) {
-            t = func_021A2400(p);
-            func_021A232C((u8 *)p, func_021A240C(p), t, 0xA0, v);
+        if (WEATHER_TASK_CheckZoneFogA(p)) {
+            t = WEATHER_TASK_GetZoneFogC(p);
+            WEATHER_TASK_ChangeFog((u8 *)p, WEATHER_TASK_GetZoneFogD(p), t, 0xA0, v);
         }
-        if (func_021A23F4(p)) {
-            func_021A2108((u32)p, 0x52, func_021A2418(p));
+        if (WEATHER_TASK_CheckZoneFogB(p)) {
+            WEATHER_TASK_FadeLight((u32)p, 0x52, WEATHER_TASK_GetZoneFogE(p));
         }
         *s = 1;
     }
-    if (func_021A23B0((u32)p)) {
+    if (WEATHER_TASK_IsFogIdle((u32)p)) {
         return 1;
     }
     return 0;

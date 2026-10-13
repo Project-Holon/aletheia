@@ -17,6 +17,7 @@
  *   func_02030734       0x02030734  arm
  *   func_020307B0       0x020307B0  arm
  *   bgm_info_File  0x020A7048  data
+ *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ struct BgmInfoTable {
     u16 *bgmId;
     u8  *issMode;
 };
-extern void func_02048F74(void *dst, u32 archiveId, u32 member, u32 offset, u32 *size);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveId, u32 member, u32 offset, u32 *size);
 void BGM_INFO_Load(struct BgmInfoTable *table, u32 heapId);
 struct BgmInfoTable *BGM_INFO_Create(u32 heapId);
 extern const char bgm_info_File[];
@@ -61,7 +62,7 @@ extern const char bgm_info_File[];
  *    guard, `blt` on the back edge) even though the count is a `u8` field,
  *    which is the ordinary integer promotion of a byte compared against an
  *    `int` induction variable.
- *  - the fourth argument of the four func_02048F74 calls is a running
+ *  - the fourth argument of the four ARC_TOOL_ReadMemberRange calls is a running
  *    counter, not a function of the loop index.  Written as `i * 3 + 1` and
  *    `i * 3 + 3` the compiler reassociates the multiply against the array
  *    index and computes the value inside the loop (`adds r6, r4, r1`), which
@@ -70,7 +71,7 @@ extern const char bgm_info_File[];
  *  - where that variable is stepped decides two registers and one
  *    instruction.  The original materialises its value 1 as `adds r6, r4, #1`
  *    off the zero already in r4, immediately before the first allocation, so
- *    the increment has to sit between the first func_02048F74 call and the
+ *    the increment has to sit between the first ARC_TOOL_ReadMemberRange call and the
  *    two allocations.  Move it after them and the compiler hoists the file
  *    name pool word into r7 instead, loading it once rather than twice, and
  *    puts the heap id in r6.  Write the increment as `offset = 1` anywhere and the
@@ -112,14 +113,14 @@ void BGM_INFO_Load(struct BgmInfoTable *table, u32 heapId)
     int offset;
 
     offset = 0;
-    func_02048F74(table, 0x57, 0, offset, (u32 *)1);
+    ARC_TOOL_ReadMemberRange(table, 0x57, 0, offset, (u32 *)1);
     offset++;
     table->bgmId = func_02030734(heapId, table->count * 2, 0, bgm_info_File,
                                0xAF);
     table->issMode = func_02030734(heapId, table->count, 0, bgm_info_File, 0xB0);
     for (i = 0; i < table->count; i++) {
-        func_02048F74(&table->bgmId[i], 0x57, 0, offset, (u32 *)2);
-        func_02048F74(&table->issMode[i], 0x57, 0, offset + 2, (u32 *)1);
+        ARC_TOOL_ReadMemberRange(&table->bgmId[i], 0x57, 0, offset, (u32 *)2);
+        ARC_TOOL_ReadMemberRange(&table->issMode[i], 0x57, 0, offset + 2, (u32 *)1);
         offset += 3;
     }
 }

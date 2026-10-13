@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj00007.h"
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
-void func_021F0E7C(char *p) { if(((struct Obj00007 *)p)->f7B==0) func_0204B878(((struct Obj00007 *)p)->f2C4,9); else func_0204B878(((struct Obj00007 *)p)->f2C4,7); }
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+void func_021F0E7C(char *p) { if(((struct Obj00007 *)p)->f7B==0) CLACT_SetActorAnimSeq(((struct Obj00007 *)p)->f2C4,9); else CLACT_SetActorAnimSeq(((struct Obj00007 *)p)->f2C4,7); }

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009448 0x02009448 thumb
  *   func_020092EC 0x020092EC thumb
  *   func_021E8738 0x021E8738 thumb ov177
@@ -31,7 +31,7 @@ typedef unsigned char  u8;
 struct Big;
 struct Sub02009210Obj;
 struct Sub02009448Obj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 extern void func_021E8738(int *p, int a, int b, int c);
@@ -53,7 +53,7 @@ void func_021D6C54(u32 sys,int *state,u32 *p)
     int r;
     switch(*state) {
     case 0:
-        if(func_020092EC((const struct Sub02009210Obj *)func_02009448(func_02012EBC((struct Big *)(*(u32 *)ctx[2]))))) *state=1;
+        if(func_020092EC((const struct Sub02009210Obj *)func_02009448(GAME_DATA_GetSaveControl((struct Big *)(*(u32 *)ctx[2]))))) *state=1;
         else *state=5;
         break;
     case 1: func_021E8738((int *)p[0x2c/4],p[5],0x36,2); *state=2; break;

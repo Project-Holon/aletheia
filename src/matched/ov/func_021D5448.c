@@ -1,5 +1,5 @@
 /*
- * function: func_021D5448
+ * function: BTL_POKEPARAM_GetMoveCount
  * address:  0x021D5448
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5448   0x021D5448  thumb
+ *   BTL_POKEPARAM_GetMoveCount   0x021D5448  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #5; lsls r1, r1, #6; ldrb r0, [r0, r1]; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021D5448  movs r1,#5; lsls r1,#6; ldrb r0,[r0,r1] */
 struct QG { u8 pad[0x140]; u8 v; };
-u8 func_021D5448(struct QG *p) { return p->v; }
+u8 BTL_POKEPARAM_GetMoveCount(struct QG *p) { return p->v; }
 

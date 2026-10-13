@@ -10,23 +10,23 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
- *   func_021D5844  0x021D5844  thumb  ov093
- *   func_02018790  0x02018790  thumb
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
+ *   POKE_TOOL_GetHiddenPowerType  0x02018790  thumb
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 extern void *func_021C7CF4(int *p, int i);
-extern void *func_021D5844(void *m);
-extern u32 func_02018790(void *p);
-extern int func_021D76BC(int key, u32 val);
+extern void *BTL_POKEPARAM_GetMon(void *m);
+extern u32 POKE_TOOL_GetHiddenPowerType(void *p);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void func_021E32CC(int u, void *a, int b)
 {
-    if (b == func_021D775C(2))
-        func_021D76BC(0x16, func_02018790(func_021D5844(func_021C7CF4(a, b))));
+    if (b == BTL_EVENT_GetVar(2))
+        BTL_EVENT_OverwriteVar(0x16, POKE_TOOL_GetHiddenPowerType(BTL_POKEPARAM_GetMon(func_021C7CF4(a, b))));
 }

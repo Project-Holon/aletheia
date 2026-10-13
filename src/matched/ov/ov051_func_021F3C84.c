@@ -1,5 +1,5 @@
 /*
- * function: func_021F3C84
+ * function: FIELD_GIMMICK_D06_GetSlideSteps
  * address: 0x021F3C84
  * packet: pkt_ov051_021F3C84
  * region: ov051
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F3BC4 0x021F3BC4 thumb ov051
+ *   FIELD_GIMMICK_D06_ScanSlide 0x021F3BC4 thumb ov051
  */
 
-extern int func_021F3BC4(int *, int *, int, unsigned short, unsigned int *);
-int func_021F3C84(int *a, int *b, int c) { unsigned int out; func_021F3BC4(a,b,c,32,&out); return out; }
+extern int FIELD_GIMMICK_D06_ScanSlide(int *, int *, int, unsigned short, unsigned int *);
+int FIELD_GIMMICK_D06_GetSlideSteps(int *a, int *b, int c) { unsigned int out; FIELD_GIMMICK_D06_ScanSlide(a,b,c,32,&out); return out; }

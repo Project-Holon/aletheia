@@ -1,5 +1,5 @@
 /*
- * function: func_021BE1DC
+ * function: FIELD_GIMMICK_Setup
  * address:  0x021BE1DC
  * packet:   pkt_ov021_021BE1DC
  * region:   ov021
@@ -10,38 +10,38 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   func_0200B3AC  0x0200B3AC  thumb
  *   func_02034AC4  0x02034AC4  arm
- *   d_021D9D98     0x021D9D98  data  a4
- *   d_021D9CBC     0x021D9CBC  data  a4
+ *   gFieldGimmickOverlayIds     0x021D9D98  data  a4
+ *   gFieldGimmickInitFuncs     0x021D9CBC  data  a4
  */
 
-extern void *func_02188C80(void *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
 typedef unsigned char  u8;
 struct Big;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
 extern s32 func_0200B3AC(struct Rec94 *p);
 extern int func_02034AC4(int);
 
-extern void *d_021D9D98[];
-extern void (*d_021D9CBC[])(void *);
+extern void *gFieldGimmickOverlayIds[];
+extern void (*gFieldGimmickInitFuncs[])(void *);
 
-void func_021BE1DC(void *arg)
+void FIELD_GIMMICK_Setup(void *arg)
 {
     int i;
 
-    i = func_0200B3AC((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(arg))));
+    i = func_0200B3AC((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(arg))));
     if (i != -1) {
-        if (d_021D9D98[i] != 0) {
-            func_02034AC4((int)d_021D9D98[i]);
+        if (gFieldGimmickOverlayIds[i] != 0) {
+            func_02034AC4((int)gFieldGimmickOverlayIds[i]);
         }
-        d_021D9CBC[i](arg);
+        gFieldGimmickInitFuncs[i](arg);
     }
 }

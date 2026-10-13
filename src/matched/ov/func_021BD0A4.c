@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0A4
+ * function: FIELD_PLACE_NAME_GetState
  * address:  0x021BD0A4
  * packet:   pkt_021BCA74
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021BD0A4(u8 *p)
+u32 FIELD_PLACE_NAME_GetState(u8 *p)
 {
     return ((struct Obj18209 *)p)->f3C;
 }

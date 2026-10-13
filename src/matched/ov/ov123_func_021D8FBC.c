@@ -13,8 +13,8 @@
  * symbols:
  *   ov114_id 0x00000072 data
  *   func_02034AC4 0x02034AC4 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02034714 0x02034714 arm
  *   func_020092EC 0x020092EC thumb
@@ -27,8 +27,10 @@
  *   func_021D8F3C 0x021D8F3C thumb ov123
  *   func_021B9800 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021DABA4 0x021DABA4 data a1
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  */
 #include "../include/Obj01059.h"
 #include "../include/Obj03799.h"
@@ -38,15 +40,15 @@ typedef unsigned int u32;
 extern char ov114_id[];
 extern const char d_021DABA4[];
 extern int func_02034AC4(signed int);
-extern void func_0203064C(u32 src, u32 dst, u32 size);
+extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,u8,u32);
 struct Big;
 struct BigObj;
 struct Sub02009448Obj;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *func_02012944(void *p);
 struct Sub0200852CObj;
 struct Sub02009210Obj;
@@ -63,22 +65,22 @@ extern void DWC_RAP_SetErrorCallback(int,int);
 extern u8 *func_021D5D94(u32);
 extern u8 *func_021D54F4(u32,u32);
 extern void func_021D8F3C(char *);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
-extern void func_0203D34C(u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 int func_021D8FBC(void *a,int b,char *q)
 {
     char *p;
     int value;
     func_02034AC4((int)ov114_id);
-    func_0203064C(1,98,0x88000);
-    p=func_0203159C(a,0xb0,98);
+    GFL_HEAP_CreateChildHeap(1,98,0x88000);
+    p=PROCSYS_AllocProcWork(a,0xb0,98);
     func_02082BCC(p,0,0xb0);
     ((struct Obj01059 *)p)->f0=98;
     if (!q) func_02034714(d_021DABA4,0,d_021DABA4);
     if (q) {
         *(char * *)&((struct Obj01059 *)p)->f20=q;
         ((struct Obj01059 *)p)->f2C=((struct Obj03799 *)q)->f4;
-        ((struct Obj01059 *)p)->f28=func_02012EBC(((struct Obj03799 *)q)->f4);
+        ((struct Obj01059 *)p)->f28=GAME_DATA_GetSaveControl(((struct Obj03799 *)q)->f4);
         value=func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj03799 *)q)->f4));
         ((struct Obj01059 *)p)->f24=func_0201293C(((struct Obj03799 *)q)->f4);
         ((struct Obj01059 *)p)->f48=((struct Obj03799 *)q)->f1D0;
@@ -114,7 +116,7 @@ int func_021D8FBC(void *a,int b,char *q)
     }
     ((struct Obj01059 *)p)->f14=func_021D5D94(((struct Obj01059 *)p)->f0);
     ((struct Obj01059 *)p)->f18=func_021D54F4(((struct Obj01059 *)p)->f0,39);
-    func_0202208C(0,1,1,0,6,1,((struct Obj01059 *)p)->f0);
-    func_0203D34C(0,((struct Obj01059 *)p)->f0);
+    WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj01059 *)p)->f0);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj01059 *)p)->f0);
     return 1;
 }

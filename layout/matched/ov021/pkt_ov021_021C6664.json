@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6664",
+   "name": "FIELD_G3DOBJ_SetObjectTrans",
    "address": "0x021C6664",
    "kind": "game",
    "region": "ov021",

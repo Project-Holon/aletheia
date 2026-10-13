@@ -1,5 +1,5 @@
 /*
- * function: func_021E8E28
+ * function: BTLV_CORE_ResetDisplay
  * address:  0x021E8E28
  * packet:   pkt_021E8E28
  * region:   ov093
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8F08   0x021E8F08  thumb ov093
- *   func_021E8E38   0x021E8E38  thumb ov093
- *   func_021E8E28   0x021E8E28  thumb ov093
+ *   BTLV_CORE_ExitDisplay   0x021E8F08  thumb ov093
+ *   BTLV_CORE_InitDisplay   0x021E8E38  thumb ov093
+ *   BTLV_CORE_ResetDisplay   0x021E8E28  thumb ov093
  *
- * wrapper over func_021E8F08, func_021E8E38
+ * wrapper over BTLV_CORE_ExitDisplay, BTLV_CORE_InitDisplay
  */
 
 typedef unsigned char u8;
@@ -24,11 +24,11 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern void func_021E8F08(void);
-extern void func_021E8E38(void *p);
+extern void BTLV_CORE_ExitDisplay(void);
+extern void BTLV_CORE_InitDisplay(void *p);
 
-void func_021E8E28(void *p)
+void BTLV_CORE_ResetDisplay(void *p)
 {
-    func_021E8F08();
-    func_021E8E38(p);
+    BTLV_CORE_ExitDisplay();
+    BTLV_CORE_InitDisplay(p);
 }

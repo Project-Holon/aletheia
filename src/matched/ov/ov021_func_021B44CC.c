@@ -1,5 +1,5 @@
 /*
- * function: func_021B44CC
+ * function: SCRCMD_PROC_FLD_PrintListText
  * address:  0x021B44CC
  * packet:   pkt_ov021_021B44CC
  * region:   ov021
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201C7D0 0x0201C7D0 thumb
- *   func_0201C724 0x0201C724 thumb
+ *   PRINTSYS_PrintColor 0x0201C7D0 thumb
+ *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void func_021B44CC(void *a, u32 b, int c, int d, u32 e, u32 f, u16 g)
+void SCRCMD_PROC_FLD_PrintListText(void *a, u32 b, int c, int d, u32 e, u32 f, u16 g)
 {
     if (d <= 8) {
-        func_0201C7D0((void *)b, c, d, (void *)e, (void *)f, g);
+        PRINTSYS_PrintColor((void *)b, c, d, (void *)e, (void *)f, g);
     } else {
-        func_0201C724(a, b, (s16)c, (s16)d, e, f, (u32)g);
+        PRINTSYS_PrintQueColor(a, b, (s16)c, (s16)d, e, f, (u32)g);
     }
 }

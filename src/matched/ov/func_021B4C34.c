@@ -1,5 +1,5 @@
 /*
- * function: func_021B4C34
+ * function: SCRCMD_PROC_FLD_StoreSubObjectValueB
  * address:  0x021B4C34
  * packet:   pkt_021B4C34
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0201283C  0x0201283C  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009A34  0x02009A34  thumb
  * Addresses are Black-image addresses.
  */
@@ -27,13 +27,13 @@ typedef signed char    s8;
 struct Sub020097BCObj;
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 struct BigObj;
-extern u32 func_0201283C(const struct BigObj *p);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_0215A5E4(void *a0);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 
-int func_021B4C34(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StoreSubObjectValueB(u32 a, u32 b)
 {
-*func_02159AE8((void *)a, (void *)b) = func_02009A34((struct Sub020097BCObj *)func_0201283C(func_0215A5E4((void *)b)));
+*SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = func_02009A34((struct Sub020097BCObj *)GAME_DATA_GetWifiList(SCRCMD_WORK_GetGameData((void *)b)));
 return 0;
 }
 

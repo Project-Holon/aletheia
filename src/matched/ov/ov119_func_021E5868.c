@@ -8,21 +8,21 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 #include "../include/Obj04483.h"
 typedef unsigned int   u32;
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 void func_021E5868(char *p)
 {
     if (((struct Obj04483 *)p)->f898 != 0) {
-        func_0204A8D4(((struct Obj04483 *)p)->f898);
-        func_0204ADA4(((struct Obj04483 *)p)->f884);
-        func_0204AFD8(((struct Obj04483 *)p)->f8B4);
+        CLACT_ReleaseCharacter(((struct Obj04483 *)p)->f898);
+        CLACT_ReleasePalette(((struct Obj04483 *)p)->f884);
+        CLACT_ReleaseCellAnim(((struct Obj04483 *)p)->f8B4);
         ((struct Obj04483 *)p)->f898 = 0;
         ((struct Obj04483 *)p)->f884 = 0;
         ((struct Obj04483 *)p)->f8B4 = 0;

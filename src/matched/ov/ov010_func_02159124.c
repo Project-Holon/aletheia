@@ -1,5 +1,5 @@
 /*
- * function: func_02159124
+ * function: SCRIPT_WORK_GetTrainerEntry
  * address:  0x02159124
  * packet:   pkt_02159124
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-char *func_02159124(char *p, int i)
+char *SCRIPT_WORK_GetTrainerEntry(char *p, int i)
 {
     return p + 0x44 + i * 0x1c;
 }

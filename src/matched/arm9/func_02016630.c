@@ -25,6 +25,9 @@
  *   ARC_UTIL_LoadAnimBankFromHandle  0x0204A0FC  arm
  *   ARC_UTIL_LoadMultiAnimBankFromHandle  0x0204A17C  arm
  *   MCSS_SetAnimeIndex  0x02016028  thumb
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   ARC_UTIL_LoadBgCharDataFromHandle  0x02049DF4  arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  */
 #include "../include/Obj00696.h"
 
@@ -40,9 +43,9 @@ extern void *ARC_UTIL_LoadCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u
 extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *ARC_UTIL_LoadAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
 struct Task;
 struct Work;
 extern void func_02063790(u32 *p);
@@ -118,7 +121,7 @@ void MCSS_LoadResourceShared(struct Ctx *a0, u32 idx, const struct Src *a2)
                                           (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
     MCSS_SetAnimeIndex(a1, 0);
 
-    q = func_02049250(h, (u32)a2->f1c, (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
+    q = ARC_TOOL_LoadHandleMember(h, (u32)a2->f1c, (u16)*(u32 *)(a1 + (5 << 6) + 0xC));
     *(u32 * *)&((struct Obj00696 *)a1)->f2C = q;
     *(u32 * *)&((struct Obj00696 *)a1)->f30 = (u32 *)((u8 *)q + ((0x30 * q[0] + 0xC) & ~3u));
 
@@ -135,9 +138,9 @@ void MCSS_LoadResourceShared(struct Ctx *a0, u32 idx, const struct Src *a2)
     p->f1c = a0->f34 + (idx << 5);
     p->f24 = a1;
 
-    p->f10 = func_02049DF4(h, (u32)a2->f04, 1, (u32)p,
+    p->f10 = ARC_UTIL_LoadBgCharDataFromHandle(h, (u32)a2->f04, 1, (u32)p,
                            (u16)(((u16)((struct Obj00696 *)a1)->f14C & 0x7FFF) | 0x8000));
-    p->f14 = func_02049F78(h, (u32)a2->f08, (u32)(&p->f04),
+    p->f14 = ARC_UTIL_LoadPaletteBlockFromHandle(h, (u32)a2->f08, (u32)(&p->f04),
                            (u16)(((u16)((struct Obj00696 *)a1)->f14C & 0x7FFF) | 0x8000));
 
     ((struct Obj00696 *)a1)->fD4 = func_02030734((u16)((struct Obj00696 *)a1)->f14C,

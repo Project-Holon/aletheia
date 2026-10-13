@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EFFB4  0x021EFFB4  thumb  ov034
+ *   REPORT_UpdateWindows  0x021EFFB4  thumb  ov034
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern void func_021EFFB4(int *p);
+extern void REPORT_UpdateWindows(int *p);
 
 void func_021A150C(u32 *p)
 {
-    func_021EFFB4((int *)p[8]);
+    REPORT_UpdateWindows((int *)p[8]);
 }

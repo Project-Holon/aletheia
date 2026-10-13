@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   func_021BCC58  0x021BCC58  thumb  ov099
  *
  * When the fifth argument matches the arm9 predicate, applies the first word of the third to the fourth.
@@ -25,12 +25,12 @@ typedef signed long    s32;
 typedef int BOOL;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_021BCC58(char *p, u32 x);
 
 void func_021C1334(int a, int b, int *p, void *q, int e)
 {
-    if (e == (int)func_020399A8()) {
+    if (e == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
         func_021BCC58(q, *p);
     }
 }

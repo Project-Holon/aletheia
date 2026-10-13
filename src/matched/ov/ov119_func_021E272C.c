@@ -16,10 +16,10 @@
  *   d_021E790C 0x021E790C data a4
  *   func_02017E1C 0x02017E1C thumb
  *   func_020452E8 0x020452E8 arm
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_0201DD78 0x0201DD78 thumb
+ *   BMP_Clear 0x02043B5C arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   func_021D8ADC 0x021D8ADC thumb ov119
  *   func_021E1430 0x021E1430 thumb ov119
  *   func_021E1670 0x021E1670 thumb ov119
@@ -27,8 +27,8 @@
  *   func_021E1778 0x021E1778 thumb ov119
  *   func_021E0E68 0x021E0E68 thumb ov119
  *   func_021E1CA8 0x021E1CA8 thumb ov119
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj00001.h"
@@ -43,12 +43,12 @@ extern u32 func_02017E1C(void *,u32,u32);
 struct Cfg;
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
-extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
+extern int BMP_WIN_Create(u32,u8,u32,u32,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201DD78(u32,u32,u32);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern int func_021D8ADC(char *p);
 extern void func_021E1430(void *,void *,int,int,int,int,char *);
 extern void func_021E1670(void *,void *,int,int,char *,int,int);
@@ -56,8 +56,8 @@ extern void func_021E15F8(void *,void *,int,int,char *);
 extern void func_021E1778(int,int,int,int,char *);
 extern void func_021E0E68(char *,void *,int,int,int,int,u16,int);
 extern void func_021E1CA8(char *p);
-extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void func_021E272C(char *p,int i,void *mon)
 {
@@ -78,15 +78,15 @@ void func_021E272C(char *p,int i,void *mon)
     }
     layer=*(int *)((char *)&a+index);
     items=p+0x5c4;
-    *(int *)(items+index)=func_020450F0(1,layer,0,14,5,5,0);
+    *(int *)(items+index)=BMP_WIN_Create(1,layer,0,14,5,5,0);
     items2=p+0x5cc;
-    *(int *)(items2+index)=func_020450F0(1,layer,17,13,2,5,0);
+    *(int *)(items2+index)=BMP_WIN_Create(1,layer,17,13,2,5,0);
     idx2=i*2;
     col=((u32 *)&colors)[idx2];
-    func_02043B5C(func_02045770((struct Descriptor *)*(int *)(items+index)),(u8)(col|(col<<4)));
+    BMP_Clear(func_02045770((struct Descriptor *)*(int *)(items+index)),(u8)(col|(col<<4)));
     col2=((u32 *)&colors)[idx2+1];
-    func_02043B5C(func_02045770((struct Descriptor *)*(int *)(items2+index)),(u8)(col2|(col2<<4)));
-    func_0201DD78(1,2,(u8)col);
+    BMP_Clear(func_02045770((struct Descriptor *)*(int *)(items2+index)),(u8)(col2|(col2<<4)));
+    GF_FONT_SetTextColor(1,2,(u8)col);
     {
         void *window=func_02045770((struct Descriptor *)*(int *)(items+index));
         func_021E1430(mon,window,16,4,flag,func_021D8ADC(p),p);
@@ -96,7 +96,7 @@ void func_021E272C(char *p,int i,void *mon)
         void *window=func_02045770((struct Descriptor *)*(int *)(first+index));
         func_021E1670(mon,window,80,4,p,1,func_021D8ADC(p));
         func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(first+index)),16,19,p);
-        func_0201DD78(1,2,(u8)col2);
+        GF_FONT_SetTextColor(1,2,(u8)col2);
         func_021E1778((int)mon,*(int *)(items2+index),0,0,p);
         func_021E0E68(p+0x8c4+(i+1)*20,mon,((struct Obj00001 *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((struct Obj00001 *)p)->f5F4,*(int *)((char *)&c+index));
     } else func_021E1CA8(p);
@@ -104,10 +104,10 @@ void func_021E272C(char *p,int i,void *mon)
         char *first=p+0x5c4;
         char *second=p+0x5cc;
         long endindex=(long)i*4;
-        func_02045334((struct Descriptor *)*(int *)(first+endindex));
-        func_02045334((struct Descriptor *)*(int *)(second+endindex));
-        func_02045374((struct Cfg *)(*(int *)(first+endindex)));
-        func_02045374((struct Cfg *)(*(int *)(second+endindex)));
+        BMP_WIN_TransferChars((struct Descriptor *)*(int *)(first+endindex));
+        BMP_WIN_TransferChars((struct Descriptor *)*(int *)(second+endindex));
+        BMP_WIN_MakeScreen((struct Cfg *)(*(int *)(first+endindex)));
+        BMP_WIN_MakeScreen((struct Cfg *)(*(int *)(second+endindex)));
     }
     func_02041B6C(1);
     *(u8 *)(p+i+0x11e2)=120;

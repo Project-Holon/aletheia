@@ -18,10 +18,10 @@
  * and 021FD400 have no source yet (symbols resolve as labels).
  * symbols:
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203CDBC 0x0203CDBC arm
- *   func_0203CEAC 0x0203CEAC arm
- *   func_0203D7BC 0x0203D7BC arm
- *   func_0203D1B4 0x0203D1B4 arm
+ *   GFL_NET_IsSessionNull 0x0203CDBC arm
+ *   GFL_NET_Exit 0x0203CEAC arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  *   func_021FCDEC 0x021FCDEC thumb ov132
@@ -55,10 +55,10 @@ struct Pl {
     u8 rest[0x18];
 };
 extern u32 func_0200FB24(void);
-extern int func_0203CDBC(void);
-extern int func_0203CEAC(int a0);
-extern void func_0203D7BC(u8 a0);
-extern int func_0203D1B4(void);
+extern int GFL_NET_IsSessionNull(void);
+extern int GFL_NET_Exit(int a0);
+extern void GFL_NET_SetLoginOption(u8 a0);
+extern int GFL_NET_GetNegotiationNum(void);
 extern u32 func_0203F0A8(void);
 extern void func_021FCDEC(int a, int b);
 extern int func_021FCE00(char *, int);
@@ -95,14 +95,14 @@ void func_021FCAA8(char *p)
     u32 ok;
     if (func_0200FB24()) {
         *(int *)(p + 4) = 1;
-        if (func_0203CDBC() == 0) func_0203CEAC(0);
+        if (GFL_NET_IsSessionNull() == 0) GFL_NET_Exit(0);
     }
     if (*(int *)(p + 4) == 1) return;
     switch (*(u32 *)(p + 0x4c)) {
     case 0:
         return;
     case 1:
-        func_0203D7BC(1);
+        GFL_NET_SetLoginOption(1);
         func_021FCDEC((int)p, 0x46);
         *(int *)(p + 0x4c) = 2;
         break;
@@ -119,7 +119,7 @@ void func_021FCAA8(char *p)
         cnt = 0;
         for (i = 0; i < 4; i++)
             if (((struct G *)p)->pl[i].b == 1) cnt++;
-        if (cnt == func_0203D1B4() && func_021FD22C(p) == 1) *(int *)(p + 0x4c) = 5;
+        if (cnt == GFL_NET_GetNegotiationNum() && func_021FD22C(p) == 1) *(int *)(p + 0x4c) = 5;
         break;
     case 6:
         if (func_021FCE00(p, 0x40) == 1) {
@@ -171,7 +171,7 @@ void func_021FCAA8(char *p)
         cnt = 0;
         for (i = 0; i < 4; i++)
             if (((struct G *)p)->pl[i].a == 1) cnt++;
-        if (cnt == func_0203D1B4() && func_021FD400(p) == 1) *(int *)(p + 0x4c) = 0x15;
+        if (cnt == GFL_NET_GetNegotiationNum() && func_021FD400(p) == 1) *(int *)(p + 0x4c) = 0x15;
         break;
     case 20:
     case 21:

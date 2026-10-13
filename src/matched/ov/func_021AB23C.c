@@ -1,5 +1,5 @@
 /*
- * function: func_021AB23C
+ * function: MAP_ATTR_IsGrassSingle
  * address:  0x021AB23C
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-BOOL func_021AB23C(u16 id)
+BOOL MAP_ATTR_IsGrassSingle(u16 id)
 {
     if (id == 0x4 || id == 0x21 || id == 0x5) {
         return 1;

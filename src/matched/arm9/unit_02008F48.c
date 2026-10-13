@@ -19,6 +19,7 @@
  *   MYSTATUS_GetId  0x02008530  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   MAIL_Init  0x02008EAC  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *
  * alias: mail.c.  The record this fills in is the 0x38-byte object
  * src/matched/unit_02008EAC.c constructs and src/matched/unit_02008F80.c
@@ -71,7 +72,7 @@ struct Sub0200852CObj;
 extern void MAIL_Init(struct Sub02008EACObj *obj);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern const void *MYSTATUS_GetName(const void *p);
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 extern u8  MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
@@ -92,7 +93,7 @@ void MAIL_InitForPlayer(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused,
 
     MAIL_Init((struct Sub02008EACObj *)obj);
     obj->unk07 = kind;
-    src = (struct Sub0200852CObj *)func_02012944(p);
+    src = (struct Sub0200852CObj *)GAME_DATA_GetMyStatus(p);
     MI_CpuCopy8(MYSTATUS_GetName(src), obj->unk08, sizeof(obj->unk08));
     obj->unk04 = MYSTATUS_GetOutfitVariant(src);
     obj->unk00 = MYSTATUS_GetId(src);

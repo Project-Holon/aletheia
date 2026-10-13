@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215518C",
+   "name": "MUSICAL_EVENT_BuildParty",
    "address": "0x0215518C",
    "kind": "game",
    "region": "ov010",

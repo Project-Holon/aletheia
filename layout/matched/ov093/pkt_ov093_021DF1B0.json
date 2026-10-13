@@ -18,13 +18,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DF1B0",
-    "func_021DF240",
-    "func_021DF24C",
-    "func_021DF258",
-    "func_021DF264",
-    "func_021DF270",
-    "func_021DF27C"
+    "BTL_HANDLER_ITEM_StickyBarb_TurnEndDamage",
+    "BTL_HANDLER_ITEM_GetPowerWeightHandlers",
+    "BTL_HANDLER_ITEM_GetPowerBracerHandlers",
+    "BTL_HANDLER_ITEM_GetPowerBeltHandlers",
+    "BTL_HANDLER_ITEM_GetPowerLensHandlers",
+    "BTL_HANDLER_ITEM_GetPowerBandHandlers",
+    "BTL_HANDLER_ITEM_GetPowerAnkletHandlers"
+   ],
+   "addresses": [
+    "0x021DF1B0",
+    "0x021DF240",
+    "0x021DF24C",
+    "0x021DF258",
+    "0x021DF264",
+    "0x021DF270",
+    "0x021DF27C"
    ],
    "evidence": {
     "sole-ref": [

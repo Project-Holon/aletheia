@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "CallbackForJpeg",
+   "name": "BTL_SERVER_FLOW_OnFieldEffectExpired",
    "address": "0x021C4C40",
    "kind": "sdk",
    "region": "ov093",

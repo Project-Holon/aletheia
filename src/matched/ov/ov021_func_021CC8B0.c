@@ -1,5 +1,5 @@
 /*
- * function: func_021CC8B0
+ * function: PARTY_SELECT_LIST_GetResult
  * address:  0x021CC8B0
  * packet:   pkt_ov021_021CC8B0
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (no lr save), filed as the blocker of func_021CC7B4.
+ * Unlabelled leaf (no lr save), filed as the blocker of PARTY_SELECT_LIST_Delete.
  */
 
 typedef unsigned char  u8;
@@ -24,7 +24,7 @@ typedef struct Obj {
     u32 fBC;
 } Obj;
 
-u32 func_021CC8B0(Obj *p, u32 *out)
+u32 PARTY_SELECT_LIST_GetResult(Obj *p, u32 *out)
 {
     u32 m;
 

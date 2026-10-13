@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DC6EC",
+   "name": "BTL_ABILITY_GetSandForceHandlers",
    "address": "0x021DC6EC",
    "kind": "game",
    "region": "ov093",

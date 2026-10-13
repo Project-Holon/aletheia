@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02027974 0x02027974 thumb
+ *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Obj Obj;
-extern void func_02027974(Obj *);
+extern void APP_TASKMENU_UpdateMenu(Obj *);
 void func_021B991C(Obj *p)
 {
-    func_02027974(p);
+    APP_TASKMENU_UpdateMenu(p);
 }

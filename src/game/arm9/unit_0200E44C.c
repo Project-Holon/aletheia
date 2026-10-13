@@ -14,15 +14,15 @@
  *
  *   func_0203F1FC 0x0203F1FC  thumb, not otherwise called in arm9_main
  * symbols:
- *   func_0216736C    0x0216736C  thumb  ov010
+ *   QUESTIONNAIRE_GetFirstAnswerMessageOffset    0x0216736C  thumb  ov010
  *   MI_CpuFill8  0x02082BCC  arm
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02030734  0x02030734  arm
  *   data_020A721C  0x020A721C  data
- *   func_020072CC  0x020072CC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_02012E4C  0x02012E4C  thumb
- *   func_02012E7C  0x02012E7C  thumb
+ *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
+ *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
  *   OS_WaitIrq     0x0208459C  arm
  *   func_0200734C  0x0200734C  thumb
  *   func_020307B0  0x020307B0  arm
@@ -32,7 +32,7 @@
  *   func_02017E1C   0x02017E1C  thumb
  *   MSGDATA_ReadUnits   0x02045F5C  arm
  *   func_0201F41C   0x0201F41C  thumb
- *   g_020A7370      0x020A7370  data
+ *   gSpeciesNameBank      0x020A7370  data
  *   func_02082A90 0x02082A90  arm
  *   func_02087C6C 0x02087C6C  arm
  *   _u32_div_f    0x0209C2B0  arm
@@ -41,14 +41,14 @@
  *   func_0200E938  0x0200E938  thumb
  *   func_0203EFC8  0x0203EFC8  arm
  *   func_0201AA18  0x0201AA18  thumb
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201AB28  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
- *   func_02045A38  0x02045A38  arm
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_ToChars  0x02045A38  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  *   sub_0200EC14   0x0200EC14  thumb
  *   BSUBWAY_SAVEDATA_InitStats  0x0200DFCC  thumb
  */
@@ -189,15 +189,15 @@ struct L0200ED54 {
     unsigned int f6200;
 };
 
-extern u8 func_0216736C(u32 id);
+extern u8 QUESTIONNAIRE_GetFirstAnswerMessageOffset(u32 id);
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
+extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern void func_02082D44(void *src, void *dst, int n);
-extern void func_02012E4C(u8 *p, u32 id);
-extern int func_02012E7C(char *p, int a1);
+extern void GAME_DATA_PartSaveStart(u8 *p, u32 id);
+extern int GAME_DATA_PartSaveMain(char *p, int a1);
 extern void OS_WaitIrq(int clear, u32 mask);
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 extern u32 func_020307B0(void *p);
@@ -217,14 +217,14 @@ extern void func_0200E904(void *p);
 extern void BSUBWAY_SAVEDATA_InitStats(void *p);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u32 func_0201AA18(void *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
-extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
-extern u16   func_02045A98(void);
+extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
+extern u16   STRBUF_GetEosChar(void);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern int sub_0200EC14(char *o);
 int func_0200E44C(int p0, int p1);
 u16 func_0200E458(const u16 *p, int i);
@@ -309,7 +309,7 @@ int sub_0200EDC4(struct L0200ED54 *l, u32 val);
 int sub_0200EDEC(char *obj, int i);
 void sub_0200EE14(char *obj, int i);
 extern const char data_020A721C[];
-extern void *g_020A7370;
+extern void *gSpeciesNameBank;
 
 
 
@@ -392,7 +392,7 @@ u32 func_0200E47C(u8 *p, int i)
 
 /*
  * note:     wave 16: promoted.  0x0216736C is the unlabelled ov010 leaf matched
- *           in src/matched/func_0216736C.c (ov010/pkt_02167358); it attests as
+ *           in src/matched/QUESTIONNAIRE_GetFirstAnswerMessageOffset.c (ov010/pkt_02167358); it attests as
  *           `matched, overlay` under the ov010 hint.  The source shape that
  *           works: a1-1 must be a named local computed before the call;
  *           writing `f(a0) + (a1 - 1)` gives `adds r0, r1, r0` instead of
@@ -401,7 +401,7 @@ u32 func_0200E47C(u8 *p, int i)
 u32 func_0200E488(u32 a0, u32 a1)
 {
     u32 n = a1 - 1;
-    u32 v = func_0216736C((u8)a0);
+    u32 v = QUESTIONNAIRE_GetFirstAnswerMessageOffset((u8)a0);
 
     return v + n;
 }
@@ -676,14 +676,14 @@ char *func_0200E5F8(char *p, u32 idx)
  */
 void func_0200E608(void *sys, void *dst, u32 heap)
 {
-    u32 sv = (u32)func_02012EBC(sys);
+    u32 sv = (u32)GAME_DATA_GetSaveControl(sys);
     void *buf = func_02030734(heap, 0x1000, 0, data_020A721C, 0x99);
 
-    func_020072CC(sv, 5, heap, buf, 0x1000);
+    SAVE_CONTROL_LoadExtraSaveWithBuffer(sv, 5, heap, buf, 0x1000);
     func_02082D44(dst, buf, 0x5C8);
-    func_02012E4C(sys, 5);
+    GAME_DATA_PartSaveStart(sys, 5);
     for (;;) {
-        if (func_02012E7C(sys, 5) == 2) {
+        if (GAME_DATA_PartSaveMain(sys, 5) == 2) {
             break;
         }
         OS_WaitIrq(1, 1);
@@ -1031,7 +1031,7 @@ u32 sub_0200E7B4(const void *obj, u32 idx)
  * the +0x1b byte or 0xff, words at +0 and +0x1c, an 11-u16 name at +4)
  * from a Pokemon via func_02017E1C: fields 0x9e, 0x71/0xa, 0, 7, then the
  * nickname (0x74) when field 0x75 says there is one, else the species name
- * (field 5) read out of the message bank at g_020A7370 into a stack buffer
+ * (field 5) read out of the message bank at gSpeciesNameBank into a stack buffer
  * and copied in.
  *
  * Two facts closed the 133-135-byte "pointer permutation" of the earlier
@@ -1059,7 +1059,7 @@ void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
     } else {
         u16 buf[12];
 
-        MSGDATA_ReadUnits(g_020A7370, func_02017E1C(mon, 5, 0), buf, 0xb);
+        MSGDATA_ReadUnits(gSpeciesNameBank, func_02017E1C(mon, 5, 0), buf, 0xb);
         func_0201F41C(buf, o[idx].name, 0xb);
     }
     o[idx].bits.flag = 1;
@@ -1550,7 +1550,7 @@ void func_0200EA2C(void *block)
  * of func_02017E1C is 0) store species (5), level (0x9e), the 6/2-bit pair
  * 0x6f/0x6e, fields 0 and 7, fields 0x36..0x39, and the nickname (0x73, 11
  * u16) and OT name (0x8d, 8 u16) through an 11-char string buffer, or the
- * terminator from func_02045A98 in both name slots when the buffer could not
+ * terminator from STRBUF_GetEosChar in both name slots when the buffer could not
  * be allocated.  The date record (first three words) goes to +0x168.
  * The layout of struct Entry is the one func_0200EC2C (EXACT*) reads back.
  *
@@ -1565,7 +1565,7 @@ void func_0200EA2C(void *block)
 void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
 {
     int count = func_0201AA18(party);
-    void *buf = func_020457B0(11, heap);
+    void *buf = STRBUF_Create(11, heap);
     int i;
     int n;
 
@@ -1589,12 +1589,12 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
             e->f32[3] = func_02017E1C(mon, 0x39, 0);
             if (buf != 0) {
                 func_02017E1C(mon, 0x73, (u32)buf);
-                func_02045A38(buf, e->name, 11);
+                STRBUF_ToChars(buf, e->name, 11);
                 func_02017E1C(mon, 0x8d, (u32)buf);
-                func_02045A38(buf, e->ot, 8);
+                STRBUF_ToChars(buf, e->ot, 8);
             } else {
-                e->name[0] = func_02045A98();
-                e->ot[0] = func_02045A98();
+                e->name[0] = STRBUF_GetEosChar();
+                e->ot[0] = STRBUF_GetEosChar();
             }
             n++;
         }
@@ -1604,7 +1604,7 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
     rec->month = date->month;
     rec->day = date->day;
     if (buf != 0) {
-        func_02045808(buf);
+        STRBUF_Delete(buf);
     }
 }
 
@@ -1710,8 +1710,8 @@ void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *
     dst->f13a = s->f03a;
     dst->f13b = s->f03b;
 
-    func_02045994(dst->p00, (const u16 *)s->f0C, 0xb);
-    func_02045994(dst->p04, (const u16 *)s->f22, 8);
+    STRBUF_SetStringN(dst->p00, (const u16 *)s->f0C, 0xb);
+    STRBUF_SetStringN(dst->p04, (const u16 *)s->f22, 8);
 
     for (i = 0; i < 4; i++)
         dst->f14[i] = s->f32[i];

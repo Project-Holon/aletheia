@@ -1,5 +1,5 @@
 /*
- * function: func_0219BA0C
+ * function: FLDMMDL_MOVE_SavePlayerGridPos
  * address:  0x0219BA0C
  * packet:   pkt_ov021_0219BA0C
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216DEE0  0x0216DEE0  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  */
 #include "../include/Obj05998.h"
 
@@ -22,14 +22,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D67C(void *a0);
-extern void *func_0216DEE0(void *a0);
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_SysSearchPlayer(void *a0);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
 
-void func_0219BA0C(u32 a, u8 *s)
+void FLDMMDL_MOVE_SavePlayerGridPos(u32 a, u8 *s)
 {
-    u32 o = (u32)func_0216DEE0(func_0216D67C((void *)a));
-    ((struct Obj05998 *)s)->f2 = func_0216D83C((void *)o);
-    ((struct Obj05998 *)s)->f4 = func_0216D86C((void *)o);
+    u32 o = (u32)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)a));
+    ((struct Obj05998 *)s)->f2 = FLDMMDL_GetGridNowX((void *)o);
+    ((struct Obj05998 *)s)->f4 = FLDMMDL_GetGridNowZ((void *)o);
 }

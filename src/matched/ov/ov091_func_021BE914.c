@@ -1,5 +1,5 @@
 /*
- * function: func_021BE914
+ * function: PLIST_DEMO_RestoreHp
  * address: 0x021BE914
  * packet: pkt_ov091_021BE914
  * region: ov091
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  */
 typedef unsigned int u32;
-extern void func_02017E40(void *, u32, u32);
-void func_021BE914(void *p, u32 v, u32 limit, u32 step)
+extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
+void PLIST_DEMO_RestoreHp(void *p, u32 v, u32 limit, u32 step)
 {
     if (limit == 1) step = 1;
     else if (step == 0xff) step = limit;
@@ -21,5 +21,5 @@ void func_021BE914(void *p, u32 v, u32 limit, u32 step)
     else if (step == 0xfd) step = limit >> 2;
     v += step;
     if (v > limit) v = limit;
-    func_02017E40(p, 0xa0, v);
+    POKE_TOOL_SetPartyValue(p, 0xa0, v);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F55D4",
+   "name": "GPOWER_EVENT_PrintPowerList",
    "address": "0x021F55D4",
    "kind": "game",
    "region": "ov083",

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5814
+ * function: BTL_POKEPARAM_HasType
  * address:  0x021D5814
  * packet:   pkt_ov093_021D5814
  * region:   ov093
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D57A8  0x021D57A8  thumb  ov093
+ *   BTL_POKEPARAM_GetTypes  0x021D57A8  thumb  ov093
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021D57A8(u8 *p, u8 *a, u8 *b);
+extern void BTL_POKEPARAM_GetTypes(u8 *p, u8 *a, u8 *b);
 
-int func_021D5814(void *p, int k)
+int BTL_POKEPARAM_HasType(void *p, int k)
 {
     u8 a;
     u8 b;
     if (k != 0x11) {
-        func_021D57A8(p, &a, &b);
+        BTL_POKEPARAM_GetTypes(p, &a, &b);
         if (a == k || b == k) return 1;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02048AC4
+ * function: G3D_CAMERA_Delete
  * address:  0x02048AC4
  * packet:   pkt_02047E88
  * region:   arm9
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-u32 func_02048AC4(void *ptr)
+u32 G3D_CAMERA_Delete(void *ptr)
 {
     return func_020307B0(ptr);
 }

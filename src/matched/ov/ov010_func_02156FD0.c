@@ -1,5 +1,5 @@
 /*
- * function: func_02156FD0
+ * function: MUSICAL_STAGE_SYS_CreateNpcPerformer
  * address:  0x02156FD0
  * packet:   pkt_ov010_02156FD0
  * region:   ov010
@@ -31,7 +31,7 @@ typedef struct Stage {
 
 extern char *func_021F67E0(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
 
-void func_02156FD0(Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y)
+void MUSICAL_STAGE_SYS_CreateNpcPerformer(Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y)
 {
     s->f04[idx] = (Obj *)func_021F67E0(id, v, 0, 0, w, y);
     s->f04[idx]->kind = 2;

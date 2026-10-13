@@ -1,5 +1,5 @@
 /*
- * function: func_0219DC88
+ * function: FLDMMDL_RAIL_MOVE_AcWalkSet
  * address:  0x0219DC88
  * packet:   pkt_ov021_0219DC88
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219E370  0x0219E370  thumb  ov021
- *   func_0219E6C8  0x0219E6C8  thumb  ov021
- *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   FLDMMDL_RAIL_SetMoveRequest  0x0219E370  thumb  ov021
+ *   FLDMMDL_RAIL_SetGridPosByDir  0x0219E6C8  thumb  ov021
+ *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -24,19 +24,19 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void func_0219E370(u32 a, u32 b, u32 c);
-extern void func_0219E6C8(u32, u16);
-extern int func_0216D60C(int a0, int a1);
-extern void func_0216D674(u32, u32);
-extern void *func_0216D568(void *p, u32 v);
-extern void func_0216D7CC(u8 *p);
+extern void FLDMMDL_RAIL_SetMoveRequest(u32 a, u32 b, u32 c);
+extern void FLDMMDL_RAIL_SetGridPosByDir(u32, u16);
+extern int FLDMMDL_SetDirAll(int a0, int a1);
+extern void FLDMMDL_SetDrawStatus(u32, u32);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
-void func_0219DC88(u32 a, u32 b, u32 c, u32 d)
+void FLDMMDL_RAIL_MOVE_AcWalkSet(u32 a, u32 b, u32 c, u32 d)
 {
-    func_0219E370(a, (u16)b, c);
-    func_0219E6C8(a, b);
-    func_0216D60C((u32)a, (u16)b);
-    func_0216D674(a, d);
-    func_0216D568((void *)a, 0x20);
-    func_0216D7CC((u8 *)a);
+    FLDMMDL_RAIL_SetMoveRequest(a, (u16)b, c);
+    FLDMMDL_RAIL_SetGridPosByDir(a, b);
+    FLDMMDL_SetDirAll((u32)a, (u16)b);
+    FLDMMDL_SetDrawStatus(a, d);
+    FLDMMDL_SetMoveBit((void *)a, 0x20);
+    FLDMMDL_IncAcmdSeq((u8 *)a);
 }

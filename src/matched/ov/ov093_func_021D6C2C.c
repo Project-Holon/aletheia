@@ -1,5 +1,5 @@
 /*
- * function: func_021D6C2C
+ * function: BTL_POKEPARAM_ClearIllusion
  * address:  0x021D6C2C
  * packet:   pkt_ov093_021D6C2C
  * region:   ov093
@@ -22,7 +22,7 @@ struct Unk021D6C2C {
     u8 b7 : 1;
 };
 
-void func_021D6C2C(struct Unk021D6C2C *p)
+void BTL_POKEPARAM_ClearIllusion(struct Unk021D6C2C *p)
 {
     p->b6 = 0;
     p->f4 = 0;

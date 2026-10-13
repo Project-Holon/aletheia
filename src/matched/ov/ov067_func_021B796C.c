@@ -1,5 +1,5 @@
 /*
- * function: func_021B796C
+ * function: FRAME_LIST_Delete
  * address:  0x021B796C
  * packet:   pkt_ov067_021B796C
  * region:   ov067
@@ -50,7 +50,7 @@ extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern u32 func_0202EA20(struct Obj0202EA20 *p);
 extern void func_0201C4C0(struct PrintSys *p);
 
-void func_021B796C(struct S *s)
+void FRAME_LIST_Delete(struct S *s)
 {
     u32 i;
 

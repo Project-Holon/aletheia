@@ -1,5 +1,5 @@
 /*
- * function: func_021B9944
+ * function: TOWNMAP_ProcRun
  * address: 0x021B9944
  * packet: pkt_ov072_021B9944
  * region: ov072
@@ -11,6 +11,6 @@
  */
 typedef struct Callback Callback;
 struct Callback { void (*call)(Callback *, int *, int); int state, value, arg; };
-void func_021B9944(Callback *p) {
+void TOWNMAP_ProcRun(Callback *p) {
     if (p->state == 0) p->call(p, &p->value, p->arg);
 }

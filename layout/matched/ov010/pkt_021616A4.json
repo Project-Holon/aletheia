@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021616A4",
+   "name": "EVENT_FIELD_PROCLINK_CreateFreeEvent",
    "address": "0x021616A4",
    "kind": "game",
    "region": "ov010",

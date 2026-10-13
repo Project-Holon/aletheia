@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219AAC8",
+   "name": "FLDMMDL_MOVECODE_InitRoutePatrolRoute14",
    "address": "0x0219AAC8",
    "kind": "game",
    "region": "ov021",

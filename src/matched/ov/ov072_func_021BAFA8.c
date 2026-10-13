@@ -1,5 +1,5 @@
 /*
- * function: func_021BAFA8
+ * function: TOWNMAP_StepScrollZoom
  * address:  0x021BAFA8
  * packet:   pkt_ov072_021BAFA8
  * region:   ov072
@@ -18,8 +18,8 @@
  * loads between the stores).
  *
  * symbols:
- *   func_021BA5B0  0x021BA5B0  thumb  ov072
- *   func_021BB0E4  0x021BB0E4  thumb  ov072
+ *   TOWNMAP_MapSetZoom  0x021BA5B0  thumb  ov072
+ *   TOWNMAP_ApplyScroll  0x021BB0E4  thumb  ov072
  */
 typedef short s16;
 typedef unsigned short u16;
@@ -45,10 +45,10 @@ typedef struct {
     Vec src;
 } Anim;
 
-extern void func_021BA5B0(void *a, int b, Vec *c);
-extern void func_021BB0E4(Anim *p, Vec *c);
+extern void TOWNMAP_MapSetZoom(void *a, int b, Vec *c);
+extern void TOWNMAP_ApplyScroll(Anim *p, Vec *c);
 
-void func_021BAFA8(Anim *p, void *arg)
+void TOWNMAP_StepScrollZoom(Anim *p, void *arg)
 {
     int dy;
     int dx;
@@ -92,6 +92,6 @@ void func_021BAFA8(Anim *p, void *arg)
         }
         p->done = 1;
     }
-    func_021BA5B0(arg, p->cur, &p->pos);
-    func_021BB0E4(p, &p->pos);
+    TOWNMAP_MapSetZoom(arg, p->cur, &p->pos);
+    TOWNMAP_ApplyScroll(p, &p->pos);
 }

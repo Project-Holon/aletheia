@@ -1,5 +1,5 @@
 /*
- * function: func_021B229C
+ * function: SCRCMD_FLDMMDL_StartMmdlDropIn
  * address:  0x021B229C
  * packet:   pkt_ov021_021B229C
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B229C  0x021B229C  thumb
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_02163E58  0x02163E58  thumb  ov010
- *   func_0216E084  0x0216E084  thumb  ov010
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D8C0  0x0216D8C0  thumb  ov010
- *   func_021C7684  0x021C7684  thumb  ov021
- *   func_021C6DE0  0x021C6DE0  thumb  ov021
- *   d_021D9424     0x021D9424  data   a4
+ *   SCRCMD_FLDMMDL_StartMmdlDropIn  0x021B229C  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb  ov010
+ *   FLDMMDL_InitGridPosition  0x0216E084  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
+ *   FIELD_TASK_CreatePlayerDrop  0x021C7684  thumb  ov021
+ *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
+ *   gScrcmdFldmmdlDropInDrawOffset     0x021D9424  data   a4
  */
 
 typedef short s16;
@@ -31,23 +31,23 @@ typedef unsigned int u32;
 
 typedef struct { int x, y, z; } Vec;
 
-extern const Vec d_021D9424;
+extern const Vec gScrcmdFldmmdlDropInDrawOffset;
 
-extern void *func_0215A5F4(void *p);
-extern unsigned int func_02159B10(void *, void *);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 typedef unsigned char  u8;
-extern void *func_0215A5EC(void *p);
-extern void *func_0216DE94(void *map, u32 id);
-extern int func_02158F58(int a0);
-extern u32 func_02188D38(u8 *p);
-extern int func_02163E58(u32 m, Vec *pos, int *h);
-extern void func_0216E084(u32 m, s16 x, s16 y, s16 z, u32 e);
-extern void func_0216D89C(u32, Vec *);
-extern void func_0216D8C0(u32, Vec *);
-extern void *func_021C7684(u32 a, u32 b, int c, int d);
-extern void func_021C6DE0(u8 *p, u32 *a, u32 b);
+extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u32 FIELDMAP_GetTaskManager(u8 *p);
+extern int FLDMMDL_MOVE_GetMapHeight(u32 m, Vec *pos, int *h);
+extern void FLDMMDL_InitGridPosition(u32 m, s16 x, s16 y, s16 z, u32 e);
+extern void FLDMMDL_SetPos(u32, Vec *);
+extern void FLDMMDL_SetDrawOffset(u32, Vec *);
+extern void *FIELD_TASK_CreatePlayerDrop(u32 a, u32 b, int c, int d);
+extern void FIELD_TASK_MANAGER_AddTask(u8 *p, u32 *a, u32 b);
 
-int func_021B229C(u32 a, u32 b)
+int SCRCMD_FLDMMDL_StartMmdlDropIn(u32 a, u32 b)
 {
     Vec pos;
     Vec rot;
@@ -55,14 +55,14 @@ int func_021B229C(u32 a, u32 b)
     u32 k0, k1, k2, k3, o, e, g;
     void *t;
 
-    t = func_0215A5F4((void *)b);
-    k0 = func_02159B10((void *)a, (void *)b);
-    k1 = func_02159B10((void *)a, (void *)b);
-    k2 = func_02159B10((void *)a, (void *)b);
-    k3 = func_02159B10((void *)a, (void *)b);
-    o = (u32)func_0216DE94(func_0215A5EC((void *)b), k0);
-    e = ((u32 *)func_02158F58((int)t))[1];
-    g = func_02188D38((u8 *)e);
+    t = SCRCMD_WORK_GetScriptWork((void *)b);
+    k0 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    k1 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    k2 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    k3 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    o = (u32)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo((void *)b), k0);
+    e = ((u32 *)SCRIPT_WORK_ResetFieldParam((int)t))[1];
+    g = FIELDMAP_GetTaskManager((u8 *)e);
     if (o == 0) {
         return 0;
     }
@@ -70,12 +70,12 @@ int func_021B229C(u32 a, u32 b)
     pos.x = (k1 << 16) + 0x8000;
     pos.y = 0xFA000;
     pos.z = (k2 << 16) + 0x8000;
-    func_02163E58(o, &pos, &h);
+    FLDMMDL_MOVE_GetMapHeight(o, &pos, &h);
     pos.y = h;
-    func_0216E084(o, k1, (pos.y >> 4) / 0x1000, k2, k3);
-    func_0216D89C(o, &pos);
-    rot = d_021D9424;
-    func_0216D8C0(o, &rot);
-    func_021C6DE0((u8 *)g, (u32 *)func_021C7684(e, o, 0x28, 0xfa), 0);
+    FLDMMDL_InitGridPosition(o, k1, (pos.y >> 4) / 0x1000, k2, k3);
+    FLDMMDL_SetPos(o, &pos);
+    rot = gScrcmdFldmmdlDropInDrawOffset;
+    FLDMMDL_SetDrawOffset(o, &rot);
+    FIELD_TASK_MANAGER_AddTask((u8 *)g, (u32 *)FIELD_TASK_CreatePlayerDrop(e, o, 0x28, 0xfa), 0);
     return 0;
 }

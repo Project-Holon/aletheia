@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_0207D63C 0x0207D63C arm
  *   func_021DA8C0 0x021DA8C0 thumb ov121
@@ -38,8 +38,8 @@ typedef unsigned int u32;
 typedef struct { u32 w[9]; } Desc;
 typedef signed int     s32;
 struct Obj;
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
 extern void func_02082BCC(void *,int,int);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021DA8C0(u32 *p, u32 a);
@@ -66,7 +66,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
     Desc d;
     switch(*state) {
     case 0:
-        func_0204E720(3,0,16,-1);
+        FADE_Start(3,0,16,-1);
         func_021DA8C0(task,1);
         *state=8;
         break;
@@ -88,7 +88,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         *state=2;
         break;
     case 2:
-        func_0204E720(3,16,0,-1);
+        FADE_Start(3,16,0,-1);
         func_021DA8C0(task,3);
         *state=8;
         break;
@@ -97,7 +97,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         if(func_021DB008(((struct Obj00989 *)p)->f8)) *state=4;
         break;
     case 4:
-        func_0204E720(3,0,16,0);
+        FADE_Start(3,0,16,0);
         func_021DA8C0(task,5);
         *state=8;
         break;
@@ -114,7 +114,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         *state=6;
         break;
     case 6:
-        func_0204E720(3,16,0,0);
+        FADE_Start(3,16,0,0);
         func_021DA8C0(task,7);
         *state=8;
         break;
@@ -122,7 +122,7 @@ void func_021D7B4C(void *task,u32 *state,u8 *p)
         func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     case 8:
-        if(!func_0204E804()) func_021DA8C4(task);
+        if(!FADE_IsActive()) func_021DA8C4(task);
         break;
     }
     if(((struct Obj00989 *)p)->f8) func_021DAFCC(((struct Obj00989 *)p)->f8);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C3198
+ * function: FLD3D_CI_DisplayRestoreTask
  * address:  0x021C3198
  * packet:   pkt_ov021_021C3198
  * region:   ov021
@@ -26,7 +26,7 @@ extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_02030EAC(struct Node *n);
 extern const T d_021DA700;
 
-void func_021C3198(void *p, u32 *done)
+void FLD3D_CI_DisplayRestoreTask(void *p, u32 *done)
 {
     T t;
 

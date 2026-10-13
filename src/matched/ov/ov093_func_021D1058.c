@@ -12,8 +12,8 @@
  * symbols:
  *   func_021B9AB0  0x021B9AB0  thumb  ov093
  *   func_021B9C00  0x021B9C00  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021D83FC  0x021D83FC  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_ACTION_SetRotate  0x021D83FC  thumb  ov093
  */
 #include "../include/Obj13369.h"
 
@@ -24,21 +24,21 @@ typedef unsigned int u32;
 extern int func_021B9AB0(int k);
 struct S2;
 extern u8 *func_021B9C00(struct S2 *p, u32 i);
-extern int func_021D5B68(void *p);
-extern void func_021D83FC(u32 *p, u32 sub);
+extern int BTL_POKEPARAM_IsFainted(void *p);
+extern void BTL_ACTION_SetRotate(u32 *p, u32 sub);
 
 int func_021D1058(u8 *s, void *q)
 {
     int k;
 
     k = 2;
-    if (func_021D5B68(func_021B9C00(((struct Obj13369 *)s)->f118, (u8)func_021B9AB0(2))) == 0) {
-        func_021D83FC(q, k);
+    if (BTL_POKEPARAM_IsFainted(func_021B9C00(((struct Obj13369 *)s)->f118, (u8)func_021B9AB0(2))) == 0) {
+        BTL_ACTION_SetRotate(q, k);
         return 4;
     }
     k = 3;
-    if (func_021D5B68(func_021B9C00(((struct Obj13369 *)s)->f118, (u8)func_021B9AB0(3))) == 0) {
-        func_021D83FC(q, k);
+    if (BTL_POKEPARAM_IsFainted(func_021B9C00(((struct Obj13369 *)s)->f118, (u8)func_021B9AB0(3))) == 0) {
+        BTL_ACTION_SetRotate(q, k);
         return 4;
     }
     return 0;

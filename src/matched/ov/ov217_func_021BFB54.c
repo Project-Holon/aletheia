@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 8)) to func_0201D83C.
+ * Tail-call veneer: forwards arg(s) (u32)(*(u32*)(a0 + 8)) to GF_FONT_Delete.
  *
  * symbols:
- *   func_0201D83C  0x0201D83C  thumb
+ *   GF_FONT_Delete  0x0201D83C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,10 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 
 void func_021BFB54(u8 *a0)
 {
-    func_0201D83C((void *)((u32)(((struct Obj25951 *)a0)->f8)));
+    GF_FONT_Delete((void *)((u32)(((struct Obj25951 *)a0)->f8)));
 }
 

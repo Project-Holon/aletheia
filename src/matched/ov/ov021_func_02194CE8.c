@@ -1,5 +1,5 @@
 /*
- * function: func_02194CE8
+ * function: TALKMSGWIN_DrawEntry
  * address:  0x02194CE8
  * packet:   pkt_ov021_02194CE8
  * region:   ov021
@@ -13,16 +13,16 @@
  * because that callee is the unlabelled follower.
  *
  * symbols:
- *   func_02194D1C  0x02194D1C  thumb  ov021
+ *   TALKMSGWIN_DrawBalloonShape  0x02194D1C  thumb  ov021
  */
 
 typedef unsigned short u16;
 
 struct Owner;
 struct Sprite;
-extern void func_02194D1C(struct Owner *a, struct Sprite *b, int c);
+extern void TALKMSGWIN_DrawBalloonShape(struct Owner *a, struct Sprite *b, int c);
 
-void func_02194CE8(int a, u16 *b)
+void TALKMSGWIN_DrawEntry(int a, u16 *b)
 {
     switch (*b) {
     case 0:
@@ -32,10 +32,10 @@ void func_02194CE8(int a, u16 *b)
     case 6:
         break;
     case 3:
-        func_02194D1C((struct Owner *)a, (struct Sprite *)b, 0);
+        TALKMSGWIN_DrawBalloonShape((struct Owner *)a, (struct Sprite *)b, 0);
         break;
     case 4:
-        func_02194D1C((struct Owner *)a, (struct Sprite *)b, 1);
+        TALKMSGWIN_DrawBalloonShape((struct Owner *)a, (struct Sprite *)b, 1);
         break;
     }
 }

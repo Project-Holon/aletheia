@@ -1,5 +1,5 @@
 /*
- * function: func_0216A7A0
+ * function: SCRCMD_MMDL_StartRise
  * address:  0x0216A7A0
  * packet:   pkt_ov010_0216A7A0
  * region:   ov010
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216DE94  0x0216DE94  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0216A838  0x0216A838  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_MMDL_RiseEventMain  0x0216A838  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -43,27 +43,27 @@ typedef struct {
     Vec3 v;
 } S;
 
-extern void *func_0215A5E4(void *a0);
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern unsigned int func_02159B10(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 struct Desc;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C7C(unsigned char *p);
-extern void *func_0216DE94(void *map, u32 id);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-extern void *func_0216D568(void *p, u32 v);
-extern void func_0215897C(void *vm, void *task);
-extern int func_0216A838();
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern int SCRCMD_MMDL_RiseEventMain();
 
-int func_0216A7A0(int a0, int a1)
+int SCRCMD_MMDL_StartRise(int a0, int a1)
 {
     void *l0;
     void *r6;
@@ -74,21 +74,21 @@ int func_0216A7A0(int a0, int a1)
     void *obj;
     S *r4;
 
-    func_0215A5E4((void *)a1);
-    l0 = func_0215A5F4((void *)a1);
-    r6 = func_0215A5DC((void *)a1);
-    l4 = func_02159B10((void *)a0, (void *)a1);
-    r7 = func_02159B10((void *)a0, (void *)a1);
-    r5 = func_02159B10((void *)a0, (void *)a1);
-    l8 = func_020122C0((void *)r6, 0, (void *)func_0216A838, 0x18);
+    SCRCMD_WORK_GetGameData((void *)a1);
+    l0 = SCRCMD_WORK_GetScriptWork((void *)a1);
+    r6 = SCRCMD_WORK_GetGameSystem((void *)a1);
+    l4 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    r7 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    r5 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    l8 = func_020122C0((void *)r6, 0, (void *)SCRCMD_MMDL_RiseEventMain, 0x18);
     r4 = func_020124E8((struct Obj *)l8);
     r4->f4 = r5;
     r4->f6 = 0;
-    obj = func_0216DE94((void *)func_02188C7C(func_0201210C((void *)r6)), l4);
-    func_0216D88C(obj, (struct VecFx32 *)&r4->v);
+    obj = FLDMMDL_SysSearchObjId((void *)FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap((void *)r6)), l4);
+    FLDMMDL_GetPos(obj, (struct VecFx32 *)&r4->v);
     r4->f8 = obj;
-    func_0216D568(obj, 0x8000);
+    FLDMMDL_SetMoveBit(obj, 0x8000);
     r4->f0 = (r7 << 15) - r4->v.b;
-    func_0215897C(l0, l8);
+    SCRIPT_SYS_CallEvent(l0, l8);
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02195338
+ * function: TALKMSGWIN_UpdateShape
  * address:  0x02195338
  * packet:   pkt_ov021_02195338
  * region:   ov021
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_0207CA00  0x0207CA00  arm
- *   func_02194E74  0x02194E74  thumb  ov021
- *   func_02194E90  0x02194E90  thumb  ov021
- *   func_02194F84  0x02194F84  thumb  ov021
- *   func_02195128  0x02195128  thumb  ov021
- *   func_0219518C  0x0219518C  thumb  ov021
+ *   TALKMSGWIN_ProjectToWorld  0x02194E74  thumb  ov021
+ *   TALKMSGWIN_GetAnchorWindowPoint  0x02194E90  thumb  ov021
+ *   TALKMSGWIN_CalcTail  0x02194F84  thumb  ov021
+ *   TALKMSGWIN_GetWindowCornerPoints  0x02195128  thumb  ov021
+ *   TALKMSGWIN_BuildShape  0x0219518C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj01494.h"
@@ -27,13 +27,13 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } V;
 
 extern void func_0207CA00(u32 a, u8 *b, V *c);
-extern int func_02194E74(u32 a, u32 b, u32 c, u32 d);
-extern void func_02194E90(u8 *e, u8 *ent, int *b, int *c, void *d);
-extern int func_02194F84(u8 *e, int b, int c, void *d, void *f);
-extern void func_02195128(u8 *p, u32 c0, u32 c1, u32 c2, u32 c3);
-extern void func_0219518C(u8 *p, u8 *e, V *a, V *b, V *c, V *d, V *f, V *g, V *h);
+extern int TALKMSGWIN_ProjectToWorld(u32 a, u32 b, u32 c, u32 d);
+extern void TALKMSGWIN_GetAnchorWindowPoint(u8 *e, u8 *ent, int *b, int *c, void *d);
+extern int TALKMSGWIN_CalcTail(u8 *e, int b, int c, void *d, void *f);
+extern void TALKMSGWIN_GetWindowCornerPoints(u8 *p, u32 c0, u32 c1, u32 c2, u32 c3);
+extern void TALKMSGWIN_BuildShape(u8 *p, u8 *e, V *a, V *b, V *c, V *d, V *f, V *g, V *h);
 
-u32 func_02195338(u8 *p, u8 *e)
+u32 TALKMSGWIN_UpdateShape(u8 *p, u8 *e)
 {
     V v8;
     V v7;
@@ -49,13 +49,13 @@ u32 func_02195338(u8 *p, u8 *e)
 
     if (((struct Obj01494 *)e)->f10 != 0) {
         func_0207CA00(((struct Obj01494 *)e)->f10, p + 0xCB8, &v1);
-        func_02194E74((u32)(&v1), (u32)(&b), (u32)(&c), (u32)(&v8));
+        TALKMSGWIN_ProjectToWorld((u32)(&v1), (u32)(&b), (u32)(&c), (u32)(&v8));
     } else {
-        func_02194E90(e, p + 0x18 + ((struct Obj01494 *)e)->f1A * 100, &b, &c, &v8);
+        TALKMSGWIN_GetAnchorWindowPoint(e, p + 0x18 + ((struct Obj01494 *)e)->f1A * 100, &b, &c, &v8);
     }
-    r = func_02194F84(e, b, c, &v7, &v6);
-    func_02195128(e, (u32)(&v5), (u32)(&v4), (u32)(&v3), (u32)(&v2));
-    func_0219518C(p, e, &v8, &v7, &v6, &v5, &v4, &v3, &v2);
+    r = TALKMSGWIN_CalcTail(e, b, c, &v7, &v6);
+    TALKMSGWIN_GetWindowCornerPoints(e, (u32)(&v5), (u32)(&v4), (u32)(&v3), (u32)(&v2));
+    TALKMSGWIN_BuildShape(p, e, &v8, &v7, &v6, &v5, &v4, &v3, &v2);
     if (((struct Obj01494 *)e)->f58 != r) {
         ((struct Obj01494 *)e)->f58 = r;
         return 1;

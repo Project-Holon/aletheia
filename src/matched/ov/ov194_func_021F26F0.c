@@ -11,14 +11,14 @@
  * lever: cast measured width/height to u16 after division by two.
  * prototype: 2818 tail forwarder leaves r0 live; 4D9C/4DA0 read incoming r0 despite legacy void extern.
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045A98 0x02045A98 arm
- *   func_02045994 0x02045994 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
+ *   STRBUF_SetStringN 0x02045994 arm
  *   func_0201D304 0x0201D304 thumb
  *   func_0201D42C 0x0201D42C thumb
  *   func_02045770 0x02045770 arm
  *   func_0201C6FC 0x0201C6FC thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021F4DA0 0x021F4DA0 thumb ov194
  *   func_021F4D9C 0x021F4D9C thumb ov194
  *   func_021F2818 0x021F2818 thumb ov194
@@ -35,15 +35,15 @@ struct Descriptor;
 struct PrintSys;
 struct Strbuf;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u16 func_02045A98(void);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern u16 STRBUF_GetEosChar(void);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u16 func_021F4DA0(const u16 *p);
 extern u16 func_021F4D9C(const u16 *p);
 extern int func_021F2818(char *,Pair *,Box *);
@@ -56,14 +56,14 @@ void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
  void *text;
  u16 x,y;
  unsigned kind;
- text=func_020457B0(2,heap);
+ text=STRBUF_Create(2,heap);
  for(xy.y=0;xy.y<func_021F4DA0(((struct Obj10808 *)p)->f0);xy.y++){
   for(xy.x=0;xy.x<func_021F4D9C(((struct Obj10808 *)p)->f0);xy.x++){
    if(func_021F2818(p,&xy,&box)){
     kind=func_021F2614(p,(int *)&xy,codes);
     if(kind==1 || kind==10 || kind==11){
-     codes[1]=codes[0];codes[2]=func_02045A98();
-     func_02045994(text,codes+1,2);
+     codes[1]=codes[0];codes[2]=STRBUF_GetEosChar();
+     STRBUF_SetStringN(text,codes+1,2);
      box.x*=8;box.y*=8;box.z*=8;box.w*=8;
      x=box.x+(box.z-box.x)/2-24;
      y=box.y+(box.w-box.y)/2-40;
@@ -75,5 +75,5 @@ void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
    }
   }
  }
- func_02045808(text);
+ STRBUF_Delete(text);
 }

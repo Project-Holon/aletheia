@@ -175,11 +175,11 @@ typedef struct {
 } BtlContFlagCmd;
 
 /* Services of the event variable stack. */
-extern int func_021D775C(int key);
-extern int func_021D76BC(int key, u32 value);
-extern void func_021D7704(int key, s32 ratio);
-extern void func_021D7320(struct BtlEventFactor *factor, BtlEventSkipCheck skipCheck);
-extern void func_021D7324(struct BtlEventFactor *factor);
+extern int BTL_EVENT_GetVar(int key);
+extern int BTL_EVENT_OverwriteVar(int key, u32 value);
+extern void BTL_EVENT_MultiplyVar(int key, s32 ratio);
+extern void BTL_EVENT_SetFactorSkipCheck(struct BtlEventFactor *factor, BtlEventSkipCheck skipCheck);
+extern void BTL_EVENT_ClearFactorSkipCheck(struct BtlEventFactor *factor);
 
 /* Services of the battle server flow. */
 extern u8 func_021C7D54(struct BtlSvFlow *flow, int pokeId, u8 *outIds);
@@ -193,15 +193,15 @@ extern void func_021C8860(BtlStrParam *str, u32 arg);
 extern void func_021C88C8(struct BtlSvFlow *flow, void *cmd);
 
 /* Services of the calculation and of the poke parameter. */
-extern u32 func_021D78AC(u32 range);
-extern int func_021D7B08(int value, int floor);
-extern int func_021D7B74(struct BtlPokeParam *bpp, u32 divisor);
-extern u16 func_021D5B40(struct BtlPokeParam *bpp);
-extern int func_021D5B48(struct BtlPokeParam *bpp);
+extern u32 BTL_CALC_Random(u32 range);
+extern int BTL_CALC_Max(int value, int floor);
+extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, u32 divisor);
+extern u16 BTL_POKEPARAM_GetItem(struct BtlPokeParam *bpp);
+extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *bpp);
 extern int func_021D5D14(struct BtlPokeParam *bpp, int statId, int amount);
-extern int func_021D5BB0(struct BtlPokeParam *bpp, u32 flagIndex);
-extern int func_021D5BDC(struct BtlPokeParam *bpp, u32 flagIndex);
-extern int func_021D62C4(struct BtlPokeParam *bpp, int sickId);
+extern int BTL_POKEPARAM_TestTurnFlag(struct BtlPokeParam *bpp, u32 flagIndex);
+extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *bpp, u32 flagIndex);
+extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, int sickId);
 extern u32 WAZA_TOOL_GetFlag(u16 move, u32 flag);
 extern u32 WAZA_TOOL_IsDamaging(u16 move);
 

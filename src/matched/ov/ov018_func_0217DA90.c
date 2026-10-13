@@ -1,5 +1,5 @@
 /*
- * function: func_0217DA90
+ * function: INTRUDE_SUBDISP_ClactActorDelete
  * address: 0x0217DA90
  * packet: pkt_ov018_0217DA90
  * region: ov018
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-void func_0217DA90(void **p)
+extern void CLACT_DeleteActor(struct Obj *p);
+void INTRUDE_SUBDISP_ClactActorDelete(void **p)
 {
     int i;
-    for (i = 0; i < 21; i++) func_0204B3B4(p[23 + i]);
+    for (i = 0; i < 21; i++) CLACT_DeleteActor(p[23 + i]);
 }

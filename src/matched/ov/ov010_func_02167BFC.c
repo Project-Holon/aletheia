@@ -1,5 +1,5 @@
 /*
- * function: func_02167BFC
+ * function: BSUBWAY_COMM_SetSendData
  * address:  0x02167BFC
  * packet:   pkt_ov010_02167BFC
  * region:   ov010
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02167B44  0x02167B44  thumb
- *   func_02167B9C  0x02167B9C  thumb
- *   func_02167BB4  0x02167BB4  thumb
- *   func_02012944  0x02012944  thumb
- *   func_02008494  0x02008494  thumb
- *   func_02167BCC  0x02167BCC  thumb
- *   func_02167BD8  0x02167BD8  thumb
- *   func_02167BE4  0x02167BE4  thumb
- *   func_02167BF0  0x02167BF0  thumb
+ *   BSUBWAY_COMM_SetSendPlayerData  0x02167B44  thumb
+ *   BSUBWAY_COMM_SetSendTrainerData  0x02167B9C  thumb
+ *   BSUBWAY_COMM_SetSendRetireSelect  0x02167BB4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
+ *   BSUBWAY_COMM_SetSendPlayMode  0x02167BCC  thumb
+ *   BSUBWAY_COMM_SetSendWord5  0x02167BD8  thumb
+ *   BSUBWAY_COMM_SetSendWord6  0x02167BE4  thumb
+ *   BSUBWAY_COMM_SetSendWord7  0x02167BF0  thumb
  *
  * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =func_02082D44; movs r2, #0x20; bx r3") that the
  * prologue sweep misses; its start is seeded in layout/function_starts.txt
@@ -62,17 +62,17 @@ typedef struct Obj {
     u8 b668[0x20];
 } Obj;
 
-extern void func_02167B44(Obj *o, void *t);
-extern void func_02167B9C(Obj *o);
-extern void func_02167BB4(Obj *o, u32 v);
-extern u8 *func_02012944(void *p);
-extern void func_02008494(void *a, void *b);
-extern void func_02167BCC(Obj *o);
-extern void func_02167BD8(Obj *o, u32 v);
-extern void func_02167BE4(Obj *o, u32 v);
-extern void func_02167BF0(Obj *o, u32 v);
+extern void BSUBWAY_COMM_SetSendPlayerData(Obj *o, void *t);
+extern void BSUBWAY_COMM_SetSendTrainerData(Obj *o);
+extern void BSUBWAY_COMM_SetSendRetireSelect(Obj *o, u32 v);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void MYSTATUS_Copy(void *a, void *b);
+extern void BSUBWAY_COMM_SetSendPlayMode(Obj *o);
+extern void BSUBWAY_COMM_SetSendWord5(Obj *o, u32 v);
+extern void BSUBWAY_COMM_SetSendWord6(Obj *o, u32 v);
+extern void BSUBWAY_COMM_SetSendWord7(Obj *o, u32 v);
 
-void func_02167BFC(Obj *o, u32 cmd, u32 arg)
+void BSUBWAY_COMM_SetSendData(Obj *o, u32 cmd, u32 arg)
 {
     void *t;
 
@@ -80,35 +80,35 @@ void func_02167BFC(Obj *o, u32 cmd, u32 arg)
     switch (cmd) {
     case 0:
         o->h12 = 0x2C00;
-        func_02167B44(o, t);
+        BSUBWAY_COMM_SetSendPlayerData(o, t);
         return;
     case 1:
         o->h12 = 0x2C01;
-        func_02167B9C(o);
+        BSUBWAY_COMM_SetSendTrainerData(o);
         return;
     case 2:
         o->h12 = 0x2C02;
-        func_02167BB4(o, arg);
+        BSUBWAY_COMM_SetSendRetireSelect(o, arg);
         return;
     case 3:
         o->h12 = 0x2C03;
-        func_02008494(func_02012944(t), o->b668);
+        MYSTATUS_Copy(GAME_DATA_GetMyStatus(t), o->b668);
         return;
     case 4:
         o->h12 = 0x2C04;
-        func_02167BCC(o);
+        BSUBWAY_COMM_SetSendPlayMode(o);
         return;
     case 5:
         o->h12 = 0x2C05;
-        func_02167BD8(o, arg);
+        BSUBWAY_COMM_SetSendWord5(o, arg);
         return;
     case 6:
         o->h12 = 0x2C06;
-        func_02167BE4(o, arg);
+        BSUBWAY_COMM_SetSendWord6(o, arg);
         return;
     case 7:
         o->h12 = 0x2C07;
-        func_02167BF0(o, arg);
+        BSUBWAY_COMM_SetSendWord7(o, arg);
         return;
     default:
         o->h12 = 0x2C08;

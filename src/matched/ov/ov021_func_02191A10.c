@@ -1,5 +1,5 @@
 /*
- * function: func_02191A10
+ * function: FIELD_MSGBG_CreateBgWinFont
  * address:  0x02191A10
  * packet:   pkt_ov021_02191A10
  * region:   ov021
@@ -13,21 +13,21 @@
  *   d_021DDA50     0x021DDA50  data  a4
  *   func_02030734  0x02030734  arm
  *   func_02040618  0x02040618  arm
- *   func_020450F0  0x020450F0  arm
- *   func_02043678  0x02043678  arm
+ *   BMP_WIN_Create  0x020450F0  arm
+ *   BMP_Create  0x02043678  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045374  0x02045374  arm
- *   func_02045334  0x02045334  arm
- *   func_02191D88  0x02191D88  thumb  ov021
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   FIELD_MSGBG_LoadBgWinGraphics  0x02191D88  thumb  ov021
  *   func_02045758  0x02045758  arm
  *   func_02045760  0x02045760  arm
  *   func_02045738  0x02045738  arm
  *   func_02045740  0x02045740  arm
- *   func_02191DC8  0x02191DC8  thumb  ov021
+ *   FIELD_MSGBG_DrawBgWinFrame  0x02191DC8  thumb  ov021
  *   func_020409B4  0x020409B4  arm
- *   func_021927C0  0x021927C0  thumb  ov021
- *   func_02193044  0x02193044  thumb  ov021
+ *   FIELD_MSGBG_InitCursor  0x021927C0  thumb  ov021
+ *   FIELD_MSGBG_SetBlend  0x02193044  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -39,30 +39,30 @@ extern char d_021DDA50[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Bmp;
 struct Cfg;
 struct CharBuf;
 struct Descriptor;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *w);
-extern void func_02191D88(u32 a, u32 b, u32 c, u32 d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *w);
+extern void FIELD_MSGBG_LoadBgWinGraphics(u32 a, u32 b, u32 c, u32 d);
 extern u8 func_02045758(struct Descriptor *p);
 extern u8 func_02045760(struct Descriptor *p);
 extern u8 func_02045738(struct Descriptor *p);
 extern u8 func_02045740(struct Descriptor *p);
-extern void func_02191DC8(u32 layer, u32 x, u32 y, u32 w, u32 h, u32 tile, u32 pal);
+extern void FIELD_MSGBG_DrawBgWinFrame(u32 layer, u32 x, u32 y, u32 w, u32 h, u32 tile, u32 pal);
 extern void func_020409B4(u32 layer);
 struct Fx;
 struct G;
-extern void func_021927C0(struct G *g, struct Fx *a);
-extern void func_02193044(u32 a);
+extern void FIELD_MSGBG_InitCursor(struct G *g, struct Fx *a);
+extern void FIELD_MSGBG_SetBlend(u32 a);
 
-u32 *func_02191A10(u16 *a, u32 b, u32 c)
+u32 *FIELD_MSGBG_CreateBgWinFont(u16 *a, u32 b, u32 c)
 {
     u32 *p;
     u32 x;
@@ -76,21 +76,21 @@ u32 *func_02191A10(u16 *a, u32 b, u32 c)
     p[7] = -48;
     func_02040618((u8)a[1], 0, 0);
     func_02040618((u8)((u16 *)p[0])[1], 3, p[7]);
-    p[1] = func_020450F0((u8)a[1], 2, 0x13, 0x1c, 4, 9, 1);
-    p[2] = (u32)func_02043678(0x1c, 4, 0x20, a[0]);
-    p[3] = (u32)func_02043678(0x1c, 4, 0x20, a[0]);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p[1])), 15);
-    func_02045374((struct Cfg *)p[1]);
-    func_02045334((struct Descriptor *)p[1]);
-    func_02191D88(a[1], 9, b, a[0]);
+    p[1] = BMP_WIN_Create((u8)a[1], 2, 0x13, 0x1c, 4, 9, 1);
+    p[2] = (u32)BMP_Create(0x1c, 4, 0x20, a[0]);
+    p[3] = (u32)BMP_Create(0x1c, 4, 0x20, a[0]);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p[1])), 15);
+    BMP_WIN_MakeScreen((struct Cfg *)p[1]);
+    BMP_WIN_TransferChars((struct Descriptor *)p[1]);
+    FIELD_MSGBG_LoadBgWinGraphics(a[1], 9, b, a[0]);
     x = func_02045758((struct Descriptor *)p[1]);
     y = func_02045760((struct Descriptor *)p[1]);
     w = func_02045738((struct Descriptor *)p[1]);
     h = func_02045740((struct Descriptor *)p[1]);
-    func_02191DC8((u8)a[1], x, y, w, h, 0x33, 9);
+    FIELD_MSGBG_DrawBgWinFrame((u8)a[1], x, y, w, h, 0x33, 9);
     func_020409B4((u8)a[1]);
-    func_021927C0((struct G *)(p + 10), (struct Fx *)p[0]);
+    FIELD_MSGBG_InitCursor((struct G *)(p + 10), (struct Fx *)p[0]);
     a[3] = 11;
-    func_02193044(0);
+    FIELD_MSGBG_SetBlend(0);
     return p;
 }

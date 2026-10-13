@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F07DC",
+   "name": "DOWSING_FreeBackground",
    "address": "0x021F07DC",
    "kind": "game",
    "region": "ov033",

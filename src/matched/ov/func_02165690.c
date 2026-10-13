@@ -1,5 +1,5 @@
 /*
- * function: func_02165690
+ * function: GAME_BEACON_SEARCH_SetInfoWordClear
  * address:  0x02165690
  * packet:   pkt_0216555C
  * region:   ov010
@@ -24,8 +24,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02165690.c \
- *       --func func_02165690 --addr 0x02165690 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_BEACON_SEARCH_SetInfoWordClear.c \
+ *       --func GAME_BEACON_SEARCH_SetInfoWordClear --addr 0x02165690 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj00121.h"
 
@@ -35,7 +35,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_ResetDetails(void *);
 
-void func_02165690(void *a0)
+void GAME_BEACON_SEARCH_SetInfoWordClear(void *a0)
 {
     ((struct Obj00121 *)a0)->f30 = 42;
     *(u32 *)((char *)a0 + 52) = 0;

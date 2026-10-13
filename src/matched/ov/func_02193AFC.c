@@ -1,5 +1,5 @@
 /*
- * function: func_02193AFC
+ * function: FIELD_WFBC_SetMmdlSys
  * address:  0x02193AFC
  * packet:   pkt_02193920
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_02193AFC(u8 *p, u32 v)
+void FIELD_WFBC_SetMmdlSys(u8 *p, u32 v)
 {
     ((struct Obj17940 *)p)->f140 = v;
 }

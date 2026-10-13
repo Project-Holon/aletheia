@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   func_021C7CF4  0x021C7CF4  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C8838  0x021C8838  thumb  ov093
@@ -22,7 +22,7 @@
 
 typedef unsigned char u8;
 
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern void *func_021C7CF4(int *p, int i);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
@@ -35,7 +35,7 @@ void func_021E3BF4(int u, void *a, int c)
 {
     char *p;
 
-    if (c == func_021D775C(3)) {
+    if (c == BTL_EVENT_GetVar(3)) {
         func_021C7CF4(a, c);
         p = func_021C88A4(a, 0x15, c);
         p[8] = c;

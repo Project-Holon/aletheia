@@ -1,5 +1,5 @@
 /*
- * function: func_021B1698
+ * function: SCRCMD_FLDMMDL_StartMmdlAnime
  * address:  0x021B1698
  * packet:   pkt_ov021_021B1698
  * region:   ov021
@@ -10,36 +10,36 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0201134C  0x0201134C  thumb
- *   func_021B1668  0x021B1668  thumb  ov021
- *   func_02197D3C  0x02197D3C  thumb  ov021
- *   func_0215A6DC  0x0215A6DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   VM_GetU32  0x0201134C  thumb
+ *   SCRCMD_FLDMMDL_GetMmdlByScriptId  0x021B1668  thumb  ov021
+ *   FLDMMDL_ACMD_ListCreate  0x02197D3C  thumb  ov021
+ *   SCRCMD_WORK_AddAnimeTask  0x0215A6DC  thumb  ov010
  */
 
-void *func_0215A5F4(void *p);
-unsigned int func_02159B10(void *a0, void *a1);
+void *SCRCMD_WORK_GetScriptWork(void *p);
+unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 struct Cursor;
-unsigned int func_0201134C(struct Cursor *p);
+unsigned int VM_GetU32(struct Cursor *p);
 typedef unsigned int   u32;
-u32 func_021B1668(u32 a, u32 b);
-int func_02197D3C(int a, int b);
-void func_0215A6DC(int *p, int v);
+u32 SCRCMD_FLDMMDL_GetMmdlByScriptId(u32 a, u32 b);
+int FLDMMDL_ACMD_ListCreate(int a, int b);
+void SCRCMD_WORK_AddAnimeTask(int *p, int v);
 
-int func_021B1698(int *a, int *b)
+int SCRCMD_FLDMMDL_StartMmdlAnime(int *a, int *b)
 {
     int r7;
     int r6;
     int r0;
 
-    func_0215A5F4((void *)b);
-    r7 = func_02159B10(a, (void *)b);
-    r6 = func_0201134C((struct Cursor *)a);
-    r0 = func_021B1668((u32)b, r7);
+    SCRCMD_WORK_GetScriptWork((void *)b);
+    r7 = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
+    r6 = VM_GetU32((struct Cursor *)a);
+    r0 = SCRCMD_FLDMMDL_GetMmdlByScriptId((u32)b, r7);
     if (r0 == 0) {
         return 0;
     }
-    func_0215A6DC(b, func_02197D3C(r0, a[5] + r6));
+    SCRCMD_WORK_AddAnimeTask(b, FLDMMDL_ACMD_ListCreate(r0, a[5] + r6));
     return 0;
 }

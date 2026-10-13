@@ -1,5 +1,5 @@
 /*
- * function: func_02161B90
+ * function: EVENT_FIELD_PROCLINK_CreateCommExitEvent
  * address:  0x02161B90
  * packet:   pkt_ov010_02161B90
  * region:   ov010
@@ -14,10 +14,10 @@
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_02012138  0x02012138  thumb
- *   func_02161CDC  0x02161CDC  thumb  ov010
- *   func_02161D18  0x02161D18  thumb  ov010
- *   func_0216570C  0x0216570C  thumb  ov010
- *   func_02161BF8  0x02161BF8  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_StartCommProc  0x02161CDC  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_StartSeasonCommProc  0x02161D18  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetSimpleEventB  0x0216570C  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_CommExitEventMain  0x02161BF8  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -37,26 +37,26 @@ extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
-extern void func_02161CDC(void *a, void *b, u8 c, u8 d);
-extern void func_02161D18(int a, int b, u8 c, u8 d);
-extern void func_0216570C(void);
-extern int func_02161BF8(void *a0, int *state, struct Obj *o);
+extern void EVENT_FIELD_PROCLINK_StartCommProc(void *a, void *b, u8 c, u8 d);
+extern void EVENT_FIELD_PROCLINK_StartSeasonCommProc(int a, int b, u8 c, u8 d);
+extern void GAME_BEACON_SEARCH_SetSimpleEventB(void);
+extern int EVENT_FIELD_PROCLINK_CommExitEventMain(void *a0, int *state, struct Obj *o);
 
-void *func_02161B90(void *p, void *a1, int kind, int sub, int flag)
+void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *p, void *a1, int kind, int sub, int flag)
 {
     void *h;
     Node *n;
 
-    h = func_020122C0(p, a1, func_02161BF8, 0x24);
+    h = func_020122C0(p, a1, EVENT_FIELD_PROCLINK_CommExitEventMain, 0x24);
     n = func_020124E8(h);
     func_02082BCC(n, 0, 0x24);
     n->f00 = p;
     n->f04 = (void *)func_02012138(p);
     if (flag != 0)
-        func_02161CDC(n->f08, p, kind, sub);
+        EVENT_FIELD_PROCLINK_StartCommProc(n->f08, p, kind, sub);
     else
-        func_02161D18((int)n->f08, (int)p, kind, sub);
+        EVENT_FIELD_PROCLINK_StartSeasonCommProc((int)n->f08, (int)p, kind, sub);
     if (kind == 3)
-        func_0216570C();
+        GAME_BEACON_SEARCH_SetSimpleEventB();
     return h;
 }

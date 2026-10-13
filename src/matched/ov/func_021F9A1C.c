@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   tbl_02203370   0x02203370  data  a1
  *   tbl_022033C8   0x022033C8  data  a1
  *   tbl_022032DE   0x022032DE  data  a1
@@ -32,24 +32,24 @@ extern u8 tbl_02203270[];
 extern u8 tbl_022032FE[];
 extern u8 tbl_02203284[];
 
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 
 int func_021F9A1C(void *p, int mode)
 {
     switch (mode) {
     case 4:
-        return func_02035C08(tbl_02203370);
+        return TOUCHPANEL_HitTrg(tbl_02203370);
     case 6:
-        return func_02035C08(tbl_022033C8);
+        return TOUCHPANEL_HitTrg(tbl_022033C8);
     case 0:
     case 2:
-        return func_02035C08(tbl_022032DE);
+        return TOUCHPANEL_HitTrg(tbl_022032DE);
     case 1:
-        return func_02035C08(tbl_02203270);
+        return TOUCHPANEL_HitTrg(tbl_02203270);
     case 3:
-        return func_02035C08(tbl_022032FE);
+        return TOUCHPANEL_HitTrg(tbl_022032FE);
     case 5:
     case 7:
-        return func_02035C08(tbl_02203284);
+        return TOUCHPANEL_HitTrg(tbl_02203284);
     }
 }

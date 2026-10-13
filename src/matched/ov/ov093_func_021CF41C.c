@@ -1,5 +1,5 @@
 /*
- * function: func_021CF41C
+ * function: BTL_CLIENT_ClearSlotFlags
  * address: 0x021CF41C
  * packet: pkt_ov093_021CF41C
  * region: ov093
@@ -15,4 +15,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082BCC(void *,int,u32);
-void func_021CF41C(u8 *p) { func_02082BCC(p+0x130,0,3); }
+void BTL_CLIENT_ClearSlotFlags(u8 *p) { func_02082BCC(p+0x130,0,3); }

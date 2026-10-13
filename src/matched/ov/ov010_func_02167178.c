@@ -1,5 +1,5 @@
 /*
- * function: func_02167178
+ * function: EVENT_RESEARCH_RADAR_CreateInfoWindow
  * address:  0x02167178
  * packet:   pkt_ov010_02167178
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021672D0  0x021672D0  thumb  ov010
- *   func_02190708  0x02190708  thumb  ov021
+ *   EVENT_RESEARCH_RADAR_GetReportKind  0x021672D0  thumb  ov010
+ *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -23,17 +23,17 @@ struct O {
     int f18;
 };
 
-extern int func_021672D0(int a0);
+extern int EVENT_RESEARCH_RADAR_GetReportKind(int a0);
 typedef unsigned int   u32;
 struct Fx;
-extern void *func_02190708(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
+extern void *FIELD_MSGBG_CreateMsgWin(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
 
-void func_02167178(struct O *o)
+void EVENT_RESEARCH_RADAR_CreateInfoWindow(struct O *o)
 {
     int a;
     int b;
     int c;
-    switch (func_021672D0((int)o)) {
+    switch (EVENT_RESEARCH_RADAR_GetReportKind((int)o)) {
     case 0:
         a = 1;
         b = 0x1e;
@@ -49,5 +49,5 @@ void func_02167178(struct O *o)
         c = 8;
         break;
     }
-    o->f14 = (int)func_02190708((struct Fx *)o->f10, o->f18, a, a, b, c);
+    o->f14 = (int)FIELD_MSGBG_CreateMsgWin((struct Fx *)o->f10, o->f18, a, a, b, c);
 }

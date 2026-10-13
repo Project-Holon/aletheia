@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02027858 0x02027858 thumb
+ *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct TaskMenu;
-extern void func_02027858(struct TaskMenu *);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
 void func_021B9914(struct TaskMenu *p)
 {
-    func_02027858(p);
+    APP_TASKMENU_CloseMenu(p);
 }

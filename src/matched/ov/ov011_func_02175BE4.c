@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02175BE4, INTRUDE_COMM_SetSessionReadyBit
+ * function: INTRUDE_COMM_IsSessionBusy, INTRUDE_COMM_SetSessionReadyBit
  * address:  0x02175BE4
  * packet:   pkt_ov011_02175BE4
  * region:   ov011
@@ -13,19 +13,19 @@
  * INTRUDE_COMM_SetSessionReadyBit is an unlabelled leaf (sets one bit in a byte at +0x19f or +0x1a0).
  *
  * symbols:
- *   func_02175B8C  0x02175B8C  thumb  ov011
- *   func_02175BCC  0x02175BCC  thumb  ov011
+ *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
+ *   INTRUDE_COMM_GetSessionResult  0x02175BCC  thumb  ov011
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_02175B8C(u8 *p);
-extern u8 *func_02175BCC(u8 *p);
+extern int INTRUDE_COMM_IsSessionAccepted(u8 *p);
+extern u8 *INTRUDE_COMM_GetSessionResult(u8 *p);
 
-int func_02175BE4(void *a)
+int INTRUDE_COMM_IsSessionBusy(void *a)
 {
-    if (func_02175B8C(a) == 1 || func_02175BCC(a) != 0) {
+    if (INTRUDE_COMM_IsSessionAccepted(a) == 1 || INTRUDE_COMM_GetSessionResult(a) != 0) {
         return 1;
     }
     return 0;

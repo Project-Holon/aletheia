@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_c03center.c
  * unit:     yes
- * function: func_021B5A18, func_021B5B0C
+ * function: SCRCMD_C03CENTER_TurnCameraToQuarter, SCRCMD_C03CENTER_CameraTurnTaskMain
  * address:  0x021B5A18
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -13,22 +13,22 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0216CDB8  0x0216CDB8  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D30  0x02188D30  thumb  ov021
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0218ED50  0x0218ED50  thumb  ov021
- *   func_0218FE70  0x0218FE70  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   FLDMMDL_SetAreaIdRef  0x0216CDB8  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELD_CAMERA_GetViewYawPtr  0x0218ED50  thumb  ov021
+ *   FIELD_CAMERA_GetMoveGoal  0x0218FE70  thumb  ov021
  *   func_02030734  0x02030734  arm
  *   func_02030DA8  0x02030DA8  arm
- *   d_021DE25C     0x021DE25C  data  a1
- *   g_021EE724     0x021EE724  data  a2
+ *   sScrcmdC03centerFileName     0x021DE25C  data  a1
+ *   gCameraTurnAngle     0x021EE724  data  a2
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  */
@@ -39,8 +39,8 @@ struct GameSystem;
 struct Tcb;
 
 /*
- * Camera turn state of func_021B5A18 (0x10 bytes, heap block owned by the
- * TCB that func_021B5B0C steps).
+ * Camera turn state of SCRCMD_C03CENTER_TurnCameraToQuarter (0x10 bytes, heap block owned by the
+ * TCB that SCRCMD_C03CENTER_CameraTurnTaskMain steps).
  */
 typedef struct CameraTurnTask {
     int startAngle;   /* 0x00: camera angle when the command started */
@@ -55,37 +55,37 @@ typedef struct FieldCameraDirection {
     u16 angle;        /* 0x26: 0x10000 is a full turn */
 } FieldCameraDirection;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5E4(void *a0);
-extern u16 func_02159B10(void *, void *);
-extern void func_0216CDB8(u8 *p, u32 v);
-extern void *func_0201210C(const struct GameSystem *p);
-extern u32 func_02188D30(u8 *p);
-extern u16 func_02188C84(u8 *p);
-extern void *func_02188C58(void *p);
-extern void *func_02188C7C(u8 *p);
-extern u8 *func_0218ED50(u8 *p);
-extern u8 *func_0218FE70(u8 *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern void FLDMMDL_SetAreaIdRef(u8 *p, u32 v);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
+extern u32 FIELDMAP_GetTcblSys(u8 *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void *FIELDMAP_GetCamera(void *p);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern u8 *FIELD_CAMERA_GetViewYawPtr(u8 *p);
+extern u8 *FIELD_CAMERA_GetMoveGoal(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02030DA8(u32, void (*)(), void *, u32);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Tcb *tcb);
-int func_021B5A18(struct ScriptVm *vm, struct ScrcmdWork *work);
-void func_021B5B0C(struct Tcb *tcb, CameraTurnTask *turn);
-extern const char d_021DE25C[];
-extern u16 g_021EE724;
+int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work);
+void SCRCMD_C03CENTER_CameraTurnTaskMain(struct Tcb *tcb, CameraTurnTask *turn);
+extern const char sScrcmdC03centerFileName[];
+extern u16 gCameraTurnAngle;
 /* Second name for the same object: the pool needs a separate literal for the address handed to the map model system. */
 extern u16 g_021EE724_ref;
 
 /*
  * Script command: turn the field camera to the nearest quarter turn over a
- * number of frames. Allocates the CameraTurnTask that func_021B5B0C steps
+ * number of frames. Allocates the CameraTurnTask that SCRCMD_C03CENTER_CameraTurnTaskMain steps
  * and starts it as a TCB (its own matched source names the fields).
  *
  * Addresses are Black-image addresses.
  */
-int func_021B5A18(struct ScriptVm *vm, struct ScrcmdWork *work)
+int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
     void *gameSystem;
     u32 tcbSys;
@@ -99,20 +99,20 @@ int func_021B5A18(struct ScriptVm *vm, struct ScrcmdWork *work)
     u32 remainder;
     int delta;
 
-    func_0215A5F4(work);
-    gameSystem = func_0215A5DC(work);
-    func_0215A5E4(work);
-    gameSystem = func_0201210C(gameSystem);
-    tcbSys = func_02188D30(gameSystem);
-    heapId = func_02188C84(gameSystem);
-    camera = func_02188C58(gameSystem);
-    mmdlSys = func_02188C7C(gameSystem);
-    frameCount = func_02159B10(vm, work);
-    turn = func_02030734(heapId, 0x10, 1, d_021DE25C, 0x5d);
-    g_021EE724 = *(u16 *)func_0218ED50(camera);
-    func_0216CDB8(mmdlSys, (u32)&g_021EE724_ref);
-    cameraDirection = (FieldCameraDirection *)func_0218FE70(camera);
-    turn->startAngle = g_021EE724;
+    SCRCMD_WORK_GetScriptWork(work);
+    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    SCRCMD_WORK_GetGameData(work);
+    gameSystem = GAMESYSTEM_GetFieldMap(gameSystem);
+    tcbSys = FIELDMAP_GetTcblSys(gameSystem);
+    heapId = FIELDMAP_GetHeapId(gameSystem);
+    camera = FIELDMAP_GetCamera(gameSystem);
+    mmdlSys = FIELDMAP_GetMmdlSys(gameSystem);
+    frameCount = SCRIPT_WORK_ReadWorkValue(vm, work);
+    turn = func_02030734(heapId, 0x10, 1, sScrcmdC03centerFileName, 0x5d);
+    gCameraTurnAngle = *(u16 *)FIELD_CAMERA_GetViewYawPtr(camera);
+    FLDMMDL_SetAreaIdRef(mmdlSys, (u32)&g_021EE724_ref);
+    cameraDirection = (FieldCameraDirection *)FIELD_CAMERA_GetMoveGoal(camera);
+    turn->startAngle = gCameraTurnAngle;
     angle = cameraDirection->angle;
     turn->angleDelta = angle;
     remainder = angle % 0x4000;
@@ -132,16 +132,16 @@ int func_021B5A18(struct ScriptVm *vm, struct ScrcmdWork *work)
     }
     turn->frame = 0;
     turn->frameCount = frameCount;
-    func_02030DA8(tcbSys, func_021B5B0C, turn, 0);
+    func_02030DA8(tcbSys, SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
     return 0;
 }
 
 /* TCB function: advances the camera angle by one step of the turn. */
-void func_021B5B0C(struct Tcb *tcb, CameraTurnTask *turn)
+void SCRCMD_C03CENTER_CameraTurnTaskMain(struct Tcb *tcb, CameraTurnTask *turn)
 {
     turn->frame++;
-    g_021EE724 = (turn->angleDelta * turn->frame) / turn->frameCount;
-    g_021EE724 = g_021EE724 + (u16)turn->startAngle;
+    gCameraTurnAngle = (turn->angleDelta * turn->frame) / turn->frameCount;
+    gCameraTurnAngle = gCameraTurnAngle + (u16)turn->startAngle;
     if (turn->frame >= turn->frameCount) {
         func_020307B0(turn);
         func_02030EAC(tcb);

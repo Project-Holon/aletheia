@@ -1,5 +1,5 @@
 /*
- * function: func_02186470
+ * function: FIELD_WFBC_DATA_LOCAL_MoveBoredPeopleToBackList
  * address:  0x02186470
  * packet:   pkt_ov020_02186470
  * region:   ov020
@@ -16,15 +16,15 @@
  *   items web is a late temp that interferes with id and takes r4 (a0 r4, id r5 as in the image).
  *
  * symbols:
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_020127C4  0x020127C4  thumb
- *   func_02161ECC  0x02161ECC  thumb
- *   func_02186BA8  0x02186BA8  thumb
- *   func_02013DE0  0x02013DE0  thumb
- *   func_02186B2C  0x02186B2C  thumb
- *   func_02161E78  0x02161E78  thumb
- *   func_02161E60  0x02161E60  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb
+ *   FIELD_WFBC_DATA_LOCAL_IsMoodZero  0x02186BA8  thumb
+ *   ZONEDATA_IsZoneInTableDFEC  0x02013DE0  thumb
+ *   FIELD_WFBC_DATA_LOCAL_PushPersonFront  0x02186B2C  thumb
+ *   EVENT_FIELD_PROCLINK_ClearReturnEntry  0x02161E78  thumb
+ *   EVENT_FIELD_PROCLINK_CompactReturnList  0x02161E60  thumb
  */
 
 typedef unsigned char  u8;
@@ -33,17 +33,17 @@ typedef unsigned int   u32;
 
 struct Rec44;
 struct SaveBlock;
-extern void *func_020127A4(struct SaveBlock *p);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern char *func_020127C4(int a);
-extern int func_02161ECC(char *p);
-extern int func_02186BA8(u8 *p);
-extern int func_02013DE0(u16 a0);
-extern char *func_02186B2C(char *p, char *src);
-extern void func_02161E78(char *p);
-extern void func_02161E60(char *p, int a);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
+extern char *GAME_DATA_GetSecondUnionInfo(int a);
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(char *p);
+extern int FIELD_WFBC_DATA_LOCAL_IsMoodZero(u8 *p);
+extern int ZONEDATA_IsZoneInTableDFEC(u16 a0);
+extern char *FIELD_WFBC_DATA_LOCAL_PushPersonFront(char *p, char *src);
+extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(char *p);
+extern void EVENT_FIELD_PROCLINK_CompactReturnList(char *p, int a);
 
-void func_02186470(int a0)
+void FIELD_WFBC_DATA_LOCAL_MoveBoredPeopleToBackList(int a0)
 {
     char *q;
     u32 id;
@@ -52,17 +52,17 @@ void func_02186470(int a0)
     u16 key;
     int i;
 
-    id = func_02012AC8(func_020127A4((struct SaveBlock *)a0));
-    base = func_020127C4(a0);
+    id = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)a0));
+    base = GAME_DATA_GetSecondUnionInfo(a0);
     i = 0;
     q = base + 0xF8;
     items = base + 8;
     key = id;
     for (; i < 10; i++) {
-        if (func_02161ECC(items + i * 0x18) != 0 && func_02186BA8((u8 *)(items + i * 0x18)) != 0 && func_02013DE0(key) == 0) {
-            func_02186B2C(q, base + 8 + i * 0x18);
-            func_02161E78(base + 8 + i * 0x18);
+        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(items + i * 0x18) != 0 && FIELD_WFBC_DATA_LOCAL_IsMoodZero((u8 *)(items + i * 0x18)) != 0 && ZONEDATA_IsZoneInTableDFEC(key) == 0) {
+            FIELD_WFBC_DATA_LOCAL_PushPersonFront(q, base + 8 + i * 0x18);
+            EVENT_FIELD_PROCLINK_ClearReturnEntry(base + 8 + i * 0x18);
         }
     }
-    func_02161E60(base, 0);
+    EVENT_FIELD_PROCLINK_CompactReturnList(base, 0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02167A14
+ * function: COMM_PLAYER_GetPlayerModel
  * address:  0x02167A14
  * packet:   pkt_ov010_02167A14
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02034714  0x02034714  arm
- *   func_021943EC  0x021943EC  thumb  ov021
+ *   FIELD_COMM_ACTOR_CTRL_GetMmdl  0x021943EC  thumb  ov021
  *   d_02172A28     0x02172A28  data
  */
 
@@ -46,13 +46,13 @@ typedef struct Work {
 extern u8 d_02172A28[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Tbl;
-extern u32 func_021943EC(struct Tbl *t, u32 key);
+extern u32 FIELD_COMM_ACTOR_CTRL_GetMmdl(struct Tbl *t, u32 key);
 
-u32 func_02167A14(Work *w, int i)
+u32 COMM_PLAYER_GetPlayerModel(Work *w, int i)
 {
     if (w->obj == 0)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (w->e[i].used != 1)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    return func_021943EC(w->obj, i);
+    return FIELD_COMM_ACTOR_CTRL_GetMmdl(w->obj, i);
 }

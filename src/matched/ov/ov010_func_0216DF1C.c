@@ -1,5 +1,5 @@
 /*
- * function: func_0216DF1C
+ * function: FLDMMDL_SysDeleteZoneChangeMmdl
  * address:  0x0216DF1C
  * packet:   pkt_ov010_0216DF1C
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216DD1C  0x0216DD1C  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
- *   func_0216D588  0x0216D588  thumb  ov010
- *   func_0216CF2C  0x0216CF2C  thumb  ov010
+ *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
+ *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -22,22 +22,22 @@ typedef unsigned int u32;
 
 struct Ctx;
 struct Rec;
-extern int func_0216DD1C(struct Ctx *c, struct Rec **out, u32 *iter);
-extern int func_0216D55C(int a0, int a1);
-extern u16 func_0216D588(void *p);
-extern void func_0216CF2C(u8 *o);
+extern int FLDMMDL_SysSearchUseMmdl(struct Ctx *c, struct Rec **out, u32 *iter);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
+extern u16 FLDMMDL_GetObjId(void *p);
+extern void FLDMMDL_DeleteMmdl(u8 *o);
 
-void func_0216DF1C(u32 x)
+void FLDMMDL_SysDeleteZoneChangeMmdl(u32 x)
 {
     int n;
     u8 *o;
     u32 k = 0x20;
 
     n = 0;
-    while (func_0216DD1C((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n))) {
-        if (func_0216D55C((int)o, k) == 0) {
-            func_0216D588(o);
-            func_0216CF2C(o);
+    while (FLDMMDL_SysSearchUseMmdl((struct Ctx *)x, (struct Rec **)(&o), (u32 *)(&n))) {
+        if (FLDMMDL_CheckStatusBit((int)o, k) == 0) {
+            FLDMMDL_GetObjId(o);
+            FLDMMDL_DeleteMmdl(o);
         }
     }
 }

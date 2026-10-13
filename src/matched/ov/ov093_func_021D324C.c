@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_021B8D8C  0x021B8D8C  thumb  ov093
- *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   BTL_CLIENT_IsMainStepActive  0x021CD9E0  thumb  ov093
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021D66D0  0x021D66D0  thumb  ov093
+ *   BTL_POKEPARAM_SetAbility  0x021D66D0  thumb  ov093
  *   func_021EA768  0x021EA768  thumb  ov093
  *   func_021EA778  0x021EA778  thumb  ov093
  *   func_021EA7A8  0x021EA7A8  thumb  ov093
@@ -25,10 +25,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021B8D8C(void *p, void *a, u32 b);
-extern u32 func_021CD9E0(u8 *p);
+extern u32 BTL_CLIENT_IsMainStepActive(u8 *p);
 extern u8 *func_021B9934(char *p, int i);
 struct QJ;
-extern void func_021D66D0(struct QJ *p, u32 v);
+extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
 extern void func_021EA768(u32 *p, u32 a2, u32 a3);
 extern int func_021EA778(u32 *p, u32 a2);
 extern void func_021EA7A8(u32 *p, u32 a2);
@@ -43,8 +43,8 @@ int func_021D324C(u32 *a, int *b, u32 *c)
     s = func_021B8D8C((void *)a[0], (void *)a[1], u);
     switch (*b) {
     case 0:
-        if (func_021CD9E0((u8 *)a) != 0) {
-            func_021D66D0((struct QJ *)func_021B9934((char *)a[1], u), c[1]);
+        if (BTL_CLIENT_IsMainStepActive((u8 *)a) != 0) {
+            BTL_POKEPARAM_SetAbility((struct QJ *)func_021B9934((char *)a[1], u), c[1]);
             return 1;
         }
         func_021EA768((u32 *)a[0x15], s, 0);
@@ -52,7 +52,7 @@ int func_021D324C(u32 *a, int *b, u32 *c)
         break;
     case 1:
         if (func_021EA778((u32 *)a[0x15], s) != 0) {
-            func_021D66D0((struct QJ *)func_021B9934((char *)a[1], u), c[1]);
+            BTL_POKEPARAM_SetAbility((struct QJ *)func_021B9934((char *)a[1], u), c[1]);
             func_021EA7A8((u32 *)a[0x15], s);
             (*b)++;
         }

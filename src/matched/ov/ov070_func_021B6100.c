@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021B6100, func_021B6120
+ * function: ITEMMENU_SetTask, ITEMMENU_ForceRedrawList
  * address: 0x021B6100
  * packet: pkt_ov070_021B6100
  * region: ov070
@@ -11,19 +11,19 @@
  * status: EXACT
  * symbols:
  *   KEY_SetRepeatSpeed 0x02036270 arm
- *   func_021B6138 0x021B6138 thumb ov070
+ *   ITEMMENU_RedrawList 0x021B6138 thumb ov070
  */
 #include "../include/Obj00002.h"
 #include "../include/Obj20659.h"
 extern int KEY_SetRepeatSpeed(int a0, int a1);
-extern void func_021B6138(char *p);
-void func_021B6100(char *p, int k)
+extern void ITEMMENU_RedrawList(char *p);
+void ITEMMENU_SetTask(char *p, int k)
 {
     *(int *)&((struct Obj00002 *)p)->f4F8 = k;
     KEY_SetRepeatSpeed(((struct Obj00002 *)p)->f86C, ((struct Obj00002 *)p)->f870);
 }
-void func_021B6120(char *p)
+void ITEMMENU_ForceRedrawList(char *p)
 {
     ((struct Obj20659 *)p)->f818 = 0xFFFF;
-    func_021B6138(p);
+    ITEMMENU_RedrawList(p);
 }

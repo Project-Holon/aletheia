@@ -1,5 +1,5 @@
 /*
- * function: func_02183F7C
+ * function: UNION_APP_SetQuitAccepted
  * address:  0x02183F7C
  * packet:   pkt_ov022_02183F7C
  * region:   ov022
@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_02183F7C(u8 *p)
+void UNION_APP_SetQuitAccepted(u8 *p)
 {
     p[0x12] = 1;
 }

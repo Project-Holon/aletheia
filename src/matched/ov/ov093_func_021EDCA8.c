@@ -11,7 +11,7 @@
  * symbols:
  *   func_02040B1C 0x02040B1C arm
  *   func_02040618 0x02040618 arm
- *   func_020437D4 0x020437D4 arm
+ *   BMP_GetPixels 0x020437D4 arm
  *   func_021F86E0 0x021F86E0 thumb ov094
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
@@ -27,7 +27,7 @@ struct Flags { u8 shown : 1; u8 close : 1; };
 extern void func_02040B1C(int index, const void *src, u32 size, u32 tile);
 extern void func_02040618(u32, u32, u32);
 struct Bmp;
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_020061E4(u32 a);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern int func_021F86E0(void);
@@ -74,7 +74,7 @@ int func_021EDCA8(u8 *p)
         break;
     case 3:
         if (p[0x21] < 17) {
-            src = (u8 *)func_020437D4(((struct Obj00341 *)p)->f4);
+            src = (u8 *)BMP_GetPixels(((struct Obj00341 *)p)->f4);
             dst = ((struct Obj00341 *)p)->f1C + p[0x21];
             src += p[0x21] * 32;
             for (i = 0; i < 4; i++) {

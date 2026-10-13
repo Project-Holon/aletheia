@@ -15,9 +15,9 @@
  * wide).  Unblocked by src/matched/VMAN_Delete.c, now a `matched` witness.
  *
  * symbols:
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_FreeCharacterTable  0x0204DC64  arm
  *   CLACT_FreePaletteTable  0x0204E010  arm
  *   CLACT_FreeCellAnimTable  0x0204E0C4  arm
@@ -80,9 +80,9 @@ struct Res {
     u16          n_pattern;  /* 0x18 */
 };
 
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern void func_0204ADA4(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
 struct Struct020345DC;
 extern void CLACT_FreeCharacterTable(void *ptr);
 extern void CLACT_FreePaletteTable(void *ptr);
@@ -95,19 +95,19 @@ void CLACT_ExitResources(struct Res *res)
 
     for (i = 0; i < res->n_cell; i++) {
         if (res->cell[i].unk_3c_31 == 0) {
-            func_0204A8D4(i);
+            CLACT_ReleaseCharacter(i);
         }
     }
 
     for (i = 0; i < res->n_pattern; i++) {
         if (res->pattern[i].unk_10 == 0) {
-            func_0204AFD8(i);
+            CLACT_ReleaseCellAnim(i);
         }
     }
 
     for (i = 0; i < res->n_anim; i++) {
         if (res->anim[i].unk_14_31 == 0) {
-            func_0204ADA4(i);
+            CLACT_ReleasePalette(i);
         }
     }
 

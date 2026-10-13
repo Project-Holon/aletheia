@@ -1,5 +1,5 @@
 /*
- * function: func_021904DC
+ * function: FIELD_MSGBG_SetAutoMode
  * address:  0x021904DC
  * packet:   pkt_02193208
  * region:   ov021
@@ -13,7 +13,7 @@
  * The second parameter is what puts the offset temp in r2 instead of r1.
  *
  * symbols:
- *   func_02193208  0x02193208  thumb  ov021
+ *   FIELD_MSGBG_KeyWaitSetAuto  0x02193208  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02193208(u8 *p, u8 v);
+extern void FIELD_MSGBG_KeyWaitSetAuto(u8 *p, u8 v);
 
-void func_021904DC(u8 *p, u8 v)
+void FIELD_MSGBG_SetAutoMode(u8 *p, u8 v)
 {
-    func_02193208(p + 0x160, v);
+    FIELD_MSGBG_KeyWaitSetAuto(p + 0x160, v);
 }

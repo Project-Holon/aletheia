@@ -1,5 +1,5 @@
 /*
- * function: func_021BA020
+ * function: OPTION_MENU_GetSpriteUnit
  * address:  0x021BA020
  * packet:   pkt_ov068_021BA020
  * region:   ov068
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf; the function thunk func_021B9950 tail-calls.
+ * Unlabelled leaf; the function thunk OPTION_MENU_GetScreenActorUnit tail-calls.
  * ldr r0,[r0] / bx lr.
  */
 
-int func_021BA020(int *p)
+int OPTION_MENU_GetSpriteUnit(int *p)
 {
     return *p;
 }

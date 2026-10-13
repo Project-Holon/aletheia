@@ -7,18 +7,22 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm  arm9
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm  arm9
  */
 #include "../include/Obj24439.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
 struct Link;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *);
 void func_0217E484(u32 a, void *b, void *c, u8 *p, struct Entry *e)
 {
-    if (e == func_020399A8()) {
-        if (a != func_0203D1A4((struct Link *)func_020399A8()))
+    if (e == GFL_NET_HANDLE_GetCurrentHandle()) {
+        if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle()))
             ((struct Obj24439 *)p)->f100C = 1;
     }
 }

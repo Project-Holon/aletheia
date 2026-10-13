@@ -1,5 +1,5 @@
 /*
- * function: func_021F1BE4
+ * function: C_GEAR_IsSplashDone
  * address: 0x021F1BE4
  * packet: pkt_ov029_021F1BE4
  * region: ov029
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  */
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
-int func_021F1BE4(char *p)
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+int C_GEAR_IsSplashDone(char *p)
 {
     int i;
     for (i = 0; i < 18; i++) {
-        if (func_0204B98C((struct Actor *)(*(int *)(p + i * 4 + 0x170))) == 1)
+        if (CLACT_IsActorAnimActive((struct Actor *)(*(int *)(p + i * 4 + 0x170))) == 1)
             return 0;
     }
     return 1;

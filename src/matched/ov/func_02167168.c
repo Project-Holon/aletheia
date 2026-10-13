@@ -1,5 +1,5 @@
 /*
- * function: func_02167168
+ * function: EVENT_RESEARCH_RADAR_DeleteReportMsgData
  * address:  0x02167168
  * packet:   pkt_02167168
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  */
 #include "../include/Obj00565.h"
 
@@ -18,15 +18,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02045C04();
+extern int MSGDATA_Delete();
 
-int func_02167168(int a0)
+int EVENT_RESEARCH_RADAR_DeleteReportMsgData(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
 a0 = *(int *)&((struct Obj00565 *)t4)->f18;
-    a0 = func_02045C04(a0);
+    a0 = MSGDATA_Delete(a0);
 loc_02167172:
 a0 = 0;
 *(int *)&((struct Obj00565 *)t4)->f18 = a0;

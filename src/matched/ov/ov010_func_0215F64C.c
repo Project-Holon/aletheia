@@ -1,5 +1,5 @@
 /*
- * function: func_0215F64C
+ * function: SCRCMD_NETWORK_CommProcEventMain
  * address:  0x0215F64C
  * packet:   pkt_ov010_0215F64C
  * region:   ov010
@@ -12,12 +12,12 @@
  *
  * symbols:
  *   BRIGHTNESS_Set  0x02023F60  thumb
- *   func_02012444  0x02012444  thumb
+ *   GAME_EVENT_CallProc  0x02012444  thumb
  *   d_021B9EC0     0x021B9EC0  data  a4
  *   ov_id_00CD     0x000000CD  data  a1
- *   func_0215FA1C  0x0215FA1C  thumb  ov010
- *   func_02012374  0x02012374  thumb
- *   func_02158780  0x02158780  thumb  ov010
+ *   SCRCMD_NETWORK_LoadOv020Task  0x0215FA1C  thumb  ov010
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
  
  * 2026-10-05 (D8 lane 15): overlay id sites now resolve; all relocations resolved, EXACT.
  */
@@ -29,32 +29,32 @@ typedef unsigned int   u32;
 struct Evt;
 struct Obj;
 extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
-extern void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3);
+extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u8 d_021B9EC0[];
 extern u8 ov_id_00CD[];
-extern int func_0215FA1C();
-extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_02158780(void *p, u16 b, int c, int d, u16 e);
+extern int SCRCMD_NETWORK_LoadOv020Task();
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 
-int func_0215F64C(int a0, int *st, int *a2)
+int SCRCMD_NETWORK_CommProcEventMain(int a0, int *st, int *a2)
 {
     switch (*st) {
     case 0:
         BRIGHTNESS_Set(-16, 0x37, 1);
         BRIGHTNESS_Set(-16, 0x3f, 2);
-        func_02012444((struct Obj *)a0, (u32)ov_id_00CD, (u32)d_021B9EC0, (u32)a2);
+        GAME_EVENT_CallProc((struct Obj *)a0, (u32)ov_id_00CD, (u32)d_021B9EC0, (u32)a2);
         (*st)++;
         break;
     case 1:
         BRIGHTNESS_Set(0, 0x3f, 3);
-        func_02012374((struct Evt *)a0, (struct Evt **)func_0215FA1C(a2[0]));
+        GAME_EVENT_CallEvent((struct Evt *)a0, (struct Evt **)SCRCMD_NETWORK_LoadOv020Task(a2[0]));
         (*st)++;
         break;
     case 2:
         if (a2[1] == 0) {
-            func_02158780((void *)a0, 3, 0, 0, 0x15);
+            SCRIPT_SYS_CallScriptEvent((void *)a0, 3, 0, 0, 0x15);
         } else {
-            func_02158780((void *)a0, 0x7d1, 0, 0, 0x15);
+            SCRIPT_SYS_CallScriptEvent((void *)a0, 0x7d1, 0, 0, 0x15);
         }
         (*st)++;
         break;

@@ -1,5 +1,5 @@
 /*
- * function: func_02165C58
+ * function: GAME_BEACON_ACCESSOR_GetNation
  * packet: pkt_ov010_02165C58
  * address: 0x02165C58
  * region: ov010
@@ -12,4 +12,4 @@
  * tail: next 4B getter 02165C5C, separately owned and filed.
  */
 typedef unsigned char u8;
-u8 func_02165C58(const u8 *p) { return p[1]; }
+u8 GAME_BEACON_ACCESSOR_GetNation(const u8 *p) { return p[1]; }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CC6FC",
+   "name": "SCRCMD_PALPARK_CallFieldEvent",
    "address": "0x021CC6FC",
    "kind": "game",
    "region": "ov021",

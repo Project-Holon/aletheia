@@ -17,10 +17,10 @@
  *   func_021BCB70 0x021BCB70 thumb ov099
  *   func_021BCBBC 0x021BCBBC thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
- *   func_0203D798 0x0203D798 arm
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1E8 0x0203D1E8 arm
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_GetInitParam 0x0203D798 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_NotifyUserEvent 0x0203D1E8 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   func_02039C68 0x02039C68 arm
  */
 #include "../include/Obj02155.h"
@@ -35,11 +35,11 @@ struct BigObj;
 extern int func_021BCB70(void *rules, const struct BigObj *obj, u32 *mask);
 extern int func_021BCBBC(int, int, int *);
 extern void func_021BAAB8(char *, int, int);
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern void func_0203D1E8(u32, void *);
-extern u32 func_0203D378(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_NotifyUserEvent(u32, void *);
+extern u32 GFL_NET_IsParentAid(void);
 struct Link;
 extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
 int func_021BDB30(char *p, int v)
@@ -49,7 +49,7 @@ int func_021BDB30(char *p, int v)
     state = (u16)func_021BDD54(p, ((struct Obj02155 *)p)->f8);
     switch (state) {
     case 4:
-        func_0203D798();
+        GFL_NET_GetInitParam();
         func_021BC104(p);
         func_021C24A4(p, 0);
         func_021BAADC(p, 0x7b, 0);
@@ -64,8 +64,8 @@ int func_021BDB30(char *p, int v)
         ((struct Obj02155 *)p)->f1D0 = state;
         return 2;
     default:
-        func_0203D1E8((u32)func_020399A8(), 0);
-        if (func_0203D378()) {
+        GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+        if (GFL_NET_IsParentAid()) {
             if (func_021BCB70((void *)(((struct Obj02155 *)p)->f1348), (const struct BigObj *)(((struct Obj02155 *)p)->fC4), (u32 *)(&out)) &&
                 func_021BCBBC(((struct Obj02155 *)p)->f1348, ((struct Obj02155 *)p)->fCC, &out)) {
                 func_021BAAB8(p, 0x68, 0);
@@ -74,7 +74,7 @@ int func_021BDB30(char *p, int v)
             }
             ((struct Obj02155 *)p)->f1CC = 0x5b;
         } else {
-            func_02039C68((void *)func_020399A8(), 0x1b, 0xa);
+            func_02039C68((void *)GFL_NET_HANDLE_GetCurrentHandle(), 0x1b, 0xa);
             ((struct Obj02155 *)p)->f1CC = 0x49;
         }
         return v;

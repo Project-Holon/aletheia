@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *
 
  * Release the +0xbf8, +0xd2c and +0xd30 handles.
@@ -22,11 +23,11 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021F7964(u8 *p)
 {
-    func_0204B3B4((struct Obj *)(((struct Obj09229 *)p)->fBF8));
-    func_0204B3B4((struct Obj *)(((struct Obj09229 *)p)->fD2C));
-    func_0204B3B4((struct Obj *)(((struct Obj09229 *)p)->fD30));
+    CLACT_DeleteActor((struct Obj *)(((struct Obj09229 *)p)->fBF8));
+    CLACT_DeleteActor((struct Obj *)(((struct Obj09229 *)p)->fD2C));
+    CLACT_DeleteActor((struct Obj *)(((struct Obj09229 *)p)->fD30));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A2C28
+ * function: WEATHER_TASK_GetParticleActorPtr
  * address:  0x021A2C28
  * packet:   pkt_021A2C28
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A2C28(u8 *p)
+u32 WEATHER_TASK_GetParticleActorPtr(u8 *p)
 {
     return ((struct Obj18005 *)p)->f4;
 }

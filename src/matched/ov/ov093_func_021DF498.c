@@ -1,5 +1,5 @@
 /*
- * function: func_021DF498
+ * function: BTL_HANDLER_ITEM_GetSmoothRockHandlers
  * address: 0x021DF498
  * packet: pkt_ov093_021DF498
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF48C.c and filed here.
  *
  * symbols:
- *   d_021F1464 0x021F1464 data ov093 a4
+ *   gSmoothRockHandlers 0x021F1464 data ov093 a4
  */
 
-int *func_021DF498(int *p);
-extern int d_021F1464[];
+int *BTL_HANDLER_ITEM_GetSmoothRockHandlers(int *p);
+extern int gSmoothRockHandlers[];
 
-int *func_021DF498(int *p)
+int *BTL_HANDLER_ITEM_GetSmoothRockHandlers(int *p)
 {
     *p = 1;
-    return d_021F1464;
+    return gSmoothRockHandlers;
 }

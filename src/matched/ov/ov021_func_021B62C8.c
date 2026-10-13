@@ -1,5 +1,5 @@
 /*
- * function: func_021B62C8
+ * function: SCRCMD_POKEMON_FLD_GetMonTypeForTm
  * address:  0x021B62C8
  * packet:   pkt_ov021_021B62C8
  * region:   ov021
@@ -12,26 +12,26 @@
  * Callee witnesses filed in wave A1 (witness lane).
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb ov010
- *   func_02159B10  0x02159B10  thumb ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb ov010
  *   func_0202130C  0x0202130C  thumb
- *   func_0215B4AC  0x0215B4AC  thumb ov010
- *   func_020188AC  0x020188AC  thumb
- *   func_02018790  0x02018790  thumb
+ *   SCRCMD_PROC_GetPartyMember  0x0215B4AC  thumb ov010
+ *   POKE_TOOL_CheckTmCompat  0x020188AC  thumb
+ *   POKE_TOOL_GetHiddenPowerType  0x02018790  thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02159B10(void *, void *);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern u32 func_0202130C(u32 id);
-extern int func_0215B4AC(void *a0, u32 a1, void **a2);
-extern u32 func_020188AC(void *p, int v);
-extern u32 func_02018790(void *p);
+extern int SCRCMD_PROC_GetPartyMember(void *a0, u32 a1, void **a2);
+extern u32 POKE_TOOL_CheckTmCompat(void *p, int v);
+extern u32 POKE_TOOL_GetHiddenPowerType(void *p);
 
-int func_021B62C8(void *a, void *b)
+int SCRCMD_POKEMON_FLD_GetMonTypeForTm(void *a, void *b)
 {
     u16 *p;
     u32 v;
@@ -39,15 +39,15 @@ int func_021B62C8(void *a, void *b)
     u32 x;
     u16 r;
 
-    p = func_02159AE8(a, b);
-    v = func_02159B10(a, b);
+    p = SCRIPT_WORK_ReadWorkPointer(a, b);
+    v = SCRIPT_WORK_ReadWorkValue(a, b);
     w = func_0202130C(0x151);
-    if (func_0215B4AC(b, v, (void **)(&x)) == 0) {
+    if (SCRCMD_PROC_GetPartyMember(b, v, (void **)(&x)) == 0) {
         *p = 0xFFFF;
-    } else if (func_020188AC((void *)x, w) == 0) {
+    } else if (POKE_TOOL_CheckTmCompat((void *)x, w) == 0) {
         *p = 0xFFFF;
     } else {
-        *p = func_02018790((void *)x);
+        *p = POKE_TOOL_GetHiddenPowerType((void *)x);
     }
     return 0;
 }

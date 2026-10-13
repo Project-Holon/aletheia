@@ -1,5 +1,5 @@
 /*
- * function: func_021C8054
+ * function: FLD_WIPE_3DOBJ_Delete
  * address:  0x021C8054
  * packet:   pkt_021C8054
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02047788  0x02047788  arm
- *   func_02047504  0x02047504  arm
- *   func_02047738  0x02047738  arm
- *   func_02046EFC  0x02046EFC  arm
+ *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
+ *   G3D_SYSTEM_DeleteRender  0x02047504  arm
+ *   G3D_SYSTEM_DeleteObject  0x02047738  arm
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -29,16 +29,16 @@ typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 struct Rec;
 struct Tagged;
-extern void func_02046EFC(struct Tagged *p);
-extern void func_02047504(struct Rec *p);
-extern void func_02047738(struct Rec *p);
-extern int func_02047788(int *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
+extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
+extern int G3D_SYSTEM_GetObjectRender(int *p);
 
-int func_021C8054(void *a)
+int FLD_WIPE_3DOBJ_Delete(void *a)
 {
-func_02047504((struct Rec *)func_02047788((int *)(((struct Obj09214 *)((u8 *)(a)))->f4)));
-func_02047738((struct Rec *)(((struct Obj09214 *)((u8 *)(a)))->f4));
-func_02046EFC((struct Tagged *)(((struct Obj09214 *)((u8 *)(a)))->f0));
+G3D_SYSTEM_DeleteRender((struct Rec *)G3D_SYSTEM_GetObjectRender((int *)(((struct Obj09214 *)((u8 *)(a)))->f4)));
+G3D_SYSTEM_DeleteObject((struct Rec *)(((struct Obj09214 *)((u8 *)(a)))->f4));
+G3D_SYSTEM_DeleteResource((struct Tagged *)(((struct Obj09214 *)((u8 *)(a)))->f0));
 return func_020307B0(a);
 }
 

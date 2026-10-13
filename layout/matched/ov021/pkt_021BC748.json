@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC748",
+   "name": "FIELD_PLACE_NAME_DeleteClactRenderer",
    "address": "0x021BC748",
    "kind": "game",
    "region": "ov021",

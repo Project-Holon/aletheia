@@ -1,5 +1,5 @@
 /*
- * function: func_02162198
+ * function: EVENT_FIELD_PROCLINK_HandlerCheckEntryGrid
  * address: 0x02162198
  * packet: pkt_ov010_02162198
  * region: ov010
@@ -8,16 +8,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02161DC4 0x02161DC4 thumb ov010
+ *   EVENT_FIELD_PROCLINK_GetEventdataEntry 0x02161DC4 thumb ov010
  */
 typedef unsigned short u16;
 typedef struct { unsigned x; u16 b; u16 t; } S;
-extern char *func_02161DC4(char *, int, unsigned);
-int func_02162198(int unused, char *p, const S *s, S *out)
+extern char *EVENT_FIELD_PROCLINK_GetEventdataEntry(char *, int, unsigned);
+int EVENT_FIELD_PROCLINK_HandlerCheckEntryGrid(int unused, char *p, const S *s, S *out)
 {
     out->x = s->x;
     out->b = s->b;
-    if (func_02161DC4(p, s->b, 1) != 0) out->t = 0;
+    if (EVENT_FIELD_PROCLINK_GetEventdataEntry(p, s->b, 1) != 0) out->t = 0;
     else out->t = 1;
     return 1;
 }

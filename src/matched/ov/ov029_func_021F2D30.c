@@ -1,5 +1,5 @@
 /*
- * function: func_021F2D30
+ * function: C_GEAR_HideOffIndicator
  * address: 0x021F2D30
  * packet: pkt_ov029_021F2D30
  * region: ov029
@@ -10,7 +10,7 @@
  * status: EXACT
  */
 typedef unsigned char u8;
-void func_021F2D30(u8 *p)
+void C_GEAR_HideOffIndicator(u8 *p)
 {
     if (p[0x45c] == 1) {
         p[0x45c] = 0;

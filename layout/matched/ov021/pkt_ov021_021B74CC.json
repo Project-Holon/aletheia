@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B74CC",
+   "name": "PDW_POSTMAN_PrintListWin",
    "address": "0x021B74CC",
    "kind": "game",
    "region": "ov021",

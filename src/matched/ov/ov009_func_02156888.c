@@ -13,7 +13,7 @@
  *   _pRapWork     0x021A8264  data  ov009  a4
  *   DWC_RAP_IsUserDataChanged  0x02156C84  thumb  ov009
  *   DWC_RAP_FreeRecvBuffers  0x02156C60  thumb  ov009
- *   func_0203D650  0x0203D650  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
  *   DWC_SetupGameServer  0x0216B354  arm  ov009
  *   DWC_ConnectToGameServerAsync  0x0216B408  arm  ov009
  *   DWC_RAP_OnFriendServerMatched  0x02156A58  thumb  ov009
@@ -62,7 +62,7 @@ typedef struct {
 extern G *_pRapWork;
 unsigned char DWC_RAP_IsUserDataChanged(void);
 void DWC_RAP_FreeRecvBuffers(void);
-u32 func_0203D650(void);
+u32 GFL_NET_GetUserArg(void);
 int DWC_SetupGameServer(int topology, unsigned char maxEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 int DWC_ConnectToGameServerAsync(int, int, void *, u32, void *, u32, void *, int *, u32);
 void DWC_RAP_OnFriendServerMatched(int a, int b, int c, int d, int e);
@@ -105,14 +105,14 @@ int DWC_RAP_StartFriendMatch(int a, int b, int c)
         n = 2;
     _pRapWork->f778 = 1;
     if (a < 0) {
-        r = DWC_SetupGameServer(2, n, DWC_RAP_OnFriendServerMatched, (void *)func_0203D650(), DWC_RAP_OnNewClient,
-                          (void *)func_0203D650(), DWC_RAP_AttemptCallback, &_pRapWork->f750,
-                          (void *)func_0203D650());
+        r = DWC_SetupGameServer(2, n, DWC_RAP_OnFriendServerMatched, (void *)GFL_NET_GetUserArg(), DWC_RAP_OnNewClient,
+                          (void *)GFL_NET_GetUserArg(), DWC_RAP_AttemptCallback, &_pRapWork->f750,
+                          (void *)GFL_NET_GetUserArg());
         _pRapWork->f75c = 1;
     } else {
         r = DWC_ConnectToGameServerAsync(2, a, DWC_RAP_OnFriendClientMatched, 0, DWC_RAP_OnNewClient,
-                          func_0203D650(), DWC_RAP_AttemptCallback, &_pRapWork->f750,
-                          func_0203D650());
+                          GFL_NET_GetUserArg(), DWC_RAP_AttemptCallback, &_pRapWork->f750,
+                          GFL_NET_GetUserArg());
         _pRapWork->f75c = 2;
     }
     if (r == 0) {

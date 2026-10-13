@@ -18,6 +18,12 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   PROCSYS_Main  0x02031330  arm  arm9
  *   PROCSYS_Push  0x02031348  arm  arm9
+ *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb  arm9
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm  arm9
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm  arm9
+ *   GFL_NET_COMMAND_DeleteCommandTable  0x0203A5E4  arm  arm9
+ *   GFL_NET_GetRunState  0x0203CD98  arm  arm9
+ *   GFL_NET_GetInitParam  0x0203D798  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,15 +56,15 @@ typedef signed int     s32;
 struct Entry;
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(int);
-extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
-extern void func_0203A5E4(u32);
-extern struct Entry *func_020399A8(void);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_02039C68(struct Link *, u32, u32);
 extern u32 func_02039CB4(struct Link *, u32, u32);
-extern int func_0203CD98(void);
-extern void *func_0203D798(void);
+extern int GFL_NET_GetRunState(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32 func_0200FB24(void);
-extern void func_0200FB38(void);
+extern void GFL_NET_ERR_RequestScreen(void);
 extern int DWC_RAPCOMMON_HandleNetError(int, int);
 
 int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
@@ -79,13 +85,13 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
     case 2:
         func_02034AC4((int)ov093_id);
         wk->f8 = 1;
-        func_0203A574(0x100, (u32)data_021F03C4, 9, 0);
+        GFL_NET_COMMAND_AddCommandTable(0x100, (u32)data_021F03C4, 9, 0);
         wk->fC = 1;
-        func_02039C68((struct Link *)func_020399A8(), 0xc8, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24);
         *seq = 3;
         break;
     case 3:
-        if (func_02039CB4((struct Link *)func_020399A8(), 0xc8, 0x24)) *seq = 4;
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24)) *seq = 4;
         break;
     case 4:
         PROCSYS_Push(wk->f0, -1, data_021EFDAC, pw->f4);
@@ -99,21 +105,21 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         *seq = 7;
         break;
     case 7:
-        func_02039C68((struct Link *)func_020399A8(), 0xd2, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24);
         wk->f4 = 0;
         *seq = 8;
         break;
     case 8:
-        if (func_02039CB4((struct Link *)func_020399A8(), 0xd2, 0x24)) {
-            func_0203A5E4(0x100);
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd2, 0x24)) {
+            GFL_NET_COMMAND_DeleteCommandTable(0x100);
             wk->fC = 0;
             func_02034A5C((int)ov093_id);
             wk->f8 = 0;
             *seq = 9;
         }
-        if (func_0203CD98() && *(u8 *)((u8 *)func_0203D798() + 0x65) == 3) {
+        if (GFL_NET_GetRunState() && *(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
             if (wk->f4++ > 600) {
-                func_0203A5E4(0x100);
+                GFL_NET_COMMAND_DeleteCommandTable(0x100);
                 wk->fC = 0;
                 func_02034A5C((int)ov093_id);
                 wk->f8 = 0;
@@ -123,13 +129,13 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         }
         break;
     case 9:
-        func_02039C68((struct Link *)func_020399A8(), 0xd3, 0x24);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24);
         *seq = 10;
         wk->f4 = 0;
         break;
     case 10:
-        if (func_02039CB4((struct Link *)func_020399A8(), 0xd3, 0x24)) *seq = 11;
-        if (func_0203CD98() && *(u8 *)((u8 *)func_0203D798() + 0x65) == 3) {
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xd3, 0x24)) *seq = 11;
+        if (GFL_NET_GetRunState() && *(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
             if (wk->f4++ > 600) {
                 *seq = 11;
                 wk->f4 = 0;
@@ -202,17 +208,17 @@ int func_02213894(void *proc, int *seq, struct PWk *pw, struct MyWk *wk)
         return 1;
     case 15:
         if (wk->f4++ > 0x708) {
-            func_0200FB38();
+            GFL_NET_ERR_RequestScreen();
             pw->fC = 2;
             return 1;
         }
         break;
     }
 
-    if (func_0203CD98() && st != 1) {
-        if (*(u8 *)((u8 *)func_0203D798() + 0x65) == 3) {
+    if (GFL_NET_GetRunState() && st != 1) {
+        if (*(u8 *)((u8 *)GFL_NET_GetInitParam() + 0x65) == 3) {
             if (func_0200FB24()) {
-                func_0200FB38();
+                GFL_NET_ERR_RequestScreen();
                 pw->fC = 1;
                 return 1;
             }

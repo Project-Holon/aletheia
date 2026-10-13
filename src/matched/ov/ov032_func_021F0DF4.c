@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B878 0x0204B878 arm
- *   func_0204B9A0 0x0204B9A0 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
+ *   CLACT_RestartActorAnim 0x0204B9A0 arm
  */
 typedef unsigned short u16;
 struct Actor;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
-extern void func_0204B9A0(struct Actor *a);
-void func_021F0DF4(void *p, unsigned short v) { func_0204B878(p,v); func_0204B9A0(p); }
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_RestartActorAnim(struct Actor *a);
+void func_021F0DF4(void *p, unsigned short v) { CLACT_SetActorAnimSeq(p,v); CLACT_RestartActorAnim(p); }

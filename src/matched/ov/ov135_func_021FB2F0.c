@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_021FAC50  0x021FAC50  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
  */
 
@@ -49,9 +49,9 @@ struct WinMgr;
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021FAC50(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 
 void func_021FB2F0(Menu *m, int page, int total)
@@ -59,11 +59,11 @@ void func_021FB2F0(Menu *m, int page, int total)
     int i;
 
     for (i = 0; i < 4; i++) {
-        func_02043B5C(func_02045770(m->wins[i]), 0xA);
+        BMP_Clear(func_02045770(m->wins[i]), 0xA);
         if (i + page * 4 < total) {
             func_021FAC50(m->mgr, m->wins[i], m->items[page * 4 + i].str, 0, 0x3DC2, m->g);
         } else {
-            func_02045334(m->wins[i]);
+            BMP_WIN_TransferChars(m->wins[i]);
             BGWINFRM_PutBmpWin(m->mgr, 0, m->wins[i]);
         }
     }

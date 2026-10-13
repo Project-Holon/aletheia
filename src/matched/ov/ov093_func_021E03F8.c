@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D732C  0x021D732C  thumb  ov093
- *   func_021D70A8  0x021D70A8  thumb  ov093
- *   func_021D7040  0x021D7040  thumb  ov093
- *   func_021D7360  0x021D7360  thumb  ov093
+ *   BTL_EVENT_FindFactor  0x021D732C  thumb  ov093
+ *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
+ *   BTL_EVENT_RemoveFactor  0x021D7040  thumb  ov093
+ *   BTL_EVENT_FindNextFactor  0x021D7360  thumb  ov093
  */
 
 typedef unsigned short u16;
 struct Node;
 struct QQ;
-extern struct Node *func_021D732C(int id, int sub);
-extern u16 func_021D70A8(struct QQ *p);
-extern void func_021D7040(struct Node *n);
-extern struct Node *func_021D7360(struct Node *n);
+extern struct Node *BTL_EVENT_FindFactor(int id, int sub);
+extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
+extern void BTL_EVENT_RemoveFactor(struct Node *n);
+extern struct Node *BTL_EVENT_FindNextFactor(struct Node *n);
 
 void func_021E03F8(int a, int b)
 {
-    void *n = func_021D732C(0, a);
+    void *n = BTL_EVENT_FindFactor(0, a);
 
     while (n != 0) {
-        if (b == func_021D70A8(n)) {
-            func_021D7040(n);
-            n = func_021D732C(0, a);
+        if (b == BTL_EVENT_GetFactorKey(n)) {
+            BTL_EVENT_RemoveFactor(n);
+            n = BTL_EVENT_FindFactor(0, a);
         } else {
-            n = func_021D7360(n);
+            n = BTL_EVENT_FindNextFactor(n);
         }
     }
 }

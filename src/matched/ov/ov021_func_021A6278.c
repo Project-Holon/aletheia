@@ -1,5 +1,5 @@
 /*
- * function: func_021A6278
+ * function: FIELD_PLAYER_NOGRID_StartSlowNone
  * address:  0x021A6278
  * packet:   pkt_ov021_021A6278
  * region:   ov021
@@ -14,6 +14,6 @@
  * symbols:
  */
 
-void func_021A6278(void *a, void *b, int c, int d, int e, int f)
+void FIELD_PLAYER_NOGRID_StartSlowNone(void *a, void *b, int c, int d, int e, int f)
 {
 }

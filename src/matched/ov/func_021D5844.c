@@ -1,5 +1,5 @@
 /*
- * function: func_021D5844
+ * function: BTL_POKEPARAM_GetMon
  * address:  0x021D5844
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5844   0x021D5844  thumb
+ *   BTL_POKEPARAM_GetMon   0x021D5844  thumb
  *
  * Reads the u32 field at offset 0 of the argument and returns it.
  */
@@ -24,5 +24,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D5844  ldr r0,[r0] */
-void *func_021D5844(void *m) { return ((struct Obj00041 *)m)->f0; }
+void *BTL_POKEPARAM_GetMon(void *m) { return ((struct Obj00041 *)m)->f0; }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021AA304
+ * function: FIELD_ENCOUNT_SetFieldSituation
  * address:  0x021AA304
  * packet:   pkt_ov021_021AA304
  * region:   ov021
@@ -11,15 +11,15 @@
  *
  *
  * symbols:
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   func_02013ED8  0x02013ED8  thumb
  *   func_0203F4CC  0x0203F4CC  arm
- *   func_02188C9C  0x02188C9C  thumb
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A30C8  0x021A30C8  thumb
- *   func_021AA69C  0x021AA69C  thumb
- *   func_021AB0F0  0x021AB0F0  thumb
- *   func_021AB580  0x021AB580  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
+ *   FIELD_ENCOUNT_GetBattleWeather  0x021AA69C  thumb
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
+ *   MAP_ATTR_GetBattleBackground  0x021AB580  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -42,29 +42,29 @@ struct Info {
 };
 
 struct BigObj;
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u8 func_02013ED8(u32 id);
-extern u32 func_021A30C8(void **ctx);
-extern u16 func_021AB0F0(u32 attr);
-extern u8 func_021AB580(u16 x);
+extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern u8 MAP_ATTR_GetBattleBackground(u16 x);
 extern void func_0203F4CC(struct RtcTime *time);
-extern u8 func_021AA69C(void *p);
-extern u8 func_02012984(const struct BigObj *p);
+extern u8 FIELD_ENCOUNT_GetBattleWeather(void *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
-void func_021AA304(struct Info *out, void *a1, void *a2)
+void FIELD_ENCOUNT_SetFieldSituation(struct Info *out, void *a1, void *a2)
 {
     struct RtcTime t;
-    u16 x = func_02188C9C(a2);
-    void *y = func_02188CB4(a2);
+    u16 x = FIELDMAP_GetZoneId(a2);
+    void *y = FIELDMAP_GetFieldPlayer(a2);
 
     out->f00 = func_02013ED8(x);
-    out->f04 = func_021AB580(func_021AB0F0(func_021A30C8(y)));
+    out->f04 = MAP_ATTR_GetBattleBackground(MAP_ATTR_GetTerrainId(FIELD_PLAYER_GetNowAttribute(y)));
     out->f0A = x;
     func_0203F4CC(&t);
     out->f0C = t.hour;
     out->f0D = t.minute;
-    out->f08 = func_021AA69C(a2);
-    out->f09 = func_02012984(a1);
+    out->f08 = FIELD_ENCOUNT_GetBattleWeather(a2);
+    out->f09 = GAME_DATA_GetSeason(a1);
 }

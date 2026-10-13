@@ -20,6 +20,7 @@
  *   func_022025E4  0x022025E4  thumb
  *   func_021F663C  0x021F663C  thumb
  *   func_021F4E98  0x021F4E98  thumb
+ *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
  */
 
 typedef signed char s8;
@@ -51,7 +52,7 @@ typedef struct {
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Actor;
-extern void func_0204B9A0(struct Actor *a);
+extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void func_020061E4(u32 se);
 extern int func_021F6C48(void *party, void *save, int box, int slot);
 extern int func_021F6BA4(void *party, void *save, int box, int slot);
@@ -64,7 +65,7 @@ void func_021F5A7C(Work *p)
 {
     if (p->slot == 0x1E) {
         func_0204B3DC((struct Obj *)p->cursor, 1);
-        func_0204B9A0((struct Actor *)p->cursor);
+        CLACT_RestartActorAnim((struct Actor *)p->cursor);
         p->state = 0x11;
         func_020061E4(0x551);
         return;

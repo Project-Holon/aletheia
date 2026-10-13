@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
 
 typedef unsigned char u8;
@@ -28,9 +28,9 @@ typedef struct Src {
     u8 f45;
 } Src;
 
-extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
+extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 void func_021A82D8(void *a, Src **pp)
 {
@@ -39,9 +39,9 @@ void func_021A82D8(void *a, Src **pp)
 
     s = *pp;
     if (s->f40 != 0) {
-        r = (void *)func_021BE92C(s->f04, (int)s->f0C, 3, 0, 0, s->f44, s->f45);
+        r = (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(s->f04, (int)s->f0C, 3, 0, 0, s->f44, s->f45);
     } else {
-        r = (void *)func_021BE92C(s->f04, (int)s->f0C, s->f3C, 0, 1, 0, 0);
+        r = (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(s->f04, (int)s->f0C, s->f3C, 0, 1, 0, 0);
     }
-    func_02012374(a, r);
+    GAME_EVENT_CallEvent(a, r);
 }

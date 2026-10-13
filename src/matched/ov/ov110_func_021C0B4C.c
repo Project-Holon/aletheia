@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
  */
 
 typedef unsigned char u8;
@@ -17,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_02027974(void);
-void func_021C0B4C(void *a0) { func_02027974(); }
+extern void APP_TASKMENU_UpdateMenu(void);
+void func_021C0B4C(void *a0) { APP_TASKMENU_UpdateMenu(); }

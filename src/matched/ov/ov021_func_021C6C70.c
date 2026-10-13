@@ -1,5 +1,5 @@
 /*
- * function: func_021C6C70
+ * function: FIELD_TASK_Create
  * address:  0x021C6C70
  * packet:   pkt_ov021_021C6C70
  * region:   ov021
@@ -34,7 +34,7 @@ extern void func_02030EAC(struct Node *n);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef struct { u32 f0; u32 *f4; u32 f8; } Q;
 extern char d_021DE4D4[];
-Q *func_021C6C70(u32 heap, u32 size, u32 v)
+Q *FIELD_TASK_Create(u32 heap, u32 size, u32 v)
 {
     Q *q = func_02030734(heap, 0xc, 0, d_021DE4D4, 0x3b);
     q->f0 = 0;

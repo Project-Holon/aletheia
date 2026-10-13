@@ -1,5 +1,5 @@
 /*
- * function: func_021A244C
+ * function: WEATHER_TASK_GetCameraScroll
  * address:  0x021A244C
  * packet:   pkt_ov021_021A244C
  * region:   ov021
@@ -12,13 +12,13 @@
  * func_0207C768 is FX_Div, func_0207CF3C VEC_Distance.
  *
  * symbols:
- *   func_0218EC2C  0x0218EC2C  thumb  ov021
+ *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   func_02048B30  0x02048B30  arm
  *   func_02048AE8  0x02048AE8  arm
  *   func_0207CF3C  0x0207CF3C  arm
- *   func_021A2D30  0x021A2D30  thumb  ov021
+ *   WEATHER_TASK_GetViewScale  0x021A2D30  thumb  ov021
  *   func_0207C768  0x0207C768  arm
- *   g_02148B54  0x02148B54  data
+ *   g_DefaultProjectionMtx  0x02148B54  data
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00954.h"
@@ -36,15 +36,15 @@ typedef struct {
     fx32 z;
 } VecFx32;
 
-extern u8 g_02148B54[];
-extern void *func_0218EC2C(void);
+extern u8 g_DefaultProjectionMtx[];
+extern void *FIELD_CAMERA_GetG3dCamera(void);
 extern void func_02048B30(void *cam, VecFx32 *out);
 extern void func_02048AE8(void *cam, VecFx32 *out);
 extern fx32 func_0207CF3C(const VecFx32 *a, const VecFx32 *b);
-extern void func_021A2D30(void *p, fx32 dist, fx32 *w, fx32 *h);
+extern void WEATHER_TASK_GetViewScale(void *p, fx32 dist, fx32 *w, fx32 *h);
 extern u32 func_0207C768(u32 a, u32 b);
 
-void func_021A244C(u8 *o, s32 *outX, s32 *outY)
+void WEATHER_TASK_GetCameraScroll(u8 *o, s32 *outX, s32 *outY)
 {
     VecFx32 pos;
     VecFx32 tgt;
@@ -61,7 +61,7 @@ void func_021A244C(u8 *o, s32 *outX, s32 *outY)
         *outY = 0;
         return;
     }
-    cam = func_0218EC2C();
+    cam = FIELD_CAMERA_GetG3dCamera();
     func_02048B30(cam, &pos);
     func_02048AE8(cam, &tgt);
     dx = pos.x - ((VecFx32 *)(o + 0x68))->x;
@@ -72,7 +72,7 @@ void func_021A244C(u8 *o, s32 *outX, s32 *outY)
         *outY = 0;
         return;
     }
-    func_021A2D30(g_02148B54, func_0207CF3C(&pos, &tgt), &w, &h);
+    WEATHER_TASK_GetViewScale(g_DefaultProjectionMtx, func_0207CF3C(&pos, &tgt), &w, &h);
     w = func_0207C768(w, 0x100000);
     h = func_0207C768(h, 0xC0000);
     sx = 0x1000;

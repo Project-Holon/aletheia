@@ -1,5 +1,5 @@
 /*
- * function: func_021869B0
+ * function: FIELD_WFBC_DATA_LOCAL_IncCounter
  * address:  0x021869B0
  * packet:   pkt_021869B0
  * region:   ov020
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-void func_021869B0(u16 *p)
+void FIELD_WFBC_DATA_LOCAL_IncCounter(u16 *p)
 {
     (*p)++;
 }

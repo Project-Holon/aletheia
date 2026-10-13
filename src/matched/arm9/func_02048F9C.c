@@ -16,7 +16,7 @@
  * Promote-first callee of src/pending/G3D_SYSTEM_CreateResourcePath.c (parks lane 2).
  * Open one member of an archive by path, size it, allocate the block from
  * the debug allocator, read the bytes in and close.  Same shape as its
- * sibling func_02049250 in the same cluster; the 0x4c frame is the 0x48
+ * sibling ARC_TOOL_LoadHandleMember in the same cluster; the 0x4c frame is the 0x48
  * ArcFile handle at sp+4 plus the allocator's one outgoing stack word.
  *
  * Addresses are Black-image addresses.

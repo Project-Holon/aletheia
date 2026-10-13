@@ -13,7 +13,7 @@
  *   func_02013020  0x02013020  thumb
  *   func_02013050  0x02013050  thumb
  *   PRINTSYS_SplitWait   0x0201CDF4  thumb
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *
  * Applies the 0xF000 control block the text record's cursor is parked on
  * and steps the cursor past it (struct Rec as in func_0201CEE0.c).  The
@@ -93,7 +93,7 @@ extern signed char func_02013020(void);
 extern signed char func_02013050(void);
 extern void PRINTSYS_SplitWait(s32 v, u8 *out);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 static inline u32 KB(const u16 *p)
 {
@@ -200,7 +200,7 @@ void sub_0201D110(struct Rec *p)
         p->cbarg = p->f28;
         break;
     case 8:
-        func_02043B5C((struct CharBuf *)p->win, p->color);
+        BMP_Clear((struct CharBuf *)p->win, p->color);
         break;
     }
 

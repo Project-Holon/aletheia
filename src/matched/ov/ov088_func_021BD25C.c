@@ -1,5 +1,5 @@
 /*
- * function: func_021BD25C
+ * function: SAVE_CONTROL_INTR_Create
  * address:  0x021BD25C
  * packet:   pkt_ov088_021BD25C
  * region:   ov088
@@ -27,7 +27,7 @@ extern unsigned char func_020071EC(const struct Sub020071E4Ctrl *);
 typedef unsigned int   u32;
 extern void func_020351F8(u32 a, u32 b);
 
-void *func_021BD25C(int a, int b)
+void *SAVE_CONTROL_INTR_Create(int a, int b)
 {
     char *r4 = (char *)func_02030734(a, 0x10, 1, (const char *)0x021BDA0C, 0x45);
     ((struct Obj13237 *)r4)->f0 = b;

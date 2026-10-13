@@ -1,5 +1,5 @@
 /*
- * function: func_021D5444
+ * function: BTL_POKEPARAM_GetSpecies
  * address:  0x021D5444
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D5444   0x021D5444  thumb
+ *   BTL_POKEPARAM_GetSpecies   0x021D5444  thumb
  *
  * Reads the u16 field at #0xc of the argument and returns it.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021D5444  ldrh r0,[r0,#0xc] */
 struct QF { u8 pad[0xc]; u16 v; };
-u16 func_021D5444(struct QF *p) { return p->v; }
+u16 BTL_POKEPARAM_GetSpecies(struct QF *p) { return p->v; }
 

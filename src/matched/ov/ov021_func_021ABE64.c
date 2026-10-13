@@ -1,5 +1,5 @@
 /*
- * function: func_021ABE64
+ * function: FIELD_EFFECT_FreeResource
  * address:  0x021ABE64
  * packet:   pkt_ov021_021ABE64
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ABF2C  0x021ABF2C  thumb
- *   func_021ABF48  0x021ABF48  thumb
+ *   FIELD_EFFECT_FindResourceSlot  0x021ABF2C  thumb
+ *   FIELD_EFFECT_GetResourceDef  0x021ABF48  thumb
  */
 
 typedef unsigned short u16;
@@ -37,15 +37,15 @@ struct T {
     E *f10;
 };
 
-extern E *func_021ABF2C(T *t, int id);
-extern D *func_021ABF48(int id);
+extern E *FIELD_EFFECT_FindResourceSlot(T *t, int id);
+extern D *FIELD_EFFECT_GetResourceDef(int id);
 
-void func_021ABE64(T *t, int id)
+void FIELD_EFFECT_FreeResource(T *t, int id)
 {
-    E *e = func_021ABF2C(t, id);
+    E *e = FIELD_EFFECT_FindResourceSlot(t, id);
     D *d;
     if (e != 0) {
-        d = func_021ABF48(id);
+        d = FIELD_EFFECT_GetResourceDef(id);
         d->f8(t, e->f4);
         e->f0 = 0x18;
         e->f4 = 0;

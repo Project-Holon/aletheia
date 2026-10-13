@@ -1,5 +1,5 @@
 /*
- * function: func_021B18B8
+ * function: SCRCMD_FLDMMDL_DeleteMmdl
  * address:  0x021B18B8
  * packet:   pkt_ov021_021B18B8
  * region:   ov021
@@ -10,26 +10,26 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_0216CF2C  0x0216CF2C  thumb  ov010
- *   func_0216DE94  0x0216DE94  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5EC(void *p);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_0216DE94(void *map, u32 id);
-extern void func_0216CF2C(u32);
+extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern void FLDMMDL_DeleteMmdl(u32);
 
-int func_021B18B8(u32 a, u32 b)
+int SCRCMD_FLDMMDL_DeleteMmdl(u32 a, u32 b)
 {
-    u32 t = (u32)func_0215A5EC((void *)b);
-    u32 o = (u32)func_0216DE94((void *)t, func_02159B10((void *)a, (void *)b));
+    u32 t = (u32)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    u32 o = (u32)FLDMMDL_SysSearchObjId((void *)t, SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b));
 
     if (o != 0) {
-        func_0216CF2C(o);
+        FLDMMDL_DeleteMmdl(o);
     }
     return 0;
 }

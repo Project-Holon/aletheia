@@ -1,5 +1,5 @@
 /*
- * function: func_021F3DBC
+ * function: CROWD_RemovePerson
  * address: 0x021F3DBC
  * packet: pkt_ov055_021F3DBC
  * region: ov055
@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0216DAC8 0x0216DAC8 thumb ov010
+ *   FLDMMDL_SetStatusBitVanish 0x0216DAC8 thumb ov010
  */
 #include "../include/Obj00204.h"
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-void func_021F3DBC(unsigned char *p) { p[0]=0; p[2]=0; p[3]=0; p[1]=0; func_0216DAC8((unsigned int *)(*(int *)&((struct Obj00204 *)p)->fC),1); }
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
+void CROWD_RemovePerson(unsigned char *p) { p[0]=0; p[2]=0; p[3]=0; p[1]=0; FLDMMDL_SetStatusBitVanish((unsigned int *)(*(int *)&((struct Obj00204 *)p)->fC),1); }

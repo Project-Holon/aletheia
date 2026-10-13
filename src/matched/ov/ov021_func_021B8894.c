@@ -1,5 +1,5 @@
 /*
- * function: func_021B8894
+ * function: FIELD_RAIL_SETTING_GetLinePosFunc
  * address:  0x021B8894
  * packet:   pkt_ov021_021B8894
  * region:   ov021
@@ -35,7 +35,7 @@ typedef struct {
     void **p28;
 } Table;
 
-void *func_021B8894(Table *t, u16 i)
+void *FIELD_RAIL_SETTING_GetLinePosFunc(Table *t, u16 i)
 {
     if (t->na > i) {
         return t->p24[i];

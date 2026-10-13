@@ -12,9 +12,9 @@
  *
  * symbols:
  *   APP_KEYCURSOR_DrawMark  0x02028618  thumb
- *   func_020437DC  0x020437DC  arm
- *   func_020437E4  0x020437E4  arm
- *   func_020439A0  0x020439A0  arm
+ *   BMP_GetWidth  0x020437DC  arm
+ *   BMP_GetHeight  0x020437E4  arm
+ *   BMP_Blit  0x020439A0  arm
  *   _s32_div_f     0x0209C0A4  arm
  */
 
@@ -38,9 +38,9 @@ struct Ctx {
 };
 
 extern void APP_KEYCURSOR_DrawMark(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
-extern u16  func_020437DC(const struct Bmp *bmp);
-extern u16 func_020437E4(const struct Bmp *bmp);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern u16  BMP_GetWidth(const struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 
 void APP_KEYCURSOR_Animate(struct Ctx *ctx, const struct Bmp *bmp, u32 color)
 {
@@ -56,8 +56,8 @@ void APP_KEYCURSOR_Animate(struct Ctx *ctx, const struct Bmp *bmp, u32 color)
         ctx->f04 = (s32)ctx->f04 % 3;
     }
 
-    w = func_020437DC(bmp) - 11;
-    h = func_020437E4(bmp) - 9;
+    w = BMP_GetWidth(bmp) - 11;
+    h = BMP_GetHeight(bmp) - 9;
 
-    func_020439A0(ctx->f00, (struct Bmp *)bmp, 0, 2, w, h + ctx->f04, 0xa, 7, 0);
+    BMP_Blit(ctx->f00, (struct Bmp *)bmp, 0, 2, w, h + ctx->f04, 0xa, 7, 0);
 }

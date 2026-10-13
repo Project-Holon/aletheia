@@ -1,5 +1,5 @@
 /*
- * function: func_021A27B8
+ * function: WEATHER_TASK_UnlinkParticle
  * address:  0x021A27B8
  * packet:   pkt_ov021_021A27B8
  * region:   ov021
@@ -33,7 +33,7 @@ typedef struct {
 struct Obj;
 void func_0204B3DC(struct Obj *h, unsigned int v);
 
-void func_021A27B8(Obj021A27B8 *p, Node021A27B8 *n)
+void WEATHER_TASK_UnlinkParticle(Obj021A27B8 *p, Node021A27B8 *n)
 {
     p->count--;
     if (p->head == n) {

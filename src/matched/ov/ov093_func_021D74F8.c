@@ -1,5 +1,5 @@
 /*
- * function: func_021D74F8
+ * function: BTL_EVENT_PushVarFrame
  * address:  0x021D74F8
  * packet:   pkt_ov093_021D74F8
  * region:   ov093
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021F3ECC     0x021F3ECC  data
- *   data_021F3AB4  0x021F3AB4  data
+ *   gBtlEventVarStack     0x021F3ECC  data
+ *   gBtlEventEmptyString  0x021F3AB4  data
  *   func_02034714  0x02034714  arm
  */
 
@@ -28,13 +28,13 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern struct Tbl g_021F3ECC;
-extern char data_021F3AB4[];
+extern struct Tbl gBtlEventVarStack;
+extern char gBtlEventEmptyString[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_021D74F8(int line)
+void BTL_EVENT_PushVarFrame(int line)
 {
-    Tbl *p = ((Tbl *)&g_021F3ECC);
+    Tbl *p = ((Tbl *)&gBtlEventVarStack);
     while (p->count < 0x60) {
         if (p->keys[p->count] == 0) break;
         p->count++;
@@ -42,6 +42,6 @@ void func_021D74F8(int line)
     if (p->count < 0x5F) {
         p->keys[p->count++] = 1;
     } else {
-        func_02034714(data_021F3AB4, 0, data_021F3AB4);
+        func_02034714(gBtlEventEmptyString, 0, gBtlEventEmptyString);
     }
 }

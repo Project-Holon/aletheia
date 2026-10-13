@@ -1,5 +1,5 @@
 /*
- * function: func_021BB388
+ * function: FIELD_NOGRID_MAPPER_UpdateCameraForced
  * address:  0x021BB388
  * packet:   pkt_ov021_021BB388
  * region:   ov021
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021B79F0  0x021B79F0  thumb ov021
+ *   FIELD_RAIL_UpdateCamera  0x021B79F0  thumb ov021
  */
 
 struct Obj;
-extern int func_021B79F0(struct Obj *o, int flag);
-int func_021BB388(void **h) { return func_021B79F0(*h, 1); }
+extern int FIELD_RAIL_UpdateCamera(struct Obj *o, int flag);
+int FIELD_NOGRID_MAPPER_UpdateCameraForced(void **h) { return FIELD_RAIL_UpdateCamera(*h, 1); }

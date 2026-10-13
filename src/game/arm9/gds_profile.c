@@ -17,10 +17,12 @@
  *   func_020307B0       0x020307B0  arm
  *   func_0200D59C_File  0x020A71E8  data
  *   OS_GetOwnerInfo  0x02087C88  arm
- *   func_02045A98    0x02045A98  arm
+ *   STRBUF_GetEosChar    0x02045A98  arm
  *   func_0203F1FC    0x0203F1FC  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  */
 struct GameSys;
 struct ProgressBlock;
@@ -75,11 +77,11 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 struct GdsProfile *GDS_PROFILE_Create(u32 heap);
 extern void OS_GetOwnerInfo(void *info);
-extern u16   func_02045A98(void);
+extern u16   STRBUF_GetEosChar(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern void *func_02012EBC(struct GameSys *p);
+extern void *GAME_DATA_GetSaveControl(struct GameSys *p);
 extern u8 *func_02012944(void *p);
-extern void *func_02012F08(int *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct SaveDataObj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct RecordData *src, int idx, struct RecordData *dst);
@@ -91,8 +93,8 @@ extern u8 func_02008554(const struct TrainerRec *obj);
 extern u8 func_0200856C(const struct TrainerRec *obj);
 extern u8 func_02008570(const struct TrainerRec *obj);
 extern void func_0200C164(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
-extern struct NameStrbuf *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern struct NameStrbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
 extern const char func_0200D59C_File[];
 
@@ -193,13 +195,13 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     u32 cleared;
     u32 nationalDex;
     void *progress;
-    void *saveData = func_02012EBC(sys);
+    void *saveData = GAME_DATA_GetSaveControl(sys);
     void *trainerRec = func_02012944(sys);
     void *recordEnv;
     s32 i;
 
     func_02009470(saveData);
-    progress = func_02012F08(sys);
+    progress = GAME_DATA_GetMiscSave(sys);
     recordEnv = func_0200E6E8((u32)saveData);
     OS_GetOwnerInfo(&info);
     func_0200C164(progress, &playHours, &playMinutes, &cleared, &nationalDex);
@@ -215,7 +217,7 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     profile->country = func_0200856C(trainerRec);
     profile->region = func_02008570(trainerRec);
     for (i = 0; i < 0x28; i++) {
-        profile->record[i] = func_02045A98();
+        profile->record[i] = STRBUF_GetEosChar();
     }
     func_0200E6FC(recordEnv, 0, (struct RecordData *)profile->record);
     profile->birthMonth = info.birthMonth;
@@ -237,14 +239,14 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
  * name is attested and why the range in front of this one is cut here.
  *
  * A fifteen-byte copy into a freshly allocated block: the same
- * func_020457B0 / func_02045994 pair func_0200D774 uses for the 0x28-byte
+ * STRBUF_Create / STRBUF_SetStringN pair func_0200D774 uses for the 0x28-byte
  * record.  The size is materialised twice, once as the allocation size and
  * once as the copy length, because both are caller-saved argument registers.
  */
 void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
 {
-    void *h = func_020457B0(0xF, (u16)tag);
+    void *h = STRBUF_Create(0xF, (u16)tag);
 
-    func_02045994(h, src, 0xF);
+    STRBUF_SetStringN(h, src, 0xF);
     return h;
 }

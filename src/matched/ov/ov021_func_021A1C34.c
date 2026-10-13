@@ -1,5 +1,5 @@
 /*
- * function: func_021A1C34
+ * function: WEATHER_StartTransition
  * address:  0x021A1C34
  * packet:   pkt_ov021_021A1C34
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A1D78  0x021A1D78  thumb  ov021
+ *   WEATHER_GetTransitionMode  0x021A1D78  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -27,9 +27,9 @@ typedef struct {
     u16 queued;
 } Obj021A1C34;
 
-int func_021A1D78(u16 a, u16 b);
+int WEATHER_GetTransitionMode(u16 a, u16 b);
 
-int func_021A1C34(Obj021A1C34 *p, u16 x)
+int WEATHER_StartTransition(Obj021A1C34 *p, u16 x)
 {
     if (p->busy != 0) {
         p->queued = x;
@@ -39,7 +39,7 @@ int func_021A1C34(Obj021A1C34 *p, u16 x)
         return 0;
     p->next = x;
     p->flag = 1;
-    p->result = func_021A1D78(p->cur, p->next);
+    p->result = WEATHER_GetTransitionMode(p->cur, p->next);
     p->busy = 1;
     return 1;
 }

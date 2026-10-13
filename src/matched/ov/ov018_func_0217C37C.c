@@ -1,5 +1,5 @@
 /*
- * function: func_0217C37C
+ * function: INTRUDE_FIELD_SpawnSymbolMons
  * address:  0x0217C37C
  * packet:   pkt_ov018_0217C37C
  * region:   ov018
@@ -9,20 +9,20 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02166618  0x02166618  thumb  ov010
- *   func_02166640  0x02166640  thumb  ov010
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_0217C1D0  0x0217C1D0  thumb  ov018
+ *   SYMBOL_MAP_IsHomeCell  0x02166618  thumb  ov010
+ *   SYMBOL_MAP_IsPlainCell  0x02166640  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   INTRUDE_FIELD_AddSymbolMonMmdl  0x0217C1D0  thumb  ov018
  *   func_0202A128  0x0202A128  thumb
  *   func_0202A170  0x0202A170  thumb
  *   func_02005728  0x02005728  thumb
- *   d_02183678     0x02183678  data  a4
- *   d_021835F8     0x021835F8  data  a4
- *   d_02183650     0x02183650  data  a4
+ *   INTRUDE_FIELD_gSymbolMonOffsetsHome     0x02183678  data  a4
+ *   INTRUDE_FIELD_gSymbolMonOffsetsPlain     0x021835F8  data  a4
+ *   INTRUDE_FIELD_gSymbolMonOffsetsOther     0x02183650  data  a4
  */
 
 typedef unsigned char u8;
@@ -43,24 +43,24 @@ typedef struct {
     int f8;
 } Ctx;
 
-extern const u8 d_02183678[20][2];
-extern const u8 d_021835F8[20][2];
-extern const u8 d_02183650[20][2];
+extern const u8 INTRUDE_FIELD_gSymbolMonOffsetsHome[20][2];
+extern const u8 INTRUDE_FIELD_gSymbolMonOffsetsPlain[20][2];
+extern const u8 INTRUDE_FIELD_gSymbolMonOffsetsOther[20][2];
 
-extern int func_02166618(int);
-extern int func_02166640(int);
-extern u16 func_02188C84(u8 *p);
+extern int SYMBOL_MAP_IsHomeCell(int);
+extern int SYMBOL_MAP_IsPlainCell(int);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(unsigned char *p);
-extern int func_0216D83C(void *);
-extern int func_0216D86C(void *);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern int FLDMMDL_GetGridNowX(void *);
+extern int FLDMMDL_GetGridNowZ(void *);
 extern int func_0202A128(int);
 extern void func_0202A170(int);
 extern u32 func_02005728(u32 range);
-extern void func_0217C1D0(Ctx *, Entry *, u16, u16, u16, int);
+extern void INTRUDE_FIELD_AddSymbolMonMmdl(Ctx *, Entry *, u16, u16, u16, int);
 
-void func_0217C37C(int a0, int a1, Entry *list, int a3, int kind)
+void INTRUDE_FIELD_SpawnSymbolMons(int a0, int a1, Entry *list, int a3, int kind)
 {
     const u8 (*tbl)[2];
     Ctx ctx;
@@ -73,19 +73,19 @@ void func_0217C37C(int a0, int a1, Entry *list, int a3, int kind)
     int x;
     int y;
 
-    if (func_02166618(kind))
-        tbl = d_02183678;
-    else if (func_02166640(kind))
-        tbl = d_021835F8;
+    if (SYMBOL_MAP_IsHomeCell(kind))
+        tbl = INTRUDE_FIELD_gSymbolMonOffsetsHome;
+    else if (SYMBOL_MAP_IsPlainCell(kind))
+        tbl = INTRUDE_FIELD_gSymbolMonOffsetsPlain;
     else
-        tbl = d_02183650;
+        tbl = INTRUDE_FIELD_gSymbolMonOffsetsOther;
 
-    ctx.f0 = func_0202A128(func_02188C84((u8 *)a0));
+    ctx.f0 = func_0202A128(FIELDMAP_GetHeapId((u8 *)a0));
     ctx.f4 = a0;
     ctx.f8 = a1;
-    obj = func_021A3074(func_02188CB4((void *)a0));
-    cx = func_0216D83C(obj);
-    cy = func_0216D86C(obj);
+    obj = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)a0));
+    cx = FLDMMDL_GetGridNowX(obj);
+    cy = FLDMMDL_GetGridNowZ(obj);
 
     for (i = 0; i < 20; i++) {
         if (list[i].species != 0) {
@@ -101,7 +101,7 @@ void func_0217C37C(int a0, int a1, Entry *list, int a3, int kind)
                 else
                     x++;
             }
-            func_0217C1D0(&ctx, &list[i], i, x, y, 0);
+            INTRUDE_FIELD_AddSymbolMonMmdl(&ctx, &list[i], i, x, y, 0);
         }
     }
     func_0202A170(ctx.f0);

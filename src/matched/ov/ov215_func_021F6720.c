@@ -10,7 +10,7 @@
  * evidence: sole callback 021F6AB4 resolved after owned leaf shard verification.
  * symbols:
  *   func_02030734 0x02030734 arm
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_021F6AB4 0x021F6AB4 thumb ov215
  *   func_021F6AB8 0x021F6AB8 thumb ov215
@@ -28,7 +28,7 @@ extern const char d_021F73F4[];
 extern const unsigned d_021F7340[],d_021F7314[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 typedef unsigned int   u32;
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *func_020056A0(void (*)(void),void *,unsigned);
 extern void func_021F6AB4(void);
 extern void func_021F6AB8(char *p);
@@ -42,7 +42,7 @@ char *func_021F6720(unsigned heap,void *mon)
     p=func_02030734(heap,96,1,d_021F73F4,433);
     ((struct Obj00317 *)p)->f0=heap;
     ((struct Obj00317 *)p)->f4=mon;
-    ((struct Obj00317 *)p)->f8=func_02017E1C(mon,5,0);
+    ((struct Obj00317 *)p)->f8=POKE_TOOL_GetPartyValue(mon,5,0);
     ((struct Obj00317 *)p)->fC=0;
     ((struct Obj00317 *)p)->f10=0;
     ((struct Obj00317 *)p)->f14=0;

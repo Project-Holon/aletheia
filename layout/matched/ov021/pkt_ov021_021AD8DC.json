@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AD8DC",
+   "name": "FLDEFF_ENCOUNT_LoadKind0Models",
    "address": "0x021AD8DC",
    "kind": "game",
    "region": "ov021",

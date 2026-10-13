@@ -1,5 +1,5 @@
 /*
- * function: func_021647D8
+ * function: CALENDER_Delete
  * address:  0x021647D8
  * packet:   pkt_021647D8
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216480C  0x0216480C  thumb  ov010
+ *   CALENDER_CloseArchive  0x0216480C  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -18,15 +18,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216480C(int a0);
+extern int CALENDER_CloseArchive(int a0);
 extern int func_020307B0();
 
-int func_021647D8(int a0)
+int CALENDER_Delete(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0216480C(a0);
+    a0 = CALENDER_CloseArchive(a0);
 loc_021647E0:
 a0 = t4 + 0;
     a0 = func_020307B0(a0);

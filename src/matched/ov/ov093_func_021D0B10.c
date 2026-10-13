@@ -1,5 +1,5 @@
 /*
- * function: func_021D0B10
+ * function: BTL_CLIENT_BuildSlotChoices
  * address: 0x021D0B10
  * packet: pkt_ov093_021D0B10
  * region: ov093
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 extern void func_021D0B3C(void *, u32, u32, u32);
 extern void func_021D0B4C(void *, u32);
 extern void func_021D0B5C(void *, void *);
-void func_021D0B10(u8 *p, u32 a, u32 b, void *q, void *out)
+void BTL_CLIENT_BuildSlotChoices(u8 *p, u32 a, u32 b, void *q, void *out)
 {
     func_021D0B3C(q, ((struct Obj13364 *)p)->f118, b, a);
     func_021D0B4C(q, p[0x11c]);

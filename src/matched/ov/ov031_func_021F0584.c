@@ -1,5 +1,5 @@
 /*
- * function: func_021F0584
+ * function: UNION_SUBDISP_CheckTouch
  * address:  0x021F0584
  * packet:   pkt_ov031_021F0584
  * region:   ov031
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02035D20  0x02035D20  arm
- *   func_0204B454  0x0204B454  arm
- *   func_021F0628  0x021F0628  thumb  ov031
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
+ *   UNION_SUBDISP_SelectAppeal  0x021F0628  thumb  ov031
  *   func_020061E4  0x020061E4  thumb
  */
 
@@ -26,11 +26,11 @@ typedef struct { s16 x, y; } Pt;
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 struct Actor;
 struct PtS;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
-extern void func_021F0628(char *p, int sel);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
+extern void UNION_SUBDISP_SelectAppeal(char *p, int sel);
 extern void func_020061E4(u32 se);
 
-int func_021F0584(int *p, u8 *flag)
+int UNION_SUBDISP_CheckTouch(int *p, u8 *flag)
 {
     u32 w;
     u32 h;
@@ -44,7 +44,7 @@ int func_021F0584(int *p, u8 *flag)
     if (func_02035D20(&w, &h) == 0)
         return 0;
     for (i = 0; i <= 4; i++) {
-        func_0204B454((struct Actor *)p[6 + i], (struct PtS *)&t, 1);
+        CLACT_GetActorSurfacePos((struct Actor *)p[6 + i], (struct PtS *)&t, 1);
         y0 = t.y - 10;
         y1 = t.y + 10;
         x1 = t.x + 10;
@@ -54,7 +54,7 @@ int func_021F0584(int *p, u8 *flag)
                 flag[0x282E] = 1;
                 return 0;
             }
-            func_021F0628((char *)p, i);
+            UNION_SUBDISP_SelectAppeal((char *)p, i);
             func_020061E4(0x54B);
             return 1;
         }

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F5A80.c
  * unit:     yes
- * function: func_021F5A80, func_021F5ABC, func_021F5AE4
+ * function: ENCEFF_BuildBlockFlip, ENCEFF_StartBlockFlip, ENCEFF_StepBlockFlip
  * address:  0x021F5A80
  * region:   ov079
  * compiler: dsi/1.1p1
@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   d_021F5B70 0x021F5B70 data a4
- *   func_02189A08 0x02189A08 thumb ov021
- *   func_021CF580 0x021CF580 thumb ov021
- *   func_021F5260 0x021F5260 thumb ov075
- *   func_021F582C 0x021F582C thumb ov077
- *   func_021F5620  0x021F5620  thumb  ov077
- *   func_021F5B24  0x021F5B24  thumb  ov079
+ *   gBlockFlipCameraPos 0x021F5B70 data a4
+ *   FIELDMAP_GetEncEff 0x02189A08 thumb ov021
+ *   ENCEFF_LoadOverlays4B4D 0x021CF580 thumb ov021
+ *   ENCEFF_StartScreenTexEffectFlash 0x021F5260 thumb ov075
+ *   ENCEFF_DrawCellGrid 0x021F582C thumb ov077
+ *   ENCEFF_StartCellGrid  0x021F5620  thumb  ov077
+ *   ENCEFF_StepFlipCell  0x021F5B24  thumb  ov079
  */
 #include "../ov077/enceff_base_types.h"
 #include "../ov077/enceff_grid_types.h"
@@ -27,34 +27,34 @@
 struct GameSystem;
 struct FieldMap;
 
-extern struct EncEffWork *func_02189A08(struct FieldMap *fieldMap);
-extern void func_021CF580(struct EncEffWork *eff);
-extern void *func_021F5260(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
-extern void func_021F582C(EncEffGridWork *work);
-extern void *func_021F5620(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
-extern int func_021F5B24(EncEffGridCell *cell);
-void *func_021F5A80(void *gameSystem, struct FieldMap *fieldMap);
-void func_021F5ABC(void *gameSystem);
-void func_021F5AE4(EncEffGridWork *work);
-extern const VecFx32 d_021F5B70;
+extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
+extern void ENCEFF_LoadOverlays4B4D(struct EncEffWork *eff);
+extern void *ENCEFF_StartScreenTexEffectFlash(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
+extern void ENCEFF_DrawCellGrid(EncEffGridWork *work);
+extern void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
+extern int ENCEFF_StepFlipCell(EncEffGridCell *cell);
+void *ENCEFF_BuildBlockFlip(void *gameSystem, struct FieldMap *fieldMap);
+void ENCEFF_StartBlockFlip(void *gameSystem);
+void ENCEFF_StepBlockFlip(EncEffGridWork *work);
+extern const VecFx32 gBlockFlipCameraPos;
 
-void *func_021F5A80(void *gameSystem, struct FieldMap *fieldMap) {
-    VecFx32 cameraPos = d_021F5B70;
-    func_021CF580(func_02189A08(fieldMap));
-    return func_021F5260(gameSystem, &cameraPos, func_021F5ABC, func_021F582C);
+void *ENCEFF_BuildBlockFlip(void *gameSystem, struct FieldMap *fieldMap) {
+    VecFx32 cameraPos = gBlockFlipCameraPos;
+    ENCEFF_LoadOverlays4B4D(FIELDMAP_GetEncEff(fieldMap));
+    return ENCEFF_StartScreenTexEffectFlash(gameSystem, &cameraPos, ENCEFF_StartBlockFlip, ENCEFF_DrawCellGrid);
 }
 
 
-void func_021F5ABC(void *gameSystem)
+void ENCEFF_StartBlockFlip(void *gameSystem)
 {
     EncEffGridParam param;
 
     param.cellWidth = 4;
     param.cellHeight = 4;
     param.initCallback = 0;
-    param.stepCallback = func_021F5AE4;
-    param.cellCallback = func_021F5B24;
-    func_021F5620(gameSystem, &param, 0);
+    param.stepCallback = ENCEFF_StepBlockFlip;
+    param.cellCallback = ENCEFF_StepFlipCell;
+    ENCEFF_StartCellGrid(gameSystem, &param, 0);
 }
 
 
@@ -63,7 +63,7 @@ void func_021F5ABC(void *gameSystem)
  *
  * Addresses are Black-image addresses.
  */
-void func_021F5AE4(EncEffGridWork *work)
+void ENCEFF_StepBlockFlip(EncEffGridWork *work)
 {
     EncEffGridStepState *step = &work->step;
     int cellCount = work->cols * work->rows;

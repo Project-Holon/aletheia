@@ -1,5 +1,5 @@
 /*
- * function: func_021C7940
+ * function: FIELD_TASK_CalcOffsetByProgress
  * address:  0x021C7940
  * packet:   pkt_ov021_021C7940
  * region:   ov021
@@ -31,7 +31,7 @@ typedef struct VecFx32 { s32 x; s32 y; s32 z; } VecFx32;
 
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-void func_021C7940(VecFx32 *out, u32 cnt, VecFx32 *v, u32 max)
+void FIELD_TASK_CalcOffsetByProgress(VecFx32 *out, u32 cnt, VecFx32 *v, u32 max)
 {
     fx32 t;
 

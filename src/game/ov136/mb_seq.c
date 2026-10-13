@@ -14,13 +14,13 @@
  *
  * symbols:
  *   func_020056A0       0x020056A0  thumb
- *   func_0203064C   0x0203064C  arm
+ *   GFL_HEAP_CreateChildHeap   0x0203064C  arm
  *   func_02030734        0x02030734  arm
  *   func_02030EAC   0x02030EAC  arm
- *   func_0203D34C  0x0203D34C  arm
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   func_02043534  0x02043534  arm
- *   func_020435F4             0x020435F4  arm
- *   func_0204363C  0x0204363C  arm
+ *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   func_02082AC0    0x02082AC0  arm
  *   func_021C54FC 0x021C54FC thumb
  *   func_021C5508 0x021C5508 thumb
@@ -47,8 +47,8 @@
  *   func_021C5F44 0x021C5F44 thumb ov136
  *   func_021C5714 0x021C5714 thumb ov136
  *   func_021C5BE0 0x021C5BE0 thumb ov136
- *   func_020221A4  0x020221A4  thumb
- *   func_02035C60 0x02035C60 arm
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020362DC 0x020362DC arm
  *   d_021C7D68 0x021C7D68 data a4
  *   func_021C5C84  0x021C5C84  thumb
@@ -68,9 +68,9 @@
  *   func_021C5AEC  0x021C5AEC  thumb
  *   func_02008FA4 0x02008FA4 thumb
  *   func_020213AC 0x020213AC thumb
- *   func_02027974  0x02027974  thumb
- *   func_020279E8  0x020279E8  thumb
- *   func_02027A04  0x02027A04  thumb
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   BGWINFRM_HideFrame  0x0202CC70  thumb
  *   func_021C5B30 0x021C5B30 thumb
  *   func_021C61CC 0x021C61CC thumb
@@ -78,8 +78,8 @@
  *   func_021C630C 0x021C630C thumb
  *   func_021C6884 0x021C6884 thumb
  *   func_021C61D0 0x021C61D0 thumb ov136
- *   func_0204B98C   0x0204B98C  arm
- *   func_0202208C   0x0202208C  thumb
+ *   CLACT_IsActorAnimActive   0x0204B98C  arm
+ *   WIPE_SYS_Start   0x0202208C  thumb
  *   func_021C5974 0x021C5974 thumb
  *   func_021C670C 0x021C670C thumb ov136
  *   func_0207D63C 0x0207D63C arm
@@ -98,7 +98,7 @@
  *   func_021C3E00 0x021C3E00 thumb ov136
  *   func_021C3E04 0x021C3E04 thumb ov136
  *   func_021C3E24 0x021C3E24 thumb ov136
- *   func_02035C08  0x02035C08  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   d_021C7E2C 0x021C7E2C data a4
  *   func_02025CD0 0x02025CD0 thumb
  *   d_021C7E40 0x021C7E40 data a4
@@ -110,6 +110,9 @@
  *   BGWINFRM_GetPos  0x0202CF98  thumb  arm9
  *   BGWINFRM_GetSize  0x0202CFC0  thumb  arm9
  *   PMS_DRAW_Clear  0x0202DC9C  thumb  arm9
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb  arm9
+ *   GAME_DATA_GetMyParty  0x02012934  thumb  arm9
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
  */
 #include "ov136_types.h"
 
@@ -164,9 +167,9 @@ struct Flags { u8 index : 7; u8 flag : 1; };
 
 extern void func_02030EAC(struct Node *n);
 extern void func_02043534(u32);
-extern void func_020435F4(u32);
-extern void func_0204363C(u32);
-extern void func_0203064C(u32, u32, u32);
+extern void BG_SYS_SetSubVisiblePlanes(u32);
+extern void BG_SYS_SetLcdSwap(u32);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(u32, void *, u32);
 extern void func_021C5B40(u8 *);
@@ -184,7 +187,7 @@ extern void func_021C5C00(u8 *);
 extern void func_021C59B8(u8 *);
 extern void func_021C54FC(void *);
 extern void *func_020056A0(void (*)(void *), void *, u32);
-extern void func_0203D34C(u32, u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern void func_021C5AA8(u8 *);
 extern void func_021C5954(u8 *p);
 extern void func_021C5E30(u8 *p);
@@ -195,16 +198,16 @@ extern void func_021C5714(void *);
 extern void func_021C5BE0(u8 *p);
 extern u32 func_020307B0(void *p);
 extern void func_020306F0(u32);
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern u32 func_0201CE30(void *p);
 extern void func_0201CE48(struct Rec3 *p);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
-extern void func_02027974(void *);
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *);
-extern void func_02027858(struct TaskMenu *m);
+extern void APP_TASKMENU_UpdateMenu(void *);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern int func_021C5C84(u8 *p);
 extern unsigned int PROCSYS_Main(void *p);
 extern u32 func_0201C6B4(const struct PrintSys *p);
@@ -226,8 +229,8 @@ extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u16 func_020213AC(u32);
 extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern void func_021C61D0(void *);
-extern u32 func_0204B98C(struct Actor *a);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021C5974(u8 *);
 extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
@@ -239,10 +242,10 @@ extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i)
 extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
 extern void func_020414EC(u32);
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *func_0200CA1C(void *a);
 extern void PROCSYS_Push(void *, u32, const void *, void *);
 extern u8 func_0202138C(u16 v);
@@ -252,7 +255,7 @@ extern int func_021C3E04(u32 *p, void *q);
 extern void func_021C3E24(u8 *);
 extern void *func_0201AB28(void *, u32);
 extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern u32 func_02025D14(void *a0);
 extern void *func_0202616C(void **obj, u32 idx);
@@ -336,11 +339,11 @@ int func_021C6984(u8 *p)
         *(u32 *)&((struct MbSeqCtx *)p)->f2C = 0;
     }
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    func_0204363C(0);
-    func_0203064C(1, 0x66, 0x60000);
+    BG_SYS_SetLcdSwap(0);
+    GFL_HEAP_CreateChildHeap(1, 0x66, 0x60000);
     ((struct MbSeqCtx *)p)->f8 = func_02030734(0x66, 0x370, 0, d_021C7F04, 0x10C);
     func_02082AC0(0, ((struct MbSeqCtx *)p)->f8, 0x370);
     func_021C5B40(p);
@@ -358,7 +361,7 @@ int func_021C6984(u8 *p)
     func_021C5C00(p);
     func_021C59B8(p);
     ((struct MbSeqCtx *)p)->f2C = func_020056A0(func_021C54FC, p, 1);
-    func_0203D34C(0, 0x66);
+    GFL_NET_RestartWithDefaultTimeout(0, 0x66);
     return ((struct MbSeqCtx *)p)->f28;
 }
 
@@ -383,7 +386,7 @@ u32 func_021C6A5C(u8 *p)
     *(u16 *)0x04000050 = 0;
     *(u16 *)0x04001050 = 0;
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     func_020307B0(((struct MbSeqCtx *)p)->f8);
     ((struct MbSeqCtx *)p)->f8 = 0;
     func_020306F0(102);
@@ -399,7 +402,7 @@ u32 func_021C6A5C(u8 *p)
  */
 int func_021C6AD4(struct MbSeqCtx *p)
 {
-    if (func_020221A4() == 1)
+    if (WIPE_SYS_EndCheck() == 1)
         return *(int *)&((struct MbUnitBCtx *)p->f8)->f308;
     return 2;
 }
@@ -414,7 +417,7 @@ u32 func_021C6AF0(u8 *p)
             func_0201CE48(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C8);
             return ((struct MbSeqCtx *)p)->f28;
         }
-        if (func_02035C60() == 1 || (func_020362DC() & 3) != 0) {
+        if (TOUCHPANEL_GetTrg() == 1 || (func_020362DC() & 3) != 0) {
             func_0201CE48(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f1C8);
             func_020061E4(1352);
             return ((struct MbSeqCtx *)p)->f28;
@@ -428,14 +431,14 @@ u32 func_021C6AF0(u8 *p)
 
 int func_021C6B4C(u8 *p)
 {
-    func_02027974(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310);
-    if (func_020279E8(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310) == 0) return 4;
-    switch (func_02027A04(*(u8 * *)&((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310)) {
+    APP_TASKMENU_UpdateMenu(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310);
+    if (APP_TASKMENU_IsFinish(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310) == 0) return 4;
+    switch (APP_TASKMENU_GetCursorPos(*(u8 * *)&((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310)) {
     case 0:
-        func_02027858(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310);
+        APP_TASKMENU_CloseMenu(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310);
         return d_021C7D68[*(int *)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + 0x1E0)].a(p);
     case 1:
-        func_02027858(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310);
+        APP_TASKMENU_CloseMenu(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310);
         return d_021C7D68[*(int *)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + 0x1E0)].b(p);
     }
     return 4;
@@ -658,11 +661,11 @@ int func_021C6E98(u8 *p)
 
 int func_021C6EA4(u8 *p)
 {
-    func_02027974(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310);
-    if (func_020279E8(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310) == 0) {
+    APP_TASKMENU_UpdateMenu(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310);
+    if (APP_TASKMENU_IsFinish(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310) == 0) {
         return 0xE;
     }
-    switch (func_02027A04(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310)) {
+    switch (APP_TASKMENU_GetCursorPos(((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f310)) {
     case 0:
         func_021C5B30(p);
         func_021C62F4(p);
@@ -886,7 +889,7 @@ int func_021C7094(u8 *p)
 
 int func_021C70C0(struct MbSeqCtx *p)
 {
-    if (func_0204B98C(((struct MbUnitBCtx *)p->f8)->f1FC) == 0) {
+    if (CLACT_IsActorAnimActive(((struct MbUnitBCtx *)p->f8)->f1FC) == 0) {
         ((struct MbSeqCtx_f4 *)p->f4)->f4 = 0;
         func_021C66A0(*(u8 * *)&p->f8, 7, 0);
         return p->f28;
@@ -907,7 +910,7 @@ int func_021C70C0(struct MbSeqCtx *p)
 
 int func_021C70EC(struct MbSeqCtx *p)
 {
-    if (func_0204B98C(((struct MbUnitBCtx *)p->f8)->f20C) == 0) {
+    if (CLACT_IsActorAnimActive(((struct MbUnitBCtx *)p->f8)->f20C) == 0) {
         ((struct MbSeqCtx_f4 *)p->f4)->f4 = 1;
         return p->f28;
     }
@@ -948,7 +951,7 @@ int func_021C7110(u8 *p)
 
 int func_021C714C(u8 *p, u32 v)
 {
-    func_0202208C((void *)0, 1, 1, 0, 6, 1, 0x66);
+    WIPE_SYS_Start((void *)0, 1, 1, 0, 6, 1, 0x66);
     ((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f308 = v;
     return 2;
 }
@@ -966,7 +969,7 @@ int func_021C714C(u8 *p, u32 v)
 
 int func_021C7178(u8 *p, u32 v)
 {
-    func_0202208C((void *)0, 0, 0, 0, 6, 1, 0x66);
+    WIPE_SYS_Start((void *)0, 0, 0, 0, 6, 1, 0x66);
     ((struct MbUnitBCtx *)((struct MbSeqCtx *)p)->f8)->f308 = v;
     return 2;
 }
@@ -1179,7 +1182,7 @@ void func_021C7360(u8 *p)
  */
 void func_021C73C8(u8 *p)
 {
-    void *q = func_0201292C(**(void ** *)&((struct MbSeqCtx *)p)->f4);
+    void *q = GAME_DATA_GetMyItem(**(void ** *)&((struct MbSeqCtx *)p)->f4);
     ((struct MbSeqCtx *)p)->f22 = func_020213AC(func_02008FA4(*(void **)(*(u8 * *)&((struct MbSeqCtx *)p)->f8 + p[0x1F]*4 + 0x298)));
     if (func_02007E50(q, ((struct MbSeqCtx *)p)->f22, 1, 0x66) == 1) {
         ((struct Flags *)(p + 0x21))->flag = 0;
@@ -1218,8 +1221,8 @@ void func_021C7420(u8 *p)
 void func_021C7430(u8 *p, int a, u16 b, u16 c)
 {
     u8 *q = func_02030734(0x65, 0x98, 1, d_021C7F04, 0x529);
-    ((struct MbSeqCtx *)q)->f0 = func_02012934(**(void ** *)&((struct MbSeqCtx *)p)->f4);
-    ((struct MbSeqCtx *)q)->f4 = func_0201292C(**(void ** *)&((struct MbSeqCtx *)p)->f4);
+    ((struct MbSeqCtx *)q)->f0 = GAME_DATA_GetMyParty(**(void ** *)&((struct MbSeqCtx *)p)->f4);
+    ((struct MbSeqCtx *)q)->f4 = GAME_DATA_GetMyItem(**(void ** *)&((struct MbSeqCtx *)p)->f4);
     ((struct MbSeqCtx *)q)->f8 = ((struct MbSeqCtx *)p)->f0;
     ((struct MbSeqCtx *)q)->f38 = 0;
     ((struct MbSeqCtx *)q)->f34 = a;
@@ -1322,8 +1325,8 @@ int func_021C7540(u8 *p)
 {
     ((struct MbSeqCtx *)p)->f24 = func_021C3E00((u32 *)(*(u8 * *)&((struct MbSeqCtx *)p)->f10));
     if (((struct MbSeqCtx *)p)->f24 == 1) {
-        func_021C3E04((u32 *)(*(u8 * *)&((struct MbSeqCtx *)p)->f10), func_0201AB28(func_02012934(**(void ** *)&((struct MbSeqCtx *)p)->f4), ((struct Flags *)(p + 0x21))->index));
-        func_02007F1C(func_0201292C(**(void ** *)&((struct MbSeqCtx *)p)->f4), ((struct MbSeqCtx *)p)->f22, 1, 0x65);
+        func_021C3E04((u32 *)(*(u8 * *)&((struct MbSeqCtx *)p)->f10), func_0201AB28(GAME_DATA_GetMyParty(**(void ** *)&((struct MbSeqCtx *)p)->f4), ((struct Flags *)(p + 0x21))->index));
+        func_02007F1C(GAME_DATA_GetMyItem(**(void ** *)&((struct MbSeqCtx *)p)->f4), ((struct MbSeqCtx *)p)->f22, 1, 0x65);
     }
     func_021C3E24(*(u8 * *)&((struct MbSeqCtx *)p)->f10);
     return 0;
@@ -1410,7 +1413,7 @@ void func_021C7620(u8 *p)
 
 int func_021C7648(u8 *p)
 {
-    return func_02035C08(d_021C7E2C);
+    return TOUCHPANEL_HitTrg(d_021C7E2C);
 }
 
 
@@ -1470,7 +1473,7 @@ void func_021C76D0(u8 *p, u32 v)
 
 int func_021C770C(struct MbSeqCtx *a0)
 {
-    if (func_02035C08(d_021C7E14) != -1) {
+    if (TOUCHPANEL_HitTrg(d_021C7E14) != -1) {
         return 1;
     }
     if ((func_020362DC() & 3) != 0) {

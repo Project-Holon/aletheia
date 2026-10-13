@@ -14,8 +14,8 @@
  *
  * symbols:
  *   func_021B9A24  0x021B9A24  thumb
- *   func_021D5440  0x021D5440  thumb
- *   func_021D5B68  0x021D5B68  thumb
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb
  *   func_02082BCC  0x02082BCC  arm
  */
 
@@ -46,8 +46,8 @@ struct S {
 };
 
 void func_02082BCC(void *p, int v, int n);
-int func_021D5B68(u32 x);
-int func_021D5440();
+int BTL_POKEPARAM_IsFainted(u32 x);
+int BTL_POKEPARAM_GetPokeId();
 int func_021B9A24(int a, int b);
 void func_0689CB3C(void *p);
 void func_0689CB48(S *p, u32 id);

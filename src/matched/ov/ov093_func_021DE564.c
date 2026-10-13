@@ -1,5 +1,5 @@
 /*
- * function: func_021DE564, func_021DE58C
+ * function: BTL_HANDLER_ITEM_RaiseCriticalRankByOne, BTL_HANDLER_ITEM_GetLuckyPunchHandlers
  * address: 0x021DE564
  * packet: pkt_ov093_021DE564
  * region: ov093
@@ -11,14 +11,14 @@
  * lever: u8 local holds getter result before increment; narrow callee argument.
  * unit: yes
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
- *   d_021F146C 0x021F146C data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
+ *   gLuckyPunchHandlerTable 0x021F146C data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D775C(int);
-extern int func_021D76BC(int key, u32 val);
-void func_021DE564(int a, int b, int c) { u8 j; if(c == func_021D775C(3)) { j=func_021D775C(0x2c); func_021D76BC(0x2c,(u8)(j+1)); } }
-extern u8 d_021F146C[];
-void *func_021DE58C(int *p) { *p=1; return d_021F146C; }
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int key, u32 val);
+void BTL_HANDLER_ITEM_RaiseCriticalRankByOne(int a, int b, int c) { u8 j; if(c == BTL_EVENT_GetVar(3)) { j=BTL_EVENT_GetVar(0x2c); BTL_EVENT_OverwriteVar(0x2c,(u8)(j+1)); } }
+extern u8 gLuckyPunchHandlerTable[];
+void *BTL_HANDLER_ITEM_GetLuckyPunchHandlers(int *p) { *p=1; return gLuckyPunchHandlerTable; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CA258
+ * function: BSUBWAY_SCR_SetWinCountFromRound
  * address:  0x021CA258
  * packet:   pkt_ov021_021CA258
  * region:   ov021
@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 pad[0xe]; u16 fE; } P;
-void func_021CA258(P *p, u32 a, u32 b)
+void BSUBWAY_SCR_SetWinCountFromRound(P *p, u32 a, u32 b)
 {
     u32 v = a * 7;
     v += b;

@@ -1,5 +1,5 @@
 /*
- * function: func_021627C8
+ * function: EVENTDATA_SYSTEM_SearchPosEvent
  * address:  0x021627C8
  * packet:   pkt_ov010_021627C8
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216279C  0x0216279C  thumb  ov010
- *   func_02162F0C  0x02162F0C  thumb  ov010
+ *   EVENTDATA_SYSTEM_DirToPosEventType  0x0216279C  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsPosEventGridHit  0x02162F0C  thumb  ov010
  *   func_020143CC  0x020143CC  thumb
  */
 
@@ -32,12 +32,12 @@ struct Ctx {
     struct Rec *f28;
 };
 
-extern u16 func_0216279C(int mode);
+extern u16 EVENTDATA_SYSTEM_DirToPosEventType(int mode);
 typedef unsigned int   u32;
-extern int func_02162F0C(char *p, int *v);
+extern int EVENTDATA_SYSTEM_IsPosEventGridHit(char *p, int *v);
 extern u32 func_020143CC(u32 a, u32 b);
 
-struct Rec *func_021627C8(struct Ctx *c, void *a, int key, int mode)
+struct Rec *EVENTDATA_SYSTEM_SearchPosEvent(struct Ctx *c, void *a, int key, int mode)
 {
     struct Rec *r = c->f28;
     u16 v;
@@ -45,11 +45,11 @@ struct Rec *func_021627C8(struct Ctx *c, void *a, int key, int mode)
     u16 i;
     u16 n;
     if (r != 0) {
-        t = func_0216279C(mode);
+        t = EVENTDATA_SYSTEM_DirToPosEventType(mode);
         i = 0;
         n = c->f18;
         for (; i < n; i++, r++) {
-            if (func_02162F0C((char *)r, (int *)key) != 0 && r->f6 == t) {
+            if (EVENTDATA_SYSTEM_IsPosEventGridHit((char *)r, (int *)key) != 0 && r->f6 == t) {
                 if (r->f4 == 0)
                     return r;
                 v = *((u16 *)func_020143CC((u32)a, r->f4));

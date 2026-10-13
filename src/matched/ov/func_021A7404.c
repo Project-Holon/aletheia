@@ -1,5 +1,5 @@
 /*
- * function: func_021A7404
+ * function: FIELD_GROUND_ANIME_GetAnmEntry
  * address:  0x021A7404
  * packet:   pkt_021A74F4
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards p + 8 to func_021A74F4.
+ * Tail-call thunk: forwards p + 8 to FIELD_GROUND_ANIME_AnmSetGetEntry.
  *
  * symbols:
- *   func_021A74F4  0x021A74F4  thumb  ov021
+ *   FIELD_GROUND_ANIME_AnmSetGetEntry  0x021A74F4  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A74F4(int *p, int i);
+extern int FIELD_GROUND_ANIME_AnmSetGetEntry(int *p, int i);
 
-int func_021A7404(u8 *p, int a1)
+int FIELD_GROUND_ANIME_GetAnmEntry(u8 *p, int a1)
 {
-    return func_021A74F4((int *)(p + 8), a1);
+    return FIELD_GROUND_ANIME_AnmSetGetEntry((int *)(p + 8), a1);
 }

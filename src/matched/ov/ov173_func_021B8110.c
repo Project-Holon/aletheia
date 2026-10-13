@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   func_021B7EB0 0x021B7EB0 thumb ov173
  */
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void func_021B7EB0(char *p, int flag);
 int func_021B8110(u8 *p)
@@ -25,7 +25,7 @@ int func_021B8110(u8 *p)
     u8 *s;
     s=p+464;
     if(((struct Obj05452 *)s)->fA==0) {
-        if(func_0204B98C(*(void **)(p+260+((struct Obj05452 *)s)->f6*4))==0) return ((struct Obj05452 *)s)->f8;
+        if(CLACT_IsActorAnimActive(*(void **)(p+260+((struct Obj05452 *)s)->f6*4))==0) return ((struct Obj05452 *)s)->f8;
     } else if(((struct Obj05452 *)s)->fA==1) {
         if(APP_TASKMENU_WIN_IsFinish(*(void **)(p+544+((struct Obj05452 *)s)->f6*4))!=0) {
             func_021B7EB0((char *)p,0);

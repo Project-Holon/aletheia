@@ -18,12 +18,12 @@
  *   func_021BB934 0x021BB934 thumb ov217
  *   func_021BC6D0 0x021BC6D0 thumb ov217
  *   func_020362DC 0x020362DC arm
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020061E4 0x020061E4 thumb
  */
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_02035C08(const void *p);
+extern int TOUCHPANEL_HitTrg(const void *p);
 extern void func_020061E4(u32 a);
 extern void func_021BB91C(void *p);
 extern void func_021BB910(unsigned char *a0, u32 a1);
@@ -37,7 +37,7 @@ extern u32 func_021BC6D0(void *p);
 void func_021BB2B4(char *p)
 {
     u32 keys = func_020362DC();
-    int st = func_02035C08(p + 0x58);
+    int st = TOUCHPANEL_HitTrg(p + 0x58);
     if ((keys & 0x40) || (keys & 0x80) || (keys & 0x20) || (keys & 0x10) || (keys & 1)) {
         func_021BB91C(p);
         func_021BB910((unsigned char *)p, 9);

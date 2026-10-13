@@ -15,23 +15,23 @@
  *   func_0201BC78 0x0201BC78 thumb
  *   func_0201BCEC 0x0201BCEC thumb
  *   func_0201BC3C 0x0201BC3C thumb
- *   func_0204AF28 0x0204AF28 arm
- *   func_0204ACEC 0x0204ACEC arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_GetPaletteVramAddress 0x0204AEF4 arm
- *   func_020216D4 0x020216D4 thumb
+ *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb
  *   func_0220684C 0x0220684C thumb ov094
  *   func_02204BCC 0x02204BCC thumb ov094
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   func_0201BB5C 0x0201BB5C thumb
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B6F4 0x0204B6F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -69,25 +69,25 @@ struct PalAnmSlot;
 extern int func_0201BC78(void);
 extern int func_0201BCEC(void);
 extern int func_0201BC3C(void);
-extern int func_0204AF28(void *, u32, u32, u32);
-extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
+extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
-extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020056A0(void *cb, void *ctx, int a);
 extern void func_0220684C(char *p, int a, int b);
 extern void func_02204BCC(void *a0, int *c);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern int func_0204A6C8(void *, u32, u32, u32, u16);
+extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_022057CC(Main *m, Info *q)
 {
     int n;
@@ -103,9 +103,9 @@ void func_022057CC(Main *m, Info *q)
     if (m->mode == 0 || m->mode == 3)
         return;
     arc = func_020490F4(7, (u16)((m->heap & 0x7fff) | 0x8000));
-    m->h1c0 = func_0204AF28(arc, func_0201BC78(), func_0201BCEC(), m->heap);
-    m->h1bc = func_0204ACEC(arc, func_0201BC3C(), 1, 0x160, m->heap);
-    func_020216D4(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h1bc, 1) >> 1), 0x60);
+    m->h1c0 = CLACT_RegisterCellAnim(arc, func_0201BC78(), func_0201BCEC(), m->heap);
+    m->h1bc = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0x160, m->heap);
+    PALANM_CopyHwPaletteToSlot(m->pal, 3, (u16)(CLACT_GetPaletteVramAddress(m->h1bc, 1) >> 1), 0x60);
     *(volatile u16 *)0x04001040 = 0x100;
     *(volatile u16 *)0x04001044 = 0;
     *(volatile u16 *)0x04001042 = 0x100;
@@ -118,12 +118,12 @@ void func_022057CC(Main *m, Info *q)
     }
     for (i = 0; i < n; i++) {
         if (q->species[i] != 0) {
-            m->h1b0[i] = func_0204A6C8(arc, POKE_TOOL_CalcGraphicIndex(q->species[i], q->form[i], q->gender[i], 0), 0, 1, m->heap);
-            m->h1c8[i].obj = func_0204B294((void *)m->h1c4, m->h1b0[i], m->h1bc, m->h1c0, d_0220A392, 1, m->heap);
+            m->h1b0[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_CalcGraphicIndex(q->species[i], q->form[i], q->gender[i], 0), 0, 1, m->heap);
+            m->h1c8[i].obj = CLACT_CreateActor((void *)m->h1c4, m->h1b0[i], m->h1bc, m->h1c0, d_0220A392, 1, m->heap);
             func_0204B404(m->h1c8[i].obj, (const struct Vec2 *)(&d_0220A50C[m->mode][i]), 1);
             func_0204B92C(m->h1c8[i].obj, 1);
             if (q->sel == i) {
-                func_0204B878(m->h1c8[i].obj, 1);
+                CLACT_SetActorAnimSeq(m->h1c8[i].obj, 1);
             } else if (k == 0) {
                 pt = &d_0220A50C[m->mode][i];
                 x = pt->x;
@@ -141,5 +141,5 @@ void func_022057CC(Main *m, Info *q)
             func_0204B6F4(m->h1c8[i].obj, func_0201BB5C(q->species[i], q->form[i], q->gender[i], 0), 0);
         }
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
 }

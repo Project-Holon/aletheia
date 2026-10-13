@@ -6,7 +6,7 @@
  * status: EXACT
  * symbols:
  *   func_02082D44 0x02082D44 arm
- *   func_0204A298 0x0204A298 arm
+ *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
  *   func_0203F37C 0x0203F37C arm
  *   func_020307B0 0x020307B0 arm
  *   func_021F546C 0x021F546C thumb ov194
@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082D44(const void *,void *,unsigned);
-extern int func_0204A298(int,int,int,int,u32 *);
+extern int ARC_UTIL_LoadMemberWithSize(int,int,int,int,u32 *);
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
 extern u32 func_020307B0(void *p);
 extern int func_021F546C(const u16 *a, u32 b, u32 c, const u16 *d, u32 n);
@@ -35,7 +35,7 @@ int func_021F5370(const u32 *cache,const void *input,u16 heap)
     }
     for(i=0;i<7;i++) {
         if(cache==0) {
-            data=func_0204A298(0xdd,i,0,heap,&size);
+            data=ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,&size);
             func_0203F37C((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
         { u32 currentHeap=heap; result=func_021F546C(buf,i,currentHeap,(const u16 *)data,size); }

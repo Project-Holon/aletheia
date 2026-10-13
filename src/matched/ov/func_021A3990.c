@@ -1,5 +1,5 @@
 /*
- * function: func_021A3990
+ * function: FIELD_PLAYER_CORE_GetGameSystem
  * address:  0x021A3990
  * packet:   pkt_021A36E0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A3990(u8 *p)
+u32 FIELD_PLAYER_CORE_GetGameSystem(u8 *p)
 {
     return ((struct Obj18044 *)p)->f4;
 }

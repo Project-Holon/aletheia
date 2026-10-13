@@ -1,5 +1,5 @@
 /*
- * function: func_021B7BE4
+ * function: MONOLITH_TOOL_SLOT_SELECT_FreeCursor
  * address:  0x021B7BE4
  * packet:   pkt_ov071_021B7BE4
  * region:   ov071
@@ -18,7 +18,7 @@
  *   func_021B70B8  0x021B70B8  thumb  ov071
  */
 
-void func_021B7BE4(void *p)
+void MONOLITH_TOOL_SLOT_SELECT_FreeCursor(void *p)
 {
     void func_021B70B8(void **p);
     func_021B70B8((void **)((char *)p + 0x24));

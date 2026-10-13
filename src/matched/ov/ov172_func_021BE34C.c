@@ -12,7 +12,7 @@
  * Release the word at +0x1dc through 0x0202F038 and clear it.
  *
  * symbols:
- *   func_0202F038  0x0202F038  thumb
+ *   TIME_ICON_Delete  0x0202F038  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0202F038(u8 *p);
+extern void TIME_ICON_Delete(u8 *p);
 
 void func_021BE34C(void *p)
 {
     u32 v = ((struct Obj05448 *)p)->f1DC;
     if (v != 0) {
-        func_0202F038((u8 *)v);
+        TIME_ICON_Delete((u8 *)v);
         ((struct Obj05448 *)p)->f1DC = 0;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F54E0
+ * function: ENCEFF_GetScreenTexParam
  * address: 0x021F54E0
  * packet: pkt_ov075_021F54E0
  * region: ov075
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef enum { BANK_NONE, BANK_A=1, BANK_B=2, BANK_C=4 } Bank;
 extern u16 func_02080C44(void);
-u32 func_021F54E0(void) {
+u32 ENCEFF_GetScreenTexParam(void) {
     Bank v;
     u32 n;
     v=func_02080C44(); n=0;

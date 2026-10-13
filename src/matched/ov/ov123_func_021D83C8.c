@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_020092E0 0x020092E0 thumb
  *   func_021D5A60 0x021D5A60 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
@@ -19,7 +19,7 @@
 
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_021D5A60(char *);
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
@@ -30,7 +30,7 @@ extern void func_021D6EE0(u8 *p, u32 v, int unused);
 extern void func_021D8958(char *p);
 void func_021D83C8(char *p)
 {
-    if (func_020362DC() != 0 || func_02035C60() != 0) {
+    if (func_020362DC() != 0 || TOUCHPANEL_GetTrg() != 0) {
         func_021D5A60(*(char * *)&((struct Obj10447 *)p)->f18);
         func_020092E0((struct Sub02009210Obj *)func_02009448(((struct Obj10447 *)p)->f28), 1);
         p[0xaf] = 1;

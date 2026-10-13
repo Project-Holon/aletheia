@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021AB2F8",
+    "MAP_ATTR_IsRippleWater",
     "func_021AB304"
+   ],
+   "addresses": [
+    "0x021AB2F8",
+    "0x021AB304"
    ]
   }
  ]

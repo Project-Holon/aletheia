@@ -10,33 +10,33 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_020127C4  0x020127C4  thumb
- *   func_02012944  0x02012944  thumb
- *   func_021860D4  0x021860D4  thumb  ov020
- *   func_02161D64  0x02161D64  thumb  ov010
- *   func_020127F0  0x020127F0  thumb
- *   func_02161F14  0x02161F14  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   FIELD_WFBC_DATA_LOCAL_Init  0x021860D4  thumb  ov020
+ *   EVENT_FIELD_PROCLINK_CheckZoneFlag  0x02161D64  thumb  ov010
+ *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   EVENT_FIELD_PROCLINK_GetReturnInfo  0x02161F14  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_020127C4(void *p);
-extern u8 *func_02012944(void *p);
-extern void func_021860D4(u16 *p, int a1, int id);
-extern int func_02161D64(int a0);
-extern int func_020127F0(int a);
-extern void func_02161F14(u16 *out, u8 *in, int c);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void FIELD_WFBC_DATA_LOCAL_Init(u16 *p, int a1, int id);
+extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0);
+extern int GAME_DATA_GetMysteryRecvFlagB(int a);
+extern void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *out, u8 *in, int c);
 
 void func_02183C58(int a)
 {
-    int w = (int)func_020120F4((const struct Ctx *)a);
-    int r5 = (int)func_020127C4((void *)w);
+    int w = (int)GAMESYSTEM_GetGameData((const struct Ctx *)a);
+    int r5 = (int)GAME_DATA_GetSecondUnionInfo((void *)w);
 
-    func_021860D4((u16 *)r5, (int)func_02012944((void *)w), 1);
-    func_02161D64((int)func_020127C4((void *)w));
-    r5 = func_020127F0(w);
-    func_02161F14((u16 *)r5, (u8 *)func_020127C4((void *)w), 1);
+    FIELD_WFBC_DATA_LOCAL_Init((u16 *)r5, (int)GAME_DATA_GetMyStatus((void *)w), 1);
+    EVENT_FIELD_PROCLINK_CheckZoneFlag((int)GAME_DATA_GetSecondUnionInfo((void *)w));
+    r5 = GAME_DATA_GetMysteryRecvFlagB(w);
+    EVENT_FIELD_PROCLINK_GetReturnInfo((u16 *)r5, (u8 *)GAME_DATA_GetSecondUnionInfo((void *)w), 1);
 }

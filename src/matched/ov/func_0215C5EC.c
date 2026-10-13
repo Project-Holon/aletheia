@@ -1,5 +1,5 @@
 /*
- * function: func_0215C5EC
+ * function: SCRCMD_PROC_CallFieldOpenEvent
  * address:  0x0215C5EC
  * packet:   pkt_0215C5EC
  * region:   ov010
@@ -13,26 +13,26 @@
  * by an arm9 call, then submitted together.
  *
  * symbols:
- *   func_0215A5F4   0x0215A5F4  thumb  ov010
- *   func_0215A5DC   0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork   0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem   0x0215A5DC  thumb  ov010
  *   FIELD_STATUS_CreateFieldOpenEvent   0x020145CC  thumb
- *   func_0215897C   0x0215897C  thumb  ov010
+ *   SCRIPT_SYS_CallEvent   0x0215897C  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
-extern void func_0215897C(void *, void *);
+extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int func_0215C5EC(void *a0, void *a1)
+int SCRCMD_PROC_CallFieldOpenEvent(void *a0, void *a1)
 {
-    void *v = func_0215A5F4(a1);
+    void *v = SCRCMD_WORK_GetScriptWork(a1);
 
-    func_0215897C(v, FIELD_STATUS_CreateFieldOpenEvent(func_0215A5DC(a1)));
+    SCRIPT_SYS_CallEvent(v, FIELD_STATUS_CreateFieldOpenEvent(SCRCMD_WORK_GetGameSystem(a1)));
 
     return 1;
 }

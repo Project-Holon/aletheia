@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021BAC78 0x021BAC78 thumb ov110
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   d_021C38D9 0x021C38D9 data a1
  */
@@ -21,13 +21,13 @@ struct Obj;
 extern struct Obj *func_021BAC78(char *p, unsigned int *r, short x, short y, unsigned int a, int mode);
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BD114(Object *p) {
     u8 i;
     for(i=0;i<2;i++) {
         p->items[i]=func_021BAC78(p->root,(unsigned int *)((u8 *)p+0x10),d_021C38D9[3*i],d_021C38D9[3*i+1],0,1);
-        func_0204B878(p->items[i],d_021C38D9[3*i+2]);
+        CLACT_SetActorAnimSeq(p->items[i],d_021C38D9[3*i+2]);
         func_0204B3DC(p->items[i],0);
     }
 }

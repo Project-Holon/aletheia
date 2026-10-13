@@ -8,18 +8,18 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082AC0 0x02082AC0 arm
  *   func_02008FEC 0x02008FEC thumb
  *   PROCSYS_Create 0x02031324 arm
  */
 #include "../include/Obj06527.h"
 typedef unsigned char u8;
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082AC0(int,void *,int);
 struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
@@ -27,8 +27,8 @@ extern void *PROCSYS_Create(int);
 int func_021C5480(void *a, int unused, void **arg)
 {
     u8 *p;
-    func_0203064C(1,101,65536);
-    p = func_0203159C(a,52,101);
+    GFL_HEAP_CreateChildHeap(1,101,65536);
+    p = PROCSYS_AllocProcWork(a,52,101);
     func_02082AC0(0,p,52);
     ((struct Obj06527 *)p)->f4 = arg;
     ((struct Obj06527 *)p)->f0 = func_02008FEC(*arg);

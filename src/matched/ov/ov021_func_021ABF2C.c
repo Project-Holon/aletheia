@@ -1,5 +1,5 @@
 /*
- * function: func_021ABF2C
+ * function: FIELD_EFFECT_FindResourceSlot
  * address:  0x021ABF2C
  * packet:   pkt_ov021_021ABF2C
  * region:   ov021
@@ -35,7 +35,7 @@ struct T {
     E *f10;
 };
 
-E *func_021ABF2C(T *t, int id)
+E *FIELD_EFFECT_FindResourceSlot(T *t, int id)
 {
     int n = t->f0;
     E *e = t->f10;

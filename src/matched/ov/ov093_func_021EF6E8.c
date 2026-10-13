@@ -1,5 +1,5 @@
 /*
- * function: func_021EF6E8
+ * function: BTL_MSG_BuildTrainerString
  * address:  0x021EF6E8
  * packet:   pkt_ov093_021EF6E8
  * region:   ov093
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF6F0  0x021EF6F0  thumb  ov093
+ *   BTL_MSG_BuildTrainerStringBody  0x021EF6F0  thumb  ov093
  *
- * Tail-call stub (ldr r3,[pc]; bx r3) to func_021EF6F0; callee of func_021EA55C case 6.
+ * Tail-call stub (ldr r3,[pc]; bx r3) to BTL_MSG_BuildTrainerStringBody; callee of func_021EA55C case 6.
  */
 
 typedef unsigned int u32;
 
-extern void func_021EF6F0(u32 a, u32 b, u32 c);
+extern void BTL_MSG_BuildTrainerStringBody(u32 a, u32 b, u32 c);
 
-void func_021EF6E8(u32 a, u32 b, u32 c)
+void BTL_MSG_BuildTrainerString(u32 a, u32 b, u32 c)
 {
-    func_021EF6F0(a, b, c);
+    BTL_MSG_BuildTrainerStringBody(a, b, c);
 }

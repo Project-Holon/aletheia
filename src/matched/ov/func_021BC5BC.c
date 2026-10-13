@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5BC
+ * function: FIELD_PLACE_NAME_Cancel
  * address:  0x021BC5BC
  * packet:   pkt_021BC5BC
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021BCB9C  0x021BCB9C  thumb  ov021
- *   func_021BCA80  0x021BCA80  thumb  ov021
- *   func_021BCA6C  0x021BCA6C  thumb  ov021
+ *   FIELD_PLACE_NAME_SetState  0x021BCB9C  thumb  ov021
+ *   FIELD_PLACE_NAME_ClearZoneChangeRequest  0x021BCA80  thumb  ov021
+ *   FIELD_PLACE_NAME_ClearForceShowRequest  0x021BCA6C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u8 *func_021BCA6C(u8 *p);
-extern void func_021BCA80(u8 *p);
-extern void func_021BCB9C(void *p, int keep);
+extern u8 *FIELD_PLACE_NAME_ClearForceShowRequest(u8 *p);
+extern void FIELD_PLACE_NAME_ClearZoneChangeRequest(u8 *p);
+extern void FIELD_PLACE_NAME_SetState(void *p, int keep);
 
-int func_021BC5BC(u8 *a)
+int FIELD_PLACE_NAME_Cancel(u8 *a)
 {
-func_021BCB9C((void *)a, 0);
-func_021BCA80((u8 *)a);
-return (int)func_021BCA6C(a);
+FIELD_PLACE_NAME_SetState((void *)a, 0);
+FIELD_PLACE_NAME_ClearZoneChangeRequest((u8 *)a);
+return (int)FIELD_PLACE_NAME_ClearForceShowRequest(a);
 }
 

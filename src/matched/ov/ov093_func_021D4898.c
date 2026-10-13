@@ -1,5 +1,5 @@
 /*
- * function: func_021D4898
+ * function: BTL_NET_IsPlayerInfoReceived
  * address: 0x021D4898
  * packet: pkt_ov093_021D4898
  * region: ov093
@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F3B88 0x021F3B88 data ov093 a4
- *   func_021D4330 0x021D4330 thumb ov093
+ *   gBtlNet 0x021F3B88 data ov093 a4
+ *   BTL_NET_HasEntry 0x021D4330 thumb ov093
  */
 typedef unsigned char u8;
-extern u8 *d_021F3B88;
-extern u8 func_021D4330(int);
-int func_021D4898(void)
+extern u8 *gBtlNet;
+extern u8 BTL_NET_HasEntry(int);
+int BTL_NET_IsPlayerInfoReceived(void)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        if (func_021D4330(i) != 0 && *(void **)(d_021F3B88 + i * 4 + 0x3af4) == 0)
+        if (BTL_NET_HasEntry(i) != 0 && *(void **)(gBtlNet + i * 4 + 0x3af4) == 0)
             return 0;
     }
     return 1;

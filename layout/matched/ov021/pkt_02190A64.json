@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02190A64",
+   "name": "FIELD_MSGBG_AddMenuItemStr",
    "address": "0x02190A64",
    "kind": "game",
    "region": "ov021",

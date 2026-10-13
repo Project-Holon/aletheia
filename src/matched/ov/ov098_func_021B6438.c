@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
- *   func_0204A5AC 0x0204A5AC arm
- *   func_02046788 0x02046788 arm
+ *   CLACT_ExitSystem 0x0204A5AC arm
+ *   G3D_SYSTEM_Exit 0x02046788 arm
  */
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
-extern void func_0204A5AC(void);
-extern void func_02046788(void);
+extern void CLACT_ExitSystem(void);
+extern void G3D_SYSTEM_Exit(void);
 void func_021B6438(void)
 {
-    func_020450C8(); func_0203F9B4(); func_0204A5AC(); func_02046788();
+    BMP_WIN_Exit(); func_0203F9B4(); CLACT_ExitSystem(); G3D_SYSTEM_Exit();
 }

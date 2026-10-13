@@ -13,7 +13,7 @@
  * func_021E172C 0x021E172C thumb ov137
  * func_021E1758 0x021E1758 thumb ov137
  * func_021E168C 0x021E168C thumb ov137
- * func_02039338 0x02039338 arm
+ * GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  */
 #include "../include/Obj14206.h"
 #include "../include/Obj23680.h"
@@ -28,14 +28,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021DE17C(char *p, int command, int player);
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021E172C(char *p, unsigned short *q);
 extern void func_021E1758(char *p, int a1);
 extern void func_021E168C(int *p, int a);
 void func_021DCD14(int a,int b,u8 *c,u8 *p)
 {
     func_021DE17C(((struct Obj23680 *)(*(u8 * *)&((struct Obj14206 *)p)->f0))->f20,1,*c);
-    if(!func_02039338()) ((struct Obj14206 *)p)->f34=0;
+    if(!GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj14206 *)p)->f34=0;
 }
 void func_021DCD34(int a,int b,u16 *c,u8 *p) { ((struct Obj23682 *)p)->f40|=*c; }
 void func_021DCD44(int a,int b,void *c,u8 *p) { ((struct Obj23683 *)p)->f42|=(u16)(1<<a); }

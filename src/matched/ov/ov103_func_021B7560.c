@@ -11,8 +11,8 @@
  * prototype: 3064C preserves explicitly loaded third input; 3159C leaves allocator return live at 020315C0-C8. 7948 tail-forwards to 7C64's full-word getter. 1F73C's third input is explicitly narrowed at 021B75EC-F0.
  * volatile: DISPCNT read/write 021B76D2-DE; WININ re-read 021B76E4/EE, WINOUT 021B76FC; window-position hardware writes 021B770C-1C.
  * symbols:
- * func_0203064C 0x0203064C arm
- * func_0203159C 0x0203159C arm
+ * GFL_HEAP_CreateChildHeap 0x0203064C arm
+ * PROCSYS_AllocProcWork 0x0203159C arm
  * func_02082BCC 0x02082BCC arm
  * func_021B8AF4 0x021B8AF4 thumb ov103
  * func_021B787C 0x021B787C thumb ov103
@@ -40,9 +40,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203064C(u32,u32,u32);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,u32);
 struct Ctx;
 extern void func_021B8AF4(u8 *p, void *q);
@@ -71,8 +71,8 @@ int func_021B7560(void *owner,int unused,void *arg)
     u8 *p;
     u32 handle;
     int first,second;
-    func_0203064C(1,55,0x25000);
-    p=func_0203159C(owner,0xb10,55);
+    GFL_HEAP_CreateChildHeap(1,55,0x25000);
+    p=PROCSYS_AllocProcWork(owner,0xb10,55);
     func_02082BCC(p,0,0xb10);
     ((struct Obj03740 *)p)->fB0C=arg;
     (*(u8 **)(p+0xb0c))[17]=0;

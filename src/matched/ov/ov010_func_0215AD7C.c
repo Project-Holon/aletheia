@@ -1,5 +1,5 @@
 /*
- * function: func_0215AD7C
+ * function: SCRCMD_WORK_CmdSetSpecialLocationHere
  * address:  0x0215AD7C
  * packet:   pkt_ov010_0215AD7C
  * region:   ov010
@@ -16,13 +16,13 @@
  * label / sole-ref/code (target not a traced function start).
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_020127A4  0x020127A4  thumb
- *   func_02012AA0  0x02012AA0  thumb
- *   func_02012AC8  0x02012AC8  thumb
- *   func_02012AE4  0x02012AE4  thumb
- *   func_02014184  0x02014184  thumb
- *   func_0201289C  0x0201289C  thumb
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
+ *   GAME_DATA_GetPlayerDirectionType  0x02012AE4  thumb
+ *   ZONEDATA_SetDirectLocation  0x02014184  thumb
+ *   GAME_DATA_SetSpecialLocation  0x0201289C  thumb
  */
 
 typedef struct {
@@ -34,23 +34,23 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Rec1C;
 struct Rec44;
-extern void *func_0215A5E4(void *a0);
-extern int func_020127A4(void);
-extern int *func_02012AA0(void);
-extern u16 func_02012AC8(const struct Rec44 *p);
-extern u32 func_02012AE4(const struct Rec44 *p);
-extern void func_02014184(V28 *, int, short, int, int, int);
-extern void func_0201289C(struct BigObj *p, const struct Rec1C *src);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern int GAME_DATA_GetMyPlayerWork(void);
+extern int *GAME_DATA_GetPlayerPosition(void);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
+extern u32 GAME_DATA_GetPlayerDirectionType(const struct Rec44 *p);
+extern void ZONEDATA_SetDirectLocation(V28 *, int, short, int, int, int);
+extern void GAME_DATA_SetSpecialLocation(struct BigObj *p, const struct Rec1C *src);
 
-int func_0215AD7C(int a, int b)
+int SCRCMD_WORK_CmdSetSpecialLocationHere(int a, int b)
 {
     V28 v;
-    int t = (int)func_0215A5E4((void *)b);
-    int r5 = func_020127A4();
-    int *r4 = func_02012AA0();
-    int r7 = func_02012AC8((const struct Rec44 *)r5);
+    int t = (int)SCRCMD_WORK_GetGameData((void *)b);
+    int r5 = GAME_DATA_GetMyPlayerWork();
+    int *r4 = GAME_DATA_GetPlayerPosition();
+    int r7 = GAME_DATA_GetPlayerZoneId((const struct Rec44 *)r5);
 
-    func_02014184(&v, r7, func_02012AE4((const struct Rec44 *)r5), r4[0], r4[1], r4[2]);
-    func_0201289C((struct BigObj *)t, (const struct Rec1C *)(&v));
+    ZONEDATA_SetDirectLocation(&v, r7, GAME_DATA_GetPlayerDirectionType((const struct Rec44 *)r5), r4[0], r4[1], r4[2]);
+    GAME_DATA_SetSpecialLocation((struct BigObj *)t, (const struct Rec1C *)(&v));
     return 0;
 }

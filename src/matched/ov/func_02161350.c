@@ -1,5 +1,5 @@
 /*
- * function: func_02161350
+ * function: EVENT_FIELD_PROCLINK_StartConfigEvent
  * address:  0x02161350
  * packet:   pkt_02161350
  * region:   ov010
@@ -15,9 +15,9 @@
  * object's word at +0x14.
  *
  * symbols:
- *   func_021616A4   0x021616A4  thumb  ov010
- *   func_02188C54   0x02188C54  thumb
- *   func_02012374   0x02012374  thumb
+ *   EVENT_FIELD_PROCLINK_CreateFreeEvent   0x021616A4  thumb  ov010
+ *   FIELDMAP_GetMsgBg   0x02188C54  thumb
+ *   GAME_EVENT_CallEvent   0x02012374  thumb
  */
 #include "../include/Obj09158.h"
 #include "../include/Obj09159.h"
@@ -26,18 +26,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_021616A4(void *p, int a1, int a2, int a3, int a4);
-extern void *func_02188C54(void *);
+extern void *EVENT_FIELD_PROCLINK_CreateFreeEvent(void *p, int a1, int a2, int a3, int a4);
+extern void *FIELDMAP_GetMsgBg(void *);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-void func_02161350(void *a0)
+void EVENT_FIELD_PROCLINK_StartConfigEvent(void *a0)
 {
     char *r4 = *(char * *)&((struct Obj09158 *)a0)->f18;
-    void *t = func_02188C54(((struct Obj09159 *)r4)->f4);
+    void *t = FIELDMAP_GetMsgBg(((struct Obj09159 *)r4)->f4);
 
-    func_02012374(((struct Obj09158 *)a0)->f14,
-                  func_021616A4(((struct Obj09159 *)r4)->f0, (int)(((struct Obj09159 *)r4)->f4),
+    GAME_EVENT_CallEvent(((struct Obj09158 *)a0)->f14,
+                  EVENT_FIELD_PROCLINK_CreateFreeEvent(((struct Obj09159 *)r4)->f0, (int)(((struct Obj09159 *)r4)->f4),
                                 ((struct Obj09158 *)a0)->f0, (int)t, (int)((char *)a0 + 0x10)));
 }
 

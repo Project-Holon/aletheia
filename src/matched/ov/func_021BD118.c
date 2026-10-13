@@ -1,5 +1,5 @@
 /*
- * function: func_021BD118
+ * function: FIELD_PLACE_NAME_GetZoneId
  * address:  0x021BD118
  * packet:   pkt_021BCA74
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_021BD118(u8 *p)
+u16 FIELD_PLACE_NAME_GetZoneId(u8 *p)
 {
     return ((struct Obj18211 *)p)->f46;
 }

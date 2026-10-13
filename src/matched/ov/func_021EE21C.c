@@ -1,5 +1,5 @@
 /*
- * function: func_021EE21C
+ * function: BTLV_SCU_UpdateWaitMessage
  * address:  0x021EE21C
  * packet:   pkt_021EA478
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EE21C   0x021EE21C  thumb  ov093
+ *   BTLV_SCU_UpdateWaitMessage   0x021EE21C  thumb  ov093
  *   func_021ECF68   0x021ECF68  thumb  ov093
 
  * Untraced mid-stream entry point: a plain tail thunk, `ldr r3,=T; bx r3`, whose pool word names func_021ECF68.
@@ -26,5 +26,5 @@ typedef signed int s32;
 struct T;
 extern int func_021ECF68(struct T *p);
 
-int func_021EE21C(u8 *p) { return func_021ECF68((struct T *)p); }
+int BTLV_SCU_UpdateWaitMessage(u8 *p) { return func_021ECF68((struct T *)p); }
 

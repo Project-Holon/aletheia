@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled tail-call stub called by func_021B7EE0.
+ * Unlabelled tail-call stub called by MONOLITH_TOOL_MENU_Update.
  *
  * symbols:
  *   func_02028484  0x02028484  thumb

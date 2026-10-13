@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9FC
+ * function: OPTION_MENU_SetListButtonMode
  * address:  0x021BA9FC
  * packet:   pkt_ov068_021BA9FC
  * region:   ov068
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * Unlabelled tail-call stub: stores a byte at +0x48, then redraws through
- * func_021BAA0C with the stored +0x54 flag.
+ * OPTION_MENU_DrawList with the stored +0x54 flag.
  *
  * symbols:
- *   func_021BAA0C  0x021BAA0C  thumb  ov068
+ *   OPTION_MENU_DrawList  0x021BAA0C  thumb  ov068
  */
 #include "../include/Obj00103.h"
 
 typedef unsigned char u8;
 
-extern void func_021BAA0C(u8 *p, int flag);
+extern void OPTION_MENU_DrawList(u8 *p, int flag);
 
-void func_021BA9FC(u8 *p, u8 v)
+void OPTION_MENU_SetListButtonMode(u8 *p, u8 v)
 {
     p[0x48] = v;
-    func_021BAA0C(p, ((struct Obj00103 *)p)->f54);
+    OPTION_MENU_DrawList(p, ((struct Obj00103 *)p)->f54);
 }

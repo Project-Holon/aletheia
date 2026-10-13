@@ -1,5 +1,5 @@
 /*
- * function: func_02193260
+ * function: FIELD_MSGBG_KeyWaitCheckAdvance
  * address:  0x02193260
  * packet:   pkt_ov021_02193260
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern u32 func_020362DC(void);
 
-int func_02193260(u8 *p, u32 q)
+int FIELD_MSGBG_KeyWaitCheckAdvance(u8 *p, u32 q)
 {
     int r = func_020362DC();
     int lim;

@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
- *   func_02027778  0x02027778  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb
  */
 
 typedef unsigned char u8;
@@ -24,10 +24,10 @@ typedef struct { void *s; u16 h; int z; } Item;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
 void *func_021B7194(int *p, void *arg1, u32 heap)
 {
@@ -56,8 +56,8 @@ void *func_021B7194(int *p, void *arg1, u32 heap)
     t.b1 = 0xc;
     t.b2 = 8;
     t.b3 = 3;
-    r = func_02027778((struct TaskMenuTmpl *)(&t), arg1);
-    func_02045808(it[0].s);
-    func_02045808(it[1].s);
+    r = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), arg1);
+    STRBUF_Delete(it[0].s);
+    STRBUF_Delete(it[1].s);
     return r;
 }

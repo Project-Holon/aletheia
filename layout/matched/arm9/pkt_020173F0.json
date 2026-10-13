@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020173F0",
+   "name": "POKE_TOOL_Create",
    "address": "0x020173F0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201747C",
+   "name": "POKE_TOOL_CreateFromBoxParam",
    "address": "0x0201747C",
    "kind": "game",
    "region": "arm9",

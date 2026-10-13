@@ -1,5 +1,5 @@
 /*
- * function: func_021D6744
+ * function: BTL_POKEPARAM_RecordMoveUse
  * address:  0x021D6744
  * packet:   pkt_ov093_021D6744
  * region:   ov093
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021D6744(u8 *p, u8 a, int f, u8 b, u16 c, u16 d)
+void BTL_POKEPARAM_RecordMoveUse(u8 *p, u8 a, int f, u8 b, u16 c, u16 d)
 {
     u16 old = ((struct Obj03699 *)p)->f14C;
     ((struct Obj03699 *)p)->f14A = d;

@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
- *   func_0204BA20 0x0204BA20 arm
+ *   CLACT_SetActorVisible 0x0204BA20 arm
  */
 #include "../include/Obj13068.h"
 
@@ -24,12 +24,12 @@ typedef struct {
     unsigned char h;
 } Rect;
 
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 typedef unsigned int   u32;
 struct Actor;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204BA20(struct Actor *a, u32 v);
+extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
 void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z)
 {
@@ -40,8 +40,8 @@ void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short 
     r.w = w;
     r.h = h;
     r.z = z;
-    res = func_0204B294((void *)((struct Obj13068 *)p)->f128, a, b, c, &r, 0, ((struct Obj13068 *)p)->f94);
+    res = CLACT_CreateActor((void *)((struct Obj13068 *)p)->f128, a, b, c, &r, 0, ((struct Obj13068 *)p)->f94);
     func_0204B92C(res, 1);
-    func_0204BA20(res, 0);
+    CLACT_SetActorVisible(res, 0);
     return res;
 }

@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D378  0x0203D378  arm
+ *   GFL_NET_IsParentAid  0x0203D378  arm
  *   func_021BCBBC  0x021BCBBC  thumb  ov099
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AC2C  0x0201AC2C  thumb
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  */
@@ -24,9 +24,9 @@ typedef unsigned long  u32;
 
 struct BigObj;
 struct Rec534;
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern int func_021BCBBC(int a, int b, int *out);
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_021BAAB8(char *p, int a, int b);
 
@@ -36,12 +36,12 @@ int func_021BD0F0(char *p, int v)
     int out;
 
     t = 0;
-    if (func_0203D378() == 0) {
+    if (GFL_NET_IsParentAid() == 0) {
         t = 1;
     }
     if (func_021BCBBC(((struct Obj04415 *)p)->f1348, ((struct Obj04415 *)p)->fCC, &out) != 0
         && ((struct Obj04415 *)p)->fCC == 0) {
-        func_0201AC2C(func_02012934(((struct Obj04415 *)p)->fC4),
+        func_0201AC2C(GAME_DATA_GetMyParty(((struct Obj04415 *)p)->fC4),
                       *(void **)(*(char * *)&((struct Obj04415 *)p)->f248 + t * 4 + 0x14));
         ((struct Obj04415 *)p)->f1CC = 0x67;
     } else {

@@ -1,5 +1,5 @@
 /*
- * function: func_021A3A10
+ * function: FIELD_PLAYER_CORE_GetFormSlot
  * address:  0x021A3A10
  * packet:   pkt_021A3A10
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb  ov021
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_021A31D0  0x021A31D0  thumb  ov021
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb  ov021
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FIELD_PLAYER_GetFormSlotOfObjCode  0x021A31D0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u16 func_0216D598(void *p);
-extern int func_021A31D0(u16 id);
-extern void *func_021A3960(u8 *p);
+extern u16 FLDMMDL_GetObjCode(void *p);
+extern int FIELD_PLAYER_GetFormSlotOfObjCode(u16 id);
+extern void *FIELD_PLAYER_CORE_GetMmdl(u8 *p);
 
-int func_021A3A10(u32 a)
+int FIELD_PLAYER_CORE_GetFormSlot(u32 a)
 {
-return func_021A31D0(func_0216D598(func_021A3960((u8 *)a)));
+return FIELD_PLAYER_GetFormSlotOfObjCode(FLDMMDL_GetObjCode(FIELD_PLAYER_CORE_GetMmdl((u8 *)a)));
 }
 

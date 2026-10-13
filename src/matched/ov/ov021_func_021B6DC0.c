@@ -1,5 +1,5 @@
 /*
- * function: func_021B6DC0
+ * function: SCRCMD_POKEMON_FLD_GetGiftReceiveType
  * address:  0x021B6DC0
  * packet:   pkt_ov021_021B6DC0
  * region:   ov021
@@ -24,7 +24,7 @@ typedef struct {
 
 extern Entry d_021D997C[];
 
-int func_021B6DC0(int idx, void *x, void *y, void *z)
+int SCRCMD_POKEMON_FLD_GetGiftReceiveType(int idx, void *x, void *y, void *z)
 {
     int (*fn)(void *, void *, void *) = d_021D997C[idx].fn;
 

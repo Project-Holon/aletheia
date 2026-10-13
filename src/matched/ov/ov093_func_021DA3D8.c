@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DA3D8, func_021DA51C
+ * function: HAND_TOKUSEI_ForewarnOnMemberIn, HAND_TOKUSEI_AddForewarn
  * address: 0x021DA3D8
  * packet: pkt_ov093_021DA3D8
  * region: ov093
@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   func_021C7D54 0x021C7D54 thumb ov093
  *   func_021C7CF4 0x021C7CF4 thumb ov093
  *   func_021C8120 0x021C8120 thumb ov093
- *   func_021D5448 0x021D5448 thumb ov093
- *   func_021D5440 0x021D5440 thumb ov093
- *   func_021D54C0 0x021D54C0 thumb ov093
- *   func_021D78AC 0x021D78AC thumb ov093
+ *   BTL_POKEPARAM_GetMoveCount 0x021D5448 thumb ov093
+ *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
+ *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
+ *   BTL_CALC_Random 0x021D78AC thumb ov093
  *   func_021C88B4 0x021C88B4 thumb ov093
  *   func_021C88A4 0x021C88A4 thumb ov093
  *   func_021C8838 0x021C8838 thumb ov093
@@ -31,18 +31,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 id, pad; u16 move; } Entry;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
 struct QG;
 extern void *func_021C7CF4(int *p, int i);
 extern u8 *func_021C8120(u8 *p, int b);
-extern u8 func_021D5448(struct QG *p);
-extern u8 func_021D5440(u8 *p);
-extern u16 func_021D54C0(u8 *p, int i);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 extern int WAZA_TOOL_GetDamageType(int a);
 extern u16 WAZA_TOOL_GetPower(void *p);
 extern u32 WAZA_TOOL_GetCategory(u16);
-extern u32 func_021D78AC(u32);
+extern u32 BTL_CALC_Random(u32);
 extern void func_021C88B4(void *, int, int);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C8838(void *, int, int);
@@ -64,7 +64,7 @@ static inline u32 score(u16 move)
     }
     return value;
 }
-void func_021DA3D8(int a, void *b, int c)
+void HAND_TOKUSEI_ForewarnOnMemberIn(int a, void *b, int c)
 {
     u8 buf[4];
     void *q;
@@ -74,27 +74,27 @@ void func_021DA3D8(int a, void *b, int c)
     u8 count, j, choice;
     u32 best, value;
     u8 *p;
-    if (c != func_021D775C(2)) return;
+    if (c != BTL_EVENT_GetVar(2)) return;
     n = func_021C7D54(b, (u8 *)c, buf);
     best = 0;
     count = 0;
     entries = (Entry *)func_021C8120(b, 12);
     for (i = 0; i < n; i++) {
         q = func_021C7CF4(b, buf[i]);
-        m = func_021D5448(q);
+        m = BTL_POKEPARAM_GetMoveCount(q);
         for (j = 0; j < m; j++) {
-            move = func_021D54C0(q, j);
+            move = BTL_POKEPARAM_GetMoveId(q, j);
             value = score(move);
             if (value >= best) {
                 if (value > best) { best = value; count = 0; }
-                entries[count].id = func_021D5440(q);
+                entries[count].id = BTL_POKEPARAM_GetPokeId(q);
                 entries[count].move = move;
                 count++;
             }
         }
     }
     if (count == 0) return;
-    choice = func_021D78AC(count);
+    choice = BTL_CALC_Random(count);
     func_021C88B4(b, 2, c);
     p = func_021C88A4(b, 4, c);
     func_021C8838(p + 4, 2, 0x1b1);
@@ -104,4 +104,4 @@ void func_021DA3D8(int a, void *b, int c)
     func_021C88B4(b, 3, c);
 }
 extern int d_021F0980;
-int *func_021DA51C(int *p) { *p = 2; return &d_021F0980; }
+int *HAND_TOKUSEI_AddForewarn(int *p) { *p = 2; return &d_021F0980; }

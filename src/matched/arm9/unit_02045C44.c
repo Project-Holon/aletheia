@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: MSGDATA_CreateFromMemory, func_02045CAC
+ * function: MSGDATA_CreateFromMemory, MSGDATA_ReadString
  * address:  0x02045C44
  * packet:   pkt_02045C44
  * region:   arm9
@@ -26,7 +26,7 @@
  * The whole of pkt_02045C44, 448 bytes with both literal pools: the message
  * bank's constructor and its one reader.  Both functions are EXACT
  * individually as well (src/matched/MSGDATA_CreateFromMemory.c and
- * src/matched/func_02045CAC.c); this unit is the consolidated shape.
+ * src/matched/MSGDATA_ReadString.c); this unit is the consolidated shape.
  *
  * The object is 0x1c bytes and its layout is pinned by the pair:
  *
@@ -39,7 +39,7 @@
  *   +0x1a  u8             langIndex
  *   +0x1b  u8             resident
  *
- * func_02045CAC has two residency modes.  Resident: the entry descriptor is
+ * MSGDATA_ReadString has two residency modes.  Resident: the entry descriptor is
  * &((MsgEntry *)(base + 4))[index] and the payload is base + e->off, handed
  * straight to STRBUF_SetChars.  Streamed: the descriptor is an 8-byte archive
  * read into the cache at +0x8, then a scratch buffer of 2 * e->len bytes is
@@ -52,7 +52,7 @@
  * per-language section table and the entry table starts four bytes into its
  * section.
  *
- * Shape note that cost the last eleven bytes of func_02045CAC: both guards
+ * Shape note that cost the last eleven bytes of MSGDATA_ReadString: both guards
  * test bank->resident, but the source spells them `== 0`, not `!= 0`.  That
  * puts the streamed arm on the fall-through and leaves the short arm to be
  * if-converted (ldrne/addne), per
@@ -138,7 +138,7 @@ struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId)
     return bank;
 }
 
-void func_02045CAC(struct MsgBank *bank, u32 index, void *dest)
+void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest)
 {
     u32 size;
     struct MsgEntry *e;

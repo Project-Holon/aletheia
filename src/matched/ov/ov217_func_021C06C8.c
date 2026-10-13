@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02025538  0x02025538  thumb  ov217
+ *   BMP_OAM_CreateSys  0x02025538  thumb  ov217
  *
  * Addresses are Black-image addresses.
  */
@@ -19,9 +19,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_02025538(u16 heap, int a);
+extern int BMP_OAM_CreateSys(u16 heap, int a);
 
 void func_021C06C8(u8 *p)
 {
-    ((struct Obj10961 *)p)->f3A4 = func_02025538(((struct Obj10961 *)p)->f4, ((struct Obj10961 *)p)->f38C);
+    ((struct Obj10961 *)p)->f3A4 = BMP_OAM_CreateSys(((struct Obj10961 *)p)->f4, ((struct Obj10961 *)p)->f38C);
 }

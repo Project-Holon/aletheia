@@ -1,5 +1,5 @@
 /*
- * function: func_021D1AB0
+ * function: SCRCMD_WaitMmdlIcaAnime
  * address:  0x021D1AB0
  * packet:   pkt_ov021_021D1AB0
  * region:   ov021
@@ -14,34 +14,34 @@
  * symbols:
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0215910C  0x0215910C  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021D1A9C  0x021D1A9C  thumb  ov021
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_GetReturnParam  0x0215910C  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_MMDL_ICA_WaitTask  0x021D1A9C  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern u32 func_0215910C(void *p);
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern u32 SCRIPT_WORK_GetReturnParam(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void func_0215897C(void *vm, void *task);
-extern int func_021D1A9C(u32 a, u32 b, u32 c, u32 d);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern int SCRCMD_MMDL_ICA_WaitTask(u32 a, u32 b, u32 c, u32 d);
 
-int func_021D1AB0(u32 a, u32 b)
+int SCRCMD_WaitMmdlIcaAnime(u32 a, u32 b)
 {
-    void *x = func_0215A5F4((void *)b);
-    void *task = func_020122C0((void *)func_0215A5DC((void *)b), 0, func_021D1A9C, 4);
+    void *x = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *task = func_020122C0((void *)SCRCMD_WORK_GetGameSystem((void *)b), 0, SCRCMD_MMDL_ICA_WaitTask, 4);
     u32 *w = func_020124E8(task);
 
-    *w = func_0215910C(x);
-    func_0215897C(x, task);
+    *w = SCRIPT_WORK_GetReturnParam(x);
+    SCRIPT_SYS_CallEvent(x, task);
     return 1;
 }

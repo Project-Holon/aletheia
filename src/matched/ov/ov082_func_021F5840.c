@@ -1,5 +1,5 @@
 /*
- * function: func_021F5840
+ * function: FLD_FACEUP_StepAnim
  * address: 0x021F5840
  * packet: pkt_ov082_021F5840
  * region: ov082
@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef struct { u16 value, pad; } Row;
 typedef struct { int done, busy; u8 delay, reload; u16 index; u16 tiles[2][6]; } State;
 
-void func_021F5840(Row *a, unsigned b, unsigned c, unsigned d, unsigned long e, State *f)
+void FLD_FACEUP_StepAnim(Row *a, unsigned b, unsigned c, unsigned d, unsigned long e, State *f)
 {
     int i;
     unsigned j;

@@ -8,14 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
  */
 
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 void func_02209A40(void *h)
 {
-    int *w = *((int **)func_02030EE8(h));
+    int *w = *((int **)TCBL_IsDeletePending(h));
     w[1] &= ~1;
 }

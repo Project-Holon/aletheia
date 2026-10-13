@@ -1,5 +1,5 @@
 /*
- * function: func_021A3698
+ * function: FIELD_PLAYER_CheckNogridMoveReady
  * address:  0x021A3698
  * packet:   pkt_021A3674
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0xc.
  *
  * symbols:
- *   func_021A59EC  0x021A59EC  thumb
+ *   FIELD_PLAYER_NOGRID_IsForcedMove  0x021A59EC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A59EC(u32 p);
+extern u32 FIELD_PLAYER_NOGRID_IsForcedMove(u32 p);
 
-u32 func_021A3698(u8 *p)
+u32 FIELD_PLAYER_CheckNogridMoveReady(u8 *p)
 {
-    return func_021A59EC(((struct Obj18026 *)p)->fC);
+    return FIELD_PLAYER_NOGRID_IsForcedMove(((struct Obj18026 *)p)->fC);
 }

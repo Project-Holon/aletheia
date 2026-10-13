@@ -8,10 +8,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02043AF4 0x02043AF4 arm
+ *   BMP_FillRect 0x02043AF4 arm
  *   func_021BDA54 0x021BDA54 thumb ov216
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  *   d_021BDD8A 0x021BDD8A data a2
@@ -23,18 +23,18 @@ typedef unsigned char  u8;
 struct Bmp;
 struct Cfg;
 struct Descriptor;
-extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void BMP_FillRect(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 typedef unsigned short u16;
 extern void func_021BDA54(char *owner, char *record, u32 b, u16 c, u32 d, u16 f);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(unsigned int);
 void func_021BD07C(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e)
 {
     void *x;
-    func_02043AF4(q[1],(short)(a*8),0,(unsigned short)(c*8),(unsigned short)(d*8),d_021BDD8A[e].b);
+    BMP_FillRect(q[1],(short)(a*8),0,(unsigned short)(c*8),(unsigned short)(d*8),d_021BDD8A[e].b);
     func_021BDA54(p,(char *)q,b,0,v,d_021BDD8A[e].a);
     x=q[0];
-    func_02045334(x); func_02045374(x); func_020409B4(func_02045730(x));
+    BMP_WIN_TransferChars(x); BMP_WIN_MakeScreen(x); func_020409B4(func_02045730(x));
 }

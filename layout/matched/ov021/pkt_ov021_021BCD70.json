@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BCD70",
+   "name": "FIELD_PLACE_NAME_StateFadeInWait",
    "address": "0x021BCD70",
    "kind": "game",
    "region": "ov021",

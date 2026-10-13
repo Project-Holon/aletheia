@@ -85,8 +85,8 @@
  * one after the transfer.
  *
  * Both callers agree with the two-argument signature (0x02047080 and
- * 0x02047238, via src/matched/func_02046FF8.c), and the sibling's callers
- * agree with the three-argument one (src/matched/func_020470D0.c calls
+ * 0x02047238, via src/matched/G3D_SYSTEM_TransVramTexture.c), and the sibling's callers
+ * agree with the three-argument one (src/matched/G3D_SYSTEM_FreeVramTexture.c calls
  * func_0206A0C4(r, &x, &y)).
  *
  * Addresses are Black-image addresses.

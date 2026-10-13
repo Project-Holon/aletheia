@@ -12,7 +12,7 @@
  * Counts the 30 slots whose value func_021CFA04 accepts.
  *
  * symbols:
- *   func_0201293C  0x0201293C  thumb
+ *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   func_020079BC  0x020079BC  thumb
  *   func_021CFA04  0x021CFA04  thumb  ov021
  * Addresses are Black-image addresses.
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct BigObj;
-extern u32 func_0201293C(const struct BigObj *p);
+extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
 extern int func_021CFA04(int a, int v, void *l);
 
 int func_021CF940(void *a, void *src, void *b, int *c)
 {
-    void *h = (void *)func_0201293C(src);
+    void *h = (void *)GAME_DATA_GetBoxManager(src);
     int n = 0;
     int i;
 

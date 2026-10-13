@@ -1,5 +1,5 @@
 /*
- * function: func_021B7640
+ * function: ITEMMENU_TaskUseNoticeMessage
  * address:  0x021B7640
  * packet:   pkt_ov070_021B7640
  * region:   ov070
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_02021350  0x02021350  thumb
- *   func_02045CAC  0x02045CAC  arm
- *   func_021BACF0  0x021BACF0  thumb  ov070
- *   func_021B6100  0x021B6100  thumb  ov070
- *   func_021B761C  0x021B761C  thumb  ov070
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   ITEMMENU_ShowMessage  0x021BACF0  thumb  ov070
+ *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
+ *   ITEMMENU_TaskStartRegisterResult  0x021B761C  thumb  ov070
  */
 
 typedef unsigned char u8;
@@ -32,17 +32,17 @@ typedef struct Obj {
 extern u8 func_02021350(u16 id);
 typedef unsigned int   u32;
 struct MsgBank;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_021BACF0(int p, int mode);
-extern void func_021B6100(char *p, int k);
-extern void func_021B761C(int p);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void ITEMMENU_ShowMessage(int p, int mode);
+extern void ITEMMENU_SetTask(char *p, int k);
+extern void ITEMMENU_TaskStartRegisterResult(int p);
 
-void func_021B7640(Obj *o)
+void ITEMMENU_TaskUseNoticeMessage(Obj *o)
 {
     if (func_02021350(o->f84C) == 0xFF)
-        func_02045CAC(o->f51C, 0x3C, (void *)o->f528);
+        MSGDATA_ReadString(o->f51C, 0x3C, (void *)o->f528);
     else
-        func_02045CAC(o->f51C, 0x3D, (void *)o->f528);
-    func_021BACF0((int)o, 1);
-    func_021B6100((char *)o, (int)((void *)func_021B761C));
+        MSGDATA_ReadString(o->f51C, 0x3D, (void *)o->f528);
+    ITEMMENU_ShowMessage((int)o, 1);
+    ITEMMENU_SetTask((char *)o, (int)((void *)ITEMMENU_TaskStartRegisterResult));
 }

@@ -15,7 +15,7 @@
  * symbols:
  *   func_0220793C  0x0220793C  thumb  ov094
  *   func_0220868C  0x0220868C  thumb  ov094
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
@@ -47,7 +47,7 @@ extern void func_0220868C(void *obj, S *q, int n);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -67,7 +67,7 @@ void func_02207DA0(void *obj, S *q, int n)
     q->lo = 1;
     if (q->f68 > 0) {
         func_0220793C((char *)q);
-        func_0204B454(q->f8, (struct PtS *)v, 0);
+        CLACT_GetActorSurfacePos(q->f8, (struct PtS *)v, 0);
         v[0] = v[0] - (s16)(0x30 - q->f78);
         func_0204B404(q->fc, (const struct Vec2 *)v, 0);
         func_0204B3DC(q->fc, 1);

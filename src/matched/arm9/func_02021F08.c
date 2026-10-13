@@ -22,7 +22,7 @@
 
  * EXACT*: 52 bytes compiled (44 of code plus the two pool words at
  * 0x02021F34/0x02021F38), against a 92-byte inferred extent that runs on
- * into the unlabelled `.word` run before func_02021F64.
+ * into the unlabelled `.word` run before PALANM_BlendColors.
  *
  * The `(v & 1)` is narrowed to u16 before the field store (`lsls #0x10 /
  * lsrs #0x10` at +0x10), which is what an `int` argument masked into a

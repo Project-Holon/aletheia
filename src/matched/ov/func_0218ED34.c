@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED34
+ * function: FIELD_CAMERA_SetPitch
  * address:  0x0218ED34
  * packet:   pkt_0218ED34
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_0218ED34(u8 *p, u16 v)
+void FIELD_CAMERA_SetPitch(u8 *p, u16 v)
 {
     ((struct Obj17910 *)p)->f78 = v;
 }

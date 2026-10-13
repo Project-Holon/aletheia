@@ -1,5 +1,5 @@
 /*
- * function: func_0217FF14
+ * function: COLOSSEUM_IsOnCounterPos
  * address:  0x0217FF14
  * packet:   pkt_ov019_0217FF14
  * region:   ov019
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   d_021807AC     0x021807AC  data  ov019  a4
  *   d_021807C0     0x021807C0  data  ov019  a4
  */
@@ -22,24 +22,24 @@ typedef short s16;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *v);
-extern u16 func_02188C9C(u8 *p);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *v);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern s16 d_021807AC[][2];
 extern s16 d_021807C0[][2];
 
-int func_0217FF14(void *a)
+int COLOSSEUM_IsOnCounterPos(void *a)
 {
     int v[3];
     s16 (*t)[2];
     int i;
     int n;
 
-    func_021A3038(func_02188CB4(a), (struct VecFx32 *)v);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(a), (struct VecFx32 *)v);
     v[0] >>= 12;
     v[2] >>= 12;
-    if (func_02188C9C(a) == 0x96) {
+    if (FIELDMAP_GetZoneId(a) == 0x96) {
         t = d_021807AC;
         n = 5;
     } else {

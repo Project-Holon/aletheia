@@ -1,5 +1,5 @@
 /*
- * function: func_02163130
+ * function: FLDMMDL_MOVE_ProcMoveStartFirst
  * address: 0x02163130
  * packet: pkt_ov010_02163130
  * region: ov010
@@ -8,24 +8,24 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0216D57C 0x0216D57C thumb ov010
- *   func_021641C8 0x021641C8 thumb ov010
- *   func_02163230 0x02163230 thumb ov010
- *   func_0216D570 0x0216D570 thumb ov010
+ *   FLDMMDL_CheckMoveBit 0x0216D57C thumb ov010
+ *   FLDMMDL_MOVE_StopAcmdWalkCodes 0x021641C8 thumb ov010
+ *   FLDMMDL_MOVE_AttrProcMoveStartFirst 0x02163230 thumb ov010
+ *   FLDMMDL_ClearMoveBit 0x0216D570 thumb ov010
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_0216D57C(void *p, u32 v);
-extern void func_021641C8(void *a);
-extern void func_02163230(int a0);
-extern char *func_0216D570(char *p, u32 v);
-void func_02163130(char *p)
+extern u32 FLDMMDL_CheckMoveBit(void *p, u32 v);
+extern void FLDMMDL_MOVE_StopAcmdWalkCodes(void *a);
+extern void FLDMMDL_MOVE_AttrProcMoveStartFirst(int a0);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
+void FLDMMDL_MOVE_ProcMoveStartFirst(char *p)
 {
-    if (func_0216D57C(p, 0x20)) {
-        func_021641C8(p);
-        func_02163230((int)p);
+    if (FLDMMDL_CheckMoveBit(p, 0x20)) {
+        FLDMMDL_MOVE_StopAcmdWalkCodes(p);
+        FLDMMDL_MOVE_AttrProcMoveStartFirst((int)p);
     }
-    func_0216D570(p, 0xa0);
+    FLDMMDL_ClearMoveBit(p, 0xa0);
 }

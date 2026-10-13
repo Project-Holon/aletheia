@@ -11,12 +11,12 @@
  * 2026-10-05 wave P5 lane T5 (pengy share): earlier DIFF, two residues (merged far-branch stubs, idx-12 CSE).
  * 2026-10-05 wave P5 lane T5b: EXACT with the ov129 021D958C forms: idx is u32 (unsigned % and / by plain 5),
  *   `if (*(int *)(p + 0x22C) != 1) return;` then `if (arg == 0) {`, non-const Record pointer. One compile.
- *   Callbacks: func_021E1910 passes this as func_02051B84's callback (idx, arg, obj).
+ *   Callbacks: func_021E1910 passes this as BUTTON_MAN_Create's callback (idx, arg, obj).
  * symbols:
  *   func_021E0E40 0x021E0E40 thumb ov183
  *   func_021E1708 0x021E1708 thumb ov183
  *   func_021E1850 0x021E1850 thumb ov183
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_02035D20 0x02035D20 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021FD860 0x021FD860 thumb ov186
@@ -30,7 +30,7 @@ struct Obj;
 extern int func_021E0E40(int,int);
 extern void func_021E1708(char *);
 extern void func_021E1850(char *);
-extern void func_0204B878(struct Obj *, u16);
+extern void CLACT_SetActorAnimSeq(struct Obj *, u16);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32);
 extern void func_021FD860(int,int,int *);
@@ -87,7 +87,7 @@ void func_021E19EC(u32 idx, int arg, char *p)
         func_021FD860(*(int *)(p + 0x348), 1, args);
         i = *(int *)(p + 0x188);
         v = idx - 11;
-        func_0204B878((struct Obj *)rec[i].handle, (u16)func_021E0E40(rec[i].tag = v, rec[i].mode));
+        CLACT_SetActorAnimSeq((struct Obj *)rec[i].handle, (u16)func_021E0E40(rec[i].tag = v, rec[i].mode));
         old = rec[i].value;
         j = i + 1;
         if (j == *(u32 *)(p + 0x23C)) {

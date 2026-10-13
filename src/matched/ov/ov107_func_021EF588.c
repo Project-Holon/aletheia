@@ -10,7 +10,7 @@
  * status: EXACT
  * 2026-10-05 (integrator): the fullwidth-to-ASCII constants are plain literals (0xFF29, 0xFF24, 0xFF10..0xFF19, c - 0xFEE0); mwcc derives them from one held value itself, so the earlier `u32 k = 0xFF24` local was not needed. EXACT in c99 and c.
  * symbols:
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_02030734 0x02030734 arm
  *   func_021F1628 0x021F1628 thumb ov107
  *   func_021F18D8 0x021F18D8 thumb ov107
@@ -19,10 +19,10 @@
  *   func_021F1AFC 0x021F1AFC thumb ov107
  *   func_021F1B00 0x021F1B00 thumb ov107
  *   func_02045EC0 0x02045EC0 arm
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
- *   func_020458F8 0x020458F8 arm
+ *   STRBUF_Delete 0x02045808 arm
+ *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   func_02082A60 0x02082A60 arm
  *   func_02034AC4 0x02034AC4 arm
@@ -59,7 +59,7 @@ struct Work {
 };
 extern const char d_021F6E0C[];
 extern u8 ov014_id[];
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_021F1628(void *, int), func_021F18D8(void *);
 extern u16 func_02008534(const struct Sub0200852CObj *obj);
@@ -67,11 +67,11 @@ extern void func_021F1918(unsigned char *a, int b, int c, int d);
 extern u32 func_021F1AFC(u8 *p);
 extern u32 func_021F1B00(u8 *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 typedef signed int     s32;
-extern u16 func_020458F8(struct U16Vec *vec);
+extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void func_02082A60(const void *, void *, int);
 extern int func_02034AC4(s32 handle);
@@ -93,7 +93,7 @@ void func_021EF588(u8 *p)
     u16 *src;
 
 
-    q = func_02012944(w->f8[1]);
+    q = GAME_DATA_GetMyStatus(w->f8[1]);
     w->f24 = 0;
     w->f26 = 0;
     w->f50 = func_02030734(w->f0, 0x60, 1, d_021F6E0C, 0x553);
@@ -105,24 +105,24 @@ void func_021EF588(u8 *p)
         m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0xC);
     else
         m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0xF);
-    a = func_020457B0(0x100, w->f0);
+    a = STRBUF_Create(0x100, w->f0);
     func_0201F250((struct WordSet *)func_021F1B00(w->f68), a, m);
-    func_02045808((struct U16Vec *)m);
+    STRBUF_Delete((struct U16Vec *)m);
     if (w->f28 == 0)
         m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0xD);
     else
         m = func_02045EC0((struct MsgBank *)func_021F1AFC(w->f68), 0x10);
     b = (struct U16Vec *)m;
-    la = (u32)func_020458F8(a);
-    lb = (u32)func_020458F8(b);
+    la = (u32)STRBUF_GetLength(a);
+    lb = (u32)STRBUF_GetLength(b);
     dst = w->f50;
     src = STRBUF_GetChars(a);
     func_02082A60(src, dst, la * 2);
     dst = w->f54;
     src = STRBUF_GetChars(b);
     func_02082A60(src, dst, lb * 2);
-    func_02045808(a);
-    func_02045808(b);
+    STRBUF_Delete(a);
+    STRBUF_Delete(b);
     w->f50[la] = 0;
     w->f54[lb] = 0;
     for (i = 0; i < 0x60; i++) {

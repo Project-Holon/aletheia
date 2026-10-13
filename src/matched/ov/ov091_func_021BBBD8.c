@@ -1,5 +1,5 @@
 /*
- * function: func_021BBBD8
+ * function: PLIST_MENU_Update
  * address:  0x021BBBD8
  * packet:   pkt_021BBBD8
  * region:   ov091
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02027974  0x02027974  thumb
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  */
 
-void func_02027974(int);
+void APP_TASKMENU_UpdateMenu(int);
 
-void func_021BBBD8(int unused, int *p)
+void PLIST_MENU_Update(int unused, int *p)
 {
     (void)unused;
-    func_02027974(p[29]);
+    APP_TASKMENU_UpdateMenu(p[29]);
 }

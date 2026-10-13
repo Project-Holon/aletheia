@@ -1,5 +1,5 @@
 /*
- * function: func_021B6AD8
+ * function: ITEMMENU_ShowMessageThenWait
  * address: 0x021B6AD8
  * packet: pkt_ov070_021B6AD8
  * region: ov070
@@ -9,13 +9,13 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021BACF0 0x021BACF0 thumb ov070
- *   func_021B6100 0x021B6100 thumb ov070
- *   func_021B6A14 0x021B6A14 thumb ov070
+ *   ITEMMENU_ShowMessage 0x021BACF0 thumb ov070
+ *   ITEMMENU_SetTask 0x021B6100 thumb ov070
+ *   ITEMMENU_TaskWaitMessage 0x021B6A14 thumb ov070
  */
 
-extern void func_021BACF0(int p, int mode);
-extern void func_021B6100(char *p, int k);
+extern void ITEMMENU_ShowMessage(int p, int mode);
+extern void ITEMMENU_SetTask(char *p, int k);
 typedef unsigned char  u8;
-extern void func_021B6A14(u8 *p);
-void func_021B6AD8(int p) { func_021BACF0(p, 1); func_021B6100((void *)p, (int)((void *)func_021B6A14)); }
+extern void ITEMMENU_TaskWaitMessage(u8 *p);
+void ITEMMENU_ShowMessageThenWait(int p) { ITEMMENU_ShowMessage(p, 1); ITEMMENU_SetTask((void *)p, (int)((void *)ITEMMENU_TaskWaitMessage)); }

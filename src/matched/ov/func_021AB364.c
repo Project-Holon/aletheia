@@ -1,5 +1,5 @@
 /*
- * function: func_021AB364
+ * function: MAP_ATTR_IsSplashWaterB
  * address:  0x021AB364
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-BOOL func_021AB364(u16 id)
+BOOL MAP_ATTR_IsSplashWaterB(u16 id)
 {
     if (id == 0x1c) {
         return 1;

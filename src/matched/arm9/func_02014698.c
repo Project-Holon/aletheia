@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The step function func_02014728 installs (argsize 0x14, args p[0]..p[4]),
+ * The step function FIELD_STATUS_CreateSubProcNoFadeEvent installs (argsize 0x14, args p[0]..p[4]),
  * one stage per call on *mode.  Closed in wave 13: the earlier goto/label
  * spelling (docs/notes/FIELD_STATUS_SubProcNoFadeEvent.c.txt, one byte out) was the wrong
  * shape.  Written plainly -- every arm carries its own `(*mode)++; break;`
@@ -19,7 +19,7 @@
  *
  * symbols:
  *   FIELD_STATUS_CreateFieldCloseEvent  0x020144DC  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
@@ -34,7 +34,7 @@ extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
 u32 FIELD_STATUS_SubProcNoFadeEvent(void *obj, u32 *mode, u32 *args)
 {
@@ -42,7 +42,7 @@ u32 FIELD_STATUS_SubProcNoFadeEvent(void *obj, u32 *mode, u32 *args)
 
     switch (*mode) {
     case 0:
-        func_02012374(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(a0, args[1]));
+        GAME_EVENT_CallEvent(obj, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent(a0, args[1]));
         (*mode)++;
         break;
     case 1:
@@ -55,7 +55,7 @@ u32 FIELD_STATUS_SubProcNoFadeEvent(void *obj, u32 *mode, u32 *args)
         }
         break;
     case 3:
-        func_02012374(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)a0));
+        GAME_EVENT_CallEvent(obj, FIELD_STATUS_CreateFieldOpenEvent((void *)a0));
         (*mode)++;
         break;
     case 4:

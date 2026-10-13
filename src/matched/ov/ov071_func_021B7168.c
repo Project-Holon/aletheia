@@ -13,14 +13,14 @@
  * ARM9 tail call followed by an empty function.
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  */
 
 struct Obj;
 void func_021B7168(void *p)
 {
-    void func_0204B3B4(struct Obj *p);
-    func_0204B3B4(p);
+    void CLACT_DeleteActor(struct Obj *p);
+    CLACT_DeleteActor(p);
 }
 
 void func_021B7170(void *a)

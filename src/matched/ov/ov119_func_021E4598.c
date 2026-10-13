@@ -18,7 +18,7 @@
  * symbols:
  *   func_02042FB0 0x02042FB0 arm
  *   BMP_WIN_SetPosX 0x02045780 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
 #include "../include/Obj00001.h"
@@ -29,7 +29,7 @@ extern void func_02042FB0(u32, u32, u32, u16);
 struct Cfg;
 struct Descriptor;
 extern void BMP_WIN_SetPosX(struct Descriptor *p, u8 v);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 void func_021E4598(char *p)
 {
@@ -61,7 +61,7 @@ void func_021E4598(char *p)
         if (pos >= -10 && pos <= 33) {
             q = (char *)((u32)p+(u32)idx*4u);
             BMP_WIN_SetPosX(*(void **)(q + off1), pos + 1);
-            func_02045374(*(void **)(q + off2));
+            BMP_WIN_MakeScreen(*(void **)(q + off2));
         }
     }
     func_02041B6C(5);

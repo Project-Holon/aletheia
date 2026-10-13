@@ -1,5 +1,5 @@
 /*
- * function: func_0217B600
+ * function: INTRUDE_FIELD_EventExitConfirm
  * address:  0x0217B600
  * packet:   pkt_ov018_0217B600
  * region:   ov018
@@ -12,12 +12,12 @@
  * Byte-correct (528 of 528 bytes).  Sole blocker: the THM_CALL at +0x13C to
  * 0x02012798, an unlabelled arm9 leaf that disasm.py prints as .word data in
  * pool_02012794 (asm/arm9/main.s), after the pop at 0x02012790 and before
- * func_020127A4; no listing labels it and this call is its only witness, so
+ * GAME_DATA_GetMyPlayerWork; no listing labels it and this call is its only witness, so
  * every class refuses it.  Verified EXACT at 0x02012798 (arm9, thumb, 10 B):
  *
- *     u8 *func_02012798(u8 *p, int i) { return p + 4 + i * 0x44; }
+ *     u8 *GAME_DATA_GetPlayerWork(u8 *p, int i) { return p + 4 + i * 0x44; }
  *
- * It is the Rec44 indexer that belongs beside func_02012950 in
+ * It is the Rec44 indexer that belongs beside GAME_DATA_GetPlayerStatus in
  * src/matched/arm9/unit_02012924.c; once it is labelled or matched this file
  * should verify EXACT unchanged.  The 12-byte scratch is a cast u8 buffer
  * (docs/idioms/a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md):
@@ -25,42 +25,42 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012138  0x02012138  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012798  0x02012798  thumb
- *   func_02012A90  0x02012A90  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetPlayerWork  0x02012798  thumb
+ *   GAME_DATA_SetPlayerPosition  0x02012A90  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   func_02026454  0x02026454  thumb
- *   func_02026400  0x02026400  thumb
- *   func_02045C04  0x02045C04  arm
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D480  0x0216D480  thumb  ov010
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_0217C658  0x0217C658  thumb
- *   func_0217C688  0x0217C688  thumb
- *   func_02185214  0x02185214  thumb
- *   func_02188BE8  0x02188BE8  thumb
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021904B0  0x021904B0  thumb  ov021
- *   func_021907A8  0x021907A8  thumb  ov021
- *   func_02190740  0x02190740  thumb  ov021
- *   func_0219077C  0x0219077C  thumb  ov021
- *   func_02190728  0x02190728  thumb  ov021
- *   func_021909BC  0x021909BC  thumb
- *   func_02190BE4  0x02190BE4  thumb
- *   func_02190C78  0x02190C78  thumb
- *   func_02190E40  0x02190E40  thumb
- *   func_02190E74  0x02190E74  thumb
- *   func_02190EF0  0x02190EF0  thumb
- *   func_02190F64  0x02190F64  thumb
- *   func_021A3074  0x021A3074  thumb
- *   func_021A3238  0x021A3238  thumb
+ *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
+ *   INTRUDE_FIELD_InitPlayerSpin  0x0217C658  thumb
+ *   INTRUDE_FIELD_StepPlayerSpin  0x0217C688  thumb
+ *   EVENT_MAPCHANGE_CreateIntrudeReturnEvent  0x02185214  thumb
+ *   FIELDMAP_IsReady  0x02188BE8  thumb
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
+ *   FIELD_MSGBG_CreateBottomMsgWin  0x021907A8  thumb  ov021
+ *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
+ *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb
+ *   FIELD_MSGBG_SysWinPrintMsg  0x02190E74  thumb
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb
+ *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   FIELD_PLAYER_CheckFormModel  0x021A3238  thumb
  */
 
 typedef unsigned char u8;
@@ -89,44 +89,44 @@ struct Rec;
 struct Rec44;
 struct Vec12;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012138(const struct Ctx *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012798(u8 *p, int i);
-extern void func_02012A90(struct Rec44 *p, const struct Vec12 *src);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetPlayerWork(u8 *p, int i);
+extern void GAME_DATA_SetPlayerPosition(struct Rec44 *p, const struct Vec12 *src);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern u32 func_0200FB24(void);
 extern u32 func_02026454(void *obj);
-extern void func_02026400(struct Comm *p);
-extern u32 func_02045C04(struct Rec *rec);
-extern int func_0216D3CC(int a0);
-extern void func_0216D410(void *a0, u16 a1);
-extern int func_0216D480(char *p);
-extern void func_0216D9A0(void *map);
-extern u32 *func_0216D9E4(void *c);
-extern void func_0217C658();
-extern int func_0217C688();
-extern int func_02185214();
-extern int func_02188BE8();
-extern void *func_02188C7C(u8 *p);
-extern u32 func_02188C54(u8 *p);
-extern int func_02188CB4();
-extern int func_021904B0(u32 a, u32 b);
-extern int func_021907A8();
-extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
-extern int func_0219077C(u8 *p);
-extern int func_02190728(void *a);
-extern void func_021909BC();
-extern int func_02190BE4();
-extern int func_02190C78();
-extern void func_02190E40();
-extern void func_02190E74();
-extern int func_02190EF0();
-extern int func_02190F64();
-extern int func_021A3074();
-extern int func_021A3238();
+extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
+extern u32 MSGDATA_Delete(struct Rec *rec);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern void FLDMMDL_SetAcmd(void *a0, u16 a1);
+extern int FLDMMDL_EndAcmd(char *p);
+extern void FLDMMDL_SysPauseMove(void *map);
+extern u32 *FLDMMDL_SysResumeMove(void *c);
+extern void INTRUDE_FIELD_InitPlayerSpin();
+extern int INTRUDE_FIELD_StepPlayerSpin();
+extern int EVENT_MAPCHANGE_CreateIntrudeReturnEvent();
+extern int FIELDMAP_IsReady();
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern int FIELDMAP_GetFieldPlayer();
+extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
+extern int FIELD_MSGBG_CreateBottomMsgWin();
+extern int FIELD_MSGBG_MsgWinPrintMsg(u32 a, u32 b, u32 c, u32 d);
+extern int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
+extern int FIELD_MSGBG_DeleteMsgWin(void *a);
+extern void FIELD_MSGBG_DeleteMenuFunc();
+extern int FIELD_MSGBG_CreateYesNoMenu();
+extern int FIELD_MSGBG_YesNoMenuMain();
+extern void FIELD_MSGBG_DeleteSysWin();
+extern void FIELD_MSGBG_SysWinPrintMsg();
+extern int FIELD_MSGBG_SysWinMain();
+extern int FIELD_MSGBG_CreateBottomSysWin();
+extern int FIELD_PLAYER_GetMmdl();
+extern int FIELD_PLAYER_CheckFormModel();
 
-int func_0217B600(int a0, int *state, Obj *o)
+int INTRUDE_FIELD_EventExitConfirm(int a0, int *state, Obj *o)
 {
     int w;
     int g;
@@ -139,28 +139,28 @@ int func_0217B600(int a0, int *state, Obj *o)
     V12 *pv;
 
     w = (int)func_020124E4((struct Obj *)a0);
-    g = (int)func_0201210C((const struct Ctx *)w);
-    h = func_02012138((const struct Ctx *)w);
+    g = (int)GAMESYSTEM_GetFieldMap((const struct Ctx *)w);
+    h = GAMESYSTEM_GetGameComm((const struct Ctx *)w);
     switch (*state) {
     case 0:
-        func_0216D9A0(func_02188C7C((u8 *)g));
-        t = func_02188C54((u8 *)g);
-        o->f0 = func_021904B0(t, 0x2D);
-        o->f8 = func_02190F64(t, o->f0);
-        func_02190E74(o->f8, 0, 0, 0x54);
+        FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys((u8 *)g));
+        t = FIELDMAP_GetMsgBg((u8 *)g);
+        o->f0 = FIELD_MSGBG_CreateMsgData(t, 0x2D);
+        o->f8 = FIELD_MSGBG_CreateBottomSysWin(t, o->f0);
+        FIELD_MSGBG_SysWinPrintMsg(o->f8, 0, 0, 0x54);
         *state += 1;
         break;
     case 1:
-        if (func_02190EF0(o->f8) == 1) {
-            o->fc = func_02190BE4(func_02188C54((u8 *)g), 0);
+        if (FIELD_MSGBG_SysWinMain(o->f8) == 1) {
+            o->fc = FIELD_MSGBG_CreateYesNoMenu(FIELDMAP_GetMsgBg((u8 *)g), 0);
             *state += 1;
         }
         break;
     case 2:
-        r = func_02190C78(o->fc);
+        r = FIELD_MSGBG_YesNoMenuMain(o->fc);
         if (r != 2) {
-            func_021909BC(o->fc);
-            func_02190E40(o->f8);
+            FIELD_MSGBG_DeleteMenuFunc(o->fc);
+            FIELD_MSGBG_DeleteSysWin(o->f8);
             o->fc = 0;
             o->f8 = 0;
             if (r == 0)
@@ -171,14 +171,14 @@ int func_0217B600(int a0, int *state, Obj *o)
         break;
     case 3:
         if (func_0200FB24() == 0 && func_02026454((void *)h) == 2) {
-            func_02026400((struct Comm *)h);
-            o->f4 = func_021907A8(func_02188C54((u8 *)g), o->f0);
-            func_02190740(o->f4, 0, 0, 0x14);
+            GAME_COMM_RequestExitNoCallback((struct Comm *)h);
+            o->f4 = FIELD_MSGBG_CreateBottomMsgWin(FIELDMAP_GetMsgBg((u8 *)g), o->f0);
+            FIELD_MSGBG_MsgWinPrintMsg(o->f4, 0, 0, 0x14);
         }
         *state += 1;
         break;
     case 4:
-        if (o->f4 == 0 || func_0219077C((u8 *)o->f4) == 1)
+        if (o->f4 == 0 || FIELD_MSGBG_IsMsgWinTransDone((u8 *)o->f4) == 1)
             *state += 1;
         break;
     case 5:
@@ -187,60 +187,60 @@ int func_0217B600(int a0, int *state, Obj *o)
             break;
         if (func_02026454((void *)h) == 2)
             break;
-        ctx = (int)func_020120F4((const struct Ctx *)w);
+        ctx = (int)GAMESYSTEM_GetGameData((const struct Ctx *)w);
         pv = (V12 *)v;
         pv->x = 0;
         pv->y = 0;
         pv->z = 0;
         for (i = 0; i < 3; i++)
-            func_02012A90((struct Rec44 *)func_02012798((u8 *)ctx, i), (const struct Vec12 *)pv);
+            GAME_DATA_SetPlayerPosition((struct Rec44 *)GAME_DATA_GetPlayerWork((u8 *)ctx, i), (const struct Vec12 *)pv);
         *state += 1;
         break;
     case 6:
         if (o->f4 != 0)
-            func_02190728((void *)o->f4);
-        func_02045C04((struct Rec *)o->f0);
+            FIELD_MSGBG_DeleteMsgWin((void *)o->f4);
+        MSGDATA_Delete((struct Rec *)o->f0);
         *state += 1;
         break;
     case 7:
-        g = (int)func_0201210C((const struct Ctx *)w);
-        if (func_02188BE8(g) != 1)
+        g = (int)GAMESYSTEM_GetFieldMap((const struct Ctx *)w);
+        if (FIELDMAP_IsReady(g) != 1)
             break;
-        if (func_021A3238(func_02188CB4(g)) == 0) {
-            func_0217C658(o->f10, w, g, 0, 0, 0);
+        if (FIELD_PLAYER_CheckFormModel(FIELDMAP_GetFieldPlayer(g)) == 0) {
+            INTRUDE_FIELD_InitPlayerSpin(o->f10, w, g, 0, 0, 0);
             *state += 1;
         } else {
             *state = 9;
         }
         break;
     case 8:
-        if (func_0217C688(o->f10, 0) == 1)
+        if (INTRUDE_FIELD_StepPlayerSpin(o->f10, 0) == 1)
             *state += 1;
         break;
     case 9:
-        func_02012374((struct Evt *)a0, (struct Evt **)func_02185214(w));
+        GAME_EVENT_CallEvent((struct Evt *)a0, (struct Evt **)EVENT_MAPCHANGE_CreateIntrudeReturnEvent(w));
         *state += 1;
         break;
     case 10:
         *state = 14;
         break;
     case 11:
-        func_02045C04((struct Rec *)o->f0);
+        MSGDATA_Delete((struct Rec *)o->f0);
         *state = 12;
         break;
     case 12:
-        t = func_021A3074(func_02188CB4(g));
-        if (func_0216D3CC(t) == 1) {
-            func_0216D410((void *)t, 8);
+        t = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(g));
+        if (FLDMMDL_CheckPossibleAcmd(t) == 1) {
+            FLDMMDL_SetAcmd((void *)t, 8);
             *state += 1;
         }
         break;
     case 13:
-        if (func_0216D480((char *)func_021A3074(func_02188CB4(g))) == 1)
+        if (FLDMMDL_EndAcmd((char *)FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(g))) == 1)
             *state = 14;
         break;
     case 14:
-        func_0216D9E4(func_02188C7C((u8 *)g));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys((u8 *)g));
         return 1;
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021852B4
+ * function: OEKAKI_SelectColorButton
  * address:  0x021852B4
  * packet:   pkt_ov023_021852B4
  * region:   ov023
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   d_02186BEC  0x02186BEC  data  a2
- *   func_0204B878  0x0204B878  arm
+ *   gOekakiButtonLayout  0x02186BEC  data  a2
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 
 typedef unsigned short u16;
@@ -23,18 +23,18 @@ struct Ent {
     u16 c;
 };
 
-extern struct Ent d_02186BEC[];
+extern struct Ent gOekakiButtonLayout[];
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021852B4(u32 *p, int n)
+void OEKAKI_SelectColorButton(u32 *p, int n)
 {
     int i;
 
     for (i = 0; i < 8; i++) {
         if (i == n)
-            func_0204B878((struct Obj *)p[i], (u16)(d_02186BEC[i].c + 1));
+            CLACT_SetActorAnimSeq((struct Obj *)p[i], (u16)(gOekakiButtonLayout[i].c + 1));
         else
-            func_0204B878((struct Obj *)p[i], d_02186BEC[i].c);
+            CLACT_SetActorAnimSeq((struct Obj *)p[i], gOekakiButtonLayout[i].c);
     }
 }

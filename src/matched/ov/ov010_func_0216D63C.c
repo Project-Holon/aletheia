@@ -1,5 +1,5 @@
 /*
- * function: func_0216D63C
+ * function: FLDMMDL_GetParam
  * address:  0x0216D63C
  * packet:   pkt_0216D63C
  * region:   ov010
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Recursive MATCH unblocker: dependency of func_0217C294 (ov018 tail-call
- * thunk), which unblocks func_0216AC90 and func_0216ACCC.
+ * Recursive MATCH unblocker: dependency of INTRUDE_FIELD_GetMmdlParam0 (ov018 tail-call
+ * thunk), which unblocks SCRCMD_SYMBOL_SelectObjectEntry and SCRCMD_SYMBOL_MoveObjectEntryToPairedBand.
  */
 #include "../include/Obj00113.h"
 
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_0216D63C(char *a0, int a1)
+int FLDMMDL_GetParam(char *a0, int a1)
 {
     switch (a1) {
     case 0:

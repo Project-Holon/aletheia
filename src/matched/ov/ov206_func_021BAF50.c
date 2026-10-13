@@ -11,7 +11,7 @@
  * symbols:
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  */
 #include "../include/Obj14637.h"
 #include "../include/Obj25402.h"
@@ -21,7 +21,7 @@ struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 void func_021BAF50(char *p)
 {
     int i;
@@ -29,6 +29,6 @@ void func_021BAF50(char *p)
     for (i = 0; i < 4; i++) {
         char *slot = p + i * 4;
         ((struct Obj14637 *)slot)->f7C = 1;
-        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj14637 *)slot)->f6C)), 0);
+        BMP_Clear((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj14637 *)slot)->f6C)), 0);
     }
 }

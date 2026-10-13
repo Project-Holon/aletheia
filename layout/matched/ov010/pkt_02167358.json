@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02167358",
+   "name": "QUESTIONNAIRE_GetAnswerBitWidth",
    "address": "0x02167358",
    "kind": "game",
    "region": "ov010",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_0216736C",
+   "name": "QUESTIONNAIRE_GetFirstAnswerMessageOffset",
    "address": "0x0216736C",
    "kind": "game",
    "region": "ov010",

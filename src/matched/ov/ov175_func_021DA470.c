@@ -9,12 +9,12 @@
  * status: EXACT
  * stack: four date words (including weekday), three time words.
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_0200FA84 0x0200FA84 thumb
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_02082BCC 0x02082BCC arm
  */
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_0200FA84(void);
 extern int func_02167ED8(void *date, void *time);
 extern void func_02082BCC(void *, int, int);
@@ -22,7 +22,7 @@ void func_021DA470(unsigned char *dest)
 {
     int date[4];
     int time[3];
-    if (!func_0203CD98()) func_0200FA84();
+    if (!GFL_NET_GetRunState()) func_0200FA84();
     if (!func_02167ED8(date, time)) func_0200FA84();
     func_02082BCC(dest, 0, 6);
     dest[0] = date[0];

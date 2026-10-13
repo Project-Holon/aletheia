@@ -1,5 +1,5 @@
 /*
- * function: func_02166824
+ * function: SYMBOL_MAP_GetSyncBlockItem
  * address:  0x02166824
  * packet:   pkt_02166824
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_02166824(int a0, int a1)
+int SYMBOL_MAP_GetSyncBlockItem(int a0, int a1)
 {
     int a2;
 a2 = *(u8 *)((char *)a0 + 1);

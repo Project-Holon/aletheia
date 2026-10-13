@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C97B8",
+   "name": "FIELD_DOOR_ANIME_SetOpenTask",
    "address": "0x021C97B8",
    "kind": "game",
    "region": "ov021",

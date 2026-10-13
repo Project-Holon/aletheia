@@ -1,5 +1,5 @@
 /*
- * function: func_021D0914
+ * function: FLDEFF_BUBBLE_GetFacingVector
  * address:  0x021D0914
  * packet:   pkt_ov021_021D0914
  * region:   ov021
@@ -9,40 +9,40 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D55C  0x0216D55C  thumb  ov010
- *   func_021641E8  0x021641E8  thumb  ov010
- *   func_021641F8  0x021641F8  thumb  ov010
- *   func_0219E784  0x0219E784  thumb  ov021
- *   func_0207CDB8  0x0207CDB8  arm
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridX  0x021641E8  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirAddGridZ  0x021641F8  thumb  ov010
+ *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
+ *   VEC_Fx16Normalize  0x0207CDB8  arm
  */
 
 typedef short s16;
 
 typedef unsigned short u16;
-extern u16 func_0216D5F8(void *p);
-extern int func_0216D55C(int a, int b);
-extern int func_021641E8(int a);
-extern int func_021641F8(int a);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FLDMMDL_CheckStatusBit(int a, int b);
+extern int FLDMMDL_MOVE_GetDirAddGridX(int a);
+extern int FLDMMDL_MOVE_GetDirAddGridZ(int a);
 typedef unsigned int   u32;
-extern void func_0219E784(u32 o, u32 idx, s16 *v);
-extern void func_0207CDB8(s16 *a, s16 *b);
+extern void FLDMMDL_RAIL_GetDrawOffsetByDir(u32 o, u32 idx, s16 *v);
+extern void VEC_Fx16Normalize(s16 *a, s16 *b);
 
-int func_021D0914(int a, s16 *v)
+int FLDEFF_BUBBLE_GetFacingVector(int a, s16 *v)
 {
     int r;
 
-    r = func_0216D5F8((void *)a);
-    if (func_0216D55C(a, 0x1000 * 2) == 0) {
+    r = FLDMMDL_GetDirDisp((void *)a);
+    if (FLDMMDL_CheckStatusBit(a, 0x1000 * 2) == 0) {
         v[1] = 0;
-        v[0] = func_021641E8(r);
-        v[2] = func_021641F8(r);
+        v[0] = FLDMMDL_MOVE_GetDirAddGridX(r);
+        v[2] = FLDMMDL_MOVE_GetDirAddGridZ(r);
         v[0] = v[0] << 16;
         v[2] = v[2] << 16;
     } else {
-        func_0219E784(a, r, v);
+        FLDMMDL_RAIL_GetDrawOffsetByDir(a, r, v);
         v[1] = 0;
     }
-    func_0207CDB8(v, v);
+    VEC_Fx16Normalize(v, v);
     return r;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DE538, func_021DE558
+ * function: BTL_HANDLER_ITEM_WideLensRaiseAccuracy, BTL_HANDLER_ITEM_GetScopeLensHandlers
  * address: 0x021DE538
  * packet: pkt_ov093_021DE538
  * region: ov093
@@ -10,16 +10,16 @@
  * status: EXACT
  * unit: yes
  * symbols:
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021DD008 0x021DD008 thumb ov093
- *   func_021D7704 0x021D7704 thumb ov093
- *   d_021F158C 0x021F158C data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_HANDLER_ITEM_GetBoostRatio 0x021DD008 thumb ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
+ *   gScopeLensHandlerTable 0x021F158C data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D775C(int);
-extern int func_021DD008(int);
-extern void func_021D7704(int,int);
-void func_021DE538(int a, int b, int c) { if(c == func_021D775C(3)) func_021D7704(0x35,func_021DD008(a)); }
-extern u8 d_021F158C[];
-void *func_021DE558(int *p) { *p=1; return d_021F158C; }
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_HANDLER_ITEM_GetBoostRatio(int);
+extern void BTL_EVENT_MultiplyVar(int,int);
+void BTL_HANDLER_ITEM_WideLensRaiseAccuracy(int a, int b, int c) { if(c == BTL_EVENT_GetVar(3)) BTL_EVENT_MultiplyVar(0x35,BTL_HANDLER_ITEM_GetBoostRatio(a)); }
+extern u8 gScopeLensHandlerTable[];
+void *BTL_HANDLER_ITEM_GetScopeLensHandlers(int *p) { *p=1; return gScopeLensHandlerTable; }

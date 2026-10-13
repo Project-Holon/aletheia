@@ -1,5 +1,5 @@
 /*
- * function: func_021AC03C
+ * function: FIELD_EFFECT_DeleteObjectMgr
  * address:  0x021AC03C
  * packet:   pkt_ov021_021AC03C
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AC154  0x021AC154  thumb
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -27,15 +27,15 @@ typedef struct {
     E *f8;
 } U;
 
-extern void func_021AC154(E *e);
+extern void FIELD_EFFECT_DeleteObject(E *e);
 extern u32 func_020307B0(void *p);
 
-void func_021AC03C(U *u)
+void FIELD_EFFECT_DeleteObjectMgr(U *u)
 {
     u32 i;
     for (i = 0; i < u->f0; i++) {
         if (u->f8[i].f0 != 0) {
-            func_021AC154(&u->f8[i]);
+            FIELD_EFFECT_DeleteObject(&u->f8[i]);
         }
     }
     func_020307B0(u->f8);

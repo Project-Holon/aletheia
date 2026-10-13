@@ -1,5 +1,5 @@
 /*
- * function: func_021D2750
+ * function: FIELD_CheckPlayerPositionFree
  * address:  0x021D2750
  * packet:   pkt_ov021_021D2750
  * region:   ov021
@@ -20,30 +20,30 @@
  * asks for the double assignment is superseded.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012844  0x02012844  thumb
- *   func_02162740  0x02162740  thumb  ov010
- *   func_02162744  0x02162744  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C9C  0x02188C9C  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetEventData  0x02012844  thumb
+ *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   func_02013C60  0x02013C60  thumb
- *   func_021A3098  0x021A3098  thumb  ov021
- *   func_0216E2E8  0x0216E2E8  thumb  ov010
- *   func_021A35FC  0x021A35FC  thumb  ov021
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021A36BC  0x021A36BC  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0201296C  0x0201296C  thumb
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_02162890  0x02162890  thumb  ov010
- *   func_021867C4  0x021867C4  thumb  ov020
- *   func_02186830  0x02186830  thumb  ov020
- *   func_02186844  0x02186844  thumb  ov020
- *   func_0218684C  0x0218684C  thumb  ov020
- *   func_0218683C  0x0218683C  thumb  ov020
- *   func_02186804  0x02186804  thumb  ov020
+ *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
+ *   FLDMMDL_LoadObjCodeParam  0x0216E2E8  thumb  ov010
+ *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELD_PLAYER_SetNogridLocation  0x021A36BC  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   EVENTDATA_SYSTEM_SearchAutoPosEvent  0x02162890  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable  0x02186830  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetPositionPair  0x02186844  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetItemPositionPair  0x0218684C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable  0x0218683C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
  * Addresses are Black-image addresses.
  */
 
@@ -93,39 +93,39 @@ typedef struct {
 struct ArcFile;
 struct BigObj;
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012844(const struct BigObj *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
 struct Rec;
-extern u32 func_02162740(u8 *p);
-extern u16 func_02162744(u8 *p);
+extern u32 EVENTDATA_SYSTEM_GetNpcHeaders(u8 *p);
+extern u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C7C(unsigned char *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u16 func_02188C9C(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern u32 func_02013C60(u32 id);
-extern u32 func_021A3098(u8 *p);
+extern u32 FIELD_PLAYER_GetFormCode(u8 *p);
 struct Record;
-extern void func_0216E2E8(const char *ctx, u32 id, struct Record *out);
-extern void func_021A35FC(unsigned char **p, u16 *a, u16 *b, u16 *c);
-extern u32 func_02188CFC(u8 *p);
+extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out);
+extern void FIELD_PLAYER_GetNowGridPos(unsigned char **p, u16 *a, u16 *b, u16 *c);
+extern u32 FIELDMAP_GetMoveKind(u8 *p);
 struct Obj18028;
-extern void func_021A36BC(struct Obj18028 *p, void *a1);
-extern void *func_021A3074(unsigned char *p);
-extern u32 func_0201296C(const struct BigObj *p);
+extern void FIELD_PLAYER_SetNogridLocation(struct Obj18028 *p, void *a1);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern struct Rec *func_02162890(struct Ctx *c, void *a, int key);
-extern int *func_021867C4(int a, int id);
-extern void *func_02186830(struct ArcFile **p, int b, unsigned int heap);
-extern u8 *func_02186844(u8 *t, int i);
-extern u8 *func_0218684C(u8 *t, int i);
-extern void func_0218683C(void *p);
-extern void func_02186804(void **p);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern struct Rec *EVENTDATA_SYSTEM_SearchAutoPosEvent(struct Ctx *c, void *a, int key);
+extern int *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int a, int id);
+extern void *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct ArcFile **p, int b, unsigned int heap);
+extern u8 *FIELD_WFBC_DATA_LOCAL_GetPositionPair(u8 *t, int i);
+extern u8 *FIELD_WFBC_DATA_LOCAL_GetItemPositionPair(u8 *t, int i);
+extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(void *p);
+extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(void **p);
 
-int func_021D2750(u32 a)
+int FIELD_CheckPlayerPositionFree(u32 a)
 {
     Info info;
     V3 v;
@@ -146,18 +146,18 @@ int func_021D2750(u32 a)
     u32 r5;
     void *r4;
 
-    h = (u32)func_020120F4((const struct Ctx *)a);
-    f = func_02012844((const struct BigObj *)h);
-    list = (Rec *)func_02162740((u8 *)f);
-    n = func_02162744((u8 *)f);
-    y = func_0201210C((void *)a);
-    x = func_02188C7C((void *)y);
-    o = func_02188CB4((void *)y);
-    id = func_02188C9C(y);
+    h = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)a);
+    f = GAME_DATA_GetEventData((const struct BigObj *)h);
+    list = (Rec *)EVENTDATA_SYSTEM_GetNpcHeaders((u8 *)f);
+    n = EVENTDATA_SYSTEM_GetNpcCount((u8 *)f);
+    y = GAMESYSTEM_GetFieldMap((void *)a);
+    x = FIELDMAP_GetMmdlSys((void *)y);
+    o = FIELDMAP_GetFieldPlayer((void *)y);
+    id = FIELDMAP_GetZoneId(y);
     if ((int)func_02013C60((u16)id) == 0) {
         return 0;
     }
-    if ((u32)(func_021A3098(o) - 2) <= 1) {
+    if ((u32)(FIELD_PLAYER_GetFormCode(o) - 2) <= 1) {
         return 0;
     }
     if ((list == 0 || n == 0) && id != 0 && id != 0x1A8) {
@@ -167,8 +167,8 @@ int func_021D2750(u32 a)
         e = &list[i];
         if (e->kind == 0) {
             q = &e->sub;
-            func_0216E2E8(x, e->f2, (struct Record *)&info);
-            func_021A35FC(o, (u16 *)(&pos.z), (u16 *)(&pos.y), (u16 *)(&pos.x));
+            FLDMMDL_LoadObjCodeParam(x, e->f2, (struct Record *)&info);
+            FIELD_PLAYER_GetNowGridPos(o, (u16 *)(&pos.z), (u16 *)(&pos.y), (u16 *)(&pos.x));
             if (e->sub.a <= pos.z && pos.z < e->sub.a + info.w) {
                 if (q->b - info.h < pos.x && pos.x <= q->b) {
                     return 0;
@@ -176,46 +176,46 @@ int func_021D2750(u32 a)
             }
         } else if (e->kind == 1) {
             q = &e->sub;
-            if (func_02188CFC(y) == 1) {
-                func_021A36BC(o, &loc);
+            if (FIELDMAP_GetMoveKind(y) == 1) {
+                FIELD_PLAYER_SetNogridLocation(o, &loc);
                 if (q->a == loc.a && q->b == loc.b && q->c == loc.c) {
                     return 0;
                 }
             }
         }
     }
-    if (func_02188CFC(y) == 0) {
-        r4 = func_021A3074((void *)o);
-        r5 = func_0201296C((const struct BigObj *)h);
-        func_0216D88C(r4, (struct VecFx32 *)&v);
-        if (func_02162890((struct Ctx *)f, (void *)r5, (int)(&v))) {
+    if (FIELDMAP_GetMoveKind(y) == 0) {
+        r4 = FIELD_PLAYER_GetMmdl((void *)o);
+        r5 = GAME_DATA_GetEventWork((const struct BigObj *)h);
+        FLDMMDL_GetPos(r4, (struct VecFx32 *)&v);
+        if (EVENTDATA_SYSTEM_SearchAutoPosEvent((struct Ctx *)f, (void *)r5, (int)(&v))) {
             return 0;
         }
     }
     if (id == 0 || id == 0x1A8) {
         int j;
         u8 *t;
-        func_021A35FC(o, (u16 *)(&pos.z), (u16 *)(&pos.y), (u16 *)(&pos.x));
-        hdl = (int)func_021867C4(0, 0x8015);
-        t = func_02186830((struct ArcFile **)hdl, id != 0, 0x8015);
+        FIELD_PLAYER_GetNowGridPos(o, (u16 *)(&pos.z), (u16 *)(&pos.y), (u16 *)(&pos.x));
+        hdl = (int)FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, 0x8015);
+        t = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable((struct ArcFile **)hdl, id != 0, 0x8015);
         for (j = 0; j < 10; j++) {
-            p = func_02186844(t, j);
+            p = FIELD_WFBC_DATA_LOCAL_GetPositionPair(t, j);
             if (p[0] == pos.z && p[1] == pos.x) {
-                func_0218683C(t);
-                func_02186804((void **)hdl);
+                FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(t);
+                FIELD_WFBC_DATA_LOCAL_CloseNpcData((void **)hdl);
                 return 0;
             }
         }
         for (j = 0; j < 10; j++) {
-            p = func_0218684C(t, j);
+            p = FIELD_WFBC_DATA_LOCAL_GetItemPositionPair(t, j);
             if (p[0] == pos.z && p[1] == pos.x) {
-                func_0218683C(t);
-                func_02186804((void **)hdl);
+                FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(t);
+                FIELD_WFBC_DATA_LOCAL_CloseNpcData((void **)hdl);
                 return 0;
             }
         }
-        func_0218683C(t);
-        func_02186804((void **)hdl);
+        FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(t);
+        FIELD_WFBC_DATA_LOCAL_CloseNpcData((void **)hdl);
     }
     return 1;
 }

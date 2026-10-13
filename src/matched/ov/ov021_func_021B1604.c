@@ -1,5 +1,5 @@
 /*
- * function: func_021B1604
+ * function: SCRCMD_MSGWIN_CleanupAutoMode
  * address:  0x021B1604
  * packet:   pkt_ov021_021B1604
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02159168  0x02159168  thumb  ov010
- *   func_02159190  0x02159190  thumb  ov010
- *   func_021904DC  0x021904DC  thumb  ov021
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
+ *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
+ *   FIELD_MSGBG_SetAutoMode  0x021904DC  thumb  ov021
  */
 
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
-extern int func_02158F58(int a0);
-extern int func_02159190(int a0);
-extern void func_021904DC(u8 *p, u8 v);
-extern void func_02159168(int n);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern int SCRIPT_WORK_CheckFlag(int a0);
+extern void FIELD_MSGBG_SetAutoMode(u8 *p, u8 v);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 
-int func_021B1604(u32 *a)
+int SCRCMD_MSGWIN_CleanupAutoMode(u32 *a)
 {
-    u32 *p = (u32 *)func_02158F58(a[2]);
+    u32 *p = (u32 *)SCRIPT_WORK_ResetFieldParam(a[2]);
     u32 id = 9;
 
-    if (func_02159190(id)) {
-        func_021904DC((u8 *)(*p), 0);
-        func_02159168(id);
+    if (SCRIPT_WORK_CheckFlag(id)) {
+        FIELD_MSGBG_SetAutoMode((u8 *)(*p), 0);
+        SCRIPT_WORK_ResetCheckFlag(id);
     }
     return 1;
 }

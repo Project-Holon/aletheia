@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F8  0x020120F8  thumb
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_02012AD0  0x02012AD0  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   GAME_DATA_GetPlayerDirection  0x02012AD0  thumb
  *   d_02180718     0x02180718  data   ov019 a4
  * Addresses are Black-image addresses.
  */
@@ -25,14 +25,14 @@ typedef unsigned int   u32;
 
 struct P16 { short x; short z; };
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 struct Rec44;
-extern void *func_02188C80(void *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
 struct Ctx;
-extern u8 *func_020120F8(const struct Ctx *p);
+extern u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *a, struct VecFx32 *v);
-extern u16 func_02012AD0(const struct Rec44 *p);
+extern void FIELD_PLAYER_GetPos(unsigned char *a, struct VecFx32 *v);
+extern u16 GAME_DATA_GetPlayerDirection(const struct Rec44 *p);
 extern struct P16 d_02180718[];
 
 int func_0217F7E4(u32 arg)
@@ -43,12 +43,12 @@ int func_0217F7E4(u32 arg)
     u32 i;
     int x, z;
 
-    h5 = func_02188CB4((void *)arg);
-    r4 = (u32)func_020120F8((const struct Ctx *)func_02188C80((void *)arg));
-    func_021A3038(h5, (struct VecFx32 *)v);
+    h5 = FIELDMAP_GetFieldPlayer((void *)arg);
+    r4 = (u32)GAMESYSTEM_GetMyPlayerWork((const struct Ctx *)FIELDMAP_GetGameSystem((void *)arg));
+    FIELD_PLAYER_GetPos(h5, (struct VecFx32 *)v);
     v[0] = (v[0] >> 4) / 4096;
     v[2] = (v[2] >> 4) / 4096;
-    func_02012AD0((const struct Rec44 *)r4);
+    GAME_DATA_GetPlayerDirection((const struct Rec44 *)r4);
     x = v[0];
     z = v[2];
     for (i = 0; i < 1; i++) {

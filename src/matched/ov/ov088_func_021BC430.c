@@ -1,5 +1,5 @@
 /*
- * function: func_021BC430
+ * function: STARTMENU_BattleFlagProcEnd
  * address:  0x021BC430
  * packet:   pkt_ov088_021BC430
  * region:   ov088
@@ -64,7 +64,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
 extern char d_0209DF9C[];
 
-int func_021BC430(int a, int b, int c, u32 *q)
+int STARTMENU_BattleFlagProcEnd(int a, int b, int c, u32 *q)
 {
     S1C s;
     void *r;

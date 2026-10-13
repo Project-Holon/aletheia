@@ -12,7 +12,7 @@
  * symbols:
  *   func_02030734     0x02030734  arm
  *   func_020637D4     0x020637D4  arm
- *   func_02049F34     0x02049F34  arm
+ *   ARC_UTIL_LoadPaletteBlockFromArchive     0x02049F34  arm
  *   func_020056A0     0x020056A0  thumb
  *   MCSS_TransTextureTask     0x02016880  thumb
  *   sFile_020A72CC    0x020A72CC  data
@@ -49,7 +49,7 @@ typedef struct {
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020637D4(u32 *p);
-extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void *func_020056A0(void *fn, Sub *s, u32 a);
 struct Obj_02016880;
 extern void MCSS_TransTextureTask(void *a0, struct Obj_02016880 *a1);
@@ -74,7 +74,7 @@ void *MCSS_Init(u32 id, void *heap)
     s->f20 = o;
     s->f0c = (u32)o->f18;
     s->f1c = 0x1100;
-    s->f14 = (u32)func_02049F34(0xb, 0x58, (u32)s->f04, (u16)m);
+    s->f14 = (u32)ARC_UTIL_LoadPaletteBlockFromArchive(0xb, 0x58, (u32)s->f04, (u16)m);
     o->f0c = func_020056A0((void *)MCSS_TransTextureTask, s, 0);
     return o;
 }

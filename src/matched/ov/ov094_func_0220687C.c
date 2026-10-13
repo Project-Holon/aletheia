@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  *   func_02206864  0x02206864  thumb  ov094
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 struct S02030EE8;
 extern int func_02206864(char *p, int v);
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -30,7 +30,7 @@ void func_0220687C(char *p, void *q)
     int off;
 
     if (q != 0) {
-        void *r = (void *)func_02030EE8(q);
+        void *r = (void *)TCBL_IsDeletePending(q);
         char *t = p + 0x28;
         void (*cb)(void *);
 

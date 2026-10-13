@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02047888",
+   "name": "G3D_SYSTEM_GetObjectAnimeFrameMax",
    "address": "0x02047888",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: func_021A1BF8
+ * function: WEATHER_LoadOverlay
  * address:  0x021A1BF8
  * packet:   pkt_021A1BF8
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 
-void func_021A1BF8(u32 *p, u32 v)
+void WEATHER_LoadOverlay(u32 *p, u32 v)
 {
     p[0xa] = v;
     func_02034AC4(v);

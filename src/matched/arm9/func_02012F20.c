@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02012F20
+ * function: GAME_DATA_GetPmsWork
  * address:  0x02012F20
  * packet:   pkt_02012F08
  * region:   arm9
@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02012F20(int p0){ return *(int *)((p0 + (0x684 << 0))); }
+int GAME_DATA_GetPmsWork(int p0){ return *(int *)((p0 + (0x684 << 0))); }

@@ -1,5 +1,5 @@
 /*
- * function: func_0216630C
+ * function: SYMBOL_MAP_FindGridIndex
  * address:  0x0216630C
  * packet:   pkt_0216630C
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216630C(int a0, int a1, int a2, int a3)
+int SYMBOL_MAP_FindGridIndex(int a0, int a1, int a2, int a3)
 {
 
 a3 = 0;

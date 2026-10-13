@@ -1,5 +1,5 @@
 /*
- * function: func_021BABEC
+ * function: BTL_SERVER_SetHandler
  * address: 0x021BABEC
  * packet: pkt_ov093_021BABEC
  * region: ov093
@@ -10,7 +10,7 @@
  * status: EXACT*
  */
 
-void func_021BABEC(int *p, void *f)
+void BTL_SERVER_SetHandler(int *p, void *f)
 {
  p[0] = (int)f;
  p[1] = 0;

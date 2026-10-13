@@ -14,7 +14,7 @@
  *   the two calls stay wildcarded.
  *
  * symbols:
- *   func_02012EBC   0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
  *   func_021FC4DC   0x021FC4DC  thumb
  *   func_0200E9F4   0x0200E9F4  thumb
  *   func_0200EA04   0x0200EA04  thumb
@@ -28,7 +28,7 @@
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 func_021FC4DC(u8 *p);
 extern void *func_0200E9F4(void *p);
 extern int func_0200EA04(int);
@@ -36,7 +36,7 @@ extern int func_0200EA04(int);
 void func_021F966C(char *r5, int *r4)
 {
     int x;
-    x = (int)func_02012EBC((struct Big *)(*(int *)(*(int *)(((struct Obj05495 *)r4)->f18 + 0xC) + 4)));
+    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct Obj05495 *)r4)->f18 + 0xC) + 4)));
     ((struct Obj05494 *)r5)->f8 = r4[1];
     ((struct Obj05494 *)r5)->f4 = r4[3];
     ((struct Obj05494 *)r5)->fC = r4[2];

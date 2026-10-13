@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B796C 0x021B796C thumb ov067
- *   func_02045808 0x02045808 arm
+ *   FRAME_LIST_Delete 0x021B796C thumb ov067
+ *   STRBUF_Delete 0x02045808 arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj14683.h"
 
 struct S;
 struct U16Vec;
-extern void func_021B796C(struct S *s);
-extern void func_02045808(struct U16Vec *vec);
+extern void FRAME_LIST_Delete(struct S *s);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
 void func_021C0550(int p)
 {
     unsigned i;
 
-    func_021B796C((struct S *)(((struct Obj14683 *)p)->f1E0));
+    FRAME_LIST_Delete((struct S *)(((struct Obj14683 *)p)->f1E0));
     ((struct Obj14683 *)p)->f1E0 = 0;
     for (i = 0; i < 0x32; i++) {
         int *q = (int *)(p + i * 4);
 
         if (q[0x79] != 0) {
-            func_02045808((struct U16Vec *)q[0x79]);
+            STRBUF_Delete((struct U16Vec *)q[0x79]);
             q[0x79] = 0;
         }
     }

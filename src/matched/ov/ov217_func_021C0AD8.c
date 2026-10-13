@@ -14,6 +14,7 @@
  * symbols:
  *   d_021C3F64  0x021C3F64  data
  *   d_021C3F9C  0x021C3F9C  data
+ *   CLACT_InitSystem  0x0204A48C  arm  arm9
  *
  * closed: both data sites carried the contested ov217 token; dropping it lets
  * the function's own region (ov217) pick the objects and 0x021C3F9C resolves
@@ -32,11 +33,11 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Cfg;
-extern void func_0204A48C(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern u8 d_021C3F64[];
 extern u8 d_021C3F9C[];
 void func_021C0AD8(u32 a0)
 {
-    func_0204A48C((const struct Cfg *)d_021C3F64, (u32)d_021C3F9C, ((struct Obj25984 *)((u8*)a0))->f0);
+    CLACT_InitSystem((const struct Cfg *)d_021C3F64, (u32)d_021C3F9C, ((struct Obj25984 *)((u8*)a0))->f0);
 }
 

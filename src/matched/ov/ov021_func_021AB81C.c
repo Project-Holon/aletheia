@@ -1,5 +1,5 @@
 /*
- * function: func_021AB81C
+ * function: FLD_SCENEAREA_LOADER_Delete
  * address:  0x021AB81C
  * packet:   pkt_ov021_021AB81C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021AB868  0x021AB868  thumb
- *   func_02049238  0x02049238  arm
+ *   FLD_SCENEAREA_LOADER_Unload  0x021AB868  thumb
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -20,17 +20,17 @@ typedef struct {
     int f8[2];
 } S;
 
-extern void func_021AB868(S *s);
-extern void func_02049238(int a);
+extern void FLD_SCENEAREA_LOADER_Unload(S *s);
+extern void ARC_TOOL_DeleteHandle(int a);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021AB81C(S *s)
+void FLD_SCENEAREA_LOADER_Delete(S *s)
 {
     int i;
-    func_021AB868(s);
+    FLD_SCENEAREA_LOADER_Unload(s);
     for (i = 0; i < 2; i++) {
-        func_02049238(s->f8[i]);
+        ARC_TOOL_DeleteHandle(s->f8[i]);
     }
     func_020307B0(s);
 }

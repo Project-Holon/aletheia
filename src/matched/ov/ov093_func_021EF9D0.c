@@ -1,5 +1,5 @@
 /*
- * function: func_021EF9D0
+ * function: BTL_FIELD_StepCountdown
  * address:  0x021EF9D0
  * packet:   pkt_ov093_021EF9D0
  * region:   ov093
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled leaf (witness for func_021EF8B8). Countdown timer: when the
+ * Unlabelled leaf (witness for BTL_FIELD_TickCountdown). Countdown timer: when the
  * value is set and the counter is not 0xff, decrement the counter; when it
  * reaches zero, clear the value and return its low byte.
  */
@@ -22,7 +22,7 @@ typedef struct {
     u32 count;
 } Countdown;
 
-u32 func_021EF9D0(Countdown *p)
+u32 BTL_FIELD_StepCountdown(Countdown *p)
 {
     u32 v = p->value;
     if (v != 0 && p->count != 0xff && --p->count == 0) {

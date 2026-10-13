@@ -1,5 +1,5 @@
 /*
- * function: func_021B6D64
+ * function: POKELIST_UpdateWindowMaskTask
  * address:  0x021B6D64
  * packet:   pkt_ov091_021B6D64
  * region:   ov091
@@ -10,11 +10,11 @@
  * status:   EXACT
  * volatile: DISPCNT 0x04000000 read-modify-written by the SDK inline GX_SetVisibleWnd (0x021B6D70, 0x021B6D7E)
  *
- * Unlabelled leaf: the VBlank callback func_021B660C registers through
+ * Unlabelled leaf: the VBlank callback POKELIST_InitWork registers through
  * func_020056A0 (pool word 0x021B6D65 at 0x021B6814).
  *
  * symbols:
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
  */
 #include "../include/Obj20854.h"
 
@@ -28,13 +28,13 @@ static inline void GX_SetVisibleWnd(int window)
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~0xE000 | (window << 13);
 }
 
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 
-void func_021B6D64(void *tcb, u8 *p)
+void POKELIST_UpdateWindowMaskTask(void *tcb, u8 *p)
 {
     if (((struct Obj20854 *)p)->f10 == 1)
         GX_SetVisibleWnd(1);
     else
         GX_SetVisibleWnd(0);
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   ARC_UTIL_LoadScreenDataFromHandle  0x02049E74  arm  arm9
  *
  * Forward with a resolved handle and the object table entry.
  */
@@ -18,10 +19,10 @@
 typedef unsigned int   u32;
 extern u32 func_0201BA68(void *mon);
 typedef unsigned short u16;
-extern void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 
 void *func_021EC338(char *p, void *b, void *c)
 {
-    return func_02049E74((void *)(((struct Obj18519 *)p)->f1B0), func_0201BA68(b), 0, (u32)c, 0x4c);
+    return ARC_UTIL_LoadScreenDataFromHandle((void *)(((struct Obj18519 *)p)->f1B0), func_0201BA68(b), 0, (u32)c, 0x4c);
 }
 

@@ -1,7 +1,7 @@
 /*
  * file:     infowin.c
  * unit:     yes
- * function: func_02024A20, func_02024ABC, func_02024DCC, INFOWIN_DrawTask, INFOWIN_WriteScreen, INFOWIN_LoadCharacters, INFOWIN_LoadGraphics, INFOWIN_UpdateClock
+ * function: INFOWIN_Init, INFOWIN_Update, INFOWIN_Exit, INFOWIN_DrawTask, INFOWIN_WriteScreen, INFOWIN_LoadCharacters, INFOWIN_LoadGraphics, INFOWIN_UpdateClock
  * address:  0x02024A20
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -23,11 +23,11 @@
  *   GAME_DATA_IsConfigFlagSet       0x02012BB0  thumb
  *   gInfoWin            0x0214693C  data
  *   infowin_File        0x020A7478  data
- *   func_0203CD98       0x0203CD98  arm
- *   func_0203D798       0x0203D798  arm
- *   func_0203D1B4       0x0203D1B4  arm
+ *   GFL_NET_GetRunState       0x0203CD98  arm
+ *   GFL_NET_GetInitParam       0x0203D798  arm
+ *   GFL_NET_GetNegotiationNum       0x0203D1B4  arm
  *   GFL_NET_IsNetTypeWifi       0x0203D29C  arm
- *   func_0201058C       0x0201058C  thumb
+ *   WIH_DWC_PollStatus       0x0201058C  thumb
  *   GAME_BEACON_GetNextNewLogIndex       0x02026CA0  thumb
  *   d_0209F830          0x0209F830  data a4
  *   d_0209F834          0x0209F834  data a2
@@ -141,11 +141,11 @@ extern void MI_CpuFill8(void *dst, u8 data, u32 size);
 extern int UI_GetPowerState(void);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
-extern int   func_0203CD98(void);
-extern void *func_0203D798(void);
-extern int   func_0203D1B4(void);
+extern int   GFL_NET_GetRunState(void);
+extern void *GFL_NET_GetInitParam(void);
+extern int   GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
-extern u32 func_0201058C(void *key);
+extern u32 WIH_DWC_PollStatus(void *key);
 extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
 extern int  func_0203FB44(u32 a, u32 b, u32 c);
 extern int  func_02040E78(u32 a, const void *b, u16 c, u16 d);
@@ -160,9 +160,9 @@ extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a
 extern void func_020409B4(u32 a0);
 extern u8 func_02035630(void);
 extern int  OS_IsRunOnTwl(void);
-void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap);
-void func_02024ABC(void);
-int func_02024DCC(void);
+void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap);
+void INFOWIN_Update(void);
+int INFOWIN_Exit(void);
 void INFOWIN_DrawTask(void);
 void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h);
 int INFOWIN_LoadCharacters(int tile, const void *src, int count);
@@ -185,7 +185,7 @@ extern const u16 d_0209F830[];
  *           for the allocator call instead of reloading the spilled home
  *           (17 bytes).  Found by tools/permuter.py --types.
  */
-void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
+void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap)
 {
     gInfoWin = func_02030734(heap, 0x28, 0, infowin_File, 0x103);
     MI_CpuFill8(gInfoWin, 0, 0x28);
@@ -203,7 +203,7 @@ void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
         gInfoWin->wifiMode = 0;
     }
     gInfoWin->blinkCount = 0;
-    func_02024ABC();
+    INFOWIN_Update();
     gInfoWin->redrawFlags = 0x3f;
 }
 
@@ -215,7 +215,7 @@ void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
  *           it), and every clear mask is the u16 constant (the pool holds
  *           0x0000EFFF, not ~0x1000).
  */
-void func_02024ABC(void)
+void INFOWIN_Update(void)
 {
     int flag = 0;
     u8 n = 0;
@@ -237,15 +237,15 @@ void func_02024ABC(void)
         gInfoWin->frameCount = 0;
     }
 
-    if (func_0203CD98() == 1) {
-        link = func_0203D798();
-        n = func_0203D1B4();
+    if (GFL_NET_GetRunState() == 1) {
+        link = GFL_NET_GetInitParam();
+        n = GFL_NET_GetNegotiationNum();
         if (GFL_NET_IsNetTypeWifi() == 1)
             flag = 1;
     }
 
     if (n < 2 && flag == 0) {
-        bits = func_0201058C((void *)gInfoWin->wifiConfig);
+        bits = WIH_DWC_PollStatus((void *)gInfoWin->wifiConfig);
         idx = 0;
         if (gInfoWin->wifiMode == 1 && GAME_BEACON_GetNextNewLogIndex(&idx) != 0x1E) {
             gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 0x10);
@@ -326,7 +326,7 @@ void func_02024ABC(void)
     }
 }
 
-int func_02024DCC(void)
+int INFOWIN_Exit(void)
 {
     if (gInfoWin != 0) {
         func_02030EAC(gInfoWin->task);
@@ -340,7 +340,7 @@ int func_02024DCC(void)
 }
 
 /*
- * note:     infowin redraw task (the TCB callback func_02024A20 registers):
+ * note:     infowin redraw task (the TCB callback INFOWIN_Init registers):
  *           clock digits, battery/link/wireless icons, per dirty bit of
  *           +0x04.  Levers, in the order they closed it: tens use `/ 10`
  *           and ones `% 10` (the remainder comes back in r1); every access

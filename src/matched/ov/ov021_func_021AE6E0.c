@@ -1,5 +1,5 @@
 /*
- * function: func_021AE6E0
+ * function: EVENT_TRAINER_EYE_StepWaitPlayerFace
  * address:  0x021AE6E0
  * packet:   pkt_ov021_021AE6E0
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216D480  0x0216D480  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -23,17 +23,17 @@ typedef signed char    s8;
 
 typedef struct S { u32 f0; u8 pad[0x30]; u8 *f34; } S;
 
-extern void *func_021A3074(unsigned char *p);
-extern int func_0216D454(void *a);
-extern int func_0216D480(char *p);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern int FLDMMDL_CheckEndAcmd(void *a);
+extern int FLDMMDL_EndAcmd(char *p);
 
-int func_021AE6E0(S *s)
+int EVENT_TRAINER_EYE_StepWaitPlayerFace(S *s)
 {
-    void *t = func_021A3074(s->f34);
+    void *t = FIELD_PLAYER_GetMmdl(s->f34);
 
-    if (func_0216D454(t) == 0)
+    if (FLDMMDL_CheckEndAcmd(t) == 0)
         return 0;
-    func_0216D480(t);
+    FLDMMDL_EndAcmd(t);
     s->f0 = 0x10;
     return 1;
 }

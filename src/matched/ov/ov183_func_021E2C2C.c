@@ -42,7 +42,7 @@
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   func_021FF54C 0x021FF54C thumb ov186
  *   func_021FF648 0x021FF648 thumb ov186
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021FD15C 0x021FD15C thumb ov186
@@ -65,7 +65,7 @@ extern u8 *BATTLE_REC_GetHeader(void);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern void func_021FF54C(char *p, int kind, const int *values);
 extern int func_021FF648(char *);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
 extern void func_021FD15C(void *,int);
@@ -111,7 +111,7 @@ void func_021E2C2C(int *task,unsigned *state,char *p)
             ++*state;
         }break;
     case 6:
-        if(func_02035C60()) {
+        if(TOUCHPANEL_GetTrg()) {
             func_02035D20((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
             func_021FD860(*(int *)(p+0x34),1,&pair);
             func_020061E4((int)0x703);++*state;

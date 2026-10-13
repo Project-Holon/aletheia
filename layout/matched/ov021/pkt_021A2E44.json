@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A2E44",
+   "name": "FIELDMAP_CTRL_GRID_SetBusy",
    "address": "0x021A2E44",
    "kind": "game",
    "region": "ov021",

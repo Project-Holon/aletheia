@@ -1,5 +1,5 @@
 /*
- * function: func_0218401C
+ * function: UNION_APP_HasMembers
  * address:  0x0218401C
  * packet:   pkt_ov022_0218401C
  * region:   ov022
@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 
-int func_0218401C(u8 *p)
+int UNION_APP_HasMembers(u8 *p)
 {
     if (p[1] != 0)
         return 1;

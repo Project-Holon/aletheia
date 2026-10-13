@@ -1,5 +1,5 @@
 /*
- * function: func_0202020C
+ * function: BMP_MENULIST_Delete
  * address:  0x0202020C
  * packet:   pkt_0201F93C
  * region:   arm9
@@ -24,7 +24,7 @@ struct D;
 extern void BMP_CURSOR_Delete(struct D *p);
 extern u32 func_020307B0(void *p);
 
-void func_0202020C(struct Obj *o, u16 *a, u16 *b)
+void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b)
 {
     if (a != 0) {
         *a = ((struct Obj08775 *)o)->f40;

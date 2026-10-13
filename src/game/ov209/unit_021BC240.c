@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021BCC58 0x021BCC58 thumb
  *   func_020315D4 0x020315D4 arm
@@ -22,10 +22,10 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
  *   func_020419E4 0x020419E4 arm
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   func_02005624 0x02005624 thumb
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   d_021BE7D4 0x021BE7D4 data a4
  */
 #include "../../matched/include/Obj00123.h"
@@ -45,18 +45,18 @@ typedef unsigned short u16;
 
 typedef unsigned int u32;
 
-extern void func_0203064C(unsigned,unsigned,unsigned);
-extern void *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
+extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,int);
 extern int func_021BCC58(char *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
 extern void func_02030EAC(struct Node *);
-extern void func_020419E4(void),func_0204A648(void);
+extern void func_020419E4(void),CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct S02021D50 *);
 extern void *func_02005624(unsigned,unsigned,unsigned);
-extern void func_020433E0(const struct DispVram *);
+extern void BG_SYS_SetVramBanks(const struct DispVram *);
 int func_021BC240(struct Obj0203159C *p,int unused,unsigned v);
 int func_021BC274(int a, int b, int c, int d);
 int func_021BC288(void *p);
@@ -74,7 +74,7 @@ extern const struct DispVram d_021BE7D4;
 
 
 
-int func_021BC240(struct Obj0203159C *p,int unused,unsigned v){unsigned *q;func_0203064C(1,107,0x60000);q=func_0203159C(p,0xc44,107);func_02082BCC(q,0,0xc44);*q=v;return 1;}
+int func_021BC240(struct Obj0203159C *p,int unused,unsigned v){unsigned *q;GFL_HEAP_CreateChildHeap(1,107,0x60000);q=PROCSYS_AllocProcWork(p,0xc44,107);func_02082BCC(q,0,0xc44);*q=v;return 1;}
 
 
 
@@ -120,7 +120,7 @@ void func_021BC2B0(char *p){func_02030EAC(*(struct Node * *)&((struct Obj25533 *
  * lever: enum-typed DTCM base preserves the base-first two-pool address; constant addition folds and enum offset reverses pool/register roles.
  * volatile: hardware interrupt check flag at 02FE3FF8 read and written by 021BC2D4/021BC2D8.
  */
-void func_021BC2BC(void *unused,char *p){enum Base { DTCM_BASE=0x02fe0000 } base;func_020419E4();func_0204A648();PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj25534 *)p)->fC);base=DTCM_BASE;*(volatile unsigned *)&((struct Obj25535 *)base)->f3FF8|=1;}
+void func_021BC2BC(void *unused,char *p){enum Base { DTCM_BASE=0x02fe0000 } base;func_020419E4();CLACT_VBlankSystem();PALANM_TransferPalettes(*(struct S02021D50 * *)&((struct Obj25534 *)p)->fC);base=DTCM_BASE;*(volatile unsigned *)&((struct Obj25535 *)base)->f3FF8|=1;}
 
 
 
@@ -169,6 +169,6 @@ void func_021BC308(void)
 }
 
 
-void func_021BC370(void){func_020433E0(&d_021BE7D4);}
+void func_021BC370(void){BG_SYS_SetVramBanks(&d_021BE7D4);}
 
 void *func_021BC380(void){return (void *)&d_021BE7D4;}

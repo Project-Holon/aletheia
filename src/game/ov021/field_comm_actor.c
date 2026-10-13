@@ -1,7 +1,7 @@
 /*
  * file:     field_comm_actor.c
  * unit:     yes
- * function: func_02194284, func_021942C8, func_02194300, func_02194354, func_02194384, func_021943EC, func_02194418, func_02194434, func_021944BC, func_021944C8, func_021944D8, func_02194588, func_021945A0, func_021945A4, func_021945E0
+ * function: FIELD_COMM_ACTOR_CTRL_Create, FIELD_COMM_ACTOR_CTRL_Delete, FIELD_COMM_ACTOR_CTRL_AddActor, FIELD_COMM_ACTOR_CTRL_DeleteActor, FIELD_COMM_ACTOR_CTRL_SearchGridPos, FIELD_COMM_ACTOR_CTRL_GetMmdl, FIELD_COMM_ACTOR_DeleteActor, FIELD_COMM_ACTOR_AddMmdl, FIELD_COMM_ACTOR_MoveInit, FIELD_COMM_ACTOR_MoveDelete, FIELD_COMM_ACTOR_Move, FIELD_COMM_ACTOR_SetMoveWork, FIELD_COMM_ACTOR_ConvertDir, func_021945A4, func_021945E0
  * address:  0x02194284
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -18,38 +18,38 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02082BCC  0x02082BCC  arm
  *   sFieldCommActorFileName 0x021DDA70  data  a4
- *   func_0216D684  0x0216D684  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_02163C04  0x02163C04  thumb  ov010
- *   func_0216CF2C  0x0216CF2C  thumb  ov010
+ *   FLDMMDL_InitMoveProcWork  0x0216D684  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_MOVE_IsGridInObjectRect  0x02163C04  thumb  ov010
+ *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   sCommActorMmdlHeader 0x021D3F68  data  ov021  a4
- *   func_0216CE60  0x0216CE60  thumb  ov010
- *   func_0216E014  0x0216E014  thumb  ov010
- *   func_0216DB4C  0x0216DB4C  thumb  ov010
- *   func_0216DC98  0x0216DC98  thumb  ov010
- *   func_0216DB80  0x0216DB80  thumb  ov010
- *   func_0216DAE0  0x0216DAE0  thumb  ov010
- *   func_0216DC64  0x0216DC64  thumb  ov010
- *   func_0216DCCC  0x0216DCCC  thumb  ov010
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D598  0x0216D598  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
- *   func_02188CCC  0x02188CCC  thumb  ov021
+ *   FLDMMDL_AddMmdl  0x0216CE60  thumb  ov010
+ *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
+ *   FLDMMDL_SetStatusBitHeightGetOff  0x0216DB4C  thumb  ov010
+ *   FLDMMDL_SetStatusBitAttrGetOff  0x0216DC98  thumb  ov010
+ *   FLDMMDL_SetStatusBitZoneDeleteOff  0x0216DB80  thumb  ov010
+ *   FLDMMDL_SetStatusBitFellowHit  0x0216DAE0  thumb  ov010
+ *   FLDMMDL_SetMoveBitSysPauseOff  0x0216DC64  thumb  ov010
+ *   FLDMMDL_SetMoveBitAttrEffectOff  0x0216DCCC  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_021A0ED4  0x021A0ED4  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
+ *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   func_020124E4  0x020124E4  thumb
  *   func_020120F4  0x020120F4  thumb
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   func_020129D0  0x020129D0  thumb
- *   func_021A0F30  0x021A0F30  thumb  ov021
+ *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
  *   func_020129B8  0x020129B8  thumb
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  */
 #include "../ov010/fldmmdl_types.h"
 
@@ -103,56 +103,56 @@ typedef struct SubscreenChangeEventWork {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
 extern u32 func_02082BCC(void *dst, int value, int size);
-extern int func_0216D854(Mmdl *mmdl);
-extern int func_02163C04(Mmdl *mmdl, int gridX, int gridZ, int flag);
-extern int func_0216CF2C(Mmdl *mmdl);
-extern Mmdl *func_0216CE60(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
-extern void func_0216E014(Mmdl *mmdl, const MmdlVec *pos, int dir);
-extern int func_0216DB4C(Mmdl *mmdl, int flag);
-extern int func_0216DC98(Mmdl *mmdl, int flag);
-extern void func_0216DB80(Mmdl *mmdl, int flag);
-extern void func_0216DAE0(Mmdl *mmdl, int flag);
-extern int func_0216DC64(Mmdl *mmdl, int flag);
-extern int func_0216DCCC(Mmdl *mmdl, int flag);
-extern void *func_0216D684(Mmdl *mmdl, int size);
-extern void *func_0216D69C(Mmdl *mmdl);
-extern void func_0216D5E0(Mmdl *mmdl, int dir);
-extern void func_0216D88C(const Mmdl *mmdl, MmdlVec *out);
-extern u16 func_0216D5F8(Mmdl *mmdl);
-extern u16 func_0216D598(Mmdl *mmdl);
-extern void func_0216D674(Mmdl *mmdl, int status);
-extern void func_0216DAC8(Mmdl *mmdl, int flag);
-extern struct FieldSubscreen *func_02188CCC(struct FieldMap *fieldMap);
+extern int FLDMMDL_GetGridNowY(Mmdl *mmdl);
+extern int FLDMMDL_MOVE_IsGridInObjectRect(Mmdl *mmdl, int gridX, int gridZ, int flag);
+extern int FLDMMDL_DeleteMmdl(Mmdl *mmdl);
+extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
+extern void FLDMMDL_InitPosition(Mmdl *mmdl, const MmdlVec *pos, int dir);
+extern int FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
+extern int FLDMMDL_SetStatusBitAttrGetOff(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetStatusBitZoneDeleteOff(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetStatusBitFellowHit(Mmdl *mmdl, int flag);
+extern int FLDMMDL_SetMoveBitSysPauseOff(Mmdl *mmdl, int flag);
+extern int FLDMMDL_SetMoveBitAttrEffectOff(Mmdl *mmdl, int flag);
+extern void *FLDMMDL_InitMoveProcWork(Mmdl *mmdl, int size);
+extern void *FLDMMDL_GetMoveProcWork(Mmdl *mmdl);
+extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, MmdlVec *out);
+extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
+extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, int status);
+extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
+extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
 extern struct GameEvent *func_020122C0(struct GameSystem *gameSystem, struct GameEvent *parent, int (*callback)(struct GameEvent *, int *, void *), u32 workSize);
 extern void *func_020124E8(struct GameEvent *event);
-extern int func_021A0ED4(struct FieldSubscreen *subscreen);
-extern MmdlSys *func_02188C7C(struct FieldMap *fieldMap);
+extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *subscreen);
+extern MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct GameSystem *func_020124E4(struct GameEvent *event);
 extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
-extern void func_0216D9A0(MmdlSys *mmdlSys);
+extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
 extern void func_020129D0(struct GameData *gameData, u8 flag);
-extern int func_021A0F30(struct FieldSubscreen *subscreen, u32 mode);
+extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *subscreen, u32 mode);
 extern void func_020129B8(struct GameData *gameData, u32 mode);
-extern void func_0216D9E4(MmdlSys *mmdlSys);
-FieldCommActorCtrl *func_02194284(int actorMax, MmdlSys *mmdlSys, int heapId, int useRunAnime);
-void func_021942C8(FieldCommActorCtrl *ctrl);
-void func_02194300(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish);
-void func_02194354(FieldCommActorCtrl *ctrl, u32 id);
-int func_02194384(FieldCommActorCtrl *ctrl, s16 gridX, int gridY, s16 gridZ, int *outId, unsigned *index);
-Mmdl *func_021943EC(FieldCommActorCtrl *ctrl, u32 id);
-int func_02194418(FieldCommActor *actor);
-Mmdl *func_02194434(FieldCommActorCtrl *ctrl, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor);
-void func_021944BC(Mmdl *mmdl);
-void func_021944C8(Mmdl *mmdl);
-void func_021944D8(Mmdl *mmdl);
-void func_02194588(Mmdl *mmdl, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor);
-int func_021945A0(int dir);
+extern void FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
+FieldCommActorCtrl *FIELD_COMM_ACTOR_CTRL_Create(int actorMax, MmdlSys *mmdlSys, int heapId, int useRunAnime);
+void FIELD_COMM_ACTOR_CTRL_Delete(FieldCommActorCtrl *ctrl);
+void FIELD_COMM_ACTOR_CTRL_AddActor(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish);
+void FIELD_COMM_ACTOR_CTRL_DeleteActor(FieldCommActorCtrl *ctrl, u32 id);
+int FIELD_COMM_ACTOR_CTRL_SearchGridPos(FieldCommActorCtrl *ctrl, s16 gridX, int gridY, s16 gridZ, int *outId, unsigned *index);
+Mmdl *FIELD_COMM_ACTOR_CTRL_GetMmdl(FieldCommActorCtrl *ctrl, u32 id);
+int FIELD_COMM_ACTOR_DeleteActor(FieldCommActor *actor);
+Mmdl *FIELD_COMM_ACTOR_AddMmdl(FieldCommActorCtrl *ctrl, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor);
+void FIELD_COMM_ACTOR_MoveInit(Mmdl *mmdl);
+void FIELD_COMM_ACTOR_MoveDelete(Mmdl *mmdl);
+void FIELD_COMM_ACTOR_Move(Mmdl *mmdl);
+void FIELD_COMM_ACTOR_SetMoveWork(Mmdl *mmdl, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor);
+int FIELD_COMM_ACTOR_ConvertDir(int dir);
 struct GameEvent *func_021945A4(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 mode);
 int func_021945E0(struct GameEvent *event, int *seq, void *work);
 extern char sFieldCommActorFileName[];
 extern MmdlHeader sCommActorMmdlHeader;
 
-FieldCommActorCtrl *func_02194284(int actorMax, MmdlSys *mmdlSys, int heapId, int useRunAnime)
+FieldCommActorCtrl *FIELD_COMM_ACTOR_CTRL_Create(int actorMax, MmdlSys *mmdlSys, int heapId, int useRunAnime)
 {
     int size = sizeof(FieldCommActor);
     FieldCommActorCtrl *ctrl = func_02030734(heapId, size, 1, sFieldCommActorFileName, 0x5d);
@@ -163,7 +163,7 @@ FieldCommActorCtrl *func_02194284(int actorMax, MmdlSys *mmdlSys, int heapId, in
     return ctrl;
 }
 
-void func_021942C8(FieldCommActorCtrl *ctrl)
+void FIELD_COMM_ACTOR_CTRL_Delete(FieldCommActorCtrl *ctrl)
 {
     u16 i;
     FieldCommActor *actor;
@@ -172,7 +172,7 @@ void func_021942C8(FieldCommActorCtrl *ctrl)
     if (i < ctrl->actorMax) {
         for (; i < ctrl->actorMax; i++) {
             if (actor->mmdl != 0) {
-                func_02194418(actor);
+                FIELD_COMM_ACTOR_DeleteActor(actor);
             }
             actor++;
         }
@@ -181,14 +181,14 @@ void func_021942C8(FieldCommActorCtrl *ctrl)
     func_020307B0(ctrl);
 }
 
-void func_02194300(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish)
+void FIELD_COMM_ACTOR_CTRL_AddActor(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish)
 {
     u16 i;
     FieldCommActor *actor = ctrl->actors;
-    func_021945A0(*dir);
+    FIELD_COMM_ACTOR_ConvertDir(*dir);
     for (i = 0; i < ctrl->actorMax; i++) {
         if (actor->mmdl == 0) {
-            actor->mmdl = func_02194434(ctrl, objCode, dir, pos, vanish, actor);
+            actor->mmdl = FIELD_COMM_ACTOR_AddMmdl(ctrl, objCode, dir, pos, vanish, actor);
             actor->id = id;
             actor->useRunAnime = ctrl->useRunAnime;
             return;
@@ -197,14 +197,14 @@ void func_02194300(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir
     }
 }
 
-void func_02194354(FieldCommActorCtrl *ctrl, u32 id)
+void FIELD_COMM_ACTOR_CTRL_DeleteActor(FieldCommActorCtrl *ctrl, u32 id)
 {
     FieldCommActor *actor;
     u16 i;
     actor = ctrl->actors;
     for (i = 0; i < ctrl->actorMax; i++) {
         if (actor->mmdl != 0 && actor->id == id) {
-            func_02194418(actor);
+            FIELD_COMM_ACTOR_DeleteActor(actor);
             return;
         }
         actor++;
@@ -215,7 +215,7 @@ void func_02194354(FieldCommActorCtrl *ctrl, u32 id)
  * The actor pointer only advances past actors that have a model; the
  * search resumes from *index on the next call.
  */
-int func_02194384(FieldCommActorCtrl *ctrl, s16 gridX, int gridY, s16 gridZ, int *outId, unsigned *index)
+int FIELD_COMM_ACTOR_CTRL_SearchGridPos(FieldCommActorCtrl *ctrl, s16 gridX, int gridY, s16 gridZ, int *outId, unsigned *index)
 {
     unsigned actorMax = ctrl->actorMax;
     FieldCommActor *actor;
@@ -225,11 +225,11 @@ int func_02194384(FieldCommActorCtrl *ctrl, s16 gridX, int gridY, s16 gridZ, int
         do {
             (*index)++;
             if (actor->mmdl != 0) {
-                diff = func_0216D854(actor->mmdl) - gridY;
+                diff = FLDMMDL_GetGridNowY(actor->mmdl) - gridY;
                 if (diff < 0)
                     diff = -diff;
                 if (diff < 1) {
-                    if (func_02163C04(actor->mmdl, gridX, gridZ, 1)) {
+                    if (FLDMMDL_MOVE_IsGridInObjectRect(actor->mmdl, gridX, gridZ, 1)) {
                         *outId = actor->id;
                         return 1;
                     }
@@ -241,7 +241,7 @@ int func_02194384(FieldCommActorCtrl *ctrl, s16 gridX, int gridY, s16 gridZ, int
     return 0;
 }
 
-Mmdl *func_021943EC(FieldCommActorCtrl *ctrl, u32 id)
+Mmdl *FIELD_COMM_ACTOR_CTRL_GetMmdl(FieldCommActorCtrl *ctrl, u32 id)
 {
     u16 i;
     FieldCommActor *actor;
@@ -256,43 +256,43 @@ Mmdl *func_021943EC(FieldCommActorCtrl *ctrl, u32 id)
     return 0;
 }
 
-int func_02194418(FieldCommActor *actor)
+int FIELD_COMM_ACTOR_DeleteActor(FieldCommActor *actor)
 {
     if (actor->isMmdlDeleted == 0) {
-        func_0216CF2C(actor->mmdl);
+        FLDMMDL_DeleteMmdl(actor->mmdl);
     }
     return func_02082BCC(actor, 0, sizeof(FieldCommActor));
 }
 
-Mmdl *func_02194434(FieldCommActorCtrl *ctrl, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor)
+Mmdl *FIELD_COMM_ACTOR_AddMmdl(FieldCommActorCtrl *ctrl, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor)
 {
     MmdlSys *mmdlSys = ctrl->mmdlSys;
     MmdlHeader header = sCommActorMmdlHeader;
     Mmdl *mmdl;
     header.objCode = objCode;
-    mmdl = func_0216CE60(mmdlSys, &header, 0);
-    func_02194588(mmdl, dir, pos, vanish, actor);
-    func_0216E014(mmdl, pos, func_021945A0(*dir));
-    func_0216DB4C(mmdl, 1);
-    func_0216DC98(mmdl, 1);
-    func_0216DB80(mmdl, 1);
-    func_0216DAE0(mmdl, 0);
-    func_0216DC64(mmdl, 1);
-    func_0216DCCC(mmdl, 1);
+    mmdl = FLDMMDL_AddMmdl(mmdlSys, &header, 0);
+    FIELD_COMM_ACTOR_SetMoveWork(mmdl, dir, pos, vanish, actor);
+    FLDMMDL_InitPosition(mmdl, pos, FIELD_COMM_ACTOR_ConvertDir(*dir));
+    FLDMMDL_SetStatusBitHeightGetOff(mmdl, 1);
+    FLDMMDL_SetStatusBitAttrGetOff(mmdl, 1);
+    FLDMMDL_SetStatusBitZoneDeleteOff(mmdl, 1);
+    FLDMMDL_SetStatusBitFellowHit(mmdl, 0);
+    FLDMMDL_SetMoveBitSysPauseOff(mmdl, 1);
+    FLDMMDL_SetMoveBitAttrEffectOff(mmdl, 1);
     return mmdl;
 }
 
-void func_021944BC(Mmdl *mmdl)
+void FIELD_COMM_ACTOR_MoveInit(Mmdl *mmdl)
 {
-    func_0216D684(mmdl, sizeof(FieldCommActorMoveWork));
+    FLDMMDL_InitMoveProcWork(mmdl, sizeof(FieldCommActorMoveWork));
 }
 
-void func_021944C8(Mmdl *mmdl)
+void FIELD_COMM_ACTOR_MoveDelete(Mmdl *mmdl)
 {
-    ((FieldCommActorMoveWork *)func_0216D69C(mmdl))->actor->isMmdlDeleted = 1;
+    ((FieldCommActorMoveWork *)FLDMMDL_GetMoveProcWork(mmdl))->actor->isMmdlDeleted = 1;
 }
 
-void func_021944D8(Mmdl *mmdl)
+void FIELD_COMM_ACTOR_Move(Mmdl *mmdl)
 {
     MmdlVec nowPos;
     FieldCommActorMoveWork *work;
@@ -300,16 +300,16 @@ void func_021944D8(Mmdl *mmdl)
     const MmdlVec *pos;
     int objCode;
     int diff;
-    work = func_0216D69C(mmdl);
-    func_0216D5E0(mmdl, func_021945A0(*work->dir));
+    work = FLDMMDL_GetMoveProcWork(mmdl);
+    FLDMMDL_SetDirDispCheckPause(mmdl, FIELD_COMM_ACTOR_ConvertDir(*work->dir));
     drawStatus = 0;
-    func_0216D88C(mmdl, &nowPos);
+    FLDMMDL_GetPos(mmdl, &nowPos);
     pos = work->pos;
     if (nowPos.x != pos->x || nowPos.y != pos->y || nowPos.z != pos->z) {
-        func_0216E014(mmdl, work->pos, func_0216D5F8(mmdl));
+        FLDMMDL_InitPosition(mmdl, work->pos, FLDMMDL_GetDirDisp(mmdl));
         drawStatus = 3;
         if (work->actor->useRunAnime != 0) {
-            objCode = func_0216D598(mmdl);
+            objCode = FLDMMDL_GetObjCode(mmdl);
             if (objCode == 1 || objCode == 4) {
                 int distance = 0;
                 pos = work->pos;
@@ -326,20 +326,20 @@ void func_021944D8(Mmdl *mmdl)
             }
         }
     }
-    func_0216D674(mmdl, drawStatus);
+    FLDMMDL_SetDrawStatus(mmdl, drawStatus);
     if (work->vanish != 0)
     {
         int vanish = 0;
         if (*work->vanish == 1)
             vanish = 1;
-        func_0216DAC8(mmdl, vanish);
+        FLDMMDL_SetStatusBitVanish(mmdl, vanish);
     }
 }
 
-void func_02194588(Mmdl *mmdl, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor)
+void FIELD_COMM_ACTOR_SetMoveWork(Mmdl *mmdl, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor)
 {
     FieldCommActorMoveWork *work;
-    work = func_0216D69C(mmdl);
+    work = FLDMMDL_GetMoveProcWork(mmdl);
     work->dir = dir;
     work->pos = pos;
     work->vanish = vanish;
@@ -347,7 +347,7 @@ void func_02194588(Mmdl *mmdl, const u16 *dir, const MmdlVec *pos, const int *va
 }
 
 /* Returns the direction unchanged (a conversion that does nothing in this version). */
-int func_021945A0(int dir)
+int FIELD_COMM_ACTOR_ConvertDir(int dir)
 {
     return dir;
 }
@@ -356,7 +356,7 @@ struct GameEvent *func_021945A4(struct GameSystem *gameSystem, struct FieldMap *
 {
     struct GameEvent *event;
     SubscreenChangeEventWork *work;
-    func_02188CCC(fieldMap);
+    FIELDMAP_GetSubscreen(fieldMap);
     event = func_020122C0(gameSystem, 0, func_021945E0, sizeof(SubscreenChangeEventWork));
     work = func_020124E8(event);
     func_02082BCC(work, 0, sizeof(SubscreenChangeEventWork));
@@ -374,23 +374,23 @@ int func_021945E0(struct GameEvent *event, int *seq, void *work)
     struct GameData *gameData;
     switch (evWork->seq) {
     case 0:
-        if (func_021A0ED4(func_02188CCC(evWork->fieldMap)) == 1) {
-            mmdlSys = func_02188C7C(evWork->fieldMap);
+        if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(evWork->fieldMap)) == 1) {
+            mmdlSys = FIELDMAP_GetMmdlSys(evWork->fieldMap);
             gameData = func_020120F4(func_020124E4(event));
-            func_0216D9A0(mmdlSys);
+            FLDMMDL_SysPauseMove(mmdlSys);
             func_020129D0(gameData, 1);
-            func_021A0F30(func_02188CCC(evWork->fieldMap), evWork->mode);
+            FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(evWork->fieldMap), evWork->mode);
             evWork->seq++;
         }
         break;
     case 1:
-        if (func_021A0ED4(func_02188CCC(evWork->fieldMap)) == 1) {
+        if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(evWork->fieldMap)) == 1) {
             func_020129B8(func_020120F4(func_020124E4(event)), evWork->mode & 0xff);
             evWork->seq++;
         }
         break;
     case 2:
-        func_0216D9E4(func_02188C7C(evWork->fieldMap));
+        FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(evWork->fieldMap));
         return 1;
     }
     return 0;

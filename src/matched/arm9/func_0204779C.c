@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0204779C
+ * function: G3D_SYSTEM_GetObjectAnimeCount
  * address:  0x0204779C
  * packet:   pkt_02047260
  * region:   arm9
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj16046.h"
 
-int func_0204779C(int *p){ return ((struct Obj16046 *)p)->fC; }
+int G3D_SYSTEM_GetObjectAnimeCount(int *p){ return ((struct Obj16046 *)p)->fC; }

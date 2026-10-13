@@ -13,7 +13,7 @@
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  *   func_021D54E8 0x021D54E8 thumb ov175
  *   func_021D61A4 0x021D61A4 thumb ov175
- *   func_0203064C 0x0203064C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb
  *   DWC_RAPCOMMON_SetHeapTag 0x02156F50 thumb
  *   DWC_RAPCOMMON_DestroySubHeap 0x02156ED0 thumb
@@ -30,15 +30,15 @@
  *   func_021DA36C 0x021DA36C thumb ov175
  *   func_021DA384 0x021DA384 thumb ov175
  *   func_021DA390 0x021DA390 thumb ov175
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200ED48 0x0200ED48 thumb
  *   func_0200ED54 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
  *   func_02082BCC 0x02082BCC arm
  *   func_021DBC04 0x021DBC04 thumb ov175
  *   func_021DBDAC 0x021DBDAC thumb ov175
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -50,7 +50,7 @@ extern void func_021E8AA0(int *, int);
 struct Sub0200852CObj;
 extern void func_021D54E8(unsigned sys, int *state, int *p);
 extern void func_021D61A4(void *obj, int unused, u8 *p);
-extern void func_0203064C(u32, u32, u32);
+extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void DWC_RAPCOMMON_CreateSubHeap(int, int, int, int);
 extern void DWC_RAPCOMMON_SetHeapTag(int);
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
@@ -68,15 +68,15 @@ extern int func_021D9F04(char *, void *, void *);
 extern void func_021DA36C(int);
 extern void func_021DA384(char *);
 extern int func_021DA390(char *);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_0200ED48(void *);
 extern void func_0200ED54(struct L0200ED54 *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
 extern int func_021DBDAC(char *);
-extern int func_02012DAC(int);
-extern int func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(u8 *);
 #define P(k) (*(int *)(p + (k)))
 #define Q(k) (*(int *)(q + (k)))
 void func_021D51BC(unsigned sys, int *state, char *p)
@@ -92,7 +92,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
             return;
         }
         P(0xf8) = 0;
-        func_0203064C(1, 0x86, 0x60000);
+        GFL_HEAP_CreateChildHeap(1, 0x86, 0x60000);
         DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
         DWC_RAPCOMMON_SetHeapTag(0x86);
         *state = 1;
@@ -134,7 +134,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         else *state = 5;
         break;
     case 5:
-        list = func_0200ED48(func_02012EBC(*(struct Big **)Q(8)));
+        list = func_0200ED48(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
         func_0200ED54(list, func_02008530((void *)Q(0x18)));
         *state = 6;
         func_021DA384((char *)P(0x30));
@@ -193,11 +193,11 @@ void func_021D51BC(unsigned sys, int *state, char *p)
         func_021E8AB4(sys, 12);
         break;
     case 12:
-        func_02012DAC(*(int *)Q(8));
+        GAME_DATA_SaveStart(*(int *)Q(8));
         *state = 13;
         break;
     case 13:
-        switch (func_02012DD0(*(u8 **)Q(8))) {
+        switch (GAME_DATA_SaveMain(*(u8 **)Q(8))) {
         case 0: case 1: break;
         case 2: case 3:
             Q(4) = 2;

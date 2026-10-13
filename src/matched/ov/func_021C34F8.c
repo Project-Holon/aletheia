@@ -1,5 +1,5 @@
 /*
- * function: func_021C34F8
+ * function: SODATEYA_GetPokemon
  * address:  0x021C34F8
  * packet:   pkt_021C34F8
  * region:   ov021
@@ -26,7 +26,7 @@ typedef signed char    s8;
 extern void *func_0200BC2C(void *e, u32 i);
 extern u32 func_0200BCA8(void *e, u32 i);
 
-void *func_021C34F8(void *a, u32 b)
+void *SODATEYA_GetPokemon(void *a, u32 b)
 {
 func_0200BCA8(((struct Obj04896 *)a)->f8, b);
 return func_0200BC2C(((struct Obj04896 *)a)->f8, b);

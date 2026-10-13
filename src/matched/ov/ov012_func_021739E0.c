@@ -9,19 +9,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  * Live r0 from 020399A8 is the Link input of 0203D1A4.
- * Extent reaches existing matched func_02173A04's initial push.
+ * Extent reaches existing matched UNION_COMMAND_SendPartnerSelectA's initial push.
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Link;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D1A4(struct Link *p);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 void UNION_COMMAND_RecvPartnerSelectA(u32 a, int b, u32 *c, u8 *p)
 {
     u8 *q = p + 0x2830;
-    if (a != func_0203D1A4((struct Link *)func_020399A8())) q[0x2d] = *c;
+    if (a != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) q[0x2d] = *c;
 }

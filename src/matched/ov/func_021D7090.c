@@ -1,5 +1,5 @@
 /*
- * function: func_021D7090
+ * function: BTL_EVENT_MarkFactorDead
  * address:  0x021D7090
  * packet:   pkt_021D7090
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D7090   0x021D7090  thumb ov093
+ *   BTL_EVENT_MarkFactorDead   0x021D7090  thumb ov093
  *
  * store constant 0x6 at #0x10
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021D7090(u8 *p)
+void BTL_EVENT_MarkFactorDead(u8 *p)
 {
     *(u32 *)&p[0x10] = 0x6;
 }

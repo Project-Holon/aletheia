@@ -18,8 +18,8 @@
  * full (char*, int, int) arity through to the callee is what makes the two
  * loads schedule as the original (add before the target load).
  *
- * Named by five parked pending files (func_021D85F4 / func_021DF0C4 /
- * func_021DFABC / func_021E4A70 / func_021E7388).
+ * Named by five parked pending files (BTL_CALC_IntimidateOnEnter / BTL_HANDLER_ITEM_DestinyKnot_Infatuate /
+ * BTL_HANDLER_ITEM_RockyHelmetDamageReaction / func_021E4A70 / func_021E7388).
  *
  * 2026-10-05 (D9 lane 02): unchanged. 0x021CC9AC is a 176-byte packer, not a tiny leaf, and ov093 below 0x021D4000 is pengy's, so no witness filed. Needs the integrator seed.
  * 2026-10-05 (D9r lane 14): callee 0x021CC9AC is now matched EXACT as

@@ -1,5 +1,5 @@
 /*
- * function: func_021F1290
+ * function: C_GEAR_DrawTile
  * address:  0x021F1290
  * packet:   pkt_ov029_021F1290
  * region:   ov029
@@ -13,8 +13,8 @@
  *   is a temp and goes second, which was the last 2-byte residue.
  *
  * symbols:
- *   func_021F0D14  0x021F0D14  thumb  ov029
- *   func_021F0C70  0x021F0C70  thumb  ov029
+ *   C_GEAR_TileToScreen  0x021F0D14  thumb  ov029
+ *   C_GEAR_GetTilePalette  0x021F0C70  thumb  ov029
  *   func_0204162C  0x0204162C  arm
  *   d_021F3354     0x021F3354  data  a4
  *   d_021F31D4     0x021F31D4  data  a2
@@ -29,21 +29,21 @@ typedef struct { int w[6]; } Tab;
 extern const Tab d_021F3354;
 extern const u16 d_021F31D4[];
 extern const u8 d_021F323C[];
-extern void func_021F0D14(int a, int b, int *x, int *y);
-extern int func_021F0C70(void *p, int i, int j, int k);
+extern void C_GEAR_TileToScreen(int a, int b, int *x, int *y);
+extern int C_GEAR_GetTilePalette(void *p, int i, int j, int k);
 typedef unsigned int   u32;
 extern u32 func_0204162C(int channel);
 
-void func_021F1290(void *q, int a, int b, int c)
+void C_GEAR_DrawTile(void *q, int a, int b, int c)
 {
     Tab t = d_021F3354;
     int y, x, xx, v, pal, i, yy, j;
     u16 *buf;
 
     buf = (u16 *)func_0204162C(4);
-    func_021F0D14(a, b, &y, &x);
+    C_GEAR_TileToScreen(a, b, &y, &x);
     v = d_021F31D4[c];
-    pal = func_021F0C70(q, v, a, b);
+    pal = C_GEAR_GetTilePalette(q, v, a, b);
     xx = x;
     for (i = 0; i < 4; i++) {
         int o = i * 32;

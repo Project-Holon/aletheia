@@ -1,5 +1,5 @@
 /*
- * function: func_02190398
+ * function: FIELD_MSGBG_SetupBgSingle
  * address:  0x02190398
  * packet:   pkt_ov021_02190398
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02194798  0x02194798  thumb  ov021
- *   func_02192E0C  0x02192E0C  thumb  ov021
+ *   TALKMSGWIN_Delete  0x02194798  thumb  ov021
+ *   FIELD_MSGBG_InitBgOneLayer  0x02192E0C  thumb  ov021
  *   func_020056A0  0x020056A0  thumb
- *   func_02192EB8  0x02192EB8  thumb  ov021
+ *   FIELD_MSGBG_VblankTalkSysTask  0x02192EB8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
 
-extern void func_02194798(unsigned char *a);
-extern void func_02192E0C(u32 *p);
+extern void TALKMSGWIN_Delete(unsigned char *a);
+extern void FIELD_MSGBG_InitBgOneLayer(u32 *p);
 extern u32 func_020056A0(void *fn, void *arg, int z);
 typedef unsigned char  u8;
-extern void func_02192EB8(u32 a, u8 *b);
+extern void FIELD_MSGBG_VblankTalkSysTask(u32 a, u8 *b);
 
-void func_02190398(u32 *p)
+void FIELD_MSGBG_SetupBgSingle(u32 *p)
 {
     if (p[0x57] != 0) {
-        func_02194798((unsigned char *)p[0x57]);
+        TALKMSGWIN_Delete((unsigned char *)p[0x57]);
     }
-    func_02192E0C(p);
+    FIELD_MSGBG_InitBgOneLayer(p);
     if (p[0x5b] == 0) {
-        p[0x5b] = func_020056A0((void *)func_02192EB8, p, 0);
+        p[0x5b] = func_020056A0((void *)FIELD_MSGBG_VblankTalkSysTask, p, 0);
     }
 }

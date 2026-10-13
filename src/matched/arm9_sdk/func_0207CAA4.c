@@ -1,5 +1,5 @@
 /*
- * function: func_0207CAA4
+ * function: VEC_Fx16DotProduct
  * address:  0x0207CAA4
  * packet:   pkt_0207CAA4
  * region:   arm9
@@ -27,7 +27,7 @@ typedef struct {
     fx16 x, y, z;
 } VecFx16;
 
-fx32 func_0207CAA4(const VecFx16 *a, const VecFx16 *b)
+fx32 VEC_Fx16DotProduct(const VecFx16 *a, const VecFx16 *b)
 {
     fx32 tmp1, tmp2;
 

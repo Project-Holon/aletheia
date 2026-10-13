@@ -1,5 +1,5 @@
 /*
- * function: func_0219391C
+ * function: FIELD_WFBC_GetCityType
  * address:  0x0219391C
  * packet:   pkt_ov021_0219391C
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned char u8;
 
-u8 func_0219391C(u8 *p)
+u8 FIELD_WFBC_GetCityType(u8 *p)
 {
     return *p;
 }

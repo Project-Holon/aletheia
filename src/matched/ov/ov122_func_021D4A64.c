@@ -19,7 +19,7 @@
  *   func_021D4384 0x021D4384 thumb ov122
  *   func_021D5004 0x021D5004 thumb ov122
  *   func_021D4244 0x021D4244 thumb ov122
- *   func_02051B84 0x02051B84 arm
+ *   BUTTON_MAN_Create 0x02051B84 arm
  */
 #include "../include/Obj10431.h"
 typedef struct Pair { int a, b; } Pair;
@@ -33,12 +33,12 @@ extern void func_021D4384(int, Pair *, void *, void *, void *, void *);
 typedef unsigned char  u8;
 extern void func_021D5004(char *p);
 extern void func_021D4244(void *p, u32 a, int a2);
-extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
+extern void *BUTTON_MAN_Create(u8 *a0, int a1, int a2, int a3);
 void func_021D4A64(char *p)
 {
     Pair pair = d_021D575C;
     func_021D4384(2, &pair, p, d_021D5890, d_021D5720, d_021D5718);
-    ((struct Obj10431 *)p)->f40 = func_02051B84((u8 *)d_021D5728, (int)func_021D4630, (int)p, ((struct Obj10431 *)p)->fC);
+    ((struct Obj10431 *)p)->f40 = BUTTON_MAN_Create((u8 *)d_021D5728, (int)func_021D4630, (int)p, ((struct Obj10431 *)p)->fC);
     ((struct Obj10431 *)p)->f4 = func_021D4C50;
     func_021D5004(p);
     func_021D4244(p, (u32)func_021D4FE4, 0x31b);

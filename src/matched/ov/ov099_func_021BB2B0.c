@@ -12,9 +12,9 @@
  * symbols:
  *   func_02009864  0x02009864  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_021BB528  0x021BB528  thumb  ov099
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  */
 #include "../include/Obj06353.h"
 
@@ -26,15 +26,15 @@ struct Descriptor;
 struct Sub020097BCObj;
 extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_021BB528(char *p, int v);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 void func_021BB2B0(char *p, int v)
 {
     func_02009864(((struct Obj06353 *)p)->f4, ((struct Obj06353 *)p)->f8ED - 1, 9);
-    func_02043B5C(func_02045770(((struct Obj06353 *)p)->f958), 0);
+    BMP_Clear(func_02045770(((struct Obj06353 *)p)->f958), 0);
     func_021BB528(p, v);
-    func_02043598(2, 0);
-    func_02043598(8, 1);
+    BG_SYS_SetSubPlaneVisible(2, 0);
+    BG_SYS_SetSubPlaneVisible(8, 1);
 }

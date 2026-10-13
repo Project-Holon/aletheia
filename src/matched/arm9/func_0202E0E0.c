@@ -12,13 +12,13 @@
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_0201C6C4  0x0201C6C4  thumb
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_02045730  0x02045730  arm
  *   func_02041648  0x02041648  arm
  *   func_02041664  0x02041664  arm
- *   func_0204B53C  0x0204B53C  arm
- *   func_0204B528  0x0204B528  arm
+ *   CLACT_GetActorPos  0x0204B53C  arm
+ *   CLACT_SetActorPos  0x0204B528  arm
  */
 
 typedef unsigned char  u8;
@@ -56,13 +56,13 @@ struct Obj;
 struct PrintSys;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u8 func_02045730(struct Descriptor *p);
 extern u32 func_02041648(u8 channel);
 extern u32 func_02041664(u8 channel);
-extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
-extern void func_0204B528(struct Actor *actor, const struct Pt *src);
+extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
+extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 
 int PMS_DRAW_UpdateElem(struct Obj0202E0E0 *a0, void *a1, int a2)
 {
@@ -71,7 +71,7 @@ int PMS_DRAW_UpdateElem(struct Obj0202E0E0 *a0, void *a1, int a2)
 
     if (a0->f04 != 0) {
         if (func_0201C6C4(a1, func_02045770(a0->f00)) == 0) {
-            func_02045334(a0->f00);
+            BMP_WIN_TransferChars(a0->f00);
             a0->f04 = 0;
         }
     }
@@ -110,10 +110,10 @@ int PMS_DRAW_UpdateElem(struct Obj0202E0E0 *a0, void *a1, int a2)
 
         if (diff.x != 0 || diff.y != 0) {
             for (i = 0; i < 2; i++) {
-                func_0204B53C(a0->actor[i], &pos);
+                CLACT_GetActorPos(a0->actor[i], &pos);
                 pos.x += diff.x;
                 pos.y += diff.y;
-                func_0204B528(a0->actor[i], &pos);
+                CLACT_SetActorPos(a0->actor[i], &pos);
             }
         }
     }

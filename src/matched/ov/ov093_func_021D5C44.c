@@ -1,5 +1,5 @@
 /*
- * function: func_021D5C44
+ * function: BTL_POKEPARAM_GetHpRatioFixed
  * address:  0x021D5C44
  * packet:   pkt_ov093_021D5C44
  * region:   ov093
@@ -29,7 +29,7 @@ struct Rat {
     u16 num;
 };
 
-int func_021D5C44(struct Rat *p)
+int BTL_POKEPARAM_GetHpRatioFixed(struct Rat *p)
 {
     double x = (double)(100 * p->num) / (double)p->den;
     double y;

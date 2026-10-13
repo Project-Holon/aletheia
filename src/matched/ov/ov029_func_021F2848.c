@@ -1,5 +1,5 @@
 /*
- * function: func_021F2848
+ * function: C_GEAR_Update
  * address:  0x021F2848
  * packet:   pkt_ov029_021F2848
  * region:   ov029
@@ -10,29 +10,29 @@
  * status:   EXACT*
  *
  * The listing extent (316 B) runs over an unlabelled 4-byte follower at
- * 0x021F2980 (`bx lr`); the function is 312 B.  func_021F3144's second
+ * 0x021F2980 (`bx lr`); the function is 312 B.  C_GEAR_SetPowerState's second
  * argument is this function's r1, forwarded untouched.
  *
  * symbols:
- *   func_021F3144  0x021F3144  thumb  ov029
- *   func_021F2DA8  0x021F2DA8  thumb  ov029
- *   func_02012138  0x02012138  thumb
- *   func_02158630  0x02158630  thumb  ov010
- *   func_021F06B8  0x021F06B8  thumb  ov029
- *   func_020120F4  0x020120F4  thumb
- *   func_0201283C  0x0201283C  thumb
- *   func_0201058C  0x0201058C  thumb
- *   func_02012A30  0x02012A30  thumb
+ *   C_GEAR_SetPowerState  0x021F3144  thumb  ov029
+ *   C_GEAR_IsAnyIndicatorShown  0x021F2DA8  thumb  ov029
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   INTRUDE_COMM_GetRequestState  0x02158630  thumb  ov010
+ *   C_GEAR_SetTabMode  0x021F06B8  thumb  ov029
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
+ *   WIH_DWC_PollStatus  0x0201058C  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_StartRingtone  0x02028A64  thumb
- *   func_02028A70  0x02028A70  thumb
- *   func_021F1BBC  0x021F1BBC  thumb  ov029
- *   func_021F1A64  0x021F1A64  thumb  ov029
- *   func_021F13FC  0x021F13FC  thumb  ov029
- *   func_021F0EB0  0x021F0EB0  thumb  ov029
- *   func_021F0298  0x021F0298  thumb  ov029
- *   func_021EFEF8  0x021EFEF8  thumb  ov029
- *   func_021F2370  0x021F2370  thumb  ov029
- *   func_021F2180  0x021F2180  thumb  ov029
+ *   FIELD_SOUND_SYSTEM_StopRingtone  0x02028A70  thumb
+ *   C_GEAR_DeleteSplashActors  0x021F1BBC  thumb  ov029
+ *   C_GEAR_SetAllActorsVisible  0x021F1A64  thumb  ov029
+ *   C_GEAR_DrawAllCells  0x021F13FC  thumb  ov029
+ *   C_GEAR_FadeBackground  0x021F0EB0  thumb  ov029
+ *   C_GEAR_InitTabTimersPowerOn  0x021F0298  thumb  ov029
+ *   C_GEAR_ChangeStep  0x021EFEF8  thumb  ov029
+ *   C_GEAR_StepClose  0x021F2370  thumb  ov029
+ *   C_GEAR_StepIdle  0x021F2180  thumb  ov029
  *   func_02030D28  0x02030D28  arm
  */
 #include "../include/Obj00761.h"
@@ -41,32 +41,32 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021F3144(u8 *p, int v);
-extern int func_021F2DA8(u8 *p);
+extern void C_GEAR_SetPowerState(u8 *p, int v);
+extern int C_GEAR_IsAnyIndicatorShown(u8 *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_02158630(int a);
-extern void func_021F06B8(u8 *p, int a, int b);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int INTRUDE_COMM_GetRequestState(int a);
+extern void C_GEAR_SetTabMode(u8 *p, int a, int b);
 struct BigObj;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_0201283C(const struct BigObj *p);
-extern u32 func_0201058C(void *key);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+extern u32 WIH_DWC_PollStatus(void *key);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 struct SoundSys;
 extern void FIELD_SOUND_SYSTEM_StartRingtone(struct SoundSys *sys);
-extern void func_02028A70(struct SoundSys *sys);
-extern void func_021F1BBC(char *p);
-extern void func_021F1A64(char *p, int flag);
-extern void func_021F13FC(void *p);
-extern void func_021F0EB0(char *p, int flag);
-extern void func_021F0298(u8 *p);
-extern void func_021EFEF8(char *p, void (*f)(void), int line);
-extern void func_021F2370(char *p);
-extern void func_021F2180(char *p);
+extern void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys);
+extern void C_GEAR_DeleteSplashActors(char *p);
+extern void C_GEAR_SetAllActorsVisible(char *p, int flag);
+extern void C_GEAR_DrawAllCells(void *p);
+extern void C_GEAR_FadeBackground(char *p, int flag);
+extern void C_GEAR_InitTabTimersPowerOn(u8 *p);
+extern void C_GEAR_ChangeStep(char *p, void (*f)(void), int line);
+extern void C_GEAR_StepClose(char *p);
+extern void C_GEAR_StepIdle(char *p);
 extern void func_02030D28(struct Ctx *c);
 
-void func_021F2848(u8 *p, u8 v)
+void C_GEAR_Update(u8 *p, u8 v)
 {
     int st;
     u32 keys;
@@ -75,48 +75,48 @@ void func_021F2848(u8 *p, u8 v)
     if (p[0x451] == 1)
         return;
 
-    func_021F3144(p, v);
-    if (func_021F2DA8(p) == 0) {
-        st = func_02158630(func_02012138((const struct Ctx *)((struct Obj00761 *)p)->f1C));
+    C_GEAR_SetPowerState(p, v);
+    if (C_GEAR_IsAnyIndicatorShown(p) == 0) {
+        st = INTRUDE_COMM_GetRequestState(GAMESYSTEM_GetGameComm((const struct Ctx *)((struct Obj00761 *)p)->f1C));
         if (st == 3) {
             if (p[0x463] == 0) {
-                func_021F06B8(p, 1, 0);
+                C_GEAR_SetTabMode(p, 1, 0);
                 p[0x463] = 1;
             }
         } else {
             if (p[0x463] == 1) {
-                func_021F06B8(p, 0, 0);
+                C_GEAR_SetTabMode(p, 0, 0);
                 p[0x463] = 0;
             }
         }
         if (st == 0) {
-            keys = func_0201058C((void *)func_0201283C(func_020120F4((const struct Ctx *)(((struct Obj00761 *)p)->f1C))));
-            snd = (void *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)(((struct Obj00761 *)p)->f1C)));
+            keys = WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj00761 *)p)->f1C))));
+            snd = (void *)GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj00761 *)p)->f1C)));
             if (keys & 8) {
                 if (p[0x462] == 0) {
                     p[0x462] = 1;
-                    func_021F06B8(p, 1, 1);
+                    C_GEAR_SetTabMode(p, 1, 1);
                 }
                 FIELD_SOUND_SYSTEM_StartRingtone(snd);
             } else if ((keys & 8) == 0 && p[0x462] != 0) {
-                func_02028A70(snd);
+                FIELD_SOUND_SYSTEM_StopRingtone(snd);
                 p[0x462] = 0;
-                func_021F06B8(p, 0, 0);
+                C_GEAR_SetTabMode(p, 0, 0);
             }
         }
     }
 
     if (p[0x451] == 2) {
         p[0x451] = 0;
-        if (func_021F2DA8(p) == 0) {
-            func_021EFEF8((char *)p, (void (*)(void))func_021F2370, 0x11C5);
+        if (C_GEAR_IsAnyIndicatorShown(p) == 0) {
+            C_GEAR_ChangeStep((char *)p, (void (*)(void))C_GEAR_StepClose, 0x11C5);
         } else {
-            func_021F1BBC((char *)p);
-            func_021F1A64((char *)p, 1);
-            func_021F13FC(p);
-            func_021F0EB0((char *)p, func_021F2DA8(p));
-            func_021F0298(p);
-            func_021EFEF8((char *)p, (void (*)(void))func_021F2180, 0x11D4);
+            C_GEAR_DeleteSplashActors((char *)p);
+            C_GEAR_SetAllActorsVisible((char *)p, 1);
+            C_GEAR_DrawAllCells(p);
+            C_GEAR_FadeBackground((char *)p, C_GEAR_IsAnyIndicatorShown(p));
+            C_GEAR_InitTabTimersPowerOn(p);
+            C_GEAR_ChangeStep((char *)p, (void (*)(void))C_GEAR_StepIdle, 0x11D4);
         }
     }
 

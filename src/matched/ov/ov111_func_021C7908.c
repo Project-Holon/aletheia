@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_0201F73C  0x0201F73C  thumb
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  *
@@ -46,8 +46,8 @@ typedef struct {
 extern void func_0201F73C(void *p, int a, int b, int c);
 struct Cfg;
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(unsigned int index);
 
@@ -57,7 +57,7 @@ void func_021C7908(Work *p)
 
     func_0201F73C(p->f8, 0, 1, 0xE);
     v = p->f8;
-    func_02045334(v);
-    func_02045374(v);
+    BMP_WIN_TransferChars(v);
+    BMP_WIN_MakeScreen(v);
     func_020409B4(func_02045730(v));
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AB7C0",
+   "name": "FLD_SCENEAREA_RunAction",
    "address": "0x021AB7C0",
    "kind": "game",
    "region": "ov021",

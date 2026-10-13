@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02198198",
+   "name": "FLDMMDL_ACMD_WalkRight4F",
    "address": "0x02198198",
    "kind": "game",
    "region": "ov021",

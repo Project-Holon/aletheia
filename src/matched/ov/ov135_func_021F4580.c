@@ -32,6 +32,8 @@
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
  *   PROCSYS_Create  0x02031324  arm  arm9
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm  arm9
+ *   PROCSYS_AllocProcWork  0x0203159C  arm  arm9
  */
 
 typedef signed char s8;
@@ -67,9 +69,9 @@ struct WordSet;
 extern int func_02034AC4(s32 handle);
 extern u8 ov114_id[];
 extern u8 ov067_id[];
-extern void func_0203064C(u32 a, u32 b, u32 c);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void *func_02202608(u32 heap);
 extern void *PROCSYS_Create(int a0);
@@ -94,8 +96,8 @@ int func_021F4580(void *proc, int *seq, Args *args)
 
     func_02034AC4((u32)ov114_id);
     func_02034AC4((u32)ov067_id);
-    func_0203064C(1, 0x48, 0x30100);
-    p = func_0203159C(proc, sizeof(Work), 0x48);
+    GFL_HEAP_CreateChildHeap(1, 0x48, 0x30100);
+    p = PROCSYS_AllocProcWork(proc, sizeof(Work), 0x48);
     func_02082BCC(p, 0, sizeof(Work));
     g_02203F80 = p;
     p->mon = func_02202608(0x48);

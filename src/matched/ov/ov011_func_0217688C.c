@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Recursive MATCH unblocker: callee of func_0216AF3C (ov010) at +0032. The
+ * Recursive MATCH unblocker: callee of SCRCMD_SYMBOL_SendEntryFlag (ov010) at +0032. The
  * address is Thumb code in ov011 (ARM/data in the overlapping ov009), so the
  * matched shard makes that site attest as `matched`.
  */

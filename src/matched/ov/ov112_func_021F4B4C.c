@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -18,5 +21,5 @@ typedef unsigned int u32;
 typedef int s32;
 
 struct Tagged;
-extern void func_02046EFC(struct Tagged *p);
-void func_021F4B4C(struct Tagged *a0) { func_02046EFC(a0); }
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
+void func_021F4B4C(struct Tagged *a0) { G3D_SYSTEM_DeleteResource(a0); }

@@ -13,22 +13,22 @@
  *
  * symbols:
  *   INTRUDE_COMM_IsLinked  0x021736D8  thumb ov011
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3A8  0x0203D3A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
  */
 
 typedef unsigned short u16;
 
 int INTRUDE_COMM_IsLinked(void);
 struct Entry;
-struct Entry *func_020399A8(void);
+struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 typedef unsigned int   u32;
-int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
 int INTRUDE_COMM_SendPairMessage(int a, ...)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
     }
-    return func_0203D3A8(func_020399A8(), 0x223, 1, (u32)(&a));
+    return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x223, 1, (u32)(&a));
 }

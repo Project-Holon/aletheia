@@ -1,5 +1,5 @@
 /*
- * function: func_02164010
+ * function: FLDMMDL_MOVE_UpdateHeight
  * address:  0x02164010
  * packet:   pkt_ov010_02164010
  * region:   ov010
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D88C  0x0216D88C  thumb
- *   func_0216D55C  0x0216D55C  thumb
- *   func_0216DB68  0x0216DB68  thumb
- *   func_0216D570  0x0216D570  thumb
- *   func_0216D568  0x0216D568  thumb
- *   func_02163E58  0x02163E58  thumb
- *   func_0216D89C  0x0216D89C  thumb
- *   func_0216D854  0x0216D854  thumb
- *   func_0216D818  0x0216D818  thumb
- *   func_0216D85C  0x0216D85C  thumb
+ *   FLDMMDL_GetPos  0x0216D88C  thumb
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb
+ *   FLDMMDL_CheckStatusBitHeightGetOff  0x0216DB68  thumb
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb
+ *   FLDMMDL_MOVE_GetMapHeight  0x02163E58  thumb
+ *   FLDMMDL_SetPos  0x0216D89C  thumb
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb
+ *   FLDMMDL_SetGridOldY  0x0216D818  thumb
+ *   FLDMMDL_SetGridNowY  0x0216D85C  thumb
  */
 
 typedef short s16;
@@ -27,42 +27,42 @@ typedef struct { int v[3]; } Vec3;
 
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *p);
-extern int func_0216D55C(int a, int b);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *p);
+extern int FLDMMDL_CheckStatusBit(int a, int b);
 typedef unsigned int   u32;
-extern int func_0216DB68(void *a0);
-extern char *func_0216D570(char *p, u32 v);
-extern void *func_0216D568(void *p, u32 v);
-extern int func_02163E58(int a, Vec3 *p, int *out);
-extern void func_0216D89C(int a, Vec3 *p);
-extern int func_0216D854(void *p);
-extern void func_0216D818(int a, int b);
-extern void func_0216D85C(void *p, int v);
+extern int FLDMMDL_CheckStatusBitHeightGetOff(void *a0);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern int FLDMMDL_MOVE_GetMapHeight(int a, Vec3 *p, int *out);
+extern void FLDMMDL_SetPos(int a, Vec3 *p);
+extern int FLDMMDL_GetGridNowY(void *p);
+extern void FLDMMDL_SetGridOldY(int a, int b);
+extern void FLDMMDL_SetGridNowY(void *p, int v);
 
-int func_02164010(int a)
+int FLDMMDL_MOVE_UpdateHeight(int a)
 {
     Vec3 cur;
     Vec3 next;
     int out;
     int r;
 
-    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&cur);
+    FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)&cur);
     next = cur;
-    if (func_0216D55C(a, 0x2000) != 0)
+    if (FLDMMDL_CheckStatusBit(a, 0x2000) != 0)
         return 0;
-    if (func_0216DB68((void *)a) == 1) {
-        func_0216D570((char *)a, 0x1000);
+    if (FLDMMDL_CheckStatusBitHeightGetOff((void *)a) == 1) {
+        FLDMMDL_ClearMoveBit((char *)a, 0x1000);
         return 0;
     }
-    r = func_02163E58(a, &next, &out);
+    r = FLDMMDL_MOVE_GetMapHeight(a, &next, &out);
     if (r == 1) {
         cur.v[1] = out;
-        func_0216D89C(a, &cur);
-        func_0216D818(a, func_0216D854((void *)a));
-        func_0216D85C((void *)a, (s16)((out >> 4) / 4096));
-        func_0216D570((char *)a, 0x1000);
+        FLDMMDL_SetPos(a, &cur);
+        FLDMMDL_SetGridOldY(a, FLDMMDL_GetGridNowY((void *)a));
+        FLDMMDL_SetGridNowY((void *)a, (s16)((out >> 4) / 4096));
+        FLDMMDL_ClearMoveBit((char *)a, 0x1000);
     } else {
-        func_0216D568((void *)a, 0x1000);
+        FLDMMDL_SetMoveBit((void *)a, 0x1000);
     }
     return r;
 }

@@ -21,7 +21,7 @@
  * Sixteen 4-pixel groups of a compressed 2bpp 8x8 glyph.  Every even group is
  * a whole literal byte (read_bits of 8 bits) and every odd one is `n` bits
  * wide; each group's byte then indexes the 256-entry 2bpp->4bpp expansion
- * table at 0x02146588 that func_0201DD78 rebuilds (src/matched/sub_0201DD78.c),
+ * table at 0x02146588 that GF_FONT_SetTextColor rebuilds (src/matched/sub_0201DD78.c),
  * so the sixteen halfwords written to dst are the glyph in 4bpp.  `n` is the
  * caller's bit depth and is a runtime value, which is why the even and odd
  * reads are the same inlined reader with a constant and a variable count.
@@ -30,7 +30,7 @@
  * out-of-line copy of it that sits just past this function, inlined here
  * sixteen times; `static inline` is load-bearing, plain `static` compiles to
  * sixteen `bl`s and 260 bytes.  Its state is the second half of the global at
- * 0x02146578, whose first three bytes are the text colour func_0201DD78
+ * 0x02146578, whose first three bytes are the text colour GF_FONT_SetTextColor
  * stores and src/matched/unit_0201DE00.c reads back; that is why the inlined
  * field accesses sit at +4/+8/+12 rather than at +0/+4/+8 as they do in the
  * out-of-line call.

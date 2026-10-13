@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   BMP_WIN_Exit  0x020450C8  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -18,13 +19,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 extern void func_0203F9B4(void);
 extern void func_02082BCC(u8 *, u32, u32);
 
 void func_021BDDF8(u8 *p)
 {
-    func_020450C8();
+    BMP_WIN_Exit();
     func_0203F9B4();
     func_02082BCC(p, 0, 4);
 }

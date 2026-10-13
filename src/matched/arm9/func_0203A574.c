@@ -1,5 +1,5 @@
 /*
- * function: func_0203A574
+ * function: GFL_NET_COMMAND_AddCommandTable
  * address:  0x0203A574
  * packet:   pkt_0203A574
  * region:   arm9
@@ -23,7 +23,7 @@ typedef struct {
 
 extern Ent *_pCommandWork;
 
-void func_0203A574(u32 a, u32 b, u32 c, u32 d)
+void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d)
 {
     Ent *p = _pCommandWork;
     int i;

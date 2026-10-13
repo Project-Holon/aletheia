@@ -1,5 +1,5 @@
 /*
- * function: func_0217D720
+ * function: INTRUDE_SUBDISP_BgSetup
  * address:  0x0217D720
  * packet:   pkt_ov018_0217D720
  * region:   ov018
@@ -14,15 +14,15 @@
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   func_02049658            0x02049658  arm
  *   func_020498F4            0x020498F4  arm
- *   func_02049EF4            0x02049EF4  arm
+ *   ARC_UTIL_LoadPaletteDataFromHandle            0x02049EF4  arm
  *   MIi_CpuCopy16            0x02082A60  arm
  *   func_020307B0            0x020307B0  arm
  *   func_02049B68            0x02049B68  arm
  *   func_02049B40            0x02049B40  arm
  *   func_02040588            0x02040588  arm
- *   func_0217EF70            0x0217EF70  thumb  ov018
- *   func_0217F1E8            0x0217F1E8  thumb  ov018
- *   func_0217F240            0x0217F240  thumb  ov018
+ *   INTRUDE_SUBDISP_SetBgPalette            0x0217EF70  thumb  ov018
+ *   INTRUDE_SUBDISP_IsInfoActive            0x0217F1E8  thumb  ov018
+ *   INTRUDE_SUBDISP_DrawInfoPanel            0x0217F240  thumb  ov018
  *   d_0218370C               0x0218370C  data  a4
  *   d_0218372C               0x0218372C  data  a4
  */
@@ -56,20 +56,20 @@ void MIi_CpuClear32(u32 data, void *dest, u32 size);
 void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
+void *ARC_UTIL_LoadPaletteDataFromHandle(void *p, u32 a, u32 b, void **out, u16 d);
 void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 u32 func_020307B0(void *p);
 void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02040588(unsigned char which, unsigned char enable);
-void func_0217EF70(int *p, int x);
-int func_0217F1E8(u8 *w);
-void func_0217F240(u8 *w, int x);
+void INTRUDE_SUBDISP_SetBgPalette(int *p, int x);
+int INTRUDE_SUBDISP_IsInfoActive(u8 *w);
+void INTRUDE_SUBDISP_DrawInfoPanel(u8 *w, int x);
 
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
-void func_0217D720(u8 *w, void *bg)
+void INTRUDE_SUBDISP_BgSetup(u8 *w, void *bg)
 {
     int layer;
     u8 *pal;
@@ -91,12 +91,12 @@ void func_0217D720(u8 *w, void *bg)
         w[0x11F] = 1;
     }
     func_020498F4(bg, layer, 6, 0, 0x800, 1, 0x15);
-    func_0217EF70((int *)w, w[0xD8]);
-    res = func_02049EF4(bg, 8, 1, (void **)&pal, 0x15);
+    INTRUDE_SUBDISP_SetBgPalette((int *)w, w[0xD8]);
+    res = ARC_UTIL_LoadPaletteDataFromHandle(bg, 8, 1, (void **)&pal, 0x15);
     MIi_CpuCopy16(pal + 0xC, w + 0x138, 0x30);
     func_020307B0(res);
-    if (func_0217F1E8(w) == 1) {
-        func_0217F240(w, 0);
+    if (INTRUDE_SUBDISP_IsInfoActive(w) == 1) {
+        INTRUDE_SUBDISP_DrawInfoPanel(w, 0);
     }
     func_02049B68(bg, 9, 4, 0, 0x140, 0x15);
     func_02049B40(0x17, 5, 4, 0x1C0, 0x20, 0x15);

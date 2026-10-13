@@ -1,5 +1,5 @@
 /*
- * function: func_021BB4B4
+ * function: STARTMENU_BuildRowList
  * address:  0x021BB4B4
  * packet:   pkt_ov088_021BB4B4
  * region:   ov088
@@ -23,7 +23,7 @@ struct Sub020071E4Ctrl;
 extern u8 func_020071EC(const struct Sub020071E4Ctrl *ctrl);
 extern u8 func_0200C308(struct Blk34 *p, u32 i);
 
-void func_021BB4B4(char *p)
+void STARTMENU_BuildRowList(char *p)
 {
     unsigned i = 0;
     if (func_020071EC(((struct Obj00014 *)p)->f0) == 1) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021892CC
+ * function: FIELDMAP_UpdateZoneChange
  * address:  0x021892CC
  * packet:   pkt_ov021_021892CC
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218932C  0x0218932C  thumb
- *   func_02189370  0x02189370  thumb
- *   func_021893C0  0x021893C0  thumb
- *   func_02012844  0x02012844  thumb
- *   func_02162458  0x02162458  thumb  ov010
- *   func_02012984  0x02012984  thumb
- *   func_02162438  0x02162438  thumb  ov010
+ *   FIELDMAP_CheckPlayerMoved  0x0218932C  thumb
+ *   FIELDMAP_CheckZoneBoundary  0x02189370  thumb
+ *   FIELDMAP_ChangeZone  0x021893C0  thumb
+ *   GAME_DATA_GetEventData  0x02012844  thumb
+ *   EVENTDATA_SYSTEM_IsEncountDataLoaded  0x02162458  thumb  ov010
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   EVENTDATA_SYSTEM_LoadEncountData  0x02162438  thumb  ov010
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj09443.h"
@@ -28,27 +28,27 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern int func_0218932C(char *p);
-extern u32 func_02189370(char *p);
-extern void func_021893C0(u8 *p);
+extern int FIELDMAP_CheckPlayerMoved(char *p);
+extern u32 FIELDMAP_CheckZoneBoundary(char *p);
+extern void FIELDMAP_ChangeZone(u8 *p);
 struct BigObj;
-extern u32 func_02012844(const struct BigObj *p);
-extern u32 func_02162458(u8 *p);
-extern u8 func_02012984(const struct BigObj *p);
-extern void func_02162438(int a0, int a1, int a2);
+extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
+extern u32 EVENTDATA_SYSTEM_IsEncountDataLoaded(u8 *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern void EVENTDATA_SYSTEM_LoadEncountData(int a0, int a1, int a2);
 
-u32 func_021892CC(u8 *a)
+u32 FIELDMAP_UpdateZoneChange(u8 *a)
 {
     u32 h;
 
-    if (func_0218932C((char *)a) == 1 && func_02189370((char *)a) == 1) {
-        func_021893C0(a);
+    if (FIELDMAP_CheckPlayerMoved((char *)a) == 1 && FIELDMAP_CheckZoneBoundary((char *)a) == 1) {
+        FIELDMAP_ChangeZone(a);
         return 1;
     }
-    h = func_02012844((const struct BigObj *)(((struct Obj09443 *)a)->f8));
-    if (func_02162458((u8 *)h) == 0) {
+    h = GAME_DATA_GetEventData((const struct BigObj *)(((struct Obj09443 *)a)->f8));
+    if (EVENTDATA_SYSTEM_IsEncountDataLoaded((u8 *)h) == 0) {
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-        func_02162438(h, ((struct Obj09443 *)a)->fD8, func_02012984((const struct BigObj *)(((struct Obj09443 *)a)->f8)));
+        EVENTDATA_SYSTEM_LoadEncountData(h, ((struct Obj09443 *)a)->fD8, GAME_DATA_GetSeason((const struct BigObj *)(((struct Obj09443 *)a)->f8)));
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     }
     return 0;

@@ -29,7 +29,7 @@
  * wave82 checks: 1 021B614C (`ldr r0,[r0,#0x10]`), 022026FC and 021B6B74
  *   read r0 only, unchanged arity; definition conflicts: arm9
  *   PALANM_GetPairedCodeForFirst is defined `void (int)` but its result feeds
- *   func_02017E40 (+0x1AE); arm9 TOUCHPANEL_GetTrg is defined `void (void)` but
+ *   POKE_TOOL_SetPartyValue (+0x1AE); arm9 TOUCHPANEL_GetTrg is defined `void (void)` but
  *   its return is tested at +0x180; 2 ov098 6504 twin uses the field form,
  *   no init twin; 3 const p (casts on stores) 65 B, const load alias 54 B;
  *   4 struct-field-stores-keep-source-order and integer-address idioms, both
@@ -87,11 +87,11 @@
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   func_02005F38 0x02005F38 thumb
  *   func_020362DC 0x020362DC arm
- *   func_02035C60 0x02035C60 arm
- *   func_0204E720 0x0204E720 arm
- *   func_0204E804 0x0204E804 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
+ *   FADE_Start 0x0204E720 arm
+ *   FADE_IsActive 0x0204E804 arm
  *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -128,11 +128,11 @@ extern u32 func_02007F1C(u8 *, u16, u16, u16);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
 extern int func_02005F38(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
-extern void func_0204E720(u32, int, int, int);
-extern int func_0204E804(void);
+extern int TOUCHPANEL_GetTrg(void);
+extern void FADE_Start(u32, int, int, int);
+extern int FADE_IsActive(void);
 extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
-extern void func_02017E40(void *, u32, u32);
+extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
 int func_021B6578(struct P *p)
 {
     u32 t;
@@ -208,15 +208,15 @@ int func_021B6578(struct P *p)
         }
         break;
     case 10:
-        if (((u32)func_020362DC() & 3) || func_02035C60() || --p->timer == 0) {
-            func_0204E720(3, 0, 16, 2);
+        if (((u32)func_020362DC() & 3) || TOUCHPANEL_GetTrg() || --p->timer == 0) {
+            FADE_Start(3, 0, 16, 2);
             (p->state)++;
         }
         break;
     case 11:
-        if (!func_0204E804()) {
+        if (!FADE_IsActive()) {
             t = PALANM_GetPairedCodeForFirst(p->h32);
-            func_02017E40((void *)func_021B6140(p->parent), 152, t);
+            POKE_TOOL_SetPartyValue((void *)func_021B6140(p->parent), 152, t);
             return 1;
         }
         break;

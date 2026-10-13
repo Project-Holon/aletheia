@@ -1,5 +1,5 @@
 /*
- * function: func_02158DB0
+ * function: SCRIPT_SYS_IsChildScript
  * address:  0x02158DB0
  * packet:   pkt_02158DB0
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_02158DB0(int a0)
+int SCRIPT_SYS_IsChildScript(int a0)
 {
 
     if (a0 == 0) goto loc_02158DB8;

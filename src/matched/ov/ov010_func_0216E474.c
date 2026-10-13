@@ -1,5 +1,5 @@
 /*
- * function: func_0216E474
+ * function: FLDMMDL_GetMovedPosSaveSize
  * address:  0x0216E474
  * packet:   pkt_ov010_0216E474
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * Save-table size callback: returns 0x168, the size of the block that
- * func_0216E47C fills.  Pointer word 0x0216E475 at arm9 0x0209DC90.
+ * FLDMMDL_InitMovedPosSave fills.  Pointer word 0x0216E475 at arm9 0x0209DC90.
  */
 
 typedef unsigned int u32;
 
-u32 func_0216E474(void)
+u32 FLDMMDL_GetMovedPosSaveSize(void)
 {
     return 0x168;
 }

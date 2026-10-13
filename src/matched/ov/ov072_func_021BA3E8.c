@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3E8
+ * function: TOWNMAP_CursorIsPressed
  * address:  0x021BA3E8
  * packet:   pkt_021BA3E8
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BA3E8(int *p)
+int TOWNMAP_CursorIsPressed(int *p)
 {
     return p[3];
 }

@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021BE34C  0x021BE34C  thumb  ov172
- *   func_0202EE8C  0x0202EE8C  thumb
+ *   TIME_ICON_CreateNode  0x0202EE8C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern void func_021BE34C(void *p);
 typedef unsigned char  u8;
-extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
+extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
 
 void func_021BE318(char *a0, void *a1)
 {
@@ -32,5 +32,5 @@ void func_021BE318(char *a0, void *a1)
         func_021BE34C(a0);
 
     ((struct Obj05448 *)a0)->f1DC =
-        (u32)func_0202EE8C(((struct Obj05448 *)a0)->f1D8, (void *)a1, 0xf, 0x10, ((struct Obj05448 *)a0)->f0);
+        (u32)TIME_ICON_CreateNode(((struct Obj05448 *)a0)->f1D8, (void *)a1, 0xf, 0x10, ((struct Obj05448 *)a0)->f0);
 }

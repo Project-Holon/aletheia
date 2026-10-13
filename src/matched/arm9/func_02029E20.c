@@ -1,5 +1,5 @@
 /*
- * function: func_02029E20
+ * function: FIELD_SOUND_SYSTEM_GetTrainerClassBgm
  * address:  0x02029E20
  * packet:   pkt_02029E20
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef struct { u16 key; u16 val; } Pair;
 extern Pair sTrainerClassBgmTable[];
 
-u16 func_02029E20(u32 k)
+u16 FIELD_SOUND_SYSTEM_GetTrainerClassBgm(u32 k)
 {
     int i;
     for (i = 0; sTrainerClassBgmTable[i].key != 0x69; i++) {

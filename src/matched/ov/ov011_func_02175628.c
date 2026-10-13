@@ -11,14 +11,14 @@
  * extent: two zero alignment bytes at 0x02175646 precede existing 02175648 code.
  * symbols:
  *   func_0200FB24 0x0200FB24 thumb
- *   func_0203D1B4 0x0203D1B4 arm
+ *   GFL_NET_GetNegotiationNum 0x0203D1B4 arm
  */
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 int INTRUDE_COMM_HasConnectedPeers(void)
 {
     if (func_0200FB24() != 0) return 0;
-    if (func_0203D1B4() > 1) return 1;
+    if (GFL_NET_GetNegotiationNum() > 1) return 1;
     return 0;
 }

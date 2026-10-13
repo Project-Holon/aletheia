@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021B6C54  0x021B6C54  thumb  ov071
- *   func_021B6A0C  0x021B6A0C  thumb  ov071
+ *   MONOLITH_TOOL_CreateButton  0x021B6A0C  thumb  ov071
  *   func_020355C4  0x020355C4  arm
  *   func_021B6B98  0x021B6B98  thumb  ov071
  *   d_021BA978     0x021BA978  data  a4
@@ -24,7 +24,7 @@ extern unsigned d_021BA978[];
 extern int d_021BA9A4[][3];
 
 extern void func_021B6C54(char *p);
-extern void func_021B6A0C(int a, void *b, int c, int d, int e, int f, int g, int h);
+extern void MONOLITH_TOOL_CreateButton(int a, void *b, int c, int d, int e, int f, int g, int h);
 extern u8 func_020355C4(void);
 extern void func_021B6B98(void *p, int *tbl, int n, int sel, int c);
 
@@ -37,11 +37,11 @@ void func_021B81A0(int *a, u8 *p)
     for (i = 0; i < d_021BA978[p[0x32]]; i++) {
         k = p[0x32];
         if (k == 1) {
-            func_021B6A0C(a[1], p + i * 16, 1, 1, 0x80, d_021BA9A4[k][i], i + 1, 0);
+            MONOLITH_TOOL_CreateButton(a[1], p + i * 16, 1, 1, 0x80, d_021BA9A4[k][i], i + 1, 0);
         } else if (k == 0) {
-            func_021B6A0C(a[1], p + i * 16, 1, 1, 0x80, d_021BA9A4[k][i], i + 2, 0);
+            MONOLITH_TOOL_CreateButton(a[1], p + i * 16, 1, 1, 0x80, d_021BA9A4[k][i], i + 2, 0);
         } else if (k == 2) {
-            func_021B6A0C(a[1], p + i * 16, 1, 1, 0x80, d_021BA9A4[k][i], i == 0 ? 1 : 3, 0);
+            MONOLITH_TOOL_CreateButton(a[1], p + i * 16, 1, 1, 0x80, d_021BA9A4[k][i], i == 0 ? 1 : 3, 0);
         }
     }
     if (func_020355C4() == 0) {

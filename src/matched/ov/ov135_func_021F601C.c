@@ -24,6 +24,7 @@
  *   func_021F6BFC  0x021F6BFC  thumb
  *   func_021F6C28  0x021F6C28  thumb
  *   func_021F6B34  0x021F6B34  thumb
+ *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
  */
 
 typedef signed char s8;
@@ -56,7 +57,7 @@ typedef struct {
 
 extern u32 func_021F4E30(u8 *p);
 extern void func_021F4E64(u8 *p);
-extern u32 func_0201F868(void *p);
+extern u32 BMP_MENUWORK_Delete(void *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);
@@ -75,14 +76,14 @@ int func_021F601C(Work *p)
     switch (func_021F4E30((u8 *)p)) {
     case 1:
         func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
+        BMP_MENUWORK_Delete(p->de8);
         func_0201F7A8(p->d40, 0);
         p->state = 2;
         func_021F4EC0((u8 *)p, 8, 5);
         break;
     case 2:
         func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
+        BMP_MENUWORK_Delete(p->de8);
         mon = func_021F6B40(p->ctx->party, p->ctx->save, p->box, p->slot);
         if (func_021F6BC4(mon) != 0) {
             func_021F663C((u8 *)p, 0x2B, 1, 0, 0xF0F, 1);
@@ -109,7 +110,7 @@ int func_021F601C(Work *p)
     case 3:
     case (u32)-2:
         func_021F4E64((u8 *)p);
-        func_0201F868(p->de8);
+        BMP_MENUWORK_Delete(p->de8);
         func_0201F7A8(p->d40, 0);
         p->state = 0;
         break;

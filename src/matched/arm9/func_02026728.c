@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
- *   func_02012FCC  0x02012FCC  thumb
+ *   GFL_NET_GetRunState  0x0203CD98  arm
+ *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_0200864C  0x0200864C  thumb
  *   GAME_BEACON_SetPlayTime  0x020272EC  thumb
  *   GAME_BEACON_UpdateActionTime  0x02026824  thumb
@@ -27,8 +27,8 @@ struct Obj;
 
 extern char *GAME_BEACON_Work;
 
-extern int  func_0203CD98(void);
-extern int func_02012FCC(int p0);
+extern int  GFL_NET_GetRunState(void);
+extern int GAME_DATA_GetPlayTime(int p0);
 struct PlayTime;
 extern u16 func_0200864C(const struct PlayTime *p);
 extern void GAME_BEACON_SetPlayTime(s32 a);
@@ -44,11 +44,11 @@ void GAME_BEACON_Update(void)
     if (p == 0) {
         return;
     }
-    if (func_0203CD98() == 0) {
+    if (GFL_NET_GetRunState() == 0) {
         return;
     }
     if (((struct Obj06914 *)p)->f0 != 0) {
-        v = func_0200864C((const struct PlayTime *)func_02012FCC(((struct Obj06914 *)p)->f0));
+        v = func_0200864C((const struct PlayTime *)GAME_DATA_GetPlayTime(((struct Obj06914 *)p)->f0));
         if (((struct Obj06914 *)p)->fBB0 != v) {
             switch (v) {
             case 0xa:

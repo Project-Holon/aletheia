@@ -12,6 +12,7 @@
  * symbols:
  *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
+ *   FIELD_SOUND_SYSTEM_ResumeSlots  0x02028BDC  thumb
  */
 
 typedef unsigned char  u8;
@@ -30,7 +31,7 @@ struct T {
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_SetBgmPlayerParam(void *p);
 struct S;
-extern void func_02028BDC(struct S *s, u32 mask);
+extern void FIELD_SOUND_SYSTEM_ResumeSlots(struct S *s, u32 mask);
 
 void FIELD_SOUND_SYSTEM_PopBgm(struct T *p)
 {
@@ -45,6 +46,6 @@ void FIELD_SOUND_SYSTEM_PopBgm(struct T *p)
     p->f20 = n;
     p->f08 = *(u32 *)((char *)p + 0x24 + n * 4);
     if (n == 0) {
-        func_02028BDC((struct S *)p, 1);
+        FIELD_SOUND_SYSTEM_ResumeSlots((struct S *)p, 1);
     }
 }

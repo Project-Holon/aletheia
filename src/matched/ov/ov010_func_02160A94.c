@@ -1,5 +1,5 @@
 /*
- * function: func_02160A94
+ * function: EVENT_FIELD_PROCLINK_CreatePokeListParam
  * address:  0x02160A94
  * packet:   pkt_ov010_02160A94
  * region:   ov010
@@ -14,14 +14,14 @@
  * the next state (+0x34) chosen from the step kind and the peer's reply.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   func_02030734  0x02030734  arm
- *   func_02012934  0x02012934  thumb
- *   func_0201292C  0x0201292C  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   func_02008FEC  0x02008FEC  thumb
  *   func_0200CA1C  0x0200CA1C  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_021C3E00  0x021C3E00  thumb  ov136
@@ -102,29 +102,29 @@ extern const char d_02172978[];
 typedef signed int     s32;
 struct BigObj;
 struct Sub02008F80Obj;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_02012934(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *func_0200CA1C(void *sv);
-extern u16 *func_020127A4(void *sv);
-extern u8 func_02012984(const struct BigObj *p);
+extern u16 *GAME_DATA_GetMyPlayerWork(void *sv);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern u32 func_021C3E00(u32 *p);
 
-Req *func_02160A94(Ctx *c, int kind, int mode, Src *src)
+Req *EVENT_FIELD_PROCLINK_CreatePokeListParam(Ctx *c, int kind, int mode, Src *src)
 {
     void *sv;
     Req *r;
     u32 v;
 
-    sv = func_020120F4(*(void **)c->f18);
+    sv = GAMESYSTEM_GetGameData(*(void **)c->f18);
     r = func_02030734(4, 0x98, 1, d_02172978, 0x330);
-    r->f00 = func_02012934(sv);
+    r->f00 = GAME_DATA_GetMyParty(sv);
     r->hdr = c->hdr;
-    r->f04 = func_0201292C(sv);
+    r->f04 = GAME_DATA_GetMyItem(sv);
     r->f08 = func_02008FEC(sv);
     r->f18 = func_0200CA1C(sv);
     r->f34 = 0;
@@ -132,8 +132,8 @@ Req *func_02160A94(Ctx *c, int kind, int mode, Src *src)
     r->f46 = 0;
     v = 0xFF;
     r->f5e = v;
-    r->f30 = *func_020127A4(sv);
-    r->f5f = func_02012984(sv);
+    r->f30 = *GAME_DATA_GetMyPlayerWork(sv);
+    r->f5f = GAME_DATA_GetSeason(sv);
     if (kind == 5) {
         r->f3c = 0;
         r->f34 = 5;

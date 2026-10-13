@@ -1,5 +1,5 @@
 /*
- * function: func_021BB648
+ * function: FLDEFF_GYOE_UpdateTask
  * address:  0x021BB648
  * packet:   pkt_ov021_021BB648
  * region:   ov021
@@ -10,31 +10,31 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216E1C4  0x0216E1C4  thumb  ov010
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_021AC1CC  0x021AC1CC  thumb  ov021
- *   func_021BB808  0x021BB808  thumb  ov021
+ *   FLDMMDL_CheckCheckInfo  0x0216E1C4  thumb  ov010
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
+ *   FLDEFF_GYOE_StepAnimation  0x021BB808  thumb  ov021
  */
 
-int func_0216E1C4(int a, int b);
+int FLDMMDL_CheckCheckInfo(int a, int b);
 struct Actor;
 struct VecFx32;
-void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
-void func_021AC154(int a);
-void func_021AC1CC(int a, int *b);
+void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
+void FIELD_EFFECT_DeleteObject(int a);
+void FIELD_EFFECT_SetObjectPos(int a, int *b);
 struct Vec;
-void func_021BB808(int *o, struct Vec *out);
+void FLDEFF_GYOE_StepAnimation(int *o, struct Vec *out);
 
-void func_021BB648(int a, int *b)
+void FLDEFF_GYOE_UpdateTask(int a, int *b)
 {
     int v[3];
 
-    if (b[9] == 1 || func_0216E1C4(b[3], (int)(b + 4)) == 0) {
-        func_021AC154(a);
+    if (b[9] == 1 || FLDMMDL_CheckCheckInfo(b[3], (int)(b + 4)) == 0) {
+        FIELD_EFFECT_DeleteObject(a);
         return;
     }
-    func_0216D88C((const struct Actor *)b[3], (struct VecFx32 *)v);
-    func_021BB808(b, (struct Vec *)v);
-    func_021AC1CC(a, v);
+    FLDMMDL_GetPos((const struct Actor *)b[3], (struct VecFx32 *)v);
+    FLDEFF_GYOE_StepAnimation(b, (struct Vec *)v);
+    FIELD_EFFECT_SetObjectPos(a, v);
 }

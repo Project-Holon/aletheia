@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DB00C",
-    "func_021DB0D0"
+    "BTL_ABILITY_BadDreamsHurtSleepers",
+    "BTL_ABILITY_GetBadDreamsHandlers"
+   ],
+   "addresses": [
+    "0x021DB00C",
+    "0x021DB0D0"
    ],
    "evidence": {
     "sole-ref": [

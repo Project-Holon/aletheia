@@ -14,7 +14,7 @@
  * symbols:
  *   func_0220BD84 0x0220BD84 thumb ov198
  *   func_0220BD34 0x0220BD34 thumb ov198
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   d_02211BDA 0x02211BDA data a1
  *   d_02211B80 0x02211B80 data a1
  *   d_02211CB0 0x02211CB0 data a1
@@ -30,7 +30,7 @@ typedef struct Item { u8 a,b,c,d,e,f; } Item;
 extern Item d_02211BDA[],d_02211B80[],d_02211CB0[],d_02211BFE[],d_02211C24[],d_02211B98[],d_02211BB6[],d_02211C68[];
 extern void func_0220BD84(u8 *);
 extern void func_0220BD34(u8 *);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 void func_0220BC70(u8 *p,u32 state)
 {
     Item *s;
@@ -48,5 +48,5 @@ void func_0220BC70(u8 *p,u32 state)
     case 7: s=d_02211C68; p[0x2174]=12; break;
     }
     for(i=0;i<p[0x2174];i++,s++)
-        *(void **)(p+i*8+0x1F70)=(void *)func_020450F0(s->a,s->b,s->c,s->d,s->e,s->f,1);
+        *(void **)(p+i*8+0x1F70)=(void *)BMP_WIN_Create(s->a,s->b,s->c,s->d,s->e,s->f,1);
 }

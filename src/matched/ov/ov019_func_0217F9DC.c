@@ -1,5 +1,5 @@
 /*
- * function: func_0217F9DC
+ * function: UNION_EFF_AddAnimObj
  * address: 0x0217F9DC
  * packet: pkt_ov019_0217F9DC
  * region: ov019
@@ -11,8 +11,8 @@
  * symbols:
  *   d_02180814 0x02180814 data ov019 a4
  *   func_02034714 0x02034714 arm
- *   func_0217FB30 0x0217FB30 thumb ov019
- *   func_0217FA10 0x0217FA10 thumb ov019
+ *   UNION_EFF_GetFreeAnimObj 0x0217FB30 thumb ov019
+ *   UNION_EFF_CreateAnimObj 0x0217FA10 thumb ov019
  */
 #include "../include/Obj09420.h"
 
@@ -21,13 +21,13 @@ typedef unsigned short u16;
 struct E { u32 a,b,c,d; u16 h; };
 extern const char d_02180814[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern struct E *func_0217FB30(struct E *p);
-extern void func_0217FA10(char *p, u32 *out, u32 a, u16 b);
-void func_0217F9DC(char *p, u32 a)
+extern struct E *UNION_EFF_GetFreeAnimObj(struct E *p);
+extern void UNION_EFF_CreateAnimObj(char *p, u32 *out, u32 a, u16 b);
+void UNION_EFF_AddAnimObj(char *p, u32 a)
 {
     struct E *e;
     if (((struct Obj09420 *)p)->f14 == 0) func_02034714(d_02180814,0,d_02180814);
-    e=func_0217FB30((struct E *)p);
-    func_0217FA10(p,(u32 *)e,a,((struct Obj09420 *)p)->f1C);
+    e=UNION_EFF_GetFreeAnimObj((struct E *)p);
+    UNION_EFF_CreateAnimObj(p,(u32 *)e,a,((struct Obj09420 *)p)->f1C);
     (((struct Obj09420 *)p)->f1C)++;
 }

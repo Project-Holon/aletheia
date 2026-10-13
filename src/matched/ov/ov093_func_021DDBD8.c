@@ -1,5 +1,5 @@
 /*
- * function: func_021DDBD8
+ * function: BTL_ITEM_GetWeakenDamagePsychicHandlers
  * address: 0x021DDBD8
  * packet: pkt_ov093_021DDBD8
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DDBA4.c and filed here.
  *
  * symbols:
- *   d_021F172C 0x021F172C data ov093 a4
+ *   gBtlItemWeakenDamagePsychicHandlers 0x021F172C data ov093 a4
  */
 
-int *func_021DDBD8(int *p);
-extern int d_021F172C[];
+int *BTL_ITEM_GetWeakenDamagePsychicHandlers(int *p);
+extern int gBtlItemWeakenDamagePsychicHandlers[];
 
-int *func_021DDBD8(int *p)
+int *BTL_ITEM_GetWeakenDamagePsychicHandlers(int *p)
 {
     *p = 2;
-    return d_021F172C;
+    return gBtlItemWeakenDamagePsychicHandlers;
 }

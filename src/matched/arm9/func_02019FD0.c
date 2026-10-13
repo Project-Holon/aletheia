@@ -13,7 +13,7 @@
  * the next label because of two bytes of 00 00 padding at 0x0201A08E before the next labelled function at 0x0201A090.
  *
  * symbols:
- *   func_02017E1C   0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0200AFD4   0x0200AFD4  thumb
  *
@@ -32,7 +32,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 typedef signed int     s32;
 struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
@@ -40,8 +40,8 @@ extern u32 func_0200AFD4(struct Reg *p, u32 id, s32 n);
 
 int POKE_REGULATION_CheckPokemonFlags(void *a0, void *a1, u32 *a2)
 {
-    u16 v5 = (u16)func_02017E1C(a1, 5, 0);
-    u16 v6 = (u16)func_02017E1C(a1, 6, 0);
+    u16 v5 = (u16)POKE_TOOL_GetPartyValue(a1, 5, 0);
+    u16 v6 = (u16)POKE_TOOL_GetPartyValue(a1, 6, 0);
     int r = 1;
     int m;
     int s;
@@ -52,7 +52,7 @@ int POKE_REGULATION_CheckPokemonFlags(void *a0, void *a1, u32 *a2)
 
     m = func_0200AE54(a0, 4);
     s = func_0200AE54(a0, 5);
-    t = func_02017E1C(a1, 0x9E, 0);
+    t = POKE_TOOL_GetPartyValue(a1, 0x9E, 0);
 
     switch (s) {
     case 1:
@@ -70,7 +70,7 @@ int POKE_REGULATION_CheckPokemonFlags(void *a0, void *a1, u32 *a2)
     }
 
     if (func_0200AFD4(a0, 9, v5) != 0) {
-        if (func_02017E1C(a1, 0x4C, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue(a1, 0x4C, 0) == 0) {
             r = 0;
             *a2 |= 4;
         }

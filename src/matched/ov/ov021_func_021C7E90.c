@@ -1,5 +1,5 @@
 /*
- * function: func_021C7E90
+ * function: FIELD_FLASH_StepTween
  * address:  0x021C7E90
  * packet:   pkt_ov021_021C7E90
  * region:   ov021
@@ -35,7 +35,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
 
-int func_021C7E90(Obj *p)
+int FIELD_FLASH_StepTween(Obj *p)
 {
     if (p->f6 < p->f8) {
         p->f6 = p->f6 + 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB9DC
+ * function: STARTMENU_ShowRowActors
  * address:  0x021BB9DC
  * packet:   pkt_ov088_021BB9DC
  * region:   ov088
@@ -23,7 +23,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u8 func_0200C308(struct Blk34 *p, u32 i);
 
-void func_021BB9DC(char *p, int flag)
+void STARTMENU_ShowRowActors(char *p, int flag)
 {
     unsigned i;
     if (flag == 0) {

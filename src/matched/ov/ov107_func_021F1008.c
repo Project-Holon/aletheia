@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  */
 
-extern int func_0203CD98(void);
-int func_021F1008(void *p) { return func_0203CD98(); }
+extern int GFL_NET_GetRunState(void);
+int func_021F1008(void *p) { return GFL_NET_GetRunState(); }

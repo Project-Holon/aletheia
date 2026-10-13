@@ -1,5 +1,5 @@
 /*
- * function: func_02012FB0
+ * function: GAME_DATA_GetSymbolMapFlag
  * address:  0x02012FB0
  * packet:   pkt_02012FB0
  * region:   arm9
@@ -12,11 +12,11 @@
  * Unlabelled leaf accessor: reads the byte at base + 0x1CF.
  *
  * symbols:
- *   func_02012FB0  0x02012FB0  thumb
+ *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
  */
 #include "../include/Obj15639.h"
 
-int func_02012FB0(unsigned char *base)
+int GAME_DATA_GetSymbolMapFlag(unsigned char *base)
 {
     return ((struct Obj15639 *)base)->f1CF;
 }

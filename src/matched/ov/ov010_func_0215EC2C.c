@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_0215EC2C, func_0215EC40
+ * function: MOVE_POKEMON_CheckDive, MOVE_POKEMON_CreateDiveEvent
  * address: 0x0215EC2C
  * packet: pkt_ov010_0215EC2C
  * region: ov010
@@ -9,20 +9,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0215F104 0x0215F104 thumb ov010
- *   func_021C6078 0x021C6078 thumb ov021
+ *   MOVE_POKEMON_IsSkillUsable 0x0215F104 thumb ov010
+ *   SWEET_SCENT_CreateEvent 0x021C6078 thumb ov021
  */
 #include "../include/Obj12315.h"
-extern int func_0215F104(int a0, int a1);
+extern int MOVE_POKEMON_IsSkillUsable(int a0, int a1);
 typedef enum { B_FALSE, B_TRUE } Bool;
-int func_0215EC2C(void *p)
+int MOVE_POKEMON_CheckDive(void *p)
 {
-    return func_0215F104((int)p, 8) != 0 ? B_FALSE : B_TRUE;
+    return MOVE_POKEMON_IsSkillUsable((int)p, 8) != 0 ? B_FALSE : B_TRUE;
 }
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_021C6078(void *, void *, u8);
-void *func_0215EC40(u16 *a, void *b)
+extern void *SWEET_SCENT_CreateEvent(void *, void *, u8);
+void *MOVE_POKEMON_CreateDiveEvent(u16 *a, void *b)
 {
-    return func_021C6078(((struct Obj12315 *)b)->f8, ((struct Obj12315 *)b)->f10, *a);
+    return SWEET_SCENT_CreateEvent(((struct Obj12315 *)b)->f8, ((struct Obj12315 *)b)->f10, *a);
 }

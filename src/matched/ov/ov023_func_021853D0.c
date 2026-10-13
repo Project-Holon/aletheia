@@ -1,5 +1,5 @@
 /*
- * function: func_021853D0
+ * function: OEKAKI_StepHideCursors
  * address:  0x021853D0
  * packet:   pkt_021853D0
  * region:   ov023
@@ -17,7 +17,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
-int func_021853D0(char *p, int a1)
+int OEKAKI_StepHideCursors(char *p, int a1)
 {
     int i;
 

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021DE6CC, func_021DE700
+ * function: BTL_HANDLER_ITEM_MuscleBandBoostPhysical, BTL_HANDLER_ITEM_GetWiseGlassesHandlers
  * address:  0x021DE6CC
  * packet:   pkt_ov093_021DE6CC
  * region:   ov093
@@ -11,33 +11,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
- *   func_021DD008  0x021DD008  thumb  ov093
- *   func_021D7704  0x021D7704  thumb  ov093
- *   d_021F148C     0x021F148C  data   ov093  a4
+ *   BTL_HANDLER_ITEM_GetBoostRatio  0x021DD008  thumb  ov093
+ *   BTL_EVENT_MultiplyVar  0x021D7704  thumb  ov093
+ *   gWiseGlassesHandlerTable     0x021F148C  data   ov093  a4
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int k);
+extern int BTL_EVENT_GetVar(int k);
 extern int WAZA_TOOL_GetDamageType(int a);
-extern int func_021DD008(int a);
-extern void func_021D7704(int key, int m);
-extern int d_021F148C;
+extern int BTL_HANDLER_ITEM_GetBoostRatio(int a);
+extern void BTL_EVENT_MultiplyVar(int key, int m);
+extern int gWiseGlassesHandlerTable;
 
-void func_021DE6CC(int a, int b, int c)
+void BTL_HANDLER_ITEM_MuscleBandBoostPhysical(int a, int b, int c)
 {
-    if (c == func_021D775C(3)) {
-        if (WAZA_TOOL_GetDamageType((u16)func_021D775C(0x12)) == 1)
-            func_021D7704(0x31, func_021DD008(a));
+    if (c == BTL_EVENT_GetVar(3)) {
+        if (WAZA_TOOL_GetDamageType((u16)BTL_EVENT_GetVar(0x12)) == 1)
+            BTL_EVENT_MultiplyVar(0x31, BTL_HANDLER_ITEM_GetBoostRatio(a));
     }
 }
 
-int *func_021DE700(int *p)
+int *BTL_HANDLER_ITEM_GetWiseGlassesHandlers(int *p)
 {
     *p = 1;
-    return &d_021F148C;
+    return &gWiseGlassesHandlerTable;
 }

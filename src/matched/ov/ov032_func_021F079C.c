@@ -1,5 +1,5 @@
 /*
- * function: func_021F079C
+ * function: BEACON_VIEW_AddHistoryId
  * address: 0x021F079C
  * packet: pkt_ov032_021F079C
  * region: ov032
@@ -12,4 +12,4 @@
  */
 #include "../include/Obj07629.h"
 typedef unsigned char u8;
-void func_021F079C(u8 *p,int v) { int n,i; n=*(volatile u8 *)&((struct Obj07629 *)p)->f8C; for(i=0;i<n;i++) if(v==p[i+0x8d]) return; *(volatile u8 *)&((struct Obj07629 *)p)->f8C=*(volatile u8 *)&((struct Obj07629 *)p)->f8C+1; (p+n)[0x8d]=v; }
+void BEACON_VIEW_AddHistoryId(u8 *p,int v) { int n,i; n=*(volatile u8 *)&((struct Obj07629 *)p)->f8C; for(i=0;i<n;i++) if(v==p[i+0x8d]) return; *(volatile u8 *)&((struct Obj07629 *)p)->f8C=*(volatile u8 *)&((struct Obj07629 *)p)->f8C+1; (p+n)[0x8d]=v; }

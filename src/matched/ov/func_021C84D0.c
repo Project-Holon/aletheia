@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BDBB8   0x021BDBB8  thumb ov093
+ *   BTL_SERVER_FLOW_DispatchPokeEntryEventToType4   0x021BDBB8  thumb ov093
  *   func_021C84D0   0x021C84D0  thumb ov093
  *
- * tail-call thunk to func_021BDBB8
+ * tail-call thunk to BTL_SERVER_FLOW_DispatchPokeEntryEventToType4
  */
 
 typedef unsigned char u8;
@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern void func_021BDBB8(u8 *p, u8 *a);
+extern void BTL_SERVER_FLOW_DispatchPokeEntryEventToType4(u8 *p, u8 *a);
 
 void func_021C84D0(u8 *p, u8 *a)
 {
-    func_021BDBB8(p, a);
+    BTL_SERVER_FLOW_DispatchPokeEntryEventToType4(p, a);
 }

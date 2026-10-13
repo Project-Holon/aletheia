@@ -1,5 +1,5 @@
 /*
- * function: func_021F0B00
+ * function: C_GEAR_StartTileFlash
  * address:  0x021F0B00
  * packet:   pkt_ov029_021F0B00
  * region:   ov029
@@ -12,9 +12,9 @@
  *           instead of moving to r1 at entry (27 bytes out).
  *
  * symbols:
- *   func_021F0C70  0x021F0C70  thumb  ov029
- *   func_021F1290  0x021F1290  thumb  ov029
- *   func_021F0C00  0x021F0C00  thumb  ov029
+ *   C_GEAR_GetTilePalette  0x021F0C70  thumb  ov029
+ *   C_GEAR_DrawTile  0x021F1290  thumb  ov029
+ *   C_GEAR_SetTileFlashStep  0x021F0C00  thumb  ov029
  */
 
 typedef unsigned char  u8;
@@ -30,11 +30,11 @@ typedef struct {
     u8  f7;
 } Ent;
 
-extern int func_021F0C70(void *p, int i, int j, int k);
-extern void func_021F1290(void *q, int a, int b, int c);
-extern void func_021F0C00(Ent *p, int t);
+extern int C_GEAR_GetTilePalette(void *p, int i, int j, int k);
+extern void C_GEAR_DrawTile(void *q, int a, int b, int c);
+extern void C_GEAR_SetTileFlashStep(Ent *p, int t);
 
-void func_021F0B00(Ent *p, void *q, int a, int mode, int c, u16 d)
+void C_GEAR_StartTileFlash(Ent *p, void *q, int a, int mode, int c, u16 d)
 {
     int t;
 
@@ -48,10 +48,10 @@ void func_021F0B00(Ent *p, void *q, int a, int mode, int c, u16 d)
     } else if (mode == 1) {
         p->f5 = 4;
     } else if (mode == 2) {
-        p->f5 = func_021F0C70(q, a, p->f6, p->f7);
+        p->f5 = C_GEAR_GetTilePalette(q, a, p->f6, p->f7);
         p->cnt = d * 5;
         t = 4;
     }
-    func_021F1290(q, p->f6, p->f7, c);
-    func_021F0C00(p, t);
+    C_GEAR_DrawTile(q, p->f6, p->f7, c);
+    C_GEAR_SetTileFlashStep(p, t);
 }

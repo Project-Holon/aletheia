@@ -1,5 +1,5 @@
 /*
- * function: func_021C3510
+ * function: SODATEYA_AddExpSaturated
  * address:  0x021C3510
  * packet:   pkt_ov021_021C3510
  * region:   ov021
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-u32 func_021C3510(u32 a, u32 b)
+u32 SODATEYA_AddExpSaturated(u32 a, u32 b)
 {
     u64 s = (u64)a + b;
 

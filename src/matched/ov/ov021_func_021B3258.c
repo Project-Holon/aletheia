@@ -1,5 +1,5 @@
 /*
- * function: func_021B3258
+ * function: SCRCMD_PROC_FLD_InitShop
  * address:  0x021B3258
  * packet:   pkt_ov021_021B3258
  * region:   ov021
@@ -10,79 +10,79 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B3258 0x021B3258 thumb
- *   func_020120F4 0x020120F4 thumb
- *   func_02012944 0x02012944 thumb
- *   func_021B3B14 0x021B3B14 thumb ov021
- *   func_02012F08 0x02012F08 thumb
+ *   SCRCMD_PROC_FLD_InitShop 0x021B3258 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
+ *   SCRCMD_PROC_FLD_AllocShopResources 0x021B3B14 thumb ov021
+ *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C258 0x0200C258 thumb
- *   func_021B38E0 0x021B38E0 thumb ov021
- *   func_021B39C4 0x021B39C4 thumb ov021
- *   func_021B3A64 0x021B3A64 thumb ov021
- *   func_021B331C 0x021B331C thumb ov021
- *   func_021B3BD8 0x021B3BD8 thumb ov021
- *   func_021B3FA0 0x021B3FA0 thumb ov021
- *   func_021B3F00 0x021B3F00 thumb ov021
- *   func_021B40D4 0x021B40D4 thumb ov021
- *   func_021B43EC 0x021B43EC thumb ov021
+ *   SCRCMD_PROC_FLD_BuildItemListByBadges 0x021B38E0 thumb ov021
+ *   SCRCMD_PROC_FLD_BuildItemListFixed 0x021B39C4 thumb ov021
+ *   SCRCMD_PROC_FLD_BuildItemListFromRange 0x021B3A64 thumb ov021
+ *   SCRCMD_PROC_FLD_LoadShopMessages 0x021B331C thumb ov021
+ *   SCRCMD_PROC_FLD_InitShopGraphics 0x021B3BD8 thumb ov021
+ *   SCRCMD_PROC_FLD_InitShopWindows 0x021B3FA0 thumb ov021
+ *   SCRCMD_PROC_FLD_InitShopCells 0x021B3F00 thumb ov021
+ *   SCRCMD_PROC_FLD_PrintMoneyWindow 0x021B40D4 thumb ov021
+ *   SCRCMD_PROC_FLD_CreateItemListMenu 0x021B43EC thumb ov021
  */
 
 typedef unsigned char u8;
 
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
-extern int func_021B3B14(char *p, int a);
-extern void *func_02012F08(int *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern int SCRCMD_PROC_FLD_AllocShopResources(char *p, int a);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern int func_0200C258(void);
-extern void func_021B38E0(char *p, int a, int b, int c);
-extern void func_021B39C4(u8 *, int);
-extern void func_021B3A64(char *p, int i);
-extern void func_021B331C(u8 *, int);
-extern void func_021B3BD8(char *p);
-extern void func_021B3FA0(char *w);
-extern void func_021B3F00(u8 *);
-extern void func_021B40D4(char *w);
-extern void func_021B43EC(char *w);
+extern void SCRCMD_PROC_FLD_BuildItemListByBadges(char *p, int a, int b, int c);
+extern void SCRCMD_PROC_FLD_BuildItemListFixed(u8 *, int);
+extern void SCRCMD_PROC_FLD_BuildItemListFromRange(char *p, int i);
+extern void SCRCMD_PROC_FLD_LoadShopMessages(u8 *, int);
+extern void SCRCMD_PROC_FLD_InitShopGraphics(char *p);
+extern void SCRCMD_PROC_FLD_InitShopWindows(char *w);
+extern void SCRCMD_PROC_FLD_InitShopCells(u8 *);
+extern void SCRCMD_PROC_FLD_PrintMoneyWindow(char *w);
+extern void SCRCMD_PROC_FLD_CreateItemListMenu(char *w);
 
-void func_021B3258(int ctx, u8 *a, int b, int c)
+void SCRCMD_PROC_FLD_InitShop(int ctx, u8 *a, int b, int c)
 {
-    void *t = func_020120F4((void *)ctx);
+    void *t = GAMESYSTEM_GetGameData((void *)ctx);
     int r;
 
-    func_02012944(t);
+    GAME_DATA_GetMyStatus(t);
     a[354] = 0;
-    b = func_021B3B14((char *)a, b);
+    b = SCRCMD_PROC_FLD_AllocShopResources((char *)a, b);
     r = b;
     switch (r) {
     case 255:
-        func_02012F08(t);
-        func_021B38E0((char *)a, r, c, func_0200C258());
+        GAME_DATA_GetMiscSave(t);
+        SCRCMD_PROC_FLD_BuildItemListByBadges((char *)a, r, c, func_0200C258());
         break;
     case 254:
-        func_021B39C4(a, 0);
+        SCRCMD_PROC_FLD_BuildItemListFixed(a, 0);
         a[355] = 1;
         break;
     case 253:
         a[355] = 1;
         a[354] = 1;
-        func_021B39C4(a, 1);
+        SCRCMD_PROC_FLD_BuildItemListFixed(a, 1);
         break;
     case 247:
     case 248:
     case 249:
     case 250:
     case 251:
-        func_021B3A64((char *)a, r);
+        SCRCMD_PROC_FLD_BuildItemListFromRange((char *)a, r);
         break;
     default:
-        func_021B38E0((char *)a, r, c, 0);
+        SCRCMD_PROC_FLD_BuildItemListByBadges((char *)a, r, c, 0);
         break;
     }
-    func_021B331C(a, a[355]);
-    func_021B3BD8((char *)a);
-    func_021B3FA0((char *)a);
-    func_021B3F00(a);
-    func_021B40D4((char *)a);
-    func_021B43EC((char *)a);
+    SCRCMD_PROC_FLD_LoadShopMessages(a, a[355]);
+    SCRCMD_PROC_FLD_InitShopGraphics((char *)a);
+    SCRCMD_PROC_FLD_InitShopWindows((char *)a);
+    SCRCMD_PROC_FLD_InitShopCells(a);
+    SCRCMD_PROC_FLD_PrintMoneyWindow((char *)a);
+    SCRCMD_PROC_FLD_CreateItemListMenu((char *)a);
 }

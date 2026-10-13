@@ -1,5 +1,5 @@
 /*
- * function: func_0219D3B4
+ * function: FLDMMDL_BLACT_IsCodeChangePending
  * address:  0x0219D3B4
  * packet:   pkt_ov021_0219D3B4
  * region:   ov021
@@ -18,7 +18,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { u32 p; u16 id; u16 pad; u32 x; } Slot;
 
-int func_0219D3B4(u8 *s, u32 p, u16 id)
+int FLDMMDL_BLACT_IsCodeChangePending(u8 *s, u32 p, u16 id)
 {
     Slot *e = *(Slot * *)&((struct Obj00429 *)s)->f20;
     int i;

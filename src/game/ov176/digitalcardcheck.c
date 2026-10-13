@@ -17,7 +17,7 @@
  *   func_021E8844 0x021E8844 thumb ov177
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  *   func_0217BBD4 0x0217BBD4 thumb ov176
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_0200AE14 0x0200AE14 thumb
  *   func_0200B358 0x0200B358 thumb
@@ -46,7 +46,7 @@
  *   func_0200BAF4 0x0200BAF4 thumb
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_02008468  0x02008468  thumb
+ *   MYSTATUS_GetSize  0x02008468  thumb
  *   func_02087C6C  0x02087C6C  arm
  *   func_0200E6E8  0x0200E6E8  thumb
  *   func_0200E6FC  0x0200E6FC  thumb
@@ -59,7 +59,7 @@
  *   d_0217E61C 0x0217E61C data a1
  *   func_021E8A78 0x021E8A78 thumb ov177
  *   func_0201ED04 0x0201ED04 thumb
- *   func_02045C04 0x02045C04 arm
+ *   MSGDATA_Delete 0x02045C04 arm
  *   func_021E8A80  0x021E8A80  thumb  ov177
  *   func_021E64C0  0x021E64C0  thumb  ov177
  *   func_021E8A90 0x021E8A90 thumb ov177
@@ -77,8 +77,8 @@
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  *   func_0200BBD8 0x0200BBD8 thumb
  *   func_0200B110 0x0200B110 thumb
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  *   func_0200E9F4 0x0200E9F4 thumb
  *   func_0200EA00 0x0200EA00 thumb
@@ -150,7 +150,7 @@ extern void func_021E8738(int *p, int a, int b, int c);
 extern int func_021E8844(const int *);
 extern void func_021E8AA0(int *,int);
 extern void func_0217BBD4(int);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern int func_0200AE14(void *);
 extern void *func_0200B358(void *);
@@ -179,7 +179,7 @@ extern int func_021E8420(void *);
 extern void *func_0200BAF4(int,int);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 func_020307B0(void *p);
-extern int func_02008468(void);
+extern int MYSTATUS_GetSize(void);
 extern void func_02087C6C(void *p);
 extern void *func_0200E6E8(u32 a);
 extern void func_0200E6FC(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
@@ -190,7 +190,7 @@ extern int func_0201EC74(int,int,int);
 extern int *func_021E8A3C(int a, int b, int c);
 extern void func_021E8A78(void *p);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void func_021E8A80(int);
 extern int func_021E64C0(unsigned char *, void *);
 extern int func_021E8A90(int **p);
@@ -208,8 +208,8 @@ extern void func_021E8AB4(u32, u32);
 extern void func_021E8AB8(u32);
 extern void func_0200BBD8(struct Obj *p, int v);
 extern void func_0200B110(struct Reg2 *p, u32 id, s32 value);
-extern int func_02012DAC(int a0);
-extern int func_02012DD0(u8 *p);
+extern int GAME_DATA_SaveStart(int a0);
+extern int GAME_DATA_SaveMain(u8 *p);
 extern void func_021E8AA8(int);
 extern void *func_0200E9F4(void *);
 extern int func_0200EA00(int p);
@@ -280,7 +280,7 @@ void func_0217D028(u8 *p)
     void *base;
     int box, aux, x, table, a, b, c, d;
     if (*(int *)&((struct Obj00053 *)p)->f10) return;
-    base = func_02012EBC(((struct Obj00053 *)p)->f1B8);
+    base = GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8);
     func_0200BAC8(base);
     box = func_0200AE14(((struct Obj00053 *)p)->f38);
     aux = (int)func_0200B204(func_0200B358(base), 1);
@@ -371,7 +371,7 @@ void func_0217D244(char *p)
     int a;
     if (((struct Obj00053 *)p)->f18 == 0) {
         a = func_021E5548((int *)(*(int *)&((struct Obj00053 *)p)->f1B4));
-        ((struct Obj00053 *)p)->f18 = func_021E7E3C((int)func_0200BAC8(func_02012EBC((struct Big *)(*(int *)&((struct Obj00053 *)p)->f1B8))), a,
+        ((struct Obj00053 *)p)->f18 = func_021E7E3C((int)func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)(*(int *)&((struct Obj00053 *)p)->f1B8))), a,
             ((struct Obj00053 *)p)->f1B0, ((struct Obj00053 *)p)->f28, *(int *)&((struct Obj00053 *)p)->f1AC, *(int *)&((struct Obj00053 *)p)->f24, ((struct Obj00053 *)p)->f1C8);
     }
 }
@@ -389,7 +389,7 @@ int func_0217D2B0(u8 *p){return func_021E8420(((struct Obj24426 *)p)->f18);}
 
 
 
-void func_0217D2BC(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);func_02082D44(v,q,POKE_REGULATION_GetDataSize());func_020307B0(v);}
+void func_0217D2BC(u8 *p,const void *q) {void *v;v=func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl(((struct Obj00053 *)p)->f1B8)),((struct Obj00053 *)p)->f1C8);func_02082D44(v,q,POKE_REGULATION_GetDataSize());func_020307B0(v);}
 
 
 
@@ -412,10 +412,10 @@ void func_0217D2F0(u8 *p, u8 *q)
 
     ((struct Obj06578 *)p)->f44 = 0x64;
     x = (u32)func_02012944(r);
-    func_02082D44((void *)x, p, func_02008468());
+    func_02082D44((void *)x, p, MYSTATUS_GetSize());
     func_02087C6C(p + 0x20);
-    func_0200E6FC(func_0200E6E8((u32)func_02012EBC((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
-    a = (u32)func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)r)), 0x8056);
+    func_0200E6FC(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
+    a = (u32)func_0200BAF4((int)func_0200BAC8(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
     func_02082D44((void *)a, p + 0xd4, POKE_REGULATION_GetDataSize());
     func_020307B0((void *)a);
     ((struct Obj06578 *)p)->f28 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 1);
@@ -455,7 +455,7 @@ Request *func_0217D398(Config *p, int heap)
 
 
 
-void func_0217D410(int *p) {func_021E8A78((void *)p[4]);func_0217DE60(p);func_0201ED04((struct WordSet *)p[1]);func_02045C04((struct Rec *)p[0]);func_020307B0(p);}
+void func_0217D410(int *p) {func_021E8A78((void *)p[4]);func_0217DE60(p);func_0201ED04((struct WordSet *)p[1]);MSGDATA_Delete((struct Rec *)p[0]);func_020307B0(p);}
 
 
 
@@ -488,7 +488,7 @@ void func_0217D458(int a, int unused, char *p)
     void *m;
     unsigned x;
     unsigned y;
-    m = func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj14366 *)p)->f30)), ((struct Obj14366 *)p)->f14);
+    m = func_0200B1D4(func_0200B358(GAME_DATA_GetSaveControl(((struct Obj14366 *)p)->f30)), ((struct Obj14366 *)p)->f14);
     x = func_0200B078(m, 2);
     y = func_0200B078(m, 10);
     if (x && y == 1) {
@@ -546,14 +546,14 @@ void func_0217D4FC(int *a, int *state, int *p)
         break;
     case 12: func_0217DFD0(p, 0x6B, 2); *state = 19; func_021E8AB4((u32)a, 13); break;
     case 13:
-        base = func_02012EBC((void *)p[12]);
+        base = GAME_DATA_GetSaveControl((void *)p[12]);
         record = func_0200B1D4(func_0200B358(base), p[5]);
         base = func_0200BAC8(base);
         func_0200BBD8(base, p[5] == 0 ? 1 : 2);
         func_0200B110(record, 10, 4); *state = 14; break;
-    case 14: func_02012DAC((int)((void *)p[12])); *state = 15; break;
+    case 14: GAME_DATA_SaveStart((int)((void *)p[12])); *state = 15; break;
     case 15:
-        result = func_02012DD0((void *)p[12]);
+        result = GAME_DATA_SaveMain((void *)p[12]);
         if (result == 2) *state = 16;
         else if (result == 3) *state = 16;
         break;
@@ -596,14 +596,14 @@ void func_0217D730(int *a, int *state, int *p)
         break;
     case 12: func_0217DFD0(p, 0x6B, 2); *state = 19; func_021E8AB4((u32)a, 13); break;
     case 13:
-        base = func_02012EBC((void *)p[12]);
+        base = GAME_DATA_GetSaveControl((void *)p[12]);
         record = func_0200B1D4(func_0200B358(base), p[5]);
         base = func_0200BAC8(base);
         func_0200BBD8(base, p[5] == 0 ? 1 : 2);
         func_0200B110(record, 10, 4); *state = 14; break;
-    case 14: func_02012DAC((int)((void *)p[12])); *state = 15; break;
+    case 14: GAME_DATA_SaveStart((int)((void *)p[12])); *state = 15; break;
     case 15:
-        result = func_02012DD0((void *)p[12]);
+        result = GAME_DATA_SaveMain((void *)p[12]);
         if (result == 2) *state = 16;
         else if (result == 3) *state = 16;
         break;
@@ -731,8 +731,8 @@ void func_0217DC28(int *p)
     u8 *win;
     int flag;
     if (p[2] == 0) {
-        save = func_02012EBC((struct Big *)p[12]);
-        base = func_0200B358(func_02012EBC((struct Big *)p[12]));
+        save = GAME_DATA_GetSaveControl((struct Big *)p[12]);
+        base = func_0200B358(GAME_DATA_GetSaveControl((struct Big *)p[12]));
         obj = (struct Reg2 *)func_0200B1D4(base, p[5]);
         sub = func_0200B204((struct RecBig *)base, p[5]);
         reg = (struct Reg *)func_0200AE14(obj);

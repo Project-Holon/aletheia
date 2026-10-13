@@ -1,5 +1,5 @@
 /*
- * function: func_021A0354
+ * function: FIELD_ZONEFOG_IsLoadRequest
  * address:  0x021A0354
  * packet:   pkt_021A0354
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_021A0354(u8 *p)
+u8 FIELD_ZONEFOG_IsLoadRequest(u8 *p)
 {
     return ((struct Obj17988 *)p)->f0;
 }

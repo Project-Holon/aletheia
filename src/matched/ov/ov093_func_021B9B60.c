@@ -8,12 +8,12 @@
  * isa: thumb
  * status: EXACT* (2 bytes alignment padding)
  * symbols:
- *   func_021D5B7C 0x021D5B7C thumb ov093
+ *   BTL_POKEPARAM_IsAbleToBattle 0x021D5B7C thumb ov093
  *   func_021B9C24 0x021B9C24 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D5B7C(void *);
+extern int BTL_POKEPARAM_IsAbleToBattle(void *);
 extern void func_021B9C24(u8 *p, u8 i);
 void func_021B9B60(u8 *p) {
     unsigned int j;
@@ -21,7 +21,7 @@ void func_021B9B60(u8 *p) {
     j=0;
     i=0;
     for(;j<p[24];j++) {
-        if(func_021D5B7C(*(void **)((u32)p+(u32)i*4))) i++;
+        if(BTL_POKEPARAM_IsAbleToBattle(*(void **)((u32)p+(u32)i*4))) i++;
         else func_021B9C24(p,i);
     }
 }

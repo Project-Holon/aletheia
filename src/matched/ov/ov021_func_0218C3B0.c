@@ -1,5 +1,5 @@
 /*
- * function: func_0218C3B0
+ * function: FIELD_BUILDMODEL_PlayAnimSet
  * address:  0x0218C3B0
  * packet:   pkt_ov021_0218C3B0
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218BCAC  0x0218BCAC  thumb  ov021
- *   d_021D3D5C     0x021D3D5C  data  a4
+ *   FIELD_BUILDMODEL_GetModelAnimDefs  0x0218BCAC  thumb  ov021
+ *   gBuildModelAnimOpsTable     0x021D3D5C  data  a4
  */
 
 #include "../include/G_Ops.h"
@@ -27,15 +27,15 @@ typedef struct {
     int *f4;
 } Obj;
 
-extern struct Ops d_021D3D5C[];
+extern struct Ops gBuildModelAnimOpsTable[];
 typedef unsigned char  u8;
-u8 *func_0218BCAC(u8 *p);
+u8 *FIELD_BUILDMODEL_GetModelAnimDefs(u8 *p);
 
-void func_0218C3B0(Obj *p, int i, int c)
+void FIELD_BUILDMODEL_PlayAnimSet(Obj *p, int i, int c)
 {
-    unsigned char k = *func_0218BCAC((u8 *)(*p->f4));
+    unsigned char k = *FIELD_BUILDMODEL_GetModelAnimDefs((u8 *)(*p->f4));
     unsigned char idx = i;
     if (idx >= 4)
         idx = 0;
-    d_021D3D5C[k].f4(p, idx, c);
+    gBuildModelAnimOpsTable[k].f4(p, idx, c);
 }

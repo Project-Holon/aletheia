@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: func_0201058C
+ * function: WIH_DWC_PollStatus
  * address:  0x0201058C
  * packet:   pkt_0201058C
  * region:   arm9
@@ -20,9 +20,9 @@
  *
  * symbols:
  *   gWihDwc     0x021461E0  data
- *   func_0203D798  0x0203D798  arm
- *   func_0203D1B4  0x0203D1B4  arm
- *   func_0203CF10  0x0203CF10  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   GFL_NET_GetScanResult  0x0203CF10  arm
  *   func_0205D01C  0x0205D01C  arm
  *   NET_WHPIPE_GetEntryKind  0x02178098  thumb  ov014
  *   WIH_DWC_FindSlotByKey   0x020107FC  thumb
@@ -32,7 +32,7 @@
  *
  * wih_dwc.c per-frame status poll: returns a flag word (bit 1 always set)
  * built from the lookup in WIH_DWC_FindSlotByKey, the connection state byte +0x67
- * and slot count +0x62 of the func_0203D798 context, the ov014 per-slot
+ * and slot count +0x62 of the GFL_NET_GetInitParam context, the ov014 per-slot
  * state (0x14..0x1B, 9), then drains the 0xC0-byte record queue that
  * WIH_DWC_AddBeacon fills, arming the four countdowns at +0x318..+0x324 that
  * WIH_DWC_TickTimers decrements (600 or 400 frames), and finally derives bits
@@ -47,8 +47,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0201058C.c \
- *       --func func_0201058C --addr 0x0201058C --thumb
+ *   python tools/match.py one --src src/pending/WIH_DWC_PollStatus.c \
+ *       --func WIH_DWC_PollStatus --addr 0x0201058C --thumb
  */
 #include "../include/Obj03426.h"
 #include "../include/G_WihCtx.h"
@@ -58,9 +58,9 @@ typedef unsigned int   u32;
 
 extern struct WihCtx gWihDwc;
 
-extern void *func_0203D798(void);
-extern int  func_0203D1B4(void);
-extern u32 func_0203CF10(u32 a);
+extern void *GFL_NET_GetInitParam(void);
+extern int  GFL_NET_GetNegotiationNum(void);
+extern u32 GFL_NET_GetScanResult(u32 a);
 extern u8   NET_WHPIPE_GetEntryKind(u8 i);
 struct WihInfo {
     int kind;          /* +0x00 */
@@ -74,10 +74,10 @@ extern int WIH_DWC_IsOpenTaggedBeacon(const u8 *obj);
 struct Ctx;
 extern u32  WIH_DWC_IsPrivacyBeacon(const struct Ctx *rec);
 
-u32 func_0201058C(void *key)
+u32 WIH_DWC_PollStatus(void *key)
 {
     u32 flags = 0;
-    u8 *st = func_0203D798();
+    u8 *st = GFL_NET_GetInitParam();
     int i;
     int j;
     u8 *rec;
@@ -89,11 +89,11 @@ u32 func_0201058C(void *key)
 
     if (WIH_DWC_FindSlotByKey(key) != -1)
         flags |= 8;
-    if (st[0x67] == 2 && func_0203D1B4() > 1)
+    if (st[0x67] == 2 && GFL_NET_GetNegotiationNum() > 1)
         flags |= 4;
 
     for (i = 0; i < st[0x62]; i++) {
-        if (func_0203CF10(i) != 0) {
+        if (GFL_NET_GetScanResult(i) != 0) {
             s = NET_WHPIPE_GetEntryKind(i);
             if (s >= 0x14 && s <= 0x1B)
                 flags |= 0x10;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9D68
+ * function: BLINK_PALANM_BlendStep
  * address:  0x021B9D68
  * packet:   pkt_ov068_021B9D68
  * region:   ov068
@@ -33,7 +33,7 @@ typedef signed int     s32;
 extern s16  d_020A1B38[];
 extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
-void func_021B9D68(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c0, u16 c1)
+void BLINK_PALANM_BlendStep(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c0, u16 c1)
 {
     int t;
     s16 f;

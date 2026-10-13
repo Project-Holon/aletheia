@@ -1,5 +1,5 @@
 /*
- * function: func_0215F104
+ * function: MOVE_POKEMON_IsSkillUsable
  * address:  0x0215F104
  * packet:   pkt_0215F104
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0215F104(int a0, int a1)
+int MOVE_POKEMON_IsSkillUsable(int a0, int a1)
 {
     int a2;
     int a3;

@@ -1,5 +1,5 @@
 /*
- * function: func_02046BE0
+ * function: G3D_SYSTEM_SetSwapBuffersMode
  * address:  0x02046BE0
  * packet:   pkt_02046858
  * region:   arm9
@@ -18,8 +18,8 @@
  * therefore goes to r0, the register the outgoing value no longer needs.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02046BE0.c \
- *       --func func_02046BE0 --addr 0x02046BE0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_SetSwapBuffersMode.c \
+ *       --func G3D_SYSTEM_SetSwapBuffersMode --addr 0x02046BE0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -33,7 +33,7 @@ struct Ctx {
 
 extern struct Ctx *_G3dSystem;
 
-void func_02046BE0(u32 a, u32 b)
+void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b)
 {
     _G3dSystem->unk_80 = a;
     _G3dSystem->unk_84 = b;

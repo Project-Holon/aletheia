@@ -15,6 +15,7 @@
  *
  * symbols:
  *   _RailMapZoneTable  0x0209E010  data
+ *   ZONEDATA_IsZoneInTable  0x02013B10  thumb
  * Verified with:
  *   python tools/match.py one --src src/pending/ZONEDATA_IsRailMap.c \
  *       --func ZONEDATA_IsRailMap --addr 0x02013C70 --cc 1.1p1 --thumb
@@ -28,9 +29,9 @@ typedef signed char s8;
 
 extern u8   _RailMapZoneTable[];
 typedef signed int     s32;
-extern u32 func_02013B10(u32 id, const u16 *table, s32 count);
+extern u32 ZONEDATA_IsZoneInTable(u32 id, const u16 *table, s32 count);
 
 int ZONEDATA_IsRailMap(u32 a)
 {
-    return func_02013B10(a, (const u16 *)_RailMapZoneTable, 0xb);
+    return ZONEDATA_IsZoneInTable(a, (const u16 *)_RailMapZoneTable, 0xb);
 }

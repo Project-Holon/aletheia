@@ -1,5 +1,5 @@
 /*
- * function: func_021AE66C
+ * function: EVENT_TRAINER_EYE_StepPlayerFaceTrainer
  * address:  0x021AE66C
  * packet:   pkt_ov021_021AE66C
  * region:   ov021
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_021642B4  0x021642B4  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216D3CC  0x0216D3CC  thumb  ov010
- *   func_02197E7C  0x02197E7C  thumb  ov021
- *   func_0216D410  0x0216D410  thumb  ov010
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVE_GetDirFromPoints  0x021642B4  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
+ *   FLDMMDL_ACMD_ConvertCodeByDir  0x02197E7C  thumb  ov021
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  */
 
 typedef struct Task {
@@ -32,27 +32,27 @@ typedef struct Task {
     unsigned char *f34;     /* 0x34 */
 } Task;
 
-extern void *func_021A3074(unsigned char *p);
-extern int func_0216D83C(void *x);
-extern int func_0216D86C(void *x);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern int FLDMMDL_GetGridNowX(void *x);
+extern int FLDMMDL_GetGridNowZ(void *x);
 typedef unsigned short u16;
-extern u16 func_021642B4(int x0, int y0, int x1, int y1);
-extern u16 func_0216D5F8(void *p);
-extern int func_0216D3CC(int a0);
-extern int func_02197E7C(int a, int b);
-extern void func_0216D410(void *a, int b);
+extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int y0, int x1, int y1);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FLDMMDL_CheckPossibleAcmd(int a0);
+extern int FLDMMDL_ACMD_ConvertCodeByDir(int a, int b);
+extern void FLDMMDL_SetAcmd(void *a, int b);
 
-int func_021AE66C(Task *p)
+int EVENT_TRAINER_EYE_StepPlayerFaceTrainer(Task *p)
 {
-    void *r4 = func_021A3074(p->f34);
-    int r6 = func_0216D83C(r4);
-    int r7 = func_0216D86C(r4);
-    int t = func_0216D83C(p->f08);
+    void *r4 = FIELD_PLAYER_GetMmdl(p->f34);
+    int r6 = FLDMMDL_GetGridNowX(r4);
+    int r7 = FLDMMDL_GetGridNowZ(r4);
+    int t = FLDMMDL_GetGridNowX(p->f08);
 
-    r6 = func_021642B4(r6, r7, t, func_0216D86C(p->f08));
-    if (r6 != func_0216D5F8(r4) && (p->f24 == 0 || p->f1C == 2)) {
-        if (func_0216D3CC((int)r4) == 1) {
-            func_0216D410(r4, func_02197E7C(r6, 0));
+    r6 = FLDMMDL_MOVE_GetDirFromPoints(r6, r7, t, FLDMMDL_GetGridNowZ(p->f08));
+    if (r6 != FLDMMDL_GetDirDisp(r4) && (p->f24 == 0 || p->f1C == 2)) {
+        if (FLDMMDL_CheckPossibleAcmd((int)r4) == 1) {
+            FLDMMDL_SetAcmd(r4, FLDMMDL_ACMD_ConvertCodeByDir(r6, 0));
             p->state = 0xf;
         }
     } else {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BDBE0",
+   "name": "PLIST_DEMO_DeleteParticles",
    "address": "0x021BDBE0",
    "kind": "game",
    "region": "ov091",

@@ -1,5 +1,5 @@
 /*
- * function: func_021BA9E8
+ * function: STARTMENU_SetupBackgrounds
  * address:  0x021BA9E8
  * packet:   pkt_ov088_021BA9E8
  * region:   ov088
@@ -18,7 +18,7 @@
  *   func_0203FC28  0x0203FC28  arm
  *   func_0203FCA0  0x0203FCA0  arm
  *   func_020434DC  0x020434DC  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   d_021BD678     0x021BD678  data  a4
  *   d_021BD724     0x021BD724  data  a4
  *   d_021BD764     0x021BD764  data  a4
@@ -55,9 +55,9 @@ struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020434DC(u32 mask, u32 enable);
-extern void func_02043598(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-void func_021BA9E8(void)
+void STARTMENU_SetupBackgrounds(void)
 {
     A16 a;
     B32 b0;
@@ -86,5 +86,5 @@ void func_021BA9E8(void)
     b6 = d_021BD704;
     func_0203FCA0(6, (const struct BgTemplate *)(&b6), 0);
     func_020434DC(0xf, 1);
-    func_02043598(7, 1);
+    BG_SYS_SetSubPlaneVisible(7, 1);
 }

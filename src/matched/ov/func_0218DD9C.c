@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD9C
+ * function: FIELD_G3D_MAPPER_SetCellPos
  * address:  0x0218DD9C
  * packet:   pkt_0218DD9C
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0218DD9C(u32 a, u32 b, u32 c, u32 d)
+int FIELD_G3D_MAPPER_SetCellPos(u32 a, u32 b, u32 c, u32 d)
 {
 ((struct Obj09174 *)((u8 *)(a)))->f4 = b;
 ((struct Obj09174 *)((u8 *)(a)))->f8 = c;

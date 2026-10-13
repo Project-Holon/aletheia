@@ -9,17 +9,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E1C   0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   MSGDATA_ReadUnits   0x02045F5C  arm
  *   func_0201F41C   0x0201F41C  thumb
- *   g_020A7370      0x020A7370  data
+ *   gSpeciesNameBank      0x020A7370  data
  *
  * Fill slot idx of the 0x20-byte-stride record array that unit_0200E730's
  * ten accessors read (level in bits 1..7 of +0x1a, a "set" flag in bit 0,
  * the +0x1b byte or 0xff, words at +0 and +0x1c, an 11-u16 name at +4)
- * from a Pokemon via func_02017E1C: fields 0x9e, 0x71/0xa, 0, 7, then the
+ * from a Pokemon via POKE_TOOL_GetPartyValue: fields 0x9e, 0x71/0xa, 0, 7, then the
  * nickname (0x74) when field 0x75 says there is one, else the species name
- * (field 5) read out of the message bank at g_020A7370 into a stack buffer
+ * (field 5) read out of the message bank at gSpeciesNameBank into a stack buffer
  * and copied in.
  *
  * Two facts closed the 133-135-byte "pointer permutation" of the earlier
@@ -51,27 +51,27 @@ struct Rec0200E7BC {
     u32 f1c;
 };
 
-extern u32  func_02017E1C(void *mon, u32 id, u32 buf);
+extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 buf);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
-extern void *g_020A7370;
+extern void *gSpeciesNameBank;
 
 void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
 {
-    o[idx].bits.level = func_02017E1C(mon, 0x9e, 0);
-    if (func_02017E1C(mon, 0x71, 0) != 0)
-        o[idx].f1b = func_02017E1C(mon, 0xa, 0);
+    o[idx].bits.level = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
+    if (POKE_TOOL_GetPartyValue(mon, 0x71, 0) != 0)
+        o[idx].f1b = POKE_TOOL_GetPartyValue(mon, 0xa, 0);
     else
         o[idx].f1b = 0xff;
-    o[idx].f00 = func_02017E1C(mon, 0, 0);
-    o[idx].f1c = func_02017E1C(mon, 7, 0);
-    if (func_02017E1C(mon, 0x75, 0) != 0) {
-        func_02017E1C(mon, 0x74, (u32)o[idx].name);
+    o[idx].f00 = POKE_TOOL_GetPartyValue(mon, 0, 0);
+    o[idx].f1c = POKE_TOOL_GetPartyValue(mon, 7, 0);
+    if (POKE_TOOL_GetPartyValue(mon, 0x75, 0) != 0) {
+        POKE_TOOL_GetPartyValue(mon, 0x74, (u32)o[idx].name);
     } else {
         u16 buf[12];
 
-        MSGDATA_ReadUnits(g_020A7370, func_02017E1C(mon, 5, 0), buf, 0xb);
+        MSGDATA_ReadUnits(gSpeciesNameBank, POKE_TOOL_GetPartyValue(mon, 5, 0), buf, 0xb);
         func_0201F41C(buf, o[idx].name, 0xb);
     }
     o[idx].bits.flag = 1;

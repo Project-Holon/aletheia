@@ -16,17 +16,17 @@
  *   func_02008FEC 0x02008FEC thumb
  *   func_02030734 0x02030734 arm
  *   func_02082AC0 0x02082AC0 arm
- *   func_02012EBC 0x02012EBC thumb
- *   func_02008F08 0x02008F08 thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
+ *   MAIL_Create 0x02008F08 thumb
  *   func_02008EAC 0x02008EAC thumb
  *   func_02008F48 0x02008F48 thumb
  *   d_021C7EE0 0x021C7EE0 data a1
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_02008FA8 0x02008FA8 thumb
- *   func_02017E40 0x02017E40 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_020307B0  0x020307B0  arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   PROCSYS_Create 0x02031324 arm
  *   PROCSYS_Main 0x02031330 arm
  *   PROCSYS_Push 0x02031348 arm
@@ -53,33 +53,33 @@
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   PMSI_PARAM_SetSentence 0x02024108 thumb
  *   func_02008F80 0x02008F80 thumb
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02008F84 0x02008F84 thumb
- *   func_02045924 0x02045924 arm
+ *   STRBUF_SetString 0x02045924 arm
  *   func_02008FA4 0x02008FA4 thumb
  *   func_02008FB0 0x02008FB0 thumb
  *   func_02008FB8 0x02008FB8 thumb
  *   func_02008FC0 0x02008FC0 thumb
  *   func_02008FC8 0x02008FC8 thumb
  *   d_021C7EEC 0x021C7EEC data a1
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_02008FD8 0x02008FD8 thumb
  *   func_02008FC4 0x02008FC4 thumb
  *   PMSI_PARAM_InitSentenceId 0x020242C0 thumb
  *   d_021C77A0 0x021C77A0 data a1
  *   func_02012FFC 0x02012FFC thumb
- *   func_0201D7EC 0x0201D7EC thumb
- *   func_0203101C 0x0203101C arm
+ *   GF_FONT_Create 0x0201D7EC thumb
+ *   TCBL_Create 0x0203101C arm
  *   func_0203F8F4 0x0203F8F4 arm
  *   func_0203F9B4 0x0203F9B4 arm
- *   func_02031140 0x02031140 arm
- *   func_0201D83C 0x0201D83C thumb
+ *   TCBL_Destroy 0x02031140 arm
+ *   GF_FONT_Delete 0x0201D83C thumb
  *   func_021C4AF8 0x021C4AF8 thumb ov136
  *   func_021C4BFC 0x021C4BFC thumb ov136
  *   func_021C4B5C 0x021C4B5C thumb ov136
  *   func_021C4D14 0x021C4D14 thumb ov136
  *   data_021C7774 0x021C7774 data
- *   func_0202223C 0x0202223C thumb
+ *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   WIPE_ResetWndMask 0x02022224 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_020434DC 0x020434DC arm
@@ -89,12 +89,12 @@
  *   PALANM_RequestFade 0x0202173C thumb
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   PMS_DRAW_Main 0x0202DBC4 thumb
- *   func_02028178 0x02028178 thumb
+ *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   func_02030EAC 0x02030EAC arm
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   func_02030D28 0x02030D28 arm
- *   func_020310C4 0x020310C4 arm
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   TCBL_Main 0x020310C4 arm
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  */
 #include "ov136_types.h"
 struct MailToolCtx;
@@ -142,16 +142,16 @@ typedef int (*Step021C42C8)(u8 *p);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(unsigned, void *, unsigned);
-extern void *func_02012EBC(struct Big *p);
-extern void *func_02008F08(int a0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern void *MAIL_Create(int a0);
 extern void func_02008EAC(struct Sub02008EACObj *obj);
 extern void func_02008F48(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused, void *p);
-extern unsigned func_02017E1C(void *, unsigned, unsigned);
+extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
 extern void func_02008FA8(struct Sub02008F80Obj *obj, u32 value);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 func_020307B0(void *p);
-extern void func_0203064C(unsigned, unsigned, unsigned);
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void *PROCSYS_Create(int a0);
 extern u32 PROCSYS_Main(void *p);
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
@@ -175,30 +175,30 @@ extern int PMSI_PARAM_IsEnabled(const u16 *p);
 extern void PMSI_PARAM_InitSentence(void *obj, u32 id);
 extern void PMSI_PARAM_SetSentence(u16 *dst, const u16 *src);
 extern u32 func_02008F80(const struct Sub02008F80Obj *obj);
-extern void *func_020457B0(unsigned, u16);
+extern void *STRBUF_Create(unsigned, u16);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u8 func_02008FB0(const struct Sub02008F80Obj *obj);
 extern u8 func_02008FB8(const struct Sub02008F80Obj *obj);
 extern u16 func_02008FC0(const struct Sub02008F80Obj *obj);
 extern struct Sub02008F80Entry *func_02008FC8(struct Sub02008F80Obj *obj, u32 i);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_02008FD8(struct Sub02008F80Obj *obj, void *arg, u32 i);
 extern void func_02008FC4(struct Sub02008F80Obj *obj, u16 value);
 extern void PMSI_PARAM_InitSentenceId(void *a, void *b, void *c);
 extern signed char func_02012FFC(void);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0203F8F4(u16);
 extern void func_0203F9B4(void);
-extern void func_02031140(struct S02031140 *p);
-extern u32 func_0201D83C(void *ptr);
+extern void TCBL_Destroy(struct S02031140 *p);
+extern u32 GF_FONT_Delete(void *ptr);
 extern void func_021C4AF8(void);
 extern int func_021C4BFC(u8 *p);
 extern void func_021C4B5C(void *a, u32 *p);
 extern int func_021C4D14(u8 *p);
-extern void func_0202223C(u32 a, u32 b);
+extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
 extern u32 WIPE_ResetWndMask(void *win);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_020434DC(u32 mask, u32 enable);
@@ -208,12 +208,12 @@ extern u32 func_020056BC(void);
 extern void PALANM_RequestFade(void *p, int a, int b, int c, int d, int e, int f, u32 g);
 extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern void PMS_DRAW_Main(u8 *p);
-extern void func_02028178(u8 *p);
+extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void func_02030EAC(struct Node *n);
-extern void func_0204A600(void *p);
+extern void CLACT_DrawSystem(void *p);
 extern void func_02030D28(struct Ctx *c);
-extern void func_020310C4(struct Tcbl *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void TCBL_Main(struct Tcbl *p);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 void *func_021C3D44(void *a, void *b, unsigned heap);
 void *func_021C3DA4(void *a, void *b, unsigned heap);
@@ -254,8 +254,8 @@ void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
     *(unsigned short *)&((struct MbSeqCtx *)p)->f0 = 1;
     *(unsigned int *)&((struct MbSeqCtx *)p)->f8 = b;
     ((struct MbSeqCtx *)p)->fC = 0;
-    ((struct MbSeqCtx *)p)->f10 = func_02012EBC(a);
-    ((struct MbSeqCtx *)p)->f14 = func_02008F08((unsigned)((u16)heap));
+    ((struct MbSeqCtx *)p)->f10 = GAME_DATA_GetSaveControl(a);
+    ((struct MbSeqCtx *)p)->f14 = MAIL_Create((unsigned)((u16)heap));
     func_02008EAC(((struct MbSeqCtx *)p)->f14);
     func_02008F48(((struct MbSeqCtx *)p)->f14, 0xFF, c, a);
     return p;
@@ -268,9 +268,9 @@ void *func_021C3D44(void *a, void *b, unsigned heap)
     p = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x97);
     func_02082AC0(0, p, 0x1C);
     *(unsigned short *)&((struct MbSeqCtx *)p)->f0 = 0;
-    ((struct MbSeqCtx *)p)->f10 = func_02012EBC(a);
-    ((struct MbSeqCtx *)p)->f14 = func_02008F08((unsigned)((u16)heap));
-    func_02017E1C(b, 0xA7, (u32)((struct MbSeqCtx *)p)->f14);
+    ((struct MbSeqCtx *)p)->f10 = GAME_DATA_GetSaveControl(a);
+    ((struct MbSeqCtx *)p)->f14 = MAIL_Create((unsigned)((u16)heap));
+    POKE_TOOL_GetPartyValue(b, 0xA7, (u32)((struct MbSeqCtx *)p)->f14);
     return p;
 }
 
@@ -281,8 +281,8 @@ void *func_021C3DA4(void *a, void *b, unsigned heap)
     p = func_02030734((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0xB9);
     func_02082AC0(0, p, 0x1C);
     *(unsigned short *)&((struct MbSeqCtx *)p)->f0 = 0;
-    ((struct MbSeqCtx *)p)->f10 = func_02012EBC(a);
-    ((struct MbSeqCtx *)p)->f14 = func_02008F08((unsigned)((u16)heap));
+    ((struct MbSeqCtx *)p)->f10 = GAME_DATA_GetSaveControl(a);
+    ((struct MbSeqCtx *)p)->f14 = MAIL_Create((unsigned)((u16)heap));
     func_02008FA8(((struct MbSeqCtx *)p)->f14, (u32)b);
     return p;
 }
@@ -297,7 +297,7 @@ u32 func_021C3E00(u32 *p)
 int func_021C3E04(u32 *p, void *q)
 {
     if (func_021C3E00(p) == 0) return 0;
-    func_02017E40(q, 0xa7, p[5]);
+    POKE_TOOL_SetPartyValue(q, 0xa7, p[5]);
     return 1;
 }
 
@@ -320,8 +320,8 @@ void func_021C3E24(struct MailViewCtx_f1C *p)
 int func_021C3E3C(void *a, void *b, u8 *p)
 {
     u8 *q;
-    func_0203064C(1, 0x63, 0x1000);
-    q = func_0203159C(a, 0x20, 0x63);
+    GFL_HEAP_CreateChildHeap(1, 0x63, 0x1000);
+    q = PROCSYS_AllocProcWork(a, 0x20, 0x63);
     func_02082AC0(0, q, 0x20);
     ((struct MailViewCtx *)q)->f0 = 0x63;
     *(u8 * *)&((struct MailViewCtx *)q)->f10 = func_021C409C(((struct MbSeqCtx *)p)->f14, 0x63);
@@ -454,8 +454,8 @@ void *func_021C409C(void *a, unsigned heap)
     func_02082AC0(0, p, 0x34);
     ((struct MailViewCtx_f1C *)p)->f0 = i;
     ((struct MailViewCtx_f1C *)p)->f4 = func_02008F80(a);
-    ((struct MailViewCtx_f1C *)p)->fC = func_020457B0(0x10, heap);
-    func_02045924(((struct MailViewCtx_f1C *)p)->fC, (const u16 *)func_02008F84(a));
+    ((struct MailViewCtx_f1C *)p)->fC = STRBUF_Create(0x10, heap);
+    STRBUF_SetString(((struct MailViewCtx_f1C *)p)->fC, (const u16 *)func_02008F84(a));
     p[0xB] = func_02008FA4(a);
     p[9] = func_02008FB0(a);
     p[0xA] = func_02008FB8(a);
@@ -469,7 +469,7 @@ void *func_021C409C(void *a, unsigned heap)
 void func_021C4134(struct MailViewCtx_f1C *p)
 {
     if (p->fC)
-        func_02045808(p->fC);
+        STRBUF_Delete(p->fC);
     func_020307B0(p);
 }
 
@@ -503,8 +503,8 @@ int func_021C41E0(void *a, void *b, u8 *p)
 {
     u8 *q;
     u8 v;
-    func_0203064C(1, 0x64, 0x20000);
-    q = func_0203159C(a, 0x15C, 0x64);
+    GFL_HEAP_CreateChildHeap(1, 0x64, 0x20000);
+    q = PROCSYS_AllocProcWork(a, 0x15C, 0x64);
     func_02082AC0(0, q, 0x15C);
     ((struct MailViewCtx *)q)->f0 = 0x64;
     ((struct MailViewCtx *)q)->f1C = p;
@@ -518,8 +518,8 @@ int func_021C41E0(void *a, void *b, u8 *p)
     ((struct MailViewCtx_f1C *)p)->f0 = 0xFFFF;
     q[0x15] = func_02012FFC();
     func_021C4184(q, *(u8 * *)&((struct MailViewCtx *)q)->f1C);
-    ((struct MailViewCtx *)q)->f24 = func_0201D7EC((unsigned)0x17, (unsigned)0, (unsigned)0, (unsigned)0, (u16)(((struct MailViewCtx *)q)->f0));
-    ((struct MailViewCtx *)q)->f100 = func_0203101C((u16)(((struct MailViewCtx *)q)->f0), ((struct MailViewCtx *)q)->f0, 0x20, 0x20);
+    ((struct MailViewCtx *)q)->f24 = GF_FONT_Create((unsigned)0x17, (unsigned)0, (unsigned)0, (unsigned)0, (u16)(((struct MailViewCtx *)q)->f0));
+    ((struct MailViewCtx *)q)->f100 = TCBL_Create((u16)(((struct MailViewCtx *)q)->f0), ((struct MailViewCtx *)q)->f0, 0x20, 0x20);
     q[0xA] = 1;
     func_0203F8F4(((struct MailViewCtx *)q)->f0);
     return 1;
@@ -537,8 +537,8 @@ int func_021C4290(void *a, void *b, void *c, u32 *p)
 {
     u32 h;
     func_0203F9B4();
-    func_02031140((struct S02031140 *)p[0x40]);
-    func_0201D83C((void *)p[9]);
+    TCBL_Destroy((struct S02031140 *)p[0x40]);
+    GF_FONT_Delete((void *)p[9]);
     h = p[0];
     func_020315D4(a);
     func_0203084C(h);
@@ -556,8 +556,8 @@ int func_021C42C8(u8 *p)
     switch (((struct MailViewCtx *)p)->f4) {
     case 0:
         func_021C4AF8();
-        func_0202223C(0, 0);
-        func_0202223C(1, 0);
+        WIPE_SetBrightnessFadeOut(0, 0);
+        WIPE_SetBrightnessFadeOut(1, 0);
         WIPE_ResetWndMask(0);
         WIPE_ResetWndMask((void *)1);
         (((struct MailViewCtx *)p)->f4)++;
@@ -586,14 +586,14 @@ int func_021C42C8(u8 *p)
         }
         PMS_DRAW_Main(((struct MailViewCtx *)p)->f148);
         if (((struct MailViewCtx *)p)->f128) {
-            func_02028178(((struct MailViewCtx *)p)->f128);
-            func_02028178(((struct MailViewCtx *)p)->f12C);
+            APP_TASKMENU_WIN_Update(((struct MailViewCtx *)p)->f128);
+            APP_TASKMENU_WIN_Update(((struct MailViewCtx *)p)->f12C);
         }
         break;
     case 4:
         if (!PALANM_GetFadeRequestBits(((struct MailViewCtx *)p)->f38)) {
-            func_0202223C(0, 0);
-            func_0202223C(1, 0);
+            WIPE_SetBrightnessFadeOut(0, 0);
+            WIPE_SetBrightnessFadeOut(1, 0);
             func_02030EAC(((struct MailViewCtx *)p)->f104);
             func_021C4AF8();
             (((struct MailViewCtx *)p)->f4)++;
@@ -606,14 +606,14 @@ int func_021C42C8(u8 *p)
         break;
     }
     if (((struct MailViewCtx *)p)->fA0)
-        func_0204A600(((struct MailViewCtx *)p)->fA0);
+        CLACT_DrawSystem(((struct MailViewCtx *)p)->fA0);
     if (((struct MailViewCtx *)p)->fF8)
         func_02030D28(((struct MailViewCtx *)p)->fF8);
     if (((struct MailViewCtx *)p)->f100)
-        func_020310C4(((struct MailViewCtx *)p)->f100);
+        TCBL_Main(((struct MailViewCtx *)p)->f100);
     if (((struct MailViewCtx *)p)->f98)
-        func_0201C4E4(((struct MailViewCtx *)p)->f98);
+        PRINTSYS_QUE_Main(((struct MailViewCtx *)p)->f98);
     if (((struct MailViewCtx *)p)->f158)
-        func_0201C4E4(((struct MailViewCtx *)p)->f158);
+        PRINTSYS_QUE_Main(((struct MailViewCtx *)p)->f158);
     return r;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F007C
+ * function: NO_GEAR_ReleaseGraphics
  * address:  0x021F007C
  * packet:   pkt_ov030_021F007C
  * region:   ov030
@@ -14,7 +14,7 @@
  *   func_0203FB44  0x0203FB44  arm
  *   func_020403F4  0x020403F4  arm
  *   func_02040588  0x02040588  arm
- *   func_02043598  0x02043598  arm
+ *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  */
 #include "../include/Obj20401.h"
 
@@ -25,9 +25,9 @@ typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020403F4(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02043598(u32 a, u32 b);
+extern void BG_SYS_SetSubPlaneVisible(u32 a, u32 b);
 
-void func_021F007C(char *p)
+void NO_GEAR_ReleaseGraphics(char *p)
 {
     u32 v = ((struct Obj20401 *)p)->f14;
 
@@ -38,5 +38,5 @@ void func_021F007C(char *p)
     func_02040588(4, 0);
     func_02040588(5, 0);
     func_02040588(6, 0);
-    func_02043598(0x10, 0);
+    BG_SYS_SetSubPlaneVisible(0x10, 0);
 }

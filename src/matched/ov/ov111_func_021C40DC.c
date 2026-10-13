@@ -15,7 +15,7 @@
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089CC  0x020089CC  thumb
  *   func_02082D44  0x02082D44  arm
- *   func_02012944  0x02012944  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008558  0x02008558  thumb
  *   func_02008A14  0x02008A14  thumb
  *   func_02008A1C  0x02008A1C  thumb
@@ -27,7 +27,7 @@
  *   func_021C60A0  0x021C60A0  thumb  ov111
  *   func_021C46F0  0x021C46F0  thumb  ov111
  *   func_02030EAC  0x02030EAC  arm
- *   func_02031140  0x02031140  arm
+ *   TCBL_Destroy  0x02031140  arm
  *   func_020355D8  0x020355D8  arm
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
@@ -96,7 +96,7 @@ struct Sub020089A8Obj;
 extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern void *func_020089CC(void *p);
 extern void func_02082D44(const void *src, void *dst, u32 size);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008A14(void *p, u32 v);
 extern void func_02008A1C(struct Sub020089A8Obj *obj, u8 value);
@@ -109,7 +109,7 @@ extern void func_021C60A0(Work *p);
 extern void func_021C46F0(void);
 extern void func_02030EAC(struct Node *n);
 struct S02031140;
-extern void func_02031140(struct S02031140 *p);
+extern void TCBL_Destroy(struct S02031140 *p);
 extern void func_020355D8(u32 v);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
@@ -124,7 +124,7 @@ int func_021C40DC(void *man, int *state, Args *args, Work *p)
         func_02082D44(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
-        a = func_02012944(p->args->f4);
+        a = GAME_DATA_GetMyStatus(p->args->f4);
         b = GAME_DATA_GetSaveBlock21(p->args->f4);
         func_02008558(a, p->info->b6);
         func_02008A14(b, p->info->f48);
@@ -140,7 +140,7 @@ int func_021C40DC(void *man, int *state, Args *args, Work *p)
     func_021C60A0(p);
     func_021C46F0();
     func_02030EAC(p->f31F4);
-    func_02031140((struct S02031140 *)p->f31F8);
+    TCBL_Destroy((struct S02031140 *)p->f31F8);
     func_020355D8(p->f3060);
     func_020315D4(man);
     func_020306F0(0x27);

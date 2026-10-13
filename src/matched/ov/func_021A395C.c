@@ -1,5 +1,5 @@
 /*
- * function: func_021A395C
+ * function: FIELD_PLAYER_CORE_GetFieldMap
  * address:  0x021A395C
  * packet:   pkt_021A36E0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A395C(u8 *p)
+u32 FIELD_PLAYER_CORE_GetFieldMap(u8 *p)
 {
     return ((struct Obj18035 *)p)->f8;
 }

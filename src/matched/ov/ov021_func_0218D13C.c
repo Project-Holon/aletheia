@@ -1,5 +1,5 @@
 /*
- * function: func_0218D13C
+ * function: FIELD_G3D_MAPPER_FreeTexture
  * address:  0x0218D13C
  * packet:   pkt_ov021_0218D13C
  * region:   ov021
@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm  arm9
+ *   G3D_SYSTEM_FreeVramTexture  0x020470D0  arm  arm9
  */
 #include "../include/Obj07416.h"
 
@@ -19,14 +23,14 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 struct Tagged;
-extern int func_020470D0(u32 *p);
-extern void func_02046EFC(struct Tagged *p);
+extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
+extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
 
-void func_0218D13C(u8 *a)
+void FIELD_G3D_MAPPER_FreeTexture(u8 *a)
 {
     if (((struct Obj07416 *)a)->f60 != 0) {
-        func_020470D0((u32 *)(((struct Obj07416 *)a)->f60));
-        func_02046EFC((struct Tagged *)(((struct Obj07416 *)a)->f60));
+        G3D_SYSTEM_FreeVramTexture((u32 *)(((struct Obj07416 *)a)->f60));
+        G3D_SYSTEM_DeleteResource((struct Tagged *)(((struct Obj07416 *)a)->f60));
         ((struct Obj07416 *)a)->f60 = 0;
     }
 }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020452E8  0x020452E8  arm
- *   func_020450C8  0x020450C8  arm
+ *   BMP_WIN_Exit  0x020450C8  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -42,10 +42,10 @@ typedef struct {
 
 struct Descriptor;
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020450C8(void);
+extern void BMP_WIN_Exit(void);
 
 void func_021C78F8(Work *p)
 {
     func_020452E8(p->f8);
-    func_020450C8();
+    BMP_WIN_Exit();
 }

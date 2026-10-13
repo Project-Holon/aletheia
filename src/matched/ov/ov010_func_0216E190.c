@@ -1,5 +1,5 @@
 /*
- * function: func_0216E190
+ * function: FLDMMDL_ResetMoveStart
  * address: 0x0216E190
  * packet: pkt_ov010_0216E190
  * region: ov010
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0216D568 0x0216D568 thumb ov010
- *   func_0216E174 0x0216E174 thumb ov010
+ *   FLDMMDL_SetMoveBit 0x0216D568 thumb ov010
+ *   FLDMMDL_ResetDrawStatusBits 0x0216E174 thumb ov010
  */
 
 typedef unsigned int   u32;
-extern void *func_0216D568(void *p, u32 v);
-extern void func_0216E174(void *);
-void func_0216E190(void *a) { func_0216D568(a, 0x20); func_0216E174(a); }
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern void FLDMMDL_ResetDrawStatusBits(void *);
+void FLDMMDL_ResetMoveStart(void *a) { FLDMMDL_SetMoveBit(a, 0x20); FLDMMDL_ResetDrawStatusBits(a); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7954
+ * function: FIELD_RAIL_ClearSetting
  * address:  0x021B7954
  * packet:   pkt_021B7954
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021B87BC  0x021B87BC  thumb  ov021
- *   func_021B9464  0x021B9464  thumb  ov021
+ *   FIELD_RAIL_SETTING_Clear  0x021B87BC  thumb  ov021
+ *   FIELD_RAIL_CLOSED_Clear  0x021B9464  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18100.h"
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021B87BC(u32 a);
-extern u16 *func_021B9464(u16 *p);
+extern void FIELD_RAIL_SETTING_Clear(u32 a);
+extern u16 *FIELD_RAIL_CLOSED_Clear(u16 *p);
 
-u32 func_021B7954(u32 a)
+u32 FIELD_RAIL_ClearSetting(u32 a)
 {
 ((struct Obj18100 *)((u8 *)(a)))->f2 = 0;
-func_021B87BC((a + 32));
-return (u32)func_021B9464((u16 *)(a + 80));
+FIELD_RAIL_SETTING_Clear((a + 32));
+return (u32)FIELD_RAIL_CLOSED_Clear((u16 *)(a + 80));
 }
 

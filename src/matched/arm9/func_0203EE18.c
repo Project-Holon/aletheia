@@ -17,9 +17,9 @@
  *   s_020A7D74      0x020A7D74  data
  *   s_020A7E28      0x020A7E28  data
  *   func_02034734   0x02034734  arm
- *   func_020399A8   0x020399A8  arm
- *   func_0203D1A4   0x0203D1A4  arm
- *   func_0203D798   0x0203D798  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle   0x020399A8  arm
+ *   GFL_NET_GetHandleNetID   0x0203D1A4  arm
+ *   GFL_NET_GetInitParam   0x0203D798  arm
  */
 
 typedef unsigned char u8;
@@ -54,10 +54,10 @@ extern char s_020A7E28[];
 
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
-extern void *func_0203D798(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern void *GFL_NET_GetInitParam(void);
 
 void GFL_NET_LOWER_DATA_RecvControl(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
 {
@@ -70,12 +70,12 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u
         return;
     }
 
-    r7 = func_0203D798();
+    r7 = GFL_NET_GetInitParam();
     if (g_021469F4 == 0 || g_021469F4[idx] == 0) {
         return;
     }
 
-    if (a4 != (u32)func_020399A8()) {
+    if (a4 != (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
         if (r7->unk64 == 0) {
             return;
         }
@@ -98,7 +98,7 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u
         break;
 
     case 2:
-        if (idx != func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
+        if (idx != GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()))) {
             ((struct Manager *)g_021469F4)->unk3c = 1;
         }
         break;

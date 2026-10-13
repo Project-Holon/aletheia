@@ -1,5 +1,5 @@
 /*
- * function: func_02046FF8
+ * function: G3D_SYSTEM_TransVramTexture
  * address:  0x02046FF8
  * packet:   pkt_02046FF8
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0206E964  0x0206E964  arm
+ *   NNS_G3dGetTex  0x0206E964  arm
  *   G3D_SYSTEM_AllocTexVramKeys  0x02047260  arm
  *   G3D_SYSTEM_AllocPlttVramKey  0x020472F8  arm
  *   func_02069FF8  0x02069FF8  arm
@@ -26,7 +26,7 @@
 
 typedef unsigned int   u32;
 struct Up;
-extern unsigned char *func_0206E964(unsigned char *p);
+extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 struct Layer;
 extern int G3D_SYSTEM_AllocTexVramKeys(u32 a0, u32 *a1, u32 *a2);
 extern int G3D_SYSTEM_AllocPlttVramKey(struct Layer *layer, u32 *out);
@@ -36,7 +36,7 @@ extern void func_020862F0(int a, int b);
 extern void func_0206A00C(struct Up *u, u32 wrap);
 extern void NNS_G3dPlttLoad(int a, int b);
 
-int func_02046FF8(int *self)
+int G3D_SYSTEM_TransVramTexture(int *self)
 {
     int v8;
     int v4;
@@ -45,7 +45,7 @@ int func_02046FF8(int *self)
     int p;
 
     h = self[1];
-    p = (int)func_0206E964((unsigned char *)h);
+    p = (int)NNS_G3dGetTex((unsigned char *)h);
     if (p == 0)
         goto fail;
     if (G3D_SYSTEM_AllocTexVramKeys(p, (u32 *)(&v8), (u32 *)(&v4)) == 0)

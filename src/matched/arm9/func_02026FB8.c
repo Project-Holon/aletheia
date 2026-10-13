@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
- *   func_02012FCC  0x02012FCC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
@@ -43,8 +43,8 @@ extern void *GAME_BEACON_Work;
 struct Big;
 struct Blk34;
 struct PlayTime;
-extern void *func_02012EBC(struct Big *p);
-extern int func_02012FCC(int p0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern int GAME_DATA_GetPlayTime(int p0);
 extern void *func_0200C0F0(void *a);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
@@ -56,8 +56,8 @@ void GAME_BEACON_RequestSend(Obj *o)
     void *a;
     void *b;
 
-    a = func_02012EBC(*(void **)GAME_BEACON_Work);
-    b = (void *)func_02012FCC((int)(*(void **)GAME_BEACON_Work));
+    a = GAME_DATA_GetSaveControl(*(void **)GAME_BEACON_Work);
+    b = (void *)GAME_DATA_GetPlayTime((int)(*(void **)GAME_BEACON_Work));
     a = func_0200C0F0(a);
     o->f0c = func_0200864C(b);
     o->f0chi = func_02008650(b);

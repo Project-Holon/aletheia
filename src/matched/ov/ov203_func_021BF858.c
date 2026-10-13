@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020310C4 0x020310C4 arm
+ *   TCBL_Main 0x020310C4 arm
  *   func_021BE990 0x021BE990 thumb ov203
  *   func_021BF9B8 0x021BF9B8 thumb ov203
  */
 typedef struct {int kind,time;int values[8];} Record;
 typedef struct {int heaps;int config;int ended;int done;int previous;int index;char flags[4];int owner;void *task;} Context;
 struct Tcbl;
-extern void func_020310C4(struct Tcbl *p);
+extern void TCBL_Main(struct Tcbl *p);
 extern void func_021BF9B8(Context *,int,Record *);
 extern Record *func_021BE990(int);
 void func_021BF858(Context *p,int time,int flag)
@@ -24,7 +24,7 @@ void func_021BF858(Context *p,int time,int flag)
     int owner,i;
     owner=p->owner;
     p->flags[2]=flag?1:0;
-    func_020310C4(p->task);
+    TCBL_Main(p->task);
     if(p->ended==0 && time!=-4096) {
         r=func_021BE990(p->config)+p->index;
         time>>=12;

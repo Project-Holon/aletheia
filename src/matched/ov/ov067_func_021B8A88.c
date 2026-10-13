@@ -1,5 +1,5 @@
 /*
- * function: func_021B8A88
+ * function: FRAME_LIST_FindScrollBarEntry
  * address: 0x021B8A88
  * packet: pkt_ov067_021B8A88
  * region: ov067
@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Entry { u8 f0, f1; u8 pad2[2]; u32 f4; } Entry;
-void func_021B8A88(u8 *p, u8 *a, u8 *b)
+void FRAME_LIST_FindScrollBarEntry(u8 *p, u8 *a, u8 *b)
 {
     u8 i;
     Entry *entries;

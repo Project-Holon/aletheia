@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
  *   d_021C8AA0  0x021C8AA0  data
  *
@@ -45,7 +45,7 @@ typedef struct {
 } Work;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
+extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -62,7 +62,7 @@ void func_021C75E4(Work *p)
         pos.z = d_021C8AA0[i].z;
         pos.f7 = 0;
         pos.pri = 0x24 - i;
-        p->obj[i] = func_0204B294(p->res, (unsigned int)p->set[d_021C8AA0[i].cell], (unsigned int)p->set[d_021C8AA0[i].chr], (unsigned int)p->set[d_021C8AA0[i].anm], &pos, 0, 0x27);
+        p->obj[i] = CLACT_CreateActor(p->res, (unsigned int)p->set[d_021C8AA0[i].cell], (unsigned int)p->set[d_021C8AA0[i].chr], (unsigned int)p->set[d_021C8AA0[i].anm], &pos, 0, 0x27);
         func_0204B92C(p->obj[i], 1);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D53DC
+ * function: BTL_POKEPARAM_RaiseLowStatStagesInArray
  * address:  0x021D53DC
  * packet:   pkt_021D53DC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D53DC   0x021D53DC  thumb ov093
+ *   BTL_POKEPARAM_RaiseLowStatStagesInArray   0x021D53DC  thumb ov093
  *
  * note: the parked DIFF read this as a 60-byte clamp; the traced extent is the
  * full 100 bytes (0x021D53DC..0x021D5440), returning the "changed" flag.  The
@@ -20,7 +20,7 @@
  * for literal indices (which use immediate offsets).  All 100 bytes reproduce.
  */
 
-int func_021D53DC(signed char *p)
+int BTL_POKEPARAM_RaiseLowStatStagesInArray(signed char *p)
 {
     int changed = 0;
     int i = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F0D64",
+   "name": "UNION_SUBDISP_CheckTrackTouch",
    "address": "0x021F0D64",
    "kind": "game",
    "region": "ov031",

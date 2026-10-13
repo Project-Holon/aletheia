@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021D377C",
+   "name": "BTL_CLIENT_CmdHpZero",
    "address": "0x021D377C",
    "kind": "game",
    "region": "ov093",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021D3894",
+   "name": "BTL_CLIENT_CmdRecoverStatStages",
    "address": "0x021D3894",
    "kind": "game",
    "region": "ov093",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021D38AC",
+   "name": "BTL_CLIENT_CmdResetStatStages",
    "address": "0x021D38AC",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_021D3900",
+   "name": "BTL_CLIENT_CmdCureMajorSick",
    "address": "0x021D3900",
    "kind": "game",
    "region": "ov093",

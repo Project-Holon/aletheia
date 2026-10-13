@@ -1,5 +1,5 @@
 /*
- * function: sub_0201407C
+ * function: ZONEDATA_CreateAreaData
  * address:  0x0201407C
  * packet:   pkt_0201407C
  * region:   arm9
@@ -32,7 +32,7 @@
  *
  * The record index itself comes from the zone table: ov021's fieldmap.c
  * and ov020's event_mapchange.c both call this as
- * sub_0201407C(heap, ZONEDATA_GetAreaId(zone_id), season), and ZONEDATA_GetAreaId
+ * ZONEDATA_CreateAreaData(heap, ZONEDATA_GetAreaId(zone_id), season), and ZONEDATA_GetAreaId
  * (EXACT in src/matched/unit_02013AD0.c) returns the u16 at +2 of the
  * a/0/1/2 zone record.  That field ranges 2..273 over all 427 zones, i.e.
  * it stays inside this function's 282-record clamp.  See the "Archive
@@ -45,8 +45,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0201407C.c \
- *       --func sub_0201407C --addr 0x0201407C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ZONEDATA_CreateAreaData.c \
+ *       --func ZONEDATA_CreateAreaData --addr 0x0201407C --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -55,7 +55,7 @@ typedef unsigned int u32;
 extern u32 ZONEDATA_IsSeasonArea(u32 index);
 extern void *FILE_UTIL_LoadRange(u32 archive_id, u32 heap, u32 offset, u32 size);
 
-void *sub_0201407C(u32 heap, u16 index, u32 delta)
+void *ZONEDATA_CreateAreaData(u32 heap, u16 index, u32 delta)
 {
     u16 record = index;
 

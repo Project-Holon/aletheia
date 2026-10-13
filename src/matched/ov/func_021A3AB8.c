@@ -1,5 +1,5 @@
 /*
- * function: func_021A3AB8
+ * function: FIELD_PLAYER_CORE_ChooseMoveDirFromKeys
  * address:  0x021A3AB8
  * packet:   pkt_021A3AB8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Widens the second argument to 16 bits before the tail call.
  *
  * symbols:
- *   func_021A3BB4  0x021A3BB4  thumb  ov021
+ *   FIELD_PLAYER_CORE_SelectMoveDir  0x021A3BB4  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_021A3BB4(u8 *p, u32 keys);
+extern u16 FIELD_PLAYER_CORE_SelectMoveDir(u8 *p, u32 keys);
 
-u16 func_021A3AB8(u32 a, u32 v)
+u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(u32 a, u32 v)
 {
-    return func_021A3BB4((u8 *)a, (u16)v);
+    return FIELD_PLAYER_CORE_SelectMoveDir((u8 *)a, (u16)v);
 }

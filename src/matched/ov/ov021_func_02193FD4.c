@@ -1,5 +1,5 @@
 /*
- * function: func_02193FD4
+ * function: FIELD_WFBC_PEOPLE_StorePerson
  * address:  0x02193FD4
  * packet:   pkt_ov021_02193FD4
  * region:   ov021
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void func_02082D44(void *src, void *dst, int n);
 
-void func_02193FD4(u16 *a, void *b)
+void FIELD_WFBC_PEOPLE_StorePerson(u16 *a, void *b)
 {
     if (*a == 1) {
         func_02082D44((u8 *)a + 0x34, b, 0x18);

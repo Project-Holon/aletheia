@@ -9,7 +9,7 @@
  * status: EXACT*
  * trailing: two-byte zero alignment padding at 0x021FAD82.
  * symbols:
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_0204B3DC 0x0204B3DC arm
  *   BGWINFRM_StartMove 0x0202CD64 thumb
  */
@@ -21,12 +21,12 @@ typedef unsigned int u32;
 struct WinMgr;
 struct Actor;
 struct Obj;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 int func_021FAD24(u8 *p)
 {
-    if (func_0204B98C(((struct Obj03297 *)p)->f8)) return -1;
+    if (CLACT_IsActorAnimActive(((struct Obj03297 *)p)->f8)) return -1;
     func_0204B3DC(((struct Obj03297 *)p)->f8, 0);
     func_0204B3DC(((struct Obj03297 *)p)->fC, 0);
     func_0204B3DC(((struct Obj03297 *)p)->f10, 0);

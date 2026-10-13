@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   func_0204B688 0x0204B688 arm
  *   func_0201AE1C 0x0201AE1C thumb
@@ -19,7 +19,7 @@
 typedef struct { short x,y,z,w; } Pos;
 extern void func_02082BCC(void *,int,int);
 struct Obj;
-extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
+extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 typedef unsigned int   u32;
 struct Actor;
 struct Node;
@@ -36,7 +36,7 @@ void func_021BB23C(char *p,int x,int y,int index)
     func_02082BCC(&pos,0,8);
     pos.x=x;
     pos.y=y;
-    *(int *)(p+0xac+index*4)=(int)func_0204B294((void *)((struct Obj00790 *)p)->f24,*(int *)(p+0x94+index*4),*(int *)(p+0x9c+index*4),*(int *)(p+0xa4+index*4),&pos,flag,((struct Obj00790 *)p)->f0);
+    *(int *)(p+0xac+index*4)=(int)CLACT_CreateActor((void *)((struct Obj00790 *)p)->f24,*(int *)(p+0x94+index*4),*(int *)(p+0x9c+index*4),*(int *)(p+0xa4+index*4),&pos,flag,((struct Obj00790 *)p)->f0);
     CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p+0xac+index*4)),0);
     if(((struct Obj00790 *)p)->f18==2) func_0204B688((struct Actor *)(*(int *)(p+0xac+index*4)),1);
     if(func_0201AE1C((const struct Personal *)(((struct Obj00790 *)p)->f26C),34)==0) CLACT_SetActorFlip((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);

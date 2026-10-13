@@ -19,13 +19,13 @@
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
  *   func_0201BA68  0x0201BA68  thumb
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
- *   func_0204A6C8  0x0204A6C8  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   func_0201BC3C  0x0201BC3C  thumb
- *   func_0204ACEC  0x0204ACEC  arm
+ *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
  *   func_0201BC78  0x0201BC78  thumb
  *   func_0201BCEC  0x0201BCEC  thumb
- *   func_0204AF28  0x0204AF28  arm
- *   func_02049238  0x02049238  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,13 +35,13 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 func_0201BA68(void *mon);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0201BC3C(void);
-extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_0201BC78(void);
 extern int func_0201BCEC(void);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *h);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *h);
 
 void func_0220E340(u8 *p)
 {
@@ -52,12 +52,12 @@ void func_0220E340(u8 *p)
     for (i = 0; i < 6; i++) {
         u8 *e = p + i * 0x4C;
         if (*(u16 *)(e + 8) != 0) {
-            *(int *)((u32)p + 0x24A4 + i * 4) = func_0204A6C8(arc, func_0201BA68(POKE_TOOL_GetBoxParam(*(void **)(e + 4))), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
+            *(int *)((u32)p + 0x24A4 + i * 4) = CLACT_RegisterCharacter(arc, func_0201BA68(POKE_TOOL_GetBoxParam(*(void **)(e + 4))), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
         } else {
-            *(int *)((u32)p + 0x24A4 + i * 4) = func_0204A6C8(arc, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
+            *(int *)((u32)p + 0x24A4 + i * 4) = CLACT_RegisterCharacter(arc, POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0), 0, 1, *(u16 *)(*(u8 **)p + 0x10));
         }
     }
-    *(int *)(p + 0x250C) = func_0204ACEC(arc, func_0201BC3C(), 1, 0, *(u16 *)(*(u8 **)p + 0x10));
-    *(s32 *)(p + 0x2524) = func_0204AF28(arc, func_0201BC78(), func_0201BCEC(), *(u16 *)(*(u8 **)p + 0x10));
-    func_02049238(arc);
+    *(int *)(p + 0x250C) = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 1, 0, *(u16 *)(*(u8 **)p + 0x10));
+    *(s32 *)(p + 0x2524) = CLACT_RegisterCellAnim(arc, func_0201BC78(), func_0201BCEC(), *(u16 *)(*(u8 **)p + 0x10));
+    ARC_TOOL_DeleteHandle(arc);
 }

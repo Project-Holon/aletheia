@@ -1,5 +1,5 @@
 /*
- * function: func_021C2ECC
+ * function: FLD3D_CI_GetPlttDataOffset
  * address:  0x021C2ECC
  * packet:   pkt_021C2ECC
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C2ECC(u32 a, u32 b)
+int FLD3D_CI_GetPlttDataOffset(u32 a, u32 b)
 {
 return ((((struct Obj18298 *)((u8 *)(b)))->f0 << 3) + ((((struct Obj18297 *)((u8 *)(a)))->f2C << 16) >> 13));
 }

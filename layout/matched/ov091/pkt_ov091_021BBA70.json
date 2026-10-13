@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBA70",
+   "name": "PLIST_MESSAGE_DrawKeyCursorMark",
    "address": "0x021BBA70",
    "kind": "game",
    "region": "ov091",

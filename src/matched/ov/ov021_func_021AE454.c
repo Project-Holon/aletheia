@@ -1,5 +1,5 @@
 /*
- * function: func_021AE454
+ * function: EVENT_TRAINER_EYE_Create
  * address:  0x021AE454
  * packet:   pkt_ov021_021AE454
  * region:   ov021
@@ -11,27 +11,27 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   d_021DE138     0x021DE138  data  a4
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   sEventTrainerEyeFileName     0x021DE138  data  a4
  */
 #include "../include/Obj07517.h"
 
-extern int d_021DE138;
+extern int sEventTrainerEyeFileName;
 
 void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 struct Obj00020;
-void *func_02188CB4(struct Obj00020 *p);
+void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 
 typedef struct { int w[6]; } S24;
 
-void *func_021AE454(int a, int b, S24 *src, int c)
+void *EVENT_TRAINER_EYE_Create(int a, int b, S24 *src, int c)
 {
-    char *p = (char *)func_02030734(a, 0x38, 1, (const char *)&d_021DE138, 0x1fa);
+    char *p = (char *)func_02030734(a, 0x38, 1, (const char *)&sEventTrainerEyeFileName, 0x1fa);
 
     *(S24 *)(p + 8) = *src;
     ((struct Obj07517 *)p)->f20 = 0;
     ((struct Obj07517 *)p)->f24 = c;
     ((struct Obj07517 *)p)->f30 = b;
-    ((struct Obj07517 *)p)->f34 = func_02188CB4((void *)b);
+    ((struct Obj07517 *)p)->f34 = FIELDMAP_GetFieldPlayer((void *)b);
     return p;
 }

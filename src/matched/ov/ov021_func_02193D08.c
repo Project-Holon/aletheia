@@ -1,5 +1,5 @@
 /*
- * function: func_02193D08
+ * function: FIELD_WFBC_CountPeople
  * address:  0x02193D08
  * packet:   pkt_ov021_02193D08
  * region:   ov021
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj19618.h"
 
-int func_02193D08(unsigned char *p)
+int FIELD_WFBC_CountPeople(unsigned char *p)
 {
     int count = 0;
     int i;

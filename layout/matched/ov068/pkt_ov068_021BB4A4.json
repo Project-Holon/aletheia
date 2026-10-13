@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB4A4",
+   "name": "OPTION_MENU_StateKeepSaved",
    "address": "0x021BB4A4",
    "kind": "game",
    "region": "ov068",

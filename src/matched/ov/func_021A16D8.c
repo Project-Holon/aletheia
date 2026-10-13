@@ -1,5 +1,5 @@
 /*
- * function: func_021A16D8
+ * function: FIELD_3DBG_SetBillboardPolygonId
  * address:  0x021A16D8
  * packet:   pkt_021A16D8
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021A16D8(u8 *p, u8 v)
+void FIELD_3DBG_SetBillboardPolygonId(u8 *p, u8 v)
 {
     ((struct Obj17996 *)p)->f1E = v;
 }

@@ -1,5 +1,5 @@
 ﻿/*
- * function: func_021F3708
+ * function: GIMMICK49_Update
  * address:  0x021F3708
  * packet:   pkt_ov050_021F3708
  * region:   ov050
@@ -14,18 +14,18 @@
  * also resident in ov049; region-qualified packet id.
  *
  * symbols:
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021BE580  0x021BE580  thumb  ov021
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
  
  *
- * UNBLOCKED: func_02188D2C is now an EXACT entry at 0x02188D2C in
- * layout/matched/ov021, and func_021BE580 resolves with the ov021
+ * UNBLOCKED: FIELDMAP_GetExpObj is now an EXACT entry at 0x02188D2C in
+ * layout/matched/ov021, and FLD_EXP_OBJ_UpdateAnimes resolves with the ov021
  * region hint; both call sites fine, verdict promoted to EXACT.
 */
 
-void func_021F3708(void *p)
+void GIMMICK49_Update(void *p)
 {
-    void *func_02188D2C(void *p);
-    void func_021BE580(void *p);
-    func_021BE580(func_02188D2C(p));
+    void *FIELDMAP_GetExpObj(void *p);
+    void FLD_EXP_OBJ_UpdateAnimes(void *p);
+    FLD_EXP_OBJ_UpdateAnimes(FIELDMAP_GetExpObj(p));
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B80C4
+ * function: ITEMMENU_SetCursorActive
  * address:  0x021B80C4
  * packet:   pkt_ov070_021B80C4
  * region:   ov070
@@ -11,10 +11,10 @@
  *
  * symbols:
  *   func_020355D8  0x020355D8  arm
- *   func_021B61C8  0x021B61C8  thumb  ov070
- *   func_021BB398  0x021BB398  thumb  ov070
+ *   ITEMMENU_GetItemCount  0x021B61C8  thumb  ov070
+ *   ITEMMENU_UpdateSlotActorPosition  0x021BB398  thumb  ov070
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
- *   func_021B97E8  0x021B97E8  thumb  ov070
+ *   ITEMMENU_SetMoveTypeIconsVisible  0x021B97E8  thumb  ov070
  */
 
 typedef unsigned char u8;
@@ -28,13 +28,13 @@ typedef struct Obj {
 
 struct CodeIn;
 extern void func_020355D8(u8 v);
-extern int func_021B61C8(u8 *p);
+extern int ITEMMENU_GetItemCount(u8 *p);
 typedef unsigned int   u32;
-extern void func_021BB398(int p, u32 val);
+extern void ITEMMENU_UpdateSlotActorPosition(int p, u32 val);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
-extern void func_021B97E8(char *p, int mode);
+extern void ITEMMENU_SetMoveTypeIconsVisible(char *p, int mode);
 
-void func_021B80C4(Obj *o, int flag)
+void ITEMMENU_SetCursorActive(Obj *o, int flag)
 {
     if (o->f81C == 1)
         flag = 1;
@@ -42,13 +42,13 @@ void func_021B80C4(Obj *o, int flag)
         func_020355D8(0);
     else
         func_020355D8(1);
-    if (func_021B61C8((u8 *)o) == 0)
+    if (ITEMMENU_GetItemCount((u8 *)o) == 0)
         flag = 0;
     if (flag == 0) {
-        func_021BB398((int)o, 0);
+        ITEMMENU_UpdateSlotActorPosition((int)o, 0);
     } else {
-        func_021BB398((int)o, 1);
+        ITEMMENU_UpdateSlotActorPosition((int)o, 1);
         BLINK_PALANM_ResetPhase(o->f850);
     }
-    func_021B97E8((char *)o, flag);
+    ITEMMENU_SetMoveTypeIconsVisible((char *)o, flag);
 }

@@ -16,12 +16,12 @@
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
  *   func_02049740 0x02049740 arm
- *   func_02049990 0x02049990 arm
- *   func_02049F78 0x02049F78 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
+ *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_021D6404 0x021D6404 thumb ov123
  */
 #include "../include/Obj00343.h"
@@ -32,12 +32,12 @@ typedef signed int     s32;
 extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049740(void *,u32,u32,u32,u32,u16);
-extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
-extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern void func_02049238(void *);
+extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_021D6404(u8 *);
 void func_021D614C(u8 *p)
 {
@@ -45,18 +45,18 @@ void func_021D614C(u8 *p)
     h=func_020490F4((u32)((void *)143),((struct Obj00343 *)p)->f43C4);
     func_02049B68(h,2,4,0,0,((struct Obj00343 *)p)->f43C4);
     ((struct Obj00343 *)p)->f0=func_02049740(h,8,4,0,0,((struct Obj00343 *)p)->f43C4);
-    func_02049990(h,21,4,0,(u16)(((struct Obj00343 *)p)->f0),0,0,((struct Obj00343 *)p)->f43C4);
-    func_02049990(h,24,7,0,(u16)(((struct Obj00343 *)p)->f4),0,0,((struct Obj00343 *)p)->f43C4);
-    ((struct Obj00343 *)p)->f1C=func_02049F78(h,2,(u32)((void **)(p+0x18)),((struct Obj00343 *)p)->f43C4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h,21,4,0,(u16)(((struct Obj00343 *)p)->f0),0,0,((struct Obj00343 *)p)->f43C4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h,24,7,0,(u16)(((struct Obj00343 *)p)->f4),0,0,((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f1C=ARC_UTIL_LoadPaletteBlockFromHandle(h,2,(u32)((void **)(p+0x18)),((struct Obj00343 *)p)->f43C4);
     func_02049B68(h,2,0,0,0,((struct Obj00343 *)p)->f43C4);
     ((struct Obj00343 *)p)->f4=func_02049740(h,8,0,0,0,((struct Obj00343 *)p)->f43C4);
-    func_02049990(h,23,0,0,(u16)(((struct Obj00343 *)p)->f4),0,0,((struct Obj00343 *)p)->f43C4);
-    func_02049990(h,24,1,0,(u16)(((struct Obj00343 *)p)->f4),0,0,((struct Obj00343 *)p)->f43C4);
-    ((struct Obj00343 *)p)->f38=(void *)func_0204A6C8(h,9,0,2,((struct Obj00343 *)p)->f43C4);
-    ((struct Obj00343 *)p)->f20=(void *)func_0204AC18(h,3,2,96,0,4,((struct Obj00343 *)p)->f43C4);
-    ((struct Obj00343 *)p)->f54=(void *)func_0204AF28(h,12,25,((struct Obj00343 *)p)->f43C4);
-    ((struct Obj00343 *)p)->f3C=(void *)func_0204A6C8(h,10,0,2,((struct Obj00343 *)p)->f43C4);
-    ((struct Obj00343 *)p)->f24=(void *)func_0204AC18(h,4,2,224,0,0,((struct Obj00343 *)p)->f43C4);
-    ((struct Obj00343 *)p)->f58=(void *)func_0204AF28(h,13,26,((struct Obj00343 *)p)->f43C4);
-    func_021D6404(p); func_02049238(h);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h,23,0,0,(u16)(((struct Obj00343 *)p)->f4),0,0,((struct Obj00343 *)p)->f43C4);
+    ARC_UTIL_UploadBgPaletteAddFromHandle(h,24,1,0,(u16)(((struct Obj00343 *)p)->f4),0,0,((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f38=(void *)CLACT_RegisterCharacter(h,9,0,2,((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f20=(void *)CLACT_RegisterPaletteEx(h,3,2,96,0,4,((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f54=(void *)CLACT_RegisterCellAnim(h,12,25,((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f3C=(void *)CLACT_RegisterCharacter(h,10,0,2,((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f24=(void *)CLACT_RegisterPaletteEx(h,4,2,224,0,0,((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f58=(void *)CLACT_RegisterCellAnim(h,13,26,((struct Obj00343 *)p)->f43C4);
+    func_021D6404(p); ARC_TOOL_DeleteHandle(h);
 }

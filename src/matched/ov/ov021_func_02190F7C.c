@@ -1,5 +1,5 @@
 /*
- * function: func_02190F7C
+ * function: FIELD_MSGBG_ClearSysWin
  * address:  0x02190F7C
  * packet:   pkt_ov021_02190F7C
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020409B4  0x020409B4  arm  arm9
- *   func_02043B5C  0x02043B5C  arm  arm9
+ *   BMP_Clear  0x02043B5C  arm  arm9
  *   func_02045770  0x02045770  arm  arm9
  * Addresses are Black-image addresses.
  */
@@ -40,11 +40,11 @@ typedef struct P {
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void func_020409B4(u32 a);
 
-void func_02190F7C(P *p)
+void FIELD_MSGBG_ClearSysWin(P *p)
 {
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->f00)), 0xFF);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->f00)), 0xFF);
     func_020409B4((u8)p->f14->f02);
 }

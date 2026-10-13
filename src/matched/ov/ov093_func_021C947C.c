@@ -11,16 +11,16 @@
  *
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021CD4B0  0x021CD4B0  thumb  ov093
- *   func_021D5F08  0x021D5F08  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
+ *   BTL_POKEPARAM_ResetStatStages  0x021D5F08  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021D5B68(void *p);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
-extern void func_021D5F08(char *p);
+extern int BTL_POKEPARAM_IsFainted(void *p);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
+extern void BTL_POKEPARAM_ResetStatStages(char *p);
 
 typedef struct { int pad0; int pad1; char *f8; void *fc; } P;
 typedef struct { u32 w; u8 n; u8 ids[1]; } Ent;
@@ -33,9 +33,9 @@ int func_021C947C(P *p, const Ent *e)
 
     for (i = 0; i < e->n; i++) {
         a = func_021B9934(p->f8, e->ids[i]);
-        if (func_021D5B68(a) == 0) {
-            func_021CD4B0(p->fc, 0xd, e->ids[i]);
-            func_021D5F08((char *)a);
+        if (BTL_POKEPARAM_IsFainted(a) == 0) {
+            BTL_SERVER_CMD_Push(p->fc, 0xd, e->ids[i]);
+            BTL_POKEPARAM_ResetStatStages((char *)a);
             r = 1;
         }
     }

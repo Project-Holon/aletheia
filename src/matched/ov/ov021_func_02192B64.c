@@ -1,5 +1,5 @@
 /*
- * function: func_02192B64
+ * function: FIELD_MSGBG_ClearSysWindowFrame
  * address:  0x02192B64
  * packet:   pkt_ov021_02192B64
  * region:   ov021
@@ -32,7 +32,7 @@ extern u8 func_02045740(struct Descriptor *p);
 extern void func_02041300(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
 extern void func_020409B4(u32 layer);
 
-void func_02192B64(u32 a)
+void FIELD_MSGBG_ClearSysWindowFrame(u32 a)
 {
     u32 bg;
     u32 x;

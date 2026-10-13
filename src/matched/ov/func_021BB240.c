@@ -1,5 +1,5 @@
 /*
- * function: func_021BB240
+ * function: FIELD_NOGRID_MAPPER_Delete
  * address:  0x021BB240
  * packet:   pkt_021BB240
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021BB0A4  0x021BB0A4  thumb  ov021
- *   func_021B791C  0x021B791C  thumb  ov021
- *   func_0219EF6C  0x0219EF6C  thumb  ov021
+ *   RAIL_ATTR_Delete  0x021BB0A4  thumb  ov021
+ *   FIELD_RAIL_Delete  0x021B791C  thumb  ov021
+ *   FIELD_RAIL_LOADER_Delete  0x0219EF6C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -26,15 +26,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern void func_0219EF6C(u8 *p);
-extern void func_021B791C(void **o);
-extern void func_021BB0A4(u8 *p, u32 a1, u32 a2, u32 a3);
+extern void FIELD_RAIL_LOADER_Delete(u8 *p);
+extern void FIELD_RAIL_Delete(void **o);
+extern void RAIL_ATTR_Delete(u8 *p, u32 a1, u32 a2, u32 a3);
 
-int func_021BB240(void *a, u32 b, u32 c, u32 d)
+int FIELD_NOGRID_MAPPER_Delete(void *a, u32 b, u32 c, u32 d)
 {
-func_021BB0A4((u8 *)(((struct Obj09191 *)((u8 *)(a)))->f8), b, c, d);
-func_021B791C((void **)(((struct Obj09191 *)((u8 *)(a)))->f0));
-func_0219EF6C((u8 *)(((struct Obj09191 *)((u8 *)(a)))->f4));
+RAIL_ATTR_Delete((u8 *)(((struct Obj09191 *)((u8 *)(a)))->f8), b, c, d);
+FIELD_RAIL_Delete((void **)(((struct Obj09191 *)((u8 *)(a)))->f0));
+FIELD_RAIL_LOADER_Delete((u8 *)(((struct Obj09191 *)((u8 *)(a)))->f4));
 return func_020307B0(a);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0219E348
+ * function: FLDMMDL_RAIL_GetRailWork
  * address:  0x0219E348
  * packet:   pkt_0219E348
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D69C(void *);
+extern void *FLDMMDL_GetMoveProcWork(void *);
 
-void *func_0219E348(void *a)
+void *FLDMMDL_RAIL_GetRailWork(void *a)
 {
-    return *(void **)func_0216D69C(a);
+    return *(void **)FLDMMDL_GetMoveProcWork(a);
 }
 

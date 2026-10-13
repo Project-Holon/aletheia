@@ -1,5 +1,5 @@
 /*
- * function: func_021938D4
+ * function: FIELD_WFBC_Delete
  * address:  0x021938D4
  * packet:   pkt_021938D4
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02193C80  0x02193C80  thumb  ov021
- *   func_0216D974  0x0216D974  thumb  ov010
+ *   FIELD_WFBC_FreeResources  0x02193C80  thumb  ov021
+ *   FLDMMDL_SysSetDrawEnable  0x0216D974  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -24,15 +24,15 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
-extern void func_0216D974(unsigned int *p, unsigned int v);
+extern void FLDMMDL_SysSetDrawEnable(unsigned int *p, unsigned int v);
 struct X;
-extern void func_02193C80(struct X *x);
+extern void FIELD_WFBC_FreeResources(struct X *x);
 
-u32 func_021938D4(void *a)
+u32 FIELD_WFBC_Delete(void *a)
 {
-func_02193C80((struct X *)a);
+FIELD_WFBC_FreeResources((struct X *)a);
 if (*(u32 *)((u8 *)(a) + ((5 << 6))) != 0) {
-    func_0216D974((unsigned int *)(*(u32 *)((u8 *)(a) + ((5 << 6)))), 1);
+    FLDMMDL_SysSetDrawEnable((unsigned int *)(*(u32 *)((u8 *)(a) + ((5 << 6)))), 1);
 }
 return func_020307B0(a);
 }

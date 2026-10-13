@@ -23,12 +23,12 @@
  *   d_021C36D4 0x021C36D4 data a4
  *   d_021C3654 0x021C3654 data a4
  *   d_021C3634 0x021C3634 data a4
- *   func_020433E0 0x020433E0 arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
  *   func_02040588 0x02040588 arm
- *   func_0201D7EC 0x0201D7EC thumb
+ *   GF_FONT_Create 0x0201D7EC thumb
  *   func_0201C450 0x0201C450 thumb
  */
 #include "../include/Obj13769.h"
@@ -47,19 +47,19 @@ extern const u8 d_021C36F4[],d_021C36D4[],d_021C3654[],d_021C3634[];
 struct BgTemplate;
 struct DispConfig;
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 struct GfFont;
 extern void func_020414EC(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C450(u16,u32);
 void func_021BA070(u8 *p) {
     u8 *q=*(u8 * *)&((struct Obj22333 *)p)->f0;
     int i;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
-    func_020433E0((const struct DispVram *)d_021C3714);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021C3714);
     func_0203FC28((struct DispConfig *)d_021C3604);
     func_0203FCA0(0,(const struct BgTemplate *)d_021C3694,0);
     func_0203FCA0(1,(const struct BgTemplate *)d_021C36B4,0);
@@ -73,6 +73,6 @@ void func_021BA070(u8 *p) {
         func_020414EC((u8)i);
         func_02040588((u8)i,1);
     }
-    ((struct Obj13769 *)q)->f80=func_0201D7EC(23,0,0,0,42);
+    ((struct Obj13769 *)q)->f80=GF_FONT_Create(23,0,0,0,42);
     ((struct Obj13769 *)q)->f7C=func_0201C450(0x500,42);
 }

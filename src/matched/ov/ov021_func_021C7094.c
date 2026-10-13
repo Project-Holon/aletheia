@@ -1,5 +1,5 @@
 /*
- * function: func_021C7094
+ * function: FIELD_TASK_InitCameraAngleTween
  * address:  0x021C7094
  * packet:   pkt_ov021_021C7094
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218ED40  0x0218ED40  thumb  ov021
- *   func_0218ED2C  0x0218ED2C  thumb  ov021
+ *   FIELD_CAMERA_GetYaw  0x0218ED40  thumb  ov021
+ *   FIELD_CAMERA_GetPitch  0x0218ED2C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -19,10 +19,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0218ED40(u8 *p);
-extern u16 func_0218ED2C(u8 *p);
+extern u16 FIELD_CAMERA_GetYaw(u8 *p);
+extern u16 FIELD_CAMERA_GetPitch(u8 *p);
 
-void func_021C7094(u32 *p)
+void FIELD_TASK_InitCameraAngleTween(u32 *p)
 {
     u32 m = p[2];
     u32 a = p[1];
@@ -30,9 +30,9 @@ void func_021C7094(u32 *p)
     u32 d;
 
     if (m == 0 || m != 1)
-        a = func_0218ED40((u8 *)a);
+        a = FIELD_CAMERA_GetYaw((u8 *)a);
     else
-        a = func_0218ED2C((u8 *)a);
+        a = FIELD_CAMERA_GetPitch((u8 *)a);
     if (a < b) {
         d = b - a;
         if (d > 0x8000)

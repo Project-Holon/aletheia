@@ -1,5 +1,5 @@
 /*
- * function: func_021A23B0
+ * function: WEATHER_TASK_IsFogIdle
  * address:  0x021A23B0
  * packet:   pkt_021A23B0
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021A0244  0x021A0244  thumb  ov021
- *   func_021A2CF8  0x021A2CF8  thumb  ov021
+ *   FIELD_FOG_FADE_IsFade  0x021A0244  thumb  ov021
+ *   WEATHER_TASK_HasFogChange  0x021A2CF8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18002.h"
@@ -23,15 +23,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_021A0244(u8 *p);
-extern u8 func_021A2CF8(char *p);
+extern int FIELD_FOG_FADE_IsFade(u8 *p);
+extern u8 WEATHER_TASK_HasFogChange(char *p);
 
-int func_021A23B0(u32 a)
+int WEATHER_TASK_IsFogIdle(u32 a)
 {
-if (func_021A0244((u8 *)(((struct Obj18002 *)((u8 *)(a)))->f4)) != 0) {
+if (FIELD_FOG_FADE_IsFade((u8 *)(((struct Obj18002 *)((u8 *)(a)))->f4)) != 0) {
     return 0;
 }
-if (func_021A2CF8((char *)a) == 0) {
+if (WEATHER_TASK_HasFogChange((char *)a) == 0) {
     return 1;
 }
 return 0;

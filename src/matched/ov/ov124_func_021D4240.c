@@ -13,7 +13,7 @@
  *   func_021D46BC 0x021D46BC thumb ov124
  *   func_021D43F0 0x021D43F0 thumb ov124
  *   func_021D4940 0x021D4940 thumb ov124
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  */
 #include "../include/Obj00068.h"
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ extern void func_021D46BC(char *);
 extern void func_021D43F0(void);
 extern void *func_020056A0(void *,void *,int);
 extern void func_021D4940(char *,int);
-extern void func_0203D34C(unsigned,unsigned);
+extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
 void func_021D4240(char *p)
 {
     ((struct Obj00068 *)p)->f10 = 0;
@@ -35,5 +35,5 @@ void func_021D4240(char *p)
     ((struct Obj00068 *)p)->f18 = 0;
     ((struct Obj00068 *)p)->fC = 1;
     func_021D4940(p,((struct Obj00068 *)p)->f18);
-    func_0203D34C(0,((struct Obj00068 *)p)->f0);
+    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00068 *)p)->f0);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021ACC04
+ * function: FLDEFF_NAMIPOKE_GetWakeLength
  * address:  0x021ACC04
  * packet:   pkt_ov021_021ACC04
  * region:   ov021
@@ -18,7 +18,7 @@ typedef signed char    s8;
 
 typedef struct E { int f0; int f4; int f8; } E;
 
-int func_021ACC04(E *a, E *b, u32 mode)
+int FLDEFF_NAMIPOKE_GetWakeLength(E *a, E *b, u32 mode)
 {
     int r = 0;
 

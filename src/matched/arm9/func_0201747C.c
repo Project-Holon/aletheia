@@ -1,5 +1,5 @@
 /*
- * function: func_0201747C
+ * function: POKE_TOOL_CreateFromBoxParam
  * address:  0x0201747C
  * packet:   pkt_020173F0
  * region:   arm9
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017DBC  0x02017DBC  thumb
+ *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   func_02017E88  0x02017E88  thumb
- *   func_02017DE4  0x02017DE4  thumb
- *   func_020173F0  0x020173F0  thumb
- *   func_02017E40  0x02017E40  thumb
- *   func_02008F08  0x02008F08  thumb
+ *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
+ *   POKE_TOOL_Create  0x020173F0  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
+ *   MAIL_Create  0x02008F08  thumb
  *   func_020307B0  0x020307B0  arm
- *   func_020185C4  0x020185C4  thumb
+ *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *
  * "Clone this Pokemon into a fresh allocation on heap `heap`."
  *
- * It takes the block lock (func_02017DBC), reads species (id 0x05), level
+ * It takes the block lock (POKE_TOOL_DecodeBoxParam), reads species (id 0x05), level
  * (id 0x9E) and OT id (id 0x07) -- all three through the block-lock getter
  * func_02017E88, and species and level truncated to u16 at the assignment,
  * which is what the two `lsls #0x10 / lsrs #0x10` pairs at +0x18 and +0x26
- * are -- builds a fresh record with func_020173F0(species, level, otId, 0,
+ * are -- builds a fresh record with POKE_TOOL_Create(species, level, otId, 0,
  * heap), releases the lock, copies the WHOLE 0x88-word record over the fresh
  * one, then zeroes the three party-area ids the clone must not inherit
  * (0x9D, 0xA0 current HP, 0xA1 max HP), attaches a fresh mail block and
@@ -60,7 +60,7 @@
  * as docs/families/poke_tool.h's full record -- the declared size IS the
  * evidence, since it is what sets the loop's trip count to 0x11.
  *
- * The heap tag handed to func_02008F08 is `(heap & 0x7fff) | 0x8000`: the pool
+ * The heap tag handed to MAIL_Create is `(heap & 0x7fff) | 0x8000`: the pool
  * word at 0x02017524 is 0x00007FFF and the original derives the OR mask from
  * it with `adds r0, r0, #1` rather than pooling 0x8000 separately
  * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
@@ -69,8 +69,8 @@
  * 0xA7 are all field selectors.
  *
  * Verified with
- *   python tools/match.py one --src src/matched/func_0201747C.c \
- *       --func func_0201747C --addr 0x0201747C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_CreateFromBoxParam.c \
+ *       --func POKE_TOOL_CreateFromBoxParam --addr 0x0201747C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -82,34 +82,34 @@ typedef unsigned int   u32;
 struct Mon { u32 w[0x22]; };
 
 struct Sav;
-extern u32 func_02017DBC(struct Sav *p);
-extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32   func_02017E88(void *p, u32 id, u32 v);
-extern void  func_02017E40(void *p, u32 id, u32 v);
-extern void *func_020173F0(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
-extern void *func_02008F08(int a0);
+extern void  POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
+extern void *MAIL_Create(int a0);
 extern u32 func_020307B0(void *p);
-extern void  func_020185C4(void *p);
+extern void  POKE_TOOL_RecalcParam(void *p);
 
-void *func_0201747C(struct Mon *p, u32 heap)
+void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap)
 {
-    u32 t = func_02017DBC((struct Sav *)p);
+    u32 t = POKE_TOOL_DecodeBoxParam((struct Sav *)p);
     u16 species = (u16)func_02017E88(p, 5, 0);
     u16 level = (u16)func_02017E88(p, 0x9e, 0);
     u32 otId = func_02017E88(p, 7, 0);
-    void *q = func_020173F0(species, level, otId, 0, heap);
+    void *q = POKE_TOOL_Create(species, level, otId, 0, heap);
     void *m;
 
-    func_02017DE4((struct Sav *)p, t);
+    POKE_TOOL_EncodeBoxParam((struct Sav *)p, t);
 
     *(struct Mon *)q = *p;
 
-    func_02017E40(q, 0x9d, 0);
-    func_02017E40(q, 0xa0, 0);
-    func_02017E40(q, 0xa1, 0);
-    m = func_02008F08((u16)((heap & 0x7fff) | 0x8000));
-    func_02017E40(q, 0xa7, (u32)m);
+    POKE_TOOL_SetPartyValue(q, 0x9d, 0);
+    POKE_TOOL_SetPartyValue(q, 0xa0, 0);
+    POKE_TOOL_SetPartyValue(q, 0xa1, 0);
+    m = MAIL_Create((u16)((heap & 0x7fff) | 0x8000));
+    POKE_TOOL_SetPartyValue(q, 0xa7, (u32)m);
     func_020307B0(m);
-    func_020185C4(q);
+    POKE_TOOL_RecalcParam(q);
     return q;
 }

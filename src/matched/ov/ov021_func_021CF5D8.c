@@ -14,15 +14,15 @@
  * above the final *outType store (4 bytes).
  *
  * symbols:
- *   func_02188C9C  0x02188C9C  thumb  ov021
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   func_02013E40  0x02013E40  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A30C8  0x021A30C8  thumb  ov021
- *   func_021AB0F0  0x021AB0F0  thumb  ov021
- *   func_021AB0F8  0x021AB0F8  thumb  ov021
- *   func_021AB2BC  0x021AB2BC  thumb  ov021
- *   func_021AB364  0x021AB364  thumb  ov021
- *   func_021AB37C  0x021AB37C  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb  ov021
+ *   MAP_ATTR_GetFlags  0x021AB0F8  thumb  ov021
+ *   MAP_ATTR_IsAnyGrass  0x021AB2BC  thumb  ov021
+ *   MAP_ATTR_IsSplashWaterB  0x021AB364  thumb  ov021
+ *   MAP_ATTR_IsSandVariant  0x021AB37C  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -31,16 +31,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern u16 func_02188C9C(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern u16 func_02013E40(u32 a);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern u32 func_021A30C8(void **ctx);
-extern u16 func_021AB0F0(u32 attr);
-extern u16 func_021AB0F8(u32 attr);
-extern BOOL func_021AB2BC(u16 id);
-extern BOOL func_021AB364(u16 id);
-extern int func_021AB37C(u32 id);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern u16 MAP_ATTR_GetFlags(u32 attr);
+extern BOOL MAP_ATTR_IsAnyGrass(u16 id);
+extern BOOL MAP_ATTR_IsSplashWaterB(u16 id);
+extern int MAP_ATTR_IsSandVariant(u32 id);
 
 void func_021CF5D8(int id, int kind, int flag, struct Obj00020 *pos, u32 *outType, u16 *outMsg)
 {
@@ -50,7 +50,7 @@ void func_021CF5D8(int id, int kind, int flag, struct Obj00020 *pos, u32 *outTyp
     u32 type;
     u16 msg;
 
-    sp = func_02013E40(func_02188C9C((u8 *)pos));
+    sp = func_02013E40(FIELDMAP_GetZoneId((u8 *)pos));
     switch (id) {
     case 0x23B:
         *outMsg = 0x469;
@@ -104,12 +104,12 @@ void func_021CF5D8(int id, int kind, int flag, struct Obj00020 *pos, u32 *outTyp
         *outType = 2;
         return;
     }
-    attr = func_021A30C8(func_02188CB4(pos));
-    m = func_021AB0F0(attr);
-    if (func_021AB0F8(attr) & 2) {
+    attr = FIELD_PLAYER_GetNowAttribute(FIELDMAP_GetFieldPlayer(pos));
+    m = MAP_ATTR_GetTerrainId(attr);
+    if (MAP_ATTR_GetFlags(attr) & 2) {
         msg = 0x468;
         type = 2;
-    } else if (func_021AB2BC(m)) {
+    } else if (MAP_ATTR_IsAnyGrass(m)) {
         if (flag) {
             msg = 0x469;
             type = 1;
@@ -117,11 +117,11 @@ void func_021CF5D8(int id, int kind, int flag, struct Obj00020 *pos, u32 *outTyp
             msg = 0x468;
             type = 0;
         }
-    } else if (func_021AB364(m)) {
+    } else if (MAP_ATTR_IsSplashWaterB(m)) {
         msg = 0x468;
         type = 0;
     } else {
-        if (func_021AB37C(m)) {
+        if (MAP_ATTR_IsSandVariant(m)) {
             msg = 0x468;
             type = 4;
         } else {

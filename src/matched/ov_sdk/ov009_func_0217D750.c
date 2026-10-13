@@ -12,7 +12,7 @@
  * sdk:      gsiLargeIntMult (gslargeint.o)
  *
  * symbols:
- *   func_0217D3AC                  0x0217D3AC  arm  ov009
+ *   gsiLargeIntTimerEnter                  0x0217D3AC  arm  ov009
  *   gsiLargeIntTimerExit                  0x0217D3F8  arm  ov009
  *   memcpy                         0x02092344  arm
  */
@@ -22,7 +22,7 @@ struct gsLargeInt_s {
     unsigned int mData[64];
 };
 
-extern void func_0217D3AC(int id);
+extern void gsiLargeIntTimerEnter(int id);
 extern void gsiLargeIntTimerExit(int id);
 extern void *memcpy(void *d, const void *s, unsigned int n);
 
@@ -38,7 +38,7 @@ static int gsiLargeIntMult(unsigned int *data1, unsigned int length1,
     unsigned int digit;
 
     *lenout = 0;
-    func_0217D3AC(0);
+    gsiLargeIntTimerEnter(0);
 
     for (i = 0; i < length2; i++) {
         if (data2[i] == 0)

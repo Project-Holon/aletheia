@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
- *   func_02027778 0x02027778 thumb
- *   func_02045808 0x02045808 arm
+ *   APP_TASKMENU_OpenMenu 0x02027778 thumb
+ *   STRBUF_Delete 0x02045808 arm
  */
 #include "../include/Obj06379.h"
 typedef unsigned char u8;
@@ -23,8 +23,8 @@ struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
-extern void func_02045808(struct U16Vec *vec);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021F1930(char *p,int kind)
 {
     Entry entries[2];
@@ -40,6 +40,6 @@ void func_021F1930(char *p,int kind)
     case 2:config.f10=24;config.f11=18;break;
     }
     config.f12=8;config.f13=3;
-    ((struct Obj06379 *)p)->f3C=func_02027778((struct TaskMenuTmpl *)(&config),((struct Obj06379 *)p)->f40);
-    func_02045808(entries[0].f00);func_02045808(entries[1].f00);
+    ((struct Obj06379 *)p)->f3C=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&config),((struct Obj06379 *)p)->f40);
+    STRBUF_Delete(entries[0].f00);STRBUF_Delete(entries[1].f00);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B8180",
+   "name": "POKELIST_OpenContextMenu",
    "address": "0x021B8180",
    "kind": "game",
    "region": "ov091",

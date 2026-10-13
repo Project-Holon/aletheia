@@ -1,5 +1,5 @@
 /*
- * function: func_021BE948
+ * function: PLIST_DEMO_AddEv
  * address:  0x021BE948
  * packet:   pkt_ov091_021BE948
  * region:   ov091
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021BE948(int a0, int a1, int a2, int a3)
+int PLIST_DEMO_AddEv(int a0, int a1, int a2, int a3)
 {
     if (a0 == 0 && a2 < 0)
         return -1;

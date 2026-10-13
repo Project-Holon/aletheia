@@ -13,10 +13,10 @@
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   func_020490F4  0x020490F4  arm
- *   func_0202208C  0x0202208C  thumb
- *   func_0204363C  0x0204363C  arm
+ *   WIPE_SYS_Start  0x0202208C  thumb
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   func_020056A0  0x020056A0  thumb
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_021B64C0  0x021B64C0  thumb  ov173
  *   func_021B64D0  0x021B64D0  thumb  ov173
  *   func_021B66BC  0x021B66BC  thumb  ov173
@@ -40,10 +40,10 @@ typedef unsigned short u16;
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_0204363C(u32 swap);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern u32 func_020056A0(void (*cb)(void), void *p, int n);
-extern void func_02049238(u32 a);
+extern void ARC_TOOL_DeleteHandle(u32 a);
 extern void func_021B64C0(void);
 extern void func_021B64D0(void);
 extern void func_021B66BC(u8 *p, u8 *q);
@@ -78,10 +78,10 @@ void func_021B63AC(u8 *p)
     func_021B6CC0((char *)p);
     func_021B7C44(p);
     func_021B8040(p);
-    func_0202208C(0, 1, 1, 0, 6, 1, 0x4f);
-    func_0204363C(1);
+    WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x4f);
+    BG_SYS_SetLcdSwap(1);
     ((struct Obj00180 *)p)->f68 = (u32)func_020056A0((void (*)(void))func_021B6498, p, 0x10);
-    func_02049238((u32)q);
+    ARC_TOOL_DeleteHandle((u32)q);
     func_021B6278(p);
 }
 

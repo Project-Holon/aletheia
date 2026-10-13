@@ -1,5 +1,5 @@
 /*
- * function: func_021BE184
+ * function: ENTRANCE_CAMERA_SetRequest
  * address:  0x021BE184
  * packet:   pkt_ov021_021BE184
  * region:   ov021
@@ -19,7 +19,7 @@ typedef struct {
     Vec v58;
 } Obj;
 
-void func_021BE184(Obj *p, const Vec *v)
+void ENTRANCE_CAMERA_SetRequest(Obj *p, const Vec *v)
 {
     p->v58 = *v;
 }

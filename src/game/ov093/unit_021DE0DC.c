@@ -1,7 +1,7 @@
 /*
  * file:     unit_021DE0DC.c
  * unit:     yes
- * function: func_021DE0DC, func_021DE0EC, func_021DE0F8, func_021DE108
+ * function: BTL_HANDLER_ITEM_JabocaBerryRememberPhysicalAttacker, BTL_HANDLER_ITEM_GetRowapBerryHandlers, BTL_HANDLER_ITEM_RowapBerryRememberSpecialAttacker, BTL_HANDLER_ITEM_RememberAttackerOfCategory
  * address:  0x021DE0DC
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -14,42 +14,42 @@
  *
  * symbols:
  *   func_0689C8CC  0x0689C8CC  thumb
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D70C8  0x021D70C8  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_KeepFactorRunning  0x021D70C8  thumb  ov093
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
- *   d_021F162C     0x021F162C  data   ov093  a4
+ *   gRowapBerryHandlerTable     0x021F162C  data   ov093  a4
  */
 #include "unit_021DDC44_types.h"
 
-extern int func_021D775C(int varId);
+extern int BTL_EVENT_GetVar(int varId);
 extern int func_0689C8CC(u16 moveId);
-extern void func_021D70C8(struct BtlEventFactor *factor);
+extern void BTL_EVENT_KeepFactorRunning(struct BtlEventFactor *factor);
 extern void *func_021C88A4(struct BtlSvFlow *flow, int kind, int pokeId);
 extern void func_021C88C8(struct BtlSvFlow *flow, void *record);
-void func_021DE0DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
-int *func_021DE0EC(int *handlerCount);
-void func_021DE0F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
-void func_021DE108(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, int moveCategory);
-extern int d_021F162C[];
+void BTL_HANDLER_ITEM_JabocaBerryRememberPhysicalAttacker(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+int *BTL_HANDLER_ITEM_GetRowapBerryHandlers(int *handlerCount);
+void BTL_HANDLER_ITEM_RowapBerryRememberSpecialAttacker(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work);
+void BTL_HANDLER_ITEM_RememberAttackerOfCategory(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, int moveCategory);
+extern int gRowapBerryHandlerTable[];
 
 /* Jaboca Berry, hit event: remembers the attacker of a physical hit. */
-void func_021DE0DC(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work) { func_021DE108(factor, flow, pokeId, work, BTL_MOVE_CATEGORY_PHYSICAL); }
+void BTL_HANDLER_ITEM_JabocaBerryRememberPhysicalAttacker(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work) { BTL_HANDLER_ITEM_RememberAttackerOfCategory(factor, flow, pokeId, work, BTL_MOVE_CATEGORY_PHYSICAL); }
 
 
 /* Handler table getter of Rowap Berry. */
-int *func_021DE0EC(int *handlerCount)
+int *BTL_HANDLER_ITEM_GetRowapBerryHandlers(int *handlerCount)
 {
     *handlerCount = 2;
-    return d_021F162C;
+    return gRowapBerryHandlerTable;
 }
 
 
 /*
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #2; str r4, [sp]; bl func_021DE108; add sp, #4; pop {r3, r4, pc}.
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #2; str r4, [sp]; bl BTL_HANDLER_ITEM_RememberAttackerOfCategory; add sp, #4; pop {r3, r4, pc}.
  */
 /* Rowap Berry, hit event: remembers the attacker of a special hit. */
-void func_021DE0F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work) { func_021DE108(factor, flow, pokeId, work, BTL_MOVE_CATEGORY_SPECIAL); }
+void BTL_HANDLER_ITEM_RowapBerryRememberSpecialAttacker(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work) { BTL_HANDLER_ITEM_RememberAttackerOfCategory(factor, flow, pokeId, work, BTL_MOVE_CATEGORY_SPECIAL); }
 
 
 /*
@@ -58,14 +58,14 @@ void func_021DE0F8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int po
  * work word and queue a "keep the item" use record. The hit-back damage is
  * dealt later by the use event.
  */
-void func_021DE108(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, int moveCategory)
+void BTL_HANDLER_ITEM_RememberAttackerOfCategory(struct BtlEventFactor *factor, struct BtlSvFlow *flow, int pokeId, int *work, int moveCategory)
 {
     HandExUseItem *record;
 
-    if (pokeId == func_021D775C(BTL_EVAR_DEFENDER_ID) && func_021D775C(BTL_EVAR_HIT_SUBSTITUTE) == 0
-        && func_0689C8CC(func_021D775C(BTL_EVAR_MOVE_ID)) == 0 && moveCategory == func_021D775C(BTL_EVAR_MOVE_CATEGORY)) {
-        func_021D70C8(factor);
-        *work = func_021D775C(BTL_EVAR_ATTACKER_ID) + 1;
+    if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID) && BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE) == 0
+        && func_0689C8CC(BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID)) == 0 && moveCategory == BTL_EVENT_GetVar(BTL_EVAR_MOVE_CATEGORY)) {
+        BTL_EVENT_KeepFactorRunning(factor);
+        *work = BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID) + 1;
         record = func_021C88A4(flow, HANDEX_KIND_USE_ITEM, pokeId);
         record->useFlags |= HANDEX_USE_ITEM_KEEP_ITEM;
         func_021C88C8(flow, record);

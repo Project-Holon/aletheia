@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_0203630C  0x0203630C  arm
- *   func_02035C38  0x02035C38  arm
+ *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   func_020362DC  0x020362DC  arm
- *   func_02035C60  0x02035C60  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   func_020355D8  0x020355D8  arm
  *
  * The `(x & 3) != 0 ? 0 : 1` call arguments must be written as an explicit
@@ -34,9 +34,9 @@ extern void func_0201CE38(void *p);
 typedef unsigned char  u8;
 extern void func_020061E4(u32 a);
 extern unsigned int func_0203630C(void);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 extern u32 func_020362DC(void);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void func_020355D8(u8 v);
 
 int func_022053E8(char *a)
@@ -45,7 +45,7 @@ int func_022053E8(char *a)
 
     switch (func_0201CE30((void *)(((struct Obj10819 *)a)->f64))) {
     case 0:
-        if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
+        if ((func_0203630C() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
             func_0201CE5C((struct Rec *)(((struct Obj10819 *)a)->f64), 0);
             if ((func_0203630C() & 3) != 0)
                 func_020355D8(0);
@@ -54,7 +54,7 @@ int func_022053E8(char *a)
         }
         break;
     case 1:
-        if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
+        if ((func_020362DC() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
             func_020061E4(0x547);
             func_0201CE38((void *)(((struct Obj10819 *)a)->f64));
             if ((func_020362DC() & 3) != 0)

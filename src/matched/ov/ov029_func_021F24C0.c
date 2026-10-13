@@ -1,5 +1,5 @@
 /*
- * function: func_021F24C0
+ * function: C_GEAR_OnCommDisconnect
  * address:  0x021F24C0
  * packet:   pkt_ov029_021F24C0
  * region:   ov029
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0FF0  0x021F0FF0  thumb  ov029
- *   func_021F0E70  0x021F0E70  thumb  ov029
- *   func_021F1010  0x021F1010  thumb  ov029
+ *   C_GEAR_StopFade  0x021F0FF0  thumb  ov029
+ *   C_GEAR_StartFlashFade  0x021F0E70  thumb  ov029
+ *   C_GEAR_DrawEmptyBoard  0x021F1010  thumb  ov029
  *   func_02030D28  0x02030D28  arm
  */
 #include "../include/Obj00106.h"
 
-extern void func_021F0FF0(char *p);
-extern void func_021F0E70(char *p);
-extern void func_021F1010(void *p);
+extern void C_GEAR_StopFade(char *p);
+extern void C_GEAR_StartFlashFade(char *p);
+extern void C_GEAR_DrawEmptyBoard(void *p);
 struct Ctx;
 extern void func_02030D28(struct Ctx *c);
 
-void func_021F24C0(char *p)
+void C_GEAR_OnCommDisconnect(char *p)
 {
-    func_021F0FF0(p);
+    C_GEAR_StopFade(p);
     if (*(int *)&((struct Obj00106 *)p)->f204 != 0)
         func_02030D28((struct Ctx *)(*(int *)&((struct Obj00106 *)p)->f204));
-    func_021F0E70(p);
-    func_021F1010(p);
+    C_GEAR_StartFlashFade(p);
+    C_GEAR_DrawEmptyBoard(p);
     if (*(int *)&((struct Obj00106 *)p)->f204 != 0)
         func_02030D28((struct Ctx *)(*(int *)&((struct Obj00106 *)p)->f204));
     ((struct Obj00106 *)p)->f451 = 1;

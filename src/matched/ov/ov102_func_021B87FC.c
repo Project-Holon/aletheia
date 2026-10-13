@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Sets the +0x18 word to 1 then initialises the object through the four-argument
- * helper at 0x021B8A40 (0, 0x58, 0x78).  Blocker target of func_021B960C.
+ * helper at 0x021B8A40 (0, 0x58, 0x78).  Blocker target of FIELD_RAIL_POINT_GetLineKey.
  *
  * symbols:
  *   func_021B8A40  0x021B8A40  thumb  ov102

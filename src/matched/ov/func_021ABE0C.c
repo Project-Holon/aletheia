@@ -1,5 +1,5 @@
 /*
- * function: func_021ABE0C
+ * function: FIELD_EFFECT_Draw
  * address:  0x021ABE0C
  * packet:   pkt_021ABE04
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_021ABFEC with no argument change.
+ * Tail-call thunk: forwards to FIELD_EFFECT_DrawObjects with no argument change.
  *
  * symbols:
- *   func_021ABFEC  0x021ABFEC  thumb
+ *   FIELD_EFFECT_DrawObjects  0x021ABFEC  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021ABFEC();
+extern void FIELD_EFFECT_DrawObjects();
 
-void func_021ABE0C(u32 a)
+void FIELD_EFFECT_Draw(u32 a)
 {
-    func_021ABFEC();
+    FIELD_EFFECT_DrawObjects();
 }

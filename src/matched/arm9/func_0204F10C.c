@@ -15,8 +15,8 @@
  * register across both calls.  Same shape as src/matched/sub_02046FCC.c.
  *
  * symbols:
- *   func_02046F48  0x02046F48  arm
- *   func_02047250  0x02047250  arm
+ *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
+ *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
  *   func_020307E0  0x020307E0  arm
  */
 #include "../include/Obj16122.h"
@@ -41,16 +41,16 @@ struct Entry {
     u8    pad04[0x28 - 4];
 };
 
-extern void *func_02046F48(struct Tagged *p);
-extern struct Record *func_02047250(void *p);
+extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
+extern struct Record *G3D_SYSTEM_GetResourceTex(void *p);
 extern void func_020307E0(void *p, u32 size);
 
 void BILLBOARD_TrimImageResource(void *table, u32 idx)
 {
     struct Entry  *e       = &((struct Entry *)((struct Obj16122 *)table)->f4)[idx];
     void          *payload = e->payload;
-    void          *buf     = func_02046F48(payload);
-    struct Record *last    = func_02047250(payload);
+    void          *buf     = G3D_SYSTEM_GetResourceFile(payload);
+    struct Record *last    = G3D_SYSTEM_GetResourceTex(payload);
 
     func_020307E0(buf, (u32)((u8 *)last + last->size - (u8 *)buf));
 }

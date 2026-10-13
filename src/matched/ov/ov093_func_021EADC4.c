@@ -8,14 +8,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021EE2F8 0x021EE2F8 thumb ov093
+ *   BTLV_SCU_StartBallWindowRefresh 0x021EE2F8 thumb ov093
  */
 #include "../include/Obj21573.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct O;
-extern void func_021EE2F8(struct O *);
+extern void BTLV_SCU_StartBallWindowRefresh(struct O *);
 void func_021EADC4(u8 *p)
 {
-    func_021EE2F8(*(struct O * *)&((struct Obj21573 *)p)->f17C);
+    BTLV_SCU_StartBallWindowRefresh(*(struct O * *)&((struct Obj21573 *)p)->f17C);
 }

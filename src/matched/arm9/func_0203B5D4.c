@@ -27,7 +27,7 @@
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_SYSTEM_GetChildBitmap  0x020393A8  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_STATE_ChangeParentWait  0x0203B2A8  arm
  *   GFL_NET_CallDeviceReadyFunc  0x0203D700  arm
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
@@ -53,7 +53,7 @@ extern char str_0203B48C[];
 
 extern void *GFL_NET_GetSession(void);
 extern int GFL_NET_SYSTEM_GetChildBitmap(void);
-extern u8   *func_0203D798(void);
+extern u8   *GFL_NET_GetInitParam(void);
 extern void GFL_NET_STATE_ChangeParentWait(int a0);
 extern void  GFL_NET_CallDeviceReadyFunc(void);
 struct NetState;
@@ -81,7 +81,7 @@ void GFL_NET_STATE_ChangeoverParentMain(struct Slot *p)
     struct Obj *q = (struct Obj *)GFL_NET_GetSession();
 
     if (GFL_NET_SYSTEM_GetChildBitmap() != 0) {
-        GFL_NET_STATE_ChangeParentWait(*(u16 *)(func_0203D798() + 0x56));
+        GFL_NET_STATE_ChangeParentWait(*(u16 *)(GFL_NET_GetInitParam() + 0x56));
         GFL_NET_CallDeviceReadyFunc();
         GFL_NET_STATE_ChangeStateDebug((struct NetState *)(*(u32 *)&_pNetState), (void *)GFL_NET_STATE_ChangeoverParentConnectWait, 0, 0x2c1);
         return;

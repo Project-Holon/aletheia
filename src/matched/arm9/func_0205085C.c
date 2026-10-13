@@ -1,5 +1,5 @@
 /*
- * function: func_0205085C
+ * function: BILLBOARD_ACT_SetEntryCursor
  * address:  0x0205085C
  * packet:   pkt_02050340
  * region:   arm9
@@ -10,8 +10,11 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0205085C.c \
- *       --func func_0205085C --addr 0x0205085C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_SetEntryCursor.c \
+ *       --func BILLBOARD_ACT_SetEntryCursor --addr 0x0205085C --cc 1.1p1 --arm
+ *
+ * symbols:
+ *   BILLBOARD_ACT_ResetPlayback  0x020500A0  arm
  */
 #include "../include/Obj02611.h"
 #include "../include/Obj16158.h"
@@ -19,12 +22,12 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020500A0(int p0);
+extern void BILLBOARD_ACT_ResetPlayback(int p0);
 
-void func_0205085C(void *p, int idx, u32 v)
+void BILLBOARD_ACT_SetEntryCursor(void *p, int idx, u32 v)
 {
     char *e = (char *)(((struct Obj16158 *)p)->f18 + idx * 40);
 
-    func_020500A0((int)e);
+    BILLBOARD_ACT_ResetPlayback((int)e);
     ((struct Obj02611 *)e)->f10 = v;
 }

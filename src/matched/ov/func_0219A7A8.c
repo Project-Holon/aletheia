@@ -1,5 +1,5 @@
 /*
- * function: func_0219A7A8
+ * function: FLDMMDL_MOVECODE_SwingStepWaitTurn
  * address:  0x0219A7A8
  * packet:   pkt_0219A7A8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02197EDC  0x02197EDC  thumb  ov021
+ *   FLDMMDL_ACMD_Update  0x02197EDC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12075.h"
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02197EDC(u8 *p);
+extern u32 FLDMMDL_ACMD_Update(u8 *p);
 
-int func_0219A7A8(u32 a, u32 b, u32 c, u32 d)
+int FLDMMDL_MOVECODE_SwingStepWaitTurn(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02197EDC((u8 *)a) == 0) {
+if (FLDMMDL_ACMD_Update((u8 *)a) == 0) {
     return 0;
 }
 ((struct Obj12075 *)((u8 *)(b)))->f4 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02166324
+ * function: SYMBOL_MAP_GetCellTileId
  * address:  0x02166324
  * packet:   pkt_ov010_02166324
  * region:   ov010
@@ -14,17 +14,17 @@
  * (pos - 3) and below (pos + 3) decide the vertical links.
  *
  * symbols:
- *   func_0216630C  0x0216630C  thumb  ov010
+ *   SYMBOL_MAP_FindGridIndex  0x0216630C  thumb  ov010
  *   _s32_div_f     0x0209C0A4  arm
  */
 
 typedef unsigned char u8;
 
-extern u8 func_0216630C(u8 *grid, int id);
+extern u8 SYMBOL_MAP_FindGridIndex(u8 *grid, int id);
 
-int func_02166324(u8 *grid, int id)
+int SYMBOL_MAP_GetCellTileId(u8 *grid, int id)
 {
-    int pos = func_0216630C(grid, id);
+    int pos = SYMBOL_MAP_FindGridIndex(grid, id);
     int left = 0;
     int col = pos % 3;
     int right;

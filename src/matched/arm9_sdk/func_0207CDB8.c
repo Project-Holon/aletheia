@@ -1,5 +1,5 @@
 /*
- * function: func_0207CDB8
+ * function: VEC_Fx16Normalize
  * address:  0x0207CDB8
  * packet:   pkt_0207CDB8
  * region:   arm9
@@ -72,7 +72,7 @@ static inline u32 CP_GetSqrtResult32(void)
     return reg_CP_SQRT_RESULT;
 }
 
-void func_0207CDB8(const VecFx16 *pSrc, VecFx16 *pDst)
+void VEC_Fx16Normalize(const VecFx16 *pSrc, VecFx16 *pDst)
 {
     fx64 t;
     fx32 sqrt;

@@ -1,5 +1,5 @@
 /*
- * function: func_020478B8
+ * function: G3D_SYSTEM_IncObjectAnimeFrame
  * address:  0x020478B8
  * packet:   pkt_020478B8
  * region:   arm9
@@ -34,7 +34,7 @@ struct Obj {
     struct Run *run;
 };
 
-int func_020478B8(void *a, int idx, int amount)
+int G3D_SYSTEM_IncObjectAnimeFrame(void *a, int idx, int amount)
 {
     struct Obj **tbl = *(struct Obj ** *)&((struct Obj06972 *)a)->f8;
     struct Obj *e = tbl[idx];

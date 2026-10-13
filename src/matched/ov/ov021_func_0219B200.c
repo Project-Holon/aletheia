@@ -1,5 +1,5 @@
 /*
- * function: func_0219B200
+ * function: FLDMMDL_MOVECODE_GetDirTowardPlayerInSet
  * address:  0x0219B200
  * packet:   pkt_ov021_0219B200
  * region:   ov021
@@ -10,25 +10,25 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0219B120  0x0219B120  thumb  ov021
- *   func_0219B0D8  0x0219B0D8  thumb  ov021
- *   func_0219B13C  0x0219B13C  thumb  ov021
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216DEE0  0x0216DEE0  thumb  ov010
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   FLDMMDL_MOVECODE_GetDirSet  0x0219B120  thumb  ov021
+ *   FLDMMDL_MOVECODE_FindTableEnd  0x0219B0D8  thumb  ov021
+ *   FLDMMDL_MOVECODE_GetSightDirToPlayer  0x0219B13C  thumb  ov021
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  */
 
-extern unsigned int *func_0219B120(unsigned int id);
-extern int func_0219B0D8(unsigned int *t, unsigned int v);
+extern unsigned int *FLDMMDL_MOVECODE_GetDirSet(unsigned int id);
+extern int FLDMMDL_MOVECODE_FindTableEnd(unsigned int *t, unsigned int v);
 typedef unsigned int   u32;
-extern int func_0219B13C(u32 a);
-extern void *func_0216D67C(void *a0);
-extern void *func_0216DEE0(void *a0);
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
+extern int FLDMMDL_MOVECODE_GetSightDirToPlayer(u32 a);
+extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_SysSearchPlayer(void *a0);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
 
-int func_0219B200(int a, int id, int end)
+int FLDMMDL_MOVECODE_GetDirTowardPlayerInSet(int a, int id, int end)
 {
     int *tbl;
     int n;
@@ -42,12 +42,12 @@ int func_0219B200(int a, int id, int end)
     int dx;
     int dy;
 
-    tbl = (int *)func_0219B120(id);
-    n = func_0219B0D8((unsigned int *)tbl, end);
+    tbl = (int *)FLDMMDL_MOVECODE_GetDirSet(id);
+    n = FLDMMDL_MOVECODE_FindTableEnd((unsigned int *)tbl, end);
     if (n == 1) {
         return 9;
     }
-    t = func_0219B13C(a);
+    t = FLDMMDL_MOVECODE_GetSightDirToPlayer(a);
     if (t != 9) {
         i = 0;
         do {
@@ -56,13 +56,13 @@ int func_0219B200(int a, int id, int end)
             }
             i++;
         } while (i < n);
-        o = (int)func_0216DEE0(func_0216D67C((void *)a));
+        o = (int)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)a));
         dx = 9;
         dy = 9;
-        ax = func_0216D83C((void *)a);
-        ay = func_0216D86C((void *)a);
-        ox = func_0216D83C((void *)o);
-        oy = func_0216D86C((void *)o);
+        ax = FLDMMDL_GetGridNowX((void *)a);
+        ay = FLDMMDL_GetGridNowZ((void *)a);
+        ox = FLDMMDL_GetGridNowX((void *)o);
+        oy = FLDMMDL_GetGridNowZ((void *)o);
         if (ax > ox) {
             dx = 2;
         } else if (ax < ox) {

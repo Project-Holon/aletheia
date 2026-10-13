@@ -1,5 +1,5 @@
 /*
- * function: func_021C27CC
+ * function: FLD3D_CI_RestoreLayerPriorities
  * address:  0x021C27CC
  * packet:   pkt_ov021_021C27CC
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char u8;
 
 extern void func_0204047C(int idx, unsigned short val);
 
-void func_021C27CC(u8 *p)
+void FLD3D_CI_RestoreLayerPriorities(u8 *p)
 {
     int i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0216F02C
+ * function: EVENT_BATTLE_InitTaskWork
  * address: 0x0216F02C
  * packet: pkt_ov010_0216F02C
  * region: ov010
@@ -10,10 +10,10 @@
  * status: EXACT
  * symbols:
  *   func_02082A7C 0x02082A7C arm
- *   func_020120F4 0x020120F4 thumb
+ *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  */
 
 extern void func_02082A7C(int,void *,int);
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
-void func_0216F02C(void **p,void *a,void *b) { int zero=0; func_02082A7C(0,p,40); p[0]=a; p[1]=func_020120F4(a); p[2]=b; p[5]=(void *)zero; p[6]=(void *)zero; p[7]=(void *)zero; }
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void EVENT_BATTLE_InitTaskWork(void **p,void *a,void *b) { int zero=0; func_02082A7C(0,p,40); p[0]=a; p[1]=GAMESYSTEM_GetGameData(a); p[2]=b; p[5]=(void *)zero; p[6]=(void *)zero; p[7]=(void *)zero; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC10C
+ * function: FLDEFF_REFLECT_DrawTask
  * address:  0x021BC10C
  * packet:   pkt_ov021_021BC10C
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216E1C4  0x0216E1C4  thumb  ov010
- *   func_021BC138  0x021BC138  thumb  ov021
+ *   FLDMMDL_CheckCheckInfo  0x0216E1C4  thumb  ov010
+ *   FLDEFF_REFLECT_UpdateActor  0x021BC138  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -27,12 +27,12 @@ typedef struct {
     char f2C[1];
 } Obj;
 
-extern int func_0216E1C4(int a0, int a1);
-extern void func_021BC138(u16 id, Obj *p);
+extern int FLDMMDL_CheckCheckInfo(int a0, int a1);
+extern void FLDEFF_REFLECT_UpdateActor(u16 id, Obj *p);
 
-void func_021BC10C(int a0, Obj *p)
+void FLDEFF_REFLECT_DrawTask(int a0, Obj *p)
 {
-    if (func_0216E1C4((int)p->f1C, (int)p->f2C) == 1 && p->b10 != 0 && p->h2A != 0xFFFF) {
-        func_021BC138(p->h2A, p);
+    if (FLDMMDL_CheckCheckInfo((int)p->f1C, (int)p->f2C) == 1 && p->b10 != 0 && p->h2A != 0xFFFF) {
+        FLDEFF_REFLECT_UpdateActor(p->h2A, p);
     }
 }

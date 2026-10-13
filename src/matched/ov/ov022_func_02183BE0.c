@@ -1,5 +1,5 @@
 /*
- * function: func_02183BE0
+ * function: UNION_APP_Delete
  * address:  0x02183BE0
  * packet:   pkt_ov022_02183BE0
  * region:   ov022
@@ -18,7 +18,7 @@
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_02183BE0(void *p)
+void UNION_APP_Delete(void *p)
 {
     func_020307B0(p);
 }

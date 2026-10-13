@@ -1,5 +1,5 @@
 /*
- * function: func_02165F94
+ * function: GAME_BEACON_ACCESSOR_GetActionByteValue
  * address:  0x02165F94
  * packet:   pkt_ov010_02165F94
  * region:   ov010
@@ -31,7 +31,7 @@ typedef struct Rec {
     u16 f38;            /* 0x38 */
 } Rec;
 
-u8 func_02165F94(Rec *r)
+u8 GAME_BEACON_ACCESSOR_GetActionByteValue(Rec *r)
 {
     if (r->type == 0x2C)
         return r->f34.b;

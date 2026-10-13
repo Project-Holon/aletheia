@@ -10,8 +10,8 @@
  * status: EXACT*
  * symbols:
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_020257D0 0x020257D0 thumb
+ *   BMP_OAM_UploadChars 0x020257D0 thumb
  */
 #include "../include/Obj06641.h"
-struct Obj;extern int func_0201C6C4(int,int);extern void func_020257D0(struct Obj *);
-void func_021F436C(unsigned char *p){if(((struct Obj06641 *)p)->f34){if(func_0201C6C4(((struct Obj06641 *)p)->f38,((struct Obj06641 *)p)->f30)==0){func_020257D0(*(struct Obj * *)&((struct Obj06641 *)p)->f2C);((struct Obj06641 *)p)->f34=0;}}}
+struct Obj;extern int func_0201C6C4(int,int);extern void BMP_OAM_UploadChars(struct Obj *);
+void func_021F436C(unsigned char *p){if(((struct Obj06641 *)p)->f34){if(func_0201C6C4(((struct Obj06641 *)p)->f38,((struct Obj06641 *)p)->f30)==0){BMP_OAM_UploadChars(*(struct Obj * *)&((struct Obj06641 *)p)->f2C);((struct Obj06641 *)p)->f34=0;}}}

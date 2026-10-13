@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBD0C",
+   "name": "FLDEFF_FOOTMARK_InitResource",
    "address": "0x021BBD0C",
    "kind": "game",
    "region": "ov021",

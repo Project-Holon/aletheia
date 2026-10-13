@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC7D4",
+   "name": "FIELD_PLACE_NAME_CreateLetters",
    "address": "0x021BC7D4",
    "kind": "game",
    "region": "ov021",

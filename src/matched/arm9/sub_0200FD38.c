@@ -22,8 +22,8 @@
  *   G2_GetBG1CharPtr          0x0207E24C  arm
  *   G2_GetBG1ScrPtr           0x0207DFB4  arm
  *   MIi_CpuCopy16             0x02082A60  arm
- *   func_02043668             0x02043668  arm
- *   func_020435F4             0x020435F4  arm
+ *   BG_SYS_GetSubVisiblePlanes             0x02043668  arm
+ *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   GFL_NET_ERR_LoadScreenGraphics              0x02010068  thumb
  *   func_020101D4             0x020101D4  thumb
  *   gNetErrWork                0x0214617C  data
@@ -73,8 +73,8 @@ extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
 extern void *G2_GetBG1CharPtr(void);
 extern void *G2_GetBG1ScrPtr(void);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern u32  func_02043668(void);
-extern void func_020435F4(u32 a);
+extern u32  BG_SYS_GetSubVisiblePlanes(void);
+extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void GFL_NET_ERR_LoadScreenGraphics(u32 a);
 extern void func_020101D4(u32 a, u32 b);
 extern u8   gNetErrWork[];
@@ -173,8 +173,8 @@ void GFL_NET_ERR_SaveDisplayAndDraw(u32 a0, u32 a1)
     ((struct Obj01327 *)g)->f34 = reg_G2S_DB_BLDCNT;
     reg_G2_BLDCNT = 0;
     reg_G2S_DB_BLDCNT = 0;
-    ((struct Obj01327 *)g)->f38 = func_02043668();
-    func_020435F4(0);
+    ((struct Obj01327 *)g)->f38 = BG_SYS_GetSubVisiblePlanes();
+    BG_SYS_SetSubVisiblePlanes(0);
     ((struct Obj01327 *)g)->f40 = *(volatile u16 *)0x05000400;
     *(volatile u16 *)0x05000400 = 0x7eea;
     if (gNetErrWork[0x59] == 0x60) {

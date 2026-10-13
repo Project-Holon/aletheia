@@ -1,5 +1,5 @@
 /*
- * function: func_021B2FB0
+ * function: SCRCMD_SCREENEFFECTS_ShowPlaceName
  * address:  0x021B2FB0
  * packet:   pkt_ov021_021B2FB0
  * region:   ov021
@@ -10,29 +10,29 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02188D20  0x02188D20  thumb  ov021
- *   func_021BC5A0  0x021BC5A0  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
+ *   FIELD_PLACE_NAME_ForceShowForZone  0x021BC5A0  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02188D20(u8 *p);
-extern u16 func_02188C9C(u8 *p);
-extern void func_021BC5A0(void *p, int v);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern u32 FIELDMAP_GetPlaceName(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern void FIELD_PLACE_NAME_ForceShowForZone(void *p, int v);
 
-int func_021B2FB0(u32 a, u32 b)
+int SCRCMD_SCREENEFFECTS_ShowPlaceName(u32 a, u32 b)
 {
-    void *w = func_0201210C(func_0215A5DC((void *)b));
-    u32 x = func_02188D20(w);
+    void *w = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b));
+    u32 x = FIELDMAP_GetPlaceName(w);
 
-    func_021BC5A0((void *)x, func_02188C9C(w));
+    FIELD_PLACE_NAME_ForceShowForZone((void *)x, FIELDMAP_GetZoneId(w));
     return 0;
 }

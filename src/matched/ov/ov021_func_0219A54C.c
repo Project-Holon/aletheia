@@ -1,5 +1,5 @@
 /*
- * function: func_0219A54C
+ * function: FLDMMDL_MOVECODE_MoveFixedDir
  * address:  0x0219A54C
  * packet:   pkt_ov021_0219A54C
  * region:   ov021
@@ -10,21 +10,21 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D69C  0x0216D69C  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_GetMoveProcWork  0x0216D69C  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  */
 
 typedef unsigned int u32;
 typedef struct { u32 v; int n; } St;
-extern void *func_0216D69C(void *p);
-extern void func_0216D5E0(int a0, int a1);
+extern void *FLDMMDL_GetMoveProcWork(void *p);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
 
-void func_0219A54C(u32 a)
+void FLDMMDL_MOVECODE_MoveFixedDir(u32 a)
 {
-    St *p = func_0216D69C((void *)a);
+    St *p = FLDMMDL_GetMoveProcWork((void *)a);
     switch (p->n) {
     case 0:
-        func_0216D5E0(a, (unsigned short)p->v);
+        FLDMMDL_SetDirDispCheckPause(a, (unsigned short)p->v);
         p->n = p->n + 1;
         break;
     case 1:

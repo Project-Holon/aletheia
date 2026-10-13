@@ -1,5 +1,5 @@
 /*
- * function: func_020477D4
+ * function: G3D_SYSTEM_DisableObjectAnime
  * address:  0x020477D4
  * packet:   pkt_020477D4
  * region:   arm9
@@ -51,7 +51,7 @@ struct Owner {
 
 extern void func_02069F7C(u32 a, u32 b);
 
-int func_020477D4(struct Owner *owner, u32 index)
+int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index)
 {
     struct Sub *sub = owner->unk_08[index];
 

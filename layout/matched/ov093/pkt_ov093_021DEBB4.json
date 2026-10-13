@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DEBB4",
-    "func_021DEBE0"
+    "BTL_HANDLER_ITEM_ExpertBelt_BoostSuperEffective",
+    "BTL_HANDLER_ITEM_GetLifeOrbHandlers"
+   ],
+   "addresses": [
+    "0x021DEBB4",
+    "0x021DEBE0"
    ],
    "evidence": {
     "sole-ref": [

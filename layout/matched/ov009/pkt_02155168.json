@@ -2080,7 +2080,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0217E934",
+   "name": "gsLargeIntReverseBytes",
    "address": "0x0217E934",
    "kind": "sdk",
    "region": "ov009",
@@ -2261,7 +2261,7 @@
    }
   },
   {
-   "name": "func_0217F0FC",
+   "name": "gsiInitializeCriticalSection",
    "address": "0x0217F0FC",
    "kind": "game",
    "region": "ov009",
@@ -3009,7 +3009,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02195E70",
+   "name": "gt2SetConnectionData",
    "address": "0x02195E70",
    "kind": "game",
    "region": "ov009",
@@ -3366,7 +3366,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0219E8F8",
+   "name": "SBServerGetPing",
    "address": "0x0219E8F8",
    "kind": "game",
    "region": "ov009",

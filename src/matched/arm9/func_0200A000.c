@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_0200A000
+ * function: MYSTERY_DATA_GetCard
  * address:  0x0200A000
  * packet:   pkt_02009F1C
  * region:   arm9
@@ -23,7 +23,7 @@ extern void MYSTERY_DATA_Decrypt(struct Obj *p);
 extern void MYSTERY_DATA_Encrypt(struct Obj *p);
 extern void *MYSTERY_DATA_GetCardPtr(char *p, unsigned int idx);
 extern void func_02082D44(void *dst, void *src, int n);
-int func_0200A000(char *p, int idx, void *buf)
+int MYSTERY_DATA_GetCard(char *p, int idx, void *buf)
 {
     char *e;
     int r = 0;

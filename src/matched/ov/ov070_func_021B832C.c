@@ -1,5 +1,5 @@
 /*
- * function: func_021B832C
+ * function: ITEMMENU_OpenActionMenu
  * address: 0x021B832C
  * packet: pkt_ov070_021B832C
  * region: ov070
@@ -8,28 +8,28 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * lever: func_021BA9C0 reads the count in r2; passing j keeps it in r2.
+ * lever: ITEMMENU_OpenPopupList reads the count in r2; passing j keeps it in r2.
  * symbols:
  *   d_021BB998 0x021BB998 data ov070 a4
  *   d_021BB95C 0x021BB95C data a1
- *   func_021B8280 0x021B8280 thumb ov070
- *   func_021BA9C0 0x021BA9C0 thumb ov070
+ *   ITEMMENU_BuildActionList 0x021B8280 thumb ov070
+ *   ITEMMENU_OpenPopupList 0x021BA9C0 thumb ov070
  */
 typedef struct { int v[11]; } T44;
 typedef struct { unsigned char v[4]; } T4;
 extern T44 d_021BB998;
 extern T4 d_021BB95C;
 struct Obj;
-extern void func_021B8280(struct Obj *p, unsigned char *q);
-extern void func_021BA9C0(unsigned char *p, int *tbl, int n);
-void func_021B832C(struct Obj *p)
+extern void ITEMMENU_BuildActionList(struct Obj *p, unsigned char *q);
+extern void ITEMMENU_OpenPopupList(unsigned char *p, int *tbl, int n);
+void ITEMMENU_OpenActionMenu(struct Obj *p)
 {
     T44 t = d_021BB998;
     T4 a = d_021BB95C;
     int tmp[4];
     int j;
     int i;
-    func_021B8280(p, (unsigned char *)(&a));
+    ITEMMENU_BuildActionList(p, (unsigned char *)(&a));
     i = 0;
     j = 0;
     for (; i < 4; i++) {
@@ -40,5 +40,5 @@ void func_021B832C(struct Obj *p)
             j++;
         }
     }
-    func_021BA9C0((unsigned char *)p, tmp, j);
+    ITEMMENU_OpenPopupList((unsigned char *)p, tmp, j);
 }

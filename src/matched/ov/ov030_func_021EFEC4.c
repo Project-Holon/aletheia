@@ -1,5 +1,5 @@
 /*
- * function: func_021EFEC4
+ * function: NO_GEAR_SetStepFunc
  * address:  0x021EFEC4
  * packet:   pkt_ov030_021EFEC4
  * region:   ov030
@@ -13,13 +13,13 @@
  * is now witnessed by the EXACT shard entry for func_021EFEC0 (matched x1).
  *
  * symbols:
- *   func_021EFEC4 0x021EFEC4 thumb
+ *   NO_GEAR_SetStepFunc 0x021EFEC4 thumb
  *   func_021EFEC0 0x021EFEC0 thumb
  */
 
 extern void func_021EFEC0(int *p, int v);
 
-void func_021EFEC4(int *p, int v)
+void NO_GEAR_SetStepFunc(int *p, int v)
 {
     func_021EFEC0(p, v);
 }

@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DCC2C",
-    "func_021DCC50"
+    "BTL_HANDLER_TOKUSEI_ContraryInvertStatChange",
+    "BTL_HANDLER_TOKUSEI_AddContrary"
+   ],
+   "addresses": [
+    "0x021DCC2C",
+    "0x021DCC50"
    ],
    "evidence": {
     "sole-ref": [

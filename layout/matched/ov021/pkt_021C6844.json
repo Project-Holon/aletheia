@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6844",
+   "name": "FIELD_G3DOBJ_GetObjectRedrawFlag",
    "address": "0x021C6844",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_0219CA34
+ * function: FLDMMDL_BLACT_FreeResTable
  * address:  0x0219CA34
  * packet:   pkt_0219CA34
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020307B0(void *p);
 
-void func_0219CA34(u8 *p)
+void FLDMMDL_BLACT_FreeResTable(u8 *p)
 {
     func_020307B0((void *)(((struct Obj17969 *)p)->f4));
 }

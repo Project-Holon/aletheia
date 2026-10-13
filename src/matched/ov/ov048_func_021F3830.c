@@ -1,5 +1,5 @@
 /*
- * function: func_021F3830
+ * function: FIELD_GIMMICK_GATE_RestoreLoggedFlags
  * address:  0x021F3830
  * packet:   pkt_ov048_021F3830
  * region:   ov048
@@ -10,31 +10,31 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201296C  0x0201296C  thumb
- *   func_02014314  0x02014314  thumb
- *   func_021F37A4  0x021F37A4  thumb  ov048
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   ZONEDATA_SetEventFlag  0x02014314  thumb
+ *   FIELD_GIMMICK_GATE_GetSave  0x021F37A4  thumb  ov048
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
 struct BigObj;
-extern unsigned int func_0201296C(const struct BigObj *p);
-extern void func_02014314(char *a0, int a1);
+extern unsigned int GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void ZONEDATA_SetEventFlag(char *a0, int a1);
 typedef unsigned int   u32;
-extern u8 *func_021F37A4(u32 a);
+extern u8 *FIELD_GIMMICK_GATE_GetSave(u32 a);
 
-void func_021F3830(int *p)
+void FIELD_GIMMICK_GATE_RestoreLoggedFlags(int *p)
 {
     int r6;
     int i;
     u8 *q;
 
-    r6 = (int)func_0201296C((const struct BigObj *)p[2]);
-    q = func_021F37A4(p[1]) + 0xc;
+    r6 = (int)GAME_DATA_GetEventWork((const struct BigObj *)p[2]);
+    q = FIELD_GIMMICK_GATE_GetSave(p[1]) + 0xc;
     for (i = 0; i < q[0]; i++) {
         if (*(int *)(q + i * 4 + 4) == 8) {
-            func_02014314((char *)r6, (u16)(*(int *)(q + i * 4 + 0x20)));
+            ZONEDATA_SetEventFlag((char *)r6, (u16)(*(int *)(q + i * 4 + 0x20)));
         }
     }
 }

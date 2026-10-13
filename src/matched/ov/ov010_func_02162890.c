@@ -1,5 +1,5 @@
 /*
- * function: func_02162890
+ * function: EVENTDATA_SYSTEM_SearchAutoPosEvent
  * address:  0x02162890
  * packet:   pkt_ov010_02162890
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02162F0C  0x02162F0C  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsPosEventGridHit  0x02162F0C  thumb  ov010
  *   func_020143CC  0x020143CC  thumb
  */
 
@@ -32,10 +32,10 @@ struct Ctx {
 };
 
 typedef unsigned int   u32;
-extern int func_02162F0C(char *p, int *v);
+extern int EVENTDATA_SYSTEM_IsPosEventGridHit(char *p, int *v);
 extern u32 func_020143CC(u32 a, u32 b);
 
-struct Rec *func_02162890(struct Ctx *c, void *a, int key)
+struct Rec *EVENTDATA_SYSTEM_SearchAutoPosEvent(struct Ctx *c, void *a, int key)
 {
     struct Rec *r = c->f28;
     u16 i;
@@ -44,7 +44,7 @@ struct Rec *func_02162890(struct Ctx *c, void *a, int key)
     if (r != 0) {
         n = c->f18;
         for (i = 0; i < n; i++, r++) {
-            if (func_02162F0C((char *)r, (int *)key) != 0 && r->f6 == 6) {
+            if (EVENTDATA_SYSTEM_IsPosEventGridHit((char *)r, (int *)key) != 0 && r->f6 == 6) {
                 if (r->f4 == 0)
                     return r;
                 v = *((u16 *)func_020143CC((u32)a, r->f4));

@@ -1,5 +1,5 @@
 /*
- * function: func_021D69B8
+ * function: BTL_POKEPARAM_AddExp
  * address: 0x021D69B8
  * packet: pkt_ov093_021D69B8
  * region: ov093
@@ -11,10 +11,10 @@
  *   func_02018584 0x02018584 thumb
  *   POKE_TOOL_DecodePartyParam 0x02017D30 thumb
  *   func_02017E1C 0x02017E1C thumb
- *   func_02017E40 0x02017E40 thumb
- *   func_020185C4 0x020185C4 thumb
+ *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
+ *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKE_TOOL_EncodePartyParam 0x02017D70 thumb
- *   func_021D505C 0x021D505C thumb ov093
+ *   BTL_POKEPARAM_SaveMovesToMon 0x021D505C thumb ov093
  *   func_02082BCC 0x02082BCC arm
  */
 #include "../include/Obj00041.h"
@@ -25,13 +25,13 @@ extern u32 func_02018584(u16,u16,u16);
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 func_02017E1C(void *,u32,u32);
-extern void func_02017E40(void *,u32,u32);
-extern void func_020185C4(void *);
+extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
+extern void POKE_TOOL_RecalcParam(void *);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 struct A;
-extern void func_021D505C(struct A *a);
+extern void BTL_POKEPARAM_SaveMovesToMon(struct A *a);
 extern void func_02082BCC(void *,u8,u32);
-int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)
+int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r)
 {
     u32 old, total, delta, threshold;
     u16 hp,a,b,d,e,c;
@@ -50,8 +50,8 @@ int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)
             d = func_02017E1C(p->w,0xa5,0);
             e = func_02017E1C(p->w,0xa6,0);
             p->exp = old + delta;
-            func_02017E40(p->w,8,p->exp);
-            func_020185C4(p->w);
+            POKE_TOOL_SetPartyValue(p->w,8,p->exp);
+            POKE_TOOL_RecalcParam(p->w);
             p->hp = func_02017E1C(p->w,0xa1,0);
             p->level = func_02017E1C(p->w,0x9e,0);
             hp = p->hp - hp;
@@ -75,14 +75,14 @@ int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)
             r->d -= e;
             r->e -= c;
             p->total += hp;
-            func_02017E40(p->w,0xa0,p->total);
-            func_021D505C((struct A *)p);
+            POKE_TOOL_SetPartyValue(p->w,0xa0,p->total);
+            BTL_POKEPARAM_SaveMovesToMon((struct A *)p);
             POKE_TOOL_EncodePartyParam(p->w,saved);
             *remaining -= delta;
             return 1;
         } else {
             p->exp = total;
-            func_02017E40(p->w,8,total);
+            POKE_TOOL_SetPartyValue(p->w,8,total);
         }
     }
     if (r != 0) func_02082BCC(r,0,14);

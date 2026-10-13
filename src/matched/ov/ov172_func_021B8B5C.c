@@ -13,7 +13,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -26,9 +26,9 @@ typedef signed int     s32;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
 void func_021B8B5C(void)
 {
-    func_0203D1A4((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
+    GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
 }

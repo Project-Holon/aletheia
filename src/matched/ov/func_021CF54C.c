@@ -1,5 +1,5 @@
 /*
- * function: func_021CF54C
+ * function: ENCEFF_FreeWork
  * address:  0x021CF54C
  * packet:   pkt_021CF54C
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 extern u32 func_020307B0(void *p);
 
-void func_021CF54C(u8 *p)
+void ENCEFF_FreeWork(u8 *p)
 {
     u32 v = ((struct Obj03621 *)p)->f1C;
     if (v != 0) {

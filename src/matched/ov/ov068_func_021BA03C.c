@@ -1,5 +1,5 @@
 /*
- * function: func_021BA03C
+ * function: OPTION_MENU_ReadInput
  * address:  0x021BA03C
  * packet:   pkt_ov068_021BA03C
  * region:   ov068
@@ -32,7 +32,7 @@ extern u8 func_020355C4(void);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 id);
 
-void func_021BA03C(int *p)
+void OPTION_MENU_ReadInput(int *p)
 {
     int x;
     int y;

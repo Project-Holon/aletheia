@@ -1,5 +1,5 @@
 /*
- * function: func_021BB474
+ * function: STARTMENU_DeleteFrameManager
  * address:  0x021BB474
  * packet:   pkt_ov088_021BB474
  * region:   ov088
@@ -19,7 +19,7 @@
 struct WinMgr;
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 
-void func_021BB474(char *p)
+void STARTMENU_DeleteFrameManager(char *p)
 {
     BGWINFRM_Delete(((struct Obj20818 *)p)->f118);
 }

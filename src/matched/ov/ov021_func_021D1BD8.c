@@ -1,5 +1,5 @@
 /*
- * function: func_021D1BD8
+ * function: SCRCMD_SUBSCREEN_ResetModeTask
  * address:  0x021D1BD8
  * packet:   pkt_ov021_021D1BD8
  * region:   ov021
@@ -10,38 +10,38 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188CCC  0x02188CCC  thumb  ov021
- *   func_021A0ED4  0x021A0ED4  thumb  ov021
- *   func_021A0F30  0x021A0F30  thumb  ov021
- *   func_02159168  0x02159168  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
+ *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
+ *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern int func_02158F58(int a0);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
 typedef unsigned char  u8;
-extern u32 func_02188CCC(u8 *p);
-extern int func_021A0ED4(u32 a);
-extern int func_021A0F30(u32 a, u32 b);
-extern void func_02159168(int n);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
+extern int FIELD_SUBSCREEN_IsIdle(u32 a);
+extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 
-int func_021D1BD8(u32 *a, int *seq)
+int SCRCMD_SUBSCREEN_ResetModeTask(u32 *a, int *seq)
 {
     u32 r4;
 
-    r4 = func_02188CCC((u8 *)(((u32 *)func_02158F58(a[2]))[1]));
+    r4 = FIELDMAP_GetSubscreen((u8 *)(((u32 *)SCRIPT_WORK_ResetFieldParam(a[2]))[1]));
     switch (*seq) {
     case 0:
-        if (func_021A0ED4(r4)) {
-            func_021A0F30(r4, 0);
-            func_02159168(8);
+        if (FIELD_SUBSCREEN_IsIdle(r4)) {
+            FIELD_SUBSCREEN_RequestMode(r4, 0);
+            SCRIPT_WORK_ResetCheckFlag(8);
             (*seq)++;
         }
         break;
     case 1:
-        if (func_021A0ED4(r4)) {
+        if (FIELD_SUBSCREEN_IsIdle(r4)) {
             return 1;
         }
         break;

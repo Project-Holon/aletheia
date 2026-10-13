@@ -1,7 +1,7 @@
 /*
  * file:     trial_house.c
  * unit:     yes
- * function: func_021D096C, func_021D09D0, func_021D0A48, func_021D0A74, func_021D0AB8, func_021D0AC0, func_021D0AE4, func_021D0B58, func_021D0BCC, func_021D0BD8, func_021D0BE4, func_021D0C58, func_021D0DB0, func_021D0FE0, func_021D0FE8, func_021D1028, func_021D1058, func_021D1080, func_021D10A8 
+ * function: TRIAL_HOUSE_CreateWork, func_021D09D0, TRIAL_HOUSE_DeleteWork, TRIAL_HOUSE_SetBattleMode, func_021D0AB8, TRIAL_HOUSE_LoadTrainer, TRIAL_HOUSE_BuildTrainerFromMode, func_021D0B58, func_021D0BCC, func_021D0BD8, func_021D0BE4, func_021D0C58, TRIAL_HOUSE_ComputeScoreAndRank, func_021D0FE0, func_021D0FE8, TRIAL_HOUSE_GetRecordSlotsState, func_021D1058, func_021D1080, func_021D10A8 
  * address:  0x021D096C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -26,44 +26,44 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0201210C  0x0201210C  thumb
  *   abs_id_39      0x00000039  data
  *   func_0200E588  0x0200E588  thumb
  *   func_0201A920  0x0201A920  thumb
  *   d_021DE674     0x021DE674  data  a4
- *   func_020072CC  0x020072CC  thumb
+ *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
  *   func_020073D8  0x020073D8  thumb
  *   func_0200E5A0  0x0200E5A0  thumb
  *   func_0200E5CC  0x0200E5CC  thumb
  *   func_0200734C  0x0200734C  thumb
  *   func_0201A954  0x0201A954  thumb
  *   func_020056EC  0x020056EC  thumb
- *   func_02168878  0x02168878  thumb  ov010
+ *   FLD_BTL_INST_TOOL_CreateTrainer  0x02168878  thumb  ov010
  *   func_0200E5F8  0x0200E5F8  thumb
- *   func_02168AEC  0x02168AEC  thumb  ov010
- *   func_021680C8  0x021680C8  thumb  ov010
- *   d_0209DF0C     0x0209DF0C  data  a1
- *   func_021576D0  0x021576D0  thumb  ov010
- *   func_021578A0  0x021578A0  thumb  ov010
- *   func_02157928  0x02157928  thumb  ov010
- *   func_021578F0  0x021578F0  thumb  ov010
- *   func_02157910  0x02157910  thumb  ov010
+ *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
+ *   FLD_BTL_INST_TOOL_CreateTrainerMsgEvent  0x021680C8  thumb  ov010
+ *   GAME_LANGUAGE_Code     0x0209DF0C  data  a1
+ *   DELIVERY_BEACON_Create  0x021576D0  thumb  ov010
+ *   DELIVERY_BEACON_Start  0x021578A0  thumb  ov010
+ *   DELIVERY_BEACON_RunStep  0x02157928  thumb  ov010
+ *   DELIVERY_BEACON_HasAnyPiece  0x021578F0  thumb  ov010
+ *   DELIVERY_BEACON_TryComplete  0x02157910  thumb  ov010
  *   func_0200E8F8  0x0200E8F8  thumb
  *   func_0200E5E4  0x0200E5E4  thumb
  *   func_0200E608  0x0200E608  thumb
- *   func_02157938  0x02157938  thumb  ov010
- *   func_0203D210  0x0203D210  arm
+ *   DELIVERY_BEACON_Delete  0x02157938  thumb  ov010
+ *   GFL_NET_IsIdle  0x0203D210  arm
  *   func_02008C58  0x02008C58  thumb
  *   func_02008E88  0x02008E88  thumb
  *   func_02008E68  0x02008E68  thumb
- *   func_021D1164  0x021D1164  thumb  ov021
- *   func_021D11B0  0x021D11B0  thumb  ov021
+ *   FIELD_SAVEANIME_Create  0x021D1164  thumb  ov021
+ *   FIELD_SAVEANIME_Start  0x021D11B0  thumb  ov021
  *   func_0200E684  0x0200E684  thumb
- *   func_02012E4C  0x02012E4C  thumb
- *   func_02012E7C  0x02012E7C  thumb
- *   func_021D11D8  0x021D11D8  thumb  ov021
- *   func_021D1194  0x021D1194  thumb  ov021
+ *   GAME_DATA_PartSaveStart  0x02012E4C  thumb
+ *   GAME_DATA_PartSaveMain  0x02012E7C  thumb
+ *   FIELD_SAVEANIME_Stop  0x021D11D8  thumb  ov021
+ *   FIELD_SAVEANIME_Delete  0x021D1194  thumb  ov021
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -204,14 +204,14 @@ extern u32 func_020307B0(void *p);
 extern void *func_020124E8(GameEvent *event);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, void *arg, int (*func)(GameEvent *event, u32 *seq, void *work), u32 workSize);
 extern GameData *func_020120F4(GameSystem *gameSystem);
-extern SaveControl *func_02012EBC(GameData *gameData);
+extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern FieldMap *func_0201210C(GameSystem *gameSystem);
 extern void *func_0201AB28(Party *party, u32 index);
 extern u32 func_02017E1C(void *mon, u32 paramId, u32 arg);
 extern u32 func_0200E588(void);
 extern Party *func_0201A920(u32 heapId);
 extern void func_0201A954(Party *party, s32 capacity);
-extern int func_020072CC(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);
+extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);
 extern TrialHouseDelivery *func_020073D8(SaveControl *saveControl, u32 blockId, u32 arg);
 extern void func_0200734C(SaveControl *saveControl, unsigned int blockId);
 extern int func_0200E5A0(TrialHouseDelivery *delivery);
@@ -225,45 +225,45 @@ extern RecordBlock *func_02008C58(SaveControl *saveControl);
 extern void func_02008E88(RecordBlock *record, u32 value);
 extern void func_02008E68(RecordBlock *record, u32 value);
 extern u32 func_020056EC(u32 range);
-extern int func_02168878(BtlInstTrainer *trainer, u16 trainerIndex, int count, u16 *exclSpecies, u16 *exclItems, BtlInstDraw *draw, u16 heapId);
-extern u16 func_02168AEC(u16 trainerType);
-extern GameEvent *func_021680C8(GameSystem *gameSystem, BtlInstTrainer *trainers, int index, int mmdlId);
-extern DeliveryBeacon *func_021576D0(TrialHouseBeaconParam *param);
-extern int func_021578A0(DeliveryBeacon *beacon);
-extern void func_02157928(DeliveryBeacon *beacon);
-extern int func_021578F0(DeliveryBeacon *beacon);
-extern int func_02157910(DeliveryBeacon *beacon);
-extern int func_02157938(DeliveryBeacon *beacon);
-extern int func_0203D210(void);
-extern void func_02012E4C(GameData *gameData, u32 blockId);
-extern int func_02012E7C(GameData *gameData, int blockId);
-extern FieldSaveAnime *func_021D1164(u32 heapId, FieldMap *fieldMap);
-extern void func_021D11B0(FieldSaveAnime *anim);
-extern void func_021D11D8(FieldSaveAnime *anim);
-extern int func_021D1194(FieldSaveAnime *anim);
+extern int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, int count, u16 *exclSpecies, u16 *exclItems, BtlInstDraw *draw, u16 heapId);
+extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 trainerType);
+extern GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlInstTrainer *trainers, int index, int mmdlId);
+extern DeliveryBeacon *DELIVERY_BEACON_Create(TrialHouseBeaconParam *param);
+extern int DELIVERY_BEACON_Start(DeliveryBeacon *beacon);
+extern void DELIVERY_BEACON_RunStep(DeliveryBeacon *beacon);
+extern int DELIVERY_BEACON_HasAnyPiece(DeliveryBeacon *beacon);
+extern int DELIVERY_BEACON_TryComplete(DeliveryBeacon *beacon);
+extern int DELIVERY_BEACON_Delete(DeliveryBeacon *beacon);
+extern int GFL_NET_IsIdle(void);
+extern void GAME_DATA_PartSaveStart(GameData *gameData, u32 blockId);
+extern int GAME_DATA_PartSaveMain(GameData *gameData, int blockId);
+extern FieldSaveAnime *FIELD_SAVEANIME_Create(u32 heapId, FieldMap *fieldMap);
+extern void FIELD_SAVEANIME_Start(FieldSaveAnime *anim);
+extern void FIELD_SAVEANIME_Stop(FieldSaveAnime *anim);
+extern int FIELD_SAVEANIME_Delete(FieldSaveAnime *anim);
 
-TrialHouseWork *func_021D096C(GameSystem *gameSystem);
+TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem);
 void func_021D09D0(GameSystem *gameSystem, TrialHouseWork *work);
-void func_021D0A48(GameSystem *gameSystem, TrialHouseWork **slot);
-void func_021D0A74(TrialHouseWork *work, u32 mode);
+void TRIAL_HOUSE_DeleteWork(GameSystem *gameSystem, TrialHouseWork **slot);
+void TRIAL_HOUSE_SetBattleMode(TrialHouseWork *work, u32 mode);
 void func_021D0AB8(TrialHouseWork *work, int useDeliveredTrainers);
-u16 func_021D0AC0(GameSystem *gameSystem, TrialHouseWork *work, u32 index);
-void func_021D0AE4(TrialHouseWork *work, u32 mode);
+u16 TRIAL_HOUSE_LoadTrainer(GameSystem *gameSystem, TrialHouseWork *work, u32 index);
+void TRIAL_HOUSE_BuildTrainerFromMode(TrialHouseWork *work, u32 mode);
 void func_021D0B58(GameSystem *gameSystem, BtlInstTrainer *dst, int index);
 u16 func_021D0BCC(TrialHouseWork *work);
 GameEvent *func_021D0BD8(GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId);
 GameEvent *func_021D0BE4(GameSystem *gameSystem, TrialHouseWork *work, u16 *result);
 int func_021D0C58(GameEvent *event, u32 *seq, void *work);
-void func_021D0DB0(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore);
+void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore);
 int func_021D0FE0(int unused, TrialHouseWork *work);
 GameEvent *func_021D0FE8(GameSystem *gameSystem, int unused, int mode);
-int func_021D1028(GameSystem *gameSystem);
+int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem);
 u8 func_021D1058(TrialHouseSave *save, u32 id);
 void func_021D1080(TrialHouseSave *save, u32 id);
 int func_021D10A8(GameEvent *event, u32 *seq, void *work);
 
 extern char d_021DE674[];                              /* source file name for the heap allocator */
-extern u8 d_0209DF0C;                                  /* game version of this ROM */
+extern u8 GAME_LANGUAGE_Code;                                  /* game version of this ROM */
 
 /* ------------------------------------------------------------------ */
 /* trial_house.c                                                       */
@@ -272,13 +272,13 @@ extern u8 d_0209DF0C;                                  /* game version of this R
 /*
  * Callee witnesses filed in wave A1 (witness lane).
  */
-TrialHouseWork *func_021D096C(GameSystem *gameSystem)
+TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem)
 {
     TrialHouseWork *work;
     u32 deliverySize;
 
     deliverySize = func_0200E588();
-    func_02012EBC(func_020120F4(gameSystem)); /* result unused in the original */
+    GAME_DATA_GetSaveControl(func_020120F4(gameSystem)); /* result unused in the original */
     work = func_02030734(TRIAL_HOUSE_HEAP_ID, sizeof(TrialHouseWork), 1, d_021DE674, 0x5D);
     work->heapId = TRIAL_HOUSE_HEAP_ID;
     work->delivery = func_02030734(TRIAL_HOUSE_HEAP_ID, deliverySize, 1, d_021DE674, 0x5F);
@@ -295,9 +295,9 @@ void func_021D09D0(GameSystem *gameSystem, TrialHouseWork *work)
     SaveControl *saveControl;
     void *buf;
 
-    saveControl = func_02012EBC(func_020120F4(gameSystem));
+    saveControl = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
     buf = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x79);
-    func_020072CC(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE);
+    SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE);
     state = TRIAL_HOUSE_DELIVERY_NONE;
     delivery = func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0);
     if (func_0200E5A0(delivery)) {
@@ -312,7 +312,7 @@ void func_021D09D0(GameSystem *gameSystem, TrialHouseWork *work)
     work->deliveryState = state;
 }
 
-void func_021D0A48(GameSystem *gameSystem, TrialHouseWork **slot)
+void TRIAL_HOUSE_DeleteWork(GameSystem *gameSystem, TrialHouseWork **slot)
 {
     if (*slot != 0) {
         func_020307B0((*slot)->delivery);
@@ -329,7 +329,7 @@ void func_021D0A48(GameSystem *gameSystem, TrialHouseWork **slot)
  * rematerialised (`movs #0x4b; lsls`) instead of `adds r0,#8`.
  * Extent runs into func_021D0AB8 (filed separately).
  */
-void func_021D0A74(TrialHouseWork *work, u32 mode)
+void TRIAL_HOUSE_SetBattleMode(TrialHouseWork *work, u32 mode)
 {
     if (work == 0) {
         return;
@@ -354,25 +354,25 @@ void func_021D0A74(TrialHouseWork *work, u32 mode)
 /*
  * Unlabelled ov021 leaf hidden in a word run: stores the second argument at
  * +0x130 of the first.  Matched to supply the `matched` witness for the
- * pending ov010 caller func_0216A594.
+ * pending ov010 caller SCRCMD_TRIALHOUSE_SetRecordSource.
  */
 void func_021D0AB8(TrialHouseWork *work, int useDeliveredTrainers)
 {
     work->useDeliveredTrainers = useDeliveredTrainers;
 }
 
-u16 func_021D0AC0(GameSystem *gameSystem, TrialHouseWork *work, u32 index)
+u16 TRIAL_HOUSE_LoadTrainer(GameSystem *gameSystem, TrialHouseWork *work, u32 index)
 {
     if (work->useDeliveredTrainers != 0) {
         func_021D0B58(gameSystem, &work->trainer, index);
     } else {
-        func_021D0AE4(work, index);
+        TRIAL_HOUSE_BuildTrainerFromMode(work, index);
     }
     return func_021D0BCC(work);
 }
 
 /* Draws a trainer of the built-in list: the tier is the mode, the trainer is random within it. */
-void func_021D0AE4(TrialHouseWork *work, u32 mode)
+void TRIAL_HOUSE_BuildTrainerFromMode(TrialHouseWork *work, u32 mode)
 {
     int firstIndex;
     int count;
@@ -407,7 +407,7 @@ void func_021D0AE4(TrialHouseWork *work, u32 mode)
     }
     trainerIndex = firstIndex + func_020056EC(count);
     heapId = work->heapId;
-    func_02168878(&work->trainer, (u16)trainerIndex, work->monCount, 0, 0, 0, (heapId & 0x7FFF) | 0x8000);
+    FLD_BTL_INST_TOOL_CreateTrainer(&work->trainer, (u16)trainerIndex, work->monCount, 0, 0, 0, (heapId & 0x7FFF) | 0x8000);
 }
 
 /* Copies one delivered trainer into the work. */
@@ -416,9 +416,9 @@ void func_021D0B58(GameSystem *gameSystem, BtlInstTrainer *dst, int index)
     SaveControl *saveControl;
     void *buf;
 
-    saveControl = func_02012EBC(func_020120F4(gameSystem));
+    saveControl = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
     buf = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x14C);
-    if (func_020072CC(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
+    if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
         *dst = *func_0200E5F8(func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
     }
     func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
@@ -426,18 +426,18 @@ void func_021D0B58(GameSystem *gameSystem, BtlInstTrainer *dst, int index)
 }
 
 /*
- * Unblocked by matching func_02168AEC (ov010, EXACT): the +0008 ABS32 site now
+ * Unblocked by matching FLD_BTL_INST_TOOL_LookupKeyValue (ov010, EXACT): the +0008 ABS32 site now
  * attests as `matched`.
  */
 u16 func_021D0BCC(TrialHouseWork *work)
 {
-    return func_02168AEC(work->trainer.trainerType);
+    return FLD_BTL_INST_TOOL_LookupKeyValue(work->trainer.trainerType);
 }
 
 /* Starts the message event of the trainer. */
 GameEvent *func_021D0BD8(GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId)
 {
-    return func_021680C8(gameSystem, &work->trainer, index, (u16)mmdlId);
+    return FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(gameSystem, &work->trainer, index, (u16)mmdlId);
 }
 
 /* Starts the task that receives trainers by wireless delivery; the result is written to *result. */
@@ -455,7 +455,7 @@ GameEvent *func_021D0BE4(GameSystem *gameSystem, TrialHouseWork *work, u16 *resu
     task->param.gameKind = TRIAL_HOUSE_DELIVERY_GAME_KIND;
     task->param.destSize = func_0200E588();
     task->param.dest = work->delivery;
-    task->param.gameVersion = d_0209DF0C;
+    task->param.gameVersion = GAME_LANGUAGE_Code;
     task->param.acceptMask = TRIAL_HOUSE_DELIVERY_ACCEPT_MASK;
     task->param.pageCount = 1;
     task->param.reserved04 = 0;
@@ -484,8 +484,8 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
     gameSystem = task->gameSystem;
     switch (*seq) {
     case 0:
-        task->beacon = func_021576D0(&task->param);
-        if (func_021578A0(task->beacon) == 0) {
+        task->beacon = DELIVERY_BEACON_Create(&task->param);
+        if (DELIVERY_BEACON_Start(task->beacon) == 0) {
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_FAILED;
             *seq = 4;
         } else {
@@ -498,7 +498,7 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
             *seq = 4;
             break;
         }
-        func_02157928(task->beacon);
+        DELIVERY_BEACON_RunStep(task->beacon);
         if (++task->waitFrames > TRIAL_HOUSE_DELIVERY_WAIT_FRAMES) {
             *seq = 2;
         }
@@ -509,8 +509,8 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
             *seq = 4;
             break;
         }
-        func_02157928(task->beacon);
-        if (func_021578F0(task->beacon)) {
+        DELIVERY_BEACON_RunStep(task->beacon);
+        if (DELIVERY_BEACON_HasAnyPiece(task->beacon)) {
             *seq = 3;
         } else {
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_FAILED;
@@ -523,12 +523,12 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
             *seq = 4;
             break;
         }
-        func_02157928(task->beacon);
-        if (func_02157910(task->beacon) == 0) {
+        DELIVERY_BEACON_RunStep(task->beacon);
+        if (DELIVERY_BEACON_TryComplete(task->beacon) == 0) {
             break;
         }
         gameData = func_020120F4(gameSystem);
-        saveControl = func_02012EBC(gameData);
+        saveControl = GAME_DATA_GetSaveControl(gameData);
         save = func_0200E8F8(saveControl);
         delivery = task->trialHouse->delivery;
         deliveryId = func_0200E5E4(delivery);
@@ -546,11 +546,11 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
         *seq = 4;
         break;
     case 4:
-        func_02157938(task->beacon);
+        DELIVERY_BEACON_Delete(task->beacon);
         *seq = 5;
         break;
     case 5:
-        if (func_0203D210()) {
+        if (GFL_NET_IsIdle()) {
             *seq = 6;
         }
         break;
@@ -570,7 +570,7 @@ int func_021D0C58(GameEvent *event, u32 *seq, void *work)
  *
  * Addresses are Black-image addresses.
  */
-void func_021D0DB0(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore)
+void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore)
 {
     TrialHouseTally *tally;
     SaveControl *saveControl;
@@ -623,7 +623,7 @@ void func_021D0DB0(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u
     *outRank = rank;
     *outScore = score;
 
-    saveControl = func_02012EBC(func_020120F4(gameSystem));
+    saveControl = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
     save = func_0200E8F8(saveControl);
     slot = &save->slot[(u8)(work->deliveryState != 0)];
     slot->valid = 1;
@@ -645,9 +645,9 @@ void func_021D0DB0(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u
     }
 
     if (work->deliveryState != 0) {
-        saveControl2 = func_02012EBC(func_020120F4(gameSystem));
+        saveControl2 = GAME_DATA_GetSaveControl(func_020120F4(gameSystem));
         buf = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x277);
-        if (func_020072CC(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
+        if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
             func_02082D44(func_020073D8(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0)->profile, save->profile, sizeof(save->profile));
         }
         func_020307B0(buf);
@@ -662,7 +662,7 @@ void func_021D0DB0(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u
 /*
  * Unlabelled ov021 leaf hidden in a word run: returns the word at +0x150 of
  * its pointer argument (the second argument register).  Matched to supply the
- * `matched` witness for the pending ov010 caller func_0216A6B4.
+ * `matched` witness for the pending ov010 caller SCRCMD_TRIALHOUSE_GetSaveState.
  */
 int func_021D0FE0(int unused, TrialHouseWork *work)
 {
@@ -681,16 +681,16 @@ GameEvent *func_021D0FE8(GameSystem *gameSystem, int unused, int mode)
     task->gameSystem = gameSystem;
     task->buffer = 0;
     task->mode = mode;
-    saveAnime = func_021D1164(0x8015, func_0201210C(gameSystem));
+    saveAnime = FIELD_SAVEANIME_Create(0x8015, func_0201210C(gameSystem));
     task->saveAnime = saveAnime;
-    func_021D11B0(saveAnime);
+    FIELD_SAVEANIME_Start(saveAnime);
     return event;
 }
 
 /* Returns a bit mask of the saved results: bit 0 = first slot, bit 1 = second slot. */
-int func_021D1028(GameSystem *gameSystem)
+int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem)
 {
-    TrialHouseSave *save = func_0200E8F8(func_02012EBC(func_020120F4(gameSystem)));
+    TrialHouseSave *save = func_0200E8F8(GAME_DATA_GetSaveControl(func_020120F4(gameSystem)));
 
     if (save->slot[0].valid != 0) {
         if (save->slot[1].valid != 0) {
@@ -730,28 +730,28 @@ int func_021D10A8(GameEvent *event, u32 *seq, void *work)
 {
     TrialHouseSaveTaskWork *task = work;
     GameData *gameData = func_020120F4(task->gameSystem);
-    SaveControl *saveControl = func_02012EBC(gameData);
+    SaveControl *saveControl = GAME_DATA_GetSaveControl(gameData);
     TrialHouseDelivery *delivery;
 
     switch (*seq) {
     case 0:
         task->buffer = func_02030734(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 0, d_021DE674, 0x34C);
-        func_020072CC(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, task->buffer, TRIAL_HOUSE_SAVE_BUF_SIZE);
+        SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, task->buffer, TRIAL_HOUSE_SAVE_BUF_SIZE);
         delivery = func_020073D8(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0);
         if (task->mode == 1) {
             func_0200E684(delivery);
         } else {
             func_02082BCC(delivery, 0, func_0200E588());
         }
-        func_02012E4C(gameData, TRIAL_HOUSE_SAVE_BLOCK);
+        GAME_DATA_PartSaveStart(gameData, TRIAL_HOUSE_SAVE_BLOCK);
         *seq = *seq + 1;
         break;
     case 1:
-        if (func_02012E7C(gameData, TRIAL_HOUSE_SAVE_BLOCK) == 2) {
+        if (GAME_DATA_PartSaveMain(gameData, TRIAL_HOUSE_SAVE_BLOCK) == 2) {
             func_0200734C(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
             func_020307B0(task->buffer);
-            func_021D11D8(task->saveAnime);
-            func_021D1194(task->saveAnime);
+            FIELD_SAVEANIME_Stop(task->saveAnime);
+            FIELD_SAVEANIME_Delete(task->saveAnime);
             return 1;
         }
         break;

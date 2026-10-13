@@ -1,5 +1,5 @@
 /*
- * function: func_0204E804
+ * function: FADE_IsActive
  * address:  0x0204E804
  * packet:   pkt_0204E804
  * region:   arm9
@@ -21,7 +21,7 @@
 
 extern struct Run0204E720 *g_02146A7C;
 
-int func_0204E804(void)
+int FADE_IsActive(void)
 {
     return g_02146A7C->unk00 != 0;
 }

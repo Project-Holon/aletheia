@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "ARC_UTIL_UploadBgPaletteAddFromArchive",
-    "func_02049990",
+    "ARC_UTIL_UploadBgPaletteAddFromHandle",
     "ARC_UTIL_UploadBgPaletteAddFromHandleExt"
    ],
    "addresses": [

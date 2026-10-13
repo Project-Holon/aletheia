@@ -1,5 +1,5 @@
 /*
- * function: func_021EF9CC
+ * function: WEATHER_LIGHTNING_Clear
  * address:  0x021EF9CC
  * packet:   pkt_021EF9CC
  * region:   ov026
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021EF9CC 0x021EF9CC thumb
+ *   WEATHER_LIGHTNING_Clear 0x021EF9CC thumb
  *   func_02082BCC 0x02082BCC arm
  */
 
 extern void func_02082BCC(int, int, int);
 
-void func_021EF9CC(int a0)
+void WEATHER_LIGHTNING_Clear(int a0)
 {
     func_02082BCC(a0, 0, 0x40);
 }

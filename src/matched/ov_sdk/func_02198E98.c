@@ -1,5 +1,5 @@
 /*
- * function: func_02198E98
+ * function: FLDMMDL_ACMD_AnimeDash4FStartSe
  * address:  0x02198E98
  * packet:   pkt_02198E98
  * region:   ov021
@@ -17,14 +17,14 @@
  *
  * symbols:
  *   func_020061E4  0x020061E4  thumb
- *   func_02198E44  0x02198E44  thumb
+ *   FLDMMDL_ACMD_AnimeDash4FStart  0x02198E44  thumb
  */
 
 extern void func_020061E4(unsigned int arg);
-extern void func_02198E44(void *pipe);
+extern void FLDMMDL_ACMD_AnimeDash4FStart(void *pipe);
 
-void func_02198E98(void *pipe)
+void FLDMMDL_ACMD_AnimeDash4FStartSe(void *pipe)
 {
     func_020061E4(0x7B7);
-    func_02198E44(pipe);
+    FLDMMDL_ACMD_AnimeDash4FStart(pipe);
 }

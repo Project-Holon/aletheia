@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
- *   func_0204B954  0x0204B954  arm
+ *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   func_0204B92C  0x0204B92C  arm
  *   d_021C87A4     0x021C87A4  data  a4
  *
@@ -61,11 +61,11 @@ typedef struct {
 } Anim;
 
 struct Obj;
-extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B954(struct Actor *a, u32 v);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern const ObjTemplateTable d_021C87A4;
 
@@ -80,9 +80,9 @@ void func_021C6E8C(Anim *a)
         pos.y = tbl.t[i].y;
         pos.z = tbl.t[i].z;
         pos.pri = tbl.t[i].pri;
-        a->obj[i] = func_0204B294((void *)a->f4, a->res[tbl.t[i].cell].a, a->res[tbl.t[i].chr].b, a->res[tbl.t[i].anm].c, &pos, 1, a->heap);
+        a->obj[i] = CLACT_CreateActor((void *)a->f4, a->res[tbl.t[i].cell].a, a->res[tbl.t[i].chr].b, a->res[tbl.t[i].anm].c, &pos, 1, a->heap);
         func_0204B3DC(a->obj[i], 1);
-        func_0204B954(a->obj[i], 0x1000);
+        CLACT_SetActorAutoAnimSpeed(a->obj[i], 0x1000);
         func_0204B92C(a->obj[i], 1);
         if (i == 3) {
             func_0204B3DC(a->obj[i], 0);

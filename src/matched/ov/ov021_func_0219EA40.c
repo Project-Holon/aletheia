@@ -1,5 +1,5 @@
 /*
- * function: func_0219EA40
+ * function: FLDMMDL_RAIL_GetDirListOfKind
  * address:  0x0219EA40
  * packet:   pkt_ov021_0219EA40
  * region:   ov021
@@ -16,7 +16,7 @@
 typedef struct { int key; int val; } Entry;
 extern Entry d_021D84E8[];
 
-int func_0219EA40(int key)
+int FLDMMDL_RAIL_GetDirListOfKind(int key)
 {
     Entry *e = d_021D84E8;
     int k = 0;

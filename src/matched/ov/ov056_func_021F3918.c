@@ -1,5 +1,5 @@
 /*
- * function: func_021F3918
+ * function: FIELD_FK_DEMO_IsBuildAnimeDone
  * address: 0x021F3918
  * packet: pkt_ov056_021F3918
  * region: ov056
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0218C8B0 0x0218C8B0 thumb ov021
+ *   FIELD_BUILDMODEL_TryOpenNodeSlot 0x0218C8B0 thumb ov021
  */
-extern int func_0218C8B0(void *,int);
-int func_021F3918(void **p) { if (*p) return func_0218C8B0(*p,0); return 1; }
+extern int FIELD_BUILDMODEL_TryOpenNodeSlot(void *,int);
+int FIELD_FK_DEMO_IsBuildAnimeDone(void **p) { if (*p) return FIELD_BUILDMODEL_TryOpenNodeSlot(*p,0); return 1; }

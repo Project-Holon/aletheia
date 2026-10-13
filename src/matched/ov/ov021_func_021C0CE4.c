@@ -1,5 +1,5 @@
 /*
- * function: func_021C0CE4
+ * function: FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags
  * address:  0x021C0CE4
  * packet:   pkt_ov021_021C0CE4
  * region:   ov021
@@ -9,25 +9,25 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Runs func_021C0DDC when bit 0 of the flags is set.
+ * Runs FIELD_PLAYER_GRID_EVENT_StartBoulderDrop when bit 0 of the flags is set.
  *
  * symbols:
- *   func_021A448C  0x021A448C  thumb  ov021
- *   func_021C0DDC  0x021C0DDC  thumb  ov021
+ *   FIELD_PLAYER_GRID_GetDirChangeKind  0x021A448C  thumb  ov021
+ *   FIELD_PLAYER_GRID_EVENT_StartBoulderDrop  0x021C0DDC  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern int func_021A448C(u32 *p, int a);
+extern int FIELD_PLAYER_GRID_GetDirChangeKind(u32 *p, int a);
 typedef unsigned char  u8;
-extern int func_021C0DDC(u8 *a, u32 b, int c);
+extern int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(u8 *a, u32 b, int c);
 
-int func_021C0CE4(u8 *a, u32 b, u32 flags)
+int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(u8 *a, u32 b, u32 flags)
 {
     int r = 0;
-    int h = func_021A448C((u32 *)a, b);
+    int h = FIELD_PLAYER_GRID_GetDirChangeKind((u32 *)a, b);
 
     if (flags & 1)
-        r = func_021C0DDC(a, b, h);
+        r = FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(a, b, h);
     return r;
 }

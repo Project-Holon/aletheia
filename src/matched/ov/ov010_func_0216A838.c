@@ -1,5 +1,5 @@
 /*
- * function: func_0216A838
+ * function: SCRCMD_MMDL_RiseEventMain
  * address:  0x0216A838
  * packet:   pkt_ov010_0216A838
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _s32_div_f     0x0209C0A4  arm
- *   func_0216D89C  0x0216D89C  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -32,16 +32,16 @@ typedef struct {
     Vec3 v;
 } S;
 
-extern void func_0216D89C();
+extern void FLDMMDL_SetPos();
 
-int func_0216A838(int a0, int a1, S *p)
+int SCRCMD_MMDL_RiseEventMain(int a0, int a1, S *p)
 {
     Vec3 loc;
 
     p->f6 = p->f6 + 1;
     loc = p->v;
     loc.b += (p->f0 * p->f6) / p->f4;
-    func_0216D89C(p->f8, &loc);
+    FLDMMDL_SetPos(p->f8, &loc);
     if (p->f6 >= p->f4) {
         return 1;
     }

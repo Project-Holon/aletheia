@@ -1,5 +1,5 @@
 /*
- * function: func_02050330
+ * function: BILLBOARD_ACT_GetSlotBoardId
  * address:  0x02050330
  * packet:   pkt_02050330
  * region:   arm9
@@ -15,7 +15,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_02050330(u8 *p, int i)
+u16 BILLBOARD_ACT_GetSlotBoardId(u8 *p, int i)
 {
     return *(u16 *)(*(u8 * *)&((struct Obj08868 *)p)->fC + i * 8);
 }

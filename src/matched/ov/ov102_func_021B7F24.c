@@ -35,8 +35,8 @@
  * func_021B83E0 0x021B83E0 thumb ov102
  * func_020061E4 0x020061E4 thumb
  * func_020409B4 0x020409B4 arm
- * func_020120F4 0x020120F4 thumb
- * func_02012EBC 0x02012EBC thumb
+ * GAMESYSTEM_GetGameData 0x020120F4 thumb
+ * GAME_DATA_GetSaveControl 0x02012EBC thumb
  * func_0200ED48 0x0200ED48 thumb
  * func_02008530 0x02008530 thumb
  * func_0200ED54 0x0200ED54 thumb
@@ -80,8 +80,8 @@ extern void func_021B82DC(u8 *,u16 *);
 extern void func_021B83E0(u8 *p);
 extern void func_020061E4(u32 a);
 extern void func_020409B4(u32);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200ED48(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
@@ -110,7 +110,7 @@ void func_021B7F24(u8 *p,u16 *state)
         if(func_021B6568(C,*(u32 *)O)) {
             func_021B657C(C,(struct R *)(*(u32 *)(O+16)));
             if(*(u32 *)O) {
-                save=func_0200ED48(func_02012EBC(func_020120F4(*(void **)O)));
+                save=func_0200ED48(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(*(void **)O)));
                 func_0200ED54(save,func_02008530((const struct Sub0200852CObj *)(*(u8 **)(O+16)+12)));
             }
             *state=6;

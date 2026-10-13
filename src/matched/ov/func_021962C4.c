@@ -1,5 +1,5 @@
 /*
- * function: func_021962C4
+ * function: IRCBATTLEMENU_ClearMessageWindow
  * address:  0x021962C4
  * packet:   pkt_021962C4
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0202F038  0x0202F038  thumb
+ *   TIME_ICON_Delete  0x0202F038  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020456F8  0x020456F8  arm
+ *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   func_02041B6C  0x02041B6C  arm
  * Addresses are Black-image addresses.
  */
@@ -26,18 +26,18 @@ typedef signed short   s16;
 typedef signed char    s8;
 struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_0202F038(u8 *p);
+extern void TIME_ICON_Delete(u8 *p);
 extern u32 func_02041B6C(u32);
-extern void func_020456F8(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
-int func_021962C4(u32 a)
+int IRCBATTLEMENU_ClearMessageWindow(u32 a)
 {
 if (*(u32 *)((u8 *)(a) + ((186 << 2))) != 0) {
-    func_0202F038((u8 *)(*(u32 *)((u8 *)(a) + ((186 << 2)))));
+    TIME_ICON_Delete((u8 *)(*(u32 *)((u8 *)(a) + ((186 << 2)))));
     *(u32 *)((u8 *)(a) + ((186 << 2))) = 0;
 }
 func_0201F7A8((void *)(*(u32 *)((u8 *)(a) + ((43 << 4)))), 2);
-func_020456F8((struct Descriptor *)(*(u32 *)((u8 *)(a) + ((43 << 4)))));
+BMP_WIN_ClearScreen((struct Descriptor *)(*(u32 *)((u8 *)(a) + ((43 << 4)))));
 return func_02041B6C(5);
 }
 

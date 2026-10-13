@@ -1,5 +1,5 @@
 /*
- * function: func_021D2D7C
+ * function: FIELD_CAMERA_ShakeTask
  * address:  0x021D2D7C
  * packet:   pkt_ov021_021D2D7C
  * region:   ov021
@@ -15,17 +15,17 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_0218ED04  0x0218ED04  thumb  ov021
- *   func_0218EC30  0x0218EC30  thumb  ov021
- *   func_0218F05C  0x0218F05C  thumb  ov021
- *   func_0218EC90  0x0218EC90  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_CAMERA_SetEyeShift  0x0218ED04  thumb  ov021
+ *   FIELD_CAMERA_SetTraceTarget  0x0218EC30  thumb  ov021
+ *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   _u32_div_f     0x0209C2B0  arm
  *   d_020A1B38     0x020A1B38  data   a2
  * Addresses are Black-image addresses.
@@ -58,20 +58,20 @@ typedef struct Work {
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_02188C58(void *o);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218EC54(u8 *p);
-extern void func_0218ED04(u8 *p, const struct Vec *v);
-extern void func_0218EC30(void *h, Vec *v);
-extern void func_0218F05C(unsigned char *a);
-extern void func_0218EC90(void *h, Vec *v);
+extern void *FIELDMAP_GetCamera(void *o);
+extern void FIELD_CAMERA_EndDelay(u8 *a);
+extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
+extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern void FIELD_CAMERA_SetEyeShift(u8 *p, const struct Vec *v);
+extern void FIELD_CAMERA_SetTraceTarget(void *h, Vec *v);
+extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
+extern void FIELD_CAMERA_SetTarget(void *h, Vec *v);
 extern const s16 d_020A1B38[];
 
-int func_021D2D7C(void *task, int *state)
+int FIELD_CAMERA_ShakeTask(void *task, int *state)
 {
     Work *w;
     void *o;
@@ -81,19 +81,19 @@ int func_021D2D7C(void *task, int *state)
     int s;
 
     done = 0;
-    o = func_0201210C(func_020124E4(task));
+    o = GAMESYSTEM_GetFieldMap(func_020124E4(task));
     w = func_020124E8(task);
-    h = func_02188C58(o);
+    h = FIELDMAP_GetCamera(o);
 
     switch (*state) {
     case 0:
-        func_0218F0A8(h);
+        FIELD_CAMERA_EndDelay(h);
         (*state)++;
         break;
     case 1:
-        if (func_0218F0E8(h) == 0) {
-            w->pos = (Vec *)func_0218EC5C(h);
-            func_0218EC54(h);
+        if (FIELD_CAMERA_IsDelayEnabled(h) == 0) {
+            w->pos = (Vec *)FIELD_CAMERA_GetTraceTarget(h);
+            FIELD_CAMERA_StopTargetTrace(h);
             (*state)++;
         }
         break;
@@ -124,9 +124,9 @@ int func_021D2D7C(void *task, int *state)
         }
         if (done) {
             Vec zero = {0, 0, 0};
-            func_0218ED04(h, &zero);
-            func_0218EC30(h, w->pos);
-            func_0218F05C(h);
+            FIELD_CAMERA_SetEyeShift(h, &zero);
+            FIELD_CAMERA_SetTraceTarget(h, w->pos);
+            FIELD_CAMERA_RestartDelay(h);
             (*state)++;
         } else {
             Vec pos;
@@ -141,8 +141,8 @@ int func_021D2D7C(void *task, int *state)
             ofs.x = ox;
             ofs.y = oy;
             ofs.z = 0;
-            func_0218EC90(h, &pos);
-            func_0218ED04(h, &ofs);
+            FIELD_CAMERA_SetTarget(h, &pos);
+            FIELD_CAMERA_SetEyeShift(h, &ofs);
         }
         break;
     case 3:

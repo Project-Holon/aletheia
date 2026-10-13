@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021D5450, func_021D5478
+ * function: BTL_POKEPARAM_CountRealMoves, BTL_POKEPARAM_CountUsedMoves
  * address:  0x021D5450
  * packet:   pkt_ov093_021D5450
  * region:   ov093
@@ -9,7 +9,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * volatile: 0x021D54A6 (n140 re-read as the loop bound of func_021D5478)
+ * volatile: 0x021D54A6 (n140 re-read as the loop bound of BTL_POKEPARAM_CountUsedMoves)
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -31,7 +31,7 @@ struct Work {
     u8 n140;
 };
 
-u8 func_021D5450(struct Work *p)
+u8 BTL_POKEPARAM_CountRealMoves(struct Work *p)
 {
     u32 n;
     u32 i;
@@ -44,7 +44,7 @@ u8 func_021D5450(struct Work *p)
     return n;
 }
 
-u8 func_021D5478(struct Work *p)
+u8 BTL_POKEPARAM_CountUsedMoves(struct Work *p)
 {
     u8 n;
     u8 i;

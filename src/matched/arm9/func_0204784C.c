@@ -1,5 +1,5 @@
 /*
- * function: func_0204784C
+ * function: G3D_SYSTEM_SetObjectAnimeFrame
  * address:  0x0204784C
  * packet:   pkt_0204784C
  * region:   arm9
@@ -46,7 +46,7 @@ struct AnmCtl {
     struct AnmSlot **slots; /* +8 */
 };
 
-u32 func_0204784C(struct AnmCtl *c, u16 idx, s32 *frame)
+u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame)
 {
     struct AnmSlot *s = c->slots[idx];
     struct AnmObj *a;

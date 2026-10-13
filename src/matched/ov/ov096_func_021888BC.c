@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_0218A160  0x0218A160  thumb  ov096
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
- *   func_021D62C4  0x021D62C4  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -21,12 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 struct Unk021D62A8;
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 
 int func_021888BC(struct Cursor *a, int b, int c)
 {
@@ -36,10 +36,10 @@ int func_021888BC(struct Cursor *a, int b, int c)
     int r;
     u8 s;
 
-    t1 = func_0201134C(a);
-    t2 = func_0201134C(a);
-    t3 = func_0201134C(a);
+    t1 = VM_GetU32(a);
+    t2 = VM_GetU32(a);
+    t3 = VM_GetU32(a);
     s = func_0218A160((u8 *)b, t1);
-    r = func_021D62C4((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, s), t2);
+    r = BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)func_0218A2FC((u8 *)b, s), t2);
     return func_0218A0F4((u8 *)a, c, r, 1, t3);
 }

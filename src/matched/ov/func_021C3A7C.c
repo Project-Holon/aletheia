@@ -1,5 +1,5 @@
 /*
- * function: func_021C3A7C
+ * function: SODATEYA_InitEgg
  * address:  0x021C3A7C
  * packet:   pkt_021C3A7C
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02082BCC(u32, u32, u32, u32);
 
-int func_021C3A7C(u32 a, u32 b, u32 c, u32 d)
+int SODATEYA_InitEgg(u32 a, u32 b, u32 c, u32 d)
 {
 func_02082BCC(a, 0, 140, d);
 ((struct Obj18302 *)((u8 *)(a)))->f8 = 1;

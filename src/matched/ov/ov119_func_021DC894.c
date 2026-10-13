@@ -13,8 +13,8 @@
  *   ov117_id 0x00000075 data a1
  *   ov118_id 0x00000076 data a1
  *   func_02034AC4 0x02034AC4 arm
- *   func_0204363C 0x0204363C arm
- *   func_020173EC 0x020173EC thumb
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
+ *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   func_02030734 0x02030734 arm
  *   d_021E80B0 0x021E80B0 data a4
  *   func_0200CA1C 0x0200CA1C thumb
@@ -23,12 +23,12 @@
  *   func_021DC5F0 0x021DC5F0 thumb ov119
  *   func_021DC3EC 0x021DC3EC thumb ov119
  *   func_021DC458 0x021DC458 thumb ov119
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   func_021D8A24 0x021D8A24 thumb ov119
- *   func_0203A574 0x0203A574 arm
+ *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021E7614 0x021E7614 data a4
  *   GFL_NET_SetAutoExit 0x0203D7B0 arm
- *   func_0203D7BC 0x0203D7BC arm
+ *   GFL_NET_SetLoginOption 0x0203D7BC arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021DC500 0x021DC500 thumb ov119
  *   func_021E30EC 0x021E30EC thumb ov119
@@ -39,9 +39,9 @@
  *   func_021E3FE4 0x021E3FE4 thumb ov119
  *   func_021DC494 0x021DC494 thumb ov119
  *   func_021E3C20 0x021E3C20 thumb ov119
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_021E3208 0x021E3208 thumb ov119
- *   func_020435F4 0x020435F4 arm
+ *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   func_021DAC60 0x021DAC60 thumb ov119
  */
 #include "../include/Obj03256.h"
@@ -49,15 +49,15 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern int func_02034AC4(int);
-extern unsigned int func_020173EC(void);
+extern unsigned int POKE_TOOL_GetPartyParamSize(void);
 extern int func_021D8A24(void *);
 extern char ov067_id[],ov114_id[],ov117_id[],ov118_id[];
-extern void func_0204363C(unsigned int swap);
+extern void BG_SYS_SetLcdSwap(unsigned int swap);
 extern void GFL_NET_SetAutoExit(u8 a0);
-extern void func_0203D7BC(u8 a0);
+extern void GFL_NET_SetLoginOption(u8 a0);
 extern void func_02043534(unsigned int planes);
-extern void func_020435F4(unsigned int planes);
-extern void func_0203D34C(unsigned int a, unsigned int b);
+extern void BG_SYS_SetSubVisiblePlanes(unsigned int planes);
+extern void GFL_NET_RestartWithDefaultTimeout(unsigned int a, unsigned int b);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern const char d_021E80B0[];
 extern char d_021E7614[];
@@ -67,8 +67,8 @@ struct Bank;
 struct Blk37;
 extern u32 func_0200CA38(struct Blk37 *p);
 extern void func_021DC538(char *,void *,u16),func_021DC5F0(char *),func_021DC3EC(char *),func_021DC458(char *);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern void func_0203A574(unsigned,unsigned,unsigned,unsigned);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern void GFL_NET_COMMAND_AddCommandTable(unsigned,unsigned,unsigned,unsigned);
 extern void *func_020056A0(void (*)(void *,void *),void *,int);
 extern void func_021DC500(int a, char *p);
 extern void func_021E30EC(char *);
@@ -87,21 +87,21 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
     if(n<5) {func_02034AC4((int)ov067_id);func_02034AC4((int)ov114_id);}
     if(n==0 || n==4) func_02034AC4((int)ov117_id);
     else func_02034AC4((int)ov118_id);
-    func_0204363C(1);
+    BG_SYS_SetLcdSwap(1);
     H(0x5f4)=31;
     I(0x118c)=n;
     *(char * *)&((struct Obj03256 *)p)->f8=q;
-    I(0x5dc)=(int)func_02030734(0x91,func_020173EC(),1,d_021E80B0,0x110b);
-    I(0x5e0)=(int)func_02030734(0x91,func_020173EC(),1,d_021E80B0,0x110c);
+    I(0x5dc)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,d_021E80B0,0x110b);
+    I(0x5e0)=(int)func_02030734(0x91,POKE_TOOL_GetPartyParamSize(),1,d_021E80B0,0x110c);
     I(0x10a4)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110d);
     I(0x10a8)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110e);
     ((struct Obj03256 *)p)->f11F6=func_0200CA38(func_0200CA1C(((struct Obj04478 *)q)->f14));
     if(q) func_021DC538(p,((struct Obj04478 *)q)->f14,((struct Obj04478 *)q)->f2E);
     func_021DC5F0(p);func_021DC3EC(p);func_021DC458(p);
-    I(0x9c4)=(int)func_0204B100(0x154,0,H(0x5f4));
+    I(0x9c4)=(int)CLACT_CreateUnit(0x154,0,H(0x5f4));
     if(func_021D8A24(p)) {
-        func_0203A574(0xc00,(unsigned)d_021E7614,24,(unsigned)p);
-        GFL_NET_SetAutoExit(1);func_0203D7BC(1);
+        GFL_NET_COMMAND_AddCommandTable(0xc00,(unsigned)d_021E7614,24,(unsigned)p);
+        GFL_NET_SetAutoExit(1);GFL_NET_SetLoginOption(1);
     }
     I(0x9c8)=(int)func_020056A0((void (*)(void *, void *))func_021DC500,p,0);
     I(0xf60)=0;
@@ -111,7 +111,7 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
         func_02043534(16);func_021D8E84(p,(int)func_021E0B34);((struct Obj04478 *)q)->f8=0;return 1;
     }
     func_021E10D8(p);func_021E3FE4(p);
-    if(I(0x118c)<4) {func_021DC494(p);func_021E3C20(p);func_0203D34C(1,H(0x5f4));}
-    func_021E3208(p,0);func_02043534(0);func_020435F4(0);func_021D8E84(p,(int)func_021DAC60);
+    if(I(0x118c)<4) {func_021DC494(p);func_021E3C20(p);GFL_NET_RestartWithDefaultTimeout(1,H(0x5f4));}
+    func_021E3208(p,0);func_02043534(0);BG_SYS_SetSubVisiblePlanes(0);func_021D8E84(p,(int)func_021DAC60);
     return 1;
 }

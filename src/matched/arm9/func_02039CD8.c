@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_HANDLE_IsBitSet  0x0203A2F0  arm
- *   func_0203D3F8  0x0203D3F8  arm
+ *   GFL_NET_SendData  0x0203D3F8  arm
  *   GFL_NET_HANDLE_SetBitMask  0x0203A28C  arm
  *
  * Sweep the eight slot pointers at +0x8.  A slot that is still marked in use
@@ -35,7 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 GFL_NET_HANDLE_IsBitSet(u32 a0, u32 a1);
-extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern u16 GFL_NET_HANDLE_SetBitMask(u16 mask, u32 idx, u32 set);
 
 struct Obj {
@@ -54,7 +54,7 @@ int GFL_NET_HANDLE_CheckTimingSyncAll(struct Obj *p)
             continue;
         if (GFL_NET_HANDLE_IsBitSet(p->key, i) != 0)
             continue;
-        if (func_0203D3F8((u32)p, 0xff, 4, 0x10, (u32)p->slot[i], 1, 0, 1) != 0)
+        if (GFL_NET_SendData((u32)p, 0xff, 4, 0x10, (u32)p->slot[i], 1, 0, 1) != 0)
             GFL_NET_HANDLE_SetBitMask(p->key, i, 1);
         else
             return 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B613C
+ * function: UI_SCENE_Delete
  * address: 0x021B613C
  * packet: pkt_ov067_021B613C
  * region: ov067
@@ -17,7 +17,7 @@
  */
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void func_021B613C(void *p)
+void UI_SCENE_Delete(void *p)
 {
     func_020307B0(p);
 }

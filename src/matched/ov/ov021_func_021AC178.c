@@ -1,5 +1,5 @@
 /*
- * function: func_021AC178
+ * function: FIELD_EFFECT_UpdateObject
  * address:  0x021AC178
  * packet:   pkt_ov021_021AC178
  * region:   ov021
@@ -33,7 +33,7 @@ struct Obj {
     void *fd0;
 };
 
-void func_021AC178(Obj *o)
+void FIELD_EFFECT_UpdateObject(Obj *o)
 {
     if (o != 0)
         o->f_c4(o, o->work);

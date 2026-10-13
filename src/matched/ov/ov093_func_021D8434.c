@@ -1,5 +1,5 @@
 /*
- * function: func_021D8434
+ * function: BTL_CALC_ActionSetNone
  * address: 0x021D8434
  * packet: pkt_ov093_021D8434
  * region: ov093
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 union B { u32 word; struct { u32 kind:4; u32 rest:28; } bits; };
 typedef enum { MASK=15 } Mask;
-void func_021D8434(u32 *p) { Mask mask=MASK; *p=mask & (*p & ~15); }
+void BTL_CALC_ActionSetNone(u32 *p) { Mask mask=MASK; *p=mask & (*p & ~15); }

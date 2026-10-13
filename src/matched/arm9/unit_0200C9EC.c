@@ -37,6 +37,7 @@
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  */
 
 typedef unsigned char  u8;
@@ -47,7 +48,7 @@ extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 struct Big;
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 struct Blk37 {
     u32 unk00;
@@ -79,7 +80,7 @@ void *func_0200CA10(void *sys)
 
 void *func_0200CA1C(void *a)
 {
-    return func_0200CA10(func_02012EBC(a));
+    return func_0200CA10(GAME_DATA_GetSaveControl(a));
 }
 
 struct Blk37 *func_0200CA28(struct Blk37 *p)

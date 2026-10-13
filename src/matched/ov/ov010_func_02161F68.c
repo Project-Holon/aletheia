@@ -1,5 +1,5 @@
 /*
- * function: func_02161F68
+ * function: EVENT_FIELD_PROCLINK_ClearReturnSlots
  * address:  0x02161F68
  * packet:   pkt_ov010_02161F68
  * region:   ov010
@@ -15,7 +15,7 @@
 
 void func_02082BCC(void *p, int v, int n);
 
-void func_02161F68(void *p)
+void EVENT_FIELD_PROCLINK_ClearReturnSlots(void *p)
 {
     func_02082BCC(p, 0, 0x48);
 }

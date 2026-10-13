@@ -12,7 +12,7 @@
  *   func_020490F4 0x020490F4 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02049F34 0x02049F34 arm
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
@@ -28,7 +28,7 @@ extern int func_021B87E8(unsigned,int *);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_020498F4(void *,int,int,int,int,int,int);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
@@ -47,7 +47,7 @@ void func_021B84B4(u8 *p,int id,int choice,int heap)
     archive=func_020490F4(0x5e,heap);
     func_02049658(archive,15,3,0,0,0,heap);
     func_020498F4(archive,17,3,0,0,0,heap);
-    func_02049238(archive);
+    ARC_TOOL_DeleteHandle(archive);
     data=func_02049F34(0x5e,16,(u32)(&raw),heap);
     pal=*(u8 * *)&((struct Obj22250 *)raw)->fC;
     func_02082D44(pal,p+8,32);

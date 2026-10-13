@@ -12,14 +12,14 @@
  * checks: 1 every callee copied from its own matched definition; 2 021F6A98 initializes six 8-byte records and gives the fixed bound; 3 enum zero gave84, readonly header38; 4 struct-array-per-field idiom closes38 to EXACT; 5 fresh idiom directory and matched neighbours read.
  * permuter: historical once-only types300 consumed; no repeat in wave77.
  * symbols:
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045770  0x02045770  arm
- *   func_02045808  0x02045808  arm
- *   func_02017E1C  0x02017E1C  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_0201C724  0x0201C724  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  */
 
 typedef unsigned int u32;
@@ -39,19 +39,19 @@ typedef struct {
     void *renderer;
     Window window[6];
 } Owner;
-extern struct U16Vec *func_020457B0(u32, u32);
+extern struct U16Vec *STRBUF_Create(u32, u32);
 extern void *func_02045EC0(struct MsgBank *, u32);
 extern void *func_02045770(struct Descriptor *);
-extern void func_02045808(struct U16Vec *);
-extern u32 func_02017E1C(void *, u32, u32);
+extern void STRBUF_Delete(struct U16Vec *);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
 extern void func_0201F250(struct WordSet *, void *, void *);
-extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
+extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 
 static inline void print_window(Owner *a, Index b, void *t)
 {
     void *owner = a->renderer;
-    func_0201C724(owner,
+    PRINTSYS_PrintQueColor(owner,
                   (u32)func_02045770(a->window[(u32)b].text), 8, 0x20, (u32)t,
                   a->ink, 0x3dc0);
     a->window[(u32)b].dirty = 1;
@@ -62,12 +62,12 @@ void func_021F6CE4(Owner *a, Index b)
     void *u;
     unsigned char z = ZERO;
 
-    t = func_020457B0(0x20, 0x8071);
+    t = STRBUF_Create(0x20, 0x8071);
     u = func_02045EC0(a->catalogue, 0xb);
     func_0201EFA4(a->formatter, 0,
-                  func_02017E1C(*(void **)((u32)a + (u32)b * 4 + 0xf8), 0x9e, 0), 3, z, 1);
+                  POKE_TOOL_GetPartyValue(*(void **)((u32)a + (u32)b * 4 + 0xf8), 0x9e, 0), 3, z, 1);
     func_0201F250(a->formatter, t, u);
     print_window(a, b, t);
-    func_02045808(u);
-    func_02045808(t);
+    STRBUF_Delete(u);
+    STRBUF_Delete(t);
 }

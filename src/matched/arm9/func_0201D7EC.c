@@ -1,5 +1,5 @@
 /*
- * function: func_0201D7EC
+ * function: GF_FONT_Create
  * address:  0x0201D7EC
  * packet:   pkt_0201D7EC
  * region:   arm9
@@ -22,7 +22,7 @@
  * selector).  A null allocation returns straight out, which is why both calls
  * sit inside the one guard.
  *
- * Promoted 2026-09-21 from src/pending/func_0201D7EC.c with no change to the
+ * Promoted 2026-09-21 from src/pending/GF_FONT_Create.c with no change to the
  * C: both calls now resolve on the `matched` class from
  * src/matched/sub_0201D854.c and src/matched/sub_0201DA00.c, which were
  * MATCH-parked when this file was written.
@@ -30,8 +30,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201D7EC.c \
- *       --func func_0201D7EC --addr 0x0201D7EC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GF_FONT_Create.c \
+ *       --func GF_FONT_Create --addr 0x0201D7EC --cc 1.1p1 --thumb
  *   EXACT, 80 bytes, 5 relocation sites, all 5 resolved.
  */
 
@@ -51,7 +51,7 @@ extern void GF_FONT_LoadResource(struct Font *f, int resid, u32 flag, u32 heap);
 extern void GF_FONT_SetFormat(struct Font *f, u32 fmt, u32 heap);
 extern const char lbl_020A7358[];
 
-struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId)
+struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId)
 {
     struct GfFont *font = func_02030734(heapId, 0x94, 0, lbl_020A7358, 0xC0);
 

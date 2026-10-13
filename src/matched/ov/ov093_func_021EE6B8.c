@@ -1,5 +1,5 @@
 /*
- * function: func_021EE6B8
+ * function: BTL_REC_ReadRecord
  * address:  0x021EE6B8
  * packet:   pkt_ov093_021EE6B8
  * region:   ov093
@@ -17,8 +17,8 @@
  * the len shift pair ahead of the pos load.
  *
  * symbols:
- *   func_021D8470  0x021D8470  thumb
- *   func_021D845C  0x021D845C  thumb
+ *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
+ *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
  *   func_02082D44  0x02082D44  arm
  */
 typedef unsigned char u8;
@@ -33,16 +33,16 @@ typedef struct {
     u32 buf[4][16];    /* 0x18 */
 } Reader;
 
-void func_021D8470(u32 *p);
-void func_021D845C(u32 *p);
+void BTL_CALC_ActionSetRecordError(u32 *p);
+void BTL_CALC_ActionSetRecordReset(u32 *p);
 void func_02082D44(const void *src, void *dst, u32 n);
 
-u32 *func_021EE6B8(Reader *r, u32 idx, u8 *outLen, u8 *outFlag)
+u32 *BTL_REC_ReadRecord(Reader *r, u32 idx, u8 *outLen, u8 *outFlag)
 {
     u32 *pos;
     u32 p0;
     if (r->err) {
-        func_021D8470(r->buf[idx]);
+        BTL_CALC_ActionSetRecordError(r->buf[idx]);
         *outLen = 1;
         *outFlag = 0;
         return r->buf[idx];
@@ -82,7 +82,7 @@ u32 *func_021EE6B8(Reader *r, u32 idx, u8 *outLen, u8 *outFlag)
                 return res;
         } else if (type == 3) {
             u32 *res = r->buf[idx];
-            func_021D845C(res);
+            BTL_CALC_ActionSetRecordReset(res);
             *outLen = 1;
             *outFlag = 0;
             return res;
@@ -97,7 +97,7 @@ u32 *func_021EE6B8(Reader *r, u32 idx, u8 *outLen, u8 *outFlag)
         }
     }
     r->err = 1;
-    func_021D8470(r->buf[idx]);
+    BTL_CALC_ActionSetRecordError(r->buf[idx]);
     *outLen = 1;
     *outFlag = 0;
     return r->buf[idx];

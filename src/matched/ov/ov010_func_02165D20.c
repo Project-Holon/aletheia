@@ -1,5 +1,5 @@
 /*
- * function: func_02165D20
+ * function: GAME_BEACON_ACCESSOR_GetInfoVersion
  * address:  0x02165D20
  * packet:   pkt_ov010_02165D20
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Low seven bits of byte 3 (unlabelled leaf; sibling of func_02165D08).
+ * Low seven bits of byte 3 (unlabelled leaf; sibling of GAME_BEACON_ACCESSOR_GetSex).
  */
 
 typedef unsigned char u8;
@@ -22,7 +22,7 @@ typedef struct Rec {
     u8 hi : 1;
 } Rec;
 
-u8 func_02165D20(Rec *r)
+u8 GAME_BEACON_ACCESSOR_GetInfoVersion(Rec *r)
 {
     return r->lo;
 }

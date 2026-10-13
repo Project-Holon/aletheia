@@ -16,7 +16,7 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_0201EC64 0x0201EC64 thumb
  *   func_0201F02C 0x0201F02C thumb
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 void func_021B6AF8(u8 *p)
 {
     u32 a = ((struct P *)p)->tbl[((struct P *)p)->idx].b;
@@ -47,6 +47,6 @@ void func_021B6AF8(u8 *p)
         func_0201ED04(*(void **)(p + 0x74));
     }
     *(void **)(p + 0x74) = func_0201EC64(*(u16 *)p);
-    func_0201F02C(*(void **)(p + 0x74), 0, func_02012944(*(void **)(*(u8 **)(p + 0x30) + 4)));
+    func_0201F02C(*(void **)(p + 0x74), 0, GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(p + 0x30) + 4)));
     func_021B6A04(p, b);
 }

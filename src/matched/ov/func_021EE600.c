@@ -1,5 +1,5 @@
 /*
- * function: func_021EE600
+ * function: BTL_REC_DeleteBuffer
  * address:  0x021EE600
  * packet:   pkt_021EE600
  * region:   ov093
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0   0x020307B0  arm arm9
- *   func_021EE600   0x021EE600  thumb ov093
+ *   BTL_REC_DeleteBuffer   0x021EE600  thumb ov093
  *
  * tail-call thunk to func_020307B0
  */
@@ -25,7 +25,7 @@ typedef signed int s32;
 
 extern u32 func_020307B0(void *p);
 
-void func_021EE600(void *p)
+void BTL_REC_DeleteBuffer(void *p)
 {
     func_020307B0(p);
 }

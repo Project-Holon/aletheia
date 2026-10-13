@@ -1,5 +1,5 @@
 /*
- * function: func_021BC610
+ * function: BTL_SERVER_FLOW_BuildActionOrder
  * address:  0x021BC610
  * packet:   pkt_ov093_021BC610
  * region:   ov093
@@ -20,20 +20,20 @@
  * also compiles with --lang c. History: waves P4 to R17 reached 612 B with 18 B differing.
  *
  * symbols:
- *   func_021BB85C  0x021BB85C  thumb  ov093
- *   func_021BB8A8  0x021BB8A8  thumb  ov093
- *   func_021BB8B0  0x021BB8B0  thumb  ov093
- *   func_021D83E0  0x021D83E0  thumb  ov093
- *   func_021D8454  0x021D8454  thumb  ov093
+ *   BTL_SERVER_GetClientChecked  0x021BB85C  thumb  ov093
+ *   BTL_SERVER_GetActionTableValue  0x021BB8A8  thumb  ov093
+ *   BTL_SERVER_GetActionTableEntry  0x021BB8B0  thumb  ov093
+ *   BTL_ACTION_IsChangeDepleted  0x021D83E0  thumb  ov093
+ *   BTL_CALC_ActionGetKind  0x021D8454  thumb  ov093
  *   func_021B9AB0  0x021B9AB0  thumb  ov093
  *   func_021B9BF0  0x021B9BF0  thumb  ov093
- *   func_021B86B8  0x021B86B8  thumb  ov093
- *   func_021BC8EC  0x021BC8EC  thumb  ov093
- *   func_021BC948  0x021BC948  thumb  ov093
+ *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
+ *   BTL_SERVER_FLOW_CalcMovePriority  0x021BC8EC  thumb  ov093
+ *   BTL_SERVER_FLOW_CalcPokeSpeed  0x021BC948  thumb  ov093
  *   func_021CC8D8  0x021CC8D8  thumb  ov093
  *   func_021CC95C  0x021CC95C  thumb  ov093
- *   func_021BC874  0x021BC874  thumb  ov093
- *   func_021C6350  0x021C6350  thumb  ov093
+ *   BTL_SERVER_FLOW_SortActionOrder  0x021BC874  thumb  ov093
+ *   BTL_SERVER_FLOW_QueryActionAllowedEvent  0x021C6350  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -46,22 +46,22 @@ typedef struct { u8 *a; B b; u32 c; u8 d; u8 e; u8 f; } E2;
 typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[6]; } S;
 
 struct S2;
-extern u8 *func_021BB85C(u8 *p, unsigned int i);
-extern u8 func_021BB8A8(u8 *p, u8 i);
-extern B func_021BB8B0(u8 *p, u8 i, u8 j);
-extern int func_021D83E0(B *p);
-extern u32 func_021D8454(B *p);
+extern u8 *BTL_SERVER_GetClientChecked(u8 *p, unsigned int i);
+extern u8 BTL_SERVER_GetActionTableValue(u8 *p, u8 i);
+extern B BTL_SERVER_GetActionTableEntry(u8 *p, u8 i, u8 j);
+extern int BTL_ACTION_IsChangeDepleted(B *p);
+extern u32 BTL_CALC_ActionGetKind(B *p);
 extern u8 func_021B9AB0(u8 k);
 extern u32 func_021B9BF0(struct S2 *p, u32 i);
-extern void *func_021B86B8(void ***p);
-extern int func_021BC8EC(u8 *p, u32 x, u8 *a);
-extern u16 func_021BC948(u8 *p, u8 *x, int flag);
+extern void *BTL_MAIN_GetCompetitor(void ***p);
+extern int BTL_SERVER_FLOW_CalcMovePriority(u8 *p, u32 x, u8 *a);
+extern u16 BTL_SERVER_FLOW_CalcPokeSpeed(u8 *p, u8 *x, int flag);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021CC95C(u32 *p, u32 v, int line);
-extern void func_021BC874(E *e, u32 n);
-extern u8 func_021C6350(u8 *p, u8 *a);
+extern void BTL_SERVER_FLOW_SortActionOrder(E *e, u32 n);
+extern u8 BTL_SERVER_FLOW_QueryActionAllowedEvent(u8 *p, u8 *a);
 
-u8 func_021BC610(S *p, u8 *o, E *e)
+u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, u8 *o, E *e)
 {
     u8 cnt;
     u32 k;
@@ -77,18 +77,18 @@ u8 func_021BC610(S *p, u8 *o, E *e)
 
     flag = 0;
     for (i = 0, cnt = 0; i < 4; i++) {
-        q = (Q *)func_021BB85C((u8 *)(*(u32 *)p), i);
+        q = (Q *)BTL_SERVER_GetClientChecked((u8 *)(*(u32 *)p), i);
         if (q != 0) {
             u8 r5;
-            n = func_021BB8A8(o, i);
+            n = BTL_SERVER_GetActionTableValue(o, i);
             r5 = 0;
             for (j = 0; j < n; j++) {
                 u32 t;
                 r = &e[cnt];
-                r->b = func_021BB8B0(o, i, j);
-                if (func_021D83E0(&r->b) != 0)
+                r->b = BTL_SERVER_GetActionTableEntry(o, i, j);
+                if (BTL_ACTION_IsChangeDepleted(&r->b) != 0)
                     break;
-                t = func_021D8454(&r->b) & 0xff;
+                t = BTL_CALC_ActionGetKind(&r->b) & 0xff;
                 switch (t) {
                 case 6:
                     r5 = func_021B9AB0(r->b.sub);
@@ -120,7 +120,7 @@ u8 func_021BC610(S *p, u8 *o, E *e)
         a = e[l].a;
         switch (r->b.kind) {
         case 4:
-            if (func_021B86B8(*(void **)((u8 *)p + 4)) == 0 && r->d == 1) {
+            if (BTL_MAIN_GetCompetitor(*(void **)((u8 *)p + 4)) == 0 && r->d == 1) {
                 r5 = 0;
             } else {
                 r5 = 4;
@@ -159,28 +159,28 @@ u8 func_021BC610(S *p, u8 *o, E *e)
                 id = ((E2 *)e)[l].b.id;
             else
                 id = 0;
-            sub = func_021BC8EC((u8 *)p, id, a);
+            sub = BTL_SERVER_FLOW_CalcMovePriority((u8 *)p, id, a);
         } else if (r->b.kind == 5 || r->b.kind == 7) {
             sub = 7;
         } else {
             sub = 0;
         }
-        k = func_021BC948((u8 *)p, a, 1);
+        k = BTL_SERVER_FLOW_CalcPokeSpeed((u8 *)p, a, 1);
         func_021CC95C((u32 *)((u8 *)p + 0x1d74), lock, 0x678);
         r->c = (k & m) | ((m + 1) | (((r5 & 7) << 22) | ((sub & 0x3f) << 16)));
     }
-    func_021BC874(e, cnt);
+    BTL_SERVER_FLOW_SortActionOrder(e, cnt);
     if (flag == 0) {
         for (i = 0; i < cnt; i++) {
             r = &e[i];
             if (r->b.kind == 1 || r->b.kind == 5) {
                 u32 lock = func_021CC8D8((u8 *)p + 0x1d74, 0x68A);
-                u32 v = func_021C6350((u8 *)p, r->a);
+                u32 v = BTL_SERVER_FLOW_QueryActionAllowedEvent((u8 *)p, r->a);
                 r->c = (r->c & 0xFFFF1FFF) | ((v & 7) << 13);
                 func_021CC95C((u32 *)((u8 *)p + 0x1d74), lock, 0x68A + 3);
             }
         }
-        func_021BC874(e, cnt);
+        BTL_SERVER_FLOW_SortActionOrder(e, cnt);
     }
     return cnt;
 }

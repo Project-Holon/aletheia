@@ -1,5 +1,5 @@
 /*
- * function: func_0216FD54
+ * function: WAZA_OSHIE_UploadTextTexture
  * address: 0x0216FD54
  * packet: pkt_ov010_0216FD54
  * region: ov010
@@ -22,9 +22,9 @@
  * and off into r4, so the final add is r5,r4 instead of r4,r5.
  *
  * final push 2026-10-05 G5L10 (40 compiles, 3 rounds): 23 -> 7 B. Fixes: (1) c and d are u16
- * here and u16 in func_0216FC74 (the caller func_0216FAB4 declares them u16): the entry
+ * here and u16 in WAZA_OSHIE_PrintToClearedBitmap (the caller WAZA_OSHIE_LoadTexPlttByName declares them u16): the entry
  * spills come out r2, r3, r1 as in the original; b is u32 (FAB4 passes u32). (2) the tail
- * mirrors the matched sibling func_0216FE04 (u32 b,a; a = base field first, then b = (u16)field*8):
+ * mirrors the matched sibling WAZA_OSHIE_UploadPalette (u32 b,a; a = base field first, then b = (u16)field*8):
  * base is read BEFORE off and declared AFTER it (u32 off; u32 base;), which gives the base load
  * right after the offset load and the final add r4,r5.
  * Residue (7 B): the original loads the heap halfword f (add r3,sp,#0x38; ldrh r3,[r3,#4])
@@ -34,7 +34,7 @@
  * moves spill slots, 154 B), u32 heap callee param (117 B), five opt_ pragmas, peephole off.
  * pass 2 2026-10-06 P2L15 (40 compiles, 3 rounds, no change to the form, still 7 B): cause found.
  * The image's heap load waits for `str h` because that store goes to a memory OBJECT; a spill
- * store never blocks a stack-parameter load. Diagnostic `func_020437AC(&h)` puts the f load at
+ * store never blocks a stack-parameter load. Diagnostic `BMP_Delete(&h)` puts the f load at
  * +0x20 exactly; `&vram, &buf, &h` with declarations vram, buf, h also gives the image frame
  * (h 0x14, buf 0x18, vram 0x1c), so the original keeps h, buf and vram in memory. Every memory
  * form tried (aggregate {h,buf,vram} with an address use, value temp, wi first, u32 c/d, u16 b)
@@ -49,15 +49,15 @@
  * The earlier u16 h try (154 B) used h >> 3, which promotes to int and gives asrs.
  * symbols:
  *   d_021726A0     0x021726A0  data  ov010
- *   func_02043678  0x02043678  arm
- *   func_0216FC74  0x0216FC74  thumb  ov010
- *   func_0216FCA0  0x0216FCA0  thumb  ov010
- *   func_020437D4  0x020437D4  arm
+ *   BMP_Create  0x02043678  arm
+ *   WAZA_OSHIE_PrintToClearedBitmap  0x0216FC74  thumb  ov010
+ *   WAZA_OSHIE_ConvertToTileOrder  0x0216FCA0  thumb  ov010
+ *   BMP_GetPixels  0x020437D4  arm
  *   func_0207F7A0  0x0207F7A0  arm
  *   func_020862F0  0x020862F0  arm
  *   func_0207F7FC  0x0207F7FC  arm
  *   func_0207F9B4  0x0207F9B4  arm
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Delete  0x020437AC  arm
  */
 
 typedef unsigned char u8;
@@ -72,19 +72,19 @@ typedef struct {
 extern TE d_021726A0[];
 
 struct Bmp;
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern void func_0216FC74(void *a, u16 b, u16 c, u16 d, void *e, void *f);
-extern void func_0216FCA0(void *a, void *b);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern void WAZA_OSHIE_PrintToClearedBitmap(void *a, u16 b, u16 c, u16 d, void *e, void *f);
+extern void WAZA_OSHIE_ConvertToTileOrder(void *a, void *b);
 struct Bmp;
 struct Obj020437AC;
-extern void *func_020437D4(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void func_0207F7A0(void);
 extern void func_020862F0(void *p, int n);
 extern void func_0207F7FC(void *p, int src, int n);
 extern void func_0207F9B4(void);
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Delete(struct Obj020437AC *p);
 
-void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
+void WAZA_OSHIE_UploadTextTexture(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
 {
     u16 h;
     u32 hi;
@@ -99,11 +99,11 @@ void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
     h = d_021726A0[*(u16 *)(a + 2)].w;
     hi = (u32)h >> 3;
     wi = (u32)d_021726A0[*(u16 *)a].w >> 3;
-    tmp = func_02043678(wi, hi, 0x20, f);
-    buf = func_02043678(wi, hi, 0x20, f);
-    func_0216FC74((void *)b, c, d, e, buf, *(void **)(a + 0x14));
-    func_0216FCA0(buf, tmp);
-    vram = func_020437D4(tmp);
+    tmp = BMP_Create(wi, hi, 0x20, f);
+    buf = BMP_Create(wi, hi, 0x20, f);
+    WAZA_OSHIE_PrintToClearedBitmap((void *)b, c, d, e, buf, *(void **)(a + 0x14));
+    WAZA_OSHIE_ConvertToTileOrder(buf, tmp);
+    vram = BMP_GetPixels(tmp);
     base = *(u32 *)(a + 0xc);
     off = (u16)*(int *)(a + 4) << 3;
     n = ((int)(wi * h) / 8) << 5;
@@ -111,6 +111,6 @@ void func_0216FD54(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
     func_020862F0(vram, n);
     func_0207F7FC(vram, base + off, n);
     func_0207F9B4();
-    func_020437AC(buf);
-    func_020437AC(tmp);
+    BMP_Delete(buf);
+    BMP_Delete(tmp);
 }

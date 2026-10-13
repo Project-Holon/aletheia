@@ -15,14 +15,14 @@
  *   func_0200C258   0x0200C258  thumb
  *   func_0200CA1C   0x0200CA1C  thumb
  *   GAME_DATA_GetMapMatrix   0x02012924  thumb
- *   func_0201292C   0x0201292C  thumb
- *   func_02012944   0x02012944  thumb
- *   func_0201296C   0x0201296C  thumb
- *   func_02012EBC   0x02012EBC  thumb
- *   func_02012F20   0x02012F20  thumb
- *   func_02012F2C   0x02012F2C  thumb
- *   func_02013144   0x02013144  thumb
- *   func_020142E8   0x020142E8  thumb
+ *   GAME_DATA_GetMyItem   0x0201292C  thumb
+ *   GAME_DATA_GetMyStatus   0x02012944  thumb
+ *   GAME_DATA_GetEventWork   0x0201296C  thumb
+ *   GAME_DATA_GetSaveControl   0x02012EBC  thumb
+ *   GAME_DATA_GetPmsWork   0x02012F20  thumb
+ *   GAME_DATA_GetTrainerRecord   0x02012F2C  thumb
+ *   BTL_SETUP_SetStatusFlag   0x02013144  thumb
+ *   ZONEDATA_CheckEventFlag   0x020142E8  thumb
  *   func_02082D44   0x02082D44  arm
  *
  * btl_setup.c.  The shared setup-object initialiser every builder of the
@@ -62,14 +62,14 @@ extern u32 func_0200C258(struct Blk34 *p);
 extern void *func_0200CA1C(void *a);
 struct BigObj;
 extern u32 GAME_DATA_GetMapMatrix(const struct BigObj *p);
-extern void *func_0201292C(const struct BigObj *p);
-extern u8 *func_02012944(void *p);
-extern u32 func_0201296C(const struct BigObj *p);
-extern void *func_02012EBC(struct Big *p);
-extern int func_02012F20(int p0);
-extern void *func_02012F2C(int *p);
-extern void func_02013144(char *p, int v);
-extern u32 func_020142E8(void *bitmap, s32 id);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern int GAME_DATA_GetPmsWork(int p0);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
+extern void BTL_SETUP_SetStatusFlag(char *p, int v);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 
 void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2)
@@ -100,13 +100,13 @@ void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2)
     for (i = 0; i < 7; i++) {
         *(o + i + 0x78) = 0;
     }
-    ((struct Obj00155 *)o)->f34 = (u32)func_02012944(a1);
-    ((struct Obj00155 *)o)->f60 = func_0201292C(a1);
+    ((struct Obj00155 *)o)->f34 = (u32)GAME_DATA_GetMyStatus(a1);
+    ((struct Obj00155 *)o)->f60 = GAME_DATA_GetMyItem(a1);
     ((struct Obj00155 *)o)->f64 = GAME_DATA_GetMapMatrix(a1);
     ((struct Obj00155 *)o)->f68 = (u32)func_0200CA1C(a1);
-    ((struct Obj00155 *)o)->f70 = func_02012F20((int)a1);
-    ((struct Obj00155 *)o)->f6C = (u32)func_02012F2C(a1);
-    t = (u32)func_02012EBC(a1);
+    ((struct Obj00155 *)o)->f70 = GAME_DATA_GetPmsWork((int)a1);
+    ((struct Obj00155 *)o)->f6C = (u32)GAME_DATA_GetTrainerRecord(a1);
+    t = (u32)GAME_DATA_GetSaveControl(a1);
     u = (u32)func_0200C0E8((void *)t);
     ((struct Obj00155 *)o)->f5C = (u32)func_0200873C((void *)t);
     *(o + 0x80) = (u8)func_0200C258((struct Blk34 *)u);
@@ -114,7 +114,7 @@ void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2)
     ((struct Obj00155 *)o)->f18 = 0x468;
     ((struct Obj00155 *)o)->f1A = 0x468 + 0x14;
     ((struct Obj00155 *)o)->f8C = 1;
-    if (func_020142E8((void *)func_0201296C(a1), 0x96d) != 0) {
-        func_02013144((char *)o, 2);
+    if (ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(a1), 0x96d) != 0) {
+        BTL_SETUP_SetStatusFlag((char *)o, 2);
     }
 }

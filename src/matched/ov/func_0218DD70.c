@@ -1,5 +1,5 @@
 /*
- * function: func_0218DD70
+ * function: FIELD_G3D_MAPPER_ResetCell
  * address:  0x0218DD70
  * packet:   pkt_0218DD70
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0218DD70(u32 a)
+int FIELD_G3D_MAPPER_ResetCell(u32 a)
 {
 ((struct Obj07208 *)((u8 *)(a)))->f0 = (~0);
 ((struct Obj07208 *)((u8 *)(a)))->f4 = 0;

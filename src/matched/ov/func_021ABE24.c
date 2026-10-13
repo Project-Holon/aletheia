@@ -1,5 +1,5 @@
 /*
- * function: func_021ABE24
+ * function: FIELD_EFFECT_GetArcHandle
  * address:  0x021ABE24
  * packet:   pkt_021AB764
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021ABE24(u8 *p)
+u32 FIELD_EFFECT_GetArcHandle(u8 *p)
 {
     return ((struct Obj18081 *)p)->fC;
 }

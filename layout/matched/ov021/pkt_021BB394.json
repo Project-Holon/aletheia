@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB394",
+   "name": "FIELD_NOGRID_MAPPER_CreateRailWork",
    "address": "0x021BB394",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB3A0",
+   "name": "FIELD_NOGRID_MAPPER_DeleteRailWork",
    "address": "0x021BB3A0",
    "kind": "game",
    "region": "ov021",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021BB3C4",
+   "name": "FIELD_NOGRID_MAPPER_GetAttribute",
    "address": "0x021BB3C4",
    "kind": "game",
    "region": "ov021",

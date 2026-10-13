@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02195E70",
+   "name": "TALKMSGWIN_DrawEntryFrame",
    "address": "0x02195E70",
    "kind": "game",
    "region": "ov021",

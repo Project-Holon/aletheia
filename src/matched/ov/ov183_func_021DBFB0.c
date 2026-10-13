@@ -23,7 +23,7 @@
  *   func_021FF72C 0x021FF72C thumb ov186
  *   func_021FF698 0x021FF698 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
- *   func_02035C60 0x02035C60 arm
+ *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   func_02035D20 0x02035D20 arm
  *   func_020061E4 0x020061E4 thumb
  *   func_021FD744 0x021FD744 thumb ov186
@@ -46,7 +46,7 @@ extern int func_021FF72C(char *p, int *out);
 extern int func_021FF698(char *,int,int *);
 extern void func_021FD860(int,int,int *);
 extern void func_021F9BA0(unsigned *ctx);
-extern int func_02035C60(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020061E4(u32 a);
 extern int func_021FD744(int *a);
@@ -90,7 +90,7 @@ void func_021DBFB0(int *a,int *state,char *p)
         }
         break;
     case 11:
-        if(func_02035C60()) {
+        if(TOUCHPANEL_GetTrg()) {
             func_02035D20(&x,&y);args[0]=x;args[1]=y;
             func_021FD860(*(int *)(p+0x10),1,args);func_020061E4(0x703);
             func_021F9BA0((unsigned int *)(*(S **)(*(char **)(p+0xd0)+0x14)));*state=12;

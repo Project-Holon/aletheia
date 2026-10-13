@@ -1,5 +1,5 @@
 /*
- * function: func_021B8630
+ * function: BTL_MAIN_GetPmsWork
  * address:  0x021B8630
  * packet:   pkt_021B8630
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8630   0x021B8630  thumb
+ *   BTL_MAIN_GetPmsWork   0x021B8630  thumb
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: ldr r1, [r0]; ldr r0, [r1]; cmp r0, #1; bhi loc_021B863C; ldr r0, [r1, #0x70]; bx lr; movs r0, #0; bx lr.
  */
 #include "../include/Obj12104.h"
@@ -24,7 +24,7 @@ typedef signed int s32;
 
 /* 021B8630  first round: `if (*q > 1) return 0;` came back bls.  The image
  * takes the guard, so the guarded read is the fall-through arm. */
-u32 func_021B8630(u32 **p)
+u32 BTL_MAIN_GetPmsWork(u32 **p)
 {
     u32 *q = *p;
     if (*q <= 1)

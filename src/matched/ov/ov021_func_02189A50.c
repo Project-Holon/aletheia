@@ -1,5 +1,5 @@
 /*
- * function: func_02189A50
+ * function: FIELDMAP_SetSubscreenBusy
  * address:  0x02189A50
  * packet:   pkt_ov021_02189A50
  * region:   ov021
@@ -15,7 +15,7 @@
  * symbols:
  */
 
-void func_02189A50(char *p, int v)
+void FIELDMAP_SetSubscreenBusy(char *p, int v)
 {
     *(int *)(p + 0x144) = v;
 }

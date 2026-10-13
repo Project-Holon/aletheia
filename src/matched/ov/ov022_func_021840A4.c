@@ -1,5 +1,5 @@
 /*
- * function: func_021840A4
+ * function: UNION_APP_OnMemberDropped
  * address:  0x021840A4
  * packet:   pkt_021840A4
  * region:   ov022
@@ -10,6 +10,6 @@
  * status:   EXACT*
  */
 
-void func_021840A4(void)
+void UNION_APP_OnMemberDropped(void)
 {
 }

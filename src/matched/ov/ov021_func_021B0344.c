@@ -1,5 +1,5 @@
 /*
- * function: func_021B0344
+ * function: SCRCMD_MSGWIN_CmdAddMenuItem
  * address:  0x021B0344
  * packet:   pkt_ov021_021B0344
  * region:   ov021
@@ -10,36 +10,36 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02011330  0x02011330  thumb
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02158F78  0x02158F78  thumb  ov010
- *   func_02158F7C  0x02158F7C  thumb  ov010
- *   func_0215A7F0  0x0215A7F0  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   VM_GetU16  0x02011330  thumb
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_GetMsgBuffer  0x02158F78  thumb  ov010
+ *   SCRIPT_WORK_GetTempBuffer  0x02158F7C  thumb  ov010
+ *   SCRCMD_WORK_AddMenuItem  0x0215A7F0  thumb  ov010
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 typedef unsigned short u16;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern unsigned int func_02159B10(void *a0, void *a1);
+extern u16 VM_GetU16(struct Stream *s);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 typedef unsigned char  u8;
-extern u32 func_02158F78(u8 *p);
-extern u32 func_02158F7C(u8 *p);
+extern u32 SCRIPT_WORK_GetMsgBuffer(u8 *p);
+extern u32 SCRIPT_WORK_GetTempBuffer(u8 *p);
 struct U16Vec;
-extern void func_0215A7F0(unsigned short *p, int a, int b, int c, struct U16Vec *s0, void *s1);
+extern void SCRCMD_WORK_AddMenuItem(unsigned short *p, int a, int b, int c, struct U16Vec *s0, void *s1);
 
-int func_021B0344(u32 a, u32 b)
+int SCRCMD_MSGWIN_CmdAddMenuItem(u32 a, u32 b)
 {
     u32 x, y, z;
     void *t;
 
-    t = func_0215A5F4((void *)b);
-    x = func_02011330((struct Stream *)a);
-    y = func_02011330((struct Stream *)a);
-    z = func_02159B10((void *)a, (void *)b);
-    func_0215A7F0((short unsigned int *)b, x, y, z, (struct U16Vec *)func_02158F78(t), (void *)func_02158F7C(t));
+    t = SCRCMD_WORK_GetScriptWork((void *)b);
+    x = VM_GetU16((struct Stream *)a);
+    y = VM_GetU16((struct Stream *)a);
+    z = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    SCRCMD_WORK_AddMenuItem((short unsigned int *)b, x, y, z, (struct U16Vec *)SCRIPT_WORK_GetMsgBuffer(t), (void *)SCRIPT_WORK_GetTempBuffer(t));
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BFA5C
+ * function: EVENT_APPEAR_OnScoreboardEndAlt
  * address:  0x021BFA5C
  * packet:   pkt_021BFA5C
  * region:   ov021
@@ -12,8 +12,8 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021BF9F4  0x021BF9F4  thumb  ov021
- *   func_021BF978  0x021BF978  thumb  ov021
+ *   EVENT_APPEAR_StartPlayerSpinAlt  0x021BF9F4  thumb  ov021
+ *   EVENT_APPEAR_StartZoomOutAlt  0x021BF978  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern int func_021BF9F4(void **a);
-extern void func_021BF978(void *p);
+extern int EVENT_APPEAR_StartPlayerSpinAlt(void **a);
+extern void EVENT_APPEAR_StartZoomOutAlt(void *p);
 
-void func_021BFA5C(u8 *p)
+void EVENT_APPEAR_OnScoreboardEndAlt(u8 *p)
 {
-    func_021BF9F4((void **)p);
-    func_021BF978(p);
+    EVENT_APPEAR_StartPlayerSpinAlt((void **)p);
+    EVENT_APPEAR_StartZoomOutAlt(p);
 }

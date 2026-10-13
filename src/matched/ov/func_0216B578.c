@@ -1,5 +1,5 @@
 /*
- * function: func_0216B578
+ * function: FIELD_G3D_MAP_CmdGetMissionIndex
  * address:  0x0216B578
  * packet:   pkt_0216B578
  * region:   ov010
@@ -11,11 +11,11 @@
  * blocked:  listing 52 compiled 50
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200C0F0  0x0200C0F0  thumb
- *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   func_0200C32C  0x0200C32C  thumb
  */
 
@@ -25,15 +25,15 @@ typedef unsigned int u32;
 
 struct Big;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02012EBC(struct Big *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200C0F0(void *sys);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
 
-int func_0216B578(int a0, int a1)
+int FIELD_G3D_MAP_CmdGetMissionIndex(int a0, int a1)
 {
     int t4;
     int t5;
@@ -46,18 +46,18 @@ int func_0216B578(int a0, int a1)
 t4 = a1 + 0;
 t5 = a0 + 0;
 a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
+    v0 = SCRCMD_WORK_GetScriptWork((void *)a0);
 loc_0216B584:
 a0 = t4 + 0;
-    v1 = func_0215A5E4((void *)a0);
+    v1 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0216B58A:
-    p = func_02012EBC((struct Big *)v1);
+    p = GAME_DATA_GetSaveControl((struct Big *)v1);
 loc_0216B58E:
     t6 = func_0200C0F0(p);
 loc_0216B592:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
+    q = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_0216B59C:
     a0 = func_0200C32C(t6);
 loc_0216B5A4:

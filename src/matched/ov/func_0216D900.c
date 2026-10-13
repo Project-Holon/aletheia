@@ -1,5 +1,5 @@
 /*
- * function: func_0216D900
+ * function: FLDMMDL_SetAttrOffset
  * address:  0x0216D900
  * packet:   pkt_0216D89C
  * region:   ov010
@@ -20,8 +20,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D900.c \
- *       --func func_0216D900 --addr 0x0216D900 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_SetAttrOffset.c \
+ *       --func FLDMMDL_SetAttrOffset --addr 0x0216D900 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -31,7 +31,7 @@ typedef signed short   s16;
 
 typedef struct { u32 a, b, c; } Triple;
 
-void func_0216D900(void *p, const Triple *q)
+void FLDMMDL_SetAttrOffset(void *p, const Triple *q)
 {
     *(Triple *)((char *)p + 104) = *q;
 }

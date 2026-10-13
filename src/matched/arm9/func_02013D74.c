@@ -1,5 +1,5 @@
 /*
- * function: func_02013D74
+ * function: ZONEDATA_IsZoneGroup118To13C
  * address:  0x02013D74
  * packet:   pkt_02013D74
  * region:   arm9
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 extern u16 ZONEDATA_GetChangedZoneId(u32 key);
 extern u32 func_02013D9C(u32 id);
 
-int func_02013D74(u32 key)
+int ZONEDATA_IsZoneGroup118To13C(u32 key)
 {
     u32 v = ZONEDATA_GetChangedZoneId(key);
 

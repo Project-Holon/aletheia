@@ -11,7 +11,7 @@
  *
  * Unlabelled leaf in ov021 (printed as a `.word` run at 0x021CBD84); the
  * matching byte at 0x021CBD8C is the pool word 0x0000074C.  Six-byte
- * accessor reached from ov010's func_0216CAD4 across the overlay pair.
+ * accessor reached from ov010's NAMEIN_SETUP_StartEncounterTransition across the overlay pair.
  *
  * symbols:
  */

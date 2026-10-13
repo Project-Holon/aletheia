@@ -1,5 +1,5 @@
 /*
- * function: func_02193144
+ * function: FIELD_MSGBG_LoadMenuGraphicsLower
  * address:  0x02193144
  * packet:   pkt_ov021_02193144
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_0201F548  0x0201F548  thumb  arm9
- *   func_02049B90  0x02049B90  arm  arm9
+ *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -21,9 +21,9 @@ typedef unsigned int   u32;
 typedef short          s16;
 
 extern u8 func_0201F548(int i);
-extern void func_02049B90(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void ARC_UTIL_UploadPaletteFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-void func_02193144(u32 heap)
+void FIELD_MSGBG_LoadMenuGraphicsLower(u32 heap)
 {
-    func_02049B90(5, func_0201F548(0), 0, 0x20, 0x1A0, 0x20, heap);
+    ARC_UTIL_UploadPaletteFromArchive(5, func_0201F548(0), 0, 0x20, 0x1A0, 0x20, heap);
 }

@@ -9,22 +9,22 @@
  * status: EXACT
  * blocker: ARM9 02048AE8, 02048AFC, 02048B30, 02048B44 have no witness.
  *   the integrator owns these accessors. Existing unit_02048AD0.c defines them but
- *   its function header lists only func_02048AD0, so no individual shard entries resolve them.
+ *   its function header lists only G3D_CAMERA_Reset, so no individual shard entries resolve them.
  * blocker: Verified separately with one --arm (no region), fixed compiler/flags:
  *   typedef unsigned char u8; typedef unsigned int u32;
  *   typedef struct { int x, y, z; } Vec;
  *   struct Light { u32 unk00, unk04, unk08; u8 pad0C[8]; u32 unk14, unk18;
  *     u8 pad1C[4]; Vec unk20, unk2C, unk38; };
- *   0x02048AE8 EXACT 20B: void func_02048AE8(struct Light *l, Vec *out) { *out = l->unk20; }
- *   0x02048AFC EXACT 16B: void func_02048AFC(struct Light *l, const Vec *in) { l->unk20 = *in; }
- *   0x02048B30 EXACT 20B: void func_02048B30(struct Light *l, Vec *out) { *out = l->unk38; }
- *   0x02048B44 EXACT 16B: void func_02048B44(struct Light *l, const Vec *in) { l->unk38 = *in; }
+ *   0x02048AE8 EXACT 20B: void G3D_CAMERA_GetEye(struct Light *l, Vec *out) { *out = l->unk20; }
+ *   0x02048AFC EXACT 16B: void G3D_CAMERA_SetEye(struct Light *l, const Vec *in) { l->unk20 = *in; }
+ *   0x02048B30 EXACT 20B: void G3D_CAMERA_GetUp(struct Light *l, Vec *out) { *out = l->unk38; }
+ *   0x02048B44 EXACT 16B: void G3D_CAMERA_SetUp(struct Light *l, const Vec *in) { l->unk38 = *in; }
  * symbols:
- *   func_02048AE8 0x02048AE8 arm
- *   func_02048B30 0x02048B30 arm
- *   func_02048AFC 0x02048AFC arm
- *   func_02048B44 0x02048B44 arm
- *   func_02048AD0 0x02048AD0 arm
+ *   G3D_CAMERA_GetEye 0x02048AE8 arm
+ *   G3D_CAMERA_GetUp 0x02048B30 arm
+ *   G3D_CAMERA_SetEye 0x02048AFC arm
+ *   G3D_CAMERA_SetUp 0x02048B44 arm
+ *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   func_021BA028 0x021BA028 thumb ov181
  *   func_021BA0AC 0x021BA0AC thumb ov181
  *   func_021BA000 0x021BA000 thumb ov181
@@ -33,11 +33,11 @@
 typedef unsigned short u16;
 typedef struct { int x, y, z; } Vec;
 struct Light;
-extern void func_02048AE8(struct Light *, Vec *);
-extern void func_02048B30(struct Light *, Vec *);
-extern void func_02048AFC(struct Light *, const Vec *);
-extern void func_02048B44(struct Light *, const Vec *);
-extern void func_02048AD0(struct Light *);
+extern void G3D_CAMERA_GetEye(struct Light *, Vec *);
+extern void G3D_CAMERA_GetUp(struct Light *, Vec *);
+extern void G3D_CAMERA_SetEye(struct Light *, const Vec *);
+extern void G3D_CAMERA_SetUp(struct Light *, const Vec *);
+extern void G3D_CAMERA_Reset(struct Light *);
 extern void func_021BA028(Vec *, const Vec *, const Vec *, unsigned);
 extern void func_021BA0AC(Vec *, const Vec *, const Vec *, unsigned);
 typedef unsigned int   u32;
@@ -52,10 +52,10 @@ void func_021BA128(char *p)
     if (*(int *)(q + 0x7c) == 0) return;
     if (*(u16 *)(q + 0x78) == 0) {
         *(u16 *)(q + 0x7a) = *(u16 *)(q + 0x36);
-        func_02048AE8(*(struct Light **)(p + 0xc), &a);
+        G3D_CAMERA_GetEye(*(struct Light **)(p + 0xc), &a);
         func_021BA028(&b, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24), *(u16 *)(q + 0x7a));
         *(Vec *)(q + 0x1c) = b;
-        func_02048B30(*(struct Light **)(p + 0xc), &a);
+        G3D_CAMERA_GetUp(*(struct Light **)(p + 0xc), &a);
         func_021BA028(&c, &a, (Vec *)(*(unsigned *)q + *(u16 *)(q + 0x34) * 24 + 12), *(u16 *)(q + 0x7a));
         *(Vec *)(q + 0x28) = c;
     }
@@ -74,7 +74,7 @@ void func_021BA128(char *p)
         if (*(unsigned char *)(p + 0x2d2) == 1) *(u16 *)(q + 0x78) += 4;
         else ++*(u16 *)(q + 0x78);
     }
-    func_02048AFC(*(struct Light **)(p + 0xc), (Vec *)(q + 4));
-    func_02048B44(*(struct Light **)(p + 0xc), (Vec *)(q + 0x10));
-    func_02048AD0(*(struct Light **)(p + 0xc));
+    G3D_CAMERA_SetEye(*(struct Light **)(p + 0xc), (Vec *)(q + 4));
+    G3D_CAMERA_SetUp(*(struct Light **)(p + 0xc), (Vec *)(q + 0x10));
+    G3D_CAMERA_Reset(*(struct Light **)(p + 0xc));
 }

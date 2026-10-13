@@ -17,6 +17,7 @@
  *   tbl_02203250  0x02203250  data  a4
  *   func_021F4FF4  0x021F4FF4  thumb
  *   func_021F9A1C  0x021F9A1C  thumb
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  */
 
 typedef signed char s8;
@@ -49,7 +50,7 @@ extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021F9A1C(void *p, int mode);
 
 int func_021FA15C(Obj *p)
@@ -80,9 +81,9 @@ int func_021FA15C(Obj *p)
         func_020061E4(0x548);
         func_021F4FF4(p->cursor, tbl_0220320E[p->pos].x, tbl_0220320E[p->pos].y);
         if (p->pos == 3) {
-            func_0204B878((struct Obj *)p->cursor, 5);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         } else {
-            func_0204B878((struct Obj *)p->cursor, 6);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 6);
         }
     }
     r = func_021F9A1C(p, 1);
@@ -90,9 +91,9 @@ int func_021FA15C(Obj *p)
         func_020355D8(1);
         func_021F4FF4(p->cursor, tbl_0220320E[r].x, tbl_0220320E[r].y);
         if (r == 3) {
-            func_0204B878((struct Obj *)p->cursor, 5);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         } else {
-            func_0204B878((struct Obj *)p->cursor, 6);
+            CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 6);
         }
         r = tbl_02203250[r];
         if (r == -2) {
@@ -113,7 +114,7 @@ int func_021FA15C(Obj *p)
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
         func_021F4FF4(p->cursor, 0xC0, 0x88);
-        func_0204B878((struct Obj *)p->cursor, 5);
+        CLACT_SetActorAnimSeq((struct Obj *)p->cursor, 5);
         return -2;
     }
     return -1;

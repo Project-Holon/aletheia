@@ -1,5 +1,5 @@
 /*
- * function: func_0216D57C
+ * function: FLDMMDL_CheckMoveBit
  * address:  0x0216D57C
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D57C.c \
- *       --func func_0216D57C --addr 0x0216D57C --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_CheckMoveBit.c \
+ *       --func FLDMMDL_CheckMoveBit --addr 0x0216D57C --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17791.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u32 func_0216D57C(void *p, u32 v) { return ((struct Obj17791 *)p)->f4 & v; }
+u32 FLDMMDL_CheckMoveBit(void *p, u32 v) { return ((struct Obj17791 *)p)->f4 & v; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6664
+ * function: FIELD_G3DOBJ_SetObjectTrans
  * address:  0x021C6664
  * packet:   pkt_ov021_021C6664
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned int u32;
 typedef struct { u32 a, b, c; } V;
 typedef struct { u32 f0; u32 f4; V f8; u8 pad[0x68 - 0x14]; } Elem;
 typedef struct { u8 pad[0xc]; Elem *fC; } Mgr;
-void func_021C6664(Mgr *m, int idx, V *v)
+void FIELD_G3DOBJ_SetObjectTrans(Mgr *m, int idx, V *v)
 {
     m->fC[idx].f8 = *v;
 }

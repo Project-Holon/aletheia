@@ -18,11 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B69B8",
+    "TOUCHBAR_GetButtonId",
     "func_021B69BC",
-    "func_021B69C8",
-    "func_021B69D0",
-    "func_021B69D4"
+    "TOUCHBAR_CallSetEnabled",
+    "TOUCHBAR_SetButtonSoundId",
+    "TOUCHBAR_SetButtonKeys"
+   ],
+   "addresses": [
+    "0x021B69B8",
+    "0x021B69BC",
+    "0x021B69C8",
+    "0x021B69D0",
+    "0x021B69D4"
    ]
   }
  ]

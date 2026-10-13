@@ -1,5 +1,5 @@
 /*
- * function: func_021B79CC
+ * function: FIELD_RAIL_ClearFocusWork
  * address:  0x021B79CC
  * packet:   pkt_021B79CC
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021B79CC(u32 *p)
+void FIELD_RAIL_ClearFocusWork(u32 *p)
 {
     p[5] = 0;
 }

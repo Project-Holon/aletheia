@@ -10,18 +10,18 @@
  * status: EXACT
  * ABI: narrow extern arguments follow explicit caller truncation.
  * symbols:
- *   func_021CD9F4 0x021CD9F4 thumb ov093
+ *   BTL_CLIENT_AddPoints 0x021CD9F4 thumb ov093
  *   func_021B9B10 0x021B9B10 thumb ov093
  */
 #include "../include/Obj06231.h"
 typedef unsigned char u8;
-extern void func_021CD9F4(u8 *p, u8 n);
+extern void BTL_CLIENT_AddPoints(u8 *p, u8 n);
 extern void func_021B9B10(u8 *, u8, int);
 int func_021D3C44(u8 *p, int unused, unsigned int *a)
 {
     u8 index = a[0];
     u8 value = a[1];
-    if (index == p[0x1a6]) func_021CD9F4(p, value);
+    if (index == p[0x1a6]) BTL_CLIENT_AddPoints(p, value);
     else func_021B9B10(*(u8 * *)&((struct Obj06231 *)p)->f0, index, value);
     return 1;
 }

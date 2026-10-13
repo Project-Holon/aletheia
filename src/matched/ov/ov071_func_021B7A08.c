@@ -1,5 +1,5 @@
 /*
- * function: func_021B7A08
+ * function: MONOLITH_TOOL_SLOT_SELECT_IsMessageDone
  * address:  0x021B7A08
  * packet:   pkt_ov071_021B7A08
  * region:   ov071
@@ -15,4 +15,4 @@
 typedef signed int     s32;
 struct Blk;
 extern s32 func_02028484(struct Blk *blk, void *h);
-int func_021B7A08(char *p, char *q) { return func_02028484((struct Blk *)(p + 0x38), (void *)(*(int *)(q + 8))); }
+int MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(char *p, char *q) { return func_02028484((struct Blk *)(p + 0x38), (void *)(*(int *)(q + 8))); }

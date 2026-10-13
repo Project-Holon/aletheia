@@ -1,5 +1,5 @@
 /*
- * function: func_021A2AB8
+ * function: WEATHER_TASK_TickSpawner
  * address:  0x021A2AB8
  * packet:   pkt_ov021_021A2AB8
  * region:   ov021
@@ -32,7 +32,7 @@ typedef struct {
     void (*f18)(u32 a, s32 b, u32 c);
 } Obj;
 
-s32 func_021A2AB8(Obj *o, u32 arg)
+s32 WEATHER_TASK_TickSpawner(Obj *o, u32 arg)
 {
     u32 flags;
     s32 neg;

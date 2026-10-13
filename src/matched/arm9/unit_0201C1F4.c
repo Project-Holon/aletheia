@@ -16,7 +16,7 @@
  *
  * Both carry their own copy of that file's cache lookup rather than calling
  * it: the slot search, the "cache full, reuse the last slot" fixup, the
- * func_02048F4C load and the not-yet-built fallback to 0x02146534 are written
+ * ARC_TOOL_ReadMember load and the not-yet-built fallback to 0x02146534 are written
  * out again in each.  The duplication is in the source, not an inlining
  * decision: sub_0201BD28 is a real function with eight callers, and the
  * bodies here reach the record directly instead of going through its
@@ -29,6 +29,7 @@
  * symbols:
  *   _pWazaTool   0x02146530  data
  *   _WazaTempData  0x02146534  data
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201C1F4.c \
@@ -53,7 +54,7 @@ struct Waza {
 extern struct WazaTool *_pWazaTool;
 extern struct Waza _WazaTempData;
 
-extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
+extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
 u32 WAZA_TOOL_IsAlwaysHit(u16 id)
 {
@@ -64,7 +65,7 @@ u32 WAZA_TOOL_IsAlwaysHit(u16 id)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (((u16 *)_pWazaTool->vals)[i] == 0) {
                 ((u16 *)_pWazaTool->vals)[i] = id;
-                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+                ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
             if (id == ((u16 *)_pWazaTool->vals)[i]) {
@@ -74,12 +75,12 @@ u32 WAZA_TOOL_IsAlwaysHit(u16 id)
         if (i == _pWazaTool->count) {
             i--;
             ((u16 *)_pWazaTool->vals)[i] = id;
-            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+            ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
         }
         rec = _pWazaTool->recs[i];
     } else {
         rec = &_WazaTempData;
-        func_02048F4C(rec, 0x15, id);
+        ARC_TOOL_ReadMember(rec, 0x15, id);
     }
     if (rec->unk04 == 0x65) {
         return 1;
@@ -96,7 +97,7 @@ u32 WAZA_TOOL_IsAlwaysCritical(u16 id)
         for (i = 0; i < _pWazaTool->count; i++) {
             if (((u16 *)_pWazaTool->vals)[i] == 0) {
                 ((u16 *)_pWazaTool->vals)[i] = id;
-                func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+                ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
                 break;
             }
             if (id == ((u16 *)_pWazaTool->vals)[i]) {
@@ -106,12 +107,12 @@ u32 WAZA_TOOL_IsAlwaysCritical(u16 id)
         if (i == _pWazaTool->count) {
             i--;
             ((u16 *)_pWazaTool->vals)[i] = id;
-            func_02048F4C(_pWazaTool->recs[i], 0x15, id);
+            ARC_TOOL_ReadMember(_pWazaTool->recs[i], 0x15, id);
         }
         rec = _pWazaTool->recs[i];
     } else {
         rec = &_WazaTempData;
-        func_02048F4C(rec, 0x15, id);
+        ARC_TOOL_ReadMember(rec, 0x15, id);
     }
     if (rec->unk0E == 6) {
         return 1;

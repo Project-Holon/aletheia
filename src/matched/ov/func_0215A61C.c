@@ -1,5 +1,5 @@
 /*
- * function: func_0215A61C
+ * function: SCRCMD_WORK_GetMsgWindow
  * address:  0x0215A61C
  * packet:   pkt_0215A61C
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0215A61C(int a0)
+int SCRCMD_WORK_GetMsgWindow(int a0)
 {
 
 a0 = *(int *)&((struct Obj00005 *)a0)->f20;

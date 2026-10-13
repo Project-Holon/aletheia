@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02050330",
+   "name": "BILLBOARD_ACT_GetSlotBoardId",
    "address": "0x02050330",
    "kind": "game",
    "region": "arm9",

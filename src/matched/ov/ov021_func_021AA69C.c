@@ -1,5 +1,5 @@
 /*
- * function: func_021AA69C
+ * function: FIELD_ENCOUNT_GetBattleWeather
  * address:  0x021AA69C
  * packet:   pkt_ov021_021AA69C
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  *
  * symbols:
- *   func_02188C6C  0x02188C6C  thumb
- *   func_021A1BF4  0x021A1BF4  thumb
+ *   FIELDMAP_GetWeather  0x02188C6C  thumb
+ *   WEATHER_GetWeatherId  0x021A1BF4  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -23,12 +23,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02188C6C(u8 *p);
-extern u16 func_021A1BF4(u8 *p);
+extern u32 FIELDMAP_GetWeather(u8 *p);
+extern u16 WEATHER_GetWeatherId(u8 *p);
 
-u8 func_021AA69C(void *p)
+u8 FIELD_ENCOUNT_GetBattleWeather(void *p)
 {
-    switch (func_021A1BF4((u8 *)func_02188C6C(p))) {
+    switch (WEATHER_GetWeatherId((u8 *)FIELDMAP_GetWeather(p))) {
     case 2:
     case 6:
     case 7:

@@ -1,7 +1,7 @@
 /*
  * file:     unit_021F5260.c
  * unit:     yes
- * function: func_021F5260, func_021F529C, func_021F52D8, func_021F536C, func_021F54A0, func_021F54C0, func_021F54E0
+ * function: ENCEFF_StartScreenTexEffectFlash, ENCEFF_StartScreenTexEffect, ENCEFF_DrawScreenTexEffect, ENCEFF_ScreenTexFlashEventMain, ENCEFF_RequestScreenCapture, ENCEFF_ScreenCaptureTask, ENCEFF_GetScreenTexParam
  * address:  0x021F5260
  * region:   ov075
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
  *   func_02082BCC 0x02082BCC arm
- *   func_021F5518 0x021F5518 thumb ov075
+ *   ENCEFF_ScreenTexEventMain 0x021F5518 thumb ov075
  *   func_0207D704  0x0207D704  arm
  *   func_0207DA8C  0x0207DA8C  arm
  *   func_0207D7C4  0x0207D7C4  arm
@@ -25,17 +25,17 @@
  *   func_020124E4  0x020124E4  thumb
  *   func_0201210C  0x0201210C  thumb
  *   func_0204047C  0x0204047C  arm
- *   func_021899F0  0x021899F0  thumb  ov021
+ *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   func_02080C44  0x02080C44  arm
  *   func_02080B98  0x02080B98  arm
  *   func_02080294  0x02080294  arm
  *   func_02040588  0x02040588  arm
- *   func_021899F8  0x021899F8  thumb  ov021
- *   func_02189A08  0x02189A08  thumb  ov021
- *   func_021CF560  0x021CF560  thumb  ov021
- *   func_02012374  0x02012374  thumb
- *   func_0204E720  0x0204E720  arm
- *   func_0204E804  0x0204E804  arm
+ *   FIELDMAP_SetDrawMode  0x021899F8  thumb  ov021
+ *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
+ *   ENCEFF_GetWork  0x021CF560  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
+ *   FADE_Start  0x0204E720  arm
+ *   FADE_IsActive  0x0204E804  arm
  *   func_0208068C 0x0208068C arm
  *   func_020056A0 0x020056A0 thumb
  *   func_02030EAC 0x02030EAC arm
@@ -56,39 +56,39 @@ extern void func_0207D7C4(VecFx32 *eye, VecFx32 *up, VecFx32 *target, int d, int
 extern struct GameSystem *func_020124E4(struct GameEvent *event);
 extern struct FieldMap *func_0201210C(const struct GameSystem *gameSystem);
 extern void func_0204047C(int idx, u16 val);
-extern int func_021899F0(struct FieldMap *fieldMap);
-extern void func_021899F8(struct FieldMap *fieldMap, int drawMode);
+extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
+extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
 extern u16 func_02080C44(void);
 extern void func_02080B98(void);
 extern void func_02080294(u32 bank);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern struct EncEff *func_02189A08(struct FieldMap *fieldMap);
-extern void *func_021CF560(struct EncEff *eff);
-extern void func_02012374(struct GameEvent *parent, struct GameEvent *child);
-extern void func_0204E720(u32 flags, s32 start, s32 end, s32 step);
-extern int func_0204E804(void);
+extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
+extern void *ENCEFF_GetWork(struct EncEff *eff);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+extern void FADE_Start(u32 flags, s32 start, s32 end, s32 step);
+extern int FADE_IsActive(void);
 extern void func_0208068C(int);
 extern void *func_020056A0(u32, u32, u32);
 extern void func_02030EAC(void *task);
-extern int func_021F5518(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
+extern int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
 extern const s16 d_020A1EB8[];
 extern VecFx32 d_021F55F8;
 
-struct GameEvent *func_021F5260(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
-struct GameEvent *func_021F529C(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
-void func_021F52D8(EncEffScreenTexWork *work);
-int func_021F536C(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
-void func_021F54A0(EncEffScreenTexWork *work);
-void func_021F54C0(void *task, int *captureDone);
-u32 func_021F54E0(void);
+struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
+struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
+void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work);
+int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
+void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work);
+void ENCEFF_ScreenCaptureTask(void *task, int *captureDone);
+u32 ENCEFF_GetScreenTexParam(void);
 
 /* Starts the effect with two white flashes before the capture. */
-struct GameEvent *func_021F5260(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw)
+struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw)
 {
     struct GameEvent *event;
     EncEffScreenTexWork *work;
 
-    event = func_020122C0(gameSystem, 0, (GameEventMainFunc)func_021F536C, 48);
+    event = func_020122C0(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexFlashEventMain, 48);
     work = func_020124E8(event);
     func_02082BCC(work, 0, 48);
     work->cameraPos = *cameraPos;
@@ -98,12 +98,12 @@ struct GameEvent *func_021F5260(struct GameSystem *gameSystem, VecFx32 *cameraPo
 }
 
 /* Starts the effect without the flashes. */
-struct GameEvent *func_021F529C(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw)
+struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw)
 {
     struct GameEvent *event;
     EncEffScreenTexWork *work;
 
-    event = func_020122C0(gameSystem, 0, (GameEventMainFunc)func_021F5518, 0x30);
+    event = func_020122C0(gameSystem, 0, (GameEventMainFunc)ENCEFF_ScreenTexEventMain, 0x30);
     work = func_020124E8(event);
     func_02082BCC(work, 0, 0x30);
     work->cameraPos = *cameraPos;
@@ -120,7 +120,7 @@ static inline void G3_Perspective(int fovySin, int fovyCos, int aspect, int near
 
 
 /* Sets the projection and the camera, then draws the captured texture and the effect. */
-void func_021F52D8(EncEffScreenTexWork *work)
+void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work)
 {
     VecFx32 up;
 
@@ -141,10 +141,10 @@ void func_021F52D8(EncEffScreenTexWork *work)
 
 /*
  * Seven-state event: two white flashes (states 0 to 2), then the same
- * states as func_021F5518 (its 0 to 3 are states 3 to 6 here).  EXACT* only
+ * states as ENCEFF_ScreenTexEventMain (its 0 to 3 are states 3 to 6 here).  EXACT* only
  * because the listing extent holds the 2-byte alignment pad at 0x021F549E.
  */
-int func_021F536C(struct GameEvent *event, int *state, EncEffScreenTexWork *work)
+int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work)
 {
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
@@ -155,19 +155,19 @@ int func_021F536C(struct GameEvent *event, int *state, EncEffScreenTexWork *work
     fieldMap = func_0201210C(gameSystem);
     switch (*state) {
     case 0:
-        func_0204E720(4, 0, 0x10, 0);
+        FADE_Start(4, 0, 0x10, 0);
         *state = *state + 1;
     case 1:
-        if (func_0204E804() == 0) {
-            func_0204E720(4, 0x10, 0, 0);
+        if (FADE_IsActive() == 0) {
+            FADE_Start(4, 0x10, 0, 0);
             *state = *state + 1;
         }
         break;
     case 2:
-        if (func_0204E804() == 0) {
+        if (FADE_IsActive() == 0) {
             work->flashCount = work->flashCount + 1;
             if (work->flashCount < 2) {
-                func_0204E720(4, 0, 0x10, 0);
+                FADE_Start(4, 0, 0x10, 0);
                 *state = 1;
             } else {
                 *state = *state + 1;
@@ -175,14 +175,14 @@ int func_021F536C(struct GameEvent *event, int *state, EncEffScreenTexWork *work
         }
         break;
     case 3:
-        func_021F54A0(work);
+        ENCEFF_RequestScreenCapture(work);
         *state = *state + 1;
         break;
     case 4:
         if (work->captureDone != 0) {
             func_0204047C(0, 0);
             func_0204047C(2, 3);
-            work->savedDrawMode = func_021899F0(fieldMap);
+            work->savedDrawMode = FIELDMAP_GetDrawMode(fieldMap);
             texBanks = func_02080C44();
             work->texBanks = texBanks;
             work->addedTexBank = 0;
@@ -192,17 +192,17 @@ int func_021F536C(struct GameEvent *event, int *state, EncEffScreenTexWork *work
             }
             func_02080B98();
             func_02080294(work->texBanks);
-            work->texParam = func_021F54E0();
+            work->texParam = ENCEFF_GetScreenTexParam();
             *state = *state + 1;
         }
         break;
     case 5:
         func_02040588(2, 1);
         func_02040588(0, 1);
-        func_021899F8(fieldMap, 2);
+        FIELDMAP_SetDrawMode(fieldMap, 2);
         child = work->start(gameSystem);
-        work->effectWork = func_021CF560(func_02189A08(fieldMap));
-        func_02012374(event, child);
+        work->effectWork = ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap));
+        GAME_EVENT_CallEvent(event, child);
         *state = *state + 1;
         break;
     case 6:
@@ -210,22 +210,22 @@ int func_021F536C(struct GameEvent *event, int *state, EncEffScreenTexWork *work
             work->texBanks &= ~8;
             func_02080294(work->texBanks);
         }
-        func_021899F8(fieldMap, work->savedDrawMode);
+        FIELDMAP_SetDrawMode(fieldMap, work->savedDrawMode);
         return 1;
     }
     return 0;
 }
 
 /* Asks for a capture of the screen into LCDC VRAM; the task sets captureDone. */
-void func_021F54A0(EncEffScreenTexWork *work)
+void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work)
 {
     work->captureDone = 0;
     func_0208068C(8);
-    func_020056A0((u32)func_021F54C0, (u32)&work->captureDone, 0);
+    func_020056A0((u32)ENCEFF_ScreenCaptureTask, (u32)&work->captureDone, 0);
 }
 
 /* Main task: starts the display capture, then reports it through the flag. */
-void func_021F54C0(void *task, int *captureDone)
+void ENCEFF_ScreenCaptureTask(void *task, int *captureDone)
 {
     REG_DISPCAPCNT = 0x81330010;
     func_02030EAC(task);
@@ -240,7 +240,7 @@ void func_021F54C0(void *task, int *captureDone)
  */
 typedef enum { BANK_NONE, BANK_A = 1, BANK_B = 2, BANK_C = 4 } Bank;
 
-u32 func_021F54E0(void)
+u32 ENCEFF_GetScreenTexParam(void)
 {
     Bank banks;
     u32 count;

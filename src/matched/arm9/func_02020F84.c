@@ -12,8 +12,8 @@
  *
  * symbols:
  *   func_02045B38  0x02045B38  arm
- *   func_02045CAC  0x02045CAC  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *
  * One of a pair of near-identical entry points (func_02020F84 uses table 0x36,
  * func_02020FB4 table 0x35) that open a message archive, read one entry into
@@ -36,8 +36,8 @@ typedef unsigned int u32;
 struct MsgBank;
 struct Rec;
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_02045C04(struct Rec *rec);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
 void func_02020F84(void *dst, u32 entry, u32 heap)
 {
@@ -47,6 +47,6 @@ void func_02020F84(void *dst, u32 entry, u32 heap)
         entry = 0;
     }
     arc = func_02045B38(0, 2, 0x36, heap);
-    func_02045CAC(arc, entry, dst);
-    func_02045C04(arc);
+    MSGDATA_ReadString(arc, entry, dst);
+    MSGDATA_Delete(arc);
 }

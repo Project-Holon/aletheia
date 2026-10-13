@@ -1,5 +1,5 @@
 /*
- * function: func_021F1F80
+ * function: C_GEAR_UpdateClock
  * address:  0x021F1F80
  * packet:   pkt_ov029_021F1F80
  * region:   ov029
@@ -15,7 +15,7 @@
  *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
- *   func_021F1F70  0x021F1F70  thumb  ov029
+ *   C_GEAR_GetBatteryFrame  0x021F1F70  thumb  ov029
  *   UI_GetPowerState  0x0203568C  arm
  */
 #include "../include/Obj00811.h"
@@ -37,7 +37,7 @@ extern void func_0204B3DC(struct Obj *, unsigned int);
 extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
 extern int OS_IsRunOnTwl(void);
-extern u8 func_021F1F70(void);
+extern u8 C_GEAR_GetBatteryFrame(void);
 extern int UI_GetPowerState(void);
 
 static inline void SetFrame(int o, int v)
@@ -47,7 +47,7 @@ static inline void SetFrame(int o, int v)
     }
 }
 
-void func_021F1F80(char *p)
+void C_GEAR_UpdateClock(char *p)
 {
     RtcTime t;
     int o;
@@ -80,7 +80,7 @@ void func_021F1F80(char *p)
 
     o = ((struct Obj00811 *)p)->f144;
     if (OS_IsRunOnTwl()) {
-        SetFrame(o, func_021F1F70());
+        SetFrame(o, C_GEAR_GetBatteryFrame());
     } else {
         SetFrame(o, UI_GetPowerState() == 5);
     }

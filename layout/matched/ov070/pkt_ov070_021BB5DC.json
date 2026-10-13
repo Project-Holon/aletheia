@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB5DC",
+   "name": "ITEMMENU_UpdateSideButtonsForMode",
    "address": "0x021BB5DC",
    "kind": "game",
    "region": "ov070",

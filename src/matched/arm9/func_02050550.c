@@ -13,9 +13,9 @@
  *   BILLBOARD_ACT_IsControlCommand  0x02050920  arm
  *   BILLBOARD_ACT_RunControlCommand  0x02050944  arm
  *   BILLBOARD_ACT_UploadSlotFrame  0x020506B8  arm
- *   func_0204F66C  0x0204F66C  arm
- *   func_0204F764  0x0204F764  arm
- *   func_0204F794  0x0204F794  arm
+ *   BILLBOARD_SetElemCell  0x0204F66C  arm
+ *   BILLBOARD_SetElemFlipS  0x0204F764  arm
+ *   BILLBOARD_SetElemFlipT  0x0204F794  arm
  */
 #include "../include/Obj06991.h"
 
@@ -57,9 +57,9 @@ struct S14;
 extern int BILLBOARD_ACT_IsControlCommand(struct S14 *p);
 extern int BILLBOARD_ACT_RunControlCommand(void *p, struct S14 *q);
 extern void BILLBOARD_ACT_UploadSlotFrame(struct Owner *o, struct Entry *e, u32 a2);
-extern void func_0204F66C(int p0, int p1, int p2);
-extern void func_0204F764(void *p, u32 idx, u32 *val);
-extern void func_0204F794(void *p, u32 idx, u32 *val);
+extern void BILLBOARD_SetElemCell(int p0, int p1, int p2);
+extern void BILLBOARD_SetElemFlipS(void *p, u32 idx, u32 *val);
+extern void BILLBOARD_SetElemFlipT(void *p, u32 idx, u32 *val);
 
 void BILLBOARD_ACT_UpdateEntry(Own *o, Ent *e)
 {
@@ -95,7 +95,7 @@ void BILLBOARD_ACT_UpdateEntry(Own *o, Ent *e)
     if (((struct Obj06991 *)p)->f4 != 0) {
         BILLBOARD_ACT_UploadSlotFrame((struct Owner *)o, (struct Entry *)p, s0);
     } else {
-        func_0204F66C(o->f04, e->f00, (int)(&s0));
+        BILLBOARD_SetElemCell(o->f04, e->f00, (int)(&s0));
     }
 
     if (c->b) {
@@ -109,8 +109,8 @@ void BILLBOARD_ACT_UpdateEntry(Own *o, Ent *e)
         s1 = 0;
     }
 
-    func_0204F764((void *)o->f04, e->f00, &s2);
-    func_0204F794((void *)o->f04, e->f00, &s1);
+    BILLBOARD_SetElemFlipS((void *)o->f04, e->f00, &s2);
+    BILLBOARD_SetElemFlipT((void *)o->f04, e->f00, &s1);
 
     if (rem != 0) {
         rem = rem - 1;

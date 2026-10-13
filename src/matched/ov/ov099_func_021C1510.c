@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021C1154 0x021C1154 thumb ov099
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039CB4 0x02039CB4 arm
  *   func_021C14EC 0x021C14EC thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
@@ -18,18 +18,19 @@
  *   func_021BDD48 0x021BDD48 thumb ov099
  *   func_021BDD54 0x021BDD54 thumb ov099
  *   func_021C18C8 0x021C18C8 thumb ov099
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb  arm9
  */
 #include "../include/Obj10211.h"
 typedef unsigned char u8;
 extern int func_021C1154(char *p);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern int func_021C14EC(char *);
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
@@ -45,9 +46,9 @@ int func_021C1510(char *p, int ret)
     void *s;
     unsigned count;
     if (func_021C1154(p) == 0) {
-        if (func_02039CB4((struct Link *)func_020399A8(), 18, 10) != 0) {
+        if (func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 18, 10) != 0) {
             if (func_021C14EC(p) == 1) {
-                func_0200F4E4(func_020099C8((struct Sub020097BCObj *)func_0201283C(((struct Obj10211 *)p)->fC4), 0));
+                func_0200F4E4(func_020099C8((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj10211 *)p)->fC4), 0));
                 func_021BA8EC(p);
                 s = (void *)func_021C23B8(DWC_RAP_GetTargetFriendIndex());
                 func_021BDD48(p, s);

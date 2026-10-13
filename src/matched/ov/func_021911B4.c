@@ -1,5 +1,5 @@
 /*
- * function: func_021911B4
+ * function: FIELD_MSGBG_GetInfoSysWinBmpWin
  * address:  0x021911B4
  * packet:   pkt_021911B4
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021911B4(u8 *p)
+u32 FIELD_MSGBG_GetInfoSysWinBmpWin(u8 *p)
 {
     return ((struct Obj17934 *)p)->f0;
 }

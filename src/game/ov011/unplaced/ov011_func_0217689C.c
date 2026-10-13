@@ -1,5 +1,5 @@
 /*
- * function: func_0217689C
+ * function: INTRUDE_COMM_ConsumeAreaNoticeSeen
  * address:  0x0217689C
  * packet:   pkt_ov011_0217689C
  * region:   ov011
@@ -31,7 +31,7 @@ extern u32 func_02013D9C(u32 id);
  * returns 1 when it was set and the zone is in the special zone group
  * (ZONEDATA_IsZoneGroup118To120).
  */
-int func_0217689C(IntrudeCommSys *linkState, int zoneId)
+int INTRUDE_COMM_ConsumeAreaNoticeSeen(IntrudeCommSys *linkState, int zoneId)
 {
     int wasPending = linkState->areaNoticeSeen;
     linkState->areaNoticeSeen = 0;

@@ -11,8 +11,8 @@
  * function: BMP_CURSOR_Delete
  *
  * symbols:
- *   func_02045808  0x02045808  arm
- *   func_020437AC  0x020437AC  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   BMP_Delete  0x020437AC  arm
  *   func_020307B0  0x020307B0  arm
  *
  * A destructor: frees two owned sub-objects at +4 and +8 if present, then
@@ -33,18 +33,18 @@ struct D {
 
 struct Obj020437AC;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
-extern void func_020437AC(struct Obj020437AC *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_Delete(struct Obj020437AC *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
 void BMP_CURSOR_Delete(struct D *p)
 {
     if (p->f4 != 0) {
-        func_02045808(p->f4);
+        STRBUF_Delete(p->f4);
     }
     if (p->f8 != 0) {
-        func_020437AC(p->f8);
+        BMP_Delete(p->f8);
     }
     func_020307B0(p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_020437AC
+ * function: BMP_Delete
  * address:  0x020437AC
  * packet:   pkt_0204361C
  * region:   arm9
@@ -18,8 +18,8 @@
  *   func_020307B0  0x020307B0  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020437AC.c \
- *       --func func_020437AC --addr 0x020437AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_Delete.c \
+ *       --func BMP_Delete --addr 0x020437AC --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -33,7 +33,7 @@ struct Obj020437AC {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_020437AC(struct Obj020437AC *p)
+void BMP_Delete(struct Obj020437AC *p)
 {
     if (p->unk0a == 0)
         func_020307B0(p->buffer);

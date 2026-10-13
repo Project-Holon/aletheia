@@ -9,6 +9,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  */
 
-int func_0202F488(int a0, int a1){ int t0 = func_020185F0(); int t1 = func_0202F498((int)t0, (int)((a1 + 0) + 0)); return t1; }
+int func_0202F488(int a0, int a1){ int t0 = POKE_TOOL_Dummy(); int t1 = func_0202F498((int)t0, (int)((a1 + 0) + 0)); return t1; }

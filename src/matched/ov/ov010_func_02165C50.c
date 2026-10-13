@@ -1,5 +1,5 @@
 /*
- * function: func_02165C50
+ * function: GAME_BEACON_ACCESSOR_GetLanguage
  * address:  0x02165C50
  * packet:   pkt_ov010_02165C50
  * region:   ov010
@@ -24,7 +24,7 @@ typedef struct {
     u32 hi : 5;
 } S;
 
-u32 func_02165C50(S *a0)
+u32 GAME_BEACON_ACCESSOR_GetLanguage(S *a0)
 {
     return a0->hi;
 }

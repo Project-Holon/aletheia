@@ -10,20 +10,20 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D8394  0x021D8394  thumb  ov093
+ *   BTL_ACTION_SetChange  0x021D8394  thumb  ov093
  */
 #include "../include/Obj13365.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021D8394(void *dst, u8 a, u8 b);
+extern void BTL_ACTION_SetChange(void *dst, u8 a, u8 b);
 
 void func_021D0B6C(u8 *g, u8 *s)
 {
     u8 i;
 
     for (i = 0; i < s[6]; i++)
-        func_021D8394(g + 0x124 + i * 4, s[i + 3], s[i]);
+        BTL_ACTION_SetChange(g + 0x124 + i * 4, s[i + 3], s[i]);
     *(u8 * *)&((struct Obj13365 *)g)->fD8 = g + 0x124;
     ((struct Obj13365 *)g)->fDC = s[6] << 2;
 }

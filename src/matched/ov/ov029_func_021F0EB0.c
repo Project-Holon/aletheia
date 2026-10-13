@@ -1,5 +1,5 @@
 /*
- * function: func_021F0EB0
+ * function: C_GEAR_FadeBackground
  * address:  0x021F0EB0
  * packet:   pkt_ov029_021F0EB0
  * region:   ov029
@@ -22,7 +22,7 @@ typedef signed   short s16;
 extern u16 d_021F31B6[];
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
-void func_021F0EB0(char *p, int flag)
+void C_GEAR_FadeBackground(char *p, int flag)
 {
     int c = 8;
     if (flag == 0)

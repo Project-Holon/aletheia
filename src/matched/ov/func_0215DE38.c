@@ -1,5 +1,5 @@
 /*
- * function: func_0215DE38
+ * function: SCRCMD_MUSICAL_BeginCommSession
  * address:  0x0215DE38
  * packet:   pkt_0215DE38
  * region:   ov010
@@ -22,7 +22,7 @@
 
 extern void func_021FC644(int a, void *b, void *c, int d);
 
-void func_0215DE38(int a, void *b, void *c, int d)
+void SCRCMD_MUSICAL_BeginCommSession(int a, void *b, void *c, int d)
 {
     func_021FC644(4, (void *)b, (void *)c, d);
 }

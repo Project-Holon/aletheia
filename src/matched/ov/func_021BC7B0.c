@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7B0
+ * function: FIELD_PLACE_NAME_DeleteClactUnit
  * address:  0x021BC7B0
  * packet:   pkt_021BC788
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x34.
  *
  * symbols:
- *   func_0204B1CC  0x0204B1CC  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -23,9 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Bank;
-extern u32 func_0204B1CC(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-void func_021BC7B0(u8 *p)
+void FIELD_PLACE_NAME_DeleteClactUnit(u8 *p)
 {
-    func_0204B1CC((struct Bank *)(((struct Obj18191 *)p)->f34));
+    CLACT_DeleteUnit((struct Bank *)(((struct Obj18191 *)p)->f34));
 }

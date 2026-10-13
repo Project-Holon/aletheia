@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B639C  0x021B639C  thumb  ov067
+ *   TOUCHBAR_Delete  0x021B639C  thumb  ov067
  *
  * Addresses are Black-image addresses.
  */
@@ -21,12 +21,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021B639C(u8 *p);
+extern void TOUCHBAR_Delete(u8 *p);
 
 void func_021D698C(u8 *p)
 {
     if (((struct Obj10392 *)p)->fC) {
-        func_021B639C(((struct Obj10392 *)p)->fC);
+        TOUCHBAR_Delete(((struct Obj10392 *)p)->fC);
         *(u32 *)&((struct Obj10392 *)p)->fC = 0;
     }
 }

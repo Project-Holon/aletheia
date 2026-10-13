@@ -1,5 +1,5 @@
 /*
- * function: func_0215BA18
+ * function: SCRCMD_PROC_FindPartyMonBySpecies
  * address:  0x0215BA18
  * packet:   pkt_ov010_0215BA18
  * region:   ov010
@@ -10,34 +10,34 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012934  0x02012934  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02159B10(void *, void *);
-extern void *func_0215A5E4(void *a0);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *, void *);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-int func_0215BA18(void *a0, void *a1)
+int SCRCMD_PROC_FindPartyMonBySpecies(void *a0, void *a1)
 {
-    u32 key = func_02159B10(a0, a1);
-    u16 *out = func_02159AE8(a0, a1);
-    u16 *idx = func_02159AE8(a0, a1);
-    void *list = func_02012934(func_0215A5E4(a1));
+    u32 key = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    u16 *out = SCRIPT_WORK_ReadWorkPointer(a0, a1);
+    u16 *idx = SCRIPT_WORK_ReadWorkPointer(a0, a1);
+    void *list = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(a1));
     u16 n = func_0201AA18(list);
     int i;
 
@@ -46,8 +46,8 @@ int func_0215BA18(void *a0, void *a1)
             void *e = func_0201AB28(list, i);
             u16 t;
 
-            if (e != 0 && func_02017E1C(e, 0x4C, 0) == 0) {
-                t = func_02017E1C(e, 5, 0);
+            if (e != 0 && POKE_TOOL_GetPartyValue(e, 0x4C, 0) == 0) {
+                t = POKE_TOOL_GetPartyValue(e, 5, 0);
                 if (t == key) {
                     break;
                 }

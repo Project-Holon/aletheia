@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02030EE8  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  */
 typedef struct {
     unsigned int *reg;      /* 0x00 */
@@ -20,11 +20,11 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 void func_021FE8AC(void *h)
 {
-    Ctx *c = (Ctx *)func_02030EE8(h);
+    Ctx *c = (Ctx *)TCBL_IsDeletePending(h);
 
     if (c->k24 == 0)
         *(volatile unsigned int *)0x04000000 &= ~0xE000u;

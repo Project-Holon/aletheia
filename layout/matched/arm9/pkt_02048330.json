@@ -67,7 +67,7 @@
    ]
   },
   {
-   "name": "func_02048A24",
+   "name": "G3D_CAMERA_Create",
    "address": "0x02048A24",
    "kind": "game",
    "region": "arm9",

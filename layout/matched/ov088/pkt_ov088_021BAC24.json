@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAC24",
+   "name": "STARTMENU_CreateBlinkPalette",
    "address": "0x021BAC24",
    "kind": "game",
    "region": "ov088",

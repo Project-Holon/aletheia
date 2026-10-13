@@ -1,5 +1,5 @@
 /*
- * function: func_02021F64
+ * function: PALANM_BlendColors
  * address:  0x02021F64
  * packet:   pkt_02021B6C
  * region:   arm9
@@ -21,7 +21,7 @@
  * runs two bytes long (116 vs the 114 compiled, the difference being the
  * alignment halfword at 0x02021FD6).
  *
- * Two levers, both recorded in docs/notes/func_02021F64.c.txt:
+ * Two levers, both recorded in docs/notes/PALANM_BlendColors.c.txt:
  *   - the per-pixel channels must be read through a bitfield pointer into
  *     src[i] itself, ((struct Rgb555 *)&src[i])->r, not through a value-copy
  *     union: the copy spills the pixel to a stack slot the image never uses.
@@ -39,7 +39,7 @@ struct Rgb555 {
     u16 pad : 1;
 };
 
-void func_02021F64(u16 *src, u16 *dst, u32 count, int weight,
+void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight,
                    struct Rgb555 color)
 {
     u16 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD058
+ * function: PLIST_MENU_Nop
  * address:  0x021BD058
  * packet:   pkt_021BD058
  * region:   ov091
@@ -12,6 +12,6 @@
  *           trailing alignment padding, no byte difference.
  */
 
-void func_021BD058(char *a)
+void PLIST_MENU_Nop(char *a)
 {
 }

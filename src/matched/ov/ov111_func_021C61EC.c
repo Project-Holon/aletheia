@@ -12,16 +12,16 @@
  *
  * symbols:
  *   func_02045770  0x02045770  arm
- *   func_0201C7A4  0x0201C7A4  thumb
+ *   PRINTSYS_Print  0x0201C7A4  thumb
  *   func_0201D304  0x0201D304  thumb
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
- *   func_02045374  0x02045374  arm
- *   func_02045334  0x02045334  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_02041B6C  0x02041B6C  arm
  *   func_02045B38  0x02045B38  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
  *   func_020089F4  0x020089F4  thumb
  *   func_02025C9C  0x02025C9C  thumb
@@ -60,17 +60,17 @@ struct Rec;
 struct Sub020089A8Obj;
 struct U16Vec;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 struct StrObj;
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02045374(struct Cfg *cfg);
-extern void func_02045334(struct Descriptor *d);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *GAME_DATA_GetSaveBlock21(void **h);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
 extern u32 func_02025C9C(u32 x);
@@ -88,13 +88,13 @@ void func_021C61EC(Work *p, int k, int flush)
         str = func_02045EC0(bank, 0);
     }
     w = func_0201D304(str, (u32)p->f31FC, 0);
-    func_02043B5C(func_02045770(p->bg[1]), 0);
-    func_0201C7A4(func_02045770(p->bg[1]), 0x80 - w, 0, str, p->f31FC);
-    func_02045808(str);
-    func_02045C04(bank);
+    BMP_Clear(func_02045770(p->bg[1]), 0);
+    PRINTSYS_Print(func_02045770(p->bg[1]), 0x80 - w, 0, str, p->f31FC);
+    STRBUF_Delete(str);
+    MSGDATA_Delete(bank);
     if (flush) {
-        func_02045374(p->bg[1]);
-        func_02045334(p->bg[1]);
+        BMP_WIN_MakeScreen(p->bg[1]);
+        BMP_WIN_TransferChars(p->bg[1]);
         func_02041B6C(7);
     }
 }

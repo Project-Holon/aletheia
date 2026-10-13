@@ -26,7 +26,7 @@
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_02200D88 0x02200D88 data a4
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
@@ -39,7 +39,7 @@
  *   func_02012944 0x02012944 thumb
  *   func_0200853C 0x0200853C thumb
  *   func_021D6660 0x021D6660 thumb ov125
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GDS_PROFILE_Create 0x0200D59C thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
@@ -71,7 +71,7 @@
  *   func_021D69B4 0x021D69B4 thumb ov125
  *   func_021D698C 0x021D698C thumb ov125
  *   func_021D6A08 0x021D6A08 thumb ov125
- *   func_02012E40 0x02012E40 thumb
+ *   GAME_DATA_IsSaving 0x02012E40 thumb
  *   func_021D7124 0x021D7124 thumb ov125
  *   func_0201C440 0x0201C440 thumb
  *   func_02200228 0x02200228 thumb ov186
@@ -87,7 +87,7 @@
  *   func_021FE7B0 0x021FE7B0 thumb ov186
  *   d_02200DAC 0x02200DAC data
  *   func_021FC830 0x021FC830 thumb ov186
- *   func_0201C4E4 0x0201C4E4 thumb
+ *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FB378 0x021FB378 thumb ov186
@@ -99,17 +99,17 @@
  *   func_021FC734 0x021FC734 thumb ov186
  *   func_020409B4 0x020409B4 arm
  *   func_021FBDA4 0x021FBDA4 thumb ov186
- *   func_0201F81C 0x0201F81C thumb
- *   func_020457B0 0x020457B0 arm
+ *   BMP_MENUWORK_Create 0x0201F81C thumb
+ *   STRBUF_Create 0x020457B0 arm
  *   func_02045CAC 0x02045CAC arm
- *   func_0201F898 0x0201F898 thumb
- *   func_02045808 0x02045808 arm
+ *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
+ *   STRBUF_Delete 0x02045808 arm
  *   func_021FC8C8 0x021FC8C8 thumb ov186
- *   d_020A7370 0x020A7370 data
+ *   gSpeciesNameBank 0x020A7370 data
  *   d_02200CA8 0x02200CA8 data
  *   func_021FCC80 0x021FCC80 thumb ov186
- *   func_0201F868 0x0201F868 thumb
- *   func_02035C08 0x02035C08 arm
+ *   BMP_MENUWORK_Delete 0x0201F868 thumb
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020061E4 0x020061E4 thumb
  *   d_02200CD0 0x02200CD0 data a1
  *   func_0200D064 0x0200D064 thumb
@@ -238,7 +238,7 @@ extern void CLACT_SetActorAffineMode(struct Actor *,u32);
 extern void CLACT_SetActorScaleAxis(struct Actor *,u32,u32);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-extern void func_0204B3B4(struct Obj *);
+extern void CLACT_DeleteActor(struct Obj *);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void CLACT_SetActorScaleAxis(struct Actor*,u32,u32);
@@ -250,7 +250,7 @@ extern void *func_02030734(unsigned int,unsigned int,int,const char *,u16);
 extern u8 *func_02012944(void *p);
 extern u32_021FF408 func_0200853C(const struct Sub0200852CObj *obj);
 extern int func_021D6660(char *p, char *a);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct GdsProfile *GDS_PROFILE_Create(u32_021FF408 heap);
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 extern void DWC_RAP_SetErrorHookCallback(int a, int b);
@@ -280,7 +280,7 @@ extern int func_021D6968(char *);
 extern int func_021D69B4(char *);
 extern int func_021D698C(char *);
 extern int func_021D6A08(char *p, int a, int b);
-extern u8 func_02012E40(const u8 *o);
+extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern void func_021D7124(char *, int, int, int);
 extern u32 func_0201C440(void *p);
 extern int func_02200228(unsigned short, unsigned *);
@@ -292,7 +292,7 @@ extern void func_021FCD0C(char *);
 extern int func_021FCDA8(char *),func_021FD938(char *),func_021FE7B0(int *);
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FC830(void *);
-extern unsigned func_0201C4E4(struct PrintSys *);
+extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
 extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void *func_021FB378(void *, int, int, int, int, int, int, int, void *, unsigned short);
@@ -304,15 +304,15 @@ extern void func_021FC754(char *, void *, void *, void *, unsigned short);
 extern void func_021FC734(u8 *p);
 extern void func_020409B4(u32 index);
 extern void func_021FBDA4(int,unsigned);
-extern Slot *func_0201F81C(u32,u32);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern Slot *BMP_MENUWORK_Create(u32,u32);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_0201F898(struct Slot *table, u32 a, u32 b, u32 tag);
-extern void func_02045808(struct U16Vec *vec);
+extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *func_021FC8C8(Config_c *,u32);
 extern void func_021FCC80(char *);
-extern u32 func_0201F868(void *p);
-extern int func_02035C08(const void *);
+extern u32 BMP_MENUWORK_Delete(void *p);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern void func_020061E4(u32 a);
 extern u32 func_0200D064(struct Blk37 *p, u16 id);
 void func_021FEEF4(char *p,u32 owner,char *resources,const Config_a *config,u16 heap);
@@ -384,7 +384,7 @@ extern char ov125_id[];
 extern const char d_02200D98[];
 extern const char d_02200D9C[];
 extern char d_02200DAC[];
-extern void *d_020A7370;
+extern void *gSpeciesNameBank;
 extern const Config_c d_02200CA8;
 extern const char d_02200CD0[];
 extern const u16 d_02200C94[];
@@ -431,7 +431,7 @@ void func_021FEEF4(char *p,u32 owner,char *resources,const Config_a *config,u16 
 
 
 
-void func_021FF004(u8 *p){func_0204B3B4(*(struct Obj * *)&((struct Obj24851 *)p)->f4);func_02082BCC(p,0,76);}
+void func_021FF004(u8 *p){CLACT_DeleteActor(*(struct Obj * *)&((struct Obj24851 *)p)->f4);func_02082BCC(p,0,76);}
 
 
 
@@ -632,7 +632,7 @@ char *func_021FF408(void *owner,void *arg,u32_021FF408 heap)
     cfg.d=func_021FFAF0;cfg.e=func_021FFAFC;cfg.f=func_021FFB08;
     func_021D6660(p,(char *)(&cfg));
     ((struct Obj06637 *)p)->f5A4=1;
-    func_02012EBC(owner);
+    GAME_DATA_GetSaveControl(owner);
     ((struct Obj06637 *)p)->f5A8=GDS_PROFILE_Create(heap);
     GDS_PROFILE_Init(((struct Obj06637 *)p)->f5A8,owner);
     ((struct Obj06637 *)p)->f5AC=func_021FFB14(p,(int)((void *)func_021FF8E0),heap);
@@ -998,7 +998,7 @@ int func_021FFB70(int *p,int value)
 
 int func_021FFB80(char *p, int b, int kind, int d)
 {
-    if (func_02012E40(((struct Obj10800 *)p)->f5E0)) return 1;
+    if (GAME_DATA_IsSaving(((struct Obj10800 *)p)->f5E0)) return 1;
     func_021D7124(p, b, kind, d);
     if (kind == 3 || kind == 6) {
         if (((struct Obj10800 *)p)->f5A4) {
@@ -1116,7 +1116,7 @@ int func_021FFC9C(char *p)
 
 
 
-unsigned func_021FFE34(char *p) {unsigned r=1;int i;for(i=0;i<9;i++){void *v=*(void **)((unsigned)p+i*4+64);if(v)r &= func_021FC830(v);}return r & func_0201C4E4(*(struct PrintSys * *)&((struct Obj24875 *)p)->f3C);}
+unsigned func_021FFE34(char *p) {unsigned r=1;int i;for(i=0;i<9;i++){void *v=*(void **)((unsigned)p+i*4+64);if(v)r &= func_021FC830(v);}return r & PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct Obj24875 *)p)->f3C);}
 
 
 
@@ -1240,13 +1240,13 @@ void func_021FFFF8(char *p)
     func_021FB964((void *)(*(int *)(p+0x28)),21,*(u16 *)(p+0x24));
     if (*(void **)(p+0x64)) func_02034714(d_02200DAC,0,d_02200DAC);
     if (*(void **)(p+0x68)) func_02034714(d_02200DAC,0,d_02200DAC);
-    *(Slot **)(p+0x64)=func_0201F81C(*(u32 *)(p+0x8c),*(u16 *)(p+0x24));
-    str=func_020457B0(11,*(u16 *)(p+0x24));
+    *(Slot **)(p+0x64)=BMP_MENUWORK_Create(*(u32 *)(p+0x8c),*(u16 *)(p+0x24));
+    str=STRBUF_Create(11,*(u16 *)(p+0x24));
     for(i=0;i<*(u32 *)(p+0x8c);i++) {
-        func_02045CAC(d_020A7370,(*(u16 **)(p+0x88))[i],str);
-        func_0201F898((struct Slot *)(*(Slot **)(p+0x64)+i),(u32)str,(*(u16 **)(p+0x88))[i],*(u16 *)(p+0x24));
+        func_02045CAC(gSpeciesNameBank,(*(u16 **)(p+0x88))[i],str);
+        BMP_MENUWORK_AddStrItem((struct Slot *)(*(Slot **)(p+0x64)+i),(u32)str,(*(u16 **)(p+0x88))[i],*(u16 *)(p+0x24));
     }
-    func_02045808(str);
+    STRBUF_Delete(str);
     cfg=d_02200CA8;
     cfg.v[0]=*(u32 *)(p+0x64);
     cfg.v[1]=*(u32 *)(p+0x8c);
@@ -1259,14 +1259,14 @@ void func_021FFFF8(char *p)
 
 
 
-void func_022000D0(u8 *p) { func_021FCC80(*(char * *)&((struct Obj06639 *)p)->f68); *(u32 *)&((struct Obj06639 *)p)->f68=0; func_0201F868(((struct Obj06639 *)p)->f64); *(u32 *)&((struct Obj06639 *)p)->f64=0; func_021FBDA4(((struct Obj06639 *)p)->f28,21); }
+void func_022000D0(u8 *p) { func_021FCC80(*(char * *)&((struct Obj06639 *)p)->f68); *(u32 *)&((struct Obj06639 *)p)->f68=0; BMP_MENUWORK_Delete(((struct Obj06639 *)p)->f64); *(u32 *)&((struct Obj06639 *)p)->f64=0; func_021FBDA4(((struct Obj06639 *)p)->f28,21); }
 
 
 
 int func_022000F0(char *p)
 {
     int x, y, args[2];
-    int index = func_02035C08(d_02200CD0);
+    int index = TOUCHPANEL_HitTrg(d_02200CD0);
     if (index != -1) {
         if (*(unsigned char *)(p + index + 0x14)) {
             func_02035D20((unsigned int *)(&x), (unsigned int *)(&y));

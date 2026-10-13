@@ -1,5 +1,5 @@
 /*
- * function: func_021C7E54
+ * function: FIELD_FLASH_GetState
  * address:  0x021C7E54
  * packet:   pkt_ov021_021C7E54
  * region:   ov021
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf accessor (prints as .word in the listing): returns the u16 at +0x1C (func_021C7E50 sets +0x1E).
- * Sole blocker of ov010 func_0215ECBC's MATCH.
+ * Unlabelled leaf accessor (prints as .word in the listing): returns the u16 at +0x1C (FIELD_FLASH_SetPendingCommand sets +0x1E).
+ * Sole blocker of ov010 MOVE_POKEMON_FlashEventMain's MATCH.
  */
 
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef struct Obj {
     u16 f1c;            /* 0x1C */
 } Obj;
 
-u16 func_021C7E54(Obj *p)
+u16 FIELD_FLASH_GetState(Obj *p)
 {
     return p->f1c;
 }

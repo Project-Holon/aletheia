@@ -1,5 +1,5 @@
 /*
- * function: func_021C36B0
+ * function: SODATEYA_CompactSlots
  * address:  0x021C36B0
  * packet:   pkt_ov021_021C36B0
  * region:   ov021
@@ -19,7 +19,7 @@
 extern int func_0200BCA8(void *e, int i);
 extern void func_0200BCEC(void *e, int i, int j);
 
-void func_021C36B0(void *e)
+void SODATEYA_CompactSlots(void *e)
 {
     int i, j;
 

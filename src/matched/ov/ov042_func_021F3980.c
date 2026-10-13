@@ -1,5 +1,5 @@
 /*
- * function: func_021F3980
+ * function: GIMMICK42_EventPlayOneShot
  * address:  0x021F3980
  * packet:   pkt_ov042_021F3980
  * region:   ov042
@@ -11,19 +11,19 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_021BE700  0x021BE700  thumb  ov021
- *   func_021BE674  0x021BE674  thumb  ov021
- *   func_021BE6B0  0x021BE6B0  thumb  ov021
- *   func_021BE6B8  0x021BE6B8  thumb  ov021
- *   func_021BE6BC  0x021BE6BC  thumb  ov021
- *   func_021BE6CC  0x021BE6CC  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
+ *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeLoop  0x021BE6B8  thumb  ov021
+ *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb  ov021
+ *   FLD_EXP_OBJ_SetAnimeFrame  0x021BE6CC  thumb  ov021
  */
 
 typedef unsigned int u32;
@@ -33,24 +33,24 @@ typedef unsigned short u16;
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 struct Big;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern void func_021BE700(void *p, int i, int j, int k, int flag);
-extern void *func_021BE674(char *base, int i, unsigned int j, int k);
-extern void func_021BE6B0(u8 *p, int v);
-extern void func_021BE6B8(u8 *p, int v);
-extern int func_021BE6BC(int *p);
-extern void func_021BE6CC(int a, int b, int c, int d, int e);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(void *p, int i, int j, int k, int flag);
+extern void *FLD_EXP_OBJ_GetAnime(char *base, int i, unsigned int j, int k);
+extern void FLD_EXP_OBJ_SetAnimePaused(u8 *p, int v);
+extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *p, int v);
+extern int FLD_EXP_OBJ_IsAnimeStopped(int *p);
+extern void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e);
 
-int func_021F3980(void *a, int *st)
+int GIMMICK42_EventPlayOneShot(void *a, int *st)
 {
     void *s;
     u32 t;
@@ -59,22 +59,22 @@ int func_021F3980(void *a, int *st)
     u8 *e;
     u8 x;
 
-    s = func_0201210C(func_020124E4(a));
-    t = func_02188D2C(s);
-    p = (u8 *)func_021897BC(s, 1);
-    q = (u8 *)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4(func_02188C80(s))), 4);
+    s = GAMESYSTEM_GetFieldMap(func_020124E4(a));
+    t = FIELDMAP_GetExpObj(s);
+    p = (u8 *)FIELDMAP_GetCommonWork(s, 1);
+    q = (u8 *)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(s))), 4);
     switch (*st) {
     case 0:
         x = p[1] + 9;
-        func_021BE700((void *)t, 0, x, 0, 1);
-        e = func_021BE674((char *)t, 0, x, 0);
-        func_021BE6B0(e, 0);
-        func_021BE6CC(t, 0, x, 0, 0);
-        func_021BE6B8(e, 0);
+        FLD_EXP_OBJ_SetAnimeEnabled((void *)t, 0, x, 0, 1);
+        e = FLD_EXP_OBJ_GetAnime((char *)t, 0, x, 0);
+        FLD_EXP_OBJ_SetAnimePaused(e, 0);
+        FLD_EXP_OBJ_SetAnimeFrame(t, 0, x, 0, 0);
+        FLD_EXP_OBJ_SetAnimeLoop(e, 0);
         (*st)++;
         break;
     case 1:
-        if (func_021BE6BC(func_021BE674((char *)t, 0, (u8)(p[1] + 9), 0))) {
+        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime((char *)t, 0, (u8)(p[1] + 9), 0))) {
             q[p[1]] = 1;
             return 1;
         }

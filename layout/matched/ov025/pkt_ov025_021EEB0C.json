@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEB0C",
+   "name": "WEATHER_BLIZZARD_Begin",
    "address": "0x021EEB0C",
    "kind": "game",
    "region": "ov025",

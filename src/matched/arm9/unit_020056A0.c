@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GFL_USE_AddMainTask, sub_020056BC, GFL_USE_InitRandomState, GFL_USE_InitRandom, GFL_USE_GetRandom, GFL_USE_GetRandomBelow
+ * function: GFL_USE_AddMainTask, GFL_USE_GetMainTaskList, GFL_USE_InitRandomState, GFL_USE_InitRandom, GFL_USE_GetRandom, GFL_USE_GetRandomBelow
  *
  * symbols:
  *   sub_020056A0_Sys  0x020AA194  data
@@ -49,7 +49,7 @@
  * both come from the same expression.
  *
  * Three of the six carry no label, all because they save nothing.
- * sub_020056BC is a two load getter and GFL_USE_InitRandomState is a tail call through a
+ * GFL_USE_GetMainTaskList is a two load getter and GFL_USE_InitRandomState is a tail call through a
  * pool word.  GFL_USE_InitRandomState is in this range rather than a range of its own
  * because GFL_USE_InitRandom is its only caller anywhere in the image, so the call
  * has to be the `local` class; splitting them leaves it with no witness at
@@ -169,7 +169,7 @@ void *GFL_USE_AddMainTask(void (*callback)(struct Node *, void *), void *work, u
     return func_02030DA8(sub_020056A0_Sys.unk10->unk20, callback, work, key);
 }
 
-void *sub_020056BC(void)
+void *GFL_USE_GetMainTaskList(void)
 {
     return sub_020056A0_Sys.unk10->unk20;
 }

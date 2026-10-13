@@ -1,5 +1,5 @@
 /*
- * function: func_020490A8
+ * function: ARC_TOOL_GetMemberSize
  * address:  0x020490A8
  * packet:   pkt_02049030
  * region:   arm9
@@ -22,7 +22,7 @@ extern void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 id);
 extern u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 member, u32 base, u32 size);
 extern void func_02078A80(void *p);
 
-u32 func_020490A8(u32 a, u32 b)
+u32 ARC_TOOL_GetMemberSize(u32 a, u32 b)
 {
     char buf[0x48];
     u32 r;

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02030734 0x02030734 arm
  *   GAME_DATA_Create 0x020124F4 thumb
  *   func_0203630C 0x0203630C arm
@@ -19,9 +19,9 @@
 #include "../include/Obj01167.h"
 #include "../include/Obj10673.h"
 typedef unsigned short u16;
-extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
+extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_Create(u16);
@@ -32,8 +32,8 @@ extern char d_021B74AC[];
 int func_021B6BC4(void *ctx,int unused,char *arg)
 {
     char *p;
-    func_0203064C(1,0x55,0x40000);
-    p=func_0203159C(ctx,0x8c,0x55);
+    GFL_HEAP_CreateChildHeap(1,0x55,0x40000);
+    p=PROCSYS_AllocProcWork(ctx,0x8c,0x55);
     if(arg==0) {
         arg=func_02030734(0x55,8,0,d_021B74AC,0x3b8);
         ((struct Obj10673 *)arg)->f4=GAME_DATA_Create(1);

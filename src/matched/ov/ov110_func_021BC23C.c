@@ -17,8 +17,8 @@
  *   func_021BC340 0x021BC340 thumb ov110
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
@@ -33,14 +33,14 @@ struct Descriptor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern unsigned func_021BF6D8(u8 *);
 extern void func_021BC58C(void *,Pair *);
 extern u32 func_021BF6F0(u8 *p, u32 i);
 struct Vec2;
 extern void func_021BC5BC(u8 *p, struct Descriptor *window, const struct Vec2 *input, u32 id, struct Obj *sprite);
 extern int func_021BC340(Obj *,void *,u8);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_02041B6C(unsigned);
 void func_021BC23C(Obj *p)
 {
@@ -50,7 +50,7 @@ void func_021BC23C(Obj *p)
         for(j=0;j<2;j++) {
             if(p->items[j][i]) func_0204B3DC(p->items[j][i],0);
         }
-        func_02043B5C(func_02045770(p->desc[i]),15);
+        BMP_Clear(func_02045770(p->desc[i]),15);
         switch(func_021BF6D8(p->state)) {
         case 0:
             func_021BC58C(p->desc[i],&p->pos[0]);
@@ -66,7 +66,7 @@ void func_021BC23C(Obj *p)
             p->count=func_021BC340(p,p->desc[i],i);
             break;
         }
-        func_02045334(p->desc[i]);
+        BMP_WIN_TransferChars(p->desc[i]);
     }
     func_02041B6C(0);
     func_02041B6C(4);

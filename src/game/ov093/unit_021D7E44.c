@@ -1,7 +1,7 @@
 /*
  * file:     unit_021D7E44.c
  * unit:     yes
- * function: func_021D7E44, func_021D7E90, func_021D7EB4, func_021D7EF0, func_021D7F00, func_021D7F2C, func_021D7F38, func_021D7F4C, func_021D7F60, func_021D7F88, func_021D7FBC, func_021D7FF8, func_021D804C, func_021D8058, func_021D805C, func_021D806C, func_021D8090, func_021D80A8, func_021D80BC
+ * function: BTL_CALC_PickRandomMoveExcluding, BTL_CALC_ContainsU16, BTL_CALC_CalcDefeatExp, BTL_CALC_IsMultiFighterRule, BTL_CALC_GetFightersPerSide, BTL_CALC_GetScanStartIndex, BTL_CALC_IsGymLeaderTrainer, BTL_CALC_IsEliteFourTrainer, BTL_CALC_IsBossTrainer, BTL_CALC_CalcPrizeMoney, BTL_CALC_CalcTrainerPrizeMoney, BTL_CALC_CalcDefeatMoneyLoss, BTL_CALC_SetHeapId, func_021D8058, func_021D805C, BTL_CALC_PackPokeIds, BTL_CALC_UnpackPokeIds, BTL_CALC_GetCurseTargetKind, BTL_CALC_DecideMoveTarget
  * address:  0x021D7E44
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -13,9 +13,9 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021D78AC  0x021D78AC  thumb  ov093
- *   data_021F6360  0x021F6360  data  ov093
- *   func_021D5444  0x021D5444  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
+ *   gBtlCalcWork  0x021F6360  data  ov093
+ *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   func_02019C90  0x02019C90  thumb
  *   _u32_div_f     0x0209C2B0  arm
@@ -26,17 +26,17 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_021B9B94  0x021B9B94  thumb  ov093
  *   func_021B9C00  0x021B9C00  thumb  ov093
- *   d_021F042D     0x021F042D  data  ov093  a1
+ *   gBtlCalcDefeatMoneyScales     0x021F042D  data  ov093  a1
  *   func_02020FE4 0x02020FE4 thumb
- *   func_021D5814  0x021D5814  thumb  ov093
- *   func_021B8588  0x021B8588  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
+ *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
+ *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   func_021B8D8C  0x021B8D8C  thumb  ov093
  *   sub_0201BD28   0x0201BD28  thumb
  *   WAZA_TOOL_GetFlag   0x0201BEB8  thumb
- *   func_021B8C50  0x021B8C50  thumb  ov093
+ *   BTL_MAIN_GetEnemyLanePosFromWork  0x021B8C50  thumb  ov093
  *   func_021B8D38  0x021B8D38  thumb  ov093
- *   func_021B8778  0x021B8778  thumb  ov093
+ *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
  */
 #include "btl_calc_types.h"
 #include "unit_021D794C_types.h"
@@ -54,8 +54,8 @@ struct BtlParty;
 /* Value id of the level in the Pokemon value reader. */
 #define POKE_VALUE_LEVEL 158
 
-u32 func_021D78AC(u32 range);
-u16 func_021D5444(struct BtlPokeParam *bpp);
+u32 BTL_CALC_Random(u32 range);
+u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
 extern int func_021D59B4(struct BtlPokeParam *bpp, int valueId);
 u32 func_02019C90(u16 species, u16 form, u32 paramId);
 extern u8 func_0202A3FC(u32 trainerId);
@@ -66,60 +66,60 @@ extern u32 func_02017E1C(void *mon, u32 valueId, u32 arg);
 u8 func_021B9B94(struct BtlParty *party);
 extern struct BtlPokeParam *func_021B9C00(struct BtlParty *party, u32 index);
 extern u32 func_02020FE4(void *mon, u32 paramId, u32 heapId);
-extern int func_021D5814(struct BtlPokeParam *bpp, int type);
-extern u32 func_021B8588(void *main);
-extern u8 func_021D5440(struct BtlPokeParam *bpp);
+extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
+extern u32 BTL_MAIN_GetRule(void *main);
+extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
 extern int func_021B8D8C(void *main, void *posTable, u32 pokeId);
 extern u32 sub_0201BD28(u16 moveId, u32 fieldIndex);
 extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 bit);
-extern u8 func_021B8C50(void *main, u32 basePos, int lane);
+extern u8 BTL_MAIN_GetEnemyLanePosFromWork(void *main, u32 basePos, int lane);
 extern u8 func_021B8D38(void *main, void *posTable, int posCode, u8 *outPokeIds);
-extern u8 func_021B8778(void *main, int posCode, u8 *outPositions);
-u16 func_021D7E44(const u16 *excludedMoves, int excludedCount);
-int func_021D7E90(const u16 *list, u32 count, u32 value);
-u32 func_021D7EB4(struct BtlPokeParam *bpp);
-u32 func_021D7EF0(u32 rule);
-u32 func_021D7F00(u32 rule);
-u8 func_021D7F2C(u32 rule, u8 startIndex);
-int func_021D7F38(u32 trainerId);
-int func_021D7F4C(u32 trainerId);
-int func_021D7F60(u32 trainerId);
-u32 func_021D7F88(struct BattleSetupParam *setup);
-u32 func_021D7FBC(struct BattleTrainerData *trainer, struct Party *party);
-u32 func_021D7FF8(u32 badgeCount, struct BtlParty *party);
-void func_021D804C(u32 heapId);
+extern u8 BTL_MAIN_DecodeMessageCode(void *main, int posCode, u8 *outPositions);
+u16 BTL_CALC_PickRandomMoveExcluding(const u16 *excludedMoves, int excludedCount);
+int BTL_CALC_ContainsU16(const u16 *list, u32 count, u32 value);
+u32 BTL_CALC_CalcDefeatExp(struct BtlPokeParam *bpp);
+u32 BTL_CALC_IsMultiFighterRule(u32 rule);
+u32 BTL_CALC_GetFightersPerSide(u32 rule);
+u8 BTL_CALC_GetScanStartIndex(u32 rule, u8 startIndex);
+int BTL_CALC_IsGymLeaderTrainer(u32 trainerId);
+int BTL_CALC_IsEliteFourTrainer(u32 trainerId);
+int BTL_CALC_IsBossTrainer(u32 trainerId);
+u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup);
+u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer, struct Party *party);
+u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party);
+void BTL_CALC_SetHeapId(u32 heapId);
 void func_021D8058(void);
 u32 func_021D805C(void *mon, u32 paramId);
-u32 func_021D806C(const u8 *pokeIds);
-void func_021D8090(u32 packed, u8 *pokeIds);
-int func_021D80A8(struct BtlPokeParam *bpp);
-int func_021D80BC(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId);
-extern struct BtlCalcWork data_021F6360;
+u32 BTL_CALC_PackPokeIds(const u8 *pokeIds);
+void BTL_CALC_UnpackPokeIds(u32 packed, u8 *pokeIds);
+int BTL_CALC_GetCurseTargetKind(struct BtlPokeParam *bpp);
+int BTL_CALC_DecideMoveTarget(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId);
+extern struct BtlCalcWork gBtlCalcWork;
 /* Money lost on defeat per level point, by badge count (0 to 8). */
-extern u8 d_021F042D[];
+extern u8 gBtlCalcDefeatMoneyScales[];
 
 
 /* A random move id that is not in the given list (the move id table is the work table). */
-u16 func_021D7E44(const u16 *excludedMoves, int excludedCount)
+u16 BTL_CALC_PickRandomMoveExcluding(const u16 *excludedMoves, int excludedCount)
 {
     u16 moveId;
     u16 count = 0;
 
     for (moveId = 1; moveId < BTL_MOVE_ID_LIMIT; moveId++) {
-        if (func_021D7E90(excludedMoves, excludedCount, moveId) == 0)
-            data_021F6360.workTable[count++] = moveId;
+        if (BTL_CALC_ContainsU16(excludedMoves, excludedCount, moveId) == 0)
+            gBtlCalcWork.workTable[count++] = moveId;
     }
-    return data_021F6360.workTable[(u16)func_021D78AC(count)];
+    return gBtlCalcWork.workTable[(u16)BTL_CALC_Random(count)];
 }
 
 /* True when the value is in the list of halfwords. */
-int func_021D7E90(const u16 *list,u32 count,u32 value) { u32 index; for(index=0;index<count;index++) { if(value==list[index]) return 1; } return 0; }
+int BTL_CALC_ContainsU16(const u16 *list,u32 count,u32 value) { u32 index; for(index=0;index<count;index++) { if(value==list[index]) return 1; } return 0; }
 
 
 /* Experience a defeated Pokemon gives: base experience * level / 5. */
-u32 func_021D7EB4(struct BtlPokeParam *bpp)
+u32 BTL_CALC_CalcDefeatExp(struct BtlPokeParam *bpp)
 {
-    int species = func_021D5444(bpp);
+    int species = BTL_POKEPARAM_GetSpecies(bpp);
     u16 form = func_021D59B4(bpp, BTL_BPP_VALUE_FORM);
     u16 level = func_021D59B4(bpp, BTL_BPP_VALUE_LEVEL);
     u32 baseExp = func_02019C90(species, form, 9);
@@ -133,18 +133,18 @@ u32 func_021D7EB4(struct BtlPokeParam *bpp)
  * semantics: original compares full-word r0 with 0 and 3; no arithmetic,
  * domain bounds, narrowed input, uninitialized values or side effects.
  */
-u32 func_021D7EF0(u32 rule)
+u32 BTL_CALC_IsMultiFighterRule(u32 rule)
 {
     if (rule != BTL_RULE_SINGLE && rule != BTL_RULE_ROTATION) return 1;
     return 0;
 }
 
 /* Number of Pokemon that fight at once on one side: 1, 2, 3, and 1 for rotation. */
-u32 func_021D7F00(u32 rule) { switch(rule) { case BTL_RULE_SINGLE:return 1; case BTL_RULE_DOUBLE:return 2; case BTL_RULE_TRIPLE:return 3; case BTL_RULE_ROTATION:return 1; default:return 1; } }
+u32 BTL_CALC_GetFightersPerSide(u32 rule) { switch(rule) { case BTL_RULE_SINGLE:return 1; case BTL_RULE_DOUBLE:return 2; case BTL_RULE_TRIPLE:return 3; case BTL_RULE_ROTATION:return 1; default:return 1; } }
 
 
 /* First list index to scan: 3 in a rotation battle, else the given start. */
-u8 func_021D7F2C(u32 rule, u8 startIndex)
+u8 BTL_CALC_GetScanStartIndex(u32 rule, u8 startIndex)
 {
     if (rule == BTL_RULE_ROTATION)
         startIndex = 3;
@@ -152,23 +152,23 @@ u8 func_021D7F2C(u32 rule, u8 startIndex)
 }
 
 /* Trainer table category 2 (guess: gym leader). */
-int func_021D7F38(u32 trainerId) { if(func_0202A3FC(trainerId)==2) return 1; return 0; }
+int BTL_CALC_IsGymLeaderTrainer(u32 trainerId) { if(func_0202A3FC(trainerId)==2) return 1; return 0; }
 
 /* Trainer table category 3 (guess: Elite Four). */
-int func_021D7F4C(u32 trainerId) { if(func_0202A3FC(trainerId)==3) return 1; return 0; }
+int BTL_CALC_IsEliteFourTrainer(u32 trainerId) { if(func_0202A3FC(trainerId)==3) return 1; return 0; }
 
 /* A boss trainer: category 2 or 3, or trainer 89. */
-int func_021D7F60(u32 trainerId) { if(func_021D7F38(trainerId)) return 1; if(func_021D7F4C(trainerId)) return 1; return trainerId==89; }
+int BTL_CALC_IsBossTrainer(u32 trainerId) { if(BTL_CALC_IsGymLeaderTrainer(trainerId)) return 1; if(BTL_CALC_IsEliteFourTrainer(trainerId)) return 1; return trainerId==89; }
 
 /* Prize money of a trainer battle: the sum over the two enemy trainer slots (1 and 3). */
-u32 func_021D7F88(struct BattleSetupParam *setup) { u32 money=0; if(setup->competitor==BTL_COMPETITOR_TRAINER) { if(setup->trainerData[1] && setup->party[1]) money+=func_021D7FBC(setup->trainerData[1],setup->party[1]); if(setup->trainerData[3] && setup->party[3]) money+=func_021D7FBC(setup->trainerData[3],setup->party[3]); } return money; }
+u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup) { u32 money=0; if(setup->competitor==BTL_COMPETITOR_TRAINER) { if(setup->trainerData[1] && setup->party[1]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[1],setup->party[1]); if(setup->trainerData[3] && setup->party[3]) money+=BTL_CALC_CalcTrainerPrizeMoney(setup->trainerData[3],setup->party[3]); } return money; }
 
 /* Prize money of one trainer: money rate * level of the last party member * 4. */
-u32 func_021D7FBC(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)func_0201AA18(party); if(count) { lastMon=func_0201AB28(party,count-1); moneyRate=func_0202A230(trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*func_02017E1C(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
+u32 BTL_CALC_CalcTrainerPrizeMoney(struct BattleTrainerData *trainer,struct Party *party) { u8 count; void *lastMon; u32 moneyRate; if(party) { count=(u8)func_0201AA18(party); if(count) { lastMon=func_0201AB28(party,count-1); moneyRate=func_0202A230(trainer->trainerId,TRAINER_PARAM_MONEY_RATE); return moneyRate*func_02017E1C(lastMon,POKE_VALUE_LEVEL,0)*4; } } return 0; }
 
 
 /* Money lost on defeat: badge table value * highest party level * 4. */
-u32 func_021D7FF8(u32 badgeCount, struct BtlParty *party)
+u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party)
 {
     u32 count = func_021B9B94(party);
     u32 maxLevel = 1;
@@ -182,7 +182,7 @@ u32 func_021D7FF8(u32 badgeCount, struct BtlParty *party)
     }
     if (badgeCount >= 9)
         badgeCount = 8;
-    return d_021F042D[badgeCount] * (maxLevel << 2);
+    return gBtlCalcDefeatMoneyScales[badgeCount] * (maxLevel << 2);
 }
 
 /*
@@ -190,25 +190,25 @@ u32 func_021D7FF8(u32 badgeCount, struct BtlParty *party)
  * low halfword of the first word of the calculation work, which the shared
  * header (btl_calc_types.h, read only for this lane) declares as a u32 reserved.
  */
-void func_021D804C(u32 heapId) { (*(u16 *)&data_021F6360.reserved)=heapId; }
+void BTL_CALC_SetHeapId(u32 heapId) { (*(u16 *)&gBtlCalcWork.reserved)=heapId; }
 
 void func_021D8058(void) { }
 
 /* Reads a Pokemon parameter with the stored heap id. */
-u32 func_021D805C(void *mon,u32 paramId) { return func_02020FE4(mon,paramId,(*(u16 *)&data_021F6360.reserved)); }
+u32 func_021D805C(void *mon,u32 paramId) { return func_02020FE4(mon,paramId,(*(u16 *)&gBtlCalcWork.reserved)); }
 
 /* Packs six Pokemon ids (5 bits each) into one word. */
-u32 func_021D806C(const u8 *pokeIds) { u32 packed=0; u32 index; for(index=0;index<6;index++) packed|=(pokeIds[index]&31)<<(index*5); return packed; }
+u32 BTL_CALC_PackPokeIds(const u8 *pokeIds) { u32 packed=0; u32 index; for(index=0;index<6;index++) packed|=(pokeIds[index]&31)<<(index*5); return packed; }
 
 /* Unpacks six Pokemon ids from a word. */
-void func_021D8090(u32 packed,u8 *pokeIds) { u32 index; for(index=0;index<6;index++) { pokeIds[index]=packed&31; packed>>=5; } }
+void BTL_CALC_UnpackPokeIds(u32 packed,u8 *pokeIds) { u32 index; for(index=0;index<6;index++) { pokeIds[index]=packed&31; packed>>=5; } }
 
 
 /* Target kind that Curse uses: 7 (the user), or 0 for a ghost-type user. */
-int func_021D80A8(struct BtlPokeParam *bpp)
+int BTL_CALC_GetCurseTargetKind(struct BtlPokeParam *bpp)
 {
     int targetKind = 7;
-    if (func_021D5814(bpp, BTL_TYPE_GHOST)) targetKind = 0;
+    if (BTL_POKEPARAM_HasType(bpp, BTL_TYPE_GHOST)) targetKind = 0;
     return targetKind;
 }
 
@@ -219,7 +219,7 @@ int func_021D80A8(struct BtlPokeParam *bpp)
  * high byte, position in the low byte), then a random position or Pokemon
  * from that range. 6 means no target.
  */
-int func_021D80BC(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId)
+int BTL_CALC_DecideMoveTarget(void *main, void *posTable, struct BtlPokeParam *attacker, u16 moveId)
 {
     u32 rule;
     int posCode;
@@ -228,10 +228,10 @@ int func_021D80BC(void *main, void *posTable, struct BtlPokeParam *attacker, u16
     u8 candidates[8];
     u8 candidate;
 
-    rule = func_021B8588(main);
-    posCode = func_021B8D8C(main, posTable, func_021D5440(attacker));
+    rule = BTL_MAIN_GetRule(main);
+    posCode = func_021B8D8C(main, posTable, BTL_POKEPARAM_GetPokeId(attacker));
     targetKind = sub_0201BD28(moveId, 0x1B);
-    if (moveId == 0xAE) targetKind = func_021D80A8(attacker);
+    if (moveId == 0xAE) targetKind = BTL_CALC_GetCurseTargetKind(attacker);
 
     if (rule == BTL_RULE_SINGLE) {
         switch (targetKind) {
@@ -240,7 +240,7 @@ int func_021D80BC(void *main, void *posTable, struct BtlPokeParam *attacker, u16
         case 4:
         case 5:
         case 9:
-            return func_021B8C50(main, posCode, 0);
+            return BTL_MAIN_GetEnemyLanePosFromWork(main, posCode, 0);
         case 1:
         case 7:
             return posCode;
@@ -276,10 +276,10 @@ int func_021D80BC(void *main, void *posTable, struct BtlPokeParam *attacker, u16
     /* candidate holds the number of Pokemon in range, then the index picked. */
     candidate = func_021B8D38(main, posTable, posCode, candidates);
     if (candidate) {
-        candidate = func_021D78AC(candidate);
+        candidate = BTL_CALC_Random(candidate);
         return func_021B8D8C(main, posTable, candidates[candidate]);
     }
-    candidate = func_021B8778(main, posCode, candidates);
-    if (candidate) return candidates[(u8)func_021D78AC(candidate)];
+    candidate = BTL_MAIN_DecodeMessageCode(main, posCode, candidates);
+    if (candidate) return candidates[(u8)BTL_CALC_Random(candidate)];
     return 6;
 }

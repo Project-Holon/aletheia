@@ -1,5 +1,5 @@
 /*
- * function: func_02198BF8
+ * function: FLDMMDL_ACMD_MarkType3
  * address:  0x02198BF8
  * packet:   pkt_02198BF8
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Calls func_02198B4C(its own argument 1, 0x3, 0x0) and returns 0x0.
+ * Calls FLDMMDL_ACMD_MarkInit(its own argument 1, 0x3, 0x0) and returns 0x0.
  *
  * symbols:
- *   func_02198B4C  0x02198B4C  thumb
+ *   FLDMMDL_ACMD_MarkInit  0x02198B4C  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_02198B4C(u32 a1, u32 a2, u32 a3);
+extern void FLDMMDL_ACMD_MarkInit(u32 a1, u32 a2, u32 a3);
 
-u32 func_02198BF8(u32 a1)
+u32 FLDMMDL_ACMD_MarkType3(u32 a1)
 {
-    func_02198B4C(a1, 0x3, 0x0);
+    FLDMMDL_ACMD_MarkInit(a1, 0x3, 0x0);
 
     return 0x0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BB358
+ * function: PLIST_PLATE_StepHpAnim
  * address:  0x021BB358
  * packet:   pkt_ov091_021BB358
  * region:   ov091
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021BB050  0x021BB050  thumb  ov091
- *   func_021BB2E0  0x021BB2E0  thumb  ov091
+ *   PLIST_PLATE_SetPalette  0x021BB050  thumb  ov091
+ *   PLIST_PLATE_RedrawHp  0x021BB2E0  thumb  ov091
  */
 
 typedef unsigned char u8;
@@ -24,14 +24,14 @@ typedef struct S {
     u16 b;
 } S;
 
-extern void func_021BB050(int unused, u8 *s, int k);
-extern void func_021BB2E0(u8 *a, u8 *s);
+extern void PLIST_PLATE_SetPalette(int unused, u8 *s, int k);
+extern void PLIST_PLATE_RedrawHp(u8 *a, u8 *s);
 
-int func_021BB358(u8 *p, S *s)
+int PLIST_PLATE_StepHpAnim(u8 *p, S *s)
 {
     if (s->a < s->b) {
         if (s->a == 0) {
-            func_021BB050((int)p, (u8 *)s, 6);
+            PLIST_PLATE_SetPalette((int)p, (u8 *)s, 6);
         }
         {
             u16 cur = s->a;
@@ -43,7 +43,7 @@ int func_021BB358(u8 *p, S *s)
                 s->a = cur + (u16)st;
             }
         }
-        func_021BB2E0(p, (u8 *)s);
+        PLIST_PLATE_RedrawHp(p, (u8 *)s);
         return 0;
     }
     if (s->a > s->b) {
@@ -53,7 +53,7 @@ int func_021BB358(u8 *p, S *s)
         } else {
             s->a = s->a + (u16)st;
         }
-        func_021BB2E0(p, (u8 *)s);
+        PLIST_PLATE_RedrawHp(p, (u8 *)s);
         return 0;
     }
     return 1;

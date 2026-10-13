@@ -1,5 +1,5 @@
 /*
- * function: func_02193B20
+ * function: FIELD_WFBC_RemovePeople
  * address:  0x02193B20
  * packet:   pkt_02193B20
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02193EB4  0x02193EB4  thumb  ov021
- *   func_02193EFC  0x02193EFC  thumb  ov021
- *   func_02193F6C  0x02193F6C  thumb  ov021
- *   func_02193EE8  0x02193EE8  thumb  ov021
+ *   FIELD_WFBC_LoadSaveData  0x02193EB4  thumb  ov021
+ *   FIELD_WFBC_FindPeople  0x02193EFC  thumb  ov021
+ *   FIELD_WFBC_PEOPLE_Clear  0x02193F6C  thumb  ov021
+ *   FIELD_WFBC_StoreSaveData  0x02193EE8  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -25,17 +25,17 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct V;
-extern void func_02193EB4(struct V *v);
-extern u32 func_02193EE8(u32);
+extern void FIELD_WFBC_LoadSaveData(struct V *v);
+extern u32 FIELD_WFBC_StoreSaveData(u32);
 struct E50;
 struct V;
-extern struct E50 *func_02193EFC(struct V *v, u32 key);
-extern void func_02193F6C(struct E50 *e);
+extern struct E50 *FIELD_WFBC_FindPeople(struct V *v, u32 key);
+extern void FIELD_WFBC_PEOPLE_Clear(struct E50 *e);
 
-int func_02193B20(u32 a, u32 b)
+int FIELD_WFBC_RemovePeople(u32 a, u32 b)
 {
-func_02193EB4((struct V *)a);
-func_02193F6C(func_02193EFC((struct V *)a, b));
-return func_02193EE8(a);
+FIELD_WFBC_LoadSaveData((struct V *)a);
+FIELD_WFBC_PEOPLE_Clear(FIELD_WFBC_FindPeople((struct V *)a, b));
+return FIELD_WFBC_StoreSaveData(a);
 }
 

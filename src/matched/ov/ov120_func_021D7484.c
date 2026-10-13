@@ -11,7 +11,7 @@
  * extent: trailing 2-byte alignment padding only.
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 #include "../include/Obj00199.h"
 typedef unsigned char u8;
@@ -20,5 +20,5 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B3B4(struct Obj *p);
-void func_021D7484(char *p) { func_0204B3DC(((struct Obj00199 *)p)->f12C,0); func_0204B3B4(((struct Obj00199 *)p)->f12C); func_0204B3DC(((struct Obj00199 *)p)->f130,0); func_0204B3B4(((struct Obj00199 *)p)->f130); }
+extern void CLACT_DeleteActor(struct Obj *p);
+void func_021D7484(char *p) { func_0204B3DC(((struct Obj00199 *)p)->f12C,0); CLACT_DeleteActor(((struct Obj00199 *)p)->f12C); func_0204B3DC(((struct Obj00199 *)p)->f130,0); CLACT_DeleteActor(((struct Obj00199 *)p)->f130); }

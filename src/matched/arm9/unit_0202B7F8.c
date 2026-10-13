@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * The three iss_3ds_sys.c tail-call units that resolve without any further
- * work: ISS_SYS_GetLocation forwards the +4 field to func_020127A4,
- * ISS_SYS_GetZoneId chains it into func_02012AC8, and ISS_SYS_GetCurrentBgmId is a bare
+ * work: ISS_SYS_GetLocation forwards the +4 field to GAME_DATA_GetMyPlayerWork,
+ * ISS_SYS_GetZoneId chains it into GAME_DATA_GetPlayerZoneId, and ISS_SYS_GetCurrentBgmId is a bare
  * thunk to GFL_USE_GetBgmNo.  All three are named in the `function:` field
  * above so that the `matched` class attests all three addresses: the 32
  * bytes laid out by `tu` cover all three entry points, and
@@ -24,6 +24,8 @@
  *
  * symbols:
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  */
 #include "../include/Obj17267.h"
 
@@ -34,19 +36,19 @@ struct Obj;
 struct SaveBlock;
 struct Rec44;
 
-extern void *func_020127A4(struct SaveBlock *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 typedef unsigned short u16;
-extern u16 func_02012AC8(const struct Rec44 *p);
+extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u16 GFL_USE_GetBgmNo(void);
 
 void *ISS_SYS_GetLocation(struct Obj *o)
 {
-    return func_020127A4((struct SaveBlock *)((struct Obj17267 *)o)->f4);
+    return GAME_DATA_GetMyPlayerWork((struct SaveBlock *)((struct Obj17267 *)o)->f4);
 }
 
 u16 ISS_SYS_GetZoneId(struct Obj *o)
 {
-    return func_02012AC8(ISS_SYS_GetLocation(o));
+    return GAME_DATA_GetPlayerZoneId(ISS_SYS_GetLocation(o));
 }
 
 u32 ISS_SYS_GetCurrentBgmId(void)

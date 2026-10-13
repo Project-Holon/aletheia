@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C49AC",
+   "name": "FLDEFF_SPLASH_DeleteBoardRes",
    "address": "0x021C49AC",
    "kind": "game",
    "region": "ov021",

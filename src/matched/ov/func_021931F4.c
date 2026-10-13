@@ -1,5 +1,5 @@
 /*
- * function: func_021931F4
+ * function: FIELD_MSGBG_KeyWaitInit
  * address:  0x021931F4
  * packet:   pkt_021931F4
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern void func_02082BCC();
 
-void func_021931F4(u32 a)
+void FIELD_MSGBG_KeyWaitInit(u32 a)
 {
     func_02082BCC(a, 0, 4);
 }

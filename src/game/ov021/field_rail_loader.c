@@ -1,7 +1,7 @@
 /*
  * file:     field_rail_loader.c
  * unit:     yes
- * function: func_0219EF14, func_0219EF44, func_0219EF6C, func_0219EF7C, func_0219EFFC, func_0219F018, func_0219F01C, func_0219F030, func_0219F048, func_0219F04C, func_0219F050, func_0219F054
+ * function: FIELD_RAIL_LOADER_InitSetting, FIELD_RAIL_LOADER_Create, FIELD_RAIL_LOADER_Delete, FIELD_RAIL_LOADER_Load, FIELD_RAIL_LOADER_Unload, FIELD_RAIL_LOADER_GetSetting, func_0219F01C, func_0219F030, func_0219F048, func_0219F04C, func_0219F050, func_0219F054
  * address:  0x0219EF14
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -17,15 +17,15 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
- *   func_0216D568  0x0216D568  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
  *   d_021DDDB8     0x021DDDB8  data
  *   d_021DDDA0     0x021DDDA0  data
  *   d_021DDDAC     0x021DDDAC  data
  *   d_021DDE08     0x021DDE08  data
- *   func_0204A298  0x0204A298  arm
+ *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   func_0209C2B0  0x0209C2B0  arm
- *   func_02158768  0x02158768  thumb  ov010
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -72,17 +72,17 @@ typedef struct {
 extern u32 func_020307B0(void *mem);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
 extern void func_02082BCC(void *dst, u32 value, u32 size);
-extern void *func_0216D568(void *mmdl, u32 bits);
-extern int func_0204A298(int archive, int member, int a2, int heapId, u32 *outSize);
+extern void *FLDMMDL_SetMoveBit(void *mmdl, u32 bits);
+extern int ARC_UTIL_LoadMemberWithSize(int archive, int member, int a2, int heapId, u32 *outSize);
 extern u32 func_0209C2B0(u32 a, u32 b);
-extern void *func_02158768(int a0, int a1, int a2, int a3);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
-void func_0219EF14(FieldRailSetting *setting);
-FieldRailLoader *func_0219EF44(u32 heapId);
-void func_0219EF6C(FieldRailLoader *loader);
-void func_0219EF7C(FieldRailLoader *loader, u32 member, u32 heapId);
-void func_0219EFFC(FieldRailLoader *loader);
-FieldRailSetting *func_0219F018(FieldRailLoader *loader);
+extern void *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
+void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting);
+FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId);
+void FIELD_RAIL_LOADER_Delete(FieldRailLoader *loader);
+void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId);
+void FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader);
+FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader);
 int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 int func_0219F030(void *a, u32 b, u32 c, u32 d);
 void func_0219F048(void);
@@ -95,7 +95,7 @@ extern u32 d_021DDDAC[];     /* function table of the lines */
 extern char d_021DDE08[];    /* __FILE__ */
 
 /* Clear a setting and fill in the limits and function tables. */
-void func_0219EF14(FieldRailSetting *setting)
+void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting)
 {
     func_02082BCC(setting, 0, 0x30);
     setting->maxWalkers = 0x14;
@@ -106,24 +106,24 @@ void func_0219EF14(FieldRailSetting *setting)
     setting->lineFuncs = d_021DDDAC;
 }
 
-FieldRailLoader *func_0219EF44(u32 heapId)
+FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId)
 {
     FieldRailLoader *loader = (FieldRailLoader *)func_02030734((u16)heapId, 0x38, 1, d_021DDE08, 0xC0);
-    func_0219EF14(&loader->setting);
+    FIELD_RAIL_LOADER_InitSetting(&loader->setting);
     return loader;
 }
 
-void func_0219EF6C(FieldRailLoader *loader)
+void FIELD_RAIL_LOADER_Delete(FieldRailLoader *loader)
 {
-    func_0219EFFC(loader);
+    FIELD_RAIL_LOADER_Unload(loader);
     func_020307B0(loader);
 }
 
 /* Load rail data file `member` and find its sections. */
-void func_0219EF7C(FieldRailLoader *loader, u32 member, u32 heapId)
+void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId)
 {
     u32 size;
-    loader->data = (u32 *)func_0204A298(_RAIL_DATA_ARCHIVE, member, 0, (u16)heapId, &size);
+    loader->data = (u32 *)ARC_UTIL_LoadMemberWithSize(_RAIL_DATA_ARCHIVE, member, 0, (u16)heapId, &size);
     loader->dataSize = size;
     loader->setting.points = (u8 *)loader->data + loader->data[_SECTION_POINTS];
     loader->setting.pointCount = func_0209C2B0(loader->data[_SECTION_LINES] - loader->data[_SECTION_POINTS], 0x70);
@@ -137,16 +137,16 @@ void func_0219EF7C(FieldRailLoader *loader, u32 member, u32 heapId)
 }
 
 /* Free the loaded data and reset the setting. */
-void func_0219EFFC(FieldRailLoader *loader)
+void FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader)
 {
     if (loader->data != 0) {
         func_020307B0(loader->data);
         loader->data = 0;
     }
-    func_0219EF14(&loader->setting);
+    FIELD_RAIL_LOADER_InitSetting(&loader->setting);
 }
 
-FieldRailSetting *func_0219F018(FieldRailLoader *loader)
+FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader)
 {
     return &loader->setting;
 }
@@ -155,13 +155,13 @@ FieldRailSetting *func_0219F018(FieldRailLoader *loader)
  * code (see misplaced.tsv). */
 int func_0219F01C(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
 {
-return (int)func_02158768(a, ((c << 16) >> 16), e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
+return (int)SCRIPT_SYS_CreateScriptEventSimple(a, ((c << 16) >> 16), e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
 }
 
 int func_0219F030(void *mmdl, u32 unused1, u32 unused2, u32 unused3)
 {
-func_0216DAC8((unsigned int *)mmdl, 1);
-return (int)func_0216D568(mmdl, (1 << 15));
+FLDMMDL_SetStatusBitVanish((unsigned int *)mmdl, 1);
+return (int)FLDMMDL_SetMoveBit(mmdl, (1 << 15));
 }
 
 void func_0219F048(void)

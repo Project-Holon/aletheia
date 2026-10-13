@@ -1,5 +1,5 @@
 /*
- * function: func_0201DD78
+ * function: GF_FONT_SetTextColor
  * address:  0x0201DD78
  * packet:   pkt_0201DD78
  * region:   arm9
@@ -43,7 +43,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201DD78.c \
- *       --func func_0201DD78 --addr 0x0201DD78 --cc 1.1p1 --thumb
+ *       --func GF_FONT_SetTextColor --addr 0x0201DD78 --cc 1.1p1 --thumb
  */
 
 #include "../include/G_FontState.h"
@@ -56,7 +56,7 @@ typedef signed int     s32;
 extern struct FontState g_02146578;
 extern u16 g_02146588[256];
 
-void func_0201DD78(u32 r, u32 g, u32 b)
+void GF_FONT_SetTextColor(u32 r, u32 g, u32 b)
 {
     u32 c[4];
     s32 i;

@@ -1,5 +1,5 @@
 /*
- * function: func_0215980C
+ * function: SCRIPT_WORK_CmdDivWork
  * address:  0x0215980C
  * packet:   pkt_0215980C
  * region:   ov010
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_0209C2B0  0x0209C2B0  arm
  */
 
@@ -19,11 +19,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern unsigned int func_02159B10(void *, void *);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern int func_0209C2B0();
 
-int func_0215980C(int a0, int a1)
+int SCRIPT_WORK_CmdDivWork(int a0, int a1)
 {
     int t5;
     int t6;
@@ -31,11 +31,11 @@ int func_0215980C(int a0, int a1)
 
 t5 = a0 + 0;
 t6 = a1 + 0;
-    q = func_02159AE8((void *)a0, (void *)a1);
+    q = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_02159816:
 a0 = t5 + 0;
 a1 = t6 + 0;
-    a0 = func_02159B10((void *)a0, (void *)a1);
+    a0 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
 loc_02159820:
 a1 = a0 + 0;
 a0 = *q;

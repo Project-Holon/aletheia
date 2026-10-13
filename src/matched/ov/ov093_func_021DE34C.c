@@ -1,5 +1,5 @@
 /*
- * function: func_021DE34C
+ * function: BTL_HANDLER_ITEM_MentalHerbCureCondition
  * address:  0x021DE34C
  * packet:   pkt_ov093_021DE34C
  * region:   ov093
@@ -10,13 +10,13 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  *
  * symbols:
- *   func_021DD19C  0x021DD19C  thumb  ov093
+ *   BTL_HANDLER_ITEM_CureSickOnEaten  0x021DD19C  thumb  ov093
  */
 
 typedef unsigned char  u8;
-void func_021DD19C(void *a, u8 *b, int c, int d);
+void BTL_HANDLER_ITEM_CureSickOnEaten(void *a, u8 *b, int c, int d);
 
-void func_021DE34C(int a, int b, int c, u8 *a3)
+void BTL_HANDLER_ITEM_MentalHerbCureCondition(int a, int b, int c, u8 *a3)
 {
-    func_021DD19C((void *)a, (u8 *)b, c, 0x26);
+    BTL_HANDLER_ITEM_CureSickOnEaten((void *)a, (u8 *)b, c, 0x26);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     fldeff_shadow.c
  * unit:     yes
- * function: func_021AC218, func_021AC260, func_021AC274, func_021AC2AC, func_021AC2C0, func_021AC2F0, func_021AC384, func_021AC3A4, func_021AC3F8
+ * function: FLDEFF_SHADOW_Create, FLDEFF_SHADOW_Delete, FLDEFF_SHADOW_CreateSlot, FLDEFF_SHADOW_DeleteSlot, FLDEFF_SHADOW_Start, FLDEFF_SHADOW_Init, FLDEFF_SHADOW_Exit, FLDEFF_SHADOW_Update, FLDEFF_SHADOW_Draw
  * address:  0x021AC218
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -16,35 +16,38 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216E3C4  0x0216E3C4  thumb  ov010
- *   func_02188C88  0x02188C88  thumb  ov021
- *   func_02050080  0x02050080  arm
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetObjCodeParam  0x0216E3C4  thumb  ov010
+ *   FIELDMAP_GetEffectBbdAct  0x02188C88  thumb  ov021
+ *   BILLBOARD_ACT_GetBoard  0x02050080  arm
  *   d_021DE028     0x021DE028  data  a1
- *   d_021D908C     0x021D908C  data  a4
+ *   gFldeffShadowBaseOffset     0x021D908C  data  a4
  *   ENV_SetResourceSet  0x020307B0  arm
- *   func_02050278  0x02050278  arm
- *   d_021D9098  0x021D9098  data
- *   func_0216E1A4  0x0216E1A4  thumb  ov010
- *   func_0216E1C4  0x0216E1C4  thumb  ov010
- *   func_0216D67C  0x0216D67C  thumb  ov010
- *   func_0216D98C  0x0216D98C  thumb  ov010
- *   func_0216DAB4  0x0216DAB4  thumb  ov010
- *   func_0216D57C  0x0216D57C  thumb  ov010
- *   func_0216D92C  0x0216D92C  thumb  ov010
+ *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm
+ *   gFldeffShadowObjFuncs  0x021D9098  data
+ *   FLDMMDL_GetCheckInfo  0x0216E1A4  thumb  ov010
+ *   FLDMMDL_CheckCheckInfo  0x0216E1C4  thumb  ov010
+ *   FLDMMDL_GetMmdlSys  0x0216D67C  thumb  ov010
+ *   FLDMMDL_SysIsDrawEnable  0x0216D98C  thumb  ov010
+ *   FLDMMDL_CheckStatusBitVanish  0x0216DAB4  thumb  ov010
+ *   FLDMMDL_CheckMoveBit  0x0216D57C  thumb  ov010
+ *   FLDMMDL_GetModelOffset  0x0216D92C  thumb  ov010
  *   func_0207C9D0  0x0207C9D0  arm
- *   func_0216D8B0  0x0216D8B0  thumb  ov010
- *   func_0204F720  0x0204F720  arm
- *   func_0204F638  0x0204F638  arm
- *   func_02046E24  0x02046E24  arm
- *   func_020500F0  0x020500F0  arm
- *   func_021ABE14  0x021ABE14  thumb  ov021
- *   func_021ABE24  0x021ABE24  thumb  ov021
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   func_021AC154  0x021AC154  thumb  ov021
- *   func_021AC178  0x021AC178  thumb  ov021
- *   func_021AC1AC  0x021AC1AC  thumb  ov021
+ *   FLDMMDL_GetDrawOffset  0x0216D8B0  thumb  ov010
+ *   BILLBOARD_SetElemVisible  0x0204F720  arm
+ *   BILLBOARD_SetElemPos  0x0204F638  arm
+ *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
+ *   BILLBOARD_ACT_CreateSlots  0x020500F0  arm
+ *   FIELD_EFFECT_GetFieldMap  0x021ABE14  thumb  ov021
+ *   FIELD_EFFECT_GetArcHandle  0x021ABE24  thumb  ov021
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   FIELD_EFFECT_UpdateObject  0x021AC178  thumb  ov021
+ *   FIELD_EFFECT_GetObjectParam  0x021AC1AC  thumb  ov021
+ *   BILLBOARD_SetElemPolyId  0x0204F6DC  arm  arm9
+ *   BILLBOARD_ACT_CreateEntries  0x02050340  arm  arm9
+ *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm  arm9
  */
 #include "field_effect_types.h"
 #include "../arm9/billboard_act_types.h"
@@ -66,7 +69,7 @@
 
 /*
  * Resource of the shadow effect (0x1C bytes, allocated by
- * func_021AC218). It owns one billboard slot that every shadow of the map
+ * FLDEFF_SHADOW_Create). It owns one billboard slot that every shadow of the map
  * draws from.
  */
 typedef struct FldeffShadow {
@@ -93,59 +96,59 @@ typedef struct FldeffShadowWork {
 } FldeffShadowWork;
 
 extern void *func_02030734(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern void func_0216D88C(const Mmdl *mmdl, VecFx32 *out);
-extern const MmdlObjCodeParam *func_0216E3C4(const Mmdl *mmdl);
-extern struct BbActSys *func_02188C88(struct FieldMap *fieldmap);
-extern struct BbBoard *func_02050080(struct BbActSys *act);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
+extern const MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(const Mmdl *mmdl);
+extern struct BbActSys *FIELDMAP_GetEffectBbdAct(struct FieldMap *fieldmap);
+extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *act);
 extern void ENV_SetResourceSet(void *p);
-extern void *func_02046E24(int arcHandle, u32 id);
-extern u16 func_020500F0(struct BbActSys *act, const struct BbActRec *recs, u32 count);
-extern void func_02050278(struct BbActSys *act, u32 first, u32 count);
-extern int func_0216E1A4(const Mmdl *mmdl, u16 *out);
-extern u16 func_02050340(struct BbActSys *act, u16 baseSlot, const struct BbActDesc *desc, u32 count, u32 mode);
-extern void func_0204F6DC(struct BbBoard *board, int elemId, u8 *polyId);
-extern void func_02050468(struct BbActSys *act, u16 first, u32 count);
-extern int func_0216E1C4(const Mmdl *mmdl, const u16 *info);
-extern void *func_0216D67C(const Mmdl *mmdl);
-extern int func_0216D98C(void *mmdlSys);
-extern int func_0216DAB4(const Mmdl *mmdl);
-extern u32 func_0216D57C(const Mmdl *mmdl, u32 bit);
-extern void func_0216D92C(const Mmdl *mmdl, VecFx32 *out);
+extern void *G3D_SYSTEM_CreateResourceArcHandle(int arcHandle, u32 id);
+extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *act, const struct BbActRec *recs, u32 count);
+extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *act, u32 first, u32 count);
+extern int FLDMMDL_GetCheckInfo(const Mmdl *mmdl, u16 *out);
+extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *act, u16 baseSlot, const struct BbActDesc *desc, u32 count, u32 mode);
+extern void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemId, u8 *polyId);
+extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *act, u16 first, u32 count);
+extern int FLDMMDL_CheckCheckInfo(const Mmdl *mmdl, const u16 *info);
+extern void *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
+extern int FLDMMDL_SysIsDrawEnable(void *mmdlSys);
+extern int FLDMMDL_CheckStatusBitVanish(const Mmdl *mmdl);
+extern u32 FLDMMDL_CheckMoveBit(const Mmdl *mmdl, u32 bit);
+extern void FLDMMDL_GetModelOffset(const Mmdl *mmdl, VecFx32 *out);
 extern void func_0207C9D0(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void func_0216D8B0(const Mmdl *mmdl, VecFx32 *out);
-extern void func_0204F720(struct BbBoard *board, u32 elemId, u32 *visible);
-extern void func_0204F638(struct BbBoard *board, int elemId, const VecFx32 *pos);
-struct FieldMap *func_021ABE14(FieldEffectSys *sys);
-int func_021ABE24(FieldEffectSys *sys);
-void *func_021ABEA0(FieldEffectSys *sys, int id);
-void func_021ABFA8(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-void func_021AC154(FieldEffectObj *obj);
-void func_021AC178(FieldEffectObj *obj);
-void *func_021AC1AC(FieldEffectObj *obj);
-FldeffShadow *func_021AC218(FieldEffectSys *sys, int heapId);
-void func_021AC260(FieldEffectSys *sys, FldeffShadow *shadow);
-void func_021AC274(FldeffShadow *shadow);
-void func_021AC2AC(FldeffShadow *shadow);
-void func_021AC2C0(Mmdl *mmdl, FieldEffectSys *sys);
-void func_021AC2F0(FieldEffectObj *obj, FldeffShadowWork *work);
-void func_021AC384(FieldEffectObj *obj, FldeffShadowWork *work);
-void func_021AC3A4(FieldEffectObj *obj, FldeffShadowWork *work);
-void func_021AC3F8(FieldEffectObj *obj, FldeffShadowWork *work);
+extern void FLDMMDL_GetDrawOffset(const Mmdl *mmdl, VecFx32 *out);
+extern void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, u32 *visible);
+extern void BILLBOARD_SetElemPos(struct BbBoard *board, int elemId, const VecFx32 *pos);
+struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
+int FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
+void *FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
+void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
+void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
+void FIELD_EFFECT_UpdateObject(FieldEffectObj *obj);
+void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
+FldeffShadow *FLDEFF_SHADOW_Create(FieldEffectSys *sys, int heapId);
+void FLDEFF_SHADOW_Delete(FieldEffectSys *sys, FldeffShadow *shadow);
+void FLDEFF_SHADOW_CreateSlot(FldeffShadow *shadow);
+void FLDEFF_SHADOW_DeleteSlot(FldeffShadow *shadow);
+void FLDEFF_SHADOW_Start(Mmdl *mmdl, FieldEffectSys *sys);
+void FLDEFF_SHADOW_Init(FieldEffectObj *obj, FldeffShadowWork *work);
+void FLDEFF_SHADOW_Exit(FieldEffectObj *obj, FldeffShadowWork *work);
+void FLDEFF_SHADOW_Update(FieldEffectObj *obj, FldeffShadowWork *work);
+void FLDEFF_SHADOW_Draw(FieldEffectObj *obj, FldeffShadowWork *work);
 extern char d_021DE028[];
-extern VecFx32 d_021D908C;
-extern FieldEffectObjFuncs d_021D9098;
+extern VecFx32 gFldeffShadowBaseOffset;
+extern FieldEffectObjFuncs gFldeffShadowObjFuncs;
 
 /* Resource creation: allocates the resource and makes its billboard slot. */
-FldeffShadow *func_021AC218(FieldEffectSys *sys, int heapId)
+FldeffShadow *FLDEFF_SHADOW_Create(FieldEffectSys *sys, int heapId)
 {
     FldeffShadow *shadow;
 
     shadow = func_02030734(heapId, sizeof(FldeffShadow), 1, d_021DE028, 0x5c);
     shadow->fieldEffect = sys;
-    shadow->baseOffset = d_021D908C;
-    shadow->billboardAct = func_02188C88(func_021ABE14(sys));
-    shadow->board = func_02050080(shadow->billboardAct);
-    func_021AC274(shadow);
+    shadow->baseOffset = gFldeffShadowBaseOffset;
+    shadow->billboardAct = FIELDMAP_GetEffectBbdAct(FIELD_EFFECT_GetFieldMap(sys));
+    shadow->board = BILLBOARD_ACT_GetBoard(shadow->billboardAct);
+    FLDEFF_SHADOW_CreateSlot(shadow);
     return shadow;
 }
 
@@ -158,9 +161,9 @@ FldeffShadow *func_021AC218(FieldEffectSys *sys, int heapId)
 
 
 /* Resource deletion: frees the billboard slot and the resource. */
-void func_021AC260(FieldEffectSys *sys, FldeffShadow *shadow)
+void FLDEFF_SHADOW_Delete(FieldEffectSys *sys, FldeffShadow *shadow)
 {
-    func_021AC2AC(shadow);
+    FLDEFF_SHADOW_DeleteSlot(shadow);
     ENV_SetResourceSet(shadow);
 }
 
@@ -173,17 +176,17 @@ void func_021AC260(FieldEffectSys *sys, FldeffShadow *shadow)
 
 
 /* Makes the billboard slot that holds the shadow image. */
-void func_021AC274(FldeffShadow *shadow)
+void FLDEFF_SHADOW_CreateSlot(FldeffShadow *shadow)
 {
     struct BbActRec rec;
 
-    rec.resource = (u32)func_02046E24(func_021ABE24(shadow->fieldEffect), 0x2f);
+    rec.resource = (u32)G3D_SYSTEM_CreateResourceArcHandle(FIELD_EFFECT_GetArcHandle(shadow->fieldEffect), 0x2f);
     rec.format = 2;
     rec.sizeS = 0x11;
     rec.sizeT = 0x10;
     rec.paletteId = 0x10;
     rec.kind = 1;
-    shadow->slotId = func_020500F0(shadow->billboardAct, &rec, 1);
+    shadow->slotId = BILLBOARD_ACT_CreateSlots(shadow->billboardAct, &rec, 1);
 }
 
 
@@ -195,9 +198,9 @@ void func_021AC274(FldeffShadow *shadow)
 
 
 /* Frees the billboard slot of the shadow image. */
-void func_021AC2AC(FldeffShadow *shadow)
+void FLDEFF_SHADOW_DeleteSlot(FldeffShadow *shadow)
 {
-    func_02050278(shadow->billboardAct, (u16)shadow->slotId, 1);
+    BILLBOARD_ACT_DeleteSlots(shadow->billboardAct, (u16)shadow->slotId, 1);
 }
 
 
@@ -209,13 +212,13 @@ void func_021AC2AC(FldeffShadow *shadow)
 
 
 /* Starts the shadow effect of a model. */
-void func_021AC2C0(Mmdl *mmdl, FieldEffectSys *sys)
+void FLDEFF_SHADOW_Start(Mmdl *mmdl, FieldEffectSys *sys)
 {
     FldeffShadowParam param;
 
-    param.shadow = func_021ABEA0(sys, FLDEFF_ID_SHADOW);
+    param.shadow = FIELD_EFFECT_GetResource(sys, FLDEFF_ID_SHADOW);
     param.mmdl = mmdl;
-    func_021ABFA8(sys, &d_021D9098, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(sys, &gFldeffShadowObjFuncs, 0, 0, &param, 0);
 }
 
 
@@ -227,15 +230,15 @@ void func_021AC2C0(Mmdl *mmdl, FieldEffectSys *sys)
 
 
 /* Shadow effect: init, makes the billboard entry of the shadow. */
-void func_021AC2F0(FieldEffectObj *obj, FldeffShadowWork *work)
+void FLDEFF_SHADOW_Init(FieldEffectObj *obj, FldeffShadowWork *work)
 {
-    FldeffShadowParam *param = func_021AC1AC(obj);
+    FldeffShadowParam *param = FIELD_EFFECT_GetObjectParam(obj);
     u8 polyId;
     struct BbActDesc desc;
 
     work->shadow = param->shadow;
     work->mmdl = param->mmdl;
-    func_0216E1A4(param->mmdl, work->mmdlCheck);
+    FLDMMDL_GetCheckInfo(param->mmdl, work->mmdlCheck);
     desc.slot = 0;
     desc.width = FLDEFF_SHADOW_ENTRY_SIZE;
     desc.height = FLDEFF_SHADOW_ENTRY_SIZE;
@@ -249,14 +252,14 @@ void func_021AC2F0(FieldEffectObj *obj, FldeffShadowWork *work)
     }
     desc.hook = 0;
     desc.hookArg = (u32)work;
-    work->entryId = func_02050340(work->shadow->billboardAct, (u16)work->shadow->slotId, &desc, 1, 3);
+    work->entryId = BILLBOARD_ACT_CreateEntries(work->shadow->billboardAct, (u16)work->shadow->slotId, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
-        func_021AC154(obj);
+        FIELD_EFFECT_DeleteObject(obj);
         return;
     }
     polyId = FLDEFF_SHADOW_POLY_ID;
-    func_0204F6DC(work->shadow->board, work->entryId, &polyId);
-    func_021AC178(obj);
+    BILLBOARD_SetElemPolyId(work->shadow->board, work->entryId, &polyId);
+    FIELD_EFFECT_UpdateObject(obj);
 }
 
 
@@ -267,10 +270,10 @@ void func_021AC2F0(FieldEffectObj *obj, FldeffShadowWork *work)
 
 
 /* Shadow effect: exit, deletes the billboard entry. */
-void func_021AC384(FieldEffectObj *obj, FldeffShadowWork *work)
+void FLDEFF_SHADOW_Exit(FieldEffectObj *obj, FldeffShadowWork *work)
 {
     if (work->entryId != 0xFFFF)
-        func_02050468(work->shadow->billboardAct, (u16)work->entryId, 1);
+        BILLBOARD_ACT_DeleteEntries(work->shadow->billboardAct, (u16)work->entryId, 1);
 }
 
 
@@ -281,17 +284,17 @@ void func_021AC384(FieldEffectObj *obj, FldeffShadowWork *work)
 
 
 /* Shadow effect: update, ends the effect when the model is gone and tracks if it hides the shadow. */
-void func_021AC3A4(FieldEffectObj *obj, FldeffShadowWork *work)
+void FLDEFF_SHADOW_Update(FieldEffectObj *obj, FldeffShadowWork *work)
 {
-    if (func_0216E1C4(work->mmdl, work->mmdlCheck) == 0) {
-        func_021AC154(obj);
+    if (FLDMMDL_CheckCheckInfo(work->mmdl, work->mmdlCheck) == 0) {
+        FIELD_EFFECT_DeleteObject(obj);
         return;
     }
-    if (func_0216D98C(func_0216D67C(work->mmdl)) == 0) {
-        func_021AC154(obj);
+    if (FLDMMDL_SysIsDrawEnable(FLDMMDL_GetMmdlSys(work->mmdl)) == 0) {
+        FIELD_EFFECT_DeleteObject(obj);
         return;
     }
-    if (func_0216DAB4(work->mmdl) == 1 || func_0216D57C(work->mmdl, FLDEFF_SHADOW_HIDE_MOVE_BIT) != 0)
+    if (FLDMMDL_CheckStatusBitVanish(work->mmdl) == 1 || FLDMMDL_CheckMoveBit(work->mmdl, FLDEFF_SHADOW_HIDE_MOVE_BIT) != 0)
         work->hidden = 1;
     else
         work->hidden = 0;
@@ -305,30 +308,30 @@ void func_021AC3A4(FieldEffectObj *obj, FldeffShadowWork *work)
 
 
 /* Shadow effect: draw, shows the entry below the model or hides it. */
-void func_021AC3F8(FieldEffectObj *obj, FldeffShadowWork *work)
+void FLDEFF_SHADOW_Draw(FieldEffectObj *obj, FldeffShadowWork *work)
 {
     VecFx32 pos;
     VecFx32 offset;
     u32 show;
     u32 hide;
     u32 entryId = work->entryId;
-    const MmdlObjCodeParam *codeParam = func_0216E3C4(work->mmdl);
+    const MmdlObjCodeParam *codeParam = FLDMMDL_GetObjCodeParam(work->mmdl);
     if (work->hidden == 0) {
         show = 1;
-        func_0216D88C(work->mmdl, &pos);
-        func_0216D92C(work->mmdl, &offset);
+        FLDMMDL_GetPos(work->mmdl, &pos);
+        FLDMMDL_GetModelOffset(work->mmdl, &offset);
         func_0207C9D0(&pos, &offset, &pos);
         if ((u8)(codeParam->drawProcNo + 246) <= 1) {
-            func_0216D8B0(work->mmdl, &offset);
+            FLDMMDL_GetDrawOffset(work->mmdl, &offset);
             if (codeParam->mdlSize == 0)
                 offset.y = -0x800;
             func_0207C9D0(&pos, &offset, &pos);
         }
-        func_0204F720(work->shadow->board, entryId, &show);
+        BILLBOARD_SetElemVisible(work->shadow->board, entryId, &show);
         pos.y += FLDEFF_SHADOW_RAISE;
-        func_0204F638(work->shadow->board, entryId, &pos);
+        BILLBOARD_SetElemPos(work->shadow->board, entryId, &pos);
     } else {
         hide = 0;
-        func_0204F720(work->shadow->board, entryId, &hide);
+        BILLBOARD_SetElemVisible(work->shadow->board, entryId, &hide);
     }
 }

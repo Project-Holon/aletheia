@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -18,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02043658(void);
+extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void func_02041EE4(u32, u32, u32);
 
 void func_021BDE10(u8 *a0)
 {
-    if (func_02043658() & 4) {
+    if (BG_SYS_GetMainVisiblePlanes() & 4) {
         func_02041EE4(2, 1, 1);
     }
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EFF5C",
+   "name": "REPORT_ShowPartyIcons",
    "address": "0x021EFF5C",
    "kind": "game",
    "region": "ov034",

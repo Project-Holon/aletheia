@@ -1,5 +1,5 @@
 /*
- * function: func_021C01E4
+ * function: EVENT_DISAPPEAR_EndZoomIn
  * address:  0x021C01E4
  * packet:   pkt_021C01E4
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0218FF20  0x0218FF20  thumb  ov021
- *   func_0218FE98  0x0218FE98  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Restore  0x0218FF20  thumb  ov021
+ *   FIELD_CAMERA_ANIME_Delete  0x0218FE98  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12123.h"
@@ -23,12 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0218FE98(u32);
-extern void func_0218FF20(u8 *a);
+extern u32 FIELD_CAMERA_ANIME_Delete(u32);
+extern void FIELD_CAMERA_ANIME_Restore(u8 *a);
 
-int func_021C01E4(void **a)
+int EVENT_DISAPPEAR_EndZoomIn(void **a)
 {
-func_0218FF20((u8 *)(((struct Obj12123 *)((u8 *)(a)))->f70));
-return func_0218FE98(((struct Obj12123 *)((u8 *)(a)))->f70);
+FIELD_CAMERA_ANIME_Restore((u8 *)(((struct Obj12123 *)((u8 *)(a)))->f70));
+return FIELD_CAMERA_ANIME_Delete(((struct Obj12123 *)((u8 *)(a)))->f70);
 }
 

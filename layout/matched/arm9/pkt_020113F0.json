@@ -43,7 +43,7 @@
    "status": "EXACT",
    "functions": [
     "TIMEZONE_GetTimeZoneOfHour",
-    "func_02011400"
+    "TIMEZONE_GetZoneLightLevel"
    ],
    "addresses": [
     "0x020113F0",
@@ -98,7 +98,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02011558"
+    "ICA_ANIME_Delete"
+   ],
+   "addresses": [
+    "0x02011558"
    ]
   },
   {
@@ -113,7 +116,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02011590"
+    "ICA_ANIME_IncFrameLoop"
+   ],
+   "addresses": [
+    "0x02011590"
    ]
   },
   {
@@ -128,8 +134,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02011610",
-    "func_02011638",
+    "ICA_ANIME_GetTranslate",
+    "ICA_ANIME_GetRotate",
     "ICA_ANIME_GetScale"
    ],
    "addresses": [

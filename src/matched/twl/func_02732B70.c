@@ -13,7 +13,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   data_021A1988  0x021A1988  data  ov009
  *   data_021A1990  0x021A1990  data  ov009
- *   func_021656D0  0x021656D0  arm  ov009
+ *   WCM_UpdateOption  0x021656D0  arm  ov009
  *   WCMi_GetSystemWork  0x021657C8  arm  ov009
  *   WCMi_GetNextScanChannel  0x02165918  arm  ov009
  *   NWM_GetDispersionScanPeriod  0x02702998  arm  twl
@@ -170,7 +170,7 @@ extern u32 NWM_SetReceivingFrameBuffer(void *arg, void *b, u32 c, u32 d);
 extern void func_02166804(u8 v);
 extern void func_02166358(u8 *a, u8 *b, u8 *c, u32 len);
 extern int NWM_Connect(void *cb, u8 flag, void *buf);
-extern unsigned long func_021656D0(unsigned long option);
+extern unsigned long WCM_UpdateOption(unsigned long option);
 extern u32 NWM_GetDispersionScanPeriod(u32 a);
 extern void func_02165AF4(void);
 extern void OS_WakeupThread(void *queue);
@@ -201,7 +201,7 @@ extern u8 data_021A1990[];
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern NetWork *WCMi_GetSystemWork(void);
 extern u16 WCMi_GetNextScanChannel(u16 a);
-extern unsigned long func_021656D0(unsigned long option);
+extern unsigned long WCM_UpdateOption(unsigned long option);
 extern u32 NWM_GetDispersionScanPeriod(u32 a);
 extern u8 data_021A1988[];
 extern u8 data_021A1990[];
@@ -212,7 +212,7 @@ static void WcmEditScanExParam(u8 *mac, u8 *name, u32 opt)
     u32 id;
     int i;
 
-    func_021656D0(opt);
+    WCM_UpdateOption(opt);
     w->sendBuf = (u32)w->recvBuf;
     w->sendLen = 0xc40;
     w->sendMask = (1 << WCMi_GetNextScanChannel(0)) >> 1;

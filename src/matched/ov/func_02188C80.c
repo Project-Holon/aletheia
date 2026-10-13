@@ -1,5 +1,5 @@
 /*
- * function: func_02188C80
+ * function: FIELDMAP_GetGameSystem
  * address:  0x02188C80
  * packet:   pkt_02188C54
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_02188C80(void *p)
+void *FIELDMAP_GetGameSystem(void *p)
 {
     return ((struct Obj00020 *)p)->f4;
 }

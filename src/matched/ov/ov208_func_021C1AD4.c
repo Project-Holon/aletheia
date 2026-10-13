@@ -21,19 +21,19 @@
  *   func_021C0B6C  0x021C0B6C  thumb  ov208
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
+ *   BMP_Clear  0x02043B5C  arm
  *   func_0201EC64  0x0201EC64  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_0201ED04  0x0201ED04  thumb
- *   func_0201C724  0x0201C724  thumb
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_021C0740  0x021C0740  thumb  ov208
- *   func_02045334  0x02045334  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_021C1F50  0x021C1F50  thumb  ov208
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 #include "../include/Obj00081.h"
 
@@ -65,19 +65,19 @@ extern u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species
 extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
-extern void func_02045334(struct Descriptor *p);
+extern void BMP_WIN_TransferChars(struct Descriptor *p);
 extern void func_021C1F50(u16 *heap, u8 *p, int key);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define SLOT4C(i) (((u32 *)(p + 0x4c))[i])
@@ -116,16 +116,16 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
                                                *heap, id, form, out1, 0, 0x38, 0xb0);
     W(0x24) = 0;
     func_0201C6EC((struct PrintSys *)W(0x34));
-    func_02043B5C(func_02045770((struct Descriptor *)W(0x14)), 0);
+    BMP_Clear(func_02045770((struct Descriptor *)W(0x14)), 0);
     win = func_0201EC64(*heap);
     str = func_02045EC0((struct MsgBank *)W(0xc), 0xbd);
-    buf = func_020457B0(0x40, *heap);
+    buf = STRBUF_Create(0x40, *heap);
     func_0201EE60(win, 0, id);
     func_0201F250(win, buf, str);
-    func_02045808(str);
+    STRBUF_Delete(str);
     func_0201ED04(win);
-    func_0201C724((void *)W(0x34), (u32)func_02045770((struct Descriptor *)W(0x14)), 0, 5, (u32)buf, W(4), 0x3c40);
-    func_02045808(buf);
+    PRINTSYS_PrintQueColor((void *)W(0x34), (u32)func_02045770((struct Descriptor *)W(0x14)), 0, 5, (u32)buf, W(4), 0x3c40);
+    STRBUF_Delete(buf);
     W(0x24) = 1;
     func_021C0740(heap, p, key, 0);
 
@@ -133,8 +133,8 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
         if (prev == 1) {
             W(0x2c) = 0;
             func_0201C6EC((struct PrintSys *)W(0x3c));
-            func_02043B5C(func_02045770((struct Descriptor *)W(0x1c)), 0);
-            func_02045334((struct Descriptor *)W(0x1c));
+            BMP_Clear(func_02045770((struct Descriptor *)W(0x1c)), 0);
+            BMP_WIN_TransferChars((struct Descriptor *)W(0x1c));
             func_0204B3DC((struct Obj *)W(0xbc), 0);
             func_0204B3DC((struct Obj *)W(0xc4), 0);
             func_0204B3DC((struct Obj *)W(0xc0), 0);
@@ -142,9 +142,9 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
     } else if (prev == 0) {
         func_021C1F50(heap, p, key);
         func_0204B3DC((struct Obj *)W(0xbc), 1);
-        func_0204B878((struct Obj *)W(0xc4), 2);
+        CLACT_SetActorAnimSeq((struct Obj *)W(0xc4), 2);
         func_0204B3DC((struct Obj *)W(0xc4), 1);
-        func_0204B878((struct Obj *)W(0xc0), 4);
+        CLACT_SetActorAnimSeq((struct Obj *)W(0xc0), 4);
         func_0204B3DC((struct Obj *)W(0xc0), 1);
     }
 }

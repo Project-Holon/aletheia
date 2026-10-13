@@ -19,8 +19,8 @@
  *   func_02157650  0x02157650  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_020399A8  0x020399A8  arm
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
  *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
  *   BTL_SETUP_SetupCommTriple  0x02013864  thumb
@@ -74,9 +74,9 @@ struct Ctx;
 struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void BTL_SETUP_SetupCommSingle(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
 extern void BTL_SETUP_SetupCommDouble(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
 extern void BTL_SETUP_SetupCommTriple(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
@@ -109,8 +109,8 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
         func_02157650(&dir, 1);
     case 6:
         func_02157650(&dir, 3);
-        sys = func_020120F4(a0);
-        BTL_SETUP_SetupCommSingle((u32)o, (u32)sys, (u32)func_020399A8(), 1, 4);
+        sys = GAMESYSTEM_GetGameData(a0);
+        BTL_SETUP_SetupCommSingle((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 9:
         func_02157650(&dir, 4);
@@ -120,8 +120,8 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
         func_02157650(&dir, 5);
     case 10:
         func_02157650(&dir, 7);
-        sys = func_020120F4(a0);
-        BTL_SETUP_SetupCommDouble((u32)o, (u32)sys, (u32)func_020399A8(), 1, 4);
+        sys = GAMESYSTEM_GetGameData(a0);
+        BTL_SETUP_SetupCommDouble((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 13:
         func_02157650(&dir, 8);
@@ -131,8 +131,8 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
         func_02157650(&dir, 9);
     case 14:
         func_02157650(&dir, 11);
-        sys = func_020120F4(a0);
-        BTL_SETUP_SetupCommTriple((u32)o, (u32)sys, (u32)func_020399A8(), 1, 4);
+        sys = GAMESYSTEM_GetGameData(a0);
+        BTL_SETUP_SetupCommTriple((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 17:
         func_02157650(&dir, 12);
@@ -142,8 +142,8 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
         func_02157650(&dir, 13);
     case 18:
         func_02157650(&dir, 15);
-        sys = func_020120F4(a0);
-        BTL_SETUP_SetupCommRotation((u32)o, (u32)sys, (u32)func_020399A8(), 1, 4);
+        sys = GAMESYSTEM_GetGameData(a0);
+        BTL_SETUP_SetupCommRotation((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 21:
         func_02157650(&dir, 16);
@@ -153,8 +153,8 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
         func_02157650(&dir, 17);
     case 22:
         func_02157650(&dir, 19);
-        sys = func_020120F4(a0);
-        BTL_SETUP_SetupCommMulti((u32)o, (u32)sys, (u32)func_020399A8(), 1, rec->f12, 4);
+        sys = GAMESYSTEM_GetGameData(a0);
+        BTL_SETUP_SetupCommMulti((u32)o, (u32)sys, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, rec->f12, 4);
         break;
     default:
         func_02034714((const char *)d_0217277C, 0, (const char *)d_0217277C);

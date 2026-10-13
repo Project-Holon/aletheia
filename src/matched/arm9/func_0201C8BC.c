@@ -13,15 +13,15 @@
  *   STRBUF_GetChars  0x02045A90  arm
  *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
- *   func_0201DD78  0x0201DD78  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   PRINTSYS_PrintStep  0x0201C974  thumb
  *
  * printsys.c: if the 4-bit field at bits 20..23 of PrintCtx+0x04 is 1,
  * split the packed 5/5/5 triple at +0x0E and pass it to GF_FONT_IsTextColorDifferent; on a
  * nonzero result fill buf through GF_FONT_GetTextColor, pass the triple to
- * func_0201DD78 and set done; then set the field to 2.  Render glyphs
+ * GF_FONT_SetTextColor and set done; then set the field to 2.  Render glyphs
  * through PRINTSYS_PrintStep until 0xFFFF, and if done, pass buf back to
- * func_0201DD78.
+ * GF_FONT_SetTextColor.
  *
  * Two facts the bytes pin (docs/notes/pkt_0201C8BC.c.txt has the history):
  *
@@ -53,7 +53,7 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32 GF_FONT_IsTextColorDifferent(u32 r, u32 g, u32 b);
 extern void GF_FONT_GetTextColor(u8 *a0, u8 *a1, u8 *a2);
 struct PrintCtx;
-extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern u16 *PRINTSYS_PrintStep(struct PrintCtx *c, u16 *p, u32 f);
 
 void PRINTSYS_RunJob(u8 *a0, int a1)
@@ -76,7 +76,7 @@ void PRINTSYS_RunJob(u8 *a0, int a1)
         lo = (u8)(v & 0x1F);
         if (GF_FONT_IsTextColorDifferent(hi, mid, lo) != 0) {
             GF_FONT_GetTextColor(&buf[2], &buf[1], &buf[0]);
-            func_0201DD78((int)hi, (int)mid, (int)lo);
+            GF_FONT_SetTextColor((int)hi, (int)mid, (int)lo);
             done = 1;
         }
         ((struct Obj00698 *)a0)->f4 = (((struct Obj00698 *)a0)->f4 & 0xFF0FFFFF) | 0x200000;
@@ -85,6 +85,6 @@ void PRINTSYS_RunJob(u8 *a0, int a1)
         p = (u16 *)PRINTSYS_PrintStep((struct PrintCtx *)a0, p, (int)1);
     }
     if (done) {
-        func_0201DD78((int)buf[2], (int)buf[1], (int)buf[0]);
+        GF_FONT_SetTextColor((int)buf[2], (int)buf[1], (int)buf[0]);
     }
 }

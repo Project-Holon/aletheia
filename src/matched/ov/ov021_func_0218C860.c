@@ -1,5 +1,5 @@
 /*
- * function: func_0218C860
+ * function: FIELD_BUILDMODEL_DeleteNode
  * address:  0x0218C860
  * packet:   pkt_ov021_0218C860
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0218BA48  0x0218BA48  thumb  ov021
- *   func_0218C0D8  0x0218C0D8  thumb  ov021
- *   func_0218C54C  0x0218C54C  thumb  ov021
+ *   FIELD_BUILDMODEL_RemoveNode  0x0218BA48  thumb  ov021
+ *   FIELD_BUILDMODEL_FreeAnimSet  0x0218C0D8  thumb  ov021
+ *   FIELD_BUILDMODEL_SwapEntryModelId  0x0218C54C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  */
 
-void func_0218BA48(void *s, void *v);
-void func_0218C0D8(void **s);
-void func_0218C54C(void *p, int save);
+void FIELD_BUILDMODEL_RemoveNode(void *s, void *v);
+void FIELD_BUILDMODEL_FreeAnimSet(void **s);
+void FIELD_BUILDMODEL_SwapEntryModelId(void *p, int save);
 typedef unsigned int   u32;
 u32 func_020307B0(void *p);
 
@@ -29,13 +29,13 @@ typedef struct {
     unsigned char fC[1];
 } S;
 
-void func_0218C860(S *p)
+void FIELD_BUILDMODEL_DeleteNode(S *p)
 {
     if (p != 0) {
-        func_0218BA48(p->owner, p);
-        func_0218C0D8((void **)p->fC);
+        FIELD_BUILDMODEL_RemoveNode(p->owner, p);
+        FIELD_BUILDMODEL_FreeAnimSet((void **)p->fC);
         if (p->f8 != 0)
-            func_0218C54C(p->f8, 1);
+            FIELD_BUILDMODEL_SwapEntryModelId(p->f8, 1);
         func_020307B0(p);
     }
 }

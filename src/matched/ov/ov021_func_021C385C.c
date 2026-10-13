@@ -1,5 +1,5 @@
 /*
- * function: func_021C385C
+ * function: SODATEYA_UpdateStepCounter
  * address:  0x021C385C
  * packet:   pkt_ov021_021C385C
  * region:   ov021
@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_0200BCB8  0x0200BCB8  thumb
- *   func_021C34C4  0x021C34C4  thumb  ov021
+ *   SODATEYA_GetCompatibility  0x021C34C4  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -29,9 +29,9 @@ typedef struct {
 
 extern int func_0200BCB8(void *e);
 extern u32 func_02005728(u32 v);
-extern u8 func_021C34C4(void **p);
+extern u8 SODATEYA_GetCompatibility(void **p);
 
-int func_021C385C(S *p)
+int SODATEYA_UpdateStepCounter(S *p)
 {
     u16 old = p->steps;
 
@@ -40,7 +40,7 @@ int func_021C385C(S *p)
         p->steps = 0;
         if (func_0200BCB8(p->box) >= 2) {
             u32 r = func_02005728(0x640);
-            if (r < func_021C34C4((void **)p))
+            if (r < SODATEYA_GetCompatibility((void **)p))
                 return 1;
         }
     }

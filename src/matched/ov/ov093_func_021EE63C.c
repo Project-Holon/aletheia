@@ -1,5 +1,5 @@
 /*
- * function: func_021EE63C
+ * function: BTL_REC_ReadEntry
  * address:  0x021EE63C
  * packet:   pkt_ov093_021EE63C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-unsigned short *func_021EE63C(unsigned short *a, unsigned int *b)
+unsigned short *BTL_REC_ReadEntry(unsigned short *a, unsigned int *b)
 {
     *b = *a;
     return a + 4;

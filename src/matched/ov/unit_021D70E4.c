@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021D70E4, func_021D70F0
+ * function: BTL_EVENT_DispatchEvent, BTL_EVENT_DispatchEventChecked
  * address:  0x021D70E4
  * packet:   pkt_021D70E4
  * region:   ov093
@@ -13,17 +13,17 @@
  * Two wrappers fixing the third argument to 7.
  *
  * symbols:
- *   func_021D7108  0x021D7108  thumb  ov093
+ *   BTL_EVENT_DispatchEventNested  0x021D7108  thumb  ov093
  */
 
-extern void func_021D7108(void *, int, int, int);
+extern void BTL_EVENT_DispatchEventNested(void *, int, int, int);
 
-void func_021D70E4(void *a, int id)
+void BTL_EVENT_DispatchEvent(void *a, int id)
 {
-    func_021D7108(a, id, 7, 0);
+    BTL_EVENT_DispatchEventNested(a, id, 7, 0);
 }
 
-void func_021D70F0(void *a, int id)
+void BTL_EVENT_DispatchEventChecked(void *a, int id)
 {
-    func_021D7108(a, id, 7, 1);
+    BTL_EVENT_DispatchEventNested(a, id, 7, 1);
 }

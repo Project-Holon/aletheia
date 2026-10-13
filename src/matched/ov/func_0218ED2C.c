@@ -1,5 +1,5 @@
 /*
- * function: func_0218ED2C
+ * function: FIELD_CAMERA_GetPitch
  * address:  0x0218ED2C
  * packet:   pkt_0218EC2C
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_0218ED2C(u8 *p)
+u16 FIELD_CAMERA_GetPitch(u8 *p)
 {
     return ((struct Obj17909 *)p)->f78;
 }

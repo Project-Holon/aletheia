@@ -1,5 +1,5 @@
 /*
- * function: func_021D5D68
+ * function: BTL_POKEPARAM_HasLoweredStatStage
  * address:  0x021D5D68
  * packet:   pkt_ov093_021D5D68
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 typedef signed char s8;
-int func_021D5D68(s8 *p)
+int BTL_POKEPARAM_HasLoweredStatStage(s8 *p)
 {
     if (p[0xfc] < 6) return 1;
     if (p[0xfd] < 6) return 1;

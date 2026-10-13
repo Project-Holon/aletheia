@@ -1,5 +1,5 @@
 /*
- * function: func_021F374C
+ * function: GIMMICK60_Update
  * address:  0x021F374C
  * packet:   pkt_ov060_021F374C
  * region:   ov060
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_02188D2C  0x02188D2C  thumb  ov021
- *   func_021897BC  0x021897BC  thumb  ov021
- *   func_02012138  0x02012138  thumb
- *   func_021F3938  0x021F3938  thumb  ov060
- *   func_021F3850  0x021F3850  thumb  ov060
- *   func_021F3880  0x021F3880  thumb  ov060
- *   func_021BE580  0x021BE580  thumb  ov021
- *   func_021F39F4  0x021F39F4  thumb  ov060
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GIMMICK60_GetIntrudeCommSys  0x021F3938  thumb  ov060
+ *   GIMMICK60_HideGaugeModels  0x021F3850  thumb  ov060
+ *   GIMMICK60_ShowGauges  0x021F3880  thumb  ov060
+ *   FLD_EXP_OBJ_UpdateAnimes  0x021BE580  thumb  ov021
+ *   GIMMICK60_UpdateEffect  0x021F39F4  thumb  ov060
  */
 
 typedef unsigned short u16;
@@ -33,20 +33,20 @@ typedef struct {
 
 struct Big;
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
-extern int func_02188D2C(int *p);
-extern int *func_021897BC(char *p, int idx);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
+extern int FIELDMAP_GetExpObj(int *p);
+extern int *FIELDMAP_GetCommonWork(char *p, int idx);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *a);
-extern void *func_021F3938(void *p);
-extern void func_021F3850(char *p);
-extern u8 func_021F3880(void *a, void *b, void *unused);
-extern void func_021BE580(void *p);
-extern void func_021F39F4(u8 *a, void *b);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *a);
+extern void *GIMMICK60_GetIntrudeCommSys(void *p);
+extern void GIMMICK60_HideGaugeModels(char *p);
+extern u8 GIMMICK60_ShowGauges(void *a, void *b, void *unused);
+extern void FLD_EXP_OBJ_UpdateAnimes(void *p);
+extern void GIMMICK60_UpdateEffect(u8 *a, void *b);
 
-void func_021F374C(void *o)
+void GIMMICK60_Update(void *o)
 {
     u32 c;
     u32 h;
@@ -54,20 +54,20 @@ void func_021F374C(void *o)
     u8 *q;
     void *v;
 
-    c = (u32)func_02188C80(o);
-    h = (u32)func_020120F4((const struct Ctx *)c);
-    func_02012EC4((struct Big *)h);
-    s = (void *)func_02188D2C(o);
-    q = (u8 *)func_021897BC(o, 0);
-    v = func_021F3938((void *)func_02012138((const struct Ctx *)c));
+    c = (u32)FIELDMAP_GetGameSystem(o);
+    h = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)c);
+    GAME_DATA_GetFieldSave((struct Big *)h);
+    s = (void *)FIELDMAP_GetExpObj(o);
+    q = (u8 *)FIELDMAP_GetCommonWork(o, 0);
+    v = GIMMICK60_GetIntrudeCommSys((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)c));
     if (v != 0) {
         if (((Bf *)((u8 *)v + 0x86))->lo != *q) {
-            func_021F3850((char *)s);
-            *q = func_021F3880((void *)h, s, v);
+            GIMMICK60_HideGaugeModels((char *)s);
+            *q = GIMMICK60_ShowGauges((void *)h, s, v);
         }
     }
-    func_021BE580(s);
+    FLD_EXP_OBJ_UpdateAnimes(s);
     if (q[1] != 0) {
-        func_021F39F4(q, s);
+        GIMMICK60_UpdateEffect(q, s);
     }
 }

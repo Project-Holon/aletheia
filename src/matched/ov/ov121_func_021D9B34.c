@@ -10,7 +10,7 @@
  * extent: two trailing zero padding bytes at 0x021D9B9A.
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj02179.h"
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 int func_021D9B34(u8 *p)
 {
     u32 q;
@@ -27,7 +27,7 @@ int func_021D9B34(u8 *p)
         q = ((struct Obj02179 *)p)->f8;
         if (p[4]) {
             if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj02179 *)p)->f0))) == 0) {
-                func_02045334((struct Descriptor *)((struct Obj02179 *)p)->f0);
+                BMP_WIN_TransferChars((struct Descriptor *)((struct Obj02179 *)p)->f0);
                 p[4] = 0;
             }
         }

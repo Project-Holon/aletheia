@@ -1,5 +1,5 @@
 /*
- * function: func_0219049C
+ * function: FIELD_MSGBG_IsPrintQueFinished
  * address:  0x0219049C
  * packet:   pkt_02190490
  * region:   ov021
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *p);
 
-int func_0219049C(u8 *p)
+int FIELD_MSGBG_IsPrintQueFinished(u8 *p)
 {
     return func_0201C6B4((const struct PrintSys *)(((struct Obj17922 *)p)->fC));
 }

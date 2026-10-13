@@ -1,5 +1,5 @@
 /*
- * function: func_021DEDEC
+ * function: BTL_HANDLER_ITEM_GetLightClayHandlers
  * address: 0x021DEDEC
  * packet: pkt_ov093_021DEDEC
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F143C 0x021F143C data ov093 a4
  */
 
-int *func_021DEDEC(int *p);
+int *BTL_HANDLER_ITEM_GetLightClayHandlers(int *p);
 extern int d_021F143C[];
 
-int *func_021DEDEC(int *p)
+int *BTL_HANDLER_ITEM_GetLightClayHandlers(int *p)
 {
     *p = 1;
     return d_021F143C;

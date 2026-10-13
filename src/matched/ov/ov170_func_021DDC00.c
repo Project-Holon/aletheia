@@ -14,7 +14,7 @@
  *   func_020078C4 0x020078C4 thumb
  *   func_021DD694 0x021DD694 thumb
  *   func_0201AB28 0x0201AB28 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   func_0202136C 0x0202136C thumb
  *   func_021DD25C 0x021DD25C thumb
  */
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern int func_020078C4(void *save, u32 box);
 extern int func_021DD694(void ***p, unsigned skip);
 extern void *func_0201AB28(void *party, unsigned i);
-extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
+extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
 extern unsigned func_0202136C(unsigned short v);
 extern unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 
@@ -45,7 +45,7 @@ int func_021DDC00(unsigned char *p, unsigned a, unsigned b)
                 RESULT(p) = 3;
                 return 0;
             }
-            if (func_0202136C(func_02017E1C(func_0201AB28((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
+            if (func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
                 RESULT(p) = 2;
                 return 0;
             }
@@ -80,12 +80,12 @@ int func_021DDC00(unsigned char *p, unsigned a, unsigned b)
                 return 0;
             }
         }
-        if (b < 0x1E && func_0202136C(func_02017E1C(func_0201AB28((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
+        if (b < 0x1E && func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
             RESULT(p) = 2;
             return 0;
         }
     } else if (b >= 0x1E && m != 0) {
-        if (func_0202136C(func_02017E1C(func_0201AB28((void *)SYS(p)[2], b - 0x1E), 6, 0)) == 1) {
+        if (func_0202136C(POKE_TOOL_GetPartyValue(func_0201AB28((void *)SYS(p)[2], b - 0x1E), 6, 0)) == 1) {
             RESULT(p) = 2;
             return 0;
         }

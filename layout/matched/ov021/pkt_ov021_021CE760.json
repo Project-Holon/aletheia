@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CE760",
+   "name": "COMM_ENTRY_MENU_GetAcceptedMask",
    "address": "0x021CE760",
    "kind": "game",
    "region": "ov021",

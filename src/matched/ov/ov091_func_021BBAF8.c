@@ -1,5 +1,5 @@
 /*
- * function: func_021BBAF8
+ * function: PLIST_MENU_Open
  * address:  0x021BBAF8
  * packet:   pkt_ov091_021BBAF8
  * region:   ov091
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021BBC04  0x021BBC04  thumb  ov091
+ *   PLIST_MENU_BuildCommandList  0x021BBC04  thumb  ov091
  *   func_020355D8  0x020355D8  arm
- *   func_02027778  0x02027778  thumb
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb
  */
 #include "../include/Obj09933.h"
 #include "../include/Obj13254.h"
@@ -28,17 +28,17 @@ typedef struct Req {
     u8 c[4];
 } Req;
 
-extern void func_021BBC04(u8 *a, u8 *b, int *items);
+extern void PLIST_MENU_BuildCommandList(u8 *a, u8 *b, int *items);
 extern void func_020355D8(u32 a);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 
-void func_021BBAF8(u8 *a, u8 *b, int *items)
+void PLIST_MENU_Open(u8 *a, u8 *b, int *items)
 {
     Req r;
 
-    func_021BBC04(a, b, items);
+    PLIST_MENU_BuildCommandList(a, b, items);
     r.heap = ((struct Obj09933 *)a)->f0;
     r.v = b[0];
     r.p = b + 0x14;
@@ -48,5 +48,5 @@ void func_021BBAF8(u8 *a, u8 *b, int *items)
     r.c[2] = 0xd;
     r.c[3] = 3;
     func_020355D8(((struct Obj09933 *)a)->f8);
-    ((struct Obj13254 *)b)->f74 = (int)func_02027778((struct TaskMenuTmpl *)(&r), (void *)(((struct Obj09933 *)a)->f254));
+    ((struct Obj13254 *)b)->f74 = (int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&r), (void *)(((struct Obj09933 *)a)->f254));
 }

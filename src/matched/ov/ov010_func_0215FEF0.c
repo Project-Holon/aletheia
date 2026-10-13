@@ -1,5 +1,5 @@
 /*
- * function: func_0215FEF0
+ * function: SCRCMD_NETWORK_RecordLinkOnClose
  * address:  0x0215FEF0
  * packet:   pkt_ov010_0215FEF0
  * region:   ov010
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-int func_0215FEF0(void)
+int SCRCMD_NETWORK_RecordLinkOnClose(void)
 {
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DF2F8
+ * function: BTL_HANDLER_ITEM_GetEarthPlateHandlers
  * address: 0x021DF2F8
  * packet: pkt_ov093_021DF2F8
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F14E4[];
-int *func_021DF2F8(int *p);
+int *BTL_HANDLER_ITEM_GetEarthPlateHandlers(int *p);
 
-int *func_021DF2F8(int *p)
+int *BTL_HANDLER_ITEM_GetEarthPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F14E4;

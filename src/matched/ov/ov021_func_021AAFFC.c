@@ -1,5 +1,5 @@
 /*
- * function: func_021AAFFC
+ * function: EFFECT_ENCOUNT_DeleteEffectObj
  * address:  0x021AAFFC
  * packet:   pkt_ov021_021AAFFC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021AC154  0x021AC154  thumb
+ *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb
  */
 
 typedef struct {
@@ -18,12 +18,12 @@ typedef struct {
     int f5b4;
 } D;
 
-extern void func_021AC154(int a);
+extern void FIELD_EFFECT_DeleteObject(int a);
 
-void func_021AAFFC(D *d)
+void EFFECT_ENCOUNT_DeleteEffectObj(D *d)
 {
     if (d->f5b4 != 0) {
-        func_021AC154(d->f5b4);
+        FIELD_EFFECT_DeleteObject(d->f5b4);
         d->f5b4 = 0;
     }
 }

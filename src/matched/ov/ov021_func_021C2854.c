@@ -1,5 +1,5 @@
 /*
- * function: func_021C2854
+ * function: FLD3D_CI_PokemonFinishStep
  * address:  0x021C2854
  * packet:   pkt_ov021_021C2854
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT
  * symbols:
  *   func_02006CAC  0x02006CAC  thumb
- *   func_02006984  0x02006984  thumb
+ *   PM_VOICE_Play  0x02006984  thumb
  *   func_02006650  0x02006650  thumb
  *   func_02006B20  0x02006B20  thumb
- *   func_02006A8C  0x02006A8C  thumb
+ *   PM_VOICE_AddVolume  0x02006A8C  thumb
  *   func_020065D8  0x020065D8  thumb
  */
 #include "../include/Obj01214.h"
@@ -22,15 +22,15 @@
 typedef unsigned short u16;
 
 void func_02006CAC(void **out);
-unsigned int func_02006984(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6, unsigned int a7);
+unsigned int PM_VOICE_Play(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6, unsigned int a7);
 int func_02006650(void);
 typedef signed char    s8;
 typedef unsigned int   u32;
 s8 func_02006B20(u32 i);
-void func_02006A8C(u32 idx, int delta);
+void PM_VOICE_AddVolume(u32 idx, int delta);
 void func_020065D8(void);
 
-int func_021C2854(int a, char *b)
+int FLD3D_CI_PokemonFinishStep(int a, char *b)
 {
     int r;
     char *q;
@@ -42,9 +42,9 @@ int func_021C2854(int a, char *b)
         if (((struct Obj01214 *)q)->f18 == 0) {
             if (((struct Obj01214 *)q)->f0 == 0x1b9) {
                 func_02006CAC((void **)buf);
-                ((struct Obj01214 *)q)->f1C = func_02006984(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, (unsigned int)buf);
+                ((struct Obj01214 *)q)->f1C = PM_VOICE_Play(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, (unsigned int)buf);
             } else {
-                ((struct Obj01214 *)q)->f1C = func_02006984(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, 0);
+                ((struct Obj01214 *)q)->f1C = PM_VOICE_Play(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, 0);
             }
         }
         ((struct Obj01214 *)q)->f1A = 0x1e;
@@ -57,7 +57,7 @@ int func_021C2854(int a, char *b)
         } else if (((struct Obj01214 *)q)->f1A != 0) {
             (((struct Obj01214 *)q)->f1A)--;
         } else if (func_02006B20(((struct Obj01214 *)q)->f1C) > 0) {
-            func_02006A8C(((struct Obj01214 *)q)->f1C, r - 16);
+            PM_VOICE_AddVolume(((struct Obj01214 *)q)->f1C, r - 16);
         } else {
             func_020065D8();
             r = 1;

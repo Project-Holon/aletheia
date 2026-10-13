@@ -1,5 +1,5 @@
 /*
- * function: func_021F392C
+ * function: FIELD_FK_DEMO_InitCamera
  * address:  0x021F392C
  * packet:   pkt_ov056_021F392C
  * region:   ov056
@@ -9,32 +9,32 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Camera setup; the func_02048A24 call is spelled as in ov111_func_021C7744
+ * Camera setup; the G3D_CAMERA_Create call is spelled as in ov111_func_021C7744
  * (the pool word 0x020A1EB8 is FX_SinCosTable_ + 0x380, the load reach of
- * elements 0x1C6/0x1C7). The zeroed vector handed to func_0218ECD4 is a
+ * elements 0x1C6/0x1C7). The zeroed vector handed to FIELD_CAMERA_SetTargetShift is a
  * byte buffer viewed through a VecFx32 pointer: the image keeps its address
  * in r4 and stores through it. A declared VecFx32 (field stores, a
  * VEC_Set-style inline, a pointer local, or a {0,0,0} initialiser) folds the
  * stores to sp (a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md).
- * func_0218ED20 is an unlabelled ov021 leaf filed alongside this function.
+ * FIELD_CAMERA_GetG3dUp is an unlabelled ov021 leaf filed alongside this function.
  *
  * symbols:
- *   func_02011510  0x02011510  thumb
- *   func_0218EC2C  0x0218EC2C  thumb  ov021
- *   func_02048B30  0x02048B30  arm
- *   func_02048AE8  0x02048AE8  arm
- *   func_02048A24  0x02048A24  arm
- *   func_0218E138  0x0218E138  thumb  ov021
- *   func_0218E13C  0x0218E13C  thumb  ov021
- *   func_0218F1B4  0x0218F1B4  thumb  ov021
- *   func_0218F1AC  0x0218F1AC  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_0218ECC4  0x0218ECC4  thumb  ov021
- *   func_0218ECD4  0x0218ECD4  thumb  ov021
- *   func_0218ED20  0x0218ED20  thumb  ov021
- *   func_021F3AB0  0x021F3AB0  thumb  ov056
- *   d_021F4338     0x021F4338  data  a4
- *   d_021F42B0     0x021F42B0  data  a4
+ *   ICA_ANIME_CreateStream  0x02011510  thumb
+ *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
+ *   G3D_CAMERA_GetUp  0x02048B30  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
+ *   G3D_CAMERA_Create  0x02048A24  arm
+ *   FIELD_CAMERA_GetMode  0x0218E138  thumb  ov021
+ *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
+ *   FIELD_CAMERA_GetAreasEnabled  0x0218F1B4  thumb  ov021
+ *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_CAMERA_GetTargetShift  0x0218ECC4  thumb  ov021
+ *   FIELD_CAMERA_SetTargetShift  0x0218ECD4  thumb  ov021
+ *   FIELD_CAMERA_GetG3dUp  0x0218ED20  thumb  ov021
+ *   FIELD_FK_DEMO_ApplyCameraAnime  0x021F3AB0  thumb  ov056
+ *   gFkDemoCameraUp     0x021F4338  data  a4
+ *   gFkDemoCameraSettingId     0x021F42B0  data  a4
  *   FX_SinCosTable_  0x020A1B38  data
  */
 
@@ -58,26 +58,26 @@ typedef struct Obj {
     u32 f2c;
 } Obj;
 
-extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
-extern u32 func_0218EC2C(u8 *p);
-extern void func_02048B30(u32 cam, VecFx32 *out);
-extern void func_02048AE8(u32 cam, VecFx32 *out);
-extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
-extern u32 func_0218E138(u8 *p);
-extern void func_0218E13C(u8 *a, u32 s);
-extern u8 func_0218F1B4(u8 *p);
-extern void func_0218F1AC(u8 *p, u32 v);
-extern void func_0218EC54(u8 *p);
-extern void func_0218ECC4(int a, VecFx32 *v);
-extern void func_0218ECD4(int a, VecFx32 *v);
-extern void func_0218ED20(void *p, void *out);
-extern void func_021F3AB0(u32 *p);
+extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
+extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
+extern void G3D_CAMERA_GetUp(u32 cam, VecFx32 *out);
+extern void G3D_CAMERA_GetEye(u32 cam, VecFx32 *out);
+extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
+extern u32 FIELD_CAMERA_GetMode(u8 *p);
+extern void FIELD_CAMERA_SetMode(u8 *a, u32 s);
+extern u8 FIELD_CAMERA_GetAreasEnabled(u8 *p);
+extern void FIELD_CAMERA_SetAreasEnabled(u8 *p, u32 v);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern void FIELD_CAMERA_GetTargetShift(int a, VecFx32 *v);
+extern void FIELD_CAMERA_SetTargetShift(int a, VecFx32 *v);
+extern void FIELD_CAMERA_GetG3dUp(void *p, void *out);
+extern void FIELD_FK_DEMO_ApplyCameraAnime(u32 *p);
 
-extern const VecFx32 d_021F4338;
-extern const u32 d_021F42B0[];
+extern const VecFx32 gFkDemoCameraUp;
+extern const u32 gFkDemoCameraSettingId[];
 extern const s16 FX_SinCosTable_[];
 
-void func_021F392C(Obj *o, int a1, int heap, int idx)
+void FIELD_FK_DEMO_InitCamera(Obj *o, int a1, int heap, int idx)
 {
     VecFx32 tgt;
     VecFx32 pos;
@@ -87,25 +87,25 @@ void func_021F392C(Obj *o, int a1, int heap, int idx)
     VecFx32 *pz;
 
     o->f28 = 0;
-    o->f0 = func_02011510(heap, 0x96, idx + 0x18, 10);
-    cam = func_0218EC2C((u8 *)a1);
-    func_02048B30(cam, &tgt);
-    func_02048AE8(cam, &pos);
-    up = d_021F4338;
-    o->cam = func_02048A24(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &pos, &up, &tgt, heap);
+    o->f0 = ICA_ANIME_CreateStream(heap, 0x96, idx + 0x18, 10);
+    cam = FIELD_CAMERA_GetG3dCamera((u8 *)a1);
+    G3D_CAMERA_GetUp(cam, &tgt);
+    G3D_CAMERA_GetEye(cam, &pos);
+    up = gFkDemoCameraUp;
+    o->cam = G3D_CAMERA_Create(0, FX_SinCosTable_[0x1C6], FX_SinCosTable_[0x1C7], 0x1555, 0, 0x1000, 0x400000, 0, &pos, &up, &tgt, heap);
     o->f8 = a1;
-    o->hc = func_0218E138((u8 *)a1);
-    func_0218E13C((u8 *)o->f8, 2);
-    o->he = func_0218F1B4((u8 *)o->f8);
-    func_0218F1AC((u8 *)o->f8, 0);
-    func_0218EC54((u8 *)o->f8);
+    o->hc = FIELD_CAMERA_GetMode((u8 *)a1);
+    FIELD_CAMERA_SetMode((u8 *)o->f8, 2);
+    o->he = FIELD_CAMERA_GetAreasEnabled((u8 *)o->f8);
+    FIELD_CAMERA_SetAreasEnabled((u8 *)o->f8, 0);
+    FIELD_CAMERA_StopTargetTrace((u8 *)o->f8);
     pz = (VecFx32 *)zero;
     pz->x = 0;
     pz->y = 0;
     pz->z = 0;
-    func_0218ECC4(o->f8, &o->f10);
-    func_0218ECD4(o->f8, pz);
-    func_0218ED20((void *)o->f8, &o->f1c);
-    func_021F3AB0((u32 *)o);
-    o->f2c = d_021F42B0[idx];
+    FIELD_CAMERA_GetTargetShift(o->f8, &o->f10);
+    FIELD_CAMERA_SetTargetShift(o->f8, pz);
+    FIELD_CAMERA_GetG3dUp((void *)o->f8, &o->f1c);
+    FIELD_FK_DEMO_ApplyCameraAnime((u32 *)o);
+    o->f2c = gFkDemoCameraSettingId[idx];
 }

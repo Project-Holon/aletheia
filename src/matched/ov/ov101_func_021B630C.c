@@ -10,11 +10,11 @@
  * status: EXACT
  * symbols:
  *   func_021B6494 0x021B6494 thumb ov101
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  */
 extern int func_021B6494(unsigned int p, unsigned int a, unsigned int b, unsigned int c);
 typedef unsigned int   u32;
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 int func_021B630C(int *p,int value)
 {
     int i;
@@ -25,7 +25,7 @@ int func_021B630C(int *p,int value)
         if(func_021B6494((unsigned int)p,0xD00,4,(unsigned int)(&value))) p[17]=1;
         break;
     case 1:
-        if(func_0203D378()) {
+        if(GFL_NET_IsParentAid()) {
             for(i=0;i<2;i++) { if(value != p[26+i]) break; }
             if(i == 2) p[17]=2;
         } else p[17]=3;

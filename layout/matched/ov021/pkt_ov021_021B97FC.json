@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B97FC",
+   "name": "FIELD_RAIL_SETTING_GetLineIndex",
    "address": "0x021B97FC",
    "kind": "game",
    "region": "ov021",

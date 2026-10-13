@@ -1,5 +1,5 @@
 /*
- * function: func_0215D884
+ * function: SCRCMD_MUSICAL_BufferString
  * address:  0x0215D884
  * packet:   pkt_ov010_0215D884
  * region:   ov010
@@ -15,25 +15,25 @@
  * three placement labels of a four-way ranking).
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0215A5CC  0x0215A5CC  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02156914  0x02156914  thumb  ov010
- *   func_02156A3C  0x02156A3C  thumb  ov010
- *   func_02156AD4  0x02156AD4  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   MUSICAL_EVENT_AllocTitleString  0x02156914  thumb  ov010
+ *   MUSICAL_EVENT_SetPlayerNameWord  0x02156A3C  thumb  ov010
+ *   MUSICAL_EVENT_SetPokemonNameWord  0x02156AD4  thumb  ov010
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_0200A7A0  0x0200A7A0  thumb
  *   func_0200A7F8  0x0200A7F8  thumb
  *   func_0201EE0C  0x0201EE0C  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  */
 
 typedef unsigned char u8;
@@ -45,39 +45,39 @@ typedef struct Ctx {
     u8 *pc;             /* 0x14 */
 } Ctx;
 
-extern void *func_0215A5F4(void *vm);
-extern void *func_0215A5E4(void *vm);
+extern void *SCRCMD_WORK_GetScriptWork(void *vm);
+extern void *SCRCMD_WORK_GetGameData(void *vm);
 struct Big;
 struct MsgBank;
 struct Rec;
 struct U16Vec;
 struct Work;
-extern u16 func_0215A5CC(void *a0);
-extern void *func_02158F74(void *p);
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_02156914(int a0, int a1);
-extern void func_02156A3C(struct Work *w, u8 j, void *ws, u32 slot);
-extern void func_02156AD4(struct Work *w, u8 j, void *ws, u32 slot);
+extern u16 SCRCMD_WORK_GetHeapId(void *a0);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *MUSICAL_EVENT_AllocTitleString(int a0, int a1);
+extern void MUSICAL_EVENT_SetPlayerNameWord(struct Work *w, u8 j, void *ws, u32 slot);
+extern void MUSICAL_EVENT_SetPokemonNameWord(struct Work *w, u8 j, void *ws, u32 slot);
 extern void *GAME_DATA_GetSaveBlock2A(void *h);
 extern int GAME_DATA_GetExternalWork(char *base);
 extern u8 func_0200A7A0(struct Big *p, u32 index);
 extern u8 *func_0200A7F8(struct Big *p);
 struct WordSet;
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct Strbuf;
-extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
+extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
-int func_0215D884(Ctx *c, void *vm)
+int SCRCMD_MUSICAL_BufferString(Ctx *c, void *vm)
 {
-    void *wsx = func_0215A5F4(vm);
-    void *h = func_0215A5E4(vm);
-    u32 heap = func_0215A5CC(vm);
-    void *ws = func_02158F74(wsx);
+    void *wsx = SCRCMD_WORK_GetScriptWork(vm);
+    void *h = SCRCMD_WORK_GetGameData(vm);
+    u32 heap = SCRCMD_WORK_GetHeapId(vm);
+    void *ws = SCRIPT_WORK_GetWordSet(wsx);
     u8 op;
     u8 slot;
     u32 arg;
@@ -88,16 +88,16 @@ int func_0215D884(Ctx *c, void *vm)
     c->pc++;
     slot = *c->pc;
     c->pc++;
-    arg = func_02159B10(c, vm);
+    arg = SCRIPT_WORK_ReadWorkValue(c, vm);
 
     switch (op) {
     case 0: {
-        void *sv = GAME_DATA_GetSaveBlock2A(func_0215A5E4(vm));
+        void *sv = GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(vm));
 
-        str = func_020457B0(0x26, heap);
-        func_02045994(str, (const u16 *)func_0200A7F8(sv), 0x26);
+        str = STRBUF_Create(0x26, heap);
+        STRBUF_SetStringN(str, (const u16 *)func_0200A7F8(sv), 0x26);
         func_0201EE0C(ws, slot, str, 0, 1, 2);
-        func_02045808(str);
+        STRBUF_Delete(str);
         break;
     }
     case 1:
@@ -108,36 +108,36 @@ int func_0215D884(Ctx *c, void *vm)
             bank = func_02045B38(0, 2, 0x11A, heap);
         str = func_02045EC0(bank, arg + 3);
         func_0201EE0C(ws, slot, str, 0, 1, 2);
-        func_02045808(str);
-        func_02045C04(bank);
+        STRBUF_Delete(str);
+        MSGDATA_Delete(bank);
         break;
     case 2:
-        str = func_02156914((int)(*((void **)GAME_DATA_GetExternalWork(h))), heap);
+        str = MUSICAL_EVENT_AllocTitleString((int)(*((void **)GAME_DATA_GetExternalWork(h))), heap);
         func_0201EE0C(ws, slot, str, 0, 1, 2);
-        func_02045808(str);
+        STRBUF_Delete(str);
         break;
     case 3:
         bank = func_02045B38(0, 2, 0x4B, heap);
         str = func_02045EC0(bank, arg);
         func_0201EE0C(ws, slot, str, 0, 1, 2);
-        func_02045808(str);
-        func_02045C04(bank);
+        STRBUF_Delete(str);
+        MSGDATA_Delete(bank);
         break;
     case 4:
         bank = func_02045B38(0, 2, 0x4B, heap);
         str = func_02045EC0(bank, arg + 4);
         func_0201EE0C(ws, slot, str, 0, 1, 2);
-        func_02045808(str);
-        func_02045C04(bank);
+        STRBUF_Delete(str);
+        MSGDATA_Delete(bank);
         break;
     case 5:
-        func_02156A3C(*((void **)GAME_DATA_GetExternalWork(h)), arg, ws, slot);
+        MUSICAL_EVENT_SetPlayerNameWord(*((void **)GAME_DATA_GetExternalWork(h)), arg, ws, slot);
         break;
     case 6:
-        func_02156AD4(*((void **)GAME_DATA_GetExternalWork(h)), arg, ws, slot);
+        MUSICAL_EVENT_SetPokemonNameWord(*((void **)GAME_DATA_GetExternalWork(h)), arg, ws, slot);
         break;
     case 7: {
-        void *sv = GAME_DATA_GetSaveBlock2A(func_0215A5E4(vm));
+        void *sv = GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(vm));
         u16 ids[3];
         u8 idx[4];
         u8 val[4];
@@ -183,9 +183,9 @@ int func_0215D884(Ctx *c, void *vm)
         for (i = 0; i < 3; i++) {
             str = func_02045EC0(bank, ids[i]);
             func_0201EE0C(ws, i, str, 0, 1, 2);
-            func_02045808(str);
+            STRBUF_Delete(str);
         }
-        func_02045C04(bank);
+        MSGDATA_Delete(bank);
         break;
     }
     }

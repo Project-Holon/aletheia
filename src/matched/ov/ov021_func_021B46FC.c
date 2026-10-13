@@ -1,5 +1,5 @@
 /*
- * function: func_021B46FC
+ * function: SCRCMD_PROC_FLD_FreeItemListMenu
  * address:  0x021B46FC
  * packet:   pkt_ov021_021B46FC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0202020C  0x0202020C  thumb
+ *   BMP_MENULIST_Delete  0x0202020C  thumb
  */
 #include "../include/Obj19998.h"
 
@@ -19,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Obj;
-extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
+extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 
-void func_021B46FC(u8 *w)
+void SCRCMD_PROC_FLD_FreeItemListMenu(u8 *w)
 {
     u16 a;
     u16 b;
 
-    func_0202020C((struct Obj *)(((struct Obj19998 *)w)->f1A4), &a, &b);
+    BMP_MENULIST_Delete((struct Obj *)(((struct Obj19998 *)w)->f1A4), &a, &b);
 }

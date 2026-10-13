@@ -1,5 +1,5 @@
 /*
- * function: func_021C59A8
+ * function: SHORTCUT_MENU_DeleteList
  * address:  0x021C59A8
  * packet:   pkt_021C59A8
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0202020C  0x0202020C  thumb
- *   func_0201F868  0x0201F868  thumb
+ *   BMP_MENULIST_Delete  0x0202020C  thumb
+ *   BMP_MENUWORK_Delete  0x0201F868  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj12133.h"
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201F868(void *p);
+extern u32 BMP_MENUWORK_Delete(void *p);
 struct Obj;
-extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
+extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 
-int func_021C59A8(u32 a, u32 b, u32 c)
+int SHORTCUT_MENU_DeleteList(u32 a, u32 b, u32 c)
 {
-func_0202020C((struct Obj *)(((struct Obj12133 *)((u8 *)(a)))->f4), (u16 *)b, (u16 *)c);
-return func_0201F868((void *)(((struct Obj12133 *)((u8 *)(a)))->f0));
+BMP_MENULIST_Delete((struct Obj *)(((struct Obj12133 *)((u8 *)(a)))->f4), (u16 *)b, (u16 *)c);
+return BMP_MENUWORK_Delete((void *)(((struct Obj12133 *)((u8 *)(a)))->f0));
 }
 

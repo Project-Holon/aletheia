@@ -1,5 +1,5 @@
 /*
- * function: func_0217F044
+ * function: UNION_MSG_DeleteWordSet
  * address: 0x0217F044
  * packet: pkt_ov019_0217F044
  * region: ov019
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
-void func_0217F044(u8 *p)
+void UNION_MSG_DeleteWordSet(u8 *p)
 {
     if (((struct Obj09417 *)p)->f2804 != 0) {
         func_0201ED04(((struct Obj09417 *)p)->f2804);

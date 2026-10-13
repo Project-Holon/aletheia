@@ -1,5 +1,5 @@
 /*
- * function: func_021F40F4
+ * function: CROWD_GetWalkCmdBase
  * address:  0x021F40F4
  * packet:   pkt_021F40F4
  * region:   ov055
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u32 func_021F40F4(u8 *p)
+u32 CROWD_GetWalkCmdBase(u8 *p)
 {
     u32 v = p[0x18];
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021A1C68
+ * function: WEATHER_UpdateSequential
  * address:  0x021A1C68
  * packet:   pkt_ov021_021A1C68
  * region:   ov021
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   d_021D886C     0x021D886C  data  ov021  a4
- *   d_021D8868     0x021D8868  data  ov021  a4
- *   func_021A2050  0x021A2050  thumb  ov021
- *   func_021A21B0  0x021A21B0  thumb  ov021
- *   func_021A1C04  0x021A1C04  thumb  ov021
- *   func_021A1BF8  0x021A1BF8  thumb  ov021
- *   func_021A1FEC  0x021A1FEC  thumb  ov021
+ *   gWeatherTable     0x021D8868  data  ov021  a4
+ *   WEATHER_TASK_RequestEnd  0x021A2050  thumb  ov021
+ *   WEATHER_TASK_GetPhase  0x021A21B0  thumb  ov021
+ *   WEATHER_UnloadOverlay  0x021A1C04  thumb  ov021
+ *   WEATHER_LoadOverlay  0x021A1BF8  thumb  ov021
+ *   WEATHER_TASK_Start  0x021A1FEC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00755.h"
@@ -26,35 +26,35 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern const u32 d_021D886C[];
-extern const u32 d_021D8868[];
+extern const u32 gWeatherTable[];
 struct O;
-extern void func_021A2050(struct O *p, u32 a, u32 b);
-extern int func_021A21B0(u8 *a0);
-extern void func_021A1C04(u8 *p);
-extern void func_021A1BF8(u32 *p, u32 v);
-extern void func_021A1FEC(struct O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g);
+extern void WEATHER_TASK_RequestEnd(struct O *p, u32 a, u32 b);
+extern int WEATHER_TASK_GetPhase(u8 *a0);
+extern void WEATHER_UnloadOverlay(u8 *p);
+extern void WEATHER_LoadOverlay(u32 *p, u32 v);
+extern void WEATHER_TASK_Start(struct O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g);
 
-void func_021A1C68(u8 *p, int x)
+void WEATHER_UpdateSequential(u8 *p, int x)
 {
     switch (((struct Obj00755 *)p)->fA) {
     case 0:
         break;
     case 1:
-        func_021A2050((struct O *)(((struct Obj00755 *)p)->f20), 1, 1);
+        WEATHER_TASK_RequestEnd((struct O *)(((struct Obj00755 *)p)->f20), 1, 1);
         ((struct Obj00755 *)p)->fA = 2;
         break;
     case 2:
-        if (func_021A21B0((u8 *)(((struct Obj00755 *)p)->f20)) == 0) {
-            func_021A1C04(p);
+        if (WEATHER_TASK_GetPhase((u8 *)(((struct Obj00755 *)p)->f20)) == 0) {
+            WEATHER_UnloadOverlay(p);
             ((struct Obj00755 *)p)->fA = 3;
         }
         break;
     case 3:
-        func_021A1BF8((u32 *)p, d_021D886C[((struct Obj00755 *)p)->fE * 2]);
+        WEATHER_LoadOverlay((u32 *)p, d_021D886C[((struct Obj00755 *)p)->fE * 2]);
         ((struct Obj00755 *)p)->fA = 4;
         break;
     case 4:
-        func_021A1FEC((struct O *)(((struct Obj00755 *)p)->f20), d_021D8868[((struct Obj00755 *)p)->fE * 2], 1, 1, 1,
+        WEATHER_TASK_Start((struct O *)(((struct Obj00755 *)p)->f20), gWeatherTable[((struct Obj00755 *)p)->fE * 2], 1, 1, 1,
                       ((struct Obj00755 *)p)->f10, x);
         ((struct Obj00755 *)p)->f10 = 1;
         ((struct Obj00755 *)p)->fC = ((struct Obj00755 *)p)->fE;

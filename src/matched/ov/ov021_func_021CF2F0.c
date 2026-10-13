@@ -1,5 +1,5 @@
 /*
- * function: func_021CF2F0
+ * function: COMM_ENTRY_SendSessionLock
  * address:  0x021CF2F0
  * packet:   pkt_ov021_021CF2F0
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203996C  0x0203996C  arm
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3A8  0x0203D3A8  arm
+ *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
  */
 
 typedef unsigned char u8;
@@ -21,15 +21,15 @@ typedef unsigned int u32;
 
 typedef signed int     s32;
 struct Entry;
-extern struct Entry *func_0203996C(s32 idx);
-extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
-void func_021CF2F0(int mode)
+void COMM_ENTRY_SendSessionLock(int mode)
 {
     if (mode == 1) {
-        func_0203D3A8(func_0203996C(0xff), 0x2703, 0, 0);
+        GFL_NET_SendToHandle(GFL_NET_HANDLE_GetNetHandle(0xff), 0x2703, 0, 0);
     } else {
-        func_0203D3A8(func_020399A8(), 0x2703, 0, 0);
+        GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2703, 0, 0);
     }
 }

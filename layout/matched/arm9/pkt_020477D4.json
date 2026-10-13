@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020477D4",
+   "name": "G3D_SYSTEM_DisableObjectAnime",
    "address": "0x020477D4",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02047970",
+   "name": "G3D_SYSTEM_DrawEnd",
    "address": "0x02047970",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047E54",
+   "name": "G3D_UTIL_Delete",
    "address": "0x02047E54",
    "kind": "game",
    "region": "arm9",

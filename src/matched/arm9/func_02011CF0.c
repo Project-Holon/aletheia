@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011610  0x02011610  thumb
- *   func_02048AFC  0x02048AFC  arm
+ *   ICA_ANIME_GetTranslate  0x02011610  thumb
+ *   G3D_CAMERA_SetEye  0x02048AFC  arm
  *
- * Twelve bytes of stack filled by func_02011610 from the *second* argument
+ * Twelve bytes of stack filled by ICA_ANIME_GetTranslate from the *second* argument
  * (the first word handed to it is r1, not r0), then the buffer goes to the ARM
- * function func_02048AFC together with the original first argument.
+ * function G3D_CAMERA_SetEye together with the original first argument.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ICA_ANIME_SetCameraPos.c \
@@ -26,13 +26,13 @@ typedef unsigned char u8;
 
 struct IcaAnime;
 struct Rec12;
-extern unsigned int func_02011610(struct IcaAnime *a1, struct Rec12 *buf);
-extern void func_02048AFC(void *a0, const u8 *buf);
+extern unsigned int ICA_ANIME_GetTranslate(struct IcaAnime *a1, struct Rec12 *buf);
+extern void G3D_CAMERA_SetEye(void *a0, const u8 *buf);
 
 void ICA_ANIME_SetCameraPos(void *a0, void *a1)
 {
     u8 buf[0xc];
 
-    func_02011610(a1, (struct Rec12 *)buf);
-    func_02048AFC(a0, buf);
+    ICA_ANIME_GetTranslate(a1, (struct Rec12 *)buf);
+    G3D_CAMERA_SetEye(a0, buf);
 }

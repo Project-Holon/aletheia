@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218ECC4",
+   "name": "FIELD_CAMERA_GetTargetShift",
    "address": "0x0218ECC4",
    "kind": "game",
    "region": "ov021",

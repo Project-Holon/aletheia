@@ -1,5 +1,5 @@
 /*
- * function: func_02189A48
+ * function: FIELDMAP_GetSubscreenBusy
  * address:  0x02189A48
  * packet:   pkt_ov021_02189A48
  * region:   ov021
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
-int func_02189A48(char *p)
+int FIELDMAP_GetSubscreenBusy(char *p)
 {
     return *(unsigned int *)(p + 0x144);
 }

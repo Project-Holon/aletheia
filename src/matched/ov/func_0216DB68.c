@@ -1,5 +1,5 @@
 /*
- * function: func_0216DB68
+ * function: FLDMMDL_CheckStatusBitHeightGetOff
  * address:  0x0216DB68
  * packet:   pkt_0216DA5C
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   func_0216D55C  0x0216D55C  thumb  ov010
+ *   FLDMMDL_CheckStatusBit  0x0216D55C  thumb  ov010
 
  *
  * generated: lane O24 (ov010 leaf/wrapper sweep)
@@ -23,19 +23,19 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216DB68.c \
- *       --func func_0216DB68 --addr 0x0216DB68 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_CheckStatusBitHeightGetOff.c \
+ *       --func FLDMMDL_CheckStatusBitHeightGetOff --addr 0x0216DB68 --region ov010 --cc dsi/1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216D55C(int a0, int a1);
+extern int FLDMMDL_CheckStatusBit(int a0, int a1);
 
-int func_0216DB68(void *a0)
+int FLDMMDL_CheckStatusBitHeightGetOff(void *a0)
 {
-    if (func_0216D55C((int)a0, 512))
+    if (FLDMMDL_CheckStatusBit((int)a0, 512))
         return 1;
     return 0;
 }

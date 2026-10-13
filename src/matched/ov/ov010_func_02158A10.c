@@ -1,5 +1,5 @@
 /*
- * function: func_02158A10
+ * function: SCRIPT_SYS_RunInitScript
  * address: 0x02158A10
  * packet: pkt_ov010_02158A10
  * region: ov010
@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02158A34 0x02158A34 thumb ov010
+ *   SCRIPT_SYS_RunScriptNow 0x02158A34 thumb ov010
  */
 typedef unsigned short u16;
-extern void func_02158A34(int a, int b, u16 c, int d);
-void func_02158A10(int a, int b) { func_02158A34(a, 0, 9600, 2); }
+extern void SCRIPT_SYS_RunScriptNow(int a, int b, u16 c, int d);
+void SCRIPT_SYS_RunInitScript(int a, int b) { SCRIPT_SYS_RunScriptNow(a, 0, 9600, 2); }

@@ -1,5 +1,5 @@
 /*
- * function: func_02162ECC
+ * function: EVENTDATA_SYSTEM_GetPosEventCenterPos
  * address: 0x02162ECC
  * packet: pkt_ov010_02162ECC
  * region: ov010
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int   u32;
 extern u32 func_0207C768(u32 a, u32 b);
-void func_02162ECC(const char *p, int *out)
+void EVENTDATA_SYSTEM_GetPosEventCenterPos(const char *p, int *out)
 {
     const u16 *q = (const u16 *)(p + 10);
     int y, x, z;

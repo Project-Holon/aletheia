@@ -18,11 +18,11 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021DA1BC 0x021DA1BC thumb ov121
  *   func_02045EC0 0x02045EC0 arm
- *   func_02045874 0x02045874 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Clone 0x02045874 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
  *   d_021DFBA0 0x021DFBA0 data a4
  *   d_021DF7C0 0x021DF7C0 data a4
@@ -96,11 +96,11 @@ struct Obj;
 struct U16Vec;
 struct Vec2;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 struct Out *func_021DA4DC(const struct In *in, u16 heap)
 {
@@ -136,18 +136,18 @@ struct Out *func_021DA4DC(const struct In *in, u16 heap)
         r->b += (u8)in->f2c;
         r->a += (u8)in->f2e;
         if (in->bank) r->h = func_02045EC0(in->bank, in->ids[i]);
-        else r->h = func_02045874((struct U16Vec *)in->ids[i], (u16)((heap & 0x7FFF) | 0x8000));
+        else r->h = STRBUF_Clone((struct U16Vec *)in->ids[i], (u16)((heap & 0x7FFF) | 0x8000));
     }
     c = in->f26;
     w = in->f24;
     out->f0 = func_021DA1BC(0, (const char *)&t, out->fC, w, c, in->f8, (u32)in->bank, in->f4, heap);
     for (i = 0; i < out->fC; i++)
-        if (t.r[i].h) func_02045808(t.r[i].h);
+        if (t.r[i].h) STRBUF_Delete(t.r[i].h);
     pt.x = d_021DF76C[out->f8].a;
     pt.y = d_021DF770[out->f8].a + in->f2c * 8;
     func_0204B404((void *)out->f4, (const struct Vec2 *)(&pt), 0);
     func_0204B3DC((void *)out->f4, 1);
-    func_0204B878((void *)out->f4, out->f30);
+    CLACT_SetActorAnimSeq((void *)out->f4, out->f30);
     func_0204B92C((void *)out->f4, 1);
     return out;
 }

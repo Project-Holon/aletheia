@@ -28,18 +28,18 @@ typedef struct Gimmick49Work {
 } Gimmick49Work;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 func_02188C84(struct FieldMap *fieldMap);
-extern void *func_02189764(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void *func_021897BC(struct FieldMap *fieldMap, int id);
-extern void func_021897A0(struct FieldMap *fieldMap, int id);
-extern FldExpObjCnt *func_02188D2C(struct FieldMap *fieldMap);
-extern struct GameSystem *func_02188C80(struct FieldMap *fieldMap);
-extern struct GameData *func_020120F4(const struct GameSystem *gameSystem);
-extern struct EventWork *func_0201296C(const struct GameData *gameData);
-extern int func_020142E8(struct EventWork *eventWork, int flagId);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
+extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
+extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern int ZONEDATA_CheckEventFlag(struct EventWork *eventWork, int flagId);
 extern void func_021BE580(FldExpObjCnt *expObj);
-extern void func_021BE760(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
-extern G3dObjectStatus *func_021BE480(FldExpObjCnt *expObj, unsigned unitIndex, u16 modelIndex);
-extern void func_021BE700(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
+extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
+extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, u16 modelIndex);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
 
 #endif

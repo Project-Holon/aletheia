@@ -20,12 +20,12 @@
  *   func_02034714            0x02034714  arm
  *   MI_CpuCopy8              0x02082D44  arm
  *   func_020307B0            0x020307B0  arm
- *   func_02039338            0x02039338  arm
+ *   GFL_NET_SYSTEM_GetCurrentAid            0x02039338  arm
  *   GFL_NET_SYSTEM_GetChildBitmap            0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError            0x020393D0  arm
- *   func_020399A8            0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle            0x020399A8  arm
  *   GFL_NET_SYSTEM_IsSendEnable            0x02039594  arm
- *   func_0203996C            0x0203996C  arm
+ *   GFL_NET_HANDLE_GetNetHandle            0x0203996C  arm
  *   _pNetState               0x021469DC  data
  *   GFL_NET_SYSTEM_ClampNetId            0x020395E0  arm
  *   OS_GetMacAddress         0x02087C6C  arm
@@ -43,12 +43,12 @@
  *   _AssertNetState          0x020A7C70  data
  *   _AssertWifiBattleError   0x020A7C7C  data
  *   GFL_NET_WM_ICON_EasyEnd            0x020370C8  arm
- *   func_0203CEAC            0x0203CEAC  arm
- *   func_0203D3A8            0x0203D3A8  arm
- *   func_0203D650            0x0203D650  arm
+ *   GFL_NET_Exit            0x0203CEAC  arm
+ *   GFL_NET_SendToHandle            0x0203D3A8  arm
+ *   GFL_NET_GetUserArg            0x0203D650  arm
  *   GFL_NET_CallDeviceReadyFunc            0x0203D700  arm
  *   GFL_NET_GetSession            0x0203D788  arm
- *   func_0203D798            0x0203D798  arm
+ *   GFL_NET_GetInitParam            0x0203D798  arm
  *   GFL_NET_IRC_WIRELESS_IsActive            0x0203DA4C  arm
  *   GFL_NET_SYSTEM_InitWork  0x02037288  arm
  *   GFL_NET_SYSTEM_InitDevice  0x02037700  arm
@@ -67,6 +67,8 @@
  *   GFL_NET_HANDLE_GetNegotiationNum  0x020399EC  arm
  *   GFL_NET_COMMAND_Init  0x0203A494  arm
  *   GFL_NET_COMMAND_Exit  0x0203A53C  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
+ *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
  */
 
 struct NetStateWork;
@@ -133,17 +135,17 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern u32 func_020307B0(void *p);
 
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 
 extern int  GFL_NET_SYSTEM_IsError(void);
 
-extern GFLNetHandle *func_020399A8(void);
+extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
-extern GFLNetHandle *func_0203996C(s32 idx);
+extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
 extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
@@ -193,7 +195,7 @@ void GFL_NET_SYSTEM_ResetAll(void);
 
 int GFL_NET_SYSTEM_IsDeviceReady(void);
 
-u16 func_02039338(void);
+u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 int GFL_NET_SYSTEM_GetChildBitmap(void);
 
@@ -215,15 +217,15 @@ void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
 void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
 
-GFLNetHandle *func_0203996C(s32 idx);
+GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-GFLNetHandle *func_020399A8(void);
+GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-u32 func_020399B8(GFLNetHandle *handle);
+u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
 
 int GFL_NET_HANDLE_GetNegotiationNum(void);
 
-int func_02039ACC(void);
+int GFL_NET_HANDLE_CheckNegotiation(void);
 
 void GFL_NET_COMMAND_Init(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
@@ -413,17 +415,17 @@ void GFL_NET_STATE_FatalError(void);
 
 int GFL_NET_STATE_IsFatalError(void);
 
-int func_0203CEAC(void (*a0)(u32));
+int GFL_NET_Exit(void (*a0)(u32));
 
-int func_0203D3A8(GFLNetHandle *a, u32 b, u32 c, const void *d);
+int GFL_NET_SendToHandle(GFLNetHandle *a, u32 b, u32 c, const void *d);
 
-u32 func_0203D650(void);
+u32 GFL_NET_GetUserArg(void);
 
 void GFL_NET_CallDeviceReadyFunc(void);
 
 GFLNetSession *GFL_NET_GetSession(void);
 
-GFLNetSession *func_0203D798(void);
+GFLNetSession *GFL_NET_GetInitParam(void);
 
 int GFL_NET_IRC_WIRELESS_IsActive(void);
 
@@ -746,18 +748,18 @@ void GFL_NET_STATE_FreeWork(struct NetStateWork *work)
  *
  * 1. The r4/r5 swap was an artefact of that attempt's declaration order, not
  *    the real residue.  Declaring the two call results in source order
- *    (`s = GFL_NET_GetSession()` then `c = func_0203D798()`) puts them in r5/r0
+ *    (`s = GFL_NET_GetSession()` then `c = GFL_NET_GetInitParam()`) puts them in r5/r0
  *    exactly as the image does and the swap never appears.  That left a
  *    2-byte residue at +0x54/+0x58, not 10.
  *
  * 2. THE 2-BYTE RESIDUE: the image reloads the +0x2C callback into r1 and
  *    does `blx r1`, where the obvious C reloads into r0.  The tell is the
- *    `bl func_0203D650` immediately before it whose result looks discarded.
+ *    `bl GFL_NET_GetUserArg` immediately before it whose result looks discarded.
  *    It is not discarded -- it is the callback's ARGUMENT.  Spelling the
- *    field `void (*f2c)(u32)` and writing `p->f2C(func_0203D650())` pins r0
+ *    field `void (*f2c)(u32)` and writing `p->f2C(GFL_NET_GetUserArg())` pins r0
  *    to the argument, so the function pointer has to land in r1.  EXACT.
  *    This is the same shape src/pending/GFL_NET_STATE_ChangeoverParentConnectWait.c documents for its
- *    own callback ("takes func_0203D650's return value in r0, which is why
+ *    own callback ("takes GFL_NET_GetUserArg's return value in r0, which is why
  *    the function pointer is loaded into r1") -- a family idiom, not a
  *    one-off.
  *
@@ -777,13 +779,13 @@ void GFL_NET_STATE_FreeWork(struct NetStateWork *work)
 void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work)
 {
     GFLNetSession *session = GFL_NET_GetSession();
-    GFLNetSession *pNetIni = func_0203D798();
+    GFLNetSession *pNetIni = GFL_NET_GetInitParam();
 
     if (pNetIni->init.bNetType != 1 && pNetIni->init.bNetType != 2)
         session->ops->setup(pNetIni->init.heapId, session, 0, session->userArg);
     GFL_NET_SYSTEM_ResetAll();
     if (work->initCallback != 0) {
-        work->initCallback(func_0203D650());
+        work->initCallback(GFL_NET_GetUserArg());
         work->initCallback = 0;
     }
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x12f);
@@ -1016,7 +1018,7 @@ void GFL_NET_STATE_ConnectMac(struct NetStateWork *work)
  */
 void GFL_NET_STATE_StartConnectMac(void)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (GFL_NET_SYSTEM_StartBeaconScan(1, 0x200) != 0)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ConnectMac, 0, (int)0x17C);
 }
@@ -1175,7 +1177,7 @@ void GFL_NET_STATE_StartBeaconScan(void)
 /*
  * Tail-call wrapper over GFL_NET_STATE_ChangeStateDebug (the object at 0x021469DC, the
  * callback GFL_NET_STATE_StartBeaconScan, 0, 0x1BC).  An unlabelled ARM leaf, filed as the
- * witness chain for func_0203D010 (state 10 of GFL_NET_IRC_WIRELESS_Main).
+ * witness chain for GFL_NET_BeaconScanStart (state 10 of GFL_NET_IRC_WIRELESS_Main).
  */
 void GFL_NET_STATE_BeaconScan(void)
 {
@@ -1363,7 +1365,7 @@ int GFL_NET_STATE_ParentConnectCallback(void)
  */
 void GFL_NET_STATE_StartParent(void)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (GFL_NET_SYSTEM_StartParent(1, 0x200, 1, (u32)(void *)GFL_NET_STATE_ParentConnectCallback) != 0)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ParentWait, 0, 0x205);
 }
@@ -1728,7 +1730,7 @@ void GFL_NET_STATE_ChangeoverStopParentRetry(void)
  * at 0x0203B5CC (+0xA0) is 0x0203C00C (bytes 0c c0 03 02), not 0x0203B40C;
  * 0x0203C00C is the same tag GFL_NET_STATE_DeviceInitialized passes and resolves `literal`.
  * The first tag, 0x0203B4DC, resolves `matched` (src/matched/GFL_NET_STATE_ChangeoverStopParentRetry.c).
- * The callback takes func_0203D650's result in r0, which is why the
+ * The callback takes GFL_NET_GetUserArg's result in r0, which is why the
  * function pointer is loaded into r1 (docs/families/net_state.h, THE
  * CALLBACK ARITY RULE).
  *
@@ -1738,7 +1740,7 @@ void GFL_NET_STATE_ChangeoverStopParentRetry(void)
  */
 void GFL_NET_STATE_ChangeoverParentConnectWait(struct NetStateWork *work)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
     if (GFL_NET_SYSTEM_IsError() != 0)
         return;
     if (GFL_NET_SYSTEM_GetChildBitmap() == 0) {
@@ -1747,10 +1749,10 @@ void GFL_NET_STATE_ChangeoverParentConnectWait(struct NetStateWork *work)
     }
     if (GFL_NET_HANDLE_GetNegotiationNum() == 0)
         return;
-    if (func_02039ACC() == 0)
+    if (GFL_NET_HANDLE_CheckNegotiation() == 0)
         return;
     if (work->initCallback != 0) {
-        work->initCallback(func_0203D650());
+        work->initCallback(GFL_NET_GetUserArg());
         work->initCallback = 0;
     }
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x2a6);
@@ -1784,7 +1786,7 @@ void GFL_NET_STATE_ChangeoverParentMain(struct NetStateWork *work)
     GFLNetSession *session = GFL_NET_GetSession();
 
     if (GFL_NET_SYSTEM_GetChildBitmap() != 0) {
-        GFL_NET_STATE_ChangeParentWait(func_0203D798()->init.heapId);
+        GFL_NET_STATE_ChangeParentWait(GFL_NET_GetInitParam()->init.heapId);
         GFL_NET_CallDeviceReadyFunc();
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentConnectWait, 0, 0x2c1);
         return;
@@ -1932,8 +1934,8 @@ void GFL_NET_STATE_ChangeoverStartParent(struct NetStateWork *work)
  */
 void GFL_NET_STATE_ChangeoverChildNegotiation(void)
 {
-    func_0203D798();
-    if (func_02039ACC() == 0)
+    GFL_NET_GetInitParam();
+    if (GFL_NET_HANDLE_CheckNegotiation() == 0)
         return;
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChildNegotiationWait, 0, 0x30E);
@@ -1972,13 +1974,13 @@ void GFL_NET_STATE_ChangeoverChildNegotiation(void)
  */
 void GFL_NET_STATE_ChildNegotiationWait(struct NetStateWork *work)
 {
-    GFLNetSession *pNetIni = func_0203D798();
+    GFLNetSession *pNetIni = GFL_NET_GetInitParam();
 
-    if (func_020399B8(func_020399A8()) == 0)
+    if (GFL_NET_HANDLE_IsNegotiationDone(GFL_NET_HANDLE_GetCurrentHandle()) == 0)
         return;
 
     if (work->initCallback != 0) {
-        work->initCallback(func_0203D650());
+        work->initCallback(GFL_NET_GetUserArg());
         work->initCallback = 0;
     }
 
@@ -2017,17 +2019,17 @@ void GFL_NET_STATE_ChildNegotiationWait(struct NetStateWork *work)
  */
 void GFL_NET_STATE_ParentNegotiationWait(struct NetStateWork *work)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
 
-    func_0203996C(0xFF);
-    func_020399A8();
+    GFL_NET_HANDLE_GetNetHandle(0xFF);
+    GFL_NET_HANDLE_GetCurrentHandle();
     if (GFL_NET_HANDLE_GetNegotiationNum() < 2)
         return;
 
-    func_02039338();
+    GFL_NET_SYSTEM_GetCurrentAid();
 
     if (work->initCallback != 0) {
-        work->initCallback(func_0203D650());
+        work->initCallback(GFL_NET_GetUserArg());
         work->initCallback = 0;
     }
 
@@ -2066,11 +2068,11 @@ void GFL_NET_STATE_ParentNegotiationWait(struct NetStateWork *work)
  */
 void GFL_NET_STATE_ChangeoverChildConnected(struct NetStateWork *work)
 {
-    func_0203D798();
+    GFL_NET_GetInitParam();
 
     if (GFL_NET_GetSession()->ops->getGgid() != 1)
         return;
-    if (func_02039ACC() == 0)
+    if (GFL_NET_HANDLE_CheckNegotiation() == 0)
         return;
 
     if (GFL_NET_IRC_WIRELESS_IsActive() == 1) {
@@ -2079,7 +2081,7 @@ void GFL_NET_STATE_ChangeoverChildConnected(struct NetStateWork *work)
     }
 
     if (work->initCallback != 0) {
-        work->initCallback(func_0203D650());
+        work->initCallback(GFL_NET_GetUserArg());
         work->initCallback = 0;
     }
 
@@ -2156,7 +2158,7 @@ void GFL_NET_STATE_ChangeoverStopChild(void)
  */
 void GFL_NET_STATE_ChangeoverChildMain(struct NetStateWork *work)
 {
-    if (func_02039338() != 0) {
+    if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildNegotiation, 0, 0x383);
         return;
     }
@@ -2267,7 +2269,7 @@ void GFL_NET_STATE_ChangeoverChildScan(struct NetStateWork *work)
 
 void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac)
 {
-    GFLNetSession *pNetIni = func_0203D798();
+    GFLNetSession *pNetIni = GFL_NET_GetInitParam();
     struct NetStateWork *work;
     u64 seedState, multiplier, nextState;
     u32 delay = 30;
@@ -2532,19 +2534,19 @@ void GFL_NET_STATE_SetChangeoverMode(u32 mode, u32 hasMac, u8 *mac)
  */
 void GFL_NET_STATE_WaitDisconnect(void)
 {
-    GFLNetSession *pNetIni = func_0203D798();
+    GFLNetSession *pNetIni = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
 
     if ((u8)(pNetIni->init.bNetType + 0xFD) <= 1) {
         if (session->ops->getTgid() != 0)
             return;
-        func_0203CEAC(0);
+        GFL_NET_Exit(0);
     } else {
         GFLNetSession *rssiSession = GFL_NET_GetSession();
 
         if ((rssiSession->ops->getAidBitmap() & 0xFFFE) != 0)
             return;
-        func_0203CEAC(0);
+        GFL_NET_Exit(0);
     }
 }
 
@@ -2582,9 +2584,9 @@ void GFL_NET_STATE_WaitDisconnect(void)
  */
 void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 handle)
 {
-    func_0203D3A8((void *)handle, 2, 0, 0);
+    GFL_NET_SendToHandle((void *)handle, 2, 0, 0);
 
-    if (func_02039338() != 0)
+    if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
         return;
 
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WaitDisconnect, 0, 0x46C);
@@ -2618,11 +2620,11 @@ void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 
 /*
  * "If the state is non-zero, park the card interface."  The result of the
  * test is kept in a local and returned, so the zero path is the `popeq` that
- * gives back r0 == 0 and the busy path returns whatever func_0203CEAC leaves
+ * gives back r0 == 0 and the busy path returns whatever GFL_NET_Exit leaves
  * in r0 - no second `mov r0, #0` anywhere.
  *
- * The local is load-bearing: spelling it `if (func_02039338() == 0) return 0;
- * return func_0203CEAC(0);` hoists the `mov r0, #0` that sets up the call's
+ * The local is load-bearing: spelling it `if (GFL_NET_SYSTEM_GetCurrentAid() == 0) return 0;
+ * return GFL_NET_Exit(0);` hoists the `mov r0, #0` that sets up the call's
  * argument above the conditional return and lands two instructions late.
  *
  * Addresses are Black-image addresses.
@@ -2635,9 +2637,9 @@ u32 GFL_NET_STATE_IsExitReady(void)
 {
     u32 result;
 
-    result = func_02039338();
+    result = GFL_NET_SYSTEM_GetCurrentAid();
     if (result != 0)
-        result = func_0203CEAC(0);
+        result = GFL_NET_Exit(0);
     return result;
 }
 
@@ -2677,7 +2679,7 @@ void GFL_NET_STATE_ExitWait(struct NetStateWork *work)
 {
     GFLNetSession *session;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     session = GFL_NET_GetSession();
 
     if (session->ops->isIdle() != 0) {
@@ -2925,7 +2927,7 @@ void GFL_NET_STATE_EndDevice(void)
 
 GFLNetSession *GFL_NET_STATE_SetMPMode(int netID, int size, u8 *data, int work)
 {
-    GFLNetSession *pNetIni = func_0203D798();
+    GFLNetSession *pNetIni = GFL_NET_GetInitParam();
 
     pNetIni->init.bMPMode = *data;
     return pNetIni;
@@ -3219,7 +3221,7 @@ void GFL_NET_STATE_WifiLoginMain(struct NetStateWork *work)
 void GFL_NET_STATE_WifiLoginStart(struct NetStateWork *work)
 {
     GFLNetSession *session = GFL_NET_GetSession();
-    GFLNetSession *pNetIni = func_0203D798();
+    GFLNetSession *pNetIni = GFL_NET_GetInitParam();
 
     if (session->ops->startFriendMatch(work->loginTarget, pNetIni->init.maxConnectNum, 0) != 0)
         return;
@@ -3590,7 +3592,7 @@ void GFL_NET_STATE_WifiDisconnect(u32 hasMatch)
         return;
 
     if (hasMatch != 0) {
-        if (func_02039338() == 0)
+        if (GFL_NET_SYSTEM_GetCurrentAid() == 0)
             _pNetState->matchDisconnect = 0;
         else
             _pNetState->matchDisconnect = 1;
@@ -3777,7 +3779,7 @@ void GFL_NET_STATE_WifiLogoutWait(struct NetStateWork *work)
 {
     GFLNetSession *session;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     session = GFL_NET_GetSession();
 
     session->ops->update(1);
@@ -3972,7 +3974,7 @@ void GFL_NET_STATE_WifiMatchWait(struct NetStateWork *work)
  */
 void GFL_NET_STATE_WifiMatchStart(void)
 {
-    GFLNetSession *pNetIni = func_0203D798();
+    GFLNetSession *pNetIni = GFL_NET_GetInitParam();
 
     if (GFL_NET_SYSTEM_InitDevice(0x200, pNetIni->init.heapId) == 0)
         return;
@@ -4020,7 +4022,7 @@ void GFL_NET_STATE_WifiStartMatch(void)
     if (GFL_NET_SYSTEM_IsDeviceReady() != 0)
         return;
 
-    func_0203D798();
+    GFL_NET_GetInitParam();
     func_0203516C(1);
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiMatchStart, 0, 0x760);
 }
@@ -4337,7 +4339,7 @@ void GFL_NET_STATE_SetWifiError(void)
     if (_pNetState == 0)
         return;
 
-    pNetIni = func_0203D798();
+    pNetIni = GFL_NET_GetInitParam();
 
     isWifiType = 0;
     if ((u8)(pNetIni->init.bNetType + 0xFF) <= 5) {

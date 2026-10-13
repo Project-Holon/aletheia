@@ -1,5 +1,5 @@
 /*
- * function: func_021AB334
+ * function: MAP_ATTR_IsSnowTile
  * address:  0x021AB334
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -9,22 +9,22 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Terrain-id predicate forwarding to func_021AB31C (id 0x0e).
+ * Terrain-id predicate forwarding to MAP_ATTR_IsSnow (id 0x0e).
  *
  * symbols:
- *   func_021AB31C  0x021AB31C  thumb
+ *   MAP_ATTR_IsSnow  0x021AB31C  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-extern BOOL func_021AB31C(u16 id);
+extern BOOL MAP_ATTR_IsSnow(u16 id);
 
 
-BOOL func_021AB334(u16 id)
+BOOL MAP_ATTR_IsSnowTile(u16 id)
 {
-    if (func_021AB31C(id)) {
+    if (MAP_ATTR_IsSnow(id)) {
         return 1;
     }
 

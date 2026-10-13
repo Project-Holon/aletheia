@@ -1,5 +1,5 @@
 /*
- * function: func_0216512C
+ * function: GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeStart
  * address:  0x0216512C
  * packet:   pkt_0216512C
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_SetDetailsBattleSpecialPoke(void *, unsigned);
 
-void func_0216512C(void *a0, unsigned a1)
+void GAME_BEACON_SEARCH_SetInfoBattleSpecialPokeStart(void *a0, unsigned a1)
 {
     ((struct Obj05717 *)a0)->f30 = 0x4;
     ((struct Obj05717 *)a0)->f32 = a1;

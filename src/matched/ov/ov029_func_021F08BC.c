@@ -1,5 +1,5 @@
 /*
- * function: func_021F08BC
+ * function: C_GEAR_BlendTabPalette
  * address:  0x021F08BC
  * packet:   pkt_ov029_021F08BC
  * region:   ov029
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F08BC  0x021F08BC  thumb  ov029
+ *   C_GEAR_BlendTabPalette  0x021F08BC  thumb  ov029
  *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_021F31A8     0x021F31A8  data  ov029  a1
  */
@@ -33,7 +33,7 @@ struct W {
     u16 unk_272[1][5];
 };
 
-void func_021F08BC(struct W *p, int i, int j, int k)
+void C_GEAR_BlendTabPalette(struct W *p, int i, int j, int k)
 {
     int n;
     int m;

@@ -11,10 +11,10 @@
  *
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetMaxConnectNum  0x0203D680  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
- *   func_020392B8  0x020392B8  arm
+ *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_SYSTEM_SetDebugByte  0x02037224  arm
  *   GFL_NET_SYSTEM_GetSendSize  0x02037258  arm
  *   GFL_NET_SYSTEM_ClearChildRecv  0x02038570  arm
@@ -50,10 +50,10 @@ struct Oth {
 };
 
 extern void *GFL_NET_GetSession(void);
-extern struct Oth *func_0203D798(void);
+extern struct Oth *GFL_NET_GetInitParam(void);
 extern u32  GFL_NET_GetMaxConnectNum(void);
 extern u32  GFL_NET_GetChildSendSize(void);
-extern int  func_020392B8(void);
+extern int  GFL_NET_SYSTEM_GetConnectNum(void);
 extern void GFL_NET_SYSTEM_SetDebugByte(u8 v, int b);
 extern u32  GFL_NET_SYSTEM_GetSendSize(void);
 extern void GFL_NET_SYSTEM_ClearChildRecv(void);
@@ -68,7 +68,7 @@ void GFL_NET_SYSTEM_SendMPParent(void)
 
     GFL_NET_GetMaxConnectNum();
     if (g_020A7A20[0] == 1) {
-        if (func_020392B8() > 1) {
+        if (GFL_NET_SYSTEM_GetConnectNum() > 1) {
             GFL_NET_SYSTEM_SetDebugByte(2, 0x46a);
             if (((int (*)(void))c->f340[0x70 / 4])() != 0) {
                 u32 t = GFL_NET_SYSTEM_GetSendSize();
@@ -78,7 +78,7 @@ void GFL_NET_SYSTEM_SendMPParent(void)
                 GFL_NET_SYSTEM_SetDebugByte(1, 0x46a + 4);
                 goto tail;
             }
-            if (func_0203D798()->f65 != 3 && func_0203D798()->f65 != 4)
+            if (GFL_NET_GetInitParam()->f65 != 3 && GFL_NET_GetInitParam()->f65 != 4)
                 goto tail;
             if (((int (*)(void))c->f340[0xa0 / 4])() == 0) {
                 GFL_NET_SYSTEM_SetDebugByte(1, 0x475);
@@ -101,9 +101,9 @@ tail:
     }
     if (((int (*)(void))c->f340[0x70 / 4])() == 0)
         goto last;
-    if (func_0203D798()->f65 == 3)
+    if (GFL_NET_GetInitParam()->f65 == 3)
         goto last;
-    if (func_0203D798()->f65 != 4)
+    if (GFL_NET_GetInitParam()->f65 != 4)
         return;
 last:
     GFL_NET_SYSTEM_SetDebugByte(4, 0x492);

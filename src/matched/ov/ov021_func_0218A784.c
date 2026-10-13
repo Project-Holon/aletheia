@@ -1,5 +1,5 @@
 /*
- * function: func_0218A784
+ * function: FIELD_EVENT_CHECK_CheckPosEventForDir
  * address:  0x0218A784
  * packet:   pkt_ov021_0218A784
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * Unless the tile attribute under the object's position blocks it
- * (func_021AB188), asks ov010 func_02162928 for a message id and shows it
- * through func_02158768; returns 0 otherwise.
+ * (MAP_ATTR_IsNoInteract), asks ov010 EVENTDATA_SYSTEM_GetPosEventScriptId for a message id and shows it
+ * through SCRIPT_SYS_CreateScriptEventSimple; returns 0 otherwise.
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_0201296C  0x0201296C  thumb
- *   func_021A3038  0x021A3038  thumb
- *   func_02188C98  0x02188C98  thumb
- *   func_021AB0D4  0x021AB0D4  thumb
- *   func_021AB0F0  0x021AB0F0  thumb
- *   func_021AB188  0x021AB188  thumb
- *   func_02162928  0x02162928  thumb  ov010
- *   func_02158768  0x02158768  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetEventWork  0x0201296C  thumb
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb
+ *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
+ *   MAP_ATTR_GetAt  0x021AB0D4  thumb
+ *   MAP_ATTR_GetTerrainId  0x021AB0F0  thumb
+ *   MAP_ATTR_IsNoInteract  0x021AB188  thumb
+ *   EVENTDATA_SYSTEM_GetPosEventScriptId  0x02162928  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -42,31 +42,31 @@ struct Ctx784 {
 };
 
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct BigObj;
 struct Desc;
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 struct VecFx32;
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern u32 func_02188C98(u8 *p);
-extern int func_021AB0D4(void *a, void *b);
-extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB188(u16 id);
-extern u16 func_02162928(void *p, void *q, int key, int mode);
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+extern int MAP_ATTR_GetAt(void *a, void *b);
+extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+extern int MAP_ATTR_IsNoInteract(u16 id);
+extern u16 EVENTDATA_SYSTEM_GetPosEventScriptId(void *p, void *q, int key, int mode);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 
-int func_0218A784(struct Ctx784 *c, int a)
+int FIELD_EVENT_CHECK_CheckPosEventForDir(struct Ctx784 *c, int a)
 {
-    void *x = func_0201210C(c->f4);
-    void *y = (void *)func_0201296C(c->f8);
+    void *x = GAMESYSTEM_GetFieldMap(c->f4);
+    void *y = (void *)GAME_DATA_GetEventWork(c->f8);
     u32 pos[3];
     u32 msg;
 
-    func_021A3038(c->f18, (struct VecFx32 *)pos);
-    if (func_021AB188(func_021AB0F0(func_021AB0D4((void *)func_02188C98(x), pos))) == 1)
+    FIELD_PLAYER_GetPos(c->f18, (struct VecFx32 *)pos);
+    if (MAP_ATTR_IsNoInteract(MAP_ATTR_GetTerrainId(MAP_ATTR_GetAt((void *)FIELDMAP_GetG3dMapper(x), pos))) == 1)
         return 0;
-    msg = func_02162928(c->fC, y, (int)pos, a);
+    msg = EVENTDATA_SYSTEM_GetPosEventScriptId(c->fC, y, (int)pos, a);
     if (msg != 0xFFFF)
-        return (int)func_02158768((int)c->f4, msg, 0, c->f0);
+        return (int)SCRIPT_SYS_CreateScriptEventSimple((int)c->f4, msg, 0, c->f0);
     return 0;
 }

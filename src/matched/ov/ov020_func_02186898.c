@@ -1,5 +1,5 @@
 /*
- * function: func_02186898
+ * function: FIELD_WFBC_DATA_LOCAL_GetItemSlot
  * address:  0x02186898
  * packet:   pkt_02186898
  * region:   ov020
@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-u16 func_02186898(u16 *p, int i)
+u16 FIELD_WFBC_DATA_LOCAL_GetItemSlot(u16 *p, int i)
 {
     return p[i];
 }

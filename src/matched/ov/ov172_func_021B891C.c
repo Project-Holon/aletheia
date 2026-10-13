@@ -8,22 +8,22 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
  */
 #include "../include/Obj24084.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_SendData(u32, u32, u32, u32, u32, u32, u32, u32);
 int func_021B891C(void *a, char *q, u16 *p)
 {
     u32 entry;
     int r;
-    entry = (u32)func_020399A8();
-    r = func_0203D3F8(entry, 255, 0x2001, *p + 8, (u32)p, 1, 0, 1);
+    entry = (u32)GFL_NET_HANDLE_GetCurrentHandle();
+    r = GFL_NET_SendData(entry, 255, 0x2001, *p + 8, (u32)p, 1, 0, 1);
     if (r != 0)
         ((struct Obj24084 *)q)->f194 = 1;
     return r;

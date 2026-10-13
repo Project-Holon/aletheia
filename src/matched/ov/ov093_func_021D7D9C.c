@@ -1,5 +1,5 @@
 /*
- * function: func_021D7D9C
+ * function: BTL_CALC_MakeSickContPoke
  * address: 0x021D7D9C
  * packet: pkt_ov093_021D7D9C
  * region: ov093
@@ -12,4 +12,4 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 union Slot { u32 raw; struct {u32 kind:3; u32 lo:6; u32 hi:6; u32 rest:17;} s; };
-union Slot func_021D7D9C(u32 x) { union Slot s; s.raw=0; s.s.kind=3; s.s.lo=x; return s; }
+union Slot BTL_CALC_MakeSickContPoke(u32 x) { union Slot s; s.raw=0; s.s.kind=3; s.s.lo=x; return s; }

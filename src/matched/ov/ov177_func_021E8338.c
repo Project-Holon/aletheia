@@ -7,6 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
  */
 typedef struct { short x, y; } Pos;
 typedef struct {
@@ -21,7 +24,7 @@ extern u32 func_020407E8(u32 layer);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -40,7 +43,7 @@ int func_021E8338(Work *p)
     if (p->count == 0) {
         for (i = done; i < 14; i++) {
             if (p->obj[i] != 0) {
-                func_0204B454(p->obj[i], (struct PtS *)&pos[1], 0);
+                CLACT_GetActorSurfacePos(p->obj[i], (struct PtS *)&pos[1], 0);
                 p->base[i] = pos[1].x;
             }
         }
@@ -48,7 +51,7 @@ int func_021E8338(Work *p)
     shift = func_0209C2B0(p->count << 8, 20) - 0x100;
     for (i = 0; i < 14; i++) {
         if (p->obj[i] != 0) {
-            func_0204B454(p->obj[i], (struct PtS *)&pos[0], 0);
+            CLACT_GetActorSurfacePos(p->obj[i], (struct PtS *)&pos[0], 0);
             pos[0].x = p->base[i] - func_0209C2B0(p->count << 8, 20);
             func_0204B404(p->obj[i], (const struct Vec2 *)(&pos[0]), 0);
         }

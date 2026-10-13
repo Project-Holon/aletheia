@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C7EFC",
+   "name": "FIELD_FLASH_CmdInit",
    "address": "0x021C7EFC",
    "kind": "game",
    "region": "ov021",

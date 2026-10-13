@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B3A64",
+   "name": "SCRCMD_PROC_FLD_BuildItemListFromRange",
    "address": "0x021B3A64",
    "kind": "game",
    "region": "ov021",

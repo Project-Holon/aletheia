@@ -1,5 +1,5 @@
 /*
- * function: func_021BB7BC
+ * function: TOWNMAP_GRH_ResetDisplay
  * address:  0x021BB7BC
  * packet:   pkt_ov072_021BB7BC
  * region:   ov072
@@ -11,36 +11,36 @@
  *
  * symbols:
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
- *   func_020433E0  0x020433E0  arm
- *   func_0204363C  0x0204363C  arm
- *   func_0204361C  0x0204361C  arm
+ *   BG_SYS_SetVramBanks  0x020433E0  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
+ *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
- *   func_0201DD60  0x0201DD60  thumb
- *   d_021BBBDC     0x021BBBDC  data  ov072
+ *   GF_FONT_ResetTextColor  0x0201DD60  thumb
+ *   sTownMapGrhVramBanks     0x021BBBDC  data  ov072
  */
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern char d_021BBBDC[];
+extern char sTownMapGrhVramBanks[];
 
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
 struct DispVram;
-extern void func_020433E0(const struct DispVram *c);
-extern void func_0204363C(u32 a);
-extern void func_0204361C(void);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
+extern void BG_SYS_SetLcdSwap(u32 a);
+extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
-extern void func_0201DD60(void);
+extern void GF_FONT_ResetTextColor(void);
 
-void func_021BB7BC(void)
+void TOWNMAP_GRH_ResetDisplay(void)
 {
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((const struct DispVram *)d_021BBBDC);
-    func_0204363C(0);
-    func_0204361C();
+    BG_SYS_SetVramBanks((const struct DispVram *)sTownMapGrhVramBanks);
+    BG_SYS_SetLcdSwap(0);
+    BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
-    func_0201DD60();
+    GF_FONT_ResetTextColor();
 }

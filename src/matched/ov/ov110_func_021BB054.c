@@ -14,7 +14,7 @@
  *   func_021B99F0 0x021B99F0 thumb ov110
  *   func_021B9A48 0x021B9A48 thumb ov110
  *   func_021B99D8 0x021B99D8 thumb ov110
- *   func_021B6CE0 0x021B6CE0 thumb ov067
+ *   MSGSEARCH_Search 0x021B6CE0 thumb ov067
  *   STRBUF_Clear 0x0204581C arm
  *   func_02045F50 0x02045F50 arm
  *   d_021C375C 0x021C375C data a2
@@ -31,7 +31,7 @@ extern u16 func_02045F50(const struct Obj *o);
 extern u16 func_021B99F0(int,int,int);
 extern int func_021B9A48(u32);
 extern u32 func_021B99D8(u32,u32,u32);
-extern u32 func_021B6CE0(void *,u32,u32,u32,void *,u32);
+extern u32 MSGSEARCH_Search(void *,u32,u32,u32,void *,u32);
 extern const u16 d_021C375C[10];
 int func_021BB054(u8 *p)
 {
@@ -71,7 +71,7 @@ int func_021BB054(u8 *p)
         return 0;
     } else {
         __builtin__clear(normal,sizeof(normal));
-        n=func_021B6CE0(((struct Obj01391 *)p)->f78,id,0,*(u32 *)&((struct Obj01391 *)p)->fAD0,p+0x7c,264);
+        n=MSGSEARCH_Search(((struct Obj01391 *)p)->f78,id,0,*(u32 *)&((struct Obj01391 *)p)->fAD0,p+0x7c,264);
         for(i=0;i<n;i++) {
             normal[i]=func_021B99F0(*(int *)&((struct Obj01391 *)p)->f4,id,*(int *)(p+0x80+i*8));
         }

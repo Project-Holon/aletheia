@@ -1,5 +1,5 @@
 /*
- * function: func_021BA114
+ * function: STARTMENU_StateSetup
  * address:  0x021BA114
  * packet:   pkt_ov088_021BA114
  * region:   ov088
@@ -14,21 +14,21 @@
  *   func_020092EC  0x020092EC  thumb
  *   func_0200C2F0  0x0200C2F0  thumb
  *   func_02043534  0x02043534  arm
- *   func_020435F4  0x020435F4  arm
- *   func_0204363C  0x0204363C  arm
- *   func_021BA9D4  0x021BA9D4  thumb  ov088
- *   func_021BA9E8  0x021BA9E8  thumb  ov088
- *   func_021BAB64  0x021BAB64  thumb  ov088
- *   func_021BAC74  0x021BAC74  thumb  ov088
- *   func_021BB4B4  0x021BB4B4  thumb  ov088
- *   func_021BB544  0x021BB544  thumb  ov088
- *   func_021BAD08  0x021BAD08  thumb  ov088
- *   func_021BB184  0x021BB184  thumb  ov088
- *   func_021BB380  0x021BB380  thumb  ov088
- *   func_021BB608  0x021BB608  thumb  ov088
- *   func_021BAC24  0x021BAC24  thumb  ov088
- *   func_021BB484  0x021BB484  thumb  ov088
- *   func_021BA9B0  0x021BA9B0  thumb  ov088
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
+ *   STARTMENU_ClearGraphics  0x021BA9D4  thumb  ov088
+ *   STARTMENU_SetupBackgrounds  0x021BA9E8  thumb  ov088
+ *   STARTMENU_LoadGraphics  0x021BAB64  thumb  ov088
+ *   STARTMENU_CreateTextSystem  0x021BAC74  thumb  ov088
+ *   STARTMENU_BuildRowList  0x021BB4B4  thumb  ov088
+ *   STARTMENU_LoadRowBuffers  0x021BB544  thumb  ov088
+ *   STARTMENU_CreateRowWindows  0x021BAD08  thumb  ov088
+ *   STARTMENU_CreateActors  0x021BB184  thumb  ov088
+ *   STARTMENU_CreateFrameManager  0x021BB380  thumb  ov088
+ *   STARTMENU_LayoutRows  0x021BB608  thumb  ov088
+ *   STARTMENU_CreateBlinkPalette  0x021BAC24  thumb  ov088
+ *   STARTMENU_StartBrightnessEffect  0x021BB484  thumb  ov088
+ *   STARTMENU_AddVblankTask  0x021BA9B0  thumb  ov088
  */
 
 struct Sub02009448Obj;
@@ -41,45 +41,45 @@ struct Blk34;
 struct Menu;
 extern void func_0200C2F0(struct Blk34 *p, u32 i, u8 v);
 extern void func_02043534(u32 planes);
-extern void func_020435F4(u32 planes);
-extern void func_0204363C(u32 swap);
-extern void func_021BA9D4(void);
-extern void func_021BA9E8(void);
-extern void func_021BAB64(void);
-extern void func_021BAC74(char *p);
-extern void func_021BB4B4(char *p);
-extern void func_021BB544(char *p);
-extern void func_021BAD08(struct Menu *p);
-extern void func_021BB184(int *p);
-extern void func_021BB380(char *p);
-extern void func_021BB608(char *p);
-extern void func_021BAC24(char *p);
-extern void func_021BB484(void);
-extern void func_021BA9B0(int *p);
+extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
+extern void BG_SYS_SetLcdSwap(u32 swap);
+extern void STARTMENU_ClearGraphics(void);
+extern void STARTMENU_SetupBackgrounds(void);
+extern void STARTMENU_LoadGraphics(void);
+extern void STARTMENU_CreateTextSystem(char *p);
+extern void STARTMENU_BuildRowList(char *p);
+extern void STARTMENU_LoadRowBuffers(char *p);
+extern void STARTMENU_CreateRowWindows(struct Menu *p);
+extern void STARTMENU_CreateActors(int *p);
+extern void STARTMENU_CreateFrameManager(char *p);
+extern void STARTMENU_LayoutRows(char *p);
+extern void STARTMENU_CreateBlinkPalette(char *p);
+extern void STARTMENU_StartBrightnessEffect(void);
+extern void STARTMENU_AddVblankTask(int *p);
 
-int func_021BA114(int *p)
+int STARTMENU_StateSetup(int *p)
 {
     unsigned short z;
     if (func_020092EC((const struct Sub02009210Obj *)func_02009448((void *)p[0])) == 1)
         func_0200C2F0((struct Blk34 *)p[2], 2, 2);
     z = 0;
     func_02043534(0);
-    func_020435F4(0);
+    BG_SYS_SetSubVisiblePlanes(0);
     *(unsigned short *)0x04000050 = z;
     *(unsigned short *)0x04001050 = z;
-    func_0204363C(1);
-    func_021BA9D4();
-    func_021BA9E8();
-    func_021BAB64();
-    func_021BAC74((char *)p);
-    func_021BB4B4((char *)p);
-    func_021BB544((char *)p);
-    func_021BAD08((struct Menu *)p);
-    func_021BB184(p);
-    func_021BB380((char *)p);
-    func_021BB608((char *)p);
-    func_021BAC24((char *)p);
-    func_021BB484();
-    func_021BA9B0(p);
+    BG_SYS_SetLcdSwap(1);
+    STARTMENU_ClearGraphics();
+    STARTMENU_SetupBackgrounds();
+    STARTMENU_LoadGraphics();
+    STARTMENU_CreateTextSystem((char *)p);
+    STARTMENU_BuildRowList((char *)p);
+    STARTMENU_LoadRowBuffers((char *)p);
+    STARTMENU_CreateRowWindows((struct Menu *)p);
+    STARTMENU_CreateActors(p);
+    STARTMENU_CreateFrameManager((char *)p);
+    STARTMENU_LayoutRows((char *)p);
+    STARTMENU_CreateBlinkPalette((char *)p);
+    STARTMENU_StartBrightnessEffect();
+    STARTMENU_AddVblankTask(p);
     return 4;
 }

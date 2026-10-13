@@ -1,5 +1,5 @@
 /*
- * function: func_021B7DD0
+ * function: ITEMMENU_HideQuantityWindows
  * address: 0x021B7DD0
  * packet: pkt_ov070_021B7DD0
  * region: ov070
@@ -19,4 +19,4 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_020414EC(u32 i);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-void func_021B7DD0(u8 *p) { func_020414EC(3); func_0204B3DC(((struct Obj00002 *)p)->f724,0); func_0204B3DC(((struct Obj00002 *)p)->f728,0); }
+void ITEMMENU_HideQuantityWindows(u8 *p) { func_020414EC(3); func_0204B3DC(((struct Obj00002 *)p)->f724,0); func_0204B3DC(((struct Obj00002 *)p)->f728,0); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021DC87C
+ * function: BTL_ABILITY_GetInfiltratorHandlers
  * address: 0x021DC87C
  * packet: pkt_ov093_021DC87C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DC6EC.c and filed here.
  *
  * symbols:
- *   d_021F0A00 0x021F0A00 data ov093 a4
+ *   gInfiltratorHandlers 0x021F0A00 data ov093 a4
  */
 
-int *func_021DC87C(int *p);
-extern int d_021F0A00[];
+int *BTL_ABILITY_GetInfiltratorHandlers(int *p);
+extern int gInfiltratorHandlers[];
 
-int *func_021DC87C(int *p)
+int *BTL_ABILITY_GetInfiltratorHandlers(int *p)
 {
     *p = 2;
-    return d_021F0A00;
+    return gInfiltratorHandlers;
 }

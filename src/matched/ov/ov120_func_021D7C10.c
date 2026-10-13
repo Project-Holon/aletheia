@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02051C88 0x02051C88 arm
+ *   BUTTON_MAN_UpdateSlots 0x02051C88 arm
  */
 #include "../include/Obj22844.h"
 typedef unsigned char u8;
@@ -18,5 +18,5 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int     s32;
 struct Ctx;
-extern s32 func_02051C88(struct Ctx *c);
-int func_021D7C10(char *p) { return func_02051C88(((struct Obj22844 *)p)->f8); }
+extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
+int func_021D7C10(char *p) { return BUTTON_MAN_UpdateSlots(((struct Obj22844 *)p)->f8); }

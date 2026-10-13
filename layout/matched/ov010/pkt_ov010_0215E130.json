@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215E130",
+   "name": "SCRCMD_MUSICAL_WaitCommIdle",
    "address": "0x0215E130",
    "kind": "game",
    "region": "ov010",

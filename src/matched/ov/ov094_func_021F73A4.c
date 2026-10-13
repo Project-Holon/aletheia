@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048AE8  0x02048AE8  arm
- *   func_02048B30  0x02048B30  arm
+ *   G3D_CAMERA_GetEye  0x02048AE8  arm
+ *   G3D_CAMERA_GetUp  0x02048B30  arm
  *   func_0207CFB8  0x0207CFB8  arm
  *   func_0207CBD0  0x0207CBD0  arm
  */
 
-extern void func_02048AE8(int, int *);
-extern void func_02048B30(int, int *);
+extern void G3D_CAMERA_GetEye(int, int *);
+extern void G3D_CAMERA_GetUp(int, int *);
 extern int func_0207CFB8(int, int);
 extern int func_0207CBD0(int *);
 
@@ -25,8 +25,8 @@ void func_021F73A4(int *p)
 {
     int a[3];
     int b[3];
-    func_02048AE8(p[1], a);
-    func_02048B30(p[1], b);
+    G3D_CAMERA_GetEye(p[1], a);
+    G3D_CAMERA_GetUp(p[1], b);
     a[0] -= b[0];
     a[1] -= b[1];
     a[2] -= b[2];

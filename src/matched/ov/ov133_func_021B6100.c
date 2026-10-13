@@ -18,14 +18,14 @@
  *   func_021B9B48 0x021B9B48 thumb ov133
  *   func_021B6884 0x021B6884 thumb ov133
  *   func_020056A0 0x020056A0 thumb
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   _s32_div_f 0x0209C0A4 arm
  *   func_021B9028 0x021B9028 thumb ov133
  *   func_0200A828 0x0200A828 thumb
  *   func_0200A834 0x0200A834 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   func_0203D34C 0x0203D34C arm
+ *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   d_021BA600 0x021BA600 data a4
  */
 typedef unsigned char u8;
@@ -42,13 +42,13 @@ extern void func_021B9DE8(u8 *);
 extern void func_021B9B48(u8 *);
 extern void func_021B6884(void *unused, u8 *p);
 extern void *func_020056A0(void *,void *,int);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern void func_021B9028(u8 *,int,u16);
 struct Big;
 extern u32 func_0200A828(struct Big *p);
 extern void func_0200A834(struct Big *p, u8 value);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
-extern void func_0203D34C(u32,u32);
+extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 u8 *func_021B6100(u8 *parent, int heap)
 {
     u8 *p = func_02030734(heap, 0x18f0, 1, d_021BA600, 0x1de);
@@ -86,7 +86,7 @@ u8 *func_021B6100(u8 *parent, int heap)
     func_021B9DE8(p);
     func_021B9B48(p);
     *(void **)(p + 8) = func_020056A0((void *)func_021B6884, p, 8);
-    func_0202208C((void *)2, 1, 1, 0x7fff, 18, 1, *(u16 *)p);
+    WIPE_SYS_Start((void *)2, 1, 1, 0x7fff, 18, 1, *(u16 *)p);
     t = *(u32 *)(p + 0x1834) + 0x18000;
     *(u16 *)(p + 0x18c2) = 10;
     m = *(u16 *)(p + 0xa8) * 0x1249;
@@ -109,6 +109,6 @@ u8 *func_021B6100(u8 *parent, int heap)
         *(u32 *)(p + 0x1840) = 0;
     }
     GFL_USE_CancelChangeAndPlayBgm(0x454, 0xffff);
-    func_0203D34C(0, *(u16 *)p);
+    GFL_NET_RestartWithDefaultTimeout(0, *(u16 *)p);
     return p;
 }

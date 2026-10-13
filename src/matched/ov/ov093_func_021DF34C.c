@@ -1,5 +1,5 @@
 /*
- * function: func_021DF34C
+ * function: BTL_HANDLER_ITEM_GetDreadPlateHandlers
  * address: 0x021DF34C
  * packet: pkt_ov093_021DF34C
  * region: ov093
@@ -16,9 +16,9 @@
  */
 
 extern int d_021F14EC[];
-int *func_021DF34C(int *p);
+int *BTL_HANDLER_ITEM_GetDreadPlateHandlers(int *p);
 
-int *func_021DF34C(int *p)
+int *BTL_HANDLER_ITEM_GetDreadPlateHandlers(int *p)
 {
     *p = 1;
     return d_021F14EC;

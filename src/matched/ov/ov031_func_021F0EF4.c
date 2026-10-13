@@ -1,5 +1,5 @@
 /*
- * function: func_021F0EF4
+ * function: UNION_SUBDISP_UpdateLineHighlights
  * address:  0x021F0EF4
  * packet:   pkt_ov031_021F0EF4
  * region:   ov031
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F0EF4  0x021F0EF4  thumb
- *   func_021F0F68  0x021F0F68  thumb  ov031
+ *   UNION_SUBDISP_UpdateLineHighlights  0x021F0EF4  thumb
+ *   UNION_SUBDISP_SetLinePalette  0x021F0F68  thumb  ov031
  */
 
 typedef unsigned char  u8;
@@ -35,9 +35,9 @@ typedef struct {
     int n;
 } B;
 
-extern int func_021F0F68(void *, int, int);
+extern int UNION_SUBDISP_SetLinePalette(void *, int, int);
 
-void func_021F0EF4(A *p, B *q)
+void UNION_SUBDISP_UpdateLineHighlights(A *p, B *q)
 {
     int i;
     int k;
@@ -53,7 +53,7 @@ void func_021F0EF4(A *p, B *q)
                 else
                     k = p->s[i].idx + 2 - n;
                 if (k >= 0 && k < 3)
-                    func_021F0F68(p, k, 0);
+                    UNION_SUBDISP_SetLinePalette(p, k, 0);
             }
         }
     }

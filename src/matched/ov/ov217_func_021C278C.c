@@ -18,6 +18,7 @@
  *   func_021C2894  0x021C2894  thumb  ov217
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm  arm9
  */
 #include "../include/Obj03957.h"
 #include "../include/Obj03958.h"
@@ -34,7 +35,7 @@ struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Actor;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 extern void CLACT_StopActorAnim(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -56,7 +57,7 @@ void func_021C278C(u8 *p)
     pos[1] = ((struct Obj03957 *)p)->f8;
 
     func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
-    func_0204B878(h, ((struct Obj03958 *)q)->f10);
+    CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->f10);
 
     CLACT_SetActorAnimFrame(h, 0);
     CLACT_StopActorAnim(h);
@@ -65,7 +66,7 @@ void func_021C278C(u8 *p)
     h = ((struct Obj03957 *)p)->f14;
     func_021C28EC((const u32 *)p, pos, pos + 1);
     func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
-    func_0204B878(h, ((struct Obj03958 *)q)->fE);
+    CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
     CLACT_SetActorAnimFrame(h, func_021C28BC((char *)p) << 12);
     CLACT_StopActorAnim(h);
     func_0204B3DC(h, 0);
@@ -73,7 +74,7 @@ void func_021C278C(u8 *p)
     h = ((struct Obj03957 *)p)->f18;
     func_021C28DC((const u32 *)p, pos, pos + 1);
     func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
-    func_0204B878(h, ((struct Obj03958 *)q)->fE);
+    CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
     CLACT_SetActorAnimFrame(h, func_021C28A4((char *)p) << 12);
     CLACT_StopActorAnim(h);
     func_0204B3DC(h, 0);
@@ -81,7 +82,7 @@ void func_021C278C(u8 *p)
     h = ((struct Obj03957 *)p)->f1C;
     func_021C28CC((const u32 *)p, pos, pos + 1);
     func_0204B404(h, (const struct Vec2 *)pos, ((struct Obj03958 *)q)->fC);
-    func_0204B878(h, ((struct Obj03958 *)q)->fE);
+    CLACT_SetActorAnimSeq(h, ((struct Obj03958 *)q)->fE);
     CLACT_SetActorAnimFrame(h, func_021C2894((char *)p) << 12);
     CLACT_StopActorAnim(h);
     func_0204B3DC(h, z);

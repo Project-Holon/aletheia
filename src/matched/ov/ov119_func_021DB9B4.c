@@ -10,8 +10,8 @@
  * symbols:
  *   func_021DD34C 0x021DD34C thumb ov119
  *   func_021D8A24 0x021D8A24 thumb ov119
- *   func_020399A8 0x020399A8 arm
- *   func_0203D3A8 0x0203D3A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   func_021B6558 0x021B6558 thumb ov067
  *   func_021D94A0 0x021D94A0 thumb ov119
  *   func_021D8B38 0x021D8B38 thumb ov119
@@ -25,8 +25,8 @@ extern int func_021D8A24(void *);
 extern int func_021DD34C(char *,int,int);
 typedef unsigned int   u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_021D94A0(void *,int);
 extern void func_021D8B38(char *p);
@@ -36,7 +36,7 @@ void func_021DB9B4(char *p)
 {
     func_021DD34C(p,((struct Obj00001 *)p)->fF98,((struct Obj00001 *)p)->fF94);
     if(func_021D8A24(p)) {
-        if(!func_0203D3A8(func_020399A8(),0xc06,0,0)) return;
+        if(!GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc06,0,0)) return;
     }
     func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,0);
     ((struct Obj00001 *)p)->fF84=-1;

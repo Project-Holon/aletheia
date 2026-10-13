@@ -1,5 +1,5 @@
 /*
- * function: func_021CCBE0
+ * function: PARTY_SELECT_LIST_SetMonIconsVisible
  * address:  0x021CCBE0
  * packet:   pkt_ov021_021CCBE0
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
-void func_021CCBE0(u8 *s, int flag)
+void PARTY_SELECT_LIST_SetMonIconsVisible(u8 *s, int flag)
 {
     int i;
 

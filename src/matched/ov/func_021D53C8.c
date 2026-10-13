@@ -1,5 +1,5 @@
 /*
- * function: func_021D53C8
+ * function: BTL_POKEPARAM_SetNeutralStatStages
  * address:  0x021D53C8
  * packet:   pkt_021D53C8
  * region:   ov093
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D53C8   0x021D53C8  thumb ov093
+ *   BTL_POKEPARAM_SetNeutralStatStages   0x021D53C8  thumb ov093
  *
  * Unlabelled ov093 leaf: writes 6 into the first seven bytes of its argument.
  * Matched to provide the `matched` witness for the two pending files that call
- * it (func_021D53C0, func_021D5F08).
+ * it (BTL_POKEPARAM_InitStatStages, BTL_POKEPARAM_ResetStatStages).
  */
 
-void func_021D53C8(unsigned char *p)
+void BTL_POKEPARAM_SetNeutralStatStages(unsigned char *p)
 {
     p[0] = 6;
     p[1] = 6;

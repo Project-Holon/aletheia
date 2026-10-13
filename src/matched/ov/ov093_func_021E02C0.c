@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  */
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 
 void func_021E02C0(int a, int b, int c, int *d)
 {
-    if (c == func_021D775C(3) && *d == 1)
+    if (c == BTL_EVENT_GetVar(3) && *d == 1)
         *d = 2;
 }

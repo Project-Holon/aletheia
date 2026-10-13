@@ -12,9 +12,9 @@
  * symbols:
  *   func_02008FA4 0x02008FA4 thumb
  *   func_020213AC 0x020213AC thumb
- *   func_02027974  0x02027974  thumb
- *   func_020279E8  0x020279E8  thumb
- *   func_02027A04  0x02027A04  thumb
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb
  *   BGWINFRM_HideFrame  0x0202CC70  thumb
  *   func_021C5B30 0x021C5B30 thumb
  *   func_021C61CC 0x021C61CC thumb
@@ -39,11 +39,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_02027974(void *);
+extern void APP_TASKMENU_UpdateMenu(void *);
 struct Sub02008F80Obj;
 struct TaskMenu;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 extern void func_021C5B30(u8 *);
 extern void func_021C62F4(u8 *);
 extern void func_021C66B8(u8 *, int, u32);
@@ -62,11 +62,11 @@ extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
 extern void func_021C7298(void *p, int v);
 int func_021C6EA4(u8 *p)
 {
-    func_02027974(((struct Obj23624 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f310);
-    if (func_020279E8(((struct Obj23625 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f310) == 0) {
+    APP_TASKMENU_UpdateMenu(((struct Obj23624 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f310);
+    if (APP_TASKMENU_IsFinish(((struct Obj23625 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f310) == 0) {
         return 0xE;
     }
-    switch (func_02027A04(((struct Obj23626 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f310)) {
+    switch (APP_TASKMENU_GetCursorPos(((struct Obj23626 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f310)) {
     case 0:
         func_021C5B30(p);
         func_021C62F4(p);

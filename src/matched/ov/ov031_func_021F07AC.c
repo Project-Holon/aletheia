@@ -1,5 +1,5 @@
 /*
- * function: func_021F07AC
+ * function: UNION_SUBDISP_DrawChatLine
  * address:  0x021F07AC
  * packet:   pkt_ov031_021F07AC
  * region:   ov031
@@ -20,17 +20,17 @@
  *   PMS_DRAW_IsActive  0x0202DCC4  thumb
  *   PMS_DRAW_Clear  0x0202DC9C  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   PMS_DRAW_PrintOffset  0x0202DC60  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
- *   func_0201C724  0x0201C724  thumb
- *   func_02045808  0x02045808  arm
- *   func_020457B0  0x020457B0  arm
- *   func_02045924  0x02045924  arm
- *   d_021F1040     0x021F1040  data  ov031  a4
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
+ *   STRBUF_Delete  0x02045808  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetString  0x02045924  arm
+ *   sUnionSubdispChatTextOffset     0x021F1040  data  ov031  a4
  */
 
 typedef unsigned char  u8;
@@ -73,24 +73,24 @@ extern void func_02041B6C(u32 bit);
 extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *p, u32 i);
 extern void PMS_DRAW_Clear(struct Obj0202DC98 *o, int i, u32 a1);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void PMS_DRAW_PrintOffset(struct Obj *p, u32 a, void *w, u32 i, u32 e);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
-extern void func_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(struct U16Vec *vec);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern const Pair d_021F1040;
+extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
+extern const Pair sUnionSubdispChatTextOffset;
 static inline int paletteFlag(const u8 *e)
 {
     if (e[0x20] == 0) return 0;
     return 2;
 }
 
-void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
+void UNION_SUBDISP_DrawChatLine(struct Obj *p, const u8 *e, u8 k)
 {
     u16 *pal;
     int c;
@@ -106,13 +106,13 @@ void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
     func_02082D44(pal, (u8 *)pal + off, 0x1C0);
     func_020413B0(6, 0, k * 7, 0x20, 7, c);
     func_02041B6C(6);
-    t = d_021F1040;
+    t = sUnionSubdispChatTextOffset;
     if (p->b[k] == 0) {
         if (PMS_DRAW_IsActive((const struct Obj0202DCC4 *)p->w7c, k) == 1)
             PMS_DRAW_Clear((struct Obj0202DC98 *)p->w7c, k, 1);
     } else if (p->b[k] == 1) {
-        func_02043B5C(func_02045770((struct Descriptor *)p->a[k]), 0);
-        func_02045334((struct Descriptor *)p->a[k]);
+        BMP_Clear(func_02045770((struct Descriptor *)p->a[k]), 0);
+        BMP_WIN_TransferChars((struct Descriptor *)p->a[k]);
     }
     if (e[0x21] == 0) {
         PMS_DRAW_PrintOffset((struct Obj *)p->w7c, p->a[k], (void *)(e + 0x10), k, (u32)(&t));
@@ -139,21 +139,21 @@ void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
         default:
             return;
         }
-        func_02045374((struct Cfg *)p->a[k]);
+        BMP_WIN_MakeScreen((struct Cfg *)p->a[k]);
         func_02041B6C(func_02045730((struct Descriptor *)p->a[k]));
         q = p->w40;
-        func_0201C724((void *)q, (u32)func_02045770((struct Descriptor *)p->s[k].h), (s16)0, (s16)t.b, (u32)x, p->w44, (u32)0x440);
+        PRINTSYS_PrintQueColor((void *)q, (u32)func_02045770((struct Descriptor *)p->s[k].h), (s16)0, (s16)t.b, (u32)x, p->w44, (u32)0x440);
         p->s[k].f = 1;
-        func_02045808(x);
+        STRBUF_Delete(x);
         p->b[k] = 1;
     }
-    buf = func_020457B0(8, 0x15);
-    func_02045924(buf, (const u16 *)e);
-    func_0201C724((void *)p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), (s16)0, (s16)0, (u32)buf, p->w44, (u32)0x440);
-    func_02045808(buf);
+    buf = STRBUF_Create(8, 0x15);
+    STRBUF_SetString(buf, (const u16 *)e);
+    PRINTSYS_PrintQueColor((void *)p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), (s16)0, (s16)0, (u32)buf, p->w44, (u32)0x440);
+    STRBUF_Delete(buf);
     if (e[0x22] != 0) {
         buf = func_02045EC0((struct MsgBank *)p->w48, (e[0x22] == 1) ? 4 : 5);
-        func_0201C724((void *)p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), (s16)0x74, (s16)0, (u32)buf, p->w44, (u32)0x440);
-        func_02045808(buf);
+        PRINTSYS_PrintQueColor((void *)p->w40, (u32)func_02045770((struct Descriptor *)p->a[k]), (s16)0x74, (s16)0, (u32)buf, p->w44, (u32)0x440);
+        STRBUF_Delete(buf);
     }
 }

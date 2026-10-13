@@ -1,5 +1,5 @@
 /*
- * function: func_0216F7BC
+ * function: TRCARD_SYS_CreateViewWork
  * address: 0x0216F7BC
  * packet: pkt_ov010_0216F7BC
  * region: ov010
@@ -19,4 +19,4 @@ typedef struct { void *f00; void *f04; void *f08; u32 f0c; u32 f10; u32 f14; } R
 extern char d_02172B64[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,int);
-Record *func_0216F7BC(void *a,u32 heap,void *b) { Record *p; p=func_02030734(heap,24,1,d_02172B64,0x321); func_02082BCC(p,0,24); p->f00=0; p->f04=a; p->f0c=0; p->f08=b; return p; }
+Record *TRCARD_SYS_CreateViewWork(void *a,u32 heap,void *b) { Record *p; p=func_02030734(heap,24,1,d_02172B64,0x321); func_02082BCC(p,0,24); p->f00=0; p->f04=a; p->f0c=0; p->f08=b; return p; }

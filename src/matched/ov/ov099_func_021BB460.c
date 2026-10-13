@@ -12,8 +12,8 @@
  * symbols:
  *   d_021C388C     0x021C388C  data   ov099  a4
  *   func_02082BCC  0x02082BCC  arm
- *   func_021B62E0  0x021B62E0  thumb  ov067
- *   func_021B6578  0x021B6578  thumb  ov067
+ *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
+ *   TOUCHBAR_SetButtonKeyMask  0x021B6578  thumb  ov067
  */
 #include "../include/Obj07942.h"
 
@@ -37,8 +37,8 @@ typedef struct {
 
 extern const T8 d_021C388C;
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void *func_021B62E0(A *a, int heap);
-extern void func_021B6578(unsigned char *p, unsigned int id, int v);
+extern void *TOUCHBAR_Create(A *a, int heap);
+extern void TOUCHBAR_SetButtonKeyMask(unsigned char *p, unsigned int id, int v);
 
 void func_021BB460(char *p, int x)
 {
@@ -57,8 +57,8 @@ void func_021BB460(char *p, int x)
         a.f10 = 0xC;
         a.f14 = 0xC;
         a.f18 = 2;
-        r = func_021B62E0(&a, x);
+        r = TOUCHBAR_Create(&a, x);
         ((struct Obj07942 *)p)->f9AC = r;
-        func_021B6578(r, 1, 0);
+        TOUCHBAR_SetButtonKeyMask(r, 1, 0);
     }
 }

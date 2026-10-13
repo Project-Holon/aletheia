@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_02012AE4, func_02012B28, func_02012B2C, func_02012B30,
- *           func_02012B34, func_02012B38, GAME_DATA_GetEnterMode, func_02012B4C,
- *           func_02012B58, func_02012B64, func_02012B70, func_02012B78,
- *           func_02012B80, func_02012B8C, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag,
+ * function: GAME_DATA_GetPlayerDirectionType, GAME_DATA_GetPlayerObjectCode, GAME_DATA_SetPlayerObjectCode, GAME_DATA_SetPlayerPalaceZoneId,
+ *           GAME_DATA_GetPlayerPalaceZoneId, GAME_DATA_GetMoveModelSys, GAME_DATA_GetEnterMode, GAME_DATA_SetEnterMode,
+ *           GAME_DATA_GetExitMode, GAME_DATA_SetExitMode, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount,
+ *           GAME_DATA_GetIntrudeId, GAME_DATA_SetIntrudeId, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag,
  *           GAME_DATA_IsConfigFlagSet
  *
  * symbols:
@@ -19,9 +19,9 @@
  *
  * 228 bytes, 0x02012AE4..0x02012BC8, 17 functions, the continuation of
  * src/matched/unit_02012924.c across two near misses.  The same two objects:
- * Rec44 for func_02012AE4 .. func_02012B34 and BigObj from func_02012B38 on.
+ * Rec44 for GAME_DATA_GetPlayerDirectionType .. GAME_DATA_GetPlayerPalaceZoneId and BigObj from GAME_DATA_GetMoveModelSys on.
  *
- * func_02012AE4 buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
+ * GAME_DATA_GetPlayerDirectionType buckets the Rec44 field at +0x18 into 0, 1, 2 or 3.  The
  * result local has to be declared **before** the field is read into its own
  * local, or the compiler puts the result in r0, keeps its scratch in r1 and
  * duplicates `bx lr` into every arm instead of branching to one
@@ -38,7 +38,7 @@
  *    only witness and no cut helps.  It is data, so no label will ever exist
  *    for it.  The source is
  *
- *        void func_02012AD4(struct Rec44 *p, u32 i)
+ *        void GAME_DATA_SetPlayerDirectionType(struct Rec44 *p, u32 i)
  *        {
  *            p->unk18 = func_02012AD4_Table[i];
  *        }
@@ -102,7 +102,7 @@ struct BigObj {
     u8  unk1D0[0x414];
 };
 
-u32 func_02012AE4(const struct Rec44 *p)
+u32 GAME_DATA_GetPlayerDirectionType(const struct Rec44 *p)
 {
     u32 r = 0;
     u16 v = p->unk18;
@@ -117,27 +117,27 @@ u32 func_02012AE4(const struct Rec44 *p)
     return r;
 }
 
-u32 func_02012B28(const struct Rec44 *p)
+u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p)
 {
     return p->unk40;
 }
 
-void func_02012B2C(struct Rec44 *p, u32 v)
+void GAME_DATA_SetPlayerObjectCode(struct Rec44 *p, u32 v)
 {
     p->unk40 = v;
 }
 
-void func_02012B30(struct Rec44 *p, u16 v)
+void GAME_DATA_SetPlayerPalaceZoneId(struct Rec44 *p, u16 v)
 {
     p->unk1C = v;
 }
 
-u16 func_02012B34(const struct Rec44 *p)
+u16 GAME_DATA_GetPlayerPalaceZoneId(const struct Rec44 *p)
 {
     return p->unk1C;
 }
 
-void *func_02012B38(const struct BigObj *p)
+void *GAME_DATA_GetMoveModelSys(const struct BigObj *p)
 {
     return p->unk1B8;
 }
@@ -147,38 +147,38 @@ u8 GAME_DATA_GetEnterMode(const struct BigObj *p)
     return p->unk1CA;
 }
 
-void func_02012B4C(struct BigObj *p, u8 v)
+void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v)
 {
     p->unk1CA = v;
 }
 
-u8 func_02012B58(const struct BigObj *p)
+u8 GAME_DATA_GetExitMode(const struct BigObj *p)
 {
     return p->unk1CB;
 }
 
-void func_02012B64(struct BigObj *p, u8 v)
+void GAME_DATA_SetExitMode(struct BigObj *p, u8 v)
 {
     p->unk1CB = v;
 }
 
-int func_02012B70(const struct BigObj *p)
+int GAME_DATA_GetIntrudeCount(const struct BigObj *p)
 {
     return p->unk1CC;
 }
 
-struct BigObj *func_02012B78(struct BigObj *p, u8 v)
+struct BigObj *GAME_DATA_SetIntrudeCount(struct BigObj *p, u8 v)
 {
     p->unk1CC = v;
     return p;
 }
 
-u8 func_02012B80(const struct BigObj *p)
+u8 GAME_DATA_GetIntrudeId(const struct BigObj *p)
 {
     return p->unk1CD;
 }
 
-void func_02012B8C(struct BigObj *p, u32 v)
+void GAME_DATA_SetIntrudeId(struct BigObj *p, u32 v)
 {
     p->unk1CD = v;
 }

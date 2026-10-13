@@ -1,5 +1,5 @@
 /*
- * function: func_021B3B04
+ * function: SCRCMD_PROC_FLD_FreeItemSlots
  * address:  0x021B3B04
  * packet:   pkt_ov021_021B3B04
  * region:   ov021
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf (tail-call stub), called from func_021B35A4.
+ * Unlabelled leaf (tail-call stub), called from SCRCMD_PROC_FLD_StepShop.
  *
  * symbols:
- *   func_0201F868  0x0201F868  thumb
+ *   BMP_MENUWORK_Delete  0x0201F868  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19996.h"
 
 typedef unsigned int   u32;
-extern u32 func_0201F868(void *p);
+extern u32 BMP_MENUWORK_Delete(void *p);
 
-void func_021B3B04(char *w)
+void SCRCMD_PROC_FLD_FreeItemSlots(char *w)
 {
-    func_0201F868(((struct Obj19996 *)w)->f180);
+    BMP_MENUWORK_Delete(((struct Obj19996 *)w)->f180);
 }

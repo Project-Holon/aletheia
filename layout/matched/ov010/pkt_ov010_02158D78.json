@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02158D78",
+   "name": "SCRIPT_SYS_LoadScriptFile",
    "address": "0x02158D78",
    "kind": "game",
    "region": "ov010",

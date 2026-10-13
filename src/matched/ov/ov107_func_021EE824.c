@@ -13,7 +13,7 @@
  *   func_0200566C 0x0200566C thumb
  *   GFL_NET_WM_ICON_EasyEnd 0x020370C8 arm
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
- *   func_0201296C 0x0201296C thumb
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   func_020143CC 0x020143CC thumb
  *   func_020307B0 0x020307B0 arm
  *   func_021F0E40 0x021F0E40 thumb ov107
@@ -32,7 +32,7 @@ extern void func_0200566C(void);
 extern void GFL_NET_WM_ICON_EasyEnd(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 struct BigObj;
-extern u32 func_0201296C(const struct BigObj *p);
+extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 func_020143CC(u32 a, u32 b);
 extern u32 func_020307B0(void *p);
 extern void func_021F0E40(void *);
@@ -42,7 +42,7 @@ void func_021EE824(u8 *p) {
  void *q; u16 *a,*b;
  func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();GFL_NET_WM_ICON_EasyEnd();
  if(p[40]==1) GFL_USE_CancelChangeAndStopBgm();
- else { q=(void *)func_0201296C(((struct Obj22274 *)(*(u8 * *)&((struct Obj00979 *)p)->f8))->f4); a=(u16 *)func_020143CC((u32)q,16384);b=(u16 *)func_020143CC((u32)q,16385);*a=((struct Obj00979 *)p)->f38;*b=((struct Obj00979 *)p)->f3A; }
+ else { q=(void *)GAME_DATA_GetEventWork(((struct Obj22274 *)(*(u8 * *)&((struct Obj00979 *)p)->f8))->f4); a=(u16 *)func_020143CC((u32)q,16384);b=(u16 *)func_020143CC((u32)q,16385);*a=((struct Obj00979 *)p)->f38;*b=((struct Obj00979 *)p)->f3A; }
  if(((struct Obj00979 *)p)->f60) func_020307B0(((struct Obj00979 *)p)->f60);
  func_021F0E40(((struct Obj00979 *)p)->fC);func_021F1520(((struct Obj00979 *)p)->f68);func_021EF080((char *)p);
 }

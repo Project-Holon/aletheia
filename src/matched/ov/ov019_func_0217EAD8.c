@@ -1,5 +1,5 @@
 /*
- * function: func_0217EAD8
+ * function: UNION_ONESELF_ColosseumTrainerCardMain
  * address:  0x0217EAD8
  * packet:   pkt_ov019_0217EAD8
  * region:   ov019
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0217BAF0  0x0217BAF0  thumb  ov019
- *   func_0217F098  0x0217F098  thumb  ov019
- *   func_0217F188  0x0217F188  thumb  ov019
- *   func_0217F1EC  0x0217F1EC  thumb  ov019
- *   func_0217F074  0x0217F074  thumb  ov019
- *   func_0217B8E4  0x0217B8E4  thumb  ov019
- *   func_0217422C  0x0217422C  thumb  ov012
- *   func_02174268  0x02174268  thumb  ov012
- *   func_0216F7F4  0x0216F7F4  thumb  ov010
+ *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
+ *   UNION_MSG_SetupTalkWindow  0x0217F098  thumb  ov019
+ *   UNION_MSG_PrintTalkMsg  0x0217F188  thumb  ov019
+ *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
+ *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
+ *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
  *   func_0200855C  0x0200855C  thumb
  *   func_0201F02C  0x0201F02C  thumb
  *   func_020362DC  0x020362DC  arm
@@ -34,22 +34,22 @@ typedef struct {
     int f8;
 } Sys;
 
-void func_0217BAF0(char *p, int x, unsigned int v);
-void func_0217F098(unsigned char *base, u8 *x);
-void func_0217F188(char *p, u32 arg);
-u32 func_0217F1EC(u8 *p);
-void func_0217F074(void *p);
-int func_0217B8E4(char *p, int v);
+void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
+void UNION_MSG_SetupTalkWindow(unsigned char *base, u8 *x);
+void UNION_MSG_PrintTalkMsg(char *p, u32 arg);
+u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
+void UNION_MSG_CloseAllWindows(void *p);
+int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 struct Sub0200852CObj;
 struct WordSet;
-void func_0217422C(u8 *p, int a, int b);
-int func_02174268(u8 *w);
-void *func_0216F7F4(int a, u8 *e, int b);
+void UNION_MAIN_RequestScene(u8 *p, int a, int b);
+int UNION_MAIN_IsScenePending(u8 *w);
+void *TRCARD_SYS_CreateEditWork(int a, u8 *e, int b);
 u8 func_0200855C(const struct Sub0200852CObj *obj);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 u32 func_020362DC(void);
 
-int func_0217EAD8(u8 *w, void *obj, u8 *a2, u8 *state)
+int UNION_ONESELF_ColosseumTrainerCardMain(u8 *w, void *obj, u8 *a2, u8 *state)
 {
     u8 *p;
     int t;
@@ -60,7 +60,7 @@ int func_0217EAD8(u8 *w, void *obj, u8 *a2, u8 *state)
     p = *(u8 * *)&((struct Obj05956 *)w)->f355C;
     switch (*state) {
     case 0:
-        func_0217BAF0((char *)w, (int)a2, 1);
+        UNION_ONESELF_SetFieldBusy((char *)w, (int)a2, 1);
         t = func_0200855C((const struct Sub0200852CObj *)(p + 0x18 + p[0x16c] * 0x2c));
         if (t == 0x14 || t == 0x15) {
             v = (*(u8 **)(p + 0x134 + p[0x16c] * 4))[3];
@@ -84,29 +84,29 @@ int func_0217EAD8(u8 *w, void *obj, u8 *a2, u8 *state)
         } else {
             msg = 0x15d;
         }
-        func_0217F098(w, a2);
+        UNION_MSG_SetupTalkWindow(w, a2);
         func_0201F02C((struct WordSet *)(((struct Obj05956 *)w)->f2804), 0, p + 0x18 + p[0x16c] * 0x2c);
-        func_0217F188((char *)w, msg);
+        UNION_MSG_PrintTalkMsg((char *)w, msg);
         (*state)++;
         break;
     case 1:
-        if (func_0217F1EC(w) == 1 && (func_020362DC() & 3)) {
-            func_0217F074(w);
+        if (UNION_MSG_CheckTalkPrintEnd(w) == 1 && (func_020362DC() & 3)) {
+            UNION_MSG_CloseAllWindows(w);
             (*(u8 **)(p + 0x134 + p[0x16c] * 4))[4] |= 0x20;
-            q = func_0216F7F4((*(Sys * *)&((struct Obj05956 *)w)->f0)->f8, *(u8 **)(p + 0x134 + p[0x16c] * 4), 0x41);
+            q = TRCARD_SYS_CreateEditWork((*(Sys * *)&((struct Obj05956 *)w)->f0)->f8, *(u8 **)(p + 0x134 + p[0x16c] * 4), 0x41);
             ((struct Obj05956 *)w)->f3558 = q;
-            func_0217422C(w, 0x1c, (int)q);
+            UNION_MAIN_RequestScene(w, 0x1c, (int)q);
             (*state)++;
         }
         break;
     case 2:
-        if (func_02174268(w) == 0) {
+        if (UNION_MAIN_IsScenePending(w) == 0) {
             ((struct Obj05956 *)w)->f3558 = 0;
             (*state)++;
         }
         break;
     case 3:
-        func_0217B8E4((char *)w, 0x2a);
+        UNION_ONESELF_SetNextPlayCategory((char *)w, 0x2a);
         return 1;
     }
     return 0;

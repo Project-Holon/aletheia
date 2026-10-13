@@ -1,5 +1,5 @@
 /*
- * function: func_021A31A4
+ * function: FIELD_PLAYER_GetObjCodeOfFormCode
  * address:  0x021A31A4
  * packet:   pkt_ov021_021A31A4
  * region:   ov021
@@ -12,7 +12,7 @@
  * Looks up v in the b column of row i and returns the matching a, else 1.
  *
  * symbols:
- *   data_021D890C  0x021D890C  data
+ *   gFieldPlayerFormTable  0x021D890C  data
  * Addresses are Black-image addresses.
  */
 
@@ -29,15 +29,15 @@ typedef struct {
     Pair e[10];
 } Row;
 
-extern const Row data_021D890C[];
+extern const Row gFieldPlayerFormTable[];
 
-int func_021A31A4(int i, int v)
+int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v)
 {
     const Pair *e;
     int k;
 
     k = 0;
-    e = data_021D890C[i].e;
+    e = gFieldPlayerFormTable[i].e;
     for (; k < 10; k++, e++) {
         if (e->b == v)
             return e->a;

@@ -1,5 +1,5 @@
 /*
- * function: func_02193B40
+ * function: FIELD_WFBC_ApplyGiftMood
  * address:  0x02193B40
  * packet:   pkt_ov021_02193B40
  * region:   ov021
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02186748  0x02186748  thumb  ov020
- *   func_02193EB4  0x02193EB4  thumb  ov021
- *   func_02193EE8  0x02193EE8  thumb  ov021
- *   func_02193EFC  0x02193EFC  thumb  ov021
+ *   FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus  0x02186748  thumb  ov020
+ *   FIELD_WFBC_LoadSaveData  0x02193EB4  thumb  ov021
+ *   FIELD_WFBC_StoreSaveData  0x02193EE8  thumb  ov021
+ *   FIELD_WFBC_FindPeople  0x02193EFC  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -45,20 +45,20 @@ typedef struct V {
     Tbl *f08;
 } V;
 
-extern void func_02193EB4(V *v);
-extern E50 *func_02193EFC(V *v, u32 key);
+extern void FIELD_WFBC_LoadSaveData(V *v);
+extern E50 *FIELD_WFBC_FindPeople(V *v, u32 key);
 struct State;
-extern void func_02186748(struct State *p);
-extern void func_02193EE8(V *v);
+extern void FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus(struct State *p);
+extern void FIELD_WFBC_StoreSaveData(V *v);
 
-void func_02193B40(V *v, u32 key)
+void FIELD_WFBC_ApplyGiftMood(V *v, u32 key)
 {
     E50 *e;
 
-    func_02193EB4(v);
-    e = func_02193EFC(v, key);
+    FIELD_WFBC_LoadSaveData(v);
+    e = FIELD_WFBC_FindPeople(v, key);
     if (v->f01 == 0) {
-        func_02186748((struct State *)e->f34);
-        func_02193EE8(v);
+        FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus((struct State *)e->f34);
+        FIELD_WFBC_StoreSaveData(v);
     }
 }

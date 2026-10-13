@@ -1,5 +1,5 @@
 /*
- * function: func_021C4DA8
+ * function: SOUND_OBJ_Delete
  * address:  0x021C4DA8
  * packet:   pkt_021C4DA8
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02011558  0x02011558  thumb
+ *   ICA_ANIME_Delete  0x02011558  thumb
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -24,13 +24,13 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 struct IcaAnime;
-extern void func_02011558(struct IcaAnime *p);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern u32 func_020307B0(void *p);
 
-int func_021C4DA8(void *a)
+int SOUND_OBJ_Delete(void *a)
 {
 if (((struct Obj12132 *)((u8 *)(a)))->f10 != 0) {
-    func_02011558((struct IcaAnime *)(((struct Obj12132 *)((u8 *)(a)))->f10));
+    ICA_ANIME_Delete((struct IcaAnime *)(((struct Obj12132 *)((u8 *)(a)))->f10));
 }
 return func_020307B0(a);
 }

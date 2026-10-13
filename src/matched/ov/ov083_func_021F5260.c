@@ -1,5 +1,5 @@
 /*
- * function: func_021F5260
+ * function: GPOWER_EVENT_CreateActivateEvent
  * address:  0x021F5260
  * packet:   pkt_ov083_021F5260
  * region:   ov083
@@ -13,8 +13,8 @@
  * with no witness outside the range.
  * blocker:
  *   0x02010F7C thumb (verified EXACT in ov083_func_021F5390.c's header):
- *     extern int func_02048F60(int a, int b, int c);
- *     int func_02010F7C(int a) { return func_02048F60(0x26, 0, a); }
+ *     extern int ARC_TOOL_LoadMember(int a, int b, int c);
+ *     int GPOWER_LoadPowerTable(int a) { return ARC_TOOL_LoadMember(0x26, 0, a); }
  *   0x02010F94 thumb (EXACT, `one --thumb`, no --region):
  *     typedef struct { u8 pad[10]; u8 fA; u8 fB; } Rec;
  *     u8 GPOWER_GetPowerType(Rec *rec, int slot) { return rec[slot].fA; }
@@ -22,26 +22,26 @@
  *     u16 GPOWER_GetPowerCost(unsigned char *rec, int slot)
  *     { return *(u16 *)(rec + slot * 0xc + 2); }
  *   0x02010F8C thumb (verified in ov071_func_021B6458.c's header):
- *     void func_02010F8C(void *p) { void func_020307B0(void *); func_020307B0(p); }
+ *     void GPOWER_FreePowerTable(void *p) { void func_020307B0(void *); func_020307B0(p); }
  * The slot result is `int` (a `u8` local drops the per-use `lsls #16`), and
  * the declaration order h, s, obj puts them at sp+0x10, 0xc, 8.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02010F7C  0x02010F7C  thumb
- *   func_02158768  0x02158768  thumb  ov010
- *   func_021589D0  0x021589D0  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GPOWER_LoadPowerTable  0x02010F7C  thumb
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
+ *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010
  *   GPOWER_GetPowerType  0x02010F94  thumb
  *   GPOWER_Activate   0x02010E14  thumb
- *   func_02159058  0x02159058  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_021F5488  0x021F5488  thumb  ov083
+ *   SCRIPT_WORK_SetParams  0x02159058  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   GPOWER_EVENT_RestoreParty  0x021F5488  thumb  ov083
  *   GPOWER_GetPowerCost  0x02010FA0  thumb
- *   func_0201292C  0x0201292C  thumb
+ *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   MYITEM_SAVEDATA_RemoveItem   0x02007F1C  thumb
- *   func_021652C4  0x021652C4  thumb  ov010
- *   func_021657B0  0x021657B0  thumb  ov010
- *   func_02010F8C  0x02010F8C  thumb
+ *   GAME_BEACON_SEARCH_SetVersionAction  0x021652C4  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetHalfwordValue  0x021657B0  thumb  ov010
+ *   GPOWER_FreePowerTable  0x02010F8C  thumb
  */
 
 typedef unsigned char  u8;
@@ -50,25 +50,25 @@ typedef unsigned int   u32;
 
 struct Ctx;
 struct Rec02010F94;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02010F7C(u32 heap);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GPOWER_LoadPowerTable(u32 heap);
 struct BigObj;
 struct Desc;
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-extern int func_021589D0(int a0);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+extern int SCRIPT_SYS_GetEventScriptWork(int a0);
 extern unsigned int GPOWER_GetPowerType(struct Rec02010F94 *p, int idx);
 extern void GPOWER_Activate(int slot, u8 *rec, int select);
-extern int func_02159058(int a, int b, int c, int d, u16 e);
-extern void *func_02158F74(void *p);
-extern void  func_021F5488(void *a0, void *a1, int a2);
+extern int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern void  GPOWER_EVENT_RestoreParty(void *a0, void *a1, int a2);
 extern u16   GPOWER_GetPowerCost(void *rec, int slot);
-extern void *func_0201292C(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
-extern void func_021652C4(void *a0);
-extern void  func_021657B0(int a0);
-extern void  func_02010F8C(void *p);
+extern void GAME_BEACON_SEARCH_SetVersionAction(void *a0);
+extern void  GAME_BEACON_SEARCH_SetHalfwordValue(int a0);
+extern void  GPOWER_FreePowerTable(void *p);
 
-void *func_021F5260(void *a0, int *a1)
+void *GPOWER_EVENT_CreateActivateEvent(void *a0, int *a1)
 {
     void *h;
     void *s;
@@ -78,29 +78,29 @@ void *func_021F5260(void *a0, int *a1)
     int x;
     u16 q;
 
-    obj = func_020120F4(a0);
-    rec = func_02010F7C(0x8015);
+    obj = GAMESYSTEM_GetGameData(a0);
+    rec = GPOWER_LoadPowerTable(0x8015);
     id = a1[0];
-    h = func_02158768((int)a0, 0x28B9, 0, 0x15);
-    s = (void *)func_021589D0((int)h);
+    h = SCRIPT_SYS_CreateScriptEventSimple((int)a0, 0x28B9, 0, 0x15);
+    s = (void *)SCRIPT_SYS_GetEventScriptWork((int)h);
     if (id == 0x30 || id > 0x2D) {
         id = 0;
     }
     x = GPOWER_GetPowerType(rec, id);
     GPOWER_Activate(id, rec, a1[1]);
     if (id == 0x27) {
-        func_02159058((int)s, (u16)id, (u16)0xB, (u16)a1[1], (u32)0);
+        SCRIPT_WORK_SetParams((int)s, (u16)id, (u16)0xB, (u16)a1[1], (u32)0);
     } else {
-        func_02159058((int)s, (u16)id, (u16)x, (u16)a1[1], (u32)0);
+        SCRIPT_WORK_SetParams((int)s, (u16)id, (u16)x, (u16)a1[1], (u32)0);
     }
-    func_021F5488(a0, func_02158F74(s), x);
+    GPOWER_EVENT_RestoreParty(a0, SCRIPT_WORK_GetWordSet(s), x);
     if (a1[1] != 0) {
         q = GPOWER_GetPowerCost(rec, id);
-        MYITEM_SAVEDATA_RemoveItem(func_0201292C(obj), 0x23F, q, 0x8015);
-        func_021652C4((void *)id);
+        MYITEM_SAVEDATA_RemoveItem(GAME_DATA_GetMyItem(obj), 0x23F, q, 0x8015);
+        GAME_BEACON_SEARCH_SetVersionAction((void *)id);
     } else {
-        func_021657B0(id);
+        GAME_BEACON_SEARCH_SetHalfwordValue(id);
     }
-    func_02010F8C(rec);
+    GPOWER_FreePowerTable(rec);
     return h;
 }

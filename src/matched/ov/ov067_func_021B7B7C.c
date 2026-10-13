@@ -1,5 +1,5 @@
 /*
- * function: func_021B7B7C
+ * function: FRAME_LIST_ClampScroll
  * address:  0x021B7B7C
  * packet:   pkt_ov067_021B7B7C
  * region:   ov067
@@ -28,7 +28,7 @@ typedef struct S {
     u16 f64;
 } S;
 
-void func_021B7B7C(S *p)
+void FRAME_LIST_ClampScroll(S *p)
 {
     if (p->f19 > p->f4c) {
         p->f5e = p->f4c;

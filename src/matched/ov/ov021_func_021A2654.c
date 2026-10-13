@@ -1,5 +1,5 @@
 /*
- * function: func_021A2654
+ * function: WEATHER_TASK_SetParticlePosWrapped
  * address:  0x021A2654
  * packet:   pkt_ov021_021A2654
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A2C28  0x021A2C28  thumb  ov021
+ *   WEATHER_TASK_GetParticleActorPtr  0x021A2C28  thumb  ov021
  *   func_0204B404  0x0204B404  arm
  *   _s32_div_f     0x0209C0A4  arm
  */
@@ -21,10 +21,10 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
 struct Vec2;
-u32 func_021A2C28(u8 *p);
+u32 WEATHER_TASK_GetParticleActorPtr(u8 *p);
 void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-void func_021A2654(int obj, unsigned short *src)
+void WEATHER_TASK_SetParticlePosWrapped(int obj, unsigned short *src)
 {
     Pt pt[2];
 
@@ -42,5 +42,5 @@ void func_021A2654(int obj, unsigned short *src)
     } else if (pt[1] < -64) {
         pt[1] = pt[1] + 256;
     }
-    func_0204B404((struct Obj *)func_021A2C28((u8 *)obj), (const struct Vec2 *)pt, 0);
+    func_0204B404((struct Obj *)WEATHER_TASK_GetParticleActorPtr((u8 *)obj), (const struct Vec2 *)pt, 0);
 }

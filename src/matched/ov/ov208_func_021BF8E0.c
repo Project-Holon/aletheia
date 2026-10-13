@@ -22,10 +22,10 @@
  *   func_021BC61C 0x021BC61C thumb ov208
  *   func_021BC464 0x021BC464 thumb ov208
  *   func_021C06EC 0x021C06EC thumb ov208
- *   func_021BBB34 0x021BBB34 thumb ov072
+ *   TOWNMAP_GRH_FreeTownInfo 0x021BBB34 thumb ov072
  *   func_021BC34C 0x021BC34C thumb ov208
  *   func_02030EAC 0x02030EAC arm
- *   func_02049238 0x02049238 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02034A5C 0x02034A5C arm
  */
 #include "../include/Obj03933.h"
@@ -45,10 +45,10 @@ extern void func_021C06EC(void *, char *, void *);
 extern void func_021BC97C(char *p);
 extern void func_021BC61C(char *p);
 extern void func_021BC464(void *);
-extern void func_021BBB34(void *);
+extern void TOWNMAP_GRH_FreeTownInfo(void *);
 extern void func_021BC34C(char *p);
 extern void func_02030EAC(struct Node *n);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02034A5C(int);
 extern u8 ov072_id[];
 /* Caller explicitly loads r2 for the three-argument teardown helpers. */
@@ -73,8 +73,8 @@ u32 func_021BF8E0(void *a0, u32 a1, void *a2, char *p, void *a4)
     func_021BC464(((struct Obj03933 *)p)->f418);
     func_021C06EC(a2, p, a4);
     func_02030EAC(((struct Obj03933 *)p)->f410);
-    func_02049238(((struct Obj03933 *)p)->f40C);
-    func_021BBB34(((struct Obj03933 *)p)->f3C8);
+    ARC_TOOL_DeleteHandle(((struct Obj03933 *)p)->f40C);
+    TOWNMAP_GRH_FreeTownInfo(((struct Obj03933 *)p)->f3C8);
     func_021BC34C(a0);
     func_02034A5C((int)ov072_id);
     return 1;

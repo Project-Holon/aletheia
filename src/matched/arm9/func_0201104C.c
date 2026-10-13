@@ -16,8 +16,8 @@
  *   func_0201AB08  0x0201AB08  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_02017E40  0x02017E40  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   GPOWER_ClearType  0x02010F50  thumb
  *
@@ -49,8 +49,8 @@ extern u32 func_0201AB08(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void GPOWER_ClearType(int idx);
 
@@ -70,13 +70,13 @@ u32 GPOWER_UseHpRestore(void *box)
             idx = func_0201AB08(box);
             p = func_0201AB28(box, idx);
             h = POKE_TOOL_DecodePartyParam(p);
-            max = func_02017E1C(p, 0xa1, 0);
-            n = func_02017E1C(p, 0xa0, 0);
+            max = POKE_TOOL_GetPartyValue(p, 0xa1, 0);
+            n = POKE_TOOL_GetPartyValue(p, 0xa0, 0);
             n = n + *(u16 *)(g_02146228 + 0xc);
             if (n > max) {
                 n = max;
             }
-            func_02017E40(p, 0xa0, n);
+            POKE_TOOL_SetPartyValue(p, 0xa0, n);
             POKE_TOOL_EncodePartyParam(p, h);
         }
         GPOWER_ClearType(5);

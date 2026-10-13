@@ -1,5 +1,5 @@
 /*
- * function: func_02189518
+ * function: FIELDMAP_ChangeZoneSound
  * address:  0x02189518
  * packet:   pkt_ov021_02189518
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012134  0x02012134  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012B28  0x02012B28  thumb
- *   func_0202B544  0x0202B544  thumb
- *   func_02029CF0  0x02029CF0  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
+ *   ISS_SYS_ChangeZone  0x0202B544  thumb
+ *   FIELD_SOUND_SYSTEM_PostZoneBgmChange  0x02029CF0  thumb
  */
 #include "../include/Obj12557.h"
 
@@ -27,26 +27,26 @@ struct Ctx;
 struct Rec44;
 struct SaveBlock;
 struct BigObj;
-extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_02012134(u32 *p);
-extern u32 func_02012A30(const struct BigObj *p);
-extern void *func_020127A4(struct SaveBlock *p);
-extern u32 func_02012B28(const struct Rec44 *p);
-extern void func_0202B544(u32 a, u16 b);
-extern void func_02029CF0(void *a, void *b, u16 c);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
+extern void ISS_SYS_ChangeZone(u32 a, u16 b);
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmChange(void *a, void *b, u16 c);
 
-void func_02189518(char *p, unsigned int idx)
+void FIELDMAP_ChangeZoneSound(char *p, unsigned int idx)
 {
     void *a;
     void *b;
     void *c;
     int k;
 
-    a = func_020120F4(((struct Obj12557 *)p)->f4);
-    b = (void *)func_02012134(((struct Obj12557 *)p)->f4);
-    c = (void *)func_02012A30(a);
-    k = func_02012B28(func_020127A4(a));
-    func_0202B544((u32)b, idx);
+    a = GAMESYSTEM_GetGameData(((struct Obj12557 *)p)->f4);
+    b = (void *)GAMESYSTEM_GetIssSystem(((struct Obj12557 *)p)->f4);
+    c = (void *)GAME_DATA_GetBgmInfo(a);
+    k = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetMyPlayerWork(a));
+    ISS_SYS_ChangeZone((u32)b, idx);
     if (k != 2)
-        func_02029CF0(c, a, idx);
+        FIELD_SOUND_SYSTEM_PostZoneBgmChange(c, a, idx);
 }

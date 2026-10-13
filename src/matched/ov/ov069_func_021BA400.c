@@ -1,5 +1,5 @@
 /*
- * function: func_021BA400
+ * function: BSUBWAY_RECORD_LIST_ChangePage
  * address: 0x021BA400
  * packet: pkt_ov069_021BA400
  * region: ov069
@@ -11,7 +11,7 @@
  * extent: Two bytes of alignment padding follow.
  */
 #include "../include/Obj00432.h"
-int func_021BA400(char *p, int k)
+int BSUBWAY_RECORD_LIST_ChangePage(char *p, int k)
 {
     int result = 0;
     if (k == 0) {

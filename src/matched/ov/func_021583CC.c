@@ -1,5 +1,5 @@
 /*
- * function: func_021583CC
+ * function: GAME_DATA_GetBattleRecSlotByNetId
  * address:  0x021583CC
  * packet:   pkt_021583CC
  * region:   ov010
@@ -13,9 +13,9 @@
  * single-argument arm9 read, anything else to the pair form.
  *
  * symbols:
- *   func_02012B58   0x02012B58  thumb
- *   func_020127B8   0x020127B8  thumb
- *   func_020127AC   0x020127AC  thumb
+ *   GAME_DATA_GetExitMode   0x02012B58  thumb
+ *   GAME_DATA_GetLastBattleRecSlot   0x020127B8  thumb
+ *   GAME_DATA_GetBattleRecSlot   0x020127AC  thumb
  */
 
 typedef unsigned char u8;
@@ -23,16 +23,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct BigObj;
-extern u8 func_02012B58(const struct BigObj *p);
-extern void *func_020127B8(void *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
 struct SaveBlock;
-extern void *func_020127AC(struct SaveBlock *p, u32 idx);
+extern void *GAME_DATA_GetBattleRecSlot(struct SaveBlock *p, u32 idx);
 
-int func_021583CC(void *a0, int a1)
+int GAME_DATA_GetBattleRecSlotByNetId(void *a0, int a1)
 {
-    if (func_02012B58(a0) == a1)
-        return (int)func_020127B8(a0);
+    if (GAME_DATA_GetExitMode(a0) == a1)
+        return (int)GAME_DATA_GetLastBattleRecSlot(a0);
 
-    return (int)func_020127AC(a0, a1);
+    return (int)GAME_DATA_GetBattleRecSlot(a0, a1);
 }
 

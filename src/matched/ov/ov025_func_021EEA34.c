@@ -1,5 +1,5 @@
 /*
- * function: func_021EEA34
+ * function: WEATHER_SNOW_SpawnParticles
  * address:  0x021EEA34
  * packet:   pkt_ov025_021EEA34
  * region:   ov025
@@ -11,11 +11,11 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
- *   func_021A21B8  0x021A21B8  thumb  ov021
- *   func_021A21C8  0x021A21C8  thumb  ov021
- *   func_021A2630  0x021A2630  thumb  ov021
- *   func_021A2638  0x021A2638  thumb  ov021
- *   func_021A2654  0x021A2654  thumb  ov021
+ *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
+ *   WEATHER_TASK_AddParticle  0x021A21C8  thumb  ov021
+ *   WEATHER_TASK_GetParticleWork  0x021A2630  thumb  ov021
+ *   WEATHER_TASK_GetParticleActor  0x021A2638  thumb  ov021
+ *   WEATHER_TASK_SetParticlePosWrapped  0x021A2654  thumb  ov021
  */
 
 typedef unsigned short u16;
@@ -29,13 +29,13 @@ typedef struct {
 
 extern u32 func_020056EC(u32 v);
 extern void CLACT_SetActorAnimIndex(int a0, int a1);
-extern int *func_021A21B8(int *p);
-extern void *func_021A21C8(void *p, int a1);
-extern unsigned char *func_021A2630(unsigned char *o);
-extern unsigned int func_021A2638(unsigned char *o);
-extern void func_021A2654(int obj, unsigned short *src);
+extern int *WEATHER_TASK_GetWorkBuffer(int *p);
+extern void *WEATHER_TASK_AddParticle(void *p, int a1);
+extern unsigned char *WEATHER_TASK_GetParticleWork(unsigned char *o);
+extern unsigned int WEATHER_TASK_GetParticleActor(unsigned char *o);
+extern void WEATHER_TASK_SetParticlePosWrapped(int obj, unsigned short *src);
 
-void func_021EEA34(int a, int n, int idx)
+void WEATHER_SNOW_SpawnParticles(int a, int n, int idx)
 {
     int *q;
     int i;
@@ -44,14 +44,14 @@ void func_021EEA34(int a, int n, int idx)
     int h;
     Pt pt;
 
-    q = func_021A21B8((int *)a);
+    q = WEATHER_TASK_GetWorkBuffer((int *)a);
     for (i = 0; i < n; i++) {
-        obj = (int)func_021A21C8((void *)a, idx);
+        obj = (int)WEATHER_TASK_AddParticle((void *)a, idx);
         if (obj == 0) {
             return;
         }
-        e = (int *)func_021A2630((unsigned char *)obj);
-        h = func_021A2638((unsigned char *)obj);
+        e = (int *)WEATHER_TASK_GetParticleWork((unsigned char *)obj);
+        h = WEATHER_TASK_GetParticleActor((unsigned char *)obj);
         CLACT_SetActorAnimIndex(h, (u16)func_020056EC(4));
         e[4] = 0;
         e[5] = 0;
@@ -66,6 +66,6 @@ void func_021EEA34(int a, int n, int idx)
         } else {
             pt.y = -8 - func_020056EC(0x14);
         }
-        func_021A2654(obj, (short unsigned int *)(&pt));
+        WEATHER_TASK_SetParticlePosWrapped(obj, (short unsigned int *)(&pt));
     }
 }

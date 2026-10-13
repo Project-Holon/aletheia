@@ -1,5 +1,5 @@
 /*
- * function: func_020504D8
+ * function: BILLBOARD_ACT_UpdateEntries
  * address:  0x020504D8
  * packet:   pkt_02050340
  * region:   arm9
@@ -37,8 +37,8 @@
  * verifies EXACT unchanged.  No C was altered to promote it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020504D8.c \
- *       --func func_020504D8 --addr 0x020504D8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BILLBOARD_ACT_UpdateEntries.c \
+ *       --func BILLBOARD_ACT_UpdateEntries --addr 0x020504D8 --cc 1.1p1 --arm
  *
  * Addresses are Black-image addresses.
  */
@@ -64,7 +64,7 @@ struct Ent;
 struct Own;
 extern void BILLBOARD_ACT_UpdateEntry(struct Own *o, struct Ent *e);
 
-void func_020504D8(struct Owner *o)
+void BILLBOARD_ACT_UpdateEntries(struct Owner *o)
 {
     int i = 0;
     int n = o->f1C;

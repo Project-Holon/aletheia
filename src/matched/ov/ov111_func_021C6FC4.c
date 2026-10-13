@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203064C  0x0203064C  arm
- *   func_0203159C  0x0203159C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_02082AC0  0x02082AC0  arm
  *   func_021C7130  0x021C7130  thumb
  *   func_021C7208  0x021C7208  thumb
@@ -24,8 +24,8 @@
  *   func_021C78C4  0x021C78C4  thumb
  *   func_021C7934  0x021C7934  thumb
  *   func_021C81A4  0x021C81A4  thumb
- *   func_0203D34C  0x0203D34C  arm
- *   func_0202208C  0x0202208C  thumb
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   WIPE_SYS_Start  0x0202208C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -104,9 +104,9 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void func_0203064C(u32 a, u32 heap, u32 size);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082AC0(int v, void *p, int size);
 extern void func_021C7130(Work *p, void *parent);
 extern void func_021C7208(void);
@@ -119,15 +119,15 @@ extern void func_021C7744(Work *p);
 extern void func_021C78C4(Work *p);
 extern void func_021C7934(Work *p);
 extern void func_021C81A4(Work *p, u16 v);
-extern void func_0203D34C(u32 a, u32 b);
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int func_021C6FC4(void *proc, int *seq, void *parent)
 {
     Work *p;
 
-    func_0203064C(1, 0x27, 0x20000);
-    p = func_0203159C(proc, 0x1C8, 0x27);
+    GFL_HEAP_CreateChildHeap(1, 0x27, 0x20000);
+    p = PROCSYS_AllocProcWork(proc, 0x1C8, 0x27);
     func_02082AC0(0, p, 0x1C8);
     func_021C7130(p, parent);
     func_021C7208();
@@ -140,7 +140,7 @@ int func_021C6FC4(void *proc, int *seq, void *parent)
     func_021C78C4(p);
     func_021C7934(p);
     func_021C81A4(p, p->f114);
-    func_0203D34C(1, 0x27);
-    func_0202208C(0, 1, 1, 0, 6, 1, 0x27);
+    GFL_NET_RestartWithDefaultTimeout(1, 0x27);
+    WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x27);
     return 1;
 }

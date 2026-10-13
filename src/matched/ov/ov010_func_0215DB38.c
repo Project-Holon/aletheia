@@ -1,5 +1,5 @@
 /*
- * function: func_0215DB38
+ * function: SCRCMD_MUSICAL_LinkControl
  * address:  0x0215DB38
  * packet:   pkt_ov010_0215DB38
  * region:   ov010
@@ -16,43 +16,43 @@
  *
  * Byte-correct (first draft plus ov100_id for the pooled 0x64). Evidence
  * gaps, not C: 0x021FDA6C (ov132) has no func_ label; ov100_id is passed to
- * func_02014808 (r2), which is not in the overlay_id consumer list;
+ * FIELD_STATUS_CreateSubProcCallbackEvent (r2), which is not in the overlay_id consumer list;
  * d_021BB6A4 is another overlay's proc data (same gap as func_02155478).
  * The empty `case 100: break;` is what leaves the lone `cmp r6, #0x64`.
  *
  * 2026-10-05 (wave D9): EXACT. d_021BB6A4 (ov100 process data) resolves with the ov100 token on its symbols line.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02156BAC  0x02156BAC  thumb  ov010
- *   func_02156BCC  0x02156BCC  thumb  ov010
- *   func_0215DDC8  0x0215DDC8  thumb  ov010
- *   func_0215DE0C  0x0215DE0C  thumb  ov010
- *   func_0215DE38  0x0215DE38  thumb  ov010
- *   func_0215DE44  0x0215DE44  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_0215DF78  0x0215DF78  thumb  ov010
- *   func_0215DFB4  0x0215DFB4  thumb  ov010
- *   func_0215E010  0x0215E010  thumb  ov010
- *   func_0215E068  0x0215E068  thumb  ov010
- *   func_0215E0B0  0x0215E0B0  thumb  ov010
- *   func_0215E0EC  0x0215E0EC  thumb  ov010
- *   func_0215E130  0x0215E130  thumb  ov010
- *   func_0215E184  0x0215E184  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_02012124  0x02012124  thumb
- *   func_02012138  0x02012138  thumb
- *   func_02012944  0x02012944  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   MUSICAL_EVENT_CheckNetError  0x02156BAC  thumb  ov010
+ *   MUSICAL_EVENT_IsAborted  0x02156BCC  thumb  ov010
+ *   SCRCMD_MUSICAL_CreateLinkWork  0x0215DDC8  thumb  ov010
+ *   SCRCMD_MUSICAL_DeleteLinkWork  0x0215DE0C  thumb  ov010
+ *   SCRCMD_MUSICAL_BeginCommSession  0x0215DE38  thumb  ov010
+ *   SCRCMD_MUSICAL_CloseCommSession  0x0215DE44  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRCMD_MUSICAL_LinkProcCallback  0x0215DF78  thumb  ov010
+ *   SCRCMD_MUSICAL_WaitEntryMenuParent  0x0215DFB4  thumb  ov010
+ *   SCRCMD_MUSICAL_WaitEntryMenuChild  0x0215E010  thumb  ov010
+ *   SCRCMD_MUSICAL_WaitSetMemberCount  0x0215E068  thumb  ov010
+ *   SCRCMD_MUSICAL_WaitSessionReady  0x0215E0B0  thumb  ov010
+ *   SCRCMD_MUSICAL_WaitCommAttach  0x0215E0EC  thumb  ov010
+ *   SCRCMD_MUSICAL_WaitCommIdle  0x0215E130  thumb  ov010
+ *   SCRCMD_MUSICAL_WaitSessionFinish  0x0215E184  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
- *   func_020113D0  0x020113D0  thumb
- *   func_02014808  0x02014808  thumb
+ *   VM_SetWait  0x020113D0  thumb
+ *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   func_02030734  0x02030734  arm
- *   func_021CD48C  0x021CD48C  thumb  ov021
+ *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
  *   func_021FCDEC  0x021FCDEC  thumb  ov132
  *   func_021FDA6C  0x021FDA6C  thumb  ov132
  *   d_02172914     0x02172914  data  a1
@@ -85,42 +85,42 @@ extern const char d_02172914[];
 extern u8 d_021BB6A4[];
 extern u8 ov100_id[];
 
-extern void *func_0215A5F4(void *vm);
-extern void *func_0215A5DC(void *vm);
-extern void *func_0215A5E4(void *vm);
-extern u16 func_02159B10(void *c, void *vm);
-extern u16 *func_02159AE8(void *c, void *vm);
-extern void func_02156BAC(void *p);
-extern u32 func_02156BCC(void *p);
-extern void func_0215DDC8(void *evt, void *h);
+extern void *SCRCMD_WORK_GetScriptWork(void *vm);
+extern void *SCRCMD_WORK_GetGameSystem(void *vm);
+extern void *SCRCMD_WORK_GetGameData(void *vm);
+extern u16 SCRIPT_WORK_ReadWorkValue(void *c, void *vm);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *c, void *vm);
+extern void MUSICAL_EVENT_CheckNetError(void *p);
+extern u32 MUSICAL_EVENT_IsAborted(void *p);
+extern void SCRCMD_MUSICAL_CreateLinkWork(void *evt, void *h);
 struct Ctx;
-extern void func_0215DE0C(void *w, void *h);
-extern void func_0215DE38(int a, void *b, void *c, int d);
-extern void func_0215DE44(int a0);
-extern void func_0215897C(void *evt, void *task);
-extern void func_0215DF78(int a0, int a1, int a2);
-extern int func_0215DFB4(int a0, int a1);
-extern int func_0215E010(void *a, void *b);
-extern int func_0215E068(int a0, int a1);
-extern int func_0215E0B0(int a0, int a1);
-extern int func_0215E0EC(int a0, int a1);
-extern int func_0215E130(void *a, void *b);
-extern int func_0215E184(int a0, int a1);
-extern void *func_0201210C(const struct Ctx *p);
+extern void SCRCMD_MUSICAL_DeleteLinkWork(void *w, void *h);
+extern void SCRCMD_MUSICAL_BeginCommSession(int a, void *b, void *c, int d);
+extern void SCRCMD_MUSICAL_CloseCommSession(int a0);
+extern void SCRIPT_SYS_CallEvent(void *evt, void *task);
+extern void SCRCMD_MUSICAL_LinkProcCallback(int a0, int a1, int a2);
+extern int SCRCMD_MUSICAL_WaitEntryMenuParent(int a0, int a1);
+extern int SCRCMD_MUSICAL_WaitEntryMenuChild(void *a, void *b);
+extern int SCRCMD_MUSICAL_WaitSetMemberCount(int a0, int a1);
+extern int SCRCMD_MUSICAL_WaitSessionReady(int a0, int a1);
+extern int SCRCMD_MUSICAL_WaitCommAttach(int a0, int a1);
+extern int SCRCMD_MUSICAL_WaitCommIdle(void *a, void *b);
+extern int SCRCMD_MUSICAL_WaitSessionFinish(int a0, int a1);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Ctx;
-extern void func_02012124(struct Ctx *p, u32 v);
-extern u32 func_02012138(const struct Ctx *p);
-extern u8 *func_02012944(void *p);
+extern void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern int GAME_DATA_GetExternalWork(char *base);
-extern void func_020113D0(char *p, int val);
-extern void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
+extern void VM_SetWait(char *p, int val);
+extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *a0, int a1, int a2, int a3, int a4, int a5, int a6);
 extern u32 func_0200FB24(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_021CD48C(void *a, void *sys, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 COMM_ENTRY_MENU_Create(void *a, void *sys, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_021FCDEC(int a, int b);
 extern unsigned char *func_021FDA6C(void *h);
 
-int func_0215DB38(void *c, void *vm)
+int SCRCMD_MUSICAL_LinkControl(void *c, void *vm)
 {
     void *evt;
     void *proc;
@@ -132,67 +132,67 @@ int func_0215DB38(void *c, void *vm)
     int busy;
     Link *l;
 
-    evt = func_0215A5F4(vm);
-    proc = func_0215A5DC(vm);
-    h = func_0215A5E4(vm);
-    sys = func_0201210C(proc);
-    cmd = func_02159B10(c, vm);
-    arg = func_02159B10(c, vm);
-    func_02159B10(c, vm);
-    dst = func_02159AE8(c, vm);
+    evt = SCRCMD_WORK_GetScriptWork(vm);
+    proc = SCRCMD_WORK_GetGameSystem(vm);
+    h = SCRCMD_WORK_GetGameData(vm);
+    sys = GAMESYSTEM_GetFieldMap(proc);
+    cmd = SCRIPT_WORK_ReadWorkValue(c, vm);
+    arg = SCRIPT_WORK_ReadWorkValue(c, vm);
+    SCRIPT_WORK_ReadWorkValue(c, vm);
+    dst = SCRIPT_WORK_ReadWorkPointer(c, vm);
     busy = 0;
     l = 0;
     if (cmd != 0 && cmd != 0x15) {
         l = (Link *)GAME_DATA_GetExternalWork(h);
         if (l->f00 != 0) {
-            func_02156BAC(l->f00);
-            if (func_02156BCC(l->f00) == 1)
+            MUSICAL_EVENT_CheckNetError(l->f00);
+            if (MUSICAL_EVENT_IsAborted(l->f00) == 1)
                 busy = 1;
         }
     }
     switch (cmd) {
     case 0:
-        func_0215DDC8(evt, h);
+        SCRCMD_MUSICAL_CreateLinkWork(evt, h);
         break;
     case 1:
-        func_0215DE0C(l, h);
+        SCRCMD_MUSICAL_DeleteLinkWork(l, h);
         break;
     case 10:
-        func_0215DE38((int)l, proc, (void *)func_02012138(proc), arg);
+        SCRCMD_MUSICAL_BeginCommSession((int)l, proc, (void *)GAMESYSTEM_GetGameComm(proc), arg);
         break;
     case 11:
-        func_0215DE44((int)l);
-        func_020113D0(c, (int)func_0215E130);
+        SCRCMD_MUSICAL_CloseCommSession((int)l);
+        VM_SetWait(c, (int)SCRCMD_MUSICAL_WaitCommIdle);
         return 1;
     case 12:
         l->f30 = dst;
-        l->f08 = func_021CD48C(func_02012944(h), sys, 2, 4, 4, 0, 1, 0);
-        func_020113D0(c, (int)func_0215DFB4);
+        l->f08 = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(h), sys, 2, 4, 4, 0, 1, 0);
+        VM_SetWait(c, (int)SCRCMD_MUSICAL_WaitEntryMenuParent);
         return 1;
     case 13:
         l->f30 = dst;
-        l->f08 = func_021CD48C(func_02012944(h), sys, 2, 4, 4, 1, 1, 0);
-        func_020113D0(c, (int)func_0215E010);
+        l->f08 = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(h), sys, 2, 4, 4, 1, 1, 0);
+        VM_SetWait(c, (int)SCRCMD_MUSICAL_WaitEntryMenuChild);
         return 1;
     case 14:
         if (l->sess == 0 || busy != 0)
             break;
         l->f34 = arg;
         func_021FCDEC((int)l->sess, (u8)l->f34);
-        func_020113D0(c, (int)func_0215E068);
+        VM_SetWait(c, (int)SCRCMD_MUSICAL_WaitSetMemberCount);
         return 1;
     case 15:
         if (l->sess == 0 || busy != 0)
             break;
-        func_020113D0(c, (int)func_0215E0B0);
+        VM_SetWait(c, (int)SCRCMD_MUSICAL_WaitSessionReady);
         return 1;
     case 16:
-        func_020113D0(c, (int)func_0215E0EC);
+        VM_SetWait(c, (int)SCRCMD_MUSICAL_WaitCommAttach);
         return 1;
     case 17:
         if (l->sess == 0 || busy != 0)
             break;
-        func_020113D0(c, (int)func_0215E184);
+        VM_SetWait(c, (int)SCRCMD_MUSICAL_WaitSessionFinish);
         return 1;
     case 18: {
         Wait *w = func_02030734(0x8004, 8, (u32)1, d_02172914, (u32)0x3C8);
@@ -203,7 +203,7 @@ int func_0215DB38(void *c, void *vm)
         l->f0c = h;
         l->f2c = (u32)func_021FDA6C(h);
         l->f28 = arg == 0 ? 9 : 10;
-        func_0215897C(evt, func_02014808(proc, (int)sys, (u32)ov100_id, (int)d_021BB6A4, (int)(&l->f0c), (int)func_0215DF78, (int)w));
+        SCRIPT_SYS_CallEvent(evt, FIELD_STATUS_CreateSubProcCallbackEvent(proc, (int)sys, (u32)ov100_id, (int)d_021BB6A4, (int)(&l->f0c), (int)SCRCMD_MUSICAL_LinkProcCallback, (int)w));
         return 1;
     }
     case 19:
@@ -220,7 +220,7 @@ int func_0215DB38(void *c, void *vm)
         break;
     case 21:
         if (func_0200FB24() != 0) {
-            func_02012124(proc, 1);
+            GAMESYSTEM_SetFieldMapState(proc, 1);
             *dst = 1;
         } else {
             *dst = 0;

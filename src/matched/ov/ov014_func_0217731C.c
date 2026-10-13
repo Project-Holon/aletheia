@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data  a4
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_0203F1FC  0x0203F1FC  arm
  */
 #include "../include/Obj03087.h"
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern struct W *g_pWhPipeWork;
-void *func_0203D798(void);
+void *GFL_NET_GetInitParam(void);
 u16 func_0203F1FC(const u8 *src, u32 len);
 
 typedef int (*CheckFn)(u8 a, u8 b, u32 c);
@@ -32,7 +32,7 @@ typedef void (*NotifyFn)(u32 a, u8 *obj, u32 b, u32 c);
 int func_0217731C(u8 *obj)
 {
     u8 *base = ((u8 *)g_pWhPipeWork);
-    u8 *st = func_0203D798();
+    u8 *st = GFL_NET_GetInitParam();
     u8 *p;
     int v67;
     u16 v50;

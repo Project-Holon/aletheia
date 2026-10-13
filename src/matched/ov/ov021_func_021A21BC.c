@@ -1,5 +1,5 @@
 /*
- * function: func_021A21BC
+ * function: WEATHER_TASK_GetParticleCount
  * address:  0x021A21BC
  * packet:   pkt_ov021_021A21BC
  * region:   ov021
@@ -13,11 +13,11 @@
  * for lane S30 (callee of ov027/ov028 functions).
  *
  * symbols:
- *   func_021A21BC 0x021A21BC thumb ov021
+ *   WEATHER_TASK_GetParticleCount 0x021A21BC thumb ov021
  */
 #include "../include/Obj19731.h"
 
-int func_021A21BC(unsigned char *o)
+int WEATHER_TASK_GetParticleCount(unsigned char *o)
 {
     return ((struct Obj19731 *)o)->f778;
 }

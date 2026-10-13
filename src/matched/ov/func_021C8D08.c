@@ -1,5 +1,5 @@
 /*
- * function: func_021C8D08
+ * function: FIELD_TILE_MOVE_GetBumpAcmd
  * address:  0x021C8D08
  * packet:   pkt_021C8D08
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021C8D08(u32 a)
+int FIELD_TILE_MOVE_GetBumpAcmd(u32 a)
 {
 if (((struct Obj12136 *)((u8 *)(a)))->f14 != 0) {
     return *(u16 *)((u8 *)(((struct Obj12136 *)((u8 *)(a)))->f14) + 2);

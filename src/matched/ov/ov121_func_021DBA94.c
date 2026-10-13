@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02040618 0x02040618 arm
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 struct Obj;
 struct Vec2;
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -36,17 +36,17 @@ int func_021DBA94(char *p)
     amount=(((struct Obj02834 *)p)->fADC*256)/16;
     for(i=0;i<8;i++) {
         if(*(void **)(p+i*4+0xb28)) {
-            func_0204B454(*(void **)(p+i*4+0xb28),(struct PtS *)(xy+2),0);
+            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0xb28),(struct PtS *)(xy+2),0);
             xy[2]-=(s16)amount;
             func_0204B404(*(void **)(p+i*4+0xb28),(const struct Vec2 *)(xy+2),0);
-            func_0204B454(*(void **)(p+i*4+0xb28),(struct PtS *)xy,0);
+            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0xb28),(struct PtS *)xy,0);
             if(xy[0]>=-16 && xy[0]<=272 && xy[1]>=-16 && xy[1]<=208)
                 func_0204B3DC(*(void **)(p+i*4+0xb28),1);
             else func_0204B3DC(*(void **)(p+i*4+0xb28),0);
         }
     }
     if(((struct Obj02834 *)p)->fAE0) {
-        func_0204B454(((struct Obj02834 *)p)->fAF0,(struct PtS *)(xy+2),0);
+        CLACT_GetActorSurfacePos(((struct Obj02834 *)p)->fAF0,(struct PtS *)(xy+2),0);
         xy[2]-=(s16)amount;
         func_0204B404(((struct Obj02834 *)p)->fAF0,(const struct Vec2 *)(xy+2),0);
         if(xy[2]>=-96 && xy[2]<=352 && xy[3]>=-96 && xy[3]<=288)

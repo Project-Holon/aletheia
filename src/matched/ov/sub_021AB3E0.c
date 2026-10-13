@@ -1,5 +1,5 @@
 /*
- * function: sub_021AB3E0
+ * function: MAP_ATTR_IsMud
  * address:  0x021AB3E0
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef int BOOL;
 
-BOOL sub_021AB3E0(u16 id)
+BOOL MAP_ATTR_IsMud(u16 id)
 {
     if (id == 0x1e) {
         return 1;

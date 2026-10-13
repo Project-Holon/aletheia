@@ -1,5 +1,5 @@
 /*
- * function: func_0217FABC
+ * function: UNION_EFF_DeleteAnimGroupObjs
  * address: 0x0217FABC
  * packet: pkt_ov019_0217FABC
  * region: ov019
@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0217FA54 0x0217FA54 thumb ov019
+ *   UNION_EFF_DeleteAnimObj 0x0217FA54 thumb ov019
  */
 
 typedef unsigned int u32;
-extern void func_0217FA54(u32 *p);
-void func_0217FABC(u32 *p) { if (p[3] != 0) func_0217FA54(p); }
+extern void UNION_EFF_DeleteAnimObj(u32 *p);
+void UNION_EFF_DeleteAnimGroupObjs(u32 *p) { if (p[3] != 0) UNION_EFF_DeleteAnimObj(p); }

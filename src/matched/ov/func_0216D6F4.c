@@ -1,5 +1,5 @@
 /*
- * function: func_0216D6F4
+ * function: FLDMMDL_CallMoveInitProc
  * address:  0x0216D6F4
  * packet:   pkt_0216D6F4
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0216D6F4(void *a0)
+void FLDMMDL_CallMoveInitProc(void *a0)
 {
     void (*fn)(void *) = *(void (**)(void *))((char *)((struct Obj17814 *)a0)->f8C + 0x4);
 

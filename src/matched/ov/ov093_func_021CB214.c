@@ -10,37 +10,37 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D74F8  0x021D74F8  thumb  ov093
- *   func_021D5440  0x021D5440  thumb  ov093
- *   func_021D75EC  0x021D75EC  thumb  ov093
- *   func_021D7630  0x021D7630  thumb  ov093
- *   func_021D70F0  0x021D70F0  thumb  ov093
- *   func_021D775C  0x021D775C  thumb  ov093
- *   func_021D7540  0x021D7540  thumb  ov093
+ *   BTL_EVENT_PushVarFrame  0x021D74F8  thumb  ov093
+ *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
+ *   BTL_EVENT_SetVarReadOnly  0x021D75EC  thumb  ov093
+ *   BTL_EVENT_SetVarOnce  0x021D7630  thumb  ov093
+ *   BTL_EVENT_DispatchEventChecked  0x021D70F0  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
+ *   BTL_EVENT_PopVarFrame  0x021D7540  thumb  ov093
  */
 #include "../include/Obj13345.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021D74F8(int line);
-extern u8 func_021D5440(u8 *p);
-extern void func_021D75EC(int key, u32 val);
-extern void func_021D7630(int key, u32 val);
-extern void func_021D70F0(void *a, int id);
-extern int func_021D775C(int key);
-extern void func_021D7540(int line);
+extern void BTL_EVENT_PushVarFrame(int line);
+extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void BTL_EVENT_SetVarReadOnly(int key, u32 val);
+extern void BTL_EVENT_SetVarOnce(int key, u32 val);
+extern void BTL_EVENT_DispatchEventChecked(void *a, int id);
+extern int BTL_EVENT_GetVar(int key);
+extern void BTL_EVENT_PopVarFrame(int line);
 
 u8 func_021CB214(u8 *p, u8 *a, u8 *b)
 {
     u8 r;
-    func_021D74F8(631);
-    func_021D75EC(3, func_021D5440(a));
-    func_021D75EC(0x16, b[6]);
-    func_021D75EC(0x12, ((struct Obj13345 *)b)->f0);
-    func_021D7630(4, 0x1f);
-    func_021D7630(0x50, 0);
-    func_021D70F0(p, 0x29);
-    r = func_021D775C(4);
-    func_021D7540(639);
+    BTL_EVENT_PushVarFrame(631);
+    BTL_EVENT_SetVarReadOnly(3, BTL_POKEPARAM_GetPokeId(a));
+    BTL_EVENT_SetVarReadOnly(0x16, b[6]);
+    BTL_EVENT_SetVarReadOnly(0x12, ((struct Obj13345 *)b)->f0);
+    BTL_EVENT_SetVarOnce(4, 0x1f);
+    BTL_EVENT_SetVarOnce(0x50, 0);
+    BTL_EVENT_DispatchEventChecked(p, 0x29);
+    r = BTL_EVENT_GetVar(4);
+    BTL_EVENT_PopVarFrame(639);
     return r;
 }

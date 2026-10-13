@@ -1,5 +1,5 @@
 /*
- * function: func_0217EC08
+ * function: INTRUDE_SUBDISP_IsZoneMatch
  * address: 0x0217EC08
  * packet: pkt_ov018_0217EC08
  * region: ov018
@@ -12,7 +12,7 @@
  * the u16 assignment's shift pair; assigning either u16 constant removes it.
  */
 typedef unsigned short u16;
-int func_0217EC08(u16 a, u16 b, u16 c)
+int INTRUDE_SUBDISP_IsZoneMatch(u16 a, u16 b, u16 c)
 {
     int t;
     if (a == b || a == c) return 1;

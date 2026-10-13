@@ -1,5 +1,5 @@
 /*
- * function: func_021ADCDC
+ * function: FLDEFF_IWAKUDAKI_Delete
  * address:  0x021ADCDC
  * packet:   pkt_021ADCDC
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_021ADD38  0x021ADD38  thumb  ov021
+ *   FLDEFF_IWAKUDAKI_FreeResources  0x021ADD38  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 struct Q;
-extern void func_021ADD38(struct Q *q);
+extern void FLDEFF_IWAKUDAKI_FreeResources(struct Q *q);
 extern u32 func_020307B0(void *p);
 
-void func_021ADCDC(u32 a, u8 *p)
+void FLDEFF_IWAKUDAKI_Delete(u32 a, u8 *p)
 {
-    func_021ADD38((struct Q *)p);
+    FLDEFF_IWAKUDAKI_FreeResources((struct Q *)p);
     func_020307B0(p);
 }

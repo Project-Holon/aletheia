@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * notes:    unlabelled Thumb leaf after func_0202F038 (its listing extent ran
+ * notes:    unlabelled Thumb leaf after TIME_ICON_Delete (its listing extent ran
  *           to 0x0202F0B0); seeded in layout/function_starts.txt.
  *
  * symbols:

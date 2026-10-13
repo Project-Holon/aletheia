@@ -1,5 +1,5 @@
 /*
- * function: func_0216505C
+ * function: GAME_BEACON_SEARCH_SetBattlePokeStart
  * address:  0x0216505C
  * packet:   pkt_0216505C
  * region:   ov010
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_BEACON_IsSpecialPokemon  0x0202708C  thumb
- *   func_02165104  0x02165104  thumb  ov010
- *   func_02165094  0x02165094  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetBattleSpecialPokeStart  0x02165104  thumb  ov010
+ *   GAME_BEACON_SEARCH_SetBattleWildPokeStart  0x02165094  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int GAME_BEACON_IsSpecialPokemon();
-extern int func_02165104();
-extern int func_02165094();
+extern int GAME_BEACON_SEARCH_SetBattleSpecialPokeStart();
+extern int GAME_BEACON_SEARCH_SetBattleWildPokeStart();
 
-int func_0216505C(int a0)
+int GAME_BEACON_SEARCH_SetBattlePokeStart(int a0)
 {
     int t4;
 
@@ -33,11 +33,11 @@ loc_02165064:
     if (a0 == 0) goto loc_02165070;
 loc_02165068:
 a0 = t4 + 0;
-    a0 = func_02165104(a0);
+    a0 = GAME_BEACON_SEARCH_SetBattleSpecialPokeStart(a0);
 loc_0216506E:
     return a0;
 loc_02165070:
 a0 = t4 + 0;
-    a0 = func_02165094(a0);
+    a0 = GAME_BEACON_SEARCH_SetBattleWildPokeStart(a0);
 loc_02165076:
     return a0;}

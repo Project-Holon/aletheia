@@ -1,5 +1,5 @@
 /*
- * function: func_021CE718
+ * function: COMM_ENTRY_MENU_SetCancelFlag
  * address: 0x021CE718
  * packet: pkt_ov021_021CE718
  * region: ov021
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned char u8;
-void func_021CE718(u8 *p);
+void COMM_ENTRY_MENU_SetCancelFlag(u8 *p);
 
-void func_021CE718(u8 *p)
+void COMM_ENTRY_MENU_SetCancelFlag(u8 *p)
 {
     p[0x51A] = 1;
 }

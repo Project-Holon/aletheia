@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  */
 
 typedef unsigned char u8;
@@ -17,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0204A5AC(void);
-void func_021F6F80(void) { func_0204A5AC(); }
+extern void CLACT_ExitSystem(void);
+void func_021F6F80(void) { CLACT_ExitSystem(); }

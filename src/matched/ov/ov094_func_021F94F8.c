@@ -13,7 +13,7 @@
  *   VM_Start  0x0201127C  thumb
  *   func_02011324  0x02011324  thumb
  *   func_02040588  0x02040588  arm
- *   func_02048F60  0x02048F60  arm
+ *   ARC_TOOL_LoadMember  0x02048F60  arm
  *   func_02082A48  0x02082A48  arm
  *   func_021F8198  0x021F8198  thumb  ov094
  *   func_021F8694  0x021F8694  thumb  ov094
@@ -64,7 +64,7 @@ struct ScriptVm;
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern void func_02082A48(u16 data, void *destp, u32 size);
 extern void func_021F8198(int a, int b);
 extern int func_021F8694(void);
@@ -101,7 +101,7 @@ void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
     if (func_021FEAA0(t->h258) == 0)
         func_021F8934(0);
     if (t->h258 < 0x231) {
-        t->f1e8 = func_02048F60(0x42, id, (u16)((t->h238 & 0x7fff) | 0x8000));
+        t->f1e8 = ARC_TOOL_LoadMember(0x42, id, (u16)((t->h238 & 0x7fff) | 0x8000));
         if (t->h258 != 0x90 && t->h258 != 0x77 && t->h258 != 0x10b)
             func_021F8198(0, 2);
         func_02040588(1, 0);
@@ -110,7 +110,7 @@ void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
         t->b6 = 0;
         func_021FE410(t, 0x7F000, 0x6B000, 0x14);
     } else {
-        t->f1e8 = func_02048F60(0x43, id - 0x231, (u16)((t->h238 & 0x7fff) | 0x8000));
+        t->f1e8 = ARC_TOOL_LoadMember(0x43, id - 0x231, (u16)((t->h238 & 0x7fff) | 0x8000));
         t->b6 = 1;
         if (id >= 0x256 && (*(volatile u16 *)0x04000052 & 0x1f) == 0)
             func_02040588(1, 0);
@@ -136,14 +136,14 @@ void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
     if (t->h258 == 0x27e && flag) {
         t->f1ec = t->f1e8;
         t->f1f0 = off;
-        t->f1e8 = func_02048F60(0x43, 0x33, (u16)((t->h238 & 0x7fff) | 0x8000));
+        t->f1e8 = ARC_TOOL_LoadMember(0x43, 0x33, (u16)((t->h238 & 0x7fff) | 0x8000));
         t->b6 = 1;
         t->b17 = 1;
         off = 4;
     } else if (!t->b6 && t->h258 != 0x90 && !t->b17 && flag) {
         t->f1ec = t->f1e8;
         t->f1f0 = off;
-        t->f1e8 = func_02048F60(0x43, 0x33, (u16)((t->h238 & 0x7fff) | 0x8000));
+        t->f1e8 = ARC_TOOL_LoadMember(0x43, 0x33, (u16)((t->h238 & 0x7fff) | 0x8000));
         t->b6 = 1;
         off = 4;
     }

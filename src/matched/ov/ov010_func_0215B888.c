@@ -1,5 +1,5 @@
 /*
- * function: func_0215B888
+ * function: SCRCMD_PROC_GetPartyCount
  * address:  0x0215B888
  * packet:   pkt_ov010_0215B888
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012934  0x02012934  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA14  0x0201AA14  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AA1C  0x0201AA1C  thumb
@@ -26,11 +26,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct BigObj;
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_0215A5E4(void *a0);
-extern void *func_02012934(const struct BigObj *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA14(void *p);
 extern u32 func_0201AA18(void *p);
 extern u32 func_0201AA1C(void *p);
@@ -38,11 +38,11 @@ extern u32 func_0201AA50(void *p);
 extern u32 func_0201AA88(void *p);
 extern u32 func_0201AAD4(void *p);
 
-int func_0215B888(void *a0, void *a1)
+int SCRCMD_PROC_GetPartyCount(void *a0, void *a1)
 {
-    u16 *out = func_02159AE8(a0, a1);
-    int sel = func_02159B10(a0, a1);
-    void *h = func_02012934(func_0215A5E4(a1));
+    u16 *out = SCRIPT_WORK_ReadWorkPointer(a0, a1);
+    int sel = SCRIPT_WORK_ReadWorkValue(a0, a1);
+    void *h = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(a1));
     int r;
 
     switch (sel) {

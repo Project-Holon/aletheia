@@ -1,5 +1,5 @@
 /*
- * function: func_021671CC
+ * function: EVENT_RESEARCH_RADAR_DeleteInfoWindow
  * address:  0x021671CC
  * packet:   pkt_021671CC
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02190728  0x02190728  thumb
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb
  */
 #include "../include/Obj00565.h"
 
@@ -18,15 +18,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02190728();
+extern int FIELD_MSGBG_DeleteMsgWin();
 
-int func_021671CC(int a0)
+int EVENT_RESEARCH_RADAR_DeleteInfoWindow(int a0)
 {
     int t4;
 
 t4 = a0 + 0;
 a0 = ((struct Obj00565 *)t4)->f14;
-    a0 = func_02190728(a0);
+    a0 = FIELD_MSGBG_DeleteMsgWin(a0);
 loc_021671D6:
 a0 = 0;
 ((struct Obj00565 *)t4)->f14 = a0;

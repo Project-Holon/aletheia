@@ -1,5 +1,5 @@
 /*
- * function: func_02157394
+ * function: MUSICAL_PROGRAM_GetCategoryShare
  * address:  0x02157394
  * packet:   pkt_02157394
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-u16 func_02157394(int a0, int a1)
+u16 MUSICAL_PROGRAM_GetCategoryShare(int a0, int a1)
 {
 
 a0 = a0 + a1;

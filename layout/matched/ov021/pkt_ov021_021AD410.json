@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AD410",
+   "name": "FLDEFF_NAMIPOKE_SPLASH_LoadResources",
    "address": "0x021AD410",
    "kind": "game",
    "region": "ov021",

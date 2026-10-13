@@ -1,5 +1,5 @@
 /*
- * function: func_021D335C
+ * function: FLD_VREQ_ApplyBlendAlphaEv
  * address:  0x021D335C
  * packet:   pkt_021D335C
  * region:   ov021
@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021D335C(u32 *p, int sub)
+void FLD_VREQ_ApplyBlendAlphaEv(u32 *p, int sub)
 {
     if (sub) {
         *(volatile u16 *)0x04000052 = p[0] | (p[1] << 8);

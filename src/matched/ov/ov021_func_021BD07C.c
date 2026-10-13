@@ -1,5 +1,5 @@
 /*
- * function: func_021BD07C
+ * function: FIELD_PLACE_NAME_DeleteBmpWin
  * address:  0x021BD07C
  * packet:   pkt_ov021_021BD07C
  * region:   ov021
@@ -19,7 +19,7 @@ struct Descriptor;
 typedef unsigned int   u32;
 extern u32 func_020452E8(struct Descriptor *d);
 
-void func_021BD07C(Obj *p)
+void FIELD_PLACE_NAME_DeleteBmpWin(Obj *p)
 {
     if (p->f24 != 0) {
         func_020452E8(p->f24);

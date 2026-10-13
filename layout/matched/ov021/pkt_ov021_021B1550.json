@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B1550",
+   "name": "SCRCMD_MSGWIN_WaitKeyWithCursor",
    "address": "0x021B1550",
    "kind": "game",
    "region": "ov021",

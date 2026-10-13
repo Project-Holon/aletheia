@@ -1,5 +1,5 @@
 /*
- * function: func_021D67B8
+ * function: BTL_POKEPARAM_GetLastSelectedMoveId
  * address:  0x021D67B8
  * packet:   pkt_021D67B8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D67B8   0x021D67B8  thumb ov093
+ *   BTL_POKEPARAM_GetLastSelectedMoveId   0x021D67B8  thumb ov093
  *
  * ldrh at #0x14a (pool constant)
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021D67B8(u8 *p)
+u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *p)
 {
     return ((struct Obj18417 *)p)->f14A;
 }

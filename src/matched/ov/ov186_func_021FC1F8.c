@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  */
 
 typedef unsigned int   u32;
-extern void func_0204ADA4(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
 
 void func_021FC1F8(int *p, int i)
 {
-    func_0204ADA4(p[i]);
+    CLACT_ReleasePalette(p[i]);
     p[i] = -1;
 }

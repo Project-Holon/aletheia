@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
-extern void func_0204A648(void);
-void func_02184144(void *p) { func_0204A648(); }
+extern void CLACT_VBlankSystem(void);
+void func_02184144(void *p) { CLACT_VBlankSystem(); }

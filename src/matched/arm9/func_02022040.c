@@ -1,5 +1,5 @@
 /*
- * function: func_02022040
+ * function: PALANM_ConvertGrayTable
  * address:  0x02022040
  * packet:   pkt_02022040
  * region:   arm9
@@ -13,7 +13,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-void func_02022040(u16 *pal, int n, const u8 *table)
+void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table)
 {
     int i;
     int r, g, b;

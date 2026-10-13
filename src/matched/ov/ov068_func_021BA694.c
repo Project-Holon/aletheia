@@ -1,5 +1,5 @@
 /*
- * function: func_021BA694
+ * function: OPTION_MENU_ResetButtons
  * address:  0x021BA694
  * packet:   pkt_021BA694
  * region:   ov068
@@ -21,7 +21,7 @@ struct Obj;
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 
-void func_021BA694(u8 *p)
+void OPTION_MENU_ResetButtons(u8 *p)
 {
     int i;
 

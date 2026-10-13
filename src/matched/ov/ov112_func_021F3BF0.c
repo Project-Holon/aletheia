@@ -17,6 +17,7 @@
  *   func_021F3ED0 0x021F3ED0 thumb ov112
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
+ *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  */
 #include "../include/Obj03246.h"
 typedef unsigned char u8;
@@ -29,7 +30,7 @@ extern void func_021F51B0(int a);
 extern void func_021F4948(u8 *);
 extern void func_021F3ED0(u8 *);
 extern u32 func_020452E8(struct Descriptor *d);
-extern u32 func_0201D83C(void *ptr);
+extern u32 GF_FONT_Delete(void *ptr);
 extern u32 func_020307B0(void *p);
 void func_021F3BF0(u8 *p)
 {
@@ -41,8 +42,8 @@ void func_021F3BF0(u8 *p)
     func_021F4948(*(u8 * *)&((struct Obj03246 *)p)->f24);
     func_020452E8(((struct Obj03246 *)p)->f58);
     func_020452E8(((struct Obj03246 *)p)->f54);
-    func_0201D83C(((struct Obj03246 *)p)->f60);
-    func_0201D83C(((struct Obj03246 *)p)->f5C);
+    GF_FONT_Delete(((struct Obj03246 *)p)->f60);
+    GF_FONT_Delete(((struct Obj03246 *)p)->f5C);
     func_021F3ED0(p);
     for(i=0;i<4;i++) func_020307B0(*(void **)(p+i*4+8));
     func_020307B0(p);

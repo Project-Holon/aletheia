@@ -12,7 +12,7 @@
  *   func_0217E078 0x0217E078 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  *   func_0217C2EC 0x0217C2EC thumb ov176
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200ED48 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
  *   func_0200ED54 0x0200ED54 thumb
@@ -26,8 +26,8 @@
  *   func_0217D160 0x0217D160 thumb ov176
  *   func_0217CFE8 0x0217CFE8 thumb ov176
  *   func_021E8AB4 0x021E8AB4 thumb ov177
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_0217D010 0x0217D010 thumb ov176
  *   func_0217D000 0x0217D000 thumb ov176
  *   func_021E8AB8 0x021E8AB8 thumb ov177
@@ -43,7 +43,7 @@ struct Sub0200852CObj;
 extern int func_0217E078(u8 *p);
 extern void func_021E8AA0(int *,int);
 extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200ED48(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void func_0200ED54(struct L0200ED54 *l, u32 val);
@@ -57,8 +57,8 @@ extern void func_0200E920(u8 *,u32,int);
 extern void func_0217D160(int *);
 extern void func_0217CFE8(void *,int,int);
 extern void func_021E8AB4(u32,u32);
-extern int func_02012DAC(int);
-extern int func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(u8 *);
 extern void func_0217D010(u8 *,int);
 extern int func_0217D000(u8 *);
 extern void func_021E8AB8(u32);
@@ -71,7 +71,7 @@ void func_0217CAE0(int *sys,u32 *state,u8 *p)
     }
     switch(*state){
     case 0:{
-        void *v=func_0200ED48(func_02012EBC(((struct Obj01271 *)p)->f1B8));
+        void *v=func_0200ED48(GAME_DATA_GetSaveControl(((struct Obj01271 *)p)->f1B8));
         func_0200ED54(v,func_02008530(((struct Obj01271 *)p)->f1C0));
         *state=1;break;
     }
@@ -98,8 +98,8 @@ void func_0217CAE0(int *sys,u32 *state,u8 *p)
         *state=4;break;
     }
     case 4:func_0217CFE8(p,10,2);*state=8;func_021E8AB4((u32)sys,5);break;
-    case 5:func_02012DAC(*(int *)&((struct Obj01271 *)p)->f1B8);*state=6;break;
-    case 6:if(func_02012DD0(*(u8 * *)&((struct Obj01271 *)p)->f1B8)==2)*state=7;break;
+    case 5:GAME_DATA_SaveStart(*(int *)&((struct Obj01271 *)p)->f1B8);*state=6;break;
+    case 6:if(GAME_DATA_SaveMain(*(u8 * *)&((struct Obj01271 *)p)->f1B8)==2)*state=7;break;
     case 7:func_0217D010(p,3);break;
     case 8:if(func_0217D000(p))func_021E8AB8((u32)sys);break;
     }

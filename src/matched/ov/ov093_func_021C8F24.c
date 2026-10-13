@@ -12,17 +12,17 @@
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
  *   func_021C8F94  0x021C8F94  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021C5B74  0x021C5B74  thumb  ov093
- *   func_021C195C  0x021C195C  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_SERVER_FLOW_ChangeHp  0x021C5B74  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcDamagedItemReaction  0x021C195C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021C8F94(int a, u8 b);
-extern int func_021D5B68(void *p);
-extern void func_021C5B74(u8 *p, u8 *a, int c, int d);
-extern void func_021C195C(u8 *p, u8 *q, u32 n);
+extern int BTL_POKEPARAM_IsFainted(void *p);
+extern void BTL_SERVER_FLOW_ChangeHp(u8 *p, u8 *a, int c, int d);
+extern void BTL_SERVER_FLOW_ProcDamagedItemReaction(u8 *p, u8 *q, u32 n);
 
 typedef struct {
     u32 w; u8 n; u8 b5; u8 b6; u8 ids[9]; u32 v[4];
@@ -40,10 +40,10 @@ int func_021C8F24(P *pp, const Ent *e)
     for (i = 0; i < e->n; i++) {
         if (func_021C8F94(p + 0x1ab8, e->ids[i])) {
             a = func_021B9934(pp->f8, e->ids[i]);
-            if (func_021D5B68(a) == 0) {
-                func_021C5B74((u8 *)p, a, e->v[i], !e->b5);
+            if (BTL_POKEPARAM_IsFainted(a) == 0) {
+                BTL_SERVER_FLOW_ChangeHp((u8 *)p, a, e->v[i], !e->b5);
                 if (e->b6 == 0)
-                    func_021C195C((u8 *)p, a, 1);
+                    BTL_SERVER_FLOW_ProcDamagedItemReaction((u8 *)p, a, 1);
                 r = 1;
             }
         }

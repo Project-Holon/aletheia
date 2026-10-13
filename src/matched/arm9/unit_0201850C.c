@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: func_0201850C
+ * function: POKE_TOOL_CalcLevelFromExp
  *
  * Experience to level.  This is the callee of id 0x9E of POKE_TOOL_GetBoxValueRaw
  * (src/pending/POKE_TOOL_GetBoxValueRaw.c), which passes it a species id, the five bit
@@ -55,7 +55,7 @@ extern void  func_02019B94(u32 a, void *b);
 
 extern u32 gExpTableBuf[];
 
-u32 func_0201850C(u16 species, u16 form, u32 exp)
+u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp)
 {
     u16 i;
 

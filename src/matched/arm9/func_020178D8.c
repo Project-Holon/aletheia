@@ -16,6 +16,7 @@
  *   POKE_TOOL_ChangeBoxSpecies  0x02017900  thumb
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
+ *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  */
 
 typedef unsigned char u8;
@@ -27,7 +28,7 @@ typedef signed char s8;
 struct Sav;
 extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_ChangeBoxSpecies(void *a0, u32 a1);
-extern void func_020185C4(void *p);
+extern void POKE_TOOL_RecalcParam(void *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 
 void POKE_TOOL_ChangeSpecies(void *p, u32 a)
@@ -35,7 +36,7 @@ void POKE_TOOL_ChangeSpecies(void *p, u32 a)
     u8 v = (u8)POKE_TOOL_DecodePartyParam(p);
 
     POKE_TOOL_ChangeBoxSpecies(p, a);
-    func_020185C4(p);
+    POKE_TOOL_RecalcParam(p);
     POKE_TOOL_EncodePartyParam(p, v);
 }
 

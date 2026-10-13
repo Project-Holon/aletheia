@@ -1,5 +1,5 @@
 /*
- * function: func_021D2468
+ * function: SCRCMD_GetBirthdayMessageIds
  * address:  0x021D2468
  * packet:   pkt_ov021_021D2468
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02012EBC  0x02012EBC  thumb
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008B08  0x02008B08  thumb
- *   func_021690D0  0x021690D0  thumb  ov010
- *   func_021690E0  0x021690E0  thumb  ov010
+ *   FIELD_CLOCK_GetMonth  0x021690D0  thumb  ov010
+ *   FIELD_CLOCK_GetDay  0x021690E0  thumb  ov010
  *   func_02008B94  0x02008B94  thumb
  *   func_02008B98  0x02008B98  thumb
  *   func_020056EC  0x020056EC  thumb
@@ -33,35 +33,35 @@ typedef struct {
 
 extern Tbl d_021DD6D0;
 
-extern void *func_0215A5E4(void *a0);
-extern unsigned int func_02159B10(void *a, void *b);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 typedef unsigned char  u8;
 struct Big;
 struct Sub02008AECObj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
-extern int func_021690D0(int a0);
-extern int func_021690E0(int a0);
+extern int FIELD_CLOCK_GetMonth(int a0);
+extern int FIELD_CLOCK_GetDay(int a0);
 extern u8 func_02008B94(const struct Sub02008AECObj *obj);
 extern u8 func_02008B98(const struct Sub02008AECObj *obj);
 extern u32 func_020056EC(u32 a);
 
-int func_021D2468(u32 a, u32 b)
+int SCRCMD_GetBirthdayMessageIds(u32 a, u32 b)
 {
     u32 x, y, z, v, w, k;
     u16 *p6, *p4, *p5;
     Tbl t;
 
-    x = (u32)func_0215A5E4((void *)b); /* int-typed on purpose: pointer local changes codegen */
-    y = func_02159B10((void *)a, (void *)b);
-    p6 = func_02159AE8((void *)a, (void *)b);
-    p4 = func_02159AE8((void *)a, (void *)b);
-    p5 = func_02159AE8((void *)a, (void *)b);
+    x = (u32)SCRCMD_WORK_GetGameData((void *)b); /* int-typed on purpose: pointer local changes codegen */
+    y = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    p6 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    p4 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
+    p5 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     t = d_021DD6D0;
-    z = (u32)func_02008B08(func_02012EBC((struct Big *)x));
-    v = func_021690D0(x);
-    w = func_021690E0(x);
+    z = (u32)func_02008B08(GAME_DATA_GetSaveControl((struct Big *)x));
+    v = FIELD_CLOCK_GetMonth(x);
+    w = FIELD_CLOCK_GetDay(x);
     k = func_02008B94((const struct Sub02008AECObj *)z);
     if (w == func_02008B98((const struct Sub02008AECObj *)z) && v == k) {
         *p6 = 0x34;

@@ -1,5 +1,5 @@
 /*
- * function: func_0218F1FC
+ * function: FIELD_CAMERA_AreaKeepInBox
  * address:  0x0218F1FC
  * packet:   pkt_ov021_0218F1FC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Clamps a point into the box [+8,+0xc] x [+0x10,+0x14] (whole units,
- * converted to fx32); returns 1 when it moved.  Same box as func_0218F460.
+ * converted to fx32); returns 1 when it moved.  Same box as FIELD_CAMERA_AreaKeepOutBox.
  *
  * symbols:
  *   _fflt          0x0209BDBC  arm
@@ -31,7 +31,7 @@ typedef struct {
 #define FX_F32_TO_FX32(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-int func_0218F1FC(const Box *a, V *b, V *out)
+int FIELD_CAMERA_AreaKeepInBox(const Box *a, V *b, V *out)
 {
     V p;
     int r;

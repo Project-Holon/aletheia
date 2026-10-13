@@ -7,15 +7,18 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  */
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 void func_021E74FC(char *p)
 {
     int i;
     for (i = 9; i < 14; i++) {
         if (*(void **)(p + i * 4 + 0x16c) != 0) {
-            func_0204B3B4(*(void **)(p + i * 4 + 0x16c));
+            CLACT_DeleteActor(*(void **)(p + i * 4 + 0x16c));
             *(void **)(p + i * 4 + 0x16c) = 0;
         }
     }

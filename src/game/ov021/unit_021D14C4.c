@@ -1,7 +1,7 @@
 /*
  * file:     unit_021D14C4.c
  * unit:     yes
- * function: func_021D14C4, func_021D1670, func_021D16D8, func_021D179C, func_021D182C, func_021D1884, func_021D1894, func_021D18E0, func_021D18F4, func_021D1984, func_021D1988, func_021D1A04, func_021D1A54, func_021D1A74, func_021D1A9C, func_021D1AB0, func_021D1AEC, func_021D1B2C, func_021D1B8C, func_021D1BD8, func_021D1C24, func_021D1C8C, func_021D1F48, func_021D1F50, func_021D1F64, func_021D1F78, func_021D201C, func_021D2040, func_021D20BC, func_021D2124, func_021D213C, func_021D21C0, func_021D21E0, func_021D220C, func_021D2278, func_021D2358, func_021D2418, func_021D2440, func_021D2468, func_021D2524, func_021D25A4, func_021D25E8, func_021D25F4, func_021D26AC, func_021D26D0, func_021D2710, func_021D2750, func_021D297C, func_021D29A8, func_021D29F0, func_021D2ADC, func_021D2B18, func_021D2B54, func_021D2CE8, func_021D2D24, func_021D2D50, func_021D2D7C, func_021D2EDC, func_021D2F44, func_021D2F6C, func_021D3018, func_021D3068, func_021D3090
+ * function: FIELD_G3D_MAPPER_GetTilePlane, SCRCMD_CheckWifiListFlags, SCRCMD_WifiListOperation, SCRCMD_SetWifiFriendNameWord, SCRCMD_MMDL_ICA_CreateProc, SCRCMD_MMDL_ICA_EndProc, SCRCMD_MMDL_ICA_Start, SCRCMD_MMDL_ICA_IsDone, SCRCMD_MMDL_ICA_Update, SCRCMD_MMDL_ICA_Nop, SCRCMD_MMDL_ICA_ApplyFrame, SCRCMD_CreateMmdlIcaProc, SCRCMD_EndMmdlIcaProc, SCRCMD_StartMmdlIcaAnime, SCRCMD_MMDL_ICA_WaitTask, SCRCMD_WaitMmdlIcaAnime, SCRCMD_SUBSCREEN_ChangeModeTask, SCRCMD_ChangeSubscreenMode, SCRCMD_ResetSubscreenMode, SCRCMD_SUBSCREEN_ResetModeTask, EVENT_PERAP_RECORD_Create, EVENT_PERAP_RECORD_Main, EVENT_PERAP_RECORD_OnRecorded, EVENT_PERAP_RECORD_PauseMmdls, EVENT_PERAP_RECORD_ResumeMmdls, EVENT_PERAP_RECORD_CreatePokeIcon, EVENT_PERAP_RECORD_DeletePokeIcon, EVENT_PERAP_RECORD_HopPokeIcon, EVENT_PERAP_RECORD_SetupWindow, EVENT_PERAP_RECORD_Cleanup, SCRCMD_CheckPmsWordPair, SCRCMD_FindRegisteredEntry, SCRCMD_IsRegisteredEntryEnabled, SCRCMD_ShowStepMilestoneMessage, FLDEFF_RIPPLE_WarpToZoneStartTask, FLDEFF_RIPPLE_WarpToSpecialLocationTask, FLDEFF_RIPPLE_CreateZoneStartWarpTask, FLDEFF_RIPPLE_CreateSpecialLocationWarpTask, SCRCMD_GetBirthdayMessageIds, SCRCMD_ShowPokeIconWindow, SCRCMD_POKE_ICON_InitWindow, SCRCMD_POKE_ICON_ShowWindow, SCRCMD_POKE_ICON_CreateIcon, SCRCMD_POKE_ICON_DeleteIcon, SCRCMD_POKE_ICON_Task, SCRCMD_CheckBeaconTrainerKey, FIELD_CheckPlayerPositionFree, FIELD_SUBSCREEN_CreateAnimTask, FIELD_SUBSCREEN_AnimTask, SCRCMD_ShowOrClearInfoWindow, SCRCMD_AddTrainerRecordValue, SCRCMD_GetTrainerRecordValue, SCRCMD_GetNpcGreetingMessage, SCRCMD_GREETING_AdjustMessageIdByMisc, SCRCMD_GREETING_AdjustMessageIdByRandom, FIELD_CAMERA_CreateShakeTask, FIELD_CAMERA_ShakeTask, SCRCMD_StartEffectAtMmdl, SCRCMD_StartEffectTask, SCRCMD_StartEffectAtPosition, SCRCMD_SetEffectPosition, SCRCMD_StartEffectTaskB, SCRCMD_StartEffectTaskC
  * address:  0x021D14C4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -17,26 +17,26 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
- *   func_02049238  0x02049238  arm
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C58  0x02188C58  thumb  ov021
- *   func_021A3038  0x021A3038  thumb  ov021
- *   func_020450F0  0x020450F0  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
+ *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020452E8  0x020452E8  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
  *   d_021DB9A0     0x021DB9A0  data
  *   d_021DC158     0x021DC158  data
  *   func_0207C768  0x0207C768  arm
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_02012F8C  0x02012F8C  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   GAME_DATA_GetSaveBlockWork  0x02012F8C  thumb
  *   func_020092EC  0x020092EC  thumb
  *   func_020092D8  0x020092D8  thumb
  *   func_02009390  0x02009390  thumb
@@ -44,177 +44,177 @@
  *   func_02009418  0x02009418  thumb
  *   func_02009428  0x02009428  thumb
  *   func_020093F0  0x020093F0  thumb
- *   func_0215A5CC  0x0215A5CC  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_020457B0  0x020457B0  arm
- *   func_02045994  0x02045994  arm
+ *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   STRBUF_Create  0x020457B0  arm
+ *   STRBUF_SetStringN  0x02045994  arm
  *   func_0201EE0C  0x0201EE0C  thumb
- *   func_02045808  0x02045808  arm
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_02188D24  0x02188D24  thumb  ov021
- *   func_021BB990  0x021BB990  thumb  ov021
- *   func_021BBA6C  0x021BBA6C  thumb  ov021
- *   func_0216DE94  0x0216DE94  thumb  ov010
+ *   STRBUF_Delete  0x02045808  arm
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELDMAP_GetMapFunc  0x02188D24  thumb  ov021
+ *   FIELD_SUBPROC_Start  0x021BB990  thumb  ov021
+ *   FIELD_SUBPROC_GetWork  0x021BBA6C  thumb  ov021
+ *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   d_021DD5F0     0x021DD5F0  data    ov021  a4
- *   func_021BBA1C  0x021BBA1C  thumb  ov021
- *   func_0201147C  0x0201147C  thumb
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_02011590  0x02011590  thumb
- *   func_02011558  0x02011558  thumb
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_0216E014  0x0216E014  thumb  ov010
- *   func_0216D570  0x0216D570  thumb  ov010
- *   func_0216D758  0x0216D758  thumb  ov010
+ *   FIELD_SUBPROC_End  0x021BBA1C  thumb  ov021
+ *   ICA_ANIME_CreateWithStreamBuffer  0x0201147C  thumb
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   ICA_ANIME_IncFrameLoop  0x02011590  thumb
+ *   ICA_ANIME_Delete  0x02011558  thumb
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FLDMMDL_InitPosition  0x0216E014  thumb  ov010
+ *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
+ *   FLDMMDL_CallDrawProc  0x0216D758  thumb  ov010
  *   d_021DD5E0     0x021DD5E0  data    ov021  a4
  *   func_02011610  0x02011610  thumb
  *   func_02011638  0x02011638  thumb
  *   func_0207C9D0  0x0207C9D0  arm
- *   func_0216D89C  0x0216D89C  thumb  ov010
- *   func_0216D60C  0x0216D60C  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02159104  0x02159104  thumb  ov010
- *   func_0215910C  0x0215910C  thumb  ov010
+ *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
+ *   FLDMMDL_SetDirAll  0x0216D60C  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   SCRIPT_WORK_SetReturnParam  0x02159104  thumb  ov010
+ *   SCRIPT_WORK_GetReturnParam  0x0215910C  thumb  ov010
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_021A0ED4  0x021A0ED4  thumb  ov021
- *   func_021A0F30  0x021A0F30  thumb  ov021
- *   func_02188CCC  0x02188CCC  thumb  ov021
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   FIELD_SUBSCREEN_IsIdle  0x021A0ED4  thumb  ov021
+ *   FIELD_SUBSCREEN_RequestMode  0x021A0F30  thumb  ov021
+ *   FIELDMAP_GetSubscreen  0x02188CCC  thumb  ov021
  *   d_021DD608     0x021DD608  data  a4
- *   func_02159144  0x02159144  thumb  ov010
- *   func_02159168  0x02159168  thumb  ov010
+ *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
  *   func_02082BCC  0x02082BCC  arm
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02007B44  0x02007B44  thumb
  *   func_02012934  0x02012934  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_02006984  0x02006984  thumb
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   PM_VOICE_Play  0x02006984  thumb
  *   func_02006CAC  0x02006CAC  thumb
- *   func_02006CBC  0x02006CBC  thumb
+ *   SND_MIC_Init  0x02006CBC  thumb
  *   func_02006D44  0x02006D44  thumb
  *   func_02006D64  0x02006D64  thumb
  *   func_02006D94  0x02006D94  thumb
  *   func_02006DD8  0x02006DD8  thumb
- *   func_02006E18  0x02006E18  thumb
+ *   SND_MIC_StoreRecording  0x02006E18  thumb
  *   func_02007B50  0x02007B50  thumb
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201ED04  0x0201ED04  thumb
  *   func_0201EEF4  0x0201EEF4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_020295A4  0x020295A4  thumb
+ *   FIELD_SOUND_SYSTEM_StartPushTask  0x020295A4  thumb
  *   func_02029620  0x02029620  thumb
- *   func_0202EE30  0x0202EE30  thumb
- *   func_0202F038  0x0202F038  thumb
+ *   TIME_ICON_Create  0x0202EE30  thumb
+ *   TIME_ICON_Delete  0x0202F038  thumb
  *   func_02034F84  0x02034F84  arm
  *   func_02034FB8  0x02034FB8  arm
  *   func_02045EC0  0x02045EC0  arm
- *   func_021904B0  0x021904B0  thumb  ov021
- *   func_021904C8  0x021904C8  thumb  ov021
- *   func_021909BC  0x021909BC  thumb  ov021
- *   func_02190BE4  0x02190BE4  thumb  ov021
- *   func_02190C78  0x02190C78  thumb  ov021
- *   func_02190E40  0x02190E40  thumb  ov021
- *   func_02190E74  0x02190E74  thumb  ov021
- *   func_02190EB8  0x02190EB8  thumb  ov021
- *   func_02190EF0  0x02190EF0  thumb  ov021
- *   func_02190F64  0x02190F64  thumb  ov021
- *   func_02190F7C  0x02190F7C  thumb  ov021
- *   func_02190F9C  0x02190F9C  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_CreateYesNoMenu  0x02190BE4  thumb  ov021
+ *   FIELD_MSGBG_YesNoMenuMain  0x02190C78  thumb  ov021
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
+ *   FIELD_MSGBG_SysWinPrintMsg  0x02190E74  thumb  ov021
+ *   FIELD_MSGBG_SysWinPrintStr  0x02190EB8  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
+ *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
+ *   FIELD_MSGBG_ClearSysWin  0x02190F7C  thumb  ov021
+ *   FIELD_MSGBG_GetSysWinBmpWin  0x02190F9C  thumb  ov021
  *   sub_020056BC   0x020056BC  thumb
  *   sub_02006BD0   0x02006BD0  thumb
  *   func_0201210C  0x0201210C  thumb
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_0216D9E4  0x0216D9E4  thumb  ov010
- *   func_0204B100  0x0204B100  arm
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
+ *   CLACT_CreateUnit  0x0204B100  arm
  *   func_020185F0  0x020185F0  thumb
- *   func_0202D7C8  0x0202D7C8  thumb
+ *   POKEGRA_OpenHandle  0x0202D7C8  thumb
  *   func_02017DBC  0x02017DBC  thumb
- *   func_0202D934  0x0202D934  thumb
- *   func_0202D8D0  0x0202D8D0  thumb
- *   func_0202D9A4  0x0202D9A4  thumb
+ *   POKEGRA_RegisterCgrPP  0x0202D934  thumb
+ *   POKEGRA_RegisterPalettePP  0x0202D8D0  thumb
+ *   POKEGRA_RegisterCellAnimPP  0x0202D9A4  thumb
  *   func_02017DE4  0x02017DE4  thumb
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   d_021DD60C     0x021DD60C  data  a2
- *   func_0204B3B4  0x0204B3B4  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204ADA4  0x0204ADA4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  *   func_0201F548  0x0201F548  thumb
- *   func_02049B90  0x02049B90  arm
+ *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   func_0201F7A8  0x0201F7A8  thumb
- *   func_020249B0  0x020249B0  thumb
+ *   PMS_WORD_IsSameGroup  0x020249B0  thumb
  *   d_021DD614     0x021DD614  data  ov021  a4
  *   func_02008854  0x02008854  thumb
  *   func_02008990  0x02008990  thumb
- *   func_02158768  0x02158768  thumb  ov010
+ *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   data_021DD6BC  0x021DD6BC  data
- *   func_02188D38  0x02188D38  thumb  ov021
- *   func_021C7858  0x021C7858  thumb  ov021
- *   func_021C6DE0  0x021C6DE0  thumb  ov021
+ *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
+ *   FIELD_TASK_CreatePlayerDrawOffsetTween  0x021C7858  thumb  ov021
+ *   FIELD_TASK_MANAGER_AddTask  0x021C6DE0  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
- *   func_02006148  0x02006148  thumb
- *   func_02006224  0x02006224  thumb
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_021A30A4  0x021A30A4  thumb  ov021
- *   func_021CD440  0x021CD440  thumb  ov021
- *   func_02184FD4  0x02184FD4  thumb  ov020
- *   func_0216D410  0x0216D410  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_02188C64  0x02188C64  thumb  ov021
- *   func_021C7260  0x021C7260  thumb  ov021
- *   func_021C71D4  0x021C71D4  thumb  ov021
- *   func_021A01D4  0x021A01D4  thumb  ov021
- *   func_021A01FC  0x021A01FC  thumb  ov021
- *   func_02184F88  0x02184F88  thumb  ov020
+ *   GFL_USE_GetSeSlot  0x02006148  thumb
+ *   GFL_USE_IsSeSlotBusy  0x02006224  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FIELD_PLAYER_SetFormCode  0x021A30A4  thumb  ov021
+ *   FIELD_GetPlayerAreaZoneId  0x021CD440  thumb  ov021
+ *   EVENT_MAPCHANGE_CreateZoneStartWarpEvent  0x02184FD4  thumb  ov020
+ *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FIELDMAP_GetFog  0x02188C64  thumb  ov021
+ *   FIELD_TASK_CreatePlayerSpinEaseIn  0x021C7260  thumb  ov021
+ *   FIELD_TASK_CreatePlayerSpinLinear  0x021C71D4  thumb  ov021
+ *   FIELD_FOG_GetSlope  0x021A01D4  thumb  ov021
+ *   FIELD_FOG_FADE_Init  0x021A01FC  thumb  ov021
+ *   EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent  0x02184F88  thumb  ov020
  *   func_02008B08  0x02008B08  thumb
- *   func_021690D0  0x021690D0  thumb  ov010
- *   func_021690E0  0x021690E0  thumb  ov010
+ *   FIELD_CLOCK_GetMonth  0x021690D0  thumb  ov010
+ *   FIELD_CLOCK_GetDay  0x021690E0  thumb  ov010
  *   func_02008B94  0x02008B94  thumb
  *   func_02008B98  0x02008B98  thumb
  *   func_020056EC  0x020056EC  thumb
  *   d_021DD6D0     0x021DD6D0  data  a2
- *   func_0202D81C  0x0202D81C  thumb
- *   func_0202D7D8  0x0202D7D8  thumb
- *   func_0202D898  0x0202D898  thumb
+ *   POKEGRA_RegisterCgr  0x0202D81C  thumb
+ *   POKEGRA_RegisterPalette  0x0202D7D8  thumb
+ *   POKEGRA_RegisterCellAnim  0x0202D898  thumb
  *   d_021DD710     0x021DD710  data  a2
  *   func_020362DC  0x020362DC  arm
- *   func_02012F08  0x02012F08  thumb
- *   func_0216BF9C  0x0216BF9C  thumb  ov010
+ *   GAME_DATA_GetMiscSave  0x02012F08  thumb
+ *   FIELD_G3D_MAP_CheckBeaconTrainerKey  0x0216BF9C  thumb  ov010
  *   func_02012844  0x02012844  thumb
- *   func_02162740  0x02162740  thumb  ov010
- *   func_02162744  0x02162744  thumb  ov010
- *   func_02188C9C  0x02188C9C  thumb  ov021
+ *   EVENTDATA_SYSTEM_GetNpcHeaders  0x02162740  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   func_02013C60  0x02013C60  thumb
- *   func_021A3098  0x021A3098  thumb  ov021
- *   func_0216E2E8  0x0216E2E8  thumb  ov010
- *   func_021A35FC  0x021A35FC  thumb  ov021
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021A36BC  0x021A36BC  thumb  ov021
+ *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
+ *   FLDMMDL_LoadObjCodeParam  0x0216E2E8  thumb  ov010
+ *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELD_PLAYER_SetNogridLocation  0x021A36BC  thumb  ov021
  *   func_0201296C  0x0201296C  thumb
- *   func_02162890  0x02162890  thumb  ov010
- *   func_021867C4  0x021867C4  thumb  ov020
- *   func_02186830  0x02186830  thumb  ov020
- *   func_02186844  0x02186844  thumb  ov020
- *   func_0218684C  0x0218684C  thumb  ov020
- *   func_0218683C  0x0218683C  thumb  ov020
- *   func_02186804  0x02186804  thumb  ov020
- *   func_021A0F94  0x021A0F94  thumb  ov021
- *   func_021A0FA8  0x021A0FA8  thumb  ov021
+ *   EVENTDATA_SYSTEM_SearchAutoPosEvent  0x02162890  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable  0x02186830  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetPositionPair  0x02186844  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetItemPositionPair  0x0218684C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable  0x0218683C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
+ *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
+ *   FIELD_SUBSCREEN_ClearPanelResult  0x021A0FA8  thumb  ov021
  *   func_02011330  0x02011330  thumb
  *   func_02045B38  0x02045B38  arm
- *   func_02045180  0x02045180  arm
+ *   BMP_WIN_CreateAt  0x02045180  arm
  *   func_02045CAC  0x02045CAC  arm
- *   func_021904AC  0x021904AC  thumb  ov021
- *   func_0201C7A4  0x0201C7A4  thumb
- *   func_02045C04  0x02045C04  arm
+ *   FIELD_MSGBG_GetFont  0x021904AC  thumb  ov021
+ *   PRINTSYS_Print  0x0201C7A4  thumb
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_02041300  0x02041300  arm
  *   func_02008C58  0x02008C58  thumb
  *   func_02008DAC  0x02008DAC  thumb
@@ -224,7 +224,7 @@
  *   func_02017E1C  0x02017E1C  thumb
  *   func_0201EE60  0x0201EE60  thumb
  *   func_0203F4CC  0x0203F4CC  arm
- *   func_02012F2C  0x02012F2C  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   d_021DD774     0x021DD774  data  ov021
  *   func_0201EFA4  0x0201EFA4  thumb
  *   d_021DD718     0x021DD718  data  a4
@@ -232,22 +232,22 @@
  *   func_0200C234  0x0200C234  thumb
  *   d_021DD738     0x021DD738  data  ov021  a4
  *   func_020124E4  0x020124E4  thumb
- *   func_0218F0A8  0x0218F0A8  thumb  ov021
- *   func_0218F0E8  0x0218F0E8  thumb  ov021
- *   func_0218EC5C  0x0218EC5C  thumb  ov021
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_0218ED04  0x0218ED04  thumb  ov021
- *   func_0218EC30  0x0218EC30  thumb  ov021
- *   func_0218F05C  0x0218F05C  thumb  ov021
- *   func_0218EC90  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
+ *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
+ *   FIELD_CAMERA_GetTraceTarget  0x0218EC5C  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_CAMERA_SetEyeShift  0x0218ED04  thumb  ov021
+ *   FIELD_CAMERA_SetTraceTarget  0x0218EC30  thumb  ov021
+ *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   d_020A1B38     0x020A1B38  data   a2
- *   func_0215A5EC  0x0215A5EC  thumb  ov010
- *   func_021F3CFC  0x021F3CFC  thumb  ov059
+ *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SP_POKE_GIMMICK_StartSwapNpc  0x021F3CFC  thumb  ov059
  *   func_021F37B8  0x021F37B8  thumb  ov064
- *   func_021F3970  0x021F3970  thumb  ov064
- *   func_021F3A44  0x021F3A44  thumb  ov064
- *   func_021F3ADC  0x021F3ADC  thumb
- *   func_021F3AC0  0x021F3AC0  thumb  ov064
+ *   GIMMICK64_StartArcEffect  0x021F3970  thumb  ov064
+ *   GIMMICK64_ShowArcModelAt  0x021F3A44  thumb  ov064
+ *   GIMMICK64_CreateWaitEndEvent  0x021F3ADC  thumb
+ *   GIMMICK64_CreateWaitPeakEvent  0x021F3AC0  thumb  ov064
  */
 #include "../../matched/include/G_Ent021DD614.h"
 #define NRM(i) ((NormComp *)d_021DB9A0)[i]
@@ -410,24 +410,24 @@ typedef struct CameraShakeWork {
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern void func_02049238(void *h);
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02188C58(void *p);
-extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void ARC_TOOL_DeleteHandle(void *h);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELDMAP_GetCamera(void *p);
+extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *a);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u32 func_0207C768(u32 a, u32 b);
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5E4(void *a0);
-extern u16 func_02159B10(void *a, void *b);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02012F8C(u32 *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern u16 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u32 GAME_DATA_GetSaveBlockWork(u32 *p);
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 extern u8 func_020092D8(const struct Sub02009210Obj *obj);
 extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
@@ -435,169 +435,169 @@ extern u32 func_020093D8(const struct Sub02009210Obj *obj);
 extern u32 func_02009418(const struct Sub02009210Obj *obj);
 extern void func_02009428(struct Sub02009210Obj *obj, int value);
 extern void func_020093F0(struct Sub02009210Obj *obj, int value);
-extern u16 func_0215A5CC(void *a0);
-extern void *func_02158F74(void *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
+extern u16 SCRCMD_WORK_GetHeapId(void *a0);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_02045808(struct U16Vec *vec);
-extern void *func_02188C7C(unsigned char *p);
-extern u32 func_02188D24(u8 *p);
-extern int *func_021BB990(int a, int *d, const int *c);
-extern u32 func_021BBA6C(const void *p);
-extern void *func_0216DE94(void *map, u32 id);
-extern void func_021BBA1C(int *p);
-extern void *func_0201147C(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
-extern void *func_0216D568(void *p, u32 v);
-extern u32 func_02011590(struct IcaAnime *p, s32 v);
-extern void func_02011558(struct IcaAnime *p);
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
-extern u16 func_0216D5F8(void *p);
-extern void func_0216E014(void *a, int *p, int b);
-extern char *func_0216D570(char *p, u32 v);
-extern void func_0216D758(void *a0);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
+extern u32 FIELDMAP_GetMapFunc(u8 *p);
+extern int *FIELD_SUBPROC_Start(int a, int *d, const int *c);
+extern u32 FIELD_SUBPROC_GetWork(const void *p);
+extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern void FIELD_SUBPROC_End(int *p);
+extern void *ICA_ANIME_CreateWithStreamBuffer(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern void FLDMMDL_InitPosition(void *a, int *p, int b);
+extern char *FLDMMDL_ClearMoveBit(char *p, u32 v);
+extern void FLDMMDL_CallDrawProc(void *a0);
 extern u32 func_02011610(struct IcaAnime *a, struct Rec12 *out);
 extern u32 func_02011638(struct IcaAnime *a, struct Rec12 *out);
 extern void func_0207C9D0(Vec3 *a, Vec3 *b, Vec3 *c);
-extern void func_0216D89C(u32 a, Vec3 *v);
-extern int func_0216D60C(int a0, int a1);
-extern int func_02158F58(int a0);
-extern u16 func_02188C84(u8 *p);
-extern void func_02159104(u8 *p, u32 v);
-extern u32 func_0215910C(void *a);
+extern void FLDMMDL_SetPos(u32 a, Vec3 *v);
+extern int FLDMMDL_SetDirAll(int a0, int a1);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern void SCRIPT_WORK_SetReturnParam(u8 *p, u32 v);
+extern u32 SCRIPT_WORK_GetReturnParam(void *a);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(void *p);
-extern void func_0215897C(void *vm, void *task);
-extern int func_021A0ED4(u32 a);
-extern int func_021A0F30(u32 a, u32 b);
-extern u32 func_02188CCC(u8 *p);
-extern void func_02159144(int n);
-extern void func_02159168(int n);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern int FIELD_SUBSCREEN_IsIdle(u32 a);
+extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
+extern u32 FIELDMAP_GetSubscreen(u8 *p);
+extern void SCRIPT_WORK_SetCheckFlag(int n);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02188C54(u8 *p);
-extern int func_021904B0(u32 a, u32 b);
-extern struct Obj2 *func_02190F64(struct Fx *a, u32 b);
+extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
+extern struct Obj2 *FIELD_MSGBG_CreateBottomSysWin(struct Fx *a, u32 b);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern int func_02007B50(void *);
-extern void func_02190E74(u32 *p, u32 b, u32 c, u32 d);
-extern u32 func_02190EF0(u32 *p);
-extern u32 *func_02190BE4(u16 *a, u32 b);
-extern int func_02190C78(struct Handle *h);
-extern int func_021909BC(void *a);
-extern void func_02190F7C(struct P *p);
+extern void FIELD_MSGBG_SysWinPrintMsg(u32 *p, u32 b, u32 c, u32 d);
+extern u32 FIELD_MSGBG_SysWinMain(u32 *p);
+extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
+extern int FIELD_MSGBG_YesNoMenuMain(struct Handle *h);
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
+extern void FIELD_MSGBG_ClearSysWin(struct P *p);
 extern void func_02034F84(u32);
-extern void *func_02006CBC(u32);
+extern void *SND_MIC_Init(u32);
 extern void *sub_020056BC(void *);
-extern void *func_02190F9C(void **p);
-extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern void *FIELD_MSGBG_GetSysWinBmpWin(void **p);
+extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void func_02006D64(u32);
 extern u32 func_02006D94(void);
-extern void func_0202F038(u8 *p);
-extern u8 *func_020295A4(u8 *p, u32 a);
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void TIME_ICON_Delete(u8 *p);
+extern u8 *FIELD_SOUND_SYSTEM_StartPushTask(u8 *p, u32 a);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern u32 func_02006DD8(void *a, u32 b);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02190EB8(struct P *p, u32 b, u16 c, u32 d);
+extern void FIELD_MSGBG_SysWinPrintStr(struct P *p, u32 b, u16 c, u32 d);
 extern void func_02006D44(void);
 extern void func_02034FB8(u32);
 extern void *func_02029620(void *a, u32 b, u32 c);
-extern void func_02006E18(void *);
+extern void SND_MIC_StoreRecording(void *);
 extern void func_02006CAC(void **out);
-extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 sub_02006BD0(u32 i);
 extern u32 func_0201ED04(struct WordSet *p);
-extern int func_02190E40(u32 a);
-extern u32 func_021904C8(void *msgData);
+extern int FIELD_MSGBG_DeleteSysWin(u32 a);
+extern u32 FIELD_MSGBG_DeleteMsgData(void *msgData);
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_0216D9A0(void *);
-extern u32 *func_0216D9E4(void *c);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern u32 FLDMMDL_SysPauseMove(void *);
+extern u32 *FLDMMDL_SysResumeMove(void *c);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u32 func_020185F0(u32 a);
-extern int func_0202D7C8(int a0);
+extern int POKEGRA_OpenHandle(int a0);
 extern u32 func_02017DBC(struct Sav *p);
-extern int func_0202D934(int a0, void *a1, int a2, int a3, unsigned short a9);
-extern int func_0202D8D0(int a0, void *a1, int a2, int a3, unsigned short a8, unsigned short a9);
-extern u32 func_0202D9A4(u32 h, u32 b1, u32 b2, u32 b3, u16 key);
+extern int POKEGRA_RegisterCgrPP(int a0, void *a1, int a2, int a3, unsigned short a9);
+extern int POKEGRA_RegisterPalettePP(int a0, void *a1, int a2, int a3, unsigned short a8, unsigned short a9);
+extern u32 POKEGRA_RegisterCellAnimPP(u32 h, u32 b1, u32 b2, u32 b3, u16 key);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
-extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, unsigned short f, unsigned short g);
-extern void func_0204A8D4(u32 i);
-extern void func_0204ADA4(u32 i);
-extern void func_0204AFD8(u32 i);
-extern u32 func_0204B1CC(struct Bank *bank);
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern struct Obj *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, unsigned short f, unsigned short g);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u8 func_0201F548(int i);
-extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void ARC_UTIL_UploadPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern int func_020249B0(u32 a, u16 b);
+extern int PMS_WORD_IsSameGroup(u32 a, u16 b);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u16 func_02008990(const struct Sub02008828Obj *obj);
-extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
-extern u32 func_02188D38(unsigned char *p);
-extern int func_021C7858(u32 a, u32 b, u32 c);
-extern void func_021C6DE0(unsigned char *p, u32 *a, u32 b);
+extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+extern u32 FIELDMAP_GetTaskManager(unsigned char *p);
+extern int FIELD_TASK_CreatePlayerDrawOffsetTween(u32 a, u32 b, u32 c);
+extern void FIELD_TASK_MANAGER_AddTask(unsigned char *p, u32 *a, u32 b);
 extern void func_020061E4(u32 a);
-extern int func_02006148(u32 a0);
-extern int func_02006224(u32 a0);
-extern void *func_021A3074(unsigned char *p);
-extern void func_021A30A4(u8 *p, u32 b);
-extern int func_021CD440(void *a, u16 *out);
-extern void *func_02184FD4(void *p, u16 id);
-extern void func_0216D410(void *a0, u16 a1);
-extern int func_0216D454(void *o);
-extern u32 func_02188C64(unsigned char *p);
-extern void *func_021C7260(u32 a, u16 b, int c);
-extern void *func_021C71D4(u32 a, u32 b, u32 c);
-extern u32 func_021A01D4(unsigned char *p);
-extern void func_021A01FC(unsigned char *p, u32 a, u32 b, u32 c);
-extern void *func_02184F88(void *p);
+extern int GFL_USE_GetSeSlot(u32 a0);
+extern int GFL_USE_IsSeSlotBusy(u32 a0);
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern void FIELD_PLAYER_SetFormCode(u8 *p, u32 b);
+extern int FIELD_GetPlayerAreaZoneId(void *a, u16 *out);
+extern void *EVENT_MAPCHANGE_CreateZoneStartWarpEvent(void *p, u16 id);
+extern void FLDMMDL_SetAcmd(void *a0, u16 a1);
+extern int FLDMMDL_CheckEndAcmd(void *o);
+extern u32 FIELDMAP_GetFog(unsigned char *p);
+extern void *FIELD_TASK_CreatePlayerSpinEaseIn(u32 a, u16 b, int c);
+extern void *FIELD_TASK_CreatePlayerSpinLinear(u32 a, u32 b, u32 c);
+extern u32 FIELD_FOG_GetSlope(unsigned char *p);
+extern void FIELD_FOG_FADE_Init(unsigned char *p, u32 a, u32 b, u32 c);
+extern void *EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent(void *p);
 extern struct Sub02008AECObj *func_02008B08(void *sys);
-extern int func_021690D0(int a0);
-extern int func_021690E0(int a0);
+extern int FIELD_CLOCK_GetMonth(int a0);
+extern int FIELD_CLOCK_GetDay(int a0);
 extern u8 func_02008B94(const struct Sub02008AECObj *obj);
 extern u8 func_02008B98(const struct Sub02008AECObj *obj);
 extern u32 func_020056EC(u32 a);
-extern u32 func_0202D81C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 heap);
-extern int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
-extern u32 func_0202D898(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 heap);
+extern u32 POKEGRA_RegisterCgr(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 heap);
+extern int POKEGRA_RegisterPalette(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned short a8, unsigned short a9);
+extern u32 POKEGRA_RegisterCellAnim(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 heap);
 extern u32 func_020362DC(void);
-extern void *func_02012F08(int *p);
-extern int func_0216BF9C(void *a, int i, void *b);
+extern void *GAME_DATA_GetMiscSave(int *p);
+extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *a, int i, void *b);
 extern u32 func_02012844(const struct BigObj *p);
-extern u32 func_02162740(u8 *p);
-extern u16 func_02162744(u8 *p);
-extern u16 func_02188C9C(u8 *p);
+extern u32 EVENTDATA_SYSTEM_GetNpcHeaders(u8 *p);
+extern u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
 extern u32 func_02013C60(u32 id);
-extern u32 func_021A3098(u8 *p);
-extern void func_0216E2E8(const char *ctx, u32 id, struct Record *out);
-extern void func_021A35FC(unsigned char **p, u16 *a, u16 *b, u16 *c);
-extern u32 func_02188CFC(u8 *p);
-extern void func_021A36BC(struct Obj18028 *p, void *a1);
+extern u32 FIELD_PLAYER_GetFormCode(u8 *p);
+extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out);
+extern void FIELD_PLAYER_GetNowGridPos(unsigned char **p, u16 *a, u16 *b, u16 *c);
+extern u32 FIELDMAP_GetMoveKind(u8 *p);
+extern void FIELD_PLAYER_SetNogridLocation(struct Obj18028 *p, void *a1);
 extern u32 func_0201296C(const struct BigObj *p);
-extern MapEventRec *func_02162890(struct Ctx *c, void *a, int key);
-extern int *func_021867C4(int a, int id);
-extern void *func_02186830(struct ArcFile **p, int b, unsigned int heap);
-extern u8 *func_02186844(u8 *t, int i);
-extern u8 *func_0218684C(u8 *t, int i);
-extern void func_0218683C(void *p);
-extern void func_02186804(void **p);
-extern int func_021A0F94(u32 link);
-extern void func_021A0FA8(int *p);
+extern MapEventRec *EVENTDATA_SYSTEM_SearchAutoPosEvent(struct Ctx *c, void *a, int key);
+extern int *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int a, int id);
+extern void *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct ArcFile **p, int b, unsigned int heap);
+extern u8 *FIELD_WFBC_DATA_LOCAL_GetPositionPair(u8 *t, int i);
+extern u8 *FIELD_WFBC_DATA_LOCAL_GetItemPositionPair(u8 *t, int i);
+extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(void *p);
+extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(void **p);
+extern int FIELD_SUBSCREEN_GetPanelResult(u32 link);
+extern void FIELD_SUBSCREEN_ClearPanelResult(int *p);
 extern u16 func_02011330(struct Stream *s);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045180(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u32 offset);
+extern u32 BMP_WIN_CreateAt(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u32 offset);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32 func_021904AC(u8 *p);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern u32 func_02045C04(void *msgBank);
+extern u32 FIELD_MSGBG_GetFont(u8 *p);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern u32 MSGDATA_Delete(void *msgBank);
 extern void func_02041300(int, int, int, int, int, int, int);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
@@ -607,89 +607,89 @@ extern u32 func_0201AA18(void *p);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern void func_0203F4CC(struct RtcTime *time);
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *func_0200C0F0(void *p);
 extern int func_0200C234(void *p);
 extern void *func_020124E4(struct Obj *p);
-extern void func_0218F0A8(u8 *a);
-extern u32 func_0218F0E8(u8 *a);
-extern u32 func_0218EC5C(u8 *p);
-extern void func_0218EC54(u8 *p);
-extern void func_0218ED04(u8 *p, const struct Vec3 *v);
-extern void func_0218EC30(void *h, Vec3 *v);
-extern void func_0218F05C(unsigned char *a);
-extern void func_0218EC90(void *h, Vec3 *v);
-extern void *func_0215A5EC(void *p);
-extern void *func_021F3CFC(void *a, int *v, u32 b, u32 c);
+extern void FIELD_CAMERA_EndDelay(u8 *a);
+extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
+extern u32 FIELD_CAMERA_GetTraceTarget(u8 *p);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern void FIELD_CAMERA_SetEyeShift(u8 *p, const struct Vec3 *v);
+extern void FIELD_CAMERA_SetTraceTarget(void *h, Vec3 *v);
+extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
+extern void FIELD_CAMERA_SetTarget(void *h, Vec3 *v);
+extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern void *SP_POKE_GIMMICK_StartSwapNpc(void *a, int *v, u32 b, u32 c);
 extern void *func_021F37B8(int a);
-extern void *func_021F3970(void *a, int *v, int *w, int c, int d);
-extern void func_021F3A44(void *a, int *v);
-extern void *func_021F3ADC(void *a);
-extern void *func_021F3AC0(void *a);
-void func_021D14C4(TilePlane *out, int idx, TileMap *map, VecFx32 *pos, fx32 size, fx32 base);
-int func_021D1670(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D16D8(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D179C(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-MmdlIcaWork *func_021D182C(u32 fieldWork, u16 mmdlId, Vec3 *offset, u16 heapId);
-void func_021D1884(MmdlIcaWork *p);
-void func_021D1894(MmdlIcaWork *p, u32 n);
-u32 func_021D18E0(MmdlIcaWork *p, u32 a1, u32 a2, u32 a3);
-void func_021D18F4(u32 event, u32 state, MmdlIcaWork *work);
-void func_021D1984(void);
-void func_021D1988(struct IcaAnime *icaAnime, void *mmdl, Vec3 *offset);
-int func_021D1A04(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D1A54(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D1A74(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D1A9C(u32 event, u32 state, u32 work, u32 arg);
-int func_021D1AB0(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D1AEC(int event, int *seq, SubscreenModeWork *work);
-int func_021D1B2C(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D1B8C(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D1BD8(u32 *event, int *seq);
-u32 func_021D1C24(void *gameSystem, void *fieldMap, u32 partySlot);
-int func_021D1C8C(void *event, int *seq, PerapRecordWork *w);
-void func_021D1F48(void *unused, int *done);
-int func_021D1F50(PerapRecordWork *work);
-int func_021D1F64(PerapRecordWork *work);
-void func_021D1F78(PerapRecordWork *w);
-int func_021D201C(PerapRecordWork *work);
-int func_021D2040(PerapRecordWork *w);
-void func_021D20BC(PerapRecordWork *w);
-int func_021D2124(PerapRecordWork *work);
-int func_021D213C(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D21C0(u32 id);
-int func_021D21E0(u32 id);
-int func_021D220C(void *msg, u8 *pos);
-int func_021D2278(u32 event, int *seq, RippleWarpWork *w);
-int func_021D2358(u32 event, int *seq, RippleWarpWork *w);
-void *func_021D2418(void *field, u32 fieldWork);
-void *func_021D2440(void *field, u32 fieldWork, u32 useSpin);
-int func_021D2468(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D2524(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-void func_021D25A4(PokeIconWork *p);
-void func_021D25E8(PokeIconWork *p);
-void func_021D25F4(PokeIconWork *p, int species, int form, int isEgg, int gender, int charFlags);
-int func_021D26AC(PokeIconWork *work);
-u32 func_021D26D0(u32 event, u32 *state, PokeIconWork *p);
-u32 func_021D2710(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D2750(u32 gameSystem);
-void *func_021D297C(void *field);
-u32 func_021D29A8(u32 event, u32 *state, SubscreenAnimWork *work);
-int func_021D29F0(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D2ADC(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D2B18(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D2B54(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-u32 func_021D2CE8(void *gameData, int i);
-u32 func_021D2D24(void *gameData, u32 msgIndex, int fixedMsg);
-void *func_021D2D50(void *a, CameraShakeParams *src);
-int func_021D2D7C(void *task, int *state);
-u32 func_021D2EDC(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D2F44(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-u32 func_021D2F6C(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-u32 func_021D3018(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D3068(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int func_021D3090(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern void *GIMMICK64_StartArcEffect(void *a, int *v, int *w, int c, int d);
+extern void GIMMICK64_ShowArcModelAt(void *a, int *v);
+extern void *GIMMICK64_CreateWaitEndEvent(void *a);
+extern void *GIMMICK64_CreateWaitPeakEvent(void *a);
+void FIELD_G3D_MAPPER_GetTilePlane(TilePlane *out, int idx, TileMap *map, VecFx32 *pos, fx32 size, fx32 base);
+int SCRCMD_CheckWifiListFlags(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_WifiListOperation(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SetWifiFriendNameWord(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+MmdlIcaWork *SCRCMD_MMDL_ICA_CreateProc(u32 fieldWork, u16 mmdlId, Vec3 *offset, u16 heapId);
+void SCRCMD_MMDL_ICA_EndProc(MmdlIcaWork *p);
+void SCRCMD_MMDL_ICA_Start(MmdlIcaWork *p, u32 n);
+u32 SCRCMD_MMDL_ICA_IsDone(MmdlIcaWork *p, u32 a1, u32 a2, u32 a3);
+void SCRCMD_MMDL_ICA_Update(u32 event, u32 state, MmdlIcaWork *work);
+void SCRCMD_MMDL_ICA_Nop(void);
+void SCRCMD_MMDL_ICA_ApplyFrame(struct IcaAnime *icaAnime, void *mmdl, Vec3 *offset);
+int SCRCMD_CreateMmdlIcaProc(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_EndMmdlIcaProc(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_StartMmdlIcaAnime(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_MMDL_ICA_WaitTask(u32 event, u32 state, u32 work, u32 arg);
+int SCRCMD_WaitMmdlIcaAnime(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SUBSCREEN_ChangeModeTask(int event, int *seq, SubscreenModeWork *work);
+int SCRCMD_ChangeSubscreenMode(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_ResetSubscreenMode(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SUBSCREEN_ResetModeTask(u32 *event, int *seq);
+u32 EVENT_PERAP_RECORD_Create(void *gameSystem, void *fieldMap, u32 partySlot);
+int EVENT_PERAP_RECORD_Main(void *event, int *seq, PerapRecordWork *w);
+void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done);
+int EVENT_PERAP_RECORD_PauseMmdls(PerapRecordWork *work);
+int EVENT_PERAP_RECORD_ResumeMmdls(PerapRecordWork *work);
+void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *w);
+int EVENT_PERAP_RECORD_DeletePokeIcon(PerapRecordWork *work);
+int EVENT_PERAP_RECORD_HopPokeIcon(PerapRecordWork *w);
+void EVENT_PERAP_RECORD_SetupWindow(PerapRecordWork *w);
+int EVENT_PERAP_RECORD_Cleanup(PerapRecordWork *work);
+int SCRCMD_CheckPmsWordPair(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_FindRegisteredEntry(u32 id);
+int SCRCMD_IsRegisteredEntryEnabled(u32 id);
+int SCRCMD_ShowStepMilestoneMessage(void *msg, u8 *pos);
+int FLDEFF_RIPPLE_WarpToZoneStartTask(u32 event, int *seq, RippleWarpWork *w);
+int FLDEFF_RIPPLE_WarpToSpecialLocationTask(u32 event, int *seq, RippleWarpWork *w);
+void *FLDEFF_RIPPLE_CreateZoneStartWarpTask(void *field, u32 fieldWork);
+void *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(void *field, u32 fieldWork, u32 useSpin);
+int SCRCMD_GetBirthdayMessageIds(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_ShowPokeIconWindow(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+void SCRCMD_POKE_ICON_InitWindow(PokeIconWork *p);
+void SCRCMD_POKE_ICON_ShowWindow(PokeIconWork *p);
+void SCRCMD_POKE_ICON_CreateIcon(PokeIconWork *p, int species, int form, int isEgg, int gender, int charFlags);
+int SCRCMD_POKE_ICON_DeleteIcon(PokeIconWork *work);
+u32 SCRCMD_POKE_ICON_Task(u32 event, u32 *state, PokeIconWork *p);
+u32 SCRCMD_CheckBeaconTrainerKey(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int FIELD_CheckPlayerPositionFree(u32 gameSystem);
+void *FIELD_SUBSCREEN_CreateAnimTask(void *field);
+u32 FIELD_SUBSCREEN_AnimTask(u32 event, u32 *state, SubscreenAnimWork *work);
+int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_AddTrainerRecordValue(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_GetTrainerRecordValue(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+u32 SCRCMD_GREETING_AdjustMessageIdByMisc(void *gameData, int i);
+u32 SCRCMD_GREETING_AdjustMessageIdByRandom(void *gameData, u32 msgIndex, int fixedMsg);
+void *FIELD_CAMERA_CreateShakeTask(void *a, CameraShakeParams *src);
+int FIELD_CAMERA_ShakeTask(void *task, int *state);
+u32 SCRCMD_StartEffectAtMmdl(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_StartEffectTask(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+u32 SCRCMD_StartEffectAtPosition(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+u32 SCRCMD_SetEffectPosition(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_StartEffectTaskB(ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_StartEffectTaskC(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 extern NormTriple d_021DB9A0[];
 extern const fx32 d_021DC158[];
 extern int d_021DD5F0[];
@@ -735,7 +735,7 @@ static inline void TilePlane_Set(TilePlane *p, int x, int y, int z)
  * - the row index is x/0x10000 + w * (z/0x10000) in that operand order;
  *   p (= &out[idx]) is live into the tail, where only the x read uses it.
  */
-void func_021D14C4(TilePlane *out, int idx, TileMap *map, VecFx32 *pos, fx32 size, fx32 base)
+void FIELD_G3D_MAPPER_GetTilePlane(TilePlane *out, int idx, TileMap *map, VecFx32 *pos, fx32 size, fx32 base)
 {
     fx32 half = size / 2;
     fx32 z = pos->z + half;
@@ -790,26 +790,26 @@ void func_021D14C4(TilePlane *out, int idx, TileMap *map, VecFx32 *pos, fx32 siz
 }
 
 /*
- * func_02012F8C (arm9 Thumb leaf) is filed as src/matched/arm9/func_02012F8C.c
+ * GAME_DATA_GetSaveBlockWork (arm9 Thumb leaf) is filed as src/matched/arm9/GAME_DATA_GetSaveBlockWork.c
  * to give the witness.
  *
  * Addresses are Black-image addresses.
  */
-int func_021D1670(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_CheckWifiListFlags(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *saveData;
     u32 flagKind;
     u16 *resultVar;
     u32 wifiList;
 
-    func_0215A5F4(cmdWork);
-    func_0215A5DC(cmdWork);
-    saveData = func_0215A5E4(cmdWork);
-    flagKind = func_02159B10(vm, cmdWork);
-    func_02159B10(vm, cmdWork);
-    func_02159B10(vm, cmdWork);
-    resultVar = func_02159AE8(vm, cmdWork);
-    wifiList = func_02012F8C(saveData);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    SCRCMD_WORK_GetGameSystem(cmdWork);
+    saveData = SCRCMD_WORK_GetGameData(cmdWork);
+    flagKind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    wifiList = GAME_DATA_GetSaveBlockWork(saveData);
     if (flagKind == 0) {
         if (func_020092EC((const struct Sub02009210Obj *)wifiList) == 1 && func_020092D8((const struct Sub02009210Obj *)wifiList) == 1) {
             *resultVar = 1;
@@ -820,7 +820,7 @@ int func_021D1670(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     return 0;
 }
 
-int func_021D16D8(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_WifiListOperation(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *saveData;
     u32 operation;
@@ -830,14 +830,14 @@ int func_021D16D8(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     u16 *entry;
     u32 wifiList;
 
-    func_0215A5F4(cmdWork);
-    func_0215A5DC(cmdWork);
-    saveData = func_0215A5E4(cmdWork);
-    operation = func_02159B10(vm, cmdWork);
-    operand = func_02159B10(vm, cmdWork);
-    func_02159B10(vm, cmdWork);
-    resultVar = func_02159AE8(vm, cmdWork);
-    wifiList = func_02012F8C(saveData);
+    SCRCMD_WORK_GetScriptWork(cmdWork);
+    SCRCMD_WORK_GetGameSystem(cmdWork);
+    saveData = SCRCMD_WORK_GetGameData(cmdWork);
+    operation = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    operand = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    wifiList = GAME_DATA_GetSaveBlockWork(saveData);
     switch (operation) {
     case 0:
         *resultVar = 1;
@@ -874,9 +874,9 @@ int func_021D16D8(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     return 0;
 }
 
-int func_021D179C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SetWifiFriendNameWord(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *scriptCtx = func_0215A5F4(cmdWork);
+    void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *saveData;
     u32 heapId;
     u32 wordSet;
@@ -886,42 +886,42 @@ int func_021D179C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     u32 nameBuf;
     u32 wifiList;
 
-    func_0215A5DC(cmdWork);
-    saveData = func_0215A5E4(cmdWork);
-    heapId = func_0215A5CC(cmdWork);
-    wordSet = (u32)func_02158F74(scriptCtx);
-    wifiList = func_02012F8C(saveData);
-    wordSlot = func_02159B10(vm, cmdWork);
-    entryIndex = func_02159B10(vm, cmdWork);
+    SCRCMD_WORK_GetGameSystem(cmdWork);
+    saveData = SCRCMD_WORK_GetGameData(cmdWork);
+    heapId = SCRCMD_WORK_GetHeapId(cmdWork);
+    wordSet = (u32)SCRIPT_WORK_GetWordSet(scriptCtx);
+    wifiList = GAME_DATA_GetSaveBlockWork(saveData);
+    wordSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    entryIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     entry = (u16 *)func_02009390((struct Sub02009210Obj *)wifiList, entryIndex);
     if (entry != 0 && entry[0] != 0x7E && entry[0] != 0) {
-        nameBuf = (u32)func_020457B0(0xE, heapId);
-        func_02045994((struct Strbuf *)nameBuf, entry + 1, 0xD);
+        nameBuf = (u32)STRBUF_Create(0xE, heapId);
+        STRBUF_SetStringN((struct Strbuf *)nameBuf, entry + 1, 0xD);
         func_0201EE0C((struct WordSet *)wordSet, wordSlot, (const void *)nameBuf, 0, 0, 2);
-        func_02045808((struct U16Vec *)nameBuf);
+        STRBUF_Delete((struct U16Vec *)nameBuf);
     }
     return 0;
 }
 
 /*
- * The spilled second parameter is a u16 (func_0216DE94 compares its id
- * against func_0216D588's u16): as u32/int its reload from [sp] is hoisted
- * above the struct copy's last store. func_021BBA6C takes the result of
- * func_021BB990 (the bl has no argument setup of its own).
+ * The spilled second parameter is a u16 (FLDMMDL_SysSearchObjId compares its id
+ * against FLDMMDL_GetObjId's u16): as u32/int its reload from [sp] is hoisted
+ * above the struct copy's last store. FIELD_SUBPROC_GetWork takes the result of
+ * FIELD_SUBPROC_Start (the bl has no argument setup of its own).
  *
  * Addresses are Black-image addresses.
  */
-MmdlIcaWork *func_021D182C(u32 fieldWork, u16 mmdlId, Vec3 *offset, u16 heapId)
+MmdlIcaWork *SCRCMD_MMDL_ICA_CreateProc(u32 fieldWork, u16 mmdlId, Vec3 *offset, u16 heapId)
 {
-    void *mmdlSys = func_02188C7C((void *)fieldWork);
-    u32 subprocMgr = func_02188D24((u8 *)fieldWork);
-    int *handle = func_021BB990(-1, (int *)subprocMgr, d_021DD5F0);
-    MmdlIcaWork *p = (MmdlIcaWork *)func_021BBA6C(handle);
+    void *mmdlSys = FIELDMAP_GetMmdlSys((void *)fieldWork);
+    u32 subprocMgr = FIELDMAP_GetMapFunc((u8 *)fieldWork);
+    int *handle = FIELD_SUBPROC_Start(-1, (int *)subprocMgr, d_021DD5F0);
+    MmdlIcaWork *p = (MmdlIcaWork *)FIELD_SUBPROC_GetWork(handle);
 
     p->subprocHandle = handle;
     p->heapId = heapId;
     *(Vec3 *)p->offset = *offset;
-    p->mmdl = func_0216DE94(mmdlSys, mmdlId);
+    p->mmdl = FLDMMDL_SysSearchObjId(mmdlSys, mmdlId);
     return p;
 }
 
@@ -930,21 +930,21 @@ MmdlIcaWork *func_021D182C(u32 fieldWork, u16 mmdlId, Vec3 *offset, u16 heapId)
  *
  * Addresses are Black-image addresses.
  */
-void func_021D1884(MmdlIcaWork *p)
+void SCRCMD_MMDL_ICA_EndProc(MmdlIcaWork *p)
 {
-    func_021BBA1C((int *)p->subprocHandle);
+    FIELD_SUBPROC_End((int *)p->subprocHandle);
 }
 
-void func_021D1894(MmdlIcaWork *p, u32 n)
+void SCRCMD_MMDL_ICA_Start(MmdlIcaWork *p, u32 n)
 {
-    p->icaAnime = func_0201147C(p->heapId, 0xCB, n, 10, (u32)p->icaBuffer, 0x180);
+    p->icaAnime = ICA_ANIME_CreateWithStreamBuffer(p->heapId, 0xCB, n, 10, (u32)p->icaBuffer, 0x180);
     p->state = 1;
     p->animKind = n;
-    func_021D1988(p->icaAnime, p->mmdl, (Vec3 *)p->offset);
-    func_0216D568(p->mmdl, 0x8000);
+    SCRCMD_MMDL_ICA_ApplyFrame(p->icaAnime, p->mmdl, (Vec3 *)p->offset);
+    FLDMMDL_SetMoveBit(p->mmdl, 0x8000);
 }
 
-u32 func_021D18E0(MmdlIcaWork *p, u32 a1, u32 a2, u32 a3)
+u32 SCRCMD_MMDL_ICA_IsDone(MmdlIcaWork *p, u32 a1, u32 a2, u32 a3)
 {
     if (p->state == 0) {
         return 1;
@@ -952,7 +952,7 @@ u32 func_021D18E0(MmdlIcaWork *p, u32 a1, u32 a2, u32 a3)
     return 0;
 }
 
-void func_021D18F4(u32 event, u32 state, MmdlIcaWork *work)
+void SCRCMD_MMDL_ICA_Update(u32 event, u32 state, MmdlIcaWork *work)
 {
     Vec3 v;
 
@@ -960,25 +960,25 @@ void func_021D18F4(u32 event, u32 state, MmdlIcaWork *work)
         return;
     }
     if (work->state == 1) {
-        if (func_02011590(work->icaAnime, 0x1000) == 0) {
-            func_021D1988(work->icaAnime, work->mmdl, (Vec3 *)work->offset);
+        if (ICA_ANIME_IncFrameLoop(work->icaAnime, 0x1000) == 0) {
+            SCRCMD_MMDL_ICA_ApplyFrame(work->icaAnime, work->mmdl, (Vec3 *)work->offset);
         } else {
-            func_02011558(work->icaAnime);
+            ICA_ANIME_Delete(work->icaAnime);
             work->icaAnime = 0;
             work->state = 0;
-            func_0216D88C((const struct Actor *)work->mmdl, (struct VecFx32 *)&v);
-            func_0216E014(work->mmdl, (int *)(&v), func_0216D5F8(work->mmdl));
+            FLDMMDL_GetPos((const struct Actor *)work->mmdl, (struct VecFx32 *)&v);
+            FLDMMDL_InitPosition(work->mmdl, (int *)(&v), FLDMMDL_GetDirDisp(work->mmdl));
             if (d_021DD5E0[work->animKind] != 0) {
-                func_0216D570((char *)work->mmdl, 0x8000);
+                FLDMMDL_ClearMoveBit((char *)work->mmdl, 0x8000);
             }
         }
-        func_0216D758(work->mmdl);
+        FLDMMDL_CallDrawProc(work->mmdl);
     }
 }
 
-void func_021D1984(void) {}
+void SCRCMD_MMDL_ICA_Nop(void) {}
 
-void func_021D1988(struct IcaAnime *icaAnime, void *mmdl, Vec3 *offset)
+void SCRCMD_MMDL_ICA_ApplyFrame(struct IcaAnime *icaAnime, void *mmdl, Vec3 *offset)
 {
     Vec3 pos;
     Vec3 dir;
@@ -986,84 +986,84 @@ void func_021D1988(struct IcaAnime *icaAnime, void *mmdl, Vec3 *offset)
     func_02011610(icaAnime, (struct Rec12 *)&pos);
     func_02011638(icaAnime, (struct Rec12 *)&dir);
     func_0207C9D0(&pos, offset, &pos);
-    func_0216D89C((u32)mmdl, &pos);
+    FLDMMDL_SetPos((u32)mmdl, &pos);
     if (dir.y == 0) {
-        func_0216D60C((int)mmdl, 1);
+        FLDMMDL_SetDirAll((int)mmdl, 1);
     } else if (dir.y == 0x5A000) {
-        func_0216D60C((int)mmdl, 3);
+        FLDMMDL_SetDirAll((int)mmdl, 3);
     } else if (dir.y == 0xB4000) {
-        func_0216D60C((int)mmdl, 0);
+        FLDMMDL_SetDirAll((int)mmdl, 0);
     } else if (dir.y == 0x10E000) {
-        func_0216D60C((int)mmdl, 2);
+        FLDMMDL_SetDirAll((int)mmdl, 2);
     }
 }
 
-int func_021D1A04(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_CreateMmdlIcaProc(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     Vec3 pos;
-    void *scriptCtx = func_0215A5F4(cmdWork);
-    u32 *fieldWork = (u32 *)func_02158F58((int)scriptCtx);
-    u16 heapId = func_02188C84((u8 *)fieldWork[1]);
-    u16 mmdlId = func_02159B10(vm, cmdWork);
+    void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    u32 *fieldWork = (u32 *)SCRIPT_WORK_ResetFieldParam((int)scriptCtx);
+    u16 heapId = FIELDMAP_GetHeapId((u8 *)fieldWork[1]);
+    u16 mmdlId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     MmdlIcaWork *icaWork;
 
-    func_021A3038(func_02188CB4((struct Obj00020 *)fieldWork[1]), (struct VecFx32 *)&pos);
-    icaWork = func_021D182C(fieldWork[1], mmdlId, &pos, heapId);
-    func_02159104(scriptCtx, (u32)icaWork);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct Obj00020 *)fieldWork[1]), (struct VecFx32 *)&pos);
+    icaWork = SCRCMD_MMDL_ICA_CreateProc(fieldWork[1], mmdlId, &pos, heapId);
+    SCRIPT_WORK_SetReturnParam(scriptCtx, (u32)icaWork);
     return 0;
 }
 
 /*
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  */
-int func_021D1A54(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_EndMmdlIcaProc(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *scriptCtx = func_0215A5F4(cmdWork);
+    void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
 
-    func_021D1884((MmdlIcaWork *)func_0215910C(scriptCtx));
-    func_02159104(scriptCtx, 0);
+    SCRCMD_MMDL_ICA_EndProc((MmdlIcaWork *)SCRIPT_WORK_GetReturnParam(scriptCtx));
+    SCRIPT_WORK_SetReturnParam(scriptCtx, 0);
     return 0;
 }
 
-int func_021D1A74(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_StartMmdlIcaAnime(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *scriptCtx = func_0215A5F4(cmdWork);
-    u16 animKind = func_02159B10(vm, cmdWork);
+    void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    u16 animKind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    func_021D1894((MmdlIcaWork *)func_0215910C(scriptCtx), animKind);
+    SCRCMD_MMDL_ICA_Start((MmdlIcaWork *)SCRIPT_WORK_GetReturnParam(scriptCtx), animKind);
     return 0;
 }
 
-int func_021D1A9C(u32 event, u32 state, u32 work, u32 arg)
+int SCRCMD_MMDL_ICA_WaitTask(u32 event, u32 state, u32 work, u32 arg)
 {
-    if (func_021D18E0(((MmdlIcaWaitWork *)work)->ica, state, work, arg) == 1) {
+    if (SCRCMD_MMDL_ICA_IsDone(((MmdlIcaWaitWork *)work)->ica, state, work, arg) == 1) {
         return 1;
     }
     return 0;
 }
 
-int func_021D1AB0(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_WaitMmdlIcaAnime(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *scriptCtx = func_0215A5F4(cmdWork);
-    void *task = func_020122C0((void *)func_0215A5DC(cmdWork), 0, func_021D1A9C, 4);
+    void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    void *task = func_020122C0((void *)SCRCMD_WORK_GetGameSystem(cmdWork), 0, SCRCMD_MMDL_ICA_WaitTask, 4);
     MmdlIcaWaitWork *w = func_020124E8(task);
 
-    w->ica = (MmdlIcaWork *)func_0215910C(scriptCtx);
-    func_0215897C(scriptCtx, task);
+    w->ica = (MmdlIcaWork *)SCRIPT_WORK_GetReturnParam(scriptCtx);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
     return 1;
 }
 
-int func_021D1AEC(int event, int *seq, SubscreenModeWork *work)
+int SCRCMD_SUBSCREEN_ChangeModeTask(int event, int *seq, SubscreenModeWork *work)
 {
     switch (*seq) {
     case 0:
-        if (func_021A0ED4(work->subscreen)) {
-            func_021A0F30(work->subscreen, work->mode);
+        if (FIELD_SUBSCREEN_IsIdle(work->subscreen)) {
+            FIELD_SUBSCREEN_RequestMode(work->subscreen, work->mode);
             (*seq)++;
         }
         break;
     case 1:
-        if (func_021A0ED4(work->subscreen)) {
+        if (FIELD_SUBSCREEN_IsIdle(work->subscreen)) {
             return 1;
         }
         break;
@@ -1071,7 +1071,7 @@ int func_021D1AEC(int event, int *seq, SubscreenModeWork *work)
     return 0;
 }
 
-int func_021D1B2C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_ChangeSubscreenMode(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 subscreen, mode;
     u32 *fieldWork;
@@ -1079,55 +1079,55 @@ int func_021D1B2C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     void *task;
     SubscreenModeWork *work;
 
-    scriptCtx = func_0215A5F4(cmdWork);
-    fieldWork = (u32 *)func_02158F58((int)scriptCtx);
-    mode = func_02159B10(vm, cmdWork);
-    subscreen = func_02188CCC((u8 *)fieldWork[1]);
-    task = func_0215A5DC(cmdWork);
-    task = func_020122C0(task, 0, func_021D1AEC, 8);
+    scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    fieldWork = (u32 *)SCRIPT_WORK_ResetFieldParam((int)scriptCtx);
+    mode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    subscreen = FIELDMAP_GetSubscreen((u8 *)fieldWork[1]);
+    task = SCRCMD_WORK_GetGameSystem(cmdWork);
+    task = func_020122C0(task, 0, SCRCMD_SUBSCREEN_ChangeModeTask, 8);
     work = func_020124E8(task);
     mode = d_021DD608[mode];
     work->subscreen = subscreen;
     work->mode = mode;
-    func_0215897C(scriptCtx, task);
-    func_02159144(8);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
+    SCRIPT_WORK_SetCheckFlag(8);
     return 1;
 }
 
-int func_021D1B8C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_ResetSubscreenMode(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 subscreen;
     void *scriptCtx;
     void *task;
     SubscreenModeWork *work;
 
-    scriptCtx = func_0215A5F4(cmdWork);
-    subscreen = func_02188CCC((u8 *)(((u32 *)func_02158F58((int)scriptCtx))[1]));
-    task = func_0215A5DC(cmdWork);
-    task = func_020122C0(task, 0, func_021D1AEC, 8);
+    scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    subscreen = FIELDMAP_GetSubscreen((u8 *)(((u32 *)SCRIPT_WORK_ResetFieldParam((int)scriptCtx))[1]));
+    task = SCRCMD_WORK_GetGameSystem(cmdWork);
+    task = func_020122C0(task, 0, SCRCMD_SUBSCREEN_ChangeModeTask, 8);
     work = func_020124E8(task);
     work->subscreen = subscreen;
     work->mode = 0;
-    func_0215897C(scriptCtx, task);
-    func_02159168(8);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
+    SCRIPT_WORK_ResetCheckFlag(8);
     return 1;
 }
 
-int func_021D1BD8(u32 *event, int *seq)
+int SCRCMD_SUBSCREEN_ResetModeTask(u32 *event, int *seq)
 {
     u32 subscreen;
 
-    subscreen = func_02188CCC((u8 *)(((u32 *)func_02158F58(event[2]))[1]));
+    subscreen = FIELDMAP_GetSubscreen((u8 *)(((u32 *)SCRIPT_WORK_ResetFieldParam(event[2]))[1]));
     switch (*seq) {
     case 0:
-        if (func_021A0ED4(subscreen)) {
-            func_021A0F30(subscreen, 0);
-            func_02159168(8);
+        if (FIELD_SUBSCREEN_IsIdle(subscreen)) {
+            FIELD_SUBSCREEN_RequestMode(subscreen, 0);
+            SCRIPT_WORK_ResetCheckFlag(8);
             (*seq)++;
         }
         break;
     case 1:
-        if (func_021A0ED4(subscreen)) {
+        if (FIELD_SUBSCREEN_IsIdle(subscreen)) {
             return 1;
         }
         break;
@@ -1135,21 +1135,21 @@ int func_021D1BD8(u32 *event, int *seq)
     return 0;
 }
 
-u32 func_021D1C24(void *gameSystem, void *fieldMap, u32 partySlot)
+u32 EVENT_PERAP_RECORD_Create(void *gameSystem, void *fieldMap, u32 partySlot)
 {
     u32 task;
     PerapRecordWork *work;
 
-    task = (u32)func_020122C0(gameSystem, 0, func_021D1C8C, sizeof(PerapRecordWork));
+    task = (u32)func_020122C0(gameSystem, 0, EVENT_PERAP_RECORD_Main, sizeof(PerapRecordWork));
     work = func_020124E8((struct Obj *)task);
     func_02082BCC(work, 0, sizeof(PerapRecordWork));
     work->gameSystem = gameSystem;
     work->gameData = func_020120F4(gameSystem);
-    work->perapVoice = func_02007B44(func_02012EBC(work->gameData));
+    work->perapVoice = func_02007B44(GAME_DATA_GetSaveControl(work->gameData));
     work->fieldMap = fieldMap;
-    work->fieldPlayer = func_02188CB4(fieldMap);
+    work->fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
     work->partyMon = func_0201AB28(func_02012934(work->gameData), partySlot);
-    work->msgBg = (void *)func_02188C54(work->fieldMap);
+    work->msgBg = (void *)FIELDMAP_GetMsgBg(work->fieldMap);
     work->partySlot = partySlot;
     work->recordDone = 0;
     return task;
@@ -1160,7 +1160,7 @@ u32 func_021D1C24(void *gameSystem, void *fieldMap, u32 partySlot)
  *
  * Addresses are Black-image addresses.
  */
-int func_021D1C8C(void *event, int *seq, PerapRecordWork *w)
+int EVENT_PERAP_RECORD_Main(void *event, int *seq, PerapRecordWork *w)
 {
     void *string;
     void *taskList;
@@ -1169,107 +1169,107 @@ int func_021D1C8C(void *event, int *seq, PerapRecordWork *w)
 
     switch (*seq) {
     case 0:
-        func_021D1F50(w);
+        EVENT_PERAP_RECORD_PauseMmdls(w);
         *seq = 1;
         break;
     case 1:
-        w->msgData = msgData = (void *)func_021904B0((u32)w->msgBg, 88);
-        w->sysWin = func_02190F64(w->msgBg, (u32)msgData);
+        w->msgData = msgData = (void *)FIELD_MSGBG_CreateMsgData((u32)w->msgBg, 88);
+        w->sysWin = FIELD_MSGBG_CreateBottomSysWin(w->msgBg, (u32)msgData);
         w->wordSet = func_0201EC64(21);
-        w->msgBuf = func_020457B0(0x400, 21);
-        func_021D20BC(w);
+        w->msgBuf = STRBUF_Create(0x400, 21);
+        EVENT_PERAP_RECORD_SetupWindow(w);
         if (func_02007B50(w->perapVoice) == 1) {
-            func_02190E74(w->sysWin, 0, 0, 0);
+            FIELD_MSGBG_SysWinPrintMsg(w->sysWin, 0, 0, 0);
             *seq = 2;
         } else {
-            func_02190E74(w->sysWin, 0, 0, 6);
+            FIELD_MSGBG_SysWinPrintMsg(w->sysWin, 0, 0, 6);
             *seq = 4;
         }
         break;
     case 2:
-        if (func_02190EF0(w->sysWin) == 1) {
-            w->yesNoMenu = func_02190BE4(w->msgBg, 0);
+        if (FIELD_MSGBG_SysWinMain(w->sysWin) == 1) {
+            w->yesNoMenu = FIELD_MSGBG_CreateYesNoMenu(w->msgBg, 0);
             *seq = 3;
         }
         break;
     case 3:
-        switch (func_02190C78(w->yesNoMenu)) {
+        switch (FIELD_MSGBG_YesNoMenuMain(w->yesNoMenu)) {
         case 0:
-            func_021909BC(w->yesNoMenu);
-            func_02190F7C(w->sysWin);
-            func_02190E74(w->sysWin, 0, 0, 6);
+            FIELD_MSGBG_DeleteMenuFunc(w->yesNoMenu);
+            FIELD_MSGBG_ClearSysWin(w->sysWin);
+            FIELD_MSGBG_SysWinPrintMsg(w->sysWin, 0, 0, 6);
             *seq = 4;
             break;
         case 1:
-            func_021909BC(w->yesNoMenu);
+            FIELD_MSGBG_DeleteMenuFunc(w->yesNoMenu);
             *seq = 13;
             break;
         }
         break;
     case 4:
-        if (func_02190EF0(w->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(w->sysWin) == 1) {
             func_02034F84(8);
-            taskList = sub_020056BC(func_02006CBC(21));
-            w->timeIcon = func_0202EE30(taskList, func_02190F9C(w->sysWin), 15, 16, 21);
+            taskList = sub_020056BC(SND_MIC_Init(21));
+            w->timeIcon = TIME_ICON_Create(taskList, FIELD_MSGBG_GetSysWinBmpWin(w->sysWin), 15, 16, 21);
             *seq = 5;
         }
         break;
     case 5:
         func_02006D64(2);
         if (func_02006D94() == 1) {
-            func_0202F038(w->timeIcon);
-            func_02190F7C(w->sysWin);
-            func_02190E74(w->sysWin, 0, 0, 1);
-            func_02012374(event, (struct Evt **)func_020295A4(w->gameSystem, 6));
+            TIME_ICON_Delete(w->timeIcon);
+            FIELD_MSGBG_ClearSysWin(w->sysWin);
+            FIELD_MSGBG_SysWinPrintMsg(w->sysWin, 0, 0, 1);
+            GAME_EVENT_CallEvent(event, (struct Evt **)FIELD_SOUND_SYSTEM_StartPushTask(w->gameSystem, 6));
             *seq = 6;
         }
         break;
     case 6:
-        if (func_02190EF0(w->sysWin) == 1) {
-            if (func_02006DD8(func_021D1F48, (u32)&w->recordDone) == 0) {
+        if (FIELD_MSGBG_SysWinMain(w->sysWin) == 1) {
+            if (func_02006DD8(EVENT_PERAP_RECORD_OnRecorded, (u32)&w->recordDone) == 0) {
                 *seq = 7;
             } else {
                 string = func_02045EC0(w->msgData, 3);
                 func_0201EEF4(w->wordSet, 0, w->partyMon);
                 func_0201F250(w->wordSet, w->msgBuf, string);
-                func_02045808(string);
-                func_02190F7C(w->sysWin);
-                func_02190EB8(w->sysWin, 0, 0, (u32)w->msgBuf);
+                STRBUF_Delete(string);
+                FIELD_MSGBG_ClearSysWin(w->sysWin);
+                FIELD_MSGBG_SysWinPrintStr(w->sysWin, 0, 0, (u32)w->msgBuf);
                 func_02006D44();
                 func_02034FB8(8);
-                func_02012374(event, func_02029620(w->gameSystem, 0, 30));
+                GAME_EVENT_CallEvent(event, func_02029620(w->gameSystem, 0, 30));
                 *seq = 12;
             }
         }
         break;
     case 7:
         if (w->recordDone == 1) {
-            func_02006E18(w->perapVoice);
+            SND_MIC_StoreRecording(w->perapVoice);
             func_02006D44();
             func_02034FB8(8);
-            func_02012374(event, func_02029620(w->gameSystem, 0, 30));
+            GAME_EVENT_CallEvent(event, func_02029620(w->gameSystem, 0, 30));
             *seq = 8;
         }
         break;
     case 8:
-        if (func_021D2040(w) == 0) {
+        if (EVENT_PERAP_RECORD_HopPokeIcon(w) == 0) {
             string = func_02045EC0(w->msgData, 2);
             func_0201EEF4(w->wordSet, 0, w->partyMon);
             func_0201F250(w->wordSet, w->msgBuf, string);
-            func_02045808(string);
-            func_02190F7C(w->sysWin);
-            func_02190EB8(w->sysWin, 0, 0, (u32)w->msgBuf);
+            STRBUF_Delete(string);
+            FIELD_MSGBG_ClearSysWin(w->sysWin);
+            FIELD_MSGBG_SysWinPrintStr(w->sysWin, 0, 0, (u32)w->msgBuf);
             *seq = 9;
         }
         break;
     case 9:
-        if (func_02190EF0(w->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(w->sysWin) == 1) {
             *seq = 10;
         }
         break;
     case 10:
         func_02006CAC((void **)&micBuf);
-        w->voiceHandle = (void *)func_02006984(0x1B9, 0, 64, 0, 0, 0, 0, (u32)(&micBuf));
+        w->voiceHandle = (void *)PM_VOICE_Play(0x1B9, 0, 64, 0, 0, 0, 0, (u32)(&micBuf));
         *seq = 11;
         break;
     case 11:
@@ -1278,20 +1278,20 @@ int func_021D1C8C(void *event, int *seq, PerapRecordWork *w)
         }
         break;
     case 12:
-        if (func_02190EF0(w->sysWin) == 1) {
+        if (FIELD_MSGBG_SysWinMain(w->sysWin) == 1) {
             *seq = 13;
         }
         break;
     case 13:
-        func_021D2124(w);
-        func_02045808(w->msgBuf);
+        EVENT_PERAP_RECORD_Cleanup(w);
+        STRBUF_Delete(w->msgBuf);
         func_0201ED04(w->wordSet);
-        func_02190E40((u32)w->sysWin);
-        func_021904C8(w->msgData);
+        FIELD_MSGBG_DeleteSysWin((u32)w->sysWin);
+        FIELD_MSGBG_DeleteMsgData(w->msgData);
         *seq = 14;
         break;
     case 14:
-        func_021D1F64(w);
+        EVENT_PERAP_RECORD_ResumeMmdls(w);
         return 1;
     }
     return 0;
@@ -1299,53 +1299,53 @@ int func_021D1C8C(void *event, int *seq, PerapRecordWork *w)
 
 /*
  * Completion callback: writes 1 through its second argument.  Referenced
- * only by address from func_021D1C8C's literal pool.
+ * only by address from EVENT_PERAP_RECORD_Main's literal pool.
  *
  * Addresses are Black-image addresses.
  */
-void func_021D1F48(void *unused, int *done)
+void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done)
 {
     *done = 1;
 }
 
-int func_021D1F50(PerapRecordWork *work)
+int EVENT_PERAP_RECORD_PauseMmdls(PerapRecordWork *work)
 {
-    return func_0216D9A0(func_02188C7C(func_0201210C(work->gameSystem)));
+    return FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(func_0201210C(work->gameSystem)));
 }
 
-int func_021D1F64(PerapRecordWork *work)
+int EVENT_PERAP_RECORD_ResumeMmdls(PerapRecordWork *work)
 {
-    return (int)func_0216D9E4(func_02188C7C(func_0201210C(work->gameSystem)));
+    return (int)FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(func_0201210C(work->gameSystem)));
 }
 
-void func_021D1F78(PerapRecordWork *w)
+void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *w)
 {
     u32 monData, resMgr, savedState;
     ClactInitParam buf;
 
-    w->clactUnit = (u32)func_0204B100(1, 0, 0x15);
+    w->clactUnit = (u32)CLACT_CreateUnit(1, 0, 0x15);
     monData = func_020185F0((u32)w->partyMon);
-    resMgr = func_0202D7C8(0x15);
+    resMgr = POKEGRA_OpenHandle(0x15);
     savedState = func_02017DBC((struct Sav *)monData);
-    w->charRes = func_0202D934(resMgr, (void *)monData, 0, 0, 0x15);
-    w->palRes = func_0202D8D0(resMgr, (void *)monData, 0, 0, 0x60, 0x15);
-    w->cellRes = func_0202D9A4(monData, 0, 1, 0, 0x15);
+    w->charRes = POKEGRA_RegisterCgrPP(resMgr, (void *)monData, 0, 0, 0x15);
+    w->palRes = POKEGRA_RegisterPalettePP(resMgr, (void *)monData, 0, 0, 0x60, 0x15);
+    w->cellRes = POKEGRA_RegisterCellAnimPP(monData, 0, 1, 0, 0x15);
     func_02017DE4((struct Sav *)monData, savedState);
-    func_02049238((void *)resMgr);
+    ARC_TOOL_DeleteHandle((void *)resMgr);
     buf = d_021DD60C;
-    w->clactActor = (u32)func_0204B294((void *)w->clactUnit, w->charRes, w->palRes, w->cellRes, &buf, 0, 0x15);
+    w->clactActor = (u32)CLACT_CreateActor((void *)w->clactUnit, w->charRes, w->palRes, w->cellRes, &buf, 0, 0x15);
 }
 
-int func_021D201C(PerapRecordWork *work)
+int EVENT_PERAP_RECORD_DeletePokeIcon(PerapRecordWork *work)
 {
-    func_0204B3B4((struct Obj *)work->clactActor);
-    func_0204A8D4(work->charRes);
-    func_0204ADA4(work->palRes);
-    func_0204AFD8(work->cellRes);
-    return func_0204B1CC((struct Bank *)work->clactUnit);
+    CLACT_DeleteActor((struct Obj *)work->clactActor);
+    CLACT_ReleaseCharacter(work->charRes);
+    CLACT_ReleasePalette(work->palRes);
+    CLACT_ReleaseCellAnim(work->cellRes);
+    return CLACT_DeleteUnit((struct Bank *)work->clactUnit);
 }
 
-int func_021D2040(PerapRecordWork *w)
+int EVENT_PERAP_RECORD_HopPokeIcon(PerapRecordWork *w)
 {
     SpritePos pt;
 
@@ -1359,27 +1359,27 @@ int func_021D2040(PerapRecordWork *w)
             return 0;
         }
     }
-    func_0204B454((struct Actor *)w->clactActor, (struct PtS *)&pt, 0);
+    CLACT_GetActorSurfacePos((struct Actor *)w->clactActor, (struct PtS *)&pt, 0);
     pt.y = pt.y - w->hopSpeed;
     func_0204B404((struct Obj *)(w->clactActor), (const struct Vec2 *)(&pt), 0);
     w->hopSpeed = w->hopSpeed - 1;
     return 1;
 }
 
-void func_021D20BC(PerapRecordWork *w)
+void EVENT_PERAP_RECORD_SetupWindow(PerapRecordWork *w)
 {
-    func_02049B90(5, func_0201F548(0), 0, 0, 0, 0x20, 0x15);
-    w->bmpWin = func_020450F0(1, 10, 3, 12, 12, 0, 1);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)w->bmpWin)), 0x11);
-    func_02045334((struct Descriptor *)w->bmpWin);
-    func_02045374((struct Cfg *)w->bmpWin);
+    ARC_UTIL_UploadPaletteFromArchive(5, func_0201F548(0), 0, 0, 0, 0x20, 0x15);
+    w->bmpWin = BMP_WIN_Create(1, 10, 3, 12, 12, 0, 1);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)w->bmpWin)), 0x11);
+    BMP_WIN_TransferChars((struct Descriptor *)w->bmpWin);
+    BMP_WIN_MakeScreen((struct Cfg *)w->bmpWin);
     func_0201F73C((void *)w->bmpWin, 1, 1, 0);
-    func_021D1F78(w);
+    EVENT_PERAP_RECORD_CreatePokeIcon(w);
 }
 
-int func_021D2124(PerapRecordWork *work)
+int EVENT_PERAP_RECORD_Cleanup(PerapRecordWork *work)
 {
-    func_021D201C(work);
+    EVENT_PERAP_RECORD_DeletePokeIcon(work);
     func_0201F7A8((void *)work->bmpWin, 1);
     return func_020452E8((struct Descriptor *)work->bmpWin);
 }
@@ -1389,15 +1389,15 @@ int func_021D2124(PerapRecordWork *work)
  *
  * Addresses are Black-image addresses.
  */
-int func_021D213C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_CheckPmsWordPair(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 flagBase, idA, idB, kind, flagEnd;
     u16 *resultVar;
 
-    kind = func_02159B10(vm, cmdWork);
-    idA = func_02159B10(vm, cmdWork);
-    idB = func_02159B10(vm, cmdWork);
-    resultVar = func_02159AE8(vm, cmdWork);
+    kind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    idA = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    idB = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     switch (kind) {
     case 1:
         flagBase = 0x5C0;
@@ -1411,7 +1411,7 @@ int func_021D213C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
         *resultVar = 0;
         return 0;
     }
-    if (func_020249B0(flagBase, idA & 0x7FF) && func_020249B0(flagEnd, idB & 0x7FF)) {
+    if (PMS_WORD_IsSameGroup(flagBase, idA & 0x7FF) && PMS_WORD_IsSameGroup(flagEnd, idB & 0x7FF)) {
         *resultVar = 1;
     } else {
         *resultVar = 0;
@@ -1419,7 +1419,7 @@ int func_021D213C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     return 0;
 }
 
-int func_021D21C0(u32 id)
+int SCRCMD_FindRegisteredEntry(u32 id)
 {
     u32 i;
 
@@ -1431,7 +1431,7 @@ int func_021D21C0(u32 id)
     return 0;
 }
 
-int func_021D21E0(u32 id)
+int SCRCMD_IsRegisteredEntryEnabled(u32 id)
 {
     u32 i;
 
@@ -1450,21 +1450,21 @@ int func_021D21E0(u32 id)
  *
  * Addresses are Black-image addresses.
  */
-int func_021D220C(void *msg, u8 *pos)
+int SCRCMD_ShowStepMilestoneMessage(void *msg, u8 *pos)
 {
-    u16 n = func_02008990(func_02008854(func_02012EBC(func_020120F4(msg))));
+    u16 n = func_02008990(func_02008854(GAME_DATA_GetSaveControl(func_020120F4(msg))));
     u32 i;
 
     for (i = 0; i < 5; i++) {
         if (n == data_021DD6BC[i].count)
-            return (int)func_02158768((int)msg, data_021DD6BC[i].msg, 0, func_02188C84(pos));
+            return (int)SCRIPT_SYS_CreateScriptEventSimple((int)msg, data_021DD6BC[i].msg, 0, FIELDMAP_GetHeapId(pos));
     }
     if (n > 500)
-        return (int)func_02158768((int)msg, 0x28E1, 0, func_02188C84(pos));
+        return (int)SCRIPT_SYS_CreateScriptEventSimple((int)msg, 0x28E1, 0, FIELDMAP_GetHeapId(pos));
     return 0;
 }
 
-int func_021D2278(u32 event, int *seq, RippleWarpWork *w)
+int FLDEFF_RIPPLE_WarpToZoneStartTask(u32 event, int *seq, RippleWarpWork *w)
 {
     Vec3 v;
     u16 warpId;
@@ -1473,11 +1473,11 @@ int func_021D2278(u32 event, int *seq, RippleWarpWork *w)
 
     switch (*seq) {
     case 0:
-        effectMgr = func_02188D38((unsigned char *)w->fieldWork);
+        effectMgr = FIELDMAP_GetTaskManager((unsigned char *)w->fieldWork);
         v.x = 0;
         v.y = -0x40000;
         v.z = 0;
-        func_021C6DE0((unsigned char *)effectMgr, (u32 *)func_021C7858(w->fieldWork, 0x28, (u32)(&v)), 0);
+        FIELD_TASK_MANAGER_AddTask((unsigned char *)effectMgr, (u32 *)FIELD_TASK_CreatePlayerDrawOffsetTween(w->fieldWork, 0x28, (u32)(&v)), 0);
         w->waitFrames = 8;
         (*seq)++;
         break;
@@ -1490,22 +1490,22 @@ int func_021D2278(u32 event, int *seq, RippleWarpWork *w)
         (*seq)++;
         break;
     case 2:
-        if (func_02006224(func_02006148(0x63C)) != 0) {
+        if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x63C)) != 0) {
             break;
         }
-        player = func_02188CB4((struct Obj00020 *)w->fieldWork);
-        func_021A3074(player);
-        func_021A30A4(player, 3);
-        func_021CD440((void *)w->fieldWork, &warpId);
-        func_02012374((struct Evt *)event, (struct Evt **)func_02184FD4((void *)w->field, warpId));
+        player = FIELDMAP_GetFieldPlayer((struct Obj00020 *)w->fieldWork);
+        FIELD_PLAYER_GetMmdl(player);
+        FIELD_PLAYER_SetFormCode(player, 3);
+        FIELD_GetPlayerAreaZoneId((void *)w->fieldWork, &warpId);
+        GAME_EVENT_CallEvent((struct Evt *)event, (struct Evt **)EVENT_MAPCHANGE_CreateZoneStartWarpEvent((void *)w->field, warpId));
         (*seq)++;
         break;
     case 3:
-        func_0216D410(func_021A3074(func_02188CB4((struct Obj00020 *)w->fieldWork)), 8);
+        FLDMMDL_SetAcmd(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((struct Obj00020 *)w->fieldWork)), 8);
         (*seq)++;
         break;
     case 4:
-        if (func_0216D454(func_021A3074(func_02188CB4((struct Obj00020 *)w->fieldWork)))) {
+        if (FLDMMDL_CheckEndAcmd(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((struct Obj00020 *)w->fieldWork)))) {
             return 1;
         }
         break;
@@ -1513,27 +1513,27 @@ int func_021D2278(u32 event, int *seq, RippleWarpWork *w)
     return 0;
 }
 
-int func_021D2358(u32 event, int *seq, RippleWarpWork *w)
+int FLDEFF_RIPPLE_WarpToSpecialLocationTask(u32 event, int *seq, RippleWarpWork *w)
 {
     u32 effectMgr, fogCtl, spinTaskA, spinTaskB;
 
-    effectMgr = func_02188D38((unsigned char *)w->fieldWork);
+    effectMgr = FIELDMAP_GetTaskManager((unsigned char *)w->fieldWork);
     switch (*seq) {
     case 0:
         func_020061E4(0x63C);
         w->waitFrames = 0x18;
         if (w->useSpin) {
-            fogCtl = func_02188C64((unsigned char *)w->fieldWork);
-            spinTaskA = (u32)func_021C7260(w->fieldWork, 0x14, 3);
-            spinTaskB = (u32)func_021C71D4(w->fieldWork, 0xc, 3);
-            func_021C6DE0((unsigned char *)effectMgr, (u32 *)spinTaskA, 0);
-            func_021C6DE0((unsigned char *)effectMgr, (u32 *)spinTaskB, spinTaskA);
-            func_021A01FC((unsigned char *)fogCtl, 0x7F0F, func_021A01D4((unsigned char *)fogCtl), 0x1A);
+            fogCtl = FIELDMAP_GetFog((unsigned char *)w->fieldWork);
+            spinTaskA = (u32)FIELD_TASK_CreatePlayerSpinEaseIn(w->fieldWork, 0x14, 3);
+            spinTaskB = (u32)FIELD_TASK_CreatePlayerSpinLinear(w->fieldWork, 0xc, 3);
+            FIELD_TASK_MANAGER_AddTask((unsigned char *)effectMgr, (u32 *)spinTaskA, 0);
+            FIELD_TASK_MANAGER_AddTask((unsigned char *)effectMgr, (u32 *)spinTaskB, spinTaskA);
+            FIELD_FOG_FADE_Init((unsigned char *)fogCtl, 0x7F0F, FIELD_FOG_GetSlope((unsigned char *)fogCtl), 0x1A);
         }
         (*seq)++;
         break;
     case 1:
-        func_021A30A4(func_02188CB4((struct Obj00020 *)w->fieldWork), 2);
+        FIELD_PLAYER_SetFormCode(FIELDMAP_GetFieldPlayer((struct Obj00020 *)w->fieldWork), 2);
         (*seq)++;
         break;
     case 2:
@@ -1541,7 +1541,7 @@ int func_021D2358(u32 event, int *seq, RippleWarpWork *w)
         if (w->waitFrames > 0) {
             break;
         }
-        func_02012374((struct Evt *)event, func_02184F88((void *)w->field));
+        GAME_EVENT_CallEvent((struct Evt *)event, EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent((void *)w->field));
         (*seq)++;
         break;
     case 3:
@@ -1550,9 +1550,9 @@ int func_021D2358(u32 event, int *seq, RippleWarpWork *w)
     return 0;
 }
 
-void *func_021D2418(void *field, u32 fieldWork)
+void *FLDEFF_RIPPLE_CreateZoneStartWarpTask(void *field, u32 fieldWork)
 {
-    void *task = func_020122C0(field, 0, func_021D2278, sizeof(RippleWarpWork));
+    void *task = func_020122C0(field, 0, FLDEFF_RIPPLE_WarpToZoneStartTask, sizeof(RippleWarpWork));
     RippleWarpWork *w = func_020124E8(task);
 
     w->field = field;
@@ -1561,9 +1561,9 @@ void *func_021D2418(void *field, u32 fieldWork)
     return task;
 }
 
-void *func_021D2440(void *field, u32 fieldWork, u32 useSpin)
+void *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(void *field, u32 fieldWork, u32 useSpin)
 {
-    void *task = func_020122C0(field, 0, func_021D2358, sizeof(RippleWarpWork));
+    void *task = func_020122C0(field, 0, FLDEFF_RIPPLE_WarpToSpecialLocationTask, sizeof(RippleWarpWork));
     RippleWarpWork *w = func_020124E8(task);
 
     w->field = field;
@@ -1572,21 +1572,21 @@ void *func_021D2440(void *field, u32 fieldWork, u32 useSpin)
     return task;
 }
 
-int func_021D2468(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_GetBirthdayMessageIds(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 gameData, sceneFlag, trainerRecord, currentA, currentB, recordA;
     u16 *outA, *outB, *outC;
     TextIdTable table;
 
-    gameData = (u32)func_0215A5E4(cmdWork); /* int-typed on purpose: pointer local changes codegen */
-    sceneFlag = func_02159B10(vm, cmdWork);
-    outA = func_02159AE8(vm, cmdWork);
-    outB = func_02159AE8(vm, cmdWork);
-    outC = func_02159AE8(vm, cmdWork);
+    gameData = (u32)SCRCMD_WORK_GetGameData(cmdWork); /* int-typed on purpose: pointer local changes codegen */
+    sceneFlag = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    outA = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    outB = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    outC = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     table = d_021DD6D0;
-    trainerRecord = (u32)func_02008B08(func_02012EBC((struct Big *)gameData));
-    currentA = func_021690D0(gameData);
-    currentB = func_021690E0(gameData);
+    trainerRecord = (u32)func_02008B08(GAME_DATA_GetSaveControl((struct Big *)gameData));
+    currentA = FIELD_CLOCK_GetMonth(gameData);
+    currentB = FIELD_CLOCK_GetDay(gameData);
     recordA = func_02008B94((const struct Sub02008AECObj *)trainerRecord);
     if (currentB == func_02008B98((const struct Sub02008AECObj *)trainerRecord) && currentA == recordA) {
         *outA = 0x34;
@@ -1601,7 +1601,7 @@ int func_021D2468(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     return 0;
 }
 
-int func_021D2524(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_ShowPokeIconWindow(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 gender, species, form, isEgg;
     void *task;
@@ -1609,27 +1609,27 @@ int func_021D2524(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     void *work;
     void *scriptCtx;
 
-    gameSystem = func_0215A5DC(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     func_0201210C(gameSystem);
-    species = func_02159B10(vm, cmdWork);
-    form = func_02159B10(vm, cmdWork);
-    isEgg = func_02159B10(vm, cmdWork);
-    gender = func_02159B10(vm, cmdWork);
-    scriptCtx = func_0215A5F4(cmdWork);
-    task = func_020122C0(gameSystem, 0, func_021D26D0, 0x18);
+    species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    isEgg = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    gender = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    task = func_020122C0(gameSystem, 0, SCRCMD_POKE_ICON_Task, 0x18);
     work = func_020124E8(task);
-    func_021D25A4(work);
-    func_021D25F4(work, species, form, isEgg, gender, 0);
-    func_0215897C(scriptCtx, task);
+    SCRCMD_POKE_ICON_InitWindow(work);
+    SCRCMD_POKE_ICON_CreateIcon(work, species, form, isEgg, gender, 0);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
     return 1;
 }
 
-void func_021D25A4(PokeIconWork *p)
+void SCRCMD_POKE_ICON_InitWindow(PokeIconWork *p)
 {
-    p->bmpWin = func_020450F0(1, 10, 3, 12, 12, 13, 1);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->bmpWin)), 17);
-    func_02045334((struct Descriptor *)p->bmpWin);
-    func_02045374((struct Cfg *)p->bmpWin);
+    p->bmpWin = BMP_WIN_Create(1, 10, 3, 12, 12, 13, 1);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->bmpWin)), 17);
+    BMP_WIN_TransferChars((struct Descriptor *)p->bmpWin);
+    BMP_WIN_MakeScreen((struct Cfg *)p->bmpWin);
     func_0201F73C((void *)p->bmpWin, 1, 1, 13);
 }
 
@@ -1638,7 +1638,7 @@ void func_021D25A4(PokeIconWork *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_021D25E8(PokeIconWork *p)
+void SCRCMD_POKE_ICON_ShowWindow(PokeIconWork *p)
 {
     func_0201F7A8((void *)p->bmpWin, 1);
 }
@@ -1650,37 +1650,37 @@ void func_021D25E8(PokeIconWork *p)
  *
  * Addresses are Black-image addresses.
  */
-void func_021D25F4(PokeIconWork *p, int species, int form, int isEgg, int gender, int charFlags)
+void SCRCMD_POKE_ICON_CreateIcon(PokeIconWork *p, int species, int form, int isEgg, int gender, int charFlags)
 {
     ClactInitParam loc;
     u32 t;
 
-    p->clactUnit = (u32)func_0204B100(1, 0, 0x8015);
-    t = func_0202D7C8(0x8015);
-    p->charRes = func_0202D81C(t, species, form, isEgg, gender, 0, 0, charFlags, 0, 0x8015);
-    p->palRes = (u32)func_0202D7D8((u32)t, (u32)species, (u32)form, (u32)isEgg, (u32)gender, (u32)0, (u32)0, (u32)0, (u32)0, (u32)0x8015);
-    func_02049238((void *)t);
-    p->cellRes = func_0202D898(species, form, isEgg, gender, 0, 0, 1, 0, 0x8015);
+    p->clactUnit = (u32)CLACT_CreateUnit(1, 0, 0x8015);
+    t = POKEGRA_OpenHandle(0x8015);
+    p->charRes = POKEGRA_RegisterCgr(t, species, form, isEgg, gender, 0, 0, charFlags, 0, 0x8015);
+    p->palRes = (u32)POKEGRA_RegisterPalette((u32)t, (u32)species, (u32)form, (u32)isEgg, (u32)gender, (u32)0, (u32)0, (u32)0, (u32)0, (u32)0x8015);
+    ARC_TOOL_DeleteHandle((void *)t);
+    p->cellRes = POKEGRA_RegisterCellAnim(species, form, isEgg, gender, 0, 0, 1, 0, 0x8015);
     loc = d_021DD710;
-    p->clactActor = (u32)func_0204B294((void *)p->clactUnit, p->charRes, p->palRes, p->cellRes, &loc, 0, 0x8015);
+    p->clactActor = (u32)CLACT_CreateActor((void *)p->clactUnit, p->charRes, p->palRes, p->cellRes, &loc, 0, 0x8015);
 }
 
-int func_021D26AC(PokeIconWork *work)
+int SCRCMD_POKE_ICON_DeleteIcon(PokeIconWork *work)
 {
-    func_0204B3B4((struct Obj *)work->clactActor);
-    func_0204A8D4(work->charRes);
-    func_0204ADA4(work->palRes);
-    func_0204AFD8(work->cellRes);
-    return func_0204B1CC((struct Bank *)work->clactUnit);
+    CLACT_DeleteActor((struct Obj *)work->clactActor);
+    CLACT_ReleaseCharacter(work->charRes);
+    CLACT_ReleasePalette(work->palRes);
+    CLACT_ReleaseCellAnim(work->cellRes);
+    return CLACT_DeleteUnit((struct Bank *)work->clactUnit);
 }
 
-u32 func_021D26D0(u32 event, u32 *state, PokeIconWork *p)
+u32 SCRCMD_POKE_ICON_Task(u32 event, u32 *state, PokeIconWork *p)
 {
     switch (state[0]) {
     case 0:
         if (func_020362DC() & 3) {
-            func_021D26AC(p);
-            func_021D25E8(p);
+            SCRCMD_POKE_ICON_DeleteIcon(p);
+            SCRCMD_POKE_ICON_ShowWindow(p);
             state[0]++;
         }
         break;
@@ -1691,18 +1691,18 @@ u32 func_021D26D0(u32 event, u32 *state, PokeIconWork *p)
     return 0;
 }
 
-u32 func_021D2710(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+u32 SCRCMD_CheckBeaconTrainerKey(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 slot;
     u16 *resultVar;
     u32 gameData;
     u32 partyBlock;
 
-    slot = func_02159B10(vm, cmdWork);
-    resultVar = func_02159AE8(vm, cmdWork);
-    gameData = (u32)func_020120F4((const struct Ctx *)func_0215A5DC(cmdWork));
-    partyBlock = (u32)func_02012F08((int *)gameData);
-    *resultVar = func_0216BF9C((void *)partyBlock, slot, func_02012944((void *)gameData));
+    slot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    gameData = (u32)func_020120F4((const struct Ctx *)SCRCMD_WORK_GetGameSystem(cmdWork));
+    partyBlock = (u32)GAME_DATA_GetMiscSave((int *)gameData);
+    *resultVar = FIELD_G3D_MAP_CheckBeaconTrainerKey((void *)partyBlock, slot, func_02012944((void *)gameData));
     return 0;
 }
 
@@ -1719,7 +1719,7 @@ u32 func_021D2710(ScriptVm *vm, struct ScrcmdWork *cmdWork)
  *
  * Addresses are Black-image addresses.
  */
-int func_021D2750(u32 gameSystem)
+int FIELD_CheckPlayerPositionFree(u32 gameSystem)
 {
     MmdlModelInfo modelInfo;
     Vec3 playerPos;
@@ -1742,16 +1742,16 @@ int func_021D2750(u32 gameSystem)
 
     gameData = (u32)func_020120F4((const struct Ctx *)gameSystem);
     eventData = func_02012844((const struct BigObj *)gameData);
-    list = (MapEventRec *)func_02162740((u8 *)eventData);
-    n = func_02162744((u8 *)eventData);
+    list = (MapEventRec *)EVENTDATA_SYSTEM_GetNpcHeaders((u8 *)eventData);
+    n = EVENTDATA_SYSTEM_GetNpcCount((u8 *)eventData);
     fieldWork = func_0201210C((void *)gameSystem);
-    mapCtx = func_02188C7C((void *)fieldWork);
-    player = func_02188CB4((void *)fieldWork);
-    mapId = func_02188C9C(fieldWork);
+    mapCtx = FIELDMAP_GetMmdlSys((void *)fieldWork);
+    player = FIELDMAP_GetFieldPlayer((void *)fieldWork);
+    mapId = FIELDMAP_GetZoneId(fieldWork);
     if ((int)func_02013C60((u16)mapId) == 0) {
         return 0;
     }
-    if ((u32)(func_021A3098(player) - 2) <= 1) {
+    if ((u32)(FIELD_PLAYER_GetFormCode(player) - 2) <= 1) {
         return 0;
     }
     if ((list == 0 || n == 0) && mapId != 0 && mapId != 0x1A8) {
@@ -1761,8 +1761,8 @@ int func_021D2750(u32 gameSystem)
         event = &list[i];
         if (event->kind == 0) {
             tile = &event->tile;
-            func_0216E2E8(mapCtx, event->modelId, (struct Record *)&modelInfo);
-            func_021A35FC(player, (u16 *)(&gridPos.gridX), (u16 *)(&gridPos.height), (u16 *)(&gridPos.gridZ));
+            FLDMMDL_LoadObjCodeParam(mapCtx, event->modelId, (struct Record *)&modelInfo);
+            FIELD_PLAYER_GetNowGridPos(player, (u16 *)(&gridPos.gridX), (u16 *)(&gridPos.height), (u16 *)(&gridPos.gridZ));
             if (event->tile.gridX <= gridPos.gridX && gridPos.gridX < event->tile.gridX + modelInfo.w) {
                 if (tile->gridZ - modelInfo.h < gridPos.gridZ && gridPos.gridZ <= tile->gridZ) {
                     return 0;
@@ -1770,103 +1770,103 @@ int func_021D2750(u32 gameSystem)
             }
         } else if (event->kind == 1) {
             tile = &event->tile;
-            if (func_02188CFC(fieldWork) == 1) {
-                func_021A36BC(player, &facing);
+            if (FIELDMAP_GetMoveKind(fieldWork) == 1) {
+                FIELD_PLAYER_SetNogridLocation(player, &facing);
                 if (tile->gridX == facing.gridX && tile->gridZ == facing.gridZ && tile->height == facing.height) {
                     return 0;
                 }
             }
         }
     }
-    if (func_02188CFC(fieldWork) == 0) {
-        playerActor = func_021A3074((void *)player);
+    if (FIELDMAP_GetMoveKind(fieldWork) == 0) {
+        playerActor = FIELD_PLAYER_GetMmdl((void *)player);
         partyData = func_0201296C((const struct BigObj *)gameData);
-        func_0216D88C(playerActor, (struct VecFx32 *)&playerPos);
-        if (func_02162890((struct Ctx *)eventData, (void *)partyData, (int)(&playerPos))) {
+        FLDMMDL_GetPos(playerActor, (struct VecFx32 *)&playerPos);
+        if (EVENTDATA_SYSTEM_SearchAutoPosEvent((struct Ctx *)eventData, (void *)partyData, (int)(&playerPos))) {
             return 0;
         }
     }
     if (mapId == 0 || mapId == 0x1A8) {
         int j;
         u8 *table;
-        func_021A35FC(player, (u16 *)(&gridPos.gridX), (u16 *)(&gridPos.height), (u16 *)(&gridPos.gridZ));
-        arcHandle = (int)func_021867C4(0, 0x8015);
-        table = func_02186830((struct ArcFile **)arcHandle, mapId != 0, 0x8015);
+        FIELD_PLAYER_GetNowGridPos(player, (u16 *)(&gridPos.gridX), (u16 *)(&gridPos.height), (u16 *)(&gridPos.gridZ));
+        arcHandle = (int)FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, 0x8015);
+        table = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable((struct ArcFile **)arcHandle, mapId != 0, 0x8015);
         for (j = 0; j < 10; j++) {
-            entry = func_02186844(table, j);
+            entry = FIELD_WFBC_DATA_LOCAL_GetPositionPair(table, j);
             if (entry[0] == gridPos.gridX && entry[1] == gridPos.gridZ) {
-                func_0218683C(table);
-                func_02186804((void **)arcHandle);
+                FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(table);
+                FIELD_WFBC_DATA_LOCAL_CloseNpcData((void **)arcHandle);
                 return 0;
             }
         }
         for (j = 0; j < 10; j++) {
-            entry = func_0218684C(table, j);
+            entry = FIELD_WFBC_DATA_LOCAL_GetItemPositionPair(table, j);
             if (entry[0] == gridPos.gridX && entry[1] == gridPos.gridZ) {
-                func_0218683C(table);
-                func_02186804((void **)arcHandle);
+                FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(table);
+                FIELD_WFBC_DATA_LOCAL_CloseNpcData((void **)arcHandle);
                 return 0;
             }
         }
-        func_0218683C(table);
-        func_02186804((void **)arcHandle);
+        FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(table);
+        FIELD_WFBC_DATA_LOCAL_CloseNpcData((void **)arcHandle);
     }
     return 1;
 }
 
-void *func_021D297C(void *field)
+void *FIELD_SUBSCREEN_CreateAnimTask(void *field)
 {
-    void *task = func_020122C0(field, 0, func_021D29A8, sizeof(SubscreenAnimWork));
+    void *task = func_020122C0(field, 0, FIELD_SUBSCREEN_AnimTask, sizeof(SubscreenAnimWork));
     SubscreenAnimWork *work = func_020124E8(task);
 
     work->fieldWork = (u32)func_0201210C(field);
-    work->subscreen = func_02188CCC((u8 *)work->fieldWork);
+    work->subscreen = FIELDMAP_GetSubscreen((u8 *)work->fieldWork);
     return task;
 }
 
-u32 func_021D29A8(u32 event, u32 *state, SubscreenAnimWork *work)
+u32 FIELD_SUBSCREEN_AnimTask(u32 event, u32 *state, SubscreenAnimWork *work)
 {
     switch (state[0]) {
     case 0:
-        func_021A0F30(work->subscreen, 9);
+        FIELD_SUBSCREEN_RequestMode(work->subscreen, 9);
         state[0]++;
         break;
     case 1:
-        if (func_021A0F94(work->subscreen) == 14) {
-            func_021A0FA8((int *)work->subscreen);
+        if (FIELD_SUBSCREEN_GetPanelResult(work->subscreen) == 14) {
+            FIELD_SUBSCREEN_ClearPanelResult((int *)work->subscreen);
             state[0]++;
         }
         break;
     case 2:
-        func_021A0F30(work->subscreen, 0);
+        FIELD_SUBSCREEN_RequestMode(work->subscreen, 0);
         return 1;
     }
     return 0;
 }
 
-int func_021D29F0(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void **fieldWork;
     u32 heapId, msgData, bmpWin, msgBuf;
     void *msgBg;
 
-    fieldWork = (void **)func_02158F58((int)func_0215A5F4(cmdWork));
-    heapId = func_02188C84(fieldWork[1]);
-    msgBg = (void *)func_02188C54(fieldWork[1]);
+    fieldWork = (void **)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork(cmdWork));
+    heapId = FIELDMAP_GetHeapId(fieldWork[1]);
+    msgBg = (void *)FIELDMAP_GetMsgBg(fieldWork[1]);
     if (func_02011330((struct Stream *)vm)) {
         msgData = (u32)func_02045B38(0, 2, 0x16, heapId);
-        bmpWin = func_02045180(2, 1, 1, 0x1E, 10, 14, 0x40);
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)bmpWin)), 0xF);
-        func_02045334((struct Descriptor *)bmpWin);
-        func_02045374((struct Cfg *)bmpWin);
+        bmpWin = BMP_WIN_CreateAt(2, 1, 1, 0x1E, 10, 14, 0x40);
+        BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)bmpWin)), 0xF);
+        BMP_WIN_TransferChars((struct Descriptor *)bmpWin);
+        BMP_WIN_MakeScreen((struct Cfg *)bmpWin);
         func_0201F73C((void *)bmpWin, 0, 1, 0xD);
-        msgBuf = (u32)func_020457B0(0xB4, heapId);
+        msgBuf = (u32)STRBUF_Create(0xB4, heapId);
         func_02045CAC((struct MsgBank *)msgData, 3, (void *)msgBuf);
-        func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)bmpWin)), 0, 0, (void *)msgBuf, (void *)func_021904AC(msgBg));
-        func_02045334((struct Descriptor *)bmpWin);
+        PRINTSYS_Print((void *)((u32)func_02045770((struct Descriptor *)bmpWin)), 0, 0, (void *)msgBuf, (void *)FIELD_MSGBG_GetFont(msgBg));
+        BMP_WIN_TransferChars((struct Descriptor *)bmpWin);
         func_02041B6C(2);
-        func_02045808((struct U16Vec *)msgBuf);
-        func_02045C04((struct Rec_021D1988 *)msgData);
+        STRBUF_Delete((struct U16Vec *)msgBuf);
+        MSGDATA_Delete((struct Rec_021D1988 *)msgData);
         func_020452E8((struct Descriptor *)bmpWin);
     } else {
         func_02041300(2, 0, 0, 0, 0x20, 0xC, 0x11);
@@ -1875,27 +1875,27 @@ int func_021D29F0(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     return 0;
 }
 
-int func_021D2ADC(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_AddTrainerRecordValue(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *gameSystem = func_0215A5DC(cmdWork);
-    u32 index = func_02159B10(vm, cmdWork);
-    u32 delta = func_02159B10(vm, cmdWork);
+    void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    u32 index = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    u32 delta = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    func_02008DAC(func_02008C58(func_02012EBC(func_020120F4((void *)gameSystem))), index, delta);
+    func_02008DAC(func_02008C58(GAME_DATA_GetSaveControl(func_020120F4((void *)gameSystem))), index, delta);
     return 0;
 }
 
-int func_021D2B18(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_GetTrainerRecordValue(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *gameSystem = func_0215A5DC(cmdWork);
-    u32 index = func_02159B10(vm, cmdWork);
-    u16 *resultVar = func_02159AE8(vm, cmdWork);
+    void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    u32 index = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    *resultVar = func_02008DFC(func_02008C58(func_02012EBC(func_020120F4((void *)gameSystem))), index);
+    *resultVar = func_02008DFC(func_02008C58(GAME_DATA_GetSaveControl(func_020120F4((void *)gameSystem))), index);
     return 0;
 }
 
-int func_021D2B54(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData;
     u32 name, wordSet, argValue;
@@ -1911,12 +1911,12 @@ int func_021D2B54(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     u32 counters;
     u32 idA, idB;
 
-    scriptCtx = func_0215A5F4(cmdWork);
-    gameData = func_020120F4(func_0215A5DC(cmdWork));
+    scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameData = func_020120F4(SCRCMD_WORK_GetGameSystem(cmdWork));
     name = (u32)func_02012944(gameData);
-    wordSet = (u32)func_02158F74(scriptCtx);
-    argValue = func_02159B10(vm, cmdWork);
-    out = func_02159AE8(vm, cmdWork);
+    wordSet = (u32)SCRIPT_WORK_GetWordSet(scriptCtx);
+    argValue = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    out = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     func_0201F02C((struct WordSet *)wordSet, 0, (void *)name);
     party = func_02012934(gameData);
     n = func_0201AA18(party);
@@ -1933,7 +1933,7 @@ int func_021D2B54(ScriptVm *vm, struct ScrcmdWork *cmdWork)
         msgIndex = func_020056EC(0x1D);
         countA = 0;
         countB = 0;
-        counters = (u32)func_02012F2C(gameData);
+        counters = (u32)GAME_DATA_GetTrainerRecord(gameData);
         idA = d_021DD774[msgIndex].idA;
         if (idA != -1) {
             countA = func_02008DFC((struct Sub02008C20Obj *)counters, idA);
@@ -1967,7 +1967,7 @@ int func_021D2B54(ScriptVm *vm, struct ScrcmdWork *cmdWork)
         base = 0x5A;
         msgIndex = func_020056EC(0x50);
     }
-    *out = func_021D2D24(gameData, func_021D2CE8(gameData, base + msgIndex), argValue);
+    *out = SCRCMD_GREETING_AdjustMessageIdByRandom(gameData, SCRCMD_GREETING_AdjustMessageIdByMisc(gameData, base + msgIndex), argValue);
     return 0;
 }
 
@@ -1978,10 +1978,10 @@ int func_021D2B54(ScriptVm *vm, struct ScrcmdWork *cmdWork)
  * parameter becomes the index, which gives the image's r1/r2/r3 colouring
  * (a fresh int index rotates them by one).
  */
-u32 func_021D2CE8(void *gameData, int i)
+u32 SCRCMD_GREETING_AdjustMessageIdByMisc(void *gameData, int i)
 {
     u32 v = i;
-    void *checker = func_0200C0F0(func_02012EBC(gameData));
+    void *checker = func_0200C0F0(GAME_DATA_GetSaveControl(gameData));
 
     for (i = 0; i < 8; i++) {
         if (v == d_021DD718[i]) {
@@ -1996,7 +1996,7 @@ u32 func_021D2CE8(void *gameData, int i)
     return v;
 }
 
-u32 func_021D2D24(void *gameData, u32 msgIndex, int fixedMsg)
+u32 SCRCMD_GREETING_AdjustMessageIdByRandom(void *gameData, u32 msgIndex, int fixedMsg)
 {
     int i;
 
@@ -2010,9 +2010,9 @@ u32 func_021D2D24(void *gameData, u32 msgIndex, int fixedMsg)
     return msgIndex;
 }
 
-void *func_021D2D50(void *a, CameraShakeParams *src)
+void *FIELD_CAMERA_CreateShakeTask(void *a, CameraShakeParams *src)
 {
-    void *task = func_020122C0(a, 0, func_021D2D7C, sizeof(CameraShakeWork));
+    void *task = func_020122C0(a, 0, FIELD_CAMERA_ShakeTask, sizeof(CameraShakeWork));
 
     *(CameraShakeParams *)func_020124E8(task) = *src;
     return task;
@@ -2025,7 +2025,7 @@ void *func_021D2D50(void *a, CameraShakeParams *src)
  *
  * Addresses are Black-image addresses.
  */
-int func_021D2D7C(void *task, int *state)
+int FIELD_CAMERA_ShakeTask(void *task, int *state)
 {
     CameraShakeWork *w;
     void *o;
@@ -2037,17 +2037,17 @@ int func_021D2D7C(void *task, int *state)
     done = 0;
     o = func_0201210C(func_020124E4(task));
     w = func_020124E8(task);
-    h = func_02188C58(o);
+    h = FIELDMAP_GetCamera(o);
 
     switch (*state) {
     case 0:
-        func_0218F0A8(h);
+        FIELD_CAMERA_EndDelay(h);
         (*state)++;
         break;
     case 1:
-        if (func_0218F0E8(h) == 0) {
-            w->pos = (Vec3 *)func_0218EC5C(h);
-            func_0218EC54(h);
+        if (FIELD_CAMERA_IsDelayEnabled(h) == 0) {
+            w->pos = (Vec3 *)FIELD_CAMERA_GetTraceTarget(h);
+            FIELD_CAMERA_StopTargetTrace(h);
             (*state)++;
         }
         break;
@@ -2078,9 +2078,9 @@ int func_021D2D7C(void *task, int *state)
         }
         if (done) {
             Vec3 zero = {0, 0, 0};
-            func_0218ED04(h, &zero);
-            func_0218EC30(h, w->pos);
-            func_0218F05C(h);
+            FIELD_CAMERA_SetEyeShift(h, &zero);
+            FIELD_CAMERA_SetTraceTarget(h, w->pos);
+            FIELD_CAMERA_RestartDelay(h);
             (*state)++;
         } else {
             Vec3 pos;
@@ -2095,8 +2095,8 @@ int func_021D2D7C(void *task, int *state)
             ofs.x = ox;
             ofs.y = oy;
             ofs.z = 0;
-            func_0218EC90(h, &pos);
-            func_0218ED04(h, &ofs);
+            FIELD_CAMERA_SetTarget(h, &pos);
+            FIELD_CAMERA_SetEyeShift(h, &ofs);
         }
         break;
     case 3:
@@ -2105,7 +2105,7 @@ int func_021D2D7C(void *task, int *state)
     return 0;
 }
 
-u32 func_021D2EDC(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+u32 SCRCMD_StartEffectAtMmdl(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     int pos[3];
     void *scriptCtx;
@@ -2114,17 +2114,17 @@ u32 func_021D2EDC(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     u32 targetId;
     void *task;
 
-    scriptCtx = func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
+    scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     func_0201210C(gameSystem);
-    mmdlId = func_02159B10(vm, cmdWork);
-    targetId = func_02159B10(vm, cmdWork);
-    func_0216D88C((const struct Actor *)func_0216DE94(func_0215A5EC(cmdWork), mmdlId), (struct VecFx32 *)pos);
-    task = func_021F3CFC(gameSystem, pos, mmdlId, targetId);
+    mmdlId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    targetId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    FLDMMDL_GetPos((const struct Actor *)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), mmdlId), (struct VecFx32 *)pos);
+    task = SP_POKE_GIMMICK_StartSwapNpc(gameSystem, pos, mmdlId, targetId);
     if (task == 0) {
         return 1;
     }
-    func_0215897C(scriptCtx, task);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
     return 1;
 }
 
@@ -2132,29 +2132,29 @@ u32 func_021D2EDC(ScriptVm *vm, struct ScrcmdWork *cmdWork)
  * func_021F37B8 resolves in ov064 (2026-10-02, lane gA2). Starts exist at
  * 0x021F37B8 in ov041, ov050, ov060 and ov064. ov050 is void(void) and ov060
  * takes two arguments. ov041 is out on two counts: its body ends in a tail
- * call to func_021BE418, which is void (src/matched/ov/ov021_func_021BE418.c,
+ * call to FLD_EXP_OBJ_RemoveUnit, which is void (src/matched/ov/ov021_func_021BE418.c,
  * EXACT), so it returns no value for the `t == 0` test; and it hands its
- * argument straight to func_02188D2C and func_021897A0, the type that
- * func_0201210C returns, while this call passes func_0215A5DC(b), which the
- * sibling func_021D2F6C feeds to func_0201210C. ov064's function applies
+ * argument straight to FIELDMAP_GetExpObj and FIELDMAP_FreeCommonWork, the type that
+ * func_0201210C returns, while this call passes SCRCMD_WORK_GetGameSystem(b), which the
+ * sibling SCRCMD_StartEffectAtPosition feeds to func_0201210C. ov064's function applies
  * func_0201210C to its argument and returns func_020122C0(arg, 0, cb, 0), a
- * task, which is what func_0215897C(x, t) receives here and in the same-shape
- * siblings func_021D3068 (ov064-only func_021F3ADC) and func_021D3090
- * (func_021F3AC0, ov064). func_021D2F6C and func_021D3018 also call ov064.
+ * task, which is what SCRIPT_SYS_CallEvent(x, t) receives here and in the same-shape
+ * siblings SCRCMD_StartEffectTaskB (ov064-only GIMMICK64_CreateWaitEndEvent) and SCRCMD_StartEffectTaskC
+ * (GIMMICK64_CreateWaitPeakEvent, ov064). SCRCMD_StartEffectAtPosition and SCRCMD_SetEffectPosition also call ov064.
  */
-int func_021D2F44(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_StartEffectTask(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *scriptCtx = func_0215A5F4(cmdWork);
-    void *task = func_021F37B8((int)func_0215A5DC(cmdWork));
+    void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    void *task = func_021F37B8((int)SCRCMD_WORK_GetGameSystem(cmdWork));
 
     if (task == 0) {
         return 1;
     }
-    func_0215897C(scriptCtx, task);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
     return 1;
 }
 
-u32 func_021D2F6C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+u32 SCRCMD_StartEffectAtPosition(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     int pos[3];
     int target[3];
@@ -2169,31 +2169,31 @@ u32 func_021D2F6C(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     int param;
     void *task;
 
-    scriptCtx = func_0215A5F4(cmdWork);
-    gameSystem = func_0215A5DC(cmdWork);
+    scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     fieldWork = func_0201210C(gameSystem);
-    mmdlId = (int)func_02159B10(vm, cmdWork);
-    tileX = (int)func_02159B10(vm, cmdWork);
-    tileY = (int)func_02159B10(vm, cmdWork);
-    tileZ = (int)func_02159B10(vm, cmdWork);
-    radius = (int)func_02159B10(vm, cmdWork);
-    param = (int)func_02159B10(vm, cmdWork);
-    task = func_0216DE94(func_02188C7C((void *)fieldWork), mmdlId);
+    mmdlId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    tileX = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    tileY = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    tileZ = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    radius = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    param = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    task = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldWork), mmdlId);
     if (task != 0) {
-        func_0216D88C(task, (struct VecFx32 *)pos);
+        FLDMMDL_GetPos(task, (struct VecFx32 *)pos);
     }
     target[0] = (tileX << 16) + 0x8000;
     target[1] = tileY << 15;
     target[2] = (tileZ << 16) + 0x8000;
-    task = func_021F3970(gameSystem, pos, target, radius << 15, param);
+    task = GIMMICK64_StartArcEffect(gameSystem, pos, target, radius << 15, param);
     if (task == 0) {
         return 1;
     }
-    func_0215897C(scriptCtx, task);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
     return 1;
 }
 
-u32 func_021D3018(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+u32 SCRCMD_SetEffectPosition(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     int pos[3];
     void *gameSystem;
@@ -2201,42 +2201,42 @@ u32 func_021D3018(ScriptVm *vm, struct ScrcmdWork *cmdWork)
     int tileY;
     int tileZ;
 
-    gameSystem = func_0215A5DC(cmdWork);
-    tileX = (int)func_02159B10(vm, cmdWork);
-    tileY = (int)func_02159B10(vm, cmdWork);
-    tileZ = (int)func_02159B10(vm, cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    tileX = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    tileY = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    tileZ = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     pos[0] = (tileX << 16) + 0x8000;
     pos[1] = tileY << 15;
     pos[2] = (tileZ << 16) + 0x8000;
-    func_021F3A44(gameSystem, pos);
+    GIMMICK64_ShowArcModelAt(gameSystem, pos);
     return 0;
 }
 
-int func_021D3068(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_StartEffectTaskB(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *scriptCtx = func_0215A5F4(cmdWork);
-    void *task = func_021F3ADC(func_0215A5DC(cmdWork));
+    void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    void *task = GIMMICK64_CreateWaitEndEvent(SCRCMD_WORK_GetGameSystem(cmdWork));
 
     if (task == 0) {
         return 1;
     }
-    func_0215897C(scriptCtx, task);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
     return 1;
 }
 
 /*
- * func_021F3AC0 resolves in ov064: the only Thumb function starting there
+ * GIMMICK64_CreateWaitPeakEvent resolves in ov064: the only Thumb function starting there
  * that takes one argument (ov043's takes two), and the neighbouring ov021
- * functions func_021D2F6C and func_021D3018 already call ov064 code.
+ * functions SCRCMD_StartEffectAtPosition and SCRCMD_SetEffectPosition already call ov064 code.
  */
-int func_021D3090(ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_StartEffectTaskC(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    void *scriptCtx = func_0215A5F4(cmdWork);
-    void *task = func_021F3AC0(func_0215A5DC(cmdWork));
+    void *scriptCtx = SCRCMD_WORK_GetScriptWork(cmdWork);
+    void *task = GIMMICK64_CreateWaitPeakEvent(SCRCMD_WORK_GetGameSystem(cmdWork));
 
     if (task == 0) {
         return 1;
     }
-    func_0215897C(scriptCtx, task);
+    SCRIPT_SYS_CallEvent(scriptCtx, task);
     return 1;
 }

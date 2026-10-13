@@ -1,5 +1,5 @@
 /*
- * function: func_021AE5EC
+ * function: EVENT_TRAINER_EYE_StepSelectApproach
  * address: 0x021AE5EC
  * packet: pkt_ov021_021AE5EC
  * region: ov021
@@ -26,7 +26,7 @@ typedef struct IwaTask {
     int cnt;
 } IwaTask;
 
-int func_021AE5EC(IwaTask *w)
+int EVENT_TRAINER_EYE_StepSelectApproach(IwaTask *w)
 {
     if (w->fc <= 1) {
         w->state = 13;

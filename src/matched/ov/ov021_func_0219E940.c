@@ -1,5 +1,5 @@
 /*
- * function: func_0219E940
+ * function: FLDMMDL_RAIL_RailKeyToDir
  * address:  0x0219E940
  * packet:   pkt_ov021_0219E940
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-u32 func_0219E940(int x)
+u32 FLDMMDL_RAIL_RailKeyToDir(int x)
 {
     u32 r = 1;
     switch (x) {

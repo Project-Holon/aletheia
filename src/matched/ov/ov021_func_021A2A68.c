@@ -1,5 +1,5 @@
 /*
- * function: func_021A2A68
+ * function: WEATHER_TASK_FreeBillboard
  * address:  0x021A2A68
  * packet:   pkt_ov021_021A2A68
  * region:   ov021
@@ -10,20 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A1680  0x021A1680  thumb  ov021
+ *   FIELD_3DBG_FreeBillboardTexture  0x021A1680  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-void func_021A1680(u8 *p);
+void FIELD_3DBG_FreeBillboardTexture(u8 *p);
 
-void func_021A2A68(u8 *p, int i, int x)
+void WEATHER_TASK_FreeBillboard(u8 *p, int i, int x)
 {
     u32 *s = (u32 *)(p + 8);
 
     if (s[i] != 0) {
-        func_021A1680((u8 *)x);
+        FIELD_3DBG_FreeBillboardTexture((u8 *)x);
         s[i] = 0;
     }
 }

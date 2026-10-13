@@ -1,5 +1,5 @@
 /*
- * function: func_021BE580
+ * function: FLD_EXP_OBJ_UpdateAnimes
  * address:  0x021BE580
  * packet:   pkt_ov021_021BE580
  * region:   ov021
@@ -15,10 +15,10 @@
  * three slots.
  *
  * symbols:
- *   func_020478B8  0x020478B8  arm
- *   func_02047910  0x02047910  arm
+ *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
+ *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   func_02048A00  0x02048A00  arm
- *   func_021BE4C4  0x021BE4C4  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelObject  0x021BE4C4  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -52,11 +52,11 @@ typedef struct {
 } P;
 
 extern u16 func_02048A00(void *util, u16 id);
-extern void *func_021BE4C4(P *p, int i, int j);
-extern int func_02047910(void *h, int k, int v);
-extern int func_020478B8(void *h, int k, int v);
+extern void *FLD_EXP_OBJ_GetModelObject(P *p, int i, int j);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *h, int k, int v);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(void *h, int k, int v);
 
-void func_021BE580(P *p)
+void FLD_EXP_OBJ_UpdateAnimes(P *p)
 {
     u8 i;
     u8 j;
@@ -70,15 +70,15 @@ void func_021BE580(P *p)
         if (p->slots[i].active == 1) {
             n = func_02048A00(p->util, p->slots[i].id);
             for (j = 0; j < n; j++) {
-                h = func_021BE4C4(p, i, j);
+                h = FLD_EXP_OBJ_GetModelObject(p, i, j);
                 m = p->slots[i].grps[j].n;
                 for (k = 0; k < m; k++) {
                     e = &p->slots[i].grps[j].e[k];
                     if (e->f2 != 0 && e->f0 == 0) {
                         if (e->f1 != 0)
-                            e->f8 = func_02047910(h, k, e->f4);
+                            e->f8 = G3D_SYSTEM_LoopObjectAnimeFrame(h, k, e->f4);
                         else
-                            e->f8 = func_020478B8(h, k, e->f4);
+                            e->f8 = G3D_SYSTEM_IncObjectAnimeFrame(h, k, e->f4);
                     }
                 }
             }

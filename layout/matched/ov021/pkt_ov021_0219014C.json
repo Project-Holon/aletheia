@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219014C",
+   "name": "FIELD_CAMERA_ANIME_StartMoveTasks",
    "address": "0x0219014C",
    "kind": "game",
    "region": "ov021",

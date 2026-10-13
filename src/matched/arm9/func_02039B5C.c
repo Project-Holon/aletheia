@@ -13,7 +13,7 @@
  *   _pBaseWork     0x021469D4  data
  *   GFL_NET_HANDLE_GetNetHandleID  0x020395EC  arm
  *   sub_0203996C   0x0203996C  arm
- *   func_020399B8  0x020399B8  arm
+ *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *   GFL_NET_SYSTEM_IsConnectMember  0x02039160  arm
  *
  * Record one peer's vote and raise the "everyone agreed" flag when the last
@@ -63,7 +63,7 @@ extern struct Votes *_pBaseWork;
 typedef signed int     s32;
 extern int GFL_NET_HANDLE_GetNetHandleID(struct Entry *a);
 extern struct Entry *sub_0203996C(s32 idx);
-extern u32 func_020399B8(u8 *p);
+extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 extern u32 GFL_NET_SYSTEM_IsConnectMember(u16 mode);
 
 void GFL_NET_HANDLE_RecvTimingSync(u32 slot, u32 a1, struct Msg *msg, u32 a3, u32 link)
@@ -87,7 +87,7 @@ void GFL_NET_HANDLE_RecvTimingSync(u32 slot, u32 a1, struct Msg *msg, u32 a3, u3
     one = 1;
 
     for (; i < 8; i++) {
-        if (func_020399B8((u8 *)sub_0203996C(i)) != 0) {
+        if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)sub_0203996C(i)) != 0) {
             if (mask == _pBaseWork->mask[i]) {
                 if (tag != _pBaseWork->tag[i]) {
                     return;

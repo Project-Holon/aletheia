@@ -1,5 +1,5 @@
 /*
- * function: func_021F3A08
+ * function: GIMMICK38_FindDoor
  * address:  0x021F3A08
  * packet:   pkt_ov038_021F3A08
  * region:   ov038
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F4694 0x021F4694 data a4
+ *   gGimmick38DoorPos 0x021F4694 data a4
  */
 
 #include "../include/G_S3A08.h"
 
-extern struct S3A08 d_021F4694[];
+extern struct S3A08 gGimmick38DoorPos[];
 
-int func_021F3A08(int *base, int x, int y, int *o1, int *o2)
+int GIMMICK38_FindDoor(int *base, int x, int y, int *o1, int *o2)
 {
     int f;
     int ax;
@@ -26,7 +26,7 @@ int func_021F3A08(int *base, int x, int y, int *o1, int *o2)
     struct S3A08 *e;
 
     for (i = 0; i < 7; i++) {
-        e = &d_021F4694[i];
+        e = &gGimmick38DoorPos[i];
         ax = e->a / 0x10000;
         bz = e->c / 0x10000;
         f = 0;

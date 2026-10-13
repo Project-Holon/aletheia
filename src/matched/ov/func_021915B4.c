@@ -1,5 +1,5 @@
 /*
- * function: func_021915B4
+ * function: FIELD_MSGBG_DeletePlainWin
  * address:  0x021915B4
  * packet:   pkt_021915B4
  * region:   ov021
@@ -12,11 +12,11 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02190D48  0x02190D48  thumb  ov021
- *   func_02190538  0x02190538  thumb  ov021
- *   func_02045808  0x02045808  arm
- *   func_02194A48  0x02194A48  thumb  ov021
- *   func_021927E8  0x021927E8  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgStream  0x02190D48  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgPrint  0x02190538  thumb  ov021
+ *   STRBUF_Delete  0x02045808  arm
+ *   TALKMSGWIN_DeleteFrameWindow  0x02194A48  thumb  ov021
+ *   FIELD_MSGBG_ExitCursor  0x021927E8  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -30,26 +30,26 @@ typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 struct Slot;
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
-extern void func_02190538(struct Slot *s);
-extern int func_02190D48(void *a);
-extern void func_021927E8(u32 *p);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern void FIELD_MSGBG_DeleteMsgPrint(struct Slot *s);
+extern int FIELD_MSGBG_DeleteMsgStream(void *a);
+extern void FIELD_MSGBG_ExitCursor(u32 *p);
 struct Descriptor;
-extern u32 func_02194A48(u32 a, struct Descriptor *b);
+extern u32 TALKMSGWIN_DeleteFrameWindow(u32 a, struct Descriptor *b);
 
-int func_021915B4(void *a)
+int FIELD_MSGBG_DeletePlainWin(void *a)
 {
 if (*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f1C != 0) {
-    func_02190D48((void *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f1C));
+    FIELD_MSGBG_DeleteMsgStream((void *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f1C));
 }
 if (*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f20 != 0) {
-    func_02190538((struct Slot *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f20));
+    FIELD_MSGBG_DeleteMsgPrint((struct Slot *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f20));
 }
 if (*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8 != 0) {
-    func_02045808((struct U16Vec *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8));
+    STRBUF_Delete((struct U16Vec *)(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8));
 }
-func_02194A48(((struct Obj00005 *)((u8 *)(a)))->f10, (struct Descriptor *)(((struct Obj00005 *)((u8 *)(a)))->f18));
-func_021927E8((u32 *)a);
+TALKMSGWIN_DeleteFrameWindow(((struct Obj00005 *)((u8 *)(a)))->f10, (struct Descriptor *)(((struct Obj00005 *)((u8 *)(a)))->f18));
+FIELD_MSGBG_ExitCursor((u32 *)a);
 return func_020307B0(a);
 }
 

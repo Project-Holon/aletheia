@@ -1,5 +1,5 @@
 /*
- * function: func_021B120C
+ * function: SCRCMD_MSGWIN_DeleteAllSubWins
  * address:  0x021B120C
  * packet:   pkt_ov021_021B120C
  * region:   ov021
@@ -10,28 +10,28 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02159168  0x02159168  thumb  ov010
- *   func_02159190  0x02159190  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02191978  0x02191978  thumb  ov021
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
+ *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   FIELD_MSGBG_DeleteAllSubMsgWin  0x02191978  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-extern int func_02159190(int a0);
-extern void *func_0215A5F4(void *p);
+extern int SCRIPT_WORK_CheckFlag(int a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct P;
-extern int func_02158F58(int a0);
-extern void func_02191978(struct P *p);
-extern void func_02159168(int n);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern void FIELD_MSGBG_DeleteAllSubMsgWin(struct P *p);
+extern void SCRIPT_WORK_ResetCheckFlag(int n);
 
-void func_021B120C(u32 a)
+void SCRCMD_MSGWIN_DeleteAllSubWins(u32 a)
 {
     u32 id = 5;
 
-    if (func_02159190(id)) {
-        func_02191978((struct P *)(*((u32 *)func_02158F58((int)func_0215A5F4((void *)a)))));
-        func_02159168(id);
+    if (SCRIPT_WORK_CheckFlag(id)) {
+        FIELD_MSGBG_DeleteAllSubMsgWin((struct P *)(*((u32 *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)a)))));
+        SCRIPT_WORK_ResetCheckFlag(id);
     }
 }

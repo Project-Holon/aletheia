@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 02045CAC at +0048 lacks a code-start witness; integrator-owned unit_02045C44.c omits func_02045CAC from function:. Required singleton TU finds no viable cut. No overlay leaves filed while ARM9 blocked.
+ * blocker: ARM9 02045CAC at +0048 lacks a code-start witness; integrator-owned unit_02045C44.c omits MSGDATA_ReadString from function:. Required singleton TU finds no viable cut. No overlay leaves filed while ARM9 blocked.
  * blocker-C: 02045CAC verified EXACT, 344B, scratch arm9-blocker.log;
  * copied unchanged from unit_02045C44.c, using dsi/1.1p1 -O4,p --arm.
  * typedef unsigned char u8;
@@ -37,7 +37,7 @@
  * extern void STRBUF_SetChars(void *,const void *,u16);
  * extern void func_02045E04(void *,u32);
  * extern void func_02046180(struct MsgBank *);
- * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * void MSGDATA_ReadString(struct MsgBank *bank,u32 index,void *dest)
  * {
  *     u32 size;
  *     struct MsgEntry *e;
@@ -75,18 +75,18 @@
 
  * symbols:
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_020457B0 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
+ *   BMP_Clear 0x02043B5C arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_02012FFC 0x02012FFC thumb
- *   func_0201CCE4 0x0201CCE4 thumb
+ *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   func_0201CE30 0x0201CE30 thumb
- *   func_020286C4 0x020286C4 thumb
+ *   APP_KEYCURSOR_Update 0x020286C4 thumb
  *   func_0203630C 0x0203630C arm
  *   func_0201CE5C 0x0201CE5C thumb
  *   func_0201CE38 0x0201CE38 thumb
  *   func_020061E4 0x020061E4 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0201CE48 0x0201CE48 thumb
  * prototype: 0201CCE4's legacy void return is live r0 stored to p+C074; retain u32 return. Heap truncation at call sites uses u16.
  */
@@ -95,18 +95,18 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;struct CharBuf;struct U16Vec;struct MsgBank;struct Ctx;struct Rec;struct Rec3;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(struct CharBuf *,u8);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *,u32,void *);
+extern void BMP_Clear(struct CharBuf *,u8);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern signed char func_02012FFC(void);
-extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
+extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern u32 func_0201CE30(void *);
-extern void func_020286C4(struct Ctx *,void *,void *);
+extern void APP_KEYCURSOR_Update(struct Ctx *,void *,void *);
 extern u32 func_0203630C(void);
 extern void func_0201CE5C(struct Rec *,int);
 extern void func_0201CE38(void *);
 extern void func_020061E4(u32);
-extern void func_02045808(struct U16Vec *);
+extern void STRBUF_Delete(struct U16Vec *);
 extern void func_0201CE48(struct Rec3 *);
 int func_02184D70(char *p,u32 message,int force)
 {
@@ -115,15 +115,15 @@ int func_02184D70(char *p,u32 message,int force)
     result=0;
     switch(*(u32 *)(p+0xC0B0)) {
     case 0:
-        func_02043B5C(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
-        *(struct U16Vec **)(p+0xC0AC)=func_020457B0(1024,(u16)(*(u32 *)p));
-        func_02045CAC(*(struct MsgBank **)(p+0xC070),message,*(struct U16Vec **)(p+0xC0AC));
-        *(u32 *)(p+0xC074)=func_0201CCE4(*(u32 *)(p+0xC01C),0,0,*(u32 *)(p+0xC0AC),*(u32 *)(p+0xC06C),func_02012FFC(),*(u32 *)(p+0xC0A4),0,*(u32 *)p,15);
+        BMP_Clear(func_02045770(*(struct Descriptor **)(p+0xC01C)),15);
+        *(struct U16Vec **)(p+0xC0AC)=STRBUF_Create(1024,(u16)(*(u32 *)p));
+        MSGDATA_ReadString(*(struct MsgBank **)(p+0xC070),message,*(struct U16Vec **)(p+0xC0AC));
+        *(u32 *)(p+0xC074)=PRINTSYS_PrintStream(*(u32 *)(p+0xC01C),0,0,*(u32 *)(p+0xC0AC),*(u32 *)(p+0xC06C),func_02012FFC(),*(u32 *)(p+0xC0A4),0,*(u32 *)p,15);
         *(u32 *)(p+0xC0B0)=1;
         break;
     case 1:
         mode=func_0201CE30(*(void **)(p+0xC074));
-        func_020286C4(*(struct Ctx **)(p+0xC088),*(void **)(p+0xC074),*(void **)(p+0xC01C));
+        APP_KEYCURSOR_Update(*(struct Ctx **)(p+0xC088),*(void **)(p+0xC074),*(void **)(p+0xC01C));
         switch(mode) {
         case 0:
             if(func_0203630C()&1)func_0201CE5C(*(struct Rec **)(p+0xC074),0);
@@ -139,7 +139,7 @@ int func_02184D70(char *p,u32 message,int force)
         break;
     case 2:
         if(force!=0 || (*(u32 *)(p+0xC354)&1)) {
-            func_02045808(*(struct U16Vec **)(p+0xC0AC));
+            STRBUF_Delete(*(struct U16Vec **)(p+0xC0AC));
             func_0201CE48(*(struct Rec3 **)(p+0xC074));
             *(u32 *)(p+0xC0B0)=0;
             result=1;

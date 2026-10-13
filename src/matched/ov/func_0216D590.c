@@ -1,5 +1,5 @@
 /*
- * function: func_0216D590
+ * function: FLDMMDL_GetZoneId
  * address:  0x0216D590
  * packet:   pkt_0216D4F0
  * region:   ov010
@@ -17,8 +17,8 @@
  * address is only ov010 in the overlay that defines it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0216D590.c \
- *       --func func_0216D590 --addr 0x0216D590 --region ov010 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetZoneId.c \
+ *       --func FLDMMDL_GetZoneId --addr 0x0216D590 --region ov010 --cc dsi/1.1p1 --thumb
  */
 #include "../include/Obj17795.h"
 
@@ -27,4 +27,4 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u16 func_0216D590(void *p) { return ((struct Obj17795 *)p)->fA; }
+u16 FLDMMDL_GetZoneId(void *p) { return ((struct Obj17795 *)p)->fA; }

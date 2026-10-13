@@ -1,5 +1,5 @@
 /*
- * function: func_021BC6B4
+ * function: FIELD_PLACE_NAME_FreePaletteFile
  * address:  0x021BC6B4
  * packet:   pkt_ov021_021BC6B4
  * region:   ov021
@@ -19,7 +19,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021BC6B4(Obj *p)
+void FIELD_PLACE_NAME_FreePaletteFile(Obj *p)
 {
     if (p->f14C != 0) {
         func_020307B0(p->f14C);

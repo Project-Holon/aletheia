@@ -11,7 +11,7 @@
  * symbols:
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   func_020452E8 0x020452E8 arm
- *   func_020450C8 0x020450C8 arm
+ *   BMP_WIN_Exit 0x020450C8 arm
  */
 #include "../include/Obj05425.h"
 typedef unsigned char u8;
@@ -20,5 +20,5 @@ typedef signed short s16;
 struct Descriptor;
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern u32 func_020452E8(struct Descriptor *d);
-extern void func_020450C8(void);
-void func_021DD760(u8 *p) {if(((struct Obj05425 *)p)->fE8!=0)BMP_MENU_DeleteYesNo(((struct Obj05425 *)p)->fE8);func_020452E8(((struct Obj05425 *)p)->fD0);func_020452E8(((struct Obj05425 *)p)->fDC);func_020452E8(((struct Obj05425 *)p)->fD8);func_020452E8(((struct Obj05425 *)p)->fD4);func_020450C8();}
+extern void BMP_WIN_Exit(void);
+void func_021DD760(u8 *p) {if(((struct Obj05425 *)p)->fE8!=0)BMP_MENU_DeleteYesNo(((struct Obj05425 *)p)->fE8);func_020452E8(((struct Obj05425 *)p)->fD0);func_020452E8(((struct Obj05425 *)p)->fDC);func_020452E8(((struct Obj05425 *)p)->fD8);func_020452E8(((struct Obj05425 *)p)->fD4);BMP_WIN_Exit();}

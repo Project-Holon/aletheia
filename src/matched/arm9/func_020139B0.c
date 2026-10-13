@@ -24,7 +24,7 @@
  *   sZonedataFile     0x020A72B0  data
  *   func_02030734     0x02030734  arm
  *   func_020490F4     0x020490F4  arm
- *   func_0204A298     0x0204A298  arm
+ *   ARC_UTIL_LoadMemberWithSize     0x0204A298  arm
  *
  * The constructor of the zone-header subsystem, and the function that names
  * the original source file: it passes "zonedata.c" (0x020A72B0) and line 0x60
@@ -47,7 +47,7 @@
  * real id.  That count is content, not code, and is the kind of constant that
  * may differ in White; nothing here reads a version identifier.
  *
- * The three func_0204A298 calls each load a whole sub-file into the heap and
+ * The three ARC_UTIL_LoadMemberWithSize calls each load a whole sub-file into the heap and
  * write back its byte size through the fifth argument: (0x51, 13) is
  * a/0/8/1 sub-file 13, (0x52, 1) is a/0/8/2 sub-file 1 and (0x95, 0) is
  * a/1/4/9 sub-file 0, by the same id-to-name table as above.  Each size is
@@ -90,7 +90,7 @@ extern const char sZonedataFile[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
+extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 
 void ZONEDATA_Init(u32 heap)
 {
@@ -103,13 +103,13 @@ void ZONEDATA_Init(u32 heap)
     g_ZoneDataMgr = func_02030734(heap, 0x4c, 1, sZonedataFile, 0x60);
     g_ZoneDataMgr->archive = func_020490F4(0x0c, heap);
 
-    g_ZoneDataMgr->table38 = (void *)func_0204A298(0x51, 13, 0, heap, &size);
+    g_ZoneDataMgr->table38 = (void *)ARC_UTIL_LoadMemberWithSize(0x51, 13, 0, heap, &size);
     g_ZoneDataMgr->count40 = size >> 2;
 
-    g_ZoneDataMgr->table3c = (void *)func_0204A298(0x52, 1, 0, heap, &size);
+    g_ZoneDataMgr->table3c = (void *)ARC_UTIL_LoadMemberWithSize(0x52, 1, 0, heap, &size);
     g_ZoneDataMgr->count42 = size >> 2;
 
-    g_ZoneDataMgr->table44 = (void *)func_0204A298(0x95, 0, 0, heap, &size2);
+    g_ZoneDataMgr->table44 = (void *)ARC_UTIL_LoadMemberWithSize(0x95, 0, 0, heap, &size2);
     g_ZoneDataMgr->count43 = size2 >> 2;
 
     g_ZoneDataMgr->cached_id = 0x1ab;

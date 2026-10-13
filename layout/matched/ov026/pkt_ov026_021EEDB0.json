@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEDB0",
+   "name": "WEATHER_THUNDERSTORM_EndFinish",
    "address": "0x021EEDB0",
    "kind": "game",
    "region": "ov026",

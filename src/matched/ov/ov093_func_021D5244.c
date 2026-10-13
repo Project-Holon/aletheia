@@ -1,5 +1,5 @@
 /*
- * function: func_021D5244
+ * function: BTL_POKEPARAM_LoadMoveInfo
  * address:  0x021D5244
  * packet:   pkt_ov093_021D5244
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -25,21 +25,21 @@ struct Ent {
     u8 hi5:4;
 };
 
-extern u32 func_02017E1C(void *h, u32 k, u32 z);
+extern u32 POKE_TOOL_GetPartyValue(void *h, u32 k, u32 z);
 
-int func_021D5244(struct Ent *e, void *h, u8 k)
+int BTL_POKEPARAM_LoadMoveInfo(struct Ent *e, void *h, u8 k)
 {
     int r = 1;
-    u16 v = func_02017E1C(h, k + 0x36, 0);
+    u16 v = POKE_TOOL_GetPartyValue(h, k + 0x36, 0);
     if (e->id != v) {
         e->lo5 = 0;
         e->hi5 = 0;
     }
     e->id = v;
     if (e->id != 0) {
-        e->b2 = func_02017E1C(h, k + 0x3a, 0);
-        e->b3 = func_02017E1C(h, k + 0x42, 0);
-        e->b4 = func_02017E1C(h, k + 0x3e, 0);
+        e->b2 = POKE_TOOL_GetPartyValue(h, k + 0x3a, 0);
+        e->b3 = POKE_TOOL_GetPartyValue(h, k + 0x42, 0);
+        e->b4 = POKE_TOOL_GetPartyValue(h, k + 0x3e, 0);
     } else {
         r = 0;
         e->b2 = 0;

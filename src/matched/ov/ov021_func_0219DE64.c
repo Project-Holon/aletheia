@@ -1,5 +1,5 @@
 /*
- * function: func_0219DE64
+ * function: FLDMMDL_RAIL_MOVE_AcStayWalkSet
  * address:  0x0219DE64
  * packet:   pkt_ov021_0219DE64
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D6BC  0x0216D6BC  thumb  ov010
- *   func_0216D5E0  0x0216D5E0  thumb  ov010
- *   func_0216D674  0x0216D674  thumb  ov010
- *   func_02163F10  0x02163F10  thumb  ov010
- *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   FLDMMDL_InitMoveCmdWork  0x0216D6BC  thumb  ov010
+ *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
+ *   FLDMMDL_SetDrawStatus  0x0216D674  thumb  ov010
+ *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
+ *   FLDMMDL_IncAcmdSeq  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -23,19 +23,19 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void *func_0216D6BC(int a0, int a1, int a2);
-extern void func_0216D5E0(int a0, int a1);
-extern void func_0216D674(void *p, u16 v);
-extern int func_02163F10(int a0);
-extern void func_0216D7CC(u8 *p);
+extern void *FLDMMDL_InitMoveCmdWork(int a0, int a1, int a2);
+extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
+extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+extern int FLDMMDL_MOVE_UpdateOldGridPos(int a0);
+extern void FLDMMDL_IncAcmdSeq(u8 *p);
 
-void func_0219DE64(u32 a, u32 b, u16 c, u16 d)
+void FLDMMDL_RAIL_MOVE_AcStayWalkSet(u32 a, u32 b, u16 c, u16 d)
 {
-    u16 *q = func_0216D6BC((u32)a, (u32)4, c);
+    u16 *q = FLDMMDL_InitMoveCmdWork((u32)a, (u32)4, c);
     q[0] = d;
     q[1] = c;
-    func_0216D5E0((u32)a, (u16)b);
-    func_0216D674((void *)a, d);
-    func_02163F10(a);
-    func_0216D7CC((u8 *)a);
+    FLDMMDL_SetDirDispCheckPause((u32)a, (u16)b);
+    FLDMMDL_SetDrawStatus((void *)a, d);
+    FLDMMDL_MOVE_UpdateOldGridPos(a);
+    FLDMMDL_IncAcmdSeq((u8 *)a);
 }

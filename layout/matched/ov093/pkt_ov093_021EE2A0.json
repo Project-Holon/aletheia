@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021EE2A0",
-    "func_021EE2F8"
+    "BTLV_SCU_UpdateBallWindowOpen",
+    "BTLV_SCU_StartBallWindowRefresh"
+   ],
+   "addresses": [
+    "0x021EE2A0",
+    "0x021EE2F8"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_0216625C
+ * function: GAME_BEACON_ACCESSOR_IsActionByteValueInvalid
  * address:  0x0216625C
  * packet:   pkt_ov010_0216625C
  * region:   ov010
@@ -40,7 +40,7 @@ typedef struct RecB {
     u8 f34;             /* 0x34 */
 } RecB;
 
-int func_0216625C(RecB *r)
+int GAME_BEACON_ACCESSOR_IsActionByteValueInvalid(RecB *r)
 {
     if (r->f34 > 6)
         return 1;

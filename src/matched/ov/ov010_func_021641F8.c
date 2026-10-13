@@ -1,5 +1,5 @@
 /*
- * function: func_021641F8
+ * function: FLDMMDL_MOVE_GetDirAddGridZ
  * address: 0x021641F8
  * packet: pkt_ov010_021641F8
  * region: ov010
@@ -14,4 +14,4 @@
  */
 
 extern const int d_02171470[];
-int func_021641F8(int a) { return (short)*(const int *)((unsigned)d_02171470+((unsigned)a<<2)); }
+int FLDMMDL_MOVE_GetDirAddGridZ(int a) { return (short)*(const int *)((unsigned)d_02171470+((unsigned)a<<2)); }

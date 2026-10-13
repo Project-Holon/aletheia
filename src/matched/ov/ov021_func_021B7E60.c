@@ -1,5 +1,5 @@
 /*
- * function: func_021B7E60
+ * function: FIELD_RAIL_WORK_QueryStep
  * address:  0x021B7E60
  * packet:   pkt_ov021_021B7E60
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  *
  * symbols:
- *   func_021B7CD8  0x021B7CD8  thumb
- *   func_021B7D38  0x021B7D38  thumb
+ *   FIELD_RAIL_TryStepLocation  0x021B7CD8  thumb
+ *   FIELD_RAIL_GetLocationPos  0x021B7D38  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  * Addresses are Black-image addresses.
  */
@@ -40,15 +40,15 @@ struct Cam {
     void *f78;
 };
 
-extern u8 func_021B7CD8(void *m, Rect4 *r, u8 key, Rect4 *out);
-extern void func_021B7D38(void *m, Rect4 *r, VecFx32 *out);
+extern u8 FIELD_RAIL_TryStepLocation(void *m, Rect4 *r, u8 key, Rect4 *out);
+extern void FIELD_RAIL_GetLocationPos(void *m, Rect4 *r, VecFx32 *out);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-u8 func_021B7E60(struct Cam *c, u8 key, Rect4 *out, VecFx32 *pos)
+u8 FIELD_RAIL_WORK_QueryStep(struct Cam *c, u8 key, Rect4 *out, VecFx32 *pos)
 {
     if (c->f74 == 0 || key != c->f76) {
-        c->f75 = func_021B7CD8(c->f78, &c->f5C, key, &c->f6C);
-        func_021B7D38(c->f78, &c->f6C, &c->f50);
+        c->f75 = FIELD_RAIL_TryStepLocation(c->f78, &c->f5C, key, &c->f6C);
+        FIELD_RAIL_GetLocationPos(c->f78, &c->f6C, &c->f50);
         c->f74 = 1;
         c->f76 = key;
     }

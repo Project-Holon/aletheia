@@ -1,5 +1,5 @@
 /*
- * function: func_0217BB20
+ * function: UNION_ONESELF_CheckNetErrorExit
  * address: 0x0217BB20
  * packet: pkt_ov019_0217BB20
  * region: ov019
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0217BB04 0x0217BB04 thumb ov019
- *   func_0217B8E4 0x0217B8E4 thumb ov019
+ *   UNION_ONESELF_CheckNetError 0x0217BB04 thumb ov019
+ *   UNION_ONESELF_SetNextPlayCategory 0x0217B8E4 thumb ov019
  */
-extern int func_0217BB04(char *);
-extern int func_0217B8E4(char *p, int v);
-int func_0217BB20(char *p)
+extern int UNION_ONESELF_CheckNetError(char *);
+extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
+int UNION_ONESELF_CheckNetErrorExit(char *p)
 {
-    if (func_0217BB04(p) == 1) {
-        func_0217B8E4(p, 50);
+    if (UNION_ONESELF_CheckNetError(p) == 1) {
+        UNION_ONESELF_SetNextPlayCategory(p, 50);
         return 1;
     }
     return 0;

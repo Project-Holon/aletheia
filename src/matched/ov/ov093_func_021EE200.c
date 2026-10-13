@@ -1,5 +1,5 @@
 /*
- * function: func_021EE200
+ * function: BTLV_SCU_PrintWaitMessage
  * address:  0x021EE200
  * packet:   pkt_ov093_021EE200
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021EF694  0x021EF694  thumb  ov093
+ *   BTL_MSG_GetUiString  0x021EF694  thumb  ov093
  *   func_021ECEB8  0x021ECEB8  thumb  ov093
  */
 #include "../include/Obj00027.h"
@@ -19,11 +19,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021EF694(u32 a, u32 b);
+extern void BTL_MSG_GetUiString(u32 a, u32 b);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
 
-void func_021EE200(u8 *p)
+void BTLV_SCU_PrintWaitMessage(u8 *p)
 {
-    func_021EF694(((struct Obj00027 *)p)->f34, 0xf);
+    BTL_MSG_GetUiString(((struct Obj00027 *)p)->f34, 0xf);
     func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0, 0);
 }

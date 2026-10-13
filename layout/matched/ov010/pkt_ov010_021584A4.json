@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021584A4",
+   "name": "INTRUDE_COMM_IsStepToOwnArea",
    "address": "0x021584A4",
    "kind": "game",
    "region": "ov010",

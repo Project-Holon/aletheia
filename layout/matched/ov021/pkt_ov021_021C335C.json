@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C335C",
+   "name": "SODATEYA_DeclineEgg",
    "address": "0x021C335C",
    "kind": "game",
    "region": "ov021",

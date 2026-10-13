@@ -11,8 +11,8 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  *   _s32_div_f 0x0209C0A4 arm
- *   func_02043AF4 0x02043AF4 arm
- *   func_020439A0 0x020439A0 arm
+ *   BMP_FillRect 0x02043AF4 arm
+ *   BMP_Blit 0x020439A0 arm
  *   ov208_func_021C3A24 0x021C3A24 thumb ov208
  */
 
@@ -25,8 +25,8 @@ struct Descriptor;
 struct Bmp;
 
 extern void *func_02045770(struct Descriptor *d);
-extern void func_02043AF4(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 color);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
+extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 color);
+extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
                           int sx, int sy, u32 w, u32 h, u32 key);
 extern void ov208_func_021C3A24(u16 *heap, u8 *p, int key);
 
@@ -55,12 +55,12 @@ void ov208_func_021C36CC(u16 *heap, struct Ov208Scroll *p, int key)
     qa = &p->a;
     p->a = *qa + 2;
     while (p->a >= 8) {
-        func_02043AF4(bmp, (s16)(p->b << 3), 0, 8, 0x78, 0);
+        BMP_FillRect(bmp, (s16)(p->b << 3), 0, 8, 0x78, 0);
         p->b = (p->b + 1) % 0x1f;
         *qa = *qa - 8;
     }
     if (p->a > 0)
-        func_02043AF4(bmp, (s16)(p->b << 3), 0, (u16)p->a, 0x78, 0);
+        BMP_FillRect(bmp, (s16)(p->b << 3), 0, (u16)p->a, 0x78, 0);
     qd = &p->d;
     while (n < 2) {
         s16 end;
@@ -75,7 +75,7 @@ void ov208_func_021C36CC(u16 *heap, struct Ov208Scroll *p, int key)
         if (end - x > d)
             end = (s16)(x + d);
         w = end - x;
-        func_020439A0(p->dst, bmp, p->d, 0, x, 0, w, 0x78, 0xffff);
+        BMP_Blit(p->dst, bmp, p->d, 0, x, 0, w, 0x78, 0xffff);
         n = (s16)(n + (s16)w);
         x = (s16)(end % 0xf8);
         *qd = *qd + n;
@@ -87,7 +87,7 @@ void ov208_func_021C36CC(u16 *heap, struct Ov208Scroll *p, int key)
         if (end > 0xf8)
             end = 0xf8;
         w = end - x;
-        func_02043AF4(bmp, x, 0x37, (u16)w, 1, 0xf);
+        BMP_FillRect(bmp, x, 0x37, (u16)w, 1, 0xf);
         n = (s16)(n + (s16)w);
         x = (s16)(end % 0xf8);
     }

@@ -16,6 +16,7 @@
  *   PRINTSYS_SetupJob  0x0201C808  thumb
  *   PRINTSYS_SetJobColor  0x0201C8A4  thumb
  *   PRINTSYS_RunJob  0x0201C8BC  thumb
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *
  * Three queries on the printsys.c ring object.  PRINTSYS_QUE_IsFinished reports the ring
  * empty, PRINTSYS_QUE_Clear resets it, and PRINTSYS_QUE_IsExistTarget walks it looking for a record
@@ -90,7 +91,7 @@ extern struct Scratch _PrintJobWork;
 
 struct Rec2;
 struct Ring;
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 extern void *func_0201D7C4(struct PrintSys *p, void *q);
 extern u32   func_0201D6B8(void *s);
 extern u32 func_0201D6C4(const struct Ring *p);

@@ -26,7 +26,7 @@
  *   func_02061CA4  0x02061CA4  arm
  *   d_021C287C     0x021C287C  data  ov099  a1
  *   data_021C28A8  0x021C28A8  data
- *   func_0203A574  0x0203A574  arm
+ *   GFL_NET_COMMAND_AddCommandTable  0x0203A574  arm
  *   sub_0203A5E4  0x0203A5E4  arm
  *   data_021C28F0  0x021C28F0  data  a4
  */
@@ -128,7 +128,7 @@ extern void *func_02049F34(u32_021BA60C a0, u32_021BA60C a1, u32_021BA60C a2, u3
 extern u32_021BA648 sub_020307B0(void *p);
 extern void sub_02082BCC(void *p, int c, u32_021BA648 n);
 extern s32_021BA674 func_02061CA4(void *p, u32_021BA674 a, u32_021BA674 b, s32_021BA674 size);
-extern void func_0203A574(u32_021BA764 a, u32_021BA764 b, u32_021BA764 c, u32_021BA764 d);
+extern void GFL_NET_COMMAND_AddCommandTable(u32_021BA764 a, u32_021BA764 b, u32_021BA764 c, u32_021BA764 d);
 extern void sub_0203A5E4(u32_021BA764 key);
 void func_021BA594(char *p, int a, int b, int c);
 void func_021BA5B4(void *a, int b, u8 **p);
@@ -456,7 +456,7 @@ int func_021BA7D4(void)
  */
 void func_021BA7D8(void *p)
 {
-    func_0203A574(0x0A00, (u32_021BA764)func_021BA7CC(), func_021BA7D4(), (u32_021BA764)p);
+    GFL_NET_COMMAND_AddCommandTable(0x0A00, (u32_021BA764)func_021BA7CC(), func_021BA7D4(), (u32_021BA764)p);
 }
 
 

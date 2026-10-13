@@ -8,21 +8,21 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned char u8;
 struct Cfg;
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_020409B4(unsigned int);
 void func_021B8648(u8 *p) {
     int i;
     for(i=0;i<2;i++) {
-        func_02045334(*(void **)((u8 *)((unsigned int *)p+i)+0x568));
-        func_02045374(*(void **)((u8 *)((unsigned int *)p+i)+0x568));
+        BMP_WIN_TransferChars(*(void **)((u8 *)((unsigned int *)p+i)+0x568));
+        BMP_WIN_MakeScreen(*(void **)((u8 *)((unsigned int *)p+i)+0x568));
     }
     func_020409B4(p[0x548]);
     func_020409B4(p[0x54a]);

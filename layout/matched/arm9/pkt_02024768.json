@@ -48,7 +48,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_02024988",
+   "name": "PMS_WORD_GetSaveData",
    "address": "0x02024988",
    "kind": "game",
    "region": "arm9",
@@ -60,7 +60,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020249A0",
+   "name": "PMS_WORD_SetFlag",
    "address": "0x020249A0",
    "kind": "game",
    "region": "arm9",

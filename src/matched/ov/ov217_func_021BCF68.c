@@ -10,7 +10,7 @@
  * status: EXACT
  *
  * symbols:
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   d_021C305C 0x021C305C data a1
  *   d_021C3060 0x021C3060 data a2
  */
@@ -21,12 +21,12 @@ struct S { char pad0[8]; u16 h8; char pad[0x10a]; int arr[3]; };
 extern const u8 d_021C305C[];
 extern const u16 d_021C3060[];
 struct Bank;
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 void func_021BCF68(struct S *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        p->arr[i] = (int)func_0204B100(d_021C3060[i], d_021C305C[i], p->h8);
+        p->arr[i] = (int)CLACT_CreateUnit(d_021C3060[i], d_021C305C[i], p->h8);
     }
 }

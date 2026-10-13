@@ -1,5 +1,5 @@
 /*
- * function: func_021A5304
+ * function: FIELD_PLAYER_GRID_SetFlag
  * address:  0x021A5304
  * packet:   pkt_021A5304
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A5304(u32 a, u32 b)
+int FIELD_PLAYER_GRID_SetFlag(u32 a, u32 b)
 {
 ((struct Obj07218 *)((u8 *)(a)))->f8 = (b | ((struct Obj07218 *)((u8 *)(a)))->f8);
 return a;

@@ -1,5 +1,5 @@
 /*
- * function: func_02029D44
+ * function: FIELD_SOUND_SYSTEM_PostZoneBgmReplace
  * address:  0x02029D44
  * packet:   pkt_02029D44
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void FIELD_SOUND_SYSTEM_PostRequest(u32 a, u32 b, u32 c, u32 d, u32 e);
 
-void func_02029D44(u32 a, u32 b, u16 c, u8 d)
+void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(u32 a, u32 b, u16 c, u8 d)
 {
     u32 r = FIELD_SOUND_SYSTEM_FindZoneBgmOverride(b, c);
 

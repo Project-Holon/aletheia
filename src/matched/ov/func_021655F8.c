@@ -1,5 +1,5 @@
 /*
- * function: func_021655F8
+ * function: GAME_BEACON_SEARCH_SetInfoFacilityEnter
  * address:  0x021655F8
  * packet:   pkt_021655F8
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern void GAME_BEACON_ResetDetails(void *dst);
 
-void func_021655F8(void *a0)
+void GAME_BEACON_SEARCH_SetInfoFacilityEnter(void *a0)
 {
     ((struct Obj00121 *)a0)->f30 = 0x27;
     GAME_BEACON_ResetDetails(a0);

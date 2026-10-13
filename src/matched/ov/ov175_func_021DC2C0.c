@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D3A8  0x0203D3A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *
  * Tagged log/emit: the tick from 0x020399A8, the id 0x2405, a length of
  *     4 and the caller's pointer go to 0x0203D3A8, which is the four-argument
@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 
 int func_021DC2C0(u32 ignored, void *p)
 {
-    return func_0203D3A8(func_020399A8(), 0x2405, 4, (u32)p);
+    return GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2405, 4, (u32)p);
 }
 

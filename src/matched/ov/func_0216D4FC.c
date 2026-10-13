@@ -1,5 +1,5 @@
 /*
- * function: func_0216D4FC
+ * function: FLDMMDL_SysIncMmdlCount
  * address:  0x0216D4FC
  * packet:   pkt_0216D4FC
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D4FC(int a0)
+int FLDMMDL_SysIncMmdlCount(int a0)
 {
     int a1;
 a1 = 6;

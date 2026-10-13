@@ -17,7 +17,7 @@
  *   OS_SetAlarm  0x0208738C  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   g_021AA7D4  0x021AA7D4  data ov009
- *   func_02165B5C  0x02165B5C  arm  ov009
+ *   WcmKeepAliveAlarm  0x02165B5C  arm  ov009
  *
  * Sets the WCM phase under a critical section, managing the keep-alive alarm when entering or leaving the connected phase.
  */
@@ -37,7 +37,7 @@ extern unsigned long OS_DisableInterrupts(void);
 extern void OS_CancelAlarm(void *alarm);
 extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_02165B5C(void *arg);
+extern void WcmKeepAliveAlarm(void *arg);
 
 void WCMi_SetPhase(unsigned char phase)
 {
@@ -52,7 +52,7 @@ void WCMi_SetPhase(unsigned char phase)
     }
     if (phase == 9) {
         OS_CancelAlarm(((WCMWork *)g_021AA7D4.work)->keepAlive);
-        OS_SetAlarm(((WCMWork *)g_021AA7D4.work)->keepAlive, 0x022F5341ULL, func_02165B5C, 0);
+        OS_SetAlarm(((WCMWork *)g_021AA7D4.work)->keepAlive, 0x022F5341ULL, WcmKeepAliveAlarm, 0);
     }
     OS_RestoreInterrupts(e);
 }

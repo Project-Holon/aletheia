@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021F3E94",
-    "func_021F3EC8"
+    "FIELD_FK_SOUND_ANIME_InitFrameSound",
+    "FIELD_FK_SOUND_ANIME_ExitFrameSound"
+   ],
+   "addresses": [
+    "0x021F3E94",
+    "0x021F3EC8"
    ],
    "evidence": {
     "sole-ref": [

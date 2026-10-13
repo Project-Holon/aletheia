@@ -1,5 +1,5 @@
 /*
- * function: func_021F0FE0
+ * function: UNION_SUBDISP_PageScrollByButtons
  * address:  0x021F0FE0
  * packet:   pkt_021F0FE0
  * region:   ov031
@@ -20,7 +20,7 @@ typedef struct {
 
 extern unsigned int func_0203633C(void);
 
-void func_021F0FE0(int a0, T_021F0FE0 *p)
+void UNION_SUBDISP_PageScrollByButtons(int a0, T_021F0FE0 *p)
 {
     int lo;
     int v;

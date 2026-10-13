@@ -15,7 +15,7 @@
  *   func_021FB4B4 0x021FB4B4 thumb ov186
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021E03B0 0x021E03B0 thumb ov183
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
  */
@@ -30,7 +30,7 @@ extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021FB4B4(unsigned int *obj, int x, int y);
 extern void func_021FD860(int, int, int *);
 extern void func_021E03B0(char *, char *, int);
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 int func_021E024C(char *p, char *q)
@@ -50,7 +50,7 @@ int func_021E024C(char *p, char *q)
         args[0] = x1;
         args[1] = y1;
         func_021FD860(((struct Obj00277 *)p)->f40, 1, args);
-        v = func_02012944(((struct Obj00351 *)q)->f10);
+        v = GAME_DATA_GetMyStatus(((struct Obj00351 *)q)->f10);
         a = func_0200856C(v);
         ((struct Obj00351 *)q)->f17 = func_02008570(v);
         ((struct Obj00351 *)q)->f16 = a;

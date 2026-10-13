@@ -1,5 +1,5 @@
 /*
- * function: func_021F3AD0
+ * function: GIMMICK46_StartLeverEvent
  * address:  0x021F3AD0
  * packet:   pkt_ov046_021F3AD0
  * region:   ov046
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0201210C  0x0201210C  thumb
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_0200B3A4  0x0200B3A4  thumb
- *   func_021897BC  0x021897BC  thumb  ov021
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   FIELDMAP_GetCommonWork  0x021897BC  thumb  ov021
  *   func_020122C0  0x020122C0  thumb
- *   func_021F3C8C  0x021F3C8C  thumb  ov046
+ *   GIMMICK46_LeverEventProc  0x021F3C8C  thumb  ov046
  */
 
 typedef unsigned int u32;
@@ -25,27 +25,27 @@ typedef unsigned char  u8;
 struct Big;
 struct Ctx;
 struct Desc;
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
-extern u8 *func_02012EC4(struct Big *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 typedef signed int     s32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern int *func_021897BC(char *, int);
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern int *FIELDMAP_GetCommonWork(char *, int);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern int func_021F3C8C(u32 a, int *b);
+extern int GIMMICK46_LeverEventProc(u32 a, int *b);
 
-void func_021F3AD0(void *a, int b, int c)
+void GIMMICK46_StartLeverEvent(void *a, int b, int c)
 {
-    void *x = func_0201210C(a);
+    void *x = GAMESYSTEM_GetFieldMap(a);
     int p;
     int *q;
 
-    p = (int)func_0200B3A4((struct Rec94 *)func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
-    q = func_021897BC(x, 1);
+    p = (int)GIMMICK_WORK_GetSaveArea((struct Rec94 *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(x))), 10);
+    q = FIELDMAP_GetCommonWork(x, 1);
     q[0] = b;
     q[1] = c;
     q[2] = p + b * 12;
-    func_020122C0(a, 0, func_021F3C8C, 0);
+    func_020122C0(a, 0, GIMMICK46_LeverEventProc, 0);
 }

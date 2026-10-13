@@ -1,5 +1,5 @@
 /*
- * function: func_021D9544
+ * function: BTL_TOKUSEI_ConfusionGuard_CheckAdd
  * address:  0x021D9544
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D9544   0x021D9544  thumb
- *   func_021D9648   0x021D9648  thumb
- * Leaf with no calls and no pool; 8 instructions, 18 bytes: push {r4, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #6; adds r4, r3, #0; bl func_021D9648; str r0, [r4]; pop {r4, pc}.
+ *   BTL_TOKUSEI_ConfusionGuard_CheckAdd   0x021D9544  thumb
+ *   BTL_TOKUSEI_BlockSickIfTargeted   0x021D9648  thumb
+ * Leaf with no calls and no pool; 8 instructions, 18 bytes: push {r4, lr}; adds r0, r1, #0; adds r1, r2, #0; movs r2, #6; adds r4, r3, #0; bl BTL_TOKUSEI_BlockSickIfTargeted; str r0, [r4]; pop {r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021D9544  shape F5: out-param store of func_021D9648(..., 6) */
-void func_021D9544(int a, int b, int c, u32 *out)
+/* 021D9544  shape F5: out-param store of BTL_TOKUSEI_BlockSickIfTargeted(..., 6) */
+void BTL_TOKUSEI_ConfusionGuard_CheckAdd(int a, int b, int c, u32 *out)
 {
-    *out = func_021D9648(b, c, 6);
+    *out = BTL_TOKUSEI_BlockSickIfTargeted(b, c, 6);
 }
 

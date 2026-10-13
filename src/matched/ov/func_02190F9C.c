@@ -1,5 +1,5 @@
 /*
- * function: func_02190F9C
+ * function: FIELD_MSGBG_GetSysWinBmpWin
  * address:  0x02190F9C
  * packet:   pkt_02190F9C
  * region:   ov021
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * Getter: returns the first word of the object.  Unlabelled in the listing,
- * reached from func_021D1C8C.
+ * reached from EVENT_PERAP_RECORD_Main.
  *
  * Addresses are Black-image addresses.
  */
 
-void *func_02190F9C(void **p)
+void *FIELD_MSGBG_GetSysWinBmpWin(void **p)
 {
     return *p;
 }

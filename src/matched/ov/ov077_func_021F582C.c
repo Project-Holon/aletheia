@@ -1,5 +1,5 @@
 /*
- * function: func_021F582C
+ * function: ENCEFF_DrawCellGrid
  * address: 0x021F582C
  * packet: pkt_ov077_021F582C
  * region: ov077
@@ -115,7 +115,7 @@ static inline void TexCoord(s32 s, s32 t)
 {
     R(0x04000488) = (u32)(u16)(s16)(s >> 8) | ((u32)(u16)(s16)(t >> 8) << 16);
 }
-void func_021F582C(u8 *p)
+void ENCEFF_DrawCellGrid(u8 *p)
 {
     R(0x04000444) = 0;
     R(0x040004C0) = 0x7FFF7FFF;

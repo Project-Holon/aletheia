@@ -1,5 +1,5 @@
 /*
- * function: func_021E8AFC
+ * function: BTLV_CORE_GetSlotLow
  * address:  0x021E8AFC
  * packet:   pkt_ov093_021E8AFC
  * region:   ov093
@@ -17,7 +17,7 @@ union Slot {
     struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 rest : 17; } s;
     struct { u32 kind : 3; u32 pad : 6; u32 v : 16; u32 rest : 7; } w;
 };
-u8 func_021E8AFC(union Slot s)
+u8 BTLV_CORE_GetSlotLow(union Slot s)
 {
     if (s.s.kind == 2) return s.s.lo;
     if (s.s.kind == 4) return s.s.lo;

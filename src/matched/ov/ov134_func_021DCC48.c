@@ -8,6 +8,10 @@
  * isa: thumb
  * status: EXACT
  * extent: body ends at 021DCC9C; callback table and zero data follow.
+ *
+ * symbols:
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  */
 #include "../include/Obj01742.h"
 #include "../include/Obj02198.h"
@@ -16,8 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Big;
 struct Blk37;
-extern void *func_02012EBC(struct Big *p);
-extern u8 *func_02012944(void *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *func_0200CA1C(void *);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
@@ -27,8 +31,8 @@ void func_021DCC48(u8 *p, void *unused, u8 *out)
 {
     void *a;
     void *b;
-    a = func_02012EBC(((struct Obj02198 *)p)->f14);
-    func_02012944(((struct Obj02198 *)p)->f14);
+    a = GAME_DATA_GetSaveControl(((struct Obj02198 *)p)->f14);
+    GAME_DATA_GetMyStatus(((struct Obj02198 *)p)->f14);
     b = func_0200CA1C(((struct Obj02198 *)p)->f14);
     ((struct Obj01742 *)out)->f0 = *(u32 *)&((struct Obj02198 *)p)->f4;
     ((struct Obj01742 *)out)->f8 = *(u32 *)&((struct Obj02198 *)p)->f14;

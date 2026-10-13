@@ -1,5 +1,5 @@
 /*
- * function: func_0215E3E4
+ * function: MOVE_POKEMON_GetEntryZoneId
  * address: 0x0215E3E4
  * packet: pkt_ov010_0215E3E4
  * region: ov010
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Blk38;
 extern u8 func_0200D478(struct Blk38 *p, u32 i);
 extern const u16 d_021711C6[];
-u32 func_0215E3E4(void *p, u32 slot)
+u32 MOVE_POKEMON_GetEntryZoneId(void *p, u32 slot)
 {
     u32 i = func_0200D478(p, slot);
     if (i > 16) return 319;

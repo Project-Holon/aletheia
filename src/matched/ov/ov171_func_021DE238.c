@@ -8,17 +8,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_0204AFD8(u32);
+extern void CLACT_ReleaseCellAnim(u32);
 void func_021DE238(char *p,int i)
 {
     if(*(u32 *)((u32)p+0xc1c+(u32)i*4)!=(u32)-1) {
-        func_0204AFD8(*(u32 *)((u32)p+0xc1c+(u32)i*4));
+        CLACT_ReleaseCellAnim(*(u32 *)((u32)p+0xc1c+(u32)i*4));
         *(u32 *)((u32)p+0xc1c+(u32)i*4)=(u32)-1;
     }
 }

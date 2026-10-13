@@ -1,5 +1,5 @@
 /*
- * function: func_021DB298
+ * function: BTL_TOKUSEI_Forecast_RefreshWeatherForm
  * address: 0x021DB298
  * packet: pkt_ov093_021DB298
  * region: ov093
@@ -10,13 +10,13 @@
  * status: EXACT*
  * symbols:
  *   func_021C8288 0x021C8288 thumb ov093
- *   func_021DB374 0x021DB374 thumb ov093
+ *   BTL_TOKUSEI_Forecast_SetFormForWeather 0x021DB374 thumb ov093
  */
 typedef unsigned char  u8;
 extern int func_021C8288(u8 *p);
-extern void func_021DB374(void *,int,unsigned int);
+extern void BTL_TOKUSEI_Forecast_SetFormForWeather(void *,int,unsigned int);
 
-void func_021DB298(int a, void *b, int c, int *d)
+void BTL_TOKUSEI_Forecast_RefreshWeatherForm(int a, void *b, int c, int *d)
 {
-    if (*d != 0) func_021DB374(b, c, func_021C8288(b));
+    if (*d != 0) BTL_TOKUSEI_Forecast_SetFormForWeather(b, c, func_021C8288(b));
 }

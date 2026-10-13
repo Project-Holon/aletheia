@@ -10,7 +10,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_021DE08C 0x021DE08C thumb ov137
  */
 #include "../include/Obj23677.h"
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
 typedef unsigned short u16;
-extern u16 func_02039338(void);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void func_021DE08C(char *p, int state, int player);
-void func_021DCCF0(int a,int b,int c,u8 *p) {if(func_02039338()!=0) func_021DE08C(*(char * *)&((struct Obj23678 *)(*(u8 * *)&((struct Obj23677 *)p)->f0))->f20,13,0);}
-int func_021DCD0C(void) {return func_02039338();}
+void func_021DCCF0(int a,int b,int c,u8 *p) {if(GFL_NET_SYSTEM_GetCurrentAid()!=0) func_021DE08C(*(char * *)&((struct Obj23678 *)(*(u8 * *)&((struct Obj23677 *)p)->f0))->f20,13,0);}
+int func_021DCD0C(void) {return GFL_NET_SYSTEM_GetCurrentAid();}

@@ -1,5 +1,5 @@
 /*
- * function: func_0204B84C
+ * function: CLACT_SetActorBgPriority
  * address:  0x0204B84C
  * packet:   pkt_0204B84C
  * region:   arm9
@@ -15,7 +15,7 @@ typedef struct {
     unsigned int f60;
 } S;
 
-void func_0204B84C(S *p, unsigned int v)
+void CLACT_SetActorBgPriority(S *p, unsigned int v)
 {
     p->f60 = (p->f60 & ~0x30000) | ((v & 3) << 16);
 }

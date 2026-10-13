@@ -1,5 +1,5 @@
 /*
- * function: func_021568A8
+ * function: MUSICAL_EVENT_CountNpcSlotsBelow
  * address:  0x021568A8
  * packet:   pkt_ov010_021568A8
  * region:   ov010
@@ -30,7 +30,7 @@ typedef struct Work {
 
 extern int func_021FCE28(void *p, u8 i);
 
-u8 func_021568A8(Work *w, u8 n)
+u8 MUSICAL_EVENT_CountNpcSlotsBelow(Work *w, u8 n)
 {
     u8 i;
     u8 cnt;

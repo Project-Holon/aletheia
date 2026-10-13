@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BB860",
+   "name": "PLIST_MESSAGE_StartStream",
    "address": "0x021BB860",
    "kind": "game",
    "region": "ov091",

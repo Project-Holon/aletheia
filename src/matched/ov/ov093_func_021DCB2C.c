@@ -1,5 +1,5 @@
 /*
- * function: func_021DCB2C
+ * function: BTL_HANDLER_TOKUSEI_AddMagicBounce
  * address: 0x021DCB2C
  * packet: pkt_ov093_021DCB2C
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCAE8.c and filed here.
  *
  * symbols:
- *   d_021F0AD0 0x021F0AD0 data ov093 a4
+ *   gHandlerTableMagicBounce 0x021F0AD0 data ov093 a4
  */
 
-int *func_021DCB2C(int *p);
-extern int d_021F0AD0[];
+int *BTL_HANDLER_TOKUSEI_AddMagicBounce(int *p);
+extern int gHandlerTableMagicBounce[];
 
-int *func_021DCB2C(int *p)
+int *BTL_HANDLER_TOKUSEI_AddMagicBounce(int *p)
 {
     *p = 3;
-    return d_021F0AD0;
+    return gHandlerTableMagicBounce;
 }

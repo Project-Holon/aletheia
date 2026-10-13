@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0201A2A8",
+   "name": "POKE_REGULATION_AdjustPartyLevels",
    "address": "0x0201A2A8",
    "kind": "game",
    "region": "arm9",
@@ -96,7 +96,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_0201A570",
+   "name": "POKE_REGULATION_DeleteText",
    "address": "0x0201A570",
    "kind": "game",
    "region": "arm9",

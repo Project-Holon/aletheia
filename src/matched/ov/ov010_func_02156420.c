@@ -1,5 +1,5 @@
 /*
- * function: func_02156420
+ * function: MUSICAL_EVENT_ApplyResults
  * address:  0x02156420
  * packet:   pkt_ov010_02156420
  * region:   ov010
@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * The u16 read through func_020127A4's result goes through a local k;
+ * The u16 read through GAME_DATA_GetMyPlayerWork's result goes through a local k;
  * passed inline it is copied to r2 before the ldrh. The tally array is
- * `u8 cnt[4] = {0, ...}` in a nested block (as in func_02157028).
+ * `u8 cnt[4] = {0, ...}` in a nested block (as in MUSICAL_PROGRAM_Create).
  * EXACT* because the listing extent carries two bytes of pad.
  *
  * symbols:
- *   func_02156934  0x02156934  thumb  ov010
+ *   MUSICAL_EVENT_GetScoreCapped  0x02156934  thumb  ov010
  *   func_0200A768  0x0200A768  thumb
  *   func_0200A788  0x0200A788  thumb
  *   func_0200A7C0  0x0200A7C0  thumb
@@ -24,9 +24,9 @@
  *   func_021F5140  0x021F5140  thumb  ov112
  *   func_0200A7AC  0x0200A7AC  thumb
  *   func_021F4F40  0x021F4F40  thumb  ov112
- *   func_020127A4  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   NATSUKI_Calc  0x0201B7A0  thumb
- *   func_02012F2C  0x02012F2C  thumb
+ *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
  *   func_02008DAC  0x02008DAC  thumb
  */
@@ -67,7 +67,7 @@ typedef struct Work {
     u8 f4C;             /* 0x4C */
 } Work;
 
-extern u8 func_02156934(Work *w, u8 idx);
+extern u8 MUSICAL_EVENT_GetScoreCapped(Work *w, u8 idx);
 typedef signed int     s32;
 struct Big;
 struct Sub02008C20Obj;
@@ -79,13 +79,13 @@ extern u32 *func_021F4F14(int heap);
 extern unsigned char func_021F5140(void *p, int i);
 extern void func_0200A7AC(struct Big *p, u32 index, u8 value);
 extern void func_021F4F40(void **p);
-extern u16 *func_020127A4(void *p);
+extern u16 *GAME_DATA_GetMyPlayerWork(void *p);
 extern void NATSUKI_Calc(void *a0, int a1, int a2, int a3);
-extern void *func_02012F2C(int *p);
+extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 
-void func_02156420(Work *w)
+void MUSICAL_EVENT_ApplyResults(Work *w)
 {
     u8 a;
     u8 b;
@@ -95,8 +95,8 @@ void func_02156420(Work *w)
     void *p;
     u16 k;
 
-    a = func_02156934(w, w->f4C);
-    b = func_02156934(w, w->f48);
+    a = MUSICAL_EVENT_GetScoreCapped(w, w->f4C);
+    b = MUSICAL_EVENT_GetScoreCapped(w, w->f48);
     func_0200A768(w->f40);
     if (a == b && a != 0)
         func_0200A788(w->f40);
@@ -115,9 +115,9 @@ void func_02156420(Work *w)
             func_0200A7AC(w->f40, j, cnt[j]);
     }
     func_021F4F40(h);
-    k = *func_020127A4(w->f04);
+    k = *GAME_DATA_GetMyPlayerWork(w->f04);
     NATSUKI_Calc(w->f18, 6, k, 4);
-    p = func_02012F2C(w->f04);
+    p = GAME_DATA_GetTrainerRecord(w->f04);
     if (w->f14 == 0) {
         func_02008DF0(p, 0x72);
         if (a == b && a != 0)

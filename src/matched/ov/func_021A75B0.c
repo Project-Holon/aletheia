@@ -1,5 +1,5 @@
 /*
- * function: func_021A75B0
+ * function: FIELD_GROUND_ANIME_AnmEntryUnbind
  * address:  0x021A75B0
  * packet:   pkt_021A75B0
  * region:   ov021
@@ -18,7 +18,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void func_021A75B0(u32 *p)
+void FIELD_GROUND_ANIME_AnmEntryUnbind(u32 *p)
 {
     p[0] &= ~1;
 }

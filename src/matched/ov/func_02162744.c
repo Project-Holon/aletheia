@@ -1,5 +1,5 @@
 /*
- * function: func_02162744
+ * function: EVENTDATA_SYSTEM_GetNpcCount
  * address:  0x02162744
  * packet:   pkt_02162744
  * region:   ov010
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u16 func_02162744(u8 *p)
+u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p)
 {
     return ((struct Obj17717 *)p)->f14;
 }

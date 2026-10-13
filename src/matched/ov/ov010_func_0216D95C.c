@@ -1,5 +1,5 @@
 /*
- * function: func_0216D95C
+ * function: FLDMMDL_SysSetDrawInit
  * address: 0x0216D95C
  * packet: pkt_ov010_0216D95C
  * region: ov010
@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_0216D4DC 0x0216D4DC thumb ov010
- *   func_0216D4E4 0x0216D4E4 thumb ov010
+ *   FLDMMDL_SysSetStatusBit 0x0216D4DC thumb ov010
+ *   FLDMMDL_SysClearStatusBit 0x0216D4E4 thumb ov010
  */
 
-extern int func_0216D4DC(int a0, int a1, int a2);
+extern int FLDMMDL_SysSetStatusBit(int a0, int a1, int a2);
 typedef unsigned int   u32;
-extern u32 *func_0216D4E4(u32 *p, u32 v);
-void func_0216D95C(unsigned int *p, unsigned int v, int a2)
+extern u32 *FLDMMDL_SysClearStatusBit(u32 *p, u32 v);
+void FLDMMDL_SysSetDrawInit(unsigned int *p, unsigned int v, int a2)
 {
-    if (v == 1) func_0216D4DC((int)p, 1, a2);
-    else func_0216D4E4(p, 1);
+    if (v == 1) FLDMMDL_SysSetStatusBit((int)p, 1, a2);
+    else FLDMMDL_SysClearStatusBit(p, 1);
 }

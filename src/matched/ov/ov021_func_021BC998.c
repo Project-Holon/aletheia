@@ -1,5 +1,5 @@
 /*
- * function: func_021BC998
+ * function: FIELD_PLACE_NAME_CreateBmpOamSys
  * address:  0x021BC998
  * packet:   pkt_ov021_021BC998
  * region:   ov021
@@ -10,7 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BD090  0x021BD090  thumb  ov021
+ *   FIELD_PLACE_NAME_GetHeapId  0x021BD090  thumb  ov021
+ *   BMP_OAM_CreateSys  0x02025538  thumb  arm9
  */
 
 typedef struct {
@@ -21,10 +22,10 @@ typedef struct {
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u16 func_021BD090(u8 *p);
-extern void *func_02025538(unsigned int a0, void *a1);
+extern u16 FIELD_PLACE_NAME_GetHeapId(u8 *p);
+extern void *BMP_OAM_CreateSys(unsigned int a0, void *a1);
 
-void func_021BC998(Obj *p)
+void FIELD_PLACE_NAME_CreateBmpOamSys(Obj *p)
 {
-    p->f30 = func_02025538(func_021BD090((u8 *)p), p->f34);
+    p->f30 = BMP_OAM_CreateSys(FIELD_PLACE_NAME_GetHeapId((u8 *)p), p->f34);
 }

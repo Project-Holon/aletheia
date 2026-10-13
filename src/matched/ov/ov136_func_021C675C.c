@@ -9,10 +9,10 @@
  * status: EXACT
  * symbols:
  *   func_020490F4 0x020490F4 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204ABF0 0x0204ABF0 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02027698 0x02027698 thumb
  *   func_0202769C 0x0202769C thumb
  *   func_020276A0 0x020276A0 thumb
@@ -25,13 +25,13 @@ typedef unsigned short u16;
 extern u32 func_020275E4(void);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_02027698(void);
-extern int func_0204A6C8(void *, u32, u32, u32, u16);
+extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 extern int func_0201BC3C(void);
-extern int func_0204ABF0(void *, u32, u32, u32, u16);
+extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);
-extern int func_0204AF28(void *, u32, u32, u32);
-extern void func_02049238(void *);
+extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
+extern void ARC_TOOL_DeleteHandle(void *);
 void func_021C675C(u8 *p)
 {
     void *arc;
@@ -39,9 +39,9 @@ void func_021C675C(u8 *p)
     u32 first;
     arc = func_020490F4(func_020275E4(), 102);
     for (i = 0; i <= 2; i++)
-        *(u32 *)(p + 0x210 + i * 4) = func_0204A6C8(arc, func_02027698(), 0, 1, 102);
-    ((struct Obj14192 *)p)->f230 = func_0204ABF0(arc, func_0201BC3C(), 1, 0, 102);
+        *(u32 *)(p + 0x210 + i * 4) = CLACT_RegisterCharacter(arc, func_02027698(), 0, 1, 102);
+    ((struct Obj14192 *)p)->f230 = CLACT_RegisterPalette(arc, func_0201BC3C(), 1, 0, 102);
     first = func_0202769C(0);
-    ((struct Obj14192 *)p)->f250 = func_0204AF28(arc, first, func_020276A0(0), 102);
-    func_02049238(arc);
+    ((struct Obj14192 *)p)->f250 = CLACT_RegisterCellAnim(arc, first, func_020276A0(0), 102);
+    ARC_TOOL_DeleteHandle(arc);
 }

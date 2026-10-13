@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021BB0DC, func_021BB0E0
+ * function: TOWNMAP_IsScrollZoomDone, TOWNMAP_IsScrollZooming
  * address:  0x021BB0DC
  * packet:   pkt_021BB0DC
  * region:   ov072
@@ -15,12 +15,12 @@
 #include "../include/Obj20782.h"
 #include "../include/Obj20783.h"
 
-int func_021BB0DC(void *p)
+int TOWNMAP_IsScrollZoomDone(void *p)
 {
     return ((struct Obj20782 *)p)->fC;
 }
 
-int func_021BB0E0(void *p)
+int TOWNMAP_IsScrollZooming(void *p)
 {
     return ((struct Obj20783 *)p)->f10;
 }

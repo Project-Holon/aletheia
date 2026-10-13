@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A3D08",
+   "name": "FIELD_PLAYER_CORE_ChangeToObjCode",
    "address": "0x021A3D08",
    "kind": "game",
    "region": "ov021",

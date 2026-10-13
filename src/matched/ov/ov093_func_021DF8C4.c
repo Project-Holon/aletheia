@@ -1,5 +1,5 @@
 /*
- * function: func_021DF8C4
+ * function: BTL_HANDLER_ITEM_GetOddIncenseHandlers
  * address: 0x021DF8C4
  * packet: pkt_ov093_021DF8C4
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF870.c and filed here.
  *
  * symbols:
- *   d_021F155C 0x021F155C data ov093 a4
+ *   gOddIncenseHandlers 0x021F155C data ov093 a4
  */
 
-int *func_021DF8C4(int *p);
-extern int d_021F155C[];
+int *BTL_HANDLER_ITEM_GetOddIncenseHandlers(int *p);
+extern int gOddIncenseHandlers[];
 
-int *func_021DF8C4(int *p)
+int *BTL_HANDLER_ITEM_GetOddIncenseHandlers(int *p)
 {
     *p = 1;
-    return d_021F155C;
+    return gOddIncenseHandlers;
 }

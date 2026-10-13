@@ -1,5 +1,5 @@
 /*
- * function: func_021B8404
+ * function: FRAME_LIST_GetStepFrames
  * address: 0x021B8404
  * packet: pkt_ov067_021B8404
  * region: ov067
@@ -15,7 +15,7 @@
  */
 typedef unsigned char u8;
 extern int _s32_div_f(int a, int b);
-u8 func_021B8404(u8 *p, int n)
+u8 FRAME_LIST_GetStepFrames(u8 *p, int n)
 {
     if (n < 0) n = (int)(0u - (unsigned int)n);
     return _s32_div_f(p[5] << 3, n);

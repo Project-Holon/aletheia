@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021966F0",
+   "name": "IRCBATTLEMENU_SeqSetupTopMenu",
    "address": "0x021966F0",
    "kind": "game",
    "region": "ov021",

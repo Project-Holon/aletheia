@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02021444",
+   "name": "PALANM_StartTimer",
    "address": "0x02021444",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02021518",
+   "name": "PALANM_Create",
    "address": "0x02021518",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202155C",
+   "name": "PALANM_AllocSlotBuffers",
    "address": "0x0202155C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020215A0",
+   "name": "PALANM_FreeSlotBuffers",
    "address": "0x020215A0",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "func_020216D4",
+   "name": "PALANM_CopyHwPaletteToSlot",
    "address": "0x020216D4",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202208C",
+   "name": "WIPE_SYS_Start",
    "address": "0x0202208C",
    "kind": "game",
    "region": "arm9",

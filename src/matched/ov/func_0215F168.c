@@ -1,5 +1,5 @@
 /*
- * function: func_0215F168
+ * function: SCRCMD_NETWORK_WaitCommState
  * address:  0x0215F168
  * packet:   pkt_0215F168
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02012138  0x02012138  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02158FB4  0x02158FB4  thumb  ov010
- *   func_02189734  0x02189734  thumb
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRIPT_WORK_GetUserWorkPtr  0x02158FB4  thumb  ov010
+ *   FIELDMAP_CheckCommExit  0x02189734  thumb
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj00005.h"
@@ -25,16 +25,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02158FB4(void *p);
-extern int func_02189734();
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *SCRIPT_WORK_GetUserWorkPtr(void *p);
+extern int FIELDMAP_CheckCommExit();
 extern int func_020307B0();
 
-int func_0215F168(int a0, int a1)
+int SCRCMD_NETWORK_WaitCommState(int a0, int a1)
 {
     int t4;
     int t6;
@@ -45,21 +45,21 @@ int func_0215F168(int a0, int a1)
 
 t4 = a1 + 0;
 a0 = t4 + 0;
-    v0 = func_0215A5DC((void *)a0);
+    v0 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0215F172:
 a0 = t4 + 0;
-    v1 = func_0215A5F4((void *)a0);
+    v1 = SCRCMD_WORK_GetScriptWork((void *)a0);
 loc_0215F17A:
-    a0 = func_02012138(v0);
+    a0 = GAMESYSTEM_GetGameComm(v0);
 loc_0215F182:
 t6 = a0 + 0;
-    v2 = func_0201210C(v0);
+    v2 = GAMESYSTEM_GetFieldMap(v0);
 loc_0215F18A:
-    p = func_02158FB4(v1);
+    p = SCRIPT_WORK_GetUserWorkPtr(v1);
 loc_0215F190:
 t4 = ((struct Obj17702 *)((char *)p))->f0;
 a0 = t6 + 0;
-    a0 = func_02189734(a0);
+    a0 = FIELDMAP_CheckCommExit(a0);
 loc_0215F198:
     if (a0 == 0) goto loc_0215F1A6;
 loc_0215F19C:

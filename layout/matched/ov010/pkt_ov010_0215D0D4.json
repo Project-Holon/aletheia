@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215D0D4",
+   "name": "SCRCMD_PROC_GetDaycareSlotLevelsGrown",
    "address": "0x0215D0D4",
    "kind": "game",
    "region": "ov010",

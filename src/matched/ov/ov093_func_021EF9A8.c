@@ -1,5 +1,5 @@
 /*
- * function: func_021EF9A8
+ * function: BTL_FIELD_GetCountdownByte
  * address: 0x021EF9A8
  * packet: pkt_ov093_021EF9A8
  * region: ov093
@@ -13,4 +13,4 @@
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
-u8 func_021EF9A8(u32 *p) { return (u8)*p; }
+u8 BTL_FIELD_GetCountdownByte(u32 *p) { return (u8)*p; }

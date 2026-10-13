@@ -1,5 +1,5 @@
 /*
- * function: func_0216117C
+ * function: EVENT_FIELD_PROCLINK_CreateTrainerCardView
  * address:  0x0216117C
  * packet:   pkt_ov010_0216117C
  * region:   ov010
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_020127A4  0x020127A4  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02012134  0x02012134  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
  *   func_02013CC8  0x02013CC8  thumb
  *   func_02013CE0  0x02013CE0  thumb
- *   func_0216F7BC  0x0216F7BC  thumb  ov010
+ *   TRCARD_SYS_CreateViewWork  0x0216F7BC  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -26,30 +26,30 @@ typedef unsigned int   u32;
 
 struct Ctx;
 
-extern void *func_020120F4(const struct Ctx *p);
-extern u16 *func_020127A4();
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern u16 *GAME_DATA_GetMyPlayerWork();
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *p);
-extern u32 func_02012134(u32 *p);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 extern u32 func_02013CC8(u32 id);
 extern u32 func_02013CE0(u32 id);
-extern int *func_0216F7BC();
+extern int *TRCARD_SYS_CreateViewWork();
 
-void func_0216117C(int *a0, int a1)
+void EVENT_FIELD_PROCLINK_CreateTrainerCardView(int *a0, int a1)
 {
-    void *h = func_020120F4((const struct Ctx *)*(int *)a0[6]);
-    u32 v = *func_020127A4(h);
+    void *h = GAMESYSTEM_GetGameData((const struct Ctx *)*(int *)a0[6]);
+    u32 v = *GAME_DATA_GetMyPlayerWork(h);
     int f = 1;
     int s;
     int *r;
 
-    s = func_02012A30(h);
-    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, func_02012134((u32 *)(*(int *)a0[6])));
+    s = GAME_DATA_GetBgmInfo(h);
+    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, GAMESYSTEM_GetIssSystem((u32 *)(*(int *)a0[6])));
     if (func_02013CC8(v) != 0 || (int)func_02013CE0((u16)v) != 0) {
         f = 0;
     }
-    r = func_0216F7BC(h, 4, f);
+    r = TRCARD_SYS_CreateViewWork(h, 4, f);
     if (a1 != -1) {
         r[5] = a1;
     }

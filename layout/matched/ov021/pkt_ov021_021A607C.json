@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A607C",
+   "name": "FIELD_PLAYER_NOGRID_CheckSlowFromStand",
    "address": "0x021A607C",
    "kind": "game",
    "region": "ov021",

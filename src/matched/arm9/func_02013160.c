@@ -12,7 +12,7 @@
  * symbols:
  *   func_0200AE54   0x0200AE54  thumb
  *   func_0200B040   0x0200B040  thumb
- *   func_0201A2A8   0x0201A2A8  thumb
+ *   POKE_REGULATION_AdjustPartyLevels   0x0201A2A8  thumb
  *   POKE_REGULATION_ResetPartyNicknames   0x0201A30C  thumb
  *
  * btl_setup.c.  The per-battle settings copier: two timer fields in seconds,
@@ -75,7 +75,7 @@ struct Reg;
 extern u32 func_0200AE54(struct Reg *p, u32 id);
 struct RegAC;
 extern void func_0200B040(struct Reg *p, struct RegAC *out);
-extern void func_0201A2A8(void *a0, void *a1);
+extern void POKE_REGULATION_AdjustPartyLevels(void *a0, void *a1);
 extern void POKE_REGULATION_ResetPartyNicknames(void *a0, void *a1, u32 c);
 
 void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32 a2)
@@ -105,7 +105,7 @@ void BTL_SETUP_ApplyRegulation(u8 *o, void *a1, u32 a2)
         u8 *e = o + i * 4;
         if (((struct Obj08746 *)e)->f24 != 0) {
             POKE_REGULATION_ResetPartyNicknames(a1, (void *)(((struct Obj08746 *)e)->f24), a2);
-            func_0201A2A8(a1, (void *)(((struct Obj08746 *)e)->f24));
+            POKE_REGULATION_AdjustPartyLevels(a1, (void *)(((struct Obj08746 *)e)->f24));
         }
     }
 }

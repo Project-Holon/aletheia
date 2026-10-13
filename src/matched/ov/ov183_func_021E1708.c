@@ -10,11 +10,11 @@
  * status: EXACT
  * Matching: named digit load and byte-field address, with group before used in declaration order, preserve the original loop registers.
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Append 0x02045AA8 arm
  *   func_0201F35C 0x0201F35C thumb
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021E0E40 0x021E0E40 thumb ov183
  *   func_021E1374 0x021E1374 thumb ov183
  *   _ull_mul 0x0209C054 arm
@@ -25,11 +25,11 @@ typedef unsigned long u32;
 typedef unsigned long long u64;
 struct Obj;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
 extern void func_0201F35C(void *, int, u32, u32, u32);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern int func_021E0E40(int, int);
 extern void func_021E1374(char *, int);
 void func_021E1708(char *p)
@@ -44,7 +44,7 @@ void func_021E1708(char *p)
   u64 product;
   u32 tmp;
   char *tmp1;
-  text = func_020457B0(100, *((u16 *) (p + 0x34C)));
+  text = STRBUF_Create(100, *((u16 *) (p + 0x34C)));
   tmp1 = p + 0x210;
   *((int *) (p + 0x1F8)) = 1;
   *((u8 *) tmp1) = 0;
@@ -63,7 +63,7 @@ void func_021E1708(char *p)
       if ((*((int *) record)) == 0)
       {
         *((int *) record) = 1;
-        func_0204B878(*((void **) (record + 12)), func_021E0E40(1, *((int *) (record + 8))));
+        CLACT_SetActorAnimSeq(*((void **) (record + 12)), func_021E0E40(1, *((int *) (record + 8))));
       }
       tmp = *((u32 *) record);
       digit = tmp - 1;
@@ -83,7 +83,7 @@ void func_021E1708(char *p)
     }
     while (((int) i) < (*((int *) (p + 0x23C))));
   }
-  func_02045808(text);
+  STRBUF_Delete(text);
   func_021E1374(p, 3);
   *((int *) (p + 0x350)) = 2;
 }

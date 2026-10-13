@@ -1,5 +1,5 @@
 /*
- * function: func_021862B0
+ * function: OEKAKI_IsMessageDone
  * address:  0x021862B0
  * packet:   pkt_ov023_021862B0
  * region:   ov023
@@ -24,7 +24,7 @@ extern u32 func_020362DC(void);
 extern void func_0201CE38(void *h);
 extern void func_0201CE48(struct Rec3 *p);
 
-int func_021862B0(char *p)
+int OEKAKI_IsMessageDone(char *p)
 {
     int r = func_0201CE30(((struct Obj00525 *)p)->f16C);
 

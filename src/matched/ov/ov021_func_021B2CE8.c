@@ -1,5 +1,5 @@
 /*
- * function: func_021B2CE8
+ * function: SCRCMD_SCREENEFFECTS_SetBuildModelIndex
  * address:  0x021B2CE8
  * packet:   pkt_ov021_021B2CE8
  * region:   ov021
@@ -10,30 +10,30 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_021B2BD8  0x021B2BD8  thumb  ov021
- *   func_021B2BEC  0x021B2BEC  thumb  ov021
- *   func_0218C574  0x0218C574  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_SCREENEFFECTS_GetBuildModelMgr  0x021B2BD8  thumb  ov021
+ *   SCRCMD_SCREENEFFECTS_FindBuildModelEntry  0x021B2BEC  thumb  ov021
+ *   FIELD_BUILDMODEL_GetModelIndexOut  0x0218C574  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int func_02159B10(void *a, void *b);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 typedef unsigned int   u32;
-extern int func_021B2BD8(u32 a);
-extern int func_021B2BEC(int a, int b, int c, int d);
-extern void func_0218C574(int a, int b, int c);
+extern int SCRCMD_SCREENEFFECTS_GetBuildModelMgr(u32 a);
+extern int SCRCMD_SCREENEFFECTS_FindBuildModelEntry(int a, int b, int c, int d);
+extern void FIELD_BUILDMODEL_GetModelIndexOut(int a, int b, int c);
 
-int func_021B2CE8(int a, int b)
+int SCRCMD_SCREENEFFECTS_SetBuildModelIndex(int a, int b)
 {
-    int p = (int)func_02159B10((void *)a, (void *)b);
-    int q = (int)func_02159B10((void *)a, (void *)b);
-    int r = (int)func_02159B10((void *)a, (void *)b);
-    int s = (int)func_02159B10((void *)a, (void *)b);
-    int h = func_021B2BD8(b);
-    int t = func_021B2BEC(h, p, q, r);
+    int p = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int q = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int r = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int s = (int)SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    int h = SCRCMD_SCREENEFFECTS_GetBuildModelMgr(b);
+    int t = SCRCMD_SCREENEFFECTS_FindBuildModelEntry(h, p, q, r);
 
     if (t) {
-        func_0218C574(h, t, s);
+        FIELD_BUILDMODEL_GetModelIndexOut(h, t, s);
     }
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021EECD8
+ * function: BTL_MSG_Exit
  * address:  0x021EECD8
  * packet:   pkt_ov093_021EECD8
  * region:   ov093
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   d_021F6398  0x021F6398  data  a4
+ *   gBtlMsgState  0x021F6398  data  a4
  *   func_0201ED04  0x0201ED04  thumb
- *   func_02045808  0x02045808  arm
- *   func_02045C04  0x02045C04  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  */
 
 typedef unsigned char u8;
@@ -28,20 +28,20 @@ typedef struct {
     u32 t[8];
 } D;
 
-extern D d_021F6398;
+extern D gBtlMsgState;
 struct Rec;
 struct U16Vec;
 struct WordSet;
 extern u32 func_0201ED04(struct WordSet *p);
-extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045C04(struct Rec *rec);
+extern void STRBUF_Delete(struct U16Vec *vec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 
-void func_021EECD8(void)
+void BTL_MSG_Exit(void)
 {
     int i;
 
-    func_0201ED04((struct WordSet *)d_021F6398.f8);
-    func_02045808((struct U16Vec *)d_021F6398.fc);
+    func_0201ED04((struct WordSet *)gBtlMsgState.f8);
+    STRBUF_Delete((struct U16Vec *)gBtlMsgState.fc);
     for (i = 0; i < 8; i++)
-        func_02045C04((struct Rec *)d_021F6398.t[i]);
+        MSGDATA_Delete((struct Rec *)gBtlMsgState.t[i]);
 }

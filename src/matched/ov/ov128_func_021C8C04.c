@@ -20,7 +20,7 @@
  *   func_021C6360 0x021C6360 thumb ov128
  *   func_021C6438 0x021C6438 thumb ov128
  *   func_021C6440 0x021C6440 thumb ov128
- *   func_0216C0C0 0x0216C0C0 thumb ov010
+ *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   id67 0x00000043 data
  *   id194 0x000000C2 data
  *   id129 0x00000081 data
@@ -56,7 +56,7 @@ extern void func_021C6390(u8 *);
 extern void func_021C6360(char *p, int heap);
 extern void func_021C6438(u8 *p, u8 a, u8 b);
 extern void func_021C6440(u8 *p, void *a, void *b);
-extern int func_0216C0C0(int a0);
+extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern char id67[], id194[], id129[];
 extern char d_021F5580[], d_021DA62C[];
 int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
@@ -94,7 +94,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         }
         break;
     case 3:
-        func_0216C0C0((int)p[1]);
+        NAMEIN_SETUP_FreeArgs((int)p[1]);
         func_0202E54C(p[2]);
         func_02034AC4((u32)id67);
         func_021C6360((char *)a, heap);
@@ -122,7 +122,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, void *unused, int heap)
         }
         break;
     case 6:
-        func_0216C0C0((int)p[1]);
+        NAMEIN_SETUP_FreeArgs((int)p[1]);
         func_02034AC4((u32)id67);
         func_021C6360((char *)a, heap);
         return 1;

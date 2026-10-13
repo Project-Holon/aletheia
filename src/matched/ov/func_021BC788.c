@@ -1,5 +1,5 @@
 /*
- * function: func_021BC788
+ * function: FIELD_PLACE_NAME_ReleaseClactPalette
  * address:  0x021BC788
  * packet:   pkt_021BC788
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x2c.
  *
  * symbols:
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0204ADA4(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
 
-void func_021BC788(u8 *p)
+void FIELD_PLACE_NAME_ReleaseClactPalette(u8 *p)
 {
-    func_0204ADA4(((struct Obj18190 *)p)->f2C);
+    CLACT_ReleasePalette(((struct Obj18190 *)p)->f2C);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B86D8",
+   "name": "POKELIST_UpdateSwapCommand",
    "address": "0x021B86D8",
    "kind": "game",
    "region": "ov091",

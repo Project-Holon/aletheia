@@ -11,7 +11,7 @@
  * symbols:
  *   func_0207D63C 0x0207D63C arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
+ *   BMP_Clear 0x02043B5C arm
  */
 #include "../include/Obj00784.h"
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ extern void func_0207D63C(unsigned, int, int, int, int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf { u8 *pixels; u16 width, height, tileSize; };
-extern void func_02043B5C(struct CharBuf *, u8);
+extern void BMP_Clear(struct CharBuf *, u8);
 int func_021BA6F0(char *p)
 {
     int a, b;
@@ -39,8 +39,8 @@ int func_021BA6F0(char *p)
         if (((struct Obj00784 *)p)->f2CF & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
         if (((struct Obj00784 *)p)->f2CF & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
         if (((struct Obj00784 *)p)->f2D0 >= 16) {
-            if (((struct Obj00784 *)p)->f2CF & 1) func_02043B5C(func_02045770(((struct Obj00784 *)p)->f2BC), 0);
-            if (((struct Obj00784 *)p)->f2CF & 2) func_02043B5C(func_02045770(((struct Obj00784 *)p)->f2C4), 0);
+            if (((struct Obj00784 *)p)->f2CF & 1) BMP_Clear(func_02045770(((struct Obj00784 *)p)->f2BC), 0);
+            if (((struct Obj00784 *)p)->f2CF & 2) BMP_Clear(func_02045770(((struct Obj00784 *)p)->f2C4), 0);
             ((struct Obj00784 *)p)->f2CC = ((struct Obj00784 *)p)->f2CF;
             *(u8 *)&((struct Obj00784 *)p)->f2D0 = 0;
             ++((struct Obj00784 *)p)->f2CE;

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_021DA158 0x021DA158 thumb ov129
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  * Lever: subscript each record field; clear_record binds the element before its store.
  */
 #include "../include/Obj00912.h"
@@ -17,7 +17,7 @@
 extern int func_021DA158(int x, int flag);
 typedef unsigned short u16;
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 typedef struct  {
     int state, value, flag, handle;
     char tail[12];
@@ -41,10 +41,10 @@ void func_021D93D4(const Record *p)  {
         return;
     }
     i=((struct Obj00912 *)p)->f188;
-    func_0204B878((struct Obj *)p[i].handle,clear_record(&((Record *)p)[i]));
+    CLACT_SetActorAnimSeq((struct Obj *)p[i].handle,clear_record(&((Record *)p)[i]));
     v=p[i].value;
     if(i>0)  {
-        func_0204B878((struct Obj *)p[i-1].handle,func_021DA158(p[i-1].state,p[i-1].flag));
+        CLACT_SetActorAnimSeq((struct Obj *)p[i-1].handle,func_021DA158(p[i-1].state,p[i-1].flag));
         next=p[i-1].value;
         if(v!=next)  {
             ((struct Obj00912 *)p)->f31C=1;

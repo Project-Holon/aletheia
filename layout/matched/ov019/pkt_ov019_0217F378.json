@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217F378",
+   "name": "UNION_MSG_DeleteMainMenu",
    "address": "0x0217F378",
    "kind": "game",
    "region": "ov019",

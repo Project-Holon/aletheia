@@ -1,5 +1,5 @@
 /*
- * function: func_021A996C
+ * function: FIELD_ENCOUNT_IsRepelled
  * address:  0x021A996C
  * packet:   pkt_ov021_021A996C
  * region:   ov021
@@ -40,7 +40,7 @@ struct Unit {
     u32 b15 : 1;
 };
 
-int func_021A996C(struct Unit *u, u8 n)
+int FIELD_ENCOUNT_IsRepelled(struct Unit *u, u8 n)
 {
     if (u->b3)
         return 0;

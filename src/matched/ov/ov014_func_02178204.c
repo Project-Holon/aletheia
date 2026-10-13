@@ -14,7 +14,7 @@
  *   func_02178138  0x02178138  thumb  ov014
  *   NET_WHPIPE_OnChildDisconnected  0x0217807C  thumb  ov014
  *   func_02178304  0x02178304  thumb  ov014
- *   func_0203D650  0x0203D650  arm
+ *   GFL_NET_GetUserArg  0x0203D650  arm
  *   WM_Disconnect  0x0208F938  arm
  *   GFL_NET_HANDLE_RemoveHandle  0x0203A338  arm
  *   GFL_NET_HANDLE_RequestNegotiation  0x02039A2C  arm
@@ -31,7 +31,7 @@ void func_0217814C(int err);
 void func_02178138(int a);
 void NET_WHPIPE_OnChildDisconnected(void);
 int func_02178304(void);
-u32 func_0203D650(void);
+u32 GFL_NET_GetUserArg(void);
 int WM_Disconnect(int a, u16 b);
 void GFL_NET_HANDLE_RemoveHandle(u32 a0);
 void GFL_NET_HANDLE_RequestNegotiation(int a);
@@ -57,7 +57,7 @@ void func_02178204(u8 *obj)
         break;
     case 7:
         if (*(ConnFn *)(((u8 *)g_021797A8) + 0x1E7C) != 0)
-            ok = (*(ConnFn *)(((u8 *)g_021797A8) + 0x1E7C))(obj, func_0203D650());
+            ok = (*(ConnFn *)(((u8 *)g_021797A8) + 0x1E7C))(obj, GFL_NET_GetUserArg());
         if (ok == 0) {
             res = WM_Disconnect(0, ((struct Obj02672 *)obj)->f10);
             if (res != 2) {

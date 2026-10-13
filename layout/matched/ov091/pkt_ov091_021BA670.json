@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BA670",
+   "name": "POKELIST_RemoveBagItem",
    "address": "0x021BA670",
    "kind": "game",
    "region": "ov091",

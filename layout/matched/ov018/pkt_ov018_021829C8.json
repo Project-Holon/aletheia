@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021829C8",
-    "func_021829E8"
+    "EVENT_COMM_COMMON_StartMsgEvent110ByKindB",
+    "EVENT_COMM_COMMON_StartMsgEvent110"
+   ],
+   "addresses": [
+    "0x021829C8",
+    "0x021829E8"
    ],
    "evidence": {
     "sole-ref": [

@@ -9,9 +9,9 @@
  * status: EXACT
  * symbols:
  *   func_02082BCC 0x02082BCC arm
- *   func_021B62E0 0x021B62E0 thumb ov067
+ *   TOUCHBAR_Create 0x021B62E0 thumb ov067
  *   func_021B6558 0x021B6558 thumb ov067
- *   func_021B6520 0x021B6520 thumb ov067
+ *   TOUCHBAR_SetAllButtonsPriority 0x021B6520 thumb ov067
  *   d_021E7C0C 0x021E7C0C data a4
  */
 #include "../include/Obj00252.h"
@@ -22,10 +22,10 @@ typedef struct { Element e[4]; } Template;
 typedef struct { void *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1C; } Config;
 extern const Template d_021E7C0C;
 extern void func_02082BCC(void *, int, int);
-extern void *func_021B62E0(Config *, int);
+extern void *TOUCHBAR_Create(Config *, int);
 typedef unsigned char  u8;
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
-extern void func_021B6520(u8 *p, u32 v);
+extern void TOUCHBAR_SetAllButtonsPriority(u8 *p, u32 v);
 void func_021E3C20(char *p)
 {
     Template t = d_021E7C0C;
@@ -54,8 +54,8 @@ void func_021E3C20(char *p)
     t.e[3].f8 = a; t.e[3].fA = b; t.e[3].fC = d;
     t.e[3].fE = 22; t.e[3].f10 = 21; t.e[3].f12 = 20;
     t.e[3].f18 = 48; t.e[3].f1C = 0x54C;
-    ((struct Obj00252 *)p)->f9C0 = func_021B62E0(&c, ((struct Obj00252 *)p)->f5F4);
+    ((struct Obj00252 *)p)->f9C0 = TOUCHBAR_Create(&c, ((struct Obj00252 *)p)->f5F4);
     func_021B6558(((struct Obj00252 *)p)->f9C0, 9, 0);
     func_021B6558(((struct Obj00252 *)p)->f9C0, 8, 0);
-    func_021B6520(((struct Obj00252 *)p)->f9C0, 2);
+    TOUCHBAR_SetAllButtonsPriority(((struct Obj00252 *)p)->f9C0, 2);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0218A4BC
+ * function: FIELD_EVENT_CHECK_Run
  * address:  0x0218A4BC
  * packet:   pkt_0218A4BC
  * region:   ov021
@@ -12,9 +12,9 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_0218A074  0x0218A074  thumb  ov021
- *   func_0218A240  0x0218A240  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELD_EVENT_CHECK_RunGrid  0x0218A074  thumb  ov021
+ *   FIELD_EVENT_CHECK_RunRail  0x0218A240  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -23,16 +23,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02188CFC(u8 *p);
-extern int func_0218A074(void *a, int b);
+extern u32 FIELDMAP_GetMoveKind(u8 *p);
+extern int FIELD_EVENT_CHECK_RunGrid(void *a, int b);
 struct Obj00020;
-extern int func_0218A240(void *p, struct Obj00020 *pos);
+extern int FIELD_EVENT_CHECK_RunRail(void *p, struct Obj00020 *pos);
 
-int func_0218A4BC(u32 a, u32 b, u32 c, u32 d)
+int FIELD_EVENT_CHECK_Run(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02188CFC((u8 *)b) == 0) {
-    return func_0218A074((void *)a, b);
+if (FIELDMAP_GetMoveKind((u8 *)b) == 0) {
+    return FIELD_EVENT_CHECK_RunGrid((void *)a, b);
 }
-return func_0218A240((void *)a, (struct Obj00020 *)b);
+return FIELD_EVENT_CHECK_RunRail((void *)a, (struct Obj00020 *)b);
 }
 

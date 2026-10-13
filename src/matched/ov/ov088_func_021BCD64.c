@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD64
+ * function: STARTMENU_SaveEraseEnd
  * address:  0x021BCD64
  * packet:   pkt_ov088_021BCD64
  * region:   ov088
@@ -25,7 +25,7 @@ extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern char d_021BD574[];
 extern char ov088_id[];
 
-int func_021BCD64(int a0)
+int STARTMENU_SaveEraseEnd(int a0)
 {
     func_020315D4((struct S020315D4 *)a0);
     func_020306F0(0x81);

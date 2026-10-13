@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   STRBUF_Create  0x020457B0  arm  arm9
  *
 
  * Claim the 0xb4/0x48 resource into +0xb88 and the 0x2d transfer into +0xb8c.
@@ -23,11 +24,11 @@ typedef signed int s32;
 typedef signed short s16;
 struct MsgBank;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void func_0220040C(u8 *p)
 {
-    ((struct Obj09242 *)p)->fB88 = (u32)func_020457B0(0xb4, 0x48);
+    ((struct Obj09242 *)p)->fB88 = (u32)STRBUF_Create(0xb4, 0x48);
     ((struct Obj09242 *)p)->fB8C = (u32)func_02045EC0((struct MsgBank *)(((struct Obj09242 *)p)->fB6C), 0x2d);
 }

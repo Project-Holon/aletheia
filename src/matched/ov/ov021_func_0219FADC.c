@@ -1,5 +1,5 @@
 /*
- * function: func_0219FADC
+ * function: FLDMMDL_DRAW_CheckStepFrame
  * address:  0x0219FADC
  * packet:   pkt_ov021_0219FADC
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-int func_0219FADC(u8 *p, int a, u8 *q)
+int FLDMMDL_DRAW_CheckStepFrame(u8 *p, int a, u8 *q)
 {
     int m = p[3] % 20;
     u8 k = q[3];

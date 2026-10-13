@@ -1,5 +1,5 @@
 /*
- * function: func_02185420
+ * function: OEKAKI_StepOpenQuitMenu
  * address:  0x02185420
  * packet:   pkt_02185420
  * region:   ov023
@@ -10,26 +10,26 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02185354  0x02185354  thumb  ov023
- *   func_02186444  0x02186444  thumb  ov023
- *   func_021862B0  0x021862B0  thumb  ov023
- *   func_021865B4  0x021865B4  thumb  ov023
+ *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
+ *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
+ *   OEKAKI_IsMessageDone  0x021862B0  thumb  ov023
+ *   OEKAKI_OpenYesNoMenu  0x021865B4  thumb  ov023
  */
 #include "../include/Obj02742.h"
 
-extern void func_02185354(char *p);
+extern void OEKAKI_ApplyRemoteStrokes(char *p);
 typedef unsigned int   u32;
-extern void func_02186444(char *p, u32 v);
-extern int  func_021862B0(char *p);
-extern int func_021865B4(char *p);
+extern void OEKAKI_SetNextScene(char *p, u32 v);
+extern int  OEKAKI_IsMessageDone(char *p);
+extern int OEKAKI_OpenYesNoMenu(char *p);
 
-int func_02185420(char *p, int a1)
+int OEKAKI_StepOpenQuitMenu(char *p, int a1)
 {
-    if (func_021862B0(p)) {
+    if (OEKAKI_IsMessageDone(p)) {
         if (((struct Obj02742 *)p)->f178 == 0)
-            ((struct Obj02742 *)p)->f178 = (void *)func_021865B4(p);
-        func_02186444(p, 6);
+            ((struct Obj02742 *)p)->f178 = (void *)OEKAKI_OpenYesNoMenu(p);
+        OEKAKI_SetNextScene(p, 6);
     }
-    func_02185354(p);
+    OEKAKI_ApplyRemoteStrokes(p);
     return a1;
 }

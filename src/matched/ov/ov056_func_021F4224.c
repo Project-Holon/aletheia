@@ -1,5 +1,5 @@
 /*
- * function: func_021F4224
+ * function: FIELD_FK_SOUND_ANIME_PlaySe
  * address:  0x021F4224
  * packet:   pkt_ov056_021F4224
  * region:   ov056
@@ -19,7 +19,7 @@ typedef unsigned int   u32;
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void func_021F4224(u8 *p, u32 idx)
+void FIELD_FK_SOUND_ANIME_PlaySe(u8 *p, u32 idx)
 {
     u16 v = *(u16 *)(p + idx * 2 + 8);
 

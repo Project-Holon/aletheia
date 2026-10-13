@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02018790",
+   "name": "POKE_TOOL_GetHiddenPowerType",
    "address": "0x02018790",
    "kind": "game",
    "region": "arm9",

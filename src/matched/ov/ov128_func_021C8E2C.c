@@ -15,10 +15,12 @@
  *   func_021C8F2C 0x021C8F2C thumb ov128
  *   func_021CA3A0 0x021CA3A0 thumb ov128
  *   func_021CA3C4 0x021CA3C4 thumb ov128
- *   func_0204B98C 0x0204B98C arm
+ *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   func_021C6438 0x021C6438 thumb ov128
  *   func_021C91CC 0x021C91CC thumb ov128
  *   func_021C9154 0x021C9154 thumb ov128
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  */
 #include "../include/Obj03813.h"
 typedef unsigned char u8;
@@ -30,11 +32,11 @@ struct Actor;
 extern void func_020061E4(u32 a);
 extern void func_021CA3A0(char *p);
 extern void func_021CA3C4(char *p);
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void func_021C6438(u8 *p, u8 a, u8 b);
 extern void func_021C91CC(char *p, void *q);
-extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
-extern u32 func_020221A4(void);
+extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void func_021C9154(char *p, int unused, char *q);
 void func_021C8F24(void *, void *, void *);
 int func_021C8E2C(void *p, u8 *q, u8 *r, int heap)
@@ -59,7 +61,7 @@ int func_021C8E2C(void *p, u8 *q, u8 *r, int heap)
         }
         break;
     case 2:
-        if (func_0204B98C(((struct Obj03813 *)r)->f164) != 1) {
+        if (CLACT_IsActorAnimActive(((struct Obj03813 *)r)->f164) != 1) {
             func_021C6438(q, 0, 2);
             func_021C91CC(p, r);
             func_021C8F24(p, q, r);
@@ -67,14 +69,14 @@ int func_021C8E2C(void *p, u8 *q, u8 *r, int heap)
         }
         break;
     case 3:
-        if (func_0204B98C(((struct Obj03813 *)r)->f168) != 1) q[8] = 4;
+        if (CLACT_IsActorAnimActive(((struct Obj03813 *)r)->f168) != 1) q[8] = 4;
         break;
     case 4:
-        func_0202208C(0, 0, 0, 0, 6, 1, heap);
+        WIPE_SYS_Start(0, 0, 0, 0, 6, 1, heap);
         q[8] = 5;
         break;
     case 5:
-        if (func_020221A4() == 1) {
+        if (WIPE_SYS_EndCheck() == 1) {
             func_021C6438(q, 6, 0);
             func_021C8F24(p, q, r);
             return 1;

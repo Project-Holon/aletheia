@@ -1,5 +1,5 @@
 /*
- * function: func_021D7324
+ * function: BTL_EVENT_ClearFactorSkipCheck
  * address:  0x021D7324
  * packet:   pkt_021D7324
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D7324   0x021D7324  thumb ov093
+ *   BTL_EVENT_ClearFactorSkipCheck   0x021D7324  thumb ov093
  *
  * store constant 0x0 at #0xc
  */
@@ -22,7 +22,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-void func_021D7324(u8 *p)
+void BTL_EVENT_ClearFactorSkipCheck(u8 *p)
 {
     *(u32 *)&p[0xc] = 0x0;
 }

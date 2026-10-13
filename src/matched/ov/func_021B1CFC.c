@@ -1,5 +1,5 @@
 /*
- * function: func_021B1CFC
+ * function: SCRCMD_FLDMMDL_CheckPlayerAnimeDone
  * address:  0x021B1CFC
  * packet:   pkt_021B1CFC
  * region:   ov021
@@ -12,10 +12,10 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A2F54  0x021A2F54  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj18096.h"
@@ -25,15 +25,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_02158F58(int a0);
-extern void *func_0215A5F4(void *p);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern int func_021A2F54(u8 *p);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern int FIELD_PLAYER_StepFormChange(u8 *p);
 
-int func_021B1CFC(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_FLDMMDL_CheckPlayerAnimeDone(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021A2F54(func_02188CB4(((struct Obj18096 *)((u8 *)(func_02158F58((int)func_0215A5F4((void *)b)))))->f4)) == 1) {
+if (FIELD_PLAYER_StepFormChange(FIELDMAP_GetFieldPlayer(((struct Obj18096 *)((u8 *)(SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)b)))))->f4)) == 1) {
     return 1;
 }
 return 0;

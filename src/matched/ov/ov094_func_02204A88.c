@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   func_0204B404  0x0204B404  arm
  *   func_0220687C  0x0220687C  thumb  ov094
  */
@@ -28,7 +28,7 @@ typedef struct Ctx {
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -39,10 +39,10 @@ void func_02204A88(int a0, Ctx *c)
 {
     s16 v[2];
 
-    func_0204B454(c->main->o210, (struct PtS *)v, 1);
+    CLACT_GetActorSurfacePos(c->main->o210, (struct PtS *)v, 1);
     v[0] -= 8;
     func_0204B404(c->main->o210, (const struct Vec2 *)v, 1);
-    func_0204B454(c->main->o214, (struct PtS *)v, 1);
+    CLACT_GetActorSurfacePos(c->main->o214, (struct PtS *)v, 1);
     v[0] -= 8;
     func_0204B404(c->main->o214, (const struct Vec2 *)v, 1);
     if (v[0] == 0xe0) {

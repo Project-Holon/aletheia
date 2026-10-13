@@ -1,5 +1,5 @@
 /*
- * function: func_021BB1DC
+ * function: RAIL_ATTR_IsForceMoveStop
  * address:  0x021BB1DC
  * packet:   pkt_021BB1DC
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-int func_021BB1DC(int x)
+int RAIL_ATTR_IsForceMoveStop(int x)
 {
     if (x == 168)
         return 1;

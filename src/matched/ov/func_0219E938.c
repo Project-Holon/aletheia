@@ -1,5 +1,5 @@
 /*
- * function: func_0219E938
+ * function: FLDMMDL_RAIL_DirToRailKey
  * address:  0x0219E938
  * packet:   pkt_0219E938
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_0201441C with no argument change.
+ * Tail-call thunk: forwards to ZONEDATA_DirToRailKey with no argument change.
  *
  * symbols:
- *   func_0201441C  0x0201441C  thumb
+ *   ZONEDATA_DirToRailKey  0x0201441C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 func_0201441C(int i);
+extern u8 ZONEDATA_DirToRailKey(int i);
 
-u32 func_0219E938(int a0)
+u32 FLDMMDL_RAIL_DirToRailKey(int a0)
 {
-    return func_0201441C(a0);
+    return ZONEDATA_DirToRailKey(a0);
 }

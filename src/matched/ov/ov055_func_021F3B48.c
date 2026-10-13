@@ -1,5 +1,5 @@
 /*
- * function: func_021F3B48
+ * function: CROWD_FindPersonAtSpawn
  * address:  0x021F3B48
  * packet:   pkt_ov055_021F3B48
  * region:   ov055
@@ -13,8 +13,8 @@
  * out ahead of the dx = -1 arm.
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -36,10 +36,10 @@ typedef struct Table {
     Entry e[32];
 } Table;
 
-extern int func_0216D83C(void *p);
-extern int func_0216D86C(void *p);
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_GetGridNowZ(void *p);
 
-Entry *func_021F3B48(Table *t, int x, int y, unsigned int dir, int unused, int *out)
+Entry *CROWD_FindPersonAtSpawn(Table *t, int x, int y, unsigned int dir, int unused, int *out)
 {
     int dx;
     int dy;
@@ -70,8 +70,8 @@ Entry *func_021F3B48(Table *t, int x, int y, unsigned int dir, int unused, int *
     *out = 0;
     for (i = 0; i < 32; i++) {
         if (t->e[i].active != 0 && t->e[i].kind == 1) {
-            px = func_0216D83C(t->e[i].obj);
-            py = func_0216D86C(t->e[i].obj);
+            px = FLDMMDL_GetGridNowX(t->e[i].obj);
+            py = FLDMMDL_GetGridNowZ(t->e[i].obj);
             ex = px - x;
             ey = py - y;
             if (ex != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021B841C
+ * function: FRAME_LIST_GetScrollRoom
  * address: 0x021B841C
  * packet: pkt_ov067_021B841C
  * region: ov067
@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-int func_021B841C(u8 *p, int n)
+int FRAME_LIST_GetScrollRoom(u8 *p, int n)
 {
     if (n < 0) return ((struct Obj09864 *)p)->f62;
     return ((struct Obj09864 *)p)->f64 - ((struct Obj09864 *)p)->f62;

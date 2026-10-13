@@ -1,5 +1,5 @@
 /*
- * function: func_021D77C4
+ * function: BTL_EVENT_FindVarSlot
  * address:  0x021D77C4
  * packet:   pkt_ov093_021D77C4
  * region:   ov093
@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   gBtlEventVarStack  0x021F3ECC  data
  */
 
 #include "../include/G_Tbl.h"
@@ -25,9 +26,9 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern struct Tbl g_021F3ECC;
+extern struct Tbl gBtlEventVarStack;
 
-u32 func_021D77C4(Tbl *p, int key)
+u32 BTL_EVENT_FindVarSlot(Tbl *p, int key)
 {
     u32 i;
     for (i = p->count; i < 0x60; i++) {

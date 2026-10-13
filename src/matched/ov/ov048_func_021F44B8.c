@@ -1,5 +1,5 @@
 /*
- * function: func_021F44B8
+ * function: GIMMICK_OBJ_ELBOARD_ClearHighlights
  * address:  0x021F44B8
  * packet:   pkt_ov048_021F44B8
  * region:   ov048
@@ -15,7 +15,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-void func_021F44B8(u8 *p)
+void GIMMICK_OBJ_ELBOARD_ClearHighlights(u8 *p)
 {
     int i;
 

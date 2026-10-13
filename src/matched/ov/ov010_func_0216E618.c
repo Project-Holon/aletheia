@@ -1,5 +1,5 @@
 /*
- * function: func_0216E618
+ * function: FLDMMDL_InitPosRecord
  * address:  0x0216E618
  * packet:   pkt_ov010_0216E618
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf (sole blocker of ov018 func_0217C758): clears the word
+ * Unlabelled leaf (sole blocker of ov018 INTRUDE_FIELD_InitMmdlCopyAnime): clears the word
  * at +0x18 and fills the {u16, u16, int} record at +0x1C.
  *
  * symbols:
@@ -31,7 +31,7 @@ typedef struct {
     Pos pos;
 } Obj;
 
-void func_0216E618(Obj *o, u16 x, u16 y, int z)
+void FLDMMDL_InitPosRecord(Obj *o, u16 x, u16 y, int z)
 {
     Pos *p;
 

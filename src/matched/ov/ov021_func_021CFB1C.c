@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021CFB1C, func_021CFB68
+ * function: INTRUDE_TakeOfferSlot, INTRUDE_GetNextOfferSpot
  * address:  0x021CFB1C
  * packet:   pkt_ov021_021CFB1C
  * region:   ov021
@@ -10,8 +10,8 @@
  * isa:      thumb
  * status:   EXACT
  *
- * func_021CFB1C removes slot i (copies it out, shifts the later ones down).
- * func_021CFB68 (unlabelled, 0x021CFB68) walks to the next used slot.
+ * INTRUDE_TakeOfferSlot removes slot i (copies it out, shifts the later ones down).
+ * INTRUDE_GetNextOfferSpot (unlabelled, 0x021CFB68) walks to the next used slot.
  *
  * symbols:
  *   d_021DB834  0x021DB834  data  a4
@@ -43,7 +43,7 @@ typedef struct {
     Slot slot[20];
 } Slots;
 
-void func_021CFB1C(Slots *base, int i, Slot *dst)
+void INTRUDE_TakeOfferSlot(Slots *base, int i, Slot *dst)
 {
     *dst = base->slot[i];
     for (i++; i < 20; i++) {
@@ -52,7 +52,7 @@ void func_021CFB1C(Slots *base, int i, Slot *dst)
     ((struct Obj20274 *)base)->f19C = 0;
 }
 
-const Row *func_021CFB68(u8 *base, int *idx)
+const Row *INTRUDE_GetNextOfferSpot(u8 *base, int *idx)
 {
     int i = *idx;
 

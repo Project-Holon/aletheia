@@ -9,10 +9,10 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020456F8 0x020456F8 arm
+ *   BMP_WIN_ClearScreen 0x020456F8 arm
  */
 #include "../include/Obj22875.h"
 typedef unsigned char u8;
 struct Descriptor;
-extern void func_020456F8(struct Descriptor *d);
-void func_021D9A58(u8 *p) { func_020456F8(((struct Obj22875 *)p)->fC); }
+extern void BMP_WIN_ClearScreen(struct Descriptor *d);
+void func_021D9A58(u8 *p) { BMP_WIN_ClearScreen(((struct Obj22875 *)p)->fC); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AB2E8
+ * function: MAP_ATTR_IsLongHopEdge
  * address:  0x021AB2E8
  * packet:   pkt_021AB0F0
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-BOOL func_021AB2E8(int id)
+BOOL MAP_ATTR_IsLongHopEdge(int id)
 {
     if (id == 0x41 || id == 0x44) {
         return 1;

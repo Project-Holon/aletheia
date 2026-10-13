@@ -20,7 +20,7 @@
  *   func_021E7E0C                0x021E7E0C  thumb  ov177
  *   func_021DA36C                0x021DA36C  thumb
  *   func_0200FB24                0x0200FB24  thumb
- *   func_0203CD98                0x0203CD98  arm
+ *   GFL_NET_GetRunState                0x0203CD98  arm
  *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
  */
 #include "../include/Obj00171.h"
@@ -37,7 +37,7 @@ extern int func_021DA434(u32 h);
 extern void func_021E7E0C(void **p, int on);
 extern void func_021DA36C(u32 h);
 extern u32 func_0200FB24(void);
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void DWC_CloseAllConnectionsHard(void);
 
 int func_021D6854(char *obj, int trigger, int go)
@@ -89,7 +89,7 @@ int func_021D6854(char *obj, int trigger, int go)
         ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         func_021E7E0C((void **)(((struct Obj00171 *)obj)->f20), 0);
         func_021DA36C(((struct Obj00171 *)obj)->f30);
-        if (!func_0200FB24() && func_0203CD98())
+        if (!func_0200FB24() && GFL_NET_GetRunState())
             DWC_CloseAllConnectionsHard();
         break;
     case 7:

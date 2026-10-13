@@ -1,5 +1,5 @@
 /*
- * function: func_021BE630
+ * function: FLD_EXP_OBJ_InitAnimeSet
  * address:  0x021BE630
  * packet:   pkt_ov021_021BE630
  * region:   ov021
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BE630  0x021BE630  thumb
+ *   FLD_EXP_OBJ_InitAnimeSet  0x021BE630  thumb
  *   func_02030734  0x02030734  arm
- *   d_021DE390     0x021DE390  data  a4
+ *   sFldExpObjFileName     0x021DE390  data  a4
  */
 
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern int d_021DE390;
+extern int sFldExpObjFileName;
 
 void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 
-void func_021BE630(int *p, int n, int heap)
+void FLD_EXP_OBJ_InitAnimeSet(int *p, int n, int heap)
 {
-    u8 *e = (u8 *)func_02030734((u16)heap, n << 4, 1, (const char *)&d_021DE390, 0x19D);
+    u8 *e = (u8 *)func_02030734((u16)heap, n << 4, 1, (const char *)&sFldExpObjFileName, 0x19D);
     int i;
 
     p[1] = (int)e;

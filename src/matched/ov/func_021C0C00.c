@@ -10,18 +10,20 @@
  * status:   EXACT*
  *
  * symbols:
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *   (none)
  *
  * Calls 0x0204B3B4 on the second argument, then 0x0204A8D4 on the first.
  */
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
-extern void func_0204A8D4(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
 
 void func_021C0C00(void *a, void *b)
 {
-    func_0204B3B4(b);
-    func_0204A8D4((u32)a);
+    CLACT_DeleteActor(b);
+    CLACT_ReleaseCharacter((u32)a);
 }

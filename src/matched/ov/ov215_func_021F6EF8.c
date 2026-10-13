@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02046BE0 0x02046BE0 arm
- *   func_02047CFC 0x02047CFC arm
+ *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
+ *   G3D_UTIL_Create 0x02047CFC arm
  */
 #include "../include/Obj00317.h"
 typedef unsigned short u16;
 struct Util;
-extern void func_02046BE0(unsigned,unsigned);
-extern struct Util *func_02047CFC(u16,u16,u16);
-void func_021F6EF8(char *p){unsigned z=0;func_02046BE0(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=func_02047CFC(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}
+extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
+extern struct Util *G3D_UTIL_Create(u16,u16,u16);
+void func_021F6EF8(char *p){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct Obj00317 *)p)->f48=G3D_UTIL_Create(4,1,((struct Obj00317 *)p)->f0);((struct Obj00317 *)p)->f50=z;}

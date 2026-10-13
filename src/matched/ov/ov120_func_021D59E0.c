@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020279E8 0x020279E8 thumb
- *   func_02027A04 0x02027A04 thumb
+ *   APP_TASKMENU_IsFinish 0x020279E8 thumb
+ *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   func_021D8418 0x021D8418 thumb ov120
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D44AC 0x021D44AC thumb ov120
@@ -27,8 +27,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct TaskMenu;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 extern void func_021D8418(int);
 extern void func_021D4244(int *p, int v, int a2);
 extern void func_021D44AC(int *p);
@@ -42,8 +42,8 @@ extern void func_021D5AD4(u8 *p);
 void func_021D59E0(u8 *p)
 {
     int state;
-    if (func_020279E8(((struct Obj01928 *)p)->f38)) {
-        state = func_02027A04(((struct Obj01928 *)p)->f38);
+    if (APP_TASKMENU_IsFinish(((struct Obj01928 *)p)->f38)) {
+        state = APP_TASKMENU_GetCursorPos(((struct Obj01928 *)p)->f38);
         func_021D8418(*(int *)&((struct Obj01928 *)p)->f38);
         *(int *)&((struct Obj01928 *)p)->f38 = 0;
         switch (state) {

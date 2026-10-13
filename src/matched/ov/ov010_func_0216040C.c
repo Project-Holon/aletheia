@@ -1,5 +1,5 @@
 /*
- * function: func_0216040C
+ * function: EVENT_SHORTCUT_MENU_ResolveShortcut
  * address:  0x0216040C
  * packet:   pkt_ov010_0216040C
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unlabelled (inside func_0216025C's listing extent): maps a 25-way status
+ * Unlabelled (inside EVENT_SHORTCUT_MENU_ReturnEvent's listing extent): maps a 25-way status
  * code to (kind, detail) at +0xC/+0x10, or to a next state at +0x28
  * (returning 1 for those).
  */
@@ -25,7 +25,7 @@ typedef struct Req {
     u32 next;           /* 0x28 */
 } Req;
 
-int func_0216040C(Req *r, u32 code)
+int EVENT_SHORTCUT_MENU_ResolveShortcut(Req *r, u32 code)
 {
     switch (code) {
     case 0:

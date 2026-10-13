@@ -1,5 +1,5 @@
 /*
- * function: func_021A3C94
+ * function: FIELD_PLAYER_CORE_GetLowestFormSlot
  * address:  0x021A3C94
  * packet:   pkt_ov021_021A3C94
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-int func_021A3C94(u32 x)
+int FIELD_PLAYER_CORE_GetLowestFormSlot(u32 x)
 {
     int i = 10;
 

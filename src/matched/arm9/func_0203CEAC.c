@@ -1,5 +1,5 @@
 /*
- * function: func_0203CEAC
+ * function: GFL_NET_Exit
  * address:  0x0203CEAC
  * packet:   pkt_0203CDD4
  * region:   arm9
@@ -43,8 +43,8 @@
  *     [r4, #0x65]` at +001C, `str r5, [r4, #0x348]` at +0020).
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/func_0203CEAC.c \
- *       --func func_0203CEAC --addr 0x0203CEAC --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/GFL_NET_Exit.c \
+ *       --func GFL_NET_Exit --addr 0x0203CEAC --cc 1.1p1 --arm
  *
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
@@ -66,7 +66,7 @@ extern void GFL_NET_STATE_Exit(u32 v);
 extern void GFL_NET_WM_ICON_EasyEnd(void);
 extern void GFL_NET_EndSession(void);
 
-int func_0203CEAC(int a0)
+int GFL_NET_Exit(int a0)
 {
     u8 *p;
 

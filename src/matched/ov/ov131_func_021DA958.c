@@ -13,7 +13,7 @@
  *   P_STA_SKILL_HandleTouch 0x021DABCC thumb ov131
  *   P_STA_SKILL_HandleKeysForget 0x021DAEE4 thumb ov131
  *   P_STA_SKILL_HandleTouchForget 0x021DB140 thumb ov131
- *   func_02035C38 0x02035C38 arm
+ *   TOUCHPANEL_GetCont 0x02035C38 arm
  */
 #include "../include/Obj00026.h"
 typedef unsigned char u8;
@@ -21,12 +21,12 @@ extern int P_STA_SKILL_HandleKeys(u8 *,u8 *);
 extern void P_STA_SKILL_HandleTouch(u8 *,u8 *);
 extern int P_STA_SKILL_HandleKeysForget(u8 *,u8 *);
 extern void P_STA_SKILL_HandleTouchForget(u8 *,u8 *);
-extern int func_02035C38(void);
+extern int TOUCHPANEL_GetCont(void);
 void P_STA_SKILL_UpdateInput(u8 *a,u8 *b) {
     if ((*(u8 **)(a+8))[13] != 2) {
         if (P_STA_SKILL_HandleKeys(a,b)==0) P_STA_SKILL_HandleTouch(a,b);
     } else {
         if (P_STA_SKILL_HandleKeysForget(a,b)==0) P_STA_SKILL_HandleTouchForget(a,b);
     }
-    if (func_02035C38()==0) ((struct Obj00026 *)b)->f1C=0;
+    if (TOUCHPANEL_GetCont()==0) ((struct Obj00026 *)b)->f1C=0;
 }

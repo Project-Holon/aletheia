@@ -11,7 +11,7 @@
  *   P_STA_OAM_SetBitmapActorsEnabled 0x021DBCA4 thumb ov131
  *   func_02041300 0x02041300 arm
  *   func_020409B4 0x020409B4 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  */
 #include "../include/Obj23151.h"
 #include "../include/Obj23152.h"
@@ -22,7 +22,7 @@ struct Obj;
 extern void P_STA_OAM_SetBitmapActorsEnabled(u8 *p, int v);
 extern void func_02041300(unsigned int,int,int,int,unsigned char,unsigned char,unsigned char);
 extern void func_020409B4(unsigned int);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 void P_STA_RIBBON_Hide(unsigned char *a, unsigned char *p)
 {
     unsigned char i;
@@ -30,5 +30,5 @@ void P_STA_RIBBON_Hide(unsigned char *a, unsigned char *p)
     func_02041300(1,0,0,0,19,21,16);
     func_020409B4(1);
     ((struct Obj23152 *)p)->f0=0;
-    func_0204B878(((struct Obj23151 *)a)->f180,2);
+    CLACT_SetActorAnimSeq(((struct Obj23151 *)a)->f180,2);
 }

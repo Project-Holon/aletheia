@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021BA880",
-    "func_021BA984"
+    "STARTMENU_StateUnlockNotices",
+    "STARTMENU_StateBeginFadeIn"
+   ],
+   "addresses": [
+    "0x021BA880",
+    "0x021BA984"
    ],
    "evidence": {
     "sole-ref": [

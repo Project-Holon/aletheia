@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DD0B0",
-    "func_021DD0BC"
+    "BTL_HANDLER_ITEM_RawstBerryOnEaten",
+    "BTL_HANDLER_ITEM_AddRawstBerry"
+   ],
+   "addresses": [
+    "0x021DD0B0",
+    "0x021DD0BC"
    ],
    "evidence": {
     "sole-ref": [

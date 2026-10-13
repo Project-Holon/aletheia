@@ -1,5 +1,5 @@
 /*
- * function: func_021B0624
+ * function: SCRCMD_MSGWIN_CmdCloseInfoSysWin
  * address:  0x021B0624
  * packet:   pkt_021B0624
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021B0480  0x021B0480  thumb  ov021
+ *   SCRCMD_MSGWIN_CloseInfoSysWin  0x021B0480  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_021B0480(u32 a);
+extern void SCRCMD_MSGWIN_CloseInfoSysWin(u32 a);
 
-int func_021B0624(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_MSGWIN_CmdCloseInfoSysWin(u32 a, u32 b, u32 c, u32 d)
 {
-func_021B0480(b);
+SCRCMD_MSGWIN_CloseInfoSysWin(b);
 return 0;
 }
 

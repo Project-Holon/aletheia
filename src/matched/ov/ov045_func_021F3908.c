@@ -1,5 +1,5 @@
 /*
- * function: func_021F3908
+ * function: GIMMICK45_IsRequirementMet
  * address:  0x021F3908
  * packet:   pkt_021F3908
  * region:   ov045
@@ -20,7 +20,7 @@
 extern unsigned short d_021F3B60[];
 extern unsigned short d_021F3B62[];
 
-int func_021F3908(char *a0, int a1)
+int GIMMICK45_IsRequirementMet(char *a0, int a1)
 {
     unsigned short v = (unsigned short)(*(unsigned int *)(a0 + d_021F3B60[a1 * 2] * 4) != 0);
 

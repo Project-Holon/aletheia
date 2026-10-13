@@ -10,14 +10,14 @@
  * status: EXACT*
  * EXACT* tail: two zero alignment bytes after the function.
  * symbols:
- *   func_02050DB8 0x02050DB8 arm
- *   func_02050ED4 0x02050ED4 arm
+ *   PARTICLE_DeleteSystem 0x02050DB8 arm
+ *   PARTICLE_ExitManager 0x02050ED4 arm
  */
 #include "../include/Obj10931.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_02050DB8(u8 *);
-extern void func_02050ED4(void);
-void func_021BA8D4(char *p) { if(*(u8 * *)&((struct Obj10931 *)p)->f10) func_02050DB8(*(u8 * *)&((struct Obj10931 *)p)->f10); func_02050ED4(); }
+extern void PARTICLE_DeleteSystem(u8 *);
+extern void PARTICLE_ExitManager(void);
+void func_021BA8D4(char *p) { if(*(u8 * *)&((struct Obj10931 *)p)->f10) PARTICLE_DeleteSystem(*(u8 * *)&((struct Obj10931 *)p)->f10); PARTICLE_ExitManager(); }

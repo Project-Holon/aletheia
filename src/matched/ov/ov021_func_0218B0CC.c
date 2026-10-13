@@ -1,5 +1,5 @@
 /*
- * function: func_0218B0CC
+ * function: FIELD_EVENT_CHECK_CheckRailConnect
  * address:  0x0218B0CC
  * packet:   pkt_ov021_0218B0CC
  * region:   ov021
@@ -9,18 +9,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls the unlabelled ov010 leaf func_021626EC (filed as pkt_ov010_021626EC).
+ * Calls the unlabelled ov010 leaf EVENTDATA_SYSTEM_IsConnectDisabled (filed as pkt_ov010_021626EC).
  *
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb
- *   func_021A3074  0x021A3074  thumb
- *   func_0219E2F4  0x0219E2F4  thumb
- *   func_02162598  0x02162598  thumb  ov010
- *   func_021625CC  0x021625CC  thumb  ov010
- *   func_021626EC  0x021626EC  thumb  ov010
- *   func_0218AEAC  0x0218AEAC  thumb
- *   func_0218B2A8  0x0218B2A8  thumb
- *   func_0218B2E8  0x0218B2E8  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
+ *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb
+ *   EVENTDATA_SYSTEM_SearchConnectIdByRailLocation  0x02162598  thumb  ov010
+ *   EVENTDATA_SYSTEM_GetConnectData  0x021625CC  thumb  ov010
+ *   EVENTDATA_SYSTEM_IsConnectDisabled  0x021626EC  thumb  ov010
+ *   FIELD_EVENT_CHECK_IsConnectOnFootType  0x0218AEAC  thumb
+ *   FIELD_EVENT_CHECK_SetEntranceFromRailConnect  0x0218B2A8  thumb
+ *   FIELD_EVENT_CHECK_StartRailConnectEvent  0x0218B2E8  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj04982.h"
@@ -29,30 +29,30 @@ typedef unsigned short u16;
 
 typedef unsigned char  u8;
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern void func_0219E2F4(void *o, void *out);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void FLDMMDL_RAIL_GetNextLocation(void *o, void *out);
 struct Q;
-extern int func_02162598(char *p, struct Q *q);
-extern void *func_021625CC(char *p, unsigned i);
-extern int func_021626EC(u16 *p);
-extern int func_0218AEAC(u8 *p);
-extern void func_0218B2A8(char *p, int s, u16 *v);
-extern int func_0218B2E8(char *p, void *x, int a, int *b);
+extern int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(char *p, struct Q *q);
+extern void *EVENTDATA_SYSTEM_GetConnectData(char *p, unsigned i);
+extern int EVENTDATA_SYSTEM_IsConnectDisabled(u16 *p);
+extern int FIELD_EVENT_CHECK_IsConnectOnFootType(u8 *p);
+extern void FIELD_EVENT_CHECK_SetEntranceFromRailConnect(char *p, int s, u16 *v);
+extern int FIELD_EVENT_CHECK_StartRailConnectEvent(char *p, void *x, int a, int *b);
 
-int func_0218B0CC(char *p, void *unused, void *x)
+int FIELD_EVENT_CHECK_CheckRailConnect(char *p, void *unused, void *x)
 {
     int buf[2];
     int r4;
     void *r6;
 
-    func_0219E2F4(func_021A3074(func_02188CB4(x)), buf);
-    r4 = func_02162598(((struct Obj04982 *)p)->fC, (struct Q *)buf);
+    FLDMMDL_RAIL_GetNextLocation(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(x)), buf);
+    r4 = EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(((struct Obj04982 *)p)->fC, (struct Q *)buf);
     if (r4 == 0xFFFF)
         return 0;
-    r6 = func_021625CC(((struct Obj04982 *)p)->fC, (u16)r4);
-    if (func_021626EC(r6) == 1 || func_0218AEAC(r6) == 0)
+    r6 = EVENTDATA_SYSTEM_GetConnectData(((struct Obj04982 *)p)->fC, (u16)r4);
+    if (EVENTDATA_SYSTEM_IsConnectDisabled(r6) == 1 || FIELD_EVENT_CHECK_IsConnectOnFootType(r6) == 0)
         return 0;
-    func_0218B2A8(p, r4, (u16 *)buf);
-    return func_0218B2E8(p, x, r4, buf);
+    FIELD_EVENT_CHECK_SetEntranceFromRailConnect(p, r4, (u16 *)buf);
+    return FIELD_EVENT_CHECK_StartRailConnectEvent(p, x, r4, buf);
 }

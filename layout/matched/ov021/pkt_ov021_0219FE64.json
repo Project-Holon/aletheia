@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219FE64",
+   "name": "FLDMMDL_DRAW_ResetBlactAnime",
    "address": "0x0219FE64",
    "kind": "game",
    "region": "ov021",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C6CAC",
+   "name": "BTL_SERVER_FLOW_CalcMoveDrainRecoil",
    "address": "0x021C6CAC",
    "kind": "game",
    "region": "ov093",

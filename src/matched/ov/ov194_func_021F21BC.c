@@ -10,12 +10,12 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_021F23FC 0x021F23FC thumb
  */
 #include "../include/Obj01574.h"
 
-extern unsigned short func_02045A98(void);
+extern unsigned short STRBUF_GetEosChar(void);
 typedef unsigned char  u8;
 extern int func_021F23FC(u8 *p, int direction);
 
@@ -26,7 +26,7 @@ int func_021F21BC(unsigned char *p, unsigned short a, unsigned short b)
         *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) = a;
         ((struct Obj01574 *)p)->f20 += 1;
         *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) =
-            func_02045A98();
+            STRBUF_GetEosChar();
         func_021F23FC(p, b);
         ((struct Obj01574 *)p)->f28 = 1;
         return 1;

@@ -1,5 +1,5 @@
 /*
- * function: func_02199234
+ * function: FLDMMDL_ACMD_StepUpFaceLeft8F
  * address:  0x02199234
  * packet:   pkt_ov021_02199234
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219912C  0x0219912C  thumb  ov021
+ *   FLDMMDL_ACMD_StepInit  0x0219912C  thumb  ov021
  *   d_021D4B44     0x021D4B44  data  ov021  a4
  * Addresses are Black-image addresses.
  */
@@ -19,11 +19,11 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec;
 extern const Vec d_021D4B44;
-extern void func_0219912C(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f);
+extern void FLDMMDL_ACMD_StepInit(u32 a, Vec *b, u32 c, u32 d, u32 e, u8 f);
 
-int func_02199234(u32 a)
+int FLDMMDL_ACMD_StepUpFaceLeft8F(u32 a)
 {
     Vec t = d_021D4B44;
-    func_0219912C(a, &t, 2, 0, 8, 3);
+    FLDMMDL_ACMD_StepInit(a, &t, 2, 0, 8, 3);
     return 1;
 }

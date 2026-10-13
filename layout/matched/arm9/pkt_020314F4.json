@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203159C",
+   "name": "PROCSYS_AllocProcWork",
    "address": "0x0203159C",
    "kind": "game",
    "region": "arm9",

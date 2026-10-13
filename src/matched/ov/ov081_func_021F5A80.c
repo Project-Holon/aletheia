@@ -1,5 +1,5 @@
 /*
- * function: func_021F5A80
+ * function: ENCEFF_BuildGridSpread
  * address: 0x021F5A80
  * packet: pkt_ov081_021F5A80
  * region: ov081
@@ -9,25 +9,25 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F5D00 0x021F5D00 data a4
- *   func_02189A08 0x02189A08 thumb ov021
- *   func_021CF580 0x021CF580 thumb ov021
- *   func_021F5260 0x021F5260 thumb ov075
- *   func_021F5ABC 0x021F5ABC thumb ov081
- *   func_021F582C 0x021F582C thumb ov077
+ *   gEncEffGridSpreadCameraPos 0x021F5D00 data a4
+ *   FIELDMAP_GetEncEff 0x02189A08 thumb ov021
+ *   ENCEFF_LoadOverlays4B4D 0x021CF580 thumb ov021
+ *   ENCEFF_StartScreenTexEffectFlash 0x021F5260 thumb ov075
+ *   ENCEFF_StartGridSpread 0x021F5ABC thumb ov081
+ *   ENCEFF_DrawCellGrid 0x021F582C thumb ov077
  */
 typedef struct { int x,y,z; } Vec;
-extern const Vec d_021F5D00;
-extern int func_02189A08(unsigned char *p);
-extern void func_021CF580(void *);
+extern const Vec gEncEffGridSpreadCameraPos;
+extern int FIELDMAP_GetEncEff(unsigned char *p);
+extern void ENCEFF_LoadOverlays4B4D(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Vec;
-extern void *func_021F5260(void *a, struct Vec *src, u32 b, u32 c);
-extern void func_021F5ABC(void *a);
-extern void func_021F582C(u8 *p);
-void *func_021F5A80(void *p, int b) {
-    Vec v = d_021F5D00;
-    func_021CF580((void *)func_02189A08((unsigned char *)b));
-    return func_021F5260(p, (struct Vec *)(&v), (u32)((void (*)(void))func_021F5ABC), (u32)func_021F582C);
+extern void *ENCEFF_StartScreenTexEffectFlash(void *a, struct Vec *src, u32 b, u32 c);
+extern void ENCEFF_StartGridSpread(void *a);
+extern void ENCEFF_DrawCellGrid(u8 *p);
+void *ENCEFF_BuildGridSpread(void *p, int b) {
+    Vec v = gEncEffGridSpreadCameraPos;
+    ENCEFF_LoadOverlays4B4D((void *)FIELDMAP_GetEncEff((unsigned char *)b));
+    return ENCEFF_StartScreenTexEffectFlash(p, (struct Vec *)(&v), (u32)((void (*)(void))ENCEFF_StartGridSpread), (u32)ENCEFF_DrawCellGrid);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A7484
+ * function: FIELD_GROUND_ANIME_AnmSetFree
  * address:  0x021A7484
  * packet:   pkt_ov021_021A7484
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A752C  0x021A752C  thumb
+ *   FIELD_GROUND_ANIME_AnmEntryFree  0x021A752C  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -26,15 +26,15 @@ typedef struct {
     void *p8;
 } S;
 
-extern int func_021A752C(u32 a);
+extern int FIELD_GROUND_ANIME_AnmEntryFree(u32 a);
 extern u32 func_020307B0(void *p);
 
-void func_021A7484(S *s)
+void FIELD_GROUND_ANIME_AnmSetFree(S *s)
 {
     u32 i;
     if (s->p8 != 0) {
         for (i = 0; i < s->n; i++) {
-            func_021A752C((u32)(&s->arr[i]));
+            FIELD_GROUND_ANIME_AnmEntryFree((u32)(&s->arr[i]));
         }
         func_020307B0(s->arr);
         s->arr = 0;

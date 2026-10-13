@@ -15,7 +15,7 @@
  *   func_021B7448 0x021B7448 thumb ov173
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201F250 0x0201F250 thumb
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   d_021B8350 0x021B8350 data a4
  */
 #include "../include/Obj00544.h"
@@ -34,7 +34,7 @@ extern u16 func_021B7438(char **);
 extern unsigned short func_021B7448(int *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern const u32 d_021B8350[][11];
 void func_021B7378(char *p, u32 kind)
 {
@@ -64,5 +64,5 @@ void func_021B7378(char *p, u32 kind)
     }
     str = func_02045EC0(((struct Obj00544 *)p)->f44, d_021B8350[((struct Obj24173 *)(*(char * *)&((struct Obj00544 *)p)->f0))->f19][kind]);
     func_0201F250(((struct Obj00544 *)p)->f48, ((struct Obj00544 *)p)->f4C, str);
-    func_02045808(str);
+    STRBUF_Delete(str);
 }

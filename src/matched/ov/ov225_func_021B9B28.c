@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  */
 typedef unsigned short u16;
-extern void func_0204A600(void);
-void func_021B9B28(void *a0) {func_0204A600();}
+extern void CLACT_DrawSystem(void);
+void func_021B9B28(void *a0) {CLACT_DrawSystem();}

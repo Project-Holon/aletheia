@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218E160",
+   "name": "FIELD_CAMERA_ReloadSetting",
    "address": "0x0218E160",
    "kind": "game",
    "region": "ov021",

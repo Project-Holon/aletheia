@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0201B7EC",
+   "name": "NATSUKI_CalcWalk",
    "address": "0x0201B7EC",
    "kind": "game",
    "region": "arm9",

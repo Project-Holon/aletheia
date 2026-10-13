@@ -1,5 +1,5 @@
 /*
- * function: func_021F0C0C
+ * function: DOWSING_ExitFade
  * address: 0x021F0C0C
  * packet: pkt_ov033_021F0C0C
  * region: ov033
@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020215A0 0x020215A0 thumb
- *   func_02021540 0x02021540 thumb
+ *   PALANM_FreeSlotBuffers 0x020215A0 thumb
+ *   PALANM_Delete 0x02021540 thumb
  *   func_02030DA4 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj06144.h"
 typedef unsigned int   u32;
 struct PalAnmSlot;
-extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
-extern u32 func_02021540(void *a0);
+extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+extern u32 PALANM_Delete(void *a0);
 extern void func_02030DA4(void *);
 extern u32 func_020307B0(void *p);
-void func_021F0C0C(char *p) { func_020215A0(((struct Obj06144 *)p)->fBC,1); func_020215A0(((struct Obj06144 *)p)->fBC,3); func_02021540(((struct Obj06144 *)p)->fBC); func_02030DA4(((struct Obj06144 *)p)->fB4); func_020307B0(((struct Obj06144 *)p)->fB8); }
+void DOWSING_ExitFade(char *p) { PALANM_FreeSlotBuffers(((struct Obj06144 *)p)->fBC,1); PALANM_FreeSlotBuffers(((struct Obj06144 *)p)->fBC,3); PALANM_Delete(((struct Obj06144 *)p)->fBC); func_02030DA4(((struct Obj06144 *)p)->fB4); func_020307B0(((struct Obj06144 *)p)->fB8); }

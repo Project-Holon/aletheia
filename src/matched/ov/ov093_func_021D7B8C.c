@@ -1,5 +1,5 @@
 /*
- * function: func_021D7B8C
+ * function: BTL_CALC_RandRange
  * address:  0x021D7B8C
  * packet:   pkt_ov093_021D7B8C
  * region:   ov093
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D78AC  0x021D78AC  thumb  ov093
+ *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_021D78AC(u32 range);
+extern u32 BTL_CALC_Random(u32 range);
 
-u32 func_021D7B8C(u32 lo, u32 hi)
+u32 BTL_CALC_RandRange(u32 lo, u32 hi)
 {
     u32 t;
     if (lo > hi) {
@@ -25,5 +25,5 @@ u32 func_021D7B8C(u32 lo, u32 hi)
         lo = hi;
         hi = t;
     }
-    return lo + func_021D78AC(hi - lo + 1);
+    return lo + BTL_CALC_Random(hi - lo + 1);
 }

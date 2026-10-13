@@ -1,5 +1,5 @@
 /*
- * function: func_021A7A28
+ * function: FIELD_GROUND_ANIME_GetTexAnmKeyData
  * address:  0x021A7A28
  * packet:   pkt_021A7A28
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A7A28(u32 a, u32 b)
+int FIELD_GROUND_ANIME_GetTexAnmKeyData(u32 a, u32 b)
 {
 return (a + *(u32 *)((u8 *)((a + (b << 3))) + 4));
 }

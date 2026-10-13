@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A16EC",
+   "name": "FIELD_3DBG_LoadTexture",
    "address": "0x021A16EC",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: func_021CCFC0
+ * function: PARTY_SELECT_LIST_CreateTextWindow
  * address:  0x021CCFC0
  * packet:   pkt_ov021_021CCFC0
  * region:   ov021
@@ -12,7 +12,7 @@
  * Builds the +0xB0 handle of the work block from its +0xA4 object and +0xA8 entry.
  *
  * symbols:
- *   func_02190F64  0x02190F64  thumb  ov021
+ *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -31,9 +31,9 @@ typedef struct {
 
 struct Fx;
 struct Obj2;
-extern struct Obj2 *func_02190F64(struct Fx *a, u32 b);
+extern struct Obj2 *FIELD_MSGBG_CreateBottomSysWin(struct Fx *a, u32 b);
 
-void func_021CCFC0(Work *w)
+void PARTY_SELECT_LIST_CreateTextWindow(Work *w)
 {
-    w->fB0 = func_02190F64(w->fA4, (u32)w->fA8);
+    w->fB0 = FIELD_MSGBG_CreateBottomSysWin(w->fA4, (u32)w->fA8);
 }

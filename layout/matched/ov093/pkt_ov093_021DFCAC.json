@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021DFCAC",
+   "name": "BTL_HANDLER_ITEM_GetRingTargetHandlers",
    "address": "0x021DFCAC",
    "kind": "game",
    "region": "ov093",

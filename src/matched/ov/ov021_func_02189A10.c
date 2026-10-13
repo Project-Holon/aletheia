@@ -1,5 +1,5 @@
 /*
- * function: func_02189A10
+ * function: FIELDMAP_GetMapEff
  * address:  0x02189A10
  * packet:   pkt_ov021_02189A10
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * Unlabelled leaf accessor (prints as .word in the listing): returns the pointer at +0xA0.
- * Sole blocker of ov010 func_0215ECBC's MATCH.
+ * Sole blocker of ov010 MOVE_POKEMON_FlashEventMain's MATCH.
  */
 
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef struct Obj {
     void *fa0;          /* 0xA0 */
 } Obj;
 
-void *func_02189A10(Obj *p)
+void *FIELDMAP_GetMapEff(Obj *p)
 {
     return p->fa0;
 }

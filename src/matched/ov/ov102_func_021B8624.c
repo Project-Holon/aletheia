@@ -15,7 +15,7 @@
  *   func_020409B4(u8). palette0 declared first (window r4, palette0 r6); row fields read in field order x, y, w, h.
  *   opt_propagation off with named off/rows locals keeps the index copy and row address sequence (G8L1).
  * symbols:
- * func_02051C88 0x02051C88 arm
+ * BUTTON_MAN_UpdateSlots 0x02051C88 arm
  * func_020061E4 0x020061E4 thumb
  * func_02045730 0x02045730 arm
  * func_020413B0 0x020413B0 arm
@@ -34,7 +34,7 @@ typedef struct {
     u16 count, pad2e, index, done, phase, timer;
     u32 enabled;
 } State;
-extern int func_02051C88(struct Ctx *);
+extern int BUTTON_MAN_UpdateSlots(struct Ctx *);
 extern void func_020061E4(u32);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -45,7 +45,7 @@ void func_021B8624(State *p)
     switch(p->phase) {
     case 0:
         p->done=0;
-        if(func_02051C88(p->ctx) && p->enabled) {
+        if(BUTTON_MAN_UpdateSlots(p->ctx) && p->enabled) {
             func_020061E4(1352);
             p->timer=0;
             p->phase=1;

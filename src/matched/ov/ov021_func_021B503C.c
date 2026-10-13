@@ -1,5 +1,5 @@
 /*
- * function: func_021B503C
+ * function: SCRCMD_PROC_FLD_CallEventFromThreeValues
  * address:  0x021B503C
  * packet:   pkt_ov021_021B503C
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02158F54  0x02158F54  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02188CE8  0x02188CE8  thumb  ov021
- *   func_021AA0A0  0x021AA0A0  thumb  ov021
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
+ *   FIELD_ENCOUNT_StartScriptedWild  0x021AA0A0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -24,26 +24,26 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *p);
-extern void func_0215897C(void *vm, void *task);
-extern unsigned int func_02159B10(void *a, void *b);
-extern void *func_02158F54(void *p);
-extern int func_02158F58(int a0);
-extern u32 func_02188CE8(u8 *p);
-extern u32 func_021AA0A0(u32 a, u32 b, u32 c, u32 d);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void *SCRIPT_WORK_GetGameSystem(void *p);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern u32 FIELDMAP_GetEncount(u8 *p);
+extern u32 FIELD_ENCOUNT_StartScriptedWild(u32 a, u32 b, u32 c, u32 d);
 
-int func_021B503C(u32 a, u32 b)
+int SCRCMD_PROC_FLD_CallEventFromThreeValues(u32 a, u32 b)
 {
     void *r4;
     u32 s0;
     u32 r7;
     u32 r5;
 
-    r4 = func_0215A5F4((void *)b);
-    s0 = func_02159B10((void *)a, (void *)b);
-    r7 = func_02159B10((void *)a, (void *)b);
-    r5 = func_02159B10((void *)a, (void *)b);
-    func_02158F54(r4);
-    func_0215897C(r4, (void *)func_021AA0A0(func_02188CE8((u8 *)(((u32 *)func_02158F58((int)r4))[1])), s0, (u8)r7, r5));
+    r4 = SCRCMD_WORK_GetScriptWork((void *)b);
+    s0 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    r7 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    r5 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    SCRIPT_WORK_GetGameSystem(r4);
+    SCRIPT_SYS_CallEvent(r4, (void *)FIELD_ENCOUNT_StartScriptedWild(FIELDMAP_GetEncount((u8 *)(((u32 *)SCRIPT_WORK_ResetFieldParam((int)r4))[1])), s0, (u8)r7, r5));
     return 1;
 }

@@ -12,19 +12,19 @@
  * match: unsigned 88U*i and signed 88*i keep both row computations; a block slot pointer fixes the inner loop colouring; u32 allocation length fixes the final instruction schedule.
  * ABI: 3159C stores the allocation but leaves r0 live, used here as the State pointer. RTC copies four words.
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02030734 0x02030734 arm
  *   func_0203F4E4 0x0203F4E4 arm
- *   func_02045A98 0x02045A98 arm
+ *   STRBUF_GetEosChar 0x02045A98 arm
  *   func_0203630C 0x0203630C arm
  *   func_020056A0 0x020056A0 thumb
  *   func_021F3A4C 0x021F3A4C thumb ov112
  *   func_021F3A54 0x021F3A54 thumb ov112
  *   func_021F3AF0 0x021F3AF0 thumb ov112
  *   func_021F4284 0x021F4284 thumb ov112
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   ov132_id 0x84 data
  *   d_021F836C 0x021F836C data a4
  */
@@ -39,28 +39,28 @@ typedef struct {u32 x,y,z,week;} Options;
 typedef struct {u32 a,b;u8 *config;u32 c,d;} Save;
 typedef struct {u16 heap,pad;void *task;Save *save;void *scene,*actors;} State;
 typedef enum {ConfigSize=432} AllocSize;
-extern void func_0203064C(u32,u32,u32);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern int func_02034AC4(int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 struct RtcDate;
 extern void func_0203F4E4(struct RtcDate *date);
-extern u16 func_02045A98(void);
+extern u16 STRBUF_GetEosChar(void);
 extern u32 func_0203630C(void);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021F3A4C(void);
 extern void func_021F3A54(u8 *);
 extern u8 *func_021F3AF0(u8 *src, u16 heap);
 extern void *func_021F4284(u8 *,u32,u32,u32,u16);
-extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern char ov132_id[];
 extern const char d_021F836C[];
 int func_021F36C0(void *owner,int unused,const Save *save)
 {
  State *p;u8 *cfg;u8 i,j;Options options;u32 length;
- func_0203064C(1,74,1<<19);
- p=func_0203159C(owner,20,74);p->heap=74;
+ GFL_HEAP_CreateChildHeap(1,74,1<<19);
+ p=PROCSYS_AllocProcWork(owner,20,74);p->heap=74;
  if(save==0){
   func_02034AC4((u32)ov132_id);
   p->save=func_02030734(74,20,0,d_021F836C,110);
@@ -83,7 +83,7 @@ int func_021F36C0(void *owner,int unused,const Save *save)
   *(u16 *)((u32)cfg+(length-0x3A))=0x30BF;
   *(u16 *)((u32)cfg+(length-0x38))=0x30FC;
   *(u16 *)((u32)cfg+(length-0x36))=0x30EA;
-  *(u16 *)((u32)cfg+(length-0x34))=func_02045A98();
+  *(u16 *)((u32)cfg+(length-0x34))=STRBUF_GetEosChar();
   ((struct Obj08019 *)cfg)->f4=643;((struct Obj08019 *)cfg)->f5C=643;((struct Obj08019 *)cfg)->fB4=643;((struct Obj08019 *)cfg)->f10C=643;
   for(i=0;i<4;i++){
    u8 *q;
@@ -107,5 +107,5 @@ int func_021F36C0(void *owner,int unused,const Save *save)
  func_021F3A54((u8 *)p);
  p->scene=func_021F3AF0(p->save->config,p->heap);
  p->actors=func_021F4284(p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
- func_0202208C(0,1,1,0,6,1,p->heap);return 1;
+ WIPE_SYS_Start(0,1,1,0,6,1,p->heap);return 1;
 }

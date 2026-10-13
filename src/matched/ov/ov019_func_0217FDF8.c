@@ -1,5 +1,5 @@
 /*
- * function: func_0217FDF8
+ * function: COLOSSEUM_CheckAllTrainerCardsReceived
  * address:  0x0217FDF8
  * packet:   pkt_ov019_0217FDF8
  * region:   ov019
@@ -10,14 +10,14 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  */
 
 typedef unsigned char u8;
 
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 
-int func_0217FDF8(u8 *p)
+int COLOSSEUM_CheckAllTrainerCardsReceived(u8 *p)
 {
     int i;
     int n = 0;
@@ -26,7 +26,7 @@ int func_0217FDF8(u8 *p)
         if (p[0x144 + i] == 1)
             n++;
     }
-    if (n >= func_0203D1B4())
+    if (n >= GFL_NET_GetNegotiationNum())
         return 1;
     return 0;
 }

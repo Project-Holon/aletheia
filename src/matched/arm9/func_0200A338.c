@@ -1,5 +1,5 @@
 /*
- * function: func_0200A338
+ * function: MYSTERY_DATA_Delete
  * address:  0x0200A338
  * packet:   pkt_0200A2B8
  * region:   arm9
@@ -18,7 +18,7 @@ extern void MYSTERY_DATA_Unload(void *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_0200A338(void *a0)
+void MYSTERY_DATA_Delete(void *a0)
 {
     MYSTERY_DATA_Unload(a0);
     func_020307B0(a0);

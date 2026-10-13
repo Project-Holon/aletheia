@@ -1,5 +1,5 @@
 /*
- * function: func_021A4D8C
+ * function: FIELD_PLAYER_GRID_ApplyNoneOnFoot
  * address:  0x021A4D8C
  * packet:   pkt_ov021_021A4D8C
  * region:   ov021
@@ -18,6 +18,6 @@
 
 typedef unsigned int u32;
 
-void func_021A4D8C(u32 a, u32 b, u32 c)
+void FIELD_PLAYER_GRID_ApplyNoneOnFoot(u32 a, u32 b, u32 c)
 {
 }

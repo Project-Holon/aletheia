@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F3B3C",
+   "name": "GIMMICK38_EventSlideDoor",
    "address": "0x021F3B3C",
    "kind": "game",
    "region": "ov038",

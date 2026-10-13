@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02049250  0x02049250  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   CLACT_TransferPaletteData  0x0204DD08  arm
  *   func_020307B0  0x020307B0  arm
  *   unk_02146A74   0x02146A74  data
@@ -56,7 +56,7 @@ extern struct Sys *unk_02146A74;
 
 struct ArcFile;
 struct Holder;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern void CLACT_TransferPaletteData(struct Holder *h, int idx, void *src, void *sel, u32 size, u16 head, u16 tail);
 extern u32 func_020307B0(void *p);
 
@@ -80,7 +80,7 @@ found:
         return i;
     }
 
-    handle = (u32)func_02049250(a, b, (u16)((g & 0x7fff) | 0x8000));
+    handle = (u32)ARC_TOOL_LoadHandleMember(a, b, (u16)((g & 0x7fff) | 0x8000));
 
     CLACT_TransferPaletteData((struct Holder *)(&unk_02146A74->owner), i, (void *)handle, (void *)c, d, e, f);
     func_020307B0((void *)handle);

@@ -1,5 +1,5 @@
 /*
- * function: func_021EE770
+ * function: WEATHER_FOG_BeginParticlesFixed
  * address:  0x021EE770
  * packet:   pkt_ov028_021EE770
  * region:   ov028
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A21B8  0x021A21B8  thumb  ov021
- *   func_021A232C  0x021A232C  thumb  ov021
+ *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
+ *   WEATHER_TASK_ChangeFog  0x021A232C  thumb  ov021
  *   func_02014A10  0x02014A10  thumb
- *   func_021A2108  0x021A2108  thumb  ov021
- *   func_021A23B0  0x021A23B0  thumb  ov021
+ *   WEATHER_TASK_FadeLight  0x021A2108  thumb  ov021
+ *   WEATHER_TASK_IsFogIdle  0x021A23B0  thumb  ov021
  */
 
 typedef unsigned char  u8;
-int *func_021A21B8(int *p);
-void func_021A232C(u8 *p, int a, int b, int c, int d);
+int *WEATHER_TASK_GetWorkBuffer(int *p);
+void WEATHER_TASK_ChangeFog(u8 *p, int a, int b, int c, int d);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 u16 func_02014A10(u32 i);
-int func_021A2108(u32 a, int b, int c);
-int func_021A23B0(u32 a);
+int WEATHER_TASK_FadeLight(u32 a, int b, int c);
+int WEATHER_TASK_IsFogIdle(u32 a);
 
-int func_021EE770(int a, int b)
+int WEATHER_FOG_BeginParticlesFixed(int a, int b)
 {
-    int *p = func_021A21B8((int *)a);
+    int *p = WEATHER_TASK_GetWorkBuffer((int *)a);
 
     if (*p == 0) {
-        func_021A232C((u8 *)a, p[10], p[11], 0x5a, b);
-        func_021A2108(a, 0x3e, func_02014A10(9));
+        WEATHER_TASK_ChangeFog((u8 *)a, p[10], p[11], 0x5a, b);
+        WEATHER_TASK_FadeLight(a, 0x3e, func_02014A10(9));
         *p = *p - 1;
-    } else if (func_021A23B0(a) != 0) {
+    } else if (WEATHER_TASK_IsFogIdle(a) != 0) {
         return 1;
     }
     return 0;

@@ -21,13 +21,13 @@
  * symbols:
  *   g_ZoneDataMgr  0x02146264  data
  *   func_020307B0     0x020307B0  arm
- *   func_02049238     0x02049238  arm
+ *   ARC_TOOL_DeleteHandle     0x02049238  arm
  *
  * The destructor of the zone-header subsystem allocated by ZONEDATA_Init, and
  * a second, independent reading of the manager's field map: it frees +0x44,
  * +0x3c and +0x38 with the plain heap free func_020307B0, which is what makes
  * those three heap buffers rather than pointers into the image, and closes
- * +0x00 with func_02049238 (archive close plus free), which is what makes
+ * +0x00 with ARC_TOOL_DeleteHandle (archive close plus free), which is what makes
  * +0x00 an archive handle and not a fourth buffer.  The manager itself is
  * freed last and the global cleared.
  *
@@ -67,7 +67,7 @@ struct ZoneDataMgr {
 extern struct ZoneDataMgr *g_ZoneDataMgr;
 
 extern u32 func_020307B0(void *p);
-extern void func_02049238(void *handle);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 
 void ZONEDATA_Exit(void)
 {
@@ -77,7 +77,7 @@ void ZONEDATA_Exit(void)
     func_020307B0(g_ZoneDataMgr->table44);
     func_020307B0(g_ZoneDataMgr->table3c);
     func_020307B0(g_ZoneDataMgr->table38);
-    func_02049238(g_ZoneDataMgr->archive);
+    ARC_TOOL_DeleteHandle(g_ZoneDataMgr->archive);
     func_020307B0(g_ZoneDataMgr);
     g_ZoneDataMgr = 0;
 }

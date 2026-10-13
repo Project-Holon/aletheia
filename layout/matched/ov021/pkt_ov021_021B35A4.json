@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B35A4",
+   "name": "SCRCMD_PROC_FLD_StepShop",
    "address": "0x021B35A4",
    "kind": "game",
    "region": "ov021",

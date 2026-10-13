@@ -1,5 +1,5 @@
 /*
- * function: func_021BCDB4
+ * function: STARTMENU_SaveEraseStepShowPrompt
  * address:  0x021BCDB4
  * packet:   pkt_ov088_021BCDB4
  * region:   ov088
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020221A4  0x020221A4  thumb
- *   func_021BD118  0x021BD118  thumb  ov088
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   STARTMENU_SaveEraseStartMessage  0x021BD118  thumb  ov088
  */
 
 typedef unsigned int   u32;
-extern u32 func_020221A4(void);
-extern void func_021BD118(int *p, u32 mode);
+extern u32 WIPE_SYS_EndCheck(void);
+extern void STARTMENU_SaveEraseStartMessage(int *p, u32 mode);
 
-void func_021BCDB4(void *p, int *st)
+void STARTMENU_SaveEraseStepShowPrompt(void *p, int *st)
 {
-    if (func_020221A4() == 1) {
-        func_021BD118(p, 0);
+    if (WIPE_SYS_EndCheck() == 1) {
+        STARTMENU_SaveEraseStartMessage(p, 0);
         *st = 2;
     }
 }

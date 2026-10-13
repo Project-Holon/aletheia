@@ -1,5 +1,5 @@
 /*
- * function: func_021850FC
+ * function: EVENT_MAPCHANGE_CreateSpecialLocationEvent
  * address:  0x021850FC
  * packet:   pkt_021850FC
  * region:   ov020
@@ -13,12 +13,12 @@
  * accessor into offset 0x10.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012894  0x02012894  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSpecialLocation  0x02012894  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02184BF8  0x02184BF8  thumb  ov020
- *   func_02184CEC  0x02184CEC  thumb  ov020
+ *   EVENT_MAPCHANGE_SwapCommOverlayEvent  0x02184BF8  thumb  ov020
+ *   EVENT_MAPCHANGE_InitWork  0x02184CEC  thumb  ov020
  */
 
 typedef unsigned char  u8;
@@ -34,18 +34,18 @@ void *func_020124E8(struct Obj *p);
 struct BigObj;
 struct Ctx;
 struct Rec1C;
-void *func_020120F4(const struct Ctx *p);
-struct Rec1C *func_02012894(const struct BigObj *p);
-int func_02184BF8(void *ctx, int *st, int *p);
-void func_02184CEC(void **o, void *p);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+struct Rec1C *GAME_DATA_GetSpecialLocation(const struct BigObj *p);
+int EVENT_MAPCHANGE_SwapCommOverlayEvent(void *ctx, int *st, int *p);
+void EVENT_MAPCHANGE_InitWork(void **o, void *p);
 
-void *func_021850FC(void *p, u8 *pos)
+void *EVENT_MAPCHANGE_CreateSpecialLocationEvent(void *p, u8 *pos)
 {
-    S7 *r5 = (S7 *)func_02012894(func_020120F4(p));
-    void *r0v = func_020122C0(p, 0, func_02184BF8, 0x9C);
+    S7 *r5 = (S7 *)GAME_DATA_GetSpecialLocation(GAMESYSTEM_GetGameData(p));
+    void *r0v = func_020122C0(p, 0, EVENT_MAPCHANGE_SwapCommOverlayEvent, 0x9C);
     char *r4 = func_020124E8(r0v);
 
-    func_02184CEC((void **)r4, p);
+    EVENT_MAPCHANGE_InitWork((void **)r4, p);
     *(S7 *)(r4 + 0x10) = *r5;
     return r0v;
 }

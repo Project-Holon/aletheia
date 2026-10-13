@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204A1BC  0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   ARC_UTIL_UploadBgPalette  0x02049A18  arm
  *
  * Seven-argument front end: load an archive member with the top allocation
@@ -33,11 +33,11 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size, u32 flag);
 
 void ARC_UTIL_UploadBgPaletteFromArchive(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags)
 {
-    ARC_UTIL_UploadBgPalette((void *)func_0204A1BC((u32)a0, (u32)a1, (u32)a5, (u16)((flags & 0x7FFF) | 0x8000)),
+    ARC_UTIL_UploadBgPalette((void *)ARC_UTIL_LoadMember((u32)a0, (u32)a1, (u32)a5, (u16)((flags & 0x7FFF) | 0x8000)),
                   a2, a3, 0, a4, 0);
 }

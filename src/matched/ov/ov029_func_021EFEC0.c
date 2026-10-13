@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Unlabelled leaf at the start of ov029 (the listing prints it as .word
- * data); called by func_021F1758.
+ * data); called by C_GEAR_HandleButton.
  */
 
 int func_021EFEC0(int a, int b)

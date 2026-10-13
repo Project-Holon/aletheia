@@ -1,5 +1,5 @@
 /*
- * function: func_021EF220
+ * function: WEATHER_STORM_SpawnParticles
  * address:  0x021EF220
  * packet:   pkt_ov026_021EF220
  * region:   ov026
@@ -12,11 +12,11 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   func_021A21B8  0x021A21B8  thumb  ov021
- *   func_021A21C8  0x021A21C8  thumb  ov021
- *   func_021A2630  0x021A2630  thumb  ov021
- *   func_021A2638  0x021A2638  thumb  ov021
- *   d_021EFDC0     0x021EFDC0  data  a4
+ *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
+ *   WEATHER_TASK_AddParticle  0x021A21C8  thumb  ov021
+ *   WEATHER_TASK_GetParticleWork  0x021A2630  thumb  ov021
+ *   WEATHER_TASK_GetParticleActor  0x021A2638  thumb  ov021
+ *   gWeatherStormDropInit     0x021EFDC0  data  a4
  */
 #include "../include/Obj09778.h"
 
@@ -27,13 +27,13 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_020056EC(u32 v);
-extern int *func_021A21B8(int *p);
-extern void *func_021A21C8(void *p, int a1);
-extern unsigned char *func_021A2630(unsigned char *o);
-extern unsigned int func_021A2638(unsigned char *o);
-extern void (*d_021EFDC0[])(int, s32, s32 *, int);
+extern int *WEATHER_TASK_GetWorkBuffer(int *p);
+extern void *WEATHER_TASK_AddParticle(void *p, int a1);
+extern unsigned char *WEATHER_TASK_GetParticleWork(unsigned char *o);
+extern unsigned int WEATHER_TASK_GetParticleActor(unsigned char *o);
+extern void (*gWeatherStormDropInit[])(int, s32, s32 *, int);
 
-void func_021EF220(int a, int n, int idx)
+void WEATHER_STORM_SpawnParticles(int a, int n, int idx)
 {
     u32 r;
     u32 rem;
@@ -44,7 +44,7 @@ void func_021EF220(int a, int n, int idx)
     int q;
 
     r = func_020056EC(0);
-    w = (u8 *)func_021A21B8((int *)a);
+    w = (u8 *)WEATHER_TASK_GetWorkBuffer((int *)a);
     if (((struct Obj09778 *)w)->f10 == 0) {
         return;
     }
@@ -57,12 +57,12 @@ void func_021EF220(int a, int n, int idx)
     }
     rem = r % 100;
     do {
-        obj = (int)func_021A21C8((void *)a, idx);
+        obj = (int)WEATHER_TASK_AddParticle((void *)a, idx);
         if (obj == 0) {
             return;
         }
-        e = (s32 *)func_021A2630((unsigned char *)obj);
-        q = func_021A2638((unsigned char *)obj);
+        e = (s32 *)WEATHER_TASK_GetParticleWork((unsigned char *)obj);
+        q = WEATHER_TASK_GetParticleActor((unsigned char *)obj);
         e[1] = (s32)w;
         switch (((struct Obj09778 *)w)->f10) {
         case 0:
@@ -78,7 +78,7 @@ void func_021EF220(int a, int n, int idx)
             if (rem <= 0x50) { e[0] = 1; } else { e[0] = 2; }
             break;
         }
-        d_021EFDC0[e[0]](obj, e[1], e + 2, q);
+        gWeatherStormDropInit[e[0]](obj, e[1], e + 2, q);
         i++;
     } while (i < n);
 }

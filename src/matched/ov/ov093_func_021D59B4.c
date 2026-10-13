@@ -13,10 +13,10 @@
  * func_021D58A8; case 17 falls through into case 16.
  *
  * symbols:
- *   func_021D587C  0x021D587C  thumb  ov093
+ *   BTL_POKEPARAM_RemapStatId  0x021D587C  thumb  ov093
  *   func_021D58A8  0x021D58A8  thumb  ov093
- *   func_021D78E4  0x021D78E4  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
+ *   BTL_CALC_ApplyStatStage  0x021D78E4  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *
  * Addresses are Black-image addresses.
  */
@@ -27,27 +27,27 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed char s8;
 
-extern int func_021D587C(void *p, int k);
+extern int BTL_POKEPARAM_RemapStatId(void *p, int k);
 extern int func_021D58A8(u8 *, int);
-extern unsigned short func_021D78E4(unsigned short a, int i);
+extern unsigned short BTL_CALC_ApplyStatStage(unsigned short a, int i);
 struct Unk021D62A8;
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 
 int func_021D59B4(u8 *p, int k)
 {
-    int v = func_021D587C(p, k);
+    int v = BTL_POKEPARAM_RemapStatId(p, k);
 
     switch (v) {
     case 8:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFC);
+        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFC);
     case 9:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFD);
+        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFD);
     case 10:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFE);
+        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFE);
     case 11:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFF);
+        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFF);
     case 12:
-        return func_021D78E4(func_021D58A8(p, v), ((struct Obj00041 *)p)->f100);
+        return BTL_CALC_ApplyStatStage(func_021D58A8(p, v), ((struct Obj00041 *)p)->f100);
     case 1:
         return ((struct Obj00041 *)p)->fFC;
     case 2:
@@ -73,7 +73,7 @@ int func_021D59B4(u8 *p, int k)
     case 21:
         return ((struct Obj00041 *)p)->f1A;
     case 17:
-        if (func_021D62C4((struct Unk021D62A8 *)p, 0x10) != 0)
+        if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)p, 0x10) != 0)
             return 0;
     case 16:
         return ((struct Obj00041 *)p)->f13C;

@@ -1,5 +1,5 @@
 /*
- * function: func_021AA944
+ * function: EFFECT_ENCOUNT_TriggerSpot
  * address:  0x021AA944
  * packet:   pkt_ov021_021AA944
  * region:   ov021
@@ -10,19 +10,19 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012A38  0x02012A38  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0216D828  0x0216D828  thumb  ov010
+ *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
  *   func_02005728  0x02005728  thumb
- *   func_021AB070  0x021AB070  thumb  ov021
- *   func_021AB0AC  0x021AB0AC  thumb  ov021
- *   func_021AB018  0x021AB018  thumb  ov021
- *   func_021A9F40  0x021A9F40  thumb  ov021
- *   func_021AAFA0  0x021AAFA0  thumb  ov021
- *   func_021AAB1C  0x021AAB1C  thumb  ov021
- *   func_021A3624  0x021A3624  thumb  ov021
- *   func_021A3644  0x021A3644  thumb  ov021
+ *   EFFECT_ENCOUNT_PickItemKind7  0x021AB070  thumb  ov021
+ *   EFFECT_ENCOUNT_StartItemEvent  0x021AB0AC  thumb  ov021
+ *   EFFECT_ENCOUNT_PickItemKind4  0x021AB018  thumb  ov021
+ *   FIELD_ENCOUNT_CheckWildEncount  0x021A9F40  thumb  ov021
+ *   EFFECT_ENCOUNT_ClearSpot  0x021AAFA0  thumb  ov021
+ *   EFFECT_ENCOUNT_SetEffectFlag  0x021AAB1C  thumb  ov021
+ *   FIELD_PLAYER_CheckGridMoving  0x021A3624  thumb  ov021
+ *   FIELD_PLAYER_FinishGridMove  0x021A3644  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -58,21 +58,21 @@ typedef struct Self {
 } Self;
 
 struct BigObj;
-extern u32 func_02012A38(const struct BigObj *p);
+extern u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p);
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_021A3074(u8 *p);
-extern void func_0216D828(void *p, Vec3s *out);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELD_PLAYER_GetMmdl(u8 *p);
+extern void FLDMMDL_GetGridNowPos(void *p, Vec3s *out);
 extern u32 func_02005728(u32 v);
-extern u16 func_021AB070(void);
-extern int func_021AB0AC(Self *self, u16 v);
-extern u16 func_021AB018(void);
+extern u16 EFFECT_ENCOUNT_PickItemKind7(void);
+extern int EFFECT_ENCOUNT_StartItemEvent(Self *self, u16 v);
+extern u16 EFFECT_ENCOUNT_PickItemKind4(void);
 struct Ctx;
-extern int func_021A9F40(struct Ctx *ctx, int mode);
-extern void func_021AAFA0(Self *self, void *p);
-extern void func_021AAB1C(Self *self, int v);
-extern int func_021A3624(void *p);
-extern void func_021A3644(void **p);
+extern int FIELD_ENCOUNT_CheckWildEncount(struct Ctx *ctx, int mode);
+extern void EFFECT_ENCOUNT_ClearSpot(Self *self, void *p);
+extern void EFFECT_ENCOUNT_SetEffectFlag(Self *self, int v);
+extern int FIELD_PLAYER_CheckGridMoving(void *p);
+extern void FIELD_PLAYER_FinishGridMove(void **p);
 
 static inline int same_pos(Ent *e, Vec3s *v)
 {
@@ -81,10 +81,10 @@ static inline int same_pos(Ent *e, Vec3s *v)
     return 1;
 }
 
-int func_021AA944(Self *self)
+int EFFECT_ENCOUNT_TriggerSpot(Self *self)
 {
     void *arg = self->f10;
-    char *base = (char *)func_02012A38(self->obj);
+    char *base = (char *)GAME_DATA_GetFieldGimmick(self->obj);
     Ent *e = (Ent *)(base + 0x10);
     int flag = 0;
     Vec3s v;
@@ -94,40 +94,40 @@ int func_021AA944(Self *self)
 
     if (((Ent *)(base + 0x10))->flags == 0)
         return flag;
-    func_0216D828(func_021A3074(func_02188CB4(self->ctx)), &v);
+    FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(self->ctx)), &v);
     if (!same_pos(e, &v))
         return 0;
     r = func_02005728(1000);
     if (e->b == 7) {
         if (r < 200) {
-            x = func_021A9F40((struct Ctx *)self, 1);
+            x = FIELD_ENCOUNT_CheckWildEncount((struct Ctx *)self, 1);
         } else {
-            x = func_021AB0AC(self, func_021AB070());
+            x = EFFECT_ENCOUNT_StartItemEvent(self, EFFECT_ENCOUNT_PickItemKind7());
             flag = 1;
         }
     } else if (e->b == 4) {
         if (r < 400) {
-            x = func_021A9F40((struct Ctx *)self, 1);
+            x = FIELD_ENCOUNT_CheckWildEncount((struct Ctx *)self, 1);
         } else {
-            x = func_021AB0AC(self, func_021AB018());
+            x = EFFECT_ENCOUNT_StartItemEvent(self, EFFECT_ENCOUNT_PickItemKind4());
             flag = 1;
         }
     } else {
-        x = func_021A9F40((struct Ctx *)self, 1);
+        x = FIELD_ENCOUNT_CheckWildEncount((struct Ctx *)self, 1);
     }
     if (x == 0) {
-        func_021AAFA0(self, arg);
+        EFFECT_ENCOUNT_ClearSpot(self, arg);
         return 0;
     }
     if (flag) {
-        func_021AAFA0(self, arg);
+        EFFECT_ENCOUNT_ClearSpot(self, arg);
     } else {
         if (e->b == 5 || e->b == 6)
-            func_021AAB1C(self, 1);
+            EFFECT_ENCOUNT_SetEffectFlag(self, 1);
         e->top = 1;
-        o = func_02188CB4(self->ctx);
-        if (func_021A3624(o))
-            func_021A3644(o);
+        o = FIELDMAP_GetFieldPlayer(self->ctx);
+        if (FIELD_PLAYER_CheckGridMoving(o))
+            FIELD_PLAYER_FinishGridMove(o);
     }
     return x;
 }

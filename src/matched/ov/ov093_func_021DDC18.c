@@ -1,5 +1,5 @@
 /*
- * function: func_021DDC18
+ * function: BTL_ITEM_GetWeakenDamageRockHandlers
  * address: 0x021DDC18
  * packet: pkt_ov093_021DDC18
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DDC04.c and filed here.
  *
  * symbols:
- *   d_021F17FC 0x021F17FC data ov093 a4
+ *   gBtlItemWeakenDamageRockHandlers 0x021F17FC data ov093 a4
  */
 
-extern int d_021F17FC[];
-int *func_021DDC18(int *p);
+extern int gBtlItemWeakenDamageRockHandlers[];
+int *BTL_ITEM_GetWeakenDamageRockHandlers(int *p);
 
-int *func_021DDC18(int *p)
+int *BTL_ITEM_GetWeakenDamageRockHandlers(int *p)
 {
     *p = 2;
-    return d_021F17FC;
+    return gBtlItemWeakenDamageRockHandlers;
 }

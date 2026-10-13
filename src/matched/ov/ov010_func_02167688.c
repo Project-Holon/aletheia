@@ -1,5 +1,5 @@
 /*
- * function: func_02167688
+ * function: COMM_PLAYER_Suspend
  * address:  0x02167688
  * packet:   pkt_ov010_02167688
  * region:   ov010
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012114  0x02012114  thumb
+ *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
  *   func_02034714  0x02034714  arm
- *   func_02167658  0x02167658  thumb
- *   func_021942C8  0x021942C8  thumb  ov021
+ *   COMM_PLAYER_Del  0x02167658  thumb
+ *   FIELD_COMM_ACTOR_CTRL_Delete  0x021942C8  thumb  ov021
  *   d_02172A28     0x02172A28  data
  */
 
@@ -54,28 +54,28 @@ typedef struct Work {
 
 extern u8 d_02172A28[];
 struct Ctx;
-extern u32 func_02012114(const struct Ctx *p);
+extern u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02167658(Work *w, int i);
-extern void func_021942C8(void *obj);
+extern void COMM_PLAYER_Del(Work *w, int i);
+extern void FIELD_COMM_ACTOR_CTRL_Delete(void *obj);
 
-void func_02167688(Work *w)
+void COMM_PLAYER_Suspend(Work *w)
 {
     Slot *s;
     int i;
 
-    if (func_02012114(w->sys) != 1)
+    if (GAMESYSTEM_IsFieldMapExist(w->sys) != 1)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (w->obj != 0) {
         i = 0;
         s = (Slot *)((char *)w + 0x1C);
         for (; i < 4; i++) {
             if (s[i].used == 1) {
-                func_02167658(w, i);
+                COMM_PLAYER_Del(w, i);
                 *(u8 *)&s[i] |= 2;
             }
         }
-        func_021942C8(w->obj);
+        FIELD_COMM_ACTOR_CTRL_Delete(w->obj);
         w->obj = 0;
     }
 }

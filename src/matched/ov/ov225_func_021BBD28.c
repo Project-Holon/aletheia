@@ -10,8 +10,8 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -23,8 +23,8 @@ struct Cfg;
 struct PrintSys;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p,void *value);
-extern void func_02045334(struct Descriptor *p);
-extern void func_02045374(struct Cfg *p);
+extern void BMP_WIN_TransferChars(struct Descriptor *p);
+extern void BMP_WIN_MakeScreen(struct Cfg *p);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 channel);
 void func_021BBD28(u8 *p)
@@ -37,8 +37,8 @@ void func_021BBD28(u8 *p)
         if(((struct Obj06736 *)slot)->f28!=0) {
             if(func_0201C6C4(*(struct PrintSys * *)&((struct Obj06736 *)slot)->f1C,func_02045770(*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10))==0) {
                 descriptor=*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10;
-                func_02045334(descriptor);
-                func_02045374((struct Cfg *)descriptor);
+                BMP_WIN_TransferChars(descriptor);
+                BMP_WIN_MakeScreen((struct Cfg *)descriptor);
                 func_02041B6C(func_02045730(descriptor));
                 ((struct Obj06736 *)slot)->f28=0;
             }

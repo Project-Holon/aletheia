@@ -1,5 +1,5 @@
 /*
- * function: func_021EB52C
+ * function: BTLV_SCU_RunProc
  * address:  0x021EB52C
  * packet:   pkt_ov093_021EB52C
  * region:   ov093
@@ -22,7 +22,7 @@ typedef struct {
     u32 obj;                   /* 0xec */
 } CbSlot;
 
-int func_021EB52C(CbSlot *s)
+int BTLV_SCU_RunProc(CbSlot *s)
 {
     if (s->cb1 != 0) {
         if (s->cb1(&s->obj, s->arg) != 0) {

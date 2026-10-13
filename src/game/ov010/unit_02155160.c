@@ -1,7 +1,7 @@
 /*
  * file:     unit_02155160.c
  * unit:     yes
- * function: func_02155160, func_0215518C, func_02155200, func_02155224, func_02155244, func_02155328
+ * function: MUSICAL_EVENT_SetPartyLevel50, MUSICAL_EVENT_BuildParty, MUSICAL_EVENT_TrimPartyToThree, MUSICAL_EVENT_TrimAllPartiesToThree, MUSICAL_EVENT_UpdateFriendRecords, MUSICAL_EVENT_BindParticipantSlots
  * address:  0x02155160
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -17,24 +17,24 @@
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02019CA0  0x02019CA0  thumb
  *   func_0200BAC8  0x0200BAC8  thumb
- *   func_020120F4  0x020120F4  thumb
- *   func_02012934  0x02012934  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201A98C  0x0201A98C  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   func_0201AC2C  0x0201AC2C  thumb
  *   func_020307B0  0x020307B0  arm
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
  *   func_0201A9C8  0x0201A9C8  thumb
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_02012950  0x02012950  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
+ *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009D1C  0x02009D1C  thumb
  *   func_02009BB8  0x02009BB8  thumb
  *   func_02009B80  0x02009B80  thumb
- *   d_0216FED8     0x0216FED8  data  ov010  a1
- *   d_0216FEDC     0x0216FEDC  data  a1
+ *   MUSICAL_EVENT_TwoPlayerPositionRemap     0x0216FED8  data  ov010  a1
+ *   MUSICAL_EVENT_FourPlayerPositionRemap     0x0216FEDC  data  a1
  */
 struct GameSystem;
 struct GameData;
@@ -87,36 +87,36 @@ extern u32 func_0201AA18(void *party);
 extern void *func_0201AB28(void *party, u32 index);
 extern void func_02019CA0(void *pokemon, u32 level);
 extern void *func_0200BAC8(void *saveControl);
-extern struct GameData *func_020120F4(struct GameSystem *gameSystem);
-extern void *func_02012934(const struct GameData *gameData);
-extern u32 func_02017E1C(void *pokemon, u32 paramId, u32 defaultValue);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+extern u32 POKE_TOOL_GetPartyValue(void *pokemon, u32 paramId, u32 defaultValue);
 extern u32 func_0201A98C(struct Party *party, const struct Pokemon *pokemon);
 extern void *func_0200BAF4(int battleBox, int heapId);
 extern void func_0201AC2C(const struct Party *src, struct Party *dst);
 extern u32 func_020307B0(void *memory);
 extern void POKE_TOOL_HealParty(void *party);
 extern u32 func_0201A9C8(struct Party *party, s32 index);
-extern struct NetHandle *func_020399A8(void);
-extern u32 func_0203D1A4(struct NetHandle *handle);
-extern struct PlayerStatus *func_02012950(struct GameData *gameData, u32 playerIndex);
-extern struct WifiList *func_0201283C(const struct GameData *gameData);
+extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
+extern struct PlayerStatus *GAME_DATA_GetPlayerStatus(struct GameData *gameData, u32 playerIndex);
+extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData);
 extern int func_02009D1C(struct WifiList *wifiList, struct PlayerStatus *playerStatus, u32 *outFriendSlot);
 extern void func_02009BB8(struct WifiList *wifiList, int friendSlot, int wins, int losses, int trades);
 extern void func_02009B80(struct WifiList *wifiList, int friendSlot);
-void func_02155160(void *party);
-void func_0215518C(int partySource, struct MusicalEventWork *work);
-void func_02155200(void *party);
-void func_02155224(struct MusicalEventWork *work);
-void func_02155244(struct MusicalEventWork *work, struct GameData *gameData);
-void func_02155328(struct MusicalEventWork *work, struct GameSystem *gameSystem);
-extern const PositionRemap2 d_0216FED8;
-extern const PositionRemap4 d_0216FEDC;
+void MUSICAL_EVENT_SetPartyLevel50(void *party);
+void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work);
+void MUSICAL_EVENT_TrimPartyToThree(void *party);
+void MUSICAL_EVENT_TrimAllPartiesToThree(struct MusicalEventWork *work);
+void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct GameData *gameData);
+void MUSICAL_EVENT_BindParticipantSlots(struct MusicalEventWork *work, struct GameSystem *gameSystem);
+extern const PositionRemap2 MUSICAL_EVENT_TwoPlayerPositionRemap;
+extern const PositionRemap4 MUSICAL_EVENT_FourPlayerPositionRemap;
 
 
 /*
  * Sets every Pokemon of the party to level 50.
  */
-void func_02155160(void *party)
+void MUSICAL_EVENT_SetPartyLevel50(void *party)
 {
     int i;
 
@@ -132,7 +132,7 @@ void func_02155160(void *party)
  * func_0200BAC8 is a tail-calling wrapper whose result is
  * used here, so this unit declares it returning a value.
  */
-void func_0215518C(int partySource, struct MusicalEventWork *work)
+void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work)
 {
     int battleBox;
     void *member;
@@ -141,10 +141,10 @@ void func_0215518C(int partySource, struct MusicalEventWork *work)
     void *boxParty;
     battleBox = (int)func_0200BAC8(work->saveControl);
     if (partySource == 0) {
-        ownParty = func_02012934(func_020120F4(work->gameSystem));
+        ownParty = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
         for (i = 0; i < (int)func_0201AA18(ownParty); i++) {
             member = func_0201AB28(ownParty, i);
-            if (func_02017E1C(member, 0x4c, 0) == 0)
+            if (POKE_TOOL_GetPartyValue(member, 0x4c, 0) == 0)
                 func_0201A98C(work->party, member);
         }
     } else {
@@ -153,14 +153,14 @@ void func_0215518C(int partySource, struct MusicalEventWork *work)
         func_020307B0(boxParty);
     }
     POKE_TOOL_HealParty(work->party);
-    func_02155160(work->party);
+    MUSICAL_EVENT_SetPartyLevel50(work->party);
 }
 
 
 /*
  * Trims a party to its first three entries by removing entry 3 until only three remain.
  */
-void func_02155200(void *party)
+void MUSICAL_EVENT_TrimPartyToThree(void *party)
 {
     int i;
     int count;
@@ -174,13 +174,13 @@ void func_02155200(void *party)
 /*
  * Trims the event party at +0x38 and the four participant parties at +0x3c to three entries each.
  */
-void func_02155224(struct MusicalEventWork *work)
+void MUSICAL_EVENT_TrimAllPartiesToThree(struct MusicalEventWork *work)
 {
     int i;
 
-    func_02155200(work->party);
+    MUSICAL_EVENT_TrimPartyToThree(work->party);
     for (i = 0; i < 4; i++)
-        func_02155200(work->participantParties[i]);
+        MUSICAL_EVENT_TrimPartyToThree(work->participantParties[i]);
 }
 
 
@@ -190,7 +190,7 @@ void func_02155224(struct MusicalEventWork *work)
  * others get a win or a loss counted according to battleResult (0 win,
  * 1 loss, else date only).
  */
-void func_02155244(struct MusicalEventWork *work, struct GameData *gameData)
+void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct GameData *gameData)
 {
     int partnerSlot;
     int participantCount;
@@ -205,7 +205,7 @@ void func_02155244(struct MusicalEventWork *work, struct GameData *gameData)
         partnerSlot = partnerSlot - 1;
         participantCount = 2;
     } else {
-        localPosition = work->participantPosition[func_0203D1A4(func_020399A8())];
+        localPosition = work->participantPosition[GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())];
         if (localPosition < 2) {
             targetPosition = 1;
         } else {
@@ -223,17 +223,17 @@ void func_02155244(struct MusicalEventWork *work, struct GameData *gameData)
     }
 
     for (i = 0; i < participantCount; i++) {
-        playerStatus = func_02012950(gameData, i);
-        if (i != func_0203D1A4(func_020399A8()) && playerStatus != 0
-            && func_02009D1C(func_0201283C(gameData), playerStatus, (u32 *)(&friendSlot)) != 0) {
+        playerStatus = GAME_DATA_GetPlayerStatus(gameData, i);
+        if (i != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && playerStatus != 0
+            && func_02009D1C(GAME_DATA_GetWifiList(gameData), playerStatus, (u32 *)(&friendSlot)) != 0) {
             if (i == partnerSlot) {
-                func_02009B80(func_0201283C(gameData), friendSlot);
+                func_02009B80(GAME_DATA_GetWifiList(gameData), friendSlot);
             } else if (work->battleResult == 0) {
-                func_02009BB8(func_0201283C(gameData), friendSlot, 1, 0, 0);
+                func_02009BB8(GAME_DATA_GetWifiList(gameData), friendSlot, 1, 0, 0);
             } else if (work->battleResult == 1) {
-                func_02009BB8(func_0201283C(gameData), friendSlot, 0, 1, 0);
+                func_02009BB8(GAME_DATA_GetWifiList(gameData), friendSlot, 0, 1, 0);
             } else {
-                func_02009B80(func_0201283C(gameData), friendSlot);
+                func_02009B80(GAME_DATA_GetWifiList(gameData), friendSlot);
             }
         }
     }
@@ -249,40 +249,40 @@ void func_02155244(struct MusicalEventWork *work, struct GameData *gameData)
  *
  * The ABS32 to 0x0216FED8 resolves as sole-ref/data since
  * overlay_data_structure() ends each extent at its last instruction's real
- * length (func_0216FEAC ends in the 2-byte pop at 0x0216FED6).
+ * length (TOWN_MAP_SPOT_CountVisited ends in the 2-byte pop at 0x0216FED6).
  */
-void func_02155328(struct MusicalEventWork *work, struct GameSystem *gameSystem)
+void MUSICAL_EVENT_BindParticipantSlots(struct MusicalEventWork *work, struct GameSystem *gameSystem)
 {
     PositionRemap4 remap4;
     PositionRemap2 remap2;
     int i;
 
     if (work->entryInfo->isFourPlayer != 0) {
-        if (work->participantPosition[func_0203D1A4(func_020399A8())] < 2) {
+        if (work->participantPosition[GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())] < 2) {
             for (i = 0; i < 4; i++) {
                 work->slot[work->participantPosition[i]].partyList = work->participantParties[i];
-                work->slot[work->participantPosition[i]].playerStatus = func_02012950(func_020120F4(gameSystem), i);
+                work->slot[work->participantPosition[i]].playerStatus = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(gameSystem), i);
             }
         } else {
             i = 0;
-            remap4 = d_0216FEDC;
+            remap4 = MUSICAL_EVENT_FourPlayerPositionRemap;
             for (; i < 4; i++) {
                 work->slot[remap4.v[work->participantPosition[i]]].partyList = work->participantParties[i];
-                work->slot[remap4.v[work->participantPosition[i]]].playerStatus = func_02012950(func_020120F4(gameSystem), i);
+                work->slot[remap4.v[work->participantPosition[i]]].playerStatus = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(gameSystem), i);
             }
         }
     } else {
-        if (func_0203D1A4(func_020399A8()) == 0) {
+        if (GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) == 0) {
             for (i = 0; i < 2; i++) {
                 work->slot[work->participantPosition[i]].partyList = work->participantParties[i];
-                work->slot[work->participantPosition[i]].playerStatus = func_02012950(func_020120F4(gameSystem), i);
+                work->slot[work->participantPosition[i]].playerStatus = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(gameSystem), i);
             }
         } else {
             i = 0;
-            remap2 = d_0216FED8;
+            remap2 = MUSICAL_EVENT_TwoPlayerPositionRemap;
             for (; i < 2; i++) {
                 work->slot[remap2.v[work->participantPosition[i]]].partyList = work->participantParties[i];
-                work->slot[remap2.v[work->participantPosition[i]]].playerStatus = func_02012950(func_020120F4(gameSystem), i);
+                work->slot[remap2.v[work->participantPosition[i]]].playerStatus = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(gameSystem), i);
             }
         }
     }

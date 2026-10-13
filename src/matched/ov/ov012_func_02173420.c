@@ -1,5 +1,5 @@
 /*
- * function: func_02173420
+ * function: UNION_COMM_ReleaseWorks
  * address:  0x02173420
  * packet:   pkt_ov012_02173420
  * region:   ov012
@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_02183BE0  0x02183BE0  thumb  ov022
- *   func_0217505C  0x0217505C  thumb  ov012
+ *   UNION_APP_Delete  0x02183BE0  thumb  ov022
+ *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  */
 
 typedef unsigned char u8;
@@ -32,10 +32,10 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-extern void func_02183BE0(void *p);
-extern void func_0217505C(int *p, int x);
+extern void UNION_APP_Delete(void *p);
+extern void COLOSSEUM_Delete(int *p, int x);
 
-void func_02173420(Work *w)
+void UNION_COMM_ReleaseWorks(Work *w)
 {
     w->f353C = 0;
     if (w->f3540 != 0) {
@@ -55,11 +55,11 @@ void func_02173420(Work *w)
         w->f3534 = 0;
     }
     if (w->f3528 != 0) {
-        func_02183BE0(w->f3528);
+        UNION_APP_Delete(w->f3528);
         w->f3528 = 0;
     }
     if (w->f355C != 0) {
-        func_0217505C(w->f355C, w->head->f0c);
+        COLOSSEUM_Delete(w->f355C, w->head->f0c);
         w->f355C = 0;
     }
 }

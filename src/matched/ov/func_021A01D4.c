@@ -1,5 +1,5 @@
 /*
- * function: func_021A01D4
+ * function: FIELD_FOG_GetSlope
  * address:  0x021A01D4
  * packet:   pkt_021A01D4
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A01D4(u8 *p)
+u32 FIELD_FOG_GetSlope(u8 *p)
 {
     return ((struct Obj17986 *)p)->f2;
 }

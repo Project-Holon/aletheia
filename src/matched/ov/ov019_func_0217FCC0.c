@@ -1,5 +1,5 @@
 /*
- * function: func_0217FCC0
+ * function: UNION_EFF_UpdateIconObj
  * address:  0x0217FCC0
  * packet:   pkt_0217FCC0
  * region:   ov019
@@ -12,6 +12,6 @@
 
 struct E;
 
-void func_0217FCC0(struct E *e)
+void UNION_EFF_UpdateIconObj(struct E *e)
 {
 }

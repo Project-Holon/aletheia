@@ -1,5 +1,5 @@
 /*
- * function: func_02193C80
+ * function: FIELD_WFBC_FreeResources
  * address:  0x02193C80
  * packet:   pkt_ov021_02193C80
  * region:   ov021
@@ -11,9 +11,9 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm  arm9
- *   func_02049238  0x02049238  arm  arm9
- *   func_02186804  0x02186804  thumb  ov020
- *   func_0218683C  0x0218683C  thumb  ov020
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
+ *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable  0x0218683C  thumb  ov020
  * Addresses are Black-image addresses.
  */
 
@@ -33,18 +33,18 @@ typedef struct X {
     u32 f118;
 } X;
 
-extern void func_0218683C(void *p);
+extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(void *p);
 extern u32 func_020307B0(void *p);
-extern void func_02049238(u32 a);
-extern void func_02186804(void **p);
+extern void ARC_TOOL_DeleteHandle(u32 a);
+extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(void **p);
 
-void func_02193C80(X *x)
+void FIELD_WFBC_FreeResources(X *x)
 {
     if (x->f0c != 0) {
-        func_0218683C((void *)x->f118);
+        FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable((void *)x->f118);
         func_020307B0(x->f14);
-        func_02049238(x->f10);
-        func_02186804((void **)x->f0c);
+        ARC_TOOL_DeleteHandle(x->f10);
+        FIELD_WFBC_DATA_LOCAL_CloseNpcData((void **)x->f0c);
         func_020307B0(x->f04);
         x->f0c = 0;
         x->f04 = 0;

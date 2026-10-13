@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B2FD8",
+   "name": "SCRCMD_SHOP_StartShop",
    "address": "0x021B2FD8",
    "kind": "game",
    "region": "ov021",

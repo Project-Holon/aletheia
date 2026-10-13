@@ -12,6 +12,7 @@
  * symbols:
  *   func_021DFDC0    0x021DFDC0  thumb
  *   MYSTERY_DATA_IsMainSave  0x0200A350  thumb
+ *   GAME_DATA_SaveStart  0x02012DAC  thumb
  */
 #include "../include/Obj15586.h"
 
@@ -20,13 +21,13 @@ typedef unsigned char u8;
 struct Obj;
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
 extern void  func_021DFDC0(void *p);
-extern int func_02012DAC(int a0);
+extern int GAME_DATA_SaveStart(int a0);
 
 void MYSTERY_DATA_SaveStart(void *a0, int a1)
 {
     if (MYSTERY_DATA_IsMainSave(a0) == 0) {
         func_021DFDC0(((struct Obj15586 *)a0)->f8);
     } else {
-        func_02012DAC(a1);
+        GAME_DATA_SaveStart(a1);
     }
 }

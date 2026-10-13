@@ -1,5 +1,5 @@
 /*
- * function: func_0215EEBC
+ * function: MOVE_POKEMON_CheckMilkDrink
  * address: 0x0215EEBC
  * packet: pkt_ov010_0215EEBC
  * region: ov010
@@ -9,11 +9,11 @@
  * status: EXACT
  * lever: Enum constants preserve the zero-first return arm; int constants fold to the opposite polarity.
  * symbols:
- *   func_0215F104 0x0215F104 thumb ov010
+ *   MOVE_POKEMON_IsSkillUsable 0x0215F104 thumb ov010
  */
-extern int func_0215F104(int a0, int a1);
+extern int MOVE_POKEMON_IsSkillUsable(int a0, int a1);
 typedef enum { FALSE, TRUE } Bool;
-int func_0215EEBC(void *p)
+int MOVE_POKEMON_CheckMilkDrink(void *p)
 {
-    return func_0215F104((int)p, 10) != 0 ? FALSE : TRUE;
+    return MOVE_POKEMON_IsSkillUsable((int)p, 10) != 0 ? FALSE : TRUE;
 }

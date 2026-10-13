@@ -1,5 +1,5 @@
 /*
- * function: func_021B9C30
+ * function: MONOLITH_TOOL_UpdateScrollArrows
  * address:  0x021B9C30
  * packet:   pkt_ov071_021B9C30
  * region:   ov071
@@ -21,7 +21,7 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021B7170(void *a);
 
-void func_021B9C30(u8 *p)
+void MONOLITH_TOOL_UpdateScrollArrows(u8 *p)
 {
     if (((struct Obj00044 *)p)->f2D8 <= 0x800)
         func_0204B3DC(((struct Obj00044 *)p)->f18, 0);

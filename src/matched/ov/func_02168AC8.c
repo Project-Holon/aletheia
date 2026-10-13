@@ -1,5 +1,5 @@
 /*
- * function: func_02168AC8
+ * function: FLD_BTL_INST_TOOL_HasBattleMsgs
  * address:  0x02168AC8
  * packet:   pkt_02168AC8
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 
 
-int func_02168AC8(int a0)
+int FLD_BTL_INST_TOOL_HasBattleMsgs(int a0)
 {
     int a1;
     int a2;

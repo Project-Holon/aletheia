@@ -1,5 +1,5 @@
 /*
- * function: func_02167794
+ * function: COMM_PLAYER_ClearPending
  * address:  0x02167794
  * packet:   pkt_ov010_02167794
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012114  0x02012114  thumb
+ *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
  *   func_02034714  0x02034714  arm
  *   d_02172A28     0x02172A28  data
  */
@@ -34,15 +34,15 @@ typedef struct Work {
 
 extern u8 d_02172A28[];
 struct Ctx;
-extern u32 func_02012114(const struct Ctx *p);
+extern u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 
-void func_02167794(Work *w)
+void COMM_PLAYER_ClearPending(Work *w)
 {
     Slot *s;
     int i;
 
-    if (func_02012114(w->sys) != 1)
+    if (GAMESYSTEM_IsFieldMapExist(w->sys) != 1)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (w->obj != 0)
         func_02034714((const char *)d_02172A28, 0, (const char *)d_02172A28);

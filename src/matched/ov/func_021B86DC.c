@@ -1,5 +1,5 @@
 /*
- * function: func_021B86DC
+ * function: BTL_MAIN_GetWinBgm
  * address:  0x021B86DC
  * packet:   pkt_021B86DC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021B86DC   0x021B86DC  thumb ov093
+ *   BTL_MAIN_GetWinBgm   0x021B86DC  thumb ov093
  *
  * double deref u16
  */
@@ -23,7 +23,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u16 func_021B86DC(void **p)
+u16 BTL_MAIN_GetWinBgm(void **p)
 {
     return ((struct Obj18129 *)((u8 *)*p))->f1A;
 }

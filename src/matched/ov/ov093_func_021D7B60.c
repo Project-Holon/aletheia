@@ -1,5 +1,5 @@
 /*
- * function: func_021D7B60
+ * function: BTL_CALC_DivideMaxHp
  * address: 0x021D7B60
  * packet: pkt_ov093_021D7B60
  * region: ov093
@@ -15,4 +15,4 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern int func_021D59B4(u8 *p, int k);
-u32 func_021D7B60(void *p,u32 b) { return (u32)func_021D59B4(p,14)/b; }
+u32 BTL_CALC_DivideMaxHp(void *p,u32 b) { return (u32)func_021D59B4(p,14)/b; }

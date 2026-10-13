@@ -12,9 +12,9 @@
  *   func_021BE158 0x021BE158 thumb ov203
  *   func_0200566C 0x0200566C thumb
  *   func_0204EA0C 0x0204EA0C arm
- *   func_02011558 0x02011558 thumb
- *   func_020480E4 0x020480E4 arm
- *   func_02047E54 0x02047E54 arm
+ *   ICA_ANIME_Delete 0x02011558 thumb
+ *   G3D_UTIL_RemoveUnit 0x020480E4 arm
+ *   G3D_UTIL_Delete 0x02047E54 arm
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj03354.h"
@@ -26,9 +26,9 @@ extern void func_021BF810(char *p);
 extern void func_021BE158(void *);
 extern void func_0200566C(void);
 extern int func_0204EA0C(void);
-extern void func_02011558(struct IcaAnime *p);
-extern void func_020480E4(struct Ctx *c, u32 i);
-extern void func_02047E54(struct Rec *p);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
+extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
+extern void G3D_UTIL_Delete(struct Rec *p);
 extern u32 func_020307B0(void *p);
 void func_021BE4B4(char *ctx, int b, int c, u32 d)
 {
@@ -39,11 +39,11 @@ void func_021BE4B4(char *ctx, int b, int c, u32 d)
         func_0200566C();
         func_0204EA0C();
     }
-    func_02011558(((struct Obj03354 *)ctx)->f18);
+    ICA_ANIME_Delete(((struct Obj03354 *)ctx)->f18);
     for (i = 0; i < ((struct Obj03354 *)ctx)->f2C; i++) {
-        func_020480E4(((struct Obj03354 *)ctx)->f1C, (*(unsigned short **)(ctx + 0x70))[i]);
+        G3D_UTIL_RemoveUnit(((struct Obj03354 *)ctx)->f1C, (*(unsigned short **)(ctx + 0x70))[i]);
     }
-    func_02047E54(((struct Obj03354 *)ctx)->f1C);
+    G3D_UTIL_Delete(((struct Obj03354 *)ctx)->f1C);
     func_020307B0(((struct Obj03354 *)ctx)->f70);
     func_020307B0(ctx);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021BD7A8
+ * function: EVENT_ENTRANCE_IN_RunAppear
  * address:  0x021BD7A8
  * packet:   pkt_ov021_021BD7A8
  * region:   ov021
@@ -9,8 +9,8 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_021BFE00  0x021BFE00  thumb  ov021
- *   func_02012374  0x02012374  thumb
+ *   EVENT_DISAPPEAR_CreateRisingSpin  0x021BFE00  thumb  ov021
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -29,11 +29,11 @@ typedef struct {
     Cfg *cfg;
 } Ctx;
 
-extern void *func_021BFE00(int a0, void *p, int a2);
+extern void *EVENT_DISAPPEAR_CreateRisingSpin(int a0, void *p, int a2);
 struct Evt;
-extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
-int func_021BD7A8(void *task, u32 *state, Ctx *ctx)
+int EVENT_ENTRANCE_IN_RunAppear(void *task, u32 *state, Ctx *ctx)
 {
     Cfg *cfg = ctx->cfg;
     u32 x = cfg->f04;
@@ -41,7 +41,7 @@ int func_021BD7A8(void *task, u32 *state, Ctx *ctx)
 
     switch (*state) {
     case 0:
-        func_02012374(task, func_021BFE00(0, (void *)x, y));
+        GAME_EVENT_CallEvent(task, EVENT_DISAPPEAR_CreateRisingSpin(0, (void *)x, y));
         (*state)++;
         break;
     case 1:

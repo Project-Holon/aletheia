@@ -1,5 +1,5 @@
 /*
- * function: func_021BDD78
+ * function: PLIST_DEMO_CheckItemUsable
  * address: 0x021BDD78
  * packet: pkt_ov091_021BDD78
  * region: ov091
@@ -18,11 +18,11 @@
  *   func_02020F34 0x02020F34 thumb
  *   func_02021014 0x02021014 thumb
  *   POKE_TOOL_GetStatusCondition 0x02017F90 thumb
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
  *   func_020307B0 0x020307B0 arm
- *   func_021BE9BC 0x021BE9BC thumb ov091
+ *   PLIST_DEMO_FriendshipItemApplies 0x021BE9BC thumb ov091
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -31,12 +31,12 @@ extern void *func_02020F34(u32 item, u32 which, u32 heap);
 struct Rec;
 extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 POKE_TOOL_GetStatusCondition(void *);
-extern u32 func_02017E1C(void *, u32, u32);
+extern u32 POKE_TOOL_GetPartyValue(void *, u32, u32);
 extern u8 WAZA_TOOL_GetMaxPP(u16, u32);
 extern u8 POKE_TOOL_IsPPRestorable(void *, u32);
 extern u32 func_020307B0(void *p);
-extern int func_021BE9BC(void *, void *);
-int func_021BDD78(void *a, u32 id, int slot, u32 heap)
+extern int PLIST_DEMO_FriendshipItemApplies(void *, void *);
+int PLIST_DEMO_CheckItemUsable(void *a, u32 id, int slot, u32 heap)
 {
   void *p;
   u32 r;
@@ -91,7 +91,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
     return 1;
   }
   ;
-  hp = func_02017E1C(a, 0xA0, 0);
+  hp = POKE_TOOL_GetPartyValue(a, 0xA0, 0);
   if (((func_02021014(p, 26) != 0) || (func_02021014(p, 27) != 0)) && (func_02021014(p, 28) == 0))
   {
     if (hp == 0)
@@ -102,13 +102,13 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
     ;
   }
   else
-    if (((func_02021014(p, 41) != 0) && (hp != 0)) && (hp < func_02017E1C(a, 0xA1, 0)))
+    if (((func_02021014(p, 41) != 0) && (hp != 0)) && (hp < POKE_TOOL_GetPartyValue(a, 0xA1, 0)))
   {
     func_020307B0(p);
     return 1;
   }
   ;
-  if ((func_02021014(p, 28) != 0) && (func_02017E1C(a, 0x9E, 0) < 100))
+  if ((func_02021014(p, 28) != 0) && (POKE_TOOL_GetPartyValue(a, 0x9E, 0) < 100))
   {
     func_020307B0(p);
     return 1;
@@ -117,7 +117,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
   if ((func_02021014(p, 37) != 0) || (func_02021014(p, 38) != 0))
   {
     r = 0;
-    if ((func_02017E1C(a, slot + 0x3E, 0) < 3) && (WAZA_TOOL_GetMaxPP((u16) func_02017E1C(a, slot + 0x36, 0), r) >= 5))
+    if ((POKE_TOOL_GetPartyValue(a, slot + 0x3E, 0) < 3) && (WAZA_TOOL_GetMaxPP((u16) POKE_TOOL_GetPartyValue(a, slot + 0x36, 0), r) >= 5))
     {
       func_020307B0(p);
       return 1;
@@ -143,14 +143,14 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
     }
 
   }
-  s0 = func_02017E1C(a, 13, 0);
-  s1 = func_02017E1C(a, 14, 0);
-  s2 = func_02017E1C(a, 15, 0);
-  s3 = func_02017E1C(a, 16, 0);
-  s4 = func_02017E1C(a, 17, 0);
-  s5 = func_02017E1C(a, 18, 0);
+  s0 = POKE_TOOL_GetPartyValue(a, 13, 0);
+  s1 = POKE_TOOL_GetPartyValue(a, 14, 0);
+  s2 = POKE_TOOL_GetPartyValue(a, 15, 0);
+  s3 = POKE_TOOL_GetPartyValue(a, 16, 0);
+  s4 = POKE_TOOL_GetPartyValue(a, 17, 0);
+  s5 = POKE_TOOL_GetPartyValue(a, 18, 0);
   flag = func_02021014(p, 48);
-  if (func_02017E1C(a, 5, 0) != 0x124)
+  if (POKE_TOOL_GetPartyValue(a, 5, 0) != 0x124)
     if (func_02021014(p, 42) != 0)
   {
     v = func_02021014(p, 52);
@@ -170,7 +170,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
         func_020307B0(p);
         return 1;
       }
-      if (func_021BE9BC(a, p) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(a, p) == 1)
       {
         func_020307B0(p);
         return 1;
@@ -197,7 +197,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
         func_020307B0(p);
         return 1;
       }
-      if (func_021BE9BC(a, p) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(a, p) == 1)
       {
         func_020307B0(p);
         return 1;
@@ -224,7 +224,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
         func_020307B0(p);
         return 1;
       }
-      if (func_021BE9BC(a, p) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(a, p) == 1)
       {
         func_020307B0(p);
         return 1;
@@ -251,7 +251,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
         func_020307B0(p);
         return 1;
       }
-      if (func_021BE9BC(a, p) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(a, p) == 1)
       {
         func_020307B0(p);
         return 1;
@@ -278,7 +278,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
         func_020307B0(p);
         return 1;
       }
-      if (func_021BE9BC(a, p) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(a, p) == 1)
       {
         func_020307B0(p);
         return 1;
@@ -306,7 +306,7 @@ int func_021BDD78(void *a, u32 id, int slot, u32 heap)
         func_020307B0(p);
         return 1;
       }
-      if (func_021BE9BC(a, p) == 1)
+      if (PLIST_DEMO_FriendshipItemApplies(a, p) == 1)
       {
         func_020307B0(p);
         return 1;

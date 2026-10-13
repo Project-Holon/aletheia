@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6BC
+ * function: FLD_EXP_OBJ_IsAnimeStopped
  * address:  0x021BE6BC
  * packet:   pkt_ov021_021BE6BC
  * region:   ov021
@@ -12,10 +12,10 @@
  * Unlabelled leaf: returns whether the word at +8 is zero.
  *
  * symbols:
- *   func_021BE6BC  0x021BE6BC  thumb
+ *   FLD_EXP_OBJ_IsAnimeStopped  0x021BE6BC  thumb
  */
 
-int func_021BE6BC(int *p)
+int FLD_EXP_OBJ_IsAnimeStopped(int *p)
 {
     return p[2] == 0;
 }

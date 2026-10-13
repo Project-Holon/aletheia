@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B98C  0x0204B98C  arm
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm
  */
 
 typedef unsigned int   u32;
 struct Actor;
-extern u32 func_0204B98C(struct Actor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 int func_021B74B4(int *p, int i)
 {
-    return func_0204B98C((struct Actor *)(*(int *)((char *)p + i * 4 + 0x9048)));
+    return CLACT_IsActorAnimActive((struct Actor *)(*(int *)((char *)p + i * 4 + 0x9048)));
 }

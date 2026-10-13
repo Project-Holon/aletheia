@@ -16,7 +16,7 @@
  *
  * symbols:
  *   ISS_DUNGEON_SYS_FindRecord  0x0202B374  thumb
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   ISS_DUNGEON_SYS_ApplyTrack  0x0202B2CC  thumb
  *
  * Verified with:
@@ -30,7 +30,7 @@ typedef unsigned int  u32;
 
 extern u32  ISS_DUNGEON_SYS_FindRecord(u32 desc, u32 id);
 struct BigObj;
-extern u8 func_02012984(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern void ISS_DUNGEON_SYS_ApplyTrack(u8 *p, u32 idx);
 
 void ISS_DUNGEON_SYS_SelectRecord(u8 *p, u32 id)
@@ -39,6 +39,6 @@ void ISS_DUNGEON_SYS_SelectRecord(u8 *p, u32 id)
 
     ((struct Obj02009 *)p)->f18 = r;
     if (r != 0) {
-        ISS_DUNGEON_SYS_ApplyTrack((u8 *)(((struct Obj02009 *)p)->f18), func_02012984((const struct BigObj *)(((struct Obj02009 *)p)->f8)));
+        ISS_DUNGEON_SYS_ApplyTrack((u8 *)(((struct Obj02009 *)p)->f18), GAME_DATA_GetSeason((const struct BigObj *)(((struct Obj02009 *)p)->f8)));
     }
 }

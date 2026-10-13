@@ -1,5 +1,5 @@
 /*
- * function: func_021D9FB8
+ * function: HAND_TOKUSEI_AddAftermath
  * address: 0x021D9FB8
  * packet: pkt_ov093_021D9FB8
  * region: ov093
@@ -15,10 +15,10 @@
  *   d_021F0820 0x021F0820 data ov093 a4
  */
 
-int *func_021D9FB8(int *p);
+int *HAND_TOKUSEI_AddAftermath(int *p);
 extern int d_021F0820[];
 
-int *func_021D9FB8(int *p)
+int *HAND_TOKUSEI_AddAftermath(int *p)
 {
     *p = 1;
     return d_021F0820;

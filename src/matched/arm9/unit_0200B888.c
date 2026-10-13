@@ -20,7 +20,7 @@
  * unit_0200B4E0.c and unit_0200B5CC.c run over a loaded record, and the reason
  * those two are separate files.
  *
- * 0xE281 is the record's magic, stamped into both halves by func_0200B6E0 and
+ * 0xE281 is the record's magic, stamped into both halves by BATTLE_REC_Save and
  * into the 0x44-byte header's +0x28 by BATTLE_REC_SetData.  BATTLE_REC_IsMagicBroken answers
  * "this record is NOT stamped", so its result is 1 on failure; BATTLE_REC_IsValid
  * answers "this record is whole", checking the magic in both halves and then

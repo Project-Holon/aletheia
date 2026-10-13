@@ -1,5 +1,5 @@
 /*
- * function: func_021DD608
+ * function: BTL_ITEM_GetFlavorHealAttackHandlers
  * address: 0x021DD608
  * packet: pkt_ov093_021DD608
  * region: ov093
@@ -12,14 +12,14 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DD588.c and filed here.
  *
  * symbols:
- *   d_021F1C04 0x021F1C04 data ov093 a4
+ *   gBtlItemFlavorHealAttackHandlers 0x021F1C04 data ov093 a4
  */
 
-int *func_021DD608(int *p);
-extern int d_021F1C04[];
+int *BTL_ITEM_GetFlavorHealAttackHandlers(int *p);
+extern int gBtlItemFlavorHealAttackHandlers[];
 
-int *func_021DD608(int *p)
+int *BTL_ITEM_GetFlavorHealAttackHandlers(int *p)
 {
     *p = 5;
-    return d_021F1C04;
+    return gBtlItemFlavorHealAttackHandlers;
 }

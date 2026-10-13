@@ -11,10 +11,10 @@
  * evidence: root claimed this sole blocker of 021D5128; target's matched
  * definition and original body read no incoming argument registers.
  * symbols:
- *   func_0204A648 0x0204A648 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
  */
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 void func_021D5120(void)
 {
-    func_0204A648();
+    CLACT_VBlankSystem();
 }

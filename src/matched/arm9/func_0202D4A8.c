@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_02019C90  0x02019C90  thumb
- *   func_020490A8  0x020490A8  arm
+ *   ARC_TOOL_GetMemberSize  0x020490A8  arm
  *
  * pokegra.c: resolve a species/form/egg to its graphics archive index, the
  * shiny palette flag (0 or 9), the draw mode and base, checking the
@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
-extern u32 func_020490A8(u32 a, u32 b);
+extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 
 typedef enum { PAL_0 } Pal;
 
@@ -102,7 +102,7 @@ void POKEGRA_CalcArcIndex(void *narc, u32 species, s32 form, s32 mode,
     case 0:
         break;
     case 1:
-        count = func_020490A8((u32)narc, (u32)(idx + pal + 1));
+        count = ARC_TOOL_GetMemberSize((u32)narc, (u32)(idx + pal + 1));
         mode = 1;
         if (count == 0) {
             mode = 0;

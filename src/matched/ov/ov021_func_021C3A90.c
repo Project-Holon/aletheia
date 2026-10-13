@@ -1,5 +1,5 @@
 /*
- * function: func_021C3A90
+ * function: SODATEYA_SetBaseSpecies
  * address:  0x021C3A90
  * packet:   pkt_ov021_021C3A90
  * region:   ov021
@@ -12,18 +12,19 @@
  * Stores the base form of the parent species.
  *
  * symbols:
- *   func_021C3BB0  0x021C3BB0  thumb  ov021
- *   func_021C4504  0x021C4504  thumb  ov021
+ *   SODATEYA_GetSpeciesParent  0x021C3BB0  thumb  ov021
+ *   SODATEYA_GetBaseSpecies  0x021C4504  thumb  ov021
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021C3BB0(u32 a);
-extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern u16 func_021C4504(u16 sp);
+extern int SODATEYA_GetSpeciesParent(u32 a);
+extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern u16 SODATEYA_GetBaseSpecies(u16 sp);
 
-void func_021C3A90(void *a, u32 *out)
+void SODATEYA_SetBaseSpecies(void *a, u32 *out)
 {
-    *out = func_021C4504(func_02017E1C((void *)func_021C3BB0((u32)a), 5, 0));
+    *out = SODATEYA_GetBaseSpecies(POKE_TOOL_GetPartyValue((void *)SODATEYA_GetSpeciesParent((u32)a), 5, 0));
 }

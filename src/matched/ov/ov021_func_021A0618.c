@@ -1,5 +1,5 @@
 /*
- * function: func_021A0618
+ * function: FIELD_LIGHT_StartColorFade
  * address:  0x021A0618
  * packet:   pkt_ov021_021A0618
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A0C50  0x021A0C50  thumb  ov021
+ *   FIELD_LIGHT_FADE_Init  0x021A0C50  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19694.h"
@@ -20,10 +20,10 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern int func_021A0C50(u32 a, u16 b, u32 c, u32 d);
+extern int FIELD_LIGHT_FADE_Init(u32 a, u16 b, u32 c, u32 d);
 
-void func_021A0618(u8 *p, u32 a, u32 b, u32 c)
+void FIELD_LIGHT_StartColorFade(u8 *p, u32 a, u32 b, u32 c)
 {
-    func_021A0C50((u32)(p + 0x484), b, (u16)c, a);
+    FIELD_LIGHT_FADE_Init((u32)(p + 0x484), b, (u16)c, a);
     ((struct Obj19694 *)p)->f0 = 1;
 }

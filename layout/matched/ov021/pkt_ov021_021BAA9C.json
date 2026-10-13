@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAA9C",
+   "name": "FIELD_RAIL_CAMERA_FollowHeadingSlope",
    "address": "0x021BAA9C",
    "kind": "game",
    "region": "ov021",

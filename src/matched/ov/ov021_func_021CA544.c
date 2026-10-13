@@ -1,5 +1,5 @@
 /*
- * function: func_021CA544
+ * function: BSUBWAY_SCR_CmdCreateWork
  * address:  0x021CA544
  * packet:   pkt_ov021_021CA544
  * region:   ov021
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02011330  0x02011330  thumb
- *   func_02158F54  0x02158F54  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021C9934  0x021C9934  thumb  ov021
+ *   VM_GetU16  0x02011330  thumb
+ *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   BSUBWAY_SCR_CreateWork  0x021C9934  thumb  ov021
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct Stream;
-extern int func_02158F58(int a0);
-extern void *func_02158F54(void *p);
-extern u16 func_02011330(struct Stream *s);
-extern unsigned int func_02159B10(void *a, void *b);
-extern void func_021C9934(u32 a, u32 b, u32 c);
-int func_021CA544(u32 a, u32 b)
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern void *SCRIPT_WORK_GetGameSystem(void *p);
+extern u16 VM_GetU16(struct Stream *s);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern void BSUBWAY_SCR_CreateWork(u32 a, u32 b, u32 c);
+int BSUBWAY_SCR_CmdCreateWork(u32 a, u32 b)
 {
-    void *h = func_0215A5F4((void *)b);
+    void *h = SCRCMD_WORK_GetScriptWork((void *)b);
     u32 x, y;
-    func_02158F58((int)h);
-    x = (u32)func_02158F54(h);
-    y = func_02011330((struct Stream *)a);
-    func_021C9934(x, y, func_02159B10((void *)a, (void *)b));
+    SCRIPT_WORK_ResetFieldParam((int)h);
+    x = (u32)SCRIPT_WORK_GetGameSystem(h);
+    y = VM_GetU16((struct Stream *)a);
+    BSUBWAY_SCR_CreateWork(x, y, SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b));
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B85A0
+ * function: BTL_MAIN_GetBadgeCount
  * address:  0x021B85A0
  * packet:   pkt_021B85A0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B85A0   0x021B85A0  thumb
+ *   BTL_MAIN_GetBadgeCount   0x021B85A0  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0]; adds r0, #0x80; ldrb r0, [r0]; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021B85A0  ldr r0,[r0]; adds r0,#0x80; ldrb r0,[r0] */
-u8 func_021B85A0(u8 **p) { return ((struct Obj18122 *)(*p))->f80; }
+u8 BTL_MAIN_GetBadgeCount(u8 **p) { return ((struct Obj18122 *)(*p))->f80; }
 

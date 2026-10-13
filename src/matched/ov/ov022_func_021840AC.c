@@ -1,5 +1,5 @@
 /*
- * function: func_021840AC
+ * function: UNION_APP_AddSelfToJoined
  * address:  0x021840AC
  * packet:   pkt_ov022_021840AC
  * region:   ov022
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
+ *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  * Addresses are Black-image addresses.
  */
 
@@ -19,11 +19,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 
-void func_021840AC(u8 *s)
+void UNION_APP_AddSelfToJoined(u8 *s)
 {
-    s[1] = s[1] | (u8)(1 << func_0203D1A4((struct Link *)((u32)func_020399A8())));
+    s[1] = s[1] | (u8)(1 << GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())));
 }

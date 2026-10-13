@@ -1,5 +1,5 @@
 /*
- * function: func_02046E24
+ * function: G3D_SYSTEM_CreateResourceArcHandle
  * address:  0x02046E24
  * packet:   pkt_02046CE0
  * region:   arm9
@@ -13,22 +13,22 @@
  *   _G3dSystem      0x02146A5C  data
  *   sG3dSystemFile  0x020A7EA8  data
  *   func_02030734   0x02030734  arm
- *   func_02049250  0x02049250  arm
- *   func_02046CE0   0x02046CE0  arm
+ *   ARC_TOOL_LoadHandleMember  0x02049250  arm
+ *   G3D_SYSTEM_InitResourceByFile   0x02046CE0  arm
  *
  * g3d_system.c's eight-byte-node allocators.  Three siblings, identical but
  * for the loader they call and the source line: read the size from the
  * global's +0x18 halfword, allocate eight bytes with file name and line, run
  * the loader for (arg0, arg1, that same halfword) and hand its result to
- * func_02046CE0 together with the new node.  The global is re-read after the
+ * G3D_SYSTEM_InitResourceByFile together with the new node.  The global is re-read after the
  * allocator call - the callee may have replaced it - which is why the second
  * `ldr r1, [r4]` is there.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02046E24.c \
- *       --func func_02046E24 --addr 0x02046E24 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_CreateResourceArcHandle.c \
+ *       --func G3D_SYSTEM_CreateResourceArcHandle --addr 0x02046E24 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -46,14 +46,14 @@ extern u8 sG3dSystemFile;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct ArcFile;
 struct S02046CE0;
-extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
-extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void G3D_SYSTEM_InitResourceByFile(struct S02046CE0 *out, u32 *tag);
 
-void *func_02046E24(u32 a0, u32 a1)
+void *G3D_SYSTEM_CreateResourceArcHandle(u32 a0, u32 a1)
 {
     u8 *node = func_02030734(_G3dSystem->h18, 8, 0,
                              (const char *)&sG3dSystemFile, 0x2c8);
 
-    func_02046CE0((struct S02046CE0 *)node, func_02049250((struct ArcFile *)a0, a1, _G3dSystem->h18));
+    G3D_SYSTEM_InitResourceByFile((struct S02046CE0 *)node, ARC_TOOL_LoadHandleMember((struct ArcFile *)a0, a1, _G3dSystem->h18));
     return node;
 }

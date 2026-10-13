@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02012944 0x02012944 thumb
+ *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   func_021DA470 0x021DA470 thumb ov175
  *   func_021DD020 0x021DD020 thumb ov175
  *   d_021E2F2C 0x021E2F2C data a4
@@ -33,14 +33,14 @@
 #include "../include/Obj24354.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u8 *func_02012944(void *p);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void func_021DA470(unsigned char *);
 extern u32 func_021DD020(char *obj);
 extern char d_021E2F2C[], d_021E2F38[], d_021E2F4C[], d_021E2F60[];
 void func_021DB6A8(char *ctx)
 {
     void *record;
-    record = func_02012944(((struct Obj01171 *)ctx)->f8);
+    record = GAME_DATA_GetMyStatus(((struct Obj01171 *)ctx)->f8);
     *(char * *)&((struct Obj24341 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f0 = d_021E2F2C;
     ((struct Obj24342 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f4 = 8;
     ((struct Obj24343 *)(*(char * *)&((struct Obj01171 *)ctx)->f190))->f8 = record;

@@ -1,5 +1,5 @@
 /*
- * function: func_021B9394
+ * function: FRAME_LIST_GetPrinter
  * address: 0x021B9394
  * packet: pkt_ov067_021B9394
  * region: ov067
@@ -10,7 +10,7 @@
  * extent: four-byte getter; next leaf 021B9398 belongs to S27, not this file.
  */
 #include "../include/Obj20627.h"
-unsigned func_021B9394(char *p)
+unsigned FRAME_LIST_GetPrinter(char *p)
 {
     return ((struct Obj20627 *)p)->f34;
 }

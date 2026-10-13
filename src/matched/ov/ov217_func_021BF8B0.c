@@ -12,7 +12,7 @@
  * E44C's full body reads only r0/r1 and has no forwarding calls; legacy two trailing inputs omitted.
  * symbols:
  *   func_021BF740 0x021BF740 thumb ov217
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200E394 0x0200E394 thumb
  *   func_0200E44C 0x0200E44C thumb
  *   d_021C363C 0x021C363C data ov217 a1
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 struct Big;
 typedef unsigned int   u32;
 extern u32 func_021BF740(u8 *a0);
-extern void *func_02012EBC(struct Big *);
+extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern void *func_0200E394(void *a0);
 extern int func_0200E44C(int,int);
 extern const u8 d_021C363C[];
@@ -35,7 +35,7 @@ u8 func_021BF8B0(u8 *p)
     u8 a,b,c,j;
     void *base;
     int i;
-    base=func_0200E394(func_02012EBC((struct Big *)func_021BF740(p)));
+    base=func_0200E394(GAME_DATA_GetSaveControl((struct Big *)func_021BF740(p)));
     for (i=0;i<3;i++) bytes[i]=func_0200E44C((int)base,i);
     b=bytes[1];
     c=bytes[2];

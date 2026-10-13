@@ -1,5 +1,5 @@
 /*
- * function: func_021AAB74
+ * function: EFFECT_ENCOUNT_RestoreSpot
  * address:  0x021AAB74
  * packet:   pkt_ov021_021AAB74
  * region:   ov021
@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02012A38  0x02012A38  thumb
- *   func_02188C9C  0x02188C9C  thumb
- *   func_021AAFC0  0x021AAFC0  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb
+ *   EFFECT_ENCOUNT_CreateEffectObj  0x021AAFC0  thumb
  *   func_02082BCC  0x02082BCC  arm
  */
 
@@ -39,11 +39,11 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
 extern u32 func_02012A38(const struct BigObj *p);
-extern u16 func_02188C9C(u8 *p);
-extern void func_021AAFC0(Self *self, int a, Ent *e);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern void EFFECT_ENCOUNT_CreateEffectObj(Self *self, int a, Ent *e);
 extern void func_02082BCC(void *p, int v, unsigned long n);
 
-void func_021AAB74(Self *self, int a)
+void EFFECT_ENCOUNT_RestoreSpot(Self *self, int a)
 {
     Ent *e = (Ent *)(func_02012A38(self->obj) + 0x10);
     unsigned short id;
@@ -51,9 +51,9 @@ void func_021AAB74(Self *self, int a)
     if (e->flags == 0 || e->f4 == 0)
         return;
     e->f4 = 0;
-    id = func_02188C9C(self->ctx);
+    id = FIELDMAP_GetZoneId(self->ctx);
     if (id != e->id || e->f6 != 0)
         func_02082BCC(e, 0, 0x10);
     else
-        func_021AAFC0(self, a, e);
+        EFFECT_ENCOUNT_CreateEffectObj(self, a, e);
 }

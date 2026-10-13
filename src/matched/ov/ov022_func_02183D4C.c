@@ -1,5 +1,5 @@
 /*
- * function: func_02183D4C
+ * function: UNION_APP_SelectQuitRequester
  * address:  0x02183D4C
  * packet:   pkt_ov022_02183D4C
  * region:   ov022
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D1C0  0x0203D1C0  arm
+ *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned char u8;
 
 typedef unsigned int   u32;
-extern u32 func_0203D1C0(u32 index);
+extern u32 GFL_NET_IsConnectMember(u32 index);
 
-void func_02183D4C(u8 *s)
+void UNION_APP_SelectQuitRequester(u8 *s)
 {
     int i;
     u8 m;
 
     if (s[0x10] != 0xff) {
-        if (func_0203D1C0(s[0x10]) != 0) {
+        if (GFL_NET_IsConnectMember(s[0x10]) != 0) {
             return;
         }
         s[0x10] = 0xff;

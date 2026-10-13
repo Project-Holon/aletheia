@@ -13,8 +13,8 @@
  * slot is empty.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_020127A4  0x020127A4  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   d_021714DC     0x021714DC  data
  */
 
@@ -23,8 +23,8 @@ typedef int (*Handler)(void *sys, void *b, void *save);
 
 struct Ctx;
 struct SaveBlock;
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_020127A4(struct SaveBlock *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern Handler d_021714DC[];
 
 int func_021644C4(int i, void *a, void *b)
@@ -33,8 +33,8 @@ int func_021644C4(int i, void *a, void *b)
     void *save;
     Handler fn;
 
-    sys = func_020120F4(a);
-    save = func_020127A4(sys);
+    sys = GAMESYSTEM_GetGameData(a);
+    save = GAME_DATA_GetMyPlayerWork(sys);
     fn = d_021714DC[i];
     if (fn == 0)
         return 1;

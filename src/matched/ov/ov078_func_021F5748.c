@@ -1,5 +1,5 @@
 /*
- * function: func_021F5748
+ * function: ENCEFF_RippleEventMain
  * address:  0x021F5748
  * packet:   pkt_ov078_021F5748
  * region:   ov078
@@ -11,12 +11,12 @@
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02189A08  0x02189A08  thumb  ov021
- *   func_021CF560  0x021CF560  thumb  ov021
- *   func_021F5950  0x021F5950  thumb  ov078
- *   func_0204E720  0x0204E720  arm
- *   func_0204E804  0x0204E804  arm
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
+ *   ENCEFF_GetWork  0x021CF560  thumb  ov021
+ *   ENCEFF_StepRipple  0x021F5950  thumb  ov078
+ *   FADE_Start  0x0204E720  arm
+ *   FADE_IsActive  0x0204E804  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj03671.h"
@@ -29,27 +29,27 @@ typedef signed int     s32;
 struct Ctx;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_0201210C(const struct Ctx *p);
-extern int func_02189A08(unsigned char *p);
-extern u32 func_021CF560(u32 *p);
-extern int func_021F5950(u8 *p);
-extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
-extern int func_0204E804(void);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern int FIELDMAP_GetEncEff(unsigned char *p);
+extern u32 ENCEFF_GetWork(u32 *p);
+extern int ENCEFF_StepRipple(u8 *p);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+extern int FADE_IsActive(void);
 
-int func_021F5748(void *task, int *st)
+int ENCEFF_RippleEventMain(void *task, int *st)
 {
     u8 *w;
 
-    w = (u8 *)func_021CF560((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(func_020124E4(task)))));
+    w = (u8 *)ENCEFF_GetWork((u32 *)FIELDMAP_GetEncEff((unsigned char *)((int)GAMESYSTEM_GetFieldMap(func_020124E4(task)))));
     switch (*st) {
     case 0:
         if (((struct Obj03671 *)w)->f19D8 != 0) {
             (((struct Obj03671 *)w)->f19D8)--;
         } else if (((struct Obj03671 *)w)->f19DC == 0) {
-            func_0204E720(((struct Obj03671 *)w)->f19D4, 0, 0x10, 0);
+            FADE_Start(((struct Obj03671 *)w)->f19D4, 0, 0x10, 0);
             ((struct Obj03671 *)w)->f19DC = 1;
         }
-        if (func_021F5950(w) != 0) {
+        if (ENCEFF_StepRipple(w) != 0) {
             ((struct Obj03671 *)w)->f19C8 = 6;
             (*st)++;
         }
@@ -57,7 +57,7 @@ int func_021F5748(void *task, int *st)
     case 1:
         if (((struct Obj03671 *)w)->f19C8 != 0) {
             (((struct Obj03671 *)w)->f19C8)--;
-        } else if (func_0204E804() == 0) {
+        } else if (FADE_IsActive() == 0) {
             return 1;
         }
         break;

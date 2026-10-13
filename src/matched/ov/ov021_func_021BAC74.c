@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC74
+ * function: FIELD_RAIL_CAMERA_FixedAngleShiftAtFocus
  * address:  0x021BAC74
  * packet:   pkt_ov021_021BAC74
  * region:   ov021
@@ -10,33 +10,33 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218EC54  0x0218EC54  thumb  ov021
- *   func_0218EC90  0x0218EC90  thumb  ov021
- *   func_0218F05C  0x0218F05C  thumb  ov021
- *   func_021B79D4  0x021B79D4  thumb  ov021
- *   func_021B821C  0x021B821C  thumb  ov021
- *   func_021BAC04  0x021BAC04  thumb  ov021
+ *   FIELD_CAMERA_StopTargetTrace  0x0218EC54  thumb  ov021
+ *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
+ *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
+ *   FIELD_RAIL_GetFocusPos  0x021B79D4  thumb  ov021
+ *   FIELD_RAIL_GetFieldCamera  0x021B821C  thumb  ov021
+ *   FIELD_RAIL_CAMERA_FixedAngleShift  0x021BAC04  thumb  ov021
  */
 
 typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
 
 typedef unsigned char  u8;
-extern u32 func_021B821C(u8 *p);
-extern void func_021BAC04(u32 p);
-extern void func_0218EC54(u8 *p);
-extern void func_021B79D4(void **o, void *out);
-extern void func_0218EC90(u32 h, V *v);
-extern void func_0218F05C(unsigned char *a);
+extern u32 FIELD_RAIL_GetFieldCamera(u8 *p);
+extern void FIELD_RAIL_CAMERA_FixedAngleShift(u32 p);
+extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern void FIELD_RAIL_GetFocusPos(void **o, void *out);
+extern void FIELD_CAMERA_SetTarget(u32 h, V *v);
+extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 
-void func_021BAC74(u32 p)
+void FIELD_RAIL_CAMERA_FixedAngleShiftAtFocus(u32 p)
 {
     V v;
-    u32 h = func_021B821C((u8 *)p);
+    u32 h = FIELD_RAIL_GetFieldCamera((u8 *)p);
 
-    func_021BAC04(p);
-    func_0218EC54((u8 *)h);
-    func_021B79D4((void **)p, &v);
-    func_0218EC90(h, &v);
-    func_0218F05C((unsigned char *)h);
+    FIELD_RAIL_CAMERA_FixedAngleShift(p);
+    FIELD_CAMERA_StopTargetTrace((u8 *)h);
+    FIELD_RAIL_GetFocusPos((void **)p, &v);
+    FIELD_CAMERA_SetTarget(h, &v);
+    FIELD_CAMERA_RestartDelay((unsigned char *)h);
 }

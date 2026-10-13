@@ -9,6 +9,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
+ *
+ * symbols:
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
+ *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  */
 
-int FIELD_SOUND_SYSTEM_GetPlayerObjectCode(void *a0){ int t0 = func_020127A4(a0); int t1 = func_02012B28((int)t0); return t1; }
+int FIELD_SOUND_SYSTEM_GetPlayerObjectCode(void *a0){ int t0 = GAME_DATA_GetMyPlayerWork(a0); int t1 = GAME_DATA_GetPlayerObjectCode((int)t0); return t1; }

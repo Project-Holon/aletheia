@@ -1,5 +1,5 @@
 /*
- * function: func_021BD0FC
+ * function: FIELD_PLACE_NAME_SaveZoneToSave
  * address:  0x021BD0FC
  * packet:   pkt_021BD0FC
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02008854  0x02008854  thumb
  *   func_020089A0  0x020089A0  thumb
  * Addresses are Black-image addresses.
@@ -30,11 +30,11 @@ struct Ctx;
 struct Sub02008828Obj;
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u32 func_020089A0(u32, u32);
-extern void *func_020120F4(const struct Ctx *p);
-extern void *func_02012EBC(struct Big *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-int func_021BD0FC(u32 a)
+int FIELD_PLACE_NAME_SaveZoneToSave(u32 a)
 {
-return func_020089A0((u32)func_02008854(func_02012EBC(func_020120F4((const struct Ctx *)(((struct Obj00575 *)((u8 *)(a)))->f0)))), *(u16 *)((u8 *)((a + 70))));
+return func_020089A0((u32)func_02008854(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj00575 *)((u8 *)(a)))->f0)))), *(u16 *)((u8 *)((a + 70))));
 }
 

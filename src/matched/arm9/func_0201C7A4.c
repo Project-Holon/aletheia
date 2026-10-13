@@ -1,5 +1,5 @@
 /*
- * function: func_0201C7A4
+ * function: PRINTSYS_Print
  * address:  0x0201C7A4
  * packet:   pkt_0201C7A4
  * region:   arm9
@@ -21,7 +21,7 @@
  *
  * Withdrawn 2026-09-24 (wave 20, lane 20G): the ../2.0/sp2 pin is retired.
  * The scratch address is held as an integer, a u32 local assigned
- * (u32)&_PrintJobWork and cast back at each site, matching func_0201C7D0.c.
+ * (u32)&_PrintJobWork and cast back at each site, matching PRINTSYS_PrintColor.c.
  * Spelled this way, dsi/1.1p1 caches the address in a callee-saved
  * register and copies it into r0 at each site, byte-exact under the
  * default compiler.
@@ -42,7 +42,7 @@ struct PrintCtx;
 extern void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
 extern void PRINTSYS_RunJob(u8 *a0, int a1);
 
-void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w)
+void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w)
 {
     u32 base;
 

@@ -43,8 +43,8 @@
    "status": "EXACT",
    "functions": [
     "G3D_SYSTEM_IsTextureInVram",
-    "func_02047388",
-    "func_020473B8"
+    "G3D_SYSTEM_GetTexVramKey",
+    "G3D_SYSTEM_GetPlttVramKey"
    ],
    "addresses": [
     "0x02047348",
@@ -101,7 +101,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204755C",
+   "name": "G3D_SYSTEM_GetRenderObj",
    "address": "0x0204755C",
    "kind": "game",
    "region": "arm9",
@@ -113,7 +113,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047788",
+   "name": "G3D_SYSTEM_GetObjectRender",
    "address": "0x02047788",
    "kind": "game",
    "region": "arm9",
@@ -125,7 +125,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02047790",
+   "name": "G3D_SYSTEM_GetObjectAnime",
    "address": "0x02047790",
    "kind": "game",
    "region": "arm9",
@@ -137,7 +137,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0204779C",
+   "name": "G3D_SYSTEM_GetObjectAnimeCount",
    "address": "0x0204779C",
    "kind": "game",
    "region": "arm9",
@@ -149,7 +149,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020477A4",
+   "name": "G3D_SYSTEM_EnableObjectAnime",
    "address": "0x020477A4",
    "kind": "game",
    "region": "arm9",

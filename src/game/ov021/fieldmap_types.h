@@ -68,7 +68,7 @@ typedef struct FieldMapLocation {
 /*
  * Map mapper parameters (0x3C bytes at FieldMap+0x50), filled by
  * FIELDMAP_SetupMapperParam: words 0x00..0x38 come from the per map type
- * table d_021D3700, then the matrix and area values overwrite part of them.
+ * table sMapTypeTable, then the matrix and area values overwrite part of them.
  */
 typedef struct FieldMapMapperParam {
     unsigned int typeParam[5];          /* 0x00: from the map type table */
@@ -86,7 +86,7 @@ typedef struct FieldMapMapperParam {
 
 struct FieldMapCtrlFuncs;
 
-/* One entry of the map type table d_021D3700 (0x48 bytes). */
+/* One entry of the map type table sMapTypeTable (0x48 bytes). */
 typedef struct FieldMapTypeEntry {
     FieldMapMapperParam param;                  /* 0x00 */
     const struct FieldMapCtrlFuncs *ctrlFuncs;  /* 0x3C */
@@ -95,7 +95,7 @@ typedef struct FieldMapTypeEntry {
 } FieldMapTypeEntry;
 
 /*
- * The same table seen from its ctrlFuncs word: d_021D373C is d_021D3700 +
+ * The same table seen from its ctrlFuncs word: gMapTypeCtrlTable is sMapTypeTable +
  * 0x3C, and FIELDMAP_GetCtrlFuncs (and field_event_check.c) load the
  * ctrlFuncs through this second symbol, so the bytes need both names.
  */
@@ -106,7 +106,7 @@ typedef struct FieldMapTypeEntryTail {
     FieldMapMapperParam nextParam;              /* 0x0C: next entry's param */
 } FieldMapTypeEntryTail;
 
-/* Map control function table (d_021D373C entries point to one). */
+/* Map control function table (gMapTypeCtrlTable entries point to one). */
 typedef struct FieldMapCtrlFuncs {
     unsigned int ctrlType;                                       /* 0x00 */
     void (*create)(struct FieldMap *fieldMap, VecFx32 *pos, int dir); /* 0x04 */

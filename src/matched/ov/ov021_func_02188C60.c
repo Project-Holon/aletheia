@@ -1,5 +1,5 @@
 /*
- * function: func_02188C60
+ * function: FIELDMAP_GetLight
  * address:  0x02188C60
  * packet:   pkt_ov021_02188C60
  * region:   ov021
@@ -17,7 +17,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-u32 func_02188C60(u8 *p)
+u32 FIELDMAP_GetLight(u8 *p)
 {
     return ((struct Obj19487 *)p)->f14;
 }

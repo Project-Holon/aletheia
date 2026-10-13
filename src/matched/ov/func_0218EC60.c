@@ -1,5 +1,5 @@
 /*
- * function: func_0218EC60
+ * function: FIELD_CAMERA_ResumeTargetTrace
  * address:  0x0218EC60
  * packet:   pkt_0218EC60
  * region:   ov021
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_0218EC60(u32 a)
+int FIELD_CAMERA_ResumeTargetTrace(u32 a)
 {
 *(u32 *)&((struct Obj01653 *)((u8 *)(a)))->f1C = ((struct Obj01653 *)((u8 *)(a)))->f18;
 return a;

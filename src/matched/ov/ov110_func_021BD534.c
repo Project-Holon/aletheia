@@ -12,7 +12,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_0203630C 0x0203630C arm
  *   func_0203633C 0x0203633C arm
- *   func_02051C88 0x02051C88 arm
+ *   BUTTON_MAN_UpdateSlots 0x02051C88 arm
  *   func_02030D28 0x02030D28 arm
  */
 #include "../include/Obj05294.h"
@@ -24,7 +24,7 @@ extern unsigned int func_0203630C(void);
 extern unsigned int func_0203633C(void);
 typedef signed int     s32;
 struct Ctx;
-extern s32 func_02051C88(struct Ctx *c);
+extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 extern void func_02030D28(struct Ctx *c);
 int func_021BD534(void *a,int b,int c,u8 *p) {
     int result;
@@ -32,7 +32,7 @@ int func_021BD534(void *a,int b,int c,u8 *p) {
     x=func_020362DC(); ((struct Obj05294 *)p)->f34=x;
     x=func_0203630C(); ((struct Obj05294 *)p)->f36=x;
     x=func_0203633C(); ((struct Obj05294 *)p)->f38=x;
-    func_02051C88(((struct Obj05294 *)p)->f44);
+    BUTTON_MAN_UpdateSlots(((struct Obj05294 *)p)->f44);
     if (*(void (**)(u8 *,void *))(p+0x30)) {
         (*(void (**)(u8 *,void *))(p+0x30))(p,p+0x2c);
         result=0;

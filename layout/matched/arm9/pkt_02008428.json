@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02008428",
+   "name": "CONFIG_GetButtonMode",
    "address": "0x02008428",
    "kind": "game",
    "region": "arm9",

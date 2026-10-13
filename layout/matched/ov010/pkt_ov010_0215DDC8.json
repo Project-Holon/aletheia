@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215DDC8",
+   "name": "SCRCMD_MUSICAL_CreateLinkWork",
    "address": "0x0215DDC8",
    "kind": "game",
    "region": "ov010",

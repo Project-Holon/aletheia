@@ -101,7 +101,7 @@
  *       --func POKE_TOOL_SetBoxValueRaw --addr 0x02019388 --cc 1.1p1
  *
  * symbols:
- *   func_02045A38  0x02045A38  arm
+ *   STRBUF_ToChars  0x02045A38  arm
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
  */
 typedef unsigned char      u8;
@@ -186,7 +186,7 @@ extern u8   POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
 extern u32  func_02019ABC(struct Mon *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 struct U16Vec;
-extern void func_02045A38(struct U16Vec *src, u16 *dest, u32 n);
+extern void STRBUF_ToChars(struct U16Vec *src, u16 *dest, u32 n);
 
 void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
 {
@@ -343,7 +343,7 @@ void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
     case 0x71: b->g0 = (u16)v; break;
     case 0x72: b->unk1C = v; break;
     case 0x73:
-        func_02045A38((struct U16Vec *)v, c->unk00, 11);
+        STRBUF_ToChars((struct U16Vec *)v, c->unk00, 11);
         b->iv7 = func_02019ABC(p);
         break;
     case 0x74:
@@ -351,7 +351,7 @@ void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
         b->iv7 = func_02019ABC(p);
         break;
     case 0xB0:
-        func_02045A38((struct U16Vec *)v, c->unk00, 11);
+        STRBUF_ToChars((struct U16Vec *)v, c->unk00, 11);
         break;
     case 0xB1:
         func_0201F41C((const void *)v, c->unk00, 11);
@@ -371,7 +371,7 @@ void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
         }
         break;
     case 0x8D:
-        func_02045A38((struct U16Vec *)v, d->unk00, 8);
+        STRBUF_ToChars((struct U16Vec *)v, d->unk00, 8);
         break;
     case 0x8E:
         func_0201F41C((const void *)v, d->unk00, 8);

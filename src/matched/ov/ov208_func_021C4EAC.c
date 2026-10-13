@@ -12,8 +12,8 @@
  * symbols:
  *   func_0201C6EC        0x0201C6EC  thumb
  *   func_02045770        0x02045770  arm
- *   func_02043B5C        0x02043B5C  arm
- *   func_02045334        0x02045334  arm
+ *   BMP_Clear        0x02043B5C  arm
+ *   BMP_WIN_TransferChars        0x02045334  arm
  *   ov208_func_021C4D68  0x021C4D68  thumb
  */
 
@@ -42,8 +42,8 @@ struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *win);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *win);
 extern void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
                                 u32 *active, u16 idx);
 
@@ -51,10 +51,10 @@ void ov208_func_021C4EAC(u16 *heap, struct Ov208Menu *p, int key)
 {
     p->active[4] = 0;
     func_0201C6EC((struct PrintSys *)p->print[4]);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[4])), 0);
+    BMP_Clear((struct CharBuf *)((u32)func_02045770((struct Descriptor *)p->win[4])), 0);
     switch (p->state) {
     case 0:
-        func_02045334((struct Descriptor *)p->win[4]);
+        BMP_WIN_TransferChars((struct Descriptor *)p->win[4]);
         break;
     case 4:
         if (p->count >= 2)

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask, func_02029A04
+ * function: FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask
  *
  * Part of the (task body, task spawner) family that makes up the tail of
  * field_sound_system.c.  The same shape as unit_02029938.c with the command 2's third argument taken
@@ -25,6 +25,9 @@
  *
  * symbols:
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  */
 
 typedef unsigned short u16;
@@ -46,7 +49,7 @@ struct Desc;
 struct Obj;
 struct Sys;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
-extern u32 func_020289B8(struct Sys *s);
+extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct Sys *s);
 
 u32 FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask(void *task, u32 *state, struct Work *work)
 {
@@ -59,7 +62,7 @@ u32 FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask(void *task, u32 *state, struct
         (*state)++;
         break;
     case 1:
-        if (func_020289B8(sys) == 0) {
+        if (FIELD_SOUND_SYSTEM_IsBusy(sys) == 0) {
             return 1;
         }
         break;
@@ -67,19 +70,19 @@ u32 FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask(void *task, u32 *state, struct
     return 0;
 }
 
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *a);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *a);
 
-void *func_02029A04(void *a, u32 b, u16 c)
+void *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(void *a, u32 b, u16 c)
 {
-    void *x = func_020120F4(a);
+    void *x = GAMESYSTEM_GetGameData(a);
     void *task = func_020122C0(a, 0, FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask, 0x10);
     struct Work *work = func_020124E8(task);
 
-    work->unk04 = (void *)func_02012A30(x);
+    work->unk04 = (void *)GAME_DATA_GetBgmInfo(x);
     work->unk08 = b;
     work->unk0E = c;
     return task;

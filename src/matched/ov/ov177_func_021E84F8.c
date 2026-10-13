@@ -10,7 +10,7 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  */
 #include "../include/Obj10713.h"
 typedef unsigned int   u32;
@@ -18,7 +18,7 @@ struct Descriptor;
 struct PrintSys;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 int func_021E84F8(char *p, void *q)
 {
  int result=1;
@@ -28,7 +28,7 @@ int func_021E84F8(char *p, void *q)
  unsigned char *e=(unsigned char *)p+i*8;
  if(e[0x84]!=0) {
  if(func_0201C6C4(q,func_02045770(((struct Obj10713 *)e)->f80))==0) {
- func_02045334(*(void **)((unsigned)p+(int)i*8+0x80));*(unsigned char *)((unsigned)p+(int)i*8+0x84)=0;
+ BMP_WIN_TransferChars(*(void **)((unsigned)p+(int)i*8+0x80));*(unsigned char *)((unsigned)p+(int)i*8+0x84)=0;
  }
  }
  result &= e[0x84]==0;

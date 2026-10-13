@@ -1,5 +1,5 @@
 /*
- * function: func_021A3674
+ * function: FIELD_PLAYER_SetupNogrid
  * address:  0x021A3674
  * packet:   pkt_021A3674
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0xc.
  *
  * symbols:
- *   func_021A596C  0x021A596C  thumb
+ *   FIELD_PLAYER_NOGRID_Update  0x021A596C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A596C(u8 *p, u32 b, u32 c);
+extern void FIELD_PLAYER_NOGRID_Update(u8 *p, u32 b, u32 c);
 
-void func_021A3674(u8 *p, u32 b, u32 c)
+void FIELD_PLAYER_SetupNogrid(u8 *p, u32 b, u32 c)
 {
-    func_021A596C((u8 *)(((struct Obj18023 *)p)->fC), b, c);
+    FIELD_PLAYER_NOGRID_Update((u8 *)(((struct Obj18023 *)p)->fC), b, c);
 }

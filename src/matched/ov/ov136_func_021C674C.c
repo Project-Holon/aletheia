@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 
 void func_021C674C(u8 *p)
 {
-    func_02049238(((struct Obj23596 *)p)->f290);
+    ARC_TOOL_DeleteHandle(((struct Obj23596 *)p)->f290);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0217F310",
+   "name": "UNION_MSG_SelectMenu",
    "address": "0x0217F310",
    "kind": "game",
    "region": "ov019",

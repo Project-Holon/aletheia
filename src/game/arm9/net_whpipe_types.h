@@ -84,7 +84,7 @@ typedef int (*WhPipeBeaconCompareFunc)(u8 gameKind, u8 beaconKind, u32 userData)
 typedef int (*WhPipeBeaconSizeFunc)(u32 userData);
 typedef u32 (*WhPipeBeaconDataFunc)(u32 userData);
 
-/* Partial view of the network init block returned by func_0203D798 (GFLNetInitializeStruct). */
+/* Partial view of the network init block returned by GFL_NET_GetInitParam (GFLNetInitializeStruct). */
 typedef struct WhPipeNetInit {
     u8 unread00[0x18];
     WhPipeBeaconDataFunc getBeaconData;    /* 0x18 */

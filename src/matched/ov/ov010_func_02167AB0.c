@@ -1,5 +1,5 @@
 /*
- * function: func_02167AB0
+ * function: BSUBWAY_COMM_NetInit
  * address:  0x02167AB0
  * packet:   pkt_ov010_02167AB0
  * region:   ov010
@@ -9,11 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to ARM func_0203CBAC with (&d_02172014, 0, arg). No lr-saving
- * prologue; bl from ov021 func_021CA5C4 at 0x021CB4F4.
+ * Tail call to ARM GFL_NET_StartSession with (&d_02172014, 0, arg). No lr-saving
+ * prologue; bl from ov021 BSUBWAY_SCR_CmdTool at 0x021CB4F4.
  *
  * symbols:
- *   func_0203CBAC  0x0203CBAC  arm
+ *   GFL_NET_StartSession  0x0203CBAC  arm
  *   d_02172014  0x02172014  data  ov010
  */
 
@@ -21,10 +21,10 @@ typedef unsigned char u8;
 
 typedef unsigned int   u32;
 struct Req;
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
 extern u8 d_02172014[];
 
-void func_02167AB0(void *p)
+void BSUBWAY_COMM_NetInit(void *p)
 {
-    func_0203CBAC((struct Req *)d_02172014, 0, (u32)p);
+    GFL_NET_StartSession((struct Req *)d_02172014, 0, (u32)p);
 }

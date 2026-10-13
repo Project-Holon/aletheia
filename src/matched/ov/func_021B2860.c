@@ -1,5 +1,5 @@
 /*
- * function: func_021B2860
+ * function: SCRCMD_SCREENEFFECTS_CheckBrightnessDone
  * address:  0x021B2860
  * packet:   pkt_021B2860
  * region:   ov021
@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0204E804  0x0204E804  arm
+ *   FADE_IsActive  0x0204E804  arm
  * Addresses are Black-image addresses.
  */
 
@@ -21,11 +21,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0204E804(void);
+extern int FADE_IsActive(void);
 
-int func_021B2860(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_SCREENEFFECTS_CheckBrightnessDone(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0204E804() != 1) {
+if (FADE_IsActive() != 1) {
     return 1;
 }
 return 0;

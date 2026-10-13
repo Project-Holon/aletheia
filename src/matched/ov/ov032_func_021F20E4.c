@@ -12,8 +12,8 @@
  * symbols:
  *   func_021F20E4 0x021F20E4 thumb
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
- *   func_02045374 0x02045374 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
+ *   BMP_WIN_MakeScreen 0x02045374 arm
  *   func_02045730 0x02045730 arm
  *   func_02045770 0x02045770 arm
  *   func_02041B6C 0x02041B6C arm
@@ -31,8 +31,8 @@ struct Descriptor;
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *a);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_TransferChars(struct Descriptor *a);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
@@ -49,12 +49,12 @@ void func_021F20E4(void *task, char *q)
     s = *(u8 * *)&((struct Obj06136 *)q)->f4 + 8;
     if (s[4] != 0) {
         if (func_0201C6C4((struct PrintSys *)v, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj06137 *)s)->f0))) == 0) {
-            func_02045334((struct Descriptor *)((struct Obj06137 *)s)->f0);
+            BMP_WIN_TransferChars((struct Descriptor *)((struct Obj06137 *)s)->f0);
             s[4] = 0;
         }
     }
     if (s[4] == 0) {
-        func_02045374((struct Cfg *)(**(u32 * *)&((struct Obj06136 *)q)->f4));
+        BMP_WIN_MakeScreen((struct Cfg *)(**(u32 * *)&((struct Obj06136 *)q)->f4));
         func_02041B6C(func_02045730((struct Descriptor *)(**(u32 * *)&((struct Obj06136 *)q)->f4)));
         r = *(int * *)&((struct Obj06136 *)q)->fC;
         if (r != 0)

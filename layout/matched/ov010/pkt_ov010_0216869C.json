@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216869C",
+   "name": "FLD_BTL_INST_TOOL_BattleMonToPokemon",
    "address": "0x0216869C",
    "kind": "game",
    "region": "ov010",

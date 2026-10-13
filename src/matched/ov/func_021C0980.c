@@ -13,7 +13,7 @@
  *   func_02040804  0x02040804  arm
  *   func_02041EE4  0x02041EE4  arm
  *   func_0204B404  0x0204B404  arm
- *   func_0204B454  0x0204B454  arm
+ *   CLACT_GetActorSurfacePos  0x0204B454  arm
  */
 #include "../include/Obj02346.h"
 
@@ -26,7 +26,7 @@ extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
 void func_021C0980(int a, unsigned char *p, int a2)
 {
@@ -65,7 +65,7 @@ void func_021C0980(int a, unsigned char *p, int a2)
         case 2:
             break;
         case 1:
-            func_0204B454((struct Actor *)*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64), (struct PtS *)v, 1);
+            CLACT_GetActorSurfacePos((struct Actor *)*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64), (struct PtS *)v, 1);
             if (v[1] <= 0x70) {
                 v[1] = 0x70;
                 ((struct Obj02346 *)p)->f74 = 2;
@@ -75,7 +75,7 @@ void func_021C0980(int a, unsigned char *p, int a2)
             func_0204B404((struct Obj *)(*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64)), (const struct Vec2 *)v, 1);
             break;
         case 3:
-            func_0204B454((struct Actor *)*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64), (struct PtS *)v, 1);
+            CLACT_GetActorSurfacePos((struct Actor *)*(int *)(p + 0x5c + 4 * ((struct Obj02346 *)p)->f64), (struct PtS *)v, 1);
             if (v[1] >= 0xb0) {
                 v[1] = 0xb0;
                 ((struct Obj02346 *)p)->f74 = 0;

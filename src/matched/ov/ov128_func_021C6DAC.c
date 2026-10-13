@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
  */
 #include "../include/Obj00725.h"
 typedef unsigned char u8;
@@ -17,5 +17,5 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-void func_021C6DAC(u8 *p) {int i;func_0204B3B4(((struct Obj00725 *)p)->f168);func_0204B3B4(((struct Obj00725 *)p)->f164);for(i=0;i<2;i++) func_0204B3B4(*(void **)((u32)p+i*4+0x15c));}
+extern void CLACT_DeleteActor(struct Obj *p);
+void func_021C6DAC(u8 *p) {int i;CLACT_DeleteActor(((struct Obj00725 *)p)->f168);CLACT_DeleteActor(((struct Obj00725 *)p)->f164);for(i=0;i<2;i++) CLACT_DeleteActor(*(void **)((u32)p+i*4+0x15c));}

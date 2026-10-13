@@ -1,5 +1,5 @@
 /*
- * function: func_021EEC4C
+ * function: BTL_ADAPTER_SetRecvTarget
  * address:  0x021EEC4C
  * packet:   pkt_ov093_021EEC4C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4C84  0x021D4C84  thumb  ov093
+ *   BTL_NET_SendClientReply  0x021D4C84  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -31,12 +31,12 @@ typedef struct {
     u8 d[1];
 } W;
 
-extern u32 func_021D4C84(u32 a, u32 b);
+extern u32 BTL_NET_SendClientReply(u32 a, u32 b);
 
-u32 func_021EEC4C(W *p, u32 a, u32 b)
+u32 BTL_ADAPTER_SetRecvTarget(W *p, u32 a, u32 b)
 {
     if (p->hi != 0)
-        return func_021D4C84(a, b);
+        return BTL_NET_SendClientReply(a, b);
     if (p->st == 0) {
         p->w4 = a;
         p->w8 = b;

@@ -14,23 +14,23 @@
  * Map change helpers (guess) and the thunks that follow them.
  *
  * symbols:
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200D418 0x0200D418 thumb
- *   func_02188C9C 0x02188C9C thumb ov021
- *   func_0215E428 0x0215E428 thumb ov010
- *   func_0215E3A0 0x0215E3A0 thumb ov010
- *   func_0201296C 0x0201296C thumb
- *   func_0201433C 0x0201433C thumb
- *   func_0215E33C 0x0215E33C thumb ov010
- *   func_02012B38  0x02012B38  thumb
+ *   FIELDMAP_GetZoneId 0x02188C9C thumb ov021
+ *   MOVE_POKEMON_SetCommonArea 0x0215E428 thumb ov010
+ *   MOVE_POKEMON_MoveActiveEntriesChecked 0x0215E3A0 thumb ov010
+ *   GAME_DATA_GetEventWork 0x0201296C thumb
+ *   ZONEDATA_ResetEventFlag 0x0201433C thumb
+ *   FIELD_ENCOUNT_ST_GetEffectEncount 0x0215E33C thumb ov010
+ *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   func_02013F6C  0x02013F6C  thumb
  *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
- *   func_0215E364  0x0215E364  thumb ov010
- *   func_02164728  0x02164728  thumb ov010
+ *   MOVE_POKEMON_MoveActiveEntries  0x0215E364  thumb ov010
+ *   EVENTDATA_SYSTEM_RespawnHiddenItems  0x02164728  thumb ov010
  *   func_02013FFC  0x02013FFC  thumb
  *   func_02008854  0x02008854  thumb
  *   func_02008988  0x02008988  thumb
- *   func_0215E34C  0x0215E34C  thumb  ov010
+ *   FIELD_ENCOUNT_ST_ResetGimmickState  0x0215E34C  thumb  ov010
  */
 
 struct GameData;
@@ -42,23 +42,23 @@ struct Situation;
 
 typedef unsigned int u32;
 
-extern struct SaveControl *func_02012EBC(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void *func_0200D418(struct SaveControl *saveControl);
-extern u16 func_02188C9C(u8 *p);
-extern void func_0215E428(int a0, int a1);
-extern void func_0215E3A0(void *);
-extern void *func_0201296C(const struct GameData *gameData);
-extern void func_0201433C(char *, int);
-extern int func_0215E33C(int a0);
-extern MmdlSys *func_02012B38(const struct GameData *gameData);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern void MOVE_POKEMON_SetCommonArea(int a0, int a1);
+extern void MOVE_POKEMON_MoveActiveEntriesChecked(void *);
+extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern void ZONEDATA_ResetEventFlag(char *, int);
+extern int FIELD_ENCOUNT_ST_GetEffectEncount(int a0);
+extern MmdlSys *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
 extern u32 func_02013F6C(u32 id);
 extern void FIELD_STATUS_SetFlashActive(MmdlSys *mmdlSys, u8 value);
-extern void func_0215E364(void *object);
-extern void  func_02164728(void *a);
+extern void MOVE_POKEMON_MoveActiveEntries(void *object);
+extern void  EVENTDATA_SYSTEM_RespawnHiddenItems(void *a);
 extern u32 func_02013FFC(u32 id);
 extern struct Situation *func_02008854(struct SaveControl *saveControl);
 extern void func_02008988(struct Situation *situation, u16 value);
-extern int func_0215E34C(int a0);
+extern int FIELD_ENCOUNT_ST_ResetGimmickState(int a0);
 void func_021643AC(struct GameData *gameData, void *zoneHeader);
 void func_021643E8(struct GameData *gameData, u32 zoneId);
 int func_02164454(int object, int unused);
@@ -69,12 +69,12 @@ void func_02164474(void *object, int unused);
 void func_0216447C(int system, u16 zoneId);
 
 /*
- * interface: func_02188C9C reads the u16 field at +0xD8;
- * func_0215E428 forwards its second argument to func_0200D45C,
+ * interface: FIELDMAP_GetZoneId reads the u16 field at +0xD8;
+ * MOVE_POKEMON_SetCommonArea forwards its second argument to func_0200D45C,
  * whose matched ARM9 body takes u16 and stores only that halfword.
  * The legacy ov010_func_021643E8 declaration uses a pointer for this ID.
  */
-void func_021643AC(struct GameData *gameData, void *zoneHeader) { void *saveWork=func_0200D418(func_02012EBC(gameData)); func_0215E428((int)saveWork,func_02188C9C((u8 *)zoneHeader)); func_0215E3A0(gameData); func_0201433C((char *)func_0201296C(gameData),0x964); func_0215E33C((int)zoneHeader); }
+void func_021643AC(struct GameData *gameData, void *zoneHeader) { void *saveWork=func_0200D418(GAME_DATA_GetSaveControl(gameData)); MOVE_POKEMON_SetCommonArea((int)saveWork,FIELDMAP_GetZoneId((u8 *)zoneHeader)); MOVE_POKEMON_MoveActiveEntriesChecked(gameData); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(gameData),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)zoneHeader); }
 
 /*
  * Per-object setup: registers the object with the frame list, applies
@@ -84,80 +84,80 @@ void func_021643AC(struct GameData *gameData, void *zoneHeader) { void *saveWork
  */
 void func_021643E8(struct GameData *gameData, u32 zoneId)
 {
-    MmdlSys *mmdlSys = func_02012B38(gameData);
+    MmdlSys *mmdlSys = GAME_DATA_GetMoveModelSys(gameData);
     void *eventWork;
     if ((func_02013F6C(zoneId) & 3) == 0) {
         FIELD_STATUS_SetFlashActive(mmdlSys, 0);
     }
-    func_0215E428((int)func_0200D418(func_02012EBC(gameData)), (int)zoneId);
-    func_0215E364(gameData);
-    eventWork = func_0201296C(gameData);
-    func_0201433C(eventWork, 0x964);
-    func_02164728(eventWork);
+    MOVE_POKEMON_SetCommonArea((int)func_0200D418(GAME_DATA_GetSaveControl(gameData)), (int)zoneId);
+    MOVE_POKEMON_MoveActiveEntries(gameData);
+    eventWork = GAME_DATA_GetEventWork(gameData);
+    ZONEDATA_ResetEventFlag(eventWork, 0x964);
+    EVENTDATA_SYSTEM_RespawnHiddenItems(eventWork);
     if (func_02013FFC(zoneId) == 0) {
-        func_02008988(func_02008854(func_02012EBC(gameData)), 0);
+        func_02008988(func_02008854(GAME_DATA_GetSaveControl(gameData)), 0);
     }
 }
 
 /*
  * Unlabelled leaf (a tail-call thunk saves nothing, so disasm.py prints it
  * as data after the previous function).  One of four byte-identical thunks
- * to func_0215E34C at 0x02164454, 0x0216445C, 0x02164464 and 0x0216446C.
- * Blocker of ov020 func_021841C0 (case 1 of the *(u8 *)(p + 0x30) switch).
+ * to FIELD_ENCOUNT_ST_ResetGimmickState at 0x02164454, 0x0216445C, 0x02164464 and 0x0216446C.
+ * Blocker of ov020 EVENT_MAPCHANGE_ChangeFieldEvent (case 1 of the *(u8 *)(p + 0x30) switch).
  *
- * Every ov020 caller passes a second argument (r1), but func_0215E34C
+ * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
 int func_02164454(int object, int unused)
 {
-    return func_0215E34C(object);
+    return FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
 
 /*
  * Unlabelled leaf (a tail-call thunk saves nothing, so disasm.py prints it
  * as data after the previous function).  One of four byte-identical thunks
- * to func_0215E34C at 0x02164454, 0x0216445C, 0x02164464 and 0x0216446C.
- * Blocker of ov020 func_021841C0 (case 3 of the *(u8 *)(p + 0x30) switch).
+ * to FIELD_ENCOUNT_ST_ResetGimmickState at 0x02164454, 0x0216445C, 0x02164464 and 0x0216446C.
+ * Blocker of ov020 EVENT_MAPCHANGE_ChangeFieldEvent (case 3 of the *(u8 *)(p + 0x30) switch).
  *
- * Every ov020 caller passes a second argument (r1), but func_0215E34C
+ * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
 int func_0216445C(int object, int unused)
 {
-    return func_0215E34C(object);
+    return FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
 
 /*
  * Unlabelled leaf (a tail-call thunk saves nothing, so disasm.py prints it
  * as data after the previous function).  One of four byte-identical thunks
- * to func_0215E34C at 0x02164454, 0x0216445C, 0x02164464 and 0x0216446C.
- * Blocker of ov020 func_021841C0 (case 2 of the *(u8 *)(p + 0x30) switch).
+ * to FIELD_ENCOUNT_ST_ResetGimmickState at 0x02164454, 0x0216445C, 0x02164464 and 0x0216446C.
+ * Blocker of ov020 EVENT_MAPCHANGE_ChangeFieldEvent (case 2 of the *(u8 *)(p + 0x30) switch).
  *
- * Every ov020 caller passes a second argument (r1), but func_0215E34C
+ * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
 int func_02164464(int object, int unused)
 {
-    return func_0215E34C(object);
+    return FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
 
 /*
  * Unlabelled thumb tail-call stub (ldr r3,[pc,0]; bx r3; .word 0x0215E34D);
  * the sole blocker of ov020 func_0218562C.
  *
- * Every ov020 caller passes a second argument (r1), but func_0215E34C
+ * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
 /*
  * Unlabelled thumb tail-call stub (ldr r3,[pc,#0]; bx r3; .word 0x0215E34D);
  * the sole blocker of ov020 func_0218562C.
  *
- * Every ov020 caller passes a second argument (r1), but func_0215E34C
+ * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
 int func_0216446C(int object, int unused)
 {
-    return func_0215E34C(object);
+    return FIELD_ENCOUNT_ST_ResetGimmickState(object);
 }
 
 /*
@@ -166,12 +166,12 @@ int func_0216446C(int object, int unused)
  */
 void func_02164474(void *object, int unused)
 {
-    func_0215E364(object);
+    MOVE_POKEMON_MoveActiveEntries(object);
 }
 
 /*
  * Empty function after the veneer run; the only Thumb code at this address
- * in any overlay window, called from ov021 func_021881D8.
+ * in any overlay window, called from ov021 FIELDMAP_SeqCreateSubsystems.
  *
  * Addresses are Black-image addresses.
  */

@@ -1,5 +1,5 @@
 /*
- * function: func_021B7880
+ * function: MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds
  * address:  0x021B7880
  * packet:   pkt_ov071_021B7880
  * region:   ov071
@@ -26,7 +26,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern char d_021BA8DC[];
 extern char d_021BA8FC[];
 
-void func_021B7880(void)
+void MONOLITH_TOOL_SLOT_SELECT_InitBackgrounds(void)
 {
     func_0203FCA0(5, (const struct BgTemplate *)d_021BA8DC, 0);
     func_0203FCA0(6, (const struct BgTemplate *)d_021BA8FC, 0);

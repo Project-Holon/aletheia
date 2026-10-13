@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203CD98                0x0203CD98  arm
+ *   GFL_NET_GetRunState                0x0203CD98  arm
  *   func_0200FA84                0x0200FA84  thumb
  *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
  *   func_021DA4B8                0x021DA4B8  thumb
@@ -32,7 +32,7 @@ typedef unsigned long u32;
 
 typedef int (*EvalFn)(int index, void *param);
 
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 extern void func_0200FA84(void);
 extern void DWC_CloseAllConnectionsHard(void);
 extern void func_021DA4B8(char *obj, int i, int value);
@@ -51,7 +51,7 @@ void func_021DA0D4(char *obj, int mode, int extra, int group, int *rec)
 
     if (mode == 1)
         count += extra;
-    if (!func_0203CD98())
+    if (!GFL_NET_GetRunState())
         func_0200FA84();
     DWC_CloseAllConnectionsHard();
     func_021DA4B8(obj, 0, count);

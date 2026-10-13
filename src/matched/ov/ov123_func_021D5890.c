@@ -8,10 +8,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045CAC 0x02045CAC arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   MSGDATA_ReadString 0x02045CAC arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_0207D658 0x0207D658 arm
+ *   APP_TASKMENU_OpenMenu  0x02027778  thumb  arm9
  */
 #include "../include/Obj01734.h"
 typedef unsigned char u8;
@@ -20,12 +21,12 @@ typedef unsigned int u32;
 typedef struct Config { u32 size; u8 flag; u8 pad[3]; void *target; u32 mode; u8 x,y,z,w; } Config;
 struct MsgBank;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern void func_02045808(struct U16Vec *vec);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void STRBUF_Delete(struct U16Vec *vec);
 struct TaskMenu;
 struct TaskMenuTmpl;
-extern struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1);
+extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 extern void func_0207D658(u32 addr, int plane, int brightness);
 int func_021D5890(char *p,int mode)
 {
@@ -40,15 +41,15 @@ int func_021D5890(char *p,int mode)
     }
     c.z=13;
     c.w=3;
-    ((struct Obj01734 *)p)->f8C=func_020457B0(100,((struct Obj01734 *)p)->fB0);
-    func_02045CAC(((struct Obj01734 *)p)->f20,4,((struct Obj01734 *)p)->f8C);
+    ((struct Obj01734 *)p)->f8C=STRBUF_Create(100,((struct Obj01734 *)p)->fB0);
+    MSGDATA_ReadString(((struct Obj01734 *)p)->f20,4,((struct Obj01734 *)p)->f8C);
     ((struct Obj01734 *)p)->f90=0x39e0;
-    ((struct Obj01734 *)p)->f98=func_020457B0(100,((struct Obj01734 *)p)->fB0);
-    func_02045CAC(((struct Obj01734 *)p)->f20,5,((struct Obj01734 *)p)->f98);
+    ((struct Obj01734 *)p)->f98=STRBUF_Create(100,((struct Obj01734 *)p)->fB0);
+    MSGDATA_ReadString(((struct Obj01734 *)p)->f20,5,((struct Obj01734 *)p)->f98);
     ((struct Obj01734 *)p)->f9C=0x39e0;
-    result=(int)func_02027778((struct TaskMenuTmpl *)(&c),((struct Obj01734 *)p)->fA4);
-    func_02045808(((struct Obj01734 *)p)->f8C);
-    func_02045808(((struct Obj01734 *)p)->f98);
+    result=(int)APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&c),((struct Obj01734 *)p)->fA4);
+    STRBUF_Delete(((struct Obj01734 *)p)->f8C);
+    STRBUF_Delete(((struct Obj01734 *)p)->f98);
     func_0207D658(0x04001050,9,-8);
     return result;
 }

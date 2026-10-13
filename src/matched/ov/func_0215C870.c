@@ -1,5 +1,5 @@
 /*
- * function: func_0215C870
+ * function: SCRCMD_PROC_OnMoveRelearnDone
  * address:  0x0215C870
  * packet:   pkt_0215C870
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   func_0216F940  0x0216F940  thumb  ov010
+ *   WAZA_OSHIE_Delete  0x0216F940  thumb  ov010
  */
 #include "../include/Obj04131.h"
 
@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_020307B0();
-extern int func_0216F940();
+extern int WAZA_OSHIE_Delete();
 
-int func_0215C870(int a0, int a1)
+int SCRCMD_PROC_OnMoveRelearnDone(int a0, int a1)
 {
     int t4;
 
@@ -45,6 +45,6 @@ a0 = ((struct Obj04131 *)a0)->f10;
     a0 = func_020307B0(a0);
 loc_0215C892:
 a0 = ((struct Obj04131 *)((char *)t4))->f0;
-    a0 = func_0216F940(a0);
+    a0 = WAZA_OSHIE_Delete(a0);
 loc_0215C898:
     return a0;}

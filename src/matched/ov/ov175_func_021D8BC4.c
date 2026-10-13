@@ -18,8 +18,8 @@
  *   func_021D9F04 0x021D9F04 thumb ov175
  *   func_021D9A1C 0x021D9A1C thumb ov175
  *   func_021D9A30 0x021D9A30 thumb ov175
- *   func_02012DAC 0x02012DAC thumb
- *   func_02012DD0 0x02012DD0 thumb
+ *   GAME_DATA_SaveStart 0x02012DAC thumb
+ *   GAME_DATA_SaveMain 0x02012DD0 thumb
  *   func_021D8EC8 0x021D8EC8 thumb ov175
  *   func_021D8CF0 0x021D8CF0 thumb ov175
  *   func_021D9064 0x021D9064 thumb ov175
@@ -36,8 +36,8 @@ extern int func_021D9D50(char *obj, u32 *rec);
 extern int func_021D9F04(char *, void *, void *);
 extern void func_021D9A1C(char *, void *);
 extern u32 func_021D9A30(char *);
-extern int func_02012DAC(int);
-extern int func_02012DD0(u8 *);
+extern int GAME_DATA_SaveStart(int);
+extern int GAME_DATA_SaveMain(u8 *);
 extern void func_021D8EC8(u32 sys, int *state, char *p);
 extern void func_021D8CF0(u32 sys, int *state, char *p);
 extern void func_021D9064(void *obj, int unused, u8 *p);
@@ -55,11 +55,11 @@ void func_021D8BC4(int *a, int *state, char *ctx)
         return;
     case 1:
         func_021D9D50(ctx, *(void **)(sub + 0x34));
-        func_02012DAC(**(int **)(sub + 8));
+        GAME_DATA_SaveStart(**(int **)(sub + 8));
         *state = 2;
         return;
     case 2:
-        r = func_02012DD0(**(u8 ***)(sub + 8));
+        r = GAME_DATA_SaveMain(**(u8 ***)(sub + 8));
         if (r == 2) {
             *state = 3;
             return;

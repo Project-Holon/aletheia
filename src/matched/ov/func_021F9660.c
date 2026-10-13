@@ -12,8 +12,8 @@
  * symbols:
  *   BGWINFRM_GetPos  0x0202CF98  thumb
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
  *   func_020452E8  0x020452E8  arm
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
@@ -43,8 +43,8 @@ extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 struct CharBuf;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 func_020452E8(struct Descriptor *d);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
@@ -59,8 +59,8 @@ void func_021F9660(Obj *p, int mode)
     switch (mode) {
     case 4:
         for (i = 0; i < 9; i++) {
-            func_02043B5C(func_02045770(p->win[i]), 10);
-            func_02045334(p->win[i]);
+            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_WIN_TransferChars(p->win[i]);
             func_020452E8(p->win[i]);
         }
         if (bright[1] == 0x10) {
@@ -72,8 +72,8 @@ void func_021F9660(Obj *p, int mode)
         break;
     case 5:
         for (i = 0; i < 4; i++) {
-            func_02043B5C(func_02045770(p->win[i]), 10);
-            func_02045334(p->win[i]);
+            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_WIN_TransferChars(p->win[i]);
             func_020452E8(p->win[i]);
         }
         if (bright[1] == 0x10) {
@@ -85,8 +85,8 @@ void func_021F9660(Obj *p, int mode)
         break;
     case 0:
         for (i = 0; i < 5; i++) {
-            func_02043B5C(func_02045770(p->win[i]), 10);
-            func_02045334(p->win[i]);
+            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_WIN_TransferChars(p->win[i]);
             func_020452E8(p->win[i]);
         }
         if (bright[1] == 0x10) {
@@ -98,8 +98,8 @@ void func_021F9660(Obj *p, int mode)
         break;
     case 6:
         for (i = 0; i < 9; i++) {
-            func_02043B5C(func_02045770(p->win[i]), 10);
-            func_02045334(p->win[i]);
+            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_WIN_TransferChars(p->win[i]);
             func_020452E8(p->win[i]);
         }
         if (bright[1] == 0x10) {
@@ -112,8 +112,8 @@ void func_021F9660(Obj *p, int mode)
         break;
     case 3:
         for (i = 0; i < 6; i++) {
-            func_02043B5C(func_02045770(p->win[i]), 10);
-            func_02045334(p->win[i]);
+            BMP_Clear(func_02045770(p->win[i]), 10);
+            BMP_WIN_TransferChars(p->win[i]);
             func_020452E8(p->win[i]);
         }
         func_020452E8(p->win[14]);

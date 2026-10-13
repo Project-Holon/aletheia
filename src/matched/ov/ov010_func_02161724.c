@@ -1,5 +1,5 @@
 /*
- * function: func_02161724
+ * function: EVENT_FIELD_PROCLINK_AnimEventMain
  * address:  0x02161724
  * packet:   pkt_ov010_02161724
  * region:   ov010
@@ -15,18 +15,18 @@
  *
  * The image keeps a second object that is always NULL (`movs r6, #0;
  * beq` reuses the movs flags, and the NULL is still passed to
- * func_0216DA5C in step 1): written as a pointer local set to 0 and
+ * FLDMMDL_CheckMoveBitMove in step 1): written as a pointer local set to 0 and
  * tested. w->field is read into a local before the switch.
  *
  * symbols:
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_0216DEE0  0x0216DEE0  thumb  ov010
- *   func_0216DE54  0x0216DE54  thumb  ov010
- *   func_0216D9A0  0x0216D9A0  thumb  ov010
- *   func_0216D454  0x0216D454  thumb  ov010
- *   func_0216DB04  0x0216DB04  thumb  ov010
- *   func_0216DA5C  0x0216DA5C  thumb  ov010
- *   func_0216DAF8  0x0216DAF8  thumb  ov010
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FLDMMDL_SysSearchPlayer  0x0216DEE0  thumb  ov010
+ *   FLDMMDL_SysSearchMoveCode  0x0216DE54  thumb  ov010
+ *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
+ *   FLDMMDL_OffMoveBitMovePause  0x0216DB04  thumb  ov010
+ *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
+ *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -40,16 +40,16 @@ typedef struct AnimWork {
     u8 busy;            /* 0x0C */
 } AnimWork;
 
-extern void *func_02188C7C(u8 *p);
-extern void *func_0216DEE0(void *map);
-extern void *func_0216DE54(void *map, u32 kind);
-extern void func_0216D9A0(void *map);
-extern int func_0216D454(void *obj);
-extern char *func_0216DB04(void *a0);
-extern int func_0216DA5C(void *obj);
-extern void func_0216DAF8(void *obj);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern void *FLDMMDL_SysSearchPlayer(void *map);
+extern void *FLDMMDL_SysSearchMoveCode(void *map, u32 kind);
+extern void FLDMMDL_SysPauseMove(void *map);
+extern int FLDMMDL_CheckEndAcmd(void *obj);
+extern char *FLDMMDL_OffMoveBitMovePause(void *a0);
+extern int FLDMMDL_CheckMoveBitMove(void *obj);
+extern void FLDMMDL_OnMoveBitMovePause(void *obj);
 
-int func_02161724(void *task, u32 *seq, AnimWork *w)
+int EVENT_FIELD_PROCLINK_AnimEventMain(void *task, u32 *seq, AnimWork *w)
 {
     void *map;
     void *a;
@@ -60,41 +60,41 @@ int func_02161724(void *task, u32 *seq, AnimWork *w)
     field = w->field;
     switch (*seq) {
     case 0:
-        map = func_02188C7C(field);
-        a = func_0216DEE0(map);
-        func_0216DE54(map, 0x30);
+        map = FIELDMAP_GetMmdlSys(field);
+        a = FLDMMDL_SysSearchPlayer(map);
+        FLDMMDL_SysSearchMoveCode(map, 0x30);
         w->busy = 0;
-        func_0216D9A0(map);
-        if (func_0216D454(a) == 0) {
+        FLDMMDL_SysPauseMove(map);
+        if (FLDMMDL_CheckEndAcmd(a) == 0) {
             w->busy |= 1;
-            func_0216DB04(a);
+            FLDMMDL_OffMoveBitMovePause(a);
         }
         b = 0;
-        if (b != 0 && func_0216DA5C(b) == 1) {
+        if (b != 0 && FLDMMDL_CheckMoveBitMove(b) == 1) {
             w->busy |= 4;
-            func_0216DB04(b);
+            FLDMMDL_OffMoveBitMovePause(b);
         }
         (*seq)++;
         break;
     case 1:
-        map = func_02188C7C(field);
-        a = func_0216DEE0(map);
-        func_0216DE54(map, 0x30);
-        if ((w->busy & 1) && func_0216D454(a) == 1) {
-            func_0216DAF8(a);
+        map = FIELDMAP_GetMmdlSys(field);
+        a = FLDMMDL_SysSearchPlayer(map);
+        FLDMMDL_SysSearchMoveCode(map, 0x30);
+        if ((w->busy & 1) && FLDMMDL_CheckEndAcmd(a) == 1) {
+            FLDMMDL_OnMoveBitMovePause(a);
             w->busy &= ~1;
         }
         if (w->busy & 4) {
             b = 0;
-            if (func_0216DA5C(b) == 0) {
-                func_0216DAF8(b);
+            if (FLDMMDL_CheckMoveBitMove(b) == 0) {
+                FLDMMDL_OnMoveBitMovePause(b);
                 w->busy &= ~4;
             }
         }
         if (w->busy & 2) {
-            c = func_0216DE54(map, 0x30);
-            if (func_0216DA5C(c) == 0) {
-                func_0216DAF8(c);
+            c = FLDMMDL_SysSearchMoveCode(map, 0x30);
+            if (FLDMMDL_CheckMoveBitMove(c) == 0) {
+                FLDMMDL_OnMoveBitMovePause(c);
                 w->busy &= ~2;
             }
         }

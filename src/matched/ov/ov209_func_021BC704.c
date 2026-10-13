@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020215A0 0x020215A0 thumb
- *   func_02021540 0x02021540 thumb
+ *   PALANM_FreeSlotBuffers 0x020215A0 thumb
+ *   PALANM_Delete 0x02021540 thumb
  */
 #include "../include/Obj00088.h"
-struct PalAnmSlot;extern void func_020215A0(struct PalAnmSlot *,unsigned);extern void func_02021540(struct PalAnmSlot *);
-void func_021BC704(char *p){func_020215A0(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,0);func_020215A0(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,1);func_020215A0(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,2);func_020215A0(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,3);func_02021540(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC);}
+struct PalAnmSlot;extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,unsigned);extern void PALANM_Delete(struct PalAnmSlot *);
+void func_021BC704(char *p){PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,0);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,1);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,2);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC,3);PALANM_Delete(*(struct PalAnmSlot * *)&((struct Obj00088 *)p)->fC);}

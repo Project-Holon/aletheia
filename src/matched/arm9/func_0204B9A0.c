@@ -1,5 +1,5 @@
 /*
- * function: func_0204B9A0
+ * function: CLACT_RestartActorAnim
  * address:  0x0204B9A0
  * packet:   pkt_0204B954
  * region:   arm9
@@ -24,8 +24,8 @@
  * and re-materialises `&a->ctl` for the second call.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_0204B9A0.c \
- *       --func func_0204B9A0 --addr 0x0204B9A0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_RestartActorAnim.c \
+ *       --func CLACT_RestartActorAnim --addr 0x0204B9A0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -48,7 +48,7 @@ struct Actor {
 extern struct Anim *CLACT_GetAnimCtrl(struct Ctl *c);
 extern void         CLACT_ResetAnim(struct Ctl *c);
 
-void func_0204B9A0(struct Actor *a)
+void CLACT_RestartActorAnim(struct Actor *a)
 {
     CLACT_GetAnimCtrl(&a->ctl)->flag = 1;
     CLACT_ResetAnim(&a->ctl);

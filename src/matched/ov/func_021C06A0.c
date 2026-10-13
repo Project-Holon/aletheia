@@ -10,6 +10,7 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *   (none)
 
  * Frees the second word of every entry whose first word is 2.
@@ -17,7 +18,7 @@
 
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 typedef struct {
     char pad[0x1e0];
@@ -30,6 +31,6 @@ void func_021C06A0(int unused, S *s)
 
     for (i = 0; i < 0x3d; i++) {
         if (s->arr[i * 2] == 2)
-            func_0204B3B4((struct Obj *)s->arr[i * 2 + 1]);
+            CLACT_DeleteActor((struct Obj *)s->arr[i * 2 + 1]);
     }
 }

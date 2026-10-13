@@ -1,5 +1,5 @@
 /*
- * function: func_021F38F4
+ * function: DAILY_LAYOUT_ResetDeck
  * address:  0x021F38F4
  * packet:   pkt_ov036_021F38F4
  * region:   ov036
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-void func_021F38F4(unsigned char *p)
+void DAILY_LAYOUT_ResetDeck(unsigned char *p)
 {
     int i;
     int j;

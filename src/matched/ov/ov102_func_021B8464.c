@@ -10,23 +10,23 @@
  * note: Separate fifth object pointer and sixth u16 heap reproduce the incoming pointer home store and halfword slot at +4; byte-correct caller 021B7560 supplies the same two slots. Struct-typed state and const Row input preserve loads across bounds stores.
  * symbols:
  * func_02082BCC 0x02082BCC arm
- * func_02051B84 0x02051B84 arm
+ * BUTTON_MAN_Create 0x02051B84 arm
  * func_021B8794 0x021B8794 thumb ov102
- * func_020450F0 0x020450F0 arm
+ * BMP_WIN_Create 0x020450F0 arm
  * func_02045770 0x02045770 arm
- * func_02043B5C 0x02043B5C arm
- * func_02045334 0x02045334 arm
- * func_02045374 0x02045374 arm
+ * BMP_Clear 0x02043B5C arm
+ * BMP_WIN_TransferChars 0x02045334 arm
+ * BMP_WIN_MakeScreen 0x02045374 arm
  * func_02045730 0x02045730 arm
  * func_020409B4 0x020409B4 arm
  * func_021B7CC4 0x021B7CC4 thumb ov102
  * func_02045EC0 0x02045EC0 arm
- * func_0201DD78 0x0201DD78 thumb
+ * GF_FONT_SetTextColor 0x0201DD78 thumb
  * func_021B7CBC 0x021B7CBC thumb ov102
  * func_0201D304 0x0201D304 thumb
  * func_0201D42C 0x0201D42C thumb
- * func_0201C7A4 0x0201C7A4 thumb
- * func_02045808 0x02045808 arm
+ * PRINTSYS_Print 0x0201C7A4 thumb
+ * STRBUF_Delete 0x02045808 arm
  * func_0201DD68 0x0201DD68 thumb
  */
 typedef unsigned char u8;
@@ -37,29 +37,29 @@ typedef struct Pair { int object; u16 heap,pad; } Pair;
 typedef struct Row { u16 id,x,y,w,h,color; } Row;
 typedef struct State { void *bank; u32 windows[4]; u8 bounds[20]; const Row *rows; u16 count,bg,index,done,state,ticks; u32 enable; } State;
 extern void func_02082BCC(void *,u8,u32);
-extern void *func_02051B84(u8 *,int,int,int);
+extern void *BUTTON_MAN_Create(u8 *,int,int,int);
 extern void func_021B8794(u16,int,u8 *);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct CharBuf;
 struct StrObj;
 struct U16Vec;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *);
 struct Cfg;
 struct MsgBank;
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern int func_021B7CC4(void *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_0201DD78(u32,u32,u32);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern int func_021B7CBC(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
-extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045808(struct U16Vec *vec);
+extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void STRBUF_Delete(struct U16Vec *vec);
 extern void func_0201DD68(void);
 void func_021B8464(State *p, int bg, const Row *rows, int count, void *object, u16 heap)
 {
@@ -80,23 +80,23 @@ void func_021B8464(State *p, int bg, const Row *rows, int count, void *object, u
         p->bounds[i*4+3]=(row->x+row->w)*8-1;
     }
     p->bounds[i*4]=255;
-    p->bank=func_02051B84(p->bounds,(int)func_021B8794,(int)p,heap);
+    p->bank=BUTTON_MAN_Create(p->bounds,(int)func_021B8794,(int)p,heap);
     for(i=0;i<p->count;i++) {
         row=rows+i;
-        p->windows[i]=func_020450F0(bg,(u8)(row->x+4),(u8)(row->y+1),(u8)(row->w-8),row->h-2,row->color,1);
-        func_02043B5C(func_02045770((struct Descriptor *)p->windows[i]),4);
+        p->windows[i]=BMP_WIN_Create(bg,(u8)(row->x+4),(u8)(row->y+1),(u8)(row->w-8),row->h-2,row->color,1);
+        BMP_Clear(func_02045770((struct Descriptor *)p->windows[i]),4);
         win=p->windows[i];
-        func_02045334((struct Descriptor *)win);
-        func_02045374((struct Cfg *)win);
+        BMP_WIN_TransferChars((struct Descriptor *)win);
+        BMP_WIN_MakeScreen((struct Cfg *)win);
         func_020409B4(func_02045730((struct Descriptor *)win));
         text=func_02045EC0((struct MsgBank *)func_021B7CC4(object),rows[i].id);
-        func_0201DD78(15,14,4);
+        GF_FONT_SetTextColor(15,14,4);
         width=func_0201D304(text,func_021B7CBC(object),0);
         height=func_0201D42C(text,(void *)func_021B7CBC(object));
         target=func_02045770((struct Descriptor *)p->windows[i]);
-        func_0201C7A4(target,(row->w-8)*4-(width>>1),(row->h-2)*4-(height>>1),text,(void *)func_021B7CBC(object));
-        func_02045808(text);
-        func_02045334((struct Descriptor *)p->windows[i]);
+        PRINTSYS_Print(target,(row->w-8)*4-(width>>1),(row->h-2)*4-(height>>1),text,(void *)func_021B7CBC(object));
+        STRBUF_Delete(text);
+        BMP_WIN_TransferChars((struct Descriptor *)p->windows[i]);
     }
     func_0201DD68();
 }

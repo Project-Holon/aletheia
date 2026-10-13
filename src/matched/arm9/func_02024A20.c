@@ -1,5 +1,5 @@
 /*
- * function: func_02024A20
+ * function: INFOWIN_Init
  * address:  0x02024A20
  * packet:   pkt_02024A20
  * region:   arm9
@@ -20,7 +20,7 @@
  *   UI_GetPowerState       0x0203568C  arm
  *   func_0201283C       0x0201283C  thumb
  *   GAME_DATA_IsConfigFlagSet       0x02012BB0  thumb
- *   func_02024ABC       0x02024ABC  thumb
+ *   INFOWIN_Update       0x02024ABC  thumb
  *   INFOWIN_DrawTask       0x02024DFC  thumb
  *   gInfoWin            0x0214693C  data
  *   infowin_File        0x020A7478  data
@@ -61,10 +61,10 @@ extern void *func_020056A0(void (*cb)(void *), void *work, u32 pri);
 extern int UI_GetPowerState(void);
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
-extern void  func_02024ABC(void);
+extern void  INFOWIN_Update(void);
 extern void INFOWIN_DrawTask(void);
 
-void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
+void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap)
 {
     gInfoWin = func_02030734(heap, 0x28, 0, infowin_File, 0x103);
     MI_CpuFill8(gInfoWin, 0, 0x28);
@@ -82,6 +82,6 @@ void func_02024A20(u8 a0, u8 a1, void *a2, u16 heap)
         gInfoWin->f10 = 0;
     }
     gInfoWin->f08 = 0;
-    func_02024ABC();
+    INFOWIN_Update();
     gInfoWin->f04 = 0x3f;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AB458
+ * function: MAP_ATTR_IsSlopeYA
  * address:  0x021AB458
  * packet:   pkt_ov021_021AB458
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  */
 
-int func_021AB458(int id)
+int MAP_ATTR_IsSlopeYA(int id)
 {
     if (id == 0x53 || (unsigned short)(id + 0xFFAB) <= 1)
         return 1;

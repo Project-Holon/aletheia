@@ -1,5 +1,5 @@
 /*
- * function: func_021AE630
+ * function: EVENT_TRAINER_EYE_StepWaitStep
  * address:  0x021AE630
  * packet:   pkt_ov021_021AE630
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D454  0x0216D454  thumb  ov010
+ *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -21,11 +21,11 @@ typedef signed char    s8;
 
 typedef struct S { u32 f0; u32 f4; u32 f8; u32 fc; } S;
 
-extern int func_0216D454(u32 a);
+extern int FLDMMDL_CheckEndAcmd(u32 a);
 
-int func_021AE630(S *s)
+int EVENT_TRAINER_EYE_StepWaitStep(S *s)
 {
-    if (func_0216D454(s->f8) == 0)
+    if (FLDMMDL_CheckEndAcmd(s->f8) == 0)
         return 0;
     s->fc--;
     s->f0 = 10;

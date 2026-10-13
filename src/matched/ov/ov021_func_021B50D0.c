@@ -1,5 +1,5 @@
 /*
- * function: func_021B50D0
+ * function: SCRCMD_PROC_FLD_StoreByteValue
  * address:  0x021B50D0
  * packet:   pkt_ov021_021B50D0
  * region:   ov021
@@ -12,27 +12,27 @@
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  *
  * symbols:
- *   func_02012A44  0x02012A44  thumb
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_0216EFCC  0x0216EFCC  thumb  ov010
+ *   GAME_DATA_GetFieldMode  0x02012A44  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   EVENT_BATTLE_GetKindFlag  0x0216EFCC  thumb  ov010
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 typedef unsigned char  u8;
 struct BigObj;
-extern u32 func_02012A44(const struct BigObj *p);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u8 func_0216EFCC(int i);
+extern u32 GAME_DATA_GetFieldMode(const struct BigObj *p);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u8 EVENT_BATTLE_GetKindFlag(int i);
 
-int func_021B50D0(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StoreByteValue(u32 a, u32 b)
 {
-    u32 x = func_02012A44(func_0215A5E4((void *)b));
-    u16 *o = func_02159AE8((void *)a, (void *)b);
+    u32 x = GAME_DATA_GetFieldMode(SCRCMD_WORK_GetGameData((void *)b));
+    u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
 
-    *o = func_0216EFCC(x);
+    *o = EVENT_BATTLE_GetKindFlag(x);
     return 0;
 }

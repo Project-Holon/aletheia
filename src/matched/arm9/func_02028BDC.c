@@ -1,5 +1,5 @@
 /*
- * function: func_02028BDC
+ * function: FIELD_SOUND_SYSTEM_ResumeSlots
  * address:  0x02028BDC
  * packet:   pkt_02028BDC
  * region:   arm9
@@ -29,7 +29,7 @@ extern void func_020061F0(u32 id, u32 sub);
 
 struct S { u8 pad[0xac]; u16 lo[2]; u16 hi[2]; u32 mask; };
 
-void func_02028BDC(struct S *s, u32 mask)
+void FIELD_SOUND_SYSTEM_ResumeSlots(struct S *s, u32 mask)
 {
     int i;
 

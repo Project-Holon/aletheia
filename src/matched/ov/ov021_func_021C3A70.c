@@ -1,5 +1,5 @@
 /*
- * function: func_021C3A70
+ * function: SODATEYA_SwapParents
  * address:  0x021C3A70
  * packet:   pkt_021C3A70
  * region:   ov021
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-void func_021C3A70(u32 *p)
+void SODATEYA_SwapParents(u32 *p)
 {
     u32 t = p[0];
 

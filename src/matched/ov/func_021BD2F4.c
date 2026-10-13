@@ -1,5 +1,5 @@
 /*
- * function: func_021BD2F4
+ * function: PLACE_NAME_LETTER_GetWidthRaw
  * address:  0x021BD2F4
  * packet:   pkt_021BD2F4
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_021BD2F4(u8 *p)
+u8 PLACE_NAME_LETTER_GetWidthRaw(u8 *p)
 {
     return ((struct Obj18226 *)p)->f40;
 }

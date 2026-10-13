@@ -1,5 +1,5 @@
 /*
- * function: func_021AD738
+ * function: FLDEFF_NAMIPOKE_SPLASH_Draw
  * address:  0x021AD738
  * packet:   pkt_ov021_021AD738
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021ABE18  0x021ABE18  thumb  ov021
- *   func_021C6658  0x021C6658  thumb  ov021
- *   func_021AC1B8  0x021AC1B8  thumb  ov021
+ *   FIELD_EFFECT_GetFieldMapData  0x021ABE18  thumb  ov021
+ *   FIELD_G3DOBJ_GetObjectTrans  0x021C6658  thumb  ov021
+ *   FIELD_EFFECT_GetObjectPos  0x021AC1B8  thumb  ov021
  */
 typedef unsigned short u16;
 
 typedef unsigned char  u8;
-extern unsigned int func_021ABE18(u8 *p);
+extern unsigned int FIELD_EFFECT_GetFieldMapData(u8 *p);
 typedef unsigned int   u32;
-extern int func_021C6658(u32 a, u32 b);
-extern void func_021AC1B8(int a, int b);
+extern int FIELD_G3DOBJ_GetObjectTrans(u32 a, u32 b);
+extern void FIELD_EFFECT_GetObjectPos(int a, int b);
 
 typedef struct S {
     int pad0[4];
@@ -30,7 +30,7 @@ typedef struct S {
     int *p18;
 } S;
 
-void func_021AD738(int a, S *s)
+void FLDEFF_NAMIPOKE_SPLASH_Draw(int a, S *s)
 {
-    func_021AC1B8(a, func_021C6658(func_021ABE18((u8 *)(*s->p18)), s->h10));
+    FIELD_EFFECT_GetObjectPos(a, FIELD_G3DOBJ_GetObjectTrans(FIELD_EFFECT_GetFieldMapData((u8 *)(*s->p18)), s->h10));
 }

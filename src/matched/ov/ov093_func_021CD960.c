@@ -1,5 +1,5 @@
 /*
- * function: func_021CD960
+ * function: BTL_CLIENT_SetRequestParam
  * address: 0x021CD960
  * packet: pkt_ov093_021CD960
  * region: ov093
@@ -12,7 +12,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void func_021CD960(u8 *p, u32 v) {
+void BTL_CLIENT_SetRequestParam(u8 *p, u32 v) {
     *(u32 *)(p + 0xA0) = v;
     p[0x1B2] |= 8;
 }

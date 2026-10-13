@@ -1,5 +1,5 @@
 /*
- * function: func_021AF430
+ * function: SCRCMD_WaitPokeVoice
  * address:  0x021AF430
  * packet:   pkt_021AF430
  * region:   ov021
@@ -10,15 +10,15 @@
  * status:   EXACT
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
- * func_0215A6AC (0x0215A6AC) is a matched manifest entry, so the `matched`
+ * SCRCMD_WORK_GetFadeParam (0x0215A6AC) is a matched manifest entry, so the `matched`
  * class attests the bl site here and every concrete byte plus every
  * relocation field reproduces.
  *
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0215A6AC  0x0215A6AC  thumb
- *   func_02006BD0  0x02006BD0  thumb
+ *   SCRCMD_WORK_GetFadeParam  0x0215A6AC  thumb
+ *   PM_VOICE_IsActive  0x02006BD0  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -27,12 +27,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02006BD0(u32);
-extern u32 func_0215A6AC(u32, u32, u32, u32);
+extern u32 PM_VOICE_IsActive(u32);
+extern u32 SCRCMD_WORK_GetFadeParam(u32, u32, u32, u32);
 
-int func_021AF430(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_WaitPokeVoice(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02006BD0(func_0215A6AC(b, b, c, d)) == 0) {
+if (PM_VOICE_IsActive(SCRCMD_WORK_GetFadeParam(b, b, c, d)) == 0) {
     return 1;
 }
 return 0;

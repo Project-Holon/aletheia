@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216279C",
+   "name": "EVENTDATA_SYSTEM_DirToPosEventType",
    "address": "0x0216279C",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: func_0215AC3C
+ * function: SCRCMD_WORK_CmdCheckMiscFlag
  * address: 0x0215AC3C
  * packet: pkt_ov010_0215AC3C
  * region: ov010
@@ -9,24 +9,24 @@
  * status: EXACT
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  * symbols:
- *   func_02159AE8 0x02159AE8 thumb ov010
- *   func_02159B10 0x02159B10 thumb ov010
- *   func_0215A5E4 0x0215A5E4 thumb ov010
- *   func_02012F08 0x02012F08 thumb
+ *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
+ *   SCRIPT_WORK_ReadWorkValue 0x02159B10 thumb ov010
+ *   SCRCMD_WORK_GetGameData 0x0215A5E4 thumb ov010
+ *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   func_0200C234 0x0200C234 thumb
  */
 typedef unsigned short u16;
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern unsigned int func_02159B10(void *,void *);
-extern void *func_0215A5E4(void *a0);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *,void *);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 typedef unsigned int   u32;
 struct Blk34;
-extern void *func_02012F08(int *p);
+extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 func_0200C234(struct Blk34 *p, u32 bit);
-int func_0215AC3C(int a,int b)
+int SCRCMD_WORK_CmdCheckMiscFlag(int a,int b)
 {
-    u16 *out = func_02159AE8((void *)a,(void *)b);
-    int k = func_02159B10((void *)a,(void *)b);
-    *out = func_0200C234(func_02012F08(func_0215A5E4((void *)b)),k);
+    u16 *out = SCRIPT_WORK_ReadWorkPointer((void *)a,(void *)b);
+    int k = SCRIPT_WORK_ReadWorkValue((void *)a,(void *)b);
+    *out = func_0200C234(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData((void *)b)),k);
     return 0;
 }

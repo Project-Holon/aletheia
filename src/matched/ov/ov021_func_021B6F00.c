@@ -1,5 +1,5 @@
 /*
- * function: func_021B6F00
+ * function: SCRCMD_POKEMON_FLD_CheckGiftMonCanReceive
  * address:  0x021B6F00
  * packet:   pkt_ov021_021B6F00
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012934  0x02012934  thumb
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  */
 
@@ -19,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA18(void *);
 
-int func_021B6F00(void *a, void *b)
+int SCRCMD_POKEMON_FLD_CheckGiftMonCanReceive(void *a, void *b)
 {
-    if ((int)func_0201AA18(func_02012934(b)) < 6) {
+    if ((int)func_0201AA18(GAME_DATA_GetMyParty(b)) < 6) {
         return 1;
     }
     return 0;

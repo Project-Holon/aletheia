@@ -18,7 +18,7 @@
  *   func_021FBF6C  0x021FBF6C  thumb
  *   func_021FBEB8  0x021FBEB8  thumb
  *   BGWINFRM_PutFrame  0x0202CB4C  thumb
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_021F4FF4  0x021F4FF4  thumb
  *   func_020355C4  0x020355C4  arm
  *   func_0204B3DC  0x0204B3DC  arm
@@ -78,7 +78,7 @@ extern int func_021FBF6C(Menu *m, u32 idx);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
 struct Obj;
@@ -107,7 +107,7 @@ int func_021FAFF0(Menu *m)
     }
     func_021FBEB8(m->mgr, m->bank, m->wins[14], 0x4A, m->g);
     BGWINFRM_PutFrame(m->mgr, 0, 0x10, 0);
-    func_0204B878((struct Obj *)m->cursor, 4);
+    CLACT_SetActorAnimSeq((struct Obj *)m->cursor, 4);
     if (m->sel < 0) {
         m->pos = 0;
     } else {

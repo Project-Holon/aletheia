@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02048BC4
+ * function: G3D_LIGHT_CreateSlots
  * address:  0x02048BC4
  * packet:   pkt_02048AD0
  * region:   arm9
@@ -73,7 +73,7 @@ extern const char g3d_light_file[];
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap)
+struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap)
 {
     struct LightSlot *out;
     int i;

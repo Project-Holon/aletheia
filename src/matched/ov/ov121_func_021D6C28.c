@@ -10,29 +10,29 @@
  * status: EXACT*
  * Extent remainder: two-byte zero alignment padding.
  * symbols:
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204ADA4 0x0204ADA4 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204AFD8 0x0204AFD8 arm
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  */
 #include "../include/Obj10404.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204ADA4(u32 i);
-extern void func_0204A8D4(u32 i);
-extern void func_0204AFD8(u32 i);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleaseCharacter(u32 i);
+extern void CLACT_ReleaseCellAnim(u32 i);
 void func_021D6C28(u8 *p)
 {
     int i;
     void *q;
     for(i=0;i<35;i++){
         q=*(void **)(p+i*4+12);
-        if(q) func_0204B3B4(q);
+        if(q) CLACT_DeleteActor(q);
     }
-    func_0204ADA4((u32)(((struct Obj10404 *)p)->f0));
-    func_0204A8D4((u32)(((struct Obj10404 *)p)->f4));
-    func_0204AFD8((u32)(((struct Obj10404 *)p)->f8));
+    CLACT_ReleasePalette((u32)(((struct Obj10404 *)p)->f0));
+    CLACT_ReleaseCharacter((u32)(((struct Obj10404 *)p)->f4));
+    CLACT_ReleaseCellAnim((u32)(((struct Obj10404 *)p)->f8));
 }

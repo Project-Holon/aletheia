@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021DE980, func_021DE9AC
+ * function: BTL_HANDLER_ITEM_ChoiceSpecs_BoostSpAttack, BTL_HANDLER_ITEM_GetChoiceScarfHandlers
  * address: 0x021DE980
  * packet: pkt_ov093_021DE980
  * region: ov093
@@ -12,13 +12,13 @@
  * extent: includes store-return follower 0x021DE9AC.
  * symbols:
  *   d_021F1904 0x021F1904 data a4
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D7704 0x021D7704 thumb ov093
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  */
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern int d_021F1904;
-extern void func_021D7704(int,int);
+extern void BTL_EVENT_MultiplyVar(int,int);
 extern int WAZA_TOOL_GetDamageType(int a);
-void func_021DE980(int a,int b,int c) { if(c==func_021D775C(3)) { if(WAZA_TOOL_GetDamageType((unsigned short)func_021D775C(18))==2) func_021D7704(53,6144); } }
-int *func_021DE9AC(int *p) { *p=3; return &d_021F1904; }
+void BTL_HANDLER_ITEM_ChoiceSpecs_BoostSpAttack(int a,int b,int c) { if(c==BTL_EVENT_GetVar(3)) { if(WAZA_TOOL_GetDamageType((unsigned short)BTL_EVENT_GetVar(18))==2) BTL_EVENT_MultiplyVar(53,6144); } }
+int *BTL_HANDLER_ITEM_GetChoiceScarfHandlers(int *p) { *p=3; return &d_021F1904; }

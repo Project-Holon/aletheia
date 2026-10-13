@@ -1,5 +1,5 @@
 /*
- * function: func_0216F2E0
+ * function: TRCARD_SYS_StateStartEditProc
  * address: 0x0216F2E0
  * packet: pkt_ov010_0216F2E0
  * region: ov010
@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   PROCSYS_Create 0x02031324 arm
- *   func_02012EBC 0x02012EBC thumb
+ *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   PROCSYS_Push 0x02031348 arm
  *   gPmsInputProcData 0x021C39D4 data ov110 a4
  *   ov110_id 0x0000006E data a1
@@ -23,8 +23,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *PROCSYS_Create(int a0);
 struct Big;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void PROCSYS_Push(void *,u32,const void *,void *);
 extern const u32 gPmsInputProcData[];
 extern char ov110_id[];
-int func_0216F2E0(char *p) { if (((struct Obj01640 *)p)->f8==0) ((struct Obj01640 *)p)->f8=PROCSYS_Create((u16)(((struct Obj01640 *)p)->f0)); ((struct Obj01640 *)p)->fC=func_02012EBC(((struct Obj19155 *)(*(char * *)&((struct Obj01640 *)p)->f18))->f4); PROCSYS_Push(((struct Obj01640 *)p)->f8,(u32)ov110_id,gPmsInputProcData,p+12); return 4; }
+int TRCARD_SYS_StateStartEditProc(char *p) { if (((struct Obj01640 *)p)->f8==0) ((struct Obj01640 *)p)->f8=PROCSYS_Create((u16)(((struct Obj01640 *)p)->f0)); ((struct Obj01640 *)p)->fC=GAME_DATA_GetSaveControl(((struct Obj19155 *)(*(char * *)&((struct Obj01640 *)p)->f18))->f4); PROCSYS_Push(((struct Obj01640 *)p)->f8,(u32)ov110_id,gPmsInputProcData,p+12); return 4; }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5DC0
+ * function: BTL_POKEPARAM_RaiseStatStage
  * address:  0x021D5DC0
  * packet:   pkt_ov093_021D5DC0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 typedef signed char s8; typedef unsigned char u8; typedef unsigned short u16;
-u8 func_021D5DC0(s8 *p, int i, u8 n)
+u8 BTL_POKEPARAM_RaiseStatStage(s8 *p, int i, u8 n)
 {
     s8 *q;
     int t;

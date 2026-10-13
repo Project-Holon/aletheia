@@ -1,5 +1,5 @@
 /*
- * function: func_021BAD10
+ * function: TOWNMAP_TownSetScale
  * address:  0x021BAD10
  * packet:   pkt_ov072_021BAD10
  * region:   ov072
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BBB3C  0x021BBB3C  thumb  ov072
+ *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb  ov072
  *   CLACT_SetActorScale  0x0204B5AC  arm
  */
 
@@ -26,12 +26,12 @@ typedef struct {
     int f34;
 } W;
 
-extern u16 func_021BBB3C(char *p, int a, int b);
+extern u16 TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
 struct Obj;
 struct Pair;
 extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
 
-void func_021BAD10(W *p, int s, int *r)
+void TOWNMAP_TownSetScale(W *p, int s, int *r)
 {
     int i;
     int base;
@@ -44,11 +44,11 @@ void func_021BAD10(W *p, int s, int *r)
         } else {
             base = r[1];
         }
-        d = func_021BBB3C(p->f4, (u16)p->f8, i + 2) - base;
+        d = TOWNMAP_GRH_GetTownInfoValue(p->f4, (u16)p->f8, i + 2) - base;
         d = d * s >> 12;
         p->v[i] = d + base;
     }
-    p->f2c = s * func_021BBB3C(p->f4, (u16)p->f8, 10) >> 12;
+    p->f2c = s * TOWNMAP_GRH_GetTownInfoValue(p->f4, (u16)p->f8, 10) >> 12;
     p->f34 = s;
     if (p->obj != 0) {
         t[0] = s;

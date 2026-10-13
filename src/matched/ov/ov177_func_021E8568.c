@@ -41,10 +41,10 @@
  *   (145, heap is reloaded from the stack at each use). Left DIFF.
  * note 2026-10-05 (wD9r lane58): still 8 bytes, prologue only. New tries: the allocation and clear in a
  *   static inline Alloc(heap) helper (8, the inlined copy of heap is propagated), the last call in a static
- *   inline Frame(w, d, c) helper (27). Checked for a matched twin (callers of func_0201F73C and func_020450F0
+ *   inline Frame(w, d, c) helper (27). Checked for a matched twin (callers of func_0201F73C and BMP_WIN_Create
  *   in src/matched): none has this shape. Left DIFF.
  * note 2026-10-05 (wD9r lane68): EXACT. Fix: heap is a u16 parameter (it is stored with strh to f1e) with the
- *   house callee prototypes (func_02030734 u32 heap, u16 tag; func_020457B0 u32, u32; func_0203101C u32 heap,
+ *   house callee prototypes (func_02030734 u32 heap, u16 tag; STRBUF_Create u32, u32; TCBL_Create u32 heap,
  *   u16 tag, so heap goes to both), and d is a u16 parameter passed to the u16 third parameter of
  *   func_0201F73C. The u16 heap keeps the word ldr and moves it below the c home store (8 -> 6), and the u16 d
  *   moves its home store to the front (6 -> 0). See
@@ -53,15 +53,15 @@
  *   func_02030734  0x02030734  arm
  *   func_02082BCC  0x02082BCC  arm
  *   func_0201C440  0x0201C440  thumb
- *   func_020457B0  0x020457B0  arm
- *   func_020450F0  0x020450F0  arm
+ *   STRBUF_Create  0x020457B0  arm
+ *   BMP_WIN_Create  0x020450F0  arm
  *   func_02045770  0x02045770  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_02045334  0x02045334  arm
- *   func_02045374  0x02045374  arm
+ *   BMP_Clear  0x02043B5C  arm
+ *   BMP_WIN_TransferChars  0x02045334  arm
+ *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
- *   func_0203101C  0x0203101C  arm
+ *   TCBL_Create  0x0203101C  arm
  *   func_0201F73C  0x0201F73C  thumb
  *   d_021E8DD4     0x021E8DD4  data
  */
@@ -96,15 +96,15 @@ struct U16Vec;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02082BCC(void *, int, int);
 extern u32 func_0201C440(void *p);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
-extern void func_02045374(struct Cfg *cfg);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern struct Tcbl *func_0203101C(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 S *func_021E8568(int a, int b, unsigned short c, unsigned short d, int e, int f, unsigned short heap)
@@ -119,16 +119,16 @@ S *func_021E8568(int a, int b, unsigned short c, unsigned short d, int e, int f,
     w->f28 = func_0201C440((void *)heap);
     w->f2c = 3;
     w->f1e = heap;
-    w->f18 = (int)func_020457B0(0x300, heap);
-    w->f14 = func_020450F0((unsigned char)a, 1, 0x13, 0x1e, 4, (unsigned char)b, 1);
+    w->f18 = (int)STRBUF_Create(0x300, heap);
+    w->f14 = BMP_WIN_Create((unsigned char)a, 1, 0x13, 0x1e, 4, (unsigned char)b, 1);
     w->f20 = w->f14;
     w->f24 = 0;
-    func_02043B5C(func_02045770((struct Descriptor *)w->f14), (unsigned char)w->f1c);
+    BMP_Clear(func_02045770((struct Descriptor *)w->f14), (unsigned char)w->f1c);
     h = w->f14;
-    func_02045334((struct Descriptor *)h);
-    func_02045374((struct Cfg *)h);
+    BMP_WIN_TransferChars((struct Descriptor *)h);
+    BMP_WIN_MakeScreen((struct Cfg *)h);
     func_020409B4(func_02045730((struct Descriptor *)h));
-    w->fc = (int)func_0203101C(heap, heap, 1, 0x20);
+    w->fc = (int)TCBL_Create(heap, heap, 1, 0x20);
     func_0201F73C((void *)w->f14, 0, d, (unsigned char)c);
     return w;
 }

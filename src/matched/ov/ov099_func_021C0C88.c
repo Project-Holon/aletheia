@@ -19,14 +19,14 @@
  *   (wD4 to wD9r) tried struct fields, raw and integer offsets, inline helpers, switch and goto shapes;
  *   the enum-local form from lane61 is not used.
  * symbols:
- *   func_020200CC  0x020200CC  thumb
+ *   BMP_MENULIST_Main  0x020200CC  thumb
  *   func_021BF050  0x021BF050  thumb  ov099
  *   func_021B97F4  0x021B97F4  thumb  ov099
  *   func_021BE2A8  0x021BE2A8  thumb  ov099
  *   GFL_NET_STATE_IsFatalError  0x0203CB00  arm
  *   func_021BA8BC  0x021BA8BC  thumb  ov099
- *   func_0202020C  0x0202020C  thumb
- *   func_0201F868  0x0201F868  thumb
+ *   BMP_MENULIST_Delete  0x0202020C  thumb
+ *   BMP_MENUWORK_Delete  0x0201F868  thumb
  *   func_021B9AE0  0x021B9AE0  thumb  ov099
  *   func_021BE900  0x021BE900  thumb  ov099
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
@@ -48,14 +48,14 @@ typedef unsigned long  u32;
 struct P { char a[0x1cc]; u32 f1cc; char b[0x7c]; char f24c[4]; };
 typedef signed int     s32;
 struct Obj;
-extern s32 func_020200CC(struct Obj *o);
+extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern int func_021BF050(char *p);
 extern u8 func_021B97F4(char *p);
 extern void *func_021BE2A8(char *p, int key);
 extern int GFL_NET_STATE_IsFatalError(void);
 extern int func_021BA8BC(void *p);
-extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
-extern u32 func_0201F868(void *p);
+extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
+extern u32 BMP_MENUWORK_Delete(void *p);
 extern void func_021B9AE0(void *w, u8 *s);
 extern void func_021BE900(char *p);
 extern void func_021BA8EC(char *p);
@@ -79,7 +79,7 @@ int func_021C0C88(char *p, int v)
     u16 t;
 
     st = p + 0x24c;
-    r6 = func_020200CC((struct Obj *)(*(u32 *)(p + 0xbc)));
+    r6 = BMP_MENULIST_Main((struct Obj *)(*(u32 *)(p + 0xbc)));
     if (func_021BF050(p)) {
         r6 = -2;
     }
@@ -88,8 +88,8 @@ int func_021C0C88(char *p, int v)
     r7 = (int)func_021BE2A8(p, t);
     if (GFL_NET_STATE_IsFatalError()) {
         *(u32 *)(p + 0x1a4) = func_021BA8BC((void *)(*(u32 *)(p + 0x1a4)));
-        func_0202020C((struct Obj *)(*(u32 *)(p + 0xbc)), 0, 0);
-        func_0201F868((void *)(*(u32 *)(p + 0xb8)));
+        BMP_MENULIST_Delete((struct Obj *)(*(u32 *)(p + 0xbc)), 0, 0);
+        BMP_MENUWORK_Delete((void *)(*(u32 *)(p + 0xb8)));
         if (r7) {
             func_021B9AE0(p + 0x274, (u8 *)r7);
         }
@@ -99,8 +99,8 @@ int func_021C0C88(char *p, int v)
     if (r6 != -1) {
         func_021BA8EC(p);
         *(u32 *)(p + 0x1a4) = func_021BA8BC((void *)(*(u32 *)(p + 0x1a4)));
-        func_0202020C((struct Obj *)(*(u32 *)(p + 0xbc)), 0, 0);
-        func_0201F868((void *)(*(u32 *)(p + 0xb8)));
+        BMP_MENULIST_Delete((struct Obj *)(*(u32 *)(p + 0xbc)), 0, 0);
+        BMP_MENUWORK_Delete((void *)(*(u32 *)(p + 0xb8)));
     }
     switch (r6) {
     case -1:

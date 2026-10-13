@@ -1,5 +1,5 @@
 /*
- * function: func_0207DC44
+ * function: G3X_SetFog
  * address:  0x0207DC44
  * packet:   pkt_0207DC44
  * region:   arm9
@@ -63,7 +63,7 @@ typedef union {
 typedef enum { GX_FOGBLEND_COLOR_ALPHA = 0 } GXFogBlend;
 typedef enum { GX_FOGSLOPE_0x0400 = 0 } GXFogSlope;
 
-void func_0207DC44(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset)
+void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset)
 {
     if (enable) {
         reg_G3X_FOG_OFFSET = (u16)fogOffset;

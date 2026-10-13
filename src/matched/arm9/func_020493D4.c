@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_020493D4
+ * function: ARC_TOOL_GetHandleMemberSize
  * address:  0x020493D4
  * packet:   pkt_02049250
  * region:   arm9
@@ -21,12 +21,12 @@
  * FAT entry's two words are fetched and subtracted, and the file cursor is
  * left parked on the FAT rather than on the member's data.
  *
- * The bounds assertion is the same five-argument call func_02049250 uses:
+ * The bounds assertion is the same five-argument call ARC_TOOL_LoadHandleMember uses:
  * the count is already in r3 from the guard's own `cmp`, so only the member
  * reaches the stack (docs/idioms/a-free-variadic-argument-is-the-value-the-guard-compared.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020493D4.c  *       --func func_020493D4 --addr 0x020493D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ARC_TOOL_GetHandleMemberSize.c  *       --func ARC_TOOL_GetHandleMemberSize --addr 0x020493D4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -49,7 +49,7 @@ struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-u32 func_020493D4(struct ArcFile *arc, u32 member)
+u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member)
 {
     u32 range[2];
 

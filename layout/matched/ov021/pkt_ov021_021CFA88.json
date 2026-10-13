@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CFA88",
+   "name": "SCRCMD_GetPlayerLocationValue",
    "address": "0x021CFA88",
    "kind": "game",
    "region": "ov021",

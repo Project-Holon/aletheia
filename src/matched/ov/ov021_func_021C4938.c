@@ -1,5 +1,5 @@
 /*
- * function: func_021C4938
+ * function: FLDEFF_RIPPLE_ExitObj
  * address:  0x021C4938
  * packet:   pkt_ov021_021C4938
  * region:   ov021
@@ -10,6 +10,9 @@
  * status:   EXACT
  *
  * Sets flag 1 on the field object unless the id is 0xFFFF.
+ *
+ * symbols:
+ *   BILLBOARD_ACT_DeleteEntries  0x02050468  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -21,12 +24,12 @@ typedef struct {
 } S;
 
 struct BbActSys;
-extern void func_02050468(struct BbActSys *o, u16 first, u32 count);
+extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
 
-void func_021C4938(void *a, S *s)
+void FLDEFF_RIPPLE_ExitObj(void *a, S *s)
 {
     u32 x = s->p[1];
 
     if (s->id != 0xFFFF)
-        func_02050468((struct BbActSys *)x, s->id, 1);
+        BILLBOARD_ACT_DeleteEntries((struct BbActSys *)x, s->id, 1);
 }

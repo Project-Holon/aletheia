@@ -1,5 +1,5 @@
 /*
- * function: func_021DE0DC
+ * function: BTL_HANDLER_ITEM_JabocaBerryRememberPhysicalAttacker
  * address:  0x021DE0DC
  * packet:   pkt_021DD614
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021DE0DC   0x021DE0DC  thumb
- *   func_021DE108   0x021DE108  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #1; str r4, [sp]; bl func_021DE108; add sp, #4; pop {r3, r4, pc}.
+ *   BTL_HANDLER_ITEM_JabocaBerryRememberPhysicalAttacker   0x021DE0DC  thumb
+ *   BTL_HANDLER_ITEM_RememberAttackerOfCategory   0x021DE108  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #1; str r4, [sp]; bl BTL_HANDLER_ITEM_RememberAttackerOfCategory; add sp, #4; pop {r3, r4, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,6 +22,6 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021DE0DC  stack-arg wrapper: func_021DE108(a, b, c, d, 0x1) */
-void func_021DE0DC(int a, int b, int c, int d) { func_021DE108(a, b, c, d, 0x1); }
+/* 021DE0DC  stack-arg wrapper: BTL_HANDLER_ITEM_RememberAttackerOfCategory(a, b, c, d, 0x1) */
+void BTL_HANDLER_ITEM_JabocaBerryRememberPhysicalAttacker(int a, int b, int c, int d) { BTL_HANDLER_ITEM_RememberAttackerOfCategory(a, b, c, d, 0x1); }
 

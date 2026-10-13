@@ -10,6 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
+ *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *   (none)
 
  * Releases each of the 0x3D handles held from +0xDC on.
@@ -17,13 +18,13 @@
 
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 
 void func_021C0524(void *unused, char *p, void *a2)
 {
     unsigned char i;
 
     for (i = 0; i < 0x3d; i++)
-        func_0204B3B4((struct Obj *)(*(int *)(p + i * 4 + 0xdc)));
+        CLACT_DeleteActor((struct Obj *)(*(int *)(p + i * 4 + 0xdc)));
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C6590
+ * function: FIELD_G3DOBJ_AddObject
  * address:  0x021C6590
  * packet:   pkt_ov021_021C6590
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C69B4  0x021C69B4  thumb  ov021
+ *   FIELD_G3DOBJ_CreateObject  0x021C69B4  thumb  ov021
  *   func_0207ADC4  0x0207ADC4  arm
  */
 
@@ -48,10 +48,10 @@ typedef struct {
     Elem *fC;
 } Mgr;
 
-extern void func_021C69B4(Elem *e, u8 *s, int a, int b, int c, void *d, int f);
+extern void FIELD_G3DOBJ_CreateObject(Elem *e, u8 *s, int a, int b, int c, void *d, int f);
 extern void func_0207ADC4(void *p);
 
-u16 func_021C6590(Mgr *m, u16 idx, u16 a, Vec *src)
+u16 FIELD_G3DOBJ_AddObject(Mgr *m, u16 idx, u16 a, Vec *src)
 {
     u16 i;
     Elem *e;
@@ -73,7 +73,7 @@ u16 func_021C6590(Mgr *m, u16 idx, u16 a, Vec *src)
                     e->f8 = *src;
                 func_0207ADC4(e->f20);
             } else {
-                func_021C69B4(e, s, idx, a, m->f0, src, 1);
+                FIELD_G3DOBJ_CreateObject(e, s, idx, a, m->f0, src, 1);
             }
             return i;
         }

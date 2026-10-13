@@ -1,5 +1,5 @@
 /*
- * function: func_02025538
+ * function: BMP_OAM_CreateSys
  * address:  0x02025538
  * packet:   pkt_02025518
  * region:   arm9
@@ -20,8 +20,8 @@
  * forced to a 0x8000-based value.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02025538.c \
- *       --func func_02025538 --addr 0x02025538 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_OAM_CreateSys.c \
+ *       --func BMP_OAM_CreateSys --addr 0x02025538 --cc 1.1p1 --thumb
  */
 #include "../include/Obj08785.h"
 
@@ -33,7 +33,7 @@ extern void *func_02030734(u32 a0, u32 a1, int clear, const char *site, u16 tag)
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32   g_020A7494[];
 
-void *func_02025538(u32 a0, void *a1)
+void *BMP_OAM_CreateSys(u32 a0, void *a1)
 {
     u8 *p;
     int i;

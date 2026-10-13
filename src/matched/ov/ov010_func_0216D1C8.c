@@ -1,5 +1,5 @@
 /*
- * function: func_0216D1C8
+ * function: FLDMMDL_InitWork
  * address:  0x0216D1C8
  * packet:   pkt_ov010_0216D1C8
  * region:   ov010
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D58C  0x0216D58C  thumb  ov010
- *   func_0216D548  0x0216D548  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
- *   func_0216D5BC  0x0216D5BC  thumb  ov010
- *   func_0216DB98  0x0216DB98  thumb  ov010
- *   func_0216D4B4  0x0216D4B4  thumb  ov010
+ *   FLDMMDL_SetZoneId  0x0216D58C  thumb  ov010
+ *   FLDMMDL_SetStatusBit  0x0216D548  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
+ *   FLDMMDL_IsAliasEventId  0x0216D5BC  thumb  ov010
+ *   FLDMMDL_SetStatusBitAlias  0x0216DB98  thumb  ov010
+ *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
  */
 #include "../include/Obj19119.h"
 
@@ -23,20 +23,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0216D58C(void *p, u16 v);
-extern u32 *func_0216D548(u32 *p, u32 v);
-extern void *func_0216D568(void *p, u32 v);
-extern int func_0216D5BC(void *p);
-extern int func_0216DB98(void *a0, int a1);
-extern void *func_0216D4B4(char *p);
+extern void FLDMMDL_SetZoneId(void *p, u16 v);
+extern u32 *FLDMMDL_SetStatusBit(u32 *p, u32 v);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern int FLDMMDL_IsAliasEventId(void *p);
+extern int FLDMMDL_SetStatusBitAlias(void *a0, int a1);
+extern void *FLDMMDL_FreeAcmd(char *p);
 
-void func_0216D1C8(u8 *p, u32 a, u32 b)
+void FLDMMDL_InitWork(u8 *p, u32 a, u32 b)
 {
     ((struct Obj19119 *)p)->f88 = a;
-    func_0216D58C(p, (u16)b);
-    func_0216D548((u32 *)p, 1);
-    func_0216D568(p, 0x1800);
-    if (func_0216D5BC(p) == 1)
-        func_0216DB98(p, 1);
-    func_0216D4B4((char *)p);
+    FLDMMDL_SetZoneId(p, (u16)b);
+    FLDMMDL_SetStatusBit((u32 *)p, 1);
+    FLDMMDL_SetMoveBit(p, 0x1800);
+    if (FLDMMDL_IsAliasEventId(p) == 1)
+        FLDMMDL_SetStatusBitAlias(p, 1);
+    FLDMMDL_FreeAcmd((char *)p);
 }

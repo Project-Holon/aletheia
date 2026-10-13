@@ -1,5 +1,5 @@
 /*
- * function: func_0218F134
+ * function: FIELD_CAMERA_ClearAreas
  * address:  0x0218F134
  * packet:   pkt_ov021_0218F134
  * region:   ov021
@@ -19,7 +19,7 @@ typedef signed int     s32;
 
 extern void func_02082BCC(void *dst, int val, u32 size);
 
-void func_0218F134(u8 *a)
+void FIELD_CAMERA_ClearAreas(u8 *a)
 {
     func_02082BCC(a + 0x88, 0, 0x60);
     *(a + 0xe8) = 0;

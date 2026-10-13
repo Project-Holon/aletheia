@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
- *   func_0204B878 0x0204B878 arm
+ *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   func_021B9800 0x021B9800 thumb ov100
  *   func_021B974C 0x021B974C thumb ov100
  */
@@ -17,17 +17,17 @@
 typedef unsigned short u16;
 struct Obj;
 extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_021B9800(int a, int b, int c, int d);
 extern void func_021B974C(int,int,int,int,int);
 void func_021BB10C(int a) {
  switch(CLACT_GetActorAnimSeq(((struct Obj10220 *)a)->f2D0)) {
  case 9:
-  func_0204B878(((struct Obj10220 *)a)->f2D0,10);
+  CLACT_SetActorAnimSeq(((struct Obj10220 *)a)->f2D0,10);
   func_021B9800(a,57,154,2);
   func_021B974C(a,128,77,5,3);
   return;
  case 10: break;
- default: func_0204B878(((struct Obj10220 *)a)->f2D0,9); break;
+ default: CLACT_SetActorAnimSeq(((struct Obj10220 *)a)->f2D0,9); break;
  }
 }

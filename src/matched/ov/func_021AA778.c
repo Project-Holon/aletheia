@@ -1,5 +1,5 @@
 /*
- * function: func_021AA778
+ * function: FIELD_ENCOUNT_GetStepCount
  * address:  0x021AA778
  * packet:   pkt_021AA778
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021AA778(u8 *p)
+u32 FIELD_ENCOUNT_GetStepCount(u8 *p)
 {
     return ((struct Obj18071 *)p)->f8;
 }

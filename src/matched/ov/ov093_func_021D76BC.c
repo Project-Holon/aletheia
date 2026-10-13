@@ -1,5 +1,5 @@
 /*
- * function: func_021D76BC
+ * function: BTL_EVENT_OverwriteVar
  * address:  0x021D76BC
  * packet:   pkt_ov093_021D76BC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   g_021F3ECC     0x021F3ECC  data
+ *   gBtlEventVarStack     0x021F3ECC  data
  *   func_021D77E8  0x021D77E8  thumb  ov093
  */
 
@@ -27,12 +27,12 @@ typedef struct {
     u8 c[0x60];
 } Tbl;
 
-extern struct Tbl g_021F3ECC;
+extern struct Tbl gBtlEventVarStack;
 extern int func_021D77E8(Tbl *p, int key);
 
-int func_021D76BC(int key, u32 val)
+int BTL_EVENT_OverwriteVar(int key, u32 val)
 {
-    Tbl *t = ((Tbl *)&g_021F3ECC);
+    Tbl *t = ((Tbl *)&gBtlEventVarStack);
     int i = func_021D77E8(t, key);
 
     if (i >= 0 && t->c[i] <= 1) {

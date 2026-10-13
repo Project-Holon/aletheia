@@ -9,9 +9,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   GAMESYSTEM_GetEvent  0x02012104  thumb
  */
 
 struct Ctx;
-extern unsigned int func_02012104(const struct Ctx *p);
+extern unsigned int GAMESYSTEM_GetEvent(const struct Ctx *p);
 
-int GAME_EVENT_IsRunning(void *a0){ unsigned int t0; t0 = func_02012104(a0); if ((unsigned int)(t0) != (unsigned int)(0)) {  return 1; } else {  return 0; } }
+int GAME_EVENT_IsRunning(void *a0){ unsigned int t0; t0 = GAMESYSTEM_GetEvent(a0); if ((unsigned int)(t0) != (unsigned int)(0)) {  return 1; } else {  return 0; } }

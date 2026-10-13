@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219B59C",
+   "name": "FLDMMDL_MOVE_TurnLookAround",
    "address": "0x0219B59C",
    "kind": "game",
    "region": "ov021",

@@ -13,13 +13,13 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_021B8778  0x021B8778  thumb
+ *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb
  *   func_02082BCC  0x02082BCC  arm
  */
 typedef unsigned char u8;
 
 void func_02082BCC(void *p, int v, int n);
-extern int func_021B8778(int, int, u8 *);
+extern int BTL_MAIN_DecodeMessageCode(int, int, u8 *);
 void func_0689ACCC(void *p);
 void func_0689ACD8(u8 *p, int a, unsigned short b);
 
@@ -34,5 +34,5 @@ void func_0689ACCC(void *p)
  */
 void func_0689ACD8(u8 *p, int a, unsigned short b)
 {
-    p[0] = func_021B8778(a, b, p + 3);
+    p[0] = BTL_MAIN_DecodeMessageCode(a, b, p + 3);
 }

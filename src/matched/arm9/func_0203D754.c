@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Calls the net context's +0x24 callback with the func_020399A8 result,
+ * Calls the net context's +0x24 callback with the GFL_NET_HANDLE_GetCurrentHandle result,
  * the argument and the context's +0x34c value.
  *
  * Verified with:
@@ -18,6 +18,7 @@
  *
  * symbols:
  *   GFL_NET_GetSession  0x0203D788  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  */
 #include "../include/Obj11379.h"
 
@@ -26,7 +27,7 @@ typedef unsigned int  u32;
 
 extern void *GFL_NET_GetSession(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 void GFL_NET_CallStateChangeFunc(u32 a)
 {
@@ -36,5 +37,5 @@ void GFL_NET_CallStateChangeFunc(u32 a)
         return;
     }
     ((void (*)(u32, u32, u32)) * (u32 *)(p + 0x24))(
-        (u32)func_020399A8(), a, ((struct Obj11379 *)p)->f34C);
+        (u32)GFL_NET_HANDLE_GetCurrentHandle(), a, ((struct Obj11379 *)p)->f34C);
 }

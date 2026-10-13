@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: func_02050304
+ * function: BILLBOARD_ACT_DeleteSlot
  * address:  0x02050304
  * packet:   pkt_02050304
  * region:   arm9
@@ -16,4 +16,4 @@
  */
 #include "../include/Obj08868.h"
 
-int func_02050304(int a0, int a1){ int t0 = BILLBOARD_ACT_InitSlot((int)(*(int *)&((struct Obj08868 *)((char *)(a0)))->fC + (a1 << 3))); int t1 = AREAMAN_Free((int)((struct Obj08868 *)((char *)(a0)))->f14, (int)a1, (int)1); return t1; }
+int BILLBOARD_ACT_DeleteSlot(int a0, int a1){ int t0 = BILLBOARD_ACT_InitSlot((int)(*(int *)&((struct Obj08868 *)((char *)(a0)))->fC + (a1 << 3))); int t1 = AREAMAN_Free((int)((struct Obj08868 *)((char *)(a0)))->f14, (int)a1, (int)1); return t1; }

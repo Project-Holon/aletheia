@@ -17,7 +17,7 @@
  * status:   EXACT
  * closed:   blocker 0202AEEC is now a manifest entry (matched class)
  * symbols:
- *   func_02049030  0x02049030  arm
+ *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  *   func_02030734  0x02030734  arm
  *   ISS_CITY_UNIT_Create  0x0202AEEC  thumb
  *   ISS_CITY_SYS_sSourceFileName     0x020A76E8  data
@@ -32,7 +32,7 @@ struct A {
     u8  unk18;
 };
 
-extern u32 func_02049030(u32 a);
+extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *ISS_CITY_UNIT_Create(u32 a, u32 b);
@@ -40,7 +40,7 @@ extern const char ISS_CITY_SYS_sSourceFileName[];
 
 void ISS_CITY_SYS_LoadUnits(struct A *a0, void *a1)
 {
-    s32 n = func_02049030(0x84);
+    s32 n = ARC_TOOL_GetArchiveFileCount(0x84);
     s32 i;
 
     a0->unk18 = n;

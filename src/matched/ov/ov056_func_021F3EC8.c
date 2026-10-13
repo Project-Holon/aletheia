@@ -1,5 +1,5 @@
 /*
- * function: func_021F3EC8
+ * function: FIELD_FK_SOUND_ANIME_ExitFrameSound
  * address:  0x021F3EC8
  * packet:   pkt_021F3EC8
  * region:   ov056
@@ -17,6 +17,6 @@
 
 typedef unsigned char u8;
 
-void func_021F3EC8(void *unused, u8 *b, u8 *c)
+void FIELD_FK_SOUND_ANIME_ExitFrameSound(void *unused, u8 *b, u8 *c)
 {
 }

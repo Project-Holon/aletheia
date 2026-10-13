@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_021F2B9C 0x021F2B9C thumb ov029
- *   func_021EFF58 0x021EFF58 thumb ov029
+ *   C_GEAR_GetCellKind 0x021F2B9C thumb ov029
+ *   C_GEAR_SpawnRippleActor 0x021EFF58 thumb ov029
  */
 typedef unsigned char u8;
 typedef unsigned int   u32;
-extern u32 func_021F2B9C(u8 *p, int row, int col);
-extern void func_021EFF58(u8 *, int, int);
+extern u32 C_GEAR_GetCellKind(u8 *p, int row, int col);
+extern void C_GEAR_SpawnRippleActor(u8 *, int, int);
 void func_021F3098(u8 *p)
 {
-    p[0x414] = func_021F2B9C(p, p[0x452], p[0x453]);
+    p[0x414] = C_GEAR_GetCellKind(p, p[0x452], p[0x453]);
     p[0x415] = 0;
-    func_021EFF58(p, p[0x452], p[0x453]);
+    C_GEAR_SpawnRippleActor(p, p[0x452], p[0x453]);
 }

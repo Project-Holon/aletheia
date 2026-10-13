@@ -1,5 +1,5 @@
 /*
- * function: func_02050468
+ * function: BILLBOARD_ACT_DeleteEntries
  * address:  0x02050468
  * packet:   pkt_02050340
  * region:   arm9
@@ -41,7 +41,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-void func_02050468(struct BbActSys *o, u16 first, u32 count)
+void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count)
 {
     u32 i;
 

@@ -11,7 +11,7 @@
  *   func_021BAC4C 0x021BAC4C thumb ov110
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
- *   func_02045334 0x02045334 arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_021BC7DC 0x021BC7DC thumb ov110
  *   func_02040588 0x02040588 arm
  */
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Descriptor;
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern int func_021BC7DC(u8 *p);
 extern void func_02040588(unsigned char which, unsigned char enable);
 int func_021BBB0C(u8 *p, int a)
@@ -37,7 +37,7 @@ int func_021BBB0C(u8 *p, int a)
     if (a) {
         if (p[0xa0]) {
             if (func_0201C6C4((struct PrintSys *)owner, (void *)((unsigned)func_02045770(((struct Obj05289 *)p)->f9C))) == 0) {
-                func_02045334(((struct Obj05289 *)p)->f9C);
+                BMP_WIN_TransferChars(((struct Obj05289 *)p)->f9C);
                 p[0xa0] = 0;
             }
         }

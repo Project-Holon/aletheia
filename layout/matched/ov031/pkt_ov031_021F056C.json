@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F056C",
+   "name": "UNION_SUBDISP_DeleteActors",
    "address": "0x021F056C",
    "kind": "game",
    "region": "ov031",

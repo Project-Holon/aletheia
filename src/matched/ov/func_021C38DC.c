@@ -1,5 +1,5 @@
 /*
- * function: func_021C38DC
+ * function: SODATEYA_SyncPartyAfterDeposit
  * address:  0x021C38DC
  * packet:   pkt_021C38DC
  * region:   ov021
@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  * 
- * Blocking site: the bl to func_02012F98 at +000C of this function.
+ * Blocking site: the bl to GAME_DATA_GetBoxSave at +000C of this function.
  * 
  * no listing carries a func_ label at this address -- disasm.py classified the bytes as data in every overlay whose window holds it -- and the only branches to it are these ov021 call sites, so the `label` class has no traced entry point to read and a region hint cannot invent one.  Filing a source for the TARGET (rule 10) would attest every caller that needs it, with no change here.
  * 
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012F98  0x02012F98  thumb
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBoxSave  0x02012F98  thumb
  *   func_02007C34  0x02007C34  thumb
  * Addresses are Black-image addresses.
  */
@@ -30,13 +30,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02007C34(u32, u32);
 struct Ctx;
-extern void *func_020120F4(const struct Ctx *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Sub02007AC8Entry;
-extern struct Sub02007AC8Entry *func_02012F98(void *p);
-extern void *func_02188C80(void *p);
+extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
 
-int func_021C38DC(u32 a, u32 b)
+int SODATEYA_SyncPartyAfterDeposit(u32 a, u32 b)
 {
-return func_02007C34((u32)func_02012F98((void *)func_020120F4((const struct Ctx *)func_02188C80((void *)a))), b);
+return func_02007C34((u32)GAME_DATA_GetBoxSave((void *)GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem((void *)a))), b);
 }
 

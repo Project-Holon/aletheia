@@ -9,7 +9,7 @@
  * status: EXACT
  * Lever: unhinted BF9C data uses this function's own overlay region.
  * symbols:
- *   func_02035C08 0x02035C08 arm
+ *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   func_020355C4 0x020355C4 arm
  *   func_020355D8 0x020355D8 arm
  *   func_020362DC 0x020362DC arm
@@ -22,7 +22,7 @@
 #include "../include/Obj00740.h"
 typedef unsigned char u8;
 extern const u8 d_021BBF9C[];
-extern int func_02035C08(const void *);
+extern int TOUCHPANEL_HitTrg(const void *);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
 extern unsigned func_020362DC(void),func_0203633C(void);
@@ -33,7 +33,7 @@ extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern void func_020061E4(unsigned);
 int func_021BB53C(char *p)
 {
-    int hit=func_02035C08(d_021BBF9C);
+    int hit=TOUCHPANEL_HitTrg(d_021BBF9C);
     if(func_020355C4()==0) {
         if(hit>=0 && hit<=1) {
             func_020355D8(1);

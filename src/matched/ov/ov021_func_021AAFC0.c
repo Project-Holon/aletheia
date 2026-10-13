@@ -1,5 +1,5 @@
 /*
- * function: func_021AAFC0
+ * function: EFFECT_ENCOUNT_CreateEffectObj
  * address:  0x021AAFC0
  * packet:   pkt_ov021_021AAFC0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021ADAAC  0x021ADAAC  thumb
+ *   FLDEFF_ENCOUNT_Start  0x021ADAAC  thumb
  *   func_02082BCC  0x02082BCC  arm
  */
 
@@ -33,13 +33,13 @@ typedef struct {
     int f5b4;
 } D;
 
-extern u8 func_021ADAAC(int a, u8 *b, int c, int d, int e, int f);
+extern u8 FLDEFF_ENCOUNT_Start(int a, u8 *b, int c, int d, int e, int f);
 extern void func_02082BCC(void *p, int v, int n);
 
-void func_021AAFC0(int a, D *d, R *r)
+void EFFECT_ENCOUNT_CreateEffectObj(int a, D *d, R *r)
 {
     if (d->f5b4 == 0) {
-        d->f5b4 = func_021ADAAC(a, (u8 *)d->f0, r->h2, r->h6, r->f8, r->bc);
+        d->f5b4 = FLDEFF_ENCOUNT_Start(a, (u8 *)d->f0, r->h2, r->h6, r->f8, r->bc);
         if (d->f5b4 == 0) {
             func_02082BCC(r, 0, 0x10);
         }

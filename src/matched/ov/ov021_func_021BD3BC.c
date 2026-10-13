@@ -1,5 +1,5 @@
 /*
- * function: func_021BD3BC
+ * function: PLACE_NAME_LETTER_UpdateActive
  * address:  0x021BD3BC
  * packet:   pkt_ov021_021BD3BC
  * region:   ov021
@@ -10,31 +10,31 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BD2D8  0x021BD2D8  thumb  ov021
- *   func_021BD3EC  0x021BD3EC  thumb  ov021
- *   func_021BD430  0x021BD430  thumb  ov021
- *   func_021BD5D4  0x021BD5D4  thumb  ov021
- *   func_021BD340  0x021BD340  thumb  ov021
- *   func_021BD47C  0x021BD47C  thumb  ov021
+ *   PLACE_NAME_LETTER_GetActive  0x021BD2D8  thumb  ov021
+ *   PLACE_NAME_LETTER_StepX  0x021BD3EC  thumb  ov021
+ *   PLACE_NAME_LETTER_StepY  0x021BD430  thumb  ov021
+ *   PLACE_NAME_LETTER_UpdateOamPos  0x021BD5D4  thumb  ov021
+ *   PLACE_NAME_LETTER_IsFinished  0x021BD340  thumb  ov021
+ *   PLACE_NAME_LETTER_Deactivate  0x021BD47C  thumb  ov021
  */
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u32 func_021BD2D8(u8 *p);
-extern void func_021BD3EC(void *p);
-extern void func_021BD430(void *p);
-extern void func_021BD5D4(void *p);
-extern int func_021BD340(void *p);
-extern void func_021BD47C(u8 *p);
+extern u32 PLACE_NAME_LETTER_GetActive(u8 *p);
+extern void PLACE_NAME_LETTER_StepX(void *p);
+extern void PLACE_NAME_LETTER_StepY(void *p);
+extern void PLACE_NAME_LETTER_UpdateOamPos(void *p);
+extern int PLACE_NAME_LETTER_IsFinished(void *p);
+extern void PLACE_NAME_LETTER_Deactivate(u8 *p);
 
-void func_021BD3BC(void *p)
+void PLACE_NAME_LETTER_UpdateActive(void *p)
 {
-    if (func_021BD2D8(p)) {
-        func_021BD3EC(p);
-        func_021BD430(p);
-        func_021BD5D4(p);
-        if (func_021BD340(p) == 1) {
-            func_021BD47C(p);
+    if (PLACE_NAME_LETTER_GetActive(p)) {
+        PLACE_NAME_LETTER_StepX(p);
+        PLACE_NAME_LETTER_StepY(p);
+        PLACE_NAME_LETTER_UpdateOamPos(p);
+        if (PLACE_NAME_LETTER_IsFinished(p) == 1) {
+            PLACE_NAME_LETTER_Deactivate(p);
         }
     }
 }

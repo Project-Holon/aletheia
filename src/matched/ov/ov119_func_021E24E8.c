@@ -7,14 +7,14 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * zero: the literal 0 arguments of the first loop are hoisted and spilled to the slot k then reuses; k=0 is written just before the second func_0201DD78 call, not before the loop.
+ * zero: the literal 0 arguments of the first loop are hoisted and spilled to the slot k then reuses; k=0 is written just before the second GF_FONT_SetTextColor call, not before the loop.
  * symbols:
- *   func_0201DD78 0x0201DD78 thumb
- *   func_02017E1C 0x02017E1C thumb
- *   func_02045CAC 0x02045CAC arm
+ *   GF_FONT_SetTextColor 0x0201DD78 thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
+ *   MSGDATA_ReadString 0x02045CAC arm
  *   func_0201F02C 0x0201F02C thumb
  *   func_0201F250 0x0201F250 thumb
- *   func_0201C7A4 0x0201C7A4 thumb
+ *   PRINTSYS_Print 0x0201C7A4 thumb
  *   func_021D8ADC 0x021D8ADC thumb ov119
  *   func_021E6CB8 0x021E6CB8 thumb ov119
  *   func_021E6334 0x021E6334 thumb ov119
@@ -27,14 +27,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void func_0201DD78(u32,u32,u32);
-extern u32 func_02017E1C(void *,u32,u32);
+extern void GF_FONT_SetTextColor(u32,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 struct MsgBank;
 struct WordSet;
-extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
-extern void func_0201C7A4(void *,s16,s16,void *,void *);
+extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern int func_021D8ADC(char *);
 extern void func_021E6CB8(char *);
 extern void func_021E6334(char *,int,int,void *,int,u32);
@@ -55,23 +55,23 @@ void func_021E24E8(char *p, int a1)
     func_021E6CB8(p);
     arr[0]=P(0x834);
     arr[1]=P(0x830);
-    func_0201DD78(15,2,0);
+    GF_FONT_SetTextColor(15,2,0);
     for(j=0;j<2;j++) {
-        func_02045CAC(P(0x720),128,P(0x734));
+        MSGDATA_ReadString(P(0x720),128,P(0x734));
         func_0201F02C(P(0x724),0,arr[j]);
         func_0201F250(P(0x724),P(0x730),P(0x734));
-        func_0201C7A4(*(void **)(p+j*16+0x10f4),0,0,P(0x730),P(0x728));
+        PRINTSYS_Print(*(void **)(p+j*16+0x10f4),0,0,P(0x730),P(0x728));
     }
     k=0;
-    func_0201DD78(15,2,k);
+    GF_FONT_SetTextColor(15,2,k);
     for(;k<2;k++) {
-        func_0201DD78(1,2,0);
+        GF_FONT_SetTextColor(1,2,0);
         q1=p+(1-k)*12;
         q2=p+k*16;
         for(n=0;n<3;n++) {
             mon=*(void **)(q1+n*4+0xfd8);
             if(*(int *)(q1+n*4+0xfa4)!=-1) {
-                flag76=func_02017E1C(mon,76,0);
+                flag76=POKE_TOOL_GetPartyValue(mon,76,0);
                 func_021E6334(p,k,n,mon,0,1);
                 func_021E1430(mon,*(void **)(q2+n*4+0x10f8),0,0,flag76,func_021D8ADC(p),p);
                 if(flag76==0) {

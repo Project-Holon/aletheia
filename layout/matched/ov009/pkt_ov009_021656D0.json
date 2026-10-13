@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021656D0",
+   "name": "WCM_UpdateOption",
    "address": "0x021656D0",
    "kind": "sdk",
    "region": "ov009",

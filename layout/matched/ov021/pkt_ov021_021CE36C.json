@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CE36C",
+   "name": "COMM_ENTRY_MENU_AdvanceMemberStates",
    "address": "0x021CE36C",
    "kind": "game",
    "region": "ov021",

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203CD98 0x0203CD98 arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
  *   func_0205D074 0x0205D074 arm
  *   func_021F4EB4 0x021F4EB4 thumb ov135
  *   GFL_NET_WM_ICON_EasySetLevel 0x020370F4 arm
@@ -18,11 +18,11 @@
  *   func_02030D28 0x02030D28 arm
  *   func_02202770 0x02202770 thumb ov135
  *   func_021F49A8 0x021F49A8 thumb ov135
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   func_021FF6A4 0x021FF6A4 thumb ov135
  *   func_021FFB20 0x021FFB20 thumb ov135
  *   func_021F4F84 0x021F4F84 thumb ov135
- *   func_0204A600 0x0204A600 arm
+ *   CLACT_DrawSystem 0x0204A600 arm
  *   d_02203A80 0x02203A80 data a4
  */
 #include "../include/Obj02853.h"
@@ -30,7 +30,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int (*init)(u8 *, int); int (*update)(u8 *, int); int (*finish)(u8 *, int); } Handler;
 extern const Handler d_02203A80[];
-extern int func_0203CD98(void);
+extern int GFL_NET_GetRunState(void);
 struct Ctx;
 extern int func_0205D074(void);
 extern int func_021F4EB4(void);
@@ -40,14 +40,14 @@ extern u32 PROCSYS_Main(void *);
 extern void func_02030D28(struct Ctx *c);
 extern void func_02202770(void *);
 extern void func_021F49A8(void);
-extern u32 func_020221A4(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void func_021FF6A4(u8 *);
 extern void func_021FFB20(u8 *, int, int);
 extern void func_021F4F84(u8 *);
-extern void func_0204A600(void *);
+extern void CLACT_DrawSystem(void *);
 int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
 {
-    if (func_0203CD98() != 0) {
+    if (GFL_NET_GetRunState() != 0) {
         func_0205D074();
         GFL_NET_WM_ICON_EasySetLevel(func_021F4EB4());
     }
@@ -61,13 +61,13 @@ int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
         func_021F49A8();
         break;
     case 1:
-        if (func_020221A4() != 0) *state = 2;
+        if (WIPE_SYS_EndCheck() != 0) *state = 2;
         break;
     case 2:
         *state = d_02203A80[*(u32 *)(p + 16)].update(p, *state);
         break;
     case 3:
-        if (func_020221A4() != 0) {
+        if (WIPE_SYS_EndCheck() != 0) {
             *state = d_02203A80[*(u32 *)(p + 16)].finish(p, *state);
             if (((struct Obj02853 *)p)->fB8 != 0) {
                 func_021FF6A4(p);
@@ -83,7 +83,7 @@ int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
         return 1;
     }
     func_021F4F84(p);
-    if (*(u32 *)&((struct Obj02853 *)p)->fBC0 != 0) func_0204A600(((struct Obj02853 *)p)->fBC0);
+    if (*(u32 *)&((struct Obj02853 *)p)->fBC0 != 0) CLACT_DrawSystem(((struct Obj02853 *)p)->fBC0);
     if (((struct Obj02853 *)p)->f12E8 > 0) ((struct Obj02853 *)p)->f12E8 -= 1;
     return 0;
 }

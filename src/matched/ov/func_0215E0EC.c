@@ -1,5 +1,5 @@
 /*
- * function: func_0215E0EC
+ * function: SCRCMD_MUSICAL_WaitCommAttach
  * address:  0x0215E0EC
  * packet:   pkt_0215E0EC
  * region:   ov010
@@ -11,10 +11,10 @@
  * blocked:  
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012138  0x02012138  thumb
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetExternalWork  0x02012F80  thumb
  *   func_02026454  0x02026454  thumb
  *   func_02026474  0x02026474  thumb
@@ -25,16 +25,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int GAME_DATA_GetExternalWork(char *base);
 extern u32 func_02026454(void *obj);
 extern u32 func_02026474(void *obj);
 
-int func_0215E0EC(int a0, int a1)
+int SCRCMD_MUSICAL_WaitCommAttach(int a0, int a1)
 {
     int t4;
     int t5;
@@ -44,15 +44,15 @@ int func_0215E0EC(int a0, int a1)
 
 t4 = a1 + 0;
 a0 = t4 + 0;
-    v0 = func_0215A5F4((void *)a0);
+    v0 = SCRCMD_WORK_GetScriptWork((void *)a0);
 loc_0215E0F6:
 a0 = t4 + 0;
-    v1 = func_0215A5DC((void *)a0);
+    v1 = SCRCMD_WORK_GetGameSystem((void *)a0);
 loc_0215E0FC:
 a0 = t4 + 0;
-    v2 = func_0215A5E4((void *)a0);
+    v2 = SCRCMD_WORK_GetGameData((void *)a0);
 loc_0215E104:
-    a0 = func_02012138(v1);
+    a0 = GAMESYSTEM_GetGameComm(v1);
 loc_0215E10C:
 t5 = a0 + 0;
     a0 = GAME_DATA_GetExternalWork(v2);

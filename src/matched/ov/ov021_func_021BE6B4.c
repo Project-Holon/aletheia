@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6B4
+ * function: FLD_EXP_OBJ_IsAnimePaused
  * address:  0x021BE6B4
  * packet:   pkt_ov021_021BE6B4
  * region:   ov021
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf: byte getter, blocker of ov039 func_021F47D8.
+ * Unlabelled leaf: byte getter, blocker of ov039 GIMMICK39_SwapCartAnimes.
  *
  * symbols:
- *   func_021BE6B4  0x021BE6B4  thumb
+ *   FLD_EXP_OBJ_IsAnimePaused  0x021BE6B4  thumb
  */
 
 typedef unsigned char u8;
 
-u8 func_021BE6B4(u8 *p)
+u8 FLD_EXP_OBJ_IsAnimePaused(u8 *p)
 {
     return *p;
 }

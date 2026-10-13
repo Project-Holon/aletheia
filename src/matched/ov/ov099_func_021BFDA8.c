@@ -11,16 +11,16 @@
  * Extent ends with two-byte alignment padding at 0x021BFDCE.
  * symbols:
  *   DWC_RAP_IsVchatActive 0x021563EC thumb ov009
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  */
 #include "../include/Obj22052.h"
 extern int DWC_RAP_IsVchatActive(void);
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 int func_021BFDA8(char *p, int ret) {
- if (!DWC_RAP_IsVchatActive()) { func_02039C68((struct Link *)func_020399A8(),24,10); ((struct Obj22052 *)p)->f1CC=172; }
+ if (!DWC_RAP_IsVchatActive()) { func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),24,10); ((struct Obj22052 *)p)->f1CC=172; }
  return ret;
 }

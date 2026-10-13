@@ -15,9 +15,9 @@
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_02040588 0x02040588 arm
- *   func_0204363C 0x0204363C arm
- *   func_02028604 0x02028604 thumb
- *   func_02031140 0x02031140 arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
+ *   APP_KEYCURSOR_Delete 0x02028604 thumb
+ *   TCBL_Destroy 0x02031140 arm
  *   func_0201ED04 0x0201ED04 thumb
  *   func_021845A4 0x021845A4 thumb ov219
  *   func_020315D4 0x020315D4 arm
@@ -29,9 +29,9 @@ struct PrintSys;struct S02031140;struct S020315D4;struct WordSet;
 extern void func_0201C6EC(struct PrintSys *),func_0201C4C0(struct PrintSys *);
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_0204363C(unsigned);
-extern int func_02028604(int);
-extern void func_02031140(struct S02031140 *);
+extern void BG_SYS_SetLcdSwap(unsigned);
+extern int APP_KEYCURSOR_Delete(int);
+extern void TCBL_Destroy(struct S02031140 *);
 extern unsigned func_0201ED04(struct WordSet *);
 extern void func_021845A4(int),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int);
 int func_02184470(struct S020315D4 *controller,void *unused1,void *unused2,char *p)
@@ -40,9 +40,9 @@ int func_02184470(struct S020315D4 *controller,void *unused1,void *unused2,char 
     func_0201C6EC(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);
     func_0201C4C0(*(struct PrintSys * *)&((struct Obj05564 *)p)->fC080);
     func_02040588(6,0);func_02040588(2,0);func_02040588(7,0);func_02040588(3,0);
-    func_0204363C(1);
-    func_02028604(((struct Obj05564 *)p)->fC088);
-    func_02031140(*(struct S02031140 * *)&((struct Obj05564 *)p)->fC0A4);
+    BG_SYS_SetLcdSwap(1);
+    APP_KEYCURSOR_Delete(((struct Obj05564 *)p)->fC088);
+    TCBL_Destroy(*(struct S02031140 * *)&((struct Obj05564 *)p)->fC0A4);
     func_021845A4(func_0201ED04(*(struct WordSet * *)&((struct Obj05564 *)p)->fC0A8));
     func_020315D4(controller);func_020306F0((u16)heap);
     return 1;

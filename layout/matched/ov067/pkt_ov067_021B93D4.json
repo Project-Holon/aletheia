@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B93D4",
-    "func_021B940C",
-    "func_021B941C"
+    "FRAME_LIST_SetCursor",
+    "FRAME_LIST_ShowCursor",
+    "FRAME_LIST_HideCursor"
+   ],
+   "addresses": [
+    "0x021B93D4",
+    "0x021B940C",
+    "0x021B941C"
    ]
   }
  ]

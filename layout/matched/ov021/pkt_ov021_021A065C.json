@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A065C",
+   "name": "FIELD_LIGHT_IsColorFading",
    "address": "0x021A065C",
    "kind": "game",
    "region": "ov021",

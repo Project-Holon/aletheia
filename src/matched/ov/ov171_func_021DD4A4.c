@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0202208C 0x0202208C thumb
+ *   WIPE_SYS_Start 0x0202208C thumb
  */
 #include "../include/Obj24053.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0202208C(void*,u32,u32,u32,u32,u32,u32);
-int func_021DD4A4(u8*p,int v){func_0202208C(0,1,1,0,6,1,0x8c);((struct Obj24053 *)p)->fC74=v;return 2;}
+extern void WIPE_SYS_Start(void*,u32,u32,u32,u32,u32,u32);
+int func_021DD4A4(u8*p,int v){WIPE_SYS_Start(0,1,1,0,6,1,0x8c);((struct Obj24053 *)p)->fC74=v;return 2;}

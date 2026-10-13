@@ -1,5 +1,5 @@
 /*
- * function: func_021A2130
+ * function: WEATHER_TASK_FlashLight
  * address:  0x021A2130
  * packet:   pkt_ov021_021A2130
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A0618  0x021A0618  thumb  ov021
+ *   FIELD_LIGHT_StartColorFade  0x021A0618  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19728.h"
@@ -19,9 +19,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021A0618(u8 *p, u32 a, u32 b, u32 c);
+extern void FIELD_LIGHT_StartColorFade(u8 *p, u32 a, u32 b, u32 c);
 
-void func_021A2130(u8 *p, u32 b, u32 c, u32 d)
+void WEATHER_TASK_FlashLight(u8 *p, u32 b, u32 c, u32 d)
 {
-    func_021A0618((u8 *)(((struct Obj19728 *)p)->f8), b, c, d);
+    FIELD_LIGHT_StartColorFade((u8 *)(((struct Obj19728 *)p)->f8), b, c, d);
 }

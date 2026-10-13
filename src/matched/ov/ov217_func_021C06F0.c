@@ -17,9 +17,9 @@
  * symbols:
  *   d_021C377C 0x021C377C data a4
  *   func_021BF9F0 0x021BF9F0 thumb ov217
- *   func_020255A0 0x020255A0 thumb
- *   func_02025774 0x02025774 thumb
- *   func_020257D0 0x020257D0 thumb
+ *   BMP_OAM_Create 0x020255A0 thumb
+ *   BMP_OAM_SetEnabled 0x02025774 thumb
+ *   BMP_OAM_UploadChars 0x020257D0 thumb
  */
 #include "../include/Obj25967.h"
 typedef unsigned char u8;
@@ -33,9 +33,9 @@ struct Grid;
 struct Obj;
 extern const struct Entry d_021C377C[];
 extern u32 func_021BF9F0(void *,u32);
-extern struct Grid *func_020255A0(struct Sys *,const struct Param *);
-extern void func_02025774(u8 *,u32);
-extern void func_020257D0(struct Obj *);
+extern struct Grid *BMP_OAM_Create(struct Sys *,const struct Param *);
+extern void BMP_OAM_SetEnabled(u8 *,u32);
+extern void BMP_OAM_UploadChars(struct Obj *);
 void func_021C06F0(u8 *p)
 {
     int sysOff,outOff,callOff,uploadOff;
@@ -56,8 +56,8 @@ void func_021C06F0(u8 *p)
         param.fc=q->fc;
         param.f10=q->f10; param.f11=q->f11;
         param.f12=q->f12; param.f14=q->f14;
-        *(struct Grid **)(dest+outOff)=func_020255A0(*(struct Sys **)(p+sysOff),&param);
-        func_02025774(*(u8 **)(dest+callOff),0);
-        func_020257D0(*(struct Obj **)(dest+uploadOff));
+        *(struct Grid **)(dest+outOff)=BMP_OAM_Create(*(struct Sys **)(p+sysOff),&param);
+        BMP_OAM_SetEnabled(*(u8 **)(dest+callOff),0);
+        BMP_OAM_UploadChars(*(struct Obj **)(dest+uploadOff));
     }
 }

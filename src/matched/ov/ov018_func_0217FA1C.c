@@ -1,5 +1,5 @@
 /*
- * function: func_0217FA1C
+ * function: EVENT_COMM_COMMON_FreeMissionInfoWork
  * address:  0x0217FA1C
  * packet:   pkt_ov018_0217FA1C
  * region:   ov018
@@ -9,12 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0217F318  0x0217F318  thumb  ov018
+ *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb  ov018
  */
 
-void func_0217F318(void *p);
+void EVENT_COMM_COMMON_ExitMsgBox(void *p);
 
-void func_0217FA1C(void *p)
+void EVENT_COMM_COMMON_FreeMissionInfoWork(void *p)
 {
-    func_0217F318(p);
+    EVENT_COMM_COMMON_ExitMsgBox(p);
 }

@@ -13,8 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02007698 0x02007698 thumb
  *   func_020076A4 0x020076A4 thumb
@@ -25,11 +25,11 @@
  *   func_02030EAC  0x02030EAC  arm  arm9
  *   func_021EAB04  0x021EAB04  thumb  ov170
  *   func_020419E4  0x020419E4  arm
- *   func_0204A648  0x0204A648  arm
+ *   CLACT_VBlankSystem  0x0204A648  arm
  *   PALANM_TransferPalettes  0x02021D50  thumb
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
- *   func_020433E0  0x020433E0  arm  arm9
+ *   BG_SYS_SetVramBanks  0x020433E0  arm  arm9
  *   PROCSYS_Main  0x02031330  arm  arm9
  */
 #include "box2_types.h"
@@ -52,8 +52,8 @@ typedef enum { B0=0, B8=8, B16=16 } Bound;
 
 typedef unsigned int   u32;
 
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
-extern void *func_0203159C(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, unsigned int size, unsigned int heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern unsigned func_02007698(void *);
 extern u8 func_020076A4(void *);
@@ -70,10 +70,10 @@ extern int func_020056A0(void *, void *, int);
 extern void func_02030EAC(struct Node *n);
 extern void func_021EAB04(unsigned char *w);
 extern void func_020419E4(void);
-extern void func_0204A648(void);
+extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void func_020433E0(const struct DispVram *c);
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 int func_021DC860(void *manager, int unused, void **context);
 int func_021DC900(int a, int b, int c, int *d);
 int func_021DC924(int a, int b, int c, int *d);
@@ -92,8 +92,8 @@ int func_021DC860(void *manager, int unused, void **context)
     u8 *p;
     u16 max;
     u16 i;
-    func_0203064C(1,75,0x10000);
-    p = func_0203159C(manager,0x30,75);
+    GFL_HEAP_CreateChildHeap(1,75,0x10000);
+    p = PROCSYS_AllocProcWork(manager,0x30,75);
     func_02082BCC(p,0,0x30);
     *(void ** *)&((BoxTask *)p)->f0 = context;
     p[0x14] = func_02007698(context[1]);
@@ -157,7 +157,7 @@ void func_021DC970(u32 a, char *p)
 {
     func_021EAB04((unsigned char *)(((struct Obj12145 *)p)->f2C));
     func_020419E4();
-    func_0204A648();
+    CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct S02021D50 *)(*(u32 *)(((struct Obj12145 *)p)->f2C + 0x6c)));
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3ff8) |= 1;
 }
@@ -200,7 +200,7 @@ void func_021DC9B8(char *p)
 void func_021DC9C4(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
-    func_020433E0((void *)0x021EF7CC);
+    BG_SYS_SetVramBanks((void *)0x021EF7CC);
 }
 
 /*

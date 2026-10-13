@@ -1,5 +1,5 @@
 /*
- * function: func_0218C654
+ * function: FIELD_BUILDMODEL_GetFirstEntryNearPos
  * address:  0x0218C654
  * packet:   pkt_ov021_0218C654
  * region:   ov021
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0218C9C4  0x0218C9C4  thumb  ov021
- *   func_0218C638  0x0218C638  thumb  ov021
+ *   FIELD_BUILDMODEL_MakeSearchRect  0x0218C9C4  thumb  ov021
+ *   FIELD_BUILDMODEL_GetFirstEntryInRect  0x0218C638  thumb  ov021
  */
 
-void func_0218C9C4(unsigned char *buf, int c);
-int func_0218C638(int a, int b, int c);
+void FIELD_BUILDMODEL_MakeSearchRect(unsigned char *buf, int c);
+int FIELD_BUILDMODEL_GetFirstEntryInRect(int a, int b, int c);
 
-int func_0218C654(int a, int b, int c)
+int FIELD_BUILDMODEL_GetFirstEntryNearPos(int a, int b, int c)
 {
     unsigned char buf[16];
-    func_0218C9C4(buf, c);
-    return func_0218C638(a, b, (int)buf);
+    FIELD_BUILDMODEL_MakeSearchRect(buf, c);
+    return FIELD_BUILDMODEL_GetFirstEntryInRect(a, b, (int)buf);
 }

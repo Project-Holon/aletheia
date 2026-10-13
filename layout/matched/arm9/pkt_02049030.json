@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02049030",
+   "name": "ARC_TOOL_GetArchiveFileCount",
    "address": "0x02049030",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_020490A8",
+   "name": "ARC_TOOL_GetMemberSize",
    "address": "0x020490A8",
    "kind": "game",
    "region": "arm9",

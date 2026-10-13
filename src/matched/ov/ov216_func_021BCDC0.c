@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Unblocked by matching func_02165C48 (ov010, EXACT): the +0002 call site now
+ * Unblocked by matching GAME_BEACON_ACCESSOR_GetPmVersion (ov010, EXACT): the +0002 call site now
  * attests as `matched`.  ov009 holds ARM code at that address; ov010 is the
  * coherent Thumb leaf, so the correct hint is ov010 (the earlier ov009 hint
  * was wrong).
@@ -19,16 +19,16 @@
  * the only shape that reproduces the image's three-exit if-chain.
  *
  * symbols:
- *   func_02165C48  0x02165C48  thumb  ov010
+ *   GAME_BEACON_ACCESSOR_GetPmVersion  0x02165C48  thumb  ov010
  *
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int func_02165C48(void *a0);
+extern unsigned int GAME_BEACON_ACCESSOR_GetPmVersion(void *a0);
 
 int func_021BCDC0(void *a0)
 {
-    switch (func_02165C48(a0)) {
+    switch (GAME_BEACON_ACCESSOR_GetPmVersion(a0)) {
     case 0x15:
         return 0;
     case 0x14:

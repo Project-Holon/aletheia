@@ -15,7 +15,7 @@
  * symbols:
  *   func_0201C440  0x0201C440  thumb
  *   func_02030734  0x02030734  arm
- *   func_020457B0  0x020457B0  arm
+ *   STRBUF_Create  0x020457B0  arm
  *   func_021B9AF8  0x021B9AF8  thumb
  *   func_021D3D70  0x021D3D70  thumb
  *   func_06899E2C  0x06899E2C  thumb  ov095
@@ -57,7 +57,7 @@ typedef struct Obj {
 extern Obj *func_02030734(u16 a, int b, int c, u8 *d, int e);
 extern int func_021D3D70(void);
 extern int func_021B9AF8(int a, int b);
-extern int func_020457B0(int a, u16 b);
+extern int STRBUF_Create(int a, u16 b);
 extern int func_0201C440(u16 a);
 extern void func_06899E2C(unsigned char *p);
 Obj *func_06899AF0(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7);
@@ -76,7 +76,7 @@ Obj *func_06899AF0(int a, int b, int c, int d, int e4, int e5, int e6, u16 e7)
     o->f08 = e4;
     o->f10 = e5;
     o->fa8 = func_021B9AF8(c, func_021D3D70());
-    o->f0c = func_020457B0(0x80, e7);
+    o->f0c = STRBUF_Create(0x80, e7);
     o->f74 = 0;
     o->f90 = e6;
     o->f91 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02006CBC
+ * function: SND_MIC_Init
  * address:  0x02006CBC
  * packet:   pkt_02006CBC
  * region:   arm9
@@ -35,8 +35,8 @@
  * (`bics` for the clear), and the finished object is stored at 0x02146164.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/func_02006CBC.c \
- *       --func func_02006CBC --addr 0x02006CBC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/SND_MIC_Init.c \
+ *       --func SND_MIC_Init --addr 0x02006CBC --cc 1.1p1 --thumb
  */
 
 #include "../include/G_Sub02006D44Obj.h"
@@ -69,7 +69,7 @@ extern void  func_0208B24C(void);
 extern int   OS_IsRunOnTwl(void);
 extern void  func_02006D3C(u32 a, char *b);
 
-void func_02006CBC(u16 heap)
+void SND_MIC_Init(u16 heap)
 {
     struct Sub02006CBCObj *p;
     void *pool;

@@ -13,16 +13,16 @@
  * 068998D4 -> 021B9A40, 068998E4 -> 021D76BC.
  * symbols:
  *   func_021B9A40  0x021B9A40  thumb
- *   func_021D76BC  0x021D76BC  thumb
- *   func_021D775C  0x021D775C  thumb
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb
+ *   BTL_EVENT_GetVar  0x021D775C  thumb
  */
 typedef unsigned char u8;
-extern int func_021D775C(int);
+extern int BTL_EVENT_GetVar(int);
 extern int func_021B9A40(u8);
-extern int func_021D76BC(int, unsigned int);
+extern int BTL_EVENT_OverwriteVar(int, unsigned int);
 void func_068998A4(int a, int b, int c)
 {
-    if (c == func_021B9A40((u8)func_021D775C(3))) {
-        func_021D76BC(0x45, 1);
+    if (c == func_021B9A40((u8)BTL_EVENT_GetVar(3))) {
+        BTL_EVENT_OverwriteVar(0x45, 1);
     }
 }

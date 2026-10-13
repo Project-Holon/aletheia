@@ -1,7 +1,7 @@
 /*
  * file:     bmp.c
  * unit:     yes
- * function: BG_SYS_ClearGraphicsMemory, func_020433E0, BG_SYS_ClearMainBgPlanes, BG_SYS_ClearMainObjPlane, BG_SYS_ClearMainPlanes, func_020434DC, func_02043534, BG_SYS_ClearSubBgPlanes, BG_SYS_ClearSubObjPlane, BG_SYS_ClearSubPlanes, func_02043598, func_020435F4, func_0204361C, func_0204363C, func_02043658, func_02043668, func_02043678, func_020436FC, BMP_CreateFromVram, func_020437AC, func_020437D4, func_020437DC, func_020437E4, func_020437EC, func_02043814, func_0204384C, BMP_InitFromCharData, BMP_GetTileBytes, func_020439A0, BMP_BlitPaletteOffset, func_02043AF4, BMP_Clear, BMP_Blit4bpp, BMP_Blit8bpp, BMP_Blit4bppTo8bpp, BMP_Blit4bppToVram, BMP_Blit8bppToVram, BMP_FillRect4bpp, BMP_FillRect8bpp, BMP_FillRect4bppVram, BMP_FillRect8bppVram, func_02044F64, func_02045088, func_020450C8, func_020450F0, func_02045180, func_02045210, func_020452E8, func_02045334, func_02045374, BMP_WIN_DrawFrame, func_020456F8, func_02045730, func_02045738, func_02045740, func_02045748, func_02045750, func_02045758, func_02045760, func_02045768, func_02045770, BMP_WIN_GetPalette, BMP_WIN_SetPosX, BMP_WIN_SetPosY, BMP_WIN_SetDispHeight, BMP_WIN_SetPalette, STRBUF_SetEosChar, func_020457B0, func_02045808, STRBUF_Clear, STRBUF_Copy, STRBUF_Clone, STRBUF_IsEqual, STRBUF_GetLength, STRBUF_Truncate, func_02045924, func_02045994, STRBUF_SetChars, func_02045A38, STRBUF_GetChars, func_02045A98, STRBUF_Append, STRBUF_AppendChar
+ * function: BG_SYS_ClearGraphicsMemory, BG_SYS_SetVramBanks, BG_SYS_ClearMainBgPlanes, BG_SYS_ClearMainObjPlane, BG_SYS_ClearMainPlanes, func_020434DC, func_02043534, BG_SYS_ClearSubBgPlanes, BG_SYS_ClearSubObjPlane, BG_SYS_ClearSubPlanes, BG_SYS_SetSubPlaneVisible, BG_SYS_SetSubVisiblePlanes, BG_SYS_ResetSubDisplay, func_0204363C, func_02043658, BG_SYS_GetSubVisiblePlanes, BMP_Create, BMP_CreateFromBuffer, BMP_CreateFromVram, BMP_Delete, BMP_GetPixels, BMP_GetWidth, BMP_GetHeight, BMP_GetByteSize, BMP_CopyPixels, BMP_CreateFromArchive, BMP_InitFromCharData, BMP_GetTileBytes, BMP_Blit, BMP_BlitPaletteOffset, BMP_FillRect, BMP_Clear, BMP_Blit4bpp, BMP_Blit8bpp, BMP_Blit4bppTo8bpp, BMP_Blit4bppToVram, BMP_Blit8bppToVram, BMP_FillRect4bpp, BMP_FillRect8bpp, BMP_FillRect4bppVram, BMP_FillRect8bppVram, BMP_ConvertToLinear, BMP_WIN_Init, BMP_WIN_Exit, BMP_WIN_Create, BMP_WIN_CreateAt, func_02045210, func_020452E8, BMP_WIN_TransferChars, BMP_WIN_MakeScreen, BMP_WIN_DrawFrame, BMP_WIN_ClearScreen, func_02045730, func_02045738, func_02045740, func_02045748, func_02045750, func_02045758, func_02045760, func_02045768, func_02045770, BMP_WIN_GetPalette, BMP_WIN_SetPosX, BMP_WIN_SetPosY, BMP_WIN_SetDispHeight, BMP_WIN_SetPalette, STRBUF_SetEosChar, STRBUF_Create, STRBUF_Delete, STRBUF_Clear, STRBUF_Copy, STRBUF_Clone, STRBUF_IsEqual, STRBUF_GetLength, STRBUF_Truncate, STRBUF_SetString, STRBUF_SetStringN, STRBUF_SetChars, STRBUF_ToChars, STRBUF_GetChars, STRBUF_GetEosChar, STRBUF_Append, STRBUF_AppendChar
  * address:  0x0204335C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -42,7 +42,7 @@
  *   func_02030734  0x02030734  arm
  *   bmp_File       0x020A7E68  data
  *   func_020307B0  0x020307B0  arm
- *   func_0204A1BC       0x0204A1BC  arm
+ *   ARC_UTIL_LoadMember       0x0204A1BC  arm
  *   func_02062A4C       0x02062A4C  arm
  *   OS_Terminate        0x02088234  arm
  *   MIi_CpuCopy32       0x02082A90  arm
@@ -191,7 +191,7 @@ extern int func_020808F4(void);
 extern void func_0207D46C(void);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern int func_0204A1BC(int a0, int a1, int a2, int a3);
+extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 func_02062A4C(void *resource, struct CharData **out);
 extern void  OS_Terminate(void);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
@@ -207,7 +207,7 @@ extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a
 extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 void BG_SYS_ClearGraphicsMemory(u32 keepBanks);
-void func_020433E0(const struct DispVram *banks);
+void BG_SYS_SetVramBanks(const struct DispVram *banks);
 void BG_SYS_ClearMainBgPlanes(void);
 void BG_SYS_ClearMainObjPlane(void);
 void BG_SYS_ClearMainPlanes(void);
@@ -218,25 +218,25 @@ void BG_SYS_ClearSubObjPlane(void);
 void BG_SYS_ClearSubPlanes(void);
 void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 void BG_SYS_SetSubVisiblePlanes(u32 planes);
-void func_0204361C(void);
+void BG_SYS_ResetSubDisplay(void);
 void func_0204363C(u32 swap);
 u32 func_02043658(void);
-u32 func_02043668(void);
-struct Bmp *func_02043678(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
-struct Bmp *func_020436FC(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+u32 BG_SYS_GetSubVisiblePlanes(void);
+struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
 struct Bmp *BMP_CreateFromVram(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
-void func_020437AC(struct Bmp *bmp);
-void *func_020437D4(const struct Bmp *bmp);
-u16 func_020437DC(const struct Bmp *bmp);
-u16 func_020437E4(const struct Bmp *bmp);
-u32 func_020437EC(const struct Bmp *bmp);
-void func_02043814(const struct Bmp *src, struct Bmp *dst);
-struct Bmp *func_0204384C(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
+void BMP_Delete(struct Bmp *bmp);
+void *BMP_GetPixels(const struct Bmp *bmp);
+u16 BMP_GetWidth(const struct Bmp *bmp);
+u16 BMP_GetHeight(const struct Bmp *bmp);
+u32 BMP_GetByteSize(const struct Bmp *bmp);
+void BMP_CopyPixels(const struct Bmp *src, struct Bmp *dst);
+struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
 void BMP_InitFromCharData(struct Bmp *bmp, struct CharData *charData, u32 heapId);
 u8 BMP_GetTileBytes(struct Bmp *bmp);
-void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u16 colorKey);
+void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u16 colorKey);
 void BMP_BlitPaletteOffset(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 w, u32 h, u16 colorKey, u16 paletteBase);
-void func_02043AF4(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 void BMP_Clear(struct Bmp *bmp, u8 value);
 void BMP_Blit4bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
 void BMP_Blit8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
@@ -247,7 +247,7 @@ void BMP_FillRect4bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u32 value);
 void BMP_FillRect8bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
 void BMP_FillRect4bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
 void BMP_FillRect8bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value);
-struct Bmp *func_02044F64(struct Bmp *bmp, u32 keepCopy, u16 heapId);
+struct Bmp *BMP_ConvertToLinear(struct Bmp *bmp, u32 keepCopy, u16 heapId);
 void BMP_WIN_Init(u16 heapId);
 void BMP_WIN_Exit(void);
 struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
@@ -281,12 +281,12 @@ struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
 int STRBUF_IsEqual(struct Strbuf *lhs, struct Strbuf *rhs);
 u16 STRBUF_GetLength(struct Strbuf *strbuf);
 void STRBUF_Truncate(struct Strbuf *strbuf, u32 newLength);
-void func_02045924(struct Strbuf *strbuf, const u16 *srcChars);
-void func_02045994(struct Strbuf *strbuf, const u16 *srcChars, u32 charCount);
+void STRBUF_SetString(struct Strbuf *strbuf, const u16 *srcChars);
+void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *srcChars, u32 charCount);
 void STRBUF_SetChars(struct Strbuf *strbuf, const void *srcChars, u32 charCount);
 void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-u16 func_02045A98(void);
+u16 STRBUF_GetEosChar(void);
 void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
 void STRBUF_AppendChar(struct Strbuf *strbuf, u16 ch);
 /* [0] = sub engine, [1] = main engine; bit n = BG n, bit 4 = OBJ */
@@ -369,9 +369,9 @@ static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
  * descriptor is `const`.  With u32 fields and parameters the same body is
  * 33 bytes out; with a non-const or volatile descriptor 29; every earlier
  * spelling (locals a/b, volatile struct) capped at 6 (r3/ip pair in the
- * DISPCNT tail, docs/notes/func_020433E0.c.txt).
+ * DISPCNT tail, docs/notes/BG_SYS_SetVramBanks.c.txt).
  */
-void func_020433E0(const struct DispVram *banks)
+void BG_SYS_SetVramBanks(const struct DispVram *banks)
 {
     func_020808F4();
     func_0208091C();
@@ -567,7 +567,7 @@ void BG_SYS_SetSubVisiblePlanes(u32 planes)
  *   python tools/match.py tu --src src/matched/unit_0204361C.c \
  *       --addr 0x0204361C --cc 1.1p1 --arm
  */
-void func_0204361C(void)
+void BG_SYS_ResetSubDisplay(void)
 {
     func_0207D46C();
     *(volatile u32 *)0x04001000 |= 0x10000;
@@ -594,10 +594,10 @@ u32 func_02043658(void)
  * disasm.py does not label it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02043668.c \
- *       --func func_02043668 --addr 0x02043668 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_GetSubVisiblePlanes.c \
+ *       --func BG_SYS_GetSubVisiblePlanes --addr 0x02043668 --cc 1.1p1 --arm
  */
-u32 func_02043668(void)
+u32 BG_SYS_GetSubVisiblePlanes(void)
 {
     return gVisiblePlanes[0];
 }
@@ -616,10 +616,10 @@ u32 func_02043668(void)
  * an argument register.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02043678.c \
- *       --func func_02043678 --addr 0x02043678 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_Create.c \
+ *       --func BMP_Create --addr 0x02043678 --cc 1.1p1 --arm
  */
-struct Bmp *func_02043678(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId)
+struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId)
 {
     struct Bmp *bmp;
 
@@ -642,14 +642,14 @@ struct Bmp *func_02043678(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 he
  * TU: bmp.c (__FILE__ 0x020A7E68, line 123).
  *
  * Wrap a pixel buffer the caller already owns in a fresh descriptor: same
- * 0xc-byte descriptor func_02043678 builds, but nothing is allocated for
+ * 0xc-byte descriptor BMP_Create builds, but nothing is allocated for
  * the pixels and the storage halfword at +0x0a is BMP_STORAGE_BORROWED.  The heap id is the fifth
  * argument and arrives on the stack as a halfword.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020436FC.c  *       --func func_020436FC --addr 0x020436FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_CreateFromBuffer.c  *       --func BMP_CreateFromBuffer --addr 0x020436FC --cc 1.1p1 --arm
  */
-struct Bmp *func_020436FC(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes,
+struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 widthTiles, u32 heightTiles, u32 tileBytes,
                             u16 heapId)
 {
     struct Bmp *bmp;
@@ -671,7 +671,7 @@ struct Bmp *func_020436FC(void *pixels, u32 widthTiles, u32 heightTiles, u32 til
  * TU: bmp.c (__FILE__ 0x020A7E68, line 148).
  *
  * Wrap a pixel buffer the caller already owns in a fresh descriptor: same
- * 0xc-byte descriptor func_02043678 builds, but nothing is allocated for
+ * 0xc-byte descriptor BMP_Create builds, but nothing is allocated for
  * the pixels and the storage halfword at +0x0a is BMP_STORAGE_VRAM.  The heap id is the fifth
  * argument and arrives on the stack as a halfword.
  *
@@ -703,10 +703,10 @@ struct Bmp *BMP_CreateFromVram(void *pixels, u32 widthTiles, u32 heightTiles, u3
  * is the source order of a plain `if (bmp->storage == BMP_STORAGE_OWNED)` with no else.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020437AC.c \
- *       --func func_020437AC --addr 0x020437AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_Delete.c \
+ *       --func BMP_Delete --addr 0x020437AC --cc 1.1p1 --arm
  */
-void func_020437AC(struct Bmp *bmp)
+void BMP_Delete(struct Bmp *bmp)
 {
     if (bmp->storage == BMP_STORAGE_OWNED)
         func_020307B0(bmp->pixels);
@@ -723,9 +723,9 @@ void func_020437AC(struct Bmp *bmp)
  * that its callers have a `matched` witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020437D4.c  *       --func func_020437D4 --addr 0x020437D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_GetPixels.c  *       --func BMP_GetPixels --addr 0x020437D4 --cc 1.1p1 --arm
  */
-void *func_020437D4(const struct Bmp *bmp)
+void *BMP_GetPixels(const struct Bmp *bmp)
 {
     return bmp->pixels;
 }
@@ -739,9 +739,9 @@ void *func_020437D4(const struct Bmp *bmp)
  * that its callers have a `matched` witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020437DC.c  *       --func func_020437DC --addr 0x020437DC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_GetWidth.c  *       --func BMP_GetWidth --addr 0x020437DC --cc 1.1p1 --arm
  */
-u16 func_020437DC(const struct Bmp *bmp)
+u16 BMP_GetWidth(const struct Bmp *bmp)
 {
     return bmp->width;
 }
@@ -755,9 +755,9 @@ u16 func_020437DC(const struct Bmp *bmp)
  * that its callers have a `matched` witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020437E4.c  *       --func func_020437E4 --addr 0x020437E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_GetHeight.c  *       --func BMP_GetHeight --addr 0x020437E4 --cc 1.1p1 --arm
  */
-u16 func_020437E4(const struct Bmp *bmp)
+u16 BMP_GetHeight(const struct Bmp *bmp)
 {
     return bmp->height;
 }
@@ -771,9 +771,9 @@ u16 func_020437E4(const struct Bmp *bmp)
  * that its callers have a `matched` witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020437EC.c  *       --func func_020437EC --addr 0x020437EC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_GetByteSize.c  *       --func BMP_GetByteSize --addr 0x020437EC --cc 1.1p1 --arm
  */
-u32 func_020437EC(const struct Bmp *bmp)
+u32 BMP_GetByteSize(const struct Bmp *bmp)
 {
     return bmp->tileBytes * ((bmp->width / 8) * bmp->height / 8);
 }
@@ -782,21 +782,21 @@ u32 func_020437EC(const struct Bmp *bmp)
 
 /*
  * TU: bmp.c.  Copy one bitmap's pixels over another's, clipped to whichever
- * of the two buffers is smaller.  Both sizes come from func_020437EC rather
+ * of the two buffers is smaller.  Both sizes come from BMP_GetByteSize rather
  * than from the descriptors directly, and the comparison is unsigned
  * (`movlo`), so the sizes are u32.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02043814.c \
- *       --func func_02043814 --addr 0x02043814 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BMP_CopyPixels.c \
+ *       --func BMP_CopyPixels --addr 0x02043814 --cc 1.1p1 --arm
  */
-void func_02043814(const struct Bmp *src, struct Bmp *dst)
+void BMP_CopyPixels(const struct Bmp *src, struct Bmp *dst)
 {
     u32 copySize;
     u32 dstSize;
 
-    copySize = func_020437EC(src);
-    dstSize = func_020437EC(dst);
+    copySize = BMP_GetByteSize(src);
+    dstSize = BMP_GetByteSize(dst);
 
     if (dstSize < copySize)
         copySize = dstSize;
@@ -839,14 +839,14 @@ void func_02043814(const struct Bmp *src, struct Bmp *dst)
  *   python tools/match.py tu --src src/matched/unit_0204384C.c \
  *       --addr 0x0204384C --cc 1.1p1 --arm
  */
-struct Bmp *func_0204384C(u32 arcId, u32 memberId, u32 compressed, u32 heapId)
+struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 heapId)
 {
     struct Bmp *bmp;
     void       *resource;
     struct CharData *charData;
 
     bmp = (struct Bmp *)func_02030734(heapId, sizeof(struct Bmp), 0, bmp_File, 266);
-    resource = (void *)func_0204A1BC(arcId, memberId, compressed, (u16)((heapId & 0x7FFF) | 0x8000));
+    resource = (void *)ARC_UTIL_LoadMember(arcId, memberId, compressed, (u16)((heapId & 0x7FFF) | 0x8000));
     if (func_02062A4C(resource, &charData) == 0) {
         OS_Terminate();
         return 0;
@@ -962,9 +962,9 @@ u8 BMP_GetTileBytes(struct Bmp *bmp)
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/BMP_Blit.c \
- *       --func func_020439A0 --addr 0x020439A0 --cc 1.1p1 --arm
+ *       --func BMP_Blit --addr 0x020439A0 --cc 1.1p1 --arm
  */
-void func_020439A0(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY,
+void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY,
                    int dstX, int dstY, u32 w, u32 h, u16 colorKey)
 {
     if (src->tileBytes != dst->tileBytes) {
@@ -1050,9 +1050,9 @@ void BMP_BlitPaletteOffset(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY,
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/BMP_FillRect.c \
- *       --func func_02043AF4 --addr 0x02043AF4 --cc 1.1p1 --arm
+ *       --func BMP_FillRect --addr 0x02043AF4 --cc 1.1p1 --arm
  */
-void func_02043AF4(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value)
+void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value)
 {
     if (bmp->storage != BMP_STORAGE_VRAM) {
         if (bmp->tileBytes == BMP_TILE_BYTES_4BPP) {
@@ -1190,7 +1190,7 @@ void BMP_Blit4bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX
 /*
  * bmp.c blit worker, 8bpp tiled source onto an 8bpp tiled destination,
  * byte stores, optional colour key (0xFFFF = none).  Reached from the blit
- * dispatcher func_020439A0's first arm (destination not in VRAM), which passes all nine
+ * dispatcher BMP_Blit's first arm (destination not in VRAM), which passes all nine
  * arguments wide; the key is ldrh'd off the stack here, so it is u16 on
  * this side.
  *
@@ -1339,7 +1339,7 @@ void BMP_Blit4bppTo8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s3
  * bmp.c blit worker, 4bpp tiled source onto a 4bpp tiled destination that
  * is written a HALFWORD at a time (BMP_FillRect4bppVram's read-modify-write
  * store), with an optional colour key (0xFFFF = none).  Reached from the
- * blit dispatcher func_020439A0's VRAM-destination arm, whose shift pairs give
+ * blit dispatcher BMP_Blit's VRAM-destination arm, whose shift pairs give
  * the narrow parameter types (x, y, w, h u16; dx, dy s16); the key is
  * loaded with ldrh here, so it is u16 on this side.  The plain and keyed
  * loops are written out in full, each with its OWN pair of tile-row
@@ -1438,7 +1438,7 @@ void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
  * store covers it and the byte before, both taken from the source pair
  * ending at the source pixel; otherwise the source pair starting at it.
  * Optional colour key (0xFFFF = none), compared against the source byte.
- * Reached from func_020439A0's VRAM-destination arm (x, y, w, h u16; dx, dy s16;
+ * Reached from BMP_Blit's VRAM-destination arm (x, y, w, h u16; dx, dy s16;
  * the key is ldrh'd, so u16 here).
  *
  * The same four levers as BMP_Blit4bppToVram, all measured:
@@ -1516,7 +1516,7 @@ void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
 
 /*
  * bmp.c fill worker, 4bpp tiled (two pixels per byte), reached from the
- * fill dispatcher func_02043AF4.  Clips right/bottom before the loops and
+ * fill dispatcher BMP_FillRect.  Clips right/bottom before the loops and
  * left/top per pixel (signed cmp/cmpge/blt triple), then merges the
  * nibble: odd x takes the high nibble, even x the low one.
  *
@@ -1571,7 +1571,7 @@ void BMP_FillRect4bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u32 value)
 
 /*
  * bmp.c fill worker (8bpp tiled, one byte per pixel), reached from the
- * fill dispatcher func_02043AF4.  Clips right/bottom against the
+ * fill dispatcher BMP_FillRect.  Clips right/bottom against the
  * descriptor before the loops and left/top per pixel (the signed
  * cmp/cmpge/blt triple), then stores the fill byte at the 8x8-tiled
  * address.  0x02044CE0 and 0x02044EBC are byte-identical twins.
@@ -1615,7 +1615,7 @@ void BMP_FillRect8bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
 /*
  * bmp.c fill worker, 4bpp tiled plotted through a HALFWORD read-modify-
  * write (the pixel's byte is halfword-aligned downward, merged, and the
- * pair stored back with strh).  Reached from func_02043AF4.
+ * pair stored back with strh).  Reached from BMP_FillRect.
  *
  * Levers (2026-09-22, wave 10), each measured:
  *   - the address is the family's single integer sum over (u32)s->pixels
@@ -1718,7 +1718,7 @@ void BMP_FillRect8bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
  * and assigning them in the order h, w, dep, d (height before width) is
  * what gives the image's colouring; declaration order is inert.
  */
-struct Bmp *func_02044F64(struct Bmp *bmp, u32 keepCopy, u16 heapId)
+struct Bmp *BMP_ConvertToLinear(struct Bmp *bmp, u32 keepCopy, u16 heapId)
 {
     struct Bmp *linear;
     s32 index, byteCount;
@@ -1731,7 +1731,7 @@ struct Bmp *func_02044F64(struct Bmp *bmp, u32 keepCopy, u16 heapId)
     widthTiles = bmp->width / 8;
     tileBytes = bmp->tileBytes;
     tileRowBytes = tileBytes / 8;
-    linear = func_02043678(widthTiles, heightTiles, tileBytes, heapId);
+    linear = BMP_Create(widthTiles, heightTiles, tileBytes, heapId);
     byteCount = widthTiles * heightTiles * tileBytes;
     for (index = 0; index < byteCount; index++) {
         s32 pixelRow, rowOffset, tileColumn, byteInTileRow;
@@ -1742,8 +1742,8 @@ struct Bmp *func_02044F64(struct Bmp *bmp, u32 keepCopy, u16 heapId)
         linear->pixels[index] = bmp->pixels[(pixelRow % 8) * tileRowBytes + byteInTileRow + (pixelRow / 8 * widthTiles + tileColumn) * tileBytes];
     }
     if (keepCopy == 0) {
-        func_02043814(linear, bmp);
-        func_020437AC(linear);
+        BMP_CopyPixels(linear, bmp);
+        BMP_Delete(linear);
         linear = 0;
     }
     return linear;
@@ -1891,7 +1891,7 @@ struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 he
  * The constructor shared by BMP_WIN_Create and BMP_WIN_CreateAt: build the
  * sixteen-byte descriptor for one BG layer on the subsystem heap recorded by
  * BMP_WIN_Init, fill in its geometry, and attach the tile buffer
- * func_02043678 hands back.
+ * BMP_Create hands back.
  *
  *   +0x00  u16  two bitfields: a 15-bit tag set to 0x7fb2, and the 8bpp
  *               flag in bit 15
@@ -1914,7 +1914,7 @@ struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 he
  * The width parameter is u8, not u32: assigning a u32 to the two u8 width
  * fields makes the compiler materialise `(u8)width` once with `and #0xff`
  * and store that register twice, where the original stores the incoming
- * register directly.  Same for the width argument of func_02043678.
+ * register directly.  Same for the width argument of BMP_Create.
  *
  * The 0xffff8000 mask is materialised as `sub r0, fp, #0x8000` off the
  * register already holding the allocator's zero third argument, the
@@ -1946,7 +1946,7 @@ struct BmpWin *BMP_WIN_Alloc(u32 bgLayer, u32 posX, u32 posY,
     win->charOffset = charOffset;
     win->is8bpp = is8bpp;
 
-    win->bmp = func_02043678(width, height, tileBytes, *sBmpWinHeapRecord);
+    win->bmp = BMP_Create(width, height, tileBytes, *sBmpWinHeapRecord);
     return win;
 }
 
@@ -1996,7 +1996,7 @@ u32 BMP_WIN_Delete(struct BmpWin *win)
         charCount = (win->width * win->height) * 2;
     }
     sub_0203FB44(win->bgLayer, win->charOffset, charCount * 32);
-    func_020437AC(win->bmp);
+    BMP_Delete(win->bmp);
     return func_020307B0(win);
 }
 
@@ -2035,7 +2035,7 @@ void BMP_WIN_TransferChars(struct BmpWin *win)
     u32 byteCount;
 
     byteCount = (win->width * win->height) * sub_020416B8(win->bgLayer);
-    sub_02040B1C(win->bgLayer, func_020437D4(win->bmp), byteCount, win->charOffset);
+    sub_02040B1C(win->bgLayer, BMP_GetPixels(win->bmp), byteCount, win->charOffset);
 }
 
 
@@ -2538,7 +2538,7 @@ struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId)
  *
  * The 0x020A7E7C ABS32 sits in this function's own pool (0x020458F4, inside
  * the compared range) and resolves off the `literal` class: the same word is
- * in the pools of the already-matched func_02045924, func_02045994 and
+ * in the pools of the already-matched STRBUF_SetString, STRBUF_SetStringN and
  * STRBUF_SetEosChar.
  *
  * Verified with:
@@ -2613,10 +2613,10 @@ void STRBUF_Truncate(struct Strbuf *strbuf, u32 newLength)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045924.c \
- *       --func func_02045924 --addr 0x02045924 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_SetString.c \
+ *       --func STRBUF_SetString --addr 0x02045924 --cc 1.1p1 --arm
  */
-void func_02045924(struct Strbuf *strbuf, const u16 *srcChars)
+void STRBUF_SetString(struct Strbuf *strbuf, const u16 *srcChars)
 {
     strbuf->length = 0;
     while (*srcChars != sStrbufStatics.eosChar) {
@@ -2641,10 +2641,10 @@ void func_02045924(struct Strbuf *strbuf, const u16 *srcChars)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045994.c \
- *       --func func_02045994 --addr 0x02045994 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/STRBUF_SetStringN.c \
+ *       --func STRBUF_SetStringN --addr 0x02045994 --cc 1.1p1 --arm
  */
-void func_02045994(struct Strbuf *strbuf, const u16 *srcChars, u32 charCount)
+void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *srcChars, u32 charCount)
 {
     u32 index;
 
@@ -2765,10 +2765,10 @@ u16 *STRBUF_GetChars(struct Strbuf *strbuf)
  * referring sites, none of them this 16-byte range.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02045A98.c \
- *       --func func_02045A98 --addr 0x02045A98 --cc 1.1p1 --arm --region arm9
+ *   python tools/match.py one --src src/matched/STRBUF_GetEosChar.c \
+ *       --func STRBUF_GetEosChar --addr 0x02045A98 --cc 1.1p1 --arm --region arm9
  */
-u16 func_02045A98(void)
+u16 STRBUF_GetEosChar(void)
 {
     return sStrbufStatics.eosChar;
 }

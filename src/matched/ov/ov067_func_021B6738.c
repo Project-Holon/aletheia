@@ -1,5 +1,5 @@
 /*
- * function: func_021B6738
+ * function: TOUCHBAR_LoadCharToBg
  * address:  0x021B6738
  * packet:   pkt_ov067_021B6738
  * region:   ov067
@@ -20,7 +20,7 @@
  * k3 * k2 and `arr[i] + (u16)a3` each cost a copy or swapped the loads.
  *
  * symbols:
- *   func_0204A380  0x0204A380  arm
+ *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   func_02062B30  0x02062B30  arm
  *   func_0204169C  0x0204169C  arm
  *   func_0204162C  0x0204162C  arm
@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
+extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern int func_02062B30(void *file, void **out);
 extern u8 func_0204169C(int channel);
 extern u32 func_0204162C(int channel);
@@ -43,7 +43,7 @@ extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u8 a);
 extern u32 func_020307B0(void *p);
 
-void func_021B6738(u32 a0, u32 a1, u32 a2, u32 a3,
+void TOUCHBAR_LoadCharToBg(u32 a0, u32 a1, u32 a2, u32 a3,
                    u8 k0, u8 k1, u8 k2, u8 k3, u8 k4, u8 k5, u8 k6, u8 k7,
                    u8 k8, u32 k9, u16 k10)
 {
@@ -52,7 +52,7 @@ void func_021B6738(u32 a0, u32 a1, u32 a2, u32 a3,
     int i;
     u16 *arr;
 
-    h = func_0204A380((void *)a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
+    h = ARC_UTIL_LoadHandleMember((void *)a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
     func_02062B30(h, (void **)(&out));
     if (a3 != 0) {
         if (func_0204169C((u8)a2) == 0) {

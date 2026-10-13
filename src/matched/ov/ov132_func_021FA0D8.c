@@ -11,16 +11,16 @@
  * note 2026-10-05: needs per-function opt_common_subs off (the original does not share
  * idx*8 between the record stores and the call argument; without the pragma only
  * the rec/off register pair is swapped). Callee func_021FA3A8 takes (p, rec, type).
- * Caller passes q as a pointer: field 0x14 is a byte table read by func_0215725C.
+ * Caller passes q as a pointer: field 0x14 is a byte table read by MUSICAL_PROGRAM_GetCategoryBonus.
  * symbols:
- *   func_0215725C 0x0215725C thumb ov010
+ *   MUSICAL_PROGRAM_GetCategoryBonus 0x0215725C thumb ov010
  *   func_02005728 0x02005728 thumb
  *   func_021FA3A8 0x021FA3A8 thumb ov132
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_0215725C(u8 *, int);
+extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
 extern u32 func_02005728(u32 range);
 extern void func_021FA3A8(char *, u8 *, unsigned);
 #pragma opt_common_subs off
@@ -37,7 +37,7 @@ void func_021FA0D8(char *p, char *q)
     int off;
     u8 *rec;
     for (i = 0; i < 4; i++) {
-        b[i] = func_0215725C(*(u8 **)(q + 0x14), i);
+        b[i] = MUSICAL_PROGRAM_GetCategoryBonus(*(u8 **)(q + 0x14), i);
         sum = sum + b[i];
     }
     for (i = 0; i < 4; i++) {

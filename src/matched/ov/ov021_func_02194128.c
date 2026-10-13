@@ -1,5 +1,5 @@
 /*
- * function: func_02194128
+ * function: FIELD_WFBC_BLOCK_BuildGrid
  * address:  0x02194128
  * packet:   pkt_ov021_02194128
  * region:   ov021
@@ -13,10 +13,10 @@
  *   _u32_div_f     0x0209C2B0  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   _ull_mul       0x0209C054  arm
- *   func_02194014  0x02194014  thumb  ov021
+ *   FIELD_WFBC_BLOCK_SetCell  0x02194014  thumb  ov021
  *
  * Seeds a NitroSDK MATHRandContext32 at the head of e (MATH_InitRand32
- * inline) and fills an 8x8 grid of 4-byte cells through func_02194014.
+ * inline) and fills an 8x8 grid of 4-byte cells through FIELD_WFBC_BLOCK_SetCell.
  * Spill-slot order (u64 max temp at the top, then row, j, d, k) needs the
  * explicit locals in this declaration order; the index `r += k * 8` must be
  * folded into r before the call or the tail's loads schedule differently.
@@ -70,9 +70,9 @@ typedef struct {
     u32 seed;
 } E;
 
-extern void func_02194014(u8 *out, int i, int j, P t, u16 c);
+extern void FIELD_WFBC_BLOCK_SetCell(u8 *out, int i, int j, P t, u16 c);
 
-void func_02194128(E *e, T *tbl, u8 *out)
+void FIELD_WFBC_BLOCK_BuildGrid(E *e, T *tbl, u8 *out)
 {
     P t;
     u32 mx;
@@ -95,7 +95,7 @@ void func_02194128(E *e, T *tbl, u8 *out)
                 continue;
             }
             if (t.lo != 0 || t.hi != 0) {
-                func_02194014(out, i, j, t, *(u16 *)(out + (j - t.hi) * 0x20 + (i - t.lo) * 4 + 2));
+                FIELD_WFBC_BLOCK_SetCell(out, i, j, t, *(u16 *)(out + (j - t.hi) * 0x20 + (i - t.lo) * 4 + 2));
             } else {
                 dx = i - t.lo;
                 dy = j - t.hi;
@@ -107,7 +107,7 @@ void func_02194128(E *e, T *tbl, u8 *out)
                     r = 7;
                 }
                 r += k * 8;
-                func_02194014(out, i, j, t, tbl->vals[d][r]);
+                FIELD_WFBC_BLOCK_SetCell(out, i, j, t, tbl->vals[d][r]);
             }
         }
     }

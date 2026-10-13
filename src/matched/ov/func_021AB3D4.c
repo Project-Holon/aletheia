@@ -1,5 +1,5 @@
 /*
- * function: func_021AB3D4
+ * function: MAP_ATTR_IsPuddle
  * address:  0x021AB3D4
  * packet:   pkt_021AB3D4
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int func_021AB3D4(int x)
+int MAP_ATTR_IsPuddle(int x)
 {
     return x == 0x2;
 }

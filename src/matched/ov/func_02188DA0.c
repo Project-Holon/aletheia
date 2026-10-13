@@ -1,5 +1,5 @@
 /*
- * function: func_02188DA0
+ * function: FIELDMAP_SetBgMode
  * address:  0x02188DA0
  * packet:   pkt_02188DA0
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 struct DispConfig;
 extern void func_0203FC28(struct DispConfig *cfg);
 
-void func_02188DA0(void)
+void FIELDMAP_SetBgMode(void)
 {
     func_0203FC28((struct DispConfig *)0x021D35F4);
 }

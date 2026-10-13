@@ -20,11 +20,11 @@
  * however they are written.  Cutting in front of them leaves these five
  * clean.
  *
- * func_02019B58 reaches func_020185F0, which src/matched/unit_020185F0.c
+ * func_02019B58 reaches POKE_TOOL_Dummy, which src/matched/unit_020185F0.c
  * proves is an empty `bx lr`, and then calls func_02019B64 with whatever r0
  * holds, with no register saved across the first call.  That only compiles
- * from a declaration in which func_020185F0 returns a value, so this unit
- * declares it `void *func_020185F0(void)` and passes the result straight on;
+ * from a declaration in which POKE_TOOL_Dummy returns a value, so this unit
+ * declares it `void *POKE_TOOL_Dummy(void)` and passes the result straight on;
  * declaring it `void` the way unit_020185F0.c does forces a callee-saved
  * register and a four byte longer prologue.  The two declarations disagree,
  * and the image cannot say which one the original header carried, because an
@@ -51,25 +51,26 @@
  *       --addr 0x02019B58 --thumb
  *
  * symbols:
- *   func_02048F4C  0x02048F4C  arm
- *   gMsgBank       0x020A7370  data
+ *   ARC_TOOL_ReadMember  0x02048F4C  arm
+ *   gSpeciesNameBank       0x020A7370  data
  *   gNameBuf       0x021462F0  data
  *   gExpTableBuf       0x02146398  data
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020185F0(void);
+extern void *POKE_TOOL_Dummy(void);
 extern u32   func_02017E88(void *p, u32 id, u32 v);
 extern void  POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern void  func_02048F4C(void *a, u32 b, u32 c);
+extern void  ARC_TOOL_ReadMember(void *a, u32 b, u32 c);
 
-extern void *gMsgBank;
+extern void *gSpeciesNameBank;
 extern u16   gNameBuf[];
 extern u32   gExpTableBuf[];
 
@@ -78,20 +79,20 @@ void func_02019B94(u32 a, void *b);
 
 void func_02019B58(void *p)
 {
-    func_02019B64(func_020185F0());
+    func_02019B64(POKE_TOOL_Dummy());
 }
 
 void func_02019B64(void *p)
 {
     u32 s = func_02017E88(p, 5, 0);
 
-    MSGDATA_ReadUnits(gMsgBank, s, gNameBuf, 0x20);
+    MSGDATA_ReadUnits(gSpeciesNameBank, s, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(p, 0x74, (u32)gNameBuf);
 }
 
 void func_02019B94(u32 a, void *b)
 {
-    func_02048F4C(b, 0x11, a);
+    ARC_TOOL_ReadMember(b, 0x11, a);
 }
 
 u32 func_02019BA4(u32 a, u32 i)

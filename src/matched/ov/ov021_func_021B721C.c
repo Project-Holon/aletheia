@@ -1,5 +1,5 @@
 /*
- * function: func_021B721C
+ * function: SCRCMD_POKEMON_FLD_RegisterTableValueNumber
  * address:  0x021B721C
  * packet:   pkt_ov021_021B721C
  * region:   ov021
@@ -9,19 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Same func_0204A298 lookup as func_021B72CC; the table is const so its
+ * Same ARC_UTIL_LoadMemberWithSize lookup as SCRCMD_POKEMON_FLD_AddTableValueToPoints; the table is const so its
  * byte load is scheduled ahead of the `str r0,[sp]` that passes &cnt.
  *
  * symbols:
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02158F58  0x02158F58  thumb  ov010
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_02159B10  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0204A298  0x0204A298  arm
+ *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   func_020307B0  0x020307B0  arm
- *   d_021D99D0     0x021D99D0  data   ov021  a1
+ *   sScrcmdTableFileIds     0x021D99D0  data   ov021  a1
  */
 
 typedef unsigned char  u8;
@@ -30,18 +30,18 @@ typedef unsigned int   u32;
 
 struct Ent { u32 k; u32 v; };
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct WordSet;
-extern int func_02158F58(int a0);
-extern void *func_02158F74(void *p);
-extern u16 func_02188C84(u8 *p);
-extern u32 func_02159B10(void *a, void *b);
+extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern u16 FIELDMAP_GetHeapId(u8 *p);
+extern u32 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
+extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern u32 func_020307B0(void *p);
-extern const u8 d_021D99D0[];
+extern const u8 sScrcmdTableFileIds[];
 
-int func_021B721C(u32 a, u32 b)
+int SCRCMD_POKEMON_FLD_RegisterTableValueNumber(u32 a, u32 b)
 {
     void *s;
     u32 v;
@@ -54,14 +54,14 @@ int func_021B721C(u32 a, u32 b)
     u32 cnt;
     u32 i;
 
-    s = func_0215A5F4((void *)b);
-    v = func_02188C84((u8 *)(((u32 *)func_02158F58((int)s))[1]));
-    k = func_02159B10((void *)a, (void *)b);
-    idx = func_02159B10((void *)a, (void *)b);
-    p1 = func_02159B10((void *)a, (void *)b);
-    p2 = func_02159B10((void *)a, (void *)b);
-    t = (u32)func_02158F74(s);
-    arr = (struct Ent *)func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
+    s = SCRCMD_WORK_GetScriptWork((void *)b);
+    v = FIELDMAP_GetHeapId((u8 *)(((u32 *)SCRIPT_WORK_ResetFieldParam((int)s))[1]));
+    k = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    idx = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    p1 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    p2 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
+    t = (u32)SCRIPT_WORK_GetWordSet(s);
+    arr = (struct Ent *)ARC_UTIL_LoadMemberWithSize(0xd0, sScrcmdTableFileIds[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
     cnt >>= 3;
     for (i = 0; i < cnt; i++) {
         if (k == arr[i].k) {

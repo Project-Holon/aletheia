@@ -15,7 +15,7 @@
  *   func_02019D30 0x02019D30 thumb
  *   func_02019D58 0x02019D58 thumb
  *   POKEGRA_GetCbrArcIndex 0x0202D09C thumb
- *   func_0202D0D4 0x0202D0D4 thumb
+ *   POKEGRA_GetPalArcIndex 0x0202D0D4 thumb
  *   POKEGRA_GetCelArcIndex 0x0202D110 thumb
  *   POKEGRA_GetAnmArcIndex 0x0202D144 thumb
  *   POKEGRA_GetMCelArcIndex 0x0202D178 thumb
@@ -30,7 +30,7 @@ extern void *POKE_TOOL_GetBoxParam(void *p);
 extern u32 func_02019D30(u32, u32);
 extern int func_02019D58(u16 a, int b);
 extern int POKEGRA_GetCbrArcIndex(u32,u32,u32,u32,u32,u32,u32);
-extern int func_0202D0D4(u32,u32,u32,u32,u32,u32,u32);
+extern int POKEGRA_GetPalArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int POKEGRA_GetCelArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int POKEGRA_GetAnmArcIndex(u32,u32,u32,u32,u32,u32,u32);
 extern int POKEGRA_GetMCelArcIndex(u32,u32,u32,u32,u32,u32,u32);
@@ -51,7 +51,7 @@ void func_021F5518(u8 *p, u32 *out, u32 k)
     if (k == 1) flag = 1;
     out[0] = 52;
     out[1] = POKEGRA_GetCbrArcIndex(out[0],a,b,c,d,flag,0);
-    out[2] = func_0202D0D4(out[0],a,b,c,d,flag,0);
+    out[2] = POKEGRA_GetPalArcIndex(out[0],a,b,c,d,flag,0);
     out[3] = POKEGRA_GetCelArcIndex(out[0],a,b,c,d,flag,0);
     out[4] = POKEGRA_GetAnmArcIndex(out[0],a,b,c,d,flag,0);
     out[5] = POKEGRA_GetMCelArcIndex(out[0],a,b,c,d,flag,0);

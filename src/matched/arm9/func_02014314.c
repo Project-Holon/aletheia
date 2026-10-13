@@ -1,5 +1,5 @@
 /*
- * function: func_02014314
+ * function: ZONEDATA_SetEventFlag
  * address:  0x02014314
  * packet:   pkt_02014314
  * region:   arm9
@@ -15,7 +15,7 @@
 
 extern unsigned char *ZONEDATA_GetEventFlagAddress(char *a0, unsigned int a1);
 
-void func_02014314(char *a0, int a1)
+void ZONEDATA_SetEventFlag(char *a0, int a1)
 {
     unsigned char *p = ZONEDATA_GetEventFlagAddress(a0, a1);
 

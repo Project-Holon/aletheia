@@ -1,5 +1,5 @@
 /*
- * function: func_021F5800
+ * function: ENCEFF_DrawRipple
  * address:  0x021F5800
  * packet:   pkt_ov078_021F5800
  * region:   ov078
@@ -10,7 +10,7 @@
  * status:   EXACT
  * volatile: G3 geometry FIFO registers 0x04000444-0x04000504, written by the SDK inlines (stores only)
  *
- * Draws the 33 x 25 vertex grid func_021F5698 / func_021F5AFC build as
+ * Draws the 33 x 25 vertex grid ENCEFF_StartRipple / ENCEFF_StartRippleBurst build as
  * quad strips.
  * Levers: the six vertex fields are loaded into locals before the stores
  * (inline loads give an 0x30 frame); j declared before the row pointer
@@ -20,8 +20,8 @@
  * hoists j * 33 unscaled).
  *
  * symbols:
- *   d_021F5BB0     0x021F5BB0  data  a4
- *   d_021F5BD4     0x021F5BD4  data  a4
+ *   gRippleTranslate     0x021F5BB0  data  a4
+ *   gRippleScale     0x021F5BD4  data  a4
  * Addresses are Black-image addresses.
  */
 
@@ -55,8 +55,8 @@ typedef struct {
 #define REG_BEGIN_VTXS     (*(vu32 *)0x04000500)
 #define REG_END_VTXS       (*(vu32 *)0x04000504)
 
-extern const VecFx32 d_021F5BB0;
-extern const VecFx32 d_021F5BD4;
+extern const VecFx32 gRippleTranslate;
+extern const VecFx32 gRippleScale;
 
 static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
 {
@@ -83,7 +83,7 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
     REG_VTX_16 = (u32)(u16)z;
 }
 
-void func_021F5800(VecFx16 *w)
+void ENCEFF_DrawRipple(VecFx16 *w)
 {
     VecFx32 trans;
     VecFx32 scale;
@@ -99,8 +99,8 @@ void func_021F5800(VecFx16 *w)
     REG_SPE_EMI = 0x4210;
     REG_LIGHT_COLOR = 0x7FFF;
     REG_POLYGON_ATTR = 0x001F00C1;
-    trans = d_021F5BB0;
-    scale = d_021F5BD4;
+    trans = gRippleTranslate;
+    scale = gRippleScale;
     G3_Translate(trans.x, trans.y, trans.z);
     G3_Scale(scale.x, scale.y, scale.z);
     for (; j < 0x18; j++) {

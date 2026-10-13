@@ -12,11 +12,11 @@
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021C9374 0x021C9374 thumb ov093
  *   func_021C9384 0x021C9384 thumb ov093
- *   func_021D5B68 0x021D5B68 thumb ov093
+ *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   func_021D5D14 0x021D5D14 thumb ov093
- *   func_021C5A1C 0x021C5A1C thumb ov093
- *   func_021C5A34 0x021C5A34 thumb ov093
- *   func_021C3008 0x021C3008 thumb ov093
+ *   BTL_SERVER_FLOW_PushAbilityPopupIn 0x021C5A1C thumb ov093
+ *   BTL_SERVER_FLOW_PushAbilityPopupOut 0x021C5A34 thumb ov093
+ *   BTL_SERVER_FLOW_TryChangeStatStage 0x021C3008 thumb ov093
  *   func_021C99A0 0x021C99A0 thumb ov093
  */
 #include "../include/Obj00003.h"
@@ -30,11 +30,11 @@ struct Msg;
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021C9374(void *, u8);
 extern int func_021C9384(void *, u8);
-extern int func_021D5B68(void *);
+extern int BTL_POKEPARAM_IsFainted(void *);
 extern int func_021D5D14(s8 *p, int i, int sign);
-extern void func_021C5A1C(u8 *p, u8 *a);
-extern void func_021C5A34(u8 *p, u8 *a);
-extern int func_021C3008(u8 *, u8, u8 *, enum Kind, int, u8, u16, u32, int, u32);
+extern void BTL_SERVER_FLOW_PushAbilityPopupIn(u8 *p, u8 *a);
+extern void BTL_SERVER_FLOW_PushAbilityPopupOut(u8 *p, u8 *a);
+extern int BTL_SERVER_FLOW_TryChangeStatStage(u8 *, u8, u8 *, enum Kind, int, u8, u16, u32, int, u32);
 extern int func_021C99A0(void *w, const struct Msg *m);
 int func_021C9250(u8 *p, const Ent *e, u16 arg)
 {
@@ -50,7 +50,7 @@ int func_021C9250(u8 *p, const Ent *e, u16 arg)
     for (i = 0; i < e->count; i++) {
         if (func_021C9374(p + 0x1ab8, e->ids[i])) {
             b = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
-            if (!func_021D5B68(b)) {
+            if (!BTL_POKEPARAM_IsFainted(b)) {
                 if (func_021D5D14((s8 *)b, (u32)e->kind, e->a)) {
                     f = 1;
                     break;
@@ -58,20 +58,20 @@ int func_021C9250(u8 *p, const Ent *e, u16 arg)
             }
         }
     }
-    if (f && e->flag) func_021C5A1C(p, a);
+    if (f && e->flag) BTL_SERVER_FLOW_PushAbilityPopupIn(p, a);
     m = (const u8 *)e;
     m += 24;
     for (i = 0; i < e->count; i++) {
         if (func_021C9384(p + 0x1ab8, e->ids[i])) {
             b = func_021B9934(((struct Obj00003 *)p)->f8, (u8)e->ids[i]);
-            if (!func_021D5B68(b)) {
-                if (func_021C3008(p, e->index, b, e->kind, e->a, 31, arg, e->value, e->c, e->b == 0)) {
+            if (!BTL_POKEPARAM_IsFainted(b)) {
+                if (BTL_SERVER_FLOW_TryChangeStatStage(p, e->index, b, e->kind, e->a, 31, arg, e->value, e->c, e->b == 0)) {
                     func_021C99A0(p, (const struct Msg *)m);
                     result = 1;
                 }
             }
         }
     }
-    if (f && e->flag) func_021C5A34(p, a);
+    if (f && e->flag) BTL_SERVER_FLOW_PushAbilityPopupOut(p, a);
     return result;
 }

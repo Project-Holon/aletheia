@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F10D8 0x021F10D8 thumb
- *   func_02165CB4 0x02165CB4 thumb ov010
+ *   GAME_BEACON_ACCESSOR_GetResearchTeamRank 0x02165CB4 thumb ov010
  *   PALANM_CopyToSlot 0x020215BC thumb
  */
 #include "../include/Obj00007.h"
@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern u8 func_02165CB4(int a);
+extern u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(int a);
 typedef unsigned int   u32;
 struct PalAnmSlot;
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
@@ -29,7 +29,7 @@ void func_021F10D8(char *this, u8 *p, int a)
     u8 v;
     int k;
 
-    p[3] = func_02165CB4(a);
+    p[3] = GAME_BEACON_ACCESSOR_GetResearchTeamRank(a);
     v = p[3];
     if (v == 0) {
         k = 0x30;

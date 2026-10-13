@@ -1,5 +1,5 @@
 /*
- * function: func_02160F88
+ * function: EVENT_FIELD_PROCLINK_ReturnPokeStatus
  * address:  0x02160F88
  * packet:   pkt_ov010_02160F88
  * region:   ov010
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Leaf after func_02160E08's pool (0x02160F88, no func_ label in the
+ * Leaf after EVENT_FIELD_PROCLINK_CreatePokeStatusParam's pool (0x02160F88, no func_ label in the
  * listing; reached through a pointer, not a bl).
  */
 
@@ -33,7 +33,7 @@ typedef struct Evt {
     u8 kind;            /* 0x12 */
 } Evt;
 
-int func_02160F88(Seq *s, Evt *e)
+int EVENT_FIELD_PROCLINK_ReturnPokeStatus(Seq *s, Evt *e)
 {
     switch (e->kind) {
     case 0:

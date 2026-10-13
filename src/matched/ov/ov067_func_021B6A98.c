@@ -1,5 +1,5 @@
 /*
- * function: func_021B6A98
+ * function: TOUCHBAR_SetEnabledToggle
  * address:  0x021B6A98
  * packet:   pkt_ov067_021B6A98
  * region:   ov067
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  */
 
 typedef unsigned char u8;
@@ -29,9 +29,9 @@ typedef struct S {
 } S;
 
 struct Obj;
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 
-void func_021B6A98(S *p, u32 flag)
+void TOUCHBAR_SetEnabledToggle(S *p, u32 flag)
 {
     p->f04 = flag;
     if (flag) {
@@ -40,13 +40,13 @@ void func_021B6A98(S *p, u32 flag)
         } else if (p->f08 == p->f28) {
             p->f08 = p->f26;
         }
-        func_0204B878(p->f00, p->f08);
+        CLACT_SetActorAnimSeq(p->f00, p->f08);
     } else {
         if (p->f08 == p->f2c) {
             p->f08 = p->f2a;
         } else if (p->f08 == p->f26) {
             p->f08 = p->f28;
         }
-        func_0204B878(p->f00, p->f28);
+        CLACT_SetActorAnimSeq(p->f00, p->f28);
     }
 }

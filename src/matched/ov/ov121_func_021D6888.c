@@ -19,6 +19,7 @@
  *   func_021DA2C8 0x021DA2C8 thumb ov121
  *   func_021DA840 0x021DA840 thumb ov121
  *   func_021DA8AC 0x021DA8AC thumb ov121
+ *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  */
 #include "../include/Obj01402.h"
 typedef unsigned int   u32;
@@ -30,7 +31,7 @@ extern void func_021D9718(u8 *p);
 extern void func_021D972C(char *p);
 extern void func_021D9738(char *p);
 extern void func_021D9238(char *p);
-extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void func_021D9E50(u8 *p);
 extern int func_021DA2C8(u8 *p);
 extern int func_021DA840(void **);
@@ -45,7 +46,7 @@ int func_021D6888(int a, int b, int c, char *p)
         func_021D9738(((struct Obj01402 *)p)->f394);
     }
     func_021D9238(p + 0x138);
-    func_0201C4E4(((struct Obj01402 *)p)->f39C);
+    PRINTSYS_QUE_Main(((struct Obj01402 *)p)->f39C);
     if (((struct Obj01402 *)p)->f284) func_021D9E50(((struct Obj01402 *)p)->f284);
     if (((struct Obj01402 *)p)->f28C) func_021DA2C8(((struct Obj01402 *)p)->f28C);
     if (((struct Obj01402 *)p)->f288) func_021DA2C8(((struct Obj01402 *)p)->f288);

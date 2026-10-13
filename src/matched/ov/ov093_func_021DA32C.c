@@ -1,5 +1,5 @@
 /*
- * function: func_021DA32C
+ * function: HAND_TOKUSEI_DownloadOnMemberIn
  * address:  0x021DA32C
  * packet:   pkt_ov093_021DA32C
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021D775C   0x021D775C  thumb ov093
+ *   BTL_EVENT_GetVar   0x021D775C  thumb ov093
  *   func_021C7D54   0x021C7D54  thumb ov093
  *   func_021C7CF4   0x021C7CF4  thumb ov093
  *   func_021D59B4   0x021D59B4  thumb ov093
@@ -26,7 +26,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern int func_021D775C(int a);
+extern int BTL_EVENT_GetVar(int a);
 extern u8 func_021C7D54(u8 *p, u8 *k, u8 *out);
 extern void *func_021C7CF4(int *p, int i);
 extern int func_021D59B4(u8 *p, int k);
@@ -35,7 +35,7 @@ extern int func_021D59B4(u8 *p, int k);
 extern void *func_021C88A4(char *p, int a, int b);
 extern void func_021C88C8(void *a, void *b);
 
-void func_021DA32C(int a, int b, u8 c)
+void HAND_TOKUSEI_DownloadOnMemberIn(int a, int b, u8 c)
 {
     u8 buf[4];
     u8 n;
@@ -46,7 +46,7 @@ void func_021DA32C(int a, int b, u8 c)
     void *q;
     u8 *p;
 
-    if (c != func_021D775C(2))
+    if (c != BTL_EVENT_GetVar(2))
         return;
     n = func_021C7D54((u8 *)b, (u8 *)c, buf);
     if (n == 0)

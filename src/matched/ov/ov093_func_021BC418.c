@@ -1,5 +1,5 @@
 /*
- * function: func_021BC418
+ * function: BTL_SERVER_FLOW_ProcRotation
  * address:  0x021BC418
  * packet:   pkt_ov093_021BC418
  * region:   ov093
@@ -11,15 +11,15 @@
  *
  * symbols:
  *   func_021B9AEC  0x021B9AEC  thumb  ov093
- *   func_021CD4B0  0x021CD4B0  thumb  ov093
+ *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
  *   func_021B9C50  0x021B9C50  thumb  ov093
- *   func_021D5B68  0x021D5B68  thumb  ov093
- *   func_021C5108  0x021C5108  thumb  ov093
- *   func_021EF948  0x021EF948  thumb  ov093
- *   func_021D62C4  0x021D62C4  thumb  ov093
- *   func_021C5620  0x021C5620  thumb  ov093
- *   func_021D8548  0x021D8548  thumb  ov093
- *   func_021DCFB4  0x021DCFB4  thumb  ov093
+ *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
+ *   BTL_SERVER_FLOW_ProcPokeLeaveField  0x021C5108  thumb  ov093
+ *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
+ *   BTL_SERVER_FLOW_CureSick  0x021C5620  thumb  ov093
+ *   BTL_CALC_EnableAbilityHandlers  0x021D8548  thumb  ov093
+ *   BTL_HANDLER_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
  *   func_021BC4CC  0x021BC4CC  thumb  ov093
  */
 #include "../include/Obj00003.h"
@@ -33,19 +33,19 @@ struct Slot {
 };
 
 extern u8 *func_021B9AEC(u8 *p, int i);
-extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 extern void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2);
-extern int func_021D5B68(void *p);
-extern void func_021C5108(u8 *p, u8 *a, int b);
-extern int func_021EF948(int k);
+extern int BTL_POKEPARAM_IsFainted(void *p);
+extern void BTL_SERVER_FLOW_ProcPokeLeaveField(u8 *p, u8 *a, int b);
+extern int BTL_FIELD_GetStaticSlotObject(int k);
 struct Unk021D62A8;
-extern int func_021D62C4(struct Unk021D62A8 *p, int i);
-extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
-extern void func_021D8548(void *p);
-extern void func_021DCFB4(void *p);
+extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
+extern void BTL_SERVER_FLOW_CureSick(u8 *p, u8 *a, int k, struct Slot *out);
+extern void BTL_CALC_EnableAbilityHandlers(void *p);
+extern void BTL_HANDLER_ITEM_EnablePokeFactors(void *p);
 extern void func_021BC4CC(u8 *p, int a, int b, u8 *c, u8 *d);
 
-void func_021BC418(u8 *p, int a, int b)
+void BTL_SERVER_FLOW_ProcRotation(u8 *p, int a, int b)
 {
     u8 *t;
     u8 *v1;
@@ -57,21 +57,21 @@ void func_021BC418(u8 *p, int a, int b)
     if (b == 0)
         return;
     t = func_021B9AEC(*(u8 * *)&((struct Obj00003 *)p)->f8, a);
-    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x48, a, b);
+    BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x48, a, b);
     func_021B9C50((u8 **)t, b, &v1, &v2);
-    if (func_021D5B68(v1) == 0)
-        func_021C5108(p, v1, 1);
-    if (func_021D5B68(v2) == 0) {
-        if (func_021EF948(2) != 0) {
+    if (BTL_POKEPARAM_IsFainted(v1) == 0)
+        BTL_SERVER_FLOW_ProcPokeLeaveField(p, v1, 1);
+    if (BTL_POKEPARAM_IsFainted(v2) == 0) {
+        if (BTL_FIELD_GetStaticSlotObject(2) != 0) {
             k = 0x20;
-            if (func_021D62C4((struct Unk021D62A8 *)v2, k) != 0)
-                func_021C5620(p, v2, k, 0);
+            if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)v2, k) != 0)
+                BTL_SERVER_FLOW_CureSick(p, v2, k, 0);
             k = 0x1e;
-            if (func_021D62C4((struct Unk021D62A8 *)v2, k) != 0)
-                func_021C5620(p, v2, k, 0);
+            if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)v2, k) != 0)
+                BTL_SERVER_FLOW_CureSick(p, v2, k, 0);
         }
-        func_021D8548(v2);
-        func_021DCFB4(v2);
+        BTL_CALC_EnableAbilityHandlers(v2);
+        BTL_HANDLER_ITEM_EnablePokeFactors(v2);
     }
     func_021BC4CC(p + 0x1ab8, b, a, v2, *(u8 * *)&((struct Obj00003 *)p)->f8);
 }

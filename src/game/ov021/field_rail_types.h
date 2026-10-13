@@ -27,14 +27,14 @@ struct RailManager;
 struct FieldCamera;
 
 /* Called with the manager when the focused work stands on a point or line that
- * has a camera entry (func_021B79F0, func_021B7D68). */
+ * has a camera entry (FIELD_RAIL_UpdateCamera, FIELD_RAIL_UpdateCameraAtLocation). */
 typedef void (*RailCameraFunc)(struct RailManager *manager);
 
-/* Position of a work on a line that has a shape entry (func_021B91F8). */
+/* Position of a work on a line that has a shape entry (FIELD_RAIL_WORK_GetSpotPos). */
 typedef void (*RailLinePosFunc)(struct RailWork *work, VecFx32 *outPos);
 
 /* Hit test of a segment against one line: fills the location and the position
- * of the hit, returns 1 on a hit (func_021B7A84). */
+ * of the hit, returns 1 on a hit (FIELD_RAIL_FindSegmentLocation). */
 typedef int (*RailLineFunc)(int lineIndex, struct RailManager *manager, const VecFx32 *segmentHit,
                             RailLocation *outLocation, VecFx32 *outPos);
 
@@ -163,7 +163,7 @@ typedef struct RailManager {
 } RailManager;
 
 /* Default entries the table lookups return for an index past the end. */
-extern RailCamera d_021D9A0C;
-extern RailLinePos d_021D9A30;
+extern RailCamera gRailDefaultCamera;
+extern RailLinePos gRailDefaultLinePos;
 
 #endif

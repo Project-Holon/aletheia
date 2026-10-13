@@ -1,5 +1,5 @@
 /*
- * function: func_02163F10
+ * function: FLDMMDL_MOVE_UpdateOldGridPos
  * address:  0x02163F10
  * packet:   pkt_02163F10
  * region:   ov010
@@ -10,49 +10,49 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0216D83C  0x0216D83C  thumb  ov010
- *   func_0216D80C  0x0216D80C  thumb  ov010
- *   func_0216D854  0x0216D854  thumb  ov010
- *   func_0216D818  0x0216D818  thumb  ov010
- *   func_0216D86C  0x0216D86C  thumb  ov010
- *   func_0216D824  0x0216D824  thumb  ov010
+ *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
+ *   FLDMMDL_SetGridOldX  0x0216D80C  thumb  ov010
+ *   FLDMMDL_GetGridNowY  0x0216D854  thumb  ov010
+ *   FLDMMDL_SetGridOldY  0x0216D818  thumb  ov010
+ *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
+ *   FLDMMDL_SetGridOldZ  0x0216D824  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D83C(void *p);
-extern int func_0216D80C();
-extern int func_0216D854(void *p);
-extern int func_0216D818();
-extern int func_0216D86C(void *p);
-extern int func_0216D824();
+extern int FLDMMDL_GetGridNowX(void *p);
+extern int FLDMMDL_SetGridOldX();
+extern int FLDMMDL_GetGridNowY(void *p);
+extern int FLDMMDL_SetGridOldY();
+extern int FLDMMDL_GetGridNowZ(void *p);
+extern int FLDMMDL_SetGridOldZ();
 
-int func_02163F10(int a0)
+int FLDMMDL_MOVE_UpdateOldGridPos(int a0)
 {
     int a1;
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0216D83C((void *)a0);
+    a0 = FLDMMDL_GetGridNowX((void *)a0);
 loc_02163F18:
 a1 = a0 + 0;
 a0 = t4 + 0;
-    a0 = func_0216D80C(a0, a1);
+    a0 = FLDMMDL_SetGridOldX(a0, a1);
 loc_02163F20:
 a0 = t4 + 0;
-    a0 = func_0216D854((void *)a0);
+    a0 = FLDMMDL_GetGridNowY((void *)a0);
 loc_02163F26:
 a1 = a0 + 0;
 a0 = t4 + 0;
-    a0 = func_0216D818(a0, a1);
+    a0 = FLDMMDL_SetGridOldY(a0, a1);
 loc_02163F2E:
 a0 = t4 + 0;
-    a0 = func_0216D86C((void *)a0);
+    a0 = FLDMMDL_GetGridNowZ((void *)a0);
 loc_02163F34:
 a1 = a0 + 0;
 a0 = t4 + 0;
-    a0 = func_0216D824(a0, a1);
+    a0 = FLDMMDL_SetGridOldZ(a0, a1);
 loc_02163F3C:
     return a0;}

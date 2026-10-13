@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0218BC10",
+   "name": "FIELD_BUILDMODEL_GetAnimResourceData",
    "address": "0x0218BC10",
    "kind": "game",
    "region": "ov021",

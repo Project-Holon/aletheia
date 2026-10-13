@@ -1,5 +1,5 @@
 /*
- * function: func_021B9E5C
+ * function: BSUBWAY_RECORD_LIST_StateFadeIn
  * address: 0x021B9E5C
  * packet: pkt_ov069_021B9E5C
  * region: ov069
@@ -9,11 +9,11 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020221A4 0x020221A4 thumb
+ *   WIPE_SYS_EndCheck 0x020221A4 thumb
  */
 #include "../include/Obj20656.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_020221A4(void);
-int func_021B9E5C(u8 *p) { if (func_020221A4()) ((struct Obj20656 *)p)->f158=1; return 1; }
+extern u32 WIPE_SYS_EndCheck(void);
+int BSUBWAY_RECORD_LIST_StateFadeIn(u8 *p) { if (WIPE_SYS_EndCheck()) ((struct Obj20656 *)p)->f158=1; return 1; }

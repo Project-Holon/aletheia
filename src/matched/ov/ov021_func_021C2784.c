@@ -1,5 +1,5 @@
 /*
- * function: func_021C2784
+ * function: FLD3D_CI_CaptureTask
  * address:  0x021C2784
  * packet:   pkt_ov021_021C2784
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
-void func_021C2784(void *p, u32 *done)
+void FLD3D_CI_CaptureTask(void *p, u32 *done)
 {
     *(volatile u32 *)0x04000064 = 0x81330010;
     func_02030EAC(p);

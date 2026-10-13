@@ -1,5 +1,5 @@
 /*
- * function: func_0217FD34
+ * function: EVENT_COMM_COMMON_CreateTalkedEvent
  * address:  0x0217FD34
  * packet:   pkt_ov018_0217FD34
  * region:   ov018
@@ -13,8 +13,8 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   func_02082BCC  0x02082BCC  arm
- *   func_0217FDA0  0x0217FDA0  thumb ov018
- *   func_021800A4  0x021800A4  thumb ov018
+ *   EVENT_COMM_COMMON_InitCommonWork  0x0217FDA0  thumb ov018
+ *   EVENT_COMM_COMMON_TalkedEventMain  0x021800A4  thumb ov018
  */
 
 typedef unsigned char u8;
@@ -30,16 +30,16 @@ struct Obj;
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
-void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g);
-int func_021800A4(void);
+void EVENT_COMM_COMMON_InitCommonWork(int a, u8 *b, u8 *c, int d, int e, int f, u16 g);
+int EVENT_COMM_COMMON_TalkedEventMain(void);
 
-void *func_0217FD34(int a, int b, u8 *c, int d, int e, u16 f)
+void *EVENT_COMM_COMMON_CreateTalkedEvent(int a, int b, u8 *c, int d, int e, u16 f)
 {
-    void *r = func_020122C0((void *)a, 0, func_021800A4, 0x9c);
+    void *r = func_020122C0((void *)a, 0, EVENT_COMM_COMMON_TalkedEventMain, 0x9c);
     u8 *q = func_020124E8(r);
 
     func_02082BCC(q, 0, 0x9c);
-    func_0217FDA0(a, (u8 *)((int *)c), q, b, d, e, f);
+    EVENT_COMM_COMMON_InitCommonWork(a, (u8 *)((int *)c), q, b, d, e, f);
     q[0x41] = c[0x11c];
     *(S52 *)(q + 0x44) = *(S52 *)(c + 0x120);
     return r;

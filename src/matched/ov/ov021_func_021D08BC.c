@@ -1,5 +1,5 @@
 /*
- * function: func_021D08BC
+ * function: FLDEFF_BUBBLE_UpdateBubble
  * address:  0x021D08BC
  * packet:   pkt_ov021_021D08BC
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D08B0  0x021D08B0  thumb  ov021
+ *   FLDEFF_BUBBLE_ClearBubble  0x021D08B0  thumb  ov021
  */
 
 typedef unsigned char u8;
@@ -23,14 +23,14 @@ typedef struct Row {
     u32 f8[3];
 } Row;
 
-extern void func_021D08B0(u32 a);
+extern void FLDEFF_BUBBLE_ClearBubble(u32 a);
 
-void func_021D08BC(Row *r, int v)
+void FLDEFF_BUBBLE_UpdateBubble(Row *r, int v)
 {
     if (r->f0 != 0) {
         r->f4 += 0x1000;
         if (r->f4 > v) {
-            func_021D08B0((u32)r);
+            FLDEFF_BUBBLE_ClearBubble((u32)r);
         }
     }
 }

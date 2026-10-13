@@ -1,5 +1,5 @@
 /*
- * function: func_021A9350
+ * function: FIELD_ENCOUNT_SetupParam
  * address:  0x021A9350
  * packet:   pkt_ov021_021A9350
  * region:   ov021
@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02012934  0x02012934  thumb
  *   func_02082BCC  0x02082BCC  arm
  *   func_0200D418  0x0200D418  thumb
@@ -20,12 +20,12 @@
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02017E1C  0x02017E1C  thumb
  *   func_02018598  0x02018598  thumb
- *   func_021A9828  0x021A9828  thumb  ov021
+ *   FIELD_ENCOUNT_ApplyLeadAbility  0x021A9828  thumb  ov021
  *   func_0201296C  0x0201296C  thumb
- *   func_020142E8  0x020142E8  thumb
+ *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   func_0200D58C  0x0200D58C  thumb
  *   func_0201AA50  0x0201AA50  thumb
- *   func_021A9DC8  0x021A9DC8  thumb  ov021
+ *   FIELD_ENCOUNT_RandPercent  0x021A9DC8  thumb  ov021
  *   func_0201AB08  0x0201AB08  thumb
  * Addresses are Black-image addresses.
  */
@@ -66,7 +66,7 @@ struct Big;
 struct BigObj;
 struct Blk38;
 struct Sub0200852CObj;
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_02012934(const struct BigObj *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_0200D418(void *p);
@@ -75,21 +75,21 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u8 func_02018598(void *p);
-extern void func_021A9828(struct Sel *s, u16 d);
+extern void FIELD_ENCOUNT_ApplyLeadAbility(struct Sel *s, u16 d);
 extern u32 func_0201296C(const struct BigObj *p);
-extern u32 func_020142E8(void *bitmap, s32 id);
+extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u32 func_0200D58C(struct Blk38 *p);
 extern u32 func_0201AA50(void *p);
-extern u32 func_021A9DC8(void);
+extern u32 FIELD_ENCOUNT_RandPercent(void);
 extern u32 func_0201AB08(void *p);
 
-void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d)
+void FIELD_ENCOUNT_SetupParam(struct Sel *s, void *a, int b, int c, u16 d)
 {
     void *t;
     void *party;
     void *mon;
 
-    t = func_02012EBC(a);
+    t = GAME_DATA_GetSaveControl(a);
     party = func_02012934(a);
     func_02082BCC(s, 0, 0x2C);
     s->f08 = b;
@@ -108,9 +108,9 @@ void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d)
         s->f1B = func_02017E1C(mon, 10, 0);
         s->f1C = func_02017E1C(mon, 0x6E, 0);
         s->f1D = func_02018598(mon);
-        func_021A9828(s, d);
+        FIELD_ENCOUNT_ApplyLeadAbility(s, d);
     }
-    s->b0 = func_020142E8((void *)func_0201296C(a), 0x960);
+    s->b0 = ZONEDATA_CheckEventFlag((void *)func_0201296C(a), 0x960);
     if (func_0200D58C(func_0200D418(t)) == 0)
         s->b2 = 1;
     if (s->f0C == 2) {
@@ -121,7 +121,7 @@ void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d)
         s->b3 = 1;
     s->b4 = 0;
     s->b5 = 0;
-    if (s->f08 == 1 && (int)func_0201AA50(party) >= 2 && func_021A9DC8() < 0x28)
+    if (s->f08 == 1 && (int)func_0201AA50(party) >= 2 && FIELD_ENCOUNT_RandPercent() < 0x28)
         s->b5 = 1;
     if (s->b15 || s->b2)
         s->f1E = func_02017E1C(func_0201AB28(party, func_0201AB08(party)), 0x9E, 0);

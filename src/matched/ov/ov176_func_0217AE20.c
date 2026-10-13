@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02034AC4 0x02034AC4 arm
  *   ov67_id 0x43 data
@@ -21,10 +21,10 @@
  *   func_021E8A3C 0x021E8A3C thumb ov177
  */
 #include "../include/Obj10694.h"
-extern void func_0203064C(unsigned int,unsigned int,unsigned int);
+extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 typedef unsigned int   u32;
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,unsigned);
 extern int func_02034AC4(signed int);
 extern char ov67_id[],ov177_id[];
@@ -36,8 +36,8 @@ extern int *func_021E8A3C(int a, int b, int c);
 int func_0217AE20(void *a,void *b,void *context)
 {
     char *p;
-    func_0203064C(1,0x4e,0x30200);
-    p=func_0203159C(a,0x34,0x4e);
+    GFL_HEAP_CreateChildHeap(1,0x4e,0x30200);
+    p=PROCSYS_AllocProcWork(a,0x34,0x4e);
     func_02082BCC(p,0,0x34);
     ((struct Obj10694 *)p)->f28=context;
     ((struct Obj10694 *)p)->f0=0x4e;

@@ -1,7 +1,7 @@
 /*
  * file:     mystery_data.c
  * unit:     yes
- * function: sub_02009A34, sub_02009A54, sub_02009A74, sub_02009AE4, sub_02009B3C, sub_02009B80, sub_02009BB8, sub_02009C24, sub_02009CA8, func_02009CB0, func_02009CC0, sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50, sub_02009D9C, sub_02009DA4, sub_02009DB8, sub_02009DE8, sub_02009E40, sub_02009E54, sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0, func_02009EC8, MYSTERY_DATA_GetWorkSize, MYSTERY_DATA_Init, MYSTERY_DATA_IsValidGiftType, MYSTERY_DATA_CheckCardSpace, MYSTERY_DATA_CheckCardExist, MYSTERY_DATA_CloseCardGap, MYSTERY_DATA_GetCardPtr, func_0200A000, MYSTERY_DATA_AddCard, MYSTERY_DATA_DeleteCard, MYSTERY_DATA_HasCardSpace, func_0200A0E4, func_0200A104, func_0200A13C, MYSTERY_DATA_HasAnyCard, MYSTERY_DATA_IsEventFlag, MYSTERY_DATA_SetEventFlag, MYSTERY_DATA_CheckPacketCrc, MYSTERY_DATA_SwapCards, MYSTERY_DATA_SaveStart, MYSTERY_DATA_SaveMain, func_0200A300, func_0200A338, MYSTERY_DATA_GetCardSlotNum, MYSTERY_DATA_IsMainSave, MYSTERY_DATA_Load, MYSTERY_DATA_Unload, MYSTERY_DATA_GetSaveType, MYSTERY_DATA_GetCardMax, MYSTERY_DATA_GetBuffer, MYSTERY_DATA_GetEventFlags, MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer, MYSTERY_DATA_DecryptBuffer, func_0200A53C, func_0200A544, func_0200A5F8, func_0200A604, func_0200A628, func_0200A630, func_0200A640, func_0200A644, func_0200A680, func_0200A6BC, func_0200A6F8, func_0200A714, func_0200A73C, func_0200A750, func_0200A75C, func_0200A768, func_0200A780, func_0200A788, func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0, func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC, func_0200A7F8, func_0200A800, func_0200A81C, func_0200A828, func_0200A834, func_0200A840, func_0200A848, func_0200A864, func_0200A870, func_0200A884, func_0200A890, func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8, func_0200A8D0, func_0200A8E4, func_0200A8F8, func_0200A908, func_0200A930, sub_0200A940, sub_0200A9A4, sub_0200A9D4, func_0200AA00, sub_0200AA68, sub_0200AB04, sub_0200AB24, func_0200AB2C, func_0200AB50, func_0200ABE0, sub_0200AC14, func_0200ACD0, sub_0200AD00, func_0200AD6C, func_0200AD78, func_0200AD7C, func_0200AD8C, func_0200AD94, func_0200AD9C, func_0200ADB4, func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0, func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14, func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8, func_0200AFD4, func_0200B040, func_0200B074, func_0200B078, func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4, func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214, func_0200B254
+ * function: sub_02009A34, sub_02009A54, sub_02009A74, sub_02009AE4, sub_02009B3C, sub_02009B80, sub_02009BB8, sub_02009C24, sub_02009CA8, func_02009CB0, func_02009CC0, sub_02009CE4, sub_02009D08, sub_02009D1C, sub_02009D50, sub_02009D9C, sub_02009DA4, sub_02009DB8, sub_02009DE8, sub_02009E40, sub_02009E54, sub_02009E74, sub_02009E8C, sub_02009EA8, sub_02009EB0, func_02009EC8, MYSTERY_DATA_GetWorkSize, MYSTERY_DATA_Init, MYSTERY_DATA_IsValidGiftType, MYSTERY_DATA_CheckCardSpace, MYSTERY_DATA_CheckCardExist, MYSTERY_DATA_CloseCardGap, MYSTERY_DATA_GetCardPtr, MYSTERY_DATA_GetCard, MYSTERY_DATA_AddCard, MYSTERY_DATA_DeleteCard, MYSTERY_DATA_HasCardSpace, MYSTERY_DATA_IsCardExist, MYSTERY_DATA_IsCardReceived, MYSTERY_DATA_SetCardReceived, MYSTERY_DATA_HasAnyCard, MYSTERY_DATA_IsEventFlag, MYSTERY_DATA_SetEventFlag, MYSTERY_DATA_CheckPacketCrc, MYSTERY_DATA_SwapCards, MYSTERY_DATA_SaveStart, MYSTERY_DATA_SaveMain, MYSTERY_DATA_Create, MYSTERY_DATA_Delete, MYSTERY_DATA_GetCardSlotNum, MYSTERY_DATA_IsMainSave, MYSTERY_DATA_Load, MYSTERY_DATA_Unload, MYSTERY_DATA_GetSaveType, MYSTERY_DATA_GetCardMax, MYSTERY_DATA_GetBuffer, MYSTERY_DATA_GetEventFlags, MYSTERY_DATA_GetCardSlot, MYSTERY_DATA_Encrypt, MYSTERY_DATA_Decrypt, MYSTERY_DATA_EncryptBuffer, MYSTERY_DATA_DecryptBuffer, func_0200A53C, func_0200A544, func_0200A5F8, func_0200A604, func_0200A628, func_0200A630, func_0200A640, func_0200A644, func_0200A680, func_0200A6BC, func_0200A6F8, func_0200A714, func_0200A73C, func_0200A750, func_0200A75C, func_0200A768, func_0200A780, func_0200A788, func_0200A7A0, func_0200A7AC, func_0200A7B8, func_0200A7C0, func_0200A7C8, func_0200A7D4, func_0200A7E0, func_0200A7EC, func_0200A7F8, func_0200A800, func_0200A81C, func_0200A828, func_0200A834, func_0200A840, func_0200A848, func_0200A864, func_0200A870, func_0200A884, func_0200A890, func_0200A898, func_0200A8A0, func_0200A8AC, func_0200A8C8, func_0200A8D0, func_0200A8E4, func_0200A8F8, func_0200A908, func_0200A930, sub_0200A940, sub_0200A9A4, sub_0200A9D4, func_0200AA00, sub_0200AA68, sub_0200AB04, sub_0200AB24, func_0200AB2C, func_0200AB50, func_0200ABE0, sub_0200AC14, func_0200ACD0, sub_0200AD00, func_0200AD6C, func_0200AD78, func_0200AD7C, func_0200AD8C, func_0200AD94, func_0200AD9C, func_0200ADB4, func_0200ADB8, func_0200ADD0, func_0200ADD8, func_0200ADE0, func_0200ADE8, func_0200ADF0, func_0200AE08, func_0200AE14, func_0200AE18, func_0200AE3C, func_0200AE54, func_0200AEE8, func_0200AFD4, func_0200B040, func_0200B074, func_0200B078, func_0200B110, func_0200B1A8, func_0200B1C4, func_0200B1D4, func_0200B1E0, func_0200B1F8, func_0200B204, func_0200B214, func_0200B254
  * address:  0x02009A34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -34,9 +34,9 @@
  *   ov_id_E4       0x000000E4  data
  *   func_021DFDB8  0x021DFDB8  thumb  ov228
  *   func_02034A5C  0x02034A5C  arm
- *   func_02161D98    0x02161D98  thumb  ov010
- *   func_02161EEC    0x02161EEC  thumb  ov010
- *   func_02161F00    0x02161F00  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_InitEventdataSystem    0x02161D98  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_InitIdList    0x02161EEC  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_InitReturnHeader    0x02161F00  thumb  ov010
  *   GFL_USE_GetRandom   0x020056EC  thumb
  *   tbl_020A1B38   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
@@ -54,6 +54,10 @@
  *   WIFILIST_GetFriendInfoField  0x02009864  thumb
  *   WIFILIST_GetFriendInfo  0x020099D4  thumb
  *   WIFILIST_IsFriendDataValid  0x02009A1C  thumb
+ *   GAME_DATA_SaveStart  0x02012DAC  thumb
+ *   GAME_DATA_SaveMain  0x02012DD0  thumb
+ *   STRBUF_Create  0x020457B0  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  */
 
 struct SaveControl;
@@ -153,7 +157,7 @@ struct MysteryDataFooter {
     u16 cryptSeed;
 };
 
-/* The 12-byte handle that func_0200A300 returns. */
+/* The 12-byte handle that MYSTERY_DATA_Create returns. */
 struct MysteryData {
     u8   *buffer;
     u32   saveType;                       /* 1: main save block, 0: extra save */
@@ -345,9 +349,9 @@ extern u32  func_0203F2FC(const void *data, u32 size);
 extern void func_0203F328(void *data, u32 size, u32 key);
 extern void func_0203F37C(void *data, u32 size, u32 key);
 extern void func_021DFDC0(void *extraSave);
-extern int  func_02012DAC(struct GameData *gameData);
+extern int  GAME_DATA_SaveStart(struct GameData *gameData);
 extern int  func_021DFE00(void *extraSave);
-extern int  func_02012DD0(struct GameData *gameData);
+extern int  GAME_DATA_SaveMain(struct GameData *gameData);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32  func_020307B0(void *p);
 extern int  func_02034AC4(int overlayId);
@@ -356,16 +360,16 @@ extern void *func_021DFC20(u32 heapId);
 extern u8   func_021DFE90(u8 *extraSave);
 extern void *func_021DFEAC(u8 *extraSave);
 extern void func_021DFDB8(void *extraSave);
-extern void func_02161D98(char *photo);
-extern void func_02161EEC(u16 *title);
-extern void func_02161F00(void *extraData);
+extern void EVENT_FIELD_PROCLINK_InitEventdataSystem(char *photo);
+extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *title);
+extern void EVENT_FIELD_PROCLINK_InitReturnHeader(void *extraData);
 extern u32  GFL_USE_GetRandom(u32 range);
 extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern u32  func_020173EC(void);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern u32  func_02045C04(struct MsgBank *bank);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u32  MSGDATA_Delete(struct MsgBank *bank);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 struct WifiList *WIFILIST_GetWork(struct WifiList *list);
 u32 WIFILIST_GetFriendInfoField(const struct WifiList *list, u32 i, u32 field);
 struct WifiFriendInfo *WIFILIST_GetFriendInfo(struct WifiList *list, int i);
@@ -403,13 +407,13 @@ int MYSTERY_DATA_CheckCardSpace(struct MysteryData *data);
 int MYSTERY_DATA_CheckCardExist(struct MysteryData *data, u32 slot);
 void MYSTERY_DATA_CloseCardGap(struct MysteryData *data, u32 slot);
 struct MysteryCard *MYSTERY_DATA_GetCardPtr(struct MysteryData *data, u32 slot);
-int func_0200A000(struct MysteryData *data, u32 slot, void *out);
+int MYSTERY_DATA_GetCard(struct MysteryData *data, u32 slot, void *out);
 int MYSTERY_DATA_AddCard(struct MysteryData *data, const void *card);
 void MYSTERY_DATA_DeleteCard(struct MysteryData *data, u32 slot);
 u32 MYSTERY_DATA_HasCardSpace(struct MysteryData *data);
-u32 func_0200A0E4(struct MysteryData *data, u32 slot);
-int func_0200A104(struct MysteryData *data, u32 slot);
-void func_0200A13C(struct MysteryData *data, u32 slot);
+u32 MYSTERY_DATA_IsCardExist(struct MysteryData *data, u32 slot);
+int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, u32 slot);
+void MYSTERY_DATA_SetCardReceived(struct MysteryData *data, u32 slot);
 int MYSTERY_DATA_HasAnyCard(struct MysteryData *data);
 int MYSTERY_DATA_IsEventFlag(struct MysteryData *data, u32 flag);
 void MYSTERY_DATA_SetEventFlag(struct MysteryData *data, u32 flag);
@@ -417,8 +421,8 @@ int MYSTERY_DATA_CheckPacketCrc(struct MysteryGiftPacket *packet);
 void MYSTERY_DATA_SwapCards(struct MysteryData *data, u32 slotA, u32 slotB);
 void MYSTERY_DATA_SaveStart(struct MysteryData *data, struct GameData *gameData);
 int MYSTERY_DATA_SaveMain(struct MysteryData *data, struct GameData *gameData);
-struct MysteryData *func_0200A300(struct SaveControl *save, int mode, u32 heapId);
-void func_0200A338(struct MysteryData *data);
+struct MysteryData *MYSTERY_DATA_Create(struct SaveControl *save, int mode, u32 heapId);
+void MYSTERY_DATA_Delete(struct MysteryData *data);
 u32 MYSTERY_DATA_GetCardSlotNum(struct MysteryData *data);
 int MYSTERY_DATA_IsMainSave(struct MysteryData *data);
 void MYSTERY_DATA_Load(struct MysteryData *data, struct SaveControl *save, int mode, int heapId);
@@ -1116,7 +1120,7 @@ struct MysteryCard *MYSTERY_DATA_GetCardPtr(struct MysteryData *data, u32 slot)
 }
 
 
-int func_0200A000(struct MysteryData *data, u32 slot, void *out)
+int MYSTERY_DATA_GetCard(struct MysteryData *data, u32 slot, void *out)
 {
     struct MysteryCard *card;
     int found = 0;
@@ -1184,10 +1188,10 @@ u32 MYSTERY_DATA_HasCardSpace(struct MysteryData *data)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200A0E4.c \\
- *       --func func_0200A0E4 --addr 0x0200A0E4 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MYSTERY_DATA_IsCardExist.c \\
+ *       --func MYSTERY_DATA_IsCardExist --addr 0x0200A0E4 --thumb --cc 1.1p1
  */
-u32 func_0200A0E4(struct MysteryData *data, u32 slot)
+u32 MYSTERY_DATA_IsCardExist(struct MysteryData *data, u32 slot)
 {
     u32 exists;
 
@@ -1198,7 +1202,7 @@ u32 func_0200A0E4(struct MysteryData *data, u32 slot)
 }
 
 
-int func_0200A104(struct MysteryData *data, u32 slot)
+int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, u32 slot)
 {
     int received = 0;
     u32 max = MYSTERY_DATA_GetCardMax(data);
@@ -1215,10 +1219,10 @@ int func_0200A104(struct MysteryData *data, u32 slot)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0200A13C.c \\
- *       --func func_0200A13C --addr 0x0200A13C --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/matched/MYSTERY_DATA_SetCardReceived.c \\
+ *       --func MYSTERY_DATA_SetCardReceived --addr 0x0200A13C --thumb --cc 1.1p1
  */
-void func_0200A13C(struct MysteryData *data, u32 slot)
+void MYSTERY_DATA_SetCardReceived(struct MysteryData *data, u32 slot)
 {
     u32 max = MYSTERY_DATA_GetCardMax(data);
     struct MysteryCard *card;
@@ -1311,7 +1315,7 @@ void MYSTERY_DATA_SaveStart(struct MysteryData *data, struct GameData *gameData)
     if (MYSTERY_DATA_IsMainSave(data) == 0) {
         func_021DFDC0(data->extraSave);
     } else {
-        func_02012DAC(gameData);
+        GAME_DATA_SaveStart(gameData);
     }
 }
 
@@ -1323,11 +1327,11 @@ int MYSTERY_DATA_SaveMain(struct MysteryData *data, struct GameData *gameData)
             return 2;
         return 0;
     }
-    return func_02012DD0(gameData);
+    return GAME_DATA_SaveMain(gameData);
 }
 
 
-struct MysteryData *func_0200A300(struct SaveControl *save, int mode, u32 heapId)
+struct MysteryData *MYSTERY_DATA_Create(struct SaveControl *save, int mode, u32 heapId)
 {
     struct MysteryData *data = func_02030734(heapId, sizeof(struct MysteryData), 0, sMysteryDataFile, 0x260);
 
@@ -1337,7 +1341,7 @@ struct MysteryData *func_0200A300(struct SaveControl *save, int mode, u32 heapId
 }
 
 
-void func_0200A338(struct MysteryData *data)
+void MYSTERY_DATA_Delete(struct MysteryData *data)
 {
     MYSTERY_DATA_Unload(data);
     func_020307B0(data);
@@ -1348,7 +1352,7 @@ void func_0200A338(struct MysteryData *data)
  * Four bytes of code and a pool word: the plain Thumb tail call of
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  It carries no label in the
  * generated listing (it saves nothing), so it was read out of the bytes; it
- * sits between func_0200A338 and MYSTERY_DATA_IsMainSave at the end of its packet.
+ * sits between MYSTERY_DATA_Delete and MYSTERY_DATA_IsMainSave at the end of its packet.
  * Its target reads one object pointer in r0 and returns the unsigned count
  * used by the overlay callers.
  */
@@ -1997,9 +2001,9 @@ void func_0200A834(struct MusicalSave *musical, u8 value)
  *
  *     void func_0200A848(struct MusicalShot *shot)
  *     {
- *         func_02161D98(&shot->photo);
- *         func_02161EEC(shot->title);
- *         func_02161F00(shot->extraData);
+ *         EVENT_FIELD_PROCLINK_InitEventdataSystem(&shot->photo);
+ *         EVENT_FIELD_PROCLINK_InitIdList(shot->title);
+ *         EVENT_FIELD_PROCLINK_InitReturnHeader(shot->extraData);
  *     }
  *
  * and all three callees live in overlay space.  0x02161D98 is attested by the
@@ -2019,15 +2023,15 @@ u32 func_0200A840(void)
 
 /*
  * note:     wave 16: promoted.  02161EEC is the unlabelled ov010 leaf now
- *           matched in src/matched/func_02161EEC.c (shard ov010/pkt_02161EEC),
+ *           matched in src/matched/EVENT_FIELD_PROCLINK_InitIdList.c (shard ov010/pkt_02161EEC),
  *           which attests the call as `matched, overlay` under the ov010
  *           hint below; 02161F00 resolves as sole-ref/code (overlay).
  */
 void func_0200A848(struct MusicalShot *shot)
 {
-    func_02161D98((char *)&shot->photo);
-    func_02161EEC(shot->title);
-    func_02161F00(shot->extraData);
+    EVENT_FIELD_PROCLINK_InitEventdataSystem((char *)&shot->photo);
+    EVENT_FIELD_PROCLINK_InitIdList(shot->title);
+    EVENT_FIELD_PROCLINK_InitReturnHeader(shot->extraData);
 }
 
 
@@ -2754,13 +2758,13 @@ void func_0200AE18(struct Regulation *rule, void *dest)
 {
     struct MsgBank *bank = func_02045B38(0, 2, 0xA6, 1);
     func_02045CAC(bank, rule->cupNo, dest);
-    func_02045C04(bank);
+    MSGDATA_Delete(bank);
 }
 
 
 void *func_0200AE3C(struct Regulation *rule, u32 heapId)
 {
-    void *name = func_020457B0(0x1A, heapId);
+    void *name = STRBUF_Create(0x1A, heapId);
     func_0200AE18(rule, name);
     return name;
 }

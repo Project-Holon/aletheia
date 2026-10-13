@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0203D1B4  0x0203D1B4  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
- *   func_02012944  0x02012944  thumb
- *   func_02008494  0x02008494  thumb
+ *   GAME_DATA_GetMyStatus  0x02012944  thumb
+ *   MYSTATUS_Copy  0x02008494  thumb
  *
  * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =func_02082D44; movs r2, #0x20; bx r3") that the
  * prologue sweep misses; its start is seeded in layout/function_starts.txt
@@ -32,19 +32,19 @@ typedef struct {
     u8 e : 2;
 } Hdr;
 
-extern int func_0203D1B4(void);
+extern int GFL_NET_GetNegotiationNum(void);
 typedef unsigned int   u32;
 extern u32 GFL_NET_SYSTEM_CheckError(void);
-extern u8 *func_02012944(void *p);
-extern void func_02008494(void *src, void *dst);
+extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void MYSTATUS_Copy(void *src, void *dst);
 
 void INTRUDE_COMM_InitBeacon(int a, Hdr *p, int c)
 {
     p->kind = 2;
-    p->a = func_0203D1B4();
+    p->a = GFL_NET_GetNegotiationNum();
     if (c != -1)
         p->b = c;
     p->c = GFL_NET_SYSTEM_CheckError();
     p->d = 1;
-    func_02008494(func_02012944((void *)a), (char *)p + 8);
+    MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)a), (char *)p + 8);
 }

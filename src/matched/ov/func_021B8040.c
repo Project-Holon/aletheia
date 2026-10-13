@@ -1,5 +1,5 @@
 /*
- * function: func_021B8040
+ * function: FIELD_RAIL_WORK_IsMoving
  * address:  0x021B8040
  * packet:   pkt_021B8038
  * region:   ov021
@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 func_021B8040(u8 *p)
+u8 FIELD_RAIL_WORK_IsMoving(u8 *p)
 {
     return ((struct Obj18103 *)p)->f2C;
 }

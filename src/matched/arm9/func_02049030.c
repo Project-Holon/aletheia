@@ -1,5 +1,5 @@
 /*
- * function: func_02049030
+ * function: ARC_TOOL_GetArchiveFileCount
  * address:  0x02049030
  * packet:   pkt_02049030
  * region:   arm9
@@ -26,7 +26,7 @@ struct FSFile;
 extern int func_02078B44(struct FSFile *file, long offset, int origin);
 extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
 
-u32 func_02049030(u32 a)
+u32 ARC_TOOL_GetArchiveFileCount(u32 a)
 {
     char buf[0x48];
     int off;

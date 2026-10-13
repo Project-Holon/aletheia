@@ -1,5 +1,5 @@
 /*
- * function: func_021AD770
+ * function: FLDEFF_ENCOUNT_CreateKind2
  * address: 0x021AD770
  * packet: pkt_ov021_021AD770
  * region: ov021
@@ -12,16 +12,16 @@
  * Function with no listing label, matched inside src/game/ov021/fldeff_namipoke.c and filed here.
  *
  * symbols:
- *   func_021AD7B4 0x021AD7B4 thumb
+ *   FLDEFF_ENCOUNT_Create 0x021AD7B4 thumb
  */
 
 struct P_021AD3D4;
 typedef unsigned int u32;
 typedef struct P_021AD3D4 { u32 f0; } P_021AD3D4;
-void *func_021AD770(u32 a, int heap);
-P_021AD3D4 *func_021AD7B4(u32 a, int heap, u32 c);
+void *FLDEFF_ENCOUNT_CreateKind2(u32 a, int heap);
+P_021AD3D4 *FLDEFF_ENCOUNT_Create(u32 a, int heap, u32 c);
 
-void *func_021AD770(u32 a, int heap)
+void *FLDEFF_ENCOUNT_CreateKind2(u32 a, int heap)
 {
-    return (void *)func_021AD7B4(a, heap, 2);
+    return (void *)FLDEFF_ENCOUNT_Create(a, heap, 2);
 }

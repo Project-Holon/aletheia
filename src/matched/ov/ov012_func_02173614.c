@@ -1,5 +1,5 @@
 /*
- * function: func_02173614
+ * function: UNION_COMM_RemoveMember
  * address:  0x02173614
  * packet:   pkt_ov012_02173614
  * region:   ov012
@@ -26,7 +26,7 @@ typedef struct {
 extern int memcmp(const void *a, const void *b, int n);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 
-void func_02173614(u8 *self, const u8 *mac)
+void UNION_COMM_RemoveMember(u8 *self, const u8 *mac)
 {
     int i;
     Rec *r;

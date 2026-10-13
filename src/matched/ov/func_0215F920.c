@@ -1,5 +1,5 @@
 /*
- * function: func_0215F920
+ * function: SCRCMD_NETWORK_InitCommBattleOv181Param
  * address:  0x0215F920
  * packet:   pkt_0215F920
  * region:   ov010
@@ -11,7 +11,7 @@
  * blocked:  listing 40 compiled 38
  *
  * symbols:
- *   func_02012EBC  0x02012EBC  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_GetAppliedFlag  0x020083E4  thumb
  */
@@ -24,11 +24,11 @@ typedef unsigned int u32;
 struct Big;
 struct Sub02008700Obj;
 
-extern void *func_02012EBC(struct Big *p);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int CONFIG_GetAppliedFlag(unsigned short *p);
 
-int func_0215F920(int a0)
+int SCRCMD_NETWORK_InitCommBattleOv181Param(int a0)
 {
     int t4;
     void *big;
@@ -45,7 +45,7 @@ a0 = 0;
 loc_0215F930:
 ((struct Obj05853 *)t4)->f28 = a0;
 a0 = ((struct Obj05853 *)t4)->f4;
-    big = func_02012EBC((struct Big *)a0);
+    big = GAME_DATA_GetSaveControl((struct Big *)a0);
 loc_0215F938:
     obj = func_0200873C(big);
 loc_0215F93C:

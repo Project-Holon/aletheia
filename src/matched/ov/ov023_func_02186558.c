@@ -1,5 +1,5 @@
 /*
- * function: func_02186558
+ * function: OEKAKI_GetJoinedBits
  * address:  0x02186558
  * packet:   pkt_02186558
  * region:   ov023
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021841A0  0x021841A0  thumb  ov022
+ *   UNION_APP_GetJoinedBits  0x021841A0  thumb  ov022
  *
  * Unblocked by matching the leaf at 0x021841A0 in ov022: the address is
  * below ov023's own base (0x021841E0) and ov022 is its only coherent code
@@ -19,9 +19,9 @@
 
 typedef unsigned int u32;
 
-unsigned char func_021841A0(unsigned char *p);
+unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 
-int func_02186558(char *p)
+int OEKAKI_GetJoinedBits(char *p)
 {
-    return func_021841A0((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj20368 *)p)->f4));
+    return UNION_APP_GetJoinedBits((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj20368 *)p)->f4));
 }

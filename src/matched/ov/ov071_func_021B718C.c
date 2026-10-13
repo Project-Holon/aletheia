@@ -9,16 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail call to func_02027FD8.
+ * Tail call to APP_TASKMENU_RES_Delete.
  *
  * symbols:
- *   func_02027FD8  0x02027FD8  thumb
+ *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  */
 
 struct TaskMenuState;
 typedef unsigned int   u32;
 void func_021B718C(void *p)
 {
-    u32 func_02027FD8(struct TaskMenuState *s);
-    func_02027FD8(p);
+    u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+    APP_TASKMENU_RES_Delete(p);
 }

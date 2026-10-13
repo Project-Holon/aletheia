@@ -1,5 +1,5 @@
 /*
- * function: func_02159CC4
+ * function: MAP_MATRIX_ApplyReplace
  * address:  0x02159CC4
  * packet:   pkt_ov010_02159CC4
  * region:   ov010
@@ -10,32 +10,32 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159D84  0x02159D84  thumb  ov010
- *   func_02159DC8  0x02159DC8  thumb  ov010
- *   func_02159DCC  0x02159DCC  thumb  ov010
- *   func_02159C68  0x02159C68  thumb  ov010
- *   func_02159DEC  0x02159DEC  thumb  ov010
+ *   MAP_REPLACE_Create  0x02159D84  thumb  ov010
+ *   MAP_REPLACE_GetRecordCount  0x02159DC8  thumb  ov010
+ *   MAP_REPLACE_LoadRecord  0x02159DCC  thumb  ov010
+ *   MAP_MATRIX_ApplyReplaceRecord  0x02159C68  thumb  ov010
+ *   MAP_REPLACE_Delete  0x02159DEC  thumb  ov010
  */
 
 typedef unsigned int u32;
 
 struct Obj;
-extern struct Obj *func_02159D84(int a, int b);
-extern u32 func_02159DC8(void *p);
+extern struct Obj *MAP_REPLACE_Create(int a, int b);
+extern u32 MAP_REPLACE_GetRecordCount(void *p);
 typedef unsigned char  u8;
-extern u32 func_02159DCC(u8 *p, int n);
-extern void func_02159C68(struct Obj *a, int b, int c);
-extern int func_02159DEC(int a0);
+extern u32 MAP_REPLACE_LoadRecord(u8 *p, int n);
+extern void MAP_MATRIX_ApplyReplaceRecord(struct Obj *a, int b, int c);
+extern int MAP_REPLACE_Delete(int a0);
 
-void func_02159CC4(u32 *a, int b, int c)
+void MAP_MATRIX_ApplyReplace(u32 *a, int b, int c)
 {
-    void *l = func_02159D84(c, b);
-    int n = func_02159DC8(l);
+    void *l = MAP_REPLACE_Create(c, b);
+    int n = MAP_REPLACE_GetRecordCount(l);
     int i;
     for (i = 0; i < n; i++) {
-        u32 t = func_02159DCC(l, i);
+        u32 t = MAP_REPLACE_LoadRecord(l, i);
         if (t == a[1])
-            func_02159C68((struct Obj *)a, (int)l, c);
+            MAP_MATRIX_ApplyReplaceRecord((struct Obj *)a, (int)l, c);
     }
-    func_02159DEC((int)l);
+    MAP_REPLACE_Delete((int)l);
 }

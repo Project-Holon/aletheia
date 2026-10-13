@@ -30,21 +30,21 @@
  *
  * symbols:
  *   func_020071E4  0x020071E4  thumb
- *   func_020127A4  0x020127A4  thumb
+ *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   func_02008808  0x02008808  thumb
  *   func_020088B8  0x020088B8  thumb
- *   func_02012964  0x02012964  thumb
+ *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   func_020071CC  0x020071CC  thumb
  *   func_0200EEAC  0x0200EEAC  thumb
- *   func_020127B8  0x020127B8  thumb
+ *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   func_0200BE6C  0x0200BE6C  thumb
- *   func_020127C4  0x020127C4  thumb
+ *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   func_0200A864  0x0200A864  thumb
  *   func_0200A884  0x0200A884  thumb
  *   func_0200B3C8  0x0200B3C8  thumb
  *   func_0200893C  0x0200893C  thumb
  *   func_02008954  0x02008954  thumb
- *   func_0201283C  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009D08  0x02009D08  thumb
  *   func_020097F0  0x020097F0  thumb
  *   func_02008964  0x02008964  thumb
@@ -68,23 +68,23 @@ struct Sub02008828Obj;
 struct Sub02008860Buf;
 struct Sub020097BCObj;
 extern u8 func_020071E4(const struct Sub020071E4Ctrl *ctrl);
-extern void *func_020127A4(struct SaveBlock *p);
+extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern void func_02008808(void *sys, struct Sub020087E8Arg *dest);
 extern void func_020088B8(void *sys, struct Sub02008860Buf *dest);
 struct BigObj;
-extern u32 func_02012964(const struct BigObj *p);
+extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *h, u32 id);
 extern void func_0200EEAC(void *ctx, void *list);
-extern void *func_020127B8(void *p);
+extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
 extern void func_0200BE6C(void *sys, u16 *dest);
-extern u8 *func_020127C4(void *p);
+extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
 extern void *func_0200A864(void *sys);
 extern void func_0200A884(const struct Rec2Head *src, struct Rec2Head *dest);
 extern void func_0200B3C8(void *sys, const struct Rec94 *src);
 extern void func_0200893C(const struct Sub02008828Obj *obj, void *dest);
 extern void func_02008954(const struct Sub02008828Obj *obj, u8 *out);
-extern u32 func_0201283C(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern struct Sub020097BCObj *func_02009D08(void *sys);
 extern void func_020097F0(const struct Sub020097BCObj *src, struct Sub020097BCObj *dest);
 extern void func_02008964(const struct Sub02008828Obj *obj, u8 *out);
@@ -101,16 +101,16 @@ void GAME_DATA_LoadFromSave(u8 *p)
         return;
     }
 
-    v = (u32)func_020127A4((struct SaveBlock *)p);
+    v = (u32)GAME_DATA_GetMyPlayerWork((struct SaveBlock *)p);
     func_02008808((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (struct Sub020087E8Arg *)v);
     func_020088B8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (struct Sub02008860Buf *)v);
 
-    v = func_02012964((const struct BigObj *)p);
+    v = GAME_DATA_GetOccupyInfo((const struct BigObj *)p);
     func_0200EEAC((void *)v, (void *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x29)));
 
-    func_0200BE6C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (u16 *)func_020127B8(p));
+    func_0200BE6C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (u16 *)GAME_DATA_GetLastBattleRecSlot(p));
 
-    v = (u32)func_020127C4(p);
+    v = (u32)GAME_DATA_GetSecondUnionInfo(p);
     func_0200A884(func_0200A864((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Rec2Head *)v);
 
     func_0200B3C8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Rec94 *)(p + 0x5EC));
@@ -119,7 +119,7 @@ void GAME_DATA_LoadFromSave(u8 *p)
     func_0200893C((const struct Sub02008828Obj *)h, (void *)(*(u32 *)&((struct Obj00054 *)p)->f1B8));
     func_02008954((const struct Sub02008828Obj *)h, p + 0x1C4);
 
-    v = func_0201283C((const struct BigObj *)p);
+    v = GAME_DATA_GetWifiList((const struct BigObj *)p);
     func_020097F0(func_02009D08((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Sub020097BCObj *)v);
 
     func_02008964((const struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C), p + 0x1C5);

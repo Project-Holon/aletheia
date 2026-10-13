@@ -9,10 +9,10 @@
  * status: EXACT*
  * note: Two-byte zero alignment padding follows the compiled body.
  * symbols:
- *   func_02017E1C 0x02017E1C thumb
+ *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02017E1C(void *,u32,u32);
-int func_021F6744(void *p) {int r; r=0;if(func_02017E1C(p,170,0)!=1)r=1;return r;}
+extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+int func_021F6744(void *p) {int r; r=0;if(POKE_TOOL_GetPartyValue(p,170,0)!=1)r=1;return r;}

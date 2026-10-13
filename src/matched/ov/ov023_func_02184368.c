@@ -1,5 +1,5 @@
 /*
- * function: func_02184368
+ * function: OEKAKI_RecvSyncMessage
  * address:  0x02184368
  * packet:   pkt_ov023_02184368
  * region:   ov023
@@ -14,13 +14,13 @@
  * r0 for the switch (a struct copy, or a non-const m, reloads it).
  *
  * symbols:
- *   func_02039338  0x02039338  arm
- *   func_021841A4  0x021841A4  thumb  ov022
- *   func_021841A0  0x021841A0  thumb  ov022
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   UNION_APP_GetMemberCount  0x021841A4  thumb  ov022
+ *   UNION_APP_GetJoinedBits  0x021841A0  thumb  ov022
  *   func_02080D24  0x02080D24  arm
- *   func_02184134  0x02184134  thumb  ov022
- *   func_02186860  0x02186860  thumb  ov023
- *   func_02185AB0  0x02185AB0  thumb  ov023
+ *   UNION_APP_Open  0x02184134  thumb  ov022
+ *   OEKAKI_QueueCommand  0x02186860  thumb  ov023
+ *   OEKAKI_HandleEvent  0x02185AB0  thumb  ov023
  * Addresses are Black-image addresses.
  */
 
@@ -45,20 +45,20 @@ typedef struct W {
     u16  h9288;
 } W;
 
-extern u16 func_02039338(void);
-extern int func_021841A4(unsigned char *p);
-extern unsigned char func_021841A0(unsigned char *p);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern int UNION_APP_GetMemberCount(unsigned char *p);
+extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 extern u32 func_02080D24(u32 x);
-extern void func_02184134(u8 *p);
-extern void func_02186860(char *p, int x, int y);
-extern void func_02185AB0(char *p, int msg, int arg);
+extern void UNION_APP_Open(u8 *p);
+extern void OEKAKI_QueueCommand(char *p, int x, int y);
+extern void OEKAKI_HandleEvent(char *p, int msg, int arg);
 
-void func_02184368(int a, int b, const Msg *m, W *p)
+void OEKAKI_RecvSyncMessage(int a, int b, const Msg *m, W *p)
 {
     int k;
 
     if (a != 0) {
-        if (func_02039338() != 0) {
+        if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
             return;
         }
         p->msg.b0 = m->b0;
@@ -69,37 +69,37 @@ void func_02184368(int a, int b, const Msg *m, W *p)
         p->msg.b1 = p->f1ac;
         switch (m->b2) {
         case 0:
-            if (p->f1ac != func_021841A4((unsigned char *)(*p->h4))
-                || p->f1ac != func_02080D24(func_021841A0((unsigned char *)(*p->h4)))) {
+            if (p->f1ac != UNION_APP_GetMemberCount((unsigned char *)(*p->h4))
+                || p->f1ac != func_02080D24(UNION_APP_GetJoinedBits((unsigned char *)(*p->h4)))) {
                 p->msg.b3 = 0;
             } else {
                 p->msg.b3 = 1;
-                func_02184134((u8 *)(*p->h4));
+                UNION_APP_Open((u8 *)(*p->h4));
             }
             break;
         case 1:
             break;
         }
-        func_02186860((char *)p, 0x2905, 0);
+        OEKAKI_QueueCommand((char *)p, 0x2905, 0);
         return;
     }
     switch (m->b2) {
     case 0:
         k = m->b0;
-        if (k != func_02039338()) {
+        if (k != GFL_NET_SYSTEM_GetCurrentAid()) {
             return;
         }
         if (m->b3 == 0) {
-            func_02185AB0((char *)p, 0xb, k);
+            OEKAKI_HandleEvent((char *)p, 0xb, k);
             return;
         }
         p->h9284 = m->b1;
-        func_02185AB0((char *)p, 9, m->b0);
+        OEKAKI_HandleEvent((char *)p, 9, m->b0);
         p->h9288 = 1;
         return;
     case 1:
         if (p->h9288 == 0) {
-            func_02185AB0((char *)p, 0x18, m->b0);
+            OEKAKI_HandleEvent((char *)p, 0x18, m->b0);
         }
         return;
     }

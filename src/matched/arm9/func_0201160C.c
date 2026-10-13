@@ -1,5 +1,5 @@
 /*
- * function: func_0201160C
+ * function: ICA_ANIME_GetFrame
  * address:  0x0201160C
  * packet:   pkt_0201160C
  * region:   arm9
@@ -19,7 +19,7 @@
 
 typedef unsigned int u32;
 
-u32 func_0201160C(struct Obj11245 *p)
+u32 ICA_ANIME_GetFrame(struct Obj11245 *p)
 {
     return p->f10;
 }

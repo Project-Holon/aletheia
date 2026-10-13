@@ -1,5 +1,5 @@
 /*
- * function: func_021860B8
+ * function: FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList
  * address: 0x021860B8
  * packet: pkt_ov020_021860B8
  * region: ov020
@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_02161E78 0x02161E78 thumb ov010
+ *   EVENT_FIELD_PROCLINK_ClearReturnEntry 0x02161E78 thumb ov010
  */
-extern void func_02161E78(void *a0);
-void func_021860B8(char *p) { int i; p += 0xf8; for (i=0;i<10;i++) func_02161E78(p+i*0x18); }
+extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(void *a0);
+void FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList(char *p) { int i; p += 0xf8; for (i=0;i<10;i++) EVENT_FIELD_PROCLINK_ClearReturnEntry(p+i*0x18); }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F3770
+ * function: FIELD_GIMMICK_BSUBWAY_Exit
  * address:  0x021F3770
  * packet:   pkt_ov052_021F3770
  * region:   ov052
@@ -10,42 +10,42 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02188C80  0x02188C80  thumb  ov021
- *   func_020120F4  0x020120F4  thumb
- *   func_02012EC4  0x02012EC4  thumb
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_021F3998  0x021F3998  thumb  ov052
- *   func_0200B3A4  0x0200B3A4  thumb
- *   d_021F3A2C     0x021F3A2C  data  a4
+ *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELD_GIMMICK_BSUBWAY_FindZoneEntry  0x021F3998  thumb  ov052
+ *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   sFieldGimmickBsubwayZoneHandlers     0x021F3A2C  data  a4
  */
 
 #include "../include/G_021F3A2C.h"
 
 struct Ctx;
-extern void *func_02188C80(void *p);
-extern void *func_020120F4(const struct Ctx *p);
+extern void *FIELDMAP_GetGameSystem(void *p);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Big;
-extern unsigned char *func_02012EC4(struct Big *p);
+extern unsigned char *GAME_DATA_GetFieldSave(struct Big *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
-extern u16 func_02188C9C(u8 *p);
-extern void func_021F3998(int, int *, int *);
+extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern void FIELD_GIMMICK_BSUBWAY_FindZoneEntry(int, int *, int *);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Rec94;
-extern s32 *func_0200B3A4(struct Rec94 *p, u32 b);
-extern struct G_021F3A2C d_021F3A2C[];
+extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
+extern struct G_021F3A2C sFieldGimmickBsubwayZoneHandlers[];
 
-void func_021F3770(void *a)
+void FIELD_GIMMICK_BSUBWAY_Exit(void *a)
 {
     int s1;
     int s0;
     unsigned h;
 
-    h = (unsigned int)func_02012EC4((struct Big *)func_020120F4(func_02188C80(a)));
-    func_021F3998(func_02188C9C(a), &s0, &s1);
-    if (d_021F3A2C[s1].f2) {
-        void *p = func_0200B3A4((struct Rec94 *)h, s0);
-        d_021F3A2C[s1].f2(p, a);
+    h = (unsigned int)GAME_DATA_GetFieldSave((struct Big *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a)));
+    FIELD_GIMMICK_BSUBWAY_FindZoneEntry(FIELDMAP_GetZoneId(a), &s0, &s1);
+    if (sFieldGimmickBsubwayZoneHandlers[s1].f2) {
+        void *p = GIMMICK_WORK_GetSaveArea((struct Rec94 *)h, s0);
+        sFieldGimmickBsubwayZoneHandlers[s1].f2(p, a);
     }
 }

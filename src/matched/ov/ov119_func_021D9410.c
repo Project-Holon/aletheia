@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020399A8  0x020399A8  arm
+ *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *
  * Byte-identical twin of func_021D93D4 (same 12-byte predicate stub).
  */
@@ -18,10 +18,10 @@
 typedef unsigned int u32;
 
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 void func_021D9410(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    if ((u32)func_020399A8() == e)
+    if ((u32)GFL_NET_HANDLE_GetCurrentHandle() == e)
         return;
 }

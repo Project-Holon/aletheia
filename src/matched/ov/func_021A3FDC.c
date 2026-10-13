@@ -1,5 +1,5 @@
 /*
- * function: func_021A3FDC
+ * function: FIELD_PLAYER_CORE_FormStepSlot9Done
  * address:  0x021A3FDC
  * packet:   pkt_021A3FDC
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Calls func_021A3D6C(its own argument 1, 0x9) and returns 0x0.
+ * Calls FIELD_PLAYER_CORE_FinishFormSlotChange(its own argument 1, 0x9) and returns 0x0.
  *
  * symbols:
- *   func_021A3D6C  0x021A3D6C  thumb
+ *   FIELD_PLAYER_CORE_FinishFormSlotChange  0x021A3D6C  thumb
  */
 
 typedef unsigned char  u8;
@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_021A3D6C(u32 a1, u32 a2);
+extern void FIELD_PLAYER_CORE_FinishFormSlotChange(u32 a1, u32 a2);
 
-u32 func_021A3FDC(u32 a1)
+u32 FIELD_PLAYER_CORE_FormStepSlot9Done(u32 a1)
 {
-    func_021A3D6C(a1, 0x9);
+    FIELD_PLAYER_CORE_FinishFormSlotChange(a1, 0x9);
 
     return 0x0;
 }

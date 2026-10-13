@@ -1,5 +1,5 @@
 /*
- * function: func_0203CBAC
+ * function: GFL_NET_StartSession
  * address:  0x0203CBAC
  * packet:   pkt_0203CBAC
  * region:   arm9
@@ -30,7 +30,7 @@
  *   str_020A7CA8   0x020A7CA8  data
  *   str_020A7CB8   0x020A7CB8  data
  *   str_020A7CE8   0x020A7CE8  data
- *   func_0203064C  0x0203064C  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   func_02030734  0x02030734  arm
  *   func_0200F17C  0x0200F17C  thumb
  *   func_02034714  0x02034714  arm
@@ -83,7 +83,7 @@ extern const char str_020A7CB8[];
 extern const char str_020A7CE8[];
 extern struct Singleton gGFLNetMain;
 
-extern void  func_0203064C(u32 a, u32 b, u32 c);
+extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_0200F17C(u32 sel);
 extern void  func_02034714(const char *file, u32 line, const char *msg);
@@ -95,16 +95,16 @@ extern void  GFL_NET_HANDLE_InitWork(struct Sess *s);
 extern void  GFL_NET_COMMAND_Init(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void  GFL_NET_WM_ICON_EasyStart(u32 a, u32 b, u32 c, u32 d);
 
-void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
+void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3)
 {
     struct Sess *s;
     u8 m;
     u32 f;
 
     if (*(u16 *)&gGFLNetMain != 0)
-        func_0203064C(*(u16 *)&gGFLNetMain, req->f56, 0x7800);
+        GFL_HEAP_CreateChildHeap(*(u16 *)&gGFLNetMain, req->f56, 0x7800);
     else
-        func_0203064C(req->f54, req->f56, 0x7800);
+        GFL_HEAP_CreateChildHeap(req->f54, req->f56, 0x7800);
     s = (struct Sess *)func_02030734(req->f56, 0x354, 1, sNetFileName, 0x6a);
     gGFLNetMain.unk_08 = s;
     s->f352 = 1;
@@ -119,16 +119,16 @@ void func_0203CBAC(struct Req *req, u32 a2, u32 a3)
     case 2:
     case 6:
         ((void (*)(u32, u32))(*s->f340))(req->f54, 0);
-        func_0203064C(req->f54, (u16)(req->f58 | 0x8000), req->f48);
+        GFL_HEAP_CreateChildHeap(req->f54, (u16)(req->f58 | 0x8000), req->f48);
         break;
     case 3:
     case 4:
         if (req->f61 > 0x80)
             func_02034714(sNetFileName, 0x84, str_020A7CB8);
         if (*(u16 *)&gGFLNetMain != 0)
-            func_0203064C(*(u16 *)&gGFLNetMain, req->f5a, 0x1b00);
+            GFL_HEAP_CreateChildHeap(*(u16 *)&gGFLNetMain, req->f5a, 0x1b00);
         else
-            func_0203064C(req->f54, req->f5a, 0x1b00);
+            GFL_HEAP_CreateChildHeap(req->f54, req->f5a, 0x1b00);
         break;
     case 0:
     case 5:

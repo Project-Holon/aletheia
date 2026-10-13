@@ -1,5 +1,5 @@
 /*
- * function: func_0203CF10
+ * function: GFL_NET_GetScanResult
  * address:  0x0203CF10
  * packet:   pkt_0203CDD4
  * region:   arm9
@@ -25,8 +25,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0203CF10.c \
- *       --func func_0203CF10 --addr 0x0203CF10 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_GetScanResult.c \
+ *       --func GFL_NET_GetScanResult --addr 0x0203CF10 --cc 1.1p1 --arm
  */
 #include "../include/Obj15974.h"
 
@@ -37,7 +37,7 @@ typedef u32 (*Fn)(u32);
 
 extern void *GFL_NET_GetSession(void);
 
-u32 func_0203CF10(u32 a)
+u32 GFL_NET_GetScanResult(u32 a)
 {
     u8  *p;
     Fn   f;

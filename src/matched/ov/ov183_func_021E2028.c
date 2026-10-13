@@ -11,7 +11,7 @@
  *   d_021E39B4 0x021E39B4 data a4
  *   func_02034714 0x02034714 arm
  *   func_021F9B9C 0x021F9B9C thumb ov186
- *   func_0203159C 0x0203159C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021E214C 0x021E214C thumb ov183
@@ -28,7 +28,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 struct Obj24810;
 extern unsigned func_021F9B9C(struct Obj24810 *p);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
 extern int *func_021FD6D8(int payload, int callback, u32 heap);
 extern void func_021E214C(int *task, int *state, char *p);
@@ -40,7 +40,7 @@ int func_021E2028(struct Obj0203159C *obj,int unused,char *arg)
     char *p;
     int i;
     if (*(int *)&((struct Obj01567 *)arg)->f0>=4) func_02034714(d_021E39B4,0,d_021E39B4);
-    p=func_0203159C(obj,40,func_021F9B9C((struct Obj24810 *)(((struct Obj01567 *)arg)->f10)));
+    p=PROCSYS_AllocProcWork(obj,40,func_021F9B9C((struct Obj24810 *)(((struct Obj01567 *)arg)->f10)));
     func_02082BCC(p,0,40);
     *(char * *)&((struct Obj04580 *)p)->f20=arg;
     ((struct Obj04580 *)p)->f1C=func_021F9B9C((struct Obj24810 *)(((struct Obj01567 *)arg)->f10));

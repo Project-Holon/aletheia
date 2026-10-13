@@ -26,13 +26,13 @@
  *   return in the else.
  * volatile: none.
  * symbols:
- *   func_020200CC 0x020200CC thumb
+ *   BMP_MENULIST_Main 0x020200CC thumb
  *   func_021B97F4 0x021B97F4 thumb ov099
  *   func_021BE2A8 0x021BE2A8 thumb ov099
  *   GFL_NET_STATE_IsFatalError 0x0203CB00 arm
  *   func_021BA8BC 0x021BA8BC thumb ov099
- *   func_0202020C 0x0202020C thumb
- *   func_0201F868 0x0201F868 thumb
+ *   BMP_MENULIST_Delete 0x0202020C thumb
+ *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   func_021B9AE0 0x021B9AE0 thumb ov099
  *   func_021BE900 0x021BE900 thumb ov099
  *   func_020061E4 0x020061E4 thumb
@@ -50,13 +50,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 struct Obj;
-extern s32 func_020200CC(struct Obj *);
+extern s32 BMP_MENULIST_Main(struct Obj *);
 extern u8 func_021B97F4(char *);
 extern void *func_021BE2A8(char *, int);
 extern int GFL_NET_STATE_IsFatalError(void);
 extern int func_021BA8BC(void *);
-extern void func_0202020C(struct Obj *, u16 *, u16 *);
-extern u32 func_0201F868(void *p);
+extern void BMP_MENULIST_Delete(struct Obj *, u16 *, u16 *);
+extern u32 BMP_MENUWORK_Delete(void *p);
 extern void func_021B9AE0(void *, u8 *);
 extern void func_021BE900(char *);
 extern void func_020061E4(u32);
@@ -77,13 +77,13 @@ int func_021C0AEC(char *p, int ret)
     int state;
     int other;
     changed = 0;
-    choice = func_020200CC(*(struct Obj **)(p + 0xbc));
+    choice = BMP_MENULIST_Main(*(struct Obj **)(p + 0xbc));
     n = func_021B97F4(p + 0x274);
     q = func_021BE2A8(p, n);
     if (GFL_NET_STATE_IsFatalError()) {
         *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
-        func_0202020C(*(struct Obj **)(p + 0xbc), 0, 0);
-        func_0201F868(*(void **)(p + 0xb8));
+        BMP_MENULIST_Delete(*(struct Obj **)(p + 0xbc), 0, 0);
+        BMP_MENUWORK_Delete(*(void **)(p + 0xb8));
         if (q)
             func_021B9AE0(p + 0x274, q);
         func_021BE900(p);
@@ -92,7 +92,7 @@ int func_021C0AEC(char *p, int ret)
     switch (choice) {
     case -1:
         if (q == 0) {
-            func_0202020C(*(struct Obj **)(p + 0xbc), 0, 0);
+            BMP_MENULIST_Delete(*(struct Obj **)(p + 0xbc), 0, 0);
             func_021BA874(p, n - 1);
             func_021BAAB8(p, 13, 0);
             *(int *)(p + 0x1cc) = 0x15;
@@ -129,8 +129,8 @@ int func_021C0AEC(char *p, int ret)
     if (changed == 0)
         func_021BA8EC(p);
     *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
-    func_0202020C(*(struct Obj **)(p + 0xbc), 0, 0);
-    func_0201F868(*(void **)(p + 0xb8));
+    BMP_MENULIST_Delete(*(struct Obj **)(p + 0xbc), 0, 0);
+    BMP_MENUWORK_Delete(*(void **)(p + 0xb8));
     if (q)
         func_021B9AE0(p + 0x274, q);
     return ret;

@@ -25,22 +25,22 @@
  *   func_0200AE14  0x0200AE14  thumb
  *   func_0200B078  0x0200B078  thumb
  *   func_0200FB24  0x0200FB24  thumb
- *   func_02012EBC  0x02012EBC  thumb
- *   func_0201A090  0x0201A090  thumb
+ *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
+ *   POKE_REGULATION_CheckParty  0x0201A090  thumb
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   PMSI_PARAM_InitSentence  0x020242A4  thumb
  *   PMSI_PARAM_IsValid  0x020245D4  thumb
  *   func_02025BEC  0x02025BEC  thumb
- *   func_0203064C  0x0203064C  arm
- *   func_0203CD98  0x0203CD98  arm
+ *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
+ *   GFL_NET_GetRunState  0x0203CD98  arm
  *   func_02040588  0x02040588  arm
- *   func_02045808  0x02045808  arm
- *   func_02045A38  0x02045A38  arm
- *   func_02045A98  0x02045A98  arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   STRBUF_ToChars  0x02045A38  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   func_02045B38  0x02045B38  arm
- *   func_02045C04  0x02045C04  arm
+ *   MSGDATA_Delete  0x02045C04  arm
  *   func_02045EC0  0x02045EC0  arm
  *   BUTTON_MAN_ConvertUcs2ToSjis  0x02052274  arm
  *   DWC_RAPCOMMON_CreateSubHeap  0x02156E30  thumb
@@ -184,23 +184,23 @@ struct Rec;
 struct T;
 struct U16Vec;
 extern u32 func_0200FB24(void);
-extern void *func_02012EBC(struct Big *p);
-extern int func_0201A090(void *rules, void *party, u32 *mask);
+extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
 extern int POKE_REGULATION_GetDataSize(void);
 extern unsigned int func_0201AA18(void *list);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void PMSI_PARAM_InitSentence(void *obj, u32 id);
 extern u32 PMSI_PARAM_IsValid(struct T *p, u32 a1);
 extern u32 func_02025BEC(u32 a, u32 b, u32 c);
-extern void func_0203064C(u32 a, u32 b, u32 c);
-extern int func_0203CD98(void);
+extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+extern int GFL_NET_GetRunState(void);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 struct U16Vec;
-extern void func_02045A38(struct U16Vec *a, u16 *dst, unsigned int n);
-extern u16 func_02045A98(void);
+extern void STRBUF_ToChars(struct U16Vec *a, u16 *dst, unsigned int n);
+extern u16 STRBUF_GetEosChar(void);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 func_02045C04(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n);
 extern void DWC_RAPCOMMON_CreateSubHeap(int a, int b, int c, int d);
@@ -463,16 +463,16 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
             bad = 0;
             fresh = 1;
             for (i = 0; i < 8; i++) {
-                if (((u16 *)r)[i] == func_02045A98())
+                if (((u16 *)r)[i] == STRBUF_GetEosChar())
                     fresh = 0;
             }
             if (fresh) {
                 bad++;
                 msg = func_02045B38(0, 2, 0xd2, 0x8057);
                 str = func_02045EC0(msg, 0x8057);
-                func_02045A38(str, (u16 *)r, 8);
-                func_02045808(str);
-                func_02045C04(msg);
+                STRBUF_ToChars(str, (u16 *)r, 8);
+                STRBUF_Delete(str);
+                MSGDATA_Delete(msg);
             }
             if (r[0x1d] != 0 && r[0x1d] != 1) {
                 r[0x1d] = 0;
@@ -492,7 +492,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 bad++;
             }
             if (bad == 0)
-                func_02009EC8(func_02012EBC((struct Big *)(*w18->f08)));
+                func_02009EC8(GAME_DATA_GetSaveControl((struct Big *)(*w18->f08)));
             *state = 0xf;
         }
         flag = 1;
@@ -508,7 +508,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0x10:
         mask = 0;
-        if (func_0201A090((void *)func_0200AE14(obj->f108), w18->f18 + 0xd4, &mask) == 0) {
+        if (POKE_REGULATION_CheckParty((void *)func_0200AE14(obj->f108), w18->f18 + 0xd4, &mask) == 0) {
             *state = 0x11;
         } else {
             obj->fe4++;
@@ -676,7 +676,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         }
         break;
     case 0x23:
-        func_0203064C(1, 0x86, 0x60000);
+        GFL_HEAP_CreateChildHeap(1, 0x86, 0x60000);
         DWC_RAPCOMMON_CreateSubHeap(9, 0x60000, 1000, 0x86);
         DWC_RAPCOMMON_SetHeapTag(0x86);
         func_021DA5B0(obj->f34, 0, 0, 0, 0, 0);
@@ -841,7 +841,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
             i = 1;
         if (i) {
             func_021DA36C(obj->f34);
-            if (func_0200FB24() == 0 && func_0203CD98() != 0)
+            if (func_0200FB24() == 0 && GFL_NET_GetRunState() != 0)
                 DWC_CloseAllConnectionsHard();
             *state = 0xa;
         }

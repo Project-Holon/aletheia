@@ -1,5 +1,5 @@
 /*
- * function: func_021CD6F0
+ * function: BTL_CLIENT_Create
  * address:  0x021CD6F0
  * packet:   pkt_ov093_021CD6F0
  * region:   ov093
@@ -17,18 +17,18 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   d_021F3A88 0x021F3A88 data a4
- *   func_021EEA58 0x021EEA58 thumb ov093
+ *   BTL_ADAPTER_Create 0x021EEA58 thumb ov093
  *   func_021B9AF8 0x021B9AF8 thumb ov093
- *   func_021CDA18 0x021CDA18 thumb ov093
+ *   BTL_CLIENT_StepMain 0x021CDA18 thumb ov093
  *   func_021BA08C 0x021BA08C thumb ov093
- *   func_021D8230 0x021D8230 thumb ov093
+ *   BTL_CLIENT_SET_Clear 0x021D8230 thumb ov093
  *   func_021D3F04 0x021D3F04 thumb ov093
  *   func_021D3D9C 0x021D3D9C thumb ov093
  *   func_021B9FBC 0x021B9FBC thumb ov093
  *   func_021BA820 0x021BA820 thumb ov093
  *   func_02187F00 0x02187F00 thumb ov096
  *   func_021B90F8 0x021B90F8 thumb ov093
- *   func_021EE5E4 0x021EE5E4 thumb ov093
+ *   BTL_REC_CreateBuffer 0x021EE5E4 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,21 +37,21 @@ typedef struct { u8 f0:1,f1:1,f2:1,f3:1,f4:1,f5:1,rest:2; } Flags;
 struct Copy24 { int x[6]; };
 extern u8 d_021F3A88[];
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern void *func_021EEA58(u32, int, u32, u32);
+extern void *BTL_ADAPTER_Create(u32, int, u32, u32);
 extern char *func_021B9AF8(char *, int);
-extern int func_021CDA18(u8 *);
+extern int BTL_CLIENT_StepMain(u8 *);
 struct Q2;
 extern u32 func_021BA08C(struct Q2 *p);
-extern void func_021D8230(u8 *);
+extern void BTL_CLIENT_SET_Clear(u8 *);
 extern void func_021D3F04(u8 *);
 extern void func_021D3D9C(u8 *);
 extern int func_021B9FBC(char *, int);
 extern u32 func_021BA820(int *);
 extern void *func_02187F00(void **, u32, u32, u32, u16);
 extern int func_021B90F8(u8 *);
-extern void *func_021EE5E4(u32);
+extern void *BTL_REC_CreateBuffer(u32);
 
-u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, int g, struct Copy24 *h, u16 heap)
+u8 *BTL_CLIENT_Create(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, int g, struct Copy24 *h, u16 heap)
 {
     u8 *p;
     u32 i;
@@ -63,7 +63,7 @@ u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, in
     p[0x1a6] = idx;
     *(u16 *)(p + 0x19a) = heap;
     p[0x1a7] = e;
-    *(void **)(p + 0x50) = func_021EEA58(d, (u8)idx, flag, heap);
+    *(void **)(p + 0x50) = BTL_ADAPTER_Create(d, (u8)idx, flag, heap);
     *(char **)(p + 0x118) = func_021B9AF8((char *)b, idx);
     *(u8 **)p = a;
     *(u8 **)(p + 4) = b;
@@ -74,7 +74,7 @@ u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, in
     *(int *)(p + 0x54) = 0;
     *(u16 *)(p + 0x19c) = 0;
     *(void **)(p + 0x134) = func_02030734(heap, 0xbc0, 1, (const char *)d_021F3A88, 0x21a);
-    *(void **)(p + 0x28) = (void *)func_021CDA18;
+    *(void **)(p + 0x28) = (void *)BTL_CLIENT_StepMain;
     p[0x1a8] = 0;
     *(int *)(p + 0xa0) = 0;
     ((Flags *)(p + 0x1b2))->f3 = 0;
@@ -90,7 +90,7 @@ u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, in
     ((Flags *)(p + 0x1b2))->f5 = 0;
     *(u32 *)(p + 0x34) = func_021BA08C((struct Q2 *)a);
     p[0x1aa] = f;
-    func_021D8230(p + 0x2c);
+    BTL_CLIENT_SET_Clear(p + 0x2c);
     func_021D3F04(p + 0x18);
     func_021D3D9C(p);
     *(struct Copy24 *)(p + 0xf4) = *h;
@@ -103,7 +103,7 @@ u8 *func_021CD6F0(u8 *a, u8 *b, int c, int d, u16 idx, u16 kind, u8 e, int f, in
     for (i = 0; i < 4; i++)
         p[0x112 + i] = 0;
     if (p[0x1a7] == 0 && func_021B90F8(*(u8 **)p))
-        *(void **)(p + 0x10) = func_021EE5E4(heap);
+        *(void **)(p + 0x10) = BTL_REC_CreateBuffer(heap);
     else
         *(void **)(p + 0x10) = 0;
     return p;

@@ -1,5 +1,5 @@
 /*
- * function: func_02168D30
+ * function: FLD_BTL_INST_TOOL_AddBattleTally
  * address:  0x02168D30
  * packet:   pkt_ov010_02168D30
  * region:   ov010
@@ -15,7 +15,7 @@
  * symbols:
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   _s32_div_f     0x0209C0A4  arm
  */
 
@@ -40,9 +40,9 @@ typedef struct Record {
 
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-void func_02168D30(Record *r, Result *s)
+void FLD_BTL_INST_TOOL_AddBattleTally(Record *r, Result *s)
 {
     void *party;
     int n;
@@ -64,6 +64,6 @@ void func_02168D30(Record *r, Result *s)
     n = func_0201AA18(party);
     sum = 0;
     for (i = 0; i < n; i++)
-        sum += func_02017E1C(func_0201AB28(party, i), 0xA1, 0);
+        sum += POKE_TOOL_GetPartyValue(func_0201AB28(party, i), 0xA1, 0);
     r->f148 += (u16)(s->fb4 * 100 / sum);
 }

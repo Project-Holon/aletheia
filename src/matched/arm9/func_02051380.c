@@ -10,11 +10,14 @@
  * status:   EXACT
  *
  * Tail call with two zero arguments. Filed as the witness for ov094 func_021FA12C.
+ *
+ * symbols:
+ *   PARTICLE_SetupSystem  0x02051230  arm
  */
 
-extern void func_02051230(void *, void *, int, int);
+extern void PARTICLE_SetupSystem(void *, void *, int, int);
 
 void PARTICLE_SetupSystemNoHandlers(void *p, void *r)
 {
-    func_02051230(p, r, 0, 0);
+    PARTICLE_SetupSystem(p, r, 0, 0);
 }

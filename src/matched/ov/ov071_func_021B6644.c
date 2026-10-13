@@ -1,5 +1,5 @@
 /*
- * function: func_021B6644
+ * function: MONOLITH_TOOL_LoadGraphics
  * address:  0x021B6644
  * packet:   pkt_ov071_021B6644
  * region:   ov071
@@ -18,7 +18,7 @@
  *   func_020490F4  0x020490F4  arm
  *   func_0203FA08  0x0203FA08  arm
  *   func_02027634  0x02027634  thumb
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020409B4  0x020409B4  arm
  */
 #include "../include/Obj02419.h"
@@ -37,10 +37,10 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
 extern void func_02027634(void *arc, int id, u32 heap, int base, u32 pal);
-extern void func_02049238(void *a);
+extern void ARC_TOOL_DeleteHandle(void *a);
 extern void func_020409B4(u32 a);
 
-void func_021B6644(void *a, void *b)
+void MONOLITH_TOOL_LoadGraphics(void *a, void *b)
 {
     char *d = (char *)a;
     char *r5 = (char *)b;
@@ -59,7 +59,7 @@ void func_021B6644(void *a, void *b)
     func_02049658(h, 0x1c, 7, (u32)(((struct Obj09885 *)d)->f138), 0x80, 0, 0x61);
     func_02027634(h, 7, 0x61, (int)(((struct Obj09885 *)d)->f138), 0xc);
     PALANM_LoadHandlePaletteToSlot(((struct Obj02419 *)r5)->f0, h, 0x1b, 0x61, 1, 0x20, 0xc0);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     func_020409B4(7);
     func_020409B4(3);
     func_020409B4(7);

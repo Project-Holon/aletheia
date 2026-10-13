@@ -1,5 +1,5 @@
 /*
- * function: func_021D67A8
+ * function: BTL_POKEPARAM_GetLastUsedMoveId
  * address:  0x021D67A8
  * packet:   pkt_021D5440
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D67A8   0x021D67A8  thumb
+ *   BTL_POKEPARAM_GetLastUsedMoveId   0x021D67A8  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0x53; lsls r1, r1, #2; ldrh r0, [r0, r1]; bx lr.
  */
@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021D67A8  movs r1,#0x53; lsls r1,#2; ldrh r0,[r0,r1] */
 struct QL { u8 pad[0x14c]; u16 v; };
-u16 func_021D67A8(struct QL *p) { return p->v; }
+u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p) { return p->v; }
 

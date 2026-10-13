@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0201134C  0x0201134C  thumb
+ *   VM_GetU32  0x0201134C  thumb
  *   func_021FDB20  0x021FDB20  thumb  ov094
  *   func_021F8684  0x021F8684  thumb  ov094
  *   func_021F6F20  0x021F6F20  thumb  ov094
@@ -25,7 +25,7 @@ typedef struct {
 } Ctx;
 
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern void func_021FDB20(Ctx *c);
 extern int func_021F8684(void);
 extern void func_021F6F20(int cam, int a, int b);
@@ -43,12 +43,12 @@ int func_021F9FC0(void *r, Ctx *c)
     int v5;
     int type;
 
-    type = func_0201134C(r);
-    v1 = func_0201134C(r);
-    v2 = func_0201134C(r);
-    v3 = func_0201134C(r);
-    v4 = func_0201134C(r);
-    v5 = func_0201134C(r);
+    type = VM_GetU32(r);
+    v1 = VM_GetU32(r);
+    v2 = VM_GetU32(r);
+    v3 = VM_GetU32(r);
+    v4 = VM_GetU32(r);
+    v5 = VM_GetU32(r);
     func_021FDB20(c);
     switch (type) {
     case 0:

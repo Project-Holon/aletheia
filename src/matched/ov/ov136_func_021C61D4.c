@@ -9,9 +9,9 @@
  * status: EXACT*
  * extent: trailing 021C622E halfword is alignment padding.
  * symbols:
- *   func_020457B0 0x020457B0 arm
- *   func_02045924 0x02045924 arm
- *   func_02045808 0x02045808 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_SetString 0x02045924 arm
+ *   STRBUF_Delete 0x02045808 arm
  *   func_02008F84 0x02008F84 thumb
  *   func_02008F9C 0x02008F9C thumb
  */
@@ -23,23 +23,23 @@ typedef unsigned short u16;
 struct Strbuf;
 struct Sub02008F80Obj;
 struct U16Vec;
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
 extern u8 func_02008F9C(const struct Sub02008F80Obj *obj);
-extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 struct WordSet;
 extern void func_0201EE0C(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 void func_021C61D4(u8 *p, u32 a1)
 {
     void *entry;
     void *text;
     u32 n;
     entry = *(void **)(*(u8 * *)&((struct Obj00127 *)p)->f8 + 0x298 + p[0x1f] * 4);
-    text = func_020457B0(16, 102);
+    text = STRBUF_Create(16, 102);
     func_02008F84(entry);
-    func_02045924(text, (const u16 *)func_02008F84(entry));
+    STRBUF_SetString(text, (const u16 *)func_02008F84(entry));
     n = func_02008F9C(entry);
     func_0201EE0C(((struct Obj23558 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D4, 0, text, n, 1, 2);
-    func_02045808(text);
+    STRBUF_Delete(text);
 }

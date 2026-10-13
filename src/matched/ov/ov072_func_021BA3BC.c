@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3BC
+ * function: TOWNMAP_CursorGetPos
  * address: 0x021BA3BC
  * packet: pkt_ov072_021BA3BC
  * region: ov072
@@ -11,7 +11,7 @@
  * note: trailing two-byte alignment padding.
  */
 #include "../include/Obj13194.h"
-void func_021BA3BC(char *p, int *q) {
+void TOWNMAP_CursorGetPos(char *p, int *q) {
     q[0] = ((struct Obj13194 *)p)->f8;
     q[1] = ((struct Obj13194 *)p)->fA;
 }

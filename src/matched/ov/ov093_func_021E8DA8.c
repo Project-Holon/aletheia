@@ -1,5 +1,5 @@
 /*
- * function: func_021E8DA8
+ * function: BTLV_CORE_BytesEqual
  * address:  0x021E8DA8
  * packet:   pkt_ov093_021E8DA8
  * region:   ov093
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021E8CFC  0x021E8CFC  thumb  ov093
- *   func_021E8D04  0x021E8D04  thumb  ov093
+ *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
+ *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
  */
-extern unsigned char func_021E8CFC(int x);
-extern int func_021E8D04(int x);
+extern unsigned char BTLV_CORE_GetHighByte(int x);
+extern int BTLV_CORE_GetLowByte(int x);
 
-int func_021E8DA8(int x)
+int BTLV_CORE_BytesEqual(int x)
 {
-    if (func_021E8CFC(x) == func_021E8D04(x)) {
+    if (BTLV_CORE_GetHighByte(x) == BTLV_CORE_GetLowByte(x)) {
         return 1;
     }
     return 0;

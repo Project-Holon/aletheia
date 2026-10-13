@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   func_0204B454 0x0204B454 arm
+ *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
 #include "../include/Obj06422.h"
@@ -18,7 +18,7 @@ extern unsigned int TOUCHPANEL_GetPointCont(unsigned int *outA, unsigned int *ou
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
-extern void func_0204B454(struct Actor *actor, struct PtS *out, u16 space);
+extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -27,7 +27,7 @@ void func_021D8C0C(void *p) {
  int x,y; s16 pos[2];
  if(((struct Obj06422 *)p)->fF60!=0) {
  if(TOUCHPANEL_GetPointCont((unsigned int *)(&x),(unsigned int *)(&y))!=0) {
- func_0204B454((struct Actor *)((struct Obj06422 *)p)->fF60,(struct PtS *)((char *)p+0xf6c),1);
+ CLACT_GetActorSurfacePos((struct Actor *)((struct Obj06422 *)p)->fF60,(struct PtS *)((char *)p+0xf6c),1);
  pos[0]=x+((struct Obj06422 *)p)->fF68;
  pos[1]=y+((struct Obj06422 *)p)->fF6A;
  if(pos[1]>150) pos[1]=150;

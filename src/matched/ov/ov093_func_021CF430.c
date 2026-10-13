@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021CF430, func_021CF43C
+ * function: BTL_CLIENT_SetSlotFlag, BTL_CLIENT_GetSlotFlag
  * address: 0x021CF430
  * packet: pkt_ov093_021CF430
  * region: ov093
@@ -13,11 +13,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021CF430(u8 *p, u32 i, u32 v)
+void BTL_CLIENT_SetSlotFlag(u8 *p, u32 i, u32 v)
 {
     (p + i)[0x130] = v;
 }
-u8 func_021CF43C(u8 *p, u32 i)
+u8 BTL_CLIENT_GetSlotFlag(u8 *p, u32 i)
 {
     return (p + i)[0x130];
 }

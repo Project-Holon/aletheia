@@ -14,7 +14,7 @@
  *   func_02053A60   0x02053A60  arm
  *   func_020583CC   0x020583CC  arm
  *
- * Promote-first callee of src/pending/func_020515CC.c (parks lane 2).
+ * Promote-first callee of src/pending/PARTICLE_StartEffectWithCallback.c (parks lane 2).
  * Same shape as its neighbour func_02052634 with two extra steps: the
  * loader takes the address of a twelve-byte zeroed scratch block as its
  * third argument, and a non-null third parameter is called back with the

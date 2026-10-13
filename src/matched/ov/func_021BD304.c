@@ -1,5 +1,5 @@
 /*
- * function: func_021BD304
+ * function: PLACE_NAME_LETTER_GetMotion
  * address:  0x021BD304
  * packet:   pkt_021BCA74
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_021BD304(u8 *p)
+u8 *PLACE_NAME_LETTER_GetMotion(u8 *p)
 {
     return p + 0x10;
 }

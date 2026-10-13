@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0203D650",
+   "name": "GFL_NET_GetUserArg",
    "address": "0x0203D650",
    "kind": "game",
    "region": "arm9",

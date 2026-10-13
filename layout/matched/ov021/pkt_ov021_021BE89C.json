@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BE89C",
+   "name": "EVENT_FIELDMAP_CONTROL_GetExitEffect",
    "address": "0x021BE89C",
    "kind": "game",
    "region": "ov021",

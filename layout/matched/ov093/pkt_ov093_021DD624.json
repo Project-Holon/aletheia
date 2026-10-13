@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021DD624",
-    "func_021DD63C"
+    "BTL_ITEM_FlavorHealAttackIfForcedUse",
+    "BTL_ITEM_GetFlavorHealDefenseHandlers"
+   ],
+   "addresses": [
+    "0x021DD624",
+    "0x021DD63C"
    ],
    "evidence": {
     "sole-ref": [

@@ -26,21 +26,21 @@
  *   func_0201BCB4  0x0201BCB4  thumb
  *   func_0201BB5C  0x0201BB5C  thumb
  *   func_020490F4  0x020490F4  arm
- *   func_0204ACEC  0x0204ACEC  arm
- *   func_0204AC18  0x0204AC18  arm
- *   func_0204AF28  0x0204AF28  arm
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_02049238  0x02049238  arm
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B92C  0x0204B92C  arm
- *   func_0204B878  0x0204B878  arm
+ *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_021F51E4  0x021F51E4  thumb ov194
- *   func_02043678  0x02043678  arm
- *   func_020255A0  0x020255A0  thumb
+ *   BMP_Create  0x02043678  arm
+ *   BMP_OAM_Create  0x020255A0  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   func_02043B5C  0x02043B5C  arm
- *   func_0201C724  0x0201C724  thumb
+ *   BMP_Clear  0x02043B5C  arm
+ *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   d_021F5569     0x021F5569  data ov194
  */
 
@@ -69,21 +69,21 @@ extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
 extern u32  func_0201BB5C(u32 a, u32 b, u32 c, u32 d);
 extern void *func_020490F4(u32 id, u32 heap);
-extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern void func_02049238(void *h);
-extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern void ARC_TOOL_DeleteHandle(void *h);
+extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B878(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_021F51E4(u8 *dst, unsigned arc, u32 member, u32 index, u16 width, u16 height, int pos, int mode, u16 heap);
-extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u16 heap);
-extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_0201C724(u32 a, void *b, s16 c, u32 d, void *e, u32 f, u32 g);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void PRINTSYS_PrintQueColor(u32 a, void *b, s16 c, u32 d, void *e, u32 f, u32 g);
 extern const u8 d_021F5569[];
 
 typedef struct { u16 w; u16 h; u32 pad; } Dim8;
@@ -151,20 +151,20 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
     }
     h = func_020490F4(v40, heap);
     if (flagB != 0) {
-        *(void **)(o + 8) = (void *)func_0204ACEC(h, v3c, 0, 0x40, heap);
+        *(void **)(o + 8) = (void *)CLACT_RegisterPaletteCompressed(h, v3c, 0, 0x40, heap);
     } else {
-        *(void **)(o + 8) = (void *)func_0204AC18(h, v3c, 0, 0x40, v2c, 1, heap);
+        *(void **)(o + 8) = (void *)CLACT_RegisterPaletteEx(h, v3c, 0, 0x40, v2c, 1, heap);
     }
-    *(void **)(o + 0x10) = (void *)func_0204AF28(h, v34, v30, heap);
+    *(void **)(o + 0x10) = (void *)CLACT_RegisterCellAnim(h, v34, v30, heap);
     flagB = 0;
-    *(void **)(o + 0xC) = (void *)func_0204A6C8(h, v38, 0, 0, heap);
-    func_02049238(h);
+    *(void **)(o + 0xC) = (void *)CLACT_RegisterCharacter(h, v38, 0, 0, heap);
+    ARC_TOOL_DeleteHandle(h);
     {
         Dim8 dim;
         func_02082BCC(&dim, 0, 8);
         dim.w = w24;
         dim.h = h20;
-        *(void **)o = func_0204B294((void *)s0, (u32)(*(void **)(o + 0xC)), (u32)(*(void **)(o + 8)), (u32)(*(void **)(o + 0x10)), &dim, flagB, heap);
+        *(void **)o = CLACT_CreateActor((void *)s0, (u32)(*(void **)(o + 0xC)), (u32)(*(void **)(o + 8)), (u32)(*(void **)(o + 0x10)), &dim, flagB, heap);
     }
     func_0204B92C(*(void **)o, 1);
     switch (mode) {
@@ -181,15 +181,15 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         func_0204B6F4(*(void **)o, 0, 1);
         break;
     case 3:
-        func_0204B878(*(void **)o, 1);
+        CLACT_SetActorAnimSeq(*(void **)o, 1);
         func_0204B6F4(*(void **)o, func_0201BB5C(a2, (u8)a3, (a3 & 0xFF00) >> 8, flagB), flagB);
         break;
     case 5:
-        func_0204B878(*(void **)o, 5);
+        CLACT_SetActorAnimSeq(*(void **)o, 5);
         func_0204B6F4(*(void **)o, flagB, 1);
         break;
     case 4:
-        func_0204B878(*(void **)o, 2);
+        CLACT_SetActorAnimSeq(*(void **)o, 2);
         func_0204B6F4(*(void **)o, flagB, 1);
         break;
     }
@@ -199,9 +199,9 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         u32 idx;
         u8 st[0x18];
         h2 = func_020490F4(0x17, heap);
-        *(void **)(o + 0x30) = func_02043678(2, 2, 0x20, heap);
-        *(void **)(o + 0x24) = (void *)func_0204ACEC(h2, 5, 0, 0xA0, heap);
-        func_02049238(h2);
+        *(void **)(o + 0x30) = BMP_Create(2, 2, 0x20, heap);
+        *(void **)(o + 0x24) = (void *)CLACT_RegisterPaletteCompressed(h2, 5, 0, 0xA0, heap);
+        ARC_TOOL_DeleteHandle(h2);
         func_02082BCC(st, 0, 0x18);
         *(void **)(st + 0) = *(void **)(o + 0x30);
         *(u16 *)(st + 4) = 0x2e;
@@ -212,7 +212,7 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
         *(u32 *)(st + 0x14) = 0;
         *(u8 *)(st + 0x11) = 0;
         *(u32 *)(st + 0xC) = 0;
-        *(void **)(o + 0x2C) = func_020255A0((struct Sys *)s4, (const struct Param *)st);
+        *(void **)(o + 0x2C) = BMP_OAM_Create((struct Sys *)s4, (const struct Param *)st);
         if (v1c == 1) {
             idx = 0x11;
             r = 0xC80;
@@ -221,8 +221,8 @@ void func_021F3FBC(u8 *o, u32 mode, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, void
             r = 0x14C0;
         }
         *(void **)(o + 0x28) = func_02045EC0(s3, idx);
-        func_02043B5C(*(void **)(o + 0x30), 0);
-        func_0201C724(s2, *(void **)(o + 0x30), 0, 0, *(void **)(o + 0x28), s1, r);
+        BMP_Clear(*(void **)(o + 0x30), 0);
+        PRINTSYS_PrintQueColor(s2, *(void **)(o + 0x30), 0, 0, *(void **)(o + 0x28), s1, r);
         *(u32 *)(o + 0x38) = s2;
         *(u32 *)(o + 0x34) = 1;
     }

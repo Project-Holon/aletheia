@@ -1,5 +1,5 @@
 /*
- * function: func_02047504
+ * function: G3D_SYSTEM_DeleteRender
  * address:  0x02047504
  * packet:   pkt_02047400
  * region:   arm9
@@ -25,8 +25,8 @@
  * free call's argument being set up early.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02047504.c \
- *       --func func_02047504 --addr 0x02047504 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G3D_SYSTEM_DeleteRender.c \
+ *       --func G3D_SYSTEM_DeleteRender --addr 0x02047504 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -43,7 +43,7 @@ struct Obj02061330;
 extern void NNS_G3dFreeRenderObj(struct Obj02061330 *ctx, int field);
 extern u32 func_020307B0(void *p);
 
-void func_02047504(struct Rec *p)
+void G3D_SYSTEM_DeleteRender(struct Rec *p)
 {
     if (p == 0)
         return;

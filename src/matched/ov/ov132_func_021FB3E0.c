@@ -14,7 +14,7 @@
  *   keeps them as declared locals, and the slots then follow declaration order
  *   (mask, x, y, z, wait / i, ctx).
  * symbols:
- *   func_0201134C 0x0201134C thumb
+ *   VM_GetU32 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132
  *   func_021F9DA0 0x021F9DA0 thumb ov132
  *   func_021F9DA4 0x021F9DA4 thumb ov132
@@ -32,7 +32,7 @@ typedef unsigned int u32;
 typedef enum { COORD_ZERO } Coord;
 typedef struct {int x,y,z;} Vec;
 struct Cursor;
-extern u32 func_0201134C(struct Cursor *p);
+extern u32 VM_GetU32(struct Cursor *p);
 extern int func_021FB1F4(char *,int);
 extern void *func_021F9DA0(char *);
 extern void *func_021F9DA4(char *,u32);
@@ -56,12 +56,12 @@ int func_021FB3E0(int unused,char *p)
     int rate;
     Coord wait;
     owner=*(char **)p;
-    mask=func_021FB1F4(p,func_0201134C(*(void **)(p+4)));
-    rate=func_0201134C(*(void **)(p+4));
-    x=func_0201134C(*(void **)(p+4));
-    y=func_0201134C(*(void **)(p+4));
-    z=func_0201134C(*(void **)(p+4));
-    wait=func_0201134C(*(void **)(p+4));
+    mask=func_021FB1F4(p,VM_GetU32(*(void **)(p+4)));
+    rate=VM_GetU32(*(void **)(p+4));
+    x=VM_GetU32(*(void **)(p+4));
+    y=VM_GetU32(*(void **)(p+4));
+    z=VM_GetU32(*(void **)(p+4));
+    wait=VM_GetU32(*(void **)(p+4));
     {
     u8 i;
     void *ctx;

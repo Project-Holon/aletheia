@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021D99F8, func_021D9A18
+ * function: BTL_TOKUSEI_StatLossGuard_BlockIfFlagged, BTL_TOKUSEI_GetStatLossGuardHandlers
  * address: 0x021D99F8
  * packet: pkt_ov093_021D99F8
  * region: ov093
@@ -10,14 +10,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   d_021F0CEC 0x021F0CEC data a4
- *   func_021D775C 0x021D775C thumb ov093
- *   func_021D76BC 0x021D76BC thumb ov093
+ *   gStatLossGuardHandlers 0x021F0CEC data a4
+ *   BTL_EVENT_GetVar 0x021D775C thumb ov093
+ *   BTL_EVENT_OverwriteVar 0x021D76BC thumb ov093
  *   func_021E85F8 0x021E85F8 thumb ov093
  */
-extern int func_021D775C(int);
-extern int func_021D76BC(int, unsigned int);
+extern int BTL_EVENT_GetVar(int);
+extern int BTL_EVENT_OverwriteVar(int, unsigned int);
 extern int func_021E85F8(int);
-void func_021D99F8(int a,int b,int c) { if(func_021E85F8(c)!=0 && func_021D775C(5)==1) func_021D76BC(0x47,1); }
-extern unsigned int d_021F0CEC;
-void *func_021D9A18(int *p) { *p=5; return &d_021F0CEC; }
+void BTL_TOKUSEI_StatLossGuard_BlockIfFlagged(int a,int b,int c) { if(func_021E85F8(c)!=0 && BTL_EVENT_GetVar(5)==1) BTL_EVENT_OverwriteVar(0x47,1); }
+extern unsigned int gStatLossGuardHandlers;
+void *BTL_TOKUSEI_GetStatLossGuardHandlers(int *p) { *p=5; return &gStatLossGuardHandlers; }

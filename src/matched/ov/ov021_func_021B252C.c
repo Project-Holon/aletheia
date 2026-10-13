@@ -1,5 +1,5 @@
 /*
- * function: func_021B252C
+ * function: SCRCMD_GIMMICK39_CallSecondEvent
  * address:  0x021B252C
  * packet:   pkt_ov021_021B252C
  * region:   ov021
@@ -10,31 +10,31 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_021F4184  0x021F4184  thumb  ov039
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   GIMMICK39_UnlockLane  0x021F4184  thumb  ov039
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_021F4184(void *, u16);
-extern void func_0215897C(void *vm, void *task);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u32 GIMMICK39_UnlockLane(void *, u16);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_021B252C(u32 a, u32 b)
+int SCRCMD_GIMMICK39_CallSecondEvent(u32 a, u32 b)
 {
-    void *s = func_0215A5F4((void *)b);
-    void *d = func_0215A5DC((void *)b);
-    u32 r = func_021F4184(d, *func_02159AE8((void *)a, (void *)b));
+    void *s = SCRCMD_WORK_GetScriptWork((void *)b);
+    void *d = SCRCMD_WORK_GetGameSystem((void *)b);
+    u32 r = GIMMICK39_UnlockLane(d, *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b));
 
     if (r == 0) {
         return 1;
     }
-    func_0215897C(s, (void *)r);
+    SCRIPT_SYS_CallEvent(s, (void *)r);
     return 1;
 }

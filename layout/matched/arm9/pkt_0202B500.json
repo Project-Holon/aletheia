@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0202B544",
+   "name": "ISS_SYS_ChangeZone",
    "address": "0x0202B544",
    "kind": "game",
    "region": "arm9",

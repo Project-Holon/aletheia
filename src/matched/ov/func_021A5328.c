@@ -1,5 +1,5 @@
 /*
- * function: func_021A5328
+ * function: FIELD_PLAYER_GRID_SetForcedMoveFlag
  * address:  0x021A5328
  * packet:   pkt_021A5328
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: pins the second argument to 1.
  *
  * symbols:
- *   func_021A5304  0x021A5304  thumb
+ *   FIELD_PLAYER_GRID_SetFlag  0x021A5304  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A5304(u32 a, u32 b);
+extern int FIELD_PLAYER_GRID_SetFlag(u32 a, u32 b);
 
-void func_021A5328(u32 a)
+void FIELD_PLAYER_GRID_SetForcedMoveFlag(u32 a)
 {
-    func_021A5304(a, 1);
+    FIELD_PLAYER_GRID_SetFlag(a, 1);
 }

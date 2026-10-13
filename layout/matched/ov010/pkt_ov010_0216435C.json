@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216435C",
+   "name": "FLDMMDL_MOVE_SetRailMoveRequest",
    "address": "0x0216435C",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: func_021AABEC
+ * function: EFFECT_ENCOUNT_ResetStepCount
  * address:  0x021AABEC
  * packet:   pkt_021AABEC
  * region:   ov021
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-void func_021AABEC(u8 *p)
+void EFFECT_ENCOUNT_ResetStepCount(u8 *p)
 {
     ((struct Obj18073 *)p)->fC = 0;
 }

@@ -13,16 +13,16 @@
  * distinct function and gets its own shard.
  *
  * symbols:
- *   func_02027FD8  0x02027FD8  thumb
+ *   APP_TASKMENU_RES_Delete  0x02027FD8  thumb
  *
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int   u32;
 struct TaskMenuState;
-extern u32 func_02027FD8(struct TaskMenuState *s);
+extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 
 int func_021BB3AC(int *p)
 {
-    return func_02027FD8((struct TaskMenuState *)p[0x97]);
+    return APP_TASKMENU_RES_Delete((struct TaskMenuState *)p[0x97]);
 }

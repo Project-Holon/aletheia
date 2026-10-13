@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD904",
+   "name": "EVENT_ENTRANCE_IN_IsDungeonTransition",
    "address": "0x021BD904",
    "kind": "game",
    "region": "ov021",

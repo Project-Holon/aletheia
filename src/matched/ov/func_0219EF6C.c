@@ -1,5 +1,5 @@
 /*
- * function: func_0219EF6C
+ * function: FIELD_RAIL_LOADER_Delete
  * address:  0x0219EF6C
  * packet:   pkt_0219EF6C
  * region:   ov021
@@ -12,7 +12,7 @@
  * Pattern-generated from the ov021 family.
  *
  * symbols:
- *   func_0219EFFC  0x0219EFFC  thumb  ov021
+ *   FIELD_RAIL_LOADER_Unload  0x0219EFFC  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -21,11 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern int func_0219EFFC(u32 a);
+extern int FIELD_RAIL_LOADER_Unload(u32 a);
 extern u32 func_020307B0(void *p);
 
-void func_0219EF6C(u8 *p)
+void FIELD_RAIL_LOADER_Delete(u8 *p)
 {
-    func_0219EFFC((u32)p);
+    FIELD_RAIL_LOADER_Unload((u32)p);
     func_020307B0(p);
 }

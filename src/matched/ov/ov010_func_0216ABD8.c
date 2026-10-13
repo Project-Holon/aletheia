@@ -1,5 +1,5 @@
 /*
- * function: func_0216ABD8
+ * function: SCRCMD_SYMBOL_StartViewEvent
  * address:  0x0216ABD8
  * packet:   pkt_ov010_0216ABD8
  * region:   ov010
@@ -10,34 +10,34 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0216AED0  0x0216AED0  thumb  ov010
- *   func_0216AF1C  0x0216AF1C  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0201210C  0x0201210C  thumb
- *   func_0216AF74  0x0216AF74  thumb  ov010
- *   func_0215897C  0x0215897C  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_SYMBOL_GetMmdl  0x0216AED0  thumb  ov010
+ *   SCRCMD_SYMBOL_CreateObjectPokemon  0x0216AF1C  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   SCRCMD_SYMBOL_CreateViewEvent  0x0216AF74  thumb  ov010
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern unsigned int func_02159B10(void *a0, void *a1);
-extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_0216AED0(void *p, u32 id);
-extern int func_0216AF1C();
-extern void *func_0215A5F4(void *p);
-extern void *func_0215A5DC(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern void *SCRCMD_SYMBOL_GetMmdl(void *p, u32 id);
+extern int SCRCMD_SYMBOL_CreateObjectPokemon();
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 struct Ctx;
-extern void *func_0201210C(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Desc;
-extern struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5);
-extern void func_0215897C(void *vm, void *task);
+extern struct Desc *SCRCMD_SYMBOL_CreateViewEvent(int a0, int a1, int a2, int a3, u16 *a4, u16 a5);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int func_0216ABD8(int a0, int a1)
+int SCRCMD_SYMBOL_StartViewEvent(int a0, int a1)
 {
     int buf;
     int *pb;
@@ -49,15 +49,15 @@ int func_0216ABD8(int a0, int a1)
     void *r;
 
     pb = &buf;
-    k = func_02159B10((void *)a0, (void *)a1);
-    p = func_02159AE8((void *)a0, (void *)a1);
-    r = func_0216AED0((void *)a1, k);
+    k = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
+    p = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
+    r = SCRCMD_SYMBOL_GetMmdl((void *)a1, k);
     if (r != 0) {
-        q = func_0216AF1C(a1, r, 4, pb);
+        q = SCRCMD_SYMBOL_CreateObjectPokemon(a1, r, 4, pb);
         if (q != 0) {
-            s = func_0215A5F4((void *)a1);
-            t = func_0215A5DC((void *)a1);
-            func_0215897C(s, func_0216AF74((int)t, (int)func_0201210C((void *)t), q, *pb, p, 4));
+            s = SCRCMD_WORK_GetScriptWork((void *)a1);
+            t = SCRCMD_WORK_GetGameSystem((void *)a1);
+            SCRIPT_SYS_CallEvent(s, SCRCMD_SYMBOL_CreateViewEvent((int)t, (int)GAMESYSTEM_GetFieldMap((void *)t), q, *pb, p, 4));
         }
     }
     return 1;

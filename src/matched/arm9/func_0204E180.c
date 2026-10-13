@@ -14,11 +14,11 @@
  *   SYSTEMFONT_GetGlyphHeight  0x020463C0  arm
  *   SYSTEMFONT_GetGlyphWidth  0x020463D8  arm
  *   SYSTEMFONT_SetColors  0x020463E0  arm
- *   func_020436FC  0x020436FC  arm
- *   func_02045A98  0x02045A98  arm
+ *   BMP_CreateFromBuffer  0x020436FC  arm
+ *   STRBUF_GetEosChar  0x02045A98  arm
  *   SYSTEMFONT_GetGlyph  0x02046300  arm
- *   func_020439A0  0x020439A0  arm
- *   func_020437AC  0x020437AC  arm
+ *   BMP_Blit  0x020439A0  arm
+ *   BMP_Delete  0x020437AC  arm
  *
  * textprint.c: draw a u16 string with the fixed 8x8 debug font into
  * pp->bmp at pp->x/pp->y.  Control codes: 1 newline (x back to pp->x, y
@@ -63,11 +63,11 @@ struct Bmp;
 struct Obj020437AC;
 extern int SYSTEMFONT_GetGlyphWidth(void);
 extern void  SYSTEMFONT_SetColors(u32 fg, u32 bg);
-extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern u16   func_02045A98(void);
+extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern u16   STRBUF_GetEosChar(void);
 extern void SYSTEMFONT_GetGlyph(int idx, u8 *out);
-extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
-extern void func_020437AC(struct Obj020437AC *p);
+extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void BMP_Delete(struct Obj020437AC *p);
 
 void TEXTPRINT_PrintCodes(const u16 *str, TextParam *pp)
 {
@@ -82,8 +82,8 @@ void TEXTPRINT_PrintCodes(const u16 *str, TextParam *pp)
     g_TextPrintWork->x = pp->x;
     g_TextPrintWork->y = pp->y;
     SYSTEMFONT_SetColors(pp->fg, pp->bg);
-    glyph = func_020436FC(g_TextPrintWork, 1, 1, 0x20, 0);
-    eom = func_02045A98();
+    glyph = BMP_CreateFromBuffer(g_TextPrintWork, 1, 1, 0x20, 0);
+    eom = STRBUF_GetEosChar();
     while (eom != *str) {
         c = *str;
         str++;
@@ -100,7 +100,7 @@ void TEXTPRINT_PrintCodes(const u16 *str, TextParam *pp)
             break;
         default:
             SYSTEMFONT_GetGlyph((u16)(c - 4), (u8 *)g_TextPrintWork);
-            func_020439A0(glyph, pp->bmp, 0, 0, g_TextPrintWork->x, g_TextPrintWork->y,
+            BMP_Blit(glyph, pp->bmp, 0, 0, g_TextPrintWork->x, g_TextPrintWork->y,
                           g_TextPrintWork->width, height, 0);
             g_TextPrintWork->x += (u16)(g_TextPrintWork->width + pp->letterSpace);
             break;
@@ -108,5 +108,5 @@ void TEXTPRINT_PrintCodes(const u16 *str, TextParam *pp)
     }
     pp->x = g_TextPrintWork->x;
     pp->y = g_TextPrintWork->y;
-    func_020437AC(glyph);
+    BMP_Delete(glyph);
 }

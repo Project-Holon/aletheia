@@ -7,13 +7,16 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
+ *
+ * symbols:
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
  */
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned short u16;
 extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 typedef unsigned int   u32;
 extern void func_02040618(u32 layer, u32 a, u32 b);
-extern void func_02049238(int);
+extern void ARC_TOOL_DeleteHandle(int);
 void func_021E58A4(int unused, int mode, unsigned color)
 {
     int h;
@@ -37,5 +40,5 @@ void func_021E58A4(int unused, int mode, unsigned color)
     func_02040618(1, 0, -256);
     func_02040618(6, 0, -256);
     func_02040618(5, 0, -256);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
 }

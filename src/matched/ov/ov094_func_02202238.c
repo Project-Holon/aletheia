@@ -7,11 +7,14 @@
  * flags:    -O4,p
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   INFOWIN_Update  0x02024ABC  thumb  arm9
  */
 extern void *func_02030D28(void *);
-extern void func_02024ABC(void *);
+extern void INFOWIN_Update(void *);
 
 void func_02202238(void *unused, void **p)
 {
-    func_02024ABC(func_02030D28(*p));
+    INFOWIN_Update(func_02030D28(*p));
 }

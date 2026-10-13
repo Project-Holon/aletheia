@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021EEF98",
+   "name": "BTL_MSG_CountWordTags",
    "address": "0x021EEF98",
    "kind": "game",
    "region": "ov093",

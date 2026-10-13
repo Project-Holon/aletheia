@@ -1,5 +1,5 @@
 /*
- * function: func_021AF878
+ * function: SCRCMD_BufferGroupEntryName
  * address:  0x021AF878
  * packet:   pkt_ov021_021AF878
  * region:   ov021
@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02158F74  0x02158F74  thumb  ov010
- *   func_02159B10  0x02159B10  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
+ *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -31,17 +31,17 @@ static inline u8 Ctx_ReadByte(Ctx *s)
     return v;
 }
 
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct WordSet;
-extern void *func_02158F74(void *p);
-extern unsigned int func_02159B10(void *a, void *b);
+extern void *SCRIPT_WORK_GetWordSet(void *p);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 
-int func_021AF878(Ctx *s, u32 b)
+int SCRCMD_BufferGroupEntryName(Ctx *s, u32 b)
 {
-    u32 w = (u32)func_02158F74(func_0215A5F4((void *)b));
+    u32 w = (u32)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork((void *)b));
     u8 c = Ctx_ReadByte(s);
 
-    func_0201EF34((struct WordSet *)w, c, func_02159B10(s, (void *)b));
+    func_0201EF34((struct WordSet *)w, c, SCRIPT_WORK_ReadWorkValue(s, (void *)b));
     return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021A28A0
+ * function: WEATHER_TASK_FreeBillboards
  * address:  0x021A28A0
  * packet:   pkt_ov021_021A28A0
  * region:   ov021
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021A2A68  0x021A2A68  thumb  ov021
+ *   WEATHER_TASK_FreeBillboard  0x021A2A68  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -31,12 +31,12 @@ typedef struct {
     u8 slots[1];
 } Obj021A28A0;
 
-void func_021A2A68(u8 *p, int i, int x);
+void WEATHER_TASK_FreeBillboard(u8 *p, int i, int x);
 
-void func_021A28A0(Obj021A28A0 *p)
+void WEATHER_TASK_FreeBillboards(Obj021A28A0 *p)
 {
     int i;
 
     for (i = 0; i < p->info->count; i++)
-        func_021A2A68(p->slots, i, p->items[i]);
+        WEATHER_TASK_FreeBillboard(p->slots, i, p->items[i]);
 }

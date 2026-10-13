@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_020399B8",
+   "name": "GFL_NET_HANDLE_IsNegotiationDone",
    "address": "0x020399B8",
    "kind": "game",
    "region": "arm9",

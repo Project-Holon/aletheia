@@ -1,5 +1,5 @@
 /*
- * function: func_021BE6CC
+ * function: FLD_EXP_OBJ_SetAnimeFrame
  * address:  0x021BE6CC
  * packet:   pkt_ov021_021BE6CC
  * region:   ov021
@@ -10,18 +10,19 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BE4C4  0x021BE4C4  thumb  ov021
+ *   FLD_EXP_OBJ_GetModelObject  0x021BE4C4  thumb  ov021
+ *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm  arm9
  */
 
-extern void *func_021BE4C4(int a, int b, int c);
+extern void *FLD_EXP_OBJ_GetModelObject(int a, int b, int c);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct AnmCtl;
-extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
+extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
 
-void func_021BE6CC(int a, int b, int c, int d, int e)
+void FLD_EXP_OBJ_SetAnimeFrame(int a, int b, int c, int d, int e)
 {
     int t = e;
 
-    func_0204784C(func_021BE4C4(a, b, c), d, &t);
+    G3D_SYSTEM_SetObjectAnimeFrame(FLD_EXP_OBJ_GetModelObject(a, b, c), d, &t);
 }

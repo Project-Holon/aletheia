@@ -1,5 +1,5 @@
 /*
- * function: func_021A3898
+ * function: FIELD_PLAYER_CORE_GetPos
  * address:  0x021A3898
  * packet:   pkt_021A3810
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x1c.
  *
  * symbols:
- *   func_0216D88C  0x0216D88C  thumb
+ *   FLDMMDL_GetPos  0x0216D88C  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -24,9 +24,9 @@ typedef unsigned int   u32;
 
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
+extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
 
-void func_021A3898(u8 *p, struct VecFx32 *out)
+void FIELD_PLAYER_CORE_GetPos(u8 *p, struct VecFx32 *out)
 {
-    func_0216D88C((const struct Actor *)((struct Obj18032 *)p)->f1C, out);
+    FLDMMDL_GetPos((const struct Actor *)((struct Obj18032 *)p)->f1C, out);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_0201F8F4
+ * function: BMP_MENUWORK_ReleaseItems
  * address:  0x0201F8F4
  * packet:   pkt_0201F5BC
  * region:   arm9
@@ -27,13 +27,13 @@
  * EXACT* is the extent walk running into the unlabelled leaf at 0x0201F91C.
  *
  * symbols:
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0201F8F4.c \
- *       --func func_0201F8F4 --addr 0x0201F8F4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BMP_MENUWORK_ReleaseItems.c \
+ *       --func BMP_MENUWORK_ReleaseItems --addr 0x0201F8F4 --cc 1.1p1 --thumb
  */
 typedef unsigned int u32;
 
@@ -46,16 +46,16 @@ struct Slot {
 };
 
 struct U16Vec;
-extern void func_02045808(struct U16Vec *vec);
+extern void STRBUF_Delete(struct U16Vec *vec);
 
-void func_0201F8F4(struct Slot *s)
+void BMP_MENUWORK_ReleaseItems(struct Slot *s)
 {
     if (s->u.raw == 0xFFFFFFFF)
         return;
     do {
         if (s->u.ptr == 0)
             return;
-        func_02045808(s->u.ptr);
+        STRBUF_Delete(s->u.ptr);
         s->u.raw = 0;
         s++;
     } while (s->u.raw != 0xFFFFFFFF);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0215E840",
+   "name": "MOVE_POKEMON_InitSkillInfo",
    "address": "0x0215E840",
    "kind": "game",
    "region": "ov010",

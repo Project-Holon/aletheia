@@ -1,5 +1,5 @@
 /*
- * function: func_021A00F4
+ * function: FLDMMDL_DRAW_DeleteEffectAlias
  * address: 0x021A00F4
  * packet: pkt_ov021_021A00F4
  * region: ov021
@@ -12,11 +12,11 @@
  * Function with no listing label, matched inside src/game/ov021/field_fog.c and filed here.
  *
  * symbols:
- *   func_021A00E0 0x021A00E0 thumb
+ *   FLDMMDL_DRAW_DeleteEffect 0x021A00E0 thumb
  */
 
 typedef unsigned int   u32;
-void func_021A00E0(u32 a);
-void func_021A00F4(u32 a);
+void FLDMMDL_DRAW_DeleteEffect(u32 a);
+void FLDMMDL_DRAW_DeleteEffectAlias(u32 a);
 
-void func_021A00F4(u32 a) { func_021A00E0(a); }
+void FLDMMDL_DRAW_DeleteEffectAlias(u32 a) { FLDMMDL_DRAW_DeleteEffect(a); }

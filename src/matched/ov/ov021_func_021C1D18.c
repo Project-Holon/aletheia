@@ -1,5 +1,5 @@
 /*
- * function: func_021C1D18
+ * function: FLD3D_CI_StartPokemonSequence
  * address:  0x021C1D18
  * packet:   pkt_ov021_021C1D18
  * region:   ov021
@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021C1CB0  0x021C1CB0  thumb  ov021
- *   func_021C27F4  0x021C27F4  thumb  ov021
- *   func_021C2854  0x021C2854  thumb  ov021
+ *   FLD3D_CI_StartSequence  0x021C1CB0  thumb  ov021
+ *   FLD3D_CI_PokemonExtraTask  0x021C27F4  thumb  ov021
+ *   FLD3D_CI_PokemonFinishStep  0x021C2854  thumb  ov021
  */
 #include "../include/Obj01213.h"
 #include "../include/Obj04273.h"
@@ -19,20 +19,20 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int func_021C1CB0(int a, char *b, int c);
-int func_021C27F4(int a, int *b);
-int func_021C2854(int a, char *b);
+int FLD3D_CI_StartSequence(int a, char *b, int c);
+int FLD3D_CI_PokemonExtraTask(int a, int *b);
+int FLD3D_CI_PokemonFinishStep(int a, char *b);
 
-int func_021C1D18(int a, char *b, int c, int d, int e, int f, int g)
+int FLD3D_CI_StartPokemonSequence(int a, char *b, int c, int d, int e, int f, int g)
 {
     char *q;
     int r;
 
-    r = func_021C1CB0(a, b, 3);
+    r = FLD3D_CI_StartSequence(a, b, 3);
     if (r == 0)
         return 0;
-    ((struct Obj01213 *)b)->f128 = func_021C27F4;
-    ((struct Obj01213 *)b)->f12C = func_021C2854;
+    ((struct Obj01213 *)b)->f128 = FLD3D_CI_PokemonExtraTask;
+    ((struct Obj01213 *)b)->f12C = FLD3D_CI_PokemonFinishStep;
     q = b + 0x9c;
     ((struct Obj04273 *)q)->f8 = e;
     ((struct Obj01213 *)b)->f9C = c;

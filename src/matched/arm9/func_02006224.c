@@ -1,5 +1,5 @@
 /*
- * function: func_02006224
+ * function: GFL_USE_IsSeSlotBusy
  * address:  0x02006224
  * packet:   pkt_02006224
  * region:   arm9
@@ -18,8 +18,8 @@
  * as two `return` constants rather than a shared tail.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02006224.c \
- *       --func func_02006224 --addr 0x02006224 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GFL_USE_IsSeSlotBusy.c \
+ *       --func GFL_USE_IsSeSlotBusy --addr 0x02006224 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern u16 NNS_SndPlayerGetActiveSeqCount(u32 idx);
 
-int func_02006224(u32 a0)
+int GFL_USE_IsSeSlotBusy(u32 a0)
 {
     return NNS_SndPlayerGetActiveSeqCount(a0 + 1) != 0;
 }

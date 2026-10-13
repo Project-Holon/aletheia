@@ -1,5 +1,5 @@
 /*
- * function: func_0218530C
+ * function: OEKAKI_StepDraw
  * address:  0x0218530C
  * packet:   pkt_ov023_0218530C
  * region:   ov023
@@ -10,40 +10,40 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021850A0  0x021850A0  thumb  ov023
- *   func_02039338  0x02039338  arm
- *   func_02185F50  0x02185F50  thumb  ov023
- *   func_021860D0  0x021860D0  thumb  ov023
- *   func_02185EA0  0x02185EA0  thumb  ov023
- *   func_02185DE8  0x02185DE8  thumb  ov023
+ *   OEKAKI_HandleTouch  0x021850A0  thumb  ov023
+ *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
+ *   OEKAKI_CountMembers  0x02185F50  thumb  ov023
+ *   OEKAKI_SendStrokes  0x021860D0  thumb  ov023
+ *   OEKAKI_UpdateRemoteCursors  0x02185EA0  thumb  ov023
+ *   OEKAKI_DrawStrokes  0x02185DE8  thumb  ov023
  */
 #include "../include/Obj01221.h"
 
 typedef unsigned int u32;
 
-extern void func_021850A0(char *p);
+extern void OEKAKI_HandleTouch(char *p);
 typedef unsigned short u16;
-extern u16 func_02039338(void);
-extern int func_02185F50(char *p);
-extern void func_021860D0(char *p);
+extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+extern int OEKAKI_CountMembers(char *p);
+extern void OEKAKI_SendStrokes(char *p);
 struct P;
-extern void func_02185EA0(struct P *p);
+extern void OEKAKI_UpdateRemoteCursors(struct P *p);
 struct e6;
 struct o4;
-extern void func_02185DE8(char *p, struct e6 *e, struct o4 *o, int flag);
+extern void OEKAKI_DrawStrokes(char *p, struct e6 *e, struct o4 *o, int flag);
 
-int func_0218530C(char *p, int x)
+int OEKAKI_StepDraw(char *p, int x)
 {
-    func_021850A0(p);
-    if (func_02039338() == 0) {
-        if (func_02185F50(p) == 1) {
+    OEKAKI_HandleTouch(p);
+    if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
+        if (OEKAKI_CountMembers(p) == 1) {
         } else {
-            func_021860D0(p);
+            OEKAKI_SendStrokes(p);
         }
     } else {
-        func_021860D0(p);
+        OEKAKI_SendStrokes(p);
     }
-    func_02185EA0((struct P *)p);
-    func_02185DE8((char *)(((struct Obj01221 *)p)->f118), (struct e6 *)(p + 0x4212), (struct o4 *)(p + 0x4230), 1);
+    OEKAKI_UpdateRemoteCursors((struct P *)p);
+    OEKAKI_DrawStrokes((char *)(((struct Obj01221 *)p)->f118), (struct e6 *)(p + 0x4212), (struct o4 *)(p + 0x4230), 1);
     return x;
 }

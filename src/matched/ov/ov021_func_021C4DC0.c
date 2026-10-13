@@ -1,5 +1,5 @@
 /*
- * function: func_021C4DC0
+ * function: SOUND_OBJ_SetAnime
  * address:  0x021C4DC0
  * packet:   pkt_ov021_021C4DC0
  * region:   ov021
@@ -10,6 +10,10 @@
  * status:   EXACT
  *
  * Restarts the record's task with new arguments.
+ *
+ * symbols:
+ *   ICA_ANIME_CreateStream  0x02011510  thumb  arm9
+ *   ICA_ANIME_Delete  0x02011558  thumb  arm9
  */
 
 typedef unsigned short u16;
@@ -26,12 +30,12 @@ typedef struct {
 } R;
 
 struct IcaAnime;
-extern void func_02011558(struct IcaAnime *p);
-extern void *func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
+extern void ICA_ANIME_Delete(struct IcaAnime *p);
+extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
 
-void func_021C4DC0(R *r, u32 a, u32 b, u32 c)
+void SOUND_OBJ_SetAnime(R *r, u32 a, u32 b, u32 c)
 {
     if (r->task != 0)
-        func_02011558((struct IcaAnime *)r->task);
-    r->task = (u32)func_02011510(r->heap, a, b, c);
+        ICA_ANIME_Delete((struct IcaAnime *)r->task);
+    r->task = (u32)ICA_ANIME_CreateStream(r->heap, a, b, c);
 }

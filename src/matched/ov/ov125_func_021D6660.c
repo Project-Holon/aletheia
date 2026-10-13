@@ -15,7 +15,7 @@
  *   func_02030734 0x02030734 arm
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
- *   func_020457B0 0x020457B0 arm
+ *   STRBUF_Create 0x020457B0 arm
  *   func_021D8598 0x021D8598 arm ov125
  *   func_02034714 0x02034714 arm
  *   ov114_id 0x00000072 data
@@ -37,7 +37,7 @@ extern int func_021D8600(int);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *func_0201EC64(u32 heap);
-extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern int func_021D8598(void *, const char *, int);
 extern void func_02034714(const char *, u32, const char *);
 extern char ov114_id[];
@@ -60,7 +60,7 @@ int func_021D6660(char *p, char *a)
     func_02082BCC(*(void **)(p + 0x3AC), 0, func_021D8600(-1));
     *(int *)(p + 0x3E4) = (int)func_02045B38(0, 2, 0xE8, *(u16 *)(a + 4));
     *(int *)(p + 0x3E8) = (int)func_0201EC64(*(u16 *)(a + 4));
-    *(int *)(p + 0x3EC) = (int)func_020457B0(0x100, *(u16 *)(a + 4));
+    *(int *)(p + 0x3EC) = (int)STRBUF_Create(0x100, *(u16 *)(a + 4));
     *(u32 *)(p + 4) = *(u32 *)a;
     p[8] = 0x15;
     p[9] = 2;

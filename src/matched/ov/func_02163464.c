@@ -1,5 +1,5 @@
 /*
- * function: func_02163464
+ * function: FLDMMDL_MOVE_GetFootMarkKind
  * address:  0x02163464
  * packet:   pkt_02163464
  * region:   ov010
@@ -14,9 +14,9 @@
  *   func_021AB4F8  0x021AB4F8  thumb
  *   func_021AB434  0x021AB434  thumb
  *   func_021AB428  0x021AB428  thumb
- *   func_021AB250  0x021AB250  thumb
- *   func_021AB264  0x021AB264  thumb
- *   func_021AB270  0x021AB270  thumb
+ *   MAP_ATTR_IsGrassDouble  0x021AB250  thumb
+ *   MAP_ATTR_IsTallGrassSingle  0x021AB264  thumb
+ *   MAP_ATTR_IsTallGrassDouble  0x021AB270  thumb
  */
 
 typedef unsigned char u8;
@@ -27,11 +27,11 @@ extern int func_021AB4EC();
 extern int func_021AB4F8();
 extern int func_021AB434();
 extern int func_021AB428();
-extern int func_021AB250();
-extern int func_021AB264();
-extern int func_021AB270();
+extern int MAP_ATTR_IsGrassDouble();
+extern int MAP_ATTR_IsTallGrassSingle();
+extern int MAP_ATTR_IsTallGrassDouble();
 
-int func_02163464(int a0, int a1)
+int FLDMMDL_MOVE_GetFootMarkKind(int a0, int a1)
 {
     int t4;
     int t5;
@@ -77,7 +77,7 @@ t4 = 4;
     goto loc_021634D4;
 loc_021634AC:
 a0 = t5 + 0;
-    a0 = func_021AB250(a0);
+    a0 = MAP_ATTR_IsGrassDouble(a0);
 loc_021634B2:
     if (a0 == 0) goto loc_021634BA;
 loc_021634B6:
@@ -85,7 +85,7 @@ t4 = 1;
     goto loc_021634D4;
 loc_021634BA:
 a0 = t5 + 0;
-    a0 = func_021AB264(a0);
+    a0 = MAP_ATTR_IsTallGrassSingle(a0);
 loc_021634C0:
     if (a0 == 0) goto loc_021634C8;
 loc_021634C4:
@@ -93,7 +93,7 @@ t4 = 2;
     goto loc_021634D4;
 loc_021634C8:
 a0 = t5 + 0;
-    a0 = func_021AB270(a0);
+    a0 = MAP_ATTR_IsTallGrassDouble(a0);
 loc_021634CE:
     if (a0 == 0) goto loc_021634D4;
 loc_021634D2:

@@ -1,5 +1,5 @@
 /*
- * function: DWC_IsValidFriendData
+ * function: FIELD_GIMMICK_GATE_HasNewsEntry
  * address:  0x021F3D24
  * packet:   pkt_ov048_021F3D24
  * region:   ov048
@@ -9,17 +9,17 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      DWC_IsValidFriendData (libdwcaccount.TWL.HYB.thumb.a(dwc_account.o))
+ * sdk:      FIELD_GIMMICK_GATE_HasNewsEntry (libdwcaccount.TWL.HYB.thumb.a(dwc_account.o))
  *
  * symbols:
- *   DWCi_Acc_GetFlag_DataType  0x021F3C2C  thumb  ov048
+ *   FIELD_GIMMICK_GATE_FindNewsEntry  0x021F3C2C  thumb  ov048
  */
 
-extern unsigned long DWCi_Acc_GetFlag_DataType(void *userdata);
+extern unsigned long FIELD_GIMMICK_GATE_FindNewsEntry(void *userdata);
 
-int DWC_IsValidFriendData(void *frienddata)
+int FIELD_GIMMICK_GATE_HasNewsEntry(void *frienddata)
 {
-    if (DWCi_Acc_GetFlag_DataType(frienddata))
+    if (FIELD_GIMMICK_GATE_FindNewsEntry(frienddata))
         return 1;
     return 0;
 }

@@ -17,35 +17,35 @@
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
  *   d_021B7524 0x021B7524 data a1
- *   func_0203CD98 0x0203CD98 arm
- *   func_0203CBAC 0x0203CBAC arm
+ *   GFL_NET_GetRunState 0x0203CD98 arm
+ *   GFL_NET_StartSession 0x0203CBAC arm
  *   d_021B743C 0x021B743C data a4
- *   func_0203CEAC  0x0203CEAC  arm
+ *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_StartChangeoverChild 0x0203D0DC arm
- *   func_020399A8 0x020399A8 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  *   func_02039CB4 0x02039CB4 arm
- *   func_0203D378 0x0203D378 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_SYSTEM_IsSendQueueEntry 0x02039468 arm
- *   func_0203D3A8 0x0203D3A8 arm
- *   func_0203D3F8 0x0203D3F8 arm
- *   func_0203A574 0x0203A574 arm
- *   func_0203A5E4 0x0203A5E4 arm
+ *   GFL_NET_SendToHandle 0x0203D3A8 arm
+ *   GFL_NET_SendData 0x0203D3F8 arm
+ *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
+ *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   func_02087C88 0x02087C88 arm
  *   func_020120F4 0x020120F4 thumb
  *   func_02012944 0x02012944 thumb
- *   func_02008494 0x02008494 thumb
+ *   MYSTATUS_Copy 0x02008494 thumb
  *   func_02012934 0x02012934 thumb
  *   func_0201AB28 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
  *   func_0203F4E4 0x0203F4E4 arm
  *   func_02080D24 0x02080D24 arm
  *   func_02082D44 0x02082D44 arm
- *   func_02039338 0x02039338 arm
+ *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   func_020307B0 0x020307B0 arm
  *   func_02012950 0x02012950 thumb
- *   func_02008468 0x02008468 thumb
+ *   MYSTATUS_GetSize 0x02008468 thumb
  */
 #include "../../matched/include/Obj06362.h"
 #include "../../matched/include/Obj22090.h"
@@ -106,33 +106,33 @@ typedef struct Four { int a,b,c,d; } Four;
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32);
 extern u32 func_020307B0(void *p);
-extern int func_0203CD98(void);
-extern void func_0203CBAC(struct Req *req, u32 a2, u32 a3);
-extern int func_0203CEAC(int a0);
+extern int GFL_NET_GetRunState(void);
+extern void GFL_NET_StartSession(struct Req *req, u32 a2, u32 a3);
+extern int GFL_NET_Exit(int a0);
 extern int GFL_NET_StartChangeoverChild(int);
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
-extern u32 func_0203D378(void);
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_IsParentAid(void);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int GFL_NET_SYSTEM_IsSendQueueEntry(u32,u32);
-extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d);
-extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
-extern void func_0203A574(u32,u32,u32,u32);
-extern void func_0203A5E4(u32);
+extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
+extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
+extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
+extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void func_02087C88(struct OSOwnerInfo *info);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
-extern void func_02008494(void *,void *);
+extern void MYSTATUS_Copy(void *,void *);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0203F4E4(struct RtcDate *date);
 extern u32 func_02080D24(u32);
 extern void func_02082D44(void *,const void *,unsigned);
-extern unsigned short func_02039338(void);
+extern unsigned short GFL_NET_SYSTEM_GetCurrentAid(void);
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
-extern int func_02008468(void);
+extern int MYSTATUS_GetSize(void);
 void *func_021B6100(int a,int b,int c,int d);
 void func_021B6148(void *a0);
 int func_021B6150(struct Obj_021B6150 *p);
@@ -212,16 +212,16 @@ int func_021B6150(struct Obj_021B6150 *p) {
  if(p->done!=0) return 1;
  switch(p->state) {
  case 0:
-  if(func_0203CD98()!=0) { p->state=2; }
+  if(GFL_NET_GetRunState()!=0) { p->state=2; }
   else {
    config=d_021B743C;
    config.context=p->context;
-   func_0203CBAC((struct Req *)(&config),(u32)func_021B6670,(int)p);
+   GFL_NET_StartSession((struct Req *)(&config),(u32)func_021B6670,(int)p);
   }
   p->state=1;
   break;
  case 1:
-  if(func_0203CD98()!=0) p->state=2;
+  if(GFL_NET_GetRunState()!=0) p->state=2;
   break;
  case 2:
   func_021B66E0((int)p+4,(int)p,p->heap);
@@ -253,7 +253,7 @@ int func_021B61E8(Obj_021B61E8 *o)
         o->state = 1;
         break;
     case 1:
-        if (func_0203CEAC((int)func_021B6674) != 0)
+        if (GFL_NET_Exit((int)func_021B6674) != 0)
             o->state = 2;
         else
             o->state = 3;
@@ -304,11 +304,11 @@ int func_021B62AC(int *p)
     if(p[30]) return 1;
     switch(p[17]) {
     case 0:
-        func_02039C68((struct Link *)func_020399A8(),14,13);
+        func_02039C68((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
         p[17]=1;
         break;
     case 1:
-        if(func_02039CB4((struct Link *)func_020399A8(),14,13)) p[17]=2;
+        if(func_02039CB4((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) p[17]=2;
         break;
     case 2:
         p[17]=0;
@@ -335,7 +335,7 @@ int func_021B630C(int *p,int value)
         if(func_021B6494((unsigned int)p,0xD00,4,(unsigned int)(&value))) p[17]=1;
         break;
     case 1:
-        if(func_0203D378()) {
+        if(GFL_NET_IsParentAid()) {
             for(i=0;i<2;i++) { if(value != p[26+i]) break; }
             if(i == 2) p[17]=2;
         } else p[17]=3;
@@ -379,7 +379,7 @@ int func_021B63D0(Obj_021B63D0 *p)
     p->counter += 1;
     if (old > 180) {
         p->counter = 0;
-        if (!GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,func_0203D1A4((void *)func_020399A8())))
+        if (!GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,GFL_NET_GetHandleNetID((void *)GFL_NET_HANDLE_GetCurrentHandle())))
             return func_021B6424((int)p);
     }
     return 0;
@@ -393,7 +393,7 @@ int func_021B6424(int p)
     unsigned int id;
     u8 other;
     if(((struct Obj22090 *)p)->f78) return 1;
-    id=func_0203D1A4((void *)func_020399A8());
+    id=GFL_NET_GetHandleNetID((void *)GFL_NET_HANDLE_GetCurrentHandle());
     other=(id == 0);
     if(GFL_NET_SYSTEM_IsSendQueueEntry(0xD02,id) == 0) {
         return func_021B64B8(p,0xD02,4,p+0x38,other,0,0,1);
@@ -416,7 +416,7 @@ int func_021B6480(int *p) { if(p[30]) return 0; return p[14]-p[15]; }
  */
 int func_021B6494(u32 p,u32 a,u32 b,u32 c) {
     if(((struct Obj22091 *)p)->f78!=0) return 1;
-    return func_0203D3A8((struct Entry *)func_020399A8(),a,b,c);
+    return GFL_NET_SendToHandle((struct Entry *)GFL_NET_HANDLE_GetCurrentHandle(),a,b,c);
 }
 
 
@@ -424,7 +424,7 @@ int func_021B6494(u32 p,u32 a,u32 b,u32 c) {
 
 u32 func_021B64B8(u32 p,u32 a,u32 b,u32 c,u8 d,u32 e,u32 f,u32 g) {
     if(((struct Obj22092 *)p)->f78!=0) return 1;
-    return func_0203D3F8((u32)func_020399A8(),d,a,b,c,e,f,g);
+    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),d,a,b,c,e,f,g);
 }
 
 
@@ -434,14 +434,14 @@ u32 func_021B64B8(u32 p,u32 a,u32 b,u32 c,u8 d,u32 e,u32 f,u32 g) {
  * note: trailing two zero alignment bytes.
  */
 void func_021B64F0(u32 p,u32 a,u32 b,u32 c,u32 d) {
-    if(((struct Obj22093 *)p)->f78==0) func_0203A574(a,b,c,d);
+    if(((struct Obj22093 *)p)->f78==0) GFL_NET_COMMAND_AddCommandTable(a,b,c,d);
 }
 
 
 
 
 void func_021B6508(u32 p,u32 a) {
-    if(((struct Obj22094 *)p)->f78==0) func_0203A5E4(a);
+    if(((struct Obj22094 *)p)->f78==0) GFL_NET_COMMAND_DeleteCommandTable(a);
 }
 
 
@@ -556,7 +556,7 @@ void func_021B658C(void *p,Data *out)
     p=func_02012944(sub);
     out->f04=config.bytes[2];
     out->f05=config.bytes[3];
-    func_02008494(p,out->tail);
+    MYSTATUS_Copy(p,out->tail);
     record=func_0201AB28(func_02012934(sub),0);
     flag=0;
     out->f06=func_02017E1C(record,5,0);
@@ -684,7 +684,7 @@ void func_021B6674(int *p) { p[21] = 1; }
 
 
 
-void func_021B667C(unsigned a,int b,void *c,unsigned char *d) { unsigned v; if(func_0203D378()) { func_02082D44(c,&v,4); *(unsigned *)(d+0x68+a*4)=v; } }
+void func_021B667C(unsigned a,int b,void *c,unsigned char *d) { unsigned v; if(GFL_NET_IsParentAid()) { func_02082D44(c,&v,4); *(unsigned *)(d+0x68+a*4)=v; } }
 
 
 
@@ -698,7 +698,7 @@ void func_021B667C(unsigned a,int b,void *c,unsigned char *d) { unsigned v; if(f
 
 
 
-void func_021B66A4(int a,int b,int c,int *d,unsigned e) { if(e==(unsigned)func_020399A8()) d[28]=1; }
+void func_021B66A4(int a,int b,int c,int *d,unsigned e) { if(e==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) d[28]=1; }
 
 
 
@@ -712,7 +712,7 @@ void func_021B66A4(int a,int b,int c,int *d,unsigned e) { if(e==(unsigned)func_0
 
 
 
-void func_021B66B8(unsigned a,int b,void *c,unsigned char *d,unsigned e) { if(e==(unsigned)func_020399A8()) { if(a!=func_02039338()) func_02082D44(c,d+0x3c,4); } }
+void func_021B66B8(unsigned a,int b,void *c,unsigned char *d,unsigned e) { if(e==(unsigned)GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) func_02082D44(c,d+0x3c,4); } }
 
 
 
@@ -837,7 +837,7 @@ void func_021B685C(int *p,R *out) { *out=*(R *)p[12]; }
 
 
 void func_021B6874(u32 a,int b,void *c,u8 *d,void *e) {
- if(e==func_020399A8()) { if(a!=func_02039338()) { func_02082D44(c,d+8,8); ((struct Obj22106 *)d)->f18=1; } }
+ if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) { func_02082D44(c,d+8,8); ((struct Obj22106 *)d)->f18=1; } }
 }
 
 
@@ -849,7 +849,7 @@ void func_021B6874(u32 a,int b,void *c,u8 *d,void *e) {
 
 
 void func_021B68A0(u32 a,int b,int c,u8 *d,void *e) {
- if(e==func_020399A8()) { if(a!=func_02039338()) ((struct Obj22107 *)d)->f1C=1; }
+ if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22107 *)d)->f1C=1; }
 }
 
 
@@ -861,7 +861,7 @@ void func_021B68A0(u32 a,int b,int c,u8 *d,void *e) {
 
 
 void func_021B68C0(u32 a,int b,int c,u8 *d,void *e) {
- if(e==func_020399A8()) { if(a!=func_02039338()) ((struct Obj22108 *)d)->f20=1; }
+ if(e==GFL_NET_HANDLE_GetCurrentHandle()) { if(a!=GFL_NET_SYSTEM_GetCurrentAid()) ((struct Obj22108 *)d)->f20=1; }
 }
 
 
@@ -877,10 +877,10 @@ void func_021B68E0(u32 a, int b, int c, int *d, u32 e)
     void *p;
     if (*(int *)d[0] != 0) {
         p = func_02012950((void *)*(int *)d[0], a);
-        func_02082D44((void *)(c + 12), p, func_02008468());
+        func_02082D44((void *)(c + 12), p, MYSTATUS_GetSize());
     }
-    if (e == (u32)func_020399A8()) {
-        if (a != func_02039338())
+    if (e == (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
+        if (a != GFL_NET_SYSTEM_GetCurrentAid())
             d[9] = 1;
     }
 }
@@ -894,6 +894,6 @@ void func_021B68E0(u32 a, int b, int c, int *d, u32 e)
 
 
 u32 func_021B6920(u32 a,u8 *p) {
- if(a==func_02039338()) return ((struct Obj13716 *)p)->f2C;
+ if(a==GFL_NET_SYSTEM_GetCurrentAid()) return ((struct Obj13716 *)p)->f2C;
  return ((struct Obj13716 *)p)->f30;
 }

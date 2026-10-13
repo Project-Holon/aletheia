@@ -1,7 +1,7 @@
 /*
  * file:     party_select_list.c
  * unit:     yes
- * function: func_021CC720, func_021CC7B4, func_021CC810, func_021CC8B0, func_021CC8DC, func_021CC9A4, func_021CCA00, func_021CCB98, func_021CCBE0, func_021CCC50, func_021CCCC4, func_021CCCE4, func_021CCDF8, func_021CCE48, func_021CCEB8, func_021CCEE4, func_021CCEFC, func_021CCF48, func_021CCF54, func_021CCF60, func_021CCF7C, func_021CCFC0, func_021CCFD8, func_021CCFE4, func_021CCFF8, func_021CD004, func_021CD038, func_021CD050, func_021CD184, func_021CD1AC
+ * function: PARTY_SELECT_LIST_Create, PARTY_SELECT_LIST_Delete, PARTY_SELECT_LIST_Main, PARTY_SELECT_LIST_GetResult, PARTY_SELECT_LIST_LoadMonIconResources, PARTY_SELECT_LIST_FreeMonIconResources, PARTY_SELECT_LIST_CreateMonIcons, PARTY_SELECT_LIST_DeleteMonIcons, PARTY_SELECT_LIST_SetMonIconsVisible, PARTY_SELECT_LIST_LoadStatusIconResources, PARTY_SELECT_LIST_FreeStatusIconResources, PARTY_SELECT_LIST_CreateStatusIcons, PARTY_SELECT_LIST_DeleteStatusIcons, PARTY_SELECT_LIST_SetStatusIconsVisible, PARTY_SELECT_LIST_InitMessageResources, PARTY_SELECT_LIST_FreeMessageResources, PARTY_SELECT_LIST_CreateMenu, PARTY_SELECT_LIST_ProcessMenu, PARTY_SELECT_LIST_GetMenuResult, PARTY_SELECT_LIST_MenuMoveCallback, PARTY_SELECT_LIST_MenuSelectCallback, PARTY_SELECT_LIST_CreateTextWindow, PARTY_SELECT_LIST_DeleteTextWindow, PARTY_SELECT_LIST_PrintText, PARTY_SELECT_LIST_IsTextDone, PARTY_SELECT_LIST_CreateListWindow, PARTY_SELECT_LIST_DeleteListWindow, PARTY_SELECT_LIST_PrintPartyNames, PARTY_SELECT_LIST_ShowParty, PARTY_SELECT_LIST_HideParty
  * address:  0x021CC720
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,77 +15,77 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   func_02045808  0x02045808  arm
+ *   STRBUF_Delete  0x02045808  arm
  *   func_020307B0  0x020307B0  arm
- *   func_02017E1C  0x02017E1C  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   func_0201AB28  0x0201AB28  thumb
  *   func_02034714  0x02034714  arm
- *   func_0204B100  0x0204B100  arm
- *   func_0201D7EC  0x0201D7EC  thumb
+ *   CLACT_CreateUnit  0x0204B100  arm
+ *   GF_FONT_Create  0x0201D7EC  thumb
  *   d_021DE5BC  0x021DE5BC  data  a1
  *   d_021DE5C0  0x021DE5C0  data  ov021
- *   func_0201D83C  0x0201D83C  thumb
- *   func_0204B1CC  0x0204B1CC  arm
- *   func_0219049C  0x0219049C  thumb  ov021
- *   func_021CD1AC  0x021CD1AC  thumb  ov021
+ *   GF_FONT_Delete  0x0201D83C  thumb
+ *   CLACT_DeleteUnit  0x0204B1CC  arm
+ *   FIELD_MSGBG_IsPrintQueFinished  0x0219049C  thumb  ov021
+ *   PARTY_SELECT_LIST_HideParty  0x021CD1AC  thumb  ov021
  *   func_020490F4  0x020490F4  arm
  *   func_0201BC3C  0x0201BC3C  thumb
- *   func_0204ACEC  0x0204ACEC  arm
+ *   CLACT_RegisterPaletteCompressed  0x0204ACEC  arm
  *   func_0201BC40  0x0201BC40  thumb
  *   func_0201BCB4  0x0201BCB4  thumb
- *   func_0204AF28  0x0204AF28  arm
+ *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   func_0201AA18  0x0201AA18  thumb
- *   func_020185F0  0x020185F0  thumb
+ *   POKE_TOOL_Dummy  0x020185F0  thumb
  *   func_0201BA68  0x0201BA68  thumb
- *   func_0204A6C8  0x0204A6C8  arm
- *   func_02049238  0x02049238  arm
- *   func_0204A8D4  0x0204A8D4  arm
- *   func_0204AFD8  0x0204AFD8  arm
- *   func_0204ADA4  0x0204ADA4  arm
+ *   CLACT_RegisterCharacter  0x0204A6C8  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
+ *   CLACT_ReleaseCharacter  0x0204A8D4  arm
+ *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
+ *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   func_0201BB5C  0x0201BB5C  thumb
- *   func_0204B294  0x0204B294  arm
+ *   CLACT_CreateActor  0x0204B294  arm
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *   d_021DB404     0x021DB404  data  a2
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_02027694  0x02027694  thumb
- *   func_0204AC18  0x0204AC18  arm
+ *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   func_0202769C  0x0202769C  thumb
  *   func_020276A0  0x020276A0  thumb
  *   func_02027698  0x02027698  thumb
  *   d_021DB40C  0x021DB40C  data
  *   func_0202136C  0x0202136C  thumb
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_021904B0  0x021904B0  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   func_0201EC64  0x0201EC64  thumb
  *   func_0201ED04  0x0201ED04  thumb
- *   func_021904C8  0x021904C8  thumb  ov021
- *   func_02190A28  0x02190A28  thumb  ov021
- *   func_02190938  0x02190938  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuItemsFromTable  0x02190A28  thumb  ov021
+ *   FIELD_MSGBG_CreateMenuFuncCallback  0x02190938  thumb  ov021
  *   d_021DB414     0x021DB414  data  a4
  *   d_021DB42C     0x021DB42C  data  ov021  a4
- *   func_021909BC  0x021909BC  thumb  ov021
- *   func_021909E4  0x021909E4  thumb  ov021
- *   func_02020D0C  0x02020D0C  thumb
- *   func_021CD184  0x021CD184  thumb  ov021
- *   func_02020298  0x02020298  thumb
- *   func_02190F64  0x02190F64  thumb  ov021
- *   func_02190E40  0x02190E40  thumb  ov021
- *   func_02190E74  0x02190E74  thumb  ov021
- *   func_02190EF0  0x02190EF0  thumb  ov021
- *   func_02190708  0x02190708  thumb  ov021
- *   func_02190728  0x02190728  thumb  ov021
- *   func_021CD004  0x021CD004  thumb  ov021
- *   func_02190788  0x02190788  thumb  ov021
- *   func_020457B0  0x020457B0  arm
- *   func_02045CAC  0x02045CAC  arm
+ *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
+ *   FIELD_MSGBG_MenuFuncMain  0x021909E4  thumb  ov021
+ *   BMP_MENULIST_GetUserData  0x02020D0C  thumb
+ *   PARTY_SELECT_LIST_ShowParty  0x021CD184  thumb  ov021
+ *   BMP_MENULIST_SetOverrideColors  0x02020298  thumb
+ *   FIELD_MSGBG_CreateBottomSysWin  0x02190F64  thumb  ov021
+ *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
+ *   FIELD_MSGBG_SysWinPrintMsg  0x02190E74  thumb  ov021
+ *   FIELD_MSGBG_SysWinMain  0x02190EF0  thumb  ov021
+ *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
+ *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
+ *   PARTY_SELECT_LIST_CreateListWindow  0x021CD004  thumb  ov021
+ *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb  ov021
+ *   STRBUF_Create  0x020457B0  arm
+ *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_0201EFA4  0x0201EFA4  thumb
  *   func_0201F250  0x0201F250  thumb
- *   func_02190764  0x02190764  thumb  ov021
- *   func_02190740  0x02190740  thumb  ov021
- *   func_021CCBE0  0x021CCBE0  thumb  ov021
- *   func_021CCE48  0x021CCE48  thumb  ov021
- *   func_021CD038  0x021CD038  thumb  ov021
+ *   FIELD_MSGBG_MsgWinPrintStrColorFont  0x02190764  thumb  ov021
+ *   FIELD_MSGBG_MsgWinPrintMsg  0x02190740  thumb  ov021
+ *   PARTY_SELECT_LIST_SetMonIconsVisible  0x021CCBE0  thumb  ov021
+ *   PARTY_SELECT_LIST_SetStatusIconsVisible  0x021CCE48  thumb  ov021
+ *   PARTY_SELECT_LIST_DeleteListWindow  0x021CD038  thumb  ov021
  */
 #include "field_msgbg_types.h"
 
@@ -147,67 +147,67 @@ typedef struct PartySelectList {
 } PartySelectList;
 
 extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void func_02045808(struct Strbuf *str);
+extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 func_020307B0(void *p);
-extern u32 func_02017E1C(void *obj, u32 key, u32 off);
+extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
-extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
-extern u32 func_0201D83C(void *ptr);
-extern u32 func_0204B1CC(struct Bank *bank);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
+extern u32 GF_FONT_Delete(void *ptr);
+extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void *func_020490F4(u32 id, u32 heap);
 extern int func_0201BC3C(void);
-extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int CLACT_RegisterPaletteCompressed(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_0201BC40(void);
 extern int func_0201BCB4(void);
-extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_0201AA18(void *p);
-extern u32 func_020185F0(void *p);
+extern u32 POKE_TOOL_Dummy(void *p);
 extern u32 func_0201BA68(void *mon);
-extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern void func_02049238(void *h);
-extern void func_0204A8D4(u32 v);
-extern void func_0204AFD8(u32 v);
-extern u32 func_0204ADA4(u32 v);
+extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern void ARC_TOOL_DeleteHandle(void *h);
+extern void CLACT_ReleaseCharacter(u32 v);
+extern void CLACT_ReleaseCellAnim(u32 v);
+extern u32 CLACT_ReleasePalette(u32 v);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern struct IconActor *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
+extern struct IconActor *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B6F4(struct IconActor *o, u32 v, u32 flag);
 extern void func_0204B3DC(struct IconActor *p, unsigned int v);
-extern void func_0204B3B4(struct IconActor *p);
+extern void CLACT_DeleteActor(struct IconActor *p);
 extern u32 func_02027694(void);
-extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern u32 func_0202769C(u32 a);
 extern u32 func_020276A0(u32 a);
 extern u32 func_02027698(void);
 extern u32 func_0202136C(u16 v);
-extern FieldMsgBg *func_02188C54(void *owner);
+extern FieldMsgBg *FIELDMAP_GetMsgBg(void *owner);
 extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 func_0201ED04(struct WordSet *p);
-extern u32 func_02020D0C(struct BmpMenuList *menu);
-extern void func_02020298(struct BmpMenuList *menu, u8 a, u8 b, u8 c);
-extern struct Strbuf *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045CAC(struct MsgData *msgData, u32 index, struct Strbuf *dest);
+extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
+extern void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 a, u8 b, u8 c);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgData *msgData, u32 index, struct Strbuf *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
 
-extern int func_0219049C(FieldMsgBg *msgBg);
-extern struct MsgData *func_021904B0(FieldMsgBg *msgBg, u32 fileId);
-extern u32 func_021904C8(struct MsgData *msgData);
-extern void func_02190764(FieldMsgWin *msgWin, u16 x, int y, struct Strbuf *str, u16 color, struct GfFont *font);
-extern int func_02190740(FieldMsgWin *msgWin, int x, int y, u32 msgId);
-extern FieldMsgWin *func_02190708(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
-extern int func_02190728(FieldMsgWin *msgWin);
-extern void func_02190788(FieldMsgWin *msgWin);
-extern struct BmpMenuWork *func_02190A28(const FieldMenuItemData *itemData, int count, struct MsgData *msgData, u16 heapId);
-extern FieldMenuFunc *func_02190938(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos,
+extern int FIELD_MSGBG_IsPrintQueFinished(FieldMsgBg *msgBg);
+extern struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
+extern u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData);
+extern void FIELD_MSGBG_MsgWinPrintStrColorFont(FieldMsgWin *msgWin, u16 x, int y, struct Strbuf *str, u16 color, struct GfFont *font);
+extern int FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId);
+extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
+extern int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
+extern void FIELD_MSGBG_ClearMsgWin(FieldMsgWin *msgWin);
+extern struct BmpMenuWork *FIELD_MSGBG_CreateMenuItemsFromTable(const FieldMenuItemData *itemData, int count, struct MsgData *msgData, u16 heapId);
+extern FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncCallback(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u16 listPos, u16 cursorPos,
                                     u32 moveCallback, u32 lineCallback, u32 work);
-extern int func_021909BC(FieldMenuFunc *menu);
-extern int func_021909E4(FieldMenuFunc *menu);
-extern int func_02190E40(FieldSysWin *sysWin);
-extern void func_02190E74(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
-extern u32 func_02190EF0(FieldSysWin *sysWin);
-extern FieldSysWin *func_02190F64(FieldMsgBg *msgBg, struct MsgData *msgData);
+extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
+extern int FIELD_MSGBG_MenuFuncMain(FieldMenuFunc *menu);
+extern int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
+extern void FIELD_MSGBG_SysWinPrintMsg(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
+extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
+extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *msgData);
 
 extern const char d_021DE5BC[];
 extern const char d_021DE5C0[];
@@ -216,39 +216,39 @@ extern const IconPosition d_021DB40C;
 extern FieldMenuItemData d_021DB414[];
 extern FieldMenuHeader d_021DB42C;
 
-PartySelectList *func_021CC720(void *owner, void *firstParty, void *secondParty, u32 sideFlagFirst, u32 sideFlagSecond, u16 heapId);
-u32 func_021CC7B4(PartySelectList *list, u32 *outFlag);
-int func_021CC810(PartySelectList *list);
-u32 func_021CC8B0(PartySelectList *list, u32 *outFlag);
-void func_021CC8DC(PartySelectList *list);
-void func_021CC9A4(PartySelectList *list);
-void func_021CCA00(PartySelectList *list);
-void func_021CCB98(PartySelectList *list);
-void func_021CCBE0(PartySelectList *list, int side);
-void func_021CCC50(PartySelectList *list);
-int func_021CCCC4(PartySelectList *list);
-void func_021CCCE4(PartySelectList *list);
-void func_021CCDF8(PartySelectList *list);
-void func_021CCE48(PartySelectList *list, int side);
-void func_021CCEB8(PartySelectList *list);
-int func_021CCEE4(PartySelectList *list);
-void func_021CCEFC(PartySelectList *list);
-void func_021CCF48(PartySelectList *list);
-u32 func_021CCF54(PartySelectList *list);
-void func_021CCF60(struct BmpMenuList *menu, u32 sel);
-void func_021CCF7C(struct BmpMenuList *menu, int k);
-void func_021CCFC0(PartySelectList *list);
-void func_021CCFD8(PartySelectList *list);
-void func_021CCFE4(PartySelectList *list, u32 msgId);
-int func_021CCFF8(PartySelectList *list);
-void func_021CD004(PartySelectList *list);
-void func_021CD038(PartySelectList *list);
-void func_021CD050(PartySelectList *list, void *party);
-void func_021CD184(PartySelectList *list, u32 sel);
-void func_021CD1AC(PartySelectList *list);
+PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *secondParty, u32 sideFlagFirst, u32 sideFlagSecond, u16 heapId);
+u32 PARTY_SELECT_LIST_Delete(PartySelectList *list, u32 *outFlag);
+int PARTY_SELECT_LIST_Main(PartySelectList *list);
+u32 PARTY_SELECT_LIST_GetResult(PartySelectList *list, u32 *outFlag);
+void PARTY_SELECT_LIST_LoadMonIconResources(PartySelectList *list);
+void PARTY_SELECT_LIST_FreeMonIconResources(PartySelectList *list);
+void PARTY_SELECT_LIST_CreateMonIcons(PartySelectList *list);
+void PARTY_SELECT_LIST_DeleteMonIcons(PartySelectList *list);
+void PARTY_SELECT_LIST_SetMonIconsVisible(PartySelectList *list, int side);
+void PARTY_SELECT_LIST_LoadStatusIconResources(PartySelectList *list);
+int PARTY_SELECT_LIST_FreeStatusIconResources(PartySelectList *list);
+void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list);
+void PARTY_SELECT_LIST_DeleteStatusIcons(PartySelectList *list);
+void PARTY_SELECT_LIST_SetStatusIconsVisible(PartySelectList *list, int side);
+void PARTY_SELECT_LIST_InitMessageResources(PartySelectList *list);
+int PARTY_SELECT_LIST_FreeMessageResources(PartySelectList *list);
+void PARTY_SELECT_LIST_CreateMenu(PartySelectList *list);
+void PARTY_SELECT_LIST_ProcessMenu(PartySelectList *list);
+u32 PARTY_SELECT_LIST_GetMenuResult(PartySelectList *list);
+void PARTY_SELECT_LIST_MenuMoveCallback(struct BmpMenuList *menu, u32 sel);
+void PARTY_SELECT_LIST_MenuSelectCallback(struct BmpMenuList *menu, int k);
+void PARTY_SELECT_LIST_CreateTextWindow(PartySelectList *list);
+void PARTY_SELECT_LIST_DeleteTextWindow(PartySelectList *list);
+void PARTY_SELECT_LIST_PrintText(PartySelectList *list, u32 msgId);
+int PARTY_SELECT_LIST_IsTextDone(PartySelectList *list);
+void PARTY_SELECT_LIST_CreateListWindow(PartySelectList *list);
+void PARTY_SELECT_LIST_DeleteListWindow(PartySelectList *list);
+void PARTY_SELECT_LIST_PrintPartyNames(PartySelectList *list, void *party);
+void PARTY_SELECT_LIST_ShowParty(PartySelectList *list, u32 sel);
+void PARTY_SELECT_LIST_HideParty(PartySelectList *list);
 
 
-PartySelectList *func_021CC720(void *owner, void *firstParty, void *secondParty, u32 sideFlagFirst, u32 sideFlagSecond, u16 heapId)
+PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *secondParty, u32 sideFlagFirst, u32 sideFlagSecond, u16 heapId)
 {
     PartySelectList *list;
 
@@ -261,31 +261,31 @@ PartySelectList *func_021CC720(void *owner, void *firstParty, void *secondParty,
     list->heapId = heapId;
     list->sideFlagFirst = sideFlagFirst;
     list->sideFlagSecond = sideFlagSecond;
-    list->actorBank = func_0204B100(0x20, 0xa, list->heapId);
-    list->font = func_0201D7EC(0x17, 3, 0, 0, list->heapId);
-    func_021CCEB8(list);
-    func_021CC8DC(list);
-    func_021CCA00(list);
-    func_021CCC50(list);
-    func_021CCCE4(list);
+    list->actorBank = CLACT_CreateUnit(0x20, 0xa, list->heapId);
+    list->font = GF_FONT_Create(0x17, 3, 0, 0, list->heapId);
+    PARTY_SELECT_LIST_InitMessageResources(list);
+    PARTY_SELECT_LIST_LoadMonIconResources(list);
+    PARTY_SELECT_LIST_CreateMonIcons(list);
+    PARTY_SELECT_LIST_LoadStatusIconResources(list);
+    PARTY_SELECT_LIST_CreateStatusIcons(list);
     return list;
 }
 
 
-u32 func_021CC7B4(PartySelectList *list, u32 *outFlag)
+u32 PARTY_SELECT_LIST_Delete(PartySelectList *list, u32 *outFlag)
 {
     u32 result;
 
-    result = func_021CC8B0(list, outFlag);
+    result = PARTY_SELECT_LIST_GetResult(list, outFlag);
     if (list->finished != 1)
         func_02034714(d_021DE5BC, 0, d_021DE5BC);
-    func_021CCDF8(list);
-    func_021CCCC4(list);
-    func_021CCB98(list);
-    func_021CC9A4(list);
-    func_021CCEE4(list);
-    func_0201D83C(list->font);
-    func_0204B1CC(list->actorBank);
+    PARTY_SELECT_LIST_DeleteStatusIcons(list);
+    PARTY_SELECT_LIST_FreeStatusIconResources(list);
+    PARTY_SELECT_LIST_DeleteMonIcons(list);
+    PARTY_SELECT_LIST_FreeMonIconResources(list);
+    PARTY_SELECT_LIST_FreeMessageResources(list);
+    GF_FONT_Delete(list->font);
+    CLACT_DeleteUnit(list->actorBank);
     func_020307B0(list);
     return result;
 }
@@ -296,30 +296,30 @@ u32 func_021CC7B4(PartySelectList *list, u32 *outFlag)
  * result (cases 2, -2, -1) is what gives the compare order 2, -2, -1 and
  * the dead second -1 test.
  */
-int func_021CC810(PartySelectList *list)
+int PARTY_SELECT_LIST_Main(PartySelectList *list)
 {
     u32 menuResult;
 
     switch (list->step) {
     case 0:
-        func_021CCFC0(list);
-        func_021CCFE4(list, 3);
+        PARTY_SELECT_LIST_CreateTextWindow(list);
+        PARTY_SELECT_LIST_PrintText(list, 3);
         list->step = list->step + 1;
         break;
     case 1:
-        if (func_021CCFF8(list) == 1) {
-            func_021CCEFC(list);
+        if (PARTY_SELECT_LIST_IsTextDone(list) == 1) {
+            PARTY_SELECT_LIST_CreateMenu(list);
             list->step = list->step + 1;
         }
         break;
     case 2:
-        if (func_0219049C(list->msgBg) == 1) {
-            menuResult = func_021CCF54(list);
+        if (FIELD_MSGBG_IsPrintQueFinished(list->msgBg) == 1) {
+            menuResult = PARTY_SELECT_LIST_GetMenuResult(list);
             if (menuResult == -1)
                 break;
-            func_021CCF48(list);
-            func_021CD1AC(list);
-            func_021CCFD8(list);
+            PARTY_SELECT_LIST_ProcessMenu(list);
+            PARTY_SELECT_LIST_HideParty(list);
+            PARTY_SELECT_LIST_DeleteTextWindow(list);
             switch (menuResult) {
             case 2:
             case -2:
@@ -343,7 +343,7 @@ int func_021CC810(PartySelectList *list)
 }
 
 
-u32 func_021CC8B0(PartySelectList *list, u32 *outFlag)
+u32 PARTY_SELECT_LIST_GetResult(PartySelectList *list, u32 *outFlag)
 {
     u32 side;
 
@@ -357,30 +357,30 @@ u32 func_021CC8B0(PartySelectList *list, u32 *outFlag)
 }
 
 
-void func_021CC8DC(PartySelectList *list)
+void PARTY_SELECT_LIST_LoadMonIconResources(PartySelectList *list)
 {
     void *arc;
     int i;
     int count;
 
     arc = func_020490F4(7, list->heapId);
-    list->monIconPalette = func_0204ACEC(arc, func_0201BC3C(), 0, 0x60, list->heapId);
-    list->monIconCell = func_0204AF28(arc, func_0201BC40(), func_0201BCB4(), list->heapId);
+    list->monIconPalette = CLACT_RegisterPaletteCompressed(arc, func_0201BC3C(), 0, 0x60, list->heapId);
+    list->monIconCell = CLACT_RegisterCellAnim(arc, func_0201BC40(), func_0201BCB4(), list->heapId);
     count = func_0201AA18(list->party[0]);
     for (i = 0; i < count; i++) {
-        list->monIconRes[0][i] = func_0204A6C8(arc, func_0201BA68((void *)func_020185F0(func_0201AB28(list->party[0], i))), 0, 0, list->heapId);
+        list->monIconRes[0][i] = CLACT_RegisterCharacter(arc, func_0201BA68((void *)POKE_TOOL_Dummy(func_0201AB28(list->party[0], i))), 0, 0, list->heapId);
     }
     if (list->party[1] != 0) {
         count = func_0201AA18(list->party[1]);
         for (i = 0; i < count; i++) {
-            list->monIconRes[1][i] = func_0204A6C8(arc, func_0201BA68((void *)func_020185F0(func_0201AB28(list->party[1], i))), 0, 0, list->heapId);
+            list->monIconRes[1][i] = CLACT_RegisterCharacter(arc, func_0201BA68((void *)POKE_TOOL_Dummy(func_0201AB28(list->party[1], i))), 0, 0, list->heapId);
         }
     }
-    func_02049238(arc);
+    ARC_TOOL_DeleteHandle(arc);
 }
 
 
-void func_021CC9A4(PartySelectList *list)
+void PARTY_SELECT_LIST_FreeMonIconResources(PartySelectList *list)
 {
     int i;
     int count;
@@ -388,17 +388,17 @@ void func_021CC9A4(PartySelectList *list)
     if (list->party[1]) {
         count = func_0201AA18(list->party[1]);
         for (i = 0; i < count; i++)
-            func_0204A8D4(list->monIconRes[1][i]);
+            CLACT_ReleaseCharacter(list->monIconRes[1][i]);
     }
     count = func_0201AA18(list->party[0]);
     for (i = 0; i < count; i++)
-        func_0204A8D4(list->monIconRes[0][i]);
-    func_0204AFD8(list->monIconCell);
-    func_0204ADA4(list->monIconPalette);
+        CLACT_ReleaseCharacter(list->monIconRes[0][i]);
+    CLACT_ReleaseCellAnim(list->monIconCell);
+    CLACT_ReleasePalette(list->monIconPalette);
 }
 
 
-void func_021CCA00(PartySelectList *list)
+void PARTY_SELECT_LIST_CreateMonIcons(PartySelectList *list)
 {
     ListPosition pos = d_021DB404;
     int count0;
@@ -413,12 +413,12 @@ void func_021CCA00(PartySelectList *list)
     count0 = func_0201AA18(list->party[0]);
     for (i = 0; i < count0; i++) {
         pos.x = i * 0x28 + 0x18;
-        list->monIcon[0][i] = func_0204B294(list->actorBank, list->monIconRes[0][i], list->monIconPalette, list->monIconCell, &pos, 0, list->heapId);
+        list->monIcon[0][i] = CLACT_CreateActor(list->actorBank, list->monIconRes[0][i], list->monIconPalette, list->monIconCell, &pos, 0, list->heapId);
         mon = func_0201AB28(list->party[0], i);
-        species = func_02017E1C(mon, 5, 0);
-        form = func_02017E1C(mon, 0x6f, 0);
-        isEgg = (func_02017E1C(mon, 0xab, 0) == 0x28a) ? 1 : 0;
-        iconKind = func_0201BB5C(species, form, func_02017E1C(mon, 0x6e, 0), isEgg);
+        species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+        isEgg = (POKE_TOOL_GetPartyValue(mon, 0xab, 0) == 0x28a) ? 1 : 0;
+        iconKind = func_0201BB5C(species, form, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), isEgg);
         func_0204B6F4(list->monIcon[0][i], (u8)iconKind, 1);
         func_0204B3DC(list->monIcon[0][i], 0);
     }
@@ -426,12 +426,12 @@ void func_021CCA00(PartySelectList *list)
         count1 = func_0201AA18(list->party[1]);
         for (i = 0; i < count1; i++) {
             pos.x = i * 0x28 + 0x18;
-            list->monIcon[1][i] = func_0204B294(list->actorBank, list->monIconRes[1][i], list->monIconPalette, list->monIconCell, &pos, 0, list->heapId);
+            list->monIcon[1][i] = CLACT_CreateActor(list->actorBank, list->monIconRes[1][i], list->monIconPalette, list->monIconCell, &pos, 0, list->heapId);
             mon = func_0201AB28(list->party[1], i);
-            species = func_02017E1C(mon, 5, 0);
-            form = func_02017E1C(mon, 0x6f, 0);
-            isEgg = (func_02017E1C(mon, 0xab, 0) == 0x28a) ? 1 : 0;
-            iconKind = func_0201BB5C(species, form, func_02017E1C(mon, 0x6e, 0), isEgg);
+            species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+            form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+            isEgg = (POKE_TOOL_GetPartyValue(mon, 0xab, 0) == 0x28a) ? 1 : 0;
+            iconKind = func_0201BB5C(species, form, POKE_TOOL_GetPartyValue(mon, 0x6e, 0), isEgg);
             func_0204B6F4(list->monIcon[1][i], (u8)iconKind, 1);
             func_0204B3DC(list->monIcon[1][i], 0);
         }
@@ -439,23 +439,23 @@ void func_021CCA00(PartySelectList *list)
 }
 
 
-void func_021CCB98(PartySelectList *list)
+void PARTY_SELECT_LIST_DeleteMonIcons(PartySelectList *list)
 {
     int i;
     int count;
 
     count = func_0201AA18(list->party[0]);
     for (i = 0; i < count; i++)
-        func_0204B3B4(list->monIcon[0][i]);
+        CLACT_DeleteActor(list->monIcon[0][i]);
     if (list->party[1]) {
         count = func_0201AA18(list->party[1]);
         for (i = 0; i < count; i++)
-            func_0204B3B4(list->monIcon[1][i]);
+            CLACT_DeleteActor(list->monIcon[1][i]);
     }
 }
 
 
-void func_021CCBE0(PartySelectList *list, int side)
+void PARTY_SELECT_LIST_SetMonIconsVisible(PartySelectList *list, int side)
 {
     int i;
 
@@ -479,27 +479,27 @@ void func_021CCBE0(PartySelectList *list, int side)
 }
 
 
-void func_021CCC50(PartySelectList *list)
+void PARTY_SELECT_LIST_LoadStatusIconResources(PartySelectList *list)
 {
     void *arc;
     u32 cellRes;
     u32 animRes;
 
     arc = func_020490F4(0x53, list->heapId);
-    list->statusIconCell = func_0204AC18(arc, func_02027694(), 0, 0xc0, 0, 1, list->heapId);
+    list->statusIconCell = CLACT_RegisterPaletteEx(arc, func_02027694(), 0, 0xc0, 0, 1, list->heapId);
     cellRes = func_0202769C(1);
     animRes = func_020276A0(1);
-    list->statusIconAnim = func_0204AF28(arc, cellRes, animRes, list->heapId);
-    list->statusIconRes = func_0204A6C8(arc, func_02027698(), 0, 0, list->heapId);
-    func_02049238(arc);
+    list->statusIconAnim = CLACT_RegisterCellAnim(arc, cellRes, animRes, list->heapId);
+    list->statusIconRes = CLACT_RegisterCharacter(arc, func_02027698(), 0, 0, list->heapId);
+    ARC_TOOL_DeleteHandle(arc);
 }
 
 
-int func_021CCCC4(PartySelectList *list)
+int PARTY_SELECT_LIST_FreeStatusIconResources(PartySelectList *list)
 {
-    func_0204A8D4(list->statusIconRes);
-    func_0204AFD8(list->statusIconAnim);
-    return func_0204ADA4(list->statusIconCell);
+    CLACT_ReleaseCharacter(list->statusIconRes);
+    CLACT_ReleaseCellAnim(list->statusIconAnim);
+    return CLACT_ReleasePalette(list->statusIconCell);
 }
 
 
@@ -513,7 +513,7 @@ int func_021CCCC4(PartySelectList *list)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CCCE4(PartySelectList *list)
+void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
 {
     IconPosition pos = d_021DB40C;
     int count0;
@@ -523,7 +523,7 @@ void func_021CCCE4(PartySelectList *list)
 
     count0 = func_0201AA18(list->party[0]);
     for (i = 0; i < count0; i++) {
-        species = func_02017E1C(func_0201AB28(list->party[0], i), 6, 0);
+        species = POKE_TOOL_GetPartyValue(func_0201AB28(list->party[0], i), 6, 0);
         if (species != 0) {
             if (func_0202136C(species) == 1) {
                 pos.alt = 1;
@@ -531,14 +531,14 @@ void func_021CCCE4(PartySelectList *list)
                 pos.alt = 0;
             }
             pos.x = i * 0x28 + 0x20;
-            list->statusIcon[0][i] = func_0204B294(list->actorBank, list->statusIconRes, list->statusIconCell, list->statusIconAnim, &pos, 0, list->heapId);
+            list->statusIcon[0][i] = CLACT_CreateActor(list->actorBank, list->statusIconRes, list->statusIconCell, list->statusIconAnim, &pos, 0, list->heapId);
             func_0204B3DC(list->statusIcon[0][i], 0);
         }
     }
     if (list->party[1] != 0) {
         count1 = func_0201AA18(list->party[1]);
         for (i = 0; i < count1; i++) {
-            species = func_02017E1C(func_0201AB28(list->party[1], i), 6, 0);
+            species = POKE_TOOL_GetPartyValue(func_0201AB28(list->party[1], i), 6, 0);
             if (species != 0) {
                 if (func_0202136C(species) == 1) {
                     pos.alt = 1;
@@ -546,7 +546,7 @@ void func_021CCCE4(PartySelectList *list)
                     pos.alt = 0;
                 }
                 pos.x = i * 0x28 + 0x20;
-                list->statusIcon[1][i] = func_0204B294(list->actorBank, list->statusIconRes, list->statusIconCell, list->statusIconAnim, &pos, 0, list->heapId);
+                list->statusIcon[1][i] = CLACT_CreateActor(list->actorBank, list->statusIconRes, list->statusIconCell, list->statusIconAnim, &pos, 0, list->heapId);
                 func_0204B3DC(list->statusIcon[1][i], 0);
             }
         }
@@ -554,7 +554,7 @@ void func_021CCCE4(PartySelectList *list)
 }
 
 
-void func_021CCDF8(PartySelectList *list)
+void PARTY_SELECT_LIST_DeleteStatusIcons(PartySelectList *list)
 {
     int i;
     int count;
@@ -562,19 +562,19 @@ void func_021CCDF8(PartySelectList *list)
     count = func_0201AA18(list->party[0]);
     for (i = 0; i < count; i++) {
         if (list->statusIcon[0][i])
-            func_0204B3B4(list->statusIcon[0][i]);
+            CLACT_DeleteActor(list->statusIcon[0][i]);
     }
     if (list->party[1]) {
         count = func_0201AA18(list->party[1]);
         for (i = 0; i < count; i++) {
             if (list->statusIcon[1][i])
-                func_0204B3B4(list->statusIcon[1][i]);
+                CLACT_DeleteActor(list->statusIcon[1][i]);
         }
     }
 }
 
 
-void func_021CCE48(PartySelectList *list, int side)
+void PARTY_SELECT_LIST_SetStatusIconsVisible(PartySelectList *list, int side)
 {
     int i;
 
@@ -604,29 +604,29 @@ void func_021CCE48(PartySelectList *list, int side)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CCEB8(PartySelectList *list)
+void PARTY_SELECT_LIST_InitMessageResources(PartySelectList *list)
 {
-    FieldMsgBg *msgBg = func_02188C54(list->owner);
-    list->msgData = func_021904B0(msgBg, 0x54);
+    FieldMsgBg *msgBg = FIELDMAP_GetMsgBg(list->owner);
+    list->msgData = FIELD_MSGBG_CreateMsgData(msgBg, 0x54);
     list->msgBg = msgBg;
     list->wordSet = func_0201EC64(list->heapId);
 }
 
 
-int func_021CCEE4(PartySelectList *list)
+int PARTY_SELECT_LIST_FreeMessageResources(PartySelectList *list)
 {
     func_0201ED04(list->wordSet);
-    return func_021904C8(list->msgData);
+    return FIELD_MSGBG_DeleteMsgData(list->msgData);
 }
 
 
-void func_021CCEFC(PartySelectList *list)
+void PARTY_SELECT_LIST_CreateMenu(PartySelectList *list)
 {
     struct BmpMenuWork *items;
 
-    items = func_02190A28(d_021DB414, 3, list->msgData, list->heapId);
-    list->menu = func_02190938(list->msgBg, &d_021DB42C, items, 0, 0,
-        (u32)func_021CCF60, (u32)func_021CCF7C, (u32)list);
+    items = FIELD_MSGBG_CreateMenuItemsFromTable(d_021DB414, 3, list->msgData, list->heapId);
+    list->menu = FIELD_MSGBG_CreateMenuFuncCallback(list->msgBg, &d_021DB42C, items, 0, 0,
+        (u32)PARTY_SELECT_LIST_MenuMoveCallback, (u32)PARTY_SELECT_LIST_MenuSelectCallback, (u32)list);
 }
 
 
@@ -635,47 +635,47 @@ void func_021CCEFC(PartySelectList *list)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CCF48(PartySelectList *list)
+void PARTY_SELECT_LIST_ProcessMenu(PartySelectList *list)
 {
-    func_021909BC(list->menu);
+    FIELD_MSGBG_DeleteMenuFunc(list->menu);
 }
 
 
-u32 func_021CCF54(PartySelectList *list)
+u32 PARTY_SELECT_LIST_GetMenuResult(PartySelectList *list)
 {
-    return func_021909E4(list->menu);
+    return FIELD_MSGBG_MenuFuncMain(list->menu);
 }
 
 
 /*
  * Menu move callback: selector below two refreshes that side through
- * func_021CD184, otherwise the lists are hidden through func_021CD1AC.
+ * PARTY_SELECT_LIST_ShowParty, otherwise the lists are hidden through PARTY_SELECT_LIST_HideParty.
  *
  * Addresses are Black-image addresses.
  */
-void func_021CCF60(struct BmpMenuList *menu, u32 sel)
+void PARTY_SELECT_LIST_MenuMoveCallback(struct BmpMenuList *menu, u32 sel)
 {
-    PartySelectList *list = (PartySelectList *)func_02020D0C(menu);
+    PartySelectList *list = (PartySelectList *)BMP_MENULIST_GetUserData(menu);
     if (sel < 2)
-        func_021CD184(list, sel);
+        PARTY_SELECT_LIST_ShowParty(list, sel);
     else
-        func_021CD1AC(list);
+        PARTY_SELECT_LIST_HideParty(list);
 }
 
 
-void func_021CCF7C(struct BmpMenuList *menu, int k)
+void PARTY_SELECT_LIST_MenuSelectCallback(struct BmpMenuList *menu, int k)
 {
-    PartySelectList *list = (PartySelectList *)func_02020D0C(menu);
+    PartySelectList *list = (PartySelectList *)BMP_MENULIST_GetUserData(menu);
 
     if (k == 0 && list->sideFlagFirst == 1) {
-        func_02020298(menu, 1, 0, 2);
+        BMP_MENULIST_SetOverrideColors(menu, 1, 0, 2);
         return;
     }
     if (k == 1) {
-        func_02020298(menu, 1, 0, 2);
+        BMP_MENULIST_SetOverrideColors(menu, 1, 0, 2);
         return;
     }
-    func_02020298(menu, 1, 0, 2);
+    BMP_MENULIST_SetOverrideColors(menu, 1, 0, 2);
 }
 
 
@@ -684,9 +684,9 @@ void func_021CCF7C(struct BmpMenuList *menu, int k)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CCFC0(PartySelectList *list)
+void PARTY_SELECT_LIST_CreateTextWindow(PartySelectList *list)
 {
-    list->textWin = func_02190F64(list->msgBg, list->msgData);
+    list->textWin = FIELD_MSGBG_CreateBottomSysWin(list->msgBg, list->msgData);
 }
 
 
@@ -695,21 +695,21 @@ void func_021CCFC0(PartySelectList *list)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CCFD8(PartySelectList *list)
+void PARTY_SELECT_LIST_DeleteTextWindow(PartySelectList *list)
 {
-    func_02190E40(list->textWin);
+    FIELD_MSGBG_DeleteSysWin(list->textWin);
 }
 
 
-void func_021CCFE4(PartySelectList *list, u32 msgId)
+void PARTY_SELECT_LIST_PrintText(PartySelectList *list, u32 msgId)
 {
-    func_02190E74(list->textWin, 0, 0, msgId);
+    FIELD_MSGBG_SysWinPrintMsg(list->textWin, 0, 0, msgId);
 }
 
 
-int func_021CCFF8(PartySelectList *list)
+int PARTY_SELECT_LIST_IsTextDone(PartySelectList *list)
 {
-    return func_02190EF0(list->textWin);
+    return FIELD_MSGBG_SysWinMain(list->textWin);
 }
 
 
@@ -718,10 +718,10 @@ int func_021CCFF8(PartySelectList *list)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CD004(PartySelectList *list)
+void PARTY_SELECT_LIST_CreateListWindow(PartySelectList *list)
 {
     if (list->listWin == 0)
-        list->listWin = func_02190708(list->msgBg, list->msgData, 1, 2, 0x1e, 6);
+        list->listWin = FIELD_MSGBG_CreateMsgWin(list->msgBg, list->msgData, 1, 2, 0x1e, 6);
 }
 
 
@@ -730,15 +730,15 @@ void func_021CD004(PartySelectList *list)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CD038(PartySelectList *list)
+void PARTY_SELECT_LIST_DeleteListWindow(PartySelectList *list)
 {
     if (list->listWin != 0) {
-        func_02190728(list->listWin);
+        FIELD_MSGBG_DeleteMsgWin(list->listWin);
         list->listWin = 0;
     }
 }
 
-void func_021CD050(PartySelectList *list, void *party)
+void PARTY_SELECT_LIST_PrintPartyNames(PartySelectList *list, void *party)
 {
     struct Strbuf *nameBuf;
     struct Strbuf *templateBuf;
@@ -751,25 +751,25 @@ void func_021CD050(PartySelectList *list, void *party)
     u32 isNicknamed;
     int x;
 
-    func_021CD004(list);
-    func_02190788(list->listWin);
-    nameBuf = func_020457B0(0x40, list->heapId);
-    templateBuf = func_020457B0(0x40, list->heapId);
+    PARTY_SELECT_LIST_CreateListWindow(list);
+    FIELD_MSGBG_ClearMsgWin(list->listWin);
+    nameBuf = STRBUF_Create(0x40, list->heapId);
+    templateBuf = STRBUF_Create(0x40, list->heapId);
     count = func_0201AA18(party);
     for (i = 0; i < count; i++) {
         mon = func_0201AB28(party, i);
-        if (func_02017E1C(mon, 0x4c, 0) != 0) {
+        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) != 0) {
             continue;
         }
-        species = func_02017E1C(mon, 5, 0);
-        isNicknamed = func_02017E1C(mon, 0xad, 0);
-        nickname = func_02017E1C(mon, 0x9e, 0);
-        gender = func_02017E1C(mon, 0x6e, 0);
-        func_02045CAC(list->msgData, 4, templateBuf);
+        species = POKE_TOOL_GetPartyValue(mon, 5, 0);
+        isNicknamed = POKE_TOOL_GetPartyValue(mon, 0xad, 0);
+        nickname = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
+        gender = POKE_TOOL_GetPartyValue(mon, 0x6e, 0);
+        MSGDATA_ReadString(list->msgData, 4, templateBuf);
         func_0201EFA4(list->wordSet, 0, nickname, 3, 0, 1);
         func_0201F250(list->wordSet, nameBuf, templateBuf);
         x = i * 0x28;
-        func_02190764(list->listWin, x, 0x20, nameBuf, 0x440, list->font);
+        FIELD_MSGBG_MsgWinPrintStrColorFont(list->listWin, x, 0x20, nameBuf, 0x440, list->font);
         if (gender == 2) {
             continue;
         }
@@ -777,26 +777,26 @@ void func_021CD050(PartySelectList *list, void *party)
             continue;
         }
         if (gender == 0) {
-            func_02190740(list->listWin, (u16)(x + 0x1f), 0x10, 5);
+            FIELD_MSGBG_MsgWinPrintMsg(list->listWin, (u16)(x + 0x1f), 0x10, 5);
         } else {
-            func_02190740(list->listWin, (u16)(x + 0x1f), 0x10, 6);
+            FIELD_MSGBG_MsgWinPrintMsg(list->listWin, (u16)(x + 0x1f), 0x10, 6);
         }
     }
-    func_02045808(nameBuf);
-    func_02045808(templateBuf);
+    STRBUF_Delete(nameBuf);
+    STRBUF_Delete(templateBuf);
 }
 
 
 /*
- * Selector 0 or 1 path of func_021CCF60: prints the names of that side, then refreshes the two per-side icon sets.
+ * Selector 0 or 1 path of PARTY_SELECT_LIST_MenuMoveCallback: prints the names of that side, then refreshes the two per-side icon sets.
  *
  * Addresses are Black-image addresses.
  */
-void func_021CD184(PartySelectList *list, u32 sel)
+void PARTY_SELECT_LIST_ShowParty(PartySelectList *list, u32 sel)
 {
-    func_021CD050(list, sel == 0 ? list->party[0] : list->party[1]);
-    func_021CCBE0(list, sel);
-    func_021CCE48(list, sel);
+    PARTY_SELECT_LIST_PrintPartyNames(list, sel == 0 ? list->party[0] : list->party[1]);
+    PARTY_SELECT_LIST_SetMonIconsVisible(list, sel);
+    PARTY_SELECT_LIST_SetStatusIconsVisible(list, sel);
 }
 
 
@@ -805,9 +805,9 @@ void func_021CD184(PartySelectList *list, u32 sel)
  *
  * Addresses are Black-image addresses.
  */
-void func_021CD1AC(PartySelectList *list)
+void PARTY_SELECT_LIST_HideParty(PartySelectList *list)
 {
-    func_021CD038(list);
-    func_021CCBE0(list, 2);
-    func_021CCE48(list, 2);
+    PARTY_SELECT_LIST_DeleteListWindow(list);
+    PARTY_SELECT_LIST_SetMonIconsVisible(list, 2);
+    PARTY_SELECT_LIST_SetStatusIconsVisible(list, 2);
 }

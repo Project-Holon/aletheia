@@ -10,19 +10,20 @@
  * symbols:
  *   func_021D6134 0x021D6134 thumb ov115
  *   func_021D6198 0x021D6198 thumb ov115
+ *   WIPE_SYS_Start  0x0202208C  thumb  arm9
  */
 #include "../include/Obj13855.h"
 #include "../include/Obj22605.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D6134(void *a0, int a1, int a2);
 extern void func_021D6198(u8 *p);
 void func_021D6150(u8 *p) {
     int color;
     if (((struct Obj22605 *)(*(u8 * *)&((struct Obj13855 *)p)->f10))->f10 & 8) color = 0x7fff;
     else color = 0;
-    func_0202208C(0, 1, 1, (u16)color, 6, 1, ((struct Obj13855 *)p)->f14);
+    WIPE_SYS_Start(0, 1, 1, (u16)color, 6, 1, ((struct Obj13855 *)p)->f14);
     func_021D6134(p, (int)((void (*)(void))func_021D6198), 0x15b);
 }

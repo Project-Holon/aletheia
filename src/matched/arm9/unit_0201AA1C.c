@@ -15,7 +15,7 @@
  * src/matched/unit_0201AB28.c and src/matched/unit_0201AC2C.c, plus the two
  * predicate-passing wrappers in front of the search routine POKEPARTY_FindFirst.
  * Each counter walks 0 to POKEPARTY_GetCount(p) and tests one or two fields of the
- * entry through the getter func_02017E1C.
+ * entry through the getter POKE_TOOL_GetPartyValue.
  *
  * The two sixteen-byte functions at 0x0201AB08 and 0x0201AB18 are not linker
  * veneers, which is what their shape suggests at first: they are ordinary
@@ -49,6 +49,7 @@
  *   POKEPARTY_IsBattleReady  0x0201AD18  thumb
  *   POKEPARTY_IsNotEgg  0x0201AD40  thumb
  *   POKEPARTY_FindFirst  0x0201AD58  thumb
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  */
 
 typedef unsigned int u32;
@@ -56,7 +57,7 @@ typedef int s32;
 
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32  func_02017E1C(void *entry, u32 id, u32 v);
+extern u32  POKE_TOOL_GetPartyValue(void *entry, u32 id, u32 v);
 extern u32  POKEPARTY_IsBattleReady(void *entry);
 extern u32  POKEPARTY_IsNotEgg(void *entry);
 
@@ -74,7 +75,7 @@ u32 POKEPARTY_GetNonEggCount(void *p)
     for (i = 0; i < count; i++) {
         void *entry = POKEPARTY_GetMember(p, i);
 
-        if (func_02017E1C(entry, 0x4C, 0) != 1) {
+        if (POKE_TOOL_GetPartyValue(entry, 0x4C, 0) != 1) {
             n++;
         }
     }
@@ -106,8 +107,8 @@ u32 POKEPARTY_GetEggCount(void *p)
     count = POKEPARTY_GetCount(p);
     for (i = 0; i < count; i++) {
         void *entry = POKEPARTY_GetMember(p, i);
-        u32 a = func_02017E1C(entry, 0x4C, 0);
-        u32 b = func_02017E1C(entry, 3, 0);
+        u32 a = POKE_TOOL_GetPartyValue(entry, 0x4C, 0);
+        u32 b = POKE_TOOL_GetPartyValue(entry, 3, 0);
 
         if (a == 1 && b == 0) {
             n++;
@@ -126,7 +127,7 @@ u32 POKEPARTY_GetBadEggCount(void *p)
     for (i = 0; i < count; i++) {
         void *entry = POKEPARTY_GetMember(p, i);
 
-        if (func_02017E1C(entry, 3, 0) == 1) {
+        if (POKE_TOOL_GetPartyValue(entry, 3, 0) == 1) {
             n++;
         }
     }

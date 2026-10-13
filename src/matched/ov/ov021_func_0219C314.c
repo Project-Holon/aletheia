@@ -1,5 +1,5 @@
 /*
- * function: func_0219C314
+ * function: FLDMMDL_MOVE_HitCheckWallWalkDir
  * address:  0x0219C314
  * packet:   pkt_ov021_0219C314
  * region:   ov021
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0219C2E0  0x0219C2E0  thumb  ov021
- *   func_021639C0  0x021639C0  thumb  ov010
+ *   FLDMMDL_MOVE_GetWallWalkDir  0x0219C2E0  thumb  ov021
+ *   FLDMMDL_MOVE_HitCheckMoveDir  0x021639C0  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -19,15 +19,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern int func_0219C2E0(u32 a, int b, int c);
-extern int func_021639C0(u32 a, u16 v);
+extern int FLDMMDL_MOVE_GetWallWalkDir(u32 a, int b, int c);
+extern int FLDMMDL_MOVE_HitCheckMoveDir(u32 a, u16 v);
 
-int func_0219C314(int a, int *s, u32 c)
+int FLDMMDL_MOVE_HitCheckWallWalkDir(int a, int *s, u32 c)
 {
-    int v = func_0219C2E0(a, *s, c);
+    int v = FLDMMDL_MOVE_GetWallWalkDir(a, *s, c);
     *s = v;
     if (v != 9) {
-        return func_021639C0(a, v);
+        return FLDMMDL_MOVE_HitCheckMoveDir(a, v);
     }
     return 0;
 }

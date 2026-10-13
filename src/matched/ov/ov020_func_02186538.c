@@ -1,5 +1,5 @@
 /*
- * function: func_02186538
+ * function: FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders
  * address:  0x02186538
  * packet:   pkt_ov020_02186538
  * region:   ov020
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02186278  0x02186278  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
  *   func_02030734  0x02030734  arm
- *   func_021867C4  0x021867C4  thumb  ov020
- *   func_02186830  0x02186830  thumb  ov020
- *   func_02161ECC  0x02161ECC  thumb  ov010
- *   func_021867B0  0x021867B0  thumb  ov020
- *   func_02186818  0x02186818  thumb  ov020
- *   func_0218682C  0x0218682C  thumb  ov020
- *   func_0216E618  0x0216E618  thumb  ov010
- *   func_0218683C  0x0218683C  thumb  ov020
- *   func_02186804  0x02186804  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable  0x02186830  thumb  ov020
+ *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_GetNpcId  0x021867B0  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_LoadNpcData  0x02186818  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_GetNpcRecord  0x0218682C  thumb  ov020
+ *   FLDMMDL_InitPosRecord  0x0216E618  thumb  ov010
+ *   FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable  0x0218683C  thumb  ov020
+ *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb  ov020
  *   d_02187EB4     0x02187EB4  data  ov020  a1
  *   d_02187DBC     0x02187DBC  data  ov020  a4
  */
@@ -42,20 +42,20 @@ typedef struct {
 extern const char d_02187EB4[];
 extern const Tmpl d_02187DBC;
 
-extern int func_02186278(char *p, int which);
+extern int FIELD_WFBC_DATA_LOCAL_CountPeople(char *p, int which);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct ArcFile;
-extern int *func_021867C4(int a, int id);
-extern void *func_02186830(struct ArcFile **p, int b, unsigned int heap);
-extern int func_02161ECC(void *p);
-extern int func_021867B0(u8 *p);
-extern void func_02186818(u32 *p, u32 member);
-extern char *func_0218682C(char *p);
-extern void func_0216E618(Tmpl *, u16, u16, int);
-extern void func_0218683C(void *p);
-extern void func_02186804(void **p);
+extern int *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int a, int id);
+extern void *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct ArcFile **p, int b, unsigned int heap);
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(void *p);
+extern int FIELD_WFBC_DATA_LOCAL_GetNpcId(u8 *p);
+extern void FIELD_WFBC_DATA_LOCAL_LoadNpcData(u32 *p, u32 member);
+extern char *FIELD_WFBC_DATA_LOCAL_GetNpcRecord(char *p);
+extern void FLDMMDL_InitPosRecord(Tmpl *, u16, u16, int);
+extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(void *p);
+extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(void **p);
 
-Tmpl *func_02186538(u16 *p, int which, int id)
+Tmpl *FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(u16 *p, int which, int id)
 {
     int k;
     Tmpl *buf;
@@ -71,7 +71,7 @@ Tmpl *func_02186538(u16 *p, int which, int id)
     Tmpl tmp;
 
     heap = (u16)((id & 0x7FFF) | 0x8000);
-    n = func_02186278((char *)p, which);
+    n = FIELD_WFBC_DATA_LOCAL_CountPeople((char *)p, which);
     if (n == 0)
         return 0;
     if (which == 0)
@@ -80,18 +80,18 @@ Tmpl *func_02186538(u16 *p, int which, int id)
         base = (char *)p + 0xf8;
     buf = func_02030734(heap, n * 0x24, 1, d_02187EB4, 0x2E3);
     k = 0;
-    h = (int)func_021867C4(0, heap);
-    t = func_02186830((struct ArcFile **)h, p[1], heap);
+    h = (int)FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, heap);
+    t = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable((struct ArcFile **)h, p[1], heap);
     i = 0;
     tmp = d_02187DBC;
     for (; i < 10; i++) {
         off = i * 0x18;
-        if (func_02161ECC(base + off)) {
+        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(base + off)) {
             e = &buf[k];
             *e = tmp;
-            func_02186818((u32 *)h, func_021867B0((u8 *)(base + off)));
-            r = (u16 *)func_0218682C((char *)h);
-            e->f0 = func_021867B0((u8 *)(base + off)) + 0x80;
+            FIELD_WFBC_DATA_LOCAL_LoadNpcData((u32 *)h, FIELD_WFBC_DATA_LOCAL_GetNpcId((u8 *)(base + off)));
+            r = (u16 *)FIELD_WFBC_DATA_LOCAL_GetNpcRecord((char *)h);
+            e->f0 = FIELD_WFBC_DATA_LOCAL_GetNpcId((u8 *)(base + off)) + 0x80;
             e->f2 = r[0];
             e->f4 = 3;
             if (which == 0) {
@@ -105,11 +105,11 @@ Tmpl *func_02186538(u16 *p, int which, int id)
                 else
                     e->fA = r[0x10];
             }
-            func_0216E618(e, t[i * 2], t[i * 2 + 1], 0);
+            FLDMMDL_InitPosRecord(e, t[i * 2], t[i * 2 + 1], 0);
             k++;
         }
     }
-    func_0218683C(t);
-    func_02186804((void **)h);
+    FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(t);
+    FIELD_WFBC_DATA_LOCAL_CloseNpcData((void **)h);
     return buf;
 }

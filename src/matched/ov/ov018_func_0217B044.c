@@ -1,5 +1,5 @@
 /*
- * function: func_0217B044
+ * function: INTRUDE_FIELD_CreateEdgeBlockTask
  * address:  0x0217B044
  * packet:   pkt_ov018_0217B044
  * region:   ov018
@@ -13,8 +13,8 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
- *   func_021A3074  0x021A3074  thumb  ov021
- *   func_0217B084  0x0217B084  thumb  ov018
+ *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
+ *   INTRUDE_FIELD_TaskEdgeBlock  0x0217B084  thumb  ov018
  */
 
 typedef unsigned short u16;
@@ -34,19 +34,19 @@ struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void *func_021A3074(unsigned char *p);
-extern void func_0217B084();
+extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern void INTRUDE_FIELD_TaskEdgeBlock();
 
-void *func_0217B044(void *a, int b, int c, u16 d, u16 e, int f)
+void *INTRUDE_FIELD_CreateEdgeBlockTask(void *a, int b, int c, u16 d, u16 e, int f)
 {
     void *t;
     Task *p;
 
-    t = func_020122C0(a, 0, func_0217B084, sizeof(Task));
+    t = func_020122C0(a, 0, INTRUDE_FIELD_TaskEdgeBlock, sizeof(Task));
     p = func_020124E8(t);
     MI_CpuFill8(p, 0, sizeof(Task));
     p->f00 = b;
-    p->f04 = func_021A3074((void *)c);
+    p->f04 = FIELD_PLAYER_GetMmdl((void *)c);
     p->f16 = d;
     p->f14 = e;
     p->f10 = f;

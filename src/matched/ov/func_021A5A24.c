@@ -1,5 +1,5 @@
 /*
- * function: func_021A5A24
+ * function: FIELD_PLAYER_NOGRID_GetRailPos
  * address:  0x021A5A24
  * packet:   pkt_021A5A00
  * region:   ov021
@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards the object's word at +0x20 to func_021B8028.
+ * Tail-call thunk: forwards the object's word at +0x20 to FIELD_RAIL_WORK_GetPos.
  *
  * symbols:
- *   func_021B8028  0x021B8028  thumb  ov021
+ *   FIELD_RAIL_WORK_GetPos  0x021B8028  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_021B8028(u32 v);
+extern void FIELD_RAIL_WORK_GetPos(u32 v);
 
-void func_021A5A24(u8 *p)
+void FIELD_PLAYER_NOGRID_GetRailPos(u8 *p)
 {
-    func_021B8028(((struct Obj18058 *)p)->f20);
+    FIELD_RAIL_WORK_GetPos(((struct Obj18058 *)p)->f20);
 }

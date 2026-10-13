@@ -1,5 +1,5 @@
 /*
- * function: func_021B4BEC
+ * function: SCRCMD_PROC_FLD_StoreGameSystemValue
  * address:  0x021B4BEC
  * packet:   pkt_ov021_021B4BEC
  * region:   ov021
@@ -10,26 +10,26 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02012138  0x02012138  thumb
- *   func_02159AE8  0x02159AE8  thumb  ov010
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_021896F4  0x021896F4  thumb  ov021
+ *   GAMESYSTEM_GetGameComm  0x02012138  thumb
+ *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   FIELDMAP_GetCommKind  0x021896F4  thumb  ov021
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Ctx;
-extern u32 func_02012138(const struct Ctx *p);
-extern int func_021896F4(void *p);
+extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern int FIELDMAP_GetCommKind(void *p);
 
-int func_021B4BEC(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StoreGameSystemValue(u32 a, u32 b)
 {
-    void *d = func_0215A5DC((void *)b);
-    u16 *o = func_02159AE8((void *)a, (void *)b);
+    void *d = SCRCMD_WORK_GetGameSystem((void *)b);
+    u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
 
-    *o = func_021896F4((void *)func_02012138(d));
+    *o = FIELDMAP_GetCommKind((void *)GAMESYSTEM_GetGameComm(d));
     return 1;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02184CEC
+ * function: EVENT_MAPCHANGE_InitWork
  * address:  0x02184CEC
  * packet:   pkt_ov020_02184CEC
  * region:   ov020
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_020120F4  0x020120F4  thumb
- *   func_0201210C  0x0201210C  thumb
- *   func_02012984  0x02012984  thumb
- *   func_02188C9C  0x02188C9C  thumb  ov021
- *   func_02188CE8  0x02188CE8  thumb  ov021
- *   func_021AAAF0  0x021AAAF0  thumb  ov021
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
+ *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
+ *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
+ *   EFFECT_ENCOUNT_SetEffectPaused  0x021AAAF0  thumb  ov021
  */
 #include "../include/Obj00248.h"
 
@@ -25,26 +25,26 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
 struct Ctx;
-void *func_020120F4(const struct Ctx *p);
-void *func_0201210C(const struct Ctx *p);
-u8 func_02012984(const struct BigObj *p);
-u16 func_02188C9C(u8 *p);
-u32 func_02188CE8(u8 *p);
-void func_021AAAF0(int x, int y);
+void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+u8 GAME_DATA_GetSeason(const struct BigObj *p);
+u16 FIELDMAP_GetZoneId(u8 *p);
+u32 FIELDMAP_GetEncount(u8 *p);
+void EFFECT_ENCOUNT_SetEffectPaused(int x, int y);
 
-void func_02184CEC(void **o, void *p)
+void EVENT_MAPCHANGE_InitWork(void **o, void *p)
 {
-    void *a = func_020120F4(p);
-    void *b = func_0201210C(p);
-    u16 c = func_02012984(a);
+    void *a = GAMESYSTEM_GetGameData(p);
+    void *b = GAMESYSTEM_GetFieldMap(p);
+    u16 c = GAME_DATA_GetSeason(a);
 
     o[0] = p;
     o[1] = a;
     o[2] = b;
-    ((struct Obj00248 *)o)->fC = func_02188C9C(b);
+    ((struct Obj00248 *)o)->fC = FIELDMAP_GetZoneId(b);
     ((struct Obj00248 *)o)->f40 = 0;
     ((struct Obj00248 *)o)->f44 = 0;
     ((struct Obj00248 *)o)->f48 = c;
     ((struct Obj00248 *)o)->f4A = c;
-    func_021AAAF0(func_02188CE8(o[2]), 1);
+    EFFECT_ENCOUNT_SetEffectPaused(FIELDMAP_GetEncount(o[2]), 1);
 }

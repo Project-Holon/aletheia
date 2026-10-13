@@ -10,16 +10,16 @@
  * status: EXACT*
  * symbols:
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
- *   func_0201DD60 0x0201DD60 thumb
+ *   BMP_WIN_Init 0x02045088 arm
+ *   GF_FONT_ResetTextColor 0x0201DD60 thumb
  */
 #include "../include/Obj13711.h"
 typedef unsigned short u16;
-extern void func_0203F8F4(u16),func_02045088(u16);
-extern void func_0201DD60(void);
+extern void func_0203F8F4(u16),BMP_WIN_Init(u16);
+extern void GF_FONT_ResetTextColor(void);
 void func_021BA624(unsigned a)
 {
  func_0203F8F4(((struct Obj13711 *)a)->f278);
- func_02045088(((struct Obj13711 *)a)->f278);
- func_0201DD60();
+ BMP_WIN_Init(((struct Obj13711 *)a)->f278);
+ GF_FONT_ResetTextColor();
 }

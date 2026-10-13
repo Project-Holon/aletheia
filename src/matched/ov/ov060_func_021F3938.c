@@ -1,5 +1,5 @@
 /*
- * function: func_021F3938
+ * function: GIMMICK60_GetIntrudeCommSys
  * address:  0x021F3938
  * packet:   pkt_ov060_021F3938
  * region:   ov060
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Leaf filed for ov060 func_021F374C / func_021F36C0 (a file for the same
+ * Leaf filed for ov060 GIMMICK60_Update / func_021F36C0 (a file for the same
  * address exists only under ov045, a different overlay at the same address).
  *
  * symbols:
@@ -21,7 +21,7 @@ extern unsigned int func_02026454(void *p);
 typedef unsigned int   u32;
 extern u32 func_02026474(void *obj);
 
-void *func_021F3938(void *p)
+void *GIMMICK60_GetIntrudeCommSys(void *p)
 {
     if (func_02026454(p) == 2) {
         return (void *)func_02026474(p);

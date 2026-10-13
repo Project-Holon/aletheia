@@ -1,5 +1,5 @@
 /*
- * function: func_02169550
+ * function: FIELD_G3D_MAP_ClearModelRes
  * address: 0x02169550
  * packet: pkt_ov010_02169550
  * region: ov010
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Rec;
 extern void func_02046C9C(struct Rec *rec, u32 mode, u32 value);
-void func_02169550(char *p) { func_02046C9C(((struct Obj00306 *)p)->f84, 1, 0); }
+void FIELD_G3D_MAP_ClearModelRes(char *p) { func_02046C9C(((struct Obj00306 *)p)->f84, 1, 0); }

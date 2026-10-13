@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021F47BC",
+   "name": "GIMMICK_OBJ_ELBOARD_SetScroll",
    "address": "0x021F47BC",
    "kind": "game",
    "region": "ov048",

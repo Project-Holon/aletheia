@@ -11,7 +11,7 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data  ov014  a4
  *   g_ChildConnectModes     0x02179680  data  ov014  a2
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   func_02178E4C  0x02178E4C  thumb  ov014
  *   DWCi_MOV_WH_ChildConnectAuto  0x02178524  thumb  ov014
  *   WIH_SetJudgeScanFunc  0x021795C0  thumb  ov014
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 
 extern u8 *g_pWhPipeWork;
 extern u16 g_ChildConnectModes[2];
-void *func_0203D798(void);
+void *GFL_NET_GetInitParam(void);
 int func_02178E4C(void);
 int DWCi_MOV_WH_ChildConnectAuto(u32 a, const u16 *b, u32 c);
 void WIH_SetJudgeScanFunc(unsigned v);
@@ -38,7 +38,7 @@ int func_021775AC(int a, int b, int c);
 
 void NET_WHPIPE_TaskConnectChild(void)
 {
-    u8 *st = func_0203D798();
+    u8 *st = GFL_NET_GetInitParam();
     u16 tab[2];
     tab[0] = g_ChildConnectModes[0];
     tab[1] = g_ChildConnectModes[1];

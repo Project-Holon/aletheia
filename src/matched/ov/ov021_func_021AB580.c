@@ -1,5 +1,5 @@
 /*
- * function: func_021AB580
+ * function: MAP_ATTR_GetBattleBackground
  * address:  0x021AB580
  * packet:   pkt_ov021_021AB580
  * region:   ov021
@@ -26,7 +26,7 @@ typedef signed int     s32;
 extern const u8 data_021D8EA0[];
 extern const u8 data_021D8EA1[];
 
-u8 func_021AB580(u16 x)
+u8 MAP_ATTR_GetBattleBackground(u16 x)
 {
     u32 i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021D5208
+ * function: BTL_POKEPARAM_SetMoveInfo
  * address: 0x021D5208
  * packet: pkt_ov093_021D5208
  * region: ov093
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { u16 f00; u8 f02; u8 f03; u8 f04; u8 lo : 4; u8 hi : 4; };
 extern u32 WAZA_TOOL_GetMaxPP(u32, u32);
-void func_021D5208(struct S *p, u32 a, u32 b)
+void BTL_POKEPARAM_SetMoveInfo(struct S *p, u32 a, u32 b)
 {
     p->f00 = a;
     p->lo = 0;

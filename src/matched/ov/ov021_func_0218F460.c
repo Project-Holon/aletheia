@@ -1,5 +1,5 @@
 /*
- * function: func_0218F460
+ * function: FIELD_CAMERA_AreaKeepOutBox
  * address:  0x0218F460
  * packet:   pkt_ov021_0218F460
  * region:   ov021
@@ -34,7 +34,7 @@ typedef struct {
 #define FX_F32_TO_FX32(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-int func_0218F460(Box *a, V *b, V *out)
+int FIELD_CAMERA_AreaKeepOutBox(Box *a, V *b, V *out)
 {
     V p;
     int r;

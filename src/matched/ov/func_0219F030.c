@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_0216DAC8  0x0216DAC8  thumb  ov010
- *   func_0216D568  0x0216D568  thumb  ov010
+ *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   FLDMMDL_SetMoveBit  0x0216D568  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0216D568(void *p, u32 v);
-extern void func_0216DAC8(unsigned int *p, unsigned int v);
+extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
+extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 
 int func_0219F030(void *a, u32 b, u32 c, u32 d)
 {
-func_0216DAC8((unsigned int *)a, 1);
-return (int)func_0216D568(a, (1 << 15));
+FLDMMDL_SetStatusBitVanish((unsigned int *)a, 1);
+return (int)FLDMMDL_SetMoveBit(a, (1 << 15));
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021A21E0
+ * function: WEATHER_TASK_RemoveParticle
  * address:  0x021A21E0
  * packet:   pkt_ov021_021A21E0
  * region:   ov021
@@ -10,17 +10,17 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021A2BC4  0x021A2BC4  thumb  ov021
- *   func_021A27B8  0x021A27B8  thumb  ov021
+ *   WEATHER_TASK_IsParticleLinked  0x021A2BC4  thumb  ov021
+ *   WEATHER_TASK_UnlinkParticle  0x021A27B8  thumb  ov021
  */
 
 typedef unsigned int u32;
 
-int func_021A2BC4(u32 a);
-void func_021A27B8(u32 x, u32 *p);
+int WEATHER_TASK_IsParticleLinked(u32 a);
+void WEATHER_TASK_UnlinkParticle(u32 x, u32 *p);
 
-void func_021A21E0(u32 *p)
+void WEATHER_TASK_RemoveParticle(u32 *p)
 {
-    if (func_021A2BC4((u32)p) != 0)
-        func_021A27B8(p[0], p);
+    if (WEATHER_TASK_IsParticleLinked((u32)p) != 0)
+        WEATHER_TASK_UnlinkParticle(p[0], p);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CFBBC
+ * function: BTL_CLIENT_HasSlotInOrder
  * address: 0x021CFBBC
  * packet: pkt_ov093_021CFBBC
  * region: ov093
@@ -11,7 +11,7 @@
  */
 typedef signed char s8;
 typedef unsigned int u32;
-int func_021CFBBC(s8 *p, int v)
+int BTL_CLIENT_HasSlotInOrder(s8 *p, int v)
 {
     u32 i = 0;
     for (; i < 6; i++) {

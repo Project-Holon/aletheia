@@ -1,5 +1,5 @@
 /*
- * function: func_0219EAD8
+ * function: FLDMMDL_RAIL_StoreLocation
  * address:  0x0219EAD8
  * packet:   pkt_ov021_0219EAD8
  * region:   ov021
@@ -28,7 +28,7 @@ typedef struct {
     Rect r;
 } Obj;
 
-void func_0219EAD8(Obj *p, const Rect *s)
+void FLDMMDL_RAIL_StoreLocation(Obj *p, const Rect *s)
 {
     p->r = *s;
 }

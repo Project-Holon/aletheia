@@ -11,7 +11,7 @@
  *
  * symbols:
  *   _pNetSys     0x021469D0  data
- *   func_0203D798  0x0203D798  arm
+ *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_SYSTEM_CheckError  0x02039414  arm
  *   GFL_NET_STATE_GetErrorMode  0x0203C990  arm
  *   GFL_NET_SYSTEM_IsSendEnable  0x02039594  arm
@@ -28,7 +28,7 @@
  * The module handle behind the global at 0x021469D0 is fetched once and every
  * later read comes off the same pooled base; a null handle, a busy queue
  * (GFL_NET_SYSTEM_CheckError non-zero or GFL_NET_STATE_GetErrorMode zero) and a failed GFL_NET_SYSTEM_IsSendEnable
- * all return 0 early.  func_0203D798's result is only used for its +0x64
+ * all return 0 early.  GFL_NET_GetInitParam's result is only used for its +0x64
  * byte, which selects the +0xf4 table over the +0xcc one when the fifth
  * argument is the 0xff wildcard.
  *
@@ -80,7 +80,7 @@ struct Err {
 
 extern struct LinkState *_pNetSys;
 
-extern void *func_0203D798(void);
+extern void *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_SYSTEM_CheckError(void);
 extern u32 GFL_NET_STATE_GetErrorMode(void);
 extern int    GFL_NET_SYSTEM_IsSendEnable(void);
@@ -102,7 +102,7 @@ int GFL_NET_SYSTEM_SetSendQueue(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, 
     if (a7 != 0)
         flag = 0;
 
-    rec = func_0203D798();
+    rec = GFL_NET_GetInitParam();
     if (((struct Handle *)_pNetSys) == 0)
         return 0;
     if (GFL_NET_SYSTEM_CheckError() != 0 || GFL_NET_STATE_GetErrorMode() != 0)

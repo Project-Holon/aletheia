@@ -1,7 +1,7 @@
 /*
  * file:     iss_dungeon_sys.c
  * unit:     yes
- * function: ISS_ROAD_SYS_UpdateVolume, ISS_ROAD_SYS_HasPlayerMoved, ISS_ROAD_SYS_FadeIn, ISS_ROAD_SYS_FadeOut, ISS_ROAD_SYS_ApplyVolume, ISS_DUNGEON_SYS_ApplyTrack, ISS_DUNGEON_SYS_CreateTable, ISS_DUNGEON_SYS_DeleteTable, ISS_DUNGEON_SYS_FindRecord, ISS_DUNGEON_SYS_Create, ISS_DUNGEON_SYS_Delete, ISS_DUNGEON_SYS_Update, ISS_DUNGEON_SYS_SetTargetAreaId, ISS_DUNGEON_SYS_Start, ISS_DUNGEON_SYS_Stop, func_0202B434, func_0202B438, ISS_DUNGEON_SYS_ResetTracks, ISS_DUNGEON_SYS_Activate, ISS_DUNGEON_SYS_Deactivate, ISS_DUNGEON_SYS_SelectRecord
+ * function: ISS_ROAD_SYS_UpdateVolume, ISS_ROAD_SYS_HasPlayerMoved, ISS_ROAD_SYS_FadeIn, ISS_ROAD_SYS_FadeOut, ISS_ROAD_SYS_ApplyVolume, ISS_DUNGEON_SYS_ApplyTrack, ISS_DUNGEON_SYS_CreateTable, ISS_DUNGEON_SYS_DeleteTable, ISS_DUNGEON_SYS_FindRecord, ISS_DUNGEON_SYS_Create, ISS_DUNGEON_SYS_Delete, ISS_DUNGEON_SYS_Update, ISS_DUNGEON_SYS_SetTargetAreaId, ISS_DUNGEON_SYS_Start, ISS_DUNGEON_SYS_Stop, ISS_DUNGEON_SYS_IsActive, ISS_DUNGEON_SYS_HasRecord, ISS_DUNGEON_SYS_ResetTracks, ISS_DUNGEON_SYS_Activate, ISS_DUNGEON_SYS_Deactivate, ISS_DUNGEON_SYS_SelectRecord
  * address:  0x0202B230
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -13,11 +13,14 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   func_02012984  0x02012984  thumb
+ *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GFL_USE_GetBgmHandle  0x02005C3C  thumb
  *   GFL_USE_SetBgmTrackParams  0x02005EE0  thumb
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   NNS_SndHandleSetTrackPitch  0x02073018  arm
+ *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
+ *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
+ *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  */
 struct PlayerWork;
 struct GameData;
@@ -77,16 +80,16 @@ typedef struct IssDungeonSys {
     u16 trackValue[4];
 } IssDungeonSys;
 
-extern PlayerPosition *func_02012AA0(struct PlayerWork *player);
+extern PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 extern void GFL_USE_SetBgmTrackVolume(u32 a, u32 b);
 extern void GFL_USE_SetBgmTrackParams(u32 a, u32 b, u32 c, u32 d);
 extern u32 *GFL_USE_GetBgmHandle(void);
 extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02049030(u32 a);
-extern void func_02048F74(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
+extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
 extern u32 func_020307B0(void *p);
-extern u8 func_02012984(const struct GameData *gd);
+extern u8 GAME_DATA_GetSeason(const struct GameData *gd);
 void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road);
 u32 ISS_ROAD_SYS_HasPlayerMoved(IssRoadSys *road);
 void ISS_ROAD_SYS_FadeIn(IssRoadSys *road);
@@ -102,8 +105,8 @@ void ISS_DUNGEON_SYS_Update(IssDungeonSys *dungeon);
 void ISS_DUNGEON_SYS_SetTargetAreaId(IssDungeonSys *dungeon, u16 areaId);
 void ISS_DUNGEON_SYS_Start(IssDungeonSys *dungeon);
 void ISS_DUNGEON_SYS_Stop(IssDungeonSys *dungeon);
-u32 func_0202B434(IssDungeonSys *dungeon);
-u32 func_0202B438(IssDungeonSys *dungeon, u16 areaId);
+u32 ISS_DUNGEON_SYS_IsActive(IssDungeonSys *dungeon);
+u32 ISS_DUNGEON_SYS_HasRecord(IssDungeonSys *dungeon, u16 areaId);
 void ISS_DUNGEON_SYS_ResetTracks(IssDungeonSys *dungeon);
 void ISS_DUNGEON_SYS_Activate(IssDungeonSys *dungeon);
 void ISS_DUNGEON_SYS_Deactivate(IssDungeonSys *dungeon);
@@ -144,7 +147,7 @@ void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road)
  */
 u32 ISS_ROAD_SYS_HasPlayerMoved(IssRoadSys *road)
 {
-    u32 *position = (u32 *)func_02012AA0(road->player);
+    u32 *position = (u32 *)GAME_DATA_GetPlayerPosition(road->player);
     int moved;
 
     if (position[0] == road->lastPosition.x && position[1] == road->lastPosition.y &&
@@ -212,7 +215,7 @@ void ISS_DUNGEON_SYS_ApplyTrack(DungeonSoundRecord *record, u32 trackIndex)
 }
 
 /*
- * Builds the sound table: a count byte is fetched from func_02049030, then
+ * Builds the sound table: a count byte is fetched from ARC_TOOL_GetArchiveFileCount, then
  * that many 0x1c-byte records are allocated and each one loaded from archive
  * 0x92.
  */
@@ -221,12 +224,12 @@ DungeonSoundTable *ISS_DUNGEON_SYS_CreateTable(u32 heapId)
     u32 i;
     DungeonSoundTable *table = (DungeonSoundTable *)func_02030734(heapId, 8, 0, (const void *)0x020A7718, 0x77);
 
-    table->count = (u8)func_02049030(0x92);
+    table->count = (u8)ARC_TOOL_GetArchiveFileCount(0x92);
     table->records = (DungeonSoundRecord *)func_02030734(heapId, 0x1c * table->count, 0,
                                          (const void *)0x020A7718, 0x79);
 
     for (i = 0; (int)i < (int)table->count; i++) {
-        func_02048F74((u8 *)table->records + i * 0x1c, 0x92, i, 0, (u32 *)0x1c);
+        ARC_TOOL_ReadMemberRange((u8 *)table->records + i * 0x1c, 0x92, i, 0, (u32 *)0x1c);
     }
     return table;
 }
@@ -355,7 +358,7 @@ void ISS_DUNGEON_SYS_Stop(IssDungeonSys *dungeon)
 /*
  * Returns the active flag.
  */
-u32 func_0202B434(IssDungeonSys *dungeon)
+u32 ISS_DUNGEON_SYS_IsActive(IssDungeonSys *dungeon)
 {
     return dungeon->isActive;
 }
@@ -363,7 +366,7 @@ u32 func_0202B434(IssDungeonSys *dungeon)
 /*
  * Returns 1 when the table holds a record with the given area id, else 0.
  */
-u32 func_0202B438(IssDungeonSys *dungeon, u16 areaId)
+u32 ISS_DUNGEON_SYS_HasRecord(IssDungeonSys *dungeon, u16 areaId)
 {
     DungeonSoundTable *table = dungeon->table;
 
@@ -421,6 +424,6 @@ void ISS_DUNGEON_SYS_SelectRecord(IssDungeonSys *dungeon, u16 areaId)
 
     dungeon->record = (DungeonSoundRecord *)found;
     if (found != 0) {
-        ISS_DUNGEON_SYS_ApplyTrack(dungeon->record, func_02012984(dungeon->gameData));
+        ISS_DUNGEON_SYS_ApplyTrack(dungeon->record, GAME_DATA_GetSeason(dungeon->gameData));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CF480
+ * function: ENCEFF_Delete
  * address:  0x021CF480
  * packet:   pkt_021CF480
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_021CF54C  0x021CF54C  thumb  ov021
- *   func_021CF5AC  0x021CF5AC  thumb  ov021
+ *   ENCEFF_FreeWork  0x021CF54C  thumb  ov021
+ *   ENCEFF_UnloadOverlays  0x021CF5AC  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
@@ -25,13 +25,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_020307B0(void *p);
 struct Res021CF;
-extern void func_021CF54C(u8 *p);
-extern void func_021CF5AC(struct Res021CF *r);
+extern void ENCEFF_FreeWork(u8 *p);
+extern void ENCEFF_UnloadOverlays(struct Res021CF *r);
 
-int func_021CF480(void *a)
+int ENCEFF_Delete(void *a)
 {
-func_021CF54C((u8 *)a);
-func_021CF5AC((struct Res021CF *)a);
+ENCEFF_FreeWork((u8 *)a);
+ENCEFF_UnloadOverlays((struct Res021CF *)a);
 return func_020307B0(a);
 }
 

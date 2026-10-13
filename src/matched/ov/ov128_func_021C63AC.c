@@ -8,27 +8,27 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020450F0 0x020450F0 arm
+ *   BMP_WIN_Create 0x020450F0 arm
  *   func_02045770 0x02045770 arm
- *   func_02043B5C 0x02043B5C arm
- *   func_02045334 0x02045334 arm
+ *   BMP_Clear 0x02043B5C arm
+ *   BMP_WIN_TransferChars 0x02045334 arm
  *   func_021CA458 0x021CA458 thumb ov128
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
-extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(struct Descriptor *d);
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void func_021CA458(char *p, void *q);
 void func_021C63AC(void *p,u32 *out,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u32 unused,u8 g)
 {
-    *out=func_020450F0(a,b,c,d,e,f,1);
-    func_02043B5C(func_02045770((struct Descriptor *)*out),g);
-    func_02045334((struct Descriptor *)*out);
+    *out=BMP_WIN_Create(a,b,c,d,e,f,1);
+    BMP_Clear(func_02045770((struct Descriptor *)*out),g);
+    BMP_WIN_TransferChars((struct Descriptor *)*out);
     func_021CA458(p,out);
 }

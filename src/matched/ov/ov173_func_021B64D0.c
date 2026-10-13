@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_0203F8F4 0x0203F8F4 arm
- *   func_02045088 0x02045088 arm
+ *   BMP_WIN_Init 0x02045088 arm
  *   func_0203FC28 0x0203FC28 arm
  *   func_0203FCA0 0x0203FCA0 arm
  *   func_020414EC 0x020414EC arm
@@ -32,7 +32,7 @@ struct BgTemplate {u32 unk_00,unk_04,bufSize,unk_0c;u8 unk_10,unk_11,unk_12,unk_
 extern const struct DispConfig d_021B8280;
 extern const struct BgTemplate d_021B82F0,d_021B8330,d_021B8290,d_021B82B0,d_021B82D0,d_021B8310;
 extern void func_0203F8F4(u16);
-extern void func_02045088(u16);
+extern void BMP_WIN_Init(u16);
 extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u32,const struct BgTemplate *,u32);
 extern void func_020414EC(u32);
@@ -42,7 +42,7 @@ void func_021B64D0(void)
 {
     struct DispConfig cfg;
     struct BgTemplate a,b,c,d,e,f;
-    func_0203F8F4(79);func_02045088(79);
+    func_0203F8F4(79);BMP_WIN_Init(79);
     cfg=d_021B8280;func_0203FC28(&cfg);
     a=d_021B82F0;func_0203FCA0(2,&a,0);func_020414EC(2);
     b=d_021B8330;func_0203FCA0(3,&b,0);func_020414EC(3);

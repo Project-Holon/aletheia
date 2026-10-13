@@ -33,7 +33,7 @@
  *   VCT_Init  0x021B370C  arm  ov013
  *   VCT_SESSION_SetCodecMode  0x021B0C64  arm  ov013
  *   VCT_MAIN_StartStream  0x021AF124  thumb  ov013
- *   func_021B0D08  0x021B0D08  arm  ov013
+ *   VCT_SESSION_SetFilterEnabled  0x021B0D08  arm  ov013
  */
 
 typedef unsigned char u8;
@@ -98,7 +98,7 @@ extern void VCT_MAIN_OnEventPair(int a, int code, u32 *p);
 extern void VCT_Init(WorkerParam *p);
 extern int VCT_SESSION_SetCodecMode(int x);
 extern void VCT_MAIN_StartStream(void);
-extern void func_021B0D08(int x);
+extern void VCT_SESSION_SetFilterEnabled(int x);
 
 void VCT_MAIN_Start(void *heap, int arg1, int mode)
 {
@@ -152,5 +152,5 @@ void VCT_MAIN_Start(void *heap, int arg1, int mode)
     gVctWork->f19B0 = 0;
     VCT_SESSION_SetCodecMode(arg1);
     VCT_MAIN_StartStream();
-    func_021B0D08(1);
+    VCT_SESSION_SetFilterEnabled(1);
 }

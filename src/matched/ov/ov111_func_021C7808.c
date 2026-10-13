@@ -10,9 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02048AC4  0x02048AC4  arm
- *   func_020480E4  0x020480E4  arm
- *   func_02047E54  0x02047E54  arm
+ *   G3D_CAMERA_Delete  0x02048AC4  arm
+ *   G3D_UTIL_RemoveUnit  0x020480E4  arm
+ *   G3D_UTIL_Delete  0x02047E54  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -41,15 +41,15 @@ typedef struct {
     int state;
 } Work;
 
-extern u32 func_02048AC4(void *ptr);
+extern u32 G3D_CAMERA_Delete(void *ptr);
 struct Ctx;
 struct Rec;
-extern void func_020480E4(struct Ctx *c, u32 i);
-extern void func_02047E54(struct Rec *p);
+extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
+extern void G3D_UTIL_Delete(struct Rec *p);
 
 void func_021C7808(Work *p)
 {
-    func_02048AC4(p->f104);
-    func_020480E4(p->fF8, p->fFC);
-    func_02047E54(p->fF8);
+    G3D_CAMERA_Delete(p->f104);
+    G3D_UTIL_RemoveUnit(p->fF8, p->fFC);
+    G3D_UTIL_Delete(p->fF8);
 }

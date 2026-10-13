@@ -1,5 +1,5 @@
 /*
- * function: func_021B6048
+ * function: SCRCMD_POKEMON_FLD_FindTutorCandidates
  * address:  0x021B6048
  * packet:   pkt_ov021_021B6048
  * region:   ov021
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0215A5E4  0x0215A5E4  thumb  ov010
- *   func_02012934  0x02012934  thumb
+ *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
+ *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0201AB28  0x0201AB28  thumb
- *   func_02017E1C  0x02017E1C  thumb
- *   func_021B5FB8  0x021B5FB8  thumb  ov021
- *   func_021B5FB4  0x021B5FB4  thumb  ov021
+ *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   SCRCMD_POKEMON_FLD_CheckTutorGroup  0x021B5FB8  thumb  ov021
+ *   SCRCMD_POKEMON_FLD_GetTutorFriendship  0x021B5FB4  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -24,16 +24,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5E4(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
-extern void *func_02012934(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern int func_021B5FB8(u32 a, int sel);
-extern int func_021B5FB4(u32 a);
+extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern int SCRCMD_POKEMON_FLD_CheckTutorGroup(u32 a, int sel);
+extern int SCRCMD_POKEMON_FLD_GetTutorFriendship(u32 a);
 
-int func_021B6048(u32 a, u32 b, u32 key, u8 *mask, u32 flag)
+int SCRCMD_POKEMON_FLD_FindTutorCandidates(u32 a, u32 b, u32 key, u8 *mask, u32 flag)
 {
     void *lst;
     int n;
@@ -42,21 +42,21 @@ int func_021B6048(u32 a, u32 b, u32 key, u8 *mask, u32 flag)
     int all;
     u32 item;
 
-    lst = func_02012934(func_0215A5E4((void *)b));
+    lst = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData((void *)b));
     n = func_0201AA18(lst);
     found = 0;
     all = 0;
     *mask = found;
     for (i = 0; i < n; i++) {
         item = (u32)func_0201AB28(lst, i);
-        if (func_02017E1C((void *)item, 0x4c, 0) == 1)
+        if (POKE_TOOL_GetPartyValue((void *)item, 0x4c, 0) == 1)
             continue;
-        if (func_021B5FB8(item, key) == 0)
+        if (SCRCMD_POKEMON_FLD_CheckTutorGroup(item, key) == 0)
             continue;
         found = 1;
         if (flag != 0) {
-            item = func_02017E1C((void *)item, 9, 0);
-            if (item < func_021B5FB4(key))
+            item = POKE_TOOL_GetPartyValue((void *)item, 9, 0);
+            if (item < SCRCMD_POKEMON_FLD_GetTutorFriendship(key))
                 continue;
         }
         all = 1;

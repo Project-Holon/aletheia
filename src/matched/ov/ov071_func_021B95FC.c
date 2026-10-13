@@ -1,5 +1,5 @@
 /*
- * function: func_021B95FC
+ * function: MONOLITH_TOOL_LIST_LoadGraphics
  * address:  0x021B95FC
  * packet:   pkt_ov071_021B95FC
  * region:   ov071
@@ -15,7 +15,7 @@
  *   func_020490F4  0x020490F4  arm
  *   func_0203FA08  0x0203FA08  arm
  *   func_02027634  0x02027634  thumb
- *   func_02049238  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   func_020409B4  0x020409B4  arm
  */
 #include "../include/Obj09894.h"
@@ -30,10 +30,10 @@ extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
 extern void func_02027634(void *arc, int id, u32 heap, int base, u32 pal);
-extern void func_02049238(void *a);
+extern void ARC_TOOL_DeleteHandle(void *a);
 extern void func_020409B4(u32 a);
 
-void func_021B95FC(void *a, void *b)
+void MONOLITH_TOOL_LIST_LoadGraphics(void *a, void *b)
 {
     char *d = (char *)a;
     char *r5 = (char *)b;
@@ -46,7 +46,7 @@ void func_021B95FC(void *a, void *b)
     ((struct Obj09894 *)d)->f4 = (void *)func_0203FA08(5, 0x80, 1);
     func_02049658(h, 0x1c, 5, (u32)(((struct Obj09894 *)d)->f4), 0x80, 0, 0x61);
     func_02027634(h, 5, 0x61, (int)(((struct Obj09894 *)d)->f4), 0xc);
-    func_02049238(h);
+    ARC_TOOL_DeleteHandle(h);
     func_020409B4(5);
     func_020409B4(6);
 }

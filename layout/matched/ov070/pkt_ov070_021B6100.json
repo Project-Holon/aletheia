@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_021B6100",
-    "func_021B6120"
+    "ITEMMENU_SetTask",
+    "ITEMMENU_ForceRedrawList"
+   ],
+   "addresses": [
+    "0x021B6100",
+    "0x021B6120"
    ]
   }
  ]

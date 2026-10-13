@@ -1,5 +1,5 @@
 /*
- * function: func_0217BB70
+ * function: UNION_ONESELF_IdleMain
  * address:  0x0217BB70
  * packet:   pkt_ov019_0217BB70
  * region:   ov019
@@ -9,23 +9,23 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_02188C7C  0x02188C7C  thumb  ov021
- *   func_021A3460  0x021A3460  thumb  ov021
- *   func_02172D20  0x02172D20  thumb  ov012
- *   func_02172D68  0x02172D68  thumb  ov012
- *   func_021734A8  0x021734A8  thumb  ov012
- *   func_0216D588  0x0216D588  thumb  ov010
- *   func_0216DDC0  0x0216DDC0  thumb  ov010
- *   func_0203D1B4  0x0203D1B4  arm
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
+ *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
+ *   UNION_COMM_RequestRestart  0x02172D20  thumb  ov012
+ *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
+ *   UNION_COMM_SetSituationParam  0x021734A8  thumb  ov012
+ *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
+ *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   func_020362DC  0x020362DC  arm
- *   func_0217AEE8  0x0217AEE8  thumb  ov019
- *   func_0217AEFC  0x0217AEFC  thumb  ov019
- *   func_0217AF38  0x0217AF38  thumb  ov019
- *   func_0217AF4C  0x0217AF4C  thumb  ov019
- *   func_0217B8E4  0x0217B8E4  thumb  ov019
- *   func_0217BAF0  0x0217BAF0  thumb  ov019
- *   func_0217BB04  0x0217BB04  thumb  ov019
+ *   UNION_CHARA_IsChildObjId  0x0217AEE8  thumb  ov019
+ *   UNION_CHARA_GetBeaconIndex  0x0217AEFC  thumb  ov019
+ *   UNION_CHARA_IsUnionObjId  0x0217AF38  thumb  ov019
+ *   UNION_CHARA_CheckTalkable  0x0217AF4C  thumb  ov019
+ *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
+ *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
+ *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
  *   func_0217F7E4  0x0217F7E4  thumb  ov019
  *
  * Addresses are Black-image addresses.
@@ -50,26 +50,26 @@ typedef struct Work {
 } Work;
 
 struct Obj00020;
-extern void *func_02188CB4(struct Obj00020 *p);
-extern void *func_02188C7C(u8 *p);
-extern int func_021A3460(u32 a, u32 b, u32 c, u32 d);
-extern void  func_02172D20(u8 *w);
-extern int   func_02172D68(u8 *w);
-extern void func_021734A8(u8 *self, u32 id, u32 v);
-extern u16   func_0216D588(void *p);
-extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
-extern int   func_0203D1B4(void);
+extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
+extern void *FIELDMAP_GetMmdlSys(u8 *p);
+extern int FIELD_PLAYER_GetFrontGridPos(u32 a, u32 b, u32 c, u32 d);
+extern void  UNION_COMM_RequestRestart(u8 *w);
+extern int   UNION_COMM_IsResetting(u8 *w);
+extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
+extern u16   FLDMMDL_GetObjId(void *p);
+extern void *FLDMMDL_SysSearchGridPos(u32 a, u32 b, u32 c, u32 d);
+extern int   GFL_NET_GetNegotiationNum(void);
 extern u32   func_020362DC(void);
-extern int   func_0217AEE8(u16 t);
-extern u16   func_0217AEFC(u32 t);
-extern int   func_0217AF38(u16 t);
-extern int func_0217AF4C(char *a, u16 key);
-extern int func_0217B8E4(char *p, int v);
-extern void func_0217BAF0(char *p, int x, unsigned int v);
-extern int func_0217BB04(char *p);
+extern int   UNION_CHARA_IsChildObjId(u16 t);
+extern u16   UNION_CHARA_GetBeaconIndex(u32 t);
+extern int   UNION_CHARA_IsUnionObjId(u16 t);
+extern int UNION_CHARA_CheckTalkable(char *a, u16 key);
+extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
+extern void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
+extern int UNION_ONESELF_CheckNetError(char *p);
 extern int func_0217F7E4(u32 arg);
 
-int func_0217BB70(u8 *w, u8 *obj, void *q)
+int UNION_ONESELF_IdleMain(u8 *w, u8 *obj, void *q)
 {
     void *a;
     void *b;
@@ -80,55 +80,55 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
     s16 y;
     s16 z;
 
-    a = func_02188CB4(q);
-    b = func_02188C7C(q);
-    if (func_0217BB04((char *)w) == 1) {
+    a = FIELDMAP_GetFieldPlayer(q);
+    b = FIELDMAP_GetMmdlSys(q);
+    if (UNION_ONESELF_CheckNetError((char *)w) == 1) {
         return 1;
     }
-    if (func_02172D68(w) == 1) {
+    if (UNION_COMM_IsResetting(w) == 1) {
         return 0;
     }
     if (obj[0x71] != 0) {
         return 1;
     }
-    if (func_0203D1B4() > 1) {
-        func_02172D20(w);
+    if (GFL_NET_GetNegotiationNum() > 1) {
+        UNION_COMM_RequestRestart(w);
         return 0;
     }
     if (func_020362DC() & 1) {
-        func_021A3460((u32)a, (u32)(&x), (u32)(&y), (u32)(&z));
-        r = func_0216DDC0((u32)b, x, z, 0);
+        FIELD_PLAYER_GetFrontGridPos((u32)a, (u32)(&x), (u32)(&y), (u32)(&z));
+        r = FLDMMDL_SysSearchGridPos((u32)b, x, z, 0);
         if (r == 0) {
             return 0;
         }
-        t = func_0216D588(r);
-        if (func_0217AF38(t) == 0 || func_0217AF4C((char *)w, t) == 0) {
+        t = FLDMMDL_GetObjId(r);
+        if (UNION_CHARA_IsUnionObjId(t) == 0 || UNION_CHARA_CheckTalkable((char *)w, t) == 0) {
             return 0;
         }
         ((struct Obj12522 *)obj)->f58 = t;
-        n = func_0217AEFC(t);
-        func_021734A8(w, 0, (u32)(&((Work *)w)->entries[n]));
-        if (func_0217AEE8(t) == 0) {
+        n = UNION_CHARA_GetBeaconIndex(t);
+        UNION_COMM_SetSituationParam(w, 0, (u32)(&((Work *)w)->entries[n]));
+        if (UNION_CHARA_IsChildObjId(t) == 0) {
             if (((Work *)w)->entries[n].bB == 0) {
-                func_021734A8(w, 1, (u32)(&((Work *)w)->entries[n]));
-                func_0217B8E4((char *)w, 5);
+                UNION_COMM_SetSituationParam(w, 1, (u32)(&((Work *)w)->entries[n]));
+                UNION_ONESELF_SetNextPlayCategory((char *)w, 5);
             } else {
-                func_0217B8E4((char *)w, 0xB);
+                UNION_ONESELF_SetNextPlayCategory((char *)w, 0xB);
             }
         } else {
-            func_0217B8E4((char *)w, 0xC);
+            UNION_ONESELF_SetNextPlayCategory((char *)w, 0xC);
         }
-        func_0217BAF0((char *)w, (int)q, 1);
+        UNION_ONESELF_SetFieldBusy((char *)w, (int)q, 1);
         return 1;
     }
     if (w[0x282E] == 1) {
-        func_0217B8E4((char *)w, 4);
+        UNION_ONESELF_SetNextPlayCategory((char *)w, 4);
         return 1;
     }
     if (func_0217F7E4((u32)q) == 1) {
         if (((struct Obj07382 *)w)->f3564 == 1) {
-            func_0217BAF0((char *)w, (int)q, 1);
-            func_0217B8E4((char *)w, 3);
+            UNION_ONESELF_SetFieldBusy((char *)w, (int)q, 1);
+            UNION_ONESELF_SetNextPlayCategory((char *)w, 3);
         }
     } else {
         ((struct Obj07382 *)w)->f3564 = 1;

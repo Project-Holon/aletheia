@@ -9,17 +9,17 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_0203D378 0x0203D378 arm
+ *   GFL_NET_IsParentAid 0x0203D378 arm
  *   COLOSSEUM_SendChoiceReply 0x02174D2C thumb ov012
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_0203D378(void);
+extern u32 GFL_NET_IsParentAid(void);
 extern int COLOSSEUM_SendChoiceReply(char *a, u32 b, u32 c);
 void COLOSSEUM_FlushChoiceReplies(u8 *p)
 {
     int i;
-    if (func_0203D378()) {
+    if (GFL_NET_IsParentAid()) {
         for (i=0;i<4;i++) {
             if ((p+i)[0xd0] != 255 && COLOSSEUM_SendChoiceReply((char *)p,i,(p+i)[0xd0]) == 1)
                 (p+i)[0xd0] = 255;

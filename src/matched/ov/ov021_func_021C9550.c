@@ -1,5 +1,5 @@
 /*
- * function: func_021C9550
+ * function: FLDEFF_IAIGIRI_Start
  * address:  0x021C9550
  * packet:   pkt_ov021_021C9550
  * region:   ov021
@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0216D88C  0x0216D88C  thumb  ov010
- *   func_0216D5F8  0x0216D5F8  thumb  ov010
- *   func_021ABEA0  0x021ABEA0  thumb  ov021
- *   func_021ABFA8  0x021ABFA8  thumb  ov021
- *   d_021DAC80     0x021DAC80  data  a4
+ *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
+ *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
+ *   FIELD_EFFECT_GetResource  0x021ABEA0  thumb  ov021
+ *   FIELD_EFFECT_AddObject  0x021ABFA8  thumb  ov021
+ *   sIaigiriFuncs     0x021DAC80  data  a4
  *
  * Addresses are Black-image addresses.
  */
@@ -26,20 +26,20 @@ typedef struct Rec { u32 h; V3 pos; } Rec;
 
 struct Actor;
 struct VecFx32;
-extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
+extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
 typedef unsigned short u16;
-extern u16 func_0216D5F8(void *p);
-extern int func_021ABEA0(u32 a, u32 b);
-extern void func_021ABFA8(u32, void *, u32, u32, Rec *, u32);
-extern u32 d_021DAC80[];
+extern u16 FLDMMDL_GetDirDisp(void *p);
+extern int FIELD_EFFECT_GetResource(u32 a, u32 b);
+extern void FIELD_EFFECT_AddObject(u32, void *, u32, u32, Rec *, u32);
+extern u32 sIaigiriFuncs[];
 
-void func_021C9550(u32 a, u32 b)
+void FLDEFF_IAIGIRI_Start(u32 a, u32 b)
 {
     V3 v;
     Rec r;
 
-    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
-    switch (func_0216D5F8((void *)a)) {
+    FLDMMDL_GetPos((const struct Actor *)a, (struct VecFx32 *)&v);
+    switch (FLDMMDL_GetDirDisp((void *)a)) {
     case 0:
         v.v[2] -= 0x10000;
         break;
@@ -53,7 +53,7 @@ void func_021C9550(u32 a, u32 b)
         v.v[0] += 0x10000;
         break;
     }
-    r.h = func_021ABEA0(b, 0xc);
+    r.h = FIELD_EFFECT_GetResource(b, 0xc);
     r.pos = v;
-    func_021ABFA8(b, d_021DAC80, 0, 0, &r, 0);
+    FIELD_EFFECT_AddObject(b, sIaigiriFuncs, 0, 0, &r, 0);
 }

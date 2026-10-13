@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * symbols:
- *   func_02158344  0x02158344  thumb  ov010
- *   func_02012B58  0x02012B58  thumb
+ *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
+ *   GAME_DATA_GetExitMode  0x02012B58  thumb
  *   sLinkMarkerPosTemplate     0x02176FD8  data  ov011  a4
  */
 
@@ -33,20 +33,20 @@ typedef struct {
 } Cs;
 
 extern Cs   sLinkMarkerPosTemplate;
-extern int func_02158344(int a0);
+extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 struct BigObj;
-extern u8 func_02012B58(const struct BigObj *p);
+extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 
 void INTRUDE_COMM_GetMarkerPosForPartner(void *a, void *b, Cs *c)
 {
     Rec *r;
     int d;
 
-    r = (Rec *)func_02158344((int)a);
-    if (r == 0 || r->v == func_02012B58(b)) {
+    r = (Rec *)INTRUDE_COMM_GetWorkIfRunning((int)a);
+    if (r == 0 || r->v == GAME_DATA_GetExitMode(b)) {
         d = 0;
     } else {
-        d = r->v - func_02012B58(b);
+        d = r->v - GAME_DATA_GetExitMode(b);
         if (d < 0) {
             d += r->f902;
         }

@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_021BE34C 0x021BE34C thumb ov209
- *   func_021B93B0 0x021B93B0 thumb ov067
+ *   FRAME_LIST_GetCursor 0x021B93B0 thumb ov067
  *   func_021BE51C 0x021BE51C thumb ov209
  *   func_021BE5D4 0x021BE5D4 thumb ov209
  */
@@ -18,5 +18,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BE34C(char *,int),func_021BE51C(char *,int),func_021BE5D4(char *,int);extern int func_021B93B0(char *);
-void func_021BCC2C(char *p,int delta) { func_021BE34C(p,(signed char)-delta);func_021BE51C(p,func_021B93B0(*(char * *)&((struct Obj00088 *)p)->fC2C));func_021BE5D4(p,1); }
+extern void func_021BE34C(char *,int),func_021BE51C(char *,int),func_021BE5D4(char *,int);extern int FRAME_LIST_GetCursor(char *);
+void func_021BCC2C(char *p,int delta) { func_021BE34C(p,(signed char)-delta);func_021BE51C(p,FRAME_LIST_GetCursor(*(char * *)&((struct Obj00088 *)p)->fC2C));func_021BE5D4(p,1); }

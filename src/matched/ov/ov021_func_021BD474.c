@@ -1,5 +1,5 @@
 /*
- * function: func_021BD474
+ * function: PLACE_NAME_LETTER_Activate
  * address:  0x021BD474
  * packet:   pkt_ov021_021BD474
  * region:   ov021
@@ -15,7 +15,7 @@ typedef struct {
     int f44;
 } Obj;
 
-void func_021BD474(Obj *p)
+void PLACE_NAME_LETTER_Activate(Obj *p)
 {
     p->f44 = 1;
 }

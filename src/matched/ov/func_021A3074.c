@@ -1,5 +1,5 @@
 /*
- * function: func_021A3074
+ * function: FIELD_PLAYER_GetMmdl
  * address:  0x021A3074
  * packet:   pkt_021A2F48
  * region:   ov021
@@ -12,7 +12,7 @@
  * Tail-call thunk: the object's word at +0x4.
  *
  * symbols:
- *   func_021A3960  0x021A3960  thumb
+ *   FIELD_PLAYER_CORE_GetMmdl  0x021A3960  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_021A3960(u8 *p);
+extern void *FIELD_PLAYER_CORE_GetMmdl(u8 *p);
 
-void *func_021A3074(u8 *p)
+void *FIELD_PLAYER_GetMmdl(u8 *p)
 {
-    return func_021A3960(*(u8 * *)&((struct Obj00614 *)p)->f4);
+    return FIELD_PLAYER_CORE_GetMmdl(*(u8 * *)&((struct Obj00614 *)p)->f4);
 }

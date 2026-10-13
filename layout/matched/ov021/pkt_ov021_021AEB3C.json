@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021AEB3C",
+   "name": "SCRCMD_StartMultiTrainerBattle",
    "address": "0x021AEB3C",
    "kind": "game",
    "region": "ov021",

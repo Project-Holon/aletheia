@@ -81,12 +81,12 @@ typedef struct {
 #define BTL_FORCE_SWITCH_MODE_ITEM 1
 #define BTL_FORCE_SWITCH_STR_ID 0x28C
 
-extern u16 func_021D5444(struct BtlPokeParam *bpp);          /* species */
-extern int func_021DD008(struct BtlEventFactor *factor);     /* power ratio of the held item */
-extern int func_021DCFF8(struct BtlEventFactor *factor, int index); /* item parameter */
-extern int func_021D7B74(struct BtlPokeParam *bpp, u32 divisor); /* max HP / divisor, at least 1 */
+extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);          /* species */
+extern int BTL_HANDLER_ITEM_GetBoostRatio(struct BtlEventFactor *factor);     /* power ratio of the held item */
+extern int BTL_HANDLER_ITEM_GetParam(struct BtlEventFactor *factor, int index); /* item parameter */
+extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, u32 divisor); /* max HP / divisor, at least 1 */
 extern int func_021C818C(struct BtlSvFlow *flow, int pokeId);    /* guess: the Pokemon can still evolve */
-extern int func_021EF948(int query);
+extern int BTL_FIELD_GetStaticSlotObject(int query);
 extern int func_021E85F8(int pokeId);
 extern int func_021C7D00(struct BtlSvFlow *flow, int pokeId);
 extern int func_021C7F24(struct BtlSvFlow *flow, int pokeId);

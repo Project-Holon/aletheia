@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3EC
+ * function: TOWNMAP_CursorGetHeldKeys
  * address:  0x021BA3EC
  * packet:   pkt_021BA3EC
  * region:   ov072
@@ -15,7 +15,7 @@
 
 unsigned int func_0203630C(void);
 
-void func_021BA3EC(void)
+void TOWNMAP_CursorGetHeldKeys(void)
 {
     func_0203630C();
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021F05D0
+ * function: C_GEAR_TickTabTimers
  * address:  0x021F05D0
  * packet:   pkt_ov029_021F05D0
  * region:   ov029
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021F05D0  0x021F05D0  thumb  ov029
- *   func_021F0CB8  0x021F0CB8  thumb  ov029
- *   func_021F0CDC  0x021F0CDC  thumb  ov029
- *   func_021F0CF0  0x021F0CF0  thumb  ov029
- *   func_021F0D10  0x021F0D10  thumb  ov029
- *   func_021F0390  0x021F0390  thumb  ov029
+ *   C_GEAR_TickTabTimers  0x021F05D0  thumb  ov029
+ *   C_GEAR_TickTabTimer  0x021F0CB8  thumb  ov029
+ *   C_GEAR_IsTabTimerFull  0x021F0CDC  thumb  ov029
+ *   C_GEAR_ResetTabTimerCount  0x021F0CF0  thumb  ov029
+ *   C_GEAR_SetTabTimerRunning  0x021F0D10  thumb  ov029
+ *   C_GEAR_UpdateTabInput  0x021F0390  thumb  ov029
  */
 
 typedef unsigned char u8;
@@ -25,13 +25,13 @@ struct E {
     u8 b[10];
 };
 
-extern void func_021F0CB8(unsigned char *p);
-extern int func_021F0CDC(unsigned short *p, int i);
-extern void func_021F0CF0(unsigned char *p, int i);
-extern void func_021F0D10(char *p, char v);
-extern void func_021F0390(u8 *p, int i, int j, int k, int l);
+extern void C_GEAR_TickTabTimer(unsigned char *p);
+extern int C_GEAR_IsTabTimerFull(unsigned short *p, int i);
+extern void C_GEAR_ResetTabTimerCount(unsigned char *p, int i);
+extern void C_GEAR_SetTabTimerRunning(char *p, char v);
+extern void C_GEAR_UpdateTabInput(u8 *p, int i, int j, int k, int l);
 
-void func_021F05D0(u8 *p)
+void C_GEAR_TickTabTimers(u8 *p)
 {
     struct E *q2;
     struct E *q;
@@ -42,15 +42,15 @@ void func_021F05D0(u8 *p)
     flag = 0;
     for (i = 0; i < 5; i++) {
         q = (struct E *)(p + 0x418);
-        func_021F0CB8((unsigned char *)(&q[i]));
+        C_GEAR_TickTabTimer((unsigned char *)(&q[i]));
         for (j = 0; j < 3; j++) {
-            if (func_021F0CDC((short unsigned int *)(&q[i]), j) || p[0x460]) {
-                func_021F0390(p, i, j, 0, p[0x461]);
+            if (C_GEAR_IsTabTimerFull((short unsigned int *)(&q[i]), j) || p[0x460]) {
+                C_GEAR_UpdateTabInput(p, i, j, 0, p[0x461]);
                 if (i == 0) {
                     flag = 1;
                 }
-                if (func_021F0CDC((short unsigned int *)(&q[i]), j)) {
-                    func_021F0CF0((unsigned char *)(&q[i]), j);
+                if (C_GEAR_IsTabTimerFull((short unsigned int *)(&q[i]), j)) {
+                    C_GEAR_ResetTabTimerCount((unsigned char *)(&q[i]), j);
                 }
             }
         }
@@ -59,12 +59,12 @@ void func_021F05D0(u8 *p)
         q2 = (struct E *)(p + 0x418);
         for (i = 0; i < 5; i++) {
             if (i != 0) {
-                func_021F0D10((char *)(&q2[i]), 1);
+                C_GEAR_SetTabTimerRunning((char *)(&q2[i]), 1);
                 for (j = 0; j < 3; j++) {
-                    func_021F0390(p, i, j, 0, p[0x461]);
+                    C_GEAR_UpdateTabInput(p, i, j, 0, p[0x461]);
                 }
             } else {
-                func_021F0D10((char *)(&q2[i]), 0);
+                C_GEAR_SetTabTimerRunning((char *)(&q2[i]), 0);
             }
         }
     }

@@ -10,25 +10,25 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D775C(int key);
+extern int BTL_EVENT_GetVar(int key);
 
 int func_021E85F8(int v)
 {
     u32 i;
     u32 n;
 
-    n = func_021D775C(5);
+    n = BTL_EVENT_GetVar(5);
     i = 0;
     if (n != 0) {
         do {
-            if (v == func_021D775C(i + 6))
+            if (v == BTL_EVENT_GetVar(i + 6))
                 return 1;
             i++;
         } while (i < n);

@@ -12,15 +12,19 @@
  *   func_021C875C 0x021C875C thumb ov128
  *   func_021C8784 0x021C8784 thumb ov128
  *   d_021CA68C 0x021CA68C data a4
+ *   APP_TASKMENU_CloseMenu  0x02027858  thumb  arm9
+ *   APP_TASKMENU_UpdateMenu  0x02027974  thumb  arm9
+ *   APP_TASKMENU_IsFinish  0x020279E8  thumb  arm9
+ *   APP_TASKMENU_GetCursorPos  0x02027A04  thumb  arm9
  */
 #include "../include/Obj06478.h"
 typedef unsigned char u8;
-extern void func_02027974(void *);
+extern void APP_TASKMENU_UpdateMenu(void *);
 typedef unsigned int   u32;
 struct TaskMenu;
-extern u32 func_020279E8(struct TaskMenu *m);
-extern u8 func_02027A04(const u8 *);
-extern void func_02027858(struct TaskMenu *m);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u8 func_020355C4(void);
 extern void func_021C875C(char *p, char *q);
 extern void func_021C8784(char *);
@@ -29,10 +33,10 @@ int func_021C8470(u8 *p, int *a, void *b)
 {
     int n;
     int result;
-    func_02027974(((struct Obj06478 *)p)->f194);
-    if (func_020279E8(((struct Obj06478 *)p)->f194) == 1) {
-        n = func_02027A04(*(u8 * *)&((struct Obj06478 *)p)->f194);
-        func_02027858(((struct Obj06478 *)p)->f194);
+    APP_TASKMENU_UpdateMenu(((struct Obj06478 *)p)->f194);
+    if (APP_TASKMENU_IsFinish(((struct Obj06478 *)p)->f194) == 1) {
+        n = APP_TASKMENU_GetCursorPos(*(u8 * *)&((struct Obj06478 *)p)->f194);
+        APP_TASKMENU_CloseMenu(((struct Obj06478 *)p)->f194);
     } else return 8;
     if (n == 3) {
         *a = func_020355C4();

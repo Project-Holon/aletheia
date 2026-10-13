@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0219BFDC",
+   "name": "FLDMMDL_MOVE_FaceDir",
    "address": "0x0219BFDC",
    "kind": "game",
    "region": "ov021",

@@ -11,8 +11,8 @@
  *   id127 0x0000007F data
  *   id67 0x00000043 data
  *   func_02034AC4 0x02034AC4 arm
- *   func_0203064C 0x0203064C arm
- *   func_0203159C 0x0203159C arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  *   func_021C63EC 0x021C63EC thumb ov128
  *   func_021C658C 0x021C658C thumb ov128
@@ -27,9 +27,9 @@ typedef signed short s16;
 extern char id127[],id67[];
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
-extern void func_0203064C(u32,u32,u32);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 struct Obj0203159C;
-extern void *func_0203159C(struct Obj0203159C *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Obj0203159C *obj, u32 size, u32 heap);
 extern void func_02082BCC(void *,int,int);
 extern void func_021C63EC(u8 *p, const u32 *q, int heap);
 extern void func_021C658C(char *p, void *q, int heap);
@@ -39,8 +39,8 @@ int func_021C6180(void *p,int unused,void *q)
 {
     char *v;
     func_02034AC4((u32)id127); func_02034AC4((u32)id67);
-    func_0203064C(1,52,0xc0000);
-    v=func_0203159C(p,0x5b0,52);
+    GFL_HEAP_CreateChildHeap(1,52,0xc0000);
+    v=PROCSYS_AllocProcWork(p,0x5b0,52);
     func_02082BCC(v,0,0x5b0);
     ((struct Obj06476 *)v)->f1F8=q; ((struct Obj06476 *)v)->f5A8=0;
     func_021C63EC((u8 *)(v+0x190),((struct Obj06476 *)v)->f1F8,52);

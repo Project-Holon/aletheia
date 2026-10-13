@@ -1,5 +1,5 @@
 /*
- * function: func_0217B94C
+ * function: INTRUDE_FIELD_IsInEdgeMargin
  * address: 0x0217B94C
  * packet: pkt_ov018_0217B94C
  * region: ov018
@@ -10,4 +10,4 @@
  * status: EXACT*
  * symbols:
  */
-int func_0217B94C(int *p) { if (*p > 0x308000 || *p < 0xe8000) return 1; return 0; }
+int INTRUDE_FIELD_IsInEdgeMargin(int *p) { if (*p > 0x308000 || *p < 0xe8000) return 1; return 0; }

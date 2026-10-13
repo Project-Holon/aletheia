@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Named by the parked ov093 files (func_021DF0C4 / func_021DFABC /
+ * Named by the parked ov093 files (BTL_HANDLER_ITEM_DestinyKnot_Infatuate / BTL_HANDLER_ITEM_RockyHelmetDamageReaction /
  * func_021E7388).  Appends `val` to the record at p: the count in bits 8..14
  * of the +2 halfword (max 7 entries) is incremented and `val` stored at
  * p + 4 + idx*4.  The 7-bit unsigned bitfield is what makes the count

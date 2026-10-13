@@ -1,5 +1,5 @@
 /*
- * function: func_021D8F54
+ * function: BTL_ABILITY_FlowerGiftRevertForm
  * address: 0x021D8F54
  * packet: pkt_ov093_021D8F54
  * region: ov093
@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   func_021D8E00 0x021D8E00 thumb ov093
- *   func_021D8E7C 0x021D8E7C thumb ov093
+ *   BTL_ABILITY_IsCherrim 0x021D8E00 thumb ov093
+ *   BTL_ABILITY_ChangeCherrimForm 0x021D8E7C thumb ov093
  */
-extern int func_021D8E00(void *, int);
-extern void func_021D8E7C(int, void *, unsigned int, unsigned int, unsigned char);
-void func_021D8F54(int a, void *b, int c, int *d)
+extern int BTL_ABILITY_IsCherrim(void *, int);
+extern void BTL_ABILITY_ChangeCherrimForm(int, void *, unsigned int, unsigned int, unsigned char);
+void BTL_ABILITY_FlowerGiftRevertForm(int a, void *b, int c, int *d)
 {
-    if (*d && func_021D8E00(b, c)) func_021D8E7C(a, b, c, 0, 0);
+    if (*d && BTL_ABILITY_IsCherrim(b, c)) BTL_ABILITY_ChangeCherrimForm(a, b, c, 0, 0);
 }

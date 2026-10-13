@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   func_020399A8 0x020399A8 arm
- *   func_0203D1A4 0x0203D1A4 arm
+ *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
+ *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   func_021BE210 0x021BE210 thumb ov172
  *   func_021BDFEC 0x021BDFEC thumb ov172
  *   func_021BE2E0 0x021BE2E0 thumb ov172
@@ -30,9 +30,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Entry;
-extern struct Entry *func_020399A8(void);
+extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
-extern u32 func_0203D1A4(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern void func_021BE210(char *a, u8 idx);
 extern int func_021BDFEC(void *p);
 extern void func_021BE2E0(void *p);
@@ -52,7 +52,7 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
     void *r;
     char *base;
     u32 v;
-    self = func_0203D1A4((struct Link *)((u32)func_020399A8()));
+    self = GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()));
     switch (((struct Obj08258 *)msg)->f4) {
     case 0:
         if (id == self)

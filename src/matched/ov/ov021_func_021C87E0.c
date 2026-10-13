@@ -1,5 +1,5 @@
 /*
- * function: func_021C87E0
+ * function: PLEASURE_BOAT_GetTimeEvent
  * address:  0x021C87E0
  * packet:   pkt_ov021_021C87E0
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 typedef struct { u32 f0; s16 f4; s16 f6; int f8; } P;
-int func_021C87E0(P *p)
+int PLEASURE_BOAT_GetTimeEvent(P *p)
 {
     if (p->f4 >= 5400 && p->f8 >= 4)
         return 2;

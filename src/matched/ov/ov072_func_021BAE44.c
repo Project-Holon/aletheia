@@ -1,5 +1,5 @@
 /*
- * function: func_021BAE44
+ * function: TOWNMAP_TownUnhighlight
  * address:  0x021BAE44
  * packet:   pkt_ov072_021BAE44
  * region:   ov072
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA774  0x021BA774  thumb  ov072
- *   func_021BAA30  0x021BAA30  thumb  ov072
- *   func_021BADBC  0x021BADBC  thumb  ov072
+ *   TOWNMAP_TownGetField  0x021BA774  thumb  ov072
+ *   TOWNMAP_TownSetShown  0x021BAA30  thumb  ov072
+ *   TOWNMAP_TownSetFrame  0x021BADBC  thumb  ov072
  */
 
 typedef unsigned char u8;
@@ -30,16 +30,16 @@ typedef struct {
     int f40;
 } W;
 
-extern int func_021BA774(char *p, int i);
-extern void func_021BAA30(W *p, int a);
-extern void func_021BADBC(char *p, int v);
+extern int TOWNMAP_TownGetField(char *p, int i);
+extern void TOWNMAP_TownSetShown(W *p, int a);
+extern void TOWNMAP_TownSetFrame(char *p, int v);
 
-void func_021BAE44(W *p)
+void TOWNMAP_TownUnhighlight(W *p)
 {
     int r;
 
     r = 0;
-    if (func_021BA774((char *)p, 11) == 4 || func_021BA774((char *)p, 11) == 5) {
+    if (TOWNMAP_TownGetField((char *)p, 11) == 4 || TOWNMAP_TownGetField((char *)p, 11) == 5) {
         r = 1;
         if (p->f40 != 0) {
             r = 0;
@@ -47,10 +47,10 @@ void func_021BAE44(W *p)
     }
     if (p->f38 != 0 || r != 0) {
         if (p->obj != 0) {
-            func_021BAA30(p, 1);
-            func_021BADBC((char *)p, p->f30);
+            TOWNMAP_TownSetShown(p, 1);
+            TOWNMAP_TownSetFrame((char *)p, p->f30);
         }
     } else {
-        func_021BAA30(p, 0);
+        TOWNMAP_TownSetShown(p, 0);
     }
 }

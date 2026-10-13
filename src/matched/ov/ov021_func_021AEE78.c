@@ -1,5 +1,5 @@
 /*
- * function: func_021AEE78
+ * function: SCRCMD_FadeOutPlayFixedBgm
  * address:  0x021AEE78
  * packet:   pkt_ov021_021AEE78
  * region:   ov021
@@ -10,46 +10,46 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_0215A5DC  0x0215A5DC  thumb  ov010
- *   func_0215A5F4  0x0215A5F4  thumb  ov010
- *   func_02011330  0x02011330  thumb
- *   func_02029A74  0x02029A74  thumb
- *   func_0215897C  0x0215897C  thumb  ov010
- *   func_020120F4  0x020120F4  thumb
- *   func_02012A30  0x02012A30  thumb
- *   func_02028BA0  0x02028BA0  thumb
- *   func_02159144  0x02159144  thumb  ov010
+ *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
+ *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
+ *   VM_GetU16  0x02011330  thumb
+ *   FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask  0x02029A74  thumb
+ *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
+ *   GAMESYSTEM_GetGameData  0x020120F4  thumb
+ *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
+ *   FIELD_SOUND_SYSTEM_PauseSlots  0x02028BA0  thumb
+ *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0215A5F4(void *p);
+extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetScriptWork(void *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Ctx;
 struct Stream;
-extern u16 func_02011330(struct Stream *s);
-extern void *func_02029A74(void *a, u16 b);
-extern void func_0215897C(void *vm, void *task);
-extern void *func_020120F4(const struct Ctx *p);
+extern u16 VM_GetU16(struct Stream *s);
+extern void *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(void *a, u16 b);
+extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
+extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern u32 func_02012A30(const struct BigObj *a);
-extern void func_02028BA0(u8 *o, u32 v);
-extern void func_02159144(int n);
+extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *a);
+extern void FIELD_SOUND_SYSTEM_PauseSlots(u8 *o, u32 v);
+extern void SCRIPT_WORK_SetCheckFlag(int n);
 
-int func_021AEE78(u32 a, u32 b)
+int SCRCMD_FadeOutPlayFixedBgm(u32 a, u32 b)
 {
     u32 z;
     void *x;
     void *y;
 
-    x = func_0215A5DC((void *)b);
-    y = func_0215A5F4((void *)b);
-    z = (u32)func_02029A74(x, func_02011330((struct Stream *)a));
-    func_0215897C(y, (void *)z);
-    func_02028BA0((u8 *)func_02012A30((const struct BigObj *)func_020120F4(x)), 2);
-    func_02159144(13);
+    x = SCRCMD_WORK_GetGameSystem((void *)b);
+    y = SCRCMD_WORK_GetScriptWork((void *)b);
+    z = (u32)FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(x, VM_GetU16((struct Stream *)a));
+    SCRIPT_SYS_CallEvent(y, (void *)z);
+    FIELD_SOUND_SYSTEM_PauseSlots((u8 *)GAME_DATA_GetBgmInfo((const struct BigObj *)GAMESYSTEM_GetGameData(x)), 2);
+    SCRIPT_WORK_SetCheckFlag(13);
     return 1;
 }

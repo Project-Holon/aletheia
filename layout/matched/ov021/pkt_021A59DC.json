@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021A59DC",
+   "name": "FIELD_PLAYER_NOGRID_IsBlocked",
    "address": "0x021A59DC",
    "kind": "game",
    "region": "ov021",

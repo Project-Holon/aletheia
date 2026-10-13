@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: func_021F38C0, func_021F38E4
+ * function: FIELD_GIMMICK_BSUBWAY_InitTrainSway, func_021F38E4
  * address: 0x021F38C0
  * packet: pkt_ov052_021F38C0
  * region: ov052
@@ -11,7 +11,7 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   d_021F3AC0 0x021F3AC0 data ov052 a4
+ *   sFieldGimmickBsubwayFileName 0x021F3AC0 data ov052 a4
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj13112.h"
@@ -20,12 +20,12 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern char d_021F3AC0[];
+extern char sFieldGimmickBsubwayFileName[];
 extern u32 func_020307B0(void *p);
 
-void func_021F38C0(char *a)
+void FIELD_GIMMICK_BSUBWAY_InitTrainSway(char *a)
 {
-    ((struct Obj13112 *)a)->f24 = func_02030734(((struct Obj13112 *)a)->fC, 12, 1, d_021F3AC0, 0x164);
+    ((struct Obj13112 *)a)->f24 = func_02030734(((struct Obj13112 *)a)->fC, 12, 1, sFieldGimmickBsubwayFileName, 0x164);
 }
 
 void func_021F38E4(char *a)

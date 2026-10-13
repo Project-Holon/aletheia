@@ -1,5 +1,5 @@
 /*
- * function: func_0219067C
+ * function: FIELD_MSGBG_GetMsgPrintUtil
  * address:  0x0219067C
  * packet:   pkt_0218FE70
  * region:   ov021
@@ -16,7 +16,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u8 *func_0219067C(u8 *p)
+u8 *FIELD_MSGBG_GetMsgPrintUtil(u8 *p)
 {
     return p + 0x1c;
 }

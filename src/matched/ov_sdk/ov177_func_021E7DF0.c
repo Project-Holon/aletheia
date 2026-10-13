@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   func_0204B3B4  0x0204B3B4  arm
+ *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_020307B0  0x020307B0  arm
  */
 
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
+extern void CLACT_DeleteActor(struct Obj *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
 void func_021E7DF0(int *p)
 {
-    func_0204B3B4((struct Obj *)(*(int *)((char *)p + 4)));
-    func_0204B3B4((struct Obj *)(*(int *)p));
+    CLACT_DeleteActor((struct Obj *)(*(int *)((char *)p + 4)));
+    CLACT_DeleteActor((struct Obj *)(*(int *)p));
     func_020307B0(p);
 }

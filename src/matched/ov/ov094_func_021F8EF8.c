@@ -13,7 +13,7 @@
  *
  * symbols:
  *   d_0220AF20  0x0220AF20  data  ov094
- *   func_02030EE8 0x02030EE8 arm
+ *   TCBL_IsDeletePending 0x02030EE8 arm
  *   func_021F935C 0x021F935C thumb ov094
  */
 typedef struct {
@@ -26,11 +26,11 @@ typedef struct {
 extern Work *d_0220AF20;
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 func_02030EE8(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern int func_021F935C(int);
 
 void func_021F8EF8(void *h)
 {
-    int m = func_021F935C(((int *)func_02030EE8(h))[0]);
+    int m = func_021F935C(((int *)TCBL_IsDeletePending(h))[0]);
     d_0220AF20->m1 &= m ^ 0xffffffff;
 }

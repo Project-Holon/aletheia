@@ -1,5 +1,5 @@
 /*
- * function: func_021B9F20
+ * function: TOWNMAP_BackButtonFree
  * address: 0x021B9F20
  * packet: pkt_ov072_021B9F20
  * region: ov072
@@ -10,23 +10,23 @@
  * status: EXACT*
  * note: trailing two-byte alignment padding.
  * symbols:
- *   func_021B639C 0x021B639C thumb ov067
- *   func_0204B3B4 0x0204B3B4 arm
- *   func_0204AFD8 0x0204AFD8 arm
- *   func_0204A8D4 0x0204A8D4 arm
- *   func_0204ADA4 0x0204ADA4 arm
+ *   TOUCHBAR_Delete 0x021B639C thumb ov067
+ *   CLACT_DeleteActor 0x0204B3B4 arm
+ *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
+ *   CLACT_ReleaseCharacter 0x0204A8D4 arm
+ *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   func_02082BCC 0x02082BCC arm
  */
-extern void func_021B639C(unsigned char *);
+extern void TOUCHBAR_Delete(unsigned char *);
 struct Obj;
-extern void func_0204B3B4(struct Obj *p);
-extern void func_0204AFD8(unsigned);
-extern void func_0204A8D4(unsigned);
-extern void func_0204ADA4(unsigned);
+extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_ReleaseCellAnim(unsigned);
+extern void CLACT_ReleaseCharacter(unsigned);
+extern void CLACT_ReleasePalette(unsigned);
 extern void func_02082BCC(void *,int,int);
-void func_021B9F20(unsigned *p) {
-    func_021B639C((unsigned char *)p[3]);
-    func_0204B3B4((struct Obj *)p[5]); func_0204AFD8(p[2]);
-    func_0204A8D4(p[1]); func_0204ADA4(p[0]);
+void TOWNMAP_BackButtonFree(unsigned *p) {
+    TOUCHBAR_Delete((unsigned char *)p[3]);
+    CLACT_DeleteActor((struct Obj *)p[5]); CLACT_ReleaseCellAnim(p[2]);
+    CLACT_ReleaseCharacter(p[1]); CLACT_ReleasePalette(p[0]);
     func_02082BCC(p,0,32);
 }

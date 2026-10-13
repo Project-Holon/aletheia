@@ -1,5 +1,5 @@
 /*
- * function: func_02021730
+ * function: PALANM_GetTransWork
  * address:  0x02021730
  * packet:   pkt_02021730
  * region:   arm9
@@ -15,7 +15,7 @@
  * Addresses are Black-image addresses.
  */
 
-int func_02021730(char *p, int i)
+int PALANM_GetTransWork(char *p, int i)
 {
     return *(int *)(p + i * 0x14 + 4);
 }

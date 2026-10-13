@@ -1,5 +1,5 @@
 /*
- * function: func_021A3624
+ * function: FIELD_PLAYER_CheckGridMoving
  * address:  0x021A3624
  * packet:   pkt_021A3624
  * region:   ov021
@@ -12,8 +12,8 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   func_02188CFC  0x02188CFC  thumb  ov021
- *   func_021A54A0  0x021A54A0  thumb  ov021
+ *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
+ *   FIELD_PLAYER_GRID_IsHopping  0x021A54A0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj06010.h"
@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02188CFC(u8 *p);
-extern int func_021A54A0(u32 a);
+extern u32 FIELDMAP_GetMoveKind(u8 *p);
+extern int FIELD_PLAYER_GRID_IsHopping(u32 a);
 
-int func_021A3624(void *a)
+int FIELD_PLAYER_CheckGridMoving(void *a)
 {
-if (func_02188CFC((u8 *)(*(u32 *)&((struct Obj06010 *)((u8 *)(a)))->f0)) == 0) {
-    if (func_021A54A0(*(u32 *)&((struct Obj06010 *)((u8 *)(a)))->f8) == 1) {
+if (FIELDMAP_GetMoveKind((u8 *)(*(u32 *)&((struct Obj06010 *)((u8 *)(a)))->f0)) == 0) {
+    if (FIELD_PLAYER_GRID_IsHopping(*(u32 *)&((struct Obj06010 *)((u8 *)(a)))->f8) == 1) {
         return 1;
     }
 }

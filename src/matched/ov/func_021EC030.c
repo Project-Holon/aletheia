@@ -10,14 +10,15 @@
  * status:   EXACT
  *
  * symbols:
+ *   CLACT_SetActorBgPriority  0x0204B84C  arm  arm9
  *
  * Tail call with the table word at the pooled offset.
  */
 
 
 
-extern void func_0204B84C(int, int);
+extern void CLACT_SetActorBgPriority(int, int);
 void func_021EC030(char *p, int i, int c)
 {
-    func_0204B84C(*(int *)(p + i * 4 + 0x9E74), (unsigned char)c);
+    CLACT_SetActorBgPriority(*(int *)(p + i * 4 + 0x9E74), (unsigned char)c);
 }

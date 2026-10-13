@@ -1,5 +1,5 @@
 /*
- * function: func_021875B8
+ * function: FIELD_WFBC_DATA_LOCAL_FreeTalkMessage
  * address: 0x021875B8
  * packet: pkt_ov020_021875B8
  * region: ov020
@@ -13,29 +13,29 @@
  * interface: 0219131C forwards them to 02045808 -> 020307B0 only; 0203046C
  * overwrites r2/r3, while 02030164's 0202FBAC overwrites r2 and no path reads incoming r3.
  * symbols:
- *   func_021912F8 0x021912F8 thumb ov021
- *   func_0219131C 0x0219131C thumb ov021
- *   func_021909BC 0x021909BC thumb ov021
+ *   FIELD_MSGBG_WaitTalkWinClose 0x021912F8 thumb ov021
+ *   FIELD_MSGBG_ClearTalkWin 0x0219131C thumb ov021
+ *   FIELD_MSGBG_DeleteMenuFunc 0x021909BC thumb ov021
  */
 #include "../include/Obj00128.h"
 typedef unsigned short u16;
-extern int func_021912F8(void *p);
-extern int func_0219131C(unsigned int a);
+extern int FIELD_MSGBG_WaitTalkWinClose(void *p);
+extern int FIELD_MSGBG_ClearTalkWin(unsigned int a);
 typedef unsigned int   u32;
-extern int func_021909BC(void *a);
-int func_021875B8(char *p)
+extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
+int FIELD_WFBC_DATA_LOCAL_FreeTalkMessage(char *p)
 {
     if (((struct Obj00128 *)p)->f10 != 0) {
         if (((struct Obj00128 *)p)->f52 == 5) {
-            if (func_021912F8(((struct Obj00128 *)p)->f10) == 0) return 0;
+            if (FIELD_MSGBG_WaitTalkWinClose(((struct Obj00128 *)p)->f10) == 0) return 0;
             ((struct Obj00128 *)p)->f10 = 0;
         } else {
-            func_0219131C((unsigned int)(((struct Obj00128 *)p)->f10));
+            FIELD_MSGBG_ClearTalkWin((unsigned int)(((struct Obj00128 *)p)->f10));
             ((struct Obj00128 *)p)->f10 = 0;
         }
     }
     if (((struct Obj00128 *)p)->f14 != 0) {
-        func_021909BC((void *)(((struct Obj00128 *)p)->f14));
+        FIELD_MSGBG_DeleteMenuFunc((void *)(((struct Obj00128 *)p)->f14));
         ((struct Obj00128 *)p)->f14 = 0;
     }
     return 1;

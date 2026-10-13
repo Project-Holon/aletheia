@@ -1,5 +1,5 @@
 /*
- * function: func_021B40A8
+ * function: SCRCMD_PROC_FLD_FreeShopWindows
  * address:  0x021B40A8
  * packet:   pkt_ov021_021B40A8
  * region:   ov021
@@ -25,7 +25,7 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern u32 func_020452E8(struct Descriptor *d);
 
-void func_021B40A8(u8 *w)
+void SCRCMD_PROC_FLD_FreeShopWindows(u8 *w)
 {
     int i;
 

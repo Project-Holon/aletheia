@@ -1,5 +1,5 @@
 /*
- * function: func_0216FE2C
+ * function: TOWN_MAP_SPOT_Classify
  * address:  0x0216FE2C
  * packet:   pkt_ov010_0216FE2C
  * region:   ov010
@@ -31,7 +31,7 @@ struct Pos {
     u16 y;
 };
 
-int func_0216FE2C(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags)
+int TOWN_MAP_SPOT_Classify(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags)
 {
     int x;
     int y;

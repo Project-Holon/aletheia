@@ -1,7 +1,7 @@
 /*
  * file:     event_fieldmap_control.c
  * unit:     yes
- * function: func_021BE89C, func_021BE8B8, func_021BE8D4, func_021BE92C, func_021BE9A0, func_021BE9F0, func_021BEA30, func_021BEA6C, func_021BEA9C, func_021BEACC, func_021BEAFC, func_021BEB38, func_021BEB78, func_021BEBA8, func_021BEBD8, func_021BEC24, func_021BEC54, func_021BEC84, func_021BECB4, func_021BECE4, func_021BED14, func_021BED44, func_021BED74, func_021BEDA4, func_021BEDD4, func_021BEE24, func_021BEE74, func_021BEEB4, func_021BEF08, func_021BEF8C, func_021BF0A4, func_021BF0E4, func_021BF130, func_021BF19C, func_021BF208, func_021BF274, func_021BF2E0, func_021BF348, func_021BF3BC, func_021BF430, func_021BF4A4, func_021BF518, func_021BF564, func_021BF584
+ * function: EVENT_FIELDMAP_CONTROL_GetExitEffect, EVENT_FIELDMAP_CONTROL_GetEntranceEffect, EVENT_FIELDMAP_CONTROL_StartFadeOut, EVENT_FIELDMAP_CONTROL_StartFadeIn, EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback, EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore, EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent, EVENT_FIELDMAP_CONTROL_GetFadeKind, EVENT_FIELDMAP_CONTROL_LookupExitEffect, EVENT_FIELDMAP_CONTROL_LookupEntranceEffect, EVENT_FIELDMAP_CONTROL_CreateFadeOutEventForEffect, EVENT_FIELDMAP_CONTROL_CreateFadeInEventForEffect, EVENT_FIELDMAP_CONTROL_CreateFadeOutEventDefault, EVENT_FIELDMAP_CONTROL_CreateFadeInEventDefault, EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEvent, EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect4, EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect5, EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5, EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect6, EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6, EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect7, EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7, EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect8, EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8, EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing, EVENT_FIELDMAP_CONTROL_StartFadeInByFacing, EVENT_FIELDMAP_CONTROL_RunFadeOut, EVENT_FIELDMAP_CONTROL_RunFadeIn, EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut, EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn, EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn, EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8, EVENT_FIELDMAP_CONTROL_RunWipeInEffect5, EVENT_FIELDMAP_CONTROL_RunWipeInEffect6, EVENT_FIELDMAP_CONTROL_RunWipeInEffect7, EVENT_FIELDMAP_CONTROL_RunWipeInEffect8, EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore, EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes, EVENT_FIELDMAP_CONTROL_ResetBgAffine
  * address:  0x021BE89C
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -15,63 +15,63 @@
  * Split from field_player_grid_event.c at 0x021BEE74 (lane CL118, name guess, no __FILE__ anchor: fade and field close/open event handlers whose creators (021BE89C..) sit in fld_exp_obj.c; the fade-in creator 021BE92C takes (gsys, fieldmap, type, wait, bgInit, season, season)).
  *
  * symbols:
- *   func_0204E720  0x0204E720  arm
- *   func_0204E804  0x0204E804  arm
+ *   FADE_Start  0x0204E720  arm
+ *   FADE_IsActive  0x0204E804  arm
  *   func_0208068C  0x0208068C  arm
  *   func_02087AE4  0x02087AE4  arm
  *   func_0203FC28  0x0203FC28  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   func_0204047C  0x0204047C  arm
  *   func_02040588  0x02040588  arm
- *   func_02166B0C  0x02166B0C  thumb  ov010
- *   d_021D9F50     0x021D9F50  data  ov021  a4
- *   func_02189A58  0x02189A58  thumb  ov021
+ *   SYMBOL_MAP_StartBg2Scale  0x02166B0C  thumb  ov010
+ *   sCaptureDispConfig     0x021D9F50  data  ov021  a4
+ *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
  *   func_0207D63C  0x0207D63C  arm
  *   func_02082AC0  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
- *   func_02166B2C  0x02166B2C  thumb  ov010
- *   func_02188DF0  0x02188DF0  thumb  ov021
- *   func_02188C54  0x02188C54  thumb  ov021
- *   func_021903CC  0x021903CC  thumb  ov021
- *   func_021902AC  0x021902AC  thumb  ov021
+ *   SYMBOL_MAP_StopBg2Scale  0x02166B2C  thumb  ov010
+ *   FIELDMAP_ResetBgAffineHideMsg  0x02188DF0  thumb  ov021
+ *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
+ *   FIELD_MSGBG_IsSetupDone  0x021903CC  thumb  ov021
+ *   FIELD_MSGBG_LoadWindowGraphicsStep  0x021902AC  thumb  ov021
  *   func_0218774C  0x0218774C  thumb  ov020
- *   func_02012374  0x02012374  thumb
+ *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   func_021877A8  0x021877A8  thumb  ov020
- *   func_02188C84  0x02188C84  thumb  ov021
- *   func_0202208C  0x0202208C  thumb
- *   func_020221A4  0x020221A4  thumb
- *   func_02043658  0x02043658  arm
- *   func_02043668  0x02043668  arm
- *   func_02188DA0  0x02188DA0  thumb  ov021
+ *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
+ *   WIPE_SYS_Start  0x0202208C  thumb
+ *   WIPE_SYS_EndCheck  0x020221A4  thumb
+ *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
+ *   BG_SYS_GetSubVisiblePlanes  0x02043668  arm
+ *   FIELDMAP_SetBgMode  0x02188DA0  thumb  ov021
  *   func_02043534  0x02043534  arm
- *   func_020435F4  0x020435F4  arm
- *   func_02188DB0  0x02188DB0  thumb
+ *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
+ *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb
  *   func_020122C0  0x020122C0  thumb
  *   func_020124E8  0x020124E8  thumb
- *   func_02188CB4  0x02188CB4  thumb  ov021
- *   func_021BE92C  0x021BE92C  thumb  ov021
- *   func_021BE9A0 0x021BE9A0 thumb ov021
- *   func_021BE8D4  0x021BE8D4  thumb  ov021
+ *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback 0x021BE9A0 thumb ov021
+ *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   func_02013FD8  0x02013FD8  thumb
- *   func_021BF0E4  0x021BF0E4  thumb  ov021
- *   func_021BF518  0x021BF518  thumb  ov021
- *   func_021BEE74  0x021BEE74  thumb  ov021
- *   d_021D9F60  0x021D9F60  data
- *   d_021D9FF0     0x021D9FF0  data
- *   func_021BEEB4  0x021BEEB4  thumb  ov021
- *   func_021BEF08  0x021BEF08  thumb  ov021
- *   func_021BEF8C  0x021BEF8C  thumb  ov021
- *   func_021BF0A4  0x021BF0A4  thumb  ov021
- *   func_021BF130  0x021BF130  thumb  ov021
- *   func_021BF19C  0x021BF19C  thumb  ov021
- *   func_021BF348  0x021BF348  thumb  ov021
- *   func_021BF208  0x021BF208  thumb  ov021
- *   func_021BF3BC  0x021BF3BC  thumb  ov021
- *   func_021BF274  0x021BF274  thumb  ov021
- *   func_021BF430  0x021BF430  thumb  ov021
- *   func_021BF2E0  0x021BF2E0  thumb  ov021
- *   func_021BF4A4  0x021BF4A4  thumb  ov021
- *   func_021A3050  0x021A3050  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback  0x021BF0E4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore  0x021BF518  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunFadeOut  0x021BEE74  thumb  ov021
+ *   gExitEffectTable  0x021D9F60  data
+ *   gEntranceEffectTable     0x021D9FF0  data
+ *   EVENT_FIELDMAP_CONTROL_RunFadeIn  0x021BEEB4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut  0x021BEF08  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn  0x021BEF8C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn  0x021BF0A4  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4  0x021BF130  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5  0x021BF19C  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeInEffect5  0x021BF348  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6  0x021BF208  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeInEffect6  0x021BF3BC  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7  0x021BF274  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeInEffect7  0x021BF430  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8  0x021BF2E0  thumb  ov021
+ *   EVENT_FIELDMAP_CONTROL_RunWipeInEffect8  0x021BF4A4  thumb  ov021
+ *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  */
 #include "fieldmap_types.h"
 
@@ -170,160 +170,160 @@ enum {
     SEASON_FADE_STEP_END
 };
 
-extern void func_0204E720(u32 fadeKind, s32 startLevel, s32 endLevel, s32 speed);
-extern int func_0204E804(void);
+extern void FADE_Start(u32 fadeKind, s32 startLevel, s32 endLevel, s32 speed);
+extern int FADE_IsActive(void);
 extern void func_0208068C(u32 vramBanks);
 extern void func_02087AE4(void);
 extern void func_0203FC28(const DispConfig *config);
 extern void func_0207FDCC(u32 vramBanks);
 extern void func_0204047C(int index, unsigned short value);
 extern void func_02040588(unsigned char plane, unsigned char enable);
-extern void func_02166B0C(void);
-extern void func_02189A58(FieldMap *fieldMap, int stopped);
+extern void SYMBOL_MAP_StartBg2Scale(void);
+extern void FIELDMAP_SetUpdateStopped(FieldMap *fieldMap, int stopped);
 extern void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
 extern void func_02082AC0(u32 value, void *dst, u32 size);
 extern void func_02080B98(void);
-extern void func_02166B2C(void);
-extern void func_02188DF0(FieldMap *fieldMap);
-extern struct FieldMsgBg *func_02188C54(FieldMap *fieldMap);
-extern int func_021903CC(struct FieldMsgBg *msgBg);
-extern void func_021902AC(struct FieldMsgBg *msgBg, int step);
+extern void SYMBOL_MAP_StopBg2Scale(void);
+extern void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap);
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
+extern int FIELD_MSGBG_IsSetupDone(struct FieldMsgBg *msgBg);
+extern void FIELD_MSGBG_LoadWindowGraphicsStep(struct FieldMsgBg *msgBg, int step);
 extern GameEvent *func_0218774C(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget);
 extern GameEvent *func_021877A8(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg);
-extern void func_02012374(GameEvent *parent, GameEvent *child);
-extern u16 func_02188C84(FieldMap *fieldMap);
-extern void func_0202208C(u32 type, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
-extern u32 func_020221A4(void);
-extern u32 func_02043658(void);
-extern u32 func_02043668(void);
-extern void func_02188DA0(void);
+extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
+extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
+extern void WIPE_SYS_Start(u32 type, u32 p2, u32 p3, u16 p4, u32 p5, u32 p6, u32 p7);
+extern u32 WIPE_SYS_EndCheck(void);
+extern u32 BG_SYS_GetMainVisiblePlanes(void);
+extern u32 BG_SYS_GetSubVisiblePlanes(void);
+extern void FIELDMAP_SetBgMode(void);
 extern void func_02043534(u32 visiblePlanes);
-extern void func_020435F4(u32 visiblePlanes);
-extern void func_02188DB0(FieldMap *fieldMap);
+extern void BG_SYS_SetSubVisiblePlanes(u32 visiblePlanes);
+extern void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap);
 extern u8 func_02013FD8(u32 zoneId);
 extern GameEvent *func_020122C0(GameSystem *gameSystem, GameEvent *parent, FieldFadeFunc handler, u32 workSize);
 extern void *func_020124E8(GameEvent *event);
-extern struct FieldPlayer *func_02188CB4(FieldMap *fieldMap);
-extern u16 func_021A3050(struct FieldPlayer *fieldPlayer);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *fieldPlayer);
 
-extern const DispConfig d_021D9F50;
-extern const EffectTable d_021D9F60;
-extern const EffectTable d_021D9FF0;
+extern const DispConfig sCaptureDispConfig;
+extern const EffectTable gExitEffectTable;
+extern const EffectTable gEntranceEffectTable;
 
-int func_021BE89C(int fromZoneId, u32 toZoneId);
-int func_021BE8B8(int fromZoneId, int toZoneId);
-GameEvent *func_021BE8D4(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait);
-GameEvent *func_021BE92C(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg, u8 seasonShown, u8 seasonTarget);
-GameEvent *func_021BE9A0(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg);
-GameEvent *func_021BE9F0(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int fadeSpeed);
-GameEvent *func_021BEA30(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait);
-int func_021BEA6C(int effect);
-u32 func_021BEA9C(int fromGroup, int toGroup);
-u32 func_021BEACC(int fromGroup, int toGroup);
-GameEvent *func_021BEAFC(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait);
-GameEvent *func_021BEB38(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg);
-GameEvent *func_021BEB78(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BEBA8(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BEBD8(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget);
-GameEvent *func_021BEC24(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BEC54(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BEC84(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BECB4(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BECE4(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BED14(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BED44(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BED74(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BEDA4(GameSystem *gameSystem, FieldMap *fieldMap);
-GameEvent *func_021BEDD4(GameSystem *gameSystem, FieldMap *fieldMap);
-void func_021BEE24(GameSystem *gameSystem, FieldMap *fieldMap);
+int EVENT_FIELDMAP_CONTROL_GetExitEffect(int fromZoneId, u32 toZoneId);
+int EVENT_FIELDMAP_CONTROL_GetEntranceEffect(int fromZoneId, int toZoneId);
+GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait);
+GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg, u8 seasonShown, u8 seasonTarget);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int fadeSpeed);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait);
+int EVENT_FIELDMAP_CONTROL_GetFadeKind(int effect);
+u32 EVENT_FIELDMAP_CONTROL_LookupExitEffect(int fromGroup, int toGroup);
+u32 EVENT_FIELDMAP_CONTROL_LookupEntranceEffect(int fromGroup, int toGroup);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventForEffect(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventForEffect(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventDefault(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventDefault(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEvent(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect4(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect5(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect6(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect7(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect8(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing(GameSystem *gameSystem, FieldMap *fieldMap);
+void EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, FieldMap *fieldMap);
 
-int func_021BEE74(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BEEB4(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BEF08(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BEF8C(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF0A4(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF0E4(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF130(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF19C(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF208(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF274(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF2E0(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF348(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF3BC(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF430(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF4A4(GameEvent *event, int *seq, FieldFadeWork *work);
-int func_021BF518(GameEvent *event, int *seq, FieldFadeWork *work);
-void func_021BF564();
-void func_021BF584(FieldMap *fieldMap);
+int EVENT_FIELDMAP_CONTROL_RunFadeOut(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunFadeIn(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect5(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect8(GameEvent *event, int *seq, FieldFadeWork *work);
+int EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore(GameEvent *event, int *seq, FieldFadeWork *work);
+void EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes();
+void EVENT_FIELDMAP_CONTROL_ResetBgAffine(FieldMap *fieldMap);
 
 /*
  * Effect id when leaving a zone, from the zone groups of both zones.
  */
-int func_021BE89C(int fromZoneId, u32 toZoneId)
+int EVENT_FIELDMAP_CONTROL_GetExitEffect(int fromZoneId, u32 toZoneId)
 {
-    return func_021BEA9C(func_02013FD8(fromZoneId), func_02013FD8(toZoneId));
+    return EVENT_FIELDMAP_CONTROL_LookupExitEffect(func_02013FD8(fromZoneId), func_02013FD8(toZoneId));
 }
 
 /*
  * Effect id when arriving in a zone.
  */
-int func_021BE8B8(int fromZoneId, int toZoneId)
+int EVENT_FIELDMAP_CONTROL_GetEntranceEffect(int fromZoneId, int toZoneId)
 {
     int fromGroup = func_02013FD8(fromZoneId);
 
-    return func_021BEACC(fromGroup, func_02013FD8(toZoneId));
+    return EVENT_FIELDMAP_CONTROL_LookupEntranceEffect(fromGroup, func_02013FD8(toZoneId));
 }
 
 /*
  * Starts the fade-out event of a map change effect.
  */
-GameEvent *func_021BE8D4(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait)
+GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait)
 {
     switch (effect) {
     default:
-        return func_021BEB78(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventDefault(gameSystem, fieldMap);
     case 0:
     case 1:
     case 3:
-        return func_021BEAFC(gameSystem, fieldMap, effect, skipWait);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventForEffect(gameSystem, fieldMap, effect, skipWait);
     case 4:
-        return func_021BEC24(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect4(gameSystem, fieldMap);
     case 5:
-        return func_021BEC54(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect5(gameSystem, fieldMap);
     case 6:
-        return func_021BECB4(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect6(gameSystem, fieldMap);
     case 7:
-        return func_021BED14(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect7(gameSystem, fieldMap);
     case 8:
-        return func_021BED74(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect8(gameSystem, fieldMap);
     case 9:
-        return func_021BEDD4(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing(gameSystem, fieldMap);
     }
 }
 
 /*
  * Starts the fade-in event of a map change effect.
  */
-GameEvent *func_021BE92C(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg, u8 seasonShown, u8 seasonTarget)
+GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg, u8 seasonShown, u8 seasonTarget)
 {
     switch (effect) {
     default:
-        return func_021BEBA8(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventDefault(gameSystem, fieldMap);
     case 0:
     case 1:
-        return func_021BEB38(gameSystem, fieldMap, effect, skipWait, restoreBg);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventForEffect(gameSystem, fieldMap, effect, skipWait, restoreBg);
     case 3:
-        return func_021BEBD8(gameSystem, fieldMap, seasonShown, seasonTarget);
+        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEvent(gameSystem, fieldMap, seasonShown, seasonTarget);
     case 5:
-        return func_021BEC84(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(gameSystem, fieldMap);
     case 6:
-        return func_021BECE4(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(gameSystem, fieldMap);
     case 7:
-        return func_021BED44(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(gameSystem, fieldMap);
     case 8:
-        return func_021BEDA4(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(gameSystem, fieldMap);
     case 9:
-        func_021BEE24(gameSystem, fieldMap);
+        EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(gameSystem, fieldMap);
         break;
     }
 }
@@ -331,9 +331,9 @@ GameEvent *func_021BE92C(GameSystem *gameSystem, FieldMap *fieldMap, int effect,
 /*
  * Fade-in event with the season scoreboard and a finish callback.
  */
-GameEvent *func_021BE9A0(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF0E4, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -341,7 +341,7 @@ GameEvent *func_021BE9A0(GameSystem *gameSystem, FieldMap *fieldMap, int seasonS
     work->effect = 3;
     work->seasonShown = seasonShown;
     work->seasonTarget = seasonTarget;
-    work->fadeKind = func_021BEA6C(work->effect);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(work->effect);
     work->finishCallback = finishCallback;
     work->finishCallbackArg = finishCallbackArg;
     return event;
@@ -350,37 +350,37 @@ GameEvent *func_021BE9A0(GameSystem *gameSystem, FieldMap *fieldMap, int seasonS
 /*
  * Fade-in event that restores the BG planes first.
  */
-GameEvent *func_021BE9F0(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int fadeSpeed)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int fadeSpeed)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF518, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = effect;
     work->skipWait = skipWait;
-    work->fadeKind = func_021BEA6C(effect);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(effect);
     work->fadeSpeed = fadeSpeed;
     return event;
 }
 
-GameEvent *func_021BEA30(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BEE74, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunFadeOut, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = effect;
     work->skipWait = skipWait;
-    work->fadeKind = func_021BEA6C(effect);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(effect);
     return event;
 }
 
 /*
  * FADE_Start type of a map change effect.
  */
-int func_021BEA6C(int effect)
+int EVENT_FIELDMAP_CONTROL_GetFadeKind(int effect)
 {
     switch (effect) {
     case 0:
@@ -400,77 +400,77 @@ int func_021BEA6C(int effect)
     }
 }
 
-u32 func_021BEA9C(int fromGroup, int toGroup)
+u32 EVENT_FIELDMAP_CONTROL_LookupExitEffect(int fromGroup, int toGroup)
 {
-    EffectTable table = d_021D9F60;
+    EffectTable table = gExitEffectTable;
 
     return table.v[fromGroup][toGroup];
 }
 
-u32 func_021BEACC(int fromGroup, int toGroup)
+u32 EVENT_FIELDMAP_CONTROL_LookupEntranceEffect(int fromGroup, int toGroup)
 {
-    EffectTable table = d_021D9FF0;
+    EffectTable table = gEntranceEffectTable;
 
     return table.v[fromGroup][toGroup];
 }
 
-GameEvent *func_021BEAFC(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventForEffect(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BEE74, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunFadeOut, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = effect;
     work->skipWait = skipWait;
-    work->fadeKind = func_021BEA6C(effect);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(effect);
     return event;
 }
 
-GameEvent *func_021BEB38(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventForEffect(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BEEB4, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunFadeIn, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = effect;
     work->skipWait = skipWait;
-    work->fadeKind = func_021BEA6C(effect);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(effect);
     work->restoreBg = restoreBg;
     return event;
 }
 
-GameEvent *func_021BEB78(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventDefault(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BEF08, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 2;
-    work->fadeKind = func_021BEA6C(2);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(2);
     return event;
 }
 
-GameEvent *func_021BEBA8(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventDefault(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BEF8C, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 2;
-    work->fadeKind = func_021BEA6C(2);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(2);
     return event;
 }
 
 /*
  * Season scoreboard fade-in without a finish callback.
  */
-GameEvent *func_021BEBD8(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEvent(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF0A4, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
@@ -478,156 +478,156 @@ GameEvent *func_021BEBD8(GameSystem *gameSystem, FieldMap *fieldMap, int seasonS
     work->effect = 3;
     work->seasonShown = seasonShown;
     work->seasonTarget = seasonTarget;
-    work->fadeKind = func_021BEA6C(work->effect);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(work->effect);
     work->finishCallback = 0;
     work->finishCallbackArg = 0;
     return event;
 }
 
-GameEvent *func_021BEC24(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect4(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF130, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 4;
-    work->fadeKind = func_021BEA6C(4);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(4);
     return event;
 }
 
-GameEvent *func_021BEC54(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect5(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF19C, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 5;
-    work->fadeKind = func_021BEA6C(5);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(5);
     return event;
 }
 
-GameEvent *func_021BEC84(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF348, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect5, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 5;
-    work->fadeKind = func_021BEA6C(5);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(5);
     return event;
 }
 
-GameEvent *func_021BECB4(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect6(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF208, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 6;
-    work->fadeKind = func_021BEA6C(6);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(6);
     return event;
 }
 
-GameEvent *func_021BECE4(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF3BC, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect6, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 6;
-    work->fadeKind = func_021BEA6C(6);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(6);
     return event;
 }
 
-GameEvent *func_021BED14(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect7(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF274, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 7;
-    work->fadeKind = func_021BEA6C(7);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(7);
     return event;
 }
 
-GameEvent *func_021BED44(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF430, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect7, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 7;
-    work->fadeKind = func_021BEA6C(7);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(7);
     return event;
 }
 
-GameEvent *func_021BED74(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect8(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF2E0, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 8;
-    work->fadeKind = func_021BEA6C(8);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(8);
     return event;
 }
 
-GameEvent *func_021BEDA4(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = func_020122C0(gameSystem, 0, func_021BF4A4, sizeof(FieldFadeWork));
+    GameEvent *event = func_020122C0(gameSystem, 0, EVENT_FIELDMAP_CONTROL_RunWipeInEffect8, sizeof(FieldFadeWork));
     FieldFadeWork *work = func_020124E8(event);
 
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->effect = 8;
-    work->fadeKind = func_021BEA6C(8);
+    work->fadeKind = EVENT_FIELDMAP_CONTROL_GetFadeKind(8);
     return event;
 }
 
 /*
  * Fade-out for effect 9: picks effect 5 to 8 from the way the player faces.
  */
-GameEvent *func_021BEDD4(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    switch (func_021A3050(func_02188CB4(fieldMap))) {
+    switch (FIELD_PLAYER_GetDirDisp(FIELDMAP_GetFieldPlayer(fieldMap))) {
     case 2:
     default:
-        return func_021BED14(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect7(gameSystem, fieldMap);
     case 3:
-        return func_021BED74(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect8(gameSystem, fieldMap);
     case 0:
-        return func_021BEC54(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect5(gameSystem, fieldMap);
     case 1:
-        return func_021BECB4(gameSystem, fieldMap);
+        return EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect6(gameSystem, fieldMap);
     }
 }
 
 /*
- * Fade-in for effect 9, the twin of func_021BEDD4.
+ * Fade-in for effect 9, the twin of EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing.
  */
-void func_021BEE24(GameSystem *gameSystem, FieldMap *fieldMap)
+void EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    switch (func_021A3050(func_02188CB4(fieldMap))) {
+    switch (FIELD_PLAYER_GetDirDisp(FIELDMAP_GetFieldPlayer(fieldMap))) {
     case 2:
     default:
-        func_021BED44(gameSystem, fieldMap);
+        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(gameSystem, fieldMap);
         break;
     case 3:
-        func_021BEDA4(gameSystem, fieldMap);
+        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(gameSystem, fieldMap);
         break;
     case 0:
-        func_021BEC84(gameSystem, fieldMap);
+        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(gameSystem, fieldMap);
         break;
     case 1:
-        func_021BECE4(gameSystem, fieldMap);
+        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(gameSystem, fieldMap);
         break;
     }
 }
@@ -636,17 +636,17 @@ void func_021BEE24(GameSystem *gameSystem, FieldMap *fieldMap)
 /*
  * Fade-out for the black and white effects: starts the fade and waits for it.
  */
-int func_021BEE74(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunFadeOut(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     switch (*seq) {
     case FADE_STEP_START:
-        func_0204E720(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case FADE_STEP_WAIT:
         if (work->skipWait == 1)
             return EVENT_FIELDMAP_CONTROL_FINISHED;
-        if (func_0204E804() == 0)
+        if (FADE_IsActive() == 0)
             return EVENT_FIELDMAP_CONTROL_FINISHED;
         break;
     }
@@ -657,21 +657,21 @@ int func_021BEE74(GameEvent *event, int *seq, FieldFadeWork *work)
  * Fade-in for the black and white effects: restores the BG planes when the
  * work asks for it, then fades in and waits.
  */
-int func_021BEEB4(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunFadeIn(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     switch (*seq) {
     case FADE_STEP_START:
         if (work->restoreBg != 0) {
-            func_021BF564(work->fieldMap);
-            func_021BF584(work->fieldMap);
+            EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes(work->fieldMap);
+            EVENT_FIELDMAP_CONTROL_ResetBgAffine(work->fieldMap);
         }
-        func_0204E720(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case FADE_STEP_WAIT:
         if (work->skipWait == 1)
             return EVENT_FIELDMAP_CONTROL_FINISHED;
-        if (func_0204E804() == 0)
+        if (FADE_IsActive() == 0)
             return EVENT_FIELDMAP_CONTROL_FINISHED;
         break;
     }
@@ -682,23 +682,23 @@ int func_021BEEB4(GameEvent *event, int *seq, FieldFadeWork *work)
  * Default fade-out: starts the fade, captures the screen into VRAM bank A
  * and switches the main display to the capture BG setup.
  */
-int func_021BEF08(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     DispConfig dispConfig;
 
     if (*seq == 0) {
-        func_0204E720(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
         func_0208068C(8);
         REG_DISPCAPCNT = 0x80330010;
         func_02087AE4();
         func_02087AE4();
-        dispConfig = d_021D9F50;
+        dispConfig = sCaptureDispConfig;
         func_0203FC28(&dispConfig);
         REG_BG2CNT = 0x4084 | (REG_BG2CNT & 0x43);
         func_0207FDCC(8);
         func_0204047C(2, 0);
         func_02040588(2, 1);
-        func_02166B0C();
+        SYMBOL_MAP_StartBg2Scale();
         return EVENT_FIELDMAP_CONTROL_FINISHED;
     }
     return EVENT_FIELDMAP_CONTROL_CONTINUE;
@@ -708,19 +708,19 @@ int func_021BEF08(GameEvent *event, int *seq, FieldFadeWork *work)
  * Default fade-in: cross-fades the captured screen into the map with an alpha
  * blend, restores the BG setup and loads the window graphics step by step.
  */
-int func_021BEF8C(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     struct FieldMsgBg *msgBg;
 
     switch (*seq) {
     case DEFAULT_FADE_IN_STEP_START:
-        func_02189A58(work->fieldMap, 1);
+        FIELDMAP_SetUpdateStopped(work->fieldMap, 1);
         work->blendStep = FADE_LEVEL_MAX;
         func_0204047C(2, 0);
         func_0204047C(0, 1);
         func_02040588(0, 1);
         func_0207D63C(REG_BLDCNT_ADDR, 4, 1, work->blendStep, 0);
-        func_0204E720(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case DEFAULT_FADE_IN_STEP_BLEND:
@@ -734,36 +734,36 @@ int func_021BEF8C(GameEvent *event, int *seq, FieldFadeWork *work)
         func_02082AC0(0, (void *)0x06800000, 0x20000);
         func_02080B98();
         func_0207FDCC(8);
-        func_02166B2C();
+        SYMBOL_MAP_StopBg2Scale();
         *seq = *seq + 1;
         break;
     case DEFAULT_FADE_IN_STEP_SAVE_PLANES:
-        func_021BF564(work->fieldMap);
+        EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes(work->fieldMap);
         *seq = *seq + 1;
         break;
     case DEFAULT_FADE_IN_STEP_HIDE_MSG:
-        func_02188DF0(work->fieldMap);
+        FIELDMAP_ResetBgAffineHideMsg(work->fieldMap);
         *seq = *seq + 1;
         break;
     case DEFAULT_FADE_IN_STEP_WAIT_MSG_BG:
-        msgBg = func_02188C54(work->fieldMap);
-        if (func_021903CC(msgBg) != 0) {
-            func_021902AC(msgBg, 0);
+        msgBg = FIELDMAP_GetMsgBg(work->fieldMap);
+        if (FIELD_MSGBG_IsSetupDone(msgBg) != 0) {
+            FIELD_MSGBG_LoadWindowGraphicsStep(msgBg, 0);
             *seq = *seq + 1;
         }
         break;
     case DEFAULT_FADE_IN_STEP_LOAD_WINDOW_1:
-        func_021902AC(func_02188C54(work->fieldMap), 1);
+        FIELD_MSGBG_LoadWindowGraphicsStep(FIELDMAP_GetMsgBg(work->fieldMap), 1);
         *seq = *seq + 1;
         break;
     case DEFAULT_FADE_IN_STEP_LOAD_WINDOW_2:
-        func_021902AC(func_02188C54(work->fieldMap), 2);
+        FIELD_MSGBG_LoadWindowGraphicsStep(FIELDMAP_GetMsgBg(work->fieldMap), 2);
         *seq = *seq + 1;
         break;
     case DEFAULT_FADE_IN_STEP_FINISH:
         *seq = *seq + 1;
     case DEFAULT_FADE_IN_STEP_END:
-        func_02189A58(work->fieldMap, 0);
+        FIELDMAP_SetUpdateStopped(work->fieldMap, 0);
         return EVENT_FIELDMAP_CONTROL_FINISHED;
     }
     return EVENT_FIELDMAP_CONTROL_CONTINUE;
@@ -773,7 +773,7 @@ int func_021BEF8C(GameEvent *event, int *seq, FieldFadeWork *work)
  * Season fade-in without a finish callback: starts the season scoreboard
  * event as a child and ends.
  */
-int func_021BF0A4(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeIn(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
@@ -781,7 +781,7 @@ int func_021BF0A4(GameEvent *event, int *seq, FieldFadeWork *work)
     switch (*seq) {
     case SEASON_FADE_STEP_START: {
         GameEvent *scoreboardEvent = func_0218774C(gameSystem, fieldMap, work->seasonShown, work->seasonTarget);
-        func_02012374(event, scoreboardEvent);
+        GAME_EVENT_CallEvent(event, scoreboardEvent);
         *seq = *seq + 1;
         break;
     }
@@ -795,7 +795,7 @@ int func_021BF0A4(GameEvent *event, int *seq, FieldFadeWork *work)
  * Season fade-in with a finish callback: same as above, the scoreboard event
  * calls the callback when it ends.
  */
-int func_021BF0E4(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     GameSystem *gameSystem = work->gameSystem;
     FieldMap *fieldMap = work->fieldMap;
@@ -803,7 +803,7 @@ int func_021BF0E4(GameEvent *event, int *seq, FieldFadeWork *work)
     switch (*seq) {
     case SEASON_FADE_STEP_START: {
         GameEvent *scoreboardEvent = func_021877A8(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, work->finishCallbackArg);
-        func_02012374(event, scoreboardEvent);
+        GAME_EVENT_CallEvent(event, scoreboardEvent);
         *seq = *seq + 1;
         break;
     }
@@ -816,21 +816,21 @@ int func_021BF0E4(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 4 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF130(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_0204E720(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 8, 8, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 8, 8, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -842,21 +842,21 @@ int func_021BF130(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 5 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF19C(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_0204E720(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 2, 2, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 2, 2, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -868,21 +868,21 @@ int func_021BF19C(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 6 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF208(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_0204E720(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 4, 4, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 4, 4, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -894,21 +894,21 @@ int func_021BF208(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 7 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF274(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_0204E720(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 10, 10, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 10, 10, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -920,21 +920,21 @@ int func_021BF274(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 8 fade-out: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF2E0(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_0204E720(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
+        FADE_Start(work->fadeKind, 0, FADE_LEVEL_MAX, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 6, 6, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 6, 6, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -946,23 +946,23 @@ int func_021BF2E0(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 5 fade-in: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF348(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect5(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_021BF564();
-        func_021BF584(work->fieldMap);
-        func_0204E720(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
+        EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes();
+        EVENT_FIELDMAP_CONTROL_ResetBgAffine(work->fieldMap);
+        FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 3, 3, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 3, 3, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -974,23 +974,23 @@ int func_021BF348(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 6 fade-in: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF3BC(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_021BF564();
-        func_021BF584(work->fieldMap);
-        func_0204E720(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
+        EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes();
+        EVENT_FIELDMAP_CONTROL_ResetBgAffine(work->fieldMap);
+        FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 5, 5, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 5, 5, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -1002,23 +1002,23 @@ int func_021BF3BC(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 7 fade-in: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF430(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_021BF564();
-        func_021BF584(work->fieldMap);
-        func_0204E720(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
+        EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes();
+        EVENT_FIELDMAP_CONTROL_ResetBgAffine(work->fieldMap);
+        FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 7, 7, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 7, 7, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -1030,23 +1030,23 @@ int func_021BF430(GameEvent *event, int *seq, FieldFadeWork *work)
 /*
  * Map change effect 8 fade-in: fade, then a wipe, then wait for the wipe to end.
  */
-int func_021BF4A4(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunWipeInEffect8(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     FieldMap *fieldMap = work->fieldMap;
 
     switch (*seq) {
     case WIPE_STEP_FADE:
-        func_021BF564();
-        func_021BF584(work->fieldMap);
-        func_0204E720(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
+        EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes();
+        EVENT_FIELDMAP_CONTROL_ResetBgAffine(work->fieldMap);
+        FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        func_0202208C(3, 11, 11, 0, 6, 1, func_02188C84(fieldMap));
+        WIPE_SYS_Start(3, 11, 11, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
-        if (func_020221A4() != 0)
+        if (WIPE_SYS_EndCheck() != 0)
             *seq = *seq + 1;
         break;
     case WIPE_STEP_END:
@@ -1059,20 +1059,20 @@ int func_021BF4A4(GameEvent *event, int *seq, FieldFadeWork *work)
  * Fade-in with a fade speed from the work: restores the BG planes, fades in
  * and waits.
  */
-int func_021BF518(GameEvent *event, int *seq, FieldFadeWork *work)
+int EVENT_FIELDMAP_CONTROL_RunFadeInWithBgRestore(GameEvent *event, int *seq, FieldFadeWork *work)
 {
     switch (*seq) {
     case FADE_STEP_START:
-        func_0204E720(work->fadeKind, FADE_LEVEL_MAX, 0, work->fadeSpeed);
-        func_021BF564(work->fieldMap);
-        func_021BF584(work->fieldMap);
+        FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, work->fadeSpeed);
+        EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes(work->fieldMap);
+        EVENT_FIELDMAP_CONTROL_ResetBgAffine(work->fieldMap);
         *seq = *seq + 1;
         break;
     case FADE_STEP_WAIT:
         if (work->skipWait == 1) {
             return EVENT_FIELDMAP_CONTROL_FINISHED;
         }
-        if (func_0204E804() == 0) {
+        if (FADE_IsActive() == 0) {
             return EVENT_FIELDMAP_CONTROL_FINISHED;
         }
         break;
@@ -1087,20 +1087,20 @@ int func_021BF518(GameEvent *event, int *seq, FieldFadeWork *work)
  * field map (the argument load is in the matched bytes) and the others pass
  * nothing; the function reads no argument.
  */
-void func_021BF564()
+void EVENT_FIELDMAP_CONTROL_ResetBgModeKeepPlanes()
 {
-    u32 mainPlanes = func_02043658();
-    u32 subPlanes = func_02043668();
+    u32 mainPlanes = BG_SYS_GetMainVisiblePlanes();
+    u32 subPlanes = BG_SYS_GetSubVisiblePlanes();
 
-    func_02188DA0();
+    FIELDMAP_SetBgMode();
     func_02043534(mainPlanes);
-    func_020435F4(subPlanes);
+    BG_SYS_SetSubVisiblePlanes(subPlanes);
 }
 
 /*
- * Tail-call thunk: forwards to func_02188DB0 with no argument change.
+ * Tail-call thunk: forwards to FIELDMAP_ResetBgAffineShowMsg with no argument change.
  */
-void func_021BF584(FieldMap *fieldMap)
+void EVENT_FIELDMAP_CONTROL_ResetBgAffine(FieldMap *fieldMap)
 {
-    func_02188DB0(fieldMap);
+    FIELDMAP_ResetBgAffineShowMsg(fieldMap);
 }

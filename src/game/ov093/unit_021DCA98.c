@@ -1,6 +1,6 @@
 /*
  * file:     unit_021DCA98.c
- * function: func_021DCA98, func_021DCACC, func_021DCAD8, func_021DCAE0
+ * function: BTL_ABILITY_PranksterRaiseStatusPriority, BTL_ABILITY_GetPranksterHandlers, BTL_ABILITY_MagicBounceReflectMove, BTL_ABILITY_MagicBounceCounterMove
  * address:  0x021DCA98
  * packet:   pkt_ov093_021DCA98
  * region:   ov093
@@ -11,47 +11,47 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021E8798  0x021E8798  thumb  ov093
- *   func_021E8744  0x021E8744  thumb  ov093
- *   d_021F0630     0x021F0630  data   ov093  a4
- *   func_021D775C  0x021D775C  thumb  ov093
+ *   BTLV_CORE_EventCounterMove  0x021E8798  thumb  ov093
+ *   BTLV_CORE_EventRedirectMove  0x021E8744  thumb  ov093
+ *   gPranksterHandlers     0x021F0630  data   ov093  a4
+ *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   WAZA_TOOL_GetDamageType  0x0201C1E8  thumb
- *   func_021D76BC  0x021D76BC  thumb  ov093
+ *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 #include "unit_021DC6EC_types.h"
 
-extern BtlEventHandler d_021F0630[];
+extern BtlEventHandler gPranksterHandlers[];
 
-void func_021DCA98(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-BtlEventHandler *func_021DCACC(u32 *handlerCount);
-void func_021DCAD8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
-void func_021DCAE0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+void BTL_ABILITY_PranksterRaiseStatusPriority(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+BtlEventHandler *BTL_ABILITY_GetPranksterHandlers(u32 *handlerCount);
+void BTL_ABILITY_MagicBounceReflectMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
+void BTL_ABILITY_MagicBounceCounterMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work);
 
 /* Prankster: the owner's status moves get one priority step. */
-void func_021DCA98(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_PranksterRaiseStatusPriority(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
     u8 priority;
 
-    if (ownerId == func_021D775C(BTL_EVAR_ATTACKER_ID) && WAZA_TOOL_GetDamageType((u16)func_021D775C(BTL_EVAR_MOVE_ID)) == WAZA_DAMAGE_STATUS) {
-        priority = func_021D775C(BTL_EVAR_MOVE_PRIORITY);
-        func_021D76BC(BTL_EVAR_MOVE_PRIORITY, priority + 1);
+    if (ownerId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID) && WAZA_TOOL_GetDamageType((u16)BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID)) == WAZA_DAMAGE_STATUS) {
+        priority = BTL_EVENT_GetVar(BTL_EVAR_MOVE_PRIORITY);
+        BTL_EVENT_OverwriteVar(BTL_EVAR_MOVE_PRIORITY, priority + 1);
     }
 }
 
-BtlEventHandler *func_021DCACC(u32 *handlerCount)
+BtlEventHandler *BTL_ABILITY_GetPranksterHandlers(u32 *handlerCount)
 {
     *handlerCount = 1;
-    return d_021F0630;
+    return gPranksterHandlers;
 }
 
 /* Magic Bounce: the first of its two handlers is the one that Magic Coat uses to reflect a status move. */
-void func_021DCAD8(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_MagicBounceReflectMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    func_021E8744(factor, flow, ownerId, work);
+    BTLV_CORE_EventRedirectMove(factor, flow, ownerId, work);
 }
 
 /* Magic Bounce: the second handler is the one that Magic Coat uses to counter a status move aimed at the owner. */
-void func_021DCAE0(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
+void BTL_ABILITY_MagicBounceCounterMove(struct BtlEventFactor *factor, struct BtlSvFlow *flow, u8 ownerId, void *work)
 {
-    func_021E8798(factor, flow, ownerId, work);
+    BTLV_CORE_EventCounterMove(factor, flow, ownerId, work);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021AB868
+ * function: FLD_SCENEAREA_LOADER_Unload
  * address:  0x021AB868
  * packet:   pkt_ov021_021AB868
  * region:   ov021
@@ -21,7 +21,7 @@ typedef struct {
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 
-void func_021AB868(S *s)
+void FLD_SCENEAREA_LOADER_Unload(S *s)
 {
     if (s->f0 != 0) {
         func_020307B0(s->f0);

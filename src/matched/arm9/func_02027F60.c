@@ -1,5 +1,5 @@
 /*
- * function: func_02027F60
+ * function: APP_TASKMENU_RES_Create
  * address:  0x02027F60
  * packet:   pkt_02027F60
  * region:   arm9
@@ -49,7 +49,7 @@ struct R {
     u32 d;
 };
 
-struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap)
+struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap)
 {
     struct R *r;
     u32 sel;

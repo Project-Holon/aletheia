@@ -12,17 +12,17 @@
  * ABI: B294 forwards an address-valued u32 payload and returns the actor in r0; ABF0 tail-forwards AC18's index despite void declaration.
  * symbols:
  *   func_021F9E0C 0x021F9E0C thumb ov132
- *   func_0204B100 0x0204B100 arm
+ *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_020490F4 0x020490F4 arm
- *   func_0204AC18 0x0204AC18 arm
- *   func_0204A6C8 0x0204A6C8 arm
- *   func_0204AF28 0x0204AF28 arm
- *   func_02049238 0x02049238 arm
- *   func_0204ABF0 0x0204ABF0 arm
+ *   CLACT_RegisterPaletteEx 0x0204AC18 arm
+ *   CLACT_RegisterCharacter 0x0204A6C8 arm
+ *   CLACT_RegisterCellAnim 0x0204AF28 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
+ *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   func_021F4F54 0x021F4F54 thumb ov112
  *   func_021F4F70 0x021F4F70 thumb ov112
- *   func_0204B294 0x0204B294 arm
+ *   CLACT_CreateActor 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021FA99C 0x021FA99C thumb ov132
  *   func_0204B92C 0x0204B92C arm
@@ -37,15 +37,15 @@ struct Bank;
 extern u32 func_021F9E0C(u8 *p);
 extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
-extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void func_02049238(void *);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_0204B92C(struct Obj *,u32);
-extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16),func_0204A6C8(void *,u32,u32,u32,u16),func_0204AF28(void *,u32,u32,u32),func_0204ABF0(void *,u32,u32,u32,u16);
-extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16),CLACT_RegisterCharacter(void *,u32,u32,u32,u16),CLACT_RegisterCellAnim(void *,u32,u32,u32),CLACT_RegisterPalette(void *,u32,u32,u32,u16);
+extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_021FA99C(u8 *p, u16 slot, int resource, u32 type);
 void func_021FA7E0(char *p)
 {
@@ -55,21 +55,21 @@ void func_021FA7E0(char *p)
     u8 i=0;
     int format;
     table=(u8 *)func_021F9E0C((u8 *)(*(char * *)&((struct Obj00151 *)p)->f4));
-    ((struct Obj00151 *)p)->f18=func_0204B100(5,0,((struct Obj00151 *)p)->f0);
+    ((struct Obj00151 *)p)->f18=CLACT_CreateUnit(5,0,((struct Obj00151 *)p)->f0);
     CLACT_SetUnitDefaultRenderer(((struct Obj00151 *)p)->f18);
     narc=func_020490F4(47,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f1C=func_0204AC18(narc,0,1,0,0,2,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f28=func_0204A6C8(narc,6,0,1,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f34=func_0204AF28(narc,18,21,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f20=func_0204AC18(narc,1,1,64,0,1,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f2C=func_0204A6C8(narc,7,0,1,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f38=func_0204AF28(narc,19,22,((struct Obj00151 *)p)->f0);
-    func_02049238(narc);
+    *(int *)&((struct Obj00151 *)p)->f1C=CLACT_RegisterPaletteEx(narc,0,1,0,0,2,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f28=CLACT_RegisterCharacter(narc,6,0,1,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f34=CLACT_RegisterCellAnim(narc,18,21,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f20=CLACT_RegisterPaletteEx(narc,1,1,64,0,1,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f2C=CLACT_RegisterCharacter(narc,7,0,1,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f38=CLACT_RegisterCellAnim(narc,19,22,((struct Obj00151 *)p)->f0);
+    ARC_TOOL_DeleteHandle(narc);
     narc=func_020490F4(46,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f24=func_0204ABF0(narc,0,1,96,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f30=func_0204A6C8(narc,26,0,1,((struct Obj00151 *)p)->f0);
-    *(int *)&((struct Obj00151 *)p)->f3C=func_0204AF28(narc,18,22,((struct Obj00151 *)p)->f0);
-    func_02049238(narc);
+    *(int *)&((struct Obj00151 *)p)->f24=CLACT_RegisterPalette(narc,0,1,96,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f30=CLACT_RegisterCharacter(narc,26,0,1,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f3C=CLACT_RegisterCellAnim(narc,18,22,((struct Obj00151 *)p)->f0);
+    ARC_TOOL_DeleteHandle(narc);
     for(i=0;i<2;i++) {
         if(*(u16 *)(p+i*2+0x48)!=255) {
             format=func_021F4F70((int *)func_021F4F54(table,*(u16 *)(p+i*2+0x48)));
@@ -79,16 +79,16 @@ void func_021FA7E0(char *p)
             configs[1].index=i;
             configs[1].a=10;
             configs[1].b=0;
-            *(void **)(p+i*4+0x4c)=func_0204B294((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f28,((struct Obj00151 *)p)->f1C,((struct Obj00151 *)p)->f34,&configs[1],1,((struct Obj00151 *)p)->f0);
+            *(void **)(p+i*4+0x4c)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f28,((struct Obj00151 *)p)->f1C,((struct Obj00151 *)p)->f34,&configs[1],1,((struct Obj00151 *)p)->f0);
             configs[1].index=0;
-            *(void **)(p+i*4+0x54)=func_0204B294((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f2C,((struct Obj00151 *)p)->f20,((struct Obj00151 *)p)->f38,&configs[1],1,((struct Obj00151 *)p)->f0);
+            *(void **)(p+i*4+0x54)=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f2C,((struct Obj00151 *)p)->f20,((struct Obj00151 *)p)->f38,&configs[1],1,((struct Obj00151 *)p)->f0);
             func_0204B3DC(*(void **)(p+i*4+0x4c),0);
             func_0204B3DC(*(void **)(p+i*4+0x54),0);
             func_021FA99C((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
-    ((struct Obj00151 *)p)->f5C=func_0204B294((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f30,((struct Obj00151 *)p)->f24,((struct Obj00151 *)p)->f3C,&configs[0],1,((struct Obj00151 *)p)->f0);
+    ((struct Obj00151 *)p)->f5C=CLACT_CreateActor((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f30,((struct Obj00151 *)p)->f24,((struct Obj00151 *)p)->f3C,&configs[0],1,((struct Obj00151 *)p)->f0);
     func_0204B3DC(((struct Obj00151 *)p)->f5C,0);
     func_0204B92C(((struct Obj00151 *)p)->f5C,1);
 }

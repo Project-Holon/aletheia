@@ -1,5 +1,5 @@
 /*
- * function: func_021BA6C8
+ * function: TOWNMAP_MapFindTownUnderCursor
  * address:  0x021BA6C8
  * packet:   pkt_ov072_021BA6C8
  * region:   ov072
@@ -10,8 +10,8 @@
  * status:   EXACT*
  *
  * symbols:
- *   func_021BA3BC  0x021BA3BC  thumb  ov072
- *   func_021BAA90  0x021BAA90  thumb  ov072
+ *   TOWNMAP_CursorGetPos  0x021BA3BC  thumb  ov072
+ *   TOWNMAP_TownHitTest  0x021BAA90  thumb  ov072
  */
 
 typedef unsigned int u32;
@@ -24,17 +24,17 @@ typedef struct {
     int f10;
 } W;
 
-extern void func_021BA3BC(char *p, int *q);
-extern int func_021BAA90(char *a, int *b, int *c);
+extern void TOWNMAP_CursorGetPos(char *p, int *q);
+extern int TOWNMAP_TownHitTest(char *a, int *b, int *c);
 
-char *func_021BA6C8(W *p, int a)
+char *TOWNMAP_MapFindTownUnderCursor(W *p, int a)
 {
     int pt[2];
     u32 i;
 
-    func_021BA3BC((char *)a, pt);
+    TOWNMAP_CursorGetPos((char *)a, pt);
     for (i = 0; i < p->fc; i++) {
-        if (func_021BAA90(p->f8 + i * 0x44, pt, &p->f10) != 0) {
+        if (TOWNMAP_TownHitTest(p->f8 + i * 0x44, pt, &p->f10) != 0) {
             return p->f8 + i * 0x44;
         }
     }
